@@ -16,6 +16,7 @@
 
 #include <string>
 #include <iostream>
+#include <OgreString.h>
 #include "SoundManager.h"
 #include "SoundResource.h"
 #include "Sleep.h"
@@ -32,10 +33,14 @@ SoundResource::SoundResource(const String &name):
     Resource(),
     mFadeInThread(this, true),
     mFadeOutThread(this, false),
-    mStreamThread(this)
+    mStreamThread(this),
+    mBufferCount(4),
+    mData(0)
 {
     mName = name;
     alGenSources(1, &mSource);
+    mBuffers = new ALuint[mBufferCount];
+    alGenBuffers(mBufferCount, mBuffers);
     check();
     setGain(1.0f);
     setPosition(Vector3(0.0, 0.0, 0.0));
@@ -167,6 +172,39 @@ void SoundResource::setGain(const ALfloat gain) throw (RuntimeException)
  */
 void SoundResource::load()
 {
+    if (!mIsLoaded)
+    {
+        mData = new DataChunk();
+        // Holen wir erstmal die Daten.
+        rl::ResourceManager::_findCommonResourceData(mName, *mData);
+        if (StringUtil::endsWith(mName, ".ogg"))
+        {
+            mSoundDataType = OggVorbis;
+        } else if (StringUtil::endsWith(mName, ".wav"))
+        {
+            mSoundDataType = Wave;
+        } else {
+            delete mData;
+            mData = 0;
+            mIsLoaded = false;
+            return;
+        }
+        // Jetzt mal die Soundparameter ermitteln.
+        switch(mSoundDataType)
+        {
+            case OggVorbis:
+                break;
+            case Wave:
+                break;
+            default:
+                // Nicht erlaubt;
+                delete mData;
+                mData = 0;
+                mIsLoaded = false;
+                return;
+        }
+    }
+ 
 }
 
 /** Entlaedt die Soundquelle und setzt die Werte.
@@ -182,7 +220,11 @@ void SoundResource::unload()
         // Fehler zuruecksetzen.
         alGetError();
     }
-    mIsLoaded = false;
+    if (mData != 0)
+    {
+        delete mData;
+    }
+    this->mIsLoaded = false;
 }
 
 /**

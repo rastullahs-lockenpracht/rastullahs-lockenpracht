@@ -84,7 +84,22 @@ class _RlSoundExport SoundResource: public Resource {
         /// Die Buffer, die wir benutzen
         ALuint *mBuffers;
         /// Wieviele Buffer werden benutzt.
-        short mBufferCount;
+        const short mBufferCount;
+        
+        /// Welches Soundformat hat dieser Sound.
+        ALsizei mFormat;
+        /// Wie gross ist der Sound in Bytes.
+        ALsizei mSize;
+        /// Wie gross ist ein Sample in Bits.
+        ALsizei mBits;
+        /// Mit welcher Frequenz wurde gesampelt.
+        ALsizei mFrequency;
+        /// Loopen?
+        ALboolean mLoop;
+        /// Unsere Daten von Ogres ResourceManager.
+        DataChunk *mData;
+        /// Die Art des Sounds.
+        SoundDataType mSoundDataType;
 
         /// Ueberpruefen, ob Fehler aufgetreten ist.
         void check() const throw (RuntimeException);

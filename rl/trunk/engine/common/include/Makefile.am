@@ -1,13 +1,19 @@
-noinst_HEADERS = RastullahPrerequisites.h \
+noinst_HEADERS = 
+	CommonPrerequisites.h \
 	config.h \
-	Exception.h \
-	Tripel.h \
-	FixRubyHeaders.h \
 	CsvFile.h \
-	Sleep.h \
-	EventSource.h \
-	EventObject.h \
+	EventCaster.h \
 	EventListener.h \
-	EventCaster.h 
+	EventObject.h \
+	EventSource.h \
+	Exception.h \
+	FixRubyHeaders.h \
+	RastullahPrerequisites.h \
+	Sleep.h \
+	Tripel.h \
+	XmlHelper.h \
+	XmlResource.h \
+	XmlResourceManager.h
+	
 	
 	

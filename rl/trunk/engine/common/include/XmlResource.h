@@ -6,7 +6,7 @@
 #include "xercesc/sax2/SAX2XMLReader.hpp"
 
 #include "CommonPrerequisites.h"
-#include "Resource.h"
+#include "OgreResource.h"
 
 namespace rl {
 
