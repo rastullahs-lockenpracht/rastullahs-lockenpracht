@@ -55,7 +55,8 @@ private:
 	void removeScriptInstance( const String& instname );
 	void registerRubyObject(VALUE object);
     void unregisterRubyObject(VALUE object);
-	
+
+	void logRubyErrors(const std::string& intro, int errorcode);
 	void loadProtected(ProtectedMethod func, VALUE args, const std::string& msg, bool exitOnFail = false);
 	static VALUE loadDlls(VALUE);
 	static VALUE loadGlobals(VALUE val);
