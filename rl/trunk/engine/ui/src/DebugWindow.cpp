@@ -1,4 +1,5 @@
 #include "DebugWindow.h"
+#include "InputManager.h"
 
 template<> rl::DebugWindow* Ogre::Singleton<rl::DebugWindow>::ms_Singleton = 0;
 
