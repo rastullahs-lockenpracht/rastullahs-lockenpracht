@@ -365,17 +365,6 @@ void MusicManager::MusicFunctor::operator()()
     } 
 }
 
-/**
- * @param resName. Der Name der Soundresource, die erzeugt
- * werden soll.
- * @author JoSch
- * @date 06-18-2004
- */
-Resource* MusicManager::create(const String& resName, const String& group)
-{
-    SoundResource *newSound = new SoundResource(resName, group);
-    return newSound;
-}
 
 /**
  * @author JoSch

@@ -130,11 +130,12 @@ void SoundResource::Streaming::operator()()
  * @author JoSch
  * @date 07-23-2004
  */
-SoundResource::SoundResource(const string &name, const string& group):
+SoundResource::SoundResource(ResourceManager* creator, const String& name, ResourceHandle handle,
+        const String& group, bool isManual, ManualResourceLoader* loader):
     EventListener<SoundEvent>(),
     EventSource(), 
     EventCaster<SoundEvent>(),
-    Resource(),
+    Resource(creator, name, handle, group, isManual, loader),
     mBuffers(mDefaultBufferCount),
     mSource(0),
     mFadeInThread(0),
@@ -790,6 +791,40 @@ void SoundResource::setFadeOut(unsigned int fade)
     mFadeOut = fade;
 }
 
+SoundResourcePtr::SoundResourcePtr(const ResourcePtr& res) : SharedPtr<SoundResource>()
+{
+    // lock & copy other mutex pointer
+    OGRE_LOCK_MUTEX(*res.OGRE_AUTO_MUTEX_NAME)
+        OGRE_COPY_AUTO_SHARED_MUTEX(res.OGRE_AUTO_MUTEX_NAME)
+        pRep = static_cast<SoundResource*>(res.getPointer());
+    pUseCount = res.useCountPointer();
+    if (pUseCount != 0)
+        ++(*pUseCount);
+}
+
+SoundResourcePtr& SoundResourcePtr::operator =(const ResourcePtr& res)
+{
+    if (pRep == static_cast<SoundResource*>(res.getPointer()))
+        return *this;
+    release();
+
+    // lock & copy other mutex pointer
+    OGRE_LOCK_MUTEX(*res.OGRE_AUTO_MUTEX_NAME)
+        OGRE_COPY_AUTO_SHARED_MUTEX(res.OGRE_AUTO_MUTEX_NAME)
+        pRep = static_cast<SoundResource*>(res.getPointer());
+    pUseCount = res.useCountPointer();
+    if (pUseCount != 0)
+        ++(*pUseCount);
+
+    return *this;
+}
+
+void SoundResourcePtr::destroy()
+{
+    SharedPtr<SoundResource>::destroy();
+}
+
+
 /**
  ******************************************************************************
  * Der folgende Code wurde dem Beispielcode von Jesse Maurais und Spree Tree
@@ -1074,39 +1109,6 @@ String SoundResource::errorString (int code)
         default:
             return string ("Unknown Ogg error.");
     }
-}
-
-SoundResourcePtr::SoundResourcePtr(const ResourcePtr& res) : SharedPtr<SoundResource>()
-{
-	// lock & copy other mutex pointer
-	OGRE_LOCK_MUTEX(*res.OGRE_AUTO_MUTEX_NAME)
-		OGRE_COPY_AUTO_SHARED_MUTEX(res.OGRE_AUTO_MUTEX_NAME)
-		pRep = static_cast<SoundResource*>(res.getPointer());
-	pUseCount = res.useCountPointer();
-	if (pUseCount != 0)
-		++(*pUseCount);
-}
-
-SoundResourcePtr& SoundResourcePtr::operator =(const ResourcePtr& res)
-{
-	if (pRep == static_cast<SoundResource*>(res.getPointer()))
-		return *this;
-	release();
-
-	// lock & copy other mutex pointer
-	OGRE_LOCK_MUTEX(*res.OGRE_AUTO_MUTEX_NAME)
-		OGRE_COPY_AUTO_SHARED_MUTEX(res.OGRE_AUTO_MUTEX_NAME)
-		pRep = static_cast<SoundResource*>(res.getPointer());
-	pUseCount = res.useCountPointer();
-	if (pUseCount != 0)
-		++(*pUseCount);
-
-	return *this;
-}
-
-void SoundResourcePtr::destroy()
-{
-	SharedPtr<SoundResource>::destroy();
 }
 
 

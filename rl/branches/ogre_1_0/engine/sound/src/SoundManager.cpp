@@ -53,7 +53,7 @@ SoundManager* SoundManager::getSingletonPtr()
  * @author JoSch
  * @date 01-27-2005
  */
-SoundManager::SoundManager()
+SoundManager::SoundManager() : ResourceManager()
 {
     addSounds();
 }
@@ -79,7 +79,7 @@ StringList SoundManager::getExtension()
 * @author JoSch
 * @date 06-18-2004
 */
-Ogre::Resource* SoundManager::createImpl(
+Resource* SoundManager::createImpl(
 	const String& resName, 
 	ResourceHandle handle,
 	const String& group,
@@ -88,10 +88,17 @@ Ogre::Resource* SoundManager::createImpl(
 	const NameValuePairList* loadParams)
 {
 	SoundResource *newSound = 0;
-	newSound = new SoundResource(resName, group);
+	newSound = new SoundResource(this, resName, handle, group, isManual, loader);
 	return newSound;
 }
 
+ResourcePtr SoundManager::create(const String& name, const String& group, 
+            bool isManual, ManualResourceLoader* loader , 
+            const NameValuePairList* createParams)
+{
+    ResourcePtr p = ResourceManager::create(name, group, isManual, loader, createParams);
+    return p;
+}
 
 /**
  * @author JoSch

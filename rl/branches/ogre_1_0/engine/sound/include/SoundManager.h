@@ -54,6 +54,10 @@ class _RlSoundExport SoundManager: public Ogre::ResourceManager,
         /// Eine Namesliste erzeugen
         StringList getSounds();
 
+        virtual Ogre::ResourcePtr create(const Ogre::String& name, const Ogre::String& group, 
+            bool isManual = false, Ogre::ManualResourceLoader* loader = 0, 
+            const Ogre::NameValuePairList* createParams = 0);
+
 	protected:
 		virtual Ogre::Resource* createImpl(const Ogre::String& name, Ogre::ResourceHandle handle, 
 			const Ogre::String& group, bool isManual, Ogre::ManualResourceLoader* loader, 
