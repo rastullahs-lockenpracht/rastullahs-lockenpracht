@@ -1,6 +1,6 @@
 SUBDIRS =  engine tools docs
 
-install:
+xinstall-exec-local:
 	cd docs; ${MAKE} install
 	cd engine; ${MAKE} install
 	cd tools; ${MAKE} install
