@@ -77,9 +77,9 @@ SoundSubsystem::SoundSubsystem()
     alListenerfv(AL_ORIENTATION, ListenerOri);
     SoundSubsystem::log("Listener set");
     
-    //Singletons erzeugen
-    new MusicManager();
+    //Singletons erzeugen (immer in dieser Reihenfolge)
     new SoundManager();
+    new MusicManager();
 
 }
 

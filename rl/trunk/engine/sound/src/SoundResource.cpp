@@ -284,7 +284,7 @@ void SoundResource::load()
     {
         mData = new DataChunk();
         // Holen wir erstmal die Daten.
-        rl::ResourceManager::_findCommonResourceData(mName, *mData);
+        ResourceManager::_findCommonResourceData(mName, *mData);
         if (StringUtil::endsWith(mName, ".ogg"))
         {
             mSoundDataType = OggVorbis;
@@ -396,7 +396,7 @@ void SoundResource::fadeOut(unsigned int msec)
     {
         setFadeOut(msec);
         mFadeOutThread = new thread(SoundResource::mFadeOutFunctor);
-    }
+    } 
 }
 /**
  * @author JoSch
@@ -428,7 +428,7 @@ void SoundResource::pause() throw (RuntimeException)
  */
 void SoundResource::stop(unsigned int msec) throw (RuntimeException)
 {
-    if (alIsSource(mSource) && isPlaying())
+    if (alIsSource(mSource) && playing())
     {
         fadeOut(msec);
     } 
@@ -475,21 +475,6 @@ void SoundResource::check() const throw (RuntimeException)
 
 
 /**
- * Bestimmt, ob der Sound spielen sollte, d.h.
- * ob der Streamthread laufen sollte.
- * Dies hat nicht mit getState von OpenAL zu tun.
- * @return True, wenn der Sound spielen sollte.
- * @author JoSch
- * @date 10-11-2004
- */
-const bool SoundResource::isPlaying() const
-{
-    return mStreamThread != 0;
-}
-
-
-
-/**
  * Fuehrt das Fadein aus
  * @author JoSch
  * @date 09-16-2004
@@ -510,7 +495,7 @@ void SoundResource::fadeIn()
             ALfloat gain = getGain();
             
             setGain(0.0f);
-            for(unsigned int time = 0; (time <= mFadeIn) && isPlaying(); time += 10)
+            for(unsigned int time = 0; (time <= mFadeIn) && playing(); time += 10)
             {
                 
                 // Warten
@@ -551,7 +536,7 @@ void SoundResource::fadeOut()
             // Alte Lautstaerke speichern.
             ALfloat gain = getGain();
             
-            for (unsigned int time = 0; (time <= mFadeOut) && isPlaying(); time += 10)
+            for (unsigned int time = 0; (time <= mFadeOut) && playing(); time += 10)
             {
                 // Warten
                 xtime_get(&xt, TIME_UTC);
@@ -656,7 +641,15 @@ void SoundResource::runStreaming()
     event.setReason(SoundPlayEvent::STOPEVENT);
     dispatchEvent(&event);
     
-    stop();
+    delete mFadeInThread;
+    mFadeInThread = 0;
+    delete mFadeOutThread;
+    mFadeOutThread = 0;
+    empty();
+    alSourceStop(mSource);
+    thread *temp = mStreamThread;
+    mStreamThread = 0;
+    delete temp;
     return;
 }
 
@@ -928,7 +921,7 @@ bool SoundResource::playback ()
 }
 
 
-bool SoundResource::playing ()
+const bool SoundResource::playing () const
 {
     ALenum state;
 

@@ -16,6 +16,7 @@
 
 #include "MusicManager.h"
 #include "SoundSubsystem.h"
+#include "SoundManager.h"
 
 using namespace Ogre;
 using namespace std;
@@ -55,16 +56,17 @@ MusicManager* MusicManager::getSingletonPtr(void)
  * @date 04-12-2004
  * @date 06-17-2004
  */
-MusicManager::MusicManager() : ResourceManager(),
+MusicManager::MusicManager():
     mSource(0),
     mLooping(false),
     mAuto(false),
     mShouldPlay(false),
     mShouldExit(false),
     mMusicThread(0),
+    mMusicFunctor(this),
     mPlayList()
 {
-    mMusicThread = new MusicThread();
+    mMusicThread = new thread(mMusicFunctor);
 }
 
 /**
@@ -143,7 +145,7 @@ const bool MusicManager::isSourcePlaying() const
     {
         return false;
     }
-    return mSource->isPlaying(); 
+    return mSource->playing(); 
 }
 
 /**
@@ -203,7 +205,8 @@ SoundResource* MusicManager::findNextSong()
             // Nichts gefunden.
             if (mLooping)
             {
-                SoundResource *temp = dynamic_cast<SoundResource*>(getResourceIterator().peekNextValue());
+                SoundResource *temp = dynamic_cast<SoundResource*>(
+                    SoundManager::getSingleton().getResourceIterator().peekNextValue());
                 if (temp != 0)
                 {
                     mPlayList.push_back(temp->getName());
@@ -217,7 +220,8 @@ SoundResource* MusicManager::findNextSong()
             cit++;
         }
     } else { // mSource ist noch nicht gesetzt.
-        SoundResource *temp = dynamic_cast<SoundResource*>(getResourceIterator().peekNextValue());
+        Resource *res = SoundManager::getSingleton().getResourceIterator().peekNextValue();
+        SoundResource *temp = dynamic_cast<SoundResource*>(res);
         if (temp != 0)
         {
             mPlayList.push_back(temp->getName());
@@ -299,13 +303,9 @@ bool MusicManager::isLooping()
  * @author JoSch
  * @date 07-25-2004
  */
-MusicManager::MusicThread::MusicThread()
-{
-}
-
-MusicManager::MusicThread::~MusicThread()
-{
-}
+MusicManager::MusicFunctor::MusicFunctor(MusicManager *that):
+    that(that)
+{}
 
 
 /**
@@ -315,7 +315,7 @@ MusicManager::MusicThread::~MusicThread()
  * @author JoSch
  * @date 07-25-2004
  */
-void MusicManager::MusicThread::operator()()
+void MusicManager::MusicFunctor::operator()()
 {
     MusicManager *that = MusicManager::getSingletonPtr();
     if (that == 0)
@@ -404,7 +404,7 @@ void MusicManager::addPlayList(StringList list)
  */
 void MusicManager::addSoundsIntoPlayList()
 {
-    ResourceMapIterator it = getResourceIterator();
+    SoundManager::ResourceMapIterator it = SoundManager::getSingleton().getResourceIterator();
     while (it.hasMoreElements())
     {
         Resource* element = it.getNext();

@@ -17,12 +17,15 @@
 #ifndef SOUNDMANAGER_H
 #define SOUNDMANAGER_H
 
-
+#include <Ogre.h>
+#include <list>
+#include <boost/thread/mutex.hpp>
 #include "SoundPrerequisites.h"
-#include "ResourceManager.h"
 #include "SoundSubsystem.h"
 
 namespace rl {
+
+typedef std::list<Ogre::String> StringList;
 
 /**
  * Der SoundManager verwaltet die Sounds, die das Spiel benutzt.
@@ -32,9 +35,11 @@ namespace rl {
  * @version 1.0
  * @date 04-26-2004
  */ 
-class _RlSoundExport SoundManager: public ResourceManager,
+class _RlSoundExport SoundManager: public Ogre::ResourceManager,
         public Ogre::Singleton<SoundManager> {
-    protected:
+    private:
+        /// Ein Mutex, um das Hinzufügen der Sounds zu synchronisieren.
+        boost::mutex mResListMutex;
         /// Welche Dateiendung soll verwendet werden.
         virtual StringList getExtension();
     public:
@@ -44,6 +49,14 @@ class _RlSoundExport SoundManager: public ResourceManager,
         static SoundManager* getSingletonPtr();
         /// Eine Resource erzeugen
         Ogre::Resource* create(const Ogre::String& resName);
+        /// Konstruktor
+        SoundManager();
+        /// Alle Sounds in die Resourcenliste eintragen.
+        virtual void addSounds();
+        /// einen Sound hinzufuegen (Mit Mutex)
+        virtual void add(Ogre::Resource *song);
+        /// Eine Namesliste erzeugen
+        StringList getSounds();
 };
 
 }

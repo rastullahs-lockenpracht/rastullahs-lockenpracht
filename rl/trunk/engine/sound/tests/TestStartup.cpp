@@ -27,10 +27,10 @@ int main( int argc, char **argv)
               CONF_DIR+"rastullah.cfg", 
                 "logs/ogre.log" );
     #endif
-    new rl::SoundSubsystem;
-  
     Ogre::ResourceManager::addCommonSearchPath("./modules/common/sound");
     Ogre::ResourceManager::addCommonSearchPath("./modules/minidemo/sound");
+
+    new rl::SoundSubsystem;
     
     CppUnit::TextUi::TestRunner runner;
     CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();

@@ -23,7 +23,6 @@
 #include <list>
 #include <stdexcept>
 #include <boost/thread.hpp>
-#include "ResourceManager.h"
 #include "SoundResource.h"
 
 
@@ -41,7 +40,7 @@ namespace rl {
  * @version 1.2
  * @date 07-25-2004
  */
-class _RlSoundExport MusicManager : public ResourceManager, public Ogre::Singleton<MusicManager> {
+class _RlSoundExport MusicManager : public Ogre::Singleton<MusicManager> {
     private:
         /// Finde den Nachfolger des Songs mit diesem Namen.
         SoundResource* findNextSong();
@@ -57,20 +56,18 @@ class _RlSoundExport MusicManager : public ResourceManager, public Ogre::Singlet
         /// Ob der Thread beendet werden soll. WICHTIG: Hat nicht mit dem Abspielen zu tun.
         bool mShouldExit;
         /// Unterklasse, die den Thread enthält
-        class MusicThread : public boost::thread {
+        class MusicFunctor {
+            private:
+                MusicManager *that;
             public:
-                MusicThread();
-                ~MusicThread();
+                MusicFunctor(MusicManager *that);
                 void operator()();
-        };
+        } mMusicFunctor;
         /// Die Instanz des Threads.
-        MusicThread *mMusicThread;
-        // MSVC6 braucht das
-        friend class MusicThread;
+        boost::thread *mMusicThread;
         /// Die aktuelle Playlist. Nicht identisch mit der Resourcenliste
         StringList mPlayList;       
     
-    protected:
         /// Welche Dateiendung soll verwendet werden.
         virtual StringList getExtension();
         

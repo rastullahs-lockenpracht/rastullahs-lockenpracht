@@ -1,4 +1,4 @@
-/** 
+ /** 
  * Generated CppUnit test driver template.
  * To build it, add the following line at the end of
  * your existing Makefile:
@@ -45,7 +45,7 @@ public:
     {
         xtime xt;
         
-        rl::ResourceManager::ResourceMapIterator it =
+        Ogre::ResourceManager::ResourceMapIterator it =
             SoundManager::getSingleton().getResourceIterator();
         while (it.hasMoreElements())
         {
@@ -59,7 +59,7 @@ public:
                 xtime_get(&xt, TIME_UTC);
                 xt.sec++;
                 thread::sleep(xt);
-                while (sound->isPlaying())
+                while (sound->playing())
                     xtime_get(&xt, TIME_UTC);
                     xt.sec++;
                     thread::sleep(xt);
@@ -110,4 +110,4 @@ public:
     CPPUNIT_TEST(testSoundManager_loadPlayWithFade);
     CPPUNIT_TEST_SUITE_END();
 };
-CPPUNIT_TEST_SUITE_REGISTRATION(SoundManagerTest);
+//CPPUNIT_TEST_SUITE_REGISTRATION(SoundManagerTest);

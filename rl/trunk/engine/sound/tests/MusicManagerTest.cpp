@@ -13,6 +13,7 @@
 #include "math.h"
 #include "OgreResourceManager.h"
 #include "cppunit/extensions/HelperMacros.h"
+#include "SoundManager.h"
 #include <boost/thread.hpp>
 
 using namespace rl;
@@ -36,8 +37,7 @@ public:
 
 	void testMusicManager_addSoundDirectory()
 	{
-        MusicManager::getSingletonPtr()->addSounds();
-        
+        MusicManager::getSingleton().addPlayList(SoundManager::getSingleton().getSounds());
 	    CPPUNIT_ASSERT(true);
 	}
  
@@ -68,4 +68,4 @@ public:
     CPPUNIT_TEST(testMusicManager_playForward);
     CPPUNIT_TEST_SUITE_END(); 
 };
-//CPPUNIT_TEST_SUITE_REGISTRATION(MusicManagerTest);
+CPPUNIT_TEST_SUITE_REGISTRATION(MusicManagerTest);

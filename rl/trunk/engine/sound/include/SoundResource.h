@@ -207,8 +207,6 @@ class _RlSoundExport SoundResource: public Ogre::Resource,
         virtual void rewind() throw (RuntimeException);
         /// Den Zustand des Sounds in OpenAL zurueckgeben.
         const ALenum getState() const throw (RuntimeException);
-        /// Spielt der Stream noch. Nicht verwechseln mit getState.
-        const bool isPlaying() const;
         /// Wir haben ein Ereignis erhalten.
         virtual bool eventRaised(SoundEvent *anEvent) const;
         
@@ -227,13 +225,14 @@ class _RlSoundExport SoundResource: public Ogre::Resource,
         unsigned int getFadeOut() const;
         /// Setzt die Dauer des FadeIn zurueck.
         void setFadeOut(unsigned int dauer);
+        /// Ist AL noch am laufen.
+        const bool playing() const;
         
         
 private:
         // Grabbed from example
         void display();
         bool playback();
-        bool playing();
         bool update();
         bool oggstream(ALuint buffer);
         bool wavstream(ALuint buffer);
