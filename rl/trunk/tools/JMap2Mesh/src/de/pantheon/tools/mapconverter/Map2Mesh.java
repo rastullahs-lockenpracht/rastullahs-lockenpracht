@@ -26,7 +26,7 @@ public class Map2Mesh
         {
             System.out.println("\nUsage: Map2Mesh [switches] mapfile\n");
             System.out.println("Where [switches] are:");
-            System.out.println("  -tD[directory]\twhere the textures can be found, default './textures'");
+            System.out.println("  -tD[directory]\twhere the textures can be found, default \"./textures\"");
             System.out.println("  -tI[ignoreList]\tthe Textures which are to be skipped, separated by ';'");
             System.out.println("  -oD[directory]\tthe Directory where the meshes/material will be stored");
             System.out.println("  -oN[name]\t\tthe basename of the outputfiles");
@@ -40,7 +40,7 @@ public class Map2Mesh
             		"-oD\"C:\\Dokumente und Einstellungen/LopLop/Desktop/MV\" " +
             		"\"C:\\Dokumente und Einstellungen/LopLop/Desktop/map2mesh/a.map\"" );
             System.out.println("\t Map2Mesh " +
-            		"-mS1;4.5;1 " +
+            		"-mS1 " +
             		"-tISKY;NULL;AAATRIGGER " +
             		"-oD../textures " +
             		"a.map" );
