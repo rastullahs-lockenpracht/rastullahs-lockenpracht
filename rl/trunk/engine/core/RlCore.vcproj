@@ -51,7 +51,7 @@
 				OutputFile="./lib/debug/RlCore.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\ode\lib;..\..\dependencies\boost\lib"
+				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogreaddons\dotsceneoctree\PlugIns\DotSceneManager\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\ode\lib;..\..\dependencies\boost\lib"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
 				AssemblyDebug="1"
@@ -132,7 +132,7 @@
 				OutputFile="./lib/release/RlCore.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\ode\lib;..\..\dependencies\boost\lib"
+				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogreaddons\dotsceneoctree\PlugIns\DotSceneManager\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\ode\lib;..\..\dependencies\boost\lib"
 				ProgramDatabaseFile=""
 				SubSystem="2"/>
 			<Tool
@@ -194,6 +194,9 @@
 			</File>
 			<File
 				RelativePath=".\include\CoreSubsystem.h">
+			</File>
+			<File
+				RelativePath=".\include\DotSceneOctreeWorld.h">
 			</File>
 			<File
 				RelativePath=".\include\GameActor.h">
@@ -264,6 +267,9 @@
 			</File>
 			<File
 				RelativePath=".\src\CoreSubsystem.cpp">
+			</File>
+			<File
+				RelativePath=".\src\DotSceneOctreeWorld.cpp">
 			</File>
 			<File
 				RelativePath=".\src\GameActor.cpp">
