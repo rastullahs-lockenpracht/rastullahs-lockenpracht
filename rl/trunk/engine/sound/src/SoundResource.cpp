@@ -692,6 +692,10 @@ bool SoundResource::wavstream (ALuint buffer)
     {
         toCopy = BUFFER_SIZE;
     }
+    if (toCopy <= 0)
+    {
+        return false;
+    }
     memcpy(pcm, (void*)((char*)mWAVData + mWavIndex), toCopy);
     alBufferData(buffer, mFormat, pcm , toCopy, mFrequency);
     check();
