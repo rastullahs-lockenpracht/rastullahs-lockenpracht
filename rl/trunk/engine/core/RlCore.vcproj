@@ -23,7 +23,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\sound\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\openalpp\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\OpenThreads\include;..\..\dependencies\ode\include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\sound\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreOde\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\openalpp\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\OpenThreads\include;..\..\dependencies\ode\include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include"
 				PreprocessorDefinitions="_WINDOWS,_DEBUG,WIN32,RLCORE_EXPORTS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -106,7 +106,7 @@
 				FavorSizeOrSpeed="1"
 				OptimizeForProcessor="2"
 				OptimizeForWindowsApplication="TRUE"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\sound\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\openalpp\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\OpenThreads\include;..\..\dependencies\ode\include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\sound\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreOde\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\openalpp\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\OpenThreads\include;..\..\dependencies\ode\include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include"
 				PreprocessorDefinitions="NDEBUG,_WINDOWS,WIN32,RLCORE_EXPORTS"
 				StringPooling="FALSE"
 				ExceptionHandling="TRUE"
