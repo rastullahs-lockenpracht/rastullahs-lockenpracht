@@ -90,15 +90,10 @@ namespace rl {
 
 		//Initializing InputManager
         new InputManager();
-		//new DebugWindow();
-        //DebugWindow::getSingleton().show();
-
+		new DebugWindow();
 		new CeConsole();
-	//	CeConsole::getSingleton().setInterpreter( new RubyInterpreter() );
 		((RubyInterpreter*)CoreSubsystem::getSingleton().getInterpreter() )->initializeInterpreter( (VALUE(*)(...))&CeConsole::consoleWrite );
 		
-        //InputManager::getSingleton().addKeyListener(DebugWindow::getSingletonPtr());
-
         CameraActor* camera = dynamic_cast<CameraActor*>(
             ActorManager::getSingleton().getActor("DefaultCamera"));
 		
@@ -111,7 +106,7 @@ namespace rl {
             camera->getOgreCamera(), hero);
         GameLoop::getSingleton().addSynchronizedTask(mGameController);
 	      
-        runTest();
+        //runTest();
     }
 
     void UiSubsystem::requestExit()
@@ -131,9 +126,6 @@ namespace rl {
 
 	void UiSubsystem::runTest()
 	{
-		new DebugWindow();
-        DebugWindow::getSingleton().show();
-
 		InputManager::getSingleton().setObjectPickingActive(true);
 		
 		DialogWindow* dialog=new DialogWindow("startup.xml");
