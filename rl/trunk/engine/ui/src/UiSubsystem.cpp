@@ -127,7 +127,8 @@ namespace rl {
     void UiSubsystem::requestExit()
     {
         mRequestExit = true;
-		RastullahApplication::getSingleton().quit();
+		exit(0);
+	//	RastullahApplication::getSingleton().quit();
     }
     
     bool UiSubsystem::isRequestingExit() const
