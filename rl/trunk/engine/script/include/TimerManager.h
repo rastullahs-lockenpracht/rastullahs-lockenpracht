@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -14,19 +14,19 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#ifndef __RL_SCRIPTTIMER_H__
-#define __RL_SCRIPTTIMER_H__
+#ifndef __RL_TimerManager_H__
+#define __RL_TimerManager_H__
 
 #include <set>
 #include <string>
 #include <vector>
 
 #include "ScriptPrerequisites.h"
-#include "SynchronizedTask.h"
+#include "GameTask.h"
 
 namespace rl {
 
-	class SynchronizedTask;
+	class GameTask;
 	class TimerTask;
 
 	class TaskCall
@@ -41,21 +41,20 @@ namespace rl {
 
 	typedef std::set<TaskCall*> TaskCallSet;
 
-	class ScriptTimer : public Ogre::Singleton<ScriptTimer>, public SynchronizedTask
+	class TimerManager : public Ogre::Singleton<TimerManager>, public GameTask
 	{
 	public:
-		ScriptTimer();
-		~ScriptTimer();
+		TimerManager();
+		~TimerManager();
 
 		void registerTask(TimerTask* task);
 		void unregisterTask(TimerTask* task);
-		void registerTaskCallGameTime(RL_LONGLONG time, TimerTask* task,
-		    const rl::CeGuiString& name);
+		void registerTaskCallGameTime(RL_LONGLONG time, TimerTask* task, const rl::CeGuiString& name);
 
 		void run(Ogre::Real elapsedTime);
 
-		static ScriptTimer& getSingleton();
-		static ScriptTimer* getSingletonPtr();
+		static TimerManager& getSingleton();
+		static TimerManager* getSingletonPtr();
 
 	private:
 		std::set<TimerTask*> mTasks;

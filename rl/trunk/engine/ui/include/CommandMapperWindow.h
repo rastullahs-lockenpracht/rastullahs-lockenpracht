@@ -51,6 +51,8 @@ namespace rl {
 		void muteElements(bool mute);
 		void muteWindow(bool mute);
 
+		void refreshContent();
+
 		GameObject* mActionHolder;
 		CommandMapperInputWindow* mInputWindow;
 		CEGUI::MultiColumnList* mTableInBattle;

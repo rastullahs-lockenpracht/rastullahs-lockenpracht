@@ -32,6 +32,7 @@
 #include "DotSceneOctreeWorld.h"
 #include "PhysicsManager.h"
 #include "ActorManager.h"
+#include "AnimationManager.h"
 #include "GameLoop.h"
 #include "RubyInterpreter.h"
 #include "Exception.h"
@@ -207,17 +208,21 @@ namespace rl {
 			return false;
 
 		// Set default mipmap level (NB some APIs ignore this)
+		//TODO: In Config-Datei verlagern
 		TextureManager::getSingleton().setDefaultNumMipMaps(5);
-		MaterialManager::getSingleton().setDefaultTextureFiltering(TFO_TRILINEAR);
+		MaterialManager::getSingleton().setDefaultTextureFiltering(TFO_TRILINEAR); 
         MaterialManager::getSingleton().setDefaultAnisotropy(1);
         Log* log = LogManager::getSingleton().createLog( "logs/rlCore.log" );
         log->setLogDetail( LL_BOREME );
 		
 		mWorld = new DotSceneOctreeWorld();
 		mInterpreter=new RubyInterpreter();
-		new GameLoop();
-        GameLoop::getSingleton().addSynchronizedTask(
+		new GameLoopManager(100); //TODO: In Config-Datei verlagern
+        GameLoopManager::getSingleton().addSynchronizedTask(
             PhysicsManager::getSingletonPtr());
+		new AnimationManager();
+		GameLoopManager::getSingleton().addSynchronizedTask(
+			AnimationManager::getSingletonPtr());
 		new ActorManager();
 
         return true;
@@ -387,10 +392,13 @@ namespace rl {
 		else
 			Throw(RuntimeException, "Unknown world type");*/
 
+		GameLoopManager::getSingleton().setPaused(true);
+
 		mWorld->loadScene(filename);
-			
 		if (startupScript.length() > 0)
             getInterpreter()->execute(String("load '") + startupScript + String("'"));
+
+		GameLoopManager::getSingleton().setPaused(false);
 	}
 
 	void CoreSubsystem::resetClock()

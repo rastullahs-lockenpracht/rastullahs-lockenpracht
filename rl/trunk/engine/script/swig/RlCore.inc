@@ -34,7 +34,6 @@ private:
 public:
 	static ActorManager& getSingleton(void);
 
-	rl::Actor* createLightActor(const String& name, int type);
 	rl::Actor* createMeshActor(const String& name, const String& meshname,
 		    int geom = rl::PhysicsManager::PT_NONE, Real density=1.0);
 	    
@@ -296,11 +295,11 @@ public:
 };
 
 
-class GameLoop {
+class GameLoopManager {
 private:
-	GameLoop();
+	GameLoopManager();
 public:
-    static GameLoop& getSingleton(void);
+    static GameLoopManager& getSingleton(void);
     
     bool isPaused();
     void setPaused(bool pause);

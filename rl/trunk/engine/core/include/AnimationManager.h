@@ -20,7 +20,7 @@
 #include <map>
 #include <OgreSingleton.h>
 
-#include "SynchronizedTask.h"
+#include "GameTask.h"
 #include "CorePrerequisites.h"
 
 namespace rl {
@@ -30,7 +30,7 @@ class RlAnimation;
 class RlTrackAnimation;
 
 class _RlCoreExport AnimationManager
-  : public SynchronizedTask,
+  : public GameTask,
     protected Ogre::Singleton<AnimationManager>
 {
 public:

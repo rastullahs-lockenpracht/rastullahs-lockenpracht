@@ -45,8 +45,8 @@ namespace rl {
 		ActionEntry ae;
 		ae.actionClass = "ShowActionMenuAction";
 		ae.actionName = "Aktionen";
-		mKeyCommandsInBattle.insert(make_pair(KC_F3, ae));
-		mKeyCommandsOffBattle.insert(make_pair(KC_F3, ae));
+		mKeyCommandsInBattle.insert(make_pair(KC_F1, ae));
+		mKeyCommandsOffBattle.insert(make_pair(KC_F1, ae));
 
 		ae.actionClass = "QuitGameAction";
 		ae.actionName = "Ende";
@@ -59,6 +59,10 @@ namespace rl {
 		ae.actionClass = "ToggleDebugWindowAction";
 		ae.actionName = "DebugWindow";
 		mKeyCommandsOffBattle.insert(make_pair(KC_F2, ae));
+		
+		ae.actionClass = "ToggleGameLogWindowAction";
+		ae.actionName = "GameLogWindow";
+		mKeyCommandsOffBattle.insert(make_pair(KC_F3, ae));
 		
 		ae.actionClass = "ToggleViewModeAction";
 		ae.actionName = "Sichtmodus";
@@ -148,7 +152,6 @@ namespace rl {
 	{
 		return (mActiveMovement & movmt) == movmt;
 	}
-
 
 	void CommandMapper::setMapping(
 			MapType map, 

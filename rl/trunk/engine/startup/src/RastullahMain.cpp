@@ -32,16 +32,16 @@
 #include "Exception.h"
 #include <CEGUIExceptions.h>
 
-
 #if OGRE_PLATFORM == PLATFORM_WIN32
-
-#define WIN32_LEAN_AND_MEAN
-#include "windows.h"
-
-INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT )
+	#define WIN32_LEAN_AND_MEAN
+	#include "windows.h"
 #else
-int main(int argc, char **argv)
+	#include "SDL.h"
 #endif
+
+
+
+void startupRl()
 {
 	rl::CoreSubsystem* core = NULL;
 	rl::SoundSubsystem* sound = NULL;
@@ -56,16 +56,16 @@ int main(int argc, char **argv)
 		* und RastullahApplication nach Startup. */
 		core = new rl::CoreSubsystem();
 		core->log("CoreSubsystem gestartet");
-			
+
 		sound = new rl::SoundSubsystem();
 		core->log("SoundSubsystem gestartet");
-			
+
 		rules = new rl::RulesSubsystem();
 		core->log("RulesSubsystem gestartet");
-			
+
 		dialog = new rl::DialogSubsystem();
 		core->log("DialogSubsystem gestartet");
-			
+
 		ui = new rl::UiSubsystem();
 		core->log("UiSubsystem gestartet");
 
@@ -123,6 +123,19 @@ int main(int argc, char **argv)
 	} 
 	catch(...) {
 		rl::showError( "Unknown exception occured" );
-	}
-	return 0;
+	}	
+
+#if OGRE_PLATFORM != PLATFORM_WIN32
+	SDL_Quit();
+#endif
 }
+
+#if OGRE_PLATFORM == PLATFORM_WIN32
+	INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT )
+#else
+	int main(int argc, char **argv)
+#endif
+{
+	startupRl();
+}
+

@@ -53,7 +53,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Kopiere DLLs und EXE"
-				CommandLine="$(SolutionDir)\tools\copy_dlls.bat $(SolutionDir) $(ConfigurationName)"/>
+				CommandLine="&quot;$(SolutionDir)\tools\copy_dlls.bat&quot; &quot;$(SolutionDir)&quot; &quot;$(ConfigurationName)&quot;"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -111,7 +111,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Kopiere DLLs und EXE"
-				CommandLine="$(SolutionDir)\tools\copy_dlls.bat $(SolutionDir) $(ConfigurationName)"/>
+				CommandLine="&quot;$(SolutionDir)\tools\copy_dlls.bat&quot; &quot;$(SolutionDir)&quot; &quot;$(ConfigurationName)&quot;"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool

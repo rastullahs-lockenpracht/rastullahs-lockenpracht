@@ -18,7 +18,7 @@
 #define __GameController_H__
 
 #include "UiPrerequisites.h"
-#include "SynchronizedTask.h"
+#include "GameTask.h"
 
 #include <OgreEntity.h>
 #include <OgreCamera.h>
@@ -35,7 +35,7 @@ namespace rl {
      *  @todo Kollision
      *  @todo Nachziehen
      */
-    class _RlUiExport GameController : public SynchronizedTask,
+    class _RlUiExport GameController : public GameTask,
         public OgreOde::CollisionListener
     {
     public:

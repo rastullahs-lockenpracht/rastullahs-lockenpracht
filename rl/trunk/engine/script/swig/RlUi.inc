@@ -41,6 +41,7 @@ public:
 	void showMainMenu(GameObject* actionHolder);
 	void toggleConsole();
 	void toggleDebugWindow();
+	void toggleGameLogWindow();
 	rl::GameController* getGameController();
 	rl::GameLoggerWindow* getGameLogger();
 	

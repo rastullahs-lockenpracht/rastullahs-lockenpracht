@@ -71,7 +71,7 @@ namespace rl {
 	{
 		switchMouseToUnbuffered();
 		mEventProcessor = new EventProcessor();
-		GameLoop::getSingleton().addSynchronizedTask(this);
+		GameLoopManager::getSingleton().addSynchronizedTask(this);
 		for(int i=0; i<NUM_KEYS; i++)
 			mKeyDown[i] = false;
 
@@ -82,7 +82,7 @@ namespace rl {
 	InputManager::~InputManager()
 	{
 		mEventQueue.activateEventQueue(false);
-		GameLoop::getSingleton().removeSynchronizedTask(this);
+		GameLoopManager::getSingleton().removeSynchronizedTask(this);
 //		Root::getSingleton().removeFrameListener(this);
 
 		mInputReader->useBufferedInput(NULL, false, false);
@@ -259,6 +259,26 @@ namespace rl {
 	void InputManager::mouseDragged(MouseEvent* e)
 	{
 		mouseMoved(e);
+	}
+
+	CeGuiString InputManager::getKeyName(int combinedKeyCode)
+	{
+		//TODO: Decode key code
+		return getKeyName(combinedKeyCode, 0);
+	}
+
+	CeGuiString InputManager::getKeyName(int scancode, int syskeys)
+	{
+		using namespace Ogre; 
+
+		CeGuiString name = mKeyNames.find(scancode)->second;
+		if (syskeys & InputEvent::ALT_MASK)
+			name = "Alt-"+name;
+		if (syskeys & InputEvent::CTRL_MASK)
+			name = "Ctrl-"+name;
+		if (syskeys & InputEvent::SHIFT_MASK)
+			name = "Shift-"+name;
+		return name;
 	}
 
 	CEGUI::MouseButton InputManager::convertOgreButtonToCegui(int ogre_button_id)

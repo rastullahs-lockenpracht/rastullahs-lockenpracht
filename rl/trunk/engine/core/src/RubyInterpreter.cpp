@@ -117,7 +117,8 @@ void RubyInterpreter::logRubyErrors(const std::string& intro, int errorcode)
 	{
 		VALUE info = rb_inspect(ruby_errinfo);
 		rb_backtrace();
-		CoreSubsystem::getSingleton().log(intro);
+		if (intro.length() > 0)
+			CoreSubsystem::getSingleton().log(intro);
 		CoreSubsystem::getSingleton().log(STR2CSTR(info));
 	}
 }
@@ -139,6 +140,8 @@ bool RubyInterpreter::execute(String command)
 
 	CoreSubsystem::getSingleton().log( "RubyInterpreter: (execute) "+ command );
 	rb_eval_string_protect(command.c_str(), &status);
+
+	logRubyErrors("", status);
 
     if( status )
         rb_eval_string_protect("print $!", &status);

@@ -46,12 +46,12 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="TRUE"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlSound.lib msvcrt-ruby18.lib OgreMain_d.lib OpenAL32.lib ALut.lib ode.lib OgreOde_d.lib"
+				AdditionalDependencies="RlSound.lib msvcrt-ruby18.lib OgreMain_d.lib OpenAL32.lib ALut.lib ode.lib OgreOde_d.lib OpenThreadsWin32d.lib"
 				ShowProgress="0"
 				OutputFile="./lib/debug/RlCore.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreOde\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogreaddons\dotsceneoctree\PlugIns\DotSceneManager\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\ode\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib"
+				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreOde\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogreaddons\dotsceneoctree\PlugIns\DotSceneManager\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\ode\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\OpenThreads\lib\win32"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
 				AssemblyDebug="1"
@@ -128,11 +128,11 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="TRUE"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlSound.lib msvcrt-ruby18.lib OgreMain.lib OpenAL32.lib ALut.lib ode.lib OgreOde.lib"
+				AdditionalDependencies="RlSound.lib msvcrt-ruby18.lib OgreMain.lib OpenAL32.lib ALut.lib ode.lib OgreOde.lib OpenThreadsWin32.lib"
 				OutputFile="./lib/release/RlCore.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreOde\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogreaddons\dotsceneoctree\PlugIns\DotSceneManager\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\ode\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib"
+				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreOde\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogreaddons\dotsceneoctree\PlugIns\DotSceneManager\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\ode\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\OpenThreads\lib\win32"
 				ProgramDatabaseFile=""
 				SubSystem="2"/>
 			<Tool
@@ -202,6 +202,9 @@
 				RelativePath=".\include\GameLoop.h">
 			</File>
 			<File
+				RelativePath=".\include\GameTask.h">
+			</File>
+			<File
 				RelativePath=".\include\Interpreter.h">
 			</File>
 			<File
@@ -227,9 +230,6 @@
 			</File>
 			<File
 				RelativePath=".\include\ScriptObject.h">
-			</File>
-			<File
-				RelativePath=".\include\SynchronizedTask.h">
 			</File>
 			<File
 				RelativePath=".\include\World.h">
@@ -266,6 +266,9 @@
 				RelativePath=".\src\GameLoop.cpp">
 			</File>
 			<File
+				RelativePath=".\src\GameTask.cpp">
+			</File>
+			<File
 				RelativePath=".\src\LightObject.cpp">
 			</File>
 			<File
@@ -288,9 +291,6 @@
 			</File>
 			<File
 				RelativePath=".\src\ScriptObject.cpp">
-			</File>
-			<File
-				RelativePath=".\src\SynchronizedTask.cpp">
 			</File>
 			<File
 				RelativePath=".\src\World.cpp">

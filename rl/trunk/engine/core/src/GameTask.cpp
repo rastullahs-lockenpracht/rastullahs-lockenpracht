@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -14,27 +14,23 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#ifndef __SynchronizedTask_H__
-#define __SynchronizedTask_H__
-
-#include "CorePrerequisites.h"
+#include "GameTask.h"
 
 namespace rl {
 
-class _RlCoreExport SynchronizedTask
+GameTask::GameTask()
 {
-    public:
-        SynchronizedTask();
-        virtual ~SynchronizedTask( ) {};
-
-        virtual void run( Ogre::Real elapsedTime ) = 0;
+    mPaused = false;
+}
         
-        bool isPaused();
-        void setPaused(bool isPaused);
+bool GameTask::isPaused()
+{
+    return mPaused;
+}
 
-    private:
-        bool mPaused;
-};
+void GameTask::setPaused( bool isPaused )
+{
+    mPaused = isPaused;
+}
 
 }
-#endif

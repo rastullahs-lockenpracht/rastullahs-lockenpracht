@@ -14,7 +14,7 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#include "ScriptTimer.h"
+#include "TimerManager.h"
 #include "ScriptSubsystem.h"
 
 using Ogre::Singleton;
@@ -35,12 +35,12 @@ namespace rl {
 
 	ScriptSubsystem::ScriptSubsystem()
 	{
-		new ScriptTimer();
+		new TimerManager();
 	}
 
 	ScriptSubsystem::~ScriptSubsystem()
 	{
-		delete ScriptTimer::getSingletonPtr();
+		delete TimerManager::getSingletonPtr();
 	}
 
 }

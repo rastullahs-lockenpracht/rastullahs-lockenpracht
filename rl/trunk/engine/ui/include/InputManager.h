@@ -25,7 +25,7 @@
 
 #include "UiPrerequisites.h"
 #include "FixRubyHeaders.h"
-#include "SynchronizedTask.h"
+#include "GameTask.h"
 
 #include <OgreNoMemoryMacros.h>
 #include <CEGUI.h>
@@ -41,11 +41,11 @@ namespace rl {
 	class GameObject;
 
 	class _RlUiExport InputManager
-	  : public SynchronizedTask,
-	    public Ogre::KeyListener,
-	    public Ogre::MouseListener,
-	    public Ogre::MouseMotionListener,
-	    public Ogre::Singleton<InputManager>
+		:	public GameTask, 
+			public Ogre::KeyListener, 
+			public Ogre::MouseListener, 
+			public Ogre::MouseMotionListener, 
+			public Ogre::Singleton<InputManager>
 	{
 		public:
 			InputManager(void);
@@ -93,6 +93,8 @@ namespace rl {
 			void keyReleased(Ogre::KeyEvent* e);
 			void keyClicked(Ogre::KeyEvent* e);
 
+			CeGuiString getKeyName(int scancode, int syskeys);
+			CeGuiString getKeyName(int combinedKeyCode);
 			void loadKeyMapping(const Ogre::String& filename);
 			typedef std::map<int, CEGUI::utf8> KeyCharMap;
 			typedef std::map<int, CeGuiString> KeyNameMap;

@@ -81,7 +81,7 @@ namespace rl {
 		delete Console::getSingletonPtr();
         delete InputManager::getSingletonPtr();
 
-        GameLoop::getSingleton().removeSynchronizedTask(mGameController);
+        GameLoopManager::getSingleton().removeSynchronizedTask(mGameController);
     }
 	
 	void UiSubsystem::log(const String& msg, const String& ident)
@@ -140,7 +140,6 @@ namespace rl {
 		((RubyInterpreter*)CoreSubsystem::getSingleton().getInterpreter() )->initializeInterpreter( (VALUE(*)(...))&UiSubsystem::consoleWrite );
 			      
 		mGameLogger = new GameLoggerWindow();
-		//mGameLogger->setVisible(true);
         //runTest();
     }
 
@@ -148,7 +147,7 @@ namespace rl {
     {
 		log("Start", "UiSubsystem::requestExit");
 		//TODO: Vorher mal nachfragen, ob wirklich beendet werden soll
-    	GameLoop::getSingleton().quitGame();
+    	GameLoopManager::getSingleton().quitGame();
 	}
     
     void UiSubsystem::writeToConsole(std::string text)
@@ -173,7 +172,7 @@ namespace rl {
         Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
         mGameController = new GameController(camera, person->getActor());
         CoreSubsystem::getSingleton().log("GameController created.");
-        GameLoop::getSingleton().addSynchronizedTask(mGameController);
+        GameLoopManager::getSingleton().addSynchronizedTask(mGameController);
         CoreSubsystem::getSingleton().log("GameController task added.");
         World* world = CoreSubsystem::getSingletonPtr()->getWorld();
         world->setActiveActor(person->getActor());
@@ -222,6 +221,11 @@ namespace rl {
 	{
 		DebugWindow* dbgwnd = DebugWindow::getSingletonPtr();
 		dbgwnd->setVisible(!dbgwnd->isVisible());
+	}
+
+	void UiSubsystem::toggleGameLogWindow()
+	{
+		mGameLogger->setVisible(!mGameLogger->isVisible());
 	}
 
 	void UiSubsystem::setBattleMode(bool inBattle)

@@ -21,7 +21,7 @@
 #include <vector>
 #include <OgreSingleton.h>
 #include <OgreOde.h>
-#include "SynchronizedTask.h"
+#include "GameTask.h"
 
 #include "CorePrerequisites.h"
 
@@ -33,7 +33,7 @@ namespace rl {
     class World;
 
     class _RlCoreExport PhysicsManager
-        :   public SynchronizedTask,
+        :   public GameTask,
             public OgreOde::CollisionListener,
             public OgreOde::StepListener,
             protected Singleton<PhysicsManager>

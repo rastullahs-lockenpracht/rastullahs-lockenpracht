@@ -25,8 +25,6 @@
 
 namespace rl {
 
-	class CommandExecutor;
-
 	enum MovementState
 	{
 		MOVE_NONE = 0,
@@ -90,6 +88,8 @@ namespace rl {
 			const CeGuiString& actionClass, 
 			const CeGuiString& actionName);
 
+		std::map<CeGuiString, MovementState> getMovements();
+
 	private:
 		// KeyCode -> (Rubyklasse, Name)
 		typedef std::map<int, ActionEntry > KeyAndMouseCommandMap;
@@ -99,6 +99,8 @@ namespace rl {
 		KeyAndMouseCommandMap mKeyCommandsInBattle;
 		KeyAndMouseCommandMap mKeyCommandsOffBattle;
 		KeyAndMouseCommandMap mMouseCommands;
+
+		std::map<CeGuiString, MovementState> mMovement;
 
 		int mActiveMovement;		
 	};

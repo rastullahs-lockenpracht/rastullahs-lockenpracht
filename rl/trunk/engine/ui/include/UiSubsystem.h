@@ -60,6 +60,7 @@ namespace rl {
 		static VALUE consoleWrite(VALUE self, VALUE str);
 		void toggleConsole();
 		void toggleDebugWindow();
+		void toggleGameLogWindow();
 
 		void showCharacterActionChoice();
 		void showActionChoice(GameObject* obj);
