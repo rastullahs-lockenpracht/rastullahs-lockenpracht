@@ -47,20 +47,10 @@ namespace rl
         return mName;
     }
 
-	/*const char* GameObject::getName() const
-	{
-		return mName.c_str();
-	}*/
-
     void GameObject::setName(CeGuiString& name)
     {
         mName = name;
     }
-
-	/*void GameObject::setName(const char* name)
-    {
-		mName = CeGuiString(name);
-    }*/
 
     const CeGuiString& GameObject::getDescription() const
     {

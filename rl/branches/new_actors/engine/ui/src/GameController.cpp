@@ -55,10 +55,6 @@ namespace rl {
         mMoveSpeed(200.0),
         mRotSpeed(80.0),
         mFallSpeed(0.1),
-        mOdeWorld(PhysicsManager::getSingletonPtr()->getWorld()),
-        mOdeActor(0),
-        mOdeCamera(0),
-        mOdeLevel(0),
         mCurrentAnimationState(AS_STAND),
         mLastAnimationState(AS_STAND),
         mMaxPitch(Degree(60.0)),
@@ -92,9 +88,6 @@ namespace rl {
 
     GameController::~GameController()
     {
-        delete mOdeCamera;
-        delete mOdeActor;
-        delete mOdeLevel;
     }
     //------------------------------------------------------------------------
 
@@ -113,7 +106,7 @@ namespace rl {
         // Runterfallen berücksichtigen.
         // Zuerst Fallgeschwindigkeit berechnen
         translation.y = translation.y - mFallSpeed * elapsedTime;
-        mFallSpeed = mFallSpeed - mOdeWorld->getGravity().y * elapsedTime;
+        mFallSpeed = mFallSpeed - PhysicsManager::getSingleton().getGravity().y * elapsedTime;
 
         translate(translation, Node::TS_LOCAL);
 
@@ -122,7 +115,6 @@ namespace rl {
         
         mCameraNode->setPosition(0, 0, mTargetDistance);
         mCameraNode->_update(true, false);
-        mOdeCamera->setPosition(mCameraNode->getWorldPosition());
         mTargetDistance = mCameraNode->getPosition().z;
         
         Real camAdjustmentSpeed = elapsedTime * mMoveSpeed * 7;
@@ -135,46 +127,10 @@ namespace rl {
 
         mControlNode->yaw(Degree(yaw));
 
-        mOdeActor->collide(mOdeLevel, this);
-        mOdeCamera->collide(mOdeLevel, this);
-
         if (!InputManager::getSingleton().isCeguiActive())
         {
             updatePickedObject();
         }
-    }
-    //------------------------------------------------------------------------
-    bool GameController::collision(OgreOde::Contact* contact)
-    {
-        if (contact->getSecondGeometry() == mOdeActor)
-        {
-            translate(contact->getNormal() * contact->getPenetrationDepth(),
-                Node::TS_WORLD);
-            mFallSpeed = 0.0;
-        }
-        else if(contact->getSecondGeometry() == mOdeCamera
-            || contact->getFirstGeometry() == mOdeCamera)
-        {
-            adjustCamera(contact);                        
-        }
-        else
-        {
-            mFallSpeed = 0.1;
-        }
-        return true;
-    }
-    //------------------------------------------------------------------------
-    
-    void GameController::adjustCamera(OgreOde::Contact* contact)
-    {
-        //mCameraNode->translate(contact->getNormal() * contact->getPenetrationDepth(),
-        //        Node::TS_WORLD);
-        mCameraNode->translate(
-            Vector3(0.0, 0.0, -contact->getPenetrationDepth()),
-            Node::TS_LOCAL);
-        mOdeCamera->setPosition(mCameraNode->getWorldPosition());
-        mCameraNode->_update(true, false);
-        mTargetDistance = mCameraNode->getPosition().z;
     }
     //------------------------------------------------------------------------
 
@@ -242,9 +198,6 @@ namespace rl {
         if (cmdmap->isMovementActive(MOVE_JUMP) && fabs(mFallSpeed) <= 0.1)
             mFallSpeed = -500;
 
-        if (im->isKeyDown(KC_L))
-            mOdeWorld->setShowDebugObjects(!mOdeWorld->getShowDebugObjects());
-            
         if (im->isKeyDown(KC_P))
             CoreSubsystem::getSingleton().makeScreenshot("rastullah");
             
@@ -336,8 +289,6 @@ namespace rl {
         mCameraNode->detachObject(mCamera);
         mCameraNode->attachObject(camera);
         mCamera = camera;
-        mOdeCamera->setPosition(mCameraNode->getWorldPosition());
-        mOdeCamera->setRadius(mCamera->getNearClipDistance() * 1.2);
     }
     //------------------------------------------------------------------------
 

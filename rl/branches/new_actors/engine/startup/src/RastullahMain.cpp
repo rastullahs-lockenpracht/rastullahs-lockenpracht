@@ -115,7 +115,5 @@ int main(int argc, char **argv)
 	catch(...) {
 		rl::showError( "Unknown exception occured" );
 	}
- 
-		
 	return 0;
 }

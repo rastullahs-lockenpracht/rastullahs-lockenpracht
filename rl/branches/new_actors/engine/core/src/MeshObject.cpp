@@ -31,9 +31,10 @@ namespace rl {
 
     Entity* MeshObject::getEntity()
     {
-        return dynamic_cast<Entity*>(mMovableObject);
+        return reinterpret_cast<Entity*>(mMovableObject);
     }
 
+    ///@todo Sehr, sehr viel Optmimierungsspielraum :)
     Vector3 MeshObject::getSize()
     {
         Vector3 rval = Vector3::ZERO;
@@ -41,7 +42,11 @@ namespace rl {
         const AxisAlignedBox& aab = getEntity()->getBoundingBox();
         Vector3 x = aab.getMaximum();
         Vector3 n = aab.getMinimum();
-        Vector3 s = getActor()->_getSceneNode()->getScale();
+        Vector3 s(1.0, 1.0, 1.0);
+        if (getActor() && getActor()->_getSceneNode())
+        {
+            s = getActor()->_getSceneNode()->getScale();
+        }      
         rval.x = (x.x - n.x) * s.x;
         rval.y = (x.y - n.y) * s.y;
         rval.z = (x.z - n.z) * s.z;

@@ -106,25 +106,26 @@ namespace rl {
 	    int geomType, Ogre::Real density)
 	{
 		const String&  uniquename = nextUniqueName(name);
-
+		
+		Actor* actor = 0;
         try
         {
 		    MeshObject* mo = new MeshObject(uniquename, meshname);
 		    PhysicalThing* pt = PhysicsManager::getSingleton()
 		        .createPhysicalThing(geomType, mo->getSize(), density);
-		    Actor* actor = new Actor(uniquename, mo, pt);
+		    actor = new Actor(uniquename, mo, pt);
 
 		    mActors.insert(ActorPtrPair(uniquename,actor)); 
-		    return actor;
         }
-        catch( Ogre::Exception )
+        catch( Ogre::Exception& e)
         {
             CoreSubsystem::log("ActorManager - Das Mesh '"
                 + meshname + "' für den Aktor '"
-                + uniquename + "' konnte nicht erstellt werden.");
+                + uniquename + "' konnte nicht erstellt werden. Grund: "
+                + e.getFullDescription());
         }
     
-        return 0;
+        return actor;
 	}
 
     //Actor* ActorManager::createParticleSystemActor(const String& name,const String& partname)

@@ -36,7 +36,8 @@ namespace rl {
     
     Actor* ActorControlledObject::getActor()
     {
-        return dynamic_cast<Actor*>(mMovableObject->getUserObject());
+        UserDefinedObject* m = mMovableObject->getUserObject();
+        return m != 0 ? reinterpret_cast<Actor*>(m) : 0;
     }
     
     MovableObject* ActorControlledObject::getMovableObject()

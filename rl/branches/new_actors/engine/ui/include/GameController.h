@@ -25,7 +25,6 @@
 #include <OgreSceneNode.h>
 #include <OgreSceneQuery.h>
 #undef sleep
-#include <OgreOde.h>
 
 namespace rl {
 
@@ -35,8 +34,7 @@ namespace rl {
      *  @todo Kollision
      *  @todo Nachziehen
      */
-    class _RlUiExport GameController : public SynchronizedTask,
-        public OgreOde::CollisionListener
+    class _RlUiExport GameController : public SynchronizedTask
     {
     public:
         typedef enum {VM_THIRD_PERSON, VM_FIRST_PERSON} ViewMode;
@@ -77,11 +75,6 @@ namespace rl {
          */
         void resetCamera();
 
-        /**
-         *  Callback vom CollisionListener
-         */
-        virtual bool collision(OgreOde::Contact* contact);
-
     private:
         typedef enum {AS_STAND, AS_WALK_FORWARD} AnimationState;
         Ogre::SceneManager* mSceneManager;
@@ -98,11 +91,6 @@ namespace rl {
         Ogre::Real mRotSpeed;
         
         Ogre::Real mFallSpeed;
-
-        OgreOde::World* mOdeWorld;
-        OgreOde::CapsuleGeometry* mOdeActor;
-        OgreOde::SphereGeometry* mOdeCamera;
-        OgreOde::TriangleMeshGeometry* mOdeLevel;
 
         AnimationState mCurrentAnimationState;
         AnimationState mLastAnimationState;
@@ -128,7 +116,6 @@ namespace rl {
             Ogre::Node::TransformSpace ts);
         void setPosition(const Vector3& position);
         
-        bool detectCollision(const Ogre::Vector3& translation);
         void calculateScalingFactors(Ogre::Real timePassed);
 
         void calculateHeroTranslation(Ogre::Vector3& translation,
@@ -136,7 +123,6 @@ namespace rl {
         void calculateCameraTranslation();
         void updateAnimationState(const Ogre::Vector3& translation);
 		void updatePickedObject() const;
-		void adjustCamera(OgreOde::Contact* contact);
     };
 
 }
