@@ -55,11 +55,15 @@ SoundSubsystem* SoundSubsystem::getSingletonPtr(void)
 SoundSubsystem::SoundSubsystem()
 {
      Log* log = LogManager::getSingleton().createLog( "logs/rlSound.log" );
-     log->setLogDetail( LL_BOREME );
+     if (log != 0)
+     {
+        log->setLogDetail( LL_BOREME );
+     }
  
     // OpenAL initialisieren und Fehler zuruecksetzen.
     alutInit(0, 0);
     alGetError();
+    SoundSubsystem::log("AL initialised");
     
     // Wir initialisieren den Listener
     // Position of the listener.
@@ -71,10 +75,10 @@ SoundSubsystem::SoundSubsystem()
     alListenerfv(AL_POSITION, ListenerPos);
     alListenerfv(AL_VELOCITY, ListenerVel);
     alListenerfv(AL_ORIENTATION, ListenerOri);
- 
+    SoundSubsystem::log("Listener set");
     
     //Singletons erzeugen
-    new MusicManager();
+    //new MusicManager();
     new SoundManager();
 }
 
@@ -99,7 +103,10 @@ void SoundSubsystem::log(const String& msg)
     {
         new LogManager();
     }
-    LogManager::getSingleton().getLog( "logs/rlSound.log" )->logMessage(msg);
+    if (LogManager::getSingletonPtr() != 0)
+    {
+        LogManager::getSingleton().getLog( "logs/rlSound.log" )->logMessage(msg);
+    }
 }
 
 

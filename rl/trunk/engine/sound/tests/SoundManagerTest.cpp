@@ -53,13 +53,14 @@ public:
                 sound->load();
                 sound->play();
                 
-                msleep(5 * 1000);
+                while (sound->isPlaying())
+                    msleep(1000);
                 
                 sound->stop();
                 sound->unload();
             }            
         }
-        
+        cerr<<"ende"<<endl;
         CPPUNIT_ASSERT(true);
     }
     
@@ -75,11 +76,11 @@ public:
             if (sound)
             {
                 sound->load();
-                sound->play(5000);
+                sound->play(0);
                 
                 msleep(10 * 1000);
                 
-                sound->stop(5000);
+                sound->stop(0);
                 
                 msleep(10 * 1000);
                 
@@ -92,8 +93,8 @@ public:
 
 	CPPUNIT_TEST_SUITE(SoundManagerTest);
 	CPPUNIT_TEST(testSoundManager_addSoundDirectory);
-//    CPPUNIT_TEST(testSoundManager_loadPlayUnload)
-    CPPUNIT_TEST(testSoundManager_loadPlayWithFade);
+    CPPUNIT_TEST(testSoundManager_loadPlayUnload);
+//    CPPUNIT_TEST(testSoundManager_loadPlayWithFade);
     CPPUNIT_TEST_SUITE_END();
 };
-//CPPUNIT_TEST_SUITE_REGISTRATION(SoundManagerTest);
+CPPUNIT_TEST_SUITE_REGISTRATION(SoundManagerTest);

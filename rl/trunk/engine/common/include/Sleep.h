@@ -27,7 +27,7 @@ inline void msleep(unsigned long sleeptime)
 #if OGRE_PLATFORM == PLATFORM_WIN32
     Sleep(sleeptime);
 #else
-    usleep(sleeptime * 1000 * 1000);
+    usleep(sleeptime * 1000);
 #endif
 }
 

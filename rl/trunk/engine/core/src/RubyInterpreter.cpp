@@ -135,6 +135,7 @@ bool RubyInterpreter::execute(String command)
 {
 	int status = -1;
 
+LogManager::getSingleton().getLog( "logs/rlCore.log" )->logMessage(command);
 	rb_eval_string_protect(command.c_str(), &status);
 
     if( status )

@@ -161,8 +161,6 @@ class _RlSoundExport SoundResource: public Resource,
         ALenum mFormat;
         /// Wie gross ist der Sound in Bytes.
         ALsizei mSize;
-        /// Wie gross ist ein Sample in Bits.
-        ALsizei mBits;
         /// Mit welcher Frequenz wurde gesampelt.
         ALsizei mFrequency;
         /// Loopen?

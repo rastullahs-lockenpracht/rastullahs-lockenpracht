@@ -17,12 +17,17 @@
 #include <string>
 #include <iostream>
 #include <OgreString.h>
+#include <OgreStringConverter.h>
 #include "SoundSubsystem.h"
 #include "SoundManager.h"
 #include "SoundResource.h"
 #include "Sleep.h"
 #include "SoundPlayEvent.h"
 #include "SoundFadeEvent.h"
+
+extern "C" {
+    #include <AL/al.h>
+}
 
 using namespace std;
 using namespace Ogre;
@@ -61,7 +66,6 @@ SoundResource::SoundResource(const String &name):
     setPosition(Vector3(0.0, 0.0, 0.0));
     setVelocity(Vector3(0.0, 0.0, 0.0));
     setDirection(Vector3(0.0, 0.0, 0.0));
-
 	/// Resourcen setzen
 	mFadeInThread.setResource(this);
     mFadeOutThread.setResource(this);
@@ -71,7 +75,7 @@ SoundResource::SoundResource(const String &name):
     mFadeInThread.addEventListener(this);
     mFadeOutThread.addEventListener(this);
     mStreamThread.addEventListener(this);
-    std::cerr<<name<<" "<<mSource<<std::endl;
+    SoundSubsystem::log("Name: " + mName);
 }
 
 /**
@@ -80,6 +84,16 @@ SoundResource::SoundResource(const String &name):
  */
 SoundResource::~SoundResource()
 {
+    // Listener entfernen.
+    mFadeInThread.removeEventListener(this);
+    mFadeOutThread.removeEventListener(this);
+    mStreamThread.removeEventListener(this);
+    
+    // Threads anhalten
+    mStreamThread.cancel();
+    mFadeInThread.cancel();
+    mFadeOutThread.cancel();
+    // Resourcen aufräumen.
     alDeleteBuffers(mBuffers.size(), &mBuffers[0]);
     alDeleteSources(1, &mSource);
     mSource = 0;
@@ -92,7 +106,7 @@ SoundResource::~SoundResource()
  */
 bool SoundResource::eventRaised(SoundEvent *anEvent) const
 {
-    SoundSubsystem::log("Reason: " + anEvent->getReason());
+    SoundSubsystem::log("Event raised. Reason: " + StringConverter::toString(anEvent->getReason()));
     return true;
 }
 
@@ -244,10 +258,9 @@ void SoundResource::load()
                     mFormat = AL_FORMAT_STEREO16;
                 mFrequency = vorbisInfo->rate;  
                 mSize = mData->getSize();
-                mBits = 16;
                 mLoop = false;
                 mTime = ov_time_total(&mOggStream, -1);
-                ov_clear(&mOggStream);
+                //ov_clear(&mOggStream);
                 delete vorbisInfo;
                 
                 break;
@@ -333,12 +346,12 @@ void SoundResource::fadeOut(unsigned int msec)
  */
 void SoundResource::play(unsigned int msec) throw (RuntimeException)
 {
-    if (getState() != AL_PLAYING)
+    if (!mStreamThread.isRunning())
     {
         // Abspielen.
-        alSourcePlay(mSource);
-        check();
-        fadeIn(msec);
+        // Threads starten.
+        mStreamThread.start();
+        //fadeIn(msec);
     }
 }
 
@@ -359,11 +372,11 @@ void SoundResource::pause() throw (RuntimeException)
  */
 void SoundResource::stop (unsigned int msec) throw (RuntimeException)
 {
-/* TODO    if (alIsSource(mSource) && mPlaying)
+    if (alIsSource(mSource) && isPlaying())
     {
-        SndResource::stop(msec);
-        mMusicThread.mFadeOut = msec;
-    } */
+        fadeOut(msec);
+        alSourceStop(mSource);
+    } 
 }
 
 /**
@@ -399,6 +412,7 @@ void SoundResource::check() const throw (RuntimeException)
     ALenum error = alGetError();
     if (error != AL_NO_ERROR)
     {
+        SoundSubsystem::log("Error: " + StringConverter::toString((char*)alGetString(error)));
         Throw(RuntimeException, string((char*)alGetString(error)));
     }
 }
@@ -628,14 +642,39 @@ void SoundResource::StreamThread::setResource(SoundResource* res)
  */
 void SoundResource::StreamThread::run()
 {
+    bool loopende = false;
+    
     SoundPlayEvent event(this);
     event.setReason(SoundPlayEvent::STARTEVENT);
     dispatchEvent(&event);
-    
-    // DO something.
+
+    mResource->mWavIndex = 0;
+    if (!mResource->playback())
+    {
+        // TODO: Fehlermeldung
+        return;
+    }    
+    while(!loopende && mResource->update())
+    {
+        if (!mResource->playing())
+        {
+            if (!mResource->playback())
+            {
+                // TODO Fehlermeldung
+                return;
+            } else {
+                SoundSubsystem::log("Stream was interrupted.");
+            }
+            loopende = true;
+        }
+        msleep(10);
+    }
     
     event.setReason(SoundPlayEvent::STOPEVENT);
     dispatchEvent(&event);
+    
+    mResource->stop();
+    return;
 }
 
 /**
@@ -653,9 +692,10 @@ bool SoundResource::wavstream (ALuint buffer)
     {
         toCopy = BUFFER_SIZE;
     }
-    memcpy(pcm, mWAVData, toCopy);
-    alBufferData(buffer, mFormat, pcm, toCopy, mFrequency);
-    check ();
+    memcpy(pcm, (void*)((char*)mWAVData + mWavIndex), toCopy);
+    alBufferData(buffer, mFormat, pcm , toCopy, mFrequency);
+    check();
+    mWavIndex += toCopy;
 
     return true; 
  
@@ -891,7 +931,7 @@ bool SoundResource::oggstream (ALuint buffer)
         result =
             ov_read(&mOggStream, pcm + size, BUFFER_SIZE - size, 0, 2, 1,
                      &section);
-
+    cerr << "Result: "<<result<<endl;
         if (result > 0) {
             size += result;
         }

@@ -59,7 +59,7 @@ StringList SoundManager::getExtension()
 {
     StringList result;
     result.push_back("*.wav");
-    result.push_back("*.ogg");
+    //result.push_back("*.ogg");
     
     return result;
 }
