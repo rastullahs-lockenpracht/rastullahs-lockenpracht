@@ -34,7 +34,7 @@ namespace rl {
         // Set up shadowing
         mSceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_MODULATIVE);
         mSceneMgr->setShadowColour(ColourValue(0.5, 0.5, 0.5));
-        mSceneMgr->setShadowFarDistance(500);
+        mSceneMgr->setShadowFarDistance(10000);
         mSceneMgr->setShadowDirLightTextureOffset(0.9);
 		if (StringUtil::startsWith(Root::getSingletonPtr()->
 		    getRenderSystem()->getName(), "direct"))
@@ -88,6 +88,9 @@ namespace rl {
 		mSceneEntity = mSceneMgr->createEntity("level", levelName);
 		SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode("level");
 		node->attachObject(mSceneEntity);
+
+		//Level wirft per Default keinen Schatten
+		setCastShadows(false);
 		
         initializeDefaultCamera();
         mbSceneLoaded = true;
@@ -125,4 +128,9 @@ namespace rl {
     {
         return mSceneEntity;
     }
+
+	void DotSceneOctreeWorld::setCastShadows(bool enabled)
+	{
+		mSceneEntity->setCastShadows(enabled);
+	}
 }

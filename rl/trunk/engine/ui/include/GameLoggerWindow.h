@@ -27,12 +27,20 @@ namespace rl {
 	public:
 		GameLoggerWindow();
 
-		void logDialogEvent(const std::string text);
-		void logFightEvent(const std::string text);
-		void logLevelupEvent(const std::string text);
-		void logMiscEvent(const std::string text);
+		void logDialogEvent(const CeGuiString& text);
+		void logFightEvent(const CeGuiString& text);
+		void logCharacterEvent(const CeGuiString& text);
+		void logMiscEvent(const CeGuiString& text);
 
-		void logEvent(const std::string text, const CEGUI::colour color);
+		static CEGUI::colour COLOR_FIGHT;
+		static CEGUI::colour COLOR_DIALOG;
+		static CEGUI::colour COLOR_MISC;
+		static CEGUI::colour COLOR_CHARACTER;
+
+	private:
+		void logEvent(const CeGuiString& text, const CEGUI::colour color);
+
+		CEGUI::Listbox* mLog;
 	};
 
 

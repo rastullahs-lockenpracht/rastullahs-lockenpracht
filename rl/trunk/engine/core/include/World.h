@@ -85,6 +85,8 @@ namespace rl {
 
         virtual void setAmbientLight(Real r, Real g, Real b);
 
+		virtual void setCastShadows(bool enabled);
+
     protected:
         World(Ogre::SceneType sceneType);
 

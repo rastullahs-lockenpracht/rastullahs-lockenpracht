@@ -130,4 +130,10 @@ namespace rl {
 	    doLoadScene(levelName);
 	    PhysicsManager::getSingletonPtr()->setWorldScene(this);
 	}
+
+	void World::setCastShadows(bool enabled)
+	{
+		Throw(OperationNotSupportedException,
+			"SceneManager does not support shadows");
+	}
 }

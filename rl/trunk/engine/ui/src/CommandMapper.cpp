@@ -68,9 +68,13 @@ namespace rl {
 		ae.actionName = "Kamera";
 		mKeyCommandsOffBattle.insert(make_pair(KC_NUMPAD0, ae));
 
-        ae.actionClass = "MakeSceenshotAction";
+        ae.actionClass = "MakeScreenshotAction";
 		ae.actionName = "Screenshot";
 		mKeyCommandsOffBattle.insert(make_pair(KC_P, ae));
+
+		ae.actionClass = "ShowGameLogAction";
+		ae.actionName = "Log anzeigen";
+		mKeyCommandsOffBattle.insert(make_pair(KC_L, ae));
 	}
 
 	CommandMapper::~CommandMapper()

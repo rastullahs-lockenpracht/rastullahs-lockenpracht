@@ -66,7 +66,8 @@ namespace rl {
 		mBuffered(false), 
 		mInputInitialized(false),
 		mNumActiveWindowsMouseInput(0),
-		mNumActiveWindowsKeyboardInput(0)		
+		mNumActiveWindowsKeyboardInput(0),
+		mNumActiveWindowsAllInput(0)
 	{
 		switchMouseToUnbuffered();
 		mEventProcessor = new EventProcessor();

@@ -59,8 +59,14 @@
   }
 }
 
+%{
+#pragma warning( disable : 4101 )	// deaktiviere Warnung ueber unreferenzierte lokale Variable, 
+									// da dies in allen erzeugten Exceptionhandlern auftritt
+%}
+
 %include "RlSound.inc"
 %include "RlCore.inc"
 %include "RlRules.inc"
 %include "RlUi.inc"
 %include "RlScript.inc"
+

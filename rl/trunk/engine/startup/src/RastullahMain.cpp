@@ -17,6 +17,7 @@
 #include <xercesc/util/XMemory.hpp>	// Muss vor Ogre stehen (zumindest für VS)
 
 #include <Ogre.h>
+#include <OgreLogManager.h>
 #include <stdexcept>
 #include <errno.h>
 
@@ -51,29 +52,27 @@ int main(int argc, char **argv)
 
 	try {
 
-		/**@todo das nach RastullahApplication
+				/**@todo das nach RastullahApplication
 		* und RastullahApplication nach Startup. */
 		core = new rl::CoreSubsystem();
-		Ogre::Log* log = 
-			Ogre::LogManager::getSingleton().getLog( "logs/rlCore.log" );
-		log->logMessage("CoreSubsystem gestartet");
+		core->log("CoreSubsystem gestartet");
 			
 		sound = new rl::SoundSubsystem();
-		log->logMessage("SoundSubsystem gestartet");
+		core->log("SoundSubsystem gestartet");
 			
 		rules = new rl::RulesSubsystem();
-		log->logMessage("RulesSubsystem gestartet");
+		core->log("RulesSubsystem gestartet");
 			
 		dialog = new rl::DialogSubsystem();
-		log->logMessage("DialogSubsystem gestartet");
+		core->log("DialogSubsystem gestartet");
 			
 		ui = new rl::UiSubsystem();
-		log->logMessage("UiSubsystem gestartet");
+		core->log("UiSubsystem gestartet");
 
 		script = new rl::ScriptSubsystem();
-		log->logMessage("ScriptSubsystem gestartet");
+		core->log("ScriptSubsystem gestartet");
 
-		log->logMessage("Starte...");
+		core->log("Starte...");
 		core->startCore();
 	} 
 	catch(Ogre::Exception& oe) {

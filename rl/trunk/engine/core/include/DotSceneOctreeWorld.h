@@ -32,6 +32,7 @@ namespace rl {
         virtual void clearScene();
         virtual void initializeDefaultCamera();	
         virtual Entity* getSceneEntity();
+		virtual void setCastShadows(bool enabled);
         
     private:
         virtual void doLoadScene(const String& levelName);

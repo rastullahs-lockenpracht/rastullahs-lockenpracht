@@ -32,6 +32,7 @@
 #include "MessageWindow.h"
 #include "MainMenuWindow.h"
 #include "WindowManager.h"
+#include "GameLoggerWindow.h"
 
 #include "GameLoop.h"
 #include "ActorManager.h"
@@ -139,6 +140,8 @@ namespace rl {
 		new Console();
 		((RubyInterpreter*)CoreSubsystem::getSingleton().getInterpreter() )->initializeInterpreter( (VALUE(*)(...))&UiSubsystem::consoleWrite );
 			      
+		mGameLogger = new GameLoggerWindow();
+		//mGameLogger->setVisible(true);
         //runTest();
     }
 
@@ -169,8 +172,7 @@ namespace rl {
 	{
 		mCharacter = person;
 		
-		CameraActor* camera = dynamic_cast<CameraActor*>(
-            ActorManager::getSingleton().getActor("DefaultCamera"));
+		CameraActor* camera = CoreSubsystem::getSingleton().getWorld()->getActiveCamera();
 		CoreSubsystem::getSingleton().log("Kamera erschaffen");
 		mGameController = new GameController(
             camera->getOgreCamera(), person->getActor());
@@ -246,4 +248,9 @@ namespace rl {
     {
         return mGameController;
     }
+
+	GameLoggerWindow* UiSubsystem::getGameLogger()
+	{
+		return mGameLogger;
+	}
 }

@@ -21,4 +21,5 @@
 #include "UiSubsystem.h"
 #include "CommandMapper.h"
 #include "GameController.h"
+#include "GameLoggerWindow.h"
 %}

@@ -37,12 +37,13 @@ public:
 	void showCharacterActionChoice();
 	void showActionChoice(rl::GameObject* obj);
 	void showMessageWindow(const rl::CeGuiString& message);
-	Person* getActiveCharacter();
+	rl::Person* getActiveCharacter();
 	void setActiveCharacter(Person* person);
 	void showMainMenu(GameObject* actionHolder);
 	void toggleConsole();
 	void toggleDebugWindow();
-	GameController* getGameController();
+	rl::GameController* getGameController();
+	rl::GameLoggerWindow* getGameLogger();
 	
 	void requestExit();
 };
@@ -53,6 +54,15 @@ public:
 	static CommandMapper& getSingleton();
 	//void loadCommandMap(const char* mapfile);
 
+};
+
+class GameLoggerWindow
+{
+public:
+	void logDialogEvent(const rl::CeGuiString& text);
+	void logFightEvent(const rl::CeGuiString& text);
+	void logCharacterEvent(const rl::CeGuiString& text);
+	void logMiscEvent(const rl::CeGuiString& text);
 };
 
 }

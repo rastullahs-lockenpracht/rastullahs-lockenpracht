@@ -189,12 +189,12 @@ namespace rl {
 			new Root( 
 				mRootDir+"/"+CONF_DIR+"plugins-linux.cfg", 
 				findRastullahConf(), 
-				"logs/ogre.log" );
+				"logs/ogre.log" ); //TODO: Logfiles im aktuellen Verzeichnis? Nicht gut. Entweder in /var/log oder dort, wo die modules sind.
 		#else
 			new Root( 
 				CONF_DIR+"plugins-mac.cfg", 
 				CONF_DIR+"rastullah.cfg", 
-				"logs/ogre.log" );
+				"logs/ogre.log" ); //TODO: siehe Linux
 		#endif
 
         initializeResources();
@@ -386,7 +386,7 @@ namespace rl {
 			Throw(RuntimeException, "Unknown world type");*/
 
 		mWorld->loadScene(filename);
-		
+			
 		if (startupScript.length() > 0)
             getInterpreter()->execute(String("load '") + startupScript + String("'"));
 	}

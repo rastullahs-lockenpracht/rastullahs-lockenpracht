@@ -62,6 +62,7 @@ public:
     virtual Real getFogEnd (void) const;	
     virtual void setAmbientLight(Real r, Real g, Real b);
     virtual Vector3 getStartPoint() const;
+    virtual void setCastShadows(bool);
 };
 
 class BSPWorld : public World {

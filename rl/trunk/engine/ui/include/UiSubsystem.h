@@ -36,6 +36,7 @@ namespace rl {
     class GameActor;
 	class GameObject;
 	class Person;
+	class GameLoggerWindow;
 
     class _RlUiExport UiSubsystem : protected Singleton<UiSubsystem>
     {
@@ -68,6 +69,7 @@ namespace rl {
 		Person* getActiveCharacter();
 		void setActiveCharacter(Person* person);
         GameController* getGameController();
+		GameLoggerWindow* getGameLogger();
 
 		void setBattleMode(bool inBattle);
 		bool isInBattleMode();
@@ -82,6 +84,7 @@ namespace rl {
         GameActor* mHero;
         Person* mCharacter;
         bool mInBattle;
+		GameLoggerWindow* mGameLogger;
     };
 }
 

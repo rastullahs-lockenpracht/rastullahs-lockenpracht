@@ -117,6 +117,7 @@ namespace rl {
 			mod != modules.end(); mod++)
 		{
 			ListboxTextItem* it = new ListboxTextItem(*mod);
+			it->setSelectionColours(colour(0xFF7F7F7F));
 			mModulesList->addItem(it);
 			if ((*mod).compare(activeModule.c_str()) == 0)
 				mModulesList->setItemSelectState(it, true);
