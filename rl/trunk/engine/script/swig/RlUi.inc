@@ -47,6 +47,7 @@ public:
 	void toggleConsole();
 	void toggleDebugWindow();
 	void toggleGameLogWindow();
+	void toggleDialogWindow();
 	void toggleObjectPicking();
 	rl::GameController* getGameController();
 	rl::GameLoggerWindow* getGameLogger();

@@ -66,7 +66,7 @@ namespace rl {
 		mKeyCommandsOffBattle.insert(make_pair(KC_F3, ae));
 		
 		ae.actionClass = "ToggleDialogWindowAction";
-		ae.actionName = "DialogWindow";
+		ae.actionName = "toggledialogwindow";
 		mKeyCommandsOffBattle.insert(make_pair(KC_F8, ae));
 
 		ae.actionClass = "ToggleViewModeAction";
