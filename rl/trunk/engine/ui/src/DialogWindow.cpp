@@ -85,26 +85,6 @@ void DialogWindow::updateValues()
 	}	
 }
 
-void DialogWindow::runTest()
-{
-	/*DialogWindow* dialog = new DialogWindow();
-	dialog->setQuestion("Wie ist dein Name?");
-	dialog->addLine("Hab ich vergessen");
-	dialog->addLine("Ich heisse %NAME%");
-	dialog->addLine("Mein Name ist %NAME%");
-	dialog->addLine("Man nennt mich %NAME%, oder auch %NAME%");
-	dialog->addLine("Ich habe nichts zu sagen");
-
-	dialog->setVariableValue("NAME", "Heinz-Peter");
-	dialog->setName("Klaus-Dieter");
-	dialog->show();*/
-
-	//DebugWindow::getSingleton().show();
-
-	/*CharacterSheetWindow* sheet = new CharacterSheetWindow();
-	sheet->show();*/
-}
-
 void DialogWindow::handleSelectOption()
 {
 	//DebugWindow::getSingleton().setText("Pnk "+StringConverter::toString(getSelectedOption()));

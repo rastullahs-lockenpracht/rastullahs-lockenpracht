@@ -38,6 +38,11 @@ namespace rl
         Creature(int id,
                  const std::string& name,
                  const std::string& description);
+		Creature(int id,
+                 const std::string& name,
+                 const std::string& description,
+				 const TalentMap& talents);
+        
         virtual ~Creature();
 
         virtual int getEigenschaft(int id) const;

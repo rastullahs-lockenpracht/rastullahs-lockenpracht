@@ -49,7 +49,7 @@ void ActionChoiceWindow::setActionObject(GameObject* object)
 	}
 }
 
-void ActionChoiceWindow::handleActionChosen(string action)
+void ActionChoiceWindow::handleActionChosen(string& action)
 {
 	//TODO: Auswahl des Ziels/der Ziele
 	//TODO: Ausführung der Action, hier im Dialog oder doch woanders?

@@ -26,7 +26,7 @@ namespace rl {
                               mLookAtNode(0),
                               mCamera(camera),
                               mHero(hero),
-                              mMoveSpeed(150.0),
+                              mMoveSpeed(60.0),
                               mRotSpeed(100.0),
                               mInputManager(InputManager::getSingletonPtr()),
                               mWalk(false),

@@ -15,7 +15,7 @@ namespace rl {
 		~ActionChoiceWindow();
 		
 		void setActionObject(GameObject* object);
-		void handleActionChosen(std::string action);
+		void handleActionChosen(std::string& action);
 
 	private:
         GameObject* mObject;

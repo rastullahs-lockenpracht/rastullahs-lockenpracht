@@ -12,6 +12,14 @@ namespace rl
     {
     }
 
+	Creature::Creature(int id,
+        const std::string& name, const std::string& description,
+		const TalentMap& talents)
+        : GameObject(id, name, description), mCurrentLe(0)
+    {
+		mTalente = talents;
+    }
+
     Creature::~Creature()
     {
     }

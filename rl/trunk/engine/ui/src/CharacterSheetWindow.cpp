@@ -13,7 +13,8 @@ using namespace CEGUI;
 CharacterSheetWindow::CharacterSheetWindow()
 	: CeGuiWindow("charactersheet.xml", true)
 {
-	getWindow("CharacterSheet/CharacterSheetButton")->subscribeEvent(
+	Window* buttonChar = getWindow("CharacterSheet/CharacterSheetButton");
+	buttonChar->subscribeEvent(
 		StaticImage::MouseClickEvent, 
 		boost::bind(&CharacterSheetWindow::showTab, this, (utf8*)"/CharacterSheet"));
 	
@@ -25,7 +26,7 @@ CharacterSheetWindow::CharacterSheetWindow()
 		StaticImage::MouseClickEvent, 
 		boost::bind(&CharacterSheetWindow::showTab, this, (utf8*)"/MagicSheet"));	
 	
-	showTab((utf8*)"/CharacterSheet");
+	showTab((utf8*)"/TalentSheet");
 
 	addToRoot(mWindow);	
 }

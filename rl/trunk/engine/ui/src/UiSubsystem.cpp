@@ -16,7 +16,12 @@
 #include "ActorFactory.h"
 #include "CameraActor.h"
 #include "World.h"
+
+// BEGIN TEST
 #include "DialogWindow.h"
+#include "Creature.h"
+#include "CharacterSheetWindow.h"
+// END TEST
 
 template<> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
 
@@ -98,7 +103,7 @@ namespace rl {
             GameLoop::getSingleton().addSynchronizedTask(mGameController);
         }
 
-//		DialogWindow::runTest();
+		UiSubsystem::runTest();
     }
 
     void UiSubsystem::requestExit()
@@ -114,5 +119,31 @@ namespace rl {
 	void UiSubsystem::writeToConsole(std::string text)
 	{
 		CeConsole::getSingleton().write(text);
+	}
+
+	void UiSubsystem::runTest()
+	{
+		new DebugWindow();
+        DebugWindow::getSingleton().show();
+
+		/*DialogWindow* dialog = new DialogWindow();
+		dialog->setQuestion("Wie ist dein Name?");
+		dialog->addLine("Hab ich vergessen");
+		dialog->addLine("Ich heisse %NAME%");
+		dialog->addLine("Mein Name ist %NAME%");
+		dialog->addLine("Man nennt mich %NAME%, oder auch %NAME%");
+		dialog->addLine("Ich habe nichts zu sagen");
+
+		dialog->setVariableValue("NAME", "Heinz-Peter");
+		dialog->setName("Klaus-Dieter");
+		dialog->show();*/		
+
+		Creature::TalentMap talente;
+		talente.insert(make_pair(101, +4));
+		talente.insert(make_pair(102, -1));
+		talente.insert(make_pair(201, 0));
+		Creature* held = new Creature(342, "Heinz-Peter", "Testheld", talente);
+		CharacterSheetWindow* sheet = new CharacterSheetWindow();
+		sheet->show();
 	}
 }

@@ -26,9 +26,7 @@ namespace rl {
 		void setQuestion(std::string question);
 		void setImage(std::string imageset, std::string image);
 		int getSelectedOption();
-		void handleSelectOption();
-
-		static void runTest();
+		void handleSelectOption();		
 
 	private:
 		std::map<std::string, std::string> mVariableValues;

@@ -36,7 +36,7 @@ namespace rl {
 		static const char* CEGUI_ROOT;
 
     private:
-        void initializeUiSubsystem( void );        ThirdPersonGameController* mGameController;        GameActor* mHero;        bool mRequestExit;    };
+        void initializeUiSubsystem( void );		void runTest();        ThirdPersonGameController* mGameController;        GameActor* mHero;        bool mRequestExit;    };
 
 }
 
