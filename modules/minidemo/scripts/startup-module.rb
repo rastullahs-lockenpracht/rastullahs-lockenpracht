@@ -1,4 +1,4 @@
-$CORE.loadMap("Octree", "b_1.mesh", "testraum.rb");
+$CORE.loadMap("Octree", "minidemo.mesh", "minidemo.rb");
 $World = $CORE.getWorld();
 
 #$MM.addSoundsIntoPlayList();

@@ -1,0 +1,238 @@
+material SOLID/floor_120.jpg
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture floor_120.jpg
+      }
+    }
+  }
+}
+
+material SOLID/floor_061.jpg
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture floor_061.jpg
+      }
+    }
+  }
+}
+
+material SOLID/facade05.jpg
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture facade05.jpg
+      }
+    }
+  }
+}
+
+material SOLID/floor_057.jpg
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture floor_057.jpg
+      }
+    }
+  }
+}
+
+material SOLID/mur_mass.jpg
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture mur_mass.jpg
+      }
+    }
+  }
+}
+
+material SOLID/cros_2.jpg
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture cros_2.jpg
+      }
+    }
+  }
+}
+
+material SOLID/d_holz.jpg
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture d_holz.jpg
+      }
+    }
+  }
+}
+
+material SOLID/floor_067.jpg
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture floor_067.jpg
+      }
+    }
+  }
+}
+
+material SOLID/in_wand07_1.jpg
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture in_wand07_1.jpg
+      }
+    }
+  }
+}
+
+material SOLID/full_core.jpg
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture full_core.jpg
+      }
+    }
+  }
+}
+
+material SOLID/drkwl2_b.jpg
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture drkwl2_b.jpg
+      }
+    }
+  }
+}
+
+material SOLID/-1ou_clmauer03.jpg
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture -1ou_clmauer03.jpg
+      }
+    }
+  }
+}
+
+material SOLID/facade04.jpg
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture facade04.jpg
+      }
+    }
+  }
+}
+
+material SOLID/v_schindel.jpg
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture v_schindel.jpg
+      }
+    }
+  }
+}
+
+material SOLID/in_wand07.jpg
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture in_wand07.jpg
+      }
+    }
+  }
+}
+
+material SOLID/d_stufe.jpg
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture d_stufe.jpg
+      }
+    }
+  }
+}
+
+material SOLID/cf_roof02.jpg
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture cf_roof02.jpg
+      }
+    }
+  }
+}
+
