@@ -36,8 +36,8 @@ public:
 	
 	/** Gets the SceneNode which is being used to represent this object's position in
 	       the OGRE world. */
-	SceneNode* getSceneNode(void);
-    void setSceneNode(SceneNode* node);
+	virtual SceneNode* getSceneNode(void);
+    virtual void setSceneNode(SceneNode* node);
 
      /** Connects another Actor to this Actor only via the SceneNode
         Use this only for Actor which none overwritten methods    */
@@ -73,9 +73,9 @@ public:
     // These only use the methods above
     
     /** Sets the position of this object. */
-	void setPosition(const Vector3& vec);
+	virtual void setPosition(const Vector3& vec);
 	/** Sets the orientation of this object. */
-	void setOrientation(const Quaternion& orientation); 
+	virtual void setOrientation(const Quaternion& orientation); 
 	/** Moves the object along it's local  axes.
 	           @par
 	               This method moves the object by the supplied vector along the

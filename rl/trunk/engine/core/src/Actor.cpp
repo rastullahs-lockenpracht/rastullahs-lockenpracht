@@ -30,7 +30,7 @@ Actor::~Actor()
         PhysicsManager::getSingleton().removePhysicalThing( this );
 
 	SceneManager* pSceneMgr = CoreSubsystem::getSingleton().getWorld()->getSceneManager();
-	mSceneNode->getParent()->removeChild(mName);
+	mSceneNode->getParent()->removeChild(mSceneNode);
 
 	pSceneMgr->destroySceneNode( mName );
 }
@@ -100,7 +100,7 @@ void Actor::setOrientation(Real w, Real x, Real y, Real z)
 
 void Actor::setPosition(Real x, Real y, Real z)
 {
-	mSceneNode->setPosition(x, y, z);
+    mSceneNode->setPosition(x, y, z);
     
     // TODO: Eventuell nicht updaten wenn von Physik bewegt
     if( mPhysical )
