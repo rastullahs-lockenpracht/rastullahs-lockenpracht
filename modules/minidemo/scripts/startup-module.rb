@@ -1,5 +1,4 @@
-#$CORE.loadMap("Octree", "bergfried_berg.mesh", "bergfried.rb");
-$CORE.loadMap("Octree", "minidemo.mesh", "minidemo.rb");
+$CORE.loadMap("Octree", "minidemo.scene", "minidemo.rb");
 
 $World = $CORE.getWorld();
 
