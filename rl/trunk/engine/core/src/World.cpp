@@ -97,4 +97,9 @@ namespace rl {
 	{
 		return mActiveActor;
 	}
+
+	Vector3 World::getStartPoint() const
+	{
+		return mSceneMgr->getSuggestedViewpoint().position;
+	}
 }

@@ -34,6 +34,7 @@ public:
 	static CoreSubsystem * getSingletonPtr();
 
 	World* getWorld();
+	void loadMap(const String type, const String filename, const String startupScript = "");
 
 	void setInterpreter(Interpreter* interpreter);
 	Interpreter* getInterpreter();

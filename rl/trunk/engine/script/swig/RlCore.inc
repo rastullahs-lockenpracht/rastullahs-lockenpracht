@@ -45,6 +45,7 @@ public:
     virtual Real getFogStart (void) const;
     virtual Real getFogEnd (void) const;	
     virtual void setAmbientLight(Real r, Real g, Real b);
+    virtual Vector3 getStartPoint() const;
 };
 
 class BSPWorld : public World {
@@ -243,6 +244,7 @@ private:
 public:
     static CoreSubsystem& getSingleton(void);
     
+    void loadMap(const String type, const String filename, const String startupScript = "");
     World* getWorld();
     void  makeScreenshot(const String& sName);
 };

@@ -42,7 +42,10 @@ void RubyInterpreter::initializeInterpreter(staticValueMethod func)
 	//Skript-Verzeichnisse der  Dateien duerfen auch in /script liegen
 	StringVector modules = CoreSubsystem::getSingleton().getActiveModules();
 	for (StringVector::iterator iter = modules.begin(); iter != modules.end(); iter++)
+	{
 		ruby_incpush(("modules/"+(*iter)+"/scripts").c_str());
+		ruby_incpush(("modules/"+(*iter)+"/scripts/maps").c_str());
+	}
 	
 	ruby_init_loadpath();
 	//Skriptname
@@ -71,14 +74,7 @@ void RubyInterpreter::initializeInterpreter(staticValueMethod func)
 VALUE RubyInterpreter::loadDlls(VALUE val)
 {
 #if OGRE_PLATFORM == PLATFORM_WIN32
-	/*rb_require("RlCore");
-	rb_require("RlSound");
-	rb_require("RlRules");
-	rb_require("RlUi");*/
 	rb_require("RlScript");
-
-	//rb_require("RlRules");    
-	//
 #else
     rb_require("libRlScript");
 #endif

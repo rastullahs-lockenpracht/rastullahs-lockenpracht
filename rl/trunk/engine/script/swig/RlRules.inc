@@ -75,6 +75,8 @@ namespace rl {
       
 	    static DsaManager& getSingleton(void);
 	    rl::Talent* getTalent(const CeGuiString& name) const;
+	    rl::Person* getPerson(const int id) const;
+	    
     };
     
     class Talent
@@ -133,6 +135,9 @@ namespace rl {
 
         virtual const CeGuiString& getDescription() const;
         virtual void setDescription(CeGuiString& description);   
+        
+        void setActor(rl::GameActor* actor);
+		rl::GameActor* getActor();
 
         void addAction(rl::Action *action, int option = ACT_NORMAL);
         //%extend {

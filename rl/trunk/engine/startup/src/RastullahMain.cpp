@@ -26,14 +26,20 @@ int main(int argc, char **argv)
 	rl::CoreSubsystem* core = new rl::CoreSubsystem();
 	Ogre::Log* log = Ogre::LogManager::getSingleton().getLog( "logs/rlCore.log" );
     log->logMessage("CoreSubsystem gestartet");
-    rl::SoundSubsystem* sound = new rl::SoundSubsystem();
+    
+	rl::SoundSubsystem* sound = new rl::SoundSubsystem();
 	log->logMessage("SoundSubsystem gestartet");
-    rl::RulesSubsystem* rules = new rl::RulesSubsystem();
+    
+	rl::RulesSubsystem* rules = new rl::RulesSubsystem();
 	log->logMessage("RulesSubsystem gestartet");
+	
 	rl::DialogSubsystem* dialog = new rl::DialogSubsystem();
 	log->logMessage("DialogSubsystem gestartet");
-    rl::UiSubsystem* ui = new rl::UiSubsystem();
+    
+	rl::UiSubsystem* ui = new rl::UiSubsystem();
 	log->logMessage("UiSubsystem gestartet");
+
+
     try {
         core->startCore();
     } catch(Ogre::Exception& oe) {

@@ -20,6 +20,7 @@
 #include "ActorManager.h"
 #include "GameLoop.h"
 #include "RubyInterpreter.h"
+#include "Exception.h"
 
 
 template<> rl::CoreSubsystem* Singleton<rl::CoreSubsystem>::ms_Singleton = 0;
@@ -53,7 +54,8 @@ namespace rl {
     }
 
 	void CoreSubsystem::startCore()
-    {		
+    {
+		getInterpreter()->execute("load 'startup.rb'");
 		Root::getSingleton().startRendering();
     }
 
@@ -90,12 +92,23 @@ namespace rl {
 
 	bool CoreSubsystem::initializeCoreSubsystem()
     {
+		static String CONF_DIR = "modules/common/conf/";
+
 		#if OGRE_PLATFORM == PLATFORM_WIN32
-			new Root( "plugins-win.cfg", "rastullah.cfg", "logs/ogre.log" );
+			new Root( 
+				CONF_DIR+"plugins-win.cfg", 
+				CONF_DIR+"rastullah.cfg", 
+				"logs/ogre.log" );
 		#elif OGRE_PLATFORM == PLATFORM_LINUX
-			new Root( "plugins-linux.cfg", "rastullah.cfg", "logs/ogre.log" );
+			new Root( 
+				CONF_DIR+"plugins-linux.cfg", 
+				CONF_DIR+"rastullah.cfg", 
+				"logs/ogre.log" );
 		#else
-			new Root( "plugins-mac.cfg", "rastullah.cfg", "logs/ogre.log" );
+			new Root( 
+				CONF_DIR+"plugins-mac.cfg", 
+				CONF_DIR+"rastullah.cfg", 
+				"logs/ogre.log" );
 		#endif
 
         initializeResources();
@@ -110,20 +123,14 @@ namespace rl {
         Log* log = LogManager::getSingleton().createLog( "logs/rlCore.log" );
         log->setLogDetail( LL_BOREME );
 		
-		new GameLoop();
         PhysicsManager* pm = new PhysicsManager();
+		mWorld = new BSPWorld();
+
+		new GameLoop();
         GameLoop::getSingleton().addSynchronizedTask( pm );
-        mWorld = new BSPWorld( );
 		mInterpreter=new RubyInterpreter();
 	//	mInterpreter->initializeInterpreter();
-		//mWorld = new NatureWorld();
-		//mWorld = new TerrainWorld();
 		new ActorManager( );
-
-		mWorld->loadScene("testraum.bsp");
-		mWorld->setSkyBox(true, "rl/dsa07");
-		//mWorld->loadScene("rastullah-testworld.cfg");
-		//mWorld->loadScene("terrain.cfg");
 
         return true;
     }
@@ -244,5 +251,21 @@ namespace rl {
 		mActiveModule = module;
 	}
 
+	void CoreSubsystem::loadMap(const String type, const String filename, const String startupScript)
+	{
+		/*if (type.compare("BSP") == 0)
+			mWorld = new BSPWorld( );
+		else if (type.compare("Nature") == 0)
+			mWorld = new NatureWorld();
+		else if (type.compare("Terrain") == 0)
+			mWorld = new TerrainWorld();
+		else
+			Throw(RuntimeException, "Unknown world type");*/
+
+		mWorld->loadScene(filename);
+
+		if (startupScript.length() > 0)
+			rb_require(startupScript.c_str());
+	}
 
 }

@@ -33,6 +33,8 @@ public:
 
 	Actor* getActiveActor() const;
 	void setActiveActor(Actor* actor);
+
+	virtual Vector3 getStartPoint() const;
 	
     virtual void clearScene(void) = 0;
 	virtual void loadScene(const String& levelName ) = 0;
