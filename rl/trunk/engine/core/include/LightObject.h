@@ -33,7 +33,15 @@ namespace rl {
         /// Nur schon gebrauchsfertig gecastet.
         Ogre::Light* getLight();
 
-        virtual Ogre::String getType();
+        virtual Ogre::String getObjectType();
+        
+        void setAttenuation(Ogre::Real range, Ogre::Real constant,
+            Ogre::Real linear, Ogre::Real quadric);
+        void setDiffuseColour(Ogre::Real red, Ogre::Real green, Ogre::Real blue);
+        void setDirection(Ogre::Real x, Ogre::Real y, Ogre::Real z);
+        void setSpecularColour(Ogre::Real red, Ogre::Real green, Ogre::Real blue);
+        void setSpotlightRange(Ogre::Real innerangle, Ogre::Real outerangle,
+            Ogre::Real falloff);
     };
 }
 #endif

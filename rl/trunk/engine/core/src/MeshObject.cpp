@@ -102,7 +102,7 @@ namespace rl {
 		}
 	}
     
-    String MeshObject::getType()
+    String MeshObject::getObjectType()
     {
         return "MeshObject";
     }
@@ -119,4 +119,15 @@ namespace rl {
         size = ((x - scaler) - (n + scaler));
         mSize = size;
     }
+    
+    void MeshObject::setCastShadows (bool enabled)
+    {
+        getEntity()->setCastShadows(enabled);
+    }
+
+    bool MeshObject::getCastShadows (void) const
+    {
+        return getEntity()->getCastShadows();
+    }
+
 }

@@ -46,7 +46,10 @@ namespace rl {
 		    Ogre::Real speed, unsigned int timesToPlay);
         void stopAnimation(const Ogre::String&);
         
-        virtual Ogre::String getType();
+        void setCastShadows (bool enabled);
+        bool getCastShadows (void) const;
+        
+        virtual Ogre::String getObjectType();
     private:
         Ogre::Vector3 mSize;
         void calculateSize();

@@ -33,7 +33,7 @@ namespace rl {
         return reinterpret_cast<Camera*>(mMovableObject);
     }
 
-    String CameraObject::getType()
+    String CameraObject::getObjectType()
     {
         return "CameraObject";
     }

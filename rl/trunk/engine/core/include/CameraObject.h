@@ -33,7 +33,7 @@ namespace rl {
         /// Nur schon gebrauchsfertig gecastet.
         Ogre::Camera* getCamera();
 
-        virtual Ogre::String getType();
+        virtual Ogre::String getObjectType();
     };
 }
 #endif

@@ -180,6 +180,9 @@ public:
 	RlAnimation* startAnimation(const Ogre::String& animName, 
 		Ogre::Real speed, unsigned int timesToPlay);
     void stopAnimation(const Ogre::String&);
+    
+    void setCastShadows (bool enabled);
+    bool getCastShadows (void) const;    
 };
 
 class LightObject : public ActorControlledObject
@@ -187,6 +190,13 @@ class LightObject : public ActorControlledObject
 private:
     LightObject(const Ogre::String& name, Ogre::Light::LightTypes type);
 public:
+    void setAttenuation(float range, float constant,
+        float linear, float quadric);
+    void setDiffuseColour(float red, float green, float blue);
+    void setDirection(float x, float y, float z);
+    void setSpecularColour(float red, float green, float blue);
+    void setSpotlightRange(float innerangle, float outerangle,
+        float falloff);
 };
 
 class CameraObject : public ActorControlledObject

@@ -35,8 +35,36 @@ namespace rl {
         return reinterpret_cast<Light*>(mMovableObject);
     }
 
-    String LightObject::getType()
+    String LightObject::getObjectType()
     {
         return "LightObject";
+    }
+    
+    void LightObject::setAttenuation( Real range, Real constant, Real linear,
+        Real quadric)
+    {
+        getLight()->setAttenuation( range, constant, linear, quadric );
+    }
+
+    void LightObject::setDiffuseColour( Real red, Real green, Real blue)
+    {
+        getLight()->setDiffuseColour(red,green,blue);
+    }
+
+    void LightObject::setDirection( Real x, Real y, Real z)
+    {
+        getLight()->setDirection(x,y,z);
+    }
+
+    void LightObject::setSpecularColour( Real red, Real green, Real blue)
+    {
+        getLight()->setSpecularColour(red,green,blue);
+    }
+
+    void LightObject::setSpotlightRange( Real innerangle, Real outerangle,
+        Real falloff)
+    {
+        getLight()->setSpotlightRange(Degree(innerangle), Degree(outerangle),
+            falloff);
     }
 }

@@ -77,7 +77,7 @@ namespace rl {
             it != mActors.end();) 
         {
             Actor* actor = it->second;
-            if (actor->getControlledObject()->getType() != "CameraObject")
+            if (actor->getControlledObject()->getObjectType() != "CameraObject")
             {
                 mActors.erase(it++);
                 destroyActor(actor);
