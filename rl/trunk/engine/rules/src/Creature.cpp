@@ -36,6 +36,11 @@ namespace rl
         return (*it).second;
     }
 
+	const Creature::TalentMap& Creature::getAllTalents() const
+	{
+		return mTalente;
+	}
+
     void Creature::setTalent(int key, int value)
     {
         TalentMap::iterator it = mTalente.find(key);

@@ -56,6 +56,7 @@ namespace rl
         virtual int getTalent(int id) const;
         virtual void setTalent(int id, int value);
         virtual void modifyTalent(int id, int mod);
+		virtual const Creature::TalentMap& getAllTalents() const;
 
         virtual void modifyLe(int mod);
         virtual int getLe();

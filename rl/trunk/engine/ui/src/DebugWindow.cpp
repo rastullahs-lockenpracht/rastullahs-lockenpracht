@@ -17,41 +17,14 @@ namespace rl
 
 	DebugWindow::DebugWindow()
 	{
+		mWindow = WindowManager::getSingleton().loadWindowLayout((utf8*)"debugwindow.xml");
+
+		mText = reinterpret_cast<StaticText*>(
+			WindowManager::getSingleton().getWindow(
+			(utf8*)"DebugWindow/Text"));
+		mText->moveToFront();
+		
 		Window* rootWindow = WindowManager::getSingleton().getWindow((utf8*)"root_wnd");
-        mWindow = WindowManager::getSingleton().createWindow(
-			CEGUI::String("Taharez StaticText"), 
-			CEGUI::String("DebugWindow"));
-		mWindow->setWidth(1.0f);
-		mWindow->setHeight(0.20f);
-		mWindow->setXPosition(Relative, 0.05f);
-		mWindow->setYPosition(Relative, 0.75f);
-		mWindow->setFont((utf8*)"Tahoma-8");
-
-
-		MultiLineEditbox* mle = reinterpret_cast<MultiLineEditbox*>(WindowManager::getSingleton().createWindow(
-			CEGUI::String("Taharez MultiLineEditbox"), 
-			CEGUI::String("DebugWindow/Statistics")));
-
-		mle->setWidth(Relative, 0.9f);
-		mle->setHeight(Relative, 0.50f);
-		mle->setXPosition(Relative, 0.05f);
-		mle->setYPosition(Relative, 0.05f);
-		mle->setFont((utf8*)"Tahoma-8");
-		mle->disable();
-		mle->setReadOnly(true);
-		
-
-        mText = reinterpret_cast<StaticText*>(WindowManager::getSingleton().createWindow(
-			CEGUI::String("Taharez StaticText"), 
-			CEGUI::String("DebugWindow/Text")));
-		mText->setWidth(Relative, 0.9f);
-		mText->setHeight(Relative, 0.25f);
-		mText->setXPosition(Relative, 0.05f);
-		mText->setYPosition(Relative, 0.60f);
-		mText->setFont((utf8*)"Tahoma-8");
-		
-		mWindow->addChildWindow(mText);
-		mWindow->addChildWindow(mle);
 		rootWindow->addChildWindow(mWindow);
 
 		Root::getSingleton().addFrameListener(this);

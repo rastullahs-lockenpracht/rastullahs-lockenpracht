@@ -75,13 +75,12 @@ namespace rl {
 		//Initializing InputManager
         new InputManager();
 		
+		new DebugWindow();
+        DebugWindow::getSingleton().setVisible(true);
+
 		new CeConsole();
-        new RubyInterpreter();        
         CeConsole::getSingleton().setInterpreter( new RubyInterpreter() );
         CeConsole::getSingleton().getInterpreter()->initializeInterpreter();
-
-        new DebugWindow();
-        DebugWindow::getSingleton().setVisible(false);
 
         InputManager::getSingleton().addKeyListener(DebugWindow::getSingletonPtr());
 
@@ -96,7 +95,7 @@ namespace rl {
             GameLoop::getSingleton().addSynchronizedTask(mGameController);
         }
 
-		DialogWindow::runTest();
+//		DialogWindow::runTest();
     }
 
     void UiSubsystem::requestExit()

@@ -3,6 +3,7 @@
 #include "DialogWindow.h"
 #include "InputManager.h"
 #include "DebugWindow.h"
+#include "CharacterSheetWindow.h"
 
 namespace rl {
 
@@ -11,42 +12,21 @@ using namespace std;
 
 DialogWindow::DialogWindow()
 {
-	Window* dialogWindow = static_cast<Listbox*>(WindowManager::getSingleton().createWindow((utf8*)"Taharez Frame Window", (utf8*)"DialogWindow"));
-	dialogWindow->setMetricsMode(Absolute);
-	dialogWindow->setPosition(Relative, Point(0.25f, 0.25f));
-	dialogWindow->setSize(Absolute, Size(400, 300));
+	Window* dialogWindow = WindowManager::getSingleton().loadWindowLayout((utf8*)"dialogwindow.xml");
 
-	mImage = static_cast<StaticImage*>(WindowManager::getSingleton().createWindow((utf8*)"Taharez StaticImage", dialogWindow->getName()+(utf8*)"/Image"));
-	mImage->setPosition(Absolute, Point(2*28, 2*30));
-	mImage->setSize(Absolute, Size(2*64, 2*64));
-
-	mName = static_cast<StaticText*>(WindowManager::getSingleton().createWindow((utf8*)"Taharez StaticText", dialogWindow->getName()+(utf8*)"/Name"));
-	mName->setPosition(Absolute, Point(2*12, 2*100));
-	mName->setSize(Absolute, Size(2*100, 2*20));
-	mName->setHorizontalFormatting(StaticText::HorzCentred);
-		
-	mQuestion = static_cast<StaticText*>(WindowManager::getSingleton().createWindow((utf8*)"Taharez StaticText", dialogWindow->getName()+(utf8*)"/Question"));
-	mQuestion->setPosition(Absolute, Point(2*120, 2*24));
-	mQuestion->setSize(Absolute, Size(2*268, 2*20));
-
-	mDialogOptions = static_cast<Listbox*>(WindowManager::getSingleton().createWindow((utf8*)"Taharez Listbox", dialogWindow->getName()+(utf8*)"/OptionList"));
-	mDialogOptions->setPosition(Absolute, Point(2*120, 2*50));
-	mDialogOptions->setSize(Absolute, Size(2*268, 2*238));
-	mDialogOptions->setMultiselectEnabled(false);
-	mDialogOptions->setEnabled(true);
+	mImage = reinterpret_cast<StaticImage*>(WindowManager::getSingleton().getWindow((utf8*)"DialogWindow/Image"));
+	mName = reinterpret_cast<StaticText*>(WindowManager::getSingleton().getWindow((utf8*)"DialogWindow/Name"));
+	mQuestion = reinterpret_cast<StaticText*>(WindowManager::getSingleton().getWindow((utf8*)"DialogWindow/Question"));
+	mDialogOptions = reinterpret_cast<Listbox*>(WindowManager::getSingleton().getWindow((utf8*)"DialogWindow/OptionList"));
 	mDialogOptions->subscribeEvent(Listbox::SelectionChanged, boost::bind(&DialogWindow::handleSelectOption, this, _1));
 	
-	dialogWindow->addChildWindow(mDialogOptions);
-    dialogWindow->addChildWindow(mQuestion);
-	dialogWindow->addChildWindow(mImage);
-	dialogWindow->addChildWindow(mName);
-
 	Window* rootWindow = WindowManager::getSingleton().getWindow((utf8*)"root_wnd");
 	rootWindow->addChildWindow(dialogWindow);	
 }
 
 DialogWindow::~DialogWindow()
 {
+	// TO DO: DialogWindow::~DialogWindow()
 }
 
 void DialogWindow::addLine(string text)
@@ -58,6 +38,7 @@ void DialogWindow::addLine(string text)
 
 void DialogWindow::removeLine(int num)
 {
+	// TO DO: DialogWindow::removeLine(int num)
 }
 
 unsigned int DialogWindow::count()
@@ -73,6 +54,7 @@ void DialogWindow::setVariableValue(string name, string value)
 
 void DialogWindow::setCallback(string function)
 {
+	// TO DO: DialogWindow::setCallback(string function)
 }
 
 void DialogWindow::show()
@@ -87,6 +69,7 @@ void DialogWindow::hide()
 
 int DialogWindow::getSelectedOption()
 {
+	// TO DO: DialogWindow::getSelectedOption()
 	return 0;
 }
 
@@ -115,7 +98,7 @@ void DialogWindow::updateValues()
 
 void DialogWindow::runTest()
 {
-	DialogWindow* dialog = new DialogWindow();
+	/*DialogWindow* dialog = new DialogWindow();
 	dialog->setQuestion("Wie ist dein Name?");
 	dialog->addLine("Hab ich vergessen");
 	dialog->addLine("Ich heisse %NAME%");
@@ -125,9 +108,12 @@ void DialogWindow::runTest()
 
 	dialog->setVariableValue("NAME", "Heinz-Peter");
 	dialog->setName("Klaus-Dieter");
-	dialog->show();
+	dialog->show();*/
 
 	DebugWindow::getSingleton().setVisible(true);
+
+	/*CharacterSheetWindow* sheet = new CharacterSheetWindow();
+	sheet->show();*/
 }
 
 void DialogWindow::handleSelectOption(const CEGUI::EventArgs& e)

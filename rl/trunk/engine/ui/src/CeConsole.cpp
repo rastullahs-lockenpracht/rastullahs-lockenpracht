@@ -27,34 +27,31 @@ namespace rl
 	{
 		using namespace CEGUI;
 		
-		mDisplay = static_cast<Listbox*>(WindowManager::getSingleton().createWindow((utf8*)"Taharez Listbox", (utf8*)"Console/Display"));
-		mDisplay->setPosition(Point(0.02f, 0.05f));
-		mDisplay->setSize(Size(0.96f, 0.82f));
-		mCommandLine = static_cast<Editbox*>(WindowManager::getSingleton().createWindow((utf8*)"Taharez Editbox", (utf8*)"Console/Inputbox"));
-		mCommandLine->setReadOnly(false);
-		mCommandLine->setPosition(Point(0.02f, 0.90f));
-		mCommandLine->setSize(Relative, Size(0.96f, 0.08f));
-		mCommandLine->setText((utf8*)"");
-		mCommandLine->enable();
-		mCommandLine->activate();
-		mCommandLine->subscribeEvent(Editbox::KeyDownEvent, boost::bind(&CeConsole::handleKeyDown, this, _1));
-		mCommandLine->subscribeEvent(Editbox::TextAcceptedEvent, boost::bind(&CeConsole::handleEnter, this, _1));
+		mConsoleWindow = 
+			WindowManager::getSingleton().loadWindowLayout((utf8*)"console.xml");
 		
-		mConsoleWindow = WindowManager::getSingleton().createWindow(
-			(utf8*)"Taharez Frame Window", 
-			(utf8*)"Console");
-		mConsoleWindow->setWidth(Relative, 1.0f);
-		mConsoleWindow->setAlpha(0.5);
-		mConsoleWindow->setHeight(Absolute, 480);
-		mConsoleWindow->addChildWindow(mDisplay);
-		mConsoleWindow->addChildWindow(mCommandLine);
-		mConsoleWindow->subscribeEvent(FrameWindow::KeyDownEvent, boost::bind(&CeConsole::handleKeyDown, this, _1));
+		mDisplay = reinterpret_cast<Listbox*>(
+			WindowManager::getSingleton().getWindow((utf8*)"Console/Display"));
+		mCommandLine = reinterpret_cast<Editbox*>(
+			WindowManager::getSingleton().getWindow((utf8*)"Console/Inputbox"));
 
-		mHistory.clear();		
+		mConsoleWindow->subscribeEvent(
+			FrameWindow::KeyDownEvent, 
+			boost::bind(&CeConsole::handleKeyDown, this, _1));
+		mCommandLine->subscribeEvent(
+			Editbox::KeyDownEvent, 
+			boost::bind(&CeConsole::handleKeyDown, this, _1));
+		mCommandLine->subscribeEvent(
+			Editbox::TextAcceptedEvent, 
+			boost::bind(&CeConsole::handleEnter, this, _1));
+		mDisplay->moveToFront();
+
+		mHistory.clear();
+		mConsoleWindow->hide();
+		mState = CS_CLOSED;
 		
 		Window* rootWindow = WindowManager::getSingleton().getWindow((utf8*)"root_wnd");
 		rootWindow->addChildWindow(mConsoleWindow);	
-		close();
 	}
 
 	CeConsole::~CeConsole()
@@ -99,8 +96,8 @@ namespace rl
 
 	void CeConsole::handleEnter(const CEGUI::EventArgs& e)
 	{	
-		CEGUI::String command = ">" + mCommandLine->getText();
-		appendTextRow(command, 0xFF7FFF7F);
+		CEGUI::String command = mCommandLine->getText();
+		appendTextRow(">" + command, 0xFF7FFF7F);
 				
 		if(mInterpreter != 0)
 			mPrompt = mInterpreter->execute(command.c_str());
@@ -113,7 +110,7 @@ namespace rl
 
 	void CeConsole::write(String output)
 	{
-                CEGUI::String temp = CEGUI::String(output);		
+        CEGUI::String temp = CEGUI::String(output);		
 		appendTextRow(temp, 0xFF7F7F7F);
 		LogManager::getSingleton().logMessage(output);
 	}
@@ -124,7 +121,7 @@ namespace rl
 
 		CEGUI::String textLeft = CEGUI::String(text);
 		const CEGUI::Font* font = mDisplay->getFont();
-		unsigned int width = mDisplay->getAbsoluteWidth()*0.95;
+		unsigned int width = /*mDisplay->getAbsoluteWidth()*/500*0.95;
 
 		while (textLeft.length() > 0)
 		{
