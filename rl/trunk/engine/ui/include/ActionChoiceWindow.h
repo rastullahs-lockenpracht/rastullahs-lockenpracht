@@ -42,6 +42,7 @@ namespace rl {
 	private:
 		
 		class ActionNode;
+		typedef std::set<ActionNode*> NodeSet;
 	
 		static CEGUI::Point 
 			getPositionOnCircle(
@@ -93,16 +94,16 @@ namespace rl {
 	
 			void addChild(ActionNode* child);
 			void removeChild(ActionNode* child);
-			const std::set<ActionNode*>& getChildren();
+			const NodeSet& getChildren();
 			
 			bool isLeaf() { return mLeaf; }
 			
 			static ActionNode* createActionTree(const ActionVector& actions, ActionGroup* rootGroup = NULL);
-			static std::set<ActionNode*> getAllNodesNotBelow(ActionNode* treeRoot, ActionNode* targetNode);
-			static void getAllNodes(ActionNode* treeRoot, std::set<ActionNode*>& node);
+			static NodeSet getAllNodesNotBelow(ActionNode* treeRoot, ActionNode* targetNode);
+			static void getAllNodes(ActionNode* treeRoot, NodeSet& node);
 	
 		private:
-			std::set<ActionNode*> mChildren;
+			NodeSet mChildren;
 			ActionNode* mParent;
 			bool mLeaf;
 			Action* mAction;

@@ -119,13 +119,13 @@ namespace rl {
 			
 			if (button != NULL)
 			{
-				const set<ActionNode*> nodesToHide = 
+				const NodeSet nodesToHide = 
 					ActionNode::getAllNodesNotBelow(treeRoot, actions);
 				UiSubsystem::getSingleton().log(
 					StringConverter::toString(nodesToHide.size())+" nodes to hide",
 					"ActionChoiceWindow::setButtonActions");
 					
-				for (set<ActionNode*>::iterator iter = nodesToHide.begin(); iter != nodesToHide.end(); iter++)
+				for (NodeSet::const_iterator iter = nodesToHide.begin(); iter != nodesToHide.end(); iter++)
 				{			
 					button->subscribeEvent(
 						Window::EventMouseEnters,
@@ -137,8 +137,8 @@ namespace rl {
 				}
 			}
 
-			const set<ActionNode*> children = actions->getChildren();
-			for (set<ActionNode*>::iterator iter = children.begin(); iter != children.end(); iter++)
+			const NodeSet children = actions->getChildren();
+			for (NodeSet::const_iterator iter = children.begin(); iter != children.end(); iter++)
 			{
 				if (button != NULL)
 				{					
@@ -167,6 +167,8 @@ namespace rl {
 		
 		UiSubsystem::getSingleton().log(
 			"Ende", "ActionChoiceWindow::activateAction");
+
+		return true;
 	}
 
 	void ActionChoiceWindow::createButtons(
@@ -191,7 +193,7 @@ namespace rl {
 			const set<ActionNode*> children = actions->getChildren();
 			float angleStep = angleWidth * 2.0 / (float)children.size();
 			float ang = children.size()>1 ? angle - angleWidth : angle;
-			for (set<ActionNode*>::iterator iter = children.begin(); 
+			for (NodeSet::const_iterator iter = children.begin(); 
 				iter != children.end(); iter++)
 			{
 				Point centerChild = getPositionOnCircle(center, radius, ang);
@@ -351,18 +353,18 @@ namespace rl {
 		nodes.insert(treeRoot);
 		const set<ActionNode*> children = treeRoot->getChildren();
 		
-		for (set<ActionNode*>::iterator iter = children.begin(); iter != children.end(); iter++)
+		for (NodeSet::const_iterator iter = children.begin(); iter != children.end(); iter++)
 			getAllNodes(*iter, nodes);
 	}
 	
-	std::set<ActionChoiceWindow::ActionNode*> ActionChoiceWindow::ActionNode::getAllNodesNotBelow(
+	ActionChoiceWindow::NodeSet ActionChoiceWindow::ActionNode::getAllNodesNotBelow(
 		ActionNode* treeRoot, ActionChoiceWindow::ActionNode* targetNode)
 	{
-		set<ActionNode*> allNodes;
+		NodeSet allNodes;
 		getAllNodes(treeRoot, allNodes);
 		
-		set<ActionNode*> nodes;
-		for (set<ActionNode*>::iterator iter = allNodes.begin(); iter != allNodes.end(); iter++)
+		NodeSet nodes;
+		for (NodeSet::iterator iter = allNodes.begin(); iter != allNodes.end(); iter++)
 		{
 			bool leaveOut = false;
 			
