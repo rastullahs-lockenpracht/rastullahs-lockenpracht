@@ -96,6 +96,8 @@ void SoundResource::FadeOut::setThat(SoundResource *that)
  */
 void SoundResource::FadeOut::operator()()
 {
+    cerr << "FadeOut"<<endl;
+    
     that->fadeOut();
 }
  
@@ -428,6 +430,8 @@ void SoundResource::fadeOut(unsigned int msec)
     {
         setFadeOut(msec);
         mFadeOutThread = new thread(SoundResource::mFadeOutFunctor);
+    } else {
+        alSourceStop(mSource);
     } 
 }
 /**

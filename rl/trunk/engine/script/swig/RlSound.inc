@@ -38,8 +38,8 @@ namespace rl {
         static MusicManager& getSingleton();
         static MusicManager* getSingletonPtr();
 
-        void playSong();
-        void stopSong();
+        void playSong(unsigned int fade = 0);
+        void stopSong(unsigned int fade = 0);
 
         const bool isPlaying() const;
         const bool isSourcePlaying() const;

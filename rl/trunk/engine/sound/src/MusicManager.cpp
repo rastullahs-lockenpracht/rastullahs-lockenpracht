@@ -83,19 +83,6 @@ MusicManager::~MusicManager()
     mShouldExit = true;
 }
 
-/**
- * Gibt die Suchmuster fuer die Extension zurueck.
- * @author JoSch
- * @date 06-18-2004
- */
-StringList MusicManager::getExtension()
-{
-    StringList result;
-    result.push_back("*.ogg");
-    result.push_back("*.wav");
-    
-    return result;
-}
 
 /**
  * Stoppt den aktuellen Song. Er kann danach wieder
@@ -103,11 +90,11 @@ StringList MusicManager::getExtension()
  * @author JoSch
  * @date 04-12-2004
  */
-void MusicManager::stopSong()
+void MusicManager::stopSong(unsigned int fade)
 {
     if (mSource != 0)
     {
-        mSource->stop();
+        mSource->stop(fade);
     }
     mShouldPlay = false;
 }
@@ -117,7 +104,7 @@ void MusicManager::stopSong()
  * @author JoSch
  * @date 04-12-2004
  */
-void MusicManager::playSong()
+void MusicManager::playSong(unsigned int fade)
 {
     if (mSource == 0)
     {
@@ -126,7 +113,7 @@ void MusicManager::playSong()
     // Wenn mSource immer noch NULL ist, dann haben wir nicht ins der Liste.
     if (mSource != 0)
     {
-        mSource->play();
+        mSource->play(fade);
         mShouldPlay = true;
     } else {
         mShouldPlay = false;
@@ -370,17 +357,6 @@ void MusicManager::MusicFunctor::operator()()
     } 
 }
 
-/**
- * @param resName. Der Name der Soundresource, die erzeugt
- * werden soll.
- * @author JoSch
- * @date 06-18-2004
- */
-Resource* MusicManager::create(const String& resName)
-{
-    SoundResource *newSound = new SoundResource(resName);
-    return newSound;
-}
 
 /**
  * @author JoSch

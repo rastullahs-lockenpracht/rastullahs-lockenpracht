@@ -55,7 +55,7 @@ class _RlSoundExport MusicManager : public Ogre::Singleton<MusicManager> {
         bool mShouldPlay;
         /// Ob der Thread beendet werden soll. WICHTIG: Hat nicht mit dem Abspielen zu tun.
         bool mShouldExit;
-        /// Unterklasse, die den Thread enthält
+        /// Unterklasse, die vom Thread benutzt wird.
         class MusicFunctor {
             public:
                 /// Der Standardkonstruktor
@@ -68,10 +68,6 @@ class _RlSoundExport MusicManager : public Ogre::Singleton<MusicManager> {
         /// Die aktuelle Playlist. Nicht identisch mit der Resourcenliste
         StringList mPlayList;       
     
-        /// Welche Dateiendung soll verwendet werden.
-        virtual StringList getExtension();
-        
-            
     public:
         /// Gibt das Singleton zurueck.
         static MusicManager& getSingleton(void);
@@ -82,9 +78,9 @@ class _RlSoundExport MusicManager : public Ogre::Singleton<MusicManager> {
         /// Der Standard-Destruktor.
         ~MusicManager();
         /// Den aktuellen Song abspielen.
-        void playSong();
+        void playSong(unsigned int fade = 0);
         /// Das Spielen des aktuellen Songs abbrechen.
-        void stopSong();
+        void stopSong(unsigned int fade = 0);
         /// Den Zustand des Songs zurueckgeben.
         const bool isSourcePlaying() const;
         /// Ueberpruefen, wie der Zustand des Musikmanagers ist.
@@ -95,8 +91,6 @@ class _RlSoundExport MusicManager : public Ogre::Singleton<MusicManager> {
         void setGain(ALfloat newGain);
         /// Relative Lautstaerke holen.
         ALfloat getGain();
-        /// Eine Resource erzeugen
-        Ogre::Resource* create(const Ogre::String& resName);
         /// Ob die Songliste wiederholt abgespielt werden soll.
         bool isLooping();
         /// Setzt, ob die Songliste wiederholt werden soll.
