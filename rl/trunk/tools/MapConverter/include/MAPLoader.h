@@ -47,7 +47,7 @@ public:
     bool LoadMAPFile(String *sFile, CWorld *World, CTextureManager *TextureManager);
 
 private:
-    bool ReadEntity(StreamReader *MAPFile, CEntity *Entity, CTextureManager *TextureManager);
+    bool ReadEntity(StreamReader *MAPFile, CEntity *Entity, CTextureManager *TextureManager, String **errEntity);
     bool ReadBrush(StreamReader *MAPFile, CBrush *Brush, CTextureManager *TextureManager);
     int ProcessLine(String **sLine);
 

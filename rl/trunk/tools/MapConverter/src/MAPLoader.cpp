@@ -48,28 +48,34 @@ bool CMAPLoader::LoadMAPFile(String *sFile, CWorld *World, CTextureManager *Text
     {
         String *sLine = NULL;
         CEntity *Entity;
+        String* errEntity;
 
         while((sLine = MAPFile->ReadLine()) != NULL)
         {
+            errEntity = S"     *  ";
+
             switch(ProcessLine(&sLine))
             {
                 case LineTypeEmpty:
                     continue;
                 case LineTypeOpenBrace:
                     Entity = new CEntity();
-                    if(ReadEntity(MAPFile, Entity, TextureManager))
+
+                    if(ReadEntity(MAPFile, Entity, TextureManager, &errEntity))
                     {
                         World->AddEntity(Entity);
                     }
                     else
                     {
-                        LogManager::getSingletonPtr()->Log(String::Concat(S"Error loading ", sFile, S" on line ", iLine.ToString(), S".", S"\n"), Color::Red);
+                        LogManager::getSingletonPtr()->Log(String::Concat(S"Error loading ", sFile, S" on line ", iLine.ToString(), S". Entity nicht lesbar.", S"\n"), Color::Red);
+                        LogManager::getSingletonPtr()->Log( errEntity , Color::Red);
+                        LogManager::getSingletonPtr()->Log( sLine , Color::Red);
                         MAPFile->Close();
                         return false;
                     }
                     break;
                 default:
-                    LogManager::getSingletonPtr()->Log(String::Concat(S"Error loading ", sFile, S" on line ", iLine.ToString(), S".", S"\n"), Color::Red);
+                    LogManager::getSingletonPtr()->Log(String::Concat(S"Error loading ", sFile, S" on line ", iLine.ToString(), S". Unbekannte Zeilenart.", S"\n"), Color::Red);
                     MAPFile->Close();
                     return false;
             };
@@ -87,10 +93,11 @@ bool CMAPLoader::LoadMAPFile(String *sFile, CWorld *World, CTextureManager *Text
     return World->GetEntities()->Count != 0;
 }
 
-bool CMAPLoader::ReadEntity(StreamReader *MAPFile, CEntity *Entity, CTextureManager *TextureManager)
+bool CMAPLoader::ReadEntity(StreamReader *MAPFile, CEntity *Entity, CTextureManager *TextureManager, String **errEntity)
 {
     String *sLine = NULL;
     CBrush *Brush;
+    
     while((sLine = MAPFile->ReadLine()) != NULL)
     {
         switch(ProcessLine(&sLine))
@@ -99,7 +106,10 @@ bool CMAPLoader::ReadEntity(StreamReader *MAPFile, CEntity *Entity, CTextureMana
                 continue;
             case LineTypeArgVal:
                 if(!sLine->StartsWith("\"") || ! sLine->EndsWith("\""))
+                {
+                    *errEntity = String::Concat( *errEntity, S"\nAttributszeile beginnt/endet nicht mit \"" );
                     return false;
+                }
 
                 sLine = sLine->Remove(0, 1);
                 sLine = sLine->Remove(sLine->Length - 1, 1);
@@ -109,8 +119,10 @@ bool CMAPLoader::ReadEntity(StreamReader *MAPFile, CEntity *Entity, CTextureMana
 
                 iPos = sLine->IndexOf("\" \"");
                 if(iPos == -1)
+                {
+                    *errEntity = String::Concat( *errEntity, S"\nNicht blah gefunden" );
                     return false;
-
+                }
                 sArg = sLine->Substring(0, iPos);
                 sVal = sLine->Substring(iPos + 3);
                 Entity->AddArgVal(new CArgVal(sArg, sVal));
@@ -123,12 +135,14 @@ bool CMAPLoader::ReadEntity(StreamReader *MAPFile, CEntity *Entity, CTextureMana
                 }
                 else
                 {
+                    *errEntity = String::Concat( *errEntity, S"\nKonnte Brush nicht erzeugen" );
                     return false;
                 }
                 break;
             case LineTypeCloseBrace:
                 return true;
             default:
+                *errEntity = String::Concat( *errEntity, S"\nUnbekannte Zeilenart" );
                 return false;
         };
     }
@@ -396,12 +410,13 @@ int CMAPLoader::ProcessLine(String **sLine)
     int iPos;
 
     iPos = (*sLine)->IndexOf("//");
+
     if(iPos != -1)
         *sLine = (*sLine)->Remove(iPos, (*sLine)->Length - iPos);
 
-    iPos = (*sLine)->IndexOf(";");
+    /*iPos = (*sLine)->IndexOf(";");
     if(iPos != -1)
-        *sLine = (*sLine)->Remove(iPos, (*sLine)->Length - iPos);
+        *sLine = (*sLine)->Remove(iPos, (*sLine)->Length - iPos);*/
 
     *sLine = (*sLine)->Trim();
 

@@ -247,7 +247,8 @@ namespace MapConverter
                         
                         try
                         {
-                            mapLoader->LoadMAPFile(mapFile,world,textureManager);
+                            if( !mapLoader->LoadMAPFile(mapFile,world,textureManager) )
+                                throw new Exception( S"Konnte Map nicht laden" ); 
 
 
                             if( world->GetWADString(&wadString) )
@@ -290,7 +291,7 @@ namespace MapConverter
                         catch(Exception *e)
                         {
                             sw->Close();
-                            MessageBox::Show( S"Konnte Map nicht konvertieren", S"Fehler" );
+                            MessageBox::Show( String::Concat(S"Konnte Map nicht konvertieren: \n\n", e->get_Message() ), S"Fehler" );
                         }
 
                         

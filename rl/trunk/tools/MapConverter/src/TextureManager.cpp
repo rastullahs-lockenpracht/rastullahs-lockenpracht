@@ -100,9 +100,17 @@ void CTextureManager::LoadTextures(String *WADString, String *WADPath )
     for(int i = 0; i < WADs->Count; i++)
     {
         bWADFound = false;
+        String* wadChanged = WADs[i]->Replace( "\\\\", "\\");
+        String* justWAD = S"";
 
-        WAD = String::Concat(pathName, WADs[i])->Replace("\\\\", "\\");
+        
 
+        int iPos = wadChanged->LastIndexOf("\\");
+
+        if( iPos != -1 )
+            justWAD = wadChanged->Substring( iPos );
+
+        WAD = String::Concat( pathName, justWAD ) ;
         bWADFound = System::IO::File::Exists(WAD);
 
         if(!bWADFound)
@@ -112,7 +120,7 @@ void CTextureManager::LoadTextures(String *WADString, String *WADPath )
                 if(Drives[j]->Length == 0)
                     continue;
 
-                WAD = String::Concat(Drives[j], WADs[i])->Replace("\\\\", "\\");
+                WAD = String::Concat( Drives[j], wadChanged ) ;
                 bWADFound = System::IO::File::Exists(WAD);
 
                 if(bWADFound)
@@ -130,7 +138,7 @@ void CTextureManager::LoadTextures(String *WADString, String *WADPath )
         }
         else
         {
-           LogManager::getSingletonPtr()->Log(String::Concat(WADs[i], S" not found.", S"\n"), Color::Red);
+           LogManager::getSingletonPtr()->Log(String::Concat(justWAD, S" was nowhere to be found.", S"\n"), Color::Red);
         }
     }
     
