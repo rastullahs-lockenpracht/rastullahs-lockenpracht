@@ -24,13 +24,11 @@ namespace rl
 		addToRoot(mWindow);
 
 		Root::getSingleton().addFrameListener(this);
-		InputManager::getSingleton().addKeyListener(this);
 	}
 
 	DebugWindow::~DebugWindow()
 	{
 		Root::getSingleton().removeFrameListener(this);
-		InputManager::getSingleton().removeKeyListener(this);
     }
 
     void DebugWindow::setText(const Ogre::String& text)
