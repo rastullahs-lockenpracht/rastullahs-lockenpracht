@@ -1,5 +1,5 @@
 /* MusicManager.cpp - Spielt eine Playlist ab.
- * (C) 2004. Team Pantheon. www.team-pantheon.de
+ * (C) 2003-2005. Team Pantheon. www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -63,7 +63,6 @@ MusicManager::MusicManager() : ResourceManager(),
     mShouldExit(false),
     mMusicThread()
 {
-    addSounds();
     mMusicThread.start();
 }
 
@@ -173,7 +172,6 @@ void MusicManager::setNextSong()
         mSource->unload();
         mSource = 0;
     }
-    printf("getNextSong\n");
     RlAssert(mSource == 0, "Fehler beim Stoppen des aktuellen Musikstuecks");
     // Wir setzen jetzt den naechsten Song.
     mSource = next;
@@ -397,10 +395,14 @@ void MusicManager::addPlayList(StringList list)
  * @author JoSch
  * @date 01-27-2005
  */
-void MusicManager::addSounds()
+void MusicManager::addSoundsIntoPlayList()
 {
-    ResourceManager::addSounds();
-    
+    ResourceMapIterator it = getResourceIterator();
+    while (it.hasMoreElements())
+    {
+        Resource* element = it.getNext();
+        mPlayList.push_back(element->getName());
+    }
 }
 
 }

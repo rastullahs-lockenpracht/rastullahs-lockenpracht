@@ -1,5 +1,5 @@
 /* ResourceManager.cpp - Basisklasse fuer die Manager.
- * (C) 2004. Team Pantheon. www.team-pantheon.de
+ * (C) 2003-2005. Team Pantheon. www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -23,6 +23,14 @@ using namespace OpenThreads;
 
 namespace rl {
 
+/**
+ * @author JoSch
+ * @date 01-27-2005
+ */
+ResourceManager::ResourceManager()
+{
+    addSounds();
+}
 
 /**
  * @author JoSch

@@ -1,5 +1,5 @@
 /* ResourceManager.h - Basisklasse fuer die Manager.
- * (C) 2004. Team Pantheon. www.team-pantheon.de
+ * (C) 2003-2005. Team Pantheon. www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -43,6 +43,8 @@ class _RlSoundExport ResourceManager: public Ogre::ResourceManager {
         /// Welche Dateiendung soll verwendet werden.
         virtual StringList getExtension() { return StringList(); }
     public:
+        /// Konstruktor
+        ResourceManager();
         /// Alle Sounds in die Resourcenliste eintragen.
         virtual void addSounds();
         /// einen Sound hinzufuegen (Mit Mutex)

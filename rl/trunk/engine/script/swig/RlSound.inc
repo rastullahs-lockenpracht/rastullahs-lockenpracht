@@ -58,6 +58,7 @@ namespace rl {
         void clearPlayList();
         void addPlayList(std::string song);
         void addPlayList(std::list<std::string> list);
+        void addSoundsIntoPlayList();
         
         bool isAuto();
         void setAuto(bool isAuto);

@@ -21,6 +21,9 @@
 #include "SynchronizedTask.h"
 
 #include "AnimationManager.h"
+#if OGRE_PLATFORM != PLATFORM_WIN32
+#include "SDL.h"
+#endif
 
 template<> rl::GameLoop* Singleton<rl::GameLoop>::ms_Singleton = 0;
 
@@ -79,6 +82,9 @@ bool GameLoop::isPaused()
 void GameLoop::quitGame()
 {
 	mRunning = false;
+#if OGRE_PLATFORM != PLATFORM_WIN32
+    SDL_Quit();
+#endif
 }
 
 void GameLoop::setPaused(bool pause)
