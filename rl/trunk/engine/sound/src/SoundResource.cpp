@@ -48,11 +48,20 @@ namespace rl {
  * @author JoSch
  * @date 02-02-2005
  */
-SoundResource::FadeIn::FadeIn(SoundResource *that)
-    : that(that)
+SoundResource::FadeIn::FadeIn()
+    : that(0)
 {
 }
     
+/**
+ * @author JoSch
+ * @date 02-03-2005
+ */
+void SoundResource::FadeIn::setThat(SoundResource *that)
+{
+    this->that = that;
+}
+
 /**
  * @author JoSch
  * @date 02-02-2005
@@ -66,11 +75,21 @@ void SoundResource::FadeIn::operator()()
  * @author JoSch
  * @date 02-02-2005
  */
-SoundResource::FadeOut::FadeOut(SoundResource *that)
-    : that(that)
+SoundResource::FadeOut::FadeOut()
+    : that(0)
 {
 }
     
+/**
+ * @author JoSch
+ * @date 02-03-2005
+ */
+void SoundResource::FadeOut::setThat(SoundResource *that)
+{
+    this->that = that;
+}
+
+
 /**
  * @author JoSch
  * @date 02-02-2005
@@ -84,11 +103,20 @@ void SoundResource::FadeOut::operator()()
  * @author JoSch
  * @date 02-02-2005
  */
-SoundResource::Streaming::Streaming(SoundResource *that)
-    : that(that)
+SoundResource::Streaming::Streaming()
+    : that(0)
 {
 }
     
+/**
+ * @author JoSch
+ * @date 02-03-2005
+ */
+void SoundResource::Streaming::setThat(SoundResource *that)
+{
+    this->that = that;
+}
+
 /**
  * @author JoSch
  * @date 02-02-2005
@@ -113,10 +141,14 @@ SoundResource::SoundResource(const string &name):
     mFadeInThread(0),
     mFadeOutThread(0),
     mStreamThread(0),
-    mFadeInFunctor(this),
-    mFadeOutFunctor(this),
-    mStreamFunctor(this)
+    mFadeInFunctor(),
+    mFadeOutFunctor(),
+    mStreamFunctor()
 {
+    mFadeInFunctor.setThat(this);
+    mFadeOutFunctor.setThat(this);
+    mStreamFunctor.setThat(this);
+    
     mName = name;
     alGenSources(1, &mSource);
     check();
@@ -645,8 +677,8 @@ void SoundResource::runStreaming()
     mFadeInThread = 0;
     delete mFadeOutThread;
     mFadeOutThread = 0;
-    empty();
     alSourceStop(mSource);
+    empty();
     thread *temp = mStreamThread;
     mStreamThread = 0;
     delete temp;
@@ -672,9 +704,11 @@ bool SoundResource::wavstream (ALuint buffer)
     {
         return false;
     }
-    memcpy(pcm, (void*)((char*)mWAVData + mWavIndex), toCopy);
-    alBufferData(buffer, mFormat, pcm , toCopy, mFrequency);
-    check();
+    try {
+        memcpy(pcm, (void*)((char*)mWAVData + mWavIndex), toCopy);
+        alBufferData(buffer, mFormat, pcm , toCopy, mFrequency);
+        check();
+    } catch(...) {}
     mWavIndex += toCopy;
 
     return true; 

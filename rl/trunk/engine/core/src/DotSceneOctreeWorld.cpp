@@ -100,27 +100,12 @@ namespace rl {
 
     void DotSceneOctreeWorld::clearScene()
     {
-		try {
-		    mSceneMgr->destroySceneNode("level");
-		}
-		catch (Ogre::Exception&)
-		{
-		    // ignorieren. Gab es den Node halt nicht.
-		}
-		
-		try {
-		    mSceneMgr->removeEntity("level");
-		}
-		catch (Ogre::Exception&)
-		{
-		    // ignorieren. Gab es die Entity halt nicht.
-		}
-		mSceneEntity = 0;
-		
-        Ogre::Root::getSingleton().getAutoCreatedWindow()->removeAllViewports();
-
+        
         ActorManager::getSingleton().destroyAllActors();
+        mSceneMgr->clearScene();
+        Ogre::Root::getSingleton().getAutoCreatedWindow()->removeAllViewports(); 
 
+		mSceneEntity = 0;
         mSceneMgr = Root::getSingleton().getSceneManager(ST_GENERIC);
         PhysicsManager::getSingleton().createLevelGeometry(0);
         mbSceneLoaded = false;

@@ -43,8 +43,8 @@ namespace rl {
 class _RlSoundExport MusicManager : public Ogre::Singleton<MusicManager> {
     private:
         /// Finde den Nachfolger des Songs mit diesem Namen.
-        SoundResource* findNextSong();
-        
+        std::string findNextSong();
+       
         /// Die aktuelle Musikresource
         SoundResource *mSource;
         /// Flag, ob automatisch weitergeschaltet werden soll.
@@ -57,10 +57,10 @@ class _RlSoundExport MusicManager : public Ogre::Singleton<MusicManager> {
         bool mShouldExit;
         /// Unterklasse, die den Thread enthält
         class MusicFunctor {
-            private:
-                MusicManager *that;
             public:
-                MusicFunctor(MusicManager *that);
+                /// Der Standardkonstruktor
+                MusicFunctor();
+                /// Funktormethode
                 void operator()();
         } mMusicFunctor;
         /// Die Instanz des Threads.

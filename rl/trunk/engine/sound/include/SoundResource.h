@@ -77,9 +77,14 @@ class _RlSoundExport SoundResource: public Ogre::Resource,
         class FadeIn
         {
             private:
+                /// Welche SoundResource bedienen wir?
                 SoundResource *that;
             public:
-                FadeIn(SoundResource *that);
+                /// Standardkonstruktor
+                FadeIn();
+                /// Setze die gewuenschte SoundResource
+                void setThat(SoundResource *that);
+                /// Die Funktormethode
                 void operator()();
         } mFadeInFunctor;
 
@@ -87,9 +92,14 @@ class _RlSoundExport SoundResource: public Ogre::Resource,
         class FadeOut
         {
             private:
+                /// Welche SoundResource bedienen wir?
                 SoundResource *that;
             public:
-                FadeOut(SoundResource *that);
+                /// Standardkonstruktor
+                FadeOut();
+                 /// Setze die gewuenschte SoundResource
+                void setThat(SoundResource *that);
+                /// Die Funktormethode
                 void operator()();
         } mFadeOutFunctor;
         
@@ -97,9 +107,14 @@ class _RlSoundExport SoundResource: public Ogre::Resource,
         class Streaming
         {
             private:
+                /// Welche SoundResource bedienen wir?
                 SoundResource *that;
             public:
-                Streaming(SoundResource *that);
+                /// Standardkonstruktor
+                Streaming();
+                /// Setze die gewuenschte SoundResource
+                void setThat(SoundResource *that);
+                /// Die Funktormethode
                 void operator()();
         } mStreamFunctor;
         

@@ -63,7 +63,7 @@ MusicManager::MusicManager():
     mShouldPlay(false),
     mShouldExit(false),
     mMusicThread(0),
-    mMusicFunctor(this),
+    mMusicFunctor(),
     mPlayList()
 {
     mMusicThread = new thread(mMusicFunctor);
@@ -108,8 +108,8 @@ void MusicManager::stopSong()
     if (mSource != 0)
     {
         mSource->stop();
-        mShouldPlay = false;
     }
+    mShouldPlay = false;
 }
 
 /**
@@ -167,8 +167,10 @@ const bool MusicManager::isPlaying() const
  */
 void MusicManager::setNextSong()
 {
-    SoundResource *next = findNextSong();
+    string name = findNextSong();
     // Evtl. spielt noch ein Song.
+    SoundResource *next = dynamic_cast<SoundResource*>(
+        SoundManager::getSingleton().getByName(name));
     if (mSource != 0 )
     {
         mSource->stop();
@@ -194,7 +196,7 @@ void MusicManager::setNextSong()
  * @author JoSch
  * @date 04-12-2004
  */
-SoundResource* MusicManager::findNextSong()
+string MusicManager::findNextSong()
 {
     if (mSource != 0)
     {
@@ -209,24 +211,33 @@ SoundResource* MusicManager::findNextSong()
                     SoundManager::getSingleton().getResourceIterator().peekNextValue());
                 if (temp != 0)
                 {
-                    mPlayList.push_back(temp->getName());
+                    return temp->getName();
+                } else {
+                    return "";
                 }
-                return temp;
              } else {
                 // Nicht wiederholen.
-                return 0;
+                return "";
              }
          } else {
             cit++;
-        }
+            if (cit != mPlayList.end())
+            {
+                return *cit;
+            } else {
+                return "";
+            }
+         }
     } else { // mSource ist noch nicht gesetzt.
         Resource *res = SoundManager::getSingleton().getResourceIterator().peekNextValue();
         SoundResource *temp = dynamic_cast<SoundResource*>(res);
         if (temp != 0)
         {
-            mPlayList.push_back(temp->getName());
+            return temp->getName();
+        } else 
+        {
+            return "";
         }
-        return temp;
     }
     return 0;
 }
@@ -303,8 +314,7 @@ bool MusicManager::isLooping()
  * @author JoSch
  * @date 07-25-2004
  */
-MusicManager::MusicFunctor::MusicFunctor(MusicManager *that):
-    that(that)
+MusicManager::MusicFunctor::MusicFunctor()
 {}
 
 
@@ -347,14 +357,15 @@ void MusicManager::MusicFunctor::operator()()
                         that->stopSong();
                     }
                 } else { //Doch, spielt noch
+                    
                 }
-            }                     
+            }                   
         } catch(...)
         {
         }
         xtime xt;
         xtime_get(&xt, TIME_UTC);
-        xt.nsec += 1000;
+        xt.nsec += 1000000;
         thread::sleep(xt);
     } 
 }
