@@ -5,7 +5,8 @@ module MapConverter
 	const_set("MAP_HL",1)	
 	
 	class Vertex
-		attr_reader :vector, :u, :v, :normal
+		attr_reader :vector, :normal
+		attr_accessor :u, :v
 	
 		def initialize( vector, u, v, normal )
 			@vector = vector
@@ -49,7 +50,7 @@ module MapConverter
 	end
 	
 	class Face
-		attr_reader :vertices, :texture 
+		attr_reader :vertices, :texture , :center
 	
 		def initialize
 			@vertices = Array.new
@@ -72,22 +73,103 @@ module MapConverter
 			@vertices[i] = Vertex.new( vec, uv[0], uv[1], normal )
 		end
 		
-		def sortVertices()			
+		def calculateCenter()
 			return unless @vertices.size > 0
 		
-			center = MathHelper::Vector.new( [0,0,0] )
-			@vertices.each{ |v| center += v.vector }
-			center = center/@vertices.size
+			@center = MathHelper::Vector.new( [0,0,0] )
+			@vertices.each{ |v| @center += v }
+			@center = center/@vertices.size
+		end
+		
+		def normalizeTexCoords
+			normU = true
+			normV = true
+			
+			# Check which Coords can be normalized
+			@vertices.each{ |vert| 
+				if vert.u < 1 && vert.u > -1
+					normU = false
+				end
+				if vert.v < 1 && vert.v > -1
+					normV = false
+				end
+			}
+			
+			if normU || normV
+				nearestU = 0;
+				u= @vertices[0].u
+
+				nearestV = 0;
+				v = @vertices[0].v
+				
+				
+				if normU
+					if u > 1
+						nearestU = u.floor
+					else
+						nearestU = u.ceil
+					end
+				end
+				
+				if normV
+					if v > 1
+						nearestV = v.floor
+					else
+						nearestV =v.ceil
+					end
+				end
+				
+				
+				@vertices.each{ |vert| 
+					
+					if normU
+						u = vert.u
+						
+						if u.abs < nearestU.abs
+							if u > 1
+								nearestU = u.floor
+							else
+								nearestU = u.ceil
+							end
+						end
+					end
+					
+					if normV
+						v = vert.v
+						
+						if v.abs < nearestV.abs
+							if v > 1
+								nearestV = v.floor
+							else
+								nearestV = v.ceil
+							end
+						end
+					end
+					
+					if normV
+					end
+				}
+				
+				@vertices.each{ |vert| 
+					vert.u -= nearestU
+					vert.v -= nearestV
+				}
+			end
+				
+		end
+		
+		def sortVertices()			
+			return unless @vertices.size > 0
 			
 			for i in 0..@vertices.size-3
 				smallestAngle = -1.0
 				smallestAngleID = -1
 			
-				ma = MathHelper::Vector.new(  @vertices[i].vector.to_ary ) - center  
+				ma = MathHelper::Vector.new(  @vertices[i].vector.to_ary ) - @center  
 				ma.normalize!
 				
 				for j in i+1..@vertices.size-1
-					mb = MathHelper::Vector.new( @vertices[j].vector.to_ary ) - center
+					mb = MathHelper::Vector.new( @vertices[j].vector.to_ary ) - @center
 					mb.normalize!
 					angle = ma.dot(mb)
 					
@@ -108,7 +190,7 @@ module MapConverter
 				end
 			end
 			
-			
+			@vertices.reverse!
 		end
 		
 		def setTexture( tex )
@@ -140,25 +222,29 @@ module MapConverter
 			@texture = mD[4]
 			# Die Texturverschiebung
 			t1 =  mD[5].split( " " ).collect { |x| x.to_f } 
-			@t1 = MathHelper::Vector.new( t1[0], t1[1], t1[2]  )
-			@tex_offset_x = t1[3]
-			t2 = MathHelper::Vector.new( mD[6].split( " " ).collect { |x| x.to_f } )
-			@t2 = MathHelper::Vector.new( t2[0], t2[1], t2[2] )
-			@tex_offset_y = t2[3]
+			@t1 = MathHelper::Vector.new( -t1[0], -t1[1], -t1[2]  )
+			@tex_offset_x = -t1[3]
+			t2 =  mD[6].split( " " ).collect { |x| x.to_f } 
+			@t2 = MathHelper::Vector.new( -t2[0], -t2[1], -t2[2] )
+			@tex_offset_y = -t2[3]
 			# Rotation und Skalierung
-			@rotation =  mD[7].to_i
-			@scale_x =  mD[8].to_f
-			@scale_y =  mD[9].to_f
+			@rotation = mD[7].to_i
+			@scale_x = mD[8].to_f
+			@scale_y = mD[9].to_f
 			
+            
 			calculateHessian(  )
 		end
 				
-		def getTextureCoordinates( vertex )
-			width = height = 16
-			s = ( vertex.dot(@t1)  + @tex_offset_x  ) / width
-			t = ( vertex.dot(@t2)  + @tex_offset_y  ) / height
-			
-			return MathHelper::Vector.new( [s,t] )
+		def getTextureCoordinates( vertex , center )
+			texs = TextureManager.getSingleton.loadTexture( @texture )
+            width = texs[0]
+			height = texs[1]
+
+			u = ( @t1.dot(vertex)/width/@scale_x  ) - ( @tex_offset_x / width )
+			v = ( @t2.dot(vertex)/height/@scale_y  ) - ( @tex_offset_y / height )			
+            
+			return MathHelper::Vector.new( [u,v] )
 		end
 				
 		def calculateHessian(  )
@@ -241,13 +327,18 @@ module MapConverter
 			
 			@faces.each_index { |i| 		
 				@faces[i].setTexture( @planes[i].texture )
+				@faces[i].calculateCenter
+				
 				@faces[i].vertices.each { |v|
-					@faces[i].toVertex( v, @planes[i].getTextureCoordinates( v ), @planes[i].normal )
+					@faces[i].toVertex( v, @planes[i].getTextureCoordinates( v, @faces[i].center  ), @planes[i].normal )
 				}
+				
+				@faces[i].normalizeTexCoords
+				@faces[i].sortVertices()
 				
 				#p @faces[i].vertices.size
 				#@faces[i].vertices.each{ |v| print v.vector; print "\n" }
-				@faces[i].sortVertices()
+				
 				#p "->"
 				#@faces[i].vertices.each{ |v| print v.vector; print "\n" }
 			}	
@@ -468,7 +559,67 @@ module MapConverter
 			return triangles
 		end
 	end
-	
+    
+    class TextureManager
+        require 'fox'
+        @@manager = nil
+        
+        def initialize( basedir )
+            raise( "Singleton already initialized" ) unless !@@manager 
+            @basedir = basedir
+            @textures = Hash.new
+            @@manager = self
+        end
+        
+        def TextureManager.getSingleton( )
+            @@manager = new( "" ) unless @@manager
+            return @@manager
+        end
+        
+        def loadTexture( name )
+
+            if ! @textures.has_key? name
+                fname = File.join( @basedir , name ) 
+                
+                img = nil
+                ending = ""
+                
+                if File.exist? fname+".jpg"
+                    ending = "jpg"
+                    f = Fox::FXFileStream.open( fname+".jpg" , Fox::FXStreamLoad ) 
+                    img = Fox.fxloadJPG( f  )           
+                elsif File.exist? fname+".gif"
+                    ending = "gif"
+                    f = Fox::FXFileStream.open( fname+".jpg" , Fox::FXStreamLoad ) 
+                    img = Fox.fxloadGIF( f  )     
+                elsif File.exist? fname+".png"
+                    ending = "png"
+                    f = Fox::FXFileStream.open( fname+".png" , Fox::FXStreamLoad ) 
+                    img = Fox.fxloadPNG( f  )
+                elsif File.exist? fname+".tga"
+                    ending = "tga"
+                    f = Fox::FXFileStream.open( fname+".png" , Fox::FXStreamLoad ) 
+                    img = Fox.fxloadTGA( f  ) 
+                end
+
+                if img != nil
+                    @textures[ name ] = [img[2],img[3],ending]
+                    img = nil
+                else
+                    print "Konnte Textur #{name} nicht finden\n"
+                    @textures[ name ] = [256,256,ending]
+                end
+                
+            end
+            
+            return @textures[ name ] 
+        end
+        
+        def getTexture( name )
+            return @textures[ name ]
+        end
+    end
+    
 	class MeshWriter
 		def initialize( map )
 			raise( TypeError, map.class.to_s+" is no Map" ) unless map.class ==  Map
@@ -476,8 +627,11 @@ module MapConverter
 			@map = map
 		end
 	
-		def writeMesh( stream )
-		
+		def writeMesh( name )
+        
+            all_textures = Array.new
+            mesh_count = 0
+            
 			# Jede Entity ein einzelnes Mesh
 			@map.entities.each{ |ent| 
 				# Alles faces dieser Entity sammeln
@@ -490,6 +644,8 @@ module MapConverter
 				# Abbruch wenn keine Faces in dieser Entity sind
 				break unless faces.size > 0
 				
+                stream = ""
+                
 				# Faces in Dreiecke umwandeln
 				triangles = FaceConverter.toMeshTriangles( faces )
 
@@ -499,6 +655,10 @@ module MapConverter
 					if ! textures.include?( tri.texture )
 						textures.push( tri.texture )
 					end
+                    
+                    if ! all_textures.include?( tri.texture )
+						all_textures.push( tri.texture )
+					end
 				}
 				
 				stream <<  "<mesh>" << "\n"
@@ -506,8 +666,8 @@ module MapConverter
 				
 				# Jede Textur muss ein einzelnes Submesh sein
 				textures.each{ |tex|	
-					# Herausfiltern der texturen
-					subtris = triangles.dup
+					# Herausfiltern der Texturen
+					subtris = triangles.dup					
 					subtris.delete_if{ |tri| 
 						tri.texture != tex 
 					}
@@ -529,9 +689,9 @@ module MapConverter
 					# Alle Vertices der Triangles
 					vertices.each{ |vert| 
 						stream <<  "\t\t\t\t\t<vertex>" << "\n"
-						stream <<  "\t\t\t\t\t\t<position x=\"#{vert.x}\" y=\"#{vert.y}\" z=\"#{vert.z}\" />" << "\n"
-						stream <<  "\t\t\t\t\t\t<normal x=\"#{-vert.nx}\" y=\"#{-vert.ny}\" z=\"#{-vert.nz}\" />" << "\n"
-						stream <<  "\t\t\t\t\t\t<texcoord u=\"#{0*vert.u}\" v=\"#{0*vert.v}\" />" << "\n"
+						stream <<  "\t\t\t\t\t\t<position x=\"#{-vert.x}\" y=\"#{-vert.y}\" z=\"#{-vert.z}\" />" << "\n"
+						stream <<  "\t\t\t\t\t\t<normal x=\"#{vert.nx}\" y=\"#{vert.ny}\" z=\"#{vert.nz}\" />" << "\n"
+						stream <<  "\t\t\t\t\t\t<texcoord u=\"#{vert.u}\" v=\"#{vert.v}\" />" << "\n"
 						stream <<  "\t\t\t\t\t</vertex>" << "\n"
 					}
 					stream <<  "\t\t\t\t</vertexbuffer>" << "\n"
@@ -542,21 +702,42 @@ module MapConverter
 				
 				stream <<  "\t</submeshes>" << "\n"	
 				stream <<  "</mesh>" << "\n"
-							
+                
+                f = File.new(name +"_"+ mesh_count.to_s + ".xml",  "w")
+                f << stream
 			}	
 			
+            stream = ""
+            
+            all_textures.each { |t|
+                stream <<  "material #{t}" << "\n"
+                stream <<  "{" << "\n"
+                stream <<  "\ttechnique" << "\n"
+                stream <<  "\t{" << "\n"
+                stream <<  "\t\tpass" << "\n"
+                stream <<  "\t\t{" << "\n"
+                stream <<  "\t\t\ttexture_unit" << "\n"
+                stream <<  "\t\t\t{" << "\n"
+                stream <<  "\t\t\t\ttexture textures/#{t}.#{TextureManager.getSingleton.getTexture(t)[2]}" << "\n"
+                stream <<  "\t\t\t\tfiltering anisotropic anisotropic anisotropic" << "\n"
+                stream <<  "\t\t\t}" << "\n"
+                stream <<  "\t\t}" << "\n"
+                stream <<  "\t}" << "\n"
+                stream <<  "}" << "\n"
+                
+                f = File.new(name +".material",  "w")
+                f << stream           
+            }
 		end
 	end
+    
 end
 
-map = MapConverter::MapReader.new.readMap( "a.map", MapConverter::MAP_HL )
+MapConverter::TextureManager.new( "../MV/textures" )
+map = MapConverter::MapReader.new.readMap( "b.map", MapConverter::MAP_HL )
+MapConverter::MeshWriter.new( map ).writeMesh( "../MV/test" )
 
-s = ""
-MapConverter::MeshWriter.new( map ).writeMesh( s )
 if File.exists?( "../MV/test.mesh" ) 
 	File.delete("../MV/test.mesh" )
 end
-f = File.new("../MV/test.xml",  "w")
-f << s
-
 

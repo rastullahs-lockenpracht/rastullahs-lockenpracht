@@ -19,9 +19,6 @@ module MathHelper
 		Version = /([\d\.]+)/.match( %q{$Revision: 1.3 $} )[1]
 		Rcsid = %q$Id: Vector.rb,v 1.3 2003/02/18 01:45:34 deveiant Exp $
 	
-		X = 0; Y = 1; Z = 2
-	
-	
 		### Instantiate and return a new Vector. Defaults to a 3rd-order
 		### zero vector if no arguments are given.
 		def initialize( *args )
@@ -71,6 +68,15 @@ module MathHelper
 		    return (1.0 - self.mag) < 1e-10
 		end
 	
+        def isNegative?
+            @elements.each{ |e| 
+                if e > 0
+                    return false
+                end
+            }
+            
+            return true
+        end
 	
 		### Element reference operator -- returns the <tt>i</tt>th element of
 		### the vector.
@@ -82,7 +88,7 @@ module MathHelper
 		### Element assignment operator -- assigns the value <tt>x</tt> to the
 		### <tt>i</tt>th element of the vector.
 		def []=(i, x)
-		    @elements[i] = Float(x)
+            @elements[i] = Float(x)
 		end
 	
 	
@@ -91,7 +97,7 @@ module MathHelper
 		    #sum = 0.0
 		    #@elements.each{ |i| sum += i*i }
 		    #return Math.rsqrt(  sum.abs()  )
-		    return Math.rsqrt(  self.dot( self ) ) 
+		    return Math.rsqrt( self.dot( self ) ) 
 		end
 		alias_method :abs, :mag
 		alias_method :length, :mag
@@ -133,20 +139,7 @@ module MathHelper
 		    return scalar
 		end
 	
-	
-		### Return the geometric product of the receiver and the
-		### <tt>otherVector</tt> as an Quaternion.
-		def gp( otherVector )
-		    raise TypeError,
-			"wrong argument type '%s': Expected an Vector" % otherVector.class.name unless
-			otherVector.is_a?( Vector )
-		    raise ArgumentError,
-			"Cannot calculate geometric product of vectors of different dimensions." unless
-			self.size == otherVector.size
-	
-		    Quaternion::sv2q( self.dot(v), self.cross(v) )
-		end
-	
+    
 	
 		### Return the cross-product of the receiver and the
 		### <tt>otherVector</tt> as a new instance of the receiving class.
@@ -213,7 +206,9 @@ module MathHelper
 		### the receiver.
 		def *( scalar )
 		    scalar = Float(scalar)
-		    return self.class.new( self.collect {|elem| elem * scalar} )
+		    
+		    rvec = self.class.new( self.collect{ |e| e *= scalar} )
+		    return rvec
 		end
 	
 	
@@ -224,7 +219,8 @@ module MathHelper
 		    scalar = Float(scalar)
 		    raise ZeroDivisionError if scalar == 0.0
 	
-		    return self.class.new( self.collect {|elem| elem / scalar} )
+		    rvec = self.class.new( self.collect{ |e| e /= scalar} )
+		    return rvec
 		end
 	
 	
