@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -104,7 +104,8 @@ namespace rl {
         bool mEnabled;
 
         std::vector<PhysicalThing*> mPhysicalThings;
-        std::vector<OgreOde::Space*> mSpaces;        std::vector<OgreOde::CollisionListener*> mCollisionListeners;
+        std::vector<OgreOde::Space*> mSpaces;
+        std::vector<OgreOde::CollisionListener*> mCollisionListeners;
         OgreOde::World* mOdeWorld;
         OgreOde::HashTableSpace* mGlobalSpace;
         OgreOde::Space* mCurrSpace;
