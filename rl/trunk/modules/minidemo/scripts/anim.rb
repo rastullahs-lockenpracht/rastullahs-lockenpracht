@@ -4,27 +4,72 @@ load( "embed.rb" );
 # print wird auf die Konsole umgeleitet
 print( "Teste Animationen" );
 
-# TischAktor erstellen
-$Fackel = $AF.createGameActor("Fackel","fackel.mesh");
-$Fackel.setPosition(100.0,16.0,100.0);
+# Definition des AnimationsListeners
+class UmdrehAbspielListener < AnimationListener
+	def animationFinished(anEvent)
+		print( "Sowas, schon vorbei" );
+		#anim = anEvent.getRlAnimation();
+		#anim.reverseAnimation();
+		#anim.resetTimesPlayed();
+	end
+	def animationPaused(anEvent)
+	end
+	def animationUnpaused(anEvent)
+	end
+end
 
+# Erstellen eines laufenden Roboters
 $boBotter = $AF.createGameActor("Botter","robot.mesh");
 $boBotter.setPosition(160.0,24.0,160.0);
+# Animation "Walk" starten
 $boBotter.startAnimation( "Walk" );
 
+# Die Laufende Animation "Walk" holen 
 $anim = $boBotter.getAnimation( "Walk" );
+# Geschwindigkeit setzen
 $anim.setSpeed( 4.0 );
 
-$trackAnim = $AniMgr.createTrackAnimation( $Fackel, "testTrackAnimation", 2.0 );
-$trackAnim.setPaused( true );
-$trackAnim.setSpeed( 1.0 );
-$trackAnim.addKeyFrame( 0.0 );
-$trackAnim.setKeyFrameRotation( 0.0, 0.0, 0.0, 0.0, 0.0 );
-$trackAnim.setKeyFrameTranslation( 0.0, 0.0, 0.0, 0.0 );
-$trackAnim.addKeyFrame( 1.0 );
-$trackAnim.setKeyFrameRotation( 1.0, 1.0, 0.0, 0.0, 90.0 );
-$trackAnim.setKeyFrameTranslation( 1.0, 100.0, 0.0, 0.0 );
-$trackAnim.addKeyFrame( 2.0 );
-$trackAnim.setKeyFrameRotation( 2.0, 0.0, 0.0, 0.0, 0.0 );
-$trackAnim.setKeyFrameTranslation( 2.0, 0.0, 0.0, 0.0 );
-$trackAnim.setPaused( false );
+
+# Erzeugen einer Fackel
+fackel = $AF.createGameActor("Fackel","fackel.mesh");
+fackel.setPosition(100.0,16.0,100.0);
+
+
+# Erstellen eines einfachen Tracks  
+#	- für die fackel 
+#	- mit dem _EINZIGARTIGEN_ Namen "testTrackAnimation"
+#	- Und der Länge von 4 Sekunden
+trackAnim = $AniMgr.createTrackAnimation( fackel, "testTrackAnimation", 4.0 );
+# Setzen der ersten Keyframe
+trackAnim.addKeyFrame( 0.0 );
+trackAnim.setKeyFrameRotation( 0.0, 0.0, 0.0, 0.0, 0.0 );
+trackAnim.setKeyFrameTranslation( 0.0, 0.0, 0.0, 0.0 );
+# Setzen der zweiten Keyframe
+trackAnim.addKeyFrame( 2.0 );
+trackAnim.setKeyFrameRotation( 2.0, 1.0, 0.0, 0.0, 90.0 );
+trackAnim.setKeyFrameTranslation( 2.0, 100.0, 0.0, 0.0 );
+# Setzen der dritten Keyframe
+trackAnim.addKeyFrame( 4.0 );
+trackAnim.setKeyFrameRotation( 4.0, 0.0, 0.0, 0.0, 0.0 );
+trackAnim.setKeyFrameTranslation( 4.0, 0.0, 0.0, 0.0 );
+# Und los gehts
+trackAnim.setPaused( false );
+
+
+# Noch einfacherer ;) Track, aber mit nem Listener verknüpft
+tischlein = $AF.createGameActor("TavernenTisch","tisch_taverne.mesh");
+tischlein.setPosition(160.0,24.0,160.0);
+
+$listenedTrackAnim = $AniMgr.createTrackAnimation( tischlein, "testListenerTrackAnimation", 6.0 );
+$listenedTrackAnim.addKeyFrame( 0.0 );
+$listenedTrackAnim.setKeyFrameTranslation( 0.0, 0.0, 0.0, 0.0 );
+$listenedTrackAnim.addKeyFrame( 6.0 );
+$listenedTrackAnim.setKeyFrameTranslation( 1.0, 0.0, 100.0, 0.0 );
+# Begrenzte Abspielanzahl setzen
+$listenedTrackAnim.setTimesToPlay( 1 );
+# AnimationsListener erzeugen
+animListener = UmdrehAbspielListener.new();
+# AnimationsListener hinzufuegen
+$listenedTrackAnim.addAnimationListener( animListener );
+# Und los gehts
+$listenedTrackAnim.setPaused( false );
