@@ -152,11 +152,6 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="Ressourcendateien"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}">
-		</Filter>
-		<Filter
 			Name="swig"
 			Filter="">
 			<File
@@ -232,6 +227,11 @@ swig.exe -c++ -ruby -minherit -v -Wall &quot;$(InputPath)&quot;
 				<File
 					RelativePath=".\swig\TypeMaps.i">
 				</File>
+			</Filter>
+			<Filter
+				Name="Ressourcendateien"
+				Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
+				UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}">
 			</Filter>
 		</Filter>
 	</Files>

@@ -244,6 +244,11 @@ namespace rl {
         /// Ist laeuft AL noch
         const bool playing() const;
 
+protected:
+        /// Shared class-level name for Movable type
+        static Ogre::String msMovableType;
+        static Ogre::AxisAlignedBox msAABox;
+
 private:
         // Grabbed from example
         void display();

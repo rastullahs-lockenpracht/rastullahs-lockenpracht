@@ -53,7 +53,8 @@ void AnimationManager::setDefaultInterpolationMode( AnimationManager::Interpolat
 		Ogre::Animation::InterpolationMode( im ) );
 }
 
-AnimationManager::InterpolationMode AnimationManager::getDefaultInterpolationMode() const
+AnimationManager::InterpolationMode 
+	AnimationManager::getDefaultInterpolationMode() const
 {
 	return AnimationManager::InterpolationMode( 
 		Ogre::Animation::getDefaultInterpolationMode() );
@@ -66,15 +67,18 @@ void AnimationManager::setDefaultRotationInterpolationMode(
 		Ogre::Animation::RotationInterpolationMode( rim ) );
 }
 
-AnimationManager::RotationInterpolationMode AnimationManager::getDefaultRotationInterpolationMode() const
+AnimationManager::RotationInterpolationMode 
+	AnimationManager::getDefaultRotationInterpolationMode() const
 {
 	return AnimationManager::RotationInterpolationMode( 
 		Ogre::Animation::getDefaultRotationInterpolationMode() );
 }
 
-Animation* AnimationManager::addAnimation(Ogre::AnimationState* animState, Ogre::Real speed, unsigned int timesToPlay)
+Animation* AnimationManager::addAnimation(Ogre::AnimationState* animState, 
+										  Ogre::Real speed, unsigned int timesToPlay)
 {
-	std::map<Ogre::AnimationState*,Animation*>::iterator iter = mAnimationMap.find(animState);
+	std::map<Ogre::AnimationState*,Animation*>::iterator iter = 
+		mAnimationMap.find(animState);
 
 	Animation* anim = 0;
 
@@ -98,7 +102,8 @@ Animation* AnimationManager::addAnimation(Ogre::AnimationState* animState, Ogre:
 	return anim;
 }
 
-TrackAnimation* AnimationManager::createTrackAnimation(Actor* actor, const Ogre::String& name, Ogre::Real length )
+TrackAnimation* AnimationManager::createTrackAnimation(Actor* actor, 
+	const Ogre::String& name, Ogre::Real length )
 {
 	if( actor == 0 )
 		Throw( NullPointerException, "Actor darf nicht null sein" );
@@ -106,14 +111,16 @@ TrackAnimation* AnimationManager::createTrackAnimation(Actor* actor, const Ogre:
 	///@todo Namen abfangen
 
 	TrackAnimation* trackAnim = new TrackAnimation(name,actor->_getSceneNode(),length);
-	mAnimationMap.insert(std::pair<Ogre::AnimationState*,Animation*>(trackAnim->getAnimationState(),trackAnim));
+	mAnimationMap.insert(std::pair<Ogre::AnimationState*,Animation*>( 
+		trackAnim->getAnimationState(),trackAnim));
 
 	return trackAnim;
 }
 
 Animation* AnimationManager::getAnimation(Ogre::AnimationState* animState) const
 {
-	std::map<Ogre::AnimationState*,Animation*>::const_iterator iter = mAnimationMap.find(animState);
+	std::map<Ogre::AnimationState*,Animation*>::const_iterator iter = 
+		mAnimationMap.find(animState);
 
 	if( iter == mAnimationMap.end() )
 		return 0;
@@ -123,7 +130,8 @@ Animation* AnimationManager::getAnimation(Ogre::AnimationState* animState) const
 
 void AnimationManager::removeAnimation(Ogre::AnimationState* animState)
 {
-	std::map<Ogre::AnimationState*,Animation*>::iterator iter = mAnimationMap.find(animState);
+	std::map<Ogre::AnimationState*,Animation*>::iterator iter = 
+		mAnimationMap.find(animState);
 
 	if( iter != mAnimationMap.end() )
 	{
@@ -133,6 +141,15 @@ void AnimationManager::removeAnimation(Ogre::AnimationState* animState)
 		delete anim;
 	}
 }
+
+Animation* AnimationManager::replaceAnimation(Animation* oldAnim,  
+    Ogre::AnimationState* newAnimState, Ogre::Real speed, unsigned int timesToPlay )
+{
+    removeAnimation( oldAnim );
+    return addAnimation( newAnimState, speed, timesToPlay );
+}
+
+
 
 void AnimationManager::removeAnimation(Animation* anim)
 {

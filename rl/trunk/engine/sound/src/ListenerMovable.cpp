@@ -28,6 +28,8 @@ rl::ListenerMovable* rl::ListenerMovable::gActiveListener = 0;
 
 namespace rl {
  
+String ListenerMovable::msMovableType = "ListenerMovable";
+AxisAlignedBox ListenerMovable::msAABox = AxisAlignedBox(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5);
 
 /**
  * @param name Der Name des Zuhoerers.
@@ -72,7 +74,7 @@ const String& ListenerMovable::getName() const
  */
 const String& ListenerMovable::getMovableType() const
 {
-    return "ListenerMovable";
+    return msMovableType;
 }
 
 /**
@@ -90,7 +92,7 @@ void ListenerMovable::_notifyCurrentCamera(Camera *cam)
  */
 const AxisAlignedBox& ListenerMovable::getBoundingBox() const 
 {
-    return AxisAlignedBox(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5);
+    return msAABox;
 }
 
 /**

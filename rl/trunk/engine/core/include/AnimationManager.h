@@ -71,6 +71,9 @@ public:
 	    const Ogre::String& name, Ogre::Real length );
 	/// Entfernt eine Animation
 	void removeAnimation(Animation* anim);
+    /// Ersetzt eine alte Animation durch eine Neue
+    Animation* replaceAnimation(Animation* oldAnim,  
+	Ogre::AnimationState* newAnimState, Ogre::Real speed=1.0, unsigned int timesToPlay=0  );
 	///@todo Alle Animationen löschen, beim Szenen-Neuladen
 
 	

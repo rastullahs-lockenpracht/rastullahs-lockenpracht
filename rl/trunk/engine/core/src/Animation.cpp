@@ -17,6 +17,7 @@
 #include "Animation.h"
 
 #include "Exception.h"
+#include "AnimationManager.h"
 
 namespace rl {
 
@@ -127,7 +128,10 @@ void Animation::resetTimesPlayed()
 		mAnimState->setTimePosition( 0 );
 
 	mTimePlayed = 0;
-	mAnimState->setLoop( true );
+	
+	if( mTimesToPlay != 1 )
+		mAnimState->setLoop( true );
+
 	setPaused( false );
 }
 
@@ -176,7 +180,7 @@ void Animation::addAnimationFrameListener(
 		std::pair<Ogre::Real,AnimationFrameListener*>(frameNumber,listener) );
 }
 
-void Animation::removeAnimationFrameListener( AnimationFrameListener *listener)
+void Animation::removeAnimationFrameListener( AnimationFrameListener *listener )
 {
 	///@todo Alle zugehörigen löschen
 }
@@ -215,7 +219,7 @@ void Animation::addTime( Ogre::Real timePassed )
 			
 				AnimationEvent* animEve = new AnimationEvent(this,AnimationEvent::ANIMATION_FINISHED);
 				mAnimationCaster.dispatchEvent( animEve );
-				delete animEve;			
+				delete animEve;	
 			}
 		}
 	}

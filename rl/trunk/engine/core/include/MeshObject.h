@@ -44,6 +44,8 @@ namespace rl {
 		Animation* getAnimation(const Ogre::String& animName) const;
 		Animation* startAnimation(const Ogre::String& animName, 
 		    Ogre::Real speed=1.0, unsigned int timesToPlay=0);
+		Animation* replaceAnimation(const Ogre::String& oldAnimName, const Ogre::String& newAnimName, 
+		    Ogre::Real speed=1.0, unsigned int timesToPlay=0);
         void stopAnimation(const Ogre::String&);
         
         void setCastShadows (bool enabled);

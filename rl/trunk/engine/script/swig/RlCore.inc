@@ -249,6 +249,8 @@ public:
     Ogre::Real getHeight();
     
 	rl::Animation* getAnimation(const std::string& animName) const;
+	rl::Animation* replaceAnimation(const std::string& oldAnimName, 
+	    const std::string& newAnimName, float speed=1.0, unsigned int timesToPlay=0);
 	rl::Animation* startAnimation(const std::string& animName, 
 		float speed=1.0, unsigned int timesToPlay=0);
     void stopAnimation(const std::string&);

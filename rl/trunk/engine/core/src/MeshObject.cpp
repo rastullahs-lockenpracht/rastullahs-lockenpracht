@@ -61,6 +61,8 @@ namespace rl {
         return getSize().y;
     }
 
+	/// @todo Exception Handling
+
 	Animation* MeshObject::getAnimation(const String& animName) const
 	{
 		try
@@ -76,7 +78,7 @@ namespace rl {
 	}
 
 
-	Animation* MeshObject::startAnimation(const String& animName, Real speed, unsigned int timesToPlay)
+	Animation* MeshObject::startAnimation(const String& animName, Real speed, unsigned int timesToPlay )
 	{
 		try
 		{
@@ -88,6 +90,12 @@ namespace rl {
 		}
 
 		return 0;
+	}
+
+	Animation* MeshObject::replaceAnimation(const Ogre::String& oldAnimName, const Ogre::String& newAnimName, Real speed, unsigned int timesToPlay )
+	{
+        stopAnimation(oldAnimName);
+        return startAnimation( newAnimName, speed, timesToPlay );
 	}
 
 	void MeshObject::stopAnimation(const Ogre::String& animName)

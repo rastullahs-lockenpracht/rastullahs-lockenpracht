@@ -34,6 +34,9 @@ using namespace boost;
 
 namespace rl {
  
+String SoundMovable::msMovableType = "SoundMovable";
+AxisAlignedBox SoundMovable::msAABox = AxisAlignedBox(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5);
+
 /**
  * @author JoSch
  * @date 02-02-2005
@@ -238,7 +241,7 @@ const String& SoundMovable::getName() const
  */
 const String& SoundMovable::getMovableType() const
 {
-    return "SoundMovable";
+    return msMovableType;
 }
 
 /**
@@ -256,7 +259,7 @@ void SoundMovable::_notifyCurrentCamera(Camera *cam)
  */
 const AxisAlignedBox& SoundMovable::getBoundingBox() const 
 {
-    return AxisAlignedBox(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5);
+    return msAABox;
 }
 
 /**

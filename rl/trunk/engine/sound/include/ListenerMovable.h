@@ -40,6 +40,10 @@ namespace rl {
         /// Die Hauptlautstaerke
         ALfloat mGain;
         
+    protected:
+         /// Shared class-level name for Movable type
+        static Ogre::String msMovableType;
+        static Ogre::AxisAlignedBox msAABox;
 
     public:
         /// Konstruktor

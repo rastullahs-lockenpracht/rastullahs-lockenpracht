@@ -67,7 +67,8 @@ namespace rl {
 		mNumActiveWindowsMouseInput(0),
 		mNumActiveWindowsKeyboardInput(0),
 		mNumActiveWindowsAllInput(0),
-		mPickObjects(false)
+		mPickObjects(false),
+        mTargetedObject(0)
 	{
 		switchMouseToUnbuffered();
 		mEventProcessor = new EventProcessor();
