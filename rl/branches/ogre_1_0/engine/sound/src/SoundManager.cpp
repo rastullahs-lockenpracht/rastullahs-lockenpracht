@@ -79,12 +79,13 @@ StringList SoundManager::getExtension()
 * @author JoSch
 * @date 06-18-2004
 */
-Ogre::Resource* createImpl(const String& resName, 
-						   const ResourceHandle& handle,
-						   const String& group,
-						   bool isManual, 
-						   ManualResourceLoader* loader, 
-						   const NameValuePairList* loadParams)
+Ogre::Resource* SoundManager::createImpl(
+	const String& resName, 
+	ResourceHandle handle,
+	const String& group,
+	bool isManual, 
+	ManualResourceLoader* loader, 
+	const NameValuePairList* loadParams)
 {
 	SoundResource *newSound = 0;
 	newSound = new SoundResource(resName, group);

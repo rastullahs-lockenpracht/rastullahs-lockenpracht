@@ -14,7 +14,6 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 #include "UiPrerequisites.h"
-#include <renderers/OgreGUIRenderer/ogrerenderer.h>
 #include <boost/bind.hpp>
 
 #include "Interpreter.h"

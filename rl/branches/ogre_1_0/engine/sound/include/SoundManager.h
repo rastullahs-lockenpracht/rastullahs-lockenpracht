@@ -55,10 +55,9 @@ class _RlSoundExport SoundManager: public Ogre::ResourceManager,
         StringList getSounds();
 
 	protected:
-		virtual Ogre::Resource* createImpl(const Ogre::String& resName, 
-			Ogre::ResourceHandle handle,
-			const Ogre::String& groupName = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-			bool isManual = false, Ogre::ManualResourceLoader* loader = NULL, const Ogre::NameValuePairList* loadParams = NULL);
+		virtual Ogre::Resource* createImpl(const Ogre::String& name, Ogre::ResourceHandle handle, 
+			const Ogre::String& group, bool isManual, Ogre::ManualResourceLoader* loader, 
+			const Ogre::NameValuePairList* createParams);
 
 	private:
 		/// Ein MutEx, um das Hinzufügen der Sounds zu synchronisieren.

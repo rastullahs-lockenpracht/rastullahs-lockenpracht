@@ -67,7 +67,11 @@ namespace rl {
 /*        ErrorHandler* errHandler = (ErrorHandler*) new HandlerBase();
         parser->setErrorHandler(errHandler);*/
 		
-		XmlResourceManager::getSingleton().create(filename)->parseBy(parser);
+		XmlPtr res = 
+			XmlResourceManager::getSingleton().create(
+			filename, 
+			ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+		res.getPointer()->parseBy(parser);
 		return parser->getDocument();
 	}
 

@@ -469,7 +469,11 @@ namespace rl {
 		XMLCh* CODE = XMLString::transcode("KeyCode");
 		XMLCh* KEY = XMLString::transcode("Key");
 		
-		XmlResourceManager::getSingleton().create(filename)->parseBy(parser);
+		XmlPtr res = 
+			XmlResourceManager::getSingleton().create(
+			filename, 
+			ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+		res.getPointer()->parseBy(parser);
 		DOMDocument* doc = parser->getDocument();
 		DOMElement* dataDocumentContent = doc->getDocumentElement();
 

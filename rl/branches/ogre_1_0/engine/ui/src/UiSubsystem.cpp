@@ -18,8 +18,8 @@
 
 #include "UiSubsystem.h"
 
-#include <renderers/OgreGUIRenderer/ogrerenderer.h>
-#include <renderers/OgreGUIRenderer/OgreResourceProvider.h>
+#include <renderers/OgreGUIRenderer/OgreCEGUIRenderer.h>
+#include <renderers/OgreGUIRenderer/OgreCEGUIResourceProvider.h>
 
 #include "RubyInterpreter.h"
 #include "CoreSubsystem.h"
@@ -102,15 +102,15 @@ namespace rl {
 		
 		Ogre::RenderWindow* window = Ogre::Root::getSingleton().getAutoCreatedWindow();
 		log("Initialisiere CEGUI-Renderer", "UiSubsystem::initializeUiSubsystem");
-		OgreRenderer* rend = 
-			new OgreRenderer(window, 
+		OgreCEGUIRenderer* rend = 
+			new OgreCEGUIRenderer(window, 
 								Ogre::RENDER_QUEUE_OVERLAY, 
 								false, 
 								3000,
 								sceneMgr);
 
 		log("Initialisiere CEGUI-System", "UiSubsystem::initializeUiSubsystem");
-		new System(rend, new OgreResourceProvider(), (utf8*)"cegui.config", (utf8*)"logs/cegui.log");
+		new System(rend, NULL, new OgreCEGUIResourceProvider()); //, (utf8*)"cegui.config", (utf8*)"logs/cegui.log"
 		log("CEGUI-System initialisiert", "UiSubsystem::initializeUiSubsystem");
         
 		// load scheme and set up defaults

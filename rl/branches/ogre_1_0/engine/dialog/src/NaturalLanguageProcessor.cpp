@@ -202,7 +202,11 @@ namespace rl
 		parser->setErrorHandler(xmlHandler);
 		try
 		{
-			XmlResourceManager::getSingleton().create(filename)->parseBy(parser);
+			XmlPtr res = 
+				XmlResourceManager::getSingleton().create(
+					filename, 
+					ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+			res.getPointer()->parseBy(parser);
 		}
 		catch(const XERCES_CPP_NAMESPACE::SAXParseException &exc)
 		{

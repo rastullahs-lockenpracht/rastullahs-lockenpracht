@@ -20,6 +20,7 @@
 #include "SoundPrerequisites.h"
 
 #include <OgreString.h>
+#include <OgreResourceGroupManager.h>
 #include <list>
 #include <stdexcept>
 #include <boost/thread.hpp>
@@ -96,7 +97,9 @@ class _RlSoundExport MusicManager : public Ogre::Singleton<MusicManager> {
         /// Relative Lautstaerke holen.
         ALfloat getGain();
         /// Eine Resource erzeugen
-        Ogre::Resource* create(const Ogre::String& resName);
+		Ogre::Resource* create(
+			const Ogre::String& resName, 
+			const Ogre::String& group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
         /// Ob die Songliste wiederholt abgespielt werden soll.
         bool isLooping();
         /// Setzt, ob die Songliste wiederholt werden soll.
