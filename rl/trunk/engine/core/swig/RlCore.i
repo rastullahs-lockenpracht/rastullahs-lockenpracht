@@ -4,7 +4,7 @@
 %{
 #include "FixRubyHeaders.h"
 #include "CorePrerequisites.h"
-#include "ActorFactory.h"
+#include "ActorManager.h"
 #include "BSPWorld.h"
 #include "CameraActor.h"
 #include "LightActor.h"
@@ -53,11 +53,11 @@ namespace rl {
 
 %apply SWIGTYPE *DYNAMIC { Actor * };
 
-class ActorFactory {
+class ActorManager {
 private:
-	ActorFactory();
+	ActorManager();
 public:
-	static ActorFactory& getSingleton(void);
+	static ActorManager& getSingleton(void);
 
 	rl::MeshActor* createMeshActor(const String& name,const String& mesh);
 	rl::GameActor* createGameActor(const String& name,const String& meshname);

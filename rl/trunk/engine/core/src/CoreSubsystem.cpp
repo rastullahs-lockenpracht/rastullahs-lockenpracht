@@ -16,7 +16,7 @@
 #include "NatureWorld.h"
 #include "TerrainWorld.h"
 #include "PhysicsManager.h"
-#include "ActorFactory.h"
+#include "ActorManager.h"
 #include "GameLoop.h"
 
 
@@ -109,7 +109,7 @@ namespace rl {
         mWorld = new BSPWorld( );
 		//mWorld = new NatureWorld();
 		//mWorld = new TerrainWorld();
-		new ActorFactory( );
+		new ActorManager( );
 
 		mWorld->loadScene("testraum.bsp");
 		mWorld->setSkyBox(true, "rl/dsa07");

@@ -1,6 +1,6 @@
 #include "NatureWorld.h"
 #include "CameraActor.h"
-#include "ActorFactory.h"
+#include "ActorManager.h"
 
 namespace rl {
 
@@ -68,7 +68,7 @@ namespace rl {
 	{
 		// Also change position, and set Quake-type orientation
         // Get random player start point
-		mCamera = ActorFactory::getSingleton().createCameraActor("DefaultCamera");
+		mCamera = ActorManager::getSingleton().createCameraActor("DefaultCamera");
 		ViewPoint defaultVP = mSceneMgr->getSuggestedViewpoint(true);
 
 		mCamera->setNearClipDistance(10);

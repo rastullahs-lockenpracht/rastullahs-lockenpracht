@@ -1,6 +1,6 @@
 #include "TerrainWorld.h"
 #include "CameraActor.h"
-#include "ActorFactory.h"
+#include "ActorManager.h"
 
 namespace rl {
 
@@ -53,7 +53,7 @@ namespace rl {
 	{
 				// Also change position, and set Quake-type orientation
         // Get random player start point
-		mCamera = ActorFactory::getSingleton().createCameraActor("DefaultCamera");
+		mCamera = ActorManager::getSingleton().createCameraActor("DefaultCamera");
 
 		// Position it at 500 in Z direction
         mCamera->setPosition(Vector3(128,25,128));

@@ -12,7 +12,7 @@ class PhysicalThing;
 /** The Base Actor
 	@remarks
 		Actors are not to be generated directly, but via
-		factory methods in ActorFactory. This is the base Actor, which
+		factory methods in ActorManager. This is the base Actor, which
 		is extended in other classes. It extends Ogres UserDefinedObject
 		to be assigned to an OgreObject.
 	@par 

@@ -5,7 +5,7 @@
 #include "GameLoop.h"
 
 #include "CameraActor.h"
-#include "ActorFactory.h"
+#include "ActorManager.h"
 #include "PhysicsManager.h"
 
 namespace rl {
@@ -36,7 +36,7 @@ namespace rl {
 	{
 	    // Also change position, and set Quake-type orientation
         // Get random player start point
-		mCamera = ActorFactory::getSingleton().createCameraActor("DefaultCamera");
+		mCamera = ActorManager::getSingleton().createCameraActor("DefaultCamera");
         ViewPoint defaultVP = mSceneMgr->getSuggestedViewpoint(true);
 
 		mCamera->setNearClipDistance(10);
@@ -86,7 +86,7 @@ namespace rl {
     {
 		Ogre::Root::getSingleton().getAutoCreatedWindow()->removeAllViewports();
 
-        ActorFactory::getSingleton().deleteAllActors();
+        ActorManager::getSingleton().deleteAllActors();
 
 		BSPWorld::removeAllLightmaps();
 

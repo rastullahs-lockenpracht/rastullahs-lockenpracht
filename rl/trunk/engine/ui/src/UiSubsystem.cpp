@@ -13,7 +13,7 @@
 #include "InputManager.h"
 
 #include "GameLoop.h"
-#include "ActorFactory.h"
+#include "ActorManager.h"
 #include "GameActor.h"
 #include "CameraActor.h"
 #include "World.h"
@@ -99,10 +99,10 @@ namespace rl {
         //InputManager::getSingleton().addKeyListener(DebugWindow::getSingletonPtr());
 
         CameraActor* camera = dynamic_cast<CameraActor*>(
-            ActorFactory::getSingleton().getActor("DefaultCamera"));
+            ActorManager::getSingleton().getActor("DefaultCamera"));
 		
         GameActor* hero = dynamic_cast<GameActor*>(
-            ActorFactory::getSingleton().createGameActor("Held","held.mesh"));
+            ActorManager::getSingleton().createGameActor("Held","held.mesh"));
         Ogre::Vector3 pos = world->getSceneManager()->getSuggestedViewpoint().position;
         hero->setPosition(pos.x, pos.y, pos.z);
 

@@ -7,7 +7,7 @@ include RlSound;
 
 $Core = CoreSubsystem.getSingleton();
 $World = $Core.getWorld();
-$AF = ActorFactory.getSingleton();
+$AF = ActorManager.getSingleton();
 $PM = PhysicsManager.getSingleton();
 $GL = GameLoop.getSingleton();
 $MM = MusicManager.getSingleton();

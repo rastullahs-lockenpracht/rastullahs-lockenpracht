@@ -1,4 +1,4 @@
-#include "ActorFactory.h"
+#include "ActorManager.h"
 
 #include "CoreSubsystem.h"
 
@@ -10,34 +10,34 @@
 #include "World.h"
 
 
-template<> rl::ActorFactory* Singleton<rl::ActorFactory>::ms_Singleton = 0;
+template<> rl::ActorManager* Singleton<rl::ActorManager>::ms_Singleton = 0;
 
 namespace rl {
 
-    ActorFactory& ActorFactory::getSingleton(void)
+    ActorManager& ActorManager::getSingleton(void)
 	{
-		return Singleton<ActorFactory>::getSingleton();
+		return Singleton<ActorManager>::getSingleton();
 	}
-	ActorFactory* ActorFactory::getSingletonPtr(void)
+	ActorManager* ActorManager::getSingletonPtr(void)
 	{
-		return Singleton<ActorFactory>::getSingletonPtr();
+		return Singleton<ActorManager>::getSingletonPtr();
 	}
 
-    ActorFactory::ActorFactory( ) : mActors()
+    ActorManager::ActorManager( ) : mActors()
     {
         mWorld = CoreSubsystem::getSingleton().getWorld();
     }
 
-    ActorFactory::~ActorFactory( )
+    ActorManager::~ActorManager( )
     {
     }
 
-    void ActorFactory::setWorld( World* pWorld )
+    void ActorManager::setWorld( World* pWorld )
     {
         mWorld = pWorld;
     }
 
-    Actor* ActorFactory::getActor(const String& name)
+    Actor* ActorManager::getActor(const String& name)
 	{
 		ActorPtrMap::const_iterator pActorIter = mActors.find(name);
 
@@ -47,7 +47,7 @@ namespace rl {
 		return 0;
 	}
 		
-	void ActorFactory::deleteActor(const String& name)
+	void ActorManager::deleteActor(const String& name)
 	{
 		ActorPtrMap::iterator pActorIter = mActors.find(name);
 
@@ -59,7 +59,7 @@ namespace rl {
 		}
 	}
 
-    void ActorFactory::deleteAllActors()
+    void ActorManager::deleteAllActors()
 	{       
         ActorPtrMap::iterator pActorIter;
 
@@ -72,7 +72,7 @@ namespace rl {
         }
 	}
 
-	CameraActor* ActorFactory::createCameraActor(const String& name)
+	CameraActor* ActorManager::createCameraActor(const String& name)
 	{
 		const String&  uniquename = nextUniqueName(name);
 
@@ -87,14 +87,14 @@ namespace rl {
         }
         catch( Ogre::Exception )
         {
-            CoreSubsystem::log("ActorFactory - Die Camera für den Aktor '"
+            CoreSubsystem::log("ActorManager - Die Camera für den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden.");
         }
     
         return 0;
 	}
 
-    LightActor* ActorFactory::createLightActor(const String& name)
+    LightActor* ActorManager::createLightActor(const String& name)
 	{
 		const String&  uniquename = nextUniqueName(name);
 
@@ -109,14 +109,14 @@ namespace rl {
         }
         catch( Ogre::Exception )
         {
-            CoreSubsystem::log("ActorFactory - Das Licht für den Aktor '" 
+            CoreSubsystem::log("ActorManager - Das Licht für den Aktor '" 
                 + uniquename + "' konnte nicht erstellt werden.");
         }
     
         return 0;
 	}
 
-	MeshActor* ActorFactory::createMeshActor(const String& name,const String& meshname)
+	MeshActor* ActorManager::createMeshActor(const String& name,const String& meshname)
 	{
 		const String&  uniquename = nextUniqueName(name);
 
@@ -131,7 +131,7 @@ namespace rl {
         }
         catch( Ogre::Exception )
         {
-            CoreSubsystem::log("ActorFactory - Das Mesh '"
+            CoreSubsystem::log("ActorManager - Das Mesh '"
                 + meshname + "' für den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden.");
         }
@@ -139,7 +139,7 @@ namespace rl {
         return 0;
 	}
 
-	GameActor* ActorFactory::createGameActor(const String& name,const String& meshname)
+	GameActor* ActorManager::createGameActor(const String& name,const String& meshname)
 	{
 		const String&  uniquename = nextUniqueName(name);
 
@@ -154,7 +154,7 @@ namespace rl {
         }
         catch( Ogre::Exception )
         {
-            CoreSubsystem::log("ActorFactory - Das Mesh '"
+            CoreSubsystem::log("ActorManager - Das Mesh '"
                 + meshname + "' für den Aktor '"+ 
                 uniquename + "' konnte nicht erstellt werden.");
         }
@@ -162,7 +162,7 @@ namespace rl {
         return 0;
 	}
 
-    ParticleSystemActor* ActorFactory::createParticleSystemActor(const String& name,const String& partname)
+    ParticleSystemActor* ActorManager::createParticleSystemActor(const String& name,const String& partname)
     {
         const String&  uniquename = nextUniqueName(name);
 
@@ -179,7 +179,7 @@ namespace rl {
         }
         catch( Ogre::Exception )
         {
-            CoreSubsystem::log("ActorFactory - Das Partikelsystem '"
+            CoreSubsystem::log("ActorManager - Das Partikelsystem '"
                 + partname + "' für den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden.");
         }
@@ -187,7 +187,7 @@ namespace rl {
         return 0;
     }
 
-    String ActorFactory::nextUniqueName(const String& basename)
+    String ActorManager::nextUniqueName(const String& basename)
 	{
 		String newname = basename;
 	
@@ -199,7 +199,7 @@ namespace rl {
 		}
 		
 		if( basename != newname )
-            CoreSubsystem::log("ActorFactory - Warnung! '" + basename
+            CoreSubsystem::log("ActorManager - Warnung! '" + basename
                 + "' war schon vergeben! Neuer Name ist '" + newname + "'.");
         
 		return newname;

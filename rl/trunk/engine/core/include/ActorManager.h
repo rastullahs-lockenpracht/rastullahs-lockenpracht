@@ -1,5 +1,5 @@
-#ifndef __ActorFactory_H__
-#define __ActorFactory_H__
+#ifndef __ActorManager_H__
+#define __ActorManager_H__
 
 #include <map>
 
@@ -19,11 +19,11 @@ class MeshActor;
 typedef std::map<String,Actor*> ActorPtrMap;
 typedef std::pair<String,Actor*> ActorPtrPair;
 
-class _RlCoreExport ActorFactory : protected Singleton<ActorFactory>
+class _RlCoreExport ActorManager : protected Singleton<ActorManager>
 {
     public:
-        ActorFactory( );
-        virtual ~ActorFactory( );
+        ActorManager( );
+        virtual ~ActorManager( );
 
         Actor* getActor(const String& name);
 		void deleteActor(const String& name);
@@ -38,8 +38,8 @@ class _RlCoreExport ActorFactory : protected Singleton<ActorFactory>
         void setWorld( World* pWorld );
 
         /** Returns the Singleton */
-	    static ActorFactory & getSingleton(void);
-	    static ActorFactory * getSingletonPtr(void);
+	    static ActorManager & getSingleton(void);
+	    static ActorManager * getSingletonPtr(void);
 
     private:
         String nextUniqueName(const String& basename);
