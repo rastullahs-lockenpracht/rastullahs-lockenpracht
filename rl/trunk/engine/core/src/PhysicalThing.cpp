@@ -31,16 +31,20 @@ namespace rl
 {
     PhysicalThing::PhysicalThing(Geometry* geometry, const Vector3& offset,
         const Ogre::Quaternion& orientationBias)
-        :   mBounceRestitution(0.0f),
-            mBounceVelocityThresh(0.0f),
-            mSoftness(0.0f),
-            mFriction(0.0f),
-            mSoftErp(0.0f),
+        :   mBounceRestitution(5.0f),
+            mBounceVelocityThresh(-1.0f),
+            mSoftness(0.5f),
+            mFriction(Utility::Infinity),
+            mSoftErp(0.5f),
             mGeometry(geometry),
             mActor(0),
             mOffset(offset),
             mOrientationBias(orientationBias)
     {
+        if (getBody())
+        {
+            getBody()->setUserData(reinterpret_cast<unsigned long>(this));
+        }
     }
 
     PhysicalThing::~PhysicalThing()

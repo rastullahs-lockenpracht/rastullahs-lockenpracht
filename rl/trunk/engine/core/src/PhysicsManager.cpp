@@ -259,17 +259,25 @@ namespace rl
             // and ignore them.
             OgreOde::Body* b1 = g1->getBody();
             OgreOde::Body* b2 = g2->getBody();
-            if(b1 && b2) if(OgreOde::Joint::areConnected(b1,b2)) return false; 
+            if(b1 && b2)
+            {
+                if(OgreOde::Joint::areConnected(b1,b2)) return false; 
+            }
+            else if (b1 || b2)
+            {
+                PhysicalThing* pt = reinterpret_cast<PhysicalThing*>(b1 ? 
+                    b1->getUserData() : b2->getUserData());
+                if (pt)
+                {
+                    contact->setCoulombFriction(pt->getFriction());
+                    contact->setBouncyness(pt->getBounceRestitutionValue(),
+                        pt->getBounceVelocityThreshold()); 
+                    //contact->setSoftness(pt->getSoftErp(), pt->getSoftness());
+                    ///@todo rausfinden, was das bedeutet.
+                    //contact->setFrictionMode(Contact::Flag_FrictionPyramid);
+                }
+            }
         }
-        
-        // Set the friction at the contact
-        contact->setCoulombFriction(OgreOde::Utility::Infinity);
-		//contact->setCoulombFriction(0.0);
-		contact->setBouncyness(0.5, 0.00005); 
-		// @todo Kollision geht, solange Bouncyness eingestellt ist, allerdings kommt kein bounce
-		//contact->setSoftness(0.5, 0.5);
-		//contact->setFrictionMode(Contact::Flag_FrictionPyramid);
-		
 
         // Yes, this collision is valid
         return true;
