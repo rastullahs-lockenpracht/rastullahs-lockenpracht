@@ -31,3 +31,4 @@ echo "Bootstrap..."
 
 # Fire up autotools
 libtoolize --force && aclocal $ACLOCAL_FLAGS && autoheader && automake --include-deps --add-missing --foreign && autoconf && ./configure $@
+
