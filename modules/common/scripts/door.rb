@@ -51,7 +51,7 @@ class Door < RubyItem
   def initialize(name, isOpen, canBeOpened)
     super(10, name, "Eine Tuer");
 
-    doorActor = $AF.createMeshActor(name, "door01.mesh", 0, -1.0);
+    doorActor = $AF.createMeshActor(name, "door01.mesh", PhysicsManager::GT_BOX , 6.0);
     $CORE.log("door-actor erstellt.");
     setActor(doorActor);
     $CORE.log("actor gesetzt");
