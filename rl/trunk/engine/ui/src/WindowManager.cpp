@@ -32,9 +32,9 @@ namespace rl {
 		if (iter == mWindows.end())
 			return false;
 
-		//mWindows.erase(iter);
+//		mWindows.erase(iter);
 		//TODO: Fenster löschen scheint nicht zu gehen
-		//delete window; 
+//		delete window; 
 		window->setVisible(false);
 
 		return true;

@@ -1,5 +1,7 @@
 #include "RastullahApplication.h"
 
+#include <CEGUIString.h>
+
 #include "CoreSubsystem.h"
 #include "SoundSubsystem.h"
 #include "RulesSubsystem.h"

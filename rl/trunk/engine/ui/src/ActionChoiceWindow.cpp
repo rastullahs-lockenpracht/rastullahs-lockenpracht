@@ -39,12 +39,12 @@ namespace rl {
 	
 	ActionChoiceWindow::~ActionChoiceWindow()
 	{
-		for (unsigned int i = 0; i<mButtons.size(); i++)
+		/*for (unsigned int i = 0; i<mButtons.size(); i++)
 		{
 			mWindow->removeChildWindow(mButtons[i]);
 			CEGUI::WindowManager::getSingleton().destroyWindow(mButtons[i]);
 		}
-		mButtons.clear();
+		mButtons.clear();*/
 	}
 	
 	void ActionChoiceWindow::showActionsOfObject(GameObject* object)

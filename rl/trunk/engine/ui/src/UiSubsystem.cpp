@@ -33,7 +33,7 @@
 #include "CameraActor.h"
 #include "World.h"
 
-#include "RastullahApplication.h"
+//#include "RastullahApplication.h"
 
 // BEGIN TEST
 #include "Person.h"

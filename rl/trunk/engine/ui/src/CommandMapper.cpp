@@ -17,6 +17,7 @@
 #include "CommandMapper.h"
 #include "UiSubsystem.h"
 #include "Person.h"
+#include "Exception.h"
 
 using namespace Ogre;
 using namespace std;
@@ -37,8 +38,11 @@ namespace rl {
 		mMovementCommands.insert(make_pair(KC_W, MOVE_FORWARD));
 		mMovementCommands.insert(make_pair(KC_S, MOVE_BACKWARD));
 
-		mKeyCommandsInBattle.insert(make_pair(KC_F3, make_pair("ShowActionMenuAction", "Aktionen")));
-		mKeyCommandsOffBattle.insert(make_pair(KC_F3, make_pair("ShowActionMenuAction", "Aktionen")));
+		ActionEntry ae;
+		ae.actionClass = "ShowActionMenuAction";
+		ae.actionName = "Aktionen";
+		mKeyCommandsInBattle.insert(make_pair(KC_F3, ae));
+		mKeyCommandsOffBattle.insert(make_pair(KC_F3, ae));
 	}
 
 	CommandMapper::~CommandMapper()
@@ -62,18 +66,18 @@ namespace rl {
 
 	bool CommandMapper::injectKeyClicked(int keycode)
 	{
-		KeyCommandMap* commandMap;
+		KeyAndMouseCommandMap* commandMap;
 		if (UiSubsystem::getSingleton().isInBattleMode())
 			commandMap = &mKeyCommandsInBattle;
 		else
 			commandMap = &mKeyCommandsOffBattle;
 
-		KeyCommandMap::const_iterator command = commandMap->find(keycode);
+		KeyAndMouseCommandMap::const_iterator command = commandMap->find(keycode);
 
 		if (command != commandMap->end())
 		{
 			Person* chara = UiSubsystem::getSingleton().getActiveCharacter();
-			chara->doAction((*command).second.first, (*command).second.second, chara, chara);
+			chara->doAction((*command).second.actionClass, (*command).second.actionName, chara, chara);
 			return true;
 		}
 		return false;
@@ -113,5 +117,64 @@ namespace rl {
 		return (mActiveMovement & movmt) == movmt;
 	}
 
+
+	void CommandMapper::setMapping(
+			MapType map, 
+			int code, 
+			const CeGuiString& actionClass, 
+			const CeGuiString& actionName)
+	{
+		ActionEntry ae;
+		ae.actionClass = actionClass;
+		ae.actionName = actionName;
+
+		switch (map)
+		{
+		case CMDMAP_KEYMAP_IN_BATTLE:
+			mKeyCommandsInBattle.insert(make_pair(code, ae));
+			break;
+		case CMDMAP_KEYMAP_OFF_BATTLE:
+			mKeyCommandsOffBattle.insert(make_pair(code, ae));
+			break;
+		case CMDMAP_MOUSEMAP:
+			mKeyCommandsInBattle.insert(make_pair(code, ae));
+			break;
+		}
+	}
+
+	int CommandMapper::getMapping(
+			MapType map, 
+			const CeGuiString& actionClass, 
+			const CeGuiString& actionName)
+	{
+		if (map == CMDMAP_KEYMAP_MOVEMENT)
+		{
+			return 0;
+		}
+
+		KeyAndMouseCommandMap* commandMap;
+
+		if (map == CMDMAP_KEYMAP_IN_BATTLE)
+			commandMap = &mKeyCommandsInBattle;
+		else if (map == CMDMAP_KEYMAP_OFF_BATTLE)
+            commandMap = &mKeyCommandsOffBattle;
+		else if (map == CMDMAP_MOUSEMAP)
+			commandMap = &mMouseCommands;
+		else
+			Throw(RuntimeException, "Unknown command map");
+
+		for (KeyAndMouseCommandMap::iterator command = commandMap->begin();
+				command != commandMap->end(); command++)
+		{
+			ActionEntry ae = (*command).second;
+			if (ae.actionClass.compare(actionClass) &&
+				ae.actionName.compare(actionName))
+				return (*command).first;
+		}
+
+		return CMDMAP_NO_MAPPING;
+	}
+
+    
 }
 

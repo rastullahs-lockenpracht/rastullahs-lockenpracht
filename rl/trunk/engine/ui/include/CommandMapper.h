@@ -40,6 +40,23 @@ namespace rl {
 		MOVE_SNEAK = 1<<7
 	};
 
+	enum MapType
+	{
+		CMDMAP_KEYMAP_IN_BATTLE,
+		CMDMAP_KEYMAP_OFF_BATTLE,
+		CMDMAP_KEYMAP_MOVEMENT,
+		CMDMAP_MOUSEMAP
+	};
+
+	struct ActionEntry
+	{
+		//ActionEntry()	{}
+
+		CeGuiString actionClass;
+		CeGuiString actionName;
+	};
+
+	const int CMDMAP_NO_MAPPING = -9999999;
 
 	class _RlUiExport CommandMapper : public Ogre::Singleton<CommandMapper>
 	{
@@ -61,16 +78,26 @@ namespace rl {
 		bool injectKeyDown(int keycode);
 		bool injectKeyUp(int keycode);		
 
+		void setMapping(
+			MapType map, 
+			int code, 
+			const CeGuiString& actionClass, 
+			const CeGuiString& actionName);
+
+		int getMapping(
+			MapType map, 
+			const CeGuiString& actionClass, 
+			const CeGuiString& actionName);
+
 	private:
 		// KeyCode -> (Rubyklasse, Name)
-		typedef std::map<int, std::pair<CeGuiString, CeGuiString> > KeyCommandMap;
+		typedef std::map<int, ActionEntry > KeyAndMouseCommandMap;
 		typedef std::map<int, MovementState> MovementCommandMap;
-		typedef std::map<int, std::pair<CeGuiString, CeGuiString> > MouseCommandMap;
 
 		MovementCommandMap mMovementCommands;
-		KeyCommandMap mKeyCommandsInBattle;
-		KeyCommandMap mKeyCommandsOffBattle;
-		MouseCommandMap mMouseCommands;
+		KeyAndMouseCommandMap mKeyCommandsInBattle;
+		KeyAndMouseCommandMap mKeyCommandsOffBattle;
+		KeyAndMouseCommandMap mMouseCommands;
 
 		int mActiveMovement;		
 	};
