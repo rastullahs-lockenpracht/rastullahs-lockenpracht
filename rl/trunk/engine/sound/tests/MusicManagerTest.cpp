@@ -82,8 +82,8 @@ public:
 
     CPPUNIT_TEST_SUITE(MusicManagerTest);
     CPPUNIT_TEST(testMusicManager_addSoundDirectory);
-//    CPPUNIT_TEST(testMusicManager_playForward);
-    CPPUNIT_TEST(testMusicManager_playStop);
+    CPPUNIT_TEST(testMusicManager_playForward);
+//    CPPUNIT_TEST(testMusicManager_playStop);
     CPPUNIT_TEST_SUITE_END(); 
 };
 CPPUNIT_TEST_SUITE_REGISTRATION(MusicManagerTest);

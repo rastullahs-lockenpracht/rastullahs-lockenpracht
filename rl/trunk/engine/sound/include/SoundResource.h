@@ -25,7 +25,7 @@
 #include "EventSource.h"
 #include "EventListener.h"
 #include "EventCaster.h"
-#include "SoundEvent.h"
+#include "SoundEvents.h"
 
 
 // @TODO: Callbacks für Threads einfuehren.
@@ -36,7 +36,7 @@ namespace rl {
  * Der Typ der Sounddaten.
  * Momentan nur Wave und OggVorbis.
  */
-enum SoundDataType { Wave, OggVorbis };
+enum SoundDataType { OggVorbis };
 typedef vector<ALuint> ALuintVector;
  
 /** Diese Basisklasse kapselt eine OpenAl++-Source fuer
@@ -52,6 +52,9 @@ class _RlSoundExport SoundResource: public Ogre::Resource,
          public virtual EventSource, 
          public virtual EventCaster<SoundEvent> {
     private:
+        // Damit die Timings alle 0.5 sek. abgeschickt werden.
+        int mTicks;
+    
         /// Lesen der Vorbisdatei.
         static size_t VorbisRead(void *ptr, size_t byteSize, size_t sizeToRead, 
                  void *datasource);
@@ -163,10 +166,6 @@ class _RlSoundExport SoundResource: public Ogre::Resource,
         Ogre::DataStreamPtr mDataStream;
         /// Die Art des Sounds.
         SoundDataType mSoundDataType;
-        /// Für Waves dekodieren wir die Daten im voraus.
-        ALvoid *mWAVData;
-        /// Wie weit sind wir im Wave?
-        ALsizei mWavIndex;
         /// Das OggVorbis-Filehandle
         OggVorbis_File mOggStream;
         /// Dauer des FadeIns
@@ -255,7 +254,6 @@ private:
         bool playback();
         bool update();
         bool oggstream(ALuint buffer);
-        bool wavstream(ALuint buffer);
         bool stream(ALuint buffer);
         void empty();
         void check();

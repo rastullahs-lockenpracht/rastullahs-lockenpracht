@@ -21,8 +21,6 @@
 #include "MusicManager.h"
 #include "SoundResource.h"
 #include "SoundManager.h"
-#include "SoundEvent.h"
-#include "SoundFadeEvent.h"
-#include "SoundPlayEvent.h"
+#include "SoundEvents.h"
 #include "AL/al.h"
 %}

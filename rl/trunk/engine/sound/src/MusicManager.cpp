@@ -92,7 +92,6 @@ StringList MusicManager::getExtension()
 {
     StringList result;
     result.push_back("*.ogg");
-    result.push_back("*.wav");
     
     return result;
 }

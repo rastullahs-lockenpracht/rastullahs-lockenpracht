@@ -22,8 +22,7 @@
 #include "SoundSubsystem.h"
 #include "SoundManager.h"
 #include "SoundResource.h"
-#include "SoundPlayEvent.h"
-#include "SoundFadeEvent.h"
+
 
 extern "C" {
     #include <AL/al.h>
@@ -194,8 +193,15 @@ SoundResource::~SoundResource()
  */
 bool SoundResource::eventRaised(SoundEvent *anEvent) const
 {
+#if 0
     SoundSubsystem::log("Event raised. Reason: " + StringConverter::toString(anEvent->getReason()));
     SoundSubsystem::log("Event raised. Source: " + StringConverter::toString((unsigned long int)anEvent->getSource()));
+    SoundTimingEvent *e = dynamic_cast<SoundTimingEvent*>(anEvent);
+    if (e)
+    {
+        SoundSubsystem::log("Timing: " + StringConverter::toString((float)e->mTime));
+    }
+#endif
     return true;
 }
 
@@ -323,10 +329,6 @@ void SoundResource::loadImpl()
         {
             mSoundDataType = OggVorbis;
         } 
-		else if (StringUtil::endsWith(mName, ".wav"))
-        {
-            mSoundDataType = Wave;
-        } 
 		else 
 		{
             mIsLoaded = false;
@@ -354,20 +356,9 @@ void SoundResource::loadImpl()
                 mSize = numBytes;
                 mLoop = false;
                 mTime = ov_time_total(&mOggStream, -1);
-                //ov_clear(&mOggStream);
-                //delete vorbisInfo;
+                mTicks = 0;
                 
                 break;
-            case Wave:
-				{	
-				ALbyte* dataPtr = new ALbyte[numBytes];
-				mDataStream.getPointer()->read(dataPtr, numBytes);
-				alutLoadWAVMemory(dataPtr, &mFormat, &mWAVData,
-					&mSize, &mFrequency, &mLoop);
-				check();
-				delete[] dataPtr;
-				}
-				break;
             default:
                 // Nicht erlaubt;
                 mDataStream.setNull();
@@ -396,12 +387,6 @@ void SoundResource::unloadImpl()
     {
         case OggVorbis:
             ov_clear(&mOggStream);
-            
-            break;
-        case Wave:
-            alutUnloadWAV(mFormat, mWAVData, mSize, mFrequency);
-            check();
-            
             break;
     }
     
@@ -653,7 +638,6 @@ void SoundResource::runStreaming()
     event.setReason(SoundPlayEvent::STARTEVENT);
     dispatchEvent(&event);
 
-    mWavIndex = 0;
     if (!playback())
     {
         // TODO: Fehlermeldung
@@ -693,35 +677,6 @@ void SoundResource::runStreaming()
     return;
 }
 
-/**
- * Wavedaten streamen
- * @return TRUE, wenn Streamen geklappt hat.
- * @param buffer Den Sounndbuffer zum Abspielen.
- * @author JoSch
- * @date 11-01-2004
- */
-bool SoundResource::wavstream (ALuint buffer)
-{
-    char pcm[BUFFER_SIZE];
-    ALsizei toCopy = mSize - mWavIndex;
-    if (toCopy > BUFFER_SIZE)
-    {
-        toCopy = BUFFER_SIZE;
-    }
-    if (toCopy <= 0)
-    {
-        return false;
-    }
-    try {
-        memcpy(pcm, (void*)((char*)mWAVData + mWavIndex), toCopy);
-        alBufferData(buffer, mFormat, pcm , toCopy, mFrequency);
-        check();
-    } catch(...) {}
-    mWavIndex += toCopy;
-
-    return true; 
- 
-}
 
 /**
  * Sounddaten streamen
@@ -734,10 +689,7 @@ bool SoundResource::stream (ALuint buffer)
 {
     switch(mSoundDataType)
     {
-        case Wave:
-            return wavstream(buffer);
-            break;
-        case OggVorbis:
+         case OggVorbis:
             return oggstream(buffer);
             break;
         default:
@@ -1057,6 +1009,15 @@ bool SoundResource::oggstream (ALuint buffer)
             break;
         } 
        
+    }
+
+    double time = ov_time_tell(&mOggStream);
+    if (floor(time*2.0) > mTicks)
+    {
+        mTicks = (int)floor(time*2.0);
+        SoundTimingEvent timing(this);
+        timing.mTime = time;
+        dispatchEvent(&timing);
     }
 
     if (size < BUFFER_SIZE) {

@@ -1,4 +1,4 @@
-/* SoundPlayEvent.h - Diese Klassse repräsentiert ein Event das beim Abspielen auftritt.
+/* SoundEvent.h - Diese Klassse repräsentiert ein Event das in RlSound auftritt.
  * (C) 2003-2005. Team Pantheon. www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
@@ -14,24 +14,51 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
  
-#ifndef SOUNDPLAYEVENT_H
-#define SOUNDPLAYEVENT_H
+#ifndef SOUNDEVENT_H
+#define SOUNDEVENT_H
 
 #include "SoundPrerequisites.h"
-#include "SoundEvent.h"
+#include "EventObject.h"
 
 namespace rl {
- 
+
+class SoundEvent : public EventObject{
+
+public:
+	SoundEvent(EventSource *source);
+	virtual ~SoundEvent();
+};
+
+class SoundFadeEvent : public SoundEvent {
+public:
+    SoundFadeEvent(EventSource *source);
+    virtual ~SoundFadeEvent();
+
+    static const unsigned int STARTEVENT = 12;
+    static const unsigned int STOPEVENT = 13;
+};
+
 class SoundPlayEvent : public SoundEvent {
 public:
 
-	SoundPlayEvent(EventSource *source);
-	virtual ~SoundPlayEvent();
+    SoundPlayEvent(EventSource *source);
+    virtual ~SoundPlayEvent();
     
     static const unsigned int STARTEVENT = 10;
     static const unsigned int STOPEVENT = 11;
 };
 
-}
+class SoundTimingEvent : public SoundEvent {
 
-#endif // SOUNDPLAYEVENT_H
+public:
+    double mTime;
+
+    SoundTimingEvent(EventSource *source);
+    virtual ~SoundTimingEvent();
+    
+    static const unsigned int TIMEEVENT = 14;
+};
+
+
+}
+#endif // SOUNDEVENT_H

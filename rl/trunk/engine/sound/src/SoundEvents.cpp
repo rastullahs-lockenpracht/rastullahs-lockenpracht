@@ -1,4 +1,4 @@
-/* SoundPlayEvent.cpp - Diese Klassse repräsentiert ein Event das beim Abspielen auftritt.
+/* SoundEvent.cpp - Diese Klassse repräsentiert ein Event das in RlSound auftritt.
  * (C) 2003-2005. Team Pantheon. www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
@@ -14,9 +14,25 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
  
-#include "SoundPlayEvent.h"
+#include "SoundEvents.h"
 
 namespace rl {
+
+SoundEvent::SoundEvent(EventSource *source) :
+    EventObject(source)
+{}
+
+SoundEvent::~SoundEvent()
+{}
+
+SoundFadeEvent::SoundFadeEvent(EventSource *source):
+    SoundEvent(source)
+{
+}
+
+SoundFadeEvent::~SoundFadeEvent()
+{
+}
 
 SoundPlayEvent::SoundPlayEvent(EventSource *source) :
     SoundEvent(source)
@@ -24,6 +40,17 @@ SoundPlayEvent::SoundPlayEvent(EventSource *source) :
 }
 
 SoundPlayEvent::~SoundPlayEvent()
+{
+}
+
+SoundTimingEvent::SoundTimingEvent(EventSource *source) :
+    SoundEvent(source),
+    mTime(0.0)
+{
+    setReason(TIMEEVENT);
+}
+
+SoundTimingEvent::~SoundTimingEvent()
 {
 }
 
