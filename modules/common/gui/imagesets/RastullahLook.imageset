@@ -44,7 +44,7 @@
     <Image Name="EditBoxLeft" XPos="42" YPos="331" Width="8" Height="16" />
     <Image Name="EditBoxMiddle" XPos="53" YPos="331" Width="52" Height="16" />
     <Image Name="EditBoxRight" XPos="108" YPos="331" Width="5" Height="16" />
-    <Image Name="EditBoxCarat" XPos="115" YPos="331" Width="7" Height="16" />
+    <Image Name="EditBoxCarat" XPos="117" YPos="331" Width="3" Height="16" />
 
     <Image Name="MiniVertScrollBarSegment" XPos="163" YPos="275" Width="7" Height="4" />
     
