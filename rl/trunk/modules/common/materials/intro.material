@@ -1,0 +1,84 @@
+material test_WST_SNDBODEN01
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture textures/WST_SNDBODEN01.jpg
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}
+material test_-1OU_CLMAUER03
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture textures/-1OU_CLMAUER03.jpg
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}
+material test_WST_WAND01
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture textures/WST_WAND01.jpg
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}
+material test_OU_HOLZ06_04
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture textures/OU_HOLZ06_04.jpg
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}
+material test_OU_OCLMAUER09_1
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture textures/OU_OCLMAUER09_1.jpg
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}
+material test_MC_HOLZ01
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture textures/MC_HOLZ01.jpg
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}
