@@ -15,7 +15,7 @@ $boBotter.startAnimation( "Walk" );
 $anim = $boBotter.getAnimation( "Walk" );
 $anim.setSpeed( 4.0 );
 
-$trackAnim = $AniMgr.createTrackAnimation( $Fackel, "test", 2.0 );
+$trackAnim = $AniMgr.createTrackAnimation( $Fackel, "testTrackAnimation", 2.0 );
 $trackAnim.setPaused( true );
 $trackAnim.setSpeed( 1.0 );
 $trackAnim.addKeyFrame( 0.0 );
