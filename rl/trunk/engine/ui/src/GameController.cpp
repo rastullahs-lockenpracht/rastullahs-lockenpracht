@@ -261,12 +261,14 @@ namespace rl {
         mCameraNode->_update(true, false);
         mOdeCamera->setPosition(mCameraNode->getWorldPosition());
         mTargetDistance = mCameraNode->getPosition().z;
-        if (fabs(mTargetDistance - mDesiredDistance) < 2.0)
+        
+        Real camAdjustmentSpeed = elapsedTime * mMoveSpeed * 7;
+        if (fabs(mTargetDistance - mDesiredDistance) < camAdjustmentSpeed)
             mTargetDistance = mDesiredDistance;
         else if (mTargetDistance < mDesiredDistance)
-            mTargetDistance += 2.0;
+            mTargetDistance += camAdjustmentSpeed;
         else 
-            mTargetDistance -= 2.0;
+            mTargetDistance -= camAdjustmentSpeed;
 
         mControlNode->yaw(Degree(yaw));
 
