@@ -43,6 +43,14 @@ namespace rl {
 		ae.actionName = "Aktionen";
 		mKeyCommandsInBattle.insert(make_pair(KC_F3, ae));
 		mKeyCommandsOffBattle.insert(make_pair(KC_F3, ae));
+
+		ae.actionClass = "QuitGameAction";
+		ae.actionName = "Ende";
+		mKeyCommandsOffBattle.insert(make_pair(KC_ESCAPE, ae));
+
+		ae.actionClass = "ToggleConsoleAction";
+		ae.actionName = "Konsole";
+		mKeyCommandsOffBattle.insert(make_pair(KC_TAB, ae));
 	}
 
 	CommandMapper::~CommandMapper()

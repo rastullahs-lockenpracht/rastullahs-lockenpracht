@@ -32,6 +32,15 @@ class QuitGameAction < RubyAction
 	end
 end
 	
+class ToggleConsoleAction < RubyAction
+	def initialize
+		super("Konsole", "Konsole zeigen/verstecken")
+	end
+	
+	def doAction(object, actor, target)
+		$Ui.consoleToggle()
+	end
+end
 
 class PlayerSettings
 
@@ -39,10 +48,10 @@ class PlayerSettings
 		player.addAction(ShowActionMenuAction.new, 4) # ACT_DISABLED
 		player.addAction(CampAction.new) 
 		player.addAction(QuitGameAction.new) 
+		player.addAction(ToggleConsoleAction.new)
 	end
 
 	def PlayerSettings.preparePlayer(player)
-		PlayerSettings.addPlayerActions(player)
-		# mal gucken, was noch so kommt
+		PlayerSettings.addPlayerActions(player)		# mal gucken, was noch so kommt
 	end
 end

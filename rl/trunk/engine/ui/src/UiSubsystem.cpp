@@ -188,6 +188,12 @@ namespace rl {
 		w->setVisible(true);
 	}
 
+	void UiSubsystem::consoleToggle()
+	{
+		Console* cons = Console::getSingletonPtr();
+		cons->setVisible(!cons->isVisible());
+	}
+
 	void UiSubsystem::setBattleMode(bool inBattle)
 	{
 		mInBattle = inBattle;

@@ -31,11 +31,13 @@ namespace rl {
 	class _RlUiExport ActionChoiceWindow : public CeGuiWindow
 	{
 	public:
+		void showTalentsOfActor();
+
 		ActionChoiceWindow(Person* actor);
 		~ActionChoiceWindow();
 		
 		void showActionsOfObject(GameObject* object);
-		void showTalentsOfActor();
+		
 		
 		bool handleActionChosen(Action* action);
 		bool handleShowHint(const CeGuiString& evt);
