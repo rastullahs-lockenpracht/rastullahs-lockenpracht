@@ -52,7 +52,7 @@ int main(int argc, char **argv)
 
 	try {
 
-				/**@todo das nach RastullahApplication
+		/**@todo das nach RastullahApplication
 		* und RastullahApplication nach Startup. */
 		core = new rl::CoreSubsystem();
 		core->log("CoreSubsystem gestartet");
