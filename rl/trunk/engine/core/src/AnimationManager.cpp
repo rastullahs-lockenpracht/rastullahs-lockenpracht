@@ -22,59 +22,82 @@ template<> rl::AnimationManager* Singleton<rl::AnimationManager>::ms_Singleton =
 namespace rl 
 {
 
-AnimationManager::AnimationManager( ) : mAnimationList()
+AnimationManager::AnimationManager( ) : mAnimationMap()
 {
-
+	mGlobalAnimationSpeed = 1.0;
 }
 	
 AnimationManager::~AnimationManager( )
 {
-
+	
 }
 
-void AnimationManager::addAnimation(AnimationState* newAnimState)
+void AnimationManager::setGlobalAnimationSpeed( Real speed )
 {
-	bool found = false;
-
-	for (std::list<AnimationState*>::iterator it = mAnimationList.begin(); 
-			it != mAnimationList.end(); it++)
-	{
-		if (*it == newAnimState)
-		{
-			(*it)->setEnabled(true);
-			found = true;
-		}
-	}
-
-	if (!found)
-	{
-		mAnimationList.push_back(newAnimState);
-		newAnimState->setEnabled(true);
-	}
+	mGlobalAnimationSpeed = speed;
 }
 
-void AnimationManager::removeAnimation(AnimationState* oldAnimState)
+Real AnimationManager::getGlobalAnimationSpeed( ) const
 {
-	for (std::list<AnimationState*>::iterator it = mAnimationList.begin(); 
-			it != mAnimationList.end(); it++)
+	return mGlobalAnimationSpeed;
+}
+
+RlAnimation* AnimationManager::addAnimation(AnimationState* animState, Real speed, unsigned int timesToPlay)
+{
+	std::map<AnimationState*,RlAnimation*>::iterator iter = mAnimationMap.find(animState);
+
+	RlAnimation* anim;
+
+	// Noch nicht vorhanden
+	if( iter == mAnimationMap.end() )
 	{
-		if (*it == oldAnimState)
-		{
-			(*it)->setEnabled(false);
-			mAnimationList.remove(*it);
-			return;
-		}
+		anim = new RlAnimation(animState,speed,timesToPlay);
+		mAnimationMap.insert(std::pair<AnimationState*,RlAnimation*>(animState,anim));
+		animState->setEnabled(true);
+	}
+	// Bereits vorhanden
+	else
+	{
+		anim = iter->second;
+		anim->resetTimesPlayed();
+		anim->setTimesToPlay(timesToPlay);
+		anim->setSpeed(speed);
+		anim->setPaused(false);
+	}
+
+	return anim;
+}
+
+RlAnimation* AnimationManager::getAnimation(AnimationState* animState)
+{
+	std::map<AnimationState*,RlAnimation*>::iterator iter = mAnimationMap.find(animState);
+
+	if( iter == mAnimationMap.end() )
+		return 0;
+	else
+		return iter->second;
+}
+
+void AnimationManager::removeAnimation(AnimationState* animState)
+{
+	std::map<AnimationState*,RlAnimation*>::iterator iter = mAnimationMap.find(animState);
+
+	if( iter != mAnimationMap.end() )
+	{
+		RlAnimation* anim = iter->second;
+
+		mAnimationMap.erase(iter);
+		delete anim;
 	}
 }
 
 
 void AnimationManager::run(Real timePassed)
 {
-	for (std::list<AnimationState*>::iterator it = mAnimationList.begin(); 
-			it != mAnimationList.end(); it++)
+	for (std::map<AnimationState*,RlAnimation*>::iterator it = mAnimationMap.begin(); 
+			it != mAnimationMap.end(); it++)
 	{
-		if ((*it)->getEnabled())
-			(*it)->addTime(timePassed);
+		it->second->addTime(timePassed*mGlobalAnimationSpeed);
 	}
 }
 

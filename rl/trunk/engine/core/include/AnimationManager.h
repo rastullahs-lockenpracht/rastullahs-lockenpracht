@@ -17,10 +17,11 @@
 #ifndef __AnimationManager_H__
 #define __AnimationManager_H__
 
-#include <list>
+#include <map>
 #include <OgreSingleton.h>
 
 #include "SynchronizedTask.h"
+#include "RlAnimation.h"
 
 #include "CorePrerequisites.h"
 
@@ -35,15 +36,21 @@ public:
 	/** Default Deconstructor */
     virtual ~AnimationManager();
 
-    void addAnimation(AnimationState* newAnimState);
-    void removeAnimation(AnimationState* oldAnimState);
+    RlAnimation* addAnimation(AnimationState* animState, Real speed=1.0, unsigned int timesToPlay=0 );
+	RlAnimation* getAnimation(AnimationState* animState);
+    void removeAnimation(AnimationState* animState);
+
+	// Für globale SlowMotion oder anderes
+	void setGlobalAnimationSpeed( Real speed );
+	Real getGlobalAnimationSpeed( ) const;
 
     virtual void run(Real timePassed);
 
     static AnimationManager & getSingleton(void);
 	static AnimationManager * getSingletonPtr(void);
 private:
-    std::list<AnimationState*> mAnimationList;
+    std::map<AnimationState*,RlAnimation*> mAnimationMap;
+	Real mGlobalAnimationSpeed;
 };
 }
 #endif

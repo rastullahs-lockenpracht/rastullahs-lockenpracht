@@ -19,6 +19,7 @@
 #include <OgreAnimation.h>
 #include <OgreBone.h>
 #include <OgreTagPoint.h>
+#include <OgreException.h>
 
 #include "CoreSubsystem.h"
 #include "AnimationManager.h"
@@ -69,16 +70,48 @@ namespace rl {
         mEntity->setNormaliseNormals(true);
     }
 
-    void MeshActor::startAnimation(const String& anim)
+
+
+	RlAnimation* MeshActor::getAnimation(const String& animName)
+	{
+		try
+		{
+			AnimationState* animState = getEntity()->getAnimationState(animName);
+			return AnimationManager::getSingleton().getAnimation(animState);
+		}
+		catch(Ogre::Exception&) 
+		{
+		}
+
+		return 0;
+	}
+
+
+
+	RlAnimation* MeshActor::startAnimation(const String& animName, Real speed, unsigned int timesToPlay)
     {
-        AnimationState* animState = getEntity()->getAnimationState(anim);
-        AnimationManager::getSingleton().addAnimation(animState);
+		try
+		{
+			AnimationState* animState = getEntity()->getAnimationState(animName);
+			return AnimationManager::getSingleton().addAnimation(animState);
+		}
+		catch(Ogre::Exception&) 
+		{
+		}
+
+		return 0;
     }
 
-    void MeshActor::stopAnimation(const String& anim)
+    void MeshActor::stopAnimation(const String& animName)
     {
-        AnimationState* animState = getEntity()->getAnimationState(anim);
-        AnimationManager::getSingleton().removeAnimation(animState);
+        try
+		{
+			AnimationState* animState = getEntity()->getAnimationState(animName);
+			AnimationManager::getSingleton().removeAnimation(animState);
+		}
+		catch(Ogre::Exception&) 
+		{ 
+		}
     }
 
     void MeshActor::setCastShadows (bool enabled)
@@ -91,6 +124,7 @@ namespace rl {
         return mEntity->getCastShadows();
     }
 
+	
     void MeshActor::attachActorToBone(Actor* actor, String name)
     {
         if( mEntity->hasSkeleton() )

@@ -20,6 +20,8 @@
 #include "CorePrerequisites.h"
 #include "Actor.h"
 
+#include "RlAnimation.h"
+
 namespace rl {
 
 class _RlCoreExport MeshActor : public virtual Actor
@@ -43,7 +45,8 @@ public:
     Ogre::Real getRadius();
     Ogre::Real getHeight();
 
-    void startAnimation(const String&);
+    RlAnimation* startAnimation(const String&, Real speed=1.0, unsigned int timesToPlay=0);
+	RlAnimation* getAnimation(const String&);
 	void stopAnimation(const String&);
 
     void setCastShadows (bool enabled);

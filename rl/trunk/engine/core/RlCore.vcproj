@@ -229,6 +229,9 @@
 				RelativePath=".\include\PhysicsManager.h">
 			</File>
 			<File
+				RelativePath=".\include\RlAnimation.h">
+			</File>
+			<File
 				RelativePath=".\include\RubyInterpreter.h">
 			</File>
 			<File
@@ -297,6 +300,9 @@
 			</File>
 			<File
 				RelativePath=".\src\PhysicsManager.cpp">
+			</File>
+			<File
+				RelativePath=".\src\RlAnimation.cpp">
 			</File>
 			<File
 				RelativePath=".\src\RubyInterpreter.cpp">
