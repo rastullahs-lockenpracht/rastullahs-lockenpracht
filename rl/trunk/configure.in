@@ -131,7 +131,6 @@ AC_CONFIG_FILES([Makefile \
 		engine/sound/Makefile engine/sound/src/Makefile engine/sound/include/Makefile engine/sound/tests/Makefile \
 		engine/script/Makefile engine/script/swig/Makefile engine/script/src/Makefile \
 		engine/startup/Makefile engine/startup/src/Makefile \
-		modules/Makefile \
 		rl.conf modules/common/conf/plugins-linux.cfg \
 		tools/Makefile \
     ])

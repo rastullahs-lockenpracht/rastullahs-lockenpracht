@@ -1,4 +1,4 @@
-SUBDIRS =  engine modules tools docs
+SUBDIRS =  engine tools docs
 
 install:
 	cd docs; ${MAKE} install

@@ -124,6 +124,33 @@ namespace rl {
         cerr<<"line "<<endl;
         return "";
     }
+
+    const String CoreSubsystem::findRastullahConf()
+    {
+        char line[255];
+        ifstream config;
+        // Erstmal im Homeverzeichnis suchen.
+        String home = ::getenv("HOME");
+        String path = home + "/.rastullah.cfg";
+        config.open(path.c_str());
+        if (!config.is_open())
+        {
+            // Wir schliessen die Datei sicherheitshalber und
+            // setzen den Zustand zurück (wichtig!)
+            config.close();
+            config.clear();
+            // Jetzt schauen wir mal, ob in etc was zu finden ist.
+            path = "/etc/rl/rastullah.cfg";
+            config.open(path.c_str());
+        }
+        // Haben  wir jetzt eine Datei?
+        if (config.is_open())
+        {
+            config.close();
+            return path;
+        }
+        return home + "/.rastullah.cfg";
+    }
 #endif
 
 	bool CoreSubsystem::initializeCoreSubsystem()
@@ -139,7 +166,7 @@ namespace rl {
             static String ROOT_DIR = findConfRootDir();
 			new Root( 
 				ROOT_DIR+CONF_DIR+"plugins-linux.cfg", 
-				ROOT_DIR+CONF_DIR+"rastullah.cfg", 
+				findRastullahConf(), 
 				"logs/ogre.log" );
 		#else
 			new Root( 

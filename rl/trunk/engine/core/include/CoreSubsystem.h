@@ -71,6 +71,7 @@ private:
 	String mActiveModule;
 #if OGRE_PLATFORM == PLATFORM_LINUX
     static const String findConfRootDir();
+    static const String findRastullahConf();
 #endif
 };
 
