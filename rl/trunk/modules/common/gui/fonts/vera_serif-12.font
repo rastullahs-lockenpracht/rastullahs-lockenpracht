@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <Font 
     Name="Vera Serif-12" 
-    Filename="modules/common/gui/fonts/tahoma.ttf" 
+    Filename="modules/common/gui/fonts/VeraSe.ttf" 
     Type="Dynamic" 
     Size="12" 
     NativeHorzRes="800" 

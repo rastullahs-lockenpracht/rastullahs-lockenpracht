@@ -1,10 +1,13 @@
 <?xml version="1.0" ?>
 <GUIScheme Name="Rastullah">
-    <Imageset Name="TaharezLook" Filename="modules/common/gui/imagesets/Rastullah.imageset" />
-    <Font Name="Tahoma-8" Filename="modules/common/gui/fonts/tahoma-8.font" />
-    <Font Name="Tahoma-10" Filename="modules/common/gui/fonts/tahoma-10.font" />
-    <Font Name="Tahoma-12" Filename="modules/common/gui/fonts/tahoma-12.font" />
-    <Font Name="Tahoma-14" Filename="modules/common/gui/fonts/tahoma-14.font" />
+    <Imageset Name="TaharezLook" Filename="modules/common/gui/imagesets/RastullahLook.imageset" />
+    
+    <Font Name="Vera Serif-8" Filename="modules/common/gui/fonts/vera_serif-8.font" />
+    <Font Name="Vera Serif-10" Filename="modules/common/gui/fonts/vera_serif-10.font" />
+    <Font Name="Vera Serif-12" Filename="modules/common/gui/fonts/vera_serif-12.font" />
+    <Font Name="Vera Serif-13" Filename="modules/common/gui/fonts/vera_serif-13.font" />
+    <Font Name="Vera Serif-14" Filename="modules/common/gui/fonts/vera_serif-14.font" />
+    
     <WindowSet Filename="CEGUITaharezLook">
         <WindowFactory Name="TaharezLook/AlternateProgressBar" />
         <WindowFactory Name="TaharezLook/Button" />
