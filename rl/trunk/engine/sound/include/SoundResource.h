@@ -132,6 +132,9 @@ class _RlSoundExport SoundResource: public Resource,
                 ALbyte *mData;
                 /// Der Typ der Sounddaten.
                 SoundDataType mDataType;
+                /// Zeit in ms, die wir unterbechen.
+                static int mSleepTime;
+                
             public:
                 /// Die Konstruktoren.
 				StreamThread();
@@ -151,9 +154,9 @@ class _RlSoundExport SoundResource: public Resource,
         /// Die Buffer, die wir benutzen
         ALuintVector mBuffers;
         /// Wieviele Buffer werden benutzt.
-        static const short mDefaultBufferCount = 4;
+        static const short mDefaultBufferCount = 8;
         /// Grösse des Buffers.
-        static const int BUFFER_SIZE = (4096 * 2);
+        static const int BUFFER_SIZE = (2048 * 2);
         /// Die Uebrgabe der Callbacks.
         static ov_callbacks mVorbisCallbacks;
         

@@ -62,7 +62,8 @@ MusicManager::MusicManager() : ResourceManager(),
     mShouldPlay(false),
     mShouldExit(false),
     mMusicThread()
-{ 
+{
+    mMusicThread.start();
 }
 
 /**
@@ -88,6 +89,7 @@ StringList MusicManager::getExtension()
 {
     StringList result;
     result.push_back("*.ogg");
+    result.push_back("*.wav");
     
     return result;
 }
@@ -170,6 +172,7 @@ void MusicManager::setNextSong()
         mSource->unload();
         mSource = 0;
     }
+    printf("getNextSong\n");
     RlAssert(mSource == 0, "Fehler beim Stoppen des aktuellen Musikstuecks");
     // Wir setzen jetzt den naechsten Song.
     mSource = next;

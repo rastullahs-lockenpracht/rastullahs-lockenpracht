@@ -263,7 +263,7 @@ void SoundResource::load()
                 mLoop = false;
                 mTime = ov_time_total(&mOggStream, -1);
                 //ov_clear(&mOggStream);
-                delete vorbisInfo;
+                //delete vorbisInfo;
                 
                 break;
             case Wave:
@@ -435,6 +435,8 @@ const bool SoundResource::isPlaying() const
 
 
 /**
+ * @author JoSch
+ * @date 09-16-2004
  */
 SoundResource::FadeThread::FadeThread(bool fadeIn) :
     Thread(),
@@ -448,6 +450,8 @@ SoundResource::FadeThread::FadeThread(bool fadeIn) :
 
 
 /**
+ * @author JoSch
+ * @date 09-16-2004
  */
 SoundResource::FadeThread::FadeThread(SoundResource *that, bool fadeIn) :
     Thread(),
@@ -525,7 +529,7 @@ void SoundResource::FadeThread::run()
  * @param time. Die Zeit in msek., wo der Fade In gerade ist
  * @param gain. Der aktuelle Lautstaerkewert, vom dem ausgegangen wird.
  * @author JoSch
- * @09-15-2004
+ * @date 09-15-2004
  */
 ALfloat SoundResource::FadeThread::calculateFadeIn(unsigned RL_LONGLONG time, ALfloat gain)
 {
@@ -542,7 +546,7 @@ ALfloat SoundResource::FadeThread::calculateFadeIn(unsigned RL_LONGLONG time, AL
  * @param time. Die Zeit in msek., wo der Fade Out gerade ist
  * @param gain. Der aktuelle Lautstaerkewert, vom dem ausgegangen wird.
  * @author JoSch
- * @09-15-2004
+ * @date 09-15-2004
  */
 ALfloat SoundResource::FadeThread::calculateFadeOut(unsigned RL_LONGLONG time, ALfloat gain)
 {
@@ -558,7 +562,7 @@ ALfloat SoundResource::FadeThread::calculateFadeOut(unsigned RL_LONGLONG time, A
 /**
  * @param dauer Die Dauer des Fades in Millisekunden.
  * @author JoSch
- * @10-13-2004
+ * @date 10-13-2004
  */
 void SoundResource::FadeThread::setDuration(const unsigned long int dauer)
 {
@@ -570,7 +574,7 @@ void SoundResource::FadeThread::setDuration(const unsigned long int dauer)
 /**
  * @return Die Dauer des Fades in Millisekunden.
  * @author JoSch
- * @10-13-2004
+ * @date 10-13-2004
  */
 const unsigned long int SoundResource::FadeThread::getDuration() const
 {
@@ -583,7 +587,7 @@ const unsigned long int SoundResource::FadeThread::getDuration() const
 /**
  * @param gain Die Ausgangslautstaerke des Fades.
  * @author JoSch
- * @10-13-2004
+ * @date 10-13-2004
  */
 void SoundResource::FadeThread::setGain(const ALfloat gain)
 {
@@ -595,7 +599,7 @@ void SoundResource::FadeThread::setGain(const ALfloat gain)
 /**
  * @return Die Dauer des Fades in Millisekunden.
  * @author JoSch
- * @10-13-2004
+ * @date 10-13-2004
  */
 const ALfloat SoundResource::FadeThread::getGain() const
 {
@@ -605,6 +609,10 @@ const ALfloat SoundResource::FadeThread::getGain() const
     return gain;
 }
 
+/**
+ * @author JoSch
+ * @date 09-16-2004
+ */
 void SoundResource::FadeThread::setResource(SoundResource* res)
 {
 	mResource = res;
@@ -624,6 +632,13 @@ SoundResource::StreamThread::StreamThread() :
 }
 
 /**
+ * Zeit in ms, die wir unterbechen.
+ * @author JoSch
+ * @date 01-19-2005
+ */
+int SoundResource::StreamThread::mSleepTime = 1;
+
+/**
  * Das Streamen passiert in diesem Thread.
  * @author JoSch
  * @date 10-11-2004
@@ -636,6 +651,10 @@ SoundResource::StreamThread::StreamThread(SoundResource *that) :
 {
 }
 
+/*
+ * @author JoSch
+ * @date 09-16-2004
+ */
 void SoundResource::StreamThread::setResource(SoundResource* res)
 {
 	mResource = res;
@@ -673,7 +692,7 @@ void SoundResource::StreamThread::run()
             }
             loopende = true;
         }
-        msleep(10);
+        msleep(mSleepTime);
     }
     
     event.setReason(SoundPlayEvent::STOPEVENT);
@@ -945,7 +964,7 @@ bool SoundResource::update ()
 
 bool SoundResource::oggstream (ALuint buffer)
 {
-    char pcm[BUFFER_SIZE];
+    char pcm[BUFFER_SIZE*4];
     int size = 0;
     int section;
     int result;
