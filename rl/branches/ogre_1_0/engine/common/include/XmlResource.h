@@ -52,6 +52,7 @@ namespace rl {
 
 	private:
 		XERCES_CPP_NAMESPACE::MemBufInputSource* mXmlBuffer;
+		char* mCharBuffer;
 	};
 
 	class _RlCommonExport XmlPtr :

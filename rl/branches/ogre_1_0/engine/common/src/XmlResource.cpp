@@ -25,7 +25,9 @@ namespace rl {
 XmlResource::XmlResource(
 	 ResourceManager* creator, const String& name, ResourceHandle handle,
 		const String& group, bool isManual, ManualResourceLoader* loader)
-	: Resource(creator, name, handle, group, isManual, loader)
+	: Resource(creator, name, handle, group, isManual, loader),
+	mCharBuffer(NULL),
+	mXmlBuffer(NULL)
 {
 }
 
@@ -38,22 +40,20 @@ XmlResource::~XmlResource()
 void XmlResource::loadImpl()
 {
 	DataStreamPtr ds = Ogre::ResourceGroupManager::getSingleton().openResource(mName, mGroup);
-	//std::string inputData = ds->getAsString();
 	mSize = ds->size();
 	
-	char* mem = new char[mSize];
-	ds->readLine(mem, mSize, "µ"); //@todo: HACKHACKHACK
-	//memcpy(mem, inputData.c_str(), mSize);
+	mCharBuffer = new char[mSize];
+	ds->read(mCharBuffer, mSize);
 
-	mXmlBuffer = new MemBufInputSource(reinterpret_cast<XMLByte*>(mem), mSize, "rl::XmlResourceManager");
+	mXmlBuffer = new MemBufInputSource(reinterpret_cast<XMLByte*>(mCharBuffer), mSize, "rl::XmlResourceManager");
 	mIsLoaded = true;
-	//delete[] mem;
 	touch();	
 }
 
 void XmlResource::unloadImpl()
 {
 	delete mXmlBuffer;
+	delete[] mCharBuffer;
 	mIsLoaded = false;
 }
 
