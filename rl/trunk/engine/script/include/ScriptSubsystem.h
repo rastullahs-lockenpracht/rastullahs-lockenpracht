@@ -14,11 +14,24 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-%{
-//----------- Includes - UI -----------
-#include "FixRubyHeaders.h"
-#include "UiPrerequisites.h"
-#include "UiSubsystem.h"
-#include "CommandMapper.h"
-#include "GameController.h"
-%}
+#ifndef __ScriptSubsystem_H__
+#define __ScriptSubsystem_H__
+
+#include "ScriptPrerequisites.h"
+#include "OgreSingleton.h"
+
+namespace rl {
+	class _RlScriptExport ScriptSubsystem : public Ogre::Singleton<ScriptSubsystem>
+	{
+	public:
+		ScriptSubsystem();
+		~ScriptSubsystem();
+
+		static ScriptSubsystem& getSingleton();
+		static ScriptSubsystem* getSingletonPtr();
+
+	private:
+		void initializeScriptSubsystem();
+	};
+}
+#endif

@@ -21,7 +21,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\core\include;..\dialog\include;..\rules\include;..\ui\include;..\sound\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\openal\include;..\..\dependencies\openalpp\include;..\..\dependencies\OpenThreads\include;..\..\dependencies\vorbis\include;..\..\dependencies\cegui\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\xerces"
+				AdditionalIncludeDirectories=".\include;..\core\include;..\dialog\include;..\rules\include;..\ui\include;..\sound\include;..\common\include;..\script\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\openal\include;..\..\dependencies\openalpp\include;..\..\dependencies\OpenThreads\include;..\..\dependencies\vorbis\include;..\..\dependencies\cegui\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\xerces"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="3"
@@ -83,7 +83,7 @@
 				InlineFunctionExpansion="1"
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="2"
-				AdditionalIncludeDirectories=".\include;..\core\include;..\dialog\include;..\rules\include;..\ui\include;..\sound\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\openal\include;..\..\dependencies\openalpp\include;..\..\dependencies\OpenThreads\include;..\..\dependencies\vorbis\include;..\..\dependencies\cegui\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\xerces"
+				AdditionalIncludeDirectories=".\include;..\core\include;..\dialog\include;..\rules\include;..\ui\include;..\sound\include;..\common\include;..\script\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\openal\include;..\..\dependencies\openalpp\include;..\..\dependencies\OpenThreads\include;..\..\dependencies\vorbis\include;..\..\dependencies\cegui\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\xerces"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"

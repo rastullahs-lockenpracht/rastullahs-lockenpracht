@@ -37,6 +37,7 @@
 #include "GameLoop.h"
 #include "RubyInterpreter.h"
 #include "Exception.h"
+#include <ctime>
 
 
 template<> rl::CoreSubsystem* Singleton<rl::CoreSubsystem>::ms_Singleton = 0;
@@ -59,7 +60,9 @@ namespace rl {
 			mActiveModule(""),
 			mRootDir(".")
 	{
+		resetClock();
 		initializeCoreSubsystem();        
+		resetClock();
 	}
 
     CoreSubsystem::~CoreSubsystem() 
@@ -386,5 +389,23 @@ namespace rl {
 		
 		if (startupScript.length() > 0)
             getInterpreter()->execute(String("load '") + startupScript + String("'"));
+	}
+
+	void CoreSubsystem::resetClock()
+	{
+		mClockStartTime = getCurrentTime();
+	}
+
+	RL_LONGLONG CoreSubsystem::getClock()
+	{
+		return getCurrentTime() - mClockStartTime;
+	}
+
+	RL_LONGLONG CoreSubsystem::getCurrentTime()
+	{
+		timeval timebuffer;
+		gettimeofday(&timebuffer, NULL);
+        
+		return static_cast<RL_LONGLONG>(timebuffer.tv_sec) * 1000L + static_cast<RL_LONGLONG>(timebuffer.tv_usec/1000);
 	}
 }

@@ -84,7 +84,10 @@ namespace rl {
     class DsaManager {
     public:
         RL_LONGLONG getTimestamp();
-   
+        Date getCurrentDate();
+		void setTimestamp(const RL_LONGLONG time);
+		void setCurrentDate(const Date& date);
+		
         int rollD20();
         Tripel<int> roll3D20();
         int rollD6();

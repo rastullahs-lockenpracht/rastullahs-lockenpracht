@@ -14,11 +14,29 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-%{
-//----------- Includes - UI -----------
-#include "FixRubyHeaders.h"
-#include "UiPrerequisites.h"
-#include "UiSubsystem.h"
-#include "CommandMapper.h"
-#include "GameController.h"
-%}
+#ifndef __ScriptPrerequisites_H__
+#define __ScriptPrerequisites_H__
+
+#include "RastullahPrerequisites.h"
+
+#if OGRE_PLATFORM == PLATFORM_WIN32
+// Export control
+#   if defined( RLSCRIPT_EXPORTS )
+#       define _RlScriptExport __declspec( dllexport )
+#   else
+#       define _RlScriptExport __declspec( dllimport )
+#   endif
+#else // Linux / Mac OSX etc
+#   define _RlScriptExport
+#endif
+
+#include <OgreNoMemoryMacros.h>
+	#undef min
+	#include <CEGUIString.h>
+#include <OgreMemoryMacros.h>
+
+namespace rl {
+	typedef CEGUI::String CeGuiString;
+}
+
+#endif

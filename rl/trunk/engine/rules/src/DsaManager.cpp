@@ -22,8 +22,10 @@
 #include "Kampftechnik.h"
 #include "Person.h"
 #include "RulesSubsystem.h"
+#include "Date.h"
 
 #include "Exception.h"
+#include "CoreSubsystem.h"
 
 
 template <>
@@ -111,9 +113,24 @@ namespace rl
 
     RL_LONGLONG DsaManager::getTimestamp()
     {
-        RlFail("Not yet implemented.");
-        return -1;
+		return mBaseTime + CoreSubsystem::getSingleton().getClock();
     }
+
+	Date DsaManager::getCurrentDate()
+	{
+		return Date(getTimestamp());
+	}
+
+	void DsaManager::setTimestamp(const RL_LONGLONG time)
+	{
+		mBaseTime = time;
+		CoreSubsystem::getSingleton().resetClock();
+	}
+
+	void DsaManager::setCurrentDate(const Date& date)
+	{
+		setTimestamp(date.getTimestamp());
+	}
 
     int DsaManager::rollD20()
     {

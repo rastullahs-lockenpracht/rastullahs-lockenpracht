@@ -26,6 +26,7 @@
 #include "RulesSubsystem.h"
 #include "DialogSubsystem.h"
 #include "UiSubsystem.h"
+#include "ScriptSubsystem.h"
 
 #include "Exception.h"
 #include <CEGUIExceptions.h>
@@ -46,6 +47,7 @@ int main(int argc, char **argv)
 	rl::RulesSubsystem* rules = NULL;
 	rl::DialogSubsystem* dialog = NULL;
 	rl::UiSubsystem* ui =  NULL;
+	rl::ScriptSubsystem* script =  NULL;
 
 	try {
 
@@ -67,6 +69,9 @@ int main(int argc, char **argv)
 			
 		ui = new rl::UiSubsystem();
 		log->logMessage("UiSubsystem gestartet");
+
+		script = new rl::ScriptSubsystem();
+		log->logMessage("ScriptSubsystem gestartet");
 
 		log->logMessage("Starte...");
 		core->startCore();
@@ -95,6 +100,7 @@ int main(int argc, char **argv)
 
 	try
 	{
+		delete script;
 		delete ui;
 		delete dialog;
 		delete rules;

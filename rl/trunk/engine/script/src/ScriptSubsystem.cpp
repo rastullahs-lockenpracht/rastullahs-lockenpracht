@@ -14,11 +14,33 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-%{
-//----------- Includes - UI -----------
-#include "FixRubyHeaders.h"
-#include "UiPrerequisites.h"
-#include "UiSubsystem.h"
-#include "CommandMapper.h"
-#include "GameController.h"
-%}
+#include "ScriptTimer.h"
+#include "ScriptSubsystem.h"
+
+using Ogre::Singleton;
+
+template<> rl::ScriptSubsystem* Singleton<rl::ScriptSubsystem>::ms_Singleton = 0;
+
+namespace rl {
+
+	ScriptSubsystem& ScriptSubsystem::getSingleton()
+	{
+		return Singleton<ScriptSubsystem>::getSingleton();
+	}
+
+	ScriptSubsystem* ScriptSubsystem::getSingletonPtr()
+	{
+		return Singleton<ScriptSubsystem>::getSingletonPtr();
+	}
+
+	ScriptSubsystem::ScriptSubsystem()
+	{
+		new ScriptTimer();
+	}
+
+	ScriptSubsystem::~ScriptSubsystem()
+	{
+		delete ScriptTimer::getSingletonPtr();
+	}
+
+}

@@ -32,6 +32,7 @@ namespace rl
     class Talent;
     class Kampftechnik;
 	class Person;
+	class Date;
 
 	static const int SKT_ROWS = 20;
 	static const int SKT_COLUMNS = 8;
@@ -56,6 +57,12 @@ namespace rl
 
         /** Liefert die aktuelle Spielzeit */
         RL_LONGLONG getTimestamp();
+		Date getCurrentDate();
+
+		/** Setzt die aktuelle Spielzeit, die Spieluhr in Core wird dabei zurückgesetzt */
+		void setTimestamp(const RL_LONGLONG time);
+		void setCurrentDate(const Date& date);
+
 
         /** liefert eine Zufallszahl zwischen 1 und 20.*/
         int rollD20();
@@ -86,6 +93,8 @@ namespace rl
 		void _addPerson(Person* person);
 
     private:
+		RL_LONGLONG mBaseTime;
+
         typedef std::map<int, Talent*> TalentMap;
 		typedef std::map<int, Person*> PersonMap;
         typedef std::map<int, Kampftechnik*> KampftechnikMap;

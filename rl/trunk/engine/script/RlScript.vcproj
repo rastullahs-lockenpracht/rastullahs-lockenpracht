@@ -122,11 +122,32 @@
 			Name="Quelldateien"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+			<File
+				RelativePath=".\src\ScriptSubsystem.cpp">
+			</File>
+			<File
+				RelativePath=".\src\ScriptTimer.cpp">
+			</File>
+			<File
+				RelativePath=".\src\TimerTask.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Headerdateien"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			<File
+				RelativePath=".\include\ScriptPrerequisites.h">
+			</File>
+			<File
+				RelativePath=".\include\ScriptSubsystem.h">
+			</File>
+			<File
+				RelativePath=".\include\ScriptTimer.h">
+			</File>
+			<File
+				RelativePath=".\include\TimerTask.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="Ressourcendateien"
@@ -175,6 +196,9 @@ swig.exe -c++ -ruby -minherit -v -Wall &quot;$(InputPath)&quot;
 					RelativePath=".\swig\RlRules.head.inc">
 				</File>
 				<File
+					RelativePath=".\swig\RlScript.head.inc">
+				</File>
+				<File
 					RelativePath=".\swig\RlSound.head.inc">
 				</File>
 				<File
@@ -189,6 +213,9 @@ swig.exe -c++ -ruby -minherit -v -Wall &quot;$(InputPath)&quot;
 				</File>
 				<File
 					RelativePath=".\swig\RlRules.inc">
+				</File>
+				<File
+					RelativePath=".\swig\RlScript.inc">
 				</File>
 				<File
 					RelativePath=".\swig\RlSound.inc">

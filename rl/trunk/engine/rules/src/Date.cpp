@@ -159,42 +159,42 @@ namespace rl
         mMilli = timeInMinute % ONE_SECOND;
     }
 
-    RL_LONGLONG Date::getTimestamp()
+    RL_LONGLONG Date::getTimestamp() const
     {
         return mTimestamp;
     }
 
-    int Date::getTimeFraction()
+    int Date::getTimeFraction() const
     {
         return mTimestamp % ONE_DAY;
     }
 
-    int Date::getYear()
+    int Date::getYear() const
     {
         return mYear;
     }
 
-    int Date::getMonth()
+    int Date::getMonth() const
     {
         return mMonth + 1;
     }
 
-    std::string Date::getMonthName()
+    std::string Date::getMonthName() const
     {
         return std::string(MONTHS[mMonth]);
     }
 
-    int Date::getDayOfYear()
+    int Date::getDayOfYear() const
     {
         return mDayOfYear + 1;
     }
 
-    int Date::getDayOfMonth()
+    int Date::getDayOfMonth() const
     {
         return mDayOfMonth + 1;
     }
 
-    int Date::getDayOfWeek()
+    int Date::getDayOfWeek() const
     {
         int wd = ((getYear() - 993) + getDayOfMonth() + MONTH_MODIFIER[mMonth]) %
                  7;
@@ -207,32 +207,32 @@ namespace rl
         return WEEKDAY_OFFSET[wd];
     }
 
-    std::string Date::getDayOfWeekName()
+    std::string Date::getDayOfWeekName() const
     {
         return std::string(DAYS_OF_WEEK[getDayOfWeek() - 1]);
     }
 
-    int Date::getHour()
+    int Date::getHour() const
     {
         return mHour;
     }
 
-    int Date::getMinute()
+    int Date::getMinute() const
     {
         return mMinute;
     }
 
-    int Date::getSecond()
+    int Date::getSecond() const
     {
         return mSecond;
     }
 
-    int Date::getMilliSecond()
+    int Date::getMilliSecond() const
     {
         return mMilli;
     }
 
-    std::string Date::toString()
+    std::string Date::toString() const
     {
         char date[256];
         _snprintf(date,

@@ -14,11 +14,23 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-%{
-//----------- Includes - UI -----------
-#include "FixRubyHeaders.h"
-#include "UiPrerequisites.h"
-#include "UiSubsystem.h"
-#include "CommandMapper.h"
-#include "GameController.h"
-%}
+namespace rl {
+
+	%feature("director") TimerTask;   
+    class TimerTask
+	{
+	public:
+		TimerTask(const rl::CeGuiString& name);
+		virtual ~TimerTask();
+
+		void setActive(bool active);
+		bool isActive();
+
+		virtual void run(const rl::CeGuiString& name); // muss in Ruby überschrieben werden, ruft eine Methode anhand ihres Namens auf
+
+		void scheduleRelativeToActivation(const rl::CeGuiString& name, long timeAfterActivation);
+		void scheduleRelativeToStart(const rl::CeGuiString& name, long timeAfterStart);
+		void scheduleRelativeToGametime(const rl::CeGuiString& name, rl::Date gameTime);
+	};
+
+}

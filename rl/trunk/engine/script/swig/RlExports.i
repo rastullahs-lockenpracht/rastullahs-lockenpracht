@@ -24,7 +24,7 @@
 %include "RlSound.head.inc"
 %include "RlCore.head.inc"
 %include "RlRules.head.inc"
-
+%include "RlScript.head.inc"
 
 
 %include "TypeMaps.i"
@@ -63,3 +63,4 @@
 %include "RlCore.inc"
 %include "RlRules.inc"
 %include "RlUi.inc"
+%include "RlScript.inc"

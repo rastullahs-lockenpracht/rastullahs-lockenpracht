@@ -92,29 +92,29 @@ namespace rl
         Date operator-(const RL_LONGLONG& rhs);
         RL_LONGLONG operator-(const Date& rhs);
 
-        RL_LONGLONG getTimestamp();
+        RL_LONGLONG getTimestamp() const;
 
         /// Millisekunden seit 00:00:00,000 des instantiierten Tages.
-        int getTimeFraction();
-        int getYear();
-        int getMonth();
+        int getTimeFraction() const;
+        int getYear() const;
+        int getMonth() const;
         /// Name des instantiierten Monats
-        std::string getMonthName();
-        int getDayOfYear();
-        int getDayOfMonth();
-        int getDayOfWeek();
-        std::string getDayOfWeekName();
-        int getHour();
-        int getMinute();
-        int getSecond();
-        int getMilliSecond();
+        std::string getMonthName() const;
+        int getDayOfYear() const;
+        int getDayOfMonth() const;
+        int getDayOfWeek() const;
+        std::string getDayOfWeekName() const;
+        int getHour() const;
+        int getMinute() const;
+        int getSecond() const;
+        int getMilliSecond() const;
 
         /** Gibt ein Datum in der Form {Wochentag},
          *  der {Tag}. {Monat} im Jahre {Jahr}, {Stunde}:{Minute}.
          *  zurueck.
          * @return Datum in ausgabefaehiger Textform.
          */
-        std::string toString();
+        std::string toString() const;
     };
 
     Date _RlRulesExport operator+(const RL_LONGLONG&, const Date&);

@@ -66,6 +66,15 @@ public:
 	void  makeScreenshot(const String& sName);
 
     static void log ( const String& msg );
+
+	/** Gibt die abgelaufene Spielzeit zurück*/
+	RL_LONGLONG getClock();
+
+	/** Setzt die abgelaufene Spielzeit wieder auf Null, die DSA-Zeit wird aus der Basiszeit + abgelaufener Spielzeit berechnet
+	*
+	* @see DsaManager
+	*/
+	void resetClock();
 	
 private:  
     /** Runs the setup methods  */
@@ -80,12 +89,16 @@ private:
 	/** Opens a configuration dialog */
 	bool setupConfiguration();
 
+	RL_LONGLONG getCurrentTime();
+
 	World* mWorld;
 	Interpreter* mInterpreter;
 	StringVector mCommonModules;
 	StringVector mActivatableModules;
 	String mActiveModule;
     String mRootDir;
+
+	RL_LONGLONG mClockStartTime;
 
 #if OGRE_PLATFORM == PLATFORM_LINUX
     static const String findConfRootDir();

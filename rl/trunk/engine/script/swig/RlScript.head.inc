@@ -15,10 +15,6 @@
  */
 
 %{
-//----------- Includes - UI -----------
-#include "FixRubyHeaders.h"
-#include "UiPrerequisites.h"
-#include "UiSubsystem.h"
-#include "CommandMapper.h"
-#include "GameController.h"
+//----------- Includes - Script -----------
+#include "TimerTask.h"
 %}
