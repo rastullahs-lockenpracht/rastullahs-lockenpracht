@@ -23,7 +23,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\rules\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\ogre\PlugIns\GuiElements\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\OpenThreads\include;..\..\dependencies\cegui\include;..\..\dependencies\boost\include"
+				AdditionalIncludeDirectories=".\include;.\components\include;..\common\include;..\core\include;..\rules\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\ogre\PlugIns\GuiElements\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\OpenThreads\include;..\..\dependencies\cegui\include;..\..\dependencies\boost\include"
 				PreprocessorDefinitions="_WINDOWS,_DEBUG,WIN32,RLUI_EXPORTS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -106,7 +106,7 @@
 				FavorSizeOrSpeed="1"
 				OptimizeForProcessor="2"
 				OptimizeForWindowsApplication="TRUE"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\rules\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\ogre\PlugIns\GuiElements\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\OpenThreads\include;..\..\dependencies\cegui\include;..\..\dependencies\boost\include"
+				AdditionalIncludeDirectories=".\include;.\components\include;..\common\include;..\core\include;..\rules\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\ogre\PlugIns\GuiElements\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\OpenThreads\include;..\..\dependencies\cegui\include;..\..\dependencies\boost\include"
 				PreprocessorDefinitions="NDEBUG,_WINDOWS,WIN32,RLUI_EXPORTS"
 				StringPooling="FALSE"
 				ExceptionHandling="TRUE"
@@ -208,6 +208,9 @@
 				RelativePath=".\include\InventoryWindow.h">
 			</File>
 			<File
+				RelativePath=".\components\include\ListboxWrappedTextItem.h">
+			</File>
+			<File
 				RelativePath=".\include\RubyInterpreter.h">
 			</File>
 			<File
@@ -255,6 +258,9 @@
 			</File>
 			<File
 				RelativePath=".\src\InventoryWindow.cpp">
+			</File>
+			<File
+				RelativePath=".\components\src\ListboxWrappedTextItem.cpp">
 			</File>
 			<File
 				RelativePath=".\src\RubyInterpreter.cpp">

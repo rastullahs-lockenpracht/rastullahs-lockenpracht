@@ -13,21 +13,12 @@ using namespace CEGUI;
 CharacterSheetWindow::CharacterSheetWindow()
 	: CeGuiWindow("charactersheet.xml", true)
 {
-	Window* buttonChar = getWindow("CharacterSheet/CharacterSheetButton");
-	buttonChar->subscribeEvent(
-		StaticImage::MouseClickEvent, 
-		boost::bind(&CharacterSheetWindow::showTab, this, (utf8*)"/CharacterSheet"));
-	
-	getWindow("CharacterSheet/TalentSheetButton")->subscribeEvent(
-		StaticImage::MouseClickEvent, 
-		boost::bind(&CharacterSheetWindow::showTab, this, (utf8*)"/TalentSheet"));
-	
-	getWindow("CharacterSheet/MagicSheetButton")->subscribeEvent(
-		StaticImage::MouseClickEvent, 
-		boost::bind(&CharacterSheetWindow::showTab, this, (utf8*)"/MagicSheet"));	
-	
-	showTab((utf8*)"/TalentSheet");
-
+	mTalentTable = getMultiColumnList("CharacterSheet/TalentSheet/Table");
+	mTalentTable->addColumn((utf8*)"Talent", 0, 0.5);
+	mTalentTable->addColumn((utf8*)"Probe", 1, 0.3);
+	mTalentTable->addColumn((utf8*)"eBE", 2, 0.1);
+	mTalentTable->addColumn((utf8*)"TW", 3, 0.1);
+	mTalentTable->setUserSortControlEnabled(false);
 	addToRoot(mWindow);	
 }
 
@@ -52,9 +43,11 @@ void CharacterSheetWindow::update()
 
 void CharacterSheetWindow::updateValues()
 {
-	for (int row = 0; row <= mTalentTable->getRowCount(); row++)
+	for (unsigned int row = 0; row < mTalentTable->getRowCount(); row++)
 	{
+		int tw = mCreature->getTalent(mTalentTable->getItemAtGridReference(MCLGridRef(row, 0))->getID());
 
+		mTalentTable->getItemAtGridReference(MCLGridRef(row, 3))->setText(StringConverter::toString(tw));
 	}
 }
 
@@ -62,8 +55,10 @@ void CharacterSheetWindow::updateTalents()
 {
 	const Creature::TalentMap talents = mCreature->getAllTalents();
 
-	if (talents.size() > mTalentTable->getRowCount());
-		//TODO: Zeilen anpassen
+	while(mTalentTable->getRowCount() > talents.size())
+		mTalentTable->removeRow(mTalentTable->getRowCount()-1);
+	while(mTalentTable->getRowCount() < talents.size())
+		mTalentTable->addRow();
 
 	int talentNum = 0;
 
@@ -71,21 +66,36 @@ void CharacterSheetWindow::updateTalents()
 	{
 		//Talente in die Talenttabelle
 		Talent* talent = DsaManager::getSingleton().getTalent((*iter).first);
-		mTalentTable->addRow();
-		mTalentTable->setItem(new ListboxTextItem(talent->getName()), 0, talentNum);
-		mTalentTable->setItem(new ListboxTextItem((utf8*)"MU/MU/MU"), 1, talentNum);
-		mTalentTable->setItem(new ListboxTextItem((utf8*)""), 2, talentNum);
+		mTalentTable->setItem(new ListboxTextItem(talent->getName(), talent->getId()), 0, talentNum);
+
+		EigenschaftTripel eigensch = talent->getEigenschaften();
+		string probe = "";
+		probe += DsaManager::getSingleton().getEigenschaft(eigensch.first)->getNameAbbreviation();
+		probe += "/";
+		probe += DsaManager::getSingleton().getEigenschaft(eigensch.second)->getNameAbbreviation();
+		probe += "/";
+		probe += DsaManager::getSingleton().getEigenschaft(eigensch.third)->getNameAbbreviation();
+
+		mTalentTable->setItem(new ListboxTextItem(probe), 1, talentNum);
+		CEGUI::String eBe;
+		if (talent->getEbe() == EBE_KEINE_BE)
+			eBe = (utf8*)"-";
+		else if (talent->getEbe() == EBE_BEx2)
+			eBe = (utf8*)"BEx2";
+		else if (talent->getEbe() == 0)
+			eBe = (utf8*)"BE";
+		else if (talent->getEbe() > 0)
+			eBe = (utf8*)"BE+" + CEGUI::String(StringConverter::toString(talent->getEbe()));
+		else
+			eBe = (utf8*)"BE" + CEGUI::String(StringConverter::toString(talent->getEbe()));
+
+		mTalentTable->setItem(new ListboxTextItem(eBe), 2, talentNum);
+		mTalentTable->setItem(new ListboxTextItem((utf8*)""), 3, talentNum);
 
 		talentNum++;
 	}
 
 }
 
-void CharacterSheetWindow::showTab(utf8* name)
-{
-	Window* tab = WindowManager::getSingleton().getWindow(
-		mWindow->getName() + name);
-	tab->moveToFront();
-}
 
 }

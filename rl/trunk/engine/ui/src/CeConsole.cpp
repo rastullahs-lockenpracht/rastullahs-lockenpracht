@@ -6,11 +6,13 @@
 #include "Interpreter.h"
 #include "CeConsole.h"
 #include "DebugWindow.h"
+#include "ListboxWrappedTextItem.h"
 
 template<> rl::CeConsole* Singleton<rl::CeConsole>::ms_Singleton = 0;
 
 using CEGUI::WindowManager; using CEGUI::utf8; using CEGUI::ListboxTextItem;
 using CEGUI::KeyEventArgs; using CEGUI::Key; using CEGUI::colour;
+using CEGUI::ListboxWrappedTextItem; using CEGUI::TextFormatting;
 
 namespace rl 
 {
@@ -97,11 +99,11 @@ namespace rl
 
 	void CeConsole::appendTextRow(CEGUI::String& text, const colour color)
 	{
-		const float MIN_SPACE_POS = 0.5;
+		/*const float MIN_SPACE_POS = 0.5;
 
 		CEGUI::String textLeft = CEGUI::String(text);
 		const CEGUI::Font* font = mDisplay->getFont();
-		unsigned int width = /*mDisplay->getAbsoluteWidth()*/500*0.95;
+		unsigned int width = mDisplay->getAbsoluteWidth()*0.95;
 
 		while (textLeft.length() > 0)
 		{
@@ -133,7 +135,12 @@ namespace rl
 			item->setTextColours(color);
 			mDisplay->addItem(item);
 			mDisplay->ensureItemIsVisible(item); // scroll to bottom;
-		}
+		}*/
+		ListboxWrappedTextItem* item = new ListboxWrappedTextItem(text);
+		item->setTextColours(color);
+		item->setTextFormatting(CEGUI::WordWrapLeftAligned);
+		mDisplay->addItem(item);
+		mDisplay->ensureItemIsVisible(item); // scroll to bottom;*/
 	}
 	
 	void CeConsole::setInterpreter(Interpreter* interpreter)

@@ -103,7 +103,7 @@ namespace rl {
             GameLoop::getSingleton().addSynchronizedTask(mGameController);
         }
 
-		UiSubsystem::runTest();
+		//UiSubsystem::runTest();
     }
 
     void UiSubsystem::requestExit()
@@ -145,5 +145,6 @@ namespace rl {
 		Creature* held = new Creature(342, "Heinz-Peter", "Testheld", talente);
 		CharacterSheetWindow* sheet = new CharacterSheetWindow();
 		sheet->show();
+		sheet->setCharacter(held);
 	}
 }

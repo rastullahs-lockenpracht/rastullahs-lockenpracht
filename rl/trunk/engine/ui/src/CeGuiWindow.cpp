@@ -98,5 +98,10 @@ StaticImage* CeGuiWindow::getStaticImage(const char* name)
 	return reinterpret_cast<StaticImage*>(getWindow(name));
 }
 
+MultiColumnList* CeGuiWindow::getMultiColumnList(const char* name)
+{
+	return reinterpret_cast<MultiColumnList*>(getWindow(name));
+}
+
 }
 

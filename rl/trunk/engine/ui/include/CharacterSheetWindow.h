@@ -38,8 +38,6 @@ namespace rl {
 		CEGUI::Window* mMagicSheet;
 		CEGUI::MultiColumnList* mTalentTable;
 
-		void showTab(CEGUI::utf8* tabName);
-
 		void updateTalents();
 	};
 }
