@@ -8,10 +8,9 @@ print( "Teste Animationen" );
 class UmdrehAbspielListener < AnimationListener
 	def animationFinished(anEvent)
 		print( "Sowas, schon vorbei - drehen wir doch mal um" );
-		p anEvent
-		#anim = anEvent.getRlAnimation();
-		$listenedTrackAnim.reverseAnimation();
-		$listenedTrackAnim.resetTimesPlayed();
+		anim = anEvent.getRlAnimation();
+		anim.reverseAnimation();
+		anim.resetTimesPlayed();
 	end
 	def animationPaused(anEvent)
 	end
@@ -62,16 +61,16 @@ trackAnim.setPaused( false );
 tischlein = $AF.createMeshActor("TavernenTisch","tisch_taverne.mesh");
 tischlein.placeIntoScene( 160.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0 );
 
-$listenedTrackAnim = $AnimMgr.createTrackAnimation( tischlein, "testListenerTrackAnimation", 6.0 );
-$listenedTrackAnim.addKeyFrame( 0.0 );
-$listenedTrackAnim.setKeyFrameTranslation( 0.0, 0.0, 0.0, 0.0 );
-$listenedTrackAnim.addKeyFrame( 6.0 );
-$listenedTrackAnim.setKeyFrameTranslation( 1.0, 0.0, 100.0, 0.0 );
+listenedTrackAnim = $AnimMgr.createTrackAnimation( tischlein, "testListenerTrackAnimation", 6.0 );
+listenedTrackAnim.addKeyFrame( 0.0 );
+listenedTrackAnim.setKeyFrameTranslation( 0.0, 0.0, 0.0, 0.0 );
+listenedTrackAnim.addKeyFrame( 6.0 );
+listenedTrackAnim.setKeyFrameTranslation( 1.0, 0.0, 100.0, 0.0 );
 # Begrenzte Abspielanzahl setzen
-$listenedTrackAnim.setTimesToPlay( 1 );
+listenedTrackAnim.setTimesToPlay( 1 );
 # AnimationsListener erzeugen
 animListener = UmdrehAbspielListener.new();
 # AnimationsListener hinzufuegen
-$listenedTrackAnim.addAnimationListener( animListener );
+listenedTrackAnim.addAnimationListener( animListener );
 # Und los gehts
-$listenedTrackAnim.setPaused( false );
+listenedTrackAnim.setPaused( false );
