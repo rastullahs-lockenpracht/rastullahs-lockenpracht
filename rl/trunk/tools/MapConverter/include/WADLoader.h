@@ -1,0 +1,62 @@
+/*
+Half-Life MAP to Quake3 Map Conversion Utility
+Copyright (C) 2004  Henrik Hinrichs
+
+based on the
+Half-Life MAP viewing utility.
+Copyright (C) 2003  Ryan Samuel Gregg
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+
+#pragma once
+
+#include "MapConverterPrerequisites.h"
+
+#define WAD3_ID         ('W' | 'A' << 8 | 'D' << 16 | '3' << 24)
+#define WAD3_TYPE_MIP   0x43
+#define GET_MIP_DATA_SIZE(WIDTH, HEIGHT)(sizeof(WAD3_MIP) + (WIDTH * HEIGHT) + (WIDTH * HEIGHT / 4) + (WIDTH * HEIGHT / 16) + (WIDTH * HEIGHT / 64))
+
+typedef struct
+{
+    DWORD       identification;
+    DWORD       numlumps;
+    DWORD       infotableofs;
+} WAD3_HEADER, *LPWAD3_HEADER;
+
+typedef struct
+{
+    DWORD       filepos;
+    DWORD       disksize;
+    DWORD       size;
+    BYTE        type;
+    BYTE        compression;
+    BYTE        pad1, pad2;
+    char        name[16];
+} WAD3_LUMP, *LPWAD3_LUMP;
+
+typedef struct
+{
+    char        name[16];
+    DWORD       width, height;
+    DWORD       offsets[4];
+} WAD3_MIP, *LPWAD3_MIP;
+
+__gc class CWADLoader
+{
+public:
+    static bool MapFile(LPCTSTR szFileName, LPVOID *pView, LPDWORD pdwFileSize);
+    static bool LoadWADFile(String *sFile, ArrayList *Textures, int *iTexturesLoaded);
+};
