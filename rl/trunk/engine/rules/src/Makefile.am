@@ -7,6 +7,7 @@ libRlRules_la_SOURCES = \
 	ActionManager.cpp \
 	Creature.cpp \
 	Date.cpp \
+	DsaDataLoader.cpp \
 	DsaManager.cpp \
 	Eigenschaft.cpp \
 	GameObject.cpp \
