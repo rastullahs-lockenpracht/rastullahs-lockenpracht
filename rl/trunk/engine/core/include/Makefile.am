@@ -8,6 +8,7 @@
 	CameraObject.h \
 	CorePrerequisites.h \
 	CoreSubsystem.h \
+	DotSceneLoader.h \	
 	DotSceneOctreeWorld.h \
 	GameLoop.h \
 	GameTask.h \

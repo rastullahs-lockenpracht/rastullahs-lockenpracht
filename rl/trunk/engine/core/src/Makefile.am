@@ -15,6 +15,7 @@ libRlCore_la_SOURCES = \
     ConfigurationManagerWin32.cpp \
     ConfigurationManagerMac.cpp \
 	CoreSubsystem.cpp \
+	DotSceneLoader.cpp \
 	DotSceneOctreeWorld.cpp \
 	GameLoop.cpp \
 	GameTask.cpp \
