@@ -44,7 +44,7 @@ class _RlSoundExport ResourceManager: public Ogre::ResourceManager {
         virtual StringList getExtension() { return StringList(); }
     public:
         /// Alle Sounds in die Resourcenliste eintragen.
-        void addSounds();
+        virtual void addSounds();
         /// einen Sound hinzufuegen (Mit Mutex)
         virtual void add(Resource *song);
         /// Damit OpenAl++ funktioniert muss es den Pfad der Dateien wissen.

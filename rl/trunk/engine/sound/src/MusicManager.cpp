@@ -63,6 +63,7 @@ MusicManager::MusicManager() : ResourceManager(),
     mShouldExit(false),
     mMusicThread()
 {
+    addSounds();
     mMusicThread.start();
 }
 
@@ -180,7 +181,7 @@ void MusicManager::setNextSong()
     {
         mSource->load();        
     } else {
-       mShouldPlay = false;
+        mShouldPlay = false;
     }
 }
 
@@ -196,30 +197,33 @@ SoundResource* MusicManager::findNextSong()
 {
     if (mSource != 0)
     {
-        ResourceMapIterator cit = getResourceIterator();
-        while(cit.hasMoreElements())
+        StringList::iterator cit = 
+            find(mPlayList.begin(), mPlayList.end(), mSource->getName());
+        if (cit == mPlayList.end())
         {
-            if (cit.peekNextKey() == mSource->getHandle())
+            // Nichts gefunden.
+            if (mLooping)
             {
-                cit.moveNext();
-                if (cit.peekNextValue() == 0)
+                SoundResource *temp = dynamic_cast<SoundResource*>(getResourceIterator().peekNextValue());
+                if (temp != 0)
                 {
-                    // Nichts gefunden.
-                    if (mLooping)
-                    {
-                        return dynamic_cast<SoundResource*>(getResourceIterator().peekNextValue());
-                    } else {
-                        // Nicht wiederholen.
-                        return 0;
-                    }
+                    mPlayList.push_back(temp->getName());
                 }
-                return dynamic_cast<SoundResource*>(cit.peekNextValue());
-            } else {
-                cit.moveNext();
-            }
+                return temp;
+             } else {
+                // Nicht wiederholen.
+                return 0;
+             }
+         } else {
+            cit++;
         }
     } else { // mSource ist noch nicht gesetzt.
-        return dynamic_cast<SoundResource*>(getResourceIterator().peekNextValue());
+        SoundResource *temp = dynamic_cast<SoundResource*>(getResourceIterator().peekNextValue());
+        if (temp != 0)
+        {
+            mPlayList.push_back(temp->getName());
+        }
+        return temp;
     }
     return 0;
 }
@@ -366,11 +370,37 @@ Resource* MusicManager::create(const String& resName)
  * @author JoSch
  * @date 01-26-2005
  */
-void MusicManager::clearList()
+void MusicManager::clearPlayList()
 {
-    stopSong();
-    unloadAndDestroyAll();
+    mPlayList.clear();
 }
 
+/**
+ * @author JoSch
+ * @date 01-27-2005
+ */
+void MusicManager::addPlayList(std::string songName)
+{
+    mPlayList.push_back(songName);
+}
+
+/**
+ * @author JoSch
+ * @date 01-27-2005
+ */
+void MusicManager::addPlayList(StringList list)
+{
+    mPlayList.merge(list);
+}
+
+/**
+ * @author JoSch
+ * @date 01-27-2005
+ */
+void MusicManager::addSounds()
+{
+    ResourceManager::addSounds();
+    
+}
 
 }

@@ -30,7 +30,7 @@ using namespace OpenThreads;
 
 namespace rl {
  
-    typedef std::list<Ogre::String> StringList;
+    typedef std::list<std::string> StringList;
 
 /** Diese Klasse verwaltet eine Liste von Musikstuecken, die
  * abgespielt werden koennen.
@@ -68,11 +68,13 @@ class _RlSoundExport MusicManager : public ResourceManager, public Ogre::Singlet
         MusicThread mMusicThread;
         // MSVC6 braucht das
         friend class MusicThread;
-       
+        /// Die aktuelle Playlist. Nicht identisch mit der Resourcenliste
+        StringList mPlayList;       
     
     protected:
         /// Welche Dateiendung soll verwendet werden.
         virtual StringList getExtension();
+        
             
     public:
         /// Gibt das Singleton zurueck.
@@ -103,14 +105,18 @@ class _RlSoundExport MusicManager : public ResourceManager, public Ogre::Singlet
         bool isLooping();
         /// Setzt, ob die Songliste wiederholt werden soll.
         void setLooping(bool looping = true);
-        /// Zurueck auf Anfang der Liste.
-        void rewind();
         /// Ob der MusicManager selbststaendig weiterschaltet.
         bool isAuto();
         /// Setzt, ob der MusicManger selbst weiterschaltet.
         void setAuto(bool isAuto = true);
-        /// Alle Sounds löschen.
-        void clearList();
+        /// Die Playlist löschen.
+        void clearPlayList();
+        /// Zur Playlist hinzufügen
+        void addPlayList(std::string songName);
+        /// Eine Liste zur Playlist hinzufügen
+        void addPlayList(StringList list);
+        /// Alle Sounds in die Resourcenliste eintragen.
+        virtual void addSounds();
         
 };
 

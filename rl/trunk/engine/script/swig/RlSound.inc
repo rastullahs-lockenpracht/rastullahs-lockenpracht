@@ -54,8 +54,10 @@ namespace rl {
         float getGain();
         
         virtual Resource* create(const String &resName);
-        void rewind();
-        void clearList();
+        
+        void clearPlayList();
+        void addPlayList(std::string song);
+        void addPlayList(std::list<std::string> list);
         
         bool isAuto();
         void setAuto(bool isAuto);
