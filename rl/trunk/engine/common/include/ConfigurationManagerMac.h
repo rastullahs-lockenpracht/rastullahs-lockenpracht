@@ -26,7 +26,7 @@
 
 namespace rl
 {
-	class ConfigurationManagerMac : ConfigurationManager
+	class ConfigurationManagerMac : public ConfigurationManager
 	{
 		public:
 			

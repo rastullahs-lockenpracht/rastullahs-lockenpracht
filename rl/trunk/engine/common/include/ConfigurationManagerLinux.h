@@ -26,7 +26,7 @@
 
 namespace rl
 {
-	class ConfigurationManagerLinux : ConfigurationManager
+	class ConfigurationManagerLinux : public ConfigurationManager
 	{
 		public:
 			
