@@ -67,19 +67,21 @@ namespace rl {
 		
 	void ActorManager::destroyActor(Actor* actor)
 	{
-	
+        // @todo Loesch ihn!
 	}
 
     void ActorManager::destroyAllActors()
 	{
         for (ActorPtrMap::iterator it = mActors.begin();
-            it != mActors.end(); it++) 
+            it != mActors.end();) 
         {
             Actor* actor = it->second;
             if (actor->getControlledObject()->getType() != "CameraObject")
             {
-                it = mActors.erase(it);
+                mActors.erase(it++);
                 destroyActor(actor);
+            } else {
+                ++it;
             }
         }
 	}
