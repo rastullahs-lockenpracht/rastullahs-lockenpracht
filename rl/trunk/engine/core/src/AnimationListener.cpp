@@ -26,7 +26,8 @@ AnimationEvent::AnimationEvent( RlAnimation* anim, const unsigned int reason ) :
 	
 RlAnimation* AnimationEvent::getRlAnimation() const
 {
-	return dynamic_cast<RlAnimation*>( this->getSource() );
+	EventSource* eve =  this->getSource();
+	return dynamic_cast<RlAnimation*>( eve );
 }
 
 bool AnimationListener::eventRaised( AnimationEvent* anEvent ) const
