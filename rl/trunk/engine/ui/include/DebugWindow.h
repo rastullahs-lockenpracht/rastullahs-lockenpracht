@@ -5,12 +5,12 @@
 #include <OgreSingleton.h>
 #include <OgreKeyEvent.h>
 
-#include <CEGUI.h>
+#include "CeGuiWindow.h"
 
 namespace rl {
 
     class _RlUiExport DebugWindow
-		: public Ogre::Singleton<DebugWindow>, public Ogre::KeyListener, public Ogre::FrameListener
+		: public Ogre::Singleton<DebugWindow>, public Ogre::KeyListener, public Ogre::FrameListener, public CeGuiWindow
     {
     public:
         DebugWindow(void);

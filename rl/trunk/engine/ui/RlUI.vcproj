@@ -172,7 +172,13 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
 			<File
+				RelativePath=".\include\ActionChoiceWindow.h">
+			</File>
+			<File
 				RelativePath=".\include\CeConsole.h">
+			</File>
+			<File
+				RelativePath=".\include\CeGuiWindow.h">
 			</File>
 			<File
 				RelativePath=".\include\CharacterSheetWindow.h">
@@ -191,6 +197,9 @@
 			</File>
 			<File
 				RelativePath=".\include\Interpreter.h">
+			</File>
+			<File
+				RelativePath=".\include\InventoryWindow.h">
 			</File>
 			<File
 				RelativePath=".\include\RubyInterpreter.h">
@@ -212,7 +221,13 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
+				RelativePath=".\src\ActionChoiceWindow.cpp">
+			</File>
+			<File
 				RelativePath=".\src\CeConsole.cpp">
+			</File>
+			<File
+				RelativePath=".\src\CeGuiWindow.cpp">
 			</File>
 			<File
 				RelativePath=".\src\CharacterSheetWindow.cpp">
@@ -228,6 +243,9 @@
 			</File>
 			<File
 				RelativePath=".\src\InputManager.cpp">
+			</File>
+			<File
+				RelativePath=".\src\InventoryWindow.cpp">
 			</File>
 			<File
 				RelativePath=".\src\RubyInterpreter.cpp">

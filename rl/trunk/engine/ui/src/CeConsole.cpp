@@ -23,17 +23,12 @@ namespace rl
         return Singleton<CeConsole>::getSingletonPtr();
     }
 
-	CeConsole::CeConsole()
+	CeConsole::CeConsole() : CeGuiWindow("console.xml", true)
 	{
 		using namespace CEGUI;
 		
-		mConsoleWindow = 
-			WindowManager::getSingleton().loadWindowLayout((utf8*)"console.xml");
-		
-		mDisplay = reinterpret_cast<Listbox*>(
-			WindowManager::getSingleton().getWindow((utf8*)"Console/Display"));
-		mCommandLine = reinterpret_cast<Editbox*>(
-			WindowManager::getSingleton().getWindow((utf8*)"Console/Inputbox"));
+		mDisplay = getListbox("Console/Display");
+		mCommandLine = getEditbox("Console/Inputbox");
 
 		mConsoleWindow->subscribeEvent(
 			FrameWindow::KeyDownEvent, 
@@ -50,8 +45,7 @@ namespace rl
 		mConsoleWindow->hide();
 		mState = CS_CLOSED;
 		
-		Window* rootWindow = WindowManager::getSingleton().getWindow((utf8*)"root_wnd");
-		rootWindow->addChildWindow(mConsoleWindow);	
+		addToRoot(mConsoleWindow);	
 	}
 
 	CeConsole::~CeConsole()

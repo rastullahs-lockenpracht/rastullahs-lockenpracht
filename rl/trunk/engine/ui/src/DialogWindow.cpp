@@ -10,18 +10,17 @@ namespace rl {
 using namespace CEGUI;
 using namespace std;
 
-DialogWindow::DialogWindow()
+DialogWindow::DialogWindow() : CeGuiWindow("dialogwindow.xml", true)
 {
-	Window* dialogWindow = WindowManager::getSingleton().loadWindowLayout((utf8*)"dialogwindow.xml");
-
-	mImage = reinterpret_cast<StaticImage*>(WindowManager::getSingleton().getWindow((utf8*)"DialogWindow/Image"));
-	mName = reinterpret_cast<StaticText*>(WindowManager::getSingleton().getWindow((utf8*)"DialogWindow/Name"));
-	mQuestion = reinterpret_cast<StaticText*>(WindowManager::getSingleton().getWindow((utf8*)"DialogWindow/Question"));
-	mDialogOptions = reinterpret_cast<Listbox*>(WindowManager::getSingleton().getWindow((utf8*)"DialogWindow/OptionList"));
-	mDialogOptions->subscribeEvent(Listbox::SelectionChanged, boost::bind(&DialogWindow::handleSelectOption, this, _1));
+	mImage = getStaticImage("DialogWindow/Image");
+	mName = getStaticText("DialogWindow/Name");
+	mQuestion = getStaticText("DialogWindow/Question");
+	mDialogOptions = getListbox("DialogWindow/OptionList");
+	mDialogOptions->subscribeEvent(
+		Listbox::SelectionChanged, 
+		boost::bind(&DialogWindow::handleSelectOption, this));
 	
-	Window* rootWindow = WindowManager::getSingleton().getWindow((utf8*)"root_wnd");
-	rootWindow->addChildWindow(dialogWindow);	
+	addToRoot(mWindow);	
 }
 
 DialogWindow::~DialogWindow()
@@ -116,9 +115,9 @@ void DialogWindow::runTest()
 	sheet->show();*/
 }
 
-void DialogWindow::handleSelectOption(const CEGUI::EventArgs& e)
+void DialogWindow::handleSelectOption()
 {
-	DebugWindow::getSingleton().setText("Pnk"+StringConverter::toString(getSelectedOption()));
+	DebugWindow::getSingleton().setText("Pnk "+StringConverter::toString(getSelectedOption()));
 	//hide();
 }
 

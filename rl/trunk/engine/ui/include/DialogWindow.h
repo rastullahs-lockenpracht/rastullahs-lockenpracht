@@ -7,11 +7,11 @@
 #include <vector>
 #include <map>
 
-#include <CEGUI.h>
+#include "CeGuiWindow.h"
 
 namespace rl {
 
-	class _RlUiExport DialogWindow
+	class _RlUiExport DialogWindow : public CeGuiWindow
 	{
 	public:
 		DialogWindow();
@@ -25,10 +25,8 @@ namespace rl {
 		void setName(std::string name);
 		void setQuestion(std::string question);
 		void setImage(std::string imageset, std::string image);
-		void show();
-		void hide();
 		int getSelectedOption();
-		void handleSelectOption(const CEGUI::EventArgs& e);
+		void handleSelectOption();
 
 		static void runTest();
 

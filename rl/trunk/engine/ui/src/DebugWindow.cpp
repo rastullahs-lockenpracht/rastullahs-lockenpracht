@@ -15,17 +15,12 @@ namespace rl
         return Ogre::Singleton<DebugWindow>::getSingletonPtr();
     }
 
-	DebugWindow::DebugWindow()
+	DebugWindow::DebugWindow() : CeGuiWindow("debugwindow.xml")
 	{
-		mWindow = WindowManager::getSingleton().loadWindowLayout((utf8*)"debugwindow.xml");
-
-		mText = reinterpret_cast<StaticText*>(
-			WindowManager::getSingleton().getWindow(
-			(utf8*)"DebugWindow/Text"));
+		mText = getStaticText("DebugWindow/Text");
 		mText->moveToFront();
 		
-		Window* rootWindow = WindowManager::getSingleton().getWindow((utf8*)"root_wnd");
-		rootWindow->addChildWindow(mWindow);
+		addToRoot(mWindow);
 
 		Root::getSingleton().addFrameListener(this);
 	}
@@ -33,7 +28,6 @@ namespace rl
 	DebugWindow::~DebugWindow()
 	{
 		Root::getSingleton().removeFrameListener(this);
-		WindowManager::getSingleton().destroyWindow(mWindow);
     }
 
     void DebugWindow::setText(const Ogre::String& text)
@@ -42,19 +36,7 @@ namespace rl
         mText->setText(o);
     }
     
-    void DebugWindow::setVisible(bool visible)
-	{
-        if (visible)
-        {
-		    mWindow->show();
-        }
-        else
-        {
-            mWindow->hide();
-        }
-    }
-
-    bool DebugWindow::isVisible() const
+	bool DebugWindow::isVisible() const
     {
         return mWindow->isVisible();
     }
@@ -78,10 +60,8 @@ namespace rl
 	void DebugWindow::updateFps()
 	{
 		const RenderTarget::FrameStats& stats = Root::getSingleton().getAutoCreatedWindow()->getStatistics();
-		const WindowManager& winman = WindowManager::getSingleton();
-
 		Window
-			*textStats = winman.getWindow((CEGUI::utf8*)"DebugWindow/Statistics");
+			*textStats = getWindow("DebugWindow/Statistics");
 
 		textStats->setText("Current FPS: " + 
 			StringConverter::toString(stats.lastFPS)+

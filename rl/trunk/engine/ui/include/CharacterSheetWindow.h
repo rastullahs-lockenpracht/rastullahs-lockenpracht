@@ -1,46 +1,46 @@
 #ifndef __CharacterSheetWindow_H__
 #define __CharacterSheetWindow_H__
 
-#include <CEGUI.h>
-
 #include "UiPrerequisites.h"
+
+#include "CeGuiWindow.h"
 
 namespace rl {
 
 	class Creature;
 
-	class _RlUiExport CharacterSheetWindow
+	class _RlUiExport CharacterSheetWindow : public CeGuiWindow
 	{
 	public:
 		CharacterSheetWindow();
 		~CharacterSheetWindow();
 
 		void setCharacter(Creature* creature);
+
+		/**
+		 * Aktualisiert die Tabellenelemente in Talent- und Magietabellen
+		 * und auf dem Charakterblatt
+		 */
 		void update();
 
-		void show();
-		void hide();
+		/**
+		 * Aktualisiert nur die Werte in den Talentlisten
+		 * und auf dem Charakterblatt
+		 */
+		void updateValues();
+
 
 	private:
-		static CEGUI::Point TAB_POSITION;
-		static CEGUI::Size TAB_SIZE;
-		static CEGUI::Size BUTTON_SIZE;
-
 		Creature* mCreature;
 
-		CEGUI::Window* mCharacterSheetWindow;
 		CEGUI::Window* mCharacterSheet;
 		CEGUI::Window* mTalentSheet;
 		CEGUI::Window* mMagicSheet;
-
-		void createCharaterSheet(CEGUI::Window* wndCharSheet, int posButton);
-		void createTalentSheet(CEGUI::Window* wndCharSheet, int posButton);
-		void createMagicSheet(CEGUI::Window* wndCharSheet, int posButton);
+		CEGUI::MultiColumnList* mTalentTable;
 
 		void showTab(CEGUI::utf8* tabName);
-		void showCharacterSheet(const CEGUI::EventArgs& e);
-		void showTalentSheet(const CEGUI::EventArgs& e);
-		void showMagicSheet(const CEGUI::EventArgs& e);
+
+		void updateTalents();
 	};
 }
 

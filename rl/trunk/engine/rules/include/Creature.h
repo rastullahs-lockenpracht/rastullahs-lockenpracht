@@ -20,15 +20,6 @@ namespace rl
     */
     class _RlRulesExport Creature : public GameObject
     {
-    private:
-        typedef map<int, int> TalentMap;
-        typedef map<int, pair<int, int> > KampftechnikMap;
-
-        int mCurrentLe;
-
-        int mEigenschaften[EIGENSCHAFT_COUNT];
-        TalentMap mTalente;
-        KampftechnikMap mKampftechniken;
 
     protected:
         virtual int getAttackeBasis();
@@ -40,7 +31,10 @@ namespace rl
         virtual int getAuBasis();
 
     public:
-        ///@warning Nur zu Testzwecken da. Wird spaeter entfernt.
+		typedef map<int, int> TalentMap;
+        typedef map<int, pair<int, int> > KampftechnikMap;
+
+		///@warning Nur zu Testzwecken da. Wird spaeter entfernt.
         Creature(int id,
                  const std::string& name,
                  const std::string& description);
@@ -88,6 +82,13 @@ namespace rl
         *     -100 bedeutet 20 gewuerfelt.
         */
         virtual int doEigenschaftsprobe(int id, int modifier);
+
+	private:
+        int mCurrentLe;
+
+        int mEigenschaften[EIGENSCHAFT_COUNT];
+        TalentMap mTalente;
+        KampftechnikMap mKampftechniken;
     };
 }
 #endif

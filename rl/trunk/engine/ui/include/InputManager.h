@@ -49,6 +49,8 @@ namespace rl {
 			void unregisterCeguiWindow();
 			bool isCeguiActive();
 
+			void activateTargetQuery();
+
 			void mouseClicked(MouseEvent* e);
 			void mouseEntered(MouseEvent* e);
 			void mouseExited(MouseEvent* e);
