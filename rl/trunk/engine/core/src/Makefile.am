@@ -12,6 +12,7 @@ libRlCore_la_SOURCES = \
 	CoreSubsystem.cpp \
 	DotSceneOctreeWorld.cpp \
 	GameLoop.cpp \
+	GameTask.cpp \
 	LightObject.cpp \
 	MeshObject.cpp \
 	PhysicalThing.cpp \
@@ -20,6 +21,5 @@ libRlCore_la_SOURCES = \
 	RlTrackAnimation.cpp \
 	RubyInterpreter.cpp \
 	ScriptObject.cpp \
-	SynchronizedTask.cpp \
 	World.cpp 		 
 
