@@ -4,7 +4,6 @@ lib_LTLIBRARIES = libRlUi.la
 libRlUi_la_LDFLAGS = $(SWIG_RUBY_LIBS) $(RUBY_LIBS) $(SDL_LIBS) $(LIBS) $(CEGUI_LIBS)
 libRlUi_la_SOURCES = \
 	ActionChoiceWindow.cpp \
-	CeConsole.cpp \
 	CeGuiWindow.cpp \
 	CharacterSheetWindow.cpp \
 	CommandMapper.cpp \

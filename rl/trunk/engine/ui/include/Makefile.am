@@ -1,6 +1,5 @@
 noinst_HEADERS = \
 	ActionChoiceWindow.h \
-	CeConsole.h \
 	CeGuiWindow.h \
 	Console.h \
 	CommandMapper.h \
