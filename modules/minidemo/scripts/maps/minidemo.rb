@@ -49,5 +49,7 @@ hebel.getActor().yaw(-90.0);
 p hebel
 $CORE.log("Hebel fertig");
 
+#Alles erzeugt, also Physik aktivieren
+$PM.setEnabled(true);
 
 $CORE.log("map 'minidemo' initialisiert.");
