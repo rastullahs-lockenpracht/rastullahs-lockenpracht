@@ -66,4 +66,9 @@ namespace rl {
 	{
 		getLight()->setSpotlightRange(Angle(innerAngle), Angle(outerAngle), falloff );
 	}
+
+	void LightObject::setCastShadows( bool cast )
+	{
+		getLight()->setCastShadows( cast );
+	}
 }

@@ -268,6 +268,7 @@ public:
     void setSpecularColour(float red, float green, float blue);
     void setSpotlightRange(float innerangle, float outerangle,
         float falloff);
+    void setCastShadows( bool cast );
 };
 
 class ParticleSystemObject : public ActorControlledObject

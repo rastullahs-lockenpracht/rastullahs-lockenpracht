@@ -45,7 +45,7 @@ namespace rl {
         void setSpecularColour(Ogre::Real red, Ogre::Real green, Ogre::Real blue);
 		void setSpotlightRange( Ogre::Real innerAngle, Ogre::Real outerAngle,
 			Ogre::Real falloff = 1.0);
-
+		void setCastShadows( bool cast );
     };
 }
 #endif
