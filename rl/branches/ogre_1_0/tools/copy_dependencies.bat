@@ -26,11 +26,8 @@ copy %OGREHOME%\OgreMain\lib\%BUILD%\OgreMain_d.dll %RL_DIST%
 copy %OGREHOME%\OgreOde\lib\%BUILD%\OgreOde.dll %RL_DIST%
 copy %OGREHOME%\OgreOde\lib\%BUILD%\OgreOde_d.dll %RL_DIST%
 
-copy %OGREPLUGINS%\NatureSceneManager\bin\%BUILD%\Plugin_NatureSceneManager.dll %RL_DIST%
-copy %OGREPLUGINS%\BSPSceneManager\bin\%BUILD%\Plugin_BSPSceneManager.dll %RL_DIST%
 copy %OGREPLUGINS%\CgProgramManager\bin\%BUILD%\Plugin_CgProgramManager.dll %RL_DIST%
 copy %OGREPLUGINS%\OctreeSceneManager\bin\%BUILD%\Plugin_OctreeSceneManager.dll %RL_DIST%
-copy %OGREPLUGINS%\FileSystem\bin\%BUILD%\Plugin_FileSystem.dll %RL_DIST%
 copy %OGREPLUGINS%\ParticleFx\bin\%BUILD%\Plugin_ParticleFx.dll %RL_DIST%
 copy %OGRERENDERERS%\Direct3D9\bin\%BUILD%\RenderSystem_Direct3D9.dll %RL_DIST%
 copy %OGRERENDERERS%\GL\bin\%BUILD%\RenderSystem_GL.dll %RL_DIST%
@@ -54,10 +51,6 @@ REM -----------------------------
 REM 
 
 copy %RL_ROOT%\Dependencies\openal\dll\*.dll %RL_DIST%
-copy %RL_ROOT%\Dependencies\openalpp\bin\*.dll %RL_DIST%
-copy %RL_ROOT%\Dependencies\openthreads\bin\win32\*.dll %RL_DIST%
-
-copy %RL_ROOT%\Dependencies\ode\lib\*.dll %RL_DIST%
 copy %RL_ROOT%\Dependencies\boost\bin\*.dll %RL_DIST%
 copy %RL_ROOT%\Dependencies\xerces\bin\*.dll %RL_DIST%
 
