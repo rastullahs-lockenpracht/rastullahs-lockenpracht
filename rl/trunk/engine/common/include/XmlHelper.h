@@ -23,8 +23,13 @@
 #include <xercesc/util/XMLChar.hpp>
 #include <xercesc/util/TransService.hpp>
 
-#include <CEGUI/CEGUIString.h>
-
+// Da sollten wir uns auf etwas enigen
+// So ist das laestig.
+#if OGRE_PLATFORM == PLATFORM_WIN32
+#   include <CEGUIString.h>
+#else
+#   include <CEGUI/CEGUIString.h>
+#endif
 using XERCES_CPP_NAMESPACE::XMLTranscoder;
 using XERCES_CPP_NAMESPACE::XMLTransService;
 using CEGUI::utf8;
