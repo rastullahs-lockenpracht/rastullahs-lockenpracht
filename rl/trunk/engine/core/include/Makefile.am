@@ -1,19 +1,24 @@
 noinst_HEADERS = \
 	Actor.h \
-	AudibleActor.h \
+	ActorManager.h \
 	AnimationManager.h \
+	AudibleActor.h \
 	BSPWorld.h \
 	CameraActor.h \
 	CorePrerequisites.h \
 	CoreSubsystem.h \
 	GameActor.h \
 	GameLoop.h \
+	Interpreter.h \
 	LightActor.h \
 	ListenerActor.h \
 	MeshActor.h \
+	NatureWorld.h \
 	ParticleSystemActor.h \
-	World.h \
 	PhysicalThing.h \
 	PhysicsManager.h \
+	RubyInterpreter.h \
+	ScriptObject.h \
 	SynchronizedTask.h \
-	ActorManager.h
+	World.h 
+	

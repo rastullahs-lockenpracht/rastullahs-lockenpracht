@@ -15,8 +15,6 @@ libRlUi_la_SOURCES = \
 	GameLoggerWindow.cpp \
 	InputManager.cpp \
 	InventoryWindow.cpp \
-	RubyInterpreter.cpp \
-	ScriptObject.cpp \
 	ThirdPersonGameController.cpp \
 	UiSubsystem.cpp \
 	../components/src/ListboxWrappedTextItem.cpp

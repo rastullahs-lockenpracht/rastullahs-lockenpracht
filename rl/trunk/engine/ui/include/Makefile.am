@@ -9,10 +9,7 @@ noinst_HEADERS = \
 	FPSOverlay.h \
 	GameLoggerWindow.h \
 	InputManager.h \
-	Interpreter.h \
 	InventoryWindow.h \
-	RubyInterpreter.h \
-	ScriptObject.h \
 	ThirdPersonGameController.h \
 	UiPrerequisites.h \
 	UiSubsystem.h \

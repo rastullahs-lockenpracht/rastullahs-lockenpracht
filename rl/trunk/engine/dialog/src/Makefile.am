@@ -1,4 +1,4 @@
-INCLUDES = $(SDL_CFLAGS) $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(STLPORT_CFLAGS) -I../include -I../../common/include -I../../ui/include
+INCLUDES = $(SDL_CFLAGS) $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(STLPORT_CFLAGS) -I../include -I../../common/include -I../../ui/include -I../../core/include
 
 lib_LTLIBRARIES = libRlDialog.la
 libRlDialog_la_LDFLAGS = $(SWIG_RUBY_LIBS) $(RUBY_LIBS) $(OGRE_LIBS) $(SDL_LIBS) $(LIBS) #-Wl,--defsym -Wl,Init_libRlDialog=Init_RlDialog
