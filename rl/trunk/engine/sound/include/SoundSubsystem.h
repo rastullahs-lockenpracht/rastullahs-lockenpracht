@@ -41,7 +41,7 @@ public:
     /// Gibt Singleton-Zeiger zurueck.
     static SoundSubsystem* getSingletonPtr(void);
     /// Eine Log-Nachricht ausgeben.
-    static void SoundSubsystem::log(const String& msg);
+    static void SoundSubsystem::log(const Ogre::String& msg);
     /// Wird EAX unterstützt?
     bool isEAXCapable() const;
     /// Interface zu EAXGet

@@ -18,7 +18,9 @@
 #include "AimlProcessorManager.h"
 #include "DialogSubsystem.h"
 
-#include "OgreLogManager.h"
+#include <OgreLogManager.h>
+
+using namespace Ogre;
 
 template<> rl::DialogSubsystem* Singleton<rl::DialogSubsystem>::ms_Singleton = 0;
 

@@ -67,7 +67,7 @@ namespace rl {
 		
 	void ActorManager::destroyActor(Actor* actor)
 	{
-        // @todo Loesch ihn!
+        ///@todo Loesch ihn!
 	}
 
     void ActorManager::destroyAllActors()

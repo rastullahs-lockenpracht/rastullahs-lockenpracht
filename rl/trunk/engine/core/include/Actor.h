@@ -74,13 +74,13 @@ namespace rl {
         void translate(const Ogre::Vector3& d, Ogre::Node::TransformSpace ts);
 
         /// Rotate the object around the local Z-axis.
-        void roll(Real angleunits);
+        void roll(Ogre::Real angleunits);
 
         /// Rotate the object around the local X-axis.
-        void pitch(Real angleunits);
+        void pitch(Ogre::Real angleunits);
 
         /// Rotate the object around the local Y-axis.
-        void yaw(Real angleunits);
+        void yaw(Ogre::Real angleunits);
 
         /// Rotate the object around an aritrary axis using a Quarternion.
         void rotate(const Ogre::Quaternion& q);
@@ -101,7 +101,7 @@ namespace rl {
 
     protected:
         typedef std::set<Actor*> ChildSet;
-        String mName;
+        Ogre::String mName;
         PhysicalThing* mPhysicalThing;
         Ogre::UserDefinedObject* mGameObject;
         ActorControlledObject* mActorControlledObject;

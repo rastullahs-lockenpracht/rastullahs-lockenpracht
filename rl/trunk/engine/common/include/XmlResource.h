@@ -19,10 +19,10 @@
 
 #include <xercesc/framework/MemBufInputSource.hpp>
 #include <xercesc/parsers/XercesDOMParser.hpp>
-#include "xercesc/sax2/SAX2XMLReader.hpp"
+#include <xercesc/sax2/SAX2XMLReader.hpp>
 
 #include "CommonPrerequisites.h"
-#include "OgreResource.h"
+#include <OgreResource.h>
 
 namespace rl {
 

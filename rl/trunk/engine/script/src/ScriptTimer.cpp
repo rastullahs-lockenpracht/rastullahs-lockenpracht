@@ -20,7 +20,7 @@
 #include "DsaManager.h"
 #include "TimerTask.h"
 
-using Ogre::Singleton;
+using namespace Ogre;
 
 template<> rl::ScriptTimer* Singleton<rl::ScriptTimer>::ms_Singleton = 0;
 

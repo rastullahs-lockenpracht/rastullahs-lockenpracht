@@ -16,6 +16,8 @@
 
 #include "XmlResourceManager.h"
 
+using namespace Ogre;
+
 template<> rl::XmlResourceManager* Singleton<rl::XmlResourceManager>::ms_Singleton = 0;
 
 namespace rl {

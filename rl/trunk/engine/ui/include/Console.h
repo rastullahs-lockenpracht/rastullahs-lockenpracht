@@ -32,7 +32,8 @@ namespace rl {
 
 	/** This is a Console System
 	 */
-	class _RlUiExport Console : public Singleton<Console>, public CeGuiWindow
+	class _RlUiExport Console
+	  : public Ogre::Singleton<Console>, public CeGuiWindow
 	{
 		public:
 			Console();
@@ -43,7 +44,7 @@ namespace rl {
 			void setInterpreter(Interpreter* interpreter);
 			Interpreter* getInterpreter();
 
-			void write(String output);
+			void write(Ogre::String output);
 				
 		protected:
 			bool beforeShow();

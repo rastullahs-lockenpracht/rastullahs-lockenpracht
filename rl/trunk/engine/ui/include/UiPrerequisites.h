@@ -23,7 +23,10 @@
 
 #include <vector>
 #include "FixRubyHeaders.h"
+#pragma warning (push)
+#pragma warning (disable : 4267)
 #include <CEGUIString.h>
+#pragma warning (pop)
 
 #include "RastullahPrerequisites.h"
 

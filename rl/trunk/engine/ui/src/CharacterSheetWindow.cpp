@@ -24,9 +24,11 @@
 
 #include "CharacterSheetWindow.h"
 
-namespace rl {
-
 using namespace CEGUI;
+using namespace Ogre;
+
+
+namespace rl {
 
 CharacterSheetWindow::CharacterSheetWindow()
 	: CeGuiWindow("charactersheet.xml", WND_MOUSE_INPUT)

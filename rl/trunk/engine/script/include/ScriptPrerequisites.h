@@ -31,8 +31,11 @@
 #endif
 
 #include <OgreNoMemoryMacros.h>
-	#undef min
-	#include <CEGUIString.h>
+#   undef min
+#   pragma warning (push)
+#   pragma warning (disable : 4267)
+#   include <CEGUIString.h>
+#   pragma warning (pop)
 #include <OgreMemoryMacros.h>
 
 namespace rl {

@@ -34,7 +34,7 @@ namespace rl {
         void _setActor(Actor* actor);
         Actor* getActor();
         
-        MovableObject* getMovableObject();
+        Ogre::MovableObject* getMovableObject();
         
         virtual Ogre::String getType() = 0;
     

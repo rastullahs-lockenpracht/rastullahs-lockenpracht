@@ -20,6 +20,7 @@
 
 using namespace std;
 using namespace OpenThreads;
+using namespace Ogre;
 
 namespace rl {
 

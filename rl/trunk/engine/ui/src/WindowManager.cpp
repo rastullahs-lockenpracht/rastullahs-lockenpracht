@@ -17,6 +17,8 @@
 #include "CeGuiWindow.h"
 #include "WindowManager.h"
 
+using namespace Ogre;
+
 template<> rl::WindowManager* Ogre::Singleton<rl::WindowManager>::ms_Singleton = 0;
 
 namespace rl {

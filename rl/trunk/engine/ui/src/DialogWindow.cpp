@@ -24,14 +24,13 @@
 #include "InputManager.h"
 
 
+using namespace CEGUI;
+using namespace std;
+using namespace Ogre;
+
 template<> rl::DialogWindow* Ogre::Singleton<rl::DialogWindow>::ms_Singleton = 0;
 
 namespace rl {
-
-using namespace CEGUI;
-using namespace std;
-
-
 
 DialogWindow& DialogWindow::getSingleton()
 {

@@ -31,13 +31,13 @@ namespace rl {
 
         virtual void clearScene();
         virtual void initializeDefaultCamera();	
-        virtual Entity* getSceneEntity();
+        virtual Ogre::Entity* getSceneEntity();
 		virtual void setCastShadows(bool enabled);
         
     protected:
-        virtual void doLoadScene(const String& levelName);
+        virtual void doLoadScene(const Ogre::String& levelName);
 
-        Entity* mSceneEntity;
+        Ogre::Entity* mSceneEntity;
     };
 
 }

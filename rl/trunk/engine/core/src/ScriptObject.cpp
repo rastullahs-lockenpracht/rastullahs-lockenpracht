@@ -17,6 +17,9 @@
 #include "ScriptObject.h"
 #include "CoreSubsystem.h"
 #include "Interpreter.h"
+
+using namespace Ogre;
+
 namespace rl {
 
 ScriptObject::ScriptObject( const String& name ) 

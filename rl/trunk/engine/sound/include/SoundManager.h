@@ -32,7 +32,7 @@ namespace rl {
  * @version 1.0
  * @date 04-26-2004
  */ 
-class _RlSoundExport SoundManager: public ResourceManager,
+class _RlSoundExport SoundManager: public Ogre::ResourceManager,
         public Ogre::Singleton<SoundManager> {
     protected:
         /// Welche Dateiendung soll verwendet werden.
@@ -43,7 +43,7 @@ class _RlSoundExport SoundManager: public ResourceManager,
         /// Gibt einen Zeiger auf das Singleton zurueck.
         static SoundManager* getSingletonPtr();
         /// Eine Resource erzeugen
-        Resource* create(const String& resName);
+        Ogre::Resource* create(const Ogre::String& resName);
 };
 
 }

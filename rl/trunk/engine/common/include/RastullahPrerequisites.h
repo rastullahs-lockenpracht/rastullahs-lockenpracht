@@ -38,7 +38,6 @@
 #endif
 
 #include <Ogre.h>
-using namespace Ogre;
 
 #ifdef HAVE_CONFIG_H
 #   undef PACKAGE_NAME

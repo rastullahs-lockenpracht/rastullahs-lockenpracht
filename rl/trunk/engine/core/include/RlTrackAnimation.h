@@ -29,18 +29,24 @@ namespace rl {
 class _RlCoreExport RlTrackAnimation : public RlAnimation
 {
 public:
-	RlTrackAnimation( const String& name, Node *node, Real length );
+	RlTrackAnimation(const Ogre::String& name, Ogre::Node *node,
+	    Ogre::Real length);
 	virtual ~RlTrackAnimation();
 	
-    void addKeyFrame( Real timePos );
-    void setKeyFrameTranslation( Real timePos, Real xPos, Real yPos, Real zPos );
-    void setKeyFrameRotation( Real timePos, Real xRotAxis, Real yRotAxis, Real zRotAxis, Real angleUnits );
-    void setKeyFrameScale( Real timePos, Real xScale, Real yScale, Real zScale );
+    void addKeyFrame( Ogre::Real timePos );
+    void setKeyFrameTranslation( Ogre::Real timePos,
+        Ogre::Real xPos, Ogre::Real yPos, Ogre::Real zPos );
+    void setKeyFrameRotation( Ogre::Real timePos,
+        Ogre::Real xRotAxis, Ogre::Real yRotAxis, Ogre::Real zRotAxis,
+        Ogre::Real angleUnits );
+    void setKeyFrameScale( Ogre::Real timePos,
+        Ogre::Real xScale, Ogre::Real yScale, Ogre::Real zScale);
 
 	void setInterpolationMode( AnimationManager::InterpolationMode im );
 	AnimationManager::InterpolationMode getInterpolationMode() const;
 
-	void setRotationInterpolationMode( AnimationManager::RotationInterpolationMode im );
+	void setRotationInterpolationMode(
+	    AnimationManager::RotationInterpolationMode im );
 	AnimationManager::RotationInterpolationMode getRotationInterpolationMode() const;
 
 	void setUseShortestRotationPath ( bool useShortestPath );
@@ -48,10 +54,10 @@ public:
 
 	// TODO - kumulatives Animieren ein/aus
 private:
-	KeyFrame* getKeyFrameAtTimePos(Real timePos);	
+	Ogre::KeyFrame* getKeyFrameAtTimePos(Ogre::Real timePos);	
 
-	Animation* mAnimation;
-	AnimationTrack* mAnimationTrack;
+	Ogre::Animation* mAnimation;
+	Ogre::AnimationTrack* mAnimationTrack;
 };
 
 }

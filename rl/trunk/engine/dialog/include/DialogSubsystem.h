@@ -17,16 +17,15 @@
 #ifndef __DialogSubsystem_H__
 #define __DialogSubsystem_H__
 
-#include "OgreSingleton.h"
 #include "DialogPrerequisites.h"
-#include "OgreSingleton.h"
+#include <OgreSingleton.h>
 
 namespace rl
 {
 	/** Initialise ans manage everything for using dialogs
 	 *  @author Philipp Walser
 	*/
-	class _RlDialogExport DialogSubsystem: protected Singleton<DialogSubsystem>
+	class _RlDialogExport DialogSubsystem: protected Ogre::Singleton<DialogSubsystem>
 	{
 	public:
 		static DialogSubsystem & getSingleton(void);
@@ -39,7 +38,7 @@ namespace rl
 		void log(const std::string& msg);
 
 	private:
-		Log* mLog;
+		Ogre::Log* mLog;
 	};
 }
 #endif

@@ -26,7 +26,10 @@
 // Da sollten wir uns auf etwas enigen
 // So ist das laestig.
 #if OGRE_PLATFORM == PLATFORM_WIN32
+#   pragma warning (push)
+#   pragma warning (disable : 4267)
 #   include <CEGUIString.h>
+#   pragma warning (pop)
 #else
 #   include <CEGUI/CEGUIString.h>
 #endif

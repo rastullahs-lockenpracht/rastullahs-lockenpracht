@@ -26,7 +26,8 @@ namespace rl {
 
 class SynchronizedTask;
 
-class _RlCoreExport GameLoop : public FrameListener, protected Singleton<GameLoop>
+class _RlCoreExport GameLoop
+  : public Ogre::FrameListener, protected Ogre::Singleton<GameLoop>
 {
 
 public:
@@ -36,7 +37,7 @@ public:
     void addSynchronizedTask(SynchronizedTask* newTask);
     void removeSynchronizedTask(SynchronizedTask* oldTask);
 
-	void loop( Real timeSinceLastCall );
+	void loop( Ogre::Real timeSinceLastCall );
     
     bool frameStarted(const Ogre::FrameEvent & evt);
 	bool frameEnded(const Ogre::FrameEvent & evt);

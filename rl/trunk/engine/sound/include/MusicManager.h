@@ -100,7 +100,7 @@ class _RlSoundExport MusicManager : public ResourceManager, public Ogre::Singlet
         /// Relative Lautstaerke holen.
         ALfloat getGain();
         /// Eine Resource erzeugen
-        Resource* create(const String& resName);
+        Ogre::Resource* create(const Ogre::String& resName);
         /// Ob die Songliste wiederholt abgespielt werden soll.
         bool isLooping();
         /// Setzt, ob die Songliste wiederholt werden soll.

@@ -18,6 +18,7 @@
 #include "XmlResourceManager.h"
 
 using namespace XERCES_CPP_NAMESPACE;
+using namespace Ogre;
 
 namespace rl {
 

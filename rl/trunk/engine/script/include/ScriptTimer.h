@@ -49,9 +49,10 @@ namespace rl {
 
 		void registerTask(TimerTask* task);
 		void unregisterTask(TimerTask* task);
-		void registerTaskCallGameTime(RL_LONGLONG time, TimerTask* task, const rl::CeGuiString& name);
+		void registerTaskCallGameTime(RL_LONGLONG time, TimerTask* task,
+		    const rl::CeGuiString& name);
 
-		void run(Real elapsedTime);
+		void run(Ogre::Real elapsedTime);
 
 		static ScriptTimer& getSingleton();
 		static ScriptTimer* getSingletonPtr();

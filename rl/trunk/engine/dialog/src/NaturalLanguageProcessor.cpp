@@ -38,6 +38,7 @@
 #include <OgreLogManager.h>
 
 XERCES_CPP_NAMESPACE_USE
+using namespace Ogre;
 
 namespace rl
 {

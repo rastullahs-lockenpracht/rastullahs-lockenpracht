@@ -9,6 +9,7 @@
 #include "MainMenuWindow.h"
 
 using namespace CEGUI;
+using namespace Ogre;
 
 namespace rl {
 

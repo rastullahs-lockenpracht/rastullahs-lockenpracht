@@ -20,6 +20,8 @@
 #include "RlAnimation.h"
 #include "RlTrackAnimation.h"
 
+using namespace Ogre;
+
 template<> rl::AnimationManager* Singleton<rl::AnimationManager>::ms_Singleton = 0;
 
 namespace rl 

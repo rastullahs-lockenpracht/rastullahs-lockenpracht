@@ -38,7 +38,7 @@ namespace rl {
 	class Person;
 	class GameLoggerWindow;
 
-    class _RlUiExport UiSubsystem : protected Singleton<UiSubsystem>
+    class _RlUiExport UiSubsystem : protected Ogre::Singleton<UiSubsystem>
     {
     public:
         /** Default Constructor */

@@ -23,9 +23,10 @@
 
 #include "InputManager.h"
 
-template<> rl::DebugWindow* Ogre::Singleton<rl::DebugWindow>::ms_Singleton = 0;
-
 using namespace CEGUI;
+using namespace Ogre;
+
+template<> rl::DebugWindow* Ogre::Singleton<rl::DebugWindow>::ms_Singleton = 0;
 
 namespace rl 
 {

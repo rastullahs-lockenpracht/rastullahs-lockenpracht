@@ -29,7 +29,9 @@ class Actor;
 class RlAnimation;
 class RlTrackAnimation;
 
-class _RlCoreExport AnimationManager : public SynchronizedTask, protected Singleton<AnimationManager>
+class _RlCoreExport AnimationManager
+  : public SynchronizedTask,
+    protected Ogre::Singleton<AnimationManager>
 {
 public:
 	enum InterpolationMode { IM_LINEAR, IM_SPLINE };
@@ -40,15 +42,18 @@ public:
 	/** Default Deconstructor */
     virtual ~AnimationManager();
 
-    RlAnimation* addAnimation(AnimationState* animState, Real speed=1.0, unsigned int timesToPlay=0 );
-	RlAnimation* getAnimation(AnimationState* animState) const;
-    void removeAnimation(AnimationState* animState);
-	RlTrackAnimation* createTrackAnimation(Actor* actor, const String& name, Real length );
+    RlAnimation* addAnimation(Ogre::AnimationState* animState,
+        Ogre::Real speed=1.0, unsigned int timesToPlay=0 );
+        
+	RlAnimation* getAnimation(Ogre::AnimationState* animState) const;
+    void removeAnimation(Ogre::AnimationState* animState);
+	RlTrackAnimation* createTrackAnimation(Actor* actor,
+	    const Ogre::String& name, Ogre::Real length );
 	void removeAnimation(RlAnimation* anim);
 	
 	// Für globale SlowMotion oder anderes
-	void setGlobalAnimationSpeed( Real speed );
-	Real getGlobalAnimationSpeed( ) const;
+	void setGlobalAnimationSpeed( Ogre::Real speed );
+	Ogre::Real getGlobalAnimationSpeed( ) const;
 	
 	void setDefaultInterpolationMode( AnimationManager::InterpolationMode im );
 	AnimationManager::InterpolationMode getDefaultInterpolationMode() const;
@@ -56,13 +61,13 @@ public:
 	void setDefaultRotationInterpolationMode( AnimationManager::RotationInterpolationMode rim );
 	AnimationManager::RotationInterpolationMode getDefaultRotationInterpolationMode() const;
 
-    virtual void run(Real timePassed);
+    virtual void run(Ogre::Real timePassed);
 
     static AnimationManager & getSingleton(void);
 	static AnimationManager * getSingletonPtr(void);
 private:
-    std::map<AnimationState*,RlAnimation*> mAnimationMap;
-	Real mGlobalAnimationSpeed;
+    std::map<Ogre::AnimationState*,RlAnimation*> mAnimationMap;
+	Ogre::Real mGlobalAnimationSpeed;
 };
 }
 #endif

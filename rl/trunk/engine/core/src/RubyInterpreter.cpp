@@ -20,6 +20,8 @@
 #include "ScriptObject.h"
 #include "CoreSubsystem.h"
 
+using namespace Ogre;
+
 namespace rl {
 
 RubyInterpreter::RubyInterpreter() : mScriptObjects(), mScriptInstances()

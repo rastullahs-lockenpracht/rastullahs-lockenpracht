@@ -24,6 +24,7 @@
 #if OGRE_PLATFORM != PLATFORM_WIN32
 #include "SDL.h"
 #endif
+using namespace Ogre;
 
 template<> rl::GameLoop* Singleton<rl::GameLoop>::ms_Singleton = 0;
 

@@ -23,6 +23,7 @@
 
 using namespace std;
 using namespace CEGUI;
+using namespace Ogre;
 
 namespace rl
 {

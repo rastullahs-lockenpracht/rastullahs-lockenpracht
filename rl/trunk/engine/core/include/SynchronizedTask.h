@@ -27,7 +27,7 @@ class _RlCoreExport SynchronizedTask
         SynchronizedTask();
         virtual ~SynchronizedTask( ) {};
 
-        virtual void run( Real elapsedTime ) = 0;
+        virtual void run( Ogre::Real elapsedTime ) = 0;
         
         bool isPaused();
         void setPaused(bool isPaused);

@@ -33,7 +33,7 @@ class World;
         It follows the Singleton Pattern,
 		and initialises the game context.
 */
-class _RlCoreExport CoreSubsystem : protected Singleton<CoreSubsystem>
+class _RlCoreExport CoreSubsystem : protected Ogre::Singleton<CoreSubsystem>
 {
 public:
 	/** Default Constructor */
@@ -49,23 +49,24 @@ public:
 	static CoreSubsystem * getSingletonPtr();
 
 	World* getWorld();
-	void loadMap(const String type, const String filename, const String startupScript = "");
+	void loadMap(const Ogre::String type, const Ogre::String filename,
+	    const Ogre::String startupScript = "");
 
 	void setInterpreter(Interpreter* interpreter);
 	Interpreter* getInterpreter();
 
-	StringVector getActiveModules() const;
-	const StringVector& getCommonModules() const;
-	const StringVector& getActivatableModules() const;
-	void setActiveModule(const String& module);
+	Ogre::StringVector getActiveModules() const;
+	const Ogre::StringVector& getCommonModules() const;
+	const Ogre::StringVector& getActivatableModules() const;
+	void setActiveModule(const Ogre::String& module);
 	void initializeModule(const std::string& module);
 	
 	/** Saves a timestamped jpg Screenshot
 		@param sName The filename (extended with the timestamp)
 	*/
-	void  makeScreenshot(const String& sName);
+	void  makeScreenshot(const Ogre::String& sName);
 
-    static void log ( const String& msg );
+    static void log ( const Ogre::String& msg );
 
 	/** Gibt die abgelaufene Spielzeit zurück*/
 	RL_LONGLONG getClock();
@@ -93,16 +94,16 @@ private:
 
 	World* mWorld;
 	Interpreter* mInterpreter;
-	StringVector mCommonModules;
-	StringVector mActivatableModules;
-	String mActiveModule;
-    String mRootDir;
+	Ogre::StringVector mCommonModules;
+	Ogre::StringVector mActivatableModules;
+	Ogre::String mActiveModule;
+    Ogre::String mRootDir;
 
 	RL_LONGLONG mClockStartTime;
 
 #if OGRE_PLATFORM == PLATFORM_LINUX
-    static const String findConfRootDir();
-    static const String findRastullahConf();
+    static const Ogre::String findConfRootDir();
+    static const Ogre::String findRastullahConf();
 #endif
 };
 

@@ -22,6 +22,8 @@
 #include "CoreSubsystem.h"
 #include "Console.h"
 
+using namespace Ogre;
+
 template<> rl::Console* Singleton<rl::Console>::ms_Singleton = 0;
 
 using CEGUI::WindowManager; using CEGUI::utf8; using CEGUI::ListboxTextItem;

@@ -18,6 +18,7 @@
 
 #include "Exception.h"
 
+using namespace Ogre;
 namespace rl {
 
 RlAnimation::RlAnimation( AnimationState* animState, Real speed, unsigned int timesToPlay ) :

@@ -40,7 +40,12 @@ namespace rl {
 	class CeGuiWindow;
 	class GameObject;
 
-	class _RlUiExport InputManager : public SynchronizedTask, public KeyListener, public MouseListener, public MouseMotionListener, public Singleton<InputManager>
+	class _RlUiExport InputManager
+	  : public SynchronizedTask,
+	    public Ogre::KeyListener,
+	    public Ogre::MouseListener,
+	    public Ogre::MouseMotionListener,
+	    public Ogre::Singleton<InputManager>
 	{
 		public:
 			InputManager(void);
@@ -49,23 +54,23 @@ namespace rl {
 			static InputManager & getSingleton(void);
 			static InputManager * getSingletonPtr(void);
 
-			bool isKeyDown(KeyCode kc);
+			bool isKeyDown(Ogre::KeyCode kc);
 			bool isMouseButtonDown(int iButtonID);
 
 			Ogre::Real getMouseRelativeX(void);
 			Ogre::Real getMouseRelativeY(void);
 			Ogre::Real getMouseRelativeZ(void);
 
-			void addKeyListener(KeyListener *l);
-			void removeKeyListener(KeyListener *l);
+			void addKeyListener(Ogre::KeyListener *l);
+			void removeKeyListener(Ogre::KeyListener *l);
 
-			void addMouseListener(MouseListener *l);
-			void removeMouseListener(MouseListener *l);
+			void addMouseListener(Ogre::MouseListener *l);
+			void removeMouseListener(Ogre::MouseListener *l);
 
-			void addMouseMotionListener(MouseMotionListener *l);
-			void removeMouseMotionListener(MouseMotionListener *l);
+			void addMouseMotionListener(Ogre::MouseMotionListener *l);
+			void removeMouseMotionListener(Ogre::MouseMotionListener *l);
 
-			void run(Real elapsedTime);
+			void run(Ogre::Real elapsedTime);
 			
 			void registerCeGuiWindow(CeGuiWindow* window);
 			void unregisterCeGuiWindow(CeGuiWindow* window);
@@ -77,16 +82,16 @@ namespace rl {
 
 			void activateTargetQuery();
 
-			void mouseClicked(MouseEvent* e);
-			void mouseEntered(MouseEvent* e);
-			void mouseExited(MouseEvent* e);
-			void mousePressed(MouseEvent* e);
-			void mouseReleased(MouseEvent* e);
-			void mouseMoved(MouseEvent* e);
-			void mouseDragged(MouseEvent* e);
-			void keyPressed(KeyEvent* e);
-			void keyReleased(KeyEvent* e);
-			void keyClicked(KeyEvent* e);
+			void mouseClicked(Ogre::MouseEvent* e);
+			void mouseEntered(Ogre::MouseEvent* e);
+			void mouseExited(Ogre::MouseEvent* e);
+			void mousePressed(Ogre::MouseEvent* e);
+			void mouseReleased(Ogre::MouseEvent* e);
+			void mouseMoved(Ogre::MouseEvent* e);
+			void mouseDragged(Ogre::MouseEvent* e);
+			void keyPressed(Ogre::KeyEvent* e);
+			void keyReleased(Ogre::KeyEvent* e);
+			void keyClicked(Ogre::KeyEvent* e);
 
 			void loadKeyMapping(const Ogre::String& filename);
 			typedef std::map<int, CEGUI::utf8> KeyCharMap;
@@ -101,9 +106,9 @@ namespace rl {
 
 			bool mKeyDown[NUM_KEYS];
 
-			std::set<KeyListener*> mKeyListeners;
-			std::set<MouseListener*> mMouseListeners;
-			std::set<MouseMotionListener*> mMouseMotionListeners;
+			std::set<Ogre::KeyListener*> mKeyListeners;
+			std::set<Ogre::MouseListener*> mMouseListeners;
+			std::set<Ogre::MouseMotionListener*> mMouseMotionListeners;
 			
 			unsigned short mScreenX;
 			unsigned short mScreenY;
@@ -111,8 +116,8 @@ namespace rl {
 
 			CEGUI::MouseButton convertOgreButtonToCegui(int ogre_button_id);
 
-        	bool processGlobalKeyEvent(KeyEvent* e);
-			bool sendKeyToCeGui(KeyEvent* e);
+        	bool processGlobalKeyEvent(Ogre::KeyEvent* e);
+			bool sendKeyToCeGui(Ogre::KeyEvent* e);
 
 			void switchMouseToUnbuffered();
 			void switchMouseToBuffered();

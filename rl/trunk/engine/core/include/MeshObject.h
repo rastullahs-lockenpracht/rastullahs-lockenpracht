@@ -43,12 +43,12 @@ namespace rl {
         
 		RlAnimation* getAnimation(const Ogre::String& animName) const;
 		RlAnimation* startAnimation(const Ogre::String& animName, 
-									Real speed, unsigned int timesToPlay);
+		    Ogre::Real speed, unsigned int timesToPlay);
         void stopAnimation(const Ogre::String&);
         
         virtual Ogre::String getType();
     private:
-        Vector3 mSize;
+        Ogre::Vector3 mSize;
         void calculateSize();
     };
 }

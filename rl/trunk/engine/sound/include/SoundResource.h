@@ -49,7 +49,7 @@ typedef vector<ALuint> ALuintVector;
  * @date 10-10-2004
  * @version 3.0
  */
-class _RlSoundExport SoundResource: public Resource,
+class _RlSoundExport SoundResource: public Ogre::Resource,
          public EventListener<SoundEvent> {
     private:
         /// Lesen der Vorbisdatei.
@@ -171,7 +171,7 @@ class _RlSoundExport SoundResource: public Resource,
         /// Die komplette Zeit des Stücks in Sekunden.
         double mTime;
         /// Unsere Daten von Ogres ResourceManager.
-        DataChunk *mData;
+        Ogre::DataChunk *mData;
         /// Die Art des Sounds.
         SoundDataType mSoundDataType;
         /// Für Waves dekodieren wir die Daten im voraus.

@@ -31,10 +31,10 @@
 
 namespace rl {
 
-typedef std::map <String, VALUE> Value_Map;
-typedef std::pair <String, VALUE> Value_Pair;
-typedef std::map <String, ScriptObject*> ScriptObjectPtr_Map;
-typedef std::pair <String, ScriptObject*> ScriptObjectPtr_Pair;
+typedef std::map <Ogre::String, VALUE> Value_Map;
+typedef std::pair <Ogre::String, VALUE> Value_Pair;
+typedef std::map <Ogre::String, ScriptObject*> ScriptObjectPtr_Map;
+typedef std::pair <Ogre::String, ScriptObject*> ScriptObjectPtr_Pair;
 
 typedef VALUE(*staticValueMethod)(...);
 typedef VALUE(*ProtectedMethod)(VALUE);
@@ -49,39 +49,49 @@ public:
 	void initializeInterpreter();
 	void initializeInterpreter(staticValueMethod func);
 	
-	bool execute(String command);
+	bool execute(Ogre::String command);
 
-	static String val2str(const VALUE rval);
-	static String strval2str(const VALUE rval);
+	static Ogre::String val2str(const VALUE rval);
+	static Ogre::String strval2str(const VALUE rval);
 
-	void setScript( const String& instname, const String& scriptname, const String& classname, int argc, const String args[] = 0 );
-	void callFunction( const String& instname, const String& funcname, int argc, const String args[] = 0 );
-    int callIntegerFunction( const String& instname, const String& funcname, int argc, const String args[] = 0 );
-	std::string callStringFunction( const String& instname, const String& funcname, int argc, const String args[] = 0 );
-	void registerScriptObject( ScriptObject* obj, const String& instname );
-	void unregisterScriptObject( const String& instname );
+	void setScript( const Ogre::String& instname,
+	    const Ogre::String& scriptname, const Ogre::String& classname,
+	    int argc, const Ogre::String args[] = 0 );
+	void callFunction( const Ogre::String& instname,
+	    const Ogre::String& funcname,
+	    int argc, const Ogre::String args[] = 0 );
+    int callIntegerFunction( const Ogre::String& instname,
+        const Ogre::String& funcname, int argc,
+        const Ogre::String args[] = 0 );
+	std::string callStringFunction( const Ogre::String& instname,
+	    const Ogre::String& funcname, int argc,
+	    const Ogre::String args[] = 0 );
+	void registerScriptObject( ScriptObject* obj,
+	    const Ogre::String& instname );
+	void unregisterScriptObject( const Ogre::String& instname );
 
-	void addSearchPath(const String& path);
+	void addSearchPath(const Ogre::String& path);
 
 	void setDefOut( staticValueMethod func);
 
-	ScriptObject* getScriptObject( const String& name );
+	ScriptObject* getScriptObject( const Ogre::String& name );
 private:
     VALUE mRubyObjects;
 	Value_Map mScriptInstances;
 	ScriptObjectPtr_Map mScriptObjects;
 	
-	void createScriptInstance( const String& instname );
-	void removeScriptInstance( const String& instname );
+	void createScriptInstance( const Ogre::String& instname );
+	void removeScriptInstance( const Ogre::String& instname );
 	void registerRubyObject(VALUE object);
     void unregisterRubyObject(VALUE object);
 
 	void logRubyErrors(const std::string& intro, int errorcode);
-	void loadProtected(ProtectedMethod func, VALUE args, const std::string& msg, bool exitOnFail = false);
+	void loadProtected(ProtectedMethod func, VALUE args,
+	    const std::string& msg, bool exitOnFail = false);
 	static VALUE loadDlls(VALUE);
 	static VALUE loadGlobals(VALUE val);
 
-	VALUE* rubyArgs( int argc, const String args[] );
+	VALUE* rubyArgs( int argc, const Ogre::String args[] );
 };
 
 }

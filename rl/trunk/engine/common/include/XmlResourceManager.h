@@ -32,7 +32,7 @@ namespace rl {
         /// Gibt einen Zeiger auf das Singleton zurueck.
         static XmlResourceManager* getSingletonPtr();
         /// Eine Resource erzeugen
-        XmlResource* create(const String& resName);
+        XmlResource* create(const Ogre::String& resName);
 	};
 
 }

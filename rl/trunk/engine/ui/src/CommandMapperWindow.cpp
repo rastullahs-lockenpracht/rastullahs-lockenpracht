@@ -24,6 +24,7 @@
 #include "CommandMapperWindow.h"
 
 using namespace CEGUI;
+using namespace Ogre;
 
 namespace rl {
 

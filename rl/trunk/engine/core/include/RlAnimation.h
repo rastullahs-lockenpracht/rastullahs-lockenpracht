@@ -26,8 +26,9 @@ namespace rl {
 class _RlCoreExport RlAnimation : public virtual EventSource
 {
     public:
-        RlAnimation( AnimationState* animState, Real speed=1.0, unsigned int timesToPlay=0 );
-		RlAnimation( Real length );
+        RlAnimation(Ogre::AnimationState* animState, Ogre::Real speed=1.0,
+            unsigned int timesToPlay=0);
+		RlAnimation(Ogre::Real length);
 		virtual ~RlAnimation( );
         
 		// Pausieren und fortsetzen
@@ -41,8 +42,8 @@ class _RlCoreExport RlAnimation : public virtual EventSource
 		void setIgnoringGlobalSpeed( bool isIgnoringGlobalSpeed );
 
 		// Regelbare Geschwindigkeit
-		Real getSpeed() const;
-		void setSpeed( Real speed );
+		Ogre::Real getSpeed() const;
+		void setSpeed( Ogre::Real speed );
 		void reverseAnimation();
 
 		// Regelbare Wiederholungsanzahl
@@ -51,33 +52,33 @@ class _RlCoreExport RlAnimation : public virtual EventSource
 		void resetTimesPlayed();
 		unsigned int getTimesToPlay() const;
 		unsigned int getTimesToPlayLeft() const;
-		Real getTimePlayed() const;
+		Ogre::Real getTimePlayed() const;
 
 		// Gewicht (Einfluss) der Animation
-		Real getWeight(void) const;
-        void setWeight(Real weight);
+		Ogre::Real getWeight(void) const;
+        void setWeight(Ogre::Real weight);
 
 		// Zeit hinzufügen // wird vom AnimationManager aufgerufen
-		void addTime( Real timePassed );
+		void addTime( Ogre::Real timePassed );
 
 		// AnimationFinishedListener
 		void addAnimationListener( AnimationListener *listener);
 		void removeAnimationListener( AnimationListener *listener);
 
-		AnimationState* getAnimationState() { return mAnimState; };
+		Ogre::AnimationState* getAnimationState() { return mAnimState; };
     protected:
-		Real mLength;
-		AnimationState* mAnimState;
+		Ogre::Real mLength;
+		Ogre::AnimationState* mAnimState;
 
         bool mPaused;
 		bool mIgnoringGlobalSpeed;
-		Real mSpeed;
+		Ogre::Real mSpeed;
 		unsigned int mTimesToPlay;
-		Real mTimePlayed;
+		Ogre::Real mTimePlayed;
 
 		EventCaster<AnimationEvent> mAnimationCaster;
 
-		void setAnimationState( AnimationState* animState );
+		void setAnimationState( Ogre::AnimationState* animState );
 };
 
 }
