@@ -198,9 +198,9 @@ public class OgreMeshWriter
 	            stream.append("\t\t\ttexture_unit\n");
 	            stream.append("\t\t\t{\n");
 	            stream.append("\t\t\t\ttexture textures/");
-	            stream.append(textureName);
+	            stream.append(textureName.toLowerCase());
 	            stream.append(".");
-	            stream.append(tex.getExtension());
+	            stream.append(tex.getExtension().toLowerCase());
 	            stream.append("\n\t\t\t\tfiltering anisotropic anisotropic anisotropic\n");
 	            stream.append("\t\t\t}\n");
 	            stream.append("\t\t}\n");
@@ -208,6 +208,8 @@ public class OgreMeshWriter
 	            stream.append("}\n");
 	            numWritten++;
             }
+            else
+                System.out.println( "Texture missing! ( " + textureName + " ) " );
         }
         
         if( numWritten > 0 )
