@@ -44,8 +44,6 @@ public:
     void testSoundManager_loadPlayUnload()
     {
         xtime xt;
-        xt.sec = 1;
-        xt.nsec = 0;
         
         rl::ResourceManager::ResourceMapIterator it =
             SoundManager::getSingleton().getResourceIterator();
@@ -58,8 +56,12 @@ public:
                 sound->load();
                 sound->play();
                 
+                xtime_get(&xt, TIME_UTC);
+                xt.sec++;
                 thread::sleep(xt);
                 while (sound->isPlaying())
+                    xtime_get(&xt, TIME_UTC);
+                    xt.sec++;
                     thread::sleep(xt);
                 
                 sound->stop();
@@ -73,8 +75,6 @@ public:
     void testSoundManager_loadPlayWithFade()
     {
         xtime xt;
-        xt.sec = 10;
-        xt.nsec = 0;
         Ogre::ResourceManager::ResourceMapIterator it =
             SoundManager::getSingleton().getResourceIterator();
         while (it.hasMoreElements())
@@ -87,10 +87,14 @@ public:
                 sound->load();
                 sound->play(2 * 1000);
                 
+                xtime_get(&xt, boost::TIME_UTC);
+                xt.sec += 10;
                 thread::sleep(xt);
                 
                 sound->stop(2 * 1000);
                 
+                xtime_get(&xt, boost::TIME_UTC);
+                xt.sec += 5;
                 thread::sleep(xt);
                 
                 sound->unload();
@@ -106,4 +110,4 @@ public:
     CPPUNIT_TEST(testSoundManager_loadPlayWithFade);
     CPPUNIT_TEST_SUITE_END();
 };
-//CPPUNIT_TEST_SUITE_REGISTRATION(SoundManagerTest);
+CPPUNIT_TEST_SUITE_REGISTRATION(SoundManagerTest);

@@ -175,8 +175,6 @@ using namespace Ogre;
 	void AsynchronousGameLoop::run()
 	{
 		boost::xtime timeToSleep;
-		timeToSleep.sec = 0;
-		timeToSleep.nsec = sTimeTickInMillis * 1000000L;			
 
 		while(true)
 		{
@@ -185,6 +183,8 @@ using namespace Ogre;
 			{
 				mTimer->reset();
 				loop((double)timeSinceLastCall/1000.0);
+                boost::xtime_get(&timeToSleep, boost::TIME_UTC);
+                timeToSleep.nsec += sTimeTickInMillis * 1000000L;            
 				boost::thread::sleep(timeToSleep);
 			}
             boost::thread::yield();

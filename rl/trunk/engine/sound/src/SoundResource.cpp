@@ -42,25 +42,89 @@ using namespace Ogre;
 using namespace boost;
 
 namespace rl {
+    
+    
+/**
+ * @author JoSch
+ * @date 02-02-2005
+ */
+SoundResource::FadeIn::FadeIn(SoundResource *that)
+    : that(that)
+{
+}
+    
+/**
+ * @author JoSch
+ * @date 02-02-2005
+ */
+void SoundResource::FadeIn::operator()()
+{
+    that->fadeIn();
+} 
+    
+/**
+ * @author JoSch
+ * @date 02-02-2005
+ */
+SoundResource::FadeOut::FadeOut(SoundResource *that)
+    : that(that)
+{
+}
+    
+/**
+ * @author JoSch
+ * @date 02-02-2005
+ */
+void SoundResource::FadeOut::operator()()
+{
+    that->fadeOut();
+}
+ 
+/**
+ * @author JoSch
+ * @date 02-02-2005
+ */
+SoundResource::Streaming::Streaming(SoundResource *that)
+    : that(that)
+{
+}
+    
+/**
+ * @author JoSch
+ * @date 02-02-2005
+ */
+void SoundResource::Streaming::operator()()
+{
+    that->runStreaming();
+} 
+
 /**
  * @author JoSch
  * @date 07-23-2004
  */
 SoundResource::SoundResource(const string &name):
     EventListener<SoundEvent>(),
+    EventSource(), 
+    EventCaster<SoundEvent>(),
     Resource(),
     mData(0),
     mBuffers(mDefaultBufferCount),
     mSource(0),
     mFadeInThread(0),
     mFadeOutThread(0),
-    mStreamThread(0)
+    mStreamThread(0),
+    mFadeInFunctor(this),
+    mFadeOutFunctor(this),
+    mStreamFunctor(this)
 {
     mName = name;
     alGenSources(1, &mSource);
     check();
     alGenBuffers(mBuffers.size(), &mBuffers[0]);
     check();
+
+    // ein paar Verknuepfungen
+    addEventListener(this);
 
     /// Ein paar Standardwerte setzen
     setGain(1.0f);
@@ -77,9 +141,7 @@ SoundResource::SoundResource(const string &name):
 SoundResource::~SoundResource()
 {
     // Listener entfernen.
-    mFadeInThread->removeEventListener(this);
-    mFadeOutThread->removeEventListener(this);
-    mStreamThread->removeEventListener(this);
+    removeEventListener(this);
     
     // Threads anhalten
     delete mStreamThread;
@@ -320,9 +382,8 @@ void SoundResource::fadeIn(unsigned int msec)
 {
     if (msec != 0)
     {
-        mFadeInThread = new FadeThread(this, true);
-        mFadeInThread->addEventListener(this);
-        mFadeInThread->setDuration(msec);
+        setFadeIn(msec);
+        mFadeInThread = new thread(SoundResource::mFadeInFunctor);
     }
 }
 /**
@@ -333,9 +394,8 @@ void SoundResource::fadeOut(unsigned int msec)
 {
     if (msec != 0 )
     {
-        mFadeOutThread = new FadeThread(this, false);
-        mFadeOutThread->addEventListener(this);
-        mFadeOutThread->setDuration(msec);
+        setFadeOut(msec);
+        mFadeOutThread = new thread(SoundResource::mFadeOutFunctor);
     }
 }
 /**
@@ -346,8 +406,7 @@ void SoundResource::play(unsigned int msec) throw (RuntimeException)
 {
     if (!mStreamThread)
     {
-        mStreamThread = new StreamThread(this);
-        mStreamThread->addEventListener(this);
+        mStreamThread = new thread(SoundResource::mStreamFunctor);
         fadeIn(msec);
     }
 }
@@ -429,25 +488,14 @@ const bool SoundResource::isPlaying() const
 }
 
 
-/**
- * @author JoSch
- * @date 09-16-2004
- */
-SoundResource::FadeThread::FadeThread(SoundResource *that, bool fadeIn) :
-    thread(),
-    EventSource(),
-    EventCaster<SoundEvent>(),
-	mResource(that),
-    mFadeIn(fadeIn)
-{    
-}
 
 /**
- * Fuehrt das Fade aus
+ * Fuehrt das Fadein aus
  * @author JoSch
  * @date 09-16-2004
+ * @date 02-02-2005
  */
-void SoundResource::FadeThread::operator()()
+void SoundResource::fadeIn()
 {
     boost::xtime xt;
 
@@ -456,56 +504,72 @@ void SoundResource::FadeThread::operator()()
     dispatchEvent(&event);
 
     try {
-        if (mFadeIn)
+        if (mFadeIn != 0)
         {
-            if (mDuration != 0)
-            {
-                // Alte Lautstaerke speichern.
-                ALfloat gain = mResource->getGain();
-                
-                mResource->setGain(0.0f);
-                for(unsigned int time = 0; (time <= mDuration) && mResource->isPlaying(); time += 10)
-                {
-                    
-                    // Warten
-                    xt.sec = 0;
-                    xt.nsec = 10 * 1000;
-                    thread::sleep(xt);
-                    ALfloat newgain = calculateFadeIn(time, gain);
-                    // Lautstaerke hochsetzen.
-                    mResource->setGain((newgain > gain)?gain:newgain);
-                }
-                mResource->setGain(gain);
-                mResource->check();
-            }
-        } else {
-            if (mDuration != 0)
+            // Alte Lautstaerke speichern.
+            ALfloat gain = getGain();
+            
+            setGain(0.0f);
+            for(unsigned int time = 0; (time <= mFadeIn) && isPlaying(); time += 10)
             {
                 
-                // Alte Lautstaerke speichern.
-                ALfloat gain = mResource->getGain();
-                
-                for (unsigned int time = 0; (time <= mDuration) && mResource->isPlaying(); time += 10)
-                {
-                    // Warten
-                    xt.sec = 0;
-                    xt.nsec = 10 * 1000;
-                    thread::sleep(xt);
-                    ALfloat newgain = calculateFadeOut(time, gain);
-                    // Lautstaerke hochsetzen.
-                    mResource->setGain((newgain > gain)?gain:newgain);
-                }
-                mResource->setGain(0.0f);
-                mResource->check();
-                
+                // Warten
+                xtime_get(&xt, TIME_UTC);
+                xt.nsec += 10 * 1000;
+                thread::sleep(xt);
+                ALfloat newgain = calculateFadeIn(time, gain);
+                // Lautstaerke hochsetzen.
+                setGain((newgain > gain)?gain:newgain);
             }
-            // Stoppen.
-            alSourceStop(mResource->mSource);
-            mResource->check();
+            setGain(gain);
+            check();
         }
     } catch(...)
-    {
-    }   
+    {}
+    event.setReason(SoundFadeEvent::STOPEVENT);
+    dispatchEvent(&event);
+}
+
+/**
+ * Fuehrt das Fadeout aus
+ * @author JoSch
+ * @date 09-16-2004
+ * @date 02-02-2005
+ */
+void SoundResource::fadeOut()
+{
+    boost::xtime xt;
+
+    SoundFadeEvent event(this);
+    event.setReason(SoundFadeEvent::STARTEVENT);
+    dispatchEvent(&event);
+
+    try {
+        if (mFadeOut != 0)
+        {
+            
+            // Alte Lautstaerke speichern.
+            ALfloat gain = getGain();
+            
+            for (unsigned int time = 0; (time <= mFadeOut) && isPlaying(); time += 10)
+            {
+                // Warten
+                xtime_get(&xt, TIME_UTC);
+                xt.nsec += 10 * 1000;
+                thread::sleep(xt);
+                ALfloat newgain = calculateFadeOut(time, gain);
+                // Lautstaerke hochsetzen.
+                setGain((newgain > gain)?gain:newgain);
+            }
+            setGain(0.0f);
+            check();
+            
+        }
+        // Stoppen.
+        alSourceStop(mSource);
+        check();
+    } catch(...)
+    {}   
     event.setReason(SoundFadeEvent::STOPEVENT);
     dispatchEvent(&event);
 }
@@ -516,10 +580,10 @@ void SoundResource::FadeThread::operator()()
  * @author JoSch
  * @date 09-15-2004
  */
-ALfloat SoundResource::FadeThread::calculateFadeIn(unsigned RL_LONGLONG time, ALfloat gain)
+ALfloat SoundResource::calculateFadeIn(unsigned RL_LONGLONG time, ALfloat gain)
 {
     try {
-        ALfloat x = (time * 1.0f) / getDuration();
+        ALfloat x = (time * 1.0f) / getFadeIn();
         return (1.0f - exp(-x)) * gain;
     } catch(...)
     {
@@ -533,10 +597,10 @@ ALfloat SoundResource::FadeThread::calculateFadeIn(unsigned RL_LONGLONG time, AL
  * @author JoSch
  * @date 09-15-2004
  */
-ALfloat SoundResource::FadeThread::calculateFadeOut(unsigned RL_LONGLONG time, ALfloat gain)
+ALfloat SoundResource::calculateFadeOut(unsigned RL_LONGLONG time, ALfloat gain)
 {
     try {
-        ALfloat x = (time * 1.0f) / getDuration();
+        ALfloat x = (time * 1.0f) / getFadeOut();
         return exp(-x) * gain;
     } catch(...)
     {
@@ -545,75 +609,18 @@ ALfloat SoundResource::FadeThread::calculateFadeOut(unsigned RL_LONGLONG time, A
 }
 
 /**
- * @param dauer Die Dauer des Fades in Millisekunden.
- * @author JoSch
- * @date 10-13-2004
- */
-void SoundResource::FadeThread::setDuration(const unsigned long int dauer)
-{
-    boost::mutex::scoped_lock lock(mDurationMutex);
-    mDuration = dauer;
-}
-
-/**
- * @return Die Dauer des Fades in Millisekunden.
- * @author JoSch
- * @date 10-13-2004
- */
-const unsigned long int SoundResource::FadeThread::getDuration() const
-{
-    boost::mutex::scoped_lock lock(mDurationMutex);
-    return mDuration;
-}
-
-/**
- * @param gain Die Ausgangslautstaerke des Fades.
- * @author JoSch
- * @date 10-13-2004
- */
-void SoundResource::FadeThread::setGain(const ALfloat gain)
-{
-    boost::mutex::scoped_lock lock(mGainMutex);
-    mGain = gain;
-}
-
-/**
- * @return Die Dauer des Fades in Millisekunden.
- * @author JoSch
- * @date 10-13-2004
- */
-const ALfloat SoundResource::FadeThread::getGain() const
-{
-    boost::mutex::scoped_lock lock(mGainMutex);
-    return mGain;
-}
-
-/**
  * Zeit in ns, die wir unterbechen.
  * @author JoSch
  * @date 01-19-2005
  */
-int SoundResource::StreamThread::mSleepTime = 1000;
-
-/**
- * Das Streamen passiert in diesem Thread.
- * @author JoSch
- * @date 10-11-2004
- */
-SoundResource::StreamThread::StreamThread(SoundResource *that) :
-    thread(),
-    EventSource(),
-    EventCaster<SoundEvent>(),
-    mResource(that)
-{
-}
+int SoundResource::mSleepTime = 1000;
 
 /**
  * Fuehrt das Streamen aus
  * @author JoSch
  * @date 10-11-2004
  */
-void SoundResource::StreamThread::operator()()
+void SoundResource::runStreaming()
 {
     bool loopende = false;
     
@@ -621,17 +628,17 @@ void SoundResource::StreamThread::operator()()
     event.setReason(SoundPlayEvent::STARTEVENT);
     dispatchEvent(&event);
 
-    mResource->mWavIndex = 0;
-    if (!mResource->playback())
+    mWavIndex = 0;
+    if (!playback())
     {
         // TODO: Fehlermeldung
         return;
     }    
-    while(!loopende && mResource->update())
+    while(!loopende && update())
     {
-        if (!mResource->playing())
+        if (!playing())
         {
-            if (!mResource->playback())
+            if (!playback())
             {
                 // TODO Fehlermeldung
                 return;
@@ -641,15 +648,15 @@ void SoundResource::StreamThread::operator()()
             loopende = true;
         }
         boost::xtime xt;
-        xt.sec = 0;
-        xt.nsec = mSleepTime;
+        xtime_get(&xt, TIME_UTC);
+        xt.nsec += mSleepTime;
         thread::sleep(xt);
     }
     
     event.setReason(SoundPlayEvent::STOPEVENT);
     dispatchEvent(&event);
     
-    mResource->stop();
+    stop();
     return;
 }
 
@@ -703,6 +710,45 @@ bool SoundResource::stream (ALuint buffer)
     }
 }
 
+/**
+ * @return Die Dauer des FadeIns.
+ * @author JoSch
+ * @date 02-02-2005
+ */
+unsigned int SoundResource::getFadeIn() const
+{
+    return mFadeIn;
+}
+
+/**
+ * @return Die Dauer des FadeOuts.
+ * @author JoSch
+ * @date 02-02-2005
+ */
+unsigned int SoundResource::getFadeOut() const
+{
+    return mFadeOut;
+}
+
+/**
+ * @param Die Dauer des FadeIns.
+ * @author JoSch
+ * @date 02-02-2005
+ */
+void SoundResource::setFadeIn(unsigned int fade)
+{
+    mFadeIn = fade;
+}
+
+/**
+ * @param Die Dauer des FadeOuts.
+ * @author JoSch
+ * @date 02-02-2005
+ */
+void SoundResource::setFadeOut(unsigned int fade)
+{
+    mFadeOut = fade;
+}
 
 /**
  ******************************************************************************

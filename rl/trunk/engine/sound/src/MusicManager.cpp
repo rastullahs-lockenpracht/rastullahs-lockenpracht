@@ -328,8 +328,8 @@ void MusicManager::MusicThread::operator()()
             if (that->mShouldPlay)
             {
                 xtime xt;
-                xt.sec = 0;
-                xt.nsec = 1000;
+                xtime_get(&xt, TIME_UTC);
+                xt.nsec += 1000;
                 thread::sleep(xt);
                 // Spielt der Song noch?
                 if (!that->isSourcePlaying()) // Nein, spielt nicht
@@ -353,8 +353,8 @@ void MusicManager::MusicThread::operator()()
         {
         }
         xtime xt;
-        xt.sec = 0;
-        xt.nsec = 1000;
+        xtime_get(&xt, TIME_UTC);
+        xt.nsec += 1000;
         thread::sleep(xt);
     } 
 }
