@@ -15,10 +15,10 @@
  */
 
 #include "ConfigurationManagerWin32.h"
+using namespace std;
 
 rl::ConfigurationManager* rl::ConfigurationManagerWin32::instance = 0;
 
-using namespace std;
 
 namespace rl
 {

@@ -23,24 +23,24 @@ namespace rl
 {
 	ConfigurationManager* ConfigurationManager::getSingletonPtr()
 	{
-		#if OGRE_PLATFORM == PLATFORM_LINUX
-		return ConfigurationManagerLinux::getSingletonPtr();
-		#elif OGRE_PLATFORM == PLATFORM_WIN32
-		return ConfigurationManagerWin32::getSingletonPtr();
-		#else
-		return ConfigurationManagerMac::getSingletonPtr();
-		#endif
+#       if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
+		    return ConfigurationManagerLinux::getSingletonPtr();
+#       elif OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+		    return ConfigurationManagerWin32::getSingletonPtr();
+#       else
+		    return ConfigurationManagerMac::getSingletonPtr();
+#       endif
 	}
 	
 	ConfigurationManager& ConfigurationManager::getSingleton()
 	{
-		#if OGRE_PLATFORM == PLATFORM_LINUX
-		return ConfigurationManagerLinux::getSingleton();
-		#elif OGRE_PLATFORM == PLATFORM_WIN32
-		return ConfigurationManagerWin32::getSingleton();
-		#else
-		return ConfigurationManagerMac::getSingleton();
-		#endif
+#       if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
+		    return ConfigurationManagerLinux::getSingleton();
+#       elif OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+		    return ConfigurationManagerWin32::getSingleton();
+#       else
+		    return ConfigurationManagerMac::getSingleton();
+#       endif
 	}
 	
 	ConfigurationManager::~ConfigurationManager()

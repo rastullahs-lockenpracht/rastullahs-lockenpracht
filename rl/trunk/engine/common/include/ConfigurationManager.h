@@ -17,6 +17,7 @@
 #ifndef __RL_CONFIGURATIONMANAGER_H__
 #define __RL_CONFIGURATIONMANAGER_H__
 
+#include "CommonPrerequisites.h"
 /**
  * \file ConfigurationManager.h
  * Definiert die abstrakte Basisklasse für das Konfigurationsmanagement.
@@ -26,7 +27,7 @@
 
 namespace rl
 {
-	class ConfigurationManager
+	class _RlCommonExport ConfigurationManager
 	{
 		public:
 
