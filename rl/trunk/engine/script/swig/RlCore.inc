@@ -155,6 +155,46 @@ public:
 	rl::AnimationManager::RotationInterpolationMode getDefaultRotationInterpolationMode() const;
 };
 
+%apply SWIGTYPE *DYNAMIC { ActorControlledObject * };
+class ActorControlledObject {
+private:
+    ActorControlledObject();
+public:
+    rl::Actor* getActor();
+};
+
+class MeshObject : public ActorControlledObject
+{
+private:
+    MeshObject(const Ogre::String& name, const Ogre::String& meshname);
+public:
+    
+    /// Groesse der Boundingbox
+    Ogre::Vector3 getSize();
+    Ogre::Vector3 getCenter();
+    Ogre::Real getRadius();
+    Ogre::Real getHeight();
+    
+	RlAnimation* getAnimation(const Ogre::String& animName) const;
+	RlAnimation* startAnimation(const Ogre::String& animName, 
+		Ogre::Real speed, unsigned int timesToPlay);
+    void stopAnimation(const Ogre::String&);
+};
+
+class LightObject : public ActorControlledObject
+{
+private:
+    LightObject(const Ogre::String& name, Ogre::Light::LightTypes type);
+public:
+};
+
+class CameraObject : public ActorControlledObject
+{
+private:
+    CameraObject(const Ogre::String& name);
+public:
+};
+
 class Actor {
 private:
 	Actor(const String& name);
@@ -162,6 +202,8 @@ public:
 	const Vector3& getPosition(void);
     void setPosition(Real x, Real y, Real z);
     
+    ActorControlledObject* getControlledObject();
+
     void placeIntoScene(Real px, Real py, Real pz,
         Real ow, Real ox, Real oy, Real oz);
        
@@ -265,3 +307,29 @@ public:
 
 }
 
+%{
+static swig_type_info *ActorControlledObject_dynamic_cast(void **ptr)
+{
+    rl::ActorControlledObject **ppActorControlledObject =
+        reinterpret_cast<rl::ActorControlledObject**>(ptr);
+
+    rl::MeshObject *pMeshObject=dynamic_cast<rl::MeshObject*>(*ppActorControlledObject);
+    if (pMeshObject) {
+        *ptr=reinterpret_cast<void*>(pMeshObject);
+        return SWIGTYPE_p_rl__MeshObject;
+    }
+
+    rl::CameraObject *pCameraObject=dynamic_cast<rl::CameraObject*>(*ppActorControlledObject);
+    if (pCameraObject) {
+        *ptr=reinterpret_cast<void*>(pCameraObject);
+        return SWIGTYPE_p_rl__CameraObject;
+    }
+    rl::LightObject *pLightObject=dynamic_cast<rl::LightObject*>(*ppActorControlledObject);
+    if (pLightObject) {
+        *ptr=reinterpret_cast<void*>(pLightObject);
+        return SWIGTYPE_p_rl__LightObject;
+    }
+    return 0;
+}
+%}
+DYNAMIC_CAST(SWIGTYPE_p_rl__ActorControlledObject, ActorControlledObject_dynamic_cast);
