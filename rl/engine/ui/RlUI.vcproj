@@ -178,6 +178,9 @@
 				RelativePath=".\include\DebugWindow.h">
 			</File>
 			<File
+				RelativePath=".\include\DialogWindow.h">
+			</File>
+			<File
 				RelativePath=".\include\FlyingCameraController.h">
 			</File>
 			<File
@@ -210,6 +213,9 @@
 			</File>
 			<File
 				RelativePath=".\src\DebugWindow.cpp">
+			</File>
+			<File
+				RelativePath=".\src\DialogWindow.cpp">
 			</File>
 			<File
 				RelativePath=".\src\FlyingCameraController.cpp">

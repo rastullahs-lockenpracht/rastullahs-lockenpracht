@@ -21,7 +21,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreMain\Dependencies\include;..\..\dependencies\openalpp\include;..\..\dependencies\openal\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenThreads\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreMain\Dependencies\include;..\..\dependencies\openalpp\include;..\..\dependencies\openal\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenThreads\include;..\..\dependencies\vorbis\include"
 				PreprocessorDefinitions="_WINDOWS;WIN32;RLSOUND_EXPORTS;_DEBUG;LIBOPENAL;HAVE_LIBOPENAL"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="3"
@@ -40,11 +40,11 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msvcrt-ruby18.lib OgreMain_d.lib oalppd.lib OpenThreadsWin32d.lib ALut.lib OpenAl32.lib ogg_static_d.lib vorbis_static_d.lib vorbisenc_static_d.lib vorbisfile_static_d.lib"
+				AdditionalDependencies="msvcrt-ruby18.lib OgreMain_d.lib ALut.lib OpenAl32.lib ogg_static_d.lib vorbis_static_d.lib vorbisenc_static_d.lib vorbisfile_static_d.lib"
 				OutputFile="$(OutDir)/RlSound.dll"
 				LinkIncremental="0"
 				SuppressStartupBanner="FALSE"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\openalpp\lib;..\..\dependencies\ruby\lib;..\..\dependencies\openthreads\lib\win32;..\..\dependencies\OpenAL\libs;..\..\dependencies\vorbis\lib"
+				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\vorbis\lib;..\..\dependencies\boost\lib"
 				GenerateDebugInformation="TRUE"
 				AssemblyDebug="1"
 				ProgramDatabaseFile="./lib/$(ConfigurationName)/$(ProjectName).pdb"
@@ -88,7 +88,7 @@
 				FavorSizeOrSpeed="1"
 				OptimizeForProcessor="2"
 				OptimizeForWindowsApplication="TRUE"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreMain\Dependencies\include;..\..\dependencies\openalpp\include;..\..\dependencies\openal\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenThreads\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreMain\Dependencies\include;..\..\dependencies\openalpp\include;..\..\dependencies\openal\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenThreads\include;..\..\dependencies\vorbis\include"
 				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32;RLSOUND_EXPORTS;LIBOPENAL;HAVE_LIBOPENAL"
 				MinimalRebuild="FALSE"
 				RuntimeLibrary="2"
@@ -104,11 +104,11 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msvcrt-ruby18.lib OgreMain.lib ogg_static.lib vorbis_static.lib vorbisenc_static.lib vorbisfile_static.lib OpenThreadsWin32.lib ALut.lib OpenAl32.lib"
+				AdditionalDependencies="msvcrt-ruby18.lib OgreMain.lib ogg_static.lib vorbis_static.lib vorbisenc_static.lib vorbisfile_static.lib ALut.lib OpenAl32.lib"
 				OutputFile="$(OutDir)/RlSound.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="FALSE"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\OpenAL\libs;..\..\dependencies\openalpp\lib;..\..\dependencies\ruby\lib;..\..\dependencies\openthreads\lib\win32;..\..\dependencies\vorbis\lib"
+				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\vorbis\lib;..\..\dependencies\boost\lib"
 				GenerateDebugInformation="FALSE"
 				SubSystem="2"
 				OptimizeReferences="2"
