@@ -36,6 +36,29 @@ void CommandMapperWindow::subscribeEventsToElements()
 
 }
 
+bool CommandMapperWindow::handleChangeButton()
+{
+	return true;
+}
 
+bool CommandMapperWindow::handleCloseButton()
+{
+	return true;
+}
+
+bool CommandMapperWindow::handleChangeInBattle()
+{
+	return true;
+}
+
+bool CommandMapperWindow::handleChangeMovement()
+{
+	return true;
+}
+
+bool CommandMapperWindow::handleChangeOffBattle()
+{
+	return true;
+}
 
 }

@@ -152,7 +152,16 @@
 				RelativePath=".\src\ResourceManager.cpp">
 			</File>
 			<File
+				RelativePath=".\src\SoundEvent.cpp">
+			</File>
+			<File
+				RelativePath=".\src\SoundFadeEvent.cpp">
+			</File>
+			<File
 				RelativePath=".\src\SoundManager.cpp">
+			</File>
+			<File
+				RelativePath=".\src\SoundPlayEvent.cpp">
 			</File>
 			<File
 				RelativePath=".\src\SoundResource.cpp">
@@ -172,7 +181,16 @@
 				RelativePath=".\include\ResourceManager.h">
 			</File>
 			<File
+				RelativePath=".\include\SoundEvent.h">
+			</File>
+			<File
+				RelativePath=".\include\SoundFadeEvent.h">
+			</File>
+			<File
 				RelativePath=".\include\SoundManager.h">
+			</File>
+			<File
+				RelativePath=".\include\SoundPlayEvent.h">
 			</File>
 			<File
 				RelativePath=".\include\SoundPrerequisites.h">

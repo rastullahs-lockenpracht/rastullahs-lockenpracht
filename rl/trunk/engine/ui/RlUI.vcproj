@@ -190,6 +190,9 @@
 				RelativePath=".\include\CommandMapper.h">
 			</File>
 			<File
+				RelativePath=".\include\CommandMapperWindow.h">
+			</File>
+			<File
 				RelativePath=".\include\DebugWindow.h">
 			</File>
 			<File
@@ -209,6 +212,9 @@
 			</File>
 			<File
 				RelativePath=".\components\include\ListboxWrappedTextItem.h">
+			</File>
+			<File
+				RelativePath=".\include\MessageWindow.h">
 			</File>
 			<File
 				RelativePath=".\include\ThirdPersonGameController.h">
@@ -242,6 +248,9 @@
 				RelativePath=".\src\CommandMapper.cpp">
 			</File>
 			<File
+				RelativePath=".\src\CommandMapperWindow.cpp">
+			</File>
+			<File
 				RelativePath=".\src\DebugWindow.cpp">
 			</File>
 			<File
@@ -261,6 +270,9 @@
 			</File>
 			<File
 				RelativePath=".\components\src\ListboxWrappedTextItem.cpp">
+			</File>
+			<File
+				RelativePath=".\src\MessageWindow.cpp">
 			</File>
 			<File
 				RelativePath=".\src\ThirdPersonGameController.cpp">

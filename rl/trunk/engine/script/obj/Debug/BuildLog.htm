@@ -8,30 +8,52 @@
 Buildprotokoll</font></table><table width=* cellspacing=0 cellpadding=0><tr><td width=0 bgcolor=#EDEDF5>&nbsp;</td><td width=0 bgcolor=#FFFFFF>&nbsp;</td><td width=*><pre>
 <h3>------- Buildvorgang wurde gestartet: Projekt: RlScript, Konfiguration: Debug|Win32 -------</h3>
 </pre></table><table width=100% bgcolor=#DFDFE5><tr><td><font face=arial size=+2>
-Befehlszeilen</font></table><table width=* cellspacing=0 cellpadding=0><tr><td width=0 bgcolor=#EDEDF5>&nbsp;</td><td width=0 bgcolor=#FFFFFF>&nbsp;</td><td width=*><pre>Die temporäre Datei "h:\rastullah\trunk\engine\script\obj\Debug\BAT000042.bat" wird erstellt. Inhalt:[@echo off
-..\..\dependencies\swig\swig.exe -c++ -ruby -minherit -v -Wall "h:\rastullah\trunk\engine\script\swig\RlExports.i"
+Befehlszeilen</font></table><table width=* cellspacing=0 cellpadding=0><tr><td width=0 bgcolor=#EDEDF5>&nbsp;</td><td width=0 bgcolor=#FFFFFF>&nbsp;</td><td width=*><pre>Die temporäre Datei "h:\rastullah\trunk\engine\script\obj\Debug\BAT000037.bat" wird erstellt. Inhalt:[@echo off
+cd ..\..\dependencies\swig
+swig.exe -c++ -ruby -minherit -v -Wall "h:\rastullah\trunk\engine\script\swig\RlExports.i"
 
 if errorlevel 1 goto VCReportError
 goto VCEnd
 :VCReportError
 echo Project : error PRJ0019: Ein Tool hat einen Fehlercode aus folgender Quelle zurückgegeben: "[SWIG] Rubydateien erzeugen."
 exit 1
-:VCEnd]Erstellen der Befehlszeile "h:\rastullah\trunk\engine\script\obj\Debug\BAT000042.bat"</pre></table><table width=100% bgcolor=#DFDFE5><tr><td><font face=arial size=+2>
+:VCEnd]Erstellen der Befehlszeile "h:\rastullah\trunk\engine\script\obj\Debug\BAT000037.bat"Die temporäre Datei "h:\rastullah\trunk\engine\script\obj\Debug\RSP000038.rsp" wird erstellt. Inhalt:[/Od /I ".\include" /I "..\common\include" /I "..\core\include" /I "..\dialog\include" /I "..\rules\include" /I "..\sound\include" /I "..\ui\include" /I "..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32" /I "..\..\dependencies\ogre\OgreMain\include" /I "..\..\dependencies\cegui\include" /I "..\..\dependencies\OpenAL\Include" /I "..\..\dependencies\vorbis\include" /I "..\..\dependencies\openthreads\include" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_USRDLL" /D "RLSCRIPT_EXPORTS" /D "_WINDLL" /D "_MBCS" /Gm /EHsc /RTC1 /MTd /GR /Fo"./obj/Debug/" /Fd"./obj/Debug/vc70.pdb" /W3 /c /ZI /TP
+.\swig\RlExports_wrap.cxx]Erstellen der Befehlszeile "cl.exe @h:\rastullah\trunk\engine\script\obj\Debug\RSP000038.rsp /nologo"Die temporäre Datei "h:\rastullah\trunk\engine\script\obj\Debug\RSP000039.rsp" wird erstellt. Inhalt:[/OUT:"./lib/Debug/RlScript.dll" /INCREMENTAL /NOLOGO /LIBPATH:"..\rules\lib\Debug" /LIBPATH:"..\core\lib\Debug" /LIBPATH:"..\sound\lib\Debug" /LIBPATH:"..\ui\lib\Debug" /LIBPATH:"..\..\dependencies\ogre\OgreMain\lib\Debug" /LIBPATH:"..\..\dependencies\ruby\lib" /LIBPATH:"..\..\dependencies\cegui\lib\win32\Debug" /DLL /DEBUG /PDB:"./lib/Debug/RlScript.pdb" /SUBSYSTEM:WINDOWS /IMPLIB:"./lib/Debug/RlScript.lib" /MACHINE:X86 RlCore.lib RlUi.lib RlRules.lib RlSound.lib OgreMain_d.lib msvcrt-ruby18.lib CEGUIBase.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib \rastullah\trunk\engine\common\lib\RlCommon.lib "\rastullah\trunk\dependencies\ruby\lib\msvcrt-ruby18.lib"
+.\obj\Debug\RlExports_wrap.obj]Erstellen der Befehlszeile "link.exe @h:\rastullah\trunk\engine\script\obj\Debug\RSP000039.rsp"</pre></table><table width=100% bgcolor=#DFDFE5><tr><td><font face=arial size=+2>
 Ausgabefenster</font></table><table width=* cellspacing=0 cellpadding=0><tr><td width=0 bgcolor=#EDEDF5>&nbsp;</td><td width=0 bgcolor=#FFFFFF>&nbsp;</td><td width=*><pre>[SWIG] Rubydateien erzeugen.
 LibDir: ruby
-   .\
-   h:\rastullah\trunk\dependencies\swig\Lib\ruby\
-   .\swig_lib\ruby\
-   h:\rastullah\trunk\dependencies\swig\Lib\config\
-   .\swig_lib\config\
-   h:\rastullah\trunk\dependencies\swig\Lib\
-   .\swig_lib\
+   ./
+   Lib/ruby/
+   ./swig_lib/ruby/
+   Lib/config/
+   ./swig_lib/config/
+   Lib/
+   ./swig_lib/
 Preprocessing...
 Starting language-specific parse...
 Processing types...
 C++ analysis...
 Generating wrappers...
+Kompilieren...
+RlExports_wrap.cxx
+h:\rastullah\trunk\engine\core\include\GameActor.h(45) : warning C4250: 'rl::GameActor': Erbt 'rl::MeshActor::rl::MeshActor::setSceneNode' via Dominanz
+        h:\rastullah\trunk\engine\core\include\MeshActor.h(19): Siehe Deklaration von 'rl::MeshActor::setSceneNode'
+h:\rastullah\trunk\engine\script\swig\RlExports_wrap.cxx(4071) : warning C4101: '_e': Unreferenzierte lokale Variable
+h:\rastullah\trunk\engine\script\swig\RlExports_wrap.cxx(4124) : warning C4101: '_e': Unreferenzierte lokale Variable
+h:\rastullah\trunk\engine\script\swig\RlExports_wrap.cxx(4159) : warning C4101: '_e': Unreferenzierte lokale Variable
+h:\rastullah\trunk\engine\script\swig\RlExports_wrap.cxx(4212) : warning C4101: '_e': Unreferenzierte lokale Variable
+h:\rastullah\trunk\engine\script\swig\RlExports_wrap.cxx(4247) : warning C4101: '_e': Unreferenzierte lokale Variable
+h:\rastullah\trunk\engine\script\swig\RlExports_wrap.cxx(4300) : warning C4101: '_e': Unreferenzierte lokale Variable
+h:\rastullah\trunk\engine\script\swig\RlExports_wrap.cxx(4332) : warning C4101: '_e': Unreferenzierte lokale Variable
+h:\rastullah\trunk\engine\script\swig\RlExports_wrap.cxx(4368) : warning C4101: '_e': Unreferenzierte lokale Variable
+h:\rastullah\trunk\engine\script\swig\RlExports_wrap.cxx(4456) : warning C4101: '_e': Unreferenzierte lokale Variable
+h:\rastullah\trunk\engine\script\swig\RlExports_wrap.cxx(4486) : warning C4101: '_e': Unreferenzierte lokale Variable
+h:\rastullah\trunk\engine\script\swig\RlExports_wrap.cxx(4518) : warning C4101: '_e': Unreferenzierte lokale Variable
+h:\rastullah\trunk\engine\script\swig\RlExports_wrap.cxx(4548) : warning C4101: '_e': Unreferenzierte lokale Variable
+h:\rastullah\trunk\engine\script\swig\RlExports_wrap.cxx(4580) : warning C4101: '_e': Unreferenzierte lokale Variable
+Verknüpfen...
+   Bibliothek './lib/Debug/RlScript.lib' und Objekt './lib/Debug/RlScript.exp' wird erstellt
 </pre></table><table width=100% bgcolor=#DFDFE5><tr><td><font face=arial size=+2>
 Ergebnisse</font></table><table width=* cellspacing=0 cellpadding=0><tr><td width=0 bgcolor=#EDEDF5>&nbsp;</td><td width=0 bgcolor=#FFFFFF>&nbsp;</td><td width=*><pre>
-Das Build-Protokoll wurde unter "file://h:\rastullah\trunk\engine\script\obj\Debug\BuildLog.htm" gespeichert.RlScript - 0 Fehler, 0 Warnung(en)</pre></table><table   width=100% height=20 bgcolor=#CFCFE5><tr><td><font face=arial size=+2>
+Das Build-Protokoll wurde unter "file://h:\rastullah\trunk\engine\script\obj\Debug\BuildLog.htm" gespeichert.RlScript - 0 Fehler, 14 Warnung(en)</pre></table><table   width=100% height=20 bgcolor=#CFCFE5><tr><td><font face=arial size=+2>
 </font></table></body></html>

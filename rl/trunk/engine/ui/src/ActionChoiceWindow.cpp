@@ -131,7 +131,7 @@ namespace rl {
 	{
 		setVisible(false);
 		action->doAction(object, actor, target);
-		mWindow->destroy();
+		delete this;
 	}
 
 }

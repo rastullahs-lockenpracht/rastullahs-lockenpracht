@@ -8,6 +8,7 @@
 
 namespace rl {
 
+	class Action;
 	class GameObject;
 	class Person;
 
@@ -33,6 +34,12 @@ namespace rl {
 				float radius,
 				int elemNum,
 				int elemCount);
+
+		void activateAction(
+			Action* action, 
+			GameObject* object, 
+			Person* actor, 
+			GameObject* target);
 				
         GameObject* mObject;
 		std::vector<CEGUI::PushButton*> mButtons;

@@ -11,8 +11,7 @@ namespace rl {
 	{
 	public:
 		CommandMapperWindow();
-		~CommandMapperWindow();
-	
+			
 	private:
 		bool handleChangeButton();
 		bool handleCloseButton();

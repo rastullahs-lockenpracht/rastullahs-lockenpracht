@@ -1,5 +1,5 @@
 #include "CommandMapper.h"
-//#include "CommandExecutor.h"
+#include "CommandExecutor.h"
 
 using namespace Ogre;
 using namespace std;
@@ -84,8 +84,8 @@ namespace rl {
 	void CommandMapper::setExecutor(CommandExecutor* executor)
 	{
 		mCommandExecutor = executor;
-		CeGuiStringVector mActionsInBattle = CeGuiStringVector(); //executor->getCommandsInBattle();
-		CeGuiStringVector mActionsOffBattle = CeGuiStringVector(); //executor->getCommandsOffBattle();
+		CeGuiStringVector mActionsInBattle = executor->getCommandsInBattle();
+		CeGuiStringVector mActionsOffBattle = executor->getCommandsOffBattle();
 	}
 }
 

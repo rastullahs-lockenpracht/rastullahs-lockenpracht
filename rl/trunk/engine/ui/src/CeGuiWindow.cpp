@@ -140,5 +140,11 @@ const CeGuiString& CeGuiWindow::getName() const
 	return mName;
 }
 
+void CeGuiWindow::centerWindow()
+{
+	Point pos(mWindow->getRelativeWidth()/2, mWindow->getRelativeHeight()/2);
+	mWindow->setPosition(Relative, pos);
+}
+
 }
 
