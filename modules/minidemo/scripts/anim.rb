@@ -8,7 +8,7 @@ print( "Teste Animationen" );
 class UmdrehAbspielListener < AnimationListener
 	def animationFinished(anEvent)
 		print( "Sowas, schon vorbei - drehen wir doch mal um" );
-		anim = anEvent.getRlAnimation();
+		anim = anEvent.getAnimation();
 		anim.reverseAnimation();
 		anim.resetTimesPlayed();
 	end
