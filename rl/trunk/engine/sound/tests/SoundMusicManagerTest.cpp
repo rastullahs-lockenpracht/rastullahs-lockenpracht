@@ -11,14 +11,12 @@
 #include "MusicResource.h"
 #include "SoundManager.h"
 #include "SoundResource.h"
-#include <iostream>
 #include "math.h"
 #include "OgreResourceManager.h"
 #include "cppunit/extensions/HelperMacros.h"
 #include <boost/thread/xtime.hpp>
 #include <boost/thread/thread.hpp>
 
-using namespace std;
 using namespace rl;
 using namespace Ogre;
 using namespace boost;

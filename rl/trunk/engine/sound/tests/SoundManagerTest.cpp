@@ -9,7 +9,6 @@
 #include "SoundPrerequisites.h"
 #include "SoundManager.h"
 #include "SoundResource.h"
-#include <iostream>
 #include "math.h"
 #include "OgreIteratorWrappers.h"
 #include "cppunit/extensions/HelperMacros.h"
@@ -17,7 +16,6 @@
 #include <boost/thread/thread.hpp>
 
 
-using namespace std;
 using namespace rl;
 using namespace boost;
 
@@ -58,8 +56,8 @@ public:
                 sound->load();
                 sound->play();
                 
-                xtime_set(&xt, TIME_UTC);
-                xtime.sec += 5;
+                xtime_get(&xt, TIME_UTC);
+                xt.sec += 5;
                 thread::sleep(xt);
                 
                 sound->stop();
@@ -91,8 +89,8 @@ public:
         alSourceQueueBuffers(source,1,&buffer);
         alSourcePlay(source);
         
-        xtime_set(&xt, TIME_UTC);
-        xt += 5;
+        xtime_get(&xt, TIME_UTC);
+        xt.sec += 5;
         thread::sleep(xt);
         
         alSourceStop(source);

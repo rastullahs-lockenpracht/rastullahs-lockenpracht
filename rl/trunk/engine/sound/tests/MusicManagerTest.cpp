@@ -10,14 +10,12 @@
 #include "SoundPrerequisites.h"
 #include "MusicManager.h"
 #include "MusicResource.h"
-#include <iostream>
 #include "math.h"
 #include "OgreResourceManager.h"
 #include "cppunit/extensions/HelperMacros.h"
 #include <boost/thread/xtime.hpp>
 #include <boost/thread/thread.hpp>
 
-using namespace std;
 using namespace rl;
 using namespace Ogre;
 using namespace boost;
@@ -54,12 +52,12 @@ public:
         MusicManager::getSingletonPtr()->setLooping(false);
         MusicManager::getSingletonPtr()->playSong(); 
         
-        xtime_set(&xt, TIME_UTC);
-        xt.setUp() += 2;
+        xtime_get(&xt, TIME_UTC);
+        xt.sec += 2;
         thread::sleep(xt);
         while (MusicManager::getSingletonPtr()->isPlaying())
         {
-            xtime_set(&xt, TIME_UTC);
+            xtime_get(&xt, TIME_UTC);
             xt.nsec += 10 * 1000 * 1000;
             thread::sleep(xt);
         }
