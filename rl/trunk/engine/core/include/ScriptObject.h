@@ -1,7 +1,7 @@
 #ifndef __ScriptObject_H__
 #define __ScriptObject_H__
 
-#include "UiPrerequisites.h"
+#include "CorePrerequisites.h"
 
 namespace rl {
 
@@ -12,7 +12,7 @@ namespace rl {
 		 specific script-functionality resides
 	@see Interpreter
 */
-class _RlUiExport ScriptObject
+class _RlCoreExport ScriptObject
 {
 public:
 	/** Creates a new ScriptObject, registers with Interpreter

@@ -2,13 +2,13 @@
 
 #include "RubyInterpreter.h"
 #include "ScriptObject.h"
-#include "UiSubsystem.h"
+//#include "UiSubsystem.h"
 
 namespace rl {
 
 static VALUE console_write(VALUE self, VALUE str)
 {
-  UiSubsystem::getSingleton().writeToConsole( RubyInterpreter::val2str(str) + " \n" );
+//  UiSubsystem::getSingleton().writeToConsole( RubyInterpreter::val2str(str) + " \n" );
   return Qnil;
 }
 
@@ -26,8 +26,15 @@ ScriptObject* RubyInterpreter::getScriptObject( const String& instname )
 
 	return 0;
 }
-
 void RubyInterpreter::initializeInterpreter()
+{
+	/* 
+		Standard-Initialisierung, derzeit ohne Funktion da zur Korrekten Ausgabe in der Console
+		eine static method übergeben werden muss, die die Ruby-Standardausgabe handelt
+	*/
+}
+
+void RubyInterpreter::initializeInterpreter(staticValueMethod func)
 {
 	//Ruby Initialisieren
 	ruby_init();
@@ -49,7 +56,9 @@ void RubyInterpreter::initializeInterpreter()
 
 	//Ersetzt die Standard-Ausgabe von Ruby durch Ausgaben in die Console
 	rb_defout = rb_str_new("", 0);
-	rb_define_singleton_method(rb_defout, "write", (VALUE(*)(...))console_write, 1);
+	// Eigentlich nicht mehr notwendig, aber ohne das gibts nen Absturz?!?!
+//	rb_define_singleton_method(rb_defout, "write", (VALUE(*)(...))console_write, 1);
+	rb_define_singleton_method(rb_defout, "write", func, 1);
 	//RlCore Namensraum oeffnen
 	int status = -1;
 
@@ -59,6 +68,11 @@ void RubyInterpreter::initializeInterpreter()
 	//to Prevent the Ruby GC from deleting
 	mRubyObjects = rb_ary_new();
 	rb_gc_register_address(&mRubyObjects);
+}
+
+void RubyInterpreter::setDefOut(staticValueMethod func)
+{
+	rb_define_singleton_method(rb_defout, "write",func, 1);
 }
 
 RubyInterpreter::~RubyInterpreter()

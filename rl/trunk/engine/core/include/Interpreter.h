@@ -3,13 +3,13 @@
 
 #include <OgreSingleton.h>
 
-#include "UiPrerequisites.h"
+#include "CorePrerequisites.h"
 
 namespace rl {
 
 class ScriptObject;
 
-class _RlUiExport Interpreter 
+class _RlCoreExport Interpreter 
 {
 	public:
 		virtual ~Interpreter() {};

@@ -9,8 +9,7 @@
 #include "FixRubyHeaders.h"
 #include "OgreMemoryMacros.h" 
 
-#include "UiPrerequisites.h"
-
+#include "CorePrerequisites.h"
 
 namespace rl {
 
@@ -19,15 +18,18 @@ typedef std::pair <String, VALUE> Value_Pair;
 typedef std::map <String, ScriptObject*> ScriptObjectPtr_Map;
 typedef std::pair <String, ScriptObject*> ScriptObjectPtr_Pair;
 
+typedef VALUE(*staticValueMethod)(...);
+
 class ScriptObject;
 
-class _RlUiExport RubyInterpreter : public Interpreter
+class _RlCoreExport RubyInterpreter : public Interpreter
 {
 public:
 	RubyInterpreter();
 	virtual ~RubyInterpreter();
 
 	void initializeInterpreter();
+	void initializeInterpreter(staticValueMethod func);
 	
 	bool execute(String command);
 
@@ -40,6 +42,8 @@ public:
 	std::string callStringFunction( const String& instname, const String& funcname, int argc, const String args[] = 0 );
 	void registerScriptObject( ScriptObject* obj, const String& instname );
 	void unregisterScriptObject( const String& instname );
+
+	void setDefOut( staticValueMethod func);
 
 	ScriptObject* getScriptObject( const String& name );
 private:
