@@ -37,7 +37,7 @@ namespace rl {
        void addSearchPath(const std::string& path);
        std::list<String> getSounds();
        virtual void add(Resource *song);
-       virtual Resource* create(const String &resName);
+       virtual Resource* create(const std::string& resName);
    	};
 
    	class MusicManager  {
