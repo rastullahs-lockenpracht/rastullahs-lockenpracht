@@ -124,6 +124,16 @@ class ShowCharacterSheetAction < RubyAction
   end
 end
 
+class ToggleDialogWindowAction < RubyAction
+  def initialize
+    super("toggledialogwindow", "Charakterblatt des aktiven Helden anzeigen")
+  end
+
+  def doAction(object, actor, target)
+    $UI.toggleDialogWindow()
+  end
+end
+
 
 class PlayerSettings
   
@@ -139,6 +149,7 @@ class PlayerSettings
     player.addActionInGroup(ToggleDebugWindowAction.new, grpGrp2)
     player.addActionInGroup(ToggleGameLogWindowAction.new, grpGrp2)
     player.addActionInGroup(ToggleOdeDebugAction.new, grpGrp2)
+    player.addActionInGroup(ToggleDialogWindowAction.new, grpGrp2)
     player.addActionInGroup(ToggleViewModeAction.new, grpGrp2)
     player.addActionInGroup(ResetCameraAction.new, grpGrp2)
     player.addActionInGroup(ShowCharacterSheetAction.new, grpGrp2)

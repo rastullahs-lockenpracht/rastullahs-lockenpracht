@@ -17,8 +17,6 @@ $CORE.log("Fackel plaziert.");
 
 torch.getActor().setScale( 2.54, 2.54, 2.54 );
 
-
-
 held.getControlledObject().startAnimation( "gehloop" );
 
 trackAnim = $AnimMgr.createTrackAnimation(  held, "kreisLaufAnimation", 16.0 );

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE aiml SYSTEM "includes.dtd">
+<!-- !DOCTYPE aiml SYSTEM "includes.dtd" -->
 
 <aiml:aiml  version="1.0.1"
             xmlns:aiml="http://alicebot.org/2001/AIML">
@@ -12,8 +12,7 @@
 		<li value="4" id="1">Ich grüße euch ebenso. Ich suche den Weg zur Taverne, könnt ihr ihn mir beschreiben?</li>
 		<li value="4" id="2">Das Land ist ruhig und friedlich. Die Invasion der Orks droben im Norden ist vorerst gestoppt, wir sind sicher.</li>
 		<li value="4" id="3">Hinweg mit euch, Gezücht des Namenlosen!</li>
-		<li value="4" id="4">&test;</li>
-		<li value="4" id="666">Reload</li>
+
 	</selection>
 </template>
 </aiml:category>
