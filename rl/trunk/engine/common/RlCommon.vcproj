@@ -68,8 +68,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="./lib"
-			IntermediateDirectory="./obj"
+			OutputDirectory="./lib/release"
+			IntermediateDirectory="./obj/release"
 			ConfigurationType="2"
 			CharacterSet="2">
 			<Tool

@@ -4,6 +4,7 @@
 	Version="7.10"
 	Name="RlCore"
 	ProjectGUID="{ED15F0B2-8B3B-40D1-8F56-5399B2E5E854}"
+	RootNamespace="RlCore"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -53,6 +54,7 @@
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreOde\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogreaddons\dotsceneoctree\PlugIns\DotSceneManager\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib"
 				IgnoreDefaultLibraryNames=""
+				TypeLibraryFile="$(OutDir)\RlCore.lib"
 				GenerateDebugInformation="TRUE"
 				AssemblyDebug="1"
 				ProgramDatabaseFile=".\lib\Debug/RlCore.pdb"
@@ -133,6 +135,7 @@
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreOde\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogreaddons\dotsceneoctree\PlugIns\DotSceneManager\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib"
+				TypeLibraryFile="$(OutDir)\RlCore.lib"
 				ProgramDatabaseFile=""
 				SubSystem="2"/>
 			<Tool
