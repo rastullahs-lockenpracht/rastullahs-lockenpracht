@@ -16,6 +16,7 @@ namespace rl {
 void ResManager::addSounds()
 {
     set<String> list = ResourceManager::_getAllCommonNamesLike("./", getExtension());
+    mutex::scoped_lock lock(mResListMutex);
     set<String>::const_iterator it;
     for(it = list.begin(); it != list.end(); it++)
     {

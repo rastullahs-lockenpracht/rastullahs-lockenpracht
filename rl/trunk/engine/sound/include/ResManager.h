@@ -4,6 +4,9 @@
 #include "SoundPrerequisites.h"
 #include "Ogre.h"
 #include <list>
+#include "boost/thread/mutex.hpp"
+
+using namespace boost;
 
 namespace rl {
 
@@ -15,6 +18,9 @@ namespace rl {
  * @date 06-18-2004
  */ 
 class _RlSoundExport ResManager: public ResourceManager {
+    private:
+        /// Ein Mutex, um das Hinzufügen der Sounds zu synchronisieren.
+        mutex mResListMutex;
     protected:
         /// Welche Dateiendung soll verwendet werden.
         virtual Ogre::String getExtension() { return 0; }
