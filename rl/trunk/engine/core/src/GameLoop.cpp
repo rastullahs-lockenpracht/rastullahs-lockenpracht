@@ -28,9 +28,9 @@ namespace rl {
 
 
 GameLoop::GameLoop() 
-	:	mSynchronizedTaskList(),
-		mRunning(true),
-		mPaused(false)
+    :   mRunning(true),
+        mPaused(false),
+        mSynchronizedTaskList()
 {    
     Ogre::Root::getSingleton().addFrameListener(this);
     addSynchronizedTask( new AnimationManager() );
