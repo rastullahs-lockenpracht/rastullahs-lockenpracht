@@ -39,4 +39,6 @@ ebenePhys.setFriction( 0.5 );
 ebenePhys.setDynamic( false );
 
 # Erdenschwerkraft
-$PM.setGravity( 0.0, 0.0, -9.80665 );
+$PM.setGravity( 0.0, -9.80665, 0.0 );
+$PM.setEnabled(true);
+
