@@ -225,6 +225,10 @@ namespace rl {
         virtual void rewind() throw (RuntimeException);
         /// Den Zustand des Sounds in OpenAL zurueckgeben.
         const ALenum getState() const throw (RuntimeException);
+        /// Ist laeuft AL noch
+        const bool playing() const;
+
+protected:
         /// Wir haben ein Ereignis erhalten.
         virtual bool eventRaised(SoundEvent *anEvent) const;
         
@@ -243,8 +247,6 @@ namespace rl {
         unsigned int getFadeOut() const;
         /// Setzt die Dauer des FadeIn zurueck.
         void setFadeOut(unsigned int dauer);
-        /// Ist laeuft AL noch
-        const bool playing() const;
 
 protected:
         /// Shared class-level name for Movable type
