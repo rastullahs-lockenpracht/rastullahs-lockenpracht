@@ -16,7 +16,10 @@
 
 #include <xercesc/dom/DOM.hpp>
 
+
+
 #include "XmlHelper.h"
+#include "Exception.h"
 
 using namespace XERCES_CPP_NAMESPACE;
 
@@ -26,6 +29,7 @@ namespace rl {
 XMLTranscoder* XmlHelper::sTranscoder;
 XMLTransService::Codes XmlHelper::sFailCode;
 
+
 void XmlHelper::initializeTranscoder()
 {
 	XmlHelper::sFailCode = XMLTransService::Ok;
@@ -34,6 +38,9 @@ void XmlHelper::initializeTranscoder()
 
 DOMElement* XmlHelper::getChildNamed(DOMElement* parent, const char* name)
 {
+	if( parent == NULL )
+		Throw( NullPointerException, "parent darf nicht NULL sein" );
+
 	DOMNodeList* nodes = parent->getChildNodes();
 	XMLCh* nameXml = XMLString::transcode(name);
 
@@ -74,6 +81,15 @@ char* XmlHelper::getAttributeValueAsString(DOMElement* element,XMLCh* name)
 {
 	return XMLString::transcode(element->getAttribute(name));
 }
+
+bool XmlHelper::getAttributeValueAsBool(DOMElement* element,XMLCh* name)
+{
+	if( XMLString::compareIString(getAttributeValueAsString(element, name),"true") == 0  )
+		return true;
+	else
+		return false;
+}
+
 int XmlHelper::getValueAsInteger(DOMElement* element)
 {
 	return XMLString::parseInt(element->getFirstChild()->getNodeValue());

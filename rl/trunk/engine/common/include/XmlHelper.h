@@ -84,8 +84,9 @@ public:
 	 */
 	static int getValueAsInteger(XERCES_CPP_NAMESPACE::DOMElement* element);
 
-	static int getAttributeValueAsInteger(XERCES_CPP_NAMESPACE::DOMElement* element,XMLCh* name);
-	static char* getAttributeValueAsString(XERCES_CPP_NAMESPACE::DOMElement* element,XMLCh* name);
+	static int getAttributeValueAsInteger(XERCES_CPP_NAMESPACE::DOMElement* element, XMLCh* name);
+	static char* getAttributeValueAsString(XERCES_CPP_NAMESPACE::DOMElement* element, XMLCh* name);
+	static bool getAttributeValueAsBool(XERCES_CPP_NAMESPACE::DOMElement* element, XMLCh* name);
 
 	/**
 	 * Initialisiert den XML<->UTF-8 Transcoder, 
