@@ -19,20 +19,26 @@ namespace Ogre {
 	class Resource {
 		virtual void load() = 0;
 	};
+	
+	class ResourceManager {
+       void setMemoryBudget(size_t bytes);
+       virtual Resource* create(const String &resName) = 0;
+	};
 }
  
 
 namespace rl {
 
-
-   	class ResourceManager {
+   
+   	class SoundManager : public Ogre::ResourceManager {
    	public:
+       static SoundManager& getSingleton();
+       static SoundManager* getSingletonPtr();
+       virtual Resource* create(const String &resName);
        void addSounds();
-       void setMemoryBudget(size_t bytes);
        Ogre::Resource* getByName(const std::string& name);
        void addSearchPath(const std::string& path);
        std::list<String> getSounds();
-       virtual Resource* create(const std::string& resName) = 0;
        virtual void add(Resource *song);
    	};
    
@@ -43,7 +49,7 @@ namespace rl {
        virtual Resource* create(const std::string& resName);
    	};
       
-   	class MusicManager : public ResourceManager {
+   	class MusicManager  {
    	public:
         static MusicManager& getSingleton();
         static MusicManager* getSingletonPtr();
@@ -93,7 +99,7 @@ namespace rl {
         void stop(int msec) throw (rl::RuntimeException);
         void rewind() throw (rl::RuntimeException);
         const ALenum getState() const throw (rl::RuntimeException);
-        const bool isPlaying() const;
+        const bool playing() const;
     };
     
     class SoundEvent {
