@@ -1,5 +1,0 @@
-<?xml version="1.0" ?>
-<Imageset Name="RastullahButtons" Imagefile="RastullahButtons.png" NativeHorzRes="800" NativeVertRes="600" AutoScaled="true">
-    <Image Name="Buttons/Default" XPos="0" YPos="0" Width="40" Height="40" />
-    <Image Name="Buttons/Quit" XPos="64" YPos="0" Width="32" Height="32" /> 
-</Imageset>
