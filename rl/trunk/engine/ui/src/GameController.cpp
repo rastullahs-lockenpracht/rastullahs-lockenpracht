@@ -318,11 +318,14 @@ namespace rl {
         InputManager* im = InputManager::getSingletonPtr();
         CommandMapper* cmdmap = CommandMapper::getSingletonPtr();
                         
-        mDesiredDistance -= im->getMouseRelativeZ() * 0.05;
-        mDesiredDistance = mDesiredDistance > mMaxDistance ?
-            mMaxDistance : mDesiredDistance;
-        mDesiredDistance = mDesiredDistance < mMinDistance ?
-            mMinDistance : mDesiredDistance;
+        if (mViewMode != VM_FIRST_PERSON)
+        {
+            mDesiredDistance -= im->getMouseRelativeZ() * 0.05;
+            mDesiredDistance = mDesiredDistance > mMaxDistance ?
+                mMaxDistance : mDesiredDistance;
+            mDesiredDistance = mDesiredDistance < mMinDistance ?
+                mMinDistance : mDesiredDistance;
+        }
             
         mTargetPitch -= Degree(im->getMouseRelativeY() * 0.13);
         mTargetPitch = mTargetPitch > mMaxPitch ?
