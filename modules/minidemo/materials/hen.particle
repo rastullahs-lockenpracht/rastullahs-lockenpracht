@@ -1,0 +1,90 @@
+
+PEExamples/explo
+{
+	quota	50
+	material	RL/flamme
+	particle_width	18.31
+	particle_height	10.35
+	cull_each	false
+	renderer	billboard
+	billboard_type	point
+
+	emitter Point
+	{
+		angle	99
+		colour	1 1 0.339623 1
+		colour_range_start	1 1 0.339623 1
+		colour_range_end	1 0.164151 0 1
+		direction	0 1 0
+		emission_rate	2000
+		position	0 0 0
+		velocity	8
+		velocity_min	8
+		velocity_max	8
+		time_to_live	2.766
+		time_to_live_min	2.766
+		time_to_live_max	2.766
+		duration	2.5
+		duration_min	2.5
+		duration_max	2.5
+		repeat_delay	1.8
+		repeat_delay_min	1.8
+		repeat_delay_max	1.8
+	}
+
+	affector ColourFader
+	{
+		red	-0.4
+		green	-0.4
+		blue	-0.1
+		alpha	-0.5
+	}
+}
+
+PEExamples/ignifaxius
+{
+	quota	2000
+	material	RL/flamme
+	particle_width	2.871
+	particle_height	2.871
+	cull_each	false
+	renderer	billboard
+	billboard_type	point
+
+	emitter Point
+	{
+		angle	7.984
+		colour	0.632075 0 0 0.699029
+		colour_range_start	0.632075 0 0 0.699029
+		colour_range_end	1 1 0 0.699029
+		direction	0 1 0
+		emission_rate	400
+		position	0 0 0
+		velocity	16
+		velocity_min	16
+		velocity_max	16.13
+		time_to_live	1.935
+		time_to_live_min	1.935
+		time_to_live_max	2.258
+		duration	1.5
+		duration_min	1.5
+		duration_max	4
+		repeat_delay	0.6854
+		repeat_delay_min	0.6854
+		repeat_delay_max	4.456
+	}
+
+	affector LinearForce
+	{
+		force_vector	0 -3 0
+		force_application	add
+	}
+
+	affector ColourFader
+	{
+		red	0.2581
+		green	-0.2258
+		blue	-0.4035
+		alpha	-0.4516
+	}
+}

@@ -10,6 +10,12 @@ fackellicht.getControlledObject().setAttenuation(500.0, 1.0,  0.005, 0.0 );
 torch.getActor().attach("SLOT_FAR_END", fackellicht );
 $CORE.log("Fackellicht erstellt.");
 
+$CORE.log("Partikeldings erstellen..");
+partikeldings = $AM.createParticleSystemActor("Das fitzlende Leuchten", "PEExamples/explo" );
+torch.getActor().attach("SLOT_FAR_END", partikeldings );
+$CORE.log("Partikeldings erstellt.");
+
+
 held = $AM.createMeshActor("KreisLaufHeld", "held.mesh", PhysicsManager::GT_CAPSULE);
 held.placeIntoScene(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0);
 held.attach("Bone15",torch.getActor(), "SLOT_HANDLE", [ 1.0, 0.0, 0.0 ], 90.0 );
