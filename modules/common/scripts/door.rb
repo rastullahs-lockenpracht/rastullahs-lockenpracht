@@ -42,7 +42,6 @@ class CloseDoorAction < RubyAction
   end
 end
 
-
 class Door < RubyItem
   def initialize(name, isOpen, canBeOpened)
     super(10, name, "Eine Tuer");

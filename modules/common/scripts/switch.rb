@@ -10,7 +10,7 @@ require 'items.rb'
 
 class SwitchUpAction < RubyAction
   def initialize
-    super("", "Hebel nach oben schalten");
+    super("NachOben", "Hebel nach oben schalten");
   end
   
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
@@ -27,7 +27,7 @@ end
 
 class SwitchDownAction < RubyAction
   def initialize
-    super("Schließen", "Hebel nach unten schalten");
+    super("NachUnten", "Hebel nach unten schalten");
   end
   
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
@@ -44,7 +44,7 @@ end
 
 class SwitchMiddleAction < RubyAction
   def initialize
-    super("Schließen", "Hebel in die Mitte schalten");
+    super("Mitteln", "Hebel in die Mitte schalten");
   end
   
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
@@ -56,6 +56,8 @@ class SwitchMiddleAction < RubyAction
   def doAction(switch, user, target)    
     switchActor = switch.getActor();
     p switch
+    p user
+    p target
   end
 end
 
