@@ -278,14 +278,10 @@ namespace rl
     
     void PhysicalThing::_update()
     {
-        // Nur wenn kein Body dran ist selber verschieben
-        if (mGeometry->getBody() == 0)
-        {
-            mGeometry->setPosition(
-                mActor->_getSceneNode()->getWorldPosition() + mOffset);
-            mGeometry->setOrientation(
-                mActor->_getSceneNode()->getWorldOrientation() * mOrientationBias);
-        }
+        mGeometry->setPosition(
+            mActor->_getSceneNode()->getWorldPosition() + mOffset);
+        mGeometry->setOrientation(
+            mActor->_getSceneNode()->getWorldOrientation() * mOrientationBias);
     }
     
     void PhysicalThing::_setActor(Actor* actor)

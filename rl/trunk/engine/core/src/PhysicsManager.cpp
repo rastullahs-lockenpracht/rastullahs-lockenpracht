@@ -244,7 +244,7 @@ namespace rl
         Geometry* g1 = contact->getFirstGeometry();
         Geometry* g2 = contact->getSecondGeometry();
         
-//BEGIN DEBUG {{{       
+//BEGIN DEBUG {{{
         bool debug_xx = false;
         if (g1 == mOdeLevel || g2 == mOdeLevel)
         {
@@ -265,7 +265,7 @@ namespace rl
         // Set the friction at the contact
         contact->setCoulombFriction(OgreOde::Utility::Infinity);
 		//contact->setCoulombFriction(0.0);
-		contact->setBouncyness(1.0, 0.00005); 
+		contact->setBouncyness(0.5, 0.00005); 
 		// @todo Kollision geht, solange Bouncyness eingestellt ist, allerdings kommt kein bounce
 		//contact->setSoftness(0.5, 0.5);
 		//contact->setFrictionMode(Contact::Flag_FrictionPyramid);
