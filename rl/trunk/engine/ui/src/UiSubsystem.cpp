@@ -16,6 +16,7 @@
 
 #include <xercesc/util/XMemory.hpp>	// Muss vor Ogre stehen (zumindest für VS)
 #include <renderers/OgreGUIRenderer/ogrerenderer.h>
+#include <renderers/OgreGUIRenderer/OgreResourceProvider.h>
 #include "UiSubsystem.h"
 #include "CoreSubsystem.h"
 #include "RubyInterpreter.h"
@@ -106,11 +107,14 @@ namespace rl {
 								sceneMgr);
 
 		log("Initialisiere CEGUI-System", "UiSubsystem::initializeUiSubsystem");
-		new System(rend, NULL, (utf8*)"modules/common/gui/cegui.config");
+		new System(rend, new OgreResourceProvider(), (utf8*)"modules/common/gui/cegui.config");
+		log("CEGUI-System initialisiert", "UiSubsystem::initializeUiSubsystem");
         
 		// load scheme and set up defaults
 		System::getSingleton().setDefaultMouseCursor((utf8*)"TaharezLook", (utf8*)"MouseArrow");
+		log("Mauszeiger", "UiSubsystem::initializeUiSubsystem");
 		Window* sheet = CEGUI::WindowManager::getSingleton().createWindow((utf8*)"DefaultGUISheet", (utf8*)CEGUI_ROOT);
+		log("Rootfenster", "UiSubsystem::initializeUiSubsystem");
 		sheet->setSize(
 			Absolute, 
 			Size(Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth(), 
