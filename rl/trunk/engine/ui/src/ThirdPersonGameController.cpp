@@ -83,7 +83,7 @@ namespace rl {
         // Create the ODE world
         mOdeWorld = new OgreOde::World(mSceneManager);
 
-        mOdeWorld->setGravity(Vector3(0,-980.665 / 2.54,0));
+        mOdeWorld->setGravity(Vector3(0, -980.665, 0));
         mOdeWorld->setCFM(10e-5);
         mOdeWorld->setERP(0.8);
         mOdeWorld->setAutoSleep(true);
@@ -373,7 +373,8 @@ namespace rl {
     {
         if (mActor != 0)
         {
-            mActor->getSceneNode()->setScale(1.0/2.54, 1.0/2.54, 1.0/2.54);
+            ///@todo dafuer sorgen, dass das nicht mehr noetig ist.
+            mActor->getSceneNode()->setScale(0.5, 0.5 , 0.5);
 
             Vector3 extent = mActor->getExtent();
             SceneNode* root = CoreSubsystem::getSingleton().getWorld()->
