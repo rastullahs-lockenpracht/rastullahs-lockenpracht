@@ -325,14 +325,6 @@ namespace rl {
         translation.normalise();
         if (im->isKeyDown(KC_LSHIFT))
             translation *= 2;
-        
-        
-        ///@todo das gehoert hier nicht hin.
-        if (im->isKeyDown(Ogre::KC_ESCAPE))
-        {
-            delete Ogre::Root::getSingletonPtr();
-            exit(0);
-        }
     }
 
     void ThirdPersonGameController::updateAnimationState(const Vector3& translation)
@@ -451,4 +443,3 @@ namespace rl {
     {
     }
 }
-
