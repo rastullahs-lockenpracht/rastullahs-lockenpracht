@@ -24,7 +24,7 @@ using namespace Ogre;
 namespace rl {
     CameraObject::CameraObject(const String& name)
     {
-        Camera* camera = CoreSubsystem::getSingleton().getWorld()->
+        mMovableObject = CoreSubsystem::getSingleton().getWorld()->
             getSceneManager()->createCamera(name);
     }
 
