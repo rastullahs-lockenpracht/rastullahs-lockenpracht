@@ -278,9 +278,10 @@ namespace rl {
     
     void Actor::_update()
     {
-        if (mSceneNode) mSceneNode->_update(true, true);
+        if (mSceneNode)
+            mSceneNode->_update(true, true);
 
-		if( mPhysicalThing != 0 )
+		if (mPhysicalThing)
 			mPhysicalThing->_update();
     }
     
@@ -298,6 +299,10 @@ namespace rl {
             {
                 mSceneNode->attachObject(
                     mActorControlledObject->getMovableObject());
+            }
+            if (mPhysicalThing)
+            {
+                mPhysicalThing->_attachSceneNode(mSceneNode);
             }
         }
         else if (!parent)

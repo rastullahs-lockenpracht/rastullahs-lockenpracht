@@ -55,7 +55,7 @@ namespace rl {
         mActorMesh(static_cast<MeshObject*>(actor->getControlledObject())),
         mMoveScale(0),
         mRotScale(0),
-        mMoveSpeed(200.0),
+        mMoveSpeed(600.0),
         mRotSpeed(80.0),
         mFallSpeed(0.1),
         mOdeWorld(PhysicsManager::getSingletonPtr()->getWorld()),
@@ -92,10 +92,10 @@ namespace rl {
         mCameraActor->_placeIntoScene(mLookAtNode);
         mCameraNode = mCameraActor->_getSceneNode();
         mCameraNode->translate(Vector3(0, 0, mDesiredDistance), Node::TS_LOCAL);
-        
-        //PhysicsManager::getSingleton().addCollisionListener(this);
-        mOdeWorld->setShowDebugObjects(false);
-        
+
+
+
+
         setup();
     }
     //------------------------------------------------------------------------
@@ -161,7 +161,7 @@ namespace rl {
             StringConverter::toString(mOdeLevel->getPosition()));
     }
     //------------------------------------------------------------------------
-    
+
     bool GameController::collision(OgreOde::Contact* contact)
     {
         OgreOde::Geometry* g1 = contact->getFirstGeometry();
@@ -188,7 +188,7 @@ namespace rl {
         return true;
     }
     //------------------------------------------------------------------------
-    
+
     void GameController::calculateScalingFactors(Real timePassed)
     {
         if (timePassed == 0)
@@ -349,7 +349,7 @@ namespace rl {
         InputManager::getSingleton().updatePickedObject(0.5, 0.5);
     }
     //------------------------------------------------------------------------
-    
+
     void GameController::setViewMode(ViewMode mode)
     {
         mViewMode = mode;
@@ -366,12 +366,13 @@ namespace rl {
         }
     }
     //------------------------------------------------------------------------
+
     GameController::ViewMode GameController::getViewMode()
     {
         return mViewMode;
     }
     //------------------------------------------------------------------------
-    
+
     void GameController::resetCamera()
     {
         if (mViewMode == VM_THIRD_PERSON)

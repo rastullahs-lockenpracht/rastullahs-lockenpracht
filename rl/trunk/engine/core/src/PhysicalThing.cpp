@@ -301,6 +301,22 @@ namespace rl
     {
         mActor = actor;
     }
+    
+    void PhysicalThing::_attachSceneNode(Ogre::SceneNode* node)
+    {
+        if (mGeometry->getBody())
+        {
+            node->attachObject(mGeometry->getBody());
+        }
+    }
+    
+    void PhysicalThing::_detachSceneNode()
+    {
+        if (mGeometry->getBody())
+        {
+            mActor->_getSceneNode()->detachObject(mGeometry->getBody());
+        }
+    }
 
 }
 

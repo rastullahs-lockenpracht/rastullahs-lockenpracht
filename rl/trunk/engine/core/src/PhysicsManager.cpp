@@ -48,7 +48,8 @@ namespace rl
             mOdeStepper(new OgreOde::ForwardFixedQuickStepper(0.01)),
             mOdeLevel(0)
     {
-        mOdeWorld->setGravity(Vector3(0, -980.665, 0));
+        ///@fix die 3.0 ist willkührlich. nur ein Quickfix
+        mOdeWorld->setGravity(Vector3(0, 3.0 * -980.665, 0));
         mOdeWorld->setCFM(10e-5);
         mOdeWorld->setERP(0.8);
         mOdeWorld->setAutoSleep(true);

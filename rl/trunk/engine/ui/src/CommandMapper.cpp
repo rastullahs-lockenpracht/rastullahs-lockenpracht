@@ -40,6 +40,7 @@ namespace rl {
 		mMovementCommands.insert(make_pair(KC_Q, TURN_LEFT));
 		mMovementCommands.insert(make_pair(KC_E, TURN_RIGHT));
 		mMovementCommands.insert(make_pair(KC_LSHIFT, MOVE_RUN));
+        mMovementCommands.insert(make_pair(KC_LCONTROL, MOVE_SNEAK));
 		mMovementCommands.insert(make_pair(KC_SPACE, MOVE_JUMP));
 
 		ActionEntry ae;
