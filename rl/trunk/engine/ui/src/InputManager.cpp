@@ -108,7 +108,7 @@ namespace rl {
 		}	
 	}
 
-	void InputManager::mouseMoved(MouseEvent* e)
+    void InputManager::mouseMoved(MouseEvent* e)
 	{
 		if (isCeguiActive())
 		{			
@@ -124,9 +124,27 @@ namespace rl {
 		}
 	}
 
+	bool InputManager::processGlobalKeyEvent(KeyEvent* e)
+    {
+        bool rval = false;
+        if (e->getKey() == KC_F11)
+        {
+            CeConsole::getSingletonPtr()->setVisible(
+                !CeConsole::getSingletonPtr()->isVisible());
+            rval = true;
+        }
+        else if (e->getKey() == KC_F5)
+        {
+            DebugWindow::getSingletonPtr()->setVisible(
+                !DebugWindow::getSingletonPtr()->isVisible());
+            rval = true;
+        }
+        return rval;
+    }
+
 	void InputManager::keyPressed(KeyEvent* e)
 	{
-		if (isCeguiActive()) 
+		if (!processGlobalKeyEvent(e) && isCeguiActive()) 
 		{   // Send all events to CEGUI
 			CEGUI::System& cegui = CEGUI::System::getSingleton();
 			cegui.injectKeyDown(e->getKey());
@@ -135,15 +153,10 @@ namespace rl {
 		}
 		else
 		{
-			if (e->getKey() == KC_F11)
-				CeConsole::getSingleton().show();
-			else
-			{
-				mKeyDown[e->getKey()]=true;
-				std::set<KeyListener*>::iterator i;
-				for(i=mKeyListeners.begin(); i!=mKeyListeners.end(); i++)
-					(*i)->keyPressed(e);
-			}
+            mKeyDown[e->getKey()]=true;
+            std::set<KeyListener*>::iterator i;
+            for(i=mKeyListeners.begin(); i!=mKeyListeners.end(); i++)
+                (*i)->keyPressed(e);
 			e->consume();
 		}
 
