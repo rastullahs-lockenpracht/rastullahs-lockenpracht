@@ -9,20 +9,19 @@
 namespace rl {
 
 	class GameObject;
-	class Creature;
+	class Person;
 
 	class _RlUiExport ActionChoiceWindow : public CeGuiWindow
 	{
 	public:
-		ActionChoiceWindow();
+		ActionChoiceWindow(Person* actor);
 		~ActionChoiceWindow();
 		
 		void showActionsOfObject(GameObject* object);
-		void showTalentsOfPerson(Creature* creature);
+		void showTalentsOfActor();
 		
-		bool handleActionChosen(const CeGuiString& action);
-		bool handleShowHint(const CEGUI::EventArgs& evt);
-		bool handleRemoveHint();
+		bool handleActionChosen(Action* action);
+		bool handleShowHint(const CeGuiString& evt);
 
 	private:
 	
@@ -38,6 +37,16 @@ namespace rl {
         GameObject* mObject;
 		std::vector<CEGUI::PushButton*> mButtons;
 		CEGUI::StaticText* mHint;
+
+		enum ACWState
+		{
+			IDLE = 0,
+			CHOOSE_OBJECT_ACTION,
+			CHOOSE_TARGET
+		};
+
+		ACWState mState;
+		Person* mActor;
 	};
 
 }

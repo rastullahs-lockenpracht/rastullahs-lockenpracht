@@ -52,7 +52,7 @@ namespace rl
          * @todo rval sollte eigentlich ein enum sein.
          *       SWIG mag das so aber lieber.
          */
-        virtual int getTargetClass();
+        virtual int getTargetClass() const;
 
         /**
          * Die Aktion wird ausgeführt. Diese Methode wird in Ruby

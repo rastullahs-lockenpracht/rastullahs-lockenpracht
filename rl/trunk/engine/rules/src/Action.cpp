@@ -28,7 +28,7 @@ namespace rl
         return mDescription;
     }
 
-    int Action::getTargetClass()
+    int Action::getTargetClass() const
     {
         return TC_NO_TARGET;
     }

@@ -23,11 +23,7 @@ int main(int argc, char **argv)
     
     /**@todo das nach RastullahApplication
      * und RastullahApplication nach Startup. */
-    using std::cerr;
-
-
     rl::SoundSubsystem* sound = new rl::SoundSubsystem();
-
 	rl::CoreSubsystem* core = new rl::CoreSubsystem();
 	Ogre::Log* log = Ogre::LogManager::getSingleton().getLog( "logs/rlCore.log" );
 	log->logMessage("SoundSubsystem gestartet");

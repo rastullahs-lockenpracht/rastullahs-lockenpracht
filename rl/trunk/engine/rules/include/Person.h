@@ -3,8 +3,6 @@
 
 #include "RulesPrerequisites.h"
 
-#include <CEGUIString.h>
-
 #include "Creature.h"
 
 namespace rl {

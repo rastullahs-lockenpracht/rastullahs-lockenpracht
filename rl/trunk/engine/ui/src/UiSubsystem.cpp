@@ -106,7 +106,9 @@ namespace rl {
         GameLoop::getSingleton().addSynchronizedTask(mGameController);
 		world->setActiveActor(hero);
 	      
-        runTest();
+		mCharacter = DsaManager::getSingleton().getPerson(10000);
+		
+        //runTest();
     }
 
     void UiSubsystem::requestExit()
@@ -130,9 +132,14 @@ namespace rl {
 		return Qnil;
 	}
 
+	Person* UiSubsystem::getActiveCharacter()
+	{
+		return mCharacter;
+	}
+
 	void UiSubsystem::showActionChoice(GameObject* obj)
 	{
-		ActionChoiceWindow* w = new ActionChoiceWindow();
+		ActionChoiceWindow* w = new ActionChoiceWindow(UiSubsystem::getSingleton().getActiveCharacter());
 		w->showActionsOfObject(obj);
 		w->setVisible(true);
 	}
@@ -155,9 +162,8 @@ namespace rl {
 		dialog->setName("Klaus-Dieter");
 		dialog->show();*/		
 
-		Person* held = DsaManager::getSingleton().getPerson(10000);
 		CharacterSheetWindow* sheet = new CharacterSheetWindow();
-		sheet->setCharacter(held);
+		sheet->setCharacter(mCharacter);
 		//sheet->hide();
 		
 		/*GameObject* o = new GameObject(4711, "Heiltrank", "Testheiltrank");

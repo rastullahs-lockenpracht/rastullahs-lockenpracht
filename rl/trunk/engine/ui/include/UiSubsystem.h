@@ -17,6 +17,7 @@ namespace rl {
     class ThirdPersonGameController;
     class GameActor;
 	class GameObject;
+	class Person;
 
     class _RlUiExport UiSubsystem : protected Singleton<UiSubsystem>
     {
@@ -41,13 +42,12 @@ namespace rl {
 		static VALUE consoleWrite(VALUE self, VALUE str);
 
 		void showActionChoice(GameObject* obj);
-		void testObj(rl::GameObject* obj){}
-		void testStr(CeGuiString& obj){}
+		Person* getActiveCharacter();
 
 		static const char* CEGUI_ROOT;
 
     private:
-        void initializeUiSubsystem( void );		void runTest();        ThirdPersonGameController* mGameController;        GameActor* mHero;        bool mRequestExit;    };
+        void initializeUiSubsystem( void );		void runTest();        ThirdPersonGameController* mGameController;        GameActor* mHero;		Person* mCharacter;        bool mRequestExit;    };
 
 }
 

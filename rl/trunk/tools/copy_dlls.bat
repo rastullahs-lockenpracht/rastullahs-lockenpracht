@@ -5,8 +5,7 @@
 REM Verzeichnisse erzeugen
 REM ----------------------
 mkdir %RL_DIST%
-mkdir %RL_DIST%\media
-mkdir %RL_DIST%\script
+mkdir %RL_DIST%\logs
 
 REM Binaries kopieren
 REM ---------------------

@@ -43,15 +43,15 @@
 
 %typemap(directorout) CeGuiString {
     if (TYPE($input) == T_STRING)
-        $result = CeGuiString(StringValuePtr($input));
+        $result = CeGuiString(STR2CSTR($input));
     else
         throw Swig::DirectorTypeMismatchException("string expected");
 }
 
-%typemap(directorout) const CeGuiString & (CeGuiString temp) {
+%typemap(directorout) const CeGuiString & {
     if (TYPE($input) == T_STRING) {
-        temp = CeGuiString(StringValuePtr($input));
-        $result = &temp;
+		$result = new CeGuiString();
+        $result->assign(CeGuiString(STR2CSTR($input)));
     } else {
         throw Swig::DirectorTypeMismatchException("string expected");
     }

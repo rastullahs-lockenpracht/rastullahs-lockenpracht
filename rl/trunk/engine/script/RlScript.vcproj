@@ -161,7 +161,7 @@
 				RelativePath="..\script\swig\RlExports_wrap.cxx">
 			</File>
 			<File
-				RelativePath=".\swig\TypeMaps.i">
+				RelativePath=".\swig\RlExports_wrap.h">
 			</File>
 			<Filter
 				Name="include"
@@ -193,6 +193,13 @@
 				</File>
 				<File
 					RelativePath=".\swig\RlUi.inc">
+				</File>
+			</Filter>
+			<Filter
+				Name="types"
+				Filter="">
+				<File
+					RelativePath=".\swig\TypeMaps.i">
 				</File>
 			</Filter>
 		</Filter>

@@ -1,15 +1,3 @@
-/*namespace CEGUI {
-	
-	class String 
-	{
-		String(const std::string& std_str);
-		const char* c_str(void) const;
-	};
-	
-}
-
-typedef CEGUI::String CeGuiString;*/
-
 namespace rl {
 	
 				
@@ -85,7 +73,30 @@ namespace rl {
         Tripel<int> roll3D20();
         int rollD6();
       
-	     static DsaManager& getSingleton(void);
+	    static DsaManager& getSingleton(void);
+	    rl::Talent* getTalent(const CeGuiString& name) const;
+    };
+    
+    class Talent
+    {
+    public:
+        Talent(int id,
+               const CeGuiString& name,
+               const CeGuiString& description,
+               const Tripel<int>& eigenschaften,
+               int ebe,
+			   int gruppe);
+
+        bool operator==(const Talent& rhs) const;
+        bool operator<(const Talent& rhs) const;
+        int getId() const;
+        CeGuiString getName() const;
+        CeGuiString getDescription() const;
+		int getEbe() const;
+
+        /// Berechnet effektive Behinderung bei gegebener Behinderung;
+        int calculateEbe(int be) const;
+        Tripel<int> getEigenschaften() const;
     };
 
 	static const int ACT_NORMAL = 1<<0;
@@ -102,7 +113,7 @@ namespace rl {
         virtual const CeGuiString& getName() const;
         virtual const CeGuiString& getClassName() const;
         virtual const CeGuiString& getDescription() const;
-        virtual int getTargetClass();
+        virtual int getTargetClass() const;
         virtual void doAction(rl::GameObject *object, rl::Creature *actor,
             rl::GameObject *target);
     };
@@ -168,12 +179,28 @@ namespace rl {
         virtual int doTalentprobe(int id, int modifier);
         virtual int doEigenschaftsprobe(int id, int modifier);
    };
+   
+   %feature("director") Person;
+   class Person : public Creature
+   {
+   public:
+	    Person(int id,
+                 const CeGuiString& name,
+                 const CeGuiString& description);
+	};
 } // Namespace
 
 %{
 static swig_type_info *GameObject_dynamic_cast(void **ptr)
 {
     rl::GameObject **ppGameObject = reinterpret_cast<rl::GameObject**>(ptr);
+
+    rl::Person *pPerson=dynamic_cast<rl::Person*>(*ppGameObject);
+    if (pPerson) {
+        *ptr=reinterpret_cast<void*>(pPerson);
+        return SWIGTYPE_p_rl__Person;
+    }
+
     rl::Creature *pCreature=dynamic_cast<rl::Creature*>(*ppGameObject);
     if (pCreature) {
         *ptr=reinterpret_cast<void*>(pCreature);
@@ -187,5 +214,5 @@ static swig_type_info *GameObject_dynamic_cast(void **ptr)
     return 0;
 }
 %}
-
 DYNAMIC_CAST(SWIGTYPE_p_rl__GameObject, GameObject_dynamic_cast);
+

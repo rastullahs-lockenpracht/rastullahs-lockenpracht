@@ -4,17 +4,19 @@
 #include "ActionChoiceWindow.h"
 #include "ActionManager.h"
 #include "GameObject.h"
-#include "Creature.h"
+#include "Person.h"
 
 using namespace CEGUI;
 using namespace std;
 
 namespace rl {
 
-	ActionChoiceWindow::ActionChoiceWindow()
+	ActionChoiceWindow::ActionChoiceWindow(Person* actor)
 		: CeGuiWindow("actionchoicewindow.xml", true)
 	{
 		mHint = getStaticText("ActionChoiceWindow/Hint");
+		mState = IDLE;
+		mActor = actor;
 		addToRoot(mWindow);
 	}
 	
@@ -54,47 +56,49 @@ namespace rl {
 				WindowManager::getSingleton().createWindow(
 					(utf8*)"TaharezLook/Button", 
 					getName()+"/Buttons/"+actionName));
-			actionButton->setText(CeGuiString(action->getDescription()));
+			actionButton->setUserData(action);
+			actionButton->setText(action->getName());
 			Point pos = getPositionOnRadialMenu(
 					center, 0, 0, RADIUS, mButtons.size(), actions.size());
 			actionButton->setPosition(Absolute, pos);
-			actionButton->setSize(Absolute, Size(40, 40));
+			actionButton->setSize(Absolute, Size(140, 40));
 			actionButton->subscribeEvent(
 				PushButton::EventClicked, 
 				boost::bind(
 					&ActionChoiceWindow::handleActionChosen, 
-					this, actionName));
+					this, action));
 			actionButton->subscribeEvent(
 				PushButton::EventMouseEnters,
-				boost::bind(&ActionChoiceWindow::handleShowHint, this, _1));
+				boost::bind(&ActionChoiceWindow::handleShowHint, this, action->getDescription()));
 			actionButton->subscribeEvent(
 				PushButton::EventMouseLeaves,
-				boost::bind(&ActionChoiceWindow::handleRemoveHint, this));
+				boost::bind(&ActionChoiceWindow::handleShowHint, this, (utf8*)""));
 			mButtons.push_back(actionButton);
 			mWindow->addChildWindow(actionButton);
 		}
+		mState = CHOOSE_OBJECT_ACTION;
 	}
 	
-	bool ActionChoiceWindow::handleActionChosen(const CeGuiString& action)
+	bool ActionChoiceWindow::handleActionChosen(Action* action)
 	{
 		//TODO: Auswahl des Ziels/der Ziele
 		//TODO: Ausführung der Action, hier im Dialog oder doch woanders?
+		if (mState == CHOOSE_OBJECT_ACTION)
+		{
+			if (action->getTargetClass() == TC_NO_TARGET)
+				action->doAction(mObject, mActor, mObject);
+		}
+
 		return true;
 	}
 	
-	bool ActionChoiceWindow::handleShowHint(const EventArgs& evt)
+	bool ActionChoiceWindow::handleShowHint(const CeGuiString& hint)
 	{
-		mHint->setText((utf8*)"");
+		mHint->setText(hint);
 		return true;
 	}
 	
-	bool ActionChoiceWindow::handleRemoveHint()
-	{
-		mHint->setText((utf8*)"");
-		return true;
-	}
-	
-	void ActionChoiceWindow::showTalentsOfPerson(Creature* creature)
+	void ActionChoiceWindow::showTalentsOfActor()
 	{
 		
 	}
