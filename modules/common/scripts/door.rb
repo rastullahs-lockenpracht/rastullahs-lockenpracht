@@ -10,7 +10,7 @@ require 'items.rb'
 
 class OpenDoorAction < RubyAction
   def initialize
-    super("Öffnen", "Tür öffnen");
+    super("opendoor", "Tuer oeffnen");
   end
   
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
@@ -29,7 +29,7 @@ end
 
 class CloseDoorAction < RubyAction
   def initialize
-    super("Schließen", "Tür schließen");
+    super("closedoor", "Tuer schliessen");
   end
   
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
