@@ -15,6 +15,7 @@ held.placeIntoScene(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0);
 held.attach("Bone15",torch.getActor(), "SLOT_HANDLE", [ 1.0, 0.0, 0.0 ], 90.0 );
 $CORE.log("Fackel plaziert.");
 
+torch.getActor().setScale( 2.54, 2.54, 2.54 );
 
 
 
@@ -24,7 +25,8 @@ trackAnim = $AnimMgr.createTrackAnimation(  held, "kreisLaufAnimation", 16.0 );
 
 trackAnim.addKeyFrame( 0.0 );
 trackAnim.setKeyFrameTranslation( 0.0, -402.735565185547, -128.517913818359, 25.9572200775146)
-trackAnim.setKeyFrameRotationQuaternion( 0.0, -0.998850047588348, 0.0, 0.0478907190263271, 0.0)
+# Erstes Frame keine ROTATION einfügen - Drehung sonst zuviel
+#trackAnim.setKeyFrameRotationQuaternion( 0.0, -0.998850047588348, 0.0, 0.0478907190263271, 0.0)
 trackAnim.addKeyFrame( 1.0 );
 trackAnim.setKeyFrameTranslation( 1.0, -403.404174804688, -128.617431640625, -104.758270263672)
 trackAnim.setKeyFrameRotationQuaternion( 1.0, 0.989310145378113, 0.0, 0.145824044942856, 0.0)
