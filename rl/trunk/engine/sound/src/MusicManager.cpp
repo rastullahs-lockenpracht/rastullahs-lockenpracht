@@ -168,11 +168,15 @@ void MusicManager::setNextSong()
 {
     string name = findNextSong();
     // Evtl. spielt noch ein Song.
-    SoundResourcePtr next = SoundManager::getSingleton().getByName(name);
+    SoundMovablePtr next;
+    if (name != "")
+    {
+        next = SoundMovablePtr(new SoundMovable(
+            SoundManager::getSingleton().getByName(name)));
+    }
     if (!mSource.isNull() )
     {
         mSource.getPointer()->stop();
-        mSource.getPointer()->unload();
         mSource.setNull();
     }
     RlAssert(mSource.isNull(), "Fehler beim Stoppen des aktuellen Musikstuecks");
@@ -180,9 +184,6 @@ void MusicManager::setNextSong()
     mSource = next;
     if (!mSource.isNull()) // Was gefunden.
     {
-        SoundResource *res = (SoundResource*)mSource.getPointer();
-        res->load();
-        //mSource.getPointer()->load();        
     } else {
         mShouldPlay = false;
     }
@@ -235,7 +236,7 @@ string MusicManager::findNextSong()
         return "";
         
     }
-    return NULL;
+    return "";
 }
 
 /**

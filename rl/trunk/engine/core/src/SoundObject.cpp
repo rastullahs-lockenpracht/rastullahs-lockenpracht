@@ -66,14 +66,14 @@ void SoundObject::_update()
     {
         return;
     }
-    sound->getSound()->setPosition(actor->getPosition());
+    sound->setPosition(actor->getPosition());
     Vector3 *temp1 = new Vector3();
     Vector3 *temp2 = new Vector3(actor->getPosition());
     Real length = temp2->normalise();
     actor->getOrientation().ToAxes(temp1);
     *temp1 += *temp2;
     *temp1 *= length;
-    sound->getSound()->setDirection(*temp1);
+    sound->setDirection(*temp1);
 }
 
 /**

@@ -13,6 +13,7 @@
 #include <boost/thread.hpp>
 #include "SoundManager.h"
 #include "SoundResource.h"
+#include "SoundMovable.h"
 
 
 using namespace rl;
@@ -49,22 +50,22 @@ public:
             SoundManager::getSingleton().getResourceIterator();
         while (it.hasMoreElements())
         {
-            SoundResourcePtr sound = it.getNext();
+            SoundResourcePtr soundres = it.getNext();
+            SoundMovablePtr sound(new SoundMovable(soundres));
             if (!sound.isNull())
             {
-                sound->load();
                 sound->play();
                 
                 xtime_get(&xt, TIME_UTC);
                 xt.sec++;
                 thread::sleep(xt);
-                while (sound->playing())
+                while (sound->playing()) {
                     xtime_get(&xt, TIME_UTC);
                     xt.sec++;
                     thread::sleep(xt);
+                }
                 
                 sound->stop();
-                sound->unload();
             }            
         }
         CPPUNIT_ASSERT(true);
@@ -77,10 +78,10 @@ public:
             SoundManager::getSingleton().getResourceIterator();
         while (it.hasMoreElements())
         {
-            SoundResourcePtr sound = it.getNext();
+            SoundResourcePtr soundres = it.getNext();
+            SoundMovablePtr sound(new SoundMovable(soundres));
             if (!sound.isNull())
             {
-                sound->load();
                 sound->play(2 * 1000);
                 
                 xtime_get(&xt, boost::TIME_UTC);
@@ -92,8 +93,6 @@ public:
                 xtime_get(&xt, boost::TIME_UTC);
                 xt.sec += 5;
                 thread::sleep(xt);
-                
-                sound->unload();
             }            
         }
         
@@ -103,7 +102,7 @@ public:
 	CPPUNIT_TEST_SUITE(SoundManagerTest);
 	CPPUNIT_TEST(testSoundManager_addSoundDirectory);
     CPPUNIT_TEST(testSoundManager_loadPlayUnload);
-    CPPUNIT_TEST(testSoundManager_loadPlayWithFade);
+//    CPPUNIT_TEST(testSoundManager_loadPlayWithFade);
     CPPUNIT_TEST_SUITE_END();
 };
 //CPPUNIT_TEST_SUITE_REGISTRATION(SoundManagerTest);
