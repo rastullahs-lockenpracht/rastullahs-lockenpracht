@@ -51,8 +51,6 @@ MusicManager::MusicManager() : ResManager(),
     mShouldExit(false),
     mMusicThread()
 { 
-    mThread = new thread(mMusicThread);
-//    mThread->join();
 }
 
 /**
@@ -67,8 +65,6 @@ MusicManager::~MusicManager()
     }
     mSource = 0;
     mShouldExit = true;
-    delete mThread;
-    
 }
 
 /**
@@ -301,9 +297,9 @@ MusicManager::MusicThread::~MusicThread()
  * @author JoSch
  * @date 07-25-2004
  */
-void MusicManager::MusicThread::operator()()
+void MusicManager::MusicThread::run()
 {
-    xtime xt;
+/*    xtime xt;
     MusicManager *that = MusicManager::getSingletonPtr();
     if (that == 0)
     {
@@ -341,7 +337,7 @@ void MusicManager::MusicThread::operator()()
         xtime_get(&xt, TIME_UTC);
         xt.nsec += 1 * 1000;
         thread::sleep(xt);
-    }
+    } */
 }
 
 /**

@@ -8,7 +8,7 @@ extern "C"
 #include <vorbis/vorbisfile.h>
 }
 #include <boost/thread/xtime.hpp>
-
+#include <locale>
 using namespace std;
 using namespace Ogre;
 using namespace boost;
@@ -145,7 +145,6 @@ long MusicResource::VorbisTell (void *datasource
  */
 MusicResource::MusicResource (const String & name)
     : SndResource (name),
-      mThread(0),
       mMusicThread(this),
       mPlaying(false)
 {
@@ -160,7 +159,6 @@ MusicResource::MusicResource (const String & name)
  */
 MusicResource::~MusicResource ()
 {
-    delete mThread;
 }
 
 /** Laedt die Ogg-Datei.
@@ -189,9 +187,9 @@ MusicResource::MusicThread::MusicThread(MusicResource *that)
  * @author JoSch
  * @date 07-15-2004
  */
-void MusicResource::MusicThread::operator()()
+void MusicResource::MusicThread::run()
 {
-    xtime xt;
+/*    xtime xt;
 
     try {
         that->open(that->mData, that->mDataSize);
@@ -234,6 +232,7 @@ void MusicResource::MusicThread::operator()()
     delete that->mThread;
     that->mThread = 0; 
     that->mPlaying = false;
+    */
 }
 
 /**
@@ -261,7 +260,6 @@ void MusicResource::play(unsigned int msec) throw (RuntimeException)
     if (mPlaying)
     {
         mMusicThread.mFadeIn = msec;
-        mThread = new thread(mMusicThread);
     }
 }
 
@@ -319,10 +317,6 @@ void MusicResource::stop (unsigned int msec) throw (RuntimeException)
     {
         SndResource::stop(msec);
         mMusicThread.mFadeOut = msec;
-        if (mFadeOutThread != 0)
-        {
-            mFadeOutThread->join();
-        }
     }
 }
 

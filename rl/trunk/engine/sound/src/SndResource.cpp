@@ -3,7 +3,7 @@
 #include "SoundManager.h"
 #include "SndResource.h"
 #include "boost/thread/xtime.hpp"
-#include "XtimeOperator.h"
+#include "Sleep.h"
 
 using namespace std;
 using namespace Ogre;
@@ -16,10 +16,8 @@ namespace rl {
  */
 SndResource::SndResource(const String &name):
     Resource(),
-    mFadeInOperation(this, true),
-    mFadeOutOperation(this, false),
-    mFadeInThread(0),
-    mFadeOutThread(0),
+    mFadeInThread(this, true),
+    mFadeOutThread(this, false),
     mShouldFadeIn(false),
     mShouldFadeOut(false)
 {
@@ -128,9 +126,11 @@ void SndResource::setVelocity(const Vector3& velocity) throw (RuntimeException)
  */
 const ALfloat SndResource::getGain() const throw (RuntimeException)
 {
-    mutex::scoped_lock lock(mGainMutex);
+    mGainMutex.lock();
     ALfloat result;
+    mGainMutex.lock();
     alGetSourcef(mSource, AL_GAIN, &result);
+    mGainMutex.unlock();
     check();
     return result;
 }
@@ -142,8 +142,9 @@ const ALfloat SndResource::getGain() const throw (RuntimeException)
  */
 void SndResource::setGain(const ALfloat gain) throw (RuntimeException)
 {
-    mutex::scoped_lock lock(mGainMutex);
+    mGainMutex.lock();
     alSourcef(mSource, AL_GAIN, gain);
+    mGainMutex.unlock();
     check();
 }
 
@@ -169,10 +170,10 @@ void SndResource::unload()
  */
 void SndResource::fadeIn(unsigned int msec)
 {
-    if (msec != 0 && mFadeInThread == 0)
+    if (msec != 0)
     {
-        mFadeInOperation.mDuration = msec;
-        mFadeInThread = new thread(mFadeInOperation);
+        mFadeInThread.mDuration = msec;
+        mFadeInThread.start();
         mShouldFadeIn = false;
     }
 }
@@ -182,10 +183,10 @@ void SndResource::fadeIn(unsigned int msec)
  */
 void SndResource::fadeOut(unsigned int msec)
 {
-    if (msec != 0 && mFadeOutThread == 0)
+    if (msec != 0 )
     {
-        mFadeOutOperation.mDuration = msec;
-        mFadeOutThread = new thread(mFadeOutOperation);
+        mFadeOutThread.mDuration = msec;
+        mFadeOutThread.start();
         mShouldFadeOut = false;
     }
 }
@@ -300,7 +301,7 @@ ALfloat SndResource::calculateFadeOut(unsigned RL_LONGLONG duration, unsigned RL
 
 /**
  */
-SndResource::FadeOperation::FadeOperation(SndResource *that, bool fadeIn)
+SndResource::FadeThread::FadeThread(SndResource *that, bool fadeIn)
     : that(that),
       mFadeIn(fadeIn)
 {
@@ -311,25 +312,21 @@ SndResource::FadeOperation::FadeOperation(SndResource *that, bool fadeIn)
  * @author JoSch
  * @date 09-16-2004
  */
-void SndResource::FadeOperation::operator()()
+void SndResource::FadeThread::run()
 {
     if (mFadeIn)
     {
         if (mDuration != 0)
         {
-            // Sleep
-            xtime sleeptime;
             // Alte Lautstaerke speichern.
             ALfloat gain = that->getGain();
             
             that->setGain(0.0f);
-            xtime_get(&sleeptime, TIME_UTC);
             for(unsigned int time = 0; time <= mDuration; time += 10)
             {
                 
                 // Warten
-                sleeptime.nsec += 10 * 1000 * 1000;
-                thread::sleep(sleeptime);
+                MSleep(10);
                 ALfloat newgain = that->calculateFadeIn(mDuration, time, gain);
                 // Lautstaerke hochsetzen.
                 that->setGain((newgain > gain)?gain:newgain);
@@ -337,23 +334,17 @@ void SndResource::FadeOperation::operator()()
             that->setGain(gain);
             that->check();
         }
-        delete that->mFadeInThread;
-        that->mFadeInThread = 0; 
     } else {
         if (mDuration != 0)
         {
-            // Sleep
-            xtime sleeptime;
             
             // Alte Lautstaerke speichern.
             ALfloat gain = that->getGain();
             
-            xtime_get(&sleeptime, TIME_UTC);
             for (unsigned int time = 0; time <= mDuration; time += 10)
             {
                 // Warten
-                sleeptime.nsec += 10000;
-                thread::sleep(sleeptime);
+                MSleep(1);
                 ALfloat newgain = that->calculateFadeOut(mDuration, time, gain);
                 // Lautstaerke hochsetzen.
                 that->setGain((newgain > gain)?gain:newgain);
@@ -365,8 +356,6 @@ void SndResource::FadeOperation::operator()()
         // Stoppen.
         alSourceStop(that->mSource);
         that->check();
-        delete that->mFadeOutThread;
-        that->mFadeOutThread = 0; 
     }
     
     

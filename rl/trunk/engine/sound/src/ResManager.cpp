@@ -5,6 +5,7 @@
 
 using namespace std;
 using namespace Ogre;
+using namespace OpenThreads;
 
 namespace rl {
 
@@ -20,12 +21,13 @@ void ResManager::addSounds()
     for(cit = extlist.begin(); cit != extlist.end(); cit++)
     {
         set<String> list = ResourceManager::_getAllCommonNamesLike("./", *cit);
-        mutex::scoped_lock lock(mResListMutex);
         set<String>::const_iterator it;
         for(it = list.begin(); it != list.end(); it++)
         {
             try {
+                mResListMutex.lock();
                 add(create(*it));
+                mResListMutex.unlock();
             } catch(...)
             {}
         }

@@ -6,10 +6,12 @@
 #include "config.h"
 #endif
 
+#include <OpenThreads/Thread>
 #include "SoundPrerequisites.h"
-#include "boost/thread/thread.hpp"
 #include "OgreString.h"
 #include "SndResource.h"
+
+using namespace OpenThreads;
 
 namespace rl {
 
@@ -45,7 +47,7 @@ class _RlSoundExport MusicResource: public SndResource {
         SOggFile mOggMemoryFile;
         
         /// Diese Klasse kapselt den Arbeitsthread.
-        class MusicThread {
+        class MusicThread : public Thread {
             private:
                 /// Damit wir wissen, wo wir hinwollen ;-)
                 MusicResource *that;
@@ -53,7 +55,7 @@ class _RlSoundExport MusicResource: public SndResource {
                 /// Der Konstruktor.
                 MusicThread(MusicResource *that);
                 /// Die Arbeitsroutine.
-                void operator()();
+                void run();
                 /// Wie lange der Fade-In/Out dauern soll
                 unsigned int mFadeIn, mFadeOut;
         } mMusicThread;
@@ -78,8 +80,6 @@ class _RlSoundExport MusicResource: public SndResource {
         unsigned char *mData;
         /// Die Grösse der Daten.
         unsigned int mDataSize;
-        /// Der Thread
-        boost::thread *mThread;
         
         void open(unsigned char *data, unsigned int size);
         void release();

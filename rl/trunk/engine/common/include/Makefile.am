@@ -4,6 +4,6 @@ noinst_HEADERS = RastullahPrerequisites.h \
 	Tripel.h \
 	FixRubyHeaders.h \
 	CsvFile.h \
-	XtimeOperator.h
+	Sleep.h
 	
 	

@@ -4,10 +4,10 @@
 
 #include "SoundPrerequisites.h"
 #include "Ogre.h"
-#include "boost/thread/thread.hpp"
-#include "boost/thread/mutex.hpp"
+#include <OpenThreads/Thread>
+#include <OpenThreads/Mutex>
 
-using namespace boost;
+using namespace OpenThreads;
 
 // @TODO: Callbacks für Threads einfuehren.
 
@@ -24,7 +24,7 @@ namespace rl {
 class _RlSoundExport SndResource: public Resource {
     private:
         /// Diese Klasse kapselt das Fade in.
-        class FadeOperation {
+        class FadeThread : public Thread {
             private:
                 /// Damit wir wissen, wo wir hinwollen ;-)
                 SndResource *that;
@@ -32,19 +32,17 @@ class _RlSoundExport SndResource: public Resource {
                 bool mFadeIn;
             public:
                 /// Der Konstruktor.
-                FadeOperation(SndResource *that, bool fadeIn);
+                FadeThread(SndResource *that, bool fadeIn);
                 /// Die Arbeitsroutine.
-                void operator()();
+                void run();
 
                 /// Wie lange soll der Fade laufen (in msek.)?
                 unsigned int mDuration;
-        } mFadeInOperation, mFadeOutOperation;
-       friend class FadeOperation;
+        } mFadeInThread, mFadeOutThread;
+       friend class FadeThread;
         
     
     protected:
-        // Die Fade-Threads
-        thread *mFadeInThread, *mFadeOutThread;
         /// Die gekapselte Soundquelle
         ALuint mSource;
         /// Die Buffer, die wir benutzen
@@ -56,7 +54,7 @@ class _RlSoundExport SndResource: public Resource {
         void check() const throw (RuntimeException);
         
         /// Mutex zum Synchronisieren von Gain-Zugriffen.
-        mutable boost::mutex mGainMutex;
+        mutable Mutex mGainMutex;
         
         /// Fuehre das Fade-In aus
         void fadeIn(unsigned int msec);

@@ -10,21 +10,9 @@
 #include "MusicResource.h"
 #include <list>
 #include <stdexcept>
-#include "boost/thread/thread.hpp"
+#include <OpenThreads/Thread>
 
-#ifndef BOOST_HAS_THREADS
-#   error Boost has no THREADS
-#elsif
-#   if OGREPLATFORM == PLATFORM_WIN32
-#       ifndef BOOST_HAS_WINTHREADS
-#           error Boost has no Winthreads
-#       endif
-#   elsif OGREPLATFORM == PLATFORM_LINUX
-#       ifndef BOOST_HAS_PTHREADS
-#           error Boost has no PThreads
-#       endif
-#   endif
-#endif
+using namespace OpenThreads;
 
 namespace rl {
  
@@ -44,8 +32,6 @@ class _RlSoundExport MusicManager : public ResManager, public Ogre::Singleton<Mu
     private:
         /// Finde den Nachfolger des Songs mit diesem Namen.
         MusicResource* findNextSong();
-        /// Der Thread, der die Liedueberpruefung macht.
-        boost::thread *mThread;
         
         /// Die aktuelle Musikresource
         MusicResource *mSource;
@@ -58,11 +44,11 @@ class _RlSoundExport MusicManager : public ResManager, public Ogre::Singleton<Mu
         /// Ob der Thread beendet werden soll. WICHTIG: Hat nicht mit dem Abspielen zu tun.
         bool mShouldExit;
         /// Unterklasse, die den Thread enthält
-        class MusicThread {
+        class MusicThread : public Thread {
             public:
                 MusicThread();
                 ~MusicThread();
-                void operator()();
+                void run();
         };
         /// Die Instanz des Threads.
         MusicThread mMusicThread;

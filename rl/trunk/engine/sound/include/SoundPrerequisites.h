@@ -14,7 +14,6 @@
 #   define _RlSoundExport
 #endif
 
-//#include "OgreNoMemoryMacros.h"
 #include "Exception.h"
 extern "C" {
 #include "AL/al.h"
