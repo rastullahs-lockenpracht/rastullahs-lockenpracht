@@ -64,7 +64,6 @@ nobase_dist_pkgdata_DATA = \
 	modules/minidemo/maps/testraum.zip \
 	modules/minidemo/maps/testraum_alt.bsp \
 	modules/minidemo/materials/b_1.material \
-	modules/minidemo/materials/dsa.zip \
 	modules/minidemo/materials/terrain_detail.jpg \
 	modules/minidemo/materials/terrain_texture.jpg \
 	modules/minidemo/models/cube.mesh \
