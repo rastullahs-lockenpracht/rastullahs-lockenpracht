@@ -1,4 +1,2 @@
+SUBDIRS = JMap2Mesh XReleaseMouse
 
-
-tools:
-	cd JMap2Mesh; ant

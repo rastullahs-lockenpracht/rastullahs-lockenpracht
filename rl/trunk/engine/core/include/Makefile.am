@@ -18,6 +18,7 @@ noinst_HEADERS = \
 	ParticleSystemActor.h \
 	PhysicalThing.h \
 	PhysicsManager.h \
+	RlAnimation.h \
 	RubyInterpreter.h \
 	ScriptObject.h \
 	SynchronizedTask.h \

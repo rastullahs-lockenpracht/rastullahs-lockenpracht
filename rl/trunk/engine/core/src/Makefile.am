@@ -20,6 +20,7 @@ libRlCore_la_SOURCES = \
 	ParticleSystemActor.cpp \
 	PhysicalThing.cpp \
 	PhysicsManager.cpp \
+	RlAnimation.cpp \
 	RubyInterpreter.cpp \
 	ScriptObject.cpp \
 	SynchronizedTask.cpp \
