@@ -53,8 +53,10 @@ namespace rl
 			
 			static ConfigurationManager* instance;
 			
-			std::string findConfRootDir();
+			std::string findModulesRootDir();
 			std::string findRastullahConf();
+			
+			bool checkForFile(const std::string& filename);
 			
 	};
 }

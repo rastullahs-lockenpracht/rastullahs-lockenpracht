@@ -19,6 +19,7 @@
 #include "RubyInterpreter.h"
 #include "ScriptObject.h"
 #include "CoreSubsystem.h"
+#include "ConfigurationManager.h"
 
 using namespace Ogre;
 
@@ -55,8 +56,12 @@ void RubyInterpreter::initializeInterpreter(staticValueMethod func)
 	StringVector modules = CoreSubsystem::getSingleton().getActiveModules();
 	for (StringVector::iterator iter = modules.begin(); iter != modules.end(); iter++)
 	{
-		addSearchPath("modules/"+(*iter)+"/scripts");
-		addSearchPath("modules/"+(*iter)+"/scripts/maps");
+		//wir suchen die Scripte im modules Verzeichnis relativ zum ModuleRootPath!
+		addSearchPath(ConfigurationManager::getSingleton().
+			getModulesRootDirectory() + "/modules/" + (*iter) + "/scripts");
+		addSearchPath(ConfigurationManager::getSingleton().
+			getModulesRootDirectory() + "/modules/" + (*iter) + 
+			"/scripts/maps");
 	}
 	
 	ruby_init_loadpath();

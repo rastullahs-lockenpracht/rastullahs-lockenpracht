@@ -65,6 +65,8 @@ namespace rl
 			
 			std::string getModuleconfigCfgPath(const std::string& module);
 			
+			std::string getModulesRootDirectory();
+			
 		protected:
 		
 			std::string ogreLogPath;
@@ -73,6 +75,7 @@ namespace rl
 			std::string rlCoreLogPath;
 			std::string modulesCfgPath;
 			std::string moduleconfigCfgPath;
+			std::string modulesRootDirectory;
 	};
 }
 

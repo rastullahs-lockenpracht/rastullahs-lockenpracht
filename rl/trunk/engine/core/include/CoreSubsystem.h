@@ -43,7 +43,7 @@ public:
 
 	/** Starts the Game */
 	void startCore();
-
+	
 	/** Returns the Singleton */
 	static CoreSubsystem & getSingleton();
 	static CoreSubsystem * getSingletonPtr();
@@ -71,7 +71,8 @@ public:
 	/** Gibt die abgelaufene Spielzeit zurück*/
 	RL_LONGLONG getClock();
 
-	/** Setzt die abgelaufene Spielzeit wieder auf Null, die DSA-Zeit wird aus der Basiszeit + abgelaufener Spielzeit berechnet
+	/** Setzt die abgelaufene Spielzeit wieder auf Null, die DSA-Zeit wird 
+	*   aus der Basiszeit + abgelaufener Spielzeit berechnet
 	*
 	* @see DsaManager
 	*/
@@ -97,7 +98,6 @@ private:
 	Ogre::StringVector mCommonModules;
 	Ogre::StringVector mActivatableModules;
 	Ogre::String mActiveModule;
-    Ogre::String mRootDir;
 
 	RL_LONGLONG mClockStartTime;
 };

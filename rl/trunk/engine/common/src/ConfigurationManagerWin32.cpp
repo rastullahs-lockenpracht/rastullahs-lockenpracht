@@ -49,6 +49,7 @@ namespace rl
 		rlCoreLogPath = "logs/rlCore.log";
 		modulesCfgPath = "./modules/modules.cfg";
 		moduleconfigCfgPath = "/conf/moduleconfig.cfg";
+		modulesRootDirectory = ".";
 	}
 	
 	ConfigurationManagerWin32::~ConfigurationManagerWin32()

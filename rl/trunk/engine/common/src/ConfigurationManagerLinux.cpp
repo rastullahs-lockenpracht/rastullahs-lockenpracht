@@ -44,13 +44,13 @@ namespace rl
 	
 	ConfigurationManagerLinux::ConfigurationManagerLinux()
 	{
-		string confdir("modules/common/conf/");
-		pluginCfgPath = findConfRootDir() + "/" + confdir + 
-			"plugins-linux.cfg";
+		modulesRootDirectory = findModulesRootDir();
+		pluginCfgPath = modulesRootDirectory + 
+			"/modules/common/conf/plugins-linux.cfg";
 		rastullahCfgPath = findRastullahConf();
 		ogreLogPath = "logs/ogre.log";
 		rlCoreLogPath = "logs/rlCore.log";
-		modulesCfgPath = "./modules/modules.cfg";
+		modulesCfgPath = modulesRootDirectory + "/modules/modules.cfg";
 		moduleconfigCfgPath = "/conf/moduleconfig.cfg";
 	}
 	
@@ -58,66 +58,90 @@ namespace rl
 	{
 	}
 	
-	string ConfigurationManagerLinux::findConfRootDir()
+	string ConfigurationManagerLinux::findModulesRootDir()
     {
-    	static string CURRENT_DIR = ".";
-        char line[255];
-        ifstream config;
-        // Erstmal im Homeverzeichnis suchen.
-        string path = ::getenv("HOME");
-        path += "/.rl.conf";
-        config.open(path.c_str());
-        if (!config.is_open())
-        {
-            // Wir schliessen die Datei sicherheitshalber und
-            // setzen den Zustand zurück (wichtig!)
-            config.close();
-            config.clear();
-            // Jetzt schauen wir mal, ob in etc was zu finden ist.
-            config.open("/etc/rl/rl.conf");
-        } 
-        // Haben  wir jetzt eine Datei?
-        if (config.is_open())
-        {
-            while (!config.eof())
-            {
-                config.getline(line, 255);
-                if (strlen(line) != 0)
-                {
-                    // Wir geben die erste nichtleere Zeile zurück.
-                    return string(line);
-                }
-            }
-        }
-        // Klappt alles nicht.
-        cerr<<"line "<<endl;
-        return CURRENT_DIR;
+    	// ModulesRootDir ist in rl.conf definiert, also suchen wir danach
+    	
+    	// erster Ansatz wie immer das HOME des users (getenv gefährlich)
+    	string filename = string(::getenv("HOME")) + "/.rl.conf";
+    	
+    	if(checkForFile(filename))
+    	{
+    		// wir geben die erste nichtleere Zeile aus dem File zurück, 
+    		// da diese den gesuchten Pfad repräsentiert
+    		// später mit tags die einzelnen Variablen beschreiben, 
+    		// die dann vernünftig geparst werden!
+    		ifstream file(filename.c_str());
+    		string line;
+    		while(getline(file, line))
+    		{
+    			if(line.length() > 0)
+    			{
+    				file.close();
+    				return line;
+    			}
+    		}
+    		file.close();
+    	}
+    	
+        // der nächste Versuch die Datei zu finden ist /etc/rl/rl.conf
+        filename = "/etc/rl/rl.conf";
+        if(checkForFile(filename))
+    	{
+    		// wir geben die erste nichtleere Zeile aus dem File zurück, 
+    		// da diese den gesuchten Pfad repräsentiert
+    		// später mit tags die einzelnen Variablen beschreiben, 
+    		// die dann vernünftig geparst werden!
+    		ifstream file(filename.c_str());
+    		string line;
+    		while(getline(file, line))
+    		{
+    			if(line.length() > 0)
+    			{
+    				file.close();
+    				return line;
+    			}
+    		}
+    		file.close();
+    	}
+        
+        // alles war erfolglos, also gehen wir mal vom aktuellen Verzeichnis
+        // aus
+        return ".";
     }
 
+	//Später die gesamten ausgeschriebenen Pfade durch das Install-
+	//prefix welches vom configure script gesetzt wird ersetzen
     string ConfigurationManagerLinux::findRastullahConf()
     {
-        char line[255];
-        ifstream config;
         // Erstmal im Homeverzeichnis suchen.
-        string home = ::getenv("HOME");
-        string path = home + "/.rastullah.cfg";
-        config.open(path.c_str());
-        if (!config.is_open())
-        {
-            // Wir schliessen die Datei sicherheitshalber und
-            // setzen den Zustand zurück (wichtig!)
-            config.close();
-            config.clear();
-            // Jetzt schauen wir mal, ob in etc was zu finden ist.
-            path = "/etc/rl/rastullah.cfg";
-            config.open(path.c_str());
-        }
-        // Haben  wir jetzt eine Datei?
-        if (config.is_open())
-        {
-            config.close();
-            return path;
-        }
-        return home + "/.rastullah.cfg";
+        // getenv(home) nicht ungefährlich...
+        string filename = string(::getenv("HOME")) + "/.rastullah.cfg";
+        
+        //wenn die Datei existiert ist das unsere favorisierte Wahl
+        if(checkForFile(filename)) return filename;
+       
+        // Als nächstes schauen wir mal ob in /etc/rl eine standard
+        // config vorhanden ist
+        filename = "/etc/rl/rastullah.cfg";
+        if(checkForFile(filename)) return filename;
+        
+        // /usr/local/share/rl und /usr/share/rl wären noch Kandidaten
+        filename = "/usr/local/share/rl/rastullah.cfg";
+        if(checkForFile(filename)) return filename;
+        
+        filename = "/usr/share/rl/rastullah.cfg";
+        if(checkForFile(filename)) return filename;
+        
+        //nix gefunden...
+        return "";
+    }
+    
+    bool ConfigurationManagerLinux::checkForFile(const std::string& filename)
+    {
+    	ifstream file(filename.c_str());
+    	bool retval = file.is_open();
+    	if(retval) file.close();
+    	return retval;
     }
 }

@@ -34,6 +34,8 @@
 #include "ConfigurationManager.h"
 #include <ctime>
 
+#include <iostream>
+
 
 template<> rl::CoreSubsystem* Singleton<rl::CoreSubsystem>::ms_Singleton = 0;
 
@@ -52,8 +54,7 @@ namespace rl {
     CoreSubsystem::CoreSubsystem()
         : 	mWorld(NULL),
         mInterpreter(NULL),
-        mActiveModule(""),
-        mRootDir(".")
+        mActiveModule("")
     {
         resetClock();
         initializeCoreSubsystem();        
@@ -97,7 +98,8 @@ namespace rl {
             || Root::getSingleton().showConfigDialog())
         {
             // If returned true, user clicked OK so initialise
-            // Here we choose to let the system create a default rendering window by passing 'true'
+            // Here we choose to let the system create a default rendering 
+            // window by passing 'true'
             Root::getSingleton().initialise(true);
             return true;
         }
@@ -154,8 +156,10 @@ namespace rl {
         //		new ResourceGroupManager();
         new XmlResourceManager();
 
-        addCommonSearchPath(mRootDir);
-        addCommonSearchPath(mRootDir+"/modules");
+        addCommonSearchPath(ConfigurationManager::getSingleton().
+        	getModulesRootDirectory());
+        addCommonSearchPath(ConfigurationManager::getSingleton().
+        	getModulesRootDirectory() + "/modules");
 
         // Load resource paths from config file
         ConfigFile cf;
@@ -189,7 +193,8 @@ namespace rl {
 
     void CoreSubsystem::initializeModuleTextures(const std::string& module)
     {
-        std::string moduleDir = mRootDir+"/modules/"+module;
+        std::string moduleDir = ConfigurationManager::getSingleton().
+        	getModulesRootDirectory() + "/modules/" + module;
         ConfigFile cf;
         cf.load(ConfigurationManager::getSingleton().getModuleconfigCfgPath(
         	module));
@@ -202,36 +207,41 @@ namespace rl {
             value = i.getNext();
 
             if (key.compare("TextureArchive") == 0)
-                ResourceGroupManager::getSingleton().addResourceLocation(moduleDir+"/materials/"+value, "Zip");
+                ResourceGroupManager::getSingleton().addResourceLocation(
+                	moduleDir + "/materials/" + value, "Zip");
             else if (key.compare("TextureDir") == 0)
-                ResourceGroupManager::getSingleton().addResourceLocation(moduleDir+"/materials/"+value, "FileSystem");
+                ResourceGroupManager::getSingleton().addResourceLocation(
+                	moduleDir + "/materials/" + value, "FileSystem");
             else if (key.compare("Archive") == 0)
-                ResourceGroupManager::getSingleton().addResourceLocation(moduleDir+"/"+value, "Zip");
+                ResourceGroupManager::getSingleton().addResourceLocation(
+                	moduleDir + "/" + value, "Zip");
         }
         addCommonSearchPath(moduleDir+"/materials");
     }
 
     void CoreSubsystem::initializeModule(const std::string& module)
     {
-        std::string moduleDir = mRootDir+"/modules/"+module;
+        std::string moduleDir = ConfigurationManager::getSingleton().
+        	getModulesRootDirectory() + "/modules/" + module;
 
-        addCommonSearchPath(moduleDir+"/conf");
-        addCommonSearchPath(moduleDir+"/dsa");
-        addCommonSearchPath(moduleDir+"/maps");
-        addCommonSearchPath(moduleDir+"/models");
-        addCommonSearchPath(moduleDir+"/sound");
-        addCommonSearchPath(moduleDir+"/gui");
-        addCommonSearchPath(moduleDir+"/gui/fonts");
-        addCommonSearchPath(moduleDir+"/gui/imagesets");
-        addCommonSearchPath(moduleDir+"/gui/schemes");
-        addCommonSearchPath(moduleDir+"/gui/windows");
-        addCommonSearchPath(moduleDir+"/gui/windows/buttons");
-        addCommonSearchPath(moduleDir+"/dialogs");     
+        addCommonSearchPath(moduleDir + "/conf");
+        addCommonSearchPath(moduleDir + "/dsa");
+        addCommonSearchPath(moduleDir + "/maps");
+        addCommonSearchPath(moduleDir + "/models");
+        addCommonSearchPath(moduleDir + "/sound");
+        addCommonSearchPath(moduleDir + "/gui");
+        addCommonSearchPath(moduleDir + "/gui/fonts");
+        addCommonSearchPath(moduleDir + "/gui/imagesets");
+        addCommonSearchPath(moduleDir + "/gui/schemes");
+        addCommonSearchPath(moduleDir + "/gui/windows");
+        addCommonSearchPath(moduleDir + "/gui/windows/buttons");
+        addCommonSearchPath(moduleDir + "/dialogs");     
 
         if (getInterpreter() != NULL)
         {
-            getInterpreter()->addSearchPath(moduleDir+"/scripts");
-            getInterpreter()->addSearchPath(moduleDir+"/scripts/maps");
+            getInterpreter()->addSearchPath(moduleDir + "/scripts");
+            std::cerr << "Broeni: " << moduleDir + "/scripts" << std::endl;
+            getInterpreter()->addSearchPath(moduleDir + "/scripts/maps");
         }
     }
 
@@ -239,7 +249,8 @@ namespace rl {
     {
         try 
         {
-            ResourceGroupManager::getSingleton().addResourceLocation(path, "FileSystem");
+            ResourceGroupManager::getSingleton().addResourceLocation(path, 
+            	"FileSystem");
         } 
         catch(...) 
         {} // and forget
@@ -308,7 +319,8 @@ namespace rl {
         return mActivatableModules;
     }
 
-    void CoreSubsystem::loadMap(const String type, const String filename, const String startupScript)
+    void CoreSubsystem::loadMap(const String type, const String filename, 
+    	const String startupScript)
     {
         /*if (type.compare("BSP") == 0)
         mWorld = new BSPWorld( );
@@ -325,7 +337,8 @@ namespace rl {
 
         mWorld->loadScene(filename);
         if (startupScript.length() > 0)
-            getInterpreter()->execute(String("load '") + startupScript + String("'"));
+            getInterpreter()->execute(String("load '") + startupScript + 
+            	String("'"));
 
         GameLoopManager::getSingleton().setPaused(false);
     }
@@ -345,6 +358,7 @@ namespace rl {
         timeval timebuffer;
         gettimeofday(&timebuffer, NULL);
 
-        return static_cast<RL_LONGLONG>(timebuffer.tv_sec) * 1000L + static_cast<RL_LONGLONG>(timebuffer.tv_usec/1000);
+        return static_cast<RL_LONGLONG>(timebuffer.tv_sec) * 1000L + 
+        	static_cast<RL_LONGLONG>(timebuffer.tv_usec / 1000);
     }
 }
