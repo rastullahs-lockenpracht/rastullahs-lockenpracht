@@ -29,6 +29,7 @@
 #include "ListenerActor.h"
 #include "PhysicalThing.h"
 #include "PhysicsManager.h"
+#include "RlAnimation.h"
 #include "GameLoop.h"
 #include <OgreRoot.h>
 #include <OgreLight.h>

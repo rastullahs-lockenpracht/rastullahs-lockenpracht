@@ -70,20 +70,44 @@ private:
 	BSPWorld();
 };
 
+class RlAnimation {
+public:
+	bool isPaused() const;
+    void setPaused( bool isPaused );
 
-/*class TrackController: public ActorController
+	// Möglichkeit die globale SlowMotion zu umgehen
+	// Nützlich für Statusanzeigen, oder ähnliche konstante Animationen
+	// TODO Eventuell das ganze auf Flags erweitern
+	bool isIgnoringGlobalSpeed() const;
+	void setIgnoringGlobalSpeed( bool isIgnoringGlobalSpeed );
+
+	// Regelbare Geschwindigkeit
+	Real getSpeed() const;
+	void setSpeed( Real speed );
+	void reverseAnimation();
+
+	// Regelbare Wiederholungsanzahl
+	void setTimesToPlay(unsigned int timesToPlay);
+	unsigned int getTimesPlayed() const;
+	void resetTimesPlayed();
+	unsigned int getTimesToPlay() const;
+	unsigned int getTimesToPlayLeft() const;
+	Real getTimePlayed() const;
+
+	// Gewicht (Einfluss) der RlAnimation
+	Real getWeight(void) const;
+    void setWeight(Real weight);
+private:
+	RlAnimation(  );
+};
+
+/*class TrackAnimation: public RlAnimation
 {
 public:
 	enum InterpolationMode { IM_LINEAR, IM_SPLINE };
 
-	TrackController(  );
-	TrackController( rl::Actor* pActor );
-
-	virtual ~TrackController();
-		
-    void setControlledActor( rl::Actor* controlledActor );
-
-	void act(Real timePassed);
+	TrackAnimation(  );
+	virtual ~TrackAnimation();
 
     void createAnimation( const String& name, int length );
     void addAnimationKeyFrame( Real timePos );
@@ -92,9 +116,6 @@ public:
     void setScaleKeyFrame( Real timePos, Real xScale, Real yScale, Real zScale );
 
 	void setInterpolationMode( InterpolationMode im );
-
-    void startAnimation();
-    void stopAnimation();
 };*/
 
 class Actor {
@@ -124,8 +145,9 @@ class MeshActor : virtual public Actor{
 public:
 	void setScale( Real x, Real y, Real z );
 	
-	void startAnimation(const char* anim);
+	RlAnimation* startAnimation(const char* anim, Real speed=1.0, unsigned int timesToPlay=0);
 	void stopAnimation(const char* anim);
+	RlAnimation* getAnimation(const char* anim) const;
 	
 	%rename(attachActorToNamedBone) attachActorToBone(Actor* actor, String name);
 	void attachActorToBone( Actor* actor, String name );
