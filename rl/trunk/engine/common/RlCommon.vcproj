@@ -73,7 +73,7 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Dependencies\include"
+				AdditionalIncludeDirectories=".\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Dependencies\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;RLCOMMON_EXPORTS"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
