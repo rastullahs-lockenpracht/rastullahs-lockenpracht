@@ -230,6 +230,7 @@ namespace MapConverter
              {
                 String* mapFile =  txtBoxMapFile->get_Text();
                 String* wadDir = txtBoxWadDir->get_Text();
+                String* wadString = "";
 
                 if( System::IO::File::Exists( mapFile ) )
                 {
@@ -247,6 +248,15 @@ namespace MapConverter
                         try
                         {
                             mapLoader->LoadMAPFile(mapFile,world,textureManager);
+
+
+                            if( world->GetWADString(&wadString) )
+                            {
+                                textureManager->LoadTextures(wadString, wadDir );                                
+                            }
+
+                            world->UpdateTexCoords(textureManager);
+
 
                             ArrayList* alist = world->GetEntities();
 
