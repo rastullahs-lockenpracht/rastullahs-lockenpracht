@@ -199,25 +199,37 @@ namespace rl
                 {
                     offset = Vector3(0.0, (size.y - 2.0 * radius) / 2.0 + radius, 0.0);
                 }
-                
+
                 geom = new CapsuleGeometry(radius, height,
                     density > 0.0 ? mGlobalSpace : 0);
 
-                ///@todo verallgemeinern.
-                orientationBias = Quaternion(Degree(90), Vector3::UNIT_X);
+                orientationBias = Quaternion(Degree(90), Vector3::UNIT_X); //UNIT_X
                 if (density > 0.0)
                 {
                     // Objekt hat eine Masse, also einen Body verpassen.
                     OgreOde::Body* body = new OgreOde::Body();
-                    OgreOde::CapsuleMass mass(1.0, radius, Vector3::UNIT_Y, height);
-                    mass.setDensity(density, radius, Vector3::UNIT_Y, height);
+                    OgreOde::CapsuleMass mass(1.0, radius, Vector3::UNIT_Y, height);//Y
+                    mass.setDensity(density, radius, Vector3::UNIT_Y, height);//Y
                     body->setMass(mass);
                 }
             }
 
+            // Falls es ein Körper ist, können wir die Ursprungsänderung
+            // nicht per offset regeln, sondern nehmen eine TransformGeometry
             if (body)
             {
+                TransformGeometry* trans = new TransformGeometry(mGlobalSpace);
+                geom->setPosition(offset);
+                geom->setOrientation(orientationBias);
+                trans->setEncapsulatedGeometry(geom);
+                
+                geom = trans;
                 geom->setBody(body);
+               
+                // Offset und bias werden schon von der TransformGeom geregelt
+                // deshalb diese zurücksetzen.
+                offset = Vector3::ZERO;
+                orientationBias = Quaternion::IDENTITY;
             }
 
             rval = new PhysicalThing(geom, offset, orientationBias);

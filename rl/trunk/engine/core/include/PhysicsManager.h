@@ -66,6 +66,10 @@ namespace rl {
          * @param size Größe des Objektes in cm
          * @param density die Dichte, wenn <= 0.0, dann wird keine Physik
          *        dafür erstellt, sondern nur Geometry für die Kollision.
+         * @param offsetMode bestimmt, wo der lokale Koordinatenursprung sitzt.
+         *
+         * @todo Geometry-Kapselung verallgemeinern. z.B. funktioniert Capusle
+         *       momentan nur dann gut, wenn die Höhe die Y-Achse ist.
          */
         PhysicalThing* createPhysicalThing(const int geomType, const Ogre::Vector3& size,
             Real density, OffsetMode offsetMode = OM_BOTTOMCENTERED);
@@ -84,19 +88,19 @@ namespace rl {
 
         void createLevelGeometry(Ogre::SceneNode* levelNode);
         OgreOde::Geometry* getLevelGeometry();
-        
+
         void setEnabled(bool enabled);
 
         // Singleton Stuff
         static PhysicsManager & getSingleton(void);
         static PhysicsManager * getSingletonPtr(void);
-        
+
         void addCollisionListener(OgreOde::CollisionListener*);
         void removeCollisionListener(OgreOde::CollisionListener*);
 
 		/// CollisionListener callback
 		virtual bool collision(OgreOde::Contact* contact);
-		
+
         /// StepListener callback
         virtual bool preStep(Real time);
     private:
