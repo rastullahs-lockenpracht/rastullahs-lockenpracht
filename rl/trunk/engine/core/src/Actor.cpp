@@ -202,6 +202,30 @@ namespace rl {
         }
     }
 
+    const Vector3& Actor::getWorldPosition(void)
+    {
+        if (mSceneNode)
+        {
+            return mSceneNode->getWorldPosition();
+        }
+        else
+        {
+            Throw(IllegalStateException, "Actor is not placed into scene.");
+        }
+    }
+
+    const Quaternion& Actor::getWorldOrientation(void)
+    {
+        if (mSceneNode)
+        {
+            return mSceneNode->getWorldOrientation();
+        }
+        else
+        {
+            Throw(IllegalStateException, "Actor is not placed into scene.");
+        }
+    }
+
     void Actor::placeIntoScene(const Vector3& position,
         const Quaternion& orientation)
     {
@@ -364,5 +388,25 @@ namespace rl {
 		mHighlighted = highlight;
 	}
 	
+    bool Actor::isHighlighted()const
+    {
+        return mHighlighted;
+    }
 
+    Actor* Actor::getChildByName(const String& name ) const
+    {
+        std::set<Actor*>::const_iterator iter =  mChilds.begin();
+
+        for( iter; iter != mChilds.end(); iter++ )
+        {
+            Actor* actor = *iter;
+            
+            if( actor->getName().compare( name ) == 0 )
+                return actor;
+            if( ( actor = actor->getChildByName(name) ) != NULL )
+                return actor;
+        }
+
+        return NULL;
+    }
 }

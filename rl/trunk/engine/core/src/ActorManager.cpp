@@ -115,14 +115,14 @@ namespace rl {
         return actor;
 	}
 
-    Actor* ActorManager::createSoundActor(const String& name)
+    Actor* ActorManager::createSoundActor(const String& name, const String& soundfile)
     {
         const String&  uniquename = nextUniqueName(name);
 
         Actor* actor = 0;
         try
         {
-            SoundMovable* sm = new SoundMovable(name);
+            SoundMovable* sm = new SoundMovable(soundfile);
             SoundObject* so = new SoundObject(sm);
 
             actor = new Actor(uniquename, so);

@@ -78,6 +78,11 @@ static swig_type_info *ActorControlledObject_dynamic_cast(void **ptr)
         *ptr=reinterpret_cast<void*>(pParticleSystemObject);
         return SWIGTYPE_p_rl__ParticleSystemObject;
     }
+    rl::SoundObject *pSoundObject=dynamic_cast<rl::SoundObject*>(*ppActorControlledObject);
+    if (pSoundObject) {
+        *ptr=reinterpret_cast<void*>(pSoundObject);
+        return SWIGTYPE_p_rl__SoundObject;
+    }
     return 0;
 }
 %}
@@ -90,7 +95,7 @@ private:
 public:
 	static ActorManager& getSingleton(void);
 
-    rl::Actor* createSoundActor(const std::string& name);
+    rl::Actor* createSoundActor(const std::string& name, const String& soundfile);
     rl::Actor* createLightActor(const std::string& name, rl::LightObject::LightTypes type );
 	rl::Actor* createMeshActor(const std::string& name, const std::string& meshname,
 		    rl::PhysicsManager::GeometryTypes geom = rl::PhysicsManager::GT_NONE,
@@ -192,6 +197,7 @@ public:
 	void addKeyFrame( Real timePos );
     void setKeyFrameTranslation( Real timePos, Real xPos, Real yPos, Real zPos );
     void setKeyFrameRotation( Real timePos, Real xRotAxis, Real yRotAxis, Real zRotAxis, Real angleUnits );
+    void setKeyFrameRotationQuaternion( Real timePos, Real w, Real x, Real y, Real z );
     void setKeyFrameScale( Real timePos, Real xScale, Real yScale, Real zScale );
 
 	void setInterpolationMode( rl::AnimationManager::InterpolationMode im );
@@ -279,7 +285,7 @@ public:
 class SoundObject : public ActorControlledObject
 {
 public:
-	rl::SoundMovable* getSound();
+	 void play( unsigned int msec = 0 );
 };
 
 class ParticleSystemObject : public ActorControlledObject
@@ -300,6 +306,9 @@ private:
 	Actor(const std::string& name);
 public:	
 	const Vector3& getPosition(void);
+	const Quaternion& getOrientation(void);
+	const Vector3& getWorldPosition(void);
+	const Quaternion& getWorldOrientation(void);
     void setPosition(Real x, Real y, Real z);
     
     ActorControlledObject* getControlledObject();
@@ -312,6 +321,8 @@ public:
 		const Ogre::Quaternion &offsetOrientation=Ogre::Quaternion::IDENTITY, 
 		const Ogre::Vector3 &offsetPosition=Ogre::Vector3::ZERO);
     void detach(Actor* actor);
+    
+    Actor* getChildByName(const std::string& name ) const;
        
 	void roll(Real angleunits);
 	void pitch(Real angleunits);

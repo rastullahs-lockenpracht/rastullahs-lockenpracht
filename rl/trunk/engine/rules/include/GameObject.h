@@ -91,6 +91,9 @@ namespace rl
 
 		typedef std::vector<std::pair<Action*, int> > ActionOptionVector;
 
+        /// Soll der Aktor überhaupt leuchten?
+        bool isHigligthingEnabled();
+        void setHigligthingEnabled( bool highlightenabled );
 	private:
         ActionOptionVector mActions;
 		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const CeGuiString& actionName);
@@ -103,6 +106,10 @@ namespace rl
         int mId;
         CeGuiString mName;
         CeGuiString mDescription;
+
+
+        /// Soll das GameObject überhaupt leuchten?
+        bool mHighlightingEnabled;
     };
 }
 

@@ -47,7 +47,8 @@ namespace rl {
         /// Wie ActorControlledObject::getMovableObject()
         /// Nur schon gebrauchsfertig gecastet.
         SoundMovable* getSound();
-        
+        void play(unsigned int msec = 0);
+
         virtual Ogre::String getObjectType();
 
 		virtual bool isMeshObject();

@@ -245,17 +245,100 @@
    $1 = vector;
 }
 
+%typemap(in) Vector3
+{
+   Check_Type($input, T_ARRAY);
+   Quaternion quat(0.0, 0.0, 0.0, 0.0);
+   int length = RARRAY($input)->len;
+   VALUE* it = RARRAY($input)->ptr;
+   if (length > 0) {
+      Check_Type(*it, T_FLOAT);
+      quat.w = RFLOAT(*it)->value;
+      it++;
+   }
+   if (length > 1) {
+      Check_Type(*it, T_FLOAT);
+      quat.x = RFLOAT(*it)->value;
+      it++;
+   }
+   if (length > 2) {
+      Check_Type(*it, T_FLOAT);
+      quat.y = RFLOAT(*it)->value;
+      it++;
+   }
+   if (length > 3) {
+      Check_Type(*it, T_FLOAT);
+      quat.z = RFLOAT(*it)->value;
+   }
+   $1 = vector;
+}
+
+%typemap(in) Quaternion*, Quaternion&,
+   const Quaternion*, const Quaternion&
+{
+   Check_Type($input, T_ARRAY);
+   Quaternion* quat = new Quaternion(0.0, 0.0, 0.0, 0.0);
+   int length = RARRAY($input)->len;
+   VALUE* it = RARRAY($input)->ptr;
+   if (length > 0) {
+      Check_Type(*it, T_FLOAT);
+      quat->w = RFLOAT(*it)->value;
+      it++;
+   }
+   if (length > 1) {
+      Check_Type(*it, T_FLOAT);
+      quat->x = RFLOAT(*it)->value;
+      it++;
+   }
+   if (length > 2) {
+      Check_Type(*it, T_FLOAT);
+      quat->y = RFLOAT(*it)->value;
+      it++;
+   }
+   if (length > 3) {
+      Check_Type(*it, T_FLOAT);
+      quat->z = RFLOAT(*it)->value;
+   }
+   $1 = vector;
+}
+
 /* OUT Typemaps fuer Tripel<int>.
  * Ein Tripel wird einfach auf ein dreielementiges Array abgebildet.
  * 
  */
-%typemap(out) Vector3 {
+%typemap(out) Vector3, const Vector3 {
    VALUE array = rb_ary_new();
    rb_ary_push(array, rb_float_new($1.x));
    rb_ary_push(array, rb_float_new($1.y));
    rb_ary_push(array, rb_float_new($1.z));
    $result = array;
 }
+
+%typemap(out) Vector3*, const Vector3*, const Vector3&, Vector& {
+   VALUE array = rb_ary_new();
+   rb_ary_push(array, rb_float_new($1->x));
+   rb_ary_push(array, rb_float_new($1->y));
+   rb_ary_push(array, rb_float_new($1->z));
+   $result = array;
+} 
+
+%typemap(out) Quaternion, const Quaternion {
+   VALUE array = rb_ary_new();
+   rb_ary_push(array, rb_float_new($1.w));
+   rb_ary_push(array, rb_float_new($1.x));
+   rb_ary_push(array, rb_float_new($1.y));
+   rb_ary_push(array, rb_float_new($1.z));
+   $result = array;
+}
+
+%typemap(out) Quaternion*, const Quaternion*, const Quaternion&, Quaternion& {
+   VALUE array = rb_ary_new();
+   rb_ary_push(array, rb_float_new($1->w));
+   rb_ary_push(array, rb_float_new($1->x));
+   rb_ary_push(array, rb_float_new($1->y));
+   rb_ary_push(array, rb_float_new($1->z));
+   $result = array;
+} 
 
 %typemap(ruby, freearg) rl::CeGuiStringVector &, const rl::CeGuiStringVector & {
   delete $1;

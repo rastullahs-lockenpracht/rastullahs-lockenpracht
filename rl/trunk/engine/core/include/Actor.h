@@ -59,13 +59,15 @@ namespace rl {
 
         /// Gets the current position of this object.
         const Ogre::Vector3& getPosition(void);
-        
+        const Ogre::Vector3& getWorldPosition(void);
+
         /// Sets the position of this object.
         void setPosition(const Ogre::Vector3& vec);
         void setPosition(Ogre::Real x, Ogre::Real y, Ogre::Real z);
 
         /// Gets the current orientation of this object.
         const Ogre::Quaternion& getOrientation(void);
+        const Ogre::Quaternion& getWorldOrientation(void);
 
         /// Sets the orientation of this object.
         void setOrientation(const Ogre::Quaternion& orientation);
@@ -89,6 +91,11 @@ namespace rl {
             const Ogre::String& childSlot = "SLOT_DEFAULT",
 			const Ogre::Quaternion &offsetOrientation=Ogre::Quaternion::IDENTITY, 
 			const Ogre::Vector3 &offsetPosition=Ogre::Vector3::ZERO);
+        /*void attach(const Ogre::String& slot, Actor* actor,
+            const Ogre::String& childSlot = "SLOT_DEFAULT",
+            const Ogre::Vector3 &offsetAxis=Ogre::Vector3::UNIT_X,
+            const Ogre::Radian &offsetRotation,
+			const Ogre::Vector3 &offsetPosition=Ogre::Vector3::ZERO);*/
         void detach(Actor* actor);
         
         Ogre::SceneNode* _getSceneNode();
@@ -99,10 +106,11 @@ namespace rl {
             const Ogre::Quaternion& orientation = Ogre::Quaternion::IDENTITY);
 
 		void setHighlighted(bool highlight);
+        bool isHighlighted() const;
         
-        ///@todo Query-Methoden für Childs
+        ///@todo mehr Query-Methoden für Childs
+        Actor* getChildByName(const Ogre::String& name ) const;
         ///@todo Visibility
-
     protected:
         typedef std::set<Actor*> ChildSet;
         Ogre::String mName;
@@ -121,7 +129,10 @@ namespace rl {
         /// Argmumente wie placeIntoScene
         virtual void placeChildsIntoScene(const Ogre::Vector3& position,
             const Ogre::Quaternion& orientation);
+
+
 	private:
+        /// Speichert ob der Aktor zur Zeit leuchtet
 		bool mHighlighted;
     };
 }

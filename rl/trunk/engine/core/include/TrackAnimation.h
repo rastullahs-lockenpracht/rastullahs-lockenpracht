@@ -70,6 +70,9 @@ public:
     void setKeyFrameRotation( Ogre::Real timePos,
         Ogre::Real xRotAxis, Ogre::Real yRotAxis, Ogre::Real zRotAxis,
         Ogre::Real angleUnits );
+    void setKeyFrameRotationQuaternion( Ogre::Real timePos,
+        Ogre::Real w, Ogre::Real x, Ogre::Real y, Ogre::Real z );
+
 	/** Setzt die Skalierung bei einem KeyFrame
 		@param	timePos	Die ZeitPosition des KeyFrames
 		@param	xScale	Die x-Skalierung

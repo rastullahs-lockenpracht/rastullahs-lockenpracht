@@ -546,8 +546,12 @@ namespace rl {
 			if (mTargetedObject != NULL && a != mTargetedObject->getActor())
 				mTargetedObject->getActor()->setHighlighted(false);
 
-			a->setHighlighted(true);
-	        mTargetedObject = reinterpret_cast<GameObject*>(a->getGameObject());
+            // Nur ein Highlight wenn es auch ein dazugehöriges GameObbject gibt
+            if( a->getGameObject() != NULL )
+            {
+			    a->setHighlighted(true);
+                mTargetedObject = reinterpret_cast<GameObject*>(a->getGameObject());
+            }
 		}
 		else
 		{

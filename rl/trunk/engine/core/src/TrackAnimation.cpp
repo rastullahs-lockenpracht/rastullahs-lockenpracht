@@ -59,6 +59,13 @@ void TrackAnimation::setKeyFrameTranslation( Ogre::Real timePos, Ogre::Real xPos
 		frame->setTranslate(Ogre::Vector3(xPos,yPos,zPos));
 }
 
+void TrackAnimation::setKeyFrameRotationQuaternion( Ogre::Real timePos,
+        Ogre::Real w, Ogre::Real x, Ogre::Real y, Ogre::Real z )
+{
+	if( frame != 0 )
+		frame->setRotation( Ogre::Quaternion( w, x, y, z ) );
+}
+
 void TrackAnimation::setKeyFrameRotation( Ogre::Real timePos, Ogre::Real xRotAxis, Ogre::Real yRotAxis, Ogre::Real zRotAxis, Ogre::Real angleUnits )
 {
 	Ogre::KeyFrame* frame = getKeyFrameAtTimePos( timePos );

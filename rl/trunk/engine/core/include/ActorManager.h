@@ -41,7 +41,7 @@ class _RlCoreExport ActorManager : protected Singleton<ActorManager>
         Actor* getActor(const String& name);
 
         Actor* createLightActor(const String& name, rl::LightObject::LightTypes type );
-        Actor* createSoundActor(const String& name);
+        Actor* createSoundActor(const String& name, const String& soundfile );
         Actor* createListenerActor(const String& name);
         Actor* createCameraActor(const String& name);
    	    Actor* createMeshActor(const String& name,const String& meshname,

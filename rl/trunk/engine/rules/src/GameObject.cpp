@@ -186,4 +186,20 @@ namespace rl
 		return mActor;
 	}
 
+
+    bool GameObject::isHigligthingEnabled()
+    {
+        return mHighlightingEnabled;
+    }
+    
+    void GameObject::setHigligthingEnabled( bool highlightenabled )
+    {
+        // Leuchtet zur Zeit, sollte aber nicht leuchten
+        if( mActor != NULL && !highlightenabled && mActor->isHighlighted() )
+        {
+            mActor->setHighlighted( false );
+        }
+
+        mHighlightingEnabled = highlightenabled;
+    }
 }

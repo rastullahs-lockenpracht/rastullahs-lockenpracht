@@ -77,11 +77,4 @@ namespace rl {
     	static const unsigned int STARTEVENT = 12;
     	static const unsigned int STOPEVENT = 13;
     };
-    
-    class SoundMovable {
-    	SoundMovable(const Ogre::String &name);
-    	~SoundMovable();
-    	SoundResourcePtr SoundMovable::getSound() const;
-    };
-
 }

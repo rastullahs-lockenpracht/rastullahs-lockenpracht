@@ -80,6 +80,12 @@ void SoundObject::_update()
     sound->setDirection(*temp1);
 }
 
+void SoundObject::play( unsigned int msec )
+{
+    getSound()->play();
+}
+
+
 /**
  * @param Der bewegbare Sound
  * @author JoSch
