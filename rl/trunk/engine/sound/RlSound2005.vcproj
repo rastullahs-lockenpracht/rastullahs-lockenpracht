@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreMain\Dependencies\include;..\..\dependencies\openal\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenThreads\include;..\..\Dependencies\cegui\include;..\..\dependencies\vorbis\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreMain\Dependencies\include;..\..\dependencies\openal\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenThreads\include;..\..\Dependencies\cegui\include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include"
 				PreprocessorDefinitions="_WINDOWS;WIN32;RLSOUND_EXPORTS;_DEBUG;LIBOPENAL;HAVE_LIBOPENAL"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="3"
@@ -68,11 +68,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies=" OpenThreadsWin32d.lib ALut.lib OpenAl32.lib msvcrt-ruby18.lib OgreMain_d.lib vorbisfile_d.lib"
+				AdditionalDependencies="OpenThreadsWin32d.lib ALut.lib OpenAl32.lib msvcrt-ruby18.lib OgreMain_d.lib vorbisfile_d.lib"
 				OutputFile="$(OutDir)/RlSound.dll"
 				LinkIncremental="0"
 				SuppressStartupBanner="FALSE"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\openthreads\lib\win32;..\..\dependencies\OpenAL\libs;..\..\dependencies\boost\libs;..\..\dependencies\vorbis\lib"
+				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\openthreads\lib\win32;..\..\dependencies\OpenAL\libs;..\..\dependencies\boost\lib;..\..\dependencies\vorbis\lib"
 				GenerateDebugInformation="TRUE"
 				AssemblyDebug="1"
 				ProgramDatabaseFile="./lib/$(ConfigurationName)/$(ProjectName).pdb"
@@ -132,7 +132,7 @@
 				GlobalOptimizations="TRUE"
 				EnableIntrinsicFunctions="TRUE"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreMain\Dependencies\include;..\..\dependencies\openalpp\include;..\..\dependencies\openal\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenThreads\include;..\..\Dependencies\cegui\include;..\..\dependencies\vorbis\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreMain\Dependencies\include;..\..\dependencies\openalpp\include;..\..\dependencies\openal\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenThreads\include;..\..\Dependencies\cegui\include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include"
 				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32;RLSOUND_EXPORTS;LIBOPENAL;HAVE_LIBOPENAL"
 				MinimalRebuild="FALSE"
 				RuntimeLibrary="2"
@@ -156,11 +156,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msvcrt-ruby18.lib OgreMain.lib OpenThreadsWin32.lib ALut.lib OpenAl32.lib  vorbisfile.lib"
+				AdditionalDependencies="msvcrt-ruby18.lib OgreMain.lib OpenThreadsWin32.lib ALut.lib OpenAl32.lib vorbisfile.lib"
 				OutputFile="$(OutDir)/RlSound.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="FALSE"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\OpenAL\libs;..\..\dependencies\openalpp\lib;..\..\dependencies\ruby\lib;..\..\dependencies\openthreads\lib\win32;..\..\dependencies\boost\libs;..\..\dependencies\vorbis\lib"
+				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\OpenAL\libs;..\..\dependencies\openalpp\lib;..\..\dependencies\ruby\lib;..\..\dependencies\openthreads\lib\win32;..\..\dependencies\boost\lib;..\..\dependencies\vorbis\lib"
 				GenerateDebugInformation="FALSE"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -285,7 +285,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="[SWIG] Rubydateien erzeugen."
-						CommandLine="..\..\dependencies\swig\swig.exe -c++ -ruby -minherit -v -Wall &quot;$(InputPath)&quot;"
+						CommandLine="..\..\dependencies\swig\swig.exe -c++ -ruby -minherit -v -Wall &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="swig\$(InputFileName).i"
 						Outputs="swig\$(InputFileName)_wrap.cxx"
 					/>
@@ -296,7 +296,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="[SWIG] Rubydateien erzeugen."
-						CommandLine="..\..\dependencies\swig\swig.exe -c++ -ruby -minherit -v -Wall &quot;$(InputPath)&quot;"
+						CommandLine="..\..\dependencies\swig\swig.exe -c++ -ruby -minherit -v -Wall &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="swig\$(InputFileName).i"
 						Outputs="swig\$(InputFileName)_wrap.cxx"
 					/>

@@ -1,7 +1,9 @@
 #ifndef __DialogWindow_H__
 #define __DialogWindow_H__
 
+#include "NaturalLanguageProcessor.h"
 #include "UiPrerequisites.h"
+
 
 #include <string>
 #include <vector>
@@ -14,9 +16,10 @@ namespace rl {
 	class _RlUiExport DialogWindow : public CeGuiWindow
 	{
 	public:
-		DialogWindow();
+		DialogWindow(string dialogFile);
 		~DialogWindow();
 
+		void getResponse(std::string msg);
 		void addLine(std::string text);
 		void removeLine(int num);
 		unsigned int count();
@@ -31,9 +34,11 @@ namespace rl {
 	private:
 		std::map<std::string, std::string> mVariableValues;
 		std::vector<std::string> mTextLines;
+		std::map<int,std::string> mResponses;
+		NaturalLanguageProcessor* mNlp;
 		CEGUI::Listbox* mDialogOptions;
 		CEGUI::StaticImage* mImage;
-		CEGUI::StaticText* mQuestion;
+		CEGUI::MultiLineEditbox* mQuestion;
 		CEGUI::StaticText* mName;
 				
 		void updateValues();

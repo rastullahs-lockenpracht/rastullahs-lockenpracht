@@ -103,5 +103,10 @@ MultiColumnList* CeGuiWindow::getMultiColumnList(const char* name)
 	return reinterpret_cast<MultiColumnList*>(getWindow(name));
 }
 
+MultiLineEditbox* CeGuiWindow::getMultiLineEditbox(const char* name)
+{
+	return reinterpret_cast<MultiLineEditbox*>(getWindow(name));
+}
+
 }
 

@@ -31,13 +31,11 @@ namespace rl {
 		return Singleton<InputManager>::getSingletonPtr();
 	}
 
-	InputManager::InputManager(void)
+	InputManager::InputManager(void):mEventInitialized(false)
 	{
 		switchMouseToUnbuffered();
-		
 		mEventProcessor = new EventProcessor();
 		GameLoop::getSingleton().addSynchronizedTask(this);
-
 		for(int i=0; i<NUM_KEYS; i++)
 			mKeyDown[i] = false;
 
@@ -280,11 +278,9 @@ namespace rl {
 		 mBuffered = false;
 
 
-
 		// Check to see if even has been initialized
 
 		if (mEventInitialized) {
-
 			// Stop buffering events
 
 		//	mEventProcessor->stopProcessingEvents();
@@ -297,18 +293,12 @@ namespace rl {
 
 		}
 
-
-
 		mEventQueue.activateEventQueue(true);
 
 		mInputReader = Ogre::PlatformManager::getSingleton().createInputReader();
-
 		mInputReader->useBufferedInput(&mEventQueue, true, false);
-
 		mInputReader->setBufferedInput(true, false);
-
 		mInputReader->initialise(Ogre::Root::getSingleton().getAutoCreatedWindow(), true, true);
-
 		mInputInitialized = true; 
 	}
 

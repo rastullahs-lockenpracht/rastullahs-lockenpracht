@@ -16,6 +16,7 @@ namespace rl {
 		static CEGUI::StaticText* getStaticText(const char* name);
 		static CEGUI::StaticImage* getStaticImage(const char* name);
 		static CEGUI::MultiColumnList* getMultiColumnList(const char* name);
+		static CEGUI::MultiLineEditbox* getMultiLineEditbox(const char* name);
 
 		static void addToRoot(CEGUI::Window* window);
 

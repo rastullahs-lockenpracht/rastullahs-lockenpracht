@@ -1,4 +1,6 @@
+#include "DialogWindow.h"
 #include <CEGUI.h>
+
 #include <renderers/OgreGUIRenderer/ogrerenderer.h>
 
 #include "FixRubyHeaders.h"
@@ -19,7 +21,7 @@
 #include "World.h"
 
 // BEGIN TEST
-#include "DialogWindow.h"
+
 #include "Person.h"
 #include "CharacterSheetWindow.h"
 #include "GameObject.h"
@@ -88,12 +90,11 @@ namespace rl {
 
 		//Initializing InputManager
         new InputManager();
-		
 		//new DebugWindow();
         //DebugWindow::getSingleton().show();
 
 		new CeConsole();
-        CeConsole::getSingleton().setInterpreter( new RubyInterpreter() );
+		CeConsole::getSingleton().setInterpreter( new RubyInterpreter() );
         CeConsole::getSingleton().getInterpreter()->initializeInterpreter();
 
         //InputManager::getSingleton().addKeyListener(DebugWindow::getSingletonPtr());
@@ -109,7 +110,7 @@ namespace rl {
         mGameController = new ThirdPersonGameController(
             camera->getOgreCamera(), hero);
         GameLoop::getSingleton().addSynchronizedTask(mGameController);
-        
+	      
         runTest();
     }
 
@@ -134,9 +135,11 @@ namespace rl {
         DebugWindow::getSingleton().show();
 
 		InputManager::getSingleton().setObjectPickingActive(true);
-
-		/*DialogWindow* dialog = new DialogWindow();
-		dialog->setQuestion("Wie ist dein Name?");
+		
+		DialogWindow* dialog=new DialogWindow("startup.xml");
+		dialog->setName("Rattenkind");
+		dialog->setQuestion("Wad? Wer bist du denn?\nHusch, husch!\nAb ins Körbchen!!!");
+/*		dialog->setQuestion("Wie ist dein Name?");
 		dialog->addLine("Hab ich vergessen");
 		dialog->addLine("Ich heisse %NAME%");
 		dialog->addLine("Mein Name ist %NAME%");

@@ -37,7 +37,7 @@ public:
 	void setScript( const String& instname, const String& scriptname, const String& classname, int argc, const String args[] = 0 );
 	void callFunction( const String& instname, const String& funcname, int argc, const String args[] = 0 );
     int callIntegerFunction( const String& instname, const String& funcname, int argc, const String args[] = 0 );
-
+	std::string callStringFunction( const String& instname, const String& funcname, int argc, const String args[] = 0 );
 	void registerScriptObject( ScriptObject* obj, const String& instname );
 	void unregisterScriptObject( const String& instname );
 

@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\..\dependencies\ogre\ogremain\include"
+				AdditionalIncludeDirectories=".\include;..\..\dependencies\ogre\ogremain\include;..\..\dependencies\xerces\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;RLCOMMON_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -64,7 +64,7 @@
 				AdditionalDependencies="ogremain_d.lib xerces-c_2d.lib"
 				OutputFile=""
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\xercesc\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;"
+				AdditionalLibraryDirectories="&quot;..\..\dependencies\xerces\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/RlCommon.pdb"
 				SubSystem="2"
@@ -117,7 +117,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".\include;..\..\dependencies\ogre\ogremain\include"
+				AdditionalIncludeDirectories=".\include;..\..\dependencies\ogre\ogremain\include;..\..\dependencies\xerces\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;RLCOMMON_EXPORTS"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
@@ -139,7 +139,7 @@
 				AdditionalDependencies="ogremain.lib  xerces-c_2.lib"
 				OutputFile="$(OutDir)/RlCommon.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;"
+				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\xerces\lib\$(ConfigurationName)&quot;"
 				GenerateDebugInformation="TRUE"
 				SubSystem="2"
 				OptimizeReferences="2"

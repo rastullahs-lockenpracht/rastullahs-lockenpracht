@@ -116,6 +116,13 @@ VALUE rb_const_get_wrapper(VALUE data)
 	return rb_const_get(args[0], args[1]);
 }
 
+VALUE rb_funcall_wrapper(VALUE data)
+{
+	VALUE *args=(VALUE *) data;
+	const VALUE argsT=args[3];
+	return rb_funcall2(args[0], rb_intern(STR2CSTR(args[1])), (int)NUM2INT(args[2]), &argsT);
+}
+
 void RubyInterpreter::setScript( const String& instname, const String& scriptname, const String& classname, int argc, const String args[] )
 {
 	// unregister old script
@@ -127,15 +134,19 @@ void RubyInterpreter::setScript( const String& instname, const String& scriptnam
 	// Converts the String args into ruby VALUES
 	VALUE *rArgs = rubyArgs( argc, args );
 	// This is need to wrap rb_get_const with rb_protect
-	VALUE cgargs[2];
+	VALUE cgargs[4];
     
-    int state = 0;
+    int error = 0;
     cgargs[0] = rb_cObject;
     cgargs[1] = rb_intern(classname.c_str());
-    VALUE pClass =
-    rb_protect( (VALUE(*)(VALUE) )rb_const_get_wrapper , (VALUE) &cgargs[0], &state);
+    VALUE pClass = rb_protect( (VALUE(*)(VALUE) )rb_const_get_wrapper , (VALUE) &cgargs[0], &error);
+
+	cgargs[0] = pClass;
+	cgargs[1] = rb_str_new2("new");
+	cgargs[2] = rb_int_new(argc);
+	cgargs[3] = rArgs[0];
 	// Generates a new instance of our class
-	VALUE pScriptInstance = rb_funcall2(pClass, rb_intern("new"), argc, rArgs);
+	VALUE pScriptInstance = rb_protect((VALUE(*)(VALUE) )rb_funcall_wrapper,(VALUE)&cgargs[0],&error );
 	// Registers it with the ruby GC, so it won't be deleted
 	registerRubyObject( pScriptInstance );
 	// Insert it in our map
@@ -152,8 +163,14 @@ void RubyInterpreter::callFunction( const String& instname, const String& funcna
 	{
 		// Converts the String args into ruby VALUES
 		VALUE *rArgs = rubyArgs( argc, args );
+		int error=0;
+		VALUE cgargs[4];
+		cgargs[0] = pSoIter->second;
+		cgargs[1] = rb_str_new2( funcname.c_str() );
+		cgargs[2] = rb_int_new(argc);
+		cgargs[3] = rArgs[0];
 		// Calls the Function of our script instance
-		rb_funcall2(pSoIter->second, rb_intern( funcname.c_str() ), argc, rArgs);
+		rb_protect( ( VALUE(*)(VALUE) )rb_funcall_wrapper,(VALUE)&cgargs[0],&error );
 		// delete args
 		delete[] rArgs;
 	}
@@ -169,8 +186,14 @@ int RubyInterpreter::callIntegerFunction( const String& instname, const String& 
 	{
 		// Converts the String args into ruby VALUES
 		VALUE *rArgs = rubyArgs( argc, args );
+		int error=0;
+		VALUE cgargs[4];
+		cgargs[0] = pSoIter->second;
+		cgargs[1] = rb_str_new2( funcname.c_str() );
+		cgargs[2] = rb_int_new(argc);
+		cgargs[3] = rArgs[0];
 		// Calls the Function of our script instance
-		VALUE rReturn = rb_funcall2(pSoIter->second, rb_intern( funcname.c_str() ), argc, rArgs);
+		VALUE rReturn = rb_protect( ( VALUE(*)(VALUE) )rb_funcall_wrapper,(VALUE)&cgargs[0],&error );
 
         iReturn = NUM2INT(rReturn);
 		// delete args
@@ -180,6 +203,33 @@ int RubyInterpreter::callIntegerFunction( const String& instname, const String& 
     return iReturn;
 }
 
+std::string RubyInterpreter::callStringFunction( const String& instname, const String& funcname, int argc, const String args[] )
+{
+	Value_Map::const_iterator pSoIter = mScriptInstances.find(instname);
+
+	std::string sReturn = "";
+
+	if( pSoIter != mScriptInstances.end() )
+	{
+		// Converts the String args into ruby VALUES
+		VALUE *rArgs = rubyArgs( argc, args );
+		int error=0;
+		VALUE cgargs[4];
+		cgargs[0] = pSoIter->second;
+		cgargs[1] = rb_str_new2( funcname.c_str() );
+		cgargs[2] = rb_int_new(argc);
+		cgargs[3] = rArgs[0];
+	
+		// Calls the Function of our script instance
+		VALUE rReturn = rb_protect( ( VALUE(*)(VALUE) )rb_funcall_wrapper,(VALUE)&cgargs[0],&error );
+	//	VALUE rReturn = rb_funcall2(pSoIter->second, rb_intern( funcname.c_str() ), argc, rArgs);
+
+        sReturn = STR2CSTR(rReturn);
+		// delete args
+		delete[] rArgs;
+	}
+    return sReturn;	
+}
 
 VALUE* RubyInterpreter::rubyArgs( int argc, const String args[] )
 {

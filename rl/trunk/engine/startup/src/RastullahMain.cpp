@@ -6,6 +6,7 @@
 #include "UiSubsystem.h"
 #include "RulesSubsystem.h"
 #include "SoundSubsystem.h"
+#include "DialogSubsystem.h"
 #include "Exception.h"
 
 #if OGRE_PLATFORM == PLATFORM_WIN32
@@ -24,11 +25,19 @@ int main(int argc, char **argv)
      * und RastullahApplication nach Startup. */
     using std::cerr;
 
+
     rl::SoundSubsystem* sound = new rl::SoundSubsystem();
-    rl::CoreSubsystem* core = new rl::CoreSubsystem();
+
+	rl::CoreSubsystem* core = new rl::CoreSubsystem();
+	Ogre::Log* log = Ogre::LogManager::getSingleton().getLog( "rlCore.log" );
+	log->logMessage("SoundSubsystems gestartet");
+	log->logMessage("CoreSubsystems gestartet");
     rl::RulesSubsystem* rules = new rl::RulesSubsystem();
+	log->logMessage("RulesSubsystems gestartet");
+	rl::DialogSubsystem* dialog = new rl::DialogSubsystem();
+	log->logMessage("DialogSubsystems gestartet");
     rl::UiSubsystem* ui = new rl::UiSubsystem();
-    
+	log->logMessage("UiSubsystems gestartet");
     try {
         core->startCore();
     } catch(Ogre::Exception& oe) {
@@ -46,9 +55,11 @@ int main(int argc, char **argv)
     } 
     
     delete ui;
+	delete dialog;
     delete rules;
     delete core;
     delete sound;
+
 
     return 0;
 }

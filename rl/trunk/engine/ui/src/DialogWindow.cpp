@@ -9,23 +9,72 @@ namespace rl {
 
 using namespace CEGUI;
 using namespace std;
-
-DialogWindow::DialogWindow() : CeGuiWindow("dialogwindow.xml", true)
+/*
+DialogWindow& DialogWindow::getSingleton()
+{
+	return Singleton<DialogWindow>::getSingleton();
+}
+DialogWindow* DialogWindow::getSingletonPtr()
+{
+	return Singleton<DialogWindow>::getSingletonPtr();
+}
+*/
+DialogWindow::DialogWindow(string dialogFile) : CeGuiWindow("dialogwindow.xml", true),mNlp(new NaturalLanguageProcessor(dialogFile))
 {
 	mImage = getStaticImage("DialogWindow/Image");
 	mName = getStaticText("DialogWindow/Name");
-	mQuestion = getStaticText("DialogWindow/Question");
+	mQuestion = getMultiLineEditbox("DialogWindow/Question");
 	mDialogOptions = getListbox("DialogWindow/OptionList");
 	mDialogOptions->subscribeEvent(
 		Listbox::SelectionChanged, 
 		boost::bind(&DialogWindow::handleSelectOption, this));
-	
+
 	addToRoot(mWindow);	
+	mState == CS_CLOSED;
+	getResponse("START DIALOG");
 }
 
 DialogWindow::~DialogWindow()
 {
 	// TO DO: DialogWindow::~DialogWindow()
+}
+
+void DialogWindow::getResponse(string msg)
+{
+	ListboxTextItem* item;
+	mResponses=mNlp->respond(msg);
+	if(mResponses.empty())
+	{
+		mQuestion->setText(CEGUI::String("DIALOG BEENDET"));
+		hide();	
+		return;
+	}
+	std::map<int,std::string>::iterator itr=mResponses.begin();
+	
+	mQuestion->setText(itr->second);
+	int i=0;
+	for(itr++;itr!=mResponses.end();itr++)
+	{			
+			if(i<mDialogOptions->getItemCount())
+			{
+				item=reinterpret_cast<ListboxTextItem*>(mDialogOptions->getListboxItemFromIndex(i));
+				item->setText(itr->second);
+			}
+			else
+			{
+				item=new ListboxTextItem(itr->second);
+				mDialogOptions->addItem(item);
+			}
+			item->setID(itr->first);
+			i+=1;
+	}
+	while(i<mDialogOptions->getItemCount())
+	{
+		mDialogOptions->removeItem(mDialogOptions->getListboxItemFromIndex(i));
+
+	}
+	mResponses.clear();
+
 }
 
 void DialogWindow::addLine(string text)
@@ -87,8 +136,9 @@ void DialogWindow::updateValues()
 
 void DialogWindow::handleSelectOption()
 {
-	//DebugWindow::getSingleton().setText("Pnk "+StringConverter::toString(getSelectedOption()));
-	//hide();
+	DebugWindow::getSingleton().setText("Pnk "+StringConverter::toString(getSelectedOption()));
+	ListboxTextItem* item=reinterpret_cast<ListboxTextItem*>(mDialogOptions->getFirstSelectedItem());
+	getResponse(StringConverter::toString(item->getID()));	
 }
 
 void DialogWindow::setQuestion(string question)

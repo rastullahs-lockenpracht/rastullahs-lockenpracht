@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\core\include;..\rules\include;..\ui\include;..\sound\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\openal\include;..\..\dependencies\openalpp\include;..\..\dependencies\OpenThreads\include"
+				AdditionalIncludeDirectories=".\include;..\core\include;..\rules\include;..\ui\include;..\sound\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\openal\include;..\..\dependencies\openalpp\include;..\..\dependencies\OpenThreads\include;..\..\dependencies\vorbis\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="3"
@@ -127,7 +127,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				OmitFramePointers="TRUE"
-				AdditionalIncludeDirectories=".\include;..\core\include;..\rules\include;..\ui\include;..\sound\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\openal\include;..\..\dependencies\openalpp\include;..\..\dependencies\OpenThreads\include;;..\..\dependencies\vorbis\include"
+				AdditionalIncludeDirectories=".\include;..\core\include;..\rules\include;..\ui\include;..\sound\include;..\dialog\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\openal\include;..\..\dependencies\openalpp\include;..\..\dependencies\OpenThreads\include;..\..\dependencies\vorbis\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -149,10 +149,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib RlCore.lib RlUi.lib User32.lib"
+				AdditionalDependencies="OgreMain.lib RlCore.lib RlUi.lib User32.lib RlDialog.lib"
 				OutputFile="$(OutDir)/Rastullah.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;"
+				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\dialog\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;"
 				GenerateDebugInformation="FALSE"
 				SubSystem="2"
 				OptimizeReferences="2"

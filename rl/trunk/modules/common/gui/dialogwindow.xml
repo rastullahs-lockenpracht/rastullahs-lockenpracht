@@ -1,1 +1,37 @@
-<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">	<Window Type="Taharez Frame Window" Name="DialogWindow">		<Property Name="MetricsMode" Value="Absolute"/>		<Property Name="Position" Value="x:0.0 y:0.0"/>		<Property Name="Height" Value="400"/>		<Property Name="Width" Value="300"/>		<Window Type="Taharez StaticImage" Name="DialogWindow/Image">		  <Property Name="Position" Value="x:56 y:60"/>		  <Property Name="Size" Value="x:128 y:128"/>			<Property Name="Height" Value="128"/>			<Property Name="Width" Value="128"/>		</Window>		<Window Type="Taharez StaticText" Name="DialogWindow/Name">		  <Property Name="Position" Value="x:24 y:200"/>		  <Property Name="HorzFormatting" Value="HorzCentred"/>			<Property Name="Height" Value="200"/>			<Property Name="Width" Value="40"/>    </Window>		<Window Type="Taharez StaticText" Name="DialogWindow/Question">		  <Property Name="Position" Value="x:240 y:48"/>			<Property Name="Height" Value="536"/>			<Property Name="Width" Value="40"/>    </Window>    		<Window Type="Taharez Listbox" Name="DialogWindow/OptionList">		  <Property Name="Position" Value="x:240 y:100"/>			<Property Name="Height" Value="536"/>			<Property Name="Width" Value="476"/>		  <Property Name="MultiSelect" Value="false"/>		  <Property Name="Disabled" Value="false"/>    </Window>	</Window></GUILayout>
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+	<Window Type="Taharez Frame Window" Name="DialogWindow">
+		<Property Name="MetricsMode" Value="Absolute"/>
+		<Property Name="Position" Value="x:0.0 y:0.0"/>
+		<Property Name="Height" Value="400"/>
+		<Property Name="Width" Value="300"/>
+
+		<Window Type="Taharez StaticImage" Name="DialogWindow/Image">
+		  <Property Name="AbsolutePosition" Value="x:500 y:500"/>
+		  <Property Name="Size" Value="x:128 y:128"/>
+		  <Property Name="Height" Value="128"/>
+		  <Property Name="Width" Value="128"/>
+		</Window>
+
+		<Window Type="Taharez StaticText" Name="DialogWindow/Name">
+		  <Property Name="AbsolutePosition" Value="x:10 y:20"/>
+		  <Property Name="HorzFormatting" Value="HorzCentred"/>
+	        <Property Name="AbsoluteWidth" Value="200"/>
+		  <Property Name="AbsoluteHeight" Value="40"/>
+    </Window>
+
+		<Window Type="Taharez MultiLineEditbox" Name="DialogWindow/Question">
+		  <Property Name="AbsolutePosition" Value="x:10 y:70"/>
+		  <Property Name="RelativeWidth" Value="0.9"/>
+		  <Property Name="AbsoluteHeight" Value="80"/>
+    </Window>
+    
+		<Window Type="Taharez Listbox" Name="DialogWindow/OptionList">
+	 	  <Property Name="RelativeXPosition" Value="0.02"/>
+		  <Property Name="RelativeYPosition" Value="0.4"/>
+		  <Property Name="RelativeHeight" Value="0.58"/>
+		  <Property Name="RelativeWidth" Value="0.95"/>
+		  <Property Name="MultiSelect" Value="false"/>
+		  <Property Name="Disabled" Value="false"/>
+    </Window>
+	</Window>
+</GUILayout>
