@@ -1,0 +1,17 @@
+
+
+material door01
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture door01.png
+				//filtering point point point
+			}
+		}
+	}
+}
