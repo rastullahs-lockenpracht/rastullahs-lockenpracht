@@ -18,6 +18,7 @@
 
 #include <OgreTextureManager.h>
 #include <OgreRoot.h>
+#include <OgreException.h>
 #include "GameLoop.h"
 
 #include "CameraActor.h"
@@ -97,8 +98,18 @@ namespace rl {
 
     void DotSceneOctreeWorld::clearScene()
     {
-		mSceneMgr->destroySceneNode("level");
-		mSceneMgr->removeEntity("level");
+		try {
+		    mSceneMgr->destroySceneNode("level");
+		    mSceneMgr->removeEntity("level");
+		}
+		catch (Ogre::Exception& ex)
+		{
+		    // ignorieren. Gab es die Elemente halt nicht.
+		    // wenn es nur eines nicht gibt, dann ist aber was im Argen.
+		    // deshalb:
+		    ///@todo separate Überprüfung für die beiden Calls.
+		}
+		
         Ogre::Root::getSingleton().getAutoCreatedWindow()->removeAllViewports();
 
         ActorManager::getSingleton().deleteAllActors();
