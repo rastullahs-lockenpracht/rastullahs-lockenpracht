@@ -23,61 +23,120 @@
 
 namespace rl {
 
+/** 
+	Diese Klasse ermöglicht eine einfache Steuerung von Animationseinstellungen
+	@remarks Instanzen werden über den AnimationManager erzeugt
+	@see AnimationManager
+*/
 class _RlCoreExport RlAnimation : public virtual EventSource
 {
     public:
+		/**	Der Basiskonstruktor, für MeshObject, die einen AnimationState mitbringen
+			@param animState	AnimationState, intern
+			@param speed		Geschwindigkeit, auch negativ
+			@param timesToPlay	Abspielanzahl, 0 = unendlich
+			@remarks	Die Animation beginnt sofort zu spielen, bei negativer
+						Geschwindigkeit beginnt sie mit dem letzten Frame
+		*/
         RlAnimation(Ogre::AnimationState* animState, Ogre::Real speed=1.0,
             unsigned int timesToPlay=0);
-		RlAnimation(Ogre::Real length);
+		/**	Ein Konstruktor, für eine später festlegbare Animation
+			@remarks	Dieser Konstruktor ist für Unterklassen
+		*/
+		RlAnimation();
+
+		/// Virtueller Destruktor
 		virtual ~RlAnimation( );
         
-		// Pausieren und fortsetzen
+		/// Gibt zurück ob die Animation pausiert ist
         bool isPaused() const;
+		/** Pausieren/Fortsetzen der Animation
+			@param	isPaused	Zukünftiger Status
+			@remarks	Löst einen AnimationPaused/Unpaused Event aus
+		*/
         void setPaused( bool isPaused );
 
-		// Möglichkeit die globale SlowMotion zu umgehen
-		// Nützlich für Statusanzeigen, oder ähnliche konstante Animationen
-		// TODO Eventuell das ganze auf Flags erweitern
+		/// Gibt zurück ob die globale Beschleunigung ignoriert wird
 		bool isIgnoringGlobalSpeed() const;
+		/**	Setzt die Ignoranz
+			@param		Die zukünftige Ignoranz der globalen Geschwindigkeit
+			@remarks	Möglichkeit die globale SlowMotion zu umgehen
+						Nützlich für Statusanzeigen, oder ähnliche konstante Animationen
+			@todo		TODO Eventuell das ganze auf Flags erweitern
+		*/
 		void setIgnoringGlobalSpeed( bool isIgnoringGlobalSpeed );
 
-		// Regelbare Geschwindigkeit
+		/// Gibt die aktuelle Geschwindigkeit zurück
 		Ogre::Real getSpeed() const;
+		/**	Setzt die aktuelle Geschwindigkeit der Animation
+			@param speed die Geschwindigkeit
+			@remarks	1.0 ist die normale Geschwindigkeit der Animation 
+						(mLength in Sekunden), negative Werte spielen die 
+						Animation rückwärts ab. Bei 0 herrscht Stillstand.
+		*/
 		void setSpeed( Ogre::Real speed );
+		/// Negiert die aktuelle Geschwindigkeit
 		void reverseAnimation();
 
-		// Regelbare Wiederholungsanzahl
+		/** Setzt die maximalen Wiederholungszahl der Animation
+			@param	timesToPlay		Die nicht negative Anzahl der Wiederholungen
+			@remarks	Bei 0 wird die Animation beliebig oft wiederholt
+		*/
 		void setTimesToPlay(unsigned int timesToPlay);
+		/// Gibt die Anzahl der bereits abgespielten Wiederholungen zurück
 		unsigned int getTimesPlayed() const;
+		/** Setzt die Abspielzeit zurück
+			Löst dabei auch eine mögliche Pause auf, und spult die Animation zurück
+		*/
 		void resetTimesPlayed();
+		/// Gibt zurück wieviel Wiederholungen insgesamt abzuspielen sind
 		unsigned int getTimesToPlay() const;
+		/// Gibt zurück wieviele Wiederholungen noch durchzuführen sind
 		unsigned int getTimesToPlayLeft() const;
+		/// Gibt die Abspieldauer zurück (intern)
 		Ogre::Real getTimePlayed() const;
 
-		// Gewicht (Einfluss) der Animation
+		/// Gibt das Gewicht der Animation zurück
 		Ogre::Real getWeight(void) const;
+		/** Setzt das Gewicht (Einfluss) der Animation
+			@param weigt Das Gewicht der Animation
+		*/
         void setWeight(Ogre::Real weight);
 
-		// Zeit hinzufügen // wird vom AnimationManager aufgerufen
+		/// Zeit hinzufügen - wird vom AnimationManager aufgerufen
 		void addTime( Ogre::Real timePassed );
 
-		// AnimationFinishedListener
+		/** Fügt einen AnimationListener hinzu
+			@param	Der hinzuzufügende Listener
+			@remarks Der Listener wird benachrichtigt, wenn
+					  * die Animation pausiert/fortgesetzt wird
+					  * die Animation ihr gesamten Wiederholungen vollendet hat
+		*/
 		void addAnimationListener( AnimationListener *listener);
+		/// Entfernt einen AnimationListener
 		void removeAnimationListener( AnimationListener *listener);
 
-		Ogre::AnimationState* getAnimationState() { return mAnimState; };
+		/// Gibt den AnimationState zurück (intern)
+		Ogre::AnimationState* getAnimationState() const { return mAnimState; };
     protected:
-		Ogre::Real mLength;
+		/// Der AnimationState
 		Ogre::AnimationState* mAnimState;
 
+		/// Pause
         bool mPaused;
+		/// Ignoriert die globale Geschwindigkeit
 		bool mIgnoringGlobalSpeed;
+		/// Eigene Geschwindigkeit
 		Ogre::Real mSpeed;
+		/// Gesamte Abspielwiederholungen
 		unsigned int mTimesToPlay;
+		/// Bisherige Abspielzeit
 		Ogre::Real mTimePlayed;
 
+		/// EventCaster
 		EventCaster<AnimationEvent> mAnimationCaster;
 
+		/// Setzt den AnimationState
 		void setAnimationState( Ogre::AnimationState* animState );
 };
 

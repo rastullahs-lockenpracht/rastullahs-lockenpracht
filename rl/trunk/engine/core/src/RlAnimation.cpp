@@ -34,7 +34,7 @@ RlAnimation::RlAnimation( AnimationState* animState, Real speed, unsigned int ti
 	this->setAnimationState(animState);
 }
 
-RlAnimation::RlAnimation( Real length ) :
+RlAnimation::RlAnimation( ) :
 	EventSource(), 
 	mAnimationCaster()
 {
@@ -43,7 +43,6 @@ RlAnimation::RlAnimation( Real length ) :
 	mTimesToPlay = 0;
 	mTimePlayed = 0;
 	mSpeed = 1.0;
-	mLength = length;
 }
 
 RlAnimation::~RlAnimation()
@@ -114,6 +113,12 @@ unsigned int RlAnimation::getTimesToPlay() const
 
 void RlAnimation::resetTimesPlayed()
 {
+	// Zurückspulen
+	if( mSpeed < 0 )
+		mAnimState->setTimePosition( mAnimState->getLength() );
+	else if( mSpeed > 0 )
+		mAnimState->setTimePosition( 0 );
+
 	mTimePlayed = 0;
 	mAnimState->setLoop( true );
 	setPaused( false );
@@ -126,7 +131,7 @@ Real RlAnimation::getTimePlayed() const
 
 unsigned int RlAnimation::getTimesPlayed() const
 {
-	return floor(mTimePlayed/mLength);
+	return floor(mTimePlayed/mAnimState->getLength());
 }
 
 unsigned int RlAnimation::getTimesToPlayLeft() const
@@ -200,9 +205,13 @@ void RlAnimation::setAnimationState( AnimationState* animState )
 	if( mTimesToPlay != 1 )
 		mAnimState->setLoop( true );
 	
-	mLength = mAnimState->getLength();
+	// Wenn die Zeit negativ ist, beginnen wir am Ende
+	if( mSpeed < 0 )
+		mAnimState->setTimePosition( mAnimState->getLength() );
 
 	mAnimState->setEnabled( true );
+
+
 }
 
 }

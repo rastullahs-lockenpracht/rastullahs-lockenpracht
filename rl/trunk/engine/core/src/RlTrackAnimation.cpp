@@ -28,7 +28,7 @@ using namespace Ogre;
 namespace rl {
 
 RlTrackAnimation::RlTrackAnimation( const String& name, Node *node, Real length ) :	
-	RlAnimation( length )
+	RlAnimation( )
 {
 	SceneManager* mgr =  CoreSubsystem::getSingleton().getWorld()->getSceneManager();
 
