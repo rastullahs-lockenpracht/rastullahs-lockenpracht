@@ -17,7 +17,7 @@
 #ifndef __SoundMovable_H__
 #define __SoundMovable_H__
 
-#include "CorePrerequisites.h"
+#include "SoundPrerequisites.h"
 #include "SoundResource.h"
 
 namespace Ogre {
@@ -26,7 +26,7 @@ namespace Ogre {
 
 namespace rl {
 
-    class _RlCoreExport SoundMovable : public Ogre::MovableObject
+    class _RlSoundExport SoundMovable : public Ogre::MovableObject
     {
         public:
             /// Konstruktor
