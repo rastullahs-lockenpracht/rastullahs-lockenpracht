@@ -137,6 +137,11 @@ void AnimationManager::removeAnimation(Ogre::AnimationState* animState)
 	{
 		Animation* anim = iter->second;
 
+        anim->resetTimesPlayed();
+		anim->setTimesToPlay(1);
+		anim->setSpeed(1.0);
+		anim->setPaused(true);
+
 		mAnimationMap.erase(iter);
 		delete anim;
 	}

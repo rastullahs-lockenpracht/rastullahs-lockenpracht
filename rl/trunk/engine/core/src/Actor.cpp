@@ -375,8 +375,12 @@ namespace rl {
 					mOriginalMaterial = subent->getMaterial();
 
 				if (mHighlightMaterial.isNull())
-				{				
-					mHighlightMaterial = mOriginalMaterial->clone(mOriginalMaterial->getName()+"_HL");
+				{		
+                    mHighlightMaterial = MaterialManager::getSingleton().getByName( mOriginalMaterial->getName()+"_HighLight" );
+
+                    if( mHighlightMaterial.isNull() )
+                        mHighlightMaterial = mOriginalMaterial->clone( mOriginalMaterial->getName()+"_HighLight" );
+
 					mHighlightMaterial->setAmbient(1.0, 1.0, 1.0);
 					mHighlightMaterial->setDiffuse(1.0, 1.0, 1.0, 1.0);
 					mHighlightMaterial->setSelfIllumination(0.4, 0.4, 0.4);
