@@ -37,6 +37,36 @@
      $result = rb_str_new2($1->c_str());
 }
 
+%typemap(directorin) CeGuiString, const CeGuiString &, CeGuiString & "$1_name.c_str();";
+
+%typemap(directorin) CeGuiString *, const CeGuiString * "$1_name->c_str();";
+
+%typemap(directorout) CeGuiString {
+    if (TYPE($input) == T_STRING)
+        $result = CeGuiString(StringValuePtr($input));
+    else
+        throw Swig::DirectorTypeMismatchException("string expected");
+}
+
+%typemap(directorout) const CeGuiString & (CeGuiString temp) {
+    if (TYPE($input) == T_STRING) {
+        temp = CeGuiString(StringValuePtr($input));
+        $result = &temp;
+    } else {
+        throw Swig::DirectorTypeMismatchException("string expected");
+    }
+}
+
+/* Radian / Degree all Ruby Values are interpreted as DEGREE! */
+%typemap(in) Radian, const Radian {
+    Check_Type($input, T_FLOAT);
+    $1 = Degree(RFLOAT($input)->value);
+}
+%typemap(out) Radian, const Radian {
+     $result = rb_float_new($1.valueDegrees());
+}
+
+    
 /* Wrapping Real to ruby and back 
  for Real, const Real, Real&, Real*, const Real*, const Real&
 */
