@@ -221,7 +221,7 @@ class _RlSoundExport SoundResource: public Resource,
         /// Spielt der Stream noch. Nicht verwechseln mit getState.
         const bool isPlaying() const;
         /// Wir haben ein Ereignis erhalten.
-        virtual bool eventRaised(SoundEvent *anEvent);
+        virtual bool eventRaised(SoundEvent *anEvent) const;
         
         
 

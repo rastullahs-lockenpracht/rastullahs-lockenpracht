@@ -80,7 +80,7 @@ SoundResource::~SoundResource()
  * @author JoSch
  * @date 10-14-2004
  */
-bool SoundResource::eventRaised(SoundEvent *anEvent)
+bool SoundResource::eventRaised(SoundEvent *anEvent) const
 {
     SoundSubsystem::log("Reason: " + anEvent->getReason());
     return true;

@@ -99,18 +99,8 @@ void EventCaster<Event>::removeEventListener(ListenerToEvent *aListener)
 template <typename Event>
 void EventCaster<Event>::dispatchEvent(Event *anEvent)
 {
-    EventSetIterator it;
-    for(it = mListeners.begin(); it != mListeners.end(); it++)
-    {
-        try {
-            if (!(*it)->eventRaised(anEvent))
-            {
-                break;
-            }
-        } catch(...)
-        {
-        }
-    }
+    for_each(mListeners.begin(), mListeners.end(),
+        bind2nd(DispatchFunctor<Event>(), anEvent));
 }
 
      

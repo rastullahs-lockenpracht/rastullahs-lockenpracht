@@ -17,6 +17,7 @@
 #ifndef EVENTLISTENER_H
 #define EVENTLISTENER_H
 
+#include <functional>
 
 namespace rl {
 /**
@@ -27,14 +28,14 @@ namespace rl {
  * @version 1.0
  */
 template <typename Event>
-class EventListener{
+class EventListener {
 public:
     /// Der Konstruktor.
 	EventListener();
     /// Der Destruktor.
 	virtual ~EventListener();
     /// Hier wird das Objekt benachrichtigt.
-    virtual bool eventRaised(Event *anEvent) = 0;
+    virtual bool eventRaised(Event *anEvent) const = 0;
 };
 
 /**
@@ -54,6 +55,33 @@ EventListener<Event>::EventListener()
 template <typename Event>
 EventListener<Event>::~EventListener()
 {}
+
+/**
+ * Diese Klasse ist ein Funktor fuer EventListener, der "dispatchEvent"
+ * aufruft.
+ * @author JoSch
+ * @date 10-30-2004
+ * @version 1.0
+ */
+template <typename Event>
+class DispatchFunctor:
+    public std::binary_function<EventListener<Event>*, Event*, bool> {
+public:
+    /// Ein Functor, der einen EventListener und einen Event entgegennimmt
+    bool operator() (EventListener<Event> *listener, Event *event) const;
+};
+
+/**
+ * @author JoSch
+ * @date 10-30-2004
+ * @version 1.0
+ */
+template <typename Event>
+bool DispatchFunctor<Event>::operator() 
+        (EventListener<Event> *listener, Event *event) const
+{
+    return listener->eventRaised(event);
+}
 
 
 }
