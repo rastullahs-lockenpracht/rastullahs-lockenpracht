@@ -3,7 +3,7 @@
     created:    2/6/2004
     author:     Paul D Turner
     
-    purpose:    Implementation of Taharez Vertical Scrollbar widget
+    purpose:    Implementation of Rastullah Vertical Scrollbar widget
                 (Large version of scrollbar)
 *************************************************************************/
 /*************************************************************************
@@ -38,10 +38,10 @@ namespace CEGUI
 /*************************************************************************
     Constants
 *************************************************************************/
-const utf8  RLVertScrollbar::WidgetTypeName[]   = "TaharezLook/LargeVerticalScrollbar";
+const utf8  RLVertScrollbar::WidgetTypeName[]   = "RastullahLook/LargeVerticalScrollbar";
 
 // Progress bar image names
-const utf8  RLVertScrollbar::ImagesetName[]                 = "TaharezLook";
+const utf8  RLVertScrollbar::ImagesetName[]                 = "RastullahLook";
 const utf8  RLVertScrollbar::ContainerTopImageName[]        = "VertScrollTop";
 const utf8  RLVertScrollbar::ContainerMiddleImageName[]     = "VertScrollMiddle";
 const utf8  RLVertScrollbar::ContainerBottomImageName[]     = "VertScrollBottom";
@@ -67,7 +67,7 @@ const utf8* RLVertScrollbar::DecreaseButtonWidgetType   = RLButton::WidgetTypeNa
 
 
 /*************************************************************************
-    Constructor for Taharez vertical scroll bar widgets
+    Constructor for Rastullah vertical scroll bar widgets
 *************************************************************************/
 RLVertScrollbar::RLVertScrollbar(const String& type, const String& name) :
     Scrollbar(type, name)
@@ -84,7 +84,7 @@ RLVertScrollbar::RLVertScrollbar(const String& type, const String& name) :
 
 
 /*************************************************************************
-    Destructor for Taharez vertical scroll bar widgets
+    Destructor for Rastullah vertical scroll bar widgets
 *************************************************************************/
 RLVertScrollbar::~RLVertScrollbar(void)
 {

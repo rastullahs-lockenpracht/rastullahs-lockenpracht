@@ -3,7 +3,7 @@
     created:    10/08/2004
     author:     Steve Streeting
     
-    purpose:    Implementation of Taharez Look static widgets & factories.
+    purpose:    Implementation of Rastullah Look static widgets & factories.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -37,9 +37,9 @@ namespace CEGUI
     Constants
     *************************************************************************/
     // type name for this widget
-    const utf8  RLTabControl::WidgetTypeName[]  = "TaharezLook/TabControl";
+    const utf8  RLTabControl::WidgetTypeName[]  = "RastullahLook/TabControl";
 
-    const utf8  RLTabControl::ImagesetName[]        = "TaharezLook";
+    const utf8  RLTabControl::ImagesetName[]        = "RastullahLook";
     const utf8  RLTabControl::FillerImageName[]     = "TabControlButtonPaneFiller";
     // window type stuff
     const utf8* RLTabControl::TabContentPaneType    = RLTabPane::WidgetTypeName;
@@ -155,7 +155,7 @@ namespace CEGUI
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TabControl for the Taharez Scheme
+    Create, initialise and return a TabControl for the Rastullah Scheme
 *************************************************************************/
 Window* RLTabControlFactory::createWindow(const String& name)
 {

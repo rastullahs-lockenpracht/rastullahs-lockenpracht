@@ -3,7 +3,7 @@
     created:    13/4/2004
     author:     Paul D Turner
     
-    purpose:    Implementation of Taharez Look Frame Window class.
+    purpose:    Implementation of Rastullah Look Frame Window class.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -39,10 +39,10 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLFrameWindow::WidgetTypeName[] = "TaharezLook/FrameWindow";
+const utf8  RLFrameWindow::WidgetTypeName[] = "RastullahLook/FrameWindow";
 
 // image stuff
-const utf8  RLFrameWindow::ImagesetName[]                   = "TaharezLook";
+const utf8  RLFrameWindow::ImagesetName[]                   = "RastullahLook";
 const utf8  RLFrameWindow::TopLeftFrameImageName[]          = "WindowTopLeft";
 const utf8  RLFrameWindow::TopRightFrameImageName[]         = "WindowTopRight";
 const utf8  RLFrameWindow::BottomLeftFrameImageName[]       = "WindowBottomLeft";

@@ -3,7 +3,7 @@
     created:    15/6/2004
     author:     Paul D Turner
     
-    purpose:    Interface to Taharez list header segment widget.
+    purpose:    Interface to Rastullah list header segment widget.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -36,7 +36,7 @@ namespace CEGUI
 {
 /*!
 \brief
-    List header segment widget for the Taharez Gui Scheme.
+    List header segment widget for the Rastullah Gui Scheme.
 */
 class RASTULLAHLOOK_API RLListHeaderSegment : public ListHeaderSegment
 {

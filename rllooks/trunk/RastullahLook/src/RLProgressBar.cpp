@@ -3,7 +3,7 @@
     created:    23/5/2004
     author:     Paul D Turner
     
-    purpose:    Implementation of the Taharez Progress Bar
+    purpose:    Implementation of the Rastullah Progress Bar
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -35,10 +35,10 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLProgressBar::WidgetTypeName[] = "TaharezLook/ProgressBar";
+const utf8  RLProgressBar::WidgetTypeName[] = "RastullahLook/ProgressBar";
 
 // Progress bar image names
-const utf8  RLProgressBar::ImagesetName[]               = "TaharezLook";
+const utf8  RLProgressBar::ImagesetName[]               = "RastullahLook";
 const utf8  RLProgressBar::ContainerLeftImageName[]     = "ProgressBarLeft";
 const utf8  RLProgressBar::ContainerMiddleImageName[]   = "ProgressBarMiddle";
 const utf8  RLProgressBar::ContainerRightImageName[]    = "ProgressBarRight";
@@ -51,7 +51,7 @@ const float RLProgressBar::SegmentOverlapRatio          = 0.25f;
 
 
 /*************************************************************************
-    Constructor for Taharez progress bar objects
+    Constructor for Rastullah progress bar objects
 *************************************************************************/
 RLProgressBar::RLProgressBar(const String& type, const String& name) :
     ProgressBar(type, name)
@@ -68,7 +68,7 @@ RLProgressBar::RLProgressBar(const String& type, const String& name) :
 
 
 /*************************************************************************
-    Destructor for Taharez progress bar objects
+    Destructor for Rastullah progress bar objects
 *************************************************************************/
 RLProgressBar::~RLProgressBar(void)
 {

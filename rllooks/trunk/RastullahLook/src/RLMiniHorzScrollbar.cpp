@@ -3,7 +3,7 @@
     created:    2/6/2004
     author:     Paul D Turner
     
-    purpose:    Implementation of Taharez mini horizontal scroll bar.
+    purpose:    Implementation of Rastullah mini horizontal scroll bar.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -38,10 +38,10 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLMiniHorzScrollbar::WidgetTypeName[]   = "TaharezLook/HorizontalScrollbar";
+const utf8  RLMiniHorzScrollbar::WidgetTypeName[]   = "RastullahLook/HorizontalScrollbar";
 
 // Progress bar image names
-const utf8  RLMiniHorzScrollbar::ImagesetName[]                     = "TaharezLook";
+const utf8  RLMiniHorzScrollbar::ImagesetName[]                     = "RastullahLook";
 const utf8  RLMiniHorzScrollbar::ScrollbarBodyImageName[]           = "MiniHorzScrollBarSegment";
 const utf8  RLMiniHorzScrollbar::LeftButtonNormalImageName[]        = "MiniHorzScrollLeftNormal";
 const utf8  RLMiniHorzScrollbar::LeftButtonHighlightImageName[]     = "MiniHorzScrollLeftHover";
@@ -61,7 +61,7 @@ const utf8* RLMiniHorzScrollbar::DecreaseButtonWidgetType   = RLButton::WidgetTy
 
 
 /*************************************************************************
-    Constructor for Taharez mini horizontal scroll bar widgets
+    Constructor for Rastullah mini horizontal scroll bar widgets
 *************************************************************************/
 RLMiniHorzScrollbar::RLMiniHorzScrollbar(const String& type, const String& name) :
     Scrollbar(type, name)
@@ -74,7 +74,7 @@ RLMiniHorzScrollbar::RLMiniHorzScrollbar(const String& type, const String& name)
 
 
 /*************************************************************************
-    Destructor for Taharez mini horizontal scroll bar widgets
+    Destructor for Rastullah mini horizontal scroll bar widgets
 *************************************************************************/
 RLMiniHorzScrollbar::~RLMiniHorzScrollbar(void)
 {

@@ -3,7 +3,7 @@
     created:    12/6/2004
     author:     Paul D Turner
     
-    purpose:    Implementation of Taharez look Combo box class
+    purpose:    Implementation of Rastullah look Combo box class
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -42,10 +42,10 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLCombobox::WidgetTypeName[]    = "TaharezLook/Combobox";
+const utf8  RLCombobox::WidgetTypeName[]    = "RastullahLook/Combobox";
 
 // image / imageset related
-const utf8  RLCombobox::ImagesetName[]                  = "TaharezLook";
+const utf8  RLCombobox::ImagesetName[]                  = "RastullahLook";
 const utf8  RLCombobox::ButtonNormalImageName[]         = "ComboboxListButtonNormal";
 const utf8  RLCombobox::ButtonHighlightedImageName[]    = "ComboboxListButtonHover";
 
@@ -56,7 +56,7 @@ const utf8* RLCombobox::ButtonTypeName      = RLButton::WidgetTypeName;
 
 
 /*************************************************************************
-    Constructor for Taharez Combobox
+    Constructor for Rastullah Combobox
 *************************************************************************/
 RLCombobox::RLCombobox(const String& type, const String& name) :
     Combobox(type, name)
@@ -65,7 +65,7 @@ RLCombobox::RLCombobox(const String& type, const String& name) :
 
 
 /*************************************************************************
-    Destructor for Taharez Combobox
+    Destructor for Rastullah Combobox
 *************************************************************************/
 RLCombobox::~RLCombobox(void)
 {

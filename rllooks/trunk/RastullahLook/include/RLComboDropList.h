@@ -3,7 +3,7 @@
     created:    13/6/2004
     author:     Paul D Turner
     
-    purpose:    Interface to Taharez look Combobox Drop-list
+    purpose:    Interface to Rastullah look Combobox Drop-list
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -38,7 +38,7 @@ namespace CEGUI
 {
 /*!
 \brief
-    Combobox Drop-down list class for the Taharez Gui Scheme.
+    Combobox Drop-down list class for the Rastullah Gui Scheme.
 */
 class RASTULLAHLOOK_API RLComboDropList : public ComboDropList
 {
@@ -73,14 +73,14 @@ public:
     *************************************************************************/
     /*!
     \brief
-        Constructor for Taharez look Combobox drop-down list.
+        Constructor for Rastullah look Combobox drop-down list.
     */
     RLComboDropList(const String& type, const String& name);
 
 
     /*!
     \brief
-        Destructor for Taharez look Combobox drop-down list.
+        Destructor for Rastullah look Combobox drop-down list.
     */
     virtual ~RLComboDropList(void);
 

@@ -3,7 +3,7 @@
     created:    10/08/2004
     author:     Steve Streeting
     
-    purpose:    Defines interface for Taharez Look Tab Control class.
+    purpose:    Defines interface for Rastullah Look Tab Control class.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -37,7 +37,7 @@ namespace CEGUI
 
 /*!
 \brief
-    Concrete TabControl class for the Taharez Look widget set.  
+    Concrete TabControl class for the Rastullah Look widget set.  
 */
 class RASTULLAHLOOK_API RLTabControl : public TabControl
 {
@@ -60,7 +60,7 @@ public:
     *************************************************************************/
     /*!
     \brief
-        Constructor for Taharez Look tab control objects.
+        Constructor for Rastullah Look tab control objects.
 
     \param type
         String object that specifies a type for this window, usually provided by a factory class.
@@ -145,14 +145,14 @@ public:
     *************************************************************************/
     /*!
     \brief
-        Constructor for Taharez Frame Window factory class.
+        Constructor for Rastullah Frame Window factory class.
     */
     RLTabControlFactory(void) : WindowFactory(RLTabControl::WidgetTypeName) { }
 
 
     /*
     \brief
-        Destructor for Taharez Frame Window factory class.
+        Destructor for Rastullah Frame Window factory class.
     */
     ~RLTabControlFactory(void){}
 

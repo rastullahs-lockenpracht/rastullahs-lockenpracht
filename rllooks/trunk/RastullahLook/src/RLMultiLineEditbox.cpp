@@ -3,7 +3,7 @@
     created:    30/6/2004
     author:     Paul D Turner
     
-    purpose:    Implements the Taharez look multi-line edit box widget.
+    purpose:    Implements the Rastullah look multi-line edit box widget.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -38,10 +38,10 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLMultiLineEditbox::WidgetTypeName[]    = "TaharezLook/MultiLineEditbox";
+const utf8  RLMultiLineEditbox::WidgetTypeName[]    = "RastullahLook/MultiLineEditbox";
 
 // image / imageset related
-const utf8  RLMultiLineEditbox::ImagesetName[]              = "TaharezLook";
+const utf8  RLMultiLineEditbox::ImagesetName[]              = "RastullahLook";
 const utf8  RLMultiLineEditbox::TopLeftImageName[]          = "MultiLineEditboxTopLeft";
 const utf8  RLMultiLineEditbox::TopRightImageName[]         = "MultiLineEditboxTopRight";
 const utf8  RLMultiLineEditbox::BottomLeftImageName[]       = "MultiLineEditboxBottomLeft";

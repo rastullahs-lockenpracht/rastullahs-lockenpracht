@@ -3,7 +3,7 @@
     created:    9/5/2004
     author:     Paul D Turner
     
-    purpose:    Implementation of Taharez Look Titlebar widget
+    purpose:    Implementation of Rastullah Look Titlebar widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -35,9 +35,9 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLTitlebar::WidgetTypeName[]    = "TaharezLook/Titlebar";
+const utf8  RLTitlebar::WidgetTypeName[]    = "RastullahLook/Titlebar";
 
-const utf8  RLTitlebar::ImagesetName[]              = "TaharezLook";
+const utf8  RLTitlebar::ImagesetName[]              = "RastullahLook";
 const utf8  RLTitlebar::LeftEndSectionImageName[]   = "NewTitlebarLeft";
 const utf8  RLTitlebar::MiddleSectionImageName[]    = "NewTitlebarMiddle";
 const utf8  RLTitlebar::RightEndSectionImageName[]  = "NewTitlebarRight";

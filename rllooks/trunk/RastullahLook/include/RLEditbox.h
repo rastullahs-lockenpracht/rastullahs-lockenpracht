@@ -3,7 +3,7 @@
     created:    29/5/2004
     author:     Paul D Turner
     
-    purpose:    Interface to Taharez Look Editbox widget class
+    purpose:    Interface to Rastullah Look Editbox widget class
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -36,7 +36,7 @@ namespace CEGUI
 {
 /*!
 \brief
-    Single line edit box class for the Taharez look Gui Scheme
+    Single line edit box class for the Rastullah look Gui Scheme
 */
 class RASTULLAHLOOK_API RLEditbox : public Editbox
 {
@@ -65,14 +65,14 @@ public:
     *************************************************************************/
     /*!
     \brief
-        Constructor for Taharez edit box widgets
+        Constructor for Rastullah edit box widgets
     */
     RLEditbox(const String& type, const String& name);
 
 
     /*!
     \brief
-        Destructor for Taharez edit box widgets
+        Destructor for Rastullah edit box widgets
     */
     virtual ~RLEditbox(void);
 

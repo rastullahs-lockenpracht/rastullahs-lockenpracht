@@ -3,7 +3,7 @@
     created:    2/6/2004
     author:     Paul D Turner
     
-    purpose:    Interface to Taharez mini vertical scroll bar widget.
+    purpose:    Interface to Rastullah mini vertical scroll bar widget.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -36,7 +36,7 @@ namespace CEGUI
 {
 /*!
 \brief
-    Mini vertical scroll-bar bar for the Taharez Gui Scheme.
+    Mini vertical scroll-bar bar for the Rastullah Gui Scheme.
 */
 class RASTULLAHLOOK_API RLMiniVertScrollbar: public Scrollbar
 {
@@ -72,14 +72,14 @@ public:
     *************************************************************************/
     /*!
     \brief
-        Constructor for Taharez mini vertical scroll bar widgets
+        Constructor for Rastullah mini vertical scroll bar widgets
     */
     RLMiniVertScrollbar(const String& type, const String& name);
 
 
     /*!
     \brief
-        Destructor for Taharez mini vertical scroll bar widgets
+        Destructor for Rastullah mini vertical scroll bar widgets
     */
     virtual ~RLMiniVertScrollbar(void);
 

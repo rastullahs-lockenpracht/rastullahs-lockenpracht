@@ -3,7 +3,7 @@
     created:    21/5/2004
     author:     Paul D Turner
     
-    purpose:    Interface to Taharez Checkbox widget
+    purpose:    Interface to Rastullah Checkbox widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -36,7 +36,7 @@ namespace CEGUI
 {
 /*!
 \brief
-    Checkbox class for the TaharezLook GUI scheme
+    Checkbox class for the RastullahLook GUI scheme
 */
 class RASTULLAHLOOK_API RLCheckbox : public Checkbox
 {
@@ -60,7 +60,7 @@ public:
     *************************************************************************/
     /*!
     \brief
-        Constructor for Taharez Look Checkbox objects.
+        Constructor for Rastullah Look Checkbox objects.
 
     \param type
         String object that specifies a type for this window, usually provided by a factory class.

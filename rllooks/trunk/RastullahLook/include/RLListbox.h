@@ -3,7 +3,7 @@
     created:    7/6/2004
     author:     Paul D Turner
     
-    purpose:    Interface to Taharez Listbox widget
+    purpose:    Interface to Rastullah Listbox widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -38,7 +38,7 @@ namespace CEGUI
 {
 /*!
 \brief
-    Listbox widget for the Taharez Gui scheme.
+    Listbox widget for the Rastullah Gui scheme.
 */
 class RASTULLAHLOOK_API RLListbox : public Listbox
 {
@@ -73,14 +73,14 @@ public:
     *************************************************************************/
     /*!
     \brief
-        Constructor for Taharez Look Listbox widgets
+        Constructor for Rastullah Look Listbox widgets
     */
     RLListbox(const String& type, const String& name);
 
 
     /*!
     \brief
-        Destructor for Taharez Look Listbox widgets.
+        Destructor for Rastullah Look Listbox widgets.
     */
     virtual ~RLListbox(void);
 

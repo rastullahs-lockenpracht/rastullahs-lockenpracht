@@ -3,7 +3,7 @@
     created:    7/6/2004
     author:     Paul D Turner
     
-    purpose:    Implementation of Taharez Listbox widget
+    purpose:    Implementation of Rastullah Listbox widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -38,10 +38,10 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLListbox::WidgetTypeName[]     = "TaharezLook/Listbox";
+const utf8  RLListbox::WidgetTypeName[]     = "RastullahLook/Listbox";
 
 // image / imageset related
-const utf8  RLListbox::ImagesetName[]               = "TaharezLook";
+const utf8  RLListbox::ImagesetName[]               = "RastullahLook";
 const utf8  RLListbox::TopLeftImageName[]           = "ListboxTopLeft";
 const utf8  RLListbox::TopRightImageName[]          = "ListboxTopRight";
 const utf8  RLListbox::BottomLeftImageName[]        = "ListboxBottomLeft";
@@ -60,7 +60,7 @@ const utf8* RLListbox::VertScrollbarTypeName        = RLMiniVertScrollbar::Widge
 
 
 /*************************************************************************
-    Constructor for Taharez Look Listbox widgets    
+    Constructor for Rastullah Look Listbox widgets    
 *************************************************************************/
 RLListbox::RLListbox(const String& type, const String& name) :
     Listbox(type, name)
@@ -90,7 +90,7 @@ RLListbox::RLListbox(const String& type, const String& name) :
 
 
 /*************************************************************************
-    Destructor for Taharez Look Listbox widgets.    
+    Destructor for Rastullah Look Listbox widgets.    
 *************************************************************************/
 RLListbox::~RLListbox(void)
 {

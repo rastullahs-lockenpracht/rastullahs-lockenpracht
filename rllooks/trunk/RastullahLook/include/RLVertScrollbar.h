@@ -3,7 +3,7 @@
     created:    2/6/2004
     author:     Paul D Turner
     
-    purpose:    Interface to Taharez Vertical Scroll bar widget
+    purpose:    Interface to Rastullah Vertical Scroll bar widget
                 (Large version of scrollbar)
 *************************************************************************/
 /*************************************************************************
@@ -37,7 +37,7 @@ namespace CEGUI
 {
 /*!
 \brief
-    Large vertical scroll-bar bar for the Taharez Gui Scheme.
+    Large vertical scroll-bar bar for the Rastullah Gui Scheme.
 */
 class RASTULLAHLOOK_API RLVertScrollbar: public Scrollbar
 {
@@ -79,14 +79,14 @@ public:
     *************************************************************************/
     /*!
     \brief
-        Constructor for Taharez vertical scroll bar widgets
+        Constructor for Rastullah vertical scroll bar widgets
     */
     RLVertScrollbar(const String& type, const String& name);
 
 
     /*!
     \brief
-        Destructor for Taharez vertical scroll bar widgets
+        Destructor for Rastullah vertical scroll bar widgets
     */
     virtual ~RLVertScrollbar(void);
 

@@ -3,7 +3,7 @@
     created:    12/6/2004
     author:     Paul D Turner
     
-    purpose:    Interface to Taharez look combo box class
+    purpose:    Interface to Rastullah look combo box class
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -35,7 +35,7 @@ namespace CEGUI
 {
 /*!
 \brief
-    Combobox class for the Taharez look Gui scheme
+    Combobox class for the Rastullah look Gui scheme
 */
 class RASTULLAHLOOK_API RLCombobox : public Combobox
 {
@@ -62,14 +62,14 @@ public:
     *************************************************************************/
     /*!
     \brief
-        Constructor for Taharez Combobox
+        Constructor for Rastullah Combobox
     */
     RLCombobox(const String& type, const String& name);
 
 
     /*!
     \brief
-        Destructor for Taharez Combobox
+        Destructor for Rastullah Combobox
     */
     virtual ~RLCombobox(void);
 

@@ -3,7 +3,7 @@
     created:    13/6/2004
     author:     Paul D Turner
     
-    purpose:    Implements Taharez Look Combobox-Editbox widget
+    purpose:    Implements Rastullah Look Combobox-Editbox widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -35,10 +35,10 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLComboEditbox::WidgetTypeName[]    = "TaharezLook/ComboEditbox";
+const utf8  RLComboEditbox::WidgetTypeName[]    = "RastullahLook/ComboEditbox";
 
 // image name constants
-const utf8  RLComboEditbox::ImagesetName[]              = "TaharezLook";
+const utf8  RLComboEditbox::ImagesetName[]              = "RastullahLook";
 const utf8  RLComboEditbox::ContainerLeftImageName[]    = "ComboboxEditLeft";
 const utf8  RLComboEditbox::ContainerMiddleImageName[]  = "ComboboxEditMiddle";
 const utf8  RLComboEditbox::CaratImageName[]            = "EditBoxCarat";
@@ -55,7 +55,7 @@ const uint  RLComboEditbox::CaratLayer      = 3;
 
 
 /*************************************************************************
-    Constructor for Taharez edit box widgets    
+    Constructor for Rastullah edit box widgets    
 *************************************************************************/
 RLComboEditbox::RLComboEditbox(const String& type, const String& name) :
     Editbox(type, name),
@@ -74,7 +74,7 @@ RLComboEditbox::RLComboEditbox(const String& type, const String& name) :
 
 
 /*************************************************************************
-    Destructor for Taharez edit box widgets 
+    Destructor for Rastullah edit box widgets 
 *************************************************************************/
 RLComboEditbox::~RLComboEditbox(void)
 {

@@ -3,7 +3,7 @@
     created:    22/5/2004
     author:     Paul D Turner
     
-    purpose:    Interface to Thumb class used within the Taharez slider.
+    purpose:    Interface to Thumb class used within the Rastullah slider.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -36,7 +36,7 @@ namespace CEGUI
 {
 /*!
 \brief
-    Thumb class as used in the Taharez Slider.
+    Thumb class as used in the Rastullah Slider.
 */
 class RASTULLAHLOOK_API RLSliderThumb : public Thumb
 {

@@ -3,7 +3,7 @@
     created:    21/5/2004
     author:     Paul D Turner
     
-    purpose:    Implementation of Taharez look Radio Button widget
+    purpose:    Implementation of Rastullah look Radio Button widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -35,9 +35,9 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLRadioButton::WidgetTypeName[] = "TaharezLook/RadioButton";
+const utf8  RLRadioButton::WidgetTypeName[] = "RastullahLook/RadioButton";
 
-const utf8  RLRadioButton::ImagesetName[]           = "TaharezLook";
+const utf8  RLRadioButton::ImagesetName[]           = "RastullahLook";
 const utf8  RLRadioButton::NormalImageName[]        = "RadioButtonNormal";
 const utf8  RLRadioButton::HighlightImageName[]     = "RadioButtonHover";
 const utf8  RLRadioButton::SelectMarkImageName[]    = "RadioButtonMark";
@@ -46,7 +46,7 @@ const float RLRadioButton::LabelPadding             = 4.0f;
 
 
 /*************************************************************************
-    Constructor for Taharez Look Radio Button objects.
+    Constructor for Rastullah Look Radio Button objects.
 *************************************************************************/
 RLRadioButton::RLRadioButton(const String& type, const String& name) :
     RadioButton(type, name)

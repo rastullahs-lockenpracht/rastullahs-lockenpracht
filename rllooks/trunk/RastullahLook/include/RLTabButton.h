@@ -3,7 +3,7 @@
     created:    11/08/2004
     author:     Steve Streeting
     
-    purpose:    Defines interface for Taharez Look Tab Button class.
+    purpose:    Defines interface for Rastullah Look Tab Button class.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -38,7 +38,7 @@ namespace CEGUI
 
 /*!
 \brief
-    Concrete TabButton class for the Taharez Look widget set.   
+    Concrete TabButton class for the Rastullah Look widget set.   
 */
 class RASTULLAHLOOK_API RLTabButton : public TabButton
 {
@@ -72,7 +72,7 @@ public:
     *************************************************************************/
     /*!
     \brief
-        Constructor for Taharez Look TabButton objects.
+        Constructor for Rastullah Look TabButton objects.
 
     \param type
         String object that specifies a type for this window, usually provided by a factory class.
@@ -147,14 +147,14 @@ public:
     *************************************************************************/
     /*!
     \brief
-        Constructor for Taharez Tab Button factory class.
+        Constructor for Rastullah Tab Button factory class.
     */
     RLTabButtonFactory(void) : WindowFactory(RLTabButton::WidgetTypeName) { }
 
 
     /*
     \brief
-        Destructor for Taharez Tab Button factory class.
+        Destructor for Rastullah Tab Button factory class.
     */
     ~RLTabButtonFactory(void){}
 

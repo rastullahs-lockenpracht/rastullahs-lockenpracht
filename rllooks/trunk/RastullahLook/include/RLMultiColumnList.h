@@ -3,7 +3,7 @@
     created:    19/6/2004
     author:     Paul D Turner
     
-    purpose:    Interface to Taharez multi-column list widget
+    purpose:    Interface to Rastullah multi-column list widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -38,7 +38,7 @@ namespace CEGUI
 {
 /*!
 \brief
-    Multi-column Listbox class for the TaharezLook GUI scheme
+    Multi-column Listbox class for the RastullahLook GUI scheme
 */
 class RASTULLAHLOOK_API RLMultiColumnList : public MultiColumnList
 {
@@ -74,7 +74,7 @@ public:
     *************************************************************************/
     /*!
     \brief
-        Constructor for Taharez Look multi-column list objects.
+        Constructor for Rastullah Look multi-column list objects.
 
     \param type
         String object that specifies a type for this window, usually provided by a factory class.

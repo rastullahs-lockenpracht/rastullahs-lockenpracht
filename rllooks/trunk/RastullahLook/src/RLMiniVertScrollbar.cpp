@@ -3,7 +3,7 @@
     created:    2/6/2004
     author:     Paul D Turner
     
-    purpose:    Implementation of Taharez mini vertical scroll bar widget.
+    purpose:    Implementation of Rastullah mini vertical scroll bar widget.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -38,10 +38,10 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLMiniVertScrollbar::WidgetTypeName[]   = "TaharezLook/VerticalScrollbar";
+const utf8  RLMiniVertScrollbar::WidgetTypeName[]   = "RastullahLook/VerticalScrollbar";
 
 // Progress bar image names
-const utf8  RLMiniVertScrollbar::ImagesetName[]                 = "TaharezLook";
+const utf8  RLMiniVertScrollbar::ImagesetName[]                 = "RastullahLook";
 const utf8  RLMiniVertScrollbar::ScrollbarBodyImageName[]       = "MiniVertScrollBarSegment";
 const utf8  RLMiniVertScrollbar::UpButtonNormalImageName[]      = "MiniVertScrollUpNormal";
 const utf8  RLMiniVertScrollbar::UpButtonHighlightImageName[]   = "MiniVertScrollUpHover";
@@ -61,7 +61,7 @@ const utf8* RLMiniVertScrollbar::DecreaseButtonWidgetType   = RLButton::WidgetTy
 
 
 /*************************************************************************
-    Constructor for Taharez mini vertical scroll bar widgets
+    Constructor for Rastullah mini vertical scroll bar widgets
 *************************************************************************/
 RLMiniVertScrollbar::RLMiniVertScrollbar(const String& type, const String& name) :
     Scrollbar(type, name)
@@ -74,7 +74,7 @@ RLMiniVertScrollbar::RLMiniVertScrollbar(const String& type, const String& name)
 
 
 /*************************************************************************
-    Destructor for Taharez mini vertical scroll bar widgets
+    Destructor for Rastullah mini vertical scroll bar widgets
 *************************************************************************/
 RLMiniVertScrollbar::~RLMiniVertScrollbar(void)
 {

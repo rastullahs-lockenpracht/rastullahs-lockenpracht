@@ -3,7 +3,7 @@
     created:    13/6/2004
     author:     Paul D Turner
     
-    purpose:    Interface to Taharez Look Combobox-Editbox widget
+    purpose:    Interface to Rastullah Look Combobox-Editbox widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -36,7 +36,7 @@ namespace CEGUI
 {
 /*!
 \brief
-    Edit box class for use as sub-widget of the Combobox in the Taharez look Gui Scheme
+    Edit box class for use as sub-widget of the Combobox in the Rastullah look Gui Scheme
 */
 class RASTULLAHLOOK_API RLComboEditbox : public Editbox
 {
@@ -64,14 +64,14 @@ public:
     *************************************************************************/
     /*!
     \brief
-        Constructor for Taharez combo box edit widgets
+        Constructor for Rastullah combo box edit widgets
     */
     RLComboEditbox(const String& type, const String& name);
 
 
     /*!
     \brief
-        Destructor for Taharez combo box edit widgets
+        Destructor for Rastullah combo box edit widgets
     */
     virtual ~RLComboEditbox(void);
 

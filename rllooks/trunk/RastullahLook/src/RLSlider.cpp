@@ -3,7 +3,7 @@
     created:    22/5/2004
     author:     Paul D Turner
     
-    purpose:    Implementation of Taharez Slider widget
+    purpose:    Implementation of Rastullah Slider widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -36,10 +36,10 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLSlider::WidgetTypeName[]  = "TaharezLook/Slider";
+const utf8  RLSlider::WidgetTypeName[]  = "RastullahLook/Slider";
 
 // Image names
-const utf8  RLSlider::ImagesetName[]        = "TaharezLook";
+const utf8  RLSlider::ImagesetName[]        = "RastullahLook";
 const utf8  RLSlider::ContainerImageName[]  = "VertSliderBody";
 
 // window type stuff
@@ -50,7 +50,7 @@ const float RLSlider::ContainerPaddingX     = 3;
 
 
 /*************************************************************************
-    Constructor for Taharez slider widgets
+    Constructor for Rastullah slider widgets
 *************************************************************************/
 RLSlider::RLSlider(const String& type, const String& name) :
     Slider(type, name)
@@ -60,7 +60,7 @@ RLSlider::RLSlider(const String& type, const String& name) :
 
 
 /*************************************************************************
-    Destructor for Taharez slider widgets
+    Destructor for Rastullah slider widgets
 *************************************************************************/
 RLSlider::~RLSlider(void)
 {

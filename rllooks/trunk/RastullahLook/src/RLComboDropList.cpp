@@ -3,7 +3,7 @@
     created:    13/6/2004
     author:     Paul D Turner
     
-    purpose:    Implements Taharez look Combobox Drop-list widget
+    purpose:    Implements Rastullah look Combobox Drop-list widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -39,10 +39,10 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLComboDropList::WidgetTypeName[]   = "TaharezLook/ComboDropList";
+const utf8  RLComboDropList::WidgetTypeName[]   = "RastullahLook/ComboDropList";
 
 // image / imageset related
-const utf8  RLComboDropList::ImagesetName[]             = "TaharezLook";
+const utf8  RLComboDropList::ImagesetName[]             = "RastullahLook";
 const utf8  RLComboDropList::TopLeftImageName[]         = "ComboboxListTopLeft";
 const utf8  RLComboDropList::TopRightImageName[]        = "ComboboxListTopRight";
 const utf8  RLComboDropList::BottomLeftImageName[]      = "ComboboxListBottomLeft";
@@ -61,7 +61,7 @@ const utf8* RLComboDropList::VertScrollbarTypeName  = RLMiniVertScrollbar::Widge
 
     
 /*************************************************************************
-    Constructor for Taharez look Combobox drop-down list.
+    Constructor for Rastullah look Combobox drop-down list.
 *************************************************************************/
 RLComboDropList::RLComboDropList(const String& type, const String& name) :
     ComboDropList(type, name)
@@ -90,7 +90,7 @@ RLComboDropList::RLComboDropList(const String& type, const String& name) :
 
 
 /*************************************************************************
-    Destructor for Taharez look Combobox drop-down list.
+    Destructor for Rastullah look Combobox drop-down list.
 *************************************************************************/
 RLComboDropList::~RLComboDropList(void)
 {

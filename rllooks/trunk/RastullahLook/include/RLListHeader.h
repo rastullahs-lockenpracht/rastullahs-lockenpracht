@@ -3,7 +3,7 @@
     created:    14/6/2004
     author:     Paul D Turner
     
-    purpose:    Interface to Taharez MultiColumn list header widget.
+    purpose:    Interface to Rastullah MultiColumn list header widget.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -36,7 +36,7 @@ namespace CEGUI
 {
 /*!
 \brief
-    List header class for the Taharez Gui Scheme.
+    List header class for the Rastullah Gui Scheme.
 */
 class RASTULLAHLOOK_API RLListHeader : public ListHeader
 {
@@ -56,14 +56,14 @@ public:
     *************************************************************************/
     /*!
     \brief
-        Constructor for Taharez List Header widgets.
+        Constructor for Rastullah List Header widgets.
     */
     RLListHeader(const String& type, const String& name);
 
 
     /*!
     \brief
-        Destructor for Taharez List Header widgets.
+        Destructor for Rastullah List Header widgets.
     */
     virtual ~ RLListHeader(void);
 

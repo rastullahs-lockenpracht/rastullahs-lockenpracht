@@ -3,7 +3,7 @@
     created:    19/6/2004
     author:     Paul D Turner
     
-    purpose:    Implementation of Taharez multi-column list widget
+    purpose:    Implementation of Rastullah multi-column list widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -40,10 +40,10 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLMultiColumnList::WidgetTypeName[] = "TaharezLook/MultiColumnList";
+const utf8  RLMultiColumnList::WidgetTypeName[] = "RastullahLook/MultiColumnList";
 
 // image / imageset related
-const utf8  RLMultiColumnList::ImagesetName[]               = "TaharezLook";
+const utf8  RLMultiColumnList::ImagesetName[]               = "RastullahLook";
 const utf8  RLMultiColumnList::TopLeftImageName[]           = "MultiListTopLeft";
 const utf8  RLMultiColumnList::TopRightImageName[]          = "MultiListTopRight";
 const utf8  RLMultiColumnList::BottomLeftImageName[]        = "MultiListBottomLeft";
@@ -63,7 +63,7 @@ const utf8* RLMultiColumnList::ListHeaderTypeName           = RLListHeader::Widg
 
     
 /*************************************************************************
-    Constructor for Taharez Look multi-column list objects.
+    Constructor for Rastullah Look multi-column list objects.
 *************************************************************************/
 RLMultiColumnList::RLMultiColumnList(const String& type, const String& name) :
     MultiColumnList(type, name)

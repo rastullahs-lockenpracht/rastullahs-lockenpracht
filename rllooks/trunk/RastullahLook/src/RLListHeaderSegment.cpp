@@ -3,7 +3,7 @@
     created:    15/6/2004
     author:     Paul D Turner
     
-    purpose:    Implements Taharez look list header segment widget.
+    purpose:    Implements Rastullah look list header segment widget.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -36,10 +36,10 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLListHeaderSegment::WidgetTypeName[]   = "TaharezLook/ListHeaderSegment";
+const utf8  RLListHeaderSegment::WidgetTypeName[]   = "RastullahLook/ListHeaderSegment";
 
 // image / imageset related
-const utf8  RLListHeaderSegment::ImagesetName[]             = "TaharezLook";
+const utf8  RLListHeaderSegment::ImagesetName[]             = "RastullahLook";
 const utf8  RLListHeaderSegment::BackdropNormalImageName[]  = "HeaderBarBackdropNormal";
 const utf8  RLListHeaderSegment::BackdropHoverImageName[]   = "HeaderBarBackdropHover";
 const utf8  RLListHeaderSegment::SplitterNormalImageName[]  = "HeaderBarSplitterNormal";

@@ -3,7 +3,7 @@
     created:    2/6/2004
     author:     Paul D Turner
     
-    purpose:    Interface to thumb for Taharez mini vertical scroll bar.
+    purpose:    Interface to thumb for Rastullah mini vertical scroll bar.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -36,7 +36,7 @@ namespace CEGUI
 {
 /*!
 \brief
-    Thumb class as used in the Taharez mini vertical scroll bar.
+    Thumb class as used in the Rastullah mini vertical scroll bar.
 */
 class RASTULLAHLOOK_API RLMiniVertScrollbarThumb : public Thumb
 {

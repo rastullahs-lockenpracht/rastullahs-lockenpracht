@@ -34,10 +34,10 @@ namespace CEGUI
 /*************************************************************************
     Constants
 *************************************************************************/
-const utf8  RLVertScrollbarThumb::WidgetTypeName[]  = "TaharezLook/LargeVerticalScrollbarThumb";
+const utf8  RLVertScrollbarThumb::WidgetTypeName[]  = "RastullahLook/LargeVerticalScrollbarThumb";
 
 // Image names
-const utf8  RLVertScrollbarThumb::ImagesetName[]        = "TaharezLook";
+const utf8  RLVertScrollbarThumb::ImagesetName[]        = "RastullahLook";
 const utf8  RLVertScrollbarThumb::NormalImageName[]     = "VertScrollThumbNormal";
 const utf8  RLVertScrollbarThumb::HighlightImageName[]  = "VertScrollThumbHover";
 

@@ -3,7 +3,7 @@
     created:    2/6/2004
     author:     Paul D Turner
     
-    purpose:    Implementation of thumb for Taharez mini vertical
+    purpose:    Implementation of thumb for Rastullah mini vertical
                 scroll bar.
 *************************************************************************/
 /*************************************************************************
@@ -35,10 +35,10 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLMiniVertScrollbarThumb::WidgetTypeName[]  = "TaharezLook/VerticalScrollbarThumb";
+const utf8  RLMiniVertScrollbarThumb::WidgetTypeName[]  = "RastullahLook/VerticalScrollbarThumb";
 
 // Image names
-const utf8  RLMiniVertScrollbarThumb::ImagesetName[]                = "TaharezLook";
+const utf8  RLMiniVertScrollbarThumb::ImagesetName[]                = "RastullahLook";
 const utf8  RLMiniVertScrollbarThumb::NormalImageName[]             = "MiniVertScrollThumbNormal";
 const utf8  RLMiniVertScrollbarThumb::NormalTopImageName[]          = "MiniVertScrollThumbTopNormal";
 const utf8  RLMiniVertScrollbarThumb::NormalMiddleImageName[]       = "MiniVertScrollThumbMiddleNormal";

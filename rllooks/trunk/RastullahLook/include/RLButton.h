@@ -3,7 +3,7 @@
     created:    11/5/2004
     author:     Paul D Turner
     
-    purpose:    Interface to Taharez look button widget
+    purpose:    Interface to Rastullah look button widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -45,7 +45,7 @@ namespace CEGUI
 {
 /*!
 \brief
-    Button class for the TaharezLook GUI scheme
+    Button class for the RastullahLook GUI scheme
 */
 class RASTULLAHLOOK_API RLButton : public PushButton
 {
@@ -73,7 +73,7 @@ public:
     *************************************************************************/
     /*!
     \brief
-        Constructor for Taharez Look Button objects.
+        Constructor for Rastullah Look Button objects.
 
     \param type
         String object that specifies a type for this window, usually provided by a factory class.

@@ -4,7 +4,7 @@
     author:     Paul D Turner
     
     purpose:    Implementation of 'close button' widget.  This is needed
-                due to the fact that Taharez frame windows standard
+                due to the fact that Rastullah frame windows standard
                 controls have custom clipping requirements.
 *************************************************************************/
 /*************************************************************************
@@ -34,7 +34,7 @@ namespace CEGUI
     Constants 
 *************************************************************************/
 // type name for this widget
-const utf8  RLCloseButton::WidgetTypeName[] = "TaharezLook/CloseButton";
+const utf8  RLCloseButton::WidgetTypeName[] = "RastullahLook/CloseButton";
 
 
 /*************************************************************************

@@ -3,7 +3,7 @@
     created:    29/5/2004
     author:     Paul D Turner
     
-    purpose:    Implementation of Taharez Look Editbox widget
+    purpose:    Implementation of Rastullah Look Editbox widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -35,10 +35,10 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLEditbox::WidgetTypeName[] = "TaharezLook/Editbox";
+const utf8  RLEditbox::WidgetTypeName[] = "RastullahLook/Editbox";
 
 // image name constants
-const utf8  RLEditbox::ImagesetName[]               = "TaharezLook";
+const utf8  RLEditbox::ImagesetName[]               = "RastullahLook";
 const utf8  RLEditbox::ContainerLeftImageName[]     = "EditBoxLeft";
 const utf8  RLEditbox::ContainerMiddleImageName[]   = "EditBoxMiddle";
 const utf8  RLEditbox::ContainerRightImageName[]    = "EditBoxRight";
@@ -56,7 +56,7 @@ const uint  RLEditbox::CaratLayer       = 3;
 
 
 /*************************************************************************
-    Constructor for Taharez edit box widgets    
+    Constructor for Rastullah edit box widgets    
 *************************************************************************/
 RLEditbox::RLEditbox(const String& type, const String& name) :
     Editbox(type, name),
@@ -77,7 +77,7 @@ RLEditbox::RLEditbox(const String& type, const String& name) :
 
 
 /*************************************************************************
-    Destructor for Taharez edit box widgets 
+    Destructor for Rastullah edit box widgets 
 *************************************************************************/
 RLEditbox::~RLEditbox(void)
 {

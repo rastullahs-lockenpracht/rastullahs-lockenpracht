@@ -3,7 +3,7 @@
     created:    21/5/2004
     author:     Paul D Turner
     
-    purpose:    Implementation of Taharez Checkbox
+    purpose:    Implementation of Rastullah Checkbox
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -35,9 +35,9 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLCheckbox::WidgetTypeName[]        = "TaharezLook/Checkbox";
+const utf8  RLCheckbox::WidgetTypeName[]        = "RastullahLook/Checkbox";
 
-const utf8  RLCheckbox::ImagesetName[]          = "TaharezLook";
+const utf8  RLCheckbox::ImagesetName[]          = "RastullahLook";
 const utf8  RLCheckbox::NormalImageName[]       = "CheckboxNormal";
 const utf8  RLCheckbox::HighlightImageName[]    = "CheckboxHover";
 const utf8  RLCheckbox::CheckMarkImageName[]    = "CheckboxMark";
@@ -46,7 +46,7 @@ const float RLCheckbox::LabelPadding            = 4.0f;
 
 
 /*************************************************************************
-    Constructor for Taharez Look Checkbox objects.
+    Constructor for Rastullah Look Checkbox objects.
 *************************************************************************/
 RLCheckbox::RLCheckbox(const String& type, const String& name) :
     Checkbox(type, name)

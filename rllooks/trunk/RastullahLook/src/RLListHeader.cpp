@@ -3,7 +3,7 @@
     created:    14/6/2004
     author:     Paul D Turner
     
-    purpose:    Implementation of Taharez MultiColumn list header widget.
+    purpose:    Implementation of Rastullah MultiColumn list header widget.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -34,7 +34,7 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLListHeader::WidgetTypeName[]  = "TaharezLook/ListHeader";
+const utf8  RLListHeader::WidgetTypeName[]  = "RastullahLook/ListHeader";
 
 // type names for the component widgets
 const utf8* RLListHeader::SegmentWidgetType     = RLListHeaderSegment::WidgetTypeName;

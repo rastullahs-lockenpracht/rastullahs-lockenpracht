@@ -3,7 +3,7 @@
     created:    11/5/2004
     author:     Paul D Turner
     
-    purpose:    Implementation of Taharez look Button widget.
+    purpose:    Implementation of Rastullah look Button widget.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -35,9 +35,9 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLButton::WidgetTypeName[]              = "TaharezLook/Button";
+const utf8  RLButton::WidgetTypeName[]              = "RastullahLook/Button";
 
-const utf8  RLButton::ImagesetName[]                = "TaharezLook";
+const utf8  RLButton::ImagesetName[]                = "RastullahLook";
 const utf8  RLButton::LeftNormalImageName[]         = "ButtonLeftNormal";
 const utf8  RLButton::MiddleNormalImageName[]       = "ButtonMiddleNormal";
 const utf8  RLButton::RightNormalImageName[]        = "ButtonRightNormal";

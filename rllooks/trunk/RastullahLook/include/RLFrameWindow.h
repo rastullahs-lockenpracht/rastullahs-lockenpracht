@@ -3,7 +3,7 @@
     created:    13/4/2004
     author:     Paul D Turner
     
-    purpose:    Defines interface for Taharez Look Frame Window class.
+    purpose:    Defines interface for Rastullah Look Frame Window class.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -39,7 +39,7 @@ namespace CEGUI
 
 /*!
 \brief
-    Concrete FramwWindow class for the Taharez Look widget set. 
+    Concrete FramwWindow class for the Rastullah Look widget set. 
 */
 class RASTULLAHLOOK_API RLFrameWindow : public FrameWindow
 {
@@ -90,7 +90,7 @@ public:
     *************************************************************************/
     /*!
     \brief
-        Constructor for Taharez Look frame window objects.
+        Constructor for Rastullah Look frame window objects.
 
     \param type
         String object that specifies a type for this window, usually provided by a factory class.
@@ -240,14 +240,14 @@ public:
     *************************************************************************/
     /*!
     \brief
-        Constructor for Taharez Frame Window factory class.
+        Constructor for Rastullah Frame Window factory class.
     */
     RLFrameWindowFactory(void) : WindowFactory(RLFrameWindow::WidgetTypeName) { }
 
 
     /*
     \brief
-        Destructor for Taharez Frame Window factory class.
+        Destructor for Rastullah Frame Window factory class.
     */
     ~RLFrameWindowFactory(void){}
 

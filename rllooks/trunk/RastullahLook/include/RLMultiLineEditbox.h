@@ -3,7 +3,7 @@
     created:    30/6/2004
     author:     Paul D Turner
     
-    purpose:    Interface to the Taharez multi-line edit box widget
+    purpose:    Interface to the Rastullah multi-line edit box widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -38,7 +38,7 @@ namespace CEGUI
 {
 /*!
 \brief
-    Multi-line edit box class for the Taharez Gui scheme.
+    Multi-line edit box class for the Rastullah Gui scheme.
 */
 class RASTULLAHLOOK_API RLMultiLineEditbox : public MultiLineEditbox
 {

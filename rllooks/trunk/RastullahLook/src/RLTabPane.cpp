@@ -3,7 +3,7 @@
     created:    11/08/2004
     author:     Steve Streeting
     
-    purpose:    Implementation of Taharez look Tab Pane widget.
+    purpose:    Implementation of Rastullah look Tab Pane widget.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -35,9 +35,9 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLTabPane::WidgetTypeName[] = "TaharezLook/TabPane";
+const utf8  RLTabPane::WidgetTypeName[] = "RastullahLook/TabPane";
 
-const utf8  RLTabPane::ImagesetName[]           = "TaharezLook";
+const utf8  RLTabPane::ImagesetName[]           = "RastullahLook";
 const utf8  RLTabPane::LeftImageName[]          = "TabPaneLeft";
 const utf8  RLTabPane::MiddleImageName[]        = "TabPaneMiddle";
 const utf8  RLTabPane::RightImageName[]         = "TabPaneRight";

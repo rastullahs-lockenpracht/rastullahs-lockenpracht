@@ -3,7 +3,7 @@
     created:    5/6/2004
     author:     Paul D Turner
     
-    purpose:    Interface to Taharez look static widgets & factories
+    purpose:    Interface to Rastullah look static widgets & factories
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -40,12 +40,12 @@ namespace CEGUI
 \brief
     Routine to do some common initialisation of static widgets
 */
-static void initTaharezStatic(Static* s);
+static void initRastullahStatic(Static* s);
 
 
 /*!
 \brief
-    StaticText class for the TaharezLook Gui Scheme
+    StaticText class for the RastullahLook Gui Scheme
 */
 class RASTULLAHLOOK_API RLStaticText : public StaticText
 {
@@ -65,7 +65,7 @@ public:
     *************************************************************************/
     /*!
     \brief
-        Constructor for Taharez Look StaticText objects.
+        Constructor for Rastullah Look StaticText objects.
 
     \param type
         String object that specifies a type for this window, usually provided by a factory class.
@@ -124,7 +124,7 @@ protected:
 
 /*!
 \brief
-    StaticImage class for the TaharezLook Gui Scheme
+    StaticImage class for the RastullahLook Gui Scheme
 */
 class RASTULLAHLOOK_API RLStaticImage : public StaticImage
 {
@@ -140,7 +140,7 @@ public:
     *************************************************************************/
     /*!
     \brief
-        Constructor for Taharez Look StaticImage objects.
+        Constructor for Rastullah Look StaticImage objects.
 
     \param type
         String object that specifies a type for this window, usually provided by a factory class.
@@ -175,7 +175,7 @@ public:
 
 /*!
 \brief
-    Factory class for producing StaticText objects for the Taharez GUI Scheme
+    Factory class for producing StaticText objects for the Rastullah GUI Scheme
 */
 class RASTULLAHLOOK_API RLStaticTextFactory : public WindowFactory
 {
@@ -216,7 +216,7 @@ public:
 
 /*!
 \brief
-    Factory class for producing StaticImage objects for the Taharez GUI Scheme
+    Factory class for producing StaticImage objects for the Rastullah GUI Scheme
 */
 class RASTULLAHLOOK_API RLStaticImageFactory : public WindowFactory
 {

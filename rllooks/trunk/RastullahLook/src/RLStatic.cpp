@@ -3,7 +3,7 @@
     created:    5/6/2004
     author:     Paul D Turner
     
-    purpose:    Implementation of Taharez Look static widgets & factories.
+    purpose:    Implementation of Rastullah Look static widgets & factories.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -39,8 +39,8 @@ namespace CEGUI
 /*************************************************************************
     Constants
 *************************************************************************/
-const utf8  RLStaticText::WidgetTypeName[]      = "TaharezLook/StaticText";
-const utf8  RLStaticImage::WidgetTypeName[]     = "TaharezLook/StaticImage";
+const utf8  RLStaticText::WidgetTypeName[]      = "RastullahLook/StaticText";
+const utf8  RLStaticImage::WidgetTypeName[]     = "RastullahLook/StaticImage";
 
 // component widget type names
 const utf8* RLStaticText::HorzScrollbarTypeName = RLMiniHorzScrollbar::WidgetTypeName;
@@ -50,9 +50,9 @@ const utf8* RLStaticText::VertScrollbarTypeName = RLMiniVertScrollbar::WidgetTyp
 /*************************************************************************
     Routine to do some common initialisation of static widgets
 *************************************************************************/
-void initTaharezStatic(Static* s)
+void initRastullahStatic(Static* s)
 {
-    Imageset* iset = ImagesetManager::getSingleton().getImageset((utf8*)"TaharezLook");
+    Imageset* iset = ImagesetManager::getSingleton().getImageset((utf8*)"RastullahLook");
     
     s->setFrameImages(
         &iset->getImage((utf8*)"StaticTopLeft"),
@@ -118,7 +118,7 @@ Scrollbar* RLStaticText::createHorzScrollbar(void) const
 void RLStaticText::initialise(void)
 {
     StaticText::initialise();
-    initTaharezStatic(this);
+    initRastullahStatic(this);
 }
 
 
@@ -136,7 +136,7 @@ void RLStaticText::initialise(void)
 void RLStaticImage::initialise(void)
 {
     StaticImage::initialise();
-    initTaharezStatic(this);
+    initRastullahStatic(this);
 }
 
 
@@ -148,7 +148,7 @@ void RLStaticImage::initialise(void)
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a StaticText for the Taharez Scheme
+    Create, initialise and return a StaticText for the Rastullah Scheme
 *************************************************************************/
 Window* RLStaticTextFactory::createWindow(const String& name)
 {
@@ -160,7 +160,7 @@ Window* RLStaticTextFactory::createWindow(const String& name)
 
 
 /*************************************************************************
-    Create, initialise and return a StaticImage for the Taharez Scheme
+    Create, initialise and return a StaticImage for the Rastullah Scheme
 *************************************************************************/
 Window* RLStaticImageFactory::createWindow(const String& name)
 {

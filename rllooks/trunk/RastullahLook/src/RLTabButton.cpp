@@ -3,7 +3,7 @@
     created:    11/08/2004
     author:     Steve Streeting
     
-    purpose:    Implementation of Taharez look Tab Button widget.
+    purpose:    Implementation of Rastullah look Tab Button widget.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -35,9 +35,9 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLTabButton::WidgetTypeName[]   = "TaharezLook/TabButton";
+const utf8  RLTabButton::WidgetTypeName[]   = "RastullahLook/TabButton";
 
-const utf8  RLTabButton::ImagesetName[]                 = "TaharezLook";
+const utf8  RLTabButton::ImagesetName[]                 = "RastullahLook";
 const utf8  RLTabButton::LeftNormalImageName[]          = "TabButtonLeftNormal";
 const utf8  RLTabButton::MiddleNormalImageName[]        = "TabButtonMiddleNormal";
 const utf8  RLTabButton::RightNormalImageName[]         = "TabButtonRightNormal";

@@ -3,7 +3,7 @@
     created:    23/5/2004
     author:     Paul D Turner
     
-    purpose:    Implementation of the alternate Taharez orogress bar
+    purpose:    Implementation of the alternate Rastullah orogress bar
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -35,10 +35,10 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLAlternateProgressBar::WidgetTypeName[]            = "TaharezLook/AlternateProgressBar";
+const utf8  RLAlternateProgressBar::WidgetTypeName[]            = "RastullahLook/AlternateProgressBar";
 
 // Progress bar image names
-const utf8  RLAlternateProgressBar::ImagesetName[]              = "TaharezLook";
+const utf8  RLAlternateProgressBar::ImagesetName[]              = "RastullahLook";
 const utf8  RLAlternateProgressBar::ContainerLeftImageName[]    = "AltProgressLeft";
 const utf8  RLAlternateProgressBar::ContainerMiddleImageName[]  = "AltProgressMiddle";
 const utf8  RLAlternateProgressBar::ContainerRightImageName[]   = "AltProgressRight";
@@ -60,7 +60,7 @@ const float RLAlternateProgressBar::FirstLightPaddingRatio      = 0.0f;
 
 
 /*************************************************************************
-    Constructor for Taharez alternate progress bar objects
+    Constructor for Rastullah alternate progress bar objects
 *************************************************************************/
 RLAlternateProgressBar::RLAlternateProgressBar(const String& type, const String& name) :
     ProgressBar(type, name),
@@ -93,7 +93,7 @@ RLAlternateProgressBar::RLAlternateProgressBar(const String& type, const String&
 
 
 /*************************************************************************
-    Destructor for Taharez alternate progress bar objects
+    Destructor for Rastullah alternate progress bar objects
 *************************************************************************/
 RLAlternateProgressBar::~RLAlternateProgressBar(void)
 {

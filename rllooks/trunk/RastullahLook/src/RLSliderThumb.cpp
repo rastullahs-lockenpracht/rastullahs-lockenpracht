@@ -3,7 +3,7 @@
     created:    22/5/2004
     author:     Paul D Turner
     
-    purpose:    Implementation of thumb used with Taharez Slider widget
+    purpose:    Implementation of thumb used with Rastullah Slider widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
@@ -35,10 +35,10 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLSliderThumb::WidgetTypeName[] = "TaharezLook/SliderThumb";
+const utf8  RLSliderThumb::WidgetTypeName[] = "RastullahLook/SliderThumb";
 
 // Image names
-const utf8  RLSliderThumb::ImagesetName[]           = "TaharezLook";
+const utf8  RLSliderThumb::ImagesetName[]           = "RastullahLook";
 const utf8  RLSliderThumb::NormalImageName[]        = "VertSliderThumbNormal";
 const utf8  RLSliderThumb::HighlightImageName[]     = "VertSliderThumbHover";
 
