@@ -236,7 +236,8 @@ class _RlSoundExport SoundResource: public Resource,
         
         
         
-
+private:
+        // Grabbed from example
         void display();
         bool playback();
         bool playing();

@@ -109,6 +109,9 @@ class _RlSoundExport MusicManager : public ResourceManager, public Ogre::Singlet
         bool isAuto();
         /// Setzt, ob der MusicManger selbst weiterschaltet.
         void setAuto(bool isAuto = true);
+        /// Alle Sounds löschen.
+        void clearList();
+        
 };
 
 }

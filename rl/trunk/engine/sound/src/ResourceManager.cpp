@@ -39,14 +39,24 @@ void ResourceManager::addSounds()
         for(it = list.begin(); it != list.end(); it++)
         {
             try {
-                mResListMutex.lock();
                 add(create(*it));
-                mResListMutex.unlock();
             } catch(...)
             {}
         }
     }
 }
+
+/**
+ * @author JoSch
+ * @date 01-26-2005
+ */
+void ResourceManager::add(Resource *song)
+{
+    mResListMutex.lock();
+    Ogre::ResourceManager::add(song);
+    mResListMutex.unlock();
+}
+
 
 
 /**

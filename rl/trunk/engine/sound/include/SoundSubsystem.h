@@ -42,6 +42,16 @@ public:
     static SoundSubsystem* getSingletonPtr(void);
     /// Eine Log-Nachricht ausgeben.
     static void SoundSubsystem::log(const String& msg);
+    /// Wird EAX unterstützt?
+    bool isEAXCapable() const;
+    /// Interface zu EAXGet
+    ALenum EAXGet(const void *propertySetID, ALuint property,
+        ALuint source, ALvoid *value, ALuint size);
+    /// Interface zu EAXSet
+    ALenum EAXSet(const void *propertySetID, ALuint property,
+        ALuint source, ALvoid *value, ALuint size);
+    /// Ist das Soundsystem schon blockiert?
+    //bool isLocked() const;
 };
 
 }

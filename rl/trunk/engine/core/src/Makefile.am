@@ -21,6 +21,7 @@ libRlCore_la_SOURCES = \
 	PhysicalThing.cpp \
 	PhysicsManager.cpp \
 	RlAnimation.cpp \
+	RlTrackAnimation.cpp \
 	RubyInterpreter.cpp \
 	ScriptObject.cpp \
 	SynchronizedTask.cpp \

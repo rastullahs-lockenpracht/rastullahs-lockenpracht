@@ -26,6 +26,7 @@ namespace rl {
        void addSearchPath(const String &path);
        std::list<String> getSounds();
        virtual Resource* create(const String &resName) = 0;
+       virtual void add(Resource *song);
    	};
    
    	class SoundManager : public ResourceManager {
@@ -37,7 +38,6 @@ namespace rl {
       
    	class MusicManager : public ResourceManager {
    	public:
-        virtual Resource* create(const String &resName);
         static MusicManager& getSingleton();
         static MusicManager* getSingletonPtr();
         MusicManager();
@@ -52,6 +52,10 @@ namespace rl {
         void setNextSong();
         void setGain(float newGain);
         float getGain();
+        
+        virtual Resource* create(const String &resName);
+        void rewind();
+        void clearList();
         
         bool isAuto();
         void setAuto(bool isAuto);
@@ -81,6 +85,26 @@ namespace rl {
         const ALenum getState() const throw (rl::RuntimeException);
         const bool isPlaying() const;
     };
+    
+    class SoundEvent {
+    	SoundEvent();
+    	virtual ~SoundEvent();
+    };
+    
+    class SoundPlayEvent : public SoundEvent {
+    	SoundPlayEvent();
+    	virtual ~SoundPlayEvent();
+     	static const unsigned int STARTEVENT = 10;
+    	static const unsigned int STOPEVENT = 11;
+    };
+    
+    class SoundFadeEvent : public SoundEvent {
+    	SoundFadeEvent();
+    	~SoundFadeEvent();
+    	static const unsigned int STARTEVENT = 12;
+    	static const unsigned int STOPEVENT = 13;
+    };
+    
 
 }
 

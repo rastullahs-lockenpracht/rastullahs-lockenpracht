@@ -362,6 +362,15 @@ Resource* MusicManager::create(const String& resName)
     return newSound;
 }
 
+/**
+ * @author JoSch
+ * @date 01-26-2005
+ */
+void MusicManager::clearList()
+{
+    stopSong();
+    unloadAndDestroyAll();
+}
 
 
 }

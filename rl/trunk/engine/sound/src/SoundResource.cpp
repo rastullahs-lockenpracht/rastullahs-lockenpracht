@@ -953,7 +953,7 @@ bool SoundResource::update ()
         alSourceUnqueueBuffers (mSource, 1, &buffer);
         check ();
 
-        active = stream (buffer);
+        active = stream (buffer); // TODO
 
         alSourceQueueBuffers (mSource, 1, &buffer);
         check ();

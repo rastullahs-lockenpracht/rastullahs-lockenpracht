@@ -19,6 +19,7 @@ noinst_HEADERS = \
 	PhysicalThing.h \
 	PhysicsManager.h \
 	RlAnimation.h \
+	RlTrackAnimation.h \
 	RubyInterpreter.h \
 	ScriptObject.h \
 	SynchronizedTask.h \
