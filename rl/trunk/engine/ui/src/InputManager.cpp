@@ -353,15 +353,15 @@ namespace rl {
 			mTargetedObject = NULL;
 	}
 
-	void InputManager::updatePickedObject(float mouseRelX, float mouseRelY)
-	{
-		Actor* a = ActorManager::getSingleton().getActorAt(mouseRelX, mouseRelY);
-			DebugWindow::getSingleton().setText(
-			"X="+StringConverter::toString(mouseRelX)+
-			"   Y="+StringConverter::toString(mouseRelY)+
-			"   - Object("+(a==NULL?"null":a->getName())+")");		
+    void InputManager::updatePickedObject(float mouseRelX, float mouseRelY)
+    {
+        Actor* a = ActorManager::getSingleton().getActorAt(mouseRelX, mouseRelY);
+        //DebugWindow::getSingleton().setText(
+        //    "X="+StringConverter::toString(mouseRelX)+
+        //    "   Y="+StringConverter::toString(mouseRelY)+
+        //    "   - Object("+(a==NULL?"null":a->getName())+")");		
 
-		//mTargetedObject = a->getGameObject();		
-	}
+        //mTargetedObject = a->getGameObject();		
+    }
 
 }

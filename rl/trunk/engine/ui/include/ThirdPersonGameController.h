@@ -7,18 +7,22 @@
 #include <OgreEntity.h>
 #include <OgreCamera.h>
 #include <OgreSceneNode.h>
+#include <OgreSceneQuery.h>
+#undef sleep
+#include <OgreOde.h>
 
 namespace rl {
+
+    static const unsigned long QF_CREATURE = 1;
 
     class GameActor;
 
     /**
-     *  @todo auf Actor umstellen statt Ogre::Entity
      *  @todo Kollision
      *  @todo Nachziehen
-     *  @todo "Pluggablility"
      */
-    class _RlUiExport ThirdPersonGameController : public SynchronizedTask
+    class _RlUiExport ThirdPersonGameController : public SynchronizedTask,
+        public OgreOde::CollisionListener
     {
     public:
         /** Massgeblich ist die Position des Actors. Die Camera wird hinter diesen
@@ -46,8 +50,14 @@ namespace rl {
          */
         void setCamera(Ogre::Camera* camera);
 
+        /**
+         *  Callback vom CollisionListener
+         */
+        virtual bool collision(OgreOde::Contact* contact);
+
     private:
         typedef enum {AS_STAND, AS_WALK_FORWARD} AnimationState;
+        Ogre::SceneManager* mSceneManager;
         Ogre::SceneNode* mControlNode;
         Ogre::SceneNode* mLookAtNode;
         Ogre::SceneNode* mCameraNode;
@@ -59,12 +69,29 @@ namespace rl {
 
         Ogre::Real mMoveSpeed;
         Ogre::Real mRotSpeed;
+        
+        Ogre::Real mFallSpeed;
+
+        OgreOde::World* mOdeWorld;
+        OgreOde::Stepper* mOdeStepper;
+        OgreOde::CapsuleGeometry* mOdeActor;
+        OgreOde::RayGeometry* mOdeActorRay;
+        OgreOde::TriangleMeshGeometry* mOdeLevel;
 
         AnimationState mCurrentAnimationState;
         AnimationState mLastAnimationState;
 
         void setup();
+        void setupCollisionDetection();
 
+        Ogre::Vector3 ogrePosToOdePos(const Ogre::Vector3& pos,
+            const Ogre::Vector3& extent);
+
+        void translate(const Vector3& translation,
+            Ogre::Node::TransformSpace ts);
+        void setPosition(const Vector3& position);
+        
+        bool detectCollision(const Ogre::Vector3& translation);
         void calculateScalingFactors(Ogre::Real timePassed);
 
         void calculateHeroTranslation(Ogre::Vector3& translation);

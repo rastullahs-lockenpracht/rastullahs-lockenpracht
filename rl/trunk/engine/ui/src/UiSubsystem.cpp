@@ -62,12 +62,15 @@ namespace rl {
     {
 		using namespace CEGUI;
 
-        CEGUI::OgreRenderer* rend = 
+        World* world = CoreSubsystem::getSingleton().getWorld();
+        SceneManager* sceneMgr = CoreSubsystem::getSingleton().getWorld()->getSceneManager();
+
+		CEGUI::OgreRenderer* rend = 
 			new CEGUI::OgreRenderer(Ogre::Root::getSingleton().getAutoCreatedWindow(), 
 									Ogre::RENDER_QUEUE_OVERLAY, 
 									false, 
 									3000,
-									CoreSubsystem::getSingleton().getWorld()->getSceneManager());
+									sceneMgr);
 
 		new System(rend, NULL, (utf8*)"modules/common/gui/cegui.config");
 
@@ -89,7 +92,7 @@ namespace rl {
 		new DebugWindow();
 		new Console();
 		((RubyInterpreter*)CoreSubsystem::getSingleton().getInterpreter() )->initializeInterpreter( (VALUE(*)(...))&UiSubsystem::consoleWrite );
-		
+			      
         //runTest();
     }
 

@@ -26,9 +26,9 @@ class _RlUiExport FlyingCameraController : public SynchronizedTask
 	private:
 		CameraActor* mActor;
 
-		float mRotX, mRotY;
+		Radian mRotX, mRotY;
 
-		float mRotScale;
+		Radian mRotScale;
 		float mMoveScale;
 
 		float mTurningSpeed;

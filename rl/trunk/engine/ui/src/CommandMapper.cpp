@@ -9,7 +9,12 @@ template <> rl::CommandMapper* Singleton<rl::CommandMapper>::ms_Singleton = 0;
 namespace rl {
 
 	CommandMapper::CommandMapper()
-		: mActiveMovement(MOVE_NONE)
+	    : mMovementCommands(),
+		  mActionCommands(),
+		  mMouseCommands(),
+		  mActiveMovement(MOVE_NONE),
+		  mActionsInBattle(),
+		  mActionsOffBattle()
 	{
 		mMovementCommands.insert(make_pair(KC_A, MOVE_LEFT));
 		mMovementCommands.insert(make_pair(KC_D, MOVE_RIGHT));

@@ -96,8 +96,8 @@ void FlyingCameraController::moveCamera()
 
 	// Make all the changes to the camera
 	// Note that YAW direction is around a fixed axis (freelook style) rather than a natural YAW (e.g. airplane)
-	mActor->yaw(mRotX);
-	mActor->pitch(mRotY);
+	mActor->yaw(mRotX.valueDegrees());
+	mActor->pitch(mRotY.valueDegrees());
 	mActor->translate(mTranslateVector);	
 }
 
@@ -176,12 +176,12 @@ void FlyingCameraController::processKeys()
 
 	if (InputManager::getSingleton().isKeyDown(KC_RIGHT))
 	{
-		mActor->yaw(-mRotScale);
+		mActor->yaw(-(mRotScale.valueDegrees()));
 	}
 
 	if (InputManager::getSingleton().isKeyDown(KC_LEFT))
 	{
-		mActor->yaw(mRotScale);
+		mActor->yaw(mRotScale.valueDegrees());
 	}
 
     if (InputManager::getSingleton().isKeyDown(KC_SYSRQ))
