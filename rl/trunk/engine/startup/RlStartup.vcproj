@@ -137,9 +137,6 @@
 			Name="Quelldateien"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm">
 			<File
-				RelativePath=".\src\RastullahApplication.cpp">
-			</File>
-			<File
 				RelativePath=".\src\RastullahMain.cpp">
 			</File>
 		</Filter>
