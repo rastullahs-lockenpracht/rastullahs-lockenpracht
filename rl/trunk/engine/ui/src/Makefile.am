@@ -12,4 +12,5 @@ libRlUi_la_SOURCES = \
 	ScriptObject.cpp \
 	UiSubsystem.cpp \
 	DebugWindow.cpp \
-	ThirdPersonGameController.cpp
+	ThirdPersonGameController.cpp \
+	DialogWindow.cpp

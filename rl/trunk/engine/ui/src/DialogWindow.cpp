@@ -132,7 +132,7 @@ void DialogWindow::runTest()
 
 void DialogWindow::handleSelectOption(const CEGUI::EventArgs& e)
 {
-	DebugWindow::getSingleton().setText("Pönk"+StringConverter::toString(getSelectedOption());
+	DebugWindow::getSingleton().setText("Pnk"+StringConverter::toString(getSelectedOption()));
 	//hide();
 }
 
