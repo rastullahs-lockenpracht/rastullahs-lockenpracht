@@ -16,6 +16,8 @@
 #ifndef EVENTSOURCE_H
 #define EVENTSOURCE_H
 
+#include "CommonPrerequisites.h"
+
 namespace rl {
 /**
  * Diese Klasse dient als Basisklasse fuer Ereignisquellen
@@ -23,7 +25,7 @@ namespace rl {
  * @date 10-05-2004
  * @version 1.0
  */
-class EventSource {
+class _RlCommonExport EventSource {
 public:
     /// Der Konstruktor.
    EventSource();

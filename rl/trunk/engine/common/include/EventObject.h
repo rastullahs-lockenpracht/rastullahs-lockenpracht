@@ -16,6 +16,8 @@
 #ifndef EVENTOBJECT_H
 #define EVENTOBJECT_H
 
+#include "CommonPrerequisites.h"
+
 #include "EventSource.h"
 
 namespace rl {
@@ -25,7 +27,7 @@ namespace rl {
  * @date 10-05-2004
  * @version 1.0
  */
-class EventObject {
+class _RlCommonExport EventObject {
 private:
    /// Die Quelle des Ereignisses.
    EventSource *mSource; 

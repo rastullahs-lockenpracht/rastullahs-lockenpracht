@@ -834,11 +834,11 @@ bool SoundResource::stream (ALuint buffer)
 {
     char pcm[BUFFER_SIZE];
     int size = 0;
-    int section;
-    int result;
+//    int section;
+//    int result;
     
-
-    while (size < BUFFER_SIZE) {
+//   HACK: Edit by Blakharaz - leere while-Schleife = potentielle Endlosschleife?
+//    while (size < BUFFER_SIZE) {
 /*        result =
             ov_read(&mOggStream, pcm + size, BUFFER_SIZE - size, 0, 2, 1,
                      &section);
@@ -853,7 +853,7 @@ bool SoundResource::stream (ALuint buffer)
             break;
         } */
        
-    }
+//    }
 
     if (size < BUFFER_SIZE) {
         return false;

@@ -143,7 +143,7 @@ class _RlSoundExport SoundResource: public Resource,
         static ov_callbacks mVorbisCallbacks;
         
         /// Welches Soundformat hat dieser Sound.
-        ALsizei mFormat;
+        ALenum mFormat;
         /// Wie gross ist der Sound in Bytes.
         ALsizei mSize;
         /// Wie gross ist ein Sample in Bits.

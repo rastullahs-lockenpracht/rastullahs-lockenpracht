@@ -130,6 +130,12 @@
 				RelativePath=".\src\CsvFile.cpp">
 			</File>
 			<File
+				RelativePath=".\src\EventObject.cpp">
+			</File>
+			<File
+				RelativePath=".\src\EventSource.cpp">
+			</File>
+			<File
 				RelativePath=".\src\XmlHelper.cpp">
 			</File>
 			<File
@@ -140,6 +146,11 @@
 			</File>
 		</Filter>
 		<Filter
+			Name="Ressourcendateien"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}">
+		</Filter>
+		<Filter
 			Name="Headerdateien"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
@@ -148,6 +159,18 @@
 			</File>
 			<File
 				RelativePath=".\include\CsvFile.h">
+			</File>
+			<File
+				RelativePath=".\include\EventCaster.h">
+			</File>
+			<File
+				RelativePath=".\include\EventListener.h">
+			</File>
+			<File
+				RelativePath=".\include\EventObject.h">
+			</File>
+			<File
+				RelativePath=".\include\EventSource.h">
 			</File>
 			<File
 				RelativePath=".\include\Exception.h">
@@ -170,11 +193,6 @@
 			<File
 				RelativePath=".\include\XmlResourceManager.h">
 			</File>
-		</Filter>
-		<Filter
-			Name="Ressourcendateien"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}">
 		</Filter>
 	</Files>
 	<Globals>

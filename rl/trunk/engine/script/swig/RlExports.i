@@ -20,6 +20,10 @@
 #   endif
 #endif
 
+%feature("director:except") {
+    throw Swig::DirectorMethodException($error);
+}
+
 %include "RlSound.inc"
 %include "RlCore.inc"
 %include "RlRules.inc"

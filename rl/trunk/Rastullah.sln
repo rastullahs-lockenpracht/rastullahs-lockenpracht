@@ -25,6 +25,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RlStartup", "engine\startup
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RlSound", "engine\sound\RlSound.vcproj", "{7187C873-42CB-43FE-BE1A-F86F59410EB2}"
 	ProjectSection(ProjectDependencies) = postProject
+		{D58412A4-DF31-4E86-95D3-49EB8F47F2D5} = {D58412A4-DF31-4E86-95D3-49EB8F47F2D5}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RlCore", "engine\core\RlCore.vcproj", "{ED15F0B2-8B3B-40D1-8F56-5399B2E5E854}"

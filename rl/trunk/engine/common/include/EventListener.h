@@ -16,6 +16,7 @@
 #ifndef EVENTLISTENER_H
 #define EVENTLISTENER_H
 
+
 namespace rl {
 /**
  * Diese Klasse ist die Basisklasse fuer Objekte, die an Ereignisse interessiert
