@@ -155,7 +155,7 @@ namespace rl {
 		CameraActor* camera = dynamic_cast<CameraActor*>(
             ActorManager::getSingleton().getActor("DefaultCamera"));
 		CoreSubsystem::getSingleton().log("Kamera erschaffen");
-		mGameController = new ThirdPersonGameController(
+		mGameController = new GameController(
             camera->getOgreCamera(), person->getActor());
         CoreSubsystem::getSingleton().log("GameController erschaffen");
 		GameLoop::getSingleton().addSynchronizedTask(mGameController);
@@ -216,4 +216,9 @@ namespace rl {
 	{
 		InputManager::getSingleton().setObjectPickingActive(true);
 	}
+	
+    GameController* UiSubsystem::getGameController()
+    {
+        return mGameController;
+    }
 }

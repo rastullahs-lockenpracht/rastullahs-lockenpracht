@@ -58,6 +58,15 @@ namespace rl {
 		ae.actionClass = "ToggleDebugWindowAction";
 		ae.actionName = "DebugWindow";
 		mKeyCommandsOffBattle.insert(make_pair(KC_F2, ae));
+		
+		ae.actionClass = "ToggleViewModeAction";
+		ae.actionName = "Sichtmodus";
+		mKeyCommandsOffBattle.insert(make_pair(KC_F, ae));
+		
+        ae.actionClass = "ResetCameraAction";
+		ae.actionName = "Kamera";
+		mKeyCommandsOffBattle.insert(make_pair(KC_NUMPAD0, ae));
+
 	}
 
 	CommandMapper::~CommandMapper()

@@ -30,7 +30,7 @@
 namespace rl {
 
     class Interpreter;
-    class ThirdPersonGameController;
+    class GameController;
     class GameActor;
 	class GameObject;
 	class Person;
@@ -63,6 +63,7 @@ namespace rl {
 		void showMainMenu();
 		Person* getActiveCharacter();
 		void setActiveCharacter(Person* person);
+        GameController* getGameController();
 
 		void setBattleMode(bool inBattle);
 		bool isInBattleMode();
@@ -73,7 +74,7 @@ namespace rl {
         void initializeUiSubsystem( void );
         void runTest();
         
-        ThirdPersonGameController* mGameController;
+        GameController* mGameController;
         GameActor* mHero;
         Person* mCharacter;
         bool mInBattle;

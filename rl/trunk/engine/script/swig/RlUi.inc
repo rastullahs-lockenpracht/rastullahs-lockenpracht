@@ -16,6 +16,19 @@
 
 namespace rl {
 
+class GameController
+{
+public:
+    typedef enum {VM_THIRD_PERSON, VM_FIRST_PERSON} ViewMode;
+    rl::GameActor* getControlledActor();
+    void setControlledActor(rl::GameActor* actor);
+    Ogre::Camera* getCamera();
+    void setCamera(Ogre::Camera* camera);
+    void setViewMode(ViewMode mode);
+    ViewMode getViewMode();
+    void resetCamera();
+};
+
 class UiSubsystem 
 {
 public:
@@ -29,6 +42,7 @@ public:
 	void showMainMenu();
 	void toggleConsole();
 	void toggleDebugWindow();
+	GameController* getGameController();
 	
 	void requestExit();
 };

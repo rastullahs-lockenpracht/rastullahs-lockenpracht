@@ -14,8 +14,8 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#ifndef __ThirdPersonGameController_H__
-#define __ThirdPersonGameController_H__
+#ifndef __GameController_H__
+#define __GameController_H__
 
 #include "UiPrerequisites.h"
 #include "SynchronizedTask.h"
@@ -29,26 +29,26 @@
 
 namespace rl {
 
-    static const unsigned long QF_CREATURE = 1;
-
     class GameActor;
 
     /**
      *  @todo Kollision
      *  @todo Nachziehen
      */
-    class _RlUiExport ThirdPersonGameController : public SynchronizedTask,
+    class _RlUiExport GameController : public SynchronizedTask,
         public OgreOde::CollisionListener
     {
     public:
         typedef enum {VM_THIRD_PERSON, VM_FIRST_PERSON} ViewMode;
     
+        GameController();
+        
         /** Massgeblich ist die Position des Actors. Die Camera wird hinter diesen
          *  gesetzt.
          *  @throw NullPointerException falls camera oder hero 0 sind.
          */
-        ThirdPersonGameController(Ogre::Camera* camera, GameActor* hero);
-        virtual ~ThirdPersonGameController();
+        GameController(Ogre::Camera* camera, GameActor* hero);
+        virtual ~GameController();
 
         void run(Real elapsedTime);
 
@@ -70,6 +70,7 @@ namespace rl {
         
         /// First oder Third person view.
         void setViewMode(ViewMode mode);
+        ViewMode getViewMode();
         
         /** Setzt die Camera in einen 30-Grad-Winkel dem Helden auf den Hinterkopf
          *  schauend im aktuellen Abstand vom Helden, wie durch den Spieler bestimmt.

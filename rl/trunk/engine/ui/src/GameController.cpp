@@ -35,7 +35,13 @@ using namespace Ogre;
 
 namespace rl {
 
-    ThirdPersonGameController::ThirdPersonGameController(
+    GameController::GameController()
+    {
+        // Must not be used.
+        Throw(OperationNotSupportedException, "Do ot use the standard constructor.");
+    }
+    
+    GameController::GameController(
         Camera* camera, GameActor* actor)
         : mSceneManager(CoreSubsystem::getSingletonPtr()->
         getWorld()->getSceneManager()),
@@ -88,7 +94,7 @@ namespace rl {
     /// This method will be refactored away whith the next
     /// PhysicsManager-Update to OgreODE.
     /// Code adopted from monsters OgreODE-Demo
-    void ThirdPersonGameController::setupCollisionDetection()
+    void GameController::setupCollisionDetection()
     {
         // Create the ODE world
         mOdeWorld = new OgreOde::World(mSceneManager);
@@ -219,7 +225,7 @@ namespace rl {
     }
     //------------------------------------------------------------------------
 
-    ThirdPersonGameController::~ThirdPersonGameController()
+    GameController::~GameController()
     {
         delete mOdeCamera;
         delete mOdeActor;
@@ -229,7 +235,7 @@ namespace rl {
     }
     //------------------------------------------------------------------------
 
-    void ThirdPersonGameController::run(Real elapsedTime)
+    void GameController::run(Real elapsedTime)
     {
         Vector3 translation = Vector3::ZERO;
         Real yaw = 0.0;
@@ -274,7 +280,7 @@ namespace rl {
     }
     //------------------------------------------------------------------------
 
-    bool ThirdPersonGameController::collision(OgreOde::Contact* contact)
+    bool GameController::collision(OgreOde::Contact* contact)
     {
         if (contact->getSecondGeometry() == mOdeActor)
         {
@@ -295,7 +301,7 @@ namespace rl {
     }
     //------------------------------------------------------------------------
     
-    void ThirdPersonGameController::adjustCamera(OgreOde::Contact* contact)
+    void GameController::adjustCamera(OgreOde::Contact* contact)
     {
         //mCameraNode->translate(contact->getNormal() * contact->getPenetrationDepth(),
         //        Node::TS_WORLD);
@@ -308,7 +314,7 @@ namespace rl {
     }
     //------------------------------------------------------------------------
 
-    void ThirdPersonGameController::calculateScalingFactors(Real timePassed)
+    void GameController::calculateScalingFactors(Real timePassed)
     {
         if (timePassed == 0)
         {
@@ -323,7 +329,7 @@ namespace rl {
     }
     //------------------------------------------------------------------------
 
-    void ThirdPersonGameController::calculateCameraTranslation()
+    void GameController::calculateCameraTranslation()
     {	
         InputManager* im = InputManager::getSingletonPtr();
         CommandMapper* cmdmap = CommandMapper::getSingletonPtr();
@@ -343,7 +349,7 @@ namespace rl {
     }
     //------------------------------------------------------------------------
 
-    void ThirdPersonGameController::calculateHeroTranslation(Ogre::Vector3& translation,
+    void GameController::calculateHeroTranslation(Ogre::Vector3& translation,
         Ogre::Real& yaw)
     {
         InputManager* im = InputManager::getSingletonPtr();
@@ -372,12 +378,12 @@ namespace rl {
         if (im->isKeyDown(KC_P))
             CoreSubsystem::getSingleton().makeScreenshot("rastullah");
 
-        if (im->isKeyDown(KC_NUMPAD0))
-            resetCamera();
+        //if (im->isKeyDown(KC_NUMPAD0))
+        //    resetCamera();
             
-        if (im->isKeyDown(KC_F))
-            setViewMode(mViewMode == VM_FIRST_PERSON ?
-                VM_THIRD_PERSON : VM_FIRST_PERSON);
+        //if (im->isKeyDown(KC_F))
+        //    setViewMode(mViewMode == VM_FIRST_PERSON ?
+        //        VM_THIRD_PERSON : VM_FIRST_PERSON);
             
         if (im->isKeyDown(KC_SPACE) && fabs(mFallSpeed) <= 0.1)
             mFallSpeed = -200;
@@ -391,7 +397,7 @@ namespace rl {
     }
     //------------------------------------------------------------------------
 
-    void ThirdPersonGameController::updateAnimationState(const Vector3& translation)
+    void GameController::updateAnimationState(const Vector3& translation)
     {
         mCurrentAnimationState =
             translation != Vector3::ZERO ? AS_WALK_FORWARD : AS_STAND;
@@ -411,13 +417,13 @@ namespace rl {
     }
     //------------------------------------------------------------------------
 
-    GameActor* ThirdPersonGameController::getControlledActor()
+    GameActor* GameController::getControlledActor()
     {
         return mActor;
     }
     //------------------------------------------------------------------------
 
-    void ThirdPersonGameController::setControlledActor(GameActor* actor)
+    void GameController::setControlledActor(GameActor* actor)
     {
         if (actor == 0)
         {
@@ -428,13 +434,13 @@ namespace rl {
     }
     //------------------------------------------------------------------------
 
-    Ogre::Camera* ThirdPersonGameController::getCamera()
+    Ogre::Camera* GameController::getCamera()
     {
         return mCamera;
     }
     //------------------------------------------------------------------------
 
-    void ThirdPersonGameController::setup()
+    void GameController::setup()
     {
         if (mActor != 0)
         {
@@ -476,14 +482,14 @@ namespace rl {
     }
     //------------------------------------------------------------------------
 
-    Vector3 ThirdPersonGameController::ogrePosToOdePos(
+    Vector3 GameController::ogrePosToOdePos(
         const Vector3& pos, const Vector3& extent)
     {
         return Vector3(pos.x, pos.y + extent.y / 2.0, pos.z);
     }
     //------------------------------------------------------------------------
 
-    void ThirdPersonGameController::setCamera(Ogre::Camera* camera)
+    void GameController::setCamera(Ogre::Camera* camera)
     {
         if (camera == 0)
         {
@@ -497,13 +503,13 @@ namespace rl {
     }
     //------------------------------------------------------------------------
 
-    void ThirdPersonGameController::updatePickedObject() const
+    void GameController::updatePickedObject() const
     {
         InputManager::getSingleton().updatePickedObject(0.5, 0.5);
     }
     //------------------------------------------------------------------------
     
-    void ThirdPersonGameController::translate(const Vector3& translation,
+    void GameController::translate(const Vector3& translation,
         Node::TransformSpace ts)
     {
         mControlNode->translate(translation, ts);
@@ -517,13 +523,13 @@ namespace rl {
     }
     //------------------------------------------------------------------------
     
-    void ThirdPersonGameController::setPosition(const Vector3& position)
+    void GameController::setPosition(const Vector3& position)
     {
         ///@todo implementieren
     }
     //------------------------------------------------------------------------
     
-    void ThirdPersonGameController::setViewMode(ViewMode mode)
+    void GameController::setViewMode(ViewMode mode)
     {
         mViewMode = mode;
         if (mode == VM_FIRST_PERSON)
@@ -539,8 +545,13 @@ namespace rl {
         }
     }
     //------------------------------------------------------------------------
+    GameController::ViewMode GameController::getViewMode()
+    {
+        return mViewMode;
+    }
+    //------------------------------------------------------------------------
     
-    void ThirdPersonGameController::resetCamera()
+    void GameController::resetCamera()
     {
         if (mViewMode == VM_THIRD_PERSON)
         {
