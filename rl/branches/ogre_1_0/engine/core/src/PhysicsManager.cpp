@@ -46,7 +46,8 @@ namespace rl
             mGlobalSpace(new OgreOde::HashTableSpace(0)),
             mCurrSpace(mGlobalSpace),
             mOdeStepper(new OgreOde::ForwardFixedQuickStepper(0.01)),
-            mOdeLevel(0)
+            mOdeLevel(0),
+            mWorld(world)
     {
         ///@fix die 3.0 ist willkührlich. nur ein Quickfix
         mOdeWorld->setGravity(Vector3(0, 3.0 * -980.665, 0));
@@ -80,15 +81,16 @@ namespace rl
         return 0;
     }
 
-    ///@todo Das aktuelle Levelmesh setzen.
     void PhysicsManager::createLevelGeometry(SceneNode* levelNode)
     {
         delete mOdeLevel;
         mOdeLevel = 0;
         if (levelNode)
         {
-            mOdeLevel = MeshInformer::createStaticTriangleMesh(levelNode,
-                mGlobalSpace);
+            OgreOde::EntityInformer ei(
+                mWorld->getSceneManager()->getEntity("level"),
+                levelNode->_getFullTransform());
+            mOdeLevel = ei.createStaticTriangleMesh(mGlobalSpace);
         }
         else
         {

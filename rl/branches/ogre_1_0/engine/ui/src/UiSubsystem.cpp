@@ -18,8 +18,8 @@
 
 #include "UiSubsystem.h"
 
-#include <renderers/OgreGUIRenderer/OgreCEGUIRenderer.h>
-#include <renderers/OgreGUIRenderer/OgreCEGUIResourceProvider.h>
+#include <OgreCEGUIRenderer.h>
+#include <OgreCEGUIResourceProvider.h>
 
 #include "RubyInterpreter.h"
 #include "CoreSubsystem.h"

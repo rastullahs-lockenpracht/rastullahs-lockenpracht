@@ -25,7 +25,7 @@
 #include <OgreSceneNode.h>
 #include <OgreSceneQuery.h>
 #undef sleep
-#include <OgreOde.h>
+#include <OgreOde_Core.h>
 
 namespace rl {
 
