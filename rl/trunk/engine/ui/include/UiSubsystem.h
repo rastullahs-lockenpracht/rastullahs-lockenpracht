@@ -20,12 +20,12 @@
 #include <OgreSingleton.h>
 #include <string>
 
-#include "UiPrerequisites.h"
-
 #include <OgreNoMemoryMacros.h>
 #include <ruby.h>
 #include "FixRubyHeaders.h"
 #include <OgreMemoryMacros.h>
+#undef min
+#include "UiPrerequisites.h"
 
 namespace rl {
 
@@ -69,8 +69,14 @@ namespace rl {
 		static const char* CEGUI_ROOT;
 
     private:
-        void initializeUiSubsystem( void );		void runTest();        ThirdPersonGameController* mGameController;        GameActor* mHero;		Person* mCharacter;		bool mInBattle;    };
-
+        void initializeUiSubsystem( void );
+        void runTest();
+        
+        ThirdPersonGameController* mGameController;
+        GameActor* mHero;
+        Person* mCharacter;
+        bool mInBattle;
+    };
 }
 
 #endif

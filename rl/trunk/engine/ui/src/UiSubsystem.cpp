@@ -60,6 +60,9 @@ namespace rl {
 	}
 
 	UiSubsystem::UiSubsystem() :
+        mGameController(0),
+        mHero(0),
+        mCharacter(0),
 		mInBattle(false)
 	{
 		CoreSubsystem::getSingleton().log("Ui: Init Start");
