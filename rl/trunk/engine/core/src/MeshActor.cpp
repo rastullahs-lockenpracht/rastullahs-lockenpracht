@@ -72,7 +72,7 @@ namespace rl {
 
 
 
-	RlAnimation* MeshActor::getAnimation(const String& animName)
+	RlAnimation* MeshActor::getAnimation(const String& animName) const
 	{
 		try
 		{
@@ -93,7 +93,7 @@ namespace rl {
 		try
 		{
 			AnimationState* animState = getEntity()->getAnimationState(animName);
-			return AnimationManager::getSingleton().addAnimation(animState);
+			return AnimationManager::getSingleton().addAnimation(animState,speed,timesToPlay);
 		}
 		catch(Ogre::Exception&) 
 		{
@@ -227,7 +227,7 @@ namespace rl {
         }
     }
 
-    Entity* MeshActor::getEntity(void)
+    Entity* MeshActor::getEntity(void) const
     {
         return mEntity;
     }

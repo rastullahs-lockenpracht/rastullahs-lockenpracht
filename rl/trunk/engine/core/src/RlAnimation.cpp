@@ -95,6 +95,7 @@ void RlAnimation::resetTimesPlayed()
 {
 	mTimePlayed = 0;
 	mAnimState->setLoop( true );
+	setPaused(false);
 }
 
 Real RlAnimation::getTimePlayed() const
@@ -109,7 +110,9 @@ unsigned int RlAnimation::getTimesPlayed() const
 
 unsigned int RlAnimation::getTimesToPlayLeft() const
 {
-	return max(mTimesToPlay - getTimesPlayed(),0);
+	// Nicht unsigned :)
+	int left = mTimesToPlay - getTimesPlayed();
+	return max( left ,0);
 }
 
 // Gewicht (Einfluss) der RlAnimation
@@ -131,10 +134,12 @@ void RlAnimation::addTime( Real timePassed )
 		timePassed = timePassed * mSpeed;
 
 		mAnimState->addTime( timePassed );
-		
+
 		// Begrenzte Abspielanzahl
 		if( mTimesToPlay > 0 )
 		{
+			mTimePlayed += timePassed;
+
 			if( getTimesToPlayLeft() == 1 )
 			{
 				mAnimState->setLoop(false);
@@ -142,7 +147,7 @@ void RlAnimation::addTime( Real timePassed )
 			else if( getTimesToPlayLeft() == 0 ) 
 			{
 				setPaused(true);
-				// TODO RlAnimation Ended Listener
+				// TODO RlAnimation Finished Listener
 			}
 		}
 

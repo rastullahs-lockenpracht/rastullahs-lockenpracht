@@ -68,9 +68,9 @@ RlAnimation* AnimationManager::addAnimation(AnimationState* animState, Real spee
 	return anim;
 }
 
-RlAnimation* AnimationManager::getAnimation(AnimationState* animState)
+RlAnimation* AnimationManager::getAnimation(AnimationState* animState) const
 {
-	std::map<AnimationState*,RlAnimation*>::iterator iter = mAnimationMap.find(animState);
+	std::map<AnimationState*,RlAnimation*>::const_iterator iter = mAnimationMap.find(animState);
 
 	if( iter == mAnimationMap.end() )
 		return 0;

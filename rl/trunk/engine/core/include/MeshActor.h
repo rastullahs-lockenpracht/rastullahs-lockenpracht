@@ -33,7 +33,7 @@ public:
 	virtual ~MeshActor();
 	virtual const String& getTypeName();
 
-	Entity* getEntity(void);
+	Entity* getEntity(void) const;
     virtual void setSceneNode(SceneNode* node);
 
     void setScale( Real x, Real y, Real z );
@@ -46,7 +46,7 @@ public:
     Ogre::Real getHeight();
 
     RlAnimation* startAnimation(const String&, Real speed=1.0, unsigned int timesToPlay=0);
-	RlAnimation* getAnimation(const String&);
+	RlAnimation* getAnimation(const String&) const;
 	void stopAnimation(const String&);
 
     void setCastShadows (bool enabled);

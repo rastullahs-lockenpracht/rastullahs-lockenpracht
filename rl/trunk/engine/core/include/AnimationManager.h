@@ -37,7 +37,7 @@ public:
     virtual ~AnimationManager();
 
     RlAnimation* addAnimation(AnimationState* animState, Real speed=1.0, unsigned int timesToPlay=0 );
-	RlAnimation* getAnimation(AnimationState* animState);
+	RlAnimation* getAnimation(AnimationState* animState) const;
     void removeAnimation(AnimationState* animState);
 
 	// Für globale SlowMotion oder anderes

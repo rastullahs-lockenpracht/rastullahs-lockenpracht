@@ -55,7 +55,7 @@ class _RlCoreExport RlAnimation
         void setWeight(Real weight);
 
 		// Zeit hinzufügen // wird vom AnimationManager aufgerufen
-		void addTime( Real timePassed );
+		virtual void addTime( Real timePassed );
     private:
 		Real mLength;
 		AnimationState* mAnimState;
