@@ -180,6 +180,19 @@ trat folgende Ausnahme vom Typ %s auf\n\
 
    };
 
+   class OperationNotSupportedException : public RuntimeException {
+   public:
+      OperationNotSupportedException(const std::string& message,
+         const std::string& file, const std::string& function, int line)
+         : RuntimeException(message, file, function, line) {}
+
+      OperationNotSupportedException(const OperationNotSupportedException& rhs)
+         : RuntimeException(rhs) {}
+
+      virtual std::string getType() { return "OperationNotSupportedException"; }
+
+   };
+
    class IllegalStateException : public RuntimeException {
    public:
       IllegalStateException(const std::string& message,
