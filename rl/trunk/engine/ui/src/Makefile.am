@@ -19,9 +19,5 @@ libRlUi_la_SOURCES = \
 	MessageWindow.cpp \
 	ThirdPersonGameController.cpp \
 	UiSubsystem.cpp \
-<<<<<<< .mine
 	WindowManager.cpp \
-=======
-	WindowManager.h \
->>>>>>> .r209
 	../components/src/ListboxWrappedTextItem.cpp

@@ -7,10 +7,9 @@
 #include <OgreLog.h>
 #include <OgreConfigFile.h>
 
-#if OGRE_PLATFORM == PLATFORM_APPLE 
-#    include <SDL.H>
-#elif OGRE_PLATFORM == PLATFORM_LINUX
-#    include <SDL/SDL.h>
+#if OGRE_PLATFORM == PLATFORM_LINUX
+#    include <iostream>
+    using namespace std;
 #endif
 
 #include "BSPWorld.h"
@@ -90,6 +89,43 @@ namespace rl {
         }
     }
 
+#if OGRE_PLATFORM == PLATFORM_LINUX
+    const String CoreSubsystem::findConfRootDir()
+    {
+        char line[255];
+        ifstream config;
+        // Erstmal im Homeverzeichnis suchen.
+        String path = ::getenv("HOME");
+        path += "/.rl.conf";
+        config.open(path.c_str());
+        if (!config.is_open())
+        {
+            // Wir schliessen die Datei sicherheitshalber und
+            // setzen den Zustand zurück (wichtig!)
+            config.close();
+            config.clear();
+            // Jetzt schauen wir mal, ob in etc was zu finden ist.
+            config.open("/etc/rl/rl.conf");
+        } 
+        // Haben  wir jetzt eine Datei?
+        if (config.is_open())
+        {
+            while (!config.eof())
+            {
+                config.getline(line, 255);
+                if (strlen(line) != 0)
+                {
+                    // Wir geben die erste nichtleere Zeile zurück.
+                    return String(line) + "/";
+                }
+            }
+        }
+        // Klappt alles nichts.
+        cerr<<"line "<<endl;
+        return "";
+    }
+#endif
+
 	bool CoreSubsystem::initializeCoreSubsystem()
     {
 		static String CONF_DIR = "modules/common/conf/";
@@ -100,9 +136,10 @@ namespace rl {
 				CONF_DIR+"rastullah.cfg", 
 				"logs/ogre.log" );
 		#elif OGRE_PLATFORM == PLATFORM_LINUX
+            static String ROOT_DIR = findConfRootDir();
 			new Root( 
-				CONF_DIR+"plugins-linux.cfg", 
-				CONF_DIR+"rastullah.cfg", 
+				ROOT_DIR+CONF_DIR+"plugins-linux.cfg", 
+				ROOT_DIR+CONF_DIR+"rastullah.cfg", 
 				"logs/ogre.log" );
 		#else
 			new Root( 

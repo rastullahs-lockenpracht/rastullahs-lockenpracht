@@ -2,6 +2,7 @@
 #define __RastullahApplication_H__
 
 #include <OgreSingleton.h>
+#include <OgreString.h>
 
 #include "CorePrerequisites.h"
 
@@ -68,6 +69,9 @@ private:
 	StringVector mCommonModules;
 	StringVector mActivatableModules;
 	String mActiveModule;
+#if OGRE_PLATFORM == PLATFORM_LINUX
+    static const String findConfRootDir();
+#endif
 };
 
 }
