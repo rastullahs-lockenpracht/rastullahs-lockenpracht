@@ -22,11 +22,10 @@
 #include <OgreString.h>
 #include <list>
 #include <stdexcept>
-#include <OpenThreads/Thread>
+#include <boost/thread.hpp>
 #include "ResourceManager.h"
 #include "SoundResource.h"
 
-using namespace OpenThreads;
 
 namespace rl {
  
@@ -58,14 +57,14 @@ class _RlSoundExport MusicManager : public ResourceManager, public Ogre::Singlet
         /// Ob der Thread beendet werden soll. WICHTIG: Hat nicht mit dem Abspielen zu tun.
         bool mShouldExit;
         /// Unterklasse, die den Thread enthält
-        class MusicThread : public Thread {
+        class MusicThread : public boost::thread {
             public:
                 MusicThread();
                 ~MusicThread();
-                void run();
+                void operator()();
         };
         /// Die Instanz des Threads.
-        MusicThread mMusicThread;
+        MusicThread *mMusicThread;
         // MSVC6 braucht das
         friend class MusicThread;
         /// Die aktuelle Playlist. Nicht identisch mit der Resourcenliste

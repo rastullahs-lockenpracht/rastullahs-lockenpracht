@@ -77,7 +77,6 @@ AC_CHECK_LIB(z, gzopen)
 AC_CHECK_FUNC(snprintf, AC_DEFINE(HAVE_SNPRINTF,,snprintf))
 AC_CHECK_FUNC(vsnprintf, AC_DEFINE(HAVE_VSNPRINTF,1,vsnprintf))
 AC_CHECK_PROG(HAVE_DOXYGEN_PROG, doxygen, `which doxygen`, false)
-AC_CHECK_LIB(OpenThreads, [_init], , AC_MSG_ERROR([Can't find OpenThreads]))
 AC_CHECK_LIB(OgreOde, [main],, AC_MSG_ERROR([Can't find OgreOde]))
 
 AC_CHECK_HEADERS(xercesc/util/XercesVersion.hpp, ,
@@ -135,7 +134,7 @@ AC_CONFIG_FILES([Makefile \
 		engine/sound/Makefile engine/sound/src/Makefile engine/sound/include/Makefile engine/sound/tests/Makefile \
 		engine/script/Makefile engine/script/swig/Makefile engine/script/src/Makefile \
 		engine/startup/Makefile engine/startup/src/Makefile \
-		rl.conf modules/common/conf/plugins-linux.cfg \
+		rl.conf  \
 		tools/Makefile tools/JMap2Mesh/Makefile tools/XReleaseMouse/Makefile \
     ])
 

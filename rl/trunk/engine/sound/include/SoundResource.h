@@ -19,16 +19,14 @@
 
 #include "SoundPrerequisites.h"
 #include <Ogre.h>
-#include <OpenThreads/Thread>
-#include <OpenThreads/Mutex>
 #include <vector>
+#include <boost/thread.hpp>
+#include <boost/thread/mutex.hpp>
 #include "EventSource.h"
 #include "EventListener.h"
 #include "EventCaster.h"
 #include "SoundEvent.h"
 
-using namespace OpenThreads;
-using namespace std;
 
 // @TODO: Callbacks für Threads einfuehren.
 
@@ -74,7 +72,7 @@ class _RlSoundExport SoundResource: public Ogre::Resource,
         } mOggMemoryFile;
         
         /// Diese Klasse kapselt das Fade in.
-        class FadeThread : public Thread,
+        class FadeThread : public boost::thread,
             public virtual EventSource, 
             public virtual EventCaster<SoundEvent> {
             private:
@@ -85,11 +83,11 @@ class _RlSoundExport SoundResource: public Ogre::Resource,
                 /// Dauer des Fades in msek.
                 unsigned long int mDuration;
                 /// Absichern von mDuration
-                mutable Mutex mDurationMutex;
+                mutable boost::mutex mDurationMutex;
                 /// Die Lautstärke, die Berechnungsgrundlage ist.
                 ALfloat mGain;
                 /// Absichern von mGain.
-                mutable Mutex mGainMutex;
+                mutable boost::mutex mGainMutex;
             protected:
                 /// Berechne den Anstieg der Lautstarke beim Fade-In
                 ALfloat calculateFadeIn(unsigned RL_LONGLONG time, ALfloat gain);
@@ -99,10 +97,9 @@ class _RlSoundExport SoundResource: public Ogre::Resource,
 
             public:
                 /// Die Konstruktoren.
-				FadeThread(bool fadeIn);
                 FadeThread(SoundResource *that, bool fadeIn);
                 /// Die Arbeitsroutine.
-                void run();
+                void operator()();
                 /// Die Fadedauer setzen.
                 void setDuration(const unsigned long int duration);
                 /// Die Fadedauer bekommen.
@@ -111,18 +108,14 @@ class _RlSoundExport SoundResource: public Ogre::Resource,
                 void setGain(const ALfloat gain);
                 /// Die Ausgangslautstärke bekommen.
                 const ALfloat getGain() const;
-				/// Ressource setzen
-				void setResource(SoundResource *that);
-                
-
         };
         /// Der Thread, der das Fade-In behandelt
-        mutable FadeThread mFadeInThread;
+        mutable FadeThread *mFadeInThread;
         /// Der Thread, der das Fade-Out behandelt
-        mutable FadeThread mFadeOutThread;
+        mutable FadeThread *mFadeOutThread;
        
         /// Streamen der Sounddaten
-        class StreamThread : public Thread,
+        class StreamThread : public boost::thread,
             public virtual EventSource, 
             public virtual EventCaster<SoundEvent> {
             private:
@@ -137,16 +130,12 @@ class _RlSoundExport SoundResource: public Ogre::Resource,
                 
             public:
                 /// Die Konstruktoren.
-				StreamThread();
                 StreamThread(SoundResource *that);
                 /// Die Arbeitsroutine.
-                void run();
-				/// Ressource setzen
-				void setResource(SoundResource *that);
-
+                void operator()();
         };
         /// Der Thread, der das Streamen behandelt.
-        mutable StreamThread mStreamThread;
+        mutable StreamThread *mStreamThread;
     
     protected:
         /// Die gekapselte Soundquelle
@@ -186,7 +175,7 @@ class _RlSoundExport SoundResource: public Ogre::Resource,
         void check() const throw (RuntimeException);
         
         /// Mutex zum Synchronisieren von Gain-Zugriffen.
-        mutable Mutex mGainMutex;
+        mutable boost::mutex mGainMutex;
         
         /// Fuehre das Fade-In aus
         void fadeIn(unsigned int msec);
@@ -195,7 +184,7 @@ class _RlSoundExport SoundResource: public Ogre::Resource,
         
     public:
         /// Der Standardkonstruktor
-        SoundResource(const Ogre::String& name);
+        SoundResource(const string& name);
         /// Der Destruktor
         virtual ~SoundResource();
         /// Gibt die eingestellte Position der Soundquelle zurueck

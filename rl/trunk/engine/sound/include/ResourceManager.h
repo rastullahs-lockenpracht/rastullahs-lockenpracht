@@ -19,10 +19,8 @@
 #include "SoundPrerequisites.h"
 #include <Ogre.h>
 #include <list>
-#include <OpenThreads/Mutex>
+#include <boost/thread/mutex.hpp>
 
-
-using namespace OpenThreads;
 
 namespace rl {
 
@@ -38,7 +36,7 @@ typedef std::list<Ogre::String> StringList;
 class _RlSoundExport ResourceManager: public Ogre::ResourceManager {
     private:
         /// Ein Mutex, um das Hinzufügen der Sounds zu synchronisieren.
-        Mutex mResListMutex;
+        boost::mutex mResListMutex;
     protected:
         /// Welche Dateiendung soll verwendet werden.
         virtual StringList getExtension() { return StringList(); }

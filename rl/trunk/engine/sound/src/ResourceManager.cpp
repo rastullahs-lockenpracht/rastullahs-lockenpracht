@@ -19,7 +19,6 @@
 #include "SoundResource.h"
 
 using namespace std;
-using namespace OpenThreads;
 using namespace Ogre;
 
 namespace rl {
@@ -61,9 +60,8 @@ void ResourceManager::addSounds()
  */
 void ResourceManager::add(Resource *song)
 {
-    mResListMutex.lock();
+    boost::mutex::scoped_lock lock(mResListMutex);
     Ogre::ResourceManager::add(song);
-    mResListMutex.unlock();
 }
 
 

@@ -14,13 +14,12 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#include <iostream>
 #include "MusicManager.h"
 #include "SoundSubsystem.h"
-#include "Sleep.h"
 
 using namespace Ogre;
 using namespace std;
+using namespace boost;
 
 /** Das Singleton
  * @author JoSch
@@ -62,10 +61,10 @@ MusicManager::MusicManager() : ResourceManager(),
     mAuto(false),
     mShouldPlay(false),
     mShouldExit(false),
-    mMusicThread(),
+    mMusicThread(0),
     mPlayList()
 {
-    mMusicThread.start();
+    mMusicThread = new MusicThread();
 }
 
 /**
@@ -316,7 +315,7 @@ MusicManager::MusicThread::~MusicThread()
  * @author JoSch
  * @date 07-25-2004
  */
-void MusicManager::MusicThread::run()
+void MusicManager::MusicThread::operator()()
 {
     MusicManager *that = MusicManager::getSingletonPtr();
     if (that == 0)
@@ -328,7 +327,10 @@ void MusicManager::MusicThread::run()
         try {
             if (that->mShouldPlay)
             {
-                msleep(1);
+                xtime xt;
+                xt.sec = 0;
+                xt.nsec = 1000;
+                thread::sleep(xt);
                 // Spielt der Song noch?
                 if (!that->isSourcePlaying()) // Nein, spielt nicht
                 {
@@ -350,7 +352,10 @@ void MusicManager::MusicThread::run()
         } catch(...)
         {
         }
-        msleep(1);
+        xtime xt;
+        xt.sec = 0;
+        xt.nsec = 1000;
+        thread::sleep(xt);
     } 
 }
 

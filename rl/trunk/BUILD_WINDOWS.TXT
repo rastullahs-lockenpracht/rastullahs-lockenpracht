@@ -27,9 +27,6 @@ http://xml.apache.org/xerces-c/download.cgi
 boost
 http://www.boost.org
 
-OpenThreads
-http://openthreads.sourceforge.net/
-
 Diese sind alle unterhalb von rl/dependencies anzulegen.
 
 Die Projekte müssen alle im Verzeichnis dependencies angelegt werden.

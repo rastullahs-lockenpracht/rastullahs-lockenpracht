@@ -13,7 +13,7 @@
 #include "math.h"
 #include "OgreResourceManager.h"
 #include "cppunit/extensions/HelperMacros.h"
-#include "Sleep.h"
+#include <boost/thread.hpp>
 
 using namespace rl;
 using namespace Ogre;
@@ -44,14 +44,17 @@ public:
 
     void testMusicManager_playForward()
     {
+        boost::xtime xt;
         MusicManager::getSingletonPtr()->setAuto(true);
         MusicManager::getSingletonPtr()->setLooping(false);
         MusicManager::getSingletonPtr()->playSong(); 
         
-        msleep(10 * 1000);
+        xt.sec = 10;
+        xt.nsec = 0;
+        boost::thread::sleep(xt);
         while (MusicManager::getSingletonPtr()->isPlaying())
         {
-            msleep(10 * 1000);
+            boost::thread::sleep(xt);
         }
         MusicManager::getSingletonPtr()->stopSong();
         CPPUNIT_ASSERT(true);

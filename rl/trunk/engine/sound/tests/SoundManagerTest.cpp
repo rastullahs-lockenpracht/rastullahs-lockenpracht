@@ -10,12 +10,13 @@
 #include <math.h>
 #include <OgreIteratorWrappers.h>
 #include <cppunit/extensions/HelperMacros.h>
-#include <iostream>
-#include "Sleep.h"
+#include <boost/thread.hpp>
 #include "SoundManager.h"
 #include "SoundResource.h"
 
+
 using namespace rl;
+using namespace boost;
 
 class SoundManagerTest : public CppUnit::TestFixture {
 private:
@@ -42,6 +43,10 @@ public:
  
     void testSoundManager_loadPlayUnload()
     {
+        xtime xt;
+        xt.sec = 1;
+        xt.nsec = 0;
+        
         rl::ResourceManager::ResourceMapIterator it =
             SoundManager::getSingleton().getResourceIterator();
         while (it.hasMoreElements())
@@ -53,9 +58,9 @@ public:
                 sound->load();
                 sound->play();
                 
-                msleep(1000);
+                thread::sleep(xt);
                 while (sound->isPlaying())
-                    msleep(1000);
+                    thread::sleep(xt);
                 
                 sound->stop();
                 sound->unload();
@@ -67,6 +72,9 @@ public:
     
     void testSoundManager_loadPlayWithFade()
     {
+        xtime xt;
+        xt.sec = 10;
+        xt.nsec = 0;
         Ogre::ResourceManager::ResourceMapIterator it =
             SoundManager::getSingleton().getResourceIterator();
         while (it.hasMoreElements())
@@ -79,11 +87,11 @@ public:
                 sound->load();
                 sound->play(2 * 1000);
                 
-                msleep(10 * 1000);
+                thread::sleep(xt);
                 
                 sound->stop(2 * 1000);
                 
-                msleep(5 * 1000);
+                thread::sleep(xt);
                 
                 sound->unload();
             }            
