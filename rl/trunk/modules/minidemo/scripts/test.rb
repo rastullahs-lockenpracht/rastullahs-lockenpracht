@@ -10,7 +10,6 @@ $gTisch = $AF.getActor( "Tisch" );
 
 # und positionieren
 $gTisch.setPosition(-128.0,128.0,16.0);
-$gTisch.pitch(90.0);
 $gTisch.setScale(0.5,0.5,0.5);
 
 #$gTisch.addSound("testsound.wav");
@@ -37,7 +36,6 @@ $gTisch.setScale(0.5,0.5,0.5);
 neKugel = $AF.createGameActor("neKugel","sphere.mesh");
 neKugel.setPosition(-128.0,128.0,24.0);
 neKugel.setScale(0.1,0.1,0.1);
-neKugel.pitch(90.0);
 
 
 Licht = $AF.createLightActor("EinsamesLeuchten");
@@ -49,5 +47,4 @@ Purpels.setPosition(-128.0,128.0,24.0);
 
 $boBotter = $AF.createGameActor("boBotter","robot.mesh");
 $boBotter.setPosition(-128.0,28.0,24.0);
-$boBotter.pitch(90.0);
 $boBotter.startAnimation( "Walk" );
