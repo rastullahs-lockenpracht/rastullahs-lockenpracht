@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE aiml SYSTEM "includes.dtd">
+
+<aiml:aiml  version="1.0.1"
+            xmlns:aiml="http://alicebot.org/2001/AIML">
+
+<aiml:category>
+<pattern>START DIALOG</pattern>
+<template>
+	Grüße!<br/>Ich sehe ihr seid soeben erst in Ruchin angekommen? Was gibt es neues aus dem Lande? Kann ich euch irgendwie helfen?
+	<selection name="TestReturner">
+		<li value="4" id="1">Ich grüße euch ebenso. Ich suche den Weg zur Taverne, könnt ihr ihn mir beschreiben?</li>
+		<li value="4" id="2">Das Land ist ruhig und friedlich. Die Invasion der Orks droben im Norden ist vorerst gestoppt, wir sind sicher.</li>
+		<li value="4" id="3">Hinweg mit euch, Gezücht des Namenlosen!</li>
+		<li value="4" id="4">&test;</li>
+		<li value="4" id="666">Reload</li>
+	</selection>
+</template>
+</aiml:category>
+
+<aiml:category>
+<pattern>1</pattern>
+<template>
+Eins
+</template>
+</aiml:category>
+
+<aiml:category>
+<pattern>2</pattern>
+<template>
+Zwei
+</template>
+</aiml:category>
+
+<aiml:category>
+<pattern>3</pattern>
+<template>
+Drei
+</template>
+</aiml:category>
+
+<aiml:category>
+<pattern>555</pattern>
+<template>
+	<system command="exit"/>
+</template>
+</aiml:category>
+
+<aiml:category>
+<pattern>666</pattern>
+<template>
+	<system command="reload"/><srai>START DIALOG</srai>
+</template>
+</aiml:category>
+
+<aiml:category>
+<pattern>*</pattern><!-- Abfangen von "ungueltigen" Eingaben -->
+<template>
+Dies ist keine gueltive Gespraechsoption!
+</template>
+</aiml:category>
+
+</aiml:aiml>
+
