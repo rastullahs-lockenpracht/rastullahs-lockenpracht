@@ -8,6 +8,8 @@ print( "Teste Animationen" );
 class UmdrehAbspielListener < AnimationListener
 	def animationFinished(anEvent)
 		print( "Sowas, schon vorbei" );
+		p anEvent.methods();
+		p anEvent
 		#anim = anEvent.getRlAnimation();
 		#anim.reverseAnimation();
 		#anim.resetTimesPlayed();
@@ -19,27 +21,27 @@ class UmdrehAbspielListener < AnimationListener
 end
 
 # Erstellen eines laufenden Roboters
-$boBotter = $AF.createGameActor("Botter","robot.mesh");
-$boBotter.setPosition(160.0,24.0,160.0);
+$boBotter = $AF.createMeshActor("Botter","robot.mesh");
+$boBotter.placeIntoScene( 160.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0 );
 # Animation "Walk" starten
-$boBotter.startAnimation( "Walk" );
+# $boBotter.startAnimation( "Walk" );
 
 # Die Laufende Animation "Walk" holen 
-$anim = $boBotter.getAnimation( "Walk" );
+# $anim = $boBotter.getAnimation( "Walk" );
 # Geschwindigkeit setzen
-$anim.setSpeed( 4.0 );
+# $anim.setSpeed( 4.0 );
 
 
 # Erzeugen einer Fackel
-fackel = $AF.createGameActor("Fackel","fackel.mesh");
-fackel.setPosition(100.0,16.0,100.0);
+fackel = $AF.createMeshActor("Fackel","fackel.mesh");
+fackel.placeIntoScene( 100.0, 16.0, 100.0, 1.0, 0.0, 0.0, 0.0 );
 
 
 # Erstellen eines einfachen Tracks  
 #	- für die fackel 
 #	- mit dem _EINZIGARTIGEN_ Namen "testTrackAnimation"
 #	- Und der Länge von 4 Sekunden
-trackAnim = $AniMgr.createTrackAnimation( fackel, "testTrackAnimation", 4.0 );
+trackAnim = $AnimMgr.createTrackAnimation( fackel, "testTrackAnimation", 4.0 );
 # Setzen der ersten Keyframe
 trackAnim.addKeyFrame( 0.0 );
 trackAnim.setKeyFrameRotation( 0.0, 0.0, 0.0, 0.0, 0.0 );
@@ -57,10 +59,10 @@ trackAnim.setPaused( false );
 
 
 # Noch einfacherer ;) Track, aber mit nem Listener verknüpft
-tischlein = $AF.createGameActor("TavernenTisch","tisch_taverne.mesh");
-tischlein.setPosition(160.0,24.0,160.0);
+tischlein = $AF.createMeshActor("TavernenTisch","tisch_taverne.mesh");
+tischlein.placeIntoScene( 160.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0 );
 
-$listenedTrackAnim = $AniMgr.createTrackAnimation( tischlein, "testListenerTrackAnimation", 6.0 );
+$listenedTrackAnim = $AnimMgr.createTrackAnimation( tischlein, "testListenerTrackAnimation", 6.0 );
 $listenedTrackAnim.addKeyFrame( 0.0 );
 $listenedTrackAnim.setKeyFrameTranslation( 0.0, 0.0, 0.0, 0.0 );
 $listenedTrackAnim.addKeyFrame( 6.0 );
