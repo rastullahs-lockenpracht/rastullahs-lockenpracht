@@ -1,0 +1,224 @@
+material OU_FACHWERK13_1
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture textures/OU_FACHWERK13_1.jpg
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}
+material OU_HOLZBODEN01
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture textures/OU_HOLZBODEN01.jpg
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}
+material OU_HOLZ05
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture textures/OU_HOLZ05.jpg
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}
+material OU_HOLZ_05
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture textures/OU_HOLZ_05.jpg
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}
+material OU_BODEN04
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture textures/OU_BODEN04.jpg
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}
+material OU_HOLZ04
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture textures/OU_HOLZ04.jpg
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}
+material IN_GBODEN01
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture textures/IN_GBODEN01.jpg
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}
+material GG_BILD01
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture textures/GG_BILD01.jpg
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}
+material GG_BILD02
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture textures/GG_BILD02.jpg
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}
+material OU_HOLZ06_04
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture textures/OU_HOLZ06_04.jpg
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}
+material GG_SCHRIFT02
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture textures/GG_SCHRIFT02.jpg
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}
+material GG_BUECHER01
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture textures/GG_BUECHER01.jpg
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}
+material MC_HOLZ01
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture textures/MC_HOLZ01.jpg
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}
+material VERST_TUER04
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture textures/VERST_TUER04.jpg
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}
+material KISTE01
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture textures/KISTE01.jpg
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}
+material KISTE02
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture textures/KISTE02.jpg
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}

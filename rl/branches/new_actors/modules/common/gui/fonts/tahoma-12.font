@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<Font 
+	Name="Tahoma-12" 
+	Filename="modules/common/gui/fonts/tahoma.ttf" 
+	Type="Dynamic" 
+	Size="12" 
+	NativeHorzRes="800" 
+	NativeVertRes="600" 
+	FirstCodepoint="32" 
+	LastCodepoint="300" 
+	AutoScaled="true"
+/>
