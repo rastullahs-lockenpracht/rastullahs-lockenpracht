@@ -112,13 +112,13 @@ public class Plane
 
         break;
       case eProjectionAxisX:
-        mTex1 = new Vector3(0,1,0);  
-        mTex2 = new Vector3(0,0,-1);  
+        mTex1 = new Vector3(0,0,1);  
+        mTex2 = new Vector3(0,-1,0);  
         
         break;
       }
     }
-
+    
     private void parseQ3Plane( String line )
     {
         Matcher matcher = PLANE_Q3_PATTERN.matcher(line);
@@ -245,10 +245,9 @@ public class Plane
             height = tex.getHeight();
         } 
         
-        //System.out.println(Math.PI*(mRotation)/180);
         double[] ret = new double[2];
-        ret[0] = ( Vector3.dot(Vector3.mul(mTex1,Matrix4.rotate(mRotation,mNormal)),vertPos)/width/mScale_x  ) + ( mTex_offsetx );  
-        ret[1] = ( Vector3.dot(Vector3.mul(mTex2,Matrix4.rotate(mRotation,mNormal)),vertPos)/height/mScale_y  ) + ( mTex_offsety  ); 
+        ret[0] = ( Vector3.dot(mTex1,vertPos)/width/mScale_x  ) + ( mTex_offsetx/width );  
+        ret[1] = ( Vector3.dot(mTex2,vertPos)/height/mScale_y  )  + ( mTex_offsety/height  ); 
         
         return ret;
     }
