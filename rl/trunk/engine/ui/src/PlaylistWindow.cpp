@@ -44,7 +44,10 @@ PlaylistWindow::PlaylistWindow()
     getWindow("PlaylistSheet/ButtonSheet/Play")->subscribeEvent(
             Window::EventMouseClick, 
             boost::bind(&PlaylistWindow::handlePlay, this));
-    //bindClickToCloseWindow(getWindow("PlaylistSheet"));
+    getWindow("PlaylistSheet/ButtonSheet/Quit")->subscribeEvent(
+            Window::EventMouseClick, 
+            boost::bind(&PlaylistWindow::handleQuit, this));
+    bindClickToCloseWindow(getWindow("PlaylistSheet"));
 
     centerWindow();
 	addToRoot(mWindow);	

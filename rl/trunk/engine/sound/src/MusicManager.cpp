@@ -83,6 +83,19 @@ MusicManager::~MusicManager()
     mShouldExit = true;
 }
 
+/**
+ * Gibt die Suchmuster fuer die Extension zurueck.
+ * @author JoSch
+ * @date 06-18-2004
+ */
+StringList MusicManager::getExtension()
+{
+    StringList result;
+    result.push_back("*.ogg");
+    result.push_back("*.wav");
+    
+    return result;
+}
 
 /**
  * Stoppt den aktuellen Song. Er kann danach wieder
@@ -90,11 +103,11 @@ MusicManager::~MusicManager()
  * @author JoSch
  * @date 04-12-2004
  */
-void MusicManager::stopSong(unsigned int fade)
+void MusicManager::stopSong(int fade)
 {
     if (!mSource.isNull())
     {
-        mSource->stop(fade);
+        mSource.getPointer()->stop(fade);
     }
     mShouldPlay = false;
 }
@@ -104,7 +117,7 @@ void MusicManager::stopSong(unsigned int fade)
  * @author JoSch
  * @date 04-12-2004
  */
-void MusicManager::playSong(unsigned int fade)
+void MusicManager::playSong(int fade)
 {
     if (mSource.isNull())
     {
@@ -113,7 +126,7 @@ void MusicManager::playSong(unsigned int fade)
     // Wenn mSource immer noch NULL ist, dann haben wir nicht ins der Liste.
     if (!mSource.isNull())
     {
-        mSource->play(fade);
+        mSource.getPointer()->play(fade);
         mShouldPlay = true;
     } else {
         mShouldPlay = false;

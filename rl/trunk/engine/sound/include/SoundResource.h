@@ -188,7 +188,9 @@ class _RlSoundExport SoundResource: public Ogre::Resource,
         
     public:
         /// Der Standardkonstruktor
-        SoundResource(const string& name, const string& group);
+        SoundResource(Ogre::ResourceManager* creator, const Ogre::String& name, 
+            Ogre::ResourceHandle handle, const Ogre::String& group, bool isManual, 
+            Ogre::ManualResourceLoader* loader);
         /// Der Destruktor
         virtual ~SoundResource();
         /// Gibt die eingestellte Position der Soundquelle zurueck

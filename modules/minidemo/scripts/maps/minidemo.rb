@@ -10,7 +10,7 @@ $World = $CORE.getWorld()
 $World.setSkyBox(true, "rl/dsa07")
 $CORE.log("skybox set");
 
-DsaManager.getSingleton().loadDsaDataFile("kalchas.xml");
+#DsaManager.getSingleton().loadDsaDataFile("kalchas.xml");
 
 $CORE.log("Held erstellen");
 hero = Hero.new;
