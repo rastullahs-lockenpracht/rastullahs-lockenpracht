@@ -16,6 +16,7 @@ libRlUi_la_SOURCES = \
 	GameLoggerWindow.cpp \
 	InputManager.cpp \
 	InventoryWindow.cpp \
+	MainMenuWindow.cpp \
 	MessageWindow.cpp \
 	ThirdPersonGameController.cpp \
 	UiSubsystem.cpp \

@@ -87,6 +87,7 @@ namespace rl {
 	{
 		mModulesList = getListbox("MainMenuChooseModules/ModulesList");
 		mModulesList->setMultiselectEnabled(false);
+		mModulesList->setEnabled(true);
 		mParent = parent;
 
 		for (Ogre::StringVector::const_iterator mod = modules.begin();
@@ -108,6 +109,7 @@ namespace rl {
 			Window::EventMouseClick, 
 			boost::bind(&WindowManager::destroyWindow, WindowManager::getSingletonPtr(), this));
 
+		centerWindow();
 		addToRoot(mWindow);		
 	}
 

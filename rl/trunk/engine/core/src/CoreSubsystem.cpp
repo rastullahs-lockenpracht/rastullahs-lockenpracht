@@ -54,10 +54,11 @@ namespace rl {
 	}
 
 	CoreSubsystem::CoreSubsystem()
+		: 	mWorld(NULL),
+			mInterpreter(NULL),
+			mActiveModule("")        
 	{
-		mWorld = 0;
-		mActiveModule = "";
-        initializeCoreSubsystem();
+		initializeCoreSubsystem();
         mRootDir = "./";
 	}
 
