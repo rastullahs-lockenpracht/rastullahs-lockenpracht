@@ -13,6 +13,7 @@
 #include "DebugWindow.h"
 #include "ThirdPersonGameController.h"
 #include "InputManager.h"
+#include "CommandMapper.h"
 
 #include "GameLoop.h"
 #include "ActorManager.h"
@@ -89,6 +90,7 @@ namespace rl {
 		System::getSingleton().setGUISheet(sheet);
 
 		//Initializing InputManager
+		new CommandMapper();
         new InputManager();
 		new DebugWindow();
 		new CeConsole();
@@ -106,7 +108,7 @@ namespace rl {
             camera->getOgreCamera(), hero);
         GameLoop::getSingleton().addSynchronizedTask(mGameController);
 	      
-        //runTest();
+        runTest();
     }
 
     void UiSubsystem::requestExit()
@@ -128,9 +130,9 @@ namespace rl {
 	{
 		InputManager::getSingleton().setObjectPickingActive(true);
 		
-		DialogWindow* dialog=new DialogWindow("startup.xml");
+		/*DialogWindow* dialog=new DialogWindow("startup.xml");
 		dialog->setName("Rattenkind");
-		dialog->setQuestion("Wad? Wer bist du denn?\nHusch, husch!\nAb ins Körbchen!!!");
+		dialog->setQuestion("Wad? Wer bist du denn?\nHusch, husch!\nAb ins Körbchen!!!");*/
 /*		dialog->setQuestion("Wie ist dein Name?");
 		dialog->addLine("Hab ich vergessen");
 		dialog->addLine("Ich heisse %NAME%");

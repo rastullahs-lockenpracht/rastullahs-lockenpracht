@@ -14,6 +14,7 @@ template <>
 rl::DsaManager* Singleton<rl::DsaManager> ::ms_Singleton = 0;
 
 using namespace std;
+using CEGUI::utf8;
 
 namespace rl
 {
@@ -47,21 +48,21 @@ namespace rl
     void DsaManager::initializeEigenschaften()
     {
         mEigenschaften[E_MUT] = new Eigenschaft(
-            E_MUT, "Mut", "MU", "");
+            E_MUT, (utf8*)"Mut", (utf8*)"MU", (utf8*)"");
         mEigenschaften[E_KLUGHEIT] = new Eigenschaft(
-            E_KLUGHEIT, "Klugheit", "KL", "");
+            E_KLUGHEIT, (utf8*)"Klugheit", (utf8*)"KL", (utf8*)"");
         mEigenschaften[E_INTUITION] = new Eigenschaft(
-            E_INTUITION, "Intuition", "IN", "");
+            E_INTUITION, (utf8*)"Intuition", (utf8*)"IN", (utf8*)"");
         mEigenschaften[E_CHARISMA] = new Eigenschaft(
-            E_CHARISMA, "Charisma", "CH", "");
+            E_CHARISMA, (utf8*)"Charisma", (utf8*)"CH", (utf8*)"");
         mEigenschaften[E_FINGERFERTIGKEIT] = new Eigenschaft(
-            E_FINGERFERTIGKEIT, "Fingerfertigkeit", "FF", "");
+            E_FINGERFERTIGKEIT, (utf8*)"Fingerfertigkeit", (utf8*)"FF", (utf8*)"");
         mEigenschaften[E_GEWANDTHEIT] = new Eigenschaft(
-            E_GEWANDTHEIT, "Gewandtheit", "GE", "");
+            E_GEWANDTHEIT, (utf8*)"Gewandtheit", (utf8*)"GE", (utf8*)"");
         mEigenschaften[E_KONSTITUTION] = new Eigenschaft(
-            E_KONSTITUTION, "Konstitution", "KO", "");
+            E_KONSTITUTION, (utf8*)"Konstitution", (utf8*)"KO", (utf8*)"");
         mEigenschaften[E_KOERPERKRAFT] = new Eigenschaft(
-            E_KOERPERKRAFT, "Körperkraft", "KK", "");
+            E_KOERPERKRAFT, (utf8*)"KÃ¶rperkraft", (utf8*)"KK", (utf8*)"");
     }
 
     void DsaManager::initializeTalente()
@@ -128,7 +129,7 @@ namespace rl
         }
     }
 
-	Talent* DsaManager::getTalent(std::string name) const
+	Talent* DsaManager::getTalent(const CeGuiString& name) const
     {
 		for (TalentMap::const_iterator it = mTalente.begin(); it != mTalente.end(); it++)
 		{
@@ -163,12 +164,12 @@ namespace rl
         return mEigenschaften[id];
     }
 
-	int DsaManager::getEigenschaftIdFromLongString(const string& str) const
+	int DsaManager::getEigenschaftIdFromLongString(const CeGuiString& str) const
 	{
 		RulesSubsystem::getSingleton().log("DsaManager sucht "+str);
 		for (int idx = 0; idx < EIGENSCHAFT_COUNT; idx++)
 		{
-			RulesSubsystem::getSingleton().log("DsaManager findes "+mEigenschaften[idx]->getName());
+			RulesSubsystem::getSingleton().log("DsaManager findet "+mEigenschaften[idx]->getName());
 			if (mEigenschaften[idx]->getName().compare(str) == 0)
 				return idx;
 		}
@@ -176,7 +177,7 @@ namespace rl
 		Throw(InvalidArgumentException, "Ungueltige Eigenschaft");
 	}
 
-    int DsaManager::getEigenschaftIdFromString(const string& str) const
+	int DsaManager::getEigenschaftIdFromString(const CeGuiString& str) const
     {
         if (str.size() != 2)
         {

@@ -44,7 +44,7 @@ char* XmlHelper::getValueAsString(DOMElement* element)
 	return XMLString::transcode(element->getFirstChild()->getNodeValue());
 }
 
-utf8* XmlHelper::getValueAsUtf(DOMElement* element)
+utf8* XmlHelper::getValueAsUtf8(DOMElement* element)
 {
 	return XmlHelper::transcodeToUtf8(element->getFirstChild()->getNodeValue());
 }
@@ -56,10 +56,28 @@ int XmlHelper::getValueAsInteger(DOMElement* element)
 
 utf8* XmlHelper::transcodeToUtf8(const XMLCh* const string16)
 {
-	int length = XMLString::stringLen(string16);
-	utf8* rval = new utf8[length+1];
-	unsigned int eaten;
-	sTranscoder->transcodeTo(string16, length, rval, length, eaten, XMLTranscoder::UnRep_RepChar);
+	unsigned int str16len = XMLString::stringLen(string16);
+	if (str16len == 0)
+		return (utf8*)"";
+
+	utf8* rval;
+	unsigned int eaten = 0;
+	unsigned int size = str16len;
+
+	do
+	{
+		rval = new utf8[size+1];
+	
+		sTranscoder->transcodeTo(string16, str16len, rval, size, eaten, XMLTranscoder::UnRep_RepChar);
+		rval[size] = 0;
+
+		if (eaten < str16len)
+		{
+			size += str16len - eaten;
+			delete[] rval;
+		}
+	}
+	while (eaten < str16len);
 
 	return rval;	
 }

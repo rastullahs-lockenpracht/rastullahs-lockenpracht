@@ -4,6 +4,7 @@
 #include "RulesPrerequisites.h"
 
 #include <string>
+#include <CEGUIString.h>
 
 using namespace Ogre;
 
@@ -16,6 +17,8 @@ namespace rl
         ~RulesSubsystem();
 	
 		void log(const std::string& msg);
+		void log(const CeGuiString& msg);
+	
 
         static RulesSubsystem& getSingleton(void);
         static RulesSubsystem* getSingletonPtr(void);

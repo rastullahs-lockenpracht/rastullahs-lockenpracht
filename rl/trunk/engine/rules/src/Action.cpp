@@ -3,7 +3,7 @@
 
 namespace rl
 {
-    Action::Action(const std::string& name, const std::string& description) : mName(name),
+    Action::Action(const CeGuiString& name, const CeGuiString& description) : mName(name),
                                                                               mDescription(description)
     {
     }
@@ -12,12 +12,12 @@ namespace rl
     {
     }
 
-    std::string Action::getName()
+    const CeGuiString& Action::getName() const
     {
         return mName;
     }
 
-    std::string Action::getDescription()
+    const CeGuiString& Action::getDescription() const
     {
         return mDescription;
     }

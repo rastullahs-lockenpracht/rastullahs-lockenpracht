@@ -10,7 +10,7 @@ namespace rl
     class _RlRulesExport Item : public GameObject
     {
     public:
-        Item(int id, const std::string& name, const std::string& description);
+        Item(int id, const CeGuiString& name, const CeGuiString& description);
         virtual ~Item(void);
 
         void setWeight(int weight);

@@ -72,8 +72,8 @@ namespace rl
 
 	void CeConsole::handleEnter(const CEGUI::EventArgs& e)
 	{	
-		CEGUI::String command = mCommandLine->getText();
-		CEGUI::String printCommand = ">" + command;
+		CeGuiString command = mCommandLine->getText();
+		CeGuiString printCommand = ">" + command;
 		appendTextRow(printCommand, 0xFF7FFF7F);
 				
         mPrompt = CoreSubsystem::getSingleton().getInterpreter()->execute(command.c_str());
@@ -85,29 +85,29 @@ namespace rl
 
 	void CeConsole::write(String output)
 	{
-        CEGUI::String temp = CEGUI::String(output);		
+        CeGuiString temp = CeGuiString(output);		
 		appendTextRow(temp, 0xFF7F7F7F);
 		LogManager::getSingleton().logMessage(output);
 	}
 
-	void CeConsole::appendTextRow(CEGUI::String& text, const colour color)
+	void CeConsole::appendTextRow(CeGuiString& text, const colour color)
 	{
 		/*const float MIN_SPACE_POS = 0.5;
 
-		CEGUI::String textLeft = CEGUI::String(text);
+		CeGuiString textLeft = CeGuiString(text);
 		const CEGUI::Font* font = mDisplay->getFont();
 		unsigned int width = mDisplay->getAbsoluteWidth()*0.95;
 
 		while (textLeft.length() > 0)
 		{
-			CEGUI::String textLine;
+			CeGuiString textLine;
 
 			if (font->getTextExtent(textLeft) > width)
 			{
 				unsigned int numLastChar = font->getCharAtPixel(textLeft, width);
 				unsigned int numSpace = textLeft.find_last_of(" \t\n", numLastChar);
 
-				if (numSpace == CEGUI::String::npos || numSpace < MIN_SPACE_POS*numLastChar)
+				if (numSpace == CeGuiString::npos || numSpace < MIN_SPACE_POS*numLastChar)
 				{
 					textLine = textLeft.substr(0, numLastChar);
 					textLeft = textLeft.substr(numLastChar);

@@ -16,4 +16,14 @@
 #   define _RlUiExport
 #endif
 
+
+#include <vector>
+#include <CEGUIString.h>
+
+namespace rl
+{
+	typedef CEGUI::String CeGuiString;
+    typedef std::vector<CeGuiString> StringVector;
+}
+
 #endif

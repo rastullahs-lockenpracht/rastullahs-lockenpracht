@@ -3,9 +3,9 @@
 namespace rl
 {
     Kampftechnik::Kampftechnik(int id,
-                   const std::string& name,
-                   const std::string& description,
-                   const std::string& ebe)
+                   const CeGuiString& name,
+                   const CeGuiString& description,
+                   const CeGuiString& ebe)
                                        : mId(id),
                                          mName(name),
                                          mDescription(description),
@@ -28,12 +28,12 @@ namespace rl
         return mId;
     }
 
-    std::string Kampftechnik::getName() const
+    CeGuiString Kampftechnik::getName() const
     {
         return mName;
     }
 
-    std::string Kampftechnik::getDescription() const
+    CeGuiString Kampftechnik::getDescription() const
     {
         return mDescription;
     }

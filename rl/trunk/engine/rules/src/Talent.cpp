@@ -4,8 +4,8 @@
 namespace rl
 {
     Talent::Talent(int id,
-                   const std::string& name,
-                   const std::string& description,
+                   const CeGuiString& name,
+                   const CeGuiString& description,
                    const EigenschaftTripel& eigenschaften,
                    int ebe,
 				   int gruppe)
@@ -33,12 +33,12 @@ namespace rl
         return mId;
     }
 
-    std::string Talent::getName() const
+    CeGuiString Talent::getName() const
     {
         return mName;
     }
 
-    std::string Talent::getDescription() const
+    CeGuiString Talent::getDescription() const
     {
         return mDescription;
     }

@@ -3,9 +3,9 @@
 namespace rl
 {
     Eigenschaft::Eigenschaft(int id,
-                             const std::string& name,
-							 const std::string& nameAbbrev,
-                             const std::string& description) : mId(id),
+                             const CeGuiString& name,
+							 const CeGuiString& nameAbbrev,
+                             const CeGuiString& description) : mId(id),
                                                                mName(name),
 															   mNameAbbreviation(nameAbbrev),
                                                                mDescription(description)
@@ -27,17 +27,17 @@ namespace rl
         return mId;
     }
 
-    std::string Eigenschaft::getName() const
+    const CeGuiString& Eigenschaft::getName() const
     {
         return mName;
     }
 
-    std::string Eigenschaft::getNameAbbreviation() const
+    const CeGuiString& Eigenschaft::getNameAbbreviation() const
     {
         return mNameAbbreviation;
     }
 
-    std::string Eigenschaft::getDescription() const
+    const CeGuiString& Eigenschaft::getDescription() const
     {
         return mDescription;
     }

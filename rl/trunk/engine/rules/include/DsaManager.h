@@ -3,6 +3,7 @@
 
 #include <OgreSingleton.h>
 #include "RulesPrerequisites.h"
+
 #include "Eigenschaft.h"
 #include "Tripel.h"
 
@@ -50,7 +51,7 @@ namespace rl
         int rollD6();
 
         Talent* getTalent(int id) const;
-		Talent* getTalent(std::string name) const;
+		Talent* getTalent(const CeGuiString& name) const;
 
         Kampftechnik* getKampftechnik(int id) const;
 
@@ -59,8 +60,8 @@ namespace rl
 		Person* getPerson(int id) const;
         
 		
-		int getEigenschaftIdFromString(const std::string& str) const;
-		int getEigenschaftIdFromLongString(const std::string& str) const;
+		int getEigenschaftIdFromString(const CeGuiString& str) const;
+		int getEigenschaftIdFromLongString(const CeGuiString& str) const;
 		
 		int getSteigerKosten(int column, int from, int to) const;
 		int getSteigerKosten(int column, int from) const;

@@ -2,6 +2,9 @@
 #define __KAMPFTECHNIK_H__
 
 #include "RulesPrerequisites.h"
+
+#include <CEGUIString.h>
+
 #include "Tripel.h"
 
 namespace rl
@@ -10,20 +13,20 @@ namespace rl
     {
     private:
         const int mId;
-        const std::string mName;
-        const std::string mDescription;
-        const std::string mEbe;
+        const CeGuiString mName;
+        const CeGuiString mDescription;
+        const CeGuiString mEbe;
     public:
         Kampftechnik(int id,
-                     const std::string& name,
-                     const std::string& description,
-                     const std::string& ebe);
+                     const CeGuiString& name,
+                     const CeGuiString& description,
+                     const CeGuiString& ebe);
 
         bool operator==(const Kampftechnik& rhs) const;
         bool operator<(const Kampftechnik& rhs) const;
         int getId() const;
-        std::string getName() const;
-        std::string getDescription() const;
+        CeGuiString getName() const;
+        CeGuiString getDescription() const;
         /// Berechnet effektive Behinderung
         int calculateEbe(int be) const;
     };

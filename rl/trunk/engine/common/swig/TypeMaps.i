@@ -19,6 +19,24 @@
      $result = rb_str_new2($1->c_str());
 }
 
+/* Wrapping CeGuiStrings to ruby and back 
+ for CeGuiString, const CeGuiString, CeGuiString&, CeGuiString*, const CeGuiString*, const CeGuiString&
+*/
+%typemap(in) CeGuiString, const CeGuiString {
+    Check_Type($input, T_STRING);
+    $1 = CeGuiString(STR2CSTR($input));
+}
+%typemap(out) CeGuiString, const CeGuiString {
+     $result = rb_str_new2($1.c_str());
+}
+%typemap(in) CeGuiString*, CeGuiString&, const CeGuiString*, const CeGuiString& {
+    Check_Type($input, T_STRING);
+    $1 = new CeGuiString(STR2CSTR($input));
+}
+%typemap(out) CeGuiString*, CeGuiString&,  const CeGuiString*, const CeGuiString& {
+     $result = rb_str_new2($1->c_str());
+}
+
 /* Wrapping Real to ruby and back 
  for Real, const Real, Real&, Real*, const Real*, const Real&
 */

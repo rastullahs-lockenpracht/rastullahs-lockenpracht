@@ -48,6 +48,11 @@ namespace rl
 		mLog->logMessage(msg);
 	}
 
+	void RulesSubsystem::log(const CeGuiString& msg)
+	{
+		log(msg.c_str());
+	}
+
     RulesSubsystem::~RulesSubsystem()
     {
         delete DsaManager::getSingletonPtr();

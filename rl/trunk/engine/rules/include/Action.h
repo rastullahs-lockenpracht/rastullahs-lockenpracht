@@ -2,6 +2,7 @@
 #define __RL_ACTION_H__
 
 #include "RulesPrerequisites.h"
+#include <CEGUIString.h>
 
 namespace rl
 {
@@ -22,8 +23,8 @@ namespace rl
     class _RlRulesExport Action
     {
     private:
-        std::string mName;
-        std::string mDescription;
+        CeGuiString mName;
+        CeGuiString mDescription;
     public:
         /**
         * @param name Name, mit der die Aktion dem Benutzer
@@ -31,11 +32,11 @@ namespace rl
         *             Die gleiche, die intern verwendet wird.
         * @param descritpion Eine naehere Beschreibung.
         */
-        Action(const std::string& name, const std::string& description);
+        Action(const CeGuiString& name, const CeGuiString& description);
         virtual ~Action();
 
-        virtual std::string getName();
-        virtual std::string getDescription();
+        virtual const CeGuiString& getName() const;
+        virtual const CeGuiString& getDescription() const;
 
         /**
          * @return Die Art des auszuwaehlenden Zieles für die Aktion.

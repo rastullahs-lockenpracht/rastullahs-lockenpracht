@@ -73,24 +73,25 @@ namespace rl {
 
     Talent* DsaDataLoader::processTalent(int id, int gruppe, DOMElement* talentXml)
     {
-        const XMLCh* desc = XmlHelper::getChildNamed(talentXml, "Beschreibung")->getFirstChild()->getNodeValue();
-        const XMLCh* probe = XmlHelper::getChildNamed(talentXml, "Probe")->getFirstChild()->getNodeValue();
-        const XMLCh* art = XmlHelper::getChildNamed(talentXml, "Art")->getFirstChild()->getNodeValue();
+		CeGuiString desc = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(talentXml, "Beschreibung"));
+        CeGuiString probe = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(talentXml, "Probe"));
+        CeGuiString art = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(talentXml, "Art"));
 		DOMElement* eBeNode = XmlHelper::getChildNamed(talentXml, "eBE");
 		int ebe = EBE_KEINE_BE;
         if (eBeNode != NULL)
 			ebe = getEBeFromString(XMLString::transcode(eBeNode->getFirstChild()->getNodeValue()));
 
-        const XMLCh* name = talentXml->getAttribute(XMLString::transcode("ID"));
-        string probeString = XMLString::transcode(probe);
+		CeGuiString name = XmlHelper::transcodeToUtf8(talentXml->getAttribute(XMLString::transcode("ID")));
         EigenschaftTripel eigenschaften;
-		eigenschaften.first = DsaManager::getSingleton().getEigenschaftIdFromString(probeString.substr(0,2));
-        eigenschaften.second = DsaManager::getSingleton().getEigenschaftIdFromString(probeString.substr(3,2));
-        eigenschaften.third = DsaManager::getSingleton().getEigenschaftIdFromString(probeString.substr(6,2));
+		eigenschaften.first = DsaManager::getSingleton().getEigenschaftIdFromString(probe.substr(0,2));
+        eigenschaften.second = DsaManager::getSingleton().getEigenschaftIdFromString(probe.substr(3,2));
+        eigenschaften.third = DsaManager::getSingleton().getEigenschaftIdFromString(probe.substr(6,2));
+		probe.clear();
+
         Talent* t = new Talent(
             id, 
-            XMLString::transcode(name),
-            XMLString::transcode(desc),
+			name,
+            desc,
             eigenschaften,
             ebe,
             gruppe);
@@ -143,10 +144,10 @@ namespace rl {
 		XMLCh* ABGELEITETER_WERT = XMLString::transcode("AbgeleiteterWert");
 		XMLCh* EIGENSCHAFT = XMLString::transcode("Eigenschaft");
 		
-		string name = 
-			XmlHelper::getValueAsString(XmlHelper::getChildNamed(personXml, "Name"));
-		string desc = 
-			XmlHelper::getValueAsString(XmlHelper::getChildNamed(personXml, "Beschreibung"));
+		CeGuiString name = 
+			XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(personXml, "Name"));
+		CeGuiString desc = 
+			XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(personXml, "Beschreibung"));
 
 		Person* rval = new Person(id, name, desc);
 
@@ -159,17 +160,15 @@ namespace rl {
 			DOMElement* eigenschXml = reinterpret_cast<DOMElement*>(eigensch->item(idx));
 			utf8* eigName = XmlHelper::transcodeToUtf8(eigenschXml->getAttribute(ID));
 			
-			CEGUI::String s(eigName);// = (utf8*)"heinz";
-			RulesSubsystem::getSingleton().log(s.c_str());
-			//int eigId = DsaManager::getSingleton().getEigenschaftIdFromLongString(eigName);
-			//XMLString::release(&eigName);
-			//int wert = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(eigenschXml, "Wert"));
+			int eigId = DsaManager::getSingleton().getEigenschaftIdFromLongString(eigName);
+			delete[] eigName;
+			int wert = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(eigenschXml, "Wert"));
 
-			//rval->setEigenschaft(eigId, wert);
+			rval->setEigenschaft(eigId, wert);
 		}		
 
 		// Abgeleitete Werte laden
-		/*DOMNodeList* werte = 
+		DOMNodeList* werte = 
 			XmlHelper::getChildNamed(personXml, "AbgeleiteteWerte")->
 				getElementsByTagName(ABGELEITETER_WERT);
 		for (unsigned int idx = 0; idx < werte->getLength(); idx++)
@@ -209,14 +208,17 @@ namespace rl {
 		for (unsigned int idx = 0; idx < talente->getLength(); idx++)
 		{
 			DOMElement* talentXml = reinterpret_cast<DOMElement*>(talente->item(idx));
+			
+			utf8* talName = XmlHelper::transcodeToUtf8(talentXml->getAttribute(ID));
 			Talent* tal = 
-				DsaManager::getSingleton().getTalent(
-					XMLString::transcode(talentXml->getAttribute(ID)));
+				DsaManager::getSingleton().getTalent(talName);
+			delete[] talName;
+
 			rval->addTalent(tal->getId());
 			rval->setTalent(
 				tal->getId(), 
 				XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(talentXml, "Wert")));
-		}*/
+		}
 
 		XMLString::release(&TALENT);
 		XMLString::release(&ID);

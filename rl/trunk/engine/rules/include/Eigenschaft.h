@@ -2,6 +2,9 @@
 #define __EIGENSCHAFT_H__
 
 #include "RulesPrerequisites.h"
+
+#include <CEGUIString.h>
+
 #include "Tripel.h"
 
 namespace rl
@@ -23,22 +26,22 @@ namespace rl
     {
     private:
         const int mId;
-        const std::string mName;
-		const std::string mNameAbbreviation;
-        const std::string mDescription;
+        const CeGuiString mName;
+		const CeGuiString mNameAbbreviation;
+        const CeGuiString mDescription;
     public:
         Eigenschaft(int id,
-                    const std::string& name,
-					const std::string& nameAbbrev,
-                    const std::string& description);
+                    const CeGuiString& name,
+					const CeGuiString& nameAbbrev,
+                    const CeGuiString& description);
 
         bool operator==(const Eigenschaft& rhs) const;
         bool operator<(const Eigenschaft& rhs) const;
 
         int getId() const;
-        std::string getName() const;
-        std::string getNameAbbreviation() const;
-        std::string getDescription() const;
+        const CeGuiString& getName() const;
+        const CeGuiString& getNameAbbreviation() const;
+        const CeGuiString& getDescription() const;
     };
 }
 

@@ -47,7 +47,7 @@ namespace rl {
 		for (	StringVector::iterator iter = actions.begin(); 
 				iter != actions.end(); iter++)
 		{
-			string actionName = *iter;
+			CeGuiString actionName = *iter;
 			Action* action = 
 				ActionManager::getSingleton().getDefaultAction(actionName);
 			PushButton* actionButton = reinterpret_cast<PushButton*>(
@@ -55,8 +55,8 @@ namespace rl {
 				//	"buttons/"+actionName+".xml"));
 				WindowManager::getSingleton().createWindow(
 					(utf8*)"Taharez Button", 
-					CEGUI::String("ActionChoiceWindow/Buttons/"+actionName)));
-			actionButton->setText(CEGUI::String(action->getDescription()));
+					"ActionChoiceWindow/Buttons/"+actionName));
+			actionButton->setText(CeGuiString(action->getDescription()));
 			Point pos = getPositionOnRadialMenu(
 					center, 0, 0, RADIUS, mButtons.size(), actions.size());
 			actionButton->setPosition(Absolute, pos);
@@ -77,10 +77,10 @@ namespace rl {
 		}
 	}
 	
-	void ActionChoiceWindow::handleActionChosen(string& action)
+	void ActionChoiceWindow::handleActionChosen(const CeGuiString& action)
 	{
 		//TODO: Auswahl des Ziels/der Ziele
-		//TODO: Ausf�hrung der Action, hier im Dialog oder doch woanders?
+		//TODO: Ausführung der Action, hier im Dialog oder doch woanders?
 	}
 	
 	void ActionChoiceWindow::handleShowHint(const EventArgs& evt)

@@ -33,7 +33,7 @@ namespace rl
 
     void DebugWindow::setText(const Ogre::String& text)
     {
-        CEGUI::String o(text.c_str());
+        CeGuiString o(text.c_str());
         mText->setText(o);
     }
     

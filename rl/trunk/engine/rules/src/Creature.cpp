@@ -7,7 +7,7 @@
 namespace rl
 {
     Creature::Creature(int id,
-        const std::string& name, const std::string& description)
+        const CeGuiString& name, const CeGuiString& description)
         : GameObject(id, name, description), mCurrentLe(0)
     {
 		setWert(WERT_MOD_AE, 0);

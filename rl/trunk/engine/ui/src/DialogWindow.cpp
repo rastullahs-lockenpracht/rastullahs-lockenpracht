@@ -45,7 +45,7 @@ void DialogWindow::getResponse(string msg)
 	mResponses=mNlp->respond(msg);
 	if(mResponses.empty())
 	{
-		mQuestion->setText(CEGUI::String("DIALOG BEENDET"));
+		mQuestion->setText(CeGuiString("DIALOG BEENDET"));
 		hide();	
 		return;
 	}
@@ -115,18 +115,18 @@ void DialogWindow::updateValues()
 {
 	for (unsigned int line = 0; line < count(); line++)
 	{
-		CEGUI::String text = mTextLines[line];
+		CeGuiString text = mTextLines[line];
 		for (map<string, string>::iterator var = mVariableValues.begin(); 
 				var != mVariableValues.end(); 
 				var++)
 		{
 			int pos = 0;
 			
-			while (pos != CEGUI::String::npos)
+			while (pos != CeGuiString::npos)
 			{
 				pos = text.find("%"+(*var).first+"%", pos);
 				int size = 2+(*var).first.length();
-				if (pos != CEGUI::String::npos)
+				if (pos != CeGuiString::npos)
 					text = text.replace(pos, size, (*var).second);
 			}
 		}

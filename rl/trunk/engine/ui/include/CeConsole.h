@@ -49,7 +49,7 @@ namespace rl {
 
 			void handleKeyDown(const CEGUI::EventArgs& e);
 			void handleEnter(const CEGUI::EventArgs& e);
-			void appendTextRow(CEGUI::String& text, const CEGUI::colour color);
+			void appendTextRow(CeGuiString& text, const CEGUI::colour color);
 
 			std::vector<std::string> mHistory;
 			int mHistoryMarker;

@@ -3,6 +3,8 @@
 
 #include "RulesPrerequisites.h"
 
+#include <CEGUIString.h>
+
 #include "Creature.h"
 
 namespace rl {
@@ -12,8 +14,8 @@ namespace rl {
 	public:
 		///@warning Nur zu Testzwecken da. Wird spaeter entfernt.
         Person(int id,
-                 const std::string& name,
-                 const std::string& description);
+                 const CeGuiString& name,
+                 const CeGuiString& description);
 	};	
 }
 

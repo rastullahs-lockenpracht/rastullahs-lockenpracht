@@ -2,6 +2,9 @@
 #define __CREATURE_H__
 
 #include "RulesPrerequisites.h"
+
+#include <CEGUIString.h>
+
 #include "GameObject.h"
 #include "Eigenschaft.h"
 
@@ -50,8 +53,8 @@ namespace rl
 
 		///@warning Nur zu Testzwecken da. Wird spaeter entfernt.
         Creature(int id,
-                 const std::string& name,
-                 const std::string& description);
+                 const CeGuiString& name,
+                 const CeGuiString& description);
 		        
         virtual ~Creature();
 

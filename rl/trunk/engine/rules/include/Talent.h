@@ -2,6 +2,9 @@
 #define __TALENT_H__
 
 #include "RulesPrerequisites.h"
+
+#include <CEGUIString.h>
+
 #include "Tripel.h"
 #include "Eigenschaft.h"
 
@@ -11,15 +14,15 @@ namespace rl
     {
     private:
         const int mId;
-        const std::string mName;
-        const std::string mDescription;
+        const CeGuiString mName;
+        const CeGuiString mDescription;
         const EigenschaftTripel mEigenschaften;
         const int mEbe;
 		const int mTalentGruppe;
     public:
         Talent(int id,
-               const std::string& name,
-               const std::string& description,
+               const CeGuiString& name,
+               const CeGuiString& description,
                const EigenschaftTripel& eigenschaften,
                int ebe,
 			   int gruppe);
@@ -27,8 +30,8 @@ namespace rl
         bool operator==(const Talent& rhs) const;
         bool operator<(const Talent& rhs) const;
         int getId() const;
-        std::string getName() const;
-        std::string getDescription() const;
+        CeGuiString getName() const;
+        CeGuiString getDescription() const;
 		int getEbe() const;
 
         /// Berechnet effektive Behinderung bei gegebener Behinderung;

@@ -4,7 +4,7 @@
 #include "RulesPrerequisites.h"
 
 #include <OgreSingleton.h>
-#include <string>
+#include <CEGUIString.h>
 #include <map>
 using Ogre::Singleton;
 
@@ -12,7 +12,7 @@ namespace rl
 {
 	class Action;
 	
-	typedef std::map<std::string, Action*> ActionMap;
+	typedef std::map<CeGuiString, Action*> ActionMap;
         
     /**
     * \brief Abstrakte Basisklasse fuer Aktionen an Spielobjekten.
@@ -32,9 +32,9 @@ namespace rl
         ~ActionManager();
 
         void registerAction(Action* action);
-        void unregisterAction(const std::string& actionName);
+        void unregisterAction(const CeGuiString& actionName);
 
-        Action* getDefaultAction(const std::string& actionName) const;
+        Action* getDefaultAction(const CeGuiString& actionName) const;
 
         static ActionManager& getSingleton(void);
         static ActionManager* getSingletonPtr(void);

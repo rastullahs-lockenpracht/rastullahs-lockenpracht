@@ -17,7 +17,7 @@
 #include <map>
 #include <vector>
 
-#define _t(T) std::string(T)
+#define _t(T) CeGuiString(T)
 
 #include <OgreLogManager.h>
 
@@ -25,12 +25,15 @@
 #define log_info(msg) Ogre::LogManager::getSingleton().logMessage(msg, LML_NORMAL);
 #define log_debug(msg) Ogre::LogManager::getSingleton().logMessage(msg, LML_TRIVIAL);
 
+#include <CEGUIString.h>
+
 namespace rl
 {
     class _RlRulesExport Action;
     class _RlRulesExport GameObject;
 
-    typedef std::map<std::string, Action*> ActionMap;
-    typedef std::vector<std::string> StringVector;
+	typedef CEGUI::String CeGuiString;
+    typedef std::map<CeGuiString, Action*> ActionMap;
+    typedef std::vector<CeGuiString> StringVector;
 }
 #endif

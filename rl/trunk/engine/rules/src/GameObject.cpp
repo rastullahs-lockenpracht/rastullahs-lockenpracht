@@ -7,8 +7,8 @@ using namespace std;
 namespace rl
 {
     GameObject::GameObject(int id,
-                           const std::string& name,
-                           const std::string& description) : mId(id),
+                           const CeGuiString& name,
+                           const CeGuiString& description) : mId(id),
                                                              mName(name),
                                                              mDescription(description)
     {
@@ -24,22 +24,32 @@ namespace rl
         return mId;
     }
 
-    std::string GameObject::getName() const
+    const CeGuiString& GameObject::getName() const
     {
         return mName;
     }
 
-    void GameObject::setName(const std::string& name)
+	/*const char* GameObject::getName() const
+	{
+		return mName.c_str();
+	}*/
+
+    void GameObject::setName(CeGuiString& name)
     {
         mName = name;
     }
 
-    std::string GameObject::getDescription() const
+	/*void GameObject::setName(const char* name)
+    {
+		mName = CeGuiString(name);
+    }*/
+
+    const CeGuiString& GameObject::getDescription() const
     {
         return mDescription;
     }
 
-    void GameObject::setDescription(const std::string& description)
+    void GameObject::setDescription(CeGuiString& description)
     {
         mDescription = description;
     }
@@ -54,7 +64,7 @@ namespace rl
         mActionMap[action->getName()] = action;
     }
 
-    void GameObject::removeAction(const std::string& name)
+    void GameObject::removeAction(const CeGuiString& name)
     {
         ActionMap::iterator it = mActionMap.find(name);
         if (it != mActionMap.end())
@@ -65,7 +75,7 @@ namespace rl
 
     StringVector GameObject::getValidActions() const
     {
-        vector<std::string> rval(mActionMap.size());
+        StringVector rval(mActionMap.size());
         ActionMap::const_iterator it = mActionMap.begin();
         for (unsigned int i = 0; i < mActionMap.size(); i++)
         {
@@ -74,7 +84,7 @@ namespace rl
         return rval;
     }
 
-    void GameObject::doAction(const std::string& action,
+    void GameObject::doAction(const CeGuiString& action,
                               Creature* actor,
                               GameObject* target)
     {

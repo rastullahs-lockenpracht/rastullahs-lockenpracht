@@ -233,6 +233,9 @@
 				RelativePath=".\src\CharacterSheetWindow.cpp">
 			</File>
 			<File
+				RelativePath=".\src\CommandMapper.cpp">
+			</File>
+			<File
 				RelativePath=".\src\DebugWindow.cpp">
 			</File>
 			<File

@@ -2,6 +2,7 @@
 #define __GAMEOBJECT_H__
 
 #include "RulesPrerequisites.h"
+#include <CEGUIString.h>
 
 namespace rl
 {
@@ -22,24 +23,26 @@ namespace rl
         ActionMap mActionMap;
     protected:
         int mId;
-        std::string mName;
-        std::string mDescription;
+        CeGuiString mName;
+        CeGuiString mDescription;
     public:
         GameObject(int id,
-                   const std::string& name,
-                   const std::string& description);
+                   const CeGuiString& name,
+                   const CeGuiString& description);
         virtual ~GameObject(void);
 
         virtual int getId() const;
 
-        virtual std::string getName() const;
-        virtual void setName(const std::string& name);
+        //virtual CeGuiString getNameString();
+        virtual const CeGuiString& getName() const;
+        virtual void setName(CeGuiString& name);
+		//virtual void setName(const char* name);
 
-        virtual std::string getDescription() const;
-        virtual void setDescription(const std::string& description);
+        virtual const CeGuiString& getDescription() const;
+        virtual void setDescription(CeGuiString& description);
 
         void addAction(Action* action);
-        void removeAction(const std::string& name);
+        void removeAction(const CeGuiString& name);
 
         StringVector getValidActions() const;
 
@@ -51,7 +54,7 @@ namespace rl
          *         getriggert wurde.
          *  @param target Ziel, auf das die Aktion gewirkt wird.
          */
-        void doAction(const std::string& action,
+        void doAction(const CeGuiString& action,
                       Creature* actor,
                       GameObject* target);
     };

@@ -65,8 +65,9 @@ void CharacterSheetWindow::updateValues()
 	
 	for (unsigned int eig = 0; eig < EIGENSCHAFT_COUNT; eig++)
 	{
+		CeGuiString name = DsaManager::getSingleton().getEigenschaft(eig)->getName();
 		mEigenschaft[eig]->setText(
-			DsaManager::getSingleton().getEigenschaft(eig)->getName()+": "+
+			name +": "+
 			StringConverter::toString(mCharacter->getEigenschaft(eig)));
 	}
 	
@@ -99,15 +100,13 @@ void CharacterSheetWindow::updateTalents()
 		mTalentTable->setItem(new ListboxTextItem(talent->getName(), talent->getId()), 0, talentNum);
 
 		EigenschaftTripel eigensch = talent->getEigenschaften();
-		string probe = "";
-		probe += DsaManager::getSingleton().getEigenschaft(eigensch.first)->getNameAbbreviation();
-		probe += "/";
-		probe += DsaManager::getSingleton().getEigenschaft(eigensch.second)->getNameAbbreviation();
-		probe += "/";
+		CeGuiString probe;
+		probe = DsaManager::getSingleton().getEigenschaft(eigensch.first)->getNameAbbreviation() + "/";
+		probe += DsaManager::getSingleton().getEigenschaft(eigensch.second)->getNameAbbreviation() + "/";
 		probe += DsaManager::getSingleton().getEigenschaft(eigensch.third)->getNameAbbreviation();
 
 		mTalentTable->setItem(new ListboxTextItem(probe), 1, talentNum);
-		CEGUI::String eBe;
+		CeGuiString eBe;
 		if (talent->getEbe() == EBE_KEINE_BE)
 			eBe = (utf8*)"-";
 		else if (talent->getEbe() == EBE_BEx2)
@@ -115,9 +114,9 @@ void CharacterSheetWindow::updateTalents()
 		else if (talent->getEbe() == 0)
 			eBe = (utf8*)"BE";
 		else if (talent->getEbe() > 0)
-			eBe = (utf8*)"BE+" + CEGUI::String(StringConverter::toString(talent->getEbe()));
+			eBe = (utf8*)"BE+" + CeGuiString(StringConverter::toString(talent->getEbe()));
 		else
-			eBe = (utf8*)"BE" + CEGUI::String(StringConverter::toString(talent->getEbe()));
+			eBe = (utf8*)"BE" + CeGuiString(StringConverter::toString(talent->getEbe()));
 
 		mTalentTable->setItem(new ListboxTextItem(eBe), 2, talentNum);
 		mTalentTable->setItem(new ListboxTextItem((utf8*)""), 3, talentNum);

@@ -34,7 +34,7 @@ namespace rl
         mActionMap[action->getName()] = action;
     }
 
-    Action* ActionManager::getDefaultAction(const std::string& actionName) const
+    Action* ActionManager::getDefaultAction(const CeGuiString& actionName) const
     {
         ActionMap::const_iterator it = mActionMap.find(actionName);
         if (it == mActionMap.end())

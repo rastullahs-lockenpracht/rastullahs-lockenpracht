@@ -16,6 +16,7 @@ using namespace rl;
 %}
 %include "../../common/swig/TypeMaps.i"
 %include "stl.i"
+%include "std_string.i"
 
 // Kopie. Falls das nochmal irgendwohin kopiert werden muss,
 // In separate Datei auslagen.
@@ -60,17 +61,17 @@ namespace rl {
         int getTimeFraction();
         int getYear();
         int getMonth();
-        std::string getMonthName();
+        CeGuiString getMonthName();
         int getDayOfYear();
         int getDayOfMonth();
         int getDayOfWeek();
-        std::string getDayOfWeekName();
+        CeGuiString getDayOfWeekName();
         int getHour();
         int getMinute();
         int getSecond();
         int getMilliSecond();
       
-        std::string toString();
+        CeGuiString toString();
     };
    
     Date operator+(const RL_LONGLONG&, const Date&);
@@ -93,16 +94,16 @@ namespace rl {
     class GameObject
     {
     public:
-        GameObject(int id, const std::string& name, const std::string& description);
+        GameObject(int id, const CeGuiString& name, const CeGuiString& description);
         virtual ~GameObject(void);
 
         virtual int getId();
 
-        virtual std::string getName();
-        virtual void setName(const std::string& name);
+        virtual const CeGuiString& getName() const;
+        virtual void setName(CeGuiString& name);
 
-        virtual std::string getDescription();
-        virtual void setDescription(const std::string& description);   
+        virtual const CeGuiString& getDescription() const;
+        virtual void setDescription(CeGuiString& description);   
 
         void addAction(rl::Action *action);
         //%extend {
@@ -111,26 +112,26 @@ namespace rl {
         //        self->addAction(reinterpret_cast<Action*>(ptr));
         //    }
         //}
-        void removeAction(const std::string& name);
+        void removeAction(const CeGuiString& name);
 
-        std::vector<std::string> getValidActions() const;
+        std::vector<CeGuiString> getValidActions() const;
         
-        void doAction(const std::string& action, rl::Creature* actor,
+        void doAction(const CeGuiString& action, rl::Creature* actor,
             rl::GameObject* target);
     };
     
     %feature("director") Item;
     class Item : public GameObject {
     public:
-        Item(int id, const std::string& name, const std::string& description);
+        Item(int id, const CeGuiString& name, const CeGuiString& description);
         virtual ~Item(void);
     };
     
     %feature("director") Creature;
     class Creature : public GameObject {
     public:
-        Creature(int id, const std::string& name, const std::string& description);
-        //Creature(const std::string& data);
+        Creature(int id, const CeGuiString& name, const CeGuiString& description);
+        //Creature(const CeGuiString& data);
         virtual ~Creature();
 
         virtual int getEigenschaft(int id) const;
@@ -152,11 +153,11 @@ namespace rl {
     class Action
     {
     public:
-        Action(const std::string& name, const std::string& description);
+        Action(const CeGuiString& name, const CeGuiString& description);
         virtual ~Action();
 
-        virtual std::string getName();
-        virtual std::string getDescription();
+        virtual const CeGuiString& getName() const;
+        virtual const CeGuiString& getDescription() const;
         virtual int getTargetClass();
         virtual void doAction(rl::GameObject *object, rl::Creature *actor,
             rl::GameObject *target);
