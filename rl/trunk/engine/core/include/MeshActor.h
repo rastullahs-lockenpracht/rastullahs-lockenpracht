@@ -21,6 +21,11 @@ public:
     void setScale( Real x, Real y, Real z );
 
     Ogre::Vector3 getExtent();
+    
+    /// Relativ zum lokalen Koordinatensystem
+    Ogre::Vector3 getCenter();
+    Ogre::Real getRadius();
+    Ogre::Real getHeight();
 
     void startAnimation(const String&);
 	void stopAnimation(const String&);

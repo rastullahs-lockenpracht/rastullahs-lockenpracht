@@ -201,4 +201,20 @@ namespace rl {
         return rval;
     }
 
+    Vector3 MeshActor::getCenter()
+    {
+        return Vector3(0, 0, getHeight() / 2.0);
+    }
+    
+    Real MeshActor::getRadius()
+    {
+        Vector3 extent = getExtent();
+        return std::max(extent.x, extent.z) / 2.0;
+    }
+    
+    Real MeshActor::getHeight()
+    {
+        return getExtent().y;
+    }
+
 }
