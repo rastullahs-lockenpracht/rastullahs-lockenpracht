@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<Font 
+    Name="Vera Serif-8" 
+    Filename="modules/common/gui/fonts/VeraSe.ttf" 
+    Type="Dynamic" 
+    Size="8" 
+    NativeHorzRes="800" 
+    NativeVertRes="600" 
+    FirstCodepoint="32" 
+    LastCodepoint="300" 
+    AutoScaled="true"
+/>

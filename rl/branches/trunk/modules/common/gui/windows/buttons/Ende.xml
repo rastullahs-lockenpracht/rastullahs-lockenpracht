@@ -1,0 +1,7 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+   <Window Type="TaharezLook/StaticImage" Name="QuitButton">
+      <Property Name="AbsoluteWidth" Value="48"/>
+      <Property Name="AbsoluteHeight" Value="48"/>
+      <Property Name="Image" Value="set:RastullahButtons image:Buttons/Quit" /> 
+   </Window>
+</GUILayout>

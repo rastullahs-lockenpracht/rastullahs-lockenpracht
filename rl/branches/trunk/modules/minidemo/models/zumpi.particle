@@ -1,0 +1,25 @@
+// Name des Particles ist zumpi steht drunter
+
+zumpi
+{
+		material	Examples/Flare
+		particle_width	50
+		particle_height	30
+		quota	100
+		billboard_type	oriented_self
+		common_direction 0 2.3281 0
+		emitter	Cylinder
+	{
+		angle	70
+		emission_rate	20
+		time_to_live	2
+		velocity_min	100
+		velocity_max	200
+		direction	0 1 0
+		colour_range_start	0.528062 0.725913 0.141026 0.338993
+		colour_range_end	0.82873 0.342387 0.652272 0.847945
+		width	65
+		height	92
+		depth	89
+	}
+}
