@@ -56,7 +56,7 @@ namespace rl
                       Creature* actor,
                       GameObject* target);
 
-		void doAction(const Action* action,
+		void doAction(Action* action,
                       Creature* actor,
                       GameObject* target);
 
