@@ -186,8 +186,8 @@ using namespace Ogre;
 				mTimer->reset();
 				loop((double)timeSinceLastCall/1000.0);
 				boost::thread::sleep(timeToSleep);
-				//	boost::thread::yield();
 			}
+            boost::thread::yield();
 		}
 	}
 
