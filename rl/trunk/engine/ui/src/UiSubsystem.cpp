@@ -21,7 +21,7 @@
 #include "RubyInterpreter.h"
 #include "Console.h"
 #include "DebugWindow.h"
-#include "ThirdPersonGameController.h"
+#include "GameController.h"
 #include "InputManager.h"
 #include "CommandMapper.h"
 #include "MessageWindow.h"

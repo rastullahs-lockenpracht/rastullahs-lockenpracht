@@ -199,6 +199,9 @@
 				RelativePath=".\include\FlyingCameraController.h">
 			</File>
 			<File
+				RelativePath=".\include\GameController.h">
+			</File>
+			<File
 				RelativePath=".\include\GameLoggerWindow.h">
 			</File>
 			<File
@@ -215,9 +218,6 @@
 			</File>
 			<File
 				RelativePath=".\include\MessageWindow.h">
-			</File>
-			<File
-				RelativePath=".\include\ThirdPersonGameController.h">
 			</File>
 			<File
 				RelativePath=".\include\UiPrerequisites.h">
@@ -260,6 +260,9 @@
 				RelativePath=".\src\FlyingCameraController.cpp">
 			</File>
 			<File
+				RelativePath=".\src\GameController.cpp">
+			</File>
+			<File
 				RelativePath=".\src\GameLoggerWindow.cpp">
 			</File>
 			<File
@@ -276,9 +279,6 @@
 			</File>
 			<File
 				RelativePath=".\src\MessageWindow.cpp">
-			</File>
-			<File
-				RelativePath=".\src\ThirdPersonGameController.cpp">
 			</File>
 			<File
 				RelativePath=".\src\UiSubsystem.cpp">

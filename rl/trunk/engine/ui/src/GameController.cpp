@@ -14,7 +14,7 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#include "ThirdPersonGameController.h"
+#include "GameController.h"
 #include "CoreSubsystem.h"
 #include "World.h"
 #include "InputManager.h"
