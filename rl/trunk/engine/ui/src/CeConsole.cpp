@@ -97,7 +97,8 @@ namespace rl
 	void CeConsole::handleEnter(const CEGUI::EventArgs& e)
 	{	
 		CEGUI::String command = mCommandLine->getText();
-		appendTextRow(">" + command, 0xFF7FFF7F);
+		CEGUI::String printCommand = ">" + command;
+		appendTextRow(printCommand, 0xFF7FFF7F);
 				
 		if(mInterpreter != 0)
 			mPrompt = mInterpreter->execute(command.c_str());
