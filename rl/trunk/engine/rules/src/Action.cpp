@@ -19,8 +19,10 @@
 
 namespace rl
 {
-    Action::Action(const CeGuiString& name, const CeGuiString& description) : mName(name),
-                                                                              mDescription(description)
+    Action::Action(const CeGuiString& name, const CeGuiString& description) 
+		: mName(name),
+          mDescription(description),
+		  mGroup(NULL)
     {
     }
 
@@ -56,4 +58,54 @@ namespace rl
         //Beep(4000, 4000);
         //Throw(IllegalStateException, "Methode muss ueberschrieben werden.");
     }
+	
+	void Action::setGroup(ActionGroup* group)
+	{
+		mGroup = group;
+	}
+	
+	ActionGroup* Action::getGroup() const
+	{
+		return mGroup;
+	}
+	
+	ActionGroup::ActionGroup(CeGuiString name, ActionGroup* parent)
+	{
+		mParent = parent;
+		mName = name;
+		
+		if (parent != NULL)
+			parent->addChild(this);
+	}
+	
+	ActionGroup::~ActionGroup()
+	{
+		if (mParent != NULL)
+			mParent->removeChild(this);
+		
+		for (ChildrenList::iterator it = mChildren.begin(); it != mChildren.end(); it++)
+			(*it)->removeParent();
+	}
+	
+	const CeGuiString& ActionGroup::getName() const
+	{
+		return mName;
+	}
+	
+	void ActionGroup::addChild(ActionGroup* child)
+	{
+		mChildren.insert(child);
+	}
+	
+	void ActionGroup::removeChild(ActionGroup* child)
+	{
+		ChildrenList::iterator it = mChildren.find(child);
+		if (it != mChildren.end())
+			mChildren.erase(it);
+	}
+	
+	void ActionGroup::removeParent()
+	{
+		mParent = NULL;
+	}
 };

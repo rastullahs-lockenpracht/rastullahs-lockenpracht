@@ -19,6 +19,7 @@
 
 #include "RulesPrerequisites.h"
 #include <CEGUIString.h>
+#include <set>
 
 namespace rl
 {
@@ -47,6 +48,8 @@ namespace rl
     private:
         CeGuiString mName;
         CeGuiString mDescription;
+		ActionGroup* mGroup;
+	
     public:
         /**
         * @param name Name, mit der die Aktion dem Benutzer
@@ -87,15 +90,29 @@ namespace rl
         virtual void doAction(GameObject* object,
                               Creature* actor,
                               GameObject* target);
+							  
+		void setGroup(ActionGroup* group);
+		ActionGroup* getGroup() const;
     };
 	
 	class _RlRulesExport ActionGroup
 	{
 	public:
-		ActionGroup(ActionGroup* parent, CeGuiString name);
+		ActionGroup(CeGuiString name, ActionGroup* parent = NULL);
+		~ActionGroup();
+	
+		const CeGuiString& getName() const;
+	
+		typedef std::set<ActionGroup*> ChildrenList;
+	
 	private:
-		ActionGroup* mParentGroup;
-		
+		void addChild(ActionGroup* child);
+		void removeChild(ActionGroup* child);
+		void removeParent();	
+	
+		ActionGroup* mParent;
+		ChildrenList mChildren;
+		CeGuiString mName;
 	};
 }
 
