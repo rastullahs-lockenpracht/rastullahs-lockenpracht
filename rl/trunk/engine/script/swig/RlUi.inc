@@ -39,7 +39,7 @@ public:
 	void showMessageWindow(const CeGuiString& message);
 	Person* getActiveCharacter();
 	void setActiveCharacter(Person* person);
-	void showMainMenu();
+	void showMainMenu(GameObject* actionHolder);
 	void toggleConsole();
 	void toggleDebugWindow();
 	GameController* getGameController();

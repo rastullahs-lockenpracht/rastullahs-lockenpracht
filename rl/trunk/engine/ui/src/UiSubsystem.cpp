@@ -24,6 +24,7 @@
 #include "GameController.h"
 #include "InputManager.h"
 #include "CommandMapper.h"
+#include "CommandMapperWindow.h"
 #include "MessageWindow.h"
 #include "MainMenuWindow.h"
 #include "WindowManager.h"
@@ -186,6 +187,14 @@ namespace rl {
 		showActionChoice(getActiveCharacter());
 	}
 
+	bool UiSubsystem::showInputOptionsMenu(GameObject* actionHolder)
+	{
+		CommandMapperWindow* wnd = new CommandMapperWindow(actionHolder);
+		wnd->setVisible(true);
+
+		return true;
+	}
+
 	void UiSubsystem::showMessageWindow(const CeGuiString& message)
 	{
 		MessageWindow* w = new MessageWindow();
@@ -193,9 +202,9 @@ namespace rl {
 		w->setVisible(true);
 	}
 
-	void UiSubsystem::showMainMenu()
+	void UiSubsystem::showMainMenu(GameObject* actionHolder)
 	{
-		(new MainMenuWindow(0))->setVisible(true);
+		(new MainMenuWindow(actionHolder))->setVisible(true);
 	}
 
 	void UiSubsystem::toggleConsole()

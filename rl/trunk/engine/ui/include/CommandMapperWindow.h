@@ -22,11 +22,13 @@
 
 namespace rl {
 
+	class GameObject;
+
 	class _RlUiExport CommandMapperWindow :
 		public CeGuiWindow
 	{
 	public:
-		CommandMapperWindow();
+		CommandMapperWindow(GameObject* actionHolder);
 			
 	private:
 		bool handleChangeButton();
@@ -39,6 +41,8 @@ namespace rl {
 	
 		void muteElements(bool mute);
 		void muteWindow(bool mute);
+
+		GameObject* mActionHolder;
 	};
 
 }

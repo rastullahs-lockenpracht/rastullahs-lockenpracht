@@ -61,7 +61,7 @@ namespace rl {
 		void showCharacterActionChoice();
 		void showActionChoice(GameObject* obj);
 		void showMessageWindow(const CeGuiString& message);
-		void showMainMenu();
+		void showMainMenu(GameObject* actionHolder);
 		bool showInputOptionsMenu(GameObject* actionHolder);
 		Person* getActiveCharacter();
 		void setActiveCharacter(Person* person);

@@ -18,14 +18,16 @@
 
 #include "CommandMapperWindow.h"
 #include "UiSubsystem.h"
+#include "GameObject.h"
 #include "FixRubyHeaders.h"
 
 using namespace CEGUI;
 
 namespace rl {
 
-CommandMapperWindow::CommandMapperWindow()
-	: CeGuiWindow("commandmapper.xml", WND_KEYBOARD_INPUT)
+CommandMapperWindow::CommandMapperWindow(GameObject* actionHolder)
+	:	CeGuiWindow("commandmapper.xml", WND_KEYBOARD_INPUT),
+		mActionHolder(actionHolder)
 {
 	getWindow("CommandMapper/ChangeButton")->
 		subscribeEvent(
@@ -57,6 +59,8 @@ CommandMapperWindow::CommandMapperWindow()
 			Window::EventMouseButtonDown,
 			boost::bind(&CommandMapperWindow::handleMouseButton, this, _1));
 	muteWindow(true);
+
+	//TODO: Inhalte anzeigen
 }
 
 void CommandMapperWindow::muteElements(bool mute)
@@ -82,21 +86,25 @@ bool CommandMapperWindow::handleChangeButton()
 
 bool CommandMapperWindow::handleCloseButton()
 {
+	//TODO: CloseButton
 	return true;
 }
 
 bool CommandMapperWindow::handleChangeInBattle()
 {
+	//TODO: ChangeInBattle
 	return true;
 }
 
 bool CommandMapperWindow::handleChangeMovement()
 {
+	//TODO: ChangeMovement
 	return true;
 }
 
 bool CommandMapperWindow::handleChangeOffBattle()
 {
+	//TODO: ChangeOffBattle
 	return true;
 }
 
@@ -108,11 +116,17 @@ bool CommandMapperWindow::handleKeyDown(const CEGUI::EventArgs& e)
 	muteWindow(true);
 	muteElements(false);
 
+	//TODO: Taste in CommandMapper eintragen
+
 	return true;
 }
 
 bool CommandMapperWindow::handleMouseButton(const CEGUI::EventArgs& e)
 {
+	//TODO: Mausknopf in CommandMapper eintragen
+
+	muteWindow(true);
+	muteElements(false);
 	return true;
 }
 
