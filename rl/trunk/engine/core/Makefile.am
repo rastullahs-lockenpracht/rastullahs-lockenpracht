@@ -5,4 +5,4 @@ nobase_pkgdata_DATA = \
 	scripts/embed.rb \
 	scripts/globals.rb
 	
-tests:
+tests: all

@@ -13,10 +13,13 @@
 #include "math.h"
 #include "OgreIteratorWrappers.h"
 #include "cppunit/extensions/HelperMacros.h"
+#include <boost/thread/xtime.hpp>
+#include <boost/thread/thread.hpp>
 
 
 using namespace std;
 using namespace rl;
+using namespace boost;
 
 class SoundManagerTest : public CppUnit::TestFixture {
 private:
@@ -38,18 +41,13 @@ public:
 	{
         SoundManager::getSingleton().addSounds();
 
-        ResourceManager::ResourceMapIterator cit = 
-            SoundManager::getSingleton().getResourceIterator();
-        while(cit.hasMoreElements())
-        {
-            cout << SoundManager::getCommonPathByName((cit.getNext())->getName()) << endl;
-        } 
-        cout << endl;
 	    CPPUNIT_ASSERT(true);
 	}
  
     void testSoundManager_loadPlayUnload()
     {
+        xtime xt;
+        
         ResourceManager::ResourceMapIterator it =
             SoundManager::getSingleton().getResourceIterator();
         while (it.hasMoreElements())
@@ -57,10 +55,13 @@ public:
             SoundResource* sound = dynamic_cast<SoundResource*>(it.getNext());
             if (sound)
             {
-                cerr << "Playing sound " << sound->getName() << endl;
                 sound->load();
                 sound->play();
-                ::sleep( 5 );
+                
+                xtime_set(&xt, TIME_UTC);
+                xtime.sec += 5;
+                thread::sleep(xt);
+                
                 sound->stop();
                 sound->unload();
             }            
@@ -71,7 +72,8 @@ public:
     
     void testSoundManager_testOAL()
     {
-        cerr << "Playing direct" << endl;
+        xtime xt;
+
         DataChunk dc;
         ALenum format;
         ALvoid *data;
@@ -88,7 +90,11 @@ public:
         alGenSources(1, &source);
         alSourceQueueBuffers(source,1,&buffer);
         alSourcePlay(source);
-        ::sleep(5);
+        
+        xtime_set(&xt, TIME_UTC);
+        xt += 5;
+        thread::sleep(xt);
+        
         alSourceStop(source);
         alSourceUnqueueBuffers(source,1,&buffer);
         alDeleteSources(1,&source);

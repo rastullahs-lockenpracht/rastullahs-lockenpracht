@@ -15,10 +15,13 @@
 #include "math.h"
 #include "OgreResourceManager.h"
 #include "cppunit/extensions/HelperMacros.h"
+#include <boost/thread/xtime.hpp>
+#include <boost/thread/thread.hpp>
 
 using namespace std;
 using namespace rl;
 using namespace Ogre;
+using namespace boost;
 
 
 class SoundMusicManagerTest : public CppUnit::TestFixture {
@@ -43,12 +46,10 @@ public:
     {
         MusicManager::getSingletonPtr()->addSounds();
         SoundManager::getSingletonPtr()->addSounds();
-        cout << "Now playing: " << *MusicManager::getSingletonPtr()->getSounds().begin() << endl;
         MusicManager::getSingletonPtr()->setAuto(true);
         MusicManager::getSingletonPtr()->setLooping(false);
         MusicManager::getSingletonPtr()->playSong(); 
         sleep(1);
-        cout << "Now playing sound " << endl;
 
         SoundResource* sound = dynamic_cast<SoundResource*>(
             SoundManager::getSingletonPtr()->getByName("testsound.wav")

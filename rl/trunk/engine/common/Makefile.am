@@ -1,3 +1,3 @@
 SUBDIRS = swig src include
 
-tests:
+tests: all
