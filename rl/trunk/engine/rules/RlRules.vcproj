@@ -27,6 +27,8 @@
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="0"
+				AssemblerListingLocation=".\obj\Debug/"
+				ObjectFile=".\obj\Debug/"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="4"/>
@@ -77,6 +79,8 @@
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="0"
+				AssemblerListingLocation=".\obj\Release/"
+				ObjectFile=".\obj\Release/"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="3"/>
@@ -139,6 +143,9 @@
 				RelativePath=".\src\Date.cpp">
 			</File>
 			<File
+				RelativePath=".\src\DsaDataLoader.cpp">
+			</File>
+			<File
 				RelativePath="src\DsaManager.cpp">
 			</File>
 			<File
@@ -184,6 +191,9 @@
 			</File>
 			<File
 				RelativePath=".\include\Date.h">
+			</File>
+			<File
+				RelativePath=".\include\DsaDataLoader.h">
 			</File>
 			<File
 				RelativePath=".\include\DsaManager.h">
