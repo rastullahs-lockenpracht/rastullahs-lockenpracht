@@ -111,7 +111,7 @@ namespace rl {
 			void switchMouseToUnbuffered();
 			void switchMouseToBuffered();
 
-			char getKeyChar(Ogre::KeyEvent* ke);
+			CEGUI::utf8 getKeyChar(Ogre::KeyEvent* ke);
 
 			bool mPickObjects;
 			GameObject* mTargetedObject;

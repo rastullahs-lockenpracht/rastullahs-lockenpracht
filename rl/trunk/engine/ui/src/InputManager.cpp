@@ -1,4 +1,4 @@
-/* This source file is part of Rastullahs Lockenpracht.
+﻿/* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
@@ -335,13 +335,75 @@ namespace rl {
 		return !mActiveWindows.empty();
 	}
 
-	char InputManager::getKeyChar(KeyEvent* ke)
+	/**
+	 * Ermittelt aus einem KeyEvent das zugehörige Zeichen auf der Tastatur
+	 * @todo Um andere Sprachen zu ermöglichen, in datengetriebene Lösung umwandeln, 
+	 * Locale-Dateien, generischer Ansatz
+	 * 
+	 * @param ke Ogre-KeyEvent zu verarbeitendes Event
+	 * @return Zeichen, das der gedrückten Tastenkombination entspricht
+	 */
+	CEGUI::utf8 InputManager::getKeyChar(KeyEvent* ke)
 	{
-		switch (ke->getKey())
+		if (!ke->isShiftDown() && !ke->isAltDown())
 		{
-		case KC_2:
-			if (ke->isShiftDown())
-				return '"';
+			switch( ke->getKey() ) 
+			{
+				case KC_SLASH: return '-';
+				case KC_MINUS: return 'ß';
+				case KC_EQUALS: return '´';
+				case KC_SEMICOLON: return 'ö'; 
+				case KC_APOSTROPHE: return 'ä';
+				case KC_GRAVE: return '^';
+				case KC_COMMA: return ',';	
+				case KC_PERIOD: return '.';	
+				case KC_MULTIPLY: return '*';
+				case KC_LBRACKET: return 'ü';	
+				case KC_RBRACKET: return '+';
+				case KC_BACKSLASH: return '#';
+			}
+		}
+		else if (ke->isShiftDown() && !ke->isAltDown())
+		{
+			switch (ke->getKey())
+			{
+				case KC_1: return '!';
+				case KC_2: return '"';
+				case KC_3: return '§';
+				case KC_4: return '$';
+				case KC_5: return '%';
+				case KC_6: return '&';
+				case KC_7: return '/';
+				case KC_8: return '(';
+				case KC_9: return ')';
+				case KC_0: return '=';
+				case KC_SLASH: return '_';
+				case KC_MINUS: return '?';
+				case KC_EQUALS: return '`';
+				case KC_SEMICOLON: return 'Ö';
+				case KC_APOSTROPHE:	return 'Ä';
+				//case KC_GRAVE: return '?';
+				case KC_COMMA: return ';';	
+				case KC_PERIOD:	return ':';
+				case KC_LBRACKET: return 'Ü';	
+				case KC_RBRACKET: return '*';
+				case KC_BACKSLASH: return '\'';
+			}
+		}
+		else if (!ke->isShiftDown() && ke->isAltDown())
+		{
+			switch (ke->getKey())
+			{
+				case KC_Q: return '@';	
+				case KC_2: return '²';
+				case KC_3: return '³';
+				case KC_7: return '{';
+				case KC_8: return '[';
+				case KC_9: return ']';
+				case KC_0: return '}';
+				case KC_MINUS: return '\\';
+				case KC_RBRACKET: return '~';
+			}
 		}
 
 		return ke->getKeyChar();
