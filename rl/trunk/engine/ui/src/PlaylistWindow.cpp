@@ -37,6 +37,16 @@ PlaylistWindow::PlaylistWindow()
 	mPlaylistTable->addColumn((utf8*)"Dauer", 1, 0.3);
 	mPlaylistTable->setUserSortControlEnabled(false);
 	
+    /* getWindow("PlaylistWindow")->subscribeEvent(
+            Window::EventMouseClick, 
+            boost::bind(&MainMenuWindow::handleChooseModules, this)); */
+
+    getWindow("PlaylistSheet/ButtonSheet/Play")->subscribeEvent(
+            Window::EventMouseClick, 
+            boost::bind(&PlaylistWindow::handlePlay, this));
+    //bindClickToCloseWindow(getWindow("PlaylistSheet"));
+
+    centerWindow();
 	addToRoot(mWindow);	
 }
 
@@ -49,6 +59,15 @@ void PlaylistWindow::update()
 {
 }
 
+bool PlaylistWindow::handleQuit()
+{
+    hide();
+    delete this;
+}
 
+bool PlaylistWindow::handlePlay()
+{
+    MusicManager::getSingleton().playSong();
+}
 
 }

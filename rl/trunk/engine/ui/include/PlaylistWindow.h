@@ -37,6 +37,9 @@ namespace rl {
 		void update();
 
 	private:
+        bool handleQuit();
+        bool handlePlay();
+    
 		Person* mCharacter;
 
 		CEGUI::Window* mSheet;

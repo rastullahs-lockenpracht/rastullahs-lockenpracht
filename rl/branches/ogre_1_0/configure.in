@@ -120,7 +120,6 @@ AM_PATH_SDL([1.2.7], [AC_CHECK_LIB([SDL], [SDL_Init])], \
 	AC_MSG_ERROR([Cannot find SDL! This program requires SDL >= 1.2.7]) )
 AC_LANG_POP([C])
 
-/// Boost?
 
 dnl Create the makefiles
 AC_CONFIG_FILES([Makefile \

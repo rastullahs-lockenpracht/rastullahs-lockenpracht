@@ -274,6 +274,5 @@ protected:
 	void destroy();
 };
 
-
 }
 #endif
