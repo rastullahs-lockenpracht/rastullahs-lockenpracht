@@ -29,10 +29,10 @@ namespace rl {
    	public:
        void addSounds();
        void setMemoryBudget(size_t bytes);
-       Ogre::Resource* getByName(const String &name);
-       void addSearchPath(const String &path);
+       Ogre::Resource* getByName(const std::string& name);
+       void addSearchPath(const std::string& path);
        std::list<String> getSounds();
-       virtual Resource* create(const String &resName) = 0;
+       virtual Resource* create(const std::string& resName) = 0;
        virtual void add(Resource *song);
    	};
    
@@ -40,7 +40,7 @@ namespace rl {
    	public:
        static SoundManager& getSingleton();
        static SoundManager* getSingletonPtr();
-       virtual Resource* create(const String &resName);
+       virtual Resource* create(const std::string& resName);
    	};
       
    	class MusicManager : public ResourceManager {
@@ -60,7 +60,7 @@ namespace rl {
         void setGain(float newGain);
         float getGain();
         
-        virtual Resource* create(const String &resName);
+        virtual Resource* create(const std::string& resName);
         
         void clearPlayList();
         void addPlayList(std::string song);
@@ -75,7 +75,7 @@ namespace rl {
    	
     class SoundResource : public Ogre::Resource {
    	public:
-        SoundResource(const String& name);
+        SoundResource(const std::string& name);
         const Vector3& getDirection() const throw (rl::RuntimeException);
         void setDirection(const Vector3& direction) throw (rl::RuntimeException);
         const Vector3& getVelocity() const throw (rl::RuntimeException);

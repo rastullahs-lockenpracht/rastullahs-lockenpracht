@@ -21,7 +21,7 @@ private:
 public:
 	static Ogre::Root& getSingleton(void);
 	
-	void addResourceLocation (const String &name, const String &locType, ResourceType resType=RESTYPE_ALL);
+	void addResourceLocation (const std::string& name, const std::string& locType, ResourceType resType=RESTYPE_ALL);
 };
 }
 
@@ -34,11 +34,11 @@ private:
 public:
 	static ActorManager& getSingleton(void);
 
-  rl::Actor* createLightActor(const String& name, int type);
-	rl::Actor* createMeshActor(const String& name, const String& meshname,
+  rl::Actor* createLightActor(const std::string& name, int type);
+	rl::Actor* createMeshActor(const std::string& name, const std::string& meshname,
 		    int geom = rl::PhysicsManager::PT_NONE, Real density=1.0);
 	    
-	rl::Actor* getActor(const String& name);
+	rl::Actor* getActor(const std::string& name);
 	void destroyActor(rl::Actor* actor);
     void destroyAllActors();
 };
@@ -47,11 +47,11 @@ class World {
 public:	
 	enum FogMode { FOG_NONE, FOG_EXP, FOG_EXP2, FOG_LINEAR  };
 
-	void loadScene(const String& levelName ) = 0;
+	void loadScene(const std::string& levelName ) = 0;
 
-    virtual void setSkyPlane (bool enable, const Plane &plane, const String &materialName, Real scale=1000, Real tiling=10, bool drawFirst=true, Real bow=0 );
-    virtual void setSkyBox (bool enable, const String &materialName, Real distance=5000, bool drawFirst=true );
-    virtual void setSkyDome (bool enable, const String &materialName, Real curvature=10, Real tiling=8, Real distance=4000, bool drawFirst=true );
+    virtual void setSkyPlane (bool enable, const Plane &plane, const std::string& materialName, Real scale=1000, Real tiling=10, bool drawFirst=true, Real bow=0 );
+    virtual void setSkyBox (bool enable, const std::string& materialName, Real distance=5000, bool drawFirst=true );
+    virtual void setSkyDome (bool enable, const std::string& materialName, Real curvature=10, Real tiling=8, Real distance=4000, bool drawFirst=true );
     virtual void setFog ( FogMode mode=FOG_NONE, const ColourValue &colour=ColourValue::White, Real expDensity=0.001, Real linearStart=0.0, Real linearEnd=1.0);
     virtual FogMode getFogMode (void) const;
     virtual const ColourValue & getFogColour (void) const;
@@ -143,7 +143,7 @@ public:
 	enum InterpolationMode { IM_LINEAR, IM_SPLINE };
 	enum RotationInterpolationMode { RIM_LINEAR, RIM_SPHERICAL };
 	
-	RlTrackAnimation* createTrackAnimation(rl::Actor* actor, const String& name, Real length );
+	RlTrackAnimation* createTrackAnimation(rl::Actor* actor, const std::string& name, Real length );
 	void removeAnimation(RlAnimation* anim);
 	
 	void setGlobalAnimationSpeed( Real speed );
@@ -167,7 +167,7 @@ public:
 class MeshObject : public ActorControlledObject
 {
 private:
-    MeshObject(const Ogre::String& name, const Ogre::String& meshname);
+    MeshObject(const std::string& name, const std::string& meshname);
 public:
     
     /// Groesse der Boundingbox
@@ -176,10 +176,10 @@ public:
     Ogre::Real getRadius();
     Ogre::Real getHeight();
     
-	RlAnimation* getAnimation(const Ogre::String& animName) const;
-	RlAnimation* startAnimation(const Ogre::String& animName, 
-		Ogre::Real speed, unsigned int timesToPlay);
-    void stopAnimation(const Ogre::String&);
+	RlAnimation* getAnimation(const std::string& animName) const;
+	RlAnimation* startAnimation(const std::string& animName, 
+		Ogre::Real speed=1.0, unsigned int timesToPlay=0);
+    void stopAnimation(const std::string&);
     
     void setCastShadows (bool enabled);
     bool getCastShadows (void) const;    
@@ -188,7 +188,7 @@ public:
 class LightObject : public ActorControlledObject
 {
 private:
-    LightObject(const Ogre::String& name, Ogre::Light::LightTypes type);
+    LightObject(const std::string& name, Ogre::Light::LightTypes type);
 public:
     void setAttenuation(float range, float constant,
         float linear, float quadric);
@@ -202,13 +202,13 @@ public:
 class CameraObject : public ActorControlledObject
 {
 private:
-    CameraObject(const Ogre::String& name);
+    CameraObject(const std::string& name);
 public:
 };
 
 class Actor {
 private:
-	Actor(const String& name);
+	Actor(const std::string& name);
 public:	
 	const Vector3& getPosition(void);
     void setPosition(Real x, Real y, Real z);
@@ -298,11 +298,11 @@ private:
 public:
     static CoreSubsystem& getSingleton(void);
     
-    void initializeModule(const String& module);
-    void loadMap(const String type, const String filename, const String startupScript = "");
+    void initializeModule(const std::string& module);
+    void loadMap(const std::string& type, const std::string& filename, const std::string& startupScript = "");
     World* getWorld();
-    void makeScreenshot(const String& sName);
-    void log(const String& msg);
+    void makeScreenshot(const std::string& sName);
+    void log(const std::string& msg);
 };
 
 
