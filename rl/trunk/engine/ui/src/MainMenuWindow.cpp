@@ -32,9 +32,9 @@ namespace rl {
 			Window::EventMouseClick, 
 			boost::bind(&MainMenuWindow::handleGraphicOptions, this));
 		
-		getWindow("MainMenuWindow/InputOptions")->subscribeEvent(
-			Window::EventMouseClick,
-			boost::bind(&UiSubsystem::showInputOptionsMenu, UiSubsystem::getSingletonPtr(), mActionHolder));
+		//getWindow("MainMenuWindow/InputOptions")->subscribeEvent(
+		//	Window::EventMouseClick,
+		//	boost::bind(&UiSubsystem::showInputOptionsMenu, UiSubsystem::getSingletonPtr(), mActionHolder));
 
 		getWindow("MainMenuWindow/Quit")->subscribeEvent(
 			Window::EventMouseClick, 

@@ -45,14 +45,14 @@ CommandMapperWindow::CommandMapperWindow()
 			Window::EventMouseDoubleClick,
 			boost::bind(&CommandMapperWindow::handleChangeOffBattle, this));
 
-	getWindow("CommandMapper")->
-		subscribeEvent(
-			Window::EventKeyDown,
-			boost::bind(&CommandMapperWindow::handleKeyDown, this, _1));
-	getWindow("CommandMapper")->
-		subscribeEvent(
-			Window::EventClicked,
-			boost::bind(&CommandMapperWindow::handleMouseButton, this, _1));
+	//getWindow("CommandMapper")->
+	//	subscribeEvent(
+	//		Window::EventKeyDown,
+	//		boost::bind(&CommandMapperWindow::handleKeyDown, this, _1));
+	//getWindow("CommandMapper")->
+	//	subscribeEvent(
+	//		Window::EventClicked,
+	//		boost::bind(&CommandMapperWindow::handleMouseButton, this, _1));
 }
 
 void CommandMapperWindow::muteElements(bool mute)
@@ -96,10 +96,12 @@ bool CommandMapperWindow::handleChangeOffBattle()
 
 bool CommandMapperWindow::handleKeyDown(const CEGUI::EventArgs& e)
 {
+    return true;
 }
 
 bool CommandMapperWindow::handleMouseButton(const CEGUI::EventArgs& e)
 {
+    return true;
 }
 
 }

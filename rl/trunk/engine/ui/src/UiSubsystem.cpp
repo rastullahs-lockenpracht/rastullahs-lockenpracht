@@ -195,7 +195,7 @@ namespace rl {
 
 	void UiSubsystem::showMainMenu()
 	{
-		(new MainMenuWindow())->setVisible(true);
+		(new MainMenuWindow(0))->setVisible(true);
 	}
 
 	void UiSubsystem::toggleConsole()
