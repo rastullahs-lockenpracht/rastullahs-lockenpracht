@@ -25,16 +25,18 @@
 #include <OgreSceneNode.h>
 #include <OgreSceneQuery.h>
 #undef sleep
+#include <OgreOde.h>
 
 namespace rl {
 
-    class Actor;
+    class GameActor;
 
     /**
      *  @todo Kollision
      *  @todo Nachziehen
      */
-    class _RlUiExport GameController : public SynchronizedTask
+    class _RlUiExport GameController : public SynchronizedTask,
+        public OgreOde::CollisionListener
     {
     public:
         typedef enum {VM_THIRD_PERSON, VM_FIRST_PERSON} ViewMode;
@@ -45,18 +47,18 @@ namespace rl {
          *  gesetzt.
          *  @throw NullPointerException falls camera oder hero 0 sind.
          */
-        GameController(Ogre::Camera* camera, Actor* hero);
+        GameController(Ogre::Camera* camera, GameActor* hero);
         virtual ~GameController();
 
         void run(Real elapsedTime);
 
-        Actor* getControlledActor();
+        GameActor* getControlledActor();
 
         /** Setzt den Actor, der durch den Benutzer zu steuern ist.
          *  Dabei wird die Camera ueber/hinter den Actor gesetzt.
          *  @throw NullPointerException falls actor 0 ist.
          */
-        void setControlledActor(Actor* actor);
+        void setControlledActor(GameActor* actor);
 
         Ogre::Camera* getCamera();
 
@@ -75,6 +77,11 @@ namespace rl {
          */
         void resetCamera();
 
+        /**
+         *  Callback vom CollisionListener
+         */
+        virtual bool collision(OgreOde::Contact* contact);
+
     private:
         typedef enum {AS_STAND, AS_WALK_FORWARD} AnimationState;
         Ogre::SceneManager* mSceneManager;
@@ -82,7 +89,7 @@ namespace rl {
         Ogre::SceneNode* mLookAtNode;
         Ogre::SceneNode* mCameraNode;
         Ogre::Camera* mCamera;
-        Actor* mActor;
+        GameActor* mActor;
 
         Ogre::Real mMoveScale;
         Ogre::Real mRotScale;
@@ -91,6 +98,11 @@ namespace rl {
         Ogre::Real mRotSpeed;
         
         Ogre::Real mFallSpeed;
+
+        OgreOde::World* mOdeWorld;
+        OgreOde::CapsuleGeometry* mOdeActor;
+        OgreOde::SphereGeometry* mOdeCamera;
+        OgreOde::TriangleMeshGeometry* mOdeLevel;
 
         AnimationState mCurrentAnimationState;
         AnimationState mLastAnimationState;
@@ -108,6 +120,7 @@ namespace rl {
         ViewMode mViewMode;
         
         void setup();
+        void setupCollisionDetection();
 
         Ogre::Vector3 ogrePosToOdePos(const Ogre::Vector3& pos,
             const Ogre::Vector3& extent);
@@ -116,6 +129,7 @@ namespace rl {
             Ogre::Node::TransformSpace ts);
         void setPosition(const Vector3& position);
         
+        bool detectCollision(const Ogre::Vector3& translation);
         void calculateScalingFactors(Ogre::Real timePassed);
 
         void calculateHeroTranslation(Ogre::Vector3& translation,
@@ -123,6 +137,7 @@ namespace rl {
         void calculateCameraTranslation();
         void updateAnimationState(const Ogre::Vector3& translation);
 		void updatePickedObject() const;
+		void adjustCamera(OgreOde::Contact* contact);
     };
 
 }
