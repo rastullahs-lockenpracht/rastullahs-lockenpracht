@@ -46,10 +46,11 @@ class _RlCoreExport ActorManager : protected Singleton<ActorManager>
         void deleteAllActors();
 
 		CameraActor* createCameraActor(const String& name);
-        LightActor* createLightActor(const String& name);
+        LightActor* createLightActor(const String& name, int type);
 		MeshActor* createMeshActor(const String& name,const String& meshname);
 		GameActor* createGameActor(const String& name,const String& meshname);
-        ParticleSystemActor* createParticleSystemActor(const String& name,const String& partname);
+        ParticleSystemActor* createParticleSystemActor(const String& name,
+            const String& partname);
 
         void setWorld( World* pWorld );
 		const World* const getWorld() const;

@@ -115,15 +115,15 @@ namespace rl {
         return 0;
 	}
 
-    LightActor* ActorManager::createLightActor(const String& name)
+    LightActor* ActorManager::createLightActor(const String& name, int type)
 	{
 		const String&  uniquename = nextUniqueName(name);
 
         try
         {
             Light* pLight = mWorld->getSceneManager()->createLight(uniquename);
+            pLight->setType(static_cast<Ogre::Light::LightTypes>(type));
 		    LightActor* pLightActor = new LightActor(uniquename,pLight);
-            //pLightActor->rotate( mWorld->getWorldAxis() );
 
 		    mActors.insert( ActorPtrPair(uniquename,pLightActor) ); 
 		    return pLightActor;
