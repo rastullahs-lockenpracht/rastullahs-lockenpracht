@@ -21,6 +21,12 @@
 
 #undef _assert
 
+#include <vector>
+#include "FixRubyHeaders.h"
+#include <CEGUIString.h>
+
+#include "RastullahPrerequisites.h"
+
 #if OGRE_PLATFORM == PLATFORM_WIN32
 // Export control
 #   if defined( RLUI_EXPORTS )
@@ -32,11 +38,6 @@
 #   define _RlUiExport
 #endif
 
-#include <vector>
-#include "FixRubyHeaders.h"
-#include <CEGUIString.h>
-
-#include "RastullahPrerequisites.h"
 
 typedef CEGUI::String CeGuiString;
 
