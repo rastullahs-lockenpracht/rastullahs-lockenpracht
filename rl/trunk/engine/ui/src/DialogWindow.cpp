@@ -56,16 +56,6 @@ void DialogWindow::setCallback(string function)
 	// TO DO: DialogWindow::setCallback(string function)
 }
 
-void DialogWindow::show()
-{
-	InputManager::getSingleton().registerCeguiWindow();
-}
-
-void DialogWindow::hide()
-{
-	InputManager::getSingleton().unregisterCeguiWindow();
-}
-
 int DialogWindow::getSelectedOption()
 {
 	// TO DO: DialogWindow::getSelectedOption()
@@ -109,7 +99,7 @@ void DialogWindow::runTest()
 	dialog->setName("Klaus-Dieter");
 	dialog->show();*/
 
-	DebugWindow::getSingleton().setVisible(true);
+	DebugWindow::getSingleton().show();
 
 	/*CharacterSheetWindow* sheet = new CharacterSheetWindow();
 	sheet->show();*/

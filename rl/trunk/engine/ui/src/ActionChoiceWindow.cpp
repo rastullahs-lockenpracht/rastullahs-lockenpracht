@@ -15,11 +15,16 @@ ActionChoiceWindow::ActionChoiceWindow()
 	addToRoot(mWindow);
 }
 
+ActionChoiceWindow::~ActionChoiceWindow()
+{
+	//TODO: Buttons aufräumen
+}
+
 void ActionChoiceWindow::setActionObject(GameObject* object)
 {
 	mObject = object;
 	
-	for (int i = 0; i<mButtons.size(); i++)
+	for (unsigned int i = 0; i<mButtons.size(); i++)
 	{
 		mWindow->removeChildWindow(mButtons[i]);
 		WindowManager::getSingleton().destroyWindow(mButtons[i]);

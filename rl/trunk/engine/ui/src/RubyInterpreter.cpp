@@ -2,13 +2,13 @@
 
 #include "RubyInterpreter.h"
 #include "ScriptObject.h"
-#include "CeConsole.h"
+#include "UiSubsystem.h"
 
 namespace rl {
 
 static VALUE console_write(VALUE self, VALUE str)
 {
-  CeConsole::getSingleton().write( RubyInterpreter::val2str(str) + " \n" );
+  UiSubsystem::getSingleton().writeToConsole( RubyInterpreter::val2str(str) + " \n" );
   return Qnil;
 }
 

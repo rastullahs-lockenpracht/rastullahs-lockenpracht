@@ -2,6 +2,7 @@
 #define __UiSubsystem_H__
 
 #include <OgreSingleton.h>
+#include <string>
 
 #include "UiPrerequisites.h"
 
@@ -28,6 +29,11 @@ namespace rl {
         void requestExit();
         /** Gets the state of mRequestExit */
         bool isRequestingExit() const;
+
+		/** Writes Text into the Console or other output media */
+		void writeToConsole(std::string text);
+
+		static const char* CEGUI_ROOT;
 
     private:
         void initializeUiSubsystem( void );        ThirdPersonGameController* mGameController;        GameActor* mHero;        bool mRequestExit;    };

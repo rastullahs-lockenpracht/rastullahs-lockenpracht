@@ -1,5 +1,8 @@
 #include "CeGuiWindow.h"
 
+#include "InputManager.h"
+#include "UiSubsystem.h"
+
 using namespace std;
 using namespace CEGUI;
 
@@ -10,6 +13,8 @@ CeGuiWindow::CeGuiWindow(const char* xmlfile, bool withInput)
 {
 	mWindow = 
 		WindowManager::getSingleton().loadWindowLayout((utf8*)xmlfile);
+	assert(mWindow != 0);
+
 	mWithInput = withInput;
 }
 
@@ -22,11 +27,11 @@ void CeGuiWindow::show()
 {
 	if (mState == CS_OPEN)
 	{
-		if (!beforeOpen())
+		if (!beforeShow())
 			return;
 
 		mState = CS_OPENING;
-		if (isWithInput())
+		if (isInputWindow())
 			InputManager::getSingleton().registerCeguiWindow();
 		mWindow->show();
 		mState = CS_OPEN;
@@ -42,7 +47,7 @@ void CeGuiWindow::hide()
 	
 		mState = CS_CLOSING;
 		mWindow->hide();
-		if (isWithInput())
+		if (isInputWindow())
 			InputManager::getSingleton().unregisterCeguiWindow();
 		mState = CS_CLOSED;
 	}
@@ -61,6 +66,36 @@ bool CeGuiWindow::beforeHide()
 bool CeGuiWindow::beforeShow()
 {
 	return true;
+}
+
+void CeGuiWindow::addToRoot(Window* window)
+{
+	getWindow(UiSubsystem::CEGUI_ROOT)->addChildWindow(window);
+}
+
+Window* CeGuiWindow::getWindow(const char* name)
+{
+	return WindowManager::getSingleton().getWindow((utf8*)name);
+}
+
+Editbox* CeGuiWindow::getEditbox(const char* name)
+{
+	return reinterpret_cast<Editbox*>(getWindow(name));
+}
+
+Listbox* CeGuiWindow::getListbox(const char* name)
+{
+	return reinterpret_cast<Listbox*>(getWindow(name));
+}
+
+StaticText* CeGuiWindow::getStaticText(const char* name)
+{
+	return reinterpret_cast<StaticText*>(getWindow(name));
+}
+
+StaticImage* CeGuiWindow::getStaticImage(const char* name)
+{
+	return reinterpret_cast<StaticImage*>(getWindow(name));
 }
 
 }

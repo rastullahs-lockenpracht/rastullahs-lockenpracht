@@ -21,6 +21,7 @@
 template<> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
 
 namespace rl {
+	const char* UiSubsystem::CEGUI_ROOT = "RootWindow";
 
 	UiSubsystem& UiSubsystem::getSingleton(void)
 	{
@@ -63,7 +64,7 @@ namespace rl {
 		CEGUI::SchemeManager::getSingleton().loadScheme((utf8*)"testscheme.xml");
 		System::getSingleton().setDefaultMouseCursor((utf8*)"TaharezImagery", (utf8*)"MouseArrow");
 		System::getSingleton().setDefaultFont((utf8*)"Tahoma-8");
-		CEGUI::Window* sheet = CEGUI::WindowManager::getSingleton().createWindow((utf8*)"DefaultGUISheet", (utf8*)"root_wnd");
+		CEGUI::Window* sheet = CEGUI::WindowManager::getSingleton().createWindow((utf8*)"DefaultGUISheet", (utf8*)CEGUI_ROOT);
 		sheet->setSize(
 			Absolute, 
 			CEGUI::Size(
@@ -76,7 +77,7 @@ namespace rl {
         new InputManager();
 		
 		new DebugWindow();
-        DebugWindow::getSingleton().setVisible(true);
+        DebugWindow::getSingleton().show();
 
 		new CeConsole();
         CeConsole::getSingleton().setInterpreter( new RubyInterpreter() );
@@ -108,4 +109,8 @@ namespace rl {
         return mRequestExit;
     }
 
+	void UiSubsystem::writeToConsole(std::string text)
+	{
+		CeConsole::getSingleton().write(text);
+	}
 }

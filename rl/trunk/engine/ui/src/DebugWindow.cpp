@@ -45,7 +45,10 @@ namespace rl
 	{
 		if(e->getKey() == KC_F5 )
 		{
-            setVisible(!isVisible());
+			if (isVisible())
+				hide();
+			else
+				show();
 		}
     }
 

@@ -11,7 +11,7 @@ namespace rl {
 	{
 	public:
 		static CEGUI::Window* getWindow(const char* name);
-		static CEGUI::Editbox* getEditBox(const char* name);
+		static CEGUI::Editbox* getEditbox(const char* name);
 		static CEGUI::Listbox* getListbox(const char* name);
 		static CEGUI::StaticText* getStaticText(const char* name);
 		static CEGUI::StaticImage* getStaticImage(const char* name);
@@ -29,9 +29,14 @@ namespace rl {
 		virtual bool beforeShow();
 		virtual bool beforeHide();
 		
+		enum State { CS_OPEN, CS_CLOSED, CS_OPENING, CS_CLOSING };
+		State mState;
+
 		CEGUI::Window* mWindow;
+
 	private:
 		bool mWithInput;
+		
 	};
 
 }

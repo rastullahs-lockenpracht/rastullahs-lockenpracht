@@ -5,18 +5,10 @@
 
 #include <vector>
 #include <string>
+
+#include "CeGuiWindow.h"
+
 #include <OgreSingleton.h>
-#include <CEGUIBase.h>
-
-
-namespace CEGUI
-{
-	class Window;
-	class EventArgs;
-	class Editbox;
-	class Listbox;
-}
-
 
 namespace rl {
 
@@ -24,13 +16,13 @@ namespace rl {
 
 	/** This is a Console System
 	 */
-	class _RlUiExport CeConsole : public Singleton<CeConsole>
+	class _RlUiExport CeConsole : public Singleton<CeConsole>, public CeGuiWindow
 	{
 		public:
-			~CeConsole();
-			CeConsole(void);
-			static CeConsole& getSingleton(void);
-			static CeConsole* getSingletonPtr(void);
+			CeConsole();
+			
+			static CeConsole& getSingleton();
+			static CeConsole* getSingletonPtr();
 
 			void setInterpreter(Interpreter* interpreter);
 
@@ -38,22 +30,18 @@ namespace rl {
 
 			void write(String output);
 
-			bool isOpen(void) const;
-			bool isClosed(void) const;
+			bool isOpen() const;
+			bool isClosed() const;
 				
-			void open(void);
-			void close(void);
+		protected:
+			bool beforeShow();
 
 		private:
-			CEGUI::Window* mConsoleWindow;
 			CEGUI::Editbox* mCommandLine;
 			CEGUI::Listbox* mDisplay;
 			
 			Interpreter* mInterpreter;
 			bool mPrompt;
-
-			enum State { CS_OPEN, CS_CLOSED, CS_OPENING, CS_CLOSING };
-			State mState;
 
 			void handleKeyDown(const CEGUI::EventArgs& e);
 			void handleEnter(const CEGUI::EventArgs& e);

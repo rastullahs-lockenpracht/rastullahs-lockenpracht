@@ -21,8 +21,7 @@ namespace rl {
         void setText(const Ogre::String& output);
 
         bool isVisible(void) const;
-        void setVisible(bool visible);
-
+        
         void keyClicked(Ogre::KeyEvent* e) {};
         void keyPressed(Ogre::KeyEvent* e) {};
         void keyReleased(Ogre::KeyEvent* e);
@@ -31,8 +30,7 @@ namespace rl {
 
     private:
 		void updateFps();
-        CEGUI::StaticText* mText;
-		CEGUI::Window* mWindow;
+        CEGUI::StaticText* mText;		
     };
 }
 

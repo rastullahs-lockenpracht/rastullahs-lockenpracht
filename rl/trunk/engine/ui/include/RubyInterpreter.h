@@ -2,7 +2,6 @@
 #define __RubyInterpreter_H__
 
 #include "Interpreter.h"
-#include "ScriptObject.h"
 #include <map>
 
 #include "OgreNoMemoryMacros.h"
@@ -19,6 +18,8 @@ typedef std::map <String, VALUE> Value_Map;
 typedef std::pair <String, VALUE> Value_Pair;
 typedef std::map <String, ScriptObject*> ScriptObjectPtr_Map;
 typedef std::pair <String, ScriptObject*> ScriptObjectPtr_Pair;
+
+class ScriptObject;
 
 class _RlUiExport RubyInterpreter : public Interpreter
 {

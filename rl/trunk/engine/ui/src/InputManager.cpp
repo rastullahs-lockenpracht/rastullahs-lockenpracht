@@ -141,7 +141,7 @@ namespace rl {
 		else
 		{
 			if (e->getKey() == KC_F11)
-				CeConsole::getSingleton().open();
+				CeConsole::getSingleton().show();
 			else
 			{
 				mKeyDown[e->getKey()]=true;

@@ -14,11 +14,11 @@ using CEGUI::KeyEventArgs; using CEGUI::Key; using CEGUI::colour;
 
 namespace rl 
 {
-	CeConsole& CeConsole::getSingleton(void)
+	CeConsole& CeConsole::getSingleton()
     {
         return Singleton<CeConsole>::getSingleton();
     }
-	CeConsole* CeConsole::getSingletonPtr(void)
+	CeConsole* CeConsole::getSingletonPtr()
     {
         return Singleton<CeConsole>::getSingletonPtr();
     }
@@ -30,7 +30,7 @@ namespace rl
 		mDisplay = getListbox("Console/Display");
 		mCommandLine = getEditbox("Console/Inputbox");
 
-		mConsoleWindow->subscribeEvent(
+		mWindow->subscribeEvent(
 			FrameWindow::KeyDownEvent, 
 			boost::bind(&CeConsole::handleKeyDown, this, _1));
 		mCommandLine->subscribeEvent(
@@ -42,33 +42,16 @@ namespace rl
 		mDisplay->moveToFront();
 
 		mHistory.clear();
-		mConsoleWindow->hide();
+		mWindow->hide();
 		mState = CS_CLOSED;
 		
-		addToRoot(mConsoleWindow);	
+		addToRoot(mWindow);	
 	}
 
-	CeConsole::~CeConsole()
+	bool CeConsole::beforeShow()
 	{
-		WindowManager::getSingleton().destroyWindow(mConsoleWindow);
-	}
-
-	void CeConsole::open()
-	{
-		mState = CS_OPENING;
-		InputManager::getSingleton().registerCeguiWindow();
-		mCommandLine->enable();
 		mCommandLine->activate();
-		mConsoleWindow->show();
-		mState = CS_OPEN;		
-	}
-
-	void CeConsole::close()
-	{
-		mState = CS_CLOSING;
-		mConsoleWindow->hide();
-		InputManager::getSingleton().unregisterCeguiWindow();
-		mState = CS_CLOSED;
+		return true;
 	}
 
 
@@ -81,7 +64,7 @@ namespace rl
 	{
 		KeyEventArgs ke = static_cast<const KeyEventArgs&>(e);
 		if (ke.scancode == Key::Escape || ke.scancode == Key::F11)
-			close();
+			hide();
 		else if (ke.scancode == Key::ArrowDown)
 			cycleHistory(1);
 		else if (ke.scancode == Key::ArrowUp)
