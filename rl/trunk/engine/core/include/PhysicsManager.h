@@ -39,11 +39,22 @@ namespace rl {
             protected Singleton<PhysicsManager>
     {
     public:
-        static const int PT_NONE = -1;
-        static const int PT_BOX = 0;
-        static const int PT_SPHERE = 1;
-        static const int PT_CAPSULE = 2;
-        static const int PT_MESH = 3;
+
+        enum GeometryTypes {
+            GT_NONE = -1,
+            GT_BOX = 0,
+            GT_SPHERE = 1,
+            GT_CAPSULE = 2,
+            GT_MESH = 3
+        };
+        
+        /// Typ bestimmt, wo der Usrprung (0/0/0) des Objektes liegt.
+        enum OffsetMode {
+            /// Ursprung in Objektmitte
+            OM_CENTERED = 0,
+            /// Ursprung Unten-Mitte
+            OM_BOTTOMCENTERED
+        };
         
         PhysicsManager(rl::World* world);
         virtual ~PhysicsManager();
@@ -57,7 +68,7 @@ namespace rl {
          *        dafür erstellt, sondern nur Geometry für die Kollision.
          */
         PhysicalThing* createPhysicalThing(const int geomType, const Ogre::Vector3& size,
-            Real density);
+            Real density, OffsetMode offsetMode = OM_BOTTOMCENTERED);
 
         void removeAndDestroyPhysicalThing(PhysicalThing* thing);
 
@@ -88,14 +99,6 @@ namespace rl {
 		
         /// StepListener callback
         virtual bool preStep(Real time);
-	protected:
-        OgreOde::Geometry* createSphereGeometry(Ogre::Real radius,
-            Ogre::Real density);
-        OgreOde::Geometry* createBoxGeometry(const Ogre::Vector3& size,
-            Ogre::Real density);
-        OgreOde::Geometry* createCapsuleGeometry(Ogre::Real height,
-            Ogre::Real radius, Ogre::Real density);
-	
     private:
         bool mEnabled;
 

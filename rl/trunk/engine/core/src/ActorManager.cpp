@@ -120,9 +120,9 @@ namespace rl {
             co->getCamera()->setNearClipDistance(10);
             co->getCamera()->setFarClipDistance(10000);
             PhysicalThing* pt = PhysicsManager::getSingleton()
-                .createPhysicalThing(PhysicsManager::PT_SPHERE,
+                .createPhysicalThing(PhysicsManager::GT_SPHERE,
                     Vector3(co->getCamera()->getNearClipDistance() * 1.2, 0, 0),
-                    0.0f);
+                    0.0f, PhysicsManager::OM_CENTERED);
             actor = new Actor(uniquename, co, pt);
 
             mActors.insert(ActorPtrPair(uniquename,actor)); 
@@ -139,7 +139,7 @@ namespace rl {
     }
     
 	Actor* ActorManager::createMeshActor(const String& name,const String& meshname,
-	    int geomType, Ogre::Real density)
+	    PhysicsManager::GeometryTypes geomType, Ogre::Real density)
 	{
 		const String&  uniquename = nextUniqueName(name);
 		

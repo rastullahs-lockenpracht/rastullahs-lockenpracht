@@ -141,90 +141,86 @@ namespace rl
     }
 
     PhysicalThing* PhysicsManager::createPhysicalThing(const int geomType,
-        const Ogre::Vector3& size, Real density)
+        const Ogre::Vector3& size, Real density, OffsetMode offsetMode)
     {
         PhysicalThing* rval = 0;
         
-        if (geomType != PT_NONE) {
+        if (geomType != GT_NONE) {
             Geometry* geom = 0;
+            OgreOde::Body* body = density > 0.0 ? new OgreOde::Body() : 0;
             ///@todo verallgemeinern
             Vector3 offset(Vector3::ZERO);
-            if (geomType == PT_BOX)
+            if (geomType == GT_BOX)
             {
-                geom = createBoxGeometry(size, density);
+                geom = new BoxGeometry(size, density > 0.0 ? mGlobalSpace : 0);
+
+                if (offsetMode == OM_BOTTOMCENTERED)
+                {
+                    offset = Vector3(0.0, size.y / 2.0, 0.0);
+                }
+
+                if (density > 0.0)
+                {
+                    // Objekt hat eine Masse, also einen Body verpassen.
+                    OgreOde::BoxMass mass(1.0, size);
+                    mass.setDensity(density, size);
+                    body->setMass(mass);
+                }
             }
-            else if (geomType == PT_SPHERE)
+            else if (geomType == GT_SPHERE)
             {
                 double radius = max(size.x, max(size.y, size.z)) / 2.0;
-                geom = createSphereGeometry(radius, density);
+
+                if (offsetMode == OM_BOTTOMCENTERED)
+                {
+                    offset = Vector3(0.0, size.y / 2.0, 0.0);
+                }
+                
+                geom = new SphereGeometry(radius,
+                    density > 0.0 ? mGlobalSpace : 0);
+
+                if (density > 0.0)
+                {
+                    // Objekt hat eine Masse, also einen Body verpassen.
+                    OgreOde::SphereMass mass(1.0, radius);
+                    mass.setDensity(density, radius);
+                    body->setMass(mass);
+                }
             }
-            else if (geomType == PT_CAPSULE)
+            else if (geomType == GT_CAPSULE)
             {
                 double radius = max(size.x, size.z) / 2.0;
-                geom = createCapsuleGeometry(size.y - 2.0 * radius, radius, density);
-                offset = Vector3(0.0, (size.y - 2.0 * radius) / 2.0 + radius, 0.0);
+                double height = size.y - 2.0 * radius;
+
+                if (offsetMode == OM_BOTTOMCENTERED)
+                {
+                    offset = Vector3(0.0, (size.y - 2.0 * radius) / 2.0 + radius, 0.0);
+                }
+                
+                geom = new CapsuleGeometry(radius, height,
+                    density > 0.0 ? mGlobalSpace : 0);
+
+                ///@todo verallgemeinern.
+                geom->setOrientation(Quaternion(Degree(90), Vector3::UNIT_X));
+                if (density > 0.0)
+                {
+                    // Objekt hat eine Masse, also einen Body verpassen.
+                    OgreOde::Body* body = new OgreOde::Body();
+                    OgreOde::CapsuleMass mass(1.0, radius, Vector3::UNIT_Y, height);
+                    mass.setDensity(density, radius, Vector3::UNIT_Y, height);
+                    body->setMass(mass);
+                }
+            }
+
+            if (body)
+            {
+                geom->setBody(body);
             }
 
             rval = new PhysicalThing(geom, offset);
             mPhysicalThings.push_back(rval);        
         }
         return rval;
-    }
-
-    Geometry* PhysicsManager::createSphereGeometry(Real radius,
-        Real density)
-    {
-        Geometry* geom = new SphereGeometry(radius,
-            density > 0.0 ? mGlobalSpace : 0);
-            
-        if (density > 0.0)
-        {
-            // Objekt hat eine Masse, also einen Body verpassen.
-            OgreOde::Body* body = new OgreOde::Body();
-            OgreOde::SphereMass mass(1.0, radius);
-            mass.setDensity(density, radius);
-            body->setMass(mass);
-            geom->setBody(body);
-        }
-        return geom;
-    }
-
-    Geometry* PhysicsManager::createBoxGeometry(const Vector3& size,
-        Real density)
-    {
-        Geometry* geom = new BoxGeometry(size,
-            density > 0.0 ? mGlobalSpace : 0);
-            
-        if (density > 0.0)
-        {
-            // Objekt hat eine Masse, also einen Body verpassen.
-            OgreOde::Body* body = new OgreOde::Body();
-            OgreOde::BoxMass mass(1.0, size);
-            mass.setDensity(density, size);
-            body->setMass(mass);
-            geom->setBody(body);
-        }
-        return geom;
-    }
-
-    Geometry* PhysicsManager::createCapsuleGeometry(Real height,
-        Real radius, Real density)
-    {
-        Geometry* geom = new CapsuleGeometry(radius, height,
-            density > 0.0 ? mGlobalSpace : 0);
-        
-        ///@todo verallgemeinern.
-        geom->setOrientation(Quaternion(Degree(90), Vector3::UNIT_X));
-        if (density > 0.0)
-        {
-            // Objekt hat eine Masse, also einen Body verpassen.
-            OgreOde::Body* body = new OgreOde::Body();
-            OgreOde::CapsuleMass mass(1.0, radius, Vector3::UNIT_Y, height);
-            mass.setDensity(density, radius, Vector3::UNIT_Y, height);
-            body->setMass(mass);
-            geom->setBody(body);
-        }
-        return geom;
     }
 
     void PhysicsManager::removeAndDestroyPhysicalThing(PhysicalThing* thing)

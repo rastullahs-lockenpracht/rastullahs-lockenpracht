@@ -43,7 +43,8 @@ class _RlCoreExport ActorManager : protected Singleton<ActorManager>
         Actor* createLightActor(const String& name, rl::LightObject::LightTypes type );
         Actor* createCameraActor(const String& name);
    	    Actor* createMeshActor(const String& name,const String& meshname,
-			int geomType = PhysicsManager::PT_NONE, Ogre::Real density = 1.0);
+			PhysicsManager::GeometryTypes geomType = PhysicsManager::GT_NONE,
+			Ogre::Real density = 1.0);
         Actor* createParticleSystemActor(const String& name, 
             const String& partname);
             

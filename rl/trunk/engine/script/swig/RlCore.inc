@@ -36,7 +36,8 @@ public:
 
     rl::Actor* createLightActor(const std::string& name, rl::LightObject::LightTypes type );
 	rl::Actor* createMeshActor(const std::string& name, const std::string& meshname,
-		    int geom = rl::PhysicsManager::PT_NONE, Real density=1.0);
+		    rl::PhysicsManager::GeometryTypes geom = rl::PhysicsManager::GT_NONE,
+		    Real density=1.0);
 	    
 	rl::Actor* getActor(const std::string& name);
 	void destroyActor(rl::Actor* actor);
@@ -295,13 +296,22 @@ class PhysicsManager {
 private:
 	PhysicsManager();
 public:  
-	static const int PT_NONE = -1;
-    static const int PT_BOX = 0;
-    static const int PT_SPHERE = 1;
-    static const int PT_CAPSULE = 2;
-    static const int PT_MESH = 3;
+    enum GeometryTypes {
+        GT_NONE = -1,
+        GT_BOX = 0,
+        GT_SPHERE = 1,
+        GT_CAPSULE = 2,
+        GT_MESH = 3
+    };
+    
+    enum OffsetMode {
+        OM_CENTERED = 0,
+        OM_BOTTOMCENTERED = 1
+    };
 
-    void removeAndDestroyPhysicalThing(rl::PhysicalThing* thing);
+    PhysicalThing* createPhysicalThing(GeometryTypes geomType,
+        const Ogre::Vector3& size, Real density,
+        OffsetMode offsetMode = OM_BOTTOMCENTERED);
     
     void setGravity( Real x, Real y, Real z );
     Vector3 getGravity();
