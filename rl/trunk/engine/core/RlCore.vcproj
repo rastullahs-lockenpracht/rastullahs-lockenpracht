@@ -178,6 +178,9 @@
 				RelativePath=".\include\ActorManager.h">
 			</File>
 			<File
+				RelativePath=".\include\AnimationListener.h">
+			</File>
+			<File
 				RelativePath=".\include\AnimationManager.h">
 			</File>
 			<File
@@ -258,6 +261,9 @@
 			</File>
 			<File
 				RelativePath=".\src\ActorManager.cpp">
+			</File>
+			<File
+				RelativePath=".\src\AnimationListener.cpp">
 			</File>
 			<File
 				RelativePath=".\src\AnimationManager.cpp">

@@ -22,20 +22,20 @@ namespace rl {
 
 RlAnimation::RlAnimation( AnimationState* animState, Real speed, unsigned int timesToPlay ) :
 	EventSource(), 
-	mAnimationFinishedCaster()
+	mAnimationCaster()
 {
-	this->setAnimationState(animState);
-
     mPaused = false;
 	mIgnoringGlobalSpeed = false;
 	mTimesToPlay = timesToPlay;
 	mTimePlayed = 0;
 	mSpeed = speed;
+
+	this->setAnimationState(animState);
 }
 
 RlAnimation::RlAnimation( Real length ) :
-EventSource(), 
-mAnimationFinishedCaster()
+	EventSource(), 
+	mAnimationCaster()
 {
 	mPaused = true;
 	mIgnoringGlobalSpeed = false;
@@ -57,6 +57,11 @@ bool RlAnimation::isPaused() const
 
 void RlAnimation::setPaused( bool isPaused )
 {
+	if( mPaused && !isPaused )
+		mAnimationCaster.dispatchEvent( new AnimationEvent(this,AnimationEvent::ANIMATION_UNPAUSED));
+	else if( !mPaused && isPaused )
+		mAnimationCaster.dispatchEvent( new AnimationEvent(this,AnimationEvent::ANIMATION_PAUSED));
+
     mPaused = isPaused;
 }
 
@@ -102,7 +107,7 @@ void RlAnimation::resetTimesPlayed()
 {
 	mTimePlayed = 0;
 	mAnimState->setLoop( true );
-	setPaused(false);
+	setPaused( false );
 }
 
 Real RlAnimation::getTimePlayed() const
@@ -133,14 +138,14 @@ void RlAnimation::setWeight(Real weight)
 	mAnimState->setWeight(weight);
 }
 
-void RlAnimation::addAnimationFinishedListener(EventListener<EventObject> *listener)
+void RlAnimation::addAnimationListener(AnimationListener *listener)
 {
-	mAnimationFinishedCaster.addEventListener(listener);
+	mAnimationCaster.addEventListener(listener);
 }
 
-void RlAnimation::removeAnimationFinishedListener(EventListener<EventObject> *listener)
+void RlAnimation::removeAnimationListener(AnimationListener *listener)
 {
-	mAnimationFinishedCaster.removeEventListener(listener);
+	mAnimationCaster.removeEventListener(listener);
 }
 
 
@@ -164,8 +169,9 @@ void RlAnimation::addTime( Real timePassed )
 			}
 			else if( getTimesToPlayLeft() == 0 ) 
 			{
-				setPaused(true);
-				// TODO RlAnimation Finished Listener
+				mPaused = true;
+
+				mAnimationCaster.dispatchEvent( new AnimationEvent(this,AnimationEvent::ANIMATION_FINISHED));
 			}
 		}
 
@@ -179,9 +185,13 @@ void RlAnimation::setAnimationState( AnimationState* animState )
 		Throw( NullPointerException,"AnimationState darf nicht null sein" );
 
 	mAnimState = animState;
-	mAnimState->setEnabled( true );
-	mAnimState->setLoop( true );
+	
+	if( mTimesToPlay != 1 )
+		mAnimState->setLoop( true );
+	
 	mLength = mAnimState->getLength();
+
+	mAnimState->setEnabled( true );
 }
 
 }

@@ -96,6 +96,10 @@ public:
 	// Gewicht (Einfluss) der RlAnimation
 	Real getWeight(void) const;
     void setWeight(Real weight);
+    
+    // Listener
+    void addAnimationListener( rl::AnimationListener *listener);
+	void removeAnimationListener( rl::AnimationListener *listener);
 private:
 	RlAnimation(  );
 };
@@ -117,6 +121,24 @@ public:
 	bool getUseShortestRotationPath () const;
 private:
 	RlTrackAnimation(  ); 
+};
+
+class AnimationEvent
+{
+public:
+	rl::RlAnimation* getRlAnimation() const;
+private:
+	AnimationEvent( rl::RlAnimation* anim,  const unsigned int reason );
+};
+
+%feature("director") AnimationListener; 
+class AnimationListener
+{
+public:
+	virtual ~AnimationListener();
+	virtual void animationFinished(rl::AnimationEvent *anEvent) const = 0;
+	virtual void animationPaused(rl::AnimationEvent *anEvent) const = 0;
+	virtual void animationUnpaused(rl::AnimationEvent *anEvent) const = 0;
 };
 
 class AnimationManager {

@@ -19,9 +19,7 @@
 
 #include "CorePrerequisites.h"
 
-#include "EventCaster.h"
-#include "EventSource.h"
-#include "EventObject.h"
+#include "AnimationListener.h"
 
 namespace rl {
 
@@ -63,8 +61,8 @@ class _RlCoreExport RlAnimation : public virtual EventSource
 		void addTime( Real timePassed );
 
 		// AnimationFinishedListener
-		void addAnimationFinishedListener(EventListener<EventObject> *listener);
-		void removeAnimationFinishedListener(EventListener<EventObject> *listener);
+		void addAnimationListener( AnimationListener *listener);
+		void removeAnimationListener( AnimationListener *listener);
 
 		AnimationState* getAnimationState() { return mAnimState; };
     protected:
@@ -77,7 +75,7 @@ class _RlCoreExport RlAnimation : public virtual EventSource
 		unsigned int mTimesToPlay;
 		Real mTimePlayed;
 
-		EventCaster<EventObject> mAnimationFinishedCaster;
+		EventCaster<AnimationEvent> mAnimationCaster;
 
 		void setAnimationState( AnimationState* animState );
 };
