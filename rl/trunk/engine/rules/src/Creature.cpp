@@ -44,6 +44,17 @@ namespace rl
         return (*it).second;
     }
 
+	void Creature::addTalent(int key)
+	{
+		TalentMap::const_iterator it = mTalente.find(key);
+        if (it != mTalente.end())
+        {
+            Throw(InvalidArgumentException, "Talent nicht gefunden.");
+        }
+        
+		mTalente[key] = 0;
+	}
+
 	const Creature::TalentMap& Creature::getAllTalents() const
 	{
 		return mTalente;

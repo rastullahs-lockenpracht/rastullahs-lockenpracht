@@ -14,6 +14,7 @@ namespace rl
 {
     class Talent;
     class Kampftechnik;
+	class Person;
 
 	static const int SKT_ROWS = 20;
 	static const int SKT_COLUMNS = 8;
@@ -49,24 +50,31 @@ namespace rl
         int rollD6();
 
         Talent* getTalent(int id) const;
+		Talent* getTalent(std::string name) const;
 
         Kampftechnik* getKampftechnik(int id) const;
 
         Eigenschaft* getEigenschaft(int id) const;
 
-        int getEigenschaftIdFromString(const std::string& str) const;
+		Person* getPerson(int id) const;
+        
+		
+		int getEigenschaftIdFromString(const std::string& str) const;
 		
 		int getSteigerKosten(int column, int from, int to) const;
 		int getSteigerKosten(int column, int from) const;
 
 		void _addTalent(Talent* talent);
+		void _addPerson(Person* person);
 
     private:
         typedef std::map<int, Talent*> TalentMap;
+		typedef std::map<int, Person*> PersonMap;
         typedef std::map<int, Kampftechnik*> KampftechnikMap;
         Eigenschaft* mEigenschaften[EIGENSCHAFT_COUNT];
         TalentMap mTalente;
         KampftechnikMap mKampftechniken;
+		PersonMap mPersonen;
 		unsigned int mSteigerkostenTabelle[SKT_COLUMNS][SKT_ROWS];
 
 		void initializeEigenschaften();

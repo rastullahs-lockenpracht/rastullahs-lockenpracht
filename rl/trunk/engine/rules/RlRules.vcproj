@@ -164,6 +164,9 @@
 				RelativePath=".\src\KampftechnikCsvIterator.cpp">
 			</File>
 			<File
+				RelativePath=".\src\Person.cpp">
+			</File>
+			<File
 				RelativePath=".\src\RulesSubsystem.cpp">
 			</File>
 			<File
@@ -212,6 +215,9 @@
 			</File>
 			<File
 				RelativePath=".\include\KampftechnikCsvIterator.h">
+			</File>
+			<File
+				RelativePath=".\include\Person.h">
 			</File>
 			<File
 				RelativePath=".\include\RulesPrerequisites.h">

@@ -28,6 +28,8 @@ namespace rl
 
 		//Daten laden
 		DsaDataLoader::loadData("basis.xdi");
+		DsaDataLoader::loadData("kalchas.xml"); // XXX: Nur zu Testzwecken
+		
     }
 
     RulesSubsystem::~RulesSubsystem()

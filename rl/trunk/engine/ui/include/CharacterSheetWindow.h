@@ -43,6 +43,9 @@ namespace rl {
 		CEGUI::StaticText* mLE;
 		CEGUI::StaticText* mAE;
 		CEGUI::StaticText* mAP;
+		CEGUI::StaticText* mName;
+		CEGUI::StaticText* mRasse;
+		CEGUI::StaticText* mProfession;
 		
 		void updateTalents();
 	};

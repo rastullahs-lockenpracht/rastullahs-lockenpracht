@@ -9,6 +9,7 @@
 namespace rl {
 
 	class Talent;
+	class Person;
 
 	class DsaDataLoader
 	{
@@ -21,7 +22,10 @@ namespace rl {
 		static int getEBeFromString(const std::string& eBeString);
 
 		static void initializeTalente(XERCES_CPP_NAMESPACE::DOMElement*);
-		static Talent* processTalent(int id, int gruppe, XERCES_CPP_NAMESPACE::DOMElement* talentXml);     
+		static Talent* processTalent(int id, int gruppe, XERCES_CPP_NAMESPACE::DOMElement* talentXml);
+
+		static void initializePersonen(XERCES_CPP_NAMESPACE::DOMElement*);
+		static Person* processPerson(int id, XERCES_CPP_NAMESPACE::DOMElement* talentXml);
 			
 		static void initializeKampftechniken(XERCES_CPP_NAMESPACE::DOMElement*);
 

@@ -4,6 +4,8 @@
 #include "Talent.h"
 #include "KampftechnikCsvIterator.h"
 #include "Kampftechnik.h"
+#include "Person.h"
+
 #include "Exception.h"
 
 
@@ -72,6 +74,11 @@ namespace rl
 		mTalente.insert(make_pair(talent->getId(), talent));
 	}
 
+	void DsaManager::_addPerson(Person* person)
+	{
+		mPersonen.insert(make_pair(person->getId(), person));
+	}
+
     void DsaManager::initializeKampftechniken()
     {
 		mKampftechniken.clear();
@@ -119,6 +126,19 @@ namespace rl
         {
             Throw(InvalidArgumentException, "Talent nicht gefunden.");
         }
+    }
+
+	Talent* DsaManager::getTalent(std::string name) const
+    {
+		for (TalentMap::const_iterator it = mTalente.begin(); it != mTalente.end(); it++)
+		{
+			if ((*it).second->getName().compare(name) == 0)
+			{
+				return (*it).second;
+			}
+		}
+        
+		Throw(InvalidArgumentException, "Talent nicht gefunden.");
     }
 
     Kampftechnik* DsaManager::getKampftechnik(int id) const
@@ -217,5 +237,18 @@ namespace rl
 			sum += getSteigerKosten(column, i);
 
 		return sum;
+	}
+
+	Person* DsaManager::getPerson(int id) const
+	{
+		PersonMap::const_iterator it = mPersonen.find(id);
+        if (it != mPersonen.end())
+        {
+            return (*it).second;
+        }
+        else
+        {
+            Throw(InvalidArgumentException, "Person nicht gefunden.");
+        }
 	}
 }

@@ -13,9 +13,9 @@ namespace rl
     * @brief Basisklasse aller spielrelevanten Objekte in RL.
     *
     * Klasse kapselt alle Wesen, die aktiv im Spiel agieren, sei es
-    * computer- oder spielergesteuert. Klasse enth�lt Methoden und
-    * Daten f�r die DSA-Spielwerte (Lebensenergie, Eigenschaften)
-    * und Methoden f�r alles was f�r die Interaktion mit der Spielwelt
+    * computer- oder spielergesteuert. Klasse enthält Methoden und
+    * Daten für die DSA-Spielwerte (Lebensenergie, Eigenschaften)
+    * und Methoden für alles was für die Interaktion mit der Spielwelt
     * noetig ist(z.B. Proben).
     */
     class _RlRulesExport Creature : public GameObject
@@ -52,7 +52,8 @@ namespace rl
         virtual pair<int, int> getKampftechnik(int id) const;
         virtual void setKampftechnik(int id, const pair<int, int>& value);
 
-        virtual int getTalent(int id) const;
+        virtual void addTalent(int id);
+		virtual int getTalent(int id) const;
         virtual void setTalent(int id, int value);
         virtual void modifyTalent(int id, int mod);
 		virtual const Creature::TalentMap& getAllTalents() const;

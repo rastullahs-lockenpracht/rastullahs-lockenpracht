@@ -7,6 +7,7 @@
 
 #include "DsaManager.h"
 #include "Talent.h"
+#include "Person.h"
 #include "XmlHelper.h"
 #include "Exception.h"
 
@@ -26,7 +27,8 @@ namespace rl {
 
 		initializeTalente(XmlHelper::getChildNamed(dataDocumentContent, "Talente"));
 		initializeKampftechniken(XmlHelper::getChildNamed(dataDocumentContent, "Kampftechniken"));
-
+		initializePersonen(XmlHelper::getChildNamed(dataDocumentContent, "Personen"));
+		
 		doc->release();
 		XMLPlatformUtils::Terminate();
 		
@@ -47,6 +49,9 @@ namespace rl {
 
     void DsaDataLoader::initializeTalente(DOMElement* rootTalente)
     {
+		if (rootTalente == NULL)
+			return;
+
 	    DOMNodeList* talentGruppen = rootTalente->getElementsByTagName(XMLString::transcode("Talentgruppe"));
         for (unsigned int gruppe = 0; gruppe < talentGruppen->getLength(); gruppe++)
 		{
@@ -107,5 +112,53 @@ namespace rl {
 
     void DsaDataLoader::initializeKampftechniken(DOMElement* rootKampftechniken)
     {
+	}
+
+	void DsaDataLoader::initializePersonen(DOMElement* rootPersons)
+	{
+		if (rootPersons == NULL)
+			return;
+
+		DOMNodeList* personenXml = 
+			rootPersons->getElementsByTagName(XMLString::transcode("Person"));
+		for (unsigned int idx = 0; idx < personenXml->getLength(); idx++)
+			DsaManager::getSingleton()._addPerson(
+				processPerson(
+					idx+10000, 
+					reinterpret_cast<DOMElement*>(personenXml->item(idx))));
+	}
+
+	Person* DsaDataLoader::processPerson(int id, DOMElement* personXml)
+	{
+		XMLCh* TALENT = XMLString::transcode("Talent");
+		XMLCh* ID = XMLString::transcode("ID");
+		
+		string name = 
+			XmlHelper::getValueAsString(XmlHelper::getChildNamed(personXml, "Name"));
+		string desc = 
+			XmlHelper::getValueAsString(XmlHelper::getChildNamed(personXml, "Beschreibung"));
+
+		Person* rval = new Person(id, name, desc);
+		
+		// Talente, die direkt unter <Person> angeordnet sind, ergeben bereits die zusammengefassten Werte
+		DOMNodeList* talente =			
+			XmlHelper::getChildNamed(personXml, "Talente")->
+				getElementsByTagName(TALENT);
+		for (unsigned int idx = 0; idx < talente->getLength(); idx++)
+		{
+			DOMElement* talentXml = reinterpret_cast<DOMElement*>(talente->item(idx));
+			Talent* tal = 
+				DsaManager::getSingleton().getTalent(
+					XMLString::transcode(talentXml->getAttribute(ID)));
+			rval->addTalent(tal->getId());
+			rval->setTalent(
+				tal->getId(), 
+				XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(talentXml, "Wert")));
+		}
+
+		XMLString::release(&TALENT);
+		XMLString::release(&ID);
+
+		return rval;
 	}
 }

@@ -23,6 +23,9 @@ CharacterSheetWindow::CharacterSheetWindow()
 	mLE = getStaticText("CharacterSheet/CharacterSheet/LE");
 	mAE = getStaticText("CharacterSheet/CharacterSheet/AE");
 	mAP = getStaticText("CharacterSheet/CharacterSheet/AP");
+	mName = getStaticText("CharacterSheet/CharacterSheet/Name");
+	mRasse = getStaticText("CharacterSheet/CharacterSheet/Rasse");
+	mProfession = getStaticText("CharacterSheet/CharacterSheet/Profession");
 	
 	for (int i=0; i<EIGENSCHAFT_COUNT; i++)
 		mEigenschaft[i] = 
@@ -52,6 +55,10 @@ void CharacterSheetWindow::update()
 
 void CharacterSheetWindow::updateValues()
 {
+	mName->setText("Name: "+mCharacter->getName());
+	mRasse->setText(string("Rasse: "));
+	mProfession->setText(string("Profession: "));
+
 	mLE->setText("LeP: "+
 		StringConverter::toString(mCharacter->getLe())+"/"+
 		StringConverter::toString(mCharacter->getLeMax()));

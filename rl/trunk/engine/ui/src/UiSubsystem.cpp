@@ -26,6 +26,7 @@
 #include "Action.h"
 #include "ActionChoiceWindow.h"
 #include "ActionManager.h"
+#include "DsaManager.h"
 // END TEST
 
 template<> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
@@ -144,11 +145,7 @@ namespace rl {
 		dialog->setName("Klaus-Dieter");
 		dialog->show();*/		
 
-		Creature::TalentMap talente;
-		talente.insert(make_pair(101, +4));
-		talente.insert(make_pair(102, -1));
-		talente.insert(make_pair(201, 0));
-		Person* held = new Person(342, "Heinz-Peter", "Testheld", talente);
+		Person* held = DsaManager::getSingleton().getPerson(10000);
 		CharacterSheetWindow* sheet = new CharacterSheetWindow();
 		sheet->setCharacter(held);
 		//sheet->hide();

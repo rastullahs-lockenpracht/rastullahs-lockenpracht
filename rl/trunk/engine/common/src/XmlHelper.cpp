@@ -32,4 +32,14 @@ DOMElement* XmlHelper::getChildNamed(DOMElement* parent, const char* name)
 	return rval;
 }
 
+char* XmlHelper::getValueAsString(DOMElement* element)
+{
+	return XMLString::transcode(element->getFirstChild()->getNodeValue());
+}
+
+int XmlHelper::getValueAsInteger(DOMElement* element)
+{
+	return XMLString::parseInt(element->getFirstChild()->getNodeValue());
+}
+
 }

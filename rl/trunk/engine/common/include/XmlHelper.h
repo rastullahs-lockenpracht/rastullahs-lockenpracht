@@ -11,6 +11,8 @@ class _RlCommonExport XmlHelper
 {
 public:
 	static XERCES_CPP_NAMESPACE::DOMElement* getChildNamed(XERCES_CPP_NAMESPACE::DOMElement* parent, const char* name);
+	static char* getValueAsString(XERCES_CPP_NAMESPACE::DOMElement* element);
+	static int getValueAsInteger(XERCES_CPP_NAMESPACE::DOMElement* element);
 };
 
 }
