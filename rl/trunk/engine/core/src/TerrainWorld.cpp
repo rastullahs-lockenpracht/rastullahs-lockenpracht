@@ -1,9 +1,15 @@
-#include "TerrainWorld.h"
-#include "CameraActor.h"
-#include "ActorManager.h"
-
-namespace rl {
-
+#include "TerrainWorld.h"
+
+#include "CameraActor.h"
+
+#include "ActorManager.h"
+
+
+
+namespace rl {
+
+
+
 	TerrainWorld::TerrainWorld() : World(ST_EXTERIOR_CLOSE, false)
 	{
 	}
@@ -85,6 +91,9 @@ namespace rl {
 	Quaternion TerrainWorld::getWorldAxis()
 	{
 		return Quaternion::IDENTITY;
-	}
-
-}
+	}
+
+
+
+}
+

@@ -1,9 +1,15 @@
-#include "NatureWorld.h"
-#include "CameraActor.h"
-#include "ActorManager.h"
-
-namespace rl {
-
+#include "NatureWorld.h"
+
+#include "CameraActor.h"
+
+#include "ActorManager.h"
+
+
+
+namespace rl {
+
+
+
 	NatureWorld::NatureWorld() : World(ST_EXTERIOR_FAR, false)
 	{
 	}
@@ -90,6 +96,9 @@ namespace rl {
 	Quaternion NatureWorld::getWorldAxis()
 	{
 		return Quaternion::IDENTITY;
-	}
-
-}
+	}
+
+
+
+}
+
