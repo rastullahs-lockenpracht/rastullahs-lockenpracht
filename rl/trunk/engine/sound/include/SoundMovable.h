@@ -175,6 +175,8 @@ namespace rl {
         void fadeIn(unsigned int msec);
         /// Fuehre das Fade-Out aus
         void fadeOut(unsigned int msec);
+        /// Wir warten, bis alle Buffer durch sind.
+        void waitForEnd();
 
     public:
         /// Konstruktor

@@ -482,7 +482,7 @@ void SoundMovable::stop(unsigned int msec) throw (RuntimeException)
         mSoundResource->unload();
         setFadeOut(msec);
         mFadeOutThread = new thread(SoundMovable::mFadeOutFunctor);
-    } 
+    }
 }
 
 /**
@@ -709,6 +709,7 @@ void SoundMovable::runStreaming()
     mFadeInThread = 0;
     delete mFadeOutThread;
     mFadeOutThread = 0;
+    waitForEnd();
     alSourceStop(mSource);
     empty();
     thread *temp = mStreamThread;
@@ -717,6 +718,16 @@ void SoundMovable::runStreaming()
     return;
 }
 
+void SoundMovable::waitForEnd()
+{
+    while (playing())
+    {
+        boost::xtime xt;
+        xtime_get(&xt, TIME_UTC);
+        xt.nsec += mSleepTime;
+        thread::sleep(xt);
+    }
+}
 
 /**
  * Sounddaten streamen
@@ -983,7 +994,6 @@ bool SoundMovable::update ()
     bool active = true;
 
     alGetSourcei (mSource, AL_BUFFERS_PROCESSED, &processed);
-
     while (processed--) {
         ALuint buffer;
 
@@ -991,7 +1001,6 @@ bool SoundMovable::update ()
         check ();
 
         active = stream (buffer); // TODO
-
         alSourceQueueBuffers (mSource, 1, &buffer);
         check ();
     }
@@ -1031,10 +1040,9 @@ bool SoundMovable::oggstream (ALuint buffer)
         dispatchEvent(&timing);
     }
 
-    if (size < BUFFER_SIZE) {
+    if (size == 0) {
         return false;
     }
-
     alBufferData(buffer, mFormat, pcm, size, mFrequency);
     check ();
 
@@ -1044,7 +1052,6 @@ bool SoundMovable::oggstream (ALuint buffer)
 void SoundMovable::empty ()
 {
     int queued;
-
     alGetSourcei (mSource, AL_BUFFERS_QUEUED, &queued);
 
     while (queued--) {
