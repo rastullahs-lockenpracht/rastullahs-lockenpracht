@@ -23,10 +23,12 @@
 namespace rl {
 
 	World::World(Ogre::SceneType sceneType, bool hasPhysics)
-	{
-		mSceneMgr = Root::getSingleton().getSceneManager( sceneType );
-		mbSceneLoaded = false;
+	    :   mSceneMgr(Root::getSingleton().getSceneManager( sceneType )),
+            mCamera(0),
+            mbSceneLoaded(false),
+	        mActiveActor(0)
 
+	{
 		if (hasPhysics)
 			PhysicsManager::getSingleton().setWorldScene( this );
 		else
