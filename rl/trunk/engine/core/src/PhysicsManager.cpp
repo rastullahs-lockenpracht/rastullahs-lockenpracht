@@ -156,7 +156,7 @@ namespace rl
             
             if (geomType == GT_BOX)
             {
-                geom = new BoxGeometry(size, density > 0.0 ? mGlobalSpace : 0);
+                geom = new BoxGeometry(size, 0);
 
                 if (offsetMode == OM_BOTTOMCENTERED)
                 {
@@ -180,8 +180,7 @@ namespace rl
                     offset = Vector3(0.0, size.y / 2.0, 0.0);
                 }
                 
-                geom = new SphereGeometry(radius,
-                    density > 0.0 ? mGlobalSpace : 0);
+                geom = new SphereGeometry(radius, 0);
 
                 if (density > 0.0)
                 {
@@ -201,8 +200,7 @@ namespace rl
                     offset = Vector3(0.0, (size.y - 2.0 * radius) / 2.0 + radius, 0.0);
                 }
 
-                geom = new CapsuleGeometry(radius, height,
-                    density > 0.0 ? mGlobalSpace : 0);
+                geom = new CapsuleGeometry(radius, height, 0);
 
                 orientationBias = Quaternion(Degree(90), Vector3::UNIT_X); //UNIT_X
                 if (density > 0.0)
