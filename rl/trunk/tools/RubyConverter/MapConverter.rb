@@ -201,7 +201,7 @@ module MapConverter
     class Plane
         # Regulärer Ausdruck für eine HL-Plane-Zeile
         @@re_hl = /\( (.*?) \) \( (.*?) \) \( (.*?) \) (.*?) \[ (.*?) \] \[ (.*?) \] (.*?) (.*?) (.*?)$/
-        
+        @@m = nil
         attr_reader :normal, :distance, :texture
         
         def initialize( )
@@ -232,8 +232,24 @@ module MapConverter
             @scale_x = mD[8].to_f
             @scale_y = mD[9].to_f
             
+            if @@m
+                @v1.rotate!( @@m )
+                @v2.rotate!( @@m )
+                @v3.rotate!( @@m )
+                @t1.rotate!( @@m )
+                @t2.rotate!( @@m )
+            end
             
             calculateHessian(  )
+        end
+        
+        def Plane.setOgreAxis
+            # Ausgleich der Quake-Achse
+            Plane.setRotation( Matrix[[1,0,0],[0,0,1],[0,-1,0]] )
+        end
+        
+        def Plane.setRotation( matrix )            
+            @@m = matrix
         end
                 
         def getTextureCoordinates( vertex , center )
@@ -323,10 +339,11 @@ module MapConverter
                 end
             end
             
-            
-            
             @faces.each_index { |i|         
                 @faces[i].setTexture( @planes[i].texture )
+                
+
+                
                 @faces[i].calculateCenter
                 
                 @faces[i].vertices.each { |v|
@@ -456,9 +473,9 @@ module MapConverter
                     # Leere Zeile, wir machen nichts
                     when LINETYPE_OPENBRACE
                     # Hier beginnt ein Brush
-                        readBrush() 
+                        brsh = readBrush() 
                         if @readGeometry
-                            entity.addBrush( )
+                            entity.addBrush( brsh )
                         end
                     when LINETYPE_CLOSEDBRACE                
                     # Es endet die Entity
@@ -747,5 +764,10 @@ module MapConverter
     
 end
 
+
+vec = [0, 0, 1]
+#angle = 90.0
+#p sin = Math.sin( angle * Math::PI / 180.0 )
+#p cos = Math.cos( angle * Math::PI / 180.0 )
 
 

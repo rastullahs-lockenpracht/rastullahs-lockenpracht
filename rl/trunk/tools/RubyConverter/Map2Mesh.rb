@@ -40,6 +40,8 @@ if !oName
     oName = File.basename(mapName, ".map" )
 end
 
+# Quake hat andere Achsen als Ogre
+MapConverter::Plane.setOgreAxis
 MapConverter::TextureManager.new( tDir )
 map = MapConverter::MapReader.new.readMap( mapName, MapConverter::MAP_HL, true )
 MapConverter::MeshWriter.new( map ).writeMesh( oDir, oName, tIgnore )
