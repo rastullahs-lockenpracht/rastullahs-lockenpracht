@@ -5,6 +5,7 @@
 @SET OGREHOME=%RL_ROOT%\Dependencies\ogre
 @SET OGREADDONS=%RL_ROOT%\Dependencies\ogreaddons
 @SET OGREDEPS=%OGREHOME%\Dependencies
+@SET OGREDEPLIBS=%OGREHOME%\Samples\Common\bin\%BUILD%
 @SET OGREPLUGINS=%OGREHOME%\PlugIns
 @SET OGRERENDERERS=%OGREHOME%\RenderSystems
 @SET OGREPLATFORMS=%OGREHOME%\PlatformManagers
@@ -37,7 +38,11 @@ copy %OGRERENDERERS%\GL\bin\%BUILD%\RenderSystem_GL.dll %RL_DIST%
 copy %OGREPLATFORMS%\Win32\bin\%BUILD%\PlatFormManager_Win32.dll %RL_DIST%
 copy %OGREPLATFORMS%\Win32\bin\%BUILD%\PlatFormManager_Win32.dll %RL_DIST%\OgrePlatform.dll
 
-xcopy %OGREDEPS%\DevIL\lib\*.dll %RL_DIST%\ /I /K /Y /F
+copy %OGREHOME%\Samples\Common\CEGUIRenderer\bin\Debug\OgreGUIRenderer_d.dll %RL_DIST%
+copy %OGREHOME%\Samples\Common\CEGUIRenderer\bin\Release\OgreGUIRenderer.dll %RL_DIST%
+
+xcopy %OGREDEPLIBS%\*.dll %RL_DIST%\ /I /K /Y /F
+
 
 REM Ruby Dateien kopieren
 REM ---------------------
@@ -56,12 +61,6 @@ copy %RL_ROOT%\Dependencies\ode\lib\*.dll %RL_DIST%
 copy %RL_ROOT%\Dependencies\boost\bin\*.dll %RL_DIST%
 copy %RL_ROOT%\Dependencies\xerces\bin\*.dll %RL_DIST%
 
-copy %RL_ROOT%\Dependencies\cegui\bin\CEGUIBase.dll %RL_DIST%
-copy %RL_ROOT%\Dependencies\cegui\bin\OgreGUIRenderer.dll %RL_DIST%
-copy %RL_ROOT%\Dependencies\cegui\bin\CEGUITaharezLook.dll %RL_DIST%
-copy %RL_ROOT%\Dependencies\cegui\bin\CEGUIBase_d.dll %RL_DIST%
-copy %RL_ROOT%\Dependencies\cegui\bin\OgreGUIRenderer_d.dll %RL_DIST%
-copy %RL_ROOT%\Dependencies\cegui\bin\CEGUITaharezLook_d.dll %RL_DIST%
 
 pause
 

@@ -1,2 +1,2 @@
-@call make_release.bat .. release
+@call copy_dependencies.bat .. release
 

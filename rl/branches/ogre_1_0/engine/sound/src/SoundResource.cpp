@@ -316,7 +316,7 @@ void SoundResource::loadImpl()
     if (!mIsLoaded)
     {
         // Holen wir erstmal die Daten.
-		mDataStream = ResourceGroupManager::getSingleton().openResource(mName);
+		mDataStream = ResourceGroupManager::getSingleton().openResource(mName, mGroup);
 		size_t numBytes = mDataStream.getPointer()->size();
 
         if (StringUtil::endsWith(mName, ".ogg"))

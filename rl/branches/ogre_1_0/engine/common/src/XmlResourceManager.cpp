@@ -41,7 +41,7 @@ Resource* XmlResourceManager::createImpl(
 	ManualResourceLoader* loader, 
 	const NameValuePairList* loadParams)
 {
-	return new XmlResource(resName);
+	return new XmlResource(this, resName, handle, groupName, isManual, loader);	
 }
 
 }

@@ -31,8 +31,15 @@ namespace rl {
 		public Ogre::Resource
 	{
 	public:
-		XmlResource(const Ogre::String& name);
-		~XmlResource();
+		XmlResource(
+			Ogre::ResourceManager* creator, 
+			const Ogre::String& name, 
+			Ogre::ResourceHandle handle, 
+			const Ogre::String& group,
+			bool isManual = false,
+			Ogre::ManualResourceLoader* loader = NULL);
+
+		virtual ~XmlResource();
 
 		void parseBy(XERCES_CPP_NAMESPACE::XercesDOMParser* parser);
 		void parseBy(XERCES_CPP_NAMESPACE::SAX2XMLReader* parser);

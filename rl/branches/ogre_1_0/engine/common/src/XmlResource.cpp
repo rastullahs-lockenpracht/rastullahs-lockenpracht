@@ -22,10 +22,11 @@ using namespace Ogre;
 
 namespace rl {
 
-XmlResource::XmlResource(const Ogre::String& name)
+XmlResource::XmlResource(
+	 ResourceManager* creator, const String& name, ResourceHandle handle,
+		const String& group, bool isManual, ManualResourceLoader* loader)
+	: Resource(creator, name, handle, group, isManual, loader)
 {
-	mName = name;
-	mIsLoaded = false;
 }
 
 
@@ -36,12 +37,18 @@ XmlResource::~XmlResource()
 
 void XmlResource::loadImpl()
 {
-	DataStreamPtr ds = Ogre::ResourceGroupManager::getSingleton().openResource(getName(), getGroup());
-	std::string inputData = ds.getPointer()->getAsString();
-	mSize = ds.getPointer()->size();
-	mXmlBuffer = new MemBufInputSource(reinterpret_cast<const XMLByte*>(inputData.c_str()), inputData.length(), "rl::XmlResourceManager");
+	DataStreamPtr ds = Ogre::ResourceGroupManager::getSingleton().openResource(mName, mGroup);
+	//std::string inputData = ds->getAsString();
+	mSize = ds->size();
+	
+	char* mem = new char[mSize];
+	ds->readLine(mem, mSize, "µ"); //@todo: HACKHACKHACK
+	//memcpy(mem, inputData.c_str(), mSize);
+
+	mXmlBuffer = new MemBufInputSource(reinterpret_cast<XMLByte*>(mem), mSize, "rl::XmlResourceManager");
 	mIsLoaded = true;
-	touch();
+	//delete[] mem;
+	touch();	
 }
 
 void XmlResource::unloadImpl()

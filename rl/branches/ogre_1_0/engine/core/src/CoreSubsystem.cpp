@@ -230,6 +230,7 @@ namespace rl {
 
 	void CoreSubsystem::initializeResources()
     {
+//		new ResourceGroupManager();
 		new XmlResourceManager();
 		
 		addCommonSearchPath(mRootDir);
@@ -280,7 +281,7 @@ namespace rl {
 			if (key.compare("TextureArchive") == 0)
 				ResourceGroupManager::getSingleton().addResourceLocation(moduleDir+"/materials/"+value, "Zip");
 			else if (key.compare("TextureDir") == 0)
-				ResourceGroupManager::getSingleton().addResourceLocation(moduleDir+"/materials/"+value, "Dir");
+				ResourceGroupManager::getSingleton().addResourceLocation(moduleDir+"/materials/"+value, "FileSystem");
 			else if (key.compare("Archive") == 0)
 				ResourceGroupManager::getSingleton().addResourceLocation(moduleDir+"/"+value, "Zip");
 		}
@@ -315,7 +316,7 @@ namespace rl {
 	{
 		try 
 		{
-		     ResourceGroupManager::getSingleton().addResourceLocation(path, "Dir");
+		     ResourceGroupManager::getSingleton().addResourceLocation(path, "FileSystem");
         } 
 		catch(...) 
 		{} // and forget
