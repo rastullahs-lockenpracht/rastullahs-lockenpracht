@@ -51,7 +51,6 @@ namespace rl {
         // Look at the boxes
 //mCamera->lookAt(-150,40,30);
 
-
 		// Create one viewport, entire window
         Viewport* newVp = Ogre::Root::getSingleton().getAutoCreatedWindow()->addViewport(mCamera->getOgreCamera(),1);
         newVp->setBackgroundColour(ColourValue(0,0,0));
@@ -80,7 +79,7 @@ namespace rl {
     void BSPWorld::setSkyBox(bool enable, const String &materialName, Real distance, bool drawFirst )
     {
         mSceneMgr->setSkyBox(enable, materialName,
-			distance, drawFirst, Quaternion(90, Vector3::UNIT_X));
+            distance, drawFirst, Quaternion(1.57079632, Vector3::UNIT_X));
     }
 
 	void BSPWorld::clearScene( )
