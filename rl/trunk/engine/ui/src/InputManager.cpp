@@ -84,7 +84,6 @@ namespace rl {
 	{
 		mEventQueue.activateEventQueue(false);
 		GameLoopManager::getSingleton().removeSynchronizedTask(this);
-//		Root::getSingleton().removeFrameListener(this);
 
 		mInputReader->useBufferedInput(NULL, false, false);
 		mInputReader->setBufferedInput(false, false);
@@ -374,14 +373,13 @@ namespace rl {
 		// Check to see if input has been initialized
 		if (mInputInitialized) {
 
-			// Destroy the input reader.
-			//Ogre::Root::getSingleton().removeFrameListener(this);
-			//mEventQueue.activateEventQueue(false);
-			//mInputReader->useBufferedInput(NULL, false, false);			
-			//PlatformManager::getSingleton().destroyInputReader( mInputReader );
+			mEventQueue.activateEventQueue(false);
+			mInputReader->useBufferedInput(NULL, false, false);			
+			
+            // Destroy the input reader.
+			PlatformManager::getSingleton().destroyInputReader( mInputReader );
 
 			mInputInitialized = false;
-
 		}
 
 		mEventProcessor->initialise(Ogre::Root::getSingleton().getAutoCreatedWindow());
@@ -401,17 +399,12 @@ namespace rl {
 		 mBuffered = false;
 
 		// Check to see if event has been initialized
-		//if (mEventInitialized) {
-		//	// Stop buffering events
+		if (mEventInitialized) {
+			// Stop buffering events
 
-		//    //mEventProcessor->stopProcessingEvents();
-
-		//	mEventProcessor->removeKeyListener(this);
-		//	mEventProcessor->removeMouseListener(this);
-		//	mEventProcessor->removeMouseMotionListener(this);
-
-		//	mEventInitialized = false;
-		//}
+		    mEventProcessor->stopProcessingEvents();
+			mEventInitialized = false;
+		}
 		mEventInitialized = false;
 
 		mEventQueue.activateEventQueue(true);

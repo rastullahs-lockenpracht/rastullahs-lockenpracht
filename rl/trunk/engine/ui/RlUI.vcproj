@@ -128,7 +128,7 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="TRUE"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlCore.lib RlSound.lib msvcrt-ruby18.lib OgreMain.lib Plugin_GuiElements.lib RlRules.lib CEGUIBase.lib OgreGuiRenderer.lib CEGUITaharezLook.lib OgreODE_Core.lib xerces-c_2.lib"
+				AdditionalDependencies="RlCore.lib RlSound.lib msvcrt-ruby18.lib OgreMain.lib RlRules.lib CEGUIBase.lib OgreGuiRenderer.lib CEGUITaharezLook.lib OgreODE_Core.lib xerces-c_2.lib"
 				OutputFile="./lib/release/RlUI.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
