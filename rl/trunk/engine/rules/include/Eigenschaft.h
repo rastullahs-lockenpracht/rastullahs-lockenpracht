@@ -19,15 +19,17 @@ namespace rl
 
     typedef Tripel<int> EigenschaftTripel;
 
-    class Eigenschaft
+    class _RlRulesExport Eigenschaft
     {
     private:
         const int mId;
         const std::string mName;
+		const std::string mNameAbbreviation;
         const std::string mDescription;
     public:
         Eigenschaft(int id,
                     const std::string& name,
+					const std::string& nameAbbrev,
                     const std::string& description);
 
         bool operator==(const Eigenschaft& rhs) const;
@@ -35,6 +37,7 @@ namespace rl
 
         int getId() const;
         std::string getName() const;
+        std::string getNameAbbreviation() const;
         std::string getDescription() const;
     };
 }

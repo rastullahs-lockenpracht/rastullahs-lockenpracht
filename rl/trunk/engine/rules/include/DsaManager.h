@@ -8,19 +8,24 @@
 
 #include <map>
 
-using namespace Ogre;
+using Ogre::Singleton;
 
 namespace rl
 {
     class Talent;
     class Kampftechnik;
 
+	static const int SKT_ROWS = 20;
+	static const int SKT_COLUMNS = 8;
+
+	static const int EBE_KEINE_BE = -100;
+	static const int EBE_BEx2 = -99;
     /** 
     *  Klasse kapselt alles was mit den DSA-Grundregeln zu tun hat.
     *  Namentlich sind das Eigenschaften, Talente, Kampftechniken und
-    *  Probenwürfe.
+    *  Probenwrfe.
     */
-    class _RlRulesExport DsaManager : public Singleton<DsaManager>
+	class _RlRulesExport DsaManager : public Singleton<DsaManager>
     {
     public:
         static DsaManager& getSingleton(void);
@@ -49,7 +54,12 @@ namespace rl
 
         Eigenschaft* getEigenschaft(int id) const;
 
-        int getEigenschaftIdFromString(const std::string& str);
+        int getEigenschaftIdFromString(const std::string& str) const;
+		
+		int getSteigerKosten(int column, int from, int to) const;
+		int getSteigerKosten(int column, int from) const;
+
+		void _addTalent(Talent* talent);
 
     private:
         typedef std::map<int, Talent*> TalentMap;
@@ -57,10 +67,12 @@ namespace rl
         Eigenschaft* mEigenschaften[EIGENSCHAFT_COUNT];
         TalentMap mTalente;
         KampftechnikMap mKampftechniken;
+		unsigned int mSteigerkostenTabelle[SKT_COLUMNS][SKT_ROWS];
 
-        void initializeEigenschaften();
+		void initializeEigenschaften();
         void initializeTalente();
         void initializeKampftechniken();
+        void initializeSkt();
     };
 }
 #endif

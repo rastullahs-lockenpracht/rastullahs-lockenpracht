@@ -1,4 +1,5 @@
 #include "Talent.h"
+#include "DsaManager.h"
 
 namespace rl
 {
@@ -6,12 +7,14 @@ namespace rl
                    const std::string& name,
                    const std::string& description,
                    const EigenschaftTripel& eigenschaften,
-                   const std::string& ebe)
+                   int ebe,
+				   int gruppe)
                                        : mId(id),
                                          mName(name),
                                          mDescription(description),
                                          mEigenschaften(eigenschaften),
-                                         mEbe(ebe)
+                                         mEbe(ebe),
+										 mTalentGruppe(gruppe)
     {
     }
 
@@ -44,4 +47,19 @@ namespace rl
     {
         return mEigenschaften;
     }
+
+	int Talent::calculateEbe(int be) const
+	{
+		if (mEbe == EBE_KEINE_BE)
+			return 0;
+		if (mEbe == EBE_BEx2)
+			return be*2;
+		
+		return std::max(be + mEbe, 0);
+	}
+
+	int Talent::getEbe() const
+	{
+		return mEbe;
+	}
 }

@@ -26,8 +26,8 @@ int main(int argc, char **argv)
     
     rl::SoundSubsystem* sound = new rl::SoundSubsystem();
     rl::CoreSubsystem* core = new rl::CoreSubsystem();
-    rl::UiSubsystem* ui = new rl::UiSubsystem();
     rl::RulesSubsystem* rules = new rl::RulesSubsystem();
+    rl::UiSubsystem* ui = new rl::UiSubsystem();
     
     try {
         core->startCore();

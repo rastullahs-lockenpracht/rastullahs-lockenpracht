@@ -14,20 +14,24 @@ namespace rl
         const std::string mName;
         const std::string mDescription;
         const EigenschaftTripel mEigenschaften;
-        const std::string mEbe;
+        const int mEbe;
+		const int mTalentGruppe;
     public:
         Talent(int id,
                const std::string& name,
                const std::string& description,
                const EigenschaftTripel& eigenschaften,
-               const std::string& ebe);
+               int ebe,
+			   int gruppe);
 
         bool operator==(const Talent& rhs) const;
         bool operator<(const Talent& rhs) const;
         int getId() const;
         std::string getName() const;
         std::string getDescription() const;
-        /// Berechnet effektive Behinderung
+		int getEbe() const;
+
+        /// Berechnet effektive Behinderung bei gegebener Behinderung;
         int calculateEbe(int be) const;
         EigenschaftTripel getEigenschaften() const;
     };

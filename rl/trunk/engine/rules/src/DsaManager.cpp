@@ -1,15 +1,17 @@
 #include "DsaManager.h"
 
 #include "Eigenschaft.h"
-#include "TalentCsvIterator.h"
 #include "Talent.h"
 #include "KampftechnikCsvIterator.h"
 #include "Kampftechnik.h"
 #include "Exception.h"
-#include <stdlib.h>
+
 
 template <>
 rl::DsaManager* Singleton<rl::DsaManager> ::ms_Singleton = 0;
+
+using namespace std;
+
 namespace rl
 {
     DsaManager& DsaManager::getSingleton(void)
@@ -26,55 +28,61 @@ namespace rl
     {
         //Zufallsgenerator initialisieren
         srand(static_cast<unsigned int>(time(NULL)));
-        initializeEigenschaften();
+
+          		  
+		initializeEigenschaften();
+		initializeSkt();
+
         initializeTalente();
-        initializeKampftechniken();
+        initializeKampftechniken();		
     }
 
     DsaManager::~DsaManager()
     {
     }
 
+
     void DsaManager::initializeEigenschaften()
     {
         mEigenschaften[E_MUT] = new Eigenschaft(
-            E_MUT, "Mut", "");
+            E_MUT, "Mut", "MU", "");
         mEigenschaften[E_KLUGHEIT] = new Eigenschaft(
-            E_KLUGHEIT, "Klugheit", "");
+            E_KLUGHEIT, "Klugheit", "KL", "");
         mEigenschaften[E_INTUITION] = new Eigenschaft(
-            E_INTUITION, "Intuition", "");
+            E_INTUITION, "Intuition", "IN", "");
         mEigenschaften[E_CHARISMA] = new Eigenschaft(
-            E_CHARISMA, "Charisma", "");
+            E_CHARISMA, "Charisma", "CH", "");
         mEigenschaften[E_FINGERFERTIGKEIT] = new Eigenschaft(
-            E_FINGERFERTIGKEIT, "Fingerfertigkeit", "");
+            E_FINGERFERTIGKEIT, "Fingerfertigkeit", "FF", "");
         mEigenschaften[E_GEWANDHEIT] = new Eigenschaft(
-            E_GEWANDHEIT, "Gewandheit", "");
+            E_GEWANDHEIT, "Gewandheit", "GE", "");
         mEigenschaften[E_KONSTITUTION] = new Eigenschaft(
-            E_KONSTITUTION, "Konstitution", "");
+            E_KONSTITUTION, "Konstitution", "KO", "");
         mEigenschaften[E_KOERPERKRAFT] = new Eigenschaft(
-            E_KOERPERKRAFT, "Körperkraft", "");
+            E_KOERPERKRAFT, "Körperkraft", "KK", "");
     }
 
     void DsaManager::initializeTalente()
     {
-        TalentCsvIterator it("talente.csv");
-        while (it.hasNext())
-        {
-            it.next();
-            Talent* t = it.createTalent();
-            mTalente.insert(make_pair(t->getId(), t));
-        }
+		mTalente.clear();
     }
+
+	void DsaManager::_addTalent(Talent* talent)
+	{
+		mTalente.insert(make_pair(talent->getId(), talent));
+	}
 
     void DsaManager::initializeKampftechniken()
     {
-        KampftechnikCsvIterator it("kampftechniken.csv");
+		mKampftechniken.clear();
+
+/*        KampftechnikCsvIterator it("kampftechniken.csv");
         while (it.hasNext())
         {
             it.next();
             Kampftechnik* k = it.createKampftechnik();
             mKampftechniken.insert(make_pair(k->getId(), k));
-        }
+        }*/
     }
 
     RL_LONGLONG DsaManager::getTimestamp()
@@ -135,7 +143,7 @@ namespace rl
         return mEigenschaften[id];
     }
 
-    int DsaManager::getEigenschaftIdFromString(const string& str)
+    int DsaManager::getEigenschaftIdFromString(const string& str) const
     {
         if (str.size() != 2)
         {
@@ -180,4 +188,34 @@ namespace rl
         }
         return rval;
     }
+
+	/**
+	 * @todo SKT laden/erzeugen
+	 */
+	void DsaManager::initializeSkt()
+	{
+
+	}
+
+	int DsaManager::getSteigerKosten(int column, int from) const
+	{
+		if (column < 0 || column >= SKT_COLUMNS)
+			Throw(InvalidArgumentException, "Spalte in SKT nicht gefunden.");
+		if (from < 0)
+			return 0;
+		else if (from < SKT_ROWS)
+			return mSteigerkostenTabelle[column][from];
+		else
+			return 0;
+	}
+
+	int DsaManager::getSteigerKosten(int column, int from, int to) const
+	{
+		int sum = 0;
+
+		for (int i=from; i<to; i++)
+			sum += getSteigerKosten(column, i);
+
+		return sum;
+	}
 }

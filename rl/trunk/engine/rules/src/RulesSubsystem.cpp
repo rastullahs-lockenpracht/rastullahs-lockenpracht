@@ -1,5 +1,6 @@
 #include "RulesSubsystem.h"
 #include "DsaManager.h"
+#include "DsaDataLoader.h"
 
 template <>
 rl::RulesSubsystem* Singleton<rl::RulesSubsystem> ::ms_Singleton = 0;
@@ -22,6 +23,9 @@ namespace rl
 
         //Singletons erzeugen
         new DsaManager();
+
+		//Daten laden
+		DsaDataLoader::loadData("basis.xdi");
     }
 
     RulesSubsystem::~RulesSubsystem()

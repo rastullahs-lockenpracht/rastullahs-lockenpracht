@@ -1,6 +1,8 @@
 #include "KampftechnikCsvIterator.h"
 #include "Kampftechnik.h"
 
+using namespace std;
+
 namespace rl {
 
     KampftechnikCsvIterator::KampftechnikCsvIterator(const std::string filename)

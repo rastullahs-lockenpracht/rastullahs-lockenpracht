@@ -4,8 +4,10 @@ namespace rl
 {
     Eigenschaft::Eigenschaft(int id,
                              const std::string& name,
+							 const std::string& nameAbbrev,
                              const std::string& description) : mId(id),
                                                                mName(name),
+															   mNameAbbreviation(nameAbbrev),
                                                                mDescription(description)
     {
     }
@@ -28,6 +30,11 @@ namespace rl
     std::string Eigenschaft::getName() const
     {
         return mName;
+    }
+
+    std::string Eigenschaft::getNameAbbreviation() const
+    {
+        return mNameAbbreviation;
     }
 
     std::string Eigenschaft::getDescription() const

@@ -114,7 +114,7 @@ namespace rl
     {
         int rval;
 
-        int probe = DsaManager::getSingleton().rollD6();
+        int probe = DsaManager::getSingleton().rollD20();
         if (probe == 1)
         {
             rval = 100;

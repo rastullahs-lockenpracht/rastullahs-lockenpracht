@@ -3,6 +3,8 @@
 #include "Talent.h"
 #include "Eigenschaft.h"
 
+using namespace std;
+
 namespace rl {
 
     TalentCsvIterator::TalentCsvIterator(const std::string filename)
@@ -39,8 +41,9 @@ namespace rl {
             dm.getEigenschaftIdFromString(
                 mCsvFile.getValueAsString(mCurrentRow, 6)));
 
-        string ebe = mCsvFile.getValueAsString(mCurrentRow, 7);
-        return new Talent(id, name, desc, et, ebe);
+        //string ebe = mCsvFile.getValueAsString(mCurrentRow, 7);
+		
+        return new Talent(id, name, desc, et, 0, id/100);
     }
 
 }
