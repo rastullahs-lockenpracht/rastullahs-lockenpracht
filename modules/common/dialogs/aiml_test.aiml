@@ -7,7 +7,7 @@
 <aiml:category>
 <pattern>START DIALOG</pattern>
 <template>
-	Grüße!<br/>Ich sehe ihr seid soeben erst in Ruchin angekommen? Was gibt es neues aus dem Lande? Kann ich euch irgendwie helfen?
+	Grüße!<br/>Ich sehe ihr seid soeben erst in Ruchin angekommen? Was gibt es Neues aus dem Lande? Kann ich euch irgendwie helfen?
 	<selection name="TestReturner">
 		<li value="4" id="1">Ich grüße euch ebenso. Ich suche den Weg zur Taverne, könnt ihr ihn mir beschreiben?</li>
 		<li value="4" id="2">Das Land ist ruhig und friedlich. Die Invasion der Orks droben im Norden ist vorerst gestoppt, wir sind sicher.</li>

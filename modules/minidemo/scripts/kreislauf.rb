@@ -11,8 +11,10 @@ torch.getActor().attach("SLOT_FAR_END", fackellicht );
 $CORE.log("Fackellicht erstellt.");
 
 $CORE.log("Partikeldings erstellen..");
-partikeldings = $AM.createParticleSystemActor("Das fitzlende Leuchten", "PEExamples/explo" );
-torch.getActor().attach("SLOT_FAR_END", partikeldings );
+partikeldings = $AM.createParticleSystemActor("Das fitzlende Leuchten", "PEExamples/ignifaxius" );
+partikeldings.placeIntoScene( -402.735565185547, -128.517913818359, 25.9572200775146, 1.0, 0.0, 0.0, 0.0);
+#torch.getActor().attach("SLOT_FAR_END", partikeldings );
+partikeldings.setScale( 4.54, 4.54, 4.54 );
 $CORE.log("Partikeldings erstellt.");
 
 
