@@ -1,12 +1,9 @@
+//#include <CEGUI.h>
+#include <xercesc/util/XMemory.hpp>
 #include <renderers/OgreGUIRenderer/ogrerenderer.h>
-
-#include "RubyInterpreter.h"
-#include "FixRubyHeaders.h"
-
 #include "UiSubsystem.h"
 #include "CoreSubsystem.h"
-
-
+#include "RubyInterpreter.h"
 #include "Console.h"
 #include "DebugWindow.h"
 #include "ThirdPersonGameController.h"

@@ -2,7 +2,6 @@
 #define __RL_NLP_H__
 
 #include <xercesc/dom/DOM.hpp>
-using XERCES_CPP_NAMESPACE::DOMDocument; //XXX: Warum brauche ich das unter VS 2003?
 #include "DialogPrerequisites.h"
 
 #include "Graphmaster.h"
@@ -17,6 +16,8 @@ XERCES_CPP_NAMESPACE_USE
 
 namespace rl
 {
+	using XERCES_CPP_NAMESPACE::DOMDocument; //XXX: Warum brauche ich das unter VS 2003?
+
 	class _RlDialogExport NaturalLanguageProcessor
 	{
 	public:
