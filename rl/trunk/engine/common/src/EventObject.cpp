@@ -29,6 +29,18 @@ EventObject::EventObject(EventSource *source):
 }
 
 /**
+* @param source. Die Ereignisquelle.
+* @param reason. Der Grund des Events.
+* @author Harlequin
+* @date 28-01-2005
+* @version 1.0
+*/
+EventObject::EventObject(EventSource *source, const unsigned int reason):
+mSource(source), mReason( reason )
+{
+}
+
+/**
  * @author JoSch
  * @date 10-05-2004
  * @version 1.0

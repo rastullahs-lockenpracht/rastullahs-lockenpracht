@@ -39,6 +39,8 @@ private:
 public:
     /// Der Konstruktor.
 	EventObject(EventSource *source);
+	/// Der Konstruktor.
+	EventObject(EventSource *source, const unsigned int reason );
     /// Der Destruktor.
 	virtual ~EventObject();
    

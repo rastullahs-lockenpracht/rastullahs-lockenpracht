@@ -34,7 +34,10 @@ public:
 	EventListener();
     /// Der Destruktor.
 	virtual ~EventListener();
-    /// Hier wird das Objekt benachrichtigt.
+    /* Hier wird das Objekt benachrichtigt.
+	 *
+	 * @return bool consumed Wurde der Event aufgebracht (defunct)
+	 */
     virtual bool eventRaised(Event *anEvent) const = 0;
 };
 
