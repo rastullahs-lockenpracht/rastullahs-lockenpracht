@@ -135,7 +135,7 @@ bool RubyInterpreter::execute(String command)
 {
 	int status = -1;
 
-LogManager::getSingleton().getLog( "logs/rlCore.log" )->logMessage(command);
+	CoreSubsystem::getSingleton().log( "RubyInterpreter: (execute) "+ command );
 	rb_eval_string_protect(command.c_str(), &status);
 
     if( status )
@@ -185,7 +185,7 @@ VALUE rb_funcall_wrapper(VALUE data)
 {
 	VALUE *args=(VALUE *) data;
 	const VALUE argsT=args[3];
-	return rb_funcall2(args[0], rb_intern(STR2CSTR(args[1])), (int)NUM2INT(args[2]), &argsT);
+	return rb_funcall2(args[0], rb_intern(StringValuePtr(args[1])), (int)NUM2INT(args[2]), &argsT);
 }
 
 void RubyInterpreter::setScript( const String& instname, const String& scriptname, const String& classname, int argc, const String args[] )
