@@ -1,8 +1,22 @@
-#include "SoundManager.h"
+/* SoundManager.cpp - Spielt verschiedene Sound nach Belieben.
+ * (C) 2004. Team Pantheon. www.team-pantheon.de
+ * 
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Perl Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the Perl Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.perldoc.com/perl5.6/Artistic.html.
+ */
 #include <set>
-#include "OgreArchiveEx.h"
+#include <OgreArchiveEx.h>
+#include "SoundManager.h"
 #include "SoundResource.h"
-#include "MusicResource.h"
 
 using namespace std;
 using namespace Ogre;
@@ -58,13 +72,8 @@ StringList SoundManager::getExtension()
  */
 Resource* SoundManager::create(const String& resName)
 {
-    SndResource *newSound = 0;
-    if (StringUtil::endsWith(resName, "wav", true))
-    {
-        newSound = new SoundResource(resName);
-    } else if (StringUtil::endsWith(resName, "ogg", true)) {
-        newSound = new MusicResource(resName);
-    }
+    SoundResource *newSound = 0;
+    newSound = new SoundResource(resName);
     return newSound;
 }
 

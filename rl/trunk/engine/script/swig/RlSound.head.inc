@@ -5,7 +5,6 @@
 #include "MusicManager.h"
 #include "SoundResource.h"
 #include "SoundManager.h"
-#include "ResManager.h"
-#include "MusicResource.h"
+#include "ResourceManager.h"
 #include "AL/al.h"
 %}

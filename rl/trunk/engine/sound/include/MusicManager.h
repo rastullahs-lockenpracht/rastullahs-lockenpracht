@@ -1,16 +1,30 @@
-/* Copyright 2004 Jochen Schaefer */
+/* MusicManager.h - Spielt eine Playlist ab.
+ * (C) 2004. Team Pantheon. www.team-pantheon.de
+ * 
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Perl Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the Perl Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.perldoc.com/perl5.6/Artistic.html.
+ */
 
 #ifndef MUSICMANAGER_H
 #define MUSICMANAGER_H
 
 #include "SoundPrerequisites.h"
 
-#include "OgreString.h"
-#include "ResManager.h"
-#include "MusicResource.h"
+#include <OgreString.h>
 #include <list>
 #include <stdexcept>
 #include <OpenThreads/Thread>
+#include "ResourceManager.h"
+#include "SoundResource.h"
 
 using namespace OpenThreads;
 
@@ -28,13 +42,13 @@ namespace rl {
  * @version 1.2
  * @date 07-25-2004
  */
-class _RlSoundExport MusicManager : public ResManager, public Ogre::Singleton<MusicManager> {
+class _RlSoundExport MusicManager : public ResourceManager, public Ogre::Singleton<MusicManager> {
     private:
         /// Finde den Nachfolger des Songs mit diesem Namen.
-        MusicResource* findNextSong();
+        SoundResource* findNextSong();
         
         /// Die aktuelle Musikresource
-        MusicResource *mSource;
+        SoundResource *mSource;
         /// Flag, ob automatisch weitergeschaltet werden soll.
         bool mAuto;
         /// Flag, ob die Lsite weiderholt werden soll.

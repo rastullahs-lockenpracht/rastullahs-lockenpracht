@@ -2,7 +2,7 @@ namespace rl {
 
 %apply SWIGTYPE *DYNAMIC { Ogre::Resource * };
 
-   	class ResManager {
+   	class ResourceManager {
    	public:
        void addSounds();
        void setMemoryBudget(size_t bytes);
@@ -12,14 +12,14 @@ namespace rl {
        virtual Resource* create(const String &resName) = 0;
    	};
    
-   	class SoundManager : public ResManager {
+   	class SoundManager : public ResourceManager {
    	public:
        static SoundManager& getSingleton();
        static SoundManager* getSingletonPtr();
        virtual Resource* create(const String &resName);
    	};
       
-   	class MusicManager : public ResManager {
+   	class MusicManager : public ResourceManager {
    	public:
         virtual Resource* create(const String &resName);
         static MusicManager& getSingleton();
@@ -43,7 +43,7 @@ namespace rl {
         void setLooping(bool isLooping);
    	};
    
-    class SndResource {
+    class SoundResource {
    	public:
         SoundResource(const String& name);
         const Vector3& getDirection() const throw (rl::RuntimeException);
@@ -63,25 +63,9 @@ namespace rl {
         void stop(int msec) throw (rl::RuntimeException);
         void rewind() throw (rl::RuntimeException);
         const ALenum getState() const throw (rl::RuntimeException);
+        const bool isPlaying() const;
     };
 
-   	class MusicResource : public SndResource {
-   	public:
-        MusicResource(const String& name);
-        ~MusicResource();
-        
-        virtual void load();
-        virtual void unload();
-  	};
-
-   	class SoundResource : public SndResource {
-   	public:
-        SoundResource(const String& name);
-        ~SoundResource();
-        
-        virtual void load();
-        virtual void unload();
-  	};
 }
 
 %{
@@ -91,11 +75,6 @@ static swig_type_info *Resource_dynamic_cast(void **ptr) {
     if(pSoundResource){
       *ptr=reinterpret_cast<void*>(pSoundResource);
       return SWIGTYPE_p_rl__SoundResource;
-    }
-    rl::MusicResource *pMusicResource = dynamic_cast<rl::MusicResource*>(*ppResource);
-    if(pMusicResource){
-      *ptr=reinterpret_cast<void*>(pMusicResource);
-      return SWIGTYPE_p_rl__MusicResource;
     }
     return 0;
 }

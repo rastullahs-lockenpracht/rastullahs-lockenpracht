@@ -7,6 +7,5 @@ testsound_LDADD = $(RUBY_LIBS) $(SWIG_RUBY_LIBS) $(SDL_LIBS) $(OGRE_LIBS) $(LIBS
 testsound_SOURCES = \
 	MusicManagerTest.cpp \
 	SoundManagerTest.cpp \
-	SoundMusicManagerTest.cpp \
 	TestStartup.cpp 
 

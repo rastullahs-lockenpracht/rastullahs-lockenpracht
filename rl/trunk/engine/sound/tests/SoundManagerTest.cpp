@@ -7,13 +7,13 @@
  */
 
 #include "SoundPrerequisites.h"
-#include "SoundManager.h"
-#include "SoundResource.h"
-#include "math.h"
-#include "OgreIteratorWrappers.h"
-#include "cppunit/extensions/HelperMacros.h"
+#include <math.h>
+#include <OgreIteratorWrappers.h>
+#include <cppunit/extensions/HelperMacros.h>
 #include <iostream>
 #include "Sleep.h"
+#include "SoundManager.h"
+#include "SoundResource.h"
 
 using namespace rl;
 
@@ -42,12 +42,12 @@ public:
  
     void testSoundManager_loadPlayUnload()
     {
-        ResourceManager::ResourceMapIterator it =
+        rl::ResourceManager::ResourceMapIterator it =
             SoundManager::getSingleton().getResourceIterator();
         while (it.hasMoreElements())
         {
             Resource *res = it.getNext();
-            SndResource* sound = dynamic_cast<SndResource*>(res);
+            SoundResource* sound = dynamic_cast<SoundResource*>(res);
             if (sound)
             {
                 sound->load();
@@ -65,12 +65,12 @@ public:
     
     void testSoundManager_loadPlayWithFade()
     {
-        ResourceManager::ResourceMapIterator it =
+        rl::ResourceManager::ResourceMapIterator it =
             SoundManager::getSingleton().getResourceIterator();
         while (it.hasMoreElements())
         {
             Resource *res = it.getNext();
-            SndResource* sound = dynamic_cast<SndResource*>(res);
+            SoundResource* sound = dynamic_cast<SoundResource*>(res);
             std::cerr << sound->getName()<<std::endl;
             if (sound)
             {
@@ -92,7 +92,7 @@ public:
 
 	CPPUNIT_TEST_SUITE(SoundManagerTest);
 	CPPUNIT_TEST(testSoundManager_addSoundDirectory);
-//    CPPUNIT_TEST(testSoundManager_loadPlayUnload);
+//    CPPUNIT_TEST(testSoundManager_loadPlayUnload)
     CPPUNIT_TEST(testSoundManager_loadPlayWithFade);
     CPPUNIT_TEST_SUITE_END();
 };

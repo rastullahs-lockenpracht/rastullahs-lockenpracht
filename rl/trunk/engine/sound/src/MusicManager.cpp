@@ -1,8 +1,21 @@
-/* Copyright 2004 Jochen Schaefer */
+/* MusicManager.cpp - Spielt eine Playlist ab.
+ * (C) 2004. Team Pantheon. www.team-pantheon.de
+ * 
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Perl Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the Perl Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.perldoc.com/perl5.6/Artistic.html.
+ */
 
-#include "MusicManager.h"
-#include "MusicResource.h"
 #include <iostream>
+#include "MusicManager.h"
 
 using namespace Ogre;
 using namespace std;
@@ -41,7 +54,7 @@ MusicManager* MusicManager::getSingletonPtr(void)
  * @date 04-12-2004
  * @date 06-17-2004
  */
-MusicManager::MusicManager() : ResManager(),
+MusicManager::MusicManager() : ResourceManager(),
     mSource(0),
     mLooping(false),
     mAuto(false),
@@ -148,7 +161,7 @@ const bool MusicManager::isPlaying() const
  */
 void MusicManager::setNextSong()
 {
-    MusicResource *next = findNextSong();
+    SoundResource *next = findNextSong();
     // Evtl. spielt noch ein Song.
     if (mSource != 0 )
     {
@@ -175,7 +188,7 @@ void MusicManager::setNextSong()
  * @author JoSch
  * @date 04-12-2004
  */
-MusicResource* MusicManager::findNextSong()
+SoundResource* MusicManager::findNextSong()
 {
     if (mSource != 0)
     {
@@ -190,19 +203,19 @@ MusicResource* MusicManager::findNextSong()
                     // Nichts gefunden.
                     if (mLooping)
                     {
-                        return dynamic_cast<MusicResource*>(getResourceIterator().peekNextValue());
+                        return dynamic_cast<SoundResource*>(getResourceIterator().peekNextValue());
                     } else {
                         // Nicht wiederholen.
                         return 0;
                     }
                 }
-                return dynamic_cast<MusicResource*>(cit.peekNextValue());
+                return dynamic_cast<SoundResource*>(cit.peekNextValue());
             } else {
                 cit.moveNext();
             }
         }
     } else { // mSource ist noch nicht gesetzt.
-        return dynamic_cast<MusicResource*>(getResourceIterator().peekNextValue());
+        return dynamic_cast<SoundResource*>(getResourceIterator().peekNextValue());
     }
     return 0;
 }
@@ -346,7 +359,7 @@ void MusicManager::MusicThread::run()
  */
 Resource* MusicManager::create(const String& resName)
 {
-    MusicResource *newSound = new MusicResource(resName);
+    SoundResource *newSound = new SoundResource(resName);
     return newSound;
 }
 

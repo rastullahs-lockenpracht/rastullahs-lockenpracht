@@ -1,10 +1,24 @@
-#include "ResManager.h"
+/* ResourceManager.cpp - Basisklasse fuer die Manager.
+ * (C) 2004. Team Pantheon. www.team-pantheon.de
+ * 
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Perl Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the Perl Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.perldoc.com/perl5.6/Artistic.html.
+ */
+#include "ResourceManager.h"
 #include <set>
 #include "OgreArchiveEx.h"
 #include "SoundResource.h"
 
 using namespace std;
-using namespace Ogre;
 using namespace OpenThreads;
 
 namespace rl {
@@ -14,14 +28,14 @@ namespace rl {
  * @author JoSch
  * @date 04-27-2004
  */
-void ResManager::addSounds()
+void ResourceManager::addSounds()
 {
     StringList extlist = getExtension();
     StringList::const_iterator cit;
     for(cit = extlist.begin(); cit != extlist.end(); cit++)
     {
-        set<String> list = ResourceManager::_getAllCommonNamesLike("./", *cit);
-        set<String>::const_iterator it;
+        set<Ogre::String> list = ResourceManager::_getAllCommonNamesLike("./", *cit);
+        set<Ogre::String>::const_iterator it;
         for(it = list.begin(); it != list.end(); it++)
         {
             try {
@@ -40,12 +54,12 @@ void ResManager::addSounds()
  * @author JoSch
  * @date 05-01-2004
  */
-const String ResManager::getCommonPathByName(const String &filename)
+const Ogre::String ResourceManager::getCommonPathByName(const Ogre::String &filename)
 {
 #if OGRE_PLATFORM == PLATFORM_WIN32
-    String delimiter = "\\";
+    Ogre::String delimiter = "\\";
 #else
-    String delimiter = "/";
+    Ogre::String delimiter = "/";
 #endif
     ArchiveEx::FileInfo *finfo = new ArchiveEx::FileInfo();
     vector<ArchiveEx*>::iterator j; 
@@ -54,7 +68,7 @@ const String ResManager::getCommonPathByName(const String &filename)
     {
         if( *j && (*j)->fileTest(filename) )
         {
-            String result = (*j)->getName();
+            Ogre::String result = (*j)->getName();
             if (!StringUtil::endsWith(result, delimiter))
             {
                 result += delimiter;
@@ -73,9 +87,9 @@ const String ResManager::getCommonPathByName(const String &filename)
  * @author JoSch
  * @date 06-17-2004
  */
-list<String> ResManager::getSounds()
+StringList ResourceManager::getSounds()
 {
-    list<String> result;
+    StringList result;
     ResourceMapIterator it = getResourceIterator();
     while (it.hasMoreElements())
     {
@@ -86,11 +100,5 @@ list<String> ResManager::getSounds()
     return result;
 }
 
-/**
- * @param resName. Der Name der Soundresource, die erzeugt
- * werden soll.
- * @author JoSch
- * @date 04-26-2004
- */
 
 }

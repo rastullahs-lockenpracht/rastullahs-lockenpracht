@@ -9,7 +9,7 @@
 #include "OgreNoMemoryMacros.h"
 #include "SoundPrerequisites.h"
 #include "MusicManager.h"
-#include "MusicResource.h"
+#include "SoundResource.h"
 #include "math.h"
 #include "OgreResourceManager.h"
 #include "cppunit/extensions/HelperMacros.h"
