@@ -44,13 +44,17 @@ namespace rl
     {
         mContactJointGroup->empty();
         delete mGlobalSpace;
+        mGlobalSpace = 0;
         delete mWorld;
+        mWorld = 0;
         delete mContactJointGroup;
+        mContactJointGroup = 0;
 
         if( mQuery )
         {
             mQuery->clearResults();
             delete mQuery;
+            mQuery = 0;
         }
     }
 
@@ -129,7 +133,7 @@ namespace rl
 
             mQuery = sceneMgr->createIntersectionQuery();
             // BSP
-            mQuery->setWorldFragmentType( SceneQuery::WFT_PLANE_BOUNDED_REGION );
+            //mQuery->setWorldFragmentType( SceneQuery::WFT_SINGLE_INTERSECTION );
         }
     }
 
