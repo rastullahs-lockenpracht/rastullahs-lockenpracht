@@ -34,5 +34,6 @@
 #include "GameLoop.h"
 #include "World.h"
 #include <OgreRoot.h>
+#include <OgreResourceGroupManager.h>
 #include <OgreLight.h>
 %}

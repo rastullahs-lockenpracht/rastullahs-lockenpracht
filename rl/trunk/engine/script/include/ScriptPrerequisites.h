@@ -19,7 +19,7 @@
 
 #include "RastullahPrerequisites.h"
 
-#if OGRE_PLATFORM == PLATFORM_WIN32
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 // Export control
 #   if defined( RLSCRIPT_EXPORTS )
 #       define _RlScriptExport __declspec( dllexport )

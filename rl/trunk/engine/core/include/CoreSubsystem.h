@@ -101,7 +101,7 @@ private:
 
 	RL_LONGLONG mClockStartTime;
 
-#if OGRE_PLATFORM == PLATFORM_LINUX
+#if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
     static const Ogre::String findConfRootDir();
     static const Ogre::String findRastullahConf();
 #endif

@@ -20,6 +20,7 @@
 #include "SoundPrerequisites.h"
 
 #include <OgreString.h>
+#include <OgreResourceGroupManager.h>
 #include <list>
 #include <stdexcept>
 #include <boost/thread.hpp>
@@ -46,7 +47,7 @@ class _RlSoundExport MusicManager : public Ogre::Singleton<MusicManager> {
         std::string findNextSong();
        
         /// Die aktuelle Musikresource
-        SoundResource *mSource;
+        SoundResourcePtr mSource;
         /// Flag, ob automatisch weitergeschaltet werden soll.
         bool mAuto;
         /// Flag, ob die Lsite weiderholt werden soll.

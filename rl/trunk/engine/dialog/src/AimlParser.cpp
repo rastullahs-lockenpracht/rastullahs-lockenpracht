@@ -232,7 +232,7 @@ namespace rl
 				//--	assume anything is valid!
 				templateValue += "<";
 				templateValue += tmp;
-				for (int i = 0; i < attrs.getLength(); i++) 
+				for (unsigned int i = 0; i < attrs.getLength(); i++) 
 				{
 					templateValue += " ";
 					templateValue += transcodeXmlCharToString(attrs.getLocalName(i));
@@ -250,7 +250,7 @@ namespace rl
 				//--	assumption
 				templateValue += "<";
 				templateValue += tmp;
-				for (int i = 0; i < attrs.getLength(); i++) 
+				for (unsigned int i = 0; i < attrs.getLength(); i++) 
 				{
 					templateValue += " ";
 					templateValue += transcodeXmlCharToString(attrs.getLocalName(i));

@@ -27,8 +27,8 @@ int main( int argc, char **argv)
               CONF_DIR+"rastullah.cfg", 
                 "logs/ogre.log" );
     #endif
-    Ogre::ResourceManager::addCommonSearchPath("./modules/common/sound");
-    Ogre::ResourceManager::addCommonSearchPath("./modules/minidemo/sound");
+    Ogre::ResourceGroupManager::getSingleton().addResourceLocation("./modules/common/sound", "FileSystem");
+    Ogre::ResourceGroupManager::getSingleton().addResourceLocation("./modules/minidemo/sound", "FileSystem");
 
     new rl::SoundSubsystem;
     

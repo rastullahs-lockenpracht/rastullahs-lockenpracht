@@ -49,9 +49,8 @@ public:
             SoundManager::getSingleton().getResourceIterator();
         while (it.hasMoreElements())
         {
-            Ogre::Resource *res = it.getNext();
-            SoundResource* sound = dynamic_cast<SoundResource*>(res);
-            if (sound)
+            SoundResourcePtr sound = it.getNext();
+            if (!sound.isNull())
             {
                 sound->load();
                 sound->play();
@@ -78,10 +77,8 @@ public:
             SoundManager::getSingleton().getResourceIterator();
         while (it.hasMoreElements())
         {
-            Ogre::Resource *res = it.getNext();
-            SoundResource* sound = dynamic_cast<SoundResource*>(res);
-            std::cerr << sound->getName() <<std::endl;
-            if (sound)
+            SoundResourcePtr sound = it.getNext();
+            if (!sound.isNull())
             {
                 sound->load();
                 sound->play(2 * 1000);

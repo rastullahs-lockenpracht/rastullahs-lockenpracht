@@ -48,7 +48,10 @@ namespace rl
 	DOMNode* Nodemaster::getTemplateNode() const 
 	{
 		XercesDOMParser* parser=new XercesDOMParser();
-		MemBufInputSource mTest((const XMLByte *)mTemplate.data(),mTemplate.size(),"test",false);
+		MemBufInputSource mTest(
+		    reinterpret_cast<const XMLByte*>(mTemplate.data()),
+		    static_cast<const unsigned int>(mTemplate.size()),
+		    "test", false);
 		parser->parse(mTest);
 		DOMDocument* doc=parser->adoptDocument();
 		if ( doc == NULL ) 

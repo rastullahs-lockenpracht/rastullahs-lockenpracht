@@ -75,11 +75,11 @@ MusicManager::MusicManager():
  */
 MusicManager::~MusicManager()
 {
-    if (mSource != 0)
+    if (!mSource.isNull())
     {
-        mSource->stop();
+        mSource.getPointer()->stop();
     }
-    mSource = 0;
+    mSource.setNull();
     mShouldExit = true;
 }
 
@@ -92,7 +92,7 @@ MusicManager::~MusicManager()
  */
 void MusicManager::stopSong(unsigned int fade)
 {
-    if (mSource != 0)
+    if (!mSource.isNull())
     {
         mSource->stop(fade);
     }
@@ -106,12 +106,12 @@ void MusicManager::stopSong(unsigned int fade)
  */
 void MusicManager::playSong(unsigned int fade)
 {
-    if (mSource == 0)
+    if (mSource.isNull())
     {
         setNextSong();
     }
     // Wenn mSource immer noch NULL ist, dann haben wir nicht ins der Liste.
-    if (mSource != 0)
+    if (!mSource.isNull())
     {
         mSource->play(fade);
         mShouldPlay = true;
@@ -128,11 +128,11 @@ void MusicManager::playSong(unsigned int fade)
  */
 const bool MusicManager::isSourcePlaying() const
 {
-    if (mSource == 0)
+    if (mSource.isNull())
     {
         return false;
     }
-    return mSource->playing(); 
+    return mSource.getPointer()->playing(); 
 }
 
 /**
@@ -156,20 +156,19 @@ void MusicManager::setNextSong()
 {
     string name = findNextSong();
     // Evtl. spielt noch ein Song.
-    SoundResource *next = static_cast<SoundResource*>(
-        SoundManager::getSingleton().getByName(name));
-    if (mSource != 0 )
+    SoundResourcePtr next = SoundManager::getSingleton().getByName(name);
+    if (!mSource.isNull() )
     {
-        mSource->stop();
-        mSource->unload();
-        mSource = 0;
+        mSource.getPointer()->stop();
+        mSource.getPointer()->unload();
+        mSource.setNull();
     }
-    RlAssert(mSource == 0, "Fehler beim Stoppen des aktuellen Musikstuecks");
+    RlAssert(mSource.isNull(), "Fehler beim Stoppen des aktuellen Musikstuecks");
     // Wir setzen jetzt den naechsten Song.
     mSource = next;
-    if (mSource != 0) // Was gefunden.
+    if (!mSource.isNull()) // Was gefunden.
     {
-        mSource->load();        
+        mSource.getPointer()->load();        
     } else {
         mShouldPlay = false;
     }
@@ -185,48 +184,44 @@ void MusicManager::setNextSong()
  */
 string MusicManager::findNextSong()
 {
-    if (mSource != 0)
+    if (!mSource.isNull())
     {
         StringList::iterator cit = 
-            find(mPlayList.begin(), mPlayList.end(), mSource->getName());
+            find(mPlayList.begin(), mPlayList.end(), mSource.getPointer()->getName());
         if (cit == mPlayList.end())
         {
             // Nichts gefunden.
             if (mLooping)
             {
-                SoundResource *temp = static_cast<SoundResource*>(
-                    SoundManager::getSingleton().getResourceIterator().peekNextValue());
-                if (temp != 0)
-                {
-                    return temp->getName();
-                } else {
-                    return "";
-                }
-             } else {
-                // Nicht wiederholen.
-                return "";
+                SoundResourcePtr res = 
+                    SoundManager::getSingleton().getResourceIterator().peekNextValue();
+                if (!res.isNull())
+                    return res.getPointer()->getName();
+
+				return "";
              }
+              
+			// Nicht wiederholen.
+            return "";
+
          } else {
             cit++;
             if (cit != mPlayList.end())
             {
                 return *cit;
-            } else {
-                return "";
-            }
+            } 
+
+			return "";
          }
     } else { // mSource ist noch nicht gesetzt.
-        Resource *res = SoundManager::getSingleton().getResourceIterator().peekNextValue();
-        SoundResource *temp = static_cast<SoundResource*>(res);
-        if (temp != 0)
-        {
-            return temp->getName();
-        } else 
-        {
-            return "";
-        }
+        SoundResourcePtr res = SoundManager::getSingleton().getResourceIterator().peekNextValue();
+        if (!res.isNull())
+            return res.getPointer()->getName();
+        
+        return "";
+        
     }
-    return 0;
+    return NULL;
 }
 
 /**
@@ -236,9 +231,9 @@ string MusicManager::findNextSong()
  */
 void MusicManager::setGain(ALfloat newGain)
 {
-    if (mSource != 0)
+    if (!mSource.isNull())
     {
-        mSource->setGain(newGain);
+        mSource.getPointer()->setGain(newGain);
     }
 }
 
@@ -249,9 +244,9 @@ void MusicManager::setGain(ALfloat newGain)
  */
 ALfloat MusicManager::getGain()
 {
-    if (mSource != 0)
+    if (!mSource.isNull())
     {
-        return mSource->getGain();
+        return mSource.getPointer()->getGain();
     }
     return 0.0;
 }
@@ -394,8 +389,8 @@ void MusicManager::addSoundsIntoPlayList()
     SoundManager::ResourceMapIterator it = SoundManager::getSingleton().getResourceIterator();
     while (it.hasMoreElements())
     {
-        Resource* element = it.getNext();
-        mPlayList.push_back(element->getName());
+        ResourcePtr res = it.getNext();
+		mPlayList.push_back(res.getPointer()->getName());
     }
 }
 

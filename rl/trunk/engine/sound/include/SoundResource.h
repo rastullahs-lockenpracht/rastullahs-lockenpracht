@@ -160,7 +160,7 @@ class _RlSoundExport SoundResource: public Ogre::Resource,
         /// Die komplette Zeit des Stücks in Sekunden.
         double mTime;
         /// Unsere Daten von Ogres ResourceManager.
-        Ogre::DataChunk *mData;
+        Ogre::DataStreamPtr mDataStream;
         /// Die Art des Sounds.
         SoundDataType mSoundDataType;
         /// Für Waves dekodieren wir die Daten im voraus.
@@ -188,7 +188,7 @@ class _RlSoundExport SoundResource: public Ogre::Resource,
         
     public:
         /// Der Standardkonstruktor
-        SoundResource(const string& name);
+        SoundResource(const string& name, const string& group);
         /// Der Destruktor
         virtual ~SoundResource();
         /// Gibt die eingestellte Position der Soundquelle zurueck
@@ -207,10 +207,6 @@ class _RlSoundExport SoundResource: public Ogre::Resource,
         void setDirection(const Ogre::Vector3&) throw (RuntimeException);
         /// Setzt die Geschwindigkeit der Soundquelle.
         void setVelocity(const Ogre::Vector3&) throw (RuntimeException);
-        /// Laedt die Soundquelle.
-        virtual void load();
-        /// Entlaedt die Soundquelle.
-        virtual void unload();
         
         /// Spielt den Sound ab.
         virtual void play(unsigned int msec = 0) throw (RuntimeException);
@@ -240,9 +236,16 @@ class _RlSoundExport SoundResource: public Ogre::Resource,
         unsigned int getFadeOut() const;
         /// Setzt die Dauer des FadeIn zurueck.
         void setFadeOut(unsigned int dauer);
-        /// Ist AL noch am laufen.
+        /// Ist laeuft AL noch
         const bool playing() const;
-        
+
+protected:
+		/// Laedt die Soundquelle.
+		virtual void loadImpl();
+		/// Entlaedt die Soundquelle.
+		virtual void unloadImpl();
+		/// Bestimmt die Groesse im Speicher (wird erst nach dem Laden aufgerufen)
+		virtual size_t calculateSize() const;
         
 private:
         // Grabbed from example
@@ -256,6 +259,19 @@ private:
         void check();
         Ogre::String errorString(int code);
         
+};
+
+class _RlSoundExport SoundResourcePtr :
+	public Ogre::SharedPtr<SoundResource>
+{
+public:
+	SoundResourcePtr() : Ogre::SharedPtr<SoundResource>() {}
+	explicit SoundResourcePtr(SoundResource* rep) : Ogre::SharedPtr<SoundResource>(rep) {}
+	SoundResourcePtr(const SoundResourcePtr& res) : Ogre::SharedPtr<SoundResource>(res) {}
+	SoundResourcePtr(const Ogre::ResourcePtr& res);
+	SoundResourcePtr& operator=(const Ogre::ResourcePtr& res);
+protected:
+	void destroy();
 };
 
 }

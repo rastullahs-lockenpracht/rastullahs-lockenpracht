@@ -27,7 +27,7 @@
 #include "XmlResource.h"
 #include "XmlResourceManager.h"
 
-#if OGRE_PLATFORM != PLATFORM_WIN32
+#if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
 #include "SDL/SDL.h"
 #endif
 
@@ -91,7 +91,6 @@ namespace rl {
 		delete mEventProcessor;
 	}
 
-
 	void InputManager::addKeyListener(KeyListener *l)
 	{
 		mKeyListeners.insert(l);
@@ -126,7 +125,7 @@ namespace rl {
 
 	void InputManager::mousePressed(MouseEvent* e)
 	{
-		if (isCeguiActive())
+		if (isCeguiActive() && mBuffered)
 		{
 			System::getSingleton().injectMouseButtonDown(
 				convertOgreButtonToCegui(e->getButtonID()));
@@ -136,7 +135,7 @@ namespace rl {
 
 	void InputManager::mouseReleased(MouseEvent* e)
 	{
-		if (isCeguiActive())
+		if (isCeguiActive() && mBuffered)
 		{
 			System::getSingleton().injectMouseButtonUp(
 				convertOgreButtonToCegui(e->getButtonID()));
@@ -146,7 +145,7 @@ namespace rl {
 
     void InputManager::mouseMoved(MouseEvent* e)
 	{
-		if (isCeguiActive())
+		if (isCeguiActive() && mBuffered)
 		{			
 			CEGUI::Renderer* renderer  = System::getSingleton().getRenderer();
 			System::getSingleton().injectMouseMove(
@@ -402,17 +401,18 @@ namespace rl {
 		 mBuffered = false;
 
 		// Check to see if event has been initialized
-		if (mEventInitialized) {
-			// Stop buffering events
+		//if (mEventInitialized) {
+		//	// Stop buffering events
 
-		//	mEventProcessor->stopProcessingEvents();
+		//    //mEventProcessor->stopProcessingEvents();
 
-			mEventProcessor->removeKeyListener(this);
-			mEventProcessor->removeMouseListener(this);
-			mEventProcessor->removeMouseMotionListener(this);
+		//	mEventProcessor->removeKeyListener(this);
+		//	mEventProcessor->removeMouseListener(this);
+		//	mEventProcessor->removeMouseMotionListener(this);
 
-			mEventInitialized = false;
-		}
+		//	mEventInitialized = false;
+		//}
+		mEventInitialized = false;
 
 		mEventQueue.activateEventQueue(true);
 
@@ -481,7 +481,11 @@ namespace rl {
 		XMLCh* CODE = XMLString::transcode("KeyCode");
 		XMLCh* KEY = XMLString::transcode("Key");
 		
-		XmlResourceManager::getSingleton().create(filename)->parseBy(parser);
+		XmlPtr res = 
+			XmlResourceManager::getSingleton().create(
+			filename, 
+			ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+		res.getPointer()->parseBy(parser);
 		DOMDocument* doc = parser->getDocument();
 		DOMElement* dataDocumentContent = doc->getDocumentElement();
 

@@ -25,11 +25,11 @@
 #include "RastullahPrerequisites.h"
 #include <string>
 
-#if OGRE_PLATFORM == PLATFORM_WIN32
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #  include <Windows.h>
 #endif
 
-#if OGRE_PLATFORM == PLATFORM_WIN32
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
    // visual studio >= 7.0 oder gar kein VS
 #  if !defined(_MSC_VER) || (_MSC_VER >= 1300)
 #    define __FUNC__ __FUNCTION__
@@ -244,7 +244,7 @@ trat folgende Ausnahme vom Typ %s auf\n\
     */
    static void showMessage(const std::string& message)
    {
-#     if OGRE_PLATFORM == PLATFORM_WIN32
+#     if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
          MessageBox(NULL, message.c_str(), "Meldung",
             MB_OK | MB_ICONINFORMATION | MB_TOPMOST);
 #     else
@@ -261,7 +261,7 @@ trat folgende Ausnahme vom Typ %s auf\n\
     */
    static void showError(const std::string& message)
    {
-#     if OGRE_PLATFORM == PLATFORM_WIN32
+#     if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
          MessageBox(NULL, message.c_str(), "Fehler",
             MB_OK | MB_ICONERROR | MB_TOPMOST);
 #     else

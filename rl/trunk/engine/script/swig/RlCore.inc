@@ -21,7 +21,9 @@ private:
 public:
 	static Ogre::Root& getSingleton(void);
 	
-	void addResourceLocation (const std::string& name, const std::string& locType, ResourceType resType=RESTYPE_ALL);
+	void addResourceLocation(const std::string& name, const std::string& locType, 
+			const std::string& groupName = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, 
+			bool recursive = false);
 };
 
 class Quaternion {

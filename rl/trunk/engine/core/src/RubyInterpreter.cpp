@@ -88,7 +88,7 @@ void RubyInterpreter::addSearchPath(const String& path)
 
 VALUE RubyInterpreter::loadDlls(VALUE val)
 {
-#if OGRE_PLATFORM == PLATFORM_WIN32
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 	rb_require("RlScript");
 #else
     rb_require("libRlScript");

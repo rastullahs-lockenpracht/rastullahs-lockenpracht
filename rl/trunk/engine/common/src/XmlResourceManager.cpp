@@ -33,12 +33,15 @@ XmlResourceManager* XmlResourceManager::getSingletonPtr()
 	return Ogre::Singleton<XmlResourceManager>::getSingletonPtr();
 }
 
-// Eine Resource erzeugen
-XmlResource* XmlResourceManager::create(const String& resName)
+Resource* XmlResourceManager::createImpl(
+	const String& resName, 
+	ResourceHandle handle, 
+	const String& groupName, 
+	bool isManual, 
+	ManualResourceLoader* loader, 
+	const NameValuePairList* loadParams)
 {
-	XmlResource* res = new XmlResource(resName);
-	add(res);
-	return res;
+	return new XmlResource(this, resName, handle, groupName, isManual, loader);	
 }
 
 }

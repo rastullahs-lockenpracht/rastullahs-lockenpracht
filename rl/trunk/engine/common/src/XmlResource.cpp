@@ -22,10 +22,13 @@ using namespace Ogre;
 
 namespace rl {
 
-XmlResource::XmlResource(const Ogre::String& name)
+XmlResource::XmlResource(
+	 ResourceManager* creator, const String& name, ResourceHandle handle,
+		const String& group, bool isManual, ManualResourceLoader* loader)
+	: Resource(creator, name, handle, group, isManual, loader),
+	mCharBuffer(NULL),
+	mXmlBuffer(NULL)
 {
-	mName = name;
-	mIsLoaded = false;
 }
 
 
@@ -34,19 +37,31 @@ XmlResource::~XmlResource()
 	unload();
 }
 
-void XmlResource::load()
+void XmlResource::loadImpl()
 {
-	DataChunk dc;
-	XmlResourceManager::getSingleton()._findResourceData(mName, dc);
-	mXmlBuffer = new MemBufInputSource(dc.getPtr(), static_cast<const unsigned int>(dc.getSize()), "rl::XmlResourceManager");
+	DataStreamPtr ds = Ogre::ResourceGroupManager::getSingleton().openResource(mName, mGroup);
+	mSize = ds->size();
+	
+	mCharBuffer = new char[mSize];
+	ds->read(mCharBuffer, mSize);
+
+	mXmlBuffer = new MemBufInputSource(reinterpret_cast<XMLByte*>(mCharBuffer),
+	    static_cast<const unsigned int>(mSize), "rl::XmlResourceManager");
 	mIsLoaded = true;
-	touch();
+	touch();	
 }
 
-void XmlResource::unload()
+void XmlResource::unloadImpl()
 {
 	delete mXmlBuffer;
+	delete[] mCharBuffer;
 	mIsLoaded = false;
+}
+
+
+size_t XmlResource::calculateSize() const
+{
+    return mSize;
 }
 
 void XmlResource::parseBy(XERCES_CPP_NAMESPACE::XercesDOMParser* parser)
@@ -63,6 +78,39 @@ void XmlResource::parseBy(XERCES_CPP_NAMESPACE::SAX2XMLReader* parser)
 		load();
 	parser->parse(*mXmlBuffer);
 	touch();
+}
+
+XmlPtr::XmlPtr(const ResourcePtr& res) : SharedPtr<XmlResource>()
+{
+    // lock & copy other mutex pointer
+    OGRE_LOCK_MUTEX(*res.OGRE_AUTO_MUTEX_NAME)
+        OGRE_COPY_AUTO_SHARED_MUTEX(res.OGRE_AUTO_MUTEX_NAME)
+        pRep = static_cast<XmlResource*>(res.getPointer());
+    pUseCount = res.useCountPointer();
+    if (pUseCount != 0)
+        ++(*pUseCount);
+}
+
+XmlPtr& XmlPtr::operator =(const ResourcePtr& res)
+{
+    if (pRep == static_cast<XmlResource*>(res.getPointer()))
+        return *this;
+    release();
+
+    // lock & copy other mutex pointer
+    OGRE_LOCK_MUTEX(*res.OGRE_AUTO_MUTEX_NAME)
+        OGRE_COPY_AUTO_SHARED_MUTEX(res.OGRE_AUTO_MUTEX_NAME)
+        pRep = static_cast<XmlResource*>(res.getPointer());
+    pUseCount = res.useCountPointer();
+    if (pUseCount != 0)
+        ++(*pUseCount);
+
+    return *this;
+}
+
+void XmlPtr::destroy()
+{
+    SharedPtr<XmlResource>::destroy();
 }
 
 }

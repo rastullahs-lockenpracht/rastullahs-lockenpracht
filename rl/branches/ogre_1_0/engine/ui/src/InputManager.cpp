@@ -82,15 +82,14 @@ namespace rl {
 
 	InputManager::~InputManager()
 	{
+	    switchMouseToUnbuffered();
 		mEventQueue.activateEventQueue(false);
 		GameLoopManager::getSingleton().removeSynchronizedTask(this);
-//		Root::getSingleton().removeFrameListener(this);
 
 		mInputReader->useBufferedInput(NULL, false, false);
 		mInputReader->setBufferedInput(false, false);
 		delete mEventProcessor;
 	}
-
 
 	void InputManager::addKeyListener(KeyListener *l)
 	{
@@ -393,7 +392,7 @@ namespace rl {
 		if (mEventInitialized) {
 			// Stop buffering events
 
-		//	mEventProcessor->stopProcessingEvents();
+            //mEventProcessor->stopProcessingEvents();
 
 			mEventProcessor->removeKeyListener(this);
 			mEventProcessor->removeMouseListener(this);

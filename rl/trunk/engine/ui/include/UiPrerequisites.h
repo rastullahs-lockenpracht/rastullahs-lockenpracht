@@ -30,7 +30,7 @@
 
 #include "RastullahPrerequisites.h"
 
-#if OGRE_PLATFORM == PLATFORM_WIN32
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 // Export control
 #   if defined( RLUI_EXPORTS )
 #       define _RlUiExport __declspec( dllexport )

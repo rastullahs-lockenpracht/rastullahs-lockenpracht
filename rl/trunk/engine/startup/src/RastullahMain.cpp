@@ -31,7 +31,7 @@
 #include "Exception.h"
 #include <CEGUIExceptions.h>
 
-#if OGRE_PLATFORM == PLATFORM_WIN32
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 	#define WIN32_LEAN_AND_MEAN
 	#include "windows.h"
 #else
@@ -122,12 +122,12 @@ void startupRl()
 		rl::showError( "Unknown exception occured" );
 	}	
 
-#if OGRE_PLATFORM != PLATFORM_WIN32
+#if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
 	SDL_Quit();
 #endif
 }
 
-#if OGRE_PLATFORM == PLATFORM_WIN32
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 	INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT )
 #else
 	int main(int argc, char **argv)

@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\dialog\include;..\rules\include;..\sound\include;..\ui\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreOde\include;..\..\dependencies\ogre\dependencies\include;..\..\dependencies\cegui\include;..\..\dependencies\OpenAL\Include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\dialog\include;..\rules\include;..\sound\include;..\ui\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreOde\include;..\..\dependencies\ogre\dependencies\include;..\..\dependencies\cegui\include;..\..\dependencies\OpenAL\Include;..\..\dependencies\vorbis\include;..\..\dependencies\ogg\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\ode\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;RLSCRIPT_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -72,7 +72,7 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\dialog\include;..\rules\include;..\sound\include;..\ui\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreOde\include;..\..\dependencies\ogre\dependencies\include;..\..\dependencies\cegui\include;..\..\dependencies\OpenAL\Include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\dialog\include;..\rules\include;..\sound\include;..\ui\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreOde\include;..\..\dependencies\ogre\dependencies\include;..\..\dependencies\cegui\include;..\..\dependencies\OpenAL\Include;..\..\dependencies\vorbis\include;..\..\dependencies\ogg\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\ode\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;RLSCRIPT_EXPORTS"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="TRUE"

@@ -54,7 +54,8 @@ namespace rl
             mOdeWorld(new OgreOde::World(world->getSceneManager())),
             mGlobalSpace(mOdeWorld->getDefaultSpace()),
             mOdeStepper(new OgreOde::QuickStepper(0.01)),
-            mOdeLevel(0)
+            mOdeLevel(0),
+            mWorld(world)
     {
         mOdeWorld->setGravity(Vector3(0, -98.0665, 0));
         mOdeWorld->setCFM(10e-5);
@@ -89,10 +90,10 @@ namespace rl
         mOdeLevel = 0;
         if (levelNode)
         {
-            mOdeLevel = MeshInformer::createStaticTriangleMesh(levelNode,
-                mGlobalSpace);
-            //mOdeLevel = new InfinitePlaneGeometry(Plane(
-            //    levelNode->getWorldPosition(),0), mGlobalSpace);
+            OgreOde::EntityInformer ei(
+                mWorld->getSceneManager()->getEntity("level"),
+                levelNode->_getFullTransform());
+            mOdeLevel = ei.createStaticTriangleMesh(mGlobalSpace);
         }
         else
         {

@@ -18,7 +18,7 @@
 #define __PhysicalThing_H__
 
 #include "CorePrerequisites.h"
-#include <OgreOde.h>
+#include <OgreOde_Core.h>
 namespace rl {
 
     class Actor;

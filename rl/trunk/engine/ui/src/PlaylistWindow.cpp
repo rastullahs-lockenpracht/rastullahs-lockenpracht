@@ -54,7 +54,6 @@ PlaylistWindow::~PlaylistWindow()
 {
 }
 
-
 void PlaylistWindow::update()
 {
 }
@@ -63,11 +62,13 @@ bool PlaylistWindow::handleQuit()
 {
     hide();
     delete this;
+    return true;
 }
 
 bool PlaylistWindow::handlePlay()
 {
     MusicManager::getSingleton().playSong();
+    return true;
 }
 
 }

@@ -96,8 +96,6 @@ void SoundResource::FadeOut::setThat(SoundResource *that)
  */
 void SoundResource::FadeOut::operator()()
 {
-    cerr << "FadeOut"<<endl;
-    
     that->fadeOut();
 }
  
@@ -132,12 +130,11 @@ void SoundResource::Streaming::operator()()
  * @author JoSch
  * @date 07-23-2004
  */
-SoundResource::SoundResource(const string &name):
+SoundResource::SoundResource(const string &name, const string& group):
     EventListener<SoundEvent>(),
     EventSource(), 
     EventCaster<SoundEvent>(),
     Resource(),
-    mData(0),
     mBuffers(mDefaultBufferCount),
     mSource(0),
     mFadeInThread(0),
@@ -147,11 +144,13 @@ SoundResource::SoundResource(const string &name):
     mFadeOutFunctor(),
     mStreamFunctor()
 {
+	mDataStream.setNull();
     mFadeInFunctor.setThat(this);
     mFadeOutFunctor.setThat(this);
     mStreamFunctor.setThat(this);
     
     mName = name;
+	mGroup = group;
     alGenSources(1, &mSource);
     check();
     alGenBuffers(mBuffers.size(), &mBuffers[0]);
@@ -312,32 +311,36 @@ void SoundResource::setGain(const ALfloat gain) throw (RuntimeException)
  * @author JoSch
  * @date 10-11-2004
  */
-void SoundResource::load()
+void SoundResource::loadImpl()
 {
     if (!mIsLoaded)
     {
-        mData = new DataChunk();
         // Holen wir erstmal die Daten.
-        ResourceManager::_findCommonResourceData(mName, *mData);
+		mDataStream = ResourceGroupManager::getSingleton().openResource(mName, mGroup);
+		size_t numBytes = mDataStream.getPointer()->size();
+
         if (StringUtil::endsWith(mName, ".ogg"))
         {
             mSoundDataType = OggVorbis;
-        } else if (StringUtil::endsWith(mName, ".wav"))
+        } 
+		else if (StringUtil::endsWith(mName, ".wav"))
         {
             mSoundDataType = Wave;
-        } else {
-            delete mData;
-            mData = 0;
+        } 
+		else 
+		{
             mIsLoaded = false;
             return;
         }
+
         // Jetzt mal die Soundparameter ermitteln.
         switch(mSoundDataType)
         {
             vorbis_info *vorbisInfo;
             case OggVorbis:
-                mOggMemoryFile.mDataPtr = mData->getPtr();
-                mOggMemoryFile.mDataSize = mData->getSize();
+				mOggMemoryFile.mDataPtr = new unsigned char[numBytes];
+				mOggMemoryFile.mDataSize = numBytes;
+				mDataStream.getPointer()->read(mOggMemoryFile.mDataPtr, numBytes);
                 mOggMemoryFile.mDataRead = 0;
                 if (ov_open_callbacks(&mOggMemoryFile, &mOggStream, NULL, 0,
                          SoundResource::mVorbisCallbacks) != 0)
@@ -349,7 +352,7 @@ void SoundResource::load()
                 else
                     mFormat = AL_FORMAT_STEREO16;
                 mFrequency = vorbisInfo->rate;  
-                mSize = mData->getSize();
+                mSize = numBytes;
                 mLoop = false;
                 mTime = ov_time_total(&mOggStream, -1);
                 //ov_clear(&mOggStream);
@@ -357,15 +360,18 @@ void SoundResource::load()
                 
                 break;
             case Wave:
-                alutLoadWAVMemory((ALbyte*)mData->getPtr(), &mFormat, &mWAVData,
-                     &mSize, &mFrequency, &mLoop);
-                check();
-                
-                break;
+				{	
+				ALbyte* dataPtr = new ALbyte[numBytes];
+				mDataStream.getPointer()->read(dataPtr, numBytes);
+				alutLoadWAVMemory(dataPtr, &mFormat, &mWAVData,
+					&mSize, &mFrequency, &mLoop);
+				check();
+				delete[] dataPtr;
+				}
+				break;
             default:
                 // Nicht erlaubt;
-                delete mData;
-                mData = 0;
+                mDataStream.setNull();
                 mIsLoaded = false;
                 return;
         }
@@ -377,7 +383,7 @@ void SoundResource::load()
  * @author JoSch
  * @date 07-23-2004
  */
-void SoundResource::unload()
+void SoundResource::unloadImpl()
 {
     if (mIsLoaded)
     {
@@ -401,11 +407,16 @@ void SoundResource::unload()
     }
     
     
-    if (mData != 0)
+    if (!mDataStream.isNull())
     {
-        delete mData;
+        mDataStream.setNull();
     }
     this->mIsLoaded = false;
+}
+
+size_t SoundResource::calculateSize() const
+{
+	return mSize;
 }
 
 /**
@@ -430,8 +441,6 @@ void SoundResource::fadeOut(unsigned int msec)
     {
         setFadeOut(msec);
         mFadeOutThread = new thread(SoundResource::mFadeOutFunctor);
-    } else {
-        alSourceStop(mSource);
     } 
 }
 /**
@@ -1065,6 +1074,39 @@ String SoundResource::errorString (int code)
         default:
             return string ("Unknown Ogg error.");
     }
+}
+
+SoundResourcePtr::SoundResourcePtr(const ResourcePtr& res) : SharedPtr<SoundResource>()
+{
+	// lock & copy other mutex pointer
+	OGRE_LOCK_MUTEX(*res.OGRE_AUTO_MUTEX_NAME)
+		OGRE_COPY_AUTO_SHARED_MUTEX(res.OGRE_AUTO_MUTEX_NAME)
+		pRep = static_cast<SoundResource*>(res.getPointer());
+	pUseCount = res.useCountPointer();
+	if (pUseCount != 0)
+		++(*pUseCount);
+}
+
+SoundResourcePtr& SoundResourcePtr::operator =(const ResourcePtr& res)
+{
+	if (pRep == static_cast<SoundResource*>(res.getPointer()))
+		return *this;
+	release();
+
+	// lock & copy other mutex pointer
+	OGRE_LOCK_MUTEX(*res.OGRE_AUTO_MUTEX_NAME)
+		OGRE_COPY_AUTO_SHARED_MUTEX(res.OGRE_AUTO_MUTEX_NAME)
+		pRep = static_cast<SoundResource*>(res.getPointer());
+	pUseCount = res.useCountPointer();
+	if (pUseCount != 0)
+		++(*pUseCount);
+
+	return *this;
+}
+
+void SoundResourcePtr::destroy()
+{
+	SharedPtr<SoundResource>::destroy();
 }
 
 

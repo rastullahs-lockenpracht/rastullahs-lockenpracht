@@ -20,7 +20,7 @@
 #include <map>
 #include <vector>
 #include <OgreSingleton.h>
-#include <OgreOde.h>
+#include <OgreOde_Core.h>
 #include "GameTask.h"
 
 #include "CorePrerequisites.h"
@@ -112,6 +112,7 @@ namespace rl {
         OgreOde::Space* mGlobalSpace;
         OgreOde::Stepper* mOdeStepper;
         OgreOde::Geometry* mOdeLevel;
+        World* mWorld;
     };
 }
 

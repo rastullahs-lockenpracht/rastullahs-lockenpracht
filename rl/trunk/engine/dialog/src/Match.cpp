@@ -47,7 +47,7 @@ namespace rl
 	{
 		//--	only need to check index > size (due to unsigned int)
 		vector<string> &vs = stars[which];
-		unsigned int size = vs.size();
+		size_t size = vs.size();
 		//--	++index accounts for default first item (why is it there?)
 		if ( ++index > size ) {
 			//--	throw an exception?

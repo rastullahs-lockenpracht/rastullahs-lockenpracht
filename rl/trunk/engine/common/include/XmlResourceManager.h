@@ -31,8 +31,13 @@ namespace rl {
         static XmlResourceManager& getSingleton();
         /// Gibt einen Zeiger auf das Singleton zurueck.
         static XmlResourceManager* getSingletonPtr();
+
+	protected:
         /// Eine Resource erzeugen
-        XmlResource* create(const Ogre::String& resName);
+		Ogre::Resource* createImpl(const Ogre::String& resName, 
+			Ogre::ResourceHandle handle, 
+			const Ogre::String& groupName = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+			bool isManual = false, Ogre::ManualResourceLoader* loader = NULL, const Ogre::NameValuePairList* loadParams = NULL);
 	};
 
 }
