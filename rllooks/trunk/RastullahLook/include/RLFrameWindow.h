@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLFrameWindow.h
+    filename:   RLFrameWindow.h
     created:    13/4/2004
     author:     Paul D Turner
     
@@ -41,7 +41,7 @@ namespace CEGUI
 \brief
     Concrete FramwWindow class for the Taharez Look widget set. 
 */
-class RASTULLAHLOOK_API TLFrameWindow : public FrameWindow
+class RASTULLAHLOOK_API RLFrameWindow : public FrameWindow
 {
 public:
     /*************************************************************************
@@ -98,14 +98,14 @@ public:
     \param name
         String object that specifies a unique name that will be used to identify the new Window object
     */
-    TLFrameWindow(const String& type, const String& name);
+    RLFrameWindow(const String& type, const String& name);
 
 
     /*!
     \brief
-        Destructor for TLFrameWindow objects.
+        Destructor for RLFrameWindow objects.
     */
-    virtual ~TLFrameWindow(void);
+    virtual ~RLFrameWindow(void);
 
 
     /*!
@@ -230,9 +230,9 @@ protected:
 
 /*!
 \brief
-    Factory class for producing TLFrameWindow objects
+    Factory class for producing RLFrameWindow objects
 */
-class RASTULLAHLOOK_API TLFrameWindowFactory : public WindowFactory
+class RASTULLAHLOOK_API RLFrameWindowFactory : public WindowFactory
 {
 public:
     /*************************************************************************
@@ -242,14 +242,14 @@ public:
     \brief
         Constructor for Taharez Frame Window factory class.
     */
-    TLFrameWindowFactory(void) : WindowFactory(TLFrameWindow::WidgetTypeName) { }
+    RLFrameWindowFactory(void) : WindowFactory(RLFrameWindow::WidgetTypeName) { }
 
 
     /*
     \brief
         Destructor for Taharez Frame Window factory class.
     */
-    ~TLFrameWindowFactory(void){}
+    ~RLFrameWindowFactory(void){}
 
 
     /*!
@@ -281,4 +281,4 @@ public:
 
 } // End of  CEGUI namespace section
 
-#endif  // end of guard _TLFrameWindow_h_
+#endif  // end of guard _RLFrameWindow_h_

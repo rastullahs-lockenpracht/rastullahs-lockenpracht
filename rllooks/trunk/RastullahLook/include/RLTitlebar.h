@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLTitlebar.h
+    filename:   RLTitlebar.h
     created:    9/5/2004
     author:     Paul D Turner
     
@@ -37,7 +37,7 @@ namespace CEGUI
 \brief
     Titlebar class for the TaharezLook GUI scheme
 */
-class RASTULLAHLOOK_API TLTitlebar : public Titlebar
+class RASTULLAHLOOK_API RLTitlebar : public Titlebar
 {
 public:
     /*************************************************************************
@@ -72,14 +72,14 @@ public:
     \param name
         String object that specifies a unique name that will be used to identify the new Window object
     */
-    TLTitlebar(const String& type, const String& name);
+    RLTitlebar(const String& type, const String& name);
 
 
     /*!
     \brief
-        Destructor for TLTitlebar objects.
+        Destructor for RLTitlebar objects.
     */
-    virtual ~TLTitlebar(void);
+    virtual ~RLTitlebar(void);
 
 
     /*!
@@ -134,16 +134,16 @@ protected:
 
 /*!
 \brief
-    Factory class for producing TLTitlebar objects
+    Factory class for producing RLTitlebar objects
 */
-class RASTULLAHLOOK_API TLTitlebarFactory : public WindowFactory
+class RASTULLAHLOOK_API RLTitlebarFactory : public WindowFactory
 {
 public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLTitlebarFactory(void) : WindowFactory(TLTitlebar::WidgetTypeName) { }
-    ~TLTitlebarFactory(void){}
+    RLTitlebarFactory(void) : WindowFactory(RLTitlebar::WidgetTypeName) { }
+    ~RLTitlebarFactory(void){}
 
 
     /*!
@@ -176,4 +176,4 @@ public:
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _TLTitlebar_h_
+#endif  // end of guard _RLTitlebar_h_

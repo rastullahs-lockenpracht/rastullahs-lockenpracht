@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLMultiLineEditbox.cpp
+    filename:   RLMultiLineEditbox.cpp
     created:    30/6/2004
     author:     Paul D Turner
     
@@ -38,32 +38,32 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  TLMultiLineEditbox::WidgetTypeName[]    = "TaharezLook/MultiLineEditbox";
+const utf8  RLMultiLineEditbox::WidgetTypeName[]    = "TaharezLook/MultiLineEditbox";
 
 // image / imageset related
-const utf8  TLMultiLineEditbox::ImagesetName[]              = "TaharezLook";
-const utf8  TLMultiLineEditbox::TopLeftImageName[]          = "MultiLineEditboxTopLeft";
-const utf8  TLMultiLineEditbox::TopRightImageName[]         = "MultiLineEditboxTopRight";
-const utf8  TLMultiLineEditbox::BottomLeftImageName[]       = "MultiLineEditboxBottomLeft";
-const utf8  TLMultiLineEditbox::BottomRightImageName[]      = "MultiLineEditboxBottomRight";
-const utf8  TLMultiLineEditbox::LeftEdgeImageName[]         = "MultiLineEditboxLeft";
-const utf8  TLMultiLineEditbox::RightEdgeImageName[]        = "MultiLineEditboxRight";
-const utf8  TLMultiLineEditbox::TopEdgeImageName[]          = "MultiLineEditboxTop";
-const utf8  TLMultiLineEditbox::BottomEdgeImageName[]       = "MultiLineEditboxBottom";
-const utf8  TLMultiLineEditbox::BackgroundImageName[]       = "MultiLineEditboxBackdrop";
-const utf8  TLMultiLineEditbox::CaratImageName[]            = "EditBoxCarat";
-const utf8  TLMultiLineEditbox::SelectionBrushImageName[]   = "MultiLineEditboxSelectionBrush";
-const utf8  TLMultiLineEditbox::MouseCursorImageName[]      = "MouseTextBar";
+const utf8  RLMultiLineEditbox::ImagesetName[]              = "TaharezLook";
+const utf8  RLMultiLineEditbox::TopLeftImageName[]          = "MultiLineEditboxTopLeft";
+const utf8  RLMultiLineEditbox::TopRightImageName[]         = "MultiLineEditboxTopRight";
+const utf8  RLMultiLineEditbox::BottomLeftImageName[]       = "MultiLineEditboxBottomLeft";
+const utf8  RLMultiLineEditbox::BottomRightImageName[]      = "MultiLineEditboxBottomRight";
+const utf8  RLMultiLineEditbox::LeftEdgeImageName[]         = "MultiLineEditboxLeft";
+const utf8  RLMultiLineEditbox::RightEdgeImageName[]        = "MultiLineEditboxRight";
+const utf8  RLMultiLineEditbox::TopEdgeImageName[]          = "MultiLineEditboxTop";
+const utf8  RLMultiLineEditbox::BottomEdgeImageName[]       = "MultiLineEditboxBottom";
+const utf8  RLMultiLineEditbox::BackgroundImageName[]       = "MultiLineEditboxBackdrop";
+const utf8  RLMultiLineEditbox::CaratImageName[]            = "EditBoxCarat";
+const utf8  RLMultiLineEditbox::SelectionBrushImageName[]   = "MultiLineEditboxSelectionBrush";
+const utf8  RLMultiLineEditbox::MouseCursorImageName[]      = "MouseTextBar";
 
 // component widget type names
-const utf8* TLMultiLineEditbox::HorzScrollbarTypeName       = TLMiniHorzScrollbar::WidgetTypeName;
-const utf8* TLMultiLineEditbox::VertScrollbarTypeName       = TLMiniVertScrollbar::WidgetTypeName;
+const utf8* RLMultiLineEditbox::HorzScrollbarTypeName       = RLMiniHorzScrollbar::WidgetTypeName;
+const utf8* RLMultiLineEditbox::VertScrollbarTypeName       = RLMiniVertScrollbar::WidgetTypeName;
 
 
 /*************************************************************************
-    Constructor for the TLMultiLineEditbox class.
+    Constructor for the RLMultiLineEditbox class.
 *************************************************************************/
-TLMultiLineEditbox::TLMultiLineEditbox(const String& type, const String& name) :
+RLMultiLineEditbox::RLMultiLineEditbox(const String& type, const String& name) :
     MultiLineEditbox(type, name)
 {
     Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
@@ -98,9 +98,9 @@ TLMultiLineEditbox::TLMultiLineEditbox(const String& type, const String& name) :
 
 
 /*************************************************************************
-    Destructor for the TLMultiLineEditbox class.
+    Destructor for the RLMultiLineEditbox class.
 *************************************************************************/
-TLMultiLineEditbox::~TLMultiLineEditbox(void)
+RLMultiLineEditbox::~RLMultiLineEditbox(void)
 {
 }
 
@@ -109,7 +109,7 @@ TLMultiLineEditbox::~TLMultiLineEditbox(void)
     Return a Rect object describing, in un-clipped pixels, the window
     relative area that the text should be rendered in to.   
 *************************************************************************/
-Rect TLMultiLineEditbox::getTextRenderArea(void) const
+Rect RLMultiLineEditbox::getTextRenderArea(void) const
 {
     Rect tmp;
 
@@ -143,7 +143,7 @@ Rect TLMultiLineEditbox::getTextRenderArea(void) const
     create and return a pointer to a Scrollbar widget for use as vertical
     scroll bar  
 *************************************************************************/
-Scrollbar* TLMultiLineEditbox::createVertScrollbar(void) const
+Scrollbar* RLMultiLineEditbox::createVertScrollbar(void) const
 {
     Scrollbar* sbar = (Scrollbar*)WindowManager::getSingleton().createWindow(VertScrollbarTypeName, getName() + "__auto_vscrollbar__");
 
@@ -159,7 +159,7 @@ Scrollbar* TLMultiLineEditbox::createVertScrollbar(void) const
     create and return a pointer to a Scrollbar widget for use as
     horizontal scroll bar   
 *************************************************************************/
-Scrollbar* TLMultiLineEditbox::createHorzScrollbar(void) const
+Scrollbar* RLMultiLineEditbox::createHorzScrollbar(void) const
 {
     Scrollbar* sbar = (Scrollbar*)WindowManager::getSingleton().createWindow(HorzScrollbarTypeName, getName() + "__auto_hscrollbar__");
 
@@ -175,7 +175,7 @@ Scrollbar* TLMultiLineEditbox::createHorzScrollbar(void) const
     Setup size and position for the component widgets attached to this
     Editbox 
 *************************************************************************/
-void TLMultiLineEditbox::layoutComponentWidgets()
+void RLMultiLineEditbox::layoutComponentWidgets()
 {
     // set desired size for vertical scroll-bar
     Size v_sz(0.05f, 1.0f);
@@ -216,7 +216,7 @@ void TLMultiLineEditbox::layoutComponentWidgets()
 /*************************************************************************
     Perform rendering of the widget control frame and other 'static' areas. 
 *************************************************************************/
-void TLMultiLineEditbox::renderEditboxBaseImagery(float z)
+void RLMultiLineEditbox::renderEditboxBaseImagery(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -239,7 +239,7 @@ void TLMultiLineEditbox::renderEditboxBaseImagery(float z)
 /*************************************************************************
     Render the carat.   
 *************************************************************************/
-void TLMultiLineEditbox::renderCarat(float baseX, float baseY, const Rect& clipper)
+void RLMultiLineEditbox::renderCarat(float baseX, float baseY, const Rect& clipper)
 {
     // calculate position of carat
     const Font* fnt = getFont();
@@ -265,7 +265,7 @@ void TLMultiLineEditbox::renderCarat(float baseX, float baseY, const Rect& clipp
 /*************************************************************************
     Store the sizes for the frame edges 
 *************************************************************************/
-void TLMultiLineEditbox::storeFrameSizes(void)
+void RLMultiLineEditbox::storeFrameSizes(void)
 {
     Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
 
@@ -279,7 +279,7 @@ void TLMultiLineEditbox::storeFrameSizes(void)
 /*************************************************************************
     Handler for when the window is sized.
 *************************************************************************/
-void TLMultiLineEditbox::onSized(WindowEventArgs& e)
+void RLMultiLineEditbox::onSized(WindowEventArgs& e)
 {
     // base class processing
     MultiLineEditbox::onSized(e);
@@ -299,7 +299,7 @@ void TLMultiLineEditbox::onSized(WindowEventArgs& e)
 /*************************************************************************
     Handler for when the alpha for the window changes.
 *************************************************************************/
-void TLMultiLineEditbox::onAlphaChanged(WindowEventArgs& e)
+void RLMultiLineEditbox::onAlphaChanged(WindowEventArgs& e)
 {
     // base class processing
     MultiLineEditbox::onAlphaChanged(e);
@@ -326,11 +326,11 @@ void TLMultiLineEditbox::onAlphaChanged(WindowEventArgs& e)
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TLMultiLineEditbox
+    Create, initialise and return a RLMultiLineEditbox
 *************************************************************************/
-Window* TLMultiLineEditboxFactory::createWindow(const String& name)
+Window* RLMultiLineEditboxFactory::createWindow(const String& name)
 {
-    TLMultiLineEditbox* wnd = new TLMultiLineEditbox(d_type, name);
+    RLMultiLineEditbox* wnd = new RLMultiLineEditbox(d_type, name);
     wnd->initialise();
 
     return wnd;

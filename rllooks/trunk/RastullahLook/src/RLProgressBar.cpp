@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLProgressBar.cpp
+    filename:   RLProgressBar.cpp
     created:    23/5/2004
     author:     Paul D Turner
     
@@ -35,25 +35,25 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  TLProgressBar::WidgetTypeName[] = "TaharezLook/ProgressBar";
+const utf8  RLProgressBar::WidgetTypeName[] = "TaharezLook/ProgressBar";
 
 // Progress bar image names
-const utf8  TLProgressBar::ImagesetName[]               = "TaharezLook";
-const utf8  TLProgressBar::ContainerLeftImageName[]     = "ProgressBarLeft";
-const utf8  TLProgressBar::ContainerMiddleImageName[]   = "ProgressBarMiddle";
-const utf8  TLProgressBar::ContainerRightImageName[]    = "ProgressBarRight";
-const utf8  TLProgressBar::DimSegmentImageName[]        = "ProgressBarDimSegment";
-const utf8  TLProgressBar::BrightSegmentImageName[]     = "ProgressBarLitSegment";
+const utf8  RLProgressBar::ImagesetName[]               = "TaharezLook";
+const utf8  RLProgressBar::ContainerLeftImageName[]     = "ProgressBarLeft";
+const utf8  RLProgressBar::ContainerMiddleImageName[]   = "ProgressBarMiddle";
+const utf8  RLProgressBar::ContainerRightImageName[]    = "ProgressBarRight";
+const utf8  RLProgressBar::DimSegmentImageName[]        = "ProgressBarDimSegment";
+const utf8  RLProgressBar::BrightSegmentImageName[]     = "ProgressBarLitSegment";
 
 // some offsets into imagery
-const float TLProgressBar::FirstSegmentOffsetRatioX     = 0.28571f;
-const float TLProgressBar::SegmentOverlapRatio          = 0.25f;
+const float RLProgressBar::FirstSegmentOffsetRatioX     = 0.28571f;
+const float RLProgressBar::SegmentOverlapRatio          = 0.25f;
 
 
 /*************************************************************************
     Constructor for Taharez progress bar objects
 *************************************************************************/
-TLProgressBar::TLProgressBar(const String& type, const String& name) :
+RLProgressBar::RLProgressBar(const String& type, const String& name) :
     ProgressBar(type, name)
 {
     // cache images to be used
@@ -70,7 +70,7 @@ TLProgressBar::TLProgressBar(const String& type, const String& name) :
 /*************************************************************************
     Destructor for Taharez progress bar objects
 *************************************************************************/
-TLProgressBar::~TLProgressBar(void)
+RLProgressBar::~RLProgressBar(void)
 {
 }
 
@@ -78,7 +78,7 @@ TLProgressBar::~TLProgressBar(void)
 /*************************************************************************
     Perform rendering for this widget
 *************************************************************************/
-void TLProgressBar::drawSelf(float z)
+void RLProgressBar::drawSelf(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -160,11 +160,11 @@ void TLProgressBar::drawSelf(float z)
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TLProgressBar
+    Create, initialise and return a RLProgressBar
 *************************************************************************/
-Window* TLProgressBarFactory::createWindow(const String& name)
+Window* RLProgressBarFactory::createWindow(const String& name)
 {
-    TLProgressBar* wnd = new TLProgressBar(d_type, name);
+    RLProgressBar* wnd = new RLProgressBar(d_type, name);
     wnd->initialise();
 
     return wnd;

@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLMiniVertScrollbarThumb.h
+    filename:   RLMiniVertScrollbarThumb.h
     created:    2/6/2004
     author:     Paul D Turner
     
@@ -38,7 +38,7 @@ namespace CEGUI
 \brief
     Thumb class as used in the Taharez mini vertical scroll bar.
 */
-class RASTULLAHLOOK_API TLMiniVertScrollbarThumb : public Thumb
+class RASTULLAHLOOK_API RLMiniVertScrollbarThumb : public Thumb
 {
 public:
     /*************************************************************************
@@ -61,8 +61,8 @@ public:
     /*************************************************************************
         Construction / Destruction
     *************************************************************************/
-    TLMiniVertScrollbarThumb(const String& type, const String& name);
-    virtual ~TLMiniVertScrollbarThumb(void);
+    RLMiniVertScrollbarThumb(const String& type, const String& name);
+    virtual ~RLMiniVertScrollbarThumb(void);
 
 
 protected:
@@ -115,16 +115,16 @@ protected:
 
 /*!
 \brief
-    Factory class for producing TLMiniVertScrollbarThumb objects
+    Factory class for producing RLMiniVertScrollbarThumb objects
 */
-class RASTULLAHLOOK_API TLMiniVertScrollbarThumbFactory : public WindowFactory
+class RASTULLAHLOOK_API RLMiniVertScrollbarThumbFactory : public WindowFactory
 {
 public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLMiniVertScrollbarThumbFactory(void) : WindowFactory(TLMiniVertScrollbarThumb::WidgetTypeName) { }
-    ~TLMiniVertScrollbarThumbFactory(void){}
+    RLMiniVertScrollbarThumbFactory(void) : WindowFactory(RLMiniVertScrollbarThumb::WidgetTypeName) { }
+    ~RLMiniVertScrollbarThumbFactory(void){}
 
 
     /*!
@@ -157,4 +157,4 @@ public:
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _TLMiniVertScrollbarThumb_h_
+#endif  // end of guard _RLMiniVertScrollbarThumb_h_

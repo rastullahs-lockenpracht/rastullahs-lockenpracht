@@ -16,8 +16,8 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************/
-#ifndef _CEGUITLButtonProperties_h_
-#define _CEGUITLButtonProperties_h_
+#ifndef _CEGUIRLButtonProperties_h_
+#define _CEGUIRLButtonProperties_h_
 
 #include "CEGUIProperty.h"
 
@@ -26,12 +26,12 @@
 namespace CEGUI
 {
 
-// Start of TLButtonProperties namespace section
+// Start of RLButtonProperties namespace section
 /*!
 \brief
-   Namespace containing all classes that make up the properties interface for the TLButton class
+   Namespace containing all classes that make up the properties interface for the RLButton class
 */
-namespace TLButtonProperties
+namespace RLButtonProperties
 {
 
 /*!
@@ -46,7 +46,7 @@ namespace TLButtonProperties
 class NormalImage : public Property
 {
 public:
-   NormalImage() : Property((utf8*)"NormalImage", (utf8*)"Property to get/set the normal image for the TLButton widget.  Value should be \"set:[imageset name] image:[image name]\".") {}
+   NormalImage() : Property((utf8*)"NormalImage", (utf8*)"Property to get/set the normal image for the RLButton widget.  Value should be \"set:[imageset name] image:[image name]\".") {}
 
    String   get(const void* receiver) const;
    void   set(void* receiver, const String& value);
@@ -64,7 +64,7 @@ public:
 class PushedImage : public Property
 {
 public:
-   PushedImage() : Property((utf8*)"PushedImage", (utf8*)"Property to get/set the pushed image for the TLButton widget.  Value should be \"set:[imageset name] image:[image name]\".") {}
+   PushedImage() : Property((utf8*)"PushedImage", (utf8*)"Property to get/set the pushed image for the RLButton widget.  Value should be \"set:[imageset name] image:[image name]\".") {}
 
    String   get(const void* receiver) const;
    void   set(void* receiver, const String& value);
@@ -82,7 +82,7 @@ public:
 class HoverImage : public Property
 {
 public:
-   HoverImage() : Property((utf8*)"HoverImage", (utf8*)"Property to get/set the hover image for the TLButton widget.  Value should be \"set:[imageset name] image:[image name]\".") {}
+   HoverImage() : Property((utf8*)"HoverImage", (utf8*)"Property to get/set the hover image for the RLButton widget.  Value should be \"set:[imageset name] image:[image name]\".") {}
 
    String   get(const void* receiver) const;
    void   set(void* receiver, const String& value);
@@ -100,7 +100,7 @@ public:
 class UseStandardImagery : public Property
 {
 public:
-   UseStandardImagery() : Property((utf8*)"UseStandardImagery", (utf8*)"Property to get/set whether to use the standard imagery for the TLButton widget.  Value should be \"set:[imageset name] image:[image name]\".") {}
+   UseStandardImagery() : Property((utf8*)"UseStandardImagery", (utf8*)"Property to get/set whether to use the standard imagery for the RLButton widget.  Value should be \"set:[imageset name] image:[image name]\".") {}
 
    String   get(const void* receiver) const;
    void   set(void* receiver, const String& value);

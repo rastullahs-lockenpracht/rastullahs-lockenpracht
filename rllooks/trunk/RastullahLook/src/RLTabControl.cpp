@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLTabControl.cpp
+    filename:   RLTabControl.cpp
     created:    10/08/2004
     author:     Steve Streeting
     
@@ -37,18 +37,18 @@ namespace CEGUI
     Constants
     *************************************************************************/
     // type name for this widget
-    const utf8  TLTabControl::WidgetTypeName[]  = "TaharezLook/TabControl";
+    const utf8  RLTabControl::WidgetTypeName[]  = "TaharezLook/TabControl";
 
-    const utf8  TLTabControl::ImagesetName[]        = "TaharezLook";
-    const utf8  TLTabControl::FillerImageName[]     = "TabControlButtonPaneFiller";
+    const utf8  RLTabControl::ImagesetName[]        = "TaharezLook";
+    const utf8  RLTabControl::FillerImageName[]     = "TabControlButtonPaneFiller";
     // window type stuff
-    const utf8* TLTabControl::TabContentPaneType    = TLTabPane::WidgetTypeName;
-    const utf8* TLTabControl::TabButtonType         = TLTabButton::WidgetTypeName;
+    const utf8* RLTabControl::TabContentPaneType    = RLTabPane::WidgetTypeName;
+    const utf8* RLTabControl::TabButtonType         = RLTabButton::WidgetTypeName;
 
     /*************************************************************************
     Constructor
     *************************************************************************/
-    TLTabControl::TLTabControl(const String& type, const String& name)
+    RLTabControl::RLTabControl(const String& type, const String& name)
         :TabControl(type, name)
     {
         Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
@@ -59,13 +59,13 @@ namespace CEGUI
     /*************************************************************************
     Destructor
     *************************************************************************/
-    TLTabControl::~TLTabControl(void)
+    RLTabControl::~RLTabControl(void)
     {
     }
     /*************************************************************************
     Create a content pane
     *************************************************************************/
-    TabPane* TLTabControl::createTabContentPane(void) const
+    TabPane* RLTabControl::createTabContentPane(void) const
     {
         // construct name
         String newName = getName() + (utf8*)"__TabPane__Content";
@@ -79,7 +79,7 @@ namespace CEGUI
     /*************************************************************************
     Create a tab button
     *************************************************************************/
-    TabButton* TLTabControl::createTabButton(const String& name) const
+    TabButton* RLTabControl::createTabButton(const String& name) const
     {
         return static_cast<TabButton*>(
             WindowManager::getSingleton().createWindow(
@@ -89,7 +89,7 @@ namespace CEGUI
     /*************************************************************************
     Layout components
     *************************************************************************/
-    void TLTabControl::layoutComponentWidgets()
+    void RLTabControl::layoutComponentWidgets()
     {
         TabControl::layoutComponentWidgets();
 
@@ -120,7 +120,7 @@ namespace CEGUI
     /*************************************************************************
     Draw
     *************************************************************************/
-    void TLTabControl::drawSelf(float z)
+    void RLTabControl::drawSelf(float z)
     {
         TabControl::drawSelf(z);
 
@@ -157,9 +157,9 @@ namespace CEGUI
 /*************************************************************************
     Create, initialise and return a TabControl for the Taharez Scheme
 *************************************************************************/
-Window* TLTabControlFactory::createWindow(const String& name)
+Window* RLTabControlFactory::createWindow(const String& name)
 {
-    TLTabControl* wnd = new TLTabControl(d_type, name);
+    RLTabControl* wnd = new RLTabControl(d_type, name);
     wnd->initialise();
 
     return wnd;

@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLCheckbox.cpp
+    filename:   RLCheckbox.cpp
     created:    21/5/2004
     author:     Paul D Turner
     
@@ -35,20 +35,20 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  TLCheckbox::WidgetTypeName[]        = "TaharezLook/Checkbox";
+const utf8  RLCheckbox::WidgetTypeName[]        = "TaharezLook/Checkbox";
 
-const utf8  TLCheckbox::ImagesetName[]          = "TaharezLook";
-const utf8  TLCheckbox::NormalImageName[]       = "CheckboxNormal";
-const utf8  TLCheckbox::HighlightImageName[]    = "CheckboxHover";
-const utf8  TLCheckbox::CheckMarkImageName[]    = "CheckboxMark";
+const utf8  RLCheckbox::ImagesetName[]          = "TaharezLook";
+const utf8  RLCheckbox::NormalImageName[]       = "CheckboxNormal";
+const utf8  RLCheckbox::HighlightImageName[]    = "CheckboxHover";
+const utf8  RLCheckbox::CheckMarkImageName[]    = "CheckboxMark";
 
-const float TLCheckbox::LabelPadding            = 4.0f;
+const float RLCheckbox::LabelPadding            = 4.0f;
 
 
 /*************************************************************************
     Constructor for Taharez Look Checkbox objects.
 *************************************************************************/
-TLCheckbox::TLCheckbox(const String& type, const String& name) :
+RLCheckbox::RLCheckbox(const String& type, const String& name) :
     Checkbox(type, name)
 {
     Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
@@ -61,9 +61,9 @@ TLCheckbox::TLCheckbox(const String& type, const String& name) :
 
 
 /*************************************************************************
-    Destructor for TLCheckbox objects.
+    Destructor for RLCheckbox objects.
 *************************************************************************/
-TLCheckbox::~TLCheckbox(void)
+RLCheckbox::~RLCheckbox(void)
 {
 }
 
@@ -71,7 +71,7 @@ TLCheckbox::~TLCheckbox(void)
 /*************************************************************************
     render the Checkbox in the normal state.    
 *************************************************************************/
-void TLCheckbox::drawNormal(float z)
+void RLCheckbox::drawNormal(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -113,7 +113,7 @@ void TLCheckbox::drawNormal(float z)
 /*************************************************************************
     render the Checkbox in the hover / highlighted state.
 *************************************************************************/
-void TLCheckbox::drawHover(float z)
+void RLCheckbox::drawHover(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -155,7 +155,7 @@ void TLCheckbox::drawHover(float z)
 /*************************************************************************
     render the Checkbox in the pushed state.    
 *************************************************************************/
-void TLCheckbox::drawPushed(float z)
+void RLCheckbox::drawPushed(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -197,7 +197,7 @@ void TLCheckbox::drawPushed(float z)
 /*************************************************************************
     render the Checkbox in the disabled state   
 *************************************************************************/
-void TLCheckbox::drawDisabled(float z)
+void RLCheckbox::drawDisabled(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -244,11 +244,11 @@ void TLCheckbox::drawDisabled(float z)
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TLCheckbox
+    Create, initialise and return a RLCheckbox
 *************************************************************************/
-Window* TLCheckboxFactory::createWindow(const String& name)
+Window* RLCheckboxFactory::createWindow(const String& name)
 {
-    TLCheckbox* wnd = new TLCheckbox(d_type, name);
+    RLCheckbox* wnd = new RLCheckbox(d_type, name);
     wnd->initialise();
 
     return wnd;

@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLSlider.h
+    filename:   RLSlider.h
     created:    22/5/2004
     author:     Paul D Turner
     
@@ -38,7 +38,7 @@ namespace CEGUI
 \brief
     Slider class for the Taharez Gui Scheme.
 */
-class RASTULLAHLOOK_API TLSlider : public Slider
+class RASTULLAHLOOK_API RLSlider : public Slider
 {
 public:
     /*************************************************************************
@@ -65,14 +65,14 @@ public:
     \brief
         Constructor for Taharez slider widgets
     */
-    TLSlider(const String& type, const String& name);
+    RLSlider(const String& type, const String& name);
 
 
     /*!
     \brief
         Destructor for Taharez slider widgets
     */
-    virtual ~TLSlider(void);
+    virtual ~RLSlider(void);
 
 
 protected:
@@ -151,16 +151,16 @@ protected:
 
 /*!
 \brief
-    Factory class for producing TLSlider objects
+    Factory class for producing RLSlider objects
 */
-class RASTULLAHLOOK_API TLSliderFactory : public WindowFactory
+class RASTULLAHLOOK_API RLSliderFactory : public WindowFactory
 {
 public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLSliderFactory(void) : WindowFactory(TLSlider::WidgetTypeName) { }
-    ~TLSliderFactory(void){}
+    RLSliderFactory(void) : WindowFactory(RLSlider::WidgetTypeName) { }
+    ~RLSliderFactory(void){}
 
 
     /*!
@@ -192,4 +192,4 @@ public:
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _TLSlider_h_
+#endif  // end of guard _RLSlider_h_

@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLStatic.cpp
+    filename:   RLStatic.cpp
     created:    5/6/2004
     author:     Paul D Turner
     
@@ -39,12 +39,12 @@ namespace CEGUI
 /*************************************************************************
     Constants
 *************************************************************************/
-const utf8  TLStaticText::WidgetTypeName[]      = "TaharezLook/StaticText";
-const utf8  TLStaticImage::WidgetTypeName[]     = "TaharezLook/StaticImage";
+const utf8  RLStaticText::WidgetTypeName[]      = "TaharezLook/StaticText";
+const utf8  RLStaticImage::WidgetTypeName[]     = "TaharezLook/StaticImage";
 
 // component widget type names
-const utf8* TLStaticText::HorzScrollbarTypeName = TLMiniHorzScrollbar::WidgetTypeName;
-const utf8* TLStaticText::VertScrollbarTypeName = TLMiniVertScrollbar::WidgetTypeName;
+const utf8* RLStaticText::HorzScrollbarTypeName = RLMiniHorzScrollbar::WidgetTypeName;
+const utf8* RLStaticText::VertScrollbarTypeName = RLMiniVertScrollbar::WidgetTypeName;
 
 
 /*************************************************************************
@@ -75,7 +75,7 @@ void initTaharezStatic(Static* s)
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
     
-    TLStaticText methods
+    RLStaticText methods
 
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
@@ -84,7 +84,7 @@ void initTaharezStatic(Static* s)
     create and return a pointer to a Scrollbar widget for use as
     vertical scroll bar 
 *************************************************************************/
-Scrollbar* TLStaticText::createVertScrollbar(void) const
+Scrollbar* RLStaticText::createVertScrollbar(void) const
 {
     Scrollbar* sbar = (Scrollbar*)WindowManager::getSingleton().createWindow(VertScrollbarTypeName, getName() + "__auto_vscrollbar__");
 
@@ -100,7 +100,7 @@ Scrollbar* TLStaticText::createVertScrollbar(void) const
     create and return a pointer to a Scrollbar widget for use as
     horizontal scroll bar   
 *************************************************************************/
-Scrollbar* TLStaticText::createHorzScrollbar(void) const
+Scrollbar* RLStaticText::createHorzScrollbar(void) const
 {
     Scrollbar* sbar = (Scrollbar*)WindowManager::getSingleton().createWindow(HorzScrollbarTypeName, getName() + "__auto_hscrollbar__");
 
@@ -115,7 +115,7 @@ Scrollbar* TLStaticText::createHorzScrollbar(void) const
 /*************************************************************************
     Initialises the Window based object ready for use.
 *************************************************************************/
-void TLStaticText::initialise(void)
+void RLStaticText::initialise(void)
 {
     StaticText::initialise();
     initTaharezStatic(this);
@@ -125,7 +125,7 @@ void TLStaticText::initialise(void)
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
     
-    TLStaticImage methods
+    RLStaticImage methods
 
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
@@ -133,7 +133,7 @@ void TLStaticText::initialise(void)
 /*************************************************************************
     Initialises the Window based object ready for use.
 *************************************************************************/
-void TLStaticImage::initialise(void)
+void RLStaticImage::initialise(void)
 {
     StaticImage::initialise();
     initTaharezStatic(this);
@@ -150,9 +150,9 @@ void TLStaticImage::initialise(void)
 /*************************************************************************
     Create, initialise and return a StaticText for the Taharez Scheme
 *************************************************************************/
-Window* TLStaticTextFactory::createWindow(const String& name)
+Window* RLStaticTextFactory::createWindow(const String& name)
 {
-    TLStaticText* wnd = new TLStaticText(d_type, name);
+    RLStaticText* wnd = new RLStaticText(d_type, name);
     wnd->initialise();
 
     return wnd;
@@ -162,9 +162,9 @@ Window* TLStaticTextFactory::createWindow(const String& name)
 /*************************************************************************
     Create, initialise and return a StaticImage for the Taharez Scheme
 *************************************************************************/
-Window* TLStaticImageFactory::createWindow(const String& name)
+Window* RLStaticImageFactory::createWindow(const String& name)
 {
-    TLStaticImage* wnd = new TLStaticImage(d_type, name);
+    RLStaticImage* wnd = new RLStaticImage(d_type, name);
     wnd->initialise();
 
     return wnd;

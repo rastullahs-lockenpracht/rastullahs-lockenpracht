@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLMultiLineEditbox.h
+    filename:   RLMultiLineEditbox.h
     created:    30/6/2004
     author:     Paul D Turner
     
@@ -40,7 +40,7 @@ namespace CEGUI
 \brief
     Multi-line edit box class for the Taharez Gui scheme.
 */
-class RASTULLAHLOOK_API TLMultiLineEditbox : public MultiLineEditbox
+class RASTULLAHLOOK_API RLMultiLineEditbox : public MultiLineEditbox
 {
 public:
     /*************************************************************************
@@ -74,16 +74,16 @@ public:
     *************************************************************************/
     /*!
     \brief
-        Constructor for the TLMultiLineEditbox class.
+        Constructor for the RLMultiLineEditbox class.
     */
-    TLMultiLineEditbox(const String& type, const String& name);
+    RLMultiLineEditbox(const String& type, const String& name);
 
 
     /*!
     \brief
-        Destructor for the TLMultiLineEditbox class.
+        Destructor for the RLMultiLineEditbox class.
     */
-    virtual ~TLMultiLineEditbox(void);
+    virtual ~RLMultiLineEditbox(void);
 
 
 protected:
@@ -189,16 +189,16 @@ protected:
 
 /*!
 \brief
-    Factory class for producing TLMultiLineEditbox objects
+    Factory class for producing RLMultiLineEditbox objects
 */
-class RASTULLAHLOOK_API TLMultiLineEditboxFactory : public WindowFactory
+class RASTULLAHLOOK_API RLMultiLineEditboxFactory : public WindowFactory
 {
 public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLMultiLineEditboxFactory(void) : WindowFactory(TLMultiLineEditbox::WidgetTypeName) { }
-    ~TLMultiLineEditboxFactory(void){}
+    RLMultiLineEditboxFactory(void) : WindowFactory(RLMultiLineEditbox::WidgetTypeName) { }
+    ~RLMultiLineEditboxFactory(void){}
 
 
     /*!
@@ -230,4 +230,4 @@ public:
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _TLMultiLineEditbox_h_
+#endif  // end of guard _RLMultiLineEditbox_h_

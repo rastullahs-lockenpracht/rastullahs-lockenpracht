@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLCombobox.h
+    filename:   RLCombobox.h
     created:    12/6/2004
     author:     Paul D Turner
     
@@ -37,7 +37,7 @@ namespace CEGUI
 \brief
     Combobox class for the Taharez look Gui scheme
 */
-class RASTULLAHLOOK_API TLCombobox : public Combobox
+class RASTULLAHLOOK_API RLCombobox : public Combobox
 {
 public:
     /*************************************************************************
@@ -64,14 +64,14 @@ public:
     \brief
         Constructor for Taharez Combobox
     */
-    TLCombobox(const String& type, const String& name);
+    RLCombobox(const String& type, const String& name);
 
 
     /*!
     \brief
         Destructor for Taharez Combobox
     */
-    virtual ~TLCombobox(void);
+    virtual ~RLCombobox(void);
 
 
 protected:
@@ -138,16 +138,16 @@ protected:
 
 /*!
 \brief
-    Factory class for producing TLCombobox objects
+    Factory class for producing RLCombobox objects
 */
-class RASTULLAHLOOK_API TLComboboxFactory : public WindowFactory
+class RASTULLAHLOOK_API RLComboboxFactory : public WindowFactory
 {
 public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLComboboxFactory(void) : WindowFactory(TLCombobox::WidgetTypeName) { }
-    ~TLComboboxFactory(void){}
+    RLComboboxFactory(void) : WindowFactory(RLCombobox::WidgetTypeName) { }
+    ~RLComboboxFactory(void){}
 
 
     /*!
@@ -178,4 +178,4 @@ public:
 
 } // End of  CEGUI namespace section
 
-#endif  // end of guard _TLCombobox_h_
+#endif  // end of guard _RLCombobox_h_

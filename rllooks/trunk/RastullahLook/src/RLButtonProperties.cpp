@@ -30,14 +30,14 @@
 namespace CEGUI
 {
 
-// Start of TLButtonProperties namespace section
-namespace TLButtonProperties
+// Start of RLButtonProperties namespace section
+namespace RLButtonProperties
 {
 
 String NormalImage::get(const void *receiver) const
 {
-   //TLButton currently has no getter for this...
-   return String("");//PropertyHelper::imageToString(static_cast<const TLButton*>(receiver)->getNormal());
+   //RLButton currently has no getter for this...
+   return String("");//PropertyHelper::imageToString(static_cast<const RLButton*>(receiver)->getNormal());
 }
 
 void NormalImage::set(void *receiver, const String &value)
@@ -46,13 +46,13 @@ void NormalImage::set(void *receiver, const String &value)
    image->setImage(PropertyHelper::stringToImage(value));
    image->setHorzFormatting(RenderableImage::HorzStretched);
    image->setVertFormatting(RenderableImage::VertStretched);
-   static_cast<TLButton*>(receiver)->setNormalImage(image);
+   static_cast<RLButton*>(receiver)->setNormalImage(image);
 }
 
 String PushedImage::get(const void *receiver) const
 {
-   //TLButton currently has no getter for this...
-   return String("");//PropertyHelper::imageToString(static_cast<const TLButton*>(receiver)->getNormal());
+   //RLButton currently has no getter for this...
+   return String("");//PropertyHelper::imageToString(static_cast<const RLButton*>(receiver)->getNormal());
 }
 
 void PushedImage::set(void *receiver, const String &value)
@@ -61,13 +61,13 @@ void PushedImage::set(void *receiver, const String &value)
    image->setImage(PropertyHelper::stringToImage(value));
    image->setHorzFormatting(RenderableImage::HorzStretched);
    image->setVertFormatting(RenderableImage::VertStretched);
-   static_cast<TLButton*>(receiver)->setPushedImage(image);
+   static_cast<RLButton*>(receiver)->setPushedImage(image);
 }
 
 String HoverImage::get(const void *receiver) const
 {
-   //TLButton currently has no getter for this...
-   return String("");//PropertyHelper::imageToString(static_cast<const TLButton*>(receiver)->getNormal());
+   //RLButton currently has no getter for this...
+   return String("");//PropertyHelper::imageToString(static_cast<const RLButton*>(receiver)->getNormal());
 }
 
 void HoverImage::set(void *receiver, const String &value)
@@ -76,27 +76,27 @@ void HoverImage::set(void *receiver, const String &value)
    image->setImage(PropertyHelper::stringToImage(value));
    image->setHorzFormatting(RenderableImage::HorzStretched);
    image->setVertFormatting(RenderableImage::VertStretched);
-   static_cast<TLButton*>(receiver)->setHoverImage(image);
+   static_cast<RLButton*>(receiver)->setHoverImage(image);
 }
 
 String UseStandardImagery::get(const void *receiver) const
 {
-    return PropertyHelper::boolToString(static_cast<const TLButton*>(receiver)->isStandardImageryEnabled());
+    return PropertyHelper::boolToString(static_cast<const RLButton*>(receiver)->isStandardImageryEnabled());
 }
 
 void UseStandardImagery::set(void *receiver, const String &value)
 {
-   static_cast<TLButton*>(receiver)->setStandardImageryEnabled(PropertyHelper::stringToBool(value));
+   static_cast<RLButton*>(receiver)->setStandardImageryEnabled(PropertyHelper::stringToBool(value));
 }
 
 String TextXOffset::get(const void *receiver) const
 {
-   return PropertyHelper::floatToString(static_cast<const TLButton*>(receiver)->getTextXOffset());
+   return PropertyHelper::floatToString(static_cast<const RLButton*>(receiver)->getTextXOffset());
 }
 
 void TextXOffset::set(void *receiver, const String &value)
 {
-   static_cast<TLButton*>(receiver)->setTextXOffset(PropertyHelper::stringToFloat(value));
+   static_cast<RLButton*>(receiver)->setTextXOffset(PropertyHelper::stringToFloat(value));
 }
 
 }

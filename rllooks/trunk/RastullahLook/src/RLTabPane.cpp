@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLTabPane.cpp
+    filename:   RLTabPane.cpp
     created:    11/08/2004
     author:     Steve Streeting
     
@@ -35,21 +35,21 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  TLTabPane::WidgetTypeName[] = "TaharezLook/TabPane";
+const utf8  RLTabPane::WidgetTypeName[] = "TaharezLook/TabPane";
 
-const utf8  TLTabPane::ImagesetName[]           = "TaharezLook";
-const utf8  TLTabPane::LeftImageName[]          = "TabPaneLeft";
-const utf8  TLTabPane::MiddleImageName[]        = "TabPaneMiddle";
-const utf8  TLTabPane::RightImageName[]         = "TabPaneRight";
-const utf8  TLTabPane::LowerRightImageName[]    = "TabPaneLowerRight";
-const utf8  TLTabPane::LowerLeftImageName[]     = "TabPaneLowerLeft";
-const utf8  TLTabPane::LowerImageName[]         = "TabPaneLower";
+const utf8  RLTabPane::ImagesetName[]           = "TaharezLook";
+const utf8  RLTabPane::LeftImageName[]          = "TabPaneLeft";
+const utf8  RLTabPane::MiddleImageName[]        = "TabPaneMiddle";
+const utf8  RLTabPane::RightImageName[]         = "TabPaneRight";
+const utf8  RLTabPane::LowerRightImageName[]    = "TabPaneLowerRight";
+const utf8  RLTabPane::LowerLeftImageName[]     = "TabPaneLowerLeft";
+const utf8  RLTabPane::LowerImageName[]         = "TabPaneLower";
 
 
 /*************************************************************************
     Constructor
 *************************************************************************/
-TLTabPane::TLTabPane(const String& type, const String& name) :
+RLTabPane::RLTabPane(const String& type, const String& name) :
     TabPane(type, name)
 {
     Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
@@ -69,13 +69,13 @@ TLTabPane::TLTabPane(const String& type, const String& name) :
 /*************************************************************************
     Destructor
 *************************************************************************/
-TLTabPane::~TLTabPane(void)
+RLTabPane::~RLTabPane(void)
 {
 }
 /*************************************************************************
     render Widget in normal state   
 *************************************************************************/
-void TLTabPane::drawSelf(float z)
+void RLTabPane::drawSelf(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -143,11 +143,11 @@ void TLTabPane::drawSelf(float z)
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TLTabPane
+    Create, initialise and return a RLTabPane
 *************************************************************************/
-Window* TLTabPaneFactory::createWindow(const String& name)
+Window* RLTabPaneFactory::createWindow(const String& name)
 {
-    TLTabPane* wnd = new TLTabPane(d_type, name);
+    RLTabPane* wnd = new RLTabPane(d_type, name);
     wnd->initialise();
 
     return wnd;

@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLCheckbox.h
+    filename:   RLCheckbox.h
     created:    21/5/2004
     author:     Paul D Turner
     
@@ -38,7 +38,7 @@ namespace CEGUI
 \brief
     Checkbox class for the TaharezLook GUI scheme
 */
-class RASTULLAHLOOK_API TLCheckbox : public Checkbox
+class RASTULLAHLOOK_API RLCheckbox : public Checkbox
 {
 public:
     /*************************************************************************
@@ -68,14 +68,14 @@ public:
     \param name
         String object that specifies a unique name that will be used to identify the new Window object
     */
-    TLCheckbox(const String& type, const String& name);
+    RLCheckbox(const String& type, const String& name);
 
 
     /*!
     \brief
-        Destructor for TLCheckbox objects.
+        Destructor for RLCheckbox objects.
     */
-    virtual ~TLCheckbox(void);
+    virtual ~RLCheckbox(void);
 
     
 protected:
@@ -119,16 +119,16 @@ protected:
 
 /*!
 \brief
-    Factory class for producing TLCheckbox objects
+    Factory class for producing RLCheckbox objects
 */
-class RASTULLAHLOOK_API TLCheckboxFactory : public WindowFactory
+class RASTULLAHLOOK_API RLCheckboxFactory : public WindowFactory
 {
 public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLCheckboxFactory(void) : WindowFactory(TLCheckbox::WidgetTypeName) { }
-    ~TLCheckboxFactory(void){}
+    RLCheckboxFactory(void) : WindowFactory(RLCheckbox::WidgetTypeName) { }
+    ~RLCheckboxFactory(void){}
 
 
     /*!
@@ -161,4 +161,4 @@ public:
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _TLCheckbox_h_
+#endif  // end of guard _RLCheckbox_h_

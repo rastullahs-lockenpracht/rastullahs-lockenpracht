@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLTabPane.h
+    filename:   RLTabPane.h
     created:    11/08/2004
     author:     Steve Streeting
     
@@ -39,7 +39,7 @@ namespace CEGUI
 \brief
     Concrete TabPane class for the Taharez Look widget set. 
 */
-class RASTULLAHLOOK_API TLTabPane : public TabPane
+class RASTULLAHLOOK_API RLTabPane : public TabPane
 {
 public:
     /*************************************************************************
@@ -69,14 +69,14 @@ public:
     \param name
         String object that specifies a unique name that will be used to identify the new Window object
     */
-    TLTabPane(const String& type, const String& name);
+    RLTabPane(const String& type, const String& name);
 
 
     /*!
     \brief
-        Destructor for TLButton objects.
+        Destructor for RLButton objects.
     */
-    virtual ~TLTabPane(void);
+    virtual ~RLTabPane(void);
 
     
     /*************************************************************************
@@ -115,9 +115,9 @@ protected:
 
 /*!
 \brief
-    Factory class for producing TLFrameWindow objects
+    Factory class for producing RLFrameWindow objects
 */
-class RASTULLAHLOOK_API TLTabPaneFactory : public WindowFactory
+class RASTULLAHLOOK_API RLTabPaneFactory : public WindowFactory
 {
 public:
     /*************************************************************************
@@ -127,14 +127,14 @@ public:
     \brief
         Constructor for Taharez Tab Button factory class.
     */
-    TLTabPaneFactory(void) : WindowFactory(TLTabPane::WidgetTypeName) { }
+    RLTabPaneFactory(void) : WindowFactory(RLTabPane::WidgetTypeName) { }
 
 
     /*
     \brief
         Destructor for Taharez Tab Button factory class.
     */
-    ~TLTabPaneFactory(void){}
+    ~RLTabPaneFactory(void){}
 
 
     /*!
@@ -166,4 +166,4 @@ public:
 
 } // End of  CEGUI namespace section
 
-#endif  // end of guard _TLFrameWindow_h_
+#endif  // end of guard _RLFrameWindow_h_

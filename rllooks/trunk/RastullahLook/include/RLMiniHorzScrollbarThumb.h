@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLMiniHorzScrollbarThumb.h
+    filename:   RLMiniHorzScrollbarThumb.h
     created:    2/6/2004
     author:     Paul D Turner
     
@@ -38,7 +38,7 @@ namespace CEGUI
 \brief
     Thumb class as used in the Taharez mini horizontal scroll bar.
 */
-class RASTULLAHLOOK_API TLMiniHorzScrollbarThumb : public Thumb
+class RASTULLAHLOOK_API RLMiniHorzScrollbarThumb : public Thumb
 {
 public:
     /*************************************************************************
@@ -61,8 +61,8 @@ public:
     /*************************************************************************
         Construction / Destruction
     *************************************************************************/
-    TLMiniHorzScrollbarThumb(const String& type, const String& name);
-    virtual ~TLMiniHorzScrollbarThumb(void);
+    RLMiniHorzScrollbarThumb(const String& type, const String& name);
+    virtual ~RLMiniHorzScrollbarThumb(void);
 
 
 protected:
@@ -115,16 +115,16 @@ protected:
 
 /*!
 \brief
-    Factory class for producing TLMiniHorzScrollbarThumb objects
+    Factory class for producing RLMiniHorzScrollbarThumb objects
 */
-class RASTULLAHLOOK_API TLMiniHorzScrollbarThumbFactory : public WindowFactory
+class RASTULLAHLOOK_API RLMiniHorzScrollbarThumbFactory : public WindowFactory
 {
 public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLMiniHorzScrollbarThumbFactory(void) : WindowFactory(TLMiniHorzScrollbarThumb::WidgetTypeName) { }
-    ~TLMiniHorzScrollbarThumbFactory(void){}
+    RLMiniHorzScrollbarThumbFactory(void) : WindowFactory(RLMiniHorzScrollbarThumb::WidgetTypeName) { }
+    ~RLMiniHorzScrollbarThumbFactory(void){}
 
 
     /*!
@@ -156,4 +156,4 @@ public:
 
 } // End of  CEGUI namespace section
 
-#endif  // end of guard _TLMiniHorzScrollbarThumb_h_
+#endif  // end of guard _RLMiniHorzScrollbarThumb_h_

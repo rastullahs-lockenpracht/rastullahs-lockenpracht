@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLMiniHorzScrollbarThumb.cpp
+    filename:   RLMiniHorzScrollbarThumb.cpp
     created:    2/6/2004
     author:     Paul D Turner
     
@@ -36,23 +36,23 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  TLMiniHorzScrollbarThumb::WidgetTypeName[]  = "TaharezLook/HorizontalScrollbarThumb";
+const utf8  RLMiniHorzScrollbarThumb::WidgetTypeName[]  = "TaharezLook/HorizontalScrollbarThumb";
 
 // Image names
-const utf8  TLMiniHorzScrollbarThumb::ImagesetName[]                = "TaharezLook";
-const utf8  TLMiniHorzScrollbarThumb::NormalImageName[]             = "MiniHorzScrollThumbNormal";
-const utf8  TLMiniHorzScrollbarThumb::NormalLeftImageName[]         = "MiniHorzScrollThumbLeftNormal";
-const utf8  TLMiniHorzScrollbarThumb::NormalMiddleImageName[]       = "MiniHorzScrollThumbMiddleNormal";
-const utf8  TLMiniHorzScrollbarThumb::NormalRightImageName[]        = "MiniHorzScrollThumbRightNormal";
-const utf8  TLMiniHorzScrollbarThumb::HighlightLeftImageName[]      = "MiniHorzScrollThumbLeftHover";
-const utf8  TLMiniHorzScrollbarThumb::HighlightMiddleImageName[]    = "MiniHorzScrollThumbMiddleHover";
-const utf8  TLMiniHorzScrollbarThumb::HighlightRightImageName[]     = "MiniHorzScrollThumbRightHover";
+const utf8  RLMiniHorzScrollbarThumb::ImagesetName[]                = "TaharezLook";
+const utf8  RLMiniHorzScrollbarThumb::NormalImageName[]             = "MiniHorzScrollThumbNormal";
+const utf8  RLMiniHorzScrollbarThumb::NormalLeftImageName[]         = "MiniHorzScrollThumbLeftNormal";
+const utf8  RLMiniHorzScrollbarThumb::NormalMiddleImageName[]       = "MiniHorzScrollThumbMiddleNormal";
+const utf8  RLMiniHorzScrollbarThumb::NormalRightImageName[]        = "MiniHorzScrollThumbRightNormal";
+const utf8  RLMiniHorzScrollbarThumb::HighlightLeftImageName[]      = "MiniHorzScrollThumbLeftHover";
+const utf8  RLMiniHorzScrollbarThumb::HighlightMiddleImageName[]    = "MiniHorzScrollThumbMiddleHover";
+const utf8  RLMiniHorzScrollbarThumb::HighlightRightImageName[]     = "MiniHorzScrollThumbRightHover";
 
 
 /*************************************************************************
     Constructor
 *************************************************************************/
-TLMiniHorzScrollbarThumb::TLMiniHorzScrollbarThumb(const String& type, const String& name) :
+RLMiniHorzScrollbarThumb::RLMiniHorzScrollbarThumb(const String& type, const String& name) :
     Thumb(type, name)
 {
     Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
@@ -70,7 +70,7 @@ TLMiniHorzScrollbarThumb::TLMiniHorzScrollbarThumb(const String& type, const Str
 /*************************************************************************
     Destructor
 *************************************************************************/
-TLMiniHorzScrollbarThumb::~TLMiniHorzScrollbarThumb(void)
+RLMiniHorzScrollbarThumb::~RLMiniHorzScrollbarThumb(void)
 {
 }
 
@@ -78,7 +78,7 @@ TLMiniHorzScrollbarThumb::~TLMiniHorzScrollbarThumb(void)
 /*************************************************************************
     render the thumb in the normal state.
 *************************************************************************/
-void TLMiniHorzScrollbarThumb::drawNormal(float z)
+void RLMiniHorzScrollbarThumb::drawNormal(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -119,7 +119,7 @@ void TLMiniHorzScrollbarThumb::drawNormal(float z)
 /*************************************************************************
     render the thumb in the hover / highlighted state.
 *************************************************************************/
-void TLMiniHorzScrollbarThumb::drawHover(float z)
+void RLMiniHorzScrollbarThumb::drawHover(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -160,7 +160,7 @@ void TLMiniHorzScrollbarThumb::drawHover(float z)
 /*************************************************************************
     render the thumb in the disabled state
 *************************************************************************/
-void TLMiniHorzScrollbarThumb::drawDisabled(float z)
+void RLMiniHorzScrollbarThumb::drawDisabled(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -201,7 +201,7 @@ void TLMiniHorzScrollbarThumb::drawDisabled(float z)
 /*************************************************************************
     Handler for when size changes
 *************************************************************************/
-void TLMiniHorzScrollbarThumb::onSized(WindowEventArgs& e)
+void RLMiniHorzScrollbarThumb::onSized(WindowEventArgs& e)
 {
     // calculate preferred width from height(which is known).
     float prefWidth = d_normalImage->getWidth() * (getAbsoluteHeight() / d_normalImage->getHeight());
@@ -242,11 +242,11 @@ void TLMiniHorzScrollbarThumb::onSized(WindowEventArgs& e)
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TLMiniHorzScrollbarThumb
+    Create, initialise and return a RLMiniHorzScrollbarThumb
 *************************************************************************/
-Window* TLMiniHorzScrollbarThumbFactory::createWindow(const String& name)
+Window* RLMiniHorzScrollbarThumbFactory::createWindow(const String& name)
 {
-    TLMiniHorzScrollbarThumb* wnd = new TLMiniHorzScrollbarThumb(d_type, name);
+    RLMiniHorzScrollbarThumb* wnd = new RLMiniHorzScrollbarThumb(d_type, name);
     wnd->initialise();
 
     return wnd;

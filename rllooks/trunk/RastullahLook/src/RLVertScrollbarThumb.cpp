@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLVertScrollbarThumb.cpp
+    filename:   RLVertScrollbarThumb.cpp
     created:    2/6/2004
     author:     Paul D Turner
     
@@ -34,18 +34,18 @@ namespace CEGUI
 /*************************************************************************
     Constants
 *************************************************************************/
-const utf8  TLVertScrollbarThumb::WidgetTypeName[]  = "TaharezLook/LargeVerticalScrollbarThumb";
+const utf8  RLVertScrollbarThumb::WidgetTypeName[]  = "TaharezLook/LargeVerticalScrollbarThumb";
 
 // Image names
-const utf8  TLVertScrollbarThumb::ImagesetName[]        = "TaharezLook";
-const utf8  TLVertScrollbarThumb::NormalImageName[]     = "VertScrollThumbNormal";
-const utf8  TLVertScrollbarThumb::HighlightImageName[]  = "VertScrollThumbHover";
+const utf8  RLVertScrollbarThumb::ImagesetName[]        = "TaharezLook";
+const utf8  RLVertScrollbarThumb::NormalImageName[]     = "VertScrollThumbNormal";
+const utf8  RLVertScrollbarThumb::HighlightImageName[]  = "VertScrollThumbHover";
 
 
 /*************************************************************************
     Constructor
 *************************************************************************/
-TLVertScrollbarThumb::TLVertScrollbarThumb(const String& type, const String& name) :
+RLVertScrollbarThumb::RLVertScrollbarThumb(const String& type, const String& name) :
     Thumb(type, name)
 {
     Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
@@ -58,7 +58,7 @@ TLVertScrollbarThumb::TLVertScrollbarThumb(const String& type, const String& nam
 /*************************************************************************
     Destructor
 *************************************************************************/
-TLVertScrollbarThumb::~TLVertScrollbarThumb(void)
+RLVertScrollbarThumb::~RLVertScrollbarThumb(void)
 {
 }
 
@@ -66,7 +66,7 @@ TLVertScrollbarThumb::~TLVertScrollbarThumb(void)
 /*************************************************************************
     render the thumb in the normal state.
 *************************************************************************/
-void TLVertScrollbarThumb::drawNormal(float z)
+void RLVertScrollbarThumb::drawNormal(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -83,7 +83,7 @@ void TLVertScrollbarThumb::drawNormal(float z)
 /*************************************************************************
     render the thumb in the hover / highlighted state.
 *************************************************************************/
-void TLVertScrollbarThumb::drawHover(float z)
+void RLVertScrollbarThumb::drawHover(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -100,7 +100,7 @@ void TLVertScrollbarThumb::drawHover(float z)
 /*************************************************************************
     render the thumb in the disabled state
 *************************************************************************/
-void TLVertScrollbarThumb::drawDisabled(float z)
+void RLVertScrollbarThumb::drawDisabled(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -117,7 +117,7 @@ void TLVertScrollbarThumb::drawDisabled(float z)
 /*************************************************************************
     Handler for when size changes
 *************************************************************************/
-void TLVertScrollbarThumb::onSized(WindowEventArgs& e)
+void RLVertScrollbarThumb::onSized(WindowEventArgs& e)
 {
     // We want to keep this thumb's aspect the same, so when the size
     // changes, we modify the height in relation to the width (since that is
@@ -142,11 +142,11 @@ void TLVertScrollbarThumb::onSized(WindowEventArgs& e)
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TLVertScrollbarThumb
+    Create, initialise and return a RLVertScrollbarThumb
 *************************************************************************/
-Window* TLVertScrollbarThumbFactory::createWindow(const String& name)
+Window* RLVertScrollbarThumbFactory::createWindow(const String& name)
 {
-    TLVertScrollbarThumb* wnd = new TLVertScrollbarThumb(d_type, name);
+    RLVertScrollbarThumb* wnd = new RLVertScrollbarThumb(d_type, name);
     wnd->initialise();
 
     return wnd;

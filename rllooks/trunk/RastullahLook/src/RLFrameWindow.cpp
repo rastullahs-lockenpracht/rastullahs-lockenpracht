@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLFrameWindow.cpp
+    filename:   RLFrameWindow.cpp
     created:    13/4/2004
     author:     Paul D Turner
     
@@ -39,47 +39,47 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  TLFrameWindow::WidgetTypeName[] = "TaharezLook/FrameWindow";
+const utf8  RLFrameWindow::WidgetTypeName[] = "TaharezLook/FrameWindow";
 
 // image stuff
-const utf8  TLFrameWindow::ImagesetName[]                   = "TaharezLook";
-const utf8  TLFrameWindow::TopLeftFrameImageName[]          = "WindowTopLeft";
-const utf8  TLFrameWindow::TopRightFrameImageName[]         = "WindowTopRight";
-const utf8  TLFrameWindow::BottomLeftFrameImageName[]       = "WindowBottomLeft";
-const utf8  TLFrameWindow::BottomRightFrameImageName[]      = "WindowBottomRight";
-const utf8  TLFrameWindow::LeftFrameImageName[]             = "WindowLeftEdge";
-const utf8  TLFrameWindow::RightFrameImageName[]            = "WindowRightEdge";
-const utf8  TLFrameWindow::TopFrameImageName[]              = "WindowTopEdge";
-const utf8  TLFrameWindow::BottomFrameImageName[]           = "WindowBottomEdge";
-const utf8  TLFrameWindow::ClientBrushImageName[]           = "ClientBrush";
+const utf8  RLFrameWindow::ImagesetName[]                   = "TaharezLook";
+const utf8  RLFrameWindow::TopLeftFrameImageName[]          = "WindowTopLeft";
+const utf8  RLFrameWindow::TopRightFrameImageName[]         = "WindowTopRight";
+const utf8  RLFrameWindow::BottomLeftFrameImageName[]       = "WindowBottomLeft";
+const utf8  RLFrameWindow::BottomRightFrameImageName[]      = "WindowBottomRight";
+const utf8  RLFrameWindow::LeftFrameImageName[]             = "WindowLeftEdge";
+const utf8  RLFrameWindow::RightFrameImageName[]            = "WindowRightEdge";
+const utf8  RLFrameWindow::TopFrameImageName[]              = "WindowTopEdge";
+const utf8  RLFrameWindow::BottomFrameImageName[]           = "WindowBottomEdge";
+const utf8  RLFrameWindow::ClientBrushImageName[]           = "ClientBrush";
 
-const utf8  TLFrameWindow::CloseButtonNormalImageName[]     = "NewCloseButtonNormal";
-const utf8  TLFrameWindow::CloseButtonHoverImageName[]      = "NewCloseButtonHover";
-const utf8  TLFrameWindow::CloseButtonPushedImageName[]     = "NewCloseButtonPressed";
+const utf8  RLFrameWindow::CloseButtonNormalImageName[]     = "NewCloseButtonNormal";
+const utf8  RLFrameWindow::CloseButtonHoverImageName[]      = "NewCloseButtonHover";
+const utf8  RLFrameWindow::CloseButtonPushedImageName[]     = "NewCloseButtonPressed";
 
 // cursor images
-const utf8  TLFrameWindow::NormalCursorImageName[]          = "MouseTarget";
-const utf8  TLFrameWindow::NorthSouthCursorImageName[]      = "MouseNoSoCursor";
-const utf8  TLFrameWindow::EastWestCursorImageName[]        = "MouseEsWeCursor";
-const utf8  TLFrameWindow::NWestSEastCursorImageName[]      = "MouseNwSeCursor";
-const utf8  TLFrameWindow::NEastSWestCursorImageName[]      = "MouseNeSwCursor";
+const utf8  RLFrameWindow::NormalCursorImageName[]          = "MouseTarget";
+const utf8  RLFrameWindow::NorthSouthCursorImageName[]      = "MouseNoSoCursor";
+const utf8  RLFrameWindow::EastWestCursorImageName[]        = "MouseEsWeCursor";
+const utf8  RLFrameWindow::NWestSEastCursorImageName[]      = "MouseNwSeCursor";
+const utf8  RLFrameWindow::NEastSWestCursorImageName[]      = "MouseNeSwCursor";
 
 
 // window type stuff
-const utf8* TLFrameWindow::TitlebarType         = TLTitlebar::WidgetTypeName;
-const utf8* TLFrameWindow::CloseButtonType      = TLCloseButton::WidgetTypeName;
+const utf8* RLFrameWindow::TitlebarType         = RLTitlebar::WidgetTypeName;
+const utf8* RLFrameWindow::CloseButtonType      = RLCloseButton::WidgetTypeName;
 
 // layout constants
-const float TLFrameWindow::TitlebarXOffset          = 0;
-const float TLFrameWindow::TitlebarYOffset          = 0;
-const float TLFrameWindow::TitlebarTextPadding      = 8;
-const float TLFrameWindow::TitlebarWidthPercentage  = 66;
+const float RLFrameWindow::TitlebarXOffset          = 0;
+const float RLFrameWindow::TitlebarYOffset          = 0;
+const float RLFrameWindow::TitlebarTextPadding      = 8;
+const float RLFrameWindow::TitlebarWidthPercentage  = 66;
 
 
 /*************************************************************************
     Constructor
 *************************************************************************/
-TLFrameWindow::TLFrameWindow(const String& type, const String& name) :
+RLFrameWindow::RLFrameWindow(const String& type, const String& name) :
     FrameWindow(type, name)
 {
     Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
@@ -109,7 +109,7 @@ TLFrameWindow::TLFrameWindow(const String& type, const String& name) :
 /*************************************************************************
     Destructor
 *************************************************************************/
-TLFrameWindow::~TLFrameWindow(void)
+RLFrameWindow::~RLFrameWindow(void)
 {
 }
 
@@ -118,7 +118,7 @@ TLFrameWindow::~TLFrameWindow(void)
     Return a Rect object that describes, unclipped, the inner rectangle
     for this window.    
 *************************************************************************/
-Rect TLFrameWindow::getUnclippedInnerRect(void) const
+Rect RLFrameWindow::getUnclippedInnerRect(void) const
 {
     Rect tmp(getUnclippedPixelRect());
 
@@ -146,9 +146,9 @@ Rect TLFrameWindow::getUnclippedInnerRect(void) const
     Create a control based upon the Titlebar base class to be used as
     the title bar for this window.
 *************************************************************************/
-Titlebar* TLFrameWindow::createTitlebar(void) const
+Titlebar* RLFrameWindow::createTitlebar(void) const
 {
-    TLTitlebar* tbar = (TLTitlebar*)WindowManager::getSingleton().createWindow(TitlebarType, getName() + "__auto_titlebar__");
+    RLTitlebar* tbar = (RLTitlebar*)WindowManager::getSingleton().createWindow(TitlebarType, getName() + "__auto_titlebar__");
     tbar->setMetricsMode(Absolute);
     tbar->setPosition(Point(TitlebarXOffset, TitlebarYOffset));
 
@@ -160,9 +160,9 @@ Titlebar* TLFrameWindow::createTitlebar(void) const
     Create a control based upon the PushButton base class, to be used as
     the close button for the window.
 *************************************************************************/
-PushButton* TLFrameWindow::createCloseButton(void) const
+PushButton* RLFrameWindow::createCloseButton(void) const
 {
-    TLButton* btn = (TLButton*)WindowManager::getSingleton().createWindow(CloseButtonType, getName() + "__auto_closebutton__");
+    RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(CloseButtonType, getName() + "__auto_closebutton__");
 
     btn->setStandardImageryEnabled(false);
     btn->setCustomImageryAutoSized(true);
@@ -192,7 +192,7 @@ PushButton* TLFrameWindow::createCloseButton(void) const
     Setup size and position for the title bar and close button widgets
     attached to this window
 *************************************************************************/
-void TLFrameWindow::layoutComponentWidgets()
+void RLFrameWindow::layoutComponentWidgets()
 {
     ImagesetManager& ismgr = ImagesetManager::getSingleton();
 
@@ -208,7 +208,7 @@ void TLFrameWindow::layoutComponentWidgets()
 
     // calculate position for close button (somewhere over the end of the titlbar)
     float closeX = titleSz.d_width - closeSize - 
-		( ismgr.getImageset(TLTitlebar::ImagesetName)->getImage(TLTitlebar::SysAreaRightImageName).getWidth() * 0.5f ) ;
+		( ismgr.getImageset(RLTitlebar::ImagesetName)->getImage(RLTitlebar::SysAreaRightImageName).getWidth() * 0.5f ) ;
 
 	float closeY = TitlebarYOffset; //+ ((titleSz.d_height - closeSize) / 2);
 
@@ -219,7 +219,7 @@ void TLFrameWindow::layoutComponentWidgets()
 /*************************************************************************
     Perform the actual rendering for this Window.
 *************************************************************************/
-void TLFrameWindow::drawSelf(float z)
+void RLFrameWindow::drawSelf(float z)
 {
     // get the destination screen rect for this window
     Rect absrect(getUnclippedPixelRect());
@@ -238,7 +238,7 @@ void TLFrameWindow::drawSelf(float z)
 /*************************************************************************
     Handler called when window is sized
 *************************************************************************/
-void TLFrameWindow::onSized(WindowEventArgs& e)
+void RLFrameWindow::onSized(WindowEventArgs& e)
 {
     // MUST call base class handler no matter what.  This is now required 100%
     FrameWindow::onSized(e);
@@ -294,7 +294,7 @@ void TLFrameWindow::onSized(WindowEventArgs& e)
 /*************************************************************************
     Handler for alpha value changes
 *************************************************************************/
-void TLFrameWindow::onAlphaChanged(WindowEventArgs& e)
+void RLFrameWindow::onAlphaChanged(WindowEventArgs& e)
 {
     FrameWindow::onAlphaChanged(e);
 
@@ -315,7 +315,7 @@ void TLFrameWindow::onAlphaChanged(WindowEventArgs& e)
 /*************************************************************************
     Store the sizes for the frame edges
 *************************************************************************/
-void TLFrameWindow::storeFrameSizes(void)
+void RLFrameWindow::storeFrameSizes(void)
 {
     Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
 
@@ -338,7 +338,7 @@ void TLFrameWindow::storeFrameSizes(void)
     Return a Rect that describes, in window relative pixel co-ordinates,
     the outer edge of the sizing area for this window.
 *************************************************************************/
-Rect TLFrameWindow::getSizingRect(void) const
+Rect RLFrameWindow::getSizingRect(void) const
 {
     return d_frame.getRect();
 }
@@ -347,25 +347,25 @@ Rect TLFrameWindow::getSizingRect(void) const
 /*************************************************************************
     Initialises the Window based object ready for use.
 *************************************************************************/
-void TLFrameWindow::initialise(void)
+void RLFrameWindow::initialise(void)
 {
     // Call base class to create component widgets and "do whatever"
     FrameWindow::initialise();
 
     // subscribe to enable/disable events on title bar since we need something a little more than that.
-    d_titlebar->subscribeEvent(Window::EventDisabled, Event::Subscriber(&CEGUI::TLFrameWindow::componentDisabledHandler, this));
-    d_titlebar->subscribeEvent(Window::EventEnabled, Event::Subscriber(&CEGUI::TLFrameWindow::componentEnabledHandler, this));
+    d_titlebar->subscribeEvent(Window::EventDisabled, Event::Subscriber(&CEGUI::RLFrameWindow::componentDisabledHandler, this));
+    d_titlebar->subscribeEvent(Window::EventEnabled, Event::Subscriber(&CEGUI::RLFrameWindow::componentEnabledHandler, this));
 
     // subscribe to enable/disable events on close button since we need something a little more than that.
-    d_closeButton->subscribeEvent(Window::EventDisabled, Event::Subscriber(&CEGUI::TLFrameWindow::componentDisabledHandler, this));
-    d_closeButton->subscribeEvent(Window::EventEnabled, Event::Subscriber(&CEGUI::TLFrameWindow::componentEnabledHandler, this));
+    d_closeButton->subscribeEvent(Window::EventDisabled, Event::Subscriber(&CEGUI::RLFrameWindow::componentDisabledHandler, this));
+    d_closeButton->subscribeEvent(Window::EventEnabled, Event::Subscriber(&CEGUI::RLFrameWindow::componentEnabledHandler, this));
 }
 
 
 /*************************************************************************
     handler used for when the title bar or close button are disabled.   
 *************************************************************************/
-bool TLFrameWindow::componentDisabledHandler(const EventArgs& e)
+bool RLFrameWindow::componentDisabledHandler(const EventArgs& e)
 {
     ((WindowEventArgs&)e).window->hide();
 
@@ -391,7 +391,7 @@ bool TLFrameWindow::componentDisabledHandler(const EventArgs& e)
 /*************************************************************************
     handler used for when the title bar or close button are enabled.
 *************************************************************************/
-bool TLFrameWindow::componentEnabledHandler(const EventArgs& e)
+bool RLFrameWindow::componentEnabledHandler(const EventArgs& e)
 {
     ((WindowEventArgs&)e).window->show();
 
@@ -422,11 +422,11 @@ bool TLFrameWindow::componentEnabledHandler(const EventArgs& e)
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TLFrameWindow   
+    Create, initialise and return a RLFrameWindow   
 *************************************************************************/
-Window* TLFrameWindowFactory::createWindow(const String& name)
+Window* RLFrameWindowFactory::createWindow(const String& name)
 {
-    TLFrameWindow* wnd = new TLFrameWindow(d_type, name);
+    RLFrameWindow* wnd = new RLFrameWindow(d_type, name);
     wnd->initialise();
 
     return wnd;

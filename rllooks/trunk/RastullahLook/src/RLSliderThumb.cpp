@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLSliderThumb.cpp
+    filename:   RLSliderThumb.cpp
     created:    22/5/2004
     author:     Paul D Turner
     
@@ -35,18 +35,18 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  TLSliderThumb::WidgetTypeName[] = "TaharezLook/SliderThumb";
+const utf8  RLSliderThumb::WidgetTypeName[] = "TaharezLook/SliderThumb";
 
 // Image names
-const utf8  TLSliderThumb::ImagesetName[]           = "TaharezLook";
-const utf8  TLSliderThumb::NormalImageName[]        = "VertSliderThumbNormal";
-const utf8  TLSliderThumb::HighlightImageName[]     = "VertSliderThumbHover";
+const utf8  RLSliderThumb::ImagesetName[]           = "TaharezLook";
+const utf8  RLSliderThumb::NormalImageName[]        = "VertSliderThumbNormal";
+const utf8  RLSliderThumb::HighlightImageName[]     = "VertSliderThumbHover";
 
 
 /*************************************************************************
     Constructor
 *************************************************************************/
-TLSliderThumb::TLSliderThumb(const String& type, const String& name) :
+RLSliderThumb::RLSliderThumb(const String& type, const String& name) :
     Thumb(type, name)
 {
     Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
@@ -59,7 +59,7 @@ TLSliderThumb::TLSliderThumb(const String& type, const String& name) :
 /*************************************************************************
     Destructor
 *************************************************************************/
-TLSliderThumb::~TLSliderThumb(void)
+RLSliderThumb::~RLSliderThumb(void)
 {
 }
 
@@ -67,7 +67,7 @@ TLSliderThumb::~TLSliderThumb(void)
 /*************************************************************************
     render the thumb in the normal state.   
 *************************************************************************/
-void TLSliderThumb::drawNormal(float z)
+void RLSliderThumb::drawNormal(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -84,7 +84,7 @@ void TLSliderThumb::drawNormal(float z)
 /*************************************************************************
     render the thumb in the hover / highlighted state.  
 *************************************************************************/
-void TLSliderThumb::drawHover(float z)
+void RLSliderThumb::drawHover(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -101,7 +101,7 @@ void TLSliderThumb::drawHover(float z)
 /*************************************************************************
     render the thumb in the disabled state
 *************************************************************************/
-void TLSliderThumb::drawDisabled(float z)
+void RLSliderThumb::drawDisabled(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -123,11 +123,11 @@ void TLSliderThumb::drawDisabled(float z)
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TLSliderThumb
+    Create, initialise and return a RLSliderThumb
 *************************************************************************/
-Window* TLSliderThumbFactory::createWindow(const String& name)
+Window* RLSliderThumbFactory::createWindow(const String& name)
 {
-    TLSliderThumb* wnd = new TLSliderThumb(d_type, name);
+    RLSliderThumb* wnd = new RLSliderThumb(d_type, name);
     wnd->initialise();
 
     return wnd;

@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLMultiColumnList.h
+    filename:   RLMultiColumnList.h
     created:    19/6/2004
     author:     Paul D Turner
     
@@ -40,7 +40,7 @@ namespace CEGUI
 \brief
     Multi-column Listbox class for the TaharezLook GUI scheme
 */
-class RASTULLAHLOOK_API TLMultiColumnList : public MultiColumnList
+class RASTULLAHLOOK_API RLMultiColumnList : public MultiColumnList
 {
 public:
     /*************************************************************************
@@ -82,14 +82,14 @@ public:
     \param name
         String object that specifies a unique name that will be used to identify the new Window object
     */
-    TLMultiColumnList(const String& type, const String& name);
+    RLMultiColumnList(const String& type, const String& name);
 
 
     /*!
     \brief
-        Destructor for TLMultiColumnList objects.
+        Destructor for RLMultiColumnList objects.
     */
-    virtual ~TLMultiColumnList(void);
+    virtual ~RLMultiColumnList(void);
 
     
 protected:
@@ -193,16 +193,16 @@ protected:
 
 /*!
 \brief
-    Factory class for producing TLMultiColumnList objects
+    Factory class for producing RLMultiColumnList objects
 */
-class RASTULLAHLOOK_API TLMultiColumnListFactory : public WindowFactory
+class RASTULLAHLOOK_API RLMultiColumnListFactory : public WindowFactory
 {
 public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLMultiColumnListFactory(void) : WindowFactory(TLMultiColumnList::WidgetTypeName) { }
-    ~TLMultiColumnListFactory(void){}
+    RLMultiColumnListFactory(void) : WindowFactory(RLMultiColumnList::WidgetTypeName) { }
+    ~RLMultiColumnListFactory(void){}
 
 
     /*!
@@ -234,4 +234,4 @@ public:
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _TLMultiColumnList_h_
+#endif  // end of guard _RLMultiColumnList_h_

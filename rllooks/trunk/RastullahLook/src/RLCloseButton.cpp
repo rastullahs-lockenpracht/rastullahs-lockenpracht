@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLCloseButton.cpp
+    filename:   RLCloseButton.cpp
     created:    20/5/2004
     author:     Paul D Turner
     
@@ -34,14 +34,14 @@ namespace CEGUI
     Constants 
 *************************************************************************/
 // type name for this widget
-const utf8  TLCloseButton::WidgetTypeName[] = "TaharezLook/CloseButton";
+const utf8  RLCloseButton::WidgetTypeName[] = "TaharezLook/CloseButton";
 
 
 /*************************************************************************
     return a Rect object describing the appropriately clipped Window
     area in screen space.
 *************************************************************************/
-Rect TLCloseButton::getPixelRect(void) const
+Rect RLCloseButton::getPixelRect(void) const
 {
     // clip to screen if we have no grand-parent
     if ((d_parent == NULL) || (d_parent->getParent() == NULL))
@@ -65,11 +65,11 @@ Rect TLCloseButton::getPixelRect(void) const
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TLCloseButton
+    Create, initialise and return a RLCloseButton
 *************************************************************************/
-Window* TLCloseButtonFactory::createWindow(const String& name)
+Window* RLCloseButtonFactory::createWindow(const String& name)
 {
-    TLCloseButton* wnd = new TLCloseButton(d_type, name);
+    RLCloseButton* wnd = new RLCloseButton(d_type, name);
     wnd->initialise();
 
     return wnd;

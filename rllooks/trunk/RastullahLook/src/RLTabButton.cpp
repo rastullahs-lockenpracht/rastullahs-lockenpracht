@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLTabButton.cpp
+    filename:   RLTabButton.cpp
     created:    11/08/2004
     author:     Steve Streeting
     
@@ -35,31 +35,31 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  TLTabButton::WidgetTypeName[]   = "TaharezLook/TabButton";
+const utf8  RLTabButton::WidgetTypeName[]   = "TaharezLook/TabButton";
 
-const utf8  TLTabButton::ImagesetName[]                 = "TaharezLook";
-const utf8  TLTabButton::LeftNormalImageName[]          = "TabButtonLeftNormal";
-const utf8  TLTabButton::MiddleNormalImageName[]        = "TabButtonMiddleNormal";
-const utf8  TLTabButton::RightNormalImageName[]         = "TabButtonRightNormal";
-const utf8  TLTabButton::UpperRightNormalImageName[]    = "TabButtonUpperRightNormal";
-const utf8  TLTabButton::UpperLeftNormalImageName[]     = "TabButtonUpperLeftNormal";
-const utf8  TLTabButton::UpperNormalImageName[]         = "TabButtonUpperNormal";
-const utf8  TLTabButton::LowerNormalImageName[]         = "TabButtonLowerNormal";
-const utf8  TLTabButton::LowerRightNormalImageName[]    = "TabButtonLowerRightNormal";
-const utf8  TLTabButton::LowerLeftNormalImageName[]     = "TabButtonLowerLeftNormal";
-const utf8  TLTabButton::LeftSelectedImageName[]        = "TabButtonLeftSelected";
-const utf8  TLTabButton::MiddleSelectedImageName[]      = "TabButtonMiddleSelected";
-const utf8  TLTabButton::RightSelectedImageName[]       = "TabButtonRightSelected";
-const utf8  TLTabButton::UpperRightSelectedImageName[]  = "TabButtonUpperRightSelected";
-const utf8  TLTabButton::UpperLeftSelectedImageName[]   = "TabButtonUpperLeftSelected";
-const utf8  TLTabButton::UpperSelectedImageName[]       = "TabButtonUpperSelected";
-const utf8  TLTabButton::LowerSelectedImageName[]       = "TabButtonLowerSelected";
+const utf8  RLTabButton::ImagesetName[]                 = "TaharezLook";
+const utf8  RLTabButton::LeftNormalImageName[]          = "TabButtonLeftNormal";
+const utf8  RLTabButton::MiddleNormalImageName[]        = "TabButtonMiddleNormal";
+const utf8  RLTabButton::RightNormalImageName[]         = "TabButtonRightNormal";
+const utf8  RLTabButton::UpperRightNormalImageName[]    = "TabButtonUpperRightNormal";
+const utf8  RLTabButton::UpperLeftNormalImageName[]     = "TabButtonUpperLeftNormal";
+const utf8  RLTabButton::UpperNormalImageName[]         = "TabButtonUpperNormal";
+const utf8  RLTabButton::LowerNormalImageName[]         = "TabButtonLowerNormal";
+const utf8  RLTabButton::LowerRightNormalImageName[]    = "TabButtonLowerRightNormal";
+const utf8  RLTabButton::LowerLeftNormalImageName[]     = "TabButtonLowerLeftNormal";
+const utf8  RLTabButton::LeftSelectedImageName[]        = "TabButtonLeftSelected";
+const utf8  RLTabButton::MiddleSelectedImageName[]      = "TabButtonMiddleSelected";
+const utf8  RLTabButton::RightSelectedImageName[]       = "TabButtonRightSelected";
+const utf8  RLTabButton::UpperRightSelectedImageName[]  = "TabButtonUpperRightSelected";
+const utf8  RLTabButton::UpperLeftSelectedImageName[]   = "TabButtonUpperLeftSelected";
+const utf8  RLTabButton::UpperSelectedImageName[]       = "TabButtonUpperSelected";
+const utf8  RLTabButton::LowerSelectedImageName[]       = "TabButtonLowerSelected";
 
 
 /*************************************************************************
     Constructor
 *************************************************************************/
-TLTabButton::TLTabButton(const String& type, const String& name) :
+RLTabButton::RLTabButton(const String& type, const String& name) :
     TabButton(type, name)
 {
     Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
@@ -89,13 +89,13 @@ TLTabButton::TLTabButton(const String& type, const String& name) :
 /*************************************************************************
     Destructor
 *************************************************************************/
-TLTabButton::~TLTabButton(void)
+RLTabButton::~RLTabButton(void)
 {
 }
 /*************************************************************************
     render Widget in normal state   
 *************************************************************************/
-void TLTabButton::drawNormal(float z)
+void RLTabButton::drawNormal(float z)
 {
     const uint INDENT = 3;
     Rect clipper(getPixelRect());
@@ -186,7 +186,7 @@ void TLTabButton::drawNormal(float z)
 /*************************************************************************
 render Widget in selected state 
 *************************************************************************/
-void TLTabButton::drawPushed(float z)
+void RLTabButton::drawPushed(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -271,11 +271,11 @@ void TLTabButton::drawPushed(float z)
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TLTabButton
+    Create, initialise and return a RLTabButton
 *************************************************************************/
-Window* TLTabButtonFactory::createWindow(const String& name)
+Window* RLTabButtonFactory::createWindow(const String& name)
 {
-    TLTabButton* wnd = new TLTabButton(d_type, name);
+    RLTabButton* wnd = new RLTabButton(d_type, name);
     wnd->initialise();
 
     return wnd;

@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLVertScrollbarThumb.h
+    filename:   RLVertScrollbarThumb.h
     created:    2/6/2004
     author:     Paul D Turner
     
@@ -38,7 +38,7 @@ namespace CEGUI
 \brief
     Thumb class as used in the Taharez vertical scroll bar.
 */
-class RASTULLAHLOOK_API TLVertScrollbarThumb : public Thumb
+class RASTULLAHLOOK_API RLVertScrollbarThumb : public Thumb
 {
 public:
     /*************************************************************************
@@ -56,8 +56,8 @@ public:
     /*************************************************************************
         Construction / Destruction
     *************************************************************************/
-    TLVertScrollbarThumb(const String& type, const String& name);
-    virtual ~TLVertScrollbarThumb(void);
+    RLVertScrollbarThumb(const String& type, const String& name);
+    virtual ~RLVertScrollbarThumb(void);
 
 
 protected:
@@ -105,16 +105,16 @@ protected:
 
 /*!
 \brief
-    Factory class for producing TLVertScrollbarThumb objects
+    Factory class for producing RLVertScrollbarThumb objects
 */
-class RASTULLAHLOOK_API TLVertScrollbarThumbFactory : public WindowFactory
+class RASTULLAHLOOK_API RLVertScrollbarThumbFactory : public WindowFactory
 {
 public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLVertScrollbarThumbFactory(void) : WindowFactory(TLVertScrollbarThumb::WidgetTypeName) { }
-    ~TLVertScrollbarThumbFactory(void){}
+    RLVertScrollbarThumbFactory(void) : WindowFactory(RLVertScrollbarThumb::WidgetTypeName) { }
+    ~RLVertScrollbarThumbFactory(void){}
 
 
     /*!
@@ -147,4 +147,4 @@ public:
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _TLVertScrollbarThumb_h_
+#endif  // end of guard _RLVertScrollbarThumb_h_

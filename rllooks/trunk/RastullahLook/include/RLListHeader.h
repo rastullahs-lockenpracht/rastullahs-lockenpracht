@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLListHeader.h
+    filename:   RLListHeader.h
     created:    14/6/2004
     author:     Paul D Turner
     
@@ -38,7 +38,7 @@ namespace CEGUI
 \brief
     List header class for the Taharez Gui Scheme.
 */
-class RASTULLAHLOOK_API TLListHeader : public ListHeader
+class RASTULLAHLOOK_API RLListHeader : public ListHeader
 {
 public:
     /*************************************************************************
@@ -58,14 +58,14 @@ public:
     \brief
         Constructor for Taharez List Header widgets.
     */
-    TLListHeader(const String& type, const String& name);
+    RLListHeader(const String& type, const String& name);
 
 
     /*!
     \brief
         Destructor for Taharez List Header widgets.
     */
-    virtual ~ TLListHeader(void);
+    virtual ~ RLListHeader(void);
 
 
 protected:
@@ -116,16 +116,16 @@ protected:
 
 /*!
 \brief
-    Factory class for producing TLListHeader objects
+    Factory class for producing RLListHeader objects
 */
-class RASTULLAHLOOK_API TLListHeaderFactory : public WindowFactory
+class RASTULLAHLOOK_API RLListHeaderFactory : public WindowFactory
 {
 public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLListHeaderFactory(void) : WindowFactory(TLListHeader::WidgetTypeName) { }
-    ~TLListHeaderFactory(void){}
+    RLListHeaderFactory(void) : WindowFactory(RLListHeader::WidgetTypeName) { }
+    ~RLListHeaderFactory(void){}
 
 
     /*!
@@ -157,4 +157,4 @@ public:
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _TLListHeader_h_
+#endif  // end of guard _RLListHeader_h_

@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLListHeaderSegment.cpp
+    filename:   RLListHeaderSegment.cpp
     created:    15/6/2004
     author:     Paul D Turner
     
@@ -36,25 +36,25 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  TLListHeaderSegment::WidgetTypeName[]   = "TaharezLook/ListHeaderSegment";
+const utf8  RLListHeaderSegment::WidgetTypeName[]   = "TaharezLook/ListHeaderSegment";
 
 // image / imageset related
-const utf8  TLListHeaderSegment::ImagesetName[]             = "TaharezLook";
-const utf8  TLListHeaderSegment::BackdropNormalImageName[]  = "HeaderBarBackdropNormal";
-const utf8  TLListHeaderSegment::BackdropHoverImageName[]   = "HeaderBarBackdropHover";
-const utf8  TLListHeaderSegment::SplitterNormalImageName[]  = "HeaderBarSplitterNormal";
-const utf8  TLListHeaderSegment::SplitterHoverImageName[]   = "HeaderBarSplitterHover";
-const utf8  TLListHeaderSegment::SortUpImageName[]          = "HeaderBarSortUp";
-const utf8  TLListHeaderSegment::SortDownImageName[]        = "HeaderBarSortDown";
-const utf8  TLListHeaderSegment::NormalMouseCursor[]        = "MouseArrow";
-const utf8  TLListHeaderSegment::SizingMouseCursor[]        = "MouseEsWeCursor";
-const utf8  TLListHeaderSegment::MovingMouseCursor[]        = "MouseMoveCursor";
+const utf8  RLListHeaderSegment::ImagesetName[]             = "TaharezLook";
+const utf8  RLListHeaderSegment::BackdropNormalImageName[]  = "HeaderBarBackdropNormal";
+const utf8  RLListHeaderSegment::BackdropHoverImageName[]   = "HeaderBarBackdropHover";
+const utf8  RLListHeaderSegment::SplitterNormalImageName[]  = "HeaderBarSplitterNormal";
+const utf8  RLListHeaderSegment::SplitterHoverImageName[]   = "HeaderBarSplitterHover";
+const utf8  RLListHeaderSegment::SortUpImageName[]          = "HeaderBarSortUp";
+const utf8  RLListHeaderSegment::SortDownImageName[]        = "HeaderBarSortDown";
+const utf8  RLListHeaderSegment::NormalMouseCursor[]        = "MouseArrow";
+const utf8  RLListHeaderSegment::SizingMouseCursor[]        = "MouseEsWeCursor";
+const utf8  RLListHeaderSegment::MovingMouseCursor[]        = "MouseMoveCursor";
 
 
 /*************************************************************************
     Constructor 
 *************************************************************************/
-TLListHeaderSegment::TLListHeaderSegment(const String& type, const String& name) :
+RLListHeaderSegment::RLListHeaderSegment(const String& type, const String& name) :
     ListHeaderSegment(type, name)
 {
     // init the image cache
@@ -76,7 +76,7 @@ TLListHeaderSegment::TLListHeaderSegment(const String& type, const String& name)
 /*************************************************************************
     Destructor
 *************************************************************************/
-TLListHeaderSegment::~TLListHeaderSegment(void)
+RLListHeaderSegment::~RLListHeaderSegment(void)
 {
 }
 
@@ -84,7 +84,7 @@ TLListHeaderSegment::~TLListHeaderSegment(void)
 /*************************************************************************
     Render the widget
 *************************************************************************/
-void TLListHeaderSegment::drawSelf(float z)
+void RLListHeaderSegment::drawSelf(float z)
 {
     // get the destination screen rect for this window
     Rect absrect(getUnclippedPixelRect());
@@ -115,7 +115,7 @@ void TLListHeaderSegment::drawSelf(float z)
 /*************************************************************************
     Render segment  
 *************************************************************************/
-void TLListHeaderSegment::renderSegmentImagery(Vector3 pos, float alpha, const Rect& clipper)
+void RLListHeaderSegment::renderSegmentImagery(Vector3 pos, float alpha, const Rect& clipper)
 {
     Rect absrect(pos.d_x, pos.d_y, pos.d_x + getAbsoluteWidth(), pos.d_y + getAbsoluteHeight());
     Rect destrect(absrect);
@@ -205,11 +205,11 @@ void TLListHeaderSegment::renderSegmentImagery(Vector3 pos, float alpha, const R
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TLListHeaderSegment
+    Create, initialise and return a RLListHeaderSegment
 *************************************************************************/
-Window* TLListHeaderSegmentFactory::createWindow(const String& name)
+Window* RLListHeaderSegmentFactory::createWindow(const String& name)
 {
-    TLListHeaderSegment* wnd = new TLListHeaderSegment(d_type, name);
+    RLListHeaderSegment* wnd = new RLListHeaderSegment(d_type, name);
     wnd->initialise();
 
     return wnd;

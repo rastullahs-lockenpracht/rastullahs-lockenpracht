@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLTabButton.h
+    filename:   RLTabButton.h
     created:    11/08/2004
     author:     Steve Streeting
     
@@ -40,7 +40,7 @@ namespace CEGUI
 \brief
     Concrete TabButton class for the Taharez Look widget set.   
 */
-class RASTULLAHLOOK_API TLTabButton : public TabButton
+class RASTULLAHLOOK_API RLTabButton : public TabButton
 {
 public:
     /*************************************************************************
@@ -80,14 +80,14 @@ public:
     \param name
         String object that specifies a unique name that will be used to identify the new Window object
     */
-    TLTabButton(const String& type, const String& name);
+    RLTabButton(const String& type, const String& name);
 
 
     /*!
     \brief
-        Destructor for TLButton objects.
+        Destructor for RLButton objects.
     */
-    virtual ~TLTabButton(void);
+    virtual ~RLTabButton(void);
 
     
     /*************************************************************************
@@ -137,9 +137,9 @@ protected:
 
 /*!
 \brief
-    Factory class for producing TLFrameWindow objects
+    Factory class for producing RLFrameWindow objects
 */
-class RASTULLAHLOOK_API TLTabButtonFactory : public WindowFactory
+class RASTULLAHLOOK_API RLTabButtonFactory : public WindowFactory
 {
 public:
     /*************************************************************************
@@ -149,14 +149,14 @@ public:
     \brief
         Constructor for Taharez Tab Button factory class.
     */
-    TLTabButtonFactory(void) : WindowFactory(TLTabButton::WidgetTypeName) { }
+    RLTabButtonFactory(void) : WindowFactory(RLTabButton::WidgetTypeName) { }
 
 
     /*
     \brief
         Destructor for Taharez Tab Button factory class.
     */
-    ~TLTabButtonFactory(void){}
+    ~RLTabButtonFactory(void){}
 
 
     /*!
@@ -188,4 +188,4 @@ public:
 
 } // End of  CEGUI namespace section
 
-#endif  // end of guard _TLFrameWindow_h_
+#endif  // end of guard _RLFrameWindow_h_

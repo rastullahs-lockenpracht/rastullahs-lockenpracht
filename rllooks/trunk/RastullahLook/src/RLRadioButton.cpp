@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLRadioButton.cpp
+    filename:   RLRadioButton.cpp
     created:    21/5/2004
     author:     Paul D Turner
     
@@ -35,20 +35,20 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  TLRadioButton::WidgetTypeName[] = "TaharezLook/RadioButton";
+const utf8  RLRadioButton::WidgetTypeName[] = "TaharezLook/RadioButton";
 
-const utf8  TLRadioButton::ImagesetName[]           = "TaharezLook";
-const utf8  TLRadioButton::NormalImageName[]        = "RadioButtonNormal";
-const utf8  TLRadioButton::HighlightImageName[]     = "RadioButtonHover";
-const utf8  TLRadioButton::SelectMarkImageName[]    = "RadioButtonMark";
+const utf8  RLRadioButton::ImagesetName[]           = "TaharezLook";
+const utf8  RLRadioButton::NormalImageName[]        = "RadioButtonNormal";
+const utf8  RLRadioButton::HighlightImageName[]     = "RadioButtonHover";
+const utf8  RLRadioButton::SelectMarkImageName[]    = "RadioButtonMark";
 
-const float TLRadioButton::LabelPadding             = 4.0f;
+const float RLRadioButton::LabelPadding             = 4.0f;
 
 
 /*************************************************************************
     Constructor for Taharez Look Radio Button objects.
 *************************************************************************/
-TLRadioButton::TLRadioButton(const String& type, const String& name) :
+RLRadioButton::RLRadioButton(const String& type, const String& name) :
     RadioButton(type, name)
 {
     Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
@@ -61,9 +61,9 @@ TLRadioButton::TLRadioButton(const String& type, const String& name) :
 
 
 /*************************************************************************
-    Destructor for TLRadioButton objects.
+    Destructor for RLRadioButton objects.
 *************************************************************************/
-TLRadioButton::~TLRadioButton(void)
+RLRadioButton::~RLRadioButton(void)
 {
 }
 
@@ -71,7 +71,7 @@ TLRadioButton::~TLRadioButton(void)
 /*************************************************************************
     render the radio button in the normal state.    
 *************************************************************************/
-void TLRadioButton::drawNormal(float z)
+void RLRadioButton::drawNormal(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -113,7 +113,7 @@ void TLRadioButton::drawNormal(float z)
 /*************************************************************************
     render the radio button in the hover / highlighted state.
 *************************************************************************/
-void TLRadioButton::drawHover(float z)
+void RLRadioButton::drawHover(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -155,7 +155,7 @@ void TLRadioButton::drawHover(float z)
 /*************************************************************************
     render the radio button in the pushed state.    
 *************************************************************************/
-void TLRadioButton::drawPushed(float z)
+void RLRadioButton::drawPushed(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -197,7 +197,7 @@ void TLRadioButton::drawPushed(float z)
 /*************************************************************************
     render the radio button in the disabled state   
 *************************************************************************/
-void TLRadioButton::drawDisabled(float z)
+void RLRadioButton::drawDisabled(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -244,11 +244,11 @@ void TLRadioButton::drawDisabled(float z)
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TLRadioButton
+    Create, initialise and return a RLRadioButton
 *************************************************************************/
-Window* TLRadioButtonFactory::createWindow(const String& name)
+Window* RLRadioButtonFactory::createWindow(const String& name)
 {
-    TLRadioButton* wnd = new TLRadioButton(d_type, name);
+    RLRadioButton* wnd = new RLRadioButton(d_type, name);
     wnd->initialise();
 
     return wnd;

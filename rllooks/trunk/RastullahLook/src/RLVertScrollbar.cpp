@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLVertScrollbar.cpp
+    filename:   RLVertScrollbar.cpp
     created:    2/6/2004
     author:     Paul D Turner
     
@@ -38,38 +38,38 @@ namespace CEGUI
 /*************************************************************************
     Constants
 *************************************************************************/
-const utf8  TLVertScrollbar::WidgetTypeName[]   = "TaharezLook/LargeVerticalScrollbar";
+const utf8  RLVertScrollbar::WidgetTypeName[]   = "TaharezLook/LargeVerticalScrollbar";
 
 // Progress bar image names
-const utf8  TLVertScrollbar::ImagesetName[]                 = "TaharezLook";
-const utf8  TLVertScrollbar::ContainerTopImageName[]        = "VertScrollTop";
-const utf8  TLVertScrollbar::ContainerMiddleImageName[]     = "VertScrollMiddle";
-const utf8  TLVertScrollbar::ContainerBottomImageName[]     = "VertScrollBottom";
-const utf8  TLVertScrollbar::ThumbTrackSegmentImageName[]   = "VertScrollBarSegment";
-const utf8  TLVertScrollbar::UpButtonNormalImageName[]      = "VertScrollUpNormal";
-const utf8  TLVertScrollbar::UpButtonHighlightImageName[]   = "VertScrollUpHover";
-const utf8  TLVertScrollbar::DownButtonNormalImageName[]    = "VertScrollDownNormal";
-const utf8  TLVertScrollbar::DownButtonHighlightImageName[] = "VertScrollDownHover";
+const utf8  RLVertScrollbar::ImagesetName[]                 = "TaharezLook";
+const utf8  RLVertScrollbar::ContainerTopImageName[]        = "VertScrollTop";
+const utf8  RLVertScrollbar::ContainerMiddleImageName[]     = "VertScrollMiddle";
+const utf8  RLVertScrollbar::ContainerBottomImageName[]     = "VertScrollBottom";
+const utf8  RLVertScrollbar::ThumbTrackSegmentImageName[]   = "VertScrollBarSegment";
+const utf8  RLVertScrollbar::UpButtonNormalImageName[]      = "VertScrollUpNormal";
+const utf8  RLVertScrollbar::UpButtonHighlightImageName[]   = "VertScrollUpHover";
+const utf8  RLVertScrollbar::DownButtonNormalImageName[]    = "VertScrollDownNormal";
+const utf8  RLVertScrollbar::DownButtonHighlightImageName[] = "VertScrollDownHover";
 
 // some layout stuff
-const float TLVertScrollbar::ThumbWidth         = 0.4f;
-const float TLVertScrollbar::ThumbPositionX     = 0.325f;
-const float TLVertScrollbar::TrackWidthRatio    = 0.2f;
-const float TLVertScrollbar::TrackOffsetXRatio  = 0.45f;
-const float TLVertScrollbar::ButtonWidth        = 0.6f;
-const float TLVertScrollbar::ButtonPositionX    = 0.25f;
-const float TLVertScrollbar::ButtonOffsetYRatio = 0.5f;
+const float RLVertScrollbar::ThumbWidth         = 0.4f;
+const float RLVertScrollbar::ThumbPositionX     = 0.325f;
+const float RLVertScrollbar::TrackWidthRatio    = 0.2f;
+const float RLVertScrollbar::TrackOffsetXRatio  = 0.45f;
+const float RLVertScrollbar::ButtonWidth        = 0.6f;
+const float RLVertScrollbar::ButtonPositionX    = 0.25f;
+const float RLVertScrollbar::ButtonOffsetYRatio = 0.5f;
 
 // type names for the component widgets
-const utf8* TLVertScrollbar::ThumbWidgetType            = TLVertScrollbarThumb::WidgetTypeName;
-const utf8* TLVertScrollbar::IncreaseButtonWidgetType   = TLButton::WidgetTypeName;
-const utf8* TLVertScrollbar::DecreaseButtonWidgetType   = TLButton::WidgetTypeName;
+const utf8* RLVertScrollbar::ThumbWidgetType            = RLVertScrollbarThumb::WidgetTypeName;
+const utf8* RLVertScrollbar::IncreaseButtonWidgetType   = RLButton::WidgetTypeName;
+const utf8* RLVertScrollbar::DecreaseButtonWidgetType   = RLButton::WidgetTypeName;
 
 
 /*************************************************************************
     Constructor for Taharez vertical scroll bar widgets
 *************************************************************************/
-TLVertScrollbar::TLVertScrollbar(const String& type, const String& name) :
+RLVertScrollbar::RLVertScrollbar(const String& type, const String& name) :
     Scrollbar(type, name)
 {
     Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
@@ -86,7 +86,7 @@ TLVertScrollbar::TLVertScrollbar(const String& type, const String& name) :
 /*************************************************************************
     Destructor for Taharez vertical scroll bar widgets
 *************************************************************************/
-TLVertScrollbar::~TLVertScrollbar(void)
+RLVertScrollbar::~RLVertScrollbar(void)
 {
 }
 
@@ -95,10 +95,10 @@ TLVertScrollbar::~TLVertScrollbar(void)
     create a PushButton based widget to use as the increase button for
     this scroll bar.
 *************************************************************************/
-PushButton* TLVertScrollbar::createIncreaseButton(void) const
+PushButton* RLVertScrollbar::createIncreaseButton(void) const
 {
     // create the widget
-    TLButton* btn = (TLButton*)WindowManager::getSingleton().createWindow(IncreaseButtonWidgetType, getName() + "__auto_incbtn__");
+    RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(IncreaseButtonWidgetType, getName() + "__auto_incbtn__");
 
     // perform some initialisation
     btn->setStandardImageryEnabled(false);
@@ -124,10 +124,10 @@ PushButton* TLVertScrollbar::createIncreaseButton(void) const
     create a PushButton based widget to use as the decrease button for
     this scroll bar.
 *************************************************************************/
-PushButton* TLVertScrollbar::createDecreaseButton(void) const
+PushButton* RLVertScrollbar::createDecreaseButton(void) const
 {
     // create the widget
-    TLButton* btn = (TLButton*)WindowManager::getSingleton().createWindow(DecreaseButtonWidgetType, getName() + "__auto_decbtn__");
+    RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(DecreaseButtonWidgetType, getName() + "__auto_decbtn__");
 
     // perform some initialisation
     btn->setStandardImageryEnabled(false);
@@ -152,10 +152,10 @@ PushButton* TLVertScrollbar::createDecreaseButton(void) const
 /*************************************************************************
     create a Thumb based widget to use as the thumb for this scroll bar.
 *************************************************************************/
-Thumb* TLVertScrollbar::createThumb(void) const
+Thumb* RLVertScrollbar::createThumb(void) const
 {
     // create the widget
-    TLVertScrollbarThumb* thumb = (TLVertScrollbarThumb*)WindowManager::getSingleton().createWindow(ThumbWidgetType, getName() + "__auto_thumb__");
+    RLVertScrollbarThumb* thumb = (RLVertScrollbarThumb*)WindowManager::getSingleton().createWindow(ThumbWidgetType, getName() + "__auto_thumb__");
 
     // perform some initialisation
     thumb->setVertFree(true);
@@ -169,7 +169,7 @@ Thumb* TLVertScrollbar::createThumb(void) const
 /*************************************************************************
     layout the scroll bar component widgets
 *************************************************************************/
-void TLVertScrollbar::layoutComponentWidgets(void)
+void RLVertScrollbar::layoutComponentWidgets(void)
 {
     // calculate button sizes
     Size bsz;
@@ -197,7 +197,7 @@ void TLVertScrollbar::layoutComponentWidgets(void)
     update the size and location of the thumb to properly represent the
     current state of the scroll bar
 *************************************************************************/
-void TLVertScrollbar::updateThumb(void)
+void RLVertScrollbar::updateThumb(void)
 {
     // calculate actual padding values to use.
     float slideTrackYPadding = d_decrease->getAbsoluteHeight() + (d_containerTop->getHeight() * 0.5f);
@@ -216,7 +216,7 @@ void TLVertScrollbar::updateThumb(void)
     return value that best represents current scroll bar position given
     the current location of the thumb.
 *************************************************************************/
-float TLVertScrollbar::getValueFromThumb(void) const
+float RLVertScrollbar::getValueFromThumb(void) const
 {
     // calculate actual padding values to use.
     float slideTrackYPadding = d_decrease->getAbsoluteHeight() + (d_containerTop->getHeight() * 0.5f);
@@ -233,7 +233,7 @@ float TLVertScrollbar::getValueFromThumb(void) const
     Given window location \a pt, return a value indicating what change
     should be made to the scroll bar.
 *************************************************************************/
-float TLVertScrollbar::getAdjustDirectionFromPoint(const Point& pt) const
+float RLVertScrollbar::getAdjustDirectionFromPoint(const Point& pt) const
 {
     Rect absrect(d_thumb->getUnclippedPixelRect());
 
@@ -256,7 +256,7 @@ float TLVertScrollbar::getAdjustDirectionFromPoint(const Point& pt) const
 /*************************************************************************
     Perform rendering for this widget
 *************************************************************************/
-void TLVertScrollbar::drawSelf(float z)
+void RLVertScrollbar::drawSelf(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -325,11 +325,11 @@ void TLVertScrollbar::drawSelf(float z)
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TLVertScrollbar
+    Create, initialise and return a RLVertScrollbar
 *************************************************************************/
-Window* TLVertScrollbarFactory::createWindow(const String& name)
+Window* RLVertScrollbarFactory::createWindow(const String& name)
 {
-    TLVertScrollbar* wnd = new TLVertScrollbar(d_type, name);
+    RLVertScrollbar* wnd = new RLVertScrollbar(d_type, name);
     wnd->initialise();
 
     return wnd;

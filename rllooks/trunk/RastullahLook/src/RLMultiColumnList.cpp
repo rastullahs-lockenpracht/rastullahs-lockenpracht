@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLMultiColumnList.cpp
+    filename:   RLMultiColumnList.cpp
     created:    19/6/2004
     author:     Paul D Turner
     
@@ -40,32 +40,32 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  TLMultiColumnList::WidgetTypeName[] = "TaharezLook/MultiColumnList";
+const utf8  RLMultiColumnList::WidgetTypeName[] = "TaharezLook/MultiColumnList";
 
 // image / imageset related
-const utf8  TLMultiColumnList::ImagesetName[]               = "TaharezLook";
-const utf8  TLMultiColumnList::TopLeftImageName[]           = "MultiListTopLeft";
-const utf8  TLMultiColumnList::TopRightImageName[]          = "MultiListTopRight";
-const utf8  TLMultiColumnList::BottomLeftImageName[]        = "MultiListBottomLeft";
-const utf8  TLMultiColumnList::BottomRightImageName[]       = "MultiListBottomRight";
-const utf8  TLMultiColumnList::LeftEdgeImageName[]          = "MultiListLeft";
-const utf8  TLMultiColumnList::RightEdgeImageName[]         = "MultiListRight";
-const utf8  TLMultiColumnList::TopEdgeImageName[]           = "MultiListTop";
-const utf8  TLMultiColumnList::BottomEdgeImageName[]        = "MultiListBottom";
-const utf8  TLMultiColumnList::BackgroundImageName[]        = "MultiListBackdrop";
-const utf8  TLMultiColumnList::SelectionBrushImageName[]    = "MultiListSelectionBrush";
-const utf8  TLMultiColumnList::MouseCursorImageName[]       = "MouseTarget";
+const utf8  RLMultiColumnList::ImagesetName[]               = "TaharezLook";
+const utf8  RLMultiColumnList::TopLeftImageName[]           = "MultiListTopLeft";
+const utf8  RLMultiColumnList::TopRightImageName[]          = "MultiListTopRight";
+const utf8  RLMultiColumnList::BottomLeftImageName[]        = "MultiListBottomLeft";
+const utf8  RLMultiColumnList::BottomRightImageName[]       = "MultiListBottomRight";
+const utf8  RLMultiColumnList::LeftEdgeImageName[]          = "MultiListLeft";
+const utf8  RLMultiColumnList::RightEdgeImageName[]         = "MultiListRight";
+const utf8  RLMultiColumnList::TopEdgeImageName[]           = "MultiListTop";
+const utf8  RLMultiColumnList::BottomEdgeImageName[]        = "MultiListBottom";
+const utf8  RLMultiColumnList::BackgroundImageName[]        = "MultiListBackdrop";
+const utf8  RLMultiColumnList::SelectionBrushImageName[]    = "MultiListSelectionBrush";
+const utf8  RLMultiColumnList::MouseCursorImageName[]       = "MouseTarget";
 
 // component widget type names
-const utf8* TLMultiColumnList::HorzScrollbarTypeName        = TLMiniHorzScrollbar::WidgetTypeName;
-const utf8* TLMultiColumnList::VertScrollbarTypeName        = TLMiniVertScrollbar::WidgetTypeName;
-const utf8* TLMultiColumnList::ListHeaderTypeName           = TLListHeader::WidgetTypeName;
+const utf8* RLMultiColumnList::HorzScrollbarTypeName        = RLMiniHorzScrollbar::WidgetTypeName;
+const utf8* RLMultiColumnList::VertScrollbarTypeName        = RLMiniVertScrollbar::WidgetTypeName;
+const utf8* RLMultiColumnList::ListHeaderTypeName           = RLListHeader::WidgetTypeName;
 
     
 /*************************************************************************
     Constructor for Taharez Look multi-column list objects.
 *************************************************************************/
-TLMultiColumnList::TLMultiColumnList(const String& type, const String& name) :
+RLMultiColumnList::RLMultiColumnList(const String& type, const String& name) :
     MultiColumnList(type, name)
 {
     Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
@@ -92,9 +92,9 @@ TLMultiColumnList::TLMultiColumnList(const String& type, const String& name) :
 
 
 /*************************************************************************
-    Destructor for TLMultiColumnList objects.
+    Destructor for RLMultiColumnList objects.
 *************************************************************************/
-TLMultiColumnList::~TLMultiColumnList(void)
+RLMultiColumnList::~RLMultiColumnList(void)
 {
 }
 
@@ -103,7 +103,7 @@ TLMultiColumnList::~TLMultiColumnList(void)
     Return a Rect object describing, in un-clipped pixels, the window
     relative area that is to be used for rendering list items.
 *************************************************************************/
-Rect TLMultiColumnList::getListRenderArea(void) const
+Rect RLMultiColumnList::getListRenderArea(void) const
 {
     Rect tmp;
 
@@ -137,7 +137,7 @@ Rect TLMultiColumnList::getListRenderArea(void) const
     create and return a pointer to a ListHeaer widget for use as the
     column headers. 
 *************************************************************************/
-ListHeader* TLMultiColumnList::createListHeader(void) const
+ListHeader* RLMultiColumnList::createListHeader(void) const
 {
     ListHeader* hdr = (ListHeader*)WindowManager::getSingleton().createWindow(ListHeaderTypeName, getName() + "__auto_listheader__");
 
@@ -153,7 +153,7 @@ ListHeader* TLMultiColumnList::createListHeader(void) const
     create and return a pointer to a Scrollbar widget for use as
     vertical scroll bar 
 *************************************************************************/
-Scrollbar* TLMultiColumnList::createVertScrollbar(void) const
+Scrollbar* RLMultiColumnList::createVertScrollbar(void) const
 {
     Scrollbar* sbar = (Scrollbar*)WindowManager::getSingleton().createWindow(VertScrollbarTypeName, getName() + "__auto_vscrollbar__");
 
@@ -169,7 +169,7 @@ Scrollbar* TLMultiColumnList::createVertScrollbar(void) const
     create and return a pointer to a Scrollbar widget for use as
     horizontal scroll bar   
 *************************************************************************/
-Scrollbar* TLMultiColumnList::createHorzScrollbar(void) const
+Scrollbar* RLMultiColumnList::createHorzScrollbar(void) const
 {
     Scrollbar* sbar = (Scrollbar*)WindowManager::getSingleton().createWindow(HorzScrollbarTypeName, getName() + "__auto_hscrollbar__");
 
@@ -185,7 +185,7 @@ Scrollbar* TLMultiColumnList::createHorzScrollbar(void) const
     Setup size and position for the component widgets attached to this
     MultiColumnList
 *************************************************************************/
-void TLMultiColumnList::layoutComponentWidgets()
+void RLMultiColumnList::layoutComponentWidgets()
 {
     Rect listArea(getListRenderArea());
 
@@ -239,7 +239,7 @@ void TLMultiColumnList::layoutComponentWidgets()
 /*************************************************************************
     Render static imagery 
 *************************************************************************/
-void TLMultiColumnList::renderListboxBaseImagery(float z)
+void RLMultiColumnList::renderListboxBaseImagery(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -262,7 +262,7 @@ void TLMultiColumnList::renderListboxBaseImagery(float z)
 /*************************************************************************
     Store the sizes for the frame edges
 *************************************************************************/
-void TLMultiColumnList::storeFrameSizes(void)
+void RLMultiColumnList::storeFrameSizes(void)
 {
     Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
 
@@ -276,7 +276,7 @@ void TLMultiColumnList::storeFrameSizes(void)
 /*************************************************************************
     Handler for when window is sized
 *************************************************************************/
-void TLMultiColumnList::onSized(WindowEventArgs& e)
+void RLMultiColumnList::onSized(WindowEventArgs& e)
 {
     // base class processing
     MultiColumnList::onSized(e);
@@ -296,7 +296,7 @@ void TLMultiColumnList::onSized(WindowEventArgs& e)
 /*************************************************************************
     Handler for alpha value changes
 *************************************************************************/
-void TLMultiColumnList::onAlphaChanged(WindowEventArgs& e)
+void RLMultiColumnList::onAlphaChanged(WindowEventArgs& e)
 {
     MultiColumnList::onAlphaChanged(e);
 
@@ -322,11 +322,11 @@ void TLMultiColumnList::onAlphaChanged(WindowEventArgs& e)
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TLMultiColumnList
+    Create, initialise and return a RLMultiColumnList
 *************************************************************************/
-Window* TLMultiColumnListFactory::createWindow(const String& name)
+Window* RLMultiColumnListFactory::createWindow(const String& name)
 {
-    TLMultiColumnList* wnd = new TLMultiColumnList(d_type, name);
+    RLMultiColumnList* wnd = new RLMultiColumnList(d_type, name);
     wnd->initialise();
 
     return wnd;

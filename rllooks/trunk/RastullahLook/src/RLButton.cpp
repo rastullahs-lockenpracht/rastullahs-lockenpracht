@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLButton.cpp
+    filename:   RLButton.cpp
     created:    11/5/2004
     author:     Paul D Turner
     
@@ -35,31 +35,31 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  TLButton::WidgetTypeName[]              = "TaharezLook/Button";
+const utf8  RLButton::WidgetTypeName[]              = "TaharezLook/Button";
 
-const utf8  TLButton::ImagesetName[]                = "TaharezLook";
-const utf8  TLButton::LeftNormalImageName[]         = "ButtonLeftNormal";
-const utf8  TLButton::MiddleNormalImageName[]       = "ButtonMiddleNormal";
-const utf8  TLButton::RightNormalImageName[]        = "ButtonRightNormal";
-const utf8  TLButton::LeftHighlightImageName[]      = "ButtonLeftHighlight";
-const utf8  TLButton::MiddleHighlightImageName[]    = "ButtonMiddleHighlight";
-const utf8  TLButton::RightHighlightImageName[]     = "ButtonRightHighlight";
-const utf8  TLButton::LeftPushedImageName[]         = "ButtonLeftPushed";
-const utf8  TLButton::MiddlePushedImageName[]       = "ButtonMiddlePushed";
-const utf8  TLButton::RightPushedImageName[]        = "ButtonRightPushed";
-const utf8  TLButton::MouseCursorImageName[]        = "MouseArrow";
+const utf8  RLButton::ImagesetName[]                = "TaharezLook";
+const utf8  RLButton::LeftNormalImageName[]         = "ButtonLeftNormal";
+const utf8  RLButton::MiddleNormalImageName[]       = "ButtonMiddleNormal";
+const utf8  RLButton::RightNormalImageName[]        = "ButtonRightNormal";
+const utf8  RLButton::LeftHighlightImageName[]      = "ButtonLeftHighlight";
+const utf8  RLButton::MiddleHighlightImageName[]    = "ButtonMiddleHighlight";
+const utf8  RLButton::RightHighlightImageName[]     = "ButtonRightHighlight";
+const utf8  RLButton::LeftPushedImageName[]         = "ButtonLeftPushed";
+const utf8  RLButton::MiddlePushedImageName[]       = "ButtonMiddlePushed";
+const utf8  RLButton::RightPushedImageName[]        = "ButtonRightPushed";
+const utf8  RLButton::MouseCursorImageName[]        = "MouseArrow";
 
-TLButtonProperties::NormalImage TLButton::d_normalImageProperty;
-TLButtonProperties::PushedImage TLButton::d_pushedImageProperty;
-TLButtonProperties::HoverImage  TLButton::d_hoverImageProperty;
-TLButtonProperties::UseStandardImagery TLButton::d_useStandardImageryProperty;
-TLButtonProperties::TextXOffset TLButton::d_textXOffsetProperty;
+RLButtonProperties::NormalImage RLButton::d_normalImageProperty;
+RLButtonProperties::PushedImage RLButton::d_pushedImageProperty;
+RLButtonProperties::HoverImage  RLButton::d_hoverImageProperty;
+RLButtonProperties::UseStandardImagery RLButton::d_useStandardImageryProperty;
+RLButtonProperties::TextXOffset RLButton::d_textXOffsetProperty;
 
 
 /*************************************************************************
     Constructor
 *************************************************************************/
-TLButton::TLButton(const String& type, const String& name) :
+RLButton::RLButton(const String& type, const String& name) :
     PushButton(type, name)
 {
     Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
@@ -88,18 +88,18 @@ TLButton::TLButton(const String& type, const String& name) :
     d_textXOffset = 0.0f;
 
     setMouseCursor(&iset->getImage(MouseCursorImageName));
-    setNormalTextColour( colour( 0.33,0.25,0.094 ) );
-    setHoverTextColour( colour( 0.43,0.35,0.194 ) );
-    setPushedTextColour( colour( 0.27,0.20,0.044 ) );
+    setNormalTextColour( colour( 0.33f,0.25f,0.094f ) );
+    setHoverTextColour( colour( 0.43f,0.35f,0.194f ) );
+    setPushedTextColour( colour( 0.27f,0.20f,0.044f ) );
 
-    addTLButtonProperties();
+    addRLButtonProperties();
 }
 
 
 /*************************************************************************
     Destructor
 *************************************************************************/
-TLButton::~TLButton(void)
+RLButton::~RLButton(void)
 {
 }
 
@@ -108,7 +108,7 @@ TLButton::~TLButton(void)
 /*************************************************************************
     set whether or not to render the standard imagery for the button    
 *************************************************************************/
-void TLButton::setStandardImageryEnabled(bool setting)
+void RLButton::setStandardImageryEnabled(bool setting)
 {
     if (d_useStandardImagery != setting)
     {
@@ -123,7 +123,7 @@ void TLButton::setStandardImageryEnabled(bool setting)
     set the image to render for the button (normal state) - use NULL to
     disable drawing of image    
 *************************************************************************/
-void TLButton::setNormalImage(const RenderableImage* image)
+void RLButton::setNormalImage(const RenderableImage* image)
 {
     if (image == NULL)
     {
@@ -144,7 +144,7 @@ void TLButton::setNormalImage(const RenderableImage* image)
     set the image to render for the button (hover state)  - use NULL to
     disable drawing of image
 *************************************************************************/
-void TLButton::setHoverImage(const RenderableImage* image)
+void RLButton::setHoverImage(const RenderableImage* image)
 {
     if (image == NULL)
     {
@@ -165,7 +165,7 @@ void TLButton::setHoverImage(const RenderableImage* image)
     set the image to render for the button (pushed state)  - use NULL to
     disable drawing of image    
 *************************************************************************/
-void TLButton::setPushedImage(const RenderableImage* image)
+void RLButton::setPushedImage(const RenderableImage* image)
 {
     if (image == NULL)
     {
@@ -186,7 +186,7 @@ void TLButton::setPushedImage(const RenderableImage* image)
     set the image to render for the button (disabled state)  - use NULL
     to disable drawing of image 
 *************************************************************************/
-void TLButton::setDisabledImage(const RenderableImage* image)
+void RLButton::setDisabledImage(const RenderableImage* image)
 {
     if (image == NULL)
     {
@@ -202,12 +202,12 @@ void TLButton::setDisabledImage(const RenderableImage* image)
     requestRedraw();
 }
 
-float TLButton::getTextXOffset() const
+float RLButton::getTextXOffset() const
 {
    return d_textXOffset;
 }
 
-void TLButton::setTextXOffset(float offset)
+void RLButton::setTextXOffset(float offset)
 {
    d_textXOffset = offset;
 }
@@ -216,7 +216,7 @@ void TLButton::setTextXOffset(float offset)
 /*************************************************************************
     render Widget in normal state   
 *************************************************************************/
-void TLButton::drawNormal(float z)
+void RLButton::drawNormal(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -282,7 +282,7 @@ void TLButton::drawNormal(float z)
 /*************************************************************************
     render Widget in hover / highlight state    
 *************************************************************************/
-void TLButton::drawHover(float z)
+void RLButton::drawHover(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -348,7 +348,7 @@ void TLButton::drawHover(float z)
 /*************************************************************************
     render Widget in Pushed state   
 *************************************************************************/
-void TLButton::drawPushed(float z)
+void RLButton::drawPushed(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -414,7 +414,7 @@ void TLButton::drawPushed(float z)
 /*************************************************************************
     render Widget in disabled state 
 *************************************************************************/
-void TLButton::drawDisabled(float z)
+void RLButton::drawDisabled(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -480,7 +480,7 @@ void TLButton::drawDisabled(float z)
     Set whether to auto re-size custom image areas when the button is
     sized.  
 *************************************************************************/
-void TLButton::setCustomImageryAutoSized(bool setting)
+void RLButton::setCustomImageryAutoSized(bool setting)
 {
     // if we are enabling auto-sizing, scale images for current size
     if ((setting == true) && (setting != d_autoscaleImages))
@@ -502,7 +502,7 @@ void TLButton::setCustomImageryAutoSized(bool setting)
 /*************************************************************************
     Handler for when button size is changed
 *************************************************************************/
-void TLButton::onSized(WindowEventArgs& e)
+void RLButton::onSized(WindowEventArgs& e)
 {
     // default processing
     PushButton::onSized(e);
@@ -522,7 +522,7 @@ void TLButton::onSized(WindowEventArgs& e)
 
 }
 
-void TLButton::addTLButtonProperties(void)
+void RLButton::addRLButtonProperties(void)
 {
    addProperty(&d_normalImageProperty);
    addProperty(&d_pushedImageProperty);
@@ -540,11 +540,11 @@ void TLButton::addTLButtonProperties(void)
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TLButton
+    Create, initialise and return a RLButton
 *************************************************************************/
-Window* TLButtonFactory::createWindow(const String& name)
+Window* RLButtonFactory::createWindow(const String& name)
 {
-    TLButton* wnd = new TLButton(d_type, name);
+    RLButton* wnd = new RLButton(d_type, name);
     wnd->initialise();
 
     return wnd;

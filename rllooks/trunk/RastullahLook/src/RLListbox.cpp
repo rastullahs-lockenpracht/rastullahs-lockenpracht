@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLListbox.cpp
+    filename:   RLListbox.cpp
     created:    7/6/2004
     author:     Paul D Turner
     
@@ -38,31 +38,31 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  TLListbox::WidgetTypeName[]     = "TaharezLook/Listbox";
+const utf8  RLListbox::WidgetTypeName[]     = "TaharezLook/Listbox";
 
 // image / imageset related
-const utf8  TLListbox::ImagesetName[]               = "TaharezLook";
-const utf8  TLListbox::TopLeftImageName[]           = "ListboxTopLeft";
-const utf8  TLListbox::TopRightImageName[]          = "ListboxTopRight";
-const utf8  TLListbox::BottomLeftImageName[]        = "ListboxBottomLeft";
-const utf8  TLListbox::BottomRightImageName[]       = "ListboxBottomRight";
-const utf8  TLListbox::LeftEdgeImageName[]          = "ListboxLeft";
-const utf8  TLListbox::RightEdgeImageName[]         = "ListboxRight";
-const utf8  TLListbox::TopEdgeImageName[]           = "ListboxTop";
-const utf8  TLListbox::BottomEdgeImageName[]        = "ListboxBottom";
-const utf8  TLListbox::BackgroundImageName[]        = "ListboxBackdrop";
-const utf8  TLListbox::SelectionBrushImageName[]    = "ListboxSelectionBrush";
-const utf8  TLListbox::MouseCursorImageName[]       = "MouseTarget";
+const utf8  RLListbox::ImagesetName[]               = "TaharezLook";
+const utf8  RLListbox::TopLeftImageName[]           = "ListboxTopLeft";
+const utf8  RLListbox::TopRightImageName[]          = "ListboxTopRight";
+const utf8  RLListbox::BottomLeftImageName[]        = "ListboxBottomLeft";
+const utf8  RLListbox::BottomRightImageName[]       = "ListboxBottomRight";
+const utf8  RLListbox::LeftEdgeImageName[]          = "ListboxLeft";
+const utf8  RLListbox::RightEdgeImageName[]         = "ListboxRight";
+const utf8  RLListbox::TopEdgeImageName[]           = "ListboxTop";
+const utf8  RLListbox::BottomEdgeImageName[]        = "ListboxBottom";
+const utf8  RLListbox::BackgroundImageName[]        = "ListboxBackdrop";
+const utf8  RLListbox::SelectionBrushImageName[]    = "ListboxSelectionBrush";
+const utf8  RLListbox::MouseCursorImageName[]       = "MouseTarget";
 
 // component widget type names
-const utf8* TLListbox::HorzScrollbarTypeName        = TLMiniHorzScrollbar::WidgetTypeName;
-const utf8* TLListbox::VertScrollbarTypeName        = TLMiniVertScrollbar::WidgetTypeName;
+const utf8* RLListbox::HorzScrollbarTypeName        = RLMiniHorzScrollbar::WidgetTypeName;
+const utf8* RLListbox::VertScrollbarTypeName        = RLMiniVertScrollbar::WidgetTypeName;
 
 
 /*************************************************************************
     Constructor for Taharez Look Listbox widgets    
 *************************************************************************/
-TLListbox::TLListbox(const String& type, const String& name) :
+RLListbox::RLListbox(const String& type, const String& name) :
     Listbox(type, name)
 {
     Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
@@ -92,7 +92,7 @@ TLListbox::TLListbox(const String& type, const String& name) :
 /*************************************************************************
     Destructor for Taharez Look Listbox widgets.    
 *************************************************************************/
-TLListbox::~TLListbox(void)
+RLListbox::~RLListbox(void)
 {
 }
 
@@ -101,7 +101,7 @@ TLListbox::~TLListbox(void)
     Return a Rect object describing, in un-clipped pixels, the window
     relative area that is to be used for rendering list items.
 *************************************************************************/
-Rect TLListbox::getListRenderArea(void) const
+Rect RLListbox::getListRenderArea(void) const
 {
     Rect tmp;
 
@@ -135,7 +135,7 @@ Rect TLListbox::getListRenderArea(void) const
     create and return a pointer to a Scrollbar widget for use as vertical
     scroll bar
 *************************************************************************/
-Scrollbar* TLListbox::createVertScrollbar(void) const
+Scrollbar* RLListbox::createVertScrollbar(void) const
 {
     Scrollbar* sbar = (Scrollbar*)WindowManager::getSingleton().createWindow(VertScrollbarTypeName, getName() + "__auto_vscrollbar__");
 
@@ -151,7 +151,7 @@ Scrollbar* TLListbox::createVertScrollbar(void) const
     create and return a pointer to a Scrollbar widget for use as
     horizontal scroll bar
 *************************************************************************/
-Scrollbar* TLListbox::createHorzScrollbar(void) const
+Scrollbar* RLListbox::createHorzScrollbar(void) const
 {
     Scrollbar* sbar = (Scrollbar*)WindowManager::getSingleton().createWindow(HorzScrollbarTypeName, getName() + "__auto_hscrollbar__");
 
@@ -167,7 +167,7 @@ Scrollbar* TLListbox::createHorzScrollbar(void) const
     Setup size and position for the component widgets attached to this
     Listbox 
 *************************************************************************/
-void TLListbox::layoutComponentWidgets()
+void RLListbox::layoutComponentWidgets()
 {
     // set desired size for vertical scroll-bar
     Size v_sz(0.05f, 1.0f);
@@ -208,7 +208,7 @@ void TLListbox::layoutComponentWidgets()
 /*************************************************************************
     Perform the rendering for everything except the items
 *************************************************************************/
-void TLListbox::renderListboxBaseImagery(float z)
+void RLListbox::renderListboxBaseImagery(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -231,7 +231,7 @@ void TLListbox::renderListboxBaseImagery(float z)
 /*************************************************************************
     Store the sizes for the frame edges
 *************************************************************************/
-void TLListbox::storeFrameSizes(void)
+void RLListbox::storeFrameSizes(void)
 {
     Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
 
@@ -245,7 +245,7 @@ void TLListbox::storeFrameSizes(void)
 /*************************************************************************
     Handler for when window is sized
 *************************************************************************/
-void TLListbox::onSized(WindowEventArgs& e)
+void RLListbox::onSized(WindowEventArgs& e)
 {
     // base class processing
     Listbox::onSized(e);
@@ -265,7 +265,7 @@ void TLListbox::onSized(WindowEventArgs& e)
 /*************************************************************************
     Handler for alpha value changes
 *************************************************************************/
-void TLListbox::onAlphaChanged(WindowEventArgs& e)
+void RLListbox::onAlphaChanged(WindowEventArgs& e)
 {
     Listbox::onAlphaChanged(e);
 
@@ -291,11 +291,11 @@ void TLListbox::onAlphaChanged(WindowEventArgs& e)
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TLListbox
+    Create, initialise and return a RLListbox
 *************************************************************************/
-Window* TLListboxFactory::createWindow(const String& name)
+Window* RLListboxFactory::createWindow(const String& name)
 {
-    TLListbox* wnd = new TLListbox(d_type, name);
+    RLListbox* wnd = new RLListbox(d_type, name);
     wnd->initialise();
 
     return wnd;

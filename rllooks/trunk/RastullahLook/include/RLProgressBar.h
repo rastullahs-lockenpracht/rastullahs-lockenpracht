@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLProgressBar.h
+    filename:   RLProgressBar.h
     created:    23/5/2004
     author:     Paul D Turner
     
@@ -38,7 +38,7 @@ namespace CEGUI
 \brief
     Standard progress bar for the Taharez Gui Scheme.
 */
-class RASTULLAHLOOK_API TLProgressBar : public ProgressBar
+class RASTULLAHLOOK_API RLProgressBar : public ProgressBar
 {
 public:
     /*************************************************************************
@@ -67,14 +67,14 @@ public:
     \brief
         Constructor for Taharez progress bar objects
     */
-    TLProgressBar(const String& type, const String& name);
+    RLProgressBar(const String& type, const String& name);
 
 
     /*!
     \brief
         Destructor for Taharez progress bar objects
     */
-    virtual ~TLProgressBar(void);
+    virtual ~RLProgressBar(void);
 
 protected:
     /*************************************************************************
@@ -100,16 +100,16 @@ protected:
 
 /*!
 \brief
-    Factory class for producing TLProgressBar objects
+    Factory class for producing RLProgressBar objects
 */
-class RASTULLAHLOOK_API TLProgressBarFactory : public WindowFactory
+class RASTULLAHLOOK_API RLProgressBarFactory : public WindowFactory
 {
 public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLProgressBarFactory(void) : WindowFactory(TLProgressBar::WidgetTypeName) { }
-    ~TLProgressBarFactory(void){}
+    RLProgressBarFactory(void) : WindowFactory(RLProgressBar::WidgetTypeName) { }
+    ~RLProgressBarFactory(void){}
 
 
     /*!
@@ -141,4 +141,4 @@ public:
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _TLProgressBar_h_
+#endif  // end of guard _RLProgressBar_h_

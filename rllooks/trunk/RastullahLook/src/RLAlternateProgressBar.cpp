@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLAlternateProgressBar.h
+    filename:   RLAlternateProgressBar.h
     created:    23/5/2004
     author:     Paul D Turner
     
@@ -35,34 +35,34 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  TLAlternateProgressBar::WidgetTypeName[]            = "TaharezLook/AlternateProgressBar";
+const utf8  RLAlternateProgressBar::WidgetTypeName[]            = "TaharezLook/AlternateProgressBar";
 
 // Progress bar image names
-const utf8  TLAlternateProgressBar::ImagesetName[]              = "TaharezLook";
-const utf8  TLAlternateProgressBar::ContainerLeftImageName[]    = "AltProgressLeft";
-const utf8  TLAlternateProgressBar::ContainerMiddleImageName[]  = "AltProgressMiddle";
-const utf8  TLAlternateProgressBar::ContainerRightImageName[]   = "AltProgressRight";
-const utf8  TLAlternateProgressBar::QuartersMarkImageName[]     = "AltProgressQuarter";
-const utf8  TLAlternateProgressBar::HalvesMarkImageName[]       = "AltProgressHalf";
-const utf8  TLAlternateProgressBar::Light1ImageName[]           = "AltProgressLight1";
-const utf8  TLAlternateProgressBar::Light2ImageName[]           = "AltProgressLight2";
-const utf8  TLAlternateProgressBar::Light3ImageName[]           = "AltProgressLight3";
-const utf8  TLAlternateProgressBar::Light4ImageName[]           = "AltProgressLight4";
-const utf8  TLAlternateProgressBar::Light5ImageName[]           = "AltProgressLight5";
-const utf8  TLAlternateProgressBar::Light6ImageName[]           = "AltProgressLight6";
-const utf8  TLAlternateProgressBar::Light7ImageName[]           = "AltProgressLight7";
-const utf8  TLAlternateProgressBar::Light8ImageName[]           = "AltProgressLight8";
-const utf8  TLAlternateProgressBar::Light9ImageName[]           = "AltProgressLight9";
-const utf8  TLAlternateProgressBar::Light10ImageName[]          = "AltProgressLight10";
+const utf8  RLAlternateProgressBar::ImagesetName[]              = "TaharezLook";
+const utf8  RLAlternateProgressBar::ContainerLeftImageName[]    = "AltProgressLeft";
+const utf8  RLAlternateProgressBar::ContainerMiddleImageName[]  = "AltProgressMiddle";
+const utf8  RLAlternateProgressBar::ContainerRightImageName[]   = "AltProgressRight";
+const utf8  RLAlternateProgressBar::QuartersMarkImageName[]     = "AltProgressQuarter";
+const utf8  RLAlternateProgressBar::HalvesMarkImageName[]       = "AltProgressHalf";
+const utf8  RLAlternateProgressBar::Light1ImageName[]           = "AltProgressLight1";
+const utf8  RLAlternateProgressBar::Light2ImageName[]           = "AltProgressLight2";
+const utf8  RLAlternateProgressBar::Light3ImageName[]           = "AltProgressLight3";
+const utf8  RLAlternateProgressBar::Light4ImageName[]           = "AltProgressLight4";
+const utf8  RLAlternateProgressBar::Light5ImageName[]           = "AltProgressLight5";
+const utf8  RLAlternateProgressBar::Light6ImageName[]           = "AltProgressLight6";
+const utf8  RLAlternateProgressBar::Light7ImageName[]           = "AltProgressLight7";
+const utf8  RLAlternateProgressBar::Light8ImageName[]           = "AltProgressLight8";
+const utf8  RLAlternateProgressBar::Light9ImageName[]           = "AltProgressLight9";
+const utf8  RLAlternateProgressBar::Light10ImageName[]          = "AltProgressLight10";
 
 // some offsets
-const float TLAlternateProgressBar::FirstLightPaddingRatio      = 0.0f;
+const float RLAlternateProgressBar::FirstLightPaddingRatio      = 0.0f;
 
 
 /*************************************************************************
     Constructor for Taharez alternate progress bar objects
 *************************************************************************/
-TLAlternateProgressBar::TLAlternateProgressBar(const String& type, const String& name) :
+RLAlternateProgressBar::RLAlternateProgressBar(const String& type, const String& name) :
     ProgressBar(type, name),
     d_lightCount(0),
     d_lights(NULL),
@@ -95,7 +95,7 @@ TLAlternateProgressBar::TLAlternateProgressBar(const String& type, const String&
 /*************************************************************************
     Destructor for Taharez alternate progress bar objects
 *************************************************************************/
-TLAlternateProgressBar::~TLAlternateProgressBar(void)
+RLAlternateProgressBar::~RLAlternateProgressBar(void)
 {
     delete[] d_lights;
 }
@@ -104,7 +104,7 @@ TLAlternateProgressBar::~TLAlternateProgressBar(void)
 /*************************************************************************
     function to initialise data relating to lights that should be rendered. 
 *************************************************************************/
-void TLAlternateProgressBar::setupLightsInfo(void)
+void RLAlternateProgressBar::setupLightsInfo(void)
 {
     //
     // work out how many lights we are going to have
@@ -125,7 +125,7 @@ void TLAlternateProgressBar::setupLightsInfo(void)
     // initialise d_lights with appropriate indeces into d_lightImages array.
     for (int lc = 0; lc < d_lightCount; ++lc)
     {
-        d_lights[lc] = ((lc * TLAPB_LightImageCount) / d_lightCount);
+        d_lights[lc] = ((lc * RLAPB_LightImageCount) / d_lightCount);
     }
 
 }
@@ -134,7 +134,7 @@ void TLAlternateProgressBar::setupLightsInfo(void)
 /*************************************************************************
     Perform rendering for this widget
 *************************************************************************/
-void TLAlternateProgressBar::drawSelf(float z)
+void RLAlternateProgressBar::drawSelf(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -226,7 +226,7 @@ void TLAlternateProgressBar::drawSelf(float z)
 /*************************************************************************
     handler called when widget is sized
 *************************************************************************/
-void TLAlternateProgressBar::onSized(WindowEventArgs& e)
+void RLAlternateProgressBar::onSized(WindowEventArgs& e)
 {
     // default handling
     ProgressBar::onSized(e);
@@ -244,11 +244,11 @@ void TLAlternateProgressBar::onSized(WindowEventArgs& e)
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TLAlternateProgressBar
+    Create, initialise and return a RLAlternateProgressBar
 *************************************************************************/
-Window* TLAlternateProgressBarFactory::createWindow(const String& name)
+Window* RLAlternateProgressBarFactory::createWindow(const String& name)
 {
-    TLAlternateProgressBar* wnd = new TLAlternateProgressBar(d_type, name);
+    RLAlternateProgressBar* wnd = new RLAlternateProgressBar(d_type, name);
     wnd->initialise();
 
     return wnd;

@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLEditbox.cpp
+    filename:   RLEditbox.cpp
     created:    29/5/2004
     author:     Paul D Turner
     
@@ -35,30 +35,30 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  TLEditbox::WidgetTypeName[] = "TaharezLook/Editbox";
+const utf8  RLEditbox::WidgetTypeName[] = "TaharezLook/Editbox";
 
 // image name constants
-const utf8  TLEditbox::ImagesetName[]               = "TaharezLook";
-const utf8  TLEditbox::ContainerLeftImageName[]     = "EditBoxLeft";
-const utf8  TLEditbox::ContainerMiddleImageName[]   = "EditBoxMiddle";
-const utf8  TLEditbox::ContainerRightImageName[]    = "EditBoxRight";
-const utf8  TLEditbox::CaratImageName[]             = "EditBoxCarat";
-const utf8  TLEditbox::SelectionBrushImageName[]    = "TextSelectionBrush";
-const utf8  TLEditbox::MouseCursorImageName[]       = "MouseTextBar";
+const utf8  RLEditbox::ImagesetName[]               = "TaharezLook";
+const utf8  RLEditbox::ContainerLeftImageName[]     = "EditBoxLeft";
+const utf8  RLEditbox::ContainerMiddleImageName[]   = "EditBoxMiddle";
+const utf8  RLEditbox::ContainerRightImageName[]    = "EditBoxRight";
+const utf8  RLEditbox::CaratImageName[]             = "EditBoxCarat";
+const utf8  RLEditbox::SelectionBrushImageName[]    = "TextSelectionBrush";
+const utf8  RLEditbox::MouseCursorImageName[]       = "MouseTextBar";
 
 // layout values
-const float TLEditbox::TextPaddingRatio     = 0.5f;
+const float RLEditbox::TextPaddingRatio     = 0.5f;
 
 // implementation constantss
-const uint  TLEditbox::SelectionLayer   = 1;
-const uint  TLEditbox::TextLayer        = 2;
-const uint  TLEditbox::CaratLayer       = 3;
+const uint  RLEditbox::SelectionLayer   = 1;
+const uint  RLEditbox::TextLayer        = 2;
+const uint  RLEditbox::CaratLayer       = 3;
 
 
 /*************************************************************************
     Constructor for Taharez edit box widgets    
 *************************************************************************/
-TLEditbox::TLEditbox(const String& type, const String& name) :
+RLEditbox::RLEditbox(const String& type, const String& name) :
     Editbox(type, name),
     d_lastTextOffset(0)
 {
@@ -79,7 +79,7 @@ TLEditbox::TLEditbox(const String& type, const String& name) :
 /*************************************************************************
     Destructor for Taharez edit box widgets 
 *************************************************************************/
-TLEditbox::~TLEditbox(void)
+RLEditbox::~RLEditbox(void)
 {
 }
 
@@ -88,7 +88,7 @@ TLEditbox::~TLEditbox(void)
     Return the text code point index that is rendered closest to screen
     position 'pt'.  
 *************************************************************************/
-ulong TLEditbox::getTextIndexFromPosition(const Point& pt) const
+ulong RLEditbox::getTextIndexFromPosition(const Point& pt) const
 {
     //
     // calculate final window position to be checked
@@ -120,7 +120,7 @@ ulong TLEditbox::getTextIndexFromPosition(const Point& pt) const
 /*************************************************************************
     return text padding value to use in pixels  
 *************************************************************************/
-float TLEditbox::getTextPaddingPixels(void) const
+float RLEditbox::getTextPaddingPixels(void) const
 {
     return d_left->getWidth() * TextPaddingRatio;
 }
@@ -129,7 +129,7 @@ float TLEditbox::getTextPaddingPixels(void) const
 /*************************************************************************
     Perform the actual rendering for this Window.
 *************************************************************************/
-void TLEditbox::drawSelf(float z)
+void RLEditbox::drawSelf(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -305,11 +305,11 @@ void TLEditbox::drawSelf(float z)
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TLEditbox
+    Create, initialise and return a RLEditbox
 *************************************************************************/
-Window* TLEditboxFactory::createWindow(const String& name)
+Window* RLEditboxFactory::createWindow(const String& name)
 {
-    TLEditbox* wnd = new TLEditbox(d_type, name);
+    RLEditbox* wnd = new RLEditbox(d_type, name);
     wnd->initialise();
 
     return wnd;

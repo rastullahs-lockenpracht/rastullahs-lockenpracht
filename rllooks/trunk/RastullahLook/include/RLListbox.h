@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLListbox.h
+    filename:   RLListbox.h
     created:    7/6/2004
     author:     Paul D Turner
     
@@ -40,7 +40,7 @@ namespace CEGUI
 \brief
     Listbox widget for the Taharez Gui scheme.
 */
-class RASTULLAHLOOK_API TLListbox : public Listbox
+class RASTULLAHLOOK_API RLListbox : public Listbox
 {
 public:
     /*************************************************************************
@@ -75,14 +75,14 @@ public:
     \brief
         Constructor for Taharez Look Listbox widgets
     */
-    TLListbox(const String& type, const String& name);
+    RLListbox(const String& type, const String& name);
 
 
     /*!
     \brief
         Destructor for Taharez Look Listbox widgets.
     */
-    virtual ~TLListbox(void);
+    virtual ~RLListbox(void);
 
 
 protected:
@@ -177,16 +177,16 @@ protected:
 
 /*!
 \brief
-    Factory class for producing TLListbox objects
+    Factory class for producing RLListbox objects
 */
-class RASTULLAHLOOK_API TLListboxFactory : public WindowFactory
+class RASTULLAHLOOK_API RLListboxFactory : public WindowFactory
 {
 public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLListboxFactory(void) : WindowFactory(TLListbox::WidgetTypeName) { }
-    ~TLListboxFactory(void){}
+    RLListboxFactory(void) : WindowFactory(RLListbox::WidgetTypeName) { }
+    ~RLListboxFactory(void){}
 
 
     /*!
@@ -218,4 +218,4 @@ public:
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _TLListbox_h_
+#endif  // end of guard _RLListbox_h_

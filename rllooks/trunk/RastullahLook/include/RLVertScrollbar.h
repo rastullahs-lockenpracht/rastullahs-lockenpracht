@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLVertScrollbar.h
+    filename:   RLVertScrollbar.h
     created:    2/6/2004
     author:     Paul D Turner
     
@@ -39,7 +39,7 @@ namespace CEGUI
 \brief
     Large vertical scroll-bar bar for the Taharez Gui Scheme.
 */
-class RASTULLAHLOOK_API TLVertScrollbar: public Scrollbar
+class RASTULLAHLOOK_API RLVertScrollbar: public Scrollbar
 {
 public:
     /*************************************************************************
@@ -81,14 +81,14 @@ public:
     \brief
         Constructor for Taharez vertical scroll bar widgets
     */
-    TLVertScrollbar(const String& type, const String& name);
+    RLVertScrollbar(const String& type, const String& name);
 
 
     /*!
     \brief
         Destructor for Taharez vertical scroll bar widgets
     */
-    virtual ~TLVertScrollbar(void);
+    virtual ~RLVertScrollbar(void);
 
 
 protected:
@@ -179,16 +179,16 @@ protected:
 
 /*!
 \brief
-    Factory class for producing TLVertScrollbar objects
+    Factory class for producing RLVertScrollbar objects
 */
-class RASTULLAHLOOK_API TLVertScrollbarFactory : public WindowFactory
+class RASTULLAHLOOK_API RLVertScrollbarFactory : public WindowFactory
 {
 public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLVertScrollbarFactory(void) : WindowFactory(TLVertScrollbar::WidgetTypeName) { }
-    ~TLVertScrollbarFactory(void){}
+    RLVertScrollbarFactory(void) : WindowFactory(RLVertScrollbar::WidgetTypeName) { }
+    ~RLVertScrollbarFactory(void){}
 
 
     /*!
@@ -220,4 +220,4 @@ public:
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _TLVertScrollbar_h_
+#endif  // end of guard _RLVertScrollbar_h_

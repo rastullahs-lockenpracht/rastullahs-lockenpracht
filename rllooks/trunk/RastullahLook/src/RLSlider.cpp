@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLSlider.cpp
+    filename:   RLSlider.cpp
     created:    22/5/2004
     author:     Paul D Turner
     
@@ -36,23 +36,23 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  TLSlider::WidgetTypeName[]  = "TaharezLook/Slider";
+const utf8  RLSlider::WidgetTypeName[]  = "TaharezLook/Slider";
 
 // Image names
-const utf8  TLSlider::ImagesetName[]        = "TaharezLook";
-const utf8  TLSlider::ContainerImageName[]  = "VertSliderBody";
+const utf8  RLSlider::ImagesetName[]        = "TaharezLook";
+const utf8  RLSlider::ContainerImageName[]  = "VertSliderBody";
 
 // window type stuff
-const utf8* TLSlider::ThumbType             = TLSliderThumb::WidgetTypeName;
+const utf8* RLSlider::ThumbType             = RLSliderThumb::WidgetTypeName;
 
 // layout constants
-const float TLSlider::ContainerPaddingX     = 3;
+const float RLSlider::ContainerPaddingX     = 3;
 
 
 /*************************************************************************
     Constructor for Taharez slider widgets
 *************************************************************************/
-TLSlider::TLSlider(const String& type, const String& name) :
+RLSlider::RLSlider(const String& type, const String& name) :
     Slider(type, name)
 {
     d_container = &ImagesetManager::getSingleton().getImageset(ImagesetName)->getImage(ContainerImageName);
@@ -62,7 +62,7 @@ TLSlider::TLSlider(const String& type, const String& name) :
 /*************************************************************************
     Destructor for Taharez slider widgets
 *************************************************************************/
-TLSlider::~TLSlider(void)
+RLSlider::~RLSlider(void)
 {
 }
 
@@ -70,13 +70,13 @@ TLSlider::~TLSlider(void)
 /*************************************************************************
     create a Thumb based widget to use as the thumb for this slider.    
 *************************************************************************/
-Thumb* TLSlider::createThumb(void) const
+Thumb* RLSlider::createThumb(void) const
 {
     Thumb* tmb = (Thumb*)WindowManager::getSingleton().createWindow(ThumbType, getName() + "__auto_thumb__");
     tmb->setVertFree(true);
 
     // set size for thumb
-    float height = ImagesetManager::getSingleton().getImageset(ImagesetName)->getImage(TLSliderThumb::NormalImageName).getHeight();
+    float height = ImagesetManager::getSingleton().getImageset(ImagesetName)->getImage(RLSliderThumb::NormalImageName).getHeight();
     height /=  d_container->getHeight();
     tmb->setSize(Size(1.0f, height));
 
@@ -87,7 +87,7 @@ Thumb* TLSlider::createThumb(void) const
 /*************************************************************************
     layout the slider component widgets
 *************************************************************************/
-void TLSlider::layoutComponentWidgets(void)
+void RLSlider::layoutComponentWidgets(void)
 {
     updateThumb();
 }
@@ -97,7 +97,7 @@ void TLSlider::layoutComponentWidgets(void)
     update the size and location of the thumb to properly represent the
     current state of the slider 
 *************************************************************************/
-void TLSlider::updateThumb(void)
+void RLSlider::updateThumb(void)
 {
     float fltVal        = d_value;
     float posExtent     = d_maxValue;
@@ -112,7 +112,7 @@ void TLSlider::updateThumb(void)
     return value that best represents current slider value given the
     current location of the thumb.  
 *************************************************************************/
-float TLSlider::getValueFromThumb(void) const
+float RLSlider::getValueFromThumb(void) const
 {
     float posExtent     = d_maxValue;
     float slideExtent   = getAbsoluteHeight()- d_thumb->getAbsoluteHeight();
@@ -125,7 +125,7 @@ float TLSlider::getValueFromThumb(void) const
     Given window location 'pt', return a value indicating what change
     should be made to the slider.
 *************************************************************************/
-float TLSlider::getAdjustDirectionFromPoint(const Point& pt) const
+float RLSlider::getAdjustDirectionFromPoint(const Point& pt) const
 {
     Rect absrect(d_thumb->getUnclippedPixelRect());
 
@@ -147,7 +147,7 @@ float TLSlider::getAdjustDirectionFromPoint(const Point& pt) const
 /*************************************************************************
     Perform the actual rendering for this Window.   
 *************************************************************************/
-void TLSlider::drawSelf(float z)
+void RLSlider::drawSelf(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -180,11 +180,11 @@ void TLSlider::drawSelf(float z)
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TLSlider
+    Create, initialise and return a RLSlider
 *************************************************************************/
-Window* TLSliderFactory::createWindow(const String& name)
+Window* RLSliderFactory::createWindow(const String& name)
 {
-    TLSlider* wnd = new TLSlider(d_type, name);
+    RLSlider* wnd = new RLSlider(d_type, name);
     wnd->initialise();
 
     return wnd;

@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLCloseButton.h
+    filename:   RLCloseButton.h
     created:    20/5/2004
     author:     Paul D Turner
     
@@ -40,7 +40,7 @@ namespace CEGUI
     frame windows.  This is required due to the custom clipping required
     for these windows
 */
-class RASTULLAHLOOK_API TLCloseButton : public TLButton
+class RASTULLAHLOOK_API RLCloseButton : public RLButton
 {
 public:
     /*************************************************************************
@@ -63,14 +63,14 @@ public:
     \param name
         String object that specifies a unique name that will be used to identify the new Window object
     */
-    TLCloseButton(const String& type, const String& name) : TLButton(type, name) {}
+    RLCloseButton(const String& type, const String& name) : RLButton(type, name) {}
 
 
     /*!
     \brief
-        Destructor for TLCloseButton objects.
+        Destructor for RLCloseButton objects.
     */
-    virtual ~TLCloseButton(void) {}
+    virtual ~RLCloseButton(void) {}
 
 
     /*!
@@ -90,16 +90,16 @@ public:
 
 /*!
 \brief
-    Factory class for producing TLCloseButton objects
+    Factory class for producing RLCloseButton objects
 */
-class RASTULLAHLOOK_API TLCloseButtonFactory : public WindowFactory
+class RASTULLAHLOOK_API RLCloseButtonFactory : public WindowFactory
 {
 public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLCloseButtonFactory(void) : WindowFactory(TLCloseButton::WidgetTypeName) { }
-    ~TLCloseButtonFactory(void){}
+    RLCloseButtonFactory(void) : WindowFactory(RLCloseButton::WidgetTypeName) { }
+    ~RLCloseButtonFactory(void){}
 
 
     /*!
@@ -132,4 +132,4 @@ public:
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _TLCloseButton_h_
+#endif  // end of guard _RLCloseButton_h_

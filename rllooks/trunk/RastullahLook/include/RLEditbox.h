@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLEditbox.h
+    filename:   RLEditbox.h
     created:    29/5/2004
     author:     Paul D Turner
     
@@ -38,7 +38,7 @@ namespace CEGUI
 \brief
     Single line edit box class for the Taharez look Gui Scheme
 */
-class RASTULLAHLOOK_API TLEditbox : public Editbox
+class RASTULLAHLOOK_API RLEditbox : public Editbox
 {
 public:
     /*************************************************************************
@@ -67,14 +67,14 @@ public:
     \brief
         Constructor for Taharez edit box widgets
     */
-    TLEditbox(const String& type, const String& name);
+    RLEditbox(const String& type, const String& name);
 
 
     /*!
     \brief
         Destructor for Taharez edit box widgets
     */
-    virtual ~TLEditbox(void);
+    virtual ~RLEditbox(void);
 
 
 protected:
@@ -142,16 +142,16 @@ protected:
 
 /*!
 \brief
-    Factory class for producing TLEditbox objects
+    Factory class for producing RLEditbox objects
 */
-class RASTULLAHLOOK_API TLEditboxFactory : public WindowFactory
+class RASTULLAHLOOK_API RLEditboxFactory : public WindowFactory
 {
 public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLEditboxFactory(void) : WindowFactory(TLEditbox::WidgetTypeName) { }
-    ~TLEditboxFactory(void){}
+    RLEditboxFactory(void) : WindowFactory(RLEditbox::WidgetTypeName) { }
+    ~RLEditboxFactory(void){}
 
 
     /*!
@@ -183,4 +183,4 @@ public:
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _TLEditbox_h_
+#endif  // end of guard _RLEditbox_h_

@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLTitlebar.cpp
+    filename:   RLTitlebar.cpp
     created:    9/5/2004
     author:     Paul D Turner
     
@@ -35,24 +35,24 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  TLTitlebar::WidgetTypeName[]    = "TaharezLook/Titlebar";
+const utf8  RLTitlebar::WidgetTypeName[]    = "TaharezLook/Titlebar";
 
-const utf8  TLTitlebar::ImagesetName[]              = "TaharezLook";
-const utf8  TLTitlebar::LeftEndSectionImageName[]   = "NewTitlebarLeft";
-const utf8  TLTitlebar::MiddleSectionImageName[]    = "NewTitlebarMiddle";
-const utf8  TLTitlebar::RightEndSectionImageName[]  = "NewTitlebarRight";
-const utf8  TLTitlebar::SysAreaMiddleImageName[]    = "SysAreaMiddle";
-const utf8  TLTitlebar::SysAreaRightImageName[]     = "SysAreaRight";
-const utf8  TLTitlebar::NormalCursorImageName[]     = "MouseMoveCursor";
-const utf8  TLTitlebar::NoDragCursorImageName[]     = "MouseTarget";
+const utf8  RLTitlebar::ImagesetName[]              = "TaharezLook";
+const utf8  RLTitlebar::LeftEndSectionImageName[]   = "NewTitlebarLeft";
+const utf8  RLTitlebar::MiddleSectionImageName[]    = "NewTitlebarMiddle";
+const utf8  RLTitlebar::RightEndSectionImageName[]  = "NewTitlebarRight";
+const utf8  RLTitlebar::SysAreaMiddleImageName[]    = "SysAreaMiddle";
+const utf8  RLTitlebar::SysAreaRightImageName[]     = "SysAreaRight";
+const utf8  RLTitlebar::NormalCursorImageName[]     = "MouseMoveCursor";
+const utf8  RLTitlebar::NoDragCursorImageName[]     = "MouseTarget";
 
-const colour TLTitlebar::CaptionColour      = 0xFFFFFF;
+const colour RLTitlebar::CaptionColour      = 0xFFFFFF;
 
 
 /*************************************************************************
     Constructor
 *************************************************************************/
-TLTitlebar::TLTitlebar(const String& type, const String& name) :
+RLTitlebar::RLTitlebar(const String& type, const String& name) :
     Titlebar(type, name)
 {
     // get images
@@ -77,7 +77,7 @@ TLTitlebar::TLTitlebar(const String& type, const String& name) :
 /*************************************************************************
     Destructor
 *************************************************************************/
-TLTitlebar::~TLTitlebar(void)
+RLTitlebar::~RLTitlebar(void)
 {
 }
 
@@ -86,7 +86,7 @@ TLTitlebar::~TLTitlebar(void)
     return a Rect object describing the appropriately clipped Window
     area in screen space.
 *************************************************************************/
-Rect TLTitlebar::getPixelRect(void) const
+Rect RLTitlebar::getPixelRect(void) const
 {
     // clip to screen if we have no grand-parent
     if ((d_parent == NULL) || (d_parent->getParent() == NULL))
@@ -105,7 +105,7 @@ Rect TLTitlebar::getPixelRect(void) const
 /*************************************************************************
     Perform the actual rendering for this widget.   
 *************************************************************************/
-void TLTitlebar::drawSelf(float z)
+void RLTitlebar::drawSelf(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -179,7 +179,7 @@ void TLTitlebar::drawSelf(float z)
 /*************************************************************************
     Handler for when drag mode changes
 *************************************************************************/
-void TLTitlebar::onDraggingModeChanged(WindowEventArgs& e)
+void RLTitlebar::onDraggingModeChanged(WindowEventArgs& e)
 {
     // base class processing
     Titlebar::onDraggingModeChanged(e);
@@ -208,11 +208,11 @@ void TLTitlebar::onDraggingModeChanged(WindowEventArgs& e)
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TLTitlebar
+    Create, initialise and return a RLTitlebar
 *************************************************************************/
-Window* TLTitlebarFactory::createWindow(const String& name)
+Window* RLTitlebarFactory::createWindow(const String& name)
 {
-    TLTitlebar* wnd = new TLTitlebar(d_type, name);
+    RLTitlebar* wnd = new RLTitlebar(d_type, name);
     wnd->initialise();
 
     return wnd;

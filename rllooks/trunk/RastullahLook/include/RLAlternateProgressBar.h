@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLAlternateProgressBar.cpp
+    filename:   RLAlternateProgressBar.cpp
     created:    23/5/2004
     author:     Paul D Turner
     
@@ -36,14 +36,14 @@ namespace CEGUI
 {
 
 // number of light images we have for this alternate progress bar
-#define     TLAPB_LightImageCount       10
+#define     RLAPB_LightImageCount       10
 
 
 /*!
 \brief
     Alternate progress bar for the Taharez Gui Scheme.
 */
-class RASTULLAHLOOK_API TLAlternateProgressBar : public ProgressBar
+class RASTULLAHLOOK_API RLAlternateProgressBar : public ProgressBar
 {
 public:
     /*************************************************************************
@@ -81,14 +81,14 @@ public:
     \brief
         Constructor for Taharez alternate progress bar objects
     */
-    TLAlternateProgressBar(const String& type, const String& name);
+    RLAlternateProgressBar(const String& type, const String& name);
 
 
     /*!
     \brief
         Destructor for Taharez alternate progress bar objects
     */
-    virtual ~TLAlternateProgressBar(void);
+    virtual ~RLAlternateProgressBar(void);
 
 
 protected:
@@ -136,22 +136,22 @@ protected:
     const Image*    d_middle;           //!< Middle of container.
     const Image*    d_quarterMark;      //!< Quarters calibration mark.
     const Image*    d_halvesMark;       //!< Halves calibration mark.
-    const Image*    d_lightImages[TLAPB_LightImageCount];       //!< Light images.
+    const Image*    d_lightImages[RLAPB_LightImageCount];       //!< Light images.
 };
 
 
 /*!
 \brief
-    Factory class for producing TLAlternateProgressBar objects
+    Factory class for producing RLAlternateProgressBar objects
 */
-class RASTULLAHLOOK_API TLAlternateProgressBarFactory : public WindowFactory
+class RASTULLAHLOOK_API RLAlternateProgressBarFactory : public WindowFactory
 {
 public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLAlternateProgressBarFactory(void) : WindowFactory(TLAlternateProgressBar::WidgetTypeName) { }
-    ~TLAlternateProgressBarFactory(void){}
+    RLAlternateProgressBarFactory(void) : WindowFactory(RLAlternateProgressBar::WidgetTypeName) { }
+    ~RLAlternateProgressBarFactory(void){}
 
 
     /*!
@@ -183,4 +183,4 @@ public:
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _TLAlternateProgressBar_cpp_
+#endif  // end of guard _RLAlternateProgressBar_cpp_

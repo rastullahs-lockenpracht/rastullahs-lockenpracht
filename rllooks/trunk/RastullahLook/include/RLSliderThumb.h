@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLSliderThumb.h
+    filename:   RLSliderThumb.h
     created:    22/5/2004
     author:     Paul D Turner
     
@@ -38,7 +38,7 @@ namespace CEGUI
 \brief
     Thumb class as used in the Taharez Slider.
 */
-class RASTULLAHLOOK_API TLSliderThumb : public Thumb
+class RASTULLAHLOOK_API RLSliderThumb : public Thumb
 {
 public:
     /*************************************************************************
@@ -56,8 +56,8 @@ public:
     /*************************************************************************
         Construction / Destruction
     *************************************************************************/
-    TLSliderThumb(const String& type, const String& name);
-    virtual ~TLSliderThumb(void);
+    RLSliderThumb(const String& type, const String& name);
+    virtual ~RLSliderThumb(void);
 
 
 protected:
@@ -99,16 +99,16 @@ protected:
 
 /*!
 \brief
-    Factory class for producing TLSliderThumb objects
+    Factory class for producing RLSliderThumb objects
 */
-class RASTULLAHLOOK_API TLSliderThumbFactory : public WindowFactory
+class RASTULLAHLOOK_API RLSliderThumbFactory : public WindowFactory
 {
 public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLSliderThumbFactory(void) : WindowFactory(TLSliderThumb::WidgetTypeName) { }
-    ~TLSliderThumbFactory(void){}
+    RLSliderThumbFactory(void) : WindowFactory(RLSliderThumb::WidgetTypeName) { }
+    ~RLSliderThumbFactory(void){}
 
 
     /*!
@@ -141,4 +141,4 @@ public:
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _TLSliderThumb_h_
+#endif  // end of guard _RLSliderThumb_h_

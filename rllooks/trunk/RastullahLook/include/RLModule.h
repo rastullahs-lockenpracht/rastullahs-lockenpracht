@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLModule.h
+    filename:   RLModule.h
     created:    13/4/2004
     author:     Paul D Turner
     
@@ -46,4 +46,4 @@
 *************************************************************************/
 extern "C" RASTULLAHLOOK_API void registerFactory(const CEGUI::String& type_name);
 
-#endif  // end of guard _TLModule_h_
+#endif  // end of guard _RLModule_h_

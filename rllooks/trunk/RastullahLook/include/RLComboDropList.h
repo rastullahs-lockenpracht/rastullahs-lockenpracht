@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLComboDropList.h
+    filename:   RLComboDropList.h
     created:    13/6/2004
     author:     Paul D Turner
     
@@ -40,7 +40,7 @@ namespace CEGUI
 \brief
     Combobox Drop-down list class for the Taharez Gui Scheme.
 */
-class RASTULLAHLOOK_API TLComboDropList : public ComboDropList
+class RASTULLAHLOOK_API RLComboDropList : public ComboDropList
 {
 public:
     /*************************************************************************
@@ -75,14 +75,14 @@ public:
     \brief
         Constructor for Taharez look Combobox drop-down list.
     */
-    TLComboDropList(const String& type, const String& name);
+    RLComboDropList(const String& type, const String& name);
 
 
     /*!
     \brief
         Destructor for Taharez look Combobox drop-down list.
     */
-    virtual ~TLComboDropList(void);
+    virtual ~RLComboDropList(void);
 
 
 protected:
@@ -180,16 +180,16 @@ protected:
 
 /*!
 \brief
-    Factory class for producing TLComboDropList objects
+    Factory class for producing RLComboDropList objects
 */
-class RASTULLAHLOOK_API TLComboDropListFactory : public WindowFactory
+class RASTULLAHLOOK_API RLComboDropListFactory : public WindowFactory
 {
 public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLComboDropListFactory(void) : WindowFactory(TLComboDropList::WidgetTypeName) { }
-    ~TLComboDropListFactory(void){}
+    RLComboDropListFactory(void) : WindowFactory(RLComboDropList::WidgetTypeName) { }
+    ~RLComboDropListFactory(void){}
 
 
     /*!
@@ -221,4 +221,4 @@ public:
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _TLComboDropList_h_
+#endif  // end of guard _RLComboDropList_h_

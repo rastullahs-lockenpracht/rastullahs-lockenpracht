@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLCombobox.cpp
+    filename:   RLCombobox.cpp
     created:    12/6/2004
     author:     Paul D Turner
     
@@ -42,23 +42,23 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  TLCombobox::WidgetTypeName[]    = "TaharezLook/Combobox";
+const utf8  RLCombobox::WidgetTypeName[]    = "TaharezLook/Combobox";
 
 // image / imageset related
-const utf8  TLCombobox::ImagesetName[]                  = "TaharezLook";
-const utf8  TLCombobox::ButtonNormalImageName[]         = "ComboboxListButtonNormal";
-const utf8  TLCombobox::ButtonHighlightedImageName[]    = "ComboboxListButtonHover";
+const utf8  RLCombobox::ImagesetName[]                  = "TaharezLook";
+const utf8  RLCombobox::ButtonNormalImageName[]         = "ComboboxListButtonNormal";
+const utf8  RLCombobox::ButtonHighlightedImageName[]    = "ComboboxListButtonHover";
 
 // component widget type names
-const utf8* TLCombobox::EditboxTypeName     = TLComboEditbox::WidgetTypeName;
-const utf8* TLCombobox::DropListTypeName    = TLComboDropList::WidgetTypeName;
-const utf8* TLCombobox::ButtonTypeName      = TLButton::WidgetTypeName;
+const utf8* RLCombobox::EditboxTypeName     = RLComboEditbox::WidgetTypeName;
+const utf8* RLCombobox::DropListTypeName    = RLComboDropList::WidgetTypeName;
+const utf8* RLCombobox::ButtonTypeName      = RLButton::WidgetTypeName;
 
 
 /*************************************************************************
     Constructor for Taharez Combobox
 *************************************************************************/
-TLCombobox::TLCombobox(const String& type, const String& name) :
+RLCombobox::RLCombobox(const String& type, const String& name) :
     Combobox(type, name)
 {
 }
@@ -67,7 +67,7 @@ TLCombobox::TLCombobox(const String& type, const String& name) :
 /*************************************************************************
     Destructor for Taharez Combobox
 *************************************************************************/
-TLCombobox::~TLCombobox(void)
+RLCombobox::~RLCombobox(void)
 {
 }
 
@@ -75,7 +75,7 @@ TLCombobox::~TLCombobox(void)
 /*************************************************************************
     Perform rendering for this widget
 *************************************************************************/
-void TLCombobox::drawSelf(float z)
+void RLCombobox::drawSelf(float z)
 {
     // no need to do anything here, since we are just a bunch of child
     // widgets.
@@ -86,7 +86,7 @@ void TLCombobox::drawSelf(float z)
     Setup size and position for the component widgets attached to this
     Combobox.   
 *************************************************************************/
-void TLCombobox::layoutComponentWidgets()
+void RLCombobox::layoutComponentWidgets()
 {
     Point   pos;
     Size    sz;
@@ -123,7 +123,7 @@ void TLCombobox::layoutComponentWidgets()
     Create, initialise, and return a pointer to an Editbox widget to be
     used as part of this Combobox.
 *************************************************************************/
-Editbox* TLCombobox::createEditbox(void) const
+Editbox* RLCombobox::createEditbox(void) const
 {
     Editbox* eb = (Editbox*)WindowManager::getSingleton().createWindow(EditboxTypeName, getName() + "__auto_editbox__");
     eb->setMetricsMode(Absolute);
@@ -136,9 +136,9 @@ Editbox* TLCombobox::createEditbox(void) const
     Create, initialise, and return a pointer to a PushButton widget to
     be used as part of this Combobox.
 *************************************************************************/
-PushButton* TLCombobox::createPushButton(void) const
+PushButton* RLCombobox::createPushButton(void) const
 {
-    TLButton* btn = (TLButton*)WindowManager::getSingleton().createWindow(ButtonTypeName, getName() + "__auto_button__");
+    RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(ButtonTypeName, getName() + "__auto_button__");
     btn->setMetricsMode(Absolute);
 
     // Set up imagery
@@ -165,7 +165,7 @@ PushButton* TLCombobox::createPushButton(void) const
     Create, initialise, and return a pointer to a ComboDropList widget
     to be used as part of this Combobox.
 *************************************************************************/
-ComboDropList* TLCombobox::createDropList(void) const
+ComboDropList* RLCombobox::createDropList(void) const
 {
     return (ComboDropList*)WindowManager::getSingleton().createWindow(DropListTypeName, getName() + "__auto_droplist__");
 }
@@ -179,11 +179,11 @@ ComboDropList* TLCombobox::createDropList(void) const
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TLCombobox
+    Create, initialise and return a RLCombobox
 *************************************************************************/
-Window* TLComboboxFactory::createWindow(const String& name)
+Window* RLComboboxFactory::createWindow(const String& name)
 {
-    TLCombobox* wnd = new TLCombobox(d_type, name);
+    RLCombobox* wnd = new RLCombobox(d_type, name);
     wnd->initialise();
 
     return wnd;

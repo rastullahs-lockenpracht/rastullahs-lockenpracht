@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLListHeaderSegment.h
+    filename:   RLListHeaderSegment.h
     created:    15/6/2004
     author:     Paul D Turner
     
@@ -38,7 +38,7 @@ namespace CEGUI
 \brief
     List header segment widget for the Taharez Gui Scheme.
 */
-class RASTULLAHLOOK_API TLListHeaderSegment : public ListHeaderSegment
+class RASTULLAHLOOK_API RLListHeaderSegment : public ListHeaderSegment
 {
 public:
     /*************************************************************************
@@ -64,8 +64,8 @@ public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLListHeaderSegment(const String& type, const String& name);
-    virtual ~TLListHeaderSegment(void);
+    RLListHeaderSegment(const String& type, const String& name);
+    virtual ~RLListHeaderSegment(void);
 
 
 protected:
@@ -103,16 +103,16 @@ protected:
 
 /*!
 \brief
-    Factory class for producing TLListHeaderSegment objects
+    Factory class for producing RLListHeaderSegment objects
 */
-class RASTULLAHLOOK_API TLListHeaderSegmentFactory : public WindowFactory
+class RASTULLAHLOOK_API RLListHeaderSegmentFactory : public WindowFactory
 {
 public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLListHeaderSegmentFactory(void) : WindowFactory(TLListHeaderSegment::WidgetTypeName) { }
-    ~TLListHeaderSegmentFactory(void){}
+    RLListHeaderSegmentFactory(void) : WindowFactory(RLListHeaderSegment::WidgetTypeName) { }
+    ~RLListHeaderSegmentFactory(void){}
 
 
     /*!
@@ -144,4 +144,4 @@ public:
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _TLListHeaderSegment_h_
+#endif  // end of guard _RLListHeaderSegment_h_

@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLComboEditbox.h
+    filename:   RLComboEditbox.h
     created:    13/6/2004
     author:     Paul D Turner
     
@@ -38,7 +38,7 @@ namespace CEGUI
 \brief
     Edit box class for use as sub-widget of the Combobox in the Taharez look Gui Scheme
 */
-class RASTULLAHLOOK_API TLComboEditbox : public Editbox
+class RASTULLAHLOOK_API RLComboEditbox : public Editbox
 {
 public:
     /*************************************************************************
@@ -66,14 +66,14 @@ public:
     \brief
         Constructor for Taharez combo box edit widgets
     */
-    TLComboEditbox(const String& type, const String& name);
+    RLComboEditbox(const String& type, const String& name);
 
 
     /*!
     \brief
         Destructor for Taharez combo box edit widgets
     */
-    virtual ~TLComboEditbox(void);
+    virtual ~RLComboEditbox(void);
 
 
 protected:
@@ -140,16 +140,16 @@ protected:
 
 /*!
 \brief
-    Factory class for producing TLComboEditbox objects
+    Factory class for producing RLComboEditbox objects
 */
-class RASTULLAHLOOK_API TLComboEditboxFactory : public WindowFactory
+class RASTULLAHLOOK_API RLComboEditboxFactory : public WindowFactory
 {
 public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLComboEditboxFactory(void) : WindowFactory(TLComboEditbox::WidgetTypeName) { }
-    ~TLComboEditboxFactory(void){}
+    RLComboEditboxFactory(void) : WindowFactory(RLComboEditbox::WidgetTypeName) { }
+    ~RLComboEditboxFactory(void){}
 
 
     /*!
@@ -181,4 +181,4 @@ public:
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _TLComboEditbox_h_
+#endif  // end of guard _RLComboEditbox_h_

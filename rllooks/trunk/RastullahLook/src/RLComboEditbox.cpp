@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLComboEditbox.cpp
+    filename:   RLComboEditbox.cpp
     created:    13/6/2004
     author:     Paul D Turner
     
@@ -35,29 +35,29 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  TLComboEditbox::WidgetTypeName[]    = "TaharezLook/ComboEditbox";
+const utf8  RLComboEditbox::WidgetTypeName[]    = "TaharezLook/ComboEditbox";
 
 // image name constants
-const utf8  TLComboEditbox::ImagesetName[]              = "TaharezLook";
-const utf8  TLComboEditbox::ContainerLeftImageName[]    = "ComboboxEditLeft";
-const utf8  TLComboEditbox::ContainerMiddleImageName[]  = "ComboboxEditMiddle";
-const utf8  TLComboEditbox::CaratImageName[]            = "EditBoxCarat";
-const utf8  TLComboEditbox::SelectionBrushImageName[]   = "ComboboxSelectionBrush";
-const utf8  TLComboEditbox::MouseCursorImageName[]      = "MouseTextBar";
+const utf8  RLComboEditbox::ImagesetName[]              = "TaharezLook";
+const utf8  RLComboEditbox::ContainerLeftImageName[]    = "ComboboxEditLeft";
+const utf8  RLComboEditbox::ContainerMiddleImageName[]  = "ComboboxEditMiddle";
+const utf8  RLComboEditbox::CaratImageName[]            = "EditBoxCarat";
+const utf8  RLComboEditbox::SelectionBrushImageName[]   = "ComboboxSelectionBrush";
+const utf8  RLComboEditbox::MouseCursorImageName[]      = "MouseTextBar";
 
 // layout values
-const float TLComboEditbox::TextPaddingRatio        = 0.5f;
+const float RLComboEditbox::TextPaddingRatio        = 0.5f;
 
 // implementation constantss
-const uint  TLComboEditbox::SelectionLayer  = 1;
-const uint  TLComboEditbox::TextLayer       = 2;
-const uint  TLComboEditbox::CaratLayer      = 3;
+const uint  RLComboEditbox::SelectionLayer  = 1;
+const uint  RLComboEditbox::TextLayer       = 2;
+const uint  RLComboEditbox::CaratLayer      = 3;
 
 
 /*************************************************************************
     Constructor for Taharez edit box widgets    
 *************************************************************************/
-TLComboEditbox::TLComboEditbox(const String& type, const String& name) :
+RLComboEditbox::RLComboEditbox(const String& type, const String& name) :
     Editbox(type, name),
     d_lastTextOffset(0)
 {
@@ -76,7 +76,7 @@ TLComboEditbox::TLComboEditbox(const String& type, const String& name) :
 /*************************************************************************
     Destructor for Taharez edit box widgets 
 *************************************************************************/
-TLComboEditbox::~TLComboEditbox(void)
+RLComboEditbox::~RLComboEditbox(void)
 {
 }
 
@@ -85,7 +85,7 @@ TLComboEditbox::~TLComboEditbox(void)
     Return the text code point index that is rendered closest to screen
     position 'pt'.  
 *************************************************************************/
-ulong TLComboEditbox::getTextIndexFromPosition(const Point& pt) const
+ulong RLComboEditbox::getTextIndexFromPosition(const Point& pt) const
 {
     //
     // calculate final window position to be checked
@@ -117,7 +117,7 @@ ulong TLComboEditbox::getTextIndexFromPosition(const Point& pt) const
 /*************************************************************************
     return text padding value to use in pixels  
 *************************************************************************/
-float TLComboEditbox::getTextPaddingPixels(void) const
+float RLComboEditbox::getTextPaddingPixels(void) const
 {
     return d_left->getWidth() * TextPaddingRatio;
 }
@@ -126,7 +126,7 @@ float TLComboEditbox::getTextPaddingPixels(void) const
 /*************************************************************************
     Perform the actual rendering for this Window.
 *************************************************************************/
-void TLComboEditbox::drawSelf(float z)
+void RLComboEditbox::drawSelf(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -296,11 +296,11 @@ void TLComboEditbox::drawSelf(float z)
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TLComboEditbox
+    Create, initialise and return a RLComboEditbox
 *************************************************************************/
-Window* TLComboEditboxFactory::createWindow(const String& name)
+Window* RLComboEditboxFactory::createWindow(const String& name)
 {
-    TLComboEditbox* wnd = new TLComboEditbox(d_type, name);
+    RLComboEditbox* wnd = new RLComboEditbox(d_type, name);
     wnd->initialise();
 
     return wnd;

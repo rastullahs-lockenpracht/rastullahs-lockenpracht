@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLRadioButton.h
+    filename:   RLRadioButton.h
     created:    21/5/2004
     author:     Paul D Turner
     
@@ -38,7 +38,7 @@ namespace CEGUI
 \brief
     Radio Button class for the TaharezLook GUI scheme
 */
-class RASTULLAHLOOK_API TLRadioButton : public RadioButton
+class RASTULLAHLOOK_API RLRadioButton : public RadioButton
 {
 public:
     /*************************************************************************
@@ -68,14 +68,14 @@ public:
     \param name
         String object that specifies a unique name that will be used to identify the new Window object
     */
-    TLRadioButton(const String& type, const String& name);
+    RLRadioButton(const String& type, const String& name);
 
 
     /*!
     \brief
-        Destructor for TLRadioButton objects.
+        Destructor for RLRadioButton objects.
     */
-    virtual ~TLRadioButton(void);
+    virtual ~RLRadioButton(void);
 
     
 protected:
@@ -119,16 +119,16 @@ protected:
 
 /*!
 \brief
-    Factory class for producing TLRadioButton objects
+    Factory class for producing RLRadioButton objects
 */
-class RASTULLAHLOOK_API TLRadioButtonFactory : public WindowFactory
+class RASTULLAHLOOK_API RLRadioButtonFactory : public WindowFactory
 {
 public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLRadioButtonFactory(void) : WindowFactory(TLRadioButton::WidgetTypeName) { }
-    ~TLRadioButtonFactory(void){}
+    RLRadioButtonFactory(void) : WindowFactory(RLRadioButton::WidgetTypeName) { }
+    ~RLRadioButtonFactory(void){}
 
 
     /*!
@@ -161,4 +161,4 @@ public:
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _TLRadioButton_h_
+#endif  // end of guard _RLRadioButton_h_

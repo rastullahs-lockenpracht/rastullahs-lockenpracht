@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLTabControl.h
+    filename:   RLTabControl.h
     created:    10/08/2004
     author:     Steve Streeting
     
@@ -39,7 +39,7 @@ namespace CEGUI
 \brief
     Concrete TabControl class for the Taharez Look widget set.  
 */
-class RASTULLAHLOOK_API TLTabControl : public TabControl
+class RASTULLAHLOOK_API RLTabControl : public TabControl
 {
 public:
     /*************************************************************************
@@ -68,14 +68,14 @@ public:
     \param name
         String object that specifies a unique name that will be used to identify the new Window object
     */
-    TLTabControl(const String& type, const String& name);
+    RLTabControl(const String& type, const String& name);
 
 
     /*!
     \brief
-        Destructor for TLTabControl objects.
+        Destructor for RLTabControl objects.
     */
-    virtual ~TLTabControl(void);
+    virtual ~RLTabControl(void);
 
 protected:
     /*************************************************************************
@@ -135,9 +135,9 @@ protected:
 
 /*!
 \brief
-    Factory class for producing TLFrameWindow objects
+    Factory class for producing RLFrameWindow objects
 */
-class RASTULLAHLOOK_API TLTabControlFactory : public WindowFactory
+class RASTULLAHLOOK_API RLTabControlFactory : public WindowFactory
 {
 public:
     /*************************************************************************
@@ -147,14 +147,14 @@ public:
     \brief
         Constructor for Taharez Frame Window factory class.
     */
-    TLTabControlFactory(void) : WindowFactory(TLTabControl::WidgetTypeName) { }
+    RLTabControlFactory(void) : WindowFactory(RLTabControl::WidgetTypeName) { }
 
 
     /*
     \brief
         Destructor for Taharez Frame Window factory class.
     */
-    ~TLTabControlFactory(void){}
+    ~RLTabControlFactory(void){}
 
 
     /*!
@@ -186,4 +186,4 @@ public:
 
 } // End of  CEGUI namespace section
 
-#endif  // end of guard _TLFrameWindow_h_
+#endif  // end of guard _RLFrameWindow_h_

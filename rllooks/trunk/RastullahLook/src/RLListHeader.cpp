@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLListHeader.cpp
+    filename:   RLListHeader.cpp
     created:    14/6/2004
     author:     Paul D Turner
     
@@ -34,16 +34,16 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  TLListHeader::WidgetTypeName[]  = "TaharezLook/ListHeader";
+const utf8  RLListHeader::WidgetTypeName[]  = "TaharezLook/ListHeader";
 
 // type names for the component widgets
-const utf8* TLListHeader::SegmentWidgetType     = TLListHeaderSegment::WidgetTypeName;
+const utf8* RLListHeader::SegmentWidgetType     = RLListHeaderSegment::WidgetTypeName;
 
 
 /*************************************************************************
     Constructor
 *************************************************************************/
-TLListHeader::TLListHeader(const String& type, const String& name) :
+RLListHeader::RLListHeader(const String& type, const String& name) :
     ListHeader(type, name)
 {
 }
@@ -52,7 +52,7 @@ TLListHeader::TLListHeader(const String& type, const String& name) :
 /*************************************************************************
     Destructor
 *************************************************************************/
-TLListHeader::~TLListHeader(void)
+RLListHeader::~RLListHeader(void)
 {
 }
 
@@ -60,7 +60,7 @@ TLListHeader::~TLListHeader(void)
 /*************************************************************************
     Render the widget.
 *************************************************************************/
-void TLListHeader::drawSelf(float z)
+void RLListHeader::drawSelf(float z)
 {
 }
 
@@ -68,7 +68,7 @@ void TLListHeader::drawSelf(float z)
 /*************************************************************************
     Create and return a pointer to a new ListHeaderSegment based object.
 *************************************************************************/
-ListHeaderSegment* TLListHeader::createNewSegment(const String& name) const
+ListHeaderSegment* RLListHeader::createNewSegment(const String& name) const
 {
     return (ListHeaderSegment*)WindowManager::getSingleton().createWindow(SegmentWidgetType, name);
 }
@@ -78,7 +78,7 @@ ListHeaderSegment* TLListHeader::createNewSegment(const String& name) const
     Cleanup and destroy the given ListHeaderSegment that was created
     via the createNewSegment method.
 *************************************************************************/
-void TLListHeader::destroyListSegment(ListHeaderSegment* segment) const
+void RLListHeader::destroyListSegment(ListHeaderSegment* segment) const
 {
     WindowManager::getSingleton().destroyWindow(segment);
 }
@@ -92,11 +92,11 @@ void TLListHeader::destroyListSegment(ListHeaderSegment* segment) const
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TLListHeader
+    Create, initialise and return a RLListHeader
 *************************************************************************/
-Window* TLListHeaderFactory::createWindow(const String& name)
+Window* RLListHeaderFactory::createWindow(const String& name)
 {
-    TLListHeader* wnd = new TLListHeader(d_type, name);
+    RLListHeader* wnd = new RLListHeader(d_type, name);
     wnd->initialise();
 
     return wnd;

@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLButton.h
+    filename:   RLButton.h
     created:    11/5/2004
     author:     Paul D Turner
     
@@ -47,7 +47,7 @@ namespace CEGUI
 \brief
     Button class for the TaharezLook GUI scheme
 */
-class RASTULLAHLOOK_API TLButton : public PushButton
+class RASTULLAHLOOK_API RLButton : public PushButton
 {
 public:
     /*************************************************************************
@@ -81,14 +81,14 @@ public:
     \param name
         String object that specifies a unique name that will be used to identify the new Window object
     */
-    TLButton(const String& type, const String& name);
+    RLButton(const String& type, const String& name);
 
 
     /*!
     \brief
-        Destructor for TLButton objects.
+        Destructor for RLButton objects.
     */
-    virtual ~TLButton(void);
+    virtual ~RLButton(void);
 
     
     /*************************************************************************
@@ -295,28 +295,28 @@ protected:
    float d_textXOffset;     //!< offset applied to the x co-ordinate of the text label.
 
 private:
-   static TLButtonProperties::NormalImage d_normalImageProperty;
-   static TLButtonProperties::PushedImage d_pushedImageProperty;
-   static TLButtonProperties::HoverImage  d_hoverImageProperty;
-   static TLButtonProperties::UseStandardImagery d_useStandardImageryProperty;
-   static TLButtonProperties::TextXOffset d_textXOffsetProperty;
+   static RLButtonProperties::NormalImage d_normalImageProperty;
+   static RLButtonProperties::PushedImage d_pushedImageProperty;
+   static RLButtonProperties::HoverImage  d_hoverImageProperty;
+   static RLButtonProperties::UseStandardImagery d_useStandardImageryProperty;
+   static RLButtonProperties::TextXOffset d_textXOffsetProperty;
 
-   void addTLButtonProperties(void);
+   void addRLButtonProperties(void);
 };
 
 
 /*!
 \brief
-    Factory class for producing TLButton objects
+    Factory class for producing RLButton objects
 */
-class RASTULLAHLOOK_API TLButtonFactory : public WindowFactory
+class RASTULLAHLOOK_API RLButtonFactory : public WindowFactory
 {
 public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLButtonFactory(void) : WindowFactory(TLButton::WidgetTypeName) { }
-    ~TLButtonFactory(void){}
+    RLButtonFactory(void) : WindowFactory(RLButton::WidgetTypeName) { }
+    ~RLButtonFactory(void){}
 
 
     /*!
@@ -353,4 +353,4 @@ public:
 #   pragma warning(pop)
 #endif
 
-#endif  // end of guard _TLButton_h_
+#endif  // end of guard _RLButton_h_

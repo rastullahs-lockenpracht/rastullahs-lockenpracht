@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLStatic.h
+    filename:   RLStatic.h
     created:    5/6/2004
     author:     Paul D Turner
     
@@ -47,7 +47,7 @@ static void initTaharezStatic(Static* s);
 \brief
     StaticText class for the TaharezLook Gui Scheme
 */
-class RASTULLAHLOOK_API TLStaticText : public StaticText
+class RASTULLAHLOOK_API RLStaticText : public StaticText
 {
 public:
     /*************************************************************************
@@ -73,14 +73,14 @@ public:
     \param name
         String object that specifies a unique name that will be used to identify the new Window object
     */
-    TLStaticText(const String& type, const String& name) : StaticText(type, name) {}
+    RLStaticText(const String& type, const String& name) : StaticText(type, name) {}
 
 
     /*!
     \brief
-        Destructor for TLStaticText objects.
+        Destructor for RLStaticText objects.
     */
-    virtual ~TLStaticText(void) {}
+    virtual ~RLStaticText(void) {}
 
 
     /*!
@@ -126,7 +126,7 @@ protected:
 \brief
     StaticImage class for the TaharezLook Gui Scheme
 */
-class RASTULLAHLOOK_API TLStaticImage : public StaticImage
+class RASTULLAHLOOK_API RLStaticImage : public StaticImage
 {
 public:
     /*************************************************************************
@@ -148,14 +148,14 @@ public:
     \param name
         String object that specifies a unique name that will be used to identify the new Window object
     */
-    TLStaticImage(const String& type, const String& name) : StaticImage(type, name) {}
+    RLStaticImage(const String& type, const String& name) : StaticImage(type, name) {}
 
 
     /*!
     \brief
-        Destructor for TLStaticImage objects.
+        Destructor for RLStaticImage objects.
     */
-    virtual ~TLStaticImage(void) {}
+    virtual ~RLStaticImage(void) {}
 
 
     /*!
@@ -177,14 +177,14 @@ public:
 \brief
     Factory class for producing StaticText objects for the Taharez GUI Scheme
 */
-class RASTULLAHLOOK_API TLStaticTextFactory : public WindowFactory
+class RASTULLAHLOOK_API RLStaticTextFactory : public WindowFactory
 {
 public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLStaticTextFactory(void) : WindowFactory(TLStaticText::WidgetTypeName) { }
-    ~TLStaticTextFactory(void){}
+    RLStaticTextFactory(void) : WindowFactory(RLStaticText::WidgetTypeName) { }
+    ~RLStaticTextFactory(void){}
 
 
     /*!
@@ -218,14 +218,14 @@ public:
 \brief
     Factory class for producing StaticImage objects for the Taharez GUI Scheme
 */
-class RASTULLAHLOOK_API TLStaticImageFactory : public WindowFactory
+class RASTULLAHLOOK_API RLStaticImageFactory : public WindowFactory
 {
 public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLStaticImageFactory(void) : WindowFactory(TLStaticImage::WidgetTypeName) { }
-    ~TLStaticImageFactory(void){}
+    RLStaticImageFactory(void) : WindowFactory(RLStaticImage::WidgetTypeName) { }
+    ~RLStaticImageFactory(void){}
 
 
     /*!
@@ -257,4 +257,4 @@ public:
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _TLStatic_h_
+#endif  // end of guard _RLStatic_h_

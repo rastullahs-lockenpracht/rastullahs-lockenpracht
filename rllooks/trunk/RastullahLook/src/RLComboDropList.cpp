@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLComboDropList.cpp
+    filename:   RLComboDropList.cpp
     created:    13/6/2004
     author:     Paul D Turner
     
@@ -39,31 +39,31 @@ namespace CEGUI
     Constants
 *************************************************************************/
 // type name for this widget
-const utf8  TLComboDropList::WidgetTypeName[]   = "TaharezLook/ComboDropList";
+const utf8  RLComboDropList::WidgetTypeName[]   = "TaharezLook/ComboDropList";
 
 // image / imageset related
-const utf8  TLComboDropList::ImagesetName[]             = "TaharezLook";
-const utf8  TLComboDropList::TopLeftImageName[]         = "ComboboxListTopLeft";
-const utf8  TLComboDropList::TopRightImageName[]        = "ComboboxListTopRight";
-const utf8  TLComboDropList::BottomLeftImageName[]      = "ComboboxListBottomLeft";
-const utf8  TLComboDropList::BottomRightImageName[]     = "ComboboxListBottomRight";
-const utf8  TLComboDropList::LeftEdgeImageName[]        = "ComboboxListLeft";
-const utf8  TLComboDropList::RightEdgeImageName[]       = "ComboboxListRight";
-const utf8  TLComboDropList::TopEdgeImageName[]         = "ComboboxListTop";
-const utf8  TLComboDropList::BottomEdgeImageName[]      = "ComboboxListBottom";
-const utf8  TLComboDropList::BackgroundImageName[]      = "ComboboxListBackdrop";
-const utf8  TLComboDropList::SelectionBrushImageName[]  = "ComboboxSelectionBrush";
-const utf8  TLComboDropList::MouseCursorImageName[]     = "MouseTarget";
+const utf8  RLComboDropList::ImagesetName[]             = "TaharezLook";
+const utf8  RLComboDropList::TopLeftImageName[]         = "ComboboxListTopLeft";
+const utf8  RLComboDropList::TopRightImageName[]        = "ComboboxListTopRight";
+const utf8  RLComboDropList::BottomLeftImageName[]      = "ComboboxListBottomLeft";
+const utf8  RLComboDropList::BottomRightImageName[]     = "ComboboxListBottomRight";
+const utf8  RLComboDropList::LeftEdgeImageName[]        = "ComboboxListLeft";
+const utf8  RLComboDropList::RightEdgeImageName[]       = "ComboboxListRight";
+const utf8  RLComboDropList::TopEdgeImageName[]         = "ComboboxListTop";
+const utf8  RLComboDropList::BottomEdgeImageName[]      = "ComboboxListBottom";
+const utf8  RLComboDropList::BackgroundImageName[]      = "ComboboxListBackdrop";
+const utf8  RLComboDropList::SelectionBrushImageName[]  = "ComboboxSelectionBrush";
+const utf8  RLComboDropList::MouseCursorImageName[]     = "MouseTarget";
 
 // component widget type names
-const utf8* TLComboDropList::HorzScrollbarTypeName  = TLMiniHorzScrollbar::WidgetTypeName;
-const utf8* TLComboDropList::VertScrollbarTypeName  = TLMiniVertScrollbar::WidgetTypeName;
+const utf8* RLComboDropList::HorzScrollbarTypeName  = RLMiniHorzScrollbar::WidgetTypeName;
+const utf8* RLComboDropList::VertScrollbarTypeName  = RLMiniVertScrollbar::WidgetTypeName;
 
     
 /*************************************************************************
     Constructor for Taharez look Combobox drop-down list.
 *************************************************************************/
-TLComboDropList::TLComboDropList(const String& type, const String& name) :
+RLComboDropList::RLComboDropList(const String& type, const String& name) :
     ComboDropList(type, name)
 {
     Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
@@ -92,7 +92,7 @@ TLComboDropList::TLComboDropList(const String& type, const String& name) :
 /*************************************************************************
     Destructor for Taharez look Combobox drop-down list.
 *************************************************************************/
-TLComboDropList::~TLComboDropList(void)
+RLComboDropList::~RLComboDropList(void)
 {
 }
 
@@ -101,7 +101,7 @@ TLComboDropList::~TLComboDropList(void)
     Return a Rect object describing, in un-clipped pixels, the window
     relative area that is to be used for rendering list items.
 *************************************************************************/
-Rect TLComboDropList::getListRenderArea(void) const
+Rect RLComboDropList::getListRenderArea(void) const
 {
     Rect tmp;
 
@@ -135,7 +135,7 @@ Rect TLComboDropList::getListRenderArea(void) const
     create and return a pointer to a Scrollbar widget for use as
     vertical scroll bar 
 *************************************************************************/
-Scrollbar* TLComboDropList::createVertScrollbar(void) const
+Scrollbar* RLComboDropList::createVertScrollbar(void) const
 {
     Scrollbar* sbar = (Scrollbar*)WindowManager::getSingleton().createWindow(VertScrollbarTypeName, getName() + "__auto_vscrollbar__");
 
@@ -151,7 +151,7 @@ Scrollbar* TLComboDropList::createVertScrollbar(void) const
     create and return a pointer to a Scrollbar widget for use as
     horizontal scroll bar   
 *************************************************************************/
-Scrollbar* TLComboDropList::createHorzScrollbar(void) const
+Scrollbar* RLComboDropList::createHorzScrollbar(void) const
 {
     Scrollbar* sbar = (Scrollbar*)WindowManager::getSingleton().createWindow(HorzScrollbarTypeName, getName() + "__auto_hscrollbar__");
 
@@ -167,7 +167,7 @@ Scrollbar* TLComboDropList::createHorzScrollbar(void) const
     Setup size and position for the component widgets attached to this
     widget
 *************************************************************************/
-void TLComboDropList::layoutComponentWidgets()
+void RLComboDropList::layoutComponentWidgets()
 {
     // set desired size for vertical scroll-bar
     Size v_sz(0.05f, 1.0f);
@@ -208,7 +208,7 @@ void TLComboDropList::layoutComponentWidgets()
 /*************************************************************************
     Perform rendering of the widget control frame and other 'static' areas.
 *************************************************************************/
-void TLComboDropList::renderListboxBaseImagery(float z)
+void RLComboDropList::renderListboxBaseImagery(float z)
 {
     Rect clipper(getPixelRect());
 
@@ -231,7 +231,7 @@ void TLComboDropList::renderListboxBaseImagery(float z)
 /*************************************************************************
     Store the sizes for the frame edges 
 *************************************************************************/
-void TLComboDropList::storeFrameSizes(void)
+void RLComboDropList::storeFrameSizes(void)
 {
     Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
 
@@ -245,7 +245,7 @@ void TLComboDropList::storeFrameSizes(void)
 /*************************************************************************
     Handler for when window is sized
 *************************************************************************/
-void TLComboDropList::onSized(WindowEventArgs& e)
+void RLComboDropList::onSized(WindowEventArgs& e)
 {
     // base class processing
     ComboDropList::onSized(e);
@@ -265,7 +265,7 @@ void TLComboDropList::onSized(WindowEventArgs& e)
 /*************************************************************************
     Handler for alpha value changes
 *************************************************************************/
-void TLComboDropList::onAlphaChanged(WindowEventArgs& e)
+void RLComboDropList::onAlphaChanged(WindowEventArgs& e)
 {
     ComboDropList::onAlphaChanged(e);
 
@@ -291,11 +291,11 @@ void TLComboDropList::onAlphaChanged(WindowEventArgs& e)
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TLComboDropList
+    Create, initialise and return a RLComboDropList
 *************************************************************************/
-Window* TLComboDropListFactory::createWindow(const String& name)
+Window* RLComboDropListFactory::createWindow(const String& name)
 {
-    TLComboDropList* wnd = new TLComboDropList(d_type, name);
+    RLComboDropList* wnd = new RLComboDropList(d_type, name);
     wnd->initialise();
 
     return wnd;

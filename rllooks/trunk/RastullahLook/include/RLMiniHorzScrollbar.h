@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   TLMiniHorzScrollbar.h
+    filename:   RLMiniHorzScrollbar.h
     created:    2/6/2004
     author:     Paul D Turner
     
@@ -38,7 +38,7 @@ namespace CEGUI
 \brief
     Mini horizontal scroll-bar bar for the Taharez Gui Scheme.
 */
-class RASTULLAHLOOK_API TLMiniHorzScrollbar: public Scrollbar
+class RASTULLAHLOOK_API RLMiniHorzScrollbar: public Scrollbar
 {
 public:
     /*************************************************************************
@@ -74,14 +74,14 @@ public:
     \brief
         Constructor for Taharez mini horizontal scroll bar widgets
     */
-    TLMiniHorzScrollbar(const String& type, const String& name);
+    RLMiniHorzScrollbar(const String& type, const String& name);
 
 
     /*!
     \brief
         Destructor for Taharez mini horizontal scroll bar widgets
     */
-    virtual ~TLMiniHorzScrollbar(void);
+    virtual ~RLMiniHorzScrollbar(void);
 
 
 protected:
@@ -168,16 +168,16 @@ protected:
 
 /*!
 \brief
-    Factory class for producing TLMiniHorzScrollbar objects
+    Factory class for producing RLMiniHorzScrollbar objects
 */
-class RASTULLAHLOOK_API TLMiniHorzScrollbarFactory : public WindowFactory
+class RASTULLAHLOOK_API RLMiniHorzScrollbarFactory : public WindowFactory
 {
 public:
     /*************************************************************************
         Construction and Destruction
     *************************************************************************/
-    TLMiniHorzScrollbarFactory(void) : WindowFactory(TLMiniHorzScrollbar::WidgetTypeName) { }
-    ~TLMiniHorzScrollbarFactory(void){}
+    RLMiniHorzScrollbarFactory(void) : WindowFactory(RLMiniHorzScrollbar::WidgetTypeName) { }
+    ~RLMiniHorzScrollbarFactory(void){}
 
 
     /*!
@@ -209,4 +209,4 @@ public:
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _TLMiniHorzScrollbar_h_
+#endif  // end of guard _RLMiniHorzScrollbar_h_
