@@ -33,8 +33,12 @@ namespace rl {
         // Set up shadowing
         mSceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_MODULATIVE);
         mSceneMgr->setShadowColour(ColourValue(0.5, 0.5, 0.5));
+		mSceneMgr->setShadowUseInfiniteFarPlane(true); 
         mSceneMgr->setShadowFarDistance(10000);
+
         mSceneMgr->setShadowDirLightTextureOffset(0.9);
+		mSceneMgr->setShadowDirectionalLightExtrusionDistance(1000000);
+
 		if (StringUtil::startsWith(Root::getSingletonPtr()->
 		    getRenderSystem()->getName(), "direct"))
         {
@@ -93,7 +97,7 @@ namespace rl {
 		node->attachObject(mSceneEntity);
 
 		//Level wirft per Default keinen Schatten
-		setCastShadows(false);
+		setCastShadows(true);
 		
         initializeDefaultCamera();
         mbSceneLoaded = true;
