@@ -35,77 +35,77 @@ class dJointGroup;
 
 namespace rl {
 
-class PhysicalThing;
-class Actor;
-class World;
+    class PhysicalThing;
+    class Actor;
+    class World;
 
-typedef std::map<Actor*,PhysicalThing*> PhysicalThingActorMap;
-typedef std::pair<Actor*,PhysicalThing*> PhysicalThingActorPair;
+    typedef std::map<Actor*,PhysicalThing*> PhysicalThingActorMap;
+    typedef std::pair<Actor*,PhysicalThing*> PhysicalThingActorPair;
 
-class _RlCoreExport PhysicsManager : public SynchronizedTask, protected Singleton<PhysicsManager>
-{
-public:
-    PhysicsManager();
-    virtual ~PhysicsManager();
+    class _RlCoreExport PhysicsManager : public SynchronizedTask, protected Singleton<PhysicsManager>
+    {
+    public:
+        PhysicsManager();
+        virtual ~PhysicsManager();
 
-    virtual void run( Real elapsedTime );
-    
-    // Creation of PhysicalThings
-    PhysicalThing* createPhysicalThing(Actor* actor);
-    PhysicalThing* createSpherePhysicalThing(Actor* actor, Real density, bool noDynamics = false);
-    PhysicalThing* createBoxPhysicalThing(Actor* actor, Real density, bool noDynamics = false);
-    PhysicalThing* createCappedCylinderPhysicalThing(Actor* actor, Real density, bool noDynamics = false);
-    // TODO TriMesh
-    void removePhysicalThing(Actor* actor);
+        virtual void run( Real elapsedTime );
 
-    // TODO Joints
+        // Creation of PhysicalThings
+        PhysicalThing* createPhysicalThing(Actor* actor);
+        PhysicalThing* createSpherePhysicalThing(Actor* actor, Real density, bool noDynamics = false);
+        PhysicalThing* createBoxPhysicalThing(Actor* actor, Real density, bool noDynamics = false);
+        PhysicalThing* createCappedCylinderPhysicalThing(Actor* actor, Real density, bool noDynamics = false);
+        // TODO TriMesh
+        void removePhysicalThing(Actor* actor);
 
-    // Spaces for combining non-colliding objects 
-    // ( for example the parts of a car... )
-    void activateGlobalSpace();
-    void activatePhysicalThingSpace( PhysicalThing* thing );
-    void removePhysicalThingSpace( PhysicalThing* thing );
-    void moveToCurrentSpace( PhysicalThing* thing );
-    void createSimpleSpace();
+        // TODO Joints
 
-    // Global Settings
-    void setGravity( Real x, Real y, Real z );
-    Vector3 getGravity();
-    void setCFM(Real cfm);
-    Real getCFM();
-    void setERP(Real erp);
-    Real getERP();
+        // Spaces for combining non-colliding objects 
+        // ( for example the parts of a car... )
+        void activateGlobalSpace();
+        void activatePhysicalThingSpace( PhysicalThing* thing );
+        void removePhysicalThingSpace( PhysicalThing* thing );
+        void moveToCurrentSpace( PhysicalThing* thing );
+        void createSimpleSpace();
 
-    dSpace* getCurrSpace();
-    dWorld* getWorld();
-    dJointGroup* getContactJointGroup();
+        // Global Settings
+        void setGravity( Real x, Real y, Real z );
+        Vector3 getGravity();
+        void setCFM(Real cfm);
+        Real getCFM();
+        void setERP(Real erp);
+        Real getERP();
 
-    void setWorldScene( World* world );
-	void setEnabled(bool enabled);
-    
-    // Singleton Stuff
-    static PhysicsManager & getSingleton(void);
-	static PhysicsManager * getSingletonPtr(void);
+        dSpace* getCurrSpace();
+        dWorld* getWorld();
+        dJointGroup* getContactJointGroup();
 
-    // Collision Callback
-    static void collisionCallback(void* data, dGeomID o1, dGeomID o2);
-private:
-	bool m_Enabled;
+        void setWorldScene( World* world );
+        void setEnabled(bool enabled);
 
-    PhysicalThingActorMap mPhysicalThings;
-    IntersectionSceneQuery* mQuery;
+        // Singleton Stuff
+        static PhysicsManager & getSingleton(void);
+        static PhysicsManager * getSingletonPtr(void);
 
-    std::list<dSimpleSpace*> mSimpleSpaces;
-	std::list<dJoint*> mJoints;
-    
-    dHashSpace* mGlobalSpace;
-    dWorld* mWorld;
-    dSpace* mCurrSpace;
-    dJointGroup* mContactJointGroup;
+        // Collision Callback
+        static void collisionCallback(void* data, dGeomID o1, dGeomID o2);
+    private:
+        bool m_Enabled;
 
-    Real mStepSize;
-    Real mLeftOverTime;
-};
+        PhysicalThingActorMap mPhysicalThings;
+        IntersectionSceneQuery* mQuery;
+
+        std::list<dSimpleSpace*> mSimpleSpaces;
+        std::list<dJoint*> mJoints;
+
+        dHashSpace* mGlobalSpace;
+        dWorld* mWorld;
+        dSpace* mCurrSpace;
+        dJointGroup* mContactJointGroup;
+
+        Real mStepSize;
+        Real mLeftOverTime;
+    };
 
 }
 
