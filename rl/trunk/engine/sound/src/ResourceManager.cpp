@@ -48,38 +48,6 @@ void ResourceManager::addSounds()
     }
 }
 
-/**
- * @return Gibt den gesamten relativen Pfad der Datei zurueck.
- * @param filename Der Dateiname, den ich suche.
- * @author JoSch
- * @date 05-01-2004
- */
-const Ogre::String ResourceManager::getCommonPathByName(const Ogre::String &filename)
-{
-#if OGRE_PLATFORM == PLATFORM_WIN32
-    Ogre::String delimiter = "\\";
-#else
-    Ogre::String delimiter = "/";
-#endif
-    ArchiveEx::FileInfo *finfo = new ArchiveEx::FileInfo();
-    vector<ArchiveEx*>::iterator j; 
-
-    for(j = mCommonVFS.begin(); j != mCommonVFS.end(); ++j )                 
-    {
-        if( *j && (*j)->fileTest(filename) )
-        {
-            Ogre::String result = (*j)->getName();
-            if (!StringUtil::endsWith(result, delimiter))
-            {
-                result += delimiter;
-            }
-            result += filename;
-            return result;
-        }
-    } 
-         
-    return filename;
-}
 
 /**
  * Erzeugt eine Liste von Soundnamen.

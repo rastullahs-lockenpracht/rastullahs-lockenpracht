@@ -16,6 +16,7 @@
 
 #include <iostream>
 #include "MusicManager.h"
+#include "Sleep.h"
 
 using namespace Ogre;
 using namespace std;
@@ -310,7 +311,6 @@ MusicManager::MusicThread::~MusicThread()
  */
 void MusicManager::MusicThread::run()
 {
-/*    xtime xt;
     MusicManager *that = MusicManager::getSingletonPtr();
     if (that == 0)
     {
@@ -321,9 +321,7 @@ void MusicManager::MusicThread::run()
         try {
             if (that->mShouldPlay)
             {
-                xtime_get(&xt, TIME_UTC);
-                xt.nsec += 1 * 1000;
-                thread::sleep(xt);
+                msleep(1);
                 // Spielt der Song noch?
                 if (!that->isSourcePlaying()) // Nein, spielt nicht
                 {
@@ -345,10 +343,8 @@ void MusicManager::MusicThread::run()
         } catch(...)
         {
         }
-        xtime_get(&xt, TIME_UTC);
-        xt.nsec += 1 * 1000;
-        thread::sleep(xt);
-    } */
+        msleep(1);
+    } 
 }
 
 /**

@@ -21,12 +21,14 @@
 #include <Ogre.h>
 #include <OpenThreads/Thread>
 #include <OpenThreads/Mutex>
+#include <vector>
 #include "EventSource.h"
 #include "EventListener.h"
 #include "EventCaster.h"
 #include "SoundEvent.h"
 
 using namespace OpenThreads;
+using namespace std;
 
 // @TODO: Callbacks für Threads einfuehren.
 
@@ -37,6 +39,7 @@ namespace rl {
  * Momentan nur Wave und OggVorbis.
  */
 enum SoundDataType { Wave, OggVorbis };
+typedef vector<ALuint> ALuintVector;
  
 /** Diese Basisklasse kapselt eine OpenAl++-Source fuer
  * den ResourceManager von Ogre
@@ -141,9 +144,9 @@ class _RlSoundExport SoundResource: public Resource,
         /// Die gekapselte Soundquelle
         ALuint mSource;
         /// Die Buffer, die wir benutzen
-        ALuint *mBuffers;
+        ALuintVector mBuffers;
         /// Wieviele Buffer werden benutzt.
-        static const short mBufferCount = 4;
+        static const short mDefaultBufferCount = 4;
         /// Grösse des Buffers.
         static const int BUFFER_SIZE = (4096 * 2);
         /// Die Uebrgabe der Callbacks.
@@ -167,6 +170,8 @@ class _RlSoundExport SoundResource: public Resource,
         SoundDataType mSoundDataType;
         /// Für Waves dekodieren wir die Daten im voraus.
         ALvoid *mWAVData;
+        /// Wie weit sind wir im Wave?
+        ALsizei mWavIndex;
         /// Das OggVorbis-Filehandle
         OggVorbis_File mOggStream;
         
@@ -224,13 +229,14 @@ class _RlSoundExport SoundResource: public Resource,
         virtual bool eventRaised(SoundEvent *anEvent) const;
         
         
+        
 
-        void open(unsigned char *data, unsigned int size);
-        void release();
         void display();
         bool playback();
         bool playing();
         bool update();
+        bool oggstream(ALuint buffer);
+        bool wavstream(ALuint buffer);
         bool stream(ALuint buffer);
         void empty();
         void check();

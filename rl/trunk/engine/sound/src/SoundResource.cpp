@@ -46,12 +46,12 @@ SoundResource::SoundResource(const String &name):
     mFadeInThread(this, true),
     mFadeOutThread(this, false),
     mStreamThread(this),
-    mData(0)
+    mData(0),
+    mBuffers(mDefaultBufferCount)
 {
     mName = name;
     alGenSources(1, &mSource);
-    mBuffers = new ALuint[mBufferCount];
-    alGenBuffers(mBufferCount, mBuffers);
+    alGenBuffers(mBuffers.size(), &mBuffers[0]);
     check();
     /// Ein paar Standardwerte setzen
     setGain(1.0f);
@@ -70,8 +70,7 @@ SoundResource::SoundResource(const String &name):
  */
 SoundResource::~SoundResource()
 {
-    alDeleteBuffers(mBufferCount, mBuffers);
-    delete[] mBuffers;
+    alDeleteBuffers(mBuffers.size(), &mBuffers[0]);
     alDeleteSources(1, &mSource);
 }
 
@@ -595,6 +594,52 @@ void SoundResource::StreamThread::run()
 }
 
 /**
+ * Wavedaten streamen
+ * @return TRUE, wenn Streamen geklappt hat.
+ * @param buffer Den Sounndbuffer zum Abspielen.
+ * @author JoSch
+ * @date 11-01-2004
+ */
+bool SoundResource::wavstream (ALuint buffer)
+{
+    char pcm[BUFFER_SIZE];
+    ALsizei toCopy = mSize - mWavIndex;
+    if (toCopy > BUFFER_SIZE)
+    {
+        toCopy = BUFFER_SIZE;
+    }
+    memcpy(pcm, mWAVData, toCopy);
+    alBufferData(buffer, mFormat, pcm, toCopy, mFrequency);
+    check ();
+
+    return true; 
+ 
+}
+
+/**
+ * Sounddaten streamen
+ * @return TRUE, wenn das Streamen geklappt hat.
+ * @param buffer Den Sounndbuffer zum Abspielen.
+ * @author JoSch
+ * @date 11-01-2004
+ */
+bool SoundResource::stream (ALuint buffer)
+{
+    switch(mSoundDataType)
+    {
+        case Wave:
+            return wavstream(buffer);
+            break;
+        case OggVorbis:
+            return oggstream(buffer);
+            break;
+        default:
+            return false;
+    }
+}
+
+
+/**
  ******************************************************************************
  * Der folgende Code wurde dem Beispielcode von Jesse Maurais und Spree Tree
  * auf DevMaster.net entliehen und den hiesigen Bedürfnissen angepasst.
@@ -718,61 +763,6 @@ long SoundResource::VorbisTell (void *datasource
 ************************************************************************************************************************/
 
 
-void SoundResource::open (unsigned char *data, unsigned int size)
-{
-/*    mOggMemoryFile.mDataPtr = (char*)data; //new char[size];
-    memcpy (mOggMemoryFile.mDataPtr, data, size);
-    mOggMemoryFile.mDataSize = size;
-    mOggMemoryFile.mDataRead = 0;
-
-
-    // Open the file from memory.  We need to pass it a pointer to our data (in this case our SOggFile structure),
-    // a pointer to our ogg stream (which the vorbis libs will fill up for us), and our callbacks
-    if (ov_open_callbacks
-        (&mOggMemoryFile, &mOggStream, NULL, 0, SoundResource::mVorbisCallbacks) != 0)
-        throw string ("Could not read Ogg file from memory");
-
-
-
-/************************************************************************************************************************
-      From now on, the code is exactly the same as in Jesse Maurais's lesson 8
-   ************************************************************************************************************************/
-
-/*    mVorbisInfo = ov_info (&mOggStream, -1);
-    mVorbisComment = ov_comment (&mOggStream, -1);
-
-    if (mVorbisInfo->channels == 1)
-        mFormat = AL_FORMAT_MONO16;
-    else
-        mFormat = AL_FORMAT_STEREO16; */
-
-/*    for(int i = 0; i < mBufferCount; i++)
-    {
-        ALint i;
-        alGetBufferi(mBuffers[i], AL_FREQUENCY, &i);
-        cerr << "Rate " << i << endl;
-        alBufferi_LOKI(mBuffers[i], AL_FREQUENCY, mVorbisInfo->rate);
-        alGetBufferi(mBuffers[i], AL_FREQUENCY, &i);
-        cerr << "Rate " << i << endl;
-    }  */
-/*    alSourcef(mSource, AL_ROLLOFF_FACTOR, 0.0);
-    alSourcei(mSource, AL_SOURCE_RELATIVE, AL_TRUE); */
-}
-
-void SoundResource::release ()
-{
-    check ();
-    if (alIsSource (mSource)) {
-        alSourceStop (mSource);
-        empty ();
-    }
-
-// TODO    ov_clear (&mOggStream);
-
-// TODO     delete[]mOggMemoryFile.mDataPtr;
-// TODO    mOggMemoryFile.mDataPtr = NULL;
-}
-
 void SoundResource::display ()
 {
 /*    cout << "version         " << mVorbisInfo->version << "\n"
@@ -799,7 +789,7 @@ bool SoundResource::playback ()
     if (playing ())
         return true;
     
-    for (int i = 0; i < mBufferCount; i++)
+    for (int i = 0; i < mBuffers.size(); i++)
     {
         if (!stream (mBuffers[i]))
         {
@@ -807,7 +797,7 @@ bool SoundResource::playback ()
         }
     }
 
-    alSourceQueueBuffers (mSource, mBufferCount, mBuffers);
+    alSourceQueueBuffers (mSource, mBuffers.size(), &mBuffers[0]);
     alSourcePlay (mSource);
 
     return true;
@@ -845,19 +835,15 @@ bool SoundResource::update ()
     return active;
 }
 
-
-
-
-bool SoundResource::stream (ALuint buffer)
+bool SoundResource::oggstream (ALuint buffer)
 {
     char pcm[BUFFER_SIZE];
     int size = 0;
-//    int section;
-//    int result;
+    int section;
+    int result;
     
-//   HACK: Edit by Blakharaz - leere while-Schleife = potentielle Endlosschleife?
-//    while (size < BUFFER_SIZE) {
-/*        result =
+    while (size < BUFFER_SIZE) {
+        result =
             ov_read(&mOggStream, pcm + size, BUFFER_SIZE - size, 0, 2, 1,
                      &section);
 
@@ -869,15 +855,15 @@ bool SoundResource::stream (ALuint buffer)
         }
         else {
             break;
-        } */
+        } 
        
-//    }
+    }
 
     if (size < BUFFER_SIZE) {
         return false;
     }
 
-    alBufferData(buffer, mFormat, pcm, mBits, mFrequency);
+    alBufferData(buffer, mFormat, pcm, size, mFrequency);
     check ();
 
     return true; 
