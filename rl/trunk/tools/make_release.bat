@@ -23,6 +23,7 @@ xcopy %RL_ROOT%\engine\core\scripts\*.* %RL_DIST%\script\ /I /K /Y /F
 copy %RL_ROOT%\engine\rules\lib\%BUILD%\RlRules.dll %RL_DIST%\
 copy %RL_ROOT%\engine\sound\lib\%BUILD%\RlSound.dll %RL_DIST%\
 copy %RL_ROOT%\engine\ui\lib\%BUILD%\RlUi.dll %RL_DIST%\
+copy %RL_ROOT%\engine\dialog\lib\%BUILD%\RlDialog.dll %RL_DIST%\
 copy %RL_ROOT%\engine\common\lib\%BUILD%\RlCommon.dll %RL_DIST%\
 
 REM Daten kopieren
@@ -48,6 +49,9 @@ xcopy %RL_ROOT%\modules\minidemo\sound\*.* %RL_DIST%\media\ /I /K /Y /F
 xcopy %RL_ROOT%\modules\minidemo\materials\*.* %RL_DIST%\media\ /I /K /Y /F
 
 xcopy %RL_ROOT%\modules\minidemo\scripts\*.* %RL_DIST%\script\ /I /K /Y /F
+
+xcopy %RL_ROOT%\modules\minidemo\dialogs\*.aiml %RL_DIST%\media\ /I /K /Y /F
+xcopy %RL_ROOT%\modules\minidemo\dialogs\*.xml %RL_DIST%\ /I /K /Y /F
 
 REM Ogre Dateien kopieren
 REM ---------------------
