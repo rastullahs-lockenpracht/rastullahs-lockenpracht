@@ -53,22 +53,6 @@ namespace rl
         mText->setText(o);
     }
     
-	bool DebugWindow::isVisible() const
-    {
-        return mWindow->isVisible();
-    }
-
-	void DebugWindow::keyReleased(KeyEvent* e)
-	{
-		if(e->getKey() == KC_F5 )
-		{
-			if (isVisible())
-				hide();
-			else
-				show();
-		}
-    }
-
 	bool DebugWindow::frameStarted(const FrameEvent& evt)
 	{
 		updateFps();

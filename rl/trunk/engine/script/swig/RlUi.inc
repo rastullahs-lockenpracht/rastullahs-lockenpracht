@@ -26,7 +26,8 @@ public:
 	void showMessageWindow(const CeGuiString& message);
 	Person* getActiveCharacter();
 	void setActiveCharacter(Person* person);
-	void consoleToggle();
+	void toggleConsole();
+	void toggleDebugWindow();
 	
 	void requestExit();
 };

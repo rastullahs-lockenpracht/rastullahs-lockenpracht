@@ -86,6 +86,10 @@ namespace rl {
 			void keyReleased(KeyEvent* e);
 			void keyClicked(KeyEvent* e);
 
+			void loadKeyMapping(const Ogre::String& filename);
+			typedef std::map<int, CEGUI::utf8> KeyCharMap;
+			typedef std::map<int, CeGuiString> KeyNameMap;
+
 		private:
 			Ogre::InputReader* mInputReader;
 			Ogre::EventQueue mEventQueue; 
@@ -107,14 +111,20 @@ namespace rl {
 			CEGUI::MouseButton convertOgreButtonToCegui(int ogre_button_id);
 
         	bool processGlobalKeyEvent(KeyEvent* e);
+			bool sendKeyToCeGui(KeyEvent* e);
 
 			void switchMouseToUnbuffered();
 			void switchMouseToBuffered();
 
-			CEGUI::utf8 getKeyChar(Ogre::KeyEvent* ke);
+			CEGUI::utf32 getKeyChar(Ogre::KeyEvent* ke);			
 
 			bool mPickObjects;
 			GameObject* mTargetedObject;
+
+			KeyCharMap mKeyMapNormal;
+			KeyCharMap mKeyMapShift;
+			KeyCharMap mKeyMapAlt;
+			KeyNameMap mKeyNames;
 	};
 
 }

@@ -51,6 +51,10 @@ namespace rl {
 		ae.actionClass = "ToggleConsoleAction";
 		ae.actionName = "Konsole";
 		mKeyCommandsOffBattle.insert(make_pair(KC_TAB, ae));
+
+		ae.actionClass = "ToggleDebugWindowAction";
+		ae.actionName = "DebugWindow";
+		mKeyCommandsOffBattle.insert(make_pair(KC_F2, ae));
 	}
 
 	CommandMapper::~CommandMapper()

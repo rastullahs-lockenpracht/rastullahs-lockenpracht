@@ -14,8 +14,19 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
+#include <xercesc/parsers/XercesDOMParser.hpp>
+#include <xercesc/dom/DOM.hpp>
+#include <xercesc/util/XMLString.hpp>
+#include <xercesc/util/PlatformUtils.hpp>
+
+#include <XmlHelper.h>
+#include <XmlResource.h>
+#include <XmlResourceManager.h>
+
 #include <OgreKeyEvent.h>
 #include <OgreRoot.h>
+
+
 
 #include <CEGUI.h>
 
@@ -167,51 +178,56 @@ namespace rl {
         return rval;
     }
 
+	bool InputManager::sendKeyToCeGui(KeyEvent* e)
+	{
+		return isCeguiActive();
+	}
+
 	void InputManager::keyPressed(KeyEvent* e)
 	{
-		if (!processGlobalKeyEvent(e) && isCeguiActive()) 
+		if (sendKeyToCeGui(e)) 
 		{   // Send all events to CEGUI
 			CEGUI::System& cegui = CEGUI::System::getSingleton();
 			cegui.injectKeyDown(e->getKey());
 			cegui.injectChar(getKeyChar(e));
 			e->consume();
-		}
-		else
-		{
-            mKeyDown[e->getKey()]=true;
-			CommandMapper::getSingleton().injectKeyDown(e->getKey());
-            std::set<KeyListener*>::iterator i;
-            for(i=mKeyListeners.begin(); i!=mKeyListeners.end(); i++)
-                (*i)->keyPressed(e);
-			e->consume();
+			return;
 		}
 
+		mKeyDown[e->getKey()]=true;
+		CommandMapper::getSingleton().injectKeyDown(e->getKey());
+        std::set<KeyListener*>::iterator i;
+        for(i=mKeyListeners.begin(); i!=mKeyListeners.end(); i++)
+			(*i)->keyPressed(e);
+
+		e->consume();
 	}
+
 	void InputManager::keyReleased(KeyEvent* e)
 	{
-		if (isCeguiActive()) 
-		{   // Send all events to CEGUI
+		if (sendKeyToCeGui(e)) 
+		{
 			CEGUI::System& cegui = CEGUI::System::getSingleton();
 			cegui.injectKeyUp(e->getKey());
 			e->consume();
+
+			return;
 		}
-		else
-		{
-			mKeyDown[e->getKey()]=false;
-			CommandMapper::getSingleton().injectKeyUp(e->getKey());
-			std::set<KeyListener*>::iterator i;
-			for(i=mKeyListeners.begin(); i!=mKeyListeners.end(); i++)
-				(*i)->keyReleased(e);
-			e->consume();
-		}		
+
+		mKeyDown[e->getKey()]=false;
+		CommandMapper::getSingleton().injectKeyUp(e->getKey());
+		std::set<KeyListener*>::iterator i;
+		for(i=mKeyListeners.begin(); i!=mKeyListeners.end(); i++)
+			(*i)->keyReleased(e);
+		e->consume();
 	}
 
 	void InputManager::keyClicked(KeyEvent* e) 
 	{
-		if (!isCeguiActive())
-		{
-			CommandMapper::getSingleton().injectKeyClicked(e->getKey());
-		}
+		if (sendKeyToCeGui(e)) 
+			return;
+		
+		CommandMapper::getSingleton().injectKeyClicked(e->getKey());
 	}
 
 	void InputManager::mouseDragged(MouseEvent* e)
@@ -343,70 +359,93 @@ namespace rl {
 	 * @param ke Ogre-KeyEvent zu verarbeitendes Event
 	 * @return Zeichen, das der gedrückten Tastenkombination entspricht
 	 */
-	CEGUI::utf8 InputManager::getKeyChar(KeyEvent* ke)
+	CEGUI::utf32 InputManager::getKeyChar(KeyEvent* ke)
 	{
+		KeyCharMap* keymap;
 		if (!ke->isShiftDown() && !ke->isAltDown())
-		{
-			switch( ke->getKey() ) 
-			{
-				case KC_SLASH: return '-';
-				case KC_MINUS: return 'ß';
-				case KC_EQUALS: return '´';
-				case KC_SEMICOLON: return 'ö'; 
-				case KC_APOSTROPHE: return 'ä';
-				case KC_GRAVE: return '^';
-				case KC_COMMA: return ',';	
-				case KC_PERIOD: return '.';	
-				case KC_MULTIPLY: return '*';
-				case KC_LBRACKET: return 'ü';	
-				case KC_RBRACKET: return '+';
-				case KC_BACKSLASH: return '#';
-			}
-		}
+			keymap = &mKeyMapNormal;
 		else if (ke->isShiftDown() && !ke->isAltDown())
-		{
-			switch (ke->getKey())
-			{
-				case KC_1: return '!';
-				case KC_2: return '"';
-				case KC_3: return '§';
-				case KC_4: return '$';
-				case KC_5: return '%';
-				case KC_6: return '&';
-				case KC_7: return '/';
-				case KC_8: return '(';
-				case KC_9: return ')';
-				case KC_0: return '=';
-				case KC_SLASH: return '_';
-				case KC_MINUS: return '?';
-				case KC_EQUALS: return '`';
-				case KC_SEMICOLON: return 'Ö';
-				case KC_APOSTROPHE:	return 'Ä';
-				//case KC_GRAVE: return '?';
-				case KC_COMMA: return ';';	
-				case KC_PERIOD:	return ':';
-				case KC_LBRACKET: return 'Ü';	
-				case KC_RBRACKET: return '*';
-				case KC_BACKSLASH: return '\'';
-			}
-		}
+			keymap = &mKeyMapShift;
 		else if (!ke->isShiftDown() && ke->isAltDown())
+			keymap = &mKeyMapAlt;
+		else
+			return ke->getKeyChar();
+
+		KeyCharMap::iterator keyIter = keymap->find(ke->getKey());
+		if (keyIter != keymap->end())
+			return (*keyIter).second;
+			
+		return ke->getKeyChar();
+	}
+
+	void InputManager::loadKeyMapping(const Ogre::String& filename)
+	{
+		using namespace XERCES_CPP_NAMESPACE;
+		using std::make_pair;
+
+		XMLPlatformUtils::Initialize();
+		XmlHelper::initializeTranscoder();
+
+		XercesDOMParser* parser = new XercesDOMParser();
+        parser->setValidationScheme(XercesDOMParser::Val_Always);    // optional.
+        parser->setDoNamespaces(true);    // optional
+
+/*        ErrorHandler* errHandler = (ErrorHandler*) new HandlerBase();
+        parser->setErrorHandler(errHandler);*/
+
+		XMLCh* ALT = XMLString::transcode("AltChar");
+		XMLCh* SHIFT = XMLString::transcode("ShiftChar");
+		XMLCh* NORMAL = XMLString::transcode("NormalChar");
+		XMLCh* DESCR = XMLString::transcode("KeyDescription");
+		XMLCh* CODE = XMLString::transcode("KeyCode");
+		XMLCh* KEY = XMLString::transcode("Key");
+		
+		XmlResourceManager::getSingleton().create(filename)->parseBy(parser);
+		DOMDocument* doc = parser->getDocument();
+		DOMElement* dataDocumentContent = doc->getDocumentElement();
+
+		DOMNodeList* keymaps = dataDocumentContent->getElementsByTagName(KEY);
+		for (unsigned int idx = 0; idx < keymaps->getLength(); idx++)
 		{
-			switch (ke->getKey())
+			DOMElement* key = static_cast<DOMElement*>(keymaps->item(idx));
+			int keycode = XMLString::parseInt(key->getAttribute(CODE));
+
+			const XMLCh* xmlch;
+
+			xmlch = key->getAttribute(NORMAL);
+			if (xmlch != NULL && XMLString::stringLen(xmlch) > 0)
 			{
-				case KC_Q: return '@';	
-				case KC_2: return '²';
-				case KC_3: return '³';
-				case KC_7: return '{';
-				case KC_8: return '[';
-				case KC_9: return ']';
-				case KC_0: return '}';
-				case KC_MINUS: return '\\';
-				case KC_RBRACKET: return '~';
+				CeGuiString s(XmlHelper::transcodeToUtf8(xmlch)); 
+				mKeyMapNormal.insert(make_pair(keycode, s[0]));
 			}
+
+			xmlch = key->getAttribute(ALT);
+			if (xmlch != NULL && XMLString::stringLen(xmlch) > 0)
+			{
+				CeGuiString s(XmlHelper::transcodeToUtf8(xmlch)); 
+				mKeyMapAlt.insert(make_pair(keycode, s[0]));
+			}
+
+			xmlch = key->getAttribute(SHIFT);
+			if (xmlch != NULL && XMLString::stringLen(xmlch) > 0)
+			{
+				CeGuiString s(XmlHelper::transcodeToUtf8(xmlch)); 
+				mKeyMapShift.insert(make_pair(keycode, s[0]));
+			}
+
+			xmlch = key->getAttribute(DESCR);
+			mKeyNames.insert(make_pair(keycode, XmlHelper::transcodeToUtf8(xmlch)));
 		}
 
-		return ke->getKeyChar();
+		XMLString::release(&ALT);
+		XMLString::release(&SHIFT);
+		XMLString::release(&NORMAL);
+		XMLString::release(&CODE);
+		XMLString::release(&DESCR);
+		XMLString::release(&KEY);
+
+		doc->release();
+		XMLPlatformUtils::Terminate();
 	}
 
 	void InputManager::setObjectPickingActive(bool active)

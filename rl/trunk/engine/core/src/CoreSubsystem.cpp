@@ -272,29 +272,27 @@ namespace rl {
 			else if (key.compare("ContainsDialogs") == 0)
 				hasDialogs = true;
 		}
-        try {
-		    ResourceManager::addCommonSearchPath(moduleDir+"/dsa");
-        } catch(...) {}
-        try {
-		    ResourceManager::addCommonSearchPath(moduleDir+"/materials");
-        } catch(...) {}
-        try {
-		    ResourceManager::addCommonSearchPath(moduleDir+"/maps");
-        } catch(...) {}
-        try {
-		    ResourceManager::addCommonSearchPath(moduleDir+"/models");			
-        } catch(...) {}
-        try {
-		    ResourceManager::addCommonSearchPath(moduleDir+"/sound");
-        } catch(...) {}
+        addCommonSearchPath(moduleDir+"/conf");
+        addCommonSearchPath(moduleDir+"/dsa");
+		addCommonSearchPath(moduleDir+"/materials");
+		addCommonSearchPath(moduleDir+"/maps");
+		addCommonSearchPath(moduleDir+"/models");
+		addCommonSearchPath(moduleDir+"/sound");
 		if (hasGui)
-            try {
-			     ResourceManager::addCommonSearchPath(moduleDir+"/gui/imagesets");
-            } catch(...) {}
+            addCommonSearchPath(moduleDir+"/gui/imagesets");
 		if (hasDialogs)
-            try {
-			     ResourceManager::addCommonSearchPath(moduleDir+"/dialogs");
-            } catch(...) {}
+			addCommonSearchPath(moduleDir+"/dialogs");
+     
+	}
+
+	void CoreSubsystem::addCommonSearchPath(std::string path)
+	{
+		try 
+		{
+		     ResourceManager::addCommonSearchPath(path);
+        } 
+		catch(...) 
+		{} // and forget
 	}
 
 	void CoreSubsystem::unloadModule(std::string module)

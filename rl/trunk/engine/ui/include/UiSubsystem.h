@@ -56,7 +56,8 @@ namespace rl {
 		/** Writes Text into the Console or other output media */
 		void writeToConsole(std::string text);
 		static VALUE consoleWrite(VALUE self, VALUE str);
-		void consoleToggle();
+		void toggleConsole();
+		void toggleDebugWindow();
 
 		void showCharacterActionChoice();
 		void showActionChoice(GameObject* obj);

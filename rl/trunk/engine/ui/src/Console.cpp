@@ -55,9 +55,6 @@ namespace rl
 		mCommandLine->subscribeEvent(
 			Editbox::EventKeyDown, 
 			boost::bind(&Console::handleKeyDown, this, _1));
-		mCommandLine->subscribeEvent(
-			Editbox::EventTextAccepted, 
-			boost::bind(&Console::handleEnter, this, _1));
 		mDisplay->moveToFront();
 
 		mHistory.clear();
@@ -84,23 +81,21 @@ namespace rl
 			cycleHistory(-1);
 			return true;
 		}
+		else if (ke.scancode == Key::Return)
+		{
+			CeGuiString command = mCommandLine->getText();
+			CeGuiString printCommand = ">" + command;
+			appendTextRow(printCommand, 0xFF7FFF7F);
+				
+			mPrompt = CoreSubsystem::getSingleton().getInterpreter()->execute(command.c_str());
+
+			mHistory.push_back(command.c_str());
+			mHistoryMarker = mHistory.size();
+			mCommandLine->setText((utf8*)"");
+			return true;
+		}
 		
 		return false;		
-	}
-
-	bool Console::handleEnter(const CEGUI::EventArgs& e)
-	{	
-		CeGuiString command = mCommandLine->getText();
-		CeGuiString printCommand = ">" + command;
-		appendTextRow(printCommand, 0xFF7FFF7F);
-				
-        mPrompt = CoreSubsystem::getSingleton().getInterpreter()->execute(command.c_str());
-
-		mHistory.push_back(command.c_str());
-		mHistoryMarker = mHistory.size();
-		mCommandLine->setText((utf8*)"");
-
-		return true;
 	}
 
 	void Console::write(String output)

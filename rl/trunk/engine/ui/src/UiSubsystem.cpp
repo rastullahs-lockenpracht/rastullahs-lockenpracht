@@ -82,14 +82,12 @@ namespace rl {
     {
 		using namespace CEGUI;
 
-        CoreSubsystem::getSingleton().log("1");
+        CoreSubsystem::getSingleton().log("Initialisiere UI");
         World* world = CoreSubsystem::getSingleton().getWorld();
-        CoreSubsystem::getSingleton().log("2");
         SceneManager* sceneMgr = CoreSubsystem::getSingleton().getWorld()->getSceneManager();
-        CoreSubsystem::getSingleton().log("3");
 		
 		Ogre::RenderWindow* window = Ogre::Root::getSingleton().getAutoCreatedWindow();
-		CoreSubsystem::getSingleton().log("4");
+		CoreSubsystem::getSingleton().log("Initialisiere CEGUI-Renderer");
 		OgreRenderer* rend = 
 			new OgreRenderer(window, 
 								Ogre::RENDER_QUEUE_OVERLAY, 
@@ -97,7 +95,7 @@ namespace rl {
 								3000,
 								sceneMgr);
 
-        CoreSubsystem::getSingleton().log("5");
+		CoreSubsystem::getSingleton().log("Initialisiere CEGUI-System");
 		new System(rend, NULL, (utf8*)"modules/common/gui/cegui.config");
         
 		// load scheme and set up defaults
@@ -109,13 +107,16 @@ namespace rl {
 				Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight()));
 		sheet->setPosition(Absolute, Point(0, 0));
 		System::getSingleton().setGUISheet(sheet);
-        CoreSubsystem::getSingleton().log("6");
+        CoreSubsystem::getSingleton().log("CEGUI geladen");
 
 		//Initializing InputManager
 		new CommandMapper();
         new InputManager();
 		new rl::WindowManager();
-        CoreSubsystem::getSingleton().log("7");
+        CoreSubsystem::getSingleton().log("UI-Manager geladen");
+
+		InputManager::getSingleton().loadKeyMapping("keymap-german.xml");
+		CoreSubsystem::getSingleton().log("Keymap geladen");
 
 		new DebugWindow();
 		new Console();
@@ -188,10 +189,16 @@ namespace rl {
 		w->setVisible(true);
 	}
 
-	void UiSubsystem::consoleToggle()
+	void UiSubsystem::toggleConsole()
 	{
 		Console* cons = Console::getSingletonPtr();
 		cons->setVisible(!cons->isVisible());
+	}
+
+	void UiSubsystem::toggleDebugWindow()
+	{
+		DebugWindow* dbgwnd = DebugWindow::getSingletonPtr();
+		dbgwnd->setVisible(!dbgwnd->isVisible());
 	}
 
 	void UiSubsystem::setBattleMode(bool inBattle)
