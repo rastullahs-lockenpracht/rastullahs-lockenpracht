@@ -37,9 +37,11 @@ namespace rl {
 
 		void registerWindow(CeGuiWindow* window);
 		bool destroyWindow(CeGuiWindow* window);
+		void pruneWindows();
 
 	private:
-		WindowSet mWindows;
+		WindowSet mActiveWindows;
+		WindowSet mWindowsToDelete;
 	};
 
 }

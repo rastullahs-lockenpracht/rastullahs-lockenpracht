@@ -23,26 +23,29 @@ namespace rl {
 
 	WindowManager::WindowManager()
 	{
-		mWindows.clear();
+		mWindowsToDelete.clear();
+		mActiveWindows.clear();
 	}
 
 	bool WindowManager::destroyWindow(CeGuiWindow* window)
 	{
-		WindowSet::iterator iter = mWindows.find(window);
-		if (iter == mWindows.end())
+		pruneWindows();
+		
+		WindowSet::iterator iter = mActiveWindows.find(window);
+		if (iter == mActiveWindows.end())
 			return false;
 
-//		mWindows.erase(iter);
-		//TODO: Fenster löschen scheint nicht zu gehen
-//		delete window; 
 		window->setVisible(false);
+		mActiveWindows.erase(iter);
+		mWindowsToDelete.insert(*iter);
 
 		return true;
 	}
 
 	void WindowManager::registerWindow(CeGuiWindow* window)
 	{
-		mWindows.insert(window);
+		pruneWindows();
+		mActiveWindows.insert(window);
 	}
 
 	WindowManager& WindowManager::getSingleton()
@@ -53,5 +56,15 @@ namespace rl {
 	WindowManager* WindowManager::getSingletonPtr()
 	{
 		return Singleton<WindowManager>::getSingletonPtr();
+	}
+	
+	void WindowManager::pruneWindows()
+	{
+		while(mWindowsToDelete.size() > 0)
+		{
+			CeGuiWindow* wnd = *mWindowsToDelete.begin();
+			mWindowsToDelete.erase(mWindowsToDelete.begin());
+			delete wnd;
+		}
 	}
 }
