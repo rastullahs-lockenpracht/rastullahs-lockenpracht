@@ -6,6 +6,7 @@ libRlUi_la_SOURCES = \
 	ActionChoiceWindow.cpp \
 	CeGuiWindow.cpp \
 	CharacterSheetWindow.cpp \
+	CommandExecutor.cpp \
 	CommandMapper.cpp \
 	CommandMapperWindow.cpp \
 	Console.cpp \
@@ -18,5 +19,9 @@ libRlUi_la_SOURCES = \
 	MessageWindow.cpp \
 	ThirdPersonGameController.cpp \
 	UiSubsystem.cpp \
+<<<<<<< .mine
+	WindowManager.cpp \
+=======
 	WindowManager.h \
+>>>>>>> .r209
 	../components/src/ListboxWrappedTextItem.cpp
