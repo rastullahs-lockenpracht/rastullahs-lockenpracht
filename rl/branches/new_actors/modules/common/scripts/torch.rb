@@ -4,7 +4,7 @@
 # TODO Über Speichersparen nachdenken. Inwiefern können Instanzen
 # einiger Klassen für Instanzen anderer Klassen nachgenutzt werden?
 # Inwiefern ist Deferred Construction sinnvoll?
-
+require 'globals.rb'
 require 'actions.rb'
 require 'items.rb'
 
@@ -51,6 +51,7 @@ end
 # TODO Persistenz *schreck*
 class Torch < RubyItem
   def initialize(name)
+    super(1, "Fackel", "Handelsuebliche Fackel zum Beleuchten der Umgebung");
     # Momentan stelle ich mir die Erzeugung so vor:
     # Die Aktorerstellung über spezifische
     # Fabrikmethoden für die Dinge, die der Aktor repräsentiert.
@@ -62,8 +63,8 @@ class Torch < RubyItem
     # und die Dichte (g/cm^3) des Objektes.
     #torchActor = $ActorManager.createMeshActor("Torch", "Torch.mesh",
     #Physics.CAPSULE_GEOM, 1.0);
-    torchActor = $ActorManager.createMeshActor("Torch", "Torch.mesh", 2, 1.0);
-    
+    torchActor = $AF.createMeshActor("Torch", "Fackel.mesh", 2, 1.0);
+    $Core.log("actor erstellt.");
     #lightActor = $ActorManager.createLightActor("TorchLight",
     #Color.YELLOW, Light.POINTLIGHT, Light.LINEAR_ATTENUATION);
     
@@ -78,8 +79,8 @@ class Torch < RubyItem
     #torchActor.attach(Slots.SLOT_FAR_END, sparksActor);
     #torchActor.attach(Slots.SLOT_FAR_END, sfxActor);
     
-    setName(name);
     setActor(torchActor);
+    $Core.log("actor gesetzt");
     
     @lit = false;
     
@@ -88,6 +89,7 @@ class Torch < RubyItem
     # TODO soll nicht so bleiben, dass jede Fackel ne separate
     # Action-Instanz erhält. Eine für alle sollte reichen.
     addAction(LightTorchAction.new);
+    $Core.log("Aktion hinzugefuegt.");
   end
   
   def setLit(lit)
