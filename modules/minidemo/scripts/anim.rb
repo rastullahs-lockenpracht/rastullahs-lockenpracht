@@ -17,6 +17,13 @@ class UmdrehAbspielListener < AnimationListener
 	def animationUnpaused(anEvent)
 	end
 end
+# Definition des AnimationsFrameListeners
+class MachWasBeiFrameXListener < AnimationFrameListener
+	def animationFrameReached(anEvent)
+		print( "Sowas, schon wieder die Mitte erreicht" );
+	end
+end
+
 
 # Erstellen eines laufenden Roboters
 actBotter = $AF.createMeshActor("Botter","robot.mesh");
@@ -53,6 +60,10 @@ trackAnim.setKeyFrameTranslation( 2.0, 100.0, 0.0, 0.0 );
 trackAnim.addKeyFrame( 4.0 );
 trackAnim.setKeyFrameRotation( 4.0, 0.0, 0.0, 0.0, 0.0 );
 trackAnim.setKeyFrameTranslation( 4.0, 0.0, 0.0, 0.0 );
+
+# AnimationFrameListener hinzufügen
+animFrameListener = MachWasBeiFrameXListener.new();
+trackAnim.addAnimationFrameListener( animFrameListener, 2.0 );
 # Und los gehts
 trackAnim.setPaused( false );
 
@@ -68,6 +79,7 @@ listenedTrackAnim.addKeyFrame( 6.0 );
 listenedTrackAnim.setKeyFrameTranslation( 1.0, 0.0, 100.0, 0.0 );
 # Begrenzte Abspielanzahl setzen
 listenedTrackAnim.setTimesToPlay( 1 );
+listenedTrackAnim.setSpeed( 2.0 );
 # AnimationsListener erzeugen
 animListener = UmdrehAbspielListener.new();
 # AnimationsListener hinzufuegen
