@@ -2,6 +2,7 @@
 
 #include "DialogWindow.h"
 #include "InputManager.h"
+#include "DebugWindow.h"
 
 namespace rl {
 
@@ -109,9 +110,7 @@ void DialogWindow::updateValues()
 			}
 		}
 		mDialogOptions->getListboxItemFromIndex(line)->setText(text);
-	}
-	
-	
+	}	
 }
 
 void DialogWindow::runTest()
