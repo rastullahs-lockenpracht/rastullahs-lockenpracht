@@ -10,6 +10,10 @@ libRlCore_la_SOURCES = \
     AnimationListener.cpp \
 	AnimationManager.cpp \
 	CameraObject.cpp \
+	ConfigurationManager.cpp \
+    ConfigurationManagerLinux.cpp \
+    ConfigurationManagerWin32.cpp \
+    ConfigurationManagerMac.cpp \
 	CoreSubsystem.cpp \
 	DotSceneOctreeWorld.cpp \
 	GameLoop.cpp \
