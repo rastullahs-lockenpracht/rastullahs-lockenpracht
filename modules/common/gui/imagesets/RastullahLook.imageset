@@ -6,7 +6,7 @@
     <Image Name="WindowRightEdge" XPos="70" YPos="302" Width="4" Height="2" />
     <Image Name="WindowTopEdge" XPos="51" YPos="281" Width="2" Height="4"  />
     <Image Name="WindowBottomEdge" XPos="51" YPos="321" Width="2" Height="4" />
-    <Image Name="WindowTopLeft" XPos="30" YPos="280" Width="18" Height="18"   />
+    <Image Name="WindowTopLeft" XPos="30" YPos="281" Width="18" Height="18"   />
     <Image Name="WindowTopRight" XPos="56" YPos="281" Width="18" Height="18"    />
     <Image Name="WindowBottomLeft" XPos="30" YPos="307" Width="18" Height="18"   />
     <Image Name="WindowBottomRight" XPos="56" YPos="307" Width="18" Height="18"   />
