@@ -1,5 +1,7 @@
 
 package de.pantheon.tools.mapconverter;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,14 +60,6 @@ public class Plane
     {
     }
 
-    public void parsePlane( String line )
-    {
-        if( sHalfLife )
-            parseHLPlane( line );
-        else
-            parseQ3Plane( line ); 
-    }
-    
     private static final int eProjectionAxisX = 0;
     private static final int eProjectionAxisY = 1;
     private static final int eProjectionAxisZ = 2;
@@ -98,23 +92,20 @@ public class Plane
     as they had been transformed to world XYZ space.
     */
     private void calculateTextureAxis(  )
-    {
+    {        
       switch( calculateProjectionAxis(mNormal) )
       {
       case eProjectionAxisZ:
         mTex1 = new Vector3(1,0,0);  
         mTex2 = new Vector3(0,-1,0);   
-        
         break;
       case eProjectionAxisY:
         mTex1 = new Vector3(1,0,0);  
         mTex2 = new Vector3(0,0,-1);  
-
         break;
       case eProjectionAxisX:
         mTex1 = new Vector3(0,0,1);  
         mTex2 = new Vector3(0,-1,0);  
-        
         break;
       }
     }
@@ -137,8 +128,6 @@ public class Plane
             mRotation = Double.parseDouble(matcher.group(7));
             
             mScale_x = Double.parseDouble(matcher.group(8)) * mScaleAll;
-            
-            
             mScale_y = Double.parseDouble(matcher.group(9).split(" ")[0]) * mScaleAll;
             
             if( sMatrix != null )
@@ -151,8 +140,8 @@ public class Plane
             calculateHessian(v1, v2, v3);
             calculateTextureAxis();
     	}
-    } 
-    
+    }
+
     private void parseHLPlane( String line )
     {
         Matcher matcher = PLANE_HL_PATTERN.matcher(line);
@@ -189,6 +178,14 @@ public class Plane
             // Hessische Normal Form berechnen       
             calculateHessian(v1, v2, v3); 
 		}
+    }
+
+    public void parsePlane( String line )
+    {
+        if( sHalfLife )
+            parseHLPlane( line );
+        else
+            parseQ3Plane( line ); 
     }
     
     /**
@@ -247,9 +244,28 @@ public class Plane
             height = tex.getHeight();
         } 
         
+        // Berechnen fürs Zentrum
+        double xoff = ( Vector3.dot(mTex1,center)/width  );  
+        double yoff = ( Vector3.dot(mTex2,center)/height  )  ; 
+        
+        // Normales UV Berechnen
         double[] ret = new double[2];
-        ret[0] = ( Vector3.dot(mTex1,vertPos)/width/mScale_x  ) + ( mTex_offsetx/width );  
-        ret[1] = ( Vector3.dot(mTex2,vertPos)/height/mScale_y  )  + ( mTex_offsety/height  ); 
+        ret[0] = ( Vector3.dot(mTex1,vertPos)/width  );  
+        ret[1] = ( Vector3.dot(mTex2,vertPos)/height  )  ; 
+        
+        double rad = mRotation/180 * Math.PI;
+        AffineTransform rot = new AffineTransform();
+        // Drehen ums Zentrum
+        rot.setToRotation(rad,xoff,yoff);
+        Point2D.Double retP = new Point2D.Double();
+        rot.transform( new Point2D.Double(ret[0],ret[1]), retP );
+        //ret[0] = ((ret[0]) - (0.5)) * Math.cos(rad) - ((ret[1]) - (0.5)) * Math.sin(rad) + (0.5);
+        //ret[1] = ((ret[0]) - (0.5)) * Math.sin(rad) + ((ret[1]) - (0.5)) * Math.cos(rad) + (0.5);
+        
+        // Skalieren, und danach verschieben
+        ret[0] = retP.getX()/mScale_x + ( mTex_offsetx/width );
+        ret[1] = retP.getY()/mScale_y + ( mTex_offsety/height  );
+        
         
         return ret;
     }
