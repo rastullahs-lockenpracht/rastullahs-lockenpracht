@@ -232,6 +232,9 @@
 				RelativePath=".\include\RlAnimation.h">
 			</File>
 			<File
+				RelativePath=".\include\RlTrackAnimation.h">
+			</File>
+			<File
 				RelativePath=".\include\RubyInterpreter.h">
 			</File>
 			<File
@@ -303,6 +306,9 @@
 			</File>
 			<File
 				RelativePath=".\src\RlAnimation.cpp">
+			</File>
+			<File
+				RelativePath=".\src\RlTrackAnimation.cpp">
 			</File>
 			<File
 				RelativePath=".\src\RubyInterpreter.cpp">

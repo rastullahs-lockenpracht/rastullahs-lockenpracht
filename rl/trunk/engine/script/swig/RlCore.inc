@@ -77,7 +77,6 @@ public:
 
 	// Möglichkeit die globale SlowMotion zu umgehen
 	// Nützlich für Statusanzeigen, oder ähnliche konstante Animationen
-	// TODO Eventuell das ganze auf Flags erweitern
 	bool isIgnoringGlobalSpeed() const;
 	void setIgnoringGlobalSpeed( bool isIgnoringGlobalSpeed );
 
@@ -101,22 +100,46 @@ private:
 	RlAnimation(  );
 };
 
-/*class TrackAnimation: public RlAnimation
-{
+class RlTrackAnimation : public RlAnimation {
 public:
+	void addKeyFrame( Real timePos );
+    void setKeyFrameTranslation( Real timePos, Real xPos, Real yPos, Real zPos );
+    void setKeyFrameRotation( Real timePos, Real xRotAxis, Real yRotAxis, Real zRotAxis, Real angleUnits );
+    void setKeyFrameScale( Real timePos, Real xScale, Real yScale, Real zScale );
+
+	void setInterpolationMode( rl::AnimationManager::InterpolationMode im );
+	rl::AnimationManager::InterpolationMode getInterpolationMode() const;
+
+	void setRotationInterpolationMode( rl::AnimationManager::RotationInterpolationMode im );
+	rl::AnimationManager::RotationInterpolationMode getRotationInterpolationMode() const;
+
+	void setUseShortestRotationPath ( bool useShortestPath );
+	bool getUseShortestRotationPath () const;
+private:
+	RlTrackAnimation(  ); 
+};
+
+class AnimationManager {
+private:
+	AnimationManager();
+public:
+	static AnimationManager& getSingleton(void);
+	
 	enum InterpolationMode { IM_LINEAR, IM_SPLINE };
+	enum RotationInterpolationMode { RIM_LINEAR, RIM_SPHERICAL };
+	
+	RlTrackAnimation* createTrackAnimation(rl::Actor* actor, const String& name, Real length );
+	void removeAnimation(RlAnimation* anim);
+	
+	void setGlobalAnimationSpeed( Real speed );
+	Real getGlobalAnimationSpeed( ) const;
+	
+	void setDefaultInterpolationMode( rl::AnimationManager::InterpolationMode im );
+	rl::AnimationManager::InterpolationMode getDefaultInterpolationMode() const;
 
-	TrackAnimation(  );
-	virtual ~TrackAnimation();
-
-    void createAnimation( const String& name, int length );
-    void addAnimationKeyFrame( Real timePos );
-    void setTranslateKeyFrame( Real timePos, Real xPos, Real yPos, Real zPos );
-    void setRotateKeyFrame( Real timePos, Real xRotAxis, Real yRotAxis, Real zRotAxis, Real angleUnits );
-    void setScaleKeyFrame( Real timePos, Real xScale, Real yScale, Real zScale );
-
-	void setInterpolationMode( InterpolationMode im );
-};*/
+	void setDefaultRotationInterpolationMode( rl::AnimationManager::RotationInterpolationMode rim );
+	rl::AnimationManager::RotationInterpolationMode getDefaultRotationInterpolationMode() const;
+};
 
 class Actor {
 private:

@@ -16,6 +16,9 @@
 
 #include "AnimationManager.h"
 
+#include "Actor.h"
+#include "RlAnimation.h"
+#include "RlTrackAnimation.h"
 
 template<> rl::AnimationManager* Singleton<rl::AnimationManager>::ms_Singleton = 0;
 
@@ -29,7 +32,7 @@ AnimationManager::AnimationManager( ) : mAnimationMap()
 	
 AnimationManager::~AnimationManager( )
 {
-	
+	// TODO Alle Animationen löschen...
 }
 
 void AnimationManager::setGlobalAnimationSpeed( Real speed )
@@ -40,6 +43,30 @@ void AnimationManager::setGlobalAnimationSpeed( Real speed )
 Real AnimationManager::getGlobalAnimationSpeed( ) const
 {
 	return mGlobalAnimationSpeed;
+}
+
+void AnimationManager::setDefaultInterpolationMode( AnimationManager::InterpolationMode im )
+{
+	Animation::setDefaultInterpolationMode( 
+		Ogre::Animation::InterpolationMode( im ) );
+}
+
+AnimationManager::InterpolationMode AnimationManager::getDefaultInterpolationMode() const
+{
+	return AnimationManager::InterpolationMode( 
+		Animation::getDefaultInterpolationMode() );
+}
+
+void AnimationManager::setDefaultRotationInterpolationMode( AnimationManager::RotationInterpolationMode rim )
+{
+	Animation::setDefaultRotationInterpolationMode( 
+		Ogre::Animation::RotationInterpolationMode( rim ) );
+}
+
+AnimationManager::RotationInterpolationMode AnimationManager::getDefaultRotationInterpolationMode() const
+{
+	return AnimationManager::RotationInterpolationMode( 
+		Animation::getDefaultRotationInterpolationMode() );
 }
 
 RlAnimation* AnimationManager::addAnimation(AnimationState* animState, Real speed, unsigned int timesToPlay)
@@ -68,6 +95,14 @@ RlAnimation* AnimationManager::addAnimation(AnimationState* animState, Real spee
 	return anim;
 }
 
+RlTrackAnimation* AnimationManager::createTrackAnimation(Actor* actor, const String& name, Real length )
+{
+	RlTrackAnimation* trackAnim = new RlTrackAnimation(name,actor->getSceneNode(),length);
+	mAnimationMap.insert(std::pair<AnimationState*,RlAnimation*>(trackAnim->getAnimationState(),trackAnim));
+
+	return trackAnim;
+}
+
 RlAnimation* AnimationManager::getAnimation(AnimationState* animState) const
 {
 	std::map<AnimationState*,RlAnimation*>::const_iterator iter = mAnimationMap.find(animState);
@@ -89,6 +124,11 @@ void AnimationManager::removeAnimation(AnimationState* animState)
 		mAnimationMap.erase(iter);
 		delete anim;
 	}
+}
+
+void AnimationManager::removeAnimation(RlAnimation* anim)
+{
+	removeAnimation(anim->getAnimationState());
 }
 
 

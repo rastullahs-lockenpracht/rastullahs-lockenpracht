@@ -20,7 +20,9 @@
 
 namespace rl {
 
-RlAnimation::RlAnimation( AnimationState* animState, Real speed, unsigned int timesToPlay )
+RlAnimation::RlAnimation( AnimationState* animState, Real speed, unsigned int timesToPlay ) :
+	EventSource(), 
+	mAnimationFinishedCaster()
 {
 	if( animState == 0 )
 		Throw( NullPointerException,"AnimationState darf nicht null sein" );
@@ -126,6 +128,17 @@ void RlAnimation::setWeight(Real weight)
 	mAnimState->setWeight(weight);
 }
 
+void RlAnimation::addAnimationFinishedListener(EventListener<EventObject> *listener)
+{
+	mAnimationFinishedCaster.addEventListener(listener);
+}
+
+void RlAnimation::removeAnimationFinishedListener(EventListener<EventObject> *listener)
+{
+	mAnimationFinishedCaster.removeEventListener(listener);
+}
+
+
 // Zeit hinzufügen // wird vom AnimationManager aufgerufen
 void RlAnimation::addTime( Real timePassed )
 {
@@ -133,12 +146,12 @@ void RlAnimation::addTime( Real timePassed )
 	{
 		timePassed = timePassed * mSpeed;
 
-		mAnimState->addTime( timePassed );
+		applyTime(timePassed);
 
 		// Begrenzte Abspielanzahl
 		if( mTimesToPlay > 0 )
 		{
-			mTimePlayed += timePassed;
+			mTimePlayed += fabs(timePassed);
 
 			if( getTimesToPlayLeft() == 1 )
 			{
@@ -153,6 +166,11 @@ void RlAnimation::addTime( Real timePassed )
 
 		// TODO Frame-Listener
 	}
+}
+
+void RlAnimation::applyTime( Real timePassed )
+{
+	mAnimState->addTime( timePassed );
 }
 
 }

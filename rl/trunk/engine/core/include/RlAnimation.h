@@ -19,13 +19,17 @@
 
 #include "CorePrerequisites.h"
 
+#include "EventCaster.h"
+#include "EventSource.h"
+#include "EventObject.h"
+
 namespace rl {
 
-class _RlCoreExport RlAnimation
+class _RlCoreExport RlAnimation : public virtual EventSource
 {
     public:
         RlAnimation( AnimationState* animState, Real speed=1.0, unsigned int timesToPlay=0 );
-        virtual ~RlAnimation( );
+		virtual ~RlAnimation( );
         
 		// Pausieren und fortsetzen
         bool isPaused() const;
@@ -50,13 +54,21 @@ class _RlCoreExport RlAnimation
 		unsigned int getTimesToPlayLeft() const;
 		Real getTimePlayed() const;
 
-		// Gewicht (Einfluss) der RlAnimation
+		// Gewicht (Einfluss) der Animation
 		Real getWeight(void) const;
         void setWeight(Real weight);
 
 		// Zeit hinzufügen // wird vom AnimationManager aufgerufen
-		virtual void addTime( Real timePassed );
-    private:
+		void addTime( Real timePassed );
+
+		// AnimationFinishedListener
+		void addAnimationFinishedListener(EventListener<EventObject> *listener);
+		void removeAnimationFinishedListener(EventListener<EventObject> *listener);
+
+		AnimationState* getAnimationState() { return mAnimState; };
+    protected:
+		virtual void applyTime( Real timePassed );
+
 		Real mLength;
 		AnimationState* mAnimState;
 
@@ -65,6 +77,8 @@ class _RlCoreExport RlAnimation
 		Real mSpeed;
 		unsigned int mTimesToPlay;
 		Real mTimePlayed;
+
+		EventCaster<EventObject> mAnimationFinishedCaster;
 };
 
 }

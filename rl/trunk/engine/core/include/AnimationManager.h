@@ -21,16 +21,20 @@
 #include <OgreSingleton.h>
 
 #include "SynchronizedTask.h"
-#include "RlAnimation.h"
-
 #include "CorePrerequisites.h"
 
 namespace rl {
 
-///@todo Skalierung der Abspielgeschwindigkeit ermoeglichen.
+class Actor;
+class RlAnimation;
+class RlTrackAnimation;
+
 class _RlCoreExport AnimationManager : public SynchronizedTask, protected Singleton<AnimationManager>
 {
 public:
+	enum InterpolationMode { IM_LINEAR, IM_SPLINE };
+	enum RotationInterpolationMode { RIM_LINEAR, RIM_SPHERICAL };
+
     /** Default Constructor */
 	AnimationManager( );
 	/** Default Deconstructor */
@@ -39,10 +43,18 @@ public:
     RlAnimation* addAnimation(AnimationState* animState, Real speed=1.0, unsigned int timesToPlay=0 );
 	RlAnimation* getAnimation(AnimationState* animState) const;
     void removeAnimation(AnimationState* animState);
-
+	RlTrackAnimation* createTrackAnimation(Actor* actor, const String& name, Real length );
+	void removeAnimation(RlAnimation* anim);
+	
 	// Für globale SlowMotion oder anderes
 	void setGlobalAnimationSpeed( Real speed );
 	Real getGlobalAnimationSpeed( ) const;
+	
+	void setDefaultInterpolationMode( AnimationManager::InterpolationMode im );
+	AnimationManager::InterpolationMode getDefaultInterpolationMode() const;
+
+	void setDefaultRotationInterpolationMode( AnimationManager::RotationInterpolationMode rim );
+	AnimationManager::RotationInterpolationMode getDefaultRotationInterpolationMode() const;
 
     virtual void run(Real timePassed);
 
