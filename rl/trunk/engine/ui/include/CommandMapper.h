@@ -4,7 +4,7 @@
 #include "UiPrerequisites.h"
 
 #include <OgreSingleton.h>
-#include <ogreinput.h>
+#include <OgreInput.h>
 #include <map>
 
 namespace rl {
@@ -60,3 +60,4 @@ namespace rl {
 
 
 #endif
+

@@ -4,6 +4,10 @@ noinst_HEADERS = RastullahPrerequisites.h \
 	Tripel.h \
 	FixRubyHeaders.h \
 	CsvFile.h \
-	Sleep.h
+	Sleep.h \
+	EventSource.h \
+	EventObject.h \
+	EventListener.h \
+	EventCaster.h 
 	
 	

@@ -7,6 +7,7 @@ libRlUi_la_SOURCES = \
 	CeConsole.cpp \
 	CeGuiWindow.cpp \
 	CharacterSheetWindow.cpp \
+	CommandMapper.cpp \
 	Console.cpp \
 	DebugWindow.cpp \
 	DialogWindow.cpp \

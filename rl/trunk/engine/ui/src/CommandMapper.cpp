@@ -73,3 +73,4 @@ namespace rl {
 		return (mActiveMovement & movmt) == movmt;
 	}
 }
+

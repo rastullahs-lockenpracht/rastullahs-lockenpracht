@@ -30,7 +30,7 @@ fi
 # ***** DEBUGGING
 AC_ARG_ENABLE(debug,[  --enable-debug          enable debugging [default=no]])
 if test "$enable_debug" = "yes"; then
-    CXXFLAGS="$CXXFLAGS -g -DDEBUG"
+    CXXFLAGS="$CXXFLAGS -g"
     BOOSTLIBS="-d"
 else
     CXXFLAGS="$CXXFLAGS -O2"

@@ -326,7 +326,7 @@ void SndResource::FadeThread::run()
             {
                 
                 // Warten
-                MSleep(10);
+                msleep(10);
                 ALfloat newgain = that->calculateFadeIn(mDuration, time, gain);
                 // Lautstaerke hochsetzen.
                 that->setGain((newgain > gain)?gain:newgain);
@@ -344,7 +344,7 @@ void SndResource::FadeThread::run()
             for (unsigned int time = 0; time <= mDuration; time += 10)
             {
                 // Warten
-                MSleep(1);
+                msleep(1);
                 ALfloat newgain = that->calculateFadeOut(mDuration, time, gain);
                 // Lautstaerke hochsetzen.
                 that->setGain((newgain > gain)?gain:newgain);

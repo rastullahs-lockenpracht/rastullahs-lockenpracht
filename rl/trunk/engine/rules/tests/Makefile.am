@@ -1,4 +1,4 @@
-INCLUDES = $(RUBY_CFLAGS) $(OPENALPP_CFLAGS) $(SDL_CFLAGS) $(OGRE_CFLAGS) $(STLPORT_CFLAGS) -I../include -I../../core/include
+INCLUDES = $(CEGUI_CFLAGS) $(RUBY_CFLAGS) $(OPENALPP_CFLAGS) $(SDL_CFLAGS) $(OGRE_CFLAGS) $(STLPORT_CFLAGS) -I../include -I../../core/include
 
 noinst_PROGRAMS = testrules
 testrules_SOURCES = Main.cpp

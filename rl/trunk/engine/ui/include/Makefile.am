@@ -3,6 +3,7 @@ noinst_HEADERS = \
 	CeConsole.h \
 	CeGuiWindow.h \
 	Console.h \
+	CommandMapper.h \
 	DebugWindow.h \
 	DialogWindow.h \
 	FlyingCameraController.h \

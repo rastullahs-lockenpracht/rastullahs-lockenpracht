@@ -1,4 +1,4 @@
-/* Sleep.h - Plattformunabhängigkeit für sleep
+/* Sleep.h - Plattformunabhaengigkeit für sleep
  * (C) 2004. Team Pantheon. www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
@@ -22,7 +22,7 @@ namespace rl {
  * @param sleeptime Die Zeit in Millisekunden.
  * Legen den aktuellen Thread für sleeptime Millisekungen schlafen.
  */
-void MSleep(unsigned long sleeptime)
+void msleep(unsigned long sleeptime)
 {
 #if OGRE_PLATFORM == PLATFORM_WIN32
     Sleep(sleeptime);
