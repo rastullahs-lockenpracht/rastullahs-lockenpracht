@@ -59,7 +59,7 @@ void RlTrackAnimation::setKeyFrameRotation( Real timePos, Real xRotAxis, Real yR
 	KeyFrame* frame = getKeyFrameAtTimePos( timePos );
 
 	if( frame != 0 )
-		frame->setRotation( Quaternion(Radian(angleUnits),Vector3(xRotAxis,yRotAxis,zRotAxis)));
+		frame->setRotation( Quaternion( Radian(Degree(angleUnits)), Vector3(xRotAxis,yRotAxis,zRotAxis) ) );
 }
 
 void RlTrackAnimation::setKeyFrameScale( Real timePos, Real xScale, Real yScale, Real zScale )
@@ -117,7 +117,7 @@ void RlTrackAnimation::applyTime( Real timePassed )
 {
 	mAnimState->addTime( timePassed );
 	// HEUL, animationState ist bloss nen VariablenLager ;_;
-	mAnimationTrack->apply( mAnimState->getTimePosition(),mAnimState->getWeight(),false);
+	mAnimationTrack->apply( mAnimState->getTimePosition(), mAnimState->getWeight(), true);
 }
 
 }
