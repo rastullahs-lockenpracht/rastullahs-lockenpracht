@@ -5,11 +5,13 @@
 #include "CeGuiWindow.h"
 
 namespace rl {
+	
+	class GameObject;
 
 	class _RlUiExport MainMenuWindow : public CeGuiWindow
 	{
 	public:
-		MainMenuWindow();
+		MainMenuWindow(GameObject* actionHolder);
 
 		bool handleChooseModules();
 		bool handleGraphicOptions();
@@ -20,6 +22,7 @@ namespace rl {
 
 	private:
 		CeGuiString mActiveModule;
+		GameObject* mActionHolder;
 	};
 
 	class _RlUiExport MainMenuChooseModulesWindow : public CeGuiWindow

@@ -47,7 +47,8 @@ namespace rl {
         static UiSubsystem & getSingleton(void);
         static UiSubsystem * getSingletonPtr(void);
 
-
+		void log(const std::string& msg, const std::string& ident = "");
+	
         /** Requests the application's exit */
         void requestExit();
 
@@ -61,6 +62,7 @@ namespace rl {
 		void showActionChoice(GameObject* obj);
 		void showMessageWindow(const CeGuiString& message);
 		void showMainMenu();
+		bool showInputOptionsMenu(GameObject* actionHolder);
 		Person* getActiveCharacter();
 		void setActiveCharacter(Person* person);
         GameController* getGameController();

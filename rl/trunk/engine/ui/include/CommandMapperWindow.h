@@ -34,9 +34,11 @@ namespace rl {
 		bool handleChangeMovement();
 		bool handleChangeInBattle();
 		bool handleChangeOffBattle();
+		bool handleKeyDown(const CEGUI::EventArgs& evt);
+		bool handleMouseButton(const CEGUI::EventArgs& evt);
 	
-		void subscribeEventsToElements();
-		void subscribeEventsToCollectCommand();
+		void muteElements(bool mute);
+		void muteWindow(bool mute);
 	};
 
 }
