@@ -1,0 +1,19 @@
+material items/fackel
+{
+  receive_shadows on
+  
+  technique
+  {
+    pass
+    {
+      ambient 0.000000 0.000000 0.000000
+      diffuse 0.800000 0.800000 0.800000
+
+      texture_unit
+      {
+        texture fackel.png
+      }
+    }
+  }
+}
+
