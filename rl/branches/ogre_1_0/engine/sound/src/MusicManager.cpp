@@ -169,8 +169,7 @@ void MusicManager::setNextSong()
 {
     string name = findNextSong();
     // Evtl. spielt noch ein Song.
-    SoundResource *next = static_cast<SoundResource*>(
-        SoundManager::getSingleton().getByName(name));
+    SoundResourcePtr next = SoundManager::getSingleton().getByName(name);
     if (mSource != 0 )
     {
         mSource->stop();

@@ -14,7 +14,6 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 #include <set>
-#include <OgreArchiveEx.h>
 #include "SoundManager.h"
 #include "SoundResource.h"
 
@@ -75,53 +74,51 @@ StringList SoundManager::getExtension()
 }
 
 /**
- * @param resName. Der Name der Soundresource, die erzeugt
- * werden soll.
- * @author JoSch
- * @date 06-18-2004
- */
-Resource* SoundManager::create(const String& resName)
+* @param resName. Der Name der Soundresource, die erzeugt
+* werden soll.
+* @author JoSch
+* @date 06-18-2004
+*/
+Ogre::Resource* createImpl(const String& resName, 
+						   const ResourceHandle& handle,
+						   const String& group,
+						   bool isManual, 
+						   ManualResourceLoader* loader, 
+						   const NameValuePairList* loadParams)
 {
-    SoundResource *newSound = 0;
-    newSound = new SoundResource(resName);
-    return newSound;
+	SoundResource *newSound = 0;
+	newSound = new SoundResource(resName, group);
+	return newSound;
 }
+
 
 /**
  * @author JoSch
  * @date 04-27-2004
  */
-void SoundManager::addSounds()
+void SoundManager::addSounds(const Ogre::String& group)
 {
     StringList extlist = getExtension();
     StringList::const_iterator cit;
     for(cit = extlist.begin(); cit != extlist.end(); cit++)
     {
-        set<Ogre::String> list = ResourceManager::_getAllCommonNamesLike("./", *cit);
-        set<Ogre::String>::const_iterator it;
-        for(it = list.begin(); it != list.end(); it++)
+		StringVectorPtr sl = ResourceGroupManager::getSingleton().findResourceNames(
+			group, *cit );
+        StringVector::const_iterator it;
+        for(it = sl.getPointer()->begin(); it != sl.getPointer()->end(); it++)
         {
             try {
-                add(create(*it));
+                create(*it, group);
             } catch(...)
             {}
         }
     }
 }
 
-/**
- * @author JoSch
- * @date 01-26-2005
- */
-void SoundManager::add(Resource *song)
+void SoundManager::add(const String& filename, const String& group)
 {
-    boost::mutex::scoped_lock lock(mResListMutex);
-    Ogre::ResourceManager::add(song);
-}
-
-void SoundManager::add(const String& filename)
-{
-    add(create(filename));
+	boost::mutex::scoped_lock lock(mResListMutex);
+    create(filename, group);
 }
 
 /**

@@ -17,7 +17,9 @@
 #ifndef SOUNDMANAGER_H
 #define SOUNDMANAGER_H
 
-#include <Ogre.h>
+#include <OgreResourceManager.h>
+#include <OgreSingleton.h>
+#include <OgreResourceGroupManager.h>
 #include <list>
 #include <boost/thread/mutex.hpp>
 #include "SoundPrerequisites.h"
@@ -37,28 +39,32 @@ typedef std::list<Ogre::String> StringList;
  */ 
 class _RlSoundExport SoundManager: public Ogre::ResourceManager,
         public Ogre::Singleton<SoundManager> {
-    private:
-        /// Ein Mutex, um das Hinzufügen der Sounds zu synchronisieren.
-        boost::mutex mResListMutex;
-        /// Welche Dateiendung soll verwendet werden.
-        virtual StringList getExtension();
     public:
         /// Gibt das Singleton zurueck.
         static SoundManager& getSingleton();
         /// Gibt einen Zeiger auf das Singleton zurueck.
         static SoundManager* getSingletonPtr();
         /// Eine Resource erzeugen
-        Ogre::Resource* create(const Ogre::String& resName);
         /// Konstruktor
         SoundManager();
         /// Alle Sounds in die Resourcenliste eintragen.
-        virtual void addSounds();
-        /// einen Sound hinzufuegen (Mit Mutex)
-        virtual void add(Ogre::Resource *song);
+		virtual void addSounds(const Ogre::String& groupName = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
         /// erzeugt einen Sound und fügt ihn hinzufuegen (Mit Mutex mittelbar)
-        virtual void add(const Ogre::String& filename);
+        virtual void add(const Ogre::String& filename, const Ogre::String& groupName = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
         /// Eine Namesliste erzeugen
         StringList getSounds();
+
+	protected:
+		virtual Ogre::Resource* createImpl(const Ogre::String& resName, 
+			Ogre::ResourceHandle handle,
+			const Ogre::String& groupName = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+			bool isManual = false, Ogre::ManualResourceLoader* loader = NULL, const Ogre::NameValuePairList* loadParams = NULL);
+
+	private:
+		/// Ein MutEx, um das Hinzufügen der Sounds zu synchronisieren.
+		boost::mutex mResListMutex;
+		/// Welche Dateiendung soll verwendet werden.
+		virtual StringList getExtension();
 };
 
 }

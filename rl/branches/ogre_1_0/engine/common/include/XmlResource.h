@@ -48,7 +48,7 @@ namespace rl {
 	};
 
 	class _RlCommonExport XmlPtr :
-		public Ogre::SharedPtr<XmlResource>, public Ogre::ResourcePtr
+		public Ogre::SharedPtr<XmlResource>
 	{
 	public:
 		XmlPtr() : Ogre::SharedPtr<XmlResource>() {}

@@ -130,7 +130,7 @@ void SoundResource::Streaming::operator()()
  * @author JoSch
  * @date 07-23-2004
  */
-SoundResource::SoundResource(const string &name):
+SoundResource::SoundResource(const string &name, const string& group):
     EventListener<SoundEvent>(),
     EventSource(), 
     EventCaster<SoundEvent>(),
@@ -150,6 +150,7 @@ SoundResource::SoundResource(const string &name):
     mStreamFunctor.setThat(this);
     
     mName = name;
+	mGroup = group;
     alGenSources(1, &mSource);
     check();
     alGenBuffers(mBuffers.size(), &mBuffers[0]);
@@ -310,7 +311,7 @@ void SoundResource::setGain(const ALfloat gain) throw (RuntimeException)
  * @author JoSch
  * @date 10-11-2004
  */
-void SoundResource::load()
+void SoundResource::loadImpl()
 {
     if (!mIsLoaded)
     {
@@ -382,7 +383,7 @@ void SoundResource::load()
  * @author JoSch
  * @date 07-23-2004
  */
-void SoundResource::unload()
+void SoundResource::unloadImpl()
 {
     if (mIsLoaded)
     {
@@ -411,6 +412,11 @@ void SoundResource::unload()
         mDataStream.setNull();
     }
     this->mIsLoaded = false;
+}
+
+size_t SoundResource::calculateSize() const
+{
+	return mSize;
 }
 
 /**
@@ -1068,6 +1074,39 @@ String SoundResource::errorString (int code)
         default:
             return string ("Unknown Ogg error.");
     }
+}
+
+SoundResourcePtr::SoundResourcePtr(const ResourcePtr& res) : SharedPtr<SoundResource>()
+{
+	// lock & copy other mutex pointer
+	OGRE_LOCK_MUTEX(*res.OGRE_AUTO_MUTEX_NAME)
+		OGRE_COPY_AUTO_SHARED_MUTEX(res.OGRE_AUTO_MUTEX_NAME)
+		pRep = static_cast<SoundResource*>(res.getPointer());
+	pUseCount = res.useCountPointer();
+	if (pUseCount != 0)
+		++(*pUseCount);
+}
+
+SoundResourcePtr& SoundResourcePtr::operator =(const ResourcePtr& res)
+{
+	if (pRep == static_cast<SoundResource*>(res.getPointer()))
+		return *this;
+	release();
+
+	// lock & copy other mutex pointer
+	OGRE_LOCK_MUTEX(*res.OGRE_AUTO_MUTEX_NAME)
+		OGRE_COPY_AUTO_SHARED_MUTEX(res.OGRE_AUTO_MUTEX_NAME)
+		pRep = static_cast<SoundResource*>(res.getPointer());
+	pUseCount = res.useCountPointer();
+	if (pUseCount != 0)
+		++(*pUseCount);
+
+	return *this;
+}
+
+void SoundResourcePtr::destroy()
+{
+	SharedPtr<SoundResource>::destroy();
 }
 
 
