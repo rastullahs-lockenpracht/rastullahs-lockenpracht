@@ -35,6 +35,7 @@ namespace rl {
 
 		typedef std::set<CeGuiWindow*> WindowSet;
 
+		CEGUI::Window* loadWindow(const CeGuiString& xmlfile, CeGuiString* prefix = NULL);
 		void registerWindow(CeGuiWindow* window);
 		bool destroyWindow(CeGuiWindow* window);
 		void pruneWindows();
@@ -42,6 +43,8 @@ namespace rl {
 	private:
 		WindowSet mActiveWindows;
 		WindowSet mWindowsToDelete;
+	
+		int mNumCeGuiWindows;
 	};
 
 }

@@ -13,7 +13,7 @@ using namespace CEGUI;
 namespace rl {
 
 	MainMenuWindow::MainMenuWindow(GameObject* actionHolder) :
-		CeGuiWindow("mainmenuwindow.xml", WND_KEYBOARD_INPUT),
+		CeGuiWindow("mainmenuwindow.xml", WND_ALL_INPUT, true),
 		mActiveModule(""),
 		mActionHolder(actionHolder)
 	{
@@ -42,6 +42,10 @@ namespace rl {
 		getWindow("MainMenuWindow/Quit")->subscribeEvent(
 			Window::EventMouseClick, 
 			boost::bind(&MainMenuWindow::handleQuit, this));
+			
+		mWindow->subscribeEvent(
+			Window::EventKeyUp,
+			boost::bind(&MainMenuWindow::handleKey, this, _1));
 		
 		centerWindow();
 		addToRoot(mWindow);		
@@ -77,6 +81,22 @@ namespace rl {
 	bool MainMenuWindow::handleGraphicOptions()
 	{
 		return true;
+	}
+	
+	bool MainMenuWindow::handleKey(const EventArgs& evt)
+	{
+		const KeyEventArgs kevt = static_cast<const KeyEventArgs&>(evt);
+		
+		UiSubsystem::getSingleton().log(StringConverter::toString(kevt.scancode), "blah");
+		
+		if (kevt.scancode == Key::S)
+			return handleStart();
+		else if (kevt.scancode == Key::G)
+			return handleGraphicOptions();
+		else if (kevt.scancode == Key::M)
+			return handleChooseModules();
+		else if (kevt.scancode == Key::Q || kevt.scancode == Key::Escape)
+			return handleQuit();
 	}
 
 	void MainMenuWindow::setActiveModule(const CeGuiString& module)

@@ -57,8 +57,9 @@ public:
 	StringVector getActiveModules() const;
 	const StringVector& getCommonModules() const;
 	const StringVector& getActivatableModules() const;
-	void setActiveModule(const String module);
-
+	void setActiveModule(const String& module);
+	void initializeModule(const std::string& module);
+	
 	/** Saves a timestamped jpg Screenshot
 		@param sName The filename (extended with the timestamp)
 	*/
@@ -72,10 +73,9 @@ private:
 
 	/** Loads all needed ressources */
 	void initializeResources();
-	void initializeModule(std::string module);
-	void initializeModuleTextures(std::string module);
-	void unloadModule(std::string module);
-	void addCommonSearchPath(std::string path);	
+	void initializeModuleTextures(const std::string& module);
+	void unloadModule(const std::string& module);
+	void addCommonSearchPath(const std::string& path);	
 
 	/** Opens a configuration dialog */
 	bool setupConfiguration();

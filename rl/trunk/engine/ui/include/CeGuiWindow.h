@@ -34,7 +34,7 @@ namespace rl {
 			WND_SHOW,
 			WND_MOUSE_INPUT,
 			WND_KEYBOARD_INPUT,
-			WND_ALL_INPUT
+			WND_ALL_INPUT,
 		};
 
 		CEGUI::Window* getWindow(const char* name);
@@ -59,7 +59,7 @@ namespace rl {
 		virtual ~CeGuiWindow();	
 
 	protected:
-		CeGuiWindow(const char* xmlfile, WindowType type);
+		CeGuiWindow(const char* xmlfile, WindowType type, bool modal = false);
 		
 		void show();
 		void hide();
@@ -70,15 +70,13 @@ namespace rl {
 		void centerWindow();
 		
 		CEGUI::Window* mWindow;
-		bool mIsVisible;
+		bool mIsVisible; 
 
 	private:
 		WindowType mWindowType;
 		CeGuiString mNamePrefix;
 		CeGuiString mName;
 
-		static int sNumWindows;
-		
 	};
 
 }

@@ -13,14 +13,16 @@ namespace rl {
 	public:
 		MainMenuWindow(GameObject* actionHolder);
 
+		void setActiveModule(const CeGuiString& module);
+
+	private:
 		bool handleChooseModules();
 		bool handleGraphicOptions();
 		bool handleStart();
 		bool handleQuit();
-
-		void setActiveModule(const CeGuiString& module);
-
-	private:
+		
+		bool handleKey(const CEGUI::EventArgs& evt);
+		
 		CeGuiString mActiveModule;
 		GameObject* mActionHolder;
 	};

@@ -23,7 +23,7 @@
 #include "GameObject.h"
 #include "Person.h"
 #include "WindowManager.h"
-#include "CoreSubsystem.h"
+#include "UiSubsystem.h"
 
 #include "ActionChoiceWindow.h"
 
@@ -55,6 +55,8 @@ namespace rl {
 	
 	void ActionChoiceWindow::showActionsOfObject(GameObject* object)
 	{
+		UiSubsystem::getSingleton().log(
+			"Start", "ActionChoiceWindow::showActionsOfObject");
 		mObject = object;
 		
 		mGroupedButtons.clear();
@@ -64,31 +66,133 @@ namespace rl {
 			CEGUI::WindowManager::getSingleton().destroyWindow(mButtons[i]);
 		}
 		mButtons.clear();
+		UiSubsystem::getSingleton().log(
+			"Buttons gelöscht", "ActionChoiceWindow::showActionsOfObject");
 
 		Point center = mWindow->relativeToAbsolute(Point(0.5, 0.5));
 		static int RADIUS = 80;
 
 		ActionVector actions = object->getValidActions();
+		UiSubsystem::getSingleton().log(
+			"Aktionen ermittelt", "ActionChoiceWindow::showActionsOfObject");
         ActionNode* actionTree = ActionNode::createActionTree(actions);
+		UiSubsystem::getSingleton().log(
+			"Baum erzeugt", "ActionChoiceWindow::showActionsOfObject");
 		createButtons(actionTree, center, RADIUS, 0, 360);
-//		setButtonActions(actionTree);
+		UiSubsystem::getSingleton().log(
+			"Buttons erzeugt", "ActionChoiceWindow::showActionsOfObject");
+		setButtonActions(actionTree, actionTree);
+		UiSubsystem::getSingleton().log(
+			"Ende", "ActionChoiceWindow::showActionsOfObject");
+	}
+	
+	void ActionChoiceWindow::setButtonActions(ActionNode* actions, ActionNode* treeRoot)
+	{
+		PushButton* button = actions->getButton();
+			
+		if (actions->isLeaf())
+		{
+			Action* action = actions->getAction();
+			
+			button->setVisible(false);
+			button->subscribeEvent(
+				Window::EventMouseClick,
+				boost::bind(
+					&ActionChoiceWindow::activateAction, this, action));
+			button->subscribeEvent(
+				Window::EventMouseEnters,
+				boost::bind(
+					&ActionChoiceWindow::showHint, this, action->getDescription()));
+			button->subscribeEvent(
+				Window::EventMouseLeaves,
+				boost::bind(
+					&ActionChoiceWindow::showHint, this, ""));
+		}
+		else
+		{
+			ActionGroup* gr = actions->getGroup();
+			
+			if (gr != NULL && gr->getParent() != NULL)
+			{
+				button->setVisible(false);					
+			}
+			
+			if (button != NULL)
+			{
+				const set<ActionNode*> nodesToHide = 
+					ActionNode::getAllNodesNotBelow(treeRoot, actions);
+				UiSubsystem::getSingleton().log(
+					StringConverter::toString(nodesToHide.size())+" nodes to hide",
+					"ActionChoiceWindow::setButtonActions");
+					
+				for (set<ActionNode*>::iterator iter = nodesToHide.begin(); iter != nodesToHide.end(); iter++)
+				{			
+					button->subscribeEvent(
+						Window::EventMouseEnters,
+						boost::bind(
+							&ActionChoiceWindow::setButtonVisible,
+							this,
+							(*iter)->getButton(),
+							false));
+				}
+			}
+
+			const set<ActionNode*> children = actions->getChildren();
+			for (set<ActionNode*>::iterator iter = children.begin(); iter != children.end(); iter++)
+			{
+				if (button != NULL)
+				{					
+					button->subscribeEvent(
+						Window::EventMouseEnters,
+						boost::bind(
+							&ActionChoiceWindow::setButtonVisible,
+							this,
+							(*iter)->getButton(),
+							true));
+				}
+				
+				setButtonActions(*iter, treeRoot);
+			}
+		}		
+	}
+	
+	bool ActionChoiceWindow::activateAction(Action* action)
+	{
+		UiSubsystem::getSingleton().log(
+			"Start", "ActionChoiceWindow::activateAction");
+		UiSubsystem::getSingleton().log(
+			action->getName().c_str(), "ActionChoiceWindow::activateAction");
+			
+		action->doAction(mObject, mActor, NULL);
+		
+		UiSubsystem::getSingleton().log(
+			"Ende", "ActionChoiceWindow::activateAction");
 	}
 
-	void ActionChoiceWindow::createButtons(ActionNode* actions, const Point& center, float radius, float angle, float angleWidth)
+	void ActionChoiceWindow::createButtons(
+		ActionNode* actions, const Point& center, 
+		float radius, float angle, float angleWidth)
 	{
 		PushButton* button = NULL;
 
 		if (actions->isLeaf())
+		{
 			button = createButton(actions->getAction()->getName(), center);
+			mGroupedButtons.insert(button);
+		}
 		else
 		{
 			if (actions->getGroup() != NULL)
+			{
 				button = createButton(actions->getGroup()->getName(), center);
+				mGroupedButtons.insert(button);
+			}
 			
-			set<ActionNode*> children = actions->getChildren();
+			const set<ActionNode*> children = actions->getChildren();
 			float angleStep = angleWidth * 2.0 / (float)children.size();
 			float ang = children.size()>1 ? angle - angleWidth : angle;
-			for (set<ActionNode*>::iterator iter = children.begin(); iter != children.end(); iter++)
+			for (set<ActionNode*>::iterator iter = children.begin(); 
+				iter != children.end(); iter++)
 			{
 				Point centerChild = getPositionOnCircle(center, radius, ang);
 				createButtons(*iter, centerChild, radius, ang, 60);
@@ -103,41 +207,51 @@ namespace rl {
 
 	PushButton* ActionChoiceWindow::createButton(const CeGuiString& name, const Point& pos)
 	{
-		PushButton* groupButton = reinterpret_cast<PushButton*>(
-			//WindowManager::getSingleton().loadWindowLayout(
-			//	"buttons/"+actionName+".xml"));
-			CEGUI::WindowManager::getSingleton().createWindow(
-				(utf8*)"TaharezLook/Button", 
-				getName()+"/Buttons/"+name));
+		Window* button = WindowManager::getSingleton().loadWindow(
+				"buttons/"+name+".xml", NULL);
+		if (button == NULL)
+		{
+			button = 
+				WindowManager::getSingleton().loadWindow(
+					"buttons/defaultbutton.xml", NULL);
+		}
 
-		groupButton->setText(name);
-		groupButton->setSize(Absolute, Size(40, 40));
-		groupButton->setPosition(Absolute, pos - Point(20, 20));
+		Size size = button->getAbsoluteSize();
+		button->setPosition(
+			Absolute, pos - Point(size.d_width/2, size.d_height/2));
 		
-
-		return groupButton;
+		return static_cast<PushButton*>(button);
 	}
 	
-	bool ActionChoiceWindow::showButton(PushButton* button)
+	bool ActionChoiceWindow::setButtonVisible(PushButton* button, bool visible)
 	{
-		CoreSubsystem::getSingleton().log(("Show "+button->getName()).c_str());
+		std::string showHide;
+		
+		if (visible)
+			showHide = "Show ";
+		else
+			showHide = "Hide ";
+		
+		if (button == NULL)
+		{
+			UiSubsystem::getSingleton().log(
+				showHide + "NULL", "ActionChoiceWindow::setButtonVisible");
+			return true;
+		}
+		
+		UiSubsystem::getSingleton().log((showHide+button->getName()).c_str());
 		Point p = button->getRelativePosition();
-		CoreSubsystem::getSingleton().log(
+		UiSubsystem::getSingleton().log(
 			"("+StringConverter::toString(p.d_x)+", "+StringConverter::toString(p.d_y)+")");
-		button->show();
+			
+		if (visible)
+			button->show();
+		else
+			button->hide();
 		return true;
 	}
 
-	bool ActionChoiceWindow::hideAllGroupedButtons()
-	{
-		for (set<PushButton*>::iterator iter = mGroupedButtons.begin();
-			iter != mGroupedButtons.end(); iter++)
-			(*iter)->hide();
-
-		return true;
-	}
-	
-	bool ActionChoiceWindow::handleShowHint(const CeGuiString& hint)
+	bool ActionChoiceWindow::showHint(const CeGuiString& hint)
 	{
 		mHint->setText(hint);
 		return true;
@@ -231,6 +345,51 @@ namespace rl {
 	{ 
 		return mChildren; 
 	}
+	
+	void ActionChoiceWindow::ActionNode::getAllNodes(ActionNode* treeRoot, std::set<ActionNode*>& nodes)
+	{
+		nodes.insert(treeRoot);
+		const set<ActionNode*> children = treeRoot->getChildren();
+		
+		for (set<ActionNode*>::iterator iter = children.begin(); iter != children.end(); iter++)
+			getAllNodes(*iter, nodes);
+	}
+	
+	std::set<ActionChoiceWindow::ActionNode*> ActionChoiceWindow::ActionNode::getAllNodesNotBelow(
+		ActionNode* treeRoot, ActionChoiceWindow::ActionNode* targetNode)
+	{
+		set<ActionNode*> allNodes;
+		getAllNodes(treeRoot, allNodes);
+		
+		set<ActionNode*> nodes;
+		for (set<ActionNode*>::iterator iter = allNodes.begin(); iter != allNodes.end(); iter++)
+		{
+			bool leaveOut = false;
+			
+			if ((*iter)->getParent() == treeRoot ||
+				*iter == targetNode ||
+				(*iter)->getButton() == NULL)
+			{
+				leaveOut = true;
+				continue;
+			}
+				
+			ActionNode* node = *iter;
+			while(node->getParent() != NULL)
+			{
+				node = node->getParent();
+				if (node == targetNode)
+				{
+					leaveOut = true;
+					continue;
+				}
+			}
 
+			if (!leaveOut)
+				nodes.insert(*iter);
+		}
+		
+		return nodes;
+	}
 	
 }

@@ -26,7 +26,27 @@ namespace rl {
 		mWindowsToDelete.clear();
 		mActiveWindows.clear();
 	}
-
+	
+	CEGUI::Window* WindowManager::loadWindow(const CeGuiString& xmlfile, CeGuiString* prefix)    
+	{
+		CeGuiString namePrefix = StringConverter::toString(mNumCeGuiWindows);
+		if (prefix != NULL)
+			prefix->assign(namePrefix);
+		mNumCeGuiWindows++;
+		
+		CEGUI::Window* window = NULL;		
+		try 
+		{
+			window = CEGUI::WindowManager::getSingleton().loadWindowLayout(xmlfile, 
+				namePrefix);
+		}
+		catch(...)
+		{
+		}
+			
+		return window;
+	}	
+ 
 	bool WindowManager::destroyWindow(CeGuiWindow* window)
 	{
 		pruneWindows();

@@ -92,6 +92,11 @@ namespace rl
 		return mName;
 	}
 	
+	const ActionGroup* const ActionGroup::getParent() const
+	{
+		return mParent;
+	}
+	
 	void ActionGroup::addChild(ActionGroup* child)
 	{
 		mChildren.insert(child);

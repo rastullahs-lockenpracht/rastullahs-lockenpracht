@@ -258,6 +258,7 @@ private:
 public:
     static CoreSubsystem& getSingleton(void);
     
+    void initializeModule(const String& module);
     void loadMap(const String type, const String filename, const String startupScript = "");
     World* getWorld();
     void  makeScreenshot(const String& sName);

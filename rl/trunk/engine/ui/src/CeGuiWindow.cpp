@@ -26,21 +26,18 @@ using namespace CEGUI;
 namespace rl
 {
 
-int CeGuiWindow::sNumWindows = 0;
-
-CeGuiWindow::CeGuiWindow(const char* xmlfile, WindowType type)
+CeGuiWindow::CeGuiWindow(const char* xmlfile, WindowType type, bool modal)
 {
-	mNamePrefix = StringConverter::toString(sNumWindows);
-	sNumWindows++;
-
-    mWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout(CeGuiString((utf8*)xmlfile), 
-			mNamePrefix);
+   	mWindow = WindowManager::getSingleton().loadWindow(xmlfile, &mNamePrefix);
 	assert(mWindow != 0);
 	mWindow->hide();
+	
+	if (modal)
+		mWindow->setAlwaysOnTop(true);
 
 	mIsVisible = false;
 	mWindowType = type;
-
+	
 	mName = mWindow->getName();
 	WindowManager::getSingleton().registerWindow(this);
 }

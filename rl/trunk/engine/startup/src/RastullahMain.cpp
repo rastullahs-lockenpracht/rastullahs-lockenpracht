@@ -62,8 +62,8 @@ int main(int argc, char **argv)
 		rules = new rl::RulesSubsystem();
 		log->logMessage("RulesSubsystem gestartet");
 			
-		//dialog = new DialogSubsystem();
-		//log->logMessage("DialogSubsystem gestartet");
+		dialog = new rl::DialogSubsystem();
+		log->logMessage("DialogSubsystem gestartet");
 			
 		ui = new rl::UiSubsystem();
 		log->logMessage("UiSubsystem gestartet");

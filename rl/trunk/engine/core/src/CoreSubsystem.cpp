@@ -110,6 +110,7 @@ namespace rl {
 #if OGRE_PLATFORM == PLATFORM_LINUX
     const String CoreSubsystem::findConfRootDir()
     {
+    	static String CURRENT_DIR = ".";
         char line[255];
         ifstream config;
         // Erstmal im Homeverzeichnis suchen.
@@ -140,7 +141,7 @@ namespace rl {
         }
         // Klappt alles nicht.
         cerr<<"line "<<endl;
-        return "";
+        return CURRENT_DIR;
     }
 
     const String CoreSubsystem::findRastullahConf()
@@ -248,7 +249,7 @@ namespace rl {
         }		
     }
 
-	void CoreSubsystem::initializeModuleTextures(std::string module)
+	void CoreSubsystem::initializeModuleTextures(const std::string& module)
 	{
 		std::string moduleDir = mRootDir+"/modules/"+module;
 		ConfigFile cf;
@@ -271,7 +272,7 @@ namespace rl {
 		addCommonSearchPath(moduleDir+"/materials");
 	}
 	
-	void CoreSubsystem::initializeModule(std::string module)
+	void CoreSubsystem::initializeModule(const std::string& module)
 	{
 		std::string moduleDir = mRootDir+"/modules/"+module;
 		
@@ -285,6 +286,7 @@ namespace rl {
 		addCommonSearchPath(moduleDir+"/gui/imagesets");
 		addCommonSearchPath(moduleDir+"/gui/schemes");
 		addCommonSearchPath(moduleDir+"/gui/windows");
+		addCommonSearchPath(moduleDir+"/gui/windows/buttons");
 		addCommonSearchPath(moduleDir+"/dialogs");     
 
 		if (getInterpreter() != NULL)
@@ -294,7 +296,7 @@ namespace rl {
 		}
 	}
 
-	void CoreSubsystem::addCommonSearchPath(std::string path)
+	void CoreSubsystem::addCommonSearchPath(const std::string& path)
 	{
 		try 
 		{
@@ -304,12 +306,12 @@ namespace rl {
 		{} // and forget
 	}
 
-	void CoreSubsystem::unloadModule(std::string module)
+	void CoreSubsystem::unloadModule(const std::string& module)
 	{
 		//TODO: unloadModule
 	}
 
-	void CoreSubsystem::setActiveModule(std::string module)
+	void CoreSubsystem::setActiveModule(const std::string& module)
 	{
 		StringVector::iterator mod;
 		for (mod = mActivatableModules.begin(); 
@@ -381,9 +383,7 @@ namespace rl {
 			Throw(RuntimeException, "Unknown world type");*/
 
 		mWorld->loadScene(filename);
-		///@todo einstellbar machen. World-Methode schon frei fuer Ruby?
-		//mWorld->setSkyBox(true, "rl/dsa07");
-
+		
 		if (startupScript.length() > 0)
             getInterpreter()->execute(String("load '") + startupScript + String("'"));
 	}

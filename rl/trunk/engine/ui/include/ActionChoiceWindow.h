@@ -37,7 +37,7 @@ namespace rl {
 		~ActionChoiceWindow();
 		
 		void showActionsOfObject(GameObject* object);
-		bool handleShowHint(const CeGuiString& evt);
+		bool showHint(const CeGuiString& evt);
 
 	private:
 		
@@ -59,11 +59,19 @@ namespace rl {
 		CEGUI::PushButton* createButton(
 			const CeGuiString& name,
 			const CEGUI::Point& pos);
+			
+		void setButtonActions(ActionNode* actions, ActionNode* treeRoot);
 
-		bool showButton(CEGUI::PushButton* button);
-		bool hideAllGroupedButtons();
+		bool setButtonVisible(CEGUI::PushButton* button, bool visible);
+		bool activateAction(Action* action);
 		static float normalizeAngle(float angle);
 		
+		GameObject* mObject;
+		std::vector<CEGUI::PushButton*> mButtons;
+		std::set<CEGUI::PushButton*> mGroupedButtons;
+		CEGUI::StaticText* mHint;
+
+		Person* mActor;		
 		
 		class ActionNode
 		{
@@ -90,7 +98,8 @@ namespace rl {
 			bool isLeaf() { return mLeaf; }
 			
 			static ActionNode* createActionTree(const ActionVector& actions, ActionGroup* rootGroup = NULL);
-
+			static std::set<ActionNode*> getAllNodesNotBelow(ActionNode* treeRoot, ActionNode* targetNode);
+			static void getAllNodes(ActionNode* treeRoot, std::set<ActionNode*>& node);
 	
 		private:
 			std::set<ActionNode*> mChildren;
@@ -100,14 +109,6 @@ namespace rl {
 			ActionGroup* mGroup;
 			CEGUI::PushButton* mButton;
 		};
-
-
-        GameObject* mObject;
-		std::vector<CEGUI::PushButton*> mButtons;
-		std::set<CEGUI::PushButton*> mGroupedButtons;
-		CEGUI::StaticText* mHint;
-
-		Person* mActor;
 	};
 
 }

@@ -101,6 +101,7 @@ namespace rl
 		~ActionGroup();
 	
 		const CeGuiString& getName() const;
+		const ActionGroup* const getParent() const;
 	
 		typedef std::set<ActionGroup*> ChildrenList;
 	
