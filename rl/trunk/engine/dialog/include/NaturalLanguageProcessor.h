@@ -78,4 +78,4 @@ namespace rl
 		}
 		string result_buffer;
 */	
-#endif;
+#endif

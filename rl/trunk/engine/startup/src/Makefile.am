@@ -1,4 +1,4 @@
-INCLUDES = $(RUBY_CFLAGS) $(SDL_CFLAGS) $(OGRE_CFLAGS) $(STLPORT_CFLAGS) -I../include -I../../core/include -I../../rules/include -I../../sound/include -I../../ui/include 
+INCLUDES = $(RUBY_CFLAGS) $(SDL_CFLAGS) $(OGRE_CFLAGS) $(STLPORT_CFLAGS) -I../include -I../../core/include -I../../rules/include -I../../sound/include -I../../ui/include -I../../dialog/include
 
 bin_PROGRAMS = rastullah
 rastullah_SOURCES = RastullahMain.cpp

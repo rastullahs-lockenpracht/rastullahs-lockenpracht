@@ -9,7 +9,6 @@ libRlCore_la_SOURCES = \
 	CameraActor.cpp \
 	GameActor.cpp \
 	GameLoop.cpp \
-	ActorFactory.cpp \
 	LightActor.cpp \
 	ParticleSystemActor.cpp \
 	../swig/RlCore.cxx \
@@ -20,5 +19,7 @@ libRlCore_la_SOURCES = \
 	World.cpp \
 	PhysicalThing.cpp \
 	PhysicsManager.cpp \
-	SynchronizedTask.cpp
+	SynchronizedTask.cpp \
+	ActorManager.cpp
 		 
+

@@ -6,6 +6,7 @@ extern "C"
 {
 #include <vorbis/codec.h>
 #include <vorbis/vorbisfile.h>
+#include <AL/alext.h>
 }
 #include <boost/thread/xtime.hpp>
 
@@ -295,8 +296,15 @@ void MusicResource::open (unsigned char *data, unsigned int size)
     else
         mFormat = AL_FORMAT_STEREO16;
 
-    alSourcef (mSource, AL_ROLLOFF_FACTOR, 0.0);
-    alSourcei (mSource, AL_SOURCE_RELATIVE, AL_TRUE);
+    for(int i = 0; i < mBufferCount; i++)
+    {
+        alBufferi_LOKI(mBuffers[i], AL_FREQUENCY, mVorbisInfo->rate);
+        int i;
+        alGetBufferi(mBuffers[i], AL_FREQUENCY, &i);
+        cerr << "Rate " << i << endl;
+    } 
+    alSourcef(mSource, AL_ROLLOFF_FACTOR, 0.0);
+    alSourcei(mSource, AL_SOURCE_RELATIVE, AL_TRUE);
 }
 
 /**
@@ -417,7 +425,7 @@ bool MusicResource::stream (ALuint buffer)
 
     while (size < BUFFER_SIZE) {
         result =
-            ov_read (&mOggStream, pcm + size, BUFFER_SIZE - size, 0, 2, 1,
+            ov_read(&mOggStream, pcm + size, BUFFER_SIZE - size, 0, 2, 1,
                      &section);
 
         if (result > 0) {
@@ -436,7 +444,8 @@ bool MusicResource::stream (ALuint buffer)
         return false;
     }
 
-    alBufferData (buffer, mFormat, pcm, size, mVorbisInfo->rate);
+    cerr << "Daten: " << mFormat << " " << pcm << " " << size << " " << mVorbisInfo->rate << endl;
+    alBufferData(buffer, mFormat, pcm, size, mVorbisInfo->rate);
     check ();
 
     return true;

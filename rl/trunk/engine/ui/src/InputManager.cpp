@@ -42,9 +42,6 @@ namespace rl {
 		mScreenX = Root::getSingleton().getAutoCreatedWindow()->getWidth();
 		mScreenY = Root::getSingleton().getAutoCreatedWindow()->getHeight();
 		
-#if OGRE_PLATFORM != PLATFORM_WIN32 
-        SDL_WM_GrabInput(SDL_GRAB_OFF);
-#endif
 	}
 
 	InputManager::~InputManager()

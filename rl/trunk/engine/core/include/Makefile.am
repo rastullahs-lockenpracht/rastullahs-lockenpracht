@@ -1,6 +1,5 @@
 noinst_HEADERS = \
 	Actor.h \
-	ActorFactory.h \
 	AudibleActor.h \
 	AnimationManager.h \
 	BSPWorld.h \
@@ -16,4 +15,5 @@ noinst_HEADERS = \
 	World.h \
 	PhysicalThing.h \
 	PhysicsManager.h \
-	SynchronizedTask.h
+	SynchronizedTask.h \
+	ActorManager.h

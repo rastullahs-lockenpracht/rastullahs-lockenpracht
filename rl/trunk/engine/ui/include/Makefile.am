@@ -15,4 +15,5 @@ noinst_HEADERS = \
 	ScriptObject.h \
 	ThirdPersonGameController.h \
 	UiPrerequisites.h \
-	UiSubsystem.h 
+	UiSubsystem.h \
+	../components/include/ListboxWrappedTextItem.h

@@ -17,4 +17,4 @@ namespace rl
         static DialogSubsystem * getSingletonPtr(void);
 	};
 }
-#endif;
+#endif
