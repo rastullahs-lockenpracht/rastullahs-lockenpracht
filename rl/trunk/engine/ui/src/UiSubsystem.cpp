@@ -114,7 +114,8 @@ namespace rl {
 		log("CEGUI-System initialisiert", "UiSubsystem::initializeUiSubsystem");
         
 		// load scheme and set up defaults
-		System::getSingleton().setDefaultMouseCursor((utf8*)"TaharezLook", (utf8*)"MouseArrow");
+		///@todo Hier sollte was Lookunabhängiges rein!!! FIXME TODO BUG!
+		System::getSingleton().setDefaultMouseCursor((utf8*)"RastullahLook", (utf8*)"MouseArrow");
 		log("Mauszeiger", "UiSubsystem::initializeUiSubsystem");
 		Window* sheet = CEGUI::WindowManager::getSingleton().createWindow((utf8*)"DefaultGUISheet", (utf8*)CEGUI_ROOT);
 		log("Rootfenster", "UiSubsystem::initializeUiSubsystem");
