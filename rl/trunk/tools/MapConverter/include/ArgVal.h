@@ -41,4 +41,5 @@ public:
 	{
 		return sVal;
 	}
+
 };

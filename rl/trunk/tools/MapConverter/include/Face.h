@@ -38,6 +38,8 @@ private:
 	
 	int iNumVertices;
 
+    Vector *V[];
+
 	Vertex2f *TexCoords;
 	Vertex3f *Vertices;
 	Vertex3f vNormal;
@@ -61,6 +63,19 @@ public:
 	{
 		Vertices[iIndex] = Vertex;
 	}
+
+    void SetV( Vector *V1, Vector *V2, Vector *V3 )
+    {
+        V = new Vector*[3];
+        this->V[0] = V1;
+        this->V[1] = V2;
+        this->V[2] = V3;
+    }
+
+    Vector* GetV( int id )
+    {
+        return V[id];
+    }
 
 	void SetNormal(Vertex3f vNormal)
 	{

@@ -146,6 +146,7 @@ bool CMAPLoader::ReadBrush(StreamReader *MAPFile, CBrush *Brush, CTextureManager
     Vertex2f Shift, Scale;
     float Rotation;
 
+
     while((sLine = MAPFile->ReadLine()) != NULL)
     {
         switch(ProcessLine(&sLine))
@@ -356,7 +357,8 @@ void CMAPLoader::BuildBrushFaces(CMAPFaceManager *MAPFaceManager, CBrush *Brush,
         VectorMath::ArrangeCCW(Origin, Face);
 
         BrushFace = new CFace( Face->Count);
-
+        
+        BrushFace->SetV( MAPFace->V1, MAPFace->V2, MAPFace->V3 );
         NewVector = VectorMath::CalculateNormal(MAPFace->V1, MAPFace->V2, MAPFace->V3);
         NewVertex.X = NewVector->X;
         NewVertex.Y = NewVector->Y;

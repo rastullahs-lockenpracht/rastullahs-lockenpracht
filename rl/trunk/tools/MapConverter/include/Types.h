@@ -112,14 +112,14 @@ public:
     LogManager() 
     { 
         m_streamWriter = System::IO::File::AppendText("log.txt");
-        m_streamWriter->WriteLine("");
-        m_streamWriter->WriteLine("----------------------------------------");
-        m_streamWriter->WriteLine("");
+        m_streamWriter->WriteLine(S"");
+        m_streamWriter->WriteLine(S"----------------------------------------");
+        m_streamWriter->WriteLine(S"");
     };
 
     void Log(String* str, Color color)
     {
-        m_streamWriter->WriteLine("{0} {1} : {2}", System::DateTime::Now.ToLongTimeString(),
+        m_streamWriter->WriteLine(S"{0} {1} : {2}", System::DateTime::Now.ToLongTimeString(),
             System::DateTime::Now.ToLongDateString(),  str );
         m_streamWriter->Flush(); 
     }

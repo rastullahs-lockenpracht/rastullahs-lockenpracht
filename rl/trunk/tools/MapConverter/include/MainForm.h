@@ -3,6 +3,7 @@
 #include "MAPLoader.h"
 #include "TextureManager.h"
 #include "World.h"
+#include "Entity.h"
 
 using namespace System;
 using namespace System::ComponentModel;
@@ -41,7 +42,7 @@ namespace MapConverter
 			__super::Dispose(disposing);
 		}
 
-    private: System::Windows::Forms::PictureBox *  picPantheon;
+
     private: System::Windows::Forms::Label *  lblMap;
     private: System::Windows::Forms::TextBox *  txtBoxMapFile;
     private: System::Windows::Forms::Button *  btnOpenMap;
@@ -54,6 +55,7 @@ namespace MapConverter
     private: System::Windows::Forms::TextBox *  txtBoxWadDir;
     private: System::Windows::Forms::Label *  label1;
     private: System::Windows::Forms::FolderBrowserDialog *  openDirDialog;
+    private: System::Windows::Forms::SaveFileDialog *  saveFileDialog;
 
 
 
@@ -70,7 +72,6 @@ namespace MapConverter
 		void InitializeComponent(void)
 		{
             System::Resources::ResourceManager *  resources = new System::Resources::ResourceManager(__typeof(MapConverter::MainForm));
-            this->picPantheon = new System::Windows::Forms::PictureBox();
             this->lblMap = new System::Windows::Forms::Label();
             this->txtBoxMapFile = new System::Windows::Forms::TextBox();
             this->btnOpenMap = new System::Windows::Forms::Button();
@@ -82,24 +83,14 @@ namespace MapConverter
             this->txtBoxWadDir = new System::Windows::Forms::TextBox();
             this->label1 = new System::Windows::Forms::Label();
             this->openDirDialog = new System::Windows::Forms::FolderBrowserDialog();
+            this->saveFileDialog = new System::Windows::Forms::SaveFileDialog();
             (__try_cast<System::ComponentModel::ISupportInitialize *  >(this->statusBarPanel1))->BeginInit();
             this->SuspendLayout();
             // 
-            // picPantheon
-            // 
-            this->picPantheon->BackColor = System::Drawing::SystemColors::Window;
-            this->picPantheon->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
-            this->picPantheon->Image = (__try_cast<System::Drawing::Image *  >(resources->GetObject(S"picPantheon.Image")));
-            this->picPantheon->Location = System::Drawing::Point(8, 16);
-            this->picPantheon->Name = S"picPantheon";
-            this->picPantheon->Size = System::Drawing::Size(64, 64);
-            this->picPantheon->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
-            this->picPantheon->TabIndex = 0;
-            this->picPantheon->TabStop = false;
-            // 
             // lblMap
             // 
-            this->lblMap->Location = System::Drawing::Point(88, 8);
+            this->lblMap->ImeMode = System::Windows::Forms::ImeMode::NoControl;
+            this->lblMap->Location = System::Drawing::Point(8, 8);
             this->lblMap->Name = S"lblMap";
             this->lblMap->Size = System::Drawing::Size(72, 16);
             this->lblMap->TabIndex = 1;
@@ -107,15 +98,16 @@ namespace MapConverter
             // 
             // txtBoxMapFile
             // 
-            this->txtBoxMapFile->Location = System::Drawing::Point(88, 24);
+            this->txtBoxMapFile->Location = System::Drawing::Point(8, 24);
             this->txtBoxMapFile->Name = S"txtBoxMapFile";
-            this->txtBoxMapFile->Size = System::Drawing::Size(272, 20);
+            this->txtBoxMapFile->Size = System::Drawing::Size(352, 20);
             this->txtBoxMapFile->TabIndex = 2;
             this->txtBoxMapFile->Text = S"";
             // 
             // btnOpenMap
             // 
             this->btnOpenMap->Image = (__try_cast<System::Drawing::Image *  >(resources->GetObject(S"btnOpenMap.Image")));
+            this->btnOpenMap->ImeMode = System::Windows::Forms::ImeMode::NoControl;
             this->btnOpenMap->Location = System::Drawing::Point(368, 24);
             this->btnOpenMap->Name = S"btnOpenMap";
             this->btnOpenMap->RightToLeft = System::Windows::Forms::RightToLeft::No;
@@ -129,10 +121,12 @@ namespace MapConverter
             this->openFileDialog->Filter = S"HalfLife-Map-Dateien (*.map)|*.map";
             this->openFileDialog->ReadOnlyChecked = true;
             this->openFileDialog->RestoreDirectory = true;
+            this->openFileDialog->Title = S"Zu konvertierende Map laden";
             // 
             // btnUmwandeln
             // 
-            this->btnUmwandeln->Location = System::Drawing::Point(288, 96);
+            this->btnUmwandeln->ImeMode = System::Windows::Forms::ImeMode::NoControl;
+            this->btnUmwandeln->Location = System::Drawing::Point(272, 96);
             this->btnUmwandeln->Name = S"btnUmwandeln";
             this->btnUmwandeln->Size = System::Drawing::Size(88, 24);
             this->btnUmwandeln->TabIndex = 4;
@@ -141,7 +135,8 @@ namespace MapConverter
             // 
             // statusBar
             // 
-            this->statusBar->Location = System::Drawing::Point(0, 123);
+            this->statusBar->ImeMode = System::Windows::Forms::ImeMode::NoControl;
+            this->statusBar->Location = System::Drawing::Point(0, 131);
             this->statusBar->Name = S"statusBar";
             System::Windows::Forms::StatusBarPanel* __mcTemp__1[] = new System::Windows::Forms::StatusBarPanel*[1];
             __mcTemp__1[0] = this->statusBarPanel1;
@@ -160,6 +155,7 @@ namespace MapConverter
             // btnOpenWadDir
             // 
             this->btnOpenWadDir->Image = (__try_cast<System::Drawing::Image *  >(resources->GetObject(S"btnOpenWadDir.Image")));
+            this->btnOpenWadDir->ImeMode = System::Windows::Forms::ImeMode::NoControl;
             this->btnOpenWadDir->Location = System::Drawing::Point(368, 64);
             this->btnOpenWadDir->Name = S"btnOpenWadDir";
             this->btnOpenWadDir->RightToLeft = System::Windows::Forms::RightToLeft::No;
@@ -169,15 +165,16 @@ namespace MapConverter
             // 
             // txtBoxWadDir
             // 
-            this->txtBoxWadDir->Location = System::Drawing::Point(88, 64);
+            this->txtBoxWadDir->Location = System::Drawing::Point(8, 64);
             this->txtBoxWadDir->Name = S"txtBoxWadDir";
-            this->txtBoxWadDir->Size = System::Drawing::Size(272, 20);
+            this->txtBoxWadDir->Size = System::Drawing::Size(352, 20);
             this->txtBoxWadDir->TabIndex = 7;
             this->txtBoxWadDir->Text = S"";
             // 
             // label1
             // 
-            this->label1->Location = System::Drawing::Point(88, 48);
+            this->label1->ImeMode = System::Windows::Forms::ImeMode::NoControl;
+            this->label1->Location = System::Drawing::Point(8, 48);
             this->label1->Name = S"label1";
             this->label1->Size = System::Drawing::Size(96, 16);
             this->label1->TabIndex = 6;
@@ -189,12 +186,18 @@ namespace MapConverter
             this->openDirDialog->SelectedPath = S"C:\\";
             this->openDirDialog->ShowNewFolderButton = false;
             // 
+            // saveFileDialog
+            // 
+            this->saveFileDialog->DefaultExt = S"HalfLife-Map-Dateien (*.map)|*.map";
+            this->saveFileDialog->Filter = S"HalfLife-Map-Dateien (*.map)|*.map";
+            this->saveFileDialog->Title = S"Konvertierte Map Speichern";
+            // 
             // MainForm
             // 
             this->AutoScale = false;
             this->AutoScaleBaseSize = System::Drawing::Size(5, 13);
             this->BackColor = System::Drawing::SystemColors::ActiveBorder;
-            this->ClientSize = System::Drawing::Size(394, 147);
+            this->ClientSize = System::Drawing::Size(394, 155);
             this->Controls->Add(this->btnOpenWadDir);
             this->Controls->Add(this->txtBoxWadDir);
             this->Controls->Add(this->label1);
@@ -203,7 +206,6 @@ namespace MapConverter
             this->Controls->Add(this->btnOpenMap);
             this->Controls->Add(this->txtBoxMapFile);
             this->Controls->Add(this->lblMap);
-            this->Controls->Add(this->picPantheon);
             this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::Fixed3D;
             this->Icon = (__try_cast<System::Drawing::Icon *  >(resources->GetObject(S"$this.Icon")));
             this->MaximizeBox = false;
@@ -239,15 +241,57 @@ namespace MapConverter
                         CTextureManager* textureManager = new CTextureManager();
                         CWorld* world = new CWorld();
 
-                        mapLoader->LoadMAPFile(mapFile,world,textureManager);
+                        
+                        System::IO::StringWriter* sw  = new System::IO::StringWriter();
+                        
+                        try
+                        {
+                            mapLoader->LoadMAPFile(mapFile,world,textureManager);
+
+                            ArrayList* alist = world->GetEntities();
+
+                            for( int i = 0; i < alist->Count; i++ )
+                            {
+                                CEntity* ent = __try_cast<CEntity*>(alist->get_Item(i));
+                                String * entname = ent->GetName();
+                                ent->WriteToStream(sw,textureManager);
+
+                                LogManager::getSingletonPtr()->Log(entname, Color::Green);
+
+                                if( entname->ToLower()->Equals(S"worldspawn") )
+                                {
+                                    LogManager::getSingletonPtr()->Log( String::Concat( S"skyname : ", ent->GetArgVal(S"skyname")), Color::Green);
+                                }
+                            }
+                           
+                            sw->Close();  
+                            String* mapOutFile = sw->ToString();     
+                             
+                            System::Windows::Forms::DialogResult dr;
+                            dr =   saveFileDialog->ShowDialog();
+
+                            if ( dr == DialogResult::OK )
+                            {
+                                System::IO::StreamWriter* sr = System::IO::File::CreateText(saveFileDialog->get_FileName());
+                                sr->WriteLine( mapOutFile );
+                                sr->Close();
+                            }
+                        }
+                        catch(Exception *e)
+                        {
+                            sw->Close();
+                            MessageBox::Show( S"Konnte Map nicht konvertieren", S"Fehler" );
+                        }
+
+                        
 
                         this->Cursor = Cursors::Default;
                     }
                     else
-                        MessageBox::Show( "Wad-Verzeichnis existiert nicht", "Fehler" );
+                        MessageBox::Show( S"Wad-Verzeichnis existiert nicht", S"Fehler" );
                 }
                 else
-                    MessageBox::Show( "Map-Datei existiert nicht", "Fehler" );
+                    MessageBox::Show( S"Map-Datei existiert nicht", S"Fehler" );
                 
              }
 
@@ -261,8 +305,13 @@ namespace MapConverter
                     txtBoxMapFile->set_Text( openFileDialog->get_FileName() );
                     
                     int length = openFileDialog->get_FileName()->Length - System::IO::Path::GetFileName(openFileDialog->get_FileName())->Length;
- 
-                    openDirDialog->set_SelectedPath( openFileDialog->get_FileName()->Substring( 0, length ) );
+                    String* justDir = openFileDialog->get_FileName()->Substring( 0, length );
+
+                    openDirDialog->set_SelectedPath( justDir );
+                    saveFileDialog->set_InitialDirectory( justDir );
+                    saveFileDialog->set_FileName(String::Concat( System::IO::Path::GetFileNameWithoutExtension( openFileDialog->get_FileName() ) , "_q3.map" ) );
+
+                    txtBoxWadDir->set_Text( justDir );
                 }
             }
 

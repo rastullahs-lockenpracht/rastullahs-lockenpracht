@@ -62,17 +62,23 @@ public:
 
 	String *GetName()
 	{
+		return GetArgVal( S"classname" );
+	}
+
+    String *GetArgVal(String* argval)
+	{
 		CArgVal* ArgVal;
 		for(int i = 0; i < ArgVals->Count; i++)
 		{
-			ArgVal = static_cast<CArgVal*>(ArgVals->get_Item(0));
-			if(ArgVal->GetArg()->ToLower()->Equals("classname"))
+			ArgVal = static_cast<CArgVal*>(ArgVals->get_Item(i));
+
+			if(ArgVal->GetArg()->ToLower()->Equals(argval))
 			{
 				return ArgVal->GetVal();
 			}
 		}
 
-		return S"unknowen";
+		return S"unknown";
 	}
 
 	int GetBrushCount()
@@ -87,4 +93,65 @@ public:
 			static_cast<CBrush*>(Brushes->get_Item(i))->UpdateTedCoords(TextureManager);
 		}
 	}
+
+    void WriteToStream( System::IO::StringWriter* sw, CTextureManager* textureManager )
+    {
+        sw->WriteLine(S"{");
+        
+        CArgVal* ArgVal;
+		for(int i = 0; i < ArgVals->Count; i++)
+		{
+			ArgVal = static_cast<CArgVal*>(ArgVals->get_Item(i));
+
+            sw->WriteLine(S"\"{0}\" \"{1}\"",ArgVal->GetArg(), ArgVal->GetVal());
+		}
+
+        CBrush* brush;
+		for(int i = 0; i < Brushes->Count; i++)
+		{
+            sw->WriteLine(S"{");
+
+
+			brush = static_cast<CBrush*>(Brushes->get_Item(i));
+            
+            CFace* face;
+            ArrayList* Faces = brush->GetFaces();
+
+            for(int j = 0; j < Faces->Count; j++)
+		    {
+			    face = static_cast<CFace*>(Faces->get_Item(j));
+
+                for( int k = 0; k < 3; k++ )
+                {
+                    Vector* v = face->GetV(k);
+                    sw->Write( S"( " );
+                    sw->Write( v->X );
+                    sw->Write( S" " );
+                    sw->Write( v->Y );
+                    sw->Write( S" " );
+                    sw->Write( v->Z );
+                    sw->Write( S" ) " );
+                }
+
+
+                sw->Write( face->GetTexture(textureManager) );
+                sw->Write( S" " );
+                sw->Write( face->GetUShift().ToString() );
+                sw->Write( S" " );
+                sw->Write( face->GetVShift().ToString() );
+                sw->Write( S" " );
+                sw->Write( face->GetRotation().ToString() );
+                sw->Write( S" " );
+                sw->Write( face->GetUScale().ToString() );
+                sw->Write( S" " );
+                sw->Write( face->GetVScale().ToString() );
+                sw->WriteLine( S" " );
+		    }
+
+            sw->WriteLine(S"}");
+		}
+
+        sw->WriteLine(S"}");
+        sw->Flush();
+    }
 };

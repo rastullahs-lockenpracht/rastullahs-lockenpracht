@@ -31,7 +31,10 @@ int __stdcall  WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmd
 {
 	String *sArgs[] = (new String(lpCmdLine))->Replace("\"\"", "\"")->Replace("\" \"", "\n")->Replace("\" ", "\n")->Replace(" \"", "\n")->Replace("\"", "")->Split(S"\n"->ToCharArray());
 
-    System::Threading::Thread::CurrentThread->ApartmentState = System::Threading::ApartmentState::STA;
+    System::Threading::Thread::CurrentThread->ApartmentState = System::Threading::ApartmentState::STA;    
+    // Sonst sind floating Points mit Komma...
+    System::Threading::Thread::CurrentThread->CurrentCulture = 
+        new System::Globalization::CultureInfo(S"en-US", false);
 
 	MainForm *mainForm = new MainForm(); //(sArgs->Length == 1 ? sArgs[0] : S""), Config);
     
