@@ -105,6 +105,16 @@ class ToggleOdeDebugAction < RubyAction
   end
 end
 
+class ShowObjectActionsAction < RubyAction
+  def initialize
+    super("ShowObjectActions", "Aktionen anzeigen")
+  end
+
+  def doAction(object, actor, target)
+    $UI.showPickedObjectActions()
+  end
+end
+
 class PlayerSettings
   
   def PlayerSettings.addPlayerActions(player)    
@@ -114,7 +124,8 @@ class PlayerSettings
     
     player.addActionInGroup(ShowActionMenuAction.new, grpGrp1, 7) # ACT_DISABLED
     player.addActionInGroup(CampAction.new, grpGrp1) 
-    player.addActionInGroup(ToggleConsoleAction.new, grpGrp1)
+    player.addActionInGroup(ShowObjectActionsAction.new, grpGrp1) 
+    player.addActionInGroup(ToggleConsoleAction.new, grpGrp2)
     player.addActionInGroup(ToggleDebugWindowAction.new, grpGrp2)
     player.addActionInGroup(ToggleGameLogWindowAction.new, grpGrp2)
     player.addActionInGroup(ToggleOdeDebugAction.new, grpGrp2)
