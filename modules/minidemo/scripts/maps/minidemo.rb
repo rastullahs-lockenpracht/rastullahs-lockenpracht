@@ -3,6 +3,7 @@ require 'player.rb'
 require 'torch.rb'
 require 'hero.rb'
 require 'door.rb'
+require 'switch.rb'
 
 $CORE.log("init map 'minidemo'...");
 $World = $CORE.getWorld()
@@ -27,15 +28,21 @@ $CORE.log("Held als aktiver Charakter gesetzt.");
 # $CORE.log("Fackel plaziert.");
 
 $CORE.log("Türen reinsetzen")
-door1 = Door.new("Tuer", false, true);
+door1 = Door.new("Tuer_1", false, true);
 door1.getActor().placeIntoScene(1168.0, -75.0, -110.0, 1.0, 0.0, 0.0, 0.0);
 door1.getActor().yaw(-90.0)
 
-gtuer = Door.new("Tuer", false, false);
+gtuer = Door.new("Tuer_2", false, false);
 gtuer.getActor().placeIntoScene(1168.0, -75.0, 88.0, 1.0, 0.0, 0.0, 0.0);
 gtuer.getActor().yaw(-90.0)
 $CORE.log("Türen fertig")
 
 
-$CORE.log("map 'minidemo' initialisiert.");
+$CORE.log("Hebel reinsetzen")
+hebel = Switch.new( "Hebel" );
+hebel.getActor().placeIntoScene( 160.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0 );
+hebel.getActor().yaw(-90.0);
+$CORE.log("Hebel fertig");
 
+
+$CORE.log("map 'minidemo' initialisiert.");
