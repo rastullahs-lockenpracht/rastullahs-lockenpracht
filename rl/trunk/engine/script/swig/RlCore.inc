@@ -314,7 +314,7 @@ public:
     ActorControlledObject* getControlledObject();
 
     void placeIntoScene(Real px, Real py, Real pz,
-        Real ow, Real ox, Real oy, Real oz);
+        Real ow, Real ox, Real oy, Real oz, const std::string& odeBone = "");
         
    	void attach(const std::string& slot, Actor* actor,
             const std::string& childSlot = "SLOT_DEFAULT",
@@ -390,7 +390,7 @@ public:
     };
 
     PhysicalThing* createPhysicalThing(GeometryTypes geomType,
-        const Ogre::Vector3& size, Real density,
+        const Ogre::Vector3& size, Real density, OgreOde::Space* space = NULL,
         OffsetMode offsetMode = OM_BOTTOMCENTERED);
     
     void setGravity( Real x, Real y, Real z );
@@ -400,6 +400,8 @@ public:
     
     static PhysicsManager & getSingleton(void);
 	static PhysicsManager * getSingletonPtr(void);
+	
+	void toggleDebugOde();
 };
 
 class CoreSubsystem {

@@ -293,15 +293,22 @@ namespace rl
         mActor = actor;
     }
     
-    void PhysicalThing::_attachSceneNode(Ogre::SceneNode* node)
+    void PhysicalThing::_attachToSceneNode(Ogre::SceneNode* node)
     {
         if (mGeometry->getBody())
         {
             node->attachObject(mGeometry->getBody());
         }
     }
+
+	void PhysicalThing::_attachToBone(MeshObject* object, const std::string& boneName )
+	{
+		Entity* attachTarget = object->getEntity();
+		Body* body = mGeometry->getBody();
+		attachTarget->attachObjectToBone(boneName, body);
+	}
     
-    void PhysicalThing::_detachSceneNode(Ogre::SceneNode* node)
+    void PhysicalThing::_detachFromSceneNode(Ogre::SceneNode* node)
     {
         if (mGeometry->getBody())
         {

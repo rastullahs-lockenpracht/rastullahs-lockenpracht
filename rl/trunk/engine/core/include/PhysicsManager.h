@@ -72,7 +72,7 @@ namespace rl {
          *       momentan nur dann gut, wenn die Höhe die Y-Achse ist.
          */
         PhysicalThing* createPhysicalThing(const int geomType, const Ogre::Vector3& size,
-            Real density, OffsetMode offsetMode = OM_BOTTOMCENTERED);
+			Real density, OgreOde::Space* space = NULL, OffsetMode offsetMode = OM_BOTTOMCENTERED);
 
         void removeAndDestroyPhysicalThing(PhysicalThing* thing);
 
@@ -103,7 +103,21 @@ namespace rl {
 
         /// StepListener callback
         virtual bool preStep(Real time);
+
+		void setActor(OgreOde::Geometry* actor, Ogre::SceneNode* controlNode);
+		void setCamera(OgreOde::Geometry* camera, Ogre::SceneNode* cameraNode);
+		OgreOde::Geometry* getActor();
+		OgreOde::Geometry* getCamera();
+
+		void setFallSpeed(Ogre::Real fallspeed);
+		Ogre::Real getFallSpeed();
+
+		void toggleDebugOde();
+
     private:
+		bool collisionWithPlayerActor(OgreOde::Geometry* geometry, OgreOde::Contact* contact);
+		bool collisionCameraWithLevel(OgreOde::Contact* contact);
+
         bool mEnabled;
 
         std::vector<PhysicalThing*> mPhysicalThings;
@@ -112,7 +126,13 @@ namespace rl {
         OgreOde::Space* mGlobalSpace;
         OgreOde::Stepper* mOdeStepper;
         OgreOde::Geometry* mOdeLevel;
+		OgreOde::Geometry* mOdeActor;
+		OgreOde::Geometry* mOdeCamera;
         World* mWorld;
+		Ogre::SceneNode* mControlNode;
+		Ogre::SceneNode* mCameraNode;
+		Ogre::Real mFallSpeed;
+
     };
 }
 

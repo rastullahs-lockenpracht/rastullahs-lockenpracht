@@ -36,8 +36,7 @@ namespace rl {
      *  @todo Kollision
      *  @todo Nachziehen
      */
-    class _RlUiExport GameController : public GameTask,
-        public OgreOde::CollisionListener
+    class _RlUiExport GameController : public GameTask
     {
     public:
         typedef enum {VM_THIRD_PERSON, VM_FIRST_PERSON} ViewMode;
@@ -72,13 +71,6 @@ namespace rl {
          */
         void resetCamera();
 
-		void toggleDebugOde();
-
-        /**
-         *  Callback vom CollisionListener
-         */
-        virtual bool collision(OgreOde::Contact* contact);
-
     private:
         typedef enum {AS_STAND, AS_WALK_FORWARD} AnimationState;
         Ogre::SceneManager* mSceneManager;
@@ -95,12 +87,6 @@ namespace rl {
         Ogre::Real mMoveSpeed;
         Ogre::Real mRotSpeed;
         
-        Ogre::Real mFallSpeed;
-
-        OgreOde::World* mOdeWorld;
-        OgreOde::Geometry* mOdeActor;
-        OgreOde::Geometry* mOdeCamera;
-        OgreOde::Geometry* mOdeLevel;
 
         AnimationState mCurrentAnimationState;
         AnimationState mLastAnimationState;

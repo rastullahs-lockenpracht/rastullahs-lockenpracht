@@ -49,11 +49,13 @@ namespace rl {
         
         void placeIntoScene(
             const Ogre::Vector3& position = Ogre::Vector3::ZERO,
-            const Ogre::Quaternion& orientation = Ogre::Quaternion::IDENTITY);
+            const Ogre::Quaternion& orientation = Ogre::Quaternion::IDENTITY,
+			const std::string& odeBone = "");
 
         void placeIntoScene(
             Ogre::Real px, Ogre::Real py, Ogre::Real pz,
-            Ogre::Real ow, Ogre::Real ox, Ogre::Real oy, Ogre::Real oz);
+			Ogre::Real ow, Ogre::Real ox, Ogre::Real oy, Ogre::Real oz,
+			const std::string& odeBone = "");
             
         void removeFromScene();
 
@@ -104,7 +106,8 @@ namespace rl {
         void _update();
         void _placeIntoScene(Ogre::SceneNode* parent,
             const Ogre::Vector3& position = Ogre::Vector3::ZERO,
-            const Ogre::Quaternion& orientation = Ogre::Quaternion::IDENTITY);
+			const Ogre::Quaternion& orientation = Ogre::Quaternion::IDENTITY,
+			const std::string& odeBone = "");
 
 		void setHighlighted(bool highlight);
         bool isHighlighted() const;

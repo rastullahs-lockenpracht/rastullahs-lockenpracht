@@ -21,7 +21,8 @@
 #include <OgreOde_Core.h>
 namespace rl {
 
-    class Actor;
+	class Actor;
+	class MeshObject;
 
     class _RlCoreExport PhysicalThing
     {
@@ -157,8 +158,9 @@ namespace rl {
         
         void _update();
         void _setActor(Actor* actor);
-        void _attachSceneNode(Ogre::SceneNode* node);
-        void _detachSceneNode(Ogre::SceneNode* node);
+        void _attachToSceneNode(Ogre::SceneNode* node);
+		void _attachToBone(MeshObject* object, const std::string& boneName);
+        void _detachFromSceneNode(Ogre::SceneNode* node);
 
     private:
         Real mBounceRestitution;

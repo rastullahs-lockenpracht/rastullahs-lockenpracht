@@ -227,17 +227,17 @@ namespace rl {
     }
 
     void Actor::placeIntoScene(const Vector3& position,
-        const Quaternion& orientation)
+		const Quaternion& orientation, const std::string& odeBone)
     {
             SceneManager* mgr = CoreSubsystem::getSingletonPtr()->
                 getWorld()->getSceneManager();
-            _placeIntoScene(mgr->getRootSceneNode(), position, orientation);
+            _placeIntoScene(mgr->getRootSceneNode(), position, orientation, odeBone);
     }        
 
     void Actor::placeIntoScene(Real px, Real py, Real pz,
-        Real ow, Real ox, Real oy, Real oz)
+        Real ow, Real ox, Real oy, Real oz, const std::string& odeBone)
     {
-        placeIntoScene(Vector3(px, py, pz), Quaternion(ow, ox, oy, oz));
+        placeIntoScene(Vector3(px, py, pz), Quaternion(ow, ox, oy, oz), odeBone);
     }
     
     void Actor::removeFromScene()
@@ -362,7 +362,7 @@ namespace rl {
     }
     
     void Actor::_placeIntoScene(SceneNode* parent, const Vector3& position,
-        const Quaternion& orientation)
+		const Quaternion& orientation, const std::string& odeBone)
     {
         ///@todo child actors berücksichtigen
 
@@ -377,7 +377,12 @@ namespace rl {
             }
             if (mPhysicalThing)
             {
-                mPhysicalThing->_attachSceneNode(mSceneNode);
+				if (odeBone.compare("") == 0 || !mActorControlledObject->isMeshObject())
+					mPhysicalThing->_attachToSceneNode(mSceneNode);
+				else
+					mPhysicalThing->_attachToBone(
+						dynamic_cast<MeshObject*>(mActorControlledObject), 
+						odeBone);
             }
         }
         else if (!parent)

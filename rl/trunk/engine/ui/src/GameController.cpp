@@ -26,6 +26,7 @@
 #include "PhysicsManager.h"
 #include "PhysicalThing.h"
 #include "MeshObject.h"
+#include "ActorManager.h"
 
 #include <OgreSceneManager.h>
 #include <OgreAxisAlignedBox.h>
@@ -57,11 +58,6 @@ namespace rl {
         mRotScale(0),
         mMoveSpeed(600.0),
         mRotSpeed(80.0),
-        mFallSpeed(0.1),
-        mOdeWorld(PhysicsManager::getSingletonPtr()->getWorld()),
-        mOdeActor(actor->getPhysicalThing()->getGeometry()),
-        mOdeCamera(cameraActor->getPhysicalThing()->getGeometry()),
-        mOdeLevel(PhysicsManager::getSingletonPtr()->getLevelGeometry()),
         mCurrentAnimationState(AS_STAND),
         mLastAnimationState(AS_STAND),
         mMaxPitch(Degree(60.0)),
@@ -94,6 +90,11 @@ namespace rl {
         mCameraNode->translate(Vector3(0, 0, mDesiredDistance), Node::TS_LOCAL);
         
         setup();
+
+		PhysicsManager::getSingleton().setActor(
+			actor->getPhysicalThing()->getGeometry(), mControlNode);
+		PhysicsManager::getSingleton().setCamera(
+			cameraActor->getPhysicalThing()->getGeometry(), mCameraNode);
     }
     //------------------------------------------------------------------------
 
@@ -116,8 +117,12 @@ namespace rl {
 
         // Runterfallen berücksichtigen.
         // Zuerst Fallgeschwindigkeit berechnen
-        translation.y = translation.y - mFallSpeed * elapsedTime;
-        mFallSpeed = mFallSpeed - mOdeWorld->getGravity().y * elapsedTime * 20; //*200
+		Ogre::Real fallSpeed = PhysicsManager::getSingleton().getFallSpeed();
+		translation.y = translation.y - fallSpeed * elapsedTime;
+
+		PhysicsManager::getSingleton().setFallSpeed(
+			fallSpeed - 
+			PhysicsManager::getSingleton().getWorld()->getGravity().y * elapsedTime * 20); //*200
 
         mControlNode->translate(translation, Node::TS_LOCAL);
 
@@ -139,9 +144,6 @@ namespace rl {
         mControlNode->yaw(Degree(yaw));
         mActor->_update();
 
-        mOdeActor->collide(mOdeLevel, this);
-        mOdeCamera->collide(mOdeLevel, this);
-        
         mActor->_update();
         mCameraActor->_update();
 
@@ -155,33 +157,6 @@ namespace rl {
             StringConverter::toString(mControlNode->getWorldPosition())+
             " / " +
             StringConverter::toString(mOdeLevel->getPosition()));*/
-    }
-    //------------------------------------------------------------------------
-
-    bool GameController::collision(OgreOde::Contact* contact)
-    {
-        OgreOde::Geometry* g1 = contact->getFirstGeometry();
-        OgreOde::Geometry* g2 = contact->getSecondGeometry();
-        if (g2 == mOdeActor && g1 != mOdeCamera)
-        {
-            mControlNode->translate(contact->getNormal() * contact->getPenetrationDepth(),
-                Node::TS_WORLD);
-            mFallSpeed = 0.0;
-        }
-        else if((g2 == mOdeCamera && g1 == mOdeLevel) ||
-            (g1 == mOdeCamera && g2 == mOdeLevel))
-        {
-            mCameraNode->translate(
-                Vector3(0.0, 0.0, -contact->getPenetrationDepth()),
-                Node::TS_LOCAL);
-            mCameraNode->_update(true, false);
-            mTargetDistance = mCameraNode->getPosition().z;
-        }
-        else
-        {
-            mFallSpeed = 0.1;
-        }
-        return true;
     }
     //------------------------------------------------------------------------
 
@@ -249,19 +224,14 @@ namespace rl {
         if (cmdmap->isMovementActive(MOVE_LEFT))
             translation.x = -mMoveScale;
             
-        if (cmdmap->isMovementActive(MOVE_JUMP) && fabs(mFallSpeed) <= 0.1)
-            mFallSpeed = -500;
+		if (cmdmap->isMovementActive(MOVE_JUMP) && PhysicsManager::getSingleton().getFallSpeed() <= 0.1)
+			PhysicsManager::getSingleton().setFallSpeed(-500);
 
         translation.normalise();
         if (cmdmap->isMovementActive(MOVE_RUN))
             translation *= 2;
     }
     //------------------------------------------------------------------------
-
-	void GameController::toggleDebugOde()
-	{
-		mOdeWorld->setShowDebugObjects(!mOdeWorld->getShowDebugObjects());
-	}
 
     void GameController::updateAnimationState(const Vector3& translation)
     {

@@ -27,6 +27,8 @@
 #include "SoundMovable.h"
 #include "ListenerMovable.h"
 #include "ListenerObject.h"
+#include "PhysicalThing.h"
+
 
 template<> rl::ActorManager* Singleton<rl::ActorManager>::ms_Singleton = 0;
 
@@ -45,10 +47,12 @@ namespace rl {
     ActorManager::ActorManager() : mActors()
     {
         mWorld = CoreSubsystem::getSingleton().getWorld();
+		mActorOdeSpace = new OgreOde::SimpleSpace();
     }
 
     ActorManager::~ActorManager()
     {
+		delete mActorOdeSpace;
     }
 
     void ActorManager::setWorld( World* world )
@@ -173,7 +177,7 @@ namespace rl {
             PhysicalThing* pt = PhysicsManager::getSingleton()
                 .createPhysicalThing(PhysicsManager::GT_SPHERE,
                     Vector3(co->getCamera()->getNearClipDistance() * 1.5, 0, 0),
-                    0.0f, PhysicsManager::OM_CENTERED);
+                    0.0f, mActorOdeSpace, PhysicsManager::OM_CENTERED);
             actor = new Actor(uniquename, co, pt);
 
             mActors.insert(ActorPtrPair(uniquename,actor)); 
@@ -190,7 +194,7 @@ namespace rl {
     }
 
 	Actor* ActorManager::createMeshActor(const String& name,const String& meshname,
-	    PhysicsManager::GeometryTypes geomType, Ogre::Real density)
+		PhysicsManager::GeometryTypes geomType, Ogre::Real density)
 	{
 		const String&  uniquename = nextUniqueName(name);
 		
@@ -199,7 +203,7 @@ namespace rl {
         {
 		    MeshObject* mo = new MeshObject(uniquename, meshname);
 		    PhysicalThing* pt = PhysicsManager::getSingleton()
-		        .createPhysicalThing(geomType, mo->getSize(), density);
+		        .createPhysicalThing(geomType, mo->getSize(), density, mActorOdeSpace);
 
 		    actor = new Actor(uniquename, mo, pt);
 		    mActors.insert(ActorPtrPair(uniquename,actor)); 
@@ -337,5 +341,10 @@ namespace rl {
 		getWorld()->getSceneManager()->destroyQuery(query);
 
 		return rval;
+	}
+
+	void ActorManager::collideWithActors(OgreOde::Geometry* geometry, OgreOde::CollisionListener* listener)
+	{
+		mActorOdeSpace->collide(geometry, listener);
 	}
 }

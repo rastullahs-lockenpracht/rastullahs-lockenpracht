@@ -24,6 +24,7 @@
 #include "World.h"
 #include "PhysicalThing.h"
 #include "Actor.h"
+#include "ActorManager.h"
 
 // Define a max macro
 #ifndef max
@@ -54,8 +55,13 @@ namespace rl
             mOdeWorld(new OgreOde::World(world->getSceneManager())),
             mGlobalSpace(mOdeWorld->getDefaultSpace()),
             mOdeStepper(new OgreOde::QuickStepper(0.01)),
-            mOdeLevel(0),
-            mWorld(world)
+            mOdeLevel(NULL),
+            mWorld(world),
+			mFallSpeed(0.1),
+			mCameraNode(NULL),
+			mOdeCamera(NULL),
+			mControlNode(NULL),
+			mOdeActor(NULL)
     {
         mOdeWorld->setGravity(Vector3(0, -98.0665, 0));
         mOdeWorld->setCFM(10e-5);
@@ -81,6 +87,10 @@ namespace rl
         if( mEnabled && elapsedTime > 0.0f )
         {
             mOdeStepper->step(elapsedTime);
+			mOdeActor->collide(mOdeLevel, this);
+			mOdeCamera->collide(mOdeLevel, this);
+			
+			ActorManager::getSingleton().collideWithActors(mOdeActor);
         }
     }
 
@@ -142,13 +152,18 @@ namespace rl
     }
 
     PhysicalThing* PhysicsManager::createPhysicalThing(const int geomType,
-        const Vector3& size, Real density, OffsetMode offsetMode)
+        const Vector3& size, Real density, OgreOde::Space* odeSpace, OffsetMode offsetMode)
     {
-        PhysicalThing* rval = 0;
+        PhysicalThing* rval = NULL;
         
         if (geomType != GT_NONE) {
-            Geometry* geom = 0;
-            Body* body = density > 0.0 ? new Body() : 0;
+            Geometry* geom = NULL;
+            Body* body = density > 0.0 ? new Body() : NULL;
+			
+			//Objekte mit Body werden in TransformGeometry gekapselt und die dürfen
+			//nicht in einem Space liegen
+			OgreOde::Space* space = body != NULL ? NULL : odeSpace;
+			
             
             ///@todo verallgemeinern
             Vector3 offset(Vector3::ZERO);
@@ -156,7 +171,7 @@ namespace rl
             
             if (geomType == GT_BOX)
             {
-                geom = new BoxGeometry(size, 0);
+                geom = new BoxGeometry(size, space);
 
                 if (offsetMode == OM_BOTTOMCENTERED)
                 {
@@ -180,7 +195,7 @@ namespace rl
                     offset = Vector3(0.0, size.y / 2.0, 0.0);
                 }
                 
-                geom = new SphereGeometry(radius, 0);
+                geom = new SphereGeometry(radius, space);
 
                 if (density > 0.0)
                 {
@@ -200,7 +215,7 @@ namespace rl
                     offset = Vector3(0.0, (size.y - 2.0 * radius) / 2.0 + radius, 0.0);
                 }
 
-                geom = new CapsuleGeometry(radius, height, 0);
+                geom = new CapsuleGeometry(radius, height, space);
 
                 orientationBias = Quaternion(Degree(90), Vector3::UNIT_X); //UNIT_X
                 if (density > 0.0)
@@ -257,6 +272,13 @@ namespace rl
                 
         if(g1 && g2)
         {
+			if (g1 == mOdeActor)
+				return collisionWithPlayerActor(g2, contact);
+			if (g2 == mOdeActor)
+				return collisionWithPlayerActor(g1, contact);
+			if (g1 == mOdeCamera || g2 == mOdeCamera)
+				return collisionCameraWithLevel(contact);
+
             // Check for collisions between things that are connected
             // and ignore them.
             OgreOde::Body* b1 = g1->getBody();
@@ -264,7 +286,8 @@ namespace rl
             if(b1 && b2)
             {
                 if(OgreOde::Joint::areConnected(b1,b2)) return false; 
-                PhysicalThing* pt1 = reinterpret_cast<PhysicalThing*>(b1->getUserData());
+				
+				PhysicalThing* pt1 = reinterpret_cast<PhysicalThing*>(b1->getUserData());
                 PhysicalThing* pt2 = reinterpret_cast<PhysicalThing*>(b2->getUserData());
                 contact->setCoulombFriction(pt1->getFriction() * pt2->getFriction());
                 contact->setBouncyness(
@@ -317,4 +340,56 @@ namespace rl
             mCollisionListeners.erase(it);
         }
     }
+
+	void PhysicsManager::toggleDebugOde()
+	{
+		mOdeWorld->setShowDebugObjects(!mOdeWorld->getShowDebugObjects());
+	}
+
+	bool PhysicsManager::collisionWithPlayerActor(OgreOde::Geometry* geometry, Contact* contact)
+	{
+		if (geometry != mOdeCamera)
+		{
+			mControlNode->translate(contact->getNormal() * contact->getPenetrationDepth(),
+				Node::TS_WORLD);
+			mFallSpeed = 0.0;
+		}
+		else
+		{
+			mFallSpeed = 0.1;
+		}
+		return true;
+	}
+
+	bool PhysicsManager::collisionCameraWithLevel(Contact* contact)
+	{
+		mCameraNode->translate(
+			Vector3(0.0, 0.0, -contact->getPenetrationDepth()),
+			Node::TS_LOCAL);
+		mCameraNode->_update(true, false);
+		//mTargetDistance = mCameraNode->getPosition().z;
+		return true;
+	}
+
+	void PhysicsManager::setFallSpeed(Ogre::Real fallspeed)
+	{
+		mFallSpeed = fallspeed;
+	}
+
+	Ogre::Real PhysicsManager::getFallSpeed()
+	{
+		return mFallSpeed;
+	}
+
+	void PhysicsManager::setActor(Geometry* actor, SceneNode* controlNode)
+	{
+		mOdeActor = actor; 
+		mControlNode = controlNode;
+	}
+
+	void PhysicsManager::setCamera(Geometry* camera, SceneNode* cameraNode)
+	{
+		mOdeCamera = camera;
+		mCameraNode = cameraNode;
+	}
 }
