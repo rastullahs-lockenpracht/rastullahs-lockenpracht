@@ -54,6 +54,8 @@ class _RlSoundExport MusicResource: public SndResource {
                 MusicThread(MusicResource *that);
                 /// Die Arbeitsroutine.
                 void operator()();
+                /// Wie lange der Fade-In/Out dauern soll
+                unsigned int mFadeIn, mFadeOut;
         } mMusicThread;
         friend class MusicThread;
         

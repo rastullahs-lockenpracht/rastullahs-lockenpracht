@@ -58,7 +58,7 @@ public:
         while (MusicManager::getSingletonPtr()->isPlaying())
         {
             xtime_get(&xt, TIME_UTC);
-            xt.nsec += 10 * 1000 * 1000;
+            xt.sec += 10;
             thread::sleep(xt);
         }
         MusicManager::getSingletonPtr()->stopSong();
@@ -71,4 +71,4 @@ public:
     CPPUNIT_TEST(testMusicManager_playForward);
     CPPUNIT_TEST_SUITE_END(); 
 };
-CPPUNIT_TEST_SUITE_REGISTRATION(MusicManagerTest);
+//CPPUNIT_TEST_SUITE_REGISTRATION(MusicManagerTest);

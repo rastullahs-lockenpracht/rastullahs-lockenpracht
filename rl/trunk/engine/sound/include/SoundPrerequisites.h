@@ -18,7 +18,6 @@
 #include "Exception.h"
 extern "C" {
 #include "AL/al.h"
-#include "AL/alu.h"
 #include "AL/alut.h"
 #include "ogg/ogg.h"
 #include "vorbis/codec.h"

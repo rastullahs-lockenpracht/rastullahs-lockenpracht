@@ -97,7 +97,7 @@ public:
                 std::cerr << "Fade Out Ende" << std::endl;
                 
                 xtime_get(&xt, TIME_UTC);
-                xt.sec += 10;
+                xt.sec += 15;
                 thread::sleep(xt);
                 
                 sound->unload();
@@ -113,4 +113,4 @@ public:
     CPPUNIT_TEST(testSoundManager_loadPlayWithFade);
     CPPUNIT_TEST_SUITE_END();
 };
-//CPPUNIT_TEST_SUITE_REGISTRATION(SoundManagerTest);
+CPPUNIT_TEST_SUITE_REGISTRATION(SoundManagerTest);

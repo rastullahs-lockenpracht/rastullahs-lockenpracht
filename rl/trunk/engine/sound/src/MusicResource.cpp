@@ -199,7 +199,12 @@ void MusicResource::MusicThread::operator()()
         
         if(!that->playback())
             Throw(RuntimeException, "Ogg refused to play.");
-                        
+        
+        if (mFadeIn)
+        {                
+            that->fadeIn(mFadeIn);
+        }
+                
         while(that->update() && that->mPlaying)
         {
             if(!that->playing())
@@ -209,6 +214,12 @@ void MusicResource::MusicThread::operator()()
                 else
                     cerr << "Ogg stream was interrupted.\n";
             }
+        
+            if (mFadeOut)
+            {
+                that->fadeOut(mFadeOut);
+            }
+            
     	    // Let's wait.
     	    // boost::Thread::sleep(50000);
             xtime_get(&xt, TIME_UTC);
@@ -217,6 +228,7 @@ void MusicResource::MusicThread::operator()()
         }
         that->stop();
         that->release();  
+        that->empty();
     } catch (...) {
     }
     delete that->mThread;
@@ -248,6 +260,7 @@ void MusicResource::play(unsigned int msec) throw (RuntimeException)
     mPlaying = mIsLoaded;
     if (mPlaying)
     {
+        mMusicThread.mFadeIn = msec;
         mThread = new thread(mMusicThread);
     }
 }
@@ -293,14 +306,14 @@ void MusicResource::open (unsigned char *data, unsigned int size)
  */
 void MusicResource::stop (unsigned int msec) throw (RuntimeException)
 {
-    if (alIsSource(mSource))
+    if (alIsSource(mSource) && mPlaying)
     {
         SndResource::stop(msec);
+        mMusicThread.mFadeOut = msec;
         if (mFadeOutThread != 0)
         {
             mFadeOutThread->join();
         }
-        empty();
     }
 }
 
