@@ -33,6 +33,8 @@
 #include "CameraActor.h"
 #include "World.h"
 
+#include "RastullahApplication.h"
+
 // BEGIN TEST
 #include "Person.h"
 #include "CharacterSheetWindow.h"
@@ -61,9 +63,11 @@ namespace rl {
 
 	UiSubsystem::UiSubsystem()
 	{
+		CoreSubsystem::getSingleton().log("Ui start");
         mRequestExit = false;
 
         initializeUiSubsystem();
+		CoreSubsystem::getSingleton().log("Ui ende");
 	}
 
     UiSubsystem::~UiSubsystem() 
@@ -78,18 +82,24 @@ namespace rl {
     {
 		using namespace CEGUI;
 
+        CoreSubsystem::getSingleton().log("1");
         World* world = CoreSubsystem::getSingleton().getWorld();
+        CoreSubsystem::getSingleton().log("2");
         SceneManager* sceneMgr = CoreSubsystem::getSingleton().getWorld()->getSceneManager();
+        CoreSubsystem::getSingleton().log("3");
+		
+		Ogre::RenderWindow* window = Ogre::Root::getSingleton().getAutoCreatedWindow();
+		CoreSubsystem::getSingleton().log("4");
+		OgreRenderer* rend = 
+			new OgreRenderer(window, 
+								Ogre::RENDER_QUEUE_OVERLAY, 
+								false, 
+								3000,
+								sceneMgr);
 
-		CEGUI::OgreRenderer* rend = 
-			new CEGUI::OgreRenderer(Ogre::Root::getSingleton().getAutoCreatedWindow(), 
-									Ogre::RENDER_QUEUE_OVERLAY, 
-									false, 
-									3000,
-									sceneMgr);
-
+        CoreSubsystem::getSingleton().log("5");
 		new System(rend, NULL, (utf8*)"modules/common/gui/cegui.config");
-
+        
 		// load scheme and set up defaults
 		System::getSingleton().setDefaultMouseCursor((utf8*)"TaharezLook", (utf8*)"MouseArrow");
 		Window* sheet = CEGUI::WindowManager::getSingleton().createWindow((utf8*)"DefaultGUISheet", (utf8*)CEGUI_ROOT);
@@ -99,11 +109,13 @@ namespace rl {
 				Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight()));
 		sheet->setPosition(Absolute, Point(0, 0));
 		System::getSingleton().setGUISheet(sheet);
+        CoreSubsystem::getSingleton().log("6");
 
 		//Initializing InputManager
 		new CommandMapper();
         new InputManager();
-		new WindowManager();
+		new rl::WindowManager();
+        CoreSubsystem::getSingleton().log("7");
 
 		new DebugWindow();
 		new Console();
@@ -115,6 +127,7 @@ namespace rl {
     void UiSubsystem::requestExit()
     {
         mRequestExit = true;
+		RastullahApplication::getSingleton().quit();
     }
     
     bool UiSubsystem::isRequestingExit() const
@@ -141,14 +154,18 @@ namespace rl {
 	void UiSubsystem::setActiveCharacter(Person* person)
 	{
 		mCharacter = person;
-		 
+		
 		CameraActor* camera = dynamic_cast<CameraActor*>(
             ActorManager::getSingleton().getActor("DefaultCamera"));
+		CoreSubsystem::getSingleton().log("Kamera erschaffen");
 		mGameController = new ThirdPersonGameController(
             camera->getOgreCamera(), person->getActor());
-        GameLoop::getSingleton().addSynchronizedTask(mGameController);
+        CoreSubsystem::getSingleton().log("GameController erschaffen");
+		GameLoop::getSingleton().addSynchronizedTask(mGameController);
+		CoreSubsystem::getSingleton().log("GameController-Task hinzugefuegt");
 		World* world = CoreSubsystem::getSingleton().getWorld();
 		world->setActiveActor(person->getActor());
+		CoreSubsystem::getSingleton().log("Aktor gesetzt");		
 	}
 
 	void UiSubsystem::showActionChoice(GameObject* obj)
