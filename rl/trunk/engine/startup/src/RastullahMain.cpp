@@ -59,8 +59,8 @@ int main(int argc, char **argv)
     delete ui;
 	delete dialog;
     delete rules;
-    delete core;
     delete sound;
+    delete core;
 
 
     return 0;
