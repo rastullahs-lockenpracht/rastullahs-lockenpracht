@@ -2,7 +2,6 @@
 #define __GAMEOBJECT_H__
 
 #include "RulesPrerequisites.h"
-#include <CEGUIString.h>
 
 namespace rl
 {
@@ -13,7 +12,6 @@ namespace rl
 	static const int ACT_DISABLED = 1<<2;
 	static const int ACT_NEEDS_TALENT = 1<<8;
 	
-
     /**
     * \brief Basisklasse aller spielrelevanten Objekte in RL.
     * Stellt im Wesentlichen Methoden zur Identifikation von
@@ -58,14 +56,16 @@ namespace rl
                       Creature* actor,
                       GameObject* target);
 
-		void doAction(Action* action,
+		void doAction(const Action* action,
                       Creature* actor,
                       GameObject* target);
-    private:
+
 		typedef std::vector<std::pair<Action*, int> > ActionOptionVector;
+
+	private:
         ActionOptionVector mActions;
-		ActionOptionVector::iterator findAction(ActionOptionVector::iterator& begin, ActionOptionVector::iterator& end, const CeGuiString& actionName);
-		ActionOptionVector::iterator findAction(ActionOptionVector::iterator& begin, ActionOptionVector::iterator& end, const Action* action);
+		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const CeGuiString& actionName);
+		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const Action* action);
 	
     protected:
         int mId;

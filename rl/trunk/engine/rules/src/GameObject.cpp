@@ -1,9 +1,8 @@
-#include "GameObject.h"
 #include "Action.h"
+#include "GameObject.h"
 #include "Exception.h"
 
 using namespace std;
-using rl::GameObject::ActionOptionVector;
 
 namespace rl
 {
@@ -109,7 +108,11 @@ namespace rl
 		action->doAction(this, actor, target);
 	}
 
-	ActionOptionVector::iterator GameObject::findAction(ActionOptionVector::iterator& begin, ActionOptionVector::iterator& end, const CeGuiString& actionName)
+	GameObject::ActionOptionVector::iterator 
+		GameObject::findAction(
+			GameObject::ActionOptionVector::iterator begin, 
+			GameObject::ActionOptionVector::iterator end, 
+			const CeGuiString& actionName)
 	{
 		for (ActionOptionVector::iterator iter = begin; iter != end; iter++)
 			if ((*iter).first->getName().compare(actionName) == 0)
@@ -118,7 +121,11 @@ namespace rl
 		return end;
 	}
 
-	ActionOptionVector::iterator GameObject::findAction(ActionOptionVector::iterator& begin, ActionOptionVector::iterator& end, const Action* action)
+	GameObject::ActionOptionVector::iterator 
+		GameObject::findAction(
+			GameObject::ActionOptionVector::iterator begin, 
+			GameObject::ActionOptionVector::iterator end, 
+			const Action* action)
 	{
 		for (ActionOptionVector::iterator iter = begin; iter != end; iter++)
 			if ((*iter).first == action)
