@@ -13,9 +13,9 @@ $CORE.log("skybox set");
 DsaManager.getSingleton().loadDsaDataFile("kalchas.xml");
 
 $CORE.log("Held erstellen");
-# hero = Hero.new;
-hero = DsaManager.getSingleton().getPerson(10000);
-hero.setActor($AF.createMeshActor("Held","held.mesh", 2, -1.0));
+hero = Hero.new;
+#hero = DsaManager.getSingleton().getPerson(10000);
+#hero.setActor($AF.createMeshActor("Held","held.mesh", 2, -1.0));
 $CORE.log("Held erstellt");
 $CORE.log("Held in die Szene einfuegen.");
 hero.getActor().placeIntoScene(0.0, 20.0, 40.0, 1.0, 0.0, 0.0, 0.0);
@@ -25,11 +25,11 @@ $CORE.log("Held vorbereitet.");
 $UI.setActiveCharacter(hero);
 $CORE.log("Held als aktiver Charakter gesetzt.");
 
-# $CORE.log("Fackel erstellen...");
-# torch = Torch.new("Fackel des Grauens");
-# $CORE.log("Fackel erstellt.");
-# torch.getActor().placeIntoScene(0.0, 20.0, 80.0, 1.0, 0.0, 0.0, 0.0);
-# $CORE.log("Fackel plaziert.");
+$CORE.log("Fackel erstellen...");
+torch = Torch.new("Fackel des Grauens");
+$CORE.log("Fackel erstellt.");
+torch.getActor().placeIntoScene(0.0, 20.0, 80.0, 1.0, 0.0, 0.0, 0.0);
+$CORE.log("Fackel plaziert.");
 
 $CORE.log("Türen reinsetzen")
 door1 = Door.new("Tuer_1", false, true);
