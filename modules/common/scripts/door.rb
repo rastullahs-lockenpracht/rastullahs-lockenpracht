@@ -1,8 +1,8 @@
-# TODO Skript ausbauen in Hinblick auf Interaktion Held <-> Item.
+ï»¿# TODO Skript ausbauen in Hinblick auf Interaktion Held <-> Item.
 # und Aktoren untereinander.
 # Halt diese Klassen wie sie hier beschrieben sind auch benutzen.
-# TODO Über Speichersparen nachdenken. Inwiefern können Instanzen
-# einiger Klassen für Instanzen anderer Klassen nachgenutzt werden?
+# TODO Ãœber Speichersparen nachdenken. Inwiefern kÃ¶nnen Instanzen
+# einiger Klassen fÃ¼r Instanzen anderer Klassen nachgenutzt werden?
 # Inwiefern ist Deferred Construction sinnvoll?
 require 'globals.rb'
 require 'actions.rb'
@@ -10,35 +10,34 @@ require 'items.rb'
 
 class OpenDoorAction < RubyAction
   def initialize
-    super("Öffnen", "Tür öffnen");
+    super("Ã–ffnen", "TÃ¼r Ã¶ffnen");
   end
   
-  # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
+  # Die Methode prÃ¼ft, ob die Aktion Ã¼berhaupt angeboten wird.
   def canDo?(door, user)    
     not door.open?;
   end
   
   def doAction(door, user, target)    
     doorActor = door.getActor();  
-      
-    doorActor.yaw(90.0)
+    doorActor.getControlledObject.startAnimation("auf", 1.0, 1); 
     # door.setOpen(true);
   end
 end
 
 class CloseDoorAction < RubyAction
   def initialize
-    super("Schließen", "Tür schließen");
+    super("SchlieÃŸen", "TÃ¼r schlieÃŸen");
   end
   
-  # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
+  # Die Methode prÃ¼ft, ob die Aktion Ã¼berhaupt angeboten wird.
   def canDo?(door, user)    
     door.open?;
   end
   
   def doAction(door, user, target)    
     doorActor = door.getActor();
-    doorActor.yaw(-90.0)
+    doorActor.getControlledObject.startAnimation("zu", 1.0, 1); 
     # door.setOpen(false);
   end
 end
