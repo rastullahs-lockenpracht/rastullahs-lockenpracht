@@ -23,7 +23,7 @@ int main(int argc, char **argv)
     /**@todo das nach RastullahApplication
      * und RastullahApplication nach Startup. */
     using std::cerr;
-    
+
     rl::SoundSubsystem* sound = new rl::SoundSubsystem();
     rl::CoreSubsystem* core = new rl::CoreSubsystem();
     rl::RulesSubsystem* rules = new rl::RulesSubsystem();
@@ -45,7 +45,6 @@ int main(int argc, char **argv)
 		rl::showError( "Unknown exception occured" );
     } 
     
-
     delete ui;
     delete rules;
     delete core;
