@@ -49,6 +49,9 @@ namespace rl {
         virtual void _setActor(Actor* actor);
         virtual Actor* getActor();
         
+        virtual void _attachSceneNode(Ogre::SceneNode* node);
+        virtual void _detachSceneNode(Ogre::SceneNode* node);
+        
         /** Liefert das gekapselte Ogre::MovableObject. */
         Ogre::MovableObject* getMovableObject();
         

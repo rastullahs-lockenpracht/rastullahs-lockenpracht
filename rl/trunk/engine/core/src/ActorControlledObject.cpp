@@ -44,4 +44,15 @@ namespace rl {
     {
         return mMovableObject;
     }
+    
+    void ActorControlledObject::_attachSceneNode(Ogre::SceneNode* node)
+    {
+        node->attachObject(mMovableObject);
+    }
+    
+    void ActorControlledObject::_detachSceneNode(Ogre::SceneNode* node)
+    {
+        node->detachObject(mMovableObject);    
+    }
+
 }

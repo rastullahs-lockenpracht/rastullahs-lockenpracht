@@ -310,11 +310,11 @@ namespace rl
         }
     }
     
-    void PhysicalThing::_detachSceneNode()
+    void PhysicalThing::_detachSceneNode(Ogre::SceneNode* node)
     {
         if (mGeometry->getBody())
         {
-            mActor->_getSceneNode()->detachObject(mGeometry->getBody());
+            node->detachObject(mGeometry->getBody());
         }
     }
 

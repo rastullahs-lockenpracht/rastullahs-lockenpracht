@@ -297,8 +297,7 @@ namespace rl {
             // Falls ein MovableObject vorhanden, diesen attachen
             if (mActorControlledObject)
             {
-                mSceneNode->attachObject(
-                    mActorControlledObject->getMovableObject());
+                mActorControlledObject->_attachSceneNode(mSceneNode);
             }
             if (mPhysicalThing)
             {

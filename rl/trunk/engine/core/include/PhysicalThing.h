@@ -159,7 +159,7 @@ namespace rl {
         void _update();
         void _setActor(Actor* actor);
         void _attachSceneNode(Ogre::SceneNode* node);
-        void _detachSceneNode();
+        void _detachSceneNode(Ogre::SceneNode* node);
 
     private:
         Real mBounceRestitution;
