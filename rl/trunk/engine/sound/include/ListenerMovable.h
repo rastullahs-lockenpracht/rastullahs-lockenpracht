@@ -18,11 +18,9 @@
 #define __ListenerMovable_H__
 
 #include "SoundPrerequisites.h"
+#include <OgreMovableObject.h>
+#include <OgreVector3.h>
 
-namespace Ogre {
-    class MovableObject;
-    class Vector3;
-}
 
 namespace rl {
 
@@ -97,7 +95,7 @@ namespace rl {
         explicit ListenerMovablePtr(ListenerMovable* rep) : Ogre::SharedPtr<ListenerMovable>(rep) {}
         ListenerMovablePtr(const ListenerMovablePtr& res) : Ogre::SharedPtr<ListenerMovable>(res) {}
     protected:
-        void destroy();
+		void destroy() { /** @todo: implement*/ }
     };
 
 }

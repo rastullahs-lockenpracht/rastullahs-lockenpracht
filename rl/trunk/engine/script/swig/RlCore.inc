@@ -280,12 +280,6 @@ public:
 	rl::SoundMovable* getSound();
 };
 
-class SoundObject : public ActorControlledObject
-{
-public:
-	rl::ListenerMovable* getListener();
-};
-
 class ParticleSystemObject : public ActorControlledObject
 {
 private:

@@ -46,12 +46,12 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="TRUE"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlSound.lib msvcrt-ruby18.lib OgreMain_d.lib OpenAL32.lib ALut.lib OgreOde_Core_d.lib"
+				AdditionalDependencies="RlSound.lib RlCommon.lib msvcrt-ruby18.lib OgreMain_d.lib OpenAL32.lib ALut.lib OgreOde_Core_d.lib"
 				ShowProgress="0"
 				OutputFile="./lib/debug/RlCore.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreOde\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogreaddons\dotsceneoctree\PlugIns\DotSceneManager\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\ode\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib"
+				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreOde\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogreaddons\dotsceneoctree\PlugIns\DotSceneManager\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\ode\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
 				AssemblyDebug="1"
@@ -128,11 +128,11 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="TRUE"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlSound.lib msvcrt-ruby18.lib OgreMain.lib OpenAL32.lib ALut.lib OgreOde_Core.lib"
+				AdditionalDependencies="RlSound.lib RlCommon.lib msvcrt-ruby18.lib OgreMain.lib OpenAL32.lib ALut.lib OgreOde_Core.lib"
 				OutputFile="./lib/release/RlCore.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreOde\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogreaddons\dotsceneoctree\PlugIns\DotSceneManager\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\ode\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib"
+				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreOde\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogreaddons\dotsceneoctree\PlugIns\DotSceneManager\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\ode\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib"
 				ProgramDatabaseFile=""
 				SubSystem="2"/>
 			<Tool
@@ -291,6 +291,9 @@
 			</File>
 			<File
 				RelativePath=".\src\LightObject.cpp">
+			</File>
+			<File
+				RelativePath=".\src\ListenerObject.cpp">
 			</File>
 			<File
 				RelativePath=".\src\MeshObject.cpp">
