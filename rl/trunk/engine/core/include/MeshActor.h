@@ -46,7 +46,7 @@ public:
     void startAnimation(const String&);
 	void stopAnimation(const String&);
 
-    void setCastShadows (bool enabled);
+    void setCastShadows (bool enabled);
     bool getCastShadows (void) const;
 
     void attachActorToBone(Actor* actor, String name);
