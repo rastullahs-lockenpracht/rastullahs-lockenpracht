@@ -256,7 +256,12 @@ namespace rl {
 			}
 			else if (key.compare("module") == 0)
 				mActivatableModules.push_back(value);
-        }		
+        }
+
+		//if (!mActivatableModules.empty())
+		//	mActiveModule = *mActivatableModules.begin();
+		//else
+		//	mActiveModule = "";
     }
 
 	void CoreSubsystem::initializeModuleTextures(const std::string& module)
