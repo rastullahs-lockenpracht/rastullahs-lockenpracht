@@ -1,4 +1,4 @@
-noinst_HEADERS = \
+ noinst_HEADERS = \
 	Actor.h \
 	ActorControlledObject.h \
 	ActorManager.h \
@@ -9,6 +9,7 @@ noinst_HEADERS = \
 	CoreSubsystem.h \
 	DotSceneOctreeWorld.h \
 	GameLoop.h \
+	GameTask.h \
 	Interpreter.h \
 	LightObject.h \
 	MeshObject.h \
@@ -18,6 +19,5 @@ noinst_HEADERS = \
 	RlTrackAnimation.h \
 	RubyInterpreter.h \
 	ScriptObject.h \
-	SynchronizedTask.h \
 	World.h 
 	
