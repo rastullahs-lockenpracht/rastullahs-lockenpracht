@@ -159,12 +159,9 @@ namespace rl {
 
 	void UiSubsystem::setActiveCharacter(Person* person)
 	{
-		mCharacter = person;		
-		Camera* camera = CoreSubsystem::getSingletonPtr()->getWorld()
-		    ->getActiveCamera();
-		CoreSubsystem::getSingleton().log("Camera created.");
-		mGameController = new GameController(
-            camera, person->getActor());
+		mCharacter = person;
+		Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
+		mGameController = new GameController(camera, person->getActor());
         CoreSubsystem::getSingleton().log("GameController created.");
 		GameLoop::getSingleton().addSynchronizedTask(mGameController);
 		CoreSubsystem::getSingleton().log("GameController task added.");

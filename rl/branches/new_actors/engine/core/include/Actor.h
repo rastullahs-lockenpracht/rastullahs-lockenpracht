@@ -44,7 +44,8 @@ namespace rl {
         PhysicalThing* getPhysicalThing();
         Ogre::UserDefinedObject* getGameObject();
         void setGameObject(Ogre::UserDefinedObject* uo);
-        Ogre::MovableObject* getMovableObject();
+        
+        ActorControlledObject* getControlledObject();
         
         void placeIntoScene(
             const Ogre::Vector3& position = Ogre::Vector3::ZERO,
@@ -89,6 +90,7 @@ namespace rl {
         void detach(Actor* actor);
         
         Ogre::SceneNode* _getSceneNode();
+        Ogre::MovableObject* _getMovableObject();
         
         ///@todo Query-Methoden für Childs
         ///@todo Visibility

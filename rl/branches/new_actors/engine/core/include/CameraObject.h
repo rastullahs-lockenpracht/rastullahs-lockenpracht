@@ -14,8 +14,8 @@
 *  http://www.perldoc.com/perl5.6/Artistic.html.
 */
 
-#ifndef __MeshObject_H__
-#define __MeshObject_H__
+#ifndef __CameraObject_H__
+#define __CameraObject_H__
 
 #include "CorePrerequisites.h"
 #include "ActorControlledObject.h"
@@ -24,23 +24,15 @@
 
 namespace rl {
 
-    class _RlCoreExport MeshObject : public ActorControlledObject
+    class _RlCoreExport CameraObject : public ActorControlledObject
     {
     public:
-        MeshObject(const Ogre::String& name, const Ogre::String& meshname);
-        
+        CameraObject(const Ogre::String& name);
+
         /// Wie ActorControlledObject::getMovableObject()
         /// Nur schon gebrauchsfertig gecastet.
-        Ogre::Entity* getEntity();
-        
-        /// Groesse der Boundingbox
-        Ogre::Vector3 getSize();
-        Ogre::Vector3 getCenter();
-        Ogre::Real getRadius();
-        Ogre::Real getHeight();
-        
-        void startAnimation(const Ogre::String&);
-        void stopAnimation(const Ogre::String&);
+        Ogre::Camera* getCamera();
+
     };
 }
 #endif

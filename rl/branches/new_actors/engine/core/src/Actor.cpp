@@ -62,6 +62,11 @@ namespace rl {
         return mPhysicalThing;
     }
 
+    ActorControlledObject* Actor::getControlledObject()
+    {
+        return mActorControlledObject;
+    }
+    
     const String& Actor::getName()
     {
         return mName;
@@ -282,4 +287,9 @@ namespace rl {
         return mSceneNode;
     }
 
+    MovableObject* Actor::_getMovableObject()
+    {
+        return mActorControlledObject ? 
+            mActorControlledObject->getMovableObject() : 0;
+    }
 }

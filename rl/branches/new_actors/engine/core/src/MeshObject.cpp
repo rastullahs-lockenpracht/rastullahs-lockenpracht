@@ -53,6 +53,22 @@ namespace rl {
 
         return rval;
     }
+    
+    Vector3 MeshObject::getCenter()
+    {
+        return Vector3(0, 0, getHeight() / 2.0);
+    }
+
+    Real MeshObject::getRadius()
+    {
+        Vector3 extent = getSize();
+        return std::max(extent.x, extent.z) / 2.0;
+    }
+
+    Real MeshObject::getHeight()
+    {
+        return getSize().y;
+    }
 
     void MeshObject::startAnimation(const Ogre::String& anim)
     {

@@ -39,7 +39,8 @@ class _RlCoreExport ActorManager : protected Singleton<ActorManager>
         Actor* getActor(const String& name);
 
         //Actor* createLightActor(const String& name, int type);
-		Actor* createMeshActor(const String& name,const String& meshname,
+        Actor* createCameraActor(const String& name);
+   	    Actor* createMeshActor(const String& name,const String& meshname,
 		    int geomType, Ogre::Real density);
         //Actor* createParticleSystemActor(const String& name,
         //    const String& partname);

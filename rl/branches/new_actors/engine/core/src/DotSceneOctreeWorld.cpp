@@ -55,8 +55,10 @@ namespace rl {
 
     void DotSceneOctreeWorld::initializeDefaultCamera(void)
     {
-        // Get random player start point
-        mCamera = getSceneManager()->createCamera("DefaultCamera");
+        // Kamera erstellen..
+        ActorManager::getSingleton().createCameraActor("DefaultCamera");
+        // und initialisieren.
+        mCamera = mSceneMgr->getCamera("DefaultCamera");
         ViewPoint defaultVP = mSceneMgr->getSuggestedViewpoint(true);
 
         mCamera->setNearClipDistance(10);

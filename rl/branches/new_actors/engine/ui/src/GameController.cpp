@@ -21,8 +21,9 @@
 #include "CommandMapper.h"
 #include "DebugWindow.h"
 #include "Exception.h"
-#include "GameActor.h"
+#include "Actor.h"
 #include "PhysicsManager.h"
+#include "MeshObject.h"
 
 #include <OgreSceneManager.h>
 #include <OgreAxisAlignedBox.h>
@@ -39,16 +40,15 @@ namespace rl {
     GameController::GameController()
     {
         // Must not be used.
-        Throw(OperationNotSupportedException, "Do ot use the standard constructor.");
+        Throw(OperationNotSupportedException, "Do not use the standard constructor.");
     }
     
-    GameController::GameController(
-        Camera* camera, GameActor* actor)
+    GameController::GameController(Actor* cameraActor, Actor* actor)
         : mSceneManager(CoreSubsystem::getSingletonPtr()->
         getWorld()->getSceneManager()),
         mControlNode(0),
         mLookAtNode(0),
-        mCamera(camera),
+        mCameraActor(cameraActor),
         mActor(actor),
         mMoveScale(0),
         mRotScale(0),
@@ -70,7 +70,7 @@ namespace rl {
         mDesiredDistance(mTargetDistance),
         mViewMode(VM_THIRD_PERSON)
     {
-        if (actor == 0 || camera == 0)
+        if (actor == 0 || cameraActor == 0)
         {
             Throw(NullPointerException, "actor und camera duerfen nicht NULL sein.");
         }
@@ -82,8 +82,13 @@ namespace rl {
         mLookAtNode = mControlNode->createChildSceneNode("LookAtNode");
         mLookAtNode->setOrientation(Quaternion(mTargetPitch, Vector3::UNIT_X));
 
-        mCameraNode = mLookAtNode->createChildSceneNode("CameraNode");
-        mCameraNode->attachObject(mCamera);
+        if (!mCameraActor->_getSceneNode())
+        {
+            mCameraActor->placeIntoScene();
+        }
+        mCameraNode = mCameraActor->_getSceneNode();
+        mLookAtNode->addChild(mCameraNode);
+        mCameraNode->attachObject(mCameraActor->_getMovableObject());
         mCameraNode->translate(Vector3(0, 0, mDesiredDistance), Node::TS_LOCAL);
 
         setupCollisionDetection();
@@ -96,117 +101,117 @@ namespace rl {
     /// Code adopted from monsters OgreODE-Demo
     void GameController::setupCollisionDetection()
     {
-        // Create the ODE Geometry that represents the hero.
-        // These are only dummy values, that are updated
-        // when the controlled actor is set.
-        mOdeActor = new OgreOde::CapsuleGeometry(1, 1);
-        mOdeCamera = new OgreOde::SphereGeometry(1);
-        
-        // Create the TriMesh geometry representing the level
-        // Get the mesh that the entity uses
-        Mesh* mesh = mSceneManager->getEntity("level")->getMesh();
-        SceneNode* levelNode = mSceneManager->getSceneNode("level");
-        Vector3 levelPos = levelNode->getWorldPosition();
-        Vector3 levelScale = levelNode->_getDerivedScale();
-        size_t indices_needed = 0,vertices_needed = 0;
-        bool added_shared = false;
+        //// Create the ODE Geometry that represents the hero.
+        //// These are only dummy values, that are updated
+        //// when the controlled actor is set.
+        //mOdeActor = new OgreOde::CapsuleGeometry(1, 1);
+        //mOdeCamera = new OgreOde::SphereGeometry(1);
+        //
+        //// Create the TriMesh geometry representing the level
+        //// Get the mesh that the entity uses
+        //Mesh* mesh = mSceneManager->getEntity("level")->getMesh();
+        //SceneNode* levelNode = mSceneManager->getSceneNode("level");
+        //Vector3 levelPos = levelNode->getWorldPosition();
+        //Vector3 levelScale = levelNode->_getDerivedScale();
+        //size_t indices_needed = 0,vertices_needed = 0;
+        //bool added_shared = false;
 
-        // Calculate how many vertices and indices we're going to need
-        for(int i = 0;i < mesh->getNumSubMeshes();i++)
-        {
-            SubMesh* submesh = mesh->getSubMesh(i);
+        //// Calculate how many vertices and indices we're going to need
+        //for(int i = 0;i < mesh->getNumSubMeshes();i++)
+        //{
+        //    SubMesh* submesh = mesh->getSubMesh(i);
 
-            // We only need to add the shared vertices once
-            if(submesh->useSharedVertices)
-            {
-                if(!added_shared)
-                {
-                    VertexData* vertex_data = mesh->sharedVertexData;
-                    vertices_needed += vertex_data->vertexCount;
-                    added_shared = true;
-                }
-            }
-            else
-            {
-                VertexData* vertex_data = submesh->vertexData;
-                vertices_needed += vertex_data->vertexCount;
-            }
+        //    // We only need to add the shared vertices once
+        //    if(submesh->useSharedVertices)
+        //    {
+        //        if(!added_shared)
+        //        {
+        //            VertexData* vertex_data = mesh->sharedVertexData;
+        //            vertices_needed += vertex_data->vertexCount;
+        //            added_shared = true;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        VertexData* vertex_data = submesh->vertexData;
+        //        vertices_needed += vertex_data->vertexCount;
+        //    }
 
-            // Add the indices
-            Ogre::IndexData* index_data = submesh->indexData;
-            indices_needed += index_data->indexCount;
-        }
+        //    // Add the indices
+        //    Ogre::IndexData* index_data = submesh->indexData;
+        //    indices_needed += index_data->indexCount;
+        //}
 
-        // Allocate space for the vertices and indices
-        Vector3* vertices = new Vector3[vertices_needed];
-        int* indices = new int[indices_needed];
+        //// Allocate space for the vertices and indices
+        //Vector3* vertices = new Vector3[vertices_needed];
+        //int* indices = new int[indices_needed];
 
-        size_t current_offset = 0,shared_offset = 0,next_offset = 0,index_offset = 0;
-        added_shared = false;
+        //size_t current_offset = 0,shared_offset = 0,next_offset = 0,index_offset = 0;
+        //added_shared = false;
 
-        // Run through the submeshes again, adding the data into the arrays
-        for(int i = 0;i < mesh->getNumSubMeshes();i++)
-        {
-            SubMesh* submesh = mesh->getSubMesh(i);
+        //// Run through the submeshes again, adding the data into the arrays
+        //for(int i = 0;i < mesh->getNumSubMeshes();i++)
+        //{
+        //    SubMesh* submesh = mesh->getSubMesh(i);
 
-            Ogre::VertexData* vertex_data = submesh->useSharedVertices ? mesh->sharedVertexData : submesh->vertexData;
-            if((!submesh->useSharedVertices)||(submesh->useSharedVertices && !added_shared))
-            {
-                if(submesh->useSharedVertices)
-                {
-                    added_shared = true;
-                    shared_offset = current_offset;
-                }
+        //    Ogre::VertexData* vertex_data = submesh->useSharedVertices ? mesh->sharedVertexData : submesh->vertexData;
+        //    if((!submesh->useSharedVertices)||(submesh->useSharedVertices && !added_shared))
+        //    {
+        //        if(submesh->useSharedVertices)
+        //        {
+        //            added_shared = true;
+        //            shared_offset = current_offset;
+        //        }
 
-                const Ogre::VertexElement* posElem = vertex_data->vertexDeclaration->findElementBySemantic(Ogre::VES_POSITION);
-                Ogre::HardwareVertexBufferSharedPtr vbuf = vertex_data->vertexBufferBinding->getBuffer(posElem->getSource());
-                unsigned char* vertex = static_cast<unsigned char*>(vbuf->lock(Ogre::HardwareBuffer::HBL_READ_ONLY));
-                Ogre::Real* pReal;
+        //        const Ogre::VertexElement* posElem = vertex_data->vertexDeclaration->findElementBySemantic(Ogre::VES_POSITION);
+        //        Ogre::HardwareVertexBufferSharedPtr vbuf = vertex_data->vertexBufferBinding->getBuffer(posElem->getSource());
+        //        unsigned char* vertex = static_cast<unsigned char*>(vbuf->lock(Ogre::HardwareBuffer::HBL_READ_ONLY));
+        //        Ogre::Real* pReal;
 
-                for(size_t j = 0; j < vertex_data->vertexCount; ++j, vertex += vbuf->getVertexSize())
-                {
-                    posElem->baseVertexPointerToElement(vertex, &pReal);
+        //        for(size_t j = 0; j < vertex_data->vertexCount; ++j, vertex += vbuf->getVertexSize())
+        //        {
+        //            posElem->baseVertexPointerToElement(vertex, &pReal);
 
-                    vertices[current_offset + j].x = ((*pReal++) * levelScale.x) + levelPos.x;
-                    vertices[current_offset + j].y = ((*pReal++) * levelScale.y) + levelPos.y;
-                    vertices[current_offset + j].z = ((*pReal++) * levelScale.z) + levelPos.z;
-                }
-                vbuf->unlock();
-                next_offset += vertex_data->vertexCount;
-            }
+        //            vertices[current_offset + j].x = ((*pReal++) * levelScale.x) + levelPos.x;
+        //            vertices[current_offset + j].y = ((*pReal++) * levelScale.y) + levelPos.y;
+        //            vertices[current_offset + j].z = ((*pReal++) * levelScale.z) + levelPos.z;
+        //        }
+        //        vbuf->unlock();
+        //        next_offset += vertex_data->vertexCount;
+        //    }
 
-            Ogre::IndexData* index_data = submesh->indexData;
+        //    Ogre::IndexData* index_data = submesh->indexData;
 
-            size_t numTris = index_data->indexCount / 3;
-            unsigned short* pShort = 0;
-            unsigned int* pInt = 0;
-            Ogre::HardwareIndexBufferSharedPtr ibuf = index_data->indexBuffer;
-            bool use32bitindexes = (ibuf->getType() == Ogre::HardwareIndexBuffer::IT_32BIT);
-            if (use32bitindexes) pInt = static_cast<unsigned int*>(ibuf->lock(Ogre::HardwareBuffer::HBL_READ_ONLY));
-            else pShort = static_cast<unsigned short*>(ibuf->lock(Ogre::HardwareBuffer::HBL_READ_ONLY));
+        //    size_t numTris = index_data->indexCount / 3;
+        //    unsigned short* pShort = 0;
+        //    unsigned int* pInt = 0;
+        //    Ogre::HardwareIndexBufferSharedPtr ibuf = index_data->indexBuffer;
+        //    bool use32bitindexes = (ibuf->getType() == Ogre::HardwareIndexBuffer::IT_32BIT);
+        //    if (use32bitindexes) pInt = static_cast<unsigned int*>(ibuf->lock(Ogre::HardwareBuffer::HBL_READ_ONLY));
+        //    else pShort = static_cast<unsigned short*>(ibuf->lock(Ogre::HardwareBuffer::HBL_READ_ONLY));
 
-            for(size_t k = 0; k < numTris; ++k)
-            {
-                size_t offset = (submesh->useSharedVertices)?shared_offset:current_offset;
+        //    for(size_t k = 0; k < numTris; ++k)
+        //    {
+        //        size_t offset = (submesh->useSharedVertices)?shared_offset:current_offset;
 
-                unsigned int vindex = use32bitindexes? *pInt++ : *pShort++;
-                indices[index_offset + 0] = vindex + offset;
-                vindex = use32bitindexes? *pInt++ : *pShort++;
-                indices[index_offset + 1] = vindex + offset;
-                vindex = use32bitindexes? *pInt++ : *pShort++;
-                indices[index_offset + 2] = vindex + offset;
+        //        unsigned int vindex = use32bitindexes? *pInt++ : *pShort++;
+        //        indices[index_offset + 0] = vindex + offset;
+        //        vindex = use32bitindexes? *pInt++ : *pShort++;
+        //        indices[index_offset + 1] = vindex + offset;
+        //        vindex = use32bitindexes? *pInt++ : *pShort++;
+        //        indices[index_offset + 2] = vindex + offset;
 
-                index_offset += 3;
-            }
-            ibuf->unlock();
-            current_offset = next_offset;
-        }
+        //        index_offset += 3;
+        //    }
+        //    ibuf->unlock();
+        //    current_offset = next_offset;
+        //}
 
-        mOdeLevel = new OgreOde::TriangleMeshGeometry(vertices,
-            (int)vertices_needed,indices,(int)indices_needed);
+        //mOdeLevel = new OgreOde::TriangleMeshGeometry(vertices,
+        //    (int)vertices_needed,indices,(int)indices_needed);
 
-        delete[] vertices;
-        delete[] indices;
+        //delete[] vertices;
+        //delete[] indices;
     }
     //------------------------------------------------------------------------
 
@@ -382,28 +387,29 @@ namespace rl {
         mCurrentAnimationState =
             translation != Vector3::ZERO ? AS_WALK_FORWARD : AS_STAND;
 
-        if (mCurrentAnimationState != mLastAnimationState)
-        {
-            if (mCurrentAnimationState == AS_WALK_FORWARD)
-            {
-                mActor->startAnimation("gehloop");
-            }
-            else
-            {
-                mActor->stopAnimation("gehloop");
-            }
-            mLastAnimationState = mCurrentAnimationState;
-        }
+        
+        //if (mCurrentAnimationState != mLastAnimationState)
+        //{
+        //    if (mCurrentAnimationState == AS_WALK_FORWARD)
+        //    {
+        //        mActor->startAnimation("gehloop");
+        //    }
+        //    else
+        //    {
+        //        mActor->stopAnimation("gehloop");
+        //    }
+        //    mLastAnimationState = mCurrentAnimationState;
+        //}
     }
     //------------------------------------------------------------------------
 
-    GameActor* GameController::getControlledActor()
+    Actor* GameController::getControlledActor()
     {
         return mActor;
     }
     //------------------------------------------------------------------------
 
-    void GameController::setControlledActor(GameActor* actor)
+    void GameController::setControlledActor(Actor* actor)
     {
         if (actor == 0)
         {
@@ -414,9 +420,9 @@ namespace rl {
     }
     //------------------------------------------------------------------------
 
-    Ogre::Camera* GameController::getCamera()
+    Actor* GameController::getCamera()
     {
-        return mCamera;
+        return mCameraActor;
     }
     //------------------------------------------------------------------------
 
@@ -424,12 +430,8 @@ namespace rl {
     {
         if (mActor != 0)
         {
-            ///@todo dafuer sorgen, dass das nicht mehr noetig ist.
-            mActor->getSceneNode()->setScale(0.5, 0.5 , 0.5);
-            mActor->setCastShadows(true);
-            mActor->getEntity()->setNormaliseNormals(true);
-
-            Vector3 extent = mActor->getExtent();
+            MeshObject* mesh = reinterpret_cast<MeshObject*>(mActor->getControlledObject());
+            Vector3 extent = mesh->getSize();
             SceneNode* root = CoreSubsystem::getSingleton().getWorld()->
                 getSceneManager()->getRootSceneNode();
             Vector3 pos = mActor->getPosition();
@@ -438,21 +440,26 @@ namespace rl {
             // des GameActors bringen.
             pos.y = pos.y + extent.y * 0.9;
             mControlNode->setPosition(pos);
-            mControlNode->addChild(mActor->getSceneNode());
-            mActor->getSceneNode()->setPosition(Vector3::ZERO);
-            mActor->getSceneNode()->translate(
+            mControlNode->addChild(mActor->_getSceneNode());
+            if (!mActor->_getSceneNode())
+            {
+                mActor->placeIntoScene();
+            }
+            mActor->_getSceneNode()->setPosition(Vector3::ZERO);
+            mActor->_getSceneNode()->translate(
                 Vector3(0, -extent.y * 0.9, 0), Node::TS_PARENT);
 
             // ODE-Collision-Proxy ist eine Capsule
-            mOdeActor->setDefinition(mActor->getRadius(),
-                mActor->getHeight() - 2*mActor->getRadius());
+            mOdeActor->setDefinition(mesh->getRadius(),
+                mesh->getHeight() - 2*mesh->getRadius());
             mOdeActor->setPosition(ogrePosToOdePos(
-                mActor->getSceneNode()->getWorldPosition(),
-                mActor->getExtent()));
+                mActor->_getSceneNode()->getWorldPosition(),
+                mesh->getSize()));
             mOdeActor->setOrientation(Quaternion(Degree(90), Vector3::UNIT_X));
                     
             mOdeCamera->setPosition(mCameraNode->getWorldPosition());
-            mOdeCamera->setRadius(mCamera->getNearClipDistance() * 1.5);
+            Camera* camera = reinterpret_cast<Camera*>(mCameraNode->getAttachedObject(0));
+            mOdeCamera->setRadius(camera->getNearClipDistance() * 1.5);
             
         }
     }
@@ -465,17 +472,18 @@ namespace rl {
     }
     //------------------------------------------------------------------------
 
-    void GameController::setCamera(Ogre::Camera* camera)
+    void GameController::setCamera(Actor* cameraActor)
     {
-        if (camera == 0)
+        if (cameraActor == 0)
         {
             Throw(NullPointerException, "camera darf nicht NULL sein.");
         }
-        mCameraNode->detachObject(mCamera);
-        mCameraNode->attachObject(camera);
-        mCamera = camera;
+        mCameraNode->detachObject(mCameraActor->_getMovableObject());
+        mCameraNode->attachObject(cameraActor->_getMovableObject());
+        mCameraActor = cameraActor;
         mOdeCamera->setPosition(mCameraNode->getWorldPosition());
-        mOdeCamera->setRadius(mCamera->getNearClipDistance() * 1.2);
+        Camera* camera = reinterpret_cast<Camera*>(mCameraNode->getAttachedObject(0));
+        mOdeCamera->setRadius(camera->getNearClipDistance() * 1.2);
     }
     //------------------------------------------------------------------------
 
@@ -491,9 +499,10 @@ namespace rl {
         mControlNode->translate(translation, ts);
         mControlNode->_update(true, false);
         
+        MeshObject* mesh = reinterpret_cast<MeshObject*>(mActor->getControlledObject());
         mOdeActor->setPosition(ogrePosToOdePos(
-            mActor->getSceneNode()->getWorldPosition(),
-            mActor->getExtent()));                
+            mActor->_getSceneNode()->getWorldPosition(),
+            mesh->getSize()));                
     }
     //------------------------------------------------------------------------
     
@@ -508,12 +517,12 @@ namespace rl {
         mViewMode = mode;
         if (mode == VM_FIRST_PERSON)
         {
-            mActor->getSceneNode()->setVisible(false);
+            mActor->_getSceneNode()->setVisible(false);
             mDesiredDistance = 0.0;
         }
         else
         {
-            mActor->getSceneNode()->setVisible(true);
+            mActor->_getSceneNode()->setVisible(true);
             mDesiredDistance = 150.0;
             resetCamera();
         }

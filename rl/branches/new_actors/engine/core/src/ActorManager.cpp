@@ -21,6 +21,7 @@
 #include "Actor.h"
 #include "World.h"
 #include "MeshObject.h"
+#include "CameraObject.h"
 
 template<> rl::ActorManager* Singleton<rl::ActorManager>::ms_Singleton = 0;
 
@@ -102,6 +103,32 @@ namespace rl {
  //       return 0;
 	//}
 
+    Actor* ActorManager::createCameraActor(const String& name)
+    {
+        const String&  uniquename = nextUniqueName(name);
+        Actor* actor = 0;
+        try
+        {
+            CameraObject* co = new CameraObject(uniquename);
+            PhysicalThing* pt = PhysicsManager::getSingleton()
+                .createPhysicalThing(PhysicsManager::PT_SPHERE,
+                    Vector3(co->getCamera()->getNearClipDistance() * 1.2, 0, 0),
+                    0.0f);
+            actor = new Actor(uniquename, co, pt);
+
+            mActors.insert(ActorPtrPair(uniquename,actor)); 
+        }
+        catch( Ogre::Exception& e)
+        {
+            CoreSubsystem::log("ActorManager - Die Camera '"
+                + name + "' für den Aktor '"
+                + uniquename + "' konnte nicht erstellt werden. Grund: "
+                + e.getFullDescription());
+        }
+
+        return actor;
+    }
+    
 	Actor* ActorManager::createMeshActor(const String& name,const String& meshname,
 	    int geomType, Ogre::Real density)
 	{

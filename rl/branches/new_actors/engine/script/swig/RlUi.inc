@@ -22,8 +22,8 @@ public:
     typedef enum {VM_THIRD_PERSON, VM_FIRST_PERSON} ViewMode;
     rl::Actor* getControlledActor();
     void setControlledActor(rl::Actor* actor);
-    Ogre::Camera* getCamera();
-    void setCamera(Ogre::Camera* camera);
+    rl::Actor* getCamera();
+    void setCamera(rl::Actor* camera);
     void setViewMode(ViewMode mode);
     ViewMode getViewMode();
     void resetCamera();

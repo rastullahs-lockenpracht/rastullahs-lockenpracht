@@ -184,6 +184,9 @@
 				RelativePath=".\include\AnimationManager.h">
 			</File>
 			<File
+				RelativePath=".\include\CameraObject.h">
+			</File>
+			<File
 				RelativePath=".\include\CorePrerequisites.h">
 			</File>
 			<File
@@ -217,9 +220,6 @@
 				RelativePath=".\include\SynchronizedTask.h">
 			</File>
 			<File
-				RelativePath=".\include\UnitConversion.h">
-			</File>
-			<File
 				RelativePath=".\include\World.h">
 			</File>
 		</Filter>
@@ -237,6 +237,9 @@
 			</File>
 			<File
 				RelativePath=".\src\AnimationManager.cpp">
+			</File>
+			<File
+				RelativePath=".\src\CameraObject.cpp">
 			</File>
 			<File
 				RelativePath=".\src\CoreSubsystem.cpp">

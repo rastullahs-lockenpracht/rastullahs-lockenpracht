@@ -40,6 +40,7 @@ namespace rl {
             protected Singleton<PhysicsManager>
     {
     public:
+        static const int PT_NONE = -1;
         static const int PT_BOX = 0;
         static const int PT_SPHERE = 1;
         static const int PT_CAPSULE = 2;
