@@ -239,6 +239,10 @@ public:
 
     void placeIntoScene(Real px, Real py, Real pz,
         Real ow, Real ox, Real oy, Real oz);
+        
+    void attach(const std::string& slot, Actor* actor,
+        const std::string& childSlot = "SLOT_DEFAULT");
+    void detach(Actor* actor);
        
 	void roll(Real angleunits);
 	void pitch(Real angleunits);

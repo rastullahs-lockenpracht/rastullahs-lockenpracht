@@ -262,10 +262,21 @@ namespace rl {
     void Actor::doAttach(const String& slot, Actor* actor,
             const String& childSlot)
     {
-		Node* nodeThis = getSlotNode(slot); 
-		Node* nodeChild = getSlotNode(childSlot);
+		if (getControlledObject()->isMeshObject())
+		{
+			MovableObject* mo = actor->getControlledObject()->getMovableObject();
+			dynamic_cast<MeshObject*>(getControlledObject())->getEntity()->
+				attachObjectToBone(slot, mo);
+			if (!mo->isInScene())
+				actor->placeIntoScene();
+			return;
+		}
 
-		nodeThis->addChild(nodeChild);
+		if (!getControlledObject()->isMeshObject())
+		{
+			return; // @todo: wenn this kein MeshObjekt ist, trotzdem irgendwie zusammenfügen		}
+		}
+
     }            
 
     void Actor::doDetach(Actor* actor)
@@ -322,18 +333,4 @@ namespace rl {
         }
     }
 
-	Node* Actor::getSlotNode(const String& slot)
-	{
-		if (mActorControlledObject->isMeshObject())
-		{
-			Skeleton* skeletonThis = 
-				dynamic_cast<MeshObject*>(mActorControlledObject)->getEntity()->getMesh()->getSkeleton();
-			
-			return skeletonThis->getBone(slot);
-		}
-		else if (mActorControlledObject != NULL)
-			return mActorControlledObject->getMovableObject()->getParentNode();
-		else
-			return mSceneNode;		
-	}        
 }

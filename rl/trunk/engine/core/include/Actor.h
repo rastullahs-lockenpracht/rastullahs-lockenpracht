@@ -109,7 +109,6 @@ namespace rl {
         ChildSet mChilds;
         Ogre::SceneNode* mSceneNode;
         
-		Ogre::Node* getSlotNode(const Ogre::String& slot);
         virtual void doAttach(const Ogre::String& slot, Actor* actor,
             const Ogre::String& childSlot);
         virtual void doDetach(Actor* actor);
