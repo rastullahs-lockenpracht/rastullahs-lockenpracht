@@ -34,8 +34,8 @@ private:
 public:
 	static ActorManager& getSingleton(void);
 
-	rl::Actor* createMeshActor(const String& name,const String& meshname,
-		    int geom, Real density);
+	rl::Actor* createMeshActor(const String& name, const String& meshname,
+		    int geom = rl::PhysicsManager::PT_NONE, Real density=1.0);
 	    
 	rl::Actor* getActor(const String& name);
 	void destroyActor(rl::Actor* actor);
@@ -164,7 +164,7 @@ public:
     
     void placeIntoScene(Real px, Real py, Real pz,
         Real ow, Real ox, Real oy, Real oz);
-	
+       
 	void roll(Real angleunits);
 	void pitch(Real angleunits);
 	void yaw(Real angleunits);
@@ -216,6 +216,12 @@ class PhysicsManager {
 private:
 	PhysicsManager();
 public:  
+	static const int PT_NONE = -1;
+    static const int PT_BOX = 0;
+    static const int PT_SPHERE = 1;
+    static const int PT_CAPSULE = 2;
+    static const int PT_MESH = 3;
+
     void removeAndDestroyPhysicalThing(rl::PhysicalThing* thing);
 
     void activateGlobalSpace();

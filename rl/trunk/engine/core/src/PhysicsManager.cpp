@@ -156,9 +156,16 @@ namespace rl
             geom = createCapsuleGeometry(size.y - 2.0 * radius, radius, density);
             offset = Vector3(0.0, (size.y - 2.0 * radius) / 2.0 + radius, 0.0);
         }
-        PhysicalThing* pt = new PhysicalThing(geom, offset);
-        mPhysicalThings.push_back(pt);        
-        return pt;
+
+		// /@fix Wenns schon PT_NONE gibt, sollte man auch damit rechnen
+		if( geom != 0)
+		{
+			PhysicalThing* pt = new PhysicalThing(geom, offset);
+			mPhysicalThings.push_back(pt);        
+			return pt;
+		}
+		else
+			return 0;
     }
 
     Geometry* PhysicsManager::createSphereGeometry(Real radius,

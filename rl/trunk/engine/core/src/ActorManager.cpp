@@ -145,8 +145,8 @@ namespace rl {
 		    MeshObject* mo = new MeshObject(uniquename, meshname);
 		    PhysicalThing* pt = PhysicsManager::getSingleton()
 		        .createPhysicalThing(geomType, mo->getSize(), density);
-		    actor = new Actor(uniquename, mo, pt);
 
+		    actor = new Actor(uniquename, mo, pt);
 		    mActors.insert(ActorPtrPair(uniquename,actor)); 
         }
         catch( Ogre::Exception& e)

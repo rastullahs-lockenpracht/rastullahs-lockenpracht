@@ -40,7 +40,9 @@ namespace rl {
         mSceneNode(0)
     {
         mActorControlledObject->_setActor(this);
-        mPhysicalThing->_setActor(this);
+
+		if( mPhysicalThing != 0 )
+			mPhysicalThing->_setActor(this);
     }
 
     Actor::~Actor()
@@ -277,7 +279,9 @@ namespace rl {
     void Actor::_update()
     {
         if (mSceneNode) mSceneNode->_update(true, true);
-        mPhysicalThing->_update();
+
+		if( mPhysicalThing != 0 )
+			mPhysicalThing->_update();
     }
     
     void Actor::_placeIntoScene(SceneNode* parent, const Vector3& position,
