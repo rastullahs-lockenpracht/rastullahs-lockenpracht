@@ -61,8 +61,10 @@ namespace rl {
 
 	InputManager::InputManager() :
 		mEventInitialized(false),
+		mBuffered(false), 
+		mInputInitialized(false),
 		mNumActiveWindowsMouseInput(0),
-		mNumActiveWindowsKeyboardInput(0)
+		mNumActiveWindowsKeyboardInput(0)		
 	{
 		switchMouseToUnbuffered();
 		mEventProcessor = new EventProcessor();
@@ -495,5 +497,44 @@ namespace rl {
 
         //mTargetedObject = a->getGameObject();		
     }
+
+	bool InputManager::isKeyDown(KeyCode kc) 
+	{ 
+		return mKeyDown[kc]; 
+	}
+	
+	bool InputManager::isMouseButtonDown(int iButtonID) 
+	{ 
+		if (mInputInitialized)
+			return mInputReader->getMouseButton(iButtonID); 
+
+		return false;
+	}
+
+
+	Ogre::Real InputManager::getMouseRelativeX(void) 
+	{ 
+		if (mInputInitialized)
+			return mInputReader->getMouseRelativeX(); 
+
+		return 0;
+	}
+
+	Ogre::Real InputManager::getMouseRelativeY(void) 
+	{ 
+		if (mInputInitialized)
+			return mInputReader->getMouseRelativeY(); 
+
+		return 0;
+	}
+
+	Ogre::Real InputManager::getMouseRelativeZ(void) 
+	{ 
+		if (mInputInitialized)
+			return mInputReader->getMouseRelativeZ(); 
+
+		return 0;
+	}
+
 
 }

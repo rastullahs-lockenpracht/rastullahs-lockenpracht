@@ -47,12 +47,12 @@ namespace rl {
 			static InputManager & getSingleton(void);
 			static InputManager * getSingletonPtr(void);
 
-			bool isKeyDown(KeyCode kc) { return mKeyDown[kc]; };
-			bool isMouseButtonDown(int iButtonID) { return mInputReader->getMouseButton(iButtonID); };
+			bool isKeyDown(KeyCode kc);
+			bool isMouseButtonDown(int iButtonID);
 
-			Ogre::Real getMouseRelativeX(void) { return mInputReader->getMouseRelativeX(); };
-			Ogre::Real getMouseRelativeY(void) { return mInputReader->getMouseRelativeY(); };
-			Ogre::Real getMouseRelativeZ(void) { return mInputReader->getMouseRelativeZ(); };
+			Ogre::Real getMouseRelativeX(void);
+			Ogre::Real getMouseRelativeY(void);
+			Ogre::Real getMouseRelativeZ(void);
 
 			void addKeyListener(KeyListener *l);
 			void removeKeyListener(KeyListener *l);
