@@ -100,11 +100,11 @@ namespace rl {
 			typedef std::map<int, CeGuiString> KeyNameMap;
 
 		private:
+            enum { NUM_MOUSE_BUTTON=16, NUM_KEYS=256 };
+            
 			Ogre::InputReader* mInputReader;
 			Ogre::EventQueue mEventQueue; 
 			Ogre::EventProcessor* mEventProcessor;
-
-			enum { NUM_MOUSE_BUTTON=16, NUM_KEYS=256 };
 
 			bool mKeyDown[NUM_KEYS];
 
@@ -115,16 +115,6 @@ namespace rl {
 			unsigned short mScreenX;
 			unsigned short mScreenY;
 			bool mBuffered, mEventInitialized, mInputInitialized;			
-
-			CEGUI::MouseButton convertOgreButtonToCegui(int ogre_button_id);
-
-        	bool processGlobalKeyEvent(Ogre::KeyEvent* e);
-			bool sendKeyToCeGui(Ogre::KeyEvent* e);
-
-			void switchMouseToUnbuffered();
-			void switchMouseToBuffered();
-
-			CEGUI::utf32 getKeyChar(Ogre::KeyEvent* ke);			
 
 			bool mPickObjects;
 			GameObject* mTargetedObject;
@@ -137,6 +127,16 @@ namespace rl {
 			int mNumActiveWindowsMouseInput;
 			int mNumActiveWindowsKeyboardInput;
 			int mNumActiveWindowsAllInput;
+			
+            CEGUI::MouseButton convertOgreButtonToCegui(int ogre_button_id);
+
+            bool processGlobalKeyEvent(Ogre::KeyEvent* e);
+            bool sendKeyToCeGui(Ogre::KeyEvent* e);
+
+            void switchMouseToUnbuffered();
+            void switchMouseToBuffered();
+
+            CEGUI::utf32 getKeyChar(Ogre::KeyEvent* ke);			
 	};
 
 }

@@ -67,7 +67,8 @@ namespace rl {
 		mInputInitialized(false),
 		mNumActiveWindowsMouseInput(0),
 		mNumActiveWindowsKeyboardInput(0),
-		mNumActiveWindowsAllInput(0)
+		mNumActiveWindowsAllInput(0),
+		mPickObjects(false)
 	{
 		switchMouseToUnbuffered();
 		mEventProcessor = new EventProcessor();
@@ -531,7 +532,7 @@ namespace rl {
             "   Y="+StringConverter::toString(mouseRelY)+
             "   - Object("+(a==NULL?"null":a->getName())+")");		
 
-        mTargetedObject = reinterpret_cast<GameObject*>(a->getGameObject());
+        mTargetedObject = a ? reinterpret_cast<GameObject*>(a->getGameObject()) : 0;
     }
 
 	bool InputManager::isKeyDown(KeyCode kc) 
