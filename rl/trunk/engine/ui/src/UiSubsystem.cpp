@@ -103,7 +103,7 @@ namespace rl {
             GameLoop::getSingleton().addSynchronizedTask(mGameController);
         }
 
-		//UiSubsystem::runTest();
+		UiSubsystem::runTest();
     }
 
     void UiSubsystem::requestExit()

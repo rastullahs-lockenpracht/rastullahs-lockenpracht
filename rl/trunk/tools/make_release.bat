@@ -23,6 +23,7 @@ xcopy %RL_ROOT%\engine\core\scripts\*.* %RL_DIST%\script\ /I /K /Y /F
 copy %RL_ROOT%\engine\rules\lib\%BUILD%\RlRules.dll %RL_DIST%\
 copy %RL_ROOT%\engine\sound\lib\%BUILD%\RlSound.dll %RL_DIST%\
 copy %RL_ROOT%\engine\ui\lib\%BUILD%\RlUi.dll %RL_DIST%\
+copy %RL_ROOT%\engine\common\lib\%BUILD%\RlCommon.dll %RL_DIST%\
 
 REM Daten kopieren
 REM ---------------------
@@ -99,8 +100,6 @@ copy %RL_ROOT%\Dependencies\xerces\bin\*.dll %RL_DIST%
 copy %RL_ROOT%\Dependencies\cegui\bin\win32\%BUILD%\CEGUIBase.dll %RL_DIST%
 copy %RL_ROOT%\Dependencies\cegui\bin\win32\%BUILD%\OgreGUIRenderer.dll %RL_DIST%
 copy "%RL_ROOT%\Dependencies\cegui\bin\win32\%BUILD%\Taharez Look.dll" %RL_DIST%
-
-call %RL_ROOT%\tools\make_release_cegui.bat %RL_ROOT% %RL_DIST% %BUILD%
 
 pause
 

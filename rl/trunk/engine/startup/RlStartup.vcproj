@@ -52,8 +52,8 @@
 				Name="VCMIDLTool"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Erstelle dist"
-				CommandLine="$(SolutionDir)\tools\make_release.bat $(SolutionDir) $(ConfigurationName)"/>
+				Description="Kopiere DLLs und EXE"
+				CommandLine="$(SolutionDir)\tools\copy_dlls.bat $(SolutionDir) $(ConfigurationName)"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -110,8 +110,8 @@
 				Name="VCMIDLTool"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Erstelle dist"
-				CommandLine="$(SolutionDir)\tools\make_release.bat $(SolutionDir) $(ConfigurationName)"/>
+				Description="Kopiere DLLs und EXE"
+				CommandLine="$(SolutionDir)\tools\copy_dlls.bat $(SolutionDir) $(ConfigurationName)"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
