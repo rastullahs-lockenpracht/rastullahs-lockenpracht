@@ -14,8 +14,9 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#ifndef __RastullahApplication_H__
-#define __RastullahApplication_H__
+#ifndef __CoreSubsystem_H__
+#define __CoreSubsystem_H__
+
 
 #include <OgreSingleton.h>
 #include <OgreString.h>
@@ -27,13 +28,10 @@ namespace rl {
 class Interpreter;
 class World;
 
-/** The Main Application 
-	@remarks
-		CoreSubsystem. 
+/** CoreSubsystem. 
+	@remarks		
         It follows the Singleton Pattern,
 		and initialises the game context.
-	@par
-		None.
 */
 class _RlCoreExport CoreSubsystem : protected Singleton<CoreSubsystem>
 {
@@ -67,6 +65,7 @@ public:
 	void  makeScreenshot(const String& sName);
 
     static void log ( const String& msg );
+	
 private:  
     /** Runs the setup methods  */
 	bool initializeCoreSubsystem();
@@ -75,17 +74,18 @@ private:
 	void initializeResources();
 	void initializeModule(std::string module);
 	void unloadModule(std::string module);
+	void addCommonSearchPath(std::string path);	
 
 	/** Opens a configuration dialog */
 	bool setupConfiguration();
 
-private:
 	World* mWorld;
 	Interpreter* mInterpreter;
 	StringVector mCommonModules;
 	StringVector mActivatableModules;
 	String mActiveModule;
     String mRootDir;
+
 #if OGRE_PLATFORM == PLATFORM_LINUX
     static const String findConfRootDir();
     static const String findRastullahConf();
@@ -94,6 +94,4 @@ private:
 
 }
 #endif
-
-
 
