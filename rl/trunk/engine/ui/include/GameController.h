@@ -30,6 +30,7 @@
 namespace rl {
 
     class Actor;
+    class MeshObject;
 
     /**
      *  @todo Kollision
@@ -84,6 +85,7 @@ namespace rl {
         Ogre::SceneNode* mCameraNode;
         Actor* mCameraActor;
         Actor* mActor;
+        MeshObject* mActorMesh;
 
         Ogre::Real mMoveScale;
         Ogre::Real mRotScale;

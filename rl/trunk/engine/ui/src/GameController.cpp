@@ -22,6 +22,7 @@
 #include "DebugWindow.h"
 #include "Exception.h"
 #include "Actor.h"
+#include "MeshObject.h"
 #include "PhysicsManager.h"
 #include "PhysicalThing.h"
 #include "MeshObject.h"
@@ -51,6 +52,7 @@ namespace rl {
         mLookAtNode(0),
         mCameraActor(cameraActor),
         mActor(actor),
+        mActorMesh(static_cast<MeshObject*>(actor->getControlledObject())),
         mMoveScale(0),
         mRotScale(0),
         mMoveSpeed(200.0),
@@ -272,18 +274,18 @@ namespace rl {
             translation != Vector3::ZERO ? AS_WALK_FORWARD : AS_STAND;
 
         
-        //if (mCurrentAnimationState != mLastAnimationState)
-        //{
-        //    if (mCurrentAnimationState == AS_WALK_FORWARD)
-        //    {
-        //        mActor->startAnimation("gehloop");
-        //    }
-        //    else
-        //    {
-        //        mActor->stopAnimation("gehloop");
-        //    }
-        //    mLastAnimationState = mCurrentAnimationState;
-        //}
+        if (mCurrentAnimationState != mLastAnimationState)
+        {
+            if (mCurrentAnimationState == AS_WALK_FORWARD)
+            {
+                mActorMesh->startAnimation("gehloop", 2.0, 0);
+            }
+            else
+            {
+                mActorMesh->stopAnimation("gehloop");
+            }
+            mLastAnimationState = mCurrentAnimationState;
+        }
     }
     //------------------------------------------------------------------------
 
