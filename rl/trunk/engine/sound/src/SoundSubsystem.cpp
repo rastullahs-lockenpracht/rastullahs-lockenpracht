@@ -78,7 +78,7 @@ SoundSubsystem::SoundSubsystem()
     SoundSubsystem::log("Listener set");
     
     //Singletons erzeugen
-    //new MusicManager();
+    new MusicManager();
     new SoundManager();
 }
 
