@@ -205,19 +205,23 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\MusicResource.cpp"
+				RelativePath=".\src\ResourceManager.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\ResManager.cpp"
+				RelativePath=".\src\SoundEvent.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\SndResource.cpp"
+				RelativePath=".\src\SoundFadeEvent.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\src\SoundManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SoundPlayEvent.cpp"
 				>
 			</File>
 			<File
@@ -239,19 +243,23 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\MusicResource.h"
+				RelativePath=".\include\ResourceManager.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\ResManager.h"
+				RelativePath=".\include\SoundEvent.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\SndResource.h"
+				RelativePath=".\include\SoundFadeEvent.h"
 				>
 			</File>
 			<File
 				RelativePath=".\include\SoundManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SoundPlayEvent.h"
 				>
 			</File>
 			<File
@@ -272,40 +280,6 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
-		</Filter>
-		<Filter
-			Name="swig"
-			>
-			<File
-				RelativePath=".\swig\RlSound.i"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="[SWIG] Rubydateien erzeugen."
-						CommandLine="..\..\dependencies\swig\swig.exe -c++ -ruby -minherit -v -Wall &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="swig\$(InputFileName).i"
-						Outputs="swig\$(InputFileName)_wrap.cxx"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="[SWIG] Rubydateien erzeugen."
-						CommandLine="..\..\dependencies\swig\swig.exe -c++ -ruby -minherit -v -Wall &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="swig\$(InputFileName).i"
-						Outputs="swig\$(InputFileName)_wrap.cxx"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\swig\RlSound_wrap.cxx"
-				>
-			</File>
 		</Filter>
 	</Files>
 	<Globals>

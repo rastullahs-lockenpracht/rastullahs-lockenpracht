@@ -47,7 +47,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;.\components\include;..\common\include;..\core\include;..\rules\include;..\dialog\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\ogre\PlugIns\GuiElements\include;..\..\dependencies\openalpp\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\OpenThreads\include;..\..\dependencies\cegui\include;..\..\dependencies\boost\include;..\..\dependencies\vorbis\include;..\..\dependencies\xerces\include"
+				AdditionalIncludeDirectories=".\include;.\components\include;..\common\include;..\core\include;..\rules\include;..\dialog\include;..\startup\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\ogre\PlugIns\GuiElements\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\OpenThreads\include;..\..\dependencies\cegui\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\ogre\ogreode\include"
 				PreprocessorDefinitions="_WINDOWS,_DEBUG,WIN32,RLUI_EXPORTS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -80,12 +80,12 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="TRUE"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlCore.lib msvcrt-ruby18.lib OgreMain_d.lib Plugin_GuiElements.lib RlRules.lib CEGUIBase.lib OgreGUIRenderer.lib &quot;Taharez Look.lib&quot;"
+				AdditionalDependencies="RlCore.lib msvcrt-ruby18.lib OgreMain_d.lib Plugin_GuiElements.lib RlRules.lib CEGUIBase.lib OgreGUIRenderer.lib &quot;Taharez Look.lib&quot; OgreOde_d.lib"
 				ShowProgress="0"
 				OutputFile="./lib/debug/RlUI.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\boost\libs;&quot;..\..\dependencies\cegui\lib\win32\$(ConfigurationName)&quot;"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\boost\libs;..\..\dependencies\cegui\lib\;&quot;..\..\dependencies\ogre\ogreode\lib\$(ConfigurationName)&quot;"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
 				AssemblyDebug="1"
@@ -152,7 +152,7 @@
 				GlobalOptimizations="TRUE"
 				EnableIntrinsicFunctions="TRUE"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".\include;.\components\include;..\common\include;..\core\include;..\rules\include;..\dialog\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\ogre\PlugIns\GuiElements\include;..\..\dependencies\openalpp\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\OpenThreads\include;..\..\dependencies\cegui\include;..\..\dependencies\boost\include;..\..\dependencies\vorbis\include;..\..\dependencies\xerces\include"
+				AdditionalIncludeDirectories=".\include;.\components\include;..\common\include;..\core\include;..\rules\include;..\dialog\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\ogre\PlugIns\GuiElements\include;..\..\dependencies\openalpp\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\OpenThreads\include;..\..\dependencies\cegui\include;..\..\dependencies\boost\include;..\..\dependencies\vorbis\include;..\..\dependencies\xerces\include;..\..\dependencies\ogre\ogreode\include"
 				PreprocessorDefinitions="NDEBUG,_WINDOWS,WIN32,RLUI_EXPORTS"
 				StringPooling="FALSE"
 				ExceptionHandling="1"
@@ -184,11 +184,11 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="TRUE"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlCore.lib msvcrt-ruby18.lib OgreMain.lib Plugin_GuiElements.lib RlRules.lib CEGUIBase.lib OgreGUIRenderer.lib &quot;Taharez Look.lib&quot; RlDialog.lib"
+				AdditionalDependencies="RlCore.lib msvcrt-ruby18.lib OgreMain.lib Plugin_GuiElements.lib RlRules.lib CEGUIBase.lib OgreGUIRenderer.lib &quot;Taharez Look.lib&quot; RlDialog.lib OgreOde.lib"
 				OutputFile="./lib/release/RlUI.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\dialog\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;&quot;..\..\dependencies\cegui\lib\win32\$(ConfigurationName)&quot;"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\dialog\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\cegui\lib\;&quot;..\..\dependencies\ogre\ogreode\lib\$(ConfigurationName)&quot;"
 				ProgramDatabaseFile=".\lib\Release/Rastullah.pdb"
 				SubSystem="2"
 			/>
@@ -228,15 +228,23 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\CeConsole.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\CeGuiWindow.h"
 				>
 			</File>
 			<File
 				RelativePath=".\include\CharacterSheetWindow.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\CommandExecutor.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\CommandMapper.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\CommandMapperWindow.h"
 				>
 			</File>
 			<File
@@ -256,10 +264,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\FPSOverlay.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\GameLoggerWindow.h"
 				>
 			</File>
@@ -276,6 +280,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\MessageWindow.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\ThirdPersonGameController.h"
 				>
 			</File>
@@ -285,6 +293,10 @@
 			</File>
 			<File
 				RelativePath=".\include\UiSubsystem.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\WindowManager.h"
 				>
 			</File>
 		</Filter>
@@ -297,15 +309,23 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\CeConsole.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\CeGuiWindow.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\src\CharacterSheetWindow.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\CommandExecutor.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\CommandMapper.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\CommandMapperWindow.cpp"
 				>
 			</File>
 			<File
@@ -325,10 +345,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\FPSOverlay.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\GameLoggerWindow.cpp"
 				>
 			</File>
@@ -345,6 +361,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\MessageWindow.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\ThirdPersonGameController.cpp"
 				>
 			</File>
@@ -352,14 +372,14 @@
 				RelativePath=".\src\UiSubsystem.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\src\WindowManager.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
-			>
-		</Filter>
-		<Filter
-			Name="swig"
 			>
 		</Filter>
 	</Files>

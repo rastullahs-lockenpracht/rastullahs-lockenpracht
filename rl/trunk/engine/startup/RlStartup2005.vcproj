@@ -127,7 +127,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				OmitFramePointers="TRUE"
-				AdditionalIncludeDirectories=".\include;..\core\include;..\rules\include;..\ui\include;..\sound\include;..\dialog\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\openal\include;..\..\dependencies\openalpp\include;..\..\dependencies\OpenThreads\include;..\..\dependencies\vorbis\include"
+				AdditionalIncludeDirectories=".\include;..\core\include;..\rules\include;..\ui\include;..\sound\include;..\dialog\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\openal\include;..\..\dependencies\openalpp\include;..\..\dependencies\OpenThreads\include;..\..\dependencies\vorbis\include;..\..\dependencies\cegui\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32\&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -192,6 +192,10 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
+				RelativePath=".\src\RastullahApplication.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\RastullahMain.cpp"
 				>
 			</File>
@@ -200,6 +204,10 @@
 			Name="Headerdateien"
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
+			<File
+				RelativePath=".\include\RastullahApplication.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Ressourcendateien"
