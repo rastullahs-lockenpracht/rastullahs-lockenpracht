@@ -8,14 +8,15 @@ libRlUi_la_SOURCES = \
 	CeGuiWindow.cpp \
 	CharacterSheetWindow.cpp \
 	CommandMapper.cpp \
+	CommandMapperWindow.cpp \
 	Console.cpp \
 	DebugWindow.cpp \
 	DialogWindow.cpp \
 	FlyingCameraController.cpp \
-	FPSOverlay.cpp \
 	GameLoggerWindow.cpp \
 	InputManager.cpp \
 	InventoryWindow.cpp \
+	MessageWindow.cpp \
 	ThirdPersonGameController.cpp \
 	UiSubsystem.cpp \
 	../components/src/ListboxWrappedTextItem.cpp

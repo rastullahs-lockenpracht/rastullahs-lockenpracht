@@ -86,7 +86,9 @@ namespace rl {
 		if (mState == CHOOSE_OBJECT_ACTION)
 		{
 			if (action->getTargetClass() == TC_NO_TARGET)
-				action->doAction(mObject, mActor, mObject);
+				activateAction(action, mObject, mActor, mObject);
+			else
+				/*selectTarget(action->getTargetClass())*/;
 		}
 
 		return true;
@@ -122,6 +124,14 @@ namespace rl {
 		float relY = radius * cos(PI * angle/180);
 		
 		return center + Point(relX, relY);
+	}
+	
+	void ActionChoiceWindow::activateAction(
+		Action* action, GameObject* object, Person* actor, GameObject* target)
+	{
+		setVisible(false);
+		action->doAction(object, actor, target);
+		mWindow->destroy();
 	}
 
 }

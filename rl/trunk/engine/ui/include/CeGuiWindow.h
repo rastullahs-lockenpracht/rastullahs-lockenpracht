@@ -36,6 +36,8 @@ namespace rl {
 
 		virtual bool beforeShow();
 		virtual bool beforeHide();
+	
+		void centerWindow();
 		
 		CEGUI::Window* mWindow;
 		bool mIsVisible;

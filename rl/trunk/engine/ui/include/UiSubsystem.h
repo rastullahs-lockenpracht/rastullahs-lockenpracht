@@ -42,6 +42,7 @@ namespace rl {
 		static VALUE consoleWrite(VALUE self, VALUE str);
 
 		void showActionChoice(GameObject* obj);
+		void showMessageWindow(const CeGuiString& message);
 		Person* getActiveCharacter();
 
 		static const char* CEGUI_ROOT;

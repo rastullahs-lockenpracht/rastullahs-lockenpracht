@@ -14,6 +14,7 @@
 #include "ThirdPersonGameController.h"
 #include "InputManager.h"
 #include "CommandMapper.h"
+#include "MessageWindow.h"
 
 #include "GameLoop.h"
 #include "ActorManager.h"
@@ -141,6 +142,13 @@ namespace rl {
 	{
 		ActionChoiceWindow* w = new ActionChoiceWindow(UiSubsystem::getSingleton().getActiveCharacter());
 		w->showActionsOfObject(obj);
+		w->setVisible(true);
+	}
+	
+	void UiSubsystem::showMessageWindow(const CeGuiString& message)
+	{
+		MessageWindow* w = new MessageWindow();
+		w->setText(message);
 		w->setVisible(true);
 	}
 

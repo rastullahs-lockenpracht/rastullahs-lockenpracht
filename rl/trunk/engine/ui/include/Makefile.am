@@ -7,7 +7,6 @@ noinst_HEADERS = \
 	DebugWindow.h \
 	DialogWindow.h \
 	FlyingCameraController.h \
-	FPSOverlay.h \
 	GameLoggerWindow.h \
 	InputManager.h \
 	InventoryWindow.h \
