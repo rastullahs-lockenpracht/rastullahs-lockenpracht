@@ -15,7 +15,10 @@
  */
 
 #include <boost/bind.hpp>
+
 #include "CommandMapperWindow.h"
+#include "UiSubsystem.h"
+#include "FixRubyHeaders.h"
 
 using namespace CEGUI;
 
@@ -45,14 +48,15 @@ CommandMapperWindow::CommandMapperWindow()
 			Window::EventMouseDoubleClick,
 			boost::bind(&CommandMapperWindow::handleChangeOffBattle, this));
 
-	//getWindow("CommandMapper")->
-	//	subscribeEvent(
-	//		Window::EventKeyDown,
-	//		boost::bind(&CommandMapperWindow::handleKeyDown, this, _1));
-	//getWindow("CommandMapper")->
-	//	subscribeEvent(
-	//		Window::EventClicked,
-	//		boost::bind(&CommandMapperWindow::handleMouseButton, this, _1));
+	getWindow("CommandMapper")->
+		subscribeEvent(
+			Window::EventKeyDown,
+			boost::bind(&CommandMapperWindow::handleKeyDown, this, _1));
+	getWindow("CommandMapper")->
+		subscribeEvent(
+			Window::EventMouseButtonDown,
+			boost::bind(&CommandMapperWindow::handleMouseButton, this, _1));
+	muteWindow(true);
 }
 
 void CommandMapperWindow::muteElements(bool mute)
@@ -71,6 +75,8 @@ void CommandMapperWindow::muteWindow(bool mute)
 
 bool CommandMapperWindow::handleChangeButton()
 {
+	muteElements(true);
+	muteWindow(false);
 	return true;
 }
 
@@ -96,12 +102,18 @@ bool CommandMapperWindow::handleChangeOffBattle()
 
 bool CommandMapperWindow::handleKeyDown(const CEGUI::EventArgs& e)
 {
-    return true;
+	const KeyEventArgs ke = static_cast<const KeyEventArgs&>(e);
+	UiSubsystem::getSingleton().log("Key Down "+StringConverter::toString(ke.scancode));
+
+	muteWindow(true);
+	muteElements(false);
+
+	return true;
 }
 
 bool CommandMapperWindow::handleMouseButton(const CEGUI::EventArgs& e)
 {
-    return true;
+	return true;
 }
 
 }

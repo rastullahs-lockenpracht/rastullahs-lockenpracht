@@ -23,6 +23,8 @@ namespace rl
 {
 	class GameActor;
     class _RlRulesExport Creature;
+	class _RlRulesExport Action;
+	class _RlRulesExport ActionGroup;
 
 	static const int ACT_NORMAL = 1<<0;
 	static const int ACT_INVIS_DESC = 1<<1;
@@ -57,6 +59,7 @@ namespace rl
         virtual void setDescription(CeGuiString& description);
 
         void addAction(Action* action, int option = ACT_NORMAL);
+        void addActionInGroup(Action* action, ActionGroup* group, int option = ACT_NORMAL);
         void removeAction(Action* action);
 	
 		void setActor(GameActor* actor);

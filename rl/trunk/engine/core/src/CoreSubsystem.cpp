@@ -263,6 +263,8 @@ namespace rl {
 
 			if (key.compare("TextureArchive") == 0)
 				ResourceManager::addCommonArchiveEx(moduleDir+"/materials/"+value, "Zip");
+			else if (key.compare("TextureDir") == 0)
+				ResourceManager::addCommonSearchPath(moduleDir+"/materials/"+value);
 			else if (key.compare("Archive") == 0)
 				ResourceManager::addCommonArchiveEx(moduleDir+"/"+value, "Zip");
 		}

@@ -117,6 +117,15 @@ namespace rl {
         Tripel<int> getEigenschaften() const;
     };
 
+    class ActionGroup
+	{
+	public:
+		ActionGroup(CeGuiString name, ActionGroup* parent = NULL);
+		~ActionGroup();
+	
+		const CeGuiString& getName() const;
+	};
+	
 	static const int ACT_NORMAL = 1<<0;
 	static const int ACT_INVIS_DESC = 1<<1;
 	static const int ACT_DISABLED = 1<<2;
@@ -134,8 +143,11 @@ namespace rl {
         virtual int getTargetClass() const;
         virtual void doAction(rl::GameObject *object, rl::Creature *actor,
             rl::GameObject *target);
+            
+        void setGroup(ActionGroup* group);
+		ActionGroup* getGroup() const;
     };
-	
+    
     %feature("director") GameObject;
     %apply SWIGTYPE *DYNAMIC { GameObject * };
     class GameObject
@@ -162,6 +174,7 @@ namespace rl {
         //        self->addAction(reinterpret_cast<Action*>(ptr));
         //    }
         //}
+        void addActionInGroup(Action* action, ActionGroup* group, int option = ACT_NORMAL);
         void removeAction(rl::Action *action);
 
         const std::vector<Action*> getValidActions() const;        

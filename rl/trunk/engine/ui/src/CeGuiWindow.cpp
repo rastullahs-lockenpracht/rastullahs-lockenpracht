@@ -116,6 +116,11 @@ void CeGuiWindow::addToRoot(Window* window)
 	CEGUI::WindowManager::getSingleton().getWindow((utf8*)UiSubsystem::CEGUI_ROOT)->addChildWindow(window);
 }
 
+CEGUI::Window* CeGuiWindow::getRoot()
+{
+	return CEGUI::WindowManager::getSingleton().getWindow((utf8*)UiSubsystem::CEGUI_ROOT);
+}
+
 Window* CeGuiWindow::getWindow(const char* name)
 {
 	return CEGUI::WindowManager::getSingleton().getWindow(mNamePrefix + (utf8*)name);

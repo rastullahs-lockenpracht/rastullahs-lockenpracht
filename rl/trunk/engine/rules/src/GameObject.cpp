@@ -82,6 +82,12 @@ namespace rl
 		mActions.push_back(make_pair(action, option));		
     }
 
+	void GameObject::addActionInGroup(Action* action, ActionGroup* group, int option)
+    {
+        addAction(action, option);
+		action->setGroup(group);
+	}
+
     void GameObject::removeAction(Action* action)
     {
 		ActionOptionVector::iterator it = findAction(mActions.begin(), mActions.end(), action);

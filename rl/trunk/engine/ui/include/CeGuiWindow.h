@@ -43,6 +43,7 @@ namespace rl {
 		CEGUI::MultiLineEditbox* getMultiLineEditbox(const char* name);
 
 		static void addToRoot(CEGUI::Window* window);
+		static CEGUI::Window* getRoot();
 
 		WindowType getWindowType();
 
