@@ -56,7 +56,7 @@ namespace rl
             mOdeStepper(new OgreOde::QuickStepper(0.01)),
             mOdeLevel(0)
     {
-        mOdeWorld->setGravity(Vector3(0, -9.80665, 0));
+        mOdeWorld->setGravity(Vector3(0, -98.0665, 0));
         mOdeWorld->setCFM(10e-5);
         mOdeWorld->setERP(0.8);
         mOdeWorld->setAutoSleep(true);
@@ -255,16 +255,7 @@ namespace rl
     {
         Geometry* g1 = contact->getFirstGeometry();
         Geometry* g2 = contact->getSecondGeometry();
-        
-//BEGIN DEBUG {{{
-        bool debug_xx = false;
-        if (g1 == mOdeLevel || g2 == mOdeLevel)
-        {
-            float pd = contact->getPenetrationDepth();
-            Vector3 pos = contact->getPosition();
-        }
-//END DEBUG }}}
-        
+                
         if(g1 && g2)
         {
             // Check for collisions between things that are connected
@@ -274,6 +265,15 @@ namespace rl
             if(b1 && b2)
             {
                 if(OgreOde::Joint::areConnected(b1,b2)) return false; 
+                PhysicalThing* pt1 = reinterpret_cast<PhysicalThing*>(b1->getUserData());
+                PhysicalThing* pt2 = reinterpret_cast<PhysicalThing*>(b2->getUserData());
+                contact->setCoulombFriction(pt1->getFriction() * pt2->getFriction());
+                contact->setBouncyness(
+                    pt1->getBounceRestitutionValue() * pt2->getBounceRestitutionValue(),
+                    max(pt1->getBounceVelocityThreshold(),
+                        pt2->getBounceVelocityThreshold())); 
+                contact->setSoftness(max(pt1->getSoftErp(), pt2->getSoftErp()),
+                    pt1->getSoftness() * pt2->getSoftness());
             }
             else if (b1 || b2)
             {
@@ -284,9 +284,7 @@ namespace rl
                     contact->setCoulombFriction(pt->getFriction());
                     contact->setBouncyness(pt->getBounceRestitutionValue(),
                         pt->getBounceVelocityThreshold()); 
-                    //contact->setSoftness(pt->getSoftErp(), pt->getSoftness());
-                    ///@todo rausfinden, was das bedeutet.
-                    //contact->setFrictionMode(Contact::Flag_FrictionPyramid);
+                    contact->setSoftness(pt->getSoftErp(), pt->getSoftness());
                 }
             }
         }

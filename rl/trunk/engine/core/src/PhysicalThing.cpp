@@ -31,11 +31,11 @@ namespace rl
 {
     PhysicalThing::PhysicalThing(Geometry* geometry, const Vector3& offset,
         const Ogre::Quaternion& orientationBias)
-        :   mBounceRestitution(5.0f),
-            mBounceVelocityThresh(-1.0f),
-            mSoftness(0.5f),
+        :   mBounceRestitution(0.8f),
+            mBounceVelocityThresh(0.0005f),
+            mSoftness(0.0f),
             mFriction(Utility::Infinity),
-            mSoftErp(0.5f),
+            mSoftErp(0.0f),
             mGeometry(geometry),
             mActor(0),
             mOffset(offset),
