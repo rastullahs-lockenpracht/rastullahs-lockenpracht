@@ -1,14 +1,18 @@
 noinst_HEADERS = \
+	ActionChoiceWindow.h \
+	CeConsole.h \
+	CeGuiWindow.h \
 	Console.h \
+	DebugWindow.h \
+	DialogWindow.h \
 	FlyingCameraController.h \
 	FPSOverlay.h \
+	GameLoggerWindow.h \
 	InputManager.h \
 	Interpreter.h \
+	InventoryWindow.h \
 	RubyInterpreter.h \
 	ScriptObject.h \
-	UiPrerequisites.h \
-	UiSubsystem.h \
-	DebugWindow.h \
 	ThirdPersonGameController.h \
-	DialogWindow.h \
-	CeConsole.h
+	UiPrerequisites.h \
+	UiSubsystem.h 
