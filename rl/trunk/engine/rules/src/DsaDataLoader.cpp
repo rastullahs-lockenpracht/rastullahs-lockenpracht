@@ -22,6 +22,8 @@ namespace rl {
 	{
 		XMLPlatformUtils::Initialize();
 
+		XmlHelper::initializeTranscoder();
+
 		DOMDocument* doc = loadDataFile(filename);
 		DOMElement* dataDocumentContent = XmlHelper::getChildNamed(doc->getDocumentElement(), "Inhalt");
 
