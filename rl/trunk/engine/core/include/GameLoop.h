@@ -44,11 +44,14 @@ public:
     bool isPaused();
     void setPaused(bool pause);
 
+	void quitGame();
+
     static GameLoop & getSingleton(void);
 	static GameLoop * getSingletonPtr(void);
 
 private:
     bool mPaused;
+	bool mRunning;
 
     std::list<SynchronizedTask*> mSynchronizedTaskList;
 };

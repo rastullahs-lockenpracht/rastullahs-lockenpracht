@@ -48,10 +48,8 @@ namespace rl {
         static UiSubsystem * getSingletonPtr(void);
 
 
-        /** Requests that the application exits */
+        /** Requests the application's exit */
         void requestExit();
-        /** Gets the state of mRequestExit */
-        bool isRequestingExit() const;
 
 		/** Writes Text into the Console or other output media */
 		void writeToConsole(std::string text);
@@ -71,7 +69,7 @@ namespace rl {
 		static const char* CEGUI_ROOT;
 
     private:
-        void initializeUiSubsystem( void );		void runTest();        ThirdPersonGameController* mGameController;        GameActor* mHero;		Person* mCharacter;        bool mRequestExit;		bool mInBattle;    };
+        void initializeUiSubsystem( void );		void runTest();        ThirdPersonGameController* mGameController;        GameActor* mHero;		Person* mCharacter;		bool mInBattle;    };
 
 }
 

@@ -66,8 +66,7 @@ namespace rl {
 		if(mWorld != 0)
 			delete mWorld;
 
-		mWorld = 0;
-        Root::getSingleton().shutdown();
+		mWorld = 0;        
     }
 
 	void CoreSubsystem::startCore()

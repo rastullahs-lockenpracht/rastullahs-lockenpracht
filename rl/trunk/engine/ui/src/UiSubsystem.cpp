@@ -33,8 +33,6 @@
 #include "CameraActor.h"
 #include "World.h"
 
-//#include "RastullahApplication.h"
-
 // BEGIN TEST
 #include "Person.h"
 #include "CharacterSheetWindow.h"
@@ -62,7 +60,6 @@ namespace rl {
 	}
 
 	UiSubsystem::UiSubsystem() :
-		mRequestExit(false),
 		mInBattle(false)
 	{
 		CoreSubsystem::getSingleton().log("Ui: Init Start");
@@ -127,17 +124,11 @@ namespace rl {
 
     void UiSubsystem::requestExit()
     {
-        mRequestExit = true;
-		exit(0);
-	//	RastullahApplication::getSingleton().quit();
-    }
+		//TODO: Vorher mal nachfragen, ob wirklich beendet werden soll
+    	GameLoop::getSingleton().quitGame();
+	}
     
-    bool UiSubsystem::isRequestingExit() const
-    {
-        return mRequestExit;
-    }
-
-	void UiSubsystem::writeToConsole(std::string text)
+    void UiSubsystem::writeToConsole(std::string text)
 	{
 		Console::getSingleton().write(text);
 	}
@@ -188,6 +179,11 @@ namespace rl {
 		w->setText(message);
 		w->setVisible(true);
 	}
+
+/*	void UiSubsystem::showMainMenu()
+	{
+		(new MainMenuWindow())->setVisible(true);
+	}*/
 
 	void UiSubsystem::toggleConsole()
 	{

@@ -27,9 +27,11 @@ template<> rl::GameLoop* Singleton<rl::GameLoop>::ms_Singleton = 0;
 namespace rl {
 
 
-GameLoop::GameLoop() : mSynchronizedTaskList()
-{
-    mPaused = false;
+GameLoop::GameLoop() 
+	:	mSynchronizedTaskList(),
+		mRunning(true),
+		mPaused(false)
+{    
     Ogre::Root::getSingleton().addFrameListener(this);
     addSynchronizedTask( new AnimationManager() );
 }
@@ -66,12 +68,17 @@ bool GameLoop::frameStarted(const Ogre::FrameEvent & evt)
 
 bool GameLoop::frameEnded(const Ogre::FrameEvent & evt)
 {
-	return true;
+	return mRunning;
 }
 
 bool GameLoop::isPaused()
 {
     return mPaused;
+}
+
+void GameLoop::quitGame()
+{
+	mRunning = false;
 }
 
 void GameLoop::setPaused(bool pause)
