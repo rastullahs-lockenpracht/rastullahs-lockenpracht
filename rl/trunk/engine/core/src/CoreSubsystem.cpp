@@ -34,8 +34,6 @@
 #include "ConfigurationManager.h"
 #include <ctime>
 
-#include <iostream>
-
 
 template<> rl::CoreSubsystem* Singleton<rl::CoreSubsystem>::ms_Singleton = 0;
 
@@ -240,7 +238,6 @@ namespace rl {
         if (getInterpreter() != NULL)
         {
             getInterpreter()->addSearchPath(moduleDir + "/scripts");
-            std::cerr << "Broeni: " << moduleDir + "/scripts" << std::endl;
             getInterpreter()->addSearchPath(moduleDir + "/scripts/maps");
         }
     }
