@@ -7,5 +7,6 @@ libRlSound_la_SOURCES = \
 	MusicManager.cpp \
 	SoundManager.cpp \
     ResourceManager.cpp \
-	SoundSubsystem.cpp 
+	SoundSubsystem.cpp \
+	SoundEvent.h
     

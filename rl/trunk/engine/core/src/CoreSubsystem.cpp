@@ -74,7 +74,7 @@ namespace rl {
         // Ein kleiner C-Trick: Wir versuchen erstmal die Konfiguration
         // wiederherzustellen. Klappt das nicht (Rueckgabe: FALSE), dann
         // zeigen wir den Konf.dialog.
-        if( Root::getSingleton().restoreConfig()
+        if(Root::getSingleton().restoreConfig()
             || Root::getSingleton().showConfigDialog())
         {
             // If returned true, user clicked OK so initialise

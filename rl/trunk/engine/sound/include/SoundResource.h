@@ -7,7 +7,7 @@
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  Perl Artistic License for more details.
  *
  *  You should have received a copy of the Perl Artistic License
  *  along with this program; if not you can get it here
@@ -21,6 +21,10 @@
 #include <Ogre.h>
 #include <OpenThreads/Thread>
 #include <OpenThreads/Mutex>
+#include "EventSource.h"
+#include "EventListener.h"
+#include "EventCaster.h"
+#include "SoundEvent.h"
 
 using namespace OpenThreads;
 
@@ -42,10 +46,34 @@ enum SoundDataType { Wave, OggVorbis };
  * @date 10-10-2004
  * @version 3.0
  */
-class _RlSoundExport SoundResource: public Resource {
+class _RlSoundExport SoundResource: public Resource,
+         public EventListener<SoundEvent> {
     private:
+        /// Lesen der Vorbisdatei.
+        static size_t VorbisRead(void *ptr, size_t byteSize, size_t sizeToRead, 
+                 void *datasource);
+        /// Positionsetzen in der Vorbisdatei.
+        static int VorbisSeek(void *datasource, ogg_int64_t offset, int whence);
+        /// Die Vorbisdatei schliessen.
+        static int VorbisClose(void *datasource);
+        /// Wo sind wir in der Vorbisdatei.
+        static long VorbisTell(void *datasource);
+                                        
+         /// Verwaltungsstruktur fuer Vorbisdateien
+        struct SOggFile
+        {
+            /// Zeiger auf die Ogg-Daten
+            unsigned char* mDataPtr;
+            /// Die Groesse der Datei
+            int mDataSize;
+            /// Positionszeiger in die Datei
+            int mDataRead;
+        } mOggMemoryFile;
+        
         /// Diese Klasse kapselt das Fade in.
-        class FadeThread : public Thread {
+        class FadeThread : public Thread,
+            public virtual EventSource, 
+            public virtual EventCaster<SoundEvent> {
             private:
                 /// Damit wir wissen, wo wir hinwollen ;-)
                 SoundResource *that;
@@ -53,16 +81,40 @@ class _RlSoundExport SoundResource: public Resource {
                 bool mFadeIn;
                 /// Dauer des Fades in msek.
                 unsigned long int mDauer;
+                /// Absichern von mDauer
+                mutable Mutex mDauerMutex;
+                /// Die Lautstärke, die Berechnungsgrundlage ist.
+                ALfloat mGain;
+                /// Absichern von mGain.
+                mutable Mutex mGainMutex;
+            protected:
+                /// Berechne den Anstieg der Lautstarke beim Fade-In
+                ALfloat calculateFadeIn(unsigned RL_LONGLONG time);
+
+                /// Berechne die Abnahme der Lautstarke beim Fade-Out
+                ALfloat calculateFadeOut(unsigned RL_LONGLONG time);
+
             public:
                 /// Der Konstruktor.
                 FadeThread(SoundResource *that, bool fadeIn);
                 /// Die Arbeitsroutine.
                 void run();
+                /// Die Fadedauer setzen.
+                void setDauer(const unsigned long int dauer);
+                /// Die Fadedauer bekommen.
+                const unsigned long int getDauer() const;
+                /// Die Ausgangslautstärke setzen.
+                void setGain(const ALfloat gain);
+                /// Die Ausgangslautstärke bekommen.
+                const ALfloat getGain() const;
+                
 
         } mFadeInThread, mFadeOutThread;
        
         /// Streamen der Sounddaten
-        class StreamThread : public Thread {
+        class StreamThread : public Thread,
+            public virtual EventSource, 
+            public virtual EventCaster<SoundEvent> {
             private:
                 /// Damit wir wissen, wo wir hinwollen ;-)
                 SoundResource *that;
@@ -84,7 +136,11 @@ class _RlSoundExport SoundResource: public Resource {
         /// Die Buffer, die wir benutzen
         ALuint *mBuffers;
         /// Wieviele Buffer werden benutzt.
-        const short mBufferCount;
+        static const short mBufferCount = 4;
+        /// Grösse des Buffers.
+        static const int BUFFER_SIZE = (4096 * 2);
+        /// Die Uebrgabe der Callbacks.
+        static ov_callbacks mVorbisCallbacks;
         
         /// Welches Soundformat hat dieser Sound.
         ALsizei mFormat;
@@ -96,10 +152,17 @@ class _RlSoundExport SoundResource: public Resource {
         ALsizei mFrequency;
         /// Loopen?
         ALboolean mLoop;
+        /// Die komplette Zeit des Stücks in Sekunden.
+        double mTime;
         /// Unsere Daten von Ogres ResourceManager.
         DataChunk *mData;
         /// Die Art des Sounds.
         SoundDataType mSoundDataType;
+        /// Für Waves dekodieren wir die Daten im voraus.
+        ALvoid *mWAVData;
+        /// Das OggVorbis-Filehandle
+        OggVorbis_File mOggStream;
+        
 
         /// Ueberpruefen, ob Fehler aufgetreten ist.
         void check() const throw (RuntimeException);
@@ -112,14 +175,6 @@ class _RlSoundExport SoundResource: public Resource {
         /// Fuehre das Fade-Out aus
         void fadeOut(unsigned int msec);
         
-        /// Berechne den Anstieg der Lautstarke beim Fade-In
-        ALfloat calculateFadeIn(unsigned RL_LONGLONG duration, unsigned RL_LONGLONG time,
-                ALfloat gain);
-
-        /// Berechne die Abnahme der Lautstarke beim Fade-Out
-        ALfloat calculateFadeOut(unsigned RL_LONGLONG duration, unsigned RL_LONGLONG time,
-                ALfloat gain);
-
     public:
         /// Der Standardkonstruktor
         SoundResource(const Ogre::String& name);
@@ -158,7 +213,21 @@ class _RlSoundExport SoundResource: public Resource {
         const ALenum getState() const throw (RuntimeException);
         /// Spielt der Stream noch. Nicht verwechseln mit getState.
         const bool isPlaying() const;
+        /// Wir haben ein Ereignis erhalten.
+        virtual bool eventRaised(SoundEvent &anEvent);
         
+        
+
+        void open(unsigned char *data, unsigned int size);
+        void release();
+        void display();
+        bool playback();
+        bool playing();
+        bool update();
+        bool stream(ALuint buffer);
+        void empty();
+        void check();
+        Ogre::String errorString(int code);
         
 };
 

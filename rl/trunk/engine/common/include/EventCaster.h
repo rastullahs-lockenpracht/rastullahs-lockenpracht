@@ -7,7 +7,7 @@
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  Perl Artistic License for more details.
  *
  *  You should have received a copy of the Perl Artistic License
  *  along with this program; if not you can get here
@@ -28,10 +28,13 @@ namespace rl {
  * @date 10-05-2004
  * @version 1.0
  */
-template <class Event>
+template <typename Event>
 class EventCaster {
 private:
-    set<EventListener<Event>*> mListeners; 
+    typedef EventListener<Event> ListenerToEvent;
+    typedef set<ListenerToEvent*> EventSet;
+    typedef typename EventSet::iterator EventSetIterator;
+    EventSet mListeners; 
 public:
     /// Der Konstruktor
 	EventCaster();
@@ -42,8 +45,73 @@ public:
    /// Loesche einen EventListener.
    void removeEventListener(EventListener<Event>* aListener);
    /// Ein Ereignis verteilen.
-   void dispatchEvent(Event *anEvent);
+   void dispatchEvent(Event &anEvent);
 };
+
+/**
+ * @author JoSch
+ * @date 10-05-2004
+ * @version 1.0
+ */
+template <typename Event>
+EventCaster<Event>::EventCaster()
+{
+}
+
+/**
+ * @author JoSch
+ * @date 10-05-2004
+ * @version 1.0
+ */
+template <typename Event> 
+EventCaster<Event>::~EventCaster()
+{
+}
+
+/**
+ * @author JoSch
+ * @date 10-05-2004
+ * @version 1.0
+ */
+template <typename Event>
+void EventCaster<Event>::addEventListener(ListenerToEvent *newListener)
+{
+    mListeners.insert(newListener);
+}
+
+/**
+ * @author JoSch
+ * @date 10-05-2004
+ * @version 1.0
+ */
+template <typename Event>
+void EventCaster<Event>::removeEventListener(ListenerToEvent *aListener)
+{
+    mListeners.erase(mListeners.find(aListener));
+}
+
+/**
+ * @author JoSch
+ * @date 10-05-2004
+ * @version 1.0
+ */
+template <typename Event>
+void EventCaster<Event>::dispatchEvent(Event &anEvent)
+{
+    EventSetIterator it;
+    for(it = mListeners.begin(); it != mListeners.end(); it++)
+    {
+        try {
+            if (!(*it)->eventRaised(anEvent))
+            {
+                break;
+            }
+        } catch(...)
+        {
+        }
+    }
+}
+
      
 }
 #endif // EVENTCASTER_H

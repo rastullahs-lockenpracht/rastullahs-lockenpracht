@@ -1,4 +1,4 @@
-/* EventSource.cpp - Die Quelle eines Ereignisses
+/* SoundEvent.h - Diese Klassse repräsentiert ein Event das in RlSound auftritt.
  * (C) 2004. Team Pantheon. www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
@@ -13,24 +13,21 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
+ 
+#ifndef SOUNDEVENT_H
+#define SOUNDEVENT_H
 
-#include "EventSource.h"
+#include "EventObject.h"
 
 namespace rl {
-/**
- * @author JoSch
- * @date 10-05-2004
- * @version 1.0
- */
-EventSource::EventSource()
-{}
 
-/**
- * @author JoSch
- * @date 10-05-2004
- * @version 1.0
- */
-EventSource::~EventSource()
-{}
+class SoundEvent : public EventObject{
+public:
+
+	SoundEvent();
+	virtual ~SoundEvent();
+};
+
 
 }
+#endif // SOUNDEVENT_H

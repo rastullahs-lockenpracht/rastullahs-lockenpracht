@@ -7,7 +7,7 @@
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  Perl Artistic License for more details.
  *
  *  You should have received a copy of the Perl Artistic License
  *  along with this program; if not you can get here
@@ -32,8 +32,27 @@ public:
     /// Der Destruktor.
 	virtual ~EventListener();
     /// Hier wird das Objekt benachrichtigt.
-    virtual bool eventRaised(Event *anEvent);
+    virtual bool eventRaised(Event &anEvent) = 0;
 };
+
+/**
+ * @author JoSch
+ * @date 10-05-2004
+ * @version 1.0
+ */
+template <typename Event>
+EventListener<Event>::EventListener()
+{}
+
+/**
+ * @author JoSch
+ * @date 10-05-2004
+ * @version 1.0
+ */
+template <typename Event>
+EventListener<Event>::~EventListener()
+{}
+
 
 }
 #endif // EVENTLISTENER_H
