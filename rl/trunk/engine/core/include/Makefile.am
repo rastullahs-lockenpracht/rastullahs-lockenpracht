@@ -1,6 +1,7 @@
 noinst_HEADERS = \
 	Actor.h \
 	ActorManager.h \
+	AnimationListener.h \
 	AnimationManager.h \
 	AudibleActor.h \
 	BSPWorld.h \

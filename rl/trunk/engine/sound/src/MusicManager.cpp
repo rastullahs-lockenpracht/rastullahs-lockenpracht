@@ -16,6 +16,7 @@
 
 #include <iostream>
 #include "MusicManager.h"
+#include "SoundSubsystem.h"
 #include "Sleep.h"
 
 using namespace Ogre;
@@ -61,7 +62,8 @@ MusicManager::MusicManager() : ResourceManager(),
     mAuto(false),
     mShouldPlay(false),
     mShouldExit(false),
-    mMusicThread()
+    mMusicThread(),
+    mPlayList()
 {
     mMusicThread.start();
 }

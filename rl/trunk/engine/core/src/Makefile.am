@@ -5,6 +5,7 @@ libRlCore_la_LDFLAGS = -L../../sound/src -lRlSound $(SDL_LIBS) $(SWIG_RUBY_LIBS)
 libRlCore_la_SOURCES = \
 	Actor.cpp \
 	ActorManager.cpp \
+    AnimationListener.cpp \
 	AnimationManager.cpp \
 	AudibleActor.cpp \
 	BSPWorld.cpp \

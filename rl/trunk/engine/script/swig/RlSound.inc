@@ -14,9 +14,16 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
+namespace Ogre {
+%apply SWIGTYPE *DYNAMIC { Resource * };
+	class Resource {
+		virtual void load() = 0;
+	};
+}
+ 
+
 namespace rl {
 
-%apply SWIGTYPE *DYNAMIC { Ogre::Resource * };
 
    	class ResourceManager {
    	public:
@@ -65,8 +72,8 @@ namespace rl {
         bool isLooping();
         void setLooping(bool isLooping);
    	};
-   
-    class SoundResource {
+   	
+    class SoundResource : public Ogre::Resource {
    	public:
         SoundResource(const String& name);
         const Vector3& getDirection() const throw (rl::RuntimeException);
