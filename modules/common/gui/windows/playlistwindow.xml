@@ -5,18 +5,18 @@
 		<Property Name="Width" Value="640"/>
 		<Property Name="Height" Value="510"/>
 
-      	<Window Type="DefaultGUISheet" Name="PlaylistSheet/PlaylistSheet">
-        	<Property Name="RelativePosition" Value="x:0.0 y:0.0"/>
-        	<Property Name="RelativeWidth" Value="1.0"/>
-        	<Property Name="RelativeHeight" Value="1.0"/>
-			<Property Name="Text" Value="Charakter" />
+    	<Window Type="DefaultGUISheet" Name="PlaylistSheet/PlaylistSheet">
+      	<Property Name="RelativePosition" Value="x:0.0 y:0.0"/>
+      	<Property Name="RelativeWidth" Value="1.0"/>
+      	<Property Name="RelativeHeight" Value="1.0"/>
+				<Property Name="Text" Value="Charakter" />
 
-		<Window Type="RastullahLook/MultiColumnList" Name="PlaylistSheet/PlaylistSheet/Table">
-				<Property Name="RelativePosition" Value="x:0.0 y:0.0"/>
-				<Property Name="RelativeWidth" Value="1.0"/>
-				<Property Name="RelativeHeight" Value="1.0"/>
-		</Window>
-		
+				<Window Type="RastullahLook/MultiColumnList" Name="PlaylistSheet/PlaylistSheet/Table">
+					<Property Name="RelativePosition" Value="x:0.0 y:0.0"/>
+					<Property Name="RelativeWidth" Value="1.0"/>
+					<Property Name="RelativeHeight" Value="1.0"/>
+				</Window>
+			</Window>
 	</Window>
 </GUILayout>
 
