@@ -46,7 +46,7 @@ public:
             SoundManager::getSingleton().getResourceIterator();
         while (it.hasMoreElements())
         {
-            Resource *res = it.getNext();
+            Ogre::Resource *res = it.getNext();
             SoundResource* sound = dynamic_cast<SoundResource*>(res);
             if (sound)
             {
@@ -67,13 +67,13 @@ public:
     
     void testSoundManager_loadPlayWithFade()
     {
-        rl::ResourceManager::ResourceMapIterator it =
+        Ogre::ResourceManager::ResourceMapIterator it =
             SoundManager::getSingleton().getResourceIterator();
         while (it.hasMoreElements())
         {
-            Resource *res = it.getNext();
+            Ogre::Resource *res = it.getNext();
             SoundResource* sound = dynamic_cast<SoundResource*>(res);
-            std::cerr << sound->getName()<<std::endl;
+            std::cerr << sound->getName() <<std::endl;
             if (sound)
             {
                 sound->load();
