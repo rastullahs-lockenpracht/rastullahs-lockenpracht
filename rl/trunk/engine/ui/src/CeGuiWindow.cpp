@@ -22,7 +22,7 @@ CeGuiWindow::CeGuiWindow(const char* xmlfile, bool withInput)
 			mNamePrefix);
 	assert(mWindow != 0);
 
-	mIsVisible = true;
+	mIsVisible = false;
     mWithInput = withInput;
 
 	mName = mWindow->getName();

@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Exception.h"
 #include "GameActor.h"
+#include "RulesSubsystem.h"
 
 using namespace std;
 
@@ -88,12 +89,12 @@ namespace rl
         return actions;
     }
 
-    void GameObject::doAction(const CeGuiString& actionName,
-                              const CeGuiString& className,
+    void GameObject::doAction(const CeGuiString& className,
+                              const CeGuiString& actionName,
                               Creature* actor,
                               GameObject* target)
     {
-		ActionOptionVector::const_iterator it = findAction(mActions.begin(), mActions.end(), actionName, className);
+		ActionOptionVector::const_iterator it = findAction(mActions.begin(), mActions.end(), className, actionName);
 
 		if (it == mActions.end())
         {
@@ -135,14 +136,14 @@ namespace rl
 		GameObject::findAction(
 			GameObject::ActionOptionVector::iterator begin, 
 			GameObject::ActionOptionVector::iterator end, 
-			const CeGuiString& actionName,
-			const CeGuiString& className)
+			const CeGuiString& className,
+			const CeGuiString& actionName)
 	{
 		for (ActionOptionVector::iterator iter = begin; iter != end; iter++)
 		{
 			Action* action = (*iter).first;
 
-			if (action->getName().compare(actionName) == 0 ||
+			if (action->getName().compare(actionName) == 0 &&
 				action->getClassName().compare(className) == 0)
 				return iter;
 		}

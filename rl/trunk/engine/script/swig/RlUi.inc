@@ -10,6 +10,8 @@ public:
 	void showMessageWindow(const CeGuiString& message);
 	Person* getActiveCharacter();
 	void setActiveCharacter(Person* person);
+	
+	void requestExit();
 };
 
 class CommandMapper

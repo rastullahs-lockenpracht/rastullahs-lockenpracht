@@ -15,9 +15,12 @@ namespace rl {
 		WindowSet::iterator iter = mWindows.find(window);
 		if (iter == mWindows.end())
 			return false;
-		mWindows.erase(iter);
-		
-		delete window;
+
+		//mWindows.erase(iter);
+		//TODO: Fenster löschen scheint nicht zu gehen
+		//delete window; 
+		window->setVisible(false);
+
 		return true;
 	}
 

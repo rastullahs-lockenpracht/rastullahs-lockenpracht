@@ -43,25 +43,20 @@ namespace rl {
 		bool injectMouseClicked(int mouseButtonMask);
 		bool injectKeyClicked(int keycode);		
 		bool injectKeyDown(int keycode);
-		bool injectKeyUp(int keycode);
-
-		void setExecutor(CommandExecutor* executor);
+		bool injectKeyUp(int keycode);		
 
 	private:
-		typedef std::map<int, CeGuiString> KeyCommandMap;
+		// KeyCode -> (Rubyklasse, Name)
+		typedef std::map<int, std::pair<CeGuiString, CeGuiString> > KeyCommandMap;
 		typedef std::map<int, MovementState> MovementCommandMap;
-		typedef std::map<int, CeGuiString> MouseCommandMap;
+		typedef std::map<int, std::pair<CeGuiString, CeGuiString> > MouseCommandMap;
 
 		MovementCommandMap mMovementCommands;
-		KeyCommandMap mActionCommands;
+		KeyCommandMap mKeyCommandsInBattle;
+		KeyCommandMap mKeyCommandsOffBattle;
 		MouseCommandMap mMouseCommands;
 
-		int mActiveMovement;
-		
-		CommandExecutor* mCommandExecutor;
-
-		StringVector mActionsInBattle;
-		StringVector mActionsOffBattle;
+		int mActiveMovement;		
 	};
 
 }

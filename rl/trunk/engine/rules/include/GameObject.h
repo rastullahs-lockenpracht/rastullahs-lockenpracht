@@ -57,8 +57,8 @@ namespace rl
          *         getriggert wurde.
          *  @param target Ziel, auf das die Aktion gewirkt wird.
          */
-        void doAction(const CeGuiString& actionName,
-                      const CeGuiString& className,
+        void doAction(const CeGuiString& className,
+                      const CeGuiString& actionName,
                       Creature* actor,
                       GameObject* target);
 
@@ -75,7 +75,7 @@ namespace rl
 	private:
         ActionOptionVector mActions;
 		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const CeGuiString& actionName);
-		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const CeGuiString& actionName, const CeGuiString& className);
+		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const CeGuiString& className, const CeGuiString& actionName);
 		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const Action* action);
 	
 		GameActor* mActor;

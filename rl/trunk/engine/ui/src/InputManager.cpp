@@ -249,7 +249,6 @@ namespace rl {
 	{
 		if (isCeguiActive())
 		{
-
 			mActiveWindows.erase(window);
 
 			if (!isCeguiActive())
@@ -264,29 +263,18 @@ namespace rl {
 	{
 		 mBuffered = true;
 
-
-
 		// Check to see if input has been initialized
-
 		if (mInputInitialized) {
 
-
-
 			// Destroy the input reader.
-
 			//Ogre::Root::getSingleton().removeFrameListener(this);
-
 			//mEventQueue.activateEventQueue(false);
-
 			//mInputReader->useBufferedInput(NULL, false, false);			
-
 			//PlatformManager::getSingleton().destroyInputReader( mInputReader );
 
 			mInputInitialized = false;
 
 		}
-
-
 
 		mEventProcessor->initialise(Ogre::Root::getSingleton().getAutoCreatedWindow());
 
@@ -304,9 +292,7 @@ namespace rl {
 	{
 		 mBuffered = false;
 
-
-		// Check to see if even has been initialized
-
+		// Check to see if event has been initialized
 		if (mEventInitialized) {
 			// Stop buffering events
 
@@ -317,7 +303,6 @@ namespace rl {
 			mEventProcessor->removeMouseMotionListener(this);
 
 			mEventInitialized = false;
-
 		}
 
 		mEventQueue.activateEventQueue(true);

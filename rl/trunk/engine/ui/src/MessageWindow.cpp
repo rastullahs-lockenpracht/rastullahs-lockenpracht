@@ -3,7 +3,7 @@
 namespace rl {
 
 MessageWindow::MessageWindow() :
-	CeGuiWindow("messagewindow.xml", true)
+	CeGuiWindow("messagewindow.xml", false)
 {
 	mTextField = getWindow("MessageWindow/Text");
 	centerWindow();

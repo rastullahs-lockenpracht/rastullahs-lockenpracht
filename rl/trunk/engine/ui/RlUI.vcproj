@@ -181,9 +181,6 @@
 				RelativePath=".\include\CharacterSheetWindow.h">
 			</File>
 			<File
-				RelativePath=".\include\CommandExecutor.h">
-			</File>
-			<File
 				RelativePath=".\include\CommandMapper.h">
 			</File>
 			<File
@@ -240,9 +237,6 @@
 			</File>
 			<File
 				RelativePath=".\src\CharacterSheetWindow.cpp">
-			</File>
-			<File
-				RelativePath=".\src\CommandExecutor.cpp">
 			</File>
 			<File
 				RelativePath=".\src\CommandMapper.cpp">

@@ -47,10 +47,13 @@ namespace rl {
 		Person* getActiveCharacter();
 		void setActiveCharacter(Person* person);
 
+		void setBattleMode(bool inBattle);
+		bool isInBattleMode();
+
 		static const char* CEGUI_ROOT;
 
     private:
-        void initializeUiSubsystem( void );		void runTest();        ThirdPersonGameController* mGameController;        GameActor* mHero;		Person* mCharacter;        bool mRequestExit;    };
+        void initializeUiSubsystem( void );		void runTest();        ThirdPersonGameController* mGameController;        GameActor* mHero;		Person* mCharacter;        bool mRequestExit;		bool mInBattle;    };
 
 }
 

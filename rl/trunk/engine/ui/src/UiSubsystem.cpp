@@ -154,27 +154,19 @@ namespace rl {
 		w->setVisible(true);
 	}
 
+	void UiSubsystem::setBattleMode(bool inBattle)
+	{
+		mInBattle = inBattle;
+		//TODO: Irgendwann später, UI auf Kampfmodus umstellen
+	}
+
+	bool UiSubsystem::isInBattleMode()
+	{
+		return mInBattle;
+	}
+
 	void UiSubsystem::runTest()
 	{
 		InputManager::getSingleton().setObjectPickingActive(true);
-		
-		/*DialogWindow* dialog=new DialogWindow("startup.xml");
-		dialog->setName("Rattenkind");
-		dialog->setQuestion("Wad? Wer bist du denn?\nHusch, husch!\nAb ins Körbchen!!!");*/
-/*		dialog->setQuestion("Wie ist dein Name?");
-		dialog->addLine("Hab ich vergessen");
-		dialog->addLine("Ich heisse %NAME%");
-		dialog->addLine("Mein Name ist %NAME%");
-		dialog->addLine("Man nennt mich %NAME%, oder auch %NAME%");
-		dialog->addLine("Ich habe nichts zu sagen");
-
-		dialog->setVariableValue("NAME", "Heinz-Peter");
-		dialog->setName("Klaus-Dieter");
-		dialog->show();*/		
-
-		//CharacterSheetWindow* sheet = new CharacterSheetWindow();
-		//sheet->setCharacter(mCharacter);
-		//sheet->hide();
 	}
-	
 }

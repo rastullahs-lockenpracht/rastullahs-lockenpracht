@@ -1,5 +1,6 @@
 #include "CommandMapper.h"
-#include "CommandExecutor.h"
+#include "UiSubsystem.h"
+#include "Person.h"
 
 using namespace Ogre;
 using namespace std;
@@ -10,16 +11,18 @@ namespace rl {
 
 	CommandMapper::CommandMapper()
 	    : mMovementCommands(),
-		  mActionCommands(),
+		  mKeyCommandsInBattle(),
+		  mKeyCommandsOffBattle(),
 		  mMouseCommands(),
-		  mActiveMovement(MOVE_NONE),
-		  mActionsInBattle(),
-		  mActionsOffBattle()
+		  mActiveMovement(MOVE_NONE)		 
 	{
 		mMovementCommands.insert(make_pair(KC_A, MOVE_LEFT));
 		mMovementCommands.insert(make_pair(KC_D, MOVE_RIGHT));
 		mMovementCommands.insert(make_pair(KC_W, MOVE_FORWARD));
-		mMovementCommands.insert(make_pair(KC_S, MOVE_BACKWARD));	
+		mMovementCommands.insert(make_pair(KC_S, MOVE_BACKWARD));
+
+		mKeyCommandsInBattle.insert(make_pair(KC_F3, make_pair("ShowActionMenuAction", "Aktionen")));
+		mKeyCommandsOffBattle.insert(make_pair(KC_F3, make_pair("ShowActionMenuAction", "Aktionen")));
 	}
 
 	CommandMapper::~CommandMapper()
@@ -43,10 +46,18 @@ namespace rl {
 
 	bool CommandMapper::injectKeyClicked(int keycode)
 	{
-		KeyCommandMap::const_iterator command = mActionCommands.find(keycode);
-		if (command != mActionCommands.end())
+		KeyCommandMap* commandMap;
+		if (UiSubsystem::getSingleton().isInBattleMode())
+			commandMap = &mKeyCommandsInBattle;
+		else
+			commandMap = &mKeyCommandsOffBattle;
+
+		KeyCommandMap::const_iterator command = commandMap->find(keycode);
+
+		if (command != commandMap->end())
 		{
-			//mCommandExecutor->executeCommand((*command).second);
+			Person* chara = UiSubsystem::getSingleton().getActiveCharacter();
+			chara->doAction((*command).second.first, (*command).second.second, chara, chara);
 			return true;
 		}
 		return false;
@@ -86,11 +97,5 @@ namespace rl {
 		return (mActiveMovement & movmt) == movmt;
 	}
 
-	void CommandMapper::setExecutor(CommandExecutor* executor)
-	{
-		mCommandExecutor = executor;
-		CeGuiStringVector mActionsInBattle = executor->getCommandsInBattle();
-		CeGuiStringVector mActionsOffBattle = executor->getCommandsOffBattle();
-	}
 }
 

@@ -1,10 +1,5 @@
-include RlScript
-
-class RubyAction < Action
-	def getClassName
-		return self.class
-	end
-end
+require RlScript
+load 'Actions.rb'
 
 class HeiltrankWirkung < RubyAction
 	def initialize(name, description, quali)
