@@ -14,6 +14,10 @@ REM ----------------------
 mkdir %RL_DIST%
 mkdir %RL_DIST%\logs
 
+REM RL kopieren
+REM ----------------------
+@call copy_dlls.bat %1 %2
+
 REM Ogre Dateien kopieren
 REM ---------------------
 copy %OGREHOME%\OgreMain\lib\%BUILD%\OgreMain.dll %RL_DIST%
