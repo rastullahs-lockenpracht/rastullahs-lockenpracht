@@ -2,4 +2,5 @@
 <Imageset Name="RastullahButtons" Imagefile="RastullahButtons.png" NativeHorzRes="800" NativeVertRes="600" AutoScaled="true">
     <Image Name="Buttons/Default" XPos="0" YPos="0" Width="37" Height="37" />
     <Image Name="Buttons/Quit" XPos="37" YPos="0" Width="37" Height="37" /> 
+    <Image Name="Buttons/Cancel" XPos="74" YPos="0" Width="37" Height="37" /> 
 </Imageset>

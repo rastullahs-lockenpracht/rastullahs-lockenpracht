@@ -2,6 +2,6 @@
    <Window Type="RastullahLook/StaticImage" Name="DefaultButton">
       <Property Name="AbsoluteWidth" Value="45"/>
       <Property Name="AbsoluteHeight" Value="45"/>
-      <Property Name="Image" Value="set:RastullahButtons image:Buttons/Default" /> 
+      <Property Name="Image" Value="set:RastullahButtons image:Buttons/Cancel" /> 
    </Window>
 </GUILayout>
