@@ -3,8 +3,9 @@ package de.pantheon.geometry;
 public class Vector3
 {
     private double xyz[] = new double[3];
-    
-	public Vector3()
+    private final static double EPSILON = 0.0001;
+
+    public Vector3()
 	{
 		xyz[0] = 0;
 		xyz[1] = 0;
@@ -129,6 +130,17 @@ public class Vector3
 	{
 		return "( " + xyz[0] + " " + xyz[1] + " " + xyz[2] + " )"; 
 	}
+	
+	public boolean nearly_equals(Vector3 vec)
+	{
+	    double angle = Vector3.dot(Vector3.normalize(this), Vector3.normalize(vec) ) - 1;
+		
+	    if ( ( angle > -EPSILON ) && ( angle < EPSILON ) )
+	        return true;
+	    else
+	        return false;		
+	}
+	
 	
 	public boolean equals(Object obj)
 	{
