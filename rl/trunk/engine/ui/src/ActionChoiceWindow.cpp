@@ -108,6 +108,7 @@ namespace rl {
 				Window::EventMouseClick,
 				boost::bind(
 					&ActionChoiceWindow::activateAction, this, action));
+			bindClickToCloseWindow(button);
 			button->subscribeEvent(
 				Window::EventMouseEnters,
 				boost::bind(

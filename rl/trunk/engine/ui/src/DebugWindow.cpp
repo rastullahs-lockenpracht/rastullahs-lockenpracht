@@ -16,12 +16,12 @@
 #include "UiPrerequisites.h"
 
 #include "UiSubsystem.h"
+#include "DebugWindow.h"
+#include "InputManager.h"
+#include "GameLoop.h"
+
 #include "Person.h"
 #include "Actor.h"
-
-#include "DebugWindow.h"
-
-#include "InputManager.h"
 
 using namespace CEGUI;
 using namespace Ogre;
@@ -57,19 +57,17 @@ namespace rl
         mText->setText(o);
     }
     
-	bool DebugWindow::frameStarted(const FrameEvent& evt)
+	void DebugWindow::run(Ogre::Real elapsedTime)
 	{
 		updateFps();
-		return true;
 	}
 
 	void DebugWindow::updateFps()
 	{
 		const RenderTarget::FrameStats& stats = Root::getSingleton().getAutoCreatedWindow()->getStatistics();
-		Window
-			*textStats = getWindow("DebugWindow/Statistics");
+		Window *textStats = getWindow("DebugWindow/Statistics");
 
-		textStats->setText("Current FPS: " + 
+		std::string textSt = "Current FPS: " + 
 			StringConverter::toString(stats.lastFPS)+
 			"\nBest/worst/avg FPS: " + 
 			StringConverter::toString(stats.bestFPS) + "/" + 
@@ -79,24 +77,28 @@ namespace rl
 			StringConverter::toString(stats.bestFPS) + "/" + 
 			StringConverter::toString(stats.worstFPS)+
 			"\nTriangle Count: " + 
-			StringConverter::toString(stats.triangleCount));
+			StringConverter::toString(stats.triangleCount);
 
 		if (UiSubsystem::getSingleton().getActiveCharacter() != NULL && 
 			UiSubsystem::getSingleton().getActiveCharacter()->getActor() != NULL)
 		{
 			Ogre::Vector3 pos = UiSubsystem::getSingletonPtr()->
-			    getActiveCharacter()->getActor()->
-			        _getSceneNode()->getWorldPosition();
-//			setText("Player-Position "+StringConverter::toString(pos));
+				getActiveCharacter()->getActor()->
+				_getSceneNode()->getWorldPosition();
+
+			textSt += 
+				"\nPlayer Position ("+StringConverter::toString(pos)+")";
 		}
+
+		textStats->setText(textSt);
 	}
 
 	void DebugWindow::setVisible(bool visible)
 	{
 		if (visible)
-			Root::getSingleton().addFrameListener(this);
+			GameLoopManager::getSingleton().addSynchronizedTask(this);
 		else
-			Root::getSingleton().removeFrameListener(this);
+			GameLoopManager::getSingleton().removeSynchronizedTask(this);
 		CeGuiWindow::setVisible(visible);
 	}
 

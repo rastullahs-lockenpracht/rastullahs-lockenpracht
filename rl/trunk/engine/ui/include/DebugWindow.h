@@ -22,11 +22,12 @@
 #include <OgreKeyEvent.h>
 
 #include "CeGuiWindow.h"
+#include "GameTask.h"
 
 namespace rl {
 
     class _RlUiExport DebugWindow
-		: public Ogre::Singleton<DebugWindow>, public Ogre::FrameListener, public CeGuiWindow
+		: public Ogre::Singleton<DebugWindow>, public GameTask, public CeGuiWindow
     {
     public:
         DebugWindow(void);
@@ -35,10 +36,8 @@ namespace rl {
         static DebugWindow* getSingletonPtr(void);
 
 		void setVisible(bool visible);
-		
         void setText(const Ogre::String& output);
-  
-		bool frameStarted(const Ogre::FrameEvent& evt);
+		void run(Ogre::Real elapsedTime);
 
     private:
 		void updateFps();
