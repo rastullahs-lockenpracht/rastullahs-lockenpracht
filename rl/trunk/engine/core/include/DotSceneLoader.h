@@ -25,25 +25,53 @@
 
 namespace rl {
 
+	/** Diese parst eine .scene.xml Datei.
+	 *  
+	 *  Zur Zeit sind folgenende Dinge (partiell) unterstützt 
+	 *   - Nodes + Hierarchie + Platzierung + Skalierung + Rotation
+	 *   - Entities + TriMeshPhysik
+	 */
 	class DotSceneLoader
 	{
 	public:
+		/// Erstellt einen Dotscene Loader, der das gewünschte File einliest
 		DotSceneLoader(const std::string & filename);
+		/// Standard Destruktor
 		~DotSceneLoader() {};
 
+		/// Hilfsmethode zur Generierung eines nopch nicht vergebenen Entitynamens
 		static std::string getNextEntityName( const std::string& baseName, const std::string& nodeName );
 	private:
+		/// Laden der Szene
 		void initializeScene();
+		/// Öffnen der XML-Ressource
 		XERCES_CPP_NAMESPACE::DOMDocument* openSceneFile();
 
+		/// Geht alle Nodes in der .scene durch
 		void processNodes(XERCES_CPP_NAMESPACE::DOMElement* rootNodesXml, Ogre::SceneNode* parentNode );
+		/// Node und alle Unterelemente
 		void processNode(XERCES_CPP_NAMESPACE::DOMElement* rootNodeXml, Ogre::SceneNode* parentNode );
+		/// Eine Entity+Attribute
 		void processEntity( XERCES_CPP_NAMESPACE::DOMElement* rootEntityXml, Ogre::SceneNode* parentNode );
 
-		Ogre::Vector3 processVector( XERCES_CPP_NAMESPACE::DOMElement* rootPositionXml );
+		/** Liest einen Vector aus einem XML Element, über die Attribute x, y, z
+		 *  Sollten die Attribute nicht korrekt definiert sein, gibt es Vector::ZERO zurück (0,0,0)
+		 */
+		Ogre::Vector3 processPosition( XERCES_CPP_NAMESPACE::DOMElement* rootPositionXml );
+
+		/** Liest einen Vector aus einem XML Element, über die Attribute x, y, z
+		*  Sollten die Attribute nicht korrekt definiert sein, gibt es Vector::UNIT_SCALE zurück (1,1,1)
+		*/
+		Ogre::Vector3 processScale( XERCES_CPP_NAMESPACE::DOMElement* rootPositionXml );
+		/** Liest ein Quaternion aus einem XML Element, 
+		*  über die Attribute qw, qx, qy, qz  ODER angle, axisX, axisY, axisZ
+		*  Sollten die Attribute nicht korrekt definiert sein, gibt es Quaternion::IDENTITY zurück (1,0,0,0)
+		*/
 		Ogre::Quaternion processRotation( XERCES_CPP_NAMESPACE::DOMElement* rootQuatXml );
 
+		/// Der Name der Scene
 		std::string m_SceneName;
+		/// Der SceneManager
 		Ogre::SceneManager* m_SceneManager;
 	};
 

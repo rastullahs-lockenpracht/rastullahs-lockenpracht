@@ -137,7 +137,7 @@ namespace rl {
 			// Position des Nodes
 			else if( XMLString::compareIString(child->getNodeName(), 
 				XMLString::transcode("position") ) == 0  )
-				newNode->setPosition( processVector( reinterpret_cast<DOMElement*>(child) ) );
+				newNode->setPosition( processPosition( reinterpret_cast<DOMElement*>(child) ) );
 			// Rotation des Nodes
 			else if( XMLString::compareIString(child->getNodeName(), 
 				XMLString::transcode("rotation") ) == 0  )
@@ -145,7 +145,7 @@ namespace rl {
 			// Skalierung des Nodes
 			else if( XMLString::compareIString(child->getNodeName(), 
 				XMLString::transcode("scale") ) == 0  )
-				newNode->setScale( processVector( reinterpret_cast<DOMElement*>(child) ) );
+				newNode->setScale( processScale( reinterpret_cast<DOMElement*>(child) ) );
 			// Eine Entity
 			else if( XMLString::compareIString(child->getNodeName(), 
 				XMLString::transcode("entity") ) == 0  )
@@ -171,11 +171,15 @@ namespace rl {
 		newEnt = m_SceneManager->createEntity(entName,meshName);				
 		parentNode->attachObject( newEnt );
 
-		PhysicsManager::getSingleton().addLevelGeometry( newEnt );
 		CoreSubsystem::log( " Entity '"+meshName+"' mit dem Namen '"+entName+"' in den Knoten '"+parentNode->getName()+"' eingefügt." );
 
+		// Zur Physik des Levels hinzufügen
+		PhysicsManager::getSingleton().addLevelGeometry( newEnt );
+		CoreSubsystem::log( " Entity '"+entName+"' als TriMesh in levelGeometry geladen");
 
-		XmlHelper::getAttributeValueAsBool( rootEntityXml, XMLString::transcode("castShadows") );
+
+		newEnt->setCastShadows( XmlHelper::getAttributeValueAsBool( rootEntityXml, XMLString::transcode("castShadows") ) );
+	
 		XmlHelper::getAttributeValueAsBool( rootEntityXml, XMLString::transcode("static") );
 	}
 
@@ -206,14 +210,35 @@ namespace rl {
 	}
 
 
-	Ogre::Vector3 DotSceneLoader::processVector( DOMElement* rootPositionXml )
+
+	Ogre::Vector3 DotSceneLoader::processPosition( DOMElement* rootPositionXml )
 	{
-		return Ogre::Vector3( 
-			XmlHelper::getAttributeValueAsInteger( rootPositionXml, XMLString::transcode("x") ),
-			XmlHelper::getAttributeValueAsInteger( rootPositionXml, XMLString::transcode("y") ),
-			XmlHelper::getAttributeValueAsInteger( rootPositionXml, XMLString::transcode("z") ) );
+		try
+		{
+			return Ogre::Vector3( 
+				XmlHelper::getAttributeValueAsInteger( rootPositionXml, XMLString::transcode("x") ),
+				XmlHelper::getAttributeValueAsInteger( rootPositionXml, XMLString::transcode("y") ),
+				XmlHelper::getAttributeValueAsInteger( rootPositionXml, XMLString::transcode("z") ) );
+		}
+		catch(...) {}
+
+		return Ogre::Vector3::ZERO;
 	}
 
+
+	Ogre::Vector3 DotSceneLoader::processScale( DOMElement* rootPositionXml )
+	{
+		try
+		{
+			return Ogre::Vector3( 
+				XmlHelper::getAttributeValueAsInteger( rootPositionXml, XMLString::transcode("x") ),
+				XmlHelper::getAttributeValueAsInteger( rootPositionXml, XMLString::transcode("y") ),
+				XmlHelper::getAttributeValueAsInteger( rootPositionXml, XMLString::transcode("z") ) );
+		}
+		catch(...) {}
+
+		return Ogre::Vector3::UNIT_SCALE;
+	}
 
 	/// @TODO Sollten drei Möglichkeiten sein...
 	Ogre::Quaternion DotSceneLoader::processRotation( DOMElement* rootQuatXml )
