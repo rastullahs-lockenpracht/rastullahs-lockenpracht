@@ -61,13 +61,13 @@ namespace rl {
 		return Singleton<UiSubsystem>::getSingletonPtr();
 	}
 
-	UiSubsystem::UiSubsystem()
+	UiSubsystem::UiSubsystem() :
+		mRequestExit(false),
+		mInBattle(false)
 	{
-		CoreSubsystem::getSingleton().log("Ui start");
-        mRequestExit = false;
-
-        initializeUiSubsystem();
-		CoreSubsystem::getSingleton().log("Ui ende");
+		CoreSubsystem::getSingleton().log("Ui: Init Start");
+		initializeUiSubsystem();
+		CoreSubsystem::getSingleton().log("Ui: Init Ende");
 	}
 
     UiSubsystem::~UiSubsystem() 

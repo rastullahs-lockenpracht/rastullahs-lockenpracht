@@ -180,10 +180,20 @@ namespace rl {
 
 	bool InputManager::sendKeyToCeGui(KeyEvent* e)
 	{
+		// Wenn kein Fenster mit Tastatureingabe aktiv ist, kriegt CEGUI keine KeyEvents
 		if (mNumActiveWindowsKeyboardInput == 0)
 			return false;
 
+		// Tastatureingabe gefordert
+		// Alle Tasten an CEGUI senden, die ein Zeichen erzeugen
 		if (e->getKeyChar() != 0)
+			return true;
+
+		if (e->getKey() == KC_RETURN || 
+			e->getKey() == KC_HOME || e->getKey() == KC_END ||
+			e->getKey() == KC_LEFT || e->getKey() == KC_RIGHT ||
+			e->getKey() == KC_BACK || e->getKey() == KC_DELETE ||
+			e->getKey() == KC_UP || e->getKey() == KC_DOWN)
 			return true;
 
 		return false;
