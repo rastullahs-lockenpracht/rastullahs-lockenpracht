@@ -43,7 +43,7 @@
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/RlCommon.pdb"
 				SubSystem="2"
-				ImportLibrary="$(OutDir)/RlCommon.lib"
+				ImportLibrary="$(OutDir)/$(ConfigurationName)/RlCommon.lib"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -95,7 +95,7 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				ImportLibrary="$(OutDir)/RlCommon.lib"
+				ImportLibrary="$(OutDir)/$(ConfigurationName)/RlCommon.lib"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>

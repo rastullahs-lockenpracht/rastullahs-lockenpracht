@@ -59,7 +59,7 @@ class _RlCoreExport ActorManager : protected Singleton<ActorManager>
         void setWorld(World* world);
 		const World* const getWorld() const;
 
-		Actor* getActorAt(Ogre::Real x, Ogre::Real y) const;
+		Actor* getActorAt(Ogre::Real x, Ogre::Real y, Ogre::Real width, Ogre::Real length, bool infinite = false) const;
 
         /** Returns the Singleton */
 	    static ActorManager & getSingleton(void);

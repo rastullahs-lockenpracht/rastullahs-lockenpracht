@@ -38,12 +38,16 @@ namespace rl {
         mActorControlledObject(aco),
         mParent(0),
         mChilds(),
-        mSceneNode(0)
-    {
+        mSceneNode(0),
+		mHighlighted(false)
+	{
         mActorControlledObject->_setActor(this);
 
 		if( mPhysicalThing != 0 )
 			mPhysicalThing->_setActor(this);
+
+		mOriginalMaterial.setNull();
+		mHighlightMaterial.setNull();
     }
 
     Actor::~Actor()
@@ -352,5 +356,41 @@ namespace rl {
         
         _update();
     }
+
+	void Actor::setHighlighted(bool highlight)
+	{
+		if (highlight == mHighlighted)
+			return;
+
+		ActorControlledObject* obj = getControlledObject();
+
+		if (obj->isMeshObject())
+		{
+			Entity* ent = dynamic_cast<MeshObject*>(obj)->getEntity();
+			SubEntity* subent = ent->getSubEntity(0);
+
+			if (highlight)
+			{
+				if (mOriginalMaterial.isNull())
+					mOriginalMaterial = subent->getMaterial();
+
+				if (mHighlightMaterial.isNull())
+				{				
+					mHighlightMaterial = mOriginalMaterial->clone(mOriginalMaterial->getName()+"_HL");
+					mHighlightMaterial->setAmbient(1.0, 1.0, 1.0);
+					mHighlightMaterial->setDiffuse(1.0, 1.0, 1.0, 1.0);
+					mHighlightMaterial->setSelfIllumination(0.4, 0.4, 0.4);
+				}
+				subent->setMaterialName(mHighlightMaterial->getName());
+			}
+			else
+			{
+				subent->setMaterialName(mOriginalMaterial->getName());				
+			}
+		}
+
+		mHighlighted = highlight;
+	}
+	
 
 }

@@ -97,6 +97,8 @@ namespace rl {
         void _placeIntoScene(Ogre::SceneNode* parent,
             const Ogre::Vector3& position = Ogre::Vector3::ZERO,
             const Ogre::Quaternion& orientation = Ogre::Quaternion::IDENTITY);
+
+		void setHighlighted(bool highlight);
         
         ///@todo Query-Methoden für Childs
         ///@todo Visibility
@@ -110,7 +112,7 @@ namespace rl {
         Actor* mParent;
         ChildSet mChilds;
         Ogre::SceneNode* mSceneNode;
-        
+		
         virtual void doAttach(const Ogre::String& slot, Actor* actor,
 			const Ogre::String& childSlot,
 			const Ogre::Quaternion &offsetOrientation, 
@@ -119,6 +121,10 @@ namespace rl {
         /// Argmumente wie placeIntoScene
         virtual void placeChildsIntoScene(const Ogre::Vector3& position,
             const Ogre::Quaternion& orientation);
+	private:
+		bool mHighlighted;
+		Ogre::MaterialPtr mOriginalMaterial;
+		Ogre::MaterialPtr mHighlightMaterial;
     };
 }
 #endif

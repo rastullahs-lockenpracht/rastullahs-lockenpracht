@@ -256,7 +256,7 @@ namespace rl {
 		return newname;
 	}
 
-	Actor* ActorManager::getActorAt(Real x, Real y) const
+	Actor* ActorManager::getActorAt(Real x, Real y, Real width, Real length, bool infinite) const
 	{
 		if (getWorld()->getActiveCamera() == NULL ||
 			getWorld()->getActiveActor() == NULL)
@@ -265,32 +265,63 @@ namespace rl {
 		 // Start a new ray query
 		Ogre::Ray cameraRay = getWorld()->getActiveCamera()->
 			getCameraToViewportRay( x, y );
-		Ogre::Ray selectRay(
-			cameraRay.getOrigin()/*getWorld()->getActiveActor()->getPosition()*/, 
-			cameraRay.getDirection());
-		Ogre::RaySceneQuery *raySceneQuery = getWorld()->
-			getSceneManager()->createRayQuery(selectRay);
-		raySceneQuery->execute();
-		Ogre::RaySceneQueryResult result = raySceneQuery->getLastResults();
-		 
+		//Ogre::Ray selectRay(
+		//	cameraRay.getOrigin()/*getWorld()->getActiveActor()->getPosition()*/, 
+		//	cameraRay.getDirection());
+		//Ogre::RaySceneQuery *raySceneQuery = getWorld()->
+		//	getSceneManager()->createRayQuery(selectRay);
+		//raySceneQuery->execute();
+		//Ogre::RaySceneQueryResult result = raySceneQuery->getLastResults();
+		
+		Vector3 rayTip = cameraRay.getOrigin();
+		Vector3 camUp = getWorld()->getActiveCamera()->getUp();
+		Vector3 camRight = getWorld()->getActiveCamera()->getRight();
+		if (camUp == Vector3::ZERO || camRight == Vector3::ZERO)
+			return NULL;
+		Vector3 rayEndMiddle = cameraRay.getOrigin() + length*cameraRay.getDirection();
+		Vector3 rayEndTopLeft = rayEndMiddle + width*camUp - width*camRight;
+		Vector3 rayEndTopRight = rayEndMiddle + width*camUp + width*camRight;
+		Vector3 rayEndBottomLeft = rayEndMiddle - width*camUp - width*camRight;
+		Vector3 rayEndBottomRight = rayEndMiddle - width*camUp + width*camRight;
+
+		PlaneBoundedVolume selectionPyramid;
+		// Left side
+		selectionPyramid.planes.push_back(Plane(rayTip, rayEndBottomLeft, rayEndTopLeft)); 
+		// Bottom side
+		selectionPyramid.planes.push_back(Plane(rayTip, rayEndBottomRight, rayEndBottomLeft));
+		// Right side
+		selectionPyramid.planes.push_back(Plane(rayTip, rayEndTopRight, rayEndBottomRight));
+		// Top side
+		selectionPyramid.planes.push_back(Plane(rayTip, rayEndTopLeft, rayEndTopRight));
+		// Far limiting side
+		if (!infinite)
+			selectionPyramid.planes.push_back(Plane(rayEndTopLeft, rayEndBottomRight, rayEndTopRight));
+		PlaneBoundedVolumeList list;
+		list.push_back(selectionPyramid);
+		PlaneBoundedVolumeListSceneQuery* query = 
+			getWorld()->getSceneManager()->createPlaneBoundedVolumeQuery(list);
+        SceneQueryResultMovableList result = query->execute().movables;
+		
 		Ogre::MovableObject *closestObject = NULL;
 		Real closestDistance = LONG_MAX;
 
-		std::list< Ogre::RaySceneQueryResultEntry >::iterator rayIterator;
+		
+		SceneQueryResultMovableList::iterator resultIterator;
 		 
-		for ( rayIterator = result.begin(); rayIterator != result.end(); rayIterator++ ) 
+		for ( resultIterator = result.begin(); resultIterator != result.end(); resultIterator++ ) 
 		{
-			Ogre::MovableObject* movable = (*rayIterator).movable;
+			Ogre::MovableObject* movable = *resultIterator;
 			if (movable != NULL && 
 				movable->getUserObject() != NULL && 
 				movable != getWorld()->getActiveCamera() &&
 				movable != getWorld()->getActiveActor()->_getMovableObject()) 
 			{
-				if ((*rayIterator).distance < closestDistance) 
-				{
+				//if (movable->getUserObject()
+				//if ((*resultIterator).distance < closestDistance) 
+				//{
 					closestObject = movable;
-					closestDistance = (*rayIterator).distance;
-				}
+				//	closestDistance = (*resultIterator).distance;
+				//}
 			}
 		}
 
@@ -302,8 +333,8 @@ namespace rl {
 			rval = static_cast<Actor*>(closestObject->getUserObject());
 		}
 
-		raySceneQuery->clearResults();
-		getWorld()->getSceneManager()->destroyQuery(raySceneQuery);
+		query->clearResults();
+		getWorld()->getSceneManager()->destroyQuery(query);
 
 		return rval;
 	}

@@ -42,8 +42,7 @@
 #include "CoreSubsystem.h"
 
 #include "InputManager.h"
-
-
+#include "GameObject.h"
 
 template<> rl::InputManager* Singleton<rl::InputManager>::ms_Singleton = 0;
 using namespace Ogre;
@@ -535,16 +534,27 @@ namespace rl {
 
     void InputManager::updatePickedObject(float mouseRelX, float mouseRelY)
     {
-        Actor* a = ActorManager::getSingleton().getActorAt(mouseRelX, mouseRelY);
+        Actor* a = ActorManager::getSingleton().getActorAt(mouseRelX, mouseRelY, 30, 200);
         DebugWindow::getSingleton().setText(
             "X="+StringConverter::toString(mouseRelX)+
             "   Y="+StringConverter::toString(mouseRelY)+
             "   - Object("+(a==NULL?"null":a->getName())+")");
 
 		if (a != NULL)
+		{
+			if (mTargetedObject != NULL && a != mTargetedObject->getActor())
+				mTargetedObject->getActor()->setHighlighted(false);
+
+			a->setHighlighted(true);
 	        mTargetedObject = reinterpret_cast<GameObject*>(a->getGameObject());
+		}
 		else
+		{
+			if (mTargetedObject != NULL)
+				mTargetedObject->getActor()->setHighlighted(false);
+
 			mTargetedObject = NULL;
+		}
     }
 
 	GameObject* InputManager::getPickedObject()
