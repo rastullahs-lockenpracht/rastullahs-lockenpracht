@@ -18,6 +18,8 @@
 #include "Actor.h"
 #include "CoreSubsystem.h"
 #include "World.h"
+
+#include "RlAnimation.h"
 #include "AnimationManager.h"
 
 #include <OgreMeshManager.h>
@@ -31,7 +33,7 @@ namespace rl {
         calculateSize();
     }
 
-    Entity* MeshObject::getEntity()
+    Entity* MeshObject::getEntity() const
     {
         return reinterpret_cast<Entity*>(mMovableObject);
     }
@@ -59,17 +61,46 @@ namespace rl {
         return getSize().y;
     }
 
-    void MeshObject::startAnimation(const Ogre::String& anim)
-    {
-        AnimationState* animState = getEntity()->getAnimationState(anim);
-        AnimationManager::getSingleton().addAnimation(animState);
-    }
+	RlAnimation* MeshObject::getAnimation(const String& animName) const
+	{
+		try
+		{
+			AnimationState* animState = getEntity()->getAnimationState(animName);
+			return AnimationManager::getSingleton().getAnimation(animState);
+		}
+		catch(Ogre::Exception&) 
+		{
+		}
 
-    void MeshObject::stopAnimation(const Ogre::String& anim)
-    {
-        AnimationState* animState = getEntity()->getAnimationState(anim);
-        AnimationManager::getSingleton().removeAnimation(animState);
-    }
+		return 0;
+	}
+
+
+	RlAnimation* MeshObject::startAnimation(const String& animName, Real speed, unsigned int timesToPlay)
+	{
+		try
+		{
+			AnimationState* animState = getEntity()->getAnimationState(animName);
+			return AnimationManager::getSingleton().addAnimation(animState,speed,timesToPlay);
+		}
+		catch(Ogre::Exception&) 
+		{
+		}
+
+		return 0;
+	}
+
+	void MeshObject::stopAnimation(const Ogre::String& animName)
+	{
+		try
+		{
+			AnimationState* animState = getEntity()->getAnimationState(animName);
+			AnimationManager::getSingleton().removeAnimation(animState);
+		}
+		catch(Ogre::Exception&) 
+		{ 
+		}
+	}
     
     String MeshObject::getType()
     {
