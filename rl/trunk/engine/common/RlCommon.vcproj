@@ -132,6 +132,12 @@
 			<File
 				RelativePath=".\src\XmlHelper.cpp">
 			</File>
+			<File
+				RelativePath=".\src\XmlResource.cpp">
+			</File>
+			<File
+				RelativePath=".\src\XmlResourceManager.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Headerdateien"
@@ -157,6 +163,12 @@
 			</File>
 			<File
 				RelativePath=".\include\XmlHelper.h">
+			</File>
+			<File
+				RelativePath=".\include\XmlResource.h">
+			</File>
+			<File
+				RelativePath=".\include\XmlResourceManager.h">
 			</File>
 		</Filter>
 		<Filter

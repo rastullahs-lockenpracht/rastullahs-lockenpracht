@@ -27,11 +27,11 @@ public:
 	virtual ~CoreSubsystem();
 
 	/** Starts the Game */
-	void startCore(void);
+	void startCore();
 
 	/** Returns the Singleton */
-	static CoreSubsystem & getSingleton(void);
-	static CoreSubsystem * getSingletonPtr(void);
+	static CoreSubsystem & getSingleton();
+	static CoreSubsystem * getSingletonPtr();
 
 	World* getWorld();
 
@@ -47,13 +47,14 @@ public:
     static void log ( const String& msg );
 private:  
     /** Runs the setup methods  */
-	bool initializeCoreSubsystem(void);
+	bool initializeCoreSubsystem();
 
 	/** Loads all needed ressources */
-	void initializeResources(void);
+	void initializeResources();
+	void initializeModule(std::string module);
 
 	/** Opens a configuration dialog */
-	bool setupConfiguration(void);
+	bool setupConfiguration();
 
 private:
 	World* mWorld;

@@ -1,3 +1,4 @@
+#include <xercesc/framework/LocalFileInputSource.hpp>
 #include <xercesc/parsers/XercesDOMParser.hpp>
 #include <xercesc/dom/DOM.hpp>
 #include <xercesc/util/XMLString.hpp>
@@ -5,10 +6,12 @@
 
 #include "DsaDataLoader.h"
 
+#include "XmlHelper.h"
+#include "XmlResourceManager.h"
+
 #include "DsaManager.h"
 #include "Talent.h"
 #include "Person.h"
-#include "XmlHelper.h"
 #include "RulesSubsystem.h"
 
 #include "Exception.h"
@@ -47,7 +50,8 @@ namespace rl {
 
 /*        ErrorHandler* errHandler = (ErrorHandler*) new HandlerBase();
         parser->setErrorHandler(errHandler);*/
-		parser->parse(filename.c_str());
+		
+		XmlResourceManager::getSingleton().create(filename)->parseBy(parser);
 		return parser->getDocument();
 	}
 

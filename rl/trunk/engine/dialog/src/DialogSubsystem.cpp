@@ -19,7 +19,7 @@ namespace rl
 
 	DialogSubsystem::DialogSubsystem()
 	{
-		Log* log = LogManager::getSingleton().createLog( "rlDialog.log" );
+		Log* log = LogManager::getSingleton().createLog( "logs/rlDialog.log" );
         log->setLogDetail( LL_BOREME );
 		log->logMessage("Test");
 		AimlProcessorManager::addStandardProcessors();

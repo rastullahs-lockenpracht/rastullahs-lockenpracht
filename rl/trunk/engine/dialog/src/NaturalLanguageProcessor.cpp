@@ -30,7 +30,7 @@ namespace rl
 {
 	NaturalLanguageProcessor::NaturalLanguageProcessor(std::string dialogFile): mGm(new Graphmaster())
 	{
-		Ogre::Log* log = Ogre::LogManager::getSingleton().getLog( "rlDialog.log" );		
+		Ogre::Log* log = Ogre::LogManager::getSingleton().getLog( "logs/rlDialog.log" );		
 		log->logMessage("NLP gestartet");
 		mExit=false;
 		AimlParser* mXmlHandler=new AimlParser(this);
@@ -49,7 +49,7 @@ namespace rl
 			excs+=excmsg;
 			delete parser;
 			delete mXmlHandler;
-			Log* log = LogManager::getSingleton().getLog( "rlDialog.log" );		
+			Log* log = LogManager::getSingleton().getLog( "logs/rlDialog.log" );		
 			log->logMessage(excs);
 
 			throw (exc);
@@ -62,13 +62,13 @@ namespace rl
 	NaturalLanguageProcessor::~NaturalLanguageProcessor()
 	{
 		delete mGm;
-		Ogre::Log* log = Ogre::LogManager::getSingleton().getLog( "rlDialog.log" );		
+		Ogre::Log* log = Ogre::LogManager::getSingleton().getLog( "logs/rlDialog.log" );		
 		log->logMessage("NLP beendet");
 	}
 
 	std::map<int,std::string> NaturalLanguageProcessor::respond(const std::string &input)
 	{
-		Log* log = Ogre::LogManager::getSingleton().getLog( "rlDialog.log" );		
+		Log* log = Ogre::LogManager::getSingleton().getLog( "logs/rlDialog.log" );		
 		log->logMessage("Starte Respond");
 		string response="<response>", result, pattern;
 		string context = "*";
@@ -145,7 +145,7 @@ namespace rl
 
 	bool NaturalLanguageProcessor::loadAiml(const std::string &filename) 
 	{
-		Log* log = LogManager::getSingleton().getLog( "rlDialog.log" );		
+		Log* log = LogManager::getSingleton().getLog( "logs/rlDialog.log" );		
 		log->logMessage("Loading Aiml");
 		log->logMessage(filename);
 		AimlParser* mXmlHandler=new AimlParser(this);
@@ -163,7 +163,7 @@ namespace rl
 			excs+=excmsg;
 			delete parser;
 			delete mXmlHandler;
-			Log* log = LogManager::getSingleton().getLog( "rlDialog.log" );		
+			Log* log = LogManager::getSingleton().getLog( "logs/rlDialog.log" );		
 			log->logMessage(excs);
 			throw (exc);
 		}
@@ -175,7 +175,7 @@ namespace rl
 
 	string NaturalLanguageProcessor::process(DOMNode *node, Match *match, const string &id) 
 	{
-		Log* log = LogManager::getSingleton().getLog( "rlDialog.log" );	
+		Log* log = LogManager::getSingleton().getLog( "logs/rlDialog.log" );	
 
 		if ( node == NULL ) return "";
 	

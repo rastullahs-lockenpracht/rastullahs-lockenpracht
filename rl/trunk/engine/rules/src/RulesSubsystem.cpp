@@ -20,7 +20,7 @@ namespace rl
     RulesSubsystem::RulesSubsystem()
     {
 		//Log initialisieren
-		mLog = Ogre::LogManager::getSingleton().createLog( "rlRules.log" );
+		mLog = Ogre::LogManager::getSingleton().createLog( "logs/rlRules.log" );
 	
 		
 		log("RlRules: Start");

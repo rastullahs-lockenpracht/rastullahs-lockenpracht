@@ -1,5 +1,6 @@
-#include "CoreSubsystem.h"
+#include "XmlResourceManager.h"
 
+#include "CoreSubsystem.h"
 
 #include <OgreStringConverter.h>
 #include <OgreRoot.h>
@@ -25,12 +26,12 @@ template<> rl::CoreSubsystem* Singleton<rl::CoreSubsystem>::ms_Singleton = 0;
 
 namespace rl {
 
-	CoreSubsystem& CoreSubsystem::getSingleton(void)
+	CoreSubsystem& CoreSubsystem::getSingleton()
 	{
 		return Singleton<CoreSubsystem>::getSingleton();
 	}
 
-	CoreSubsystem* CoreSubsystem::getSingletonPtr(void)
+	CoreSubsystem* CoreSubsystem::getSingletonPtr()
 	{
 		return Singleton<CoreSubsystem>::getSingletonPtr();
 	}
@@ -50,7 +51,7 @@ namespace rl {
         Root::getSingleton().shutdown();
     }
 
-	void CoreSubsystem::startCore(void)
+	void CoreSubsystem::startCore()
     {		
 		Root::getSingleton().startRendering();
     }
@@ -61,10 +62,10 @@ namespace rl {
         {
             new LogManager();
         }
-        LogManager::getSingleton().getLog( "rlCore.log" )->logMessage(msg);
+        LogManager::getSingleton().getLog( "logs/rlCore.log" )->logMessage(msg);
     }
     
-	bool  CoreSubsystem::setupConfiguration(void)
+	bool  CoreSubsystem::setupConfiguration()
     {
         // Show the configuration dialog and initialise the system
         // You can skip this and use root.restoreConfig() to load configuration
@@ -86,14 +87,14 @@ namespace rl {
         }
     }
 
-	bool CoreSubsystem::initializeCoreSubsystem(void)
+	bool CoreSubsystem::initializeCoreSubsystem()
     {
 		#if OGRE_PLATFORM == PLATFORM_WIN32
-			new Root( "plugins-win.cfg", "rastullah.cfg", "ogre.log" );
+			new Root( "plugins-win.cfg", "rastullah.cfg", "logs/ogre.log" );
 		#elif OGRE_PLATFORM == PLATFORM_LINUX
-			new Root( "plugins-linux.cfg", "rastullah.cfg", "ogre.log" );
+			new Root( "plugins-linux.cfg", "rastullah.cfg", "logs/ogre.log" );
 		#else
-			new Root( "plugins-mac.cfg", "rastullah.cfg", "ogre.log" );
+			new Root( "plugins-mac.cfg", "rastullah.cfg", "logs/ogre.log" );
 		#endif
 
         initializeResources();
@@ -105,7 +106,7 @@ namespace rl {
 
 		// Set default mipmap level (NB some APIs ignore this)
 		TextureManager::getSingleton().setDefaultNumMipMaps(5);
-        Log* log = LogManager::getSingleton().createLog( "rlCore.log" );
+        Log* log = LogManager::getSingleton().createLog( "logs/rlCore.log" );
         log->setLogDetail( LL_BOREME );
 		
 		new GameLoop();
@@ -126,23 +127,59 @@ namespace rl {
         return true;
     }
 
-	void CoreSubsystem::initializeResources(void)
+	void CoreSubsystem::initializeResources()
     {
+		new XmlResourceManager();
         // Load resource paths from config file
         ConfigFile cf;
-        cf.load("resources.cfg");
+        cf.load("modules/modules.cfg");
 
         // Go through all settings in the file
         ConfigFile::SettingsIterator i = cf.getSettingsIterator();
 
-        String typeName, archName;
+        String key, value;
         while (i.hasMoreElements())
         {
-            typeName = i.peekNextKey();
-            archName = i.getNext();
-            ResourceManager::addCommonArchiveEx( archName, typeName );
+            key = i.peekNextKey();
+            value = i.getNext();
+
+			if (key.compare("common") == 0)
+				initializeModule(value);           
         }
     }
+
+	void CoreSubsystem::initializeModule(std::string module)
+	{
+		std::string moduleDir = "modules/"+module;
+		ConfigFile cf;
+		cf.load(moduleDir+"/conf/moduleconfig.cfg");
+        ConfigFile::SettingsIterator i = cf.getSettingsIterator();
+
+		bool hasGui = false;
+
+		std::string key, value;
+        while (i.hasMoreElements())
+        {
+            key = i.peekNextKey();
+            value = i.getNext();
+
+			if (key.compare("TextureArchive") == 0)
+				ResourceManager::addCommonArchiveEx(moduleDir+"/materials/"+value, "Zip");
+			else if (key.compare("Archive") == 0)
+				ResourceManager::addCommonArchiveEx(moduleDir+"/"+value, "Zip");
+			else if (key.compare("ContainsGUI") == 0)
+				hasGui = true;
+		}
+
+		ResourceManager::addCommonSearchPath(moduleDir+"/dsa");
+		ResourceManager::addCommonSearchPath(moduleDir+"/materials");
+		ResourceManager::addCommonSearchPath(moduleDir+"/maps");
+		ResourceManager::addCommonSearchPath(moduleDir+"/models");			
+		ResourceManager::addCommonSearchPath(moduleDir+"/scripts");
+		ResourceManager::addCommonSearchPath(moduleDir+"/sound");
+		if (hasGui)
+			ResourceManager::addCommonSearchPath(moduleDir+"/gui/imagesets");
+	}
 
 	World* CoreSubsystem::getWorld()
     { 

@@ -29,7 +29,7 @@ int main(int argc, char **argv)
     rl::SoundSubsystem* sound = new rl::SoundSubsystem();
 
 	rl::CoreSubsystem* core = new rl::CoreSubsystem();
-	Ogre::Log* log = Ogre::LogManager::getSingleton().getLog( "rlCore.log" );
+	Ogre::Log* log = Ogre::LogManager::getSingleton().getLog( "logs/rlCore.log" );
 	log->logMessage("SoundSubsystem gestartet");
 	log->logMessage("CoreSubsystem gestartet");
     rl::RulesSubsystem* rules = new rl::RulesSubsystem();
