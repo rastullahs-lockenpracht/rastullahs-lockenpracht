@@ -26,7 +26,7 @@ namespace rl {
                               mLookAtNode(0),
                               mCamera(camera),
                               mHero(hero),
-                              mMoveSpeed(60.0),
+                              mMoveSpeed(150.0),
                               mRotSpeed(100.0),
                               mInputManager(InputManager::getSingletonPtr()),
                               mWalk(false),
@@ -36,7 +36,8 @@ namespace rl {
             getSceneManager()->getRootSceneNode();
 
         mControlNode = root->createChildSceneNode("ControlNode");
-        mControlNode->translate(0, 186.0 / 2.54 , 0);
+        //mControlNode->translate(0, 186.0 / 2.54 , 0);
+        mControlNode->setPosition(pos);
         mLookAtNode = mControlNode->createChildSceneNode("LookAtNode");
         mLookAtNode->pitch(-20);
         mCameraNode = mLookAtNode->createChildSceneNode("CameraNode");
@@ -73,7 +74,6 @@ namespace rl {
             mControlNode->translate(mTranslation, Node::TS_LOCAL);
             if (mWalk != mWasWalking)
             {
-                
                 GameActor* actor = dynamic_cast<GameActor*>(
                     ActorFactory::getSingletonPtr()->getActor("Held"));
                 if (mWalk)
@@ -87,12 +87,6 @@ namespace rl {
                 mWasWalking = mWalk;
             }
         }
-
-        DebugWindow::getSingletonPtr()->
-            setText(" Sphere: " + StringConverter::toString(mControlNode->getPosition())
-            + " Cam: " + StringConverter::toString(mCameraNode->getPosition())
-            + " Yaw: " + StringConverter::toString(mYaw)
-            + " Trans: " + StringConverter::toString(mTranslation));
     }
 
     void ThirdPersonGameController::calculateScalingFactors(Real timePassed)

@@ -33,7 +33,7 @@ public:
 	static CoreSubsystem & getSingleton(void);
 	static CoreSubsystem * getSingletonPtr(void);
 
-	World* getWorld()   { return mWorld; }
+	World* getWorld();
 
 	/** Saves a timestamped jpg Screenshot
 		@param sName The filename (extended with the timestamp)

@@ -10,6 +10,7 @@
 
 namespace rl {
 
+///@todo Skalierung der Abspielgeschwindigkeit ermoeglichen.
 class _RlCoreExport AnimationManager : public SynchronizedTask, protected Singleton<AnimationManager>
 {
 public:

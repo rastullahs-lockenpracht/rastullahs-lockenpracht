@@ -59,8 +59,6 @@ namespace rl
 		return true;
 	}
 
-	
-
 	void DebugWindow::updateFps()
 	{
 		const RenderTarget::FrameStats& stats = Root::getSingleton().getAutoCreatedWindow()->getStatistics();

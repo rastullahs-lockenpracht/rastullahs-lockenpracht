@@ -99,7 +99,7 @@ void DialogWindow::runTest()
 	dialog->setName("Klaus-Dieter");
 	dialog->show();*/
 
-	DebugWindow::getSingleton().show();
+	//DebugWindow::getSingleton().show();
 
 	/*CharacterSheetWindow* sheet = new CharacterSheetWindow();
 	sheet->show();*/
@@ -107,7 +107,7 @@ void DialogWindow::runTest()
 
 void DialogWindow::handleSelectOption()
 {
-	DebugWindow::getSingleton().setText("Pnk "+StringConverter::toString(getSelectedOption()));
+	//DebugWindow::getSingleton().setText("Pnk "+StringConverter::toString(getSelectedOption()));
 	//hide();
 }
 

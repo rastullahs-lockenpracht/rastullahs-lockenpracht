@@ -137,10 +137,15 @@ namespace rl {
         }
     }
 
+	World* CoreSubsystem::getWorld()
+    { 
+        return mWorld;
+    }
 
-	void  CoreSubsystem::makeScreenshot( const String& sName )
+    void  CoreSubsystem::makeScreenshot( const String& sName )
 	{
 		Ogre::Root::getSingleton().getAutoCreatedWindow()->
             writeContentsToTimestampedFile(sName, ".jpg");
 	}
+
 }

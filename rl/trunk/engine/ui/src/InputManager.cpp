@@ -118,10 +118,10 @@ namespace rl {
 			System::getSingleton().injectMouseMove(
 				e->getRelX() * renderer->getWidth(), 
 				e->getRelY() * renderer->getHeight());			
-			DebugWindow::getSingleton().setText(
-				"dX="+StringConverter::toString(e->getRelX() * renderer->getWidth())+
-				"   dY="+StringConverter::toString(e->getRelY() * renderer->getHeight())+
-				"   ("+System::getSingleton().getWindowContainingMouse()->getName().c_str()+")");
+			//DebugWindow::getSingleton().setText(
+			//	"dX="+StringConverter::toString(e->getRelX() * renderer->getWidth())+
+			//	"   dY="+StringConverter::toString(e->getRelY() * renderer->getHeight())+
+			//	"   ("+System::getSingleton().getWindowContainingMouse()->getName().c_str()+")");
 
 			e->consume();
 		}

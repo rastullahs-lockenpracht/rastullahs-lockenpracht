@@ -1,9 +1,7 @@
 #include <OgreSceneManager.h>
 
 #include "World.h"
-
 #include "PhysicsManager.h"
-
 
 namespace rl {
 

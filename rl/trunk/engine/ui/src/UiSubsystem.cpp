@@ -52,6 +52,8 @@ namespace rl {
     {
 		using namespace CEGUI;
 
+        World* world = CoreSubsystem::getSingleton().getWorld();
+
 		CEGUI::OgreRenderer* rend = 
 			new CEGUI::OgreRenderer(Ogre::Root::getSingleton().getAutoCreatedWindow(), 
 									Ogre::RENDER_QUEUE_OVERLAY, 
@@ -76,14 +78,14 @@ namespace rl {
 		//Initializing InputManager
         new InputManager();
 		
-		new DebugWindow();
-        DebugWindow::getSingleton().show();
+		//new DebugWindow();
+        //DebugWindow::getSingleton().show();
 
 		new CeConsole();
         CeConsole::getSingleton().setInterpreter( new RubyInterpreter() );
         CeConsole::getSingleton().getInterpreter()->initializeInterpreter();
 
-        InputManager::getSingleton().addKeyListener(DebugWindow::getSingletonPtr());
+        //InputManager::getSingleton().addKeyListener(DebugWindow::getSingletonPtr());
 
         CameraActor* camera = dynamic_cast<CameraActor*>(
             ActorFactory::getSingleton().getActor("DefaultCamera"));
@@ -92,7 +94,7 @@ namespace rl {
         {
             mGameController = new ThirdPersonGameController(camera->getOgreCamera(),
                 0, //mHero->getEntity(),
-                Ogre::Vector3(-120, 0, -64));
+                world->getSceneManager()->getSuggestedViewpoint().position);
             GameLoop::getSingleton().addSynchronizedTask(mGameController);
         }
 
