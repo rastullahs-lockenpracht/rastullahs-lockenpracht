@@ -9,5 +9,6 @@ noinst_HEADERS = \
 	UiPrerequisites.h \
 	UiSubsystem.h \
 	DebugWindow.h \
-	ThirdPersonGameController.h
-	
+	ThirdPersonGameController.h \
+	DialogWindow.h \
+	CeConsole.h
