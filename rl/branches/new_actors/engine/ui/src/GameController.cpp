@@ -88,7 +88,6 @@ namespace rl {
         }
         mCameraNode = mCameraActor->_getSceneNode();
         mLookAtNode->addChild(mCameraNode);
-        mCameraNode->attachObject(mCameraActor->_getMovableObject());
         mCameraNode->translate(Vector3(0, 0, mDesiredDistance), Node::TS_LOCAL);
 
         setupCollisionDetection();
