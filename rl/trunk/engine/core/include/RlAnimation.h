@@ -29,6 +29,7 @@ class _RlCoreExport RlAnimation : public virtual EventSource
 {
     public:
         RlAnimation( AnimationState* animState, Real speed=1.0, unsigned int timesToPlay=0 );
+		RlAnimation( Real length );
 		virtual ~RlAnimation( );
         
 		// Pausieren und fortsetzen
@@ -67,8 +68,6 @@ class _RlCoreExport RlAnimation : public virtual EventSource
 
 		AnimationState* getAnimationState() { return mAnimState; };
     protected:
-		virtual void applyTime( Real timePassed );
-
 		Real mLength;
 		AnimationState* mAnimState;
 
@@ -79,6 +78,8 @@ class _RlCoreExport RlAnimation : public virtual EventSource
 		Real mTimePlayed;
 
 		EventCaster<EventObject> mAnimationFinishedCaster;
+
+		void setAnimationState( AnimationState* animState );
 };
 
 }

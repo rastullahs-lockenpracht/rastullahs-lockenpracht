@@ -24,22 +24,27 @@ RlAnimation::RlAnimation( AnimationState* animState, Real speed, unsigned int ti
 	EventSource(), 
 	mAnimationFinishedCaster()
 {
-	if( animState == 0 )
-		Throw( NullPointerException,"AnimationState darf nicht null sein" );
+	this->setAnimationState(animState);
 
-	mAnimState = animState;
     mPaused = false;
 	mIgnoringGlobalSpeed = false;
 	mTimesToPlay = timesToPlay;
 	mTimePlayed = 0;
 	mSpeed = speed;
-
-	mLength = mAnimState->getLength();
-	mAnimState->setLoop( true );
-	mAnimState->setEnabled(true);
-	// TODO evtl. Gewicht zurücksetzen
 }
- 
+
+RlAnimation::RlAnimation( Real length ) :
+EventSource(), 
+mAnimationFinishedCaster()
+{
+	mPaused = true;
+	mIgnoringGlobalSpeed = false;
+	mTimesToPlay = 0;
+	mTimePlayed = 0;
+	mSpeed = 1.0;
+	mLength = length;
+}
+
 RlAnimation::~RlAnimation()
 {
 	mAnimState->setEnabled(false);
@@ -146,7 +151,7 @@ void RlAnimation::addTime( Real timePassed )
 	{
 		timePassed = timePassed * mSpeed;
 
-		applyTime(timePassed);
+		mAnimState->addTime( timePassed );
 
 		// Begrenzte Abspielanzahl
 		if( mTimesToPlay > 0 )
@@ -168,9 +173,15 @@ void RlAnimation::addTime( Real timePassed )
 	}
 }
 
-void RlAnimation::applyTime( Real timePassed )
+void RlAnimation::setAnimationState( AnimationState* animState )
 {
-	mAnimState->addTime( timePassed );
+	if( animState == 0 )
+		Throw( NullPointerException,"AnimationState darf nicht null sein" );
+
+	mAnimState = animState;
+	mAnimState->setEnabled( true );
+	mAnimState->setLoop( true );
+	mLength = mAnimState->getLength();
 }
 
 }

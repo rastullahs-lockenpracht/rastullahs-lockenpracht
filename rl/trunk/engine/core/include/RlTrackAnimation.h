@@ -47,12 +47,10 @@ public:
 	bool getUseShortestRotationPath () const;
 
 	// TODO - kumulatives Animieren ein/aus
-protected:
-	virtual void applyTime( Real timePassed );
 private:
-	KeyFrame* getKeyFrameAtTimePos(Real timePos);
+	KeyFrame* getKeyFrameAtTimePos(Real timePos);	
 
-	Animation mAnimation;
+	Animation* mAnimation;
 	AnimationTrack* mAnimationTrack;
 };
 
