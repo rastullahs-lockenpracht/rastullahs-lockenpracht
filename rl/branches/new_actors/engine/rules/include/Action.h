@@ -76,6 +76,16 @@ namespace rl
          *       SWIG mag das so aber lieber.
          */
         virtual int getTargetClass() const;
+        
+        /**
+         * Prueft, ob die Aktion vom actor mit dem object auch
+         * durchgefuehrt werden kann.
+         * @param object Das benutzte Object, für diese Aktion.
+         * @param actor Der Benutzer des Objektes.
+         *
+         * @return true, falls die Aktion möglich ist, false sonst.
+         */
+        virtual bool canDo(GameObject* object, Creature* actor);
 
         /**
          * Die Aktion wird ausgeführt. Diese Methode wird in Ruby

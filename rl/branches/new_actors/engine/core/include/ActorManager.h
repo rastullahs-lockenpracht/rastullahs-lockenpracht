@@ -25,12 +25,6 @@ namespace rl {
 
 class World;
 class Actor;
-class CameraActor;
-class LightActor;
-class ParticleSystemActor;
-class GameActor;
-class AnimatedActor;
-class MeshActor;
 
 typedef std::map<String,Actor*> ActorPtrMap;
 typedef std::pair<String,Actor*> ActorPtrPair;
@@ -45,11 +39,10 @@ class _RlCoreExport ActorManager : protected Singleton<ActorManager>
 		void deleteActor(const String& name);
         void deleteAllActors();
 
-		CameraActor* createCameraActor(const String& name);
-        LightActor* createLightActor(const String& name, int type);
-		MeshActor* createMeshActor(const String& name,const String& meshname);
-		GameActor* createGameActor(const String& name,const String& meshname);
-        ParticleSystemActor* createParticleSystemActor(const String& name,
+		Actor* createCameraActor(const String& name);
+        Actor* createLightActor(const String& name, int type);
+		Actor* createMeshActor(const String& name,const String& meshname);
+        Actor* createParticleSystemActor(const String& name,
             const String& partname);
 
         void setWorld( World* pWorld );

@@ -14,29 +14,24 @@
 *  http://www.perldoc.com/perl5.6/Artistic.html.
 */
 
-#ifndef __TerrainWorld_H__
-#define __TerrainWorld_H__
+#include "ActorControlledObject.h"
+#include "Actor.h"
 
-#include "World.h"
-
-#include "CorePrerequisites.h"
+using namespace Ogre;
 
 namespace rl {
-
-    class TerrainWorld : public World
+    ActorControlledObject::ActorControlledObject(Ogre::MovableObject* mo)
+        :   mMovableObject(mo)
     {
-    public:
-        TerrainWorld();
-        ~TerrainWorld();
-
-        virtual void clearScene();
-        virtual void initializeDefaultCamera();	
-
-    protected:
-        virtual void doLoadScene(const String& levelName);
-
-    };
-
+    }
+    
+    void ActorControlledObject::setActor(Actor* actor)
+    {
+        mMovableObject->setUserObject(actor);
+    }
+    
+    Actor* ActorControlledObject::getActor()
+    {
+        return dynamic_cast<Actor*>(mMovableObject->getUserObject());
+    }
 }
-
-#endif

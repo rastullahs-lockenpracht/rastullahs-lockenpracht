@@ -21,7 +21,6 @@
 #include <OgreException.h>
 #include "GameLoop.h"
 
-#include "CameraActor.h"
 #include "ActorManager.h"
 #include "PhysicsManager.h"
 

@@ -175,19 +175,13 @@
 				RelativePath=".\include\Actor.h">
 			</File>
 			<File
+				RelativePath=".\include\ActorControlledObject.h">
+			</File>
+			<File
 				RelativePath=".\include\ActorManager.h">
 			</File>
 			<File
 				RelativePath=".\include\AnimationManager.h">
-			</File>
-			<File
-				RelativePath=".\include\AudibleActor.h">
-			</File>
-			<File
-				RelativePath=".\include\BSPWorld.h">
-			</File>
-			<File
-				RelativePath=".\include\CameraActor.h">
 			</File>
 			<File
 				RelativePath=".\include\CorePrerequisites.h">
@@ -199,28 +193,10 @@
 				RelativePath=".\include\DotSceneOctreeWorld.h">
 			</File>
 			<File
-				RelativePath=".\include\GameActor.h">
-			</File>
-			<File
 				RelativePath=".\include\GameLoop.h">
 			</File>
 			<File
 				RelativePath=".\include\Interpreter.h">
-			</File>
-			<File
-				RelativePath=".\include\LightActor.h">
-			</File>
-			<File
-				RelativePath=".\include\ListenerActor.h">
-			</File>
-			<File
-				RelativePath=".\include\MeshActor.h">
-			</File>
-			<File
-				RelativePath=".\include\NatureWorld.h">
-			</File>
-			<File
-				RelativePath=".\include\ParticleSystemActor.h">
 			</File>
 			<File
 				RelativePath=".\include\PhysicalThing.h">
@@ -238,9 +214,6 @@
 				RelativePath=".\include\SynchronizedTask.h">
 			</File>
 			<File
-				RelativePath=".\include\TerrainWorld.h">
-			</File>
-			<File
 				RelativePath=".\include\World.h">
 			</File>
 		</Filter>
@@ -251,19 +224,13 @@
 				RelativePath=".\src\Actor.cpp">
 			</File>
 			<File
+				RelativePath=".\src\ActorControlledObject.cpp">
+			</File>
+			<File
 				RelativePath=".\src\ActorManager.cpp">
 			</File>
 			<File
 				RelativePath=".\src\AnimationManager.cpp">
-			</File>
-			<File
-				RelativePath=".\src\AudibleActor.cpp">
-			</File>
-			<File
-				RelativePath=".\src\BSPWorld.cpp">
-			</File>
-			<File
-				RelativePath=".\src\CameraActor.cpp">
 			</File>
 			<File
 				RelativePath=".\src\CoreSubsystem.cpp">
@@ -272,25 +239,7 @@
 				RelativePath=".\src\DotSceneOctreeWorld.cpp">
 			</File>
 			<File
-				RelativePath=".\src\GameActor.cpp">
-			</File>
-			<File
 				RelativePath=".\src\GameLoop.cpp">
-			</File>
-			<File
-				RelativePath=".\src\LightActor.cpp">
-			</File>
-			<File
-				RelativePath=".\src\ListenerActor.cpp">
-			</File>
-			<File
-				RelativePath=".\src\MeshActor.cpp">
-			</File>
-			<File
-				RelativePath=".\src\NatureWorld.cpp">
-			</File>
-			<File
-				RelativePath=".\src\ParticleSystemActor.cpp">
 			</File>
 			<File
 				RelativePath=".\src\PhysicalThing.cpp">
@@ -306,9 +255,6 @@
 			</File>
 			<File
 				RelativePath=".\src\SynchronizedTask.cpp">
-			</File>
-			<File
-				RelativePath=".\src\TerrainWorld.cpp">
 			</File>
 			<File
 				RelativePath=".\src\World.cpp">

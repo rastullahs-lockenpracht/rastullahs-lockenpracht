@@ -28,9 +28,6 @@
     using namespace std;
 #endif
 
-#include "BSPWorld.h"
-#include "NatureWorld.h"
-#include "TerrainWorld.h"
 #include "DotSceneOctreeWorld.h"
 #include "PhysicsManager.h"
 #include "ActorManager.h"
