@@ -159,7 +159,7 @@ namespace rl {
 			DOMElement* eigenschXml = reinterpret_cast<DOMElement*>(eigensch->item(idx));
 			utf8* eigName = XmlHelper::transcodeToUtf8(eigenschXml->getAttribute(ID));
 			
-			CEGUI::String s = (utf8*)"heinz";
+			CEGUI::String s(eigName);// = (utf8*)"heinz";
 			RulesSubsystem::getSingleton().log(s.c_str());
 			//int eigId = DsaManager::getSingleton().getEigenschaftIdFromLongString(eigName);
 			//XMLString::release(&eigName);

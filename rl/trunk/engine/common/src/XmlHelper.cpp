@@ -60,6 +60,8 @@ utf8* XmlHelper::transcodeToUtf8(const XMLCh* const string16)
 	utf8* rval = new utf8[length+1];
 	unsigned int eaten;
 	sTranscoder->transcodeTo(string16, length, rval, length, eaten, XMLTranscoder::UnRep_RepChar);
+
+	return rval;	
 }
 
 }
