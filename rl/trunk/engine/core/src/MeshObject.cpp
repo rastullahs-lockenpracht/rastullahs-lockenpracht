@@ -130,4 +130,8 @@ namespace rl {
         return getEntity()->getCastShadows();
     }
 
+	bool MeshObject::isMeshObject()
+	{
+		return true;
+	}
 }

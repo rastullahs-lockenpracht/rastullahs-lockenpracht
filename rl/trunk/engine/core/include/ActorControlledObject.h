@@ -59,6 +59,8 @@ namespace rl {
          * Sollte dem Typnamen entsprechen.
          */
         virtual Ogre::String getObjectType() = 0;
+
+		virtual bool isMeshObject();
     
     protected:
         Ogre::MovableObject* mMovableObject;

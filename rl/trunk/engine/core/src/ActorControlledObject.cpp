@@ -55,4 +55,8 @@ namespace rl {
         node->detachObject(mMovableObject);    
     }
 
+	bool ActorControlledObject::isMeshObject()
+	{
+		return false;
+	}
 }

@@ -22,6 +22,7 @@
 #include "PhysicalThing.h"
 #include "Exception.h"
 #include "ActorControlledObject.h"
+#include "MeshObject.h"
 
 using namespace Ogre;
 
@@ -234,6 +235,8 @@ namespace rl {
         }
         else
         {
+			if (actor->getControlledObject() == NULL)
+				actor->placeIntoScene(0, 0, 0, 1, 0, 0, 0);
             doAttach(slot, actor, childSlot);
             // Erst danach Parent/Child wirklich zuweisen, falls es ne
             // Exception gibt.
@@ -259,6 +262,10 @@ namespace rl {
     void Actor::doAttach(const String& slot, Actor* actor,
             const String& childSlot)
     {
+		Node* nodeThis = getSlotNode(slot); 
+		Node* nodeChild = getSlotNode(childSlot);
+
+		nodeThis->addChild(nodeChild);
     }            
 
     void Actor::doDetach(Actor* actor)
@@ -313,5 +320,20 @@ namespace rl {
         {
             removeFromScene();
         }
-    }        
+    }
+
+	Node* Actor::getSlotNode(const String& slot)
+	{
+		if (mActorControlledObject->isMeshObject())
+		{
+			Skeleton* skeletonThis = 
+				dynamic_cast<MeshObject*>(mActorControlledObject)->getEntity()->getMesh()->getSkeleton();
+			
+			return skeletonThis->getBone(slot);
+		}
+		else if (mActorControlledObject != NULL)
+			return mActorControlledObject->getMovableObject()->getParentNode();
+		else
+			return mSceneNode;		
+	}        
 }
