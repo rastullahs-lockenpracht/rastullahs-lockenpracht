@@ -36,7 +36,7 @@ public class Polygon
     public void addVector( Vector3 vec )
     {        
         for(int i = 0; i < mVertices.size(); i++ )
-            if( ((Vertex)mVertices.get(i)).getPosition().equals( vec ) )
+            if( ((Vertex)mVertices.get(i)).getPosition().nearly_equals( vec ) )
                  return;
         
         mVertices.add( new Vertex(vec) );

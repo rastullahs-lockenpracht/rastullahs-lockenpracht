@@ -298,16 +298,20 @@ public class Plane
 	public int classifyPoint ( Vector3 vec )
 	{
 		double distance = distanceToPlane ( vec );
-
+		//System.out.print( distance );
+		
 		if ( distance > EPSILON )
 		{
+		    //System.out.println( " Front" );
 			return PLANE_POSITION_FRONT;
 		}
 		else if ( distance < -EPSILON )
 		{
+		    //System.out.println( " Back" );
 			return PLANE_POSITION_BACK;
 		}
 
+		//System.out.println( " On" );
 		return PLANE_POSITION_ONPLANE;
 	}
     
