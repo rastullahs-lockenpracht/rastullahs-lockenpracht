@@ -202,16 +202,16 @@
     <Image Name="NewCloseButtonHover" XPos="125" YPos="319" Width="15" Height="15" />
     <Image Name="NewCloseButtonPressed" XPos="125" YPos="319" Width="15" Height="15" />
     
-    <Image Name="MultiLineEditboxLeft" XPos="41" YPos="89" Width="6" Height="6" />
-    <Image Name="MultiLineEditboxRight" XPos="63" YPos="89" Width="6" Height="6" />
-    <Image Name="MultiLineEditboxTop" XPos="52" YPos="78" Width="6" Height="6" />
-    <Image Name="MultiLineEditboxBottom" XPos="52" YPos="100" Width="6" Height="6" />
-    <Image Name="MultiLineEditboxTopLeft" XPos="41" YPos="78" Width="6" Height="6" />
-    <Image Name="MultiLineEditboxTopRight" XPos="63" YPos="78" Width="6" Height="6" />
-    <Image Name="MultiLineEditboxBottomLeft" XPos="41" YPos="100" Width="6" Height="6" />
-    <Image Name="MultiLineEditboxBottomRight" XPos="63" YPos="100" Width="6" Height="6" />
-    <Image Name="MultiLineEditboxBackdrop" XPos="52" YPos="89" Width="6" Height="6" />
-    <Image Name="MultiLineEditboxSelectionBrush" XPos="9" YPos="71" Width="14" Height="14" />
+    <Image Name="MultiLineEditboxLeft" XPos="258" YPos="268" Width="8" Height="2" />
+    <Image Name="MultiLineEditboxRight" XPos="278" YPos="268" Width="5" Height="2" />
+    <Image Name="MultiLineEditboxTop" XPos="269" YPos="258" Width="6" Height="7" />
+    <Image Name="MultiLineEditboxBottom" XPos="269" YPos="273" Width="6" Height="5" />
+    <Image Name="MultiLineEditboxTopLeft" XPos="258" YPos="258" Width="8" Height="7" />
+    <Image Name="MultiLineEditboxTopRight" XPos="278" YPos="258" Width="5" Height="7" />
+    <Image Name="MultiLineEditboxBottomLeft" XPos="258" YPos="273" Width="8" Height="5" />
+    <Image Name="MultiLineEditboxBottomRight" XPos="278" YPos="273" Width="5" Height="5" />
+    <Image Name="MultiLineEditboxBackdrop" XPos="1" YPos="1" Width="254" Height="254" />
+    <Image Name="MultiLineEditboxSelectionBrush" XPos="40" YPos="350" Width="16" Height="16" />
     
     <Image Name="MouseTarget" XPos="1" YPos="283" Width="15" Height="20" />
     <Image Name="MouseArrow" XPos="1" YPos="283" Width="15" Height="20" />
