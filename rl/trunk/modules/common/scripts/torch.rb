@@ -64,7 +64,7 @@ class Torch < RubyItem
     #torchActor = $ActorManager.createMeshActor("Torch", "Torch.mesh",
     #Physics.CAPSULE_GEOM, 1.0);
     torchActor = $AF.createMeshActor("Torch", "Fackel.mesh", 2, 1.0);
-    $Core.log("actor erstellt.");
+    $CORE.log("actor erstellt.");
     #lightActor = $ActorManager.createLightActor("TorchLight",
     #Color.YELLOW, Light.POINTLIGHT, Light.LINEAR_ATTENUATION);
     
@@ -80,7 +80,7 @@ class Torch < RubyItem
     #torchActor.attach(Slots.SLOT_FAR_END, sfxActor);
     
     setActor(torchActor);
-    $Core.log("actor gesetzt");
+    $CORE.log("actor gesetzt");
     
     @lit = false;
     
@@ -89,7 +89,7 @@ class Torch < RubyItem
     # TODO soll nicht so bleiben, dass jede Fackel ne separate
     # Action-Instanz erhält. Eine für alle sollte reichen.
     addAction(LightTorchAction.new);
-    $Core.log("Aktion hinzugefuegt.");
+    $CORE.log("Aktion hinzugefuegt.");
   end
   
   def setLit(lit)

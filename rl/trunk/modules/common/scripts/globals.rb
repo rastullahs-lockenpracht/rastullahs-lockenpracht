@@ -4,12 +4,12 @@ load "embed.rb"
 
 include RlScript
 
-$Core = CoreSubsystem.getSingleton();
+$CORE = CoreSubsystem.getSingleton();
 $AF = ActorManager.getSingleton();
 $PM = PhysicsManager.getSingleton();
-$GL = GameLoop.getSingleton();
+$GL = GameLoopManager.getSingleton();
 $MM = MusicManager.getSingleton();
+$UI = UiSubsystem.getSingleton();
 $SM = SoundManager.getSingleton();
-$Ui = UiSubsystem.getSingleton();
 
 $AnimMgr = AnimationManager.getSingleton();

@@ -8,7 +8,7 @@ class ShowActionMenuAction < RubyAction
   end
   
   def doAction(object, actor, target)
-    $Ui.showCharacterActionChoice
+    $UI.showCharacterActionChoice
   end
 end
 
@@ -18,7 +18,7 @@ class CampAction < RubyAction
   end
   
   def doAction(object, actor, target)
-    $Ui.showMessageWindow("Hier kannst du nicht schlafen")
+    $UI.showMessageWindow("Hier kannst du nicht schlafen")
   end
 end
 
@@ -28,7 +28,7 @@ class QuitGameAction < RubyAction
   end
   
   def doAction(object, actor, target)
-    $Ui.requestExit()
+    $UI.requestExit()
   end
 end
 
@@ -38,7 +38,7 @@ class ToggleConsoleAction < RubyAction
   end
   
   def doAction(object, actor, target)
-    $Ui.toggleConsole()
+    $UI.toggleConsole()
   end
 end
 
@@ -48,8 +48,18 @@ class ToggleDebugWindowAction < RubyAction
   end
   
   def doAction(object, actor, target)
-    $Ui.toggleDebugWindow()
+    $UI.toggleDebugWindow()
   end
+end
+
+class ToggleGameLogWindowAction < RubyAction
+    def initialize
+        super("GameLogWindow", "Game Log zeigen/verstecken")
+    end
+    
+    def doAction(object, actor, target)
+        $UI.toggleGameLogWindow()
+    end
 end
 
 class ToggleViewModeAction < RubyAction
@@ -58,7 +68,7 @@ class ToggleViewModeAction < RubyAction
   end
   
   def doAction(object, actor, target)
-    gc = $Ui.getGameController();
+    gc = $UI.getGameController();
     gc.setViewMode((gc.getViewMode() + 1) % 2);
   end
 end
@@ -69,7 +79,7 @@ class ResetCameraAction < RubyAction
   end
   
   def doAction(object, actor, target)
-    gc = $Ui.getGameController();
+    gc = $UI.getGameController();
     gc.resetCamera();
   end
 end
@@ -92,11 +102,11 @@ class PlayerSettings
     grpGrp2 = ActionGroup.new("Grp2")
     grpGrp3 = ActionGroup.new("Grp3")
     
-    
     player.addActionInGroup(ShowActionMenuAction.new, grpGrp1, 7) # ACT_DISABLED
     player.addActionInGroup(CampAction.new, grpGrp1) 
     player.addActionInGroup(ToggleConsoleAction.new, grpGrp1)
     player.addActionInGroup(ToggleDebugWindowAction.new, grpGrp2)
+    player.addActionInGroup(ToggleGameLogWindowAction.new, grpGrp2)
     player.addActionInGroup(ToggleViewModeAction.new, grpGrp2)
     player.addActionInGroup(ResetCameraAction.new, grpGrp2)
     player.addActionInGroup(QuitGameAction.new, grpGrp3) 

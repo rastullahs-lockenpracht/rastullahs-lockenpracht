@@ -1,46 +1,13 @@
-<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
-
-    <Window Type="TaharezLook/FrameWindow" Name="CommandMapper">
-        <Property Name="Position" Value="x:0.0 y:0.0"/>
-        <Property Name="AbsoluteWidth" Value="400"/>
-        <Property Name="AbsoluteHeight" Value="300"/>
-        
-        <Window Type="TaharezLook/TabPane" Name="CommandMapper/TabPane">
-            <Property Name="RelativeXPosition" Value="0.01"/>
-            <Property Name="AbsoluteYPosition" Value="20"/>
-            <Property Name="AbsoluteHeight" Value="240"/>
-            <Property Name="RelativeWidth" Value="0.98"/>
-            
-            <Window Type="TaharezLook/MultiColumnList" Name="CommandMapper/TableMovement">
-                <Property Name="Text" Value="Bewegungen"/>
-            </Window>
-            
-            <Window Type="TaharezLook/MultiColumnList" Name="CommandMapper/TableInBattle">
-                <Property Name="Text" Value="Im Kampf"/>
-            </Window>
-            
-            <Window Type="TaharezLook/MultiColumnList" Name="CommandMapper/TableOffBattle">
-                <Property Name="Text" Value="Ausserhalb des Kampfes"/>
-            </Window>
-        </Window>
-        
-        <Window Type="TaharezLook/Button" Name="CommandMapper/ChangeButton"> 
-            <Property Name="RelativeXPosition" Value="0.01"/>
-            <Property Name="AbsoluteYPosition" Value="262"/>
-            <Property Name="RelativeWidth" Value="0.2"/>
-            <Property Name="AbsoluteHeight" Value="36"/>
-            <Property Name="Font" Value="Vera Serif-14"/>
-            <Property Name="Text" Value="Aendern"/>
-        </Window>
-        
-        <Window Type="TaharezLook/Button" Name="CommandMapper/CloseButton">
-            <Property Name="RelativeXPosition" Value="0.41"/>
-            <Property Name="AbsoluteYPosition" Value="262"/>
-            <Property Name="RelativeWidth" Value="0.2"/>
-            <Property Name="AbsoluteHeight" Value="36"/>
-            <Property Name="Font" Value="Vera Serif-14"/>
-            <Property Name="Text" Value="Schliessen"/>
-        </Window>
-    </Window>
-    
-</GUILayout>
+﻿<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">    <Window Type="TaharezLook/FrameWindow" Name="CommandMapper">        <Property Name="Position" Value="x:0.0 y:0.0"/>        <Property Name="RelativeWidth" Value="1.0"/>        <Property Name="RelativeHeight" Value="1.0"/>                <Window Type="TaharezLook/TabPane" Name="CommandMapper/TabPane">            <Property Name="RelativeXPosition" Value="0.01"/>            <Property Name="AbsoluteYPosition" Value="30"/>            <Property Name="AbsoluteHeight" Value="560"/>            <Property Name="RelativeWidth" Value="0.98"/>                        
+			<Window Type="DefaultGUISheet" Name="CommandMapper/Movement">
+				<Property Name="RelativePosition" Value="x:0.0 y:0.0"/>
+				<Property Name="RelativeWidth" Value="1.0"/>
+				<Property Name="RelativeHeight" Value="1.0"/>
+			    <Window Type="TaharezLook/MultiColumnList" Name="CommandMapper/TableMovement">					<Property Name="Text" Value="Bewegungen"/>					<Property Name="RelativePosition" Value="x:0.02 y:0.1"/>					<Property Name="RelativeWidth" Value="0.95"/>					<Property Name="RelativeHeight" Value="0.8"/>				                				</Window>			</Window>						<Window Type="DefaultGUISheet" Name="CommandMapper/InBattle">
+				<Property Name="Text" Value="Im Kampf"/>
+				<Property Name="RelativePosition" Value="x:0.0 y:0.0"/>
+				<Property Name="RelativeWidth" Value="1.0"/>
+				<Property Name="RelativeHeight" Value="1.0"/>            				<Window Type="TaharezLook/MultiColumnList" Name="CommandMapper/TableInBattle">					<Property Name="RelativePosition" Value="x:0.02 y:0.1"/>					<Property Name="RelativeWidth" Value="0.95"/>					<Property Name="RelativeHeight" Value="0.8"/>				                				</Window>			</Window>			<Window Type="DefaultGUISheet" Name="CommandMapper/OffBattle">
+				<Property Name="Text" Value="Ausserhalb des Kampfes"/>				<Property Name="RelativePosition" Value="x:0.0 y:0.0"/>
+				<Property Name="RelativeWidth" Value="1.0"/>
+				<Property Name="RelativeHeight" Value="1.0"/>            				<Window Type="TaharezLook/MultiColumnList" Name="CommandMapper/TableOffBattle">					<Property Name="RelativePosition" Value="x:0.02 y:0.1"/>					<Property Name="RelativeWidth" Value="0.95"/>					<Property Name="RelativeHeight" Value="0.8"/>				                				</Window>            </Window>        </Window>                <Window Type="TaharezLook/Button" Name="CommandMapper/ChangeButton">             <Property Name="RelativeXPosition" Value="0.01"/>            <Property Name="AbsoluteYPosition" Value="262"/>            <Property Name="RelativeWidth" Value="0.2"/>            <Property Name="AbsoluteHeight" Value="36"/>            <Property Name="Font" Value="Vera Serif-14"/>            <Property Name="Text" Value="Aendern"/>        </Window>                <Window Type="TaharezLook/Button" Name="CommandMapper/CloseButton">            <Property Name="RelativeXPosition" Value="0.41"/>            <Property Name="AbsoluteYPosition" Value="262"/>            <Property Name="RelativeWidth" Value="0.2"/>            <Property Name="AbsoluteHeight" Value="36"/>            <Property Name="Font" Value="Vera Serif-14"/>            <Property Name="Text" Value="Schliessen"/>        </Window>    </Window>    </GUILayout>

@@ -1,10 +1,10 @@
-$Core.log("Loading menu background..")
-$Core.loadMap("Octree", "intro.mesh");
-$Core.log("done")
-$World = $Core.getWorld();
-$Core.log("creating dummy player for menu.")
+$CORE.log("Loading menu background..")
+$CORE.loadMap("Octree", "intro.mesh");
+$CORE.log("done")
+$World = $CORE.getWorld();
+$CORE.log("creating dummy player for menu.")
 player = GameObject.new(10001, "Blah", "Blubb");
-$Core.log("done.")
-$Core.log("showMainMenu()..")
-$Ui.showMainMenu(player);
-$Core.log("done.")
+$CORE.log("done.")
+$CORE.log("showMainMenu()..")
+$UI.showMainMenu(player);
+$CORE.log("done.")

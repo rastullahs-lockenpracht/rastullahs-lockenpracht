@@ -1,9 +1,9 @@
 # Beginn Original
-# $Core.loadMap("Octree", "intro.mesh");
-# $World = $Core.getWorld();
+# $CORE.loadMap("Octree", "intro.mesh");
+# $World = $CORE.getWorld();
 # player = GameObject.new(10001, "Blah", "Blubb");
-# $Ui.showMainMenu(player);
+# $UI.showMainMenu(player);
 # Ende Original
 
-$Core.initializeModule("minidemo");
+$CORE.initializeModule("minidemo");
 load "startup-module.rb"
