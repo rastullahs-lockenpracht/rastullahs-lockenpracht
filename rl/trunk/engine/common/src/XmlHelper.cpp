@@ -46,17 +46,20 @@ char* XmlHelper::getValueAsString(DOMElement* element)
 
 utf8* XmlHelper::getValueAsUtf(DOMElement* element)
 {
-	const XMLCh* val = element->getFirstChild()->getNodeValue();
-	int length = XMLString::stringLen(val);
-	utf8* rval = new utf8[length+1];
-	unsigned int eaten;
-	sTranscoder->transcodeTo(val, length, rval, length, eaten, XMLTranscoder::UnRep_RepChar);
-	return rval;
+	return XmlHelper::transcodeToUtf8(element->getFirstChild()->getNodeValue());
 }
 
 int XmlHelper::getValueAsInteger(DOMElement* element)
 {
 	return XMLString::parseInt(element->getFirstChild()->getNodeValue());
+}
+
+utf8* XmlHelper::transcodeToUtf8(const XMLCh* const string16)
+{
+	int length = XMLString::stringLen(string16);
+	utf8* rval = new utf8[length+1];
+	unsigned int eaten;
+	sTranscoder->transcodeTo(string16, length, rval, length, eaten, XMLTranscoder::UnRep_RepChar);
 }
 
 }

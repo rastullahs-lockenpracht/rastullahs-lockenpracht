@@ -19,18 +19,34 @@ namespace rl
 
     RulesSubsystem::RulesSubsystem()
     {
+		//Log initialisieren
+		mLog = Ogre::LogManager::getSingleton().createLog( "rlRules.log" );
+	
+		
+		log("RlRules: Start");
         //Zufallsgenerator initialisieren
         srand(static_cast<unsigned int>(time(NULL)));
 
+		
         //Singletons erzeugen
-        new ActionManager();
+        new ActionManager(); 
+		log("RlRules: ActionManager erzeugt");
         new DsaManager();
+		log("RlRules: DsaManager erzeugt");
 
 		//Daten laden
 		DsaDataLoader::loadData("basis.xdi");
+		log("RlRules: Basisdaten geladen");
 		DsaDataLoader::loadData("kalchas.xml"); // XXX: Nur zu Testzwecken
+		log("RlRules: Testheld geladen");
 		
+		log("RlRules: Erzeugen abgeschlossen");		
     }
+	
+	void RulesSubsystem::log(const std::string& msg)
+	{
+		mLog->logMessage(msg);
+	}
 
     RulesSubsystem::~RulesSubsystem()
     {

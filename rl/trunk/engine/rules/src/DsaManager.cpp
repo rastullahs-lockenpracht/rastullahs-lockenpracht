@@ -5,6 +5,7 @@
 #include "KampftechnikCsvIterator.h"
 #include "Kampftechnik.h"
 #include "Person.h"
+#include "RulesSubsystem.h"
 
 #include "Exception.h"
 
@@ -164,9 +165,13 @@ namespace rl
 
 	int DsaManager::getEigenschaftIdFromLongString(const string& str) const
 	{
+		RulesSubsystem::getSingleton().log("DsaManager sucht "+str);
 		for (int idx = 0; idx < EIGENSCHAFT_COUNT; idx++)
+		{
+			RulesSubsystem::getSingleton().log("DsaManager findes "+mEigenschaften[idx]->getName());
 			if (mEigenschaften[idx]->getName().compare(str) == 0)
 				return idx;
+		}
 
 		Throw(InvalidArgumentException, "Ungueltige Eigenschaft");
 	}

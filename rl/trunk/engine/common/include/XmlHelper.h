@@ -4,6 +4,7 @@
 #include "CommonPrerequisites.h"
 
 #include <xercesc/dom/DOMElement.hpp>
+#include <xercesc/util/XMLChar.hpp>
 #include <xercesc/util/TransService.hpp>
 
 #include <CEGUIString.h>
@@ -24,7 +25,9 @@ public:
 	static char* getValueAsString(XERCES_CPP_NAMESPACE::DOMElement* element);
 	static utf8* getValueAsUtf(XERCES_CPP_NAMESPACE::DOMElement* element);
 	static int getValueAsInteger(XERCES_CPP_NAMESPACE::DOMElement* element);
+
 	static void initializeTranscoder();
+	static utf8* transcodeToUtf8(const XMLCh* const string16);
 };
 
 }

@@ -9,6 +9,8 @@
 #include "Talent.h"
 #include "Person.h"
 #include "XmlHelper.h"
+#include "RulesSubsystem.h"
+
 #include "Exception.h"
 
 using namespace XERCES_CPP_NAMESPACE;
@@ -124,10 +126,14 @@ namespace rl {
 		DOMNodeList* personenXml = 
 			rootPersons->getElementsByTagName(XMLString::transcode("Person"));
 		for (unsigned int idx = 0; idx < personenXml->getLength(); idx++)
-			DsaManager::getSingleton()._addPerson(
+		{
+			Person* p = 
 				processPerson(
 					idx+10000, 
-					reinterpret_cast<DOMElement*>(personenXml->item(idx))));
+					reinterpret_cast<DOMElement*>(personenXml->item(idx)));
+			DsaManager::getSingleton()._addPerson(p);
+		}
+		
 	}
 
 	Person* DsaDataLoader::processPerson(int id, DOMElement* personXml)
@@ -151,16 +157,19 @@ namespace rl {
 		for (unsigned int idx = 0; idx < eigensch->getLength(); idx++)
 		{
 			DOMElement* eigenschXml = reinterpret_cast<DOMElement*>(eigensch->item(idx));
-			char* eigName = XMLString::transcode(eigenschXml->getAttribute(ID));
-			int eigId = DsaManager::getSingleton().getEigenschaftIdFromLongString(eigName);
-			XMLString::release(&eigName);
-			int wert = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(eigenschXml, "Wert"));
+			utf8* eigName = XmlHelper::transcodeToUtf8(eigenschXml->getAttribute(ID));
+			
+			CEGUI::String s = (utf8*)"heinz";
+			RulesSubsystem::getSingleton().log(s.c_str());
+			//int eigId = DsaManager::getSingleton().getEigenschaftIdFromLongString(eigName);
+			//XMLString::release(&eigName);
+			//int wert = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(eigenschXml, "Wert"));
 
-			rval->setEigenschaft(eigId, wert);
+			//rval->setEigenschaft(eigId, wert);
 		}		
 
 		// Abgeleitete Werte laden
-		DOMNodeList* werte = 
+		/*DOMNodeList* werte = 
 			XmlHelper::getChildNamed(personXml, "AbgeleiteteWerte")->
 				getElementsByTagName(ABGELEITETER_WERT);
 		for (unsigned int idx = 0; idx < werte->getLength(); idx++)
@@ -207,11 +216,12 @@ namespace rl {
 			rval->setTalent(
 				tal->getId(), 
 				XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(talentXml, "Wert")));
-		}
+		}*/
 
 		XMLString::release(&TALENT);
 		XMLString::release(&ID);
 		XMLString::release(&ABGELEITETER_WERT);
+		XMLString::release(&EIGENSCHAFT);
 
 		return rval;
 	}
