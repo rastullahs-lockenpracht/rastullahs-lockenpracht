@@ -52,6 +52,8 @@ namespace rl {
         bool getCastShadows (void) const;
 
 		virtual bool isMeshObject();
+
+        void setHighlighted( bool highlight );
         
         virtual Ogre::String getObjectType();
     private:

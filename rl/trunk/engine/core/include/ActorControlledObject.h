@@ -68,6 +68,9 @@ namespace rl {
          */
         virtual Ogre::String getObjectType() = 0;
 
+        /** Ermöglicht ein Highlighten des ActorControlled */
+        virtual void setHighlighted( bool highlight ) {};
+
 		virtual bool isMeshObject();
     protected:
         Ogre::MovableObject* mMovableObject;

@@ -138,6 +138,54 @@ namespace rl {
         return getEntity()->getCastShadows();
     }
 
+    void MeshObject::setHighlighted( bool highlight )
+    {
+        String nameExtension = "_HighLight";
+		Entity* ent = getEntity();
+        int numEnts = ent->getNumSubEntities();
+
+        for( int i = 0; i < numEnts; i++ )
+        {
+		    SubEntity* subent = ent->getSubEntity(i);
+
+            if( subent == NULL )
+                continue;
+
+            // TODO - optimieren, nur wenn der Typ verändert wird
+            //if(StringUtil::endsWith(subent->getMaterialName(),nameExtension)
+            // == highlight )
+            //  continue;  
+
+            MaterialPtr oldMaterial = subent->getMaterial();
+
+            // Highlight setzen
+		    if( highlight )
+		    {           	 
+                MaterialPtr material = MaterialManager::getSingleton().getByName( oldMaterial->getName()+nameExtension );
+
+                if( material.isNull() )
+                {
+                    material = oldMaterial->clone( oldMaterial->getName()+nameExtension );
+
+				    material->setAmbient(1.0, 1.0, 1.0);
+				    material->setDiffuse(1.0, 1.0, 1.0, 1.0);
+				    material->setSelfIllumination(0.4, 0.4, 0.4); 
+                }
+
+                subent->setMaterialName(material->getName());
+		    }
+            // Highlight entfernen
+		    else
+		    {
+                String matName = oldMaterial->getName();
+                matName = matName.erase(matName.length() - nameExtension.length(), nameExtension.length() );
+                subent->setMaterialName( matName );				
+		    }
+
+
+        }
+    }
+
 	bool MeshObject::isMeshObject()
 	{
 		return true;

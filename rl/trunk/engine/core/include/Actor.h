@@ -123,8 +123,6 @@ namespace rl {
             const Ogre::Quaternion& orientation);
 	private:
 		bool mHighlighted;
-		Ogre::MaterialPtr mOriginalMaterial;
-		Ogre::MaterialPtr mHighlightMaterial;
     };
 }
 #endif

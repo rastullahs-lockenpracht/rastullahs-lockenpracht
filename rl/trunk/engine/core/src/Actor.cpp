@@ -45,9 +45,6 @@ namespace rl {
 
 		if( mPhysicalThing != 0 )
 			mPhysicalThing->_setActor(this);
-
-		mOriginalMaterial.setNull();
-		mHighlightMaterial.setNull();
     }
 
     Actor::~Actor()
@@ -362,36 +359,7 @@ namespace rl {
 		if (highlight == mHighlighted)
 			return;
 
-		ActorControlledObject* obj = getControlledObject();
-
-		if (obj->isMeshObject())
-		{
-			Entity* ent = dynamic_cast<MeshObject*>(obj)->getEntity();
-			SubEntity* subent = ent->getSubEntity(0);
-
-			if (highlight)
-			{
-				if (mOriginalMaterial.isNull())
-					mOriginalMaterial = subent->getMaterial();
-
-				if (mHighlightMaterial.isNull())
-				{		
-                    mHighlightMaterial = MaterialManager::getSingleton().getByName( mOriginalMaterial->getName()+"_HighLight" );
-
-                    if( mHighlightMaterial.isNull() )
-                        mHighlightMaterial = mOriginalMaterial->clone( mOriginalMaterial->getName()+"_HighLight" );
-
-					mHighlightMaterial->setAmbient(1.0, 1.0, 1.0);
-					mHighlightMaterial->setDiffuse(1.0, 1.0, 1.0, 1.0);
-					mHighlightMaterial->setSelfIllumination(0.4, 0.4, 0.4);
-				}
-				subent->setMaterialName(mHighlightMaterial->getName());
-			}
-			else
-			{
-				subent->setMaterialName(mOriginalMaterial->getName());				
-			}
-		}
+        getControlledObject()->setHighlighted( highlight );		
 
 		mHighlighted = highlight;
 	}
