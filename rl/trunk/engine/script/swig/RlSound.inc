@@ -33,21 +33,13 @@ namespace rl {
    	public:
        static SoundManager& getSingleton();
        static SoundManager* getSingletonPtr();
-<<<<<<< .mine
-=======
-       virtual Resource* create(const std::string& resName);
->>>>>>> .r543
        void addSounds();
        void addSearchPath(const std::string& path);
        std::list<String> getSounds();
        virtual void add(Resource *song);
        virtual Resource* create(const String &resName);
    	};
-<<<<<<< .mine
-     
-=======
-      
->>>>>>> .r543
+
    	class MusicManager  {
    	public:
         static MusicManager& getSingleton();
