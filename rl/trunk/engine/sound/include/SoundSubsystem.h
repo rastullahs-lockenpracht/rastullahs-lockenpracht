@@ -18,6 +18,7 @@
 #define __SOUNDSUBSYSTEM_H__
 
 #include "SoundPrerequisites.h"
+#include <OgreLogManager.h>
 
 namespace rl {
 
@@ -39,6 +40,8 @@ public:
     static SoundSubsystem& getSingleton(void);
     /// Gibt Singleton-Zeiger zurueck.
     static SoundSubsystem* getSingletonPtr(void);
+    /// Eine Log-Nachricht ausgeben.
+    static void SoundSubsystem::log(const String& msg);
 };
 
 }

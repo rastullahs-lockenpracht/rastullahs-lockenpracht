@@ -35,4 +35,37 @@ EventObject::EventObject(EventSource *source):
 EventObject::~EventObject()
 {}
 
+/**
+ * @author JoSch
+ * @date 10-14-2004
+ * @version 1.0
+ */
+EventSource *EventObject::getSource() const
+{
+    return mSource;
+}
+
+/**
+ * @return Gibt den Grund des Events zurueck.
+ * @author JoSch
+ * @date 10-14-2004
+ * @version 1.0
+ */
+const unsigned int EventObject::getReason() const
+{
+    return mReason;
+}
+
+/**
+ * @param reason Der Grund fuer das Ereignis.
+ * @author JoSch
+ * @date 10-14-2004
+ * @version 1.0
+ */
+void EventObject::setReason(const unsigned int reason)
+{
+    mReason = reason;
+}
+
+
 }

@@ -41,11 +41,11 @@ public:
     /// Der Destruktor
 	virtual ~EventCaster();
    /// Fuege einen EventListener hinzu.
-   void addEventListener(EventListener<Event>* newListener);
+   void addEventListener(EventListener<Event> *newListener);
    /// Loesche einen EventListener.
-   void removeEventListener(EventListener<Event>* aListener);
+   void removeEventListener(EventListener<Event> *aListener);
    /// Ein Ereignis verteilen.
-   void dispatchEvent(Event &anEvent);
+   void dispatchEvent(Event *anEvent);
 };
 
 /**
@@ -96,7 +96,7 @@ void EventCaster<Event>::removeEventListener(ListenerToEvent *aListener)
  * @version 1.0
  */
 template <typename Event>
-void EventCaster<Event>::dispatchEvent(Event &anEvent)
+void EventCaster<Event>::dispatchEvent(Event *anEvent)
 {
     EventSetIterator it;
     for(it = mListeners.begin(); it != mListeners.end(); it++)

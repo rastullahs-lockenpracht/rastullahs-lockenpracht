@@ -17,14 +17,15 @@
 #ifndef SOUNDEVENT_H
 #define SOUNDEVENT_H
 
+#include "SoundPrerequisites.h"
 #include "EventObject.h"
 
 namespace rl {
 
 class SoundEvent : public EventObject{
-public:
 
-	SoundEvent();
+public:
+	SoundEvent(EventSource *source);
 	virtual ~SoundEvent();
 };
 

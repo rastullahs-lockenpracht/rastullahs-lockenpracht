@@ -54,6 +54,9 @@ SoundSubsystem* SoundSubsystem::getSingletonPtr(void)
  */
 SoundSubsystem::SoundSubsystem()
 {
+     Log* log = LogManager::getSingleton().createLog( "logs/rlSound.log" );
+     log->setLogDetail( LL_BOREME );
+ 
     // OpenAL initialisieren und Fehler zuruecksetzen.
     alutInit(0, 0);
     alGetError();
@@ -85,5 +88,19 @@ SoundSubsystem::~SoundSubsystem()
     delete MusicManager::getSingletonPtr();
     alutExit();
 }
+
+/**
+ * @author Blakharaz
+ * @date 10-14-2004
+ */
+void SoundSubsystem::log(const String& msg)
+{
+    if (LogManager::getSingletonPtr() == 0)
+    {
+        new LogManager();
+    }
+    LogManager::getSingleton().getLog( "logs/rlSound.log" )->logMessage(msg);
+}
+
 
 }

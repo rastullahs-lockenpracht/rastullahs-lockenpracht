@@ -33,7 +33,7 @@ public:
     /// Der Destruktor.
 	virtual ~EventListener();
     /// Hier wird das Objekt benachrichtigt.
-    virtual bool eventRaised(Event &anEvent) = 0;
+    virtual bool eventRaised(Event *anEvent) = 0;
 };
 
 /**

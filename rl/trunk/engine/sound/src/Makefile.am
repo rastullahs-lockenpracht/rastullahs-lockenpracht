@@ -8,5 +8,7 @@ libRlSound_la_SOURCES = \
 	SoundManager.cpp \
     ResourceManager.cpp \
 	SoundSubsystem.cpp \
-	SoundEvent.h
+	SoundEvent.cpp \
+	SoundPlayEvent.cpp \
+	SoundFadeEvent.cpp
     

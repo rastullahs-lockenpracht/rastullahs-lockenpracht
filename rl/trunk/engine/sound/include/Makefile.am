@@ -4,4 +4,6 @@ noinst_HEADERS = MusicManager.h \
 	SoundPrerequisites.h \
     ResourceManager.h \
     SoundResource.h \
-    SoundEvent.h
+    SoundEvent.h \
+    SoundPlayEvent.h \
+    SoundFadeEvent.h

@@ -80,10 +80,7 @@ VALUE RubyInterpreter::loadDlls(VALUE val)
 	//rb_require("RlRules");    
 	//
 #else
-    rb_require("libRlCore");
-    rb_require("libRlRules");
-    rb_require("libRlSound");
-	rb_require("libRlUi");
+    rb_require("libRlScript");
 #endif
 
 	return Qnil;

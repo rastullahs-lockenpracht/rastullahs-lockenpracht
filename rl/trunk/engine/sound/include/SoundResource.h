@@ -109,7 +109,12 @@ class _RlSoundExport SoundResource: public Resource,
                 const ALfloat getGain() const;
                 
 
-        } mFadeInThread, mFadeOutThread;
+        };
+        /// Der Thread, der das Fade-In behandelt
+        mutable FadeThread mFadeInThread;
+        /// Der Thread, der das Fade-Out behandelt
+     
+        mutable FadeThread mFadeOutThread;
        
         /// Streamen der Sounddaten
         class StreamThread : public Thread,
@@ -128,7 +133,9 @@ class _RlSoundExport SoundResource: public Resource,
                 /// Die Arbeitsroutine.
                 void run();
 
-        } mStreamThread;
+        };
+        /// Der Thread, der das Streamen behandelt.
+        mutable StreamThread mStreamThread;
     
     protected:
         /// Die gekapselte Soundquelle
@@ -214,7 +221,7 @@ class _RlSoundExport SoundResource: public Resource,
         /// Spielt der Stream noch. Nicht verwechseln mit getState.
         const bool isPlaying() const;
         /// Wir haben ein Ereignis erhalten.
-        virtual bool eventRaised(SoundEvent &anEvent);
+        virtual bool eventRaised(SoundEvent *anEvent);
         
         
 

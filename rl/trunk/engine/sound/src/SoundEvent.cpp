@@ -18,8 +18,10 @@
 
 namespace rl {
 
-SoundEvent::SoundEvent()
+SoundEvent::SoundEvent(EventSource *source) :
+    EventObject(source)
 {}
+
 SoundEvent::~SoundEvent()
 {}
 

@@ -17,9 +17,12 @@
 #include <string>
 #include <iostream>
 #include <OgreString.h>
+#include "SoundSubsystem.h"
 #include "SoundManager.h"
 #include "SoundResource.h"
 #include "Sleep.h"
+#include "SoundPlayEvent.h"
+#include "SoundFadeEvent.h"
 
 using namespace std;
 using namespace Ogre;
@@ -50,10 +53,15 @@ SoundResource::SoundResource(const String &name):
     mBuffers = new ALuint[mBufferCount];
     alGenBuffers(mBufferCount, mBuffers);
     check();
+    /// Ein paar Standardwerte setzen
     setGain(1.0f);
     setPosition(Vector3(0.0, 0.0, 0.0));
     setVelocity(Vector3(0.0, 0.0, 0.0));
     setDirection(Vector3(0.0, 0.0, 0.0));
+    /// Die Events anmelden.
+    mFadeInThread.addEventListener(this);
+    mFadeOutThread.addEventListener(this);
+    mStreamThread.addEventListener(this);
 }
 
 /**
@@ -72,8 +80,9 @@ SoundResource::~SoundResource()
  * @author JoSch
  * @date 10-14-2004
  */
-bool SoundResource::eventRaised(SoundEvent &anEvent)
+bool SoundResource::eventRaised(SoundEvent *anEvent)
 {
+    SoundSubsystem::log("Reason: " + anEvent->getReason());
     return true;
 }
 
@@ -292,8 +301,8 @@ void SoundResource::fadeIn(unsigned int msec)
 {
     if (msec != 0)
     {
-        mFadeInThread.setDauer(msec);
-        mFadeInThread.start();
+// TODO        mFadeInThread.setDauer(msec);
+//        mFadeInThread.start();
     }
 }
 /**
@@ -304,8 +313,8 @@ void SoundResource::fadeOut(unsigned int msec)
 {
     if (msec != 0 )
     {
-        mFadeOutThread.setDauer(msec);
-        mFadeOutThread.start();
+// TODO        mFadeOutThread.setDauer(msec);
+//        mFadeOutThread.start();
     }
 }
 /**
@@ -395,7 +404,7 @@ void SoundResource::check() const throw (RuntimeException)
  */
 const bool SoundResource::isPlaying() const
 {
-    return true; // TODO
+    return mStreamThread.isRunning();
 }
 
 
@@ -409,6 +418,7 @@ SoundResource::FadeThread::FadeThread(SoundResource *that, bool fadeIn) :
     that(that),
     mFadeIn(fadeIn)
 {
+    
 }
 
 /**
@@ -574,6 +584,14 @@ SoundResource::StreamThread::StreamThread(SoundResource *that) :
  */
 void SoundResource::StreamThread::run()
 {
+    SoundPlayEvent event(this);
+    event.setReason(SoundPlayEvent::STARTEVENT);
+    dispatchEvent(&event);
+    
+    // DO something.
+    
+    event.setReason(SoundPlayEvent::STOPEVENT);
+    dispatchEvent(&event);
 }
 
 /**

@@ -31,12 +31,22 @@ class _RlCommonExport EventObject {
 private:
    /// Die Quelle des Ereignisses.
    EventSource *mSource; 
+   /// Die ID des Grundes für den Event.
+   unsigned int mReason;
+   
     
 public:
     /// Der Konstruktor.
 	EventObject(EventSource *source);
     /// Der Destruktor.
-	virtual ~EventObject() ;
+	virtual ~EventObject();
+   
+   /// Die Ereignisquelle zurueckgeben
+   EventSource *getSource() const;
+   /// Die ID des Grundes für den Event.
+   const unsigned int getReason() const;
+   /// Die ID setzen
+   void setReason(const unsigned int reason);
 };
 
 }
