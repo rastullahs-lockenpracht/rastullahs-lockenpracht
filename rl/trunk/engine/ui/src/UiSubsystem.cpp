@@ -98,7 +98,7 @@ namespace rl {
 
         log("Initialisiere UI", "UiSubsystem::initializeUiSubsystem");
         World* world = CoreSubsystem::getSingleton().getWorld();
-        SceneManager* sceneMgr = CoreSubsystem::getSingleton().getWorld()->getSceneManager();
+        SceneManager* sceneMgr = world->getSceneManager();
 		
 		Ogre::RenderWindow* window = Ogre::Root::getSingleton().getAutoCreatedWindow();
 		log("Initialisiere CEGUI-Renderer", "UiSubsystem::initializeUiSubsystem");

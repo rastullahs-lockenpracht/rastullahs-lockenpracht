@@ -413,8 +413,9 @@ void SoundResource::check() const throw (RuntimeException)
     ALenum error = alGetError();
     if (error != AL_NO_ERROR)
     {
-        SoundSubsystem::log("Error: " + StringConverter::toString((char*)alGetString(error)));
-        Throw(RuntimeException, string((char*)alGetString(error)));
+		string errormsg = (char*)alGetString(error);
+        SoundSubsystem::log("Error: " + errormsg);
+        Throw(RuntimeException, errormsg);
     }
 }
 

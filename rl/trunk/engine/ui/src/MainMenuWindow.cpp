@@ -13,7 +13,7 @@ using namespace CEGUI;
 namespace rl {
 
 	MainMenuWindow::MainMenuWindow(GameObject* actionHolder) :
-		CeGuiWindow("mainmenuwindow.xml", WND_ALL_INPUT, true),
+		CeGuiWindow("mainmenuwindow.xml", WND_ALL_INPUT),
 		mActiveModule(""),
 		mActionHolder(actionHolder)
 	{
