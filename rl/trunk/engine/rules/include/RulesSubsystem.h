@@ -21,11 +21,9 @@
 
 #include <string>
 
-using namespace Ogre;
-
 namespace rl
 {
-    class _RlRulesExport RulesSubsystem : public Singleton<RulesSubsystem>
+	class _RlRulesExport RulesSubsystem : public Ogre::Singleton<RulesSubsystem>
     {
     public:
         RulesSubsystem();
