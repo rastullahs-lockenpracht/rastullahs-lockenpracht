@@ -180,6 +180,20 @@ material SOLID/facade04.jpg
   }
 }
 
+material SOLID/ou_boden05.jpg
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ou_boden05.jpg
+      }
+    }
+  }
+}
+
 material SOLID/v_schindel.jpg
 {
   technique
