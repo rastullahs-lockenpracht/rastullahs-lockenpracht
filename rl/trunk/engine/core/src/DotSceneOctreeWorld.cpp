@@ -17,6 +17,7 @@
 #include "DotSceneOctreeWorld.h"
 
 #include <OgreTextureManager.h>
+#include <OgreRoot.h>
 #include "GameLoop.h"
 
 #include "CameraActor.h"
@@ -27,6 +28,24 @@ namespace rl {
 
     DotSceneOctreeWorld::DotSceneOctreeWorld( ) : World(ST_GENERIC, true)
     {
+        // Set up shadowing
+        // JoSch hat unter Windows Probleme auf seiner TNT.
+        // Eventuell wg. Schattensetup, deshalb testweise aus.
+        mSceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_MODULATIVE);
+        mSceneMgr->setShadowColour(ColourValue(0.5, 0.5, 0.5));
+        mSceneMgr->setShadowFarDistance(500);
+        mSceneMgr->setShadowDirLightTextureOffset(0.9);
+		if (StringUtil::startsWith(Root::getSingletonPtr()->
+		    getRenderSystem()->getName(), "direct"))
+        {
+            // In D3D, use a 1024x1024 shadow texture
+            mSceneMgr->setShadowTextureSettings(1024, 2);
+        }
+        else
+        {
+            // Use 512x512 texture in GL since we can't go higher than the window res
+            mSceneMgr->setShadowTextureSettings(512, 2);
+        }
     }
 
     DotSceneOctreeWorld::~DotSceneOctreeWorld()
@@ -56,18 +75,10 @@ namespace rl {
         newVp->setBackgroundColour(ColourValue(0,0,0));
     }
 
-    void DotSceneOctreeWorld::loadScene(const String&  levelName)
+    void DotSceneOctreeWorld::loadScene(const String& levelName)
     {
         if( mbSceneLoaded )
             clearScene();
-
-        // Set up shadowing
-        // JoSch hat unter Windows Probleme auf seiner TNT.
-        // Eventuell wg. Schattensetup, deshalb testweise aus.
-        // mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_MODULATIVE);
-        // mSceneMgr->setShadowColour(ColourValue(0.5, 0.5, 0.5));
-        // mSceneMgr->setShadowFarDistance(60);
-        // mSceneMgr->setShadowTextureSettings(512, 2);
 
         // Add some default lighting to the scene
         mSceneMgr->setAmbientLight(ColourValue(0.55, 0.55, 0.55));
@@ -78,14 +89,13 @@ namespace rl {
 		Entity* entity = mSceneMgr->createEntity("level", levelName);
 		SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode("level");
 		node->attachObject(entity);
-		entity->setNormaliseNormals(true);
-		entity->setCastShadows(false);
+		//entity->setCastShadows(false);
 		
         initializeDefaultCamera();
         mbSceneLoaded = true;
     }
 
-    void DotSceneOctreeWorld::clearScene( )
+    void DotSceneOctreeWorld::clearScene()
     {
 		mSceneMgr->destroySceneNode("level");
 		mSceneMgr->removeEntity("level");

@@ -384,6 +384,9 @@ namespace rl {
         if (im->isKeyDown(KC_L))
             mOdeWorld->setShowDebugObjects(!mOdeWorld->getShowDebugObjects());
             
+        if (im->isKeyDown(KC_P))
+            CoreSubsystem::getSingleton().makeScreenshot("rastullah");
+            
         translation.normalise();
         if (cmdmap->isMovementActive(MOVE_RUN))
             translation *= 2;
@@ -439,6 +442,8 @@ namespace rl {
         {
             ///@todo dafuer sorgen, dass das nicht mehr noetig ist.
             mActor->getSceneNode()->setScale(0.5, 0.5 , 0.5);
+            mActor->setCastShadows(true);
+            mActor->getEntity()->setNormaliseNormals(true);
 
             Vector3 extent = mActor->getExtent();
             SceneNode* root = CoreSubsystem::getSingleton().getWorld()->
