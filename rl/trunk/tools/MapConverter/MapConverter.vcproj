@@ -175,6 +175,9 @@
 				RelativePath=".\include\MAPLoader.h">
 			</File>
 			<File
+				RelativePath=".\res\resource.h">
+			</File>
+			<File
 				RelativePath=".\include\TextureManager.h">
 			</File>
 			<File
@@ -190,6 +193,12 @@
 		<Filter
 			Name="Resource Files"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;r">
+			<File
+				RelativePath=".\res\exe.ico">
+			</File>
+			<File
+				RelativePath=".\res\MapConverter.rc">
+			</File>
 		</Filter>
 	</Files>
 	<Globals>
