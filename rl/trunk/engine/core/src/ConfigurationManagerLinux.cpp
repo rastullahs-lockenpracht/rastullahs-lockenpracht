@@ -133,8 +133,13 @@ namespace rl
         filename = "/usr/share/rl/rastullah.cfg";
         if(checkForFile(filename)) return filename;
         
-        //nix gefunden...
-        return "";
+        //nix gefunden, also geben wir das home des Benutzers zurück, damit eine
+        //neue Datei angelegt werden kann.
+        //TODO: Es sollte IMMER wenn im home des current calling users keine 
+        //.rastullah.cfg ist eine für diesen Benutzer mit seinen persönlichen
+        //settings angelegt werden, oder aber aus den oben genannten Standard
+        //pfade eine kopiert und angepasst!!!
+        return string(::getenv("HOME"));
     }
     
     bool ConfigurationManagerLinux::checkForFile(const std::string& filename)
