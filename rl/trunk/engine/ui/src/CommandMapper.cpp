@@ -45,48 +45,48 @@ namespace rl {
 
 		ActionEntry ae;
 		ae.actionClass = "ShowActionMenuAction";
-		ae.actionName = "Aktionen";
+		ae.actionName = "showactions";
 		mKeyCommandsInBattle.insert(make_pair(KC_F1, ae));
 		mKeyCommandsOffBattle.insert(make_pair(KC_F1, ae));
 
 		ae.actionClass = "QuitGameAction";
-		ae.actionName = "Ende";
+		ae.actionName = "quitgame";
 		mKeyCommandsOffBattle.insert(make_pair(KC_ESCAPE, ae));
 
 		ae.actionClass = "ToggleConsoleAction";
-		ae.actionName = "Konsole";
+		ae.actionName = "toggleconsole";
 		mKeyCommandsOffBattle.insert(make_pair(KC_TAB, ae));
 
 		ae.actionClass = "ToggleDebugWindowAction";
-		ae.actionName = "DebugWindow";
+		ae.actionName = "toggledebugwindow";
 		mKeyCommandsOffBattle.insert(make_pair(KC_F2, ae));
 		
 		ae.actionClass = "ToggleGameLogWindowAction";
-		ae.actionName = "GameLogWindow";
+		ae.actionName = "togglegamelogwindow";
 		mKeyCommandsOffBattle.insert(make_pair(KC_F3, ae));
 		
 		ae.actionClass = "ToggleViewModeAction";
-		ae.actionName = "Sichtmodus";
+		ae.actionName = "toggleviewmode";
 		mKeyCommandsOffBattle.insert(make_pair(KC_F, ae));
 		
         ae.actionClass = "ResetCameraAction";
-		ae.actionName = "Kamera";
+		ae.actionName = "resetcamera";
 		mKeyCommandsOffBattle.insert(make_pair(KC_NUMPAD0, ae));
 
         ae.actionClass = "MakeScreenshotAction";
-		ae.actionName = "Screenshot";
+		ae.actionName = "makescreenshot";
 		mKeyCommandsOffBattle.insert(make_pair(KC_P, ae));
 
 		ae.actionClass = "ToggleOdeDebugAction";
-		ae.actionName = "OdeDebug";
+		ae.actionName = "toggleodedebug";
 		mKeyCommandsOffBattle.insert(make_pair(KC_L, ae));
 
 		ae.actionClass = "ShowObjectActionsAction";
-		ae.actionName = "ShowObjectActions";
+		ae.actionName = "showobjectactions";
 		mKeyCommandsOffBattle.insert(make_pair(KC_U, ae));
 
 		ae.actionClass = "ShowCharacterSheetAction";
-		ae.actionName = "Charakterblatt";
+		ae.actionName = "showcharaktersheet";
 		mKeyCommandsOffBattle.insert(make_pair(KC_C, ae));
 	}
 

@@ -110,7 +110,9 @@ namespace rl
 
 		if (it == mActions.end())
         {
-            Throw(InvalidArgumentException, "Dem Objekt unbekannte Aktion.");
+            std::stringstream strstr;
+            strstr << actionName.c_str() << " aus " << className.c_str() << " ist eine dem Objekt unbekannte Aktion.";
+            Throw(InvalidArgumentException, strstr.str());
         }
         
 		doAction((*it).first, actor, target);
