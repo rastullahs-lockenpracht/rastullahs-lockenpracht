@@ -20,7 +20,9 @@ class OpenDoorAction < RubyAction
   
   def doAction(door, user, target)    
     doorActor = door.getActor(); 
-    doorActor.getControlledObject.replaceAnimation("zu", "auf", 1.0, 1);
+    doorActor.getControlledObject().replaceAnimation("zu", "auf", 1.0, 1);
+    knarzActor = doorActor.getChildByName("Knarzen");
+    knarzActor.getControlledObject().play(0);
     # door.setOpen(true);
   end
 end
@@ -38,7 +40,10 @@ class CloseDoorAction < RubyAction
   def doAction(door, user, target)    
     doorActor = door.getActor();
     doorActor.getControlledObject.replaceAnimation("auf", "zu", 1.0, 1); 
+    knarzActor = doorActor.getChildByName("Knarzen");
+    knarzActor.getControlledObject().play(0);
     # door.setOpen(false);
+
   end
 end
 
@@ -50,8 +55,8 @@ class Door < RubyItem
     $CORE.log("door-actor erstellt.");
     setActor(doorActor);
     $CORE.log("actor gesetzt");
-    #soundActor = $AF.createSoundActor("doorcreak.ogg");
-    #doorActor.attach("Bone01", soundActor);
+    soundActor = $AF.createSoundActor("Knarzen","doorcreak.ogg");
+    doorActor.attach("Bone01", soundActor);
     $CORE.log("Sound hinzugefuegt");
     
     @open = isOpen;    

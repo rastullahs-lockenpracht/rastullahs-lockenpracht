@@ -48,11 +48,6 @@ $door1.getControlledObject().startAnimation( "auf", 1.0, 1 );
 #$door1.getControlledObject().startAnimation( "zu" );
 #$door1.getControlledObject().startAnimation( "auf" );
 
-print( "Erstelle Fackel" );
-# Erzeugen einer Fackel
-fackel = $AM.createMeshActor("Fackel","fackel.mesh");
-fackel.placeIntoScene( 100.0, 16.0, 100.0, 1.0, 0.0, 0.0, 0.0 );
-
 
 print( "Erstelle Track" );
 # Erstellen eines einfachen Tracks  

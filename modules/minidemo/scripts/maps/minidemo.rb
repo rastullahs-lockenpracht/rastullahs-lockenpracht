@@ -10,7 +10,14 @@ $World = $CORE.getWorld()
 $World.setSkyBox(true, "rl/dsa07")
 $CORE.log("skybox set");
 
-#DsaManager.getSingleton().loadDsaDataFile("kalchas.xml");
+$CORE.log("Tageslicht erstellen..");
+sunlight = $AM.createLightActor("sunlight", LightObject::LT_DIRECTIONAL);
+sunlight.getControlledObject().setDirection(-0.8, -2.0, 3.0);
+sunlight.getControlledObject().setCastShadows(false);
+sunlight.getControlledObject().setDiffuseColour(0.8,0.8,0.7);
+$CORE.log("Tageslicht erstellt.");
+
+DsaManager.getSingleton().loadDsaDataFile("kalchas.xml");
 
 $CORE.log("Held erstellen");
 hero = Hero.new;
@@ -25,11 +32,6 @@ $CORE.log("Held vorbereitet.");
 $UI.setActiveCharacter(hero);
 $CORE.log("Held als aktiver Charakter gesetzt.");
 
-$CORE.log("Fackel erstellen...");
-torch = Torch.new("Fackel des Grauens");
-$CORE.log("Fackel erstellt.");
-torch.getActor().placeIntoScene(0.0, 20.0, 80.0, 1.0, 0.0, 0.0, 0.0);
-$CORE.log("Fackel plaziert.");
 
 $CORE.log("Türen reinsetzen")
 door1 = Door.new("Tuer_1", false, true);
@@ -49,7 +51,27 @@ hebel.getActor().yaw(-90.0);
 p hebel
 $CORE.log("Hebel fertig");
 
+bank = $AM.createMeshActor("Bank", "bank.mesh");
+bank.placeIntoScene(260.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0);
+
+load "kreislauf.rb"
+
+
+
 #Alles erzeugt, also Physik aktivieren
 $PM.setEnabled(true);
 
 $CORE.log("map 'minidemo' initialisiert.");
+
+class HeroPosWriter
+  def initialize()
+	
+  end
+  def writePos()
+	actor = $AM.getActor("Held");
+	$CORE.log("[ "+actor.getWorldPosition()[0].to_s+", "+actor.getWorldPosition()[1].to_s+", "+actor.getWorldPosition()[2].to_s+"]" );  
+	$CORE.log("[ "+actor.getWorldOrientation()[0].to_s+", "+actor.getWorldOrientation()[1].to_s+", "+actor.getWorldOrientation()[2].to_s+", "+actor.getWorldOrientation()[3].to_s+"]") ; 
+  end
+end
+
+$hpw = HeroPosWriter.new()
