@@ -3,6 +3,7 @@ noinst_HEADERS = RastullahPrerequisites.h \
 	Exception.h \
 	Tripel.h \
 	FixRubyHeaders.h \
-	CsvFile.h 
+	CsvFile.h \
+	XtimeOperator.h
 	
 	
