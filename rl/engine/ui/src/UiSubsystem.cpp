@@ -16,6 +16,7 @@
 #include "ActorFactory.h"
 #include "CameraActor.h"
 #include "World.h"
+#include "DialogWindow.h"
 
 template<> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
 
@@ -61,7 +62,7 @@ namespace rl {
 		// load scheme and set up defaults
 		CEGUI::SchemeManager::getSingleton().loadScheme((utf8*)"testscheme.xml");
 		System::getSingleton().setDefaultMouseCursor((utf8*)"TaharezImagery", (utf8*)"MouseArrow");
-		System::getSingleton().setDefaultFont((utf8*)"Tahoma-14");
+		System::getSingleton().setDefaultFont((utf8*)"Tahoma-8");
 		CEGUI::Window* sheet = CEGUI::WindowManager::getSingleton().createWindow((utf8*)"DefaultGUISheet", (utf8*)"root_wnd");
 		sheet->setSize(
 			Absolute, 
@@ -94,6 +95,8 @@ namespace rl {
                 Ogre::Vector3(-120, 0, -64));
             GameLoop::getSingleton().addSynchronizedTask(mGameController);
         }
+
+		DialogWindow::runTest();
     }
 
     void UiSubsystem::requestExit()
