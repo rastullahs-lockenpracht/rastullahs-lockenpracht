@@ -22,11 +22,11 @@
 using namespace Ogre;
 
 namespace rl {
-    LightObject::LightObject(const String& name, Light::LightTypes type)
+	LightObject::LightObject(const String& name, rl::LightObject::LightTypes type)
     {
         Light* light = CoreSubsystem::getSingleton().getWorld()->
             getSceneManager()->createLight(name);
-        light->setType(type);
+		light->setType(Ogre::Light::LightTypes(type) );
         mMovableObject = light;
     }
 
@@ -61,10 +61,9 @@ namespace rl {
         getLight()->setSpecularColour(red,green,blue);
     }
 
-    void LightObject::setSpotlightRange( Real innerangle, Real outerangle,
-        Real falloff)
-    {
-        getLight()->setSpotlightRange(Degree(innerangle), Degree(outerangle),
-            falloff);
-    }
+	void LightObject::setSpotlightRange( Real innerAngle, Real outerAngle,
+		Real falloff )
+	{
+		getLight()->setSpotlightRange(Angle(innerAngle), Angle(outerAngle), falloff );
+	}
 }

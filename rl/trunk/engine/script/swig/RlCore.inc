@@ -34,7 +34,7 @@ private:
 public:
 	static ActorManager& getSingleton(void);
 
-    rl::Actor* createLightActor(const std::string& name, int type);
+    rl::Actor* createLightActor(const std::string& name, rl::LightObject::LightTypes type );
 	rl::Actor* createMeshActor(const std::string& name, const std::string& meshname,
 		    int geom = rl::PhysicsManager::PT_NONE, Real density=1.0);
 	    
@@ -203,6 +203,8 @@ class LightObject : public ActorControlledObject
 private:
     LightObject(const std::string& name, Ogre::Light::LightTypes type);
 public:
+	enum LightTypes { LT_POINT, LT_DIRECTIONAL, LT_SPOTLIGHT };
+
     void setAttenuation(float range, float constant,
         float linear, float quadric);
     void setDiffuseColour(float red, float green, float blue);

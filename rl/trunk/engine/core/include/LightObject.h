@@ -27,7 +27,10 @@ namespace rl {
     class _RlCoreExport LightObject : public ActorControlledObject
     {
     public:
-        LightObject(const Ogre::String& name, Ogre::Light::LightTypes type);
+		/// Defines the type of light
+		enum LightTypes { LT_POINT, LT_DIRECTIONAL, LT_SPOTLIGHT	};
+
+        LightObject(const Ogre::String& name, rl::LightObject::LightTypes type);
 
         /// Wie ActorControlledObject::getMovableObject()
         /// Nur schon gebrauchsfertig gecastet.
@@ -40,8 +43,9 @@ namespace rl {
         void setDiffuseColour(Ogre::Real red, Ogre::Real green, Ogre::Real blue);
         void setDirection(Ogre::Real x, Ogre::Real y, Ogre::Real z);
         void setSpecularColour(Ogre::Real red, Ogre::Real green, Ogre::Real blue);
-        void setSpotlightRange(Ogre::Real innerangle, Ogre::Real outerangle,
-            Ogre::Real falloff);
+		void setSpotlightRange( Ogre::Real innerAngle, Ogre::Real outerAngle,
+			Ogre::Real falloff = 1.0);
+
     };
 }
 #endif
