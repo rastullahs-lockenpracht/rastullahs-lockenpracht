@@ -25,6 +25,7 @@ libRlCore_la_SOURCES = \
 	PhysicsManager.cpp \
 	RubyInterpreter.cpp \
 	ScriptObject.cpp \
+	SoundObject.cpp \
 	TrackAnimation.cpp \
 	World.cpp 		 
 

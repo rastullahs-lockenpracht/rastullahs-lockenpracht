@@ -19,6 +19,7 @@
 	PhysicsManager.h \
 	RubyInterpreter.h \
 	ScriptObject.h \
+	SoundObject.h \
 	TrackAnimation.h \
 	World.h 
 	

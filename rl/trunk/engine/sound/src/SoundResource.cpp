@@ -135,6 +135,7 @@ SoundResource::SoundResource(ResourceManager* creator, const String& name, Resou
     EventSource(), 
     EventCaster<SoundEvent>(),
     Resource(creator, name, handle, group, isManual, loader),
+    MovableObject(),
     mBuffers(mDefaultBufferCount),
     mSource(0),
     mFadeInThread(0),
@@ -184,6 +185,64 @@ SoundResource::~SoundResource()
     alDeleteBuffers(mBuffers.size(), &mBuffers[0]);
     alDeleteSources(1, &mSource);
     mSource = 0;
+}
+
+
+/**
+ * @author JoSch
+ * @date 03-11-2005
+ * @return Den Namen
+ */
+const String& SoundResource::getName() const
+{
+    return Resource::getName();
+}
+
+
+/**
+ * @author JoSch
+ * @date 03-11-2005
+ * @return Den Objekttypen
+ */
+const String& SoundResource::getMovableType() const
+{
+    return "SoundResource";
+}
+
+/**
+ * @author JoSch
+ * @date 03-11-2005
+ */
+void SoundResource::_notifyCurrentCamera(Camera *cam)
+{
+    // Brauchen wir nicht zu wissen.
+}
+
+/**
+ * @author JoSch
+ * @date 03-11-2005
+ */
+const AxisAlignedBox& SoundResource::getBoundingBox() const 
+{
+    return AxisAlignedBox();
+}
+
+/**
+ * @author JoSch
+ * @date 03-11-2005
+ */
+Real SoundResource::getBoundingRadius (void) const
+{
+    return 0.0;
+}
+
+/**
+ * @author JoSch
+ * @date 03-11-2005
+ */
+void SoundResource::_updateRenderQueue(RenderQueue *queue)
+{
+    // Brauchen wir nicht
 }
 
 /**

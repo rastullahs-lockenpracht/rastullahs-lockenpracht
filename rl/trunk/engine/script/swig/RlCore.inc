@@ -90,6 +90,7 @@ private:
 public:
 	static ActorManager& getSingleton(void);
 
+    rl::Actor* createSoundActor(const std::string& name);
     rl::Actor* createLightActor(const std::string& name, rl::LightObject::LightTypes type );
 	rl::Actor* createMeshActor(const std::string& name, const std::string& meshname,
 		    rl::PhysicsManager::GeometryTypes geom = rl::PhysicsManager::GT_NONE,
@@ -271,6 +272,12 @@ public:
     void setSpotlightRange(float innerangle, float outerangle,
         float falloff);
     void setCastShadows( bool cast );
+};
+
+class SoundObject : public ActorControlledObject
+{
+public:
+	rl::SoundResource* getSound();
 };
 
 class ParticleSystemObject : public ActorControlledObject

@@ -21,6 +21,7 @@
 #include "ActorManager.h"
 #include "Actor.h"
 #include "MeshObject.h"
+#include "SoundObject.h"
 #include "CameraObject.h"
 #include "LightObject.h"
 #include "ParticleSystemObject.h"

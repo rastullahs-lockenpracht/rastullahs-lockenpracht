@@ -19,7 +19,8 @@ class OpenDoorAction < RubyAction
   end
   
   def doAction(door, user, target)    
-    doorActor = door.getActor();    
+    doorActor = door.getActor();  
+      
     doorActor.yaw(90.0)
     # door.setOpen(true);
   end
@@ -50,6 +51,9 @@ class Door < RubyItem
     $CORE.log("door-actor erstellt.");
     setActor(doorActor);
     $CORE.log("actor gesetzt");
+    soundActor = $AF.createSoundActor("doorcreak.ogg");
+    doorActor.attach("Bone01", soundActor);
+    $CORE.log("Sound hinzugefuegt");
     
     @open = isOpen;    
     
