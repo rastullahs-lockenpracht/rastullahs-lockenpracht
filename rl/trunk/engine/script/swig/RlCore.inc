@@ -157,7 +157,7 @@ public:
 	enum RotationInterpolationMode { RIM_LINEAR, RIM_SPHERICAL };
 	
 	TrackAnimation* createTrackAnimation(rl::Actor* actor, const std::string& name, Real length );
-	void removeAnimation(Animation* anim);
+	void removeAnimation( rl::Animation* anim );
 	
 	void setGlobalAnimationSpeed( Real speed );
 	Real getGlobalAnimationSpeed( ) const;

@@ -23,7 +23,7 @@ GameTask::GameTask()
     mPaused = false;
 }
         
-bool GameTask::isPaused()
+bool GameTask::isPaused() const
 {
     return mPaused;
 }

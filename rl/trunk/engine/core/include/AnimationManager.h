@@ -30,7 +30,7 @@ class Animation;
 class TrackAnimation;
 
 /** 
-	Diese Klasse verwalte sämtliche Animationen und kümmert sich um Starten und Stoppen dieser
+	Diese Klasse verwaltet sämtliche Animationen und kümmert sich um das Starten und Stoppen dieser
 	@see Animation, TrackAnimation
 */
 class _RlCoreExport AnimationManager
@@ -40,7 +40,7 @@ class _RlCoreExport AnimationManager
 public:
 	/// Interpolations-Modus, Spline ist besser, braucht auch mehr Perfomance
 	enum InterpolationMode { IM_LINEAR, IM_SPLINE };
-	/// RoatationsInterpolations-Modus, Spherical ist genauer, aber aufwändiger
+	/// RotationsInterpolations-Modus, Spherical ist genauer, aber aufwändiger
 	enum RotationInterpolationMode { RIM_LINEAR, RIM_SPHERICAL };
 
     /** Default Constructor */
@@ -83,12 +83,12 @@ public:
 	/// Gibt die globale Beschleunigung zurück
 	Ogre::Real getGlobalAnimationSpeed( ) const;
 	
-	/// Setzt den Standard InterpolationsModus für neue Animationen
+	/// Setzt den StandardInterpolationsModus für neue Animationen
 	void setDefaultInterpolationMode( AnimationManager::InterpolationMode im );
-	/// Gibt den Standard InterpolationsModus für neue Animationen zurück
+	/// Gibt den StandardInterpolationsModus für neue Animationen zurück
 	AnimationManager::InterpolationMode getDefaultInterpolationMode() const;
 
-	/// Setzt den Standard RotationsInterpolationsModus für neue Animationen
+	/// Setzt den StandardRotationsInterpolationsModus für neue Animationen
 	void setDefaultRotationInterpolationMode( AnimationManager::RotationInterpolationMode rim );
 	/// Gibt den Standard RotationsInterpolationsModus für neue Animationen zurück
 	AnimationManager::RotationInterpolationMode getDefaultRotationInterpolationMode() const;

@@ -16,6 +16,7 @@
 
 #include "AnimationManager.h"
 
+#include "Exception.h"
 #include "Actor.h"
 #include "Animation.h"
 #include "TrackAnimation.h"
@@ -99,6 +100,11 @@ Animation* AnimationManager::addAnimation(Ogre::AnimationState* animState, Ogre:
 
 TrackAnimation* AnimationManager::createTrackAnimation(Actor* actor, const Ogre::String& name, Ogre::Real length )
 {
+	if( actor == 0 )
+		Throw( NullPointerException, "Actor darf nicht null sein" );
+
+	///@todo Namen abfangen
+
 	TrackAnimation* trackAnim = new TrackAnimation(name,actor->_getSceneNode(),length);
 	mAnimationMap.insert(std::pair<Ogre::AnimationState*,Animation*>(trackAnim->getAnimationState(),trackAnim));
 

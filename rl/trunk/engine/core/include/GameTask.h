@@ -20,19 +20,29 @@
 #include "CorePrerequisites.h"
 
 namespace rl {
-
+/** Diese Klasse ist die Basisklasse aller Synchronisierten Aufgaben, die jeden Frame ausgeführt werden.
+	Dazu gehören zum Beispiel Animationen.
+*/
 class _RlCoreExport GameTask
 {
     public:
+		/// Default Konstruktor, startet unpausiert
         GameTask();
+		/// Virtueller Basis-Destruktor
         virtual ~GameTask( ) {};
 
+		/** Wird vom Gameloop aufgerufen, wenn nicht pausiert
+			@param elapsedTime Die vergangene Zeit
+		*/
 		virtual void run( Ogre::Real elapsedTime ) = 0;
         
-        bool isPaused();
+		/// Gibt zurück ob dieser GameTask pausiert ist
+        bool isPaused() const;
+		/// Pausiert/Unpausiert den GameTask
         void setPaused( bool isPaused );
 
     private:
+		/// Pause
         bool mPaused;
 };
 
