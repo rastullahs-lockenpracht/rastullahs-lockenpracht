@@ -12,4 +12,4 @@ $MM = MusicManager.getSingleton();
 $SM = SoundManager.getSingleton();
 $Ui = UiSubsystem.getSingleton();
 
-$AniMgr = AnimationManager.getSingleton();
+$AnimMgr = AnimationManager.getSingleton();
