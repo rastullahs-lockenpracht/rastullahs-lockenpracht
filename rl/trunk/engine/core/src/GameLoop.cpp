@@ -28,12 +28,12 @@ GameLoop::~GameLoop()
 void GameLoop::loop(Real timeSinceLastCall)
 {
     if( !mPaused ) 
-    {
-        std::list<SynchronizedTask*>::iterator i;
-
-	    for(i=mSynchronizedTaskList.begin(); i!=mSynchronizedTaskList.end(); i++)
-        {
-            if( ! (*i)->isPaused() )
+    {
+        std::list<SynchronizedTask*>::iterator i;
+
+	    for(i=mSynchronizedTaskList.begin(); i!=mSynchronizedTaskList.end(); i++)
+        {
+            if( ! (*i)->isPaused() )
 		        (*i)->run(timeSinceLastCall);
         }
     }
