@@ -143,9 +143,6 @@
 		<Filter
 			Name="Headerdateien"
 			Filter="h;hpp;hxx;hm;inl;inc">
-			<File
-				RelativePath=".\include\RastullahApplication.h">
-			</File>
 		</Filter>
 		<Filter
 			Name="Ressourcendateien"
