@@ -50,7 +50,6 @@ namespace rl {
         mHeroNode->translate(0, -186.0 / 2.54, 0);
         mHeroNode->setScale(1.0/2.54, 1.0/2.54, 1.0/2.54);
 
-        
         mControlNode->translate(Matrix3::IDENTITY, pos, Node::TS_PARENT);
     }
 

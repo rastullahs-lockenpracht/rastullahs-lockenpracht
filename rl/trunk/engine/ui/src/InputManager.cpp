@@ -34,9 +34,8 @@ namespace rl {
 		
 		mEventProcessor = new EventProcessor();
 		GameLoop::getSingleton().addSynchronizedTask(this);
-				
-		int i;
-		for(i=0; i<NUM_KEYS; i++)
+
+		for(int i=0; i<NUM_KEYS; i++)
 			mKeyDown[i] = false;
 
 		mScreenX = Root::getSingleton().getAutoCreatedWindow()->getWidth();
@@ -55,6 +54,7 @@ namespace rl {
 
 		mInputReader->useBufferedInput(NULL, false, false);
 		mInputReader->setBufferedInput(false, false);
+		delete mEventProcessor;
 	}
 
 

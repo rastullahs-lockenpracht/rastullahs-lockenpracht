@@ -37,7 +37,6 @@ namespace rl {
             tiling, drawFirst, bow);
     }
 
- 	
     void World::setAmbientLight(Real r, Real g, Real b)
     {
         mSceneMgr->setAmbientLight(ColourValue(r,g,b));
@@ -50,7 +49,6 @@ namespace rl {
 			distance, drawFirst, Quaternion::ZERO);
     }
 
- 	    
     //Enables / disables a 'sky dome' i.e.
 	///@todo eventuell in BSPWorld ueberschreiben
     void World::setSkyDome(bool enable, const String &materialName,
