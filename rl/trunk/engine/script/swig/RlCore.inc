@@ -95,6 +95,7 @@ private:
 public:
 	static ActorManager& getSingleton(void);
 
+	rl::Actor* createParticleSystemActor(const std::string& name, const String& soundfile);
     rl::Actor* createSoundActor(const std::string& name, const String& soundfile);
     rl::Actor* createLightActor(const std::string& name, rl::LightObject::LightTypes type );
 	rl::Actor* createMeshActor(const std::string& name, const std::string& meshname,

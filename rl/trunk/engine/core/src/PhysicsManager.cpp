@@ -151,6 +151,16 @@ namespace rl
         return mOdeWorld;
     }
 
+
+	/*PhysicalThing* PhysicsManager::createOrientedPhysicalThing(
+		Actor* actor, const int geomType,
+		Real density, OgreOde::Space* odeSpace, 
+		OffsetMode offsetMode)
+	{
+
+	}*/
+
+
     PhysicalThing* PhysicsManager::createPhysicalThing(const int geomType,
         const Vector3& size, Real density, OgreOde::Space* odeSpace, OffsetMode offsetMode)
     {

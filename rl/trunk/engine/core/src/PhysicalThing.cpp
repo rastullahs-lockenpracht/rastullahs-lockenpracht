@@ -29,18 +29,19 @@ using namespace OgreOde;
 
 namespace rl
 {
-    PhysicalThing::PhysicalThing(Geometry* geometry, const Vector3& offset,
+	PhysicalThing::PhysicalThing(Geometry* geo, const Vector3& offset,
         const Ogre::Quaternion& orientationBias)
         :   mBounceRestitution(0.8f),
             mBounceVelocityThresh(0.0005f),
             mSoftness(0.0f),
             mFriction(Utility::Infinity),
             mSoftErp(0.0f),
-            mGeometry(geometry),
-            mActor(0),
+            mGeometry(geo),
+            mActor(NULL),
             mOffset(offset),
-            mOrientationBias(orientationBias)
-    {
+            mOrientationBias(orientationBias),
+			mEntityInformer(NULL)
+	{
         if (getBody())
         {
             getBody()->setUserData(reinterpret_cast<unsigned long>(this));
@@ -315,6 +316,25 @@ namespace rl
             node->detachObject(mGeometry->getBody());
         }
     }
+
+	void PhysicalThing::createEntityInformer(MeshObject* object)
+	{
+		delete mEntityInformer;
+		mEntityInformer = NULL;
+
+		Entity* attachTarget = object->getEntity();
+		mEntityInformer = new EntityInformer(attachTarget);
+	}
+
+	BoxGeometry* PhysicalThing::createBoxGeometry(Space* space, Bone* bone)
+	{
+		//if (mEntityInformer != NULL)
+			return mEntityInformer->createOrientedBox(bone->getHandle(), space);
+
+		//return new BoxGeometry(space);
+	}
+
+	
 
 }
 

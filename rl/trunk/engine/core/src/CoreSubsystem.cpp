@@ -120,12 +120,13 @@ namespace rl {
         // weil es sonst sofort angewandt wird.
         MeshManager::getSingleton().setBoundsPaddingFactor(0.0);
 
-        initializeResources();
-
+        
         bool carryOn = setupConfiguration();
 
         if (!carryOn) 
             return false;
+
+		initializeResources();
 
         // Set default mipmap level (NB some APIs ignore this)
         //TODO: In Config-Datei verlagern

@@ -19,6 +19,8 @@
 
 #include "CorePrerequisites.h"
 #include <OgreOde_Core.h>
+#include <OgreOdeEntityInformer.h>
+
 namespace rl {
 
 	class Actor;
@@ -31,7 +33,7 @@ namespace rl {
          * @param geometry: Der Kollisionsproxy, kann body haben muss aber nicht.
          * @param offset: Offset vom SceneNode-Ursprung zum Geometry-Ursprung.
          */
-        PhysicalThing(OgreOde::Geometry* geometry,
+		PhysicalThing(OgreOde::Geometry* geometry,
             const Ogre::Vector3& offset = Ogre::Vector3::ZERO,
             const Ogre::Quaternion& orientationBias = Ogre::Quaternion::IDENTITY);
         ~PhysicalThing();
@@ -44,7 +46,7 @@ namespace rl {
         OgreOde::Geometry* getGeometry();
         OgreOde::Body* getBody();
         OgreOde::Mass* getMass();
-
+		
         bool isDynamic();
         void setDynamic(bool dynamic);
 
@@ -162,6 +164,9 @@ namespace rl {
 		void _attachToBone(MeshObject* object, const std::string& boneName);
         void _detachFromSceneNode(Ogre::SceneNode* node);
 
+		void createEntityInformer(MeshObject* object);
+		OgreOde::BoxGeometry* createBoxGeometry(OgreOde::Space* space, Ogre::Bone* bone);
+
     private:
         Real mBounceRestitution;
         Real mBounceVelocityThresh;
@@ -173,6 +178,7 @@ namespace rl {
         Actor* mActor;
         Ogre::Vector3 mOffset;
         Ogre::Quaternion mOrientationBias;
+		OgreOde::EntityInformer* mEntityInformer;
     };
 }
 

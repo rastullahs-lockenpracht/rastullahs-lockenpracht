@@ -31,14 +31,14 @@ namespace rl {
             mSceneEntity(0)
     {
         // Set up shadowing
-        mSceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_MODULATIVE);
+		/*mSceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_MODULATIVE);
         mSceneMgr->setShadowColour(ColourValue(0.5, 0.5, 0.5));
 		mSceneMgr->setShadowUseInfiniteFarPlane(true); 
         mSceneMgr->setShadowFarDistance(10000);
 
         mSceneMgr->setShadowDirLightTextureOffset(0.9);
 		mSceneMgr->setShadowDirectionalLightExtrusionDistance(1000000);
-
+		
 		if (StringUtil::startsWith(Root::getSingletonPtr()->
 		    getRenderSystem()->getName(), "direct"))
         {
@@ -49,7 +49,7 @@ namespace rl {
         {
             // Use 512x512 texture in GL since we can't go higher than the window res
             mSceneMgr->setShadowTextureSettings(512, 2);
-        }
+        }*/
     }
 
     DotSceneOctreeWorld::~DotSceneOctreeWorld()
