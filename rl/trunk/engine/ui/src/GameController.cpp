@@ -92,17 +92,13 @@ namespace rl {
         mCameraActor->_placeIntoScene(mLookAtNode);
         mCameraNode = mCameraActor->_getSceneNode();
         mCameraNode->translate(Vector3(0, 0, mDesiredDistance), Node::TS_LOCAL);
-
-
-
-
+        
         setup();
     }
     //------------------------------------------------------------------------
 
     GameController::~GameController()
     {
-        PhysicsManager::getSingleton().removeCollisionListener(this);
     }
     //------------------------------------------------------------------------
 
@@ -113,7 +109,7 @@ namespace rl {
 
         calculateScalingFactors(elapsedTime);
         calculateCameraTranslation();
-        calculateHeroTranslation(translation, yaw);
+        calculateActorTranslation(translation, yaw);
         updateAnimationState(translation);
 
         translation *= mMoveScale;
@@ -121,7 +117,7 @@ namespace rl {
         // Runterfallen berücksichtigen.
         // Zuerst Fallgeschwindigkeit berechnen
         translation.y = translation.y - mFallSpeed * elapsedTime;
-        mFallSpeed = mFallSpeed - mOdeWorld->getGravity().y * elapsedTime;
+        mFallSpeed = mFallSpeed - mOdeWorld->getGravity().y * elapsedTime * 200;
 
         mControlNode->translate(translation, Node::TS_LOCAL);
 
@@ -227,7 +223,7 @@ namespace rl {
     }
     //------------------------------------------------------------------------
 
-    void GameController::calculateHeroTranslation(Ogre::Vector3& translation,
+    void GameController::calculateActorTranslation(Ogre::Vector3& translation,
         Ogre::Real& yaw)
     {
         InputManager* im = InputManager::getSingletonPtr();

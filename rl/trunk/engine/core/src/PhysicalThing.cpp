@@ -36,7 +36,6 @@ namespace rl
             mFriction(0.0f),
             mSoftErp(0.0f),
             mGeometry(geometry),
-            mSpace(0),
             mActor(0),
             mOffset(offset)
     {
@@ -56,13 +55,6 @@ namespace rl
     void PhysicalThing::setOrientation( Real w, Real x, Real y, Real z )
     {
         mGeometry->setOrientation(Quaternion(w,x,y,z)); 
-    }
-
-    void PhysicalThing::setSpace(Space* space )
-    {
-        mSpace->removeGeometry(*mGeometry);
-        space->addGeometry(*mGeometry);
-        mSpace = space;
     }
 
     bool PhysicalThing::isDynamic(void)
@@ -94,11 +86,6 @@ namespace rl
     Geometry* PhysicalThing::getGeometry( void )
     {
         return mGeometry;
-    }
-
-    Space* PhysicalThing::getSpace(void)
-    {
-        return mSpace;
     }
 
     void PhysicalThing::addForce(const Vector3& direction)

@@ -50,18 +50,16 @@ namespace rl {
 
         virtual void run( Real elapsedTime );
 
+        /**
+         * @param geomType Grundform der Geometrie des Objektes
+         * @param size Größe des Objektes in cm
+         * @param density die Dichte, wenn <= 0.0, dann wird keine Physik
+         *        dafür erstellt, sondern nur Geometry für die Kollision.
+         */
         PhysicalThing* createPhysicalThing(const int geomType, const Ogre::Vector3& size,
             Real density);
 
         void removeAndDestroyPhysicalThing(PhysicalThing* thing);
-
-        // Spaces for combining non-colliding objects 
-        // ( for example the sword and shield attached to the hero )
-        void activateGlobalSpace();
-        void activatePhysicalThingSpace(PhysicalThing* thing);
-        void removePhysicalThingSpace(PhysicalThing* thing);
-        void moveToCurrentSpace(PhysicalThing* thing);
-        void createSimpleSpace();
 
         // Global Settings
         void setGravity(Ogre::Real x, Ogre::Real y, Ogre::Real z);
@@ -71,9 +69,7 @@ namespace rl {
         void setERP(Ogre::Real erp);
         Real getERP();
 
-        OgreOde::Space* getCurrSpace();
         OgreOde::World* getWorld();
-        OgreOde::JointGroup* getContactJointGroup();
 
         void createLevelGeometry(Ogre::SceneNode* levelNode);
         OgreOde::Geometry* getLevelGeometry();
@@ -104,11 +100,9 @@ namespace rl {
         bool mEnabled;
 
         std::vector<PhysicalThing*> mPhysicalThings;
-        std::vector<OgreOde::Space*> mSpaces;
         std::vector<OgreOde::CollisionListener*> mCollisionListeners;
         OgreOde::World* mOdeWorld;
-        OgreOde::HashTableSpace* mGlobalSpace;
-        OgreOde::Space* mCurrSpace;
+        OgreOde::Space* mGlobalSpace;
         OgreOde::Stepper* mOdeStepper;
         OgreOde::Geometry* mOdeLevel;
     };

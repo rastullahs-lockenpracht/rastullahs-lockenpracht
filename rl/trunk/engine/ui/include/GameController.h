@@ -124,7 +124,7 @@ namespace rl {
 
         void calculateScalingFactors(Ogre::Real timePassed);
 
-        void calculateHeroTranslation(Ogre::Vector3& translation,
+        void calculateActorTranslation(Ogre::Vector3& translation,
             Ogre::Real& yaw);
         void calculateCameraTranslation();
         

@@ -297,12 +297,6 @@ public:
     static const int PT_MESH = 3;
 
     void removeAndDestroyPhysicalThing(rl::PhysicalThing* thing);
-
-    void activateGlobalSpace();
-    void activatePhysicalThingSpace( rl::PhysicalThing* thing );
-    void removePhysicalThingSpace( rl::PhysicalThing* thing );
-    void moveToCurrentSpace( rl::PhysicalThing* thing );
-    void createSimpleSpace();
     
     void setGravity( Real x, Real y, Real z );
     Vector3 getGravity();

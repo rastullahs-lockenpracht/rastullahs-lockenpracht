@@ -42,8 +42,6 @@ namespace rl {
         OgreOde::Geometry* getGeometry();
         OgreOde::Body* getBody();
         OgreOde::Mass* getMass();
-        OgreOde::Space* getSpace();
-        void setSpace(OgreOde::Space* space);
 
         bool isDynamic();
         void setDynamic(bool dynamic);
@@ -169,7 +167,6 @@ namespace rl {
         Real mSoftErp;
         
         OgreOde::Geometry* mGeometry;
-        OgreOde::Space* mSpace;
         Actor* mActor;
         Ogre::Vector3 mOffset;
     };

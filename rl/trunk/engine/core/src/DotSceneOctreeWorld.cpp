@@ -88,6 +88,7 @@ namespace rl {
 		/// Create the visual entity and scene node
 		/// und das Level korrekt abgebaut wird.
 		mSceneEntity = mSceneMgr->createEntity("level", levelName);
+		mSceneEntity->setNormaliseNormals(true);
 		SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode("level");
 		node->attachObject(mSceneEntity);
 

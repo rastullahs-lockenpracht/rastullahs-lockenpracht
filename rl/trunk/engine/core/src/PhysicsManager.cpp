@@ -25,8 +25,6 @@
 #include "PhysicalThing.h"
 #include "Actor.h"
 
-template<> rl::PhysicsManager* Singleton<rl::PhysicsManager>::ms_Singleton = 0;
-
 // Define a max macro
 #ifndef max
 #define max(a,b) (((a)>=(b))?(a):(b))
@@ -35,25 +33,35 @@ template<> rl::PhysicsManager* Singleton<rl::PhysicsManager>::ms_Singleton = 0;
 using namespace OgreOde;
 using namespace std;
 
+template<> rl::PhysicsManager* Singleton<rl::PhysicsManager>::ms_Singleton = 0;
+
 namespace rl
 {
+    PhysicsManager& PhysicsManager::getSingleton(void)
+    {
+        return Singleton<PhysicsManager>::getSingleton();
+    }
+
+    PhysicsManager* PhysicsManager::getSingletonPtr(void)
+    {
+        return Singleton<PhysicsManager>::getSingletonPtr();
+    }
 
     PhysicsManager::PhysicsManager(rl::World* world)
-        :   mEnabled(true),
+        :   mEnabled(false),
             mPhysicalThings(),
-            mSpaces(),
+            mCollisionListeners(),
             mOdeWorld(new OgreOde::World(world->getSceneManager())),
-            mGlobalSpace(new OgreOde::HashTableSpace(0)),
-            mCurrSpace(mGlobalSpace),
-            mOdeStepper(new OgreOde::ForwardFixedQuickStepper(0.01)),
+            mGlobalSpace(mOdeWorld->getDefaultSpace()),
+            mOdeStepper(new OgreOde::QuickStepper(0.01)),
             mOdeLevel(0)
     {
-        ///@fix die 3.0 ist willkührlich. nur ein Quickfix
-        mOdeWorld->setGravity(Vector3(0, 3.0 * -980.665, 0));
+        mOdeWorld->setGravity(Vector3(0, -9.80665, 0));
         mOdeWorld->setCFM(10e-5);
         mOdeWorld->setERP(0.8);
         mOdeWorld->setAutoSleep(true);
-        mOdeWorld->setContactCorrectionVelocity(10.0);
+        mOdeWorld->setContactCorrectionVelocity(1.0);
+        mOdeWorld->setCollisionListener(this);
 
 	    mOdeStepper->setAutomatic(OgreOde::Stepper::AutoMode_NotAutomatic,
 	        Root::getSingletonPtr());
@@ -71,16 +79,10 @@ namespace rl
     {
         if( mEnabled && elapsedTime > 0.0f )
         {
+            mOdeStepper->step(elapsedTime);
         }
     }
 
-    OgreOde::JointGroup*  PhysicsManager::getContactJointGroup()
-    {
-        ///@todo implementieren
-        return 0;
-    }
-
-    ///@todo Das aktuelle Levelmesh setzen.
     void PhysicsManager::createLevelGeometry(SceneNode* levelNode)
     {
         delete mOdeLevel;
@@ -89,6 +91,8 @@ namespace rl
         {
             mOdeLevel = MeshInformer::createStaticTriangleMesh(levelNode,
                 mGlobalSpace);
+            //mOdeLevel = new InfinitePlaneGeometry(Plane(
+            //    levelNode->getWorldPosition(),0), mGlobalSpace);
         }
         else
         {
@@ -139,40 +143,40 @@ namespace rl
     PhysicalThing* PhysicsManager::createPhysicalThing(const int geomType,
         const Ogre::Vector3& size, Real density)
     {
-        Geometry* geom = 0;
-        ///@todo verallgemeinern
-        Vector3 offset(Vector3::ZERO);
-        if (geomType == PT_BOX)
-        {
-            geom = createBoxGeometry(size, density);
-        }
-        else if (geomType == PT_SPHERE)
-        {
-            double radius = max(size.x, max(size.y, size.z)) / 2.0;
-            geom = createSphereGeometry(radius, density);
-        }
-        else if (geomType == PT_CAPSULE)
-        {
-            double radius = max(size.x, size.z) / 2.0;
-            geom = createCapsuleGeometry(size.y - 2.0 * radius, radius, density);
-            offset = Vector3(0.0, (size.y - 2.0 * radius) / 2.0 + radius, 0.0);
-        }
+        PhysicalThing* rval = 0;
+        
+        if (geomType != PT_NONE) {
+            Geometry* geom = 0;
+            ///@todo verallgemeinern
+            Vector3 offset(Vector3::ZERO);
+            if (geomType == PT_BOX)
+            {
+                geom = createBoxGeometry(size, density);
+            }
+            else if (geomType == PT_SPHERE)
+            {
+                double radius = max(size.x, max(size.y, size.z)) / 2.0;
+                geom = createSphereGeometry(radius, density);
+            }
+            else if (geomType == PT_CAPSULE)
+            {
+                double radius = max(size.x, size.z) / 2.0;
+                geom = createCapsuleGeometry(size.y - 2.0 * radius, radius, density);
+                offset = Vector3(0.0, (size.y - 2.0 * radius) / 2.0 + radius, 0.0);
+            }
 
-		// /@fix Wenns schon PT_NONE gibt, sollte man auch damit rechnen
-		if( geom != 0)
-		{
-			PhysicalThing* pt = new PhysicalThing(geom, offset);
-			mPhysicalThings.push_back(pt);        
-			return pt;
-		}
-		else
-			return 0;
+            rval = new PhysicalThing(geom, offset);
+            mPhysicalThings.push_back(rval);        
+        }
+        return rval;
     }
 
     Geometry* PhysicsManager::createSphereGeometry(Real radius,
         Real density)
     {
-        Geometry* geom = new SphereGeometry(radius, mCurrSpace);
+        Geometry* geom = new SphereGeometry(radius,
+            density > 0.0 ? mGlobalSpace : 0);
+            
         if (density > 0.0)
         {
             // Objekt hat eine Masse, also einen Body verpassen.
@@ -188,7 +192,9 @@ namespace rl
     Geometry* PhysicsManager::createBoxGeometry(const Vector3& size,
         Real density)
     {
-        Geometry* geom = new BoxGeometry(size, mCurrSpace);
+        Geometry* geom = new BoxGeometry(size,
+            density > 0.0 ? mGlobalSpace : 0);
+            
         if (density > 0.0)
         {
             // Objekt hat eine Masse, also einen Body verpassen.
@@ -204,7 +210,9 @@ namespace rl
     Geometry* PhysicsManager::createCapsuleGeometry(Real height,
         Real radius, Real density)
     {
-        Geometry* geom = new CapsuleGeometry(radius, height, mCurrSpace);
+        Geometry* geom = new CapsuleGeometry(radius, height,
+            density > 0.0 ? mGlobalSpace : 0);
+        
         ///@todo verallgemeinern.
         geom->setOrientation(Quaternion(Degree(90), Vector3::UNIT_X));
         if (density > 0.0)
@@ -232,82 +240,20 @@ namespace rl
         }
     }
 
-    void PhysicsManager::activateGlobalSpace()
-    {
-        mCurrSpace = mGlobalSpace;
-    }
-
-    void PhysicsManager::activatePhysicalThingSpace( PhysicalThing* thing )
-    {
-        mCurrSpace = thing->getSpace();
-    }
-
-    void PhysicsManager::moveToCurrentSpace( PhysicalThing* thing )
-    {
-        thing->setSpace(mCurrSpace);
-    }
-
-    void PhysicsManager::removePhysicalThingSpace( PhysicalThing* thing )
-    {
-        OgreOde::Space* s = thing->getSpace();
-
-        if( mCurrSpace == s )
-            activateGlobalSpace();
-
-        if( s != mGlobalSpace && s->getGeometryCount() == 0 )
-        {
-            vector<Space*>::iterator it = find(mSpaces.begin(), mSpaces.end(), s);
-            if (it != mSpaces.end())
-            {
-                mSpaces.erase(it);
-            }
-        }
-    }
-
-    // Objects which are grouped in the same SimpleSpace don't collide
-    void PhysicsManager::createSimpleSpace()
-    {
-        // Ist unser aktueller Space nicht leer
-        if((mCurrSpace != mGlobalSpace && mCurrSpace->getGeometryCount() > 0)
-            || (mCurrSpace == mGlobalSpace))
-        {
-            // Ist der zuletzt erschaffene vielleicht leer
-            // (Passiert wenn neu erschaffen,
-            //  und dann direkt den globalen reaktiviert)
-            if( mSpaces.back()->getGeometryCount() == 0)
-            {
-                mCurrSpace = mSpaces.back();
-            }
-            // Dann müssen wir wohl nen neuen erstellen
-            else
-            {
-                SimpleSpace *s = new SimpleSpace(mGlobalSpace);
-                mSpaces.push_back(s);
-                mCurrSpace = s;
-            }
-        }
-    }
-
-    OgreOde::Space* PhysicsManager::getCurrSpace()
-    {
-        return mCurrSpace;
-    }
-
-    PhysicsManager& PhysicsManager::getSingleton(void)
-    {
-        return Singleton<PhysicsManager>::getSingleton();
-    }
-
-    PhysicsManager* PhysicsManager::getSingletonPtr(void)
-    {
-        return Singleton<PhysicsManager>::getSingletonPtr();
-    }
-
     bool PhysicsManager::collision(Contact* contact)
     {
         Geometry* g1 = contact->getFirstGeometry();
         Geometry* g2 = contact->getSecondGeometry();
-
+        
+//BEGIN DEBUG {{{       
+        bool debug_xx = false;
+        if (g1 == mOdeLevel || g2 == mOdeLevel)
+        {
+            float pd = contact->getPenetrationDepth();
+            Vector3 pos = contact->getPosition();
+        }
+//END DEBUG }}}
+        
         if(g1 && g2)
         {
             // Check for collisions between things that are connected
@@ -321,13 +267,7 @@ namespace rl
         contact->setCoulombFriction(OgreOde::Utility::Infinity);
 
         // Yes, this collision is valid
-        bool rval = true;
-        for(vector<CollisionListener*>::size_type i = 0;
-            i < mCollisionListeners.size(); i++)
-        {
-            rval = rval && mCollisionListeners[i]->collision(contact);
-        }
-        return rval;
+        return true;
     }
 
     bool PhysicsManager::preStep(Real time)
