@@ -31,8 +31,8 @@ RlAnimation* AnimationEvent::getRlAnimation() const
 
 bool AnimationListener::eventRaised( AnimationEvent* anEvent ) const
 {
- switch( anEvent->getReason() )
- {
+	switch( anEvent->getReason() )
+	{
 	case AnimationEvent::ANIMATION_FINISHED:
 		this->animationFinished( anEvent );
 		break;
@@ -42,10 +42,10 @@ bool AnimationListener::eventRaised( AnimationEvent* anEvent ) const
 	case AnimationEvent::ANIMATION_PAUSED:
 		this->animationPaused( anEvent );
 		break;
- }
+	}
 
- // consumed or not ;)
- return false;
+	// consumed or not ;)
+	return false;
 }
 
 }

@@ -58,9 +58,17 @@ bool RlAnimation::isPaused() const
 void RlAnimation::setPaused( bool isPaused )
 {
 	if( mPaused && !isPaused )
-		mAnimationCaster.dispatchEvent( new AnimationEvent(this,AnimationEvent::ANIMATION_UNPAUSED));
+	{
+		AnimationEvent* animEve = new AnimationEvent(this,AnimationEvent::ANIMATION_UNPAUSED);
+		mAnimationCaster.dispatchEvent( animEve );
+		delete animEve;
+	}
 	else if( !mPaused && isPaused )
-		mAnimationCaster.dispatchEvent( new AnimationEvent(this,AnimationEvent::ANIMATION_PAUSED));
+	{
+		AnimationEvent* animEve = new AnimationEvent(this,AnimationEvent::ANIMATION_PAUSED);
+		mAnimationCaster.dispatchEvent( animEve );
+		delete animEve;
+	}
 
     mPaused = isPaused;
 }
@@ -171,7 +179,9 @@ void RlAnimation::addTime( Real timePassed )
 			{
 				mPaused = true;
 
-				mAnimationCaster.dispatchEvent( new AnimationEvent(this,AnimationEvent::ANIMATION_FINISHED));
+				AnimationEvent* animEve = new AnimationEvent(this,AnimationEvent::ANIMATION_FINISHED);
+				mAnimationCaster.dispatchEvent( animEve );
+				delete animEve;			
 			}
 		}
 
