@@ -232,7 +232,9 @@ namespace rl {
     }
 
     void Actor::attach(const String& slot, Actor* actor,
-        const String& childSlot)
+        const String& childSlot, 
+		const Quaternion& offsetOrientation, 
+		const Vector3& offsetPosition)
     {
         if (actor->mParent)
         {
@@ -241,9 +243,9 @@ namespace rl {
         }
         else
         {
-			if (actor->getControlledObject() == NULL)
-				actor->placeIntoScene(0, 0, 0, 1, 0, 0, 0);
-            doAttach(slot, actor, childSlot);
+			/*if (actor->getControlledObject() == NULL)
+				actor->placeIntoScene(0, 0, 0, 1, 0, 0, 0);*/
+            doAttach(slot, actor, childSlot, offsetOrientation, offsetPosition);
             // Erst danach Parent/Child wirklich zuweisen, falls es ne
             // Exception gibt.
             actor->mParent = this;
@@ -266,15 +268,15 @@ namespace rl {
     }
 
     void Actor::doAttach(const String& slot, Actor* actor,
-            const String& childSlot)
+		const String& childSlot, 
+		const Quaternion& offsetOrientation, 
+		const Vector3& offsetPosition)
     {
 		if (getControlledObject()->isMeshObject())
 		{
 			MovableObject* mo = actor->getControlledObject()->getMovableObject();
 			dynamic_cast<MeshObject*>(getControlledObject())->getEntity()->
 				attachObjectToBone(slot, mo);
-			if (!mo->isInScene())
-				actor->placeIntoScene();
 			return;
 		}
 
@@ -287,7 +289,14 @@ namespace rl {
 
     void Actor::doDetach(Actor* actor)
     {
-    }
+		if (getControlledObject()->isMeshObject())
+		{
+			MovableObject* mo = actor->getControlledObject()->getMovableObject();
+			dynamic_cast<MeshObject*>(getControlledObject())->getEntity()->
+				detachObjectFromBone(mo);
+			return;
+		}
+	}
     
     void Actor::placeChildsIntoScene(const Vector3& position,
             const Quaternion& orientation)

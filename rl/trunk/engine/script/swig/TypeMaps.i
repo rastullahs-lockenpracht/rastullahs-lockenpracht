@@ -76,12 +76,19 @@
 }
 
 /* Radian / Degree all Ruby Values are interpreted as DEGREE! */
-%typemap(in) Radian, const Radian {
+%typemap(in) Radian, const Radian, Radian&, const Radian& {
     Check_Type($input, T_FLOAT);
     $1 = Degree(RFLOAT($input)->value);
 }
+%typemap(in) Radian*, const Radian*, Radian&, const Radian& {
+    Check_Type($input, T_FLOAT);
+    $1 = new Radian(Degree(RFLOAT($input)->value));
+}
 %typemap(out) Radian, const Radian {
      $result = rb_float_new($1.valueDegrees());
+}
+%typemap(out) Radian&, const Radian& {
+     $result = rb_float_new($1->valueDegrees());
 }
 
     

@@ -23,9 +23,63 @@ public:
 	
 	void addResourceLocation (const std::string& name, const std::string& locType, ResourceType resType=RESTYPE_ALL);
 };
+
+class Quaternion {
+public:
+ 	Quaternion (Real fW=1.0, Real fX=0.0, Real fY=0.0, Real fZ=0.0);
+ 	void FromAngleAxis(const Radian &rfAngle, const Vector3 &rkAxis);
+};
+
 }
 
 namespace rl {
+
+%{
+static swig_type_info *Animation_dynamic_cast(void **ptr) {
+    rl::Animation **ppAnimation = reinterpret_cast<rl::Animation **>(ptr);
+    
+    rl::TrackAnimation *pTrackAnimation = dynamic_cast<rl::TrackAnimation*>(*ppAnimation);
+    if(pTrackAnimation){
+      *ptr=reinterpret_cast<void*>(pTrackAnimation);
+      return SWIGTYPE_p_rl__TrackAnimation;
+    }    
+    
+    return 0;
+}
+%}
+DYNAMIC_CAST(SWIGTYPE_p_rl__Animation, Animation_dynamic_cast);
+
+
+%{
+static swig_type_info *ActorControlledObject_dynamic_cast(void **ptr)
+{
+    rl::ActorControlledObject **ppActorControlledObject =
+        reinterpret_cast<rl::ActorControlledObject**>(ptr);
+
+    rl::MeshObject *pMeshObject=dynamic_cast<rl::MeshObject*>(*ppActorControlledObject);
+    if (pMeshObject) {
+        *ptr=reinterpret_cast<void*>(pMeshObject);
+        return SWIGTYPE_p_rl__MeshObject;
+    }
+    rl::CameraObject *pCameraObject=dynamic_cast<rl::CameraObject*>(*ppActorControlledObject);
+    if (pCameraObject) {
+        *ptr=reinterpret_cast<void*>(pCameraObject);
+        return SWIGTYPE_p_rl__CameraObject;
+    }
+    rl::LightObject *pLightObject=dynamic_cast<rl::LightObject*>(*ppActorControlledObject);
+    if (pLightObject) {
+        *ptr=reinterpret_cast<void*>(pLightObject);
+        return SWIGTYPE_p_rl__LightObject;
+    }
+    rl::ParticleSystemObject *pParticleSystemObject=dynamic_cast<rl::ParticleSystemObject*>(*ppActorControlledObject);
+    if (pParticleSystemObject) {
+        *ptr=reinterpret_cast<void*>(pParticleSystemObject);
+        return SWIGTYPE_p_rl__ParticleSystemObject;
+    }
+    return 0;
+}
+%}
+DYNAMIC_CAST(SWIGTYPE_p_rl__ActorControlledObject, ActorControlledObject_dynamic_cast);
 
 
 class ActorManager {
@@ -242,7 +296,9 @@ public:
         Real ow, Real ox, Real oy, Real oz);
         
     void attach(const std::string& slot, Actor* actor,
-        const std::string& childSlot = "SLOT_DEFAULT");
+        const std::string& childSlot = "SLOT_DEFAULT",        
+		const Ogre::Quaternion &offsetOrientation=Ogre::Quaternion::IDENTITY, 
+		const Ogre::Vector3 &offsetPosition=Ogre::Vector3::ZERO);
     void detach(Actor* actor);
        
 	void roll(Real angleunits);
@@ -349,49 +405,4 @@ public:
 }
 
 
-%{
-static swig_type_info *Animation_dynamic_cast(void **ptr) {
-    rl::Animation **ppAnimation = reinterpret_cast<rl::Animation **>(ptr);
-    
-    rl::TrackAnimation *pTrackAnimation = dynamic_cast<rl::TrackAnimation*>(*ppAnimation);
-    if(pTrackAnimation){
-      *ptr=reinterpret_cast<void*>(pTrackAnimation);
-      return SWIGTYPE_p_rl__TrackAnimation;
-    }    
-    
-    return 0;
-}
-%}
-DYNAMIC_CAST(SWIGTYPE_p_rl__Animation, Animation_dynamic_cast);
 
-
-%{
-static swig_type_info *ActorControlledObject_dynamic_cast(void **ptr)
-{
-    rl::ActorControlledObject **ppActorControlledObject =
-        reinterpret_cast<rl::ActorControlledObject**>(ptr);
-
-    rl::MeshObject *pMeshObject=dynamic_cast<rl::MeshObject*>(*ppActorControlledObject);
-    if (pMeshObject) {
-        *ptr=reinterpret_cast<void*>(pMeshObject);
-        return SWIGTYPE_p_rl__MeshObject;
-    }
-    rl::CameraObject *pCameraObject=dynamic_cast<rl::CameraObject*>(*ppActorControlledObject);
-    if (pCameraObject) {
-        *ptr=reinterpret_cast<void*>(pCameraObject);
-        return SWIGTYPE_p_rl__CameraObject;
-    }
-    rl::LightObject *pLightObject=dynamic_cast<rl::LightObject*>(*ppActorControlledObject);
-    if (pLightObject) {
-        *ptr=reinterpret_cast<void*>(pLightObject);
-        return SWIGTYPE_p_rl__LightObject;
-    }
-    rl::ParticleSystemObject *pParticleSystemObject=dynamic_cast<rl::ParticleSystemObject*>(*ppActorControlledObject);
-    if (pParticleSystemObject) {
-        *ptr=reinterpret_cast<void*>(pParticleSystemObject);
-        return SWIGTYPE_p_rl__ParticleSystemObject;
-    }
-    return 0;
-}
-%}
-DYNAMIC_CAST(SWIGTYPE_p_rl__ActorControlledObject, ActorControlledObject_dynamic_cast);

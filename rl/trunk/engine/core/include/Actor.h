@@ -86,7 +86,9 @@ namespace rl {
         void rotate(const Ogre::Quaternion& q);
         
         void attach(const Ogre::String& slot, Actor* actor,
-            const Ogre::String& childSlot = "SLOT_DEFAULT");
+            const Ogre::String& childSlot = "SLOT_DEFAULT",
+			const Ogre::Quaternion &offsetOrientation=Ogre::Quaternion::IDENTITY, 
+			const Ogre::Vector3 &offsetPosition=Ogre::Vector3::ZERO);
         void detach(Actor* actor);
         
         Ogre::SceneNode* _getSceneNode();
@@ -110,7 +112,9 @@ namespace rl {
         Ogre::SceneNode* mSceneNode;
         
         virtual void doAttach(const Ogre::String& slot, Actor* actor,
-            const Ogre::String& childSlot);
+			const Ogre::String& childSlot,
+			const Ogre::Quaternion &offsetOrientation, 
+			const Ogre::Vector3 &offsetPosition);
         virtual void doDetach(Actor* actor);
         /// Argmumente wie placeIntoScene
         virtual void placeChildsIntoScene(const Ogre::Vector3& position,
