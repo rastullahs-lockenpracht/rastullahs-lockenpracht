@@ -38,11 +38,13 @@ xcopy %RL_ROOT%\modules\common\gui\*.* %RL_DIST%\ /I /K /Y /F
 xcopy %RL_ROOT%\modules\common\gui\media\*.* %RL_DIST%\media\ /I /K /Y /F
 xcopy %RL_ROOT%\modules\common\sound\*.* %RL_DIST%\media\ /I /K /Y /F
 xcopy %RL_ROOT%\modules\common\models\*.* %RL_DIST%\media\ /I /K /Y /F
+xcopy %RL_ROOT%\modules\common\materials\*.* %RL_DIST%\media\ /I /K /Y /F
 
 xcopy %RL_ROOT%\modules\minidemo\conf\*.* %RL_DIST%\ /I /K /Y /F
 xcopy %RL_ROOT%\modules\minidemo\maps\*.* %RL_DIST%\media\ /I /K /Y /F
 xcopy %RL_ROOT%\modules\minidemo\models\*.* %RL_DIST%\media\ /I /K /Y /F
 xcopy %RL_ROOT%\modules\minidemo\sound\*.* %RL_DIST%\media\ /I /K /Y /F
+xcopy %RL_ROOT%\modules\minidemo\materials\*.* %RL_DIST%\media\ /I /K /Y /F
 
 xcopy %RL_ROOT%\modules\minidemo\scripts\*.* %RL_DIST%\script\ /I /K /Y /F
 
@@ -91,7 +93,7 @@ copy %RL_ROOT%\Dependencies\openthreads\bin\win32\*.dll %RL_DIST%
 
 REM copy %RL_ROOT%\Dependencies\vorbis\bin\*.dll %RL_DIST%
 copy %RL_ROOT%\Dependencies\ode\lib\*.dll %RL_DIST%
-copy %RL_ROOT%\Dependencies\boost\bin\*.dll %RL_DIST%
+copy %RL_ROOT%\Dependencies\boost\lib\*.dll %RL_DIST%
 copy %RL_ROOT%\Dependencies\xerces\bin\*.dll %RL_DIST%
 
 copy %RL_ROOT%\Dependencies\cegui\bin\win32\%BUILD%\CEGUIBase.dll %RL_DIST%
