@@ -2,7 +2,12 @@
 #define __CeConsole_H__
 
 #include "UiPrerequisites.h"
+
+#include <OgreNoMemoryMacros.h>
 #include "ruby.h"
+#include "FixRubyHeaders.h"
+#include <OgreMemoryMacros.h>
+
 #include <vector>
 #include <string>
 
