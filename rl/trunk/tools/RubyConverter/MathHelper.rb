@@ -108,6 +108,14 @@ module MathHelper
 		def copy
 		    return Vector.new( self )
 		end
+        
+        def rotate!( matrix )
+                raise ArgumentError,
+                "Expecting matrix for rotation" unless !matrix.is_a?( Matrix ) 
+            
+                @elements  = (matrix*Matrix.column_vector(@elements)).column(0).to_a
+                return self
+        end
 	
 		### Return a vector collinear to the given vector and having a length of
 		### 1.0, measured in the Euclidean norm. This will fail if the receiver
