@@ -32,11 +32,10 @@ namespace rl {
         void clearScene();
         void loadScene( const String&  levelName );
         void initializeDefaultCamera();	
-
-        virtual float* getVerticesPtr();
-        virtual int* getIndexPtr();
-        virtual int getVerticeCount();
-        virtual int getIndexCount();
+        Entity* getSceneEntity();
+        
+    private:
+        Entity* mSceneEntity;
     };
 
 }

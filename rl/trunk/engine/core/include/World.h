@@ -49,6 +49,8 @@ public:
     virtual void clearScene(void) = 0;
 	virtual void loadScene(const String& levelName ) = 0;
     virtual void initializeDefaultCamera(void) = 0;	
+    
+    virtual Entity* getSceneEntity() = 0;
 
     //Enables / disables a 'sky plane' i.e.
     virtual void setSkyPlane(bool enable, const Plane &plane,
@@ -82,11 +84,7 @@ public:
     virtual Real getFogEnd (void) const;
 
     virtual void setAmbientLight(Real r, Real g, Real b);
-    
-	virtual float* getVerticesPtr();
-	virtual int* getIndexPtr();
-	virtual int getVerticeCount();
-	virtual int getIndexCount();
+        
 protected:
 	World(Ogre::SceneType sceneType);
 

@@ -120,27 +120,9 @@ namespace rl {
 		return Vector3(0, 20, 40);
 	}
 	
-    float* World::getVerticesPtr()
+    Entity* World::getSceneEntity()
     {
         Throw(OperationNotSupportedException,
             "SceneManager does not support TriMesh-Retrieval");
     }
-
-	int* World::getIndexPtr()
-	{
-        Throw(OperationNotSupportedException,
-            "SceneManager does not support TriMesh-Retrieval");
-	}
-
-	int World::getVerticeCount()
-	{
-        Throw(OperationNotSupportedException,
-            "SceneManager does not support TriMesh-Retrieval");
-	}
-
-	int World::getIndexCount()
-	{
-        Throw(OperationNotSupportedException,
-            "SceneManager does not support TriMesh-Retrieval");
-	}
 }

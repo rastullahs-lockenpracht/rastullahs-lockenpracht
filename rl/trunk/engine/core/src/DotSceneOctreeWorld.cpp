@@ -27,11 +27,11 @@
 
 namespace rl {
 
-    DotSceneOctreeWorld::DotSceneOctreeWorld( ) : World(ST_GENERIC)
+    DotSceneOctreeWorld::DotSceneOctreeWorld( )
+        :   World(ST_GENERIC),
+            mSceneEntity(0)
     {
         // Set up shadowing
-        // JoSch hat unter Windows Probleme auf seiner TNT.
-        // Eventuell wg. Schattensetup, deshalb testweise aus.
         mSceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_MODULATIVE);
         mSceneMgr->setShadowColour(ColourValue(0.5, 0.5, 0.5));
         mSceneMgr->setShadowFarDistance(500);
@@ -66,7 +66,6 @@ namespace rl {
 
         // Quake uses X/Y horizon, Z up
         mCamera->setFOVy(60);
-        //mCamera->rotate(defaultVP.orientation);
         
         mCamera->setFixedYawAxis(false);
 
@@ -84,13 +83,11 @@ namespace rl {
         // Add some default lighting to the scene
         mSceneMgr->setAmbientLight(ColourValue(0.55, 0.55, 0.55));
 
-		// Create the visual entity and scene node
-		///@todo umgestalten, dass es auch mehrfach aufgerufen werden kann.
+		/// Create the visual entity and scene node
 		/// und das Level korrekt abgebaut wird.
-		Entity* entity = mSceneMgr->createEntity("level", levelName);
+		mSceneEntity = mSceneMgr->createEntity("level", levelName);
 		SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode("level");
-		node->attachObject(entity);
-		//entity->setCastShadows(false);
+		node->attachObject(mSceneEntity);
 		
         initializeDefaultCamera();
         mbSceneLoaded = true;
@@ -100,15 +97,20 @@ namespace rl {
     {
 		try {
 		    mSceneMgr->destroySceneNode("level");
+		}
+		catch (Ogre::Exception&)
+		{
+		    // ignorieren. Gab es den Node halt nicht.
+		}
+		
+		try {
 		    mSceneMgr->removeEntity("level");
 		}
-		catch (Ogre::Exception& ex)
+		catch (Ogre::Exception&)
 		{
-		    // ignorieren. Gab es die Elemente halt nicht.
-		    // wenn es nur eines nicht gibt, dann ist aber was im Argen.
-		    // deshalb:
-		    ///@todo separate Überprüfung für die beiden Calls.
+		    // ignorieren. Gab es die Entity halt nicht.
 		}
+		mSceneEntity = 0;
 		
         Ogre::Root::getSingleton().getAutoCreatedWindow()->removeAllViewports();
 
@@ -118,24 +120,9 @@ namespace rl {
         PhysicsManager::getSingleton().setWorldScene(this);
         mbSceneLoaded = false;
     }
-
-    float* DotSceneOctreeWorld::getVerticesPtr()
+    
+    Entity* DotSceneOctreeWorld::getSceneEntity()
     {
-        return 0;//static_cast<DotSceneManager*>(mSceneMgr)->GetVerticesPtr(0, 0);
+        return mSceneEntity;
     }
-
-	int* DotSceneOctreeWorld::getIndexPtr()
-	{
-        return 0;//static_cast<DotSceneManager*>(mSceneMgr)->GetIndexPtr(0, 0);
-	}
-
-	int DotSceneOctreeWorld::getVerticeCount()
-	{
-        return 0;//static_cast<DotSceneManager*>(mSceneMgr)->GetNumVertices(0, 0);
-	}
-
-	int DotSceneOctreeWorld::getIndexCount()
-	{
-        return 0;//static_cast<DotSceneManager*>(mSceneMgr)->GetNumIndex(0, 0);
-	}
 }
