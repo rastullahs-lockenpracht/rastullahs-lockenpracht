@@ -23,8 +23,6 @@
 #include "EventSource.h"
 #include "EventObject.h"
 
-
-
 namespace rl {
 
 class RlAnimation;
@@ -42,6 +40,7 @@ class _RlCoreExport AnimationEvent : public virtual EventObject
 		RlAnimation* getRlAnimation() const;
 };
 
+
 class _RlCoreExport AnimationListener : public virtual EventListener<AnimationEvent>
 {
 	public:
@@ -53,6 +52,28 @@ class _RlCoreExport AnimationListener : public virtual EventListener<AnimationEv
 		virtual void animationUnpaused(AnimationEvent *anEvent) const = 0;
 
 		virtual bool eventRaised(AnimationEvent *anEvent) const;
+};
+
+class _RlCoreExport AnimationFrameEvent : public virtual EventObject
+{
+public:
+	static const unsigned int ANIMATION_FRAMEREACHED = 363;
+
+	AnimationFrameEvent( RlAnimation* anim,  const unsigned int reason, const Ogre::Real& frameNumber );
+	virtual ~AnimationFrameEvent() {};
+
+	RlAnimation* getRlAnimation() const;
+	Ogre::Real getFrameNumber() const;
+	void setFrameNumber(const Ogre::Real& frameNumber);
+private:
+	Ogre::Real mFrameNumber;
+};
+
+class _RlCoreExport AnimationFrameListener
+{
+	public:
+		virtual ~AnimationFrameListener() {};
+		virtual void animationFrameReached( AnimationFrameEvent *anEvent ) const = 0;
 };
 
 }

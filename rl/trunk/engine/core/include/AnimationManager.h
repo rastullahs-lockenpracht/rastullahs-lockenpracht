@@ -67,6 +67,7 @@ public:
 	static AnimationManager * getSingletonPtr(void);
 private:
     std::map<Ogre::AnimationState*,RlAnimation*> mAnimationMap;
+
 	Ogre::Real mGlobalAnimationSpeed;
 };
 }

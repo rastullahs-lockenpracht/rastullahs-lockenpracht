@@ -23,12 +23,13 @@ namespace rl {
 AnimationEvent::AnimationEvent( RlAnimation* anim, const unsigned int reason ) : 
 	EventObject(anim,reason)
 {}
-	
+
 RlAnimation* AnimationEvent::getRlAnimation() const
 {
 	EventSource* eve =  this->getSource();
 	return dynamic_cast<RlAnimation*>( eve );
 }
+
 
 bool AnimationListener::eventRaised( AnimationEvent* anEvent ) const
 {
@@ -48,5 +49,32 @@ bool AnimationListener::eventRaised( AnimationEvent* anEvent ) const
 	// consumed or not ;)
 	return false;
 }
+
+
+
+
+
+AnimationFrameEvent::AnimationFrameEvent( RlAnimation* anim,  const unsigned int reason, const Ogre::Real& frameNumber ) : 
+EventObject(anim,reason)
+{
+	mFrameNumber = frameNumber;
+}
+
+RlAnimation* AnimationFrameEvent::getRlAnimation() const
+{
+	EventSource* eve =  this->getSource();
+	return dynamic_cast<RlAnimation*>( eve );
+}
+
+Ogre::Real AnimationFrameEvent::getFrameNumber() const
+{
+	return mFrameNumber;
+}
+
+void AnimationFrameEvent::setFrameNumber(const Ogre::Real& frameNumber)
+{
+	mFrameNumber = frameNumber;
+}
+
 
 }

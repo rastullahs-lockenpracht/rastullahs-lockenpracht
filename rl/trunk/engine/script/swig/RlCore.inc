@@ -34,7 +34,7 @@ private:
 public:
 	static ActorManager& getSingleton(void);
 
-  rl::Actor* createLightActor(const std::string& name, int type);
+    rl::Actor* createLightActor(const std::string& name, int type);
 	rl::Actor* createMeshActor(const std::string& name, const std::string& meshname,
 		    int geom = rl::PhysicsManager::PT_NONE, Real density=1.0);
 	    
@@ -74,6 +74,14 @@ public:
 	virtual void animationUnpaused(rl::AnimationEvent *anEvent) const = 0;
 };
 
+%feature("director") AnimationFrameListener; 
+class AnimationFrameListener
+{
+public:
+	virtual ~AnimationFrameListener();
+	virtual void animationFrameReached( rl::AnimationFrameEvent *anEvent ) const = 0;
+};
+
 class AnimationEvent
 {
 public:
@@ -81,22 +89,26 @@ public:
 	AnimationEvent( rl::RlAnimation* anim,  const unsigned int reason );
 };
 
+class AnimationFrameEvent
+{
+public:
+	rl::RlAnimation* getRlAnimation() const;
+	Ogre::Real getFrameNumber() const;
+	AnimationFrameEvent( rl::RlAnimation* anim,  const unsigned int reason, Ogre::Real frameNumber );
+};
+
 class RlAnimation {
 public:
 	bool isPaused() const;
     void setPaused( bool isPaused );
 
-	// Möglichkeit die globale SlowMotion zu umgehen
-	// Nützlich für Statusanzeigen, oder ähnliche konstante Animationen
 	bool isIgnoringGlobalSpeed() const;
 	void setIgnoringGlobalSpeed( bool isIgnoringGlobalSpeed );
 
-	// Regelbare Geschwindigkeit
 	Real getSpeed() const;
 	void setSpeed( Real speed );
 	void reverseAnimation();
 
-	// Regelbare Wiederholungsanzahl
 	void setTimesToPlay(unsigned int timesToPlay);
 	unsigned int getTimesPlayed() const;
 	void resetTimesPlayed();
@@ -104,13 +116,14 @@ public:
 	unsigned int getTimesToPlayLeft() const;
 	Real getTimePlayed() const;
 
-	// Gewicht (Einfluss) der RlAnimation
 	Real getWeight(void) const;
     void setWeight(Real weight);
     
-    // Listener
     void addAnimationListener( rl::AnimationListener *listener);
 	void removeAnimationListener( rl::AnimationListener *listener);
+	
+	void addAnimationFrameListener( rl::AnimationFrameListener *listener, 
+									float frameNumber );
 private:
 	RlAnimation(  );
 };

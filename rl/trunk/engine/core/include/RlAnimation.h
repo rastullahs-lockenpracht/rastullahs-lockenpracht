@@ -19,7 +19,9 @@
 
 #include "CorePrerequisites.h"
 
+#include <set>
 #include "AnimationListener.h"
+
 
 namespace rl {
 
@@ -83,7 +85,7 @@ class _RlCoreExport RlAnimation : public virtual EventSource
 			@remarks	Bei 0 wird die Animation beliebig oft wiederholt
 		*/
 		void setTimesToPlay(unsigned int timesToPlay);
-		/// Gibt die Anzahl der bereits abgespielten Wiederholungen zurück
+		/// Gibt die Anzahl der bereits vollständig abgespielten Wiederholungen zurück
 		unsigned int getTimesPlayed() const;
 		/** Setzt die Abspielzeit zurück
 			Löst dabei auch eine mögliche Pause auf, und spult die Animation zurück
@@ -101,7 +103,7 @@ class _RlCoreExport RlAnimation : public virtual EventSource
 		/** Setzt das Gewicht (Einfluss) der Animation
 			@param weigt Das Gewicht der Animation
 		*/
-        void setWeight(Ogre::Real weight);
+        void setWeight( Ogre::Real weight );
 
 		/// Zeit hinzufügen - wird vom AnimationManager aufgerufen
 		void addTime( Ogre::Real timePassed );
@@ -115,6 +117,10 @@ class _RlCoreExport RlAnimation : public virtual EventSource
 		void addAnimationListener( AnimationListener *listener);
 		/// Entfernt einen AnimationListener
 		void removeAnimationListener( AnimationListener *listener);
+
+		void addAnimationFrameListener( AnimationFrameListener *listener, Ogre::Real frameNumber );
+		void removeAnimationFrameListener( AnimationFrameListener *listener );
+		void removeAnimationFrameListener( AnimationFrameListener *listener, Ogre::Real frameNumber );
 
 		/// Gibt den AnimationState zurück (intern)
 		Ogre::AnimationState* getAnimationState() const { return mAnimState; };
@@ -133,11 +139,15 @@ class _RlCoreExport RlAnimation : public virtual EventSource
 		/// Bisherige Abspielzeit
 		Ogre::Real mTimePlayed;
 
+		/// Setzt den AnimationState
+		void setAnimationState( Ogre::AnimationState* animState );
+
 		/// EventCaster
 		EventCaster<AnimationEvent> mAnimationCaster;
 
-		/// Setzt den AnimationState
-		void setAnimationState( Ogre::AnimationState* animState );
+		std::multimap<Ogre::Real,AnimationFrameListener*> mAnimationFrameListener;
+	private:
+		void checkAnimationFrameListeners( Ogre::Real timePassed );
 };
 
 }
