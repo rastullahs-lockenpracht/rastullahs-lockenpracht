@@ -91,6 +91,7 @@ namespace rl {
         {
             Throw(IllegalStateException, "Actor is not placed into scene.");
         }
+        _update();
     }
 
     void Actor::setPosition(const Vector3& position)
@@ -103,6 +104,7 @@ namespace rl {
         {
             Throw(IllegalStateException, "Actor is not placed into scene.");
         }
+        _update();
     }
     
     void Actor::setPosition(Ogre::Real x, Ogre::Real y, Ogre::Real z)
@@ -120,6 +122,7 @@ namespace rl {
         {
             Throw(IllegalStateException, "Actor is not placed into scene.");
         }
+        _update();
     }
 
     void Actor::roll(Real angle)
@@ -132,6 +135,7 @@ namespace rl {
         {
             Throw(IllegalStateException, "Actor is not placed into scene.");
         }
+        _update();
     }
 
     void Actor::pitch(Real angle)
@@ -144,6 +148,7 @@ namespace rl {
         {
             Throw(IllegalStateException, "Actor is not placed into scene.");
         }
+        _update();
     }
 
     void Actor::yaw(Real angle)
@@ -156,6 +161,7 @@ namespace rl {
         {
             Throw(IllegalStateException, "Actor is not placed into scene.");
         }
+        _update();
     }
 
     void Actor::rotate(const Quaternion& orientation)
@@ -168,7 +174,7 @@ namespace rl {
         {
             Throw(IllegalStateException, "Actor is not placed into scene.");
         }
-
+        _update();
     }
 
     const Vector3& Actor::getPosition(void)
@@ -306,6 +312,9 @@ namespace rl {
 
 		if (mPhysicalThing)
 			mPhysicalThing->_update();
+			
+		if (mActorControlledObject)
+		    mActorControlledObject->_update();
     }
     
     void Actor::_placeIntoScene(SceneNode* parent, const Vector3& position,
@@ -331,6 +340,8 @@ namespace rl {
         {
             removeFromScene();
         }
+        
+        _update();
     }
 
 }

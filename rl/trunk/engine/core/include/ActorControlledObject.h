@@ -51,6 +51,14 @@ namespace rl {
         
         virtual void _attachSceneNode(Ogre::SceneNode* node);
         virtual void _detachSceneNode(Ogre::SceneNode* node);
+
+        /**
+         * Interne Methode. Wird vom Aktor aufgerufen, wenn sich dessen
+         * Status geändert hat. (Position, Orientierung, etc)
+         * Die Standardimplementierung macht nichts, kann aber
+         * von abgeleiteten Klassen überschrieben werden.
+         */
+        virtual void _update();
         
         /** Liefert das gekapselte Ogre::MovableObject. */
         Ogre::MovableObject* getMovableObject();
@@ -61,7 +69,6 @@ namespace rl {
         virtual Ogre::String getObjectType() = 0;
 
 		virtual bool isMeshObject();
-    
     protected:
         Ogre::MovableObject* mMovableObject;
     };

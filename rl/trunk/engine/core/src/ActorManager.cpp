@@ -32,6 +32,7 @@ namespace rl {
 	{
 		return Singleton<ActorManager>::getSingleton();
 	}
+
 	ActorManager* ActorManager::getSingletonPtr(void)
 	{
 		return Singleton<ActorManager>::getSingletonPtr();
@@ -65,7 +66,7 @@ namespace rl {
 
 		return 0;
 	}
-		
+
 	void ActorManager::destroyActor(Actor* actor)
 	{
         ///@todo Loesch ihn!
@@ -137,7 +138,7 @@ namespace rl {
 
         return actor;
     }
-    
+
 	Actor* ActorManager::createMeshActor(const String& name,const String& meshname,
 	    PhysicsManager::GeometryTypes geomType, Ogre::Real density)
 	{

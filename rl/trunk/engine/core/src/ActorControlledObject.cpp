@@ -59,4 +59,8 @@ namespace rl {
 	{
 		return false;
 	}
+	
+	void ActorControlledObject::_update()
+	{
+	}
 }

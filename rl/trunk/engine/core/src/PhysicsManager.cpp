@@ -141,15 +141,18 @@ namespace rl
     }
 
     PhysicalThing* PhysicsManager::createPhysicalThing(const int geomType,
-        const Ogre::Vector3& size, Real density, OffsetMode offsetMode)
+        const Vector3& size, Real density, OffsetMode offsetMode)
     {
         PhysicalThing* rval = 0;
         
         if (geomType != GT_NONE) {
             Geometry* geom = 0;
-            OgreOde::Body* body = density > 0.0 ? new OgreOde::Body() : 0;
+            Body* body = density > 0.0 ? new Body() : 0;
+            
             ///@todo verallgemeinern
             Vector3 offset(Vector3::ZERO);
+            Quaternion orientationBias(Quaternion::IDENTITY);
+            
             if (geomType == GT_BOX)
             {
                 geom = new BoxGeometry(size, density > 0.0 ? mGlobalSpace : 0);
@@ -201,7 +204,7 @@ namespace rl
                     density > 0.0 ? mGlobalSpace : 0);
 
                 ///@todo verallgemeinern.
-                geom->setOrientation(Quaternion(Degree(90), Vector3::UNIT_X));
+                orientationBias = Quaternion(Degree(90), Vector3::UNIT_X);
                 if (density > 0.0)
                 {
                     // Objekt hat eine Masse, also einen Body verpassen.
@@ -217,7 +220,7 @@ namespace rl
                 geom->setBody(body);
             }
 
-            rval = new PhysicalThing(geom, offset);
+            rval = new PhysicalThing(geom, offset, orientationBias);
             mPhysicalThings.push_back(rval);        
         }
         return rval;

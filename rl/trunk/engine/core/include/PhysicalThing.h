@@ -31,7 +31,8 @@ namespace rl {
          * @param offset: Offset vom SceneNode-Ursprung zum Geometry-Ursprung.
          */
         PhysicalThing(OgreOde::Geometry* geometry,
-            const Ogre::Vector3& offset = Ogre::Vector3::ZERO);
+            const Ogre::Vector3& offset = Ogre::Vector3::ZERO,
+            const Ogre::Quaternion& orientationBias = Ogre::Quaternion::IDENTITY);
         ~PhysicalThing();
 
         void setPosition(Real x, Real y, Real z);
@@ -169,6 +170,7 @@ namespace rl {
         OgreOde::Geometry* mGeometry;
         Actor* mActor;
         Ogre::Vector3 mOffset;
+        Ogre::Quaternion mOrientationBias;
     };
 }
 
