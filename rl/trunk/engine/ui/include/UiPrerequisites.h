@@ -38,11 +38,9 @@
 #   define _RlUiExport
 #endif
 
-
-typedef CEGUI::String CeGuiString;
-
 namespace rl
 {
+	typedef CEGUI::String CeGuiString;
     typedef std::vector<CeGuiString> CeGuiStringVector;
 }
 

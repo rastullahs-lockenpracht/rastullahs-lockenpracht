@@ -35,41 +35,41 @@
      $result = rb_str_new2($1->c_str());
 }
 
-/* Wrapping CeGuiStrings to ruby and back 
- for CeGuiString, const CeGuiString, CeGuiString&, CeGuiString*, const CeGuiString*, const CeGuiString&
+/* Wrapping rl::CeGuiStrings to ruby and back 
+ for rl::CeGuiString, const rl::CeGuiString, rl::CeGuiString&, rl::CeGuiString*, const rl::CeGuiString*, const rl::CeGuiString&
 */
-%typemap(in) CeGuiString, const CeGuiString {
+%typemap(in) rl::CeGuiString, const rl::CeGuiString {
     Check_Type($input, T_STRING);
-    $1 = CeGuiString(STR2CSTR($input));
+    $1 = rl::CeGuiString(STR2CSTR($input));
 }
-%typemap(out) CeGuiString, const CeGuiString {
+%typemap(out) rl::CeGuiString, const rl::CeGuiString {
      $result = rb_str_new2($1.c_str());
 }
-%typemap(in) CeGuiString*, CeGuiString&, const CeGuiString*, const CeGuiString& {
+%typemap(in) rl::CeGuiString*, rl::CeGuiString&, const rl::CeGuiString*, const rl::CeGuiString& {
     Check_Type($input, T_STRING);
-    $1 = new CeGuiString(STR2CSTR($input));
+    $1 = new rl::CeGuiString(STR2CSTR($input));
 }
-%typemap(out) CeGuiString*, CeGuiString&,  const CeGuiString*, const CeGuiString& {
+%typemap(out) rl::CeGuiString*, rl::CeGuiString&,  const rl::CeGuiString*, const rl::CeGuiString& {
      $result = rb_str_new2($1->c_str());
 }
 
-%typemap(directorin) CeGuiString, const CeGuiString &, CeGuiString & 
+%typemap(directorin) rl::CeGuiString, const rl::CeGuiString &, rl::CeGuiString & 
 	"$input = rb_str_new2($1.c_str());"
 
-%typemap(directorin) CeGuiString *, const CeGuiString * 
+%typemap(directorin) rl::CeGuiString *, const rl::CeGuiString * 
 	"$input = rb_str_new2($1->c_str());"
 
-%typemap(directorout) CeGuiString {
+%typemap(directorout) rl::CeGuiString {
     if (TYPE($input) == T_STRING)
-        $result = CeGuiString(STR2CSTR($input));
+        $result = rl::CeGuiString(STR2CSTR($input));
     else
         throw Swig::DirectorTypeMismatchException("string expected");
 }
 
-%typemap(directorout) const CeGuiString & {
+%typemap(directorout) const rl::CeGuiString & {
     if (TYPE($input) == T_STRING) {
-		$result = new CeGuiString();
-        $result->assign(CeGuiString(STR2CSTR($input)));
+		$result = new rl::CeGuiString();
+        $result->assign(rl::CeGuiString(STR2CSTR($input)));
     } else {
         throw Swig::DirectorTypeMismatchException("string expected");
     }
@@ -275,7 +275,7 @@
   int len = RARRAY($input)->len;
   for (int i=0; i!=len; i++) {
     VALUE inst = rb_ary_entry($input, i);
-    vec.push_back(CeGuiString(STR2CSTR(inst)));
+    vec.push_back(rl::CeGuiString(STR2CSTR(inst)));
   }
   $result = vec;
 }
@@ -286,7 +286,7 @@
   int len = RARRAY($input)->len;
   for (int i=0; i!=len; i++) {
     VALUE inst = rb_ary_entry($input, i);
-    vec->push_back(CeGuiString(STR2CSTR(inst)));
+    vec->push_back(rl::CeGuiString(STR2CSTR(inst)));
   }
   $result = vec;
 }

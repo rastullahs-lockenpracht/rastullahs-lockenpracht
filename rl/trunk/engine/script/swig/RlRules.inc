@@ -64,17 +64,17 @@ namespace rl {
         int getTimeFraction();
         int getYear();
         int getMonth();
-        CeGuiString getMonthName();
+        rl::CeGuiString getMonthName();
         int getDayOfYear();
         int getDayOfMonth();
         int getDayOfWeek();
-        CeGuiString getDayOfWeekName();
+        rl::CeGuiString getDayOfWeekName();
         int getHour();
         int getMinute();
         int getSecond();
         int getMilliSecond();
       
-        CeGuiString toString();
+        rl::CeGuiString toString();
     };
    
     Date operator+(const RL_LONGLONG&, const Date&);
@@ -90,7 +90,7 @@ namespace rl {
         int rollD6();
       
 	    static DsaManager& getSingleton(void);
-	    rl::Talent* getTalent(const CeGuiString& name) const;
+	    rl::Talent* getTalent(const rl::CeGuiString& name) const;
 	    rl::Person* getPerson(const int id) const;
 	    
     };
@@ -99,8 +99,8 @@ namespace rl {
     {
     public:
         Talent(int id,
-               const CeGuiString& name,
-               const CeGuiString& description,
+               const rl::CeGuiString& name,
+               const rl::CeGuiString& description,
                const Tripel<int>& eigenschaften,
                int ebe,
 			   int gruppe);
@@ -108,8 +108,8 @@ namespace rl {
         bool operator==(const Talent& rhs) const;
         bool operator<(const Talent& rhs) const;
         int getId() const;
-        CeGuiString getName() const;
-        CeGuiString getDescription() const;
+        rl::CeGuiString getName() const;
+        rl::CeGuiString getDescription() const;
 		int getEbe() const;
 
         /// Berechnet effektive Behinderung bei gegebener Behinderung;
@@ -120,10 +120,10 @@ namespace rl {
     class ActionGroup
 	{
 	public:
-		ActionGroup(CeGuiString name, ActionGroup* parent = NULL);
+		ActionGroup(rl::CeGuiString name, ActionGroup* parent = NULL);
 		~ActionGroup();
 	
-		const CeGuiString& getName() const;
+		const rl::CeGuiString& getName() const;
 	};
 	
 	static const int ACT_NORMAL = 1<<0;
@@ -134,12 +134,12 @@ namespace rl {
     class Action
     {
     public:
-        Action(const CeGuiString& name, const CeGuiString& description);
+        Action(const rl::CeGuiString& name, const rl::CeGuiString& description);
         virtual ~Action();
 
-        virtual const CeGuiString& getName() const;
-        virtual const CeGuiString& getClassName() const;
-        virtual const CeGuiString& getDescription() const;
+        virtual const rl::CeGuiString& getName() const;
+        virtual const rl::CeGuiString& getClassName() const;
+        virtual const rl::CeGuiString& getDescription() const;
         virtual int getTargetClass() const;
         virtual void doAction(rl::GameObject *object, rl::Creature *actor,
             rl::GameObject *target);
@@ -153,16 +153,16 @@ namespace rl {
     class GameObject
     {
     public:
-        GameObject(int id, const CeGuiString& name, const CeGuiString& description);
+        GameObject(int id, const rl::CeGuiString& name, const rl::CeGuiString& description);
         virtual ~GameObject(void);
 
         virtual int getId();
 
-        virtual const CeGuiString& getName() const;
-        virtual void setName(CeGuiString& name);
+        virtual const rl::CeGuiString& getName() const;
+        virtual void setName(rl::CeGuiString& name);
 
-        virtual const CeGuiString& getDescription() const;
-        virtual void setDescription(CeGuiString& description);   
+        virtual const rl::CeGuiString& getDescription() const;
+        virtual void setDescription(rl::CeGuiString& description);   
         
         void setActor(rl::GameActor* actor);
 		rl::GameActor* getActor();
@@ -180,8 +180,8 @@ namespace rl {
         const std::vector<Action*> getValidActions() const;        
         
         void doAction(
-			const CeGuiString& actionName, 
-			const CeGuiString& className, 
+			const rl::CeGuiString& actionName, 
+			const rl::CeGuiString& className, 
 			rl::Creature* actor,
             rl::GameObject* target);
         void doAction(Action* action, rl::Creature* actor,
@@ -191,15 +191,15 @@ namespace rl {
     %feature("director") Item;
     class Item : public GameObject {
     public:
-        Item(int id, const CeGuiString& name, const CeGuiString& description);
+        Item(int id, const rl::CeGuiString& name, const rl::CeGuiString& description);
         virtual ~Item(void);
     };
     
     %feature("director") Creature;
     class Creature : public GameObject {
     public:
-        Creature(int id, const CeGuiString& name, const CeGuiString& description);
-        //Creature(const CeGuiString& data);
+        Creature(int id, const rl::CeGuiString& name, const rl::CeGuiString& description);
+        //Creature(const rl::CeGuiString& data);
         virtual ~Creature();
 
         virtual int getEigenschaft(int id) const;
@@ -222,8 +222,8 @@ namespace rl {
    {
    public:
 	    Person(int id,
-                 const CeGuiString& name,
-                 const CeGuiString& description);
+                 const rl::CeGuiString& name,
+                 const rl::CeGuiString& description);
 	};
 } // Namespace
 
