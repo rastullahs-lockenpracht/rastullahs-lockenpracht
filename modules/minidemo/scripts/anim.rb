@@ -7,12 +7,11 @@ print( "Teste Animationen" );
 # Definition des AnimationsListeners
 class UmdrehAbspielListener < AnimationListener
 	def animationFinished(anEvent)
-		print( "Sowas, schon vorbei" );
-		p anEvent.methods();
+		print( "Sowas, schon vorbei - drehen wir doch mal um" );
 		p anEvent
 		#anim = anEvent.getRlAnimation();
-		#anim.reverseAnimation();
-		#anim.resetTimesPlayed();
+		$listenedTrackAnim.reverseAnimation();
+		$listenedTrackAnim.resetTimesPlayed();
 	end
 	def animationPaused(anEvent)
 	end
@@ -21,15 +20,16 @@ class UmdrehAbspielListener < AnimationListener
 end
 
 # Erstellen eines laufenden Roboters
-$boBotter = $AF.createMeshActor("Botter","robot.mesh");
-$boBotter.placeIntoScene( 160.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0 );
+actBotter = $AF.createMeshActor("Botter","robot.mesh");
+actBotter.placeIntoScene( 160.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0 );
+boBotter = actBotter.getControlledObject();
 # Animation "Walk" starten
-# $boBotter.startAnimation( "Walk" );
+boBotter.startAnimation( "Walk" );
 
 # Die Laufende Animation "Walk" holen 
-# $anim = $boBotter.getAnimation( "Walk" );
+anim = boBotter.getAnimation( "Walk" );
 # Geschwindigkeit setzen
-# $anim.setSpeed( 4.0 );
+anim.setSpeed( 4.0 );
 
 
 # Erzeugen einer Fackel
