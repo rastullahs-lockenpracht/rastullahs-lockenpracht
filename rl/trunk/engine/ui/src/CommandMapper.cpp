@@ -37,6 +37,9 @@ namespace rl {
 		mMovementCommands.insert(make_pair(KC_D, MOVE_RIGHT));
 		mMovementCommands.insert(make_pair(KC_W, MOVE_FORWARD));
 		mMovementCommands.insert(make_pair(KC_S, MOVE_BACKWARD));
+		mMovementCommands.insert(make_pair(KC_Q, TURN_LEFT));
+		mMovementCommands.insert(make_pair(KC_E, TURN_RIGHT));
+		mMovementCommands.insert(make_pair(KC_LSHIFT, MOVE_RUN));
 
 		ActionEntry ae;
 		ae.actionClass = "ShowActionMenuAction";
