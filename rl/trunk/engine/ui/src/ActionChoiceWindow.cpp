@@ -44,6 +44,12 @@ void ActionChoiceWindow::setActionObject(GameObject* object)
 		actionButton->subscribeEvent(
 			PushButton::Clicked, 
 			boost::bind(&ActionChoiceWindow::handleActionChosen, this, actionName));
+		actionButton->subscribeEvent(
+			PushButton::MouseEntersEvent,
+			boost::bind(&ActionChoiceWindow::handleShowHint, this, _1));
+		actionButton->subscribeEvent(
+			PushButton::MouseLeavesEvent,
+			boost::bind(&ActionChoiceWindow::handleRemoveHint, this));
 		mButtons.push_back(actionButton);
 		mWindow->addChildWindow(actionButton);
 	}
