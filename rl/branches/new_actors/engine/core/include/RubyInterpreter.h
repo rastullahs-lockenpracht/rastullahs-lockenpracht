@@ -20,10 +20,10 @@
 #include "Interpreter.h"
 #include <map>
 
-#include "OgreNoMemoryMacros.h"
-#include "ruby.h"
+#include <OgreNoMemoryMacros.h>
+#include <ruby.h>
 #include "FixRubyHeaders.h"
-#include "OgreMemoryMacros.h" 
+#include <OgreMemoryMacros.h> 
 
 #include "CorePrerequisites.h"
 
