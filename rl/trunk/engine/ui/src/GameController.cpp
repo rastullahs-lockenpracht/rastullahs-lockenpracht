@@ -94,7 +94,7 @@ namespace rl {
         mCameraNode->translate(Vector3(0, 0, mDesiredDistance), Node::TS_LOCAL);
         
         //PhysicsManager::getSingleton().addCollisionListener(this);
-        mOdeWorld->setShowDebugObjects(true);
+        mOdeWorld->setShowDebugObjects(false);
         
         setup();
     }
@@ -256,17 +256,16 @@ namespace rl {
         if (cmdmap->isMovementActive(MOVE_JUMP) && fabs(mFallSpeed) <= 0.1)
             mFallSpeed = -500;
 
-        if (im->isKeyDown(KC_L))
-            mOdeWorld->setShowDebugObjects(!mOdeWorld->getShowDebugObjects());
-            
-        if (im->isKeyDown(KC_P))
-            CoreSubsystem::getSingleton().makeScreenshot("rastullah");
-            
         translation.normalise();
         if (cmdmap->isMovementActive(MOVE_RUN))
             translation *= 2;
     }
     //------------------------------------------------------------------------
+
+	void GameController::toggleDebugOde()
+	{
+		mOdeWorld->setShowDebugObjects(!mOdeWorld->getShowDebugObjects());
+	}
 
     void GameController::updateAnimationState(const Vector3& translation)
     {

@@ -14,9 +14,11 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
+//#include <elements/CEGUIListbox.h>
 #include "ListboxWrappedTextItem.h"
+#include <CEGUIWindow.h>
+#include <CEGUIImage.h>
 
-#include "CEGUIImage.h"
 
 namespace CEGUI {
 
@@ -58,6 +60,10 @@ void ListboxWrappedTextItem::draw(const Vector3& position, float alpha, const Re
 Size ListboxWrappedTextItem::getPixelSize() const
 {
 	 Size size = ListboxTextItem::getPixelSize();
+	 if (d_owner != NULL)
+	 {
+         size.d_width = d_owner->getSize().d_width;
+	 }
 
      const Font* fnt = getFont();
  

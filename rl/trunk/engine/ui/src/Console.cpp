@@ -107,7 +107,7 @@ namespace rl
 
 	void Console::appendTextRow(CeGuiString& text, const colour color)
 	{
-		/*const float MIN_SPACE_POS = 0.5;
+		const float MIN_SPACE_POS = 0.5;
 
 		CeGuiString textLeft = CeGuiString(text);
 		const CEGUI::Font* font = mDisplay->getFont();
@@ -143,12 +143,12 @@ namespace rl
 			item->setTextColours(color);
 			mDisplay->addItem(item);
 			mDisplay->ensureItemIsVisible(item); // scroll to bottom;
-		}*/
-		ListboxWrappedTextItem* item = new ListboxWrappedTextItem(text);
-		item->setTextColours(color);
-		item->setTextFormatting(CEGUI::WordWrapLeftAligned);
-		mDisplay->addItem(item);
-		mDisplay->ensureItemIsVisible(item); // scroll to bottom;*/
+		}
+		//ListboxWrappedTextItem* item = new ListboxWrappedTextItem(text);
+		//item->setTextColours(color);
+		//item->setTextFormatting(CEGUI::WordWrapLeftAligned);
+		//mDisplay->addItem(item);
+		//mDisplay->ensureItemIsVisible(item); // scroll to bottom;*/
 	}
 	
 	void Console::setInterpreter(Interpreter* interpreter)

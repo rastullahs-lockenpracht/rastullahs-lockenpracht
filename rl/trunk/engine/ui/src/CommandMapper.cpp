@@ -76,8 +76,8 @@ namespace rl {
 		ae.actionName = "Screenshot";
 		mKeyCommandsOffBattle.insert(make_pair(KC_P, ae));
 
-		ae.actionClass = "ShowGameLogAction";
-		ae.actionName = "Log anzeigen";
+		ae.actionClass = "ToggleOdeDebugAction";
+		ae.actionName = "OdeDebug";
 		mKeyCommandsOffBattle.insert(make_pair(KC_L, ae));
 	}
 

@@ -72,6 +72,8 @@ namespace rl {
          */
         void resetCamera();
 
+		void toggleDebugOde();
+
         /**
          *  Callback vom CollisionListener
          */

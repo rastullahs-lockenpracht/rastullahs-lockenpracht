@@ -26,6 +26,7 @@ public:
     void setViewMode(ViewMode mode);
     ViewMode getViewMode();
     void resetCamera();
+	void toggleDebugOde();
 };
 
 class UiSubsystem 
