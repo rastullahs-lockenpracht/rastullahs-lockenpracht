@@ -263,6 +263,7 @@ namespace rl {
 		//	mActiveModule = *mActivatableModules.begin();
 		//else
 		//	mActiveModule = "";
+		ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
     }
 
 	void CoreSubsystem::initializeModuleTextures(const std::string& module)
