@@ -88,7 +88,7 @@ public:
 	virtual int getVerticeCount();
 	virtual int getIndexCount();
 protected:
-	World(Ogre::SceneType sceneType, bool hasPhysics);
+	World(Ogre::SceneType sceneType);
 
     SceneManager* mSceneMgr;
     CameraActor* mCamera;

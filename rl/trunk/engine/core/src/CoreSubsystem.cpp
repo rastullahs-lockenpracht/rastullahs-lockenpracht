@@ -207,16 +207,12 @@ namespace rl {
         Log* log = LogManager::getSingleton().createLog( "logs/rlCore.log" );
         log->setLogDetail( LL_BOREME );
 		
-        PhysicsManager* pm = new PhysicsManager();
-		mWorld = new BSPWorld();
-
-		new GameLoop();
-        GameLoop::getSingleton().addSynchronizedTask( pm );
 		mWorld = new DotSceneOctreeWorld();
 		mInterpreter=new RubyInterpreter();
-    	//wieso ist das folgende auskommentiert?
-    	//mInterpreter->initializeInterpreter();
-		new ActorManager( );
+		new GameLoop();
+        GameLoop::getSingleton().addSynchronizedTask(
+            PhysicsManager::getSingletonPtr());
+		new ActorManager();
 
         return true;
     }

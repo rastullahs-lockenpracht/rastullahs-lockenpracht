@@ -190,8 +190,6 @@ private:
 public:
 	Actor* getActor( void );
 	
-    bool isColliding( void );
-    void setColliding( bool collide );
     bool isDynamic( void );
     void setDynamic( bool dynamix );
 	void stopDynamics();
@@ -237,7 +235,7 @@ public:
     PhysicalThing* createSpherePhysicalThing(Actor* actor, Real density, bool noDynamics = false);
     PhysicalThing* createBoxPhysicalThing(Actor* actor, Real density, bool noDynamics = false);
     PhysicalThing* createCappedCylinderPhysicalThing(Actor* actor, Real density, bool noDynamics = false);
-    void removePhysicalThing(Actor* actor);
+    void removeAndDestroyPhysicalThing(Actor* actor);
 
     void activateGlobalSpace();
     void activatePhysicalThingSpace( PhysicalThing* thing );

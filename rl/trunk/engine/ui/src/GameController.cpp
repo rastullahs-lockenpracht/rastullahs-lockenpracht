@@ -22,6 +22,7 @@
 #include "DebugWindow.h"
 #include "Exception.h"
 #include "GameActor.h"
+#include "PhysicsManager.h"
 
 #include <OgreSceneManager.h>
 #include <OgreAxisAlignedBox.h>
@@ -54,11 +55,9 @@ namespace rl {
         mMoveSpeed(200.0),
         mRotSpeed(80.0),
         mFallSpeed(0.1),
-        mOdeWorld(0),
-        mOdeStepper(0),
+        mOdeWorld(PhysicsManager::getSingletonPtr()->getWorld()),
         mOdeActor(0),
         mOdeCamera(0),
-        mOdeActorRay(0),
         mOdeLevel(0),
         mCurrentAnimationState(AS_STAND),
         mLastAnimationState(AS_STAND),
@@ -97,25 +96,10 @@ namespace rl {
     /// Code adopted from monsters OgreODE-Demo
     void GameController::setupCollisionDetection()
     {
-        // Create the ODE world
-        mOdeWorld = new OgreOde::World(mSceneManager);
-
-        mOdeWorld->setGravity(Vector3(0, -980.665, 0));
-        mOdeWorld->setCFM(10e-5);
-        mOdeWorld->setERP(0.8);
-        mOdeWorld->setAutoSleep(true);
-        mOdeWorld->setContactCorrectionVelocity(10.0);
-
-        // Create something that will step the world automatically
-    	mOdeStepper = new OgreOde::ForwardFixedQuickStepper(0.01);
-	    mOdeStepper->setAutomatic(OgreOde::Stepper::AutoMode_NotAutomatic,
-	        Root::getSingletonPtr());
-            
         // Create the ODE Geometry that represents the hero.
         // These are only dummy values, that are updated
         // when the controlled actor is set.
         mOdeActor = new OgreOde::CapsuleGeometry(1, 1);
-        mOdeActorRay = new OgreOde::RayGeometry(1.0);
         mOdeCamera = new OgreOde::SphereGeometry(1);
         
         // Create the TriMesh geometry representing the level
@@ -231,8 +215,6 @@ namespace rl {
         delete mOdeCamera;
         delete mOdeActor;
         delete mOdeLevel;
-        delete mOdeStepper;
-        delete mOdeWorld;
     }
     //------------------------------------------------------------------------
 
@@ -282,7 +264,6 @@ namespace rl {
         }
     }
     //------------------------------------------------------------------------
-
     bool GameController::collision(OgreOde::Contact* contact)
     {
         if (contact->getSecondGeometry() == mOdeActor)
@@ -379,7 +360,7 @@ namespace rl {
             translation.x = -mMoveScale;
             
         if (cmdmap->isMovementActive(MOVE_JUMP) && fabs(mFallSpeed) <= 0.1)
-            mFallSpeed = -200;
+            mFallSpeed = -500;
 
         if (im->isKeyDown(KC_L))
             mOdeWorld->setShowDebugObjects(!mOdeWorld->getShowDebugObjects());
@@ -466,13 +447,7 @@ namespace rl {
                 mActor->getSceneNode()->getWorldPosition(),
                 mActor->getExtent()));
             mOdeActor->setOrientation(Quaternion(Degree(90), Vector3::UNIT_X));
-            
-            // Der Strahl wird für die Kontrolle der Fallgeschwindigkeit verwendet.
-            mOdeActorRay->setPosition(mOdeActor->getPosition());
-            mOdeActorRay->setOrientation(Quaternion(Degree(90), Vector3::UNIT_X));
-            mOdeActorRay->setDefinition(Vector3::ZERO, Vector3::UNIT_Y);
-            mOdeActorRay->setLength(-mActor->getHeight()/1.9);
-        
+                    
             mOdeCamera->setPosition(mCameraNode->getWorldPosition());
             mOdeCamera->setRadius(mCamera->getNearClipDistance() * 1.5);
             
@@ -515,9 +490,7 @@ namespace rl {
         
         mOdeActor->setPosition(ogrePosToOdePos(
             mActor->getSceneNode()->getWorldPosition(),
-            mActor->getExtent()));
-                
-        mOdeActorRay->setPosition(mOdeActor->getPosition());
+            mActor->getExtent()));                
     }
     //------------------------------------------------------------------------
     

@@ -42,10 +42,11 @@ Actor::Actor(  const String& name, SceneNode* parentNode )
 
 Actor::~Actor()
 {
-    if( mPhysical != 0 )
-        PhysicsManager::getSingleton().removePhysicalThing( this );
+    if (mPhysical != 0)
+        PhysicsManager::getSingleton().removeAndDestroyPhysicalThing(this);
 
-	SceneManager* pSceneMgr = CoreSubsystem::getSingleton().getWorld()->getSceneManager();
+	SceneManager* pSceneMgr = CoreSubsystem::getSingleton().
+	    getWorld()->getSceneManager();
 	mSceneNode->getParent()->removeChild(mSceneNode);
 
 	pSceneMgr->destroySceneNode( mName );

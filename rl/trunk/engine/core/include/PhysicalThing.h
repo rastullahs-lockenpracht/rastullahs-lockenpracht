@@ -18,19 +18,7 @@
 #define __PhysicalThing_H__
 
 #include "CorePrerequisites.h"
-
-class dSpace;
-class dBody;
-class dGeom;
-
-struct dxSpace;		
-struct dxBody;		
-struct dxGeom;		
-
-typedef struct dxSpace *dSpaceID;
-typedef struct dxBody *dBodyID;
-typedef struct dxGeom *dGeomID;
-
+#include <OgreOde.h>
 namespace rl {
 
     class Actor;
@@ -38,29 +26,27 @@ namespace rl {
     class _RlCoreExport PhysicalThing
     {
     public:
-        PhysicalThing( dSpace* space, Actor* actor );
-        ~PhysicalThing( void );
+        PhysicalThing(OgreOde::Space* space, Actor* actor);
+        ~PhysicalThing(void);
 
         // Called by the Actor
-        void setPosition( Real x, Real y, Real z );
-        void setOrientation( Real w, Real x, Real y, Real z );
+        void setPosition(Real x, Real y, Real z);
+        void setOrientation(Real w, Real x, Real y, Real z);
 
         // Getters...
-        Actor* getActor( void );
-        dBodyID getBodyID( void );
-        dGeomID getGeomID( void );
-        dSpace* getSpace( void );
-        void setSpace( dSpace* space );
+        Actor* getActor();
+        OgreOde::Body* getBody();
+        OgreOde::Geometry* getGeometry();
+        OgreOde::Space* getSpace();
+        void setSpace(OgreOde::Space* space);
 
-        bool isColliding( void );
-        void setColliding( bool collide );
-        bool isDynamic( void );
-        void setDynamic( bool dynamic );
+        bool isDynamic();
+        void setDynamic(bool dynamic);
 
         void stopDynamics();
 
         // Synchronize with Actor
-        void update( void );
+        void update(void);
 
         // Forces
         void addForce(const Vector3& direction);
@@ -68,28 +54,40 @@ namespace rl {
         void addForceWorldSpace(const Vector3& direction);
         void addForceWorldSpace(Real dir_x, Real dir_y, Real dir_z);
         void addForce(const Vector3& direction, const Vector3& atPosition);
-        void addForce(Real dir_x, Real dir_y, Real dir_z,Real pos_x, Real pos_y, Real pos_z);
-        void addForceWorldSpace(const Vector3& direction, const Vector3& atPosition);
-        void addForceWorldSpace(Real dir_x, Real dir_y, Real dir_z,Real pos_x, Real pos_y, Real pos_z);
+        void addForce(Real dir_x, Real dir_y, Real dir_z,
+            Real pos_x, Real pos_y, Real pos_z);
+        void addForceWorldSpace(const Vector3& direction,
+            const Vector3& atPosition);
+        void addForceWorldSpace(Real dir_x, Real dir_y, Real dir_z,
+            Real pos_x, Real pos_y, Real pos_z);
         void addTorque(const Vector3& direction);
         void addTorque(Real x, Real y, Real z);
         void addTorqueWorldSpace(const Vector3& direction);
         void addTorqueWorldSpace(Real x, Real y, Real z);
 
-        bool testCollide(SceneQuery::WorldFragment* wf);
         bool testCollide(PhysicalThing* thing);
 
         // Geometry ( for Collision )
-        void createCappedCylinderGeometry( Real radius, Real length, const Vector3& position = Vector3::ZERO, const Quaternion& orientation = Quaternion::IDENTITY );
-        void createBoxGeometry( const Vector3& length, const Vector3& position = Vector3::ZERO, const Quaternion& orientation = Quaternion::IDENTITY );
-        void createSphereGeometry( Real radius, const Vector3& position = Vector3::ZERO, const Quaternion& orientation = Quaternion::IDENTITY );
-        // TODO TriMeshGeometry
+        void createCappedCylinderGeometry(Real radius, Real length,
+            const Vector3& position = Vector3::ZERO,
+            const Quaternion& orientation = Quaternion::IDENTITY );
+        void createBoxGeometry( const Vector3& length,
+            const Vector3& position = Vector3::ZERO,
+            const Quaternion& orientation = Quaternion::IDENTITY );
+        void createSphereGeometry( Real radius,
+            const Vector3& position = Vector3::ZERO,
+            const Quaternion& orientation = Quaternion::IDENTITY );
 
         // Mass ( for Dynamics )
-        void createCappedCylinderMass( Real density, Real radius, Real length, const Vector3& position = Vector3::ZERO, const Quaternion& orientation = Quaternion::IDENTITY );
-        void createBoxMass( Real density, const Vector3& length, const Vector3& position = Vector3::ZERO, const Quaternion& orientation = Quaternion::IDENTITY );
-        void createSphereMass( Real density, Real radius, const Vector3& position = Vector3::ZERO, const Quaternion& orientation = Quaternion::IDENTITY );
-        // TODO TriMeshMass
+        void createCappedCylinderMass(Real density, Real radius,
+            Real length, const Vector3& position = Vector3::ZERO,
+            const Quaternion& orientation = Quaternion::IDENTITY );
+        void createBoxMass(Real density, const Vector3& length,
+            const Vector3& position = Vector3::ZERO,
+            const Quaternion& orientation = Quaternion::IDENTITY );
+        void createSphereMass( Real density, Real radius,
+            const Vector3& position = Vector3::ZERO,
+            const Quaternion& orientation = Quaternion::IDENTITY );
 
 
         /** Sets the 'bounciness' of this object.
@@ -155,13 +153,13 @@ namespace rl {
         *  Only applicable if dynamics are enabled for this object.
         * @returns Vector3 representing the velocity in units per second.
         */
-        const Vector3& getLinearVelocity(void);
+        const Vector3 getLinearVelocity(void);
         /** Gets the current angular velocity of this object.
         * @remarks
         *  Only applicable if dynamics are enabled for this object.
         * @returns Vector3 representing the angular velocity in units per second around each axis.
         */
-        const Vector3& getAngularVelocity(void);
+        const Vector3 getAngularVelocity(void);
         /** Sets the current angular velocity of this object
         * @remarks
         *  Only applicable if dynamics are enabled for this object. This method is useful
@@ -178,27 +176,18 @@ namespace rl {
         void setAngularVelocity(Real x, Real y, Real z);
 
     private:
-        // Nifty physics attributes
-        Real mFriction;
         Real mBounceRestitution;
         Real mBounceVelocityThresh;
         Real mSoftness;
+        Real mFriction;
         Real mSoftErp;
-
-        bool mDynamic;
-        bool mColliding;
-
-        bool testPlaneBoundsCollide(std::list<Plane>* planes);
-        // needed for Quaternion to dMatrix3 Conversion
-        void setGeomRotation( const Quaternion& q );
-        void setMassRotation( const Quaternion& q );
-
+        
         // For Collision
-        dGeom* mGeom;
+        OgreOde::Geometry* mGeometry;
         // For Dynamics
-        dBody* mBody;
+        OgreOde::Body* mBody;
         // For Grouping
-        dSpace* mSpace;
+        OgreOde::Space* mSpace;
         // Assigned Actor
         Actor* mActor;    
     };

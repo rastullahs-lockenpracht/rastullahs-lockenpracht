@@ -100,10 +100,8 @@ namespace rl {
         Ogre::Real mFallSpeed;
 
         OgreOde::World* mOdeWorld;
-        OgreOde::Stepper* mOdeStepper;
         OgreOde::CapsuleGeometry* mOdeActor;
         OgreOde::SphereGeometry* mOdeCamera;
-        OgreOde::RayGeometry* mOdeActorRay;
         OgreOde::TriangleMeshGeometry* mOdeLevel;
 
         AnimationState mCurrentAnimationState;

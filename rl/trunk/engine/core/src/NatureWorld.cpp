@@ -20,7 +20,7 @@
 
 namespace rl {
 
-	NatureWorld::NatureWorld() : World(ST_EXTERIOR_FAR, false)
+	NatureWorld::NatureWorld() : World(ST_EXTERIOR_FAR)
 	{
 	}
 

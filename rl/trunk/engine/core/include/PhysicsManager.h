@@ -20,33 +20,10 @@
 #include <map>
 #include <list>
 #include <OgreSingleton.h>
-
+#include <OgreOde.h>
 #include "SynchronizedTask.h"
 
 #include "CorePrerequisites.h"
-
-struct dxWorld;		/* dynamics world */
-struct dxSpace;		/* collision space */
-struct dxBody;		/* rigid body (dynamics object) */
-struct dxGeom;		/* geometry (collision object) */
-struct dxJoint;
-struct dxJointNode;
-struct dxJointGroup;
-
-typedef struct dxWorld *dWorldID;
-typedef struct dxSpace *dSpaceID;
-typedef struct dxBody *dBodyID;
-typedef struct dxGeom *dGeomID;
-typedef struct dxJoint *dJointID;
-typedef struct dxJointGroup *dJointGroupID;
-
-class dSpace;
-class dBody;
-class dWorld;
-class dSimpleSpace;
-class dJoint;
-class dHashSpace;
-class dJointGroup;
 
 
 namespace rl {
@@ -58,30 +35,31 @@ namespace rl {
     typedef std::map<Actor*,PhysicalThing*> PhysicalThingActorMap;
     typedef std::pair<Actor*,PhysicalThing*> PhysicalThingActorPair;
 
-    class _RlCoreExport PhysicsManager : public SynchronizedTask, protected Singleton<PhysicsManager>
+    class _RlCoreExport PhysicsManager : public SynchronizedTask, public OgreOde::CollisionListener, protected Singleton<PhysicsManager>
     {
     public:
-        PhysicsManager();
+        PhysicsManager(rl::World* world);
         virtual ~PhysicsManager();
 
         virtual void run( Real elapsedTime );
 
         // Creation of PhysicalThings
         PhysicalThing* createPhysicalThing(Actor* actor);
-        PhysicalThing* createSpherePhysicalThing(Actor* actor, Real density, bool noDynamics = false);
-        PhysicalThing* createBoxPhysicalThing(Actor* actor, Real density, bool noDynamics = false);
-        PhysicalThing* createCappedCylinderPhysicalThing(Actor* actor, Real density, bool noDynamics = false);
-        // TODO TriMesh
-        void removePhysicalThing(Actor* actor);
+        PhysicalThing* createSpherePhysicalThing(Actor* actor,
+            Real density, bool noDynamics = false);
+        PhysicalThing* createBoxPhysicalThing(Actor* actor,
+            Real density, bool noDynamics = false);
+        PhysicalThing* createCappedCylinderPhysicalThing(Actor* actor,
+            Real density, bool noDynamics = false);
 
-        // TODO Joints
+        void removeAndDestroyPhysicalThing(Actor* actor);
 
         // Spaces for combining non-colliding objects 
-        // ( for example the parts of a car... )
+        // ( for example the sword and shield attached to the hero )
         void activateGlobalSpace();
-        void activatePhysicalThingSpace( PhysicalThing* thing );
-        void removePhysicalThingSpace( PhysicalThing* thing );
-        void moveToCurrentSpace( PhysicalThing* thing );
+        void activatePhysicalThingSpace(PhysicalThing* thing);
+        void removePhysicalThingSpace(PhysicalThing* thing);
+        void moveToCurrentSpace(PhysicalThing* thing);
         void createSimpleSpace();
 
         // Global Settings
@@ -92,37 +70,29 @@ namespace rl {
         void setERP(Real erp);
         Real getERP();
 
-        dSpace* getCurrSpace();
-        dWorld* getWorld();
-        dJointGroup* getContactJointGroup();
+        OgreOde::Space* getCurrSpace();
+        OgreOde::World* getWorld();
+        OgreOde::JointGroup* getContactJointGroup();
 
-        void setWorldScene( World* world );
+        void setWorldScene(rl::World* world);
         void setEnabled(bool enabled);
 
         // Singleton Stuff
         static PhysicsManager & getSingleton(void);
         static PhysicsManager * getSingletonPtr(void);
 
-        // Collision Callback
-        static void collisionCallback(void* data, dGeomID o1, dGeomID o2);
+		bool collision(OgreOde::Contact* contact);
     private:
-        bool m_Enabled;
+        bool mEnabled;
 
         PhysicalThingActorMap mPhysicalThings;
-        IntersectionSceneQuery* mQuery;
 
-        std::list<dSimpleSpace*> mSimpleSpaces;
-        std::list<dJoint*> mJoints;
-
-        dHashSpace* mGlobalSpace;
-        dWorld* mWorld;
-        dSpace* mCurrSpace;
-        dJointGroup* mContactJointGroup;
-
-        Real mStepSize;
-        Real mLeftOverTime;
+        std::list<OgreOde::Space*> mSimpleSpaces;
+        OgreOde::World* mOdeWorld;
+        OgreOde::HashTableSpace* mGlobalSpace;
+        OgreOde::Space* mCurrSpace;
+        OgreOde::Stepper* mOdeStepper;
     };
-
 }
 
 #endif

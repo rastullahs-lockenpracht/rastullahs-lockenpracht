@@ -20,7 +20,7 @@
 
 namespace rl {
 
-	TerrainWorld::TerrainWorld() : World(ST_EXTERIOR_CLOSE, false)
+	TerrainWorld::TerrainWorld() : World(ST_EXTERIOR_CLOSE)
 	{
 	}
 

@@ -26,7 +26,7 @@
 
 namespace rl {
 
-    DotSceneOctreeWorld::DotSceneOctreeWorld( ) : World(ST_GENERIC, true)
+    DotSceneOctreeWorld::DotSceneOctreeWorld( ) : World(ST_GENERIC)
     {
         // Set up shadowing
         // JoSch hat unter Windows Probleme auf seiner TNT.

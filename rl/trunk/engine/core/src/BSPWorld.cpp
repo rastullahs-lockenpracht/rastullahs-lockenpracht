@@ -26,7 +26,7 @@
 
 namespace rl {
 
-	BSPWorld::BSPWorld( ) : World(ST_INTERIOR, true)
+	BSPWorld::BSPWorld( ) : World(ST_INTERIOR)
 	{
         getSceneManager()->getRootSceneNode()->pitch(Degree(90));
 	}

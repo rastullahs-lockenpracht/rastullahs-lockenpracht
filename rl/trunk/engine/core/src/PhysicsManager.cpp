@@ -32,163 +32,103 @@ template<> rl::PhysicsManager* Singleton<rl::PhysicsManager>::ms_Singleton = 0;
 #define max(a,b) (((a)>=(b))?(a):(b))
 #endif
 
+using namespace OgreOde;
+
 namespace rl
 {
 
-    PhysicsManager::PhysicsManager() : mPhysicalThings(), mSimpleSpaces()
+    PhysicsManager::PhysicsManager(rl::World* world)
+        :   mEnabled(true),
+            mPhysicalThings(),
+            mSimpleSpaces(),            mOdeWorld(new OgreOde::World(world->getSceneManager())),
+            mGlobalSpace(new OgreOde::HashTableSpace(0)),
+            mCurrSpace(mGlobalSpace),
+            mOdeStepper(new OgreOde::ForwardFixedQuickStepper(0.01))
     {
+        mOdeWorld->setGravity(Vector3(0, -980.665 * 2.56, 0));
+        mOdeWorld->setCFM(10e-5);
+        mOdeWorld->setERP(0.8);
+        mOdeWorld->setAutoSleep(true);
+        mOdeWorld->setContactCorrectionVelocity(10.0);
 
-        mWorld = new dWorld();
-        mGlobalSpace = new dHashSpace(0);
-        mCurrSpace = mGlobalSpace;
-        mContactJointGroup = new dJointGroup();
-
-        mQuery = 0;
-        mStepSize = 0.005;
-        mLeftOverTime = 0.0;
-        setGravity( 0, 0, -9.80665 );
-        mWorld->setCFM( 1e-5 );
-        mWorld->setERP( 0.8 );
-        dWorldSetAutoDisableFlag (mWorld->id(),1);
-        //dWorldSetContactMaxCorrectingVel (mWorld->id(),0.2);
-        //dWorldSetContactSurfaceLayer (mWorld->id(),0.001);
-
-        m_Enabled = false;
+	    mOdeStepper->setAutomatic(OgreOde::Stepper::AutoMode_NotAutomatic,
+	        Root::getSingletonPtr());
     }
 
     PhysicsManager::~PhysicsManager()
     {
-        mContactJointGroup->empty();
         delete mGlobalSpace;
         mGlobalSpace = 0;
-        delete mWorld;
-        mWorld = 0;
-        delete mContactJointGroup;
-        mContactJointGroup = 0;
-
-        if( mQuery )
-        {
-            mQuery->clearResults();
-            delete mQuery;
-            mQuery = 0;
-        }
+        delete mOdeWorld;
+        mOdeWorld = 0;
     }
 
     void PhysicsManager::run( Real elapsedTime )
     {
-        if( m_Enabled && elapsedTime > 0.0f )
+        if( mEnabled && elapsedTime > 0.0f )
         {
-            int steps = (int) floor( ( ( elapsedTime + mLeftOverTime ) / mStepSize ) );
+            // Collide stuff ( to enable collision between non-movables )
+            mGlobalSpace->collide();
 
-            for( int i = 0; i < steps ; i++ )
+            // Update the positions of everything that we're keeping track of
+            for(PhysicalThingActorMap::iterator i = mPhysicalThings.begin();
+                i != mPhysicalThings.end(); i++)
             {
-                // Collide stuff ( to enable collision between non-movables )
-                mGlobalSpace->collide((void*)this,&PhysicsManager::collisionCallback);
-
-                // World Collision
-                IntersectionSceneQueryResult& results = mQuery->execute();
-                // World can only collide with OgreMovables 
-                for (SceneQueryMovableWorldFragmentIntersectionList::iterator wIter = results.movables2world.begin(); 
-                    results.movables2world.end() != wIter; ++wIter)
-                {
-                    MovableObject* mo = wIter->first;
-                    SceneQuery::WorldFragment* wf = wIter->second;
-
-                    UserDefinedObject* uo = mo->getUserObject();
-
-
-                    if( uo )
-                    {
-                        // Cast to Actor
-                        Actor* actor = static_cast<Actor*>(uo);
-
-                        PhysicalThing* phys = actor->getPhysicalThing();
-
-                        if( phys && phys->isColliding() )
-                        {
-                            //LogManager::getSingleton().logMessage( String("World kollidiert evtl. mit ")  << actor->getName() );
-                            phys->testCollide( wf );
-                        }
-                    }
-
-                }
-
-                // Step the world 
-                // dWorldQuickStep(mWorld->id(), elapsedTime );
-                mWorld->step(mStepSize);
-
-                // Empty ContactJoints ( no longer needed )
-                mContactJointGroup->empty();
-
-                // Update the positions of everything that we're keeping track of
-                for(PhysicalThingActorMap::iterator i = mPhysicalThings.begin();i != mPhysicalThings.end();i++)
-                {
-                    i->second->update();
-                }
+                i->second->update();
             }
-
-            mLeftOverTime = ( elapsedTime + mLeftOverTime ) - ( steps * mStepSize );
         }
     }
 
-    dJointGroup*  PhysicsManager::getContactJointGroup()
+    OgreOde::JointGroup*  PhysicsManager::getContactJointGroup()
     {
-        return mContactJointGroup;
+        ///!todo implementieren
+        return 0;
     }
 
+    ///!todo Das aktuelle Levelmesh setzen.
+    /// bzw. Flags benutzen, die immvoables auszeichnen.
+    /// irgendeine Loesung dazu einfallen lassen.
     void PhysicsManager::setWorldScene( World* world )
     {
-        if (world == NULL)
-            setEnabled(false);
-        else
+        if (!world)
         {
-            SceneManager* sceneMgr = world->getSceneManager();
-
-            if( mQuery )
-                sceneMgr->destroyQuery( mQuery );
-
-            mQuery = sceneMgr->createIntersectionQuery();
-            // BSP
-            //mQuery->setWorldFragmentType( SceneQuery::WFT_SINGLE_INTERSECTION );
+            setEnabled(false);
         }
     }
 
     void PhysicsManager::setCFM(Real cfm)
     {
-        mWorld->setCFM(cfm);
+        mOdeWorld->setCFM(cfm);
     }
 
     Real PhysicsManager::getCFM()
     {
-        return mWorld->getCFM();
+        return mOdeWorld->getCFM();
     }
 
     void PhysicsManager::setERP(Real erp)
     {
-        mWorld->setERP(erp);
+        mOdeWorld->setERP(erp);
     }
 
     Real PhysicsManager::getERP()
     {
-        return mWorld->getERP();
+        return mOdeWorld->getERP();
     }
 
     void PhysicsManager::setGravity( Real x, Real y, Real z )
     {
-        mWorld->setGravity( x*100,y*100,z*100 );
+        mOdeWorld->setGravity(Vector3(x, y, z));
     }
 
     Vector3 PhysicsManager::getGravity()
     {
-        dVector3 vec;
-        memset(vec, 0, sizeof(dMatrix3));;
-        mWorld->getGravity(vec);
-        return Vector3( vec[0], vec[1], vec[2] );
+        return mOdeWorld->getGravity();
     }
 
-    dWorld* PhysicsManager::getWorld()
+    OgreOde::World* PhysicsManager::getWorld()
     {
-        return mWorld;
+        return mOdeWorld;
     }
 
     PhysicalThing* PhysicsManager::createPhysicalThing(Actor* actor)
@@ -316,7 +256,7 @@ namespace rl
         return phys;
     }
 
-    void PhysicsManager::removePhysicalThing(Actor* actor)
+    void PhysicsManager::removeAndDestroyPhysicalThing(Actor* actor)
     {
         PhysicalThingActorMap::iterator pPhysicalThingIter = mPhysicalThings.find(actor);
 
@@ -345,14 +285,14 @@ namespace rl
 
     void PhysicsManager::removePhysicalThingSpace( PhysicalThing* thing )
     {
-        dSpace* s = thing->getSpace();
+        OgreOde::Space* s = thing->getSpace();
 
         if( mCurrSpace == s )
             activateGlobalSpace();
 
-        if( s != mGlobalSpace && s->getNumGeoms() == 0 )
+        if( s != mGlobalSpace && s->getGeometryCount() == 0 )
         {
-            mSimpleSpaces.remove((dSimpleSpace*)s);
+            mSimpleSpaces.remove(dynamic_cast<OgreOde::SimpleSpace*>(s));
         }
     }
 
@@ -360,26 +300,25 @@ namespace rl
     void PhysicsManager::createSimpleSpace()
     {
         // Ist unser aktueller Space nicht leer
-        if( (mCurrSpace != mGlobalSpace && mCurrSpace->getNumGeoms() > 0 ) || (mCurrSpace == mGlobalSpace) )
+        if((mCurrSpace != mGlobalSpace && mCurrSpace->getGeometryCount() > 0 ) || (mCurrSpace == mGlobalSpace) )
         {
             // Ist der zuletzt erschaffene vielleicht leer
             // (Passiert wenn neu erschaffen, und dann direkt den globalen reaktiviert)
-            if( mSimpleSpaces.back()->getNumGeoms() == 0)
+            if( mSimpleSpaces.back()->getGeometryCount() == 0)
             {
                 mCurrSpace = mSimpleSpaces.back();
             }
             // Dann müssen wir wohl nen neuen erstellen
             else
             {
-                dSimpleSpace *s = new dSimpleSpace(mGlobalSpace->id());
+                SimpleSpace *s = new SimpleSpace(mGlobalSpace);
                 mSimpleSpaces.push_back(s);
                 mCurrSpace = s;
             }
         }
-
     }
 
-    dSpace* PhysicsManager::getCurrSpace()
+    OgreOde::Space* PhysicsManager::getCurrSpace()
     {
         return mCurrSpace;
     }
@@ -394,27 +333,24 @@ namespace rl
         return Singleton<PhysicsManager>::getSingletonPtr();
     }
 
-    void PhysicsManager::collisionCallback( void* data, dGeomID o1, dGeomID o2)
+    bool PhysicsManager::collision(Contact* contact)
     {
-        PhysicsManager* pm = (PhysicsManager*)data;
+        PhysicalThing* thing1 = (PhysicalThing*)
+            contact->getFirstGeometry()->getUserData();
+        PhysicalThing* thing2 = (PhysicalThing*)
+            contact->getSecondGeometry()->getUserData();
 
-        if( o1 && o2 )
+        if( thing1 && thing2 )
         {
-            PhysicalThing* thing1 = (PhysicalThing*)dGeomGetData( o1 );
-            PhysicalThing* thing2 = (PhysicalThing*)dGeomGetData( o2 );
-
-            if( thing1 && thing2 )
-            {
-                thing1->testCollide( thing2 );
-            }
+            thing1->testCollide( thing2 );
         }
+        ///@todo richten!
+        return false;
     }
 
     void PhysicsManager::setEnabled(bool enabled)
     {
-        m_Enabled = enabled;
+        mEnabled = enabled;
     }
 
 }
-
-
