@@ -8,6 +8,12 @@ namespace rl
 {
     class _RlRulesExport Creature;
 
+	static const int ACT_NORMAL = 1<<0;
+	static const int ACT_INVIS_DESC = 1<<1;
+	static const int ACT_DISABLED = 1<<2;
+	static const int ACT_NEEDS_TALENT = 1<<8;
+	
+
     /**
     * \brief Basisklasse aller spielrelevanten Objekte in RL.
     * Stellt im Wesentlichen Methoden zur Identifikation von
@@ -19,12 +25,6 @@ namespace rl
     */
     class _RlRulesExport GameObject
     {
-    private:
-        ActionMap mActionMap;
-    protected:
-        int mId;
-        CeGuiString mName;
-        CeGuiString mDescription;
     public:
         GameObject(int id,
                    const CeGuiString& name,
@@ -41,10 +41,10 @@ namespace rl
         virtual const CeGuiString& getDescription() const;
         virtual void setDescription(CeGuiString& description);
 
-        void addAction(Action* action);
-        void removeAction(const CeGuiString& name);
+        void addAction(Action* action, int option = ACT_NORMAL);
+        void removeAction(Action* action);
 
-        StringVector getValidActions() const;
+        const ActionVector getValidActions() const;
 
         /** Eine Aktion des Gegenstandes wird ausgeloest.
          *  @param action der Name der auszuloesenden Aktion.
@@ -57,6 +57,20 @@ namespace rl
         void doAction(const CeGuiString& action,
                       Creature* actor,
                       GameObject* target);
+
+		void doAction(Action* action,
+                      Creature* actor,
+                      GameObject* target);
+    private:
+		typedef std::vector<std::pair<Action*, int> > ActionOptionVector;
+        ActionOptionVector mActions;
+		ActionOptionVector::iterator findAction(ActionOptionVector::iterator& begin, ActionOptionVector::iterator& end, const CeGuiString& actionName);
+		ActionOptionVector::iterator findAction(ActionOptionVector::iterator& begin, ActionOptionVector::iterator& end, const Action* action);
+	
+    protected:
+        int mId;
+        CeGuiString mName;
+        CeGuiString mDescription;
     };
 }
 

@@ -240,30 +240,6 @@
 		<Filter
 			Name="swig"
 			Filter="">
-			<File
-				RelativePath=".\swig\RlRules.i">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="[SWIG] Rubydateien erzeugen."
-						CommandLine="..\..\dependencies\swig\swig.exe -c++ -ruby -minherit -v -Wall &quot;$(InputPath)&quot;
-"
-						Outputs="$(InputFileName)_wrap.cxx"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="[SWIG] Rubydateien erzeugen."
-						CommandLine="..\..\dependencies\swig\swig.exe -c++ -ruby -minherit -v -Wall &quot;$(InputPath)&quot;
-"
-						Outputs="$(InputFileName)_wrap.cxx"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\swig\RlRules_wrap.cxx">
-			</File>
 		</Filter>
 	</Files>
 	<Globals>

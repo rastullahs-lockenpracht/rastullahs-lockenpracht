@@ -19,6 +19,8 @@ namespace rl
     * ihnen anwenden kann. Diese werden von dieser Klasse gekapselt.
     * Konkrete Aktionen erben von dieser Klasse und muessen
     * doAction() ueberschreiben. Diese Klasse wird in Ruby ueberschrieben.
+	*
+	* Identifikation von Aktionen geschieht über Name und Klassenname
     */
     class _RlRulesExport Action
     {
@@ -37,6 +39,13 @@ namespace rl
 
         virtual const CeGuiString& getName() const;
         virtual const CeGuiString& getDescription() const;
+
+		/**
+		 * Gibt den Klassennamen der (Ruby-)Klasse zurück, muss in Ruby überschrieben werden
+		 *
+		 * @return Name der Ruby-Klasse
+		 */
+		virtual const CeGuiString& getClassName() const;
 
         /**
          * @return Die Art des auszuwaehlenden Zieles für die Aktion.

@@ -14,7 +14,7 @@ namespace rl {
  * @date 04-27-2004
  * @date 07-23-2004
  */
-class ListenerActor : public virtual Actor, public Singleton<ListenerActor> {
+class _RlCoreExport ListenerActor : public virtual Actor, public Singleton<ListenerActor> {
 private:
     
 public:

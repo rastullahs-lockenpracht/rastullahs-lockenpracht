@@ -40,6 +40,7 @@ namespace rl {
 
 	private:
 		bool mWithInput;
+		static int sNumWindows;
 		
 	};
 

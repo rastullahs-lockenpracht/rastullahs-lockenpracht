@@ -16,6 +16,8 @@ copy %RL_ROOT%\engine\rules\lib\%BUILD%\RlRules.dll %RL_DIST%\
 copy %RL_ROOT%\engine\sound\lib\%BUILD%\RlSound.dll %RL_DIST%\
 copy %RL_ROOT%\engine\ui\lib\%BUILD%\RlUi.dll %RL_DIST%\
 copy %RL_ROOT%\engine\common\lib\%BUILD%\RlCommon.dll %RL_DIST%\
+copy %RL_ROOT%\engine\dialog\lib\%BUILD%\RlDialog.dll %RL_DIST%\
+copy %RL_ROOT%\engine\script\lib\%BUILD%\RlScript.dll %RL_DIST%\
 
 pause
 

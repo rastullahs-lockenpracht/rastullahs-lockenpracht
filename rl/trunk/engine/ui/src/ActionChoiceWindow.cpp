@@ -40,16 +40,15 @@ namespace rl {
 		}
 		mButtons.clear();
 	
-		StringVector actions = object->getValidActions();
+		ActionVector actions = object->getValidActions();
 		Point center(300, 200);
 		static int RADIUS = 40;
 	
-		for (	StringVector::iterator iter = actions.begin(); 
+		for (	ActionVector::iterator iter = actions.begin(); 
 				iter != actions.end(); iter++)
 		{
-			CeGuiString actionName = *iter;
-			Action* action = 
-				ActionManager::getSingleton().getDefaultAction(actionName);
+			Action* action = *iter;
+			CeGuiString actionName = action->getName();
 			PushButton* actionButton = reinterpret_cast<PushButton*>(
 				//WindowManager::getSingleton().loadWindowLayout(
 				//	"buttons/"+actionName+".xml"));

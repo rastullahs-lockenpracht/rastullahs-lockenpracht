@@ -5,14 +5,14 @@
 
 #include <OgreSingleton.h>
 #include <CEGUIString.h>
-#include <map>
+#include <vector>
 using Ogre::Singleton;
 
 namespace rl
 {
 	class Action;
 	
-	typedef std::map<CeGuiString, Action*> ActionMap;
+	typedef std::vector<Action*> ActionVector;
         
     /**
     * \brief Abstrakte Basisklasse fuer Aktionen an Spielobjekten.
@@ -25,7 +25,7 @@ namespace rl
     	public Singleton<ActionManager>
     {
     private:
-        ActionMap mActionMap;
+        ActionVector mActions;
         
     public:
         ActionManager();

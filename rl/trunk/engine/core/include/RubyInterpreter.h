@@ -19,7 +19,7 @@ typedef std::map <String, ScriptObject*> ScriptObjectPtr_Map;
 typedef std::pair <String, ScriptObject*> ScriptObjectPtr_Pair;
 
 typedef VALUE(*staticValueMethod)(...);
-
+typedef VALUE(*ProtectedMethod)(VALUE);
 class ScriptObject;
 
 class _RlCoreExport RubyInterpreter : public Interpreter
@@ -55,6 +55,10 @@ private:
 	void removeScriptInstance( const String& instname );
 	void registerRubyObject(VALUE object);
     void unregisterRubyObject(VALUE object);
+	
+	void loadProtected(ProtectedMethod func, VALUE args, const std::string& msg, bool exitOnFail = false);
+	static VALUE loadDlls(VALUE);
+	static VALUE loadGlobals(VALUE val);
 
 	VALUE* rubyArgs( int argc, const String args[] );
 };

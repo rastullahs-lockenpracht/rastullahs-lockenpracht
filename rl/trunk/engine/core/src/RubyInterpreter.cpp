@@ -2,7 +2,7 @@
 
 #include "RubyInterpreter.h"
 #include "ScriptObject.h"
-//#include "UiSubsystem.h"
+#include "CoreSubsystem.h"
 
 namespace rl {
 
@@ -42,18 +42,12 @@ void RubyInterpreter::initializeInterpreter(staticValueMethod func)
 	ruby_incpush("script");
 	ruby_init_loadpath();
 	//Skriptname
-	ruby_script("RlCore");
+	ruby_script("Rastullah");
 	// Fuer Ruby .dll oder .so dazu laden
-#if OGRE_PLATFORM == PLATFORM_WIN32
-	rb_require("RlCore");
-	rb_require("RlRules");
-    rb_require("RlSound");
-#else
-    rb_require("libRlCore");
-    rb_require("libRlRules");
-    rb_require("libRlSound");
-#endif
+	
+	loadProtected(&RubyInterpreter::loadDlls, 0, "Ruby error while loading dlls");
 
+	
 	//Ersetzt die Standard-Ausgabe von Ruby durch Ausgaben in die Console
 	rb_defout = rb_str_new("", 0);
 	// Eigentlich nicht mehr notwendig, aber ohne das gibts nen Absturz?!?!
@@ -63,11 +57,52 @@ void RubyInterpreter::initializeInterpreter(staticValueMethod func)
 	int status = -1;
 
     //Define Globals
-    rb_require("globals.rb");
+	loadProtected(&RubyInterpreter::loadGlobals, 0, "Ruby error while loading globals.rb");
 
 	//to Prevent the Ruby GC from deleting
 	mRubyObjects = rb_ary_new();
 	rb_gc_register_address(&mRubyObjects);
+}
+
+VALUE RubyInterpreter::loadDlls(VALUE val)
+{
+#if OGRE_PLATFORM == PLATFORM_WIN32
+	/*rb_require("RlCore");
+	rb_require("RlSound");
+	rb_require("RlRules");
+	rb_require("RlUi");*/
+	rb_require("RlScript");
+
+	//rb_require("RlRules");    
+	//
+#else
+    rb_require("libRlCore");
+    rb_require("libRlRules");
+    rb_require("libRlSound");
+	rb_require("libRlUi");
+#endif
+
+	return Qnil;
+}
+
+VALUE RubyInterpreter::loadGlobals(VALUE val)
+{
+	rb_require("globals.rb");
+
+	return Qnil;
+}
+
+void RubyInterpreter::loadProtected(ProtectedMethod func, VALUE val, const std::string& msg, bool exitOnFail)
+{
+	VALUE info;
+	int error = 0;
+	rb_protect(func, val, &error);
+	if(error) {
+		info = rb_inspect(ruby_errinfo);
+		rb_backtrace();
+		CoreSubsystem::getSingleton().log("Ruby error while initializing");
+		CoreSubsystem::getSingleton().log(STR2CSTR(info));
+	}
 }
 
 void RubyInterpreter::setDefOut(staticValueMethod func)

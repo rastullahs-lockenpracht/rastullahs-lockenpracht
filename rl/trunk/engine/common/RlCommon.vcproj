@@ -167,9 +167,6 @@
 		<Filter
 			Name="swig"
 			Filter="">
-			<File
-				RelativePath=".\swig\TypeMaps.i">
-			</File>
 		</Filter>
 	</Files>
 	<Globals>

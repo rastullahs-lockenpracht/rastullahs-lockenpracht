@@ -27,13 +27,16 @@
 
 #include <CEGUIString.h>
 
+typedef CEGUI::String CeGuiString;
+
 namespace rl
 {
     class _RlRulesExport Action;
     class _RlRulesExport GameObject;
 
-	typedef CEGUI::String CeGuiString;
-    typedef std::map<CeGuiString, Action*> ActionMap;
+	typedef std::vector<Action*> ActionVector;
     typedef std::vector<CeGuiString> StringVector;
+
+	ActionVector::iterator findAction(ActionVector::iterator& begin, ActionVector::iterator& end, const CeGuiString& actionName);
 }
 #endif

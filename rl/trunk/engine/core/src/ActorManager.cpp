@@ -212,12 +212,18 @@ namespace rl {
 
 	Actor* ActorManager::getActorAt(Real x, Real y) const
 	{
+		if (getWorld()->getActiveCamera() == NULL ||
+			getWorld()->getActiveActor() == NULL)
+			return NULL;
+
 		 // Start a new ray query
 		Ogre::Ray cameraRay = getWorld()->getActiveCamera()->
 			getOgreCamera()->getCameraToViewportRay( x, y );
-		const World* w = getWorld();
-		Ogre::RaySceneQuery *raySceneQuery = w->
-			getSceneManager()->createRayQuery(cameraRay);
+		Ogre::Ray selectRay(
+			cameraRay.getOrigin()/*getWorld()->getActiveActor()->getPosition()*/, 
+			cameraRay.getDirection());
+		Ogre::RaySceneQuery *raySceneQuery = getWorld()->
+			getSceneManager()->createRayQuery(selectRay);
 		raySceneQuery->execute();
 		Ogre::RaySceneQueryResult result = raySceneQuery->getLastResults();
 		 

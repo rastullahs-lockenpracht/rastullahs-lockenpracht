@@ -87,4 +87,14 @@ namespace rl {
     {
         return mSceneMgr->getFogEnd();
     }
+
+	void World::setActiveActor(Actor* actor)
+	{
+		mActiveActor = actor;
+	}
+
+	Actor* World::getActiveActor() const
+	{
+		return mActiveActor;
+	}
 }

@@ -1,36 +1,35 @@
-%module(directors="1") RlRules
+/*namespace CEGUI {
+	
+	class String 
+	{
+		String(const std::string& std_str);
+		const char* c_str(void) const;
+	};
+	
+}
 
-%{
-#include "FixRubyHeaders.h"
-#include "RulesPrerequisites.h"
-#include "Date.h"
-#include "Tripel.h"
-#include "DsaManager.h"
-#include "GameObject.h"
-#include "Creature.h"
-#include "Action.h"
-#include "Item.h"
-
-#pragma warning( disable : 4312 )
-using namespace rl;
-%}
-%include "../../common/swig/TypeMaps.i"
-%include "stl.i"
-%include "std_string.i"
-
-// Kopie. Falls das nochmal irgendwohin kopiert werden muss,
-// In separate Datei auslagen.
-#if !defined(RL_LONGLONG)
-#   if (_MSC_VER >= 1200) && (_MSC_VER < 1300)
-#       define RL_LONGLONG _int64
-#   else
-#       define RL_LONGLONG long long
-#   endif
-#endif
+typedef CEGUI::String CeGuiString;*/
 
 namespace rl {
+	
+				
+	 template<typename T>
+   class Tripel {
+   public:
+      T first;
+      T second;
+      T third;
 
-    class Date {
+      Tripel();      
+      Tripel(const T& t1, const T& t2, const T& t3);
+      Tripel(const Tripel& rhs);
+
+      //Tripel& operator=(const Tripel& rhs);
+      bool operator==(const Tripel& rhs);
+      bool operator<(const Tripel& rhs);     
+   };
+	
+		class Date {
     public:
         static const RL_LONGLONG ONE_SECOND = 1000ULL;
         static const RL_LONGLONG ONE_MINUTE = 60000ULL;
@@ -89,6 +88,25 @@ namespace rl {
 	     static DsaManager& getSingleton(void);
     };
 
+	static const int ACT_NORMAL = 1<<0;
+	static const int ACT_INVIS_DESC = 1<<1;
+	static const int ACT_DISABLED = 1<<2;
+	static const int ACT_NEEDS_TALENT = 1<<8;
+	%feature("director") Action;   
+    class Action
+    {
+    public:
+        Action(const CeGuiString& name, const CeGuiString& description);
+        virtual ~Action();
+
+        virtual const CeGuiString& getName() const;
+        virtual const CeGuiString& getClassName() const;
+        virtual const CeGuiString& getDescription() const;
+        virtual int getTargetClass();
+        virtual void doAction(rl::GameObject *object, rl::Creature *actor,
+            rl::GameObject *target);
+    };
+	
     %feature("director") GameObject;
     %apply SWIGTYPE *DYNAMIC { GameObject * };
     class GameObject
@@ -105,18 +123,20 @@ namespace rl {
         virtual const CeGuiString& getDescription() const;
         virtual void setDescription(CeGuiString& description);   
 
-        void addAction(rl::Action *action);
+        void addAction(rl::Action *action, int option = ACT_NORMAL);
         //%extend {
         //    void rbAddAction(VALUE action) {
         //        void* ptr = reinterpret_cast<void*>(action);
         //        self->addAction(reinterpret_cast<Action*>(ptr));
         //    }
         //}
-        void removeAction(const CeGuiString& name);
+        void removeAction(rl::Action *action);
 
-        std::vector<CeGuiString> getValidActions() const;
+        const std::vector<Action*> getValidActions() const;        
         
         void doAction(const CeGuiString& action, rl::Creature* actor,
+            rl::GameObject* target);
+        void doAction(Action* action, rl::Creature* actor,
             rl::GameObject* target);
     };
     
@@ -148,22 +168,6 @@ namespace rl {
         virtual int doTalentprobe(int id, int modifier);
         virtual int doEigenschaftsprobe(int id, int modifier);
    };
-   
-    %feature("director") Action;   
-    class Action
-    {
-    public:
-        Action(const CeGuiString& name, const CeGuiString& description);
-        virtual ~Action();
-
-        virtual const CeGuiString& getName() const;
-        virtual const CeGuiString& getDescription() const;
-        virtual int getTargetClass();
-        virtual void doAction(rl::GameObject *object, rl::Creature *actor,
-            rl::GameObject *target);
-    };
-    
-
 } // Namespace
 
 %{

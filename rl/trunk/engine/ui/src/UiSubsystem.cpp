@@ -22,7 +22,6 @@
 #include "World.h"
 
 // BEGIN TEST
-
 #include "Person.h"
 #include "CharacterSheetWindow.h"
 #include "GameObject.h"
@@ -107,8 +106,9 @@ namespace rl {
         mGameController = new ThirdPersonGameController(
             camera->getOgreCamera(), hero);
         GameLoop::getSingleton().addSynchronizedTask(mGameController);
+		world->setActiveActor(hero);
 	      
-        runTest();
+        //runTest();
     }
 
     void UiSubsystem::requestExit()
@@ -124,6 +124,13 @@ namespace rl {
 	void UiSubsystem::writeToConsole(std::string text)
 	{
 		CeConsole::getSingleton().write(text);
+	}
+
+	void UiSubsystem::showActionChoice(GameObject* obj)
+	{
+		ActionChoiceWindow* w = new ActionChoiceWindow();
+		w->showActionsOfObject(obj);
+		w->setVisible(true);
 	}
 
 	void UiSubsystem::runTest()

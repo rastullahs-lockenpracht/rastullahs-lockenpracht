@@ -3,6 +3,7 @@
 #include "Exception.h"
 
 using namespace std;
+using rl::GameObject::ActionOptionVector;
 
 namespace rl
 {
@@ -54,45 +55,76 @@ namespace rl
         mDescription = description;
     }
 
-    void GameObject::addAction(Action* action)
+    void GameObject::addAction(Action* action, int option)
     {
         if (action == NULL)
         {
             Throw(NullPointerException, "Parameter action ist NULL.");
         }
 
-        mActionMap[action->getName()] = action;
+		mActions.push_back(make_pair(action, option));		
     }
 
-    void GameObject::removeAction(const CeGuiString& name)
+    void GameObject::removeAction(Action* action)
     {
-        ActionMap::iterator it = mActionMap.find(name);
-        if (it != mActionMap.end())
+		ActionOptionVector::iterator it = findAction(mActions.begin(), mActions.end(), action);
+        if (it != mActions.end())
         {
-            mActionMap.erase(it);
+            mActions.erase(it);
         }
     }
 
-    StringVector GameObject::getValidActions() const
+    const ActionVector GameObject::getValidActions() const
     {
-        StringVector rval(mActionMap.size());
-        ActionMap::const_iterator it = mActionMap.begin();
-        for (unsigned int i = 0; i < mActionMap.size(); i++)
-        {
-            rval[i] = (it++)->first;
-        }
-        return rval;
+		ActionVector actions;
+		for (ActionOptionVector::const_iterator it = mActions.begin(); it != mActions.end(); it++)
+		{
+			if ((*it).second == ACT_DISABLED)
+				continue;
+			//if ((*it).second > ACT_NEEDS_TALENT)
+				
+			actions.push_back((*it).first);
+		}
+        return actions;
     }
 
-    void GameObject::doAction(const CeGuiString& action,
+    void GameObject::doAction(const CeGuiString& actionName,
                               Creature* actor,
                               GameObject* target)
     {
-        ActionMap::iterator it = mActionMap.find(action);
-        if (it == mActionMap.end())
+		ActionOptionVector::const_iterator it = findAction(mActions.begin(), mActions.end(), actionName);
+
+		if (it == mActions.end())
         {
-            Throw(InvalidArgumentException, "Unbekannte Aktion.");
+            Throw(InvalidArgumentException, "Dem Objekt unbekannte Aktion.");
         }
-        it->second->doAction(this, actor, target);
+        
+		doAction((*it).first, actor, target);
     }
+
+	void GameObject::doAction(Action* action,
+                              Creature* actor,
+                              GameObject* target)
+	{
+		action->doAction(this, actor, target);
+	}
+
+	ActionOptionVector::iterator GameObject::findAction(ActionOptionVector::iterator& begin, ActionOptionVector::iterator& end, const CeGuiString& actionName)
+	{
+		for (ActionOptionVector::iterator iter = begin; iter != end; iter++)
+			if ((*iter).first->getName().compare(actionName) == 0)
+				return iter;
+
+		return end;
+	}
+
+	ActionOptionVector::iterator GameObject::findAction(ActionOptionVector::iterator& begin, ActionOptionVector::iterator& end, const Action* action)
+	{
+		for (ActionOptionVector::iterator iter = begin; iter != end; iter++)
+			if ((*iter).first == action)
+				return iter;
+
+		return end;
+	}
+
 }

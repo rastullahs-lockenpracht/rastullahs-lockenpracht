@@ -9,11 +9,16 @@ using namespace CEGUI;
 namespace rl
 {
 
-CeGuiWindow::CeGuiWindow(const char* xmlfile, bool withInput) :
-    mWindow(WindowManager::getSingleton().loadWindowLayout((utf8*)xmlfile)),
-    mIsVisible(true),
-    mWithInput(withInput)
+int CeGuiWindow::sNumWindows = 0;
+
+CeGuiWindow::CeGuiWindow(const char* xmlfile, bool withInput)
 {
+	mWindow = WindowManager::getSingleton().loadWindowLayout((utf8*)xmlfile/*, StringConverter::toString(sNumWindows)*/);
+	sNumWindows++;
+
+    mIsVisible = true;
+    mWithInput = withInput;
+
 	assert(mWindow != 0);
 }
 

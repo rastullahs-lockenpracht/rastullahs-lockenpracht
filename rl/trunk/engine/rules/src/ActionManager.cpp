@@ -6,6 +6,16 @@ template <>
 rl::ActionManager* Singleton<rl::ActionManager> ::ms_Singleton = 0;
 namespace rl
 {
+
+	ActionVector::iterator findAction(ActionVector::iterator& begin, ActionVector::iterator& end, const CeGuiString& actionName)
+	{
+		for (ActionVector::iterator it = begin; it != end; it++)
+			if ((*it)->getName().compare(actionName) == 0)
+				return it;
+
+		return end;
+	}
+
     ActionManager& ActionManager::getSingleton(void)
     {
     return Singleton<ActionManager>::getSingleton();
@@ -31,16 +41,23 @@ namespace rl
             Throw(NullPointerException, "Parameter action ist NULL.");
         }
 
-        mActionMap[action->getName()] = action;
+        mActions.push_back(action);
     }
 
     Action* ActionManager::getDefaultAction(const CeGuiString& actionName) const
     {
-        ActionMap::const_iterator it = mActionMap.find(actionName);
-        if (it == mActionMap.end())
+		Action* action = NULL;
+		for (ActionVector::const_iterator it = mActions.begin(); it != mActions.end(); it++)
+			if ((*it)->getName().compare(actionName) == 0)
+			{
+				action = (*it);
+				break;
+			}
+
+        if (action == NULL)
         {
             Throw(InvalidArgumentException, "Unbekannte Aktion.");
         }
-        return it->second;
+        return *it;
     }
 }

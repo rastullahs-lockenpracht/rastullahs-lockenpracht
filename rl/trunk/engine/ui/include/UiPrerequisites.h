@@ -20,9 +20,10 @@
 #include <vector>
 #include <CEGUIString.h>
 
+typedef CEGUI::String CeGuiString;
+
 namespace rl
 {
-	typedef CEGUI::String CeGuiString;
     typedef std::vector<CeGuiString> StringVector;
 }
 

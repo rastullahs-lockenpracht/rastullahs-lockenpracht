@@ -11,6 +11,7 @@ namespace rl {
     class Interpreter;
     class ThirdPersonGameController;
     class GameActor;
+	class GameObject;
 
     class _RlUiExport UiSubsystem : protected Singleton<UiSubsystem>
     {
@@ -32,6 +33,10 @@ namespace rl {
 
 		/** Writes Text into the Console or other output media */
 		void writeToConsole(std::string text);
+
+		void showActionChoice(GameObject* obj);
+		void testObj(rl::GameObject* obj){}
+		void testStr(CeGuiString& obj){}
 
 		static const char* CEGUI_ROOT;
 
