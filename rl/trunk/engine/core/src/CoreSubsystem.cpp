@@ -56,7 +56,11 @@ namespace rl {
     }
 
     void CoreSubsystem::log(const String& msg)
-    {		
+    {
+        if (LogManager::getSingletonPtr() == 0)
+        {
+            new LogManager();
+        }
         LogManager::getSingleton().getLog( "rlCore.log" )->logMessage(msg);
     }
     
