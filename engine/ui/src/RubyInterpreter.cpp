@@ -1,0 +1,215 @@
+#include "FixRubyHeaders.h"
+
+#include "RubyInterpreter.h"
+#include "ScriptObject.h"
+#include "CeConsole.h"
+
+namespace rl {
+
+static VALUE console_write(VALUE self, VALUE str)
+{
+  CeConsole::getSingleton().write( RubyInterpreter::val2str(str) + " \n" );
+  return Qnil;
+}
+
+RubyInterpreter::RubyInterpreter() : mScriptObjects(), mScriptInstances()
+{
+    
+}
+
+ScriptObject* RubyInterpreter::getScriptObject( const String& instname )
+{
+	ScriptObjectPtr_Map::const_iterator pSoIter = mScriptObjects.find(instname);
+
+	if( pSoIter != mScriptObjects.end() )
+			return pSoIter->second;
+
+	return 0;
+}
+
+void RubyInterpreter::initializeInterpreter()
+{
+	//Ruby Initialisieren
+	ruby_init();
+	//Skript Dateien duerfen auch in /script liegen
+	ruby_incpush("script");
+	ruby_init_loadpath();
+	//Skriptname
+	ruby_script("RlCore");
+	// Fuer Ruby .dll oder .so dazu laden
+#if OGRE_PLATFORM == PLATFORM_WIN32
+	rb_require("RlCore");
+	rb_require("RlRules");
+    rb_require("RlSound");
+#else
+    rb_require("libRlCore");
+    rb_require("libRlRules");
+    rb_require("libRlSound");
+#endif
+
+	//Ersetzt die Standard-Ausgabe von Ruby durch Ausgaben in die Console
+	rb_defout = rb_str_new("", 0);
+	rb_define_singleton_method(rb_defout, "write", (VALUE(*)(...))console_write, 1);
+	//RlCore Namensraum oeffnen
+	int status = -1;
+
+    //Define Globals
+    rb_require("globals.rb");
+
+	//to Prevent the Ruby GC from deleting
+	mRubyObjects = rb_ary_new();
+	rb_gc_register_address(&mRubyObjects);
+}
+
+RubyInterpreter::~RubyInterpreter()
+{
+	rb_gc_unregister_address(&mRubyObjects);
+	ruby_finalize();
+}
+
+bool RubyInterpreter::execute(String command)
+{
+	int status = -1;
+
+	rb_eval_string_protect(command.c_str(), &status);
+
+    if( status )
+        rb_eval_string_protect("print $!", &status);
+
+	return false;
+}
+
+String RubyInterpreter::val2str(const VALUE rval){
+  return STR2CSTR(rb_funcall(rval, rb_intern("to_s"), 0));
+}
+
+String RubyInterpreter::strval2str(const VALUE rval){
+  return String(RSTRING(rval)->ptr);
+}
+
+void RubyInterpreter::registerScriptObject( ScriptObject* obj, const String& instname )
+{
+	mScriptObjects.insert( ScriptObjectPtr_Pair(instname,obj) );
+	createScriptInstance(instname);
+}
+
+void RubyInterpreter::unregisterScriptObject( const String& instname )
+{
+	removeScriptInstance(instname);
+	mScriptObjects.erase( instname );
+}
+
+void RubyInterpreter::registerRubyObject(VALUE pObject) 
+{
+	rb_ary_push(mRubyObjects, pObject);
+}
+
+void RubyInterpreter::unregisterRubyObject(VALUE pObject) 
+{
+	rb_ary_delete(mRubyObjects, pObject);
+}
+
+// Wrapper
+VALUE rb_const_get_wrapper(VALUE data)
+{
+	VALUE *args = (VALUE *) data;
+	return rb_const_get(args[0], args[1]);
+}
+
+void RubyInterpreter::setScript( const String& instname, const String& scriptname, const String& classname, int argc, const String args[] )
+{
+	// unregister old script
+	removeScriptInstance(instname);
+	createScriptInstance(instname);
+
+	// Includes the file with the class definition
+	rb_require( scriptname.c_str() );
+	// Converts the String args into ruby VALUES
+	VALUE *rArgs = rubyArgs( argc, args );
+	// This is need to wrap rb_get_const with rb_protect
+	VALUE cgargs[2];
+    
+    int state = 0;
+    cgargs[0] = rb_cObject;
+    cgargs[1] = rb_intern(classname.c_str());
+    VALUE pClass =
+    rb_protect( (VALUE(*)(VALUE) )rb_const_get_wrapper , (VALUE) &cgargs[0], &state);
+	// Generates a new instance of our class
+	VALUE pScriptInstance = rb_funcall2(pClass, rb_intern("new"), argc, rArgs);
+	// Registers it with the ruby GC, so it won't be deleted
+	registerRubyObject( pScriptInstance );
+	// Insert it in our map
+	mScriptInstances[ instname ] = pScriptInstance;
+	// delete args
+	delete[] rArgs;
+}
+	
+void RubyInterpreter::callFunction( const String& instname, const String& funcname, int argc, const String args[] )
+{
+	Value_Map::const_iterator pSoIter = mScriptInstances.find(instname);
+
+	if( pSoIter != mScriptInstances.end() )
+	{
+		// Converts the String args into ruby VALUES
+		VALUE *rArgs = rubyArgs( argc, args );
+		// Calls the Function of our script instance
+		rb_funcall2(pSoIter->second, rb_intern( funcname.c_str() ), argc, rArgs);
+		// delete args
+		delete[] rArgs;
+	}
+}
+
+int RubyInterpreter::callIntegerFunction( const String& instname, const String& funcname, int argc, const String args[] )
+{
+	Value_Map::const_iterator pSoIter = mScriptInstances.find(instname);
+
+    int iReturn = 0;
+
+	if( pSoIter != mScriptInstances.end() )
+	{
+		// Converts the String args into ruby VALUES
+		VALUE *rArgs = rubyArgs( argc, args );
+		// Calls the Function of our script instance
+		VALUE rReturn = rb_funcall2(pSoIter->second, rb_intern( funcname.c_str() ), argc, rArgs);
+
+        iReturn = NUM2INT(rReturn);
+		// delete args
+		delete[] rArgs;
+	}
+
+    return iReturn;
+}
+
+
+VALUE* RubyInterpreter::rubyArgs( int argc, const String args[] )
+{
+	VALUE *rArgs = new VALUE[argc];
+
+	// Each argument is inserted as a simple rb_str
+	// Conversion of arguments in scripts
+	if( args != 0 )
+		for( int i = 0; i < argc ; i++ )
+			rArgs[i] = rb_str_new2(args[i].c_str());
+
+	return rArgs;
+}
+
+
+void RubyInterpreter::createScriptInstance( const String& instname )
+{
+	VALUE pScriptInstance = 0;
+	mScriptInstances.insert( Value_Pair(instname,pScriptInstance) );
+}
+
+void RubyInterpreter::removeScriptInstance( const String& instname )
+{
+	Value_Map::iterator pSoIter = mScriptInstances.find(instname);
+
+	if( pSoIter != mScriptInstances.end() )
+	{
+		unregisterRubyObject( mScriptInstances[instname] );
+		mScriptInstances.erase( pSoIter );
+	}
+}
+
+}

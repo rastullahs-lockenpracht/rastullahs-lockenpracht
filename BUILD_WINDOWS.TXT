@@ -1,0 +1,51 @@
+VS.NET
+
+Um Rastullahs Lockenpracht bauen zu können werden folgende zusätzliche
+Bibliotheken benötigt:
+
+Ogre 3D - > 0.14+ ( newest CVS )
+http://www.ogre3d.org
+
+Ruby - 1.8
+http://ruby-lang.org
+
+SWIG - 3.21 
+http://www.swig.org
+
+OPENAL
+http://developer.creative.com/landing.asp?cat=1&sbcat=31&top=38
+
+OPENAL++
+Aus dem CVS-Repository das Modul openalpp
+
+Ode - 0.5
+http://www.ode.org - Single Precision mit Trimesh
+
+Xerxes
+http://xml.apache.org/xerces-c/download.cgi
+
+
+
+Diese sind alle unterhalb von rl/dependencies anzulegen.
+
+Die Projekte müssen alle im Verzeichnis dependencies angelegt werden.
+Die Verzeichnisstruktur sollte jeweils erhalten bleiben.
+
+
+VS.Net-2003-Nutzer können, alternativ kann man von der Projektseite auch dependencies.rar und
+dependencies-ogre.rar runterladen und ins rl-Verzeichnis entpacken. Müssen dann aber dennoch
+das Modul openalpp unter rl/dependencies auschecken.
+
+Das Projekt kann man dann einfach kompilieren.
+Vor dem Debuggen müssen die nötigen Dateien in ein Distributionsverzeichnis
+kopiert werden.
+
+Dazu dient das Skript tools/make_release.bat.
+Es legt den Ordner rl_dist an. Die enthaltene Rastullah.exe startet dann das
+Programm.
+
+Will man mit VS.NET debuggen muss man noch im Projektmenü des startup-Projektes
+Im Punkt Debuggen das Startprogramm und das Arbeitsverzeichnis auf
+Rastullah.exe im Verzeichnis rl_dist verweisen,
+bzw. auf das Verzeichnis rl_dist.
+
