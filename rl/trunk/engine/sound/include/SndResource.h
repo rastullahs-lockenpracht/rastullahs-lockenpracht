@@ -32,8 +32,13 @@ class _RlSoundExport SndResource: public Resource {
         /// Mutex zum Synchronisieren von Gain-Zugriffen.
         mutable boost::mutex mGainMutex;
         
-        /// Berechne die Abnahme der Lautstarke beim Fade-In/Fade-Out
-        ALfloat calculateFade(signed RL_LONGLONG fade, ALfloat gain);
+        /// Berechne den Anstieg der Lautstarke beim Fade-In
+        ALfloat calculateFadeIn(unsigned RL_LONGLONG duration, unsigned RL_LONGLONG time,
+                ALfloat gain);
+
+        /// Berechne die Abnahme der Lautstarke beim Fade-Out
+        ALfloat calculateFadeOut(unsigned RL_LONGLONG duration, unsigned RL_LONGLONG time,
+                ALfloat gain);
 
     public:
         /// Der Standardkonstruktor

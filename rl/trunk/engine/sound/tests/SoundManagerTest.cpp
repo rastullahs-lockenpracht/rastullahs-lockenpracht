@@ -83,13 +83,22 @@ public:
             if (sound)
             {
                 sound->load();
+                std::cerr << "Fade In Start" << std::endl;
                 sound->play(5000);
+                std::cerr << "Fade In Ende" << std::endl;
                 
                 xtime_get(&xt, TIME_UTC);
-                xt.sec += 20;
+                xt.sec += 5;
                 thread::sleep(xt);
                 
+                std::cerr << "Fade Out Start" << std::endl;
                 sound->stop(5000);
+                std::cerr << "Fade Out Ende" << std::endl;
+                
+                xtime_get(&xt, TIME_UTC);
+                xt.sec += 5;
+                thread::sleep(xt);
+                
                 sound->unload();
             }            
         }

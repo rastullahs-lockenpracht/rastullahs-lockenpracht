@@ -20,7 +20,7 @@ SndResource::SndResource(const String &name):
     mName = name;
     alGenSources(1, &mSource);
     check();
-    setGain(1.0);
+    setGain(1.0f);
     setPosition(Vector3(0.0, 0.0, 0.0));
     setVelocity(Vector3(0.0, 0.0, 0.0));
     setDirection(Vector3(0.0, 0.0, 0.0));
@@ -159,12 +159,12 @@ void SndResource::unload()
 
 /**
  * @author JoSch
- * @date 07-23-2004
+ * @date 09-15-2004
  */
 void SndResource::play(unsigned int msec) throw (RuntimeException)
 {
     // Sleep
-    xtime sleeptime, start;
+    xtime sleeptime;
     // Alte Lautstaerke speichern.
     ALfloat gain = getGain();
     // Abspielen.
@@ -173,20 +173,17 @@ void SndResource::play(unsigned int msec) throw (RuntimeException)
 
     if (msec != 0)
     {
-        setGain(0.2f);
-        ALfloat gainstep = calculateFade(msec, gain - 0.2f);
-        xtime_get(&start, TIME_UTC);
-        while (msec-=10)
+        setGain(0.0f);
+        xtime_get(&sleeptime, TIME_UTC);
+        for(unsigned int time = 0; time <= msec; time += 10)
         {
-            // Lautstaerke hochsetzen.
-            setGain(getGain() + gainstep);
             
             // Warten
-            xtime_get(&sleeptime, TIME_UTC);
-            sleeptime.nsec += 10000;
+            sleeptime.nsec += 10 * 1000 * 1000;
             thread::sleep(sleeptime);
-            gainstep = calculateFade(msec, gain);
-            cerr << msec << " " << (sleeptime - start) << endl;
+            ALfloat newgain = calculateFadeIn(msec, time, gain);
+            // Lautstaerke hochsetzen.
+            setGain((newgain > gain)?gain:newgain);
         }
         setGain(gain);
         check();
@@ -205,33 +202,29 @@ void SndResource::pause() throw (RuntimeException)
 
 /**
  * @author JoSch
- * @date 07-23-2004
+ * @date 09-15-2004
  */
 void SndResource::stop(unsigned int msec) throw (RuntimeException)
 {
     // Sleep
-    xtime sleeptime, start;
+    xtime sleeptime;
+    
     // Alte Lautstaerke speichern.
     ALfloat gain = getGain();
 
     if (msec != 0)
     {
-        setGain(0.0f);
-        ALfloat gainstep = calculateFade(-msec, gain);
-        xtime_get(&start, TIME_UTC);
-        while (msec-=10)
+        xtime_get(&sleeptime, TIME_UTC);
+        for (unsigned int time = 0; time <= msec; time += 10)
         {
-            // Lautstaerke hochsetzen.
-            setGain(getGain() + gainstep);
-            
             // Warten
-            xtime_get(&sleeptime, TIME_UTC);
             sleeptime.nsec += 10000;
             thread::sleep(sleeptime);
-            gainstep = calculateFade(-msec, gain);
-            cerr << gainstep << " " << xtime_cmp(sleeptime, start) << endl;
+            ALfloat newgain = calculateFadeOut(msec, time, gain);
+            // Lautstaerke hochsetzen.
+            setGain((newgain > gain)?gain:newgain);
         }
-        setGain(gain);
+        setGain(0.0f);
         check();
     }
     // Stoppen.
@@ -277,18 +270,41 @@ void SndResource::check() const throw (RuntimeException)
 }
 
 /**
- * @param fade. Die Zeit in msek. zum Faden, pos. Zeiten = Fade in. neg. Zeiten = Fade out
+ * @param duration. Die Zeit in msek., die der Fade In insgesamt dauern soll.
+ * @param time. Die Zeit in msek., wo der Fade In gerade ist
  * @param gain. Der aktuelle Lautstaerkewert, vom dem ausgegangen wird.
  * @author JoSch
- * @09-11-2004
+ * @09-15-2004
  */
-ALfloat SndResource::calculateFade(signed RL_LONGLONG fade, ALfloat gain)
+ALfloat SndResource::calculateFadeIn(unsigned RL_LONGLONG duration, unsigned RL_LONGLONG time,
+                ALfloat gain)
 {
-    if (fade != 0)
+    try {
+        ALfloat x = (time * 1.0f) / duration;
+        return (1.0f - exp(-x)) * gain;
+    } catch(...)
     {
-        return gain / (fade * 1.0);
+        return gain;
     }
-    return (ALfloat)0.0f;
+}
+
+/**
+ * @param duration. Die Zeit in msek., die der Fade Out insgesamt dauern soll.
+ * @param time. Die Zeit in msek., wo der Fade Out gerade ist
+ * @param gain. Der aktuelle Lautstaerkewert, vom dem ausgegangen wird.
+ * @author JoSch
+ * @09-15-2004
+ */
+ALfloat SndResource::calculateFadeOut(unsigned RL_LONGLONG duration, unsigned RL_LONGLONG time,
+                ALfloat gain)
+{
+    try {
+        ALfloat x = (time * 2.0f) / duration;
+        return exp(-x) * gain;
+    } catch(...)
+    {
+        return (ALfloat)0.0f;
+    }
 }
 
 }

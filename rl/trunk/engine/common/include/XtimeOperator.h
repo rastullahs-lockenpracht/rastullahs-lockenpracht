@@ -1,3 +1,18 @@
+/* XtimeOperator.h - Operatoren für xtime aus Boost
+ * (C) 2004. Team Pantheon. www.team-pantheon.de
+ * 
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Perl Artistic License as published by
+ *  the .
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the Perl Artistic License
+ *  along with this program; if not
+ */
 
 /** Operatoren für Boosts xtime-Klasse. */
 
@@ -16,7 +31,7 @@ using namespace boost;
  */
 unsigned RL_LONGLONG operator-(const xtime &a, const xtime &b)
 {
-    unsigned RL_LONGLONG x = (a.nsec / 1000 + a.sec * 1000) - (b.nsec / 1000 + b.sec * 1000);
+    unsigned RL_LONGLONG x = (a.nsec / 1000 + a.sec * 1000 * 1000) - (b.nsec / 1000 + b.sec * 1000 * 1000);
     return x;
 }
 
