@@ -1,2 +1,2 @@
-@call make_release.bat .. debug
+@call copy_dependencies.bat .. debug
 
