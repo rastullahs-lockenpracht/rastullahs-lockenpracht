@@ -64,6 +64,23 @@ public:
 
 %apply SWIGTYPE *DYNAMIC { rl::RlAnimation * };
 
+%feature("director") AnimationListener; 
+class AnimationListener
+{
+public:
+	virtual ~AnimationListener();
+	virtual void animationFinished(rl::AnimationEvent *anEvent) const = 0;
+	virtual void animationPaused(rl::AnimationEvent *anEvent) const = 0;
+	virtual void animationUnpaused(rl::AnimationEvent *anEvent) const = 0;
+};
+
+class AnimationEvent
+{
+public:
+	rl::RlAnimation* getRlAnimation() const;
+	AnimationEvent( rl::RlAnimation* anim,  const unsigned int reason );
+};
+
 class RlAnimation {
 public:
 	bool isPaused() const;
@@ -115,23 +132,6 @@ public:
 	bool getUseShortestRotationPath () const;
 private:
 	RlTrackAnimation(  ); 
-};
-
-class AnimationEvent
-{
-public:
-	rl::RlAnimation* getRlAnimation() const;
-	AnimationEvent( rl::RlAnimation* anim,  const unsigned int reason );
-};
-
-%feature("director") AnimationListener; 
-class AnimationListener
-{
-public:
-	virtual ~AnimationListener();
-	virtual void animationFinished(rl::AnimationEvent *anEvent) const = 0;
-	virtual void animationPaused(rl::AnimationEvent *anEvent) const = 0;
-	virtual void animationUnpaused(rl::AnimationEvent *anEvent) const = 0;
 };
 
 class AnimationManager {

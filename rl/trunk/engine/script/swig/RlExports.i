@@ -42,7 +42,11 @@
 #endif
 
 %feature("director:except") {
-	Throw(rl::RuntimeException, StringValuePtr($error));
+	Throw(rl::RuntimeException, StringValuePtr($error) );
+}
+
+namespace Swig {
+	class DirectorException;
 }
 
 %exception {
