@@ -25,6 +25,10 @@ namespace rl {
     {
     }
     
+    ActorControlledObject::~ActorControlledObject()
+    {
+    }
+    
     void ActorControlledObject::setActor(Actor* actor)
     {
         mMovableObject->setUserObject(actor);
