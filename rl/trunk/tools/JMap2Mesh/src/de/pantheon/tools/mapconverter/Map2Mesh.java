@@ -30,7 +30,9 @@ public class Map2Mesh
             System.out.println("  -tI[ignoreList]\tthe Textures which are to be skipped, separated by ';'");
             System.out.println("  -oD[directory]\tthe Directory where the meshes/material will be stored");
             System.out.println("  -oN[name]\t\tthe basename of the outputfiles");
-            System.out.println("  -mS[x;y;z]\t\tScale the Mapfile");
+            System.out.println("  -mS[s]\t\tScale the Mapfile");
+            System.out.println("  -hl\t\tExpects a HalfLife Map");
+            System.out.println("  -q3\t\tExpects a Quake3 Map");
             System.out.println("\nNotes:\n\tTextures have to be in TGA, PNG, JPG or GIF Format, named as in the map");
             System.out.println("\nFor Example: ");
             System.out.println("\t Map2Mesh " +
@@ -50,7 +52,8 @@ public class Map2Mesh
         String texturesDir = "./textures";
         String outName = null;
         String mapFile = args[args.length-1];    
-        double[] scales = null;
+        double scale = 1;
+        boolean isHalfLife = true;
         
         // Switches einlesen
         for (int i = 0; i < args.length-1; i++)
@@ -67,23 +70,15 @@ public class Map2Mesh
                 outName = args[i].substring(3); 
             else if( first.equals("-mS" ))
             {
-                String[] scaleString = args[i].substring(3).split(";");
-                
-                if( scaleString.length > 0)
-                {
-                    scales = new double[3];
-                    
-                    if( scaleString.length >= 3 )
-                    {
-                        scales[0] = Double.parseDouble(scaleString[0]);
-                        scales[1] = Double.parseDouble(scaleString[1]);
-                        scales[2] = Double.parseDouble(scaleString[2]);
-                    }
-                    else
-                        scales[0] = scales[1] = scales[2] = Double.parseDouble(scaleString[0]);
-                    
-                }
-                
+                scale = Double.parseDouble(args[i].substring(3));     
+            }
+            else if( first.equals("-q3" ))
+            {
+                isHalfLife = false;     
+            }
+            else if( first.equals("-hl" ))
+            {
+                isHalfLife = true;     
             }
             else
                 throw new IllegalArgumentException(  "Unknown Switch "+first );
@@ -105,10 +100,11 @@ public class Map2Mesh
 	            outName = "unnamed";
         }
                 
+        Plane.setHalfLife( isHalfLife );
         
-        if( scales != null )
+        if( scale > 0 && scale != 1 )
         {
-            Plane.scale(scales[0],scales[1],scales[2]);
+            Plane.scale(scale);
         }
         //      Ogre Rotation
         Plane.rotateX(-90);

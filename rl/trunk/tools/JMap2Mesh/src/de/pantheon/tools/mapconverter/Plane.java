@@ -32,6 +32,8 @@ public class Plane
     private Vector3 mNormal = null;
     private String mTexture; 
     
+    private static double mScaleAll = 1;
+    
     private static final Pattern PLANE_HL_PATTERN = 
 		Pattern.compile("\\( (.*?) \\) \\( (.*?) \\) \\( (.*?) \\) (.*?) \\[ (.*?) \\] \\[ (.*?) \\] (.*?) (.*?) (.*?)$");
     private static final Pattern PLANE_Q3_PATTERN = 
@@ -58,11 +60,13 @@ public class Plane
     {
         if( sHalfLife )
             parseHLPlane( line );
+        else
+            parseQ3Plane( line ); 
     }
     
     private void parseQ3Plane( String line )
     {
-        Matcher matcher = PLANE_HL_PATTERN.matcher(line);
+        Matcher matcher = PLANE_Q3_PATTERN.matcher(line);
               
         if( matcher.find() )
 		{
@@ -77,9 +81,16 @@ public class Plane
             
             double rotation = Double.parseDouble(matcher.group(7));
             
-            mScale_x = Double.parseDouble(matcher.group(8));
-            mScale_y = Double.parseDouble(matcher.group(9));
+            mScale_x = Double.parseDouble(matcher.group(8)) * mScaleAll;
+            mScale_y = Double.parseDouble(matcher.group(9)) * mScaleAll;
             
+            if( sMatrix != null )
+            {
+                v1 = Vector3.mul(v1,sMatrix);
+                v2 = Vector3.mul(v2,sMatrix);
+                v3 = Vector3.mul(v3,sMatrix);
+            }
+
             calculateHessian(v1, v2, v3);
 		}
     }
@@ -105,16 +116,16 @@ public class Plane
             mTex2 = Vector3.mul(new Vector3( tmpArr ),1);
              
             double rotation = Double.parseDouble(matcher.group(7));
-            mScale_x = Double.parseDouble(matcher.group(8));
-            mScale_y = Double.parseDouble(matcher.group(9));
+            mScale_x = Double.parseDouble(matcher.group(8)) * mScaleAll;
+            mScale_y = Double.parseDouble(matcher.group(9)) * mScaleAll;
             
             if( sMatrix != null )
             {
                 v1 = Vector3.mul(v1,sMatrix);
                 v2 = Vector3.mul(v2,sMatrix);
                 v3 = Vector3.mul(v3,sMatrix);
-                mTex1 = Vector3.mul(mTex1,sMatrix);
-                mTex2 = Vector3.mul(mTex2,sMatrix);
+                mTex1 = Vector3.normalize( Vector3.mul(mTex1,sMatrix) );
+                mTex2 = Vector3.normalize( Vector3.mul(mTex2,sMatrix) );
             }
             
             // Hessische Normal Form berechnen       
@@ -142,14 +153,16 @@ public class Plane
          sMatrix = Matrix4.mul(sMatrix, Matrix4.rotatex(angle*dr));
     }
     
-    public static void scale( double x, double y, double z )
+    public static void scale( double s )
     {
-         if( sMatrix == null )
-             sMatrix = Matrix4.identity();
+        mScaleAll = s;
+        
+        if( sMatrix == null )
+            sMatrix = Matrix4.identity();
          
-         sMatrix = Matrix4.mul(sMatrix, Matrix4.scale(x,y,z));
+        sMatrix = Matrix4.mul(sMatrix, Matrix4.scale(s,s,s));
     }
-    
+        
     public static void resetMatrix(  )
     {
          sMatrix = null;
@@ -160,7 +173,27 @@ public class Plane
         if( sHalfLife )
             return getHLTextureCoordinates( vertPos, center );
         else
-            return null;
+            return getQ3TextureCoordinates( vertPos, center );
+    }
+    
+    private double[] getQ3TextureCoordinates( Vector3 vertPos, Vector3 center )
+    {
+        TextureManager.Texture tex = TextureManager.getSingleton().loadTexture( mTexture );
+        
+        int width = 128;
+        int height = 128;
+        
+        if( tex != null )
+        {
+            width = tex.getWidth();
+            height = tex.getHeight();
+        } 
+        
+        double[] ret = new double[2];
+        ret[0] = 0;  
+        ret[1] = 0; 
+        
+        return ret;
     }
     
     private double[] getHLTextureCoordinates( Vector3 vertPos, Vector3 center )
@@ -248,5 +281,10 @@ public class Plane
         Vector3 c = Vector3.mul(Vector3.cross(p1.getNormal(),p2.getNormal()), -p3.getDistance() );
         
         return Vector3.div(((Vector3.sub(a, Vector3.sub(b,c)))),denom);
+    }
+    
+    public static void setHalfLife( boolean  b )
+    {
+        sHalfLife = b;
     }
 }
