@@ -24,9 +24,10 @@ template<> rl::WindowManager* Ogre::Singleton<rl::WindowManager>::ms_Singleton =
 namespace rl {
 
 	WindowManager::WindowManager()
+	  : mWindowsToDelete(),
+	    mActiveWindows(),
+	    mNumCeGuiWindows(0)
 	{
-		mWindowsToDelete.clear();
-		mActiveWindows.clear();
 	}
 	
 	CEGUI::Window* WindowManager::loadWindow(const CeGuiString& xmlfile, CeGuiString* prefix)    
@@ -59,7 +60,7 @@ namespace rl {
 
 		window->setVisible(false);
 		mActiveWindows.erase(iter);
-		mWindowsToDelete.insert(*iter);
+		mWindowsToDelete.insert(window);
 
 		return true;
 	}
@@ -82,7 +83,7 @@ namespace rl {
 	
 	void WindowManager::pruneWindows()
 	{
-		while(mWindowsToDelete.size() > 0)
+		while(!mWindowsToDelete.empty())
 		{
 			CeGuiWindow* wnd = *mWindowsToDelete.begin();
 			mWindowsToDelete.erase(mWindowsToDelete.begin());
