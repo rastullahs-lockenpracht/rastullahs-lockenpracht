@@ -21,6 +21,8 @@
 #include "ActorManager.h"
 #include "Actor.h"
 #include "MeshObject.h"
+#include "CameraObject.h"
+#include "LightObject.h"
 #include "CoreSubsystem.h"
 #include "PhysicalThing.h"
 #include "PhysicsManager.h"

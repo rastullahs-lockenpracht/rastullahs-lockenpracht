@@ -22,6 +22,7 @@
 #include "World.h"
 #include "MeshObject.h"
 #include "CameraObject.h"
+#include "LightObject.h"
 
 template<> rl::ActorManager* Singleton<rl::ActorManager>::ms_Singleton = 0;
 
@@ -86,27 +87,28 @@ namespace rl {
         }
 	}
 
- //   Actor* ActorManager::createLightActor(const String& name, int type)
-	//{
-	//	const String&  uniquename = nextUniqueName(name);
+    Actor* ActorManager::createLightActor(const String& name, int type)
+	{
+        const String&  uniquename = nextUniqueName(name);
 
- //       try
- //       {
- //           Light* light = mWorld->getSceneManager()->createLight(uniquename);
- //           light->setType(static_cast<Ogre::Light::LightTypes>(type));
-	//	    Actor* actor = new Actor(uniquename, light);
+        Actor* actor = 0;
+        try
+        {
+            ///@todo Typen in Einklang bringen
+            LightObject* lo = new LightObject(uniquename, (Light::LightTypes)type);
 
-	//	    mActors.insert( ActorPtrPair(uniquename, actor) ); 
-	//	    return actor;
- //       }
- //       catch( Ogre::Exception )
- //       {
- //           CoreSubsystem::log("ActorManager - Das Licht für den Aktor '" 
- //               + uniquename + "' konnte nicht erstellt werden.");
- //       }
- //   
- //       return 0;
-	//}
+            actor = new Actor(uniquename, lo);
+            mActors.insert(ActorPtrPair(uniquename,actor)); 
+        }
+        catch( Ogre::Exception& e)
+        {
+            CoreSubsystem::log("ActorManager - Das Light '"
+                + uniquename + "' konnte nicht erstellt werden. Grund: "
+                + e.getFullDescription());
+        }
+
+        return actor;
+	}
 
     Actor* ActorManager::createCameraActor(const String& name)
     {

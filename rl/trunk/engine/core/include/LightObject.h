@@ -14,24 +14,24 @@
 *  http://www.perldoc.com/perl5.6/Artistic.html.
 */
 
-#ifndef __CameraObject_H__
-#define __CameraObject_H__
+#ifndef __LightObject_H__
+#define __LightObject_H__
 
 #include "CorePrerequisites.h"
 #include "ActorControlledObject.h"
 
-#include <OgreCamera.h>
+#include <OgreLight.h>
 
 namespace rl {
 
-    class _RlCoreExport CameraObject : public ActorControlledObject
+    class _RlCoreExport LightObject : public ActorControlledObject
     {
     public:
-        CameraObject(const Ogre::String& name);
+        LightObject(const Ogre::String& name, Ogre::Light::LightTypes type);
 
         /// Wie ActorControlledObject::getMovableObject()
         /// Nur schon gebrauchsfertig gecastet.
-        Ogre::Camera* getCamera();
+        Ogre::Light* getLight();
 
         virtual Ogre::String getType();
     };

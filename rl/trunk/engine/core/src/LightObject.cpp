@@ -14,26 +14,29 @@
 *  http://www.perldoc.com/perl5.6/Artistic.html.
 */
 
-#ifndef __CameraObject_H__
-#define __CameraObject_H__
+#include "LightObject.h"
+#include "Actor.h"
+#include "CoreSubsystem.h"
+#include "World.h"
 
-#include "CorePrerequisites.h"
-#include "ActorControlledObject.h"
-
-#include <OgreCamera.h>
+using namespace Ogre;
 
 namespace rl {
-
-    class _RlCoreExport CameraObject : public ActorControlledObject
+    LightObject::LightObject(const String& name, Light::LightTypes type)
     {
-    public:
-        CameraObject(const Ogre::String& name);
+        Light* light = CoreSubsystem::getSingleton().getWorld()->
+            getSceneManager()->createLight(name);
+        light->setType(type);
+        mMovableObject = light;
+    }
 
-        /// Wie ActorControlledObject::getMovableObject()
-        /// Nur schon gebrauchsfertig gecastet.
-        Ogre::Camera* getCamera();
+    Light* LightObject::getLight()
+    {
+        return reinterpret_cast<Light*>(mMovableObject);
+    }
 
-        virtual Ogre::String getType();
-    };
+    String LightObject::getType()
+    {
+        return "LightObject";
+    }
 }
-#endif
