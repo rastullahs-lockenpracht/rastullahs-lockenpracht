@@ -1,8 +1,8 @@
 # TODO Skript ausbauen in Hinblick auf Interaktion Held <-> Item.
 # und Aktoren untereinander.
 # Halt diese Klassen wie sie hier beschrieben sind auch benutzen.
-# TODO Ãœber Speichersparen nachdenken. Inwiefern kÃ¶nnen Instanzen
-# einiger Klassen fÃ¼r Instanzen anderer Klassen nachgenutzt werden?
+# TODO Über Speichersparen nachdenken. Inwiefern können Instanzen
+# einiger Klassen für Instanzen anderer Klassen nachgenutzt werden?
 # Inwiefern ist Deferred Construction sinnvoll?
 require 'globals.rb'
 require 'actions.rb'
@@ -10,10 +10,10 @@ require 'items.rb'
 
 class OpenDoorAction < RubyAction
   def initialize
-    super("Ã–ffnen", "TÃ¼r Ã¶ffnen");
+    super("Öffnen", "Tür öffnen");
   end
   
-  # Die Methode prÃ¼ft, ob die Aktion Ã¼berhaupt angeboten wird.
+  # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
   def canDo?(door, user)    
     not door.open?;
   end
@@ -29,10 +29,10 @@ end
 
 class CloseDoorAction < RubyAction
   def initialize
-    super("SchlieÃŸen", "TÃ¼r schlieÃŸen");
+    super("Schließen", "Tür schließen");
   end
   
-  # Die Methode prÃ¼ft, ob die Aktion Ã¼berhaupt angeboten wird.
+  # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
   def canDo?(door, user)    
     door.open?;
   end

@@ -100,7 +100,7 @@ class ToggleOdeDebugAction < RubyAction
   end
   
   def doAction(object, actor, target)
-    gc = $UI.getGameController();
+    gc = PhysicsManager.getSingleton
     gc.toggleDebugOde();
   end
 end
