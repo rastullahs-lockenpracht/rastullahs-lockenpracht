@@ -91,6 +91,7 @@ namespace rl {
         int rollD20();
         Tripel<int> roll3D20();
         int rollD6();
+        int roll(int d6, int d20);
       
 	    static DsaManager& getSingleton(void);
 	    rl::Talent* getTalent(const rl::CeGuiString& name) const;

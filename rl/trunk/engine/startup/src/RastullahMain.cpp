@@ -21,7 +21,6 @@
 #include <stdexcept>
 #include <errno.h>
 
-
 #include "CoreSubsystem.h"
 #include "SoundSubsystem.h"
 #include "RulesSubsystem.h"
@@ -38,8 +37,6 @@
 #else
 	#include "SDL.h"
 #endif
-
-
 
 void startupRl()
 {
@@ -97,7 +94,7 @@ void startupRl()
 		rl::showError( "Unknown exception occured" );
 	}
 
-	try
+	try 
 	{
 		delete script;
 		delete ui;

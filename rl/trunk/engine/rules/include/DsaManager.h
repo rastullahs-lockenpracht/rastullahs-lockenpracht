@@ -73,6 +73,8 @@ namespace rl
         /** liefert eine Zufallszahl zwischen 1 und 6.*/
         int rollD6();
 
+		int roll(int d6, int d20);
+
         Talent* getTalent(int id) const;
 		Talent* getTalent(const CeGuiString& name) const;
 

@@ -149,6 +149,18 @@ namespace rl
         return static_cast<int>(d * 6.0 / RAND_MAX) + 1;
     }
 
+	int DsaManager::roll(int d6, int d20)
+	{
+		int sum = 0;
+
+		for (int d = 0; d < d6; d++)
+			sum += rollD6();
+		for (int d = 0; d < d20; d++)
+			sum += rollD20();
+
+		return sum;
+	}
+
     Talent* DsaManager::getTalent(int id) const
     {
         TalentMap::const_iterator it = mTalente.find(id);
