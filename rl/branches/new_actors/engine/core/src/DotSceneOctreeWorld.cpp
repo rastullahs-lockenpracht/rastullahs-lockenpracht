@@ -116,7 +116,7 @@ namespace rl {
         ActorManager::getSingleton().destroyAllActors();
 
         mSceneMgr = Root::getSingleton().getSceneManager(ST_GENERIC);
-        PhysicsManager::getSingleton().setWorldScene(this);
+        PhysicsManager::getSingleton().setLevelGeometry(0);
         mbSceneLoaded = false;
     }
     

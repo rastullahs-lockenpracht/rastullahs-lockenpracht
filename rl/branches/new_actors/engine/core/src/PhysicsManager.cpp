@@ -46,7 +46,7 @@ namespace rl
             mCurrSpace(mGlobalSpace),
             mOdeStepper(new OgreOde::ForwardFixedQuickStepper(0.01))
     {
-        mOdeWorld->setGravity(Vector3(0, -980.665 * 2.56, 0));
+        mOdeWorld->setGravity(Vector3(0, -980.665, 0));
         mOdeWorld->setCFM(10e-5);
         mOdeWorld->setERP(0.8);
         mOdeWorld->setAutoSleep(true);
@@ -73,19 +73,23 @@ namespace rl
 
     OgreOde::JointGroup*  PhysicsManager::getContactJointGroup()
     {
-        ///!todo implementieren
+        ///@todo implementieren
         return 0;
     }
 
-    ///!todo Das aktuelle Levelmesh setzen.
-    /// bzw. Flags benutzen, die immvoables auszeichnen.
-    /// irgendeine Loesung dazu einfallen lassen.
-    void PhysicsManager::setWorldScene( World* world )
+    ///@todo Das aktuelle Levelmesh setzen.
+    void PhysicsManager::setLevelGeometry(SceneNode* levelNode)
     {
-        if (!world)
+        delete mOdeLevel;
+        mOdeLevel = 0;
+        if (levelNode)
+        {
+            mOdeLevel = MeshInformer::createStaticTriangleMesh(levelNode, mGlobalSpace);
+        }
+        else
         {
             setEnabled(false);
-        }
+        }        
     }
 
     void PhysicsManager::setCFM(Real cfm)

@@ -75,7 +75,7 @@ namespace rl {
         OgreOde::World* getWorld();
         OgreOde::JointGroup* getContactJointGroup();
 
-        void setWorldScene(rl::World* world);
+        void setLevelGeometry(Ogre::SceneNode* levelNode);
         void setEnabled(bool enabled);
 
         // Singleton Stuff
@@ -93,6 +93,7 @@ namespace rl {
         OgreOde::HashTableSpace* mGlobalSpace;
         OgreOde::Space* mCurrSpace;
         OgreOde::Stepper* mOdeStepper;
+        OgreOde::Geometry* mOdeLevel;
     };
 }
 

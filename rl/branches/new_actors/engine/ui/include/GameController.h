@@ -120,7 +120,6 @@ namespace rl {
         ViewMode mViewMode;
         
         void setup();
-        void setupCollisionDetection();
 
         Ogre::Vector3 ogrePosToOdePos(const Ogre::Vector3& pos,
             const Ogre::Vector3& extent);
