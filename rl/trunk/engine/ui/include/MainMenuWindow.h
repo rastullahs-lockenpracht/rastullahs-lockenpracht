@@ -2,22 +2,43 @@
 #define __MainMenuWindow_H__
 
 #include "UiPrerequisites.h"
-#include <CEGUIWindow.h>
+#include "CeGuiWindow.h"
 
 namespace rl {
 
-class _RlUiExport MainMenuWindow
-{
-public:
-	MainMenuWindow();
+	class _RlUiExport MainMenuWindow : public CeGuiWindow
+	{
+	public:
+		MainMenuWindow();
 
-	bool handleChooseModules();
-	bool handleStart();
+		bool handleChooseModules();
+		bool handleGraphicOptions();
+		bool handleStart();
+		bool handleQuit();
 
-private:
-	CEGUI::Window* mButtonModules;
-	CEGUI::Window* mButtonStart;
-};
+		void setActiveModule(const CeGuiString& module);
+
+	private:
+		CeGuiString mActiveModule;
+	};
+
+	class _RlUiExport MainMenuChooseModulesWindow : public CeGuiWindow
+	{
+	public:
+		MainMenuChooseModulesWindow(
+			MainMenuWindow* parent, 
+			const Ogre::StringVector& modules, 
+			const CeGuiString& activeModule = CeGuiString(""));
+
+		bool handleChooseOkay();
+		bool handleChooseCancel();
+
+	private:
+		MainMenuWindow* mParent;
+		CEGUI::Listbox* mModulesList;
+	};
+
+
 
 }
 

@@ -41,6 +41,7 @@ class _RlCoreExport Interpreter
 
 		virtual void registerScriptObject( ScriptObject* obj, const String& instname ) = 0;
 		virtual void unregisterScriptObject( const String& instname ) = 0;
+		virtual void addSearchPath(const String& path) = 0;
 };
 
 }

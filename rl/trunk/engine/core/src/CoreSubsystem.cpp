@@ -71,7 +71,7 @@ namespace rl {
 
 	void CoreSubsystem::startCore()
     {
-		getInterpreter()->execute("load 'startup.rb'");
+		getInterpreter()->execute("load 'startup-global.rb'");
 		Root::getSingleton().startRendering();
     }
 
@@ -236,27 +236,23 @@ namespace rl {
             key = i.peekNextKey();
             value = i.getNext();
 
+			initializeModuleTextures(value);
 			if (key.compare("common") == 0)
 			{
 				initializeModule(value);
 				mCommonModules.push_back(value);
 			}
 			else if (key.compare("module") == 0)
-			{
-				//initializeModule(value);
 				mActivatableModules.push_back(value);
-			}
         }
     }
 
-	void CoreSubsystem::initializeModule(std::string module)
+	void CoreSubsystem::initializeModuleTextures(std::string module)
 	{
 		std::string moduleDir = mRootDir+"modules/"+module;
 		ConfigFile cf;
 		cf.load(moduleDir+"/conf/moduleconfig.cfg");
         ConfigFile::SettingsIterator i = cf.getSettingsIterator();
-
-		bool hasGui = false, hasDialogs = false;
 
 		std::string key, value;
         while (i.hasMoreElements())
@@ -268,22 +264,27 @@ namespace rl {
 				ResourceManager::addCommonArchiveEx(moduleDir+"/materials/"+value, "Zip");
 			else if (key.compare("Archive") == 0)
 				ResourceManager::addCommonArchiveEx(moduleDir+"/"+value, "Zip");
-			else if (key.compare("ContainsGUI") == 0)
-				hasGui = true;
-			else if (key.compare("ContainsDialogs") == 0)
-				hasDialogs = true;
 		}
-        addCommonSearchPath(moduleDir+"/conf");
-        addCommonSearchPath(moduleDir+"/dsa");
 		addCommonSearchPath(moduleDir+"/materials");
+	}
+	
+	void CoreSubsystem::initializeModule(std::string module)
+	{
+		std::string moduleDir = mRootDir+"modules/"+module;
+		
+	    addCommonSearchPath(moduleDir+"/conf");
+        addCommonSearchPath(moduleDir+"/dsa");
 		addCommonSearchPath(moduleDir+"/maps");
 		addCommonSearchPath(moduleDir+"/models");
 		addCommonSearchPath(moduleDir+"/sound");
-		if (hasGui)
-            addCommonSearchPath(moduleDir+"/gui/imagesets");
-		if (hasDialogs)
-			addCommonSearchPath(moduleDir+"/dialogs");
-     
+        addCommonSearchPath(moduleDir+"/gui/imagesets");
+		addCommonSearchPath(moduleDir+"/dialogs");     
+
+		if (getInterpreter() != NULL)
+		{
+			getInterpreter()->addSearchPath(moduleDir+"/scripts");
+			getInterpreter()->addSearchPath(moduleDir+"/scripts/maps");
+		}
 	}
 
 	void CoreSubsystem::addCommonSearchPath(std::string path)
@@ -299,6 +300,26 @@ namespace rl {
 	void CoreSubsystem::unloadModule(std::string module)
 	{
 		//TODO: unloadModule
+	}
+
+	void CoreSubsystem::setActiveModule(std::string module)
+	{
+		StringVector::iterator mod;
+		for (mod = mActivatableModules.begin(); 
+			 mod != mActivatableModules.end(); mod++)
+			 if ((*mod).compare(module) == 0)
+				 break;
+
+		if (mod == mActivatableModules.end())
+			Throw(InvalidArgumentException, "Unknown Module '"+module+"'");
+
+		if (mActiveModule.length() > 0)
+			unloadModule(mActiveModule);
+
+		initializeModule(module);
+		mActiveModule = module;
+
+		getInterpreter()->execute("load 'startup-module.rb'");
 	}
 
 	World* CoreSubsystem::getWorld()
@@ -339,17 +360,9 @@ namespace rl {
 		return mActivatableModules;
 	}
 
-	void CoreSubsystem::setActiveModule(const String module)
-	{
-		if (mActiveModule.length() > 0)
-			unloadModule(mActiveModule);
-		initializeModule(module);
-		mActiveModule = module;
-	}
-
 	void CoreSubsystem::loadMap(const String type, const String filename, const String startupScript)
 	{
-		if (type.compare("BSP") == 0)
+		/*if (type.compare("BSP") == 0)
 			mWorld = new BSPWorld( );
 		else if (type.compare("Octree") == 0)
 			mWorld = new DotSceneOctreeWorld();
@@ -358,16 +371,13 @@ namespace rl {
 		else if (type.compare("Terrain") == 0)
 			mWorld = new TerrainWorld();
 		else
-			Throw(RuntimeException, "Unknown world type");
+			Throw(RuntimeException, "Unknown world type");*/
 
 		mWorld->loadScene(filename);
 		///@todo einstellbar machen. World-Methode schon frei fuer Ruby?
 		//mWorld->setSkyBox(true, "rl/dsa07");
 
 		if (startupScript.length() > 0)
-		{
             getInterpreter()->execute(String("load '") + startupScript + String("'"));
-		}
-		//rb_require(startupScript.c_str());
 	}
 }

@@ -59,6 +59,8 @@ public:
 	void registerScriptObject( ScriptObject* obj, const String& instname );
 	void unregisterScriptObject( const String& instname );
 
+	void addSearchPath(const String& path);
+
 	void setDefOut( staticValueMethod func);
 
 	ScriptObject* getScriptObject( const String& name );

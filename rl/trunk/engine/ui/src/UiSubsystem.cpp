@@ -25,6 +25,7 @@
 #include "InputManager.h"
 #include "CommandMapper.h"
 #include "MessageWindow.h"
+#include "MainMenuWindow.h"
 #include "WindowManager.h"
 
 #include "GameLoop.h"
@@ -183,10 +184,10 @@ namespace rl {
 		w->setVisible(true);
 	}
 
-/*	void UiSubsystem::showMainMenu()
+	void UiSubsystem::showMainMenu()
 	{
 		(new MainMenuWindow())->setVisible(true);
-	}*/
+	}
 
 	void UiSubsystem::toggleConsole()
 	{

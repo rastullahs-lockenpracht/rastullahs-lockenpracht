@@ -53,8 +53,8 @@ void RubyInterpreter::initializeInterpreter(staticValueMethod func)
 	StringVector modules = CoreSubsystem::getSingleton().getActiveModules();
 	for (StringVector::iterator iter = modules.begin(); iter != modules.end(); iter++)
 	{
-		ruby_incpush(("modules/"+(*iter)+"/scripts").c_str());
-		ruby_incpush(("modules/"+(*iter)+"/scripts/maps").c_str());
+		addSearchPath("modules/"+(*iter)+"/scripts");
+		addSearchPath("modules/"+(*iter)+"/scripts/maps");
 	}
 	
 	ruby_init_loadpath();
@@ -77,6 +77,11 @@ void RubyInterpreter::initializeInterpreter(staticValueMethod func)
 	//to Prevent the Ruby GC from deleting
 	mRubyObjects = rb_ary_new();
 	rb_gc_register_address(&mRubyObjects);
+}
+
+void RubyInterpreter::addSearchPath(const String& path)
+{
+	ruby_incpush(path.c_str());
 }
 
 VALUE RubyInterpreter::loadDlls(VALUE val)

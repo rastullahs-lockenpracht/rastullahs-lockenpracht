@@ -73,6 +73,7 @@ private:
 	/** Loads all needed ressources */
 	void initializeResources();
 	void initializeModule(std::string module);
+	void initializeModuleTextures(std::string module);
 	void unloadModule(std::string module);
 	void addCommonSearchPath(std::string path);	
 

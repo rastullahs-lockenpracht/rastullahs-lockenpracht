@@ -13,8 +13,12 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
+#include <boost/bind.hpp>
+#include <CEGUI.h>
 
 #include "MessageWindow.h"
+#include "WindowManager.h"
+
 
 namespace rl {
 
@@ -22,6 +26,10 @@ MessageWindow::MessageWindow() :
 	CeGuiWindow("messagewindow.xml", WND_MOUSE_INPUT)
 {
 	mTextField = getWindow("MessageWindow/Text");
+	getWindow("MessageWindow/CloseButton")->subscribeEvent(
+			CEGUI::Window::EventMouseClick, 
+			boost::bind(&WindowManager::destroyWindow, WindowManager::getSingletonPtr(), this));
+
 	centerWindow();
 	addToRoot(mWindow);
 }

@@ -42,7 +42,7 @@ namespace rl {
 
         mCamera->setNearClipDistance(10);
         mCamera->setFarClipDistance(10000);
-        //mCamera->setPosition( defaultVP.position );
+        mCamera->setPosition( defaultVP.position );
 
         // Quake uses X/Y horizon, Z up
         mCamera->setFOVy(60);
@@ -87,6 +87,8 @@ namespace rl {
 
     void DotSceneOctreeWorld::clearScene( )
     {
+		mSceneMgr->destroySceneNode("level");
+		mSceneMgr->removeEntity("level");
         Ogre::Root::getSingleton().getAutoCreatedWindow()->removeAllViewports();
 
         ActorManager::getSingleton().deleteAllActors();
