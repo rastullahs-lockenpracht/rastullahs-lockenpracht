@@ -65,8 +65,8 @@ namespace rl {
 
 			void run(Real elapsedTime);
 			
-			void registerCeguiWindow(CeGuiWindow* window);
-			void unregisterCeguiWindow(CeGuiWindow* window);
+			void registerCeGuiWindow(CeGuiWindow* window);
+			void unregisterCeGuiWindow(CeGuiWindow* window);
 			bool isCeguiActive();
 
 			void setObjectPickingActive(bool active);
@@ -102,8 +102,7 @@ namespace rl {
 			std::set<KeyListener*> mKeyListeners;
 			std::set<MouseListener*> mMouseListeners;
 			std::set<MouseMotionListener*> mMouseMotionListeners;
-			std::set<CeGuiWindow*> mActiveWindows;
-
+			
 			unsigned short mScreenX;
 			unsigned short mScreenY;
 			bool mBuffered, mEventInitialized, mInputInitialized;			
@@ -125,6 +124,9 @@ namespace rl {
 			KeyCharMap mKeyMapShift;
 			KeyCharMap mKeyMapAlt;
 			KeyNameMap mKeyNames;
+
+			int mNumActiveWindowsMouseInput;
+			int mNumActiveWindowsKeyboardInput;
 	};
 
 }

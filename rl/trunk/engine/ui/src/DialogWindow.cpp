@@ -35,7 +35,9 @@ DialogWindow* DialogWindow::getSingletonPtr()
 	return Singleton<DialogWindow>::getSingletonPtr();
 }
 */
-DialogWindow::DialogWindow(string dialogFile) : CeGuiWindow("dialogwindow.xml", true),mNlp(new NaturalLanguageProcessor(dialogFile))
+DialogWindow::DialogWindow(string dialogFile) : 
+	CeGuiWindow("dialogwindow.xml", WND_MOUSE_INPUT),
+	mNlp(new NaturalLanguageProcessor(dialogFile))
 {
 	mImage = getStaticImage("DialogWindow/Image");
 	mName = getStaticText("DialogWindow/Name");

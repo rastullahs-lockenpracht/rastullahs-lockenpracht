@@ -26,6 +26,14 @@ namespace rl {
 	class _RlUiExport CeGuiWindow
 	{
 	public:
+
+		enum WindowType
+		{
+			WND_SHOW,
+			WND_MOUSE_INPUT,
+			WND_KEYBOARD_INPUT
+		};
+
 		CEGUI::Window* getWindow(const char* name);
 		CEGUI::Editbox* getEditbox(const char* name);
 		CEGUI::Listbox* getListbox(const char* name);
@@ -36,17 +44,17 @@ namespace rl {
 
 		static void addToRoot(CEGUI::Window* window);
 
-		bool isInputWindow();
+		WindowType getWindowType();
 
         virtual bool isVisible();
         virtual void setVisible(bool visible);
 
 		const CeGuiString& getName() const;
 
-		virtual ~CeGuiWindow();
+		virtual ~CeGuiWindow();	
 
 	protected:
-		CeGuiWindow(const char* xmlfile, bool input = false);
+		CeGuiWindow(const char* xmlfile, WindowType type);
 		
 		void show();
 		void hide();
@@ -60,7 +68,7 @@ namespace rl {
 		bool mIsVisible;
 
 	private:
-		bool mWithInput;
+		WindowType mWindowType;
 		CeGuiString mNamePrefix;
 		CeGuiString mName;
 

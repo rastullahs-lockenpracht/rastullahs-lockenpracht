@@ -19,7 +19,7 @@
 namespace rl {
 
 GameLoggerWindow::GameLoggerWindow() : 
-	CeGuiWindow("gameloggerwindow.xml", false)
+	CeGuiWindow("gameloggerwindow.xml", WND_MOUSE_INPUT)
 {
 }
 

@@ -32,7 +32,7 @@ namespace rl
         return Ogre::Singleton<DebugWindow>::getSingletonPtr();
     }
 
-	DebugWindow::DebugWindow() : CeGuiWindow("debugwindow.xml")
+	DebugWindow::DebugWindow() : CeGuiWindow("debugwindow.xml", WND_SHOW)
 	{
 		mText = getStaticText("DebugWindow/Text");
 		mText->moveToFront();

@@ -29,7 +29,7 @@ using namespace std;
 namespace rl {
 
 	ActionChoiceWindow::ActionChoiceWindow(Person* actor)
-		: CeGuiWindow("actionchoicewindow.xml", true)
+		: CeGuiWindow("actionchoicewindow.xml", WND_MOUSE_INPUT)
 	{
 		mHint = getStaticText("ActionChoiceWindow/Hint");
 		mState = IDLE;

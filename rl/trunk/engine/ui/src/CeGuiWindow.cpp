@@ -28,7 +28,7 @@ namespace rl
 
 int CeGuiWindow::sNumWindows = 0;
 
-CeGuiWindow::CeGuiWindow(const char* xmlfile, bool withInput)
+CeGuiWindow::CeGuiWindow(const char* xmlfile, WindowType type)
 {
 	mNamePrefix = StringConverter::toString(sNumWindows);
 	sNumWindows++;
@@ -39,8 +39,8 @@ CeGuiWindow::CeGuiWindow(const char* xmlfile, bool withInput)
 	assert(mWindow != 0);
 	mWindow->hide();
 
-	mIsVisible = true;
-    mWithInput = withInput;
+	mIsVisible = false;
+	mWindowType = type;
 
 	mName = mWindow->getName();
 	WindowManager::getSingleton().registerWindow(this);
@@ -61,13 +61,9 @@ void CeGuiWindow::setVisible(bool visible)
     if(mIsVisible != visible)
     {
         if (visible)
-        {
             show();
-        }
         else
-        {
             hide();
-        }
     }
 }
 
@@ -78,8 +74,8 @@ void CeGuiWindow::show()
 		if (!beforeShow())
 			return;
 
-		if (isInputWindow())
-			InputManager::getSingleton().registerCeguiWindow(this);
+		InputManager::getSingleton().registerCeGuiWindow(this);
+
 		mWindow->show();
         mIsVisible = true;
     }
@@ -93,15 +89,16 @@ void CeGuiWindow::hide()
 			return;
 	
 		mWindow->hide();
-		if (isInputWindow())
-			InputManager::getSingleton().unregisterCeguiWindow(this);
-        mIsVisible = false;
+		
+		InputManager::getSingleton().unregisterCeGuiWindow(this);
+
+		mIsVisible = false;
 	}
 }
 
-bool CeGuiWindow::isInputWindow()
+CeGuiWindow::WindowType CeGuiWindow::getWindowType()
 {
-	return mWithInput;
+	return mWindowType;
 }
 
 bool CeGuiWindow::beforeHide()

@@ -19,7 +19,7 @@
 namespace rl {
 
 MessageWindow::MessageWindow() :
-	CeGuiWindow("messagewindow.xml", false)
+	CeGuiWindow("messagewindow.xml", WND_MOUSE_INPUT)
 {
 	mTextField = getWindow("MessageWindow/Text");
 	centerWindow();

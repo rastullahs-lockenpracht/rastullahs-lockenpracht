@@ -217,8 +217,7 @@ namespace rl {
 
     void ThirdPersonGameController::run(Real elapsedTime)
     {
-        if (!InputManager::getSingleton().isCeguiActive())
-        {
+        
             Vector3 translation = Vector3::ZERO;
             Real cameraZ = 0.0;
             Real yaw = 0.0;
@@ -244,6 +243,8 @@ namespace rl {
             
             mOdeActor->collide(mOdeLevel, this);
 
+		if (!InputManager::getSingleton().isCeguiActive())
+        {
             updatePickedObject();
         }
     }

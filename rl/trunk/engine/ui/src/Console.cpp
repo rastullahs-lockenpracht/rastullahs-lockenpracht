@@ -42,7 +42,8 @@ namespace rl
         return Singleton<Console>::getSingletonPtr();
     }
 
-	Console::Console() : CeGuiWindow("console.xml", true)
+	Console::Console() : 
+		CeGuiWindow("console.xml", WND_KEYBOARD_INPUT)
 	{
 		using namespace CEGUI;
 		

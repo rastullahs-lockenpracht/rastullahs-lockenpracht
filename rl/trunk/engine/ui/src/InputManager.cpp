@@ -26,8 +26,6 @@
 #include <OgreKeyEvent.h>
 #include <OgreRoot.h>
 
-
-
 #include <CEGUI.h>
 
 #include "InputManager.h"
@@ -41,9 +39,9 @@
 #include "DebugWindow.h"
 #include "GameLoop.h"
 #include "CommandMapper.h"
-
 #include "Actor.h"
 #include "ActorManager.h"
+#include "CeGuiWindow.h"
 
 template<> rl::InputManager* Singleton<rl::InputManager>::ms_Singleton = 0;
 using namespace Ogre;
@@ -61,7 +59,10 @@ namespace rl {
 		return Singleton<InputManager>::getSingletonPtr();
 	}
 
-	InputManager::InputManager(void):mEventInitialized(false)
+	InputManager::InputManager() :
+		mEventInitialized(false),
+		mNumActiveWindowsMouseInput(0),
+		mNumActiveWindowsKeyboardInput(0)
 	{
 		switchMouseToUnbuffered();
 		mEventProcessor = new EventProcessor();
@@ -70,8 +71,7 @@ namespace rl {
 			mKeyDown[i] = false;
 
 		mScreenX = Root::getSingleton().getAutoCreatedWindow()->getWidth();
-		mScreenY = Root::getSingleton().getAutoCreatedWindow()->getHeight();
-		
+		mScreenY = Root::getSingleton().getAutoCreatedWindow()->getHeight();		
 	}
 
 	InputManager::~InputManager()
@@ -98,7 +98,7 @@ namespace rl {
 
 	void InputManager::run(Real elapsedTime)
 	{
-		if (!isCeguiActive())
+		if (mNumActiveWindowsKeyboardInput == 0)
 		{
 			mInputReader->capture();
 			while (mEventQueue.getSize() > 0)
@@ -180,7 +180,13 @@ namespace rl {
 
 	bool InputManager::sendKeyToCeGui(KeyEvent* e)
 	{
-		return isCeguiActive();
+		if (mNumActiveWindowsKeyboardInput == 0)
+			return false;
+
+		if (e->getKeyChar() != 0)
+			return true;
+
+		return false;
 	}
 
 	void InputManager::keyPressed(KeyEvent* e)
@@ -267,27 +273,41 @@ namespace rl {
 		mMouseMotionListeners.erase(l);
 	}
 
-	void InputManager::registerCeguiWindow(CeGuiWindow* window)
+	void InputManager::registerCeGuiWindow(CeGuiWindow* window)
 	{
-		if (!isCeguiActive())
+		if (window->getWindowType() == CeGuiWindow::WND_SHOW)
+			return;
+
+		bool active = isCeguiActive();
+
+		if (window->getWindowType() == CeGuiWindow::WND_MOUSE_INPUT)
+			mNumActiveWindowsMouseInput++;
+		else if (window->getWindowType() == CeGuiWindow::WND_KEYBOARD_INPUT)
+			mNumActiveWindowsKeyboardInput++;
+		
+		if (!active && isCeguiActive()) // war nicht aktiv, sollte jetzt aktiv sein -> anschalten
 		{
 			switchMouseToBuffered();
 			CEGUI::MouseCursor::getSingleton().show();
 		}
-		mActiveWindows.insert(window);
 	}
 
-	void InputManager::unregisterCeguiWindow(CeGuiWindow* window)
+	void InputManager::unregisterCeGuiWindow(CeGuiWindow* window)
 	{
-		if (isCeguiActive())
-		{
-			mActiveWindows.erase(window);
+		if (window->getWindowType() == CeGuiWindow::WND_SHOW)
+			return;
 
-			if (!isCeguiActive())
-			{
-				CEGUI::MouseCursor::getSingleton().hide();
-				switchMouseToUnbuffered();		
-			}
+		bool active = isCeguiActive();
+
+		if (window->getWindowType() == CeGuiWindow::WND_MOUSE_INPUT)
+			mNumActiveWindowsMouseInput--;
+		else if (window->getWindowType() == CeGuiWindow::WND_KEYBOARD_INPUT)
+			mNumActiveWindowsKeyboardInput--;
+
+		if (active && !isCeguiActive()) // war aktiv, sollte nicht mehr aktiv sein -> ausschalten
+		{
+			CEGUI::MouseCursor::getSingleton().hide();
+			switchMouseToUnbuffered();		
 		}
 	}
 
@@ -348,7 +368,7 @@ namespace rl {
 
 	bool InputManager::isCeguiActive()
 	{
-		return !mActiveWindows.empty();
+		return mNumActiveWindowsKeyboardInput > 0 || mNumActiveWindowsMouseInput > 0;
 	}
 
 	/**

@@ -27,7 +27,7 @@ namespace rl {
 using namespace CEGUI;
 
 CharacterSheetWindow::CharacterSheetWindow()
-	: CeGuiWindow("charactersheet.xml", true)
+	: CeGuiWindow("charactersheet.xml", WND_MOUSE_INPUT)
 {
 	mTalentTable = getMultiColumnList("CharacterSheet/TalentSheet/Table");
 	mTalentTable->addColumn((utf8*)"Talent", 0, 0.5);
