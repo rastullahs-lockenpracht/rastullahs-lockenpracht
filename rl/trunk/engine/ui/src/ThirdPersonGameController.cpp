@@ -2,6 +2,7 @@
 #include "CoreSubsystem.h"
 #include "World.h"
 #include "InputManager.h"
+#include "CommandMapper.h"
 #include "DebugWindow.h"
 #include "Exception.h"
 #include "GameActor.h"
@@ -102,17 +103,18 @@ namespace rl {
     void ThirdPersonGameController::calculateHeroTranslation(Ogre::Vector3& translation)
     {
         InputManager* im = InputManager::getSingletonPtr();
+		CommandMapper* cmdmap = CommandMapper::getSingletonPtr();
 
-        if (im->isKeyDown(KC_UP) || im->isKeyDown(KC_W))
+		if (cmdmap->isMovementActive(MOVE_FORWARD))
             translation.z = -mMoveScale;
 
-        if (im->isKeyDown(KC_DOWN) || im->isKeyDown(KC_S))
+        if (cmdmap->isMovementActive(MOVE_BACKWARD))
             translation.z = mMoveScale;
 
-        if (im->isKeyDown(KC_RIGHT) || im->isKeyDown(KC_D))
+		if (cmdmap->isMovementActive(MOVE_RIGHT))
             translation.x = mMoveScale;
 
-        if (im->isKeyDown(KC_LEFT) || im->isKeyDown(KC_A))
+        if (cmdmap->isMovementActive(MOVE_LEFT))
             translation.x = -mMoveScale;
 
         if (im->isKeyDown(KC_PGUP))

@@ -8,9 +8,12 @@
 #include "SDL/SDL.h"
 #endif
 
+#include "CoreSubsystem.h"
+
 #include "CeConsole.h"
 #include "DebugWindow.h"
 #include "GameLoop.h"
+#include "CommandMapper.h"
 
 #include "Actor.h"
 #include "ActorManager.h"
@@ -139,6 +142,12 @@ namespace rl {
                 !DebugWindow::getSingletonPtr()->isVisible());
             rval = true;
         }
+		else  if (e->getKey() == KC_SYSRQ)
+        {
+			CoreSubsystem::getSingleton().makeScreenshot("rastullah");
+            rval = true;
+        }
+
         return rval;
     }
 
@@ -154,6 +163,7 @@ namespace rl {
 		else
 		{
             mKeyDown[e->getKey()]=true;
+			CommandMapper::getSingleton().injectKeyDown(e->getKey());
             std::set<KeyListener*>::iterator i;
             for(i=mKeyListeners.begin(); i!=mKeyListeners.end(); i++)
                 (*i)->keyPressed(e);
@@ -172,6 +182,7 @@ namespace rl {
 		else
 		{
 			mKeyDown[e->getKey()]=false;
+			CommandMapper::getSingleton().injectKeyUp(e->getKey());
 			std::set<KeyListener*>::iterator i;
 			for(i=mKeyListeners.begin(); i!=mKeyListeners.end(); i++)
 				(*i)->keyReleased(e);
@@ -179,7 +190,13 @@ namespace rl {
 		}		
 	}
 
-	void InputManager::keyClicked(KeyEvent* e) {}
+	void InputManager::keyClicked(KeyEvent* e) 
+	{
+		if (!isCeguiActive())
+		{
+			CommandMapper::getSingleton().injectKeyClicked(e->getKey());
+		}
+	}
 
 	void InputManager::mouseDragged(MouseEvent* e)
 	{
