@@ -24,9 +24,7 @@ namespace rl {
 		getWindow("MainMenuWindow/Start")->subscribeEvent(
 			Window::EventMouseClick, 
 			boost::bind(&MainMenuWindow::handleStart, this));
-		getWindow("MainMenuWindow/Start")->subscribeEvent(
-			Window::EventMouseClick, 
-		boost::bind(&WindowManager::destroyWindow, WindowManager::getSingletonPtr(), this));
+		bindClickToCloseWindow(getWindow("MainMenuWindow/Start"));
 
 		getWindow("MainMenuWindow/GraphicOptions")->subscribeEvent(
 			Window::EventMouseClick, 
@@ -36,9 +34,7 @@ namespace rl {
 			Window::EventMouseClick,
 			boost::bind(&UiSubsystem::showInputOptionsMenu, UiSubsystem::getSingletonPtr(), mActionHolder));
 
-		getWindow("MainMenuWindow/Quit")->subscribeEvent(
-			Window::EventMouseClick, 
-			boost::bind(&WindowManager::destroyWindow, WindowManager::getSingletonPtr(), this));
+		bindClickToCloseWindow(getWindow("MainMenuWindow/Quit"));
 		getWindow("MainMenuWindow/Quit")->subscribeEvent(
 			Window::EventMouseClick, 
 			boost::bind(&MainMenuWindow::handleQuit, this));
@@ -97,6 +93,8 @@ namespace rl {
 			return handleChooseModules();
 		else if (kevt.scancode == Key::Q || kevt.scancode == Key::Escape)
 			return handleQuit();
+
+		return false;
 	}
 
 	void MainMenuWindow::setActiveModule(const CeGuiString& module)
@@ -108,7 +106,7 @@ namespace rl {
 		MainMenuWindow* parent, 
 		const Ogre::StringVector& modules, 
 		const CeGuiString& activeModule) 
-		: CeGuiWindow("mainmenuchoosemoduleswindow.xml", WND_KEYBOARD_INPUT)
+		: CeGuiWindow("mainmenuchoosemoduleswindow.xml", WND_KEYBOARD_INPUT, true)
 	{
 		mModulesList = getListbox("MainMenuChooseModules/ModulesList");
 		mModulesList->setMultiselectEnabled(false);
@@ -127,12 +125,8 @@ namespace rl {
 		getWindow("MainMenuChooseModules/OkayButton")->subscribeEvent(
 			Window::EventMouseClick,
 			boost::bind(&MainMenuChooseModulesWindow::handleChooseOkay, this));
-		getWindow("MainMenuChooseModules/OkayButton")->subscribeEvent(
-			Window::EventMouseClick, 
-			boost::bind(&WindowManager::destroyWindow, WindowManager::getSingletonPtr(), this));
-		getWindow("MainMenuChooseModules/CancelButton")->subscribeEvent(
-			Window::EventMouseClick, 
-			boost::bind(&WindowManager::destroyWindow, WindowManager::getSingletonPtr(), this));
+		bindClickToCloseWindow(getWindow("MainMenuChooseModules/OkayButton"));
+		bindClickToCloseWindow(getWindow("MainMenuChooseModules/CancelButton"));
 
 		centerWindow();
 		addToRoot(mWindow);		
