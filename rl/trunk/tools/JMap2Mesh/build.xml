@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>  
+<project name="Map2Mesh" basedir="." default="jar"> 
+
+    <property name="src.dir" value="src"/>
+    <property name="deployed.dir" value="deployed"/>
+    <property name="bin.dir" value="bin"/>
+	
+    <target name="clean" description="Delete all generated files"> 
+        <delete dir="${classes.dir}" failonerror="false"/> 
+        <delete dir="${deployed.dir}" failonerror="false"/> 
+    </target> 
+
+    <target name="compile" description="Compiles Map2Mesh"> 
+        <mkdir dir="${bin.dir}"/> 
+        <javac srcdir="${bin.dir}" destdir="${bin.dir}"/> 
+    </target> 
+
+    <target name="jar" description="JARs Map2Mesh" depends="compile" > 
+        <mkdir dir="${deployed.dir}"/> 
+    	
+    	<manifest file="${deployed.dir}/MANIFEST.MF">
+    	    <attribute name="Built-By" value="${user.name}"/>
+    		<attribute name="Main-Class" value="de.pantheon.tools.mapconverter.Map2Mesh"/>
+    	    <section name="common">
+    	      <attribute name="Specification-Title" value="Map2Mesh"/>
+    	      <attribute name="Specification-Version" value="${version}"/>
+    	      <attribute name="Specification-Vendor" value="Team Pantheon"/>
+    	      <attribute name="Implementation-Title" value="Torx"/>
+    	      <attribute name="Implementation-Version" value="${version} ${TODAY}"/> 
+    	      <attribute name="Implementation-Vendor" value="Team Pantheon."/>	      
+    	    </section>
+    	</manifest>
+    	
+        <jar destfile="${deployed.dir}/${ant.project.name}.jar" manifest="${deployed.dir}/MANIFEST.MF" basedir="${bin.dir}"/> 
+    </target> 
+
+</project>
