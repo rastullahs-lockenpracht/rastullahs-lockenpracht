@@ -402,9 +402,10 @@ module MapConverter
         def initialize( )
         end
     
-        def readMap( filename, facetype )
+        def readMap( filename, facetype, readGeometry )
             @type = facetype
             @map = Map.new( )
+            @readGeometry = readGeometry
             readFile( filename )
             return @map
         end
@@ -455,7 +456,10 @@ module MapConverter
                     # Leere Zeile, wir machen nichts
                     when LINETYPE_OPENBRACE
                     # Hier beginnt ein Brush
-                        entity.addBrush( readBrush() )
+                        readBrush() 
+                        if @readGeometry
+                            entity.addBrush( )
+                        end
                     when LINETYPE_CLOSEDBRACE                
                     # Es endet die Entity
                         return entity;
@@ -488,9 +492,11 @@ module MapConverter
                         return brush;
                     when LINETYPE_PLANE
                     # Plane gehört hier hin
-                        plane = Plane.new
-                        plane.parsePlane( line, @facetype )
-                        brush.addPlane( plane )
+                        if @readGeometry
+                            plane = Plane.new
+                            plane.parsePlane( line, @facetype )
+                            brush.addPlane( plane )
+                        end
                     when LINETYPE_ARGVAL                    
                     # Argumente nicht... 
                         raise( "Unexpected Map-Line - ArgVal for Entity at at line "+@currLine.to_s )
@@ -731,9 +737,11 @@ module MapConverter
                 stream <<  "}" << "\n"
             }
             
-            f = File.new( File.join(outdir, basename ) +".material",  "w")
-            print "File written for #{all_textures.size} Texture(s): #{File.join(outdir, basename ) +".material"} \n"
-            f << stream   
+            if all_textures.size > 0
+                f = File.new( File.join(outdir, basename ) +".material",  "w")
+                print "File written for #{all_textures.size} Texture(s): #{File.join(outdir, basename ) +".material"} \n"
+                f << stream   
+            end
         end
     end
     

@@ -37,9 +37,9 @@ raise( ArgumentError, "Texture Directory '#{tDir}' not found " ) unless tDir != 
 raise( ArgumentError, "Output Directory '#{oDir}' not found " ) unless tDir != nil && File.exist?( oDir )
 
 if !oName 
-    oName = File.basename(mapName, ".map")
+    oName = File.basename(mapName, ".map" )
 end
 
 MapConverter::TextureManager.new( tDir )
-map = MapConverter::MapReader.new.readMap( mapName, MapConverter::MAP_HL )
+map = MapConverter::MapReader.new.readMap( mapName, MapConverter::MAP_HL, true )
 MapConverter::MeshWriter.new( map ).writeMesh( oDir, oName, tIgnore )
