@@ -42,6 +42,7 @@ $CORE.log("Hebel reinsetzen")
 hebel = Switch.new( "Hebel" );
 hebel.getActor().placeIntoScene( 160.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0 );
 hebel.getActor().yaw(-90.0);
+p hebel
 $CORE.log("Hebel fertig");
 
 
