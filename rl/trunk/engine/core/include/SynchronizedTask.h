@@ -30,7 +30,7 @@ class _RlCoreExport SynchronizedTask
         virtual void run( Real elapsedTime ) = 0;
         
         bool isPaused();
-        void setPaused( bool isPaused );
+        void setPaused(bool isPaused);
 
     private:
         bool mPaused;

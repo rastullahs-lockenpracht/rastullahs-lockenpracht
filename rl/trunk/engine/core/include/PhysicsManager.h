@@ -18,7 +18,7 @@
 #define __PhysicsManager_H__
 
 #include <map>
-#include <list>
+#include <vector>
 #include <OgreSingleton.h>
 #include <OgreOde.h>
 #include "SynchronizedTask.h"
@@ -32,27 +32,28 @@ namespace rl {
     class Actor;
     class World;
 
-    typedef std::map<Actor*,PhysicalThing*> PhysicalThingActorMap;
-    typedef std::pair<Actor*,PhysicalThing*> PhysicalThingActorPair;
-
-    class _RlCoreExport PhysicsManager : public SynchronizedTask, public OgreOde::CollisionListener, protected Singleton<PhysicsManager>
+    class _RlCoreExport PhysicsManager
+        :   public SynchronizedTask,
+            public OgreOde::CollisionListener,
+            public OgreOde::StepListener,
+            protected Singleton<PhysicsManager>
     {
     public:
+        static const int PT_NONE = -1;
+        static const int PT_BOX = 0;
+        static const int PT_SPHERE = 1;
+        static const int PT_CAPSULE = 2;
+        static const int PT_MESH = 3;
+        
         PhysicsManager(rl::World* world);
         virtual ~PhysicsManager();
 
         virtual void run( Real elapsedTime );
 
-        // Creation of PhysicalThings
-        PhysicalThing* createPhysicalThing(Actor* actor);
-        PhysicalThing* createSpherePhysicalThing(Actor* actor,
-            Real density, bool noDynamics = false);
-        PhysicalThing* createBoxPhysicalThing(Actor* actor,
-            Real density, bool noDynamics = false);
-        PhysicalThing* createCappedCylinderPhysicalThing(Actor* actor,
-            Real density, bool noDynamics = false);
+        PhysicalThing* createPhysicalThing(const int geomType, const Ogre::Vector3& size,
+            Real density);
 
-        void removeAndDestroyPhysicalThing(Actor* actor);
+        void removeAndDestroyPhysicalThing(PhysicalThing* thing);
 
         // Spaces for combining non-colliding objects 
         // ( for example the sword and shield attached to the hero )
@@ -63,35 +64,52 @@ namespace rl {
         void createSimpleSpace();
 
         // Global Settings
-        void setGravity( Real x, Real y, Real z );
+        void setGravity(Ogre::Real x, Ogre::Real y, Ogre::Real z);
         Vector3 getGravity();
-        void setCFM(Real cfm);
+        void setCFM(Ogre::Real cfm);
         Real getCFM();
-        void setERP(Real erp);
+        void setERP(Ogre::Real erp);
         Real getERP();
 
         OgreOde::Space* getCurrSpace();
         OgreOde::World* getWorld();
         OgreOde::JointGroup* getContactJointGroup();
 
-        void setWorldScene(rl::World* world);
+        void createLevelGeometry(Ogre::SceneNode* levelNode);
+        OgreOde::Geometry* getLevelGeometry();
+        
         void setEnabled(bool enabled);
 
         // Singleton Stuff
         static PhysicsManager & getSingleton(void);
         static PhysicsManager * getSingletonPtr(void);
+        
+        void addCollisionListener(OgreOde::CollisionListener*);
+        void removeCollisionListener(OgreOde::CollisionListener*);
 
-		bool collision(OgreOde::Contact* contact);
+		/// CollisionListener callback
+		virtual bool collision(OgreOde::Contact* contact);
+		
+        /// StepListener callback
+        virtual bool preStep(Real time);
+	protected:
+        OgreOde::Geometry* createSphereGeometry(Ogre::Real radius,
+            Ogre::Real density);
+        OgreOde::Geometry* createBoxGeometry(const Ogre::Vector3& size,
+            Ogre::Real density);
+        OgreOde::Geometry* createCapsuleGeometry(Ogre::Real height,
+            Ogre::Real radius, Ogre::Real density);
+	
     private:
         bool mEnabled;
 
-        PhysicalThingActorMap mPhysicalThings;
-
-        std::list<OgreOde::Space*> mSimpleSpaces;
+        std::vector<PhysicalThing*> mPhysicalThings;
+        std::vector<OgreOde::Space*> mSpaces;        std::vector<OgreOde::CollisionListener*> mCollisionListeners;
         OgreOde::World* mOdeWorld;
         OgreOde::HashTableSpace* mGlobalSpace;
         OgreOde::Space* mCurrSpace;
         OgreOde::Stepper* mOdeStepper;
+        OgreOde::Geometry* mOdeLevel;
     };
 }
 

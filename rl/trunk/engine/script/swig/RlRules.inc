@@ -167,8 +167,8 @@ namespace rl {
         virtual const rl::CeGuiString& getDescription() const;
         virtual void setDescription(rl::CeGuiString& description);   
         
-        void setActor(rl::GameActor* actor);
-		rl::GameActor* getActor();
+        void setActor(rl::Actor* actor);
+		rl::Actor* getActor();
 
         void addAction(rl::Action *action, int option = ACT_NORMAL);
         //%extend {

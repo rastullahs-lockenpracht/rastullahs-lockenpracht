@@ -22,15 +22,13 @@
 #include <OgreRoot.h>
 #include <OgreLog.h>
 #include <OgreConfigFile.h>
+#include <OgreMeshManager.h>
 
 #if OGRE_PLATFORM == PLATFORM_LINUX
 #    include <iostream>
     using namespace std;
 #endif
 
-#include "BSPWorld.h"
-#include "NatureWorld.h"
-#include "TerrainWorld.h"
 #include "DotSceneOctreeWorld.h"
 #include "PhysicsManager.h"
 #include "ActorManager.h"
@@ -197,6 +195,10 @@ namespace rl {
 				"logs/ogre.log" ); //TODO: siehe Linux
 		#endif
 
+        // Muss vor dem Laden der Ressourcen geschehen,
+        // weil es sonst sofort angewandt wird.
+        MeshManager::getSingleton().setBoundsPaddingFactor(0.0);
+        
         initializeResources();
 
         bool carryOn = setupConfiguration();

@@ -23,7 +23,6 @@
 namespace rl {
 
     class Actor;
-    class CameraActor;
 
     class _RlCoreExport World
     {
@@ -36,10 +35,10 @@ namespace rl {
         *verantwortlich ist. */
         virtual ~World() {}
 
-        virtual SceneManager* getSceneManager(void) const;
+        virtual Ogre::SceneManager* getSceneManager(void) const;
         virtual void setSceneManager(SceneManager* SceneMgr);
 
-        virtual CameraActor* getActiveCamera(void) const { return mCamera; };
+        virtual Ogre::Camera* getActiveCamera(void) const { return mCamera; };
 
         Actor* getActiveActor() const;
         void setActiveActor(Actor* actor);
@@ -48,7 +47,6 @@ namespace rl {
 
         virtual void clearScene(void) = 0;
         void loadScene(const String& levelName);
-        virtual void initializeDefaultCamera(void) = 0;	
 
         virtual Entity* getSceneEntity() = 0;
 
@@ -93,9 +91,10 @@ namespace rl {
         /// SceneManager-Spezifisches wird hier erledigt.
         /// für LoadScene.
         virtual void doLoadScene(const String& levelName) = 0;
+        virtual void initializeDefaultCamera(void) = 0;	
 
         SceneManager* mSceneMgr;
-        CameraActor* mCamera;
+        Camera* mCamera;
         bool mbSceneLoaded;
         Actor* mActiveActor;
     };

@@ -36,8 +36,7 @@
 
 #include "GameLoop.h"
 #include "ActorManager.h"
-#include "GameActor.h"
-#include "CameraActor.h"
+#include "Actor.h"
 #include "World.h"
 
 // BEGIN TEST
@@ -170,18 +169,15 @@ namespace rl {
 
 	void UiSubsystem::setActiveCharacter(Person* person)
 	{
-		mCharacter = person;
-		
-		CameraActor* camera = CoreSubsystem::getSingleton().getWorld()->getActiveCamera();
-		CoreSubsystem::getSingleton().log("Kamera erschaffen");
-		mGameController = new GameController(
-            camera->getOgreCamera(), person->getActor());
-        CoreSubsystem::getSingleton().log("GameController erschaffen");
-		GameLoop::getSingleton().addSynchronizedTask(mGameController);
-		CoreSubsystem::getSingleton().log("GameController-Task hinzugefuegt");
-		World* world = CoreSubsystem::getSingleton().getWorld();
-		world->setActiveActor(person->getActor());
-		CoreSubsystem::getSingleton().log("Aktor gesetzt");		
+        mCharacter = person;
+        Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
+        mGameController = new GameController(camera, person->getActor());
+        CoreSubsystem::getSingleton().log("GameController created.");
+        GameLoop::getSingleton().addSynchronizedTask(mGameController);
+        CoreSubsystem::getSingleton().log("GameController task added.");
+        World* world = CoreSubsystem::getSingletonPtr()->getWorld();
+        world->setActiveActor(person->getActor());
+        CoreSubsystem::getSingleton().log("Actor set");		
 	}
 
 	void UiSubsystem::showActionChoice(GameObject* obj)
@@ -190,7 +186,7 @@ namespace rl {
 		w->showActionsOfObject(obj);
 		w->setVisible(true);
 	}
-	
+
 	void UiSubsystem::showCharacterActionChoice()
 	{
 		showActionChoice(getActiveCharacter());

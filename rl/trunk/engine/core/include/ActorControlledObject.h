@@ -14,28 +14,32 @@
 *  http://www.perldoc.com/perl5.6/Artistic.html.
 */
 
-#ifndef __NatureWorld_H__
-#define __NatureWorld_H__
-
-#include "World.h"
+#ifndef __ActorControlledObject_H__
+#define __ActorControlledObject_H__
 
 #include "CorePrerequisites.h"
+#include <OgreMovableObject.h>
 
 namespace rl {
 
-    class NatureWorld : public World
+    class Actor;
+
+    ///@todo besseren Namen ausdenken und umbenennen
+    class _RlCoreExport ActorControlledObject
     {
     public:
-        NatureWorld();
-        ~NatureWorld();
-
-        virtual void clearScene();
-        virtual void initializeDefaultCamera();
+        ActorControlledObject();
+        virtual ~ActorControlledObject();
         
+        void _setActor(Actor* actor);
+        Actor* getActor();
+        
+        MovableObject* getMovableObject();
+        
+        virtual Ogre::String getType() = 0;
+    
     protected:
-        void doLoadScene(const String& levelName);
+        Ogre::MovableObject* mMovableObject;
     };
-
 }
-
 #endif

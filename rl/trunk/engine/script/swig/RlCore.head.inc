@@ -19,14 +19,9 @@
 #include "FixRubyHeaders.h"
 #include "CorePrerequisites.h"
 #include "ActorManager.h"
-#include "BSPWorld.h"
-#include "CameraActor.h"
-#include "LightActor.h"
-#include "ParticleSystemActor.h"
-#include "GameActor.h"
-#include "MeshActor.h"
+#include "Actor.h"
+#include "MeshObject.h"
 #include "CoreSubsystem.h"
-#include "ListenerActor.h"
 #include "PhysicalThing.h"
 #include "PhysicsManager.h"
 #include "AnimationManager.h"
@@ -34,6 +29,7 @@
 #include "RlAnimation.h"
 #include "RlTrackAnimation.h"
 #include "GameLoop.h"
+#include "World.h"
 #include <OgreRoot.h>
 #include <OgreLight.h>
 %}

@@ -57,7 +57,8 @@ AnimationManager::InterpolationMode AnimationManager::getDefaultInterpolationMod
 		Animation::getDefaultInterpolationMode() );
 }
 
-void AnimationManager::setDefaultRotationInterpolationMode( AnimationManager::RotationInterpolationMode rim )
+void AnimationManager::setDefaultRotationInterpolationMode(
+    AnimationManager::RotationInterpolationMode rim )
 {
 	Animation::setDefaultRotationInterpolationMode( 
 		Ogre::Animation::RotationInterpolationMode( rim ) );
@@ -97,7 +98,7 @@ RlAnimation* AnimationManager::addAnimation(AnimationState* animState, Real spee
 
 RlTrackAnimation* AnimationManager::createTrackAnimation(Actor* actor, const String& name, Real length )
 {
-	RlTrackAnimation* trackAnim = new RlTrackAnimation(name,actor->getSceneNode(),length);
+	RlTrackAnimation* trackAnim = new RlTrackAnimation(name,actor->_getSceneNode(),length);
 	mAnimationMap.insert(std::pair<AnimationState*,RlAnimation*>(trackAnim->getAnimationState(),trackAnim));
 
 	return trackAnim;

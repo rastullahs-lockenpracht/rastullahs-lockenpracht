@@ -19,9 +19,9 @@
 
 #include "RulesPrerequisites.h"
 
+#include <Actor.h>
 namespace rl
 {
-	class GameActor;
     class _RlRulesExport Creature;
 	class _RlRulesExport Action;
 	class _RlRulesExport ActionGroup;
@@ -40,7 +40,7 @@ namespace rl
     *
     * @todo Ueberlegen, wie man Aktionen situativ aktivierbar macht.
     */
-    class _RlRulesExport GameObject
+    class _RlRulesExport GameObject : public Ogre::UserDefinedObject
     {
     public:
         GameObject(int id,
@@ -62,8 +62,8 @@ namespace rl
         void addActionInGroup(Action* action, ActionGroup* group, int option = ACT_NORMAL);
         void removeAction(Action* action);
 	
-		void setActor(GameActor* actor);
-		GameActor* getActor();
+		void setActor(Actor* actor);
+		Actor* getActor();
 
         const ActionVector getValidActions() const;
 
@@ -97,7 +97,7 @@ namespace rl
 		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const CeGuiString& className, const CeGuiString& actionName);
 		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const Action* action);
 	
-		GameActor* mActor;
+		Actor* mActor;
 	
     protected:
         int mId;

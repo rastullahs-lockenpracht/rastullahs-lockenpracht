@@ -51,12 +51,17 @@ namespace rl
         return TC_NO_TARGET;
     }
 
+    bool Action::canDo(GameObject* object, Creature* actor)
+    {
+        // Im Zweifel klappts halt. :)
+        return true;
+    }
+    
     void Action::doAction(GameObject* object,
                           Creature* actor,
                           GameObject* target)
     {
-        //Beep(4000, 4000);
-        //Throw(IllegalStateException, "Methode muss ueberschrieben werden.");
+        // Muss ueberschrieben werden, sonst passiert nix.
     }
 	
 	void Action::setGroup(ActionGroup* group)

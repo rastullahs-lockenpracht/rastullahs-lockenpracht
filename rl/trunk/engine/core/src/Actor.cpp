@@ -1,18 +1,18 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
- * 
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the Perl Artistic License.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  Perl Artistic License for more details.
- *
- *  You should have received a copy of the Perl Artistic License
- *  along with this program; if not you can get it here
- *  http://www.perldoc.com/perl5.6/Artistic.html.
- */
+* Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+* 
+*  This program is free software; you can redistribute it and/or modify
+*  it under the terms of the Perl Artistic License.
+*
+*  This program is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*  Perl Artistic License for more details.
+*
+*  You should have received a copy of the Perl Artistic License
+*  along with this program; if not you can get it here
+*  http://www.perldoc.com/perl5.6/Artistic.html.
+*/
 
 #include "Actor.h"
 
@@ -20,189 +20,285 @@
 #include "World.h"
 #include "PhysicsManager.h"
 #include "PhysicalThing.h"
+#include "Exception.h"
+#include "ActorControlledObject.h"
+
+using namespace Ogre;
 
 namespace rl {
 
-const String Actor::TYPENAME="Actor";
+    Actor::Actor(const String& name,
+        ActorControlledObject* aco,
+        PhysicalThing* pt,
+        UserDefinedObject* go)
+        :   mName(name),
+        mPhysicalThing(pt),
+        mGameObject(go),
+        mActorControlledObject(aco),
+        mParent(0),
+        mChilds(),
+        mSceneNode(0)
+    {
+        mActorControlledObject->_setActor(this);
+        mPhysicalThing->_setActor(this);
+    }
 
-Actor::Actor(  const String& name )
-{
-	mName = name;
-	SceneManager* sceneMgr = CoreSubsystem::getSingleton().getWorld()->getSceneManager();
-	mSceneNode = sceneMgr->getRootSceneNode()->createChildSceneNode(name);
-    mPhysical = 0;
-}
+    Actor::~Actor()
+    {
+        removeFromScene();
+        if (mActorControlledObject)
+        {
+            mActorControlledObject->_setActor(0);
+        }
+        // Eventuell mal SceneNode löschen.
+    }
 
-Actor::Actor(  const String& name, SceneNode* parentNode )
-{
-	mName = name;
-	mSceneNode =  parentNode->createChildSceneNode(name);
-    mPhysical = 0;
-}
+    void Actor::setGameObject(Ogre::UserDefinedObject* uo)
+    {
+        mGameObject = uo;
+    }
 
-Actor::~Actor()
-{
-    if (mPhysical != 0)
-        PhysicsManager::getSingleton().removeAndDestroyPhysicalThing(this);
+    PhysicalThing* Actor::getPhysicalThing()
+    {
+        return mPhysicalThing;
+    }
 
-	SceneManager* pSceneMgr = CoreSubsystem::getSingleton().
-	    getWorld()->getSceneManager();
-	mSceneNode->getParent()->removeChild(mSceneNode);
-
-	pSceneMgr->destroySceneNode( mName );
-}
-
-PhysicalThing* Actor::getPhysicalThing()
-{
-    return mPhysical;
-}
-
-void Actor::setPhysicalThing( PhysicalThing* thing )
-{
-    mPhysical = thing;
-}
-
-SceneNode* Actor::getSceneNode(void)
-{
-	return mSceneNode;
-}
-
-void Actor::setSceneNode(SceneNode* node)
-{
-	mSceneNode = node;
-}
-
-/** Returns the unique Name of this Actor */
-const String& Actor::getName()
-{
-    return mName;
-}
-
-
-bool Actor::isSimpleOgreActor()
-{
-    return ( mPhysical != 0 );
-}
-
-void Actor::attachActorToSceneNode(Actor* actor)
-{
-    actor->getSceneNode()->getParent()->removeChild(actor->getName());
-    mSceneNode->addChild( actor->getSceneNode() );
-}
-
-void Actor::detachActorFromSceneNode(Actor* actor)
-{
-    mSceneNode->removeChild(actor->getName());
-    SceneManager* sceneMgr = CoreSubsystem::getSingleton().getWorld()->getSceneManager();
-    sceneMgr->getRootSceneNode()->addChild(actor->getSceneNode());
-}
-
-const String& Actor::getTypeName(){
-	return TYPENAME;
-}
-
-
-// MOVABLE
-
-
-// Override these
-void Actor::setOrientation(Real w, Real x, Real y, Real z)
-{
-	mSceneNode->setOrientation( w, x, y, z);
-
-    // TODO: Eventuell nicht updaten wenn von Physik gedreht
-    if( mPhysical )
-        mPhysical->setOrientation(w,x,y,z);
-}
-
-void Actor::setPosition(Real x, Real y, Real z)
-{
-    mSceneNode->setPosition(x, y, z);
+    ActorControlledObject* Actor::getControlledObject()
+    {
+        return mActorControlledObject;
+    }
     
-    // TODO: Eventuell nicht updaten wenn von Physik bewegt
-    if( mPhysical )
-        mPhysical->setPosition(x,y,z);
-}
+    const String& Actor::getName()
+    {
+        return mName;
+    }
 
+    void Actor::setOrientation(const Quaternion& orientation)
+    {
+        if (mSceneNode)
+        {
+            mSceneNode->setOrientation(orientation);
+        }
+        else
+        {
+            Throw(IllegalStateException, "Actor is not placed into scene.");
+        }
+    }
 
+    void Actor::setPosition(const Vector3& position)
+    {
+        if (mSceneNode)
+        {
+            mSceneNode->setPosition(position);
+        }
+        else
+        {
+            Throw(IllegalStateException, "Actor is not placed into scene.");
+        }
+    }
+    
+    void Actor::setPosition(Ogre::Real x, Ogre::Real y, Ogre::Real z)
+    {
+        setPosition(Vector3(x, y, z));
+    }
 
-// These Only Use the above
-void Actor::setOrientation(const Quaternion& orientation)
-{
-    setOrientation(orientation.w,orientation.x,orientation.y,orientation.z);
-}
+    void Actor::translate(const Vector3& translation, Node::TransformSpace ts)
+    {
+        if (mSceneNode)
+        {
+            mSceneNode->translate(translation, ts);
+        }
+        else
+        {
+            Throw(IllegalStateException, "Actor is not placed into scene.");
+        }
+    }
 
+    void Actor::roll(Real angle)
+    {
+        if (mSceneNode)
+        {
+            mSceneNode->rotate(Vector3::UNIT_Z, Degree(angle));
+        }
+        else
+        {
+            Throw(IllegalStateException, "Actor is not placed into scene.");
+        }
+    }
 
-void Actor::setPosition(const Vector3& vec)
-{
-	setPosition(vec.x, vec.y, vec.z);
-}
+    void Actor::pitch(Real angle)
+    {
+        if (mSceneNode)
+        {
+            mSceneNode->rotate(Vector3::UNIT_X, Degree(angle));
+        }
+        else
+        {
+            Throw(IllegalStateException, "Actor is not placed into scene.");
+        }
+    }
 
+    void Actor::yaw(Real angle)
+    {
+        if (mSceneNode)
+        {
+            mSceneNode->rotate(Vector3::UNIT_Y, Degree(angle));
+        }
+        else
+        {
+            Throw(IllegalStateException, "Actor is not placed into scene.");
+        }
+    }
 
-void Actor::translate(const Vector3& d)
-{
-	// Adjust position by rotation
-	Vector3 newTrans = mSceneNode->getOrientation() * d;
-	translateWorldSpace(newTrans);
-}
+    void Actor::rotate(const Quaternion& orientation)
+    {
+        if (mSceneNode)
+        {
+            mSceneNode->setOrientation(orientation);
+        }
+        else
+        {
+            Throw(IllegalStateException, "Actor is not placed into scene.");
+        }
 
-void Actor::translate(Real x, Real y, Real z)
-{
-	translate(Vector3(x, y, z));
-}
+    }
 
-void Actor::translateWorldSpace(Real x, Real y, Real z)
-{
-	translateWorldSpace(Vector3(x, y, z));
-}
+    const Vector3& Actor::getPosition(void)
+    {
+        if (mSceneNode)
+        {
+            return mSceneNode->getPosition();
+        }
+        else
+        {
+            Throw(IllegalStateException, "Actor is not placed into scene.");
+        }
+    }
 
-void Actor::translateWorldSpace(const Vector3& d)
-{
-	setPosition(getPosition() + d);
-}
+    const Quaternion& Actor::getOrientation(void)
+    {
+        if (mSceneNode)
+        {
+            return mSceneNode->getOrientation();
+        }
+        else
+        {
+            Throw(IllegalStateException, "Actor is not placed into scene.");
+        }
+    }
 
-void Actor::roll(Real angle)
-{
-	rotate(Vector3::UNIT_Z, angle);
-}
+    void Actor::placeIntoScene(const Vector3& position,
+        const Quaternion& orientation)
+    {
+            SceneManager* mgr = CoreSubsystem::getSingletonPtr()->
+                getWorld()->getSceneManager();
+            _placeIntoScene(mgr->getRootSceneNode(), position, orientation);
+    }        
 
-void Actor::pitch(Real angle)
-{
-	rotate(Vector3::UNIT_X, angle);
-}
+    void Actor::placeIntoScene(Real px, Real py, Real pz,
+        Real ow, Real ox, Real oy, Real oz)
+    {
+        placeIntoScene(Vector3(px, py, pz), Quaternion(ow, ox, oy, oz));
+    }
+    
+    void Actor::removeFromScene()
+    {
+        ///@todo child actors berücksichtigen
 
-void Actor::yaw(Real angle)
-{
-	rotate(Vector3::UNIT_Y, angle);
-}
+        if (mActorControlledObject && mSceneNode)
+        {
+            mSceneNode->detachObject(
+                mActorControlledObject->getMovableObject());
+            SceneManager* mgr = CoreSubsystem::getSingletonPtr()->
+                getWorld()->getSceneManager();
+            ///@todo performance
+            mgr->destroySceneNode(mSceneNode->getName());
+            mSceneNode = 0;
+        }
+    }
 
-void Actor::rotate(const Vector3& axis, Real angle)
-{
-	Quaternion q;
-	q.FromAngleAxis(Degree(angle),axis);
-	rotate(q);
-}
+    void Actor::attach(const String& slot, Actor* actor,
+        const String& childSlot)
+    {
+        if (actor->mParent)
+        {
+            Throw(InvalidArgumentException,
+                "Actor already attached to another actor.");
+        }
+        else
+        {
+            doAttach(slot, actor, childSlot);
+            // Erst danach Parent/Child wirklich zuweisen, falls es ne
+            // Exception gibt.
+            actor->mParent = this;
+            mChilds.insert(actor);
+        }
+    }
 
-void Actor::rotate(Real x, Real y, Real z, Real angle)
-{
-	Vector3 v = Vector3(x,y,z);
-	rotate(v, angle);
-}
+    void Actor::detach(Actor* actor)
+    {
+        if (mChilds.find(actor) == mChilds.end())
+        {
+            Throw(InvalidArgumentException, "Actor is not a child of this.");
+        }
+        else
+        {
+            doDetach(actor);
+            actor->mParent = 0;
+            mChilds.erase(actor);
+        }
+    }
 
-void Actor::rotate(const Quaternion& q)
-{
-	setOrientation(getOrientation() * q);
-}
+    void Actor::doAttach(const String& slot, Actor* actor,
+            const String& childSlot)
+    {
+    }            
 
-const Vector3& Actor::getPosition(void)
-{
-	return mSceneNode->getPosition();
-}
+    void Actor::doDetach(Actor* actor)
+    {
+    }
+    
+    void Actor::placeChildsIntoScene(const Vector3& position,
+            const Quaternion& orientation)
+    {
+    }
+        
+    SceneNode* Actor::_getSceneNode()
+    {
+        return mSceneNode;
+    }
 
-const Quaternion& Actor::getOrientation(void)
-{
-	return mSceneNode->getOrientation();
-}
+    MovableObject* Actor::_getMovableObject()
+    {
+        return mActorControlledObject ? 
+            mActorControlledObject->getMovableObject() : 0;
+    }
+    
+    void Actor::_update()
+    {
+        if (mSceneNode) mSceneNode->_update(true, true);
+        mPhysicalThing->_update();
+    }
+    
+    void Actor::_placeIntoScene(SceneNode* parent, const Vector3& position,
+        const Quaternion& orientation)
+    {
+        ///@todo child actors berücksichtigen
 
-
+        // SceneNode erzeugen, falls nicht schon einer vorhanden
+        if (parent && !mSceneNode)
+        {
+            mSceneNode = parent->createChildSceneNode(mName, position, orientation);
+            // Falls ein MovableObject vorhanden, diesen attachen
+            if (mActorControlledObject)
+            {
+                mSceneNode->attachObject(
+                    mActorControlledObject->getMovableObject());
+            }
+        }
+        else if (!parent)
+        {
+            removeFromScene();
+        }
+    }        
 }

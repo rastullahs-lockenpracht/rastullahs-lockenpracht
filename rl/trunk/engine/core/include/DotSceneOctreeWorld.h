@@ -34,7 +34,7 @@ namespace rl {
         virtual Entity* getSceneEntity();
 		virtual void setCastShadows(bool enabled);
         
-    private:
+    protected:
         virtual void doLoadScene(const String& levelName);
 
         Entity* mSceneEntity;

@@ -17,7 +17,7 @@
 
 #include "UiSubsystem.h"
 #include "Person.h"
-#include "GameActor.h"
+#include "Actor.h"
 
 #include "DebugWindow.h"
 
@@ -83,8 +83,10 @@ namespace rl
 		if (UiSubsystem::getSingleton().getActiveCharacter() != NULL && 
 			UiSubsystem::getSingleton().getActiveCharacter()->getActor() != NULL)
 		{
-			Ogre::Vector3 pos = UiSubsystem::getSingleton().getActiveCharacter()->getActor()->getSceneNode()->getWorldPosition();
-			setText("Player-Position "+StringConverter::toString(pos));
+			Ogre::Vector3 pos = UiSubsystem::getSingletonPtr()->
+			    getActiveCharacter()->getActor()->
+			        _getSceneNode()->getWorldPosition();
+//			setText("Player-Position "+StringConverter::toString(pos));
 		}
 	}
 

@@ -33,6 +33,7 @@ template<> rl::PhysicsManager* Singleton<rl::PhysicsManager>::ms_Singleton = 0;
 #endif
 
 using namespace OgreOde;
+using namespace std;
 
 namespace rl
 {
@@ -40,12 +41,14 @@ namespace rl
     PhysicsManager::PhysicsManager(rl::World* world)
         :   mEnabled(true),
             mPhysicalThings(),
-            mSimpleSpaces(),            mOdeWorld(new OgreOde::World(world->getSceneManager())),
+            mSpaces(),
+            mOdeWorld(new OgreOde::World(world->getSceneManager())),
             mGlobalSpace(new OgreOde::HashTableSpace(0)),
             mCurrSpace(mGlobalSpace),
-            mOdeStepper(new OgreOde::ForwardFixedQuickStepper(0.01))
+            mOdeStepper(new OgreOde::ForwardFixedQuickStepper(0.01)),
+            mOdeLevel(0)
     {
-        mOdeWorld->setGravity(Vector3(0, -980.665 * 2.56, 0));
+        mOdeWorld->setGravity(Vector3(0, -980.665, 0));
         mOdeWorld->setCFM(10e-5);
         mOdeWorld->setERP(0.8);
         mOdeWorld->setAutoSleep(true);
@@ -63,37 +66,38 @@ namespace rl
         mOdeWorld = 0;
     }
 
-    void PhysicsManager::run( Real elapsedTime )
+    void PhysicsManager::run(Real elapsedTime)
     {
         if( mEnabled && elapsedTime > 0.0f )
         {
-            // Collide stuff ( to enable collision between non-movables )
-            mGlobalSpace->collide();
-
-            // Update the positions of everything that we're keeping track of
-            for(PhysicalThingActorMap::iterator i = mPhysicalThings.begin();
-                i != mPhysicalThings.end(); i++)
-            {
-                i->second->update();
-            }
         }
     }
 
     OgreOde::JointGroup*  PhysicsManager::getContactJointGroup()
     {
-        ///!todo implementieren
+        ///@todo implementieren
         return 0;
     }
 
-    ///!todo Das aktuelle Levelmesh setzen.
-    /// bzw. Flags benutzen, die immvoables auszeichnen.
-    /// irgendeine Loesung dazu einfallen lassen.
-    void PhysicsManager::setWorldScene( World* world )
+    ///@todo Das aktuelle Levelmesh setzen.
+    void PhysicsManager::createLevelGeometry(SceneNode* levelNode)
     {
-        if (!world)
+        delete mOdeLevel;
+        mOdeLevel = 0;
+        if (levelNode)
+        {
+            mOdeLevel = MeshInformer::createStaticTriangleMesh(levelNode,
+                mGlobalSpace);
+        }
+        else
         {
             setEnabled(false);
-        }
+        }        
+    }
+    
+    Geometry* PhysicsManager::getLevelGeometry()
+    {
+        return mOdeLevel;
     }
 
     void PhysicsManager::setCFM(Real cfm)
@@ -131,139 +135,91 @@ namespace rl
         return mOdeWorld;
     }
 
-    PhysicalThing* PhysicsManager::createPhysicalThing(Actor* actor)
+    PhysicalThing* PhysicsManager::createPhysicalThing(const int geomType,
+        const Ogre::Vector3& size, Real density)
     {
-        PhysicalThing* phys = new PhysicalThing(mCurrSpace, actor);
-        mPhysicalThings.insert( PhysicalThingActorPair(actor, phys) );
-        return phys;
-    }
-
-    PhysicalThing* PhysicsManager::createSpherePhysicalThing(Actor* actor, Real density, bool noDynamics)
-    {
-        PhysicalThing* phys = new PhysicalThing(mCurrSpace, actor);
-        mPhysicalThings.insert( PhysicalThingActorPair(actor, phys) );
-
-        Real radius = 1;
-
-        MovableObject* obj = actor->getSceneNode()->getAttachedObject( 0 );
-
-        CoreSubsystem::log( String("PhysicsManager - Erstelle ein Kugel-Physik-Objekt für den Aktor ") + actor->getName() );
-
-        // Try to create the sphere from the Actor
-        if( obj != 0 )
+        Geometry* geom = 0;
+        ///@todo verallgemeinern
+        Vector3 offset(Vector3::ZERO);
+        if (geomType == PT_BOX)
         {
-            CoreSubsystem::log( " Eingebettete Entity gefunden" );
-
-            const AxisAlignedBox &aab = obj->getBoundingBox();
-
-            // Adjust the size a bit since it's really intended for culling stuff
-            Vector3 x = aab.getMaximum() - Vector3::UNIT_SCALE;
-            Vector3 n = aab.getMinimum() + Vector3::UNIT_SCALE;
-            // Calculate Scaling
-            Vector3 s = actor->getSceneNode()->getScale();
-
-            // Calculating the size of the sphere
-            radius = max((x.x - n.x)*s.x,max((x.y - n.y)*s.y,(x.z - n.z)*s.z)) * 0.5;
-            CoreSubsystem::log( String(" Radius der Kugel - ") + StringConverter::toString(radius) );
+            geom = createBoxGeometry(size, density);
         }
-        else
-            CoreSubsystem::log( " Keine eingebettete Entity gefunden - verwende Radius 1" );
-
-        phys->createSphereGeometry( radius, actor->getPosition(), actor->getOrientation());
-
-        if( ! noDynamics )
-            phys->createSphereMass( density, radius, actor->getPosition(), actor->getOrientation());
-
-        return phys;
-    }
-
-    PhysicalThing* PhysicsManager::createBoxPhysicalThing(Actor* actor, Real density, bool noDynamics)
-    {
-        PhysicalThing* phys = new PhysicalThing(mCurrSpace, actor);
-        mPhysicalThings.insert( PhysicalThingActorPair(actor, phys) );
-
-        Vector3 length = Vector3(1,1,1);
-
-        MovableObject* obj = actor->getSceneNode()->getAttachedObject( 0 );
-
-        CoreSubsystem::log( String("PhysicsManager - Erstelle ein Würfel-Physik-Objekt für den Aktor ") + actor->getName() );
-
-        // Try to create the Box from the Actor
-        if( obj != 0 )
+        else if (geomType == PT_SPHERE)
         {
-            CoreSubsystem::log( " Eingebettete Entity gefunden" );
-
-            const AxisAlignedBox &aab = obj->getBoundingBox();
-
-            // Adjust the size a bit since it's really intended for culling stuff
-            Vector3 x = aab.getMaximum() - Vector3::UNIT_SCALE;
-            Vector3 n = aab.getMinimum() + Vector3::UNIT_SCALE;
-            // Calculate Scaling
-            Vector3 s = actor->getSceneNode()->getScale();
-
-            // Calculating the size of the box
-            length[0] = (x.x - n.x) * s.x;
-            length[1] = (x.y - n.y) * s.y;
-            length[2] = (x.z - n.z) * s.z;
-
-            CoreSubsystem::log( String(" Größe der Box - ") + 
-                StringConverter::toString(length[0]) + " " + 
-                StringConverter::toString(length[1]) + " " + 
-                StringConverter::toString(length[2]) );
+            double radius = max(size.x, max(size.y, size.z)) / 2.0;
+            geom = createSphereGeometry(radius, density);
         }
-        else
-            CoreSubsystem::log( " Keine eingebettete Entity gefunden - verwende Größe 1" );
-
-        phys->createBoxGeometry( length, actor->getPosition(), actor->getOrientation());
-
-        if( ! noDynamics )
-            phys->createBoxMass( density, length, actor->getPosition(), actor->getOrientation());
-
-        return phys;
-    }
-
-    PhysicalThing* PhysicsManager::createCappedCylinderPhysicalThing(Actor* actor, Real density, bool noDynamics)
-    {
-        PhysicalThing* phys = new PhysicalThing(mCurrSpace, actor);
-        mPhysicalThings.insert( PhysicalThingActorPair(actor, phys) );
-
-        Real radius = 1;
-        Real length = 1;
-
-        MovableObject* obj = actor->getSceneNode()->getAttachedObject( 0 );
-
-        // Try to create the sphere from the Actor
-        if( obj != 0 )
+        else if (geomType == PT_CAPSULE)
         {
-            const AxisAlignedBox &aab = obj->getBoundingBox();
-
-            // Adjust the size a bit since it's really intended for culling stuff
-            Vector3 x = aab.getMaximum() - Vector3::UNIT_SCALE;
-            Vector3 n = aab.getMinimum() + Vector3::UNIT_SCALE;
-
-            // Cylinders are z-aligned
-            length = x.z - n.z;
-
-            // Calculating the radsius of the cylinder
-            radius = max((x.x - n.x),(x.y - n.y)) * 0.5;
+            double radius = max(size.x, size.z) / 2.0;
+            geom = createCapsuleGeometry(size.y - 2.0 * radius, radius, density);
+            offset = Vector3(0.0, (size.y - 2.0 * radius) / 2.0 + radius, 0.0);
         }
-
-        phys->createCappedCylinderGeometry( radius, length, actor->getPosition(), actor->getOrientation() );
-
-        if( ! noDynamics )
-            phys->createCappedCylinderMass( density, radius, length, actor->getPosition(), actor->getOrientation());
-
-        return phys;
+        PhysicalThing* pt = new PhysicalThing(geom, offset);
+        mPhysicalThings.push_back(pt);        
+        return pt;
     }
 
-    void PhysicsManager::removeAndDestroyPhysicalThing(Actor* actor)
+    Geometry* PhysicsManager::createSphereGeometry(Real radius,
+        Real density)
     {
-        PhysicalThingActorMap::iterator pPhysicalThingIter = mPhysicalThings.find(actor);
-
-        if( pPhysicalThingIter != mPhysicalThings.end() )
+        Geometry* geom = new SphereGeometry(radius, mCurrSpace);
+        if (density > 0.0)
         {
-            PhysicalThing* phys = pPhysicalThingIter->second;
-            mPhysicalThings.erase(pPhysicalThingIter);
+            // Objekt hat eine Masse, also einen Body verpassen.
+            OgreOde::Body* body = new OgreOde::Body();
+            OgreOde::SphereMass mass(1.0, radius);
+            mass.setDensity(density, radius);
+            body->setMass(mass);
+            geom->setBody(body);
+        }
+        return geom;
+    }
+
+    Geometry* PhysicsManager::createBoxGeometry(const Vector3& size,
+        Real density)
+    {
+        Geometry* geom = new BoxGeometry(size, mCurrSpace);
+        if (density > 0.0)
+        {
+            // Objekt hat eine Masse, also einen Body verpassen.
+            OgreOde::Body* body = new OgreOde::Body();
+            OgreOde::BoxMass mass(1.0, size);
+            mass.setDensity(density, size);
+            body->setMass(mass);
+            geom->setBody(body);
+        }
+        return geom;
+    }
+
+    Geometry* PhysicsManager::createCapsuleGeometry(Real height,
+        Real radius, Real density)
+    {
+        Geometry* geom = new CapsuleGeometry(radius, height, mCurrSpace);
+        ///@todo verallgemeinern.
+        geom->setOrientation(Quaternion(Degree(90), Vector3::UNIT_X));
+        if (density > 0.0)
+        {
+            // Objekt hat eine Masse, also einen Body verpassen.
+            OgreOde::Body* body = new OgreOde::Body();
+            OgreOde::CapsuleMass mass(1.0, radius, Vector3::UNIT_Y, height);
+            mass.setDensity(density, radius, Vector3::UNIT_Y, height);
+            body->setMass(mass);
+            geom->setBody(body);
+        }
+        return geom;
+    }
+
+    void PhysicsManager::removeAndDestroyPhysicalThing(PhysicalThing* thing)
+    {
+        vector<PhysicalThing*>::iterator it = find(mPhysicalThings.begin(),
+            mPhysicalThings.end(), thing);
+
+        if( it != mPhysicalThings.end() )
+        {
+            PhysicalThing* phys = *it;
+            mPhysicalThings.erase(it);
             delete phys;
         }
     }
@@ -292,7 +248,11 @@ namespace rl
 
         if( s != mGlobalSpace && s->getGeometryCount() == 0 )
         {
-            mSimpleSpaces.remove(dynamic_cast<OgreOde::SimpleSpace*>(s));
+            vector<Space*>::iterator it = find(mSpaces.begin(), mSpaces.end(), s);
+            if (it != mSpaces.end())
+            {
+                mSpaces.erase(it);
+            }
         }
     }
 
@@ -300,19 +260,21 @@ namespace rl
     void PhysicsManager::createSimpleSpace()
     {
         // Ist unser aktueller Space nicht leer
-        if((mCurrSpace != mGlobalSpace && mCurrSpace->getGeometryCount() > 0 ) || (mCurrSpace == mGlobalSpace) )
+        if((mCurrSpace != mGlobalSpace && mCurrSpace->getGeometryCount() > 0)
+            || (mCurrSpace == mGlobalSpace))
         {
             // Ist der zuletzt erschaffene vielleicht leer
-            // (Passiert wenn neu erschaffen, und dann direkt den globalen reaktiviert)
-            if( mSimpleSpaces.back()->getGeometryCount() == 0)
+            // (Passiert wenn neu erschaffen,
+            //  und dann direkt den globalen reaktiviert)
+            if( mSpaces.back()->getGeometryCount() == 0)
             {
-                mCurrSpace = mSimpleSpaces.back();
+                mCurrSpace = mSpaces.back();
             }
             // Dann müssen wir wohl nen neuen erstellen
             else
             {
                 SimpleSpace *s = new SimpleSpace(mGlobalSpace);
-                mSimpleSpaces.push_back(s);
+                mSpaces.push_back(s);
                 mCurrSpace = s;
             }
         }
@@ -335,22 +297,54 @@ namespace rl
 
     bool PhysicsManager::collision(Contact* contact)
     {
-        PhysicalThing* thing1 = (PhysicalThing*)
-            contact->getFirstGeometry()->getUserData();
-        PhysicalThing* thing2 = (PhysicalThing*)
-            contact->getSecondGeometry()->getUserData();
+        Geometry* g1 = contact->getFirstGeometry();
+        Geometry* g2 = contact->getSecondGeometry();
 
-        if( thing1 && thing2 )
+        if(g1 && g2)
         {
-            thing1->testCollide( thing2 );
+            // Check for collisions between things that are connected
+            // and ignore them.
+            OgreOde::Body* b1 = g1->getBody();
+            OgreOde::Body* b2 = g2->getBody();
+            if(b1 && b2) if(OgreOde::Joint::areConnected(b1,b2)) return false; 
         }
-        ///@todo richten!
-        return false;
+        
+        // Set the friction at the contact
+        contact->setCoulombFriction(OgreOde::Utility::Infinity);
+
+        // Yes, this collision is valid
+        bool rval = true;
+        for(vector<CollisionListener*>::size_type i = 0;
+            i < mCollisionListeners.size(); i++)
+        {
+            rval = rval && mCollisionListeners[i]->collision(contact);
+        }
+        return rval;
     }
 
+    bool PhysicsManager::preStep(Real time)
+    {
+        return true;
+    }
+    
     void PhysicsManager::setEnabled(bool enabled)
     {
         mEnabled = enabled;
     }
 
+    void PhysicsManager::addCollisionListener(CollisionListener* cl)
+    {
+        mCollisionListeners.push_back(cl);
+    }
+    
+    void PhysicsManager::removeCollisionListener(CollisionListener* cl)
+    {
+        vector<CollisionListener*>::iterator it =
+            find(mCollisionListeners.begin(), mCollisionListeners.end(), cl);
+        
+        if (it != mCollisionListeners.end())
+        {
+            mCollisionListeners.erase(it);
+        }
+    }
 }

@@ -128,7 +128,8 @@ namespace rl {
 	void World::loadScene(const String& levelName)
 	{
 	    doLoadScene(levelName);
-	    PhysicsManager::getSingletonPtr()->setWorldScene(this);
+	    PhysicsManager::getSingletonPtr()
+	        ->createLevelGeometry(mSceneMgr->getSceneNode("level"));
 	}
 
 	void World::setCastShadows(bool enabled)

@@ -20,20 +20,15 @@
 #include <map>
 
 #include "CorePrerequisites.h"
+#include "PhysicsManager.h"
 
 namespace rl {
 
 class World;
 class Actor;
-class CameraActor;
-class LightActor;
-class ParticleSystemActor;
-class GameActor;
-class AnimatedActor;
-class MeshActor;
 
-typedef std::map<String,Actor*> ActorPtrMap;
-typedef std::pair<String,Actor*> ActorPtrPair;
+typedef std::map<const String,Actor*> ActorPtrMap;
+typedef std::pair<const String,Actor*> ActorPtrPair;
 
 class _RlCoreExport ActorManager : protected Singleton<ActorManager>
 {
@@ -42,17 +37,20 @@ class _RlCoreExport ActorManager : protected Singleton<ActorManager>
         virtual ~ActorManager( );
 
         Actor* getActor(const String& name);
-		void deleteActor(const String& name);
-        void deleteAllActors();
 
-		CameraActor* createCameraActor(const String& name);
-        LightActor* createLightActor(const String& name, int type);
-		MeshActor* createMeshActor(const String& name,const String& meshname);
-		GameActor* createGameActor(const String& name,const String& meshname);
-        ParticleSystemActor* createParticleSystemActor(const String& name,
-            const String& partname);
+        //Actor* createLightActor(const String& name, int type);
+        Actor* createCameraActor(const String& name);
+   	    Actor* createMeshActor(const String& name,const String& meshname,
+		    int geomType, Ogre::Real density);
+        //Actor* createParticleSystemActor(const String& name,
+        //    const String& partname);
+            
+        void destroyActor(Actor* actor);
+        
+        ///@warning Actors with a camera attached wont be destroyed.
+        void destroyAllActors();
 
-        void setWorld( World* pWorld );
+        void setWorld(World* world);
 		const World* const getWorld() const;
 
 		Actor* getActorAt(Ogre::Real x, Ogre::Real y) const;
