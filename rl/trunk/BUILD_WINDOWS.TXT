@@ -3,7 +3,7 @@ VS.NET
 Um Rastullahs Lockenpracht bauen zu können werden folgende zusätzliche
 Bibliotheken benötigt:
 
-Ogre 3D - > 0.15+ ( newest CVS )
+Ogre 3D 1.0 - Azatoth + Patches
 http://www.ogre3d.org
 
 Ruby - 1.8
@@ -15,11 +15,17 @@ http://www.swig.org
 OPENAL
 http://developer.creative.com/landing.asp?cat=1&sbcat=31&top=38
 
-Ode - 0.5
-http://www.ode.org - Single Precision mit Trimesh
+Vorbis
+http://www.vorbis.com/
 
-OgreODE - aktuelle preview
-http://www.ogre3d.org/phpBB2/viewtopic.php?p=32348#32348
+Ode
+http://www.ode.org - Patched (siehe OgreODE Docs)
+
+OgreODE - Final Compatible 1.0.0
+http://www.green-eyed-monster.com/xoops/modules/mydownloads/visit.php?cid=3&lid=10
+
+Cegui 0.2
+http://www.cegui.org.uk/
 
 Xerxes
 http://xml.apache.org/xerces-c/download.cgi
@@ -32,11 +38,12 @@ Diese sind alle unterhalb von rl/dependencies anzulegen.
 Die Projekte müssen alle im Verzeichnis dependencies angelegt werden.
 Die Verzeichnisstruktur sollte jeweils erhalten bleiben.
 
-VS.Net-2003-Nutzer können sich alternativ von der Projektseite auch dependencies.rar und
-dependencies-ogre.rar und dependencies-cegui.rar runterladen und ins rl-Verzeichnis entpacken. Müssen dann aber dennoch
-das Modul openalpp unter rl/dependencies auschecken.
+VS.Net-2003-Nutzer können sich alternativ von der Projektseite auch dei Dependencies runterladen und ins rl-Verzeichnis entpacken.
 
 Das Projekt kann man dann einfach kompilieren.
+Um erfolgreich starten zu können braucht man unseren eigenen Look, dieser lässt sich aus dem Module rllooks erstellen. 
+Dieses sollte im selben Verzeichnis, in dem auch rl liegt ausgecheckt werden, damit die dependencies gefunden werden.
+
 Vor dem Debuggen müssen die nötigen Dateien in ein Distributionsverzeichnis
 kopiert werden. Dazu dient das Skript tools/make_release.bat. Je nach kompilierter Konfiguration
 müssen andere DLLs kopiert werden. Dafür gibt es die beiden bat-Dateien release_copy.bat
