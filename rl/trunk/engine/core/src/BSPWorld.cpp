@@ -12,7 +12,7 @@ namespace rl {
 
 	BSPWorld::BSPWorld( ) : World(ST_INTERIOR, true)
 	{
-        getSceneManager()->getRootSceneNode()->pitch(90);
+        getSceneManager()->getRootSceneNode()->pitch(Degree(90));
 	}
 
 	BSPWorld::~BSPWorld()
@@ -79,7 +79,7 @@ namespace rl {
     void BSPWorld::setSkyBox(bool enable, const String &materialName, Real distance, bool drawFirst )
     {
         mSceneMgr->setSkyBox(enable, materialName,
-            distance, drawFirst, Quaternion(1.57079632, Vector3::UNIT_X));
+            distance, drawFirst, Quaternion(Radian(Math::HALF_PI), Vector3::UNIT_X));
     }
 
 	void BSPWorld::clearScene( )
