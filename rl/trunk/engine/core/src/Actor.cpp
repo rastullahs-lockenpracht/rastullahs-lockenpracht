@@ -320,7 +320,22 @@ namespace rl {
 			return; // @todo: wenn this kein MeshObjekt ist, trotzdem irgendwie zusammenfügen		}
 		}
 
-    }            
+    }         
+
+    void Actor::setScale( Ogre::Real sx, Ogre::Real sy, Ogre::Real sz )
+    {
+        Node* node = getControlledObject()->getMovableObject()->getParentNode();
+
+        if( node )
+        {
+            node->setScale( Vector3(sx,sy,sz) );
+        }
+
+        if( getControlledObject()->isMeshObject() )
+        {
+            ( dynamic_cast<MeshObject*>( getControlledObject() ) )->getEntity()->setNormaliseNormals( true );
+        }
+    }
 
     void Actor::doDetach(Actor* actor)
     {

@@ -55,7 +55,7 @@ void TrackAnimation::setKeyFrameTranslation( Ogre::Real timePos, Ogre::Real xPos
 {
 	Ogre::KeyFrame* frame = getKeyFrameAtTimePos( timePos );
 
-	if( frame != 0 )
+	if( frame != NULL )
 		frame->setTranslate(Ogre::Vector3(xPos,yPos,zPos));
 }
 
@@ -64,7 +64,7 @@ void TrackAnimation::setKeyFrameRotationQuaternion( Ogre::Real timePos,
 {
     Ogre::KeyFrame* frame = getKeyFrameAtTimePos( timePos );
 
-	if( frame != 0 )
+	if( frame != NULL )
 		frame->setRotation( Ogre::Quaternion( w, x, y, z ) );
 }
 
@@ -72,7 +72,7 @@ void TrackAnimation::setKeyFrameRotation( Ogre::Real timePos, Ogre::Real xRotAxi
 {
 	Ogre::KeyFrame* frame = getKeyFrameAtTimePos( timePos );
 
-	if( frame != 0 )
+	if( frame != NULL )
 		frame->setRotation( Ogre::Quaternion(  Ogre::Radian( Ogre::Degree(angleUnits)), 
 				Ogre::Vector3(xRotAxis,yRotAxis,zRotAxis) ) );
 }
@@ -81,7 +81,7 @@ void TrackAnimation::setKeyFrameScale( Ogre::Real timePos, Ogre::Real xScale, Og
 {
 	Ogre::KeyFrame* frame = getKeyFrameAtTimePos( timePos );
 
-	if( frame != 0 )
+	if( frame != NULL )
 		frame->setScale(Ogre::Vector3(xScale,yScale,zScale));
 }
 
@@ -121,6 +121,10 @@ bool TrackAnimation::getUseShortestRotationPath () const
 
 Ogre::KeyFrame* TrackAnimation::getKeyFrameAtTimePos( Ogre::Real timePos )
 {
+    // 0 ist bereits definiert
+    if( timePos == 0.0 )
+        return mAnimationTrack->getKeyFrame(0);
+
 	Ogre::KeyFrame *frame1;
 	Ogre::KeyFrame *frame2;
 
@@ -128,8 +132,6 @@ Ogre::KeyFrame* TrackAnimation::getKeyFrameAtTimePos( Ogre::Real timePos )
 
 	return frame1;
 }
-
-// CoreSubsystem::getSingleton().log( StringConverter::toString( mAnimState->getTimePosition() ) );
 
 
 }

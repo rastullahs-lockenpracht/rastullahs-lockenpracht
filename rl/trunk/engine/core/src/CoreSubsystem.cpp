@@ -23,6 +23,7 @@
 #include <OgreLog.h>
 #include <OgreConfigFile.h>
 #include <OgreMeshManager.h>
+#include <OgreBillboardParticleRenderer.h>
 
 #include "DotSceneOctreeWorld.h"
 #include "PhysicsManager.h"
@@ -163,6 +164,8 @@ namespace rl {
         ConfigFile cf;
         cf.load(ConfigurationManager::getSingleton().getModulesCfgPath());
 
+
+
         // Go through all settings in the file
         ConfigFile::SettingsIterator i = cf.getSettingsIterator();
 
@@ -186,6 +189,8 @@ namespace rl {
         //	mActiveModule = *mActivatableModules.begin();
         //else
         //	mActiveModule = "";
+        //ParticleSystemManager::getSingleton().addRendererFactory( 
+        //    new BillboardParticleRendererFactory() );
         ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
     }
 

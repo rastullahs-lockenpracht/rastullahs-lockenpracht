@@ -51,6 +51,8 @@ namespace rl {
             const Ogre::Vector3& position = Ogre::Vector3::ZERO,
             const Ogre::Quaternion& orientation = Ogre::Quaternion::IDENTITY,
 			const std::string& odeBone = "");
+        
+        
 
         void placeIntoScene(
             Ogre::Real px, Ogre::Real py, Ogre::Real pz,
@@ -66,6 +68,9 @@ namespace rl {
         /// Sets the position of this object.
         void setPosition(const Ogre::Vector3& vec);
         void setPosition(Ogre::Real x, Ogre::Real y, Ogre::Real z);
+
+        void setScale(
+            Ogre::Real sx, Ogre::Real sy, Ogre::Real sz );
 
         /// Gets the current orientation of this object.
         const Ogre::Quaternion& getOrientation(void);

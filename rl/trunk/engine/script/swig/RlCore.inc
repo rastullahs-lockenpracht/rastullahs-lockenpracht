@@ -313,6 +313,7 @@ public:
     
     ActorControlledObject* getControlledObject();
 
+    void setScale( Real sx, Real sy, Real sz );
     void placeIntoScene(Real px, Real py, Real pz,
         Real ow, Real ox, Real oy, Real oz, const std::string& odeBone = "");
         
