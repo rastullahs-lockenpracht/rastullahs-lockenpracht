@@ -115,12 +115,23 @@ class ShowObjectActionsAction < RubyAction
   end
 end
 
+class ShowCharacterSheetAction < RubyAction
+  def initialize
+    super("Charakterblatt", "Charakterblatt des aktiven Helden anzeigen")
+  end
+
+  def doAction(object, actor, target)
+    $UI.showCharacterSheet()
+  end
+end
+
+
 class PlayerSettings
   
   def PlayerSettings.addPlayerActions(player)    
-    grpGrp1 = ActionGroup.new("Grp1")
-    grpGrp2 = ActionGroup.new("Grp2")
-    grpGrp3 = ActionGroup.new("Grp3")
+    grpGrp1 = ActionGroup.new("Spielaktionen")
+    grpGrp2 = ActionGroup.new("Anzeige")
+    grpGrp3 = ActionGroup.new("Optionen")
     
     player.addActionInGroup(ShowActionMenuAction.new, grpGrp1, 7) # ACT_DISABLED
     player.addActionInGroup(CampAction.new, grpGrp1) 
@@ -131,6 +142,7 @@ class PlayerSettings
     player.addActionInGroup(ToggleOdeDebugAction.new, grpGrp2)
     player.addActionInGroup(ToggleViewModeAction.new, grpGrp2)
     player.addActionInGroup(ResetCameraAction.new, grpGrp2)
+    player.addActionInGroup(ShowCharacterSheetAction.new, grpGrp2)
     player.addActionInGroup(QuitGameAction.new, grpGrp3) 
     player.addActionInGroup(MakeScreenshotAction.new, grpGrp3)
   end
