@@ -1,5 +1,5 @@
-#ifndef __CeConsole_H__
-#define __CeConsole_H__
+#ifndef __Console_H__
+#define __Console_H__
 
 #include "UiPrerequisites.h"
 
@@ -16,13 +16,13 @@ namespace rl {
 
 	/** This is a Console System
 	 */
-	class _RlUiExport CeConsole : public Singleton<CeConsole>, public CeGuiWindow
+	class _RlUiExport Console : public Singleton<Console>, public CeGuiWindow
 	{
 		public:
-			CeConsole();
+			Console();
 			
-			static CeConsole& getSingleton();
-			static CeConsole* getSingletonPtr();
+			static Console& getSingleton();
+			static Console* getSingletonPtr();
 
 			void setInterpreter(Interpreter* interpreter);
 			Interpreter* getInterpreter();

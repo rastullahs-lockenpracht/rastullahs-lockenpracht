@@ -9,7 +9,7 @@
 #include "CoreSubsystem.h"
 
 #include "RubyInterpreter.h"
-#include "CeConsole.h"
+#include "Console.h"
 #include "DebugWindow.h"
 #include "ThirdPersonGameController.h"
 #include "InputManager.h"
@@ -56,7 +56,7 @@ namespace rl {
 
     UiSubsystem::~UiSubsystem() 
     {  
-		delete CeConsole::getSingletonPtr();
+		delete Console::getSingletonPtr();
         delete InputManager::getSingletonPtr();
 
         GameLoop::getSingleton().removeSynchronizedTask(mGameController);
@@ -91,7 +91,7 @@ namespace rl {
 		new CommandMapper();
         new InputManager();
 		new DebugWindow();
-		new CeConsole();
+		new Console();
 		((RubyInterpreter*)CoreSubsystem::getSingleton().getInterpreter() )->initializeInterpreter( (VALUE(*)(...))&UiSubsystem::consoleWrite );
 		
         CameraActor* camera = dynamic_cast<CameraActor*>(
@@ -124,12 +124,12 @@ namespace rl {
 
 	void UiSubsystem::writeToConsole(std::string text)
 	{
-		CeConsole::getSingleton().write(text);
+		Console::getSingleton().write(text);
 	}
 
 	VALUE UiSubsystem::consoleWrite(VALUE self, VALUE str)
 	{
-		CeConsole::getSingleton().write(RubyInterpreter::val2str(str) + " \n");
+		Console::getSingleton().write(RubyInterpreter::val2str(str) + " \n");
 		return Qnil;
 	}
 

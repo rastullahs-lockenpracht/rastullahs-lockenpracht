@@ -10,7 +10,7 @@
 
 #include "CoreSubsystem.h"
 
-#include "CeConsole.h"
+#include "Console.h"
 #include "DebugWindow.h"
 #include "GameLoop.h"
 #include "CommandMapper.h"
@@ -132,8 +132,8 @@ namespace rl {
         bool rval = false;
         if (e->getKey() == KC_F11)
         {
-            CeConsole::getSingletonPtr()->setVisible(
-                !CeConsole::getSingletonPtr()->isVisible());
+            Console::getSingletonPtr()->setVisible(
+                !Console::getSingletonPtr()->isVisible());
             rval = true;
         }
         else if (e->getKey() == KC_F5)

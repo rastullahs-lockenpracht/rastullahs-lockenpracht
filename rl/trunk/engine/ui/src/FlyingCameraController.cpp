@@ -6,7 +6,7 @@
 #include <CEGUI.h>
 #include "InputManager.h"
 #include "DebugWindow.h"
-#include "CeConsole.h"
+#include "Console.h"
 #include "CameraActor.h"
 #include "Exception.h"
 

@@ -5,11 +5,11 @@
 #include "InputManager.h"
 #include "Interpreter.h"
 
-#include "CeConsole.h"
+#include "Console.h"
 #include "DebugWindow.h"
 #include "ListboxWrappedTextItem.h"
 
-template<> rl::CeConsole* Singleton<rl::CeConsole>::ms_Singleton = 0;
+template<> rl::Console* Singleton<rl::Console>::ms_Singleton = 0;
 
 using CEGUI::WindowManager; using CEGUI::utf8; using CEGUI::ListboxTextItem;
 using CEGUI::KeyEventArgs; using CEGUI::Key; using CEGUI::colour;
@@ -17,16 +17,16 @@ using CEGUI::ListboxWrappedTextItem; using CEGUI::TextFormatting;
 
 namespace rl 
 {
-	CeConsole& CeConsole::getSingleton()
+	Console& Console::getSingleton()
     {
-        return Singleton<CeConsole>::getSingleton();
+        return Singleton<Console>::getSingleton();
     }
-	CeConsole* CeConsole::getSingletonPtr()
+	Console* Console::getSingletonPtr()
     {
-        return Singleton<CeConsole>::getSingletonPtr();
+        return Singleton<Console>::getSingletonPtr();
     }
 
-	CeConsole::CeConsole() : CeGuiWindow("console.xml", true)
+	Console::Console() : CeGuiWindow("console.xml", true)
 	{
 		using namespace CEGUI;
 		
@@ -35,13 +35,13 @@ namespace rl
 
 		mWindow->subscribeEvent(
 			FrameWindow::EventKeyDown, 
-			boost::bind(&CeConsole::handleKeyDown, this, _1));
+			boost::bind(&Console::handleKeyDown, this, _1));
 		mCommandLine->subscribeEvent(
 			Editbox::EventKeyDown, 
-			boost::bind(&CeConsole::handleKeyDown, this, _1));
+			boost::bind(&Console::handleKeyDown, this, _1));
 		mCommandLine->subscribeEvent(
 			Editbox::EventTextAccepted, 
-			boost::bind(&CeConsole::handleEnter, this, _1));
+			boost::bind(&Console::handleEnter, this, _1));
 		mDisplay->moveToFront();
 
 		mHistory.clear();
@@ -49,13 +49,13 @@ namespace rl
 		addToRoot(mWindow);	
 	}
 
-	bool CeConsole::beforeShow()
+	bool Console::beforeShow()
 	{
 		mCommandLine->activate();
 		return true;
 	}
 
-	bool CeConsole::handleKeyDown(const CEGUI::EventArgs& e)
+	bool Console::handleKeyDown(const CEGUI::EventArgs& e)
 	{
 		KeyEventArgs ke = static_cast<const KeyEventArgs&>(e);
         if (ke.scancode == Key::ArrowDown)
@@ -72,7 +72,7 @@ namespace rl
 		return false;		
 	}
 
-	bool CeConsole::handleEnter(const CEGUI::EventArgs& e)
+	bool Console::handleEnter(const CEGUI::EventArgs& e)
 	{	
 		CeGuiString command = mCommandLine->getText();
 		CeGuiString printCommand = ">" + command;
@@ -87,14 +87,14 @@ namespace rl
 		return true;
 	}
 
-	void CeConsole::write(String output)
+	void Console::write(String output)
 	{
         CeGuiString temp = CeGuiString(output);		
 		appendTextRow(temp, 0xFF7F7F7F);
 		LogManager::getSingleton().logMessage(output);
 	}
 
-	void CeConsole::appendTextRow(CeGuiString& text, const colour color)
+	void Console::appendTextRow(CeGuiString& text, const colour color)
 	{
 		/*const float MIN_SPACE_POS = 0.5;
 
@@ -140,17 +140,17 @@ namespace rl
 		mDisplay->ensureItemIsVisible(item); // scroll to bottom;*/
 	}
 	
-	void CeConsole::setInterpreter(Interpreter* interpreter)
+	void Console::setInterpreter(Interpreter* interpreter)
 	{
 		mInterpreter = interpreter;
 	}
 
-	Interpreter* CeConsole::getInterpreter()
+	Interpreter* Console::getInterpreter()
 	{
 		return mInterpreter;
 	}
 
-	void CeConsole::cycleHistory(int skip)
+	void Console::cycleHistory(int skip)
 	{
 		if (mHistory.size() == 0)
 			return;
