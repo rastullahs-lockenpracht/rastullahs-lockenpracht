@@ -153,12 +153,12 @@ namespace rl {
         {
             updatePickedObject();
         }
-        DebugWindow::getSingleton().setText(
+        /*DebugWindow::getSingleton().setText(
             StringConverter::toString(mCameraNode->getWorldPosition()) +
             " / " +
             StringConverter::toString(mControlNode->getWorldPosition())+
             " / " +
-            StringConverter::toString(mOdeLevel->getPosition()));
+            StringConverter::toString(mOdeLevel->getPosition()));*/
     }
     //------------------------------------------------------------------------
 

@@ -531,7 +531,7 @@ namespace rl {
             "   Y="+StringConverter::toString(mouseRelY)+
             "   - Object("+(a==NULL?"null":a->getName())+")");		
 
-        //mTargetedObject = a->getGameObject();		
+        mTargetedObject = reinterpret_cast<GameObject*>(a->getGameObject());
     }
 
 	bool InputManager::isKeyDown(KeyCode kc) 

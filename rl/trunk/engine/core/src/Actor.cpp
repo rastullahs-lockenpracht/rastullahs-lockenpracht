@@ -60,6 +60,11 @@ namespace rl {
         mGameObject = uo;
     }
 
+	Ogre::UserDefinedObject* Actor::getGameObject()
+	{
+		return mGameObject;
+	}
+
     PhysicalThing* Actor::getPhysicalThing()
     {
         return mPhysicalThing;
