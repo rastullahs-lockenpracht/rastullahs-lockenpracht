@@ -278,6 +278,16 @@ namespace rl {
         }
     }
 
+    void Actor::attach(const Ogre::String& slot, Actor* actor,
+            const Ogre::String& childSlot,
+            const Ogre::Vector3 &offsetAxis,
+            const Ogre::Radian &offsetRotation,
+			const Ogre::Vector3 &offsetPosition)
+    {
+        attach( slot, actor, childSlot, Quaternion(offsetRotation,offsetAxis),
+            offsetPosition );
+    }
+
     void Actor::detach(Actor* actor)
     {
         if (mChilds.find(actor) == mChilds.end())
@@ -301,7 +311,7 @@ namespace rl {
 		{
 			MovableObject* mo = actor->getControlledObject()->getMovableObject();
 			dynamic_cast<MeshObject*>(getControlledObject())->getEntity()->
-				attachObjectToBone(slot, mo);
+				attachObjectToBone(slot, mo, offsetOrientation, offsetPosition);
 			return;
 		}
 

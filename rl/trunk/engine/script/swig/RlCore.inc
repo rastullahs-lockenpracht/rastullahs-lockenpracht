@@ -316,10 +316,11 @@ public:
     void placeIntoScene(Real px, Real py, Real pz,
         Real ow, Real ox, Real oy, Real oz);
         
-    void attach(const std::string& slot, Actor* actor,
-        const std::string& childSlot = "SLOT_DEFAULT",        
-		const Ogre::Quaternion &offsetOrientation=Ogre::Quaternion::IDENTITY, 
-		const Ogre::Vector3 &offsetPosition=Ogre::Vector3::ZERO);
+   	void attach(const std::string& slot, Actor* actor,
+            const std::string& childSlot = "SLOT_DEFAULT",
+            const Vector3 &offsetAxis=Ogre::Vector3::UNIT_X,
+            const Radian &offsetRotation=Ogre::Radian(0),
+			const Vector3 &offsetPosition=Ogre::Vector3::ZERO);
     void detach(Actor* actor);
     
     Actor* getChildByName(const std::string& name ) const;

@@ -91,11 +91,12 @@ namespace rl {
             const Ogre::String& childSlot = "SLOT_DEFAULT",
 			const Ogre::Quaternion &offsetOrientation=Ogre::Quaternion::IDENTITY, 
 			const Ogre::Vector3 &offsetPosition=Ogre::Vector3::ZERO);
-        /*void attach(const Ogre::String& slot, Actor* actor,
+        void attach(const Ogre::String& slot, Actor* actor,
             const Ogre::String& childSlot = "SLOT_DEFAULT",
             const Ogre::Vector3 &offsetAxis=Ogre::Vector3::UNIT_X,
-            const Ogre::Radian &offsetRotation,
-			const Ogre::Vector3 &offsetPosition=Ogre::Vector3::ZERO);*/
+            const Ogre::Radian &offsetRotation=Ogre::Radian(0),
+			const Ogre::Vector3 &offsetPosition=Ogre::Vector3::ZERO);
+
         void detach(Actor* actor);
         
         Ogre::SceneNode* _getSceneNode();
