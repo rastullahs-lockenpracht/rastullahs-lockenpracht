@@ -26,7 +26,7 @@ namespace rl {
     class _RlCoreExport PhysicalThing
     {
     public:
-        PhysicalThing(OgreOde::Space* space, Actor* actor);
+        PhysicalThing(OgreOde::Space* space);
         ~PhysicalThing(void);
 
         // Called by the Actor
@@ -68,26 +68,26 @@ namespace rl {
         bool testCollide(PhysicalThing* thing);
 
         // Geometry ( for Collision )
-        void createCappedCylinderGeometry(Real radius, Real length,
-            const Vector3& position = Vector3::ZERO,
-            const Quaternion& orientation = Quaternion::IDENTITY );
-        void createBoxGeometry( const Vector3& length,
-            const Vector3& position = Vector3::ZERO,
-            const Quaternion& orientation = Quaternion::IDENTITY );
-        void createSphereGeometry( Real radius,
-            const Vector3& position = Vector3::ZERO,
-            const Quaternion& orientation = Quaternion::IDENTITY );
+        //void createCappedCylinderGeometry(Real radius, Real length,
+        //    const Vector3& position = Vector3::ZERO,
+        //    const Quaternion& orientation = Quaternion::IDENTITY );
+        //void createBoxGeometry( const Vector3& length,
+        //    const Vector3& position = Vector3::ZERO,
+        //    const Quaternion& orientation = Quaternion::IDENTITY );
+        //void createSphereGeometry( Real radius,
+        //    const Vector3& position = Vector3::ZERO,
+        //    const Quaternion& orientation = Quaternion::IDENTITY );
 
-        // Mass ( for Dynamics )
-        void createCappedCylinderMass(Real density, Real radius,
-            Real length, const Vector3& position = Vector3::ZERO,
-            const Quaternion& orientation = Quaternion::IDENTITY );
-        void createBoxMass(Real density, const Vector3& length,
-            const Vector3& position = Vector3::ZERO,
-            const Quaternion& orientation = Quaternion::IDENTITY );
-        void createSphereMass( Real density, Real radius,
-            const Vector3& position = Vector3::ZERO,
-            const Quaternion& orientation = Quaternion::IDENTITY );
+        //// Mass ( for Dynamics )
+        //void createCappedCylinderMass(Real density, Real radius,
+        //    Real length, const Vector3& position = Vector3::ZERO,
+        //    const Quaternion& orientation = Quaternion::IDENTITY );
+        //void createBoxMass(Real density, const Vector3& length,
+        //    const Vector3& position = Vector3::ZERO,
+        //    const Quaternion& orientation = Quaternion::IDENTITY );
+        //void createSphereMass( Real density, Real radius,
+        //    const Vector3& position = Vector3::ZERO,
+        //    const Quaternion& orientation = Quaternion::IDENTITY );
 
 
         /** Sets the 'bounciness' of this object.

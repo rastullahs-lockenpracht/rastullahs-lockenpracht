@@ -56,7 +56,7 @@ namespace rl {
     void DotSceneOctreeWorld::initializeDefaultCamera(void)
     {
         // Get random player start point
-        mCamera = ActorManager::getSingleton().createCameraActor("DefaultCamera");
+        mCamera = getSceneManager()->createCamera("DefaultCamera");
         ViewPoint defaultVP = mSceneMgr->getSuggestedViewpoint(true);
 
         mCamera->setNearClipDistance(10);
@@ -64,13 +64,13 @@ namespace rl {
         mCamera->setPosition( defaultVP.position );
 
         // Quake uses X/Y horizon, Z up
-        mCamera->setFOVy(60);
+        mCamera->setFOVy(Degree(60));
         
         mCamera->setFixedYawAxis(false);
 
         // Create one viewport, entire window
         Viewport* newVp = Ogre::Root::getSingletonPtr()->
-            getAutoCreatedWindow()->addViewport(mCamera->getOgreCamera(),1);
+            getAutoCreatedWindow()->addViewport(mCamera, 1);
         newVp->setBackgroundColour(ColourValue(0,0,0));
     }
 

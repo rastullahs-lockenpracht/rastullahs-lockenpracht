@@ -192,7 +192,8 @@ namespace rl {
         // Falls ein MovableObject vorhanden, diesen an den SceneNode bappen
         if (mActorControlledObject)
         {
-            mSceneNode->attachObject(mActorControlledObject);
+            mSceneNode->attachObject(
+                mActorControlledObject->getMovableObject());
         }
 
         // SceneNode platzieren
@@ -206,7 +207,8 @@ namespace rl {
 
         if (mActorControlledObject && mSceneNode)
         {
-            mSceneNode->detachObject(mActorControlledObject);
+            mSceneNode->detachObject(
+                mActorControlledObject->getMovableObject());
         }
         // SceneNode wird erstmal nicht gelöscht.
         // Laut Ogre-API nicht empfohlen. Lieber beim
@@ -244,4 +246,25 @@ namespace rl {
             mChilds.erase(actor);
         }
     }
+    
+    void Actor::doAttach(const String& slot, Actor* actor,
+            const String& childSlot)
+    {
+    }
+            
+            
+    void Actor::doDetach(Actor* actor)
+    {
+    }
+    
+    void Actor::placeChildsIntoScene(const Vector3& position,
+            const Quaternion& orientation)
+    {
+    }
+    
+    SceneNode* Actor::_getSceneNode()
+    {
+        return mSceneNode;
+    }
+
 }

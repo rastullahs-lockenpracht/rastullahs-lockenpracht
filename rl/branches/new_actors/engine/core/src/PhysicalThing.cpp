@@ -29,8 +29,7 @@ using namespace OgreOde;
 
 namespace rl
 {
-
-    PhysicalThing::PhysicalThing(Space* space, Actor* actor )
+    PhysicalThing::PhysicalThing(Space* space)
         :   mBounceRestitution(0.0f),
             mBounceVelocityThresh(0.0f),
             mSoftness(0.0f),
@@ -39,9 +38,8 @@ namespace rl
             mGeometry(0),
             mBody(0),
             mSpace(space),
-            mActor(actor)    
+            mActor(0)    
     {
-        mActor->setPhysicalThing(this);
     }
 
     PhysicalThing::~PhysicalThing(void)
@@ -112,95 +110,95 @@ namespace rl
         }
     }
 
-    void PhysicalThing::createCappedCylinderMass( Real density, Real radius, Real length, const Vector3& position, const Quaternion& orientation )
-    {
-        delete mBody;
+    //void PhysicalThing::createCappedCylinderMass( Real density, Real radius, Real length, const Vector3& position, const Quaternion& orientation )
+    //{
+    //    delete mBody;
 
-        mBody = new Body();
-        mBody->setPosition(position); 
-        mBody->setOrientation(orientation);
-        mBody->setUserData(reinterpret_cast<unsigned long>(this));
-        mBody->setMass(CapsuleMass(density, radius, Vector3::ZERO, length));
+    //    mBody = new Body();
+    //    mBody->setPosition(position); 
+    //    mBody->setOrientation(orientation);
+    //    mBody->setUserData(reinterpret_cast<unsigned long>(this));
+    //    mBody->setMass(CapsuleMass(density, radius, Vector3::ZERO, length));
 
-        setDynamic(true);
+    //    setDynamic(true);
 
-        if (mGeometry)
-            mGeometry->setBody(mBody);
-    }
+    //    if (mGeometry)
+    //        mGeometry->setBody(mBody);
+    //}
 
-    void PhysicalThing::createBoxMass( Real density, const Vector3& length, const Vector3& position, const Quaternion& orientation)
-    {
-        delete mBody;
+    //void PhysicalThing::createBoxMass( Real density, const Vector3& length, const Vector3& position, const Quaternion& orientation)
+    //{
+    //    delete mBody;
 
-        mBody = new Body();
-        mBody->setPosition(position); 
-        mBody->setOrientation(orientation);
-        mBody->setUserData(reinterpret_cast<unsigned long>(this));
-        mBody->setMass(BoxMass(density, length));
+    //    mBody = new Body();
+    //    mBody->setPosition(position); 
+    //    mBody->setOrientation(orientation);
+    //    mBody->setUserData(reinterpret_cast<unsigned long>(this));
+    //    mBody->setMass(BoxMass(density, length));
 
-        setDynamic(true);
+    //    setDynamic(true);
 
-        if (mGeometry)
-            mGeometry->setBody(mBody);
-    }
+    //    if (mGeometry)
+    //        mGeometry->setBody(mBody);
+    //}
 
-    void PhysicalThing::createSphereMass( Real density, Real radius, const Vector3& position, const Quaternion& orientation )
-    {
-        delete mBody;
+    //void PhysicalThing::createSphereMass( Real density, Real radius, const Vector3& position, const Quaternion& orientation )
+    //{
+    //    delete mBody;
 
-        mBody = new Body();
-        mBody->setPosition(position); 
-        mBody->setOrientation(orientation);
-        mBody->setUserData(reinterpret_cast<unsigned long>(this));
-        mBody->setMass(SphereMass(density, radius));
+    //    mBody = new Body();
+    //    mBody->setPosition(position); 
+    //    mBody->setOrientation(orientation);
+    //    mBody->setUserData(reinterpret_cast<unsigned long>(this));
+    //    mBody->setMass(SphereMass(density, radius));
 
-        setDynamic( true );
+    //    setDynamic( true );
 
-        if (mGeometry)
-            mGeometry->setBody(mBody);
-    }
+    //    if (mGeometry)
+    //        mGeometry->setBody(mBody);
+    //}
 
-    void PhysicalThing::createCappedCylinderGeometry( Real radius, Real length, const Vector3& position, const Quaternion& orientation)
-    {
-        delete mGeometry;
-        mGeometry = new CapsuleGeometry(radius, length, mSpace);
-        mGeometry->setUserData(reinterpret_cast<unsigned long>(this));
-        mGeometry->setPosition(position);
-        mGeometry->setOrientation(orientation);
+    //void PhysicalThing::createCappedCylinderGeometry( Real radius, Real length, const Vector3& position, const Quaternion& orientation)
+    //{
+    //    delete mGeometry;
+    //    mGeometry = new CapsuleGeometry(radius, length, mSpace);
+    //    mGeometry->setUserData(reinterpret_cast<unsigned long>(this));
+    //    mGeometry->setPosition(position);
+    //    mGeometry->setOrientation(orientation);
 
-        if( mBody )
-            mGeometry->setBody(mBody);
-    }
+    //    if( mBody )
+    //        mGeometry->setBody(mBody);
+    //}
 
-    /*
-    Set the geom to a box
-    */
-    void PhysicalThing::createBoxGeometry( const Vector3& length, const Vector3& position, const Quaternion& orientation )
-    {
-        delete mGeometry;
-        mGeometry = new BoxGeometry(length, mSpace);
-        mGeometry->setUserData(reinterpret_cast<unsigned long>(this));
-        mGeometry->setPosition(position);
-        mGeometry->setOrientation(orientation);
+    ///*
+    //Set the geom to a box
+    //*/
+    //void PhysicalThing::createBoxGeometry( const Vector3& length, const Vector3& position, const Quaternion& orientation )
+    //{
+    //    delete mGeometry;
+    //    mGeometry = new BoxGeometry(length, mSpace);
+    //    mGeometry->setUserData(reinterpret_cast<unsigned long>(this));
+    //    mGeometry->setPosition(position);
+    //    mGeometry->setOrientation(orientation);
 
-        if( mBody )
-            mGeometry->setBody(mBody);
-    }
+    //    if( mBody )
+    //        mGeometry->setBody(mBody);
+    //}
 
-    /*
-    Set the geom to a sphere
-    */
-    void PhysicalThing::createSphereGeometry( Real radius, const Vector3& position, const Quaternion& orientation )
-    {
-        delete mGeometry;
-        mGeometry = new SphereGeometry(radius, mSpace);
-        mGeometry->setUserData(reinterpret_cast<unsigned long>(this));
-        mGeometry->setPosition(position);
-        mGeometry->setOrientation(orientation);
+    ///*
+    //Set the geom to a sphere
+    //*/
+    //void PhysicalThing::createSphereGeometry( Real radius, const Vector3& position, const Quaternion& orientation )
+    //{
+    //    delete mGeometry;
+    //    mGeometry = new SphereGeometry(radius, mSpace);
+    //    mGeometry->setUserData(reinterpret_cast<unsigned long>(this));
+    //    mGeometry->setPosition(position);
+    //    mGeometry->setOrientation(orientation);
 
-        if( mBody )
-            mGeometry->setBody(mBody);
-    }
+    //    if( mBody )
+    //        mGeometry->setBody(mBody);
+    //}
 
     /*
     Return the scene node we're simulating

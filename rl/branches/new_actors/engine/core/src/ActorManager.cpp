@@ -20,7 +20,7 @@
 
 #include "Actor.h"
 #include "World.h"
-
+#include "MeshObject.h"
 
 template<> rl::ActorManager* Singleton<rl::ActorManager>::ms_Singleton = 0;
 
@@ -89,48 +89,27 @@ namespace rl {
         }
 	}
 
-	Actor* ActorManager::createCameraActor(const String& name)
-	{
-		const String&  uniquename = nextUniqueName(name);
+ //   Actor* ActorManager::createLightActor(const String& name, int type)
+	//{
+	//	const String&  uniquename = nextUniqueName(name);
 
-        try
-        {
-		    Camera* camera = mWorld->getSceneManager()->createCamera(uniquename);
-		    Actor* actor = new Actor(uniquename, camera);
+ //       try
+ //       {
+ //           Light* light = mWorld->getSceneManager()->createLight(uniquename);
+ //           light->setType(static_cast<Ogre::Light::LightTypes>(type));
+	//	    Actor* actor = new Actor(uniquename, light);
 
-		    mActors.insert( ActorPtrPair(uniquename, actor) ); 
-		    return actor;
-        }
-        catch( Ogre::Exception )
-        {
-            CoreSubsystem::log("ActorManager - Die Camera für den Aktor '"
-                + uniquename + "' konnte nicht erstellt werden.");
-        }
-    
-        return 0;
-	}
-
-    Actor* ActorManager::createLightActor(const String& name, int type)
-	{
-		const String&  uniquename = nextUniqueName(name);
-
-        try
-        {
-            Light* light = mWorld->getSceneManager()->createLight(uniquename);
-            light->setType(static_cast<Ogre::Light::LightTypes>(type));
-		    Actor* actor = new Actor(uniquename, light);
-
-		    mActors.insert( ActorPtrPair(uniquename, actor) ); 
-		    return actor;
-        }
-        catch( Ogre::Exception )
-        {
-            CoreSubsystem::log("ActorManager - Das Licht für den Aktor '" 
-                + uniquename + "' konnte nicht erstellt werden.");
-        }
-    
-        return 0;
-	}
+	//	    mActors.insert( ActorPtrPair(uniquename, actor) ); 
+	//	    return actor;
+ //       }
+ //       catch( Ogre::Exception )
+ //       {
+ //           CoreSubsystem::log("ActorManager - Das Licht für den Aktor '" 
+ //               + uniquename + "' konnte nicht erstellt werden.");
+ //       }
+ //   
+ //       return 0;
+	//}
 
 	Actor* ActorManager::createMeshActor(const String& name,const String& meshname)
 	{
@@ -138,8 +117,8 @@ namespace rl {
 
         try
         {
-		    Entity* entity = mWorld->getSceneManager()->createEntity(uniquename, meshname);
-		    Actor* actor = new Actor(uniquename, entity);
+		    MeshObject* mo = new MeshObject(uniquename, meshname);
+		    Actor* actor = new Actor(uniquename, mo);
 
 		    mActors.insert(ActorPtrPair(uniquename,actor)); 
 		    return actor;
@@ -154,29 +133,29 @@ namespace rl {
         return 0;
 	}
 
-    Actor* ActorManager::createParticleSystemActor(const String& name,const String& partname)
-    {
-        const String&  uniquename = nextUniqueName(name);
+    //Actor* ActorManager::createParticleSystemActor(const String& name,const String& partname)
+    //{
+    //    const String&  uniquename = nextUniqueName(name);
 
-        try
-        {
-            ParticleSystem* particleSystem =
-                ParticleSystemManager::getSingleton().createSystem(uniquename, partname);    
-        
-            Actor* actor = new Actor(uniquename, particleSystem);
+    //    try
+    //    {
+    //        ParticleSystem* particleSystem =
+    //            ParticleSystemManager::getSingleton().createSystem(uniquename, partname);    
+    //    
+    //        Actor* actor = new Actor(uniquename, particleSystem);
 
-		    mActors.insert(ActorPtrPair(uniquename, actor) ); 
-		    return actor;
-        }
-        catch( Ogre::Exception )
-        {
-            CoreSubsystem::log("ActorManager - Das Partikelsystem '"
-                + partname + "' für den Aktor '"
-                + uniquename + "' konnte nicht erstellt werden.");
-        }
+		  //  mActors.insert(ActorPtrPair(uniquename, actor) ); 
+		  //  return actor;
+    //    }
+    //    catch( Ogre::Exception )
+    //    {
+    //        CoreSubsystem::log("ActorManager - Das Partikelsystem '"
+    //            + partname + "' für den Aktor '"
+    //            + uniquename + "' konnte nicht erstellt werden.");
+    //    }
 
-        return 0;
-    }
+    //    return 0;
+    //}
 
     String ActorManager::nextUniqueName(const String& basename)
 	{

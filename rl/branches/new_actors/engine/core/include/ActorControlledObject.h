@@ -26,13 +26,14 @@ namespace rl {
 
     ///@todo besseren Namen ausdenken und umbenennen
     class _RlCoreExport ActorControlledObject
-        : public Ogre::MovableObject
     {
     public:
-        ActorControlledObject(Ogre::MovableObject* mo);
+        ActorControlledObject();
         
         void setActor(Actor* actor);
         Actor* getActor();
+    
+        MovableObject* getMovableObject();
     protected:
         Ogre::MovableObject* mMovableObject;
     };

@@ -35,7 +35,7 @@ namespace rl {
             Ogre::UserDefinedObject* go = 0);
 
         /// Nicht direkt aufrufen,
-        /// sondern ActorFactory::destroyActor() benutzen.
+        /// sondern ActorManager::destroyActor() benutzen.
         ~Actor();
 
         /// Returns the unique Name of this Actor
@@ -64,7 +64,7 @@ namespace rl {
         void setOrientation(const Quaternion& orientation);
 
         /// Moves the object along it's local  axes.
-        void translate(const Vector3& d, Ogre::Node::TransformSpace ts);
+        void translate(const Ogre::Vector3& d, Ogre::Node::TransformSpace ts);
 
         /// Rotate the object around the local Z-axis.
         void roll(Real angleunits);
@@ -76,11 +76,13 @@ namespace rl {
         void yaw(Real angleunits);
 
         /// Rotate the object around an aritrary axis using a Quarternion.
-        void rotate(const Quaternion& q);
+        void rotate(const Ogre::Quaternion& q);
         
         void attach(const Ogre::String& slot, Actor* actor,
             const Ogre::String& childSlot = "SLOT_DEFAULT");
         void detach(Actor* actor);
+        
+        Ogre::SceneNode* _getSceneNode();
         
         ///@todo Query-Methoden für Childs
         ///@todo Visibility
@@ -99,8 +101,8 @@ namespace rl {
             const Ogre::String& childSlot);
         virtual void doDetach(Actor* actor);
         /// Argmumente wie placeIntoScene
-        virtual void placeChildsIntoScene(const Vector3& position,
-            const Quaternion& orientation);
+        virtual void placeChildsIntoScene(const Ogre::Vector3& position,
+            const Ogre::Quaternion& orientation);
     };
 }
 #endif

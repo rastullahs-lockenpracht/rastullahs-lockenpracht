@@ -20,8 +20,8 @@
 using namespace Ogre;
 
 namespace rl {
-    ActorControlledObject::ActorControlledObject(Ogre::MovableObject* mo)
-        :   mMovableObject(mo)
+    ActorControlledObject::ActorControlledObject()
+        :   mMovableObject()
     {
     }
     
@@ -33,5 +33,10 @@ namespace rl {
     Actor* ActorControlledObject::getActor()
     {
         return dynamic_cast<Actor*>(mMovableObject->getUserObject());
+    }
+    
+    MovableObject* ActorControlledObject::getMovableObject()
+    {
+        return mMovableObject;
     }
 }

@@ -44,13 +44,13 @@ namespace rl {
         virtual void run( Real elapsedTime );
 
         // Creation of PhysicalThings
-        PhysicalThing* createPhysicalThing(Actor* actor);
-        PhysicalThing* createSpherePhysicalThing(Actor* actor,
-            Real density, bool noDynamics = false);
-        PhysicalThing* createBoxPhysicalThing(Actor* actor,
-            Real density, bool noDynamics = false);
-        PhysicalThing* createCappedCylinderPhysicalThing(Actor* actor,
-            Real density, bool noDynamics = false);
+        //PhysicalThing* createPhysicalThing(Actor* actor);
+        //PhysicalThing* createSpherePhysicalThing(Actor* actor,
+        //    Real density, bool noDynamics = false);
+        //PhysicalThing* createBoxPhysicalThing(Actor* actor,
+        //    Real density, bool noDynamics = false);
+        //PhysicalThing* createCappedCylinderPhysicalThing(Actor* actor,
+        //    Real density, bool noDynamics = false);
 
         void removeAndDestroyPhysicalThing(Actor* actor);
 
