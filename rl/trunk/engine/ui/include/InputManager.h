@@ -27,7 +27,9 @@
 #include "FixRubyHeaders.h"
 #include "SynchronizedTask.h"
 
+#include <OgreNoMemoryMacros.h>
 #include <CEGUI.h>
+#include <OgreMemoryMacros.h>
 
 namespace CEGUI {
 	enum MouseButton;
@@ -127,6 +129,7 @@ namespace rl {
 
 			int mNumActiveWindowsMouseInput;
 			int mNumActiveWindowsKeyboardInput;
+			int mNumActiveWindowsAllInput;
 	};
 
 }

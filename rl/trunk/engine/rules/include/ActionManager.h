@@ -20,7 +20,6 @@
 #include "RulesPrerequisites.h"
 
 #include <OgreSingleton.h>
-#include <CEGUIString.h>
 #include <vector>
 using Ogre::Singleton;
 

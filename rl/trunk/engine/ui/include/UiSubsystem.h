@@ -17,15 +17,17 @@
 #ifndef __UiSubsystem_H__
 #define __UiSubsystem_H__
 
+#include "UiPrerequisites.h"
+
 #include <OgreSingleton.h>
 #include <string>
 
 #include <OgreNoMemoryMacros.h>
+#include "FixRubyHeaders.h"		// die Makros sind hier vor Ruby schon definiert
 #include <ruby.h>
 #include "FixRubyHeaders.h"
 #include <OgreMemoryMacros.h>
 #undef min
-#include "UiPrerequisites.h"
 
 namespace rl {
 

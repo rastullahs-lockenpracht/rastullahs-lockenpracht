@@ -13,12 +13,12 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
+#include "UiPrerequisites.h"
 
-#include "CeGuiWindow.h"
-
-#include "InputManager.h"
-#include "UiSubsystem.h"
 #include "WindowManager.h"
+#include "UiSubsystem.h"
+#include "CeGuiWindow.h"
+#include "InputManager.h"
 
 using namespace std;
 using namespace CEGUI;
@@ -33,8 +33,7 @@ CeGuiWindow::CeGuiWindow(const char* xmlfile, WindowType type)
 	mNamePrefix = StringConverter::toString(sNumWindows);
 	sNumWindows++;
 
-    mWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout(
-			(utf8*)"modules/common/gui/windows/"+CeGuiString((utf8*)xmlfile), 
+    mWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout(CeGuiString((utf8*)xmlfile), 
 			mNamePrefix);
 	assert(mWindow != 0);
 	mWindow->hide();
@@ -128,32 +127,37 @@ Window* CeGuiWindow::getWindow(const char* name)
 
 Editbox* CeGuiWindow::getEditbox(const char* name)
 {
-	return reinterpret_cast<Editbox*>(getWindow(name));
+	return static_cast<Editbox*>(getWindow(name));
+}
+
+TabPane* CeGuiWindow::getTabPane(const char* name)
+{
+	return static_cast<TabPane*>(getWindow(name));
 }
 
 Listbox* CeGuiWindow::getListbox(const char* name)
 {
-	return reinterpret_cast<Listbox*>(getWindow(name));
+	return static_cast<Listbox*>(getWindow(name));
 }
 
 StaticText* CeGuiWindow::getStaticText(const char* name)
 {
-	return reinterpret_cast<StaticText*>(getWindow(name));
+	return static_cast<StaticText*>(getWindow(name));
 }
 
 StaticImage* CeGuiWindow::getStaticImage(const char* name)
 {
-	return reinterpret_cast<StaticImage*>(getWindow(name));
+	return static_cast<StaticImage*>(getWindow(name));
 }
 
 MultiColumnList* CeGuiWindow::getMultiColumnList(const char* name)
 {
-	return reinterpret_cast<MultiColumnList*>(getWindow(name));
+	return static_cast<MultiColumnList*>(getWindow(name));
 }
 
 MultiLineEditbox* CeGuiWindow::getMultiLineEditbox(const char* name)
 {
-	return reinterpret_cast<MultiLineEditbox*>(getWindow(name));
+	return static_cast<MultiLineEditbox*>(getWindow(name));
 }
 
 const CeGuiString& CeGuiWindow::getName() const

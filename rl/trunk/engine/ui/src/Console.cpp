@@ -13,17 +13,14 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
-
+#include "UiPrerequisites.h"
+#include <renderers/OgreGUIRenderer/ogrerenderer.h>
 #include <boost/bind.hpp>
 
-#include <CEGUI.h>
-#include "CoreSubsystem.h"
-#include "InputManager.h"
 #include "Interpreter.h"
-
-#include "Console.h"
-#include "DebugWindow.h"
 #include "ListboxWrappedTextItem.h"
+#include "CoreSubsystem.h"
+#include "Console.h"
 
 template<> rl::Console* Singleton<rl::Console>::ms_Singleton = 0;
 
@@ -167,12 +164,12 @@ namespace rl
 		if (mHistory.size() == 0)
 			return;
 		
-		mHistoryMarker += skip;
-
-		if (mHistoryMarker < 0)
+		if (mHistoryMarker + skip < 0)
 			mHistoryMarker = 0;
-		else if (mHistoryMarker > mHistory.size())
+		else if (mHistoryMarker + skip > mHistory.size())
 			mHistoryMarker = mHistory.size();
+		else
+			mHistoryMarker = (unsigned int)(mHistoryMarker + skip);
 
 		if (mHistoryMarker == mHistory.size())
 			mCommandLine->setText((utf8*)"");

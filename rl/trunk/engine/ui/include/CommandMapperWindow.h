@@ -24,6 +24,15 @@ namespace rl {
 
 	class GameObject;
 
+	class CommandMapperInputWindow :
+		public CeGuiWindow
+	{
+	public:
+		CommandMapperInputWindow();
+
+		void setVisible(bool visible);
+	};
+
 	class _RlUiExport CommandMapperWindow :
 		public CeGuiWindow
 	{
@@ -43,7 +52,15 @@ namespace rl {
 		void muteWindow(bool mute);
 
 		GameObject* mActionHolder;
+		CommandMapperInputWindow* mInputWindow;
+		CEGUI::MultiColumnList* mTableInBattle;
+		CEGUI::MultiColumnList* mTableOffBattle;
+		CEGUI::MultiColumnList* mTableMovement;
+		CEGUI::TabPane* mTabPane;
+		CEGUI::Window* mSelectedTable;
 	};
+
+	
 
 }
 

@@ -20,6 +20,7 @@
 #include "UiPrerequisites.h"
 
 #include "CeGuiWindow.h"
+#include <set>
 #include <vector>
 
 namespace rl {
@@ -27,50 +28,85 @@ namespace rl {
 	class Action;
 	class GameObject;
 	class Person;
+	class ActionGroup;
 
 	class _RlUiExport ActionChoiceWindow : public CeGuiWindow
 	{
 	public:
-		void showTalentsOfActor();
-
 		ActionChoiceWindow(Person* actor);
 		~ActionChoiceWindow();
 		
 		void showActionsOfObject(GameObject* object);
-		
-		
-		bool handleActionChosen(Action* action);
 		bool handleShowHint(const CeGuiString& evt);
 
 	private:
+		
+		class ActionNode;
 	
 		static CEGUI::Point 
-			getPositionOnRadialMenu(
-				CEGUI::Point center, 
-				float minAngle, 
-				float maxAngle,
-				float radius,
-				int elemNum,
-				int elemCount);
+			getPositionOnCircle(
+				const CEGUI::Point& center, 
+				float radius, 
+				float angle);
 
-		void activateAction(
-			Action* action, 
-			GameObject* object, 
-			Person* actor, 
-			GameObject* target);
-				
-        GameObject* mObject;
-		std::vector<CEGUI::PushButton*> mButtons;
-		CEGUI::StaticText* mHint;
+		void createButtons(
+			ActionNode* actions, 
+			const CEGUI::Point& center, 
+			float radius, 
+			float minAngle, 
+			float maxAngle);
 
-		enum ACWState
+		CEGUI::PushButton* createButton(
+			const CeGuiString& name,
+			const CEGUI::Point& pos);
+
+		bool showButton(CEGUI::PushButton* button);
+		bool hideAllGroupedButtons();
+		static float normalizeAngle(float angle);
+		
+		
+		class ActionNode
 		{
-			IDLE = 0,
-			CHOOSE_OBJECT_ACTION,
-			CHOOSE_TARGET
+		public:
+			ActionNode(bool isLeaf) : mAction(NULL), mGroup(NULL), mLeaf(isLeaf), mParent(NULL) {}
+			~ActionNode();
+
+			void setAction(Action* a) { mAction = a; }
+			Action* getAction() { return mAction; }
+			
+			void setGroup(ActionGroup* ag) { mGroup = ag; }
+			ActionGroup* getGroup() { return mGroup; }
+			
+			void setParent(ActionNode* n)  { mParent = n; }
+			ActionNode* getParent() { return mParent; }
+			
+			void setButton(CEGUI::PushButton* b)  { mButton = b; }
+			CEGUI::PushButton* getButton() { return mButton; }
+	
+			void addChild(ActionNode* child);
+			void removeChild(ActionNode* child);
+			const std::set<ActionNode*>& getChildren();
+			
+			bool isLeaf() { return mLeaf; }
+			
+			static ActionNode* createActionTree(const ActionVector& actions, ActionGroup* rootGroup = NULL);
+
+	
+		private:
+			std::set<ActionNode*> mChildren;
+			ActionNode* mParent;
+			bool mLeaf;
+			Action* mAction;
+			ActionGroup* mGroup;
+			CEGUI::PushButton* mButton;
 		};
 
-		ACWState mState;
+
+        GameObject* mObject;
+		std::vector<CEGUI::PushButton*> mButtons;
+		std::set<CEGUI::PushButton*> mGroupedButtons;
+		CEGUI::StaticText* mHint;
+
 		Person* mActor;
 	};
 

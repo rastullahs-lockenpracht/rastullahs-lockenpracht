@@ -16,8 +16,8 @@
 
 %{
 //----------- Includes - UI -----------
-#include "UiPrerequisites.h"
 #include "FixRubyHeaders.h"
+#include "UiPrerequisites.h"
 #include "UiSubsystem.h"
 #include "CommandMapper.h"
 #include "GameController.h"

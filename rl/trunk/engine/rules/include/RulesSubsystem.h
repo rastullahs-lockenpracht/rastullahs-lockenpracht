@@ -20,7 +20,6 @@
 #include "RulesPrerequisites.h"
 
 #include <string>
-#include <CEGUIString.h>
 
 using namespace Ogre;
 

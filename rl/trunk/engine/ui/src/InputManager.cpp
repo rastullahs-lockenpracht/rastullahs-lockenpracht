@@ -14,34 +14,36 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
+
 #include <xercesc/parsers/XercesDOMParser.hpp>
 #include <xercesc/dom/DOM.hpp>
 #include <xercesc/util/XMLString.hpp>
 #include <xercesc/util/PlatformUtils.hpp>
 
-#include <XmlHelper.h>
-#include <XmlResource.h>
-#include <XmlResourceManager.h>
-
 #include <OgreKeyEvent.h>
 #include <OgreRoot.h>
 
-#include <CEGUI.h>
+#include "XmlHelper.h"
+#include "XmlResource.h"
+#include "XmlResourceManager.h"
 
-#include "InputManager.h"
 #if OGRE_PLATFORM != PLATFORM_WIN32
 #include "SDL/SDL.h"
 #endif
 
-#include "CoreSubsystem.h"
-
 #include "Console.h"
 #include "DebugWindow.h"
-#include "GameLoop.h"
 #include "CommandMapper.h"
 #include "Actor.h"
 #include "ActorManager.h"
+
 #include "CeGuiWindow.h"
+#include "GameLoop.h"
+#include "CoreSubsystem.h"
+
+#include "InputManager.h"
+
+
 
 template<> rl::InputManager* Singleton<rl::InputManager>::ms_Singleton = 0;
 using namespace Ogre;
@@ -186,6 +188,10 @@ namespace rl {
 		if (mNumActiveWindowsKeyboardInput == 0)
 			return false;
 
+		// Fenster, die alle Inputs wollen
+		if (mNumActiveWindowsAllInput > 0)
+			return true;
+
 		// Tastatureingabe gefordert
 		// Alle Tasten an CEGUI senden, die ein Zeichen erzeugen
 		if (e->getKeyChar() != 0)
@@ -242,10 +248,11 @@ namespace rl {
 
 	void InputManager::keyClicked(KeyEvent* e) 
 	{
-		if (sendKeyToCeGui(e)) 
+		if (!sendKeyToCeGui(e)) 
 			return;
 		
 		CommandMapper::getSingleton().injectKeyClicked(e->getKey());
+		e->consume();
 	}
 
 	void InputManager::mouseDragged(MouseEvent* e)
@@ -296,6 +303,8 @@ namespace rl {
 			mNumActiveWindowsMouseInput++;
 		else if (window->getWindowType() == CeGuiWindow::WND_KEYBOARD_INPUT)
 			mNumActiveWindowsKeyboardInput++;
+		else if (window->getWindowType() == CeGuiWindow::WND_ALL_INPUT)
+			mNumActiveWindowsAllInput++;
 		
 		if (!active && isCeguiActive()) // war nicht aktiv, sollte jetzt aktiv sein -> anschalten
 		{
@@ -315,6 +324,8 @@ namespace rl {
 			mNumActiveWindowsMouseInput--;
 		else if (window->getWindowType() == CeGuiWindow::WND_KEYBOARD_INPUT)
 			mNumActiveWindowsKeyboardInput--;
+		else if (window->getWindowType() == CeGuiWindow::WND_ALL_INPUT)
+			mNumActiveWindowsAllInput--;
 
 		if (active && !isCeguiActive()) // war aktiv, sollte nicht mehr aktiv sein -> ausschalten
 		{
@@ -380,7 +391,10 @@ namespace rl {
 
 	bool InputManager::isCeguiActive()
 	{
-		return mNumActiveWindowsKeyboardInput > 0 || mNumActiveWindowsMouseInput > 0;
+		return 
+			mNumActiveWindowsKeyboardInput > 0 || 
+			mNumActiveWindowsMouseInput > 0 || 
+			mNumActiveWindowsAllInput > 0;
 	}
 
 	/**
@@ -413,6 +427,7 @@ namespace rl {
 	void InputManager::loadKeyMapping(const Ogre::String& filename)
 	{
 		using namespace XERCES_CPP_NAMESPACE;
+		using XERCES_CPP_NAMESPACE::DOMDocument;
 		using std::make_pair;
 
 		XMLPlatformUtils::Initialize();

@@ -16,10 +16,15 @@
 
 %module(directors="1") RlScript
 
+%{
+#undef min
+%}
+
+%include "RlUi.head.inc"
 %include "RlSound.head.inc"
 %include "RlCore.head.inc"
 %include "RlRules.head.inc"
-%include "RlUi.head.inc"
+
 
 
 %include "TypeMaps.i"

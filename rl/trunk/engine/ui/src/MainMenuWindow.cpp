@@ -1,12 +1,12 @@
+#include "UiPrerequisites.h"
+
 #include <boost/bind.hpp>
-
-#include <CEGUI.h>
-
-#include "MainMenuWindow.h"
 
 #include "UiSubsystem.h"
 #include "CoreSubsystem.h"
 #include "WindowManager.h"
+
+#include "MainMenuWindow.h"
 
 using namespace CEGUI;
 

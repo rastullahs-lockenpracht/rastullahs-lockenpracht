@@ -56,10 +56,10 @@ namespace rl {
 	CoreSubsystem::CoreSubsystem()
 		: 	mWorld(NULL),
 			mInterpreter(NULL),
-			mActiveModule("")        
+			mActiveModule(""),
+			mRootDir(".")
 	{
-		initializeCoreSubsystem();
-        mRootDir = "./";
+		initializeCoreSubsystem();        
 	}
 
     CoreSubsystem::~CoreSubsystem() 
@@ -134,11 +134,11 @@ namespace rl {
                 if (strlen(line) != 0)
                 {
                     // Wir geben die erste nichtleere Zeile zurück.
-                    return String(line) + "/";
+                    return String(line);
                 }
             }
         }
-        // Klappt alles nichts.
+        // Klappt alles nicht.
         cerr<<"line "<<endl;
         return "";
     }
@@ -177,13 +177,13 @@ namespace rl {
 
 		#if OGRE_PLATFORM == PLATFORM_WIN32
 			new Root( 
-				mRootDir+CONF_DIR+"plugins-win.cfg", 
+				mRootDir+"/"+CONF_DIR+"plugins-win.cfg", 
 				CONF_DIR+"rastullah.cfg", 
 				"logs/ogre.log" );
 		#elif OGRE_PLATFORM == PLATFORM_LINUX
             mRootDir = findConfRootDir();
 			new Root( 
-				mRootDir+CONF_DIR+"plugins-linux.cfg", 
+				mRootDir+"/"+CONF_DIR+"plugins-linux.cfg", 
 				findRastullahConf(), 
 				"logs/ogre.log" );
 		#else
@@ -220,9 +220,13 @@ namespace rl {
 	void CoreSubsystem::initializeResources()
     {
 		new XmlResourceManager();
+		
+		addCommonSearchPath(mRootDir);
+		addCommonSearchPath(mRootDir+"/modules");
+
         // Load resource paths from config file
         ConfigFile cf;
-        cf.load(mRootDir+"modules/modules.cfg");
+        cf.load(mRootDir+"/modules/modules.cfg");
 
         // Go through all settings in the file
         ConfigFile::SettingsIterator i = cf.getSettingsIterator();
@@ -241,12 +245,12 @@ namespace rl {
 			}
 			else if (key.compare("module") == 0)
 				mActivatableModules.push_back(value);
-        }
+        }		
     }
 
 	void CoreSubsystem::initializeModuleTextures(std::string module)
 	{
-		std::string moduleDir = mRootDir+"modules/"+module;
+		std::string moduleDir = mRootDir+"/modules/"+module;
 		ConfigFile cf;
 		cf.load(moduleDir+"/conf/moduleconfig.cfg");
         ConfigFile::SettingsIterator i = cf.getSettingsIterator();
@@ -269,14 +273,18 @@ namespace rl {
 	
 	void CoreSubsystem::initializeModule(std::string module)
 	{
-		std::string moduleDir = mRootDir+"modules/"+module;
+		std::string moduleDir = mRootDir+"/modules/"+module;
 		
 	    addCommonSearchPath(moduleDir+"/conf");
         addCommonSearchPath(moduleDir+"/dsa");
 		addCommonSearchPath(moduleDir+"/maps");
 		addCommonSearchPath(moduleDir+"/models");
 		addCommonSearchPath(moduleDir+"/sound");
-        addCommonSearchPath(moduleDir+"/gui/imagesets");
+        addCommonSearchPath(moduleDir+"/gui");
+		addCommonSearchPath(moduleDir+"/gui/fonts");
+		addCommonSearchPath(moduleDir+"/gui/imagesets");
+		addCommonSearchPath(moduleDir+"/gui/schemes");
+		addCommonSearchPath(moduleDir+"/gui/windows");
 		addCommonSearchPath(moduleDir+"/dialogs");     
 
 		if (getInterpreter() != NULL)

@@ -19,8 +19,6 @@
 
 #include "RulesPrerequisites.h"
 
-#include <CEGUIString.h>
-
 #include "GameObject.h"
 #include "Eigenschaft.h"
 

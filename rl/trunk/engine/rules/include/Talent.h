@@ -19,8 +19,6 @@
 
 #include "RulesPrerequisites.h"
 
-#include <CEGUIString.h>
-
 #include "Tripel.h"
 #include "Eigenschaft.h"
 

@@ -14,12 +14,15 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#include <xercesc/util/XMemory.hpp>	// Muss vor Ogre stehen (zumindest für VS)
+#include "UiPrerequisites.h"
+
+#include "UiSubsystem.h"
+
 #include <renderers/OgreGUIRenderer/ogrerenderer.h>
 #include <renderers/OgreGUIRenderer/OgreResourceProvider.h>
-#include "UiSubsystem.h"
-#include "CoreSubsystem.h"
+
 #include "RubyInterpreter.h"
+#include "CoreSubsystem.h"
 #include "Console.h"
 #include "DebugWindow.h"
 #include "GameController.h"
@@ -107,7 +110,7 @@ namespace rl {
 								sceneMgr);
 
 		log("Initialisiere CEGUI-System", "UiSubsystem::initializeUiSubsystem");
-		new System(rend, new OgreResourceProvider(), (utf8*)"modules/common/gui/cegui.config");
+		new System(rend, new OgreResourceProvider(), (utf8*)"cegui.config", (utf8*)"logs/cegui.log");
 		log("CEGUI-System initialisiert", "UiSubsystem::initializeUiSubsystem");
         
 		// load scheme and set up defaults

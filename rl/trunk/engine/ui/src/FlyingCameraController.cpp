@@ -13,18 +13,18 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
-
-#include "FlyingCameraController.h"
+#include "UiPrerequisites.h"
 
 #include "CoreSubsystem.h"
 #include "World.h"
 
-#include <CEGUI.h>
 #include "InputManager.h"
 #include "DebugWindow.h"
 #include "Console.h"
 #include "CameraActor.h"
 #include "Exception.h"
+
+#include "FlyingCameraController.h"
 
 namespace rl {
 

@@ -14,11 +14,12 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
+#include <xercesc/util/XMemory.hpp>	// Muss vor Ogre stehen (zumindest für VS)
+
 #include <Ogre.h>
 #include <stdexcept>
 #include <errno.h>
 
-#include <CEGUIString.h>
 
 #include "CoreSubsystem.h"
 #include "SoundSubsystem.h"
@@ -27,6 +28,7 @@
 #include "UiSubsystem.h"
 
 #include "Exception.h"
+#include <CEGUIExceptions.h>
 
 
 #if OGRE_PLATFORM == PLATFORM_WIN32
@@ -66,8 +68,7 @@ int main(int argc, char **argv)
 		ui = new rl::UiSubsystem();
 		log->logMessage("UiSubsystem gestartet");
 
-		Ogre::LogManager::getSingleton().
-			getLog( "logs/rlCore.log" )->logMessage("Starte...");
+		log->logMessage("Starte...");
 		core->startCore();
 	} 
 	catch(Ogre::Exception& oe) {
@@ -76,6 +77,9 @@ int main(int argc, char **argv)
 	catch(rl::Exception& re) {
 		rl::showError(re.toString());
 	} 
+	catch(CEGUI::Exception& ce) {
+		rl::showError(ce.getMessage().c_str());
+	}
 	catch(std::runtime_error& rte) {
 		rl::showError(rte.what());
 	} 

@@ -13,12 +13,15 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
+#include "UiPrerequisites.h"
 
-#include "DebugWindow.h"
-#include "InputManager.h"
 #include "UiSubsystem.h"
 #include "Person.h"
 #include "GameActor.h"
+
+#include "DebugWindow.h"
+
+#include "InputManager.h"
 
 template<> rl::DebugWindow* Ogre::Singleton<rl::DebugWindow>::ms_Singleton = 0;
 

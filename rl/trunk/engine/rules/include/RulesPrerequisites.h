@@ -41,6 +41,7 @@
 #define log_info(msg) Ogre::LogManager::getSingleton().logMessage(msg, LML_NORMAL);
 #define log_debug(msg) Ogre::LogManager::getSingleton().logMessage(msg, LML_TRIVIAL);
 
+#undef min
 #include <CEGUIString.h>
 
 typedef CEGUI::String CeGuiString;

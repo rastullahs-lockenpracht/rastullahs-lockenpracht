@@ -19,7 +19,9 @@
 
 #include "UiPrerequisites.h"
 
-#include "CEGUI.h"
+#include <OgreNoMemoryMacros.h>
+#include <CEGUI.h>
+#include <OgreMemoryMacros.h>
 
 namespace rl {
 
@@ -31,7 +33,8 @@ namespace rl {
 		{
 			WND_SHOW,
 			WND_MOUSE_INPUT,
-			WND_KEYBOARD_INPUT
+			WND_KEYBOARD_INPUT,
+			WND_ALL_INPUT
 		};
 
 		CEGUI::Window* getWindow(const char* name);
@@ -41,6 +44,7 @@ namespace rl {
 		CEGUI::StaticImage* getStaticImage(const char* name);
 		CEGUI::MultiColumnList* getMultiColumnList(const char* name);
 		CEGUI::MultiLineEditbox* getMultiLineEditbox(const char* name);
+		CEGUI::TabPane* getTabPane(const char* name);
 
 		static void addToRoot(CEGUI::Window* window);
 		static CEGUI::Window* getRoot();

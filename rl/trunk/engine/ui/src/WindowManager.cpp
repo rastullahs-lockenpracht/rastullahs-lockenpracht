@@ -14,8 +14,8 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#include "WindowManager.h"
 #include "CeGuiWindow.h"
+#include "WindowManager.h"
 
 template<> rl::WindowManager* Ogre::Singleton<rl::WindowManager>::ms_Singleton = 0;
 

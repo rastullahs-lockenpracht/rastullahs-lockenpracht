@@ -13,21 +13,24 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
+#include "UiPrerequisites.h"
 
 #include <boost/bind.hpp>
 
-#include "CommandMapperWindow.h"
 #include "UiSubsystem.h"
 #include "GameObject.h"
-#include "FixRubyHeaders.h"
+#include "WindowManager.h"
+
+#include "CommandMapperWindow.h"
 
 using namespace CEGUI;
 
 namespace rl {
 
 CommandMapperWindow::CommandMapperWindow(GameObject* actionHolder)
-	:	CeGuiWindow("commandmapper.xml", WND_KEYBOARD_INPUT),
-		mActionHolder(actionHolder)
+	:	CeGuiWindow("commandmapper.xml", WND_ALL_INPUT),
+		mActionHolder(actionHolder),
+		mInputWindow(new CommandMapperInputWindow())		
 {
 	getWindow("CommandMapper/ChangeButton")->
 		subscribeEvent(
@@ -36,17 +39,20 @@ CommandMapperWindow::CommandMapperWindow(GameObject* actionHolder)
 	getWindow("CommandMapper/CloseButton")->
 		subscribeEvent(
 			PushButton::EventClicked,
-			boost::bind(&CommandMapperWindow::handleCloseButton, this));
-	getWindow("CommandMapper/TableMovement")->
-		subscribeEvent(
+			boost::bind(&WindowManager::destroyWindow, WindowManager::getSingletonPtr(), this));
+	
+	mTabPane = getTabPane("CommandMapper/TabPane");
+
+	mTableMovement = getMultiColumnList("CommandMapper/TableMovement");
+	mTableMovement->subscribeEvent(
 			Window::EventMouseDoubleClick,
 			boost::bind(&CommandMapperWindow::handleChangeMovement, this));
-	getWindow("CommandMapper/TableInBattle")->
-		subscribeEvent(
+	mTableInBattle = getMultiColumnList("CommandMapper/TableInBattle");
+	mTableInBattle->subscribeEvent(
 			Window::EventMouseDoubleClick,
 			boost::bind(&CommandMapperWindow::handleChangeInBattle, this));
-	getWindow("CommandMapper/TableOffBattle")->
-		subscribeEvent(
+	mTableOffBattle = getMultiColumnList("CommandMapper/TableOffBattle");
+	mTableOffBattle->subscribeEvent(
 			Window::EventMouseDoubleClick,
 			boost::bind(&CommandMapperWindow::handleChangeOffBattle, this));
 
@@ -60,7 +66,10 @@ CommandMapperWindow::CommandMapperWindow(GameObject* actionHolder)
 			boost::bind(&CommandMapperWindow::handleMouseButton, this, _1));
 	muteWindow(true);
 
+	centerWindow();
 	//TODO: Inhalte anzeigen
+
+	addToRoot(mWindow);
 }
 
 void CommandMapperWindow::muteElements(bool mute)
@@ -75,12 +84,16 @@ void CommandMapperWindow::muteElements(bool mute)
 void CommandMapperWindow::muteWindow(bool mute)
 {
 	getWindow("CommandMapper")->setMutedState(mute);
+	mInputWindow->setVisible(!mute);
 }
 
 bool CommandMapperWindow::handleChangeButton()
 {
 	muteElements(true);
 	muteWindow(false);
+
+	mSelectedTable = mTabPane->getActiveChild();
+
 	return true;
 }
 
@@ -123,11 +136,29 @@ bool CommandMapperWindow::handleKeyDown(const CEGUI::EventArgs& e)
 
 bool CommandMapperWindow::handleMouseButton(const CEGUI::EventArgs& e)
 {
+	const MouseEventArgs me = static_cast<const MouseEventArgs&>(e);
+	UiSubsystem::getSingleton().log("Mouse Button Down "+StringConverter::toString(me.button));
 	//TODO: Mausknopf in CommandMapper eintragen
 
 	muteWindow(true);
 	muteElements(false);
 	return true;
+}
+
+CommandMapperInputWindow::CommandMapperInputWindow() :
+	CeGuiWindow("commandmapperinput.xml", CeGuiWindow::WND_SHOW)
+{
+	addToRoot(mWindow);
+	setVisible(false);
+	mWindow->moveToFront();
+	centerWindow();
+}
+
+void CommandMapperInputWindow::setVisible(bool visible)
+{
+	CeGuiWindow::setVisible(visible);
+	if (visible)
+		mWindow->moveToFront();
 }
 
 }

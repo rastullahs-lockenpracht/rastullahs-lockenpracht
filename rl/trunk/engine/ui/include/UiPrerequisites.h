@@ -17,7 +17,7 @@
 #ifndef __UiPrerequisites_H__
 #define __UiPrerequisites_H__
 
-#include "RastullahPrerequisites.h"
+#include <xercesc/util/XMemory.hpp>	// Muss vor Ogre stehen (zumindest für VS)
 
 #undef _assert
 
@@ -32,9 +32,11 @@
 #   define _RlUiExport
 #endif
 
-
 #include <vector>
+#include "FixRubyHeaders.h"
 #include <CEGUIString.h>
+
+#include "RastullahPrerequisites.h"
 
 typedef CEGUI::String CeGuiString;
 

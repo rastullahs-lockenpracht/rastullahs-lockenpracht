@@ -18,7 +18,6 @@
 #define __RL_ACTION_H__
 
 #include "RulesPrerequisites.h"
-#include <CEGUIString.h>
 #include <set>
 
 namespace rl
