@@ -133,6 +133,8 @@ namespace rl {
 		new DebugWindow();
         DebugWindow::getSingleton().show();
 
+		InputManager::getSingleton().setObjectPickingActive(true);
+
 		/*DialogWindow* dialog = new DialogWindow();
 		dialog->setQuestion("Wie ist dein Name?");
 		dialog->addLine("Hab ich vergessen");

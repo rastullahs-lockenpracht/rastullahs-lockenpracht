@@ -36,6 +36,9 @@ class _RlCoreExport ActorManager : protected Singleton<ActorManager>
         ParticleSystemActor* createParticleSystemActor(const String& name,const String& partname);
 
         void setWorld( World* pWorld );
+		const World* const getWorld() const;
+
+		Actor* getActorAt(Ogre::Real x, Ogre::Real y) const;
 
         /** Returns the Singleton */
 	    static ActorManager & getSingleton(void);

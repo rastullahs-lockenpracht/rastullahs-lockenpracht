@@ -64,12 +64,14 @@ namespace rl {
             calculateCameraTranslation(cameraZ, yaw, pitch);
             calculateHeroTranslation(translation);
             updateAnimationState(translation);
-
+			
             mControlNode->yaw(yaw);
             mLookAtNode->pitch(pitch);
             mCameraNode->translate(0, 0, cameraZ);
 
             mControlNode->translate(translation, Node::TS_LOCAL);
+
+			updatePickedObject();
         }
     }
 
@@ -204,5 +206,10 @@ namespace rl {
         mCameraNode->attachObject(camera);
         mCamera = camera;
     }
+
+	void ThirdPersonGameController::updatePickedObject() const
+	{
+		InputManager::getSingleton().updatePickedObject(0.5, 0.5);
+	}
 }
 

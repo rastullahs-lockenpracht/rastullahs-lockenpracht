@@ -16,7 +16,7 @@ namespace rl {
 			PhysicsManager::getSingleton().setEnabled(false);
 	}
 
-	SceneManager* World::getSceneManager(void)
+	SceneManager* World::getSceneManager(void) const
 	{
 		return mSceneMgr;
 	}

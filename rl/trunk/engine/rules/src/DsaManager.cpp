@@ -30,7 +30,6 @@ namespace rl
     {
         //Zufallsgenerator initialisieren
         srand(static_cast<unsigned int>(time(NULL)));
-
           		  
 		initializeEigenschaften();
 		initializeSkt();

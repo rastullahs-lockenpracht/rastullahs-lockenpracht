@@ -23,19 +23,24 @@ namespace rl {
 		return Singleton<ActorManager>::getSingletonPtr();
 	}
 
-    ActorManager::ActorManager( ) : mActors()
+    ActorManager::ActorManager() : mActors()
     {
         mWorld = CoreSubsystem::getSingleton().getWorld();
     }
 
-    ActorManager::~ActorManager( )
+    ActorManager::~ActorManager()
     {
     }
 
-    void ActorManager::setWorld( World* pWorld )
+    void ActorManager::setWorld( World* world )
     {
-        mWorld = pWorld;
+        mWorld = world;
     }
+
+	const World* const ActorManager::getWorld() const
+	{
+		return mWorld;
+	}
 
     Actor* ActorManager::getActor(const String& name)
 	{
@@ -205,7 +210,46 @@ namespace rl {
 		return newname;
 	}
 
+	Actor* ActorManager::getActorAt(Real x, Real y) const
+	{
+		 // Start a new ray query
+		Ogre::Ray cameraRay = getWorld()->getActiveCamera()->
+			getOgreCamera()->getCameraToViewportRay( x, y );
+		const World* w = getWorld();
+		Ogre::RaySceneQuery *raySceneQuery = w->
+			getSceneManager()->createRayQuery(cameraRay);
+		raySceneQuery->execute();
+		Ogre::RaySceneQueryResult result = raySceneQuery->getLastResults();
+		 
+		Ogre::MovableObject *closestObject = NULL;
+		Real closestDistance = LONG_MAX;
 
+		std::list< Ogre::RaySceneQueryResultEntry >::iterator rayIterator;
+		 
+		for ( rayIterator = result.begin(); rayIterator != result.end(); rayIterator++ ) {
+			if ((*rayIterator).movable->getUserObject() != NULL) 
+			{
+				if ((*rayIterator).distance < closestDistance) 
+				{
+					closestObject = (*rayIterator).movable;
+					closestDistance = (*rayIterator).distance;
+				}
+			}
+		}
+
+		Actor* rval;
+		// No object clicked
+		if ( closestObject == NULL) {   
+			rval = NULL;
+		} else {
+			rval = static_cast<Actor*>(closestObject->getUserObject());
+		}
+
+		raySceneQuery->clearResults();
+		getWorld()->getSceneManager()->destroyQuery(raySceneQuery);
+
+		return rval;
+	}
 }
 
 

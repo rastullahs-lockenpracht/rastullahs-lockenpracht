@@ -25,7 +25,7 @@ public:
      *verantwortlich ist. */
     virtual ~World() {}
 
-    virtual SceneManager* getSceneManager(void);
+    virtual SceneManager* getSceneManager(void) const;
 	virtual void setSceneManager(SceneManager* SceneMgr);
 
 	virtual CameraActor* getActiveCamera(void) const { return mCamera; };

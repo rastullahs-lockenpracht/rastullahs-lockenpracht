@@ -71,6 +71,7 @@ namespace rl {
         void calculateCameraTranslation(Ogre::Real& cameraZ,
             Ogre::Real& yaw, Ogre::Real& pitch);
         void updateAnimationState(const Ogre::Vector3& translation);
+		void updatePickedObject() const;
     };
 
 }

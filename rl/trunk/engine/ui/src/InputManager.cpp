@@ -12,6 +12,9 @@
 #include "DebugWindow.h"
 #include "GameLoop.h"
 
+#include "Actor.h"
+#include "ActorManager.h"
+
 template<> rl::InputManager* Singleton<rl::InputManager>::ms_Singleton = 0;
 using namespace Ogre;
 using CEGUI::System;
@@ -113,15 +116,14 @@ namespace rl {
 	void InputManager::mouseMoved(MouseEvent* e)
 	{
 		if (isCeguiActive())
-		{
+		{			
 			CEGUI::Renderer* renderer  = System::getSingleton().getRenderer();
 			System::getSingleton().injectMouseMove(
 				e->getRelX() * renderer->getWidth(), 
 				e->getRelY() * renderer->getHeight());			
-			DebugWindow::getSingleton().setText(
-				"dX="+StringConverter::toString(e->getRelX() * renderer->getWidth())+
-				"   dY="+StringConverter::toString(e->getRelY() * renderer->getHeight())+
-				"   ("+System::getSingleton().getWindowContainingMouse()->getName().c_str()+")");
+
+			if (mPickObjects)
+				updatePickedObject(e->getX(), e->getY());
 
 			e->consume();
 		}
@@ -326,4 +328,23 @@ namespace rl {
 
 		return ke->getKeyChar();
 	}
+
+	void InputManager::setObjectPickingActive(bool active)
+	{
+		mPickObjects = active;
+		if (!mPickObjects)
+			mTargetedObject = NULL;
+	}
+
+	void InputManager::updatePickedObject(float mouseRelX, float mouseRelY)
+	{
+		Actor* a = ActorManager::getSingleton().getActorAt(mouseRelX, mouseRelY);
+			DebugWindow::getSingleton().setText(
+			"X="+StringConverter::toString(mouseRelX)+
+			"   Y="+StringConverter::toString(mouseRelY)+
+			"   - Object("+(a==NULL?"null":a->getName())+")");		
+
+		//mTargetedObject = a->getGameObject();		
+	}
+
 }

@@ -19,6 +19,7 @@ namespace CEGUI {
 namespace rl {
 
 	class CeGuiWindow;
+	class GameObject;
 
 	class _RlUiExport InputManager : public SynchronizedTask, public KeyListener, public MouseListener, public MouseMotionListener, public Singleton<InputManager>
 	{
@@ -50,6 +51,10 @@ namespace rl {
 			void registerCeguiWindow(CeGuiWindow* window);
 			void unregisterCeguiWindow(CeGuiWindow* window);
 			bool isCeguiActive();
+
+			void setObjectPickingActive(bool active);
+			GameObject* getPickedObject();
+			void updatePickedObject(float mouseRelX, float mouseRelY);
 
 			void activateTargetQuery();
 
@@ -88,6 +93,9 @@ namespace rl {
 			void switchMouseToBuffered();
 
 			char getKeyChar(Ogre::KeyEvent* ke);
+
+			bool mPickObjects;
+			GameObject* mTargetedObject;
 	};
 
 }
