@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <GUIScheme Name="Rastullah">
-    <Imageset Name="TaharezLook" Filename="imagesets/RastullahLook.imageset" />
+    <Imageset Name="RastullahLook" Filename="imagesets/RastullahLook.imageset" />
     <Imageset Name="RastullahButtons" Filename="imagesets/RastullahButtons.imageset" />
     
     <Font Name="Vera Serif-8" Filename="fonts/vera_serif-8.font" />
@@ -10,35 +10,35 @@
     <Font Name="Vera Serif-14" Filename="vera_serif-14.font" />
     
     <WindowSet Filename="RastullahLook">
-        <WindowFactory Name="TaharezLook/AlternateProgressBar" />
-        <WindowFactory Name="TaharezLook/Button" />
-        <WindowFactory Name="TaharezLook/Checkbox" />
-        <WindowFactory Name="TaharezLook/CloseButton" />
-        <WindowFactory Name="TaharezLook/Combobox" />
-        <WindowFactory Name="TaharezLook/ComboDropList" />
-        <WindowFactory Name="TaharezLook/ComboEditbox" />
-        <WindowFactory Name="TaharezLook/Editbox" />
-        <WindowFactory Name="TaharezLook/FrameWindow" />
-        <WindowFactory Name="TaharezLook/LargeVerticalScrollbar" />
-        <WindowFactory Name="TaharezLook/LargeVerticalScrollbarThumb" />
-        <WindowFactory Name="TaharezLook/Listbox" />
-        <WindowFactory Name="TaharezLook/ListHeader" />
-        <WindowFactory Name="TaharezLook/ListHeaderSegment" />
-        <WindowFactory Name="TaharezLook/HorizontalScrollbar" />
-        <WindowFactory Name="TaharezLook/HorizontalScrollbarThumb" />
-        <WindowFactory Name="TaharezLook/MultiColumnList" />
-        <WindowFactory Name="TaharezLook/MultiLineEditbox" />
-        <WindowFactory Name="TaharezLook/ProgressBar" />
-        <WindowFactory Name="TaharezLook/RadioButton" />
-        <WindowFactory Name="TaharezLook/Slider" />
-        <WindowFactory Name="TaharezLook/SliderThumb" />
-        <WindowFactory Name="TaharezLook/StaticImage" />
-        <WindowFactory Name="TaharezLook/StaticText" />
-        <WindowFactory Name="TaharezLook/TabButton" />
-        <WindowFactory Name="TaharezLook/TabControl" />
-        <WindowFactory Name="TaharezLook/TabPane" />
-        <WindowFactory Name="TaharezLook/Titlebar" />
-        <WindowFactory Name="TaharezLook/VerticalScrollbar" />
-        <WindowFactory Name="TaharezLook/VerticalScrollbarThumb" />
+        <WindowFactory Name="RastullahLook/AlternateProgressBar" />
+        <WindowFactory Name="RastullahLook/Button" />
+        <WindowFactory Name="RastullahLook/Checkbox" />
+        <WindowFactory Name="RastullahLook/CloseButton" />
+        <WindowFactory Name="RastullahLook/Combobox" />
+        <WindowFactory Name="RastullahLook/ComboDropList" />
+        <WindowFactory Name="RastullahLook/ComboEditbox" />
+        <WindowFactory Name="RastullahLook/Editbox" />
+        <WindowFactory Name="RastullahLook/FrameWindow" />
+        <WindowFactory Name="RastullahLook/LargeVerticalScrollbar" />
+        <WindowFactory Name="RastullahLook/LargeVerticalScrollbarThumb" />
+        <WindowFactory Name="RastullahLook/Listbox" />
+        <WindowFactory Name="RastullahLook/ListHeader" />
+        <WindowFactory Name="RastullahLook/ListHeaderSegment" />
+        <WindowFactory Name="RastullahLook/HorizontalScrollbar" />
+        <WindowFactory Name="RastullahLook/HorizontalScrollbarThumb" />
+        <WindowFactory Name="RastullahLook/MultiColumnList" />
+        <WindowFactory Name="RastullahLook/MultiLineEditbox" />
+        <WindowFactory Name="RastullahLook/ProgressBar" />
+        <WindowFactory Name="RastullahLook/RadioButton" />
+        <WindowFactory Name="RastullahLook/Slider" />
+        <WindowFactory Name="RastullahLook/SliderThumb" />
+        <WindowFactory Name="RastullahLook/StaticImage" />
+        <WindowFactory Name="RastullahLook/StaticText" />
+        <WindowFactory Name="RastullahLook/TabButton" />
+        <WindowFactory Name="RastullahLook/TabControl" />
+        <WindowFactory Name="RastullahLook/TabPane" />
+        <WindowFactory Name="RastullahLook/Titlebar" />
+        <WindowFactory Name="RastullahLook/VerticalScrollbar" />
+        <WindowFactory Name="RastullahLook/VerticalScrollbarThumb" />
     </WindowSet>
 </GUIScheme>
