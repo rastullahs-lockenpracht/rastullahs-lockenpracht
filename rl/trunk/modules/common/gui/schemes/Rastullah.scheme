@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <GUIScheme Name="Rastullah">
-    <Imageset Name="TaharezLook" Filename="modules/common/gui/imagesets/TaharezLook.imageset" />
+    <Imageset Name="TaharezLook" Filename="modules/common/gui/imagesets/Rastullah.imageset" />
     <Font Name="Tahoma-8" Filename="modules/common/gui/fonts/tahoma-8.font" />
     <Font Name="Tahoma-10" Filename="modules/common/gui/fonts/tahoma-10.font" />
     <Font Name="Tahoma-12" Filename="modules/common/gui/fonts/tahoma-12.font" />
