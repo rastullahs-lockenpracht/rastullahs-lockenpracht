@@ -271,6 +271,8 @@ public:
     void setGravity( Real x, Real y, Real z );
     Vector3 getGravity();
     
+    void setEnabled(bool enabled);
+    
     static PhysicsManager & getSingleton(void);
 	static PhysicsManager * getSingletonPtr(void);
 };
