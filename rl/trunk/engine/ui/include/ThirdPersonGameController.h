@@ -41,6 +41,8 @@ namespace rl {
         public OgreOde::CollisionListener
     {
     public:
+        typedef enum {VM_THIRD_PERSON, VM_FIRST_PERSON} ViewMode;
+    
         /** Massgeblich ist die Position des Actors. Die Camera wird hinter diesen
          *  gesetzt.
          *  @throw NullPointerException falls camera oder hero 0 sind.
@@ -65,6 +67,14 @@ namespace rl {
          *  @throw NullPointerException falls camera 0 ist.
          */
         void setCamera(Ogre::Camera* camera);
+        
+        /// First oder Third person view.
+        void setViewMode(ViewMode mode);
+        
+        /** Setzt die Camera in einen 30-Grad-Winkel dem Helden auf den Hinterkopf
+         *  schauend im aktuellen Abstand vom Helden, wie durch den Spieler bestimmt.
+         */
+        void resetCamera();
 
         /**
          *  Callback vom CollisionListener
@@ -91,12 +101,25 @@ namespace rl {
         OgreOde::World* mOdeWorld;
         OgreOde::Stepper* mOdeStepper;
         OgreOde::CapsuleGeometry* mOdeActor;
+        OgreOde::SphereGeometry* mOdeCamera;
         OgreOde::RayGeometry* mOdeActorRay;
         OgreOde::TriangleMeshGeometry* mOdeLevel;
 
         AnimationState mCurrentAnimationState;
         AnimationState mLastAnimationState;
+        
+        // Die Soll/Ist-Werte
+        Radian mMaxPitch;
+        Radian mMinPitch;
+        Radian mTargetPitch;
 
+        Real mMaxDistance;
+        Real mMinDistance;
+        Real mTargetDistance;
+        Real mDesiredDistance;
+        
+        ViewMode mViewMode;
+        
         void setup();
         void setupCollisionDetection();
 
@@ -110,11 +133,12 @@ namespace rl {
         bool detectCollision(const Ogre::Vector3& translation);
         void calculateScalingFactors(Ogre::Real timePassed);
 
-        void calculateHeroTranslation(Ogre::Vector3& translation);
-        void calculateCameraTranslation(Ogre::Real& cameraZ,
-            Ogre::Real& yaw, Ogre::Real& pitch);
+        void calculateHeroTranslation(Ogre::Vector3& translation,
+            Ogre::Real& yaw);
+        void calculateCameraTranslation();
         void updateAnimationState(const Ogre::Vector3& translation);
 		void updatePickedObject() const;
+		void adjustCamera(OgreOde::Contact* contact);
     };
 
 }

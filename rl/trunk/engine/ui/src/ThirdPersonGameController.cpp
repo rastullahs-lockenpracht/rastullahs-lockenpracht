@@ -51,9 +51,18 @@ namespace rl {
         mOdeWorld(0),
         mOdeStepper(0),
         mOdeActor(0),
+        mOdeCamera(0),
         mOdeLevel(0),
         mCurrentAnimationState(AS_STAND),
-        mLastAnimationState(AS_STAND)
+        mLastAnimationState(AS_STAND),
+        mMaxPitch(Degree(60.0)),
+        mMinPitch(-Degree(89.0)),
+        mTargetPitch(-Degree(30.0)),
+        mMaxDistance(400.0),
+        mMinDistance(0.0),
+        mTargetDistance(150.0),
+        mDesiredDistance(mTargetDistance),
+        mViewMode(VM_THIRD_PERSON)
     {
         if (actor == 0 || camera == 0)
         {
@@ -65,15 +74,16 @@ namespace rl {
         mControlNode = root->createChildSceneNode("ControlNode");
 
         mLookAtNode = mControlNode->createChildSceneNode("LookAtNode");
-        mLookAtNode->pitch(Degree(-20));
+        mLookAtNode->setOrientation(Quaternion(mTargetPitch, Vector3::UNIT_X));
 
         mCameraNode = mLookAtNode->createChildSceneNode("CameraNode");
         mCameraNode->attachObject(mCamera);
-        mCameraNode->translate(Vector3(0, 0, 150), Node::TS_LOCAL);
+        mCameraNode->translate(Vector3(0, 0, mDesiredDistance), Node::TS_LOCAL);
 
         setupCollisionDetection();
         setup();
     }
+    //------------------------------------------------------------------------
 
     /// This method will be refactored away whith the next
     /// PhysicsManager-Update to OgreODE.
@@ -99,7 +109,8 @@ namespace rl {
         // when the controlled actor is set.
         mOdeActor = new OgreOde::CapsuleGeometry(1, 1);
         mOdeActorRay = new OgreOde::RayGeometry(1.0);
-
+        mOdeCamera = new OgreOde::SphereGeometry(1);
+        
         // Create the TriMesh geometry representing the level
         // Get the mesh that the entity uses
         Mesh* mesh = mSceneManager->getEntity("level")->getMesh();
@@ -206,48 +217,62 @@ namespace rl {
         delete[] vertices;
         delete[] indices;
     }
+    //------------------------------------------------------------------------
 
     ThirdPersonGameController::~ThirdPersonGameController()
     {
+        delete mOdeCamera;
         delete mOdeActor;
         delete mOdeLevel;
         delete mOdeStepper;
         delete mOdeWorld;
     }
+    //------------------------------------------------------------------------
 
     void ThirdPersonGameController::run(Real elapsedTime)
     {
+        Vector3 translation = Vector3::ZERO;
+        Real yaw = 0.0;
+
+        calculateScalingFactors(elapsedTime);
+        calculateCameraTranslation();
+        calculateHeroTranslation(translation, yaw);
+        updateAnimationState(translation);
+
+        translation *= mMoveScale;
+
+        // Runterfallen berücksichtigen.
+        // Zuerst Fallgeschwindigkeit berechnen
+        translation.y = translation.y - mFallSpeed * elapsedTime;
+        mFallSpeed = mFallSpeed - mOdeWorld->getGravity().y * elapsedTime;
+
+        translate(translation, Node::TS_LOCAL);
+
+        mLookAtNode->setOrientation(Quaternion(mTargetPitch, Vector3::UNIT_X));
+        mLookAtNode->_update(true, false);
         
-            Vector3 translation = Vector3::ZERO;
-            Real cameraZ = 0.0;
-            Real yaw = 0.0;
-            Real pitch = 0.0;
+        mCameraNode->setPosition(0, 0, mTargetDistance);
+        mCameraNode->_update(true, false);
+        mOdeCamera->setPosition(mCameraNode->getWorldPosition());
+        mTargetDistance = mCameraNode->getPosition().z;
+        if (fabs(mTargetDistance - mDesiredDistance) < 2.0)
+            mTargetDistance = mDesiredDistance;
+        else if (mTargetDistance < mDesiredDistance)
+            mTargetDistance += 2.0;
+        else 
+            mTargetDistance -= 2.0;
 
-            calculateScalingFactors(elapsedTime);
-            calculateCameraTranslation(cameraZ, yaw, pitch);
-            calculateHeroTranslation(translation);
-            updateAnimationState(translation);
-            
-            translation *= mMoveScale;
-            
-            // Runterfallen berücksichtigen.
-            // Zuerst Fallgeschwindigkeit berechnen
-            translation.y = translation.y - mFallSpeed * elapsedTime;
-            mFallSpeed = mFallSpeed - mOdeWorld->getGravity().y * elapsedTime;
-            
-            translate(translation, Node::TS_LOCAL);
+        mControlNode->yaw(Degree(yaw));
 
-            mLookAtNode->pitch(Degree(pitch));
-            mCameraNode->translate(0, 0, cameraZ);
-            mControlNode->yaw(Degree(yaw));
-            
-            mOdeActor->collide(mOdeLevel, this);
+        mOdeActor->collide(mOdeLevel, this);
+        mOdeCamera->collide(mOdeLevel, this);
 
-		if (!InputManager::getSingleton().isCeguiActive())
+        if (!InputManager::getSingleton().isCeguiActive())
         {
             updatePickedObject();
         }
     }
+    //------------------------------------------------------------------------
 
     bool ThirdPersonGameController::collision(OgreOde::Contact* contact)
     {
@@ -257,12 +282,31 @@ namespace rl {
                 Node::TS_WORLD);
             mFallSpeed = 0.0;
         }
+        else if(contact->getSecondGeometry() == mOdeCamera
+            || contact->getFirstGeometry() == mOdeCamera)
+        {
+            adjustCamera(contact);                        
+        }
         else
         {
             mFallSpeed = 0.1;
         }
         return true;
     }
+    //------------------------------------------------------------------------
+    
+    void ThirdPersonGameController::adjustCamera(OgreOde::Contact* contact)
+    {
+        //mCameraNode->translate(contact->getNormal() * contact->getPenetrationDepth(),
+        //        Node::TS_WORLD);
+        mCameraNode->translate(
+            Vector3(0.0, 0.0, -contact->getPenetrationDepth()),
+            Node::TS_LOCAL);
+        mOdeCamera->setPosition(mCameraNode->getWorldPosition());
+        mCameraNode->_update(true, false);
+        mTargetDistance = mCameraNode->getPosition().z;
+    }
+    //------------------------------------------------------------------------
 
     void ThirdPersonGameController::calculateScalingFactors(Real timePassed)
     {
@@ -277,22 +321,42 @@ namespace rl {
             mRotScale = mRotSpeed * timePassed;
         }
     }
+    //------------------------------------------------------------------------
 
-    void ThirdPersonGameController::calculateCameraTranslation(
-        Ogre::Real& cameraZ, Ogre::Real& yaw, Ogre::Real& pitch)
+    void ThirdPersonGameController::calculateCameraTranslation()
     {	
         InputManager* im = InputManager::getSingletonPtr();
-
-        cameraZ = -im->getMouseRelativeZ() * 0.05;
-        yaw = -im->getMouseRelativeX() * 0.13;
-        pitch = -im->getMouseRelativeY() * 0.13;
+        CommandMapper* cmdmap = CommandMapper::getSingletonPtr();
+                        
+        mDesiredDistance -= im->getMouseRelativeZ() * 0.05;
+        mDesiredDistance = mDesiredDistance > mMaxDistance ?
+            mMaxDistance : mDesiredDistance;
+        mDesiredDistance = mDesiredDistance < mMinDistance ?
+            mMinDistance : mDesiredDistance;
+            
+        mTargetPitch -= Degree(im->getMouseRelativeY() * 0.13);
+        mTargetPitch = mTargetPitch > mMaxPitch ?
+            mMaxPitch : mTargetPitch;
+        mTargetPitch = mTargetPitch < mMinPitch ?
+            mMinPitch : mTargetPitch;        
+        
     }
+    //------------------------------------------------------------------------
 
-    void ThirdPersonGameController::calculateHeroTranslation(Ogre::Vector3& translation)
+    void ThirdPersonGameController::calculateHeroTranslation(Ogre::Vector3& translation,
+        Ogre::Real& yaw)
     {
         InputManager* im = InputManager::getSingletonPtr();
         CommandMapper* cmdmap = CommandMapper::getSingletonPtr();
 
+        yaw = -im->getMouseRelativeX() * 0.13;
+        
+        if (cmdmap->isMovementActive(TURN_LEFT))
+            yaw += mRotScale*2;
+
+        if (cmdmap->isMovementActive(TURN_RIGHT))
+            yaw -= mRotScale*2;
+        
         if (cmdmap->isMovementActive(MOVE_FORWARD))
             translation.z = -mMoveScale;
 
@@ -305,17 +369,15 @@ namespace rl {
         if (cmdmap->isMovementActive(MOVE_LEFT))
             translation.x = -mMoveScale;
 
-        if (im->isKeyDown(KC_PGUP))
-            translation.y = mMoveScale;
-
-        if (im->isKeyDown(KC_PGDOWN))
-            translation.y = -mMoveScale;
-
         if (im->isKeyDown(KC_P))
             CoreSubsystem::getSingleton().makeScreenshot("rastullah");
 
-        if (im->isKeyDown(KC_C))
-            mCameraNode->lookAt(mControlNode->getWorldPosition(), Node::TS_LOCAL);
+        if (im->isKeyDown(KC_NUMPAD0))
+            resetCamera();
+            
+        if (im->isKeyDown(KC_F))
+            setViewMode(mViewMode == VM_FIRST_PERSON ?
+                VM_THIRD_PERSON : VM_FIRST_PERSON);
             
         if (im->isKeyDown(KC_SPACE) && fabs(mFallSpeed) <= 0.1)
             mFallSpeed = -200;
@@ -327,6 +389,7 @@ namespace rl {
         if (im->isKeyDown(KC_LSHIFT))
             translation *= 2;
     }
+    //------------------------------------------------------------------------
 
     void ThirdPersonGameController::updateAnimationState(const Vector3& translation)
     {
@@ -346,11 +409,13 @@ namespace rl {
             mLastAnimationState = mCurrentAnimationState;
         }
     }
+    //------------------------------------------------------------------------
 
     GameActor* ThirdPersonGameController::getControlledActor()
     {
         return mActor;
     }
+    //------------------------------------------------------------------------
 
     void ThirdPersonGameController::setControlledActor(GameActor* actor)
     {
@@ -361,11 +426,13 @@ namespace rl {
         mActor = actor;
         setup();
     }
+    //------------------------------------------------------------------------
 
     Ogre::Camera* ThirdPersonGameController::getCamera()
     {
         return mCamera;
     }
+    //------------------------------------------------------------------------
 
     void ThirdPersonGameController::setup()
     {
@@ -381,12 +448,12 @@ namespace rl {
 
             // ControlNode auf etwa 10% Abstand bezogen auf die Höhe
             // des GameActors bringen.
-            pos.y = pos.y + extent.y * 1.2;
+            pos.y = pos.y + extent.y * 0.9;
             mControlNode->setPosition(pos);
             mControlNode->addChild(mActor->getSceneNode());
             mActor->getSceneNode()->setPosition(Vector3::ZERO);
             mActor->getSceneNode()->translate(
-                Vector3(0, -extent.y * 1.2, 0), Node::TS_PARENT);
+                Vector3(0, -extent.y * 0.9, 0), Node::TS_PARENT);
 
             // ODE-Collision-Proxy ist eine Capsule
             mOdeActor->setDefinition(mActor->getRadius(),
@@ -401,15 +468,20 @@ namespace rl {
             mOdeActorRay->setOrientation(Quaternion(Degree(90), Vector3::UNIT_X));
             mOdeActorRay->setDefinition(Vector3::ZERO, Vector3::UNIT_Y);
             mOdeActorRay->setLength(-mActor->getHeight()/1.9);
+        
+            mOdeCamera->setPosition(mCameraNode->getWorldPosition());
+            mOdeCamera->setRadius(mCamera->getNearClipDistance() * 1.5);
             
         }
     }
+    //------------------------------------------------------------------------
 
     Vector3 ThirdPersonGameController::ogrePosToOdePos(
         const Vector3& pos, const Vector3& extent)
     {
         return Vector3(pos.x, pos.y + extent.y / 2.0, pos.z);
     }
+    //------------------------------------------------------------------------
 
     void ThirdPersonGameController::setCamera(Ogre::Camera* camera)
     {
@@ -420,12 +492,16 @@ namespace rl {
         mCameraNode->detachObject(mCamera);
         mCameraNode->attachObject(camera);
         mCamera = camera;
+        mOdeCamera->setPosition(mCameraNode->getWorldPosition());
+        mOdeCamera->setRadius(mCamera->getNearClipDistance() * 1.2);
     }
+    //------------------------------------------------------------------------
 
     void ThirdPersonGameController::updatePickedObject() const
     {
         InputManager::getSingleton().updatePickedObject(0.5, 0.5);
     }
+    //------------------------------------------------------------------------
     
     void ThirdPersonGameController::translate(const Vector3& translation,
         Node::TransformSpace ts)
@@ -439,8 +515,39 @@ namespace rl {
                 
         mOdeActorRay->setPosition(mOdeActor->getPosition());
     }
+    //------------------------------------------------------------------------
     
     void ThirdPersonGameController::setPosition(const Vector3& position)
     {
+        ///@todo implementieren
     }
+    //------------------------------------------------------------------------
+    
+    void ThirdPersonGameController::setViewMode(ViewMode mode)
+    {
+        mViewMode = mode;
+        if (mode == VM_FIRST_PERSON)
+        {
+            mActor->getSceneNode()->setVisible(false);
+            mDesiredDistance = 0.0;
+        }
+        else
+        {
+            mActor->getSceneNode()->setVisible(true);
+            mDesiredDistance = 150.0;
+            resetCamera();
+        }
+    }
+    //------------------------------------------------------------------------
+    
+    void ThirdPersonGameController::resetCamera()
+    {
+        if (mViewMode == VM_THIRD_PERSON)
+        {
+            mTargetPitch = Degree(-30.0);
+            mTargetDistance = 0;
+        }
+    }
+    //------------------------------------------------------------------------
+
 }
