@@ -15,6 +15,7 @@
 #include "BSPWorld.h"
 #include "NatureWorld.h"
 #include "TerrainWorld.h"
+#include "DotSceneOctreeWorld.h"
 #include "PhysicsManager.h"
 #include "ActorManager.h"
 #include "GameLoop.h"
@@ -192,8 +193,10 @@ namespace rl {
 
 		new GameLoop();
         GameLoop::getSingleton().addSynchronizedTask( pm );
+		mWorld = new DotSceneOctreeWorld();
 		mInterpreter=new RubyInterpreter();
-	//	mInterpreter->initializeInterpreter();
+    	//wieso ist das folgende auskommentiert?
+    	//mInterpreter->initializeInterpreter();
 		new ActorManager( );
 
         return true;
@@ -317,19 +320,25 @@ namespace rl {
 
 	void CoreSubsystem::loadMap(const String type, const String filename, const String startupScript)
 	{
-		/*if (type.compare("BSP") == 0)
+		if (type.compare("BSP") == 0)
 			mWorld = new BSPWorld( );
+		else if (type.compare("Octree") == 0)
+			mWorld = new DotSceneOctreeWorld();
 		else if (type.compare("Nature") == 0)
 			mWorld = new NatureWorld();
 		else if (type.compare("Terrain") == 0)
 			mWorld = new TerrainWorld();
 		else
-			Throw(RuntimeException, "Unknown world type");*/
+			Throw(RuntimeException, "Unknown world type");
 
 		mWorld->loadScene(filename);
+		///@todo einstellbar machen. World-Methode schon frei fuer Ruby?
+		//mWorld->setSkyBox(true, "rl/dsa07");
 
 		if (startupScript.length() > 0)
-			rb_require(startupScript.c_str());
+		{
+            getInterpreter()->execute(String("load '") + startupScript + String("'"));
+		}
+		//rb_require(startupScript.c_str());
 	}
-
 }
