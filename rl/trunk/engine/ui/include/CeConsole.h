@@ -3,11 +3,6 @@
 
 #include "UiPrerequisites.h"
 
-#include <OgreNoMemoryMacros.h>
-#include "ruby.h"
-#include "FixRubyHeaders.h"
-#include <OgreMemoryMacros.h>
-
 #include <vector>
 #include <string>
 
@@ -29,10 +24,7 @@ namespace rl {
 			static CeConsole& getSingleton();
 			static CeConsole* getSingletonPtr();
 
-			static VALUE consoleWrite(VALUE self, VALUE str);
-
 			void setInterpreter(Interpreter* interpreter);
-
 			Interpreter* getInterpreter();
 
 			void write(String output);
@@ -47,8 +39,8 @@ namespace rl {
 			Interpreter* mInterpreter;
 			bool mPrompt;
 
-			void handleKeyDown(const CEGUI::EventArgs& e);
-			void handleEnter(const CEGUI::EventArgs& e);
+			bool handleKeyDown(const CEGUI::EventArgs& e);
+			bool handleEnter(const CEGUI::EventArgs& e);
 			void appendTextRow(CeGuiString& text, const CEGUI::colour color);
 
 			std::vector<std::string> mHistory;

@@ -5,7 +5,6 @@
 #include "ActionManager.h"
 #include "GameObject.h"
 #include "Creature.h"
-#include "UiSubsystem.h"
 
 using namespace CEGUI;
 using namespace std;
@@ -53,43 +52,46 @@ namespace rl {
 				//WindowManager::getSingleton().loadWindowLayout(
 				//	"buttons/"+actionName+".xml"));
 				WindowManager::getSingleton().createWindow(
-					(utf8*)"Taharez Button", 
-					"ActionChoiceWindow/Buttons/"+actionName));
+					(utf8*)"TaharezLook/Button", 
+					getName()+"/Buttons/"+actionName));
 			actionButton->setText(CeGuiString(action->getDescription()));
 			Point pos = getPositionOnRadialMenu(
 					center, 0, 0, RADIUS, mButtons.size(), actions.size());
 			actionButton->setPosition(Absolute, pos);
 			actionButton->setSize(Absolute, Size(40, 40));
 			actionButton->subscribeEvent(
-				PushButton::Clicked, 
+				PushButton::EventClicked, 
 				boost::bind(
 					&ActionChoiceWindow::handleActionChosen, 
 					this, actionName));
 			actionButton->subscribeEvent(
-				PushButton::MouseEntersEvent,
+				PushButton::EventMouseEnters,
 				boost::bind(&ActionChoiceWindow::handleShowHint, this, _1));
 			actionButton->subscribeEvent(
-				PushButton::MouseLeavesEvent,
+				PushButton::EventMouseLeaves,
 				boost::bind(&ActionChoiceWindow::handleRemoveHint, this));
 			mButtons.push_back(actionButton);
 			mWindow->addChildWindow(actionButton);
 		}
 	}
 	
-	void ActionChoiceWindow::handleActionChosen(const CeGuiString& action)
+	bool ActionChoiceWindow::handleActionChosen(const CeGuiString& action)
 	{
 		//TODO: Auswahl des Ziels/der Ziele
 		//TODO: Ausführung der Action, hier im Dialog oder doch woanders?
+		return true;
 	}
 	
-	void ActionChoiceWindow::handleShowHint(const EventArgs& evt)
+	bool ActionChoiceWindow::handleShowHint(const EventArgs& evt)
 	{
 		mHint->setText((utf8*)"");
+		return true;
 	}
 	
-	void ActionChoiceWindow::handleRemoveHint()
+	bool ActionChoiceWindow::handleRemoveHint()
 	{
 		mHint->setText((utf8*)"");
+		return true;
 	}
 	
 	void ActionChoiceWindow::showTalentsOfPerson(Creature* creature)

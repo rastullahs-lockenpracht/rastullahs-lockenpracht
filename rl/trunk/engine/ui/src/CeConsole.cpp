@@ -1,10 +1,10 @@
 #include <boost/bind.hpp>
 
 #include <CEGUI.h>
-#include "UiSubsystem.h"
 #include "CoreSubsystem.h"
 #include "InputManager.h"
-#include "RubyInterpreter.h"
+#include "Interpreter.h"
+
 #include "CeConsole.h"
 #include "DebugWindow.h"
 #include "ListboxWrappedTextItem.h"
@@ -26,12 +26,6 @@ namespace rl
         return Singleton<CeConsole>::getSingletonPtr();
     }
 
-	VALUE CeConsole::consoleWrite(VALUE self, VALUE str)
-	{
-		CeConsole::getSingleton().write(RubyInterpreter::val2str(str) + " \n");
-		return Qnil;
-	}
-
 	CeConsole::CeConsole() : CeGuiWindow("console.xml", true)
 	{
 		using namespace CEGUI;
@@ -40,13 +34,13 @@ namespace rl
 		mCommandLine = getEditbox("Console/Inputbox");
 
 		mWindow->subscribeEvent(
-			FrameWindow::KeyDownEvent, 
+			FrameWindow::EventKeyDown, 
 			boost::bind(&CeConsole::handleKeyDown, this, _1));
 		mCommandLine->subscribeEvent(
-			Editbox::KeyDownEvent, 
+			Editbox::EventKeyDown, 
 			boost::bind(&CeConsole::handleKeyDown, this, _1));
 		mCommandLine->subscribeEvent(
-			Editbox::TextAcceptedEvent, 
+			Editbox::EventTextAccepted, 
 			boost::bind(&CeConsole::handleEnter, this, _1));
 		mDisplay->moveToFront();
 
@@ -61,16 +55,24 @@ namespace rl
 		return true;
 	}
 
-	void CeConsole::handleKeyDown(const CEGUI::EventArgs& e)
+	bool CeConsole::handleKeyDown(const CEGUI::EventArgs& e)
 	{
 		KeyEventArgs ke = static_cast<const KeyEventArgs&>(e);
         if (ke.scancode == Key::ArrowDown)
+		{
 			cycleHistory(1);
+			return true;
+		}
 		else if (ke.scancode == Key::ArrowUp)
+		{
 			cycleHistory(-1);
+			return true;
+		}
+		
+		return false;		
 	}
 
-	void CeConsole::handleEnter(const CEGUI::EventArgs& e)
+	bool CeConsole::handleEnter(const CEGUI::EventArgs& e)
 	{	
 		CeGuiString command = mCommandLine->getText();
 		CeGuiString printCommand = ">" + command;
@@ -81,6 +83,8 @@ namespace rl
 		mHistory.push_back(command.c_str());
 		mHistoryMarker = mHistory.size();
 		mCommandLine->setText((utf8*)"");
+
+		return true;
 	}
 
 	void CeConsole::write(String output)

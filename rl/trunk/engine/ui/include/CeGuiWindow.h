@@ -10,13 +10,13 @@ namespace rl {
 	class _RlUiExport CeGuiWindow
 	{
 	public:
-		static CEGUI::Window* getWindow(const char* name);
-		static CEGUI::Editbox* getEditbox(const char* name);
-		static CEGUI::Listbox* getListbox(const char* name);
-		static CEGUI::StaticText* getStaticText(const char* name);
-		static CEGUI::StaticImage* getStaticImage(const char* name);
-		static CEGUI::MultiColumnList* getMultiColumnList(const char* name);
-		static CEGUI::MultiLineEditbox* getMultiLineEditbox(const char* name);
+		CEGUI::Window* getWindow(const char* name);
+		CEGUI::Editbox* getEditbox(const char* name);
+		CEGUI::Listbox* getListbox(const char* name);
+		CEGUI::StaticText* getStaticText(const char* name);
+		CEGUI::StaticImage* getStaticImage(const char* name);
+		CEGUI::MultiColumnList* getMultiColumnList(const char* name);
+		CEGUI::MultiLineEditbox* getMultiLineEditbox(const char* name);
 
 		static void addToRoot(CEGUI::Window* window);
 
@@ -24,6 +24,8 @@ namespace rl {
 
         virtual bool isVisible();
         virtual void setVisible(bool visible);
+
+		const CeGuiString& getName() const;
 
 	protected:
 		CeGuiWindow(const char* xmlfile, bool input = false);
@@ -40,6 +42,9 @@ namespace rl {
 
 	private:
 		bool mWithInput;
+		CeGuiString mNamePrefix;
+		CeGuiString mName;
+
 		static int sNumWindows;
 		
 	};

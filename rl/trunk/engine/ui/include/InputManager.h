@@ -8,6 +8,7 @@
 #include <OgreInput.h>
 
 #include "UiPrerequisites.h"
+#include "FixRubyHeaders.h"
 #include "SynchronizedTask.h"
 
 #include <CEGUI.h>

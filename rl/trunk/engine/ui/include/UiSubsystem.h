@@ -6,6 +6,11 @@
 
 #include "UiPrerequisites.h"
 
+#include <OgreNoMemoryMacros.h>
+#include <ruby.h>
+#include "FixRubyHeaders.h"
+#include <OgreMemoryMacros.h>
+
 namespace rl {
 
     class Interpreter;
@@ -33,6 +38,7 @@ namespace rl {
 
 		/** Writes Text into the Console or other output media */
 		void writeToConsole(std::string text);
+		static VALUE consoleWrite(VALUE self, VALUE str);
 
 		void showActionChoice(GameObject* obj);
 		void testObj(rl::GameObject* obj){}

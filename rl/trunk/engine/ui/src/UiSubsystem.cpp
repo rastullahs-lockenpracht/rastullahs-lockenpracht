@@ -73,19 +73,17 @@ namespace rl {
 									false, 
 									3000,
 									CoreSubsystem::getSingleton().getWorld()->getSceneManager());
-		new System(rend);
+
+		new System(rend, NULL, (utf8*)"modules/common/gui/cegui.config");
 
 		// load scheme and set up defaults
-		CEGUI::SchemeManager::getSingleton().loadScheme((utf8*)"testscheme.xml");
-		System::getSingleton().setDefaultMouseCursor((utf8*)"TaharezImagery", (utf8*)"MouseArrow");
-		System::getSingleton().setDefaultFont((utf8*)"Tahoma-8");
-		CEGUI::Window* sheet = CEGUI::WindowManager::getSingleton().createWindow((utf8*)"DefaultGUISheet", (utf8*)CEGUI_ROOT);
+		System::getSingleton().setDefaultMouseCursor((utf8*)"TaharezLook", (utf8*)"MouseArrow");
+		Window* sheet = WindowManager::getSingleton().createWindow((utf8*)"DefaultGUISheet", (utf8*)CEGUI_ROOT);
 		sheet->setSize(
 			Absolute, 
-			CEGUI::Size(
-				Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth(), 
+			Size(Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth(), 
 				Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight()));
-		sheet->setPosition(Absolute, CEGUI::Point(0, 0));
+		sheet->setPosition(Absolute, Point(0, 0));
 		System::getSingleton().setGUISheet(sheet);
 
 		//Initializing InputManager
@@ -93,7 +91,7 @@ namespace rl {
         new InputManager();
 		new DebugWindow();
 		new CeConsole();
-		((RubyInterpreter*)CoreSubsystem::getSingleton().getInterpreter() )->initializeInterpreter( (VALUE(*)(...))&CeConsole::consoleWrite );
+		((RubyInterpreter*)CoreSubsystem::getSingleton().getInterpreter() )->initializeInterpreter( (VALUE(*)(...))&UiSubsystem::consoleWrite );
 		
         CameraActor* camera = dynamic_cast<CameraActor*>(
             ActorManager::getSingleton().getActor("DefaultCamera"));
@@ -108,7 +106,7 @@ namespace rl {
         GameLoop::getSingleton().addSynchronizedTask(mGameController);
 		world->setActiveActor(hero);
 	      
-        //runTest();
+        runTest();
     }
 
     void UiSubsystem::requestExit()
@@ -124,6 +122,12 @@ namespace rl {
 	void UiSubsystem::writeToConsole(std::string text)
 	{
 		CeConsole::getSingleton().write(text);
+	}
+
+	VALUE UiSubsystem::consoleWrite(VALUE self, VALUE str)
+	{
+		CeConsole::getSingleton().write(RubyInterpreter::val2str(str) + " \n");
+		return Qnil;
 	}
 
 	void UiSubsystem::showActionChoice(GameObject* obj)

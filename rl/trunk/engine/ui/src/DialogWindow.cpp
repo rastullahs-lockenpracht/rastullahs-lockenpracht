@@ -26,7 +26,7 @@ DialogWindow::DialogWindow(string dialogFile) : CeGuiWindow("dialogwindow.xml", 
 	mQuestion = getMultiLineEditbox("DialogWindow/Question");
 	mDialogOptions = getListbox("DialogWindow/OptionList");
 	mDialogOptions->subscribeEvent(
-		Listbox::SelectionChanged, 
+		Listbox::EventSelectionChanged, 
 		boost::bind(&DialogWindow::handleSelectOption, this));
 
 	addToRoot(mWindow);
@@ -52,7 +52,7 @@ void DialogWindow::getResponse(string msg)
 	std::map<int,std::string>::iterator itr=mResponses.begin();
 	
 	mQuestion->setText(itr->second);
-	int i=0;
+	unsigned int i=0;
 	for(itr++;itr!=mResponses.end();itr++)
 	{			
 			if(i<mDialogOptions->getItemCount())
@@ -134,11 +134,12 @@ void DialogWindow::updateValues()
 	}	
 }
 
-void DialogWindow::handleSelectOption()
+bool DialogWindow::handleSelectOption()
 {
 	DebugWindow::getSingleton().setText("Pnk "+StringConverter::toString(getSelectedOption()));
 	ListboxTextItem* item=reinterpret_cast<ListboxTextItem*>(mDialogOptions->getFirstSelectedItem());
 	getResponse(StringConverter::toString(item->getID()));	
+	return true;
 }
 
 void DialogWindow::setQuestion(string question)

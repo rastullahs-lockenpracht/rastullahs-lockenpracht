@@ -20,10 +20,9 @@ namespace rl {
 		void showActionsOfObject(GameObject* object);
 		void showTalentsOfPerson(Creature* creature);
 		
-		void handleActionChosen(const CeGuiString& action);
-
-		void handleShowHint(const CEGUI::EventArgs& evt);
-		void handleRemoveHint();
+		bool handleActionChosen(const CeGuiString& action);
+		bool handleShowHint(const CEGUI::EventArgs& evt);
+		bool handleRemoveHint();
 
 	private:
 	

@@ -13,13 +13,18 @@ int CeGuiWindow::sNumWindows = 0;
 
 CeGuiWindow::CeGuiWindow(const char* xmlfile, bool withInput)
 {
-	mWindow = WindowManager::getSingleton().loadWindowLayout((utf8*)xmlfile/*, StringConverter::toString(sNumWindows)*/);
+	mNamePrefix = StringConverter::toString(sNumWindows);
 	sNumWindows++;
 
-    mIsVisible = true;
+    mWindow = WindowManager::getSingleton().loadWindowLayout(
+			(utf8*)"modules/common/gui/windows/"+CeGuiString((utf8*)xmlfile), 
+			mNamePrefix);
+	assert(mWindow != 0);
+
+	mIsVisible = true;
     mWithInput = withInput;
 
-	assert(mWindow != 0);
+	mName = mWindow->getName();
 }
 
 CeGuiWindow::~CeGuiWindow()
@@ -92,12 +97,12 @@ bool CeGuiWindow::beforeShow()
 
 void CeGuiWindow::addToRoot(Window* window)
 {
-	getWindow(UiSubsystem::CEGUI_ROOT)->addChildWindow(window);
+	WindowManager::getSingleton().getWindow((utf8*)UiSubsystem::CEGUI_ROOT)->addChildWindow(window);
 }
 
 Window* CeGuiWindow::getWindow(const char* name)
 {
-	return WindowManager::getSingleton().getWindow((utf8*)name);
+	return WindowManager::getSingleton().getWindow(mNamePrefix + (utf8*)name);
 }
 
 Editbox* CeGuiWindow::getEditbox(const char* name)
@@ -128,6 +133,11 @@ MultiColumnList* CeGuiWindow::getMultiColumnList(const char* name)
 MultiLineEditbox* CeGuiWindow::getMultiLineEditbox(const char* name)
 {
 	return reinterpret_cast<MultiLineEditbox*>(getWindow(name));
+}
+
+const CeGuiString& CeGuiWindow::getName() const
+{
+	return mName;
 }
 
 }

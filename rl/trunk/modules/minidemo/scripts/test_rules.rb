@@ -1,4 +1,4 @@
-load 'test_rules_action.rb'
+load 'test_rules_actions.rb'
 
 $gameTisch = GameObject.new(12, "Tisch", "Ein Tisch aus Holz. Sieht irgendwie komisch aus, vielleicht steckt mehr dahinter");
 $gameTisch.addAction(HeiltrankWirkung.new("Berühren", "Tisch anfassen", "A"));
