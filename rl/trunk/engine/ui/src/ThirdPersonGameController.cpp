@@ -4,10 +4,7 @@
 #include "InputManager.h"
 #include "DebugWindow.h"
 #include "Exception.h"
-//BEGIN nur debugkrams, kommt raus
 #include "GameActor.h"
-#include "ActorFactory.h"
-//END nur debugkrams, kommt raus
 
 #include <OgreSceneManager.h>
 #include <OgreAxisAlignedBox.h>
@@ -18,40 +15,36 @@ using namespace Ogre;
 namespace rl {
 
     ThirdPersonGameController::ThirdPersonGameController(
-        Camera* camera,
-        Ogre::Entity* hero,
-        const Vector3& pos) : mCameraNode(0),
-                              mHeroNode(0),
-                              mControlNode(0),
-                              mLookAtNode(0),
-                              mCamera(camera),
-                              mHero(hero),
-                              mMoveSpeed(60.0),
-                              mRotSpeed(100.0),
-                              mInputManager(InputManager::getSingletonPtr()),
-                              mWalk(false),
-                              mWasWalking(false)
+        Camera* camera, GameActor* actor)
+        : mControlNode(0),
+        mLookAtNode(0),
+        mCamera(camera),
+        mActor(actor),
+        mMoveScale(0),
+        mRotScale(0),
+        mMoveSpeed(200.0),
+        mRotSpeed(80.0),
+        mCurrentAnimationState(AS_STAND),
+        mLastAnimationState(AS_STAND)
     {
+        if (actor == 0 || camera == 0)
+        {
+            Throw(NullPointerException, "actor und camera duerfen nicht NULL sein.");
+        }
+
         SceneNode* root = CoreSubsystem::getSingleton().getWorld()->
             getSceneManager()->getRootSceneNode();
 
         mControlNode = root->createChildSceneNode("ControlNode");
-        //mControlNode->translate(0, 186.0 / 2.54 , 0);
-        mControlNode->setPosition(pos);
+
         mLookAtNode = mControlNode->createChildSceneNode("LookAtNode");
         mLookAtNode->pitch(-20);
+        
         mCameraNode = mLookAtNode->createChildSceneNode("CameraNode");
-        mCameraNode->attachObject(camera);
-        mCameraNode->translate(Vector3::UNIT_Z * 100.0);
+        mCameraNode->attachObject(mCamera);
+        mCameraNode->translate(Vector3(0, 0, 150), Node::TS_LOCAL);
 
-        mHeroNode = mControlNode->createChildSceneNode("HeroNode");
-        GameActor* actor = dynamic_cast<GameActor*>(
-            ActorFactory::getSingleton().createGameActor("Held","held.mesh"));
-        mHeroNode->attachObject(actor->getEntity());
-        mHeroNode->translate(0, -186.0 / 2.54, 0);
-        mHeroNode->setScale(1.0/2.54, 1.0/2.54, 1.0/2.54);
-
-        mControlNode->translate(Matrix3::IDENTITY, pos, Node::TS_PARENT);
+        setup();
     }
 
     ThirdPersonGameController::~ThirdPersonGameController()
@@ -60,32 +53,23 @@ namespace rl {
 
     void ThirdPersonGameController::run(Real elapsedTime)
     {
-        calculateScalingFactors(elapsedTime);
-
         if (!InputManager::getSingleton().isCeguiActive())
         {
-            processKeys();
-            processMouse();
+            Vector3 translation = Vector3::ZERO;
+            Real cameraZ = 0.0;
+            Real yaw = 0.0;
+            Real pitch = 0.0;
 
-            mControlNode->yaw(mYaw);
-            mLookAtNode->pitch(mPitch);
-            mCameraNode->translate(0, 0, mCameraZ);
+            calculateScalingFactors(elapsedTime);
+            calculateCameraTranslation(cameraZ, yaw, pitch);
+            calculateHeroTranslation(translation);
+            updateAnimationState(translation);
 
-            mControlNode->translate(mTranslation, Node::TS_LOCAL);
-            if (mWalk != mWasWalking)
-            {
-                GameActor* actor = dynamic_cast<GameActor*>(
-                    ActorFactory::getSingletonPtr()->getActor("Held"));
-                if (mWalk)
-                {
-                    actor->startAnimation("gehloop");
-                }
-                else
-                {
-                    actor->stopAnimation("gehloop");
-                }
-                mWasWalking = mWalk;
-            }
+            mControlNode->yaw(yaw);
+            mLookAtNode->pitch(pitch);
+            mCameraNode->translate(0, 0, cameraZ);
+
+            mControlNode->translate(translation, Node::TS_LOCAL);
         }
     }
 
@@ -103,70 +87,122 @@ namespace rl {
         }
     }
 
-    void ThirdPersonGameController::processMouse()
+    void ThirdPersonGameController::calculateCameraTranslation(
+        Ogre::Real& cameraZ, Ogre::Real& yaw, Ogre::Real& pitch)
     {	
-        mYaw = -InputManager::getSingleton().getMouseRelativeX() * 0.13;
-        mPitch = -InputManager::getSingleton().getMouseRelativeY() * 0.13;
-        mCameraZ = -InputManager::getSingleton().getMouseRelativeZ() * 0.05;
+        InputManager* im = InputManager::getSingletonPtr();
+
+        cameraZ = -im->getMouseRelativeZ() * 0.05;
+        yaw = -im->getMouseRelativeX() * 0.13;
+        pitch = -im->getMouseRelativeY() * 0.13;
     }
 
-    void ThirdPersonGameController::processKeys()
+    void ThirdPersonGameController::calculateHeroTranslation(Ogre::Vector3& translation)
     {
-        mTranslation = Vector3::ZERO;
-        mWalk = false;
+        InputManager* im = InputManager::getSingletonPtr();
 
-        if (mInputManager->isKeyDown(KC_UP) || mInputManager->isKeyDown(KC_W))
-        {
-            mTranslation.z = -mMoveScale;
-            mWalk = true;
-        }
+        if (im->isKeyDown(KC_UP) || im->isKeyDown(KC_W))
+            translation.z = -mMoveScale;
 
-        if (mInputManager->isKeyDown(KC_DOWN) || mInputManager->isKeyDown(KC_S))
-        {
-            mTranslation.z = mMoveScale;
-            mWalk = true;
-        }
+        if (im->isKeyDown(KC_DOWN) || im->isKeyDown(KC_S))
+            translation.z = mMoveScale;
 
-        if (mInputManager->isKeyDown(KC_RIGHT) || mInputManager->isKeyDown(KC_D))
-        {
-            mTranslation.x = mMoveScale;
-            mWalk = true;
-        }
+        if (im->isKeyDown(KC_RIGHT) || im->isKeyDown(KC_D))
+            translation.x = mMoveScale;
 
-        if (mInputManager->isKeyDown(KC_LEFT) || mInputManager->isKeyDown(KC_A))
-        {
-            mTranslation.x = -mMoveScale;
-            mWalk = true;
-        }
+        if (im->isKeyDown(KC_LEFT) || im->isKeyDown(KC_A))
+            translation.x = -mMoveScale;
 
-        if (mInputManager->isKeyDown(KC_PGUP))
-        {
-            mTranslation.y = mMoveScale;
-            mWalk = true;
-        }
+        if (im->isKeyDown(KC_PGUP))
+            translation.y = mMoveScale;
 
-        if (mInputManager->isKeyDown(KC_PGDOWN))
-        {
-            mTranslation.y = -mMoveScale;
-            mWalk = true;
-        }
+        if (im->isKeyDown(KC_PGDOWN))
+            translation.y = -mMoveScale;
 
-        if (mInputManager->isKeyDown(KC_P))
-        {
+        if (im->isKeyDown(KC_P))
             CoreSubsystem::getSingleton().makeScreenshot("rastullah");
-            mWalk = true;
-        }
 
-        if (mInputManager->isKeyDown(KC_C))
-        {
+        if (im->isKeyDown(KC_C))
             mCameraNode->lookAt(mControlNode->getWorldPosition(), Node::TS_LOCAL);
-            mWalk = true;
-        }
 
-	    if (mInputManager->isKeyDown(Ogre::KC_ESCAPE))
-	    {
-		    delete &Ogre::Root::getSingleton();
-		    exit(0);
-	    }
+        ///@todo das gehoert hier nicht hin.
+        if (im->isKeyDown(Ogre::KC_ESCAPE))
+        {
+            delete &Ogre::Root::getSingleton();
+            exit(0);
+        }
+    }
+
+    void ThirdPersonGameController::updateAnimationState(const Vector3& translation)
+    {
+        mCurrentAnimationState =
+            translation != Vector3::ZERO ? AS_WALK_FORWARD : AS_STAND;
+
+        if (mCurrentAnimationState != mLastAnimationState)
+        {
+            if (mCurrentAnimationState == AS_WALK_FORWARD)
+            {
+                mActor->startAnimation("gehloop");
+            }
+            else
+            {
+                mActor->stopAnimation("gehloop");
+            }
+            mLastAnimationState = mCurrentAnimationState;
+        }
+    }
+
+    GameActor* ThirdPersonGameController::getControlledActor()
+    {
+        return mActor;
+    }
+
+    void ThirdPersonGameController::setControlledActor(GameActor* actor)
+    {
+        if (actor == 0)
+        {
+            Throw(NullPointerException, "actor darf nicht NULL sein.");
+        }
+        mActor = actor;
+        setup();
+    }
+
+    Ogre::Camera* ThirdPersonGameController::getCamera()
+    {
+        return mCamera;
+    }
+
+    void ThirdPersonGameController::setup()
+    {
+        if (mActor != 0)
+        {
+            Vector3 extent = mActor->getExtent();
+
+            SceneNode* root = CoreSubsystem::getSingleton().getWorld()->
+                getSceneManager()->getRootSceneNode();
+            
+            Vector3 pos = mActor->getPosition();
+
+            // ControlNode auf etwa 10% Abstand bezogen auf die Höhe
+            // des GameActors bringen.
+            pos.y = pos.y + extent.y * 1.2;
+            mControlNode->setPosition(pos);
+            mControlNode->addChild(mActor->getSceneNode());
+            mActor->getSceneNode()->setPosition(Vector3::ZERO);
+            mActor->getSceneNode()->translate(
+                Vector3(0, -extent.y * 1.2, 0), Node::TS_PARENT);
+        }
+    }
+
+    void ThirdPersonGameController::setCamera(Ogre::Camera* camera)
+    {
+        if (camera == 0)
+        {
+            Throw(NullPointerException, "camera darf nicht NULL sein.");
+        }
+        mCameraNode->detachObject(mCamera);
+        mCameraNode->attachObject(camera);
+        mCamera = camera;
     }
 }
+

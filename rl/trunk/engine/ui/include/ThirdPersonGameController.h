@@ -10,33 +10,49 @@
 
 namespace rl {
 
-    class InputManager;
+    class GameActor;
 
     /**
      *  @todo auf Actor umstellen statt Ogre::Entity
      *  @todo Kollision
      *  @todo Nachziehen
+     *  @todo "Pluggablility"
      */
     class _RlUiExport ThirdPersonGameController : public SynchronizedTask
     {
     public:
-        ThirdPersonGameController(Ogre::Camera* camera, Ogre::Entity* hero,
-            const Ogre::Vector3& pos = Ogre::Vector3::ZERO);
+        /** Massgeblich ist die Position des Actors. Die Camera wird hinter diesen
+         *  gesetzt.
+         *  @throw NullPointerException falls camera oder hero 0 sind.
+         */
+        ThirdPersonGameController(Ogre::Camera* camera, GameActor* hero);
         virtual ~ThirdPersonGameController();
 
         void run(Real elapsedTime);
 
+        GameActor* getControlledActor();
+
+        /** Setzt den Actor, der durch den Benutzer zu steuern ist.
+         *  Dabei wird die Camera ueber/hinter den Actor gesetzt.
+         *  @throw NullPointerException falls actor 0 ist.
+         */
+        void setControlledActor(GameActor* actor);
+
+        Ogre::Camera* getCamera();
+
+        /** Setzt die Camera, durch die man den Actor steuert.
+         *  Dabei wird die Camera ueber/hinter den Actor gesetzt.
+         *  @throw NullPointerException falls camera 0 ist.
+         */
+        void setCamera(Ogre::Camera* camera);
+
     private:
+        typedef enum {AS_STAND, AS_WALK_FORWARD} AnimationState;
         Ogre::SceneNode* mControlNode;
         Ogre::SceneNode* mLookAtNode;
         Ogre::SceneNode* mCameraNode;
-        Ogre::SceneNode* mHeroNode;
-
-        InputManager* mInputManager;
-
         Ogre::Camera* mCamera;
-        Ogre::Entity* mHero;
-        Ogre::Entity* mLooki;
+        GameActor* mActor;
 
         Ogre::Real mMoveScale;
         Ogre::Real mRotScale;
@@ -44,19 +60,17 @@ namespace rl {
         Ogre::Real mMoveSpeed;
         Ogre::Real mRotSpeed;
 
-        Ogre::Real mYaw;
-        Ogre::Real mPitch;
-        Ogre::Real mCameraZ;
-        Ogre::Vector3 mTranslation;
+        AnimationState mCurrentAnimationState;
+        AnimationState mLastAnimationState;
 
-        Ogre::Real mCameraDistance;
-
-        bool mWalk;
-        bool mWasWalking;
+        void setup();
 
         void calculateScalingFactors(Ogre::Real timePassed);
-        void processMouse();
-        void processKeys();
+
+        void calculateHeroTranslation(Ogre::Vector3& translation);
+        void calculateCameraTranslation(Ogre::Real& cameraZ,
+            Ogre::Real& yaw, Ogre::Real& pitch);
+        void updateAnimationState(const Ogre::Vector3& translation);
     };
 
 }

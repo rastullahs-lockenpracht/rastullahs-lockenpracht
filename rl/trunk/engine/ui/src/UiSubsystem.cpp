@@ -14,6 +14,7 @@
 
 #include "GameLoop.h"
 #include "ActorFactory.h"
+#include "GameActor.h"
 #include "CameraActor.h"
 #include "World.h"
 
@@ -95,15 +96,14 @@ namespace rl {
         CameraActor* camera = dynamic_cast<CameraActor*>(
             ActorFactory::getSingleton().getActor("DefaultCamera"));
 		
-        if( camera != 0 )
-        {
-            mGameController = new ThirdPersonGameController(camera->getOgreCamera(),
-                0, //mHero->getEntity(),
-                world->getSceneManager()->getSuggestedViewpoint().position);
-            GameLoop::getSingleton().addSynchronizedTask(mGameController);
-        }
+        GameActor* hero = dynamic_cast<GameActor*>(
+            ActorFactory::getSingleton().createGameActor("Held","held.mesh"));
+        Ogre::Vector3 pos = world->getSceneManager()->getSuggestedViewpoint().position;
+        hero->setPosition(pos.x, pos.y, pos.z);
 
-		UiSubsystem::runTest();
+        mGameController = new ThirdPersonGameController(
+            camera->getOgreCamera(), hero);
+        GameLoop::getSingleton().addSynchronizedTask(mGameController);
     }
 
     void UiSubsystem::requestExit()
