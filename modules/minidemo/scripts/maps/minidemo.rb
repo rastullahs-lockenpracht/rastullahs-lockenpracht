@@ -36,10 +36,12 @@ $CORE.log("Held als aktiver Charakter gesetzt.");
 $CORE.log("Türen reinsetzen")
 door1 = Door.new("Tuer_1", false, true);
 door1.getActor().placeIntoScene(1168.0, -75.0, -110.0, 1.0, 0.0, 0.0, 0.0);
+# , "Bone01");
 door1.getActor().yaw(-90.0)
 
 gtuer = Door.new("Tuer_2", false, false);
-gtuer.getActor().placeIntoScene(1168.0, -75.0, 88.0, 1.0, 0.0, 0.0, 0.0);
+gtuer.getActor().placeIntoScene(1168.0, -75.0, 88.0, 1.0, 0.0, 0.0, 0.0)
+#, "Bone01");
 gtuer.getActor().yaw(-90.0)
 $CORE.log("Türen fertig")
 
