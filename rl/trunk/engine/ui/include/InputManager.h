@@ -1,7 +1,7 @@
 #ifndef __InputManager_H__
 #define __InputManager_H__
 
-#include <list>
+#include <set>
 #include <OgreEventQueue.h>
 #include <OgreFrameListener.h>
 #include <OgreEventListeners.h>
@@ -17,6 +17,8 @@ namespace CEGUI {
 }
 
 namespace rl {
+
+	class CeGuiWindow;
 
 	class _RlUiExport InputManager : public SynchronizedTask, public KeyListener, public MouseListener, public MouseMotionListener, public Singleton<InputManager>
 	{
@@ -45,8 +47,8 @@ namespace rl {
 
 			void run(Real elapsedTime);
 			
-			void registerCeguiWindow();
-			void unregisterCeguiWindow();
+			void registerCeguiWindow(CeGuiWindow* window);
+			void unregisterCeguiWindow(CeGuiWindow* window);
 			bool isCeguiActive();
 
 			void activateTargetQuery();
@@ -71,13 +73,13 @@ namespace rl {
 
 			bool mKeyDown[NUM_KEYS];
 
-			std::list<KeyListener*> mKeyListenerList;
-			std::list<MouseListener*> mMouseListenerList;
-			std::list<MouseMotionListener*> mMouseMotionListenerList;
+			std::set<KeyListener*> mKeyListeners;
+			std::set<MouseListener*> mMouseListeners;
+			std::set<MouseMotionListener*> mMouseMotionListeners;
+			std::set<CeGuiWindow*> mActiveWindows;
 
 			unsigned short mScreenX;
 			unsigned short mScreenY;
-			unsigned short mOpenCeguiWindows;
 			bool mBuffered, mEventInitialized, mInputInitialized;			
 
 			CEGUI::MouseButton convertOgreButtonToCegui(int ogre_button_id);

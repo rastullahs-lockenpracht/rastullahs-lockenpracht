@@ -19,8 +19,8 @@ class _RlCoreExport BSPWorld : public World
         void clearScene();
 		void loadScene( const String&  levelName );
 		void initializeDefaultCamera();	
-
-        Quaternion getWorldAxis();
+        void setSkyBox(bool enable, const String &materialName,
+			Real distance, bool drawFirst );
 };
 
 }

@@ -64,7 +64,9 @@ namespace rl
 	{
 		KeyEventArgs ke = static_cast<const KeyEventArgs&>(e);
 		if (ke.scancode == Key::Escape || ke.scancode == Key::F11)
+		{
 			hide();
+		}
 		else if (ke.scancode == Key::ArrowDown)
 			cycleHistory(1);
 		else if (ke.scancode == Key::ArrowUp)

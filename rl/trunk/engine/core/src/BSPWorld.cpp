@@ -12,6 +12,7 @@ namespace rl {
 
 	BSPWorld::BSPWorld( ) : World(ST_INTERIOR, true)
 	{
+        getSceneManager()->getRootSceneNode()->pitch(90);
 	}
 
 	BSPWorld::~BSPWorld()
@@ -71,8 +72,16 @@ namespace rl {
 		}
 		catch(...)
 		{
+			///@todo dokumentieren oder ausfuellen
 		}		
 	}
+
+    //Enables / disables a 'sky box' i.e.
+    void BSPWorld::setSkyBox(bool enable, const String &materialName, Real distance, bool drawFirst )
+    {
+        mSceneMgr->setSkyBox(enable, materialName,
+			distance, drawFirst, Quaternion(90, Vector3::UNIT_X));
+    }
 
 	void BSPWorld::clearScene( )
     {
@@ -85,10 +94,5 @@ namespace rl {
 		mSceneMgr = Root::getSingleton().getSceneManager( ST_INTERIOR );
         PhysicsManager::getSingleton().setWorldScene( this );
 		mbSceneLoaded = false;
-    }
-
-    Quaternion BSPWorld::getWorldAxis()
-    {
-		return Quaternion::IDENTITY;
     }
 }

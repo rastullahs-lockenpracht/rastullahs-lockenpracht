@@ -34,7 +34,6 @@ namespace rl {
     {
         SceneNode* root = CoreSubsystem::getSingleton().getWorld()->
             getSceneManager()->getRootSceneNode();
-        root->pitch(90);
 
         mControlNode = root->createChildSceneNode("ControlNode");
         mControlNode->translate(0, 186.0 / 2.54 , 0);

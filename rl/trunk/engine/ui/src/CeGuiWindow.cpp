@@ -32,7 +32,7 @@ void CeGuiWindow::show()
 
 		mState = CS_OPENING;
 		if (isInputWindow())
-			InputManager::getSingleton().registerCeguiWindow();
+			InputManager::getSingleton().registerCeguiWindow(this);
 		mWindow->show();
 		mState = CS_OPEN;
 	}
@@ -48,7 +48,7 @@ void CeGuiWindow::hide()
 		mState = CS_CLOSING;
 		mWindow->hide();
 		if (isInputWindow())
-			InputManager::getSingleton().unregisterCeguiWindow();
+			InputManager::getSingleton().unregisterCeguiWindow(this);
 		mState = CS_CLOSED;
 	}
 }

@@ -66,8 +66,6 @@ public:
     virtual Real getFogEnd (void) const;
 
     virtual void setAmbientLight(Real r, Real g, Real b);
-    
-    virtual Quaternion getWorldAxis();
 protected:
 	World(Ogre::SceneType sceneType, bool hasPhysics);
 

@@ -30,8 +30,6 @@ namespace rl {
 
 	InputManager::InputManager(void)
 	{
-		mOpenCeguiWindows = 0;
-					
 		switchMouseToUnbuffered();
 		
 		mEventProcessor = new EventProcessor();
@@ -62,12 +60,12 @@ namespace rl {
 
 	void InputManager::addKeyListener(KeyListener *l)
 	{
-		mKeyListenerList.push_back(l);
+		mKeyListeners.insert(l);
 	}
 
 	void InputManager::removeKeyListener(KeyListener *l)
 	{
-		mKeyListenerList.remove(l);
+		mKeyListeners.erase(l);
 	}
 
 	void InputManager::run(Real elapsedTime)
@@ -145,8 +143,8 @@ namespace rl {
 			else
 			{
 				mKeyDown[e->getKey()]=true;
-				std::list<KeyListener*>::iterator i;
-				for(i=mKeyListenerList.begin(); i!=mKeyListenerList.end(); i++)
+				std::set<KeyListener*>::iterator i;
+				for(i=mKeyListeners.begin(); i!=mKeyListeners.end(); i++)
 					(*i)->keyPressed(e);
 			}
 			e->consume();
@@ -164,8 +162,8 @@ namespace rl {
 		else
 		{
 			mKeyDown[e->getKey()]=false;
-			std::list<KeyListener*>::iterator i;
-			for(i=mKeyListenerList.begin(); i!=mKeyListenerList.end(); i++)
+			std::set<KeyListener*>::iterator i;
+			for(i=mKeyListeners.begin(); i!=mKeyListeners.end(); i++)
 				(*i)->keyReleased(e);
 			e->consume();
 		}		
@@ -199,7 +197,7 @@ namespace rl {
 		if (mEventInitialized)
 			mEventProcessor->addMouseMotionListener(l);
 
-		mMouseMotionListenerList.push_back(l);
+		mMouseMotionListeners.insert(l);
 	}
 
 	void InputManager::removeMouseMotionListener(MouseMotionListener *l)
@@ -207,26 +205,27 @@ namespace rl {
 		if (mEventInitialized)
 			mEventProcessor->removeMouseMotionListener(l);
 
-		mMouseMotionListenerList.remove(l);
+		mMouseMotionListeners.erase(l);
 	}
 
-	void InputManager::registerCeguiWindow()
+	void InputManager::registerCeguiWindow(CeGuiWindow* window)
 	{
-		if (mOpenCeguiWindows == 0)
+		if (!isCeguiActive())
 		{
 			switchMouseToBuffered();
 			CEGUI::MouseCursor::getSingleton().show();
 		}
-		mOpenCeguiWindows++;
+		mActiveWindows.insert(window);
 	}
 
-	void InputManager::unregisterCeguiWindow()
+	void InputManager::unregisterCeguiWindow(CeGuiWindow* window)
 	{
-		if (mOpenCeguiWindows > 0)
+		if (isCeguiActive())
 		{
-			mOpenCeguiWindows--;
 
-			if (mOpenCeguiWindows == 0)
+			mActiveWindows.erase(window);
+
+			if (!isCeguiActive())
 			{
 				CEGUI::MouseCursor::getSingleton().hide();
 				switchMouseToUnbuffered();		
@@ -264,7 +263,6 @@ namespace rl {
 
 		// Check to see if even has been initialized
 		if (mEventInitialized) {
-
 			// Stop buffering events
 			mEventProcessor->stopProcessingEvents();
 			mEventProcessor->removeKeyListener(this);
@@ -283,7 +281,7 @@ namespace rl {
 
 	bool InputManager::isCeguiActive()
 	{
-		return mOpenCeguiWindows > 0;
+		return !mActiveWindows.empty();
 	}
 
 	char InputManager::getKeyChar(KeyEvent* ke)

@@ -112,6 +112,7 @@ namespace rl {
 		new ActorFactory( );
 
 		mWorld->loadScene("testraum.bsp");
+		mWorld->setSkyBox(true, "rl/dsa07");
 		//mWorld->loadScene("rastullah-testworld.cfg");
 		//mWorld->loadScene("terrain.cfg");
 

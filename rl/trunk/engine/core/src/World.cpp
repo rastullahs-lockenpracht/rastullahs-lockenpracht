@@ -47,16 +47,17 @@ namespace rl {
     void World::setSkyBox(bool enable, const String &materialName, Real distance, bool drawFirst )
     {
         mSceneMgr->setSkyBox(enable, materialName,
-            distance, drawFirst, getWorldAxis());
+			distance, drawFirst, Quaternion::ZERO);
     }
 
  	    
     //Enables / disables a 'sky dome' i.e.
+	///@todo eventuell in BSPWorld ueberschreiben
     void World::setSkyDome(bool enable, const String &materialName,
         Real curvature, Real tiling, Real distance, bool drawFirst)
     {   
         mSceneMgr->setSkyDome(enable, materialName, curvature,
-            tiling, distance, drawFirst, getWorldAxis());
+            tiling, distance, drawFirst, Quaternion::ZERO);
     }
  	    
     //Sets the fogging mode applied to the scene.
@@ -83,11 +84,6 @@ namespace rl {
     Real World::getFogStart(void) const
     {
         return mSceneMgr->getFogStart();
-    }
-
-    Quaternion World::getWorldAxis()
-    {
-        return Quaternion::ZERO;
     }
  	    
     //Returns the fog end distance for the scene.

@@ -80,7 +80,7 @@ namespace rl {
         {
 		    Camera* pCamera = mWorld->getSceneManager()->createCamera(uniquename);
 		    CameraActor* pCameraActor = new CameraActor(uniquename,pCamera);
-            pCamera->rotate( mWorld->getWorldAxis() );
+            //pCamera->rotate( mWorld->getWorldAxis() );
 
 		    mActors.insert( ActorPtrPair(uniquename,pCameraActor) ); 
 		    return pCameraActor;
@@ -101,7 +101,7 @@ namespace rl {
         {
             Light* pLight = mWorld->getSceneManager()->createLight(uniquename);
 		    LightActor* pLightActor = new LightActor(uniquename,pLight);
-            pLightActor->rotate( mWorld->getWorldAxis() );
+            //pLightActor->rotate( mWorld->getWorldAxis() );
 
 		    mActors.insert( ActorPtrPair(uniquename,pLightActor) ); 
 		    return pLightActor;
@@ -122,7 +122,7 @@ namespace rl {
         {
 		    Entity* entity = mWorld->getSceneManager()->createEntity(uniquename, meshname);
 		    MeshActor* actor = new MeshActor(uniquename,entity);
-            actor->rotate( mWorld->getWorldAxis() );
+            //actor->rotate( mWorld->getWorldAxis() );
 
 		    mActors.insert( ActorPtrPair(uniquename,actor) ); 
 		    return actor;
@@ -143,7 +143,7 @@ namespace rl {
         {
 		    Entity* entity = mWorld->getSceneManager()->createEntity(uniquename, meshname);		
 		    GameActor* pGameActor = new GameActor(uniquename,entity);
-            pGameActor->rotate( mWorld->getWorldAxis() );
+            //pGameActor->rotate( mWorld->getWorldAxis() );
 
 		    mActors.insert( ActorPtrPair(uniquename,pGameActor) ); 
 		    return pGameActor;
@@ -166,7 +166,7 @@ namespace rl {
             createSystem(uniquename, partname);    
         
             ParticleSystemActor* pParticleSystemActor = new ParticleSystemActor(uniquename,pParticleSystem);
-            pParticleSystemActor->rotate( mWorld->getWorldAxis() );
+            //pParticleSystemActor->rotate( mWorld->getWorldAxis() );
 
 		    mActors.insert( ActorPtrPair(uniquename,pParticleSystemActor) ); 
 		    return pParticleSystemActor;
