@@ -20,6 +20,7 @@
 #include "CorePrerequisites.h"
 #include "ActorControlledObject.h"
 
+/// @TODO SharedPtr
 namespace rl {
 
     class SoundMovable;

@@ -15,7 +15,6 @@
  */
 #include "SoundMovable.h"
 #include "SoundManager.h"
-#include "SoundMovable.h"
 #include <boost/thread.hpp>
 extern "C" {
     #include <AL/al.h>
@@ -156,7 +155,6 @@ SoundMovable::SoundMovable(const String &name):
     setPosition(Vector3(0.0, 0.0, 0.0));
     setVelocity(Vector3(0.0, 0.0, 0.0));
     setDirection(Vector3(0.0, 0.0, 0.0));
-    SoundSubsystem::log("SoundMovable Name: " + mName);
 }
  
 /**
@@ -181,7 +179,7 @@ SoundMovable::SoundMovable(const SoundResourcePtr &soundres):
 {
     if (!soundres.isNull())
     {
-        mName = soundres.getPointer()->getName();
+        mName = soundres->getName();
     }
     mFadeInFunctor.setThat(this);
     mFadeOutFunctor.setThat(this);
@@ -200,7 +198,6 @@ SoundMovable::SoundMovable(const SoundResourcePtr &soundres):
     setPosition(Vector3(0.0, 0.0, 0.0));
     setVelocity(Vector3(0.0, 0.0, 0.0));
     setDirection(Vector3(0.0, 0.0, 0.0));
-    SoundSubsystem::log("SoundMovable Name: " + mName);
 }
 
 /**
@@ -413,14 +410,14 @@ void SoundMovable::setGain(const ALfloat gain) throw (RuntimeException)
  */
 void SoundMovable::play(unsigned int msec) throw (RuntimeException)
 {
-    if (!mStreamThread && mSoundResource.getPointer())
+    if (!mStreamThread && !mSoundResource.isNull())
     {
-        mSoundResource.getPointer()->load();
-        mOggMemoryFile.mDataStream = mSoundResource.getPointer()->getDataStream();
-        mOggMemoryFile.mDataSize = mSoundResource.getPointer()->getSize();
+        mSoundResource->load();
+        mOggMemoryFile.mDataStream = mSoundResource->getDataStream();
+        mOggMemoryFile.mDataSize = mSoundResource->getSize();
         mOggMemoryFile.mDataRead = 0; 
         // Jetzt mal die Soundparameter ermitteln.
-        switch(mSoundResource.getPointer()->getSoundDataType())
+        switch(mSoundResource->getSoundDataType())
         {
             vorbis_info *vorbisInfo;
             case OggVorbis:
@@ -441,7 +438,7 @@ void SoundMovable::play(unsigned int msec) throw (RuntimeException)
                 break;
             default:
                 // Nicht erlaubt;
-                mSoundResource.getPointer()->unload();
+                mSoundResource->unload();
                 return;
         }
         mStreamThread = new thread(SoundMovable::mStreamFunctor);
@@ -479,7 +476,7 @@ void SoundMovable::stop(unsigned int msec) throw (RuntimeException)
                 ov_clear(&mOggStream);
                 break;
         }
-        mSoundResource.getPointer()->unload();
+        mSoundResource->unload();
         setFadeOut(msec);
         mFadeOutThread = new thread(SoundMovable::mFadeOutFunctor);
     } 
@@ -727,7 +724,7 @@ void SoundMovable::runStreaming()
  */
 bool SoundMovable::stream (ALuint buffer)
 {
-    switch(mSoundResource.getPointer()->getSoundDataType())
+    switch(mSoundResource->getSoundDataType())
     {
          case OggVorbis:
             return oggstream(buffer);

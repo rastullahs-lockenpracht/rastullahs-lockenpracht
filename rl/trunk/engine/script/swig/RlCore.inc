@@ -277,7 +277,13 @@ public:
 class SoundObject : public ActorControlledObject
 {
 public:
-	rl::SoundResource* getSound();
+	rl::SoundMovable* getSound();
+};
+
+class SoundObject : public ActorControlledObject
+{
+public:
+	rl::ListenerMovable* getListener();
 };
 
 class ParticleSystemObject : public ActorControlledObject

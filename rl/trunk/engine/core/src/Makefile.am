@@ -19,6 +19,7 @@ libRlCore_la_SOURCES = \
 	GameLoop.cpp \
 	GameTask.cpp \
 	LightObject.cpp \
+	ListenerObject.cpp \
 	MeshObject.cpp \
 	ParticleSystemObject.cpp \
 	PhysicalThing.cpp \

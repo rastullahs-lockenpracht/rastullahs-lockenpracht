@@ -77,7 +77,7 @@ MusicManager::~MusicManager()
 {
     if (!mSource.isNull())
     {
-        mSource.getPointer()->stop();
+        mSource->stop();
     }
     mSource.setNull();
     mShouldExit = true;
@@ -106,7 +106,7 @@ void MusicManager::stopSong(int fade)
 {
     if (!mSource.isNull())
     {
-        mSource.getPointer()->stop(fade);
+        mSource->stop(fade);
     }
     mShouldPlay = false;
 }
@@ -125,7 +125,7 @@ void MusicManager::playSong(int fade)
     // Wenn mSource immer noch NULL ist, dann haben wir nicht ins der Liste.
     if (!mSource.isNull())
     {
-        mSource.getPointer()->play(fade);
+        mSource->play(fade);
         mShouldPlay = true;
     } else {
         mShouldPlay = false;
@@ -144,7 +144,7 @@ const bool MusicManager::isSourcePlaying() const
     {
         return false;
     }
-    return mSource.getPointer()->playing(); 
+    return mSource->playing(); 
 }
 
 /**
@@ -176,7 +176,7 @@ void MusicManager::setNextSong()
     }
     if (!mSource.isNull() )
     {
-        mSource.getPointer()->stop();
+        mSource->stop();
         mSource.setNull();
     }
     RlAssert(mSource.isNull(), "Fehler beim Stoppen des aktuellen Musikstuecks");
@@ -202,7 +202,7 @@ string MusicManager::findNextSong()
     if (!mSource.isNull())
     {
         StringList::iterator cit = 
-            find(mPlayList.begin(), mPlayList.end(), mSource.getPointer()->getName());
+            find(mPlayList.begin(), mPlayList.end(), mSource->getName());
         if (cit == mPlayList.end())
         {
             // Nichts gefunden.
@@ -211,7 +211,7 @@ string MusicManager::findNextSong()
                 SoundResourcePtr res = 
                     SoundManager::getSingleton().getResourceIterator().peekNextValue();
                 if (!res.isNull())
-                    return res.getPointer()->getName();
+                    return res->getName();
 
 				return "";
              }
@@ -231,7 +231,7 @@ string MusicManager::findNextSong()
     } else { // mSource ist noch nicht gesetzt.
         SoundResourcePtr res = SoundManager::getSingleton().getResourceIterator().peekNextValue();
         if (!res.isNull())
-            return res.getPointer()->getName();
+            return res->getName();
         
         return "";
         
@@ -248,7 +248,7 @@ void MusicManager::setGain(ALfloat newGain)
 {
     if (!mSource.isNull())
     {
-        mSource.getPointer()->setGain(newGain);
+        mSource->setGain(newGain);
     }
 }
 
@@ -261,7 +261,7 @@ ALfloat MusicManager::getGain()
 {
     if (!mSource.isNull())
     {
-        return mSource.getPointer()->getGain();
+        return mSource->getGain();
     }
     return 0.0;
 }
@@ -405,7 +405,7 @@ void MusicManager::addSoundsIntoPlayList()
     while (it.hasMoreElements())
     {
         ResourcePtr res = it.getNext();
-		mPlayList.push_back(res.getPointer()->getName());
+		mPlayList.push_back(res->getName());
     }
 }
 

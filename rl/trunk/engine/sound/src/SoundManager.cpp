@@ -112,7 +112,7 @@ void SoundManager::addSounds(const Ogre::String& group)
 		StringVectorPtr sl = ResourceGroupManager::getSingleton().findResourceNames(
 			group, *cit );
         StringVector::const_iterator it;
-        for(it = sl.getPointer()->begin(); it != sl.getPointer()->end(); it++)
+        for(it = sl->begin(); it != sl->end(); it++)
         {
             try {
                 create(*it, group);

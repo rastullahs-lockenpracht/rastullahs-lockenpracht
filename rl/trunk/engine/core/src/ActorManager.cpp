@@ -25,6 +25,8 @@
 #include "LightObject.h"
 #include "SoundObject.h"
 #include "SoundMovable.h"
+#include "ListenerMovable.h"
+#include "ListenerObject.h"
 
 template<> rl::ActorManager* Singleton<rl::ActorManager>::ms_Singleton = 0;
 
@@ -124,6 +126,29 @@ namespace rl {
             SoundObject* so = new SoundObject(sm);
 
             actor = new Actor(uniquename, so);
+            mActors.insert(ActorPtrPair(uniquename,actor)); 
+        }
+        catch( Ogre::Exception& e)
+        {
+            CoreSubsystem::log("ActorManager - Der Sound '"
+                + uniquename + "' konnte nicht erstellt werden. Grund: "
+                + e.getFullDescription());
+        }
+
+        return actor;
+    }
+
+    Actor* ActorManager::createListenerActor(const String& name)
+    {
+        const String&  uniquename = nextUniqueName(name);
+
+        Actor* actor = 0;
+        try
+        {
+            ListenerMovable* lm = new ListenerMovable(name);
+            ListenerObject* lo = new ListenerObject(lm);
+
+            actor = new Actor(uniquename, lo);
             mActors.insert(ActorPtrPair(uniquename,actor)); 
         }
         catch( Ogre::Exception& e)

@@ -1,4 +1,5 @@
 noinst_HEADERS = MusicManager.h \
+	ListenerMovable.h \
 	SoundManager.h \
 	SoundSubsystem.h \
 	SoundPrerequisites.h \

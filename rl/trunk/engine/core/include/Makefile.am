@@ -13,6 +13,7 @@
 	GameTask.h \
 	Interpreter.h \
 	LightObject.h \
+	ListenerObject.h \
 	MeshObject.h \
 	ParticleSystemObject.h \
 	PhysicalThing.h \

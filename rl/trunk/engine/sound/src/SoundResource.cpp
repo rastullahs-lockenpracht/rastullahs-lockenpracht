@@ -31,7 +31,6 @@ SoundResource::SoundResource(ResourceManager* creator, const String& name, Resou
         const String& group, bool isManual, ManualResourceLoader* loader):
     Resource(creator, name, handle, group, isManual, loader)
 {
-    SoundSubsystem::log("SoundResource Name: " + name);
 }
 
 /**
@@ -53,7 +52,7 @@ void SoundResource::loadImpl()
     {
         // Holen wir erstmal die Daten.
 		mDataStream = ResourceGroupManager::getSingleton().openResource(mName, mGroup);
-		size_t numBytes = mDataStream.getPointer()->size();
+		size_t numBytes = mDataStream->size();
 
         if (StringUtil::endsWith(mName, ".ogg"))
         {
@@ -87,7 +86,7 @@ void SoundResource::unloadImpl()
  */
 size_t SoundResource::calculateSize() const
 {
-	return mDataStream.getPointer()->size();
+	return mDataStream->size();
 }
 
 /**

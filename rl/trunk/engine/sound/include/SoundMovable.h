@@ -29,6 +29,7 @@
 
 namespace Ogre {
     class MovableObject;
+    class Vector3;
 }
 
 namespace rl {

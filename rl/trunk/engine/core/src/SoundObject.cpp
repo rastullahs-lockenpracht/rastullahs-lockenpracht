@@ -26,7 +26,7 @@ using namespace Ogre;
 namespace rl {
    
 /**
- * @param name. Der Name des Sounds.
+ * @param sound. Der Sound, Besitz wird übernommen.
  * @author JoSch
  * @date 03-11-2005
  */   
@@ -41,6 +41,10 @@ SoundObject::SoundObject(SoundMovable *sound) : ActorControlledObject()
  */   
 SoundObject::~SoundObject()
 {
+    if (mMovableObject)
+    {
+        delete mMovableObject;
+    }
 }
 
 /**
