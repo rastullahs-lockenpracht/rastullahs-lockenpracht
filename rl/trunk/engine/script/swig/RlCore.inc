@@ -37,7 +37,7 @@ public:
 
 	rl::MeshActor* createMeshActor(const String& name,const String& mesh);
 	rl::GameActor* createGameActor(const String& name,const String& meshname);
-	rl::LightActor* createLightActor(const String& name);
+	rl::LightActor* createLightActor(const String& name, int type);
 	rl::ParticleSystemActor* createParticleSystemActor(const String& name,const String& partname);
 	
 	rl::Actor* getActor(const String& name);
@@ -160,7 +160,7 @@ public:
     void setDiffuseColour( Real red, Real green, Real blue );
     void setDirection( Real x, Real y, Real z );
     void setSpecularColour( Real red, Real green, Real blue );
-    void setSpotlightRange( Real innerangle, Real outerangle, Real falloff = 1 );
+    void setSpotlightRange( Real innerangle, Real outerangle, Real falloff = 1.0 );
     void setVisible( bool visible );
 
 	static LightActor* castDown( Actor* pActor );
