@@ -19,9 +19,9 @@
 
 #include "RulesPrerequisites.h"
 
+#include <Actor.h>
 namespace rl
 {
-	class Actor;
     class _RlRulesExport Creature;
 	class _RlRulesExport Action;
 	class _RlRulesExport ActionGroup;

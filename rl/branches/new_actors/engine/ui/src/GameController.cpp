@@ -301,35 +301,21 @@ namespace rl {
     {
         if (mActor != 0)
         {
-            ///@todo dafuer sorgen, dass das nicht mehr noetig ist.
-            mActor->_getSceneNode()->setScale(0.5, 0.5 , 0.5);
-            //mActor->getEntity()->setNormaliseNormals(true);
-
-            Vector3 extent = mActor->getExtent();
             SceneNode* root = CoreSubsystem::getSingleton().getWorld()->
                 getSceneManager()->getRootSceneNode();
             Vector3 pos = mActor->getPosition();
 
             // ControlNode auf etwa 10% Abstand bezogen auf die Höhe
             // des GameActors bringen.
+            ///@todo Folgendes neumachen.
+            /*
             pos.y = pos.y + extent.y * 0.9;
             mControlNode->setPosition(pos);
             mControlNode->addChild(mActor->getSceneNode());
             mActor->getSceneNode()->setPosition(Vector3::ZERO);
             mActor->getSceneNode()->translate(
                 Vector3(0, -extent.y * 0.9, 0), Node::TS_PARENT);
-
-            // ODE-Collision-Proxy ist eine Capsule
-            mOdeActor->setDefinition(mActor->getRadius(),
-                mActor->getHeight() - 2*mActor->getRadius());
-            mOdeActor->setPosition(ogrePosToOdePos(
-                mActor->getSceneNode()->getWorldPosition(),
-                mActor->getExtent()));
-            mOdeActor->setOrientation(Quaternion(Degree(90), Vector3::UNIT_X));
-                    
-            mOdeCamera->setPosition(mCameraNode->getWorldPosition());
-            mOdeCamera->setRadius(mCamera->getNearClipDistance() * 1.5);
-            
+            */
         }
     }
     //------------------------------------------------------------------------

@@ -56,7 +56,7 @@ namespace rl {
     {
         mGameObject = uo;
     }
-    
+
     PhysicalThing* Actor::getPhysicalThing()
     {
         return mPhysicalThing;

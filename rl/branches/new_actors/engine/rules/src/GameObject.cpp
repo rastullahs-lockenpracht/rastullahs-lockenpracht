@@ -17,7 +17,6 @@
 #include "Action.h"
 #include "GameObject.h"
 #include "Exception.h"
-#include "Actor.h"
 #include "RulesSubsystem.h"
 
 using namespace std;

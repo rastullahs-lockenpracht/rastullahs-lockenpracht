@@ -43,7 +43,7 @@ namespace rl {
         
         PhysicalThing* getPhysicalThing();
         Ogre::UserDefinedObject* getGameObject();
-        void setGameObject(Ogre::UserDefinedObject*);
+        void setGameObject(Ogre::UserDefinedObject* uo);
         Ogre::MovableObject* getMovableObject();
         
         void placeIntoScene(
