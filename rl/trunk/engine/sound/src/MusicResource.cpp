@@ -7,11 +7,9 @@ extern "C"
 #include <vorbis/codec.h>
 #include <vorbis/vorbisfile.h>
 }
-#include <boost/thread/xtime.hpp>
 #include <locale>
 using namespace std;
 using namespace Ogre;
-using namespace boost;
 
 namespace rl
 {

@@ -2,12 +2,10 @@
 #include <iostream>
 #include "SoundManager.h"
 #include "SndResource.h"
-#include "boost/thread/xtime.hpp"
 #include "Sleep.h"
 
 using namespace std;
 using namespace Ogre;
-using namespace boost;
 
 namespace rl {
 /**

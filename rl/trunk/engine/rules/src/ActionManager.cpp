@@ -48,16 +48,17 @@ namespace rl
     {
 		Action* action = NULL;
 		for (ActionVector::const_iterator it = mActions.begin(); it != mActions.end(); it++)
+        {
 			if ((*it)->getName().compare(actionName) == 0)
 			{
 				action = (*it);
 				break;
 			}
-
+        }
         if (action == NULL)
         {
             Throw(InvalidArgumentException, "Unbekannte Aktion.");
         }
-        return *it;
+        return action;
     }
 }

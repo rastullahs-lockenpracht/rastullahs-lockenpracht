@@ -1,4 +1,4 @@
-SUBDIRS = swig include src
+SUBDIRS = include src
 
 nobase_pkgdata_DATA = \
 	scripts/classes.rb \

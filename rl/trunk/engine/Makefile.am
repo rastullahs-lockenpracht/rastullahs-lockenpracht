@@ -1,4 +1,4 @@
-SUBDIRS = common sound dialog ui core rules startup
+SUBDIRS = common sound dialog ui core rules script startup
 
 tests:
 	cd common; ${MAKE} tests

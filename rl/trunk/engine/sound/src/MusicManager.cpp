@@ -3,11 +3,9 @@
 #include "MusicManager.h"
 #include "MusicResource.h"
 #include <iostream>
-#include <boost/thread/xtime.hpp>
 
 using namespace Ogre;
 using namespace std;
-using namespace boost;
 
 /** Das Singleton
  * @author JoSch
