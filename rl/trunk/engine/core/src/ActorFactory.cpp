@@ -87,7 +87,8 @@ namespace rl {
         }
         catch( Ogre::Exception )
         {
-            CoreSubsystem::log( "ActorFactory - Die Camera für den Aktor '"+uniquename+"' konnte nicht erstellt werden.");
+            CoreSubsystem::log("ActorFactory - Die Camera für den Aktor '"
+                + uniquename + "' konnte nicht erstellt werden.");
         }
     
         return 0;
@@ -108,7 +109,8 @@ namespace rl {
         }
         catch( Ogre::Exception )
         {
-            CoreSubsystem::log( "ActorFactory - Das Licht für den Aktor '"+uniquename+"' konnte nicht erstellt werden.");
+            CoreSubsystem::log("ActorFactory - Das Licht für den Aktor '" 
+                + uniquename + "' konnte nicht erstellt werden.");
         }
     
         return 0;
@@ -129,7 +131,9 @@ namespace rl {
         }
         catch( Ogre::Exception )
         {
-            CoreSubsystem::log( "ActorFactory - Das Mesh '" + meshname + "' für den Aktor '" + uniquename + "' konnte nicht erstellt werden.");
+            CoreSubsystem::log("ActorFactory - Das Mesh '"
+                + meshname + "' für den Aktor '"
+                + uniquename + "' konnte nicht erstellt werden.");
         }
     
         return 0;
@@ -150,7 +154,9 @@ namespace rl {
         }
         catch( Ogre::Exception )
         {
-            CoreSubsystem::log( "ActorFactory - Das Mesh '" + meshname + "' für den Aktor '"+uniquename+"' konnte nicht erstellt werden.");
+            CoreSubsystem::log("ActorFactory - Das Mesh '"
+                + meshname + "' für den Aktor '"+ 
+                uniquename + "' konnte nicht erstellt werden.");
         }
     
         return 0;
@@ -173,7 +179,9 @@ namespace rl {
         }
         catch( Ogre::Exception )
         {
-            CoreSubsystem::log( "ActorFactory - Das Partikelsystem '" + partname + "' für den Aktor '"+uniquename+"' konnte nicht erstellt werden.");
+            CoreSubsystem::log("ActorFactory - Das Partikelsystem '"
+                + partname + "' für den Aktor '"
+                + uniquename + "' konnte nicht erstellt werden.");
         }
 
         return 0;
@@ -191,7 +199,8 @@ namespace rl {
 		}
 		
 		if( basename != newname )
-            CoreSubsystem::log( "ActorFactory - Warnung! '"+basename+"' war schon vergeben! Neuer Name ist '" + newname + "'.");
+            CoreSubsystem::log("ActorFactory - Warnung! '" + basename
+                + "' war schon vergeben! Neuer Name ist '" + newname + "'.");
         
 		return newname;
 	}
