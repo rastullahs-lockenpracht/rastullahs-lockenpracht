@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <GUIScheme Name="Rastullah">
-    <Imageset Name="TaharezLook" Filename="imagesets/RastullahLook.imageset" />
+    <Imageset Name="TaharezLook" Filename="imagesets/TaharezLook.imageset" />
     <Imageset Name="RastullahButtons" Filename="imagesets/RastullahButtons.imageset" />
     
     <Font Name="Vera Serif-8" Filename="fonts/vera_serif-8.font" />
@@ -9,7 +9,7 @@
     <Font Name="Vera Serif-13" Filename="vera_serif-13.font" />
     <Font Name="Vera Serif-14" Filename="vera_serif-14.font" />
     
-    <WindowSet Filename="RastullahLook">
+    <WindowSet Filename="CEGUITaharezLook">
         <WindowFactory Name="TaharezLook/AlternateProgressBar" />
         <WindowFactory Name="TaharezLook/Button" />
         <WindowFactory Name="TaharezLook/Checkbox" />
