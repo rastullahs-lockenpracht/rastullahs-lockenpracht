@@ -58,6 +58,7 @@ namespace rl {
         mOdeStepper(0),
         mOdeActor(0),
         mOdeCamera(0),
+        mOdeActorRay(0),
         mOdeLevel(0),
         mCurrentAnimationState(AS_STAND),
         mLastAnimationState(AS_STAND),
@@ -380,11 +381,11 @@ namespace rl {
         if (cmdmap->isMovementActive(MOVE_JUMP) && fabs(mFallSpeed) <= 0.1)
             mFallSpeed = -200;
 
-        //if (im->isKeyDown(KC_L))
-        //    mOdeWorld->setShowDebugObjects(!mOdeWorld->getShowDebugObjects());
+        if (im->isKeyDown(KC_L))
+            mOdeWorld->setShowDebugObjects(!mOdeWorld->getShowDebugObjects());
             
         translation.normalise();
-        if (cmdmap->isMovementActive(MOVE_JUMP))
+        if (cmdmap->isMovementActive(MOVE_RUN))
             translation *= 2;
     }
     //------------------------------------------------------------------------
