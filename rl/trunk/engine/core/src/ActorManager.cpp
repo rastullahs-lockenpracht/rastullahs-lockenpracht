@@ -122,7 +122,7 @@ namespace rl {
             co->getCamera()->setFarClipDistance(10000);
             PhysicalThing* pt = PhysicsManager::getSingleton()
                 .createPhysicalThing(PhysicsManager::GT_SPHERE,
-                    Vector3(co->getCamera()->getNearClipDistance() * 1.2, 0, 0),
+                    Vector3(co->getCamera()->getNearClipDistance() * 1.5, 0, 0),
                     0.0f, PhysicsManager::OM_CENTERED);
             actor = new Actor(uniquename, co, pt);
 
