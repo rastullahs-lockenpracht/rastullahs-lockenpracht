@@ -48,6 +48,7 @@ namespace rl
 		ogreLogPath = "logs/ogre.log";
 		rlCoreLogPath = "logs/rlCore.log";
 		modulesCfgPath = "./modules/modules.cfg";
+		moduleconfigCfgPath = "/conf/moduleconfig.cfg";
 	}
 	
 	ConfigurationManagerWin32::~ConfigurationManagerWin32()

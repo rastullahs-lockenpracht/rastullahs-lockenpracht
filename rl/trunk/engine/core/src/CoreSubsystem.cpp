@@ -80,7 +80,9 @@ namespace rl {
         {
             new LogManager();
         }
-        LogManager::getSingleton().getLog( "logs/rlCore.log" )->logMessage(msg);
+        LogManager::getSingleton().getLog(
+        	ConfigurationManager::getSingleton().getRlCoreLogPath()
+        	)->logMessage(msg);
     }
 
     bool  CoreSubsystem::setupConfiguration()
@@ -110,7 +112,8 @@ namespace rl {
         new Root(
         	ConfigurationManager::getSingleton().getPluginCfgPath(), 
         	ConfigurationManager::getSingleton().getRastullahCfgPath(), 
-        	ConfigurationManager::getSingleton().getOgreLogPath());
+        	ConfigurationManager::getSingleton().getOgreLogPath()
+        );
 
         // Muss vor dem Laden der Ressourcen geschehen,
         // weil es sonst sofort angewandt wird.
@@ -128,7 +131,9 @@ namespace rl {
         TextureManager::getSingleton().setDefaultNumMipmaps(5);
         MaterialManager::getSingleton().setDefaultTextureFiltering(TFO_TRILINEAR); 
         MaterialManager::getSingleton().setDefaultAnisotropy(1);
-        Log* log = LogManager::getSingleton().createLog( "logs/rlCore.log" );
+        Log* log = LogManager::getSingleton().createLog(
+        	ConfigurationManager::getSingleton().getRlCoreLogPath()
+        );
         log->setLogDetail( LL_BOREME );
 
         mWorld = new DotSceneOctreeWorld();
@@ -154,7 +159,7 @@ namespace rl {
 
         // Load resource paths from config file
         ConfigFile cf;
-        cf.load(mRootDir+"/modules/modules.cfg");
+        cf.load(ConfigurationManager::getSingleton().getModulesCfgPath());
 
         // Go through all settings in the file
         ConfigFile::SettingsIterator i = cf.getSettingsIterator();
@@ -186,7 +191,8 @@ namespace rl {
     {
         std::string moduleDir = mRootDir+"/modules/"+module;
         ConfigFile cf;
-        cf.load(moduleDir+"/conf/moduleconfig.cfg");
+        cf.load(ConfigurationManager::getSingleton().getModuleconfigCfgPath(
+        	module));
         ConfigFile::SettingsIterator i = cf.getSettingsIterator();
 
         std::string key, value;

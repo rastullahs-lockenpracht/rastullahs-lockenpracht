@@ -71,4 +71,9 @@ namespace rl
 	{
 		return modulesCfgPath;
 	}
+	
+	std::string ConfigurationManager::getModuleconfigCfgPath(const std::string& module)
+	{
+		return ("./modules/" + module + moduleconfigCfgPath);
+	}
 }
