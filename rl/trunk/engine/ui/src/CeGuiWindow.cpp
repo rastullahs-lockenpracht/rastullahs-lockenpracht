@@ -99,3 +99,4 @@ StaticImage* CeGuiWindow::getStaticImage(const char* name)
 }
 
 }
+

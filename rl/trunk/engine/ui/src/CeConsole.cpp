@@ -162,3 +162,4 @@ namespace rl
 			mCommandLine->setText(mHistory[mHistoryMarker]);
 	}
 }
+
