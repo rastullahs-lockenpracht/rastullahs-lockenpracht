@@ -38,9 +38,20 @@ class ToggleConsoleAction < RubyAction
 	end
 	
 	def doAction(object, actor, target)
-		$Ui.consoleToggle()
+		$Ui.toggleConsole()
 	end
 end
+
+class ToggleDebugWindowAction < RubyAction
+	def initialize
+		super("DebugWindow", "DebugWindow zeigen/verstecken")
+	end
+	
+	def doAction(object, actor, target)
+		$Ui.toggleDebugWindow()
+	end
+end
+
 
 class PlayerSettings
 
@@ -49,9 +60,11 @@ class PlayerSettings
 		player.addAction(CampAction.new) 
 		player.addAction(QuitGameAction.new) 
 		player.addAction(ToggleConsoleAction.new)
+		player.addAction(ToggleDebugWindowAction.new)
 	end
 
 	def PlayerSettings.preparePlayer(player)
 		PlayerSettings.addPlayerActions(player)		# mal gucken, was noch so kommt
 	end
+	
 end
