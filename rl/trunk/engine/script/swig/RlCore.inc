@@ -62,8 +62,6 @@ public:
     virtual void setCastShadows(bool);
 };
 
-%apply SWIGTYPE *DYNAMIC { rl::Animation * };
-
 %feature("director") AnimationListener; 
 class AnimationListener
 {
@@ -97,6 +95,7 @@ public:
 	AnimationFrameEvent( rl::Animation* anim,  const unsigned int reason, Ogre::Real frameNumber );
 };
 
+%apply SWIGTYPE *DYNAMIC { Animation * };
 class Animation {
 public:
 	bool isPaused() const;
@@ -156,7 +155,7 @@ public:
 	enum InterpolationMode { IM_LINEAR, IM_SPLINE };
 	enum RotationInterpolationMode { RIM_LINEAR, RIM_SPHERICAL };
 	
-	TrackAnimation* createTrackAnimation(rl::Actor* actor, const std::string& name, Real length );
+	rl::TrackAnimation* createTrackAnimation(rl::Actor* actor, const std::string& name, Real length );
 	void removeAnimation( rl::Animation* anim );
 	
 	void setGlobalAnimationSpeed( Real speed );
@@ -189,9 +188,9 @@ public:
     Ogre::Real getRadius();
     Ogre::Real getHeight();
     
-	Animation* getAnimation(const std::string& animName) const;
-	Animation* startAnimation(const std::string& animName, 
-		Ogre::Real speed=1.0, unsigned int timesToPlay=0);
+	rl::Animation* getAnimation(const std::string& animName) const;
+	rl::Animation* startAnimation(const std::string& animName, 
+		float speed=1.0, unsigned int timesToPlay=0);
     void stopAnimation(const std::string&);
     
     void setCastShadows (bool enabled);
@@ -332,6 +331,23 @@ public:
 };
 
 }
+
+
+%{
+static swig_type_info *Animation_dynamic_cast(void **ptr) {
+    rl::Animation **ppAnimation = reinterpret_cast<rl::Animation **>(ptr);
+    
+    rl::TrackAnimation *pTrackAnimation = dynamic_cast<rl::TrackAnimation*>(*ppAnimation);
+    if(pTrackAnimation){
+      *ptr=reinterpret_cast<void*>(pTrackAnimation);
+      return SWIGTYPE_p_rl__TrackAnimation;
+    }    
+    
+    return 0;
+}
+%}
+DYNAMIC_CAST(SWIGTYPE_p_rl__Animation, Animation_dynamic_cast);
+
 
 %{
 static swig_type_info *ActorControlledObject_dynamic_cast(void **ptr)

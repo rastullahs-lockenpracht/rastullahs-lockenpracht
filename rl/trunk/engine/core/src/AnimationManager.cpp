@@ -76,7 +76,7 @@ Animation* AnimationManager::addAnimation(Ogre::AnimationState* animState, Ogre:
 {
 	std::map<Ogre::AnimationState*,Animation*>::iterator iter = mAnimationMap.find(animState);
 
-	Animation* anim;
+	Animation* anim = 0;
 
 	// Noch nicht vorhanden
 	if( iter == mAnimationMap.end() )
