@@ -1,0 +1,22 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+	<Window Type="DefaultGUISheet" Name="ActionChoiceWindow">
+		<Property Name="RelativeXPosition" Value="0.05"/>
+		<Property Name="RelativeYPosition" Value="0.05"/>
+		<Property Name="RelativeWidth" Value="0.9"/>
+		<Property Name="RelativeHeight" Value="0.5"/>
+		
+		<Window Type="DefaultGUISheet" Name="ActionChoiceWindow/Buttons">
+		    <Property Name="RelativeXPosition" Value="0.05"/>
+		    <Property Name="RelativeYPosition" Value="0.15"/>
+		    <Property Name="RelativeWidth" Value="0.9"/>
+		    <Property Name="RelativeHeight" Value="0.8"/>
+		</Window>
+		
+		<Window Type="Taharez StaticText" Name="ActionChoiceWindow/Hint">
+		    <Property Name="RelativeXPosition" Value="0.05"/>
+		    <Property Name="RelativeYPosition" Value="0.05"/>
+		    <Property Name="RelativeWidth" Value="0.9"/>
+		    <Property Name="RelativeHeight" Value="0.1"/>
+		</Window>
+	</Window>
+</GUILayout>
