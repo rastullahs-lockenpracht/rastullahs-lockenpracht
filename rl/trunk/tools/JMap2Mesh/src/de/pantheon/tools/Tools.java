@@ -13,7 +13,7 @@ package de.pantheon.tools;
  */
 public class Tools
 {
-    public static boolean contains(Object[] arr, Object str)
+    public static final boolean contains(Object[] arr, Object str)
     {
         if( arr == null )
             return false;
@@ -25,5 +25,18 @@ public class Tools
         }
 
         return false;
+    }
+    
+    public static final double[] parseDoubleArray( String line )
+    {
+        String[] arr = line.split(" ");
+        double[] ret = new double[arr.length];
+
+        for( int i = 0; i < arr.length; i++ )
+        {
+            ret[i] = Double.parseDouble(arr[i]);
+        }
+        
+        return ret;
     }
 }

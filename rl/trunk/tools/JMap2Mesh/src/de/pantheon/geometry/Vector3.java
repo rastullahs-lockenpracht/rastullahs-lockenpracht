@@ -66,7 +66,10 @@ public class Vector3
 
 	public static Vector3 div(Vector3 a,double c)
 	{
-		return new Vector3(a.xyz[0]/c, a.xyz[1]/c, a.xyz[2]/c);
+	    if( c == 0 )
+	        return new Vector3( Double.NaN,Double.NaN,Double.NaN );
+	    else
+	        return new Vector3(a.xyz[0]/c, a.xyz[1]/c, a.xyz[2]/c);
 	}
 
 	public static double dot(Vector3 a,Vector3 b)

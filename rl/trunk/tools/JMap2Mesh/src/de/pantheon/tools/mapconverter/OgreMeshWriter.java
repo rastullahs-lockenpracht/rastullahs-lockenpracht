@@ -30,25 +30,37 @@ public class OgreMeshWriter
         {
             Entity ent = (Entity)entities.get(i);
             
-            // Alles Polygone dieser Entity sammeln
+            // Alles Polygone und Patches dieser Entity sammeln
             ArrayList polygons = new ArrayList();
+            ArrayList patches = new ArrayList();
             
             ArrayList brushes = ent.getBrushes();
             for( int j=0; j < brushes.size(); j++ )
             {
                 Brush brush = (Brush)brushes.get(j);
-                ArrayList arr = brush.getPolygons();
-                polygons.addAll( arr );
+                ArrayList pos = brush.getPolygons();
+                ArrayList pas = brush.getPatches();
+                polygons.addAll( pos );
+                patches.addAll( pas );
             }
             
             // Abbruch wenn keine Faces in dieser Entity sind
-            if( polygons.size() <= 0)
+            if( polygons.size() <= 0 && patches.size() <= 0 )
                 break;
             
             StringBuffer stream = new StringBuffer();
             // Faces in Dreiecke umwandeln
-            ArrayList triangles = Polygon.toTriangles( polygons );
-
+            ArrayList triangles = Polygon.toTriangles( polygons );    
+            
+            if( patches.size() > 0 )
+                System.out.println( "Patches not yet supported. Skipping Patches. Sorry :(" );
+            
+            /*for( int j=0; j < patches.size(); j++ )
+            {
+                Patch p = (Patch)patches.get(j);
+                triangles.addAll( p.getTriangles() );
+            }*/
+            
             // Alle Texturen sammeln
             ArrayList textures = new ArrayList();
             
@@ -204,7 +216,7 @@ public class OgreMeshWriter
             writeToFile( outdir+"/"+basename+".material",stream.toString() );
         }
         else
-            System.out.println( "No Material File written. Does your texture-directory exist?" );
+            System.out.println( "No Material File written ("+allTextures.size()+" texture(s) missing). Does your texture-directory exist?" );
     }
     
     private static void writeToFile( String filename, String content)

@@ -125,9 +125,9 @@ public class Plane
               
         if( matcher.find() )
     	{
-            Vector3 v1 = new Vector3( parseDoubleArray( matcher.group(1) ) );
-            Vector3 v2 = new Vector3( parseDoubleArray( matcher.group(2) ) );
-            Vector3 v3 = new Vector3( parseDoubleArray( matcher.group(3) ) );
+            Vector3 v1 = new Vector3( de.pantheon.tools.Tools.parseDoubleArray( matcher.group(1) ) );
+            Vector3 v2 = new Vector3( de.pantheon.tools.Tools.parseDoubleArray( matcher.group(2) ) );
+            Vector3 v3 = new Vector3( de.pantheon.tools.Tools.parseDoubleArray( matcher.group(3) ) );
                         
             mTexture = matcher.group(4);
             
@@ -137,7 +137,9 @@ public class Plane
             mRotation = Double.parseDouble(matcher.group(7));
             
             mScale_x = Double.parseDouble(matcher.group(8)) * mScaleAll;
-            mScale_y = Double.parseDouble(matcher.group(9)) * mScaleAll;
+            
+            
+            mScale_y = Double.parseDouble(matcher.group(9).split(" ")[0]) * mScaleAll;
             
             if( sMatrix != null )
             {
@@ -157,17 +159,17 @@ public class Plane
         
         if( matcher.find() )
 		{
-            Vector3 v1 = new Vector3( parseDoubleArray( matcher.group(1) ) );
-            Vector3 v2 = new Vector3( parseDoubleArray( matcher.group(2) ) );
-            Vector3 v3 = new Vector3( parseDoubleArray( matcher.group(3) ) );
+            Vector3 v1 = new Vector3( de.pantheon.tools.Tools.parseDoubleArray( matcher.group(1) ) );
+            Vector3 v2 = new Vector3( de.pantheon.tools.Tools.parseDoubleArray( matcher.group(2) ) );
+            Vector3 v3 = new Vector3( de.pantheon.tools.Tools.parseDoubleArray( matcher.group(3) ) );
                         
             mTexture = matcher.group(4).toUpperCase();
             
-            double[] tmpArr = parseDoubleArray( matcher.group(5) );
+            double[] tmpArr = de.pantheon.tools.Tools.parseDoubleArray( matcher.group(5) );
             mTex_offsetx = tmpArr[3];
             mTex1 = Vector3.mul(new Vector3( tmpArr ),1);
             
-            tmpArr = parseDoubleArray( matcher.group(6) );
+            tmpArr = de.pantheon.tools.Tools.parseDoubleArray( matcher.group(6) );
             mTex_offsety = tmpArr[3];
             mTex2 = Vector3.mul(new Vector3( tmpArr ),1);
              
@@ -292,19 +294,6 @@ public class Plane
 
 		return PLANE_POSITION_ONPLANE;
 	}
-    
-    private double[] parseDoubleArray( String line )
-    {
-        String[] arr = line.split(" ");
-        double[] ret = new double[arr.length];
-
-        for( int i = 0; i < arr.length; i++ )
-        {
-            ret[i] = Double.parseDouble(arr[i]);
-        }
-        
-        return ret;
-    }
     
     public final Vector3 getNormal()
     {

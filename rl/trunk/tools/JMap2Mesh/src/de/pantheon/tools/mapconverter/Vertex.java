@@ -1,4 +1,7 @@
 package de.pantheon.tools.mapconverter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import de.pantheon.geometry.Vector3;
 
 /*
@@ -24,9 +27,33 @@ public class Vertex
     private double mV;
     
     
+    private static final Pattern VERTEX_PATTERN = 
+		Pattern.compile("(.*?) (.*?) (.*?) (.*?) (.*?)$");
+    
     public Vertex( Vector3 vec )
     {
         mPosition = vec;
+    }
+    
+    public Vertex(  )
+    {
+        
+    }
+    
+    public void parseVertex( String line )
+    {
+        Matcher matcher = VERTEX_PATTERN.matcher(line);
+
+        if( matcher.find() )
+    	{
+             double x = Double.parseDouble( matcher.group(1) );
+             double y = Double.parseDouble( matcher.group(2) );
+             double z = Double.parseDouble( matcher.group(3) );
+             
+             mPosition = new Vector3(x,y,z);
+             mU = Double.parseDouble( matcher.group(4) );
+             mV = Double.parseDouble( matcher.group(5) );
+    	}
     }
     
     /**

@@ -20,17 +20,24 @@ public class Brush
 {
     private ArrayList mPlanes;
     private ArrayList mPolygons;
+    private ArrayList mPatches;
     
     public Brush()
     {
         mPlanes = new ArrayList();
         mPolygons = new ArrayList();
+        mPatches = new ArrayList();
     }
 
     public final void addPlane( Plane plane )
     {
         mPlanes.add(plane);
         mPolygons.add(new Polygon());
+    }
+    
+    public final void addPatch( Patch patch )
+    {
+        mPatches.add(patch);
     }
     
     public final ArrayList getPlanes()
@@ -40,6 +47,10 @@ public class Brush
     public final ArrayList getPolygons()
     {
        return mPolygons;
+    }
+    public final ArrayList getPatches()
+    {
+       return mPatches;
     }
     public void transformToPolygons()
     {       

@@ -23,8 +23,11 @@ public class MapReader
     public static final int LINETYPE_EMPTY = 0;
     public static final int LINETYPE_OPENBRACE = 1;
     public static final int LINETYPE_CLOSEDBRACE = 2;
-    public static final int LINETYPE_PLANE = 3;
+    public static final int LINETYPE_PLANEORTRIANGLE = 3;
     public static final int LINETYPE_ARGVAL = 4;
+    public static final int LINETYPE_PATCH = 5;
+    public static final int LINETYPE_PATCHSTART = 6;
+    public static final int LINETYPE_PATCHEND = 7;
     
     private int mCurrLine = 0;
     private boolean mReadGeometry = true;
@@ -90,12 +93,21 @@ public class MapReader
 	            case LINETYPE_CLOSEDBRACE:                
 	            // Sowas sollte hier nicht sein
 	                throw new IllegalStateException( "Unexpected Map-Line - ClosedBrace for Base at at line "+mCurrLine );
-	            case LINETYPE_PLANE:
+	            case LINETYPE_PLANEORTRIANGLE:
 	            // Plane hat hier nichts zu suchen                    
 	                throw new IllegalStateException( "Unexpected Map-Line - Face for Base at at line "+mCurrLine );
 	            case LINETYPE_ARGVAL:                  
 	            // Argumente auch nicht... 
 	                throw new IllegalStateException( "Unexpected Map-Line - ArgumentValue for Base at at line "+mCurrLine );
+	            case LINETYPE_PATCH:                  
+		            // falsch hier
+		            throw new IllegalStateException( "Unexpected Map-Line - Patch for Base at at line "+mCurrLine );
+	            case LINETYPE_PATCHEND:                  
+		            // falsch hier
+		            throw new IllegalStateException( "Unexpected Map-Line - PatchEnd for Base at at line "+mCurrLine );
+	            case LINETYPE_PATCHSTART:                  
+		            // falsch hier
+		            throw new IllegalStateException( "Unexpected Map-Line - PatchStart for Base at at line "+mCurrLine );
 	        }
 	        
 	        
@@ -126,13 +138,22 @@ public class MapReader
 	            case LINETYPE_CLOSEDBRACE:                
 	            // Entity ist fertig
 	                return ent;
-	            case LINETYPE_PLANE:
+	            case LINETYPE_PLANEORTRIANGLE:
 	            // Plane hat hier nichts zu suchen                    
-	                throw new IllegalStateException( "Unexpected Map-Line - Face for Base at at line "+mCurrLine );
+	                throw new IllegalStateException( "Unexpected Map-Line - Face for Entity at at line "+mCurrLine );
 	            case LINETYPE_ARGVAL:                  
-	            // Argument parsen
+	                // Argument parsen
 	                ent.addAttribute(line);
 	                break;
+	            case LINETYPE_PATCH:                  
+		            // falsch hier
+		            throw new IllegalStateException( "Unexpected Map-Line - Patch for Entity at at line "+mCurrLine );
+	            case LINETYPE_PATCHEND:                  
+		            // falsch hier
+		            throw new IllegalStateException( "Unexpected Map-Line - PatchEnd for Entity at at line "+mCurrLine );
+	            case LINETYPE_PATCHSTART:                  
+		            // falsch hier
+		            throw new IllegalStateException( "Unexpected Map-Line - PatchStart for Entity at at line "+mCurrLine );
 	        }
 	    } 
         
@@ -160,7 +181,7 @@ public class MapReader
 	            case LINETYPE_CLOSEDBRACE:                
 	            // Brush ist fertig
 	                return brsh;
-	            case LINETYPE_PLANE:
+	            case LINETYPE_PLANEORTRIANGLE:
 	            // Plane auslesen        	                
 	                if( mReadGeometry )
 	                {
@@ -169,15 +190,69 @@ public class MapReader
 	                    brsh.addPlane(plane);
 	                }
 	                break;
+	            case LINETYPE_PATCH:
+	                    mCurrLine++;
+	                    Patch patch = readPatch();
+	                    brsh.addPatch( patch );
+	                break;
 	            case LINETYPE_ARGVAL:                  
 	            // Argument parsen
 	                throw new IllegalStateException( "Unexpected Map-Line - ArgumentValue for Brush at at line "+mCurrLine );
+	            case LINETYPE_PATCHEND:                  
+		            // falsch hier
+		            throw new IllegalStateException( "Unexpected Map-Line - PatchEnd for Brush at at line "+mCurrLine );
+	            case LINETYPE_PATCHSTART:                  
+		            // falsch hier
+		            throw new IllegalStateException( "Unexpected Map-Line - PatchStart for Brush at at line "+mCurrLine );
 	        }
 	        
 	       
 	    } 
         
         return brsh;
+    }
+    
+    private Patch readPatch(  )
+    {
+        Patch patch = new Patch();
+        String texture = (String) mFileLines.get(mCurrLine++);
+        patch.setTexture(texture);
+        mCurrLine++;
+        
+        while( mCurrLine < mFileLines.size() )
+	    {
+            String line = (String) mFileLines.get(mCurrLine);
+	        int linetype = processLine( line );
+	        mCurrLine++;
+	        
+	        switch( linetype )
+	        {
+	            case LINETYPE_PATCHSTART: 
+	            case LINETYPE_EMPTY:
+	            // Leere Zeile, wir machen nichts
+	                break;
+	            case LINETYPE_PLANEORTRIANGLE:
+	                if( mReadGeometry )
+	                {
+	                    Triangle tris = new Triangle();
+	                    
+	                    if( tris.parseTriangle(line, texture) )
+	                        patch.addTriangle(tris);  
+	                }
+	                break;
+	            case LINETYPE_PATCH:                  
+		            // Argument parsen
+		            throw new IllegalStateException( "Unexpected Map-Line - ArgumentValue for Patch at at line "+mCurrLine );
+	            case LINETYPE_ARGVAL:                  
+		            // Argument parsen
+		            throw new IllegalStateException( "Unexpected Map-Line - ArgumentValue for Patch at at line "+mCurrLine );
+	            case LINETYPE_PATCHEND: 	                
+	                mCurrLine++;
+		            return patch;
+	        }
+	    }
+        
+        return patch;
     }
     
     private String cleanString( String str )
@@ -193,7 +268,7 @@ public class MapReader
         return str.trim();
     }
     
-    private static int processLine( String line ) 
+    private int processLine( String line ) 
     {	
 	    int rval;
 	    
@@ -203,14 +278,19 @@ public class MapReader
 	    	rval = LINETYPE_OPENBRACE;
 	    else if( line.substring(0,1).equals("}") )
 	    	rval = LINETYPE_CLOSEDBRACE;
-	    else if( line.substring(0,1).equals("(") )
-	    	rval = LINETYPE_PLANE;
+	    else if( line.substring(0,1).equals("(") && line.length() > 1 )
+	    	rval = LINETYPE_PLANEORTRIANGLE;
+	    else if( line.substring(0,1).equals("(") && line.length() == 1 )
+	    	rval = LINETYPE_PATCHSTART;
+	    else if( line.substring(0,1).equals(")") && line.length() == 1 )
+	    	rval = LINETYPE_PATCHEND;
 	    else if( line.substring(0,1).equals("\"") )
 	    	rval = LINETYPE_ARGVAL;
+	    else if( line.substring(0,8).equals( "patchDef" ) )
+	        rval = LINETYPE_PATCH;   
 	    else
-	        throw new IllegalStateException( "Unknown Map-Line at line "+"a"+" ("+line+") " );
+	        throw new IllegalStateException( "Unknown Map-Line at line "+mCurrLine+" ("+line+") " );
 	    
-	    //@filecontents[@currLine] = line
 	
 	    return rval;
 	}
