@@ -47,37 +47,37 @@ namespace rl
 	{
 	}
 	
-	std::string ConfigurationManager::getOgreLogPath()
+	Ogre::String ConfigurationManager::getOgreLogPath()
 	{
 		return ogreLogPath;
 	}
 	
-	std::string ConfigurationManager::getRastullahCfgPath()
+	Ogre::String ConfigurationManager::getRastullahCfgPath()
 	{
 		return rastullahCfgPath;
 	}
 	
-	std::string ConfigurationManager::getPluginCfgPath()
+	Ogre::String ConfigurationManager::getPluginCfgPath()
 	{
 		return pluginCfgPath;
 	}
 	
-	std::string ConfigurationManager::getRlCoreLogPath()
+	Ogre::String ConfigurationManager::getRlCoreLogPath()
 	{
 		return rlCoreLogPath;
 	}
 	
-	std::string ConfigurationManager::getModulesCfgPath()
+	Ogre::String ConfigurationManager::getModulesCfgPath()
 	{
 		return modulesCfgPath;
 	}
 	
-	std::string ConfigurationManager::getModuleconfigCfgPath(const std::string& module)
+	Ogre::String ConfigurationManager::getModuleconfigCfgPath(const Ogre::String& module)
 	{
 		return (modulesRootDirectory + "/modules/" + module + moduleconfigCfgPath);
 	}
 	
-	std::string ConfigurationManager::getModulesRootDirectory()
+	Ogre::String ConfigurationManager::getModulesRootDirectory()
 	{
 		return modulesRootDirectory;
 	}

@@ -17,17 +17,17 @@
 #ifndef __RL_CONFIGURATIONMANAGER_H__
 #define __RL_CONFIGURATIONMANAGER_H__
 
-#include "CommonPrerequisites.h"
+#include "CorePrerequisites.h"
 /**
  * \file ConfigurationManager.h
  * Definiert die abstrakte Basisklasse für das Konfigurationsmanagement.
  */
 
-#include <string>
+#include <Ogre.h>
 
 namespace rl
 {
-	class _RlCommonExport ConfigurationManager
+	class _RlCoreExport ConfigurationManager
 	{
 		public:
 
@@ -53,29 +53,29 @@ namespace rl
 			 */
 			static ConfigurationManager& getSingleton();
 			
-			std::string getOgreLogPath();
+			Ogre::String getOgreLogPath();
 			
-			std::string getRastullahCfgPath();
+			Ogre::String getRastullahCfgPath();
 			
-			std::string getPluginCfgPath();
+			Ogre::String getPluginCfgPath();
 			
-			std::string getRlCoreLogPath();
+			Ogre::String getRlCoreLogPath();
 			
-			std::string getModulesCfgPath();
+			Ogre::String getModulesCfgPath();
 			
-			std::string getModuleconfigCfgPath(const std::string& module);
+			Ogre::String getModuleconfigCfgPath(const Ogre::String& module);
 			
-			std::string getModulesRootDirectory();
+			Ogre::String getModulesRootDirectory();
 			
 		protected:
 		
-			std::string ogreLogPath;
-			std::string rastullahCfgPath;
-			std::string pluginCfgPath;
-			std::string rlCoreLogPath;
-			std::string modulesCfgPath;
-			std::string moduleconfigCfgPath;
-			std::string modulesRootDirectory;
+			Ogre::String ogreLogPath;
+			Ogre::String rastullahCfgPath;
+			Ogre::String pluginCfgPath;
+			Ogre::String rlCoreLogPath;
+			Ogre::String modulesCfgPath;
+			Ogre::String moduleconfigCfgPath;
+			Ogre::String modulesRootDirectory;
 	};
 }
 

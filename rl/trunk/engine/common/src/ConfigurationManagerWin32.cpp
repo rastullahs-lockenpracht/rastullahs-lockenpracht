@@ -42,7 +42,7 @@ namespace rl
 	
 	ConfigurationManagerWin32::ConfigurationManagerWin32()
 	{
-		string confdir("modules/common/conf/");
+		Ogre::String confdir("modules/common/conf/");
 		pluginCfgPath = "./" + confdir + "plugins-win.cfg";
 		rastullahCfgPath = confdir + "rastullah.cfg";
 		ogreLogPath = "logs/ogre.log";
@@ -54,6 +54,7 @@ namespace rl
 	
 	ConfigurationManagerWin32::~ConfigurationManagerWin32()
 	{
+	    instance = 0;
 	}
 	
 }

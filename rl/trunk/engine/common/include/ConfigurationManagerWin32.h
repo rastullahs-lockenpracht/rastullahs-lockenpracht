@@ -26,7 +26,7 @@
 
 namespace rl
 {
-	class ConfigurationManagerWin32 : public ConfigurationManager
+	class _RlCoreExport ConfigurationManagerWin32 : public ConfigurationManager
 	{
 		public:
 			
