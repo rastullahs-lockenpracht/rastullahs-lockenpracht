@@ -10,6 +10,7 @@ noinst_HEADERS = \
 	DotSceneOctreeWorld.h \
 	GameLoop.h \
 	Interpreter.h \
+	LightObject.h \
 	MeshObject.h \
 	PhysicalThing.h \
 	PhysicsManager.h \

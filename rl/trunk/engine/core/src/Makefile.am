@@ -12,6 +12,7 @@ libRlCore_la_SOURCES = \
 	CoreSubsystem.cpp \
 	DotSceneOctreeWorld.cpp \
 	GameLoop.cpp \
+	LightObject.cpp \
 	MeshObject.cpp \
 	PhysicalThing.cpp \
 	PhysicsManager.cpp \
