@@ -19,7 +19,10 @@ void ResManager::addSounds()
     set<String>::const_iterator it;
     for(it = list.begin(); it != list.end(); it++)
     {
-        add(create(*it));
+        try {
+            add(create(*it));
+        } catch(...)
+        {}
     }
 }
 

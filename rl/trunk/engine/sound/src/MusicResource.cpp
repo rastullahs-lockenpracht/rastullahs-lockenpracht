@@ -307,23 +307,10 @@ void MusicResource::release ()
     if (alIsSource (mSource)) {
         alSourceStop (mSource);
         empty ();
-        if (alIsSource (mSource)) {
-            alDeleteSources (1, &mSource);
-            check ();
-        }
-        if (alIsBuffer (*mBuffers)) {
-            alDeleteBuffers (mBufferCount, mBuffers);
-            check ();
-        }
     }
 
     ov_clear (&mOggStream);
 
-
-  /************************************************************************************************************************
-  A little bit of cleaning up
-************************************************************************************************************************/
-// Free the memory that we created for the file
     delete[]mOggMemoryFile.mDataPtr;
     mOggMemoryFile.mDataPtr = NULL;
 }
