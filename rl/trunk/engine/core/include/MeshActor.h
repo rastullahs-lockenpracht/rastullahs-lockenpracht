@@ -16,8 +16,11 @@ public:
 	virtual const String& getTypeName();
 
 	Entity* getEntity(void);
+    virtual void setSceneNode(SceneNode* node);
 
     void setScale( Real x, Real y, Real z );
+
+    Ogre::Vector3 getExtent();
 
     void startAnimation(const String&);
 	void stopAnimation(const String&);
