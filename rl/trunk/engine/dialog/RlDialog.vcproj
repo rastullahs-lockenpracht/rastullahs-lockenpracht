@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\..\dependencies\ogre\OgreMain\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\xerces\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;RLDIALOG_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -35,11 +35,11 @@
 				AdditionalDependencies="OgreMain_d.lib xerces-c_2D.lib RlCore.lib"
 				OutputFile="$(OutDir)/RlDialog.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\xerces\lib"
 				GenerateDebugInformation="TRUE"
-                                ProgramDatabaseFile="$(OutDir)/RlDialog.pdb"
+				ProgramDatabaseFile="$(OutDir)/RlDialog.pdb"
 				SubSystem="2"
-                                ImportLibrary="$(OutDir)/RlDialog.lib"
+				ImportLibrary="$(OutDir)/RlDialog.lib"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -70,7 +70,7 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\..\dependencies\ogre\OgreMain\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\xerces\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;RLDIALOG_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -82,14 +82,14 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="OgreMain.lib xerces-c_2.lib RlCore.lib"
-                                OutputFile="$(OutDir)/RlDialog.dll"
+				OutputFile="$(OutDir)/RlDialog.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\xerces\lib"
 				GenerateDebugInformation="TRUE"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-                                ImportLibrary="$(OutDir)/RlDialog.lib"
+				ImportLibrary="$(OutDir)/RlDialog.lib"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
