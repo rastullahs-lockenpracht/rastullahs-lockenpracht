@@ -3,7 +3,7 @@ VS.NET
 Um Rastullahs Lockenpracht bauen zu können werden folgende zusätzliche
 Bibliotheken benötigt:
 
-Ogre 3D - > 0.14+ ( newest CVS )
+Ogre 3D - > 0.15+ ( latest CVS )
 http://www.ogre3d.org
 
 Ruby - 1.8
@@ -17,6 +17,9 @@ http://developer.creative.com/landing.asp?cat=1&sbcat=31&top=38
 
 Ode - 0.5
 http://www.ode.org - Single Precision mit Trimesh
+
+OgreODE - aktuelle preview
+http://www.ogre3d.org/phpBB2/viewtopic.php?p=32348#32348
 
 Xerxes
 http://xml.apache.org/xerces-c/download.cgi
