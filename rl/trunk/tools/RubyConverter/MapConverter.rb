@@ -530,11 +530,11 @@ module MapConverter
 					vertices.each{ |vert| 
 						stream <<  "\t\t\t\t\t<vertex>" << "\n"
 						stream <<  "\t\t\t\t\t\t<position x=\"#{vert.x}\" y=\"#{vert.y}\" z=\"#{vert.z}\" />" << "\n"
-						stream <<  "\t\t\t\t\t\t<normal  x=\"#{-vert.nx}\" y=\"#{-vert.ny}\" z=\"#{-vert.nz}\" />" << "\n"
-						stream <<  "\t\t\t\t\t\t<texcoord u=\"#{vert.u}\" v=\"#{vert.v}\" />" << "\n"
+						stream <<  "\t\t\t\t\t\t<normal x=\"#{-vert.nx}\" y=\"#{-vert.ny}\" z=\"#{-vert.nz}\" />" << "\n"
+						stream <<  "\t\t\t\t\t\t<texcoord u=\"#{0*vert.u}\" v=\"#{0*vert.v}\" />" << "\n"
 						stream <<  "\t\t\t\t\t</vertex>" << "\n"
 					}
-					stream <<  "\t\t\t\t</vertexbuffer" << "\n"
+					stream <<  "\t\t\t\t</vertexbuffer>" << "\n"
 					stream <<  "\t\t\t</geometry>" << "\n"
 					stream <<  "\t\t</submesh>" << "\n" 
 					
@@ -549,7 +549,7 @@ module MapConverter
 	end
 end
 
-map = MapConverter::MapReader.new.readMap( "b.map", MapConverter::MAP_HL )
+map = MapConverter::MapReader.new.readMap( "a.map", MapConverter::MAP_HL )
 
 s = ""
 MapConverter::MeshWriter.new( map ).writeMesh( s )
