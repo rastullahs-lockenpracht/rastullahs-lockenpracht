@@ -202,6 +202,8 @@ namespace rl {
 
 		// Set default mipmap level (NB some APIs ignore this)
 		TextureManager::getSingleton().setDefaultNumMipMaps(5);
+		MaterialManager::getSingleton().setDefaultTextureFiltering(TFO_TRILINEAR);
+        MaterialManager::getSingleton().setDefaultAnisotropy(1);
         Log* log = LogManager::getSingleton().createLog( "logs/rlCore.log" );
         log->setLogDetail( LL_BOREME );
 		
