@@ -12,7 +12,6 @@ libRlUi_la_SOURCES = \
 	Console.cpp \
 	DebugWindow.cpp \
 	DialogWindow.cpp \
-	FlyingCameraController.cpp \
 	GameController.cpp \
 	GameLoggerWindow.cpp \
 	InputManager.cpp \

@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -19,43 +19,92 @@
 
 #include <list>
 #include <OgreSingleton.h>
+//#include <OpenThreads/Thread>
+#include <boost/thread.hpp>
 
 #include "CorePrerequisites.h"
 
 namespace rl {
 
-class SynchronizedTask;
+class GameTask;
+class GameLoop;
+class SynchronizedGameLoop;
+class AsynchronousGameLoop;
 
-class _RlCoreExport GameLoop : public FrameListener, protected Singleton<GameLoop>
+class _RlCoreExport GameLoopManager : protected Ogre::Singleton<GameLoopManager>
 {
+public:
+	GameLoopManager(unsigned long millisPerAsyncTick);
+	virtual ~GameLoopManager();
 
+    void addSynchronizedTask(GameTask* newTask);
+	void addAsynchronousTask(GameTask* newTask);
+	void removeSynchronizedTask(GameTask* oldTask);
+	void removeAsynchronousTask(GameTask* oldTask);	
+      
+    bool isPaused();
+    void setPaused(bool pause);
+	void quitGame();
+
+    static GameLoopManager & getSingleton(void);
+	static GameLoopManager * getSingletonPtr(void);
+
+private:
+    AsynchronousGameLoop* mAsynchronousGameLoop;    
+	SynchronizedGameLoop* mSynchronizedGameLoop;
+};
+
+class GameLoop
+{
 public:
 	GameLoop();
 	virtual ~GameLoop();
 
-    void addSynchronizedTask(SynchronizedTask* newTask);
-    void removeSynchronizedTask(SynchronizedTask* oldTask);
+	void add(GameTask* task);
+	void remove(GameTask* task);
+	bool isPaused();
+	void setPaused(bool pause);
 
-	void loop( Real timeSinceLastCall );
-    
-    bool frameStarted(const Ogre::FrameEvent & evt);
-	bool frameEnded(const Ogre::FrameEvent & evt);
-
-    bool isPaused();
-    void setPaused(bool pause);
-
-	void quitGame();
-
-    static GameLoop & getSingleton(void);
-	static GameLoop * getSingletonPtr(void);
-
-private:
-    bool mPaused;
-	bool mRunning;
-
-    std::list<SynchronizedTask*> mSynchronizedTaskList;
+protected:
+	void loop( Ogre::Real timeSinceLastCall );
+	
+private:	
+	std::list<GameTask*> mTaskList;
+	bool mPaused;
 };
 
+class SynchronizedGameLoop : public GameLoop, public Ogre::FrameListener
+{
+private:
+	bool mRunning;
+
+public:
+	SynchronizedGameLoop();
+    
+	void quitGame();
+
+	bool frameStarted(const Ogre::FrameEvent & evt);
+	bool frameEnded(const Ogre::FrameEvent & evt);
+};
+
+class AsynchronousGameLoop
+	: public GameLoop, protected Ogre::Singleton<AsynchronousGameLoop>
+{
+public:
+	AsynchronousGameLoop(unsigned long timeTickInMillis);
+	void run();
+	static void runStatic();
+
+	static AsynchronousGameLoop & getSingleton(void);
+	static AsynchronousGameLoop * getSingletonPtr(void);
+
+	static unsigned long sTimeTickInMillis;
+
+private: 
+	Ogre::Timer* mTimer;
+	
+	boost::thread* mThread;
+};
 
 }
 #endif

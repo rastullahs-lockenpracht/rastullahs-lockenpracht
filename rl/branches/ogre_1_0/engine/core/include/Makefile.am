@@ -1,26 +1,24 @@
-noinst_HEADERS = \
+ noinst_HEADERS = \
 	Actor.h \
+	ActorControlledObject.h \
 	ActorManager.h \
+	Animation.h \
+	AnimationListener.h \
 	AnimationManager.h \
-	AudibleActor.h \
-	BSPWorld.h \
-	CameraActor.h \
+	CameraObject.h \
 	CorePrerequisites.h \
 	CoreSubsystem.h \
 	DotSceneOctreeWorld.h \
-	GameActor.h \
 	GameLoop.h \
+	GameTask.h \
 	Interpreter.h \
-	LightActor.h \
-	ListenerActor.h \
-	MeshActor.h \
-	NatureWorld.h \
-	ParticleSystemActor.h \
+	LightObject.h \
+	MeshObject.h \
+	ParticleSystemObject.h \
 	PhysicalThing.h \
 	PhysicsManager.h \
 	RubyInterpreter.h \
 	ScriptObject.h \
-	SynchronizedTask.h \
-	TerrainWorld.h \
+	TrackAnimation.h \
 	World.h 
 	

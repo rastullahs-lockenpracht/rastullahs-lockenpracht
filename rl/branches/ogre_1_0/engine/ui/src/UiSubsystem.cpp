@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -36,8 +36,7 @@
 
 #include "GameLoop.h"
 #include "ActorManager.h"
-#include "GameActor.h"
-#include "CameraActor.h"
+#include "Actor.h"
 #include "World.h"
 
 // BEGIN TEST
@@ -82,7 +81,7 @@ namespace rl {
 		delete Console::getSingletonPtr();
         delete InputManager::getSingletonPtr();
 
-        GameLoop::getSingleton().removeSynchronizedTask(mGameController);
+        GameLoopManager::getSingleton().removeSynchronizedTask(mGameController);
     }
 	
 	void UiSubsystem::log(const String& msg, const String& ident)
@@ -115,7 +114,8 @@ namespace rl {
 		log("CEGUI-System initialisiert", "UiSubsystem::initializeUiSubsystem");
         
 		// load scheme and set up defaults
-		System::getSingleton().setDefaultMouseCursor((utf8*)"TaharezLook", (utf8*)"MouseArrow");
+		///@todo Hier sollte was Lookunabhängiges rein!!! FIXME TODO BUG!
+		System::getSingleton().setDefaultMouseCursor((utf8*)"RastullahLook", (utf8*)"MouseArrow");
 		log("Mauszeiger", "UiSubsystem::initializeUiSubsystem");
 		Window* sheet = CEGUI::WindowManager::getSingleton().createWindow((utf8*)"DefaultGUISheet", (utf8*)CEGUI_ROOT);
 		log("Rootfenster", "UiSubsystem::initializeUiSubsystem");
@@ -141,7 +141,6 @@ namespace rl {
 		((RubyInterpreter*)CoreSubsystem::getSingleton().getInterpreter() )->initializeInterpreter( (VALUE(*)(...))&UiSubsystem::consoleWrite );
 			      
 		mGameLogger = new GameLoggerWindow();
-		//mGameLogger->setVisible(true);
         //runTest();
     }
 
@@ -149,7 +148,7 @@ namespace rl {
     {
 		log("Start", "UiSubsystem::requestExit");
 		//TODO: Vorher mal nachfragen, ob wirklich beendet werden soll
-    	GameLoop::getSingleton().quitGame();
+    	GameLoopManager::getSingleton().quitGame();
 	}
     
     void UiSubsystem::writeToConsole(std::string text)
@@ -170,18 +169,15 @@ namespace rl {
 
 	void UiSubsystem::setActiveCharacter(Person* person)
 	{
-		mCharacter = person;
-		
-		CameraActor* camera = CoreSubsystem::getSingleton().getWorld()->getActiveCamera();
-		CoreSubsystem::getSingleton().log("Kamera erschaffen");
-		mGameController = new GameController(
-            camera->getOgreCamera(), person->getActor());
-        CoreSubsystem::getSingleton().log("GameController erschaffen");
-		GameLoop::getSingleton().addSynchronizedTask(mGameController);
-		CoreSubsystem::getSingleton().log("GameController-Task hinzugefuegt");
-		World* world = CoreSubsystem::getSingleton().getWorld();
-		world->setActiveActor(person->getActor());
-		CoreSubsystem::getSingleton().log("Aktor gesetzt");		
+        mCharacter = person;
+        Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
+        mGameController = new GameController(camera, person->getActor());
+        CoreSubsystem::getSingleton().log("GameController created.");
+        GameLoopManager::getSingleton().addSynchronizedTask(mGameController);
+        CoreSubsystem::getSingleton().log("GameController task added.");
+        World* world = CoreSubsystem::getSingletonPtr()->getWorld();
+        world->setActiveActor(person->getActor());
+        CoreSubsystem::getSingleton().log("Actor set");		
 	}
 
 	void UiSubsystem::showActionChoice(GameObject* obj)
@@ -190,10 +186,18 @@ namespace rl {
 		w->showActionsOfObject(obj);
 		w->setVisible(true);
 	}
-	
+
 	void UiSubsystem::showCharacterActionChoice()
 	{
 		showActionChoice(getActiveCharacter());
+	}
+
+	void UiSubsystem::showPickedObjectActions()
+	{
+		GameObject* pickedObject = InputManager::getSingleton().getPickedObject();
+
+		if (pickedObject != NULL)
+			showActionChoice(pickedObject);
 	}
 
 	bool UiSubsystem::showInputOptionsMenu(GameObject* actionHolder)
@@ -226,6 +230,16 @@ namespace rl {
 	{
 		DebugWindow* dbgwnd = DebugWindow::getSingletonPtr();
 		dbgwnd->setVisible(!dbgwnd->isVisible());
+	}
+
+	void UiSubsystem::toggleGameLogWindow()
+	{
+		mGameLogger->setVisible(!mGameLogger->isVisible());
+	}
+
+	void UiSubsystem::toggleObjectPicking()
+	{
+		InputManager::getSingleton().setObjectPickingActive(true);
 	}
 
 	void UiSubsystem::setBattleMode(bool inBattle)

@@ -1,5 +1,5 @@
 /* MusicManager.cpp - Spielt eine Playlist ab.
- * (C) 2004. Team Pantheon. www.team-pantheon.de
+ * (C) 2003-2005. Team Pantheon. www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -14,12 +14,13 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#include <iostream>
 #include "MusicManager.h"
-#include "Sleep.h"
+#include "SoundSubsystem.h"
+#include "SoundManager.h"
 
 using namespace Ogre;
 using namespace std;
+using namespace boost;
 
 /** Das Singleton
  * @author JoSch
@@ -55,14 +56,17 @@ MusicManager* MusicManager::getSingletonPtr(void)
  * @date 04-12-2004
  * @date 06-17-2004
  */
-MusicManager::MusicManager() : ResourceManager(),
+MusicManager::MusicManager():
     mSource(0),
     mLooping(false),
     mAuto(false),
     mShouldPlay(false),
     mShouldExit(false),
-    mMusicThread()
-{ 
+    mMusicThread(0),
+    mMusicFunctor(),
+    mPlayList()
+{
+    mMusicThread = new thread(mMusicFunctor);
 }
 
 /**
@@ -88,6 +92,7 @@ StringList MusicManager::getExtension()
 {
     StringList result;
     result.push_back("*.ogg");
+    result.push_back("*.wav");
     
     return result;
 }
@@ -103,8 +108,8 @@ void MusicManager::stopSong()
     if (mSource != 0)
     {
         mSource->stop();
-        mShouldPlay = false;
     }
+    mShouldPlay = false;
 }
 
 /**
@@ -140,7 +145,7 @@ const bool MusicManager::isSourcePlaying() const
     {
         return false;
     }
-    return mSource->isPlaying(); 
+    return mSource->playing(); 
 }
 
 /**
@@ -162,8 +167,10 @@ const bool MusicManager::isPlaying() const
  */
 void MusicManager::setNextSong()
 {
-    SoundResource *next = findNextSong();
+    string name = findNextSong();
     // Evtl. spielt noch ein Song.
+    SoundResource *next = static_cast<SoundResource*>(
+        SoundManager::getSingleton().getByName(name));
     if (mSource != 0 )
     {
         mSource->stop();
@@ -177,7 +184,7 @@ void MusicManager::setNextSong()
     {
         mSource->load();        
     } else {
-       mShouldPlay = false;
+        mShouldPlay = false;
     }
 }
 
@@ -189,34 +196,48 @@ void MusicManager::setNextSong()
  * @author JoSch
  * @date 04-12-2004
  */
-SoundResource* MusicManager::findNextSong()
+string MusicManager::findNextSong()
 {
     if (mSource != 0)
     {
-        ResourceMapIterator cit = getResourceIterator();
-        while(cit.hasMoreElements())
+        StringList::iterator cit = 
+            find(mPlayList.begin(), mPlayList.end(), mSource->getName());
+        if (cit == mPlayList.end())
         {
-            if (cit.peekNextKey() == mSource->getHandle())
+            // Nichts gefunden.
+            if (mLooping)
             {
-                cit.moveNext();
-                if (cit.peekNextValue() == 0)
+                SoundResource *temp = static_cast<SoundResource*>(
+                    SoundManager::getSingleton().getResourceIterator().peekNextValue());
+                if (temp != 0)
                 {
-                    // Nichts gefunden.
-                    if (mLooping)
-                    {
-                        return dynamic_cast<SoundResource*>(getResourceIterator().peekNextValue());
-                    } else {
-                        // Nicht wiederholen.
-                        return 0;
-                    }
+                    return temp->getName();
+                } else {
+                    return "";
                 }
-                return dynamic_cast<SoundResource*>(cit.peekNextValue());
+             } else {
+                // Nicht wiederholen.
+                return "";
+             }
+         } else {
+            cit++;
+            if (cit != mPlayList.end())
+            {
+                return *cit;
             } else {
-                cit.moveNext();
+                return "";
             }
-        }
+         }
     } else { // mSource ist noch nicht gesetzt.
-        return dynamic_cast<SoundResource*>(getResourceIterator().peekNextValue());
+        Resource *res = SoundManager::getSingleton().getResourceIterator().peekNextValue();
+        SoundResource *temp = static_cast<SoundResource*>(res);
+        if (temp != 0)
+        {
+            return temp->getName();
+        } else 
+        {
+            return "";
+        }
     }
     return 0;
 }
@@ -293,13 +314,8 @@ bool MusicManager::isLooping()
  * @author JoSch
  * @date 07-25-2004
  */
-MusicManager::MusicThread::MusicThread()
-{
-}
-
-MusicManager::MusicThread::~MusicThread()
-{
-}
+MusicManager::MusicFunctor::MusicFunctor()
+{}
 
 
 /**
@@ -309,7 +325,7 @@ MusicManager::MusicThread::~MusicThread()
  * @author JoSch
  * @date 07-25-2004
  */
-void MusicManager::MusicThread::run()
+void MusicManager::MusicFunctor::operator()()
 {
     MusicManager *that = MusicManager::getSingletonPtr();
     if (that == 0)
@@ -321,7 +337,10 @@ void MusicManager::MusicThread::run()
         try {
             if (that->mShouldPlay)
             {
-                msleep(1);
+                xtime xt;
+                xtime_get(&xt, TIME_UTC);
+                xt.nsec += 1000;
+                thread::sleep(xt);
                 // Spielt der Song noch?
                 if (!that->isSourcePlaying()) // Nein, spielt nicht
                 {
@@ -338,12 +357,16 @@ void MusicManager::MusicThread::run()
                         that->stopSong();
                     }
                 } else { //Doch, spielt noch
+                    
                 }
-            }                     
+            }                   
         } catch(...)
         {
         }
-        msleep(1);
+        xtime xt;
+        xtime_get(&xt, TIME_UTC);
+        xt.nsec += 1000000;
+        thread::sleep(xt);
     } 
 }
 
@@ -359,6 +382,45 @@ Resource* MusicManager::create(const String& resName)
     return newSound;
 }
 
+/**
+ * @author JoSch
+ * @date 01-26-2005
+ */
+void MusicManager::clearPlayList()
+{
+    mPlayList.clear();
+}
 
+/**
+ * @author JoSch
+ * @date 01-27-2005
+ */
+void MusicManager::addPlayList(std::string songName)
+{
+    mPlayList.push_back(songName);
+}
+
+/**
+ * @author JoSch
+ * @date 01-27-2005
+ */
+void MusicManager::addPlayList(StringList list)
+{
+    mPlayList.merge(list);
+}
+
+/**
+ * @author JoSch
+ * @date 01-27-2005
+ */
+void MusicManager::addSoundsIntoPlayList()
+{
+    SoundManager::ResourceMapIterator it = SoundManager::getSingleton().getResourceIterator();
+    while (it.hasMoreElements())
+    {
+        Resource* element = it.getNext();
+        mPlayList.push_back(element->getName());
+    }
+}
 
 }

@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -27,7 +27,7 @@
 #include "XmlResource.h"
 #include "XmlResourceManager.h"
 
-#if OGRE_PLATFORM != PLATFORM_WIN32
+#if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
 #include "SDL/SDL.h"
 #endif
 
@@ -67,11 +67,12 @@ namespace rl {
 		mInputInitialized(false),
 		mNumActiveWindowsMouseInput(0),
 		mNumActiveWindowsKeyboardInput(0),
-		mNumActiveWindowsAllInput(0)
+		mNumActiveWindowsAllInput(0),
+		mPickObjects(false)
 	{
 		switchMouseToUnbuffered();
 		mEventProcessor = new EventProcessor();
-		GameLoop::getSingleton().addSynchronizedTask(this);
+		GameLoopManager::getSingleton().addSynchronizedTask(this);
 		for(int i=0; i<NUM_KEYS; i++)
 			mKeyDown[i] = false;
 
@@ -82,7 +83,7 @@ namespace rl {
 	InputManager::~InputManager()
 	{
 		mEventQueue.activateEventQueue(false);
-		GameLoop::getSingleton().removeSynchronizedTask(this);
+		GameLoopManager::getSingleton().removeSynchronizedTask(this);
 //		Root::getSingleton().removeFrameListener(this);
 
 		mInputReader->useBufferedInput(NULL, false, false);
@@ -185,13 +186,13 @@ namespace rl {
 
 	bool InputManager::sendKeyToCeGui(KeyEvent* e)
 	{
-		// Wenn kein Fenster mit Tastatureingabe aktiv ist, kriegt CEGUI keine KeyEvents
-		if (mNumActiveWindowsKeyboardInput == 0)
-			return false;
-
 		// Fenster, die alle Inputs wollen
 		if (mNumActiveWindowsAllInput > 0)
 			return true;
+
+		// Wenn kein Fenster mit Tastatureingabe aktiv ist, kriegt CEGUI keine KeyEvents
+		if (mNumActiveWindowsKeyboardInput == 0)
+			return false;
 
 		// Tastatureingabe gefordert
 		// Alle Tasten an CEGUI senden, die ein Zeichen erzeugen
@@ -259,6 +260,26 @@ namespace rl {
 	void InputManager::mouseDragged(MouseEvent* e)
 	{
 		mouseMoved(e);
+	}
+
+	CeGuiString InputManager::getKeyName(int combinedKeyCode)
+	{
+		//TODO: Decode key code
+		return getKeyName(combinedKeyCode, 0);
+	}
+
+	CeGuiString InputManager::getKeyName(int scancode, int syskeys)
+	{
+		using namespace Ogre; 
+
+		CeGuiString name = mKeyNames.find(scancode)->second;
+		if (syskeys & InputEvent::ALT_MASK)
+			name = "Alt-"+name;
+		if (syskeys & InputEvent::CTRL_MASK)
+			name = "Ctrl-"+name;
+		if (syskeys & InputEvent::SHIFT_MASK)
+			name = "Shift-"+name;
+		return name;
 	}
 
 	CEGUI::MouseButton InputManager::convertOgreButtonToCegui(int ogre_button_id)
@@ -506,13 +527,21 @@ namespace rl {
     void InputManager::updatePickedObject(float mouseRelX, float mouseRelY)
     {
         Actor* a = ActorManager::getSingleton().getActorAt(mouseRelX, mouseRelY);
-        //DebugWindow::getSingleton().setText(
-        //    "X="+StringConverter::toString(mouseRelX)+
-        //    "   Y="+StringConverter::toString(mouseRelY)+
-        //    "   - Object("+(a==NULL?"null":a->getName())+")");		
+        DebugWindow::getSingleton().setText(
+            "X="+StringConverter::toString(mouseRelX)+
+            "   Y="+StringConverter::toString(mouseRelY)+
+            "   - Object("+(a==NULL?"null":a->getName())+")");
 
-        //mTargetedObject = a->getGameObject();		
+		if (a != NULL)
+	        mTargetedObject = reinterpret_cast<GameObject*>(a->getGameObject());
+		else
+			mTargetedObject = NULL;
     }
+
+	GameObject* InputManager::getPickedObject()
+	{
+		return mTargetedObject;
+	}
 
 	bool InputManager::isKeyDown(KeyCode kc) 
 	{ 

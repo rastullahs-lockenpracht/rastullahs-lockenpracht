@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -14,7 +14,7 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#include "ScriptTimer.h"
+#include "TimerManager.h"
 #include "ScriptSubsystem.h"
 
 using Ogre::Singleton;
@@ -35,12 +35,12 @@ namespace rl {
 
 	ScriptSubsystem::ScriptSubsystem()
 	{
-		new ScriptTimer();
+		new TimerManager();
 	}
 
 	ScriptSubsystem::~ScriptSubsystem()
 	{
-		delete ScriptTimer::getSingletonPtr();
+		delete TimerManager::getSingletonPtr();
 	}
 
 }

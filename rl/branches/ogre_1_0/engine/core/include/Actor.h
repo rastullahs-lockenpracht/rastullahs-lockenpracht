@@ -1,155 +1,120 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
- * 
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the Perl Artistic License.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  Perl Artistic License for more details.
- *
- *  You should have received a copy of the Perl Artistic License
- *  along with this program; if not you can get it here
- *  http://www.perldoc.com/perl5.6/Artistic.html.
- */
+* Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
+* 
+*  This program is free software; you can redistribute it and/or modify
+*  it under the terms of the Perl Artistic License.
+*
+*  This program is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*  Perl Artistic License for more details.
+*
+*  You should have received a copy of the Perl Artistic License
+*  along with this program; if not you can get it here
+*  http://www.perldoc.com/perl5.6/Artistic.html.
+*/
 
 #ifndef __Actor_H__
 #define __Actor_H__
 
-#include <OgreUserDefinedObject.h>
-
 #include "CorePrerequisites.h"
+#include <OgreUserDefinedObject.h>
 
 namespace rl {
 
-class PhysicalThing;
+    class PhysicalThing;
+    class ActorControlledObject;
 
-/** The Base Actor
-	@remarks
-		Actors are not to be generated directly, but via
-		factory methods in ActorManager. This is the base Actor, which
-		is extended in other classes. It extends Ogres UserDefinedObject
-		to be assigned to an OgreObject.
-	@par 
-		Every Actor has a unique name. Every Actorclass also has a Typename.
-*/
-class _RlCoreExport Actor : public UserDefinedObject
-{
-public:
-	/** Constructs an Actor 
-		@param name The Actors unique name
-	*/
-	Actor( const String& name);
-	/** Constructs an Actor 
-		@param name The Actors unique name
-		@param pParentSceneNode The parent SceneNode for the Actors Scenenode
-	*/
-	Actor( const String& name, SceneNode* pParentSceneNode);
+    class _RlCoreExport Actor : public Ogre::UserDefinedObject
+    {
+    public:
+        ///@todo MovableObject abstrahieren.
+        Actor(const Ogre::String& name,
+            ActorControlledObject* aco = 0,
+            PhysicalThing* pt = 0,
+            Ogre::UserDefinedObject* go = 0);
 
-	/** Default Deconstructor */
-	virtual ~Actor();
-	
-	/** Gets the SceneNode which is being used to represent this object's position in
-	       the OGRE world. */
-	virtual SceneNode* getSceneNode(void);
-    virtual void setSceneNode(SceneNode* node);
+        /// Nicht direkt aufrufen,
+        /// sondern ActorManager::destroyActor() benutzen.
+        ~Actor();
 
-     /** Connects another Actor to this Actor only via the SceneNode
-        Use this only for Actor which none overwritten methods    */
-    void attachActorToSceneNode(Actor* actor);
-    /** Disconnects another Actor from this Actor with was connected only via the SceneNode*/
-    void detachActorFromSceneNode(Actor* actor);
+        /// Returns the unique Name of this Actor
+        const Ogre::String& getName();
+        
+        PhysicalThing* getPhysicalThing();
+        Ogre::UserDefinedObject* getGameObject();
+        void setGameObject(Ogre::UserDefinedObject* uo);
+        
+        ActorControlledObject* getControlledObject();
+        
+        void placeIntoScene(
+            const Ogre::Vector3& position = Ogre::Vector3::ZERO,
+            const Ogre::Quaternion& orientation = Ogre::Quaternion::IDENTITY);
 
-	/** Returns the TypeName */
-	virtual const String& getTypeName();
+        void placeIntoScene(
+            Ogre::Real px, Ogre::Real py, Ogre::Real pz,
+            Ogre::Real ow, Ogre::Real ox, Ogre::Real oy, Ogre::Real oz);
+            
+        void removeFromScene();
 
-    virtual bool isSimpleOgreActor();
+        /// Gets the current position of this object.
+        const Ogre::Vector3& getPosition(void);
+        
+        /// Sets the position of this object.
+        void setPosition(const Ogre::Vector3& vec);
+        void setPosition(Ogre::Real x, Ogre::Real y, Ogre::Real z);
 
-    /** Returns the unique Name of this Actor */
-	const String& getName();
+        /// Gets the current orientation of this object.
+        const Ogre::Quaternion& getOrientation(void);
 
-    PhysicalThing* getPhysicalThing();
-    void setPhysicalThing( PhysicalThing* thing );
+        /// Sets the orientation of this object.
+        void setOrientation(const Ogre::Quaternion& orientation);
 
-    // MOVABLE
+        /// Moves the object along it's local  axes.
+        void translate(const Ogre::Vector3& d, Ogre::Node::TransformSpace ts);
 
-    /** Gets the current position of this object. */
-	const Vector3& getPosition(void);
-    /** Gets the current orientation of this object. */
-	const Quaternion& getOrientation(void);
+        /// Rotate the object around the local Z-axis.
+        void roll(Ogre::Real angleunits);
 
-    // Override these
-    
-    /** Sets the position of this object. */
-	virtual void setPosition(Real x, Real y, Real z);
-    /** Sets the orientation of this object. */
-    virtual void setOrientation(Real w, Real x, Real y, Real z);
+        /// Rotate the object around the local X-axis.
+        void pitch(Ogre::Real angleunits);
 
-    // These only use the methods above
-    
-    /** Sets the position of this object. */
-	virtual void setPosition(const Vector3& vec);
-	/** Sets the orientation of this object. */
-	virtual void setOrientation(const Quaternion& orientation); 
-	/** Moves the object along it's local  axes.
-	           @par
-	               This method moves the object by the supplied vector along the
-	               local axes of the obect.
-	           @param 
-	               d Vector with x,y,z values representing the translation.
-	       */
-	void translate(const Vector3& d);
-	/** Moves the object along it's local axes.
-	    @par
-	        This method moves the object by the supplied vector along the
-	        local axes of the obect.
-	    @param x, y z Real x, y and z values representing the translation.
-	*/
-	void translate(Real x, Real y, Real z);
-	/** Moves the object along the world axes.
-	    @par
-	        This method moves the object by the supplied vector along the
-	        world axes.
-	    @param 
-	        d Vector with x,y,z values representing the translation.
-	*/
-	void translateWorldSpace(const Vector3& d);
-	/** Moves the object along the world axes.
-	    @par
-	        This method moves the object by the supplied vector along the
-	        local axes of the obect.
-	    @param x, y z Real x, y and z values representing the translation.
-	*/
-	void translateWorldSpace(Real x, Real y, Real z);
-	/** Rotate the object around the local Z-axis.
-	*/
-	void roll(Real angleunits);
-	/** Rotate the object around the local X-axis.
-	*/
-	void pitch(Real angleunits);
-	/** Rotate the object around the local Y-axis.
-	*/
-	void yaw(Real angleunits);
-	/** Rotate the object around an arbitrary axis.
-	*/
-	void rotate(const Vector3& axis, Real angleunits);
-	/** Rotate the object around an arbitrary axis.
-	*/
-	void rotate(Real x,Real y,Real z, Real angleunits);
-	/** Rotate the object around an aritrary axis using a Quarternion.
-	*/
-	void rotate(const Quaternion& q);
+        /// Rotate the object around the local Y-axis.
+        void yaw(Ogre::Real angleunits);
 
-protected:
-	/** The TypeName */
-	static const String TYPENAME;
-	/** The Position in the OgreWorld */
-	SceneNode* mSceneNode;
-    /** The Physics Body */
-    PhysicalThing* mPhysical;
-	/** The Name */
-	String mName;
-};
+        /// Rotate the object around an aritrary axis using a Quarternion.
+        void rotate(const Ogre::Quaternion& q);
+        
+        void attach(const Ogre::String& slot, Actor* actor,
+            const Ogre::String& childSlot = "SLOT_DEFAULT");
+        void detach(Actor* actor);
+        
+        Ogre::SceneNode* _getSceneNode();
+        Ogre::MovableObject* _getMovableObject();
+        void _update();
+        void _placeIntoScene(Ogre::SceneNode* parent,
+            const Ogre::Vector3& position = Ogre::Vector3::ZERO,
+            const Ogre::Quaternion& orientation = Ogre::Quaternion::IDENTITY);
+        
+        ///@todo Query-Methoden für Childs
+        ///@todo Visibility
+
+    protected:
+        typedef std::set<Actor*> ChildSet;
+        Ogre::String mName;
+        PhysicalThing* mPhysicalThing;
+        Ogre::UserDefinedObject* mGameObject;
+        ActorControlledObject* mActorControlledObject;
+        Actor* mParent;
+        ChildSet mChilds;
+        Ogre::SceneNode* mSceneNode;
+        
+        virtual void doAttach(const Ogre::String& slot, Actor* actor,
+            const Ogre::String& childSlot);
+        virtual void doDetach(Actor* actor);
+        /// Argmumente wie placeIntoScene
+        virtual void placeChildsIntoScene(const Ogre::Vector3& position,
+            const Ogre::Quaternion& orientation);
+    };
 }
 #endif

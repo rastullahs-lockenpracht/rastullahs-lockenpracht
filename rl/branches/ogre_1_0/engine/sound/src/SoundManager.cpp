@@ -1,5 +1,5 @@
 /* SoundManager.cpp - Spielt verschiedene Sound nach Belieben.
- * (C) 2004. Team Pantheon. www.team-pantheon.de
+ * (C) 2003-2005. Team Pantheon. www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -50,6 +50,16 @@ SoundManager* SoundManager::getSingletonPtr()
 }
 
 /**
+ * Standardkonstruktor
+ * @author JoSch
+ * @date 01-27-2005
+ */
+SoundManager::SoundManager()
+{
+    addSounds();
+}
+
+/**
  * Gibt die Suchmuster fuer die Extension zurueck.
  * @return Die Liste der Suchmuster
  * @author JoSch
@@ -59,7 +69,7 @@ StringList SoundManager::getExtension()
 {
     StringList result;
     result.push_back("*.wav");
-    //result.push_back("*.ogg");
+    result.push_back("*.ogg");
     
     return result;
 }
@@ -76,6 +86,63 @@ Resource* SoundManager::create(const String& resName)
     newSound = new SoundResource(resName);
     return newSound;
 }
+
+/**
+ * @author JoSch
+ * @date 04-27-2004
+ */
+void SoundManager::addSounds()
+{
+    StringList extlist = getExtension();
+    StringList::const_iterator cit;
+    for(cit = extlist.begin(); cit != extlist.end(); cit++)
+    {
+        set<Ogre::String> list = ResourceManager::_getAllCommonNamesLike("./", *cit);
+        set<Ogre::String>::const_iterator it;
+        for(it = list.begin(); it != list.end(); it++)
+        {
+            try {
+                add(create(*it));
+            } catch(...)
+            {}
+        }
+    }
+}
+
+/**
+ * @author JoSch
+ * @date 01-26-2005
+ */
+void SoundManager::add(Resource *song)
+{
+    boost::mutex::scoped_lock lock(mResListMutex);
+    Ogre::ResourceManager::add(song);
+}
+
+void SoundManager::add(const String& filename)
+{
+    add(create(filename));
+}
+
+/**
+ * Erzeugt eine Liste von Soundnamen.
+ * @return Erzeugte Namensliste.
+ * @author JoSch
+ * @date 06-17-2004
+ */
+StringList SoundManager::getSounds()
+{
+    StringList result;
+    ResourceMapIterator it = getResourceIterator();
+    while (it.hasMoreElements())
+    {
+        result.push_back(it.peekNextValue()->getName());
+        it.moveNext();
+    }
+    
+    return result;
+}
+
 
 
 }

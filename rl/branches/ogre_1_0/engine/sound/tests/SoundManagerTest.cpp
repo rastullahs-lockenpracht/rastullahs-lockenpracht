@@ -1,4 +1,4 @@
-/** 
+ /** 
  * Generated CppUnit test driver template.
  * To build it, add the following line at the end of
  * your existing Makefile:
@@ -10,12 +10,13 @@
 #include <math.h>
 #include <OgreIteratorWrappers.h>
 #include <cppunit/extensions/HelperMacros.h>
-#include <iostream>
-#include "Sleep.h"
+#include <boost/thread.hpp>
 #include "SoundManager.h"
 #include "SoundResource.h"
 
+
 using namespace rl;
+using namespace boost;
 
 class SoundManagerTest : public CppUnit::TestFixture {
 private:
@@ -42,48 +43,58 @@ public:
  
     void testSoundManager_loadPlayUnload()
     {
-        rl::ResourceManager::ResourceMapIterator it =
+        xtime xt;
+        
+        Ogre::ResourceManager::ResourceMapIterator it =
             SoundManager::getSingleton().getResourceIterator();
         while (it.hasMoreElements())
         {
-            Resource *res = it.getNext();
+            Ogre::Resource *res = it.getNext();
             SoundResource* sound = dynamic_cast<SoundResource*>(res);
             if (sound)
             {
                 sound->load();
                 sound->play();
                 
-                msleep(1000);
-                while (sound->isPlaying())
-                    msleep(1000);
+                xtime_get(&xt, TIME_UTC);
+                xt.sec++;
+                thread::sleep(xt);
+                while (sound->playing())
+                    xtime_get(&xt, TIME_UTC);
+                    xt.sec++;
+                    thread::sleep(xt);
                 
                 sound->stop();
                 sound->unload();
             }            
         }
-        cerr<<"ende"<<endl;
         CPPUNIT_ASSERT(true);
     }
     
     void testSoundManager_loadPlayWithFade()
     {
-        rl::ResourceManager::ResourceMapIterator it =
+        xtime xt;
+        Ogre::ResourceManager::ResourceMapIterator it =
             SoundManager::getSingleton().getResourceIterator();
         while (it.hasMoreElements())
         {
-            Resource *res = it.getNext();
+            Ogre::Resource *res = it.getNext();
             SoundResource* sound = dynamic_cast<SoundResource*>(res);
-            std::cerr << sound->getName()<<std::endl;
+            std::cerr << sound->getName() <<std::endl;
             if (sound)
             {
                 sound->load();
                 sound->play(2 * 1000);
                 
-                msleep(10 * 1000);
+                xtime_get(&xt, boost::TIME_UTC);
+                xt.sec += 10;
+                thread::sleep(xt);
                 
                 sound->stop(2 * 1000);
                 
-                msleep(5 * 1000);
+                xtime_get(&xt, boost::TIME_UTC);
+                xt.sec += 5;
+                thread::sleep(xt);
                 
                 sound->unload();
             }            
@@ -94,7 +105,7 @@ public:
 
 	CPPUNIT_TEST_SUITE(SoundManagerTest);
 	CPPUNIT_TEST(testSoundManager_addSoundDirectory);
-//    CPPUNIT_TEST(testSoundManager_loadPlayUnload);
+    CPPUNIT_TEST(testSoundManager_loadPlayUnload);
     CPPUNIT_TEST(testSoundManager_loadPlayWithFade);
     CPPUNIT_TEST_SUITE_END();
 };

@@ -23,7 +23,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\sound\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreOde\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\openalpp\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\OpenThreads\include;..\..\dependencies\ode\include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\sound\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreOde\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\openalpp\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\ode\include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include"
 				PreprocessorDefinitions="_WINDOWS,_DEBUG,WIN32,RLCORE_EXPORTS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -106,7 +106,7 @@
 				FavorSizeOrSpeed="1"
 				OptimizeForProcessor="2"
 				OptimizeForWindowsApplication="TRUE"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\sound\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreOde\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\openalpp\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\OpenThreads\include;..\..\dependencies\ode\include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\sound\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreOde\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\openalpp\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\ode\include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include"
 				PreprocessorDefinitions="NDEBUG,_WINDOWS,WIN32,RLCORE_EXPORTS"
 				StringPooling="FALSE"
 				ExceptionHandling="TRUE"
@@ -175,19 +175,22 @@
 				RelativePath=".\include\Actor.h">
 			</File>
 			<File
+				RelativePath=".\include\ActorControlledObject.h">
+			</File>
+			<File
 				RelativePath=".\include\ActorManager.h">
+			</File>
+			<File
+				RelativePath=".\include\Animation.h">
+			</File>
+			<File
+				RelativePath=".\include\AnimationListener.h">
 			</File>
 			<File
 				RelativePath=".\include\AnimationManager.h">
 			</File>
 			<File
-				RelativePath=".\include\AudibleActor.h">
-			</File>
-			<File
-				RelativePath=".\include\BSPWorld.h">
-			</File>
-			<File
-				RelativePath=".\include\CameraActor.h">
+				RelativePath=".\include\CameraObject.h">
 			</File>
 			<File
 				RelativePath=".\include\CorePrerequisites.h">
@@ -199,28 +202,22 @@
 				RelativePath=".\include\DotSceneOctreeWorld.h">
 			</File>
 			<File
-				RelativePath=".\include\GameActor.h">
+				RelativePath=".\include\GameLoop.h">
 			</File>
 			<File
-				RelativePath=".\include\GameLoop.h">
+				RelativePath=".\include\GameTask.h">
 			</File>
 			<File
 				RelativePath=".\include\Interpreter.h">
 			</File>
 			<File
-				RelativePath=".\include\LightActor.h">
+				RelativePath=".\include\LightObject.h">
 			</File>
 			<File
-				RelativePath=".\include\ListenerActor.h">
+				RelativePath=".\include\MeshObject.h">
 			</File>
 			<File
-				RelativePath=".\include\MeshActor.h">
-			</File>
-			<File
-				RelativePath=".\include\NatureWorld.h">
-			</File>
-			<File
-				RelativePath=".\include\ParticleSystemActor.h">
+				RelativePath=".\include\ParticleSystemObject.h">
 			</File>
 			<File
 				RelativePath=".\include\PhysicalThing.h">
@@ -235,10 +232,7 @@
 				RelativePath=".\include\ScriptObject.h">
 			</File>
 			<File
-				RelativePath=".\include\SynchronizedTask.h">
-			</File>
-			<File
-				RelativePath=".\include\TerrainWorld.h">
+				RelativePath=".\include\TrackAnimation.h">
 			</File>
 			<File
 				RelativePath=".\include\World.h">
@@ -251,19 +245,22 @@
 				RelativePath=".\src\Actor.cpp">
 			</File>
 			<File
+				RelativePath=".\src\ActorControlledObject.cpp">
+			</File>
+			<File
 				RelativePath=".\src\ActorManager.cpp">
+			</File>
+			<File
+				RelativePath=".\src\Animation.cpp">
+			</File>
+			<File
+				RelativePath=".\src\AnimationListener.cpp">
 			</File>
 			<File
 				RelativePath=".\src\AnimationManager.cpp">
 			</File>
 			<File
-				RelativePath=".\src\AudibleActor.cpp">
-			</File>
-			<File
-				RelativePath=".\src\BSPWorld.cpp">
-			</File>
-			<File
-				RelativePath=".\src\CameraActor.cpp">
+				RelativePath=".\src\CameraObject.cpp">
 			</File>
 			<File
 				RelativePath=".\src\CoreSubsystem.cpp">
@@ -272,25 +269,19 @@
 				RelativePath=".\src\DotSceneOctreeWorld.cpp">
 			</File>
 			<File
-				RelativePath=".\src\GameActor.cpp">
-			</File>
-			<File
 				RelativePath=".\src\GameLoop.cpp">
 			</File>
 			<File
-				RelativePath=".\src\LightActor.cpp">
+				RelativePath=".\src\GameTask.cpp">
 			</File>
 			<File
-				RelativePath=".\src\ListenerActor.cpp">
+				RelativePath=".\src\LightObject.cpp">
 			</File>
 			<File
-				RelativePath=".\src\MeshActor.cpp">
+				RelativePath=".\src\MeshObject.cpp">
 			</File>
 			<File
-				RelativePath=".\src\NatureWorld.cpp">
-			</File>
-			<File
-				RelativePath=".\src\ParticleSystemActor.cpp">
+				RelativePath=".\src\ParticleSystemObject.cpp">
 			</File>
 			<File
 				RelativePath=".\src\PhysicalThing.cpp">
@@ -305,10 +296,7 @@
 				RelativePath=".\src\ScriptObject.cpp">
 			</File>
 			<File
-				RelativePath=".\src\SynchronizedTask.cpp">
-			</File>
-			<File
-				RelativePath=".\src\TerrainWorld.cpp">
+				RelativePath=".\src\TrackAnimation.cpp">
 			</File>
 			<File
 				RelativePath=".\src\World.cpp">

@@ -8,7 +8,6 @@ noinst_HEADERS = \
 	Console.h \
 	DebugWindow.h \
 	DialogWindow.h \
-	FlyingCameraController.h \
 	GameController.h \
 	GameLoggerWindow.h \
 	InputManager.h \

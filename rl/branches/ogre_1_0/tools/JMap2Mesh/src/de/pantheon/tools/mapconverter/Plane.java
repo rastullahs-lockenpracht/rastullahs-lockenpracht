@@ -28,7 +28,7 @@ public class Plane
 
     // degree to radian
     private final static double dr = Math.PI/180; 
-    private final static double EPSILON = 0.0001;
+    private final static double EPSILON = 0.00001;
     
     private double mDistance;
     private Vector3 mNormal = null;

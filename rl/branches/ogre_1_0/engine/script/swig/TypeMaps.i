@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -22,14 +22,14 @@
 */
 %typemap(in) String, const String {
     Check_Type($input, T_STRING);
-    $1 = String(STR2CSTR($input));
+    $1 = String(StringValuePtr($input));
 }
 %typemap(out) String, const String {
      $result = rb_str_new2($1.c_str());
 }
 %typemap(in) String*, String&, const String*, const String& {
     Check_Type($input, T_STRING);
-    $1 = new String(STR2CSTR($input));
+    $1 = new String(StringValuePtr($input));
 }
 %typemap(out) String*, String&,  const String*, const String& {
      $result = rb_str_new2($1->c_str());
@@ -40,14 +40,14 @@
 */
 %typemap(in) rl::CeGuiString, const rl::CeGuiString {
     Check_Type($input, T_STRING);
-    $1 = rl::CeGuiString(STR2CSTR($input));
+    $1 = rl::CeGuiString(StringValuePtr($input));
 }
 %typemap(out) rl::CeGuiString, const rl::CeGuiString {
      $result = rb_str_new2($1.c_str());
 }
 %typemap(in) rl::CeGuiString*, rl::CeGuiString&, const rl::CeGuiString*, const rl::CeGuiString& {
     Check_Type($input, T_STRING);
-    $1 = new rl::CeGuiString(STR2CSTR($input));
+    $1 = new rl::CeGuiString(StringValuePtr($input));
 }
 %typemap(out) rl::CeGuiString*, rl::CeGuiString&,  const rl::CeGuiString*, const rl::CeGuiString& {
      $result = rb_str_new2($1->c_str());
@@ -61,7 +61,7 @@
 
 %typemap(directorout) rl::CeGuiString {
     if (TYPE($input) == T_STRING)
-        $result = rl::CeGuiString(STR2CSTR($input));
+        $result = rl::CeGuiString(StringValuePtr($input));
     else
         throw Swig::DirectorTypeMismatchException("string expected");
 }
@@ -69,7 +69,7 @@
 %typemap(directorout) const rl::CeGuiString & {
     if (TYPE($input) == T_STRING) {
 		$result = new rl::CeGuiString();
-        $result->assign(rl::CeGuiString(STR2CSTR($input)));
+        $result->assign(rl::CeGuiString(StringValuePtr($input)));
     } else {
         throw Swig::DirectorTypeMismatchException("string expected");
     }
@@ -275,7 +275,7 @@
   int len = RARRAY($input)->len;
   for (int i=0; i!=len; i++) {
     VALUE inst = rb_ary_entry($input, i);
-    vec.push_back(rl::CeGuiString(STR2CSTR(inst)));
+    vec.push_back(rl::CeGuiString(StringValuePtr(inst)));
   }
   $result = vec;
 }
@@ -286,7 +286,7 @@
   int len = RARRAY($input)->len;
   for (int i=0; i!=len; i++) {
     VALUE inst = rb_ary_entry($input, i);
-    vec->push_back(rl::CeGuiString(STR2CSTR(inst)));
+    vec->push_back(rl::CeGuiString(StringValuePtr(inst)));
   }
   $result = vec;
 }

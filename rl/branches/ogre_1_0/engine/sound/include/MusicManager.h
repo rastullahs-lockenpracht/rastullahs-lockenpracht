@@ -1,5 +1,5 @@
 /* MusicManager.h - Spielt eine Playlist ab.
- * (C) 2004. Team Pantheon. www.team-pantheon.de
+ * (C) 2003-2005. Team Pantheon. www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -22,15 +22,13 @@
 #include <OgreString.h>
 #include <list>
 #include <stdexcept>
-#include <OpenThreads/Thread>
-#include "ResourceManager.h"
+#include <boost/thread.hpp>
 #include "SoundResource.h"
 
-using namespace OpenThreads;
 
 namespace rl {
  
-    typedef std::list<Ogre::String> StringList;
+    typedef std::list<std::string> StringList;
 
 /** Diese Klasse verwaltet eine Liste von Musikstuecken, die
  * abgespielt werden koennen.
@@ -42,11 +40,11 @@ namespace rl {
  * @version 1.2
  * @date 07-25-2004
  */
-class _RlSoundExport MusicManager : public ResourceManager, public Ogre::Singleton<MusicManager> {
+class _RlSoundExport MusicManager : public Ogre::Singleton<MusicManager> {
     private:
         /// Finde den Nachfolger des Songs mit diesem Namen.
-        SoundResource* findNextSong();
-        
+        std::string findNextSong();
+       
         /// Die aktuelle Musikresource
         SoundResource *mSource;
         /// Flag, ob automatisch weitergeschaltet werden soll.
@@ -58,21 +56,21 @@ class _RlSoundExport MusicManager : public ResourceManager, public Ogre::Singlet
         /// Ob der Thread beendet werden soll. WICHTIG: Hat nicht mit dem Abspielen zu tun.
         bool mShouldExit;
         /// Unterklasse, die den Thread enthält
-        class MusicThread : public Thread {
+        class MusicFunctor {
             public:
-                MusicThread();
-                ~MusicThread();
-                void run();
-        };
+                /// Der Standardkonstruktor
+                MusicFunctor();
+                /// Funktormethode
+                void operator()();
+        } mMusicFunctor;
         /// Die Instanz des Threads.
-        MusicThread mMusicThread;
-        // MSVC6 braucht das
-        friend class MusicThread;
-       
+        boost::thread *mMusicThread;
+        /// Die aktuelle Playlist. Nicht identisch mit der Resourcenliste
+        StringList mPlayList;       
     
-    protected:
         /// Welche Dateiendung soll verwendet werden.
         virtual StringList getExtension();
+        
             
     public:
         /// Gibt das Singleton zurueck.
@@ -98,17 +96,24 @@ class _RlSoundExport MusicManager : public ResourceManager, public Ogre::Singlet
         /// Relative Lautstaerke holen.
         ALfloat getGain();
         /// Eine Resource erzeugen
-        Resource* create(const String& resName);
+        Ogre::Resource* create(const Ogre::String& resName);
         /// Ob die Songliste wiederholt abgespielt werden soll.
         bool isLooping();
         /// Setzt, ob die Songliste wiederholt werden soll.
         void setLooping(bool looping = true);
-        /// Zurueck auf Anfang der Liste.
-        void rewind();
         /// Ob der MusicManager selbststaendig weiterschaltet.
         bool isAuto();
         /// Setzt, ob der MusicManger selbst weiterschaltet.
         void setAuto(bool isAuto = true);
+        /// Die Playlist löschen.
+        void clearPlayList();
+        /// Zur Playlist hinzufügen
+        void addPlayList(std::string songName);
+        /// Eine Liste zur Playlist hinzufügen
+        void addPlayList(StringList list);
+        /// Alle Sounds in die Resourcenliste eintragen.
+        virtual void addSoundsIntoPlayList();
+        
 };
 
 }

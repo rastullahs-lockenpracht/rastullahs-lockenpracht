@@ -13,7 +13,8 @@
 #include "math.h"
 #include "OgreResourceManager.h"
 #include "cppunit/extensions/HelperMacros.h"
-#include "Sleep.h"
+#include "SoundManager.h"
+#include <boost/thread.hpp>
 
 using namespace rl;
 using namespace Ogre;
@@ -36,22 +37,26 @@ public:
 
 	void testMusicManager_addSoundDirectory()
 	{
-        MusicManager::getSingletonPtr()->addSounds();
-        
+        MusicManager::getSingleton().addPlayList(SoundManager::getSingleton().getSounds());
 	    CPPUNIT_ASSERT(true);
 	}
  
 
     void testMusicManager_playForward()
     {
+        boost::xtime xt;
         MusicManager::getSingletonPtr()->setAuto(true);
         MusicManager::getSingletonPtr()->setLooping(false);
         MusicManager::getSingletonPtr()->playSong(); 
         
-        msleep(10 * 1000);
+        boost::xtime_get(&xt, boost::TIME_UTC);
+        xt.sec += 10;
+        boost::thread::sleep(xt);
         while (MusicManager::getSingletonPtr()->isPlaying())
         {
-            msleep(10 * 1000);
+            boost::xtime_get(&xt, boost::TIME_UTC);
+            xt.sec += 5;
+            boost::thread::sleep(xt);
         }
         MusicManager::getSingletonPtr()->stopSong();
         CPPUNIT_ASSERT(true);
@@ -63,4 +68,4 @@ public:
     CPPUNIT_TEST(testMusicManager_playForward);
     CPPUNIT_TEST_SUITE_END(); 
 };
-//CPPUNIT_TEST_SUITE_REGISTRATION(MusicManagerTest);
+CPPUNIT_TEST_SUITE_REGISTRATION(MusicManagerTest);

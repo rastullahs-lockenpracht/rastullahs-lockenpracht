@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -18,7 +18,7 @@
 #define __GameController_H__
 
 #include "UiPrerequisites.h"
-#include "SynchronizedTask.h"
+#include "GameTask.h"
 
 #include <OgreEntity.h>
 #include <OgreCamera.h>
@@ -29,13 +29,14 @@
 
 namespace rl {
 
-    class GameActor;
+    class Actor;
+    class MeshObject;
 
     /**
      *  @todo Kollision
      *  @todo Nachziehen
      */
-    class _RlUiExport GameController : public SynchronizedTask,
+    class _RlUiExport GameController : public GameTask,
         public OgreOde::CollisionListener
     {
     public:
@@ -47,26 +48,20 @@ namespace rl {
          *  gesetzt.
          *  @throw NullPointerException falls camera oder hero 0 sind.
          */
-        GameController(Ogre::Camera* camera, GameActor* hero);
+        GameController(Actor* camera, Actor* hero);
         virtual ~GameController();
 
         void run(Real elapsedTime);
 
-        GameActor* getControlledActor();
+        Actor* getControlledActor();
 
         /** Setzt den Actor, der durch den Benutzer zu steuern ist.
          *  Dabei wird die Camera ueber/hinter den Actor gesetzt.
          *  @throw NullPointerException falls actor 0 ist.
          */
-        void setControlledActor(GameActor* actor);
+        void setControlledActor(Actor* actor);
 
-        Ogre::Camera* getCamera();
-
-        /** Setzt die Camera, durch die man den Actor steuert.
-         *  Dabei wird die Camera ueber/hinter den Actor gesetzt.
-         *  @throw NullPointerException falls camera 0 ist.
-         */
-        void setCamera(Ogre::Camera* camera);
+        Actor* getCamera();
         
         /// First oder Third person view.
         void setViewMode(ViewMode mode);
@@ -76,6 +71,8 @@ namespace rl {
          *  schauend im aktuellen Abstand vom Helden, wie durch den Spieler bestimmt.
          */
         void resetCamera();
+
+		void toggleDebugOde();
 
         /**
          *  Callback vom CollisionListener
@@ -88,8 +85,9 @@ namespace rl {
         Ogre::SceneNode* mControlNode;
         Ogre::SceneNode* mLookAtNode;
         Ogre::SceneNode* mCameraNode;
-        Ogre::Camera* mCamera;
-        GameActor* mActor;
+        Actor* mCameraActor;
+        Actor* mActor;
+        MeshObject* mActorMesh;
 
         Ogre::Real mMoveScale;
         Ogre::Real mRotScale;
@@ -100,9 +98,9 @@ namespace rl {
         Ogre::Real mFallSpeed;
 
         OgreOde::World* mOdeWorld;
-        OgreOde::CapsuleGeometry* mOdeActor;
-        OgreOde::SphereGeometry* mOdeCamera;
-        OgreOde::TriangleMeshGeometry* mOdeLevel;
+        OgreOde::Geometry* mOdeActor;
+        OgreOde::Geometry* mOdeCamera;
+        OgreOde::Geometry* mOdeLevel;
 
         AnimationState mCurrentAnimationState;
         AnimationState mLastAnimationState;
@@ -120,24 +118,19 @@ namespace rl {
         ViewMode mViewMode;
         
         void setup();
-        void setupCollisionDetection();
-
+            
         Ogre::Vector3 ogrePosToOdePos(const Ogre::Vector3& pos,
             const Ogre::Vector3& extent);
 
-        void translate(const Vector3& translation,
-            Ogre::Node::TransformSpace ts);
-        void setPosition(const Vector3& position);
-        
-        bool detectCollision(const Ogre::Vector3& translation);
         void calculateScalingFactors(Ogre::Real timePassed);
 
         void calculateHeroTranslation(Ogre::Vector3& translation,
             Ogre::Real& yaw);
         void calculateCameraTranslation();
+        
         void updateAnimationState(const Ogre::Vector3& translation);
+		
 		void updatePickedObject() const;
-		void adjustCamera(OgreOde::Contact* contact);
     };
 
 }

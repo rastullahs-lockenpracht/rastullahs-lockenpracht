@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -38,6 +38,7 @@
 #include <OgreLogManager.h>
 
 XERCES_CPP_NAMESPACE_USE
+using namespace Ogre;
 
 namespace rl
 {
@@ -175,9 +176,10 @@ namespace rl
 	{	
 		if ( !name.compare("load") ) 
 		{
-			std::set<String> sl = ResourceManager::_getAllCommonNamesLike( "./" , ".aiml" );
-			std::set<String>::iterator i;
-			for (i = sl.begin(); i != sl.end(); i++)
+			StringVectorPtr sl = ResourceGroupManager::getSingleton().findResourceNames(
+				ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, "*.aiml" );
+			StringVector::iterator i;
+			for (i = sl.get()->begin(); i != sl.get()->end(); i++)
 			{
 				if(loadAiml((*i).c_str()))
 					continue;

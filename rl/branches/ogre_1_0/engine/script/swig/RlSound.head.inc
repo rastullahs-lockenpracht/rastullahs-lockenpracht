@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -21,6 +21,8 @@
 #include "MusicManager.h"
 #include "SoundResource.h"
 #include "SoundManager.h"
-#include "ResourceManager.h"
+#include "SoundEvent.h"
+#include "SoundFadeEvent.h"
+#include "SoundPlayEvent.h"
 #include "AL/al.h"
 %}

@@ -1,5 +1,5 @@
 /* SoundSubSystem.cpp - Management von RlSound.
- * (C) 2004. Team Pantheon. www.team-pantheon.de
+ * (C) 2003-2005. Team Pantheon. www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -62,7 +62,7 @@ SoundSubsystem::SoundSubsystem()
  
     // OpenAL initialisieren und Fehler zuruecksetzen.
     alutInit(0, 0);
-    alGetError();
+    SoundSubsystem::log(StringConverter::toString(alGetError()));
     SoundSubsystem::log("AL initialised");
     
     // Wir initialisieren den Listener
@@ -77,9 +77,10 @@ SoundSubsystem::SoundSubsystem()
     alListenerfv(AL_ORIENTATION, ListenerOri);
     SoundSubsystem::log("Listener set");
     
-    //Singletons erzeugen
-    new MusicManager();
+    //Singletons erzeugen (immer in dieser Reihenfolge)
     new SoundManager();
+    new MusicManager();
+
 }
 
 /**
@@ -109,5 +110,69 @@ void SoundSubsystem::log(const String& msg)
     }
 }
 
+/**
+ * @author JoSch
+ * @date 01-26-2005
+ */
+bool SoundSubsystem::isEAXCapable() const
+{
+    return alIsExtensionPresent((ALubyte*)"EAX2.0") == AL_TRUE;
+}
+
+/**
+ * @author JoSch
+ * @date 01-26-2005
+ */
+/*bool SoundSubsystem::isLocked() const
+{
+    return false;
+} */
+
+typedef ALenum (*funcEAX)(const void *propertySetID, ALuint property,
+        ALuint source, ALvoid *value, ALuint size);
+        
+/**
+ * @return Error code
+ * @param propertySetID Zeiger auf set GUID
+ * @param property Eigenschaft
+ * @param source Source ID
+ * @param value Zeiger auf den Wert
+ * @param size Die Groesse des Werts
+ * @author JoSch
+ * @date 01-26-2005
+ */
+ALenum SoundSubsystem::EAXGet(const void *propertySetID, ALuint property,
+        ALuint source, ALvoid *value, ALuint size)
+{
+    if (isEAXCapable())
+    {
+        funcEAX get = (funcEAX) alGetProcAddress((ALubyte*)"EAXGet");
+        return (get)(propertySetID, property, source, value, size); 
+    } else {
+        return AL_FALSE;
+    }
+}
+
+/**
+ * @return Error code
+ * @param propertySetID Zeiger auf set GUID
+ * @param property Eigenschaft
+ * @param source Source ID
+ * @param value Zeiger auf den Wert
+ * @param size Die Groesse des Werts
+ * @author JoSch
+ * @date 01-26-2005
+ */
+ALenum SoundSubsystem::EAXSet(const void *propertySetID, ALuint property,
+        ALuint source, ALvoid *value, ALuint size)
+{
+    if (isEAXCapable())
+    {
+        funcEAX set = (funcEAX) alGetProcAddress((ALubyte*)"EAXSet");
+        return (set)(propertySetID, property, source, value, size); 
+    } else {
+        return AL_FALSE;
+    }
+}
 
 }

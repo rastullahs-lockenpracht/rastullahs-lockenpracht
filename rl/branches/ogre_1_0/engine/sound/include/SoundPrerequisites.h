@@ -1,5 +1,5 @@
 /* SoundPrerequisites.h - Verschiedene Einstellung für RlSound.
- * (C) 2004. Team Pantheon. www.team-pantheon.de
+ * (C) 2003-2005. Team Pantheon. www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -19,7 +19,7 @@
 
 #include "RastullahPrerequisites.h"
 
-#if OGRE_PLATFORM == PLATFORM_WIN32
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 // Export control
 #   if defined( RLSOUND_EXPORTS )
 #       define _RlSoundExport __declspec( dllexport )

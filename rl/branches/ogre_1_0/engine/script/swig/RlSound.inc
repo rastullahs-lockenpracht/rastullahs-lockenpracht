@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -15,33 +15,28 @@
  */
 
 namespace rl {
-
-%apply SWIGTYPE *DYNAMIC { Ogre::Resource * };
-
-   	class ResourceManager {
-   	public:
-       void addSounds();
-       void setMemoryBudget(size_t bytes);
-       Ogre::Resource* getByName(const String &name);
-       void addSearchPath(const String &path);
-       std::list<String> getSounds();
-       virtual Resource* create(const String &resName) = 0;
-   	};
-   
-   	class SoundManager : public ResourceManager {
+   	class SoundManager {
+   	private:
+        SoundManager();
+        ~SoundManager();
    	public:
        static SoundManager& getSingleton();
        static SoundManager* getSingletonPtr();
-       virtual Resource* create(const String &resName);
+       
+       void addSounds();
+       
+       std::list<String> getSounds();
+       void add(const std::string& resName);
+
    	};
-      
-   	class MusicManager : public ResourceManager {
-   	public:
-        virtual Resource* create(const String &resName);
-        static MusicManager& getSingleton();
-        static MusicManager* getSingletonPtr();
+
+   	class MusicManager  {
+   	private:
         MusicManager();
         ~MusicManager();
+   	public:
+        static MusicManager& getSingleton();
+        static MusicManager* getSingletonPtr();
 
         void playSong();
         void stopSong();
@@ -53,47 +48,35 @@ namespace rl {
         void setGain(float newGain);
         float getGain();
         
+        void clearPlayList();
+        void addPlayList(std::string song);
+        void addPlayList(std::list<std::string> list);
+        void addSoundsIntoPlayList();
+        
         bool isAuto();
         void setAuto(bool isAuto);
         bool isLooping();
         void setLooping(bool isLooping);
    	};
-   
-    class SoundResource {
-   	public:
-        SoundResource(const String& name);
-        const Vector3& getDirection() const throw (rl::RuntimeException);
-        void setDirection(const Vector3& direction) throw (rl::RuntimeException);
-        const Vector3& getVelocity() const throw (rl::RuntimeException);
-        void setVelocity(const Vector3& velocity) throw (rl::RuntimeException);
-        const Vector3& getPosition() const throw (rl::RuntimeException);
-        void setPosition(const Vector3& direction) throw (rl::RuntimeException);
-        const float getGain() const throw (rl::RuntimeException);
-        void setGain(const float gain) throw (rl::RuntimeException);
-        
-        virtual void load();
-        virtual void unload() = 0;
-        
-        void play(int msec) throw (rl::RuntimeException);
-        void pause() throw (rl::RuntimeException);
-        void stop(int msec) throw (rl::RuntimeException);
-        void rewind() throw (rl::RuntimeException);
-        const ALenum getState() const throw (rl::RuntimeException);
-        const bool isPlaying() const;
+   	    
+    class SoundEvent {
+    	SoundEvent();
+    	virtual ~SoundEvent();
     };
+    
+    class SoundPlayEvent : public SoundEvent {
+    	SoundPlayEvent();
+    	virtual ~SoundPlayEvent();
+     	static const unsigned int STARTEVENT = 10;
+    	static const unsigned int STOPEVENT = 11;
+    };
+    
+    class SoundFadeEvent : public SoundEvent {
+    	SoundFadeEvent();
+    	~SoundFadeEvent();
+    	static const unsigned int STARTEVENT = 12;
+    	static const unsigned int STOPEVENT = 13;
+    };
+    
 
 }
-
-%{
-static swig_type_info *Resource_dynamic_cast(void **ptr) {
-    Ogre::Resource **ppResource = reinterpret_cast<Ogre::Resource **>(ptr);
-    rl::SoundResource *pSoundResource = dynamic_cast<rl::SoundResource*>(*ppResource);
-    if(pSoundResource){
-      *ptr=reinterpret_cast<void*>(pSoundResource);
-      return SWIGTYPE_p_rl__SoundResource;
-    }
-    return 0;
-}
-%}
-DYNAMIC_CAST(SWIGTYPE_p_Ogre__Resource, Resource_dynamic_cast);
-

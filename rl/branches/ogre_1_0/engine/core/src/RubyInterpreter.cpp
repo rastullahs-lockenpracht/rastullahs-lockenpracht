@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -19,6 +19,8 @@
 #include "RubyInterpreter.h"
 #include "ScriptObject.h"
 #include "CoreSubsystem.h"
+
+using namespace Ogre;
 
 namespace rl {
 
@@ -86,7 +88,7 @@ void RubyInterpreter::addSearchPath(const String& path)
 
 VALUE RubyInterpreter::loadDlls(VALUE val)
 {
-#if OGRE_PLATFORM == PLATFORM_WIN32
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 	rb_require("RlScript");
 #else
     rb_require("libRlScript");
@@ -115,7 +117,8 @@ void RubyInterpreter::logRubyErrors(const std::string& intro, int errorcode)
 	{
 		VALUE info = rb_inspect(ruby_errinfo);
 		rb_backtrace();
-		CoreSubsystem::getSingleton().log(intro);
+		if (intro.length() > 0)
+			CoreSubsystem::getSingleton().log(intro);
 		CoreSubsystem::getSingleton().log(STR2CSTR(info));
 	}
 }
@@ -135,8 +138,10 @@ bool RubyInterpreter::execute(String command)
 {
 	int status = -1;
 
-LogManager::getSingleton().getLog( "logs/rlCore.log" )->logMessage(command);
+	CoreSubsystem::getSingleton().log( "RubyInterpreter: (execute) "+ command );
 	rb_eval_string_protect(command.c_str(), &status);
+
+	logRubyErrors("", status);
 
     if( status )
         rb_eval_string_protect("print $!", &status);
@@ -185,7 +190,7 @@ VALUE rb_funcall_wrapper(VALUE data)
 {
 	VALUE *args=(VALUE *) data;
 	const VALUE argsT=args[3];
-	return rb_funcall2(args[0], rb_intern(STR2CSTR(args[1])), (int)NUM2INT(args[2]), &argsT);
+	return rb_funcall2(args[0], rb_intern(StringValuePtr(args[1])), (int)NUM2INT(args[2]), &argsT);
 }
 
 void RubyInterpreter::setScript( const String& instname, const String& scriptname, const String& classname, int argc, const String args[] )

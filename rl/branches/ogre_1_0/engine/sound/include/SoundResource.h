@@ -1,5 +1,5 @@
 /* SoundResource.h - Diese Klassse kapselt einen Sound.
- * (C) 2004. Team Pantheon. www.team-pantheon.de
+ * (C) 2003-2005. Team Pantheon. www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -19,16 +19,14 @@
 
 #include "SoundPrerequisites.h"
 #include <Ogre.h>
-#include <OpenThreads/Thread>
-#include <OpenThreads/Mutex>
 #include <vector>
+#include <boost/thread.hpp>
+#include <boost/thread/mutex.hpp>
 #include "EventSource.h"
 #include "EventListener.h"
 #include "EventCaster.h"
 #include "SoundEvent.h"
 
-using namespace OpenThreads;
-using namespace std;
 
 // @TODO: Callbacks für Threads einfuehren.
 
@@ -49,8 +47,10 @@ typedef vector<ALuint> ALuintVector;
  * @date 10-10-2004
  * @version 3.0
  */
-class _RlSoundExport SoundResource: public Resource,
-         public EventListener<SoundEvent> {
+class _RlSoundExport SoundResource: public Ogre::Resource,
+         public virtual EventListener<SoundEvent>,
+         public virtual EventSource, 
+         public virtual EventCaster<SoundEvent> {
     private:
         /// Lesen der Vorbisdatei.
         static size_t VorbisRead(void *ptr, size_t byteSize, size_t sizeToRead, 
@@ -73,87 +73,79 @@ class _RlSoundExport SoundResource: public Resource,
             int mDataRead;
         } mOggMemoryFile;
         
-        /// Diese Klasse kapselt das Fade in.
-        class FadeThread : public Thread,
-            public virtual EventSource, 
-            public virtual EventCaster<SoundEvent> {
+        // Behandelt FadeIn
+        class FadeIn
+        {
             private:
-                /// Damit wir wissen, wo wir hinwollen ;-)
-                SoundResource *mResource;
-                /// Fade In oder Out
-                bool mFadeIn;
-                /// Dauer des Fades in msek.
-                unsigned long int mDuration;
-                /// Absichern von mDuration
-                mutable Mutex mDurationMutex;
-                /// Die Lautstärke, die Berechnungsgrundlage ist.
-                ALfloat mGain;
-                /// Absichern von mGain.
-                mutable Mutex mGainMutex;
-            protected:
-                /// Berechne den Anstieg der Lautstarke beim Fade-In
-                ALfloat calculateFadeIn(unsigned RL_LONGLONG time, ALfloat gain);
-
-                /// Berechne die Abnahme der Lautstarke beim Fade-Out
-                ALfloat calculateFadeOut(unsigned RL_LONGLONG time, ALfloat gain);
-
+                /// Welche SoundResource bedienen wir?
+                SoundResource *that;
             public:
-                /// Die Konstruktoren.
-				FadeThread(bool fadeIn);
-                FadeThread(SoundResource *that, bool fadeIn);
-                /// Die Arbeitsroutine.
-                void run();
-                /// Die Fadedauer setzen.
-                void setDuration(const unsigned long int duration);
-                /// Die Fadedauer bekommen.
-                const unsigned long int getDuration() const;
-                /// Die Ausgangslautstärke setzen.
-                void setGain(const ALfloat gain);
-                /// Die Ausgangslautstärke bekommen.
-                const ALfloat getGain() const;
-				/// Ressource setzen
-				void setResource(SoundResource *that);
-                
+                /// Standardkonstruktor
+                FadeIn();
+                /// Setze die gewuenschte SoundResource
+                void setThat(SoundResource *that);
+                /// Die Funktormethode
+                void operator()();
+        } mFadeInFunctor;
 
-        };
+        // Behandelt FadeOut
+        class FadeOut
+        {
+            private:
+                /// Welche SoundResource bedienen wir?
+                SoundResource *that;
+            public:
+                /// Standardkonstruktor
+                FadeOut();
+                 /// Setze die gewuenschte SoundResource
+                void setThat(SoundResource *that);
+                /// Die Funktormethode
+                void operator()();
+        } mFadeOutFunctor;
+        
+        // Behandelt Streamen
+        class Streaming
+        {
+            private:
+                /// Welche SoundResource bedienen wir?
+                SoundResource *that;
+            public:
+                /// Standardkonstruktor
+                Streaming();
+                /// Setze die gewuenschte SoundResource
+                void setThat(SoundResource *that);
+                /// Die Funktormethode
+                void operator()();
+        } mStreamFunctor;
+        
+
+        /// Berechne den Anstieg der Lautstarke beim Fade-In
+        ALfloat calculateFadeIn(unsigned RL_LONGLONG time, ALfloat gain);
+
+        /// Berechne die Abnahme der Lautstarke beim Fade-Out
+        ALfloat calculateFadeOut(unsigned RL_LONGLONG time, ALfloat gain);
+
         /// Der Thread, der das Fade-In behandelt
-        mutable FadeThread mFadeInThread;
+        mutable boost::thread *mFadeInThread;
         /// Der Thread, der das Fade-Out behandelt
-        mutable FadeThread mFadeOutThread;
-       
-        /// Streamen der Sounddaten
-        class StreamThread : public Thread,
-            public virtual EventSource, 
-            public virtual EventCaster<SoundEvent> {
-            private:
-                /// Damit wir wissen, wo wir hinwollen ;-)
-                SoundResource *mResource;
-                /// Die Daten, die wir streamen wollen.
-                ALbyte *mData;
-                /// Der Typ der Sounddaten.
-                SoundDataType mDataType;
-            public:
-                /// Die Konstruktoren.
-				StreamThread();
-                StreamThread(SoundResource *that);
-                /// Die Arbeitsroutine.
-                void run();
-				/// Ressource setzen
-				void setResource(SoundResource *that);
-
-        };
+        mutable boost::thread *mFadeOutThread;
         /// Der Thread, der das Streamen behandelt.
-        mutable StreamThread mStreamThread;
-    
-    protected:
+        mutable boost::thread *mStreamThread;
+       
+        /// Die Lautstärke, die Berechnungsgrundlage ist.
+        ALfloat mGain;
+        
+        /// Zeit in ms, die wir unterbechen.
+        static int mSleepTime;
+                
         /// Die gekapselte Soundquelle
         ALuint mSource;
         /// Die Buffer, die wir benutzen
         ALuintVector mBuffers;
         /// Wieviele Buffer werden benutzt.
-        static const short mDefaultBufferCount = 4;
+        static const short mDefaultBufferCount = 8;
         /// Grösse des Buffers.
-        static const int BUFFER_SIZE = (4096 * 2);
+        static const int BUFFER_SIZE = (2048 * 2);
         /// Die Uebrgabe der Callbacks.
         static ov_callbacks mVorbisCallbacks;
         
@@ -168,7 +160,7 @@ class _RlSoundExport SoundResource: public Resource,
         /// Die komplette Zeit des Stücks in Sekunden.
         double mTime;
         /// Unsere Daten von Ogres ResourceManager.
-        DataChunk *mData;
+        Ogre::DataStreamPtr mDataStream;
         /// Die Art des Sounds.
         SoundDataType mSoundDataType;
         /// Für Waves dekodieren wir die Daten im voraus.
@@ -177,13 +169,17 @@ class _RlSoundExport SoundResource: public Resource,
         ALsizei mWavIndex;
         /// Das OggVorbis-Filehandle
         OggVorbis_File mOggStream;
+        /// Dauer des FadeIns
+        unsigned int mFadeIn;
+        /// Dauer des FadeOuts
+        unsigned int mFadeOut;
         
 
         /// Ueberpruefen, ob Fehler aufgetreten ist.
         void check() const throw (RuntimeException);
         
         /// Mutex zum Synchronisieren von Gain-Zugriffen.
-        mutable Mutex mGainMutex;
+        mutable boost::mutex mGainMutex;
         
         /// Fuehre das Fade-In aus
         void fadeIn(unsigned int msec);
@@ -192,7 +188,7 @@ class _RlSoundExport SoundResource: public Resource,
         
     public:
         /// Der Standardkonstruktor
-        SoundResource(const Ogre::String& name);
+        SoundResource(const string& name);
         /// Der Destruktor
         virtual ~SoundResource();
         /// Gibt die eingestellte Position der Soundquelle zurueck
@@ -226,17 +222,32 @@ class _RlSoundExport SoundResource: public Resource,
         virtual void rewind() throw (RuntimeException);
         /// Den Zustand des Sounds in OpenAL zurueckgeben.
         const ALenum getState() const throw (RuntimeException);
-        /// Spielt der Stream noch. Nicht verwechseln mit getState.
-        const bool isPlaying() const;
         /// Wir haben ein Ereignis erhalten.
         virtual bool eventRaised(SoundEvent *anEvent) const;
         
+        /// Der Funktor für den fadeIn-Thread.
+        void fadeIn();
+        /// Der Funktor für den fadeOut-Thread.
+        void fadeOut();
+        /// Der Funktor für den Streaming-Thread.
+        void runStreaming();
+        
+        /// Liefert die Dauer des FadeIn zurueck.
+        unsigned int getFadeIn() const;
+        /// Setzt die Dauer des FadeIn zurueck.
+        void setFadeIn(unsigned int dauer);
+        /// Liefert die Dauer des FadeIn zurueck.
+        unsigned int getFadeOut() const;
+        /// Setzt die Dauer des FadeIn zurueck.
+        void setFadeOut(unsigned int dauer);
+        /// Ist AL noch am laufen.
+        const bool playing() const;
         
         
-
+private:
+        // Grabbed from example
         void display();
         bool playback();
-        bool playing();
         bool update();
         bool oggstream(ALuint buffer);
         bool wavstream(ALuint buffer);

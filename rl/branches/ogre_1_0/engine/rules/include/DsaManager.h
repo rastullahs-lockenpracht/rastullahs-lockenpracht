@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -72,6 +72,8 @@ namespace rl
 
         /** liefert eine Zufallszahl zwischen 1 und 6.*/
         int rollD6();
+
+		int roll(int d6, int d20);
 
         Talent* getTalent(int id) const;
 		Talent* getTalent(const CeGuiString& name) const;

@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -17,13 +17,17 @@
 
 #include <boost/bind.hpp>
 
+#include "InputManager.h"
 #include "UiSubsystem.h"
-#include "GameObject.h"
 #include "WindowManager.h"
-
+#include "CommandMapper.h"
 #include "CommandMapperWindow.h"
 
+#include "GameObject.h"
+#include "Action.h"
+
 using namespace CEGUI;
+using namespace Ogre;
 
 namespace rl {
 
@@ -56,6 +60,15 @@ CommandMapperWindow::CommandMapperWindow(GameObject* actionHolder)
 			Window::EventMouseDoubleClick,
 			boost::bind(&CommandMapperWindow::handleChangeOffBattle, this));
 
+	mTableMovement->addColumn("Aktion", 0, 0.5);
+	mTableMovement->addColumn("Taste", 1, 0.5);
+	mTableInBattle->addColumn("Aktion", 0, 0.3);
+	mTableInBattle->addColumn("Klasse", 1, 0.4);
+	mTableInBattle->addColumn("Taste", 2, 0.3);
+	mTableOffBattle->addColumn("Aktion", 0, 0.3);
+	mTableOffBattle->addColumn("Klasse", 1, 0.4);
+	mTableOffBattle->addColumn("Taste", 2, 0.3);
+
 	getWindow("CommandMapper")->
 		subscribeEvent(
 			Window::EventKeyDown,
@@ -67,7 +80,7 @@ CommandMapperWindow::CommandMapperWindow(GameObject* actionHolder)
 	muteWindow(true);
 
 	centerWindow();
-	//TODO: Inhalte anzeigen
+	refreshContent();
 
 	addToRoot(mWindow);
 }
@@ -130,7 +143,34 @@ bool CommandMapperWindow::handleKeyDown(const CEGUI::EventArgs& e)
 	muteElements(false);
 
 	//TODO: Taste in CommandMapper eintragen
-
+	if (mSelectedTable == mTableInBattle)
+		CommandMapper::getSingleton().setMapping(
+			CMDMAP_KEYMAP_IN_BATTLE, 
+			ke.scancode, 
+			mTableInBattle->getItemAtGridReference(
+				MCLGridRef(mTableInBattle->getNominatedSelectionRow(), 0))->getText(),
+			mTableInBattle->getItemAtGridReference(
+				MCLGridRef(mTableInBattle->getNominatedSelectionRow(), 1))->getText()
+		);
+	else if (mSelectedTable == mTableOffBattle)
+		CommandMapper::getSingleton().setMapping(
+			CMDMAP_KEYMAP_OFF_BATTLE, 
+			ke.scancode, 
+			mTableOffBattle->getItemAtGridReference(
+				MCLGridRef(mTableOffBattle->getNominatedSelectionRow(), 0))->getText(),
+			mTableOffBattle->getItemAtGridReference(
+				MCLGridRef(mTableOffBattle->getNominatedSelectionRow(), 1))->getText()
+		);
+	else if (mSelectedTable == mTableMovement)
+		CommandMapper::getSingleton().setMapping(
+			CMDMAP_KEYMAP_MOVEMENT, 
+			ke.scancode, 
+			mTableMovement->getItemAtGridReference(
+				MCLGridRef(mTableMovement->getNominatedSelectionRow(), 0))->getText(),
+			mTableMovement->getItemAtGridReference(
+				MCLGridRef(mTableMovement->getNominatedSelectionRow(), 1))->getText()
+		);
+	
 	return true;
 }
 
@@ -159,6 +199,53 @@ void CommandMapperInputWindow::setVisible(bool visible)
 	CeGuiWindow::setVisible(visible);
 	if (visible)
 		mWindow->moveToFront();
+}
+
+void CommandMapperWindow::refreshContent()
+{
+	unsigned int row;
+	//// Alle möglichen Bewegungen aus dem CommandMapper auslesen
+	//row = 0;
+	//const std::map<CeGuiString, MovementState> movements = 
+	//	CommandMapper::getSingleton().getMovements();
+	//for (std::map<CeGuiString, MovementState>::const_iterator move = movements.begin();
+	//	move != movements.end(); move++)
+	//{
+	//	if (mTableMovement->getRowCount() <= row)
+	//		mTableMovement->insertRow();
+
+	//	mTableMovement->setItem(new ListboxTextItem(move->first), 0, row);
+	//	mTableMovement->setItem(
+	//		new ListboxTextItem(InputManager::getSingleton().getKeyName(move->second), 0, row);
+	//	row++;
+	//} 
+
+	row = 0;
+	const ActionVector actions = mActionHolder->getValidActions();
+	for (ActionVector::const_iterator actionIter = actions.begin(); 
+		actionIter != actions.end(); actionIter++)
+	{
+		if (mTableInBattle->getRowCount() <= row)
+			mTableInBattle->addRow();
+		if (mTableOffBattle->getRowCount() <= row)
+			mTableOffBattle->addRow();
+
+		Action* action = *actionIter;
+		mTableInBattle->setItem(new ListboxTextItem(action->getName()), 0, row);
+		mTableInBattle->setItem(new ListboxTextItem(action->getClassName()), 1, row);
+		mTableOffBattle->setItem(new ListboxTextItem(action->getName()), 0, row);
+		mTableOffBattle->setItem(new ListboxTextItem(action->getClassName()), 1, row);
+
+		//int keyInBattle = CommandMapper::getSingleton().getMapping(CMDMAP_KEYMAP_IN_BATTLE, action->getClassName(), action->getName());
+		int keyOffBattle = CommandMapper::getSingleton().getMapping(CMDMAP_KEYMAP_OFF_BATTLE, action->getClassName(), action->getName());
+		//mTableInBattle->setItem(
+		//	new ListboxTextItem(
+		//		InputManager::getSingleton().getKeyName(keyInBattle)), 2, row);
+		mTableOffBattle->setItem(
+			new ListboxTextItem(
+				InputManager::getSingleton().getKeyName(keyOffBattle)), 2, row);
+		row++;
+	}
 }
 
 }

@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -29,6 +29,7 @@
 
 using namespace CEGUI;
 using namespace std;
+using namespace Ogre;
 
 namespace rl {
 
@@ -98,11 +99,16 @@ namespace rl {
 		{
 			Action* action = actions->getAction();
 			
-			button->setVisible(false);
+			if (actions->getGroup() != NULL)
+				button->setVisible(false);
+			else
+				button->setVisible(true);
+
 			button->subscribeEvent(
 				Window::EventMouseClick,
 				boost::bind(
 					&ActionChoiceWindow::activateAction, this, action));
+			bindClickToCloseWindow(button);
 			button->subscribeEvent(
 				Window::EventMouseEnters,
 				boost::bind(
@@ -120,6 +126,8 @@ namespace rl {
 			{
 				button->setVisible(false);					
 			}
+			else if (button != NULL)
+				button->setVisible(true);
 			
 			if (button != NULL)
 			{
@@ -193,7 +201,7 @@ namespace rl {
 			}
 			
 			const set<ActionNode*> children = actions->getChildren();
-			float angleStep = angleWidth * 2.0 / (float)children.size();
+			float angleStep = angleWidth / (float)children.size();
 			float ang = children.size()>1 ? angle - angleWidth : angle;
 			for (NodeSet::const_iterator iter = children.begin(); 
 				iter != children.end(); iter++)
@@ -223,6 +231,11 @@ namespace rl {
 		Size size = button->getAbsoluteSize();
 		button->setPosition(
 			Absolute, pos - Point(size.d_width/2, size.d_height/2));
+		UiSubsystem::getSingleton().log(
+			(button->getText()+" "+
+			StringConverter::toString(button->getAbsoluteXPosition()) + ", " + 
+			StringConverter::toString(button->getAbsoluteYPosition())).c_str(), 
+			"createButton");
 		
 		return static_cast<PushButton*>(button);
 	}
@@ -276,10 +289,19 @@ namespace rl {
 	Point ActionChoiceWindow::getPositionOnCircle(
 		const Point& center, float radius, float angle)
 	{
+		UiSubsystem::getSingleton().log(
+			"center="+StringConverter::toString(center.d_x)+","+StringConverter::toString(center.d_y)+
+			" radius="+StringConverter::toString(radius)+
+			" angle="+StringConverter::toString(angle)
+			);
 		static const float PI = 3.1415926;
 		
 		float relX = radius * sin(PI * angle/180);
 		float relY = radius * cos(PI * angle/180);
+
+		UiSubsystem::getSingleton().log(
+			"diff="+StringConverter::toString(relX)+","+StringConverter::toString(relY));
+			
 
 		return center + Point(relX, relY);
 	}

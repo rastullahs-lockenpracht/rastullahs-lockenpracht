@@ -17,6 +17,11 @@
 
 #include "RastullahPrerequisites.h"
 
+#if OGRE_PLATFORM == PLATFORM_WIN32
+#include "Windows.h"
+#endif
+	
+
 namespace rl {
 /**
  * @param sleeptime Die Zeit in Millisekunden.

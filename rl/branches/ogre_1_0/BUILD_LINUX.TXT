@@ -1,4 +1,4 @@
-VS.NET
+GCC
 
 Um Rastullahs Lockenpracht bauen zu können werden folgende zusätzliche
 Bibliotheken benötigt:

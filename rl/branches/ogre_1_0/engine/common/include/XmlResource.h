@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -19,10 +19,11 @@
 
 #include <xercesc/framework/MemBufInputSource.hpp>
 #include <xercesc/parsers/XercesDOMParser.hpp>
-#include "xercesc/sax2/SAX2XMLReader.hpp"
+#include <xercesc/sax2/SAX2XMLReader.hpp>
 
 #include "CommonPrerequisites.h"
-#include "OgreResource.h"
+#include <OgreResource.h>
+#include <OgreSharedPtr.h>
 
 namespace rl {
 
@@ -33,15 +34,30 @@ namespace rl {
 		XmlResource(const Ogre::String& name);
 		~XmlResource();
 
-		void load();
-		void unload();
-
 		void parseBy(XERCES_CPP_NAMESPACE::XercesDOMParser* parser);
 		void parseBy(XERCES_CPP_NAMESPACE::SAX2XMLReader* parser);
-		
+	
+	protected:
+		size_t calculateSize() const;
+
+		void loadImpl();
+		void unloadImpl();
 
 	private:
 		XERCES_CPP_NAMESPACE::MemBufInputSource* mXmlBuffer;
+	};
+
+	class _RlCommonExport XmlPtr :
+		public Ogre::SharedPtr<XmlResource>, public Ogre::ResourcePtr
+	{
+	public:
+		XmlPtr() : Ogre::SharedPtr<XmlResource>() {}
+		explicit XmlPtr(XmlResource* rep) : Ogre::SharedPtr<XmlResource>(rep) {}
+		XmlPtr(const XmlPtr& res) : Ogre::SharedPtr<XmlResource>(res) {}
+		XmlPtr(const Ogre::ResourcePtr& res);
+		XmlPtr& operator=(const Ogre::ResourcePtr& res);
+	protected:
+		void destroy();
 	};
 
 }

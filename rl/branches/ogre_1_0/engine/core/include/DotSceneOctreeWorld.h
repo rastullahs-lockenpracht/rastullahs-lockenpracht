@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -31,13 +31,13 @@ namespace rl {
 
         virtual void clearScene();
         virtual void initializeDefaultCamera();	
-        virtual Entity* getSceneEntity();
+        virtual Ogre::Entity* getSceneEntity();
 		virtual void setCastShadows(bool enabled);
         
-    private:
-        virtual void doLoadScene(const String& levelName);
+    protected:
+        virtual void doLoadScene(const Ogre::String& levelName);
 
-        Entity* mSceneEntity;
+        Ogre::Entity* mSceneEntity;
     };
 
 }

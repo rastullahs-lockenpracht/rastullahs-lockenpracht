@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -22,18 +22,17 @@
 #include <OgreRoot.h>
 #include <OgreLog.h>
 #include <OgreConfigFile.h>
+#include <OgreMeshManager.h>
 
-#if OGRE_PLATFORM == PLATFORM_LINUX
+#if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
 #    include <iostream>
     using namespace std;
 #endif
 
-#include "BSPWorld.h"
-#include "NatureWorld.h"
-#include "TerrainWorld.h"
 #include "DotSceneOctreeWorld.h"
 #include "PhysicsManager.h"
 #include "ActorManager.h"
+#include "AnimationManager.h"
 #include "GameLoop.h"
 #include "RubyInterpreter.h"
 #include "Exception.h"
@@ -110,7 +109,7 @@ namespace rl {
         }
     }
 
-#if OGRE_PLATFORM == PLATFORM_LINUX
+#if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
     const String CoreSubsystem::findConfRootDir()
     {
     	static String CURRENT_DIR = ".";
@@ -179,12 +178,12 @@ namespace rl {
     {
 		static String CONF_DIR = "modules/common/conf/";
 
-		#if OGRE_PLATFORM == PLATFORM_WIN32
+		#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 			new Root( 
 				mRootDir+"/"+CONF_DIR+"plugins-win.cfg", 
 				CONF_DIR+"rastullah.cfg", 
 				"logs/ogre.log" );
-		#elif OGRE_PLATFORM == PLATFORM_LINUX
+		#elif OGRE_PLATFORM == OGRE_PLATFORM_LINUX
             mRootDir = findConfRootDir();
 			new Root( 
 				mRootDir+"/"+CONF_DIR+"plugins-linux.cfg", 
@@ -197,6 +196,10 @@ namespace rl {
 				"logs/ogre.log" ); //TODO: siehe Linux
 		#endif
 
+        // Muss vor dem Laden der Ressourcen geschehen,
+        // weil es sonst sofort angewandt wird.
+        MeshManager::getSingleton().setBoundsPaddingFactor(0.0);
+        
         initializeResources();
 
         bool carryOn = setupConfiguration();
@@ -205,17 +208,21 @@ namespace rl {
 			return false;
 
 		// Set default mipmap level (NB some APIs ignore this)
-		TextureManager::getSingleton().setDefaultNumMipMaps(5);
-		MaterialManager::getSingleton().setDefaultTextureFiltering(TFO_TRILINEAR);
+		//TODO: In Config-Datei verlagern
+		TextureManager::getSingleton().setDefaultNumMipmaps(5);
+		MaterialManager::getSingleton().setDefaultTextureFiltering(TFO_TRILINEAR); 
         MaterialManager::getSingleton().setDefaultAnisotropy(1);
         Log* log = LogManager::getSingleton().createLog( "logs/rlCore.log" );
         log->setLogDetail( LL_BOREME );
 		
 		mWorld = new DotSceneOctreeWorld();
 		mInterpreter=new RubyInterpreter();
-		new GameLoop();
-        GameLoop::getSingleton().addSynchronizedTask(
+		new GameLoopManager(100); //TODO: In Config-Datei verlagern
+        GameLoopManager::getSingleton().addSynchronizedTask(
             PhysicsManager::getSingletonPtr());
+		new AnimationManager();
+		GameLoopManager::getSingleton().addSynchronizedTask(
+			AnimationManager::getSingletonPtr());
 		new ActorManager();
 
         return true;
@@ -249,7 +256,12 @@ namespace rl {
 			}
 			else if (key.compare("module") == 0)
 				mActivatableModules.push_back(value);
-        }		
+        }
+
+		//if (!mActivatableModules.empty())
+		//	mActiveModule = *mActivatableModules.begin();
+		//else
+		//	mActiveModule = "";
     }
 
 	void CoreSubsystem::initializeModuleTextures(const std::string& module)
@@ -266,11 +278,11 @@ namespace rl {
             value = i.getNext();
 
 			if (key.compare("TextureArchive") == 0)
-				ResourceManager::addCommonArchiveEx(moduleDir+"/materials/"+value, "Zip");
+				ResourceGroupManager::getSingleton().addResourceLocation(moduleDir+"/materials/"+value, "Zip");
 			else if (key.compare("TextureDir") == 0)
-				ResourceManager::addCommonSearchPath(moduleDir+"/materials/"+value);
+				ResourceGroupManager::getSingleton().addResourceLocation(moduleDir+"/materials/"+value, "Dir");
 			else if (key.compare("Archive") == 0)
-				ResourceManager::addCommonArchiveEx(moduleDir+"/"+value, "Zip");
+				ResourceGroupManager::getSingleton().addResourceLocation(moduleDir+"/"+value, "Zip");
 		}
 		addCommonSearchPath(moduleDir+"/materials");
 	}
@@ -303,7 +315,7 @@ namespace rl {
 	{
 		try 
 		{
-		     ResourceManager::addCommonSearchPath(path);
+		     ResourceGroupManager::getSingleton().addResourceLocation(path, "Dir");
         } 
 		catch(...) 
 		{} // and forget
@@ -385,10 +397,13 @@ namespace rl {
 		else
 			Throw(RuntimeException, "Unknown world type");*/
 
+		GameLoopManager::getSingleton().setPaused(true);
+
 		mWorld->loadScene(filename);
-			
 		if (startupScript.length() > 0)
             getInterpreter()->execute(String("load '") + startupScript + String("'"));
+
+		GameLoopManager::getSingleton().setPaused(false);
 	}
 
 	void CoreSubsystem::resetClock()

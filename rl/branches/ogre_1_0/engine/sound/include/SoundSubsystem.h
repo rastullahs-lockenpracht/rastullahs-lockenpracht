@@ -1,5 +1,5 @@
 /* SoundSubSystem.h - Management von RlSound.
- * (C) 2004. Team Pantheon. www.team-pantheon.de
+ * (C) 2003-2005. Team Pantheon. www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -41,7 +41,17 @@ public:
     /// Gibt Singleton-Zeiger zurueck.
     static SoundSubsystem* getSingletonPtr(void);
     /// Eine Log-Nachricht ausgeben.
-    static void SoundSubsystem::log(const String& msg);
+    static void SoundSubsystem::log(const Ogre::String& msg);
+    /// Wird EAX unterstützt?
+    bool isEAXCapable() const;
+    /// Interface zu EAXGet
+    ALenum EAXGet(const void *propertySetID, ALuint property,
+        ALuint source, ALvoid *value, ALuint size);
+    /// Interface zu EAXSet
+    ALenum EAXSet(const void *propertySetID, ALuint property,
+        ALuint source, ALvoid *value, ALuint size);
+    /// Ist das Soundsystem schon blockiert?
+    //bool isLocked() const;
 };
 
 }

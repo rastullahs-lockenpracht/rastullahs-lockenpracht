@@ -1,5 +1,5 @@
 /* SoundManager.h - Spielt verschiedene Sound nach Belieben.
- * (C) 2004. Team Pantheon. www.team-pantheon.de
+ * (C) 2003-2005. Team Pantheon. www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -17,11 +17,15 @@
 #ifndef SOUNDMANAGER_H
 #define SOUNDMANAGER_H
 
-
+#include <Ogre.h>
+#include <list>
+#include <boost/thread/mutex.hpp>
 #include "SoundPrerequisites.h"
-#include "ResourceManager.h"
+#include "SoundSubsystem.h"
 
 namespace rl {
+
+typedef std::list<Ogre::String> StringList;
 
 /**
  * Der SoundManager verwaltet die Sounds, die das Spiel benutzt.
@@ -31,9 +35,11 @@ namespace rl {
  * @version 1.0
  * @date 04-26-2004
  */ 
-class _RlSoundExport SoundManager: public ResourceManager,
+class _RlSoundExport SoundManager: public Ogre::ResourceManager,
         public Ogre::Singleton<SoundManager> {
-    protected:
+    private:
+        /// Ein Mutex, um das Hinzufügen der Sounds zu synchronisieren.
+        boost::mutex mResListMutex;
         /// Welche Dateiendung soll verwendet werden.
         virtual StringList getExtension();
     public:
@@ -42,7 +48,17 @@ class _RlSoundExport SoundManager: public ResourceManager,
         /// Gibt einen Zeiger auf das Singleton zurueck.
         static SoundManager* getSingletonPtr();
         /// Eine Resource erzeugen
-        Resource* create(const String& resName);
+        Ogre::Resource* create(const Ogre::String& resName);
+        /// Konstruktor
+        SoundManager();
+        /// Alle Sounds in die Resourcenliste eintragen.
+        virtual void addSounds();
+        /// einen Sound hinzufuegen (Mit Mutex)
+        virtual void add(Ogre::Resource *song);
+        /// erzeugt einen Sound und fügt ihn hinzufuegen (Mit Mutex mittelbar)
+        virtual void add(const Ogre::String& filename);
+        /// Eine Namesliste erzeugen
+        StringList getSounds();
 };
 
 }

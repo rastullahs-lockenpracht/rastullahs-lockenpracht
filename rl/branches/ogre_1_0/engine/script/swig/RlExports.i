@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -42,7 +42,11 @@
 #endif
 
 %feature("director:except") {
-	Throw(rl::RuntimeException, STR2CSTR($error));
+	Throw(rl::RuntimeException, StringValuePtr($error) );
+}
+
+namespace Swig {
+	class DirectorException;
 }
 
 %exception {
@@ -54,8 +58,8 @@
     rb_raise(ogreException, oe.getFullDescription().c_str());
   }
   catch (rl::Exception& re ) {
-    static VALUE ogreException = rb_define_class("OgreException", rb_eStandardError);
-    rb_raise(ogreException, re.toString().c_str());
+    static VALUE rlException = rb_define_class("RlException", rb_eStandardError);
+    rb_raise(rlException, re.toString().c_str());
   }
 }
 

@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -33,15 +33,23 @@ class _RlCoreExport Interpreter
 		virtual bool execute(Ogre::String command) = 0;
 		virtual void initializeInterpreter() = 0;
 
-		virtual void setScript( const String& instname, const String& scriptname, const String& classname, int argc, const String args[] = 0 ) = 0;
-		virtual void callFunction( const String& instname, const String& funcname, int argc, const String args[] = 0 ) = 0;
-		virtual int callIntegerFunction( const String& instname, const String& funcname, int argc, const String args[] = 0 ) = 0;
+		virtual void setScript( const Ogre::String& instname,
+		    const Ogre::String& scriptname,
+		    const Ogre::String& classname,
+		    int argc, const Ogre::String args[] = 0 ) = 0;
+		virtual void callFunction( const Ogre::String& instname,
+		    const Ogre::String& funcname, int argc,
+		    const Ogre::String args[] = 0 ) = 0;
+		virtual int callIntegerFunction( const Ogre::String& instname,
+		    const Ogre::String& funcname, int argc,
+		    const Ogre::String args[] = 0 ) = 0;
 
-		virtual ScriptObject* getScriptObject( const String& name ) = 0;
+		virtual ScriptObject* getScriptObject( const Ogre::String& name ) = 0;
 
-		virtual void registerScriptObject( ScriptObject* obj, const String& instname ) = 0;
-		virtual void unregisterScriptObject( const String& instname ) = 0;
-		virtual void addSearchPath(const String& path) = 0;
+		virtual void registerScriptObject( ScriptObject* obj,
+		    const Ogre::String& instname ) = 0;
+		virtual void unregisterScriptObject( const Ogre::String& instname ) = 0;
+		virtual void addSearchPath(const Ogre::String& path) = 0;
 };
 
 }

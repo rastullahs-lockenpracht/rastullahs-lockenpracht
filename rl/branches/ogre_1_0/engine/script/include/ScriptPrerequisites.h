@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -19,7 +19,7 @@
 
 #include "RastullahPrerequisites.h"
 
-#if OGRE_PLATFORM == PLATFORM_WIN32
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 // Export control
 #   if defined( RLSCRIPT_EXPORTS )
 #       define _RlScriptExport __declspec( dllexport )
@@ -31,8 +31,11 @@
 #endif
 
 #include <OgreNoMemoryMacros.h>
-	#undef min
-	#include <CEGUIString.h>
+#   undef min
+#   pragma warning (push)
+#   pragma warning (disable : 4267)
+#   include <CEGUIString.h>
+#   pragma warning (pop)
 #include <OgreMemoryMacros.h>
 
 namespace rl {

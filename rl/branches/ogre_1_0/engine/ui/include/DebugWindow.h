@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -22,11 +22,12 @@
 #include <OgreKeyEvent.h>
 
 #include "CeGuiWindow.h"
+#include "GameTask.h"
 
 namespace rl {
 
     class _RlUiExport DebugWindow
-		: public Ogre::Singleton<DebugWindow>, public Ogre::FrameListener, public CeGuiWindow
+		: public Ogre::Singleton<DebugWindow>, public GameTask, public CeGuiWindow
     {
     public:
         DebugWindow(void);
@@ -35,10 +36,8 @@ namespace rl {
         static DebugWindow* getSingletonPtr(void);
 
 		void setVisible(bool visible);
-		
         void setText(const Ogre::String& output);
-  
-		bool frameStarted(const Ogre::FrameEvent& evt);
+		void run(Ogre::Real elapsedTime);
 
     private:
 		void updateFps();

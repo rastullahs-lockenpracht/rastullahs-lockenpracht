@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -21,7 +21,6 @@
 #include <stdexcept>
 #include <errno.h>
 
-
 #include "CoreSubsystem.h"
 #include "SoundSubsystem.h"
 #include "RulesSubsystem.h"
@@ -32,16 +31,14 @@
 #include "Exception.h"
 #include <CEGUIExceptions.h>
 
-
-#if OGRE_PLATFORM == PLATFORM_WIN32
-
-#define WIN32_LEAN_AND_MEAN
-#include "windows.h"
-
-INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT )
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+	#define WIN32_LEAN_AND_MEAN
+	#include "windows.h"
 #else
-int main(int argc, char **argv)
+	#include "SDL.h"
 #endif
+
+void startupRl()
 {
 	rl::CoreSubsystem* core = NULL;
 	rl::SoundSubsystem* sound = NULL;
@@ -52,20 +49,20 @@ int main(int argc, char **argv)
 
 	try {
 
-				/**@todo das nach RastullahApplication
+		/**@todo das nach RastullahApplication
 		* und RastullahApplication nach Startup. */
 		core = new rl::CoreSubsystem();
 		core->log("CoreSubsystem gestartet");
-			
+
 		sound = new rl::SoundSubsystem();
 		core->log("SoundSubsystem gestartet");
-			
+
 		rules = new rl::RulesSubsystem();
 		core->log("RulesSubsystem gestartet");
-			
+
 		dialog = new rl::DialogSubsystem();
 		core->log("DialogSubsystem gestartet");
-			
+
 		ui = new rl::UiSubsystem();
 		core->log("UiSubsystem gestartet");
 
@@ -97,7 +94,7 @@ int main(int argc, char **argv)
 		rl::showError( "Unknown exception occured" );
 	}
 
-	try
+	try 
 	{
 		delete script;
 		delete ui;
@@ -123,8 +120,19 @@ int main(int argc, char **argv)
 	} 
 	catch(...) {
 		rl::showError( "Unknown exception occured" );
-	}
- 
-		
-	return 0;
+	}	
+
+#if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
+	SDL_Quit();
+#endif
 }
+
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+	INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT )
+#else
+	int main(int argc, char **argv)
+#endif
+{
+	startupRl();
+}
+

@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -17,7 +17,6 @@
 #include "Action.h"
 #include "GameObject.h"
 #include "Exception.h"
-#include "GameActor.h"
 #include "RulesSubsystem.h"
 
 using namespace std;
@@ -26,9 +25,10 @@ namespace rl
 {
     GameObject::GameObject(int id,
                            const CeGuiString& name,
-                           const CeGuiString& description) : mId(id),
-                                                             mName(name),
-                                                             mDescription(description)
+                           const CeGuiString& description)
+        :   mId(id),
+            mName(name),
+            mDescription(description)
     {
         // Standardactions registrieren
     }
@@ -47,20 +47,10 @@ namespace rl
         return mName;
     }
 
-	/*const char* GameObject::getName() const
-	{
-		return mName.c_str();
-	}*/
-
     void GameObject::setName(CeGuiString& name)
     {
         mName = name;
     }
-
-	/*void GameObject::setName(const char* name)
-    {
-		mName = CeGuiString(name);
-    }*/
 
     const CeGuiString& GameObject::getDescription() const
     {
@@ -185,12 +175,13 @@ namespace rl
 		return end;
 	}
 	
-	void GameObject::setActor(GameActor* actor)
+	void GameObject::setActor(Actor* actor)
 	{
 		mActor = actor;
+		mActor->setGameObject(this);
 	}
 	
-	GameActor* GameObject::getActor()
+	Actor* GameObject::getActor()
 	{
 		return mActor;
 	}

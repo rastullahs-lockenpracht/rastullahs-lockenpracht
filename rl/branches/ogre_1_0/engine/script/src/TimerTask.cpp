@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -16,7 +16,7 @@
 
 #include "Exception.h"
 #include "TimerTask.h"
-#include "ScriptTimer.h"
+#include "TimerManager.h"
 #include "Date.h"
 
 namespace rl {
@@ -37,12 +37,12 @@ namespace rl {
 	{
 		if (active && !mActive)
 		{
-			ScriptTimer::getSingleton().registerTask(this);
+			TimerManager::getSingleton().registerTask(this);
 			mActive = true;
 		}
 		else if (!active && mActive)
 		{
-			ScriptTimer::getSingleton().unregisterTask(this);
+			TimerManager::getSingleton().unregisterTask(this);
 			mActive = false;
 		}
 	}
@@ -67,6 +67,6 @@ namespace rl {
 
 	void TimerTask::scheduleRelativeToGametime(const rl::CeGuiString& name, Date& gameTime)
 	{
-		ScriptTimer::getSingleton().registerTaskCallGameTime(gameTime.getTimestamp(), this, name);
+		TimerManager::getSingleton().registerTaskCallGameTime(gameTime.getTimestamp(), this, name);
 	}
 }

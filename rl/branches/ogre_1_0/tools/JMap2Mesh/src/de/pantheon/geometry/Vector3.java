@@ -3,7 +3,7 @@ package de.pantheon.geometry;
 public class Vector3
 {
     private double xyz[] = new double[3];
-    private final static double EPSILON = 0.0001;
+    private final static double EPSILON = 0.00000005;
 
     public Vector3()
 	{

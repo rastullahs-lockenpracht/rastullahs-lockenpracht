@@ -14,32 +14,37 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#ifndef __BSPWorld_H__
-#define __BSPWorld_H__
-
-#include "World.h"
+#ifndef __GameTask_H__
+#define __GameTask_H__
 
 #include "CorePrerequisites.h"
 
-
 namespace rl {
-
-class _RlCoreExport BSPWorld : public World
+/** Diese Klasse ist die Basisklasse aller Synchronisierten Aufgaben, die jeden Frame ausgeführt werden.
+	Dazu gehören zum Beispiel Animationen.
+*/
+class _RlCoreExport GameTask
 {
-    private:
-		static void removeAllLightmaps();
     public:
-        BSPWorld();
-        ~BSPWorld();
- 
-        virtual void clearScene();
-		virtual void initializeDefaultCamera();	
-        virtual void setSkyBox(bool enable, const String &materialName,
-			Real distance, bool drawFirst );
-	protected:
-		virtual void doLoadScene(const String& levelName);	
+		/// Default Konstruktor, startet unpausiert
+        GameTask();
+		/// Virtueller Basis-Destruktor
+        virtual ~GameTask( ) {};
+
+		/** Wird vom Gameloop aufgerufen, wenn nicht pausiert
+			@param elapsedTime Die vergangene Zeit
+		*/
+		virtual void run( Ogre::Real elapsedTime ) = 0;
+        
+		/// Gibt zurück ob dieser GameTask pausiert ist
+        bool isPaused() const;
+		/// Pausiert/Unpausiert den GameTask
+        void setPaused( bool isPaused );
+
+    private:
+		/// Pause
+        bool mPaused;
 };
 
 }
 #endif
-

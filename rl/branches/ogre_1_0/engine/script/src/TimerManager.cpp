@@ -14,46 +14,49 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#include "ScriptTimer.h"
+#include "TimerManager.h"
 #include "OgreSingleton.h"
 #include "GameLoop.h"
 #include "DsaManager.h"
 #include "TimerTask.h"
+#include "CoreSubsystem.h"
+#include "Date.h"
 
 using Ogre::Singleton;
+using Ogre::StringConverter;
 
-template<> rl::ScriptTimer* Singleton<rl::ScriptTimer>::ms_Singleton = 0;
+template<> rl::TimerManager* Singleton<rl::TimerManager>::ms_Singleton = 0;
 
 namespace rl {
 
-	ScriptTimer& ScriptTimer::getSingleton()
+	TimerManager& TimerManager::getSingleton()
 	{
-		return Singleton<ScriptTimer>::getSingleton();
+		return Singleton<TimerManager>::getSingleton();
 	}
 
-	ScriptTimer* ScriptTimer::getSingletonPtr()
+	TimerManager* TimerManager::getSingletonPtr()
 	{
-		return Singleton<ScriptTimer>::getSingletonPtr();
+		return Singleton<TimerManager>::getSingletonPtr();
 	}
 
-	ScriptTimer::ScriptTimer()
+	TimerManager::TimerManager()
 	{
 		mTasks.clear();
 		mSchedule.clear();
-		GameLoop::getSingleton().addSynchronizedTask(this);
+		GameLoopManager::getSingleton().addSynchronizedTask(this);
 	}
 
-	ScriptTimer::~ScriptTimer()
+	TimerManager::~TimerManager()
 	{
-		GameLoop::getSingleton().removeSynchronizedTask(this);
+		GameLoopManager::getSingleton().removeSynchronizedTask(this);
 	}
 
-	void ScriptTimer::registerTask(TimerTask* task)
+	void TimerManager::registerTask(TimerTask* task)
 	{
 		mTasks.insert(task);
 	}
 
-	void ScriptTimer::unregisterTask(TimerTask* task)
+	void TimerManager::unregisterTask(TimerTask* task)
 	{
 		std::set<TimerTask*>::iterator iter = mTasks.find(task);
 
@@ -61,7 +64,7 @@ namespace rl {
 			mTasks.erase(iter);
 	}
 
-	void ScriptTimer::registerTaskCallGameTime(RL_LONGLONG time, TimerTask* task, const rl::CeGuiString& name)
+	void TimerManager::registerTaskCallGameTime(RL_LONGLONG time, TimerTask* task, const rl::CeGuiString& name)
 	{
 		TaskCall* call = new TaskCall();
 		call->name = name;
@@ -71,27 +74,41 @@ namespace rl {
 		mSchedule.insert(call);
 	}
 
-	void ScriptTimer::run(Real elapsedTime)
+	void TimerManager::run(Ogre::Real elapsedTime)
 	{
 		RL_LONGLONG now = DsaManager::getSingleton().getTimestamp();
 
 		TaskCallSet execute;
+		bool run = false;
 
 		for (TaskCallSet::iterator iter = mSchedule.begin(); iter != mSchedule.end(); iter++)
 		{
 			TaskCall* call = *iter;
 			if (call->time < now)
+			{
 				execute.insert(call);
+				run = true;
+			}
 		}
 
-		while (execute.size() > 0)
-		{
-			TaskCallSet::iterator first = execute.begin();
+		if (!run)
+			return;
+		
+		CoreSubsystem::getSingleton().log(StringConverter::toString(mSchedule.size())+" in Schedule");
+		for (TaskCallSet::iterator first = execute.begin(); first != execute.end(); first++)
+		{			
 			TaskCall* call = *first;
+			CoreSubsystem::getSingleton().log(("1: Vor run '"+call->name+"'").c_str());
+			CoreSubsystem::getSingleton().log("           '"+StringConverter::toString(reinterpret_cast<unsigned int>(call->task))+"'");
+			Date d(call->time);
+			CoreSubsystem::getSingleton().log("           '"+d.toString()+"'");
 			call->task->run(call->name);
-			execute.erase(first);
+			CoreSubsystem::getSingleton().log(("2: Nach run '"+call->name+"'").c_str());
 			mSchedule.erase(mSchedule.find(call));
-		}	
+			CoreSubsystem::getSingleton().log("3: Aus Schedule geloescht, noch "+StringConverter::toString(mSchedule.size()));
+			delete call;
+			CoreSubsystem::getSingleton().log("4: fertig");
+		}			
 	}
 
 	TaskCall::TaskCall() :

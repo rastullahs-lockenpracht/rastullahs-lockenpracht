@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -40,13 +40,14 @@ namespace rl {
 		mMovementCommands.insert(make_pair(KC_Q, TURN_LEFT));
 		mMovementCommands.insert(make_pair(KC_E, TURN_RIGHT));
 		mMovementCommands.insert(make_pair(KC_LSHIFT, MOVE_RUN));
+        mMovementCommands.insert(make_pair(KC_LCONTROL, MOVE_SNEAK));
 		mMovementCommands.insert(make_pair(KC_SPACE, MOVE_JUMP));
 
 		ActionEntry ae;
 		ae.actionClass = "ShowActionMenuAction";
 		ae.actionName = "Aktionen";
-		mKeyCommandsInBattle.insert(make_pair(KC_F3, ae));
-		mKeyCommandsOffBattle.insert(make_pair(KC_F3, ae));
+		mKeyCommandsInBattle.insert(make_pair(KC_F1, ae));
+		mKeyCommandsOffBattle.insert(make_pair(KC_F1, ae));
 
 		ae.actionClass = "QuitGameAction";
 		ae.actionName = "Ende";
@@ -60,6 +61,10 @@ namespace rl {
 		ae.actionName = "DebugWindow";
 		mKeyCommandsOffBattle.insert(make_pair(KC_F2, ae));
 		
+		ae.actionClass = "ToggleGameLogWindowAction";
+		ae.actionName = "GameLogWindow";
+		mKeyCommandsOffBattle.insert(make_pair(KC_F3, ae));
+		
 		ae.actionClass = "ToggleViewModeAction";
 		ae.actionName = "Sichtmodus";
 		mKeyCommandsOffBattle.insert(make_pair(KC_F, ae));
@@ -72,9 +77,13 @@ namespace rl {
 		ae.actionName = "Screenshot";
 		mKeyCommandsOffBattle.insert(make_pair(KC_P, ae));
 
-		ae.actionClass = "ShowGameLogAction";
-		ae.actionName = "Log anzeigen";
+		ae.actionClass = "ToggleOdeDebugAction";
+		ae.actionName = "OdeDebug";
 		mKeyCommandsOffBattle.insert(make_pair(KC_L, ae));
+
+		ae.actionClass = "ShowObjectActionsAction";
+		ae.actionName = "ShowObjectActions";
+		mKeyCommandsOffBattle.insert(make_pair(KC_U, ae));
 	}
 
 	CommandMapper::~CommandMapper()
@@ -148,7 +157,6 @@ namespace rl {
 	{
 		return (mActiveMovement & movmt) == movmt;
 	}
-
 
 	void CommandMapper::setMapping(
 			MapType map, 

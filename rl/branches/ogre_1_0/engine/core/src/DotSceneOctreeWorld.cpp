@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -21,7 +21,6 @@
 #include <OgreException.h>
 #include "GameLoop.h"
 
-#include "CameraActor.h"
 #include "ActorManager.h"
 #include "PhysicsManager.h"
 
@@ -56,22 +55,25 @@ namespace rl {
 
     void DotSceneOctreeWorld::initializeDefaultCamera(void)
     {
-        // Get random player start point
-        mCamera = ActorManager::getSingleton().createCameraActor("DefaultCamera");
-        ViewPoint defaultVP = mSceneMgr->getSuggestedViewpoint(true);
+        if (mCamera == 0)
+        {
+            // Kamera erstellen..
+            ActorManager::getSingleton().createCameraActor("DefaultCamera");
+            // und initialisieren.
+            mCamera = mSceneMgr->getCamera("DefaultCamera");
+            ViewPoint defaultVP = mSceneMgr->getSuggestedViewpoint(true);
 
-        mCamera->setNearClipDistance(10);
-        mCamera->setFarClipDistance(10000);
-        mCamera->setPosition( defaultVP.position );
+            mCamera->setPosition( defaultVP.position );
 
-        // Quake uses X/Y horizon, Z up
-        mCamera->setFOVy(60);
-        
-        mCamera->setFixedYawAxis(false);
+            // Quake uses X/Y horizon, Z up
+            mCamera->setFOVy(Degree(60));
 
+            mCamera->setFixedYawAxis(false);
+
+        }
         // Create one viewport, entire window
         Viewport* newVp = Ogre::Root::getSingletonPtr()->
-            getAutoCreatedWindow()->addViewport(mCamera->getOgreCamera(),1);
+            getAutoCreatedWindow()->addViewport(mCamera, 1);
         newVp->setBackgroundColour(ColourValue(0,0,0));
     }
 
@@ -98,29 +100,14 @@ namespace rl {
 
     void DotSceneOctreeWorld::clearScene()
     {
-		try {
-		    mSceneMgr->destroySceneNode("level");
-		}
-		catch (Ogre::Exception&)
-		{
-		    // ignorieren. Gab es den Node halt nicht.
-		}
-		
-		try {
-		    mSceneMgr->removeEntity("level");
-		}
-		catch (Ogre::Exception&)
-		{
-		    // ignorieren. Gab es die Entity halt nicht.
-		}
+        
+        ActorManager::getSingleton().destroyAllActors();
+        mSceneMgr->clearScene();
+        Ogre::Root::getSingleton().getAutoCreatedWindow()->removeAllViewports(); 
+
 		mSceneEntity = 0;
-		
-        Ogre::Root::getSingleton().getAutoCreatedWindow()->removeAllViewports();
-
-        ActorManager::getSingleton().deleteAllActors();
-
         mSceneMgr = Root::getSingleton().getSceneManager(ST_GENERIC);
-        PhysicsManager::getSingleton().setWorldScene(this);
+        PhysicsManager::getSingleton().createLevelGeometry(0);
         mbSceneLoaded = false;
     }
     

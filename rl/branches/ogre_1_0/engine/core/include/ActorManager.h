@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -20,20 +20,17 @@
 #include <map>
 
 #include "CorePrerequisites.h"
+#include "PhysicsManager.h"
+#include "LightObject.h"
+#include "ParticleSystemObject.h"
 
 namespace rl {
 
 class World;
 class Actor;
-class CameraActor;
-class LightActor;
-class ParticleSystemActor;
-class GameActor;
-class AnimatedActor;
-class MeshActor;
 
-typedef std::map<String,Actor*> ActorPtrMap;
-typedef std::pair<String,Actor*> ActorPtrPair;
+typedef std::map<const String,Actor*> ActorPtrMap;
+typedef std::pair<const String,Actor*> ActorPtrPair;
 
 class _RlCoreExport ActorManager : protected Singleton<ActorManager>
 {
@@ -42,17 +39,21 @@ class _RlCoreExport ActorManager : protected Singleton<ActorManager>
         virtual ~ActorManager( );
 
         Actor* getActor(const String& name);
-		void deleteActor(const String& name);
-        void deleteAllActors();
 
-		CameraActor* createCameraActor(const String& name);
-        LightActor* createLightActor(const String& name, int type);
-		MeshActor* createMeshActor(const String& name,const String& meshname);
-		GameActor* createGameActor(const String& name,const String& meshname);
-        ParticleSystemActor* createParticleSystemActor(const String& name,
+        Actor* createLightActor(const String& name, rl::LightObject::LightTypes type );
+        Actor* createCameraActor(const String& name);
+   	    Actor* createMeshActor(const String& name,const String& meshname,
+			int geomType = PhysicsManager::PT_NONE, Ogre::Real density = 1.0);
+        Actor* createParticleSystemActor(const String& name, 
             const String& partname);
+            
+        void destroyActor(Actor* actor);
+        
+        ///@warning Actors with a camera attached wont be destroyed. 
+		///@todo Check for active Viewport, and disable that first
+        void destroyAllActors();
 
-        void setWorld( World* pWorld );
+        void setWorld(World* world);
 		const World* const getWorld() const;
 
 		Actor* getActorAt(Ogre::Real x, Ogre::Real y) const;

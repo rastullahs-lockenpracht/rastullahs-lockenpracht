@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
-* Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+* Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
 * 
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the Perl Artistic License.
@@ -23,7 +23,6 @@
 namespace rl {
 
     class Actor;
-    class CameraActor;
 
     class _RlCoreExport World
     {
@@ -36,54 +35,56 @@ namespace rl {
         *verantwortlich ist. */
         virtual ~World() {}
 
-        virtual SceneManager* getSceneManager(void) const;
-        virtual void setSceneManager(SceneManager* SceneMgr);
+        virtual Ogre::SceneManager* getSceneManager(void) const;
+        virtual void setSceneManager(Ogre::SceneManager* SceneMgr);
 
-        virtual CameraActor* getActiveCamera(void) const { return mCamera; };
+        virtual Ogre::Camera* getActiveCamera(void) const { return mCamera; };
 
         Actor* getActiveActor() const;
         void setActiveActor(Actor* actor);
 
-        virtual Vector3 getStartPoint() const;
+        virtual Ogre::Vector3 getStartPoint() const;
 
         virtual void clearScene(void) = 0;
-        void loadScene(const String& levelName);
-        virtual void initializeDefaultCamera(void) = 0;	
+        void loadScene(const Ogre::String& levelName);
 
-        virtual Entity* getSceneEntity() = 0;
+        virtual Ogre::Entity* getSceneEntity() = 0;
 
         //Enables / disables a 'sky plane' i.e.
-        virtual void setSkyPlane(bool enable, const Plane &plane,
-            const String &materialName, Real scale=1000, Real tiling=10,
-            bool drawFirst=true, Real bow=0);
+        virtual void setSkyPlane(bool enable, const Ogre::Plane &plane,
+            const Ogre::String &materialName,
+            Ogre::Real scale=1000, Ogre::Real tiling=10,
+            bool drawFirst=true, Ogre::Real bow=0);
 
         //Enables / disables a 'sky box' i.e.
-        virtual void setSkyBox(bool enable, const String &materialName,
-            Real distance=5000, bool drawFirst=true );
+        virtual void setSkyBox(bool enable, const Ogre::String &materialName,
+            Ogre::Real distance=5000, bool drawFirst=true );
 
         //Enables / disables a 'sky dome' i.e.
-        virtual void setSkyDome(bool enable, const String &materialName,
-            Real curvature=10, Real tiling=8, Real distance=4000,
+        virtual void setSkyDome(bool enable, const Ogre::String &materialName,
+            Ogre::Real curvature=10, Ogre::Real tiling=8,
+            Ogre::Real distance=4000,
             bool drawFirst=true );
 
         //Sets the fogging mode applied to the scene.
         virtual void setFog(FogMode mode=FOG_NONE,
-            const ColourValue &colour=ColourValue::White,
-            Real expDensity=0.001, Real linearStart=0.0, Real linearEnd=1.0);
+            const Ogre::ColourValue &colour=Ogre::ColourValue::White,
+            Ogre::Real expDensity=0.001,
+            Ogre::Real linearStart=0.0, Ogre::Real linearEnd=1.0);
 
         //Returns the fog mode for the scene.
         virtual FogMode getFogMode (void) const;
 
         //Returns the fog colour for the scene.
-        virtual const ColourValue & getFogColour (void) const;
+        virtual const Ogre::ColourValue & getFogColour (void) const;
 
         //Returns the fog start distance for the scene.
-        virtual Real getFogStart (void) const;
+        virtual Ogre::Real getFogStart (void) const;
 
         //Returns the fog end distance for the scene.
-        virtual Real getFogEnd (void) const;
+        virtual Ogre::Real getFogEnd (void) const;
 
-        virtual void setAmbientLight(Real r, Real g, Real b);
+        virtual void setAmbientLight(Ogre::Real r, Ogre::Real g, Ogre::Real b);
 
 		virtual void setCastShadows(bool enabled);
 
@@ -92,10 +93,11 @@ namespace rl {
 
         /// SceneManager-Spezifisches wird hier erledigt.
         /// für LoadScene.
-        virtual void doLoadScene(const String& levelName) = 0;
+        virtual void doLoadScene(const Ogre::String& levelName) = 0;
+        virtual void initializeDefaultCamera(void) = 0;	
 
-        SceneManager* mSceneMgr;
-        CameraActor* mCamera;
+        Ogre::SceneManager* mSceneMgr;
+        Ogre::Camera* mCamera;
         bool mbSceneLoaded;
         Actor* mActiveActor;
     };

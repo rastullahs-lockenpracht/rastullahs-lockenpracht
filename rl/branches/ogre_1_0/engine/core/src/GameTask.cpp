@@ -14,21 +14,21 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#include "SynchronizedTask.h"
+#include "GameTask.h"
 
 namespace rl {
 
-SynchronizedTask::SynchronizedTask()
+GameTask::GameTask()
 {
     mPaused = false;
 }
         
-bool SynchronizedTask::isPaused()
+bool GameTask::isPaused() const
 {
     return mPaused;
 }
 
-void SynchronizedTask::setPaused( bool isPaused )
+void GameTask::setPaused( bool isPaused )
 {
     mPaused = isPaused;
 }

@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -20,13 +20,13 @@ class GameController
 {
 public:
     typedef enum {VM_THIRD_PERSON, VM_FIRST_PERSON} ViewMode;
-    rl::GameActor* getControlledActor();
-    void setControlledActor(rl::GameActor* actor);
-    Ogre::Camera* getCamera();
-    void setCamera(Ogre::Camera* camera);
+    rl::Actor* getControlledActor();
+    void setControlledActor(rl::Actor* actor);
+    rl::Actor* getCamera();
     void setViewMode(ViewMode mode);
     ViewMode getViewMode();
     void resetCamera();
+	void toggleDebugOde();
 };
 
 class UiSubsystem 
@@ -35,6 +35,7 @@ public:
     static UiSubsystem& getSingleton(void);
     
 	void showCharacterActionChoice();
+	void showPickedObjectActions();
 	void showActionChoice(rl::GameObject* obj);
 	void showMessageWindow(const rl::CeGuiString& message);
 	rl::Person* getActiveCharacter();
@@ -42,6 +43,8 @@ public:
 	void showMainMenu(GameObject* actionHolder);
 	void toggleConsole();
 	void toggleDebugWindow();
+	void toggleGameLogWindow();
+	void toggleObjectPicking();
 	rl::GameController* getGameController();
 	rl::GameLoggerWindow* getGameLogger();
 	

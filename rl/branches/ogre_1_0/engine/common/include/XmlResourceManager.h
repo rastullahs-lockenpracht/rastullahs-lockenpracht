@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -19,6 +19,7 @@
 
 #include "XmlResource.h"
 #include "CommonPrerequisites.h"
+#include <OgreResourceGroupManager.h>
 
 namespace rl {
 
@@ -32,7 +33,9 @@ namespace rl {
         /// Gibt einen Zeiger auf das Singleton zurueck.
         static XmlResourceManager* getSingletonPtr();
         /// Eine Resource erzeugen
-        XmlResource* create(const String& resName);
+		XmlPtr load(const Ogre::String& resName, 
+			const Ogre::String& groupName = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+			bool isManual = false, Ogre::ManualResourceLoader* loader = NULL, const Ogre::NameValuePairList* loadParams = NULL);
 	};
 
 }

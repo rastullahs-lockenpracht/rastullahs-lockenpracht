@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -38,7 +38,7 @@ namespace rl {
 	class Person;
 	class GameLoggerWindow;
 
-    class _RlUiExport UiSubsystem : protected Singleton<UiSubsystem>
+    class _RlUiExport UiSubsystem : protected Ogre::Singleton<UiSubsystem>
     {
     public:
         /** Default Constructor */
@@ -60,9 +60,13 @@ namespace rl {
 		static VALUE consoleWrite(VALUE self, VALUE str);
 		void toggleConsole();
 		void toggleDebugWindow();
+		void toggleGameLogWindow();
+		void toggleObjectPicking();
 
 		void showCharacterActionChoice();
+		void showPickedObjectActions();
 		void showActionChoice(GameObject* obj);
+
 		void showMessageWindow(const CeGuiString& message);
 		void showMainMenu(GameObject* actionHolder);
 		bool showInputOptionsMenu(GameObject* actionHolder);

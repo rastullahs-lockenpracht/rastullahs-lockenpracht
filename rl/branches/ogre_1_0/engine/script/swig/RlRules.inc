@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -91,6 +91,7 @@ namespace rl {
         int rollD20();
         Tripel<int> roll3D20();
         int rollD6();
+        int roll(int d6, int d20);
       
 	    static DsaManager& getSingleton(void);
 	    rl::Talent* getTalent(const rl::CeGuiString& name) const;
@@ -167,8 +168,8 @@ namespace rl {
         virtual const rl::CeGuiString& getDescription() const;
         virtual void setDescription(rl::CeGuiString& description);   
         
-        void setActor(rl::GameActor* actor);
-		rl::GameActor* getActor();
+        void setActor(rl::Actor* actor);
+		rl::Actor* getActor();
 
         void addAction(rl::Action *action, int option = ACT_NORMAL);
         //%extend {

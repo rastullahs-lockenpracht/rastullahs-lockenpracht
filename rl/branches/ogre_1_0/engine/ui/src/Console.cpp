@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -21,6 +21,8 @@
 #include "ListboxWrappedTextItem.h"
 #include "CoreSubsystem.h"
 #include "Console.h"
+
+using namespace Ogre;
 
 template<> rl::Console* Singleton<rl::Console>::ms_Singleton = 0;
 
@@ -100,12 +102,12 @@ namespace rl
 	{
         CeGuiString temp = CeGuiString(output);		
 		appendTextRow(temp, 0xFF7F7F7F);
-		LogManager::getSingleton().logMessage(output);
+		CoreSubsystem::getSingleton().log(output);
 	}
 
 	void Console::appendTextRow(CeGuiString& text, const colour color)
 	{
-		/*const float MIN_SPACE_POS = 0.5;
+		const float MIN_SPACE_POS = 0.5;
 
 		CeGuiString textLeft = CeGuiString(text);
 		const CEGUI::Font* font = mDisplay->getFont();
@@ -141,12 +143,12 @@ namespace rl
 			item->setTextColours(color);
 			mDisplay->addItem(item);
 			mDisplay->ensureItemIsVisible(item); // scroll to bottom;
-		}*/
-		ListboxWrappedTextItem* item = new ListboxWrappedTextItem(text);
-		item->setTextColours(color);
-		item->setTextFormatting(CEGUI::WordWrapLeftAligned);
-		mDisplay->addItem(item);
-		mDisplay->ensureItemIsVisible(item); // scroll to bottom;*/
+		}
+		//ListboxWrappedTextItem* item = new ListboxWrappedTextItem(text);
+		//item->setTextColours(color);
+		//item->setTextFormatting(CEGUI::WordWrapLeftAligned);
+		//mDisplay->addItem(item);
+		//mDisplay->ensureItemIsVisible(item); // scroll to bottom;*/
 	}
 	
 	void Console::setInterpreter(Interpreter* interpreter)

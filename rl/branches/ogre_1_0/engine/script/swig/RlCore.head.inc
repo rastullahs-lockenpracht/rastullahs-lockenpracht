@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -19,17 +19,20 @@
 #include "FixRubyHeaders.h"
 #include "CorePrerequisites.h"
 #include "ActorManager.h"
-#include "BSPWorld.h"
-#include "CameraActor.h"
-#include "LightActor.h"
-#include "ParticleSystemActor.h"
-#include "GameActor.h"
-#include "MeshActor.h"
+#include "Actor.h"
+#include "MeshObject.h"
+#include "CameraObject.h"
+#include "LightObject.h"
+#include "ParticleSystemObject.h"
 #include "CoreSubsystem.h"
-#include "ListenerActor.h"
 #include "PhysicalThing.h"
 #include "PhysicsManager.h"
+#include "AnimationManager.h"
+#include "AnimationListener.h"
+#include "Animation.h"
+#include "TrackAnimation.h"
 #include "GameLoop.h"
+#include "World.h"
 #include <OgreRoot.h>
 #include <OgreLight.h>
 %}

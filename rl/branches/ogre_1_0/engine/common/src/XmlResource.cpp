@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -18,6 +18,7 @@
 #include "XmlResourceManager.h"
 
 using namespace XERCES_CPP_NAMESPACE;
+using namespace Ogre;
 
 namespace rl {
 
@@ -33,19 +34,25 @@ XmlResource::~XmlResource()
 	unload();
 }
 
-void XmlResource::load()
+void XmlResource::loadImpl()
 {
-	DataChunk dc;
-	XmlResourceManager::getSingleton()._findResourceData(mName, dc);
-	mXmlBuffer = new MemBufInputSource(dc.getPtr(), static_cast<const unsigned int>(dc.getSize()), "rl::XmlResourceManager");
+	DataStreamPtr ds = Ogre::ResourceGroupManager::getSingleton().openResource(getName(), getGroup());
+	std::string inputData = ds.getPointer()->getAsString();
+	mSize = ds.getPointer()->size();
+	mXmlBuffer = new MemBufInputSource(reinterpret_cast<const XMLByte*>(inputData.c_str()), inputData.length(), "rl::XmlResourceManager");
 	mIsLoaded = true;
 	touch();
 }
 
-void XmlResource::unload()
+void XmlResource::unloadImpl()
 {
 	delete mXmlBuffer;
 	mIsLoaded = false;
+}
+
+size_t XmlResource::calculateSize() const
+{
+	return mSize;
 }
 
 void XmlResource::parseBy(XERCES_CPP_NAMESPACE::XercesDOMParser* parser)
@@ -62,6 +69,39 @@ void XmlResource::parseBy(XERCES_CPP_NAMESPACE::SAX2XMLReader* parser)
 		load();
 	parser->parse(*mXmlBuffer);
 	touch();
+}
+
+XmlPtr::XmlPtr(const ResourcePtr& res) : SharedPtr<XmlResource>()
+{
+	// lock & copy other mutex pointer
+	OGRE_LOCK_MUTEX(*res.OGRE_AUTO_MUTEX_NAME)
+	OGRE_COPY_AUTO_SHARED_MUTEX(res.OGRE_AUTO_MUTEX_NAME)
+	pRep = static_cast<XmlResource*>(res.getPointer());
+	pUseCount = res.useCountPointer();
+	if (pUseCount != 0)
+		++(*pUseCount);
+}
+
+XmlPtr& XmlPtr::operator =(const ResourcePtr& res)
+{
+	if (pRep == static_cast<XmlResource*>(res.getPointer()))
+		return *this;
+	release();
+
+	// lock & copy other mutex pointer
+	OGRE_LOCK_MUTEX(*res.OGRE_AUTO_MUTEX_NAME)
+	OGRE_COPY_AUTO_SHARED_MUTEX(res.OGRE_AUTO_MUTEX_NAME)
+	pRep = static_cast<XmlResource*>(res.getPointer());
+	pUseCount = res.useCountPointer();
+	if (pUseCount != 0)
+		++(*pUseCount);
+
+	return *this;
+}
+
+void XmlPtr::destroy()
+{
+	SharedPtr<XmlResource>::destroy();
 }
 
 }

@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -24,8 +24,6 @@
 #include <map>
 
 namespace rl {
-
-	class CommandExecutor;
 
 	enum MovementState
 	{
@@ -90,6 +88,8 @@ namespace rl {
 			const CeGuiString& actionClass, 
 			const CeGuiString& actionName);
 
+		std::map<CeGuiString, MovementState> getMovements();
+
 	private:
 		// KeyCode -> (Rubyklasse, Name)
 		typedef std::map<int, ActionEntry > KeyAndMouseCommandMap;
@@ -99,6 +99,8 @@ namespace rl {
 		KeyAndMouseCommandMap mKeyCommandsInBattle;
 		KeyAndMouseCommandMap mKeyCommandsOffBattle;
 		KeyAndMouseCommandMap mMouseCommands;
+
+		std::map<CeGuiString, MovementState> mMovement;
 
 		int mActiveMovement;		
 	};

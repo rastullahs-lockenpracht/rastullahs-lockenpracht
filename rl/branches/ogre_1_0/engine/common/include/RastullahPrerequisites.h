@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -38,7 +38,6 @@
 #endif
 
 #include <Ogre.h>
-using namespace Ogre;
 
 #ifdef HAVE_CONFIG_H
 #   undef PACKAGE_NAME
@@ -51,8 +50,10 @@ using namespace Ogre;
 #endif
 
 
-#if OGRE_PLATFORM != PLATFORM_WIN32
+#if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
 #   define _snprintf snprintf
+template<class T1, class T2>
+bool max(T1 m1, T2 m2) { return (m1 < m2)?m2:m1; }
 #endif
 
 #if !defined(RL_LONGLONG)
