@@ -77,19 +77,17 @@ namespace rl
 
         Talent* getTalent(int id) const;
 		Talent* getTalent(const CeGuiString& name) const;
-
         Kampftechnik* getKampftechnik(int id) const;
-
         Eigenschaft* getEigenschaft(int id) const;
-
-		Person* getPerson(int id) const;
-        
+		Person* getPerson(int id) const;        
 		
 		int getEigenschaftIdFromString(const CeGuiString& str) const;
 		int getEigenschaftIdFromLongString(const CeGuiString& str) const;
 		
 		int getSteigerKosten(int column, int from, int to) const;
 		int getSteigerKosten(int column, int from) const;
+
+		void loadDsaDataFile(const std::string& filename);	
 
 		void _addTalent(Talent* talent);
 		void _addPerson(Person* person);

@@ -96,8 +96,16 @@ namespace rl {
 	    static DsaManager& getSingleton(void);
 	    rl::Talent* getTalent(const rl::CeGuiString& name) const;
 	    rl::Person* getPerson(const int id) const;
-	    
+
+        void loadDsaDataFile(const std::string& filename);	
     };
+    
+    class RulesSubsystem 
+    {
+    public:
+		static rl::RulesSubsystem& getSingleton();
+    };
+
     
     class Talent
     {

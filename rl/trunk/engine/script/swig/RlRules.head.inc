@@ -28,5 +28,6 @@
 #include "Action.h"
 #include "Item.h"
 #include "Person.h"
+#include "RulesSubsystem.h"
 
 %}

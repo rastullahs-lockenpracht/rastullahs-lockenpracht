@@ -34,7 +34,6 @@ namespace rl
         void log(const char *msg);
 		void log(const std::string& msg);
 		void log(const CeGuiString& msg);
-	
 
         static RulesSubsystem& getSingleton(void);
         static RulesSubsystem* getSingletonPtr(void);

@@ -38,6 +38,9 @@ public:
 	void showPickedObjectActions();
 	void showActionChoice(rl::GameObject* obj);
 	void showMessageWindow(const rl::CeGuiString& message);
+	void showCharacterSheet();
+	void showCharacterSheet(Person* chara);
+
 	rl::Person* getActiveCharacter();
 	void setActiveCharacter(Person* person);
 	void showMainMenu(GameObject* actionHolder);

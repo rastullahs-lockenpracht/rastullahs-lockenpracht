@@ -84,6 +84,10 @@ namespace rl {
 		ae.actionClass = "ShowObjectActionsAction";
 		ae.actionName = "ShowObjectActions";
 		mKeyCommandsOffBattle.insert(make_pair(KC_U, ae));
+
+		ae.actionClass = "ShowCharacterSheetAction";
+		ae.actionName = "Charakterblatt";
+		mKeyCommandsOffBattle.insert(make_pair(KC_C, ae));
 	}
 
 	CommandMapper::~CommandMapper()

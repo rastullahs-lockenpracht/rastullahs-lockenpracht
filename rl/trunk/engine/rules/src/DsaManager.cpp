@@ -23,10 +23,10 @@
 #include "Person.h"
 #include "RulesSubsystem.h"
 #include "Date.h"
+#include "DsaDataLoader.h"
 
 #include "Exception.h"
 #include "CoreSubsystem.h"
-
 
 template <>
 rl::DsaManager* Singleton<rl::DsaManager> ::ms_Singleton = 0;
@@ -309,5 +309,10 @@ namespace rl
         {
             Throw(InvalidArgumentException, "Person nicht gefunden.");
         }
+	}
+
+	void DsaManager::loadDsaDataFile(const std::string& filename)
+	{
+		DsaDataLoader::loadData(filename);
 	}
 }

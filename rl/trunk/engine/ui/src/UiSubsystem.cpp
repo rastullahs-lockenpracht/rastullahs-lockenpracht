@@ -242,6 +242,18 @@ namespace rl {
 		InputManager::getSingleton().setObjectPickingActive(true);
 	}
 
+	void UiSubsystem::showCharacterSheet()
+	{
+		showCharacterSheet(getActiveCharacter());
+	}
+
+	void UiSubsystem::showCharacterSheet(Person* chara)
+	{
+		CharacterSheetWindow* wnd = new CharacterSheetWindow();
+		wnd->setCharacter(chara);
+		wnd->setVisible(true);
+	}
+
 	void UiSubsystem::setBattleMode(bool inBattle)
 	{
 		mInBattle = inBattle;
