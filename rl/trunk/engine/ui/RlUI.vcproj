@@ -175,9 +175,6 @@
 				RelativePath=".\include\ActionChoiceWindow.h">
 			</File>
 			<File
-				RelativePath=".\include\CeConsole.h">
-			</File>
-			<File
 				RelativePath=".\include\CeGuiWindow.h">
 			</File>
 			<File
@@ -191,6 +188,9 @@
 			</File>
 			<File
 				RelativePath=".\include\CommandMapperWindow.h">
+			</File>
+			<File
+				RelativePath=".\include\Console.h">
 			</File>
 			<File
 				RelativePath=".\include\DebugWindow.h">
@@ -233,9 +233,6 @@
 				RelativePath=".\src\ActionChoiceWindow.cpp">
 			</File>
 			<File
-				RelativePath=".\src\CeConsole.cpp">
-			</File>
-			<File
 				RelativePath=".\src\CeGuiWindow.cpp">
 			</File>
 			<File
@@ -249,6 +246,9 @@
 			</File>
 			<File
 				RelativePath=".\src\CommandMapperWindow.cpp">
+			</File>
+			<File
+				RelativePath=".\src\Console.cpp">
 			</File>
 			<File
 				RelativePath=".\src\DebugWindow.cpp">
