@@ -32,7 +32,7 @@ namespace rl {
  * @version 1.0
  * @date 04-26-2004
  */ 
-class _RlSoundExport SoundManager: public Ogre::ResourceManager,
+class _RlSoundExport SoundManager: public ResourceManager,
         public Ogre::Singleton<SoundManager> {
     protected:
         /// Welche Dateiendung soll verwendet werden.
