@@ -37,6 +37,7 @@ CeGuiWindow::CeGuiWindow(const char* xmlfile, bool withInput)
 			(utf8*)"modules/common/gui/windows/"+CeGuiString((utf8*)xmlfile), 
 			mNamePrefix);
 	assert(mWindow != 0);
+	mWindow->hide();
 
 	mIsVisible = true;
     mWithInput = withInput;
@@ -165,4 +166,3 @@ void CeGuiWindow::centerWindow()
 }
 
 }
-
