@@ -42,4 +42,3 @@ namespace rl {
 }
 
 #endif
-
