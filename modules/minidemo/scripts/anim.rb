@@ -26,7 +26,7 @@ end
 
 
 # Erstellen eines laufenden Roboters
-actBotter = $AF.createMeshActor("Botter","robot.mesh");
+actBotter = $AM.createMeshActor("Botter","robot.mesh");
 actBotter.placeIntoScene( 160.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0 );
 boBotter = actBotter.getControlledObject();
 # Animation "Walk" starten
@@ -39,7 +39,7 @@ anim.setSpeed( 4.0 );
 
 
 # Erzeugen einer Fackel
-fackel = $AF.createMeshActor("Fackel","fackel.mesh");
+fackel = $AM.createMeshActor("Fackel","fackel.mesh");
 fackel.placeIntoScene( 100.0, 16.0, 100.0, 1.0, 0.0, 0.0, 0.0 );
 
 
@@ -69,7 +69,7 @@ trackAnim.setPaused( false );
 
 
 # Noch einfacherer ;) Track, aber mit nem Listener verknüpft
-tischlein = $AF.createMeshActor("TavernenTisch","tisch_taverne.mesh");
+tischlein = $AM.createMeshActor("TavernenTisch","tisch_taverne.mesh");
 tischlein.placeIntoScene( 160.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0 );
 
 listenedTrackAnim = $AnimMgr.createTrackAnimation( tischlein, "testListenerTrackAnimation", 6.0 );
