@@ -1,0 +1,303 @@
+material AAATRIGGER
+{
+    technique
+    {
+        pass
+        {
+
+            texture_unit
+            {
+                texture texturen/AAATRIGGER.jpg
+                filtering point point point
+            }
+        }
+    }
+}
+
+material OU_FACHWERK13_1
+{
+    technique
+    {
+        pass
+        {
+
+            texture_unit
+            {
+                texture texturen/OU_FACHWERK13_1.jpg
+                filtering point point point
+            }
+        }
+    }
+}
+
+material OU_HOLZBODEN01
+{
+    technique
+    {
+        pass
+        {
+
+            texture_unit
+            {
+                texture texturen/OU_HOLZBODEN01.jpg
+                filtering point point point
+            }
+        }
+    }
+}
+
+material OU_HOLZ05
+{
+    technique
+    {
+        pass
+        {
+
+            texture_unit
+            {
+                texture texturen/OU_HOLZ05.jpg
+                filtering point point point
+            }
+        }
+    }
+}
+
+material OU_HOLZ_05
+{
+    technique
+    {
+        pass
+        {
+
+            texture_unit
+            {
+                texture texturen/OU_HOLZ_05.jpg
+                filtering point point point
+            }
+        }
+    }
+}
+
+material OU_BODEN04
+{
+    technique
+    {
+        pass
+        {
+
+            texture_unit
+            {
+                texture texturen/OU_BODEN04.jpg
+                filtering point point point
+            }
+        }
+    }
+}
+
+material OU_HOLZ04
+{
+    technique
+    {
+        pass
+        {
+
+            texture_unit
+            {
+                texture texturen/OU_HOLZ04.jpg
+                filtering point point point
+            }
+        }
+    }
+}
+
+material IN_GBODEN01
+{
+    technique
+    {
+        pass
+        {
+
+            texture_unit
+            {
+                texture texturen/IN_GBODEN01.jpg
+                filtering point point point
+            }
+        }
+    }
+}
+
+material GG_BILD01
+{
+    technique
+    {
+        pass
+        {
+
+            texture_unit
+            {
+                texture texturen/GG_BILD01.jpg
+                filtering point point point
+            }
+        }
+    }
+}
+
+material GG_BILD02
+{
+    technique
+    {
+        pass
+        {
+
+            texture_unit
+            {
+                texture texturen/GG_BILD02.jpg
+                filtering point point point
+            }
+        }
+    }
+}
+
+material OU_HOLZ06_04
+{
+    technique
+    {
+        pass
+        {
+
+            texture_unit
+            {
+                texture texturen/OU_HOLZ06_04.jpg
+                filtering point point point
+            }
+        }
+    }
+}
+
+material GG_SCHRIFT02
+{
+    technique
+    {
+        pass
+        {
+
+            texture_unit
+            {
+                texture texturen/GG_SCHRIFT02.jpg
+                filtering point point point
+            }
+        }
+    }
+}
+
+material GG_BUECHER01
+{
+    technique
+    {
+        pass
+        {
+
+            texture_unit
+            {
+                texture texturen/GG_BUECHER01.jpg
+                filtering point point point
+            }
+        }
+    }
+}
+
+material MC_HOLZ01
+{
+    technique
+    {
+        pass
+        {
+
+            texture_unit
+            {
+                texture texturen/MC_HOLZ01.jpg
+                filtering point point point
+            }
+        }
+    }
+}
+
+material VERST_TUER04
+{
+    technique
+    {
+        pass
+        {
+
+            texture_unit
+            {
+                texture texturen/VERST_TUER04.jpg
+                filtering point point point
+            }
+        }
+    }
+}
+
+material KISTE01
+{
+    technique
+    {
+        pass
+        {
+
+            texture_unit
+            {
+                texture texturen/KISTE01.jpg
+                filtering point point point
+            }
+        }
+    }
+}
+
+material KISTE02
+{
+    technique
+    {
+        pass
+        {
+
+            texture_unit
+            {
+                texture texturen/KISTE02.jpg
+                filtering point point point
+            }
+        }
+    }
+}
+
+material SKY
+{
+    technique
+    {
+        pass
+        {
+
+            texture_unit
+            {
+                texture texturen/SKY.jpg
+                filtering point point point
+            }
+        }
+    }
+}
+
+material FADER01
+{
+    technique
+    {
+        pass
+        {
+
+            texture_unit
+            {
+                texture texturen/FADER01.jpg
+                filtering point point point
+            }
+        }
+    }
+}
