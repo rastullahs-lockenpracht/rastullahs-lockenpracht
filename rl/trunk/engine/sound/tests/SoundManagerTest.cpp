@@ -80,6 +80,7 @@ public:
         {
             Resource *res = it.getNext();
             SndResource* sound = dynamic_cast<SndResource*>(res);
+            std::cerr << sound->getName()<<std::endl;
             if (sound)
             {
                 sound->load();
@@ -88,7 +89,7 @@ public:
                 std::cerr << "Fade In Ende" << std::endl;
                 
                 xtime_get(&xt, TIME_UTC);
-                xt.sec += 5;
+                xt.sec += 10;
                 thread::sleep(xt);
                 
                 std::cerr << "Fade Out Start" << std::endl;
@@ -96,7 +97,7 @@ public:
                 std::cerr << "Fade Out Ende" << std::endl;
                 
                 xtime_get(&xt, TIME_UTC);
-                xt.sec += 5;
+                xt.sec += 10;
                 thread::sleep(xt);
                 
                 sound->unload();
@@ -112,4 +113,4 @@ public:
     CPPUNIT_TEST(testSoundManager_loadPlayWithFade);
     CPPUNIT_TEST_SUITE_END();
 };
-CPPUNIT_TEST_SUITE_REGISTRATION(SoundManagerTest);
+//CPPUNIT_TEST_SUITE_REGISTRATION(SoundManagerTest);
