@@ -6,7 +6,7 @@ material test_WST_SNDBODEN01
 		{
 			texture_unit
 			{
-				texture textures/WST_SNDBODEN01.jpg
+				texture textures/wst_sndboden01.jpg
 				filtering anisotropic anisotropic anisotropic
 			}
 		}
@@ -20,7 +20,7 @@ material test_-1OU_CLMAUER03
 		{
 			texture_unit
 			{
-				texture textures/-1OU_CLMAUER03.jpg
+				texture textures/-1ou_clmauer03.jpg
 				filtering anisotropic anisotropic anisotropic
 			}
 		}
@@ -34,7 +34,7 @@ material test_WST_WAND01
 		{
 			texture_unit
 			{
-				texture textures/WST_WAND01.jpg
+				texture textures/wst_wand01.jpg
 				filtering anisotropic anisotropic anisotropic
 			}
 		}
@@ -48,7 +48,7 @@ material test_OU_HOLZ06_04
 		{
 			texture_unit
 			{
-				texture textures/OU_HOLZ06_04.jpg
+				texture textures/ou_holz06_04.jpg
 				filtering anisotropic anisotropic anisotropic
 			}
 		}
@@ -62,7 +62,7 @@ material test_OU_OCLMAUER09_1
 		{
 			texture_unit
 			{
-				texture textures/OU_OCLMAUER09_1.jpg
+				texture textures/ou_oclmauer09_1.jpg
 				filtering anisotropic anisotropic anisotropic
 			}
 		}
@@ -76,7 +76,7 @@ material test_MC_HOLZ01
 		{
 			texture_unit
 			{
-				texture textures/MC_HOLZ01.jpg
+				texture textures/mc_holz01.jpg
 				filtering anisotropic anisotropic anisotropic
 			}
 		}
