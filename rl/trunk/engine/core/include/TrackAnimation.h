@@ -25,7 +25,9 @@
 #include "AnimationManager.h"
 
 namespace rl {
-
+/** Diese Klasse stellt eine Möglichkeit zur Verfügung, einfach Tracks zu erzeugen denen
+	Aktoren folgen.
+*/
 class _RlCoreExport TrackAnimation : public rl::Animation
 {
 public:
@@ -62,7 +64,7 @@ public:
 		@param	yRotAxis Die Achsendefinition
 		@param	yRotAxis Die Achsendefinition
 		@param	angleUnits Die Drehung ( in Grad )
-		@remarks Sollte das KeyFrame nichts existieren, wird das 
+		@remarks Sollte das KeyFrame nichts existieren, wird der
 			davorliegende KeyFrame überschrieben
 	*/
     void setKeyFrameRotation( Ogre::Real timePos,
@@ -84,7 +86,7 @@ public:
 	/// Gibt die Art der Interpolation zurück
 	AnimationManager::InterpolationMode getInterpolationMode() const;
 
-	/// Setzt die Art der RotationsInterpolation zurück (RotationInterpolationMode aus AnimationManager)
+	/// Setzt die Art der RotationsInterpolation (RotationInterpolationMode aus AnimationManager)
 	void setRotationInterpolationMode(
 	    AnimationManager::RotationInterpolationMode im );
 	/// Gibt die Art der RotationsInterpolation zurück 

@@ -27,6 +27,7 @@ namespace rl {
 
 /** 
 	Diese Klasse ermöglicht eine einfache Steuerung von Animationseinstellungen
+	und ist die Basisklasse erweiterter Animationen.
 	@remarks Instanzen werden über den AnimationManager erzeugt
 	@see AnimationManager
 */
@@ -63,7 +64,7 @@ class _RlCoreExport Animation : public virtual EventSource
 		/// Gibt zurück ob die globale Beschleunigung ignoriert wird
 		bool isIgnoringGlobalSpeed() const;
 		/**	Setzt die Ignoranz
-			@param		Die zukünftige Ignoranz der globalen Geschwindigkeit
+			@param		isIgnoringGlobalSpeed Die zukünftige Ignoranz der globalen Geschwindigkeit
 			@remarks	Möglichkeit die globale SlowMotion zu umgehen
 						Nützlich für Statusanzeigen, oder ähnliche konstante Animationen
 			@todo		TODO Eventuell das ganze auf Flags erweitern

@@ -87,7 +87,7 @@ namespace rl {
         }
 	}
 
-    Actor* ActorManager::createLightActor(const String& name, int type)
+    Actor* ActorManager::createLightActor(const String& name, rl::LightObject::LightTypes type )
 	{
         const String&  uniquename = nextUniqueName(name);
 
@@ -95,7 +95,7 @@ namespace rl {
         try
         {
             ///@todo Typen in Einklang bringen
-            LightObject* lo = new LightObject(uniquename, (Light::LightTypes)type);
+            LightObject* lo = new LightObject(uniquename, type);
 
             actor = new Actor(uniquename, lo);
             mActors.insert(ActorPtrPair(uniquename,actor)); 
