@@ -24,6 +24,7 @@ namespace rl {
 	ParticleSystemObject::ParticleSystemObject(const String& name, const String& partSys)
 	{
 		ParticleSystem* part = ParticleSystemManager::getSingleton().createSystem(name,partSys);
+        
 		mMovableObject = part;
 	}
 
