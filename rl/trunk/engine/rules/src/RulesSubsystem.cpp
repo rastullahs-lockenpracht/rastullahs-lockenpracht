@@ -43,6 +43,11 @@ namespace rl
 		log("RlRules: Erzeugen abgeschlossen");		
     }
 	
+    void RulesSubsystem::log(const char *msg)
+    {
+        mLog->logMessage(msg);
+    }
+    
 	void RulesSubsystem::log(const std::string& msg)
 	{
 		mLog->logMessage(msg);

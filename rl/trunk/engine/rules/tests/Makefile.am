@@ -4,5 +4,5 @@ noinst_PROGRAMS = testrules
 testrules_SOURCES = Main.cpp
 testrules_LDFLAGS = -L../../core/src  -L../../common/src -L../../rules/src
 testrules_LDADD = $(LIBS) $(OPENALPP_LIBS) $(SWIG_RUBY_LIBS) $(SDL_LIBS) $(OGRE_LIBS) $(OGRE_PLUGINDIR)/Plugin_GuiElements.so \
-	 -lruby -lRlCore -lRlCommon -lRlRules -lcppunit -lvorbis -lvorbisfile -logg
+	 $(RUBY_LIBS) -lRlCore -lRlCommon -lRlRules -lcppunit -lvorbis -lvorbisfile -logg
 

@@ -16,6 +16,7 @@ namespace rl
         RulesSubsystem();
         ~RulesSubsystem();
 	
+        void log(const char *msg);
 		void log(const std::string& msg);
 		void log(const CeGuiString& msg);
 	
