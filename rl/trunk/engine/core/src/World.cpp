@@ -2,6 +2,7 @@
 
 #include "World.h"
 #include "PhysicsManager.h"
+#include "Exception.h"
 
 namespace rl {
 
@@ -100,6 +101,50 @@ namespace rl {
 
 	Vector3 World::getStartPoint() const
 	{
-		return mSceneMgr->getSuggestedViewpoint().position;
+		//return mSceneMgr->getSuggestedViewpoint().position;
+		return Vector3(0, 20, 40);
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+    float* World::getVerticesPtr()
+    {
+        Throw(OperationNotSupportedException,
+            "SceneManager does not support TriMesh-Retrieval");
+    }
+
+	int* World::getIndexPtr()
+	{
+        Throw(OperationNotSupportedException,
+            "SceneManager does not support TriMesh-Retrieval");
+	}
+
+	int World::getVerticeCount()
+	{
+        Throw(OperationNotSupportedException,
+            "SceneManager does not support TriMesh-Retrieval");
+	}
+
+	int World::getIndexCount()
+	{
+        Throw(OperationNotSupportedException,
+            "SceneManager does not support TriMesh-Retrieval");
 	}
 }

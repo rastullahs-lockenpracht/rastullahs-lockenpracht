@@ -3,7 +3,6 @@
 
 #include "CorePrerequisites.h"
 
-
 namespace Ogre {
 
     class SceneManager;
@@ -72,6 +71,11 @@ public:
     virtual Real getFogEnd (void) const;
 
     virtual void setAmbientLight(Real r, Real g, Real b);
+    
+	virtual float* getVerticesPtr();
+	virtual int* getIndexPtr();
+	virtual int getVerticeCount();
+	virtual int getIndexCount();
 protected:
 	World(Ogre::SceneType sceneType, bool hasPhysics);
 
