@@ -63,7 +63,7 @@ class Torch < RubyItem
     # und die Dichte (g/cm^3) des Objektes.
     #torchActor = $ActorManager.createMeshActor("Torch", "Torch.mesh",
     #Physics.CAPSULE_GEOM, 1.0);
-    torchActor = $AF.createMeshActor("Torch", "Fackel.mesh", 2, 1.0);
+    torchActor = $AF.createMeshActor("Torch", "fackel.mesh", 2, 1.0);
     $CORE.log("actor erstellt.");
     #lightActor = $ActorManager.createLightActor("TorchLight",
     #Color.YELLOW, Light.POINTLIGHT, Light.LINEAR_ATTENUATION);
