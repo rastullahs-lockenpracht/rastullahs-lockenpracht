@@ -29,6 +29,11 @@ public class Vector3
 	{
 		return (double[])xyz.clone();
 	}
+	
+	public double at( int i )
+	{
+	    return xyz[i];
+	}
 
 	public static Vector3 add(Vector3 a,Vector3 b)
 	{

@@ -101,6 +101,26 @@ public class Matrix4
        return result;
     }
     
+    static public Matrix4 rotate( double angle, Vector3 axis )
+    {
+       double x = axis.x();
+       double y = axis.y();
+       double z = axis.z();
+       double c = Math.cos(angle);
+       double s = Math.sin(angle);
+       double t = 1 - c;
+       
+       Matrix4 result = new Matrix4();
+       
+       result.m[0][0]= t*x*x + c;  		result.m[0][1]= t*x*y - z*s;    result.m[0][2]= t*x*z + y*s;    result.m[0][3]=0;
+       result.m[1][0]= t*x*y + z*s;  	result.m[1][1]= t*y*y + c;   	result.m[1][2]= t*y*z - x*s;  	result.m[1][3]=0;
+       result.m[2][0]= t*x*z - y*s;  	result.m[2][1]= t*y*z + x*s;  	result.m[2][2]= t*z*z + c;  	result.m[2][3]=0;
+       result.m[3][0]= 0;  				result.m[3][1]= 0;      		result.m[3][2]= 0;     			result.m[3][3]=1;
+ 
+       
+       return result;
+    }
+    
     static public Matrix4 translate(double x, double y, double z)
     {
        Matrix4 result = Matrix4.identity();

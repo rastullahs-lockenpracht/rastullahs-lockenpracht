@@ -32,6 +32,8 @@ public class Plane
     private Vector3 mNormal = null;
     private String mTexture; 
     
+    private double mRotation;
+    
     private static double mScaleAll = 1;
     
     private static final Pattern PLANE_HL_PATTERN = 
@@ -64,12 +66,65 @@ public class Plane
             parseQ3Plane( line ); 
     }
     
+    private static final int eProjectionAxisX = 0;
+    private static final int eProjectionAxisY = 1;
+    private static final int eProjectionAxisZ = 2;
+
+    public static double ProjectionAxisEpsilon = 0.0001;
+
+    private static boolean isProjectionAxisBetter(double axis, double other)
+    {
+      return Math.abs(axis) > Math.abs(other) + ProjectionAxisEpsilon;
+    }
+
+    /*
+     standard quake utility function
+     quake's axis dominance: Z > X > Y
+    */
+    private static int calculateProjectionAxis( Vector3 normal )
+    {
+      return (isProjectionAxisBetter(normal.at(eProjectionAxisY), normal.at(eProjectionAxisX)))
+        ? (isProjectionAxisBetter(normal.at(eProjectionAxisY), normal.at(eProjectionAxisZ)))
+          ? eProjectionAxisY
+          : eProjectionAxisZ
+        : (isProjectionAxisBetter(normal.at(eProjectionAxisX), normal.at(eProjectionAxisZ)))
+          ? eProjectionAxisX
+          : eProjectionAxisZ;
+    }
+    
+    
+    /*
+    Provides the axis-base of the texture ST space for this normal,
+    as they had been transformed to world XYZ space.
+    */
+    private void calculateTextureAxis(  )
+    {
+      switch( calculateProjectionAxis(mNormal) )
+      {
+      case eProjectionAxisZ:
+        mTex1 = new Vector3(1,0,0);  
+        mTex2 = new Vector3(0,-1,0);   
+        
+        break;
+      case eProjectionAxisY:
+        mTex1 = new Vector3(1,0,0);  
+        mTex2 = new Vector3(0,0,-1);  
+
+        break;
+      case eProjectionAxisX:
+        mTex1 = new Vector3(0,1,0);  
+        mTex2 = new Vector3(0,0,-1);  
+        
+        break;
+      }
+    }
+
     private void parseQ3Plane( String line )
     {
         Matcher matcher = PLANE_Q3_PATTERN.matcher(line);
               
         if( matcher.find() )
-		{
+    	{
             Vector3 v1 = new Vector3( parseDoubleArray( matcher.group(1) ) );
             Vector3 v2 = new Vector3( parseDoubleArray( matcher.group(2) ) );
             Vector3 v3 = new Vector3( parseDoubleArray( matcher.group(3) ) );
@@ -79,7 +134,7 @@ public class Plane
             mTex_offsetx = Double.parseDouble(matcher.group(5));
             mTex_offsety = Double.parseDouble(matcher.group(6));
             
-            double rotation = Double.parseDouble(matcher.group(7));
+            mRotation = Double.parseDouble(matcher.group(7));
             
             mScale_x = Double.parseDouble(matcher.group(8)) * mScaleAll;
             mScale_y = Double.parseDouble(matcher.group(9)) * mScaleAll;
@@ -90,10 +145,11 @@ public class Plane
                 v2 = Vector3.mul(v2,sMatrix);
                 v3 = Vector3.mul(v3,sMatrix);
             }
-
+            
             calculateHessian(v1, v2, v3);
-		}
-    }
+            calculateTextureAxis();
+    	}
+    } 
     
     private void parseHLPlane( String line )
     {
@@ -115,7 +171,7 @@ public class Plane
             mTex_offsety = tmpArr[3];
             mTex2 = Vector3.mul(new Vector3( tmpArr ),1);
              
-            double rotation = Double.parseDouble(matcher.group(7));
+            mRotation = Double.parseDouble(matcher.group(7));
             mScale_x = Double.parseDouble(matcher.group(8)) * mScaleAll;
             mScale_y = Double.parseDouble(matcher.group(9)) * mScaleAll;
             
@@ -140,8 +196,8 @@ public class Plane
      */
     private void calculateHessian(Vector3 v1, Vector3 v2, Vector3 v3)
     {
-        mNormal = Vector3.cross( Vector3.sub(v1,v2), Vector3.sub(v3,v2) );
-        mNormal = Vector3.normalize(mNormal);
+        mNormal = Vector3.normalize(Vector3.cross( Vector3.sub(v1,v2), Vector3.sub(v3,v2) ) );
+        
         mDistance = -Vector3.dot(mNormal,v2);
     }
 
@@ -189,9 +245,10 @@ public class Plane
             height = tex.getHeight();
         } 
         
+        //System.out.println(Math.PI*(mRotation)/180);
         double[] ret = new double[2];
-        ret[0] = 0;  
-        ret[1] = 0; 
+        ret[0] = ( Vector3.dot(Vector3.mul(mTex1,Matrix4.rotate(mRotation,mNormal)),vertPos)/width/mScale_x  ) + ( mTex_offsetx );  
+        ret[1] = ( Vector3.dot(Vector3.mul(mTex2,Matrix4.rotate(mRotation,mNormal)),vertPos)/height/mScale_y  ) + ( mTex_offsety  ); 
         
         return ret;
     }
