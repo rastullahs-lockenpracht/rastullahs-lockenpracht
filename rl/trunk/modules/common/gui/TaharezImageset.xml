@@ -176,4 +176,29 @@
 	<Image Name="MouseNeSwCursor" XPos="201" YPos="147" Width="14" Height="14" XOffset="-7" YOffset="-7" />
 	<Image Name="MouseNwSeCursor" XPos="230" YPos="126" Width="14" Height="14" XOffset="-7" YOffset="-7" />
 	<Image Name="MouseTextBar" XPos="173" YPos="127" Width="7" Height="18" XOffset="-2" YOffset="-9" />
+	<Image Name="TabControlButtonPaneFiller" XPos="197" YPos="201" Width="7" Height="1" />
+	<Image Name="TabPaneLeft" XPos="41" YPos="89" Width="7" Height="6" />
+	<Image Name="TabPaneRight" XPos="62" YPos="89" Width="7" Height="6" />
+	<Image Name="TabPaneLower" XPos="52" YPos="99" Width="6" Height="7" />
+	<Image Name="TabPaneLowerLeft" XPos="41" YPos="99" Width="7" Height="7" />
+	<Image Name="TabPaneLowerRight" XPos="62" YPos="99" Width="7" Height="7" />
+	<Image Name="TabPaneMiddle" XPos="52" YPos="89" Width="6" Height="6" />
+	<Image Name="TabButtonLeftNormal" XPos="41" YPos="89" Width="7" Height="6" />
+	<Image Name="TabButtonRightNormal" XPos="62" YPos="89" Width="7" Height="6" />
+	<Image Name="TabButtonUpperNormal" XPos="52" YPos="78" Width="6" Height="7" />
+	<Image Name="TabButtonLowerNormal" XPos="52" YPos="99" Width="6" Height="7" />
+	<Image Name="TabButtonUpperLeftNormal" XPos="41" YPos="78" Width="7" Height="7" />
+	<Image Name="TabButtonUpperRightNormal" XPos="62" YPos="78" Width="7" Height="7" />
+	<Image Name="TabButtonLowerLeftNormal" XPos="41" YPos="99" Width="7" Height="7" />
+	<Image Name="TabButtonLowerRightNormal" XPos="187" YPos="195" Width="7" Height="7" />
+	<Image Name="TabButtonMiddleNormal" XPos="52" YPos="89" Width="6" Height="6" />
+	<Image Name="TabButtonLeftSelected" XPos="41" YPos="89" Width="7" Height="6" />
+	<Image Name="TabButtonRightSelected" XPos="62" YPos="89" Width="7" Height="6" />
+	<Image Name="TabButtonUpperSelected" XPos="52" YPos="78" Width="6" Height="7" />
+	<Image Name="TabButtonLowerSelected" XPos="52" YPos="89" Width="6" Height="6" />
+	<Image Name="TabButtonUpperLeftSelected" XPos="41" YPos="78" Width="7" Height="7" />
+	<Image Name="TabButtonUpperRightSelected" XPos="62" YPos="78" Width="7" Height="7" />
+	<Image Name="TabButtonLowerLeftSelected" XPos="41" YPos="99" Width="7" Height="7" />
+	<Image Name="TabButtonLowerRightSelected" XPos="62" YPos="99" Width="7" Height="7" />
+	<Image Name="TabButtonMiddleSelected" XPos="52" YPos="89" Width="6" Height="6" />
 </Imageset>

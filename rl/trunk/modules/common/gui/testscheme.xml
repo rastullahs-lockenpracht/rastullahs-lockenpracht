@@ -31,5 +31,8 @@
 		<WindowFactory Name="Taharez ListHeader" />
 		<WindowFactory Name="Taharez MultiColumnList" />
 		<WindowFactory Name="Taharez MultiLineEditbox" />
+		<WindowFactory Name="Taharez Tab Control" />
+		<WindowFactory Name="Taharez Tab Pane" />
+		<WindowFactory Name="Taharez Tab Button" />
 	</WindowSet>
 </GUIScheme>
