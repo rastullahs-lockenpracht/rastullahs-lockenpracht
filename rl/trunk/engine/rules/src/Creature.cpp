@@ -10,17 +10,17 @@ namespace rl
         const std::string& name, const std::string& description)
         : GameObject(id, name, description), mCurrentLe(0)
     {
+		setWert(WERT_MOD_AE, 0);
+		setWert(WERT_MOD_LE, 0);
+		setWert(WERT_MOD_AT, 0);
+		setWert(WERT_MOD_PA, 0);
+		setWert(WERT_MOD_FK, 0);
+		setWert(WERT_MOD_AU, 0);
+		setWert(WERT_MOD_MR, 0);
+		setWert(WERT_MOD_INI, 0);	
     }
 
-	Creature::Creature(int id,
-        const std::string& name, const std::string& description,
-		const TalentMap& talents)
-        : GameObject(id, name, description), mCurrentLe(0)
-    {
-		mTalente = talents;
-    }
-
-    Creature::~Creature()
+	Creature::~Creature()
     {
     }
 
@@ -85,10 +85,11 @@ namespace rl
         (*it).second += mod;
     }
 
-    ///@todo Maximum beachten.
-    void Creature::modifyLe(int mod)
+    void Creature::modifyLe(int mod, bool ignoreMax)
     {
         mCurrentLe += mod;
+		if (!ignoreMax)
+			mCurrentLe = min(mCurrentLe, getLeMax());
     }
 
     int Creature::getLe()
@@ -98,10 +99,49 @@ namespace rl
     
     int Creature::getLeMax()
     {
-    	return getLeBasis();
+		return getLeBasis() + getWert(WERT_MOD_LE);
     }
 
-    ///@todo Richten f�r negativen Talentwert.
+    void Creature::modifyAe(int mod, bool ignoreMax)
+    {
+        mCurrentAe += mod;
+		if (!ignoreMax)
+			mCurrentAe = min(mCurrentAe, getAeMax());
+    }
+
+    int Creature::getAe()
+    {
+        return mCurrentAe;
+    }
+    
+    int Creature::getAeMax()
+    {
+		return isMagic()?getAeBasis() + getWert(WERT_MOD_AE):0;
+    }
+
+	bool Creature::isMagic()
+	{
+		return getWert(WERT_MOD_AE) > 0;
+	}
+
+    void Creature::modifyAu(int mod, bool ignoreMax)
+    {
+        mCurrentAu += mod;
+		if (!ignoreMax)
+			mCurrentAu = min(mCurrentAu, getAuMax());
+    }
+
+    int Creature::getAu()
+    {
+        return mCurrentAu;
+    }
+    
+    int Creature::getAuMax()
+    {
+		return getAuBasis() + getWert(WERT_MOD_AU);
+    }
+
+    ///@todo Richten für negativen Talentwert.
     ///@todo Kritischer Patzer/Erfolg.
     int Creature::doTalentprobe(int id, int modifier)
     {
@@ -111,7 +151,7 @@ namespace rl
         // Der Probenwurf
         Tripel<int> probe(DsaManager::getSingleton().roll3D20());
 
-        // Vor dem Vergleich hat man den Talentwert �brig.
+        // Vor dem Vergleich hat man den Talentwert übrig.
         int rval = getTalent(id) - modifier;
 
         int diff1 = getEigenschaft(et.first) - probe.first;
@@ -166,25 +206,25 @@ namespace rl
         (*it).second = value;
     }
 
-    int Creature::getAttackeBasis()
+    int Creature::getAttackeBasis() const
     {
         double es = getEigenschaft(E_MUT) +
-            getEigenschaft(E_GEWANDHEIT) +
+            getEigenschaft(E_GEWANDTHEIT) +
             getEigenschaft(E_KOERPERKRAFT);
 
         return static_cast<int>(es / 5.0 + 0.5);
     }
 
-    int Creature::getParadeBasis()
+    int Creature::getParadeBasis() const
     {
         double es = getEigenschaft(E_INTUITION) +
-            getEigenschaft(E_GEWANDHEIT) +
+            getEigenschaft(E_GEWANDTHEIT) +
             getEigenschaft(E_KOERPERKRAFT);
 
         return static_cast<int>(es / 5.0 + 0.5);
     }
 
-    int Creature::getFernkampfBasis()
+    int Creature::getFernkampfBasis() const
     {
         double es = getEigenschaft(E_INTUITION) +
             getEigenschaft(E_FINGERFERTIGKEIT) +
@@ -193,16 +233,16 @@ namespace rl
         return static_cast<int>(es / 5.0 + 0.5);
     }
 
-    int Creature::getInitiativeBasis()
+    int Creature::getInitiativeBasis() const
     {
         int es = 2 * getEigenschaft(E_MUT) +
             getEigenschaft(E_INTUITION) +
-            getEigenschaft(E_GEWANDHEIT);
+            getEigenschaft(E_GEWANDTHEIT);
 
         return static_cast<int>(es / 5.0 + 0.5);
     }
 
-    int Creature::getMrBasis()
+    int Creature::getMrBasis() const
     {
         int es = getEigenschaft(E_MUT) +
             getEigenschaft(E_KLUGHEIT) +
@@ -211,7 +251,7 @@ namespace rl
         return static_cast<int>(es / 5.0 + 0.5);
     }
 
-    int Creature::getLeBasis()
+    int Creature::getLeBasis() const
     {
         int es =  2 * getEigenschaft(E_KONSTITUTION) +
             getEigenschaft(E_KOERPERKRAFT);
@@ -219,13 +259,41 @@ namespace rl
         return static_cast<int>(es / 2.0 + 0.5);
     }
 
-    int Creature::getAuBasis()
+    int Creature::getAuBasis() const
     {
         int es = getEigenschaft(E_MUT) +
             getEigenschaft(E_KONSTITUTION) +
-            getEigenschaft(E_GEWANDHEIT);
+            getEigenschaft(E_GEWANDTHEIT);
 
         return static_cast<int>(es / 2.0 + 0.5);
     }
 
+	int Creature::getAeBasis() const
+	{
+        int es = getEigenschaft(E_MUT) +
+			getEigenschaft(E_INTUITION) +
+            getEigenschaft(E_CHARISMA);
+
+        return static_cast<int>(es / 2.0 + 0.5);
+    }
+
+	int Creature::getWert(int id) const
+	{
+		WertMap::const_iterator it = mWerte.find(id);
+        if (it == mWerte.end())
+        {
+            Throw(InvalidArgumentException, "Wert nicht gefunden.");
+        }
+        return (*it).second;
+	}
+
+	void Creature::setWert(int id, int wert)
+	{
+		WertMap::iterator it = mWerte.find(id);
+        if (it == mWerte.end())
+        {
+            mWerte.insert(make_pair(id, wert));
+        }
+        (*it).second = wert;
+	}
 }

@@ -9,6 +9,17 @@ using namespace std;
 
 namespace rl
 {
+
+	static const int WERT_MOD_AE = 1;
+	static const int WERT_MOD_LE = 2;
+	static const int WERT_MOD_AT = 3;
+	static const int WERT_MOD_PA = 4;
+	static const int WERT_MOD_FK = 5;
+	static const int WERT_MOD_AU = 6;
+	static const int WERT_MOD_MR = 7;
+	static const int WERT_MOD_INI = 8;
+	static const int WERT_SOZIALSTATUS = 9;
+
     /**
     * @brief Basisklasse aller spielrelevanten Objekte in RL.
     *
@@ -22,15 +33,18 @@ namespace rl
     {
 
     protected:
-        virtual int getAttackeBasis();
-        virtual int getParadeBasis();
-        virtual int getFernkampfBasis();
-        virtual int getInitiativeBasis();
-        virtual int getMrBasis();
-        virtual int getLeBasis();
-        virtual int getAuBasis();
+        virtual int getWert(int id) const;
+		virtual int getAttackeBasis() const;
+	    virtual int getParadeBasis() const;
+		virtual int getFernkampfBasis() const;
+		virtual int getInitiativeBasis() const;
+		virtual int getMrBasis() const;
+        virtual int getLeBasis() const;
+		virtual int getAuBasis() const;
+		virtual int getAeBasis() const;
 
     public:
+		typedef map<int, int> WertMap;
 		typedef map<int, int> TalentMap;
         typedef map<int, pair<int, int> > KampftechnikMap;
 
@@ -38,11 +52,7 @@ namespace rl
         Creature(int id,
                  const std::string& name,
                  const std::string& description);
-		Creature(int id,
-                 const std::string& name,
-                 const std::string& description,
-				 const TalentMap& talents);
-        
+		        
         virtual ~Creature();
 
         virtual int getEigenschaft(int id) const;
@@ -58,9 +68,20 @@ namespace rl
         virtual void modifyTalent(int id, int mod);
 		virtual const Creature::TalentMap& getAllTalents() const;
 
-        virtual void modifyLe(int mod);
+        virtual void modifyLe(int mod, bool ignoreMax = false);
         virtual int getLe();
         virtual int getLeMax();
+
+		virtual void modifyAe(int mod,  bool ignoreMax = false);
+        virtual int getAe();
+        virtual int getAeMax();
+		virtual bool isMagic();
+
+		virtual void modifyAu(int mod,  bool ignoreMax = false);
+        virtual int getAu();
+        virtual int getAuMax();
+
+		void setWert(int id, int wert);
 
         /** @brief Durchfuehren einer Talentprobe.
         *
@@ -92,10 +113,13 @@ namespace rl
 
 	private:
         int mCurrentLe;
+		int mCurrentAe;
+		int mCurrentAu;		
 
         int mEigenschaften[EIGENSCHAFT_COUNT];
         TalentMap mTalente;
         KampftechnikMap mKampftechniken;
+		WertMap mWerte;
     };
 }
 #endif

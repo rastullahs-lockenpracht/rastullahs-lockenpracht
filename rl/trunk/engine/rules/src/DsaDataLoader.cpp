@@ -132,6 +132,8 @@ namespace rl {
 	{
 		XMLCh* TALENT = XMLString::transcode("Talent");
 		XMLCh* ID = XMLString::transcode("ID");
+		XMLCh* ABGELEITETER_WERT = XMLString::transcode("AbgeleiteterWert");
+		XMLCh* EIGENSCHAFT = XMLString::transcode("Eigenschaft");
 		
 		string name = 
 			XmlHelper::getValueAsString(XmlHelper::getChildNamed(personXml, "Name"));
@@ -139,7 +141,56 @@ namespace rl {
 			XmlHelper::getValueAsString(XmlHelper::getChildNamed(personXml, "Beschreibung"));
 
 		Person* rval = new Person(id, name, desc);
-		
+
+		// Eigenschaften laden
+		DOMNodeList* eigensch = 
+			XmlHelper::getChildNamed(personXml, "Eigenschaften")->
+				getElementsByTagName(EIGENSCHAFT);
+		for (unsigned int idx = 0; idx < eigensch->getLength(); idx++)
+		{
+			DOMElement* eigenschXml = reinterpret_cast<DOMElement*>(eigensch->item(idx));
+			char* eigName = XMLString::transcode(eigenschXml->getAttribute(ID));
+			int eigId = DsaManager::getSingleton().getEigenschaftIdFromLongString(eigName);
+			XMLString::release(&eigName);
+			int wert = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(eigenschXml, "Wert"));
+
+			rval->setEigenschaft(eigId, wert);
+		}		
+
+		// Abgeleitete Werte laden
+		DOMNodeList* werte = 
+			XmlHelper::getChildNamed(personXml, "AbgeleiteteWerte")->
+				getElementsByTagName(ABGELEITETER_WERT);
+		for (unsigned int idx = 0; idx < werte->getLength(); idx++)
+		{
+			DOMElement* wertXml = reinterpret_cast<DOMElement*>(werte->item(idx));
+			int basis = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(wertXml, "Basiswert"));
+			int wert = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(wertXml, "Wert"));
+			
+			char* wertId = XMLString::transcode(wertXml->getAttribute(ID));
+			if (strcmp(wertId, "Lebensenergie") == 0)
+				rval->setWert(WERT_MOD_LE, wert - basis);
+			else if (strcmp(wertId, "Ausdauer") == 0)
+				rval->setWert(WERT_MOD_AU, wert - basis);
+			else if (strcmp(wertId, "AttackeBasis") == 0)
+				rval->setWert(WERT_MOD_AT, wert - basis);
+			else if (strcmp(wertId, "ParadeBasis") == 0)
+				rval->setWert(WERT_MOD_PA, wert - basis);
+			else if (strcmp(wertId, "FernkampfBasis") == 0)
+				rval->setWert(WERT_MOD_FK, wert - basis);
+			else if (strcmp(wertId, "InitiativeBasis") == 0)
+				rval->setWert(WERT_MOD_INI, wert - basis);
+			else if (strcmp(wertId, "Magieresistenz") == 0)
+				rval->setWert(WERT_MOD_MR, wert - basis);
+			else if (strcmp(wertId, "Astralenergie") == 0)
+				rval->setWert(WERT_MOD_AE, wert - basis);
+			else if (strcmp(wertId, "Sozialstatus") == 0)
+				rval->setWert(WERT_SOZIALSTATUS, wert);
+
+			XMLString::release(&wertId);
+		}
+
+		// Talente laden
 		// Talente, die direkt unter <Person> angeordnet sind, ergeben bereits die zusammengefassten Werte
 		DOMNodeList* talente =			
 			XmlHelper::getChildNamed(personXml, "Talente")->
@@ -158,6 +209,7 @@ namespace rl {
 
 		XMLString::release(&TALENT);
 		XMLString::release(&ID);
+		XMLString::release(&ABGELEITETER_WERT);
 
 		return rval;
 	}

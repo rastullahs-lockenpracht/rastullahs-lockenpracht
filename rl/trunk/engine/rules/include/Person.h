@@ -14,13 +14,7 @@ namespace rl {
         Person(int id,
                  const std::string& name,
                  const std::string& description);
-		Person(int id,
-                 const std::string& name,
-                 const std::string& description,
-				 const Creature::TalentMap& talents);
-				
 	};	
-	
 }
 
 

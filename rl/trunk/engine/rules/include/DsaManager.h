@@ -60,6 +60,7 @@ namespace rl
         
 		
 		int getEigenschaftIdFromString(const std::string& str) const;
+		int getEigenschaftIdFromLongString(const std::string& str) const;
 		
 		int getSteigerKosten(int column, int from, int to) const;
 		int getSteigerKosten(int column, int from) const;

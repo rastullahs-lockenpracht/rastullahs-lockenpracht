@@ -13,7 +13,7 @@ namespace rl
     static const int E_INTUITION = 2;
     static const int E_CHARISMA = 3;
     static const int E_FINGERFERTIGKEIT = 4;
-    static const int E_GEWANDHEIT = 5;
+    static const int E_GEWANDTHEIT = 5;
     static const int E_KONSTITUTION = 6;
     static const int E_KOERPERKRAFT = 7;
 

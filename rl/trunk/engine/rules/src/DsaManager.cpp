@@ -56,8 +56,8 @@ namespace rl
             E_CHARISMA, "Charisma", "CH", "");
         mEigenschaften[E_FINGERFERTIGKEIT] = new Eigenschaft(
             E_FINGERFERTIGKEIT, "Fingerfertigkeit", "FF", "");
-        mEigenschaften[E_GEWANDHEIT] = new Eigenschaft(
-            E_GEWANDHEIT, "Gewandheit", "GE", "");
+        mEigenschaften[E_GEWANDTHEIT] = new Eigenschaft(
+            E_GEWANDTHEIT, "Gewandtheit", "GE", "");
         mEigenschaften[E_KONSTITUTION] = new Eigenschaft(
             E_KONSTITUTION, "Konstitution", "KO", "");
         mEigenschaften[E_KOERPERKRAFT] = new Eigenschaft(
@@ -163,6 +163,15 @@ namespace rl
         return mEigenschaften[id];
     }
 
+	int DsaManager::getEigenschaftIdFromLongString(const string& str) const
+	{
+		for (int idx = 0; idx < EIGENSCHAFT_COUNT; idx++)
+			if (mEigenschaften[idx]->getName().compare(str) == 0)
+				return idx;
+
+		Throw(InvalidArgumentException, "Ungueltige Eigenschaft");
+	}
+
     int DsaManager::getEigenschaftIdFromString(const string& str) const
     {
         if (str.size() != 2)
@@ -184,7 +193,7 @@ namespace rl
                 rval = E_FINGERFERTIGKEIT;
                 break;
             case 'G':
-                rval = E_GEWANDHEIT;
+                rval = E_GEWANDTHEIT;
                 break;
             case 'K':
                 switch (str[1]) {
