@@ -90,14 +90,24 @@ class MakeScreenshotAction < RubyAction
   end
   
   def doAction(object, actor, target)
-    CoreSubsystem.getSingleton().makeScreenshot("rastullah");
+    $CORE.makeScreenshot("rastullah");
+  end
+end
+
+class ToggleOdeDebugAction < RubyAction
+  def initialize
+    super("OdeDebug", "Ode-Koerper anzeigen")
+  end
+  
+  def doAction(object, actor, target)
+    gc = $UI.getGameController();
+    gc.toggleDebugOde();
   end
 end
 
 class PlayerSettings
   
-  def PlayerSettings.addPlayerActions(player)
-    
+  def PlayerSettings.addPlayerActions(player)    
     grpGrp1 = ActionGroup.new("Grp1")
     grpGrp2 = ActionGroup.new("Grp2")
     grpGrp3 = ActionGroup.new("Grp3")
@@ -107,6 +117,7 @@ class PlayerSettings
     player.addActionInGroup(ToggleConsoleAction.new, grpGrp1)
     player.addActionInGroup(ToggleDebugWindowAction.new, grpGrp2)
     player.addActionInGroup(ToggleGameLogWindowAction.new, grpGrp2)
+    player.addActionInGroup(ToggleOdeDebugAction.new, grpGrp2)
     player.addActionInGroup(ToggleViewModeAction.new, grpGrp2)
     player.addActionInGroup(ResetCameraAction.new, grpGrp2)
     player.addActionInGroup(QuitGameAction.new, grpGrp3) 
