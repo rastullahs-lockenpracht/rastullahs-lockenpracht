@@ -52,6 +52,11 @@ namespace rl {
         // Eventuell mal SceneNode löschen.
     }
 
+    void Actor::setGameObject(Ogre::UserDefinedObject* uo)
+    {
+        mGameObject = uo;
+    }
+    
     PhysicalThing* Actor::getPhysicalThing()
     {
         return mPhysicalThing;

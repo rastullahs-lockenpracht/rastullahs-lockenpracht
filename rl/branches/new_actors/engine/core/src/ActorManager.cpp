@@ -110,19 +110,9 @@ namespace rl {
         try
         {
 		    MeshObject* mo = new MeshObject(uniquename, meshname);
-		    switch(geomType)
-		    {
-		    case PhysicsManager::PT_BOX:
-		        break;
-		    case PhysicsManager::PT_SPHERE:
-		        break;
-		    case PhysicsManager::PT_CAPSULE:
-		        break;
-		    default:
-		        ///@todo Fehlerbehandlung
-		        break;
-		    }
-		    Actor* actor = new Actor(uniquename, mo);
+		    PhysicalThing* pt = PhysicsManager::getSingleton()
+		        .createPhysicalThing(geomType, mo->getSize(), density);
+		    Actor* actor = new Actor(uniquename, mo, pt);
 
 		    mActors.insert(ActorPtrPair(uniquename,actor)); 
 		    return actor;

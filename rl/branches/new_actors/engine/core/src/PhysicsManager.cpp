@@ -127,129 +127,75 @@ namespace rl
         return mOdeWorld;
     }
 
-    /*PhysicalThing* PhysicsManager::createSpherePhysicalThing(Real Radius,
-        Real density)
+    PhysicalThing* PhysicsManager::createPhysicalThing(const int geomType,
+        const Ogre::Vector3& size, Real density)
     {
-        PhysicalThing* phys = new PhysicalThing(mCurrSpace, actor);
-        mPhysicalThings.insert( PhysicalThingActorPair(actor, phys) );
-
-        Real radius = 1;
-
-        MovableObject* obj = actor->_getSceneNode()->getAttachedObject( 0 );
-
-        CoreSubsystem::log( String("PhysicsManager - Erstelle ein Kugel-Physik-Objekt für den Aktor ") + actor->getName() );
-
-        // Try to create the sphere from the Actor
-        if( obj != 0 )
+        Geometry* geom = 0;
+        if (geomType == PT_BOX)
         {
-            CoreSubsystem::log( " Eingebettete Entity gefunden" );
-
-            const AxisAlignedBox &aab = obj->getBoundingBox();
-
-            // Adjust the size a bit since it's really intended for culling stuff
-            Vector3 x = aab.getMaximum() - Vector3::UNIT_SCALE;
-            Vector3 n = aab.getMinimum() + Vector3::UNIT_SCALE;
-            // Calculate Scaling
-            Vector3 s = actor->_getSceneNode()->getScale();
-
-            // Calculating the size of the sphere
-            radius = max((x.x - n.x)*s.x,max((x.y - n.y)*s.y,(x.z - n.z)*s.z)) * 0.5;
-            CoreSubsystem::log( String(" Radius der Kugel - ") + StringConverter::toString(radius) );
+            geom = createBoxGeometry(size, density);
         }
-        else
-            CoreSubsystem::log( " Keine eingebettete Entity gefunden - verwende Radius 1" );
-
-        phys->createSphereGeometry( radius, actor->getPosition(), actor->getOrientation());
-
-        if( ! noDynamics )
-            phys->createSphereMass( density, radius, actor->getPosition(), actor->getOrientation());
-
-        return phys;
-    }*/
-
-    PhysicalThing* PhysicsManager::createBoxPhysicalThing(const Vector3& size,
-        Real density)
-    {
-    /*
-        PhysicalThing* phys = new PhysicalThing(mCurrSpace, actor);
-        mPhysicalThings.insert( PhysicalThingActorPair(actor, phys) );
-
-        Vector3 length = Vector3(1,1,1);
-
-        MovableObject* obj = actor->_getSceneNode()->getAttachedObject( 0 );
-
-        CoreSubsystem::log( String("PhysicsManager - Erstelle ein Würfel-Physik-Objekt für den Aktor ") + actor->getName() );
-
-        // Try to create the Box from the Actor
-        if( obj != 0 )
+        else if (geomType == PT_SPHERE)
         {
-            CoreSubsystem::log( " Eingebettete Entity gefunden" );
-
-            const AxisAlignedBox &aab = obj->getBoundingBox();
-
-            // Adjust the size a bit since it's really intended for culling stuff
-            Vector3 x = aab.getMaximum() - Vector3::UNIT_SCALE;
-            Vector3 n = aab.getMinimum() + Vector3::UNIT_SCALE;
-            // Calculate Scaling
-            Vector3 s = actor->_getSceneNode()->getScale();
-
-            // Calculating the size of the box
-            length[0] = (x.x - n.x) * s.x;
-            length[1] = (x.y - n.y) * s.y;
-            length[2] = (x.z - n.z) * s.z;
-
-            CoreSubsystem::log( String(" Größe der Box - ") + 
-                StringConverter::toString(length[0]) + " " + 
-                StringConverter::toString(length[1]) + " " + 
-                StringConverter::toString(length[2]) );
+            ///@todo nicht einfach x als Radius nehmen, sondern die maximale Ausdehnung.
+            geom = createSphereGeometry(size.x / 2.0, density);
         }
-        else
-            CoreSubsystem::log( " Keine eingebettete Entity gefunden - verwende Größe 1" );
-
-        phys->createBoxGeometry( length, actor->getPosition(), actor->getOrientation());
-
-        if( ! noDynamics )
-            phys->createBoxMass( density, length, actor->getPosition(), actor->getOrientation());
-
-        return phys;
-    */
-        return 0;
+        else if (geomType == PT_CAPSULE)
+        {
+            geom = createCapsuleGeometry(size.y, size.x / 2.0, density);
+        }
+        PhysicalThing* pt = new PhysicalThing(geom, mCurrSpace);
+        mPhysicalThings.insert(pt);        
+        return pt;
     }
 
-    /*PhysicalThing* PhysicsManager::createCapsulePhysicalThing(Real height,
+    Geometry* PhysicsManager::createSphereGeometry(Real radius,
+        Real density)
+    {
+        Geometry* geom = new SphereGeometry(radius, mCurrSpace);
+        if (density > 0.0)
+        {
+            //Objekt hat eine Masse, also einen Body verpassen.
+            OgreOde::Body* body = new OgreOde::Body();
+            OgreOde::SphereMass mass(1.0, radius);
+            mass.setDensity(density, radius);
+            body->setMass(mass);
+            geom->setBody(body);
+        }
+        return geom;
+    }
+
+    Geometry* PhysicsManager::createBoxGeometry(const Vector3& size,
+        Real density)
+    {
+        Geometry* geom = new BoxGeometry(size, mCurrSpace);
+        if (density > 0.0)
+        {
+            //Objekt hat eine Masse, also einen Body verpassen.
+            OgreOde::Body* body = new OgreOde::Body();
+            OgreOde::BoxMass mass(1.0, size);
+            mass.setDensity(density, size);
+            body->setMass(mass);
+            geom->setBody(body);
+        }
+        return geom;
+    }
+
+    Geometry* PhysicsManager::createCapsuleGeometry(Real height,
         Real radius, Real density)
     {
-        PhysicalThing* phys = new PhysicalThing(mCurrSpace, actor);
-        mPhysicalThings.insert( PhysicalThingActorPair(actor, phys) );
-
-        Real radius = 1;
-        Real length = 1;
-
-        MovableObject* obj = actor->_getSceneNode()->getAttachedObject( 0 );
-
-        // Try to create the sphere from the Actor
-        if( obj != 0 )
+        Geometry* geom = new OgreOde::CapsuleGeometry(radius, height, mCurrSpace);
+        if (density > 0.0)
         {
-            const AxisAlignedBox &aab = obj->getBoundingBox();
-
-            // Adjust the size a bit since it's really intended for culling stuff
-            Vector3 x = aab.getMaximum() - Vector3::UNIT_SCALE;
-            Vector3 n = aab.getMinimum() + Vector3::UNIT_SCALE;
-
-            // Cylinders are z-aligned
-            length = x.z - n.z;
-
-            // Calculating the radsius of the cylinder
-            radius = max((x.x - n.x),(x.y - n.y)) * 0.5;
+            //Objekt hat eine Masse, also einen Body verpassen.
+            OgreOde::Body* body = new OgreOde::Body();
+            OgreOde::CapsuleMass mass(1.0, radius, Vector3::UNIT_Y, height);
+            mass.setDensity(density, radius, Vector3::UNIT_Y, height);
+            body->setMass(mass);
+            geom->setBody(body);
         }
-
-        phys->createCappedCylinderGeometry( radius, length, actor->getPosition(), actor->getOrientation() );
-
-        if( ! noDynamics )
-            phys->createCappedCylinderMass( density, radius, length, actor->getPosition(), actor->getOrientation());
-
-        return phys;
-    }*/
+        return geom;
+    }
 
     void PhysicsManager::removeAndDestroyPhysicalThing(PhysicalThing* thing)
     {

@@ -40,7 +40,7 @@ namespace rl
     *
     * @todo Ueberlegen, wie man Aktionen situativ aktivierbar macht.
     */
-    class _RlRulesExport GameObject
+    class _RlRulesExport GameObject : public Ogre::UserDefinedObject
     {
     public:
         GameObject(int id,

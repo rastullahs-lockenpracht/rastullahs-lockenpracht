@@ -34,24 +34,24 @@ namespace rl {
 
     typedef std::set<PhysicalThing*> PhysicalThingSet;
 
-    class _RlCoreExport PhysicsManager : public SynchronizedTask, public OgreOde::CollisionListener, protected Singleton<PhysicsManager>
+    class _RlCoreExport PhysicsManager
+        :   public SynchronizedTask,
+            public OgreOde::CollisionListener,
+            protected Singleton<PhysicsManager>
     {
     public:
         static const int PT_BOX = 0;
         static const int PT_SPHERE = 1;
         static const int PT_CAPSULE = 2;
         static const int PT_MESH = 3;
+        
         PhysicsManager(rl::World* world);
         virtual ~PhysicsManager();
 
         virtual void run( Real elapsedTime );
 
-        //PhysicalThing* createSpherePhysicalThing(Actor* actor,
-        //    Real density, bool noDynamics = false);
-        PhysicalThing* createBoxPhysicalThing(const Ogre::Vector3& size,
+        PhysicalThing* createPhysicalThing(const int geomType, const Ogre::Vector3& size,
             Real density);
-        //PhysicalThing* createCappedCylinderPhysicalThing(Actor* actor,
-        //    Real density, bool noDynamics = false);
 
         void removeAndDestroyPhysicalThing(PhysicalThing* thing);
 
@@ -64,11 +64,11 @@ namespace rl {
         void createSimpleSpace();
 
         // Global Settings
-        void setGravity( Real x, Real y, Real z );
+        void setGravity(Ogre::Real x, Ogre::Real y, Ogre::Real z);
         Vector3 getGravity();
-        void setCFM(Real cfm);
+        void setCFM(Ogre::Real cfm);
         Real getCFM();
-        void setERP(Real erp);
+        void setERP(Ogre::Real erp);
         Real getERP();
 
         OgreOde::Space* getCurrSpace();
@@ -83,6 +83,14 @@ namespace rl {
         static PhysicsManager * getSingletonPtr(void);
 
 		bool collision(OgreOde::Contact* contact);
+	protected:
+        OgreOde::Geometry* createSphereGeometry(Ogre::Real radius,
+            Ogre::Real density);
+        OgreOde::Geometry* createBoxGeometry(const Ogre::Vector3& size,
+            Ogre::Real density);
+        OgreOde::Geometry* createCapsuleGeometry(Ogre::Real height,
+            Ogre::Real radius, Ogre::Real density);
+	
     private:
         bool mEnabled;
 

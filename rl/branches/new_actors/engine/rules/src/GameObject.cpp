@@ -189,6 +189,7 @@ namespace rl
 	void GameObject::setActor(Actor* actor)
 	{
 		mActor = actor;
+		mActor->setGameObject(this);
 	}
 	
 	Actor* GameObject::getActor()

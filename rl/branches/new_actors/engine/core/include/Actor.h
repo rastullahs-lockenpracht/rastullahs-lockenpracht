@@ -42,7 +42,8 @@ namespace rl {
         const Ogre::String& getName();
         
         PhysicalThing* getPhysicalThing();
-        Ogre::UserDefinedObject* getUserDefinedObject();
+        Ogre::UserDefinedObject* getGameObject();
+        void setGameObject(Ogre::UserDefinedObject*);
         Ogre::MovableObject* getMovableObject();
         
         void placeIntoScene(
