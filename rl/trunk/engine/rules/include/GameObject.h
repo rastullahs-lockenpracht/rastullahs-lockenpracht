@@ -61,6 +61,10 @@ namespace rl
 		void doAction(Action* action,
                       Creature* actor,
                       GameObject* target);
+					  
+		bool activateAction(Action* action,
+                      Creature* actor,
+                      GameObject* target);
 
 		typedef std::vector<std::pair<Action*, int> > ActionOptionVector;
 

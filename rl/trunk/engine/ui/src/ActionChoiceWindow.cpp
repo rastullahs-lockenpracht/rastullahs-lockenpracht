@@ -62,11 +62,21 @@ namespace rl {
 					center, 0, 0, RADIUS, mButtons.size(), actions.size());
 			actionButton->setPosition(Absolute, pos);
 			actionButton->setSize(Absolute, Size(140, 40));
-			actionButton->subscribeEvent(
-				PushButton::EventClicked, 
-				boost::bind(
-					&ActionChoiceWindow::handleActionChosen, 
-					this, action));
+			switch (action->getTargetClass())
+			{
+				case TC_NO_TARGET:
+					actionButton->subscribeEvent(
+						PushButton::EventClicked, 
+						boost::bind(
+							&GameObject::activateAction, 
+							mObject, action, mActor, mObject));
+					/*actionButton->subscribeEvent(
+						PushButton::EventClicked, 
+						boost::bind(
+							&WindowManager::destroyWindow, 
+							WindowManager::getSingletonPtr, this));*/
+					break;
+			}
 			actionButton->subscribeEvent(
 				PushButton::EventMouseEnters,
 				boost::bind(&ActionChoiceWindow::handleShowHint, this, action->getDescription()));
@@ -133,5 +143,4 @@ namespace rl {
 		action->doAction(object, actor, target);
 		delete this;
 	}
-
 }

@@ -108,6 +108,14 @@ namespace rl
 	{
 		action->doAction(this, actor, target);
 	}
+	
+	bool GameObject::activateAction(Action* action,
+                      Creature* actor,
+                      GameObject* target)
+	{
+		doAction(action, actor, target);
+		return true;
+	}
 
 	GameObject::ActionOptionVector::iterator 
 		GameObject::findAction(

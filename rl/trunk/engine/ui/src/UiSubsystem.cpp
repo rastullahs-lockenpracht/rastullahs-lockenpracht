@@ -1,14 +1,12 @@
-#include "DialogWindow.h"
-#include <CEGUI.h>
-
 #include <renderers/OgreGUIRenderer/ogrerenderer.h>
 
+#include "RubyInterpreter.h"
 #include "FixRubyHeaders.h"
 
 #include "UiSubsystem.h"
 #include "CoreSubsystem.h"
 
-#include "RubyInterpreter.h"
+
 #include "Console.h"
 #include "DebugWindow.h"
 #include "ThirdPersonGameController.h"
@@ -30,6 +28,7 @@
 #include "ActionChoiceWindow.h"
 #include "ActionManager.h"
 #include "DsaManager.h"
+#include "DialogWindow.h"
 // END TEST
 
 template<> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
@@ -138,6 +137,11 @@ namespace rl {
 		return mCharacter;
 	}
 
+	void UiSubsystem::setActiveCharacter(Person* person)
+	{
+		mCharacter = person;
+	}
+
 	void UiSubsystem::showActionChoice(GameObject* obj)
 	{
 		ActionChoiceWindow* w = new ActionChoiceWindow(UiSubsystem::getSingleton().getActiveCharacter());
@@ -145,6 +149,11 @@ namespace rl {
 		w->setVisible(true);
 	}
 	
+	void UiSubsystem::showCharacterActionChoice()
+	{
+		showActionChoice(getActiveCharacter());
+	}
+
 	void UiSubsystem::showMessageWindow(const CeGuiString& message)
 	{
 		MessageWindow* w = new MessageWindow();
@@ -170,29 +179,9 @@ namespace rl {
 		dialog->setName("Klaus-Dieter");
 		dialog->show();*/		
 
-		CharacterSheetWindow* sheet = new CharacterSheetWindow();
-		sheet->setCharacter(mCharacter);
+		//CharacterSheetWindow* sheet = new CharacterSheetWindow();
+		//sheet->setCharacter(mCharacter);
 		//sheet->hide();
-		
-		/*GameObject* o = new GameObject(4711, "Heiltrank", "Testheiltrank");
-		Action* a1 = new Action("Trinken", "Heiltrank trinken");
-		Action* a2 = new Action("Werfen", "Heiltrank werfen");
-		Action* a3 = new Action("Ansehen", "Heiltrank ansehen");
-		Action* a4 = new Action("Talent:Schätzen", "Wert schätzen");
-		Action* a5 = new Action("Talent:Alchemie", "Heiltrank mit Alchemie untersuchen");
-		ActionManager::getSingleton().registerAction(a1);
-		ActionManager::getSingleton().registerAction(a2);
-		ActionManager::getSingleton().registerAction(a3);
-		ActionManager::getSingleton().registerAction(a4);
-		ActionManager::getSingleton().registerAction(a5);
-		o->addAction(a1);
-		o->addAction(a2);
-		o->addAction(a3);
-		o->addAction(a4);
-		o->addAction(a5);
-		
-		ActionChoiceWindow* wnd = new ActionChoiceWindow();
-		wnd->showActionsOfObject(o);
-		wnd->show();*/
 	}
+	
 }

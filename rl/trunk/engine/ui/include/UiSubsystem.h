@@ -41,9 +41,11 @@ namespace rl {
 		void writeToConsole(std::string text);
 		static VALUE consoleWrite(VALUE self, VALUE str);
 
+		void showCharacterActionChoice();
 		void showActionChoice(GameObject* obj);
 		void showMessageWindow(const CeGuiString& message);
 		Person* getActiveCharacter();
+		void setActiveCharacter(Person* person);
 
 		static const char* CEGUI_ROOT;
 
