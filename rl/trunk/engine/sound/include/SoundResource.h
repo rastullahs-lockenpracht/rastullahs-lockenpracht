@@ -65,8 +65,8 @@ class _RlSoundExport SoundResource: public Ogre::Resource,
          /// Verwaltungsstruktur fuer Vorbisdateien
         struct SOggFile
         {
-            /// Zeiger auf die Ogg-Daten
-            unsigned char* mDataPtr;
+            /// Zeiger auf die Ogg-Daten durch den Datenstrom
+            Ogre::DataStreamPtr mDataStream;
             /// Die Groesse der Datei
             int mDataSize;
             /// Positionszeiger in die Datei

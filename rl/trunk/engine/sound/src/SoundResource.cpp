@@ -145,7 +145,6 @@ SoundResource::SoundResource(ResourceManager* creator, const String& name, Resou
     mFadeOutFunctor(),
     mStreamFunctor()
 {
-	mDataStream.setNull();
     mFadeInFunctor.setThat(this);
     mFadeOutFunctor.setThat(this);
     mStreamFunctor.setThat(this);
@@ -339,9 +338,8 @@ void SoundResource::loadImpl()
         {
             vorbis_info *vorbisInfo;
             case OggVorbis:
-				mOggMemoryFile.mDataPtr = new unsigned char[numBytes];
+				mOggMemoryFile.mDataStream = mDataStream;
 				mOggMemoryFile.mDataSize = numBytes;
-				mDataStream.getPointer()->read(mOggMemoryFile.mDataPtr, numBytes);
                 mOggMemoryFile.mDataRead = 0;
                 if (ov_open_callbacks(&mOggMemoryFile, &mOggStream, NULL, 0,
                          SoundResource::mVorbisCallbacks) != 0)
@@ -420,30 +418,7 @@ size_t SoundResource::calculateSize() const
 	return mSize;
 }
 
-/**
- * @author JoSch
- * @date 09-17-2004
- */
-void SoundResource::fadeIn(unsigned int msec)
-{
-    if (msec != 0)
-    {
-        setFadeIn(msec);
-        mFadeInThread = new thread(SoundResource::mFadeInFunctor);
-    }
-}
-/**
- * @author JoSch
- * @date 09-15-2004
- */
-void SoundResource::fadeOut(unsigned int msec)
-{
-    if (msec != 0 )
-    {
-        setFadeOut(msec);
-        mFadeOutThread = new thread(SoundResource::mFadeOutFunctor);
-    } 
-}
+
 /**
  * @author JoSch
  * @date 09-15-2004
@@ -453,7 +428,11 @@ void SoundResource::play(unsigned int msec) throw (RuntimeException)
     if (!mStreamThread)
     {
         mStreamThread = new thread(SoundResource::mStreamFunctor);
-        fadeIn(msec);
+        if (msec != 0)
+        {
+            setFadeIn(msec);
+            mFadeInThread = new thread(SoundResource::mFadeInFunctor);
+        }
     }
 }
 
@@ -476,7 +455,8 @@ void SoundResource::stop(unsigned int msec) throw (RuntimeException)
 {
     if (alIsSource(mSource) && playing())
     {
-        fadeOut(msec);
+        setFadeOut(msec);
+        mFadeOutThread = new thread(SoundResource::mFadeOutFunctor);
     } 
 }
 
@@ -530,9 +510,12 @@ void SoundResource::fadeIn()
 {
     boost::xtime xt;
 
-    SoundFadeEvent event(this);
-    event.setReason(SoundFadeEvent::STARTEVENT);
-    dispatchEvent(&event);
+    if (mFadeIn != 0)
+    {
+        SoundFadeEvent event(this);
+        event.setReason(SoundFadeEvent::STARTEVENT);
+        dispatchEvent(&event);
+    }
 
     try {
         if (mFadeIn != 0)
@@ -557,8 +540,12 @@ void SoundResource::fadeIn()
         }
     } catch(...)
     {}
-    event.setReason(SoundFadeEvent::STOPEVENT);
-    dispatchEvent(&event);
+    if (mFadeIn != 0)
+    {
+        SoundFadeEvent event(this);
+        event.setReason(SoundFadeEvent::STOPEVENT);
+        dispatchEvent(&event);
+    }
 }
 
 /**
@@ -571,9 +558,12 @@ void SoundResource::fadeOut()
 {
     boost::xtime xt;
 
-    SoundFadeEvent event(this);
-    event.setReason(SoundFadeEvent::STARTEVENT);
-    dispatchEvent(&event);
+    if (mFadeOut != 0)
+    {
+        SoundFadeEvent event(this);
+        event.setReason(SoundFadeEvent::STARTEVENT);
+        dispatchEvent(&event);
+    }
 
     try {
         if (mFadeOut != 0)
@@ -601,8 +591,12 @@ void SoundResource::fadeOut()
         check();
     } catch(...)
     {}   
-    event.setReason(SoundFadeEvent::STOPEVENT);
-    dispatchEvent(&event);
+    if (mFadeOut != 0)
+    {
+        SoundFadeEvent event(this);
+        event.setReason(SoundFadeEvent::STOPEVENT);
+        dispatchEvent(&event);
+    }
 }
 
 /**
@@ -853,11 +847,12 @@ size_t SoundResource::VorbisRead(void *ptr, size_t byteSize, size_t sizeToRead,
 
     // A simple copy of the data from memory to the datastruct that the vorbis libs will use
     if (actualSizeToRead) {
+        vorbisData->mDataRead += vorbisData->mDataStream->read(ptr, actualSizeToRead);
         // Copy the data from the start of the file PLUS how much we have already read in
-        memcpy (ptr, (char *) vorbisData->mDataPtr + vorbisData->mDataRead,
-                actualSizeToRead);
+        // TODO: memcpy (ptr, (char *) vorbisData->mDataPtr + vorbisData->mDataRead,
+        //        actualSizeToRead);
         // Increase by how much we have read by
-        vorbisData->mDataRead += (actualSizeToRead);
+        //vorbisData->mDataRead += (actualSizeToRead);
     }
 
     // Return how much we read (in the same way fread would)
@@ -909,6 +904,7 @@ int SoundResource::VorbisSeek (void *datasource
             printf ("*** ERROR *** Unknown seek command in VorbisSeek\n");
             break;
     };
+    vorbisData->mDataStream->seek(vorbisData->mDataRead);
 
     return 0;
 }
@@ -922,8 +918,14 @@ int SoundResource::VorbisClose (void *datasource
                                 /*this is a pointer to the data we passed into ov_open_callbacks (our SOggFile struct */
     )
 {
+    SOggFile *vorbisData;
+
+    // Get the data in the right format
+    vorbisData = (SOggFile *) datasource;
+
     // This file is called when we call ov_close.  If we wanted, we could free our memory here, but
     // in this case, we will free the memory in the main body of the program, so dont do anything
+    vorbisData->mDataStream->seek(0);
     return 1;
 }
 
@@ -942,7 +944,7 @@ long SoundResource::VorbisTell (void *datasource
     vorbisData = (SOggFile *) datasource;
 
     // We just want to tell the vorbis libs how much we have read so far
-    return vorbisData->mDataRead;
+    return vorbisData->mDataStream->tell();
 }
 /************************************************************************************************************************
    End of Vorbis callback functions

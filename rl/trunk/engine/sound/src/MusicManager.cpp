@@ -181,7 +181,9 @@ void MusicManager::setNextSong()
     mSource = next;
     if (!mSource.isNull()) // Was gefunden.
     {
-        mSource.getPointer()->load();        
+        SoundResource *res = (SoundResource*)mSource.getPointer();
+        res->load();
+        //mSource.getPointer()->load();        
     } else {
         mShouldPlay = false;
     }

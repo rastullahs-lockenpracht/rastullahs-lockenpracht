@@ -62,10 +62,28 @@ public:
         CPPUNIT_ASSERT(true);
     }
     
+    void testMusicManager_playStop()
+    {
+        boost::xtime xt;
+        MusicManager::getSingletonPtr()->setAuto(true);
+        MusicManager::getSingletonPtr()->setLooping(false);
+        MusicManager::getSingletonPtr()->playSong(); 
+        
+        boost::xtime_get(&xt, boost::TIME_UTC);
+        xt.sec += 15;
+        boost::thread::sleep(xt);
+        MusicManager::getSingletonPtr()->stopSong();
+        boost::xtime_get(&xt, boost::TIME_UTC);
+        xt.sec += 15;
+        boost::thread::sleep(xt);
+
+        CPPUNIT_ASSERT(true);
+    }
 
     CPPUNIT_TEST_SUITE(MusicManagerTest);
     CPPUNIT_TEST(testMusicManager_addSoundDirectory);
-    CPPUNIT_TEST(testMusicManager_playForward);
+//    CPPUNIT_TEST(testMusicManager_playForward);
+    CPPUNIT_TEST(testMusicManager_playStop);
     CPPUNIT_TEST_SUITE_END(); 
 };
 CPPUNIT_TEST_SUITE_REGISTRATION(MusicManagerTest);

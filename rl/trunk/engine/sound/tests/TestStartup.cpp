@@ -11,12 +11,12 @@ int main( int argc, char **argv)
 {
     static std::string CONF_DIR = "./modules/common/conf/";
 
-    #if OGRE_PLATFORM == PLATFORM_WIN32
+    #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
         new Ogre::Root( 
                 CONF_DIR+"plugins-win.cfg", 
                 CONF_DIR+"rastullah.cfg", 
                 "logs/ogre.log" );
-    #elif OGRE_PLATFORM == PLATFORM_LINUX
+    #elif OGRE_PLATFORM == OGRE_PLATFORM_LINUX
         new Ogre::Root( 
             CONF_DIR+"plugins-linux.cfg", 
             CONF_DIR+"rastullah.cfg", 
