@@ -235,47 +235,78 @@ namespace rl {
 
 	void InputManager::switchMouseToBuffered()
 	{
-		 mBuffered = true;
-
-		// Check to see if input has been initialized
-		if (mInputInitialized) {
-
-			// Destroy the input reader.
-			//Ogre::Root::getSingleton().removeFrameListener(this);
-			//mEventQueue.activateEventQueue(false);
-			//mInputReader->useBufferedInput(NULL, false, false);			
-			//PlatformManager::getSingleton().destroyInputReader( mInputReader );
-			mInputInitialized = false;
-		}
-
-		mEventProcessor->initialise(Ogre::Root::getSingleton().getAutoCreatedWindow());
-		mInputReader = mEventProcessor->getInputReader();
+		 mBuffered = true;
+
+
+
+		// Check to see if input has been initialized
+
+		if (mInputInitialized) {
+
+
+
+			// Destroy the input reader.
+
+			//Ogre::Root::getSingleton().removeFrameListener(this);
+
+			//mEventQueue.activateEventQueue(false);
+
+			//mInputReader->useBufferedInput(NULL, false, false);			
+
+			//PlatformManager::getSingleton().destroyInputReader( mInputReader );
+
+			mInputInitialized = false;
+
+		}
+
+
+
+		mEventProcessor->initialise(Ogre::Root::getSingleton().getAutoCreatedWindow());
+
+		mInputReader = mEventProcessor->getInputReader();
+
 		mEventProcessor->addKeyListener(this);
 		mEventProcessor->addMouseListener(this);
 		mEventProcessor->addMouseMotionListener(this);
-		mEventProcessor->startProcessingEvents();
+		mEventProcessor->startProcessingEvents();
+
 		mEventInitialized = true; 
 	}
 
 	void InputManager::switchMouseToUnbuffered()
 	{
-		 mBuffered = false;
-
-		// Check to see if even has been initialized
-		if (mEventInitialized) {
-			// Stop buffering events
-			mEventProcessor->stopProcessingEvents();
+		 mBuffered = false;
+
+
+
+		// Check to see if even has been initialized
+
+		if (mEventInitialized) {
+
+			// Stop buffering events
+
+		//	mEventProcessor->stopProcessingEvents();
+
 			mEventProcessor->removeKeyListener(this);
 			mEventProcessor->removeMouseListener(this);
-			mEventProcessor->removeMouseMotionListener(this);
-			mEventInitialized = false;
-		}
-
-		mEventQueue.activateEventQueue(true);
-		mInputReader = Ogre::PlatformManager::getSingleton().createInputReader();
-		mInputReader->useBufferedInput(&mEventQueue, true, false);
-		mInputReader->setBufferedInput(true, false);
-		mInputReader->initialise(Ogre::Root::getSingleton().getAutoCreatedWindow(), true, true);
+			mEventProcessor->removeMouseMotionListener(this);
+
+			mEventInitialized = false;
+
+		}
+
+
+
+		mEventQueue.activateEventQueue(true);
+
+		mInputReader = Ogre::PlatformManager::getSingleton().createInputReader();
+
+		mInputReader->useBufferedInput(&mEventQueue, true, false);
+
+		mInputReader->setBufferedInput(true, false);
+
+		mInputReader->initialise(Ogre::Root::getSingleton().getAutoCreatedWindow(), true, true);
+
 		mInputInitialized = true; 
 	}
 
