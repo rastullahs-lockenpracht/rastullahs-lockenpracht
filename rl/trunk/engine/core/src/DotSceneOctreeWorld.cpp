@@ -105,14 +105,13 @@ namespace rl {
 
     void DotSceneOctreeWorld::clearScene()
     {
-        
+        PhysicsManager::getSingleton().createLevelGeometry(0);
         ActorManager::getSingleton().destroyAllActors();
         mSceneMgr->clearScene();
         Ogre::Root::getSingleton().getAutoCreatedWindow()->removeAllViewports(); 
 
 		mSceneEntity = 0;
         mSceneMgr = Root::getSingleton().getSceneManager(ST_GENERIC);
-        PhysicsManager::getSingleton().createLevelGeometry(0);
         mbSceneLoaded = false;
     }
     
