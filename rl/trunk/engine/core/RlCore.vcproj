@@ -193,6 +193,12 @@
 				RelativePath=".\include\CameraObject.h">
 			</File>
 			<File
+				RelativePath=".\include\ConfigurationManager.h">
+			</File>
+			<File
+				RelativePath=".\include\ConfigurationManagerWin32.h">
+			</File>
+			<File
 				RelativePath=".\include\CorePrerequisites.h">
 			</File>
 			<File
@@ -232,6 +238,9 @@
 				RelativePath=".\include\ScriptObject.h">
 			</File>
 			<File
+				RelativePath=".\include\SoundObject.h">
+			</File>
+			<File
 				RelativePath=".\include\TrackAnimation.h">
 			</File>
 			<File
@@ -261,6 +270,12 @@
 			</File>
 			<File
 				RelativePath=".\src\CameraObject.cpp">
+			</File>
+			<File
+				RelativePath=".\src\ConfigurationManager.cpp">
+			</File>
+			<File
+				RelativePath=".\src\ConfigurationManagerWin32.cpp">
 			</File>
 			<File
 				RelativePath=".\src\CoreSubsystem.cpp">
@@ -294,6 +309,9 @@
 			</File>
 			<File
 				RelativePath=".\src\ScriptObject.cpp">
+			</File>
+			<File
+				RelativePath=".\src\SoundObject.cpp">
 			</File>
 			<File
 				RelativePath=".\src\TrackAnimation.cpp">
