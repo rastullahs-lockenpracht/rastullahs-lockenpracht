@@ -6,7 +6,7 @@ material OU_FACHWERK13_1
 		{
 			texture_unit
 			{
-				texture textures/OU_FACHWERK13_1.jpg
+				texture textures/ou_fachwerk13_1.jpg
 				filtering anisotropic anisotropic anisotropic
 			}
 		}
@@ -20,7 +20,7 @@ material OU_HOLZBODEN01
 		{
 			texture_unit
 			{
-				texture textures/OU_HOLZBODEN01.jpg
+				texture textures/ou_holzboden01.jpg
 				filtering anisotropic anisotropic anisotropic
 			}
 		}
@@ -34,7 +34,7 @@ material OU_HOLZ05
 		{
 			texture_unit
 			{
-				texture textures/OU_HOLZ05.jpg
+				texture textures/ou_holz05.jpg
 				filtering anisotropic anisotropic anisotropic
 			}
 		}
@@ -48,7 +48,7 @@ material OU_HOLZ_05
 		{
 			texture_unit
 			{
-				texture textures/OU_HOLZ_05.jpg
+				texture textures/ou_holz_05.jpg
 				filtering anisotropic anisotropic anisotropic
 			}
 		}
@@ -62,7 +62,7 @@ material OU_BODEN04
 		{
 			texture_unit
 			{
-				texture textures/OU_BODEN04.jpg
+				texture textures/ou_boden04.jpg
 				filtering anisotropic anisotropic anisotropic
 			}
 		}
@@ -76,7 +76,7 @@ material OU_HOLZ04
 		{
 			texture_unit
 			{
-				texture textures/OU_HOLZ04.jpg
+				texture textures/ou_holz04.jpg
 				filtering anisotropic anisotropic anisotropic
 			}
 		}
@@ -90,7 +90,7 @@ material IN_GBODEN01
 		{
 			texture_unit
 			{
-				texture textures/IN_GBODEN01.jpg
+				texture textures/in_gboden01.jpg
 				filtering anisotropic anisotropic anisotropic
 			}
 		}
@@ -104,7 +104,7 @@ material GG_BILD01
 		{
 			texture_unit
 			{
-				texture textures/GG_BILD01.jpg
+				texture textures/gg_bild01.jpg
 				filtering anisotropic anisotropic anisotropic
 			}
 		}
@@ -118,7 +118,7 @@ material GG_BILD02
 		{
 			texture_unit
 			{
-				texture textures/GG_BILD02.jpg
+				texture textures/gg_bild02.jpg
 				filtering anisotropic anisotropic anisotropic
 			}
 		}
@@ -132,7 +132,7 @@ material OU_HOLZ06_04
 		{
 			texture_unit
 			{
-				texture textures/OU_HOLZ06_04.jpg
+				texture textures/ou_holz06_04.jpg
 				filtering anisotropic anisotropic anisotropic
 			}
 		}
@@ -146,7 +146,7 @@ material GG_SCHRIFT02
 		{
 			texture_unit
 			{
-				texture textures/GG_SCHRIFT02.jpg
+				texture textures/gg_schrift02.jpg
 				filtering anisotropic anisotropic anisotropic
 			}
 		}
@@ -160,7 +160,7 @@ material GG_BUECHER01
 		{
 			texture_unit
 			{
-				texture textures/GG_BUECHER01.jpg
+				texture textures/gg_buecher01.jpg
 				filtering anisotropic anisotropic anisotropic
 			}
 		}
@@ -174,7 +174,7 @@ material MC_HOLZ01
 		{
 			texture_unit
 			{
-				texture textures/MC_HOLZ01.jpg
+				texture textures/mc_holz01.jpg
 				filtering anisotropic anisotropic anisotropic
 			}
 		}
@@ -188,7 +188,7 @@ material VERST_TUER04
 		{
 			texture_unit
 			{
-				texture textures/VERST_TUER04.jpg
+				texture textures/verst_tuer04.jpg
 				filtering anisotropic anisotropic anisotropic
 			}
 		}
@@ -202,7 +202,7 @@ material KISTE01
 		{
 			texture_unit
 			{
-				texture textures/KISTE01.jpg
+				texture textures/kiste01.jpg
 				filtering anisotropic anisotropic anisotropic
 			}
 		}
@@ -216,7 +216,7 @@ material KISTE02
 		{
 			texture_unit
 			{
-				texture textures/KISTE02.jpg
+				texture textures/kiste02.jpg
 				filtering anisotropic anisotropic anisotropic
 			}
 		}
