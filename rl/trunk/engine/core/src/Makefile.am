@@ -6,6 +6,7 @@ libRlCore_la_SOURCES = \
 	Actor.cpp \
 	ActorControlledObject.cpp \
 	ActorManager.cpp \
+	Animation.cpp \
     AnimationListener.cpp \
 	AnimationManager.cpp \
 	CameraObject.cpp \
@@ -15,11 +16,11 @@ libRlCore_la_SOURCES = \
 	GameTask.cpp \
 	LightObject.cpp \
 	MeshObject.cpp \
+	ParticleSystemObject.cpp \
 	PhysicalThing.cpp \
 	PhysicsManager.cpp \
-	RlAnimation.cpp \
-	RlTrackAnimation.cpp \
 	RubyInterpreter.cpp \
 	ScriptObject.cpp \
+	TrackAnimation.cpp \
 	World.cpp 		 
 

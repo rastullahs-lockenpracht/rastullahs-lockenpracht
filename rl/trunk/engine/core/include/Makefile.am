@@ -2,6 +2,7 @@
 	Actor.h \
 	ActorControlledObject.h \
 	ActorManager.h \
+	Animation.h \
 	AnimationListener.h \
 	AnimationManager.h \
 	CameraObject.h \
@@ -13,11 +14,11 @@
 	Interpreter.h \
 	LightObject.h \
 	MeshObject.h \
+	ParticleSystemObject.h \
 	PhysicalThing.h \
 	PhysicsManager.h \
-	RlAnimation.h \
-	RlTrackAnimation.h \
 	RubyInterpreter.h \
 	ScriptObject.h \
+	TrackAnimation.h \
 	World.h 
 	
