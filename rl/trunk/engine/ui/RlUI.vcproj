@@ -225,6 +225,9 @@
 			<File
 				RelativePath=".\include\UiSubsystem.h">
 			</File>
+			<File
+				RelativePath=".\include\WindowManager.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="Source Files"
@@ -279,6 +282,9 @@
 			</File>
 			<File
 				RelativePath=".\src\UiSubsystem.cpp">
+			</File>
+			<File
+				RelativePath=".\src\WindowManager.cpp">
 			</File>
 		</Filter>
 		<Filter

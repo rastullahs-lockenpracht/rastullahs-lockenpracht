@@ -1,5 +1,4 @@
-//#include <CEGUI.h>
-#include <xercesc/util/XMemory.hpp>
+#include <xercesc/util/XMemory.hpp>	// Muss vor Ogre stehen (zumindest für VS)
 #include <renderers/OgreGUIRenderer/ogrerenderer.h>
 #include "UiSubsystem.h"
 #include "CoreSubsystem.h"
@@ -10,6 +9,7 @@
 #include "InputManager.h"
 #include "CommandMapper.h"
 #include "MessageWindow.h"
+#include "WindowManager.h"
 
 #include "GameLoop.h"
 #include "ActorManager.h"
@@ -75,7 +75,7 @@ namespace rl {
 
 		// load scheme and set up defaults
 		System::getSingleton().setDefaultMouseCursor((utf8*)"TaharezLook", (utf8*)"MouseArrow");
-		Window* sheet = WindowManager::getSingleton().createWindow((utf8*)"DefaultGUISheet", (utf8*)CEGUI_ROOT);
+		Window* sheet = CEGUI::WindowManager::getSingleton().createWindow((utf8*)"DefaultGUISheet", (utf8*)CEGUI_ROOT);
 		sheet->setSize(
 			Absolute, 
 			Size(Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth(), 
@@ -86,6 +86,8 @@ namespace rl {
 		//Initializing InputManager
 		new CommandMapper();
         new InputManager();
+		new WindowManager();
+
 		new DebugWindow();
 		new Console();
 		((RubyInterpreter*)CoreSubsystem::getSingleton().getInterpreter() )->initializeInterpreter( (VALUE(*)(...))&UiSubsystem::consoleWrite );

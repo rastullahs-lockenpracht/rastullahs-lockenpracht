@@ -27,10 +27,11 @@ namespace rl {
 
 		const CeGuiString& getName() const;
 
-	protected:
-		CeGuiWindow(const char* xmlfile, bool input = false);
 		virtual ~CeGuiWindow();
 
+	protected:
+		CeGuiWindow(const char* xmlfile, bool input = false);
+		
 		void show();
 		void hide();
 

@@ -2,6 +2,7 @@
 
 #include "InputManager.h"
 #include "UiSubsystem.h"
+#include "WindowManager.h"
 
 using namespace std;
 using namespace CEGUI;
@@ -16,7 +17,7 @@ CeGuiWindow::CeGuiWindow(const char* xmlfile, bool withInput)
 	mNamePrefix = StringConverter::toString(sNumWindows);
 	sNumWindows++;
 
-    mWindow = WindowManager::getSingleton().loadWindowLayout(
+    mWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout(
 			(utf8*)"modules/common/gui/windows/"+CeGuiString((utf8*)xmlfile), 
 			mNamePrefix);
 	assert(mWindow != 0);
@@ -25,11 +26,12 @@ CeGuiWindow::CeGuiWindow(const char* xmlfile, bool withInput)
     mWithInput = withInput;
 
 	mName = mWindow->getName();
+	WindowManager::getSingleton().registerWindow(this);
 }
 
 CeGuiWindow::~CeGuiWindow()
 {
-	WindowManager::getSingleton().destroyWindow(mWindow);
+	CEGUI::WindowManager::getSingleton().destroyWindow(mWindow);
 }
 
 bool CeGuiWindow::isVisible()
@@ -97,12 +99,12 @@ bool CeGuiWindow::beforeShow()
 
 void CeGuiWindow::addToRoot(Window* window)
 {
-	WindowManager::getSingleton().getWindow((utf8*)UiSubsystem::CEGUI_ROOT)->addChildWindow(window);
+	CEGUI::WindowManager::getSingleton().getWindow((utf8*)UiSubsystem::CEGUI_ROOT)->addChildWindow(window);
 }
 
 Window* CeGuiWindow::getWindow(const char* name)
 {
-	return WindowManager::getSingleton().getWindow(mNamePrefix + (utf8*)name);
+	return CEGUI::WindowManager::getSingleton().getWindow(mNamePrefix + (utf8*)name);
 }
 
 Editbox* CeGuiWindow::getEditbox(const char* name)

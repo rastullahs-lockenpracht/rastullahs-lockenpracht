@@ -5,6 +5,7 @@
 #include "ActionManager.h"
 #include "GameObject.h"
 #include "Person.h"
+#include "WindowManager.h"
 
 using namespace CEGUI;
 using namespace std;
@@ -25,7 +26,7 @@ namespace rl {
 		for (unsigned int i = 0; i<mButtons.size(); i++)
 		{
 			mWindow->removeChildWindow(mButtons[i]);
-			WindowManager::getSingleton().destroyWindow(mButtons[i]);
+			CEGUI::WindowManager::getSingleton().destroyWindow(mButtons[i]);
 		}
 		mButtons.clear();
 	}
@@ -37,7 +38,7 @@ namespace rl {
 		for (unsigned int i = 0; i<mButtons.size(); i++)
 		{
 			mWindow->removeChildWindow(mButtons[i]);
-			WindowManager::getSingleton().destroyWindow(mButtons[i]);
+			CEGUI::WindowManager::getSingleton().destroyWindow(mButtons[i]);
 		}
 		mButtons.clear();
 	
@@ -53,7 +54,7 @@ namespace rl {
 			PushButton* actionButton = reinterpret_cast<PushButton*>(
 				//WindowManager::getSingleton().loadWindowLayout(
 				//	"buttons/"+actionName+".xml"));
-				WindowManager::getSingleton().createWindow(
+				CEGUI::WindowManager::getSingleton().createWindow(
 					(utf8*)"TaharezLook/Button", 
 					getName()+"/Buttons/"+actionName));
 			actionButton->setUserData(action);
@@ -62,6 +63,7 @@ namespace rl {
 					center, 0, 0, RADIUS, mButtons.size(), actions.size());
 			actionButton->setPosition(Absolute, pos);
 			actionButton->setSize(Absolute, Size(140, 40));
+
 			switch (action->getTargetClass())
 			{
 				case TC_NO_TARGET:
@@ -69,14 +71,17 @@ namespace rl {
 						PushButton::EventClicked, 
 						boost::bind(
 							&GameObject::activateAction, 
-							mObject, action, mActor, mObject));
-					/*actionButton->subscribeEvent(
+							mObject, 
+							action, mActor, mObject));
+					actionButton->subscribeEvent(
 						PushButton::EventClicked, 
 						boost::bind(
 							&WindowManager::destroyWindow, 
-							WindowManager::getSingletonPtr, this));*/
+							WindowManager::getSingletonPtr(), 
+							this));
 					break;
 			}
+
 			actionButton->subscribeEvent(
 				PushButton::EventMouseEnters,
 				boost::bind(&ActionChoiceWindow::handleShowHint, this, action->getDescription()));
