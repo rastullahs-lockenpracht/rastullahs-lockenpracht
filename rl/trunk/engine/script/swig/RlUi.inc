@@ -18,7 +18,7 @@ public:
 	void setExecutor(rl::CommandExecutor* executor);
 };
 
-%feature("director") CommandExecutor;   
+/*%feature("director") CommandExecutor;   
 class CommandExecutor
 {
 public:
@@ -27,6 +27,6 @@ public:
     virtual rl::CeGuiStringVector getCommandsInBattle();
 	virtual rl::CeGuiStringVector getCommandsOffBattle();
 	virtual void executeCommand(CeGuiString command);
-};
+}; */
 
 }

@@ -1,5 +1,5 @@
 #include "CommandMapper.h"
-#include "CommandExecutor.h"
+//#include "CommandExecutor.h"
 
 using namespace Ogre;
 using namespace std;
@@ -41,7 +41,7 @@ namespace rl {
 		KeyCommandMap::const_iterator command = mActionCommands.find(keycode);
 		if (command != mActionCommands.end())
 		{
-			mCommandExecutor->executeCommand((*command).second);
+			//mCommandExecutor->executeCommand((*command).second);
 			return true;
 		}
 		return false;
@@ -84,8 +84,8 @@ namespace rl {
 	void CommandMapper::setExecutor(CommandExecutor* executor)
 	{
 		mCommandExecutor = executor;
-		CeGuiStringVector mActionsInBattle = executor->getCommandsInBattle();
-		CeGuiStringVector mActionsOffBattle = executor->getCommandsOffBattle();
+		CeGuiStringVector mActionsInBattle = CeGuiStringVector(); //executor->getCommandsInBattle();
+		CeGuiStringVector mActionsOffBattle = CeGuiStringVector(); //executor->getCommandsOffBattle();
 	}
 }
 

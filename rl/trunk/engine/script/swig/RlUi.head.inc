@@ -4,5 +4,5 @@
 #include "FixRubyHeaders.h"
 #include "UiSubsystem.h"
 #include "CommandMapper.h"
-#include "CommandExecutor.h"
+//#include "CommandExecutor.h"
 %}
