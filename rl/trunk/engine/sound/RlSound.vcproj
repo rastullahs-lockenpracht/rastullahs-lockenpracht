@@ -149,13 +149,7 @@
 				RelativePath=".\src\MusicManager.cpp">
 			</File>
 			<File
-				RelativePath=".\src\MusicResource.cpp">
-			</File>
-			<File
-				RelativePath=".\src\ResManager.cpp">
-			</File>
-			<File
-				RelativePath=".\src\SndResource.cpp">
+				RelativePath=".\src\ResourceManager.cpp">
 			</File>
 			<File
 				RelativePath=".\src\SoundManager.cpp">
@@ -175,13 +169,7 @@
 				RelativePath=".\include\MusicManager.h">
 			</File>
 			<File
-				RelativePath=".\include\MusicResource.h">
-			</File>
-			<File
-				RelativePath=".\include\ResManager.h">
-			</File>
-			<File
-				RelativePath=".\include\SndResource.h">
+				RelativePath=".\include\ResourceManager.h">
 			</File>
 			<File
 				RelativePath=".\include\SoundManager.h">

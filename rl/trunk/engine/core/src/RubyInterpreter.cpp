@@ -38,8 +38,12 @@ void RubyInterpreter::initializeInterpreter(staticValueMethod func)
 {
 	//Ruby Initialisieren
 	ruby_init();
-	//Skript Dateien duerfen auch in /script liegen
-	ruby_incpush("script");
+	
+	//Skript-Verzeichnisse der  Dateien duerfen auch in /script liegen
+	StringVector modules = CoreSubsystem::getSingleton().getActiveModules();
+	for (StringVector::iterator iter = modules.begin(); iter != modules.end(); iter++)
+		ruby_incpush(((*iter)+"/scripts").c_str());
+	
 	ruby_init_loadpath();
 	//Skriptname
 	ruby_script("Rastullah");

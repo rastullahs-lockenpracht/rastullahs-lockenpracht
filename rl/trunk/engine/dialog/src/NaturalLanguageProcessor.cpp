@@ -1,7 +1,7 @@
 //--	NaturalLanguageProcessor.cpp
 
-#include "xercesc/sax2/SAX2XMLReader.hpp"
-#include "xercesc/sax2/XMLReaderFactory.hpp"
+#include <xercesc/sax2/SAX2XMLReader.hpp>
+#include <xercesc/sax2/XMLReaderFactory.hpp>
 #include <xercesc/parsers/XercesDOMParser.hpp>
 #include <xercesc/framework/MemBufInputSource.hpp>
 #include <xercesc/dom/DOM.hpp>
@@ -19,8 +19,8 @@
 //#include "Predicates.h"
 //#include "StringTokenizer.h"
 
-#include "OgreResourceManager.h"
-#include "OgreLogManager.h"
+#include "XmlResourceManager.h"
+#include <OgreLogManager.h>
 
 
 
@@ -135,9 +135,7 @@ namespace rl
 			std::set<String>::iterator i;
 			for (i = sl.begin(); i != sl.end(); i++)
 			{
-				std::string file = "./media/";
-				file+=(*i).c_str();
-				if(loadAiml(file))
+				if(loadAiml((*i).c_str()))
 					continue;
 			}
 		}
@@ -154,7 +152,7 @@ namespace rl
 		parser->setErrorHandler(mXmlHandler);
 		try
 		{
-			parser->parse(filename.c_str());
+			XmlResourceManager::getSingleton().create(filename)->parseBy(parser);
 		}
 		catch(const XERCES_CPP_NAMESPACE::SAXParseException &exc)
 		{

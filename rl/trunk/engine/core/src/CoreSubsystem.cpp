@@ -39,6 +39,7 @@ namespace rl {
 	CoreSubsystem::CoreSubsystem()
 	{
 		mWorld = 0;
+		mActiveModule = "";
         initializeCoreSubsystem();
 	}
 
@@ -144,7 +145,15 @@ namespace rl {
             value = i.getNext();
 
 			if (key.compare("common") == 0)
-				initializeModule(value);           
+			{
+				initializeModule(value);
+				mCommonModules.push_back(value);
+			}
+			else if (key.compare("module") == 0)
+			{
+				//initializeModule(value);
+				mActivatableModules.push_back(value);
+			}
         }
     }
 
@@ -155,7 +164,7 @@ namespace rl {
 		cf.load(moduleDir+"/conf/moduleconfig.cfg");
         ConfigFile::SettingsIterator i = cf.getSettingsIterator();
 
-		bool hasGui = false;
+		bool hasGui = false, hasDialogs = false;
 
 		std::string key, value;
         while (i.hasMoreElements())
@@ -169,16 +178,24 @@ namespace rl {
 				ResourceManager::addCommonArchiveEx(moduleDir+"/"+value, "Zip");
 			else if (key.compare("ContainsGUI") == 0)
 				hasGui = true;
+			else if (key.compare("ContainsDialogs") == 0)
+				hasDialogs = true;
 		}
 
 		ResourceManager::addCommonSearchPath(moduleDir+"/dsa");
 		ResourceManager::addCommonSearchPath(moduleDir+"/materials");
 		ResourceManager::addCommonSearchPath(moduleDir+"/maps");
 		ResourceManager::addCommonSearchPath(moduleDir+"/models");			
-		ResourceManager::addCommonSearchPath(moduleDir+"/scripts");
 		ResourceManager::addCommonSearchPath(moduleDir+"/sound");
 		if (hasGui)
 			ResourceManager::addCommonSearchPath(moduleDir+"/gui/imagesets");
+		if (hasDialogs)
+			ResourceManager::addCommonSearchPath(moduleDir+"/dialogs");
+	}
+
+	void CoreSubsystem::unloadModule(std::string module)
+	{
+		//TODO: unloadModule
 	}
 
 	World* CoreSubsystem::getWorld()
@@ -196,10 +213,36 @@ namespace rl {
 		return mInterpreter;
 	}
 
-    void  CoreSubsystem::makeScreenshot( const String& sName )
+    void CoreSubsystem::makeScreenshot( const String& sName )
 	{
 		Ogre::Root::getSingleton().getAutoCreatedWindow()->
             writeContentsToTimestampedFile(sName, ".jpg");
 	}
+
+	StringVector CoreSubsystem::getActiveModules() const
+	{
+		StringVector modules(mCommonModules);
+		modules.push_back(mActiveModule);
+		return modules;
+	}
+
+	const StringVector& CoreSubsystem::getCommonModules() const
+	{
+		return mCommonModules;
+	}
+
+	const StringVector& CoreSubsystem::getActivatableModules() const
+	{
+		return mActivatableModules;
+	}
+
+	void CoreSubsystem::setActiveModule(const String module)
+	{
+		if (mActiveModule.length() > 0)
+			unloadModule(mActiveModule);
+		initializeModule(module);
+		mActiveModule = module;
+	}
+
 
 }

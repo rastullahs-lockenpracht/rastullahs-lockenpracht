@@ -36,8 +36,12 @@ public:
 	World* getWorld();
 
 	void setInterpreter(Interpreter* interpreter);
-
 	Interpreter* getInterpreter();
+
+	StringVector getActiveModules() const;
+	const StringVector& getCommonModules() const;
+	const StringVector& getActivatableModules() const;
+	void setActiveModule(const String module);
 
 	/** Saves a timestamped jpg Screenshot
 		@param sName The filename (extended with the timestamp)
@@ -52,6 +56,7 @@ private:
 	/** Loads all needed ressources */
 	void initializeResources();
 	void initializeModule(std::string module);
+	void unloadModule(std::string module);
 
 	/** Opens a configuration dialog */
 	bool setupConfiguration();
@@ -59,6 +64,9 @@ private:
 private:
 	World* mWorld;
 	Interpreter* mInterpreter;
+	StringVector mCommonModules;
+	StringVector mActivatableModules;
+	String mActiveModule;
 };
 
 }
