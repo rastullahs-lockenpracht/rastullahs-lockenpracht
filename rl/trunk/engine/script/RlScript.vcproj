@@ -163,6 +163,38 @@
 			<File
 				RelativePath=".\swig\TypeMaps.i">
 			</File>
+			<Filter
+				Name="include"
+				Filter="">
+				<File
+					RelativePath=".\swig\RlCore.head.inc">
+				</File>
+				<File
+					RelativePath=".\swig\RlRules.head.inc">
+				</File>
+				<File
+					RelativePath=".\swig\RlSound.head.inc">
+				</File>
+				<File
+					RelativePath=".\swig\RlUi.head.inc">
+				</File>
+			</Filter>
+			<Filter
+				Name="src"
+				Filter="">
+				<File
+					RelativePath=".\swig\RlCore.inc">
+				</File>
+				<File
+					RelativePath=".\swig\RlRules.inc">
+				</File>
+				<File
+					RelativePath=".\swig\RlSound.inc">
+				</File>
+				<File
+					RelativePath=".\swig\RlUi.inc">
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>
