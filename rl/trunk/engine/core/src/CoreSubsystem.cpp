@@ -189,8 +189,8 @@ namespace rl {
         //	mActiveModule = *mActivatableModules.begin();
         //else
         //	mActiveModule = "";
-        //ParticleSystemManager::getSingleton().addRendererFactory( 
-        //    new BillboardParticleRendererFactory() );
+        ParticleSystemManager::getSingleton().addRendererFactory( 
+            new BillboardParticleRendererFactory() );
         ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
     }
 
