@@ -14,38 +14,29 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-namespace Ogre {
-%apply SWIGTYPE *DYNAMIC { Resource * };
-	class Resource {
-		virtual void load() = 0;
-	};
-	
-	class ResourceManager {
-       void setMemoryBudget(size_t bytes);
-       virtual Resource* create(const std::string& resName) = 0;
-       Ogre::Resource* getByName(const std::string& name);
-	};
-}
- 
-
 namespace rl {
-   	class SoundManager : public Ogre::ResourceManager {
+   	class SoundManager {
+   	private:
+        SoundManager();
+        ~SoundManager();
    	public:
        static SoundManager& getSingleton();
        static SoundManager* getSingletonPtr();
+       
        void addSounds();
-       void addSearchPath(const std::string& path);
+       
        std::list<String> getSounds();
-       virtual void add(Resource *song);
-       virtual Resource* create(const std::string& resName);
+       void add(const std::string& resName);
+
    	};
 
    	class MusicManager  {
+   	private:
+        MusicManager();
+        ~MusicManager();
    	public:
         static MusicManager& getSingleton();
         static MusicManager* getSingletonPtr();
-        MusicManager();
-        ~MusicManager();
 
         void playSong();
         void stopSong();
@@ -57,8 +48,6 @@ namespace rl {
         void setGain(float newGain);
         float getGain();
         
-        virtual Resource* create(const std::string& resName);
-        
         void clearPlayList();
         void addPlayList(std::string song);
         void addPlayList(std::list<std::string> list);
@@ -69,30 +58,7 @@ namespace rl {
         bool isLooping();
         void setLooping(bool isLooping);
    	};
-   	
-    class SoundResource : public Ogre::Resource {
-   	public:
-        SoundResource(const std::string& name);
-        const Vector3& getDirection() const throw (rl::RuntimeException);
-        void setDirection(const Vector3& direction) throw (rl::RuntimeException);
-        const Vector3& getVelocity() const throw (rl::RuntimeException);
-        void setVelocity(const Vector3& velocity) throw (rl::RuntimeException);
-        const Vector3& getPosition() const throw (rl::RuntimeException);
-        void setPosition(const Vector3& direction) throw (rl::RuntimeException);
-        const float getGain() const throw (rl::RuntimeException);
-        void setGain(const float gain) throw (rl::RuntimeException);
-        
-        virtual void load();
-        virtual void unload() = 0;
-        
-        void play(int msec) throw (rl::RuntimeException);
-        void pause() throw (rl::RuntimeException);
-        void stop(int msec) throw (rl::RuntimeException);
-        void rewind() throw (rl::RuntimeException);
-        const ALenum getState() const throw (rl::RuntimeException);
-        const bool playing() const;
-    };
-    
+   	    
     class SoundEvent {
     	SoundEvent();
     	virtual ~SoundEvent();
@@ -114,17 +80,3 @@ namespace rl {
     
 
 }
-
-%{
-static swig_type_info *Resource_dynamic_cast(void **ptr) {
-    Ogre::Resource **ppResource = reinterpret_cast<Ogre::Resource **>(ptr);
-    rl::SoundResource *pSoundResource = dynamic_cast<rl::SoundResource*>(*ppResource);
-    if(pSoundResource){
-      *ptr=reinterpret_cast<void*>(pSoundResource);
-      return SWIGTYPE_p_rl__SoundResource;
-    }
-    return 0;
-}
-%}
-DYNAMIC_CAST(SWIGTYPE_p_Ogre__Resource, Resource_dynamic_cast);
-
