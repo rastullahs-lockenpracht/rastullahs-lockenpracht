@@ -97,7 +97,7 @@ namespace rl {
 		node->attachObject(mSceneEntity);
 
 		//Level wirft per Default keinen Schatten
-		setCastShadows(true);
+		setCastShadows(false);
 		
         initializeDefaultCamera();
         mbSceneLoaded = true;
