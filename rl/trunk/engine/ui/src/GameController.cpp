@@ -386,7 +386,7 @@ namespace rl {
         {
             if (mCurrentAnimationState == AS_WALK_FORWARD)
             {
-                mActor->startAnimation("gehloop");
+                mActor->startAnimation("gehloop",2.0);
             }
             else
             {
