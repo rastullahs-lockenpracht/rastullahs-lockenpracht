@@ -217,6 +217,9 @@
 				RelativePath=".\include\MeshObject.h">
 			</File>
 			<File
+				RelativePath=".\include\ParticleSystemObject.h">
+			</File>
+			<File
 				RelativePath=".\include\PhysicalThing.h">
 			</File>
 			<File
@@ -276,6 +279,9 @@
 			</File>
 			<File
 				RelativePath=".\src\MeshObject.cpp">
+			</File>
+			<File
+				RelativePath=".\src\ParticleSystemObject.cpp">
 			</File>
 			<File
 				RelativePath=".\src\PhysicalThing.cpp">

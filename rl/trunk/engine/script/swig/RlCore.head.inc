@@ -23,6 +23,7 @@
 #include "MeshObject.h"
 #include "CameraObject.h"
 #include "LightObject.h"
+#include "ParticleSystemObject.h"
 #include "CoreSubsystem.h"
 #include "PhysicalThing.h"
 #include "PhysicsManager.h"

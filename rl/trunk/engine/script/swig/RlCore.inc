@@ -201,7 +201,7 @@ public:
 class LightObject : public ActorControlledObject
 {
 private:
-    LightObject(const std::string& name, Ogre::Light::LightTypes type);
+    LightObject(const std::string& name, rl::LightObject::LightTypes type);
 public:
 	enum LightTypes { LT_POINT, LT_DIRECTIONAL, LT_SPOTLIGHT };
 
@@ -212,6 +212,12 @@ public:
     void setSpecularColour(float red, float green, float blue);
     void setSpotlightRange(float innerangle, float outerangle,
         float falloff);
+};
+
+class ParticleSystemObject : public ActorControlledObject
+{
+private:
+	 ParticleSystemObject(const std::string& name, const std::string& partSys );
 };
 
 class CameraObject : public ActorControlledObject
@@ -344,7 +350,6 @@ static swig_type_info *ActorControlledObject_dynamic_cast(void **ptr)
         *ptr=reinterpret_cast<void*>(pMeshObject);
         return SWIGTYPE_p_rl__MeshObject;
     }
-
     rl::CameraObject *pCameraObject=dynamic_cast<rl::CameraObject*>(*ppActorControlledObject);
     if (pCameraObject) {
         *ptr=reinterpret_cast<void*>(pCameraObject);
@@ -354,6 +359,11 @@ static swig_type_info *ActorControlledObject_dynamic_cast(void **ptr)
     if (pLightObject) {
         *ptr=reinterpret_cast<void*>(pLightObject);
         return SWIGTYPE_p_rl__LightObject;
+    }
+    rl::ParticleSystemObject *pParticleSystemObject=dynamic_cast<rl::ParticleSystemObject*>(*ppActorControlledObject);
+    if (pParticleSystemObject) {
+        *ptr=reinterpret_cast<void*>(pParticleSystemObject);
+        return SWIGTYPE_p_rl__ParticleSystemObject;
     }
     return 0;
 }

@@ -22,6 +22,7 @@
 #include "CorePrerequisites.h"
 #include "PhysicsManager.h"
 #include "LightObject.h"
+#include "ParticleSystemObject.h"
 
 namespace rl {
 
@@ -43,12 +44,13 @@ class _RlCoreExport ActorManager : protected Singleton<ActorManager>
         Actor* createCameraActor(const String& name);
    	    Actor* createMeshActor(const String& name,const String& meshname,
 			int geomType = PhysicsManager::PT_NONE, Ogre::Real density = 1.0);
-        //Actor* createParticleSystemActor(const String& name, 
-        //    const String& partname);
+        Actor* createParticleSystemActor(const String& name, 
+            const String& partname);
             
         void destroyActor(Actor* actor);
         
-        ///@warning Actors with a camera attached wont be destroyed.
+        ///@warning Actors with a camera attached wont be destroyed. 
+		///@todo Check for active Viewport, and disable that first
         void destroyAllActors();
 
         void setWorld(World* world);

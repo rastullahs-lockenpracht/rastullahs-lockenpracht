@@ -164,29 +164,28 @@ namespace rl {
         return actor;
 	}
 
-    //Actor* ActorManager::createParticleSystemActor(const String& name,const String& partname)
-    //{
-    //    const String&  uniquename = nextUniqueName(name);
+    Actor* ActorManager::createParticleSystemActor(const String& name,const String& partname)
+    {
+        const String&  uniquename = nextUniqueName(name);
 
-    //    try
-    //    {
-    //        ParticleSystem* particleSystem =
-    //            ParticleSystemManager::getSingleton().createSystem(uniquename, partname);    
-    //    
-    //        Actor* actor = new Actor(uniquename, particleSystem);
+		Actor* actor = 0;
+        try
+        {
+			ParticleSystemObject* po = new ParticleSystemObject(uniquename, partname);
 
-		  //  mActors.insert(ActorPtrPair(uniquename, actor) ); 
-		  //  return actor;
-    //    }
-    //    catch( Ogre::Exception )
-    //    {
-    //        CoreSubsystem::log("ActorManager - Das Partikelsystem '"
-    //            + partname + "' für den Aktor '"
-    //            + uniquename + "' konnte nicht erstellt werden.");
-    //    }
+			actor = new Actor(uniquename, po, 0);
+			mActors.insert(ActorPtrPair(uniquename,actor)); 
+        }
+        catch( Ogre::Exception& e )
+        {
+            CoreSubsystem::log("ActorManager - Das Partikelsystem '"
+                + partname + "' für den Aktor '"
+				+ uniquename + "' konnte nicht erstellt werden. Grund: "
+				+ e.getFullDescription());
+        }
 
-    //    return 0;
-    //}
+        return actor;
+    }
 
     String ActorManager::nextUniqueName(const String& basename)
 	{
