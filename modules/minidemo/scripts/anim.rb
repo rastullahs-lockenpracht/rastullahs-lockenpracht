@@ -4,6 +4,7 @@ load( "embed.rb" );
 # print wird auf die Konsole umgeleitet
 print( "Teste Animationen" );
 
+print( "Definiere Listener" );
 # Definition des AnimationsListeners
 class UmdrehAbspielListener < AnimationListener
 	def animationFinished(anEvent)
@@ -21,28 +22,36 @@ end
 class MachWasBeiFrameXListener < AnimationFrameListener
 	def animationFrameReached(anEvent)
 		print( "Sowas, schon wieder die Mitte erreicht" );
+		p anEvent.getAnimation();
 	end
 end
 
+print( "Erstelle Roboter" );
 
 # Erstellen eines laufenden Roboters
 actBotter = $AM.createMeshActor("Botter","robot.mesh");
 actBotter.placeIntoScene( 160.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0 );
 boBotter = actBotter.getControlledObject();
-# Animation "Walk" starten
-boBotter.startAnimation( "Walk" );
 
+print( "Starte Animation" );
+# Animation "Walk" starten
+boBotter.startAnimation( "Walk", 0.1 , 0 );
+
+print( "Hole Animation" );
 # Die Laufende Animation "Walk" holen 
 anim = boBotter.getAnimation( "Walk" );
 # Geschwindigkeit setzen
 anim.setSpeed( 4.0 );
 
 
+
+print( "Erstelle Fackel" );
 # Erzeugen einer Fackel
 fackel = $AM.createMeshActor("Fackel","fackel.mesh");
 fackel.placeIntoScene( 100.0, 16.0, 100.0, 1.0, 0.0, 0.0, 0.0 );
 
 
+print( "Erstelle Track" );
 # Erstellen eines einfachen Tracks  
 #	- für die fackel 
 #	- mit dem _EINZIGARTIGEN_ Namen "testTrackAnimation"
@@ -61,13 +70,14 @@ trackAnim.addKeyFrame( 4.0 );
 trackAnim.setKeyFrameRotation( 4.0, 0.0, 0.0, 0.0, 0.0 );
 trackAnim.setKeyFrameTranslation( 4.0, 0.0, 0.0, 0.0 );
 
+print( "Hänge Listener an" );
 # AnimationFrameListener hinzufügen
 animFrameListener = MachWasBeiFrameXListener.new();
 trackAnim.addAnimationFrameListener( animFrameListener, 2.0 );
 # Und los gehts
 trackAnim.setPaused( false );
 
-
+print( "Erstelle Track" );
 # Noch einfacherer ;) Track, aber mit nem Listener verknüpft
 tischlein = $AM.createMeshActor("TavernenTisch","tisch_taverne.mesh");
 tischlein.placeIntoScene( 160.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0 );
@@ -80,6 +90,8 @@ listenedTrackAnim.setKeyFrameTranslation( 1.0, 0.0, 100.0, 0.0 );
 # Begrenzte Abspielanzahl setzen
 listenedTrackAnim.setTimesToPlay( 1 );
 listenedTrackAnim.setSpeed( 2.0 );
+
+print( "Hänge Listener an" );
 # AnimationsListener erzeugen
 animListener = UmdrehAbspielListener.new();
 # AnimationsListener hinzufuegen
