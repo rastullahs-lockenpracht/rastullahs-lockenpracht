@@ -48,6 +48,7 @@
 #include "ActionManager.h"
 #include "DsaManager.h"
 #include "DialogWindow.h"
+#include "PlaylistWindow.h"
 // END TEST
 
 template<> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
@@ -279,4 +280,10 @@ namespace rl {
 	{
 		return mGameLogger;
 	}
+
+    void UiSubsystem::showPlaylist()
+    {
+        PlaylistWindow* wnd = new PlaylistWindow();
+        wnd->setVisible(true);
+    }
 }

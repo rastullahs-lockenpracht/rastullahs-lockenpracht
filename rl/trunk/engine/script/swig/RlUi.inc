@@ -40,6 +40,7 @@ public:
 	void showMessageWindow(const rl::CeGuiString& message);
 	void showCharacterSheet();
 	void showCharacterSheet(Person* chara);
+    void showPlaylist();
 
 	rl::Person* getActiveCharacter();
 	void setActiveCharacter(Person* person);

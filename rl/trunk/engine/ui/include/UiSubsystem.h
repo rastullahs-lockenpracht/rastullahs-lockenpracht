@@ -72,6 +72,7 @@ namespace rl {
 		void showCharacterSheet();
 		void showCharacterSheet(Person* chara);
 		bool showInputOptionsMenu(GameObject* actionHolder);
+        void showPlaylist();
 		Person* getActiveCharacter();
 		void setActiveCharacter(Person* person);
         GameController* getGameController();

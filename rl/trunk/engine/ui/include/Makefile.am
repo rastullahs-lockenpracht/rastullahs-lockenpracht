@@ -13,6 +13,7 @@ noinst_HEADERS = \
 	InputManager.h \
 	InventoryWindow.h \
 	MessageWindow.h \
+	PlaylistWindow.h \
 	UiPrerequisites.h \
 	UiSubsystem.h \
 	WindowManager.h \
