@@ -17,7 +17,7 @@
 #include "Action.h"
 #include "GameObject.h"
 #include "Exception.h"
-#include "GameActor.h"
+#include "Actor.h"
 #include "RulesSubsystem.h"
 
 using namespace std;
@@ -26,9 +26,10 @@ namespace rl
 {
     GameObject::GameObject(int id,
                            const CeGuiString& name,
-                           const CeGuiString& description) : mId(id),
-                                                             mName(name),
-                                                             mDescription(description)
+                           const CeGuiString& description)
+        :   mId(id),
+            mName(name),
+            mDescription(description)
     {
         // Standardactions registrieren
     }
@@ -185,12 +186,12 @@ namespace rl
 		return end;
 	}
 	
-	void GameObject::setActor(GameActor* actor)
+	void GameObject::setActor(Actor* actor)
 	{
 		mActor = actor;
 	}
 	
-	GameActor* GameObject::getActor()
+	Actor* GameObject::getActor()
 	{
 		return mActor;
 	}

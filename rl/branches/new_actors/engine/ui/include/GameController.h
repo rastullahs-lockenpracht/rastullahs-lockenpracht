@@ -29,7 +29,7 @@
 
 namespace rl {
 
-    class GameActor;
+    class Actor;
 
     /**
      *  @todo Kollision
@@ -47,18 +47,18 @@ namespace rl {
          *  gesetzt.
          *  @throw NullPointerException falls camera oder hero 0 sind.
          */
-        GameController(Ogre::Camera* camera, GameActor* hero);
+        GameController(Ogre::Camera* camera, Actor* hero);
         virtual ~GameController();
 
         void run(Real elapsedTime);
 
-        GameActor* getControlledActor();
+        Actor* getControlledActor();
 
         /** Setzt den Actor, der durch den Benutzer zu steuern ist.
          *  Dabei wird die Camera ueber/hinter den Actor gesetzt.
          *  @throw NullPointerException falls actor 0 ist.
          */
-        void setControlledActor(GameActor* actor);
+        void setControlledActor(Actor* actor);
 
         Ogre::Camera* getCamera();
 
@@ -89,7 +89,7 @@ namespace rl {
         Ogre::SceneNode* mLookAtNode;
         Ogre::SceneNode* mCameraNode;
         Ogre::Camera* mCamera;
-        GameActor* mActor;
+        Actor* mActor;
 
         Ogre::Real mMoveScale;
         Ogre::Real mRotScale;

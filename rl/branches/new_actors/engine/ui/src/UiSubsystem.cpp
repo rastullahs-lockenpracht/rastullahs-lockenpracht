@@ -31,8 +31,7 @@
 
 #include "GameLoop.h"
 #include "ActorManager.h"
-#include "GameActor.h"
-#include "CameraActor.h"
+#include "Actor.h"
 #include "World.h"
 
 // BEGIN TEST
@@ -160,19 +159,19 @@ namespace rl {
 
 	void UiSubsystem::setActiveCharacter(Person* person)
 	{
-		mCharacter = person;
-		
-		CameraActor* camera = dynamic_cast<CameraActor*>(
-            ActorManager::getSingleton().getActor("DefaultCamera"));
-		CoreSubsystem::getSingleton().log("Kamera erschaffen");
-		mGameController = new GameController(
-            camera->getOgreCamera(), person->getActor());
-        CoreSubsystem::getSingleton().log("GameController erschaffen");
-		GameLoop::getSingleton().addSynchronizedTask(mGameController);
-		CoreSubsystem::getSingleton().log("GameController-Task hinzugefuegt");
-		World* world = CoreSubsystem::getSingleton().getWorld();
-		world->setActiveActor(person->getActor());
-		CoreSubsystem::getSingleton().log("Aktor gesetzt");		
+		//mCharacter = person;
+		//
+		//CameraActor* camera = dynamic_cast<CameraActor*>(
+  //          ActorManager::getSingleton().getActor("DefaultCamera"));
+		//CoreSubsystem::getSingleton().log("Kamera erschaffen");
+		//mGameController = new GameController(
+  //          camera->getOgreCamera(), person->getActor());
+  //      CoreSubsystem::getSingleton().log("GameController erschaffen");
+		//GameLoop::getSingleton().addSynchronizedTask(mGameController);
+		//CoreSubsystem::getSingleton().log("GameController-Task hinzugefuegt");
+		//World* world = CoreSubsystem::getSingleton().getWorld();
+		//world->setActiveActor(person->getActor());
+		//CoreSubsystem::getSingleton().log("Aktor gesetzt");		
 	}
 
 	void UiSubsystem::showActionChoice(GameObject* obj)

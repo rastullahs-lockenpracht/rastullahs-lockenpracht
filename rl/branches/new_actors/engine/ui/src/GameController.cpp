@@ -21,7 +21,7 @@
 #include "CommandMapper.h"
 #include "DebugWindow.h"
 #include "Exception.h"
-#include "GameActor.h"
+#include "Actor.h"
 #include "PhysicsManager.h"
 
 #include <OgreSceneManager.h>
@@ -43,7 +43,7 @@ namespace rl {
     }
     
     GameController::GameController(
-        Camera* camera, GameActor* actor)
+        Camera* camera, Actor* actor)
         : mSceneManager(CoreSubsystem::getSingletonPtr()->
         getWorld()->getSceneManager()),
         mControlNode(0),
@@ -381,26 +381,26 @@ namespace rl {
 
         if (mCurrentAnimationState != mLastAnimationState)
         {
-            if (mCurrentAnimationState == AS_WALK_FORWARD)
-            {
-                mActor->startAnimation("gehloop");
-            }
-            else
-            {
-                mActor->stopAnimation("gehloop");
-            }
-            mLastAnimationState = mCurrentAnimationState;
+            //if (mCurrentAnimationState == AS_WALK_FORWARD)
+            //{
+            //    mActor->startAnimation("gehloop");
+            //}
+            //else
+            //{
+            //    mActor->stopAnimation("gehloop");
+            //}
+            //mLastAnimationState = mCurrentAnimationState;
         }
     }
     //------------------------------------------------------------------------
 
-    GameActor* GameController::getControlledActor()
+    Actor* GameController::getControlledActor()
     {
         return mActor;
     }
     //------------------------------------------------------------------------
 
-    void GameController::setControlledActor(GameActor* actor)
+    void GameController::setControlledActor(Actor* actor)
     {
         if (actor == 0)
         {
@@ -419,39 +419,38 @@ namespace rl {
 
     void GameController::setup()
     {
-        if (mActor != 0)
-        {
-            ///@todo dafuer sorgen, dass das nicht mehr noetig ist.
-            mActor->getSceneNode()->setScale(0.5, 0.5 , 0.5);
-            mActor->setCastShadows(true);
-            mActor->getEntity()->setNormaliseNormals(true);
+        //if (mActor != 0)
+        //{
+        //    ///@todo dafuer sorgen, dass das nicht mehr noetig ist.
+        //    mActor->_getSceneNode()->setScale(0.5, 0.5 , 0.5);
+        //    //mActor->getEntity()->setNormaliseNormals(true);
 
-            Vector3 extent = mActor->getExtent();
-            SceneNode* root = CoreSubsystem::getSingleton().getWorld()->
-                getSceneManager()->getRootSceneNode();
-            Vector3 pos = mActor->getPosition();
+        //    Vector3 extent = mActor->getExtent();
+        //    SceneNode* root = CoreSubsystem::getSingleton().getWorld()->
+        //        getSceneManager()->getRootSceneNode();
+        //    Vector3 pos = mActor->getPosition();
 
-            // ControlNode auf etwa 10% Abstand bezogen auf die Höhe
-            // des GameActors bringen.
-            pos.y = pos.y + extent.y * 0.9;
-            mControlNode->setPosition(pos);
-            mControlNode->addChild(mActor->getSceneNode());
-            mActor->getSceneNode()->setPosition(Vector3::ZERO);
-            mActor->getSceneNode()->translate(
-                Vector3(0, -extent.y * 0.9, 0), Node::TS_PARENT);
+        //    // ControlNode auf etwa 10% Abstand bezogen auf die Höhe
+        //    // des GameActors bringen.
+        //    pos.y = pos.y + extent.y * 0.9;
+        //    mControlNode->setPosition(pos);
+        //    mControlNode->addChild(mActor->getSceneNode());
+        //    mActor->getSceneNode()->setPosition(Vector3::ZERO);
+        //    mActor->getSceneNode()->translate(
+        //        Vector3(0, -extent.y * 0.9, 0), Node::TS_PARENT);
 
-            // ODE-Collision-Proxy ist eine Capsule
-            mOdeActor->setDefinition(mActor->getRadius(),
-                mActor->getHeight() - 2*mActor->getRadius());
-            mOdeActor->setPosition(ogrePosToOdePos(
-                mActor->getSceneNode()->getWorldPosition(),
-                mActor->getExtent()));
-            mOdeActor->setOrientation(Quaternion(Degree(90), Vector3::UNIT_X));
-                    
-            mOdeCamera->setPosition(mCameraNode->getWorldPosition());
-            mOdeCamera->setRadius(mCamera->getNearClipDistance() * 1.5);
-            
-        }
+        //    // ODE-Collision-Proxy ist eine Capsule
+        //    mOdeActor->setDefinition(mActor->getRadius(),
+        //        mActor->getHeight() - 2*mActor->getRadius());
+        //    mOdeActor->setPosition(ogrePosToOdePos(
+        //        mActor->getSceneNode()->getWorldPosition(),
+        //        mActor->getExtent()));
+        //    mOdeActor->setOrientation(Quaternion(Degree(90), Vector3::UNIT_X));
+        //            
+        //    mOdeCamera->setPosition(mCameraNode->getWorldPosition());
+        //    mOdeCamera->setRadius(mCamera->getNearClipDistance() * 1.5);
+        //    
+        //}
     }
     //------------------------------------------------------------------------
 
@@ -485,12 +484,12 @@ namespace rl {
     void GameController::translate(const Vector3& translation,
         Node::TransformSpace ts)
     {
-        mControlNode->translate(translation, ts);
-        mControlNode->_update(true, false);
-        
-        mOdeActor->setPosition(ogrePosToOdePos(
-            mActor->getSceneNode()->getWorldPosition(),
-            mActor->getExtent()));                
+        //mControlNode->translate(translation, ts);
+        //mControlNode->_update(true, false);
+        //
+        //mOdeActor->setPosition(ogrePosToOdePos(
+        //    mActor->getSceneNode()->getWorldPosition(),
+        //    mActor->getExtent()));                
     }
     //------------------------------------------------------------------------
     
@@ -505,12 +504,12 @@ namespace rl {
         mViewMode = mode;
         if (mode == VM_FIRST_PERSON)
         {
-            mActor->getSceneNode()->setVisible(false);
+            mActor->_getSceneNode()->setVisible(false);
             mDesiredDistance = 0.0;
         }
         else
         {
-            mActor->getSceneNode()->setVisible(true);
+            mActor->_getSceneNode()->setVisible(true);
             mDesiredDistance = 150.0;
             resetCamera();
         }

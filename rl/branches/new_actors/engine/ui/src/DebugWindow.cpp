@@ -18,7 +18,7 @@
 #include "InputManager.h"
 #include "UiSubsystem.h"
 #include "Person.h"
-#include "GameActor.h"
+#include "Actor.h"
 
 template<> rl::DebugWindow* Ogre::Singleton<rl::DebugWindow>::ms_Singleton = 0;
 
@@ -80,7 +80,9 @@ namespace rl
 		if (UiSubsystem::getSingleton().getActiveCharacter() != NULL && 
 			UiSubsystem::getSingleton().getActiveCharacter()->getActor() != NULL)
 		{
-			Ogre::Vector3 pos = UiSubsystem::getSingleton().getActiveCharacter()->getActor()->getSceneNode()->getWorldPosition();
+			Ogre::Vector3 pos = UiSubsystem::getSingletonPtr()->
+			    getActiveCharacter()->getActor()->
+			        _getSceneNode()->getWorldPosition();
 			setText("Player-Position "+StringConverter::toString(pos));
 		}
 	}
