@@ -265,6 +265,12 @@ namespace rl
         
         // Set the friction at the contact
         contact->setCoulombFriction(OgreOde::Utility::Infinity);
+		//contact->setCoulombFriction(0.0);
+		contact->setBouncyness(1.0, 0.00005); 
+		// @todo Kollision geht, solange Bouncyness eingestellt ist, allerdings kommt kein bounce
+		//contact->setSoftness(0.5, 0.5);
+		//contact->setFrictionMode(Contact::Flag_FrictionPyramid);
+		
 
         // Yes, this collision is valid
         return true;
