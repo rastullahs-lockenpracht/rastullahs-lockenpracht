@@ -100,11 +100,6 @@ private:
     Ogre::String mRootDir;
 
 	RL_LONGLONG mClockStartTime;
-
-#if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
-    static const Ogre::String findConfRootDir();
-    static const Ogre::String findRastullahConf();
-#endif
 };
 
 }
