@@ -1,2 +1,2 @@
-$Core.loadMap("BSP", "testraum.bsp", "testraum.rb");
+$Core.loadMap("Octree", "b_1.mesh", "testraum.rb");
 $World = $Core.getWorld();
