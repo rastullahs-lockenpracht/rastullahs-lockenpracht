@@ -22,31 +22,22 @@ namespace Ogre {
 	
 	class ResourceManager {
        void setMemoryBudget(size_t bytes);
-       virtual Resource* create(const String &resName) = 0;
+       virtual Resource* create(const std::string& resName) = 0;
 	};
 }
  
 
 namespace rl {
-
-   
    	class SoundManager : public Ogre::ResourceManager {
    	public:
        static SoundManager& getSingleton();
        static SoundManager* getSingletonPtr();
-       virtual Resource* create(const String &resName);
+       virtual Resource* create(const std::string& resName);
        void addSounds();
        Ogre::Resource* getByName(const std::string& name);
        void addSearchPath(const std::string& path);
        std::list<String> getSounds();
        virtual void add(Resource *song);
-   	};
-   
-   	class SoundManager : public ResourceManager {
-   	public:
-       static SoundManager& getSingleton();
-       static SoundManager* getSingletonPtr();
-       virtual Resource* create(const std::string& resName);
    	};
       
    	class MusicManager  {
