@@ -53,7 +53,7 @@ copy %RL_ROOT%\Dependencies\openalpp\bin\*.dll %RL_DIST%
 copy %RL_ROOT%\Dependencies\openthreads\bin\win32\*.dll %RL_DIST%
 
 copy %RL_ROOT%\Dependencies\ode\lib\*.dll %RL_DIST%
-copy %RL_ROOT%\Dependencies\boost\lib\*.dll %RL_DIST%
+copy %RL_ROOT%\Dependencies\boost\bin\*.dll %RL_DIST%
 copy %RL_ROOT%\Dependencies\xerces\bin\*.dll %RL_DIST%
 
 copy %RL_ROOT%\Dependencies\cegui\bin\CEGUIBase.dll %RL_DIST%
