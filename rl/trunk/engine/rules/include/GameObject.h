@@ -5,6 +5,7 @@
 
 namespace rl
 {
+	class GameActor;
     class _RlRulesExport Creature;
 
 	static const int ACT_NORMAL = 1<<0;
@@ -41,6 +42,9 @@ namespace rl
 
         void addAction(Action* action, int option = ACT_NORMAL);
         void removeAction(Action* action);
+	
+		void setActor(GameActor* actor);
+		GameActor* getActor();
 
         const ActionVector getValidActions() const;
 
@@ -73,6 +77,8 @@ namespace rl
 		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const CeGuiString& actionName);
 		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const CeGuiString& actionName, const CeGuiString& className);
 		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const Action* action);
+	
+		GameActor* mActor;
 	
     protected:
         int mId;

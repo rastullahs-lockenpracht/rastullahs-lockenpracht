@@ -18,4 +18,5 @@ libRlUi_la_SOURCES = \
 	MessageWindow.cpp \
 	ThirdPersonGameController.cpp \
 	UiSubsystem.cpp \
+	WindowManager.h \
 	../components/src/ListboxWrappedTextItem.cpp

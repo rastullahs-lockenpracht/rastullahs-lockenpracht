@@ -1,6 +1,7 @@
 #include "Action.h"
 #include "GameObject.h"
 #include "Exception.h"
+#include "GameActor.h"
 
 using namespace std;
 
@@ -159,6 +160,16 @@ namespace rl
 				return iter;
 
 		return end;
+	}
+	
+	void GameObject::setActor(GameActor* actor)
+	{
+		mActor = actor;
+	}
+	
+	GameActor* GameObject::getActor()
+	{
+		return mActor;
 	}
 
 }

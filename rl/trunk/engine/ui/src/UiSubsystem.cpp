@@ -62,9 +62,7 @@ namespace rl {
     {
 		using namespace CEGUI;
 
-        World* world = CoreSubsystem::getSingleton().getWorld();
-
-		CEGUI::OgreRenderer* rend = 
+        CEGUI::OgreRenderer* rend = 
 			new CEGUI::OgreRenderer(Ogre::Root::getSingleton().getAutoCreatedWindow(), 
 									Ogre::RENDER_QUEUE_OVERLAY, 
 									false, 
@@ -91,21 +89,6 @@ namespace rl {
 		new DebugWindow();
 		new Console();
 		((RubyInterpreter*)CoreSubsystem::getSingleton().getInterpreter() )->initializeInterpreter( (VALUE(*)(...))&UiSubsystem::consoleWrite );
-		
-        CameraActor* camera = dynamic_cast<CameraActor*>(
-            ActorManager::getSingleton().getActor("DefaultCamera"));
-		
-        GameActor* hero = dynamic_cast<GameActor*>(
-            ActorManager::getSingleton().createGameActor("Held","held.mesh"));
-        Ogre::Vector3 pos = world->getSceneManager()->getSuggestedViewpoint().position;
-        hero->setPosition(pos.x, pos.y, pos.z);
-
-        mGameController = new ThirdPersonGameController(
-            camera->getOgreCamera(), hero);
-        GameLoop::getSingleton().addSynchronizedTask(mGameController);
-		world->setActiveActor(hero);
-	      
-		mCharacter = DsaManager::getSingleton().getPerson(10000);
 		
         //runTest();
     }
@@ -139,6 +122,14 @@ namespace rl {
 	void UiSubsystem::setActiveCharacter(Person* person)
 	{
 		mCharacter = person;
+		 
+		CameraActor* camera = dynamic_cast<CameraActor*>(
+            ActorManager::getSingleton().getActor("DefaultCamera"));
+		mGameController = new ThirdPersonGameController(
+            camera->getOgreCamera(), person->getActor());
+        GameLoop::getSingleton().addSynchronizedTask(mGameController);
+		World* world = CoreSubsystem::getSingleton().getWorld();
+		world->setActiveActor(person->getActor());
 	}
 
 	void UiSubsystem::showActionChoice(GameObject* obj)
