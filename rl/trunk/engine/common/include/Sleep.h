@@ -22,7 +22,7 @@ namespace rl {
  * @param sleeptime Die Zeit in Millisekunden.
  * Legen den aktuellen Thread für sleeptime Millisekungen schlafen.
  */
-void msleep(unsigned long sleeptime)
+inline void msleep(unsigned long sleeptime)
 {
 #if OGRE_PLATFORM == PLATFORM_WIN32
     Sleep(sleeptime);

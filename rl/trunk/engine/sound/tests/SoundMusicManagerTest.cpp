@@ -14,12 +14,10 @@
 #include "math.h"
 #include "OgreResourceManager.h"
 #include "cppunit/extensions/HelperMacros.h"
-#include <boost/thread/xtime.hpp>
-#include <boost/thread/thread.hpp>
+#include "Sleep.h"
 
 using namespace rl;
 using namespace Ogre;
-using namespace boost;
 
 
 class SoundMusicManagerTest : public CppUnit::TestFixture {
@@ -47,7 +45,7 @@ public:
         MusicManager::getSingletonPtr()->setAuto(true);
         MusicManager::getSingletonPtr()->setLooping(false);
         MusicManager::getSingletonPtr()->playSong(); 
-        sleep(1);
+        msleep(1 * 1000);
 
         SoundResource* sound = dynamic_cast<SoundResource*>(
             SoundManager::getSingletonPtr()->getByName("testsound.wav")
@@ -58,7 +56,7 @@ public:
             for(int i = 1; i < 5; i++)
             {
                 sound->play();
-                sleep(2);
+                msleep(2 * 1000);
                 sound->rewind();
             }
             sound->stop();

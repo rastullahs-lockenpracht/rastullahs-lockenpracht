@@ -12,13 +12,10 @@
 #include "math.h"
 #include "OgreIteratorWrappers.h"
 #include "cppunit/extensions/HelperMacros.h"
-#include <boost/thread/xtime.hpp>
-#include <boost/thread/thread.hpp>
 #include <iostream>
-
+#include "Sleep.h"
 
 using namespace rl;
-using namespace boost;
 
 class SoundManagerTest : public CppUnit::TestFixture {
 private:
@@ -45,8 +42,6 @@ public:
  
     void testSoundManager_loadPlayUnload()
     {
-        xtime xt;
-        
         ResourceManager::ResourceMapIterator it =
             SoundManager::getSingleton().getResourceIterator();
         while (it.hasMoreElements())
@@ -58,9 +53,7 @@ public:
                 sound->load();
                 sound->play();
                 
-                xtime_get(&xt, TIME_UTC);
-                xt.sec += 5;
-                thread::sleep(xt);
+                msleep(5 * 1000);
                 
                 sound->stop();
                 sound->unload();
@@ -72,8 +65,6 @@ public:
     
     void testSoundManager_loadPlayWithFade()
     {
-        xtime xt;
-        
         ResourceManager::ResourceMapIterator it =
             SoundManager::getSingleton().getResourceIterator();
         while (it.hasMoreElements())
@@ -84,21 +75,13 @@ public:
             if (sound)
             {
                 sound->load();
-                std::cerr << "Fade In Start" << std::endl;
                 sound->play(5000);
-                std::cerr << "Fade In Ende" << std::endl;
                 
-                xtime_get(&xt, TIME_UTC);
-                xt.sec += 10;
-                thread::sleep(xt);
+                msleep(10 * 1000);
                 
-                std::cerr << "Fade Out Start" << std::endl;
                 sound->stop(5000);
-                std::cerr << "Fade Out Ende" << std::endl;
                 
-                xtime_get(&xt, TIME_UTC);
-                xt.sec += 15;
-                thread::sleep(xt);
+                msleep(10 * 1000);
                 
                 sound->unload();
             }            

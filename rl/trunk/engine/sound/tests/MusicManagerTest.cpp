@@ -13,12 +13,10 @@
 #include "math.h"
 #include "OgreResourceManager.h"
 #include "cppunit/extensions/HelperMacros.h"
-#include <boost/thread/xtime.hpp>
-#include <boost/thread/thread.hpp>
+#include "Sleep.h"
 
 using namespace rl;
 using namespace Ogre;
-using namespace boost;
 
 class MusicManagerTest : public CppUnit::TestFixture {
 private:
@@ -46,20 +44,14 @@ public:
 
     void testMusicManager_playForward()
     {
-        xtime xt;
-        
         MusicManager::getSingletonPtr()->setAuto(true);
         MusicManager::getSingletonPtr()->setLooping(false);
         MusicManager::getSingletonPtr()->playSong(); 
         
-        xtime_get(&xt, TIME_UTC);
-        xt.sec += 2;
-        thread::sleep(xt);
+        msleep(10 * 1000);
         while (MusicManager::getSingletonPtr()->isPlaying())
         {
-            xtime_get(&xt, TIME_UTC);
-            xt.sec += 10;
-            thread::sleep(xt);
+            msleep(10 * 1000);
         }
         MusicManager::getSingletonPtr()->stopSong();
         CPPUNIT_ASSERT(true);
