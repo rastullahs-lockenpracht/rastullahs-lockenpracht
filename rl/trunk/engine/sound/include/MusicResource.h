@@ -98,9 +98,9 @@ class _RlSoundExport MusicResource: public SndResource {
         ~MusicResource();
         
         /// Spielt den Sound ab.
-        virtual void play() throw (RuntimeException);
+        virtual void play(unsigned int msec = 0) throw (RuntimeException);
         /// Stoppt den Sound.
-        virtual void stop() throw (RuntimeException);
+        virtual void stop(unsigned int msec = 0) throw (RuntimeException);
         /// Den Zustand des Sounds zurueckgeben.
         const bool isPlaying() const;
         /// Laedt die Ogg-Datei.

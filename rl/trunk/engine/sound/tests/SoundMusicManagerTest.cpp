@@ -72,4 +72,4 @@ public:
     CPPUNIT_TEST(testSoundMusicManager_playForward);
     CPPUNIT_TEST_SUITE_END(); 
 };
-CPPUNIT_TEST_SUITE_REGISTRATION(SoundMusicManagerTest);
+//CPPUNIT_TEST_SUITE_REGISTRATION(SoundMusicManagerTest);

@@ -72,7 +72,7 @@ class _RlSoundExport MusicManager : public ResManager, public Ogre::Singleton<Mu
     
     protected:
         /// Welche Dateiendung soll verwendet werden.
-        virtual String getExtension();
+        virtual StringList getExtension();
             
     public:
         /// Gibt das Singleton zurueck.

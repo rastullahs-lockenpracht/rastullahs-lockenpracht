@@ -239,7 +239,7 @@ const bool MusicResource::isPlaying () const
  * @author JoSch
  * @date 07-16-2004
  */
-void MusicResource::play() throw (RuntimeException)
+void MusicResource::play(unsigned int msec) throw (RuntimeException)
 {
     if (!mIsLoaded) {
         load();
@@ -290,7 +290,7 @@ void MusicResource::open (unsigned char *data, unsigned int size)
  * @author JoSch
  * @date 07-27-2004
  */
-void MusicResource::stop () throw (RuntimeException)
+void MusicResource::stop (unsigned int msec) throw (RuntimeException)
 {
     if (alIsSource(mSource))
     {

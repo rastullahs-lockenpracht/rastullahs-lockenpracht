@@ -4,6 +4,8 @@
 
 #include "SoundPrerequisites.h"
 #include "Ogre.h"
+#include "boost/thread/thread.hpp"
+#include "boost/thread/mutex.hpp"
 
 namespace rl {
  
@@ -24,8 +26,14 @@ class _RlSoundExport SndResource: public Resource {
         /// Wieviele Buffer werden benutzt.
         short mBufferCount;
 
-        /// Ueperpruefen, ob Fehler aufgetreten ist.
+        /// Ueberpruefen, ob Fehler aufgetreten ist.
         void check() const throw (RuntimeException);
+        
+        /// Mutex zum Synchronisieren von Gain-Zugriffen.
+        mutable boost::mutex mGainMutex;
+        
+        /// Berechne die Abnahme der Lautstarke beim Fade-In/Fade-Out
+        ALfloat calculateFade(signed RL_LONGLONG fade, ALfloat gain);
 
     public:
         /// Der Standardkonstruktor
@@ -54,11 +62,11 @@ class _RlSoundExport SndResource: public Resource {
         virtual void unload();
         
         /// Spielt den Sound ab.
-        virtual void play() throw (RuntimeException);
+        virtual void play(unsigned int msec = 0) throw (RuntimeException);
         /// Pausiert den Sound.
         virtual void pause() throw (RuntimeException);
         /// Stoppt den Sound.
-        virtual void stop() throw (RuntimeException);
+        virtual void stop(unsigned int msec = 0) throw (RuntimeException);
         /// Zurueck auf Anfang.
         virtual void rewind() throw (RuntimeException);
         /// Den Zustand des Sounds zurueckgeben.

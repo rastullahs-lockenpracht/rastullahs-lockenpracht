@@ -15,15 +15,20 @@ namespace rl {
  */
 void ResManager::addSounds()
 {
-    set<String> list = ResourceManager::_getAllCommonNamesLike("./", getExtension());
-    mutex::scoped_lock lock(mResListMutex);
-    set<String>::const_iterator it;
-    for(it = list.begin(); it != list.end(); it++)
+    StringList extlist = getExtension();
+    StringList::const_iterator cit;
+    for(cit = extlist.begin(); cit != extlist.end(); cit++)
     {
-        try {
-            add(create(*it));
-        } catch(...)
-        {}
+        set<String> list = ResourceManager::_getAllCommonNamesLike("./", *cit);
+        mutex::scoped_lock lock(mResListMutex);
+        set<String>::const_iterator it;
+        for(it = list.begin(); it != list.end(); it++)
+        {
+            try {
+                add(create(*it));
+            } catch(...)
+            {}
+        }
     }
 }
 

@@ -19,7 +19,7 @@ class _RlSoundExport SoundManager: public ResManager,
         public Ogre::Singleton<SoundManager> {
     protected:
         /// Welche Dateiendung soll verwendet werden.
-        virtual String getExtension();
+        virtual StringList getExtension();
     public:
         /// Gibt das Singleton zurueck.
         static SoundManager& getSingleton();

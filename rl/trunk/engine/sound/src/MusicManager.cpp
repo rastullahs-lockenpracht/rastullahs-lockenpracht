@@ -72,13 +72,16 @@ MusicManager::~MusicManager()
 }
 
 /**
- * Gibt das Suchmuster fuer die Extension zurueck.
+ * Gibt die Suchmuster fuer die Extension zurueck.
  * @author JoSch
  * @date 06-18-2004
  */
-String MusicManager::getExtension()
+StringList MusicManager::getExtension()
 {
-    return "*.ogg";
+    StringList result;
+    result.push_back("*.ogg");
+    
+    return result;
 }
 
 /**

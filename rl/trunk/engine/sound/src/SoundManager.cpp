@@ -2,6 +2,7 @@
 #include <set>
 #include "OgreArchiveEx.h"
 #include "SoundResource.h"
+#include "MusicResource.h"
 
 using namespace std;
 using namespace Ogre;
@@ -35,13 +36,18 @@ SoundManager* SoundManager::getSingletonPtr()
 }
 
 /**
- * Gibt das Suchmuster fuer die Extension zurueck.
+ * Gibt die Suchmuster fuer die Extension zurueck.
+ * @return Die Liste der Suchmuster
  * @author JoSch
  * @date 06-18-2004
  */
-String SoundManager::getExtension()
+StringList SoundManager::getExtension()
 {
-    return "*.wav";
+    StringList result;
+    result.push_back("*.wav");
+    result.push_back("*.ogg");
+    
+    return result;
 }
 
 /**
@@ -52,7 +58,13 @@ String SoundManager::getExtension()
  */
 Resource* SoundManager::create(const String& resName)
 {
-    SoundResource *newSound = new SoundResource(resName);
+    SndResource *newSound = 0;
+    if (StringUtil::endsWith(resName, "wav", true))
+    {
+        newSound = new SoundResource(resName);
+    } else if (StringUtil::endsWith(resName, "ogg", true)) {
+        newSound = new MusicResource(resName);
+    }
     return newSound;
 }
 

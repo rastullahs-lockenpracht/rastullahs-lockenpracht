@@ -27,7 +27,7 @@ class _RlSoundExport SoundResource: public SndResource {
         /// Der Destruktor
         ~SoundResource();
         /// Laedt die Soundquelle.
-        virtual void load();    
+        virtual void load(); 
          
 };
 

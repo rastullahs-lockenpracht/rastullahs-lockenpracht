@@ -2,9 +2,12 @@
 #include <iostream>
 #include "SoundManager.h"
 #include "SndResource.h"
+#include "boost/thread/xtime.hpp"
+#include "XtimeOperator.h"
 
 using namespace std;
 using namespace Ogre;
+using namespace boost;
 
 namespace rl {
 /**
@@ -119,6 +122,7 @@ void SndResource::setVelocity(const Vector3& velocity) throw (RuntimeException)
  */
 const ALfloat SndResource::getGain() const throw (RuntimeException)
 {
+    mutex::scoped_lock lock(mGainMutex);
     ALfloat result;
     alGetSourcef(mSource, AL_GAIN, &result);
     check();
@@ -132,6 +136,7 @@ const ALfloat SndResource::getGain() const throw (RuntimeException)
  */
 void SndResource::setGain(const ALfloat gain) throw (RuntimeException)
 {
+    mutex::scoped_lock lock(mGainMutex);
     alSourcef(mSource, AL_GAIN, gain);
     check();
 }
@@ -156,10 +161,36 @@ void SndResource::unload()
  * @author JoSch
  * @date 07-23-2004
  */
-void SndResource::play() throw (RuntimeException)
+void SndResource::play(unsigned int msec) throw (RuntimeException)
 {
+    // Sleep
+    xtime sleeptime, start;
+    // Alte Lautstaerke speichern.
+    ALfloat gain = getGain();
+    // Abspielen.
     alSourcePlay(mSource);
     check();
+
+    if (msec != 0)
+    {
+        setGain(0.2f);
+        ALfloat gainstep = calculateFade(msec, gain - 0.2f);
+        xtime_get(&start, TIME_UTC);
+        while (msec-=10)
+        {
+            // Lautstaerke hochsetzen.
+            setGain(getGain() + gainstep);
+            
+            // Warten
+            xtime_get(&sleeptime, TIME_UTC);
+            sleeptime.nsec += 10000;
+            thread::sleep(sleeptime);
+            gainstep = calculateFade(msec, gain);
+            cerr << msec << " " << (sleeptime - start) << endl;
+        }
+        setGain(gain);
+        check();
+    }
 }
 
 /**
@@ -176,8 +207,34 @@ void SndResource::pause() throw (RuntimeException)
  * @author JoSch
  * @date 07-23-2004
  */
-void SndResource::stop() throw (RuntimeException)
+void SndResource::stop(unsigned int msec) throw (RuntimeException)
 {
+    // Sleep
+    xtime sleeptime, start;
+    // Alte Lautstaerke speichern.
+    ALfloat gain = getGain();
+
+    if (msec != 0)
+    {
+        setGain(0.0f);
+        ALfloat gainstep = calculateFade(-msec, gain);
+        xtime_get(&start, TIME_UTC);
+        while (msec-=10)
+        {
+            // Lautstaerke hochsetzen.
+            setGain(getGain() + gainstep);
+            
+            // Warten
+            xtime_get(&sleeptime, TIME_UTC);
+            sleeptime.nsec += 10000;
+            thread::sleep(sleeptime);
+            gainstep = calculateFade(-msec, gain);
+            cerr << gainstep << " " << xtime_cmp(sleeptime, start) << endl;
+        }
+        setGain(gain);
+        check();
+    }
+    // Stoppen.
     alSourceStop(mSource);
     check();
 }
@@ -217,6 +274,21 @@ void SndResource::check() const throw (RuntimeException)
     {
         Throw(RuntimeException, string((char*)alGetString(error)));
     }
+}
+
+/**
+ * @param fade. Die Zeit in msek. zum Faden, pos. Zeiten = Fade in. neg. Zeiten = Fade out
+ * @param gain. Der aktuelle Lautstaerkewert, vom dem ausgegangen wird.
+ * @author JoSch
+ * @09-11-2004
+ */
+ALfloat SndResource::calculateFade(signed RL_LONGLONG fade, ALfloat gain)
+{
+    if (fade != 0)
+    {
+        return gain / (fade * 1.0);
+    }
+    return (ALfloat)0.0f;
 }
 
 }

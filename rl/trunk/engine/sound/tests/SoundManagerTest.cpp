@@ -14,6 +14,7 @@
 #include "cppunit/extensions/HelperMacros.h"
 #include <boost/thread/xtime.hpp>
 #include <boost/thread/thread.hpp>
+#include <iostream>
 
 
 using namespace rl;
@@ -50,7 +51,8 @@ public:
             SoundManager::getSingleton().getResourceIterator();
         while (it.hasMoreElements())
         {
-            SoundResource* sound = dynamic_cast<SoundResource*>(it.getNext());
+            Resource *res = it.getNext();
+            SndResource* sound = dynamic_cast<SndResource*>(res);
             if (sound)
             {
                 sound->load();
@@ -68,42 +70,37 @@ public:
         CPPUNIT_ASSERT(true);
     }
     
-    void testSoundManager_testOAL()
+    void testSoundManager_loadPlayWithFade()
     {
         xtime xt;
-
-        DataChunk dc;
-        ALenum format;
-        ALvoid *data;
-        ALsizei size, freq;
-        ALboolean loop = false;
-        ALuint buffer, source;
-            
-        // Lade das WAV aus dem Speicher
-        SoundManager::_findCommonResourceData("testsound.wav", dc);
-        alutLoadWAVMemory((ALbyte*)dc.getPtr(), &format, &data, &size, &freq, &loop);
-        alGenBuffers(1, &buffer);
-        alBufferData(buffer, format, data, size, freq);
-        alutUnloadWAV(format, data, size, freq);
-        alGenSources(1, &source);
-        alSourceQueueBuffers(source,1,&buffer);
-        alSourcePlay(source);
         
-        xtime_get(&xt, TIME_UTC);
-        xt.sec += 5;
-        thread::sleep(xt);
+        ResourceManager::ResourceMapIterator it =
+            SoundManager::getSingleton().getResourceIterator();
+        while (it.hasMoreElements())
+        {
+            Resource *res = it.getNext();
+            SndResource* sound = dynamic_cast<SndResource*>(res);
+            if (sound)
+            {
+                sound->load();
+                sound->play(5000);
+                
+                xtime_get(&xt, TIME_UTC);
+                xt.sec += 20;
+                thread::sleep(xt);
+                
+                sound->stop(5000);
+                sound->unload();
+            }            
+        }
         
-        alSourceStop(source);
-        alSourceUnqueueBuffers(source,1,&buffer);
-        alDeleteSources(1,&source);
-        alDeleteBuffers(1,&buffer);
         CPPUNIT_ASSERT(true);
     }
-    
+
 	CPPUNIT_TEST_SUITE(SoundManagerTest);
 	CPPUNIT_TEST(testSoundManager_addSoundDirectory);
-    CPPUNIT_TEST(testSoundManager_testOAL);
-    CPPUNIT_TEST(testSoundManager_loadPlayUnload);
+//    CPPUNIT_TEST(testSoundManager_loadPlayUnload);
+    CPPUNIT_TEST(testSoundManager_loadPlayWithFade);
     CPPUNIT_TEST_SUITE_END();
 };
 CPPUNIT_TEST_SUITE_REGISTRATION(SoundManagerTest);

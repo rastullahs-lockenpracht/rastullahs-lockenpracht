@@ -10,6 +10,8 @@ using namespace boost;
 
 namespace rl {
 
+typedef std::list<Ogre::String> StringList;
+
 /**
  * Der ResManager verwaltet die Sounds, die das Spiel benutzt.
  * Dieses ist die abstrakte Basisklasse fuer Musik und Sound.
@@ -23,14 +25,14 @@ class _RlSoundExport ResManager: public ResourceManager {
         mutex mResListMutex;
     protected:
         /// Welche Dateiendung soll verwendet werden.
-        virtual Ogre::String getExtension() { return 0; }
+        virtual StringList getExtension() { return StringList(); }
     public:
         /// Alle Sounds in die Resourcenliste eintragen.
         void addSounds();
         /// Damit OpenAl++ funktioniert muss es den Pfad der Dateien wissen.
         static const Ogre::String getCommonPathByName(const Ogre::String &name);
         /// Eine Namesliste erzeugen
-        std::list<String> getSounds();
+        StringList getSounds();
 };
 
 }

@@ -76,9 +76,9 @@ namespace rl {
         virtual void load();
         virtual void unload() = 0;
         
-        void play() throw (rl::RuntimeException);
+        void play(int msec) throw (rl::RuntimeException);
         void pause() throw (rl::RuntimeException);
-        void stop() throw (rl::RuntimeException);
+        void stop(int msec) throw (rl::RuntimeException);
         void rewind() throw (rl::RuntimeException);
         const ALenum getState() const throw (rl::RuntimeException);
     };
