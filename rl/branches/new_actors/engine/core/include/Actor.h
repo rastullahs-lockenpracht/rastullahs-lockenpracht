@@ -48,6 +48,10 @@ namespace rl {
         void placeIntoScene(
             const Ogre::Vector3& position = Ogre::Vector3::ZERO,
             const Ogre::Quaternion& orientation = Ogre::Quaternion::IDENTITY);
+
+        void placeIntoScene(
+            Ogre::Real px, Ogre::Real py, Ogre::Real pz,
+            Ogre::Real ow, Ogre::Real ox, Ogre::Real oy, Ogre::Real oz);
             
         void removeFromScene();
 
@@ -55,13 +59,14 @@ namespace rl {
         const Ogre::Vector3& getPosition(void);
         
         /// Sets the position of this object.
-        void setPosition(const Vector3& vec);
+        void setPosition(const Ogre::Vector3& vec);
+        void setPosition(Ogre::Real x, Ogre::Real y, Ogre::Real z);
 
         /// Gets the current orientation of this object.
         const Ogre::Quaternion& getOrientation(void);
 
         /// Sets the orientation of this object.
-        void setOrientation(const Quaternion& orientation);
+        void setOrientation(const Ogre::Quaternion& orientation);
 
         /// Moves the object along it's local  axes.
         void translate(const Ogre::Vector3& d, Ogre::Node::TransformSpace ts);

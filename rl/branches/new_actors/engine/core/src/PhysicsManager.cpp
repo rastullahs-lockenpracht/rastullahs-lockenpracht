@@ -123,7 +123,7 @@ namespace rl
         return mOdeWorld;
     }
 
-    PhysicalThing* PhysicsManager::createSpherePhysicalThing(Real Radius,
+    /*PhysicalThing* PhysicsManager::createSpherePhysicalThing(Real Radius,
         Real density)
     {
         PhysicalThing* phys = new PhysicalThing(mCurrSpace, actor);
@@ -161,11 +161,12 @@ namespace rl
             phys->createSphereMass( density, radius, actor->getPosition(), actor->getOrientation());
 
         return phys;
-    }
+    }*/
 
     PhysicalThing* PhysicsManager::createBoxPhysicalThing(const Vector3& size,
-        &Real density)
+        Real density)
     {
+    /*
         PhysicalThing* phys = new PhysicalThing(mCurrSpace, actor);
         mPhysicalThings.insert( PhysicalThingActorPair(actor, phys) );
 
@@ -207,9 +208,11 @@ namespace rl
             phys->createBoxMass( density, length, actor->getPosition(), actor->getOrientation());
 
         return phys;
+    */
+        return 0;
     }
 
-    PhysicalThing* PhysicsManager::createCapsulePhysicalThing(Real height,
+    /*PhysicalThing* PhysicsManager::createCapsulePhysicalThing(Real height,
         Real radius, Real density)
     {
         PhysicalThing* phys = new PhysicalThing(mCurrSpace, actor);
@@ -242,16 +245,16 @@ namespace rl
             phys->createCappedCylinderMass( density, radius, length, actor->getPosition(), actor->getOrientation());
 
         return phys;
-    }
+    }*/
 
     void PhysicsManager::removeAndDestroyPhysicalThing(PhysicalThing* thing)
     {
-        PhysicalThingActorMap::iterator pPhysicalThingIter = mPhysicalThings.find(actor);
+        PhysicalThingSet::iterator it = mPhysicalThings.find(thing);
 
-        if( pPhysicalThingIter != mPhysicalThings.end() )
+        if( it != mPhysicalThings.end() )
         {
-            PhysicalThing* phys = pPhysicalThingIter->second;
-            mPhysicalThings.erase(pPhysicalThingIter);
+            PhysicalThing* phys = *it;
+            mPhysicalThings.erase(it);
             delete phys;
         }
     }
@@ -323,6 +326,7 @@ namespace rl
 
     bool PhysicsManager::collision(Contact* contact)
     {
+    /*
         PhysicalThing* thing1 = (PhysicalThing*)
             contact->getFirstGeometry()->getUserData();
         PhysicalThing* thing2 = (PhysicalThing*)
@@ -333,6 +337,8 @@ namespace rl
             thing1->testCollide( thing2 );
         }
         ///@todo richten!
+        return false;
+    */
         return false;
     }
 

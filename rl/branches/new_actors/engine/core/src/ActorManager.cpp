@@ -64,28 +64,19 @@ namespace rl {
 		return 0;
 	}
 		
-	void ActorManager::deleteActor(const String& name)
+	void ActorManager::destroyActor(Actor* actor)
 	{
-		ActorPtrMap::iterator pActorIter = mActors.find(name);
-
-		if( pActorIter != mActors.end() )
-		{
-			Actor* pActor = pActorIter->second;
-			mActors.erase(pActorIter);
-			delete pActor;
-		}
+	
 	}
 
-    void ActorManager::deleteAllActors()
+    void ActorManager::destroyAllActors()
 	{       
-        ActorPtrMap::iterator pActorIter;
-
-        while( mActors.begin() != mActors.end() ) 
+        while (!mActors.empty()) 
         {
-            pActorIter = mActors.begin();
-            Actor* pActor = pActorIter->second;
-			mActors.erase(pActorIter);
-			delete pActor;
+            ActorPtrMap::iterator it = mActors.begin();
+            Actor* actor = it->second;
+			mActors.erase(it);
+			destroyActor(actor);
         }
 	}
 
@@ -111,13 +102,26 @@ namespace rl {
  //       return 0;
 	//}
 
-	Actor* ActorManager::createMeshActor(const String& name,const String& meshname)
+	Actor* ActorManager::createMeshActor(const String& name,const String& meshname,
+	    int geomType, Ogre::Real density)
 	{
 		const String&  uniquename = nextUniqueName(name);
 
         try
         {
 		    MeshObject* mo = new MeshObject(uniquename, meshname);
+		    switch(geomType)
+		    {
+		    case PhysicsManager::PT_BOX:
+		        break;
+		    case PhysicsManager::PT_SPHERE:
+		        break;
+		    case PhysicsManager::PT_CAPSULE:
+		        break;
+		    default:
+		        ///@todo Fehlerbehandlung
+		        break;
+		    }
 		    Actor* actor = new Actor(uniquename, mo);
 
 		    mActors.insert(ActorPtrPair(uniquename,actor)); 

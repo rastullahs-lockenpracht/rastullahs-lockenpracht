@@ -32,27 +32,28 @@ namespace rl {
     class Actor;
     class World;
 
-    typedef std::map<Actor*,PhysicalThing*> PhysicalThingActorMap;
-    typedef std::pair<Actor*,PhysicalThing*> PhysicalThingActorPair;
+    typedef std::set<PhysicalThing*> PhysicalThingSet;
 
     class _RlCoreExport PhysicsManager : public SynchronizedTask, public OgreOde::CollisionListener, protected Singleton<PhysicsManager>
     {
     public:
+        static const int PT_BOX = 0;
+        static const int PT_SPHERE = 1;
+        static const int PT_CAPSULE = 2;
+        static const int PT_MESH = 3;
         PhysicsManager(rl::World* world);
         virtual ~PhysicsManager();
 
         virtual void run( Real elapsedTime );
 
-        // Creation of PhysicalThings
-        PhysicalThing* createPhysicalThing(Actor* actor);
-        PhysicalThing* createSpherePhysicalThing(Actor* actor,
-            Real density, bool noDynamics = false);
-        PhysicalThing* createBoxPhysicalThing(Actor* actor,
-            Real density, bool noDynamics = false);
-        PhysicalThing* createCappedCylinderPhysicalThing(Actor* actor,
-            Real density, bool noDynamics = false);
+        //PhysicalThing* createSpherePhysicalThing(Actor* actor,
+        //    Real density, bool noDynamics = false);
+        PhysicalThing* createBoxPhysicalThing(const Ogre::Vector3& size,
+            Real density);
+        //PhysicalThing* createCappedCylinderPhysicalThing(Actor* actor,
+        //    Real density, bool noDynamics = false);
 
-        void removeAndDestroyPhysicalThing(Actor* actor);
+        void removeAndDestroyPhysicalThing(PhysicalThing* thing);
 
         // Spaces for combining non-colliding objects 
         // ( for example the sword and shield attached to the hero )
@@ -85,7 +86,7 @@ namespace rl {
     private:
         bool mEnabled;
 
-        PhysicalThingActorMap mPhysicalThings;
+        PhysicalThingSet mPhysicalThings;
 
         std::list<OgreOde::Space*> mSimpleSpaces;
         OgreOde::World* mOdeWorld;

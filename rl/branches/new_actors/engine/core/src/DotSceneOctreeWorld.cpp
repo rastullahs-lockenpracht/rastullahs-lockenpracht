@@ -113,7 +113,7 @@ namespace rl {
 		
         Ogre::Root::getSingleton().getAutoCreatedWindow()->removeAllViewports();
 
-        ActorManager::getSingleton().deleteAllActors();
+        ActorManager::getSingleton().destroyAllActors();
 
         mSceneMgr = Root::getSingleton().getSceneManager(ST_GENERIC);
         PhysicsManager::getSingleton().setWorldScene(this);

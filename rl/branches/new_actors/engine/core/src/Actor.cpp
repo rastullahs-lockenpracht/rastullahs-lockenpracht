@@ -85,6 +85,11 @@ namespace rl {
             Throw(IllegalStateException, "Actor is not placed into scene.");
         }
     }
+    
+    void Actor::setPosition(Ogre::Real x, Ogre::Real y, Ogre::Real z)
+    {
+        setPosition(Vector3(x, y, z));
+    }
 
     void Actor::translate(const Vector3& translation, Node::TransformSpace ts)
     {
@@ -201,6 +206,12 @@ namespace rl {
         mSceneNode->rotate(orientation, Node::TS_PARENT);
     }        
 
+    void Actor::placeIntoScene(Real px, Real py, Real pz,
+        Real ow, Real ox, Real oy, Real oz)
+    {
+        placeIntoScene(Vector3(px, py, pz), Quaternion(ow, ox, oy, oz));
+    }
+    
     void Actor::removeFromScene()
     {
         ///@todo child actors berücksichtigen
@@ -246,13 +257,12 @@ namespace rl {
             mChilds.erase(actor);
         }
     }
-    
+
     void Actor::doAttach(const String& slot, Actor* actor,
             const String& childSlot)
     {
-    }
-            
-            
+    }            
+
     void Actor::doDetach(Actor* actor)
     {
     }
@@ -261,7 +271,7 @@ namespace rl {
             const Quaternion& orientation)
     {
     }
-    
+        
     SceneNode* Actor::_getSceneNode()
     {
         return mSceneNode;

@@ -217,6 +217,9 @@
 				RelativePath=".\include\SynchronizedTask.h">
 			</File>
 			<File
+				RelativePath=".\include\UnitConversion.h">
+			</File>
+			<File
 				RelativePath=".\include\World.h">
 			</File>
 		</Filter>

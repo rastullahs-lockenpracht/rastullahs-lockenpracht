@@ -20,6 +20,7 @@
 #include <map>
 
 #include "CorePrerequisites.h"
+#include "PhysicsManager.h"
 
 namespace rl {
 
@@ -36,17 +37,17 @@ class _RlCoreExport ActorManager : protected Singleton<ActorManager>
         virtual ~ActorManager( );
 
         Actor* getActor(const String& name);
-		void deleteActor(const String& name);
-        void deleteAllActors();
 
         //Actor* createLightActor(const String& name, int type);
-		Actor* createMeshActor(const String& name,const String& meshname);
+		Actor* createMeshActor(const String& name,const String& meshname,
+		    int geomType, Ogre::Real density);
         //Actor* createParticleSystemActor(const String& name,
         //    const String& partname);
             
         void destroyActor(Actor* actor);
+        void destroyAllActors();
 
-        void setWorld( World* pWorld );
+        void setWorld(World* world);
 		const World* const getWorld() const;
 
 		Actor* getActorAt(Ogre::Real x, Ogre::Real y) const;
