@@ -51,9 +51,7 @@ namespace rl
 		mDisplay->moveToFront();
 
 		mHistory.clear();
-		mWindow->hide();
-		mState = CS_CLOSED;
-		
+        setVisible(false);
 		addToRoot(mWindow);	
 	}
 
@@ -63,20 +61,10 @@ namespace rl
 		return true;
 	}
 
-
-	bool CeConsole::isOpen() const
-	{
-		return mState == CS_OPEN || mState == CS_OPENING;
-	}
-
 	void CeConsole::handleKeyDown(const CEGUI::EventArgs& e)
 	{
 		KeyEventArgs ke = static_cast<const KeyEventArgs&>(e);
-		if (ke.scancode == Key::Escape || ke.scancode == Key::F11)
-		{
-			hide();
-		}
-		else if (ke.scancode == Key::ArrowDown)
+        if (ke.scancode == Key::ArrowDown)
 			cycleHistory(1);
 		else if (ke.scancode == Key::ArrowUp)
 			cycleHistory(-1);
@@ -88,9 +76,7 @@ namespace rl
 		CEGUI::String printCommand = ">" + command;
 		appendTextRow(printCommand, 0xFF7FFF7F);
 				
-	//	if(mInterpreter != 0)
-			mPrompt = CoreSubsystem::getSingleton().getInterpreter()->execute(command.c_str());
-			//if (mPrompt)...
+        mPrompt = CoreSubsystem::getSingleton().getInterpreter()->execute(command.c_str());
 
 		mHistory.push_back(command.c_str());
 		mHistoryMarker = mHistory.size();

@@ -36,9 +36,6 @@ namespace rl {
 			Interpreter* getInterpreter();
 
 			void write(String output);
-
-			bool isOpen() const;
-			bool isClosed() const;
 				
 		protected:
 			bool beforeShow();
@@ -61,4 +58,3 @@ namespace rl {
 }
 
 #endif
-
