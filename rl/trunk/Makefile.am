@@ -63,6 +63,7 @@ nobase_dist_pkgdata_DATA = \
 	modules/minidemo/maps/testraum.bsp \
 	modules/minidemo/maps/testraum.zip \
 	modules/minidemo/maps/testraum_alt.bsp \
+	modules/minidemo/materials/b_1.material \
 	modules/minidemo/materials/dsa.zip \
 	modules/minidemo/materials/terrain_detail.jpg \
 	modules/minidemo/materials/terrain_texture.jpg \
@@ -91,5 +92,5 @@ nobase_dist_pkgdata_DATA = \
 	modules/minidemo/scripts/zumpi.rb \
 	modules/minidemo/scripts/maps/testraum.rb \
 	modules/minidemo/sound/boom.ogg \
-	modules/minidemo/sound/testsound.wav
+	modules/minidemo/sound/testsound.wav 	
 	
