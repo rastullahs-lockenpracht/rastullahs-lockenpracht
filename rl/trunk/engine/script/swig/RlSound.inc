@@ -78,5 +78,10 @@ namespace rl {
     	static const unsigned int STOPEVENT = 13;
     };
     
+    class SoundMovable : public Ogre::MovableObject {
+    	SoundMovable(const Ogre::String &name);
+    	~SoundMovable();
+    	SoundResourcePtr SoundMovable::getSound() const;
+    };
 
 }

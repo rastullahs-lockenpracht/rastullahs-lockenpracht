@@ -50,8 +50,7 @@ typedef vector<ALuint> ALuintVector;
 class _RlSoundExport SoundResource: public Ogre::Resource,
          public virtual EventListener<SoundEvent>,
          public virtual EventSource, 
-         public virtual EventCaster<SoundEvent>,
-         public virtual Ogre::MovableObject
+         public virtual EventCaster<SoundEvent>
 {
     private:
         // Damit die Timings alle 0.5 sek. abgeschickt werden.
@@ -241,20 +240,6 @@ class _RlSoundExport SoundResource: public Ogre::Resource,
         void setFadeOut(unsigned int dauer);
         /// Ist laeuft AL noch
         const bool playing() const;
-        /** Name zurückgeben, um Konflikt zwischen MovableObject
-          und Resource aufzuloesen.
-        */
-        virtual const Ogre::String& getName() const;
-        /// Moveable-Typ
-        virtual const Ogre::String& getMovableType() const;
-        /// Kamera informieren
-        virtual void _notifyCurrentCamera(Ogre::Camera *cam);
-        /// Unsere Bounding-Box
-        virtual const Ogre::AxisAlignedBox& getBoundingBox(void) const;
-        /// Bound-Radius
-        virtual Ogre::Real getBoundingRadius() const;
-        /// Rendern
-        virtual void _updateRenderQueue(Ogre::RenderQueue *queue);
 
 protected:
 		/// Laedt die Soundquelle.

@@ -22,7 +22,7 @@
 
 namespace rl {
 
-    class SoundResource;
+    class SoundMovable;
     
     
     /** Klasse für alle Soundobjekte, die man an einen Aktor
@@ -32,7 +32,7 @@ namespace rl {
     class _RlCoreExport SoundObject : public ActorControlledObject
     {
     public:
-        SoundObject(const Ogre::String& name);
+        SoundObject(SoundMovable *sound);
         virtual ~SoundObject();
         
         /**
@@ -45,7 +45,7 @@ namespace rl {
         
         /// Wie ActorControlledObject::getMovableObject()
         /// Nur schon gebrauchsfertig gecastet.
-        SoundResource* getSound();
+        SoundMovable* getSound();
         
         virtual Ogre::String getObjectType();
 

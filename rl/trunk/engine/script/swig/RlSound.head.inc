@@ -23,4 +23,5 @@
 #include "SoundManager.h"
 #include "SoundEvents.h"
 #include "AL/al.h"
+#include "OgreMovableObject.h"
 %}

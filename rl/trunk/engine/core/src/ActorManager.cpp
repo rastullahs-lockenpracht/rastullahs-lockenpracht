@@ -24,6 +24,7 @@
 #include "CameraObject.h"
 #include "LightObject.h"
 #include "SoundObject.h"
+#include "SoundMovable.h"
 
 template<> rl::ActorManager* Singleton<rl::ActorManager>::ms_Singleton = 0;
 
@@ -119,7 +120,8 @@ namespace rl {
         Actor* actor = 0;
         try
         {
-            SoundObject* so = new SoundObject(name);
+            SoundMovable* sm = new SoundMovable(name);
+            SoundObject* so = new SoundObject(sm);
 
             actor = new Actor(uniquename, so);
             mActors.insert(ActorPtrPair(uniquename,actor)); 

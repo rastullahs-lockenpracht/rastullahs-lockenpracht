@@ -18,51 +18,82 @@
 #include "Actor.h"
 #include "SoundResource.h"
 #include "SoundManager.h"
+#include <Ogre.h>
+#include "SoundMovable.h"
 
 using namespace Ogre;
 
 namespace rl {
-    SoundObject::SoundObject(const String &name) : ActorControlledObject()
-    {
-        mMovableObject = dynamic_cast<SoundResource*>(
-                SoundManager::getSingleton().getByName(name).getPointer());
-    }
-    
-    SoundObject::~SoundObject()
-    {
-    }
-    
-	bool SoundObject::isMeshObject()
-	{
-		return false;
-	}
-	
-	void SoundObject::_update()
-	{
-        ActorControlledObject::_update();
-        SoundResource *sound = getSound();
-        Actor *actor = getActor();
-        if (!sound || !actor) // Einer ist Null
-        {
-            return;
-        }
-        sound->setPosition(actor->getPosition());
-        Vector3 *temp1 = new Vector3();
-        Vector3 *temp2 = new Vector3(actor->getPosition());
-        Real length = temp2->normalise();
-        actor->getOrientation().ToAxes(temp1);
-        *temp1 += *temp2;
-        *temp1 *= length;
-        sound->setDirection(*temp1);
-	}
-    
-    SoundResource* SoundObject::getSound()
-    {
-        return reinterpret_cast<SoundResource*>(mMovableObject);
-    }
+   
+/**
+ * @param name. Der Name des Sounds.
+ * @author JoSch
+ * @date 03-11-2005
+ */   
+SoundObject::SoundObject(SoundMovable *sound) : ActorControlledObject()
+{
+    mMovableObject = dynamic_cast<MovableObject*>(sound);
+}
 
-    String SoundObject::getObjectType()
+/**
+ * @author JoSch
+ * @date 03-11-2005
+ */   
+SoundObject::~SoundObject()
+{
+}
+
+/**
+ * @return Immer false, weil kein Meshobjekt.
+ * @author JoSch
+ * @date 03-11-2005
+ */   
+bool SoundObject::isMeshObject()
+{
+	return false;
+}
+
+/**
+ * @author JoSch
+ * @date 03-11-2005
+ */   
+void SoundObject::_update()
+{
+    ActorControlledObject::_update();
+    SoundMovable *sound = getSound();
+    Actor *actor = getActor();
+    if (!sound || !actor) // Einer ist Null
     {
-        return "SoundObject";
+        return;
     }
+    sound->getSound()->setPosition(actor->getPosition());
+    Vector3 *temp1 = new Vector3();
+    Vector3 *temp2 = new Vector3(actor->getPosition());
+    Real length = temp2->normalise();
+    actor->getOrientation().ToAxes(temp1);
+    *temp1 += *temp2;
+    *temp1 *= length;
+    sound->getSound()->setDirection(*temp1);
+}
+
+/**
+ * @param Der bewegbare Sound
+ * @author JoSch
+ * @date 03-11-2005
+ */   
+SoundMovable* SoundObject::getSound()
+{
+    return reinterpret_cast<SoundMovable*>(mMovableObject);
+}
+
+/**
+ * @return Immer "SoundObject"
+ * @author JoSch
+ * @date 03-11-2005
+ */   
+String SoundObject::getObjectType()
+{
+    return "SoundObject";
+}
+
 }
