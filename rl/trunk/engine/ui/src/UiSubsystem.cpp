@@ -20,10 +20,12 @@
 
 // BEGIN TEST
 #include "DialogWindow.h"
-#include "Creature.h"
+#include "Person.h"
 #include "CharacterSheetWindow.h"
 #include "GameObject.h"
 #include "Action.h"
+#include "ActionChoiceWindow.h"
+#include "ActionManager.h"
 // END TEST
 
 template<> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
@@ -106,6 +108,8 @@ namespace rl {
         mGameController = new ThirdPersonGameController(
             camera->getOgreCamera(), hero);
         GameLoop::getSingleton().addSynchronizedTask(mGameController);
+        
+        runTest();
     }
 
     void UiSubsystem::requestExit()
@@ -144,16 +148,30 @@ namespace rl {
 		talente.insert(make_pair(101, +4));
 		talente.insert(make_pair(102, -1));
 		talente.insert(make_pair(201, 0));
-		Creature* held = new Creature(342, "Heinz-Peter", "Testheld", talente);
+		Person* held = new Person(342, "Heinz-Peter", "Testheld", talente);
 		CharacterSheetWindow* sheet = new CharacterSheetWindow();
-		//sheet->show();
 		sheet->setCharacter(held);
-
-		GameObject* o = new GameObject(4711, "Heiltrank", "Testheiltrank");
-		o->addAction(new Action("Trinken", "Heiltrank trinken"));
-		o->addAction(new Action("Werfen", "Heiltrank werfen"));
-		o->addAction(new Action("Ansehen", "Heiltrank ansehen"));
-		o->addAction(new Action("Talent:Alchemie", "Heiltrank mittels Alchemieset untersuchen"));
-
+		//sheet->hide();
+		
+		/*GameObject* o = new GameObject(4711, "Heiltrank", "Testheiltrank");
+		Action* a1 = new Action("Trinken", "Heiltrank trinken");
+		Action* a2 = new Action("Werfen", "Heiltrank werfen");
+		Action* a3 = new Action("Ansehen", "Heiltrank ansehen");
+		Action* a4 = new Action("Talent:Schätzen", "Wert schätzen");
+		Action* a5 = new Action("Talent:Alchemie", "Heiltrank mit Alchemie untersuchen");
+		ActionManager::getSingleton().registerAction(a1);
+		ActionManager::getSingleton().registerAction(a2);
+		ActionManager::getSingleton().registerAction(a3);
+		ActionManager::getSingleton().registerAction(a4);
+		ActionManager::getSingleton().registerAction(a5);
+		o->addAction(a1);
+		o->addAction(a2);
+		o->addAction(a3);
+		o->addAction(a4);
+		o->addAction(a5);
+		
+		ActionChoiceWindow* wnd = new ActionChoiceWindow();
+		wnd->showActionsOfObject(o);
+		wnd->show();*/
 	}
 }

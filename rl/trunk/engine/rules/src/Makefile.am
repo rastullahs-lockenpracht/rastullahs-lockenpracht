@@ -6,6 +6,7 @@ libRlRules_la_SOURCES = \
 	Action.cpp \
 	ActionManager.cpp \
 	Creature.cpp \
+	Person.cpp \
 	Date.cpp \
 	DsaDataLoader.cpp \
 	DsaManager.cpp \

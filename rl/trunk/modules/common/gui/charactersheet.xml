@@ -1,1 +1,43 @@
-<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">	<Window Type="Taharez Frame Window" Name="CharacterSheet">		<Property Name="MetricsMode" Value="Absolute"/>		<Property Name="Position" Value="x:0.0 y:0.0"/>		<Property Name="Width" Value="640"/>		<Property Name="Height" Value="480"/>		<Window Type="Taharez Tab Control" Name="CharacterSheet/TabPlane">      <Property Name="MetricsMode" Value="Absolute"/>		  <Property Name="Position" Value="x:10 y:30"/>			<Property Name="Width" Value="550"/>			<Property Name="Height" Value="500"/>					 		  <Window Type="DefaultGUISheet" Name="CharacterSheet/CharacterSheet">		    <Property Name="RelativePosition" Value="x:0.0 y:0.0"/>				<Property Name="RelativeWidth" Value="1.0"/>				<Property Name="RelativeHeight" Value="1.0"/>				<Property Name="Text" Value="Charakter" />			</Window>						<Window Type="DefaultGUISheet" Name="CharacterSheet/TalentSheet">		    <Property Name="RelativePosition" Value="x:0.0 y:0.0"/>				<Property Name="RelativeWidth" Value="1.0"/>				<Property Name="RelativeHeight" Value="1.0"/>				<Property Name="Text" Value="Talente" />				<Window Type="Taharez MultiColumnList" Name="CharacterSheet/TalentSheet/Table">			    <Property Name="RelativePosition" Value="x:0.0 y:0.0"/>					<Property Name="RelativeWidth" Value="1.0"/>					<Property Name="RelativeHeight" Value="1.0"/>				</Window>			</Window>						<Window Type="DefaultGUISheet" Name="CharacterSheet/MagicSheet">		    <Property Name="RelativePosition" Value="x:0.0 y:0.0"/>				<Property Name="RelativeWidth" Value="1.0"/>				<Property Name="RelativeHeight" Value="1.0"/>				<Property Name="Text" Value="Zauber" />				<Window Type="Taharez MultiColumnList" Name="CharacterSheet/MagicSheet/Table">			    <Property Name="RelativePosition" Value="x:0.0 y:0.0"/>					<Property Name="RelativeWidth" Value="1.0"/>					<Property Name="RelativeHeight" Value="1.0"/>				</Window>			</Window>		</Window>			</Window></GUILayout>
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">  <Window Type="Taharez Frame Window" Name="CharacterSheet">		<Property Name="MetricsMode" Value="Absolute"/>		<Property Name="Position" Value="x:0.0 y:0.0"/>		<Property Name="Width" Value="640"/>		<Property Name="Height" Value="510"/>		<Window Type="Taharez Tab Control" Name="CharacterSheet/TabPlane">			<Property Name="MetricsMode" Value="Absolute"/>			<Property Name="AbsolutePosition" Value="x:5 y:20"/>			<Property Name="AbsoluteWidth" Value="630"/>			<Property Name="AbsoluteHeight" Value="485"/>					       <Window Type="DefaultGUISheet" Name="CharacterSheet/CharacterSheet">        <Property Name="RelativePosition" Value="x:0.0 y:0.0"/>        <Property Name="RelativeWidth" Value="1.0"/>        <Property Name="RelativeHeight" Value="1.0"/>			  <Property Name="Text" Value="Charakter" />
+        <Window Type="Taharez StaticText" Name="CharacterSheet/CharacterSheet/Name">
+          <Property Name="AbsolutePosition" Value="x:10 y:10"/>          <Property Name="AbsoluteWidth" Value="300"/>          <Property Name="AbsoluteHeight" Value="30"/>			  </Window>
+        <Window Type="Taharez StaticText" Name="CharacterSheet/CharacterSheet/Rasse">
+          <Property Name="AbsolutePosition" Value="x:10 y:45"/>          <Property Name="AbsoluteWidth" Value="300"/>          <Property Name="AbsoluteHeight" Value="30"/>			  </Window>        <Window Type="Taharez StaticText" Name="CharacterSheet/CharacterSheet/Profession">
+          <Property Name="AbsolutePosition" Value="x:10 y:80"/>          <Property Name="AbsoluteWidth" Value="300"/>          <Property Name="AbsoluteHeight" Value="30"/>
+			  </Window>
+        <Window Type="Taharez StaticText" Name="CharacterSheet/CharacterSheet/LE">
+          <Property Name="AbsolutePosition" Value="x:10 y:410"/>          <Property Name="AbsoluteWidth" Value="150"/>          <Property Name="AbsoluteHeight" Value="30"/>			  </Window>
+        <Window Type="Taharez StaticText" Name="CharacterSheet/CharacterSheet/AE">
+          <Property Name="AbsolutePosition" Value="x:210 y:410"/>          <Property Name="AbsoluteWidth" Value="150"/>          <Property Name="AbsoluteHeight" Value="30"/>			  </Window>        <Window Type="Taharez StaticText" Name="CharacterSheet/CharacterSheet/AP">
+          <Property Name="AbsolutePosition" Value="x:410 y:410"/>          <Property Name="AbsoluteWidth" Value="150"/>          <Property Name="AbsoluteHeight" Value="30"/>
+			  </Window>
+
+        <Window Type="DefaultGUISheet" Name="CharacterSheet/CharacterSheet/Eigenschaften">
+          <Property Name="AbsolutePosition" Value="x:10 y:120"/>          <Property Name="AbsoluteWidth" Value="300"/>          <Property Name="AbsoluteHeight" Value="280"/>
+          <Window Type="Taharez StaticText" Name="CharacterSheet/CharacterSheet/Eigenschaften/MU">
+            <Property Name="AbsolutePosition" Value="x:0 y:5"/>            <Property Name="AbsoluteWidth" Value="250"/>            <Property Name="AbsoluteHeight" Value="30"/>
+  			  </Window>
+          <Window Type="Taharez StaticText" Name="CharacterSheet/CharacterSheet/Eigenschaften/KL">
+            <Property Name="AbsolutePosition" Value="x:0 y:40"/>            <Property Name="AbsoluteWidth" Value="250"/>            <Property Name="AbsoluteHeight" Value="30"/>
+  			  </Window>
+          <Window Type="Taharez StaticText" Name="CharacterSheet/CharacterSheet/Eigenschaften/IN">
+            <Property Name="AbsolutePosition" Value="x:0 y:75"/>            <Property Name="AbsoluteWidth" Value="250"/>            <Property Name="AbsoluteHeight" Value="30"/>
+  			  </Window>
+          <Window Type="Taharez StaticText" Name="CharacterSheet/CharacterSheet/Eigenschaften/CH">
+            <Property Name="AbsolutePosition" Value="x:0 y:110"/>            <Property Name="AbsoluteWidth" Value="250"/>            <Property Name="AbsoluteHeight" Value="30"/>
+  			  </Window>
+          <Window Type="Taharez StaticText" Name="CharacterSheet/CharacterSheet/Eigenschaften/FF">
+            <Property Name="AbsolutePosition" Value="x:0 y:145"/>            <Property Name="AbsoluteWidth" Value="250"/>            <Property Name="AbsoluteHeight" Value="30"/>
+  			  </Window>
+          <Window Type="Taharez StaticText" Name="CharacterSheet/CharacterSheet/Eigenschaften/GE">
+            <Property Name="AbsolutePosition" Value="x:0 y:180"/>            <Property Name="AbsoluteWidth" Value="250"/>            <Property Name="AbsoluteHeight" Value="30"/>
+  			  </Window>
+          <Window Type="Taharez StaticText" Name="CharacterSheet/CharacterSheet/Eigenschaften/KO">
+            <Property Name="AbsolutePosition" Value="x:0 y:215"/>            <Property Name="AbsoluteWidth" Value="250"/>            <Property Name="AbsoluteHeight" Value="30"/>
+  			  </Window>
+          <Window Type="Taharez StaticText" Name="CharacterSheet/CharacterSheet/Eigenschaften/KK">
+            <Property Name="AbsolutePosition" Value="x:0 y:250"/>            <Property Name="AbsoluteWidth" Value="250"/>            <Property Name="AbsoluteHeight" Value="30"/>
+  			  </Window>          
+ 			  </Window>
+        
+			</Window>						<Window Type="DefaultGUISheet" Name="CharacterSheet/TalentSheet">		    <Property Name="RelativePosition" Value="x:0.0 y:0.0"/>				<Property Name="RelativeWidth" Value="1.0"/>				<Property Name="RelativeHeight" Value="1.0"/>				<Property Name="Text" Value="Talente" />				<Window Type="Taharez MultiColumnList" Name="CharacterSheet/TalentSheet/Table">			    <Property Name="RelativePosition" Value="x:0.0 y:0.0"/>					<Property Name="RelativeWidth" Value="1.0"/>					<Property Name="RelativeHeight" Value="1.0"/>				</Window>			</Window>						<Window Type="DefaultGUISheet" Name="CharacterSheet/MagicSheet">		    <Property Name="RelativePosition" Value="x:0.0 y:0.0"/>				<Property Name="RelativeWidth" Value="1.0"/>				<Property Name="RelativeHeight" Value="1.0"/>				<Property Name="Text" Value="Zauber" />				<Window Type="Taharez MultiColumnList" Name="CharacterSheet/MagicSheet/Table">			    <Property Name="RelativePosition" Value="x:0.0 y:0.0"/>					<Property Name="RelativeWidth" Value="1.0"/>					<Property Name="RelativeHeight" Value="1.0"/>				</Window>			</Window>		</Window>			</Window></GUILayout>

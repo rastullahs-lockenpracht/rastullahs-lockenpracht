@@ -2,7 +2,7 @@
 
 #include "CharacterSheetWindow.h"
 #include "DsaManager.h"
-#include "Creature.h"
+#include "Person.h"
 #include "InputManager.h"
 #include "Talent.h"
 
@@ -19,6 +19,15 @@ CharacterSheetWindow::CharacterSheetWindow()
 	mTalentTable->addColumn((utf8*)"eBE", 2, 0.1);
 	mTalentTable->addColumn((utf8*)"TW", 3, 0.1);
 	mTalentTable->setUserSortControlEnabled(false);
+	
+	mLE = getStaticText("CharacterSheet/CharacterSheet/LE");
+	mAE = getStaticText("CharacterSheet/CharacterSheet/AE");
+	mAP = getStaticText("CharacterSheet/CharacterSheet/AP");
+	
+	for (int i=0; i<EIGENSCHAFT_COUNT; i++)
+		mEigenschaft[i] = 
+			getStaticText(("CharacterSheet/CharacterSheet/Eigenschaften/"+
+				DsaManager::getSingleton().getEigenschaft(i)->getNameAbbreviation()).c_str());
 	addToRoot(mWindow);	
 }
 
@@ -26,9 +35,9 @@ CharacterSheetWindow::~CharacterSheetWindow()
 {
 }
 
-void CharacterSheetWindow::setCharacter(Creature* creature)
+void CharacterSheetWindow::setCharacter(Person* person)
 {
-	mCreature = creature;
+	mCharacter = person;
 	update();
 }
 
@@ -36,24 +45,38 @@ void CharacterSheetWindow::update()
 {
 	    //TODO: Daten updaten
 	updateTalents();
-	/*if (mCreature->isMagic())
+	/*if (mCharacter->isMagic())
 		updateMagic();*/
 	updateValues();
 }
 
 void CharacterSheetWindow::updateValues()
 {
+	mLE->setText("LeP: "+
+		StringConverter::toString(mCharacter->getLe())+"/"+
+		StringConverter::toString(mCharacter->getLeMax()));
+	
+	for (unsigned int eig = 0; eig < EIGENSCHAFT_COUNT; eig++)
+	{
+		mEigenschaft[eig]->setText(
+			DsaManager::getSingleton().getEigenschaft(eig)->getName()+": "+
+			StringConverter::toString(mCharacter->getEigenschaft(eig)));
+	}
+	
 	for (unsigned int row = 0; row < mTalentTable->getRowCount(); row++)
 	{
-		int tw = mCreature->getTalent(mTalentTable->getItemAtGridReference(MCLGridRef(row, 0))->getID());
+		// TalentID ist bei der Namenszelle jeweils als user_id hinterlegt
+		int tw = mCharacter->getTalent(
+			mTalentTable->getItemAtGridReference(MCLGridRef(row, 0))->getID());
 
-		mTalentTable->getItemAtGridReference(MCLGridRef(row, 3))->setText(StringConverter::toString(tw));
+		mTalentTable->getItemAtGridReference(MCLGridRef(row, 3))->setText(
+			StringConverter::toString(tw));
 	}
 }
 
 void CharacterSheetWindow::updateTalents()
 {
-	const Creature::TalentMap talents = mCreature->getAllTalents();
+	const Creature::TalentMap talents = mCharacter->getAllTalents();
 
 	while(mTalentTable->getRowCount() > talents.size())
 		mTalentTable->removeRow(mTalentTable->getRowCount()-1);

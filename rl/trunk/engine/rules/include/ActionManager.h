@@ -3,19 +3,30 @@
 
 #include "RulesPrerequisites.h"
 
+#include <OgreSingleton.h>
+#include <string>
+#include <map>
+using Ogre::Singleton;
+
 namespace rl
 {
+	class Action;
+	
+	typedef std::map<std::string, Action*> ActionMap;
+        
     /**
-    * \brief Abstrakte Basisklasse für Aktionen an Spielobjekten.
+    * \brief Abstrakte Basisklasse fuer Aktionen an Spielobjekten.
     * Spielobjekte (GameObject) besitzen einen Satz von Aktionen, die man auf
     * ihnen anwenden kann. Diese werden von dieser Klasse gekapselt.
     * Konkrete Aktionen erben von dieser Klasse und muessen
     * doUserAction() ueberschreiben.
     */
-    class _RlRulesExport ActionManager : public Singleton<ActionManager>
+    class _RlRulesExport ActionManager : 
+    	public Singleton<ActionManager>
     {
     private:
         ActionMap mActionMap;
+        
     public:
         ActionManager();
         ~ActionManager();

@@ -4,10 +4,11 @@
 #include "UiPrerequisites.h"
 
 #include "CeGuiWindow.h"
+#include "Eigenschaft.h"
 
 namespace rl {
 
-	class Creature;
+	class Person;
 
 	class _RlUiExport CharacterSheetWindow : public CeGuiWindow
 	{
@@ -15,7 +16,7 @@ namespace rl {
 		CharacterSheetWindow();
 		~CharacterSheetWindow();
 
-		void setCharacter(Creature* creature);
+		void setCharacter(Person* character);
 
 		/**
 		 * Aktualisiert die Tabellenelemente in Talent- und Magietabellen
@@ -31,13 +32,18 @@ namespace rl {
 
 
 	private:
-		Creature* mCreature;
+		Person* mCharacter;
 
 		CEGUI::Window* mCharacterSheet;
 		CEGUI::Window* mTalentSheet;
 		CEGUI::Window* mMagicSheet;
 		CEGUI::MultiColumnList* mTalentTable;
-
+		
+		CEGUI::StaticText* mEigenschaft[EIGENSCHAFT_COUNT];
+		CEGUI::StaticText* mLE;
+		CEGUI::StaticText* mAE;
+		CEGUI::StaticText* mAP;
+		
 		void updateTalents();
 	};
 }

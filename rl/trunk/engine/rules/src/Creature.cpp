@@ -84,8 +84,13 @@ namespace rl
     {
         return mCurrentLe;
     }
+    
+    int Creature::getLeMax()
+    {
+    	return getLeBasis();
+    }
 
-    ///@todo Richten für negativen Talentwert.
+    ///@todo Richten fï¿½r negativen Talentwert.
     ///@todo Kritischer Patzer/Erfolg.
     int Creature::doTalentprobe(int id, int modifier)
     {
@@ -95,7 +100,7 @@ namespace rl
         // Der Probenwurf
         Tripel<int> probe(DsaManager::getSingleton().roll3D20());
 
-        // Vor dem Vergleich hat man den Talentwert übrig.
+        // Vor dem Vergleich hat man den Talentwert ï¿½brig.
         int rval = getTalent(id) - modifier;
 
         int diff1 = getEigenschaft(et.first) - probe.first;

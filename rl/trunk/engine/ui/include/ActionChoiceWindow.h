@@ -2,11 +2,14 @@
 #define __ActionChoiceWindow_H__
 
 #include "UiPrerequisites.h"
+
 #include "CeGuiWindow.h"
+#include <vector>
 
 namespace rl {
 
 	class GameObject;
+	class Creature;
 
 	class _RlUiExport ActionChoiceWindow : public CeGuiWindow
 	{
@@ -14,15 +17,28 @@ namespace rl {
 		ActionChoiceWindow();
 		~ActionChoiceWindow();
 		
-		void setActionObject(GameObject* object);
+		void showActionsOfObject(GameObject* object);
+		void showTalentsOfPerson(Creature* creature);
+		
 		void handleActionChosen(std::string& action);
 
 		void handleShowHint(const CEGUI::EventArgs& evt);
 		void handleRemoveHint();
 
 	private:
+	
+		static CEGUI::Point 
+			getPositionOnRadialMenu(
+				CEGUI::Point center, 
+				float minAngle, 
+				float maxAngle,
+				float radius,
+				int elemNum,
+				int elemCount);
+				
         GameObject* mObject;
 		std::vector<CEGUI::PushButton*> mButtons;
+		CEGUI::StaticText* mHint;
 	};
 
 }

@@ -1,4 +1,5 @@
 #include "RulesSubsystem.h"
+#include "ActionManager.h"
 #include "DsaManager.h"
 #include "DsaDataLoader.h"
 
@@ -22,6 +23,7 @@ namespace rl
         srand(static_cast<unsigned int>(time(NULL)));
 
         //Singletons erzeugen
+        new ActionManager();
         new DsaManager();
 
 		//Daten laden

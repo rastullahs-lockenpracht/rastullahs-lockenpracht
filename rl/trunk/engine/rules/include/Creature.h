@@ -13,9 +13,9 @@ namespace rl
     * @brief Basisklasse aller spielrelevanten Objekte in RL.
     *
     * Klasse kapselt alle Wesen, die aktiv im Spiel agieren, sei es
-    * computer- oder spielergesteuert. Klasse enthält Methoden und
-    * Daten für die DSA-Spielwerte (Lebensenergie, Eigenschaften)
-    * und Methoden für alles was für die Interaktion mit der Spielwelt
+    * computer- oder spielergesteuert. Klasse enthï¿½lt Methoden und
+    * Daten fï¿½r die DSA-Spielwerte (Lebensenergie, Eigenschaften)
+    * und Methoden fï¿½r alles was fï¿½r die Interaktion mit der Spielwelt
     * noetig ist(z.B. Proben).
     */
     class _RlRulesExport Creature : public GameObject
@@ -59,6 +59,7 @@ namespace rl
 
         virtual void modifyLe(int mod);
         virtual int getLe();
+        virtual int getLeMax();
 
         /** @brief Durchfuehren einer Talentprobe.
         *
