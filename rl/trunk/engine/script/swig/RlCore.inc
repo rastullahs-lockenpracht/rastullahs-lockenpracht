@@ -127,7 +127,6 @@ class AnimationEvent
 {
 public:
 	rl::RlAnimation* getRlAnimation() const;
-private:
 	AnimationEvent( rl::RlAnimation* anim,  const unsigned int reason );
 };
 

@@ -42,7 +42,7 @@
 #endif
 
 %feature("director:except") {
-	Throw(rl::RuntimeException, STR2CSTR($error));
+	Throw(rl::RuntimeException, StringValuePtr($error));
 }
 
 %exception {
@@ -54,8 +54,8 @@
     rb_raise(ogreException, oe.getFullDescription().c_str());
   }
   catch (rl::Exception& re ) {
-    static VALUE ogreException = rb_define_class("OgreException", rb_eStandardError);
-    rb_raise(ogreException, re.toString().c_str());
+    static VALUE rlException = rb_define_class("RlException", rb_eStandardError);
+    rb_raise(rlException, re.toString().c_str());
   }
 }
 
