@@ -80,6 +80,10 @@ namespace rl {
 		ae.actionClass = "ToggleOdeDebugAction";
 		ae.actionName = "OdeDebug";
 		mKeyCommandsOffBattle.insert(make_pair(KC_L, ae));
+
+		ae.actionClass = "ShowObjectActionsAction";
+		ae.actionName = "ShowObjectActions";
+		mKeyCommandsOffBattle.insert(make_pair(KC_U, ae));
 	}
 
 	CommandMapper::~CommandMapper()

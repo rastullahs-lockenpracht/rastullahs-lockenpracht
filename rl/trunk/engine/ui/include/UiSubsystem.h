@@ -61,9 +61,12 @@ namespace rl {
 		void toggleConsole();
 		void toggleDebugWindow();
 		void toggleGameLogWindow();
+		void toggleObjectPicking();
 
 		void showCharacterActionChoice();
+		void showPickedObjectActions();
 		void showActionChoice(GameObject* obj);
+
 		void showMessageWindow(const CeGuiString& message);
 		void showMainMenu(GameObject* actionHolder);
 		bool showInputOptionsMenu(GameObject* actionHolder);

@@ -186,13 +186,13 @@ namespace rl {
 
 	bool InputManager::sendKeyToCeGui(KeyEvent* e)
 	{
-		// Wenn kein Fenster mit Tastatureingabe aktiv ist, kriegt CEGUI keine KeyEvents
-		if (mNumActiveWindowsKeyboardInput == 0)
-			return false;
-
 		// Fenster, die alle Inputs wollen
 		if (mNumActiveWindowsAllInput > 0)
 			return true;
+
+		// Wenn kein Fenster mit Tastatureingabe aktiv ist, kriegt CEGUI keine KeyEvents
+		if (mNumActiveWindowsKeyboardInput == 0)
+			return false;
 
 		// Tastatureingabe gefordert
 		// Alle Tasten an CEGUI senden, die ein Zeichen erzeugen
@@ -530,10 +530,18 @@ namespace rl {
         DebugWindow::getSingleton().setText(
             "X="+StringConverter::toString(mouseRelX)+
             "   Y="+StringConverter::toString(mouseRelY)+
-            "   - Object("+(a==NULL?"null":a->getName())+")");		
+            "   - Object("+(a==NULL?"null":a->getName())+")");
 
-        mTargetedObject = a ? reinterpret_cast<GameObject*>(a->getGameObject()) : 0;
+		if (a != NULL)
+	        mTargetedObject = reinterpret_cast<GameObject*>(a->getGameObject());
+		else
+			mTargetedObject = NULL;
     }
+
+	GameObject* InputManager::getPickedObject()
+	{
+		return mTargetedObject;
+	}
 
 	bool InputManager::isKeyDown(KeyCode kc) 
 	{ 

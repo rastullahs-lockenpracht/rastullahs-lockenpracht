@@ -35,6 +35,7 @@ public:
     static UiSubsystem& getSingleton(void);
     
 	void showCharacterActionChoice();
+	void showPickedObjectActions();
 	void showActionChoice(rl::GameObject* obj);
 	void showMessageWindow(const rl::CeGuiString& message);
 	rl::Person* getActiveCharacter();
@@ -43,6 +44,7 @@ public:
 	void toggleConsole();
 	void toggleDebugWindow();
 	void toggleGameLogWindow();
+	void toggleObjectPicking();
 	rl::GameController* getGameController();
 	rl::GameLoggerWindow* getGameLogger();
 	

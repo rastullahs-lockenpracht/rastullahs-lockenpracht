@@ -227,12 +227,17 @@ namespace rl {
 
 		std::list< Ogre::RaySceneQueryResultEntry >::iterator rayIterator;
 		 
-		for ( rayIterator = result.begin(); rayIterator != result.end(); rayIterator++ ) {
-			if ((*rayIterator).movable->getUserObject() != NULL) 
+		for ( rayIterator = result.begin(); rayIterator != result.end(); rayIterator++ ) 
+		{
+			Ogre::MovableObject* movable = (*rayIterator).movable;
+			if (movable != NULL && 
+				movable->getUserObject() != NULL && 
+				movable != getWorld()->getActiveCamera() &&
+				movable != getWorld()->getActiveActor()->_getMovableObject()) 
 			{
 				if ((*rayIterator).distance < closestDistance) 
 				{
-					closestObject = (*rayIterator).movable;
+					closestObject = movable;
 					closestDistance = (*rayIterator).distance;
 				}
 			}

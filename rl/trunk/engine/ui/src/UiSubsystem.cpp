@@ -192,6 +192,14 @@ namespace rl {
 		showActionChoice(getActiveCharacter());
 	}
 
+	void UiSubsystem::showPickedObjectActions()
+	{
+		GameObject* pickedObject = InputManager::getSingleton().getPickedObject();
+
+		if (pickedObject != NULL)
+			showActionChoice(pickedObject);
+	}
+
 	bool UiSubsystem::showInputOptionsMenu(GameObject* actionHolder)
 	{
 		CommandMapperWindow* wnd = new CommandMapperWindow(actionHolder);
@@ -227,6 +235,11 @@ namespace rl {
 	void UiSubsystem::toggleGameLogWindow()
 	{
 		mGameLogger->setVisible(!mGameLogger->isVisible());
+	}
+
+	void UiSubsystem::toggleObjectPicking()
+	{
+		InputManager::getSingleton().setObjectPickingActive(true);
 	}
 
 	void UiSubsystem::setBattleMode(bool inBattle)
