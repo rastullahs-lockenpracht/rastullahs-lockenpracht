@@ -14,47 +14,35 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
+// Xerces geht vor allen Ogre includes...
+#include "XmlResourceManager.h"
+
 #include "DotSceneOctreeWorld.h"
+
 
 #include <OgreTextureManager.h>
 #include <OgreRoot.h>
 #include <OgreException.h>
-#include "GameLoop.h"
 
 #include "ActorManager.h"
 #include "PhysicsManager.h"
+#include "DotSceneLoader.h"
+
+
+
 
 namespace rl {
 
     DotSceneOctreeWorld::DotSceneOctreeWorld( )
-        :   World(ST_GENERIC),
-            mSceneEntity(0)
+        :   World(ST_GENERIC)
     {
-        // Set up shadowing
-		/*mSceneMgr->setShadowTechnique(SHADOWTYPE_STENCIL_MODULATIVE);
-        mSceneMgr->setShadowColour(ColourValue(0.5, 0.5, 0.5));
-		mSceneMgr->setShadowUseInfiniteFarPlane(true); 
-        mSceneMgr->setShadowFarDistance(10000);
-
-        mSceneMgr->setShadowDirLightTextureOffset(0.9);
-		mSceneMgr->setShadowDirectionalLightExtrusionDistance(1000000);
-		
-		if (StringUtil::startsWith(Root::getSingletonPtr()->
-		    getRenderSystem()->getName(), "direct"))
-        {
-            // In D3D, use a 1024x1024 shadow texture
-            mSceneMgr->setShadowTextureSettings(1024, 2);
-        }
-        else
-        {
-            // Use 512x512 texture in GL since we can't go higher than the window res
-            mSceneMgr->setShadowTextureSettings(512, 2);
-        }*/
+		 m_SceneFile = "";
     }
 
     DotSceneOctreeWorld::~DotSceneOctreeWorld()
     {
-        clearScene();
+		if( m_SceneFile.length() != 0 )
+			clearScene();
     }
 
     void DotSceneOctreeWorld::initializeDefaultCamera(void)
@@ -65,63 +53,54 @@ namespace rl {
             ActorManager::getSingleton().createCameraActor("DefaultCamera");
             // und initialisieren.
             mCamera = mSceneMgr->getCamera("DefaultCamera");
-            ViewPoint defaultVP = mSceneMgr->getSuggestedViewpoint(true);
 
-            mCamera->setPosition( defaultVP.position );
-
-            // Quake uses X/Y horizon, Z up
+			// 0, 0, 0
+            mCamera->setPosition( getStartPoint() );
             mCamera->setFOVy(Degree(60));
-
             mCamera->setFixedYawAxis(false);
 
         }
-        // Create one viewport, entire window
+
+        // Ein Viewport, das komplette Fenster
         Viewport* newVp = Ogre::Root::getSingletonPtr()->
             getAutoCreatedWindow()->addViewport(mCamera, 1);
+
+		// Schwarzer Hintergrund
         newVp->setBackgroundColour(ColourValue(0,0,0));
     }
 
-    void DotSceneOctreeWorld::doLoadScene(const String& levelName)
+    void DotSceneOctreeWorld::loadScene(const String& levelName)
     {
-        if( mbSceneLoaded )
+        if( m_SceneFile.length() != 0 )
             clearScene();
 
-        // Add some default lighting to the scene
-        mSceneMgr->setAmbientLight(ColourValue(0.55, 0.55, 0.55));
+		// Leerer String, keine Map laden
+		if( levelName.length() == 0 )
+			return;
 
-		/// Create the visual entity and scene node
-		/// und das Level korrekt abgebaut wird.
-		mSceneEntity = mSceneMgr->createEntity("level", levelName);
-		mSceneEntity->setNormaliseNormals(true);
-		SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode("level");
-		node->attachObject(mSceneEntity);
+		/// TODO - In den Sky-Sonnenpart verschieben
+		mSceneMgr->setAmbientLight(ColourValue(0.55, 0.55, 0.55));
 
-		//Level wirft per Default keinen Schatten
-		setCastShadows(false);
-		
+		DotSceneLoader* dot = new DotSceneLoader( levelName );
+		delete dot;
+		m_SceneFile = levelName;
+
         initializeDefaultCamera();
-        mbSceneLoaded = true;
     }
 
     void DotSceneOctreeWorld::clearScene()
     {
-        PhysicsManager::getSingleton().createLevelGeometry(0);
         ActorManager::getSingleton().destroyAllActors();
         mSceneMgr->clearScene();
         Ogre::Root::getSingleton().getAutoCreatedWindow()->removeAllViewports(); 
-
-		mSceneEntity = 0;
+		XmlResourceManager::getSingleton().unload(m_SceneFile);
+		PhysicsManager::getSingleton().clearLevelGeometry();
         mSceneMgr = Root::getSingleton().getSceneManager(ST_GENERIC);
-        mbSceneLoaded = false;
+		m_SceneFile = "";
     }
     
-    Entity* DotSceneOctreeWorld::getSceneEntity()
-    {
-        return mSceneEntity;
-    }
-
 	void DotSceneOctreeWorld::setCastShadows(bool enabled)
 	{
-		mSceneEntity->setCastShadows(enabled);
+
 	}
 }

@@ -56,7 +56,7 @@ namespace rl {
             OM_BOTTOMCENTERED
         };
         
-        PhysicsManager(rl::World* world);
+        PhysicsManager();
         virtual ~PhysicsManager();
 
         virtual void run( Real elapsedTime );
@@ -86,9 +86,6 @@ namespace rl {
 
         OgreOde::World* getWorld();
 
-        void createLevelGeometry(Ogre::SceneNode* levelNode);
-        OgreOde::Geometry* getLevelGeometry();
-
         void setEnabled(bool enabled);
 
         // Singleton Stuff
@@ -97,9 +94,16 @@ namespace rl {
 
         void addCollisionListener(OgreOde::CollisionListener*);
         void removeCollisionListener(OgreOde::CollisionListener*);
-
 		/// CollisionListener callback
 		virtual bool collision(OgreOde::Contact* contact);
+
+
+		/// Levelgeometrie hinzufügen
+		void addLevelGeometry( Ogre::Entity* ent );
+		/// Komplette Levelgeometrie auflösen
+		void clearLevelGeometry(  );
+
+		
 
         /// StepListener callback
         virtual bool preStep(Real time);
@@ -124,11 +128,13 @@ namespace rl {
         std::vector<OgreOde::CollisionListener*> mCollisionListeners;
         OgreOde::World* mOdeWorld;
         OgreOde::Space* mGlobalSpace;
+
+		OgreOde::Space* mLevelGeomSpace;
+
         OgreOde::Stepper* mOdeStepper;
-        OgreOde::Geometry* mOdeLevel;
+
 		OgreOde::Geometry* mOdeActor;
 		OgreOde::Geometry* mOdeCamera;
-        World* mWorld;
 		Ogre::SceneNode* mControlNode;
 		Ogre::SceneNode* mCameraNode;
 		Ogre::Real mFallSpeed;

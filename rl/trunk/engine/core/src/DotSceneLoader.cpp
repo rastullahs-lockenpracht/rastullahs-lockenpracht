@@ -21,9 +21,13 @@
 #include <xercesc/util/PlatformUtils.hpp>
 
 #include "DotSceneLoader.h"
+#include "World.h"
 
 #include "XmlHelper.h"
 #include "XmlResourceManager.h"
+
+#include "PhysicsManager.h"
+#include "CoreSubsystem.h"
 
 #include "Exception.h"
 
@@ -31,214 +35,223 @@ using namespace XERCES_CPP_NAMESPACE;
 using namespace std;
 
 namespace rl {
-
 	using XERCES_CPP_NAMESPACE::DOMDocument; //XXX: Warum brauche ich das unter VS 2003?
 
-	void DotSceneLoader::loadData(string filename)
+	DotSceneLoader::DotSceneLoader( const std::string &filename )
+	{
+		m_SceneName = filename;
+		m_SceneManager = CoreSubsystem::getSingleton().getWorld()->getSceneManager();
+
+		initializeScene();
+	}
+
+	void DotSceneLoader::initializeScene()
 	{
 		XMLPlatformUtils::Initialize();
 
 		XmlHelper::initializeTranscoder();
 
-		DOMDocument* doc = loadDataFile(filename);
-		DOMElement* dataDocumentContent = XmlHelper::getChildNamed(doc->getDocumentElement(), "Inhalt");
-		
+		CoreSubsystem::log( "Lade Szenenbeschreibung aus " + m_SceneName );
+		DOMDocument* doc = openSceneFile();
+		CoreSubsystem::log( " Beginne parsen der Unterelemente" );
+		DOMElement* nodes = XmlHelper::getChildNamed(doc->getDocumentElement(), "nodes");
+
+		// Eine .scene wird in einem SceneNode mit dem Namen der .scene befestigt
+		processNodes( nodes, 
+			m_SceneManager->getRootSceneNode()->createChildSceneNode(m_SceneName) );
+
+
 		doc->release();
-		XMLPlatformUtils::Terminate();
+		XMLPlatformUtils::Terminate();		
+		CoreSubsystem::log( "Szenenbeschreibung aus " + m_SceneName +" fertig geparst" );
 	}
 
-	DOMDocument* DotSceneLoader::loadDataFile(string filename)
+	DOMDocument* DotSceneLoader::openSceneFile( )
 	{
 
 		XercesDOMParser* parser = new XercesDOMParser();
-        parser->setValidationScheme(XercesDOMParser::Val_Always);    // optional.
-        parser->setDoNamespaces(true);    // optional
-
-/*        ErrorHandler* errHandler = (ErrorHandler*) new HandlerBase();
-        parser->setErrorHandler(errHandler);*/
+        parser->setValidationScheme(XercesDOMParser::Val_Always);
+        parser->setDoNamespaces(true);
 		
 		XmlPtr res = 
 			XmlResourceManager::getSingleton().create(
-			filename, 
+			m_SceneName, 
 			Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 		res.getPointer()->parseBy(parser);
 		return parser->getDocument();
 	}
 
-    /**void DsaDataLoader::initializeTalente(DOMElement* rootTalente)
-    {
-		if (rootTalente == NULL)
+	// Iteriert durch die einzelnen Nodes
+	void DotSceneLoader::processNodes(DOMElement* rootNodesXml, 
+		Ogre::SceneNode* parentNode )
+	{
+		if ( rootNodesXml == NULL )
 			return;
+		if ( parentNode == NULL )
+			Throw( NullPointerException, "parentNode darf nicht null sein" );
+	
 
-	    DOMNodeList* talentGruppen = rootTalente->getElementsByTagName(XMLString::transcode("Talentgruppe"));
-        for (unsigned int gruppe = 0; gruppe < talentGruppen->getLength(); gruppe++)
+		// Durch alle Unterelemente iterieren
+		DOMNode* child = rootNodesXml->getFirstChild();
+
+		while( child != NULL )
 		{
-			DOMElement* gruppeData = reinterpret_cast<DOMElement*>(talentGruppen->item(gruppe));
-			DOMNodeList* talenteXml = gruppeData->getElementsByTagName(XMLString::transcode("Talent"));
-            int numTalent = 0;
-            for (unsigned int talentIdx = 0; talentIdx < talenteXml->getLength(); talentIdx++)
-            {
-                Talent* t = processTalent(gruppe*100+numTalent, gruppe, reinterpret_cast<DOMElement*>(talenteXml->item(talentIdx)));
-                numTalent++;
-				DsaManager::getSingleton()._addTalent(t);
-            }
-		}
-    }
-
-    Talent* DsaDataLoader::processTalent(int id, int gruppe, DOMElement* talentXml)
-    {
-		CeGuiString desc = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(talentXml, "Beschreibung"));
-        CeGuiString probe = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(talentXml, "Probe"));
-        CeGuiString art = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(talentXml, "Art"));
-		DOMElement* eBeNode = XmlHelper::getChildNamed(talentXml, "eBE");
-		int ebe = EBE_KEINE_BE;
-        if (eBeNode != NULL)
-			ebe = getEBeFromString(XMLString::transcode(eBeNode->getFirstChild()->getNodeValue()));
-
-		CeGuiString name = XmlHelper::transcodeToUtf8(talentXml->getAttribute(XMLString::transcode("ID")));
-        EigenschaftTripel eigenschaften;
-		eigenschaften.first = DsaManager::getSingleton().getEigenschaftIdFromString(probe.substr(0,2));
-        eigenschaften.second = DsaManager::getSingleton().getEigenschaftIdFromString(probe.substr(3,2));
-        eigenschaften.third = DsaManager::getSingleton().getEigenschaftIdFromString(probe.substr(6,2));
-		probe.clear();
-
-        Talent* t = new Talent(
-            id, 
-			name,
-            desc,
-            eigenschaften,
-            ebe,
-            gruppe);
-
-        return t;
-    }
-
-	int DsaDataLoader::getEBeFromString(const string& eBeString)
-	{
-		if (eBeString.length() == 0)
-			return EBE_KEINE_BE;
-
-		if (!(eBeString.substr(0, 2).compare("BE")) == 0)
-			Throw(InvalidArgumentException, "Ungueltige EBE-Angabe.");
-
-		string ebe = eBeString.substr(2);
-		if (ebe.compare("x2") == 0)
-			return EBE_BEx2;
-		if (ebe.compare("") == 0)
-			return 0;
-		return atoi(ebe.c_str());
+			// Ein Node
+			if( XMLString::compareIString(child->getNodeName(), 
+				XMLString::transcode("node") ) == 0  )
+				processNode( reinterpret_cast<DOMElement*>(child) , parentNode );
+			
+			child = child->getNextSibling();
+		} 
 	}
 
-    void DsaDataLoader::initializeKampftechniken(DOMElement* rootKampftechniken)
-    {
-	}
-
-	void DsaDataLoader::initializePersonen(DOMElement* rootPersons)
+	// Befasst sich mit einem Node
+	void DotSceneLoader::processNode(DOMElement* rootNodeXml, Ogre::SceneNode* parentNode)
 	{
-		if (rootPersons == NULL)
+		if ( rootNodeXml == NULL )
 			return;
+		if ( parentNode == NULL )
+			Throw( NullPointerException, "parentNode darf nicht null sein" );
 
-		DOMNodeList* personenXml = 
-			rootPersons->getElementsByTagName(XMLString::transcode("Person"));
-		for (unsigned int idx = 0; idx < personenXml->getLength(); idx++)
-		{
-			Person* p = 
-				processPerson(
-					idx+10000, 
-					reinterpret_cast<DOMElement*>(personenXml->item(idx)));
-			DsaManager::getSingleton()._addPerson(p);
-		}
+		string nodeName = XmlHelper::getAttributeValueAsString( rootNodeXml, 
+			XMLString::transcode("name") );
 		
+		Ogre::SceneNode* newNode;
+		// Wurde dem Node ein Name zugewiesen
+		if( nodeName.length() == 0 )
+			newNode = parentNode->createChildSceneNode();
+		else
+			newNode = parentNode->createChildSceneNode(nodeName);
+
+		CoreSubsystem::log( " Node '"+newNode->getName()+"' als Unterknoten von '"+parentNode->getName()+"' erstellt." );
+
+		// Durch alle Unterelemente iterieren
+		DOMNode* child = rootNodeXml->getFirstChild();
+
+		while( child != NULL )
+		{
+			// Ein Node
+			if( XMLString::compareIString(child->getNodeName(), 
+				XMLString::transcode("node") ) == 0 )
+				processNode( reinterpret_cast<DOMElement*>(child) , newNode );
+			// Position des Nodes
+			else if( XMLString::compareIString(child->getNodeName(), 
+				XMLString::transcode("position") ) == 0  )
+				newNode->setPosition( processVector( reinterpret_cast<DOMElement*>(child) ) );
+			// Rotation des Nodes
+			else if( XMLString::compareIString(child->getNodeName(), 
+				XMLString::transcode("rotation") ) == 0  )
+				newNode->setOrientation( processRotation( reinterpret_cast<DOMElement*>(child) ) );
+			// Skalierung des Nodes
+			else if( XMLString::compareIString(child->getNodeName(), 
+				XMLString::transcode("scale") ) == 0  )
+				newNode->setScale( processVector( reinterpret_cast<DOMElement*>(child) ) );
+			// Eine Entity
+			else if( XMLString::compareIString(child->getNodeName(), 
+				XMLString::transcode("entity") ) == 0  )
+				processEntity( reinterpret_cast<DOMElement*>(child) , newNode );
+
+			child = child->getNextSibling();
+		} 
 	}
 
-	Person* DsaDataLoader::processPerson(int id, DOMElement* personXml)
+	// Eine Entity
+	void DotSceneLoader::processEntity( DOMElement* rootEntityXml, Ogre::SceneNode* parentNode )
 	{
-		XMLCh* TALENT = XMLString::transcode("Talent");
-		XMLCh* ID = XMLString::transcode("ID");
-		XMLCh* ABGELEITETER_WERT = XMLString::transcode("AbgeleiteterWert");
-		XMLCh* EIGENSCHAFT = XMLString::transcode("Eigenschaft");
-		
-		CeGuiString name = 
-			XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(personXml, "Name"));
-		CeGuiString desc = 
-			XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(personXml, "Beschreibung"));
+		string entName = XmlHelper::getAttributeValueAsString( 
+			rootEntityXml, XMLString::transcode("entity") );
+		string meshName = XmlHelper::getAttributeValueAsString( 
+			rootEntityXml, XMLString::transcode("meshFile") );
 
-		Person* rval = new Person(id, name, desc);
+		Ogre::Entity* newEnt = NULL;
+		// Wurde der Entity ein Name zugewiesen
+		if( entName.length() == 0 )
+			entName = getNextEntityName(m_SceneName,parentNode->getName());
 
-		// Eigenschaften laden
-		DOMNodeList* eigensch = 
-			XmlHelper::getChildNamed(personXml, "Eigenschaften")->
-				getElementsByTagName(EIGENSCHAFT);
-		for (unsigned int idx = 0; idx < eigensch->getLength(); idx++)
+		newEnt = m_SceneManager->createEntity(entName,meshName);				
+		parentNode->attachObject( newEnt );
+
+		PhysicsManager::getSingleton().addLevelGeometry( newEnt );
+		CoreSubsystem::log( " Entity '"+meshName+"' mit dem Namen '"+entName+"' in den Knoten '"+parentNode->getName()+"' eingefügt." );
+
+
+		XmlHelper::getAttributeValueAsBool( rootEntityXml, XMLString::transcode("castShadows") );
+		XmlHelper::getAttributeValueAsBool( rootEntityXml, XMLString::transcode("static") );
+	}
+
+	string DotSceneLoader::getNextEntityName( const string& baseName, const string& nodeName )
+	{
+		bool found = true;
+		int number = 0;
+		string name;
+		Ogre::SceneManager* sceneManager = CoreSubsystem::getSingleton().getWorld()->getSceneManager();
+
+		while( found )
 		{
-			DOMElement* eigenschXml = reinterpret_cast<DOMElement*>(eigensch->item(idx));
-			utf8* eigName = XmlHelper::transcodeToUtf8(eigenschXml->getAttribute(ID));
-			
-			int eigId = DsaManager::getSingleton().getEigenschaftIdFromLongString(eigName);
-			delete[] eigName;
-			int wert = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(eigenschXml, "Wert"));
+			name = baseName + "_" + nodeName + "_" + Ogre::StringConverter::toString(number);
 
-			rval->setEigenschaft(eigId, wert);
-		}		
-
-		// Abgeleitete Werte laden
-		DOMNodeList* werte = 
-			XmlHelper::getChildNamed(personXml, "AbgeleiteteWerte")->
-				getElementsByTagName(ABGELEITETER_WERT);
-		for (unsigned int idx = 0; idx < werte->getLength(); idx++)
-		{
-			DOMElement* wertXml = reinterpret_cast<DOMElement*>(werte->item(idx));
-			int basis = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(wertXml, "Basiswert"));
-			int wert = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(wertXml, "Wert"));
-			
-			char* wertId = XMLString::transcode(wertXml->getAttribute(ID));
-			if (strcmp(wertId, "Lebensenergie") == 0)
-				rval->setWert(WERT_MOD_LE, wert - basis);
-			else if (strcmp(wertId, "Ausdauer") == 0)
-				rval->setWert(WERT_MOD_AU, wert - basis);
-			else if (strcmp(wertId, "AttackeBasis") == 0)
-				rval->setWert(WERT_MOD_AT, wert - basis);
-			else if (strcmp(wertId, "ParadeBasis") == 0)
-				rval->setWert(WERT_MOD_PA, wert - basis);
-			else if (strcmp(wertId, "FernkampfBasis") == 0)
-				rval->setWert(WERT_MOD_FK, wert - basis);
-			else if (strcmp(wertId, "InitiativeBasis") == 0)
-				rval->setWert(WERT_MOD_INI, wert - basis);
-			else if (strcmp(wertId, "Magieresistenz") == 0)
-				rval->setWert(WERT_MOD_MR, wert - basis);
-			else if (strcmp(wertId, "Astralenergie") == 0)
-				rval->setWert(WERT_MOD_AE, wert - basis);
-			else if (strcmp(wertId, "Sozialstatus") == 0)
-				rval->setWert(WERT_SOZIALSTATUS, wert);
-
-			XMLString::release(&wertId);
+			try
+			{
+				sceneManager->getEntity(name);
+				number++;
+			}
+			// Nicht gefunden, den Namen können wir nehmen
+			catch( Ogre::Exception ex )
+			{
+				found = false;
+			}
 		}
 
-		// Talente laden
-		// Talente, die direkt unter <Person> angeordnet sind, ergeben bereits die zusammengefassten Werte
-		DOMNodeList* talente =			
-			XmlHelper::getChildNamed(personXml, "Talente")->
-				getElementsByTagName(TALENT);
-		for (unsigned int idx = 0; idx < talente->getLength(); idx++)
+		return name;
+	}
+
+
+	Ogre::Vector3 DotSceneLoader::processVector( DOMElement* rootPositionXml )
+	{
+		return Ogre::Vector3( 
+			XmlHelper::getAttributeValueAsInteger( rootPositionXml, XMLString::transcode("x") ),
+			XmlHelper::getAttributeValueAsInteger( rootPositionXml, XMLString::transcode("y") ),
+			XmlHelper::getAttributeValueAsInteger( rootPositionXml, XMLString::transcode("z") ) );
+	}
+
+
+	/// @TODO Sollten drei Möglichkeiten sein...
+	Ogre::Quaternion DotSceneLoader::processRotation( DOMElement* rootQuatXml )
+	{
+		// Durch w,x,y,z definiert
+		try
 		{
-			DOMElement* talentXml = reinterpret_cast<DOMElement*>(talente->item(idx));
-			
-			utf8* talName = XmlHelper::transcodeToUtf8(talentXml->getAttribute(ID));
-			Talent* tal = 
-				DsaManager::getSingleton().getTalent(talName);
-			delete[] talName;
-
-			rval->addTalent(tal->getId());
-			rval->setTalent(
-				tal->getId(), 
-				XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(talentXml, "Wert")));
+			return Ogre::Quaternion( 
+				XmlHelper::getAttributeValueAsInteger( rootQuatXml, XMLString::transcode("qw") ),
+				XmlHelper::getAttributeValueAsInteger( rootQuatXml, XMLString::transcode("qx") ),
+				XmlHelper::getAttributeValueAsInteger( rootQuatXml, XMLString::transcode("qy") ),
+				XmlHelper::getAttributeValueAsInteger( rootQuatXml, XMLString::transcode("qz") ) );
 		}
+		catch(...) {}
 
-		XMLString::release(&TALENT);
-		XMLString::release(&ID);
-		XMLString::release(&ABGELEITETER_WERT);
-		XMLString::release(&EIGENSCHAFT);
+		// Durch axisX,axisY,axisZ,angle definiert
+		try
+		{
+			return Ogre::Quaternion( Ogre::Radian( XmlHelper::getAttributeValueAsInteger( 
+				rootQuatXml, XMLString::transcode("angle") ) ),
+				Ogre::Vector3(
+				XmlHelper::getAttributeValueAsInteger( rootQuatXml, XMLString::transcode("axisX") ),
+				XmlHelper::getAttributeValueAsInteger( rootQuatXml, XMLString::transcode("axisY") ),
+				XmlHelper::getAttributeValueAsInteger( rootQuatXml, XMLString::transcode("axisZ") )) );
+		}
+		catch(...) {}
 
-		return rval;
-	} */
+		/* IMPLEMENT  ^^ / Durch angleX,angleY,angleZ definiert
+		try
+		{
+			return Ogre::Quaternion(
+				XmlHelper::getAttributeValueAsInteger( rootQuatXml, XMLString::transcode("angleX") ),
+				XmlHelper::getAttributeValueAsInteger( rootQuatXml, XMLString::transcode("angleY") ),
+				XmlHelper::getAttributeValueAsInteger( rootQuatXml, XMLString::transcode("angleZ") ) );
+		}
+		catch(...) {} */
+
+		return Ogre::Quaternion::IDENTITY;
+	}
+
 }

@@ -139,6 +139,7 @@ namespace rl {
         log->setLogDetail( LL_BOREME );
 
         mWorld = new DotSceneOctreeWorld();
+		new PhysicsManager();
         mInterpreter=new RubyInterpreter();
         new GameLoopManager(100); //TODO: In Config-Datei verlagern
         GameLoopManager::getSingleton().addSynchronizedTask(
@@ -153,35 +154,34 @@ namespace rl {
 
     void CoreSubsystem::initializeResources()
     {
-        //		new ResourceGroupManager();
         new XmlResourceManager();
 
+		// Fuer Configs die keinem Typ zugeordnet sind, und die per kompletten Verezeichnis erfragt werden
         addCommonSearchPath(ConfigurationManager::getSingleton().
         	getModulesRootDirectory());
-        addCommonSearchPath(ConfigurationManager::getSingleton().
-        	getModulesRootDirectory() + "/modules");
 
-        // Load resource paths from config file
+        // Laden mittels eines Configfiles
         ConfigFile cf;
         cf.load(ConfigurationManager::getSingleton().getModulesCfgPath());
 
-
-
-        // Go through all settings in the file
+        // Durchgehen der einzelnen Settings
         ConfigFile::SettingsIterator i = cf.getSettingsIterator();
-
         String key, value;
         while (i.hasMoreElements())
         {
             key = i.peekNextKey();
             value = i.getNext();
 
-            initializeModuleTextures(value);
+            // ehemals Texturen vorraus laden / 
+			initializeModuleTextures(value);
+
+			// Ein common-modul - wird sofort hinzugeladen
             if (key.compare("common") == 0)
             {
                 initializeModule(value);
                 mCommonModules.push_back(value);
             }
+			// Ein normales-modul, zur späteren Auswahl
             else if (key.compare("module") == 0)
                 mActivatableModules.push_back(value);
         }
@@ -190,8 +190,11 @@ namespace rl {
         //	mActiveModule = *mActivatableModules.begin();
         //else
         //	mActiveModule = "";
+
+		// Partikelsystem initialisieren
         ParticleSystemManager::getSingleton().addRendererFactory( 
             new BillboardParticleRendererFactory() );
+
         ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
     }
 

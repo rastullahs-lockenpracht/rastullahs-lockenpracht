@@ -46,9 +46,7 @@ namespace rl {
         virtual Ogre::Vector3 getStartPoint() const;
 
         virtual void clearScene(void) = 0;
-        void loadScene(const Ogre::String& levelName);
-
-        virtual Ogre::Entity* getSceneEntity() = 0;
+        virtual void loadScene(const Ogre::String& levelName) = 0;
 
         //Enables / disables a 'sky plane' i.e.
         virtual void setSkyPlane(bool enable, const Ogre::Plane &plane,
@@ -91,14 +89,11 @@ namespace rl {
     protected:
         World(Ogre::SceneType sceneType);
 
-        /// SceneManager-Spezifisches wird hier erledigt.
-        /// für LoadScene.
-        virtual void doLoadScene(const Ogre::String& levelName) = 0;
         virtual void initializeDefaultCamera(void) = 0;	
 
         Ogre::SceneManager* mSceneMgr;
         Ogre::Camera* mCamera;
-        bool mbSceneLoaded;
+
         Actor* mActiveActor;
     };
 

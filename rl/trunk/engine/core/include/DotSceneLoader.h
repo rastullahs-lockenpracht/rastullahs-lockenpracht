@@ -20,6 +20,7 @@
 #include <xercesc/dom/DOMDocument.hpp>
 #include <xercesc/dom/DOMElement.hpp>
 
+#include <OgreSceneNode.h>
 #include <string>
 
 namespace rl {
@@ -27,12 +28,23 @@ namespace rl {
 	class DotSceneLoader
 	{
 	public:
-		static void loadData(std::string filename);
+		DotSceneLoader(const std::string & filename);
+		~DotSceneLoader() {};
 
+		static std::string getNextEntityName( const std::string& baseName, const std::string& nodeName );
 	private:
-		static XERCES_CPP_NAMESPACE::DOMDocument* loadDataFile(std::string filename);
-		
-		DotSceneLoader();
+		void initializeScene();
+		XERCES_CPP_NAMESPACE::DOMDocument* openSceneFile();
+
+		void processNodes(XERCES_CPP_NAMESPACE::DOMElement* rootNodesXml, Ogre::SceneNode* parentNode );
+		void processNode(XERCES_CPP_NAMESPACE::DOMElement* rootNodeXml, Ogre::SceneNode* parentNode );
+		void processEntity( XERCES_CPP_NAMESPACE::DOMElement* rootEntityXml, Ogre::SceneNode* parentNode );
+
+		Ogre::Vector3 processVector( XERCES_CPP_NAMESPACE::DOMElement* rootPositionXml );
+		Ogre::Quaternion processRotation( XERCES_CPP_NAMESPACE::DOMElement* rootQuatXml );
+
+		std::string m_SceneName;
+		Ogre::SceneManager* m_SceneManager;
 	};
 
 }

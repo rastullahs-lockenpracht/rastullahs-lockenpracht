@@ -26,6 +26,8 @@
 #include "Actor.h"
 #include "ActorManager.h"
 
+#include "Exception.h"
+
 // Define a max macro
 #ifndef max
 #define max(a,b) (((a)>=(b))?(a):(b))
@@ -48,15 +50,15 @@ namespace rl
         return Singleton<PhysicsManager>::getSingletonPtr();
     }
 
-    PhysicsManager::PhysicsManager(rl::World* world)
+    PhysicsManager::PhysicsManager( )
         :   mEnabled(false),
             mPhysicalThings(),
             mCollisionListeners(),
-            mOdeWorld(new OgreOde::World(world->getSceneManager())),
+			mOdeWorld(new OgreOde::World( 
+				CoreSubsystem::getSingleton().getWorld()->getSceneManager() ) ),
             mGlobalSpace(mOdeWorld->getDefaultSpace()),
+			mLevelGeomSpace(mGlobalSpace),
             mOdeStepper(new OgreOde::QuickStepper(0.01)),
-            mOdeLevel(NULL),
-            mWorld(world),
 			mFallSpeed(0.1),
 			mCameraNode(NULL),
 			mOdeCamera(NULL),
@@ -70,12 +72,14 @@ namespace rl
         mOdeWorld->setContactCorrectionVelocity(1.0);
         mOdeWorld->setCollisionListener(this);
 
-	    mOdeStepper->setAutomatic(OgreOde::Stepper::AutoMode_NotAutomatic,
+		mOdeStepper->setAutomatic(OgreOde::ForwardFixedQuickStepper::AutoMode_NotAutomatic,
 	        Root::getSingletonPtr());
     }
 
     PhysicsManager::~PhysicsManager()
     {
+		delete mLevelGeomSpace;
+		mLevelGeomSpace = 0;
         delete mGlobalSpace;
         mGlobalSpace = 0;
         delete mOdeWorld;
@@ -87,33 +91,13 @@ namespace rl
         if( mEnabled && elapsedTime > 0.0f )
         {
             mOdeStepper->step(elapsedTime);
-			mOdeActor->collide(mOdeLevel, this);
-			mOdeCamera->collide(mOdeLevel, this);
-			
-			ActorManager::getSingleton().collideWithActors(mOdeActor);
-        }
-    }
+			mLevelGeomSpace->collide(mOdeActor);
 
-    void PhysicsManager::createLevelGeometry(SceneNode* levelNode)
-    {
-        delete mOdeLevel;
-        mOdeLevel = 0;
-        if (levelNode)
-        {
-            OgreOde::EntityInformer ei(
-                mWorld->getSceneManager()->getEntity("level"),
-                levelNode->_getFullTransform());
-            mOdeLevel = ei.createStaticTriangleMesh(mGlobalSpace);
+			//mOdeActor->collide(mOdeLevel, this);
+			//mOdeCamera->collide(mOdeLevel, this);
+			
+			//ActorManager::getSingleton().collideWithActors(mOdeActor);
         }
-        else
-        {
-            setEnabled(false);
-        }        
-    }
-    
-    Geometry* PhysicsManager::getLevelGeometry()
-    {
-        return mOdeLevel;
     }
 
     void PhysicsManager::setCFM(Real cfm)
@@ -262,6 +246,7 @@ namespace rl
         return rval;
     }
 
+
     void PhysicsManager::removeAndDestroyPhysicalThing(PhysicalThing* thing)
     {
         vector<PhysicalThing*>::iterator it = find(mPhysicalThings.begin(),
@@ -360,7 +345,7 @@ namespace rl
 	{
 		if (geometry != mOdeCamera)
 		{
-			mControlNode->translate(contact->getNormal() * contact->getPenetrationDepth(),
+			mControlNode->translate( - contact->getNormal() * contact->getPenetrationDepth(),
 				Node::TS_WORLD);
 			mFallSpeed = 0.0;
 		}
@@ -380,6 +365,33 @@ namespace rl
 		//mTargetDistance = mCameraNode->getPosition().z;
 		return true;
 	}
+
+	void PhysicsManager::addLevelGeometry( Ogre::Entity* ent )
+	{
+		if( ent == NULL )
+			Throw( NullPointerException, "Übergebene Entity darf nicht NULL sein" );
+
+		Matrix4 m = Matrix4::IDENTITY;
+
+		// Wenn die Entity an einem Node befestigt ist, Transformation übernehmen
+		if( ent->getParentNode() != NULL )
+			m = ent->getParentNode()->_getFullTransform();
+
+		// Ein Ode TriMesh erstellen
+		OgreOde::EntityInformer ei( ent, m );
+		Geometry* odeGeom = ei.createStaticTriangleMesh(mGlobalSpace);
+	}
+
+	void PhysicsManager::clearLevelGeometry(  )
+	{
+		for( int i=(mLevelGeomSpace->getGeometryCount()-1); i >=0 ; i-- )
+		{
+			Geometry* odeGeom = mLevelGeomSpace->getGeometry(i);
+			mLevelGeomSpace->removeGeometry(*odeGeom);
+			delete odeGeom;
+		}
+	}
+
 
 	void PhysicsManager::setFallSpeed(Ogre::Real fallspeed)
 	{

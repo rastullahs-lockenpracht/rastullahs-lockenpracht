@@ -17,19 +17,17 @@
 #include <OgreSceneManager.h>
 
 #include "World.h"
-#include "PhysicsManager.h"
 #include "Exception.h"
+
+using namespace Ogre;
 
 namespace rl {
 
-	World::World(Ogre::SceneType sceneType)
-	    :   mSceneMgr(Root::getSingleton().getSceneManager( sceneType )),
+	World::World(SceneType sceneType)
+		:   mSceneMgr(Root::getSingleton().getSceneManager( sceneType )),
             mCamera(0),
-            mbSceneLoaded(false),
 	        mActiveActor(0)
-
 	{
-	    new PhysicsManager(this);
 	}
 
 	SceneManager* World::getSceneManager(void) const
@@ -119,19 +117,6 @@ namespace rl {
 		return mSceneMgr->getSuggestedViewpoint().position;
 	}
 	
-    Entity* World::getSceneEntity()
-    {
-        Throw(OperationNotSupportedException,
-            "SceneManager does not support TriMesh-Retrieval");
-    }
-    
-	void World::loadScene(const String& levelName)
-	{
-	    doLoadScene(levelName);
-	    PhysicsManager::getSingletonPtr()
-	        ->createLevelGeometry(mSceneMgr->getSceneNode("level"));
-	}
-
 	void World::setCastShadows(bool enabled)
 	{
 		Throw(OperationNotSupportedException,
