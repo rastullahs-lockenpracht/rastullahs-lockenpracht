@@ -233,6 +233,12 @@ namespace rl {
 		dbgwnd->setVisible(!dbgwnd->isVisible());
 	}
 
+	void UiSubsystem::toggleDialogWindow()
+	{
+		DialogWindow* dwnd = DialogWindow::getSingletonPtr();
+		dwnd->setVisible(!dwnd->isVisible());
+	}
+
 	void UiSubsystem::toggleGameLogWindow()
 	{
 		mGameLogger->setVisible(!mGameLogger->isVisible());
@@ -269,6 +275,7 @@ namespace rl {
 	void UiSubsystem::runTest()
 	{
 		InputManager::getSingleton().setObjectPickingActive(true);
+		DialogWindow* dialog=new DialogWindow("startup.xml");  
 	}
 	
     GameController* UiSubsystem::getGameController()

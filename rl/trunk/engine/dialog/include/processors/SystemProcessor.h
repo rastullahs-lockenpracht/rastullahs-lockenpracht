@@ -21,6 +21,7 @@
 #include "../AimlProcessor.h"
 #include "../NaturalLanguageProcessor.h"
 #include "../AimlParser.h"
+#include "../DialogSubsystem.h"
 
 #include <string>
 using namespace std;
@@ -35,13 +36,19 @@ namespace rl
 	
 		string process(DOMNode* node,Match* m, const char *str, NaturalLanguageProcessor* nlp)
 		{
-				DOMNamedNodeMap* attrbs=node->getAttributes();
-				DOMNode* commandNode=attrbs->getNamedItem(XMLString::transcode("command"));	
-				string commandStr=AimlParser::transcodeXmlCharToString(commandNode->getNodeValue());
-				if(!commandStr.compare("exit"))
-					nlp->mExit=true;
-				return "";
-		};
+			char* cmd=XmlHelper::getAttributeValueAsString( (DOMElement*)node,XMLString::transcode("command") );
+			DialogSubsystem::getSingletonPtr()->log("SYSTEM");
+			DialogSubsystem::getSingletonPtr()->log(cmd);
+			if(!static_cast<string>(cmd).compare("exit"))
+				nlp->mExit=true;
+			if(!static_cast<string>(cmd).compare("reload"))
+			{
+				DialogSubsystem::getSingletonPtr()->log("RELOOOAAAD");
+				nlp->processOption("load","*.aiml");
+			}
+			XMLString::release(&cmd);
+			return "";
+		}
 	};
 }
 #endif

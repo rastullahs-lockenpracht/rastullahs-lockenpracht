@@ -19,6 +19,9 @@
 #include "DialogSubsystem.h"
 
 #include <OgreLogManager.h>
+#include "XmlHelper.h"
+#include "XmlResourceManager.h"
+using namespace Ogre;
 
 using namespace Ogre;
 
@@ -41,13 +44,26 @@ namespace rl
 		mLog = LogManager::getSingleton().createLog( "logs/rlDialog.log" );
         mLog->setLogDetail( LL_BOREME );
 		AimlProcessorManager::addStandardProcessors();
+	//  Initialize Xerces if this wasn't done already
+		try 
+		{
+            XMLPlatformUtils::Initialize();
+			XmlHelper::initializeTranscoder();
+        }
+        catch (const XMLException& exc) 
+		{
+			char* excmsg = XMLString::transcode(exc.getMessage());
+			std::string excs="Exception while initializing Xerces: ";
+			excs+=excmsg;
+			log(excs);
+            XMLString::release(&excmsg);
+        }
 
-//		NaturalLanguageProcessor* nlp=new NaturalLanguageProcessor("startup.xml");
-	mLog->logMessage("nlp");
-	//	nlp->respond("START DIALOG");
-	mLog->logMessage("respond");
-//		if(nlp)delete nlp;
-	mLog->logMessage("Feddisch");
+	//  Load dialog-startup definition with bot properties etc.pp.
+	//	if(XmlResourceManager::getSingleton().getByName("dialog-startup.xml")==NULL)
+	//			XmlResourceManager::getSingleton().create("dialog-startup.xml");
+	//	???	what is this for? should bots be preloaded? i guess not! 
+	//  or do we need it for aiml preloading?
 
 	}
 

@@ -4,7 +4,9 @@
 #include "Utils.h"
 #include "OgreLogManager.h"
 
+
 #include "Graphmaster.h"
+#include "DialogSubsystem.h"
 
 //--	Graphmaster.cpp
 
@@ -18,8 +20,9 @@ namespace rl
 Graphmaster::Graphmaster() : root(new Nodemaster()) { }
 
 Graphmaster::~Graphmaster() 
-{
+{DialogSubsystem::getSingleton().log("Delete all graphmaster nodes");
 	root->deleteAllNodes();
+	DialogSubsystem::getSingleton().log("Delete root");
 	delete root;
 }
 
@@ -32,7 +35,6 @@ const static string UNDERSCORE = "_";
 Nodemaster *Graphmaster::add(const string &context, const string &pattern, const string &that, const string &topic,const string &templateValue)
 {
 	string path = toUpper(context + GM_PATTERN + pattern + GM_THAT + that + GM_TOPIC + topic);
-	
 	Nodemaster *node = root, *child = NULL;
 	char *c_string = (char *)path.c_str();
 	//--	this code needs to be updated to use the StringTokenizer (this ain't robust)

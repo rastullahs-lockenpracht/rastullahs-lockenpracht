@@ -41,6 +41,7 @@ namespace rl
 		static bool hasProcessor(const string &name);
 		
 		static map<string, AimlProcessor *> mProcessors;
+		static map<string, Graphmaster*> mGraphMasters;
 	};
 }
 #endif

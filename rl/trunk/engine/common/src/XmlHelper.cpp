@@ -65,6 +65,15 @@ utf8* XmlHelper::getValueAsUtf8(DOMElement* element)
 	return XmlHelper::transcodeToUtf8(element->getFirstChild()->getNodeValue());
 }
 
+int XmlHelper::getAttributeValueAsInteger(DOMElement* element,XMLCh* name)
+{
+	return XMLString::parseInt(element->getAttribute(name));
+}
+
+char* XmlHelper::getAttributeValueAsString(DOMElement* element,XMLCh* name)
+{
+	return XMLString::transcode(element->getAttribute(name));
+}
 int XmlHelper::getValueAsInteger(DOMElement* element)
 {
 	return XMLString::parseInt(element->getFirstChild()->getNodeValue());

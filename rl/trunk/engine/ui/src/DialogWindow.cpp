@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2004 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Perl Artistic License.
@@ -13,24 +13,26 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
-#include "UiPrerequisites.h"
 
 #include <boost/bind.hpp>
 
+#include "DialogWindow.h"
+#include "DialogSubsystem.h"
+#include "InputManager.h"
 #include "DebugWindow.h"
 #include "CharacterSheetWindow.h"
+#include "ListboxWrappedTextItem.h"
 
-#include "DialogWindow.h"
-#include "InputManager.h"
-
-
-using namespace CEGUI;
-using namespace std;
 using namespace Ogre;
 
 template<> rl::DialogWindow* Ogre::Singleton<rl::DialogWindow>::ms_Singleton = 0;
 
 namespace rl {
+
+using namespace CEGUI;
+using namespace std;
+
+
 
 DialogWindow& DialogWindow::getSingleton()
 {
@@ -52,21 +54,28 @@ DialogWindow::DialogWindow(string dialogFile) :
 	mDialogOptions->subscribeEvent(
 		Listbox::EventSelectionChanged, 
 		boost::bind(&DialogWindow::handleSelectOption, this));
+	mDialogOptions->moveToFront();
+	mDialogOptions->setClippedByParent(true);
+	mDialogOptions->setShowHorzScrollbar(false);
+	mDialogOptions->setShowVertScrollbar(false);
 
 	addToRoot(mWindow);
     mIsVisible = false;
 	getResponse("START DIALOG");
+	mName->setText(mNlp->getName());
 }
 
 DialogWindow::~DialogWindow()
 {
 	// TO DO: DialogWindow::~DialogWindow()
+	if(mNlp)delete mNlp;
 }
 
 void DialogWindow::getResponse(string msg)
 {
-	ListboxTextItem* item;
+	ListboxWrappedTextItem* item;
 	mResponses=mNlp->respond(msg);
+	
 	if(mResponses.empty())
 	{
 		mQuestion->setText(CeGuiString("DIALOG BEENDET"));
@@ -81,15 +90,21 @@ void DialogWindow::getResponse(string msg)
 	{			
 			if(i<mDialogOptions->getItemCount())
 			{
-				item=reinterpret_cast<ListboxTextItem*>(mDialogOptions->getListboxItemFromIndex(i));
-				item->setText(itr->second);
+				item=reinterpret_cast<ListboxWrappedTextItem*>(mDialogOptions->getListboxItemFromIndex(i));
+				string test(itr->second);
+				DialogSubsystem::getSingleton().log(test);
+				item->setText(test+"\n");
+				item->setTextFormatting(CEGUI::WordWrapLeftAligned);
 			}
 			else
 			{
-				item=new ListboxTextItem(itr->second);
+				string test(itr->second);
+				item=new ListboxWrappedTextItem(test+"\n");
+				item->setTextFormatting(CEGUI::WordWrapLeftAligned);
 				mDialogOptions->addItem(item);
 			}
 			item->setID(itr->first);
+			mDialogOptions->ensureItemIsVisible(item);
 			i+=1;
 	}
 	while(i<mDialogOptions->getItemCount())
@@ -98,12 +113,13 @@ void DialogWindow::getResponse(string msg)
 
 	}
 	mResponses.clear();
-
 }
 
 void DialogWindow::addLine(string text)
 {
-	mDialogOptions->addItem(new ListboxTextItem(text));
+	ListboxWrappedTextItem* item = new ListboxWrappedTextItem(text);
+	item->setTextFormatting(CEGUI::WordWrapLeftAligned);
+	mDialogOptions->addItem(item);
 	mTextLines.push_back(text);
 	updateValues();
 }
@@ -161,7 +177,7 @@ void DialogWindow::updateValues()
 bool DialogWindow::handleSelectOption()
 {
 	DebugWindow::getSingleton().setText("Pnk "+StringConverter::toString(getSelectedOption()));
-	ListboxTextItem* item=reinterpret_cast<ListboxTextItem*>(mDialogOptions->getFirstSelectedItem());
+	ListboxWrappedTextItem* item=reinterpret_cast<ListboxWrappedTextItem*>(mDialogOptions->getFirstSelectedItem());
 	getResponse(StringConverter::toString(item->getID()));	
 	return true;
 }

@@ -33,6 +33,7 @@
 
 #include "Console.h"
 #include "DebugWindow.h"
+#include "DialogWindow.h"
 #include "CommandMapper.h"
 #include "Actor.h"
 #include "ActorManager.h"
@@ -173,6 +174,12 @@ namespace rl {
                 !DebugWindow::getSingletonPtr()->isVisible());
             rval = true;
         }
+		else if (e->getKey() == KC_F8)
+		{
+			DialogWindow::getSingletonPtr()->setVisible(
+				!DialogWindow::getSingletonPtr()->isVisible());
+			rval=true;
+		}
 		else  if (e->getKey() == KC_SYSRQ)
         {
 			CoreSubsystem::getSingleton().makeScreenshot("rastullah");

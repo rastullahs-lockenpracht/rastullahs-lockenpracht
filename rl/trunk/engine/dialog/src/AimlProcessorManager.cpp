@@ -18,6 +18,7 @@
 #include "processors/BrProcessor.h"
 #include "processors/ConditionProcessor.h"
 #include "processors/SystemProcessor.h"
+#include "processors/SraiProcessor.h"
 
 namespace rl
 {
@@ -88,15 +89,17 @@ namespace rl
 	{
 		ConditionProcessor* cp=new ConditionProcessor();
 		mProcessors["br"]=new BrProcessor();
+		mProcessors["selection"]=cp;
 		mProcessors["condition"]=cp;
 		mProcessors["if"]=cp;
+		mProcessors["srai"]=new SraiProcessor();
 		mProcessors["system"]=new SystemProcessor();
 	}
 
 	AimlProcessor* AimlProcessorManager::getProcessor(const string &name)
 	{
 		map<string, AimlProcessor *>::const_iterator itr=mProcessors.find(name);
-		if(itr != mProcessors.end())
+		if(itr!= mProcessors.end())
 			return itr->second;
 		else return NULL;
 	}

@@ -25,6 +25,7 @@
 #include "CoreSubsystem.h"
 #include "Interpreter.h"
 #include "XmlHelper.h"
+#include "DialogSubsystem.h"
 
 #include <string>
 
@@ -57,7 +58,7 @@ namespace rl
 		string value;
 		string rtn;
 		string tmp =transcodeXmlCharToString(localname);
-
+		DialogSubsystem::getSingleton().log("startElement");
 	/////////////////////////////////////////
 	// Abfrage für Startup-File
 	////////////////////////////////////////
@@ -96,6 +97,7 @@ namespace rl
 				mNlp->processOption(name, value);
 	//		mNlp->mTest=tmp;
 		} else if(!tmp.compare("script")) {
+			DialogSubsystem::getSingleton().log("script");
 			mCurState= PARSER_SCRIPT;
 			name=getAttributeValueAsString(attrs,"name");
 			templateValue=getAttributeValueAsString(attrs,"class");
@@ -110,7 +112,17 @@ namespace rl
 				so->callFunction("OnPlaySound",0,0);
 				mCurState=PARSER_START;
 			} 
+		} else if(!tmp.compare("bot")) {
+			DialogSubsystem::getSingleton().log("Bot");
+			mNlp->setName(getAttributeValueAsString(attrs,"name"));
+		} else if(!tmp.compare("learn")) {
+			DialogSubsystem::getSingleton().log("Learning");
+			name=getAttributeValueAsString(attrs,"src");
+			//value=getAttributeValueAsString(attrs,"value");
+			if ( !name.empty())
+				mNlp->processOption("load", name);
 		}
+
 
 	/////////////////////////////////////////
 	// Abfrage für AIML-File

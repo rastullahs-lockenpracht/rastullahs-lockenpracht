@@ -18,7 +18,6 @@
 #define __DialogSubsystem_H__
 
 #include "DialogPrerequisites.h"
-#include <OgreSingleton.h>
 
 namespace rl
 {

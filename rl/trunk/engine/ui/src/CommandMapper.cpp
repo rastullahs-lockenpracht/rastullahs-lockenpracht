@@ -65,6 +65,10 @@ namespace rl {
 		ae.actionName = "togglegamelogwindow";
 		mKeyCommandsOffBattle.insert(make_pair(KC_F3, ae));
 		
+		ae.actionClass = "ToggleDialogWindowAction";
+		ae.actionName = "DialogWindow";
+		mKeyCommandsOffBattle.insert(make_pair(KC_F8, ae));
+
 		ae.actionClass = "ToggleViewModeAction";
 		ae.actionName = "toggleviewmode";
 		mKeyCommandsOffBattle.insert(make_pair(KC_F, ae));

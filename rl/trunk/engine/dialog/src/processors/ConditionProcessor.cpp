@@ -20,6 +20,7 @@
 #include "ScriptObject.h"
 #include "CoreSubsystem.h"
 #include "Interpreter.h"
+#include "XmlHelper.h"
 #include <string>
 
 #include "DialogSubsystem.h"
@@ -31,50 +32,40 @@ namespace rl
 	string ConditionProcessor::process(DOMNode* node,Match* m, const char* str, NaturalLanguageProcessor* nlp)
 	{		
 		string buffer="";
-		DOMNamedNodeMap* attrbs=node->getAttributes();
-	//	DOMNode* scriptNode=attrbs->getNamedItem(XMLString::transcode("script"));
-	//	DOMNode* classNode=attrbs->getNamedItem(XMLString::transcode("class"));
-		DOMNode* nameNode=attrbs->getNamedItem(XMLString::transcode("name"));
-
-		if(nameNode==NULL)	// If function name is missing, return
+	//  Get name- and value-attribute. Name contains the function name, 
+	//  value is optional (if there are no values in <li> 
+		char* strName = XmlHelper::getAttributeValueAsString( (DOMElement*)node,XMLString::transcode("name") );
+		int nValue = 0;//XmlHelper::getAttributeValueAsInteger( (DOMElement*)node,XMLString::transcode("value") );
+	//  If function name is missing, return
+		if(!((string)strName).empty())	
 		{
-			return "";
-		}
-		// Look if condition has a value (standard: no value)
-		DOMNode* valueNode=attrbs->getNamedItem(XMLString::transcode("value"));
-	//	if(scriptNode!=NULL && classNode!=NULL)
-	//	{
-	//		string scriptStr=AimlParser::transcodeXmlCharToString(scriptNode->getNodeValue());
-	//		string classStr =AimlParser::transcodeXmlCharToString(classNode->getNodeValue());
-			string nameStr=AimlParser::transcodeXmlCharToString(nameNode->getNodeValue());
-			ScriptObject* so=CoreSubsystem::getSingleton().getInterpreter()->getScriptObject("DialogMeister"); //new ScriptObject("conditionTest");
-
-			//		Ogre::String bla[]={"Popel"};
-	//		so->setScript(scriptStr,classStr,1,bla);
-	//		so->callFunction("OnPlaySound",0,0);
-			int iReturn=so->callIntegerFunction(nameStr,0,0);	
-	//		scriptStr+=classStr;
-	//		if(iReturn==4){scriptStr="Hatgefunzt";}
-
+		//  Get the NPC dialog control script object and call the named function
+			ScriptObject* so=CoreSubsystem::getSingleton().getInterpreter()->getScriptObject("DialogMeister");  
+			// @todo: ScriptObject name has to be NPC name
+			int nReturn=so->callIntegerFunction(strName,0,0);
+			XMLString::release(&strName);
+		//  Search through all li-elements
 			for (DOMNode* childNode=node->getFirstChild(); childNode != node->getLastChild(); childNode = childNode->getNextSibling() )
-			{	// Search through all li-elements
+			{	
 				if ( childNode->getNodeType() == DOMNode::ELEMENT_NODE ) 
 				{
 					string nodeName=AimlParser::transcodeXmlCharToString(childNode->getNodeName());
 					if(!nodeName.compare("li"))
 					{
-						DOMNamedNodeMap* attrbs=childNode->getAttributes();
-						int value=AimlParser::getAttributeValueAsInteger(attrbs,"value");
-						string idString= AimlParser::transcodeXmlCharToString(attrbs->getNamedItem(XMLString::transcode("id"))->getNodeValue());
-						if(value==iReturn)
+						nValue=XmlHelper::getAttributeValueAsInteger( (DOMElement*)childNode,XMLString::transcode("value") );
+						char* test=XmlHelper::getAttributeValueAsString( (DOMElement*)childNode,XMLString::transcode("value") );
+						char* id =XmlHelper::getAttributeValueAsString( (DOMElement*)childNode,XMLString::transcode("id") );
+					//  Add elements in <li> Tag only if <li>-value = return value of the named function
+						if(nValue==nReturn)
 						{
-							buffer+="<li id=\""+idString+"\" />";
-							buffer+=nlp->process(childNode,m,str);
+							buffer+="<li id=\""+(string)id+"\" />";
+							buffer+=nlp->process(childNode,m,str);	
 						}
-					}
-				}
-			}	
-	//	}
+						XMLString::release(&id);
+					} // end compare nodeName
+				} // end compare nodeType
+			} // end for loop
+		} // end check empty name
 		return buffer;
 	}
 }// Namespace rl end

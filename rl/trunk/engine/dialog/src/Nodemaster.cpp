@@ -19,6 +19,7 @@
 #include <xercesc/dom/DOM.hpp>
 
 #include "Nodemaster.h"
+#include "DialogSubsystem.h"
 #include "Utils.h"
 //--	Nodemaster.cpp
 
@@ -30,17 +31,23 @@ namespace rl
 {
 	Nodemaster* Nodemaster::cached;
 	Nodemaster::Nodemaster() { }
-	Nodemaster::Nodemaster(const string &templateValue) : mTemplate(templateValue) { }
+	Nodemaster::Nodemaster(const string &templateValue) 
+		: mTemplate("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"+templateValue)
+	{
+	}
 
 	Nodemaster::~Nodemaster() {}
 
 	void Nodemaster::deleteAllNodes()
-	{
+	{DialogSubsystem::getSingleton().log("Delete all children");
 		map<string, Nodemaster *>::const_iterator itr = mChildren.begin();
-		for(itr++;itr!=mChildren.end();itr++)
+		for(;itr!=mChildren.end();itr++)
 		{
-			itr->second->deleteAllNodes();
-			delete itr->second; //child;
+			if(itr->second)
+			{
+				itr->second->deleteAllNodes();
+				delete itr->second; //child;
+			}
 		}
 		mChildren.clear();
 	}
