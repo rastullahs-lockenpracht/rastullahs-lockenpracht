@@ -117,7 +117,7 @@ namespace rl {
         // Runterfallen berücksichtigen.
         // Zuerst Fallgeschwindigkeit berechnen
         translation.y = translation.y - mFallSpeed * elapsedTime;
-        mFallSpeed = mFallSpeed - mOdeWorld->getGravity().y * elapsedTime * 200;
+        mFallSpeed = mFallSpeed - mOdeWorld->getGravity().y * elapsedTime * 20; //*200
 
         mControlNode->translate(translation, Node::TS_LOCAL);
 
