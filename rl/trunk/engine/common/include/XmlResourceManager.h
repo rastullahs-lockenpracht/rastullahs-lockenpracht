@@ -20,6 +20,8 @@
 #include "XmlResource.h"
 #include "CommonPrerequisites.h"
 
+
+
 namespace rl {
 
 	class _RlCommonExport XmlResourceManager : 
