@@ -195,6 +195,7 @@ void MusicResource::MusicThread::operator()()
 
     try {
         that->open(that->mData, that->mDataSize);
+        that->display();
         
         if(!that->playback())
             Throw(RuntimeException, "Ogg refused to play.");
@@ -294,9 +295,12 @@ void MusicResource::stop (unsigned int msec) throw (RuntimeException)
 {
     if (alIsSource(mSource))
     {
-        alSourceStop (mSource);
-        check();
-        empty ();
+        SndResource::stop(msec);
+        if (mFadeOutThread != 0)
+        {
+            mFadeOutThread->join();
+        }
+        empty();
     }
 }
 
@@ -314,9 +318,6 @@ void MusicResource::release ()
     delete[]mOggMemoryFile.mDataPtr;
     mOggMemoryFile.mDataPtr = NULL;
 }
-
-
-
 
 void MusicResource::display ()
 {

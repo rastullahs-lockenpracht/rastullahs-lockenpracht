@@ -15,7 +15,13 @@ namespace rl {
  * @date 07-23-2004
  */
 SndResource::SndResource(const String &name):
-    Resource()
+    Resource(),
+    mFadeInOperation(this, true),
+    mFadeOutOperation(this, false),
+    mFadeInThread(0),
+    mFadeOutThread(0),
+    mShouldFadeIn(false),
+    mShouldFadeOut(false)
 {
     mName = name;
     alGenSources(1, &mSource);
@@ -159,34 +165,42 @@ void SndResource::unload()
 
 /**
  * @author JoSch
+ * @date 09-17-2004
+ */
+void SndResource::fadeIn(unsigned int msec)
+{
+    if (msec != 0 && mFadeInThread == 0)
+    {
+        mFadeInOperation.mDuration = msec;
+        mFadeInThread = new thread(mFadeInOperation);
+        mShouldFadeIn = false;
+    }
+}
+/**
+ * @author JoSch
+ * @date 09-15-2004
+ */
+void SndResource::fadeOut(unsigned int msec)
+{
+    if (msec != 0 && mFadeOutThread == 0)
+    {
+        mFadeOutOperation.mDuration = msec;
+        mFadeOutThread = new thread(mFadeOutOperation);
+        mShouldFadeOut = false;
+    }
+}
+/**
+ * @author JoSch
  * @date 09-15-2004
  */
 void SndResource::play(unsigned int msec) throw (RuntimeException)
 {
-    // Sleep
-    xtime sleeptime;
-    // Alte Lautstaerke speichern.
-    ALfloat gain = getGain();
-    // Abspielen.
-    alSourcePlay(mSource);
-    check();
-
-    if (msec != 0)
+    if (getState() != AL_PLAYING)
     {
-        setGain(0.0f);
-        xtime_get(&sleeptime, TIME_UTC);
-        for(unsigned int time = 0; time <= msec; time += 10)
-        {
-            
-            // Warten
-            sleeptime.nsec += 10 * 1000 * 1000;
-            thread::sleep(sleeptime);
-            ALfloat newgain = calculateFadeIn(msec, time, gain);
-            // Lautstaerke hochsetzen.
-            setGain((newgain > gain)?gain:newgain);
-        }
-        setGain(gain);
+        // Abspielen.
+        alSourcePlay(mSource);
         check();
+        fadeIn(msec);
     }
 }
 
@@ -206,30 +220,7 @@ void SndResource::pause() throw (RuntimeException)
  */
 void SndResource::stop(unsigned int msec) throw (RuntimeException)
 {
-    // Sleep
-    xtime sleeptime;
-    
-    // Alte Lautstaerke speichern.
-    ALfloat gain = getGain();
-
-    if (msec != 0)
-    {
-        xtime_get(&sleeptime, TIME_UTC);
-        for (unsigned int time = 0; time <= msec; time += 10)
-        {
-            // Warten
-            sleeptime.nsec += 10000;
-            thread::sleep(sleeptime);
-            ALfloat newgain = calculateFadeOut(msec, time, gain);
-            // Lautstaerke hochsetzen.
-            setGain((newgain > gain)?gain:newgain);
-        }
-        setGain(0.0f);
-        check();
-    }
-    // Stoppen.
-    alSourceStop(mSource);
-    check();
+    fadeOut(msec);
 }
 
 /**
@@ -306,5 +297,81 @@ ALfloat SndResource::calculateFadeOut(unsigned RL_LONGLONG duration, unsigned RL
         return (ALfloat)0.0f;
     }
 }
+
+/**
+ */
+SndResource::FadeOperation::FadeOperation(SndResource *that, bool fadeIn)
+    : that(that),
+      mFadeIn(fadeIn)
+{
+}
+
+/**
+ * Fuehrt das Fade aus
+ * @author JoSch
+ * @date 09-16-2004
+ */
+void SndResource::FadeOperation::operator()()
+{
+    if (mFadeIn)
+    {
+        if (mDuration != 0)
+        {
+            // Sleep
+            xtime sleeptime;
+            // Alte Lautstaerke speichern.
+            ALfloat gain = that->getGain();
+            
+            that->setGain(0.0f);
+            xtime_get(&sleeptime, TIME_UTC);
+            for(unsigned int time = 0; time <= mDuration; time += 10)
+            {
+                
+                // Warten
+                sleeptime.nsec += 10 * 1000 * 1000;
+                thread::sleep(sleeptime);
+                ALfloat newgain = that->calculateFadeIn(mDuration, time, gain);
+                // Lautstaerke hochsetzen.
+                that->setGain((newgain > gain)?gain:newgain);
+            }
+            that->setGain(gain);
+            that->check();
+        }
+        delete that->mFadeInThread;
+        that->mFadeInThread = 0; 
+    } else {
+        if (mDuration != 0)
+        {
+            // Sleep
+            xtime sleeptime;
+            
+            // Alte Lautstaerke speichern.
+            ALfloat gain = that->getGain();
+            
+            xtime_get(&sleeptime, TIME_UTC);
+            for (unsigned int time = 0; time <= mDuration; time += 10)
+            {
+                // Warten
+                sleeptime.nsec += 10000;
+                thread::sleep(sleeptime);
+                ALfloat newgain = that->calculateFadeOut(mDuration, time, gain);
+                // Lautstaerke hochsetzen.
+                that->setGain((newgain > gain)?gain:newgain);
+            }
+            that->setGain(0.0f);
+            that->check();
+            
+        }
+        // Stoppen.
+        alSourceStop(that->mSource);
+        that->check();
+        delete that->mFadeOutThread;
+        that->mFadeOutThread = 0; 
+    }
+    
+    
+}
+
+
 
 }

@@ -7,6 +7,10 @@
 #include "boost/thread/thread.hpp"
 #include "boost/thread/mutex.hpp"
 
+using namespace boost;
+
+// @TODO: Callbacks für Threads einfuehren.
+
 namespace rl {
  
  
@@ -18,7 +22,29 @@ namespace rl {
  * @version 2.0
  */
 class _RlSoundExport SndResource: public Resource {
+    private:
+        /// Diese Klasse kapselt das Fade in.
+        class FadeOperation {
+            private:
+                /// Damit wir wissen, wo wir hinwollen ;-)
+                SndResource *that;
+                /// Fade In oder Out
+                bool mFadeIn;
+            public:
+                /// Der Konstruktor.
+                FadeOperation(SndResource *that, bool fadeIn);
+                /// Die Arbeitsroutine.
+                void operator()();
+
+                /// Wie lange soll der Fade laufen (in msek.)?
+                unsigned int mDuration;
+        } mFadeInOperation, mFadeOutOperation;
+       friend class FadeOperation;
+        
+    
     protected:
+        // Die Fade-Threads
+        thread *mFadeInThread, *mFadeOutThread;
         /// Die gekapselte Soundquelle
         ALuint mSource;
         /// Die Buffer, die wir benutzen
@@ -31,6 +57,13 @@ class _RlSoundExport SndResource: public Resource {
         
         /// Mutex zum Synchronisieren von Gain-Zugriffen.
         mutable boost::mutex mGainMutex;
+        
+        /// Fuehre das Fade-In aus
+        void fadeIn(unsigned int msec);
+        /// Fuehre das Fade-Out aus
+        void fadeOut(unsigned int msec);
+        // Soll gefadet werden?
+        bool mShouldFadeIn, mShouldFadeOut;
         
         /// Berechne den Anstieg der Lautstarke beim Fade-In
         ALfloat calculateFadeIn(unsigned RL_LONGLONG duration, unsigned RL_LONGLONG time,
