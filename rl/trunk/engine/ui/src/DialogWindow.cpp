@@ -29,8 +29,8 @@ DialogWindow::DialogWindow(string dialogFile) : CeGuiWindow("dialogwindow.xml", 
 		Listbox::SelectionChanged, 
 		boost::bind(&DialogWindow::handleSelectOption, this));
 
-	addToRoot(mWindow);	
-	mState == CS_CLOSED;
+	addToRoot(mWindow);
+    mIsVisible = false;
 	getResponse("START DIALOG");
 }
 

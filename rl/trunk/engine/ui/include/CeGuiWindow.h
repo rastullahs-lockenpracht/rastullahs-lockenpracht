@@ -20,21 +20,23 @@ namespace rl {
 
 		static void addToRoot(CEGUI::Window* window);
 
-		void show();
-		void hide();
 		bool isInputWindow();
+
+        virtual bool isVisible();
+        virtual void setVisible(bool visible);
 
 	protected:
 		CeGuiWindow(const char* xmlfile, bool input = false);
 		virtual ~CeGuiWindow();
 
+		void show();
+		void hide();
+
 		virtual bool beforeShow();
 		virtual bool beforeHide();
 		
-		enum State { CS_OPEN, CS_CLOSED, CS_OPENING, CS_CLOSING };
-		State mState;
-
 		CEGUI::Window* mWindow;
+		bool mIsVisible;
 
 	private:
 		bool mWithInput;

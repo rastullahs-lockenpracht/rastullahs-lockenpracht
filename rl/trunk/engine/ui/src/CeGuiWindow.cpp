@@ -9,13 +9,12 @@ using namespace CEGUI;
 namespace rl
 {
 
-CeGuiWindow::CeGuiWindow(const char* xmlfile, bool withInput)
+CeGuiWindow::CeGuiWindow(const char* xmlfile, bool withInput) :
+    mWindow(WindowManager::getSingleton().loadWindowLayout((utf8*)xmlfile)),
+    mIsVisible(true),
+    mWithInput(withInput)
 {
-	mWindow = 
-		WindowManager::getSingleton().loadWindowLayout((utf8*)xmlfile);
 	assert(mWindow != 0);
-
-	mWithInput = withInput;
 }
 
 CeGuiWindow::~CeGuiWindow()
@@ -23,33 +22,51 @@ CeGuiWindow::~CeGuiWindow()
 	WindowManager::getSingleton().destroyWindow(mWindow);
 }
 
+bool CeGuiWindow::isVisible()
+{
+    return mIsVisible;
+}
+
+void CeGuiWindow::setVisible(bool visible)
+{
+    if(mIsVisible != visible)
+    {
+        if (visible)
+        {
+            show();
+        }
+        else
+        {
+            hide();
+        }
+    }
+}
+
 void CeGuiWindow::show()
 {
-	if (mState == CS_CLOSED)
+	if (!mIsVisible)
 	{
 		if (!beforeShow())
 			return;
 
-		mState = CS_OPENING;
 		if (isInputWindow())
 			InputManager::getSingleton().registerCeguiWindow(this);
 		mWindow->show();
-		mState = CS_OPEN;
-	}
+        mIsVisible = true;
+    }
 }
 
 void CeGuiWindow::hide()
 {
-	if (mState == CS_OPEN)
+	if (mIsVisible)
 	{
 		if (!beforeHide())
 			return;
 	
-		mState = CS_CLOSING;
 		mWindow->hide();
 		if (isInputWindow())
 			InputManager::getSingleton().unregisterCeguiWindow(this);
-		mState = CS_CLOSED;
+        mIsVisible = false;
 	}
 }
 
