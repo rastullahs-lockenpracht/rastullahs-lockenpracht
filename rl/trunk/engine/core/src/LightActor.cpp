@@ -7,7 +7,7 @@ const String LightActor::TYPENAME="LightActor";
 LightActor::LightActor( const String& name, Light* pLight) : Actor(name)
 {
 	mLight = pLight;
-	mSceneNode->attachLight(mLight);
+	mSceneNode->attachObject(mLight);
 	mLight->setUserObject(this);
 }
 
@@ -15,7 +15,7 @@ LightActor::LightActor( const String& name, SceneNode* pParentSceneNode, Light* 
 	: Actor(name,pParentSceneNode)
 {
 	mLight = pLight;
-    mSceneNode->attachLight(mLight);
+    mSceneNode->attachObject(mLight);
 	mLight->setUserObject(this);
 }
 
@@ -47,7 +47,7 @@ void LightActor::setSpecularColour( Real red, Real green, Real blue )
 
 void LightActor::setSpotlightRange( Real innerangle, Real outerangle, Real falloff )
 {
-    mLight->setSpotlightRange(innerangle, outerangle, falloff );
+    mLight->setSpotlightRange(Degree(innerangle), Degree(outerangle), falloff );
 }
 
 void LightActor::setVisible( bool visible )

@@ -144,32 +144,32 @@ void Actor::translateWorldSpace(const Vector3& d)
 	setPosition(getPosition() + d);
 }
 
-void Actor::roll(Real angleunits)
+void Actor::roll(Real angle)
 {
-	rotate(Vector3::UNIT_Z, angleunits);
+	rotate(Vector3::UNIT_Z, angle);
 }
 
-void Actor::pitch(Real angleunits)
+void Actor::pitch(Real angle)
 {
-	rotate(Vector3::UNIT_X, angleunits);
+	rotate(Vector3::UNIT_X, angle);
 }
 
-void Actor::yaw(Real angleunits)
+void Actor::yaw(Real angle)
 {
-	rotate(Vector3::UNIT_Y, angleunits);
+	rotate(Vector3::UNIT_Y, angle);
 }
 
-void Actor::rotate(const Vector3& axis, Real angleunits)
+void Actor::rotate(const Vector3& axis, Real angle)
 {
 	Quaternion q;
-	q.FromAngleAxis(Math::AngleUnitsToRadians(angleunits),axis);
+	q.FromAngleAxis(Degree(angle),axis);
 	rotate(q);
 }
 
-void Actor::rotate(Real x,Real y,Real z, Real angleunits)
+void Actor::rotate(Real x, Real y, Real z, Real angle)
 {
 	Vector3 v = Vector3(x,y,z);
-	rotate( v, angleunits );
+	rotate(v, angle);
 }
 
 void Actor::rotate(const Quaternion& q)

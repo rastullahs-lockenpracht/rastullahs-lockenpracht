@@ -7,7 +7,7 @@ const String CameraActor::TYPENAME="CameraActor";
 CameraActor::CameraActor( const String& name, Camera* pCamera) : Actor(name)
 {
 	mCamera = pCamera;
-	mSceneNode->attachCamera(mCamera);
+	mSceneNode->attachObject(mCamera);
 	mCamera->setUserObject(this);
 }
 
@@ -15,7 +15,7 @@ CameraActor::CameraActor( const String& name, SceneNode* pParentSceneNode, Camer
 	: Actor(name,pParentSceneNode)
 {
 	mCamera = pCamera;
-	mSceneNode->attachCamera(mCamera);
+	mSceneNode->attachObject(mCamera);
 	mCamera->setUserObject(this);
 }
 
@@ -36,24 +36,24 @@ const Quaternion& CameraActor::getOrientation(void)
 	return mCamera->getOrientation();
 }
 //-----------------------------------------------------------------------
-void CameraActor::roll(Real angleunits)
+void CameraActor::roll(Real angle)
 {
-	mCamera->roll(angleunits);
+	mCamera->roll(Degree(angle));
 }
 //-----------------------------------------------------------------------
-void CameraActor::pitch(Real angleunits)
+void CameraActor::pitch(Real angle)
 {
-	mCamera->pitch(angleunits);
+	mCamera->pitch(Degree(angle));
 }
 //-----------------------------------------------------------------------
-void CameraActor::yaw(Real angleunits)
+void CameraActor::yaw(Real angle)
 {
-	mCamera->yaw(angleunits);
+	mCamera->yaw(Degree(angle));
 }
 //-----------------------------------------------------------------------
-void CameraActor::rotate(const Vector3& axis, Real angleunits)
+void CameraActor::rotate(const Vector3& axis, Real angle)
 {
-	mCamera->rotate(axis, angleunits);
+	mCamera->rotate(axis, Degree(angle));
 }
 //-----------------------------------------------------------------------
 void CameraActor::rotate(const Quaternion& q)
@@ -122,12 +122,12 @@ void CameraActor::setFixedYawAxis( bool useFixed, const Vector3& fixedAxis)
 //-----------------------------------------------------------------------
 void CameraActor::setFOVy(Real fovy)
 {
-	mCamera->setFOVy(fovy);
+	mCamera->setFOVy(Degree(fovy));
 }
 //-----------------------------------------------------------------------
 Real CameraActor::getFOVy(void) const
 {
-	return mCamera->getFOVy();
+	return mCamera->getFOVy().valueDegrees();
 }
 //-----------------------------------------------------------------------
 void CameraActor::setNearClipDistance(Real nearDist)
