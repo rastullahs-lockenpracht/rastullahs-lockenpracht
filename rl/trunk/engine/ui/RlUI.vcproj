@@ -211,6 +211,9 @@
 				RelativePath=".\components\include\ListboxWrappedTextItem.h">
 			</File>
 			<File
+				RelativePath=".\include\MainMenuWindow.h">
+			</File>
+			<File
 				RelativePath=".\include\MessageWindow.h">
 			</File>
 			<File
@@ -267,6 +270,9 @@
 			</File>
 			<File
 				RelativePath=".\components\src\ListboxWrappedTextItem.cpp">
+			</File>
+			<File
+				RelativePath=".\src\MainMenuWindow.cpp">
 			</File>
 			<File
 				RelativePath=".\src\MessageWindow.cpp">

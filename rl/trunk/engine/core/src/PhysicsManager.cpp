@@ -347,7 +347,7 @@ namespace rl
     {
         dSpace* s = thing->getSpace();
 
-        if( mCurrSpace = s )
+        if( mCurrSpace == s )
             activateGlobalSpace();
 
         if( s != mGlobalSpace && s->getNumGeoms() == 0 )

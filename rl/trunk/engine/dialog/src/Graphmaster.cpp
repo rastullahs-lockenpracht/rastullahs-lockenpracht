@@ -104,13 +104,13 @@ Match *Graphmaster::match(Nodemaster *node, Nodemaster *parent, component which,
 	if ( states.find(' ' + word + ' ') != string::npos ) 
 	{
 		//--	we're moving to next component match .. must return!
-		component c;	//--	an unfortunate workaround due to use of an enum
+		component c = Pattern;	//--	an unfortunate workaround due to use of an enum
 		switch ( which ) 
 		{
 			case Context: c = Pattern; break;
 			case Pattern: c = That; break;
 			case That: c = Topic; break;
-			case Topic: return NULL;
+			case Topic: return NULL;			
 		}
 		if ( (n = node->getChild(toUpper(word))) ) 
 		{

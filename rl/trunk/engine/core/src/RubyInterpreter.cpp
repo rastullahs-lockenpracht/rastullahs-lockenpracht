@@ -22,12 +22,6 @@
 
 namespace rl {
 
-static VALUE console_write(VALUE self, VALUE str)
-{
-//  UiSubsystem::getSingleton().writeToConsole( RubyInterpreter::val2str(str) + " \n" );
-  return Qnil;
-}
-
 RubyInterpreter::RubyInterpreter() : mScriptObjects(), mScriptInstances()
 {
     
@@ -76,8 +70,6 @@ void RubyInterpreter::initializeInterpreter(staticValueMethod func)
 	// Eigentlich nicht mehr notwendig, aber ohne das gibts nen Absturz?!?!
 //	rb_define_singleton_method(rb_defout, "write", (VALUE(*)(...))console_write, 1);
 	rb_define_singleton_method(rb_defout, "write", func, 1);
-	//RlCore Namensraum oeffnen
-	int status = -1;
 
     //Define Globals
 	loadProtected(&RubyInterpreter::loadGlobals, 0, "Ruby error while loading globals.rb");

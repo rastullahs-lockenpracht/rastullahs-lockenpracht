@@ -22,7 +22,7 @@ using namespace CEGUI;
 namespace rl {
 
 CommandMapperWindow::CommandMapperWindow()
-	: CeGuiWindow("commandmapper.xml", WND_MOUSE_INPUT)
+	: CeGuiWindow("commandmapper.xml", WND_KEYBOARD_INPUT)
 {
 	subscribeEventsToElements();
 }

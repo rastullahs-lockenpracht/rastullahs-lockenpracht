@@ -53,7 +53,7 @@ namespace rl
 		//Daten laden
 		DsaDataLoader::loadData("basis.xdi");
 		log("RlRules: Basisdaten geladen");
-		DsaDataLoader::loadData("kalchas.xml"); // XXX: Nur zu Testzwecken
+		//DsaDataLoader::loadData("kalchas.xml"); // XXX: Nur zu Testzwecken
 		log("RlRules: Testheld geladen");
 		
 		log("RlRules: Erzeugen abgeschlossen");		

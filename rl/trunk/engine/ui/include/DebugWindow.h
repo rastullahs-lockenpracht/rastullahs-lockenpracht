@@ -34,6 +34,8 @@ namespace rl {
         static DebugWindow& getSingleton(void);
         static DebugWindow* getSingletonPtr(void);
 
+		void setVisible(bool visible);
+		
         void setText(const Ogre::String& output);
   
 		bool frameStarted(const Ogre::FrameEvent& evt);

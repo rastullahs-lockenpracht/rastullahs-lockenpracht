@@ -32,7 +32,7 @@ GameActor::GameActor( const String& name, SceneNode* parentSceneNode, Entity* en
 		AudibleActor(name,parentSceneNode),
 		Actor(name,parentSceneNode)
 {
-	String args[] = {name};
+//	String args[] = {name};
 }
 
 void GameActor::playSound(const String &name)

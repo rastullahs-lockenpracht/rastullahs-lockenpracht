@@ -16,6 +16,9 @@
 
 #include "DebugWindow.h"
 #include "InputManager.h"
+#include "UiSubsystem.h"
+#include "Person.h"
+#include "GameActor.h"
 
 template<> rl::DebugWindow* Ogre::Singleton<rl::DebugWindow>::ms_Singleton = 0;
 
@@ -38,13 +41,10 @@ namespace rl
 		mText->moveToFront();
 		
 		addToRoot(mWindow);
-
-		Root::getSingleton().addFrameListener(this);
 	}
 
 	DebugWindow::~DebugWindow()
-	{
-		Root::getSingleton().removeFrameListener(this);
+	{		
     }
 
     void DebugWindow::setText(const Ogre::String& text)
@@ -76,5 +76,22 @@ namespace rl
 			StringConverter::toString(stats.worstFPS)+
 			"\nTriangle Count: " + 
 			StringConverter::toString(stats.triangleCount));
+
+		if (UiSubsystem::getSingleton().getActiveCharacter() != NULL && 
+			UiSubsystem::getSingleton().getActiveCharacter()->getActor() != NULL)
+		{
+			Ogre::Vector3 pos = UiSubsystem::getSingleton().getActiveCharacter()->getActor()->getSceneNode()->getWorldPosition();
+			setText("Player-Position "+StringConverter::toString(pos));
+		}
 	}
+
+	void DebugWindow::setVisible(bool visible)
+	{
+		if (visible)
+			Root::getSingleton().addFrameListener(this);
+		else
+			Root::getSingleton().removeFrameListener(this);
+		CeGuiWindow::setVisible(visible);
+	}
+
 }
