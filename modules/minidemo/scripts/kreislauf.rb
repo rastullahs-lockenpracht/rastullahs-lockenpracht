@@ -2,11 +2,21 @@ $CORE.log("Fackel erstellen...");
 torch = Torch.new("Fackel des Grauens");
 $CORE.log("Fackel erstellt.");
 
+$CORE.log("Fackellicht erstellen..");
+fackellicht = $AM.createLightActor("Das Licht der Fackel", LightObject::LT_POINT );
+fackellicht.getControlledObject().setCastShadows(false);
+fackellicht.getControlledObject().setDiffuseColour(1.0,0.8,0.0);
+fackellicht.getControlledObject().setAttenuation(500.0, 1.0,  0.005, 0.0 );
+torch.getActor().attach("SLOT_FAR_END", fackellicht );
+$CORE.log("Fackellicht erstellt.");
 
 held = $AM.createMeshActor("KreisLaufHeld", "held.mesh", PhysicsManager::GT_CAPSULE);
 held.placeIntoScene(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0);
 held.attach("Bone15",torch.getActor(), "SLOT_HANDLE", [ 1.0, 0.0, 0.0 ], 90.0 );
 $CORE.log("Fackel plaziert.");
+
+
+
 
 held.getControlledObject().startAnimation( "gehloop" );
 

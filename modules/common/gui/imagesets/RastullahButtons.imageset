@@ -3,4 +3,6 @@
     <Image Name="Buttons/Default" XPos="0" YPos="0" Width="37" Height="37" />
     <Image Name="Buttons/Quit" XPos="37" YPos="0" Width="37" Height="37" /> 
     <Image Name="Buttons/Cancel" XPos="74" YPos="0" Width="37" Height="37" /> 
+    <Image Name="Buttons/OpenDoor" XPos="185" YPos="0" Width="37" Height="37" />
+    <Image Name="Buttons/CloseDoor" XPos="222" YPos="0" Width="37" Height="37" />
 </Imageset>

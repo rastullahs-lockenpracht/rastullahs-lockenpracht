@@ -4,7 +4,7 @@ load 'actions.rb'
 
 class ShowActionMenuAction < RubyAction
   def initialize
-    super("Aktionen", "Aktionen anzeigen")
+    super("showactions", "Aktionen anzeigen")
   end
   
   def doAction(object, actor, target)
@@ -14,7 +14,7 @@ end
 
 class CampAction < RubyAction
   def initialize
-    super("Rasten", "Das Zelt aufschlagen und rasten")
+    super("makecamp", "Das Zelt aufschlagen und rasten")
   end
   
   def doAction(object, actor, target)
@@ -24,7 +24,7 @@ end
 
 class QuitGameAction < RubyAction
   def initialize
-    super("Ende", "Das Spiel beenden")
+    super("quitgame", "Das Spiel beenden")
   end
   
   def doAction(object, actor, target)
@@ -34,7 +34,7 @@ end
 
 class ToggleConsoleAction < RubyAction
   def initialize
-    super("Konsole", "Konsole zeigen/verstecken")
+    super("toggleconsole", "Konsole zeigen/verstecken")
   end
   
   def doAction(object, actor, target)
@@ -44,7 +44,7 @@ end
 
 class ToggleDebugWindowAction < RubyAction
   def initialize
-    super("DebugWindow", "DebugWindow zeigen/verstecken")
+    super("toggledebugwindow", "DebugWindow zeigen/verstecken")
   end
   
   def doAction(object, actor, target)
@@ -54,7 +54,7 @@ end
 
 class ToggleGameLogWindowAction < RubyAction
     def initialize
-        super("GameLogWindow", "Game Log zeigen/verstecken")
+        super("togglegamelogwindow", "Game Log zeigen/verstecken")
     end
     
     def doAction(object, actor, target)
@@ -64,7 +64,7 @@ end
 
 class ToggleViewModeAction < RubyAction
   def initialize
-    super("Sichtmodus", "First/ThirdPerson umschalten")
+    super("toggleviewmode", "First/ThirdPerson umschalten")
   end
   
   def doAction(object, actor, target)
@@ -75,7 +75,7 @@ end
 
 class ResetCameraAction < RubyAction
   def initialize
-    super("Kamera", "Kamera zurücksetzen")
+    super("resetcamera", "Kamera zurücksetzen")
   end
   
   def doAction(object, actor, target)
@@ -86,7 +86,7 @@ end
 
 class MakeScreenshotAction < RubyAction
   def initialize
-    super("Screenshot", "Screenshot erstellen")
+    super("makescreenshot", "Screenshot erstellen")
   end
   
   def doAction(object, actor, target)
@@ -96,18 +96,17 @@ end
 
 class ToggleOdeDebugAction < RubyAction
   def initialize
-    super("OdeDebug", "Ode-Koerper anzeigen")
+    super("toggleodedebug", "Ode-Koerper anzeigen")
   end
   
   def doAction(object, actor, target)
-    gc = PhysicsManager.getSingleton
-    gc.toggleDebugOde();
+    $PM.toggleDebugOde();
   end
 end
 
 class ShowObjectActionsAction < RubyAction
   def initialize
-    super("ShowObjectActions", "Aktionen anzeigen")
+    super("showobjectactions", "Objektaktionen anzeigen")
   end
 
   def doAction(object, actor, target)
@@ -117,7 +116,7 @@ end
 
 class ShowCharacterSheetAction < RubyAction
   def initialize
-    super("Charakterblatt", "Charakterblatt des aktiven Helden anzeigen")
+    super("showcharactersheet", "Charakterblatt des aktiven Helden anzeigen")
   end
 
   def doAction(object, actor, target)
@@ -129,9 +128,9 @@ end
 class PlayerSettings
   
   def PlayerSettings.addPlayerActions(player)    
-    grpGrp1 = ActionGroup.new("Spielaktionen")
-    grpGrp2 = ActionGroup.new("Anzeige")
-    grpGrp3 = ActionGroup.new("Optionen")
+    grpGrp1 = ActionGroup.new("GameActions")
+    grpGrp2 = ActionGroup.new("View")
+    grpGrp3 = ActionGroup.new("Options")
     
     player.addActionInGroup(ShowActionMenuAction.new, grpGrp1, 7) # ACT_DISABLED
     player.addActionInGroup(CampAction.new, grpGrp1) 
