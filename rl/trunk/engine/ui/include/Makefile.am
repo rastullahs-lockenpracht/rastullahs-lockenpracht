@@ -9,11 +9,11 @@ noinst_HEADERS = \
 	DebugWindow.h \
 	DialogWindow.h \
 	FlyingCameraController.h \
+	GameController.h \
 	GameLoggerWindow.h \
 	InputManager.h \
 	InventoryWindow.h \
 	MessageWindow.h \
-	ThirdPersonGameController.h \
 	UiPrerequisites.h \
 	UiSubsystem.h \
 	WindowManager.h \

@@ -13,12 +13,12 @@ libRlUi_la_SOURCES = \
 	DebugWindow.cpp \
 	DialogWindow.cpp \
 	FlyingCameraController.cpp \
+	GameController.cpp \
 	GameLoggerWindow.cpp \
 	InputManager.cpp \
 	InventoryWindow.cpp \
 	MainMenuWindow.cpp \
 	MessageWindow.cpp \
-	ThirdPersonGameController.cpp \
 	UiSubsystem.cpp \
 	WindowManager.cpp \
 	../components/src/ListboxWrappedTextItem.cpp

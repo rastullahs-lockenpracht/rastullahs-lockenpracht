@@ -32,11 +32,11 @@ using namespace std;
 
 DialogWindow& DialogWindow::getSingleton()
 {
-	return Singleton<DialogWindow>::getSingleton();
+	return Ogre::Singleton<DialogWindow>::getSingleton();
 }
 DialogWindow* DialogWindow::getSingletonPtr()
 {
-	return Singleton<DialogWindow>::getSingletonPtr();
+	return Ogre::Singleton<DialogWindow>::getSingletonPtr();
 }
 
 DialogWindow::DialogWindow(string dialogFile) : 

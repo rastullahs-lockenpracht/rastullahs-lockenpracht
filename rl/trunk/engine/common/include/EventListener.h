@@ -68,7 +68,7 @@ class DispatchFunctor:
     public std::binary_function<EventListener<Event>*, Event*, bool> {
 public:
     /// Ein Functor, der einen EventListener und einen Event entgegennimmt
-    bool operator() (EventListener<Event> *listener, Event *event) const;
+    inline bool operator() (EventListener<Event> *listener, Event *event) const;
 };
 
 /**

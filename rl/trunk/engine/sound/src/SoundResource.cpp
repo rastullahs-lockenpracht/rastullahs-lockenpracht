@@ -47,10 +47,12 @@ SoundResource::SoundResource(const String &name):
     mFadeOutThread(this, false),
     mStreamThread(this),
     mData(0),
-    mBuffers(mDefaultBufferCount)
+    mBuffers(mDefaultBufferCount),
+    mSource(0)
 {
     mName = name;
     alGenSources(1, &mSource);
+    check();
     alGenBuffers(mBuffers.size(), &mBuffers[0]);
     check();
     /// Ein paar Standardwerte setzen
@@ -62,6 +64,7 @@ SoundResource::SoundResource(const String &name):
     mFadeInThread.addEventListener(this);
     mFadeOutThread.addEventListener(this);
     mStreamThread.addEventListener(this);
+    std::cerr<<name<<" "<<mSource<<std::endl;
 }
 
 /**
@@ -72,6 +75,7 @@ SoundResource::~SoundResource()
 {
     alDeleteBuffers(mBuffers.size(), &mBuffers[0]);
     alDeleteSources(1, &mSource);
+    mSource = 0;
 }
 
 /**

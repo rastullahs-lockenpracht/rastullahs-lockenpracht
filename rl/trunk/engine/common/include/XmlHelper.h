@@ -23,7 +23,7 @@
 #include <xercesc/util/XMLChar.hpp>
 #include <xercesc/util/TransService.hpp>
 
-#include <CEGUIString.h>
+#include <CEGUI/CEGUIString.h>
 
 using XERCES_CPP_NAMESPACE::XMLTranscoder;
 using XERCES_CPP_NAMESPACE::XMLTransService;

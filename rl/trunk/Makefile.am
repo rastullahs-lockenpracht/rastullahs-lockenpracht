@@ -84,7 +84,6 @@ nobase_dist_pkgdata_DATA = \
 	modules/minidemo/scripts/physik.rb \
 	modules/minidemo/scripts/simple.rb \
 	modules/minidemo/scripts/sound.rb \
-	modules/minidemo/scripts/startup.rb \
 	modules/minidemo/scripts/test.rb \
 	modules/minidemo/scripts/test_rules.rb \
 	modules/minidemo/scripts/test_rules_actions.rb \
