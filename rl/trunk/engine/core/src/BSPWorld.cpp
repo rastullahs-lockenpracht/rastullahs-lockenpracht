@@ -72,7 +72,7 @@ namespace rl {
         newVp->setBackgroundColour(ColourValue(0,0,0));
 	}
 
-	void BSPWorld::loadScene( const String&  levelName )
+	void BSPWorld::doLoadScene( const String&  levelName )
 	{
 		if( mbSceneLoaded )
 			clearScene();

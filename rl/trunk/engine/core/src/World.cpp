@@ -116,8 +116,7 @@ namespace rl {
 
 	Vector3 World::getStartPoint() const
 	{
-		//return mSceneMgr->getSuggestedViewpoint().position;
-		return Vector3(0, 20, 40);
+		return mSceneMgr->getSuggestedViewpoint().position;
 	}
 	
     Entity* World::getSceneEntity()
@@ -125,4 +124,10 @@ namespace rl {
         Throw(OperationNotSupportedException,
             "SceneManager does not support TriMesh-Retrieval");
     }
+    
+	void World::loadScene(const String& levelName)
+	{
+	    doLoadScene(levelName);
+	    PhysicsManager::getSingletonPtr()->setWorldScene(this);
+	}
 }

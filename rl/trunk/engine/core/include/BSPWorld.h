@@ -32,11 +32,12 @@ class _RlCoreExport BSPWorld : public World
         BSPWorld();
         ~BSPWorld();
  
-        void clearScene();
-		void loadScene( const String&  levelName );
-		void initializeDefaultCamera();	
-        void setSkyBox(bool enable, const String &materialName,
+        virtual void clearScene();
+		virtual void initializeDefaultCamera();	
+        virtual void setSkyBox(bool enable, const String &materialName,
 			Real distance, bool drawFirst );
+	protected:
+		virtual void doLoadScene(const String& levelName);	
 };
 
 }

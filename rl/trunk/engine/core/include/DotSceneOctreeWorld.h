@@ -29,12 +29,13 @@ namespace rl {
         DotSceneOctreeWorld();
         ~DotSceneOctreeWorld();
 
-        void clearScene();
-        void loadScene( const String&  levelName );
-        void initializeDefaultCamera();	
-        Entity* getSceneEntity();
+        virtual void clearScene();
+        virtual void initializeDefaultCamera();	
+        virtual Entity* getSceneEntity();
         
     private:
+        virtual void doLoadScene(const String& levelName);
+
         Entity* mSceneEntity;
     };
 

@@ -32,7 +32,7 @@ namespace rl {
 	{
 	}
 
-	void NatureWorld::loadScene(const String& levelName)
+	void NatureWorld::doLoadScene(const String& levelName)
 	{
 		initializeDefaultCamera();
 
@@ -97,16 +97,9 @@ namespace rl {
         // Don't yaw along variable axis, causes leaning
         mCamera->setFixedYawAxis(true, Vector3::UNIT_Z);
 
-
 		// Create one viewport, entire window
         Viewport* newVp = Ogre::Root::getSingleton().getAutoCreatedWindow()->addViewport(mCamera->getOgreCamera(),1);
         newVp->setBackgroundColour(ColourValue(0,0,0));
 	}
-
-	Quaternion NatureWorld::getWorldAxis()
-	{
-		return Quaternion::IDENTITY;
-	}
-
 }
 

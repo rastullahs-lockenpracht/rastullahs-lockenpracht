@@ -32,7 +32,7 @@ namespace rl {
 	{
 	}
 
-	void TerrainWorld::loadScene(const String& levelName)
+	void TerrainWorld::doLoadScene(const String& levelName)
 	{	
         initializeDefaultCamera();
 
@@ -97,11 +97,5 @@ namespace rl {
         ColourValue fadeColour(0.93, 0.86, 0.76);
         newVp->setBackgroundColour(fadeColour);
 	}
-
-	Quaternion TerrainWorld::getWorldAxis()
-	{
-		return Quaternion::IDENTITY;
-	}
-
 }
 

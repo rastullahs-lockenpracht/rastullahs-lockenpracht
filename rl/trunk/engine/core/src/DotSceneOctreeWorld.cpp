@@ -75,7 +75,7 @@ namespace rl {
         newVp->setBackgroundColour(ColourValue(0,0,0));
     }
 
-    void DotSceneOctreeWorld::loadScene(const String& levelName)
+    void DotSceneOctreeWorld::doLoadScene(const String& levelName)
     {
         if( mbSceneLoaded )
             clearScene();
