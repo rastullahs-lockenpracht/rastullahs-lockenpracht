@@ -26,69 +26,41 @@ namespace rl {
     class _RlCoreExport PhysicalThing
     {
     public:
-        PhysicalThing(OgreOde::Space* space);
-        ~PhysicalThing(void);
+        PhysicalThing(OgreOde::Geometry* geometry, OgreOde::Space* space = 0);
+        ~PhysicalThing();
 
-        // Called by the Actor
         void setPosition(Real x, Real y, Real z);
         void setOrientation(Real w, Real x, Real y, Real z);
 
-        // Getters...
         Actor* getActor();
-        OgreOde::Body* getBody();
+        
         OgreOde::Geometry* getGeometry();
+        OgreOde::Body* getBody();
+        OgreOde::Mass* getMass();
         OgreOde::Space* getSpace();
         void setSpace(OgreOde::Space* space);
 
         bool isDynamic();
         void setDynamic(bool dynamic);
 
-        void stopDynamics();
-
-        // Synchronize with Actor
-        void update(void);
-
-        // Forces
-        void addForce(const Vector3& direction);
-        void addForce(Real dir_x, Real dir_y, Real dir_z);
-        void addForceWorldSpace(const Vector3& direction);
-        void addForceWorldSpace(Real dir_x, Real dir_y, Real dir_z);
-        void addForce(const Vector3& direction, const Vector3& atPosition);
-        void addForce(Real dir_x, Real dir_y, Real dir_z,
-            Real pos_x, Real pos_y, Real pos_z);
-        void addForceWorldSpace(const Vector3& direction,
-            const Vector3& atPosition);
-        void addForceWorldSpace(Real dir_x, Real dir_y, Real dir_z,
-            Real pos_x, Real pos_y, Real pos_z);
-        void addTorque(const Vector3& direction);
-        void addTorque(Real x, Real y, Real z);
-        void addTorqueWorldSpace(const Vector3& direction);
-        void addTorqueWorldSpace(Real x, Real y, Real z);
-
-        bool testCollide(PhysicalThing* thing);
-
-        // Geometry ( for Collision )
-        //void createCappedCylinderGeometry(Real radius, Real length,
-        //    const Vector3& position = Vector3::ZERO,
-        //    const Quaternion& orientation = Quaternion::IDENTITY );
-        //void createBoxGeometry( const Vector3& length,
-        //    const Vector3& position = Vector3::ZERO,
-        //    const Quaternion& orientation = Quaternion::IDENTITY );
-        //void createSphereGeometry( Real radius,
-        //    const Vector3& position = Vector3::ZERO,
-        //    const Quaternion& orientation = Quaternion::IDENTITY );
-
-        //// Mass ( for Dynamics )
-        //void createCappedCylinderMass(Real density, Real radius,
-        //    Real length, const Vector3& position = Vector3::ZERO,
-        //    const Quaternion& orientation = Quaternion::IDENTITY );
-        //void createBoxMass(Real density, const Vector3& length,
-        //    const Vector3& position = Vector3::ZERO,
-        //    const Quaternion& orientation = Quaternion::IDENTITY );
-        //void createSphereMass( Real density, Real radius,
-        //    const Vector3& position = Vector3::ZERO,
-        //    const Quaternion& orientation = Quaternion::IDENTITY );
-
+        void addForce(const Ogre::Vector3& direction);
+        void addForce(Ogre::Real dir_x, Ogre::Real dir_y, Ogre::Real dir_z);
+        void addForceWorldSpace(const Ogre::Vector3& direction);
+        void addForceWorldSpace(Ogre::Real dir_x, Ogre::Real dir_y,
+            Ogre::Real dir_z);
+        void addForce(const Ogre::Vector3& direction,
+            const Ogre::Vector3& atPosition);
+        void addForce(Ogre::Real dir_x, Ogre::Real dir_y, Ogre::Real dir_z,
+            Ogre::Real pos_x, Ogre::Real pos_y, Ogre::Real pos_z);
+        void addForceWorldSpace(const Ogre::Vector3& direction,
+            const Ogre::Vector3& atPosition);
+        void addForceWorldSpace(Ogre::Real dir_x, Ogre::Real dir_y,
+            Ogre::Real dir_z,
+            Ogre::Real pos_x, Ogre::Real pos_y, Ogre::Real pos_z);
+        void addTorque(const Ogre::Vector3& direction);
+        void addTorque(Ogre::Real x, Ogre::Real y, Ogre::Real z);
+        void addTorqueWorldSpace(const Ogre::Vector3& direction);
+        void addTorqueWorldSpace(Ogre::Real x, Ogre::Real y, Ogre::Real z);
 
         /** Sets the 'bounciness' of this object.
         * @remarks
@@ -102,11 +74,12 @@ namespace rl {
         * 		this is a dampening value to ensure small velocities do not
         * 		cause bounce.
         */
-        void setBounceParameters(Real restitutionValue,	Real velocityThreshold);
+        void setBounceParameters(Ogre::Real restitutionValue,
+            Ogre::Real velocityThreshold);
         /** Gets the cefficient of restitution (bounciness) for this object. */
-        Real getBounceRestitutionValue(void);
+        Ogre::Real getBounceRestitutionValue(void);
         /** Gets the bounce velocity threshold for this object. */
-        Real getBounceVelocityThreshold(void);
+        Ogre::Real getBounceVelocityThreshold(void);
         /** Sets the softness of this object, which determines how much it is allowed to 
         * penetrate other objects.
         * @remarks
@@ -114,9 +87,9 @@ namespace rl {
         * 	@param softness Softness factor (0 is completely hard). Softness will be combined from
         * 		both objects involved in a collision to determine how much they will penetrate.
         */
-        void setSoftness(Real softness);
+        void setSoftness(Ogre::Real softness);
         /** Gets the softness factor of this object. */
-        Real getSoftness(void);
+        Ogre::Real getSoftness(void);
         /** Sets the Coulomb frictional coefficient for this object.
         * @remarks
         *  This coefficient affects how much an object will slip when it comes
@@ -125,14 +98,11 @@ namespace rl {
         *  0 means no friction, Math::POS_INFINITY means infinite friction ie no slippage.
         *  Note that friction between these 2 bounds is more CPU intensive so use with caution.
         */
-        void setFriction(Real friction);
+        void setFriction(Ogre::Real friction);
         /** Gets the Coulomb frictional coefficient for this object. */
-        Real getFriction(void);
-        void setSoftErp(Real erp);
-        Real getSoftErp(void);
-
-
-        // Speed
+        Ogre::Real getFriction(void);
+        void setSoftErp(Ogre::Real erp);
+        Ogre::Real getSoftErp(void);
 
         /** Sets the current linear velocity of this object.
         * @remarks
@@ -182,13 +152,8 @@ namespace rl {
         Real mFriction;
         Real mSoftErp;
         
-        // For Collision
         OgreOde::Geometry* mGeometry;
-        // For Dynamics
-        OgreOde::Body* mBody;
-        // For Grouping
         OgreOde::Space* mSpace;
-        // Assigned Actor
         Actor* mActor;    
     };
 
