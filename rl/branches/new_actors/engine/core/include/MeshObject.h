@@ -14,29 +14,30 @@
 *  http://www.perldoc.com/perl5.6/Artistic.html.
 */
 
-#include "ActorControlledObject.h"
-#include "Actor.h"
+#ifndef __MeshObject_H__
+#define __MeshObject_H__
 
-using namespace Ogre;
+#include "CorePrerequisites.h"
+#include "ActorControlledObject.h"
+
+#include <OgreEntity.h>
 
 namespace rl {
-    ActorControlledObject::ActorControlledObject()
-        :   mMovableObject(0)
+
+    class _RlCoreExport MeshObject : public ActorControlledObject
     {
-    }
-    
-    void ActorControlledObject::setActor(Actor* actor)
-    {
-        mMovableObject->setUserObject(actor);
-    }
-    
-    Actor* ActorControlledObject::getActor()
-    {
-        return dynamic_cast<Actor*>(mMovableObject->getUserObject());
-    }
-    
-    MovableObject* ActorControlledObject::getMovableObject()
-    {
-        return mMovableObject;
-    }
+    public:
+        MeshObject(const Ogre::String& name, const Ogre::String& meshname);
+        
+        /// Wie ActorControlledObject::getMovableObject()
+        /// Nur schon gebrauchsfertig gecastet.
+        Ogre::Entity* getEntity();
+        
+        /// Groesse der Boundingbox
+        Ogre::Vector3 getSize();
+        
+        void startAnimation(const Ogre::String&);
+        void stopAnimation(const Ogre::String&);
+    };
 }
+#endif

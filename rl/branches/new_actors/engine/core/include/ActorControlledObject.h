@@ -29,6 +29,7 @@ namespace rl {
     {
     public:
         ActorControlledObject();
+        virtual ~ActorControlledObject = 0 {};
         
         void setActor(Actor* actor);
         Actor* getActor();
