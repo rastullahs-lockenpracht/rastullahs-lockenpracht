@@ -1,4 +1,4 @@
-﻿# TODO Skript ausbauen in Hinblick auf Interaktion Held <-> Item.
+# TODO Skript ausbauen in Hinblick auf Interaktion Held <-> Item.
 # und Aktoren untereinander.
 # Halt diese Klassen wie sie hier beschrieben sind auch benutzen.
 # TODO Über Speichersparen nachdenken. Inwiefern können Instanzen
@@ -19,8 +19,8 @@ class OpenDoorAction < RubyAction
   end
   
   def doAction(door, user, target)    
-    doorActor = door.getActor();  
-    doorActor.getControlledObject.startAnimation("auf", 1.0, 1); 
+    doorActor = door.getActor(); 
+    doorActor.getControlledObject.replaceAnimation("zu", "auf", 1.0, 1);
     # door.setOpen(true);
   end
 end
@@ -37,7 +37,7 @@ class CloseDoorAction < RubyAction
   
   def doAction(door, user, target)    
     doorActor = door.getActor();
-    doorActor.getControlledObject.startAnimation("zu", 1.0, 1); 
+    doorActor.getControlledObject.replaceAnimation("auf", "zu", 1.0, 1); 
     # door.setOpen(false);
   end
 end
@@ -50,8 +50,8 @@ class Door < RubyItem
     $CORE.log("door-actor erstellt.");
     setActor(doorActor);
     $CORE.log("actor gesetzt");
-    soundActor = $AF.createSoundActor("doorcreak.ogg");
-    doorActor.attach("Bone01", soundActor);
+    #soundActor = $AF.createSoundActor("doorcreak.ogg");
+    #doorActor.attach("Bone01", soundActor);
     $CORE.log("Sound hinzugefuegt");
     
     @open = isOpen;    

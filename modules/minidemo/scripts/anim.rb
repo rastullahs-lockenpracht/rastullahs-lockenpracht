@@ -43,7 +43,10 @@ anim = boBotter.getAnimation( "Walk" );
 # Geschwindigkeit setzen
 anim.setSpeed( 4.0 );
 
-
+$door1 = $AM.getActor("Tuer_1");
+$door1.getControlledObject().startAnimation( "auf", 1.0, 1 );
+#$door1.getControlledObject().startAnimation( "zu" );
+#$door1.getControlledObject().startAnimation( "auf" );
 
 print( "Erstelle Fackel" );
 # Erzeugen einer Fackel
