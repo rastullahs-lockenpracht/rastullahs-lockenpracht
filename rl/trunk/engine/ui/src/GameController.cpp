@@ -374,25 +374,15 @@ namespace rl {
 
         if (cmdmap->isMovementActive(MOVE_LEFT))
             translation.x = -mMoveScale;
-
-        if (im->isKeyDown(KC_P))
-            CoreSubsystem::getSingleton().makeScreenshot("rastullah");
-
-        //if (im->isKeyDown(KC_NUMPAD0))
-        //    resetCamera();
             
-        //if (im->isKeyDown(KC_F))
-        //    setViewMode(mViewMode == VM_FIRST_PERSON ?
-        //        VM_THIRD_PERSON : VM_FIRST_PERSON);
-            
-        if (im->isKeyDown(KC_SPACE) && fabs(mFallSpeed) <= 0.1)
+        if (cmdmap->isMovementActive(MOVE_JUMP) && fabs(mFallSpeed) <= 0.1)
             mFallSpeed = -200;
 
-        if (im->isKeyDown(KC_L))
-            mOdeWorld->setShowDebugObjects(!mOdeWorld->getShowDebugObjects());
+        //if (im->isKeyDown(KC_L))
+        //    mOdeWorld->setShowDebugObjects(!mOdeWorld->getShowDebugObjects());
             
         translation.normalise();
-        if (im->isKeyDown(KC_LSHIFT))
+        if (cmdmap->isMovementActive(MOVE_JUMP))
             translation *= 2;
     }
     //------------------------------------------------------------------------

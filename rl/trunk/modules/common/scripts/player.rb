@@ -74,16 +74,27 @@ class ResetCameraAction < RubyAction
     end
 end
 
+class MakeScreenshotAction < RubyAction
+    def initialize
+        super("Screenshot", "Screenshot erstellen")
+    end
+    
+    def doAction(object, actor, target)
+        CoreSubsystem.getSingleton().makeScreenshot("rastullah");
+    end
+end
+
 class PlayerSettings
 
     def PlayerSettings.addPlayerActions(player)
-        player.addAction(ShowActionMenuAction.new, 6) # ACT_DISABLED
+        player.addAction(ShowActionMenuAction.new, 7) # ACT_DISABLED
         player.addAction(CampAction.new) 
         player.addAction(QuitGameAction.new) 
         player.addAction(ToggleConsoleAction.new)
         player.addAction(ToggleDebugWindowAction.new)
         player.addAction(ToggleViewModeAction.new)
         player.addAction(ResetCameraAction.new)
+        player.addAction(MakeScreenshotAction.new)
     end
 
     def PlayerSettings.preparePlayer(player)

@@ -37,7 +37,8 @@ namespace rl {
 		TURN_LEFT = 1<<4,
 		TURN_RIGHT = 1<<5,
 		MOVE_RUN = 1<<6,
-		MOVE_SNEAK = 1<<7
+		MOVE_SNEAK = 1<<7,
+		MOVE_JUMP = 1<<8
 	};
 
 	enum MapType

@@ -40,6 +40,7 @@ namespace rl {
 		mMovementCommands.insert(make_pair(KC_Q, TURN_LEFT));
 		mMovementCommands.insert(make_pair(KC_E, TURN_RIGHT));
 		mMovementCommands.insert(make_pair(KC_LSHIFT, MOVE_RUN));
+		mMovementCommands.insert(make_pair(KC_SPACE, MOVE_JUMP));
 
 		ActionEntry ae;
 		ae.actionClass = "ShowActionMenuAction";
@@ -67,6 +68,9 @@ namespace rl {
 		ae.actionName = "Kamera";
 		mKeyCommandsOffBattle.insert(make_pair(KC_NUMPAD0, ae));
 
+        ae.actionClass = "MakeSceenshotAction";
+		ae.actionName = "Screenshot";
+		mKeyCommandsOffBattle.insert(make_pair(KC_P, ae));
 	}
 
 	CommandMapper::~CommandMapper()
