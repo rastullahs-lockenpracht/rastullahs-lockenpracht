@@ -72,6 +72,8 @@ public:
 	virtual void animationUnpaused(rl::AnimationEvent *anEvent) const = 0;
 };
 
+%apply SWIGTYPE *DYNAMIC { Animation * };
+
 %feature("director") AnimationFrameListener; 
 class AnimationFrameListener
 {
@@ -95,7 +97,7 @@ public:
 	AnimationFrameEvent( rl::Animation* anim,  const unsigned int reason, Ogre::Real frameNumber );
 };
 
-%apply SWIGTYPE *DYNAMIC { Animation * };
+
 class Animation {
 public:
 	bool isPaused() const;

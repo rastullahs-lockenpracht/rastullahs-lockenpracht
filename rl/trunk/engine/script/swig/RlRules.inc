@@ -138,6 +138,9 @@ namespace rl {
 		const rl::CeGuiString& getName() const;
 	};
 	
+	// Vor Action stehen!
+	%apply SWIGTYPE *DYNAMIC { GameObject * };
+	
 	static const int ACT_NORMAL = 1<<0;
 	static const int ACT_INVIS_DESC = 1<<1;
 	static const int ACT_DISABLED = 1<<2;
@@ -161,7 +164,6 @@ namespace rl {
     };
     
     %feature("director") GameObject;
-    %apply SWIGTYPE *DYNAMIC { GameObject * };
     class GameObject
     {
     public:
@@ -249,7 +251,6 @@ static swig_type_info *GameObject_dynamic_cast(void **ptr)
         *ptr=reinterpret_cast<void*>(pPerson);
         return SWIGTYPE_p_rl__Person;
     }
-
     rl::Creature *pCreature=dynamic_cast<rl::Creature*>(*ppGameObject);
     if (pCreature) {
         *ptr=reinterpret_cast<void*>(pCreature);
