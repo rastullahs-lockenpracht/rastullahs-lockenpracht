@@ -8,11 +8,10 @@ $World = $Core.getWorld();
 $World.setSkyBox(true, "rl/dsa07");
 $Core.log("skybox set");
 
-hero = new Hero;
+hero = Hero.new;
 hero.getActor().placeIntoScene(0.0, 20.0, 40.0, 1.0, 0.0, 0.0, 0.0);
 PlayerSettings.preparePlayer(hero);
 $Ui.setActiveCharacter(hero);
 
-torch = new Torch("Fackel des Grauens");
+torch = Torch.new("Fackel des Grauens");
 torch.getActor().placeIntoScene(position, orientierung);
-
