@@ -203,14 +203,14 @@ void TLFrameWindow::layoutComponentWidgets()
     d_titlebar->setSize(titleSz);
 
     // set size of close button to be the same as the height for the title bar.
-    float closeSize = ismgr.getImageset(ImagesetName)->getImage(CloseButtonNormalImageName).getWidth();
+	float closeSize = 0.8f * ismgr.getImageset(ImagesetName)->getImage(CloseButtonNormalImageName).getWidth();
     d_closeButton->setSize(Size(closeSize, closeSize));
 
     // calculate position for close button (somewhere over the end of the titlbar)
     float closeX = titleSz.d_width - closeSize - 
-        ismgr.getImageset(TLTitlebar::ImagesetName)->getImage(TLTitlebar::SysAreaRightImageName).getWidth();
+		( ismgr.getImageset(TLTitlebar::ImagesetName)->getImage(TLTitlebar::SysAreaRightImageName).getWidth() * 0.5f ) ;
 
-    float closeY = TitlebarYOffset + ((titleSz.d_height - closeSize) / 2);
+	float closeY = TitlebarYOffset; //+ ((titleSz.d_height - closeSize) / 2);
 
     d_closeButton->setPosition(Point(closeX, closeY));
 }

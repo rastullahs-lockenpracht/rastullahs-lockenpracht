@@ -72,6 +72,7 @@ TLEditbox::TLEditbox(const String& type, const String& name) :
     d_selection = &iset->getImage(SelectionBrushImageName);
 
     setMouseCursor(&iset->getImage(MouseCursorImageName));
+    setNormalTextColour( colour( 0.0,0.0,0.0) );
 }
 
 

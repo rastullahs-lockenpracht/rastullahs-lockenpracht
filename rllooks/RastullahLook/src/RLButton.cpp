@@ -88,6 +88,9 @@ TLButton::TLButton(const String& type, const String& name) :
     d_textXOffset = 0.0f;
 
     setMouseCursor(&iset->getImage(MouseCursorImageName));
+    setNormalTextColour( colour( 0.33,0.25,0.094 ) );
+    setHoverTextColour( colour( 0.43,0.35,0.194 ) );
+    setPushedTextColour( colour( 0.27,0.20,0.044 ) );
 
     addTLButtonProperties();
 }
@@ -267,7 +270,8 @@ void TLButton::drawNormal(float z)
     //
     // Draw label text
     //
-    absrect.d_top += (absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f;
+	//absrect.d_top += (absrect.getHeight() - getFont()->getL->getLineSpacing()) * 0.5f;
+    absrect.d_top += (absrect.getHeight() - getFont()->getLineSpacing()) * 0.35f;
     absrect.d_left += d_textXOffset * absrect.getWidth();
     colours.setColours(d_normalColour);
     colours.setAlpha(alpha_comp);
@@ -332,7 +336,8 @@ void TLButton::drawHover(float z)
     //
     // Draw label text
     //
-    absrect.d_top += (absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f;
+	//absrect.d_top += (absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f;
+    absrect.d_top += (absrect.getHeight() - getFont()->getLineSpacing()) * 0.35f;
     absrect.d_left += d_textXOffset * absrect.getWidth();
     colours.setColours(d_hoverColour);
     colours.setAlpha(alpha_comp);
@@ -397,7 +402,8 @@ void TLButton::drawPushed(float z)
     //
     // Draw label text
     //
-    absrect.d_top += (absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f;
+	//absrect.d_top += (absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f;
+    absrect.d_top += (absrect.getHeight() - getFont()->getLineSpacing()) * 0.35f;
     absrect.d_left += d_textXOffset * absrect.getWidth();
     colours.setColours(d_pushedColour);
     colours.setAlpha(alpha_comp);
@@ -462,7 +468,7 @@ void TLButton::drawDisabled(float z)
     //
     // Draw label text
     //
-    absrect.d_top += (absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f;
+	absrect.d_top += (absrect.getHeight() - getFont()->getLineSpacing()) * 0.35f;
     absrect.d_left += d_textXOffset * absrect.getWidth();
     colours.setColours(d_disabledColour);
     colours.setAlpha(alpha_comp);

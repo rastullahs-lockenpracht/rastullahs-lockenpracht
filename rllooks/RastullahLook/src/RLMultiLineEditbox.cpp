@@ -81,8 +81,8 @@ TLMultiLineEditbox::TLMultiLineEditbox(const String& type, const String& name) :
     // setup background brush
     d_background.setImage(&iset->getImage(BackgroundImageName));
     d_background.setPosition(Point(d_frameLeftSize, d_frameTopSize));
-    d_background.setHorzFormatting(RenderableImage::HorzStretched);
-    d_background.setVertFormatting(RenderableImage::VertStretched);
+    d_background.setHorzFormatting(RenderableImage::HorzTiled);
+	d_background.setVertFormatting(RenderableImage::VertTiled);
 
     // set selection brush
     d_selectionBrush = &iset->getImage(SelectionBrushImageName);
@@ -92,6 +92,8 @@ TLMultiLineEditbox::TLMultiLineEditbox(const String& type, const String& name) :
 
     // set cursor for this window.
     setMouseCursor(&iset->getImage(MouseCursorImageName));
+    setNormalTextColour( colour( 0.0,0.0,0.0) );
+	//setSelectedTextColour(const colour& col);
 }
 
 

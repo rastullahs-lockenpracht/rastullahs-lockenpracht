@@ -85,6 +85,7 @@ TLListbox::TLListbox(const String& type, const String& name) :
 
     // set cursor for this window.
     setMouseCursor(&iset->getImage(MouseCursorImageName));
+    //setTextColour( colour( 0.84,0.82,0.7176 ) );
 }
 
 
