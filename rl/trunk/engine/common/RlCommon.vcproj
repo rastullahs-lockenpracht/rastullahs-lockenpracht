@@ -36,7 +36,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain_d.lib xerces-c_2D.lib CEGUIBase.lib"
+				AdditionalDependencies="OgreMain_d.lib xerces-c_2D.lib"
 				OutputFile="./lib/debug/RlCommon.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui\lib\$(PlatformName)\$(ConfigurationName)&quot;"
@@ -87,7 +87,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib xerces-c_2.lib CEGUIBase.lib"
+				AdditionalDependencies="OgreMain.lib xerces-c_2.lib"
 				OutputFile="./lib/Release/RlCommon.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui\lib\$(PlatformName)\$(ConfigurationName)&quot;"
