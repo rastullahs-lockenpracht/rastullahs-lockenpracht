@@ -70,6 +70,9 @@ private:
 	BSPWorld();
 };
 
+
+%apply SWIGTYPE *DYNAMIC { rl::RlAnimation * };
+
 class RlAnimation {
 public:
 	bool isPaused() const;
@@ -343,6 +346,27 @@ public:
 };
 
 }
+
+%{
+static swig_type_info *RlAnimation_dynamic_cast(void **ptr) {
+    rl::RlAnimation **ppRlAnimation = reinterpret_cast<rl::RlAnimation **>(ptr);
+    
+    rl::RlTrackAnimation *pRlTrackAnimation = dynamic_cast<rl::RlTrackAnimation*>(*ppRlAnimation);
+    if(pRlTrackAnimation){
+      *ptr=reinterpret_cast<void*>(pRlTrackAnimation);
+      return SWIGTYPE_p_rl__RlTrackAnimation;
+    }
+    rl::RlAnimation *pRlAnimation = dynamic_cast<rl::RlAnimation*>(*ppRlAnimation);
+    if(pRlAnimation){
+      *ptr=reinterpret_cast<void*>(pRlAnimation);
+      return SWIGTYPE_p_rl__RlAnimation;
+    }
+    
+    return 0;
+}
+%}
+DYNAMIC_CAST(SWIGTYPE_p_rl__RlAnimation, RlAnimation_dynamic_cast);
+
 
 %{
 static swig_type_info *Actor_dynamic_cast(void **ptr) {
