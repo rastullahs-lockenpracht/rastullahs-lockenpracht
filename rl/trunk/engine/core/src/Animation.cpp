@@ -14,16 +14,13 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#include "RlAnimation.h"
+#include "Animation.h"
 
 #include "Exception.h"
-#include "CoreSubsystem.h"
-#include <OgreStringConverter.h>
 
-using namespace Ogre;
 namespace rl {
 
-RlAnimation::RlAnimation( AnimationState* animState, Real speed, unsigned int timesToPlay ) :
+Animation::Animation( Ogre::AnimationState* animState, Ogre::Real speed, unsigned int timesToPlay ) :
 	EventSource(), 
 	mAnimationFrameListener(),
 	mAnimationCaster()
@@ -37,7 +34,7 @@ RlAnimation::RlAnimation( AnimationState* animState, Real speed, unsigned int ti
 	this->setAnimationState(animState);
 }
 
-RlAnimation::RlAnimation( ) :
+Animation::Animation( ) :
 	EventSource(),
 	mAnimationFrameListener(),
 	mAnimationCaster()
@@ -49,17 +46,17 @@ RlAnimation::RlAnimation( ) :
 	mSpeed = 1.0;
 }
 
-RlAnimation::~RlAnimation()
+Animation::~Animation()
 {
 	mAnimState->setEnabled(false);
 }
 
-bool RlAnimation::isPaused() const
+bool Animation::isPaused() const
 {
     return mPaused;
 }
 
-void RlAnimation::setPaused( bool isPaused )
+void Animation::setPaused( bool isPaused )
 {
 	if( mPaused && !isPaused )
 	{
@@ -78,23 +75,23 @@ void RlAnimation::setPaused( bool isPaused )
 }
 
 
-bool RlAnimation::isIgnoringGlobalSpeed() const
+bool Animation::isIgnoringGlobalSpeed() const
 {
 	return mIgnoringGlobalSpeed;
 }
 
-void RlAnimation::setIgnoringGlobalSpeed( bool isIgnoringGlobalSpeed )
+void Animation::setIgnoringGlobalSpeed( bool isIgnoringGlobalSpeed )
 {
 	mIgnoringGlobalSpeed = isIgnoringGlobalSpeed;
 }
 
 // Regelbare Geschwindigkeit
-Real RlAnimation::getSpeed() const
+Ogre::Real Animation::getSpeed() const
 {
 	return mSpeed;
 }
 
-void RlAnimation::setSpeed( Real speed )
+void Animation::setSpeed( Ogre::Real speed )
 {
 	// Eventuell auf Anfang/Ende setzen
 	if( speed < 0 && mAnimState->getTimePosition() == 0 )
@@ -105,23 +102,23 @@ void RlAnimation::setSpeed( Real speed )
 	mSpeed = speed;
 }
 
-void RlAnimation::reverseAnimation()
+void Animation::reverseAnimation()
 {
 	mSpeed = -mSpeed;
 }
 
 // Regelbare Wiederholungsanzahl
-void RlAnimation::setTimesToPlay(unsigned int timesToPlay)
+void Animation::setTimesToPlay(unsigned int timesToPlay)
 {
 	mTimesToPlay = timesToPlay;
 }
 
-unsigned int RlAnimation::getTimesToPlay() const
+unsigned int Animation::getTimesToPlay() const
 {
 	return mTimesToPlay;
 }
 
-void RlAnimation::resetTimesPlayed()
+void Animation::resetTimesPlayed()
 {
 	// Zurückspulen
 	if( mSpeed < 0 )
@@ -134,64 +131,64 @@ void RlAnimation::resetTimesPlayed()
 	setPaused( false );
 }
 
-Real RlAnimation::getTimePlayed() const
+Ogre::Real Animation::getTimePlayed() const
 {
 	return mTimePlayed;
 }
 
-unsigned int RlAnimation::getTimesPlayed() const
+unsigned int Animation::getTimesPlayed() const
 {
 	return floor(mTimePlayed/mAnimState->getLength());
 }
 
-unsigned int RlAnimation::getTimesToPlayLeft() const
+unsigned int Animation::getTimesToPlayLeft() const
 {
 	// Nicht unsigned :)
 	int left = mTimesToPlay - getTimesPlayed();
 	return max( left ,0);
 }
 
-// Gewicht (Einfluss) der RlAnimation
-Real RlAnimation::getWeight(void) const
+// Gewicht (Einfluss) der Animation
+Ogre::Real Animation::getWeight(void) const
 {
 	return mAnimState->getWeight();
 }
 
-void RlAnimation::setWeight(Real weight)
+void Animation::setWeight(Ogre::Real weight)
 {
 	mAnimState->setWeight(weight);
 }
 
-void RlAnimation::addAnimationListener(AnimationListener *listener)
+void Animation::addAnimationListener(AnimationListener *listener)
 {
 	mAnimationCaster.addEventListener(listener);
 }
 
-void RlAnimation::removeAnimationListener(AnimationListener *listener)
+void Animation::removeAnimationListener(AnimationListener *listener)
 {
 	mAnimationCaster.removeEventListener(listener);
 }
 
-void RlAnimation::addAnimationFrameListener( 
+void Animation::addAnimationFrameListener( 
 	AnimationFrameListener *listener, Ogre::Real frameNumber)
 {
 	mAnimationFrameListener.insert( 
 		std::pair<Ogre::Real,AnimationFrameListener*>(frameNumber,listener) );
 }
 
-void RlAnimation::removeAnimationFrameListener( AnimationFrameListener *listener)
+void Animation::removeAnimationFrameListener( AnimationFrameListener *listener)
 {
 	///@todo Alle zugehörigen löschen
 }
 
-void RlAnimation::removeAnimationFrameListener( 
+void Animation::removeAnimationFrameListener( 
 	AnimationFrameListener *listener, Ogre::Real frameNumber)
 {
 	///@todo Zugehöriges löschen
 }
 
 // Zeit hinzufügen // wird vom AnimationManager aufgerufen
-void RlAnimation::addTime( Real timePassed )
+void Animation::addTime( Ogre::Real timePassed )
 {
 	if( !mPaused )
 	{
@@ -221,10 +218,9 @@ void RlAnimation::addTime( Real timePassed )
 				delete animEve;			
 			}
 		}
-
-		// TODO Frame-Listener
 	}
 }
+
 /**
 	Benachrichtigt die AnimationFrameListener
 
@@ -233,7 +229,7 @@ void RlAnimation::addTime( Real timePassed )
 	 * Wenn Überlauf, dann wird die Anzahl weiterer Durchläufe bestimmt
 	 * Für den Rest im letzten Durchlauf wird erneut geprüft
 */
-void RlAnimation::checkAnimationFrameListeners( Ogre::Real timePassed )
+void Animation::checkAnimationFrameListeners( Ogre::Real timePassed )
 {
 	// Iteratoren
 	std::multimap<Ogre::Real,AnimationFrameListener*>::iterator 
@@ -289,7 +285,7 @@ void RlAnimation::checkAnimationFrameListeners( Ogre::Real timePassed )
 		( ( mTimesToPlay > 0 && getTimesToPlayLeft() > 1 ) || ( mTimesToPlay == 0 ) )
 	   )
 	{
-		// Wie oft passt der Event in die gesamte fortgeschrittene Zeit		
+		// Wie oft passt die Länge in die gesamte fortgeschrittene Zeit		
 		unsigned int timesSkipped = floor( timePassed/mAnimState->getLength() );
 		Ogre::Real timeLeft = timePassed - timesSkipped*mAnimState->getLength();
 
@@ -347,10 +343,10 @@ void RlAnimation::checkAnimationFrameListeners( Ogre::Real timePassed )
 }
 
 
-void RlAnimation::setAnimationState( AnimationState* animState )
+void Animation::setAnimationState( Ogre::AnimationState* animState )
 {
 	if( animState == 0 )
-		Throw( NullPointerException,"AnimationState darf nicht null sein" );
+		Throw( NullPointerException,"Ogre::AnimationState darf nicht null sein" );
 
 	mAnimState = animState;
 	

@@ -14,8 +14,8 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#ifndef __RlAnimation_H__
-#define __RlAnimation_H__
+#ifndef __rlAnimation_H__
+#define __rlAnimation_H__
 
 #include "CorePrerequisites.h"
 
@@ -30,7 +30,7 @@ namespace rl {
 	@remarks Instanzen werden über den AnimationManager erzeugt
 	@see AnimationManager
 */
-class _RlCoreExport RlAnimation : public virtual EventSource
+class _RlCoreExport Animation : public virtual EventSource
 {
     public:
 		/**	Der Basiskonstruktor, für MeshObject, die einen AnimationState mitbringen
@@ -38,17 +38,19 @@ class _RlCoreExport RlAnimation : public virtual EventSource
 			@param speed		Geschwindigkeit, auch negativ
 			@param timesToPlay	Abspielanzahl, 0 = unendlich
 			@remarks	Die Animation beginnt sofort zu spielen, bei negativer
-						Geschwindigkeit beginnt sie mit dem letzten Frame
+						Geschwindigkeit beginnt sie mit dem letzten Frame. Konstruktor
+						sollte nicht direkt aufgerufen werden, sondern vom AnimationManager.
 		*/
-        RlAnimation(Ogre::AnimationState* animState, Ogre::Real speed=1.0,
+        Animation(Ogre::AnimationState* animState, Ogre::Real speed=1.0,
             unsigned int timesToPlay=0);
 		/**	Ein Konstruktor, für eine später festlegbare Animation
-			@remarks	Dieser Konstruktor ist für Unterklassen
+		@remarks	Dieser Konstruktor ist für Unterklassen. Konstruktor
+					sollte nicht direkt aufgerufen werden, sondern vom AnimationManager.
 		*/
-		RlAnimation();
+		Animation();
 
 		/// Virtueller Destruktor
-		virtual ~RlAnimation( );
+		virtual ~Animation( );
         
 		/// Gibt zurück ob die Animation pausiert ist
         bool isPaused() const;
@@ -109,7 +111,7 @@ class _RlCoreExport RlAnimation : public virtual EventSource
 		void addTime( Ogre::Real timePassed );
 
 		/** Fügt einen AnimationListener hinzu
-			@param	Der hinzuzufügende Listener
+			@param listener Der hinzuzufügende Listener
 			@remarks Der Listener wird benachrichtigt, wenn
 					  * die Animation pausiert/fortgesetzt wird
 					  * die Animation ihr gesamten Wiederholungen vollendet hat
@@ -118,8 +120,18 @@ class _RlCoreExport RlAnimation : public virtual EventSource
 		/// Entfernt einen AnimationListener
 		void removeAnimationListener( AnimationListener *listener);
 
+		/** Fügt einen AnimationFrameListener hinzu
+			@param listener Der hinzuzufügende Listener
+			@param frameNumber Die zu überwachende Zeitindex
+			@remarks	Der Listener wird benachrichtigt, wenn der Zeitindex erreicht oder 
+						übersprungen wird. Dabei wird, falls der Fortschritt größer als die
+						Länge der Animation korrekt geprüft, so dass keine Events verloren 
+						gehen
+		*/
 		void addAnimationFrameListener( AnimationFrameListener *listener, Ogre::Real frameNumber );
+		/// Entfernt einen AnimationListener an allen Zeitindizes
 		void removeAnimationFrameListener( AnimationFrameListener *listener );
+		/// Entfernt einen AnimationListener an einem bestimmtem Zeitindex
 		void removeAnimationFrameListener( AnimationFrameListener *listener, Ogre::Real frameNumber );
 
 		/// Gibt den AnimationState zurück (intern)
@@ -145,8 +157,10 @@ class _RlCoreExport RlAnimation : public virtual EventSource
 		/// EventCaster
 		EventCaster<AnimationEvent> mAnimationCaster;
 
+		/// Die Multimap mit den FrameNummern und den dazugehörigen Listenern
 		std::multimap<Ogre::Real,AnimationFrameListener*> mAnimationFrameListener;
 	private:
+		/// Überwacht das erreichen der einzelnen Frames für die Listener
 		void checkAnimationFrameListeners( Ogre::Real timePassed );
 };
 

@@ -17,12 +17,11 @@
 #include "AnimationManager.h"
 
 #include "Actor.h"
-#include "RlAnimation.h"
-#include "RlTrackAnimation.h"
+#include "Animation.h"
+#include "TrackAnimation.h"
 
-using namespace Ogre;
 
-template<> rl::AnimationManager* Singleton<rl::AnimationManager>::ms_Singleton = 0;
+template<> rl::AnimationManager* Ogre::Singleton<rl::AnimationManager>::ms_Singleton = 0;
 
 namespace rl 
 {
@@ -37,52 +36,52 @@ AnimationManager::~AnimationManager( )
 	// TODO Alle Animationen löschen...
 }
 
-void AnimationManager::setGlobalAnimationSpeed( Real speed )
+void AnimationManager::setGlobalAnimationSpeed( Ogre::Real speed )
 {
 	mGlobalAnimationSpeed = speed;
 }
 
-Real AnimationManager::getGlobalAnimationSpeed( ) const
+Ogre::Real AnimationManager::getGlobalAnimationSpeed( ) const
 {
 	return mGlobalAnimationSpeed;
 }
 
 void AnimationManager::setDefaultInterpolationMode( AnimationManager::InterpolationMode im )
 {
-	Animation::setDefaultInterpolationMode( 
+	Ogre::Animation::setDefaultInterpolationMode( 
 		Ogre::Animation::InterpolationMode( im ) );
 }
 
 AnimationManager::InterpolationMode AnimationManager::getDefaultInterpolationMode() const
 {
 	return AnimationManager::InterpolationMode( 
-		Animation::getDefaultInterpolationMode() );
+		Ogre::Animation::getDefaultInterpolationMode() );
 }
 
 void AnimationManager::setDefaultRotationInterpolationMode(
     AnimationManager::RotationInterpolationMode rim )
 {
-	Animation::setDefaultRotationInterpolationMode( 
+	Ogre::Animation::setDefaultRotationInterpolationMode( 
 		Ogre::Animation::RotationInterpolationMode( rim ) );
 }
 
 AnimationManager::RotationInterpolationMode AnimationManager::getDefaultRotationInterpolationMode() const
 {
 	return AnimationManager::RotationInterpolationMode( 
-		Animation::getDefaultRotationInterpolationMode() );
+		Ogre::Animation::getDefaultRotationInterpolationMode() );
 }
 
-RlAnimation* AnimationManager::addAnimation(AnimationState* animState, Real speed, unsigned int timesToPlay)
+Animation* AnimationManager::addAnimation(Ogre::AnimationState* animState, Ogre::Real speed, unsigned int timesToPlay)
 {
-	std::map<AnimationState*,RlAnimation*>::iterator iter = mAnimationMap.find(animState);
+	std::map<Ogre::AnimationState*,Animation*>::iterator iter = mAnimationMap.find(animState);
 
-	RlAnimation* anim;
+	Animation* anim;
 
 	// Noch nicht vorhanden
 	if( iter == mAnimationMap.end() )
 	{
-		anim = new RlAnimation(animState,speed,timesToPlay);
-		mAnimationMap.insert(std::pair<AnimationState*,RlAnimation*>(animState,anim));
+		anim = new Animation(animState,speed,timesToPlay);
+		mAnimationMap.insert(std::pair<Ogre::AnimationState*,Animation*>(animState,anim));
 		animState->setEnabled(true);
 	}
 	// Bereits vorhanden
@@ -98,17 +97,17 @@ RlAnimation* AnimationManager::addAnimation(AnimationState* animState, Real spee
 	return anim;
 }
 
-RlTrackAnimation* AnimationManager::createTrackAnimation(Actor* actor, const String& name, Real length )
+TrackAnimation* AnimationManager::createTrackAnimation(Actor* actor, const Ogre::String& name, Ogre::Real length )
 {
-	RlTrackAnimation* trackAnim = new RlTrackAnimation(name,actor->_getSceneNode(),length);
-	mAnimationMap.insert(std::pair<AnimationState*,RlAnimation*>(trackAnim->getAnimationState(),trackAnim));
+	TrackAnimation* trackAnim = new TrackAnimation(name,actor->_getSceneNode(),length);
+	mAnimationMap.insert(std::pair<Ogre::AnimationState*,Animation*>(trackAnim->getAnimationState(),trackAnim));
 
 	return trackAnim;
 }
 
-RlAnimation* AnimationManager::getAnimation(AnimationState* animState) const
+Animation* AnimationManager::getAnimation(Ogre::AnimationState* animState) const
 {
-	std::map<AnimationState*,RlAnimation*>::const_iterator iter = mAnimationMap.find(animState);
+	std::map<Ogre::AnimationState*,Animation*>::const_iterator iter = mAnimationMap.find(animState);
 
 	if( iter == mAnimationMap.end() )
 		return 0;
@@ -116,28 +115,28 @@ RlAnimation* AnimationManager::getAnimation(AnimationState* animState) const
 		return iter->second;
 }
 
-void AnimationManager::removeAnimation(AnimationState* animState)
+void AnimationManager::removeAnimation(Ogre::AnimationState* animState)
 {
-	std::map<AnimationState*,RlAnimation*>::iterator iter = mAnimationMap.find(animState);
+	std::map<Ogre::AnimationState*,Animation*>::iterator iter = mAnimationMap.find(animState);
 
 	if( iter != mAnimationMap.end() )
 	{
-		RlAnimation* anim = iter->second;
+		Animation* anim = iter->second;
 
 		mAnimationMap.erase(iter);
 		delete anim;
 	}
 }
 
-void AnimationManager::removeAnimation(RlAnimation* anim)
+void AnimationManager::removeAnimation(Animation* anim)
 {
 	removeAnimation(anim->getAnimationState());
 }
 
 
-void AnimationManager::run(Real timePassed)
+void AnimationManager::run(Ogre::Real timePassed)
 {
-	for (std::map<AnimationState*,RlAnimation*>::iterator it = mAnimationMap.begin(); 
+	for (std::map<Ogre::AnimationState*,Animation*>::iterator it = mAnimationMap.begin(); 
 			it != mAnimationMap.end(); it++)
 	{
 		it->second->addTime(timePassed*mGlobalAnimationSpeed);
@@ -146,12 +145,12 @@ void AnimationManager::run(Real timePassed)
 
 AnimationManager& AnimationManager::getSingleton(void)
 {
-	return Singleton<AnimationManager>::getSingleton();
+	return Ogre::Singleton<AnimationManager>::getSingleton();
 }
 
 AnimationManager* AnimationManager::getSingletonPtr(void)
 {
-	return Singleton<AnimationManager>::getSingletonPtr();
+	return Ogre::Singleton<AnimationManager>::getSingletonPtr();
 }
 
 

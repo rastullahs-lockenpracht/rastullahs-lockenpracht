@@ -24,7 +24,7 @@
 
 namespace rl {
 
-	class RlAnimation;
+	class Animation;
 
     class _RlCoreExport MeshObject : public ActorControlledObject
     {
@@ -41,8 +41,8 @@ namespace rl {
         Ogre::Real getRadius();
         Ogre::Real getHeight();
         
-		RlAnimation* getAnimation(const Ogre::String& animName) const;
-		RlAnimation* startAnimation(const Ogre::String& animName, 
+		Animation* getAnimation(const Ogre::String& animName) const;
+		Animation* startAnimation(const Ogre::String& animName, 
 		    Ogre::Real speed=1.0, unsigned int timesToPlay=0);
         void stopAnimation(const Ogre::String&);
         

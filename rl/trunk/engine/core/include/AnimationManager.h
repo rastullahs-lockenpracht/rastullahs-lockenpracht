@@ -26,8 +26,8 @@
 namespace rl {
 
 class Actor;
-class RlAnimation;
-class RlTrackAnimation;
+class Animation;
+class TrackAnimation;
 
 class _RlCoreExport AnimationManager
   : public GameTask,
@@ -42,14 +42,14 @@ public:
 	/** Default Deconstructor */
     virtual ~AnimationManager();
 
-    RlAnimation* addAnimation(Ogre::AnimationState* animState,
+    Animation* addAnimation(Ogre::AnimationState* animState,
         Ogre::Real speed=1.0, unsigned int timesToPlay=0 );
         
-	RlAnimation* getAnimation(Ogre::AnimationState* animState) const;
+	Animation* getAnimation(Ogre::AnimationState* animState) const;
     void removeAnimation(Ogre::AnimationState* animState);
-	RlTrackAnimation* createTrackAnimation(Actor* actor,
+	TrackAnimation* createTrackAnimation(Actor* actor,
 	    const Ogre::String& name, Ogre::Real length );
-	void removeAnimation(RlAnimation* anim);
+	void removeAnimation(Animation* anim);
 	
 	// Für globale SlowMotion oder anderes
 	void setGlobalAnimationSpeed( Ogre::Real speed );
@@ -66,7 +66,7 @@ public:
     static AnimationManager & getSingleton(void);
 	static AnimationManager * getSingletonPtr(void);
 private:
-    std::map<Ogre::AnimationState*,RlAnimation*> mAnimationMap;
+    std::map<Ogre::AnimationState*,Animation*> mAnimationMap;
 
 	Ogre::Real mGlobalAnimationSpeed;
 };

@@ -25,7 +25,7 @@
 
 namespace rl {
 
-class RlAnimation;
+class Animation;
 
 class _RlCoreExport AnimationEvent : public virtual EventObject
 {
@@ -34,10 +34,10 @@ class _RlCoreExport AnimationEvent : public virtual EventObject
 		static const unsigned int ANIMATION_UNPAUSED = 361;
 		static const unsigned int ANIMATION_FINISHED = 362;
 
-		AnimationEvent( RlAnimation* anim,  const unsigned int reason );
+		AnimationEvent( Animation* anim,  const unsigned int reason );
 		virtual ~AnimationEvent() {};
 
-		RlAnimation* getRlAnimation() const;
+		Animation* getAnimation() const;
 };
 
 
@@ -59,10 +59,10 @@ class _RlCoreExport AnimationFrameEvent : public virtual EventObject
 public:
 	static const unsigned int ANIMATION_FRAMEREACHED = 363;
 
-	AnimationFrameEvent( RlAnimation* anim,  const unsigned int reason, const Ogre::Real& frameNumber );
+	AnimationFrameEvent( Animation* anim,  const unsigned int reason, const Ogre::Real& frameNumber );
 	virtual ~AnimationFrameEvent() {};
 
-	RlAnimation* getRlAnimation() const;
+	Animation* getAnimation() const;
 	Ogre::Real getFrameNumber() const;
 	void setFrameNumber(const Ogre::Real& frameNumber);
 private:

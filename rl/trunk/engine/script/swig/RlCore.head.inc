@@ -28,8 +28,8 @@
 #include "PhysicsManager.h"
 #include "AnimationManager.h"
 #include "AnimationListener.h"
-#include "RlAnimation.h"
-#include "RlTrackAnimation.h"
+#include "Animation.h"
+#include "TrackAnimation.h"
 #include "GameLoop.h"
 #include "World.h"
 #include <OgreRoot.h>

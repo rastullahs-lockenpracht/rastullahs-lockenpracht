@@ -19,7 +19,7 @@
 #include "CoreSubsystem.h"
 #include "World.h"
 
-#include "RlAnimation.h"
+#include "Animation.h"
 #include "AnimationManager.h"
 
 #include <OgreMeshManager.h>
@@ -61,7 +61,7 @@ namespace rl {
         return getSize().y;
     }
 
-	RlAnimation* MeshObject::getAnimation(const String& animName) const
+	Animation* MeshObject::getAnimation(const String& animName) const
 	{
 		try
 		{
@@ -76,7 +76,7 @@ namespace rl {
 	}
 
 
-	RlAnimation* MeshObject::startAnimation(const String& animName, Real speed, unsigned int timesToPlay)
+	Animation* MeshObject::startAnimation(const String& animName, Real speed, unsigned int timesToPlay)
 	{
 		try
 		{

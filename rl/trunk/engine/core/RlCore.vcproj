@@ -181,6 +181,9 @@
 				RelativePath=".\include\ActorManager.h">
 			</File>
 			<File
+				RelativePath=".\include\Animation.h">
+			</File>
+			<File
 				RelativePath=".\include\AnimationListener.h">
 			</File>
 			<File
@@ -220,16 +223,13 @@
 				RelativePath=".\include\PhysicsManager.h">
 			</File>
 			<File
-				RelativePath=".\include\RlAnimation.h">
-			</File>
-			<File
-				RelativePath=".\include\RlTrackAnimation.h">
-			</File>
-			<File
 				RelativePath=".\include\RubyInterpreter.h">
 			</File>
 			<File
 				RelativePath=".\include\ScriptObject.h">
+			</File>
+			<File
+				RelativePath=".\include\TrackAnimation.h">
 			</File>
 			<File
 				RelativePath=".\include\World.h">
@@ -246,6 +246,9 @@
 			</File>
 			<File
 				RelativePath=".\src\ActorManager.cpp">
+			</File>
+			<File
+				RelativePath=".\src\Animation.cpp">
 			</File>
 			<File
 				RelativePath=".\src\AnimationListener.cpp">
@@ -281,16 +284,13 @@
 				RelativePath=".\src\PhysicsManager.cpp">
 			</File>
 			<File
-				RelativePath=".\src\RlAnimation.cpp">
-			</File>
-			<File
-				RelativePath=".\src\RlTrackAnimation.cpp">
-			</File>
-			<File
 				RelativePath=".\src\RubyInterpreter.cpp">
 			</File>
 			<File
 				RelativePath=".\src\ScriptObject.cpp">
+			</File>
+			<File
+				RelativePath=".\src\TrackAnimation.cpp">
 			</File>
 			<File
 				RelativePath=".\src\World.cpp">

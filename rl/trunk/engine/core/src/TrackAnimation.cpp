@@ -14,23 +14,20 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#include "RlTrackAnimation.h"
+#include "TrackAnimation.h"
 
 #include "Exception.h"
-
-#include "OgreStringConverter.h"
 
 #include "CoreSubsystem.h"
 #include "World.h"
 
-using namespace Ogre;
 
 namespace rl {
 
-RlTrackAnimation::RlTrackAnimation( const String& name, Node *node, Real length ) :	
-	RlAnimation( )
+TrackAnimation::TrackAnimation( const Ogre::String& name, Ogre::Node *node, Ogre::Real length ) :	
+	Animation( )
 {
-	SceneManager* mgr =  CoreSubsystem::getSingleton().getWorld()->getSceneManager();
+	Ogre::SceneManager* mgr =  CoreSubsystem::getSingleton().getWorld()->getSceneManager();
 
 	node->setInitialState();
 	mAnimation = mgr->createAnimation(name, length );
@@ -38,9 +35,9 @@ RlTrackAnimation::RlTrackAnimation( const String& name, Node *node, Real length 
 	this->setAnimationState( mgr->createAnimationState(name) );
 }
 
-RlTrackAnimation::~RlTrackAnimation()
+TrackAnimation::~TrackAnimation()
 {
-	SceneManager* mgr =  CoreSubsystem::getSingleton().getWorld()->getSceneManager();
+	Ogre::SceneManager* mgr =  CoreSubsystem::getSingleton().getWorld()->getSceneManager();
 
 	mAnimState->setEnabled(false);
 	mAnimationTrack->getAssociatedNode()->resetToInitialState();
@@ -49,73 +46,74 @@ RlTrackAnimation::~RlTrackAnimation()
 	mgr->destroyAnimation( mAnimation->getName() );
 }
 
-void RlTrackAnimation::addKeyFrame( Real timePos )
+void TrackAnimation::addKeyFrame( Ogre::Real timePos )
 {
 	mAnimationTrack->createKeyFrame( timePos );
 }
 
-void RlTrackAnimation::setKeyFrameTranslation( Real timePos, Real xPos, Real yPos, Real zPos )
+void TrackAnimation::setKeyFrameTranslation( Ogre::Real timePos, Ogre::Real xPos, Ogre::Real yPos, Ogre::Real zPos )
 {
-	KeyFrame* frame = getKeyFrameAtTimePos( timePos );
+	Ogre::KeyFrame* frame = getKeyFrameAtTimePos( timePos );
 
 	if( frame != 0 )
-		frame->setTranslate(Vector3(xPos,yPos,zPos));
+		frame->setTranslate(Ogre::Vector3(xPos,yPos,zPos));
 }
 
-void RlTrackAnimation::setKeyFrameRotation( Real timePos, Real xRotAxis, Real yRotAxis, Real zRotAxis, Real angleUnits )
+void TrackAnimation::setKeyFrameRotation( Ogre::Real timePos, Ogre::Real xRotAxis, Ogre::Real yRotAxis, Ogre::Real zRotAxis, Ogre::Real angleUnits )
 {
-	KeyFrame* frame = getKeyFrameAtTimePos( timePos );
+	Ogre::KeyFrame* frame = getKeyFrameAtTimePos( timePos );
 
 	if( frame != 0 )
-		frame->setRotation( Quaternion( Radian(Degree(angleUnits)), Vector3(xRotAxis,yRotAxis,zRotAxis) ) );
+		frame->setRotation( Ogre::Quaternion(  Ogre::Radian( Ogre::Degree(angleUnits)), 
+				Ogre::Vector3(xRotAxis,yRotAxis,zRotAxis) ) );
 }
 
-void RlTrackAnimation::setKeyFrameScale( Real timePos, Real xScale, Real yScale, Real zScale )
+void TrackAnimation::setKeyFrameScale( Ogre::Real timePos, Ogre::Real xScale, Ogre::Real yScale, Ogre::Real zScale )
 {
-	KeyFrame* frame = getKeyFrameAtTimePos( timePos );
+	Ogre::KeyFrame* frame = getKeyFrameAtTimePos( timePos );
 
 	if( frame != 0 )
-		frame->setScale(Vector3(xScale,yScale,zScale));
+		frame->setScale(Ogre::Vector3(xScale,yScale,zScale));
 }
 
-void RlTrackAnimation::setInterpolationMode( AnimationManager::InterpolationMode im )
+void TrackAnimation::setInterpolationMode( AnimationManager::InterpolationMode im )
 {
 	mAnimation->setInterpolationMode( 
 		Ogre::Animation::InterpolationMode( im ) );
 }
 
-AnimationManager::InterpolationMode RlTrackAnimation::getInterpolationMode() const
+AnimationManager::InterpolationMode TrackAnimation::getInterpolationMode() const
 {
 	return AnimationManager::InterpolationMode( 
 		mAnimation->getInterpolationMode() );
 }
 
-void RlTrackAnimation::setRotationInterpolationMode( AnimationManager::RotationInterpolationMode im )
+void TrackAnimation::setRotationInterpolationMode( AnimationManager::RotationInterpolationMode im )
 {
 	mAnimation->setRotationInterpolationMode( 
 		Ogre::Animation::RotationInterpolationMode( im ) );
 }
 
-AnimationManager::RotationInterpolationMode RlTrackAnimation::getRotationInterpolationMode() const
+AnimationManager::RotationInterpolationMode TrackAnimation::getRotationInterpolationMode() const
 {
 	return AnimationManager::RotationInterpolationMode( 
 		mAnimation->getRotationInterpolationMode() );
 }
 
-void RlTrackAnimation::setUseShortestRotationPath ( bool useShortestPath )
+void TrackAnimation::setUseShortestRotationPath ( bool useShortestPath )
 {
 	mAnimationTrack->setUseShortestRotationPath( useShortestPath );
 }
 
-bool RlTrackAnimation::getUseShortestRotationPath () const
+bool TrackAnimation::getUseShortestRotationPath () const
 {
 	return mAnimationTrack->getUseShortestRotationPath();
 }
 
-KeyFrame* RlTrackAnimation::getKeyFrameAtTimePos( Real timePos )
+Ogre::KeyFrame* TrackAnimation::getKeyFrameAtTimePos( Ogre::Real timePos )
 {
-	KeyFrame *frame1;
-	KeyFrame *frame2;
+	Ogre::KeyFrame *frame1;
+	Ogre::KeyFrame *frame2;
 
 	mAnimationTrack->getKeyFramesAtTime(timePos, &frame1, &frame2);
 

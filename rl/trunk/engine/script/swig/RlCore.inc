@@ -62,7 +62,7 @@ public:
     virtual void setCastShadows(bool);
 };
 
-%apply SWIGTYPE *DYNAMIC { rl::RlAnimation * };
+%apply SWIGTYPE *DYNAMIC { rl::Animation * };
 
 %feature("director") AnimationListener; 
 class AnimationListener
@@ -85,19 +85,19 @@ public:
 class AnimationEvent
 {
 public:
-	rl::RlAnimation* getRlAnimation() const;
-	AnimationEvent( rl::RlAnimation* anim,  const unsigned int reason );
+	rl::Animation* getAnimation() const;
+	AnimationEvent( rl::Animation* anim,  const unsigned int reason );
 };
 
 class AnimationFrameEvent
 {
 public:
-	rl::RlAnimation* getRlAnimation() const;
+	rl::Animation* getAnimation() const;
 	Ogre::Real getFrameNumber() const;
-	AnimationFrameEvent( rl::RlAnimation* anim,  const unsigned int reason, Ogre::Real frameNumber );
+	AnimationFrameEvent( rl::Animation* anim,  const unsigned int reason, Ogre::Real frameNumber );
 };
 
-class RlAnimation {
+class Animation {
 public:
 	bool isPaused() const;
     void setPaused( bool isPaused );
@@ -125,10 +125,10 @@ public:
 	void addAnimationFrameListener( rl::AnimationFrameListener *listener, 
 									float frameNumber );
 private:
-	RlAnimation(  );
+	Animation(  );
 };
 
-class RlTrackAnimation : public RlAnimation {
+class TrackAnimation : public Animation {
 public:
 	void addKeyFrame( Real timePos );
     void setKeyFrameTranslation( Real timePos, Real xPos, Real yPos, Real zPos );
@@ -144,7 +144,7 @@ public:
 	void setUseShortestRotationPath ( bool useShortestPath );
 	bool getUseShortestRotationPath () const;
 private:
-	RlTrackAnimation(  ); 
+	TrackAnimation(  ); 
 };
 
 class AnimationManager {
@@ -156,8 +156,8 @@ public:
 	enum InterpolationMode { IM_LINEAR, IM_SPLINE };
 	enum RotationInterpolationMode { RIM_LINEAR, RIM_SPHERICAL };
 	
-	RlTrackAnimation* createTrackAnimation(rl::Actor* actor, const std::string& name, Real length );
-	void removeAnimation(RlAnimation* anim);
+	TrackAnimation* createTrackAnimation(rl::Actor* actor, const std::string& name, Real length );
+	void removeAnimation(Animation* anim);
 	
 	void setGlobalAnimationSpeed( Real speed );
 	Real getGlobalAnimationSpeed( ) const;
@@ -189,8 +189,8 @@ public:
     Ogre::Real getRadius();
     Ogre::Real getHeight();
     
-	RlAnimation* getAnimation(const std::string& animName) const;
-	RlAnimation* startAnimation(const std::string& animName, 
+	Animation* getAnimation(const std::string& animName) const;
+	Animation* startAnimation(const std::string& animName, 
 		Ogre::Real speed=1.0, unsigned int timesToPlay=0);
     void stopAnimation(const std::string&);
     
