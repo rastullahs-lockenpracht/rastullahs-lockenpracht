@@ -229,7 +229,7 @@ namespace rl {
             calculateHeroTranslation(translation);
             updateAnimationState(translation);
             
-            translation = translation.normalisedCopy() * mMoveScale;
+            translation *= mMoveScale;
             
             // Runterfallen berücksichtigen.
             // Zuerst Fallgeschwindigkeit berechnen
@@ -322,6 +322,11 @@ namespace rl {
         if (im->isKeyDown(KC_L))
             mOdeWorld->setShowDebugObjects(!mOdeWorld->getShowDebugObjects());
             
+        translation.normalise();
+        if (im->isKeyDown(KC_LSHIFT))
+            translation *= 2;
+        
+        
         ///@todo das gehoert hier nicht hin.
         if (im->isKeyDown(Ogre::KC_ESCAPE))
         {
