@@ -14,7 +14,9 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
+
 #include "Match.h"
+
 
 //--	Match.cpp
 
@@ -22,7 +24,7 @@ namespace rl
 {
 	Match::Match() : node(NULL) { }
 
-	Match::~Match() { }
+	Match::~Match() { node=NULL;}
 
 	//--	substr(1) accounts for leading space
 	void Match::setPattern(const string &pattern, component which) 

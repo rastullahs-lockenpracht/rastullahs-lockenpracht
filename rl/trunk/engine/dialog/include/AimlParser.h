@@ -20,7 +20,7 @@
 #include "xercesc/sax2/DefaultHandler.hpp"
 #include "DialogPrerequisites.h"
 #include "NaturalLanguageProcessor.h"
-// Start of CEGUI namespace section
+
 #include <string>
 #include <stack>
 
@@ -29,17 +29,16 @@ using namespace std;
 namespace rl
 {
 	static const string ASTERISK = "*";
-/*!
-\brief
-	Handler class used to parse the Scheme XML files using SAX2
-*/
+	
+	/** Handler class used to parse the startup xml file and aiml files using SAX2
+	 *  @author Philipp Walser
+     */
 	class _RlDialogExport AimlParser : public XERCES_CPP_NAMESPACE::DefaultHandler
 	{
 	public:
-		/*************************************************************************
-		Construction & Destruction
-		*************************************************************************/
+		//! Constructor
 		AimlParser(NaturalLanguageProcessor* nlp) : mNlp(nlp) { }
+		//! Destructor
 		virtual ~AimlParser(void){ }
 
 		/*************************************************************************
@@ -74,7 +73,8 @@ namespace rl
 			PARSER_CONTEXT,
 			PARSER_TOPIC,
 			PARSER_CATEGORY,
-			PARSER_FINISH
+			PARSER_FINISH,
+			PARSER_SCRIPT
 		} AimlState;
 
 		typedef enum 
@@ -106,4 +106,4 @@ namespace rl
 
 } // End of  rl namespace section
 
-#endif	// end of guard _CEGUIScheme_xmlHandler_h_
+#endif

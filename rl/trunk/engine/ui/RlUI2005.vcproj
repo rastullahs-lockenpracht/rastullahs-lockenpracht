@@ -80,12 +80,12 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="TRUE"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlCore.lib msvcrt-ruby18.lib OgreMain_d.lib Plugin_GuiElements.lib RlRules.lib CEGUIBase.lib OgreGUIRenderer.lib &quot;Taharez Look.lib&quot; OgreOde_d.lib"
+				AdditionalDependencies="RlCore.lib msvcrt-ruby18.lib OgreMain_d.lib Plugin_GuiElements.lib RlRules.lib CEGUIBase.lib OgreGUIRenderer.lib &quot;Taharez Look.lib&quot; OgreOde_d.lib xerces-c_2D.lib"
 				ShowProgress="0"
 				OutputFile="./lib/debug/RlUI.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\boost\libs;..\..\dependencies\cegui\lib\;&quot;..\..\dependencies\ogre\ogreode\lib\$(ConfigurationName)&quot;"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\boost\libs;..\..\dependencies\cegui\lib\;&quot;..\..\dependencies\ogre\ogreode\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\xerces\lib\$(ConfigurationName)&quot;"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
 				AssemblyDebug="1"
@@ -184,11 +184,11 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="TRUE"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlCore.lib msvcrt-ruby18.lib OgreMain.lib Plugin_GuiElements.lib RlRules.lib CEGUIBase.lib OgreGUIRenderer.lib &quot;Taharez Look.lib&quot; RlDialog.lib OgreOde.lib"
+				AdditionalDependencies="RlCore.lib msvcrt-ruby18.lib OgreMain.lib Plugin_GuiElements.lib RlRules.lib CEGUIBase.lib OgreGUIRenderer.lib &quot;Taharez Look.lib&quot; RlDialog.lib OgreOde.lib xerces-c_2.lib"
 				OutputFile="./lib/release/RlUI.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\dialog\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\cegui\lib\;&quot;..\..\dependencies\ogre\ogreode\lib\$(ConfigurationName)&quot;"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\dialog\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\cegui\lib\;&quot;..\..\dependencies\ogre\ogreode\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\xerces\lib\$(ConfigurationName)&quot;"
 				ProgramDatabaseFile=".\lib\Release/Rastullah.pdb"
 				SubSystem="2"
 			/>
@@ -345,6 +345,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\GameController.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\GameLoggerWindow.cpp"
 				>
 			</File>
@@ -361,11 +365,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\MessageWindow.cpp"
+				RelativePath=".\src\MainMenuWindow.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\ThirdPersonGameController.cpp"
+				RelativePath=".\src\MessageWindow.cpp"
 				>
 			</File>
 			<File

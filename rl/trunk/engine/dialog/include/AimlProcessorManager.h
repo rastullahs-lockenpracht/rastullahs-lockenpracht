@@ -32,6 +32,8 @@ namespace rl
 	class _RlDialogExport AimlProcessorManager //: public Singleton<AimlProcessorManager>
 	{
 	public:
+		AimlProcessorManager(){}
+		virtual ~AimlProcessorManager();
 		static void init();
 		static void addProcessor(const string &name,AimlProcessor* proc);
 		static void addStandardProcessors();

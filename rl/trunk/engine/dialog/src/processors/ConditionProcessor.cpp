@@ -18,8 +18,11 @@
 #include "processors/ConditionProcessor.h"
 #include "Utils.h"
 #include "ScriptObject.h"
-
+#include "CoreSubsystem.h"
+#include "Interpreter.h"
 #include <string>
+
+#include "DialogSubsystem.h"
 
 using namespace std;
 
@@ -29,30 +32,29 @@ namespace rl
 	{		
 		string buffer="";
 		DOMNamedNodeMap* attrbs=node->getAttributes();
-		DOMNode* scriptNode=attrbs->getNamedItem(XMLString::transcode("script"));
-		DOMNode* classNode=attrbs->getNamedItem(XMLString::transcode("class"));
+	//	DOMNode* scriptNode=attrbs->getNamedItem(XMLString::transcode("script"));
+	//	DOMNode* classNode=attrbs->getNamedItem(XMLString::transcode("class"));
 		DOMNode* nameNode=attrbs->getNamedItem(XMLString::transcode("name"));
 
-		if(nameNode==NULL)	// If function name is missing return
+		if(nameNode==NULL)	// If function name is missing, return
 		{
 			return "";
 		}
 		// Look if condition has a value (standard: no value)
 		DOMNode* valueNode=attrbs->getNamedItem(XMLString::transcode("value"));
+	//	if(scriptNode!=NULL && classNode!=NULL)
+	//	{
+	//		string scriptStr=AimlParser::transcodeXmlCharToString(scriptNode->getNodeValue());
+	//		string classStr =AimlParser::transcodeXmlCharToString(classNode->getNodeValue());
+			string nameStr=AimlParser::transcodeXmlCharToString(nameNode->getNodeValue());
+			ScriptObject* so=CoreSubsystem::getSingleton().getInterpreter()->getScriptObject("DialogMeister"); //new ScriptObject("conditionTest");
 
-		if(scriptNode!=NULL && classNode!=NULL)
-		{
-			string scriptStr=AimlParser::transcodeXmlCharToString(scriptNode->getNodeValue());
-			string classStr =AimlParser::transcodeXmlCharToString(classNode->getNodeValue());
-
-			ScriptObject *so=new ScriptObject("conditionTest");
-			Ogre::String bla[]={"Popel"};
-			so->setScript(scriptStr,classStr,1,bla);
-			so->callFunction("OnPlaySound",0,0);
-
-			int iReturn=so->callIntegerFunction("TestReturner",0,0);
-			scriptStr+=classStr;
-			if(iReturn==4){scriptStr="Hatgefunzt";}
+			//		Ogre::String bla[]={"Popel"};
+	//		so->setScript(scriptStr,classStr,1,bla);
+	//		so->callFunction("OnPlaySound",0,0);
+			int iReturn=so->callIntegerFunction(nameStr,0,0);	
+	//		scriptStr+=classStr;
+	//		if(iReturn==4){scriptStr="Hatgefunzt";}
 
 			for (DOMNode* childNode=node->getFirstChild(); childNode != node->getLastChild(); childNode = childNode->getNextSibling() )
 			{	// Search through all li-elements
@@ -72,7 +74,7 @@ namespace rl
 					}
 				}
 			}	
-		}
+	//	}
 		return buffer;
 	}
 }// Namespace rl end

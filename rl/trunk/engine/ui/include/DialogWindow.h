@@ -29,9 +29,12 @@
 
 namespace rl {
 
-	class _RlUiExport DialogWindow : public CeGuiWindow
+	class _RlUiExport DialogWindow : public CeGuiWindow, public Ogre::Singleton<DialogWindow>
 	{
 	public:
+        static DialogWindow& getSingleton(void);
+        static DialogWindow* getSingletonPtr(void);
+
 		DialogWindow(string dialogFile);
 		~DialogWindow();
 

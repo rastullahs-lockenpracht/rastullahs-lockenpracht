@@ -21,11 +21,15 @@
 #include "DebugWindow.h"
 #include "CharacterSheetWindow.h"
 
+template<> rl::DialogWindow* Ogre::Singleton<rl::DialogWindow>::ms_Singleton = 0;
+
 namespace rl {
 
 using namespace CEGUI;
 using namespace std;
-/*
+
+
+
 DialogWindow& DialogWindow::getSingleton()
 {
 	return Singleton<DialogWindow>::getSingleton();
@@ -34,7 +38,7 @@ DialogWindow* DialogWindow::getSingletonPtr()
 {
 	return Singleton<DialogWindow>::getSingletonPtr();
 }
-*/
+
 DialogWindow::DialogWindow(string dialogFile) : 
 	CeGuiWindow("dialogwindow.xml", WND_MOUSE_INPUT),
 	mNlp(new NaturalLanguageProcessor(dialogFile))

@@ -22,6 +22,17 @@
 namespace rl
 {
 	map<string, AimlProcessor *> AimlProcessorManager::mProcessors;
+
+	AimlProcessorManager::~AimlProcessorManager()
+	{
+		map<string,AimlProcessor*>::const_iterator itr = mProcessors.begin();
+		for(itr++;itr!=mProcessors.end();itr++)
+		{
+			delete itr->second;
+		}
+		mProcessors.clear();
+	}
+
 	void AimlProcessorManager::init()
 	{
 /*		mmProcessors["br"] = new BrProcessor();
@@ -75,8 +86,10 @@ namespace rl
 
 	void AimlProcessorManager::addStandardProcessors()
 	{
+		ConditionProcessor* cp=new ConditionProcessor();
 		mProcessors["br"]=new BrProcessor();
-		mProcessors["condition"]=new ConditionProcessor();
+		mProcessors["condition"]=cp;
+		mProcessors["if"]=cp;
 		mProcessors["system"]=new SystemProcessor();
 	}
 

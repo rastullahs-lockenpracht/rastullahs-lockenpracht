@@ -39,6 +39,7 @@ namespace rl
 		map<string, Nodemaster *>::const_iterator itr = mChildren.begin();
 		for(itr++;itr!=mChildren.end();itr++)
 		{
+			itr->second->deleteAllNodes();
 			delete itr->second; //child;
 		}
 		mChildren.clear();

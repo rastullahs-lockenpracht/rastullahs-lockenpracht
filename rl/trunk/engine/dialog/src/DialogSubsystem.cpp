@@ -13,7 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
-
+#include <xercesc/sax2/SAX2XMLReader.hpp>
+#include <xercesc/sax2/XMLReaderFactory.hpp>
 #include "AimlProcessorManager.h"
 #include "DialogSubsystem.h"
 
@@ -35,17 +36,31 @@ namespace rl
 
 	DialogSubsystem::DialogSubsystem()
 	{
-		Log* log = LogManager::getSingleton().createLog( "logs/rlDialog.log" );
-        log->setLogDetail( LL_BOREME );
-		log->logMessage("Test");
+		mLog = LogManager::getSingleton().createLog( "logs/rlDialog.log" );
+        mLog->setLogDetail( LL_BOREME );
 		AimlProcessorManager::addStandardProcessors();
-//		Log* log = LogManager::getSingleton().createLog( "rlDialog.log" );
-//      log->setLogDetail( LL_BOREME );
-//		log->logMessage("Test");
+
+//		NaturalLanguageProcessor* nlp=new NaturalLanguageProcessor("startup.xml");
+	mLog->logMessage("nlp");
+	//	nlp->respond("START DIALOG");
+	mLog->logMessage("respond");
+//		if(nlp)delete nlp;
+	mLog->logMessage("Feddisch");
+
 	}
 
     DialogSubsystem::~DialogSubsystem() 
     {  
 
     }
+
+	void DialogSubsystem::log(const char *msg)
+    {
+        mLog->logMessage(msg);
+    }
+    
+	void DialogSubsystem::log(const std::string& msg)
+	{
+		mLog->logMessage(msg);
+	}
 }

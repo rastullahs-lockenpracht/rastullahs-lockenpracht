@@ -13,7 +13,6 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
-
 #ifndef __RL_NLP_H__
 #define __RL_NLP_H__
 
@@ -34,6 +33,9 @@ namespace rl
 {
 	using XERCES_CPP_NAMESPACE::DOMDocument; //XXX: Warum brauche ich das unter VS 2003?
 
+	/** Main class for starting a dialog with a NPC
+	 *  @author Philipp Walser
+	*/
 	class _RlDialogExport NaturalLanguageProcessor
 	{
 	public:

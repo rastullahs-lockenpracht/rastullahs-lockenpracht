@@ -23,14 +23,23 @@
 
 namespace rl
 {
+	/** Initialise ans manage everything for using dialogs
+	 *  @author Philipp Walser
+	*/
 	class _RlDialogExport DialogSubsystem: protected Singleton<DialogSubsystem>
 	{
 	public:
+		static DialogSubsystem & getSingleton(void);
+        static DialogSubsystem * getSingletonPtr(void);
+
 		DialogSubsystem();
 		virtual ~DialogSubsystem();
 
-		static DialogSubsystem & getSingleton(void);
-        static DialogSubsystem * getSingletonPtr(void);
+		void log(const char *msg);
+		void log(const std::string& msg);
+
+	private:
+		Log* mLog;
 	};
 }
 #endif
