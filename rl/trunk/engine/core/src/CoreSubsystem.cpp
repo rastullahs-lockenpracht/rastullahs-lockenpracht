@@ -42,6 +42,7 @@ namespace rl {
 		mWorld = 0;
 		mActiveModule = "";
         initializeCoreSubsystem();
+        mRootDir = "./";
 	}
 
     CoreSubsystem::~CoreSubsystem() 
@@ -160,13 +161,13 @@ namespace rl {
 
 		#if OGRE_PLATFORM == PLATFORM_WIN32
 			new Root( 
-				CONF_DIR+"plugins-win.cfg", 
+				mRootDir+CONF_DIR+"plugins-win.cfg", 
 				CONF_DIR+"rastullah.cfg", 
 				"logs/ogre.log" );
 		#elif OGRE_PLATFORM == PLATFORM_LINUX
-            static String ROOT_DIR = findConfRootDir();
+            mRootDir = findConfRootDir();
 			new Root( 
-				ROOT_DIR+CONF_DIR+"plugins-linux.cfg", 
+				mRootDir+CONF_DIR+"plugins-linux.cfg", 
 				findRastullahConf(), 
 				"logs/ogre.log" );
 		#else
@@ -207,7 +208,7 @@ namespace rl {
 		new XmlResourceManager();
         // Load resource paths from config file
         ConfigFile cf;
-        cf.load("modules/modules.cfg");
+        cf.load(mRootDir+"modules/modules.cfg");
 
         // Go through all settings in the file
         ConfigFile::SettingsIterator i = cf.getSettingsIterator();
@@ -233,7 +234,7 @@ namespace rl {
 
 	void CoreSubsystem::initializeModule(std::string module)
 	{
-		std::string moduleDir = "modules/"+module;
+		std::string moduleDir = mRootDir+"modules/"+module;
 		ConfigFile cf;
 		cf.load(moduleDir+"/conf/moduleconfig.cfg");
         ConfigFile::SettingsIterator i = cf.getSettingsIterator();
@@ -255,16 +256,29 @@ namespace rl {
 			else if (key.compare("ContainsDialogs") == 0)
 				hasDialogs = true;
 		}
-
-		ResourceManager::addCommonSearchPath(moduleDir+"/dsa");
-		ResourceManager::addCommonSearchPath(moduleDir+"/materials");
-		ResourceManager::addCommonSearchPath(moduleDir+"/maps");
-		ResourceManager::addCommonSearchPath(moduleDir+"/models");			
-		ResourceManager::addCommonSearchPath(moduleDir+"/sound");
+        try {
+		    ResourceManager::addCommonSearchPath(moduleDir+"/dsa");
+        } catch(...) {}
+        try {
+		    ResourceManager::addCommonSearchPath(moduleDir+"/materials");
+        } catch(...) {}
+        try {
+		    ResourceManager::addCommonSearchPath(moduleDir+"/maps");
+        } catch(...) {}
+        try {
+		    ResourceManager::addCommonSearchPath(moduleDir+"/models");			
+        } catch(...) {}
+        try {
+		    ResourceManager::addCommonSearchPath(moduleDir+"/sound");
+        } catch(...) {}
 		if (hasGui)
-			ResourceManager::addCommonSearchPath(moduleDir+"/gui/imagesets");
+            try {
+			     ResourceManager::addCommonSearchPath(moduleDir+"/gui/imagesets");
+            } catch(...) {}
 		if (hasDialogs)
-			ResourceManager::addCommonSearchPath(moduleDir+"/dialogs");
+            try {
+			     ResourceManager::addCommonSearchPath(moduleDir+"/dialogs");
+            } catch(...) {}
 	}
 
 	void CoreSubsystem::unloadModule(std::string module)

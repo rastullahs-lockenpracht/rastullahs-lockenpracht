@@ -77,6 +77,7 @@ AC_CHECK_FUNC(snprintf, AC_DEFINE(HAVE_SNPRINTF,,snprintf))
 AC_CHECK_FUNC(vsnprintf, AC_DEFINE(HAVE_VSNPRINTF,1,vsnprintf))
 AC_CHECK_PROG(HAVE_DOXYGEN_PROG, doxygen, `which doxygen`, false)
 AC_CHECK_LIB(OpenThreads, [_init], , AC_MSG_ERROR([Can't find OpenThreads]))
+AC_CHECK_LIB(OgreOde, [main],, AC_MSG_ERROR([Can't find OgreOde]))
 
 AC_CHECK_HEADERS(xercesc/util/XercesVersion.hpp, ,
     [AC_MSG_ERROR([cannot find libxerces25 headers]) ])

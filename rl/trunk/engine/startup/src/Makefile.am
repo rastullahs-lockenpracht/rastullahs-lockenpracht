@@ -7,3 +7,4 @@ rastullah_LDADD = $(RUBY_LIBS) $(LIBS) $(CEGUI_LIBS) $(SWIG_RUBY_LIBS) $(SDL_LIB
 	 -lRlCore -lRlScript -lRlCommon -lRlDialog -lRlUi -lRlRules -lRlSound -logg -lvorbisfile -lvorbis
 
 
+

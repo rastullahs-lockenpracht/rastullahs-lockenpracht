@@ -10,6 +10,7 @@ libRlCore_la_SOURCES = \
 	BSPWorld.cpp \
 	CameraActor.cpp \
 	CoreSubsystem.cpp \
+	DotSceneOctreeWorld.cpp \
 	GameActor.cpp \
 	GameLoop.cpp \
 	LightActor.cpp \

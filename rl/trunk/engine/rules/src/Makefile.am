@@ -5,8 +5,8 @@ libRlRules_la_LDFLAGS = $(SWIG_RUBY_LIBS) $(RUBY_LIBS) $(OGRE_LIBS) $(CEGUI_LIBS
 libRlRules_la_SOURCES = \
 	Action.cpp \
 	ActionManager.cpp \
+	Container.cpp \
 	Creature.cpp \
-	Person.cpp \
 	Date.cpp \
 	DsaDataLoader.cpp \
 	DsaManager.cpp \
@@ -14,9 +14,10 @@ libRlRules_la_SOURCES = \
 	GameObject.cpp \
 	Item.cpp \
 	Kampftechnik.cpp \
+	KampftechnikCsvIterator.cpp \
+	Person.cpp \
 	RulesSubsystem.cpp \
 	Talent.cpp \
-	Talentgruppe.cpp \
 	TalentCsvIterator.cpp \
-	KampftechnikCsvIterator.cpp
+	Talentgruppe.cpp 
 	

@@ -7,6 +7,7 @@ noinst_HEADERS = \
 	CameraActor.h \
 	CorePrerequisites.h \
 	CoreSubsystem.h \
+	DotSceneOctreeWorld.h \
 	GameActor.h \
 	GameLoop.h \
 	Interpreter.h \
@@ -20,5 +21,6 @@ noinst_HEADERS = \
 	RubyInterpreter.h \
 	ScriptObject.h \
 	SynchronizedTask.h \
+	TerrainWorld.h \
 	World.h 
 	
