@@ -88,10 +88,11 @@ namespace rl
     }
 
     void GameObject::doAction(const CeGuiString& actionName,
+                              const CeGuiString& className,
                               Creature* actor,
                               GameObject* target)
     {
-		ActionOptionVector::const_iterator it = findAction(mActions.begin(), mActions.end(), actionName);
+		ActionOptionVector::const_iterator it = findAction(mActions.begin(), mActions.end(), actionName, className);
 
 		if (it == mActions.end())
         {
@@ -118,6 +119,24 @@ namespace rl
 			if ((*iter).first->getName().compare(actionName) == 0)
 				return iter;
 
+		return end;
+	}
+
+	GameObject::ActionOptionVector::iterator 
+		GameObject::findAction(
+			GameObject::ActionOptionVector::iterator begin, 
+			GameObject::ActionOptionVector::iterator end, 
+			const CeGuiString& actionName,
+			const CeGuiString& className)
+	{
+		for (ActionOptionVector::iterator iter = begin; iter != end; iter++)
+		{
+			Action* action = (*iter).first;
+
+			if (action->getName().compare(actionName) == 0 ||
+				action->getClassName().compare(className) == 0)
+				return iter;
+		}
 		return end;
 	}
 

@@ -37,9 +37,11 @@
      $result = rb_str_new2($1->c_str());
 }
 
-%typemap(directorin) CeGuiString, const CeGuiString &, CeGuiString & "$1_name.c_str();";
+%typemap(directorin) CeGuiString, const CeGuiString &, CeGuiString & 
+	"$input = rb_str_new2($1.c_str());"
 
-%typemap(directorin) CeGuiString *, const CeGuiString * "$1_name->c_str();";
+%typemap(directorin) CeGuiString *, const CeGuiString * 
+	"$input = rb_str_new2($1->c_str());"
 
 %typemap(directorout) CeGuiString {
     if (TYPE($input) == T_STRING)
@@ -230,6 +232,47 @@
    rb_ary_push(array, rb_float_new($1.y));
    rb_ary_push(array, rb_float_new($1.z));
    $result = array;
+}
+
+%typemap(ruby, freearg) rl::CeGuiStringVector &, const rl::CeGuiStringVector & {
+  delete $1;
+}
+
+%typemap(ruby, directorin) rl::CeGuiStringVector &, const rl::CeGuiStringVector & {
+  VALUE arr = rb_ary_new2($1->size()); 
+  StringVector::iterator i = $1->begin(), iend = $1->end();
+  for ( ; i!=iend; i++ )
+    rb_ary_push(arr, rb_str_new2(&(*i)));
+  $result = arr;
+}
+%typemap(ruby, directorin) rl::CeGuiStringVector, const rl::CeGuiStringVector {
+  VALUE arr = rb_ary_new2($1.size()); 
+  StringVector::iterator i = $1.begin(), iend = $1.end();
+  for ( ; i!=iend; i++ )
+    rb_ary_push(arr, rb_str_new2(*i));
+  $result = arr;
+}
+
+%typemap(ruby, directorout) rl::CeGuiStringVector , const rl::CeGuiStringVector {
+  Check_Type($input, T_ARRAY);
+  rl::CeGuiStringVector vec;
+  int len = RARRAY($input)->len;
+  for (int i=0; i!=len; i++) {
+    VALUE inst = rb_ary_entry($input, i);
+    vec.push_back(CeGuiString(STR2CSTR(inst)));
+  }
+  $result = vec;
+}
+
+%typemap(ruby, directorout) rl::CeGuiStringVector &, const rl::CeGuiStringVector& {
+  Check_Type($input, T_ARRAY);
+  rl::CeGuiStringVector *vec = new rl::CeGuiStringVector;
+  int len = RARRAY($input)->len;
+  for (int i=0; i!=len; i++) {
+    VALUE inst = rb_ary_entry($input, i);
+    vec->push_back(CeGuiString(STR2CSTR(inst)));
+  }
+  $result = vec;
 }
 
 #endif

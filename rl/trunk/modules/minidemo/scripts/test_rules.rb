@@ -6,7 +6,9 @@ chdesc = ChangeDescriptionAction.new("UntersuchungGelungen", "Dieser Tisch hat m
 view = UseTalent.new("Untersuchen", "Tisch genauer ansehen", "Magiekunde", 5, chdesc)
 $gameTisch.addAction(chdesc, 4) # ACT_DISABLED
 $gameTisch.addAction(view)
-p "Beschreibung vorher: '"+$gameTisch.getDescription+"'"
-$Ui.showActionChoice($gameTisch)
-#view.doAction($gameTisch, $Ui.getActiveCharacter(), $Ui.getActiveCharacter())
-p "Beschreibung nachher: '"+$gameTisch.getDescription+"'"
+#$Ui.showActionChoice($gameTisch)
+print "Oh, ein Tisch"
+print "Beschreibung vorher: '"+$gameTisch.getDescription+"'"
+print "Den guck ich mir doch mal genauer an (Anwendung von Magiekunde)"
+view.doAction($gameTisch, $Ui.getActiveCharacter(), $Ui.getActiveCharacter())
+print "Beschreibung nachher: '"+$gameTisch.getDescription+"'"

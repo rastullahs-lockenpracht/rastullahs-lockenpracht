@@ -8,6 +8,9 @@
 #include <map>
 
 namespace rl {
+
+	class CommandExecutor;
+
 	enum MovementState
 	{
 		MOVE_NONE = 0,
@@ -42,18 +45,23 @@ namespace rl {
 		bool injectKeyDown(int keycode);
 		bool injectKeyUp(int keycode);
 
+		void setExecutor(CommandExecutor* executor);
+
 	private:
-		typedef std::map<int, const char*> KeyCommandMap;
+		typedef std::map<int, CeGuiString> KeyCommandMap;
 		typedef std::map<int, MovementState> MovementCommandMap;
-		typedef std::map<int, const char*> MouseCommandMap;
+		typedef std::map<int, CeGuiString> MouseCommandMap;
 
 		MovementCommandMap mMovementCommands;
-		KeyCommandMap mActionsCommands;
+		KeyCommandMap mActionCommands;
 		MouseCommandMap mMouseCommands;
 
 		int mActiveMovement;
+		
+		CommandExecutor* mCommandExecutor;
 
-		StringVector mActions;
+		StringVector mActionsInBattle;
+		StringVector mActionsOffBattle;
 	};
 
 }

@@ -145,7 +145,10 @@ namespace rl {
 
         const std::vector<Action*> getValidActions() const;        
         
-        void doAction(const CeGuiString& action, rl::Creature* actor,
+        void doAction(
+			const CeGuiString& actionName, 
+			const CeGuiString& className, 
+			rl::Creature* actor,
             rl::GameObject* target);
         void doAction(Action* action, rl::Creature* actor,
             rl::GameObject* target);

@@ -143,7 +143,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="[SWIG] Rubydateien erzeugen."
-						CommandLine="..\..\dependencies\swig\swig.exe -c++ -ruby -minherit -v -Wall &quot;$(InputPath)&quot;
+						CommandLine="cd ..\..\dependencies\swig
+swig.exe -c++ -ruby -minherit -v -Wall &quot;$(InputPath)&quot;
 "
 						Outputs="swig\$(InputFileName)_wrap.cxx"/>
 				</FileConfiguration>

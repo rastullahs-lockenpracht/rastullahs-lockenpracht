@@ -1,17 +1,3 @@
-%exception {
-  try {
-    $action
-  }
-  catch (Ogre::Exception& oe) {
-    static VALUE ogreException = rb_define_class("OgreException", rb_eStandardError);
-    rb_raise(ogreException, oe.getFullDescription().c_str());
-  }
-  catch (rl::Exception& re ) {
-    static VALUE ogreException = rb_define_class("OgreException", rb_eStandardError);
-    rb_raise(ogreException, re.toString().c_str());
-  }
-}
-
 namespace Ogre {
 class Root {
 private:

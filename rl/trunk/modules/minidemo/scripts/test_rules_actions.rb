@@ -69,15 +69,15 @@ class UseTalent < RubyAction
 	def doAction(object, actor, target)
 		talent = DsaManager.getSingleton.getTalent(@mTalentName)
 		twS = actor.doEigenschaftsprobe(talent.getId, @mProbeMod)
-		
-		#object.doAction(mActionClass, mActionName, actor, target) if twS >= 0
+		print twS
+		object.doAction(@mAction, actor, target) if twS >= 0
 	end
 end
 
 class ChangeDescriptionAction < RubyAction
 	def initialize(name, newdesc)
 		super(name, "")
-		@mNewDescription = newdesc
+		@mNewDescription = newdesc		
 	end
 	
 	def getTargetClass

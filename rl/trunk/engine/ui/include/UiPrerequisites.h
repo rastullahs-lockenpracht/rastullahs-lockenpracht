@@ -24,7 +24,7 @@ typedef CEGUI::String CeGuiString;
 
 namespace rl
 {
-    typedef std::vector<CeGuiString> StringVector;
+    typedef std::vector<CeGuiString> CeGuiStringVector;
 }
 
 #endif

@@ -45,14 +45,16 @@ namespace rl
         const ActionVector getValidActions() const;
 
         /** Eine Aktion des Gegenstandes wird ausgeloest.
-         *  @param action der Name der auszuloesenden Aktion.
+         *  @param actionName der Name der auszuloesenden Aktion.
+         *  @param actionClass der (Ruby-)Klassenname der auszuloesenden Aktion.
          *  @param actor der "Benutzer" des Gegenstandes,
          *         der die Aktion ausgeloest hat, kann auch
          *         <code>NULL</code> sein, falls die Aktion auf andere Weise
          *         getriggert wurde.
          *  @param target Ziel, auf das die Aktion gewirkt wird.
          */
-        void doAction(const CeGuiString& action,
+        void doAction(const CeGuiString& actionName,
+                      const CeGuiString& className,
                       Creature* actor,
                       GameObject* target);
 
@@ -65,6 +67,7 @@ namespace rl
 	private:
         ActionOptionVector mActions;
 		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const CeGuiString& actionName);
+		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const CeGuiString& actionName, const CeGuiString& className);
 		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const Action* action);
 	
     protected:
