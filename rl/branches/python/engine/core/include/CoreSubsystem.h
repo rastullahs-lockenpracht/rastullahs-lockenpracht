@@ -98,6 +98,7 @@ private:
 	Ogre::StringVector mActivatableModules;
 	Ogre::String mActiveModule;
     Ogre::String mRootDir;
+    Ogre::Timer* mTimer;
 
 	RL_LONGLONG mClockStartTime;
 };

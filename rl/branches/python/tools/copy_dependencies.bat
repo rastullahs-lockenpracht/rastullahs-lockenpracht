@@ -51,7 +51,7 @@ copy %RL_ROOT%\Dependencies\cegui\dependencies\lib\xerces-c_2_5_0D.dll %RL_DIST%
 REM Ruby Dateien kopieren
 REM ---------------------
 
-copy %RL_ROOT%\Dependencies\ruby\bin\msvcrt-ruby18.dll %RL_DIST%
+copy %RL_ROOT%\Dependencies\Python\Python23.dll %RL_DIST%
 
 REM Die restlichen Abhängigkeiten
 REM -----------------------------

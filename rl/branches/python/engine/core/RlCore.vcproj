@@ -23,7 +23,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\sound\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreOde\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\openalpp\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\ode\include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\sound\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreOde\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\openalpp\include;..\..\dependencies\Python\include;..\..\dependencies\OpenAL\Include;..\..\dependencies\ode\include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include"
 				PreprocessorDefinitions="_WINDOWS,_DEBUG,WIN32,RLCORE_EXPORTS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -46,12 +46,12 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="TRUE"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlSound.lib msvcrt-ruby18.lib OgreMain_d.lib OpenAL32.lib ALut.lib OgreOde_Core_d.lib"
+				AdditionalDependencies="RlSound.lib Python23.lib boost_python_debug.lib OgreMain_d.lib OpenAL32.lib ALut.lib OgreOde_Core_d.lib"
 				ShowProgress="0"
 				OutputFile="./lib/debug/RlCore.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreOde\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogreaddons\dotsceneoctree\PlugIns\DotSceneManager\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\ode\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib"
+				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreOde\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogreaddons\dotsceneoctree\PlugIns\DotSceneManager\bin\$(ConfigurationName)&quot;;..\..\dependencies\Python\libs;..\..\dependencies\OpenAL\libs;..\..\dependencies\ode\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
 				AssemblyDebug="1"
@@ -106,7 +106,7 @@
 				FavorSizeOrSpeed="1"
 				OptimizeForProcessor="2"
 				OptimizeForWindowsApplication="TRUE"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\sound\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreOde\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\openalpp\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\ode\include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\sound\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreOde\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\openalpp\include;..\..\dependencies\Python\include;..\..\dependencies\OpenAL\Include;..\..\dependencies\ode\include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include"
 				PreprocessorDefinitions="NDEBUG,_WINDOWS,WIN32,RLCORE_EXPORTS"
 				StringPooling="FALSE"
 				ExceptionHandling="TRUE"
@@ -128,11 +128,11 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="TRUE"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlSound.lib msvcrt-ruby18.lib OgreMain.lib OpenAL32.lib ALut.lib OgreOde_Core.lib"
+				AdditionalDependencies="RlSound.lib Python23.lib boost_python.lib OgreMain.lib OpenAL32.lib ALut.lib OgreOde_Core.lib"
 				OutputFile="./lib/release/RlCore.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreOde\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogreaddons\dotsceneoctree\PlugIns\DotSceneManager\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\ode\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib"
+				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreOde\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogreaddons\dotsceneoctree\PlugIns\DotSceneManager\bin\$(ConfigurationName)&quot;;..\..\dependencies\Python\libs;..\..\dependencies\OpenAL\libs;..\..\dependencies\ode\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib"
 				ProgramDatabaseFile=""
 				SubSystem="2"/>
 			<Tool
@@ -193,6 +193,12 @@
 				RelativePath=".\include\CameraObject.h">
 			</File>
 			<File
+				RelativePath=".\include\ConfigurationManager.h">
+			</File>
+			<File
+				RelativePath=".\include\ConfigurationManagerWin32.h">
+			</File>
+			<File
 				RelativePath=".\include\CorePrerequisites.h">
 			</File>
 			<File
@@ -226,7 +232,7 @@
 				RelativePath=".\include\PhysicsManager.h">
 			</File>
 			<File
-				RelativePath=".\include\RubyInterpreter.h">
+				RelativePath=".\include\PythonInterpreter.h">
 			</File>
 			<File
 				RelativePath=".\include\ScriptObject.h">
@@ -263,6 +269,12 @@
 				RelativePath=".\src\CameraObject.cpp">
 			</File>
 			<File
+				RelativePath=".\src\ConfigurationManager.cpp">
+			</File>
+			<File
+				RelativePath=".\src\ConfigurationManagerWin32.cpp">
+			</File>
+			<File
 				RelativePath=".\src\CoreSubsystem.cpp">
 			</File>
 			<File
@@ -290,7 +302,7 @@
 				RelativePath=".\src\PhysicsManager.cpp">
 			</File>
 			<File
-				RelativePath=".\src\RubyInterpreter.cpp">
+				RelativePath=".\src\PythonInterpreter.cpp">
 			</File>
 			<File
 				RelativePath=".\src\ScriptObject.cpp">

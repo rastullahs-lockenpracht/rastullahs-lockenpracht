@@ -26,9 +26,9 @@
 namespace rl {
 
 	class Action;
+    class ActionGroup;
 	class GameObject;
 	class Person;
-	class ActionGroup;
 
 	class _RlUiExport ActionChoiceWindow : public CeGuiWindow
 	{

@@ -19,8 +19,6 @@
 #include "GameLoop.h"
 #include "GameTask.h"
 #include "CoreSubsystem.h"
-#include "FixRubyHeaders.h"
-//#include "Sleep.h"
 #include <boost/thread.hpp>
 
 using Ogre::Singleton;

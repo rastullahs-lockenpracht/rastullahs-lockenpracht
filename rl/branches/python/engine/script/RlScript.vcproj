@@ -33,7 +33,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="RlCore.lib RlUi.lib RlRules.lib RlSound.lib OgreMain_d.lib Python24.lib CEGUIBase_d.lib"
+				AdditionalDependencies="RlCore.lib RlUi.lib RlRules.lib RlSound.lib OgreMain_d.lib Python23.lib CEGUIBase_d.lib boost_python_debug.lib"
 				OutputFile="$(OutDir)/RlScript.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\Python\libs;..\..\dependencies\cegui\lib;..\..\dependencies\boost\lib"
@@ -84,7 +84,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="RlCore.lib RlUi.lib RlRules.lib RlSound.lib OgreMain.lib Python24.lib CEGUIBase.lib"
+				AdditionalDependencies="RlCore.lib RlUi.lib RlRules.lib RlSound.lib OgreMain.lib Python23.lib CEGUIBase.lib boost_python.lib"
 				OutputFile="$(OutDir)/RlScript.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\Python\libs;..\..\dependencies\cegui\lib;..\..\dependencies\boost\lib"
@@ -155,6 +155,34 @@
 			Name="Ressourcendateien"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}">
+		</Filter>
+		<Filter
+			Name="python"
+			Filter="">
+			<File
+				RelativePath=".\python\PythonCommonTypes.h">
+			</File>
+			<File
+				RelativePath=".\python\PythonCore.h">
+			</File>
+			<File
+				RelativePath=".\python\PythonCoreIncludes.h">
+			</File>
+			<File
+				RelativePath=".\python\PythonRastullahModule.cpp">
+			</File>
+			<File
+				RelativePath=".\python\PythonRules.h">
+			</File>
+			<File
+				RelativePath=".\python\PythonRulesIncludes.h">
+			</File>
+			<File
+				RelativePath=".\python\PythonUi.h">
+			</File>
+			<File
+				RelativePath=".\python\PythonUiIncludes.h">
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

@@ -18,10 +18,6 @@
 
 #include "UiSubsystem.h"
 
-#include <OgreCEGUIRenderer.h>
-#include <OgreCEGUIResourceProvider.h>
-
-#include "RubyInterpreter.h"
 #include "CoreSubsystem.h"
 #include "Console.h"
 #include "DebugWindow.h"
@@ -33,23 +29,18 @@
 #include "MainMenuWindow.h"
 #include "WindowManager.h"
 #include "GameLoggerWindow.h"
+#include "ActionChoiceWindow.h"
+#include "CharacterSheetWindow.h"
+#include "PlaylistWindow.h"
 
 #include "GameLoop.h"
 #include "ActorManager.h"
 #include "Actor.h"
+#include "Person.h"
 #include "World.h"
 
-// BEGIN TEST
-#include "Person.h"
-#include "CharacterSheetWindow.h"
-#include "GameObject.h"
-#include "Action.h"
-#include "ActionChoiceWindow.h"
-#include "ActionManager.h"
-#include "DsaManager.h"
-#include "DialogWindow.h"
-#include "PlaylistWindow.h"
-// END TEST
+#include <OgreCEGUIRenderer.h>
+#include <OgreCEGUIResourceProvider.h>
 
 template<> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
 
@@ -139,7 +130,6 @@ namespace rl {
 
 		new DebugWindow();
 		new Console();
-		((RubyInterpreter*)CoreSubsystem::getSingleton().getInterpreter() )->initializeInterpreter( (VALUE(*)(...))&UiSubsystem::consoleWrite );
 			      
 		mGameLogger = new GameLoggerWindow();
         //runTest();
@@ -155,12 +145,6 @@ namespace rl {
     void UiSubsystem::writeToConsole(std::string text)
 	{
 		Console::getSingleton().write(text);
-	}
-
-	VALUE UiSubsystem::consoleWrite(VALUE self, VALUE str)
-	{
-		Console::getSingleton().write(RubyInterpreter::val2str(str) + " \n");
-		return Qnil;
 	}
 
 	Person* UiSubsystem::getActiveCharacter()

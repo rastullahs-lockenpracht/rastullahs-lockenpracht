@@ -143,6 +143,9 @@
 		<Filter
 			Name="Headerdateien"
 			Filter="h;hpp;hxx;hm;inl;inc">
+			<File
+				RelativePath=".\include\ConsoleOutputHelper.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="Ressourcendateien"

@@ -22,13 +22,6 @@
 #include <OgreSingleton.h>
 #include <string>
 
-#include <OgreNoMemoryMacros.h>
-#include "FixRubyHeaders.h"		// die Makros sind hier vor Ruby schon definiert
-#include <ruby.h>
-#include "FixRubyHeaders.h"
-#include <OgreMemoryMacros.h>
-#undef min
-
 namespace rl {
 
     class Interpreter;
@@ -57,7 +50,6 @@ namespace rl {
 
 		/** Writes Text into the Console or other output media */
 		void writeToConsole(std::string text);
-		static VALUE consoleWrite(VALUE self, VALUE str);
 		void toggleConsole();
 		void toggleDebugWindow();
 		void toggleGameLogWindow();

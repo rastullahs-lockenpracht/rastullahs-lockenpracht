@@ -22,10 +22,11 @@
 #undef _assert
 
 #include <vector>
-#include "FixRubyHeaders.h"
 #pragma warning (push)
 #pragma warning( disable : 4267 ) // Konvertierungswarnung in CEGUIString
+#include <OgreNoMemoryMacros.h>
 #include <CEGUIString.h>
+#include <OgreMemoryMacros.h>
 #pragma warning (pop)
 
 #include "RastullahPrerequisites.h"
@@ -40,6 +41,8 @@
 #else // Linux / Mac OSX etc
 #   define _RlUiExport
 #endif
+
+#include "RulesPrerequisites.h"
 
 namespace rl
 {

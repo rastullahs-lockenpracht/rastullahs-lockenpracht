@@ -49,6 +49,10 @@ namespace rl {
     
     void PythonInterpreter::initializeInterpreter()
     {
+        //handle<>ignored_import(borrowed(PyImport_ImportModule("sys")));
+        execute("import sys\n");
+        
+        addSearchPath(".");
         //Skript-Verzeichnisse der  Dateien duerfen auch in /script liegen
         StringVector modules = CoreSubsystem::getSingleton().getActiveModules();
         for (StringVector::iterator iter = modules.begin(); iter != modules.end(); iter++)
@@ -57,13 +61,14 @@ namespace rl {
             addSearchPath("modules/"+(*iter)+"/scripts/maps");
         }
 
-        mRastullahModule(borrowed(PyImport_ImportModule("rastullah")));
+//        mRastullahModule(borrowed(PyImport_ImportModule("RlScript")));
+        mRastullahModule(borrowed(PyImport_AddModule("rastullah")));
 
         //Ersetzt die Standard-Ausgabe von Python durch Ausgaben in die Console
         ///@todo Standardausgabe ersetzen.
 
         //Define Globals
-        handle<>ignored(borrowed(PyImport_ImportModule("globals.py")));
+        //handle<>ignored(borrowed(PyImport_ImportModule("globals.py")));
     }
 
     void PythonInterpreter::addSearchPath(const String& path)
@@ -76,12 +81,13 @@ namespace rl {
         try
         {
             object result(handle<>(PyRun_String(command.c_str(),
-                Py_single_input, mMainModule.ptr(), mMainModule.ptr())));
+                Py_file_input, mMainModule.ptr(), mMainModule.ptr())));
             return true;
         }
         catch(error_already_set)
         {
             PyErr_Print();
+            fflush(stderr);
             return false;
         }
     }

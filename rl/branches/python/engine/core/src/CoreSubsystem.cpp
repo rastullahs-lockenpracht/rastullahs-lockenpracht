@@ -23,13 +23,14 @@
 #include <OgreLog.h>
 #include <OgreConfigFile.h>
 #include <OgreMeshManager.h>
+#include <OgreTimer.h>
 
 #include "DotSceneOctreeWorld.h"
 #include "PhysicsManager.h"
 #include "ActorManager.h"
 #include "AnimationManager.h"
 #include "GameLoop.h"
-#include "RubyInterpreter.h"
+#include "PythonInterpreter.h"
 #include "Exception.h"
 #include "ConfigurationManager.h"
 #include <ctime>
@@ -50,18 +51,23 @@ namespace rl {
     }
 
     CoreSubsystem::CoreSubsystem()
-        : 	mWorld(NULL),
-        mInterpreter(NULL),
-        mActiveModule(""),
-        mRootDir(".")
+        : mWorld(NULL),
+          mInterpreter(NULL),
+          mCommonModules(),
+          mActivatableModules(),
+          mActiveModule(""),
+          mRootDir("."),
+          mTimer(0)
     {
-        resetClock();
         initializeCoreSubsystem();        
+        mTimer = PlatformManager::getSingleton().createTimer();
+        mTimer->reset();
         resetClock();
     }
 
     CoreSubsystem::~CoreSubsystem() 
-    {  
+    {
+        PlatformManager::getSingleton().destroyTimer(mTimer);
         if(mWorld != 0)
             delete mWorld;
 
@@ -137,7 +143,9 @@ namespace rl {
         log->setLogDetail( LL_BOREME );
 
         mWorld = new DotSceneOctreeWorld();
-        mInterpreter=new RubyInterpreter();
+        mInterpreter=new PythonInterpreter();
+        mInterpreter->initializeInterpreter();
+        
         new GameLoopManager(100); //TODO: In Config-Datei verlagern
         GameLoopManager::getSingleton().addSynchronizedTask(
             PhysicsManager::getSingletonPtr());
@@ -267,7 +275,7 @@ namespace rl {
         initializeModule(module);
         mActiveModule = module;
 
-        getInterpreter()->execute("load 'startup-module.rb'");
+        getInterpreter()->execute("import startup-module.");
     }
 
     World* CoreSubsystem::getWorld()
@@ -310,17 +318,6 @@ namespace rl {
 
     void CoreSubsystem::loadMap(const String type, const String filename, const String startupScript)
     {
-        /*if (type.compare("BSP") == 0)
-        mWorld = new BSPWorld( );
-        else if (type.compare("Octree") == 0)
-        mWorld = new DotSceneOctreeWorld();
-        else if (type.compare("Nature") == 0)
-        mWorld = new NatureWorld();
-        else if (type.compare("Terrain") == 0)
-        mWorld = new TerrainWorld();
-        else
-        Throw(RuntimeException, "Unknown world type");*/
-
         GameLoopManager::getSingleton().setPaused(true);
 
         mWorld->loadScene(filename);
@@ -332,19 +329,17 @@ namespace rl {
 
     void CoreSubsystem::resetClock()
     {
-        mClockStartTime = getCurrentTime();
+        mTimer->reset();
     }
 
     RL_LONGLONG CoreSubsystem::getClock()
     {
-        return getCurrentTime() - mClockStartTime;
+        return getCurrentTime();
     }
 
     RL_LONGLONG CoreSubsystem::getCurrentTime()
     {
-        timeval timebuffer;
-        gettimeofday(&timebuffer, NULL);
-
-        return static_cast<RL_LONGLONG>(timebuffer.tv_sec) * 1000L + static_cast<RL_LONGLONG>(timebuffer.tv_usec/1000);
+        ///@todo Überprüfen und fixen. Andere Timer-Methoden ebenso.
+        return static_cast<RL_LONGLONG>(mTimer->getMilliseconds()) * 1000L;
     }
 }

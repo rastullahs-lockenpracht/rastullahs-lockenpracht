@@ -127,12 +127,6 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath=".\src\ConfigurationManager.cpp">
-			</File>
-			<File
-				RelativePath=".\src\ConfigurationManagerWin32.cpp">
-			</File>
-			<File
 				RelativePath=".\src\CsvFile.cpp">
 			</File>
 			<File
@@ -164,12 +158,6 @@
 				RelativePath=".\include\CommonPrerequisites.h">
 			</File>
 			<File
-				RelativePath=".\include\ConfigurationManager.h">
-			</File>
-			<File
-				RelativePath=".\include\ConfigurationManagerWin32.h">
-			</File>
-			<File
 				RelativePath=".\include\CsvFile.h">
 			</File>
 			<File
@@ -186,9 +174,6 @@
 			</File>
 			<File
 				RelativePath=".\include\Exception.h">
-			</File>
-			<File
-				RelativePath=".\include\FixRubyHeaders.h">
 			</File>
 			<File
 				RelativePath=".\include\RastullahPrerequisites.h">

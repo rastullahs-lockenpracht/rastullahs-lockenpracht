@@ -24,7 +24,6 @@
 #include <OgreInput.h>
 
 #include "UiPrerequisites.h"
-#include "FixRubyHeaders.h"
 #include "GameTask.h"
 
 #include <OgreNoMemoryMacros.h>

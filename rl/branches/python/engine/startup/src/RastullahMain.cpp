@@ -32,10 +32,11 @@
 #include <CEGUIExceptions.h>
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-	#define WIN32_LEAN_AND_MEAN
-	#include "windows.h"
+#   define WIN32_LEAN_AND_MEAN
+#   include <windows.h>
+#   include "ConsoleOutputHelper.h"
 #else
-	#include "SDL.h"
+#   include <SDL.h>
 #endif
 
 void startupRl()
@@ -48,7 +49,9 @@ void startupRl()
 	rl::ScriptSubsystem* script =  NULL;
 
 	try {
-
+#       if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+            showWin32Console();
+#       endif
 		/**@todo das nach RastullahApplication
 		* und RastullahApplication nach Startup. */
 		core = new rl::CoreSubsystem();
