@@ -79,13 +79,13 @@ class _RlSoundExport SoundResource: public Resource,
             public virtual EventCaster<SoundEvent> {
             private:
                 /// Damit wir wissen, wo wir hinwollen ;-)
-                SoundResource *that;
+                SoundResource *mResource;
                 /// Fade In oder Out
                 bool mFadeIn;
                 /// Dauer des Fades in msek.
-                unsigned long int mDauer;
-                /// Absichern von mDauer
-                mutable Mutex mDauerMutex;
+                unsigned long int mDuration;
+                /// Absichern von mDuration
+                mutable Mutex mDurationMutex;
                 /// Die Lautstärke, die Berechnungsgrundlage ist.
                 ALfloat mGain;
                 /// Absichern von mGain.
@@ -98,25 +98,27 @@ class _RlSoundExport SoundResource: public Resource,
                 ALfloat calculateFadeOut(unsigned RL_LONGLONG time);
 
             public:
-                /// Der Konstruktor.
+                /// Die Konstruktoren.
+				FadeThread(bool fadeIn);
                 FadeThread(SoundResource *that, bool fadeIn);
                 /// Die Arbeitsroutine.
                 void run();
                 /// Die Fadedauer setzen.
-                void setDauer(const unsigned long int dauer);
+                void setDuration(const unsigned long int duration);
                 /// Die Fadedauer bekommen.
-                const unsigned long int getDauer() const;
+                const unsigned long int getDuration() const;
                 /// Die Ausgangslautstärke setzen.
                 void setGain(const ALfloat gain);
                 /// Die Ausgangslautstärke bekommen.
                 const ALfloat getGain() const;
+				/// Ressource setzen
+				void setResource(SoundResource *that);
                 
 
         };
         /// Der Thread, der das Fade-In behandelt
         mutable FadeThread mFadeInThread;
         /// Der Thread, der das Fade-Out behandelt
-     
         mutable FadeThread mFadeOutThread;
        
         /// Streamen der Sounddaten
@@ -125,16 +127,19 @@ class _RlSoundExport SoundResource: public Resource,
             public virtual EventCaster<SoundEvent> {
             private:
                 /// Damit wir wissen, wo wir hinwollen ;-)
-                SoundResource *that;
+                SoundResource *mResource;
                 /// Die Daten, die wir streamen wollen.
                 ALbyte *mData;
                 /// Der Typ der Sounddaten.
                 SoundDataType mDataType;
             public:
-                /// Der Konstruktor.
+                /// Die Konstruktoren.
+				StreamThread();
                 StreamThread(SoundResource *that);
                 /// Die Arbeitsroutine.
                 void run();
+				/// Ressource setzen
+				void setResource(SoundResource *that);
 
         };
         /// Der Thread, der das Streamen behandelt.

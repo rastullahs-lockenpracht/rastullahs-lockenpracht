@@ -22,7 +22,7 @@ namespace rl
 	string toUpper(const string &str) 
 	{
 		string result = str;
-		for ( register int ix = 0; ix < result.length(); ++ix )		
+		for ( register unsigned int ix = 0; ix < result.length(); ++ix )		
 			result[ix] = toupper(result[ix]);
 		return result;
 	}
@@ -30,7 +30,7 @@ namespace rl
 	string toLower(const string &str) 
 	{
 		string result = str;
-		for ( register int ix = 0; ix < result.length(); ++ix ) 
+		for ( register unsigned int ix = 0; ix < result.length(); ++ix ) 
 			result[ix] = toupper(result[ix]);
 		return result;
 	}

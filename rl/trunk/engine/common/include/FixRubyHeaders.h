@@ -17,11 +17,9 @@
 /**
  * Einige Undefines, für unfreundliche defines in den Ruby-Headers.
  * Dort werden viele C-Funktionen überdeckt, die in Ogre aber benötigt werden.
- * Diese Datei muss nach einem Ruby-Header inkludiert werden.
+ * Diese Datei muss nach einem Ruby-Header inkludiert werden, möglicherweise auch
+ * noch davor, um vorherige Makros zu löschen.
  */
-#ifndef __FIXRUBYHEADERS_H__
-#define __FIXRUBYHEADERS_H__
-
 #undef close
 #undef bind
 #undef select
@@ -30,5 +28,3 @@
 #undef vsnprintf
 #undef Sleep
 #undef sleep
-
-#endif
