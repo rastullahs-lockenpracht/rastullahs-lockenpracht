@@ -92,10 +92,10 @@ class _RlSoundExport SoundResource: public Resource,
                 mutable Mutex mGainMutex;
             protected:
                 /// Berechne den Anstieg der Lautstarke beim Fade-In
-                ALfloat calculateFadeIn(unsigned RL_LONGLONG time);
+                ALfloat calculateFadeIn(unsigned RL_LONGLONG time, ALfloat gain);
 
                 /// Berechne die Abnahme der Lautstarke beim Fade-Out
-                ALfloat calculateFadeOut(unsigned RL_LONGLONG time);
+                ALfloat calculateFadeOut(unsigned RL_LONGLONG time, ALfloat gain);
 
             public:
                 /// Die Konstruktoren.

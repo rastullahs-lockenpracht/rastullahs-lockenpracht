@@ -16,6 +16,7 @@
 
 #include <string>
 #include <iostream>
+#include <math.h>
 #include <OgreString.h>
 #include <OgreStringConverter.h>
 #include "SoundSubsystem.h"
@@ -107,6 +108,7 @@ SoundResource::~SoundResource()
 bool SoundResource::eventRaised(SoundEvent *anEvent) const
 {
     SoundSubsystem::log("Event raised. Reason: " + StringConverter::toString(anEvent->getReason()));
+    SoundSubsystem::log("Event raised. Source: " + StringConverter::toString((unsigned long int)anEvent->getSource()));
     return true;
 }
 
@@ -324,8 +326,8 @@ void SoundResource::fadeIn(unsigned int msec)
 {
     if (msec != 0)
     {
-// TODO        mFadeInThread.setDauer(msec);
-//        mFadeInThread.start();
+        mFadeInThread.setDuration(msec);
+        mFadeInThread.start();
     }
 }
 /**
@@ -336,8 +338,8 @@ void SoundResource::fadeOut(unsigned int msec)
 {
     if (msec != 0 )
     {
-// TODO        mFadeOutThread.setDauer(msec);
-//        mFadeOutThread.start();
+        mFadeOutThread.setDuration(msec);
+        mFadeOutThread.start();
     }
 }
 /**
@@ -351,7 +353,7 @@ void SoundResource::play(unsigned int msec) throw (RuntimeException)
         // Abspielen.
         // Threads starten.
         mStreamThread.start();
-        //fadeIn(msec);
+        fadeIn(msec);
     }
 }
 
@@ -375,7 +377,6 @@ void SoundResource::stop (unsigned int msec) throw (RuntimeException)
     if (alIsSource(mSource) && isPlaying())
     {
         fadeOut(msec);
-        alSourceStop(mSource);
     } 
 }
 
@@ -464,6 +465,10 @@ SoundResource::FadeThread::FadeThread(SoundResource *that, bool fadeIn) :
  */
 void SoundResource::FadeThread::run()
 {
+    SoundFadeEvent event(this);
+    event.setReason(SoundFadeEvent::STARTEVENT);
+    dispatchEvent(&event);
+
     try {
         if (mFadeIn)
         {
@@ -473,12 +478,12 @@ void SoundResource::FadeThread::run()
                 ALfloat gain = mResource->getGain();
                 
                 mResource->setGain(0.0f);
-                for(unsigned int time = 0; time <= mDuration; time += 10)
+                for(unsigned int time = 0; (time <= mDuration) && mResource->isPlaying(); time += 10)
                 {
                     
                     // Warten
                     msleep(10);
-                    ALfloat newgain = calculateFadeIn(time);
+                    ALfloat newgain = calculateFadeIn(time, gain);
                     // Lautstaerke hochsetzen.
                     mResource->setGain((newgain > gain)?gain:newgain);
                 }
@@ -492,11 +497,11 @@ void SoundResource::FadeThread::run()
                 // Alte Lautstaerke speichern.
                 ALfloat gain = mResource->getGain();
                 
-                for (unsigned int time = 0; time <= mDuration; time += 10)
+                for (unsigned int time = 0; (time <= mDuration) && mResource->isPlaying(); time += 10)
                 {
                     // Warten
                     msleep(10);
-                    ALfloat newgain = calculateFadeOut(time);
+                    ALfloat newgain = calculateFadeOut(time, gain);
                     // Lautstaerke hochsetzen.
                     mResource->setGain((newgain > gain)?gain:newgain);
                 }
@@ -511,38 +516,38 @@ void SoundResource::FadeThread::run()
     } catch(...)
     {
     }   
+    event.setReason(SoundFadeEvent::STOPEVENT);
+    dispatchEvent(&event);
 }
 
 /**
- * @param duration. Die Zeit in msek., die der Fade In insgesamt dauern soll.
  * @param time. Die Zeit in msek., wo der Fade In gerade ist
  * @param gain. Der aktuelle Lautstaerkewert, vom dem ausgegangen wird.
  * @author JoSch
  * @09-15-2004
  */
-ALfloat SoundResource::FadeThread::calculateFadeIn(unsigned RL_LONGLONG time)
+ALfloat SoundResource::FadeThread::calculateFadeIn(unsigned RL_LONGLONG time, ALfloat gain)
 {
     try {
         ALfloat x = (time * 1.0f) / getDuration();
-        return (1.0f - exp(-x)) * getGain();
+        return (1.0f - exp(-x)) * gain;
     } catch(...)
     {
-        return getGain();
+        return gain;
     }
 }
 
 /**
- * @param duration. Die Zeit in msek., die der Fade Out insgesamt dauern soll.
  * @param time. Die Zeit in msek., wo der Fade Out gerade ist
  * @param gain. Der aktuelle Lautstaerkewert, vom dem ausgegangen wird.
  * @author JoSch
  * @09-15-2004
  */
-ALfloat SoundResource::FadeThread::calculateFadeOut(unsigned RL_LONGLONG time)
+ALfloat SoundResource::FadeThread::calculateFadeOut(unsigned RL_LONGLONG time, ALfloat gain)
 {
     try {
-        ALfloat x = (time * 2.0f) / getDuration();
-        return exp(-x) * getGain();
+        ALfloat x = (time * 1.0f) / getDuration();
+        return exp(-x) * gain;
     } catch(...)
     {
         return (ALfloat)0.0f;
@@ -878,15 +883,28 @@ bool SoundResource::playback ()
     if (playing ())
         return true;
     
+    // Fuer jeden Buffer ein Bit setzen: 2^size - 1
+    unsigned int streams = (1 << mBuffers.size()) - 1; 
     for (unsigned int i = 0; i < mBuffers.size(); i++)
     {
         if (!stream (mBuffers[i]))
         {
-            return false;
+            streams &= ~(1 << i); // Entsprechendes Bit loeschen.
         }
     }
+    // Wenn kein Buffer gefuellt wurde (==0), dann hören wir jetzt auf.
+    if (streams == 0)
+    {
+        return false;
+    }
 
-    alSourceQueueBuffers (mSource, mBuffers.size(), &mBuffers[0]);
+    for (unsigned int i = 0; i < mBuffers.size(); i++)
+    {
+        if ((streams & (1 << i)) != 0)
+        {
+            alSourceQueueBuffers (mSource, 1, &mBuffers[i]);
+        }
+    }
     alSourcePlay (mSource);
 
     return true;
@@ -935,7 +953,6 @@ bool SoundResource::oggstream (ALuint buffer)
         result =
             ov_read(&mOggStream, pcm + size, BUFFER_SIZE - size, 0, 2, 1,
                      &section);
-    cerr << "Result: "<<result<<endl;
         if (result > 0) {
             size += result;
         }
@@ -972,9 +989,6 @@ void SoundResource::empty ()
     }
 }
 
-
-
-
 void SoundResource::check ()
 {
     int error = alGetError ();
@@ -984,8 +998,6 @@ void SoundResource::check ()
         Throw (RuntimeException, (const char *) alGetString (error));
     }
 }
-
-
 
 String SoundResource::errorString (int code)
 {

@@ -53,6 +53,7 @@ public:
                 sound->load();
                 sound->play();
                 
+                msleep(1000);
                 while (sound->isPlaying())
                     msleep(1000);
                 
@@ -76,13 +77,13 @@ public:
             if (sound)
             {
                 sound->load();
-                sound->play(0);
+                sound->play(2 * 1000);
                 
                 msleep(10 * 1000);
                 
-                sound->stop(0);
+                sound->stop(2 * 1000);
                 
-                msleep(10 * 1000);
+                msleep(5 * 1000);
                 
                 sound->unload();
             }            
@@ -93,8 +94,8 @@ public:
 
 	CPPUNIT_TEST_SUITE(SoundManagerTest);
 	CPPUNIT_TEST(testSoundManager_addSoundDirectory);
-    CPPUNIT_TEST(testSoundManager_loadPlayUnload);
-//    CPPUNIT_TEST(testSoundManager_loadPlayWithFade);
+//    CPPUNIT_TEST(testSoundManager_loadPlayUnload);
+    CPPUNIT_TEST(testSoundManager_loadPlayWithFade);
     CPPUNIT_TEST_SUITE_END();
 };
 CPPUNIT_TEST_SUITE_REGISTRATION(SoundManagerTest);

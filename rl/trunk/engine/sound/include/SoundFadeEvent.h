@@ -26,6 +26,9 @@ class SoundFadeEvent : public SoundEvent {
 public:
 	SoundFadeEvent(EventSource *source);
 	virtual ~SoundFadeEvent();
+
+    static const unsigned int STARTEVENT = 12;
+    static const unsigned int STOPEVENT = 13;
 };
 
 }
