@@ -24,11 +24,6 @@
 #include <OgreConfigFile.h>
 #include <OgreMeshManager.h>
 
-#if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
-#    include <iostream>
-using namespace std;
-#endif
-
 #include "DotSceneOctreeWorld.h"
 #include "PhysicsManager.h"
 #include "ActorManager.h"
@@ -36,6 +31,7 @@ using namespace std;
 #include "GameLoop.h"
 #include "RubyInterpreter.h"
 #include "Exception.h"
+#include "ConfigurationManager.h"
 #include <ctime>
 
 
@@ -109,92 +105,12 @@ namespace rl {
         }
     }
 
-#if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
-    const String CoreSubsystem::findConfRootDir()
-    {
-        static String CURRENT_DIR = ".";
-        char line[255];
-        ifstream config;
-        // Erstmal im Homeverzeichnis suchen.
-        String path = ::getenv("HOME");
-        path += "/.rl.conf";
-        config.open(path.c_str());
-        if (!config.is_open())
-        {
-            // Wir schliessen die Datei sicherheitshalber und
-            // setzen den Zustand zurück (wichtig!)
-            config.close();
-            config.clear();
-            // Jetzt schauen wir mal, ob in etc was zu finden ist.
-            config.open("/etc/rl/rl.conf");
-        } 
-        // Haben  wir jetzt eine Datei?
-        if (config.is_open())
-        {
-            while (!config.eof())
-            {
-                config.getline(line, 255);
-                if (strlen(line) != 0)
-                {
-                    // Wir geben die erste nichtleere Zeile zurück.
-                    return String(line);
-                }
-            }
-        }
-        // Klappt alles nicht.
-        cerr<<"line "<<endl;
-        return CURRENT_DIR;
-    }
-
-    const String CoreSubsystem::findRastullahConf()
-    {
-        char line[255];
-        ifstream config;
-        // Erstmal im Homeverzeichnis suchen.
-        String home = ::getenv("HOME");
-        String path = home + "/.rastullah.cfg";
-        config.open(path.c_str());
-        if (!config.is_open())
-        {
-            // Wir schliessen die Datei sicherheitshalber und
-            // setzen den Zustand zurück (wichtig!)
-            config.close();
-            config.clear();
-            // Jetzt schauen wir mal, ob in etc was zu finden ist.
-            path = "/etc/rl/rastullah.cfg";
-            config.open(path.c_str());
-        }
-        // Haben  wir jetzt eine Datei?
-        if (config.is_open())
-        {
-            config.close();
-            return path;
-        }
-        return home + "/.rastullah.cfg";
-    }
-#endif
-
     bool CoreSubsystem::initializeCoreSubsystem()
     {
-        static String CONF_DIR = "modules/common/conf/";
-
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-        new Root( 
-            mRootDir+"/"+CONF_DIR+"plugins-win.cfg", 
-            CONF_DIR+"rastullah.cfg", 
-            "logs/ogre.log" );
-#elif OGRE_PLATFORM == OGRE_PLATFORM_LINUX
-        mRootDir = findConfRootDir();
-        new Root( 
-            mRootDir+"/"+CONF_DIR+"plugins-linux.cfg", 
-            findRastullahConf(), 
-            "logs/ogre.log" ); //TODO: Logfiles im aktuellen Verzeichnis? Nicht gut. Entweder in /var/log oder dort, wo die modules sind.
-#else
-        new Root( 
-            CONF_DIR+"plugins-mac.cfg", 
-            CONF_DIR+"rastullah.cfg", 
-            "logs/ogre.log" ); //TODO: siehe Linux
-#endif
+        new Root(
+        	ConfigurationManager::getSingleton().getPluginCfgPath(), 
+        	ConfigurationManager::getSingleton().getRastullahCfgPath(), 
+        	ConfigurationManager::getSingleton().getOgreLogPath());
 
         // Muss vor dem Laden der Ressourcen geschehen,
         // weil es sonst sofort angewandt wird.
