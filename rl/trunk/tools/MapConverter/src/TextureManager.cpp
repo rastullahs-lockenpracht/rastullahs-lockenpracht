@@ -74,7 +74,7 @@ String *CTextureManager::GetName(int iIndex)
     return static_cast<Texture*>(Textures->get_Item(iIndex))->TextureName;
 }
 
-void CTextureManager::LoadTextures(String *WADString)
+void CTextureManager::LoadTextures(String *WADString, String *WADPath )
 {
     int iTexturesLoaded = 0, iTotalTexturesLoaded = 0;
     WADString = WADString->Replace("../", "");
@@ -95,7 +95,7 @@ void CTextureManager::LoadTextures(String *WADString)
         System::Runtime::InteropServices::Marshal::FreeHGlobal((IntPtr((void*)szDrive)));
     }
 
-    String* pathName = "";
+    String* pathName = WADPath;
 
     for(int i = 0; i < WADs->Count; i++)
     {

@@ -27,12 +27,14 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 using namespace MapConverter;
 
 // This is the entry point for this application
-int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+int __stdcall  WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	String *sArgs[] = (new String(lpCmdLine))->Replace("\"\"", "\"")->Replace("\" \"", "\n")->Replace("\" ", "\n")->Replace(" \"", "\n")->Replace("\"", "")->Split(S"\n"->ToCharArray());
 
-	MainForm *mainForm = new MainForm(); //(sArgs->Length == 1 ? sArgs[0] : S""), Config);
+    System::Threading::Thread::CurrentThread->ApartmentState = System::Threading::ApartmentState::STA;
 
+	MainForm *mainForm = new MainForm(); //(sArgs->Length == 1 ? sArgs[0] : S""), Config);
+    
 	Application::Run(mainForm);
 
     return 0;

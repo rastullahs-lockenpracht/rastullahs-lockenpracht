@@ -41,6 +41,6 @@ public:
     unsigned long GetHeight(int iIndex);
     String *GetName(int iIndex);
 
-    void LoadTextures(String *WADString);
+    void LoadTextures(String *WADString,String *WADPath);
     void DestroyTextures();
 };
