@@ -18,6 +18,7 @@
 #include "PhysicsManager.h"
 #include "ActorManager.h"
 #include "GameLoop.h"
+#include "RubyInterpreter.h"
 
 
 template<> rl::CoreSubsystem* Singleton<rl::CoreSubsystem>::ms_Singleton = 0;
@@ -107,6 +108,8 @@ namespace rl {
         PhysicsManager* pm = new PhysicsManager();
         GameLoop::getSingleton().addSynchronizedTask( pm );
         mWorld = new BSPWorld( );
+		mInterpreter=new RubyInterpreter();
+	//	mInterpreter->initializeInterpreter();
 		//mWorld = new NatureWorld();
 		//mWorld = new TerrainWorld();
 		new ActorManager( );
@@ -141,6 +144,16 @@ namespace rl {
     { 
         return mWorld;
     }
+
+	void CoreSubsystem::setInterpreter(Interpreter* interpreter)
+	{
+		mInterpreter = interpreter;
+	}
+
+	Interpreter* CoreSubsystem::getInterpreter()
+	{
+		return mInterpreter;
+	}
 
     void  CoreSubsystem::makeScreenshot( const String& sName )
 	{

@@ -263,6 +263,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\Interpreter.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\LightActor.h"
 				>
 			</File>
@@ -288,6 +292,14 @@
 			</File>
 			<File
 				RelativePath=".\include\PhysicsManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\RubyInterpreter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ScriptObject.h"
 				>
 			</File>
 			<File
@@ -369,6 +381,14 @@
 			</File>
 			<File
 				RelativePath=".\src\PhysicsManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\RubyInterpreter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ScriptObject.cpp"
 				>
 			</File>
 			<File

@@ -2,8 +2,9 @@
 
 #include <CEGUI.h>
 #include "UiSubsystem.h"
+#include "CoreSubsystem.h"
 #include "InputManager.h"
-#include "Interpreter.h"
+#include "RubyInterpreter.h"
 #include "CeConsole.h"
 #include "DebugWindow.h"
 #include "ListboxWrappedTextItem.h"
@@ -24,6 +25,12 @@ namespace rl
     {
         return Singleton<CeConsole>::getSingletonPtr();
     }
+
+	VALUE CeConsole::consoleWrite(VALUE self, VALUE str)
+	{
+		CeConsole::getSingleton().write(RubyInterpreter::val2str(str) + " \n");
+		return Qnil;
+	}
 
 	CeConsole::CeConsole() : CeGuiWindow("console.xml", true)
 	{
@@ -81,8 +88,8 @@ namespace rl
 		CEGUI::String printCommand = ">" + command;
 		appendTextRow(printCommand, 0xFF7FFF7F);
 				
-		if(mInterpreter != 0)
-			mPrompt = mInterpreter->execute(command.c_str());
+	//	if(mInterpreter != 0)
+			mPrompt = CoreSubsystem::getSingleton().getInterpreter()->execute(command.c_str());
 			//if (mPrompt)...
 
 		mHistory.push_back(command.c_str());

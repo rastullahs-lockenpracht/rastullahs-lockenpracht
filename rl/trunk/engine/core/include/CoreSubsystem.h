@@ -35,6 +35,10 @@ public:
 
 	World* getWorld();
 
+	void setInterpreter(Interpreter* interpreter);
+
+	Interpreter* getInterpreter();
+
 	/** Saves a timestamped jpg Screenshot
 		@param sName The filename (extended with the timestamp)
 	*/
@@ -53,6 +57,7 @@ private:
 
 private:
 	World* mWorld;
+	Interpreter* mInterpreter;
 };
 
 }

@@ -268,23 +268,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\Interpreter.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\InventoryWindow.h"
 				>
 			</File>
 			<File
 				RelativePath=".\components\include\ListboxWrappedTextItem.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\RubyInterpreter.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\ScriptObject.h"
 				>
 			</File>
 			<File
@@ -354,14 +342,6 @@
 			</File>
 			<File
 				RelativePath=".\components\src\ListboxWrappedTextItem.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\RubyInterpreter.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ScriptObject.cpp"
 				>
 			</File>
 			<File

@@ -88,7 +88,8 @@ namespace rl
 		response+= process(node, m,"0");	// last Parameter has no function at the moment
 		response+="</response>";			// response must be in Tags fpr PostProcessing
 		doc->release();
-		delete doc;
+		// Eigentlich muss ein delete doc hier möglich sein, aber seit neustem sorgt dies für einen Absturz
+	//	delete doc;
 		if(mExit)return mResponses;
 		log->logMessage("PostProcessing...");
 		XercesDOMParser* parser=new XercesDOMParser();
@@ -118,7 +119,8 @@ namespace rl
 			}
 		}
 		doc->release();
-		delete doc;
+		// Eigentlich muss ein delete doc hier möglich sein, aber seit neustem sorgt dies für einen Absturz
+	//	delete doc;
 		log->logMessage("Respond beendet");
 		return mResponses;
 	}
@@ -232,7 +234,6 @@ namespace rl
 					lastTailIsWS = false;
 				} else {
 					text=pt->process(node, match, id.c_str(), this);
-
 					//--fix whitespace here
 					//--	if last was not an element
 					//--		if last text tail was whitespace

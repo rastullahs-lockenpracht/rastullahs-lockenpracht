@@ -94,9 +94,9 @@ namespace rl {
         //DebugWindow::getSingleton().show();
 
 		new CeConsole();
-		CeConsole::getSingleton().setInterpreter( new RubyInterpreter() );
-        CeConsole::getSingleton().getInterpreter()->initializeInterpreter();
-
+	//	CeConsole::getSingleton().setInterpreter( new RubyInterpreter() );
+		((RubyInterpreter*)CoreSubsystem::getSingleton().getInterpreter() )->initializeInterpreter( (VALUE(*)(...))&CeConsole::consoleWrite );
+		
         //InputManager::getSingleton().addKeyListener(DebugWindow::getSingletonPtr());
 
         CameraActor* camera = dynamic_cast<CameraActor*>(
