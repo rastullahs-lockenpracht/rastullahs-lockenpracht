@@ -7,6 +7,7 @@ noinst_HEADERS = \
 	RubyInterpreter.h \
 	ScriptObject.h \
 	UiPrerequisites.h \
-	UiSubsystem.h \	
+	UiSubsystem.h \
 	DebugWindow.h \
 	ThirdPersonGameController.h
+	

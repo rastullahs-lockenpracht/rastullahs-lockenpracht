@@ -90,7 +90,7 @@ dnl --------------------------------------------
 
 dnl determine location of ruby
 AC_PATH_PROG(ruby_path, ruby, no)
-if test $ruby_path = no ; then
+if test $ruby_path = no; then
 	AC_MSG_ERROR(Cannot find Ruby! This program requires Ruby-1.8.0)
 fi
 
