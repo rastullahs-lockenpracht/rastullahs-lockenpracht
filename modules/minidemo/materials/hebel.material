@@ -1,0 +1,14 @@
+material SOLID/hebel.png
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture hebel.png
+      }
+    }
+  }
+}
+
