@@ -103,17 +103,25 @@ typedef __value struct BoundingBox
 	Vertex3f vPosBound;
 } BoundingBox;
 
-
 __gc class LogManager
 {
 private:
     static LogManager* m_LogManager = NULL;
-
+    System::IO::StreamWriter* m_streamWriter;
 public:
-    LogManager() { };
+    LogManager() 
+    { 
+        m_streamWriter = System::IO::File::AppendText("log.txt");
+        m_streamWriter->WriteLine("");
+        m_streamWriter->WriteLine("----------------------------------------");
+        m_streamWriter->WriteLine("");
+    };
 
     void Log(String* str, Color color)
     {
+        m_streamWriter->WriteLine("{0} {1} : {2}", System::DateTime::Now.ToLongTimeString(),
+            System::DateTime::Now.ToLongDateString(),  str );
+        m_streamWriter->Flush(); 
     }
 
     static LogManager* getSingletonPtr()

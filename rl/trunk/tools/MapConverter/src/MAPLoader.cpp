@@ -82,6 +82,8 @@ bool CMAPLoader::LoadMAPFile(String *sFile, CWorld *World, CTextureManager *Text
 
     MAPFile->Close();
 
+    LogManager::getSingletonPtr()->Log(String::Concat(S"Loading ", sFile, S" finished."), Color::Green);
+
     return World->GetEntities()->Count != 0;
 }
 

@@ -175,9 +175,6 @@
 				RelativePath=".\include\MAPLoader.h">
 			</File>
 			<File
-				RelativePath=".\resource.h">
-			</File>
-			<File
 				RelativePath=".\include\TextureManager.h">
 			</File>
 			<File

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "MAPLoader.h"
+#include "TextureManager.h"
+#include "World.h"
 
 using namespace System;
 using namespace System::ComponentModel;
@@ -21,7 +23,8 @@ namespace MapConverter
 	///          arbeiten, die diesem Formular zugewiesen sind.
 	/// </summary>
 	public __gc class MainForm : public System::Windows::Forms::Form
-	{
+	{     
+
 	public: 
 		MainForm(void)
 		{
@@ -47,9 +50,6 @@ namespace MapConverter
 
     private: System::Windows::Forms::StatusBarPanel *  statusBarPanel1;
     private: System::Windows::Forms::StatusBar *  statusBar;
-    
-
-    private: CMAPLoader* m_MapLoader;
     private: System::Windows::Forms::Button *  btnOpenWadDir;
     private: System::Windows::Forms::TextBox *  txtBoxWadDir;
     private: System::Windows::Forms::Label *  label1;
@@ -141,7 +141,7 @@ namespace MapConverter
             // 
             // statusBar
             // 
-            this->statusBar->Location = System::Drawing::Point(0, 131);
+            this->statusBar->Location = System::Drawing::Point(0, 123);
             this->statusBar->Name = S"statusBar";
             System::Windows::Forms::StatusBarPanel* __mcTemp__1[] = new System::Windows::Forms::StatusBarPanel*[1];
             __mcTemp__1[0] = this->statusBarPanel1;
@@ -194,7 +194,7 @@ namespace MapConverter
             this->AutoScale = false;
             this->AutoScaleBaseSize = System::Drawing::Size(5, 13);
             this->BackColor = System::Drawing::SystemColors::ActiveBorder;
-            this->ClientSize = System::Drawing::Size(394, 155);
+            this->ClientSize = System::Drawing::Size(394, 147);
             this->Controls->Add(this->btnOpenWadDir);
             this->Controls->Add(this->txtBoxWadDir);
             this->Controls->Add(this->label1);
@@ -225,12 +225,30 @@ namespace MapConverter
 
 
     private: System::Void button2_Click(System::Object *  sender, System::EventArgs *  e)
-             {              
-                if( System::IO::File::Exists( txtBoxMapFile->get_Text() ) )
-                {
-                    MessageBox::Show( "Datei existiert" );
+             {
+                String* mapFile =  txtBoxMapFile->get_Text();
+                String* wadDir = txtBoxWadDir->get_Text();
 
+                if( System::IO::File::Exists( mapFile ) )
+                {
+                    if( System::IO::Directory::Exists( wadDir ) )
+                    {
+                        this->Cursor = Cursors::WaitCursor;
+
+                        CMAPLoader* mapLoader = new CMAPLoader();
+                        CTextureManager* textureManager = new CTextureManager();
+                        CWorld* world = new CWorld();
+
+                        mapLoader->LoadMAPFile(mapFile,world,textureManager);
+
+                        this->Cursor = Cursors::Default;
+                    }
+                    else
+                        MessageBox::Show( "Wad-Verzeichnis existiert nicht", "Fehler" );
                 }
+                else
+                    MessageBox::Show( "Map-Datei existiert nicht", "Fehler" );
+                
              }
 
     private: System::Void btnOpenMap_Click(System::Object *  sender, System::EventArgs *  e)
