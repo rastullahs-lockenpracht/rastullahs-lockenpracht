@@ -66,9 +66,9 @@ namespace rl {
         mCharacter(0),
 		mInBattle(false)
 	{
-		CoreSubsystem::getSingleton().log("Ui: Init Start");
+		log("Init Start");
 		initializeUiSubsystem();
-		CoreSubsystem::getSingleton().log("Ui: Init Ende");
+		log("Init Ende");
 	}
 
     UiSubsystem::~UiSubsystem() 
@@ -78,17 +78,25 @@ namespace rl {
 
         GameLoop::getSingleton().removeSynchronizedTask(mGameController);
     }
+	
+	void UiSubsystem::log(const String& msg, const String& ident)
+	{
+		if (ident.length() > 0)
+			CoreSubsystem::getSingleton().log("Ui: ("+ident+") "+msg);
+		else
+			CoreSubsystem::getSingleton().log("Ui: "+msg);
+	}
 
     void UiSubsystem::initializeUiSubsystem( void )
     {
 		using namespace CEGUI;
 
-        CoreSubsystem::getSingleton().log("Initialisiere UI");
+        log("Initialisiere UI", "UiSubsystem::initializeUiSubsystem");
         World* world = CoreSubsystem::getSingleton().getWorld();
         SceneManager* sceneMgr = CoreSubsystem::getSingleton().getWorld()->getSceneManager();
 		
 		Ogre::RenderWindow* window = Ogre::Root::getSingleton().getAutoCreatedWindow();
-		CoreSubsystem::getSingleton().log("Initialisiere CEGUI-Renderer");
+		log("Initialisiere CEGUI-Renderer", "UiSubsystem::initializeUiSubsystem");
 		OgreRenderer* rend = 
 			new OgreRenderer(window, 
 								Ogre::RENDER_QUEUE_OVERLAY, 
@@ -96,7 +104,7 @@ namespace rl {
 								3000,
 								sceneMgr);
 
-		CoreSubsystem::getSingleton().log("Initialisiere CEGUI-System");
+		log("Initialisiere CEGUI-System", "UiSubsystem::initializeUiSubsystem");
 		new System(rend, NULL, (utf8*)"modules/common/gui/cegui.config");
         
 		// load scheme and set up defaults
@@ -108,16 +116,16 @@ namespace rl {
 				Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight()));
 		sheet->setPosition(Absolute, Point(0, 0));
 		System::getSingleton().setGUISheet(sheet);
-        CoreSubsystem::getSingleton().log("CEGUI geladen");
+        log("CEGUI geladen", "UiSubsystem::initializeUiSubsystem");
 
 		//Initializing InputManager
 		new CommandMapper();
         new InputManager();
 		new rl::WindowManager();
-        CoreSubsystem::getSingleton().log("UI-Manager geladen");
+        log("UI-Manager geladen", "UiSubsystem::initializeUiSubsystem");
 
 		InputManager::getSingleton().loadKeyMapping("keymap-german.xml");
-		CoreSubsystem::getSingleton().log("Keymap geladen");
+		log("Keymap geladen", "UiSubsystem::initializeUiSubsystem");
 
 		new DebugWindow();
 		new Console();
@@ -128,6 +136,7 @@ namespace rl {
 
     void UiSubsystem::requestExit()
     {
+		log("Start", "UiSubsystem::requestExit");
 		//TODO: Vorher mal nachfragen, ob wirklich beendet werden soll
     	GameLoop::getSingleton().quitGame();
 	}

@@ -12,9 +12,10 @@ using namespace CEGUI;
 
 namespace rl {
 
-	MainMenuWindow::MainMenuWindow() :
+	MainMenuWindow::MainMenuWindow(GameObject* actionHolder) :
 		CeGuiWindow("mainmenuwindow.xml", WND_KEYBOARD_INPUT),
-		mActiveModule("")
+		mActiveModule(""),
+		mActionHolder(actionHolder)
 	{
 		getWindow("MainMenuWindow/Modules")->subscribeEvent(
 			Window::EventMouseClick, 
@@ -25,11 +26,15 @@ namespace rl {
 			boost::bind(&MainMenuWindow::handleStart, this));
 		getWindow("MainMenuWindow/Start")->subscribeEvent(
 			Window::EventMouseClick, 
-			boost::bind(&WindowManager::destroyWindow, WindowManager::getSingletonPtr(), this));
+		boost::bind(&WindowManager::destroyWindow, WindowManager::getSingletonPtr(), this));
 
 		getWindow("MainMenuWindow/GraphicOptions")->subscribeEvent(
 			Window::EventMouseClick, 
 			boost::bind(&MainMenuWindow::handleGraphicOptions, this));
+		
+		getWindow("MainMenuWindow/InputOptions")->subscribeEvent(
+			Window::EventMouseClick,
+			boost::bind(&UiSubsystem::showInputOptionsMenu, UiSubsystem::getSingletonPtr(), mActionHolder));
 
 		getWindow("MainMenuWindow/Quit")->subscribeEvent(
 			Window::EventMouseClick, 

@@ -24,11 +24,6 @@ namespace rl {
 CommandMapperWindow::CommandMapperWindow()
 	: CeGuiWindow("commandmapper.xml", WND_KEYBOARD_INPUT)
 {
-	subscribeEventsToElements();
-}
-
-void CommandMapperWindow::subscribeEventsToElements()
-{
 	getWindow("CommandMapper/ChangeButton")->
 		subscribeEvent(
 			PushButton::EventClicked,
@@ -50,6 +45,28 @@ void CommandMapperWindow::subscribeEventsToElements()
 			Window::EventMouseDoubleClick,
 			boost::bind(&CommandMapperWindow::handleChangeOffBattle, this));
 
+	getWindow("CommandMapper")->
+		subscribeEvent(
+			Window::EventKeyDown,
+			boost::bind(&CommandMapperWindow::handleKeyDown, this, _1));
+	getWindow("CommandMapper")->
+		subscribeEvent(
+			Window::EventClicked,
+			boost::bind(&CommandMapperWindow::handleMouseButton, this, _1));
+}
+
+void CommandMapperWindow::muteElements(bool mute)
+{
+	getWindow("CommandMapper/ChangeButton")->setMutedState(mute);
+	getWindow("CommandMapper/CloseButton")->setMutedState(mute);
+	getWindow("CommandMapper/TableMovement")->setMutedState(mute);
+	getWindow("CommandMapper/TableInBattle")->setMutedState(mute);
+	getWindow("CommandMapper/TableOffBattle")->setMutedState(mute);
+}
+
+void CommandMapperWindow::muteWindow(bool mute)
+{
+	getWindow("CommandMapper")->setMutedState(mute);
 }
 
 bool CommandMapperWindow::handleChangeButton()
@@ -75,6 +92,14 @@ bool CommandMapperWindow::handleChangeMovement()
 bool CommandMapperWindow::handleChangeOffBattle()
 {
 	return true;
+}
+
+bool CommandMapperWindow::handleKeyDown(const CEGUI::EventArgs& e)
+{
+}
+
+bool CommandMapperWindow::handleMouseButton(const CEGUI::EventArgs& e)
+{
 }
 
 }
