@@ -24,14 +24,21 @@ namespace rl {
 		void setCallback(std::string function);
 		void setName(std::string name);
 		void setQuestion(std::string question);
+		void setImage(std::string imageset, std::string image);
 		void show();
 		void hide();
 		int getSelectedOption();
+		void handleSelectOption(const CEGUI::EventArgs& e);
+
+		static void runTest();
 
 	private:
 		std::map<std::string, std::string> mVariableValues;
 		std::vector<std::string> mTextLines;
 		CEGUI::Listbox* mDialogOptions;
+		CEGUI::StaticImage* mImage;
+		CEGUI::StaticText* mQuestion;
+		CEGUI::StaticText* mName;
 				
 		void updateValues();
 	};
