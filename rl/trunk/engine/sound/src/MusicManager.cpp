@@ -169,7 +169,7 @@ void MusicManager::setNextSong()
 {
     string name = findNextSong();
     // Evtl. spielt noch ein Song.
-    SoundResource *next = dynamic_cast<SoundResource*>(
+    SoundResource *next = static_cast<SoundResource*>(
         SoundManager::getSingleton().getByName(name));
     if (mSource != 0 )
     {
@@ -207,7 +207,7 @@ string MusicManager::findNextSong()
             // Nichts gefunden.
             if (mLooping)
             {
-                SoundResource *temp = dynamic_cast<SoundResource*>(
+                SoundResource *temp = static_cast<SoundResource*>(
                     SoundManager::getSingleton().getResourceIterator().peekNextValue());
                 if (temp != 0)
                 {
@@ -230,7 +230,7 @@ string MusicManager::findNextSong()
          }
     } else { // mSource ist noch nicht gesetzt.
         Resource *res = SoundManager::getSingleton().getResourceIterator().peekNextValue();
-        SoundResource *temp = dynamic_cast<SoundResource*>(res);
+        SoundResource *temp = static_cast<SoundResource*>(res);
         if (temp != 0)
         {
             return temp->getName();

@@ -119,7 +119,10 @@ void SoundManager::add(Resource *song)
     Ogre::ResourceManager::add(song);
 }
 
-
+void SoundManager::add(const String& filename)
+{
+    add(create(filename));
+}
 
 /**
  * Erzeugt eine Liste von Soundnamen.

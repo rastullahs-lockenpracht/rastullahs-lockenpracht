@@ -55,6 +55,8 @@ class _RlSoundExport SoundManager: public Ogre::ResourceManager,
         virtual void addSounds();
         /// einen Sound hinzufuegen (Mit Mutex)
         virtual void add(Ogre::Resource *song);
+        /// erzeugt einen Sound und fügt ihn hinzufuegen (Mit Mutex mittelbar)
+        virtual void add(const Ogre::String& filename);
         /// Eine Namesliste erzeugen
         StringList getSounds();
 };
