@@ -14,6 +14,7 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 #include "UiPrerequisites.h"
+#include <boost/bind.hpp>
 
 #include "WindowManager.h"
 #include "UiSubsystem.h"
@@ -168,6 +169,12 @@ void CeGuiWindow::centerWindow()
 		(1.0-mWindow->getRelativeWidth())/2, 
 		(1.0-mWindow->getRelativeHeight())/2);
 	mWindow->setPosition(Relative, pos);
+}
+
+void CeGuiWindow::bindClickToCloseWindow(CEGUI::Window* button)
+{
+	button->subscribeEvent(Window::EventMouseClick,
+		boost::bind(&WindowManager::destroyWindow, WindowManager::getSingletonPtr(), this));
 }
 
 }

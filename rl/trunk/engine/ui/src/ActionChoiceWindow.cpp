@@ -59,7 +59,6 @@ namespace rl {
 			"Start", "ActionChoiceWindow::showActionsOfObject");
 		mObject = object;
 		
-		mGroupedButtons.clear();
 		for (unsigned int i = 0; i<mButtons.size(); i++)
 		{
 			mWindow->removeChildWindow(mButtons[i]);
@@ -79,6 +78,11 @@ namespace rl {
 		UiSubsystem::getSingleton().log(
 			"Baum erzeugt", "ActionChoiceWindow::showActionsOfObject");
 		createButtons(actionTree, center, RADIUS, 0, 360);
+
+		mButtonCancel = createButton("cancelbutton", center);
+		bindClickToCloseWindow(mButtonCancel);
+		mWindow->addChildWindow(mButtonCancel);
+
 		UiSubsystem::getSingleton().log(
 			"Buttons erzeugt", "ActionChoiceWindow::showActionsOfObject");
 		setButtonActions(actionTree, actionTree);
@@ -180,14 +184,12 @@ namespace rl {
 		if (actions->isLeaf())
 		{
 			button = createButton(actions->getAction()->getName(), center);
-			mGroupedButtons.insert(button);
 		}
 		else
 		{
 			if (actions->getGroup() != NULL)
 			{
 				button = createButton(actions->getGroup()->getName(), center);
-				mGroupedButtons.insert(button);
 			}
 			
 			const set<ActionNode*> children = actions->getChildren();
@@ -204,7 +206,7 @@ namespace rl {
 
 		actions->setButton(button);
 		if (button != NULL)
-			addToRoot(button);		
+			mWindow->addChildWindow(button);		
 	}
 
 	PushButton* ActionChoiceWindow::createButton(const CeGuiString& name, const Point& pos)

@@ -60,7 +60,7 @@ namespace rl {
 
 	protected:
 		CeGuiWindow(const char* xmlfile, WindowType type, bool modal = false);
-		
+        		
 		void show();
 		void hide();
 
@@ -68,6 +68,8 @@ namespace rl {
 		virtual bool beforeHide();
 	
 		void centerWindow();
+
+		void bindClickToCloseWindow(CEGUI::Window* button);
 		
 		CEGUI::Window* mWindow;
 		bool mIsVisible; 

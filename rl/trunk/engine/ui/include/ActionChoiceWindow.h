@@ -69,7 +69,7 @@ namespace rl {
 		
 		GameObject* mObject;
 		std::vector<CEGUI::PushButton*> mButtons;
-		std::set<CEGUI::PushButton*> mGroupedButtons;
+		CEGUI::PushButton* mButtonCancel;
 		CEGUI::StaticText* mHint;
 
 		Person* mActor;		

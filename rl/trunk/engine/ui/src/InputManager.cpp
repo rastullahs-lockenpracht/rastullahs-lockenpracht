@@ -248,7 +248,7 @@ namespace rl {
 
 	void InputManager::keyClicked(KeyEvent* e) 
 	{
-		if (!sendKeyToCeGui(e)) 
+		if (sendKeyToCeGui(e)) 
 			return;
 		
 		CommandMapper::getSingleton().injectKeyClicked(e->getKey());
