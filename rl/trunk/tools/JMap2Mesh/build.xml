@@ -5,6 +5,9 @@
     <property name="deployed.dir" value="deployed"/>
     <property name="bin.dir" value="bin"/>
 	
+	<property name="compile.debug" value="false"/>
+	<property name="compile.optimize" value="true"/>
+	
     <target name="clean" description="Delete all generated files"> 
         <delete dir="${classes.dir}" failonerror="false"/> 
         <delete dir="${deployed.dir}" failonerror="false"/> 
@@ -12,7 +15,13 @@
 
     <target name="compile" description="Compiles Map2Mesh"> 
         <mkdir dir="${bin.dir}"/> 
-        <javac srcdir="${bin.dir}" destdir="${bin.dir}"/> 
+    	
+        <javac 	srcdir="${src.dir}" 
+        		destdir="${bin.dir}"
+    			debug="${compile.debug}"
+    			optimize="${compile.optimize}"
+        >
+    	</javac>
     </target> 
 
     <target name="jar" description="JARs Map2Mesh" depends="compile" > 
