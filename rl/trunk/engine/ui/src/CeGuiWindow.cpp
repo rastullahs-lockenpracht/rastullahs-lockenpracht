@@ -25,7 +25,7 @@ CeGuiWindow::~CeGuiWindow()
 
 void CeGuiWindow::show()
 {
-	if (mState == CS_OPEN)
+	if (mState == CS_CLOSED)
 	{
 		if (!beforeShow())
 			return;
