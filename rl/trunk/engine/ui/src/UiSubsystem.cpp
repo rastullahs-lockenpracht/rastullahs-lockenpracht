@@ -22,6 +22,8 @@
 #include "DialogWindow.h"
 #include "Creature.h"
 #include "CharacterSheetWindow.h"
+#include "GameObject.h"
+#include "Action.h"
 // END TEST
 
 template<> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
@@ -144,7 +146,14 @@ namespace rl {
 		talente.insert(make_pair(201, 0));
 		Creature* held = new Creature(342, "Heinz-Peter", "Testheld", talente);
 		CharacterSheetWindow* sheet = new CharacterSheetWindow();
-		sheet->show();
+		//sheet->show();
 		sheet->setCharacter(held);
+
+		GameObject* o = new GameObject(4711, "Heiltrank", "Testheiltrank");
+		o->addAction(new Action("Trinken", "Heiltrank trinken"));
+		o->addAction(new Action("Werfen", "Heiltrank werfen"));
+		o->addAction(new Action("Ansehen", "Heiltrank ansehen"));
+		o->addAction(new Action("Talent:Alchemie", "Heiltrank mittels Alchemieset untersuchen"));
+
 	}
 }

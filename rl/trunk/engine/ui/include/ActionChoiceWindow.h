@@ -17,6 +17,9 @@ namespace rl {
 		void setActionObject(GameObject* object);
 		void handleActionChosen(std::string& action);
 
+		void handleShowHint(const CEGUI::EventArgs& evt);
+		void handleRemoveHint();
+
 	private:
         GameObject* mObject;
 		std::vector<CEGUI::PushButton*> mButtons;

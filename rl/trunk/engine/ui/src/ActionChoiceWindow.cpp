@@ -61,4 +61,14 @@ void ActionChoiceWindow::handleActionChosen(string& action)
 	//TODO: Ausführung der Action, hier im Dialog oder doch woanders?
 }
 
+void ActionChoiceWindow::handleShowHint(const CEGUI::EventArgs& evt)
+{
+	//TODO: Hint anzeigen
+}
+
+void ActionChoiceWindow::handleRemoveHint()
+{
+	//TODO: Hint nicht mehr anzeigen
+}
+
 }
