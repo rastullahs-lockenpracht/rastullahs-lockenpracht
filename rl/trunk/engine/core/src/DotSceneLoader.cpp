@@ -57,9 +57,21 @@ namespace rl {
 		DOMElement* nodes = XmlHelper::getChildNamed(doc->getDocumentElement(), "nodes");
 
 		// Eine .scene wird in einem SceneNode mit dem Namen der .scene befestigt
-		processNodes( nodes, 
-			m_SceneManager->getRootSceneNode()->createChildSceneNode(m_SceneName) );
+		SceneNode* staticNode = m_SceneManager->getRootSceneNode()->createChildSceneNode(m_SceneName);
+		processNodes( nodes, staticNode );
+		StaticGeometry* staticGeom = m_SceneManager->createStaticGeometry( m_SceneName );
+		// Usprung und Größe der Blöcke einstellen
+		staticGeom->setRegionDimensions(Vector3(1000,500,1000));
+		staticGeom->setOrigin(Vector3(0,0,0));
+		/// FIXME  Diese Methode funktioniert nicht Ogre-Api-korrekt, daher Workaround
+		//staticGeom->addSceneNode( staticNode );
 
+		// Alle Entities unterhalb des Nodes einfügen
+		DotSceneLoader::staticGeometryAddSceneNodeWorkaround(
+			staticGeom, staticNode);
+		staticGeom->build();
+		// Nicht mehr den Original-Knoten rendern, da dieser erhalten bleibt.
+		staticNode->setVisible( false );
 
 		doc->release();
 		XMLPlatformUtils::Terminate();		
@@ -166,7 +178,7 @@ namespace rl {
 		Ogre::Entity* newEnt = NULL;
 		// Wurde der Entity ein Name zugewiesen
 		if( entName.length() == 0 )
-			entName = getNextEntityName(m_SceneName,parentNode->getName());
+			entName = getNextEntityName(m_SceneName+"_"+parentNode->getName());
 
 		newEnt = m_SceneManager->createEntity(entName,meshName);				
 		parentNode->attachObject( newEnt );
@@ -183,7 +195,7 @@ namespace rl {
 		XmlHelper::getAttributeValueAsBool( rootEntityXml, XMLString::transcode("static") );
 	}
 
-	string DotSceneLoader::getNextEntityName( const string& baseName, const string& nodeName )
+	string DotSceneLoader::getNextEntityName( const string& baseName )
 	{
 		bool found = true;
 		int number = 0;
@@ -192,7 +204,7 @@ namespace rl {
 
 		while( found )
 		{
-			name = baseName + "_" + nodeName + "_" + Ogre::StringConverter::toString(number);
+			name = baseName + "_" + Ogre::StringConverter::toString(number);
 
 			try
 			{
@@ -209,7 +221,22 @@ namespace rl {
 		return name;
 	}
 
+	void DotSceneLoader::staticGeometryAddSceneNodeWorkaround( 
+		Ogre::StaticGeometry* staticGeom, Ogre::SceneNode* baseNode )
+	{
+		// Das hier sollte eigentlich reichen
+		staticGeom->addSceneNode(baseNode);
 
+		// Aber das hier muss wohl erstmal sein ^^
+		Ogre::SceneNode::ChildNodeIterator it = baseNode->getChildIterator();
+
+		while (it.hasMoreElements())
+		{
+			SceneNode* node = reinterpret_cast<SceneNode*>(it.getNext());
+			
+			staticGeometryAddSceneNodeWorkaround(staticGeom,node);
+		}
+	}
 
 	Ogre::Vector3 DotSceneLoader::processPosition( DOMElement* rootPositionXml )
 	{

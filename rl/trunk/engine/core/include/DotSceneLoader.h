@@ -25,11 +25,11 @@
 
 namespace rl {
 
-	/** Diese parst eine .scene.xml Datei.
+	/** Diese Klasse parst eine .scene.xml Datei.
 	 *  
 	 *  Zur Zeit sind folgenende Dinge (partiell) unterstützt 
-	 *   - Nodes + Hierarchie + Platzierung + Skalierung + Rotation
-	 *   - Entities + TriMeshPhysik
+	 *   - Nodes ( Name, Hierarchie + Platzierung + Skalierung + Rotation )
+	 *   - Entities ( Name, TriMeshPhysik )
 	 */
 	class DotSceneLoader
 	{
@@ -40,7 +40,8 @@ namespace rl {
 		~DotSceneLoader() {};
 
 		/// Hilfsmethode zur Generierung eines nopch nicht vergebenen Entitynamens
-		static std::string getNextEntityName( const std::string& baseName, const std::string& nodeName );
+		static std::string getNextEntityName( const std::string& baseName );
+		static void staticGeometryAddSceneNodeWorkaround( Ogre::StaticGeometry* staticGeom , Ogre::SceneNode* baseNode );
 	private:
 		/// Laden der Szene
 		void initializeScene();
