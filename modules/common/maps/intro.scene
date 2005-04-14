@@ -1,7 +1,7 @@
 <scene formatVersion="0.2.0">
 	<nodes>
 		<node>
-			<position x="0" y="0" z="0" />
+			<position x="-300" y="-300" z="-800" />
 			<scale x="1" y="1" z="1" />
 			<entity meshFile="ter_waldboden.mesh" castShadows="false" static="true" />
 		</node>
