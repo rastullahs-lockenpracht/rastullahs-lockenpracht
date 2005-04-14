@@ -59,19 +59,22 @@ namespace rl {
 		// Eine .scene wird in einem SceneNode mit dem Namen der .scene befestigt
 		SceneNode* staticNode = m_SceneManager->getRootSceneNode()->createChildSceneNode(m_SceneName);
 		processNodes( nodes, staticNode );
+
+
 		StaticGeometry* staticGeom = m_SceneManager->createStaticGeometry( m_SceneName );
 		// Usprung und Größe der Blöcke einstellen
-		staticGeom->setRegionDimensions(Vector3(1000,500,1000));
-		staticGeom->setOrigin(Vector3(0,0,0));
+		// staticGeom->setRegionDimensions(Vector3(1000,500,1000));
+		// staticGeom->setOrigin(Vector3(0,0,0));
 		/// FIXME  Diese Methode funktioniert nicht Ogre-Api-korrekt, daher Workaround
 		//staticGeom->addSceneNode( staticNode );
-
 		// Alle Entities unterhalb des Nodes einfügen
 		DotSceneLoader::staticGeometryAddSceneNodeWorkaround(
 			staticGeom, staticNode);
+		// Statische Geometrie bauen
 		staticGeom->build();
 		// Nicht mehr den Original-Knoten rendern, da dieser erhalten bleibt.
 		staticNode->setVisible( false );
+		CoreSubsystem::log( " Statische Geometrie erstellt" );
 
 		doc->release();
 		XMLPlatformUtils::Terminate();		
@@ -190,9 +193,9 @@ namespace rl {
 		CoreSubsystem::log( " Entity '"+entName+"' als TriMesh in levelGeometry geladen");
 
 
-		newEnt->setCastShadows( XmlHelper::getAttributeValueAsBool( rootEntityXml, XMLString::transcode("castShadows") ) );
-	
-		XmlHelper::getAttributeValueAsBool( rootEntityXml, XMLString::transcode("static") );
+		newEnt->setCastShadows( false );
+	    // newEnt->setCastShadows( XmlHelper::getAttributeValueAsBool( rootEntityXml, XMLString::transcode("castShadows") ) );
+		// XmlHelper::getAttributeValueAsBool( rootEntityXml, XMLString::transcode("static") );
 	}
 
 	string DotSceneLoader::getNextEntityName( const string& baseName )
@@ -240,12 +243,14 @@ namespace rl {
 
 	Ogre::Vector3 DotSceneLoader::processPosition( DOMElement* rootPositionXml )
 	{
+		CoreSubsystem::log( " Position gefunden");
+
 		try
 		{
 			return Ogre::Vector3( 
-				XmlHelper::getAttributeValueAsInteger( rootPositionXml, XMLString::transcode("x") ),
-				XmlHelper::getAttributeValueAsInteger( rootPositionXml, XMLString::transcode("y") ),
-				XmlHelper::getAttributeValueAsInteger( rootPositionXml, XMLString::transcode("z") ) );
+				XmlHelper::getAttributeValueAsReal( rootPositionXml, XMLString::transcode("x") ),
+				XmlHelper::getAttributeValueAsReal( rootPositionXml, XMLString::transcode("y") ),
+				XmlHelper::getAttributeValueAsReal( rootPositionXml, XMLString::transcode("z") ) );;
 		}
 		catch(...) {}
 
@@ -255,12 +260,14 @@ namespace rl {
 
 	Ogre::Vector3 DotSceneLoader::processScale( DOMElement* rootPositionXml )
 	{
+		CoreSubsystem::log( " Skalierung gefunden");
+
 		try
 		{
 			return Ogre::Vector3( 
-				XmlHelper::getAttributeValueAsInteger( rootPositionXml, XMLString::transcode("x") ),
-				XmlHelper::getAttributeValueAsInteger( rootPositionXml, XMLString::transcode("y") ),
-				XmlHelper::getAttributeValueAsInteger( rootPositionXml, XMLString::transcode("z") ) );
+				XmlHelper::getAttributeValueAsReal( rootPositionXml, XMLString::transcode("x") ),
+				XmlHelper::getAttributeValueAsReal( rootPositionXml, XMLString::transcode("y") ),
+				XmlHelper::getAttributeValueAsReal( rootPositionXml, XMLString::transcode("z") ) );
 		}
 		catch(...) {}
 
@@ -270,26 +277,28 @@ namespace rl {
 	/// @TODO Sollten drei Möglichkeiten sein...
 	Ogre::Quaternion DotSceneLoader::processRotation( DOMElement* rootQuatXml )
 	{
+		CoreSubsystem::log( " Rotation gefunden");
+
 		// Durch w,x,y,z definiert
 		try
 		{
 			return Ogre::Quaternion( 
-				XmlHelper::getAttributeValueAsInteger( rootQuatXml, XMLString::transcode("qw") ),
-				XmlHelper::getAttributeValueAsInteger( rootQuatXml, XMLString::transcode("qx") ),
-				XmlHelper::getAttributeValueAsInteger( rootQuatXml, XMLString::transcode("qy") ),
-				XmlHelper::getAttributeValueAsInteger( rootQuatXml, XMLString::transcode("qz") ) );
+				XmlHelper::getAttributeValueAsReal( rootQuatXml, XMLString::transcode("qw") ),
+				XmlHelper::getAttributeValueAsReal( rootQuatXml, XMLString::transcode("qx") ),
+				XmlHelper::getAttributeValueAsReal( rootQuatXml, XMLString::transcode("qy") ),
+				XmlHelper::getAttributeValueAsReal( rootQuatXml, XMLString::transcode("qz") ) );
 		}
 		catch(...) {}
 
 		// Durch axisX,axisY,axisZ,angle definiert
 		try
 		{
-			return Ogre::Quaternion( Ogre::Radian( XmlHelper::getAttributeValueAsInteger( 
+			return Ogre::Quaternion( Ogre::Radian( XmlHelper::getAttributeValueAsReal( 
 				rootQuatXml, XMLString::transcode("angle") ) ),
 				Ogre::Vector3(
-				XmlHelper::getAttributeValueAsInteger( rootQuatXml, XMLString::transcode("axisX") ),
-				XmlHelper::getAttributeValueAsInteger( rootQuatXml, XMLString::transcode("axisY") ),
-				XmlHelper::getAttributeValueAsInteger( rootQuatXml, XMLString::transcode("axisZ") )) );
+				XmlHelper::getAttributeValueAsReal( rootQuatXml, XMLString::transcode("axisX") ),
+				XmlHelper::getAttributeValueAsReal( rootQuatXml, XMLString::transcode("axisY") ),
+				XmlHelper::getAttributeValueAsReal( rootQuatXml, XMLString::transcode("axisZ") )) );
 		}
 		catch(...) {}
 
@@ -297,9 +306,9 @@ namespace rl {
 		try
 		{
 			return Ogre::Quaternion(
-				XmlHelper::getAttributeValueAsInteger( rootQuatXml, XMLString::transcode("angleX") ),
-				XmlHelper::getAttributeValueAsInteger( rootQuatXml, XMLString::transcode("angleY") ),
-				XmlHelper::getAttributeValueAsInteger( rootQuatXml, XMLString::transcode("angleZ") ) );
+				XmlHelper::getAttributeValueAsReal( rootQuatXml, XMLString::transcode("angleX") ),
+				XmlHelper::getAttributeValueAsReal( rootQuatXml, XMLString::transcode("angleY") ),
+				XmlHelper::getAttributeValueAsReal( rootQuatXml, XMLString::transcode("angleZ") ) );
 		}
 		catch(...) {} */
 

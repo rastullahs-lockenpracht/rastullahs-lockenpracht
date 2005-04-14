@@ -59,7 +59,7 @@ namespace rl {
             mCamera->setFOVy(Degree(60));
             mCamera->setFixedYawAxis(false);
 			// 100 m weit
-			mCamera->setFarClipDistance(10000);
+			mCamera->setFarClipDistance(5000);
         }
 
         // Ein Viewport, das komplette Fenster

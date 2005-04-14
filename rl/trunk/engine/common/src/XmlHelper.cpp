@@ -77,6 +77,11 @@ int XmlHelper::getAttributeValueAsInteger(DOMElement* element,XMLCh* name)
 	return XMLString::parseInt(element->getAttribute(name));
 }
 
+Ogre::Real XmlHelper::getAttributeValueAsReal(DOMElement* element,XMLCh* name)
+{
+	return Ogre::StringConverter::parseReal( XMLString::transcode(element->getAttribute(name)) );
+}
+
 char* XmlHelper::getAttributeValueAsString(DOMElement* element,XMLCh* name)
 {
 	return XMLString::transcode(element->getAttribute(name));
