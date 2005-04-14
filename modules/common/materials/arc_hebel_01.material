@@ -1,0 +1,17 @@
+
+
+material hebel_01/SOLID/TEX/hebel.png
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture arc_hebel_01.png
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}
