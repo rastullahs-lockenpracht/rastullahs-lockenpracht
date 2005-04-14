@@ -13,14 +13,15 @@ $CORE.log("Fackellicht erstellt.");
 $CORE.log("Partikeldings erstellen..");
 partikeldings = $AM.createParticleSystemActor("Das fitzlende Leuchten", "PEExamples/ignifaxius" );
 partikeldings.placeIntoScene( -402.735565185547, -128.517913818359, 25.9572200775146, 1.0, 0.0, 0.0, 0.0);
-#torch.getActor().attach("SLOT_FAR_END", partikeldings );
+# torch.getActor().attach("SLOT_FAR_END", partikeldings );
 partikeldings.setScale( 4.54, 4.54, 4.54 );
 $CORE.log("Partikeldings erstellt.");
 
 
-held = $AM.createMeshActor("KreisLaufHeld", "held.mesh", PhysicsManager::GT_CAPSULE);
+held = $AM.createMeshActor("KreisLaufHeld", "held.mesh" );
+# , PhysicsManager::GT_CAPSULE);
 held.placeIntoScene(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0);
-held.attach("Bone15",torch.getActor(), "SLOT_HANDLE", [ 1.0, 0.0, 0.0 ], 90.0 );
+#held.attach("Bone15",torch.getActor(), "SLOT_HANDLE", [ 1.0, 0.0, 0.0 ], 90.0 );
 $CORE.log("Fackel plaziert.");
 
 # torch.getActor().setScale( 1.0, 1.0, 1.0 );
