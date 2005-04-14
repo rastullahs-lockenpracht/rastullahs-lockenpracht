@@ -33,7 +33,7 @@ $UI.setActiveCharacter(hero);
 $CORE.log("Held als aktiver Charakter gesetzt.");
 
 
-$CORE.log("Türen reinsetzen")
+$CORE.log("Türen einsetzen")
 door1 = Door.new("Tuer_1", false, true);
 door1.getActor().placeIntoScene(1168.0, -75.0, -110.0, 1.0, 0.0, 0.0, 0.0);
 #, "Bone01");
@@ -50,30 +50,13 @@ $CORE.log("Hebel reinsetzen")
 hebel = Switch.new( "Hebel" );
 hebel.getActor().placeIntoScene( 160.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0 );
 hebel.getActor().yaw(-90.0);
-p hebel
+#p hebel
 $CORE.log("Hebel fertig");
 
-bank = $AM.createMeshActor("Bank", "bank.mesh");
-bank.placeIntoScene(260.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0);
 
 load "kreislauf.rb"
-
-
 
 #Alles erzeugt, also Physik aktivieren
 $PM.setEnabled(true);
 
 $CORE.log("map 'minidemo' initialisiert.");
-
-class HeroPosWriter
-  def initialize()
-	
-  end
-  def writePos()
-	actor = $AM.getActor("Held");
-	$CORE.log("[ "+actor.getWorldPosition()[0].to_s+", "+actor.getWorldPosition()[1].to_s+", "+actor.getWorldPosition()[2].to_s+"]" );  
-	$CORE.log("[ "+actor.getWorldOrientation()[0].to_s+", "+actor.getWorldOrientation()[1].to_s+", "+actor.getWorldOrientation()[2].to_s+", "+actor.getWorldOrientation()[3].to_s+"]") ; 
-  end
-end
-
-$hpw = HeroPosWriter.new()

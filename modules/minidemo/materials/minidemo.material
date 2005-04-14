@@ -1,323 +1,150 @@
-material minidemo/SOLID/floor_057.jpg
+material minidemo/SOLID/TEX/fachwerk_01.jpg
 {
-	receive_shadows on
 	technique
 	{
 		pass
 		{
-			ambient 0.500000 0.500000 0.500000
 			diffuse 0.800000 0.800000 0.800000
-			specular 0.181712 0.181712 0.181712 50.000000
-			emissive 0.000000 0.000000 0.000000
+			specular 0.181712 0.181712 0.181712 12.500000
 			texture_unit
 			{
-				texture floor_057.jpg
+				texture fachwerk_01.jpg
 			}
 		}
 	}
 }
-
-material minidemo/SOLID/mur_mass.jpg
+material minidemo/SOLID/TEX/steinwand_01.jpg
 {
-	receive_shadows on
 	technique
 	{
 		pass
 		{
-			ambient 0.500000 0.500000 0.500000
 			diffuse 0.800000 0.800000 0.800000
-			specular 0.181712 0.181712 0.181712 50.000000
-			emissive 0.000000 0.000000 0.000000
+			specular 0.181712 0.181712 0.181712 12.500000
 			texture_unit
 			{
-				texture mur_mass.jpg
+				texture steinwand_01.jpg
 			}
 		}
 	}
 }
-
-material minidemo/SOLID/cros_2.jpg
+material minidemo/SOLID/TEX/dreckboden.png
 {
-	receive_shadows on
 	technique
 	{
 		pass
 		{
-			ambient 0.500000 0.500000 0.500000
 			diffuse 0.800000 0.800000 0.800000
-			specular 0.181712 0.181712 0.181712 50.000000
-			emissive 0.000000 0.000000 0.000000
+			specular 0.181712 0.181712 0.181712 12.500000
 			texture_unit
 			{
-				texture cros_2.jpg
+				texture dreckboden.png
 			}
 		}
 	}
 }
-
-material minidemo/SOLID/v_schindel.jpg
+material minidemo/SOLID/TEX/balken_01.jpg
 {
-	receive_shadows on
 	technique
 	{
 		pass
 		{
-			ambient 0.500000 0.500000 0.500000
 			diffuse 0.800000 0.800000 0.800000
-			specular 0.181712 0.181712 0.181712 50.000000
-			emissive 0.000000 0.000000 0.000000
+			specular 0.181712 0.181712 0.181712 12.500000
 			texture_unit
 			{
-				texture v_schindel.jpg
+				texture balken_01.jpg
 			}
 		}
 	}
 }
-
-material minidemo/SOLID/d_stufe.jpg
+material minidemo/SOLID/TEX/kacheln_mies.jpg
 {
-	receive_shadows on
 	technique
 	{
 		pass
 		{
-			ambient 0.500000 0.500000 0.500000
 			diffuse 0.800000 0.800000 0.800000
-			specular 0.181712 0.181712 0.181712 50.000000
-			emissive 0.000000 0.000000 0.000000
+			specular 0.181712 0.181712 0.181712 12.500000
 			texture_unit
 			{
-				texture d_stufe.jpg
+				texture kacheln_mies.jpg
 			}
 		}
 	}
 }
-
-material minidemo/SOLID/ou_boden05.jpg
+material minidemo/SOLID/TEX/gras_01.png
 {
-	receive_shadows on
 	technique
 	{
 		pass
 		{
-			ambient 0.500000 0.500000 0.500000
 			diffuse 0.800000 0.800000 0.800000
-			specular 0.181712 0.181712 0.181712 50.000000
-			emissive 0.000000 0.000000 0.000000
+			specular 0.181712 0.181712 0.181712 12.500000
 			texture_unit
 			{
-				texture ou_boden05.jpg
+				texture gras_01.png
 			}
 		}
 	}
 }
-
-material minidemo/SOLID/floor_061.jpg
+material minidemo/SOLID/TEX/schindeldach_01.jpg
 {
-	receive_shadows on
 	technique
 	{
 		pass
 		{
-			ambient 0.500000 0.500000 0.500000
 			diffuse 0.800000 0.800000 0.800000
-			specular 0.181712 0.181712 0.181712 50.000000
-			emissive 0.000000 0.000000 0.000000
+			specular 0.181712 0.181712 0.181712 12.500000
 			texture_unit
 			{
-				texture floor_061.jpg
+				texture schindeldach_01.jpg
 			}
 		}
 	}
 }
-
-material minidemo/SOLID/floor_120.jpg
+material minidemo/SOLID/TEX/steinwand_02.jpg
 {
-	receive_shadows on
 	technique
 	{
 		pass
 		{
-			ambient 0.500000 0.500000 0.500000
 			diffuse 0.800000 0.800000 0.800000
-			specular 0.181712 0.181712 0.181712 50.000000
-			emissive 0.000000 0.000000 0.000000
+			specular 0.181712 0.181712 0.181712 12.500000
 			texture_unit
 			{
-				texture floor_120.jpg
+				texture steinwand_02.jpg
 			}
 		}
 	}
 }
-
-material minidemo/SOLID/in_wand07.jpg
+material minidemo/SOLID/TEX/holzwand01_grau.png
 {
-	receive_shadows on
 	technique
 	{
 		pass
 		{
-			ambient 0.500000 0.500000 0.500000
 			diffuse 0.800000 0.800000 0.800000
-			specular 0.181712 0.181712 0.181712 50.000000
-			emissive 0.000000 0.000000 0.000000
+			specular 0.181712 0.181712 0.181712 12.500000
 			texture_unit
 			{
-				texture in_wand07.jpg
+				texture holzwand01_grau.png
 			}
 		}
 	}
 }
-
-material minidemo/SOLID/cf_roof02.jpg
+material minidemo/SOLID/TEX/wand_mauer_innen.jpg
 {
-	receive_shadows on
 	technique
 	{
 		pass
 		{
-			ambient 0.500000 0.500000 0.500000
 			diffuse 0.800000 0.800000 0.800000
-			specular 0.181712 0.181712 0.181712 50.000000
-			emissive 0.000000 0.000000 0.000000
+			specular 0.181712 0.181712 0.181712 12.500000
 			texture_unit
 			{
-				texture cf_roof02.jpg
+				texture wand_mauer_innen.jpg
 			}
 		}
 	}
 }
-
-material minidemo/SOLID/in_wand07_1.jpg
-{
-	receive_shadows on
-	technique
-	{
-		pass
-		{
-			ambient 0.500000 0.500000 0.500000
-			diffuse 0.800000 0.800000 0.800000
-			specular 0.181712 0.181712 0.181712 50.000000
-			emissive 0.000000 0.000000 0.000000
-			texture_unit
-			{
-				texture in_wand07_1.jpg
-			}
-		}
-	}
-}
-
-material minidemo/SOLID/facade05.jpg
-{
-	receive_shadows on
-	technique
-	{
-		pass
-		{
-			ambient 0.500000 0.500000 0.500000
-			diffuse 0.800000 0.800000 0.800000
-			specular 0.181712 0.181712 0.181712 50.000000
-			emissive 0.000000 0.000000 0.000000
-			texture_unit
-			{
-				texture facade05.jpg
-			}
-		}
-	}
-}
-
-material minidemo/SOLID/drkwl2_b.jpg
-{
-	receive_shadows on
-	technique
-	{
-		pass
-		{
-			ambient 0.500000 0.500000 0.500000
-			diffuse 0.800000 0.800000 0.800000
-			specular 0.181712 0.181712 0.181712 50.000000
-			emissive 0.000000 0.000000 0.000000
-			texture_unit
-			{
-				texture drkwl2_b.jpg
-			}
-		}
-	}
-}
-
-material minidemo/SOLID/d_holz.jpg
-{
-	receive_shadows on
-	technique
-	{
-		pass
-		{
-			ambient 0.500000 0.500000 0.500000
-			diffuse 0.800000 0.800000 0.800000
-			specular 0.181712 0.181712 0.181712 50.000000
-			emissive 0.000000 0.000000 0.000000
-			texture_unit
-			{
-				texture d_holz.jpg
-			}
-		}
-	}
-}
-
-material minidemo/SOLID/floor_067.jpg
-{
-	receive_shadows on
-	technique
-	{
-		pass
-		{
-			ambient 0.500000 0.500000 0.500000
-			diffuse 0.800000 0.800000 0.800000
-			specular 0.181712 0.181712 0.181712 50.000000
-			emissive 0.000000 0.000000 0.000000
-			texture_unit
-			{
-				texture floor_067.jpg
-			}
-		}
-	}
-}
-
-material minidemo/SOLID/full_core.jpg
-{
-	receive_shadows on
-	technique
-	{
-		pass
-		{
-			ambient 0.500000 0.500000 0.500000
-			diffuse 0.800000 0.800000 0.800000
-			specular 0.181712 0.181712 0.181712 50.000000
-			emissive 0.000000 0.000000 0.000000
-			texture_unit
-			{
-				texture full_core.jpg
-			}
-		}
-	}
-}
-
-material minidemo/SOLID/facade04.jpg
-{
-	receive_shadows on
-	technique
-	{
-		pass
-		{
-			ambient 0.500000 0.500000 0.500000
-			diffuse 0.800000 0.800000 0.800000
-			specular 0.181712 0.181712 0.181712 50.000000
-			emissive 0.000000 0.000000 0.000000
-			texture_unit
-			{
-				texture facade04.jpg
-			}
-		}
-	}
-}
-

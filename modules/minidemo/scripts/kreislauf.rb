@@ -23,7 +23,7 @@ held.placeIntoScene(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0);
 held.attach("Bone15",torch.getActor(), "SLOT_HANDLE", [ 1.0, 0.0, 0.0 ], 90.0 );
 $CORE.log("Fackel plaziert.");
 
-torch.getActor().setScale( 2.54, 2.54, 2.54 );
+# torch.getActor().setScale( 1.0, 1.0, 1.0 );
 
 held.getControlledObject().startAnimation( "gehloop" );
 
