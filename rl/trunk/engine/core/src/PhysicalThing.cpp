@@ -292,6 +292,8 @@ namespace rl
     void PhysicalThing::_setActor(Actor* actor)
     {
         mActor = actor;
+		if (mGeometry != NULL)
+			mGeometry->setUserData(reinterpret_cast<unsigned long>(actor));
     }
     
     void PhysicalThing::_attachToSceneNode(Ogre::SceneNode* node)

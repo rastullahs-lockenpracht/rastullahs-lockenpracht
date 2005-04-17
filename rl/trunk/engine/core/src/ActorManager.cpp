@@ -29,7 +29,6 @@
 #include "ListenerObject.h"
 #include "PhysicalThing.h"
 
-
 template<> rl::ActorManager* Singleton<rl::ActorManager>::ms_Singleton = 0;
 
 namespace rl {
@@ -46,8 +45,10 @@ namespace rl {
 
     ActorManager::ActorManager() : mActors()
     {
+		static const int RADIUS = 20, LENGTH = 300;
         mWorld = CoreSubsystem::getSingleton().getWorld();
 		mActorOdeSpace = new OgreOde::SimpleSpace();
+		mSelectionCapsule = new OgreOde::CapsuleGeometry(RADIUS, LENGTH, NULL);
     }
 
     ActorManager::~ActorManager()
@@ -260,7 +261,7 @@ namespace rl {
 		return newname;
 	}
 
-	Actor* ActorManager::getActorAt(Real x, Real y, Real width, Real length, bool infinite) const
+	Actor* ActorManager::getActorAt(Real x, Real y, Real width, Real length, bool infinite)
 	{      
         if (getWorld()->getActiveCamera() == NULL ||
 			getWorld()->getActiveActor() == NULL)
@@ -269,82 +270,67 @@ namespace rl {
 		 // Start a new ray query
 		Ogre::Ray cameraRay = getWorld()->getActiveCamera()->
 			getCameraToViewportRay( x, y );
-		//Ogre::Ray selectRay(
-		//	cameraRay.getOrigin()/*getWorld()->getActiveActor()->getPosition()*/, 
-		//	cameraRay.getDirection());
-		//Ogre::RaySceneQuery *raySceneQuery = getWorld()->
-		//	getSceneManager()->createRayQuery(selectRay);
-		//raySceneQuery->execute();
-		//Ogre::RaySceneQueryResult result = raySceneQuery->getLastResults();
 		
-		Vector3 rayTip = cameraRay.getOrigin();
-		Vector3 camUp = getWorld()->getActiveCamera()->getUp();
-		Vector3 camRight = getWorld()->getActiveCamera()->getRight();
-		if (camUp == Vector3::ZERO || camRight == Vector3::ZERO)
-			return NULL;
-		Vector3 rayEndMiddle = cameraRay.getOrigin() + length*cameraRay.getDirection();
-		Vector3 rayEndTopLeft = rayEndMiddle + width*camUp - width*camRight;
-		Vector3 rayEndTopRight = rayEndMiddle + width*camUp + width*camRight;
-		Vector3 rayEndBottomLeft = rayEndMiddle - width*camUp - width*camRight;
-		Vector3 rayEndBottomRight = rayEndMiddle - width*camUp + width*camRight;
+		mSelectionCapsule->setPosition(cameraRay.getOrigin());
+		mSelectionCapsule->setOrientation(getWorld()->getActiveCamera()->getWorldOrientation());
 
-		PlaneBoundedVolume selectionPyramid;
-		// Left side
-		selectionPyramid.planes.push_back(Plane(rayTip, rayEndBottomLeft, rayEndTopLeft)); 
-		// Bottom side
-		selectionPyramid.planes.push_back(Plane(rayTip, rayEndBottomRight, rayEndBottomLeft));
-		// Right side
-		selectionPyramid.planes.push_back(Plane(rayTip, rayEndTopRight, rayEndBottomRight));
-		// Top side
-		selectionPyramid.planes.push_back(Plane(rayTip, rayEndTopLeft, rayEndTopRight));
-		// Far limiting side
-		if (!infinite)
-			selectionPyramid.planes.push_back(Plane(rayEndTopLeft, rayEndBottomRight, rayEndTopRight));
-		PlaneBoundedVolumeList list;
-		list.push_back(selectionPyramid);
-		PlaneBoundedVolumeListSceneQuery* query = 
-			getWorld()->getSceneManager()->createPlaneBoundedVolumeQuery(list);
-        SceneQueryResultMovableList result = query->execute().movables;
+		mSelectableObjects.clear();
+		collideWithActors(mSelectionCapsule, this);
 		
-		Ogre::MovableObject *closestObject = NULL;
-		Real closestDistance = LONG_MAX;
+		return NULL;
+		//Ogre::MovableObject *closestObject = NULL;
+		//Real closestDistance = LONG_MAX;
 
-		
-		SceneQueryResultMovableList::iterator resultIterator;
-		 
-		for ( resultIterator = result.begin(); resultIterator != result.end(); resultIterator++ ) 
-		{
-			Ogre::MovableObject* movable = *resultIterator;
-			if (movable != NULL && 
-				movable->getUserObject() != NULL && 
-				movable != getWorld()->getActiveCamera() &&
-				movable != getWorld()->getActiveActor()->_getMovableObject()) 
-			{
-				//if (movable->getUserObject()
-				//if ((*resultIterator).distance < closestDistance) 
-				//{
-					closestObject = movable;
-				//	closestDistance = (*resultIterator).distance;
-				//}
-			}
-		}
+		//
+		//SceneQueryResultMovableList::iterator resultIterator;
+		// 
+		//for ( resultIterator = result.begin(); resultIterator != result.end(); resultIterator++ ) 
+		//{
+		//	Ogre::MovableObject* movable = *resultIterator;
+		//	if (movable != NULL && 
+		//		movable->getUserObject() != NULL && 
+		//		movable != getWorld()->getActiveCamera() &&
+		//		movable != getWorld()->getActiveActor()->_getMovableObject()) 
+		//	{
+		//		//if (movable->getUserObject()
+		//		//if ((*resultIterator).distance < closestDistance) 
+		//		//{
+		//			closestObject = movable;
+		//		//	closestDistance = (*resultIterator).distance;
+		//		//}
+		//	}
+		//}
 
-		Actor* rval;
-		// No object clicked
-		if ( closestObject == NULL) {   
-			rval = NULL;
-		} else {
-			rval = static_cast<Actor*>(closestObject->getUserObject());
-		}
+		//Actor* rval;
+		//// No object clicked
+		//if ( closestObject == NULL) {   
+		//	rval = NULL;
+		//} else {
+		//	rval = static_cast<Actor*>(closestObject->getUserObject());
+		//}
 
-		query->clearResults();
-		getWorld()->getSceneManager()->destroyQuery(query);
+		//query->clearResults();
+		//getWorld()->getSceneManager()->destroyQuery(query);
 
-		return rval;
+		//return rval;
+	}
+
+	bool ActorManager::collision(OgreOde::Contact* contact)
+	{
+		OgreOde::Geometry* geom1 = contact->getFirstGeometry();
+		OgreOde::Geometry* geom2 = contact->getSecondGeometry();
+
+		if (geom1 == mSelectionCapsule)
+			mSelectableObjects.push_back(reinterpret_cast<Actor*>(geom2->getUserData()));
+		else if (geom2 == mSelectionCapsule)
+			mSelectableObjects.push_back(reinterpret_cast<Actor*>(geom1->getUserData()));
+
+		return true;
 	}
 
 	void ActorManager::collideWithActors(OgreOde::Geometry* geometry, OgreOde::CollisionListener* listener)
 	{
-		mActorOdeSpace->collide(geometry, listener);
+		PhysicsManager::getSingleton().getWorld()->setCollisionListener(listener);
+		mActorOdeSpace->collide(geometry, NULL);
 	}
 }

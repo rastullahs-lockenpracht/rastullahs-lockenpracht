@@ -18,6 +18,7 @@
 #define __ActorManager_H__
 
 #include <map>
+#include <vector>
 
 #include "CorePrerequisites.h"
 #include "PhysicsManager.h"
@@ -25,6 +26,8 @@
 #include "ParticleSystemObject.h"
 
 #include <OgreOdeSpace.h>
+#include <OgreOdeGeometry.h>
+#include <OgreOdeCollision.h>
 
 namespace rl {
 
@@ -34,7 +37,7 @@ class Actor;
 typedef std::map<const String,Actor*> ActorPtrMap;
 typedef std::pair<const String,Actor*> ActorPtrPair;
 
-class _RlCoreExport ActorManager : protected Singleton<ActorManager>
+class _RlCoreExport ActorManager : protected Singleton<ActorManager>, private OgreOde::CollisionListener
 {
     public:
         ActorManager( );
@@ -62,8 +65,9 @@ class _RlCoreExport ActorManager : protected Singleton<ActorManager>
 		const World* const getWorld() const;
 
 		void collideWithActors(OgreOde::Geometry* geometry, OgreOde::CollisionListener* listener = 0);
+		bool collision(OgreOde::Contact* contact);
 
-		Actor* getActorAt(Ogre::Real x, Ogre::Real y, Ogre::Real width, Ogre::Real length, bool infinite = false) const;
+		Actor* getActorAt(Ogre::Real x, Ogre::Real y, Ogre::Real width, Ogre::Real length, bool infinite = false);
 
         /** Returns the Singleton */
 	    static ActorManager & getSingleton(void);
@@ -73,6 +77,8 @@ class _RlCoreExport ActorManager : protected Singleton<ActorManager>
         String nextUniqueName(const String& basename);
         ActorPtrMap mActors;
 		OgreOde::Space* mActorOdeSpace;
+		OgreOde::Geometry* mSelectionCapsule;
+		std::vector<Actor*> mSelectableObjects;
 
         World* mWorld;
 };
