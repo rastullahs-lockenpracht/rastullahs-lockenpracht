@@ -72,6 +72,8 @@ namespace rl
         mOdeWorld->setContactCorrectionVelocity(1.0);
         mOdeWorld->setCollisionListener(this);
 	
+		mLevelGeomSpace->setInternalCollisions( false );
+
 		mOdeStepper->setAutomatic(OgreOde::ForwardFixedQuickStepper::AutoMode_NotAutomatic,
 	        Root::getSingletonPtr());
     }
