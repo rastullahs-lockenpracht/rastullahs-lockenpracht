@@ -58,7 +58,7 @@ namespace rl
 				CoreSubsystem::getSingleton().getWorld()->getSceneManager() ) ),
             mGlobalSpace(mOdeWorld->getDefaultSpace()),
 			mLevelGeomSpace(mGlobalSpace),
-            mOdeStepper(new OgreOde::QuickStepper(0.01)),
+            mOdeStepper(new OgreOde::ForwardFixedQuickStepper(0.05)),
 			mFallSpeed(0.1),
 			mCameraNode(NULL),
 			mOdeCamera(NULL),
@@ -71,7 +71,7 @@ namespace rl
         mOdeWorld->setAutoSleep(true);
         mOdeWorld->setContactCorrectionVelocity(1.0);
         mOdeWorld->setCollisionListener(this);
-
+	
 		mOdeStepper->setAutomatic(OgreOde::ForwardFixedQuickStepper::AutoMode_NotAutomatic,
 	        Root::getSingletonPtr());
     }
@@ -95,8 +95,6 @@ namespace rl
 
 			//mOdeActor->collide(mOdeLevel, this);
 			//mOdeCamera->collide(mOdeLevel, this);
-			
-			//ActorManager::getSingleton().collideWithActors(mOdeActor);
         }
     }
 
@@ -377,9 +375,9 @@ namespace rl
 		if( ent->getParentNode() != NULL )
 			m = ent->getParentNode()->_getFullTransform();
 
-		// Ein Ode TriMesh erstellen
+		// Ein Ode-TriMesh erstellen
 		OgreOde::EntityInformer ei( ent, m );
-		Geometry* odeGeom = ei.createStaticTriangleMesh(mGlobalSpace);
+		Geometry* odeGeom = ei.createStaticTriangleMesh(mLevelGeomSpace);
 	}
 
 	void PhysicsManager::clearLevelGeometry(  )

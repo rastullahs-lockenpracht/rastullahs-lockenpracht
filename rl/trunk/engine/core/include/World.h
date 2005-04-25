@@ -51,17 +51,17 @@ namespace rl {
         //Enables / disables a 'sky plane' i.e.
         virtual void setSkyPlane(bool enable, const Ogre::Plane &plane,
             const Ogre::String &materialName,
-            Ogre::Real scale=20000, Ogre::Real tiling=10,
+            Ogre::Real scale=10000, Ogre::Real tiling=10,
             bool drawFirst=true, Ogre::Real bow=0);
 
         //Enables / disables a 'sky box' i.e.
         virtual void setSkyBox(bool enable, const Ogre::String &materialName,
-            Ogre::Real distance=100000, bool drawFirst=true );
+            Ogre::Real distance=10000, bool drawFirst=true );
 
         //Enables / disables a 'sky dome' i.e.
         virtual void setSkyDome(bool enable, const Ogre::String &materialName,
             Ogre::Real curvature=10, Ogre::Real tiling=8,
-            Ogre::Real distance=80000,
+            Ogre::Real distance=10000,
             bool drawFirst=true );
 
         //Sets the fogging mode applied to the scene.
