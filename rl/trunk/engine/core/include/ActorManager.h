@@ -33,6 +33,7 @@ namespace rl {
 
 class World;
 class Actor;
+class DebugLine3D;
 
 typedef std::map<const String,Actor*> ActorPtrMap;
 typedef std::pair<const String,Actor*> ActorPtrPair;
@@ -54,7 +55,7 @@ class _RlCoreExport ActorManager : protected Singleton<ActorManager>, private Og
 			Ogre::Real density = 1.0);
         Actor* createParticleSystemActor(const String& name, 
             const String& partname);
-            
+        //void createDebugActors();
         void destroyActor(Actor* actor);
         
         ///@warning Actors with a camera attached wont be destroyed. 
@@ -64,10 +65,11 @@ class _RlCoreExport ActorManager : protected Singleton<ActorManager>, private Og
         void setWorld(World* world);
 		const World* const getWorld() const;
 
-		void collideWithActors(OgreOde::Geometry* geometry, OgreOde::CollisionListener* listener = 0);
+		void collideWithActors(OgreOde::Geometry* geometry, OgreOde::CollisionListener* listener = NULL);
 		bool collision(OgreOde::Contact* contact);
 
 		Actor* getActorAt(Ogre::Real x, Ogre::Real y, Ogre::Real width, Ogre::Real length, bool infinite = false);
+		void collectSelectableObjects( Real x, Real y );
 
         /** Returns the Singleton */
 	    static ActorManager & getSingleton(void);
@@ -81,6 +83,13 @@ class _RlCoreExport ActorManager : protected Singleton<ActorManager>, private Og
 		std::vector<Actor*> mSelectableObjects;
 
         World* mWorld;
+		Actor* mDebugPlane1;
+		Actor* mDebugPlane2;
+		Actor* mDebugPlane3;
+		Actor* mDebugPlane4;
+		Actor* mDebugNormal1;
+		Actor* mDebugNormal2;
+
 };
 
 }

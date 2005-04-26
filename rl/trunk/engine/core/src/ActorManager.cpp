@@ -263,58 +263,74 @@ namespace rl {
 
 	Actor* ActorManager::getActorAt(Real x, Real y, Real width, Real length, bool infinite)
 	{      
-		return NULL;
+//		return NULL;
 
         if (getWorld()->getActiveCamera() == NULL ||
 			getWorld()->getActiveActor() == NULL)
 			return NULL;
 
-		 // Start a new ray query
+		collectSelectableObjects( x, y );
+		
+		Actor* closestObject = NULL;
+		Real closestDistance = LONG_MAX;
+
+		if (mSelectableObjects.size() == 0)
+			return NULL;
+
+		std::vector<Actor*>::iterator resultIterator;
+		for ( resultIterator = mSelectableObjects.begin(); resultIterator != mSelectableObjects.end(); resultIterator++ ) 
+		{
+			Actor* movable = *resultIterator;
+			std::cerr<<movable->getName()<<"\n";
+			closestObject = movable;
+		}
+		std::cerr<<"\n";
+
+		return closestObject;
+	}
+
+
+	// Kollisionsvariante, funktioniert aus irgendwelchen Gründen nicht
+	//void ActorManager::collectSelectableObjects( Real x, Real y )
+	//{
+	//	// Start a new ray query
+	//	Ogre::Ray cameraRay = getWorld()->getActiveCamera()->
+	//		getCameraToViewportRay( x, y );
+
+	//	mSelectionCapsule->setPosition(cameraRay.getOrigin());
+	//	mSelectionCapsule->setOrientation(getWorld()->getActiveCamera()->getWorldOrientation());
+
+	//	mSelectableObjects.clear();
+	//	collideWithActors(mSelectionCapsule, this);
+	//}
+
+	// Variante mit Strahl, ob der geringen Ausdehnung eines Strahls nicht zufriedenstellend
+	void ActorManager::collectSelectableObjects( Real x, Real y )
+	{
+		// Start a new ray query
 		Ogre::Ray cameraRay = getWorld()->getActiveCamera()->
 			getCameraToViewportRay( x, y );
-		
-		mSelectionCapsule->setPosition(cameraRay.getOrigin());
-		mSelectionCapsule->setOrientation(getWorld()->getActiveCamera()->getWorldOrientation());
 
+		RaySceneQuery* query = getWorld()->getSceneManager()->createRayQuery(cameraRay);
+		query->setSortByDistance(true);
+		RaySceneQueryResult result = query->execute();
 		mSelectableObjects.clear();
-		collideWithActors(mSelectionCapsule, this);
-		
-		return NULL;
-		//Ogre::MovableObject *closestObject = NULL;
-		//Real closestDistance = LONG_MAX;
+		if (result.size() > 0)
+		{
+			for (RaySceneQueryResult::iterator iter = result.begin(); iter != result.end(); iter++)
+			{
+				Ogre::MovableObject* mo = (*iter).movable;
 
-		//
-		//SceneQueryResultMovableList::iterator resultIterator;
-		// 
-		//for ( resultIterator = result.begin(); resultIterator != result.end(); resultIterator++ ) 
-		//{
-		//	Ogre::MovableObject* movable = *resultIterator;
-		//	if (movable != NULL && 
-		//		movable->getUserObject() != NULL && 
-		//		movable != getWorld()->getActiveCamera() &&
-		//		movable != getWorld()->getActiveActor()->_getMovableObject()) 
-		//	{
-		//		//if (movable->getUserObject()
-		//		//if ((*resultIterator).distance < closestDistance) 
-		//		//{
-		//			closestObject = movable;
-		//		//	closestDistance = (*resultIterator).distance;
-		//		//}
-		//	}
-		//}
+				if (mo->getUserObject() == NULL || mo == getWorld()->getActiveCamera())
+					continue;
 
-		//Actor* rval;
-		//// No object clicked
-		//if ( closestObject == NULL) {   
-		//	rval = NULL;
-		//} else {
-		//	rval = static_cast<Actor*>(closestObject->getUserObject());
-		//}
+				Actor* actor = reinterpret_cast<Actor*>(mo->getUserObject());
+				if (actor == getWorld()->getActiveActor())
+					continue;
 
-		//query->clearResults();
-		//getWorld()->getSceneManager()->destroyQuery(query);
-
-		//return rval;
+				mSelectableObjects.push_back(actor);
+			}
+		}
 	}
 
 	bool ActorManager::collision(OgreOde::Contact* contact)
@@ -322,17 +338,29 @@ namespace rl {
 		OgreOde::Geometry* geom1 = contact->getFirstGeometry();
 		OgreOde::Geometry* geom2 = contact->getSecondGeometry();
 
+		Actor* target = NULL;
 		if (geom1 == mSelectionCapsule)
-			mSelectableObjects.push_back(reinterpret_cast<Actor*>(geom2->getUserData()));
+			target = reinterpret_cast<Actor*>(geom2->getUserData());
 		else if (geom2 == mSelectionCapsule)
-			mSelectableObjects.push_back(reinterpret_cast<Actor*>(geom1->getUserData()));
+			target = reinterpret_cast<Actor*>(geom2->getUserData());
+		if (target != NULL)
+			CoreSubsystem::getSingleton().log("Gefunden: "+target->getName());
+		if (target != NULL && target != getWorld()->getActiveActor())
+			mSelectableObjects.push_back(target);
 
 		return true;
 	}
 
 	void ActorManager::collideWithActors(OgreOde::Geometry* geometry, OgreOde::CollisionListener* listener)
 	{
-		PhysicsManager::getSingleton().getWorld()->setCollisionListener(listener);
-		mActorOdeSpace->collide(geometry, NULL);
+		if (listener != NULL)
+		{
+			PhysicsManager* physMan = PhysicsManager::getSingletonPtr();
+			physMan->getWorld()->setCollisionListener(listener);
+			mActorOdeSpace->collide(geometry, NULL);
+			physMan->getWorld()->setCollisionListener(physMan);
+		}
+		else
+			mActorOdeSpace->collide(geometry, NULL);
 	}
 }
