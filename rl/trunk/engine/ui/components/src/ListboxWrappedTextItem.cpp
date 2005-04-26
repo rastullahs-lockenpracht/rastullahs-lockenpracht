@@ -57,9 +57,9 @@ void ListboxWrappedTextItem::draw(const Vector3& position, float alpha, const Re
     }
 }
 
-Size ListboxWrappedTextItem::getPixelSize() const
+CEGUI::Size ListboxWrappedTextItem::getPixelSize() const
 {
-	 Size size = ListboxTextItem::getPixelSize();
+	 CEGUI::Size size = ListboxTextItem::getPixelSize();
 	 if (d_owner != NULL)
 	 {
          size.d_width = d_owner->getSize().d_width;
@@ -71,7 +71,7 @@ Size ListboxWrappedTextItem::getPixelSize() const
      {		 
 		 Rect formatRect;
 
-		 formatRect.setPosition(Point(0,0));
+		 formatRect.setPosition(CEGUI::Point(0,0));
 		 formatRect.setSize(size);
 		 uint lines = fnt->getFormattedLineCount(d_itemText, formatRect, d_textFormatting);
          size.d_height *= lines;

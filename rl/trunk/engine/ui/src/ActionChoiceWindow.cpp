@@ -69,7 +69,7 @@ namespace rl {
 		UiSubsystem::getSingleton().log(
 			"Buttons gelöscht", "ActionChoiceWindow::showActionsOfObject");
 
-		Point center = mWindow->relativeToAbsolute(Point(0.5, 0.5));
+		CEGUI::Point center = mWindow->relativeToAbsolute(CEGUI::Point(0.5, 0.5));
 		static int RADIUS = 80;
 
 		ActionVector actions = object->getValidActions();
@@ -184,7 +184,7 @@ namespace rl {
 	}
 
 	void ActionChoiceWindow::createButtons(
-		ActionNode* actions, const Point& center, 
+		ActionNode* actions, const CEGUI::Point& center, 
 		float radius, float angle, float angleWidth)
 	{
 		PushButton* button = NULL;
@@ -206,7 +206,7 @@ namespace rl {
 			for (NodeSet::const_iterator iter = children.begin(); 
 				iter != children.end(); iter++)
 			{
-				Point centerChild = getPositionOnCircle(center, radius, ang);
+				CEGUI::Point centerChild = getPositionOnCircle(center, radius, ang);
 				createButtons(*iter, centerChild, radius, ang, 60);
 				ang += angleStep;
 			}
@@ -217,7 +217,7 @@ namespace rl {
 			mWindow->addChildWindow(button);		
 	}
 
-	PushButton* ActionChoiceWindow::createButton(const CeGuiString& name, const Point& pos)
+	PushButton* ActionChoiceWindow::createButton(const CeGuiString& name, const CEGUI::Point& pos)
 	{
 		Window* button = WindowManager::getSingleton().loadWindow(
 				"buttons/"+name+".xml", NULL);
@@ -228,9 +228,9 @@ namespace rl {
 					"buttons/defaultbutton.xml", NULL);
 		}
 
-		Size size = button->getAbsoluteSize();
+		CEGUI::Size size = button->getAbsoluteSize();
 		button->setPosition(
-			Absolute, pos - Point(size.d_width/2, size.d_height/2));
+			Absolute, pos - CEGUI::Point(size.d_width/2, size.d_height/2));
 		UiSubsystem::getSingleton().log(
 			(button->getText()+" "+
 			StringConverter::toString(button->getAbsoluteXPosition()) + ", " + 
@@ -257,7 +257,7 @@ namespace rl {
 		}
 		
 		UiSubsystem::getSingleton().log((showHide+button->getName()).c_str());
-		Point p = button->getRelativePosition();
+		CEGUI::Point p = button->getRelativePosition();
 		UiSubsystem::getSingleton().log(
 			"("+StringConverter::toString(p.d_x)+", "+StringConverter::toString(p.d_y)+")");
 			
@@ -286,8 +286,8 @@ namespace rl {
 		return ang;
 	}
 	
-	Point ActionChoiceWindow::getPositionOnCircle(
-		const Point& center, float radius, float angle)
+	CEGUI::Point ActionChoiceWindow::getPositionOnCircle(
+		const CEGUI::Point& center, float radius, float angle)
 	{
 		UiSubsystem::getSingleton().log(
 			"center="+StringConverter::toString(center.d_x)+","+StringConverter::toString(center.d_y)+
@@ -303,7 +303,7 @@ namespace rl {
 			"diff="+StringConverter::toString(relX)+","+StringConverter::toString(relY));
 			
 
-		return center + Point(relX, relY);
+		return center + CEGUI::Point(relX, relY);
 	}
 	
 	ActionChoiceWindow::ActionNode* ActionChoiceWindow::ActionNode::createActionTree(const ActionVector& actions, ActionGroup* rootGroup)

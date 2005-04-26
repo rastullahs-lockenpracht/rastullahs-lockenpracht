@@ -69,7 +69,7 @@ public:
 		float alpha, 
 		const Rect& clipper) const;
 
-	virtual Size getPixelSize() const;
+	virtual CEGUI::Size getPixelSize() const;
 
 private:
 	TextFormatting d_textFormatting;

@@ -122,9 +122,9 @@ namespace rl {
 		log("Rootfenster", "UiSubsystem::initializeUiSubsystem");
 		sheet->setSize(
 			Absolute, 
-			Size(Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth(), 
+			CEGUI::Size(Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth(), 
 				Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight()));
-		sheet->setPosition(Absolute, Point(0, 0));
+		sheet->setPosition(Absolute, CEGUI::Point(0, 0));
 		System::getSingleton().setGUISheet(sheet);
         log("CEGUI geladen", "UiSubsystem::initializeUiSubsystem");
 
