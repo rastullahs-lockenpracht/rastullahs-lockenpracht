@@ -1,6 +1,6 @@
-#include "UiPrerequisites.h"
-
 #include <boost/bind.hpp>
+
+#include "UiPrerequisites.h"
 
 #include "UiSubsystem.h"
 #include "CoreSubsystem.h"
