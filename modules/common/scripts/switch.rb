@@ -16,11 +16,19 @@ class SwitchUpAction < RubyAction
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
   def canDo?(switch, user) 
     p "CanDo"+switch
-    switch.getState != "Hoch";
+    switch.getString("state") != "Hoch";
   end
   
   def doAction(switch, user, target)    
-    switchActor = switch.getActor(); 
+    switchMesh = switch.getActor().getControlledObject(); 
+    p switch.getString("state")
+    if (switch.getString("state") == "Mitte")
+    	switchMesh.startAnimation("Mitteaa", 1.0, 1)
+    elsif (switch.getString("state") == "Unten")
+    	switchMesh.startAnimation("UntenOben", 1.0, 1)
+    end
+    switch.setString("state", "Oben") 
+    
     p switch
   end
 end
@@ -33,11 +41,17 @@ class SwitchDownAction < RubyAction
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
   def canDo?(switch, user)
      p "CanDo"+switch
-     switch.getState != "Runter";
+     switch.getString("state") != "Runter";
   end
   
   def doAction(switch, user, target)    
-    switchActor = switch.getActor();
+    switchMesh = switch.getActor().getControlledObject();
+    if (switch.getString("state") == "Mitte")
+    	switchMesh.startAnimation("MitteUnten", 1.0, 1)
+    elsif (switch.getString("state") == "Oben")
+    	switchMesh.startAnimation("ObenUnten", 1.0, 1)
+    end
+    switch.setString("state", "Unten") 
     p switch
   end
 end
@@ -50,11 +64,17 @@ class SwitchMiddleAction < RubyAction
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
   def canDo?(switch, user)    
      p "CanDo"+switch
-     switch.getState != "Mitte";
+     switch.getString("state") != "Mitte";
   end
   
   def doAction(switch, user, target)    
-    switchActor = switch.getActor();
+    switchMesh = switch.getActor().getControlledObject();
+    if (switch.getString("state") == "Oben")
+    	switchMesh.startAnimation("ObenMitte", 1.0, 1)
+    elsif (switch.getString("state") == "Unten")
+    	switchMesh.startAnimation("UntenMitte", 1.0, 1)
+    end
+    switch.setString("state", "Mitte") 
     p switch
     p user
     p target
@@ -71,20 +91,12 @@ class Switch < RubyItem
     setActor(switchActor);
     $CORE.log("actor gesetzt");
     
-    @state = "Mitte";    
+    setString("state", "Mitte");
     
     addAction(SwitchUpAction.new);
     addAction(SwitchDownAction.new);
     addAction(SwitchMiddleAction.new);
     $CORE.log("Aktionen hinzugefuegt.");
-  end
-  
-  def setState( state )
-    @state = state;
-  end
-  
-  def getState()
-    @state;
   end
 end
 

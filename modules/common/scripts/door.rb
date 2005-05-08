@@ -15,7 +15,7 @@ class OpenDoorAction < RubyAction
   
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
   def canDo?(door, user)    
-    not door.open?;
+    not door.getBool("open");
   end
   
   def doAction(door, user, target)    
@@ -34,7 +34,7 @@ class CloseDoorAction < RubyAction
   
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
   def canDo?(door, user)    
-    door.open?;
+    door.getBool("open");
   end
   
   def doAction(door, user, target)    
@@ -42,7 +42,6 @@ class CloseDoorAction < RubyAction
     doorActor.getControlledObject.replaceAnimation("auf", "zu", 1.0, 1); 
     knarzActor = doorActor.getChildByName("Knarzen");
     knarzActor.getControlledObject().play(0);
-    # door.setOpen(false);
 
   end
 end
@@ -59,7 +58,7 @@ class Door < RubyItem
     doorActor.attach("Bone01", soundActor);
     $CORE.log("Sound hinzugefuegt");
     
-    @open = isOpen;    
+    setBool("open", isOpen);
     
     if (canBeOpened)
     	addAction(OpenDoorAction.new);
@@ -68,12 +67,5 @@ class Door < RubyItem
     end
   end
   
-  def setOpen(open)
-    @open = open;
-  end
-  
-  def open?
-    @open;
-  end
 end
 
