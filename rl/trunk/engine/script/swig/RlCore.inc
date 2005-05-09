@@ -261,6 +261,7 @@ public:
 	rl::Animation* startAnimation(const std::string& animName, 
 		float speed=1.0, unsigned int timesToPlay=0);
     void stopAnimation(const std::string&);
+    void stopAllAnimations();
     
     void setCastShadows (bool enabled);
     bool getCastShadows (void) const;    

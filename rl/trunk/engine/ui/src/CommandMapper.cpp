@@ -90,7 +90,7 @@ namespace rl {
 		mKeyCommandsOffBattle.insert(make_pair(KC_U, ae));
 
 		ae.actionClass = "ShowCharacterSheetAction";
-		ae.actionName = "showcharaktersheet";
+		ae.actionName = "showcharactersheet";
 		mKeyCommandsOffBattle.insert(make_pair(KC_C, ae));
 	}
 
