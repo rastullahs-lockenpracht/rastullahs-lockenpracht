@@ -23,9 +23,11 @@ class SwitchUpAction < RubyAction
     switchMesh = switch.getActor().getControlledObject(); 
     p switch.getString("state")
     if (switch.getString("state") == "Mitte")
+      switchMesh.stopAllAnimations()
     	switchMesh.startAnimation("Mitteaa", 1.0, 1)
     elsif (switch.getString("state") == "Unten")
-    	switchMesh.startAnimation("UntenOben", 1.0, 1)
+      switchMesh.stopAllAnimations()
+      switchMesh.startAnimation("UntenOben", 1.0, 1)
     end
     switch.setString("state", "Oben") 
     
@@ -47,9 +49,11 @@ class SwitchDownAction < RubyAction
   def doAction(switch, user, target)    
     switchMesh = switch.getActor().getControlledObject();
     if (switch.getString("state") == "Mitte")
-    	switchMesh.startAnimation("MitteUnten", 1.0, 1)
+    	switchMesh.stopAllAnimations()
+      switchMesh.startAnimation("MitteUnten", 1.0, 1)
     elsif (switch.getString("state") == "Oben")
-    	switchMesh.startAnimation("ObenUnten", 1.0, 1)
+    	switchMesh.stopAllAnimations()
+      switchMesh.startAnimation("ObenUnten", 1.0, 1)
     end
     switch.setString("state", "Unten") 
     p switch
@@ -70,9 +74,11 @@ class SwitchMiddleAction < RubyAction
   def doAction(switch, user, target)    
     switchMesh = switch.getActor().getControlledObject();
     if (switch.getString("state") == "Oben")
-    	switchMesh.startAnimation("ObenMitte", 1.0, 1)
+    	switchMesh.stopAllAnimations()
+      switchMesh.startAnimation("ObenMitte", 1.0, 1)
     elsif (switch.getString("state") == "Unten")
-    	switchMesh.startAnimation("UntenMitte", 1.0, 1)
+    	switchMesh.stopAllAnimations()
+      switchMesh.startAnimation("UntenMitte", 1.0, 1)
     end
     switch.setString("state", "Mitte") 
     p switch
