@@ -14,30 +14,26 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#ifndef __GameAreaEvent_H__
-#define __GameAreaEvent_H__
+#include "GameAreaListener.h"
 
-#include "EventObject.h"
-#include "GameAreaEventSource.h"
-
-#include "CorePrerequisites.h"
 
 namespace rl {
 
-/** 
-*/
-class _RlCoreExport GameAreaEvent : public virtual EventObject 
-{
-public:
-    static const unsigned int AREA_ENTERED = 450;
-    static const unsigned int AREA_LEFT = 451;
+    bool GameAreaListener::eventRaised( GameAreaEvent* anEvent ) const
+    {
+        switch( anEvent->getReason() )
+        {
+        case GameAreaEvent::AREA_ENTERED:
+            this->areaEntered( anEvent );
+            break;
+        case GameAreaEvent::AREA_LEFT:
+            this->areaLeft( anEvent );
+            break;
+        }
 
-    GameAreaEvent( GameAreaEventSource* src,  const unsigned int reason );
-    virtual ~GameAreaEvent() {};
+        // consumed or not ;)
+        return false;
+    }
 
-    GameAreaEventSource* getGameAreaEventSource() const;
-private:
-};
 }
 
-#endif

@@ -14,11 +14,11 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#ifndef __GameAreaEvent_H__
-#define __GameAreaEvent_H__
+#ifndef __GameAreaListener_H__
+#define __GameAreaListener_H__
 
-#include "EventObject.h"
-#include "GameAreaEventSource.h"
+#include "EventListener.h"
+#include "GameAreaEvent.h"
 
 #include "CorePrerequisites.h"
 
@@ -26,17 +26,15 @@ namespace rl {
 
 /** 
 */
-class _RlCoreExport GameAreaEvent : public virtual EventObject 
+class _RlCoreExport GameAreaListener : public virtual EventListener<GameAreaEvent>
 {
 public:
-    static const unsigned int AREA_ENTERED = 450;
-    static const unsigned int AREA_LEFT = 451;
+    virtual ~GameAreaListener() {};
 
-    GameAreaEvent( GameAreaEventSource* src,  const unsigned int reason );
-    virtual ~GameAreaEvent() {};
+    virtual void areaLeft(GameAreaEvent *anEvent) const = 0;
+    virtual void areaEntered(GameAreaEvent *anEvent) const = 0;
 
-    GameAreaEventSource* getGameAreaEventSource() const;
-private:
+    virtual bool eventRaised(GameAreaEvent *anEvent) const;
 };
 }
 

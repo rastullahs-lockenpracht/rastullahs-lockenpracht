@@ -19,5 +19,16 @@
 
 namespace rl {
 
+GameAreaEvent::GameAreaEvent( GameAreaEventSource* src, const unsigned int reason ) 
+    : EventObject(src,reason)
+{}
+
+GameAreaEventSource* GameAreaEvent::getGameAreaEventSource() const
+{
+    EventSource* eve =  this->getSource();
+    return dynamic_cast<GameAreaEventSource*>( eve );
+}
+
+
 }
 

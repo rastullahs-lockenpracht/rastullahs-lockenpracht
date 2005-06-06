@@ -17,15 +17,20 @@
 #ifndef __GameAreaEventSource_H__
 #define __GameAreaEventSource_H__
 
+#include "EventSource.h"
+#include "EventCaster.h"
+
 #include "CorePrerequisites.h"
 
 namespace rl {
 
 /** 
 */
-class _RlCoreExport GameAreaEventSource
+class _RlCoreExport GameAreaEventSource : public virtual EventSource
 {
 public:
+    GameAreaEventSource(  );
+    virtual ~GameAreaEventSource() {};
 private:
 };
 }
