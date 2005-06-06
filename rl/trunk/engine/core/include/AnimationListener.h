@@ -44,7 +44,6 @@ class _RlCoreExport AnimationEvent : public virtual EventObject
 class _RlCoreExport AnimationListener : public virtual EventListener<AnimationEvent>
 {
 	public:
-		//AnimationListener();
 		virtual ~AnimationListener() {};
 
 		virtual void animationFinished(AnimationEvent *anEvent) const = 0;

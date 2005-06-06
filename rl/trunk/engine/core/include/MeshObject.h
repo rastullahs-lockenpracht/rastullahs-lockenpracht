@@ -30,7 +30,8 @@ namespace rl {
     {
     public:
         MeshObject(const Ogre::String& name, const Ogre::String& meshname);
-        
+        virtual ~MeshObject();
+
         /// Wie ActorControlledObject::getMovableObject()
         /// Nur schon gebrauchsfertig gecastet.
         Ogre::Entity* getEntity() const;

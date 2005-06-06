@@ -33,6 +33,13 @@ namespace rl {
         calculateSize();
     }
 
+	MeshObject::~MeshObject()
+	{
+		CoreSubsystem::getSingletonPtr()->getWorld()
+			->getSceneManager()->removeEntity( getEntity() );
+		stopAllAnimations();
+	}
+
     Entity* MeshObject::getEntity() const
     {
         return reinterpret_cast<Entity*>(mMovableObject);

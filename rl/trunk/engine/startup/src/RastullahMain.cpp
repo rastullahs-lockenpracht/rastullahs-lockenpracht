@@ -48,9 +48,6 @@ void startupRl()
 	rl::ScriptSubsystem* script =  NULL;
 
 	try {
-
-		/**@todo das nach RastullahApplication
-		* und RastullahApplication nach Startup. */
 		core = new rl::CoreSubsystem();
 		core->log("CoreSubsystem gestartet");
 
