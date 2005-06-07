@@ -32,7 +32,9 @@ public:
     GameAreaEventSource(  );
     virtual ~GameAreaEventSource() {};
 private:
+    unsigned long m_QueryMask;
 };
+
 }
 
 #endif

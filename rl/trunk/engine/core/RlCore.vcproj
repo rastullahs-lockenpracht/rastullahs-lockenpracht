@@ -193,9 +193,6 @@
 				RelativePath=".\include\AnimationManager.h">
 			</File>
 			<File
-				RelativePath=".\include\AreaTypes.h">
-			</File>
-			<File
 				RelativePath=".\include\CameraObject.h">
 			</File>
 			<File
@@ -224,6 +221,9 @@
 			</File>
 			<File
 				RelativePath=".\include\GameAreaListener.h">
+			</File>
+			<File
+				RelativePath=".\include\GameAreaTypes.h">
 			</File>
 			<File
 				RelativePath=".\include\GameEventManager.h">
@@ -290,9 +290,6 @@
 				RelativePath=".\src\AnimationManager.cpp">
 			</File>
 			<File
-				RelativePath=".\src\AreaTypes.cpp">
-			</File>
-			<File
 				RelativePath=".\src\CameraObject.cpp">
 			</File>
 			<File
@@ -318,6 +315,9 @@
 			</File>
 			<File
 				RelativePath=".\src\GameAreaListener.cpp">
+			</File>
+			<File
+				RelativePath=".\src\GameAreaTypes.cpp">
 			</File>
 			<File
 				RelativePath=".\src\GameEventManager.cpp">
