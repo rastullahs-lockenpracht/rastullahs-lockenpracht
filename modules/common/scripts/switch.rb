@@ -24,7 +24,7 @@ class SwitchUpAction < RubyAction
     p switch.getString("state")
     if (switch.getString("state") == "Mitte")
       switchMesh.stopAllAnimations()
-    	switchMesh.startAnimation("Mitteaa", 1.0, 1)
+      switchMesh.startAnimation("MitteOben", 1.0, 1)
     elsif (switch.getString("state") == "Unten")
       switchMesh.stopAllAnimations()
       switchMesh.startAnimation("UntenOben", 1.0, 1)
