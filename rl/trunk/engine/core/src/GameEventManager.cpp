@@ -41,4 +41,8 @@ namespace rl {
 
     }
 
+    void GameEventManager::run( Ogre::Real elapsedTime )
+    {
+
+    }
 }

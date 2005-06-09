@@ -20,6 +20,10 @@
 #include "EventSource.h"
 #include "EventCaster.h"
 
+#include "GameAreaListener.h"
+#include "GameAreaEvent.h"
+#include "GameAreaTypes.h"
+
 #include "CorePrerequisites.h"
 
 namespace rl {
@@ -29,10 +33,25 @@ namespace rl {
 class _RlCoreExport GameAreaEventSource : public virtual EventSource
 {
 public:
-    GameAreaEventSource(  );
-    virtual ~GameAreaEventSource() {};
-private:
-    unsigned long m_QueryMask;
+    GameAreaEventSource( GameAreaType* areaType );
+    virtual ~GameAreaEventSource();
+
+    virtual const Ogre::Vector3& getAreaCenterPosition() const = 0;
+
+    void performQuery();
+
+    void addAreaListener( GameAreaListener*  list );
+    void removeAreaListener( GameAreaListener* list );
+
+    GameAreaType* getGameAreaType() const { return m_AreaType; };
+    const ActorMap& getInsideAreaList() const { return m_InsideAreaList; };
+private: 
+    void doDispatchEvents( const ActorMap& enteringActors, const ActorMap& leavingActors );
+
+    GameAreaType* m_AreaType;
+
+    EventCaster<GameAreaEvent> m_AreaEventCaster;
+    ActorMap m_InsideAreaList;
 };
 
 }

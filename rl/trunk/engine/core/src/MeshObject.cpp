@@ -119,21 +119,21 @@ namespace rl {
     
 	void MeshObject::stopAllAnimations( )
 	{
-		try
-		{
+
 			AnimationStateSet* animStates = getEntity()->getAllAnimationStates();
 			AnimationStateIterator iter(animStates->begin(),animStates->end());
 
 			while(iter.hasMoreElements()) 
 			{
-				 AnimationState state = iter.getNext(); 
-				 AnimationManager::getSingleton().removeAnimation( &state );
+                try
+                {
+				    AnimationState state = iter.getNext(); 
+				    AnimationManager::getSingleton().removeAnimation( &state );
+                }
+                catch(Ogre::Exception&) 
+                { 
+                }
 			} 
-				
-		}
-		catch(Ogre::Exception&) 
-		{ 
-		}
 	}
 
 

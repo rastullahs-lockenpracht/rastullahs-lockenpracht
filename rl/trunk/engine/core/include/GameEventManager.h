@@ -38,6 +38,8 @@ public:
     /** Default Deconstructor */
     virtual ~GameEventManager();
 
+    virtual void run( Ogre::Real elapsedTime );
+
     /// Singleton
     static GameEventManager & getSingleton(void);
     /// Singleton

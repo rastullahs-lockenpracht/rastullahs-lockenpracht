@@ -16,8 +16,83 @@
 
 #include "GameAreaEventSource.h"
 
+// Für Intersection und so :)
+#include <algorithm>
+
 namespace rl {
 
+    GameAreaEventSource::GameAreaEventSource( GameAreaType* areaType ) :
+        m_AreaType( areaType ),
+        m_InsideAreaList(),
+        m_AreaEventCaster()
+    {
+       
+    }
 
+    GameAreaEventSource::~GameAreaEventSource() 
+    {
+        m_InsideAreaList.clear();
+        m_AreaEventCaster.removeEventListeners();
+    }
+
+    
+    void GameAreaEventSource::performQuery()
+    {
+        ActorMap currInside = m_AreaType->performQuery();
+
+        ActorMap enteredMap, leftMap;
+        // EinfuegeIteratoren erstellen        
+        insert_iterator<ActorMap> enteredInsert(enteredMap, enteredMap.begin());
+        insert_iterator<ActorMap> leftInsert(leftMap, leftMap.begin());
+
+        // Alle feststellen die rausgefallen sind
+        set_difference( m_InsideAreaList.begin(), m_InsideAreaList.end(),
+                        currInside.begin(), currInside.end(), leftInsert );
+        
+        // Alle feststellen die neu hinzugekommen sind
+        set_difference( currInside.begin(), currInside.end(),
+            m_InsideAreaList.begin(), m_InsideAreaList.end(), enteredInsert );
+
+        // Die Übriggebliebenen in m_InsideAreaList speichern
+        m_InsideAreaList = currInside;
+
+        // Die Neuen und die Rausgefallenen an die Listener dispatchen
+        doDispatchEvents( enteredMap, leftMap );
+    }
+
+    void GameAreaEventSource::doDispatchEvents( 
+        const ActorMap& enteringActors, const ActorMap& leavingActors )
+    {
+        ActorMap::const_iterator it;
+        Actor* actor;
+
+        GameAreaEvent* event = new GameAreaEvent( this, GameAreaEvent::AREA_LEFT );
+        // Erst werden alle Listener für jedes verlassende Object einmal benachrichtigt
+        for( it = leavingActors.begin(); it != leavingActors.end();++it) 
+        {
+            actor = it->second;
+            event->setProvokingActor( actor );
+            m_AreaEventCaster.dispatchEvent( event );
+        }
+
+        event->setReason( GameAreaEvent::AREA_ENTERED );
+        // Dann werden alle Listener für jedes betretende Object einmal benachrichtigt
+        for( it = enteringActors.begin(); it != enteringActors.end();++it) 
+        {
+            actor = it->second;
+            event->setProvokingActor( actor );
+            m_AreaEventCaster.dispatchEvent( event );
+        }
+    }
+
+    void GameAreaEventSource::addAreaListener( GameAreaListener*  list )
+    {
+        m_AreaEventCaster.addEventListener( list );
+    }
+
+    void GameAreaEventSource::removeAreaListener( GameAreaListener* list )
+    {
+        m_AreaEventCaster.removeEventListener( list );
+    }
 }
 

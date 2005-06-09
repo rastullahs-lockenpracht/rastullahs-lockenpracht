@@ -22,6 +22,19 @@
 using namespace Ogre;
 
 namespace rl {
+    void GameAreaType::addQueryFlag( unsigned long flag  )
+    {
+        setQueryMask(  getQueryMask() | flag );
+    }
+
+    void GameAreaType::removeQueryFlag( unsigned long flag )
+    {
+        setQueryMask(  getQueryMask() &~ flag );
+    }
+}
+
+
+namespace rl {
 
     GameSphereAreaType::GameSphereAreaType(Vector3 center, Real radius, unsigned long mask)
     {
@@ -38,12 +51,12 @@ namespace rl {
         CoreSubsystem::getSingleton().getWorld()->getSceneManager()->destroyQuery( m_SphereQuery );
     }
 
-    ActorList GameSphereAreaType::performQuery(  )
+    ActorMap GameSphereAreaType::performQuery(  )
     {
         SceneQueryResult rs = m_SphereQuery->execute();
         SceneQueryResultMovableList movList = rs.movables;
         
-        ActorList retList;
+        ActorMap retMap;
         
         // Durch die Ergebnis Liste iterieren
         SceneQueryResultMovableList::iterator it;
@@ -54,11 +67,35 @@ namespace rl {
             {
                 // Zur Zeit sind die einzigen an Movables geknüpfte Objekte Actoren
                 Actor* act = dynamic_cast<Actor*>( mov->getUserObject() );
-                retList.insert( retList.end(), act );
+                retMap.insert(ActorPair(act->getName(),act)); 
             }
         }
 
-        return retList;
+        return retMap;
+    }
+
+    unsigned long GameSphereAreaType::getQueryMask() const
+    {
+        return m_SphereQuery->getQueryMask();
+    }
+
+    void GameSphereAreaType::setQueryMask( unsigned long mask ) 
+    {
+        m_SphereQuery->setQueryMask( mask );
+    }
+
+    void GameSphereAreaType::setQueryPosition( const Ogre::Vector3& vec )
+    {
+        // Wurde es bewegt?
+        if( vec != m_SphereQuery->getSphere().getCenter( ) )
+            // Kugel muss neu erzeugt werden :(
+            m_SphereQuery->setSphere( Sphere(vec,m_SphereQuery->getSphere().getRadius()) );
+    }
+
+    const Ogre::Vector3& GameSphereAreaType::getQueryPosition() const
+    {
+        
+        return m_SphereQuery->getSphere().getCenter( );
     }
 
 }

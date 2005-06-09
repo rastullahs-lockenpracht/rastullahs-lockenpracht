@@ -17,14 +17,15 @@
 #ifndef __GameAreaTypes_H__
 #define __GameAreaTypes_H__
 
-#include <list>
+#include <map>
 
 #include "Actor.h"
 #include "CorePrerequisites.h"
 
 namespace rl {
 
-typedef std::list<Actor*> ActorList;
+typedef std::map<const Ogre::String,Actor*> ActorMap;
+typedef std::pair<const Ogre::String,Actor*> ActorPair;
 class GameAreaEventSource;
 
 /** 
@@ -32,7 +33,16 @@ class GameAreaEventSource;
 class _RlCoreExport GameAreaType
 {
 public:
-    virtual ActorList performQuery(  ) = 0;
+    virtual ActorMap performQuery(  ) = 0;
+
+    virtual unsigned long getQueryMask() const = 0;
+    virtual void setQueryMask( unsigned long mask ) = 0;
+
+    void addQueryFlag( unsigned long flag  );
+    void removeQueryFlag( unsigned long flag );
+
+    virtual void setQueryPosition( const Ogre::Vector3& vec ) = 0;
+    virtual const Ogre::Vector3& getQueryPosition() const = 0;
 
     void setGameAreaEventSource( GameAreaEventSource * gaes )
         { m_GameAreaEventSource = gaes; };
@@ -48,7 +58,13 @@ public:
     GameSphereAreaType(Ogre::Vector3 center, Ogre::Real radius, unsigned long mask = 0xFFFFFFFF );
     virtual ~GameSphereAreaType();
 
-    virtual ActorList performQuery(  );
+    virtual ActorMap performQuery(  );
+
+    virtual unsigned long getQueryMask() const;
+    virtual void setQueryMask( unsigned long mask );
+
+    virtual void setQueryPosition( const Ogre::Vector3& vec );
+    virtual const Ogre::Vector3& getQueryPosition() const;    
 private:
     Ogre::SphereSceneQuery* m_SphereQuery;
 };

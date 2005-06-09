@@ -17,12 +17,14 @@
 #ifndef __GameAreaEvent_H__
 #define __GameAreaEvent_H__
 
+#include "Actor.h"
 #include "EventObject.h"
-#include "GameAreaEventSource.h"
 
 #include "CorePrerequisites.h"
 
 namespace rl {
+
+class GameAreaEventSource;
 
 /** 
 */
@@ -32,11 +34,14 @@ public:
     static const unsigned int AREA_ENTERED = 450;
     static const unsigned int AREA_LEFT = 451;
 
-    GameAreaEvent( GameAreaEventSource* src,  const unsigned int reason );
+    GameAreaEvent( GameAreaEventSource* src, const unsigned int reason );
     virtual ~GameAreaEvent() {};
 
+    void setProvokingActor(Actor* act ) {  m_Actor = act; };
+    Actor* getProvokingActor() const { return m_Actor; };
     GameAreaEventSource* getGameAreaEventSource() const;
 private:
+    Actor* m_Actor;
 };
 }
 

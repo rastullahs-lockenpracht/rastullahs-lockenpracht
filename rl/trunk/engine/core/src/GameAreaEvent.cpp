@@ -16,12 +16,16 @@
 
 #include "GameAreaEvent.h"
 
+#include "GameAreaEventSource.h"
 
 namespace rl {
 
 GameAreaEvent::GameAreaEvent( GameAreaEventSource* src, const unsigned int reason ) 
-    : EventObject(src,reason)
-{}
+    : EventObject(src,reason),
+    m_Actor(NULL)
+{
+
+}
 
 GameAreaEventSource* GameAreaEvent::getGameAreaEventSource() const
 {
