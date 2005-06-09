@@ -31,7 +31,9 @@ class _RlCoreExport GameTask
 		/// Virtueller Basis-Destruktor
         virtual ~GameTask( ) {};
 
-		/** Wird vom Gameloop aufgerufen, wenn nicht pausiert
+		/** Wird vom Gameloop aufgerufen, wenn nicht pausiert, 
+            wird von  Unterklassen implementiert
+
 			@param elapsedTime Die vergangene Zeit
 		*/
 		virtual void run( Ogre::Real elapsedTime ) = 0;

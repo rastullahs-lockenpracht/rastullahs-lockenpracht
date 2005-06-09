@@ -24,16 +24,29 @@
 
 namespace rl {
 
-/** 
-*/
+/** GameAreaListener
+ *  Eine Basisklasse für Listener die auf GameAreaEvents lauschen
+ *
+ *  @see GameAreaEvent, GameAreaEventSource, GameEventManager, GameAreaTypes
+ */
 class _RlCoreExport GameAreaListener : public virtual EventListener<GameAreaEvent>
 {
 public:
+    /// Dekonstruktor
     virtual ~GameAreaListener() {};
 
+    /** Diese Methode wird aufgerufen wenn ein Aktor das Areal verlassen hat
+     *  
+     * @param anEvent Das verantwortliche Ereignis
+     */
     virtual void areaLeft(GameAreaEvent *anEvent) const = 0;
+    /** Diese Methode wird aufgerufen wenn ein Aktor das Areal betreten hat
+    *  
+    * @param anEvent Das verantwortliche Ereignis
+    */
     virtual void areaEntered(GameAreaEvent *anEvent) const = 0;
 
+    /// Kümmert sich um das Aufrufen benannter Methoden aus Reasons
     virtual bool eventRaised(GameAreaEvent *anEvent) const;
 };
 }

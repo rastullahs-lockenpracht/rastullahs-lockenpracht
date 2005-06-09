@@ -26,8 +26,10 @@
 namespace rl {
 
 class Actor;
-/** 
-*/
+/** GameEventManager
+ *  
+ *  @see GameAreaListener, GameAreaEventSource, GameAreaEvent, GameAreaTypes
+ */
 class _RlCoreExport GameEventManager
   : public GameTask,
     protected Ogre::Singleton<GameEventManager>
@@ -38,6 +40,9 @@ public:
     /** Default Deconstructor */
     virtual ~GameEventManager();
 
+    /** Wird vom Gameloop aufgerufen, wenn nicht pausiert
+     * @param elapsedTime Die vergangene Zeit
+     */
     virtual void run( Ogre::Real elapsedTime );
 
     /// Singleton

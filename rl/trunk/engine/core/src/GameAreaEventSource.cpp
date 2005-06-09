@@ -21,10 +21,11 @@
 
 namespace rl {
 
-    GameAreaEventSource::GameAreaEventSource( GameAreaType* areaType ) :
+    GameAreaEventSource::GameAreaEventSource( GameAreaType* areaType, Actor* act ) :
         m_AreaType( areaType ),
         m_InsideAreaList(),
-        m_AreaEventCaster()
+        m_AreaEventCaster(),
+        m_Actor(act)
     {
        
     }
@@ -38,6 +39,8 @@ namespace rl {
     
     void GameAreaEventSource::performQuery()
     {
+        // Position übertragen
+        m_AreaType->setQueryPosition( m_Actor->getWorldPosition() );       
         ActorMap currInside = m_AreaType->performQuery();
 
         ActorMap enteredMap, leftMap;
