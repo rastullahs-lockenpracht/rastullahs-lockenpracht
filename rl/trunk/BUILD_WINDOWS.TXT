@@ -3,13 +3,13 @@ VS.NET
 Um Rastullahs Lockenpracht bauen zu können werden folgende zusätzliche
 Bibliotheken benötigt:
 
-Ogre 3D 1.0 - Azatoth + Patches
+Ogre 3D 1.01 - Azatoth + Patches
 http://www.ogre3d.org
 
 Ruby - 1.8
 http://ruby-lang.org
 
-SWIG - 3.21 
+SWIG - 3.21  (exakt diese Version)
 http://www.swig.org
 
 OPENAL
@@ -18,11 +18,12 @@ http://developer.creative.com/landing.asp?cat=1&sbcat=31&top=38
 Vorbis
 http://www.vorbis.com/
 
-Ode
-http://www.ode.org - Patched (siehe OgreODE Docs)
 
 OgreODE - Final Compatible 1.0.0
 http://www.green-eyed-monster.com/xoops/modules/mydownloads/visit.php?cid=3&lid=10
+
+Ode
+http://www.ode.org - Patched (siehe OgreODE Docs)
 
 Cegui 0.2
 http://www.cegui.org.uk/
@@ -38,7 +39,8 @@ Diese sind alle unterhalb von rl/dependencies anzulegen.
 Die Projekte müssen alle im Verzeichnis dependencies angelegt werden.
 Die Verzeichnisstruktur sollte jeweils erhalten bleiben.
 
-VS.Net-2003-Nutzer können sich alternativ von der Projektseite auch dei Dependencies runterladen und ins rl-Verzeichnis entpacken.
+VS.Net-2003-Nutzer können sich alternativ von der Projektseite auch die Dependencies runterladen und ins rl-Verzeichnis entpacken.
+Diese sind jedoch nicht immer aktuell.
 
 Das Projekt kann man dann einfach kompilieren.
 Um erfolgreich starten zu können braucht man unseren eigenen Look, dieser lässt sich aus dem Module rllooks erstellen. 
