@@ -125,14 +125,8 @@ namespace rl {
 
 			while(iter.hasMoreElements()) 
 			{
-                try
-                {
-				    AnimationState state = iter.getNext(); 
-				    AnimationManager::getSingleton().removeAnimation( &state );
-                }
-                catch(Ogre::Exception&) 
-                { 
-                }
+			    AnimationState state = iter.getNext(); 
+                stopAnimation( state.getAnimationName() );
 			} 
 	}
 
