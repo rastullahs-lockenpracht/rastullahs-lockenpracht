@@ -52,14 +52,25 @@ namespace rl {
             const Ogre::Quaternion& orientation = Ogre::Quaternion::IDENTITY,
 			const std::string& odeBone = "");
         
-        
-
         void placeIntoScene(
             Ogre::Real px, Ogre::Real py, Ogre::Real pz,
 			Ogre::Real ow, Ogre::Real ox, Ogre::Real oy, Ogre::Real oz,
 			const std::string& odeBone = "");
             
         void removeFromScene();
+
+
+        /// Gibt die Anfrage-Maske zurück,
+        unsigned long getQueryMask() const;
+        /// Setzt die Anfrage-Maske
+        void setQueryMask( unsigned long mask = 0xFFFFFFFF );
+
+        /// Fügt der Anfrage-Maske ein Flag hinzu
+        void addQueryFlag( unsigned long flag  );
+        /// Entfernt ein Flag aus der Anfrage-Maske
+        void removeQueryFlag( unsigned long flag );
+
+
 
         /// Gets the current position of this object.
         const Ogre::Vector3& getPosition(void);
@@ -93,7 +104,9 @@ namespace rl {
 
         /// Rotate the object around an aritrary axis using a Quarternion.
         void rotate(const Ogre::Quaternion& q);
-        
+      
+
+
         void attach(const Ogre::String& slot, Actor* actor,
             const Ogre::String& childSlot = "SLOT_DEFAULT",
 			const Ogre::Quaternion &offsetOrientation=Ogre::Quaternion::IDENTITY, 
@@ -114,7 +127,10 @@ namespace rl {
 			const Ogre::Quaternion& orientation = Ogre::Quaternion::IDENTITY,
 			const std::string& odeBone = "");
 
+
+        /// Setzt diesem Actor ein Highlight
 		void setHighlighted(bool highlight);
+        /// Gibt zurück ob der Actor gehighlighted ist
         bool isHighlighted() const;
         
         ///@todo mehr Query-Methoden für Childs
@@ -138,7 +154,6 @@ namespace rl {
         /// Argmumente wie placeIntoScene
         virtual void placeChildsIntoScene(const Ogre::Vector3& position,
             const Ogre::Quaternion& orientation);
-
 
 	private:
         /// Speichert ob der Aktor zur Zeit leuchtet

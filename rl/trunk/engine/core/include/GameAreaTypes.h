@@ -46,7 +46,7 @@ public:
     /// Gibt die Anfrage-Maske zurück, wird in Unterklassen implementiert
     virtual unsigned long getQueryMask() const = 0;
     /// Setzt die Anfrage-Maske, wird in Unterklassen implementiert
-    virtual void setQueryMask( unsigned long mask ) = 0;
+    virtual void setQueryMask( unsigned long mask = 0xFFFFFFFF ) = 0;
 
     /// Fügt der Anfrage-Maske ein Flag hinzu
     void addQueryFlag( unsigned long flag  );
@@ -82,7 +82,7 @@ public:
     /// Gibt die Anfrage-Maske zurück
     virtual unsigned long getQueryMask() const;
     /// Setzt die Anfrage-Maske
-    virtual void setQueryMask( unsigned long mask );
+    virtual void setQueryMask( unsigned long mask = 0xFFFFFFFF );
 
      /// Setzt die genaue Position der Anfrage
     virtual void setQueryPosition( const Ogre::Vector3& vec );

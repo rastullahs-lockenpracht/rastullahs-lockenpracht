@@ -420,6 +420,11 @@ public:
 	void roll(Real angleunits);
 	void pitch(Real angleunits);
 	void yaw(Real angleunits);
+	
+	unsigned long getQueryMask() const;
+    void setQueryMask( unsigned long mask = 0xFFFFFFFF );
+    void addQueryFlag( unsigned long flag  );
+    void removeQueryFlag( unsigned long flag );
 };
 
 

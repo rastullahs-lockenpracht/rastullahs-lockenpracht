@@ -59,7 +59,7 @@ namespace rl {
         {
             mActorControlledObject->_setActor(0);
         }
-        /// @todo Eventuell mal SceneNode löschen.
+
         /// @todo Physikverknüpfung entfernen
         /// @todo Highlightmaterial entfernen
     }
@@ -87,6 +87,26 @@ namespace rl {
     const String& Actor::getName() const
     {
         return mName;
+    }
+
+    unsigned long Actor::getQueryMask() const
+    {
+        return mActorControlledObject->getMovableObject()->getQueryFlags();
+    }
+
+    void Actor::setQueryMask( unsigned long mask )
+    {
+        return mActorControlledObject->getMovableObject()->setQueryFlags( mask );
+    }
+
+    void Actor::addQueryFlag( unsigned long flag  )
+    {
+        setQueryMask(  getQueryMask() | flag );
+    }
+
+    void Actor::removeQueryFlag( unsigned long flag )
+    {
+        setQueryMask(  getQueryMask() &~ flag );
     }
 
     void Actor::setOrientation(const Quaternion& orientation)
