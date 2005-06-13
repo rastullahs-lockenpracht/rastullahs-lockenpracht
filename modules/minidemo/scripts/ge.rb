@@ -7,15 +7,15 @@ print( "Definiere Listener" );
 # Definition des GameAreaListeners
 class DunkleEckenLachListener < GameAreaListener
 	def areaLeft(anEvent)
-		print( "Raus - " );
-		print( anEvent.getProvokingActor().getName() );
+		print( "Raus - " +  anEvent.getProvokingActor().getName() );
 	end
 	def areaEntered(anEvent)
-		print( "Rein - " );
-		print( anEvent.getProvokingActor().getName() );
+		print( "Rein - " + anEvent.getProvokingActor().getName() );
 	end
 end
 
+held = $AM.getActor( "Held" );
+held.setQueryMask( 0x01 );
 
 $CORE.log("Kugel-Zentrum Actor erstellen");
 kugelDings = $AM.createParticleSystemActor("Kugel-Zentrum", "PEExamples/ignifaxius" );
@@ -26,6 +26,6 @@ $CORE.log("DunkleEckenLachListener erstellen");
 areaListener = DunkleEckenLachListener.new();
 
 $CORE.log("DunkleEckenLachListener hinzufügen");
-$GameEveMgr.addSphereAreaListener( kugelDings, 50.0, areaListener );
+$GameEveMgr.addSphereAreaListener( kugelDings, 50.0, areaListener, 0x01 );
 
 print( "GameEvent-Tests fertig geladen" );
