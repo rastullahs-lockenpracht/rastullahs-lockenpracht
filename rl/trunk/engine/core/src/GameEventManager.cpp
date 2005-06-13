@@ -48,8 +48,8 @@ namespace rl {
         m_AreaEventSources.clear();
     }
 
-    void GameEventManager::addSphereAreaListener( Actor* actor, unsigned long queryMask, 
-        Ogre::Real radius, GameAreaListener* list )
+    void GameEventManager::addSphereAreaListener( Actor* actor,Ogre::Real radius,
+        GameAreaListener* list, unsigned long queryMask )
     {
         // Neues Areal erzeugen
         GameAreaType* at = new GameSphereAreaType( actor->getWorldPosition(), radius, queryMask );
