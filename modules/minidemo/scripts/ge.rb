@@ -7,12 +7,12 @@ print( "Definiere Listener" );
 # Definition des GameAreaListeners
 class DunkleEckenLachListener < GameAreaListener
 	def areaLeft(anEvent)
-		print( "Raus" );
-		$CORE.log("Raus");
+		print( "Raus - " );
+		print( anEvent.getProvokingActor().getName() );
 	end
 	def areaEntered(anEvent)
-		print( "Rein" );
-		$CORE.log("Rein");
+		print( "Rein - " );
+		print( anEvent.getProvokingActor().getName() );
 	end
 end
 
