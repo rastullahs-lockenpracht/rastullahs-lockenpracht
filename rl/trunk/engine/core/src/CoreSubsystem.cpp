@@ -29,6 +29,7 @@
 #include "PhysicsManager.h"
 #include "ActorManager.h"
 #include "AnimationManager.h"
+#include "GameEventManager.h"
 #include "GameLoop.h"
 #include "RubyInterpreter.h"
 #include "Exception.h"
@@ -148,6 +149,9 @@ namespace rl {
         GameLoopManager::getSingleton().addSynchronizedTask(
             AnimationManager::getSingletonPtr());
         new ActorManager();
+        new GameEventManager();
+        GameLoopManager::getSingleton().addSynchronizedTask(
+            GameEventManager::getSingletonPtr());
 
         return true;
     }

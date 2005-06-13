@@ -79,9 +79,6 @@ public:
     /// Singleton
     static GameEventManager * getSingletonPtr(void);
 private:
-    void addAreaEventSource( GameAreaEventSource* areaSrc );
-    void removeAreaEventSource( GameAreaEventSource* areaSrc );
-
     GameAreaEventSourceList m_AreaEventSources;
 };
 

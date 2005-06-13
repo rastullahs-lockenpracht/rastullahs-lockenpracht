@@ -37,6 +37,23 @@ public:
 namespace rl {
 
 %{
+static swig_type_info *GameAreaType_dynamic_cast(void **ptr) {
+    rl::GameAreaType **ppGameAreaType = reinterpret_cast<rl::GameAreaType **>(ptr);
+    
+    rl::GameSphereAreaType *pGameSphereAreaType = dynamic_cast<rl::GameSphereAreaType*>(*ppGameAreaType);
+    if(pGameSphereAreaType){
+      *ptr=reinterpret_cast<void*>(pGameSphereAreaType);
+      return SWIGTYPE_p_rl__GameSphereAreaType;
+    }    
+    
+    return 0;
+}
+%}
+DYNAMIC_CAST(SWIGTYPE_p_rl__GameAreaType, GameAreaType_dynamic_cast);
+
+
+
+%{
 static swig_type_info *Animation_dynamic_cast(void **ptr) {
     rl::Animation **ppAnimation = reinterpret_cast<rl::Animation **>(ptr);
     
@@ -126,6 +143,78 @@ public:
     virtual void setCastShadows(bool);
 };
 
+/// Alles was mit AreaKrams zu tun hat
+%apply SWIGTYPE *DYNAMIC { GameAreaType * };
+
+%feature("director") GameAreaListener; 
+class GameAreaListener
+{
+public:
+	virtual ~GameAreaListener();
+
+    virtual void areaLeft(rl::GameAreaEvent *anEvent) const = 0;
+    virtual void areaEntered(rl::GameAreaEvent *anEvent) const = 0;
+};
+
+class GameAreaType
+{
+private:
+	GameAreaType();
+public:
+	unsigned long getQueryMask() const;
+    void setQueryMask( unsigned long mask );
+    void addQueryFlag( unsigned long flag  );
+    void removeQueryFlag( unsigned long flag );
+    const Ogre::Vector3& getQueryPosition() const;
+};
+
+class GameSphereAreaType : public GameAreaType
+{
+private:
+	GameSphereAreaType( Ogre::Vector3, Ogre::Real, unsigned long mask = 0xFFFFFFFF );
+public:
+};
+
+class GameAreaEventSource
+{
+private: 
+	GameAreaEventSource( rl::GameAreaType* areaType, rl::Actor* act );
+public:   
+    void addAreaListener( rl::GameAreaListener*  list );
+    void removeAreaListener( rl::GameAreaListener* list );
+    bool hasListeners( ) const;
+
+    rl::GameAreaType* getGameAreaType() const;
+    // const ActorMap& getInsideAreaList() const;
+    rl::Actor* getActor() const;
+};
+
+class GameAreaEvent
+{
+private:
+	GameAreaEvent( rl::GameAreaEventSource* src, const unsigned int reason );
+public:
+    rl::Actor* getProvokingActor() const;
+    rl::GameAreaEventSource* getGameAreaEventSource() const;
+};
+
+class GameEventManager
+{
+private:
+    GameEventManager( );
+public:
+    void addSphereAreaListener( rl::Actor* actor, unsigned long queryMask, Ogre::Real radius, rl::GameAreaListener* list );
+    void removeAreaListener( rl::GameAreaListener* list );
+    void removeAllAreas( rl::Actor* actor );
+
+    static rl::GameEventManager & getSingleton(void);
+};
+
+
+
+/// Alles was mit Animationen zu tun hat
+%apply SWIGTYPE *DYNAMIC { Animation * };
+
 %feature("director") AnimationListener; 
 class AnimationListener
 {
@@ -135,8 +224,6 @@ public:
 	virtual void animationPaused(rl::AnimationEvent *anEvent) const = 0;
 	virtual void animationUnpaused(rl::AnimationEvent *anEvent) const = 0;
 };
-
-%apply SWIGTYPE *DYNAMIC { Animation * };
 
 %feature("director") AnimationFrameListener; 
 class AnimationFrameListener
