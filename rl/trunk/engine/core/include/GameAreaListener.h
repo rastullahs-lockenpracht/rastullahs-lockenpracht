@@ -33,7 +33,7 @@ class _RlCoreExport GameAreaListener : public virtual EventListener<GameAreaEven
 {
 public:
     /// Dekonstruktor
-    virtual ~GameAreaListener() {};
+    virtual ~GameAreaListener();
 
     /** Diese Methode wird aufgerufen wenn ein Aktor das Areal verlassen hat
      *  

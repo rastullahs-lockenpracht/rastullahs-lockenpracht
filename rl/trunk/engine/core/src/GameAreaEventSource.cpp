@@ -37,7 +37,7 @@ namespace rl {
     }
 
     
-    void GameAreaEventSource::performQuery()
+    void GameAreaEventSource::performQuery( Ogre::Real timePassed )
     {
         // Position übertragen
         m_AreaType->setQueryPosition( m_Actor->getWorldPosition() );       
@@ -96,6 +96,11 @@ namespace rl {
     void GameAreaEventSource::removeAreaListener( GameAreaListener* list )
     {
         m_AreaEventCaster.removeEventListener( list );
+    }
+
+    bool GameAreaEventSource::hasListeners( ) const
+    {
+        return m_AreaEventCaster.hasEventListeners();
     }
 }
 

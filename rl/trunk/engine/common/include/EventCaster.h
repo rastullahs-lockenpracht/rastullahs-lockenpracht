@@ -47,6 +47,8 @@ public:
    void removeEventListener(EventListener<Event> *aListener);
    /// Loescht alle EventListener.
    void removeEventListeners();
+   /// Sind Listener vorhanden?
+   bool hasEventListeners() const;
    /// Ein Ereignis verteilen.
    void dispatchEvent(Event *anEvent);
 };
@@ -102,6 +104,17 @@ template <typename Event>
 void EventCaster<Event>::removeEventListeners()
 {
     mListeners.clear();
+}
+
+/**
+* @author Harlequin
+* @date 10-05-2004
+* @version 1.0
+*/
+template <typename Event>
+bool EventCaster<Event>::hasEventListeners() const
+{
+    return !mListeners.empty();
 }
 
 /**

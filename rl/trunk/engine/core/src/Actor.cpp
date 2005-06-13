@@ -19,6 +19,7 @@
 #include "CoreSubsystem.h"
 #include "World.h"
 #include "PhysicsManager.h"
+#include "GameEventManager.h"
 #include "PhysicalThing.h"
 #include "Exception.h"
 #include "ActorControlledObject.h"
@@ -49,12 +50,18 @@ namespace rl {
 
     Actor::~Actor()
     {
+        // Alle möglichen Area-Verknüpfungen entfernen
+        GameEventManager::getSingleton().removeAllAreas( this );
+
         removeFromScene();
+        
         if (mActorControlledObject)
         {
             mActorControlledObject->_setActor(0);
         }
-        // Eventuell mal SceneNode löschen.
+        /// @todo Eventuell mal SceneNode löschen.
+        /// @todo Physikverknüpfung entfernen
+        /// @todo Highlightmaterial entfernen
     }
 
     void Actor::setGameObject(Ogre::UserDefinedObject* uo)

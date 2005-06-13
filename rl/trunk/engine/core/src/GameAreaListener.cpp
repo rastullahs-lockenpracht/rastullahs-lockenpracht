@@ -16,8 +16,14 @@
 
 #include "GameAreaListener.h"
 
+#include "GameEventManager.h"
 
 namespace rl {
+
+    GameAreaListener::~GameAreaListener()
+    {
+        GameEventManager::getSingleton().removeAreaListener( this );
+    }
 
     bool GameAreaListener::eventRaised( GameAreaEvent* anEvent ) const
     {

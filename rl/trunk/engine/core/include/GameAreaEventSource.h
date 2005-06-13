@@ -53,7 +53,7 @@ public:
      *
      *  @notice Sollte nicht eigenständig aufgerufen werden
      */
-    void performQuery();
+    void performQuery( Ogre::Real timePassed );
 
     /** Fügt einen GameAreaListener hinzu, der zukünftig bei GameAreaEvents benachrichtigt wird 
      *
@@ -66,10 +66,15 @@ public:
     */
     void removeAreaListener( GameAreaListener* list );
 
+    /// Gibt zurück ob sich Listener angemeldet haben
+    bool hasListeners( ) const;
+
     /// Gibt die Art des Areals zurück
     GameAreaType* getGameAreaType() const { return m_AreaType; };
     /// Gibt die Actoren die bei der letzten Abfrage innerhalb des Areals waren zurück
     const ActorMap& getInsideAreaList() const { return m_InsideAreaList; };
+    /// Gibt den Actor zurück, den das Areal umgibt
+    Actor* getActor() const { return m_Actor; };
 private: 
     /** Verteilt die Events an die angefügten Listener
     * Für jeden Actor wird ein einzelnes Ereigniss generiert, zuerst für alle

@@ -15,12 +15,12 @@
  */
 
 #include "GameEventManager.h"
-
-#include "Actor.h"
+#include "GameAreaTypes.h"
 
 template<> rl::GameEventManager* Ogre::Singleton<rl::GameEventManager>::ms_Singleton = 0;
 
 namespace rl {
+
     GameEventManager& GameEventManager::getSingleton(void)
     {
         return Ogre::Singleton<GameEventManager>::getSingleton();
@@ -31,18 +31,86 @@ namespace rl {
         return Ogre::Singleton<GameEventManager>::getSingletonPtr();
     }
 
-    GameEventManager::GameEventManager( )
+    GameEventManager::GameEventManager( ) :
+        m_AreaEventSources()
     {
         
     }
 
     GameEventManager::~GameEventManager( )
     {
+        GameAreaEventSourceList::iterator it;
+        for( it = m_AreaEventSources.begin(); it != m_AreaEventSources.end();++it) 
+        {
+            GameAreaEventSource* gam = *it;
+            delete gam;
+        }
+        m_AreaEventSources.clear();
+    }
 
+    void GameEventManager::addSphereAreaListener( Actor* actor, unsigned long queryMask, 
+        Ogre::Real radius, GameAreaListener* list )
+    {
+        // Neues Areal erzeugen
+        GameAreaType* at = new GameSphereAreaType( actor->getWorldPosition(), radius, queryMask );
+        // Event-Quelle erzeugen
+        GameAreaEventSource* gam = new GameAreaEventSource( at, actor );
+        // In die Menge einfügen
+        m_AreaEventSources.push_back( gam );
+        // Und Listener anhängen
+        gam->addAreaListener( list );
+    }
+
+    void GameEventManager::removeAreaListener( GameAreaListener* list )
+    {
+        GameAreaEventSourceList::iterator it;
+        for( it = m_AreaEventSources.begin(); it != m_AreaEventSources.end();++it) 
+        {
+            GameAreaEventSource* gam = *it;
+            gam->removeAreaListener( list );
+
+            // Sind alle Listener weggeworfen?
+            if( !gam->hasListeners() )
+            {            
+                // Iterator zurückgeben, da sich dieser nach löschen ändert
+                it = m_AreaEventSources.erase(it);
+                // Die Area-Art löschen
+                delete gam->getGameAreaType();
+                // Das Objekt löschen
+                delete gam;
+            }
+        }
+        m_AreaEventSources.clear();
+    }
+
+    void GameEventManager::removeAllAreas( Actor* actor )
+    {
+        GameAreaEventSourceList::iterator it;
+        for( it = m_AreaEventSources.begin(); it != m_AreaEventSources.end();++it) 
+        {
+            GameAreaEventSource* gam = *it;
+
+            // Ist das der Actor?
+            if( gam->getActor() == actor )
+            {      
+                // Iterator zurückgeben, da sich dieser nach löschen ändert
+                it = m_AreaEventSources.erase(it);
+                // Die Area-Art löschen
+                delete gam->getGameAreaType();
+                // Das Objekt löschen
+                delete gam;
+            }
+        }
+        m_AreaEventSources.clear();
     }
 
     void GameEventManager::run( Ogre::Real elapsedTime )
     {
-
+        GameAreaEventSourceList::iterator it;
+        for( it = m_AreaEventSources.begin(); it != m_AreaEventSources.end();++it) 
+        {
+            GameAreaEventSource* gam = *it;
+            gam->performQuery( elapsedTime );
+        }
     }
 }

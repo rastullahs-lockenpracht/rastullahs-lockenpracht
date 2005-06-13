@@ -17,15 +17,19 @@
 #ifndef __GameEventManager_H__
 #define __GameEventManager_H__
 
-#include <map>
+#include <list>
 #include <OgreSingleton.h>
 
+#include "Actor.h"
 #include "GameTask.h"
+#include "GameAreaEventSource.h"
+#include "GameAreaListener.h"
 #include "CorePrerequisites.h"
 
 namespace rl {
 
-class Actor;
+typedef std::list<GameAreaEventSource*> GameAreaEventSourceList;
+
 /** GameEventManager
  *  
  *  @see GameAreaListener, GameAreaEventSource, GameAreaEvent, GameAreaTypes
@@ -41,15 +45,44 @@ public:
     virtual ~GameEventManager();
 
     /** Wird vom Gameloop aufgerufen, wenn nicht pausiert
+     * Führt die Anfragen der eingetragenen GameAreaEventSource durch
      * @param elapsedTime Die vergangene Zeit
      */
     virtual void run( Ogre::Real elapsedTime );
+
+    /** Fügt eine Sphere Area hinzu, und hängt einen Listener an
+    *
+    * @param actor Der Actor um den herum die Kugel aufgespannt werden soll
+    * @param queryMask Die Maske um die SzenenAnfrage zu beschleunigen
+    * @param radius Der Radius der Kugel
+    * @param list Der neu hinzuzufügende Listener    
+    */
+    void addSphereAreaListener( Actor* actor, unsigned long queryMask, 
+        Ogre::Real radius, GameAreaListener* list );
+
+    /** Entfernt an allen Areas diesen Listener
+    *
+    * @param list Der Listener an den GameAreaEventSource
+    * @note Dabei werden alle GameAreaEventSource, an denen keine
+            Listener befestigt sind, entfernt und gelöscht.
+    */
+    void removeAreaListener( GameAreaListener* list );
+
+    /** Entfernt alle Areas die an einen Actor geknüpft sind
+      *
+      * @param actor Der Actor der GameAreaEventSource
+      */
+    void removeAllAreas( Actor* actor );
 
     /// Singleton
     static GameEventManager & getSingleton(void);
     /// Singleton
     static GameEventManager * getSingletonPtr(void);
 private:
+    void addAreaEventSource( GameAreaEventSource* areaSrc );
+    void removeAreaEventSource( GameAreaEventSource* areaSrc );
+
+    GameAreaEventSourceList m_AreaEventSources;
 };
 
 }
