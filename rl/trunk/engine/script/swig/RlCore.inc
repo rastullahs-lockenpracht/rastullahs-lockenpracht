@@ -203,7 +203,8 @@ class GameEventManager
 private:
     GameEventManager( );
 public:
-    void addSphereAreaListener( rl::Actor* actor, unsigned long queryMask, Ogre::Real radius, rl::GameAreaListener* list );
+    void addSphereAreaListener( rl::Actor* actor, Real radius, 
+		rl::GameAreaListener* list, unsigned long queryMask = 0xFFFFFFFF );
     void removeAreaListener( rl::GameAreaListener* list );
     void removeAllAreas( rl::Actor* actor );
 
@@ -394,6 +395,7 @@ class Actor {
 private:
 	Actor(const std::string& name);
 public:	
+	const const std::string& getName() const;
 	const Vector3& getPosition(void);
 	const Quaternion& getOrientation(void);
 	const Vector3& getWorldPosition(void);

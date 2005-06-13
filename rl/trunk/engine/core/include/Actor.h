@@ -39,7 +39,7 @@ namespace rl {
         ~Actor();
 
         /// Returns the unique Name of this Actor
-        const Ogre::String& getName();
+        const Ogre::String& getName() const;
         
         PhysicalThing* getPhysicalThing();
         Ogre::UserDefinedObject* getGameObject();

@@ -84,7 +84,7 @@ namespace rl {
         return mActorControlledObject;
     }
     
-    const String& Actor::getName()
+    const String& Actor::getName() const
     {
         return mName;
     }
