@@ -46,6 +46,9 @@ namespace rl {
 
 		if( mPhysicalThing != 0 )
 			mPhysicalThing->_setActor(this);
+
+        // @todo  Benennen und all das
+        setQueryMask( 1 );
     }
 
     Actor::~Actor()
