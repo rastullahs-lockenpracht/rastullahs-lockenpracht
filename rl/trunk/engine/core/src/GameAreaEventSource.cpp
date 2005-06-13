@@ -42,6 +42,9 @@ namespace rl {
         // Position übertragen
         m_AreaType->setQueryPosition( m_Actor->getWorldPosition() );       
         ActorMap currInside = m_AreaType->performQuery();
+        // Der Actor um den herum die Quelle ist, wird vermutlich auch gefunden :)
+        // Also rauslöschen
+        currInside.erase( m_Actor->getName() );
 
         ActorMap enteredMap, leftMap;
         // EinfuegeIteratoren erstellen        
