@@ -13,7 +13,7 @@ $MM = MusicManager.getSingleton();
 $UI = UiSubsystem.getSingleton();
 $SM = SoundManager.getSingleton();
 
-$GamEveMgr = GameManager.getSingleton();
+$GameEveMgr = GameEventManager.getSingleton();
 $AnimMgr = AnimationManager.getSingleton();
 
 
