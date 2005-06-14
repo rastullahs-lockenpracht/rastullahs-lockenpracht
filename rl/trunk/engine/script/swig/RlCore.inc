@@ -395,6 +395,13 @@ class Actor {
 private:
 	Actor(const std::string& name);
 public:	
+    enum QueryGroupFlags
+    {
+        QGF_NONE = 0,
+        QGF_DEFAULT = 1,
+        QGF_PLAYER = 2
+    };
+
 	const const std::string& getName() const;
 	const Vector3& getPosition(void);
 	const Quaternion& getOrientation(void);

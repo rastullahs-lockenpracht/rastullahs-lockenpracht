@@ -28,6 +28,14 @@ namespace rl {
     class _RlCoreExport Actor : public Ogre::UserDefinedObject
     {
     public:
+        enum QueryGroupFlags
+        {
+            QGF_NONE = 0,
+            QGF_DEFAULT = 1,
+            QGF_PLAYER = 2,
+            QGF_ALL = 0xFFFFFFFF
+        };
+
         ///@todo MovableObject abstrahieren.
         Actor(const Ogre::String& name,
             ActorControlledObject* aco = 0,

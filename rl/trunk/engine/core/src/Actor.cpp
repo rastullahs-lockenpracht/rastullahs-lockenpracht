@@ -48,7 +48,7 @@ namespace rl {
 			mPhysicalThing->_setActor(this);
 
         // @todo  Benennen und all das
-        setQueryMask( 1 );
+        setQueryMask( QGF_DEFAULT );
     }
 
     Actor::~Actor()
