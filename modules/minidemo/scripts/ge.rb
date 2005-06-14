@@ -15,7 +15,7 @@ class DunkleEckenLachListener < GameAreaListener
 end
 
 held = $AM.getActor( "Held" );
-held.setQueryMask( 0x10 );
+held.setQueryMask( Actor::QGF_PLAYER );
 
 $CORE.log("Kugel-Zentrum Actor erstellen");
 kugelDings = $AM.createParticleSystemActor("Kugel-Zentrum", "PEExamples/ignifaxius" );
@@ -26,6 +26,6 @@ $CORE.log("DunkleEckenLachListener erstellen");
 areaListener = DunkleEckenLachListener.new();
 
 $CORE.log("DunkleEckenLachListener hinzufügen");
-$GameEveMgr.addSphereAreaListener( kugelDings, 50.0, areaListener, 0x10 );
+$GameEveMgr.addSphereAreaListener( kugelDings, 50.0, areaListener, Actor::QGF_PLAYER );
 
 print( "GameEvent-Tests fertig geladen" );
