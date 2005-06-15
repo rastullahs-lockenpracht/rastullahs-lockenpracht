@@ -28,6 +28,7 @@ namespace rl {
             mCamera(0),
 	        mActiveActor(0)
 	{
+        
 	}
 
 	SceneManager* World::getSceneManager(void) const
@@ -122,4 +123,9 @@ namespace rl {
 		Throw(OperationNotSupportedException,
 			"SceneManager does not support shadows");
 	}
+
+    void World::setShowBoundingBoxes( bool dis ) 
+    {
+        mSceneMgr->showBoundingBoxes( dis );
+    }
 }

@@ -141,6 +141,8 @@ public:
     virtual void setAmbientLight(Real r, Real g, Real b);
     virtual Vector3 getStartPoint() const;
     virtual void setCastShadows(bool);
+
+    void setShowBoundingBoxes( bool dis );
 };
 
 /// Alles was mit AreaKrams zu tun hat
@@ -399,7 +401,8 @@ public:
     {
         QGF_NONE = 0,
         QGF_DEFAULT = 1,
-        QGF_PLAYER = 2
+        QGF_PLAYER = 2,
+        QGF_ALL = 0xFFFFFFFF
     };
 
 	const const std::string& getName() const;

@@ -57,7 +57,7 @@ public:
     * @param radius Der Radius der Kugel
     * @param list Der neu hinzuzufügende Listener    
     */
-    void addSphereAreaListener( Actor* actor,Ogre::Real radius,
+    void addSphereAreaListener( Actor* actor, Ogre::Real radius,
         GameAreaListener* list, unsigned long queryMask = 0xFFFFFFFF );
 
     /** Entfernt an allen Areas diesen Listener

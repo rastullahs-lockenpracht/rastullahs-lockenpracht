@@ -86,6 +86,7 @@ namespace rl {
 
 		virtual void setCastShadows(bool enabled);
 
+        void setShowBoundingBoxes( bool dis );
     protected:
         World(Ogre::SceneType sceneType);
 

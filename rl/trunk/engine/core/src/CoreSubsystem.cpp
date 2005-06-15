@@ -199,7 +199,7 @@ namespace rl {
         ParticleSystemManager::getSingleton().addRendererFactory( 
             new BillboardParticleRendererFactory() );
 
-        ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+        ResourceGroupManager::getSingleton().initialiseAllResourceGroups();        
     }
 
     void CoreSubsystem::initializeModuleTextures(const std::string& module)
