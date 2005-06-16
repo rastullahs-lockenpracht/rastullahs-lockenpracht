@@ -11,6 +11,7 @@ class DunkleEckenLachListener < GameAreaListener
 	end
 	def areaEntered(anEvent)
 		print( "Rein - " + anEvent.getProvokingActor().getName() );
+		$UI.showMessageWindow( "Das ist die dunkle Ecke" );
 	end
 end
 
@@ -27,5 +28,7 @@ areaListener = DunkleEckenLachListener.new();
 
 $CORE.log("DunkleEckenLachListener hinzufügen");
 $GameEveMgr.addSphereAreaListener( kugelDings, 50.0, areaListener, Actor::QGF_PLAYER );
+
+
 
 print( "GameEvent-Tests fertig geladen" );
