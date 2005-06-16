@@ -40,16 +40,19 @@ namespace rl {
         mParent(0),
         mChilds(),
         mSceneNode(0),
-		mHighlighted(false)
+		mHighlighted(false),
+        mAttachedToBone(false)
 	{
-        mActorControlledObject->_setActor(this);
+        if( mActorControlledObject != NULL )
+            mActorControlledObject->_setActor(this);
 
-		if( mPhysicalThing != 0 )
+		if( mPhysicalThing != NULL )
 			mPhysicalThing->_setActor(this);
 
-        // @todo  Benennen und all das
         setQueryMask( QGF_DEFAULT );
     }
+
+    Ogre::String Actor::DEFAULT_SLOT_NAME = "SLOT_DEFAULT";
 
     Actor::~Actor()
     {
@@ -72,21 +75,36 @@ namespace rl {
         mGameObject = uo;
     }
 
-	Ogre::UserDefinedObject* Actor::getGameObject()
+	Ogre::UserDefinedObject* Actor::getGameObject() const
 	{
 		return mGameObject;
 	}
 
-    PhysicalThing* Actor::getPhysicalThing()
+    PhysicalThing* Actor::getPhysicalThing() const
     {
         return mPhysicalThing;
     }
 
-    ActorControlledObject* Actor::getControlledObject()
+    void Actor::setPhysicalThing( PhysicalThing* pt ) 
+    {
+       
+    }
+
+    ActorControlledObject* Actor::getControlledObject() const
     {
         return mActorControlledObject;
     }
-    
+
+    void Actor::setControlledObject( ActorControlledObject* act ) 
+    {
+       if( act->getActor() != NULL )
+           Throw(IllegalStateException, "Das anzufügende Objekt ist bereits an einem Aktor befestigt.");
+       if( this->getControlledObject() != NULL )
+           Throw(IllegalStateException, "Es ist bereits ein Objekt an diesem Aktor befestigt.");
+
+       mActorControlledObject = act;
+    }
+
     const String& Actor::getName() const
     {
         return mName;
@@ -94,12 +112,14 @@ namespace rl {
 
     unsigned long Actor::getQueryMask() const
     {
-        return mActorControlledObject->getMovableObject()->getQueryFlags();
+        return mActorControlledObject ?
+            mActorControlledObject->getMovableObject()->getQueryFlags() : QGF_NONE;
     }
 
     void Actor::setQueryMask( unsigned long mask )
     {
-        return mActorControlledObject->getMovableObject()->setQueryFlags( mask );
+        if( mActorControlledObject )
+            mActorControlledObject->getMovableObject()->setQueryFlags( mask );
     }
 
     void Actor::addQueryFlag( unsigned long flag  )
@@ -208,7 +228,7 @@ namespace rl {
         _update();
     }
 
-    const Vector3& Actor::getPosition(void)
+    const Vector3& Actor::getPosition(void) const
     {
         if (mSceneNode)
         {
@@ -220,7 +240,7 @@ namespace rl {
         }
     }
 
-    const Quaternion& Actor::getOrientation(void)
+    const Quaternion& Actor::getOrientation(void) const
     {
         if (mSceneNode)
         {
@@ -232,7 +252,7 @@ namespace rl {
         }
     }
 
-    const Vector3& Actor::getWorldPosition(void)
+    const Vector3& Actor::getWorldPosition(void) const
     {
         if (mSceneNode)
         {
@@ -244,7 +264,7 @@ namespace rl {
         }
     }
 
-    const Quaternion& Actor::getWorldOrientation(void)
+    const Quaternion& Actor::getWorldOrientation(void) const
     {
         if (mSceneNode)
         {
@@ -282,72 +302,138 @@ namespace rl {
                 getWorld()->getSceneManager();
             ///@todo performance
             mgr->destroySceneNode(mSceneNode->getName());
-            mSceneNode = 0;
+            mSceneNode = NULL;
         }
     }
 
-    void Actor::attach(const String& slot, Actor* actor,
-        const String& childSlot, 
-		const Quaternion& offsetOrientation, 
-		const Vector3& offsetPosition)
+    void Actor::attachToSlot( 
+        Actor* actor,
+        const Ogre::String& slot,
+        const Ogre::String& childSlot,
+        const Ogre::Vector3& offsetPosition,
+        const Ogre::Quaternion& offsetOrientation
+        )
     {
-        if (actor->mParent)
-        {
-            Throw(InvalidArgumentException,
-                "Actor already attached to another actor.");
-        }
-        else
-        {
-			/*if (actor->getControlledObject() == NULL)
-				actor->placeIntoScene(0, 0, 0, 1, 0, 0, 0);*/
-            doAttach(slot, actor, childSlot, offsetOrientation, offsetPosition);
-            // Erst danach Parent/Child wirklich zuweisen, falls es ne
-            // Exception gibt.
-            actor->mParent = this;
-            mChilds.insert(actor);
-        }
+        doAttach(actor, slot, childSlot, offsetPosition, offsetOrientation );
+        // Erst danach Parent/Child wirklich zuweisen, falls es eine Exception gibt.
+        actor->mParent = this;
+        mChilds.insert(actor);
     }
 
-    void Actor::attach(const Ogre::String& slot, Actor* actor,
-            const Ogre::String& childSlot,
-            const Ogre::Vector3 &offsetAxis,
-            const Ogre::Radian &offsetRotation,
-			const Ogre::Vector3 &offsetPosition)
+    void Actor::attachToSlot( 
+        Actor* actor,
+        const Ogre::String& slot,
+        const Ogre::String& childSlot,            
+        const Ogre::Vector3& offsetPosition,
+        const Ogre::Vector3& offsetAxis,
+        const Ogre::Radian& offsetRotation )
     {
-        attach( slot, actor, childSlot, Quaternion(offsetRotation,offsetAxis),
-            offsetPosition );
+        attachToSlot( actor, slot, childSlot, 
+            offsetPosition, Quaternion(offsetRotation,offsetAxis) );
+    }
+
+    void Actor::attach( 
+        Actor* actor,
+        const Ogre::String& childSlot,
+        const Ogre::Vector3& offsetPosition,
+        const Ogre::Quaternion& offsetOrientation
+        )
+    {
+        attachToSlot( actor, DEFAULT_SLOT_NAME, childSlot, 
+            offsetPosition, offsetOrientation );
+    }
+
+    void Actor::attach( 
+        Actor* actor,
+        const Ogre::String& childSlot,            
+        const Ogre::Vector3& offsetPosition,
+        const Ogre::Vector3& offsetAxis,
+        const Ogre::Radian& offsetRotation)
+    {
+        attachToSlot( actor, DEFAULT_SLOT_NAME, childSlot, 
+            offsetPosition, Quaternion(offsetRotation,offsetAxis) );
     }
 
     void Actor::detach(Actor* actor)
     {
-        if (mChilds.find(actor) == mChilds.end())
+        if( mChilds.find(actor) == mChilds.end() )
         {
             Throw(InvalidArgumentException, "Actor is not a child of this.");
         }
         else
         {
             doDetach(actor);
-            actor->mParent = 0;
+            actor->mParent = NULL;
             mChilds.erase(actor);
         }
     }
 
-    void Actor::doAttach(const String& slot, Actor* actor,
-		const String& childSlot, 
-		const Quaternion& offsetOrientation, 
-		const Vector3& offsetPosition)
+    void Actor::doAttach(
+        Actor* actor,
+        const Ogre::String& slot, 
+        const Ogre::String& childSlot, 
+        const Ogre::Vector3& offsetPosition,
+        const Ogre::Quaternion& offsetOrientation ) 
     {
-		if (getControlledObject()->isMeshObject())
+        if( actor == NULL )
+            Throw(NullPointerException, "Der anzufügende Aktor darf nicht NULL sein." );
+
+        // Verschiebung durch den Child-Slot berechnen
+        // Ist es ein nicht Standard-Slot && Kontrolliert der Aktor ein Objekt && Ist dieses ein Mesh
+        if( childSlot.compare(DEFAULT_SLOT_NAME) != 0 &&
+            actor->getControlledObject() != NULL && 
+            actor->getControlledObject()->isMeshObject() )
+        {
+            Entity* ent = dynamic_cast<MeshObject*>(actor->getControlledObject())->getEntity();
+
+            // Braucht ein Skelett
+            if( !ent->hasSkeleton() )
+                Throw(InvalidArgumentException, 
+                    "Das kontrollierte MeshObject des ChildAktor hat kein Skeleton." );
+
+            // Der Slot muss existieren
+            try
+            {
+                Bone* bone = ent->getSkeleton()->getBone( childSlot );
+                // @todo Berechnen des extra-Offsets
+            }
+            catch (Ogre::Exception) {
+                Throw(InvalidArgumentException, 
+                    "Der geforderte Slot '"+childSlot+"' am ChildAktor existiert nicht." );
+            }
+        }
+
+        // Das wirkliche Anfügen
+        // Ist es ein nicht Standard-Slot && Kontrolliert der Aktor ein Objekt && Ist dieses ein Mesh
+		if( slot.compare(DEFAULT_SLOT_NAME) != 0 && 
+            getControlledObject() != NULL && 
+            getControlledObject()->isMeshObject() )
 		{
-			MovableObject* mo = actor->getControlledObject()->getMovableObject();
-			dynamic_cast<MeshObject*>(getControlledObject())->getEntity()->
-				attachObjectToBone(slot, mo, offsetOrientation, offsetPosition);
+			MovableObject* movObj = actor->getControlledObject()->getMovableObject();
+            Entity* ent = dynamic_cast<MeshObject*>(getControlledObject())->getEntity();
+
+            // Braucht ein Skelett
+            if( !ent->hasSkeleton() )
+                Throw(InvalidArgumentException, "Das kontrollierte MeshObject hat kein Skeleton." );
+
+            // Der Slot muss existieren
+            try
+            {
+                ent->getSkeleton()->getBone( slot );
+            }
+            catch (Ogre::Exception) {
+                Throw(InvalidArgumentException, "Der geforderte Slot '"+slot+"' existiert nicht." );
+            }
+                
+            // Am Bone befestigen
+			ent->attachObjectToBone( slot, movObj, offsetOrientation, offsetPosition );
+
 			return;
 		}
-
-		if (!getControlledObject()->isMeshObject())
+        else
 		{
-			return; // @todo: wenn this kein MeshObjekt ist, trotzdem irgendwie zusammenfügen		}
+			return; 
+            // @todo: wenn this kein MeshObjekt ist, trotzdem irgendwie zusammenfügen
 		}
 
     }         
@@ -358,22 +444,32 @@ namespace rl {
 
         if( node )
         {
-            node->setScale( Vector3(sx,sy,sz) );
+            Vector3 vec = Vector3(sx,sy,sz);
+            node->setScale( vec );
+
+            // Falls es sich um ein Mesh handelt ...
+            if( getControlledObject()->isMeshObject() )
+            {
+                MeshObject* meshObj = dynamic_cast<MeshObject*>( getControlledObject() );
+
+                // ... und größer/kleiner als normal skaliert wird ...
+                if( vec != Vector3(1,1,1) )
+                    // ... müssen die Normalen neu berechnet werden.
+                    meshObj->getEntity()->setNormaliseNormals( true );
+                else
+                    meshObj->getEntity()->setNormaliseNormals( false );
+            }
         }
 
-        if( getControlledObject()->isMeshObject() )
-        {
-            ( dynamic_cast<MeshObject*>( getControlledObject() ) )->getEntity()->setNormaliseNormals( true );
-        }
+        
     }
 
     void Actor::doDetach(Actor* actor)
     {
-		if (getControlledObject()->isMeshObject())
+		if( getControlledObject()->isMeshObject() )
 		{
 			MovableObject* mo = actor->getControlledObject()->getMovableObject();
-			dynamic_cast<MeshObject*>(getControlledObject())->getEntity()->
-				detachObjectFromBone(mo);
+			dynamic_cast<MeshObject*>(getControlledObject())->getEntity()->detachObjectFromBone(mo);
 			return;
 		}
 	}
@@ -383,12 +479,12 @@ namespace rl {
     {
     }
         
-    SceneNode* Actor::_getSceneNode()
+    SceneNode* Actor::_getSceneNode() const
     {
         return mSceneNode;
     }
 
-    MovableObject* Actor::_getMovableObject()
+    MovableObject* Actor::_getMovableObject() const
     {
         return mActorControlledObject ? 
             mActorControlledObject->getMovableObject() : 0;
@@ -420,7 +516,7 @@ namespace rl {
             {
                 mActorControlledObject->_attachSceneNode(mSceneNode);
             }
-            if (mPhysicalThing)
+            if (mPhysicalThing && mActorControlledObject )
             {
 				if (odeBone.compare("") == 0 || !mActorControlledObject->isMeshObject())
 					mPhysicalThing->_attachToSceneNode(mSceneNode);

@@ -114,6 +114,7 @@ public:
 
 	rl::Actor* createParticleSystemActor(const std::string& name, const String& soundfile);
     rl::Actor* createSoundActor(const std::string& name, const String& soundfile);
+    rl::Actor* createEmptyActor(const std::string& name);
     rl::Actor* createLightActor(const std::string& name, rl::LightObject::LightTypes type );
 	rl::Actor* createMeshActor(const std::string& name, const std::string& meshname,
 		    rl::PhysicsManager::GeometryTypes geom = rl::PhysicsManager::GT_NONE,
@@ -397,6 +398,8 @@ class Actor {
 private:
 	Actor(const std::string& name);
 public:	
+	static std::string DEFAULT_SLOT_NAME;
+
     enum QueryGroupFlags
     {
         QGF_NONE = 0,
@@ -412,20 +415,31 @@ public:
 	const Quaternion& getWorldOrientation(void);
     void setPosition(Real x, Real y, Real z);
     
-    ActorControlledObject* getControlledObject();
+    rl::ActorControlledObject* getControlledObject();
 
     void setScale( Real sx, Real sy, Real sz );
-    void placeIntoScene(Real px, Real py, Real pz,
-        Real ow, Real ox, Real oy, Real oz, const std::string& odeBone = "");
+    void placeIntoScene(
+        Real px, Real py, Real pz,
+        Real ow, Real ox, Real oy, Real oz, 
+        const std::string& odeBone = "");
         
-   	void attach(const std::string& slot, Actor* actor,
-            const std::string& childSlot = "SLOT_DEFAULT",
-            const Vector3 &offsetAxis=Ogre::Vector3::UNIT_X,
-            const Radian &offsetRotation=Ogre::Radian(0),
-			const Vector3 &offsetPosition=Ogre::Vector3::ZERO);
-    void detach(Actor* actor);
+   	void attach( 
+            rl::Actor* actor,
+            const std::string& childSlot = "SLOT_DEFAULT",            
+            const Vector3& offsetPosition=Ogre::Vector3::ZERO,
+            const Vector3& offsetAxis=Ogre::Vector3::UNIT_X,
+            const Radian& offsetRotation=Ogre::Radian(0) );
+    void attachToSlot( 
+            rl::Actor* actor,
+            const std::string& slot,
+            const std::string& childSlot = "SLOT_DEFAULT",            
+			const Vector3& offsetPosition=Ogre::Vector3::ZERO,
+            const Vector3& offsetAxis=Ogre::Vector3::UNIT_X,
+            const Radian& offsetRotation=Ogre::Radian(0) );
+                    
+    void detach(rl::Actor* actor);
     
-    Actor* getChildByName(const std::string& name ) const;
+    rl::Actor* getChildByName(const std::string& name ) const;
        
 	void roll(Real angleunits);
 	void pitch(Real angleunits);

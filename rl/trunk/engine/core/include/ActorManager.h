@@ -50,6 +50,7 @@ class _RlCoreExport ActorManager : protected Singleton<ActorManager>, private Og
         Actor* createSoundActor(const String& name, const String& soundfile );
         Actor* createListenerActor(const String& name);
         Actor* createCameraActor(const String& name);
+        Actor* createEmptyActor(const String& name);
    	    Actor* createMeshActor(const String& name,const String& meshname,
 			PhysicsManager::GeometryTypes geomType = PhysicsManager::GT_NONE,
 			Ogre::Real density = 1.0);

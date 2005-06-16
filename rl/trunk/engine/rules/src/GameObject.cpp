@@ -90,7 +90,7 @@ namespace rl
     const ActionVector GameObject::getValidActions() const
     {
 		ActionVector actions;
-		for (ActionOptionVector::const_iterator it = mActions.begin(); it != mActions.end(); it++)
+		for (ActionOptionVector::const_iterator it = mActions.begin(); it != mActions.end(); ++it)
 		{
 			if ((*it).second == ACT_DISABLED)
 				continue;
@@ -139,7 +139,7 @@ namespace rl
 			GameObject::ActionOptionVector::iterator end, 
 			const CeGuiString& actionName)
 	{
-		for (ActionOptionVector::iterator iter = begin; iter != end; iter++)
+		for (ActionOptionVector::iterator iter = begin; iter != end; ++iter)
 			if ((*iter).first->getName().compare(actionName) == 0)
 				return iter;
 
@@ -153,7 +153,7 @@ namespace rl
 			const CeGuiString& className,
 			const CeGuiString& actionName)
 	{
-		for (ActionOptionVector::iterator iter = begin; iter != end; iter++)
+		for (ActionOptionVector::iterator iter = begin; iter != end; ++iter)
 		{
 			Action* action = (*iter).first;
 
@@ -170,7 +170,7 @@ namespace rl
 			GameObject::ActionOptionVector::iterator end, 
 			const Action* action)
 	{
-		for (ActionOptionVector::iterator iter = begin; iter != end; iter++)
+		for (ActionOptionVector::iterator iter = begin; iter != end; ++iter)
 			if ((*iter).first == action)
 				return iter;
 
@@ -228,7 +228,7 @@ namespace rl
 	CeGuiString GameObject::getString(CeGuiString key)
 	{
 		std::map<CeGuiString, CeGuiString>::iterator iter = mAttributesString.find(key);
-		for (iter = mAttributesString.begin(); iter != mAttributesString.end(); iter++)
+		for (iter = mAttributesString.begin(); iter != mAttributesString.end(); ++iter)
 		{
 			CeGuiString str = "getString: ['";
 			str.append((*iter).first);

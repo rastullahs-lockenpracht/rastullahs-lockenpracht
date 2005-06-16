@@ -87,7 +87,8 @@ namespace rl {
             it != mActors.end();) 
         {
             Actor* actor = it->second;
-            if (actor->getControlledObject()->getObjectType() != "CameraObject")
+            // @todo nicht alle haben ein controlled Object
+            if( actor->getControlledObject()->getObjectType() != "CameraObject")
             {
                 mActors.erase(it++);
                 destroyActor(actor);
@@ -162,6 +163,16 @@ namespace rl {
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getFullDescription());
         }
+
+        return actor;
+    }
+
+    Actor* ActorManager::createEmptyActor(const String& name)
+    {
+        const String&  uniquename = nextUniqueName(name);
+
+        Actor* actor = new Actor(uniquename);
+        mActors.insert(ActorPtrPair(uniquename,actor)); 
 
         return actor;
     }
