@@ -1,3 +1,6 @@
+# Nur eingebettet starten
+load( "embed.rb" );
+
 $CORE.log("Fackel erstellen...");
 torch = Torch.new("Fackel des Grauens");
 $CORE.log("Fackel erstellt.");
@@ -7,7 +10,7 @@ fackellicht = $AM.createLightActor("Das Licht der Fackel", LightObject::LT_POINT
 fackellicht.getControlledObject().setCastShadows(false);
 fackellicht.getControlledObject().setDiffuseColour(1.0,0.8,0.0);
 fackellicht.getControlledObject().setAttenuation(500.0, 1.0,  0.005, 0.0 );
-torch.getActor().attach("SLOT_FAR_END", fackellicht );
+torch.getActor().attachToSlot( fackellicht, "SLOT_FAR_END" );
 $CORE.log("Fackellicht erstellt.");
 
 $CORE.log("Partikeldings erstellen..");
@@ -21,7 +24,7 @@ $CORE.log("Partikeldings erstellt.");
 held = $AM.createMeshActor("KreisLaufHeld", "held.mesh" );
 # , PhysicsManager::GT_CAPSULE);
 held.placeIntoScene(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0);
-held.attach("Bone15",torch.getActor(), "SLOT_HANDLE", [ 1.0, 0.0, 0.0 ], 90.0 );
+held.attachToSlot( torch.getActor(), "Bone15", "SLOT_HANDLE", [0.0, 0.0, 0.0], [ 1.0, 0.0, 0.0 ], 90.0 );
 $CORE.log("Fackel plaziert.");
 
 # torch.getActor().setScale( 1.0, 1.0, 1.0 );
