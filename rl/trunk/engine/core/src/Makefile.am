@@ -17,6 +17,11 @@ libRlCore_la_SOURCES = \
 	CoreSubsystem.cpp \
 	DotSceneLoader.cpp \
 	DotSceneOctreeWorld.cpp \
+	GameAreaEvent.cpp \
+	GameAreaEventSource.cpp \
+	GameAreaListener.cpp \
+	GameAreaTypes.cpp \
+	GameEventManager.cpp \
 	GameLoop.cpp \
 	GameTask.cpp \
 	LightObject.cpp \

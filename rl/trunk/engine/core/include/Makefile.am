@@ -8,8 +8,13 @@
 	CameraObject.h \
 	CorePrerequisites.h \
 	CoreSubsystem.h \
-	DotSceneLoader.h \	
+	DotSceneLoader.h \
 	DotSceneOctreeWorld.h \
+	GameAreaEvent.h \
+	GameAreaEventSource.h \
+	GameAreaListener.h \
+	GameAreaTypes.h \
+	GameEventManager.h \
 	GameLoop.h \
 	GameTask.h \
 	Interpreter.h \

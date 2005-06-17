@@ -1,10 +1,3 @@
-/** 
- * Generated CppUnit test driver template.
- * To build it, add the following line at the end of
- * your existing Makefile:
- *    include rl/engine/sound/src/OalppSoundInterfaceTest.mk
- * Build the rl/engine/sound/src/OalppSoundInterfaceTest target from the Make Target view
- */
 
 #include "OgreNoMemoryMacros.h"
 #include "SoundPrerequisites.h"
