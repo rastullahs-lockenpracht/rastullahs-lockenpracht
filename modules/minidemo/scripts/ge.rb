@@ -19,7 +19,8 @@ held = $AM.getActor( "Held" );
 held.setQueryMask( Actor::QGF_PLAYER );
 
 $CORE.log("Kugel-Zentrum Actor erstellen");
-kugelDings = $AM.createParticleSystemActor("Kugel-Zentrum", "PEExamples/ignifaxius" );
+# kugelDings = $AM.createEmptyActor( "Kugel-Zentrum" );
+kugelDings = $AM.createParticleSystemActor( "Kugel-Zentrum", "PEExamples/ignifaxius" );
 $CORE.log("Kugel-Zentrum Actor in die Szene einfügen");
 kugelDings.placeIntoScene( 415.0, 5.0, -300.0, 1.0, 0.0, 0.0, 0.0);
 

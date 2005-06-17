@@ -138,23 +138,37 @@ end
 class PlayerSettings
   
   def PlayerSettings.addPlayerActions(player)    
-    grpGrp1 = ActionGroup.new("GameActions")
-    grpGrp2 = ActionGroup.new("View")
-    grpGrp3 = ActionGroup.new("Options")
-    
-    player.addActionInGroup(ShowActionMenuAction.new, grpGrp1, 7) # ACT_DISABLED
-    player.addActionInGroup(CampAction.new, grpGrp1) 
-    player.addActionInGroup(ShowObjectActionsAction.new, grpGrp1) 
-    player.addActionInGroup(ToggleConsoleAction.new, grpGrp2)
-    player.addActionInGroup(ToggleDebugWindowAction.new, grpGrp2)
-    player.addActionInGroup(ToggleGameLogWindowAction.new, grpGrp2)
-    player.addActionInGroup(ToggleOdeDebugAction.new, grpGrp2)
-    player.addActionInGroup(ToggleDialogWindowAction.new, grpGrp2)
-    player.addActionInGroup(ToggleViewModeAction.new, grpGrp2)
-    player.addActionInGroup(ResetCameraAction.new, grpGrp2)
-    player.addActionInGroup(ShowCharacterSheetAction.new, grpGrp2)
-    player.addActionInGroup(QuitGameAction.new, grpGrp3) 
-    player.addActionInGroup(MakeScreenshotAction.new, grpGrp3)
+    $grpGrp1 = ActionGroup.new("GameActions")
+    $grpGrp2 = ActionGroup.new("View")
+    $grpGrp3 = ActionGroup.new("Options")
+
+    $act1 = ShowActionMenuAction.new
+    $act2 = CampAction.new
+    $act3 = ShowObjectActionsAction.new
+    $act4 = ToggleConsoleAction.new
+    $act5 = ToggleDebugWindowAction.new
+    $act6 = ToggleGameLogWindowAction.new
+    $act7 = ToggleOdeDebugAction.new
+    $act8 = ToggleDialogWindowAction.new
+    $act9 = ToggleViewModeAction.new
+    $act10 = ResetCameraAction.new
+    $act11 = ShowCharacterSheetAction.new
+    $act12 = QuitGameAction.new
+    $act13 = MakeScreenshotAction.new
+
+    player.addActionInGroup($act1, $grpGrp1, 7) # ACT_DISABLED
+    player.addActionInGroup($act2, $grpGrp1) 
+    player.addActionInGroup($act3, $grpGrp1) 
+    player.addActionInGroup($act4, $grpGrp2)
+    player.addActionInGroup($act5, $grpGrp2)
+    player.addActionInGroup($act6, $grpGrp2)
+    player.addActionInGroup($act7, $grpGrp2)
+    player.addActionInGroup($act8, $grpGrp2)
+    player.addActionInGroup($act9, $grpGrp2)
+    player.addActionInGroup($act10, $grpGrp2)
+    player.addActionInGroup($act11, $grpGrp2)
+    player.addActionInGroup($act12, $grpGrp3) 
+    player.addActionInGroup($act13, $grpGrp3)
   end
   
   def PlayerSettings.preparePlayer(player)
