@@ -85,16 +85,15 @@ namespace rl {
         {
             mCameraActor->removeFromScene();
         }
-        mCameraActor->_placeIntoScene(mLookAtNode);
-        mCameraNode = mCameraActor->_getSceneNode();
-        mCameraNode->translate(Vector3(0, 0, mDesiredDistance), Node::TS_LOCAL);
+        mCameraActor->placeIntoNode(mLookAtNode);
+        mCameraActor->translate(Vector3(0, 0, mDesiredDistance), Node::TS_LOCAL);
         
         setup();
 
 		PhysicsManager::getSingleton().setActor(
 			actor->getPhysicalThing()->getGeometry(), mControlNode);
 		PhysicsManager::getSingleton().setCamera(
-			cameraActor->getPhysicalThing()->getGeometry(), mCameraNode);
+			cameraActor->getPhysicalThing()->getGeometry(), mCameraActor->_getSceneNode() );
     }
     //------------------------------------------------------------------------
 
@@ -129,9 +128,8 @@ namespace rl {
         mLookAtNode->setOrientation(Quaternion(mTargetPitch, Vector3::UNIT_X));
         mLookAtNode->_update(true, false);
         
-        mCameraNode->setPosition(0, 0, mTargetDistance);
-        mCameraActor->_update();
-        mTargetDistance = mCameraNode->getPosition().z;
+        mCameraActor->setPosition(0, 0, mTargetDistance);
+        mTargetDistance = mCameraActor->getPosition().z;
         
         Real camAdjustmentSpeed = elapsedTime * mMoveSpeed * 7;
         if (fabs(mTargetDistance - mDesiredDistance) < camAdjustmentSpeed)
@@ -143,8 +141,6 @@ namespace rl {
 
         mControlNode->yaw(Degree(yaw));
         mActor->_update();
-
-        mActor->_update();
         mCameraActor->_update();
 
         if (!InputManager::getSingleton().isCeguiActive())
@@ -152,7 +148,7 @@ namespace rl {
             updatePickedObject();
         }
         /*DebugWindow::getSingleton().setText(
-            StringConverter::toString(mCameraNode->getWorldPosition()) +
+            StringConverter::toString(mCameraActor->getWorldPosition()) +
             " / " +
             StringConverter::toString(mControlNode->getWorldPosition())+
             " / " +
@@ -296,9 +292,8 @@ namespace rl {
                 mActor->removeFromScene();
             }
             
-            mActor->_placeIntoScene(mControlNode);
-            mActor->_getSceneNode()->translate(
-                Vector3(0, -extent.y * 0.9, 0), Node::TS_PARENT);                    
+            mActor->placeIntoNode(mControlNode);
+            mActor->_getSceneNode()->translate(Vector3(0, -extent.y * 0.9, 0), Node::TS_PARENT);                    
         }
     }
     //------------------------------------------------------------------------

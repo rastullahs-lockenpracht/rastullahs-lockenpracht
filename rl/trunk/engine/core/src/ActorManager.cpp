@@ -84,16 +84,15 @@ namespace rl {
     void ActorManager::destroyAllActors()
 	{
         for (ActorPtrMap::iterator it = mActors.begin();
-            it != mActors.end();) 
+            it != mActors.end();++it) 
         {
             Actor* actor = it->second;
-            // @todo nicht alle haben ein controlled Object
-            if( actor->getControlledObject()->getObjectType() != "CameraObject")
+            // Kameras spezieller betrachten...
+            if( (!actor->getControlledObject()) || 
+                (actor->getControlledObject()->getObjectType().compare( "CameraObject" ) != 0 ) )
             {
-                mActors.erase(it++);
+                it = mActors.erase(it);
                 destroyActor(actor);
-            } else {
-                ++it;
             }
         }
 	}
@@ -113,7 +112,7 @@ namespace rl {
         }
         catch( Ogre::Exception& e)
         {
-            CoreSubsystem::log("ActorManager - Das Light '"
+            CoreSubsystem::log("ActorManager - Das Licht '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getFullDescription());
         }
@@ -159,7 +158,7 @@ namespace rl {
         }
         catch( Ogre::Exception& e)
         {
-            CoreSubsystem::log("ActorManager - Der Sound '"
+            CoreSubsystem::log("ActorManager - Der Listener '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getFullDescription());
         }
@@ -196,7 +195,7 @@ namespace rl {
         }
         catch( Ogre::Exception& e)
         {
-            CoreSubsystem::log("ActorManager - Die Camera '"
+            CoreSubsystem::log("ActorManager - Die Kamera '"
                 + name + "' für den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getFullDescription());

@@ -52,6 +52,9 @@ namespace rl {
         virtual void _attachSceneNode(Ogre::SceneNode* node);
         virtual void _detachSceneNode(Ogre::SceneNode* node);
 
+        virtual bool isAttachedToNode(Ogre::SceneNode* node) const;
+        virtual bool isAttached() const;
+
         /**
          * Interne Methode. Wird vom Aktor aufgerufen, wenn sich dessen
          * Status geändert hat. (Position, Orientierung, etc)

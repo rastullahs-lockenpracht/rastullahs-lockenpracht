@@ -422,7 +422,8 @@ public:
         Real px, Real py, Real pz,
         Real ow, Real ox, Real oy, Real oz, 
         const std::string& odeBone = "");
-        
+    void removeFromScene();
+           
    	void attach( 
             rl::Actor* actor,
             const std::string& childSlot = "SLOT_DEFAULT",            

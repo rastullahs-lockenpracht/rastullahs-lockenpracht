@@ -53,6 +53,22 @@ namespace rl {
     void ActorControlledObject::_detachSceneNode(Ogre::SceneNode* node)
     {
         node->detachObject(mMovableObject);    
+        
+    }
+
+    bool ActorControlledObject::isAttached() const
+    {
+        return mMovableObject->isAttached();
+    }
+
+    bool ActorControlledObject::isAttachedToNode(Ogre::SceneNode* node) const
+    {
+        try
+        {
+            node->getAttachedObject( mMovableObject->getName() );
+            return true;
+        }
+        catch(...) { return false; }
     }
 
 	bool ActorControlledObject::isMeshObject()

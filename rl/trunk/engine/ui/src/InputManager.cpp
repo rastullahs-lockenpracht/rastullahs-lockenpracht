@@ -550,10 +550,10 @@ namespace rl {
 
 		if (a != NULL)
 		{
-			if (mTargetedObject != NULL && a != mTargetedObject->getActor())
+			if (mTargetedObject != NULL && mTargetedObject->getActor() != NULL && a != mTargetedObject->getActor())
 				mTargetedObject->getActor()->setHighlighted(false);
 
-            // Nur ein Highlight wenn es auch ein dazugehöriges GameObbject gibt
+            // Nur ein Highlight wenn es auch ein dazugehöriges GameObject gibt
             if( a->getGameObject() != NULL )
             {
 			    a->setHighlighted(true);
@@ -562,7 +562,7 @@ namespace rl {
 		}
 		else
 		{
-			if (mTargetedObject != NULL)
+			if (mTargetedObject != NULL && mTargetedObject->getActor() != NULL ) 
 				mTargetedObject->getActor()->setHighlighted(false);
 
 			mTargetedObject = NULL;
