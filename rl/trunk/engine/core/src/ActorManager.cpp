@@ -91,7 +91,7 @@ namespace rl {
             if( (!actor->getControlledObject()) || 
                 (actor->getControlledObject()->getObjectType().compare( "CameraObject" ) != 0 ) )
             {
-                mActors.erase(it);
+                it = mActors.erase(it);
                 destroyActor(actor);
             }
         }
