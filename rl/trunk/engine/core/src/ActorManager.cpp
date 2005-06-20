@@ -81,18 +81,23 @@ namespace rl {
         ///@todo Loesch ihn!
 	}
 
+// Harle: Finger weg ;-)
+// Effective STL, item 5: Erase of associative containers doesn't return anything.
+// Item 9: How to loop through the container with erase.
     void ActorManager::destroyAllActors()
 	{
         for (ActorPtrMap::iterator it = mActors.begin();
-            it != mActors.end();++it) 
+            it != mActors.end();) 
         {
             Actor* actor = it->second;
             // Kameras spezieller betrachten...
             if( (!actor->getControlledObject()) || 
                 (actor->getControlledObject()->getObjectType().compare( "CameraObject" ) != 0 ) )
             {
-                it = mActors.erase(it);
+                mActors.erase(it++);
                 destroyActor(actor);
+            } else {
+                ++it;
             }
         }
 	}
