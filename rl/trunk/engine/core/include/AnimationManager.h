@@ -57,7 +57,9 @@ public:
 	*/
     Animation* addAnimation(Ogre::AnimationState* animState,
         Ogre::Real speed=1.0, unsigned int timesToPlay=0 ); 
-	/// Gibt die Animation zurück, die zum AnimationState gehört
+	/** Gibt die Animation zurück, die zum AnimationState gehört 
+     *  @returns NULL wenn es die Animation nicht gibt
+     */
 	Animation* getAnimation(Ogre::AnimationState* animState) const;
 	/// Entfernt eine Animation, und stoppt das Abspielen dieser
     void removeAnimation(Ogre::AnimationState* animState);
@@ -69,6 +71,8 @@ public:
 	*/
 	TrackAnimation* createTrackAnimation(Actor* actor,
 	    const Ogre::String& name, Ogre::Real length );
+    /// Entfernt alle Animationen
+    void removeAllAnimations();
 	/// Entfernt eine Animation
 	void removeAnimation(Animation* anim);
     /// Ersetzt eine alte Animation durch eine Neue
@@ -104,8 +108,11 @@ public:
 	/// Singleton
 	static AnimationManager * getSingletonPtr(void);
 private:
-	/// Alle auszuführenden Animationen
-    std::map<Ogre::AnimationState*,Animation*> mAnimationMap;
+    static void stopAnimation( Animation* anim );
+
+    typedef std::map<Ogre::AnimationState*,Animation*> AnimMap;
+    /// Alle auszuführenden Animationen
+    AnimMap mAnimationMap;
 
 	/// Die globale Beschleunigung
 	Ogre::Real mGlobalAnimationSpeed;

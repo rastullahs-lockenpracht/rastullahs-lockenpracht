@@ -64,7 +64,7 @@ namespace rl {
     void GameEventManager::removeAreaListener( GameAreaListener* list )
     {
         GameAreaEventSourceList::iterator it;
-        for( it = m_AreaEventSources.begin(); it != m_AreaEventSources.end();++it) 
+        for( it = m_AreaEventSources.begin(); it != m_AreaEventSources.end();) 
         {
             GameAreaEventSource* gam = *it;
             gam->removeAreaListener( list );
@@ -79,14 +79,16 @@ namespace rl {
                 // Das Objekt löschen
                 delete gam;
             }
+            else
+                // Iterieren
+                ++it;
         }
-        m_AreaEventSources.clear();
     }
 
     void GameEventManager::removeAllAreas( Actor* actor )
     {
         GameAreaEventSourceList::iterator it;
-        for( it = m_AreaEventSources.begin(); it != m_AreaEventSources.end();++it) 
+        for( it = m_AreaEventSources.begin(); it != m_AreaEventSources.end();) 
         {
             GameAreaEventSource* gam = *it;
 
@@ -94,14 +96,16 @@ namespace rl {
             if( gam->getActor() == actor )
             {      
                 // Iterator zurückgeben, da sich dieser nach löschen ändert
-                it = m_AreaEventSources.erase(it);
+                it = m_AreaEventSources.erase(it++);
                 // Die Area-Art löschen
                 delete gam->getGameAreaType();
                 // Das Objekt löschen
                 delete gam;
             }
+            else
+                // Iterieren
+                ++it;
         }
-        m_AreaEventSources.clear();
     }
 
     void GameEventManager::run( Ogre::Real elapsedTime )

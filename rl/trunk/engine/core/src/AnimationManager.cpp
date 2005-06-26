@@ -34,7 +34,7 @@ AnimationManager::AnimationManager( ) : mAnimationMap()
 	
 AnimationManager::~AnimationManager( )
 {
-	// TODO Alle Animationen löschen...
+	removeAllAnimations();
 }
 
 void AnimationManager::setGlobalAnimationSpeed( Ogre::Real speed )
@@ -77,7 +77,7 @@ AnimationManager::RotationInterpolationMode
 Animation* AnimationManager::addAnimation(Ogre::AnimationState* animState, 
 										  Ogre::Real speed, unsigned int timesToPlay)
 {
-	std::map<Ogre::AnimationState*,Animation*>::iterator iter = 
+	AnimMap::iterator iter = 
 		mAnimationMap.find(animState);
 
 	Animation* anim = 0;
@@ -119,7 +119,7 @@ TrackAnimation* AnimationManager::createTrackAnimation(Actor* actor,
 
 Animation* AnimationManager::getAnimation(Ogre::AnimationState* animState) const
 {
-	std::map<Ogre::AnimationState*,Animation*>::const_iterator iter = 
+	AnimMap::const_iterator iter = 
 		mAnimationMap.find(animState);
 
 	if( iter == mAnimationMap.end() )
@@ -128,23 +128,38 @@ Animation* AnimationManager::getAnimation(Ogre::AnimationState* animState) const
 		return iter->second;
 }
 
+void AnimationManager::removeAllAnimations() 
+{
+    AnimMap::iterator it;
+    for( it = mAnimationMap.begin(); it != mAnimationMap.end();) 
+    {
+        Animation* anim = it->second;
+        AnimationManager::stopAnimation(anim);
+        delete anim;
+    }
+    mAnimationMap.clear();
+}
+
 void AnimationManager::removeAnimation(Ogre::AnimationState* animState)
 {
-	std::map<Ogre::AnimationState*,Animation*>::iterator iter = 
+	AnimMap::iterator iter = 
 		mAnimationMap.find(animState);
 
 	if( iter != mAnimationMap.end() )
 	{
 		Animation* anim = iter->second;
-
-        anim->resetTimesPlayed();
-		anim->setTimesToPlay(1);
-		anim->setSpeed(1.0);
-		anim->setPaused(true);
-
+        AnimationManager::stopAnimation(anim);
 		mAnimationMap.erase(iter);
 		delete anim;
 	}
+}
+
+void AnimationManager::stopAnimation( Animation* anim )
+{
+    anim->resetTimesPlayed();
+    anim->setTimesToPlay(1);
+    anim->setSpeed(1.0);
+    anim->setPaused(true);
 }
 
 Animation* AnimationManager::replaceAnimation(Animation* oldAnim,  
@@ -164,7 +179,7 @@ void AnimationManager::removeAnimation(Animation* anim)
 
 void AnimationManager::run(Ogre::Real timePassed)
 {
-	for (std::map<Ogre::AnimationState*,Animation*>::iterator it = mAnimationMap.begin(); 
+	for (AnimMap::iterator it = mAnimationMap.begin(); 
 			it != mAnimationMap.end(); it++)
 	{
 		it->second->addTime(timePassed*mGlobalAnimationSpeed);
