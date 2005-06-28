@@ -108,6 +108,9 @@
 			<File
 				RelativePath=".\TestClass.cpp">
 			</File>
+			<File
+				RelativePath=".\TestRegistry.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Headerdateien"
@@ -115,6 +118,9 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
 				RelativePath=".\TestClass.h">
+			</File>
+			<File
+				RelativePath=".\TestRegistry.h">
 			</File>
 		</Filter>
 		<Filter

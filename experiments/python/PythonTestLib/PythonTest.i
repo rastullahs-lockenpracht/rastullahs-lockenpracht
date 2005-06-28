@@ -6,6 +6,7 @@ extern "C" {
 }
 
 #include "TestClass.h"
+#include "TestRegistry.h"
 
 %}
 
@@ -25,4 +26,13 @@ public:
 
 	void test1(TestClass* arg);
 	static void test2(TestClass* arg);
+};
+
+class TestRegistry {
+public:
+	TestRegistry();
+	static TestRegistry* getInstance();
+
+	TestClass* get(int num);
+	void add(TestClass* obj);
 };

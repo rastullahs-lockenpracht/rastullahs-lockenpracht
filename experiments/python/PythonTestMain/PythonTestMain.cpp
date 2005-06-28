@@ -2,13 +2,14 @@
 //
 
 #include <Python.h>
+#include "TestRegistry.h"
 
 int main(int argc, char** argv)
 {
 	Py_Initialize();
-	FILE* fp = fopen("test.py", "r");
-//	PyRun_SimpleFile(fp, "test.py");
-	PyRun_SimpleString("from pythontest import TestClass\nif __name__ == \"__main__\":\n\tprint \"blah\"\n\ta = TestClass()\n\tTestClass.test2(a)\n");
+	PyRun_SimpleString("execfile(\"test.py\")");
+	PyRun_SimpleString("execfile(\"test2.py\")");
+	PyRun_SimpleString("execfile(\"test3.py\")");
 	Py_Finalize();
 
 	return 0;
