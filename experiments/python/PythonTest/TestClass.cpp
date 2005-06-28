@@ -48,10 +48,10 @@ void TestClass::setString(char* str)
 
 void TestClass::test1(TestClass* args)
 {
-	printf("test1\nthis-Pointer:%d\nFelder%d %f '%s' %d", (int)this, getInteger(), getDouble(),		getString(), (int)getPointer());
+	printf("test1\nthis-Pointer:%d\nFelder%d %f '%s' %d\n", (int)this, getInteger(), getDouble(),		getString(), (int)getPointer());
 }
 
 void TestClass::test2(TestClass* args)
 {
-	printf("test2\nthis-Pointer:%d\nFelder%d %f '%s' %d", (int)args, args->getInteger(), args->getDouble(), args->getString(), (int)args->getPointer());
+	printf("test2\nthis-Pointer:%d\nFelder%d %f '%s' %d\n", (int)args, args->getInteger(), args->getDouble(), args->getString(), (int)args->getPointer());
 }
