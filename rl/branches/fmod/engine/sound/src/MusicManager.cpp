@@ -144,7 +144,7 @@ const bool MusicManager::isSourcePlaying() const
     {
         return false;
     }
-    return mSource->playing(); 
+    return mSource->isPlaying(); 
 }
 
 /**
@@ -244,7 +244,7 @@ string MusicManager::findNextSong()
  * @author JoSch
  * @date 04-12-2004
  */
-void MusicManager::setGain(ALfloat newGain)
+void MusicManager::setGain(float newGain)
 {
     if (!mSource.isNull())
     {
@@ -257,7 +257,7 @@ void MusicManager::setGain(ALfloat newGain)
  * @author JoSch
  * @date 04-12-2004
  */
-ALfloat MusicManager::getGain()
+float MusicManager::getGain()
 {
     if (!mSource.isNull())
     {

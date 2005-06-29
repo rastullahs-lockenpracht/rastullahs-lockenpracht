@@ -17,7 +17,8 @@
 #include <OgreVector3.h>
 #include "SoundSubsystem.h"
 extern "C" {
-    #include <AL/al.h>
+    #include <fmod.h>
+    #include <fmod_errors.h>
 }
 
 
@@ -146,9 +147,9 @@ void ListenerMovable::setOrientation(const Vector3 &at,
     mOrientationUp = up;
     if (isActive())
     {
-        ALfloat v[] = {at[0], at[1], at[2],
+        float v[] = {at[0], at[1], at[2],
             up[0], up[1], up[2]};
-        alListenerfv(AL_ORIENTATION, v);
+        //alListenerfv(AL_ORIENTATION, v);
         check();
     }
 }
@@ -173,8 +174,8 @@ void ListenerMovable::setPosition(const Vector3& position) throw (RuntimeExcepti
     mPosition = position;
     if (isActive())
     {
-        alListener3f(AL_POSITION,
-            position[0], position[1], position[2]);
+        //alListener3f(AL_POSITION,
+        //    position[0], position[1], position[2]);
         check();
     }
 }
@@ -199,8 +200,8 @@ void ListenerMovable::setVelocity(const Vector3& velocity) throw (RuntimeExcepti
     mVelocity = velocity;
     if (isActive())
     {
-        alListener3f(AL_VELOCITY,
-            velocity[0], velocity[1], velocity[2]);
+        //alListener3f(AL_VELOCITY,
+        //    velocity[0], velocity[1], velocity[2]);
         check();
     }
 }
@@ -210,7 +211,7 @@ void ListenerMovable::setVelocity(const Vector3& velocity) throw (RuntimeExcepti
  * @author JoSch
  * @date 03-16-2005
  */
-const ALfloat ListenerMovable::getGain() const throw (RuntimeException)
+const float ListenerMovable::getGain() const throw (RuntimeException)
 {
     return mGain;
 }
@@ -220,11 +221,11 @@ const ALfloat ListenerMovable::getGain() const throw (RuntimeException)
  * @author JoSch
  * @date 03-16-2005
  */
-void ListenerMovable::setGain(const ALfloat gain) throw (RuntimeException)
+void ListenerMovable::setGain(const float gain) throw (RuntimeException)
 {
     if (isActive())
     {
-        alListenerf(AL_GAIN, gain);
+        //alListenerf(AL_GAIN, gain);
     }
     check();
 }
@@ -236,13 +237,13 @@ void ListenerMovable::setGain(const ALfloat gain) throw (RuntimeException)
  */
 void ListenerMovable::check() const throw (RuntimeException)
 {
-    ALenum error = alGetError();
+/*    ALenum error = alGetError();
     if (error != AL_NO_ERROR)
     {
         String errormsg = (char*)alGetString(error);
         SoundSubsystem::log("Error: " + errormsg);
         Throw(RuntimeException, errormsg);
-    }
+    } */
 }
 
 /**

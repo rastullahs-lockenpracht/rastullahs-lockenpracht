@@ -36,7 +36,8 @@ enum SoundDataType { OggVorbis };
  * @date 06-19-2004
  * @date 07-23-2004
  * @date 10-10-2004
- * @version 3.0
+ * @date 06-26-2005
+ * @version 4.0
  */
 class _RlSoundExport SoundResource: public Ogre::Resource
 {

@@ -19,8 +19,8 @@
 #include "MusicManager.h"
 
 extern "C" {
-#include "AL/al.h"
-#include "AL/alut.h"
+#include "fmod.h"
+#include "fmod_errors.h"
 }
 using namespace Ogre;
 
@@ -61,20 +61,20 @@ SoundSubsystem::SoundSubsystem()
      }
  
     // OpenAL initialisieren und Fehler zuruecksetzen.
-    alutInit(0, 0);
-    SoundSubsystem::log(StringConverter::toString(alGetError()));
+    //alutInit(0, 0);
+    //SoundSubsystem::log(StringConverter::toString(alGetError()));
     SoundSubsystem::log("AL initialised");
     
     // Wir initialisieren den Listener
     // Position of the listener.
-    ALfloat ListenerPos[] = { 0.0, 0.0, 0.0 };
+/*    ALfloat ListenerPos[] = { 0.0, 0.0, 0.0 };
     // Velocity of the listener.
     ALfloat ListenerVel[] = { 0.0, 0.0, 0.0 };
     // Orientation of the listener. (first 3 elements are "at", second 3 are "up")
     ALfloat ListenerOri[] = { 0.0, 0.0, -1.0,  0.0, 1.0, 0.0 };
     alListenerfv(AL_POSITION, ListenerPos);
     alListenerfv(AL_VELOCITY, ListenerVel);
-    alListenerfv(AL_ORIENTATION, ListenerOri);
+    alListenerfv(AL_ORIENTATION, ListenerOri); */
     SoundSubsystem::log("Listener set");
     
     //Singletons erzeugen (immer in dieser Reihenfolge)
@@ -91,7 +91,7 @@ SoundSubsystem::~SoundSubsystem()
 {
     delete SoundManager::getSingletonPtr();
     delete MusicManager::getSingletonPtr();
-    alutExit();
+//    alutExit();
 }
 
 /**
@@ -110,69 +110,5 @@ void SoundSubsystem::log(const String& msg)
     }
 }
 
-/**
- * @author JoSch
- * @date 01-26-2005
- */
-bool SoundSubsystem::isEAXCapable() const
-{
-    return alIsExtensionPresent((ALubyte*)"EAX2.0") == AL_TRUE;
-}
-
-/**
- * @author JoSch
- * @date 01-26-2005
- */
-/*bool SoundSubsystem::isLocked() const
-{
-    return false;
-} */
-
-typedef ALenum (*funcEAX)(const void *propertySetID, ALuint property,
-        ALuint source, ALvoid *value, ALuint size);
-        
-/**
- * @return Error code
- * @param propertySetID Zeiger auf set GUID
- * @param property Eigenschaft
- * @param source Source ID
- * @param value Zeiger auf den Wert
- * @param size Die Groesse des Werts
- * @author JoSch
- * @date 01-26-2005
- */
-ALenum SoundSubsystem::EAXGet(const void *propertySetID, ALuint property,
-        ALuint source, ALvoid *value, ALuint size)
-{
-    if (isEAXCapable())
-    {
-        funcEAX get = (funcEAX) alGetProcAddress((ALubyte*)"EAXGet");
-        return (get)(propertySetID, property, source, value, size); 
-    } else {
-        return AL_FALSE;
-    }
-}
-
-/**
- * @return Error code
- * @param propertySetID Zeiger auf set GUID
- * @param property Eigenschaft
- * @param source Source ID
- * @param value Zeiger auf den Wert
- * @param size Die Groesse des Werts
- * @author JoSch
- * @date 01-26-2005
- */
-ALenum SoundSubsystem::EAXSet(const void *propertySetID, ALuint property,
-        ALuint source, ALvoid *value, ALuint size)
-{
-    if (isEAXCapable())
-    {
-        funcEAX set = (funcEAX) alGetProcAddress((ALubyte*)"EAXSet");
-        return (set)(propertySetID, property, source, value, size); 
-    } else {
-        return AL_FALSE;
-    }
-}
 
 }

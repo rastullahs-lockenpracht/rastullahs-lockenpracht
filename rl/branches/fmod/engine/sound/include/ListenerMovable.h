@@ -23,7 +23,14 @@
 
 
 namespace rl {
-
+    
+   /** Diese Klasse dient der Interkation mit Ogre3d und
+    * kapselt den Hörer.
+    * @author Josch
+    * @date 06-29-2005
+    * @version 1.0
+    * @version 2.0
+    */
     class _RlSoundExport ListenerMovable : public Ogre::MovableObject
     {
     private:
@@ -38,7 +45,7 @@ namespace rl {
         /// Geschwindigkeit
         Ogre::Vector3 mVelocity;
         /// Die Hauptlautstaerke
-        ALfloat mGain;
+        float mGain;
         
     protected:
          /// Shared class-level name for Movable type
@@ -64,9 +71,9 @@ namespace rl {
         virtual void _updateRenderQueue(Ogre::RenderQueue *queue);
     
         /// Gibt die Hauptlautstaerke zurueck
-        const ALfloat getGain() const throw (RuntimeException);
+        const float getGain() const throw (RuntimeException);
         /// Setzt die Hauptlautstaerke.
-        void setGain(const ALfloat direction) throw (RuntimeException);
+        void setGain(const float direction) throw (RuntimeException);
         /// Gibt die eingestellte Position der Soundquelle zurueck
         const Ogre::Vector3 getPosition() const throw (RuntimeException);
         /// Setzt die Position der Soundquelle.

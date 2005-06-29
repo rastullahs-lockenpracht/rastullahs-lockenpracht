@@ -40,6 +40,8 @@ namespace rl {
  * @date 06-17-2004
  * @version 1.2
  * @date 07-25-2004
+ * @version 2.0
+ * @date 06-29-2005
  */
 class _RlSoundExport MusicManager : public Ogre::Singleton<MusicManager> {
     private:
@@ -93,9 +95,9 @@ class _RlSoundExport MusicManager : public Ogre::Singleton<MusicManager> {
         /// Den naechsten Song in der Liste setzen.
         void setNextSong();
         /// Relative Lautstarke setzen.
-        void setGain(ALfloat newGain);
+        void setGain(float newGain);
         /// Relative Lautstaerke holen.
-        ALfloat getGain();
+        float getGain();
         /// Ob die Songliste wiederholt abgespielt werden soll.
         bool isLooping();
         /// Setzt, ob die Songliste wiederholt werden soll.

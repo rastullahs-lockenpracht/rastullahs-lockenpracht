@@ -36,6 +36,8 @@ typedef std::list<Ogre::String> StringList;
  * @author JoSch
  * @version 1.0
  * @date 04-26-2004
+ * @version 2.0
+ * @date 06-29-2005
  */ 
 class _RlSoundExport SoundManager: public Ogre::ResourceManager,
         public Ogre::Singleton<SoundManager> {

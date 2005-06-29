@@ -49,17 +49,21 @@ if test "$enable_test_coverage" = "yes"; then
 fi
 
 # OpenAL
-AC_CHECK_LIB(openal, main, [], AC_MSG_ERROR([Can't find OpenAL]))
-AC_CHECK_HEADERS(AL/al.h, ,
-    [AC_MSG_ERROR([cannot find OpenAL headers]) ])
+#AC_CHECK_LIB(openal, main, [], AC_MSG_ERROR([Can't find OpenAL]))
+#AC_CHECK_HEADERS(AL/al.h, ,
+#    [AC_MSG_ERROR([cannot find OpenAL headers]) ])
 
 # PortAudio
-AC_CHECK_LIB(portaudio,main,WITH_PORTAUDIO="yes")
-AM_CONDITIONAL(WITH_PORTAUDIO, test "$WITH_PORTAUDIO" = "yes")
+#AC_CHECK_LIB(portaudio,main,WITH_PORTAUDIO="yes")
+#AM_CONDITIONAL(WITH_PORTAUDIO, test "$WITH_PORTAUDIO" = "yes")
 
 # Ogg Vorbis
 AC_CHECK_LIB(ogg,main,[], AC_MSG_ERROR([Can't find libogg]))
 AC_CHECK_LIB(vorbis,main,[],AC_MSG_ERROR([Can't find libvorbis]))
+
+# FMOD
+AC_CHECK_LIB(fmod-3.74, main, [], AC_MSG_ERROR([Can't find Fmod 3.74]))
+AC_CHECK_HEADERS(fmod.h, [], AC_MSG_ERROR([Can't find Fmod headers]))
 
 # Ogre
 PKG_CHECK_MODULES(OGRE, OGRE >= 0.14)

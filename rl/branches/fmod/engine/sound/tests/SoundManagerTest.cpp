@@ -59,7 +59,7 @@ public:
                 xtime_get(&xt, TIME_UTC);
                 xt.sec++;
                 thread::sleep(xt);
-                while (sound->playing()) {
+                while (sound->isPlaying()) {
                     xtime_get(&xt, TIME_UTC);
                     xt.sec++;
                     thread::sleep(xt);

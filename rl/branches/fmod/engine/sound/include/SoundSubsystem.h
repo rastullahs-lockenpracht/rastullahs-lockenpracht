@@ -25,8 +25,9 @@ namespace rl {
 /** Diese Klasse dient der Initialisierung und Steuerung des
  * Sound-Subsystems.
  * @author Josch
- * @date 05-26-2004
+ * @date 06-29-2005
  * @version 1.0
+ * @version 2.0
  */
     class _RlSoundExport SoundSubsystem : public Ogre::Singleton<SoundSubsystem>
 {
@@ -42,16 +43,6 @@ public:
     static SoundSubsystem* getSingletonPtr(void);
     /// Eine Log-Nachricht ausgeben.
     static void SoundSubsystem::log(const Ogre::String& msg);
-    /// Wird EAX unterstützt?
-    bool isEAXCapable() const;
-    /// Interface zu EAXGet
-    ALenum EAXGet(const void *propertySetID, ALuint property,
-        ALuint source, ALvoid *value, ALuint size);
-    /// Interface zu EAXSet
-    ALenum EAXSet(const void *propertySetID, ALuint property,
-        ALuint source, ALvoid *value, ALuint size);
-    /// Ist das Soundsystem schon blockiert?
-    //bool isLocked() const;
 };
 
 }

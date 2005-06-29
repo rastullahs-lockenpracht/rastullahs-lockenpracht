@@ -33,11 +33,11 @@
 #include "Exception.h"
 
 extern "C" {
-#include "AL/al.h"
-#include "AL/alut.h"
-#include "ogg/ogg.h"
-#include "vorbis/codec.h"
-#include "vorbis/vorbisfile.h"
+#include <fmod.h>
+#include <fmod_errors.h>
+#include <ogg/ogg.h>
+#include <vorbis/codec.h>
+#include <vorbis/vorbisfile.h>
 }
 
 
