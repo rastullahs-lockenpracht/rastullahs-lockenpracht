@@ -38,14 +38,6 @@ namespace rl {
         static ListenerMovable *gActiveListener;
         /// Der Name des ListenerMovable
         Ogre::String mName;
-        /// Position
-        Ogre::Vector3 mPosition;
-        /// Orientierung
-        Ogre::Vector3 mOrientationAt, mOrientationUp;
-        /// Geschwindigkeit
-        Ogre::Vector3 mVelocity;
-        /// Die Hauptlautstaerke
-        float mGain;
         
     protected:
          /// Shared class-level name for Movable type
@@ -71,9 +63,9 @@ namespace rl {
         virtual void _updateRenderQueue(Ogre::RenderQueue *queue);
     
         /// Gibt die Hauptlautstaerke zurueck
-        const float getGain() const throw (RuntimeException);
+        const int getGain() const throw (RuntimeException);
         /// Setzt die Hauptlautstaerke.
-        void setGain(const float direction) throw (RuntimeException);
+        void setGain(const int direction) throw (RuntimeException);
         /// Gibt die eingestellte Position der Soundquelle zurueck
         const Ogre::Vector3 getPosition() const throw (RuntimeException);
         /// Setzt die Position der Soundquelle.
@@ -88,8 +80,6 @@ namespace rl {
         void setOrientation(const Ogre::Vector3 &at, const Ogre::Vector3 &up) throw (RuntimeException);
         /// Setzt die Geschwindigkeit der Soundquelle.
         void setVelocity(const Ogre::Vector3&) throw (RuntimeException);
-        /// Fehlerueberpruefung
-        void check() const throw (RuntimeException);
         /// Ueberpruefen, ob der aktive Listener.
         bool isActive() const;
         /// Den Listener als aktuellen setzen.

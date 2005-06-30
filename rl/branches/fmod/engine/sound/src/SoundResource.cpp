@@ -54,15 +54,6 @@ void SoundResource::loadImpl()
 		mDataStream = ResourceGroupManager::getSingleton().openResource(mName, mGroup);
 		size_t numBytes = mDataStream->size();
 
-        if (StringUtil::endsWith(mName, ".ogg"))
-        {
-            mSoundDataType = OggVorbis;
-        } 
-		else 
-		{
-            mIsLoaded = false;
-            return;
-        }
     }
  
 }
@@ -87,15 +78,6 @@ void SoundResource::unloadImpl()
 size_t SoundResource::calculateSize() const
 {
 	return mDataStream->size();
-}
-
-/**
- * @author JoSch
- * @date 03-14-2005
- */
-SoundDataType SoundResource::getSoundDataType() const
-{
-    return mSoundDataType;
 }
 
 /**

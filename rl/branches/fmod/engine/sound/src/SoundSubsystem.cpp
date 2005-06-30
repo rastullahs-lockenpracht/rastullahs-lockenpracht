@@ -18,10 +18,6 @@
 #include "SoundManager.h"
 #include "MusicManager.h"
 
-extern "C" {
-#include "fmod.h"
-#include "fmod_errors.h"
-}
 using namespace Ogre;
 
 template<> rl::SoundSubsystem* Singleton<rl::SoundSubsystem>::ms_Singleton = 0;
@@ -60,21 +56,14 @@ SoundSubsystem::SoundSubsystem()
         log->setLogDetail( LL_BOREME );
      }
  
-    // OpenAL initialisieren und Fehler zuruecksetzen.
-    //alutInit(0, 0);
-    //SoundSubsystem::log(StringConverter::toString(alGetError()));
-    SoundSubsystem::log("AL initialised");
+    // fmod initialisieren und Fehler zuruecksetzen.
+    FSOUND_Init(44100, 32, 0);
+    SoundSubsystem::log("fmod initialisiert");
     
     // Wir initialisieren den Listener
     // Position of the listener.
-/*    ALfloat ListenerPos[] = { 0.0, 0.0, 0.0 };
-    // Velocity of the listener.
-    ALfloat ListenerVel[] = { 0.0, 0.0, 0.0 };
-    // Orientation of the listener. (first 3 elements are "at", second 3 are "up")
-    ALfloat ListenerOri[] = { 0.0, 0.0, -1.0,  0.0, 1.0, 0.0 };
-    alListenerfv(AL_POSITION, ListenerPos);
-    alListenerfv(AL_VELOCITY, ListenerVel);
-    alListenerfv(AL_ORIENTATION, ListenerOri); */
+    float v[3] = {0, 0, 0};
+    FSOUND_3D_Listener_SetAttributes(v, v, 1, 0, 0, 1, 0, 0);
     SoundSubsystem::log("Listener set");
     
     //Singletons erzeugen (immer in dieser Reihenfolge)

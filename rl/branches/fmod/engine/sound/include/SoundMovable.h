@@ -53,14 +53,11 @@ namespace rl {
         // Damit die Timings alle 0.5 sek. abgeschickt werden.
         int mTicks;
     
-        /// Die Lautstärke, die Berechnungsgrundlage ist.
-        float mGain;
-        
-        /// Zeit in ms, die wir unterbechen.
-        static int mSleepTime;
-                
         /// Die komplette Zeit des Stücks in Sekunden.
         double mTime;
+
+        /// Streamen wir in fmod oder nicht?
+        bool mIsStream;
         
     public:
         /// Konstruktor

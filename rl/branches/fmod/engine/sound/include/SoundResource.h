@@ -24,11 +24,6 @@
 
 namespace rl {
  
-/**
- * Der Typ der Sounddaten.
- * Momentan nur Wave und OggVorbis.
- */
-enum SoundDataType { OggVorbis };
  
 /** Diese Basisklasse kapselt eine OpenAl++-Source fuer
  * den ResourceManager von Ogre
@@ -44,8 +39,6 @@ class _RlSoundExport SoundResource: public Ogre::Resource
     private:
         /// Unsere Daten von Ogres ResourceManager.
         Ogre::DataStreamPtr mDataStream;
-        /// Die Art des Sounds.
-        SoundDataType mSoundDataType;
                        
     public:
         /// Der Standardkonstruktor
@@ -54,8 +47,6 @@ class _RlSoundExport SoundResource: public Ogre::Resource
             Ogre::ManualResourceLoader* loader);
         /// Der Destruktor
         virtual ~SoundResource();
-        /// Den Typ des Sound zurückgeben.
-        SoundDataType getSoundDataType() const;
         /// Den Datenstrom zurückgeben
         Ogre::DataStreamPtr getDataStream() const;
         /// Groesse zurueckgeben.
