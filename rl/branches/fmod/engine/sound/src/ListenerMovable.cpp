@@ -121,10 +121,7 @@ void ListenerMovable::_updateRenderQueue(RenderQueue *queue)
  */
 const Vector3 ListenerMovable::getOrientationAt() const throw (RuntimeException)
 {
-    Vector3 at;
-    FSOUND_3D_Listener_GetAttributes(0, 0, &at[0], &at[1], &at[2],
-        0, 0, 0);
-    return at;
+    return mAt;
 }
 
 /**
@@ -134,10 +131,7 @@ const Vector3 ListenerMovable::getOrientationAt() const throw (RuntimeException)
  */
 const Vector3 ListenerMovable::getOrientationUp() const throw (RuntimeException)
 {
-    Vector3 up;
-    FSOUND_3D_Listener_GetAttributes(0, 0, 0, 0, 0,
-        &up[0], &up[1], &up[2]);
-    return up;
+    return mUp;
 }
 
 /**
@@ -149,11 +143,14 @@ const Vector3 ListenerMovable::getOrientationUp() const throw (RuntimeException)
 void ListenerMovable::setOrientation(const Vector3 &at,
         const Vector3 &up) throw (RuntimeException)
 {
+    mUp = up;
+    mAt = at;
     if (isActive())
     {
         float v[] = {at[0], at[1], at[2]},
             w[] =  {up[0], up[1], up[2]};
-        FSOUND_3D_Listener_SetAttributes(0, 0, at[0], at[1], at[2],
+        FSOUND_3D_Listener_SetAttributes(0, 0,
+            at[0], at[1], at[2],
             up[0], up[1], up[2]);
     }
 }
@@ -165,10 +162,7 @@ void ListenerMovable::setOrientation(const Vector3 &at,
  */
 const Vector3 ListenerMovable::getPosition() const throw (RuntimeException)
 {
-    Vector3 position;
-    FSOUND_3D_Listener_GetAttributes(&position[0],
-        0, 0, 0, 0, 0, 0, 0);
-    return position;
+    return mPosition;
 }
 
 /**
@@ -178,6 +172,7 @@ const Vector3 ListenerMovable::getPosition() const throw (RuntimeException)
  */
 void ListenerMovable::setPosition(const Vector3& position) throw (RuntimeException)
 {
+    mPosition = position;
     if (isActive())
     {
         float fx, fy, fz, tx, ty, tz;
@@ -196,10 +191,7 @@ void ListenerMovable::setPosition(const Vector3& position) throw (RuntimeExcepti
  */
 const Vector3 ListenerMovable::getVelocity() const throw (RuntimeException)
 {
-    Vector3 velocity;
-    FSOUND_3D_Listener_GetAttributes(0, &velocity[0],
-        0, 0, 0, 0, 0, 0);
-    return velocity;
+    return mVelocity;
 }
 
 /**
@@ -209,6 +201,7 @@ const Vector3 ListenerMovable::getVelocity() const throw (RuntimeException)
  */
 void ListenerMovable::setVelocity(const Vector3& velocity) throw (RuntimeException)
 {
+    mVelocity = velocity;
     if (isActive())
     {
         float fx, fy, fz, tx, ty, tz;
@@ -227,7 +220,7 @@ void ListenerMovable::setVelocity(const Vector3& velocity) throw (RuntimeExcepti
  */
 const int ListenerMovable::getGain() const throw (RuntimeException)
 {
-    return FSOUND_GetSFXMasterVolume();
+    return mGain;
 }
 
 /**
@@ -237,6 +230,7 @@ const int ListenerMovable::getGain() const throw (RuntimeException)
  */
 void ListenerMovable::setGain(const int gain) throw (RuntimeException)
 {
+    mGain = gain;
     if (isActive())
     {
         FSOUND_SetSFXMasterVolume(gain);

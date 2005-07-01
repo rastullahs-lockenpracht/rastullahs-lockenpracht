@@ -42,7 +42,16 @@ namespace rl {
     protected:
          /// Shared class-level name for Movable type
         static Ogre::String msMovableType;
+        /// Alignment-Box: gebraucht von MovableObject.
         static Ogre::AxisAlignedBox msAABox;
+        /// Position
+        Ogre::Vector3 mPosition;
+        /// Geschwindigkeit
+        Ogre::Vector3 mVelocity;
+        /// Orientierung
+        Ogre::Vector3 mAt, mUp;
+        /// Hauptlautstärke
+        int mGain;
 
     public:
         /// Konstruktor
