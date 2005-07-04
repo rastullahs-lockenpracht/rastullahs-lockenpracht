@@ -106,7 +106,7 @@ void MusicManager::stopSong(int fade)
 {
     if (!mSource.isNull())
     {
-        mSource->stop(fade);
+        mSource->stop();
     }
     mShouldPlay = false;
 }
@@ -125,7 +125,7 @@ void MusicManager::playSong(int fade)
     // Wenn mSource immer noch NULL ist, dann haben wir nicht ins der Liste.
     if (!mSource.isNull())
     {
-        mSource->play(fade);
+        mSource->play();
         mShouldPlay = true;
     } else {
         mShouldPlay = false;
@@ -171,8 +171,8 @@ void MusicManager::setNextSong()
     SoundMovablePtr next;
     if (name != "")
     {
-        next = SoundMovablePtr(new SoundMovable(
-            SoundManager::getSingleton().getByName(name)));
+/* TODO       next = SoundMovablePtr(new SoundMovable(
+            SoundManager::getSingleton().getByName(name))); */
     }
     if (!mSource.isNull() )
     {
@@ -244,7 +244,7 @@ string MusicManager::findNextSong()
  * @author JoSch
  * @date 04-12-2004
  */
-void MusicManager::setGain(float newGain)
+void MusicManager::setGain(int newGain)
 {
     if (!mSource.isNull())
     {
@@ -257,13 +257,13 @@ void MusicManager::setGain(float newGain)
  * @author JoSch
  * @date 04-12-2004
  */
-float MusicManager::getGain()
+int MusicManager::getGain()
 {
     if (!mSource.isNull())
     {
         return mSource->getGain();
     }
-    return 0.0;
+    return 0;
 }
 
 /**

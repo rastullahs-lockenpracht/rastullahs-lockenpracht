@@ -80,7 +80,7 @@ SoundSubsystem::~SoundSubsystem()
 {
     delete SoundManager::getSingletonPtr();
     delete MusicManager::getSingletonPtr();
-//    alutExit();
+    FSOUND_Close();
 }
 
 /**
@@ -99,5 +99,13 @@ void SoundSubsystem::log(const String& msg)
     }
 }
 
+/**
+ * @author JoSch
+ * @date 07-03-2005
+ */
+void SoundSubsystem::update()
+{
+    FSOUND_Update();
+}
 
 }

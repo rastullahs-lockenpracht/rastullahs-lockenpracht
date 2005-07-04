@@ -8,6 +8,8 @@ libRlSound_la_SOURCES = \
 	SoundManager.cpp \
 	SoundMovable.cpp \
     SoundResource.cpp \
+    SoundSampleMovable.cpp \
+    SoundStreamMovable.cpp \
 	SoundSubsystem.cpp \
 	SoundEvents.cpp 
     

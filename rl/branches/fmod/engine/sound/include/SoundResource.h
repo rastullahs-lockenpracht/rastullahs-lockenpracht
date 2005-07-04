@@ -25,7 +25,7 @@
 namespace rl {
  
  
-/** Diese Basisklasse kapselt eine OpenAl++-Source fuer
+/** Diese Basisklasse kapselt eine fmod-Source fuer
  * den ResourceManager von Ogre
  * @author Josch
  * @date 06-19-2004

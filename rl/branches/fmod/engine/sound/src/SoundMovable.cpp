@@ -45,7 +45,7 @@ SoundMovable::SoundMovable(const String &name):
     addEventListener(this);
 
     /// Ein paar Standardwerte setzen
-    setGain(1.0f);
+    setGain(255);
     setPosition(Vector3(0.0, 0.0, 0.0));
     setVelocity(Vector3(0.0, 0.0, 0.0));
     setDirection(Vector3(0.0, 0.0, 0.0));
@@ -72,7 +72,7 @@ SoundMovable::SoundMovable(const SoundResourcePtr &soundres):
     addEventListener(this);
 
     /// Ein paar Standardwerte setzen
-    setGain(1.0f);
+    setGain(255);
     setPosition(Vector3(0.0, 0.0, 0.0));
     setVelocity(Vector3(0.0, 0.0, 0.0));
     setDirection(Vector3(0.0, 0.0, 0.0));
@@ -97,7 +97,15 @@ const String& SoundMovable::getName() const
 {
     return mName;
 }
-
+/**
+ * @author JoSch
+ * @date 07-04-2005
+ * @return Der Soundkanal
+ */
+const int SoundMovable::getChannel() const
+{
+    return mChannel;
+}
 
 /**
  * @author JoSch
@@ -172,7 +180,6 @@ bool SoundMovable::eventRaised(SoundEvent *anEvent) const
 const Vector3 SoundMovable::getDirection() const throw (RuntimeException)
 {
     Vector3 result;
-    // TODO
     return result;
 }
 
@@ -189,115 +196,109 @@ void SoundMovable::setDirection (const Vector3& direction) throw (RuntimeExcepti
 /**
  * @return Spielt die Soundquelle noch?
  * @author JoSch
- * @date 07-23-2004
+ * @date 07-04-2005
  */
 const bool SoundMovable::isPlaying() const
 {
-    return true;
+    return FSOUND_IsPlaying(getChannel());
 }
 
 /**
  * @return Die aktuelle Position der Soundquelle
  * @author JoSch
- * @date 07-23-2004
+ * @date 07-04-2005
  */
 const Vector3 SoundMovable::getPosition() const throw (RuntimeException)
 {
-    Vector3 result;
-    // TODO
+    float pos[3];
+    FSOUND_3D_GetAttributes(getChannel(), pos, 0);
+    Vector3 result(pos);
     return result;
 }
 
 /**
  * @param position Die neue Position der Soundquelle.
  * @author JoSch
- * @date 07-23-2004
+ * @date 07-04-2005
  */
 void SoundMovable::setPosition(const Vector3& position) throw (RuntimeException)
 {
-    // TODO
+    float pos[] = {position[0], position[1], position[2]};
+    FSOUND_3D_SetAttributes(getChannel(), pos, 0);
 }
 
 /**
  * @return Die aktuelle Geschwindigkeit der Soundquelle
  * @author JoSch
- * @date 07-23-2004
+ * @date 07-04-2005
  */
 const Vector3 SoundMovable::getVelocity() const throw (RuntimeException)
 {
-    Vector3 result;
-    // TODO
+    float vel[3];
+    FSOUND_3D_GetAttributes(getChannel(), 0, vel);
+    Vector3 result(vel);
     return result;
 }
 
 /**
  * @param velocity Die neue Geschwindigkeit der Soundquelle.
  * @author JoSch
- * @date 07-23-2004
+ * @date 07-04-2005
  */
 void SoundMovable::setVelocity(const Vector3& velocity) throw (RuntimeException)
 {
-    // TODO
+    float vel[] = {velocity[0], velocity[1], velocity[2]};
+    FSOUND_3D_SetAttributes(getChannel(), 0, vel);
 }
 
 /**
  * @return Die aktuelle Lautstaerke der Soundquelle
  * @author JoSch
- * @date 07-23-2004
+ * @date 07-04-2005
  */
-const float SoundMovable::getGain() const throw (RuntimeException)
+const int SoundMovable::getGain() const throw (RuntimeException)
 {
-    float result;
-    // TODO
-    return result;
+    return FSOUND_GetVolume(getChannel());
 }
 
 /**
  * @param gain Die neue Lautstarke der Soundquelle.
  * @author JoSch
- * @date 07-23-2004
+ * @date 07-04-2005
  */
-void SoundMovable::setGain(const float gain) throw (RuntimeException)
+void SoundMovable::setGain(const int gain) throw (RuntimeException)
 {
-    // TODO
+    FSOUND_SetVolume(getChannel(), gain);
 }
 
 /**
+ * @param pausing TRUE lässt den Sound unterbrechen.
  * @author JoSch
- * @date 09-15-2004
+ * @date 07-04-2005
  */
-void SoundMovable::play(unsigned int msec) throw (RuntimeException)
+void SoundMovable::pause(bool pausing) throw (RuntimeException)
 {
-    // TODO
+    FSOUND_SetPaused(getChannel(), pausing);
 }
 
 /**
+ * @return TRUE wenn der Sound unterbrochen wurde.
  * @author JoSch
- * @date 07-23-2004
+ * @date 07-04-2005
  */
-void SoundMovable::pause() throw (RuntimeException)
+bool SoundMovable::isPaused() throw (RuntimeException)
 {
-    // TODO
-}
-
-/**
- * Abspielen stoppen.
- * @author JoSch
- * @date 07-27-2004
- */
-void SoundMovable::stop(unsigned int msec) throw (RuntimeException)
-{
-    // TODO
+    return FSOUND_GetPaused(getChannel());
 }
 
 /**
  * @author JoSch
  * @date 07-23-2004
  */
-void SoundMovable::rewind() throw (RuntimeException)
+/*void SoundMovable::rewind() throw (RuntimeException)
 {
     // TODO
-}
+} */
 
 void SoundMovablePtr::destroy()
 {

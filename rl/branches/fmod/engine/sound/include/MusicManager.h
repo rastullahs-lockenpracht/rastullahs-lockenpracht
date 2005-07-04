@@ -22,10 +22,9 @@
 #include <OgreString.h>
 #include <OgreResourceGroupManager.h>
 #include <list>
-#include <stdexcept>
 #include <boost/thread.hpp>
+#include <stdexcept>
 #include "SoundMovable.h"
-
 
 namespace rl {
  
@@ -95,9 +94,9 @@ class _RlSoundExport MusicManager : public Ogre::Singleton<MusicManager> {
         /// Den naechsten Song in der Liste setzen.
         void setNextSong();
         /// Relative Lautstarke setzen.
-        void setGain(float newGain);
+        void setGain(int newGain);
         /// Relative Lautstaerke holen.
-        float getGain();
+        int getGain();
         /// Ob die Songliste wiederholt abgespielt werden soll.
         bool isLooping();
         /// Setzt, ob die Songliste wiederholt werden soll.

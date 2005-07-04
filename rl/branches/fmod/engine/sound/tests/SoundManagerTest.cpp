@@ -14,6 +14,8 @@
 #include "SoundManager.h"
 #include "SoundResource.h"
 #include "SoundMovable.h"
+#include "SoundSampleMovable.h"
+#include "SoundStreamMovable.h"
 
 
 using namespace rl;
@@ -51,7 +53,7 @@ public:
         while (it.hasMoreElements())
         {
             SoundResourcePtr soundres = it.getNext();
-            SoundMovablePtr sound(new SoundMovable(soundres));
+            SoundMovablePtr sound(new SoundStreamMovable(soundres));
             if (!sound.isNull())
             {
                 sound->play();
@@ -79,16 +81,16 @@ public:
         while (it.hasMoreElements())
         {
             SoundResourcePtr soundres = it.getNext();
-            SoundMovablePtr sound(new SoundMovable(soundres));
+            SoundMovablePtr sound(new SoundStreamMovable(soundres));
             if (!sound.isNull())
             {
-                sound->play(2 * 1000);
+                sound->play();
                 
                 xtime_get(&xt, boost::TIME_UTC);
                 xt.sec += 10;
                 thread::sleep(xt);
                 
-                sound->stop(2 * 1000);
+                sound->stop();
                 
                 xtime_get(&xt, boost::TIME_UTC);
                 xt.sec += 5;

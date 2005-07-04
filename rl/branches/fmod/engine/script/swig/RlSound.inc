@@ -45,8 +45,8 @@ namespace rl {
         const bool isSourcePlaying() const;
 
         void setNextSong();
-        void setGain(float newGain);
-        float getGain();
+        void setGain(int newGain);
+        int getGain();
         
         void clearPlayList();
         void addPlayList(std::string song);

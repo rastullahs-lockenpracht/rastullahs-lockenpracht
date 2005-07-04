@@ -43,6 +43,8 @@ public:
     static SoundSubsystem* getSingletonPtr(void);
     /// Eine Log-Nachricht ausgeben.
     static void SoundSubsystem::log(const Ogre::String& msg);
+    /// fmod weiterlaufen lassen.
+    static void update();
 };
 
 }

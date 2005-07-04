@@ -25,6 +25,8 @@
 #include "LightObject.h"
 #include "SoundObject.h"
 #include "SoundMovable.h"
+#include "SoundStreamMovable.h"
+#include "SoundSampleMovable.h"
 #include "ListenerMovable.h"
 #include "ListenerObject.h"
 #include "PhysicalThing.h"
@@ -132,7 +134,7 @@ namespace rl {
         Actor* actor = 0;
         try
         {
-            SoundMovable* sm = new SoundMovable(soundfile);
+            SoundMovable* sm = new SoundStreamMovable(soundfile);
             SoundObject* so = new SoundObject(sm);
 
             actor = new Actor(uniquename, so);

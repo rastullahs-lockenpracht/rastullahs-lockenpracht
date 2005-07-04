@@ -45,6 +45,8 @@ namespace rl {
          public virtual EventCaster<SoundEvent>
     {
     private:
+        /// Fmod-Channel 
+        int mChannel;
         /// Der Name des SoundMovable
         Ogre::String mName;
         /// Der Soundresource, auf den wir verweisen.
@@ -52,12 +54,8 @@ namespace rl {
 
         // Damit die Timings alle 0.5 sek. abgeschickt werden.
         int mTicks;
-    
         /// Die komplette Zeit des Stücks in Sekunden.
         double mTime;
-
-        /// Streamen wir in fmod oder nicht?
-        bool mIsStream;
         
     public:
         /// Konstruktor
@@ -68,6 +66,8 @@ namespace rl {
         virtual ~SoundMovable();
         /// Name zurückgeben
         virtual const Ogre::String& getName() const;
+        /// Den Soundkanal zurueckgeben.
+        virtual const int getChannel() const;
         /// Moveable-Typ
         virtual const Ogre::String& getMovableType() const;
         /// Kamera informieren
@@ -84,9 +84,9 @@ namespace rl {
         /// Setzt die Position der Soundquelle.
         void setPosition(const Ogre::Vector3& direction) throw (RuntimeException);
         /// Gibt die eingestellte relative Lautstaerke der Soundquelle zurueck
-        const float getGain() const throw (RuntimeException);
+        const int getGain() const throw (RuntimeException); 
         /// Setzt die relative Lautstaerke der Soundquelle.
-        void setGain(const float gain) throw (RuntimeException);
+        void setGain(const int gain) throw (RuntimeException);
         /// Gibt die Richtung der Soundquelle zurueck.
         const Ogre::Vector3 getDirection() const throw (RuntimeException);
         /// Gibt die Geschwindigkeit der Soundquelle zurueck.
@@ -97,13 +97,15 @@ namespace rl {
         void setVelocity(const Ogre::Vector3&) throw (RuntimeException);
         
         /// Spielt den Sound ab.
-        virtual void play(unsigned int msec = 0) throw (RuntimeException);
+        virtual void play() throw (RuntimeException) = 0;
         /// Pausiert den Sound.
-        virtual void pause() throw (RuntimeException);
+        virtual void pause(bool pausing) throw (RuntimeException);
+        /// Ist der Sound pausiert?
+        virtual bool isPaused() throw (RuntimeException);
         /// Stoppt den Sound.
-        virtual void stop(unsigned int msec = 0) throw (RuntimeException);
+        virtual void stop() throw (RuntimeException) = 0;
         /// Zurueck auf Anfang.
-        virtual void rewind() throw (RuntimeException);
+//        virtual void rewind() throw (RuntimeException);
         /// Ist laeuft AL noch
         const bool isPlaying() const;
 

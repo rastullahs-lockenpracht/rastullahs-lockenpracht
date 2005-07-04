@@ -5,4 +5,6 @@ noinst_HEADERS = MusicManager.h \
 	SoundPrerequisites.h \
     SoundMovable.h \
     SoundResource.h \
+    SoundSampleMovable.h \
+    SoundStreamMovable.h \
     SoundEvents.h 
