@@ -189,7 +189,7 @@ namespace rl {
         {
             CameraObject* co = new CameraObject(uniquename);
             co->getCamera()->setNearClipDistance(10);
-            co->getCamera()->setFarClipDistance(10000);
+            co->getCamera()->setFarClipDistance(1000000);
             PhysicalThing* pt = PhysicsManager::getSingleton()
                 .createPhysicalThing(PhysicsManager::GT_SPHERE,
                     Vector3(co->getCamera()->getNearClipDistance() * 1.5, 0, 0),
