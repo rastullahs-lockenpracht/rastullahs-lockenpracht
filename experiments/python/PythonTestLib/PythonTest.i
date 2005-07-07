@@ -1,18 +1,24 @@
 %module(package="pythontest", directors="1") pythontest
+%include "std_string.i"
 
 %{
 extern "C" { 
 #include <Python.h> 
 }
 
+#include <vector>
+
 #include "TestClass.h"
 #include "TestRegistry.h"
 
 %}
 
+%feature("director") TestClass; 
 class TestClass {
 public:
-	int getInteger();
+	virtual ~TestClass();
+
+	virtual int getInteger();
 	void setInteger(int integer);
 
 	double getDouble();
@@ -21,8 +27,8 @@ public:
 	TestClass* getPointer();
 	void setPointer(TestClass* pointer);
 
-	char* getString();
-	void setString(char* str);
+	std::string getString();
+	void setString(const std::string& str);
 
 	void test1(TestClass* arg);
 	static void test2(TestClass* arg);
@@ -31,7 +37,7 @@ public:
 class TestRegistry {
 public:
 	TestRegistry();
-	static TestRegistry* getInstance();
+	static TestRegistry& getInstance();
 
 	TestClass* get(int num);
 	void add(TestClass* obj);

@@ -7,10 +7,10 @@ TestRegistry::TestRegistry()
 	mRegistry.clear();
 }
 
-TestRegistry* TestRegistry::getInstance()
+TestRegistry& TestRegistry::getInstance()
 {
 	static TestRegistry instance = TestRegistry();
-	return &instance;
+	return instance;
 }
 
 TestClass* TestRegistry::get(int num)

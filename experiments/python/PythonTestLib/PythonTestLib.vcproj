@@ -25,6 +25,7 @@
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
+				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
@@ -45,7 +46,9 @@
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				Description="Pythonskript kopieren"
+				CommandLine="copy pythontest.py .."/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -73,6 +76,7 @@
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;PYTHONTESTLIB_EXPORTS"
 				RuntimeLibrary="0"
+				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
@@ -92,7 +96,9 @@
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				Description="Pythonskript kopieren"
+				CommandLine="copy pythontest.py .."/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -139,7 +145,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						CommandLine="cd H:\rl\rastullah\branches\python\dependencies\swig
-swig -c++ -python -v -Wall &quot;$(InputPath)&quot;"
+swig -c++ -python -v -Wall &quot;$(InputPath)&quot;
+"
 						Outputs="&quot;$(InputName).cxx&quot;"/>
 				</FileConfiguration>
 			</File>

@@ -1,15 +1,13 @@
 from pythontest import TestClass
 
-class TestClassKeinFehler(TestClass):
+class TestClassFehler(TestClass):
 	def getInteger(self):
-		return -99999
-		
-
+		blubb()
 
 if __name__ == "__main__":
-	print "Test1"
-	a = TestClassKeinFehler()
+	print "TestFehler"
+	a = TestClassFehler()
 	print a.getInteger()
 	TestClass.test2(a)
-	print "Ende Test1"
+	print "Ende TestFehler"
 	print ""

@@ -8,7 +8,7 @@ class TestClass;
 class TestRegistry {
 public:
 	TestRegistry();
-	static TestRegistry* getInstance();
+	static TestRegistry& getInstance();
 
 	TestClass* get(int num);
 	void add(TestClass* obj);

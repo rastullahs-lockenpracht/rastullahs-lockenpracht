@@ -1,9 +1,14 @@
 #ifndef TestClass_H
 #define TestClass_H
 
+#include <vector>
+
 class TestClass {
 public:
-	int getInteger();
+	TestClass();
+	virtual ~TestClass();
+
+	virtual int getInteger();
 	void setInteger(int integer);
 
 	double getDouble();
@@ -12,8 +17,8 @@ public:
 	TestClass* getPointer();
 	void setPointer(TestClass* pointer);
 
-	char* getString();
-	void setString(char* str);
+	std::string getString();
+	void setString(const std::string& str);
 
 	void test1(TestClass* arg);
 	static void test2(TestClass* arg);
@@ -22,7 +27,7 @@ private:
 	int mIntegerAttribute;
 	double mDoubleAttribut;
 	TestClass* mPointerAttribute;
-	char* mStringAttribute;
+	std::string mStringAttribute;
 };
 
 #endif
