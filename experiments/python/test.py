@@ -5,9 +5,10 @@ class TestClassKeinFehler(TestClass):
 		return -99999
 		
 if __name__ == "__main__":
-	print "Test1"
+	print "* Test1"
+	print "  - Methode ueberschreiben, der Integerwert muss -99999 sein"
+	print
 	a = TestClassKeinFehler()
-	print a.getInteger()
 	TestClass.test2(a)
 	print "Ende Test1"
 	print ""

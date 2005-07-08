@@ -5,7 +5,7 @@ class TestClassFehler(TestClass):
 		blubb()
 
 if __name__ == "__main__":
-	print "TestFehler"
+	print "* TestFehler - Beinhaltet einen Fehler"
 	a = TestClassFehler()
 	print a.getInteger()
 	TestClass.test2(a)

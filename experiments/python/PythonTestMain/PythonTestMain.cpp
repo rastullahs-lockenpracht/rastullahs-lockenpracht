@@ -10,6 +10,7 @@ int main(int argc, char** argv)
 	Py_Initialize();
 	TestClass* obj = new TestClass();
 	obj->setDouble(3.1415926);
+	obj->setString("Ich bin aus dem C++-Code");
 	TestRegistry::getInstance()->add(obj);
 	PyRun_SimpleString("execfile(\"test.py\")");
 	//PyRun_SimpleString("execfile(\"testfehler.py\")"); // Hier geht es
