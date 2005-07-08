@@ -2,18 +2,23 @@
 #include "TestClass.h"
 #include "TestRegistry.h"
 
+static TestRegistry* sInstance = 0;
+
 TestRegistry::TestRegistry()
+: mRegistry()
 {
 	mRegistry.clear();
 }
 
 TestRegistry* TestRegistry::getInstance()
 {
-	static TestRegistry instance = TestRegistry();
-	return &instance;
+	if( sInstance == 0 )
+        sInstance = new TestRegistry();
+
+	return sInstance;
 }
 
-TestClass* TestRegistry::get(int num)
+TestClass* TestRegistry::get(int num) const
 {
 	return mRegistry[num];
 }

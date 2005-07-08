@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\PythonTest"
+				AdditionalIncludeDirectories="../PythonTest;C:\Programme\Programmieren\Python\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -35,6 +35,7 @@
 				Name="VCLinkerTool"
 				OutputFile="../PythonTestMain.exe"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="&quot;..\PythonTest\$(ConfigurationName)&quot;;C:\Programme\Programmieren\Python\libs"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/PythonTestMain.pdb"
 				SubSystem="1"
@@ -68,11 +69,11 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\PythonTest"
+				AdditionalIncludeDirectories="../PythonTest;C:\Programme\Programmieren\Python\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="4"
 				RuntimeTypeInfo="TRUE"
-				UsePrecompiledHeader="3"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="3"/>
@@ -80,8 +81,9 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)/PythonTestMain.exe"
+				OutputFile="../PythonTestMain.exe"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="&quot;..\PythonTest\$(ConfigurationName)&quot;;C:\Programme\Programmieren\Python\libs"
 				GenerateDebugInformation="TRUE"
 				SubSystem="1"
 				OptimizeReferences="2"

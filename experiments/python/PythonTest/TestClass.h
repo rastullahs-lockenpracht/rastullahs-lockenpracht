@@ -2,22 +2,23 @@
 #define TestClass_H
 
 #include <vector>
+#include "TestPre.h"
 
-class TestClass {
+class _PyTestExport TestClass {
 public:
 	TestClass();
 	virtual ~TestClass();
 
-	virtual int getInteger();
+	virtual int getInteger() const;
 	void setInteger(int integer);
 
-	double getDouble();
+	double getDouble() const;
 	void setDouble(double num);
 
-	TestClass* getPointer();
+	TestClass* getPointer() const;
 	void setPointer(TestClass* pointer);
 
-	std::string getString();
+	std::string getString() const;
 	void setString(const std::string& str);
 
 	void test1(TestClass* arg);

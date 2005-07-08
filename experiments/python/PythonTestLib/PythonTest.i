@@ -18,16 +18,16 @@ class TestClass {
 public:
 	virtual ~TestClass();
 
-	virtual int getInteger();
+	virtual int getInteger() const;
 	void setInteger(int integer);
 
-	double getDouble();
+	double getDouble() const;
 	void setDouble(double num);
 
 	TestClass* getPointer();
 	void setPointer(TestClass* pointer);
 
-	std::string getString();
+	std::string getString() const;
 	void setString(const std::string& str);
 
 	void test1(TestClass* arg);
@@ -39,6 +39,6 @@ public:
 	TestRegistry();
 	static TestRegistry* getInstance();
 
-	TestClass* get(int num);
+	TestClass* get(int num) const;
 	void add(TestClass* obj);
 };

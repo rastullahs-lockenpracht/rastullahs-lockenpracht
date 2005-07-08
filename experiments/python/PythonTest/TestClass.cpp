@@ -14,7 +14,7 @@ TestClass::~TestClass()
 {
 }
 
-int TestClass::getInteger()
+int TestClass::getInteger() const
 {
 	return mIntegerAttribute;
 }
@@ -25,7 +25,7 @@ void TestClass::setInteger(int integer)
 }
 
 
-double TestClass::getDouble()
+double TestClass::getDouble() const
 {
 	return mDoubleAttribut;
 }
@@ -36,7 +36,7 @@ void TestClass::setDouble(double num)
 }
 
 
-TestClass* TestClass::getPointer()
+TestClass* TestClass::getPointer() const
 {
 	return mPointerAttribute;
 }
@@ -47,7 +47,7 @@ void TestClass::setPointer(TestClass* pointer)
 }
 
 
-std::string TestClass::getString()
+std::string TestClass::getString() const
 {
 	return mStringAttribute;
 }
@@ -60,7 +60,8 @@ void TestClass::setString(const std::string& str)
 
 void TestClass::test1(TestClass* args)
 {
-	printf("test1\nthis-Pointer:%d\nFelder %d %f '%s' %d\n", (int)this, getInteger(), getDouble(),		getString(), (int)getPointer());
+    printf("test1\nthis-Pointer:%d\nFelder: %d %f '%s' %d\n", 
+        (int)this, getInteger(), getDouble(), getString(), (int)getPointer());
 }
 
 void TestClass::test2(TestClass* args)
@@ -69,5 +70,5 @@ void TestClass::test2(TestClass* args)
 	double dbl = args->getDouble();
 	std::string str = args->getString();
 	int ptr = (int)args->getPointer();
-	printf("Felder %d %f '%s' %d\n", intgr, dbl, str.c_str(), ptr);
+    printf("Felder: %d %f '%s' %d\n", intgr, dbl, str.c_str(), ptr);
 }

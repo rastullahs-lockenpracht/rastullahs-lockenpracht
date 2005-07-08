@@ -20,11 +20,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../PythonTest"
+				AdditionalIncludeDirectories="../PythonTest;C:\Programme\Programmieren\Python\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;PYTHONTESTLIB_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -35,13 +35,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="PythonTest.lib"
-				OutputFile="..\_pythontest.dll"
+				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\PythonTest\$(ConfigurationName)&quot;"
+				AdditionalLibraryDirectories="&quot;..\PythonTest\$(ConfigurationName)&quot;;C:\Programme\Programmieren\Python\libs"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/PythonTestLib.pdb"
 				SubSystem="2"
-				ImportLibrary="$(OutDir)/PythonTestLib.lib"
+				ImportLibrary=""
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -74,8 +74,9 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="../PythonTest;C:\Programme\Programmieren\Python\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;PYTHONTESTLIB_EXPORTS"
-				RuntimeLibrary="0"
+				RuntimeLibrary="2"
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -85,8 +86,9 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)/PythonTestLib.dll"
+				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="&quot;..\PythonTest\$(ConfigurationName)&quot;;C:\Programme\Programmieren\Python\libs"
 				GenerateDebugInformation="TRUE"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -98,7 +100,8 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Pythonskript kopieren"
-				CommandLine="copy pythontest.py .."/>
+				CommandLine="copy pythontest.py ..
+copy $(OutDir)\PythonTestLib.dll ..\_pythontest.dll"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -144,9 +147,19 @@
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="cd H:\rl\rastullah\branches\python\dependencies\swig
+						CommandLine="# cd H:\rl\rastullah\branches\python\dependencies\swig
+cd &quot;$(ProjectDir)&quot;\..\dependencies\swig
 swig -c++ -python -v -Wall &quot;$(InputPath)&quot;
 "
+						Outputs="&quot;$(InputName).cxx&quot;"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="# cd H:\rl\rastullah\branches\python\dependencies\swig
+cd &quot;$(ProjectDir)&quot;\..\dependencies\swig
+swig -c++ -python -v -Wall &quot;$(InputPath)&quot;"
 						Outputs="&quot;$(InputName).cxx&quot;"/>
 				</FileConfiguration>
 			</File>

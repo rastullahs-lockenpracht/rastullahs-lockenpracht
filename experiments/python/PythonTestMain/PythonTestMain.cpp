@@ -14,7 +14,7 @@ int main(int argc, char** argv)
 	PyRun_SimpleString("execfile(\"test.py\")");
 	//PyRun_SimpleString("execfile(\"testfehler.py\")"); // Hier geht es
 	PyRun_SimpleString("execfile(\"test2.py\")");
-	//PyRun_SimpleString("execfile(\"testfehler.py\")"); // Hier nicht
+	PyRun_SimpleString("execfile(\"testfehler.py\")"); // Hier nicht
 	PyRun_SimpleString("execfile(\"test3.py\")");
 	//PyRun_SimpleString("execfile(\"testfehler.py\")"); // Hier auch nicht
 	PyRun_SimpleString("execfile(\"test4.py\")");

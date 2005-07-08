@@ -4,16 +4,18 @@
 class TestClass;
 
 #include <vector>
+#include "TestPre.h"
 
-class TestRegistry {
+class _PyTestExport TestRegistry {
 public:
 	TestRegistry();
 	static TestRegistry* getInstance();
 
-	TestClass* get(int num);
+	TestClass* get(int num) const;
 	void add(TestClass* obj);
 
 private:
+
 	std::vector<TestClass*> mRegistry;
 };
 
