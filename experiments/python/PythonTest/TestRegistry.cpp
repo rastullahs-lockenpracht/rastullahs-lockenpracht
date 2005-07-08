@@ -20,6 +20,14 @@ TestRegistry* TestRegistry::getInstance()
 
 TestClass* TestRegistry::get(int num) const
 {
+	printf("%d Elemente\n", mRegistry.size());
+	for (std::vector<TestClass*>::const_iterator iter = mRegistry.begin(); iter != mRegistry.end(); iter++) 
+	{
+		TestClass* a = *iter;
+		printf("%d  ", reinterpret_cast<const int>(a));
+		TestClass::test2(a);
+	}
+	printf("\n");
 	return mRegistry[num];
 }
 

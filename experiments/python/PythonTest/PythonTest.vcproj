@@ -32,7 +32,8 @@
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
-				Name="VCLinkerTool"/>
+				Name="VCLinkerTool"
+				OutputFile="../$(ProjectName).dll"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
