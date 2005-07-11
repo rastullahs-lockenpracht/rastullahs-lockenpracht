@@ -253,6 +253,9 @@
 				RelativePath=".\include\PhysicsManager.h">
 			</File>
 			<File
+				RelativePath=".\include\Primitive.h">
+			</File>
+			<File
 				RelativePath=".\include\RubyInterpreter.h">
 			</File>
 			<File
@@ -345,6 +348,9 @@
 			</File>
 			<File
 				RelativePath=".\src\PhysicsManager.cpp">
+			</File>
+			<File
+				RelativePath=".\src\Primitive.cpp">
 			</File>
 			<File
 				RelativePath=".\src\RubyInterpreter.cpp">
