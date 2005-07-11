@@ -35,7 +35,8 @@ SoundMovable::SoundMovable(const String &name):
     MovableObject(),
     EventListener<SoundEvent>(),
     EventSource(), 
-    EventCaster<SoundEvent>()
+    EventCaster<SoundEvent>(),
+    mChannel(NO_CHANNEL)
 {
     mName = name;
     mSoundResource = SoundResourcePtr(dynamic_cast<SoundResource*>
@@ -61,7 +62,8 @@ SoundMovable::SoundMovable(const SoundResourcePtr &soundres):
     EventListener<SoundEvent>(),
     EventSource(), 
     EventCaster<SoundEvent>(),
-    mSoundResource(soundres)
+    mSoundResource(soundres),
+    mChannel(NO_CHANNEL)
 {
     if (!soundres.isNull())
     {
@@ -200,7 +202,10 @@ void SoundMovable::setDirection (const Vector3& direction) throw (RuntimeExcepti
  */
 const bool SoundMovable::isPlaying() const
 {
-    return FSOUND_IsPlaying(getChannel());
+    if (isValid())
+    {
+        return FSOUND_IsPlaying(getChannel());
+    }
 }
 
 /**
@@ -211,7 +216,10 @@ const bool SoundMovable::isPlaying() const
 const Vector3 SoundMovable::getPosition() const throw (RuntimeException)
 {
     float pos[3];
-    FSOUND_3D_GetAttributes(getChannel(), pos, 0);
+    if (isValid())
+    {
+        FSOUND_3D_GetAttributes(getChannel(), pos, 0);
+    }
     Vector3 result(pos);
     return result;
 }
@@ -223,8 +231,11 @@ const Vector3 SoundMovable::getPosition() const throw (RuntimeException)
  */
 void SoundMovable::setPosition(const Vector3& position) throw (RuntimeException)
 {
-    float pos[] = {position[0], position[1], position[2]};
-    FSOUND_3D_SetAttributes(getChannel(), pos, 0);
+    if (isValid())
+    {
+        float pos[] = {position[0], position[1], position[2]};
+        FSOUND_3D_SetAttributes(getChannel(), pos, 0);
+    }
 }
 
 /**
@@ -235,7 +246,10 @@ void SoundMovable::setPosition(const Vector3& position) throw (RuntimeException)
 const Vector3 SoundMovable::getVelocity() const throw (RuntimeException)
 {
     float vel[3];
-    FSOUND_3D_GetAttributes(getChannel(), 0, vel);
+    if (isValid())
+    {
+        FSOUND_3D_GetAttributes(getChannel(), 0, vel);
+    }
     Vector3 result(vel);
     return result;
 }
@@ -247,8 +261,11 @@ const Vector3 SoundMovable::getVelocity() const throw (RuntimeException)
  */
 void SoundMovable::setVelocity(const Vector3& velocity) throw (RuntimeException)
 {
-    float vel[] = {velocity[0], velocity[1], velocity[2]};
-    FSOUND_3D_SetAttributes(getChannel(), 0, vel);
+    if (isValid())
+    {
+        float vel[] = {velocity[0], velocity[1], velocity[2]};
+        FSOUND_3D_SetAttributes(getChannel(), 0, vel);
+    }
 }
 
 /**
@@ -258,7 +275,10 @@ void SoundMovable::setVelocity(const Vector3& velocity) throw (RuntimeException)
  */
 const int SoundMovable::getGain() const throw (RuntimeException)
 {
-    return FSOUND_GetVolume(getChannel());
+    if (isValid())
+    {
+        return FSOUND_GetVolume(getChannel());
+    }
 }
 
 /**
@@ -268,7 +288,10 @@ const int SoundMovable::getGain() const throw (RuntimeException)
  */
 void SoundMovable::setGain(const int gain) throw (RuntimeException)
 {
-    FSOUND_SetVolume(getChannel(), gain);
+    if (isValid())
+    {
+        FSOUND_SetVolume(getChannel(), gain);
+    }
 }
 
 /**
@@ -278,7 +301,22 @@ void SoundMovable::setGain(const int gain) throw (RuntimeException)
  */
 void SoundMovable::pause(bool pausing) throw (RuntimeException)
 {
-    FSOUND_SetPaused(getChannel(), pausing);
+    if (isValid())
+    {
+        FSOUND_SetPaused(getChannel(), pausing);
+    }
+}
+
+/**
+ * @author JoSch
+ * @date 07-23-2004
+ */
+void SoundMovable::stop() throw (RuntimeException)
+{
+    if (isValid())
+    {
+        FSOUND_StopSound(getChannel());
+    }
 }
 
 /**
@@ -288,7 +326,10 @@ void SoundMovable::pause(bool pausing) throw (RuntimeException)
  */
 bool SoundMovable::isPaused() throw (RuntimeException)
 {
-    return FSOUND_GetPaused(getChannel());
+    if (isValid())
+    {
+        return FSOUND_GetPaused(getChannel());
+    }
 }
 
 /**
@@ -299,6 +340,7 @@ bool SoundMovable::isPaused() throw (RuntimeException)
 {
     // TODO
 } */
+
 
 void SoundMovablePtr::destroy()
 {

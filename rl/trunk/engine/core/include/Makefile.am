@@ -24,6 +24,7 @@
 	ParticleSystemObject.h \
 	PhysicalThing.h \
 	PhysicsManager.h \
+	Primitive.h \
 	RubyInterpreter.h \
 	ScriptObject.h \
 	SoundObject.h \

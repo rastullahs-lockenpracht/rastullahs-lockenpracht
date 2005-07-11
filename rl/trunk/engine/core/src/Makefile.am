@@ -30,6 +30,7 @@ libRlCore_la_SOURCES = \
 	ParticleSystemObject.cpp \
 	PhysicalThing.cpp \
 	PhysicsManager.cpp \
+	Primitive.cpp \
 	RubyInterpreter.cpp \
 	ScriptObject.cpp \
 	SoundObject.cpp \

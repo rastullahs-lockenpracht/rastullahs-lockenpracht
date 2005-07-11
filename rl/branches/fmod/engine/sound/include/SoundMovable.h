@@ -32,6 +32,7 @@ namespace Ogre {
 
 namespace rl {
     typedef vector<unsigned int> UintVector;
+    const int NO_CHANNEL = -1234;
 
    /** Diese Klasse dient der Interaktion mit Ogre3D
     * @author Josch
@@ -103,7 +104,7 @@ namespace rl {
         /// Ist der Sound pausiert?
         virtual bool isPaused() throw (RuntimeException);
         /// Stoppt den Sound.
-        virtual void stop() throw (RuntimeException) = 0;
+        virtual void stop() throw (RuntimeException);
         /// Zurueck auf Anfang.
 //        virtual void rewind() throw (RuntimeException);
         /// Ist laeuft AL noch
@@ -117,6 +118,9 @@ protected:
         /// Shared class-level name for Movable type
         static Ogre::String msMovableType;
         static Ogre::AxisAlignedBox msAABox;
+        // Sind wir gueltig
+        virtual bool isValid() const throw (RuntimeException) = 0;
+        
 
 
     }; 
