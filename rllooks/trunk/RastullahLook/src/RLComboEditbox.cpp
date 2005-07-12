@@ -85,7 +85,7 @@ RLComboEditbox::~RLComboEditbox(void)
     Return the text code point index that is rendered closest to screen
     position 'pt'.  
 *************************************************************************/
-ulong RLComboEditbox::getTextIndexFromPosition(const Point& pt) const
+size_t RLComboEditbox::getTextIndexFromPosition(const Point& pt) const
 {
     //
     // calculate final window position to be checked

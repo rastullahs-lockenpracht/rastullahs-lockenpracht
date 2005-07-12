@@ -88,7 +88,7 @@ RLEditbox::~RLEditbox(void)
     Return the text code point index that is rendered closest to screen
     position 'pt'.  
 *************************************************************************/
-ulong RLEditbox::getTextIndexFromPosition(const Point& pt) const
+size_t RLEditbox::getTextIndexFromPosition(const Point& pt) const
 {
     //
     // calculate final window position to be checked
