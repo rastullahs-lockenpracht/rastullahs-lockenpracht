@@ -24,12 +24,16 @@ libRastullahLook_la_SOURCES = src/RLAlternateProgressBar.cpp \
                                  src/RLMultiLineEditbox.cpp \
                                  src/RLProgressBar.cpp \
                                  src/RLRadioButton.cpp \
+				 src/RLScrollablePane.cpp \
                                  src/RLSlider.cpp \
                                  src/RLSliderThumb.cpp \
+				 src/RLSpinner.cpp \
                                  src/RLStatic.cpp \
                                  src/RLTabButton.cpp \
                                  src/RLTabControl.cpp \
                                  src/RLTabPane.cpp \
                                  src/RLTitlebar.cpp \
+				 src/RLTooltip.cpp \
                                  src/RLVertScrollbar.cpp \
-                                 src/RLVertScrollbarThumb.cpp
+                                 src/RLVertScrollbarThumb.cpp \
+				 src/RLVUMeter.cpp 
