@@ -57,6 +57,9 @@ namespace rl {
         int mTicks;
         /// Die komplette Zeit des Stücks in Sekunden.
         double mTime;
+        // Ob dieser Sound 3D sein soll.
+        bool mIs3d;
+       
         
     public:
         /// Konstruktor
@@ -97,6 +100,8 @@ namespace rl {
         /// Setzt die Geschwindigkeit der Soundquelle.
         void setVelocity(const Ogre::Vector3&) throw (RuntimeException);
         
+        /// Laedt den Sound.
+        virtual void load() throw (RuntimeException) = 0;
         /// Spielt den Sound ab.
         virtual void play() throw (RuntimeException) = 0;
         /// Pausiert den Sound.
@@ -110,6 +115,12 @@ namespace rl {
         /// Ist laeuft AL noch
         const bool isPlaying() const;
 
+        // SoundResource zurückgeben.
+        SoundResourcePtr getSoundResource() const;
+        // Wollen wir 3D?
+        bool is3d() const;
+        // Setzen des 3D-Flags.
+        void set3d(bool is3d);
 
 protected:
         /// Wir haben ein Ereignis erhalten.

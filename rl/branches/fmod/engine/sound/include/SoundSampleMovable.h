@@ -52,6 +52,8 @@ namespace rl {
         /// Moveable-Typ
         virtual const Ogre::String& getMovableType() const;
 
+        /// Laedt den Sound.
+        virtual void load() throw (RuntimeException);
         /// Spielt den Sound ab.
         virtual void play() throw (RuntimeException);
     

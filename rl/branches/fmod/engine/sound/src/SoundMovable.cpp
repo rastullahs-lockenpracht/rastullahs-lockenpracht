@@ -36,7 +36,8 @@ SoundMovable::SoundMovable(const String &name):
     EventListener<SoundEvent>(),
     EventSource(), 
     EventCaster<SoundEvent>(),
-    mChannel(NO_CHANNEL)
+    mChannel(NO_CHANNEL),
+    mIs3d(true)
 {
     mName = name;
     mSoundResource = SoundResourcePtr(dynamic_cast<SoundResource*>
@@ -63,7 +64,8 @@ SoundMovable::SoundMovable(const SoundResourcePtr &soundres):
     EventSource(), 
     EventCaster<SoundEvent>(),
     mSoundResource(soundres),
-    mChannel(NO_CHANNEL)
+    mChannel(NO_CHANNEL),
+    mIs3d(true)
 {
     if (!soundres.isNull())
     {
@@ -88,6 +90,7 @@ SoundMovable::~SoundMovable()
 {
     // Listener entfernen.
     removeEventListener(this);
+    mSoundResource->unload();
 }
 
 /**
@@ -331,6 +334,37 @@ bool SoundMovable::isPaused() throw (RuntimeException)
         return FSOUND_GetPaused(getChannel());
     }
 }
+
+/**
+ * @return TRUE wenn der Sound 3D sein soll.
+ * @author JoSch
+ * @date 07-12-2005
+ */
+bool SoundMovable::is3d() const
+{
+    return mIs3d;
+}
+
+/**
+ * @param is3d, ob der Sound 3D sein soll.
+ * @author JoSch
+ * @date 07-12-2005
+ */
+void SoundMovable::set3d(bool is3d)
+{
+    mIs3d = is3d;
+}
+
+/**
+ * @return der zugeordneten SoundResource.
+ * @author JoSch
+ * @date 07-12-2005
+ */
+SoundResourcePtr SoundMovable::getSoundResource() const
+{
+    return mSoundResource;
+}
+
 
 /**
  * @author JoSch

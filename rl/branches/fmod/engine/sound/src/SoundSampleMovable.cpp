@@ -15,6 +15,8 @@
  */
 #include "SoundSampleMovable.h"
 #include "SoundManager.h"
+#include "SoundResource.h"
+
 
 
 using namespace Ogre;
@@ -80,6 +82,28 @@ void SoundSampleMovable::play() throw (RuntimeException)
     {
         FSOUND_PlaySoundEx(FSOUND_FREE, getSample(), 0, true);
     }
+}
+
+/**
+ * @author JoSch
+ * @date 07-12-2005
+ */
+void SoundSampleMovable::load() throw (RuntimeException)
+{
+    getSoundResource()->load();
+    DataStreamPtr stream = getSoundResource()->getDataStream();
+    int len = stream->size();
+    char *data = new char[len];
+    stream->read(data, len);
+    unsigned int mode = FSOUND_LOADMEMORY;
+    if (is3d())
+    {
+        mode |= FSOUND_HW3D;
+    } else {
+        mode |= FSOUND_HW2D;
+    }
+    mSample = FSOUND_Sample_Load(FSOUND_FREE, data, mode,
+        0, len);
 }
 
 /**

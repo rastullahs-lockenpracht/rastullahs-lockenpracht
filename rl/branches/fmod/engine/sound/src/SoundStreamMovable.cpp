@@ -63,6 +63,27 @@ const String& SoundStreamMovable::getMovableType() const
     return msMovableType;
 }
 
+
+/**
+ * @author JoSch
+ * @date 07-12-2005
+ */
+void SoundStreamMovable::load() throw (RuntimeException)
+{
+    DataStreamPtr stream = getSoundResource()->getDataStream();
+    int len = stream->size();
+    char *data = new char[len];
+    stream->read(data, len);
+    unsigned int mode = FSOUND_LOADMEMORY;
+    if (is3d())
+    {
+        mode |= FSOUND_HW3D;
+    } else {
+        mode |= FSOUND_HW2D;
+    }
+    mStream = FSOUND_Stream_Open(data, mode, 0, len);
+}
+
 /**
  * @author JoSch
  * @date 09-15-2004
