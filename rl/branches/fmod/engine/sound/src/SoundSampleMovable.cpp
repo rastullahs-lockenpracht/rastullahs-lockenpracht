@@ -35,6 +35,11 @@ SoundSampleMovable::SoundSampleMovable(const String &name):
     SoundMovable(name),
     mSample(0)
 {
+    /// Ein paar Standardwerte setzen
+    setGain(255);
+    setPosition(Vector3(0.0, 0.0, 0.0));
+    setVelocity(Vector3(0.0, 0.0, 0.0));
+    setDirection(Vector3(0.0, 0.0, 0.0));
 }
  
 /**
@@ -46,6 +51,11 @@ SoundSampleMovable::SoundSampleMovable(const SoundResourcePtr &soundres):
     SoundMovable(soundres),
     mSample(0)
 {
+    /// Ein paar Standardwerte setzen
+    setGain(255);
+    setPosition(Vector3(0.0, 0.0, 0.0));
+    setVelocity(Vector3(0.0, 0.0, 0.0));
+    setDirection(Vector3(0.0, 0.0, 0.0));
 }
 
 /**

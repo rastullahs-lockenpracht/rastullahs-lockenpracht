@@ -50,7 +50,9 @@ public:
             boost::xtime_get(&xt, boost::TIME_UTC);
             xt.sec += 5;
             boost::thread::sleep(xt);
+            cerr<<":";
         }
+        cerr<<endl<<"Ende"<<endl;
         MusicManager::getSingletonPtr()->stopSong();
         CPPUNIT_ASSERT(true);
     }

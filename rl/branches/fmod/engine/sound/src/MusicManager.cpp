@@ -17,6 +17,7 @@
 #include "MusicManager.h"
 #include "SoundSubsystem.h"
 #include "SoundManager.h"
+#include "OgreResource.h"
 
 using namespace Ogre;
 using namespace std;
@@ -168,11 +169,13 @@ void MusicManager::setNextSong()
 {
     string name = findNextSong();
     // Evtl. spielt noch ein Song.
-    SoundMovablePtr next;
+    SoundStreamMovablePtr next;
     if (name != "")
     {
-/* TODO       next = SoundMovablePtr(new SoundMovable(
-            SoundManager::getSingleton().getByName(name))); */
+        SoundResourcePtr ptr = SoundResourcePtr(
+            dynamic_cast<SoundResource*>(SoundManager::getSingleton().getByName(name).getPointer()));
+        SoundStreamMovable *ssm = new SoundStreamMovable(ptr);
+        next = SoundStreamMovablePtr(ssm);
     }
     if (!mSource.isNull() )
     {

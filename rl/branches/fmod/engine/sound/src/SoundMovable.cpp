@@ -45,12 +45,6 @@ SoundMovable::SoundMovable(const String &name):
 
     // ein paar Verknuepfungen
     addEventListener(this);
-
-    /// Ein paar Standardwerte setzen
-    setGain(255);
-    setPosition(Vector3(0.0, 0.0, 0.0));
-    setVelocity(Vector3(0.0, 0.0, 0.0));
-    setDirection(Vector3(0.0, 0.0, 0.0));
 }
  
 /**
@@ -74,12 +68,6 @@ SoundMovable::SoundMovable(const SoundResourcePtr &soundres):
 
     // ein paar Verknuepfungen
     addEventListener(this);
-
-    /// Ein paar Standardwerte setzen
-    setGain(255);
-    setPosition(Vector3(0.0, 0.0, 0.0));
-    setVelocity(Vector3(0.0, 0.0, 0.0));
-    setDirection(Vector3(0.0, 0.0, 0.0));
 }
 
 /**

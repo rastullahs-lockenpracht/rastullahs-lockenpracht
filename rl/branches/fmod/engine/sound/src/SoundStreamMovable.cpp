@@ -32,6 +32,11 @@ String SoundStreamMovable::msMovableType = "SoundStreamMovable";
 SoundStreamMovable::SoundStreamMovable(const String &name):
     SoundMovable(name)
 {
+    /// Ein paar Standardwerte setzen
+    setGain(255);
+    setPosition(Vector3(0.0, 0.0, 0.0));
+    setVelocity(Vector3(0.0, 0.0, 0.0));
+    setDirection(Vector3(0.0, 0.0, 0.0));
 }
  
 /**
@@ -42,6 +47,11 @@ SoundStreamMovable::SoundStreamMovable(const String &name):
 SoundStreamMovable::SoundStreamMovable(const SoundResourcePtr &soundres):
     SoundMovable(soundres)
 {
+    /// Ein paar Standardwerte setzen
+    setGain(255);
+    setPosition(Vector3(0.0, 0.0, 0.0));
+    setVelocity(Vector3(0.0, 0.0, 0.0));
+    setDirection(Vector3(0.0, 0.0, 0.0));
 }
 
 /**
@@ -70,10 +80,14 @@ const String& SoundStreamMovable::getMovableType() const
  */
 void SoundStreamMovable::load() throw (RuntimeException)
 {
+    getSoundResource()->load();
     DataStreamPtr stream = getSoundResource()->getDataStream();
+    cerr<<"datastream "<<stream.getPointer()<<endl;
     int len = stream->size();
+    cerr<<"size "<<len<<endl;
     char *data = new char[len];
-    stream->read(data, len);
+    cerr<<"read "<<stream->read(data, len)<<endl;
+    
     unsigned int mode = FSOUND_LOADMEMORY;
     if (is3d())
     {
@@ -90,6 +104,11 @@ void SoundStreamMovable::load() throw (RuntimeException)
  */
 void SoundStreamMovable::play() throw (RuntimeException)
 {
+    cerr<<getStream()<<endl;
+    if (getStream() == 0)
+    {
+        load();
+    }
     if (getStream() != 0)
     {
         FSOUND_Stream_PlayEx(FSOUND_FREE, getStream(), 0, true);

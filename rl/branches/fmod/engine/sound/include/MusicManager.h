@@ -24,7 +24,7 @@
 #include <list>
 #include <boost/thread.hpp>
 #include <stdexcept>
-#include "SoundMovable.h"
+#include "SoundStreamMovable.h"
 
 namespace rl {
  
@@ -48,7 +48,7 @@ class _RlSoundExport MusicManager : public Ogre::Singleton<MusicManager> {
         std::string findNextSong();
        
         /// Die aktuelle Musikresource
-        SoundMovablePtr mSource;
+        SoundStreamMovablePtr mSource;
         /// Flag, ob automatisch weitergeschaltet werden soll.
         bool mAuto;
         /// Flag, ob die Lsite weiderholt werden soll.
