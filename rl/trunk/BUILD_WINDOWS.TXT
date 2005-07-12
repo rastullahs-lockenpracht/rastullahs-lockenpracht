@@ -3,7 +3,7 @@ VS.NET
 Um Rastullahs Lockenpracht bauen zu können werden folgende zusätzliche
 Bibliotheken benötigt:
 
-Ogre 3D 1.01 - Azatoth + Patches
+Ogre 3D 1.03 - Azatoth
 http://www.ogre3d.org
 
 Ruby - 1.8
@@ -18,17 +18,16 @@ http://developer.creative.com/landing.asp?cat=1&sbcat=31&top=38
 Vorbis
 http://www.vorbis.com/
 
-
-OgreODE - Final Compatible 1.0.0
+OgreODE - Final Compatible 1.0.1
 http://www.green-eyed-monster.com/xoops/modules/mydownloads/visit.php?cid=3&lid=10
 
-Ode
+Ode 0.5
 http://www.ode.org - Patched (siehe OgreODE Docs)
 
-Cegui 0.2
+Cegui 0.3
 http://www.cegui.org.uk/
 
-Xerxes
+xerces
 http://xml.apache.org/xerces-c/download.cgi
 
 boost
