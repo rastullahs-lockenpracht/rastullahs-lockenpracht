@@ -1,13 +1,13 @@
 /************************************************************************
-    filename:   RLTitlebar.h
-    created:    9/5/2004
-    author:     Paul D Turner
-    
-    purpose:    Interface to Rastullah Look Titlebar widget
+	filename: 	RLTitlebar.h
+	created:	9/5/2004
+	author:		Paul D Turner
+	
+	purpose:	Interface to Rastullah Look Titlebar widget
 *************************************************************************/
 /*************************************************************************
-    Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
-    Copyright (C)2004 Paul D Turner (crayzed@users.sourceforge.net)
+    Crazy Eddie's GUI System (http://www.cegui.org.uk)
+    Copyright (C)2004 - 2005 Paul D Turner (paul@cegui.org.uk)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -35,145 +35,145 @@ namespace CEGUI
 {
 /*!
 \brief
-    Titlebar class for the RastullahLook GUI scheme
+	Titlebar class for the RastullahLook GUI scheme
 */
 class RASTULLAHLOOK_API RLTitlebar : public Titlebar
 {
 public:
-    /*************************************************************************
-        Constants
-    *************************************************************************/
-    // type name for this widget
-    static const utf8   WidgetTypeName[];               //!< The unique typename of this widget
+	/*************************************************************************
+		Constants
+	*************************************************************************/
+	// type name for this widget
+	static const utf8	WidgetTypeName[];				//!< The unique typename of this widget
 
-    static const utf8   ImagesetName[];                 //!< Name of the imageset to use for rendering.
-    static const utf8   LeftEndSectionImageName[];      //!< Name of the image to use for the left section of the title bar.
-    static const utf8   MiddleSectionImageName[];       //!< Name of the image to use for the middle section of the title bar.
-    static const utf8   RightEndSectionImageName[];     //!< Name of the image to use for the right section of the title bar.
-    static const utf8   SysAreaMiddleImageName[];       //!< Name of the image to use for the middle section of the sys buttons area.
-    static const utf8   SysAreaRightImageName[];        //!< Name of the image to use for the right section of the sys buttons area.
-    static const utf8   NormalCursorImageName[];        //!< Name of the image to use as the mouse cursor for this window.
-    static const utf8   NoDragCursorImageName[];        //!< Name of the image to use as mouse cursor when dragging is disabled.
+	static const utf8	ImagesetName[];					//!< Name of the imageset to use for rendering.
+	static const utf8	LeftEndSectionImageName[];		//!< Name of the image to use for the left section of the title bar.
+	static const utf8	MiddleSectionImageName[];		//!< Name of the image to use for the middle section of the title bar.
+	static const utf8	RightEndSectionImageName[];		//!< Name of the image to use for the right section of the title bar.
+	static const utf8	SysAreaMiddleImageName[];		//!< Name of the image to use for the middle section of the sys buttons area.
+	static const utf8	SysAreaRightImageName[];		//!< Name of the image to use for the right section of the sys buttons area.
+	static const utf8	NormalCursorImageName[];		//!< Name of the image to use as the mouse cursor for this window.
+	static const utf8	NoDragCursorImageName[];		//!< Name of the image to use as mouse cursor when dragging is disabled.
 
-    // colours
-    static const colour CaptionColour;          //!< Colour used when rendering the caption text.
-
-
-    /*************************************************************************
-        Construction and Destruction
-    *************************************************************************/
-    /*!
-    \brief
-        Constructor for Rastullah Look Titlebar objects.
-
-    \param type
-        String object that specifies a type for this window, usually provided by a factory class.
-
-    \param name
-        String object that specifies a unique name that will be used to identify the new Window object
-    */
-    RLTitlebar(const String& type, const String& name);
+	// colours
+	static const colour	CaptionColour;			//!< Colour used when rendering the caption text.
 
 
-    /*!
-    \brief
-        Destructor for RLTitlebar objects.
-    */
-    virtual ~RLTitlebar(void);
+	/*************************************************************************
+		Construction and Destruction
+	*************************************************************************/
+	/*!
+	\brief
+		Constructor for Rastullah Look Titlebar objects.
+
+	\param type
+		String object that specifies a type for this window, usually provided by a factory class.
+
+	\param name
+		String object that specifies a unique name that will be used to identify the new Window object
+	*/
+	RLTitlebar(const String& type, const String& name);
 
 
-    /*!
-    \brief
-        return a Rect object describing the Window area in screen space.
+	/*!
+	\brief
+		Destructor for RLTitlebar objects.
+	*/
+	virtual ~RLTitlebar(void);
 
-    \return
-        Rect object that describes the area covered by the Window.  The values in the returned Rect are in screen pixels.  The
-        returned Rect is clipped as appropriate and depending upon the 'ClippedByParent' setting.
 
-    \note
-        This has now been made virtual to ease some customisations that require more specialised clipping requirements.
-    */
-    virtual Rect    getPixelRect(void) const;
+	/*!
+	\brief
+		return a Rect object describing the Window area in screen space.
+
+	\return
+		Rect object that describes the area covered by the Window.  The values in the returned Rect are in screen pixels.  The
+		returned Rect is clipped as appropriate and depending upon the 'ClippedByParent' setting.
+
+	\note
+		This has now been made virtual to ease some customisations that require more specialised clipping requirements.
+	*/
+	virtual Rect	getPixelRect(void) const;
 
 
 protected:
-    /*************************************************************************
-        Implementation Functions
-    *************************************************************************/
-    /*!
-    \brief
-        Perform the actual rendering for this Window.
+	/*************************************************************************
+		Implementation Functions
+	*************************************************************************/
+	/*!
+	\brief
+		Perform the actual rendering for this Window.
 
-    \param z
-        float value specifying the base Z co-ordinate that should be used when rendering
+	\param z
+		float value specifying the base Z co-ordinate that should be used when rendering
 
-    \return
-        Nothing
-    */
-    virtual void    drawSelf(float z);
-
-
-    /*************************************************************************
-        Overridden event handlers
-    *************************************************************************/
-    virtual void    onDraggingModeChanged(WindowEventArgs& e);
+	\return
+		Nothing
+	*/
+	virtual	void	drawSelf(float z);
 
 
-    /*************************************************************************
-        Implementation Data
-    *************************************************************************/
-    // cache image objects used for rendering
-    const Image*    d_leftImage;        //!< Image object used for the left edge of the title bar.
-    const Image*    d_middleImage;      //!< Image object used for the middle section of the title bar.
-    const Image*    d_rightImage;       //!< Image object used for the right edge of the title bar.
-    const Image*    d_sysMidImage;      //!< Image object used for the system area (middle section).
-    const Image*    d_sysRightImage;    //!< Image object used for the system area (right end section).
+	/*************************************************************************
+		Overridden event handlers
+	*************************************************************************/
+	virtual void	onDraggingModeChanged(WindowEventArgs& e);
+
+
+	/*************************************************************************
+		Implementation Data
+	*************************************************************************/
+	// cache image objects used for rendering
+	const Image*	d_leftImage;		//!< Image object used for the left edge of the title bar.
+	const Image*	d_middleImage;		//!< Image object used for the middle section of the title bar.
+	const Image*	d_rightImage;		//!< Image object used for the right edge of the title bar.
+	const Image*	d_sysMidImage;		//!< Image object used for the system area (middle section).
+	const Image*	d_sysRightImage;	//!< Image object used for the system area (right end section).
 };
 
 
 
 /*!
 \brief
-    Factory class for producing RLTitlebar objects
+	Factory class for producing RLTitlebar objects
 */
 class RASTULLAHLOOK_API RLTitlebarFactory : public WindowFactory
 {
 public:
-    /*************************************************************************
-        Construction and Destruction
-    *************************************************************************/
-    RLTitlebarFactory(void) : WindowFactory(RLTitlebar::WidgetTypeName) { }
-    ~RLTitlebarFactory(void){}
+	/*************************************************************************
+		Construction and Destruction
+	*************************************************************************/
+	RLTitlebarFactory(void) : WindowFactory(RLTitlebar::WidgetTypeName) { }
+	~RLTitlebarFactory(void){}
 
 
-    /*!
-    \brief
-        Create a new Window object of whatever type this WindowFactory produces.
+	/*!
+	\brief
+		Create a new Window object of whatever type this WindowFactory produces.
 
-    \param name
-        A unique name that is to be assigned to the newly created Window object
+	\param name
+		A unique name that is to be assigned to the newly created Window object
 
-    \return
-        Pointer to the new Window object.
-    */
-    Window* createWindow(const String& name);
+	\return
+		Pointer to the new Window object.
+	*/
+	Window*	createWindow(const String& name);
 
 
-    /*!
-    \brief
-        Destroys the given Window object.
+	/*!
+	\brief
+		Destroys the given Window object.
 
-    \param window
-        Pointer to the Window object to be destroyed.
+	\param window
+		Pointer to the Window object to be destroyed.
 
-    \return
-        Nothing.
-    */
-    virtual void    destroyWindow(Window* window)    { if (window->getType() == d_type) delete window; }
+	\return
+		Nothing.
+	*/
+	virtual void	destroyWindow(Window* window)	 { if (window->getType() == d_type) delete window; }
 };
 
 
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _RLTitlebar_h_
+#endif	// end of guard _RLTitlebar_h_

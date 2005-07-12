@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<Imageset Name="TaharezLook" Imagefile="Rastullah.png" NativeHorzRes="800" NativeVertRes="600" AutoScaled="false">
+<Imageset Name="RastullahLook" Imagefile="RastullahLook.png" NativeHorzRes="800" NativeVertRes="600" AutoScaled="true">
     <Image Name="ClientBrush" XPos="257" YPos="1" Width="254" Height="254" />    
     
     <Image Name="WindowLeftEdge" XPos="30" YPos="302" Width="4" Height="2" />

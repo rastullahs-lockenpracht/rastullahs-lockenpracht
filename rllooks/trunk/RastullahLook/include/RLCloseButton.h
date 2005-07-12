@@ -1,15 +1,15 @@
 /************************************************************************
-    filename:   RLCloseButton.h
-    created:    20/5/2004
-    author:     Paul D Turner
-    
-    purpose:    Interface to 'close button' widget.  This is needed due
-                to the fact that Rastullah frame windows standard controls
-                have custom clipping requirements.
+	filename: 	RLCloseButton.h
+	created:	20/5/2004
+	author:		Paul D Turner
+	
+	purpose:	Interface to 'close button' widget.  This is needed due
+				to the fact that Rastullah frame windows standard controls
+				have custom clipping requirements.
 *************************************************************************/
 /*************************************************************************
-    Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
-    Copyright (C)2004 Paul D Turner (crayzed@users.sourceforge.net)
+    Crazy Eddie's GUI System (http://www.cegui.org.uk)
+    Copyright (C)2004 - 2005 Paul D Turner (paul@cegui.org.uk)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -36,100 +36,100 @@ namespace CEGUI
 {
 /*!
 \brief
-    Customised push-button used for the close button control on Rastullah
-    frame windows.  This is required due to the custom clipping required
-    for these windows
+	Customised push-button used for the close button control on Rastullah
+	frame windows.  This is required due to the custom clipping required
+	for these windows
 */
 class RASTULLAHLOOK_API RLCloseButton : public RLButton
 {
 public:
-    /*************************************************************************
-        Constants
-    *************************************************************************/
-    // type name for this widget
-    static const utf8   WidgetTypeName[];               //!< The unique typename of this widget
+	/*************************************************************************
+		Constants
+	*************************************************************************/
+	// type name for this widget
+	static const utf8	WidgetTypeName[];				//!< The unique typename of this widget
 
 
-    /*************************************************************************
-        Construction and Destruction
-    *************************************************************************/
-    /*!
-    \brief
-        Constructor for Rastullah Look Close Button objects.
+	/*************************************************************************
+		Construction and Destruction
+	*************************************************************************/
+	/*!
+	\brief
+		Constructor for Rastullah Look Close Button objects.
 
-    \param type
-        String object that specifies a type for this window, usually provided by a factory class.
+	\param type
+		String object that specifies a type for this window, usually provided by a factory class.
 
-    \param name
-        String object that specifies a unique name that will be used to identify the new Window object
-    */
-    RLCloseButton(const String& type, const String& name) : RLButton(type, name) {}
-
-
-    /*!
-    \brief
-        Destructor for RLCloseButton objects.
-    */
-    virtual ~RLCloseButton(void) {}
+	\param name
+		String object that specifies a unique name that will be used to identify the new Window object
+	*/
+	RLCloseButton(const String& type, const String& name) : RLButton(type, name) {}
 
 
-    /*!
-    \brief
-        return a Rect object describing the Window area in screen space.
+	/*!
+	\brief
+		Destructor for RLCloseButton objects.
+	*/
+	virtual ~RLCloseButton(void) {}
 
-    \return
-        Rect object that describes the area covered by the Window.  The values in the returned Rect are in screen pixels.  The
-        returned Rect is clipped as appropriate and depending upon the 'ClippedByParent' setting.
 
-    \note
-        This has now been made virtual to ease some customisations that require more specialised clipping requirements.
-    */
-    virtual Rect    getPixelRect(void) const;
+	/*!
+	\brief
+		return a Rect object describing the Window area in screen space.
+
+	\return
+		Rect object that describes the area covered by the Window.  The values in the returned Rect are in screen pixels.  The
+		returned Rect is clipped as appropriate and depending upon the 'ClippedByParent' setting.
+
+	\note
+		This has now been made virtual to ease some customisations that require more specialised clipping requirements.
+	*/
+	virtual Rect	getPixelRect(void) const;
 };
 
 
 /*!
 \brief
-    Factory class for producing RLCloseButton objects
+	Factory class for producing RLCloseButton objects
 */
 class RASTULLAHLOOK_API RLCloseButtonFactory : public WindowFactory
 {
 public:
-    /*************************************************************************
-        Construction and Destruction
-    *************************************************************************/
-    RLCloseButtonFactory(void) : WindowFactory(RLCloseButton::WidgetTypeName) { }
-    ~RLCloseButtonFactory(void){}
+	/*************************************************************************
+		Construction and Destruction
+	*************************************************************************/
+	RLCloseButtonFactory(void) : WindowFactory(RLCloseButton::WidgetTypeName) { }
+	~RLCloseButtonFactory(void){}
 
 
-    /*!
-    \brief
-        Create a new Window object of whatever type this WindowFactory produces.
+	/*!
+	\brief
+		Create a new Window object of whatever type this WindowFactory produces.
 
-    \param name
-        A unique name that is to be assigned to the newly created Window object
+	\param name
+		A unique name that is to be assigned to the newly created Window object
 
-    \return
-        Pointer to the new Window object.
-    */
-    Window* createWindow(const String& name);
+	\return
+		Pointer to the new Window object.
+	*/
+	Window*	createWindow(const String& name);
 
 
-    /*!
-    \brief
-        Destroys the given Window object.
+	/*!
+	\brief
+		Destroys the given Window object.
 
-    \param window
-        Pointer to the Window object to be destroyed.
+	\param window
+		Pointer to the Window object to be destroyed.
 
-    \return
-        Nothing.
-    */
-    virtual void    destroyWindow(Window* window)    { if (window->getType() == d_type) delete window; }
+	\return
+		Nothing.
+	*/
+	virtual void	destroyWindow(Window* window)	 { if (window->getType() == d_type) delete window; }
 };
 
 
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _RLCloseButton_h_
+#endif	// end of guard _RLCloseButton_h_

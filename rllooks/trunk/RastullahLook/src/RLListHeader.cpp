@@ -1,13 +1,13 @@
 /************************************************************************
-    filename:   RLListHeader.cpp
-    created:    14/6/2004
-    author:     Paul D Turner
-    
-    purpose:    Implementation of Rastullah MultiColumn list header widget.
+	filename: 	RLListHeader.cpp
+	created:	14/6/2004
+	author:		Paul D Turner
+	
+	purpose:	Implementation of Rastullah MultiColumn list header widget.
 *************************************************************************/
 /*************************************************************************
-    Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
-    Copyright (C)2004 Paul D Turner (crayzed@users.sourceforge.net)
+    Crazy Eddie's GUI System (http://www.cegui.org.uk)
+    Copyright (C)2004 - 2005 Paul D Turner (paul@cegui.org.uk)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -31,34 +31,34 @@
 namespace CEGUI
 {
 /*************************************************************************
-    Constants
+	Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLListHeader::WidgetTypeName[]  = "RastullahLook/ListHeader";
+const utf8	RLListHeader::WidgetTypeName[]	= "RastullahLook/ListHeader";
 
 // type names for the component widgets
-const utf8* RLListHeader::SegmentWidgetType     = RLListHeaderSegment::WidgetTypeName;
+const utf8* RLListHeader::SegmentWidgetType		= RLListHeaderSegment::WidgetTypeName;
 
 
 /*************************************************************************
-    Constructor
+	Constructor
 *************************************************************************/
 RLListHeader::RLListHeader(const String& type, const String& name) :
-    ListHeader(type, name)
+	ListHeader(type, name)
 {
 }
 
 
 /*************************************************************************
-    Destructor
+	Destructor
 *************************************************************************/
 RLListHeader::~RLListHeader(void)
 {
 }
 
-    
+	
 /*************************************************************************
-    Render the widget.
+	Render the widget.
 *************************************************************************/
 void RLListHeader::drawSelf(float z)
 {
@@ -66,40 +66,40 @@ void RLListHeader::drawSelf(float z)
 
 
 /*************************************************************************
-    Create and return a pointer to a new ListHeaderSegment based object.
+	Create and return a pointer to a new ListHeaderSegment based object.
 *************************************************************************/
 ListHeaderSegment* RLListHeader::createNewSegment(const String& name) const
 {
-    return (ListHeaderSegment*)WindowManager::getSingleton().createWindow(SegmentWidgetType, name);
+	return (ListHeaderSegment*)WindowManager::getSingleton().createWindow(SegmentWidgetType, name);
 }
 
 
 /*************************************************************************
-    Cleanup and destroy the given ListHeaderSegment that was created
-    via the createNewSegment method.
+	Cleanup and destroy the given ListHeaderSegment that was created
+	via the createNewSegment method.
 *************************************************************************/
 void RLListHeader::destroyListSegment(ListHeaderSegment* segment) const
 {
-    WindowManager::getSingleton().destroyWindow(segment);
+	WindowManager::getSingleton().destroyWindow(segment);
 }
 
 
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
 
-    Factory Methods
+	Factory Methods
 
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a RLListHeader
+	Create, initialise and return a RLListHeader
 *************************************************************************/
 Window* RLListHeaderFactory::createWindow(const String& name)
 {
-    RLListHeader* wnd = new RLListHeader(d_type, name);
-    wnd->initialise();
+	RLListHeader* wnd = new RLListHeader(d_type, name);
+	wnd->initialise();
 
-    return wnd;
+	return wnd;
 }
 
 

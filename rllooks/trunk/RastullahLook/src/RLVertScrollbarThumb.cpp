@@ -1,13 +1,13 @@
 /************************************************************************
-    filename:   RLVertScrollbarThumb.cpp
-    created:    2/6/2004
-    author:     Paul D Turner
-    
-    purpose:    Implementation of large vertical scrollbar thumb widget.
+	filename: 	RLVertScrollbarThumb.cpp
+	created:	2/6/2004
+	author:		Paul D Turner
+	
+	purpose:	Implementation of large vertical scrollbar thumb widget.
 *************************************************************************/
 /*************************************************************************
-    Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
-    Copyright (C)2004 Paul D Turner (crayzed@users.sourceforge.net)
+    Crazy Eddie's GUI System (http://www.cegui.org.uk)
+    Copyright (C)2004 - 2005 Paul D Turner (paul@cegui.org.uk)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -32,31 +32,31 @@
 namespace CEGUI
 {
 /*************************************************************************
-    Constants
+	Constants
 *************************************************************************/
-const utf8  RLVertScrollbarThumb::WidgetTypeName[]  = "RastullahLook/LargeVerticalScrollbarThumb";
+const utf8	RLVertScrollbarThumb::WidgetTypeName[]	= "RastullahLook/LargeVerticalScrollbarThumb";
 
 // Image names
-const utf8  RLVertScrollbarThumb::ImagesetName[]        = "RastullahLook";
-const utf8  RLVertScrollbarThumb::NormalImageName[]     = "VertScrollThumbNormal";
-const utf8  RLVertScrollbarThumb::HighlightImageName[]  = "VertScrollThumbHover";
+const utf8	RLVertScrollbarThumb::ImagesetName[]		= "RastullahLook";
+const utf8	RLVertScrollbarThumb::NormalImageName[]		= "VertScrollThumbNormal";
+const utf8	RLVertScrollbarThumb::HighlightImageName[]	= "VertScrollThumbHover";
 
 
 /*************************************************************************
-    Constructor
+	Constructor
 *************************************************************************/
 RLVertScrollbarThumb::RLVertScrollbarThumb(const String& type, const String& name) :
-    Thumb(type, name)
+	Thumb(type, name)
 {
-    Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
+	Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
 
-    d_normalImage       = &iset->getImage(NormalImageName);
-    d_highlightImage    = &iset->getImage(HighlightImageName);
+	d_normalImage		= &iset->getImage(NormalImageName);
+	d_highlightImage	= &iset->getImage(HighlightImageName);
 }
 
 
 /*************************************************************************
-    Destructor
+	Destructor
 *************************************************************************/
 RLVertScrollbarThumb::~RLVertScrollbarThumb(void)
 {
@@ -64,72 +64,72 @@ RLVertScrollbarThumb::~RLVertScrollbarThumb(void)
 
 
 /*************************************************************************
-    render the thumb in the normal state.
+	render the thumb in the normal state.
 *************************************************************************/
 void RLVertScrollbarThumb::drawNormal(float z)
 {
-    Rect clipper(getPixelRect());
+	Rect clipper(getPixelRect());
 
-    // if the widget is not totally clipped.
-    if (clipper.getWidth() != 0)
-    {
-        // draw the image
-        d_normalImage->draw(getUnclippedPixelRect(), z, clipper, ColourRect(colour(1, 1, 1, getEffectiveAlpha())));
-    }
+	// if the widget is not totally clipped.
+	if (clipper.getWidth() != 0)
+	{
+		// draw the image
+		d_normalImage->draw(getUnclippedPixelRect(), z, clipper, ColourRect(colour(1, 1, 1, getEffectiveAlpha())));
+	}
 
 }
 
 
 /*************************************************************************
-    render the thumb in the hover / highlighted state.
+	render the thumb in the hover / highlighted state.
 *************************************************************************/
 void RLVertScrollbarThumb::drawHover(float z)
 {
-    Rect clipper(getPixelRect());
+	Rect clipper(getPixelRect());
 
-    // if the widget is not totally clipped.
-    if (clipper.getWidth() != 0)
-    {
-        // draw the image
-        d_highlightImage->draw(getUnclippedPixelRect(), z, clipper, ColourRect(colour(1, 1, 1, getEffectiveAlpha())));
-    }
+	// if the widget is not totally clipped.
+	if (clipper.getWidth() != 0)
+	{
+		// draw the image
+		d_highlightImage->draw(getUnclippedPixelRect(), z, clipper, ColourRect(colour(1, 1, 1, getEffectiveAlpha())));
+	}
 
 }
 
 
 /*************************************************************************
-    render the thumb in the disabled state
+	render the thumb in the disabled state
 *************************************************************************/
 void RLVertScrollbarThumb::drawDisabled(float z)
 {
-    Rect clipper(getPixelRect());
+	Rect clipper(getPixelRect());
 
-    // if the widget is not totally clipped.
-    if (clipper.getWidth() != 0)
-    {
-        // draw the image
-        d_normalImage->draw(getUnclippedPixelRect(), z, clipper, ColourRect(colour(0.5f, 0.5f, 0.5f, getEffectiveAlpha())));
-    }
+	// if the widget is not totally clipped.
+	if (clipper.getWidth() != 0)
+	{
+		// draw the image
+		d_normalImage->draw(getUnclippedPixelRect(), z, clipper, ColourRect(colour(0.5f, 0.5f, 0.5f, getEffectiveAlpha())));
+	}
 
 }
 
 
 /*************************************************************************
-    Handler for when size changes
+	Handler for when size changes
 *************************************************************************/
 void RLVertScrollbarThumb::onSized(WindowEventArgs& e)
 {
-    // We want to keep this thumb's aspect the same, so when the size
-    // changes, we modify the height in relation to the width (since that is
-    // known, but the height is not).
-    float ratio = getAbsoluteWidth() / d_normalImage->getWidth();
-    d_abs_area.setHeight(d_normalImage->getHeight() * ratio);
-    d_rel_area.setHeight(absoluteToRelativeY_impl(getParent(), d_abs_area.getHeight()));
+	// We want to keep this thumb's aspect the same, so when the size
+	// changes, we modify the height in relation to the width (since that is
+	// known, but the height is not).
+	float ratio = getAbsoluteWidth() / d_normalImage->getWidth();
+	d_abs_area.setHeight(d_normalImage->getHeight() * ratio);
+	d_rel_area.setHeight(absoluteToRelativeY_impl(getParent(), d_abs_area.getHeight()));
 
-    // base class processing.
-    Thumb::onSized(e);
+	// base class processing.
+	Thumb::onSized(e);
 
-    e.handled = true;
+	e.handled = true;
 }
 
 
@@ -137,19 +137,19 @@ void RLVertScrollbarThumb::onSized(WindowEventArgs& e)
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
 
-    Factory Methods
+	Factory Methods
 
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a RLVertScrollbarThumb
+	Create, initialise and return a RLVertScrollbarThumb
 *************************************************************************/
 Window* RLVertScrollbarThumbFactory::createWindow(const String& name)
 {
-    RLVertScrollbarThumb* wnd = new RLVertScrollbarThumb(d_type, name);
-    wnd->initialise();
+	RLVertScrollbarThumb* wnd = new RLVertScrollbarThumb(d_type, name);
+	wnd->initialise();
 
-    return wnd;
+	return wnd;
 }
 
 } // End of  CEGUI namespace section

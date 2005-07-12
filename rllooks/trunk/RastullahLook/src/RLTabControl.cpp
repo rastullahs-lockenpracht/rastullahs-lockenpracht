@@ -1,13 +1,13 @@
 /************************************************************************
-    filename:   RLTabControl.cpp
-    created:    10/08/2004
-    author:     Steve Streeting
-    
-    purpose:    Implementation of Rastullah Look static widgets & factories.
+	filename: 	RLTabControl.cpp
+	created:	10/08/2004
+	author:		Steve Streeting
+	
+	purpose:	Implementation of Rastullah Look static widgets & factories.
 *************************************************************************/
 /*************************************************************************
-    Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
-    Copyright (C)2004 Paul D Turner (crayzed@users.sourceforge.net)
+    Crazy Eddie's GUI System (http://www.cegui.org.uk)
+    Copyright (C)2004 - 2005 Paul D Turner (paul@cegui.org.uk)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -36,14 +36,14 @@ namespace CEGUI
     /*************************************************************************
     Constants
     *************************************************************************/
-    // type name for this widget
-    const utf8  RLTabControl::WidgetTypeName[]  = "RastullahLook/TabControl";
+	// type name for this widget
+	const utf8	RLTabControl::WidgetTypeName[]	= "RastullahLook/TabControl";
 
-    const utf8  RLTabControl::ImagesetName[]        = "RastullahLook";
-    const utf8  RLTabControl::FillerImageName[]     = "TabControlButtonPaneFiller";
+    const utf8	RLTabControl::ImagesetName[]		= "RastullahLook";
+    const utf8	RLTabControl::FillerImageName[]		= "TabControlButtonPaneFiller";
     // window type stuff
-    const utf8* RLTabControl::TabContentPaneType    = RLTabPane::WidgetTypeName;
-    const utf8* RLTabControl::TabButtonType         = RLTabButton::WidgetTypeName;
+	const utf8*	RLTabControl::TabContentPaneType	= RLTabPane::WidgetTypeName;
+	const utf8*	RLTabControl::TabButtonType		    = RLTabButton::WidgetTypeName;
 
     /*************************************************************************
     Constructor
@@ -54,7 +54,7 @@ namespace CEGUI
         Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
 
         // setup cache of image pointers
-        d_fillerImage           = &iset->getImage(FillerImageName);
+        d_fillerImage		    = &iset->getImage(FillerImageName);
     }
     /*************************************************************************
     Destructor
@@ -68,7 +68,7 @@ namespace CEGUI
     TabPane* RLTabControl::createTabContentPane(void) const
     {
         // construct name
-        String newName = getName() + (utf8*)"__TabPane__Content";
+        String newName = getName() + (utf8*)"__auto_TabPane__";
         return static_cast<TabPane*>(
             WindowManager::getSingleton().createWindow(
                 TabContentPaneType, 
@@ -97,22 +97,22 @@ namespace CEGUI
         if (d_tabButtonPane)
         {
             // Calculate the positions and sizes of the tab buttons
-            d_fillerSize.d_width = d_tabButtonPane->getWidth(Absolute);
-            d_fillerSize.d_height = d_fillerImage->getHeight();
+			d_fillerSize.d_width = d_tabButtonPane->getWidth(Absolute);
+			d_fillerSize.d_height = d_fillerImage->getHeight();
             d_fillerPos.d_x = d_tabButtonPane->getAbsoluteXPosition();
             d_fillerPos.d_y = d_tabButtonPane->getAbsoluteYPosition() + d_tabButtonPane->getAbsoluteHeight() - d_fillerSize.d_height;
 
-            if (getTabCount() > 0)
-            {
-                TabButtonIndexMap::iterator iter = d_tabButtonIndexMap.end();
-                std::advance(iter, -1);
-                Window* btn = iter->second;
+			if (getTabCount() > 0)
+			{
+				TabButtonIndexMap::iterator iter = d_tabButtonIndexMap.end();
+				std::advance(iter, -1);
+				Window* btn = iter->second;
 
-                d_fillerPos.d_x = d_tabButtonPane->getAbsoluteXPosition() + 
-                    btn->getAbsoluteXPosition() + btn->getWidth(Absolute);
+				d_fillerPos.d_x = d_tabButtonPane->getAbsoluteXPosition() + 
+					btn->getAbsoluteXPosition() + btn->getWidth(Absolute);
 
-                d_fillerSize.d_width -= d_fillerPos.d_x;
-            }
+				d_fillerSize.d_width -= d_fillerPos.d_x;
+			}
 
         }
 
@@ -135,8 +135,8 @@ namespace CEGUI
         // get the destination screen rect for this window
         Rect absrect(getUnclippedPixelRect());
 
-        // calculate colours to use.
-        ColourRect colours(colour(1, 1, 1, getEffectiveAlpha()));
+		// calculate colours to use.
+		ColourRect colours(colour(1, 1, 1, getEffectiveAlpha()));
 
         // Do filler section
         Vector3 pos = d_fillerPos;
@@ -150,19 +150,19 @@ namespace CEGUI
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
 
-    Factory Methods
+	Factory Methods
 
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a TabControl for the Rastullah Scheme
+	Create, initialise and return a TabControl for the Rastullah Scheme
 *************************************************************************/
 Window* RLTabControlFactory::createWindow(const String& name)
 {
-    RLTabControl* wnd = new RLTabControl(d_type, name);
-    wnd->initialise();
+	RLTabControl* wnd = new RLTabControl(d_type, name);
+	wnd->initialise();
 
-    return wnd;
+	return wnd;
 }
 
 } // End of  CEGUI namespace section

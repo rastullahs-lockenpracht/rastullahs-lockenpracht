@@ -1,14 +1,14 @@
 /************************************************************************
-    filename:   RLMiniHorzScrollbarThumb.cpp
-    created:    2/6/2004
-    author:     Paul D Turner
-    
-    purpose:    Implementation of thumb for Rastullah mini horizontal
-                scroll bar.
+	filename: 	RLMiniHorzScrollbarThumb.cpp
+	created:	2/6/2004
+	author:		Paul D Turner
+	
+	purpose:	Implementation of thumb for Rastullah mini horizontal
+				scroll bar.
 *************************************************************************/
 /*************************************************************************
-    Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
-    Copyright (C)2004 Paul D Turner (crayzed@users.sourceforge.net)
+    Crazy Eddie's GUI System (http://www.cegui.org.uk)
+    Copyright (C)2004 - 2005 Paul D Turner (paul@cegui.org.uk)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -33,42 +33,42 @@
 namespace CEGUI
 {
 /*************************************************************************
-    Constants
+	Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLMiniHorzScrollbarThumb::WidgetTypeName[]  = "RastullahLook/HorizontalScrollbarThumb";
+const utf8	RLMiniHorzScrollbarThumb::WidgetTypeName[]	= "RastullahLook/HorizontalScrollbarThumb";
 
 // Image names
-const utf8  RLMiniHorzScrollbarThumb::ImagesetName[]                = "RastullahLook";
-const utf8  RLMiniHorzScrollbarThumb::NormalImageName[]             = "MiniHorzScrollThumbNormal";
-const utf8  RLMiniHorzScrollbarThumb::NormalLeftImageName[]         = "MiniHorzScrollThumbLeftNormal";
-const utf8  RLMiniHorzScrollbarThumb::NormalMiddleImageName[]       = "MiniHorzScrollThumbMiddleNormal";
-const utf8  RLMiniHorzScrollbarThumb::NormalRightImageName[]        = "MiniHorzScrollThumbRightNormal";
-const utf8  RLMiniHorzScrollbarThumb::HighlightLeftImageName[]      = "MiniHorzScrollThumbLeftHover";
-const utf8  RLMiniHorzScrollbarThumb::HighlightMiddleImageName[]    = "MiniHorzScrollThumbMiddleHover";
-const utf8  RLMiniHorzScrollbarThumb::HighlightRightImageName[]     = "MiniHorzScrollThumbRightHover";
+const utf8	RLMiniHorzScrollbarThumb::ImagesetName[]				= "RastullahLook";
+const utf8	RLMiniHorzScrollbarThumb::NormalImageName[]				= "MiniHorzScrollThumbNormal";
+const utf8	RLMiniHorzScrollbarThumb::NormalLeftImageName[]			= "MiniHorzScrollThumbLeftNormal";
+const utf8	RLMiniHorzScrollbarThumb::NormalMiddleImageName[]		= "MiniHorzScrollThumbMiddleNormal";
+const utf8	RLMiniHorzScrollbarThumb::NormalRightImageName[]		= "MiniHorzScrollThumbRightNormal";
+const utf8	RLMiniHorzScrollbarThumb::HighlightLeftImageName[]		= "MiniHorzScrollThumbLeftHover";
+const utf8	RLMiniHorzScrollbarThumb::HighlightMiddleImageName[]	= "MiniHorzScrollThumbMiddleHover";
+const utf8	RLMiniHorzScrollbarThumb::HighlightRightImageName[]		= "MiniHorzScrollThumbRightHover";
 
 
 /*************************************************************************
-    Constructor
+	Constructor
 *************************************************************************/
 RLMiniHorzScrollbarThumb::RLMiniHorzScrollbarThumb(const String& type, const String& name) :
-    Thumb(type, name)
+	Thumb(type, name)
 {
-    Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
+	Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
 
-    d_normalImage           = &iset->getImage(NormalImageName);
-    d_normalLeftImage       = &iset->getImage(NormalLeftImageName);
-    d_normalMiddleImage     = &iset->getImage(NormalMiddleImageName);
-    d_normalRightImage      = &iset->getImage(NormalRightImageName);
-    d_highlightLeftImage    = &iset->getImage(HighlightLeftImageName);
-    d_highlightMiddleImage  = &iset->getImage(HighlightMiddleImageName);
-    d_highlightRightImage   = &iset->getImage(HighlightRightImageName);
+	d_normalImage			= &iset->getImage(NormalImageName);
+	d_normalLeftImage		= &iset->getImage(NormalLeftImageName);
+	d_normalMiddleImage		= &iset->getImage(NormalMiddleImageName);
+	d_normalRightImage		= &iset->getImage(NormalRightImageName);
+	d_highlightLeftImage	= &iset->getImage(HighlightLeftImageName);
+	d_highlightMiddleImage	= &iset->getImage(HighlightMiddleImageName);
+	d_highlightRightImage	= &iset->getImage(HighlightRightImageName);
 }
 
 
 /*************************************************************************
-    Destructor
+	Destructor
 *************************************************************************/
 RLMiniHorzScrollbarThumb::~RLMiniHorzScrollbarThumb(void)
 {
@@ -76,159 +76,159 @@ RLMiniHorzScrollbarThumb::~RLMiniHorzScrollbarThumb(void)
 
 
 /*************************************************************************
-    render the thumb in the normal state.
+	render the thumb in the normal state.
 *************************************************************************/
 void RLMiniHorzScrollbarThumb::drawNormal(float z)
 {
-    Rect clipper(getPixelRect());
+	Rect clipper(getPixelRect());
 
-    // do nothing if the widget is totally clipped.
-    if (clipper.getWidth() == 0)
-    {
-        return;
-    }
+	// do nothing if the widget is totally clipped.
+	if (clipper.getWidth() == 0)
+	{
+		return;
+	}
 
-    // get the destination screen rect for this window
-    Rect absrect(getUnclippedPixelRect());
+	// get the destination screen rect for this window
+	Rect absrect(getUnclippedPixelRect());
 
-    // calculate colours to use.
-    ColourRect colours(colour(1, 1, 1, getEffectiveAlpha()));
+	// calculate colours to use.
+	ColourRect colours(colour(1, 1, 1, getEffectiveAlpha()));
 
-    // calculate segment sizes
-    float minWidth      = absrect.getWidth() * 0.5f;
-    float leftWidth     = std::min(d_normalLeftImage->getWidth(), minWidth);
-    float rightWidth    = std::min(d_normalRightImage->getWidth(), minWidth);
-    float middleWidth   = absrect.getWidth() - leftWidth - rightWidth;
+	// calculate segment sizes
+	float minWidth		= PixelAligned(absrect.getWidth() * 0.5f);
+	float leftWidth		= ceguimin(d_normalLeftImage->getWidth(), minWidth);
+	float rightWidth	= ceguimin(d_normalRightImage->getWidth(), minWidth);
+	float middleWidth	= absrect.getWidth() - leftWidth - rightWidth;
 
 
-    // draw the images
-    Vector3 pos(absrect.d_left, absrect.d_top, z);
-    Size    sz(leftWidth, absrect.getHeight());
-    d_normalLeftImage->draw(pos, sz, clipper, colours);
+	// draw the images
+	Vector3	pos(absrect.d_left, absrect.d_top, z);
+	Size	sz(leftWidth, absrect.getHeight());
+	d_normalLeftImage->draw(pos, sz, clipper, colours);
 
-    pos.d_x += sz.d_width;
-    sz.d_width = middleWidth;
-    d_normalMiddleImage->draw(pos, sz, clipper, colours);
+	pos.d_x += sz.d_width;
+	sz.d_width = middleWidth;
+	d_normalMiddleImage->draw(pos, sz, clipper, colours);
 
-    pos.d_x += sz.d_width;
-    sz.d_width = rightWidth;
-    d_normalRightImage->draw(pos, sz, clipper, colours);
+	pos.d_x += sz.d_width;
+	sz.d_width = rightWidth;
+	d_normalRightImage->draw(pos, sz, clipper, colours);
 }
 
 
 /*************************************************************************
-    render the thumb in the hover / highlighted state.
+	render the thumb in the hover / highlighted state.
 *************************************************************************/
 void RLMiniHorzScrollbarThumb::drawHover(float z)
 {
-    Rect clipper(getPixelRect());
+	Rect clipper(getPixelRect());
 
-    // do nothing if the widget is totally clipped.
-    if (clipper.getWidth() == 0)
-    {
-        return;
-    }
+	// do nothing if the widget is totally clipped.
+	if (clipper.getWidth() == 0)
+	{
+		return;
+	}
 
-    // get the destination screen rect for this window
-    Rect absrect(getUnclippedPixelRect());
+	// get the destination screen rect for this window
+	Rect absrect(getUnclippedPixelRect());
 
-    // calculate colours to use.
-    ColourRect colours(colour(1, 1, 1, getEffectiveAlpha()));
+	// calculate colours to use.
+	ColourRect colours(colour(1, 1, 1, getEffectiveAlpha()));
 
-    // calculate segment sizes
-    float minWidth      = absrect.getWidth() * 0.5f;
-    float leftWidth     = std::min(d_highlightLeftImage->getWidth(), minWidth);
-    float rightWidth    = std::min(d_highlightRightImage->getWidth(), minWidth);
-    float middleWidth   = absrect.getWidth() - leftWidth - rightWidth;
+	// calculate segment sizes
+	float minWidth		= PixelAligned(absrect.getWidth() * 0.5f);
+	float leftWidth		= ceguimin(d_highlightLeftImage->getWidth(), minWidth);
+	float rightWidth	= ceguimin(d_highlightRightImage->getWidth(), minWidth);
+	float middleWidth	= absrect.getWidth() - leftWidth - rightWidth;
 
 
-    // draw the images
-    Vector3 pos(absrect.d_left, absrect.d_top, z);
-    Size    sz(leftWidth, absrect.getHeight());
-    d_highlightLeftImage->draw(pos, sz, clipper, colours);
+	// draw the images
+	Vector3	pos(absrect.d_left, absrect.d_top, z);
+	Size	sz(leftWidth, absrect.getHeight());
+	d_highlightLeftImage->draw(pos, sz, clipper, colours);
 
-    pos.d_x += sz.d_width;
-    sz.d_width = middleWidth;
-    d_highlightMiddleImage->draw(pos, sz, clipper, colours);
+	pos.d_x += sz.d_width;
+	sz.d_width = middleWidth;
+	d_highlightMiddleImage->draw(pos, sz, clipper, colours);
 
-    pos.d_x += sz.d_width;
-    sz.d_width = rightWidth;
-    d_highlightRightImage->draw(pos, sz, clipper, colours);
+	pos.d_x += sz.d_width;
+	sz.d_width = rightWidth;
+	d_highlightRightImage->draw(pos, sz, clipper, colours);
 }
 
 
 /*************************************************************************
-    render the thumb in the disabled state
+	render the thumb in the disabled state
 *************************************************************************/
 void RLMiniHorzScrollbarThumb::drawDisabled(float z)
 {
-    Rect clipper(getPixelRect());
+	Rect clipper(getPixelRect());
 
-    // do nothing if the widget is totally clipped.
-    if (clipper.getWidth() == 0)
-    {
-        return;
-    }
+	// do nothing if the widget is totally clipped.
+	if (clipper.getWidth() == 0)
+	{
+		return;
+	}
 
-    // get the destination screen rect for this window
-    Rect absrect(getUnclippedPixelRect());
+	// get the destination screen rect for this window
+	Rect absrect(getUnclippedPixelRect());
 
-    // calculate colours to use.
-    ColourRect colours(colour(0.5f, 0.5f, 0.5f, getEffectiveAlpha()));
+	// calculate colours to use.
+	ColourRect colours(colour(0.5f, 0.5f, 0.5f, getEffectiveAlpha()));
 
-    // calculate segment sizes
-    float minWidth      = absrect.getWidth() * 0.5f;
-    float leftWidth     = std::min(d_normalLeftImage->getWidth(), minWidth);
-    float rightWidth    = std::min(d_normalRightImage->getWidth(), minWidth);
-    float middleWidth   = absrect.getWidth() - leftWidth - rightWidth;
+	// calculate segment sizes
+	float minWidth		= PixelAligned(absrect.getWidth() * 0.5f);
+	float leftWidth		= ceguimin(d_normalLeftImage->getWidth(), minWidth);
+	float rightWidth	= ceguimin(d_normalRightImage->getWidth(), minWidth);
+	float middleWidth	= absrect.getWidth() - leftWidth - rightWidth;
 
 
-    // draw the images
-    Vector3 pos(absrect.d_left, absrect.d_top, z);
-    Size    sz(leftWidth, absrect.getHeight());
-    d_normalLeftImage->draw(pos, sz, clipper, colours);
+	// draw the images
+	Vector3	pos(absrect.d_left, absrect.d_top, z);
+	Size	sz(leftWidth, absrect.getHeight());
+	d_normalLeftImage->draw(pos, sz, clipper, colours);
 
-    pos.d_x += sz.d_width;
-    sz.d_width = middleWidth;
-    d_normalMiddleImage->draw(pos, sz, clipper, colours);
+	pos.d_x += sz.d_width;
+	sz.d_width = middleWidth;
+	d_normalMiddleImage->draw(pos, sz, clipper, colours);
 
-    pos.d_x += sz.d_width;
-    sz.d_width = rightWidth;
-    d_normalRightImage->draw(pos, sz, clipper, colours);
+	pos.d_x += sz.d_width;
+	sz.d_width = rightWidth;
+	d_normalRightImage->draw(pos, sz, clipper, colours);
 }
 
 
 /*************************************************************************
-    Handler for when size changes
+	Handler for when size changes
 *************************************************************************/
 void RLMiniHorzScrollbarThumb::onSized(WindowEventArgs& e)
 {
-    // calculate preferred width from height(which is known).
-    float prefWidth = d_normalImage->getWidth() * (getAbsoluteHeight() / d_normalImage->getHeight());
+	// calculate preferred width from height(which is known).
+	float prefWidth = d_normalImage->getWidth() * (getAbsoluteHeight() / d_normalImage->getHeight());
 
-    Window* par = getParent();
+	Window* par = getParent();
 
-    // Only proceed if parent is not NULL.
-    if (par != NULL)
-    {
-        // calculate scaled height.
-        float scaledWidth = (par->getAbsoluteWidth() - (2 * par->getAbsoluteHeight())) * 0.575f;
+	// Only proceed if parent is not NULL.
+	if (par != NULL)
+	{
+		// calculate scaled height.
+		float scaledWidth = (par->getAbsoluteWidth() - (2 * par->getAbsoluteHeight())) * 0.575f;
 
-        // use preferred width if there is room, else use the scaled width.
-        if (scaledWidth < prefWidth)
-        {
-            prefWidth = scaledWidth;
-        }
-    }
+		// use preferred width if there is room, else use the scaled width.
+		if (scaledWidth < prefWidth)
+		{
+			prefWidth = scaledWidth;
+		}
+	}
 
-    // install new width values.
-    d_abs_area.setWidth(prefWidth);
-    d_rel_area.setWidth(absoluteToRelativeX_impl(getParent(), prefWidth));
+	// install new width values.
+	d_abs_area.setWidth(prefWidth);
+	d_rel_area.setWidth(absoluteToRelativeX_impl(getParent(), prefWidth));
 
-    // base class processing.
-    Thumb::onSized(e);
+	// base class processing.
+	Thumb::onSized(e);
 
-    e.handled = true;
+	e.handled = true;
 
 }
 
@@ -237,19 +237,19 @@ void RLMiniHorzScrollbarThumb::onSized(WindowEventArgs& e)
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
 
-    Factory Methods
+	Factory Methods
 
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a RLMiniHorzScrollbarThumb
+	Create, initialise and return a RLMiniHorzScrollbarThumb
 *************************************************************************/
 Window* RLMiniHorzScrollbarThumbFactory::createWindow(const String& name)
 {
-    RLMiniHorzScrollbarThumb* wnd = new RLMiniHorzScrollbarThumb(d_type, name);
-    wnd->initialise();
+	RLMiniHorzScrollbarThumb* wnd = new RLMiniHorzScrollbarThumb(d_type, name);
+	wnd->initialise();
 
-    return wnd;
+	return wnd;
 }
 
 } // End of  CEGUI namespace section

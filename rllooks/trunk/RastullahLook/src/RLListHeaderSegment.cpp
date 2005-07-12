@@ -1,13 +1,13 @@
 /************************************************************************
-    filename:   RLListHeaderSegment.cpp
-    created:    15/6/2004
-    author:     Paul D Turner
-    
-    purpose:    Implements Rastullah look list header segment widget.
+	filename: 	RLListHeaderSegment.cpp
+	created:	15/6/2004
+	author:		Paul D Turner
+	
+	purpose:	Implements Rastullah look list header segment widget.
 *************************************************************************/
 /*************************************************************************
-    Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
-    Copyright (C)2004 Paul D Turner (crayzed@users.sourceforge.net)
+    Crazy Eddie's GUI System (http://www.cegui.org.uk)
+    Copyright (C)2004 - 2005 Paul D Turner (paul@cegui.org.uk)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -33,48 +33,48 @@
 namespace CEGUI
 {
 /*************************************************************************
-    Constants
+	Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLListHeaderSegment::WidgetTypeName[]   = "RastullahLook/ListHeaderSegment";
+const utf8	RLListHeaderSegment::WidgetTypeName[]	= "RastullahLook/ListHeaderSegment";
 
 // image / imageset related
-const utf8  RLListHeaderSegment::ImagesetName[]             = "RastullahLook";
-const utf8  RLListHeaderSegment::BackdropNormalImageName[]  = "HeaderBarBackdropNormal";
-const utf8  RLListHeaderSegment::BackdropHoverImageName[]   = "HeaderBarBackdropHover";
-const utf8  RLListHeaderSegment::SplitterNormalImageName[]  = "HeaderBarSplitterNormal";
-const utf8  RLListHeaderSegment::SplitterHoverImageName[]   = "HeaderBarSplitterHover";
-const utf8  RLListHeaderSegment::SortUpImageName[]          = "HeaderBarSortUp";
-const utf8  RLListHeaderSegment::SortDownImageName[]        = "HeaderBarSortDown";
-const utf8  RLListHeaderSegment::NormalMouseCursor[]        = "MouseArrow";
-const utf8  RLListHeaderSegment::SizingMouseCursor[]        = "MouseEsWeCursor";
-const utf8  RLListHeaderSegment::MovingMouseCursor[]        = "MouseMoveCursor";
+const utf8	RLListHeaderSegment::ImagesetName[]				= "RastullahLook";
+const utf8	RLListHeaderSegment::BackdropNormalImageName[]	= "HeaderBarBackdropNormal";
+const utf8	RLListHeaderSegment::BackdropHoverImageName[]	= "HeaderBarBackdropHover";
+const utf8	RLListHeaderSegment::SplitterNormalImageName[]	= "HeaderBarSplitterNormal";
+const utf8	RLListHeaderSegment::SplitterHoverImageName[]	= "HeaderBarSplitterHover";
+const utf8	RLListHeaderSegment::SortUpImageName[]			= "HeaderBarSortUp";
+const utf8	RLListHeaderSegment::SortDownImageName[]		= "HeaderBarSortDown";
+const utf8	RLListHeaderSegment::NormalMouseCursor[]		= "MouseArrow";
+const utf8	RLListHeaderSegment::SizingMouseCursor[]		= "MouseEsWeCursor";
+const utf8	RLListHeaderSegment::MovingMouseCursor[]		= "MouseMoveCursor";
 
 
 /*************************************************************************
-    Constructor 
+	Constructor	
 *************************************************************************/
 RLListHeaderSegment::RLListHeaderSegment(const String& type, const String& name) :
-    ListHeaderSegment(type, name)
+	ListHeaderSegment(type, name)
 {
-    // init the image cache
-    Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
+	// init the image cache
+	Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
 
-    d_backNormalImage       = &iset->getImage(BackdropNormalImageName);
-    d_backHoverImage        = &iset->getImage(BackdropHoverImageName);
-    d_splitterNormalImage   = &iset->getImage(SplitterNormalImageName);
-    d_splitterHoverImage    = &iset->getImage(SplitterHoverImageName);
-    d_sortAscendImage       = &iset->getImage(SortUpImageName);
-    d_sortDescendImage      = &iset->getImage(SortDownImageName);
+	d_backNormalImage		= &iset->getImage(BackdropNormalImageName);
+	d_backHoverImage		= &iset->getImage(BackdropHoverImageName);
+	d_splitterNormalImage	= &iset->getImage(SplitterNormalImageName);
+	d_splitterHoverImage	= &iset->getImage(SplitterHoverImageName);
+	d_sortAscendImage		= &iset->getImage(SortUpImageName);
+	d_sortDescendImage		= &iset->getImage(SortDownImageName);
 
-    d_normalMouseCursor     = &iset->getImage(NormalMouseCursor);
-    d_sizingMouseCursor     = &iset->getImage(SizingMouseCursor);
-    d_movingMouseCursor     = &iset->getImage(MovingMouseCursor);
+	d_normalMouseCursor		= &iset->getImage(NormalMouseCursor);
+	d_sizingMouseCursor		= &iset->getImage(SizingMouseCursor);
+	d_movingMouseCursor		= &iset->getImage(MovingMouseCursor);
 }
 
 
 /*************************************************************************
-    Destructor
+	Destructor
 *************************************************************************/
 RLListHeaderSegment::~RLListHeaderSegment(void)
 {
@@ -82,137 +82,137 @@ RLListHeaderSegment::~RLListHeaderSegment(void)
 
 
 /*************************************************************************
-    Render the widget
+	Render the widget
 *************************************************************************/
 void RLListHeaderSegment::drawSelf(float z)
 {
-    // get the destination screen rect for this window
-    Rect absrect(getUnclippedPixelRect());
+	// get the destination screen rect for this window
+	Rect absrect(getUnclippedPixelRect());
 
-    // get clipping Rect for window
-    Rect clipper(getPixelRect());
+	// get clipping Rect for window
+	Rect clipper(getPixelRect());
 
-    Vector3 pos(absrect.d_left, absrect.d_top, z);
+	Vector3 pos(absrect.d_left, absrect.d_top, z);
 
-    // if widget is not totally clipped
-    if (clipper.getWidth() != 0)
-    {
-        renderSegmentImagery(pos, getEffectiveAlpha(), clipper);
-    }
+	// if widget is not totally clipped
+	if (clipper.getWidth() != 0)
+	{
+		renderSegmentImagery(pos, getEffectiveAlpha(), clipper);
+	}
 
-    // always draw the ghost if the segment is geing dragged.
-    if (d_dragMoving)
-    {
-        clipper = System::getSingleton().getRenderer()->getRect();
-        pos.d_x = absrect.d_left + d_dragPosition.d_x;
-        pos.d_y = absrect.d_top + d_dragPosition.d_y;
-        pos.d_z = 0.0f;
-        renderSegmentImagery(pos, getEffectiveAlpha() * 0.5f, clipper);
-    }
+	// always draw the ghost if the segment is geing dragged.
+	if (d_dragMoving)
+	{
+		clipper = System::getSingleton().getRenderer()->getRect();
+		pos.d_x = absrect.d_left + d_dragPosition.d_x;
+		pos.d_y = absrect.d_top + d_dragPosition.d_y;
+		pos.d_z = 0.0f;
+		renderSegmentImagery(pos, getEffectiveAlpha() * 0.5f, clipper);
+	}
 }
 
 
 /*************************************************************************
-    Render segment  
+	Render segment	
 *************************************************************************/
 void RLListHeaderSegment::renderSegmentImagery(Vector3 pos, float alpha, const Rect& clipper)
 {
-    Rect absrect(pos.d_x, pos.d_y, pos.d_x + getAbsoluteWidth(), pos.d_y + getAbsoluteHeight());
-    Rect destrect(absrect);
+	Rect absrect(pos.d_x, pos.d_y, pos.d_x + getAbsoluteWidth(), pos.d_y + getAbsoluteHeight());
+	Rect destrect(absrect);
 
-    // calculate colours to use.
-    ColourRect colours(colour(1, 1, 1, alpha));
+	// calculate colours to use.
+	ColourRect colours(colour(1, 1, 1, alpha));
 
-    //
-    // draw the main images
-    //
-    destrect.d_right -= d_splitterNormalImage->getWidth();
+	//
+	// draw the main images
+	//
+	destrect.d_right -= d_splitterNormalImage->getWidth();
 
-    if ((d_segmentHover != d_segmentPushed) && !d_splitterHover && isClickable())
-    {
-        d_backHoverImage->draw(destrect, pos.d_z, clipper, colours);
-    }
-    else
-    {
-        d_backNormalImage->draw(destrect, pos.d_z, clipper, colours);
-    }
+	if ((d_segmentHover != d_segmentPushed) && !d_splitterHover && isClickable())
+	{
+		d_backHoverImage->draw(destrect, pos.d_z, clipper, colours);
+	}
+	else
+	{
+		d_backNormalImage->draw(destrect, pos.d_z, clipper, colours);
+	}
 
-    // draw splitter
-    destrect.d_left = destrect.d_right;
-    destrect.d_right = absrect.d_right;
+	// draw splitter
+	destrect.d_left = destrect.d_right;
+	destrect.d_right = absrect.d_right;
 
-    if (d_splitterHover)
-    {
-        d_splitterHoverImage->draw(destrect, pos.d_z, clipper, colours);
-    }
-    else
-    {
-        d_splitterNormalImage->draw(destrect, pos.d_z, clipper, colours);
-    }
+	if (d_splitterHover)
+	{
+		d_splitterHoverImage->draw(destrect, pos.d_z, clipper, colours);
+	}
+	else
+	{
+		d_splitterNormalImage->draw(destrect, pos.d_z, clipper, colours);
+	}
 
-    // 
-    // adjust clipper to be inside the splitter bar imagery
-    //
-    destrect.d_right = destrect.d_left;
+	// 
+	// adjust clipper to be inside the splitter bar imagery
+	//
+	destrect.d_right = destrect.d_left;
 
-    // pad left by half the width of the 'sort' icon.
-    destrect.d_left = absrect.d_left + d_sortAscendImage->getWidth() * 0.5f;
-    Rect inner_clip(destrect.getIntersection(clipper));
+	// pad left by half the width of the 'sort' icon.
+	destrect.d_left = absrect.d_left + PixelAligned(d_sortAscendImage->getWidth() * 0.5f);
+	Rect inner_clip(destrect.getIntersection(clipper));
 
-    //
-    // Render 'sort' icon as needed
-    //
-    if (d_sortDir == Ascending)
-    {
-        d_sortAscendImage->draw(Vector3(destrect.d_left, destrect.d_top + d_sortAscendImage->getHeight() * 0.5f, pos.d_z), inner_clip, colours);
-        destrect.d_left += d_sortAscendImage->getWidth() * 1.5f;
-    }
-    else if (d_sortDir == Descending)
-    {
-        d_sortDescendImage->draw(Vector3(destrect.d_left, destrect.d_top + d_sortDescendImage->getHeight() * 0.5f, pos.d_z), inner_clip, colours);
-        destrect.d_left += d_sortDescendImage->getWidth() * 1.5f;
-    }
+	//
+	// Render 'sort' icon as needed
+	//
+	if (d_sortDir == Ascending)
+	{
+		d_sortAscendImage->draw(Vector3(destrect.d_left, destrect.d_top + PixelAligned(d_sortAscendImage->getHeight() * 0.5f), pos.d_z), inner_clip, colours);
+		destrect.d_left += PixelAligned(d_sortAscendImage->getWidth() * 1.5f);
+	}
+	else if (d_sortDir == Descending)
+	{
+		d_sortDescendImage->draw(Vector3(destrect.d_left, destrect.d_top + PixelAligned(d_sortDescendImage->getHeight() * 0.5f), pos.d_z), inner_clip, colours);
+		destrect.d_left += PixelAligned(d_sortDescendImage->getWidth() * 1.5f);
+	}
 
-    //
-    // Render the text
-    //
-    // find a font to be used.
-    const Font* fnt;
-    if (d_font != NULL)
-    {
-        fnt = d_font;
-    }
-    else if (d_parent != NULL)
-    {
-        fnt = d_parent->getFont();
-    }
-    else
-    {
-        fnt = System::getSingleton().getDefaultFont();
-    }
+	//
+	// Render the text
+	//
+	// find a font to be used.
+	const Font* fnt;
+	if (d_font != NULL)
+	{
+		fnt = d_font;
+	}
+	else if (d_parent != NULL)
+	{
+		fnt = d_parent->getFont();
+	}
+	else
+	{
+		fnt = System::getSingleton().getDefaultFont();
+	}
 
-    // centre text vertically
-    destrect.d_top += ((destrect.getHeight() - fnt->getLineSpacing()) * 0.5f);
-    fnt->drawText(getText(), destrect, pos.d_z, inner_clip, LeftAligned, colours);
+	// centre text vertically
+	destrect.d_top += PixelAligned((destrect.getHeight() - fnt->getLineSpacing()) * 0.5f);
+	fnt->drawText(getText(), destrect, pos.d_z, inner_clip, LeftAligned, colours);
 }
 
 
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
 
-    Factory Methods
+	Factory Methods
 
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a RLListHeaderSegment
+	Create, initialise and return a RLListHeaderSegment
 *************************************************************************/
 Window* RLListHeaderSegmentFactory::createWindow(const String& name)
 {
-    RLListHeaderSegment* wnd = new RLListHeaderSegment(d_type, name);
-    wnd->initialise();
+	RLListHeaderSegment* wnd = new RLListHeaderSegment(d_type, name);
+	wnd->initialise();
 
-    return wnd;
+	return wnd;
 }
 
 } // End of  CEGUI namespace section

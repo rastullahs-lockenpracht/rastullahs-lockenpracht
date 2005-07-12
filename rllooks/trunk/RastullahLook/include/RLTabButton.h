@@ -1,13 +1,13 @@
 /************************************************************************
-    filename:   RLTabButton.h
-    created:    11/08/2004
-    author:     Steve Streeting
-    
-    purpose:    Defines interface for Rastullah Look Tab Button class.
+	filename: 	RLTabButton.h
+	created:	11/08/2004
+	author:		Steve Streeting
+	
+	purpose:	Defines interface for Rastullah Look Tab Button class.
 *************************************************************************/
 /*************************************************************************
-    Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
-    Copyright (C)2004 Paul D Turner (crayzed@users.sourceforge.net)
+    Crazy Eddie's GUI System (http://www.cegui.org.uk)
+    Copyright (C)2004 - 2005 Paul D Turner (paul@cegui.org.uk)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -38,7 +38,7 @@ namespace CEGUI
 
 /*!
 \brief
-    Concrete TabButton class for the Rastullah Look widget set.   
+	Concrete TabButton class for the Rastullah Look widget set.	
 */
 class RASTULLAHLOOK_API RLTabButton : public TabButton
 {
@@ -46,146 +46,146 @@ public:
     /*************************************************************************
     Constants
     *************************************************************************/
-    // type name for this widget
-    static const utf8   WidgetTypeName[];               //!< The unique typename of this widget
+	// type name for this widget
+	static const utf8	WidgetTypeName[];				//!< The unique typename of this widget
 
-    static const utf8   ImagesetName[];                 //!< Name of the imageset to use for rendering.
-    static const utf8   LeftNormalImageName[];          //!< Name of the image to use for the left end of the button (normal).
-    static const utf8   MiddleNormalImageName[];        //!< Name of the image to use for the middle of the button (normal).
-    static const utf8   RightNormalImageName[];         //!< Name of the image to use for the right end of the button (normal).
-    static const utf8   UpperRightNormalImageName[];    //!< Name of the image to use for the upper right end of the button (normal).
-    static const utf8   UpperNormalImageName[];         //!< Name of the image to use for the upper end of the button (normal).
-    static const utf8   UpperLeftNormalImageName[];     //!< Name of the image to use for the upper left end of the button (normal).
-    static const utf8   LowerNormalImageName[];         //!< Name of the image to use for the lower section of the button (normal)
-    static const utf8   LowerLeftNormalImageName[];     //!< Name of the image to use for the lower left section of the button (normal)
-    static const utf8   LowerRightNormalImageName[];    //!< Name of the image to use for the lower left section of the button (normal)
-    static const utf8   LeftSelectedImageName[];        //!< Name of the image to use for the left end of the button (selected).
-    static const utf8   MiddleSelectedImageName[];      //!< Name of the image to use for the middle of the button (selected).
-    static const utf8   RightSelectedImageName[];       //!< Name of the image to use for the right end of the button (selected).
-    static const utf8   UpperRightSelectedImageName[];  //!< Name of the image to use for the upper right end of the button (selected).
-    static const utf8   UpperLeftSelectedImageName[];   //!< Name of the image to use for the upper left end of the button (selected).
-    static const utf8   UpperSelectedImageName[];           //!< Name of the image to use for the upper end of the button (Selected).
-    static const utf8   LowerSelectedImageName[];       //!< Name of the image to use for the lower section of the button (selected)
+	static const utf8	ImagesetName[];					//!< Name of the imageset to use for rendering.
+	static const utf8	LeftNormalImageName[];			//!< Name of the image to use for the left end of the button (normal).
+	static const utf8	MiddleNormalImageName[];		//!< Name of the image to use for the middle of the button (normal).
+	static const utf8	RightNormalImageName[];			//!< Name of the image to use for the right end of the button (normal).
+    static const utf8	UpperRightNormalImageName[];	//!< Name of the image to use for the upper right end of the button (normal).
+    static const utf8	UpperNormalImageName[];	        //!< Name of the image to use for the upper end of the button (normal).
+    static const utf8	UpperLeftNormalImageName[];	    //!< Name of the image to use for the upper left end of the button (normal).
+    static const utf8	LowerNormalImageName[];	        //!< Name of the image to use for the lower section of the button (normal)
+    static const utf8	LowerLeftNormalImageName[];	    //!< Name of the image to use for the lower left section of the button (normal)
+    static const utf8	LowerRightNormalImageName[];	//!< Name of the image to use for the lower left section of the button (normal)
+	static const utf8	LeftSelectedImageName[];		//!< Name of the image to use for the left end of the button (selected).
+	static const utf8	MiddleSelectedImageName[];		//!< Name of the image to use for the middle of the button (selected).
+	static const utf8	RightSelectedImageName[];		//!< Name of the image to use for the right end of the button (selected).
+    static const utf8	UpperRightSelectedImageName[];	//!< Name of the image to use for the upper right end of the button (selected).
+    static const utf8	UpperLeftSelectedImageName[];	//!< Name of the image to use for the upper left end of the button (selected).
+    static const utf8	UpperSelectedImageName[];	        //!< Name of the image to use for the upper end of the button (Selected).
+    static const utf8	LowerSelectedImageName[];	    //!< Name of the image to use for the lower section of the button (selected)
 
-    /*************************************************************************
-        Construction and Destruction
-    *************************************************************************/
-    /*!
-    \brief
-        Constructor for Rastullah Look TabButton objects.
+	/*************************************************************************
+		Construction and Destruction
+	*************************************************************************/
+	/*!
+	\brief
+		Constructor for Rastullah Look TabButton objects.
 
-    \param type
-        String object that specifies a type for this window, usually provided by a factory class.
+	\param type
+		String object that specifies a type for this window, usually provided by a factory class.
 
-    \param name
-        String object that specifies a unique name that will be used to identify the new Window object
-    */
-    RLTabButton(const String& type, const String& name);
+	\param name
+		String object that specifies a unique name that will be used to identify the new Window object
+	*/
+	RLTabButton(const String& type, const String& name);
 
 
-    /*!
-    \brief
-        Destructor for RLButton objects.
-    */
-    virtual ~RLTabButton(void);
+	/*!
+	\brief
+		Destructor for RLButton objects.
+	*/
+	virtual ~RLTabButton(void);
 
-    
-    /*************************************************************************
-        Accessors
-    *************************************************************************/
+	
+	/*************************************************************************
+		Accessors
+	*************************************************************************/
 
-    /*************************************************************************
-        Manipulators
-    *************************************************************************/
+	/*************************************************************************
+		Manipulators
+	*************************************************************************/
 
 
 protected:
-    /*************************************************************************
-        Overridden Event Handling Functions
-    *************************************************************************/
+	/*************************************************************************
+		Overridden Event Handling Functions
+	*************************************************************************/
 
 
-    /*************************************************************************
-        Implementation Rendering Functions
-    *************************************************************************/
-    void    drawNormal(float z);
-    void    drawPushed(float z);
+	/*************************************************************************
+		Implementation Rendering Functions
+	*************************************************************************/
+    void	drawNormal(float z);
+    void	drawPushed(float z);
 
-    /*************************************************************************
-        Implementation Data
-    *************************************************************************/
+	/*************************************************************************
+		Implementation Data
+	*************************************************************************/
 
-    // standard button rendering images
-    const Image*    d_leftSectionNormal;            //!< Image to use when rendering the button left section (normal state).
-    const Image*    d_middleSectionNormal;          //!< Image to use when rendering the button middle section (normal state).
-    const Image*    d_rightSectionNormal;           //!< Image to use when rendering the button right section (normal state).
-    const Image*    d_upperRightSectionNormal;      //!< Image to use when rendering the button upper right section (normal state).
-    const Image*    d_upperLeftSectionNormal;       //!< Image to use when rendering the button upper left section (normal state).
-    const Image*    d_lowerRightSectionNormal;      //!< Image to use when rendering the button lower right section (normal state).
-    const Image*    d_lowerLeftSectionNormal;       //!< Image to use when rendering the button lower left section (normal state).
-    const Image*    d_upperSectionNormal;           //!< Image to use when rendering the button upper section (normal state).
-    const Image*    d_lowerSectionNormal;           //!< Image to use when rendering the button lower section (normal state).
-    const Image*    d_leftSectionSelected;          //!< Image to use when rendering the button left section (selected state).
-    const Image*    d_middleSectionSelected;        //!< Image to use when rendering the button middle section (selected state).
-    const Image*    d_rightSectionSelected;         //!< Image to use when rendering the button right section (selected state).
-    const Image*    d_upperRightSectionSelected;    //!< Image to use when rendering the button upper right section (selected state).
-    const Image*    d_upperLeftSectionSelected;     //!< Image to use when rendering the button upper left section (selected state).
-    const Image*    d_upperSectionSelected;         //!< Image to use when rendering the button upper section (Selected state).
-    const Image*    d_lowerSectionSelected;         //!< Image to use when rendering the button lower section (selected state).
+	// standard button rendering images
+	const Image*	d_leftSectionNormal;			//!< Image to use when rendering the button left section (normal state).
+	const Image*	d_middleSectionNormal;			//!< Image to use when rendering the button middle section (normal state).
+	const Image*	d_rightSectionNormal;			//!< Image to use when rendering the button right section (normal state).
+    const Image*	d_upperRightSectionNormal;		//!< Image to use when rendering the button upper right section (normal state).
+    const Image*	d_upperLeftSectionNormal;		//!< Image to use when rendering the button upper left section (normal state).
+    const Image*	d_lowerRightSectionNormal;		//!< Image to use when rendering the button lower right section (normal state).
+    const Image*	d_lowerLeftSectionNormal;		//!< Image to use when rendering the button lower left section (normal state).
+    const Image*	d_upperSectionNormal;		    //!< Image to use when rendering the button upper section (normal state).
+    const Image*	d_lowerSectionNormal;		    //!< Image to use when rendering the button lower section (normal state).
+	const Image*	d_leftSectionSelected;			//!< Image to use when rendering the button left section (selected state).
+	const Image*	d_middleSectionSelected;		//!< Image to use when rendering the button middle section (selected state).
+	const Image*	d_rightSectionSelected;			//!< Image to use when rendering the button right section (selected state).
+    const Image*	d_upperRightSectionSelected;	//!< Image to use when rendering the button upper right section (selected state).
+    const Image*	d_upperLeftSectionSelected;		//!< Image to use when rendering the button upper left section (selected state).
+    const Image*	d_upperSectionSelected;		    //!< Image to use when rendering the button upper section (Selected state).
+    const Image*	d_lowerSectionSelected;		    //!< Image to use when rendering the button lower section (selected state).
 };
 
 
 /*!
 \brief
-    Factory class for producing RLFrameWindow objects
+	Factory class for producing RLFrameWindow objects
 */
 class RASTULLAHLOOK_API RLTabButtonFactory : public WindowFactory
 {
 public:
-    /*************************************************************************
-        Construction and Destruction
-    *************************************************************************/
-    /*!
-    \brief
-        Constructor for Rastullah Tab Button factory class.
-    */
-    RLTabButtonFactory(void) : WindowFactory(RLTabButton::WidgetTypeName) { }
+	/*************************************************************************
+		Construction and Destruction
+	*************************************************************************/
+	/*!
+	\brief
+		Constructor for Rastullah Tab Button factory class.
+	*/
+	RLTabButtonFactory(void) : WindowFactory(RLTabButton::WidgetTypeName) { }
 
 
-    /*
-    \brief
-        Destructor for Rastullah Tab Button factory class.
-    */
-    ~RLTabButtonFactory(void){}
+	/*
+	\brief
+		Destructor for Rastullah Tab Button factory class.
+	*/
+	~RLTabButtonFactory(void){}
 
 
-    /*!
-    \brief
-        Create a new Window object of whatever type this WindowFactory produces.
+	/*!
+	\brief
+		Create a new Window object of whatever type this WindowFactory produces.
 
-    \param name
-        A unique name that is to be assigned to the newly created Window object
+	\param name
+		A unique name that is to be assigned to the newly created Window object
 
-    \return
-        Pointer to the new Window object.
-    */
-    Window* createWindow(const String& name);
+	\return
+		Pointer to the new Window object.
+	*/
+	Window*	createWindow(const String& name);
 
 
-    /*!
-    \brief
-        Destroys the given Window object.
+	/*!
+	\brief
+		Destroys the given Window object.
 
-    \param window
-        Pointer to the Window object to be destroyed.
+	\param window
+		Pointer to the Window object to be destroyed.
 
-    \return
-        Nothing.
-    */
-    virtual void    destroyWindow(Window* window)    { if (window->getType() == d_type) delete window; }
+	\return
+		Nothing.
+	*/
+	virtual void	destroyWindow(Window* window)	 { if (window->getType() == d_type) delete window; }
 };
 
 
 } // End of  CEGUI namespace section
 
-#endif  // end of guard _RLFrameWindow_h_
+#endif	// end of guard _RLFrameWindow_h_

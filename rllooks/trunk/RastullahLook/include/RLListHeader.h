@@ -1,13 +1,13 @@
 /************************************************************************
-    filename:   RLListHeader.h
-    created:    14/6/2004
-    author:     Paul D Turner
-    
-    purpose:    Interface to Rastullah MultiColumn list header widget.
+	filename: 	RLListHeader.h
+	created:	14/6/2004
+	author:		Paul D Turner
+	
+	purpose:	Interface to Rastullah MultiColumn list header widget.
 *************************************************************************/
 /*************************************************************************
-    Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
-    Copyright (C)2004 Paul D Turner (crayzed@users.sourceforge.net)
+    Crazy Eddie's GUI System (http://www.cegui.org.uk)
+    Copyright (C)2004 - 2005 Paul D Turner (paul@cegui.org.uk)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -36,125 +36,125 @@ namespace CEGUI
 {
 /*!
 \brief
-    List header class for the Rastullah Gui Scheme.
+	List header class for the Rastullah Gui Scheme.
 */
 class RASTULLAHLOOK_API RLListHeader : public ListHeader
 {
 public:
-    /*************************************************************************
-        Constants
-    *************************************************************************/
-    // type name for this widget
-    static const utf8   WidgetTypeName[];               //!< The unique typename of this widget
+	/*************************************************************************
+		Constants
+	*************************************************************************/
+	// type name for this widget
+	static const utf8	WidgetTypeName[];				//!< The unique typename of this widget
 
-    // type names for the component widgets
-    static const utf8*  SegmentWidgetType;              //!< Type of widget to create for the header segments;
-
-
-    /*************************************************************************
-        Construction and Destruction
-    *************************************************************************/
-    /*!
-    \brief
-        Constructor for Rastullah List Header widgets.
-    */
-    RLListHeader(const String& type, const String& name);
+	// type names for the component widgets
+	static const utf8*	SegmentWidgetType;				//!< Type of widget to create for the header segments;
 
 
-    /*!
-    \brief
-        Destructor for Rastullah List Header widgets.
-    */
-    virtual ~ RLListHeader(void);
+	/*************************************************************************
+		Construction and Destruction
+	*************************************************************************/
+	/*!
+	\brief
+		Constructor for Rastullah List Header widgets.
+	*/
+	RLListHeader(const String& type, const String& name);
+
+
+	/*!
+	\brief
+		Destructor for Rastullah List Header widgets.
+	*/
+	virtual ~ RLListHeader(void);
 
 
 protected:
-    /*************************************************************************
-        Implementation Methods
-    *************************************************************************/
-    /*!
-    \brief
-        Render the widget.
+	/*************************************************************************
+		Implementation Methods
+	*************************************************************************/
+	/*!
+	\brief
+		Render the widget.
 
-    \param z
-        float value specifying the base Z co-ordinate that should be used when rendering
+	\param z
+		float value specifying the base Z co-ordinate that should be used when rendering
 
-    \return
-        Nothing
-    */
-    virtual void    drawSelf(float z);
-
-
-    /*!
-    \brief
-        Create and return a pointer to a new ListHeaderSegment based object.
-
-    \param name
-        String object holding the name that should be given to the new Window.
-
-    \return
-        Pointer to an ListHeaderSegment based object of whatever type is appropriate for
-        this ListHeader.
-    */
-    virtual ListHeaderSegment*  createNewSegment(const String& name) const;
+	\return
+		Nothing
+	*/
+	virtual void	drawSelf(float z);
 
 
-    /*!
-    \brief
-        Cleanup and destroy the given ListHeaderSegment that was created via the
-        createNewSegment method.
+	/*!
+	\brief
+		Create and return a pointer to a new ListHeaderSegment based object.
 
-    \param segment
-        Pointer to a ListHeaderSegment based object to be destroyed.
+	\param name
+		String object holding the name that should be given to the new Window.
 
-    \return
-        Nothing.
-    */
-    virtual void    destroyListSegment(ListHeaderSegment* segment) const;
+	\return
+		Pointer to an ListHeaderSegment based object of whatever type is appropriate for
+		this ListHeader.
+	*/
+	virtual ListHeaderSegment*	createNewSegment(const String& name) const;
+
+
+	/*!
+	\brief
+		Cleanup and destroy the given ListHeaderSegment that was created via the
+		createNewSegment method.
+
+	\param segment
+		Pointer to a ListHeaderSegment based object to be destroyed.
+
+	\return
+		Nothing.
+	*/
+	virtual void	destroyListSegment(ListHeaderSegment* segment) const;
 };
 
 
 /*!
 \brief
-    Factory class for producing RLListHeader objects
+	Factory class for producing RLListHeader objects
 */
 class RASTULLAHLOOK_API RLListHeaderFactory : public WindowFactory
 {
 public:
-    /*************************************************************************
-        Construction and Destruction
-    *************************************************************************/
-    RLListHeaderFactory(void) : WindowFactory(RLListHeader::WidgetTypeName) { }
-    ~RLListHeaderFactory(void){}
+	/*************************************************************************
+		Construction and Destruction
+	*************************************************************************/
+	RLListHeaderFactory(void) : WindowFactory(RLListHeader::WidgetTypeName) { }
+	~RLListHeaderFactory(void){}
 
 
-    /*!
-    \brief
-        Create a new Window object of whatever type this WindowFactory produces.
+	/*!
+	\brief
+		Create a new Window object of whatever type this WindowFactory produces.
 
-    \param name
-        A unique name that is to be assigned to the newly created Window object
+	\param name
+		A unique name that is to be assigned to the newly created Window object
 
-    \return
-        Pointer to the new Window object.
-    */
-    Window* createWindow(const String& name);
+	\return
+		Pointer to the new Window object.
+	*/
+	Window*	createWindow(const String& name);
 
 
-    /*!
-    \brief
-        Destroys the given Window object.
+	/*!
+	\brief
+		Destroys the given Window object.
 
-    \param window
-        Pointer to the Window object to be destroyed.
+	\param window
+		Pointer to the Window object to be destroyed.
 
-    \return
-        Nothing.
-    */
-    virtual void    destroyWindow(Window* window)    { if (window->getType() == d_type) delete window; }
+	\return
+		Nothing.
+	*/
+	virtual void	destroyWindow(Window* window)	 { if (window->getType() == d_type) delete window; }
 };
 
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _RLListHeader_h_
+#endif	// end of guard _RLListHeader_h_

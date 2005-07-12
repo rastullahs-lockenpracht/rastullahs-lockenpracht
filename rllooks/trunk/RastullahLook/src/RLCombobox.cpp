@@ -1,13 +1,13 @@
 /************************************************************************
-    filename:   RLCombobox.cpp
-    created:    12/6/2004
-    author:     Paul D Turner
-    
-    purpose:    Implementation of Rastullah look Combo box class
+	filename: 	RLCombobox.cpp
+	created:	12/6/2004
+	author:		Paul D Turner
+	
+	purpose:	Implementation of Rastullah look Combo box class
 *************************************************************************/
 /*************************************************************************
-    Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
-    Copyright (C)2004 Paul D Turner (crayzed@users.sourceforge.net)
+    Crazy Eddie's GUI System (http://www.cegui.org.uk)
+    Copyright (C)2004 - 2005 Paul D Turner (paul@cegui.org.uk)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -39,33 +39,33 @@
 namespace CEGUI
 {
 /*************************************************************************
-    Constants
+	Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLCombobox::WidgetTypeName[]    = "RastullahLook/Combobox";
+const utf8	RLCombobox::WidgetTypeName[]	= "RastullahLook/Combobox";
 
 // image / imageset related
-const utf8  RLCombobox::ImagesetName[]                  = "RastullahLook";
-const utf8  RLCombobox::ButtonNormalImageName[]         = "ComboboxListButtonNormal";
-const utf8  RLCombobox::ButtonHighlightedImageName[]    = "ComboboxListButtonHover";
+const utf8	RLCombobox::ImagesetName[]					= "RastullahLook";
+const utf8	RLCombobox::ButtonNormalImageName[]			= "ComboboxListButtonNormal";
+const utf8	RLCombobox::ButtonHighlightedImageName[]	= "ComboboxListButtonHover";
 
 // component widget type names
-const utf8* RLCombobox::EditboxTypeName     = RLComboEditbox::WidgetTypeName;
-const utf8* RLCombobox::DropListTypeName    = RLComboDropList::WidgetTypeName;
-const utf8* RLCombobox::ButtonTypeName      = RLButton::WidgetTypeName;
+const utf8*	RLCombobox::EditboxTypeName		= RLComboEditbox::WidgetTypeName;
+const utf8*	RLCombobox::DropListTypeName	= RLComboDropList::WidgetTypeName;
+const utf8*	RLCombobox::ButtonTypeName		= RLButton::WidgetTypeName;
 
 
 /*************************************************************************
-    Constructor for Rastullah Combobox
+	Constructor for Rastullah Combobox
 *************************************************************************/
 RLCombobox::RLCombobox(const String& type, const String& name) :
-    Combobox(type, name)
+	Combobox(type, name)
 {
 }
 
 
 /*************************************************************************
-    Destructor for Rastullah Combobox
+	Destructor for Rastullah Combobox
 *************************************************************************/
 RLCombobox::~RLCombobox(void)
 {
@@ -73,120 +73,120 @@ RLCombobox::~RLCombobox(void)
 
 
 /*************************************************************************
-    Perform rendering for this widget
+	Perform rendering for this widget
 *************************************************************************/
 void RLCombobox::drawSelf(float z)
 {
-    // no need to do anything here, since we are just a bunch of child
-    // widgets.
+	// no need to do anything here, since we are just a bunch of child
+	// widgets.
 }
 
 
 /*************************************************************************
-    Setup size and position for the component widgets attached to this
-    Combobox.   
+	Setup size and position for the component widgets attached to this
+	Combobox.	
 *************************************************************************/
 void RLCombobox::layoutComponentWidgets()
 {
-    Point   pos;
-    Size    sz;
+	Point	pos;
+	Size	sz;
 
-    float ebheight = getFont()->getLineSpacing() * 1.5f;
+	float ebheight = getFont()->getLineSpacing() * 1.5f;
 
-    // set the button size
-    sz.d_height = sz.d_width = ebheight;
-    d_button->setSize(sz);
+	// set the button size
+	sz.d_height = sz.d_width = ebheight;
+	d_button->setSize(sz);
 
-    // set-up edit box
-    pos.d_x = pos.d_y = 0;
-    d_editbox->setPosition(pos);
+	// set-up edit box
+	pos.d_x = pos.d_y = 0;
+	d_editbox->setPosition(pos);
 
-    sz.d_width = getAbsoluteWidth() - ebheight;
-    d_editbox->setSize(sz);
+	sz.d_width = getAbsoluteWidth() - ebheight;
+	d_editbox->setSize(sz);
 
-    // set button position
-    pos.d_x = sz.d_width;
-    d_button->setPosition(pos);
+	// set button position
+	pos.d_x = sz.d_width;
+	d_button->setPosition(pos);
 
-    // set list position and size (relative)
-    pos.d_x = 0;
-    pos.d_y = (getAbsoluteHeight() == 0.0f) ? 0.0f : (ebheight / getAbsoluteHeight());
-    d_droplist->setPosition(pos);
+	// set list position and size (relative)
+	pos.d_x = 0;
+	pos.d_y = (getAbsoluteHeight() == 0.0f) ? 0.0f : (ebheight / getAbsoluteHeight());
+	d_droplist->setPosition(pos);
 
-    sz.d_width  = 1.0f;
-    sz.d_height = 1.0f - pos.d_y;
-    d_droplist->setSize(sz);
+	sz.d_width	= 1.0f;
+	sz.d_height	= 1.0f - pos.d_y;
+	d_droplist->setSize(sz);
 }
 
 
 /*************************************************************************
-    Create, initialise, and return a pointer to an Editbox widget to be
-    used as part of this Combobox.
+	Create, initialise, and return a pointer to an Editbox widget to be
+	used as part of this Combobox.
 *************************************************************************/
 Editbox* RLCombobox::createEditbox(void) const
 {
-    Editbox* eb = (Editbox*)WindowManager::getSingleton().createWindow(EditboxTypeName, getName() + "__auto_editbox__");
-    eb->setMetricsMode(Absolute);
+	Editbox* eb = (Editbox*)WindowManager::getSingleton().createWindow(EditboxTypeName, getName() + "__auto_editbox__");
+	eb->setMetricsMode(Absolute);
 
-    return eb;
+	return eb;
 }
 
 
 /*************************************************************************
-    Create, initialise, and return a pointer to a PushButton widget to
-    be used as part of this Combobox.
+	Create, initialise, and return a pointer to a PushButton widget to
+	be used as part of this Combobox.
 *************************************************************************/
 PushButton* RLCombobox::createPushButton(void) const
 {
-    RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(ButtonTypeName, getName() + "__auto_button__");
-    btn->setMetricsMode(Absolute);
+	RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(ButtonTypeName, getName() + "__auto_button__");
+	btn->setMetricsMode(Absolute);
 
-    // Set up imagery
-    btn->setStandardImageryEnabled(false);
-    btn->setCustomImageryAutoSized(true);
+	// Set up imagery
+	btn->setStandardImageryEnabled(false);
+	btn->setCustomImageryAutoSized(true);
 
-    RenderableImage img;
-    img.setHorzFormatting(RenderableImage::HorzStretched);
-    img.setVertFormatting(RenderableImage::VertStretched);
+	RenderableImage img;
+	img.setHorzFormatting(RenderableImage::HorzStretched);
+	img.setVertFormatting(RenderableImage::VertStretched);
 
-    img.setImage(&ImagesetManager::getSingleton().getImageset(ImagesetName)->getImage(ButtonNormalImageName));
-    btn->setNormalImage(&img);
-    btn->setDisabledImage(&img);
+	img.setImage(&ImagesetManager::getSingleton().getImageset(ImagesetName)->getImage(ButtonNormalImageName));
+	btn->setNormalImage(&img);
+	btn->setDisabledImage(&img);
 
-    img.setImage(&ImagesetManager::getSingleton().getImageset(ImagesetName)->getImage(ButtonHighlightedImageName));
-    btn->setHoverImage(&img);
-    btn->setPushedImage(&img);
+	img.setImage(&ImagesetManager::getSingleton().getImageset(ImagesetName)->getImage(ButtonHighlightedImageName));
+	btn->setHoverImage(&img);
+	btn->setPushedImage(&img);
 
-    return btn;
+	return btn;
 }
 
 
 /*************************************************************************
-    Create, initialise, and return a pointer to a ComboDropList widget
-    to be used as part of this Combobox.
+	Create, initialise, and return a pointer to a ComboDropList widget
+	to be used as part of this Combobox.
 *************************************************************************/
 ComboDropList* RLCombobox::createDropList(void) const
 {
-    return (ComboDropList*)WindowManager::getSingleton().createWindow(DropListTypeName, getName() + "__auto_droplist__");
+	return (ComboDropList*)WindowManager::getSingleton().createWindow(DropListTypeName, getName() + "__auto_droplist__");
 }
 
 
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
 
-    Factory Methods
+	Factory Methods
 
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a RLCombobox
+	Create, initialise and return a RLCombobox
 *************************************************************************/
 Window* RLComboboxFactory::createWindow(const String& name)
 {
-    RLCombobox* wnd = new RLCombobox(d_type, name);
-    wnd->initialise();
+	RLCombobox* wnd = new RLCombobox(d_type, name);
+	wnd->initialise();
 
-    return wnd;
+	return wnd;
 }
 
 } // End of  CEGUI namespace section

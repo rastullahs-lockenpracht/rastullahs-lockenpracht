@@ -1,13 +1,13 @@
 /************************************************************************
-    filename:   RLTabPane.cpp
-    created:    11/08/2004
-    author:     Steve Streeting
-    
-    purpose:    Implementation of Rastullah look Tab Pane widget.
+	filename: 	RLTabPane.cpp
+	created:	11/08/2004
+	author:		Steve Streeting
+	
+	purpose:	Implementation of Rastullah look Tab Pane widget.
 *************************************************************************/
 /*************************************************************************
-    Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
-    Copyright (C)2004 Paul D Turner (crayzed@users.sourceforge.net)
+    Crazy Eddie's GUI System (http://www.cegui.org.uk)
+    Copyright (C)2004 - 2005 Paul D Turner (paul@cegui.org.uk)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -32,32 +32,32 @@
 namespace CEGUI
 {
 /*************************************************************************
-    Constants
+	Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLTabPane::WidgetTypeName[] = "RastullahLook/TabPane";
+const utf8	RLTabPane::WidgetTypeName[]	= "RastullahLook/TabPane";
 
-const utf8  RLTabPane::ImagesetName[]           = "RastullahLook";
-const utf8  RLTabPane::LeftImageName[]          = "TabPaneLeft";
-const utf8  RLTabPane::MiddleImageName[]        = "TabPaneMiddle";
-const utf8  RLTabPane::RightImageName[]         = "TabPaneRight";
-const utf8  RLTabPane::LowerRightImageName[]    = "TabPaneLowerRight";
-const utf8  RLTabPane::LowerLeftImageName[]     = "TabPaneLowerLeft";
-const utf8  RLTabPane::LowerImageName[]         = "TabPaneLower";
+const utf8	RLTabPane::ImagesetName[]			= "RastullahLook";
+const utf8	RLTabPane::LeftImageName[]		    = "TabPaneLeft";
+const utf8	RLTabPane::MiddleImageName[]	    = "TabPaneMiddle";
+const utf8	RLTabPane::RightImageName[]		    = "TabPaneRight";
+const utf8	RLTabPane::LowerRightImageName[]    = "TabPaneLowerRight";
+const utf8	RLTabPane::LowerLeftImageName[]     = "TabPaneLowerLeft";
+const utf8	RLTabPane::LowerImageName[]         = "TabPaneLower";
 
 
 /*************************************************************************
-    Constructor
+	Constructor
 *************************************************************************/
 RLTabPane::RLTabPane(const String& type, const String& name) :
-    TabPane(type, name)
+	TabPane(type, name)
 {
-    Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
+	Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
 
-    // setup cache of image pointers
-    d_leftSection           = &iset->getImage(LeftImageName);
-    d_middleSection         = &iset->getImage(MiddleImageName);
-    d_rightSection          = &iset->getImage(RightImageName);
+	// setup cache of image pointers
+	d_leftSection		    = &iset->getImage(LeftImageName);
+	d_middleSection	        = &iset->getImage(MiddleImageName);
+	d_rightSection	        = &iset->getImage(RightImageName);
     d_lowerLeftSection      = &iset->getImage(LowerLeftImageName);
     d_lowerRightSection     = &iset->getImage(LowerRightImageName);
     d_lowerSection          = &iset->getImage(LowerImageName);
@@ -67,48 +67,48 @@ RLTabPane::RLTabPane(const String& type, const String& name) :
 
 
 /*************************************************************************
-    Destructor
+	Destructor
 *************************************************************************/
 RLTabPane::~RLTabPane(void)
 {
 }
 /*************************************************************************
-    render Widget in normal state   
+	render Widget in normal state	
 *************************************************************************/
 void RLTabPane::drawSelf(float z)
 {
-    Rect clipper(getPixelRect());
+	Rect clipper(getPixelRect());
 
-    // do nothing if the widget is totally clipped.
-    if (clipper.getWidth() == 0)
-    {
-        return;
-    }
+	// do nothing if the widget is totally clipped.
+	if (clipper.getWidth() == 0)
+	{
+		return;
+	}
 
-    // get the destination screen rect for this window
-    Rect absrect(getUnclippedPixelRect());
+	// get the destination screen rect for this window
+	Rect absrect(getUnclippedPixelRect());
 
-    // calculate colours to use.
-    ColourRect colours(colour(1, 1, 1, getEffectiveAlpha()));
+	// calculate colours to use.
+	ColourRect colours(colour(1, 1, 1, getEffectiveAlpha()));
 
-    // calculate widths for the button segments
-    float leftWidth     = d_leftSection->getWidth();
-    float rightWidth    = d_rightSection->getWidth();
-    float lowerHeight   = d_lowerSection->getWidth();
-    float midWidth      = absrect.getWidth() - leftWidth - rightWidth;
-    float midHeight     = absrect.getHeight() - lowerHeight;
+	// calculate widths for the button segments
+	float leftWidth		= d_leftSection->getWidth();
+	float rightWidth	= d_rightSection->getWidth();
+    float lowerHeight	= d_lowerSection->getWidth();
+	float midWidth		= absrect.getWidth() - leftWidth - rightWidth;
+    float midHeight		= absrect.getHeight() - lowerHeight;
 
-    //
-    // draw the images
-    //
-    Vector3 pos;
-    Size    sz;
+	//
+	// draw the images
+	//
+	Vector3 pos;
+    Size	sz;
     pos.d_z = z;
     pos.d_x = absrect.d_left;
     pos.d_y = absrect.d_top;
     sz.d_width = leftWidth;
     sz.d_height = midHeight;
-    d_leftSection->draw(pos, sz, clipper, colours);
+	d_leftSection->draw(pos, sz, clipper, colours);
 
     pos.d_y += sz.d_height;
     sz.d_height = lowerHeight;
@@ -138,19 +138,19 @@ void RLTabPane::drawSelf(float z)
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
 
-    Factory Methods
+	Factory Methods
 
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a RLTabPane
+	Create, initialise and return a RLTabPane
 *************************************************************************/
 Window* RLTabPaneFactory::createWindow(const String& name)
 {
-    RLTabPane* wnd = new RLTabPane(d_type, name);
-    wnd->initialise();
+	RLTabPane* wnd = new RLTabPane(d_type, name);
+	wnd->initialise();
 
-    return wnd;
+	return wnd;
 }
 
 } // End of  CEGUI namespace section

@@ -1,13 +1,13 @@
 /************************************************************************
-    filename:   RLTabPane.h
-    created:    11/08/2004
-    author:     Steve Streeting
-    
-    purpose:    Defines interface for Rastullah Look Tab Pane class.
+	filename: 	RLTabPane.h
+	created:	11/08/2004
+	author:		Steve Streeting
+	
+	purpose:	Defines interface for Rastullah Look Tab Pane class.
 *************************************************************************/
 /*************************************************************************
-    Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
-    Copyright (C)2004 Paul D Turner (crayzed@users.sourceforge.net)
+    Crazy Eddie's GUI System (http://www.cegui.org.uk)
+    Copyright (C)2004 - 2005 Paul D Turner (paul@cegui.org.uk)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -37,7 +37,7 @@ namespace CEGUI
 
 /*!
 \brief
-    Concrete TabPane class for the Rastullah Look widget set. 
+	Concrete TabPane class for the Rastullah Look widget set.	
 */
 class RASTULLAHLOOK_API RLTabPane : public TabPane
 {
@@ -45,125 +45,125 @@ public:
     /*************************************************************************
     Constants
     *************************************************************************/
-    // type name for this widget
-    static const utf8   WidgetTypeName[];           //!< The unique typename of this widget
+	// type name for this widget
+	static const utf8	WidgetTypeName[];			//!< The unique typename of this widget
 
-    static const utf8   ImagesetName[];             //!< Name of the imageset to use for rendering.
-    static const utf8   LeftImageName[];            //!< Name of the image to use for the left end of the button.
-    static const utf8   MiddleImageName[];          //!< Name of the image to use for the middle of the button.
-    static const utf8   RightImageName[];           //!< Name of the image to use for the right end of the button.
-    static const utf8   LowerImageName[];           //!< Name of the image to use for the lower section of the button
-    static const utf8   LowerLeftImageName[];       //!< Name of the image to use for the lower left section of the button
-    static const utf8   LowerRightImageName[];      //!< Name of the image to use for the lower right section of the button
+	static const utf8	ImagesetName[];				//!< Name of the imageset to use for rendering.
+	static const utf8	LeftImageName[];		    //!< Name of the image to use for the left end of the button.
+	static const utf8	MiddleImageName[];		    //!< Name of the image to use for the middle of the button.
+	static const utf8	RightImageName[];			//!< Name of the image to use for the right end of the button.
+    static const utf8	LowerImageName[];           //!< Name of the image to use for the lower section of the button
+    static const utf8	LowerLeftImageName[];       //!< Name of the image to use for the lower left section of the button
+    static const utf8	LowerRightImageName[];      //!< Name of the image to use for the lower right section of the button
 
-    /*************************************************************************
-        Construction and Destruction
-    *************************************************************************/
-    /*!
-    \brief
-        Constructor for Rastullah Look TabPane objects.
+	/*************************************************************************
+		Construction and Destruction
+	*************************************************************************/
+	/*!
+	\brief
+		Constructor for Rastullah Look TabPane objects.
 
-    \param type
-        String object that specifies a type for this window, usually provided by a factory class.
+	\param type
+		String object that specifies a type for this window, usually provided by a factory class.
 
-    \param name
-        String object that specifies a unique name that will be used to identify the new Window object
-    */
-    RLTabPane(const String& type, const String& name);
+	\param name
+		String object that specifies a unique name that will be used to identify the new Window object
+	*/
+	RLTabPane(const String& type, const String& name);
 
 
-    /*!
-    \brief
-        Destructor for RLButton objects.
-    */
-    virtual ~RLTabPane(void);
+	/*!
+	\brief
+		Destructor for RLButton objects.
+	*/
+	virtual ~RLTabPane(void);
 
-    
-    /*************************************************************************
-        Accessors
-    *************************************************************************/
+	
+	/*************************************************************************
+		Accessors
+	*************************************************************************/
 
-    /*************************************************************************
-        Manipulators
-    *************************************************************************/
+	/*************************************************************************
+		Manipulators
+	*************************************************************************/
 
 
 protected:
-    /*************************************************************************
-        Overridden Event Handling Functions
-    *************************************************************************/
+	/*************************************************************************
+		Overridden Event Handling Functions
+	*************************************************************************/
 
 
-    /*************************************************************************
-        Implementation Rendering Functions
-    *************************************************************************/
-    void    drawSelf(float z);
+	/*************************************************************************
+		Implementation Rendering Functions
+	*************************************************************************/
+    void	drawSelf(float z);
 
-    /*************************************************************************
-        Implementation Data
-    *************************************************************************/
+	/*************************************************************************
+		Implementation Data
+	*************************************************************************/
 
-    // standard button rendering images
-    const Image*    d_leftSection;          //!< Image to use when rendering the button left section .
-    const Image*    d_middleSection;        //!< Image to use when rendering the button middle section .
-    const Image*    d_rightSection;         //!< Image to use when rendering the button right section .
-    const Image*    d_lowerLeftSection;     //!< Image to use when rendering the button lower left section .
-    const Image*    d_lowerRightSection;    //!< Image to use when rendering the button lower right section .
-    const Image*    d_lowerSection;         //!< Image to use when rendering the button lower section .
+	// standard button rendering images
+	const Image*	d_leftSection;			//!< Image to use when rendering the button left section .
+	const Image*	d_middleSection;		//!< Image to use when rendering the button middle section .
+	const Image*	d_rightSection;			//!< Image to use when rendering the button right section .
+    const Image*	d_lowerLeftSection;		//!< Image to use when rendering the button lower left section .
+    const Image*	d_lowerRightSection;	//!< Image to use when rendering the button lower right section .
+    const Image*	d_lowerSection;		    //!< Image to use when rendering the button lower section .
 };
 
 
 /*!
 \brief
-    Factory class for producing RLFrameWindow objects
+	Factory class for producing RLFrameWindow objects
 */
 class RASTULLAHLOOK_API RLTabPaneFactory : public WindowFactory
 {
 public:
-    /*************************************************************************
-        Construction and Destruction
-    *************************************************************************/
-    /*!
-    \brief
-        Constructor for Rastullah Tab Button factory class.
-    */
-    RLTabPaneFactory(void) : WindowFactory(RLTabPane::WidgetTypeName) { }
+	/*************************************************************************
+		Construction and Destruction
+	*************************************************************************/
+	/*!
+	\brief
+		Constructor for Rastullah Tab Button factory class.
+	*/
+	RLTabPaneFactory(void) : WindowFactory(RLTabPane::WidgetTypeName) { }
 
 
-    /*
-    \brief
-        Destructor for Rastullah Tab Button factory class.
-    */
-    ~RLTabPaneFactory(void){}
+	/*
+	\brief
+		Destructor for Rastullah Tab Button factory class.
+	*/
+	~RLTabPaneFactory(void){}
 
 
-    /*!
-    \brief
-        Create a new Window object of whatever type this WindowFactory produces.
+	/*!
+	\brief
+		Create a new Window object of whatever type this WindowFactory produces.
 
-    \param name
-        A unique name that is to be assigned to the newly created Window object
+	\param name
+		A unique name that is to be assigned to the newly created Window object
 
-    \return
-        Pointer to the new Window object.
-    */
-    Window* createWindow(const String& name);
+	\return
+		Pointer to the new Window object.
+	*/
+	Window*	createWindow(const String& name);
 
 
-    /*!
-    \brief
-        Destroys the given Window object.
+	/*!
+	\brief
+		Destroys the given Window object.
 
-    \param window
-        Pointer to the Window object to be destroyed.
+	\param window
+		Pointer to the Window object to be destroyed.
 
-    \return
-        Nothing.
-    */
-    virtual void    destroyWindow(Window* window)    { if (window->getType() == d_type) delete window; }
+	\return
+		Nothing.
+	*/
+	virtual void	destroyWindow(Window* window)	 { if (window->getType() == d_type) delete window; }
 };
 
 
 } // End of  CEGUI namespace section
 
-#endif  // end of guard _RLFrameWindow_h_
+#endif	// end of guard _RLFrameWindow_h_

@@ -1,13 +1,13 @@
 /************************************************************************
-    filename:   RLRadioButton.cpp
-    created:    21/5/2004
-    author:     Paul D Turner
-    
-    purpose:    Implementation of Rastullah look Radio Button widget
+	filename: 	RLRadioButton.cpp
+	created:	21/5/2004
+	author:		Paul D Turner
+	
+	purpose:	Implementation of Rastullah look Radio Button widget
 *************************************************************************/
 /*************************************************************************
-    Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
-    Copyright (C)2004 Paul D Turner (crayzed@users.sourceforge.net)
+    Crazy Eddie's GUI System (http://www.cegui.org.uk)
+    Copyright (C)2004 - 2005 Paul D Turner (paul@cegui.org.uk)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -32,36 +32,36 @@
 namespace CEGUI
 {
 /*************************************************************************
-    Constants
+	Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLRadioButton::WidgetTypeName[] = "RastullahLook/RadioButton";
+const utf8	RLRadioButton::WidgetTypeName[]	= "RastullahLook/RadioButton";
 
-const utf8  RLRadioButton::ImagesetName[]           = "RastullahLook";
-const utf8  RLRadioButton::NormalImageName[]        = "RadioButtonNormal";
-const utf8  RLRadioButton::HighlightImageName[]     = "RadioButtonHover";
-const utf8  RLRadioButton::SelectMarkImageName[]    = "RadioButtonMark";
+const utf8	RLRadioButton::ImagesetName[]			= "RastullahLook";
+const utf8	RLRadioButton::NormalImageName[]		= "RadioButtonNormal";
+const utf8	RLRadioButton::HighlightImageName[]		= "RadioButtonHover";
+const utf8	RLRadioButton::SelectMarkImageName[]	= "RadioButtonMark";
 
-const float RLRadioButton::LabelPadding             = 4.0f;
+const float	RLRadioButton::LabelPadding				= 4.0f;
 
 
 /*************************************************************************
-    Constructor for Rastullah Look Radio Button objects.
+	Constructor for Rastullah Look Radio Button objects.
 *************************************************************************/
 RLRadioButton::RLRadioButton(const String& type, const String& name) :
-    RadioButton(type, name)
+	RadioButton(type, name)
 {
-    Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
+	Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
 
-    // setup cache of image pointers
-    d_normalImage       = &iset->getImage(NormalImageName);
-    d_hoverImage        = &iset->getImage(HighlightImageName);
-    d_selectMarkImage   = &iset->getImage(SelectMarkImageName);
+	// setup cache of image pointers
+	d_normalImage		= &iset->getImage(NormalImageName);
+	d_hoverImage		= &iset->getImage(HighlightImageName);
+	d_selectMarkImage	= &iset->getImage(SelectMarkImageName);
 }
 
 
 /*************************************************************************
-    Destructor for RLRadioButton objects.
+	Destructor for RLRadioButton objects.
 *************************************************************************/
 RLRadioButton::~RLRadioButton(void)
 {
@@ -69,189 +69,189 @@ RLRadioButton::~RLRadioButton(void)
 
 
 /*************************************************************************
-    render the radio button in the normal state.    
+	render the radio button in the normal state.	
 *************************************************************************/
 void RLRadioButton::drawNormal(float z)
 {
-    Rect clipper(getPixelRect());
+	Rect clipper(getPixelRect());
 
-    // do nothing if the widget is totally clipped.
-    if (clipper.getWidth() == 0)
-    {
-        return;
-    }
+	// do nothing if the widget is totally clipped.
+	if (clipper.getWidth() == 0)
+	{
+		return;
+	}
 
-    // get the destination screen rect for this window
-    Rect absrect(getUnclippedPixelRect());
+	// get the destination screen rect for this window
+	Rect absrect(getUnclippedPixelRect());
 
-    // calculate colours to use.
-    float alpha_comp = getEffectiveAlpha();
-    ColourRect colours(colour(1, 1, 1, alpha_comp));
+	// calculate colours to use.
+	float alpha_comp = getEffectiveAlpha();
+	ColourRect colours(colour(1, 1, 1, alpha_comp));
 
-    //
-    // draw the images
-    //
-    Vector3 pos(absrect.d_left, absrect.d_top + ((absrect.getHeight() - d_normalImage->getHeight()) * 0.5f), z);
-    d_normalImage->draw(pos, clipper, colours);
+	//
+	// draw the images
+	//
+	Vector3 pos(absrect.d_left, absrect.d_top + PixelAligned((absrect.getHeight() - d_normalImage->getHeight()) * 0.5f), z);
+	d_normalImage->draw(pos, clipper, colours);
 
-    if (d_selected)
-    {
-        d_selectMarkImage->draw(pos, clipper, colours);
-    }
+	if (d_selected)
+	{
+		d_selectMarkImage->draw(pos, clipper, colours);
+	}
 
-    //
-    // Draw label text
-    //
-    absrect.d_top   += (absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f;
-    absrect.d_left  += d_normalImage->getWidth();
-    colours.setColours(d_normalColour);
-    colours.setAlpha(alpha_comp);
-    getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(1), clipper, LeftAligned, colours);
+	//
+	// Draw label text
+	//
+	absrect.d_top	+= PixelAligned((absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f);
+	absrect.d_left	+= d_normalImage->getWidth() + LabelPadding;
+	colours.setColours(d_normalColour);
+	colours.setAlpha(alpha_comp);
+	getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(1), clipper, LeftAligned, colours);
 }
 
 
 /*************************************************************************
-    render the radio button in the hover / highlighted state.
+	render the radio button in the hover / highlighted state.
 *************************************************************************/
 void RLRadioButton::drawHover(float z)
 {
-    Rect clipper(getPixelRect());
+	Rect clipper(getPixelRect());
 
-    // do nothing if the widget is totally clipped.
-    if (clipper.getWidth() == 0)
-    {
-        return;
-    }
+	// do nothing if the widget is totally clipped.
+	if (clipper.getWidth() == 0)
+	{
+		return;
+	}
 
-    // get the destination screen rect for this window
-    Rect absrect(getUnclippedPixelRect());
+	// get the destination screen rect for this window
+	Rect absrect(getUnclippedPixelRect());
 
-    // calculate colours to use.
-    float alpha_comp = getEffectiveAlpha();
-    ColourRect colours(colour(1, 1, 1, alpha_comp));
+	// calculate colours to use.
+	float alpha_comp = getEffectiveAlpha();
+	ColourRect colours(colour(1, 1, 1, alpha_comp));
 
-    //
-    // draw the images
-    //
-    Vector3 pos(absrect.d_left, absrect.d_top + ((absrect.getHeight() - d_hoverImage->getHeight()) * 0.5f), z);
-    d_hoverImage->draw(pos, clipper, colours);
+	//
+	// draw the images
+	//
+	Vector3 pos(absrect.d_left, absrect.d_top + PixelAligned((absrect.getHeight() - d_hoverImage->getHeight()) * 0.5f), z);
+	d_hoverImage->draw(pos, clipper, colours);
 
-    if (d_selected)
-    {
-        d_selectMarkImage->draw(pos, clipper, colours);
-    }
+	if (d_selected)
+	{
+		d_selectMarkImage->draw(pos, clipper, colours);
+	}
 
-    //
-    // Draw label text
-    //
-    absrect.d_top   += (absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f;
-    absrect.d_left  += d_hoverImage->getWidth();
-    colours.setColours(d_hoverColour);
-    colours.setAlpha(alpha_comp);
-    getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(1), clipper, LeftAligned, colours);
+	//
+	// Draw label text
+	//
+	absrect.d_top	+= PixelAligned((absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f);
+	absrect.d_left	+= d_hoverImage->getWidth() + LabelPadding;
+	colours.setColours(d_hoverColour);
+	colours.setAlpha(alpha_comp);
+	getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(1), clipper, LeftAligned, colours);
 }
 
 
 /*************************************************************************
-    render the radio button in the pushed state.    
+	render the radio button in the pushed state.	
 *************************************************************************/
 void RLRadioButton::drawPushed(float z)
 {
-    Rect clipper(getPixelRect());
+	Rect clipper(getPixelRect());
 
-    // do nothing if the widget is totally clipped.
-    if (clipper.getWidth() == 0)
-    {
-        return;
-    }
+	// do nothing if the widget is totally clipped.
+	if (clipper.getWidth() == 0)
+	{
+		return;
+	}
 
-    // get the destination screen rect for this window
-    Rect absrect(getUnclippedPixelRect());
+	// get the destination screen rect for this window
+	Rect absrect(getUnclippedPixelRect());
 
-    // calculate colours to use.
-    float alpha_comp = getEffectiveAlpha();
-    ColourRect colours(colour(1, 1, 1, alpha_comp));
+	// calculate colours to use.
+	float alpha_comp = getEffectiveAlpha();
+	ColourRect colours(colour(1, 1, 1, alpha_comp));
 
-    //
-    // draw the images
-    //
-    Vector3 pos(absrect.d_left, absrect.d_top + ((absrect.getHeight() - d_normalImage->getHeight()) * 0.5f), z);
-    d_normalImage->draw(pos, clipper, colours);
+	//
+	// draw the images
+	//
+	Vector3 pos(absrect.d_left, absrect.d_top + PixelAligned((absrect.getHeight() - d_normalImage->getHeight()) * 0.5f), z);
+	d_normalImage->draw(pos, clipper, colours);
 
-    if (d_selected)
-    {
-        d_selectMarkImage->draw(pos, clipper, colours);
-    }
+	if (d_selected)
+	{
+		d_selectMarkImage->draw(pos, clipper, colours);
+	}
 
-    //
-    // Draw label text
-    //
-    absrect.d_top   += (absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f;
-    absrect.d_left  += d_normalImage->getWidth();
-    colours.setColours(d_pushedColour);
-    colours.setAlpha(alpha_comp);
-    getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(1), clipper, LeftAligned, colours);
+	//
+	// Draw label text
+	//
+	absrect.d_top	+= PixelAligned((absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f);
+	absrect.d_left	+= d_normalImage->getWidth() + LabelPadding;
+	colours.setColours(d_pushedColour);
+	colours.setAlpha(alpha_comp);
+	getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(1), clipper, LeftAligned, colours);
 }
 
 
 /*************************************************************************
-    render the radio button in the disabled state   
+	render the radio button in the disabled state	
 *************************************************************************/
 void RLRadioButton::drawDisabled(float z)
 {
-    Rect clipper(getPixelRect());
+	Rect clipper(getPixelRect());
 
-    // do nothing if the widget is totally clipped.
-    if (clipper.getWidth() == 0)
-    {
-        return;
-    }
+	// do nothing if the widget is totally clipped.
+	if (clipper.getWidth() == 0)
+	{
+		return;
+	}
 
-    // get the destination screen rect for this window
-    Rect absrect(getUnclippedPixelRect());
+	// get the destination screen rect for this window
+	Rect absrect(getUnclippedPixelRect());
 
-    // calculate colours to use.
-    float alpha_comp = getEffectiveAlpha();
-    ColourRect colours(colour(1, 1, 1, alpha_comp));
+	// calculate colours to use.
+	float alpha_comp = getEffectiveAlpha();
+	ColourRect colours(colour(1, 1, 1, alpha_comp));
 
-    //
-    // draw the images
-    //
-    Vector3 pos(absrect.d_left, absrect.d_top + ((absrect.getHeight() - d_normalImage->getHeight()) * 0.5f), z);
-    d_normalImage->draw(pos, clipper, colours);
+	//
+	// draw the images
+	//
+	Vector3 pos(absrect.d_left, absrect.d_top + PixelAligned((absrect.getHeight() - d_normalImage->getHeight()) * 0.5f), z);
+	d_normalImage->draw(pos, clipper, colours);
 
-    if (d_selected)
-    {
-        d_selectMarkImage->draw(pos, clipper, colours);
-    }
+	if (d_selected)
+	{
+		d_selectMarkImage->draw(pos, clipper, colours);
+	}
 
-    //
-    // Draw label text
-    //
-    absrect.d_top   += (absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f;
-    absrect.d_left  += d_normalImage->getWidth();
-    colours.setColours(d_disabledColour);
-    colours.setAlpha(alpha_comp);
-    getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(1), clipper, LeftAligned, colours);
+	//
+	// Draw label text
+	//
+	absrect.d_top	+= PixelAligned((absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f);
+	absrect.d_left	+= d_normalImage->getWidth() + LabelPadding;
+	colours.setColours(d_disabledColour);
+	colours.setAlpha(alpha_comp);
+	getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(1), clipper, LeftAligned, colours);
 }
 
 
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
 
-    Factory Methods
+	Factory Methods
 
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a RLRadioButton
+	Create, initialise and return a RLRadioButton
 *************************************************************************/
 Window* RLRadioButtonFactory::createWindow(const String& name)
 {
-    RLRadioButton* wnd = new RLRadioButton(d_type, name);
-    wnd->initialise();
+	RLRadioButton* wnd = new RLRadioButton(d_type, name);
+	wnd->initialise();
 
-    return wnd;
+	return wnd;
 }
 
 } // End of  CEGUI namespace section

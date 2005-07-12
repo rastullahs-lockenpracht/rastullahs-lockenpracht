@@ -1,15 +1,15 @@
 /************************************************************************
-    filename:   RLCloseButton.cpp
-    created:    20/5/2004
-    author:     Paul D Turner
-    
-    purpose:    Implementation of 'close button' widget.  This is needed
-                due to the fact that Rastullah frame windows standard
-                controls have custom clipping requirements.
+	filename: 	RLCloseButton.cpp
+	created:	20/5/2004
+	author:		Paul D Turner
+	
+	purpose:	Implementation of 'close button' widget.  This is needed
+				due to the fact that Rastullah frame windows standard
+				controls have custom clipping requirements.
 *************************************************************************/
 /*************************************************************************
-    Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
-    Copyright (C)2004 Paul D Turner (crayzed@users.sourceforge.net)
+    Crazy Eddie's GUI System (http://www.cegui.org.uk)
+    Copyright (C)2004 - 2005 Paul D Turner (paul@cegui.org.uk)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -31,48 +31,47 @@
 namespace CEGUI
 {
 /*************************************************************************
-    Constants 
+	Constants 
 *************************************************************************/
 // type name for this widget
-const utf8  RLCloseButton::WidgetTypeName[] = "RastullahLook/CloseButton";
+const utf8	RLCloseButton::WidgetTypeName[]	= "RastullahLook/CloseButton";
 
 
 /*************************************************************************
-    return a Rect object describing the appropriately clipped Window
-    area in screen space.
+	return a Rect object describing the appropriately clipped Window
+	area in screen space.
 *************************************************************************/
 Rect RLCloseButton::getPixelRect(void) const
 {
-    // clip to screen if we have no grand-parent
-    if ((d_parent == NULL) || (d_parent->getParent() == NULL))
-    {
-        return System::getSingleton().getRenderer()->getRect().getIntersection(getUnclippedPixelRect());
-    }
-    // else clip to grand-parent
-    else 
+    // clip to grand-parent as needed
+    if (d_parent && d_parent->getParent() && isClippedByParent())
     {
         return d_parent->getParent()->getInnerRect().getIntersection(getUnclippedPixelRect());
     }
-
+    // clip to screen if no grand-parent, or if clipping has been disabled for us.
+    else 
+    {
+        return System::getSingleton().getRenderer()->getRect().getIntersection(getUnclippedPixelRect());
+    }
 }
 
 
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
 
-    Factory Methods
+	Factory Methods
 
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a RLCloseButton
+	Create, initialise and return a RLCloseButton
 *************************************************************************/
 Window* RLCloseButtonFactory::createWindow(const String& name)
 {
-    RLCloseButton* wnd = new RLCloseButton(d_type, name);
-    wnd->initialise();
+	RLCloseButton* wnd = new RLCloseButton(d_type, name);
+	wnd->initialise();
 
-    return wnd;
+	return wnd;
 }
 
 } // End of  CEGUI namespace section

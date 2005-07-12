@@ -1,13 +1,13 @@
 /************************************************************************
-    filename:   RLTabControl.h
-    created:    10/08/2004
-    author:     Steve Streeting
-    
-    purpose:    Defines interface for Rastullah Look Tab Control class.
+	filename: 	RLTabControl.h
+	created:	10/08/2004
+	author:		Steve Streeting
+	
+	purpose:	Defines interface for Rastullah Look Tab Control class.
 *************************************************************************/
 /*************************************************************************
-    Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
-    Copyright (C)2004 Paul D Turner (crayzed@users.sourceforge.net)
+    Crazy Eddie's GUI System (http://www.cegui.org.uk)
+    Copyright (C)2004 - 2005 Paul D Turner (paul@cegui.org.uk)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -37,54 +37,54 @@ namespace CEGUI
 
 /*!
 \brief
-    Concrete TabControl class for the Rastullah Look widget set.  
+	Concrete TabControl class for the Rastullah Look widget set.	
 */
 class RASTULLAHLOOK_API RLTabControl : public TabControl
 {
 public:
-    /*************************************************************************
-        Constants
-    *************************************************************************/
-    // type name for this widget
-    static const utf8   WidgetTypeName[];               //!< The unique typename of this widget
+	/*************************************************************************
+		Constants
+	*************************************************************************/
+	// type name for this widget
+	static const utf8	WidgetTypeName[];				//!< The unique typename of this widget
 
-    static const utf8   ImagesetName[];                 //!< Name of the imageset to use for rendering.
-    static const utf8   FillerImageName[];              //!< Name of the image to use for filling the top edge where there are no buttons
+    static const utf8	ImagesetName[];					//!< Name of the imageset to use for rendering.
+    static const utf8	FillerImageName[];			    //!< Name of the image to use for filling the top edge where there are no buttons
 
-    // window type stuff
-    static const utf8*  TabContentPaneType;             //!< Window type to create for the tab pane.
-    static const utf8*  TabButtonType;                  //!< Window type to create for the tab button.
+	// window type stuff
+	static const utf8*	TabContentPaneType;				//!< Window type to create for the tab pane.
+    static const utf8*	TabButtonType;				    //!< Window type to create for the tab button.
 
-    /*************************************************************************
-        Construction and Destruction
-    *************************************************************************/
-    /*!
-    \brief
-        Constructor for Rastullah Look tab control objects.
+	/*************************************************************************
+		Construction and Destruction
+	*************************************************************************/
+	/*!
+	\brief
+		Constructor for Rastullah Look tab control objects.
 
-    \param type
-        String object that specifies a type for this window, usually provided by a factory class.
+	\param type
+		String object that specifies a type for this window, usually provided by a factory class.
 
-    \param name
-        String object that specifies a unique name that will be used to identify the new Window object
-    */
-    RLTabControl(const String& type, const String& name);
+	\param name
+		String object that specifies a unique name that will be used to identify the new Window object
+	*/
+	RLTabControl(const String& type, const String& name);
 
 
-    /*!
-    \brief
-        Destructor for RLTabControl objects.
-    */
-    virtual ~RLTabControl(void);
+	/*!
+	\brief
+		Destructor for RLTabControl objects.
+	*/
+	virtual ~RLTabControl(void);
 
 protected:
-    /*************************************************************************
-        Overridden event handlers
-    *************************************************************************/
+	/*************************************************************************
+		Overridden event handlers
+	*************************************************************************/
 
-    /*************************************************************************
-        Implementation Functions
-    *************************************************************************/
+	/*************************************************************************
+		Implementation Functions
+	*************************************************************************/
     /*!
     \brief
     create and return a pointer to a TabPane widget for use as content area
@@ -92,7 +92,7 @@ protected:
     \return
     Pointer to a TabPane to be used for holding the main content.
     */
-    TabPane*    createTabContentPane(void) const;
+    TabPane*	createTabContentPane(void) const;
 
     /*!
     \brief
@@ -122,11 +122,11 @@ protected:
     */
     void drawSelf(float z);
 
-    /*************************************************************************
-        Implementation Data
-    *************************************************************************/
+	/*************************************************************************
+		Implementation Data
+	*************************************************************************/
     // standard button rendering images
-    const Image*    d_fillerImage;          //!< Image to use when rendering the filler section
+    const Image*	d_fillerImage;			//!< Image to use when rendering the filler section
     Vector3         d_fillerPos;
     Size            d_fillerSize;
 
@@ -135,55 +135,55 @@ protected:
 
 /*!
 \brief
-    Factory class for producing RLFrameWindow objects
+	Factory class for producing RLFrameWindow objects
 */
 class RASTULLAHLOOK_API RLTabControlFactory : public WindowFactory
 {
 public:
-    /*************************************************************************
-        Construction and Destruction
-    *************************************************************************/
-    /*!
-    \brief
-        Constructor for Rastullah Frame Window factory class.
-    */
-    RLTabControlFactory(void) : WindowFactory(RLTabControl::WidgetTypeName) { }
+	/*************************************************************************
+		Construction and Destruction
+	*************************************************************************/
+	/*!
+	\brief
+		Constructor for Rastullah Frame Window factory class.
+	*/
+	RLTabControlFactory(void) : WindowFactory(RLTabControl::WidgetTypeName) { }
 
 
-    /*
-    \brief
-        Destructor for Rastullah Frame Window factory class.
-    */
-    ~RLTabControlFactory(void){}
+	/*
+	\brief
+		Destructor for Rastullah Frame Window factory class.
+	*/
+	~RLTabControlFactory(void){}
 
 
-    /*!
-    \brief
-        Create a new Window object of whatever type this WindowFactory produces.
+	/*!
+	\brief
+		Create a new Window object of whatever type this WindowFactory produces.
 
-    \param name
-        A unique name that is to be assigned to the newly created Window object
+	\param name
+		A unique name that is to be assigned to the newly created Window object
 
-    \return
-        Pointer to the new Window object.
-    */
-    Window* createWindow(const String& name);
+	\return
+		Pointer to the new Window object.
+	*/
+	Window*	createWindow(const String& name);
 
 
-    /*!
-    \brief
-        Destroys the given Window object.
+	/*!
+	\brief
+		Destroys the given Window object.
 
-    \param window
-        Pointer to the Window object to be destroyed.
+	\param window
+		Pointer to the Window object to be destroyed.
 
-    \return
-        Nothing.
-    */
-    virtual void    destroyWindow(Window* window)    { if (window->getType() == d_type) delete window; }
+	\return
+		Nothing.
+	*/
+	virtual void	destroyWindow(Window* window)	 { if (window->getType() == d_type) delete window; }
 };
 
 
 } // End of  CEGUI namespace section
 
-#endif  // end of guard _RLFrameWindow_h_
+#endif	// end of guard _RLFrameWindow_h_

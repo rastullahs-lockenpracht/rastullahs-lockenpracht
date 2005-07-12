@@ -1,13 +1,13 @@
 /************************************************************************
-    filename:   RLProgressBar.h
-    created:    23/5/2004
-    author:     Paul D Turner
-    
-    purpose:    Interface to the Rastullah Progress Bar
+	filename: 	RLProgressBar.h
+	created:	23/5/2004
+	author:		Paul D Turner
+	
+	purpose:	Interface to the Rastullah Progress Bar
 *************************************************************************/
 /*************************************************************************
-    Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
-    Copyright (C)2004 Paul D Turner (crayzed@users.sourceforge.net)
+    Crazy Eddie's GUI System (http://www.cegui.org.uk)
+    Copyright (C)2004 - 2005 Paul D Turner (paul@cegui.org.uk)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -36,109 +36,109 @@ namespace CEGUI
 {
 /*!
 \brief
-    Standard progress bar for the Rastullah Gui Scheme.
+	Standard progress bar for the Rastullah Gui Scheme.
 */
 class RASTULLAHLOOK_API RLProgressBar : public ProgressBar
 {
 public:
-    /*************************************************************************
-        Constants
-    *************************************************************************/
-    // type name for this widget
-    static const utf8   WidgetTypeName[];               //!< The unique typename of this widget
+	/*************************************************************************
+		Constants
+	*************************************************************************/
+	// type name for this widget
+	static const utf8	WidgetTypeName[];				//!< The unique typename of this widget
 
-    // Progress bar image names
-    static const utf8   ImagesetName[];                 //!< Name of the imageset to use for rendering.
-    static const utf8   ContainerLeftImageName[];       //!< Name of the image to use for the left end of the progress container.
-    static const utf8   ContainerMiddleImageName[];     //!< Name of the image to use for the middle of the progress container.
-    static const utf8   ContainerRightImageName[];      //!< Name of the image to use for the right end of the progress container.
-    static const utf8   DimSegmentImageName[];          //!< Name of the image to use for dim / unlit segments.
-    static const utf8   BrightSegmentImageName[];       //!< Name of the image to use for bright / lit segments.
+	// Progress bar image names
+	static const utf8	ImagesetName[];					//!< Name of the imageset to use for rendering.
+	static const utf8	ContainerLeftImageName[];		//!< Name of the image to use for the left end of the progress container.
+	static const utf8	ContainerMiddleImageName[];		//!< Name of the image to use for the middle of the progress container.
+	static const utf8	ContainerRightImageName[];		//!< Name of the image to use for the right end of the progress container.
+	static const utf8	DimSegmentImageName[];			//!< Name of the image to use for dim / unlit segments.
+	static const utf8	BrightSegmentImageName[];		//!< Name of the image to use for bright / lit segments.
 
-    // some offsets into imagery
-    static const float  FirstSegmentOffsetRatioX;       //!< Value used to calculate required offset for first segment
-    static const float  SegmentOverlapRatio;            //!< Value used to calculate amount of overlap required for segments.
-
-
-    /*************************************************************************
-        Construction / Destruction
-    *************************************************************************/
-    /*!
-    \brief
-        Constructor for Rastullah progress bar objects
-    */
-    RLProgressBar(const String& type, const String& name);
+	// some offsets into imagery
+	static const float	FirstSegmentOffsetRatioX;		//!< Value used to calculate required offset for first segment
+	static const float	SegmentOverlapRatio;			//!< Value used to calculate amount of overlap required for segments.
 
 
-    /*!
-    \brief
-        Destructor for Rastullah progress bar objects
-    */
-    virtual ~RLProgressBar(void);
+	/*************************************************************************
+		Construction / Destruction
+	*************************************************************************/
+	/*!
+	\brief
+		Constructor for Rastullah progress bar objects
+	*/
+	RLProgressBar(const String& type, const String& name);
+
+
+	/*!
+	\brief
+		Destructor for Rastullah progress bar objects
+	*/
+	virtual ~RLProgressBar(void);
 
 protected:
-    /*************************************************************************
-        Overridden Implementation Rendering Functions
-    *************************************************************************/
-    /*!
-    \brief
-        Perform rendering for this widget
-    */
-    virtual void    drawSelf(float z);
+	/*************************************************************************
+		Overridden Implementation Rendering Functions
+	*************************************************************************/
+	/*!
+	\brief
+		Perform rendering for this widget
+	*/
+	virtual void	drawSelf(float z);
 
 
-    /*************************************************************************
-        Implementation Data
-    *************************************************************************/
-    const Image*    d_left;         //!< container left end image.
-    const Image*    d_middle;       //!< container middle image.
-    const Image*    d_right;        //!< container right end image.
-    const Image*    d_dimSegment;   //!< dim segment image.
-    const Image*    d_litSegment;   //!< lit segment image.
+	/*************************************************************************
+		Implementation Data
+	*************************************************************************/
+	const Image*	d_left;			//!< container left end image.
+	const Image*	d_middle;		//!< container middle image.
+	const Image*	d_right;		//!< container right end image.
+	const Image*	d_dimSegment;	//!< dim segment image.
+	const Image*	d_litSegment;	//!< lit segment image.
 };
 
 
 /*!
 \brief
-    Factory class for producing RLProgressBar objects
+	Factory class for producing RLProgressBar objects
 */
 class RASTULLAHLOOK_API RLProgressBarFactory : public WindowFactory
 {
 public:
-    /*************************************************************************
-        Construction and Destruction
-    *************************************************************************/
-    RLProgressBarFactory(void) : WindowFactory(RLProgressBar::WidgetTypeName) { }
-    ~RLProgressBarFactory(void){}
+	/*************************************************************************
+		Construction and Destruction
+	*************************************************************************/
+	RLProgressBarFactory(void) : WindowFactory(RLProgressBar::WidgetTypeName) { }
+	~RLProgressBarFactory(void){}
 
 
-    /*!
-    \brief
-        Create a new Window object of whatever type this WindowFactory produces.
+	/*!
+	\brief
+		Create a new Window object of whatever type this WindowFactory produces.
 
-    \param name
-        A unique name that is to be assigned to the newly created Window object
+	\param name
+		A unique name that is to be assigned to the newly created Window object
 
-    \return
-        Pointer to the new Window object.
-    */
-    Window* createWindow(const String& name);
+	\return
+		Pointer to the new Window object.
+	*/
+	Window*	createWindow(const String& name);
 
 
-    /*!
-    \brief
-        Destroys the given Window object.
+	/*!
+	\brief
+		Destroys the given Window object.
 
-    \param window
-        Pointer to the Window object to be destroyed.
+	\param window
+		Pointer to the Window object to be destroyed.
 
-    \return
-        Nothing.
-    */
-    virtual void    destroyWindow(Window* window)    { if (window->getType() == d_type) delete window; }
+	\return
+		Nothing.
+	*/
+	virtual void	destroyWindow(Window* window)	 { if (window->getType() == d_type) delete window; }
 };
 
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _RLProgressBar_h_
+#endif	// end of guard _RLProgressBar_h_

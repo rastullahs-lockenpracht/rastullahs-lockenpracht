@@ -1,13 +1,13 @@
 /************************************************************************
-    filename:   RLSliderThumb.cpp
-    created:    22/5/2004
-    author:     Paul D Turner
-    
-    purpose:    Implementation of thumb used with Rastullah Slider widget
+	filename: 	RLSliderThumb.cpp
+	created:	22/5/2004
+	author:		Paul D Turner
+	
+	purpose:	Implementation of thumb used with Rastullah Slider widget
 *************************************************************************/
 /*************************************************************************
-    Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
-    Copyright (C)2004 Paul D Turner (crayzed@users.sourceforge.net)
+    Crazy Eddie's GUI System (http://www.cegui.org.uk)
+    Copyright (C)2004 - 2005 Paul D Turner (paul@cegui.org.uk)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -32,32 +32,32 @@
 namespace CEGUI
 {
 /*************************************************************************
-    Constants
+	Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLSliderThumb::WidgetTypeName[] = "RastullahLook/SliderThumb";
+const utf8	RLSliderThumb::WidgetTypeName[]	= "RastullahLook/SliderThumb";
 
 // Image names
-const utf8  RLSliderThumb::ImagesetName[]           = "RastullahLook";
-const utf8  RLSliderThumb::NormalImageName[]        = "VertSliderThumbNormal";
-const utf8  RLSliderThumb::HighlightImageName[]     = "VertSliderThumbHover";
+const utf8	RLSliderThumb::ImagesetName[]			= "RastullahLook";
+const utf8	RLSliderThumb::NormalImageName[]		= "VertSliderThumbNormal";
+const utf8	RLSliderThumb::HighlightImageName[]		= "VertSliderThumbHover";
 
 
 /*************************************************************************
-    Constructor
+	Constructor
 *************************************************************************/
 RLSliderThumb::RLSliderThumb(const String& type, const String& name) :
-    Thumb(type, name)
+	Thumb(type, name)
 {
-    Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
+	Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
 
-    d_normalImage       = &iset->getImage(NormalImageName);
-    d_highlightImage    = &iset->getImage(HighlightImageName);
+	d_normalImage		= &iset->getImage(NormalImageName);
+	d_highlightImage	= &iset->getImage(HighlightImageName);
 }
 
 
 /*************************************************************************
-    Destructor
+	Destructor
 *************************************************************************/
 RLSliderThumb::~RLSliderThumb(void)
 {
@@ -65,52 +65,52 @@ RLSliderThumb::~RLSliderThumb(void)
 
 
 /*************************************************************************
-    render the thumb in the normal state.   
+	render the thumb in the normal state.	
 *************************************************************************/
 void RLSliderThumb::drawNormal(float z)
 {
-    Rect clipper(getPixelRect());
+	Rect clipper(getPixelRect());
 
-    // if the widget is not totally clipped.
-    if (clipper.getWidth() != 0)
-    {
-        // draw the image
-        d_normalImage->draw(getUnclippedPixelRect(), z, clipper, ColourRect(colour(1, 1, 1, getEffectiveAlpha())));
-    }
+	// if the widget is not totally clipped.
+	if (clipper.getWidth() != 0)
+	{
+		// draw the image
+		d_normalImage->draw(getUnclippedPixelRect(), z, clipper, ColourRect(colour(1, 1, 1, getEffectiveAlpha())));
+	}
 
 }
 
 
 /*************************************************************************
-    render the thumb in the hover / highlighted state.  
+	render the thumb in the hover / highlighted state.	
 *************************************************************************/
 void RLSliderThumb::drawHover(float z)
 {
-    Rect clipper(getPixelRect());
+	Rect clipper(getPixelRect());
 
-    // if the widget is not totally clipped.
-    if (clipper.getWidth() != 0)
-    {
-        // draw the image
-        d_highlightImage->draw(getUnclippedPixelRect(), z, clipper, ColourRect(colour(1, 1, 1, getEffectiveAlpha())));
-    }
+	// if the widget is not totally clipped.
+	if (clipper.getWidth() != 0)
+	{
+		// draw the image
+		d_highlightImage->draw(getUnclippedPixelRect(), z, clipper, ColourRect(colour(1, 1, 1, getEffectiveAlpha())));
+	}
 
 }
 
 
 /*************************************************************************
-    render the thumb in the disabled state
+	render the thumb in the disabled state
 *************************************************************************/
 void RLSliderThumb::drawDisabled(float z)
 {
-    Rect clipper(getPixelRect());
+	Rect clipper(getPixelRect());
 
-    // if the widget is not totally clipped.
-    if (clipper.getWidth() != 0)
-    {
-        // draw the image
-        d_normalImage->draw(getUnclippedPixelRect(), z, clipper, ColourRect(colour(0.5f, 0.5f, 0.5f, getEffectiveAlpha())));
-    }
+	// if the widget is not totally clipped.
+	if (clipper.getWidth() != 0)
+	{
+		// draw the image
+		d_normalImage->draw(getUnclippedPixelRect(), z, clipper, ColourRect(colour(0.5f, 0.5f, 0.5f, getEffectiveAlpha())));
+	}
 
 }
 
@@ -118,19 +118,19 @@ void RLSliderThumb::drawDisabled(float z)
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
 
-    Factory Methods
+	Factory Methods
 
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a RLSliderThumb
+	Create, initialise and return a RLSliderThumb
 *************************************************************************/
 Window* RLSliderThumbFactory::createWindow(const String& name)
 {
-    RLSliderThumb* wnd = new RLSliderThumb(d_type, name);
-    wnd->initialise();
+	RLSliderThumb* wnd = new RLSliderThumb(d_type, name);
+	wnd->initialise();
 
-    return wnd;
+	return wnd;
 }
 
 } // End of  CEGUI namespace section

@@ -1,13 +1,13 @@
 /************************************************************************
-    filename:   RLListHeaderSegment.h
-    created:    15/6/2004
-    author:     Paul D Turner
-    
-    purpose:    Interface to Rastullah list header segment widget.
+	filename: 	RLListHeaderSegment.h
+	created:	15/6/2004
+	author:		Paul D Turner
+	
+	purpose:	Interface to Rastullah list header segment widget.
 *************************************************************************/
 /*************************************************************************
-    Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
-    Copyright (C)2004 Paul D Turner (crayzed@users.sourceforge.net)
+    Crazy Eddie's GUI System (http://www.cegui.org.uk)
+    Copyright (C)2004 - 2005 Paul D Turner (paul@cegui.org.uk)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -36,112 +36,112 @@ namespace CEGUI
 {
 /*!
 \brief
-    List header segment widget for the Rastullah Gui Scheme.
+	List header segment widget for the Rastullah Gui Scheme.
 */
 class RASTULLAHLOOK_API RLListHeaderSegment : public ListHeaderSegment
 {
 public:
-    /*************************************************************************
-        Constants
-    *************************************************************************/
-    // type name for this widget
-    static const utf8   WidgetTypeName[];               //!< The unique typename of this widget
+	/*************************************************************************
+		Constants
+	*************************************************************************/
+	// type name for this widget
+	static const utf8	WidgetTypeName[];				//!< The unique typename of this widget
 
-    // image / imageset related
-    static const utf8   ImagesetName[];                 //!< Name of the imageset to use for rendering.
-    static const utf8   BackdropNormalImageName[];      //!< Image to use for segment backdrop in normal state.
-    static const utf8   BackdropHoverImageName[];       //!< Image to use for segment backdrop when mouse is hovering.
-    static const utf8   SplitterNormalImageName[];      //!< Image to use for splitter / sizing bar in normal state.
-    static const utf8   SplitterHoverImageName[];       //!< Image to use for splitter / sizing bar in hovering state.
-    static const utf8   SortUpImageName[];              //!< Image to use for 'sort ascending' indicator.
-    static const utf8   SortDownImageName[];            //!< Image to use for 'sort descending' indicator.
-    static const utf8   NormalMouseCursor[];            //!< Image to use for mouse when not sizing.
-    static const utf8   SizingMouseCursor[];            //!< Image to use for mouse when sizing.
-    static const utf8   MovingMouseCursor[];            //!< Image to use for mouse when moving.
+	// image / imageset related
+	static const utf8	ImagesetName[];					//!< Name of the imageset to use for rendering.
+	static const utf8	BackdropNormalImageName[];		//!< Image to use for segment backdrop in normal state.
+	static const utf8	BackdropHoverImageName[];		//!< Image to use for segment backdrop when mouse is hovering.
+	static const utf8	SplitterNormalImageName[];		//!< Image to use for splitter / sizing bar in normal state.
+	static const utf8	SplitterHoverImageName[];		//!< Image to use for splitter / sizing bar in hovering state.
+	static const utf8	SortUpImageName[];				//!< Image to use for 'sort ascending' indicator.
+	static const utf8	SortDownImageName[];			//!< Image to use for 'sort descending' indicator.
+	static const utf8	NormalMouseCursor[];			//!< Image to use for mouse when not sizing.
+	static const utf8	SizingMouseCursor[];			//!< Image to use for mouse when sizing.
+	static const utf8	MovingMouseCursor[];			//!< Image to use for mouse when moving.
 
 
 
-    /*************************************************************************
-        Construction and Destruction
-    *************************************************************************/
-    RLListHeaderSegment(const String& type, const String& name);
-    virtual ~RLListHeaderSegment(void);
+	/*************************************************************************
+		Construction and Destruction
+	*************************************************************************/
+	RLListHeaderSegment(const String& type, const String& name);
+	virtual ~RLListHeaderSegment(void);
 
 
 protected:
-    /*!
-    \brief
-        Render the widget.
+	/*!
+	\brief
+		Render the widget.
 
-    \param z
-        float value specifying the base Z co-ordinate that should be used when rendering
+	\param z
+		float value specifying the base Z co-ordinate that should be used when rendering
 
-    \return
-        Nothing
-    */
-    virtual void    drawSelf(float z);
-
-
-    /*!
-    \brief
-        Render segment
-    */
-    void    renderSegmentImagery(Vector3 pos, float alpha, const Rect& clipper);
+	\return
+		Nothing
+	*/
+	virtual void	drawSelf(float z);
 
 
-    /*************************************************************************
-        Implementation Data
-    *************************************************************************/
-    const Image*    d_backNormalImage;      //!< Pointer to image for normal backdrop.
-    const Image*    d_backHoverImage;       //!< Pointer to image for hover backdrop.
-    const Image*    d_splitterNormalImage;  //!< Pointer to image for normal splitter.
-    const Image*    d_splitterHoverImage;   //!< Pointer to image for hover splitter.
-    const Image*    d_sortAscendImage;      //!< Pointer to image for 'sort ascending' icon.
-    const Image*    d_sortDescendImage;     //!< Pointer to image for 'sort descending' icon.
+	/*!
+	\brief
+		Render segment
+	*/
+	void	renderSegmentImagery(Vector3 pos, float alpha, const Rect& clipper);
+
+
+	/*************************************************************************
+		Implementation Data
+	*************************************************************************/
+	const Image*	d_backNormalImage;		//!< Pointer to image for normal backdrop.
+	const Image*	d_backHoverImage;		//!< Pointer to image for hover backdrop.
+	const Image*	d_splitterNormalImage;	//!< Pointer to image for normal splitter.
+	const Image*	d_splitterHoverImage;	//!< Pointer to image for hover splitter.
+	const Image*	d_sortAscendImage;		//!< Pointer to image for 'sort ascending' icon.
+	const Image*	d_sortDescendImage;		//!< Pointer to image for 'sort descending' icon.
 };
 
 
 /*!
 \brief
-    Factory class for producing RLListHeaderSegment objects
+	Factory class for producing RLListHeaderSegment objects
 */
 class RASTULLAHLOOK_API RLListHeaderSegmentFactory : public WindowFactory
 {
 public:
-    /*************************************************************************
-        Construction and Destruction
-    *************************************************************************/
-    RLListHeaderSegmentFactory(void) : WindowFactory(RLListHeaderSegment::WidgetTypeName) { }
-    ~RLListHeaderSegmentFactory(void){}
+	/*************************************************************************
+		Construction and Destruction
+	*************************************************************************/
+	RLListHeaderSegmentFactory(void) : WindowFactory(RLListHeaderSegment::WidgetTypeName) { }
+	~RLListHeaderSegmentFactory(void){}
 
 
-    /*!
-    \brief
-        Create a new Window object of whatever type this WindowFactory produces.
+	/*!
+	\brief
+		Create a new Window object of whatever type this WindowFactory produces.
 
-    \param name
-        A unique name that is to be assigned to the newly created Window object
+	\param name
+		A unique name that is to be assigned to the newly created Window object
 
-    \return
-        Pointer to the new Window object.
-    */
-    Window* createWindow(const String& name);
+	\return
+		Pointer to the new Window object.
+	*/
+	Window*	createWindow(const String& name);
 
 
-    /*!
-    \brief
-        Destroys the given Window object.
+	/*!
+	\brief
+		Destroys the given Window object.
 
-    \param window
-        Pointer to the Window object to be destroyed.
+	\param window
+		Pointer to the Window object to be destroyed.
 
-    \return
-        Nothing.
-    */
-    virtual void    destroyWindow(Window* window)    { if (window->getType() == d_type) delete window; }
+	\return
+		Nothing.
+	*/
+	virtual void	destroyWindow(Window* window)	 { if (window->getType() == d_type) delete window; }
 };
 
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _RLListHeaderSegment_h_
+#endif	// end of guard _RLListHeaderSegment_h_

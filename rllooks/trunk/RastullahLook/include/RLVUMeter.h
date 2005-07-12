@@ -1,9 +1,7 @@
 /************************************************************************
-	filename: 	RLAlternateProgressBar.cpp
-	created:	23/5/2004
+	filename: 	RLVUMeter.h
+	created:	20/1/2005
 	author:		Paul D Turner
-	
-	purpose:	Interface to the alternate Rastullah progress bar
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -23,8 +21,8 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************/
-#ifndef _RLAlternateProgressBar_cpp_
-#define _RLAlternateProgressBar_cpp_
+#ifndef _RLVUMeter_h_
+#define _RLVUMeter_h_
 
 #include "RLModule.h"
 #include "CEGUIWindowFactory.h"
@@ -34,17 +32,19 @@
 // Start of CEGUI namespace section
 namespace CEGUI
 {
-
-// number of light images we have for this alternate progress bar
-#define		RLAPB_LightImageCount		10
-
-
 /*!
 \brief
-	Alternate progress bar for the Rastullah Gui Scheme.
+	Vertical "VU Meter" style progress bar for the Rastullah Gui Scheme.
 */
-class RASTULLAHLOOK_API RLAlternateProgressBar : public ProgressBar
+class RASTULLAHLOOK_API RLVUMeter : public ProgressBar
 {
+	// simple struct used to hold info about a light.
+	struct LightInfo
+	{
+		Rect	area;
+		colour	col;
+	};
+
 public:
 	/*************************************************************************
 		Constants
@@ -54,41 +54,31 @@ public:
 
 	// Progress bar image names
 	static const utf8	ImagesetName[];					//!< Name of the imageset to use for rendering.
-	static const utf8	ContainerLeftImageName[];		//!< Name of image to use for left end of container.
-	static const utf8	ContainerMiddleImageName[];		//!< Name of image to use for middle of container.
-	static const utf8	ContainerRightImageName[];		//!< Name of image to use foe right of container.
-	static const utf8	QuartersMarkImageName[];		//!< Name of image to use for quarter calibration marks.
-	static const utf8	HalvesMarkImageName[];			//!< Name of image to use for halfs calibration mark.
-	static const utf8	Light1ImageName[];				//!< Name of image for light 1.
-	static const utf8	Light2ImageName[];				//!< Name of image for light 2.
-	static const utf8	Light3ImageName[];				//!< Name of image for light 3.
-	static const utf8	Light4ImageName[];				//!< Name of image for light 4.
-	static const utf8	Light5ImageName[];				//!< Name of image for light 5.
-	static const utf8	Light6ImageName[];				//!< Name of image for light 6.
-	static const utf8	Light7ImageName[];				//!< Name of image for light 7.
-	static const utf8	Light8ImageName[];				//!< Name of image for light 8.
-	static const utf8	Light9ImageName[];				//!< Name of image for light 9.
-	static const utf8	Light10ImageName[];				//!< Name of image for light 10.
+	static const utf8	LightImageName[];				//!< Name of image for lights.
 
-	// some offsets
-	static const float	FirstLightPaddingRatio;			//!< Value used to calculate required offset for first light.
-
+	// Colours
+	static const colour	redLitColour;			//!< Base colour to use for red segments when lit.
+	static const colour	redUnlitColour;			//!< Base colour to use for red segments when not lit.
+	static const colour	yellowLitColour;		//!< Base colour to use for yellow segments when lit.
+	static const colour	yellowUnlitColour;		//!< Base colour to use for yellow segments when not lit.
+	static const colour	greenLitColour;			//!< Base colour to use for green segments when lit.
+	static const colour	greenUnlitColour;		//!< Base colour to use for green segments when not lit.
 
 	/*************************************************************************
 		Construction / Destruction
 	*************************************************************************/
 	/*!
 	\brief
-		Constructor for Rastullah alternate progress bar objects
+		Constructor for Rastullah RLVUMeter objects
 	*/
-	RLAlternateProgressBar(const String& type, const String& name);
+	RLVUMeter(const String& type, const String& name);
 
 
 	/*!
 	\brief
-		Destructor for Rastullah alternate progress bar objects
+		Destructor for Rastullah RLVUMeter objects
 	*/
-	virtual ~RLAlternateProgressBar(void);
+	virtual ~RLVUMeter(void);
 
 
 protected:
@@ -111,6 +101,9 @@ protected:
 	*/
 	virtual void	onSized(WindowEventArgs& e);
 
+	virtual void	onAlphaChanged(WindowEventArgs& e);
+	virtual void	onProgressChanged(WindowEventArgs& e);
+
 
 	/*************************************************************************
 		Implementation Functions
@@ -125,33 +118,28 @@ protected:
 	/*************************************************************************
 		Implementation Data
 	*************************************************************************/
-	int		d_lightCount;	//!< number of lights to render
-	float	d_lightSpacing;	//!< space between lights for rendering
-	int*	d_lights;		//!< holds pointer to array of light image indeces.
-	int		d_lightsSize;	//!< size of d_lights array
-
 	// images
-	const Image*	d_left;				//!< Left end of container.
-	const Image*	d_right;			//!< Right end of container.
-	const Image*	d_middle;			//!< Middle of container.
-	const Image*	d_quarterMark;		//!< Quarters calibration mark.
-	const Image*	d_halvesMark;		//!< Halves calibration mark.
-	const Image*	d_lightImages[RLAPB_LightImageCount];		//!< Light images.
+	const Image*	d_lightImage;	//!< Image to use for lights.
+
+	// lights information
+	int			d_lightCount;	//!< number of LED segments to draw from d_lightInfos.
+	int			d_lightInfoCount;	//!< Size of the d_lightInfos array.
+	LightInfo*	d_lightInfos;	//!< Array of LightInfo structs.
 };
 
 
 /*!
 \brief
-	Factory class for producing RLAlternateProgressBar objects
+	Factory class for producing RLVUMeter objects
 */
-class RASTULLAHLOOK_API RLAlternateProgressBarFactory : public WindowFactory
+class RASTULLAHLOOK_API RLVUMeterFactory : public WindowFactory
 {
 public:
 	/*************************************************************************
 		Construction and Destruction
 	*************************************************************************/
-	RLAlternateProgressBarFactory(void) : WindowFactory(RLAlternateProgressBar::WidgetTypeName) { }
-	~RLAlternateProgressBarFactory(void){}
+	RLVUMeterFactory(void) : WindowFactory(RLVUMeter::WidgetTypeName) { }
+	~RLVUMeterFactory(void){}
 
 
 	/*!
@@ -180,7 +168,8 @@ public:
 	virtual void	destroyWindow(Window* window)	 { if (window->getType() == d_type) delete window; }
 };
 
+
 } // End of  CEGUI namespace section
 
 
-#endif	// end of guard _RLAlternateProgressBar_cpp_
+#endif	// end of guard _RLVUMeter_h_

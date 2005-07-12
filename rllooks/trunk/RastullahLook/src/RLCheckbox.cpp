@@ -1,13 +1,13 @@
 /************************************************************************
-    filename:   RLCheckbox.cpp
-    created:    21/5/2004
-    author:     Paul D Turner
-    
-    purpose:    Implementation of Rastullah Checkbox
+	filename: 	RLCheckbox.cpp
+	created:	21/5/2004
+	author:		Paul D Turner
+	
+	purpose:	Implementation of Rastullah Checkbox
 *************************************************************************/
 /*************************************************************************
-    Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
-    Copyright (C)2004 Paul D Turner (crayzed@users.sourceforge.net)
+    Crazy Eddie's GUI System (http://www.cegui.org.uk)
+    Copyright (C)2004 - 2005 Paul D Turner (paul@cegui.org.uk)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -32,36 +32,36 @@
 namespace CEGUI
 {
 /*************************************************************************
-    Constants
+	Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLCheckbox::WidgetTypeName[]        = "RastullahLook/Checkbox";
+const utf8	RLCheckbox::WidgetTypeName[]		= "RastullahLook/Checkbox";
 
-const utf8  RLCheckbox::ImagesetName[]          = "RastullahLook";
-const utf8  RLCheckbox::NormalImageName[]       = "CheckboxNormal";
-const utf8  RLCheckbox::HighlightImageName[]    = "CheckboxHover";
-const utf8  RLCheckbox::CheckMarkImageName[]    = "CheckboxMark";
+const utf8	RLCheckbox::ImagesetName[]			= "RastullahLook";
+const utf8	RLCheckbox::NormalImageName[]		= "CheckboxNormal";
+const utf8	RLCheckbox::HighlightImageName[]	= "CheckboxHover";
+const utf8	RLCheckbox::CheckMarkImageName[]	= "CheckboxMark";
 
-const float RLCheckbox::LabelPadding            = 4.0f;
+const float	RLCheckbox::LabelPadding			= 4.0f;
 
 
 /*************************************************************************
-    Constructor for Rastullah Look Checkbox objects.
+	Constructor for Rastullah Look Checkbox objects.
 *************************************************************************/
 RLCheckbox::RLCheckbox(const String& type, const String& name) :
-    Checkbox(type, name)
+	Checkbox(type, name)
 {
-    Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
+	Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
 
-    // setup cache of image pointers
-    d_normalImage       = &iset->getImage(NormalImageName);
-    d_hoverImage        = &iset->getImage(HighlightImageName);
-    d_checkMarkImage    = &iset->getImage(CheckMarkImageName);
+	// setup cache of image pointers
+	d_normalImage		= &iset->getImage(NormalImageName);
+	d_hoverImage		= &iset->getImage(HighlightImageName);
+	d_checkMarkImage	= &iset->getImage(CheckMarkImageName);
 }
 
 
 /*************************************************************************
-    Destructor for RLCheckbox objects.
+	Destructor for RLCheckbox objects.
 *************************************************************************/
 RLCheckbox::~RLCheckbox(void)
 {
@@ -69,189 +69,189 @@ RLCheckbox::~RLCheckbox(void)
 
 
 /*************************************************************************
-    render the Checkbox in the normal state.    
+	render the Checkbox in the normal state.	
 *************************************************************************/
 void RLCheckbox::drawNormal(float z)
 {
-    Rect clipper(getPixelRect());
+	Rect clipper(getPixelRect());
 
-    // do nothing if the widget is totally clipped.
-    if (clipper.getWidth() == 0)
-    {
-        return;
-    }
+	// do nothing if the widget is totally clipped.
+	if (clipper.getWidth() == 0)
+	{
+		return;
+	}
 
-    // get the destination screen rect for this window
-    Rect absrect(getUnclippedPixelRect());
+	// get the destination screen rect for this window
+	Rect absrect(getUnclippedPixelRect());
 
-    // calculate colours to use.
-    float alpha_comp = getEffectiveAlpha();
-    ColourRect colours(colour(1, 1, 1, alpha_comp));
+	// calculate colours to use.
+	float alpha_comp = getEffectiveAlpha();
+	ColourRect colours(colour(1, 1, 1, alpha_comp));
 
-    //
-    // draw the images
-    //
-    Vector3 pos(absrect.d_left, absrect.d_top + ((absrect.getHeight() - d_normalImage->getHeight()) * 0.5f), z);
-    d_normalImage->draw(pos, clipper, colours);
+	//
+	// draw the images
+	//
+	Vector3 pos(absrect.d_left, absrect.d_top + PixelAligned((absrect.getHeight() - d_normalImage->getHeight()) * 0.5f), z);
+	d_normalImage->draw(pos, clipper, colours);
 
-    if (d_selected)
-    {
-        d_checkMarkImage->draw(pos, clipper, colours);
-    }
+	if (d_selected)
+	{
+		d_checkMarkImage->draw(pos, clipper, colours);
+	}
 
-    //
-    // Draw label text
-    //
-    absrect.d_top   += (absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f;
-    absrect.d_left  += d_normalImage->getWidth();
-    colours.setColours(d_normalColour);
-    colours.setAlpha(alpha_comp);
-    getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(1), clipper, LeftAligned, colours);
+	//
+	// Draw label text
+	//
+	absrect.d_top	+= PixelAligned((absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f);
+	absrect.d_left	+= d_normalImage->getWidth() + LabelPadding;
+	colours.setColours(d_normalColour);
+	colours.setAlpha(alpha_comp);
+	getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(1), clipper, LeftAligned, colours);
 }
 
 
 /*************************************************************************
-    render the Checkbox in the hover / highlighted state.
+	render the Checkbox in the hover / highlighted state.
 *************************************************************************/
 void RLCheckbox::drawHover(float z)
 {
-    Rect clipper(getPixelRect());
+	Rect clipper(getPixelRect());
 
-    // do nothing if the widget is totally clipped.
-    if (clipper.getWidth() == 0)
-    {
-        return;
-    }
+	// do nothing if the widget is totally clipped.
+	if (clipper.getWidth() == 0)
+	{
+		return;
+	}
 
-    // get the destination screen rect for this window
-    Rect absrect(getUnclippedPixelRect());
+	// get the destination screen rect for this window
+	Rect absrect(getUnclippedPixelRect());
 
-    // calculate colours to use.
-    float alpha_comp = getEffectiveAlpha();
-    ColourRect colours(colour(1, 1, 1, alpha_comp));
+	// calculate colours to use.
+	float alpha_comp = getEffectiveAlpha();
+	ColourRect colours(colour(1, 1, 1, alpha_comp));
 
-    //
-    // draw the images
-    //
-    Vector3 pos(absrect.d_left, absrect.d_top + ((absrect.getHeight() - d_hoverImage->getHeight()) * 0.5f), z);
-    d_hoverImage->draw(pos, clipper, colours);
+	//
+	// draw the images
+	//
+	Vector3 pos(absrect.d_left, absrect.d_top + ((absrect.getHeight() - d_hoverImage->getHeight()) * 0.5f), z);
+	d_hoverImage->draw(pos, clipper, colours);
 
-    if (d_selected)
-    {
-        d_checkMarkImage->draw(pos, clipper, colours);
-    }
+	if (d_selected)
+	{
+		d_checkMarkImage->draw(pos, clipper, colours);
+	}
 
-    //
-    // Draw label text
-    //
-    absrect.d_top   += (absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f;
-    absrect.d_left  += d_hoverImage->getWidth();
-    colours.setColours(d_hoverColour);
-    colours.setAlpha(alpha_comp);
-    getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(1), clipper, LeftAligned, colours);
+	//
+	// Draw label text
+	//
+	absrect.d_top	+= PixelAligned((absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f);
+	absrect.d_left	+= d_hoverImage->getWidth() + LabelPadding;
+	colours.setColours(d_hoverColour);
+	colours.setAlpha(alpha_comp);
+	getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(1), clipper, LeftAligned, colours);
 }
 
 
 /*************************************************************************
-    render the Checkbox in the pushed state.    
+	render the Checkbox in the pushed state.	
 *************************************************************************/
 void RLCheckbox::drawPushed(float z)
 {
-    Rect clipper(getPixelRect());
+	Rect clipper(getPixelRect());
 
-    // do nothing if the widget is totally clipped.
-    if (clipper.getWidth() == 0)
-    {
-        return;
-    }
+	// do nothing if the widget is totally clipped.
+	if (clipper.getWidth() == 0)
+	{
+		return;
+	}
 
-    // get the destination screen rect for this window
-    Rect absrect(getUnclippedPixelRect());
+	// get the destination screen rect for this window
+	Rect absrect(getUnclippedPixelRect());
 
-    // calculate colours to use.
-    float alpha_comp = getEffectiveAlpha();
-    ColourRect colours(colour(1, 1, 1, alpha_comp));
+	// calculate colours to use.
+	float alpha_comp = getEffectiveAlpha();
+	ColourRect colours(colour(1, 1, 1, alpha_comp));
 
-    //
-    // draw the images
-    //
-    Vector3 pos(absrect.d_left, absrect.d_top + ((absrect.getHeight() - d_normalImage->getHeight()) * 0.5f), z);
-    d_normalImage->draw(pos, clipper, colours);
+	//
+	// draw the images
+	//
+	Vector3 pos(absrect.d_left, absrect.d_top + PixelAligned((absrect.getHeight() - d_normalImage->getHeight()) * 0.5f), z);
+	d_normalImage->draw(pos, clipper, colours);
 
-    if (d_selected)
-    {
-        d_checkMarkImage->draw(pos, clipper, colours);
-    }
+	if (d_selected)
+	{
+		d_checkMarkImage->draw(pos, clipper, colours);
+	}
 
-    //
-    // Draw label text
-    //
-    absrect.d_top   += (absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f;
-    absrect.d_left  += d_normalImage->getWidth();
-    colours.setColours(d_pushedColour);
-    colours.setAlpha(alpha_comp);
-    getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(1), clipper, LeftAligned, colours);
+	//
+	// Draw label text
+	//
+	absrect.d_top	+= PixelAligned((absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f);
+	absrect.d_left	+= d_normalImage->getWidth() + LabelPadding;
+	colours.setColours(d_pushedColour);
+	colours.setAlpha(alpha_comp);
+	getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(1), clipper, LeftAligned, colours);
 }
 
 
 /*************************************************************************
-    render the Checkbox in the disabled state   
+	render the Checkbox in the disabled state	
 *************************************************************************/
 void RLCheckbox::drawDisabled(float z)
 {
-    Rect clipper(getPixelRect());
+	Rect clipper(getPixelRect());
 
-    // do nothing if the widget is totally clipped.
-    if (clipper.getWidth() == 0)
-    {
-        return;
-    }
+	// do nothing if the widget is totally clipped.
+	if (clipper.getWidth() == 0)
+	{
+		return;
+	}
 
-    // get the destination screen rect for this window
-    Rect absrect(getUnclippedPixelRect());
+	// get the destination screen rect for this window
+	Rect absrect(getUnclippedPixelRect());
 
-    // calculate colours to use.
-    float alpha_comp = getEffectiveAlpha();
-    ColourRect colours(colour(1, 1, 1, alpha_comp));
+	// calculate colours to use.
+	float alpha_comp = getEffectiveAlpha();
+	ColourRect colours(colour(1, 1, 1, alpha_comp));
 
-    //
-    // draw the images
-    //
-    Vector3 pos(absrect.d_left, absrect.d_top + ((absrect.getHeight() - d_normalImage->getHeight()) * 0.5f), z);
-    d_normalImage->draw(pos, clipper, colours);
+	//
+	// draw the images
+	//
+	Vector3 pos(absrect.d_left, absrect.d_top + PixelAligned((absrect.getHeight() - d_normalImage->getHeight()) * 0.5f), z);
+	d_normalImage->draw(pos, clipper, colours);
 
-    if (d_selected)
-    {
-        d_checkMarkImage->draw(pos, clipper, colours);
-    }
+	if (d_selected)
+	{
+		d_checkMarkImage->draw(pos, clipper, colours);
+	}
 
-    //
-    // Draw label text
-    //
-    absrect.d_top   += (absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f;
-    absrect.d_left  += d_normalImage->getWidth();
-    colours.setColours(d_disabledColour);
-    colours.setAlpha(alpha_comp);
-    getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(1), clipper, LeftAligned, colours);
+	//
+	// Draw label text
+	//
+	absrect.d_top	+= PixelAligned((absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f);
+	absrect.d_left	+= d_normalImage->getWidth() + LabelPadding;
+	colours.setColours(d_disabledColour);
+	colours.setAlpha(alpha_comp);
+	getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(1), clipper, LeftAligned, colours);
 }
 
 
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
 
-    Factory Methods
+	Factory Methods
 
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a RLCheckbox
+	Create, initialise and return a RLCheckbox
 *************************************************************************/
 Window* RLCheckboxFactory::createWindow(const String& name)
 {
-    RLCheckbox* wnd = new RLCheckbox(d_type, name);
-    wnd->initialise();
+	RLCheckbox* wnd = new RLCheckbox(d_type, name);
+	wnd->initialise();
 
-    return wnd;
+	return wnd;
 }
 
 } // End of  CEGUI namespace section

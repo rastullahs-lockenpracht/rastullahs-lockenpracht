@@ -1,13 +1,13 @@
 /************************************************************************
-    filename:   RLFrameWindow.cpp
-    created:    13/4/2004
-    author:     Paul D Turner
-    
-    purpose:    Implementation of Rastullah Look Frame Window class.
+	filename: 	RLFrameWindow.cpp
+	created:	13/4/2004
+	author:		Paul D Turner
+	
+	purpose:	Implementation of Rastullah Look Frame Window class.
 *************************************************************************/
 /*************************************************************************
-    Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
-    Copyright (C)2004 Paul D Turner (crayzed@users.sourceforge.net)
+    Crazy Eddie's GUI System (http://www.cegui.org.uk)
+    Copyright (C)2004 - 2005 Paul D Turner (paul@cegui.org.uk)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -32,82 +32,84 @@
 #include "CEGUIFont.h"
 #include "RLCloseButton.h"
 
+#include <math.h>
+
 // Start of CEGUI namespace section
 namespace CEGUI
 {
 /*************************************************************************
-    Constants
+	Constants
 *************************************************************************/
 // type name for this widget
-const utf8  RLFrameWindow::WidgetTypeName[] = "RastullahLook/FrameWindow";
+const utf8	RLFrameWindow::WidgetTypeName[]	= "RastullahLook/FrameWindow";
 
 // image stuff
-const utf8  RLFrameWindow::ImagesetName[]                   = "RastullahLook";
-const utf8  RLFrameWindow::TopLeftFrameImageName[]          = "WindowTopLeft";
-const utf8  RLFrameWindow::TopRightFrameImageName[]         = "WindowTopRight";
-const utf8  RLFrameWindow::BottomLeftFrameImageName[]       = "WindowBottomLeft";
-const utf8  RLFrameWindow::BottomRightFrameImageName[]      = "WindowBottomRight";
-const utf8  RLFrameWindow::LeftFrameImageName[]             = "WindowLeftEdge";
-const utf8  RLFrameWindow::RightFrameImageName[]            = "WindowRightEdge";
-const utf8  RLFrameWindow::TopFrameImageName[]              = "WindowTopEdge";
-const utf8  RLFrameWindow::BottomFrameImageName[]           = "WindowBottomEdge";
-const utf8  RLFrameWindow::ClientBrushImageName[]           = "ClientBrush";
+const utf8	RLFrameWindow::ImagesetName[]					= "RastullahLook";
+const utf8	RLFrameWindow::TopLeftFrameImageName[]			= "WindowTopLeft";
+const utf8	RLFrameWindow::TopRightFrameImageName[]			= "WindowTopRight";
+const utf8	RLFrameWindow::BottomLeftFrameImageName[]		= "WindowBottomLeft";
+const utf8	RLFrameWindow::BottomRightFrameImageName[]		= "WindowBottomRight";
+const utf8	RLFrameWindow::LeftFrameImageName[]				= "WindowLeftEdge";
+const utf8	RLFrameWindow::RightFrameImageName[]			= "WindowRightEdge";
+const utf8	RLFrameWindow::TopFrameImageName[]				= "WindowTopEdge";
+const utf8	RLFrameWindow::BottomFrameImageName[]			= "WindowBottomEdge";
+const utf8	RLFrameWindow::ClientBrushImageName[]			= "ClientBrush";
 
-const utf8  RLFrameWindow::CloseButtonNormalImageName[]     = "NewCloseButtonNormal";
-const utf8  RLFrameWindow::CloseButtonHoverImageName[]      = "NewCloseButtonHover";
-const utf8  RLFrameWindow::CloseButtonPushedImageName[]     = "NewCloseButtonPressed";
+const utf8	RLFrameWindow::CloseButtonNormalImageName[]		= "NewCloseButtonNormal";
+const utf8	RLFrameWindow::CloseButtonHoverImageName[]		= "NewCloseButtonHover";
+const utf8	RLFrameWindow::CloseButtonPushedImageName[]		= "NewCloseButtonPressed";
 
 // cursor images
-const utf8  RLFrameWindow::NormalCursorImageName[]          = "MouseTarget";
-const utf8  RLFrameWindow::NorthSouthCursorImageName[]      = "MouseNoSoCursor";
-const utf8  RLFrameWindow::EastWestCursorImageName[]        = "MouseEsWeCursor";
-const utf8  RLFrameWindow::NWestSEastCursorImageName[]      = "MouseNwSeCursor";
-const utf8  RLFrameWindow::NEastSWestCursorImageName[]      = "MouseNeSwCursor";
+const utf8	RLFrameWindow::NormalCursorImageName[]			= "MouseTarget";
+const utf8	RLFrameWindow::NorthSouthCursorImageName[]		= "MouseNoSoCursor";
+const utf8	RLFrameWindow::EastWestCursorImageName[]		= "MouseEsWeCursor";
+const utf8	RLFrameWindow::NWestSEastCursorImageName[]		= "MouseNwSeCursor";
+const utf8	RLFrameWindow::NEastSWestCursorImageName[]		= "MouseNeSwCursor";
 
 
 // window type stuff
-const utf8* RLFrameWindow::TitlebarType         = RLTitlebar::WidgetTypeName;
-const utf8* RLFrameWindow::CloseButtonType      = RLCloseButton::WidgetTypeName;
+const utf8*	RLFrameWindow::TitlebarType			= RLTitlebar::WidgetTypeName;
+const utf8*	RLFrameWindow::CloseButtonType		= RLCloseButton::WidgetTypeName;
 
 // layout constants
-const float RLFrameWindow::TitlebarXOffset          = 0;
-const float RLFrameWindow::TitlebarYOffset          = 0;
-const float RLFrameWindow::TitlebarTextPadding      = 8;
-const float RLFrameWindow::TitlebarWidthPercentage  = 66;
+const float	RLFrameWindow::TitlebarXOffset			= 0;
+const float	RLFrameWindow::TitlebarYOffset			= 0;
+const float	RLFrameWindow::TitlebarTextPadding		= 8;
+const float	RLFrameWindow::TitlebarWidthPercentage	= 66;
 
 
 /*************************************************************************
-    Constructor
+	Constructor
 *************************************************************************/
 RLFrameWindow::RLFrameWindow(const String& type, const String& name) :
-    FrameWindow(type, name)
+	FrameWindow(type, name)
 {
-    Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
+	Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
 
-    d_frame.setImages(NULL, NULL,
-        &iset->getImage(BottomLeftFrameImageName), &iset->getImage(BottomRightFrameImageName),
-        &iset->getImage(LeftFrameImageName), NULL, 
-        &iset->getImage(RightFrameImageName), &iset->getImage(BottomFrameImageName));
+	d_frame.setImages(NULL, NULL,
+		&iset->getImage(BottomLeftFrameImageName), &iset->getImage(BottomRightFrameImageName),
+		&iset->getImage(LeftFrameImageName), NULL, 
+		&iset->getImage(RightFrameImageName), &iset->getImage(BottomFrameImageName));
 
-    storeFrameSizes();
+	storeFrameSizes();
 
-    // setup client area clearing brush
-    d_clientbrush.setImage(&iset->getImage(ClientBrushImageName));
-    d_clientbrush.setPosition(Point(d_frameLeftSize, d_frameTopSize));
-    d_clientbrush.setHorzFormatting(RenderableImage::HorzTiled);
-    d_clientbrush.setVertFormatting(RenderableImage::VertTiled);
+	// setup client area clearing brush
+	d_clientbrush.setImage(&iset->getImage(ClientBrushImageName));
+	d_clientbrush.setPosition(Point(d_frameLeftSize, d_frameTopSize));
+	d_clientbrush.setHorzFormatting(RenderableImage::HorzTiled);
+	d_clientbrush.setVertFormatting(RenderableImage::VertTiled);
 
-    // setup cursor images for this window.
-    setMouseCursor(&iset->getImage(NormalCursorImageName));
-    d_nsSizingCursor = &iset->getImage(NorthSouthCursorImageName);
-    d_ewSizingCursor = &iset->getImage(EastWestCursorImageName);
-    d_nwseSizingCursor = &iset->getImage(NWestSEastCursorImageName);
-    d_neswSizingCursor = &iset->getImage(NEastSWestCursorImageName);
+	// setup cursor images for this window.
+	setMouseCursor(&iset->getImage(NormalCursorImageName));
+	d_nsSizingCursor = &iset->getImage(NorthSouthCursorImageName);
+	d_ewSizingCursor = &iset->getImage(EastWestCursorImageName);
+	d_nwseSizingCursor = &iset->getImage(NWestSEastCursorImageName);
+	d_neswSizingCursor = &iset->getImage(NEastSWestCursorImageName);
 }
 
 
 /*************************************************************************
-    Destructor
+	Destructor
 *************************************************************************/
 RLFrameWindow::~RLFrameWindow(void)
 {
@@ -115,321 +117,337 @@ RLFrameWindow::~RLFrameWindow(void)
 
 
 /*************************************************************************
-    Return a Rect object that describes, unclipped, the inner rectangle
-    for this window.    
+	Return a Rect object that describes, unclipped, the inner rectangle
+	for this window.	
 *************************************************************************/
 Rect RLFrameWindow::getUnclippedInnerRect(void) const
 {
-    Rect tmp(getUnclippedPixelRect());
+	Rect tmp(getUnclippedPixelRect());
 
-    if (isFrameEnabled())
-    {
-        Point pos(d_frame.getPosition());
+	if (isFrameEnabled())
+	{
+		Point pos(d_frame.getPosition());
 
-        tmp.d_left      += d_frameLeftSize;
-        tmp.d_right     -= d_frameRightSize;
-        tmp.d_top       += pos.d_y;
+		tmp.d_left		+= d_frameLeftSize;
+		tmp.d_right		-= d_frameRightSize;
+		tmp.d_top		+= pos.d_y;
 
-        if (!isTitleBarEnabled())
-        {
-            tmp.d_top   += d_frameTopSize;
-        }
+		if (!isTitleBarEnabled())
+		{
+			tmp.d_top	+= d_frameTopSize;
+		}
 
-        tmp.d_bottom    -= d_frameBottomSize;
-    }
+		tmp.d_bottom	-= d_frameBottomSize;
+	}
 
-    return tmp;
+	return tmp;
 }
 
 
 /*************************************************************************
-    Create a control based upon the Titlebar base class to be used as
-    the title bar for this window.
+	Create a control based upon the Titlebar base class to be used as
+	the title bar for this window.
 *************************************************************************/
 Titlebar* RLFrameWindow::createTitlebar(void) const
 {
-    RLTitlebar* tbar = (RLTitlebar*)WindowManager::getSingleton().createWindow(TitlebarType, getName() + "__auto_titlebar__");
-    tbar->setMetricsMode(Absolute);
-    tbar->setPosition(Point(TitlebarXOffset, TitlebarYOffset));
+	RLTitlebar* tbar = (RLTitlebar*)WindowManager::getSingleton().createWindow(TitlebarType, getName() + "__auto_titlebar__");
+	tbar->setMetricsMode(Absolute);
+	tbar->setPosition(Point(TitlebarXOffset, TitlebarYOffset));
 
-    return tbar;
+	return tbar;
 }
 
 
 /*************************************************************************
-    Create a control based upon the PushButton base class, to be used as
-    the close button for the window.
+	Create a control based upon the PushButton base class, to be used as
+	the close button for the window.
 *************************************************************************/
 PushButton* RLFrameWindow::createCloseButton(void) const
 {
-    RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(CloseButtonType, getName() + "__auto_closebutton__");
+	RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(CloseButtonType, getName() + "__auto_closebutton__");
 
-    btn->setStandardImageryEnabled(false);
-    btn->setCustomImageryAutoSized(true);
-    
-    // setup close button imagery
-    RenderableImage img;
-    img.setHorzFormatting(RenderableImage::HorzStretched);
-    img.setVertFormatting(RenderableImage::VertStretched);
-    img.setImage(&ImagesetManager::getSingleton().getImageset(ImagesetName)->getImage(CloseButtonNormalImageName));
-    img.setColours(ColourRect(0xFFBBBBBB));
-    btn->setNormalImage(&img);
-    img.setImage(&ImagesetManager::getSingleton().getImageset(ImagesetName)->getImage(CloseButtonHoverImageName));
-    img.setColours(ColourRect(0xFFFFFFFF));
-    btn->setHoverImage(&img);
-    img.setImage(&ImagesetManager::getSingleton().getImageset(ImagesetName)->getImage(CloseButtonPushedImageName));
-    img.setColours(ColourRect(0xFF999999));
-    btn->setPushedImage(&img);
+	btn->setStandardImageryEnabled(false);
+	btn->setCustomImageryAutoSized(true);
+	
+	// setup close button imagery
+	RenderableImage img;
+	img.setHorzFormatting(RenderableImage::HorzStretched);
+	img.setVertFormatting(RenderableImage::VertStretched);
+	img.setImage(&ImagesetManager::getSingleton().getImageset(ImagesetName)->getImage(CloseButtonNormalImageName));
+	img.setColours(ColourRect(0xFFBBBBBB));
+	btn->setNormalImage(&img);
+	img.setImage(&ImagesetManager::getSingleton().getImageset(ImagesetName)->getImage(CloseButtonHoverImageName));
+	img.setColours(ColourRect(0xFFFFFFFF));
+	btn->setHoverImage(&img);
+	img.setImage(&ImagesetManager::getSingleton().getImageset(ImagesetName)->getImage(CloseButtonPushedImageName));
+	img.setColours(ColourRect(0xFF999999));
+	btn->setPushedImage(&img);
 
-    btn->setMetricsMode(Absolute);
-    btn->setAlwaysOnTop(true);
-    
-    return btn;
+	btn->setMetricsMode(Absolute);
+	btn->setAlwaysOnTop(true);
+	
+	return btn;
 }
 
 
 /*************************************************************************
-    Setup size and position for the title bar and close button widgets
-    attached to this window
+	Setup size and position for the title bar and close button widgets
+	attached to this window
 *************************************************************************/
 void RLFrameWindow::layoutComponentWidgets()
 {
-    ImagesetManager& ismgr = ImagesetManager::getSingleton();
+	ImagesetManager& ismgr = ImagesetManager::getSingleton();
 
-    // calculate and set size of title bar
-    Size titleSz;
-    titleSz.d_height = d_titlebar->getFont()->getLineSpacing() + TitlebarTextPadding;
-    titleSz.d_width  = isRolledup() ? d_abs_openSize.d_width : d_abs_area.getWidth();
-    d_titlebar->setSize(titleSz);
+	// calculate and set size of title bar
+	Size titleSz;
+	titleSz.d_height = d_titlebar->getFont()->getLineSpacing() + TitlebarTextPadding;
+	titleSz.d_width	 = isRolledup() ? d_abs_openSize.d_width : d_abs_area.getWidth();
+	d_titlebar->setSize(titleSz);
 
-    // set size of close button to be the same as the height for the title bar.
-	float closeSize = 0.8f * ismgr.getImageset(ImagesetName)->getImage(CloseButtonNormalImageName).getWidth();
-    d_closeButton->setSize(Size(closeSize, closeSize));
+	// set size of close button to be the same as the height for the title bar.
+	float closeSize = ismgr.getImageset(ImagesetName)->getImage(CloseButtonNormalImageName).getWidth();
+	d_closeButton->setSize(Size(closeSize, closeSize));
 
-    // calculate position for close button (somewhere over the end of the titlbar)
-    float closeX = titleSz.d_width - closeSize - 
-		( ismgr.getImageset(RLTitlebar::ImagesetName)->getImage(RLTitlebar::SysAreaRightImageName).getWidth() * 0.5f ) ;
+	// calculate position for close button (somewhere over the end of the titlbar)
+	float closeX = titleSz.d_width - closeSize - 
+		ismgr.getImageset(RLTitlebar::ImagesetName)->getImage(RLTitlebar::SysAreaRightImageName).getWidth();
 
-	float closeY = TitlebarYOffset; //+ ((titleSz.d_height - closeSize) / 2);
+	float closeY = TitlebarYOffset + ((titleSz.d_height - closeSize) / 2);
 
-    d_closeButton->setPosition(Point(closeX, closeY));
+	d_closeButton->setPosition(Point(closeX, closeY));
 }
 
 
 /*************************************************************************
-    Perform the actual rendering for this Window.
+	Perform the actual rendering for this Window.
 *************************************************************************/
 void RLFrameWindow::drawSelf(float z)
 {
-    // get the destination screen rect for this window
-    Rect absrect(getUnclippedPixelRect());
+	// get the destination screen rect for this window
+	Rect absrect(getUnclippedPixelRect());
 
-    Vector3 pos(absrect.d_left, absrect.d_top, z);
+	Vector3 pos(absrect.d_left, absrect.d_top, z);
 
-    d_clientbrush.draw(pos, getInnerRect());
+	d_clientbrush.draw(pos, getInnerRect());
 
-    if (isFrameEnabled())
-    {
-        d_frame.draw(pos, getPixelRect());
-    }
+	if (isFrameEnabled())
+	{
+		d_frame.draw(pos, getPixelRect());
+	}
 
 }
 
 /*************************************************************************
-    Handler called when window is sized
+	Handler called when window is sized
 *************************************************************************/
 void RLFrameWindow::onSized(WindowEventArgs& e)
 {
-    // MUST call base class handler no matter what.  This is now required 100%
-    FrameWindow::onSized(e);
+	// MUST call base class handler no matter what.  This is now required 100%
+	FrameWindow::onSized(e);
 
-    Rect area(getUnclippedPixelRect());
-    Size newsz(area.getWidth(), area.getHeight());
+	Rect area(getUnclippedPixelRect());
+	Size newsz(area.getWidth(), area.getHeight());
 
-    //
-    // adjust frame and client area rendering objects so that the title bar is outside the frame area.
-    //
-    float frame_offset = 0;
+	//
+	// adjust frame and client area rendering objects so that the title bar is outside the frame area.
+	//
+	float frame_offset = 0;
 
-    // if title bar is active frame is offset by the height of the title bar
-    if (isTitleBarEnabled())
-    {
-        frame_offset = d_titlebar->getUnclippedPixelRect().getHeight();
-    }
-    // if no title bar, measure the close button instead (which will look crap, actually).
-    else if (isCloseButtonEnabled())
-    {
-        frame_offset = d_closeButton->getUnclippedPixelRect().getHeight();
-    }
+	// if title bar is active frame is offset by the height of the title bar
+	if (isTitleBarEnabled())
+	{
+		frame_offset = d_titlebar->getUnclippedPixelRect().getHeight();
+	}
+	// if no title bar, measure the close button instead (which will look crap, actually).
+	else if (isCloseButtonEnabled())
+	{
+		frame_offset = d_closeButton->getUnclippedPixelRect().getHeight();
+	}
 
-    // move frame into position
-    Point pos(0, frame_offset);
-    d_frame.setPosition(pos);
+	// move frame into position
+	Point pos(0, frame_offset);
+	d_frame.setPosition(pos);
 
-    // adjust size of frame
-    newsz.d_height -= frame_offset;
-    d_frame.setSize(newsz);
+	// adjust size of frame
+	newsz.d_height -= frame_offset;
+	d_frame.setSize(newsz);
 
-    // adjust position for client brush
-    pos.d_y += (isTitleBarEnabled() || !isFrameEnabled()) ? 0 : d_frameTopSize;
+	// adjust position and size of client so it is within the frame	if (isFrameEnabled())
+	{
+		pos.d_x += d_frameLeftSize;
+		newsz.d_width	-= (d_frameLeftSize + d_frameRightSize);
+		newsz.d_height	-= d_frameBottomSize;
 
-    // modify size of client so it is within the frame
-    if (isFrameEnabled())
-    {
-        pos.d_x += d_frameLeftSize;
-        newsz.d_width   -= (d_frameLeftSize + d_frameRightSize);
-        newsz.d_height  -= d_frameBottomSize;
+		if (!isTitleBarEnabled())
+		{
+			pos.d_y += d_frameTopSize;
+			newsz.d_height -= d_frameTopSize;
+		}
+	}
 
-        if (!isTitleBarEnabled())
-        {
-            newsz.d_height -= d_frameTopSize;
-        }
-    }
-
-    d_clientbrush.setSize(newsz);
-    d_clientbrush.setPosition(pos);
+	d_clientbrush.setSize(newsz);
+	d_clientbrush.setPosition(pos);
 }
 
 
 /*************************************************************************
-    Handler for alpha value changes
+	Handler for alpha value changes
 *************************************************************************/
 void RLFrameWindow::onAlphaChanged(WindowEventArgs& e)
 {
-    FrameWindow::onAlphaChanged(e);
+	FrameWindow::onAlphaChanged(e);
 
-    // update alpha values for the frame and client brush
-    float alpha = getEffectiveAlpha();
+	// update alpha values for the frame and client brush
+	float alpha = getEffectiveAlpha();
 
-    ColourRect cr;
-    cr = d_frame.getColours();
-    cr.setAlpha(alpha);
-    d_frame.setColours(cr);
+	ColourRect cr;
+	cr = d_frame.getColours();
+	cr.setAlpha(alpha);
+	d_frame.setColours(cr);
 
-    cr = d_clientbrush.getColours();
-    cr.setAlpha(alpha);
-    d_clientbrush.setColours(cr);
+	cr = d_clientbrush.getColours();
+	cr.setAlpha(alpha);
+	d_clientbrush.setColours(cr);
 }
 
 
 /*************************************************************************
-    Store the sizes for the frame edges
+    Handler for when clip mode changes
+*************************************************************************/
+void RLFrameWindow::onClippingChanged(WindowEventArgs& e)
+{
+    FrameWindow::onClippingChanged(e);
+
+    // set same mode on the titlebar and close button
+    if (d_titlebar)
+    {
+        d_titlebar->setClippedByParent(d_clippedByParent);
+    }
+    if (d_closeButton)
+    {
+        d_closeButton->setClippedByParent(d_clippedByParent);
+    }
+}
+
+
+/*************************************************************************
+	Store the sizes for the frame edges
 *************************************************************************/
 void RLFrameWindow::storeFrameSizes(void)
 {
-    Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
+	Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
 
-    const Image* img;
-    img = &iset->getImage(LeftFrameImageName);
-    d_frameLeftSize = img->getWidth() + img->getOffsetX();
+	const Image* img;
+	img = &iset->getImage(LeftFrameImageName);
+	d_frameLeftSize = img->getWidth() + fabs(img->getOffsetX());
 
-    img = &iset->getImage(LeftFrameImageName);
-    d_frameRightSize = img->getWidth() + img->getOffsetX();
+	img = &iset->getImage(RightFrameImageName);
+	d_frameRightSize = img->getWidth() + fabs(img->getOffsetX());
 
-    img = &iset->getImage(TopFrameImageName);
-    d_frameTopSize = img->getHeight() + img->getOffsetY();
+	img = &iset->getImage(TopFrameImageName);
+	d_frameTopSize = img->getHeight() + fabs(img->getOffsetY());
 
-    img = &iset->getImage(BottomFrameImageName);
-    d_frameBottomSize = img->getHeight() + img->getOffsetY();
+	img = &iset->getImage(BottomFrameImageName);
+	d_frameBottomSize = img->getHeight() + fabs(img->getOffsetY());
 }
 
 
 /*************************************************************************
-    Return a Rect that describes, in window relative pixel co-ordinates,
-    the outer edge of the sizing area for this window.
+	Return a Rect that describes, in window relative pixel co-ordinates,
+	the outer edge of the sizing area for this window.
 *************************************************************************/
 Rect RLFrameWindow::getSizingRect(void) const
 {
-    return d_frame.getRect();
+	return d_frame.getRect();
 }
 
 
 /*************************************************************************
-    Initialises the Window based object ready for use.
+	Initialises the Window based object ready for use.
 *************************************************************************/
 void RLFrameWindow::initialise(void)
 {
-    // Call base class to create component widgets and "do whatever"
-    FrameWindow::initialise();
+	// Call base class to create component widgets and "do whatever"
+	FrameWindow::initialise();
 
-    // subscribe to enable/disable events on title bar since we need something a little more than that.
-    d_titlebar->subscribeEvent(Window::EventDisabled, Event::Subscriber(&CEGUI::RLFrameWindow::componentDisabledHandler, this));
-    d_titlebar->subscribeEvent(Window::EventEnabled, Event::Subscriber(&CEGUI::RLFrameWindow::componentEnabledHandler, this));
+	// subscribe to enable/disable events on title bar since we need something a little more than that.
+	d_titlebar->subscribeEvent(Window::EventDisabled, Event::Subscriber(&CEGUI::RLFrameWindow::componentDisabledHandler, this));
+	d_titlebar->subscribeEvent(Window::EventEnabled, Event::Subscriber(&CEGUI::RLFrameWindow::componentEnabledHandler, this));
 
-    // subscribe to enable/disable events on close button since we need something a little more than that.
-    d_closeButton->subscribeEvent(Window::EventDisabled, Event::Subscriber(&CEGUI::RLFrameWindow::componentDisabledHandler, this));
-    d_closeButton->subscribeEvent(Window::EventEnabled, Event::Subscriber(&CEGUI::RLFrameWindow::componentEnabledHandler, this));
+	// subscribe to enable/disable events on close button since we need something a little more than that.
+	d_closeButton->subscribeEvent(Window::EventDisabled, Event::Subscriber(&CEGUI::RLFrameWindow::componentDisabledHandler, this));
+	d_closeButton->subscribeEvent(Window::EventEnabled, Event::Subscriber(&CEGUI::RLFrameWindow::componentEnabledHandler, this));
 }
 
 
 /*************************************************************************
-    handler used for when the title bar or close button are disabled.   
+	handler used for when the title bar or close button are disabled.	
 *************************************************************************/
 bool RLFrameWindow::componentDisabledHandler(const EventArgs& e)
 {
-    ((WindowEventArgs&)e).window->hide();
+	((WindowEventArgs&)e).window->hide();
 
-    // update frame images if the title bar has been removed
-    if (((WindowEventArgs&)e).window == d_titlebar)
-    {
-        Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
+	// update frame images if the title bar has been removed
+	if (((WindowEventArgs&)e).window == d_titlebar)
+	{
+		Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
 
-        d_frame.setImages(&iset->getImage(TopLeftFrameImageName), &iset->getImage(TopRightFrameImageName),
-            &iset->getImage(BottomLeftFrameImageName), &iset->getImage(BottomRightFrameImageName),
-            &iset->getImage(LeftFrameImageName), &iset->getImage(TopFrameImageName), 
-            &iset->getImage(RightFrameImageName), &iset->getImage(BottomFrameImageName));
-    }
+		d_frame.setImages(&iset->getImage(TopLeftFrameImageName), &iset->getImage(TopRightFrameImageName),
+			&iset->getImage(BottomLeftFrameImageName), &iset->getImage(BottomRightFrameImageName),
+			&iset->getImage(LeftFrameImageName), &iset->getImage(TopFrameImageName), 
+			&iset->getImage(RightFrameImageName), &iset->getImage(BottomFrameImageName));
+	}
 
-    // update for possible changed frame size and layout
-    WindowEventArgs args(this);
-    onSized(args);
+	// update for possible changed frame size and layout
+	WindowEventArgs args(this);
+	onSized(args);
 
-    return true;
+	return true;
 }
 
 
 /*************************************************************************
-    handler used for when the title bar or close button are enabled.
+	handler used for when the title bar or close button are enabled.
 *************************************************************************/
 bool RLFrameWindow::componentEnabledHandler(const EventArgs& e)
 {
-    ((WindowEventArgs&)e).window->show();
+	((WindowEventArgs&)e).window->show();
 
-    // update frame images if the title bar has been displayed
-    if (((WindowEventArgs&)e).window == d_titlebar)
-    {
-        Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
+	// update frame images if the title bar has been displayed
+	if (((WindowEventArgs&)e).window == d_titlebar)
+	{
+		Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
 
-        d_frame.setImages(NULL, NULL,
-            &iset->getImage(BottomLeftFrameImageName), &iset->getImage(BottomRightFrameImageName),
-            &iset->getImage(LeftFrameImageName), NULL, 
-            &iset->getImage(RightFrameImageName), &iset->getImage(BottomFrameImageName));
-    }
+		d_frame.setImages(NULL, NULL,
+			&iset->getImage(BottomLeftFrameImageName), &iset->getImage(BottomRightFrameImageName),
+			&iset->getImage(LeftFrameImageName), NULL, 
+			&iset->getImage(RightFrameImageName), &iset->getImage(BottomFrameImageName));
+	}
 
-    // update for possible changed frame size and layout
-    WindowEventArgs args(this);
-    onSized(args);
+	// update for possible changed frame size and layout
+	WindowEventArgs args(this);
+	onSized(args);
 
-    return true;
+	return true;
 }
 
 
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
 
-    Factory Methods
+	Factory Methods
 
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a RLFrameWindow   
+	Create, initialise and return a RLFrameWindow	
 *************************************************************************/
 Window* RLFrameWindowFactory::createWindow(const String& name)
 {
-    RLFrameWindow* wnd = new RLFrameWindow(d_type, name);
-    wnd->initialise();
+	RLFrameWindow* wnd = new RLFrameWindow(d_type, name);
+	wnd->initialise();
 
-    return wnd;
+	return wnd;
 }
 
 } // End of  CEGUI namespace section

@@ -1,14 +1,14 @@
 /************************************************************************
-    filename:   RLVertScrollbar.cpp
-    created:    2/6/2004
-    author:     Paul D Turner
-    
-    purpose:    Implementation of Rastullah Vertical Scrollbar widget
-                (Large version of scrollbar)
+	filename: 	RLVertScrollbar.cpp
+	created:	2/6/2004
+	author:		Paul D Turner
+	
+	purpose:	Implementation of Rastullah Vertical Scrollbar widget
+				(Large version of scrollbar)
 *************************************************************************/
 /*************************************************************************
-    Crazy Eddie's GUI System (http://crayzedsgui.sourceforge.net)
-    Copyright (C)2004 Paul D Turner (crayzed@users.sourceforge.net)
+    Crazy Eddie's GUI System (http://www.cegui.org.uk)
+    Copyright (C)2004 - 2005 Paul D Turner (paul@cegui.org.uk)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -36,55 +36,55 @@
 namespace CEGUI
 {
 /*************************************************************************
-    Constants
+	Constants
 *************************************************************************/
-const utf8  RLVertScrollbar::WidgetTypeName[]   = "RastullahLook/LargeVerticalScrollbar";
+const utf8	RLVertScrollbar::WidgetTypeName[]	= "RastullahLook/LargeVerticalScrollbar";
 
 // Progress bar image names
-const utf8  RLVertScrollbar::ImagesetName[]                 = "RastullahLook";
-const utf8  RLVertScrollbar::ContainerTopImageName[]        = "VertScrollTop";
-const utf8  RLVertScrollbar::ContainerMiddleImageName[]     = "VertScrollMiddle";
-const utf8  RLVertScrollbar::ContainerBottomImageName[]     = "VertScrollBottom";
-const utf8  RLVertScrollbar::ThumbTrackSegmentImageName[]   = "VertScrollBarSegment";
-const utf8  RLVertScrollbar::UpButtonNormalImageName[]      = "VertScrollUpNormal";
-const utf8  RLVertScrollbar::UpButtonHighlightImageName[]   = "VertScrollUpHover";
-const utf8  RLVertScrollbar::DownButtonNormalImageName[]    = "VertScrollDownNormal";
-const utf8  RLVertScrollbar::DownButtonHighlightImageName[] = "VertScrollDownHover";
+const utf8	RLVertScrollbar::ImagesetName[]					= "RastullahLook";
+const utf8	RLVertScrollbar::ContainerTopImageName[]		= "VertScrollTop";
+const utf8	RLVertScrollbar::ContainerMiddleImageName[]		= "VertScrollMiddle";
+const utf8	RLVertScrollbar::ContainerBottomImageName[]		= "VertScrollBottom";
+const utf8	RLVertScrollbar::ThumbTrackSegmentImageName[]	= "VertScrollBarSegment";
+const utf8	RLVertScrollbar::UpButtonNormalImageName[]		= "VertScrollUpNormal";
+const utf8	RLVertScrollbar::UpButtonHighlightImageName[]	= "VertScrollUpHover";
+const utf8	RLVertScrollbar::DownButtonNormalImageName[]	= "VertScrollDownNormal";
+const utf8	RLVertScrollbar::DownButtonHighlightImageName[]	= "VertScrollDownHover";
 
 // some layout stuff
-const float RLVertScrollbar::ThumbWidth         = 0.4f;
-const float RLVertScrollbar::ThumbPositionX     = 0.325f;
-const float RLVertScrollbar::TrackWidthRatio    = 0.2f;
-const float RLVertScrollbar::TrackOffsetXRatio  = 0.45f;
-const float RLVertScrollbar::ButtonWidth        = 0.6f;
-const float RLVertScrollbar::ButtonPositionX    = 0.25f;
-const float RLVertScrollbar::ButtonOffsetYRatio = 0.5f;
+const float	RLVertScrollbar::ThumbWidth			= 0.4f;
+const float	RLVertScrollbar::ThumbPositionX		= 0.325f;
+const float	RLVertScrollbar::TrackWidthRatio	= 0.2f;
+const float	RLVertScrollbar::TrackOffsetXRatio	= 0.45f;
+const float	RLVertScrollbar::ButtonWidth		= 0.6f;
+const float	RLVertScrollbar::ButtonPositionX	= 0.25f;
+const float	RLVertScrollbar::ButtonOffsetYRatio	= 0.5f;
 
 // type names for the component widgets
-const utf8* RLVertScrollbar::ThumbWidgetType            = RLVertScrollbarThumb::WidgetTypeName;
-const utf8* RLVertScrollbar::IncreaseButtonWidgetType   = RLButton::WidgetTypeName;
-const utf8* RLVertScrollbar::DecreaseButtonWidgetType   = RLButton::WidgetTypeName;
+const utf8*	RLVertScrollbar::ThumbWidgetType			= RLVertScrollbarThumb::WidgetTypeName;
+const utf8*	RLVertScrollbar::IncreaseButtonWidgetType	= RLButton::WidgetTypeName;
+const utf8*	RLVertScrollbar::DecreaseButtonWidgetType	= RLButton::WidgetTypeName;
 
 
 /*************************************************************************
-    Constructor for Rastullah vertical scroll bar widgets
+	Constructor for Rastullah vertical scroll bar widgets
 *************************************************************************/
 RLVertScrollbar::RLVertScrollbar(const String& type, const String& name) :
-    Scrollbar(type, name)
+	Scrollbar(type, name)
 {
-    Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
+	Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
 
-    // setup cache of image pointers
-    d_containerTop      = &iset->getImage(ContainerTopImageName);
-    d_containerMiddle   = &iset->getImage(ContainerMiddleImageName);
-    d_containerBottom   = &iset->getImage(ContainerBottomImageName);
-    d_thumbTrack        = &iset->getImage(ThumbTrackSegmentImageName);
-    d_upNormal          = &iset->getImage(UpButtonNormalImageName);
+	// setup cache of image pointers
+	d_containerTop		= &iset->getImage(ContainerTopImageName);
+	d_containerMiddle	= &iset->getImage(ContainerMiddleImageName);
+	d_containerBottom	= &iset->getImage(ContainerBottomImageName);
+	d_thumbTrack		= &iset->getImage(ThumbTrackSegmentImageName);
+	d_upNormal			= &iset->getImage(UpButtonNormalImageName);
 }
 
 
 /*************************************************************************
-    Destructor for Rastullah vertical scroll bar widgets
+	Destructor for Rastullah vertical scroll bar widgets
 *************************************************************************/
 RLVertScrollbar::~RLVertScrollbar(void)
 {
@@ -92,227 +92,227 @@ RLVertScrollbar::~RLVertScrollbar(void)
 
 
 /*************************************************************************
-    create a PushButton based widget to use as the increase button for
-    this scroll bar.
+	create a PushButton based widget to use as the increase button for
+	this scroll bar.
 *************************************************************************/
 PushButton* RLVertScrollbar::createIncreaseButton(void) const
 {
-    // create the widget
-    RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(IncreaseButtonWidgetType, getName() + "__auto_incbtn__");
+	// create the widget
+	RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(IncreaseButtonWidgetType, getName() + "__auto_incbtn__");
 
-    // perform some initialisation
-    btn->setStandardImageryEnabled(false);
-    btn->setCustomImageryAutoSized(true);
+	// perform some initialisation
+	btn->setStandardImageryEnabled(false);
+	btn->setCustomImageryAutoSized(true);
 
-    Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
-    RenderableImage img;
-    img.setHorzFormatting(RenderableImage::HorzStretched);
-    img.setVertFormatting(RenderableImage::VertStretched);
-    img.setImage(&iset->getImage(DownButtonNormalImageName));
-    btn->setNormalImage(&img);
-    btn->setDisabledImage(&img);
+	Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
+	RenderableImage img;
+	img.setHorzFormatting(RenderableImage::HorzStretched);
+	img.setVertFormatting(RenderableImage::VertStretched);
+	img.setImage(&iset->getImage(DownButtonNormalImageName));
+	btn->setNormalImage(&img);
+	btn->setDisabledImage(&img);
 
-    img.setImage(&iset->getImage(DownButtonHighlightImageName));
-    btn->setHoverImage(&img);
-    btn->setPushedImage(&img);
+	img.setImage(&iset->getImage(DownButtonHighlightImageName));
+	btn->setHoverImage(&img);
+	btn->setPushedImage(&img);
 
-    return btn;
+	return btn;
 }
 
 
 /*************************************************************************
-    create a PushButton based widget to use as the decrease button for
-    this scroll bar.
+	create a PushButton based widget to use as the decrease button for
+	this scroll bar.
 *************************************************************************/
 PushButton* RLVertScrollbar::createDecreaseButton(void) const
 {
-    // create the widget
-    RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(DecreaseButtonWidgetType, getName() + "__auto_decbtn__");
+	// create the widget
+	RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(DecreaseButtonWidgetType, getName() + "__auto_decbtn__");
 
-    // perform some initialisation
-    btn->setStandardImageryEnabled(false);
-    btn->setCustomImageryAutoSized(true);
+	// perform some initialisation
+	btn->setStandardImageryEnabled(false);
+	btn->setCustomImageryAutoSized(true);
 
-    Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
-    RenderableImage img;
-    img.setHorzFormatting(RenderableImage::HorzStretched);
-    img.setVertFormatting(RenderableImage::VertStretched);
-    img.setImage(d_upNormal);
-    btn->setNormalImage(&img);
-    btn->setDisabledImage(&img);
+	Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
+	RenderableImage img;
+	img.setHorzFormatting(RenderableImage::HorzStretched);
+	img.setVertFormatting(RenderableImage::VertStretched);
+	img.setImage(d_upNormal);
+	btn->setNormalImage(&img);
+	btn->setDisabledImage(&img);
 
-    img.setImage(&iset->getImage(UpButtonHighlightImageName));
-    btn->setHoverImage(&img);
-    btn->setPushedImage(&img);
+	img.setImage(&iset->getImage(UpButtonHighlightImageName));
+	btn->setHoverImage(&img);
+	btn->setPushedImage(&img);
 
-    return btn;
+	return btn;
 }
 
 
 /*************************************************************************
-    create a Thumb based widget to use as the thumb for this scroll bar.
+	create a Thumb based widget to use as the thumb for this scroll bar.
 *************************************************************************/
 Thumb* RLVertScrollbar::createThumb(void) const
 {
-    // create the widget
-    RLVertScrollbarThumb* thumb = (RLVertScrollbarThumb*)WindowManager::getSingleton().createWindow(ThumbWidgetType, getName() + "__auto_thumb__");
+	// create the widget
+	RLVertScrollbarThumb* thumb = (RLVertScrollbarThumb*)WindowManager::getSingleton().createWindow(ThumbWidgetType, getName() + "__auto_thumb__");
 
-    // perform some initialisation
-    thumb->setVertFree(true);
-    thumb->setXPosition(ThumbPositionX);
-    thumb->setWidth(ThumbWidth);
+	// perform some initialisation
+	thumb->setVertFree(true);
+	thumb->setXPosition(ThumbPositionX);
+	thumb->setWidth(ThumbWidth);
 
-    return thumb;
+	return thumb;
 }
 
 
 /*************************************************************************
-    layout the scroll bar component widgets
+	layout the scroll bar component widgets
 *************************************************************************/
 void RLVertScrollbar::layoutComponentWidgets(void)
 {
-    // calculate button sizes
-    Size bsz;
-    bsz.d_width = d_abs_area.getWidth() * ButtonWidth;
+	// calculate button sizes
+	Size bsz;
+	bsz.d_width = d_abs_area.getWidth() * ButtonWidth;
 
-    float ratio = bsz.d_width / d_upNormal->getWidth();
+	float ratio = bsz.d_width / d_upNormal->getWidth();
 
-    bsz.d_height = d_upNormal->getHeight() * ratio;
+	bsz.d_height = d_upNormal->getHeight() * ratio;
 
-    // install button sizes
-    d_increase->setSize(absoluteToRelative(bsz));
-    d_decrease->setSize(absoluteToRelative(bsz));
+	// install button sizes
+	d_increase->setSize(absoluteToRelative(bsz));
+	d_decrease->setSize(absoluteToRelative(bsz));
 
-    // position buttons
-    float ySpacing = d_containerTop->getHeight() * ButtonOffsetYRatio;
-    d_decrease->setPosition(Point(ButtonPositionX, absoluteToRelativeY(ySpacing)));
-    d_increase->setPosition(Point(ButtonPositionX, absoluteToRelativeY(d_abs_area.getHeight() - bsz.d_height - ySpacing)));
+	// position buttons
+	float ySpacing = d_containerTop->getHeight() * ButtonOffsetYRatio;
+	d_decrease->setPosition(Point(ButtonPositionX, absoluteToRelativeY(ySpacing)));
+	d_increase->setPosition(Point(ButtonPositionX, absoluteToRelativeY(d_abs_area.getHeight() - bsz.d_height - ySpacing)));
 
-    // this will configure thumb widget appropriately
-    updateThumb();
+	// this will configure thumb widget appropriately
+	updateThumb();
 }
 
 
 /*************************************************************************
-    update the size and location of the thumb to properly represent the
-    current state of the scroll bar
+	update the size and location of the thumb to properly represent the
+	current state of the scroll bar
 *************************************************************************/
 void RLVertScrollbar::updateThumb(void)
 {
-    // calculate actual padding values to use.
-    float slideTrackYPadding = d_decrease->getAbsoluteHeight() + (d_containerTop->getHeight() * 0.5f);
+	// calculate actual padding values to use.
+	float slideTrackYPadding = d_decrease->getAbsoluteHeight() + (d_containerTop->getHeight() * 0.5f);
 
-    // calculate maximum extents for thumb positioning.
-    float posExtent     = d_documentSize - d_pageSize;
-    float slideExtent   = std::max(0.0f, d_abs_area.getHeight() - (2 * slideTrackYPadding) - d_thumb->getAbsoluteHeight());
+	// calculate maximum extents for thumb positioning.
+	float posExtent		= d_documentSize - d_pageSize;
+	float slideExtent	= ceguimax(0.0f, d_abs_area.getHeight() - (2 * slideTrackYPadding) - d_thumb->getAbsoluteHeight());
 
-    // Thumb does not change size with document length, we just need to update position and range
-    d_thumb->setVertRange(absoluteToRelativeY(slideTrackYPadding), absoluteToRelativeY(slideTrackYPadding + slideExtent));
-    d_thumb->setYPosition(absoluteToRelativeY(slideTrackYPadding + (d_position * (slideExtent / posExtent))));
+	// Thumb does not change size with document length, we just need to update position and range
+	d_thumb->setVertRange(absoluteToRelativeY(slideTrackYPadding), absoluteToRelativeY(slideTrackYPadding + slideExtent));
+	d_thumb->setYPosition(absoluteToRelativeY(slideTrackYPadding + (d_position * (slideExtent / posExtent))));
 }
 
 
 /*************************************************************************
-    return value that best represents current scroll bar position given
-    the current location of the thumb.
+	return value that best represents current scroll bar position given
+	the current location of the thumb.
 *************************************************************************/
 float RLVertScrollbar::getValueFromThumb(void) const
 {
-    // calculate actual padding values to use.
-    float slideTrackYPadding = d_decrease->getAbsoluteHeight() + (d_containerTop->getHeight() * 0.5f);
+	// calculate actual padding values to use.
+	float slideTrackYPadding = d_decrease->getAbsoluteHeight() + (d_containerTop->getHeight() * 0.5f);
 
-    // calculate maximum extents for thumb positioning.
-    float posExtent     = d_documentSize - d_pageSize;
-    float slideExtent   = d_abs_area.getHeight() - (2 * slideTrackYPadding) - d_thumb->getAbsoluteHeight();
+	// calculate maximum extents for thumb positioning.
+	float posExtent		= d_documentSize - d_pageSize;
+	float slideExtent	= d_abs_area.getHeight() - (2 * slideTrackYPadding) - d_thumb->getAbsoluteHeight();
 
-    return  (d_thumb->getAbsoluteYPosition() - slideTrackYPadding) / (slideExtent / posExtent);
+	return	(d_thumb->getAbsoluteYPosition() - slideTrackYPadding) / (slideExtent / posExtent);
 }
 
 
 /*************************************************************************
-    Given window location \a pt, return a value indicating what change
-    should be made to the scroll bar.
+	Given window location \a pt, return a value indicating what change
+	should be made to the scroll bar.
 *************************************************************************/
 float RLVertScrollbar::getAdjustDirectionFromPoint(const Point& pt) const
 {
-    Rect absrect(d_thumb->getUnclippedPixelRect());
+	Rect absrect(d_thumb->getUnclippedPixelRect());
 
-    if (pt.d_y < absrect.d_top)
-    {
-        return -1.0f;
-    }
-    else if (pt.d_y > absrect.d_bottom)
-    {
-        return 1.0f;
-    }
-    else
-    {
-        return 0.0f;
-    }
+	if (pt.d_y < absrect.d_top)
+	{
+		return -1.0f;
+	}
+	else if (pt.d_y > absrect.d_bottom)
+	{
+		return 1.0f;
+	}
+	else
+	{
+		return 0.0f;
+	}
 
 }
 
 
 /*************************************************************************
-    Perform rendering for this widget
+	Perform rendering for this widget
 *************************************************************************/
 void RLVertScrollbar::drawSelf(float z)
 {
-    Rect clipper(getPixelRect());
+	Rect clipper(getPixelRect());
 
-    // do nothing if the widget is totally clipped.
-    if (clipper.getWidth() == 0)
-    {
-        return;
-    }
+	// do nothing if the widget is totally clipped.
+	if (clipper.getWidth() == 0)
+	{
+		return;
+	}
 
-    // get the destination screen rect for this window
-    Rect absrect(getUnclippedPixelRect());
+	// get the destination screen rect for this window
+	Rect absrect(getUnclippedPixelRect());
 
-    // calculate colours to use.
-    ColourRect colours(colour(1, 1, 1, getEffectiveAlpha()));
+	// calculate colours to use.
+	ColourRect colours(colour(1, 1, 1, getEffectiveAlpha()));
 
-    float mid_height = absrect.getHeight() - d_containerTop->getHeight() - d_containerBottom->getHeight();
+	float mid_height = absrect.getHeight() - d_containerTop->getHeight() - d_containerBottom->getHeight();
 
-    //
-    // Render scroll bar container
-    //
-    Vector3 pos(absrect.d_left, absrect.d_top, z);
-    Size    sz(absrect.getWidth(), d_containerTop->getHeight());
-    d_containerTop->draw(pos, sz, clipper, colours);
+	//
+	// Render scroll bar container
+	//
+	Vector3 pos(absrect.d_left, absrect.d_top, z);
+	Size	sz(absrect.getWidth(), d_containerTop->getHeight());
+	d_containerTop->draw(pos, sz, clipper, colours);
 
-    pos.d_y += sz.d_height;
-    sz.d_height = mid_height;
-    d_containerMiddle->draw(pos, sz, clipper, colours);
+	pos.d_y += sz.d_height;
+	sz.d_height = mid_height;
+	d_containerMiddle->draw(pos, sz, clipper, colours);
 
-    pos.d_y += sz.d_height;
-    sz.d_height = d_containerBottom->getHeight();
-    d_containerBottom->draw(pos, sz, clipper, colours);
+	pos.d_y += sz.d_height;
+	sz.d_height = d_containerBottom->getHeight();
+	d_containerBottom->draw(pos, sz, clipper, colours);
 
-    //
-    // render slide-track
-    //
-    float slideTrackYPadding = d_decrease->getAbsoluteHeight() + (d_containerTop->getHeight() * 0.5f);
+	//
+	// render slide-track
+	//
+	float slideTrackYPadding = d_decrease->getAbsoluteHeight() + PixelAligned(d_containerTop->getHeight() * 0.5f);
 
-    // calculate a new clipper for the slide track area
-    absrect.d_top       += slideTrackYPadding;
-    absrect.d_bottom    -= slideTrackYPadding;
-    clipper = absrect.getIntersection(clipper);
+	// calculate a new clipper for the slide track area
+	absrect.d_top		+= slideTrackYPadding;
+	absrect.d_bottom	-= slideTrackYPadding;
+	clipper = absrect.getIntersection(clipper);
 
-    pos.d_x += absrect.getWidth() * TrackOffsetXRatio;
-    pos.d_y = absrect.d_top;
-    pos.d_z = System::getSingleton().getRenderer()->getZLayer(1);
+	pos.d_x += absrect.getWidth() * TrackOffsetXRatio;
+	pos.d_y = absrect.d_top;
+	pos.d_z = System::getSingleton().getRenderer()->getZLayer(1);
 
-    sz.d_height = d_thumbTrack->getHeight();
-    sz.d_width  = absrect.getWidth() * TrackWidthRatio;
+	sz.d_height	= d_thumbTrack->getHeight();
+	sz.d_width	= absrect.getWidth() * TrackWidthRatio;
 
-    int segments = (int)((absrect.getHeight() / d_thumbTrack->getHeight()) + 0.99f);
+	int segments = (int)((absrect.getHeight() / d_thumbTrack->getHeight()) + 0.99f);
 
-    for (int i = 0; i < segments; ++i)
-    {
-        d_thumbTrack->draw(pos, sz, clipper, colours);
-        pos.d_y += sz.d_height;
-    }
+	for (int i = 0; i < segments; ++i)
+	{
+		d_thumbTrack->draw(pos, sz, clipper, colours);
+		pos.d_y += sz.d_height;
+	}
 
 }
 
@@ -320,19 +320,19 @@ void RLVertScrollbar::drawSelf(float z)
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
 
-    Factory Methods
+	Factory Methods
 
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-    Create, initialise and return a RLVertScrollbar
+	Create, initialise and return a RLVertScrollbar
 *************************************************************************/
 Window* RLVertScrollbarFactory::createWindow(const String& name)
 {
-    RLVertScrollbar* wnd = new RLVertScrollbar(d_type, name);
-    wnd->initialise();
+	RLVertScrollbar* wnd = new RLVertScrollbar(d_type, name);
+	wnd->initialise();
 
-    return wnd;
+	return wnd;
 }
 
 } // End of  CEGUI namespace section

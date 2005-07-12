@@ -189,10 +189,16 @@
 				RelativePath=".\src\RLRadioButton.cpp">
 			</File>
 			<File
+				RelativePath=".\src\RLScrollablePane.cpp">
+			</File>
+			<File
 				RelativePath=".\src\RLSlider.cpp">
 			</File>
 			<File
 				RelativePath=".\src\RLSliderThumb.cpp">
+			</File>
+			<File
+				RelativePath=".\src\RLSpinner.cpp">
 			</File>
 			<File
 				RelativePath=".\src\RLStatic.cpp">
@@ -210,10 +216,16 @@
 				RelativePath=".\src\RLTitlebar.cpp">
 			</File>
 			<File
+				RelativePath=".\src\RLTooltip.cpp">
+			</File>
+			<File
 				RelativePath=".\src\RLVertScrollbar.cpp">
 			</File>
 			<File
 				RelativePath=".\src\RLVertScrollbarThumb.cpp">
+			</File>
+			<File
+				RelativePath=".\src\RLVUMeter.cpp">
 			</File>
 		</Filter>
 		<Filter
@@ -287,10 +299,16 @@
 				RelativePath=".\include\RLRadioButton.h">
 			</File>
 			<File
+				RelativePath=".\include\RLScrollablePane.h">
+			</File>
+			<File
 				RelativePath=".\include\RLSlider.h">
 			</File>
 			<File
 				RelativePath=".\include\RLSliderThumb.h">
+			</File>
+			<File
+				RelativePath=".\include\RLSpinner.h">
 			</File>
 			<File
 				RelativePath=".\include\RLStatic.h">
@@ -308,10 +326,16 @@
 				RelativePath=".\include\RLTitlebar.h">
 			</File>
 			<File
+				RelativePath=".\include\RLTooltip.h">
+			</File>
+			<File
 				RelativePath=".\include\RLVertScrollbar.h">
 			</File>
 			<File
 				RelativePath=".\include\RLVertScrollbarThumb.h">
+			</File>
+			<File
+				RelativePath=".\include\RLVUMeter.h">
 			</File>
 		</Filter>
 		<Filter
