@@ -3,47 +3,55 @@ VS.NET
 Um Rastullahs Lockenpracht bauen zu können werden folgende zusätzliche
 Bibliotheken benötigt:
 
-Ogre 3D 1.03 - Azatoth
+ogre/ - Ogre 3D 1.03 - Azatoth
 http://www.ogre3d.org
 
-Ruby - 1.8
+ruby/ - Ruby - 1.8
 http://ruby-lang.org
 
-SWIG - 3.21  (exakt diese Version)
+swig/ - SWIG - 3.21  (exakt diese Version)
 http://www.swig.org
 
-OPENAL
+openal/ - OPENAL
 http://developer.creative.com/landing.asp?cat=1&sbcat=31&top=38
 
-Vorbis
+vorbis/ - Vorbis
 http://www.vorbis.com/
 
-OgreODE - Final Compatible 1.0.1
+ogre/ogreode/ OgreODE - Final Compatible 1.0.1
 http://www.green-eyed-monster.com/xoops/modules/mydownloads/visit.php?cid=3&lid=10
 
-Ode 0.5
+ode/ - Ode 0.5
 http://www.ode.org - Patched (siehe OgreODE Docs)
 
-Cegui 0.3
+cegui/ - Cegui 0.3
 http://www.cegui.org.uk/
 
-xerces
+xerces/ - Xerces-c
 http://xml.apache.org/xerces-c/download.cgi
 
-boost
+boost/ - Boost Threads und Boost Bind
 http://www.boost.org
 
-Diese sind alle unterhalb von rl/dependencies anzulegen.
+rllooks/ - Der RastullahLook für CeGui
+svn://svn.berlios.de/dsa-hl/rllooks/trunk 
 
-Die Projekte müssen alle im Verzeichnis dependencies angelegt werden.
+
+Diese Verzeichnisse sind alle unterhalb von rl/trunk/dependencies anzulegen.
+Die Projekte müssen alle in diesen Verzeichnissen angelegt werden.
 Die Verzeichnisstruktur sollte jeweils erhalten bleiben.
+Die Versionsnummern sind wichtig.
 
 VS.Net-2003-Nutzer können sich alternativ von der Projektseite auch die Dependencies runterladen und ins rl-Verzeichnis entpacken.
-Diese sind jedoch nicht immer aktuell.
+Diese sind jedoch nicht immer aktuell. ( zum Beispiel zur Zeit der Verfassung dieses Textes. )
 
 Das Projekt kann man dann einfach kompilieren.
-Um erfolgreich starten zu können braucht man unseren eigenen Look, dieser lässt sich aus dem Module rllooks erstellen. 
-Dieses sollte im selben Verzeichnis, in dem auch rl liegt ausgecheckt werden, damit die dependencies gefunden werden.
+
+Sollte das nicht zutreffen  
+ - Überprüft ob alle Dependencies in den korrekten Versionen vorhanden sind
+ - Fragt uns auf unserer Webseite oder im irc
+
+
 
 Vor dem Debuggen müssen die nötigen Dateien in ein Distributionsverzeichnis
 kopiert werden. Dazu dient das Skript tools/make_release.bat. Je nach kompilierter Konfiguration
