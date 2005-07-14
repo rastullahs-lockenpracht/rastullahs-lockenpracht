@@ -4,6 +4,7 @@
 	Version="7.10"
 	Name="RastullahLook"
 	ProjectGUID="{188143AD-74B4-4045-AAA0-9EA1A6FF3BE3}"
+	RootNamespace="RastullahLook"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform
@@ -45,7 +46,9 @@
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				Description="Kopieren nach rl_dist"
+				CommandLine="copy &quot;$(OutDir)\$(TargetFileName)&quot; &quot;$(ProjectDir)\..\..\..\rl_dist/$(TargetFileName)&quot;"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -96,7 +99,9 @@
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				Description="Kopieren nach rl_dist"
+				CommandLine="copy &quot;$(OutDir)\$(TargetFileName)&quot; &quot;$(ProjectDir)\..\..\..\rl_dist/$(TargetFileName)&quot;"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
