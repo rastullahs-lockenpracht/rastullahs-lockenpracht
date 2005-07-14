@@ -23,7 +23,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;.\components\include;..\common\include;..\dialog\include;..\core\include;..\sound\include;..\rules\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogre\OgreOde\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\ogre\PlugIns\GuiElements\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\cegui\include;..\..\dependencies\boost\include;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include"
+				AdditionalIncludeDirectories=".\include;.\components\include;..\common\include;..\dialog\include;..\core\include;..\sound\include;..\rules\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogre\OgreOde\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\ogre\PlugIns\GuiElements\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\cegui\include;..\..\dependencies\boost\include;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include;..\..\dependencies\xerces\include"
 				PreprocessorDefinitions="_WINDOWS,_DEBUG,WIN32,RLUI_EXPORTS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -51,7 +51,7 @@
 				OutputFile="./lib/debug/RlUI.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogre\Samples\Common\CEGUIRenderer\lib;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\cegui\lib;&quot;..\..\dependencies\ogre\dependencies\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreODE\lib\$(ConfigurationName)&quot;;..\..\dependencies\boost\lib;..\..\dependencies\ogg\win32"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogre\Samples\Common\CEGUIRenderer\lib;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\cegui\lib;&quot;..\..\dependencies\ogre\dependencies\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreODE\lib\$(ConfigurationName)&quot;;..\..\dependencies\boost\lib;..\..\dependencies\ogg\win32;..\..\dependencies\xerces\lib"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
 				AssemblyDebug="1"
@@ -106,7 +106,7 @@
 				FavorSizeOrSpeed="1"
 				OptimizeForProcessor="2"
 				OptimizeForWindowsApplication="TRUE"
-				AdditionalIncludeDirectories=".\include;.\components\include;..\common\include;..\dialog\include;..\core\include;..\sound\include;..\rules\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogre\OgreOde\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\ogre\PlugIns\GuiElements\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\cegui\include;..\..\dependencies\boost\include;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include"
+				AdditionalIncludeDirectories=".\include;.\components\include;..\common\include;..\dialog\include;..\core\include;..\sound\include;..\rules\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogre\OgreOde\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\ogre\PlugIns\GuiElements\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\cegui\include;..\..\dependencies\boost\include;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include;..\..\dependencies\xerces\include"
 				PreprocessorDefinitions="NDEBUG,_WINDOWS,WIN32,RLUI_EXPORTS"
 				StringPooling="FALSE"
 				ExceptionHandling="TRUE"
@@ -132,7 +132,7 @@
 				OutputFile="./lib/release/RlUI.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogre\Samples\Common\CEGUIRenderer\lib;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\cegui\lib;&quot;..\..\dependencies\ogre\dependencies\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreODE\lib\$(ConfigurationName)&quot;;..\..\dependencies\boost\lib;..\..\dependencies\ogg\win32"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogre\Samples\Common\CEGUIRenderer\lib;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\cegui\lib;&quot;..\..\dependencies\ogre\dependencies\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreODE\lib\$(ConfigurationName)&quot;;..\..\dependencies\boost\lib;..\..\dependencies\ogg\win32;..\..\dependencies\xerces\lib"
 				ProgramDatabaseFile=""
 				SubSystem="2"/>
 			<Tool

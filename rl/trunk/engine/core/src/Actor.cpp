@@ -98,9 +98,11 @@ namespace rl {
     void Actor::setControlledObject( ActorControlledObject* act ) 
     {
        if( act->getActor() != NULL )
-           Throw(IllegalStateException, "Aktor "+mName+": Das anzufügende Objekt ist bereits an einem Aktor befestigt.");
+           Throw(IllegalStateException, 
+           "Aktor "+mName+": Das anzufügende Objekt ist bereits an einem Aktor befestigt.");
        if( this->getControlledObject() != NULL )
-           Throw(IllegalStateException, "Aktor "+mName+": Es ist bereits ein Objekt an diesem Aktor befestigt.");
+           Throw(IllegalStateException, 
+           "Aktor "+mName+": Es ist bereits ein Objekt an diesem Aktor befestigt.");
 
        mActorControlledObject = act;
     }
@@ -140,7 +142,8 @@ namespace rl {
         }
         else
         {
-            Throw(IllegalStateException, "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
+            Throw(IllegalStateException, 
+                "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
         }
         _update();
     }
@@ -153,7 +156,8 @@ namespace rl {
         }
         else
         {
-            Throw(IllegalStateException, "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
+            Throw(IllegalStateException, 
+                "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
         }
         _update();
     }
@@ -171,7 +175,8 @@ namespace rl {
         }
         else
         {
-            Throw(IllegalStateException, "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
+            Throw(IllegalStateException, 
+                "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
         }
         _update();
     }
@@ -184,7 +189,8 @@ namespace rl {
         }
         else
         {
-            Throw(IllegalStateException, "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
+            Throw(IllegalStateException, 
+                "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
         }
         _update();
     }
@@ -197,7 +203,8 @@ namespace rl {
         }
         else
         {
-            Throw(IllegalStateException, "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
+            Throw(IllegalStateException, 
+                "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
         }
         _update();
     }
@@ -210,7 +217,8 @@ namespace rl {
         }
         else
         {
-            Throw(IllegalStateException, "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
+            Throw(IllegalStateException, 
+                "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
         }
         _update();
     }
@@ -223,7 +231,8 @@ namespace rl {
         }
         else
         {
-            Throw(IllegalStateException, "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
+            Throw(IllegalStateException, 
+                "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
         }
         _update();
     }
@@ -236,7 +245,8 @@ namespace rl {
         }
         else
         {
-            Throw(IllegalStateException, "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
+            Throw(IllegalStateException, 
+                "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
         }
     }
 
@@ -248,7 +258,8 @@ namespace rl {
         }
         else
         {
-            Throw(IllegalStateException, "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
+            Throw(IllegalStateException, 
+                "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
         }
     }
 
@@ -260,7 +271,8 @@ namespace rl {
         }
         else
         {
-            Throw(IllegalStateException, "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
+            Throw(IllegalStateException, 
+                "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
         }
     }
 
@@ -272,7 +284,8 @@ namespace rl {
         }
         else
         {
-            Throw(IllegalStateException, "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
+            Throw(IllegalStateException, 
+                "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
         }
     }
 
@@ -300,7 +313,9 @@ namespace rl {
         }
     }
 
-    void Actor::placeIntoScene(Real px, Real py, Real pz, Real ow, Real ox, Real oy, Real oz ,
+    void Actor::placeIntoScene(
+        Real px, Real py, Real pz, 
+        Real ow, Real ox, Real oy, Real oz ,
         const Ogre::String& physicsBone)
     {
         placeIntoScene(Vector3(px, py, pz), Quaternion(ow, ox, oy, oz), physicsBone );
@@ -325,7 +340,8 @@ namespace rl {
     void Actor::removeFromScene()
     {
         if( mParent != NULL )
-            Throw(IllegalStateException, "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
+            Throw(IllegalStateException,
+            "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
 
         if( mActorControlledObject )
         {
@@ -420,9 +436,11 @@ namespace rl {
         Ogre::Quaternion offsetOrientationMod = offsetOrientation;
 
         if( actor == NULL )
-            Throw(NullPointerException, "Aktor "+mName+": Der anzufügende Aktor darf nicht NULL sein." );
+            Throw(NullPointerException, 
+            "Aktor "+mName+": Der anzufügende Aktor darf nicht NULL sein." );
         if( actor->mParent != NULL )
-            Throw(NullPointerException, "Aktor "+mName+": Der Aktor ist bereits an einen anderen Aktor angefügt." );
+            Throw(NullPointerException, 
+            "Aktor "+mName+": Der Aktor ist bereits an einen anderen Aktor angefügt." );
 
         // Verschiebung durch den Child-Slot berechnen
         // Ist es ein nicht Standard-Slot && Kontrolliert der Aktor ein Objekt && Ist dieses ein Mesh
@@ -470,7 +488,8 @@ namespace rl {
 
             // Braucht ein Skelett
             if( !ent->hasSkeleton() )
-                Throw(InvalidArgumentException, "Aktor "+mName+": Das kontrollierte MeshObject hat kein Skeleton." );
+                Throw(InvalidArgumentException, 
+                "Aktor "+mName+": Das kontrollierte MeshObject hat kein Skeleton." );
 
             // Der Slot muss existieren
             try
@@ -478,7 +497,8 @@ namespace rl {
                 ent->getSkeleton()->getBone( slot );
             }
             catch (Ogre::Exception) {
-                Throw(InvalidArgumentException, "Aktor "+mName+": Der geforderte Slot '"+slot+"' existiert nicht." );
+                Throw(InvalidArgumentException, 
+                    "Aktor "+mName+": Der geforderte Slot '"+slot+"' existiert nicht." );
             }
                 
             // Am Bone befestigen
@@ -509,7 +529,8 @@ namespace rl {
     void Actor::doDetach(Actor* actor)
     {
         if( mChilds.find(actor) == mChilds.end() )
-            Throw(InvalidArgumentException, "Aktor "+mName+": Der Aktor ist kein Kind dieses Aktors");
+            Throw(InvalidArgumentException,
+            "Aktor "+mName+": Der Aktor ist kein Kind dieses Aktors");
 
         // Ist es an einem Bone angefügt
 		if( actor->mAttachedToBone && mActorControlledObject && mActorControlledObject->isMeshObject()   )
@@ -555,11 +576,14 @@ namespace rl {
 		const Quaternion& orientation, const Ogre::String& physicsBone)
     {
         if( parent == NULL )
-            Throw(NullPointerException, "Aktor "+mName+": Kann nicht an einen leeren parentNode angehängt werden.");
+            Throw(NullPointerException, 
+            "Aktor "+mName+": Kann nicht an einen leeren parentNode angehängt werden.");
         if( mAttachedToBone )
-            Throw(InvalidArgumentException, "Aktor "+mName+": Der Aktor ist bereits an einen Bone angehängt.");
+            Throw(InvalidArgumentException, 
+            "Aktor "+mName+": Der Aktor ist bereits an einen Bone angehängt.");
         if( mSceneNode && mSceneNode->isInSceneGraph() )
-            Throw(InvalidArgumentException, "Aktor "+mName+": Der Aktor ist bereits in die Szene angehängt.");
+            Throw(InvalidArgumentException, 
+            "Aktor "+mName+": Der Aktor ist bereits in die Szene angehängt.");
 
         // SceneNode erzeugen, falls nicht schon einer vorhanden
         if( !mSceneNode )
@@ -585,7 +609,8 @@ namespace rl {
 
                 // Braucht ein Skelett
                 if( !ent->hasSkeleton() )
-                    Throw(InvalidArgumentException, "Aktor "+mName+": Das kontrollierte MeshObject hat kein Skeleton." );
+                    Throw(InvalidArgumentException, 
+                    "Aktor "+mName+": Das kontrollierte MeshObject hat kein Skeleton." );
 
                 // Der Slot muss existieren
                 try
@@ -593,7 +618,8 @@ namespace rl {
                     ent->getSkeleton()->getBone( physicsBone );
                 }
                 catch (Ogre::Exception) {
-                    Throw(InvalidArgumentException, "Aktor "+mName+": Der geforderte PhysicsBone '"+physicsBone+"' existiert nicht." );
+                    Throw(InvalidArgumentException, 
+                        "Aktor "+mName+": Der geforderte PhysicsBone '"+physicsBone+"' existiert nicht." );
                 }
 
                 mPhysicalThing->_attachToBone( meshObj, physicsBone );
