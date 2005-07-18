@@ -3,7 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8,00"
 	Name="RlCommon"
-	ProjectGUID="{D58412A4-DF31-4E86-95D3-49EB8F47F2D5}"
+	ProjectGUID="{D3185FC6-9384-431A-A237-80284F859B21}"
+	RootNamespace="RlCommon"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -16,9 +17,10 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\lib\Debug"
-			IntermediateDirectory=".\obj\Debug"
+			OutputDirectory="./lib/$(ConfigurationName)"
+			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="UpgradeFromVC71.vsprops"
 			CharacterSet="2"
 			ManagedExtensions="0"
 			>
@@ -40,14 +42,16 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\..\dependencies\ogre\ogremain\include;..\..\dependencies\xerces\include;..\..\dependencies\cegui\include"
+				AdditionalIncludeDirectories=".\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\cegui\include;..\..\dependencies\xerces\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;RLCOMMON_EXPORTS"
-				MinimalRebuild="TRUE"
+				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
+				AssemblerListingLocation=".\obj\Debug/"
+				ObjectFile=".\obj\Debug/"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="TRUE"
+				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -61,11 +65,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ogremain_d.lib xerces-c_2d.lib"
-				OutputFile=""
+				AdditionalDependencies="OgreMain_d.lib xerces-c_2D.lib"
+				OutputFile="./lib/$(ConfigurationName)/RlCommon.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\xerces\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;"
-				GenerateDebugInformation="TRUE"
+				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui\lib\$(PlatformName)\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\Dependencies\lib\$(ConfigurationName)&quot;"
+				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/RlCommon.pdb"
 				SubSystem="2"
 				ImportLibrary="$(OutDir)/RlCommon.lib"
@@ -84,6 +88,9 @@
 				Name="VCBscMakeTool"
 			/>
 			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
@@ -95,9 +102,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\lib\Release"
-			IntermediateDirectory=".\obj\Release"
+			OutputDirectory="./lib/release"
+			IntermediateDirectory="./obj/release"
 			ConfigurationType="2"
+			InheritedPropertySheets="UpgradeFromVC71.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -117,12 +125,14 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".\include;..\..\dependencies\ogre\ogremain\include;..\..\dependencies\xerces\include;..\..\\dependencies\cegui\include"
+				AdditionalIncludeDirectories=".\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\cegui\include;..\..\dependencies\xerces\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;RLCOMMON_EXPORTS"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
+				AssemblerListingLocation=".\obj\Release/"
+				ObjectFile=".\obj\Release/"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="TRUE"
+				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -136,11 +146,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ogremain.lib  xerces-c_2.lib"
-				OutputFile="$(OutDir)/RlCommon.dll"
+				AdditionalDependencies="OgreMain.lib xerces-c_2.lib"
+				OutputFile="./lib/$(ConfigurationName)/RlCommon.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\xerces\lib\$(ConfigurationName)&quot;"
-				GenerateDebugInformation="TRUE"
+				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui\lib\$(PlatformName)\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\Dependencies\lib\$(ConfigurationName)&quot;"
+				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
@@ -158,6 +168,9 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
@@ -204,6 +217,12 @@
 			</File>
 		</Filter>
 		<Filter
+			Name="Ressourcendateien"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			>
+		</Filter>
+		<Filter
 			Name="Headerdateien"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
@@ -217,6 +236,22 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\EventCaster.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\EventListener.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\EventObject.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\EventSource.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\Exception.h"
 				>
 			</File>
@@ -226,10 +261,6 @@
 			</File>
 			<File
 				RelativePath=".\include\RastullahPrerequisites.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\Sleep.h"
 				>
 			</File>
 			<File
@@ -246,20 +277,6 @@
 			</File>
 			<File
 				RelativePath=".\include\XmlResourceManager.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Ressourcendateien"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
-			>
-		</Filter>
-		<Filter
-			Name="swig"
-			>
-			<File
-				RelativePath=".\swig\TypeMaps.i"
 				>
 			</File>
 		</Filter>

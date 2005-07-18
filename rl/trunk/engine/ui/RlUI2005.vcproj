@@ -3,8 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8,00"
 	Name="RlUi"
-	ProjectGUID="{ED15F0B2-8B3B-40D1-8F56-5399B2E5E850}"
-	RootNamespace="RlUi"
+	ProjectGUID="{53FE20F3-E726-44FE-BBEC-D29CAE210D25}"
 	>
 	<Platforms>
 		<Platform
@@ -19,8 +18,9 @@
 			OutputDirectory=".\lib\Debug"
 			IntermediateDirectory=".\obj\Debug"
 			ConfigurationType="2"
+			InheritedPropertySheets="UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
 			ManagedExtensions="0"
 			>
@@ -39,29 +39,29 @@
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
 				TargetEnvironment="1"
 				TypeLibraryName=".\lib\Debug/Rastullah.tlb"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;.\components\include;..\common\include;..\core\include;..\rules\include;..\dialog\include;..\startup\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\ogre\PlugIns\GuiElements\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\OpenThreads\include;..\..\dependencies\cegui\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\ogre\ogreode\include"
+				AdditionalIncludeDirectories=".\include;.\components\include;..\common\include;..\dialog\include;..\core\include;..\sound\include;..\rules\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogre\OgreOde\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\ogre\PlugIns\GuiElements\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\cegui\include;..\..\dependencies\boost\include;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include;..\..\dependencies\xerces\include"
 				PreprocessorDefinitions="_WINDOWS,_DEBUG,WIN32,RLUI_EXPORTS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				BufferSecurityCheck="FALSE"
-				EnableFunctionLevelLinking="FALSE"
-				RuntimeTypeInfo="TRUE"
+				BufferSecurityCheck="false"
+				EnableFunctionLevelLinking="false"
+				RuntimeTypeInfo="true"
 				PrecompiledHeaderFile=".\obj\Debug/Rastullah.pch"
-				ExpandAttributedSource="TRUE"
+				ExpandAttributedSource="true"
 				AssemblerOutput="4"
 				AssemblerListingLocation=".\obj\Debug/"
 				ObjectFile=".\obj\Debug/"
 				ProgramDataBaseFileName=".\obj\Debug/"
 				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
+				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
 				CompileAs="0"
 			/>
@@ -78,20 +78,20 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="TRUE"
+				IgnoreImportLibrary="true"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlCore.lib msvcrt-ruby18.lib OgreMain_d.lib Plugin_GuiElements.lib RlRules.lib CEGUIBase.lib OgreGUIRenderer.lib &quot;Taharez Look.lib&quot; OgreOde_d.lib xerces-c_2D.lib"
+				AdditionalDependencies="RlCore.lib msvcrt-ruby18.lib OgreMain_d.lib RlRules.lib RlSound.lib CEGUIBase_d.lib CEGUITaharezLook_d.lib OgreGuiRenderer_d.lib OgreODE_Core_d.lib xerces-c_2D.lib"
 				ShowProgress="0"
 				OutputFile="./lib/debug/RlUI.dll"
 				LinkIncremental="1"
-				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\boost\libs;..\..\dependencies\cegui\lib\;&quot;..\..\dependencies\ogre\ogreode\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\xerces\lib\$(ConfigurationName)&quot;"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogre\Samples\Common\CEGUIRenderer\lib;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\cegui\lib;&quot;..\..\dependencies\ogre\dependencies\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreODE\lib\$(ConfigurationName)&quot;;..\..\dependencies\boost\lib;..\..\dependencies\ogg\win32;..\..\dependencies\xerces\lib"
 				IgnoreDefaultLibraryNames=""
-				GenerateDebugInformation="TRUE"
+				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				ProgramDatabaseFile=".\lib\Debug/RlUI.pdb"
-				GenerateMapFile="TRUE"
-				MapExports="TRUE"
+				GenerateMapFile="true"
+				MapExports="true"
 				SubSystem="2"
 			/>
 			<Tool
@@ -107,6 +107,9 @@
 				Name="VCBscMakeTool"
 			/>
 			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
@@ -114,7 +117,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				ExcludedFromBuild="FALSE"
+				ExcludedFromBuild="false"
 			/>
 		</Configuration>
 		<Configuration
@@ -122,8 +125,9 @@
 			OutputDirectory=".\lib\Release"
 			IntermediateDirectory=".\obj\Release"
 			ConfigurationType="2"
+			InheritedPropertySheets="UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
 			>
 			<Tool
@@ -141,31 +145,30 @@
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
 				TargetEnvironment="1"
 				TypeLibraryName=".\lib\Release/Rastullah.tlb"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				GlobalOptimizations="TRUE"
-				EnableIntrinsicFunctions="TRUE"
+				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".\include;.\components\include;..\common\include;..\core\include;..\rules\include;..\dialog\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\ogre\PlugIns\GuiElements\include;..\..\dependencies\openalpp\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\OpenThreads\include;..\..\dependencies\cegui\include;..\..\dependencies\boost\include;..\..\dependencies\vorbis\include;..\..\dependencies\xerces\include;..\..\dependencies\ogre\ogreode\include"
+				AdditionalIncludeDirectories=".\include;.\components\include;..\common\include;..\dialog\include;..\core\include;..\sound\include;..\rules\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogre\OgreOde\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\ogre\PlugIns\GuiElements\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\cegui\include;..\..\dependencies\boost\include;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include;..\..\dependencies\xerces\include"
 				PreprocessorDefinitions="NDEBUG,_WINDOWS,WIN32,RLUI_EXPORTS"
-				StringPooling="FALSE"
+				StringPooling="false"
 				ExceptionHandling="1"
 				RuntimeLibrary="2"
-				BufferSecurityCheck="FALSE"
-				RuntimeTypeInfo="TRUE"
+				BufferSecurityCheck="false"
+				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\obj\Release/Rastullah.pch"
 				AssemblerListingLocation=".\obj\Release/"
 				ObjectFile=".\obj\Release/"
 				ProgramDataBaseFileName=".\obj\Release/"
 				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
+				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
 				CompileAs="0"
 			/>
@@ -182,14 +185,14 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="TRUE"
+				IgnoreImportLibrary="true"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlCore.lib msvcrt-ruby18.lib OgreMain.lib Plugin_GuiElements.lib RlRules.lib CEGUIBase.lib OgreGUIRenderer.lib &quot;Taharez Look.lib&quot; RlDialog.lib OgreOde.lib xerces-c_2.lib"
+				AdditionalDependencies="RlCore.lib RlSound.lib msvcrt-ruby18.lib OgreMain.lib RlRules.lib CEGUIBase.lib OgreGuiRenderer.lib CEGUITaharezLook.lib OgreODE_Core.lib xerces-c_2.lib"
 				OutputFile="./lib/release/RlUI.dll"
 				LinkIncremental="1"
-				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\dialog\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\cegui\lib\;&quot;..\..\dependencies\ogre\ogreode\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\xerces\lib\$(ConfigurationName)&quot;"
-				ProgramDatabaseFile=".\lib\Release/Rastullah.pdb"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogre\Samples\Common\CEGUIRenderer\lib;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\cegui\lib;&quot;..\..\dependencies\ogre\dependencies\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreODE\lib\$(ConfigurationName)&quot;;..\..\dependencies\boost\lib;..\..\dependencies\ogg\win32;..\..\dependencies\xerces\lib"
+				ProgramDatabaseFile=""
 				SubSystem="2"
 			/>
 			<Tool
@@ -205,6 +208,9 @@
 				Name="VCBscMakeTool"
 			/>
 			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
@@ -212,7 +218,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				ExcludedFromBuild="FALSE"
+				ExcludedFromBuild="false"
 			/>
 		</Configuration>
 	</Configurations>
@@ -236,10 +242,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\CommandExecutor.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\CommandMapper.h"
 				>
 			</File>
@@ -260,7 +262,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\FlyingCameraController.h"
+				RelativePath=".\include\GameController.h"
 				>
 			</File>
 			<File
@@ -280,11 +282,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\MainMenuWindow.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\MessageWindow.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\ThirdPersonGameController.h"
+				RelativePath=".\include\PlaylistWindow.h"
 				>
 			</File>
 			<File
@@ -317,10 +323,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\CommandExecutor.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\CommandMapper.cpp"
 				>
 			</File>
@@ -338,10 +340,6 @@
 			</File>
 			<File
 				RelativePath=".\src\DialogWindow.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\FlyingCameraController.cpp"
 				>
 			</File>
 			<File
@@ -370,6 +368,10 @@
 			</File>
 			<File
 				RelativePath=".\src\MessageWindow.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\PlaylistWindow.cpp"
 				>
 			</File>
 			<File

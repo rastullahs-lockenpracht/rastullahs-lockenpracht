@@ -3,7 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8,00"
 	Name="RlCore"
-	ProjectGUID="{ED15F0B2-8B3B-40D1-8F56-5399B2E5E854}"
+	ProjectGUID="{0935F495-4540-40E3-AC8F-AA54C85DC5B2}"
+	RootNamespace="RlCore"
 	>
 	<Platforms>
 		<Platform
@@ -18,8 +19,9 @@
 			OutputDirectory=".\lib\Debug"
 			IntermediateDirectory=".\obj\Debug"
 			ConfigurationType="2"
+			InheritedPropertySheets="UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
 			ManagedExtensions="0"
 			>
@@ -38,29 +40,29 @@
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
 				TargetEnvironment="1"
 				TypeLibraryName=".\lib\Debug/Rastullah.tlb"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\sound\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\openalpp\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\OpenThreads\include;..\..\dependencies\ode\include;..\..\dependencies\cegui\include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\sound\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreOde\include;..\..\dependencies\ogre\Dependencies\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\cegui\include"
 				PreprocessorDefinitions="_WINDOWS,_DEBUG,WIN32,RLCORE_EXPORTS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				BufferSecurityCheck="FALSE"
-				EnableFunctionLevelLinking="FALSE"
-				RuntimeTypeInfo="TRUE"
+				BufferSecurityCheck="false"
+				EnableFunctionLevelLinking="false"
+				RuntimeTypeInfo="true"
 				PrecompiledHeaderFile=".\obj\Debug/Rastullah.pch"
-				ExpandAttributedSource="TRUE"
+				ExpandAttributedSource="true"
 				AssemblerOutput="4"
 				AssemblerListingLocation=".\obj\Debug/"
 				ObjectFile=".\obj\Debug/"
 				ProgramDataBaseFileName=".\obj\Debug/"
 				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
+				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
 				CompileAs="0"
 			/>
@@ -77,20 +79,21 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="TRUE"
+				IgnoreImportLibrary="true"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="user32.lib RlSound.lib msvcrt-ruby18.lib OgreMain_d.lib OpenAL32.lib ALut.lib oded.lib opcode_d.lib"
+				AdditionalDependencies="RlSound.lib RlCommon.lib msvcrt-ruby18.lib OgreMain_d.lib OpenAL32.lib xerces-c_2D.lib ALut.lib OgreOde_Core_d.lib"
 				ShowProgress="0"
-				OutputFile="./lib/debug/RlCore.dll"
+				OutputFile="./lib/$(ConfigurationName)/RlCore.dll"
 				LinkIncremental="1"
-				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\openalpp\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\ode\lib;..\..\dependencies\boost\lib;..\..\dependencies\openthreads\lib\win32"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreOde\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogreaddons\dotsceneoctree\PlugIns\DotSceneManager\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui\lib"
 				IgnoreDefaultLibraryNames=""
-				GenerateDebugInformation="TRUE"
+				TypeLibraryFile="$(OutDir)\RlCore.lib"
+				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				ProgramDatabaseFile=".\lib\Debug/RlCore.pdb"
-				GenerateMapFile="TRUE"
-				MapExports="TRUE"
+				GenerateMapFile="true"
+				MapExports="true"
 				SubSystem="2"
 			/>
 			<Tool
@@ -106,6 +109,9 @@
 				Name="VCBscMakeTool"
 			/>
 			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
@@ -113,7 +119,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				ExcludedFromBuild="FALSE"
+				ExcludedFromBuild="false"
 			/>
 		</Configuration>
 		<Configuration
@@ -121,8 +127,9 @@
 			OutputDirectory=".\lib\Release"
 			IntermediateDirectory=".\obj\Release"
 			ConfigurationType="2"
+			InheritedPropertySheets="UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
 			>
 			<Tool
@@ -140,31 +147,30 @@
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
 				TargetEnvironment="1"
 				TypeLibraryName=".\lib\Release/Rastullah.tlb"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				GlobalOptimizations="TRUE"
-				EnableIntrinsicFunctions="TRUE"
+				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\sound\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\openalpp\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\OpenThreads\include;..\..\dependencies\ode\include;..\..\dependencies\cegui\include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\sound\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreOde\include;..\..\dependencies\ogre\Dependencies\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\cegui\include"
 				PreprocessorDefinitions="NDEBUG,_WINDOWS,WIN32,RLCORE_EXPORTS"
-				StringPooling="FALSE"
+				StringPooling="false"
 				ExceptionHandling="1"
 				RuntimeLibrary="2"
-				BufferSecurityCheck="FALSE"
-				RuntimeTypeInfo="TRUE"
+				BufferSecurityCheck="false"
+				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\obj\Release/Rastullah.pch"
 				AssemblerListingLocation=".\obj\Release/"
 				ObjectFile=".\obj\Release/"
 				ProgramDataBaseFileName=".\obj\Release/"
 				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
+				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
 				CompileAs="0"
 			/>
@@ -181,14 +187,15 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="TRUE"
+				IgnoreImportLibrary="true"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="user32.lib RlSound.lib msvcrt-ruby18.lib OgreMain.lib OpenAL32.lib ALut.lib ode.lib opcode.lib"
-				OutputFile="./lib/release/RlCore.dll"
+				AdditionalDependencies="RlSound.lib RlCommon.lib msvcrt-ruby18.lib OgreMain.lib OpenAL32.lib xerces-c_2.lib ALut.lib OgreOde_Core.lib"
+				OutputFile="./lib/$(ConfigurationName)/RlCore.dll"
 				LinkIncremental="1"
-				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\openalpp\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\ode\lib;..\..\dependencies\boost\lib;..\..\dependencies\openthreads\lib\win32"
-				ProgramDatabaseFile=".\lib\Release/Rastullah.pdb"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreOde\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogreaddons\dotsceneoctree\PlugIns\DotSceneManager\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui\lib"
+				TypeLibraryFile="$(OutDir)\RlCore.lib"
+				ProgramDatabaseFile=""
 				SubSystem="2"
 			/>
 			<Tool
@@ -204,6 +211,9 @@
 				Name="VCBscMakeTool"
 			/>
 			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
@@ -211,7 +221,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				ExcludedFromBuild="FALSE"
+				ExcludedFromBuild="false"
 			/>
 		</Configuration>
 	</Configurations>
@@ -227,7 +237,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\ActorControlledObject.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\ActorManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\Animation.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\AnimationListener.h"
 				>
 			</File>
 			<File
@@ -235,15 +257,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\AudibleActor.h"
+				RelativePath=".\include\CameraObject.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\BSPWorld.h"
+				RelativePath=".\include\ConfigurationManager.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\CameraActor.h"
+				RelativePath=".\include\ConfigurationManagerWin32.h"
 				>
 			</File>
 			<File
@@ -255,11 +277,31 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\DotSceneLoader.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\DotSceneOctreeWorld.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\GameActor.h"
+				RelativePath=".\include\GameAreaEvent.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\GameAreaEventSource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\GameAreaListener.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\GameAreaTypes.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\GameEventManager.h"
 				>
 			</File>
 			<File
@@ -267,27 +309,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\GameTask.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\Interpreter.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\LightActor.h"
+				RelativePath=".\include\LightObject.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\ListenerActor.h"
+				RelativePath=".\include\MeshObject.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\MeshActor.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\NatureWorld.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\ParticleSystemActor.h"
+				RelativePath=".\include\ParticleSystemObject.h"
 				>
 			</File>
 			<File
@@ -299,6 +337,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\Primitive.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\RubyInterpreter.h"
 				>
 			</File>
@@ -307,11 +349,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\SynchronizedTask.h"
+				RelativePath=".\include\SoundObject.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\TerrainWorld.h"
+				RelativePath=".\include\TrackAnimation.h"
 				>
 			</File>
 			<File
@@ -328,7 +370,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ActorControlledObject.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\ActorManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Animation.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\AnimationListener.cpp"
 				>
 			</File>
 			<File
@@ -336,15 +390,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\AudibleActor.cpp"
+				RelativePath=".\src\CameraObject.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\BSPWorld.cpp"
+				RelativePath=".\src\ConfigurationManager.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\CameraActor.cpp"
+				RelativePath=".\src\ConfigurationManagerWin32.cpp"
 				>
 			</File>
 			<File
@@ -352,11 +406,31 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\DotSceneLoader.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\DotSceneOctreeWorld.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\GameActor.cpp"
+				RelativePath=".\src\GameAreaEvent.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\GameAreaEventSource.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\GameAreaListener.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\GameAreaTypes.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\GameEventManager.cpp"
 				>
 			</File>
 			<File
@@ -364,23 +438,23 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\LightActor.cpp"
+				RelativePath=".\src\GameTask.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\ListenerActor.cpp"
+				RelativePath=".\src\LightObject.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\MeshActor.cpp"
+				RelativePath=".\src\ListenerObject.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\NatureWorld.cpp"
+				RelativePath=".\src\MeshObject.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\ParticleSystemActor.cpp"
+				RelativePath=".\src\ParticleSystemObject.cpp"
 				>
 			</File>
 			<File
@@ -392,6 +466,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Primitive.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\RubyInterpreter.cpp"
 				>
 			</File>
@@ -400,11 +478,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\SynchronizedTask.cpp"
+				RelativePath=".\src\SoundObject.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\TerrainWorld.cpp"
+				RelativePath=".\src\TrackAnimation.cpp"
 				>
 			</File>
 			<File

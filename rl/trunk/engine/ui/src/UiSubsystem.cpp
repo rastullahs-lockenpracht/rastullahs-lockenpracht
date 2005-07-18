@@ -142,7 +142,7 @@ namespace rl {
 		((RubyInterpreter*)CoreSubsystem::getSingleton().getInterpreter() )->initializeInterpreter( (VALUE(*)(...))&UiSubsystem::consoleWrite );
 			      
 		mGameLogger = new GameLoggerWindow();
-        //runTest();
+        runTest();
     }
 
     void UiSubsystem::requestExit()
@@ -274,7 +274,7 @@ namespace rl {
 
 	void UiSubsystem::runTest()
 	{
-		InputManager::getSingleton().setObjectPickingActive(true);
+	//	InputManager::getSingleton().setObjectPickingActive(true);
 		DialogWindow* dialog=new DialogWindow("startup.xml");  
 	}
 	

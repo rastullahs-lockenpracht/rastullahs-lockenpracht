@@ -140,7 +140,7 @@ namespace rl
 	const static string ISO="<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>";
 
 	NaturalLanguageProcessor::NaturalLanguageProcessor(std::string filename): 
-		mGm(new Graphmaster()),
+		mGm(NULL),
 		mExit(false)
 	{	
 		XMLPlatformUtils::Initialize();	//wahrscheinlich nicht nötig
@@ -225,19 +225,23 @@ namespace rl
 		DialogSubsystem::getSingleton().log("Processing...");
 		response+= process(node, m,"0");	// last Parameter has no function at the moment
 		response+="</response>";			// response must be in tags for postprocessing
+		// free the memory of the document and all its nodes
 		doc->release();
+		doc = NULL;
+		node = NULL;
 	
 		DialogSubsystem::getSingleton().log("Cleanup");
 		//if(doc)delete doc;
 
 	//  if a match has triggered the exit/close signal, return with 0 responses.
-        DialogSubsystem::getSingleton().log("Processing...");
+    /*    DialogSubsystem::getSingleton().log("Processing...");
         response+= process(node, m,"0");	// last Parameter has no function at the moment
         response+="</response>";			// response must be in tags for postprocessing
-        doc->release();
+   */    // doc->release();
         //  Eigentlich muss ein delete doc hier möglich sein, aber seit neustem sorgt dies für einen Absturz
-        if(doc)delete doc;
-        if(node)delete node;
+//        if(doc)delete doc;
+//        if(node)delete node;
+
         //  if a match has triggered the exit/close signal, return with 0 responses.
 
 		DialogSubsystem::getSingleton().log("PostProcessing...");
@@ -311,13 +315,22 @@ namespace rl
 		SAX2XMLReader* parser = XMLReaderFactory::createXMLReader();
 		parser->setContentHandler(xmlHandler);
 		parser->setErrorHandler(xmlHandler);
+		
 		try
-		{
-			XmlPtr res = 
-                XmlResourceManager::getSingleton().create(
-                filename, 
-                ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-            res.getPointer()->parseBy(parser);
+		{	
+			if(XmlResourceManager::getSingleton().getByName(filename).isNull())
+			{
+				XmlPtr res = 
+					XmlResourceManager::getSingleton().create(
+					filename, 
+					ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+				res.getPointer()->parseBy(parser);
+			}
+			else
+			{
+				XmlPtr res = XmlResourceManager::getSingleton().getByName(filename);
+				res.getPointer()->parseBy(parser);
+			}
 
 		}
 		catch(const XERCES_CPP_NAMESPACE::SAXParseException &exc)
@@ -332,6 +345,7 @@ namespace rl
 			if(xmlHandler)delete xmlHandler;
 			throw (exc);
 		}
+
 		// cleanup
 		if(parser)delete parser;
 		if(xmlHandler)delete xmlHandler;

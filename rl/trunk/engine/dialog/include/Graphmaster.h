@@ -43,7 +43,7 @@ namespace rl
 	private:
 		Match* match(Nodemaster *node, Nodemaster *parent, component which, const string &input, const string &star, const string &path);
 	
-		Nodemaster* root;
+		Nodemaster* mRoot;
 		string mName;	// name of the aiml-file the graphmaster contains
 	};
 }

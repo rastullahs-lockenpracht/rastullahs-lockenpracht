@@ -42,21 +42,25 @@ namespace rl
 												AimlParser::transcodeXmlCharToString(
 												node->getFirstChild()->getNodeValue())
 												,"*","*");
-			DialogSubsystem::getSingletonPtr()->log("found new match");
-			//  get the <template> tag as DOMDocument node
-			DOMDocument* doc=(DOMDocument *)newMatch->getNode()->getTemplateNode();
-			DialogSubsystem::getSingletonPtr()->log("getTemplateNode");
-			//  get the content of DOMDocument
-			DOMNode* newNode=doc->getDocumentElement();
-			DialogSubsystem::getSingletonPtr()->log("getDocumentElement");
-			
-			string result= nlp->process(newNode,newMatch,str);
-			DialogSubsystem::getSingletonPtr()->log("Processed");
-			doc->release();
-			DialogSubsystem::getSingletonPtr()->log("doc release");
-			delete newMatch;
-			DialogSubsystem::getSingletonPtr()->log("match delete");
-			return result;
+			if(newMatch)
+			{
+				DialogSubsystem::getSingletonPtr()->log("found new match");
+				//  get the <template> tag as DOMDocument node
+				DOMDocument* doc=(DOMDocument *)newMatch->getNode()->getTemplateNode();
+				DialogSubsystem::getSingletonPtr()->log("getTemplateNode");
+				//  get the content of DOMDocument
+				DOMNode* newNode=doc->getDocumentElement();
+				DialogSubsystem::getSingletonPtr()->log("getDocumentElement");
+				
+				string result= nlp->process(newNode,newMatch,str);
+				DialogSubsystem::getSingletonPtr()->log("Processed");
+				doc->release();
+				DialogSubsystem::getSingletonPtr()->log("doc release");
+				delete newMatch;
+				DialogSubsystem::getSingletonPtr()->log("match delete");
+				return result;
+			}
+			return "";
 		}
 	};
 }

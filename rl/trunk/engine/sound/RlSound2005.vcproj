@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8,00"
 	Name="RlSound"
-	ProjectGUID="{7187C873-42CB-43FE-BE1A-F86F59410EB2}"
+	ProjectGUID="{B2BC9A9E-0DA8-451D-8123-4C8FE543A231}"
 	RootNamespace="RlSound"
 	Keyword="ManagedCProj"
 	>
@@ -20,6 +20,7 @@
 			OutputDirectory="./lib/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="UpgradeFromVC71.vsprops"
 			CharacterSet="2"
 			ManagedExtensions="0"
 			>
@@ -41,14 +42,14 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreMain\Dependencies\include;..\..\dependencies\openal\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenThreads\include;..\..\Dependencies\cegui\include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreMain\Dependencies\include;..\..\dependencies\openalpp\include;..\..\dependencies\openal\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include"
 				PreprocessorDefinitions="_WINDOWS;WIN32;RLSOUND_EXPORTS;_DEBUG;LIBOPENAL;HAVE_LIBOPENAL"
-				MinimalRebuild="FALSE"
+				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				BufferSecurityCheck="FALSE"
-				RuntimeTypeInfo="TRUE"
-				ExpandAttributedSource="TRUE"
+				BufferSecurityCheck="false"
+				RuntimeTypeInfo="true"
+				ExpandAttributedSource="true"
 				AssemblerOutput="4"
 				AssemblerListingLocation=".\obj\$(ConfigurationName)/"
 				ObjectFile=".\obj\$(ConfigurationName)/"
@@ -68,12 +69,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OpenThreadsWin32d.lib ALut.lib OpenAl32.lib msvcrt-ruby18.lib OgreMain_d.lib vorbisfile_d.lib"
+				AdditionalDependencies="msvcrt-ruby18.lib OgreMain_d.lib ALut.lib OpenAl32.lib ogg_static_d.lib vorbis_static_d.lib vorbisenc_static_d.lib vorbisfile_static_d.lib"
 				OutputFile="$(OutDir)/RlSound.dll"
 				LinkIncremental="0"
-				SuppressStartupBanner="FALSE"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\openthreads\lib\win32;..\..\dependencies\OpenAL\libs;..\..\dependencies\boost\lib;..\..\dependencies\vorbis\lib"
-				GenerateDebugInformation="TRUE"
+				SuppressStartupBanner="false"
+				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\ogg\win32;..\..\dependencies\vorbis\lib;..\..\dependencies\boost\lib"
+				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				ProgramDatabaseFile="./lib/$(ConfigurationName)/$(ProjectName).pdb"
 				SubSystem="2"
@@ -94,6 +95,9 @@
 				Name="VCBscMakeTool"
 			/>
 			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
@@ -108,6 +112,7 @@
 			OutputDirectory="./lib/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="UpgradeFromVC71.vsprops"
 			CharacterSet="2"
 			ManagedExtensions="0"
 			>
@@ -129,15 +134,14 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				GlobalOptimizations="TRUE"
-				EnableIntrinsicFunctions="TRUE"
+				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreMain\Dependencies\include;..\..\dependencies\openalpp\include;..\..\dependencies\openal\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenThreads\include;..\..\Dependencies\cegui\include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreMain\Dependencies\include;..\..\dependencies\openalpp\include;..\..\dependencies\openal\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include"
 				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32;RLSOUND_EXPORTS;LIBOPENAL;HAVE_LIBOPENAL"
-				MinimalRebuild="FALSE"
+				MinimalRebuild="false"
 				RuntimeLibrary="2"
-				BufferSecurityCheck="FALSE"
-				RuntimeTypeInfo="TRUE"
+				BufferSecurityCheck="false"
+				RuntimeTypeInfo="true"
 				AssemblerListingLocation=".\obj\$(ConfigurationName)/"
 				ObjectFile=".\obj\$(ConfigurationName)/"
 				ProgramDataBaseFileName=".\obj\$(ConfigurationName)/"
@@ -156,12 +160,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msvcrt-ruby18.lib OgreMain.lib OpenThreadsWin32.lib ALut.lib OpenAl32.lib vorbisfile.lib"
+				AdditionalDependencies="msvcrt-ruby18.lib OgreMain.lib ogg_static.lib vorbis_static.lib vorbisenc_static.lib vorbisfile_static.lib ALut.lib OpenAl32.lib"
 				OutputFile="$(OutDir)/RlSound.dll"
 				LinkIncremental="1"
-				SuppressStartupBanner="FALSE"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\OpenAL\libs;..\..\dependencies\openalpp\lib;..\..\dependencies\ruby\lib;..\..\dependencies\openthreads\lib\win32;..\..\dependencies\boost\lib;..\..\dependencies\vorbis\lib"
-				GenerateDebugInformation="FALSE"
+				SuppressStartupBanner="false"
+				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\ogg\win32;..\..\dependencies\vorbis\lib;..\..\dependencies\boost\lib"
+				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
@@ -180,6 +184,9 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
@@ -201,19 +208,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\src\ListenerMovable.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\MusicManager.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\ResourceManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\SoundEvent.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\SoundFadeEvent.cpp"
+				RelativePath=".\src\SoundEvents.cpp"
 				>
 			</File>
 			<File
@@ -221,7 +224,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\SoundPlayEvent.cpp"
+				RelativePath=".\src\SoundMovable.cpp"
 				>
 			</File>
 			<File
@@ -239,19 +242,15 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\include\ListenerMovable.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\MusicManager.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\ResourceManager.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\SoundEvent.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\SoundFadeEvent.h"
+				RelativePath=".\include\SoundEvents.h"
 				>
 			</File>
 			<File
@@ -259,7 +258,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\SoundPlayEvent.h"
+				RelativePath=".\include\SoundMovable.h"
 				>
 			</File>
 			<File
