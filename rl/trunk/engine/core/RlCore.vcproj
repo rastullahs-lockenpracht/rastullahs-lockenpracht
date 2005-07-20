@@ -208,9 +208,6 @@
 				RelativePath=".\include\CoreSubsystem.h">
 			</File>
 			<File
-				RelativePath=".\include\DebugLine.h">
-			</File>
-			<File
 				RelativePath=".\include\DotSceneLoader.h">
 			</File>
 			<File
@@ -306,9 +303,6 @@
 			</File>
 			<File
 				RelativePath=".\src\CoreSubsystem.cpp">
-			</File>
-			<File
-				RelativePath=".\src\DebugLine.cpp">
 			</File>
 			<File
 				RelativePath=".\src\DotSceneLoader.cpp">
