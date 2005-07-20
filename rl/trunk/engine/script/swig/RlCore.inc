@@ -119,6 +119,8 @@ public:
 	rl::Actor* createMeshActor(const std::string& name, const std::string& meshname,
 		    rl::PhysicsManager::GeometryTypes geom = rl::PhysicsManager::GT_NONE,
 		    Real density=1.0);
+		    
+	//void createDebugActors();
 	    
 	rl::Actor* getActor(const std::string& name);
 	void destroyActor(rl::Actor* actor);

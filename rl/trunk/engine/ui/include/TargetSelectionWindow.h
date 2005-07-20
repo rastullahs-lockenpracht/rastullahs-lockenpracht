@@ -14,34 +14,37 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#ifndef __DEBUGWINDOW_H__
-#define __DEBUGWINDOW_H__
+#ifndef __TARGETSELECTIONWINDOW_H__
+#define __TARGETSELECTIONWINDOW_H__
 
 #include "UiPrerequisites.h"
 #include <OgreSingleton.h>
 
 #include "CeGuiWindow.h"
-#include "GameTask.h"
 
 namespace rl {
 
-    class _RlUiExport DebugWindow
-		: public Ogre::Singleton<DebugWindow>, public GameTask, public CeGuiWindow
+	class Action;
+
+    class _RlUiExport TargetSelectionWindow
+		: public Ogre::Singleton<TargetSelectionWindow>, public CeGuiWindow
     {
     public:
-        DebugWindow(void);
-        ~DebugWindow();
-        static DebugWindow& getSingleton(void);
-        static DebugWindow* getSingletonPtr(void);
+        TargetSelectionWindow();
+        ~TargetSelectionWindow();
+        static TargetSelectionWindow& getSingleton();
+        static TargetSelectionWindow* getSingletonPtr();
 
 		void setVisible(bool visible);
-        void setText(const Ogre::String& output);
-		void run(Ogre::Real elapsedTime);
+		void setAction(Action* action);
+		bool handleMouseMove(const CEGUI::EventArgs& e);
+		bool handleMouseClick(const CEGUI::EventArgs& e);
 
     private:
 		void updateFps();
         CEGUI::StaticText* mText;		
+		Action* mAction;
     };
 }
 
-#endif
+#endif //__TARGETSELECTIONWINDOW_H__

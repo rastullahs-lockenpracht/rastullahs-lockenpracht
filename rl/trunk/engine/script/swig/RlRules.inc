@@ -239,6 +239,8 @@ namespace rl {
 
         virtual int doTalentprobe(int id, int modifier);
         virtual int doEigenschaftsprobe(int id, int modifier);
+        
+        void setWert(int id, int value);
    };
    
    %feature("director") Person;

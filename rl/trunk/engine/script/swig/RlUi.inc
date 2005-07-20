@@ -40,6 +40,7 @@ public:
 	void showCharacterSheet();
 	void showCharacterSheet(Person* chara);
     void showPlaylist();
+	void showTargetWindow();
 
 	rl::Person* getActiveCharacter();
 	void setActiveCharacter(rl::Person* person);

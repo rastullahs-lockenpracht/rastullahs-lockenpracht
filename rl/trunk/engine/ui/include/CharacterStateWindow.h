@@ -14,34 +14,43 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#ifndef __DEBUGWINDOW_H__
-#define __DEBUGWINDOW_H__
+#ifndef __CharacterStateWindow_H__
+#define __CharacterStateWindow_H__
 
 #include "UiPrerequisites.h"
-#include <OgreSingleton.h>
 
 #include "CeGuiWindow.h"
-#include "GameTask.h"
+#include "Eigenschaft.h"
 
 namespace rl {
 
-    class _RlUiExport DebugWindow
-		: public Ogre::Singleton<DebugWindow>, public GameTask, public CeGuiWindow
-    {
-    public:
-        DebugWindow(void);
-        ~DebugWindow();
-        static DebugWindow& getSingleton(void);
-        static DebugWindow* getSingletonPtr(void);
+	class Person;
 
-		void setVisible(bool visible);
-        void setText(const Ogre::String& output);
-		void run(Ogre::Real elapsedTime);
+	class _RlUiExport CharacterStateWindow : public CeGuiWindow
+	{
+	public:
+		CharacterStateWindow();
+		~CharacterStateWindow();
 
-    private:
-		void updateFps();
-        CEGUI::StaticText* mText;		
-    };
+		void setCharacter(Person* character);
+
+		/**
+		 * Aktualisiert die Tabellenelemente in Talent- und Magietabellen
+		 * und auf dem Charakterblatt
+		 */
+		void update();
+
+
+	private:
+		Person* mCharacter;
+
+		CEGUI::ProgressBar* mLP;
+		CEGUI::ProgressBar* mAP;
+		CEGUI::StaticText* mName;
+		
+	};
 }
 
+
 #endif
+

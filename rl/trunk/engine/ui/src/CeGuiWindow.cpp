@@ -159,6 +159,11 @@ MultiLineEditbox* CeGuiWindow::getMultiLineEditbox(const char* name)
 	return static_cast<MultiLineEditbox*>(getWindow(name));
 }
 
+ProgressBar* CeGuiWindow::getProgressBar(const char* name)
+{
+	return static_cast<ProgressBar*>(getWindow(name));
+}
+
 const CeGuiString& CeGuiWindow::getName() const
 {
 	return mName;
