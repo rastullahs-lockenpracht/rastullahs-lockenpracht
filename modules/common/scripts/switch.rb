@@ -75,10 +75,10 @@ class SwitchMiddleAction < RubyAction
     switchMesh = switch.getActor().getControlledObject();
     if (switch.getString("state") == "Oben")
     	switchMesh.stopAllAnimations()
-      switchMesh.startAnimation("ObenMitte", 1.0, 1)
+      # switchMesh.startAnimation("ObenMitte", 1.0, 1)
     elsif (switch.getString("state") == "Unten")
     	switchMesh.stopAllAnimations()
-      switchMesh.startAnimation("UntenMitte", 1.0, 1)
+      # switchMesh.startAnimation("UntenMitte", 1.0, 1)
     end
     switch.setString("state", "Mitte") 
     p switch

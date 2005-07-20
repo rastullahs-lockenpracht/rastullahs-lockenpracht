@@ -1,0 +1,29 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+    <Window Type="DefaultGUISheet" Name="CharacterStateWindow">
+        <Property Name="MetricsMode" Value="Absolute"/>
+        <Property Name="Position" Value="x:0.0 y:500.0"/>
+        <Property Name="Width" Value="100"/>
+        <Property Name="Height" Value="100"/>
+
+        <Window Type="RastullahLook/StaticText" Name="CharacterStateWindow/Name">
+            <Property Name="AbsolutePosition" Value="x:10 y:10"/>
+            <Property Name="AbsoluteWidth" Value="80"/>
+            <Property Name="AbsoluteHeight" Value="30"/>
+        </Window>
+
+        <Window Type="RastullahLook/ProgressBar" Name="CharacterStateWindow/LP">
+            <Property Name="AbsolutePosition" Value="x:10 y:45"/>
+            <Property Name="AbsoluteWidth" Value="80"/>
+            <Property Name="AbsoluteHeight" Value="10"/>
+        </Window>
+
+        <Window Type="RastullahLook/ProgressBar" Name="CharacterStateWindow/AP">
+            <Property Name="AbsolutePosition" Value="x:10 y:75"/>
+            <Property Name="AbsoluteWidth" Value="80"/>
+            <Property Name="AbsoluteHeight" Value="10"/>
+        </Window>
+
+    </Window>
+</GUILayout>
+
+

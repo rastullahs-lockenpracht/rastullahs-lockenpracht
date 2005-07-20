@@ -134,6 +134,16 @@ class ToggleDialogWindowAction < RubyAction
   end
 end
 
+class ShowTargetWindowAction < RubyAction
+  def initialize
+    super("showtargetwindow", "Zielauswahl")
+  end
+
+  def doAction(object, actor, target)
+    $UI.showTargetWindow()
+  end
+end
+
 
 class PlayerSettings
   
