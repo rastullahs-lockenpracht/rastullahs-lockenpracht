@@ -82,11 +82,9 @@ void SoundStreamMovable::load() throw (RuntimeException)
 {
     getSoundResource()->load();
     DataStreamPtr stream = getSoundResource()->getDataStream();
-    cerr<<"datastream "<<stream.getPointer()<<endl;
     int len = stream->size();
-    cerr<<"size "<<len<<endl;
     char *data = new char[len];
-    cerr<<"read "<<stream->read(data, len)<<endl;
+    stream->read(data, len);
     
     unsigned int mode = FSOUND_LOADMEMORY;
     if (is3d())
@@ -94,7 +92,7 @@ void SoundStreamMovable::load() throw (RuntimeException)
         mode |= FSOUND_HW3D;
     } else {
         mode |= FSOUND_HW2D;
-    }
+    } 
     mStream = FSOUND_Stream_Open(data, mode, 0, len);
 }
 
@@ -104,14 +102,13 @@ void SoundStreamMovable::load() throw (RuntimeException)
  */
 void SoundStreamMovable::play() throw (RuntimeException)
 {
-    cerr<<getStream()<<endl;
     if (getStream() == 0)
     {
         load();
     }
     if (getStream() != 0)
     {
-        FSOUND_Stream_PlayEx(FSOUND_FREE, getStream(), 0, true);
+        setChannel(FSOUND_Stream_PlayEx(FSOUND_FREE, getStream(), 0, true));
     }
 }
 
@@ -122,7 +119,7 @@ void SoundStreamMovable::play() throw (RuntimeException)
  */
 bool SoundStreamMovable::isValid() const throw (RuntimeException)
 {
-    return (getChannel() < 0) && (getStream() != 0);
+    return (getChannel() >= 0) && (getStream() != 0);
 }
 
 /**

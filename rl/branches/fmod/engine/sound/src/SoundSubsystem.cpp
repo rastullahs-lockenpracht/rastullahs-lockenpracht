@@ -57,7 +57,9 @@ SoundSubsystem::SoundSubsystem()
      }
  
     // fmod initialisieren und Fehler zuruecksetzen.
-    FSOUND_Init(44100, 32, 0);
+    FSOUND_SetMaxHardwareChannels(16);
+    FSOUND_SetMinHardwareChannels(8);
+    FSOUND_Init(44100, 32, 0); // TODO Wenns schiefgeht.
     SoundSubsystem::log("fmod initialisiert");
     
     // Wir initialisieren den Listener

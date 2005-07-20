@@ -90,6 +90,7 @@ const String& SoundMovable::getName() const
 {
     return mName;
 }
+
 /**
  * @author JoSch
  * @date 07-04-2005
@@ -98,6 +99,16 @@ const String& SoundMovable::getName() const
 const int SoundMovable::getChannel() const
 {
     return mChannel;
+}
+
+/**
+ * @author JoSch
+ * @date 07-21-2005
+ * @param channel Der Soundkanal
+ */
+void SoundMovable::setChannel(int channel)
+{
+    mChannel = channel;
 }
 
 /**
@@ -197,6 +208,7 @@ const bool SoundMovable::isPlaying() const
     {
         return FSOUND_IsPlaying(getChannel());
     }
+    return false;
 }
 
 /**

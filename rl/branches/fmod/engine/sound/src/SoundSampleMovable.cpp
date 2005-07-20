@@ -88,9 +88,13 @@ const String& SoundSampleMovable::getMovableType() const
  */
 void SoundSampleMovable::play() throw (RuntimeException)
 {
+    if (getSample() == 0)
+    {
+        load();
+    }
     if (getSample() != 0)
     {
-        FSOUND_PlaySoundEx(FSOUND_FREE, getSample(), 0, true);
+        setChannel(FSOUND_PlaySound(FSOUND_FREE, getSample()));
     }
 }
 
@@ -123,7 +127,7 @@ void SoundSampleMovable::load() throw (RuntimeException)
  */
 bool SoundSampleMovable::isValid() const throw (RuntimeException)
 {
-    return (getChannel() < 0) && (getSample() != 0);
+    return (getChannel() >= 0) && (getSample() != 0);
 }
 
 /**

@@ -53,7 +53,7 @@ public:
         while (it.hasMoreElements())
         {
             SoundResourcePtr soundres = it.getNext();
-            SoundMovablePtr sound(new SoundStreamMovable(soundres));
+            SoundSampleMovablePtr sound(new SoundSampleMovable(soundres));
             if (!sound.isNull())
             {
                 sound->play();
@@ -107,4 +107,4 @@ public:
 //    CPPUNIT_TEST(testSoundManager_loadPlayWithFade);
     CPPUNIT_TEST_SUITE_END();
 };
-//CPPUNIT_TEST_SUITE_REGISTRATION(SoundManagerTest);
+CPPUNIT_TEST_SUITE_REGISTRATION(SoundManagerTest);

@@ -69,9 +69,11 @@ namespace rl {
         /// Destruktor
         virtual ~SoundMovable();
         /// Name zurückgeben
-        virtual const Ogre::String& getName() const;
+        const Ogre::String& getName() const;
         /// Den Soundkanal zurueckgeben.
-        virtual const int getChannel() const;
+        const int getChannel() const;
+        /// Den Soundkanal setzen.
+        void setChannel(int channel);  
         /// Moveable-Typ
         virtual const Ogre::String& getMovableType() const;
         /// Kamera informieren
