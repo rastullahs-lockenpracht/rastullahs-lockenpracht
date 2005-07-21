@@ -38,7 +38,7 @@ public:
 	 *
 	 * @return bool consumed Wurde der Event aufgebracht (defunct)
 	 */
-    virtual bool eventRaised(Event *anEvent) const = 0;
+    virtual bool eventRaised(Event *anEvent) = 0;
 };
 
 /**

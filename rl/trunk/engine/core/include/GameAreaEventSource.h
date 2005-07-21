@@ -70,11 +70,11 @@ public:
     bool hasListeners( ) const;
 
     /// Gibt die Art des Areals zurück
-    GameAreaType* getGameAreaType() const { return m_AreaType; };
+    GameAreaType* getGameAreaType() const { return mAreaType; };
     /// Gibt die Actoren die bei der letzten Abfrage innerhalb des Areals waren zurück
-    const ActorMap& getInsideAreaList() const { return m_InsideAreaList; };
+    const ActorMap& getInsideAreaList() const { return mInsideAreaList; };
     /// Gibt den Actor zurück, den das Areal umgibt
-    Actor* getActor() const { return m_Actor; };
+    Actor* getActor() const { return mActor; };
 private: 
     /** Verteilt die Events an die angefügten Listener
     * Für jeden Actor wird ein einzelnes Ereigniss generiert, zuerst für alle
@@ -86,14 +86,14 @@ private:
     void doDispatchEvents( const ActorMap& enteringActors, const ActorMap& leavingActors );
 
     /// Der Typ des Areals
-    GameAreaType* m_AreaType;
+    GameAreaType* mAreaType;
 
     /// Der EventCaster der die Verteilung an die Listener übernimmt
-    EventCaster<GameAreaEvent> m_AreaEventCaster;
+    EventCaster<GameAreaEvent> mAreaEventCaster;
     /// Die Aktoren innerhalb des Areals
-    ActorMap m_InsideAreaList;
+    ActorMap mInsideAreaList;
     /// Der Aktor den das Areal umgibt
-    Actor* m_Actor;
+    Actor* mActor;
 };
 
 }

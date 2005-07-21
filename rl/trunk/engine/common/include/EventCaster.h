@@ -125,6 +125,9 @@ bool EventCaster<Event>::hasEventListeners() const
 template <typename Event>
 void EventCaster<Event>::dispatchEvent(Event *anEvent)
 {
+	if (mListeners.empty())
+		return;
+
     for_each(mListeners.begin(), mListeners.end(),
         bind2nd(DispatchFunctor<Event>(), anEvent));
 }

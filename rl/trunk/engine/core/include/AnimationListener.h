@@ -50,7 +50,7 @@ class _RlCoreExport AnimationListener : public virtual EventListener<AnimationEv
 		virtual void animationPaused(AnimationEvent *anEvent) const = 0;
 		virtual void animationUnpaused(AnimationEvent *anEvent) const = 0;
 
-		virtual bool eventRaised(AnimationEvent *anEvent) const;
+		virtual bool eventRaised(AnimationEvent *anEvent);
 };
 
 class _RlCoreExport AnimationFrameEvent : public virtual EventObject

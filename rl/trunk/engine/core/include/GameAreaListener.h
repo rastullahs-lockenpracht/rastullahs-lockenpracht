@@ -47,7 +47,7 @@ public:
     virtual void areaEntered(GameAreaEvent *anEvent) const = 0;
 
     /// Kümmert sich um das Aufrufen benannter Methoden aus Reasons
-    virtual bool eventRaised(GameAreaEvent *anEvent) const;
+    virtual bool eventRaised(GameAreaEvent *anEvent);
 };
 }
 

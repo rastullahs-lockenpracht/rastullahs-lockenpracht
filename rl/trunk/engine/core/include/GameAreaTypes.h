@@ -94,7 +94,7 @@ public:
     virtual const Ogre::Vector3& getQueryPosition() const;    
 private:
     /// Die Kugel-Anfrage
-    Ogre::SphereSceneQuery* m_SphereQuery;
+    Ogre::SphereSceneQuery* mSphereQuery;
 };
 
 }

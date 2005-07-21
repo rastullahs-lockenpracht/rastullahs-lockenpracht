@@ -53,14 +53,14 @@ public:
     virtual ~GameAreaEvent() {};
 
     /// Setzt den verursachenden Actor des Events
-    void setProvokingActor(Actor* act ) {  m_Actor = act; };
+    void setProvokingActor(Actor* act ) {  mActor = act; };
     /// Gibt den verursachenden Actor des Events zurück
-    Actor* getProvokingActor() const { return m_Actor; };
+    Actor* getProvokingActor() const { return mActor; };
     /// Gibt die Eventquelle zurück
-    GameAreaEventSource* getGameAreaEventSource() const;
+    GameAreaEventSource* getSource() const;
 private:
     /// Der verursachende Actor
-    Actor* m_Actor;
+    Actor* mActor;
 };
 }
 
