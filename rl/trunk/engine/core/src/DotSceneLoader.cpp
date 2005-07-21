@@ -39,8 +39,8 @@ namespace rl {
 
 	DotSceneLoader::DotSceneLoader( const std::string &filename )
 	{
-		m_SceneName = filename;
-		m_SceneManager = CoreSubsystem::getSingleton().getWorld()->getSceneManager();
+		mSceneName = filename;
+		mSceneManager = CoreSubsystem::getSingleton().getWorld()->getSceneManager();
 
 		initializeScene();
 	}
@@ -51,17 +51,17 @@ namespace rl {
 
 		XmlHelper::initializeTranscoder();
 
-		CoreSubsystem::log( "Lade Szenenbeschreibung aus " + m_SceneName );
+		CoreSubsystem::log( "Lade Szenenbeschreibung aus " + mSceneName );
 		DOMDocument* doc = openSceneFile();
 		CoreSubsystem::log( " Beginne parsen der Unterelemente" );
 		DOMElement* nodes = XmlHelper::getChildNamed(doc->getDocumentElement(), "nodes");
 
 		// Eine .scene wird in einem SceneNode mit dem Namen der .scene befestigt
-		SceneNode* staticNode = m_SceneManager->getRootSceneNode()->createChildSceneNode(m_SceneName);
+		SceneNode* staticNode = mSceneManager->getRootSceneNode()->createChildSceneNode(mSceneName);
 		processNodes( nodes, staticNode );
 
 
-		StaticGeometry* staticGeom = m_SceneManager->createStaticGeometry( m_SceneName );
+		StaticGeometry* staticGeom = mSceneManager->createStaticGeometry( mSceneName );
 		// Usprung und Größe der Blöcke einstellen
 		// staticGeom->setRegionDimensions(Vector3(1000,500,1000));
 		// staticGeom->setOrigin(Vector3(0,0,0));
@@ -78,7 +78,7 @@ namespace rl {
 
 		doc->release();
 		XMLPlatformUtils::Terminate();		
-		CoreSubsystem::log( "Szenenbeschreibung aus " + m_SceneName +" fertig geparst" );
+		CoreSubsystem::log( "Szenenbeschreibung aus " + mSceneName +" fertig geparst" );
 	}
 
 	DOMDocument* DotSceneLoader::openSceneFile( )
@@ -90,7 +90,7 @@ namespace rl {
 		
 		XmlPtr res = 
 			XmlResourceManager::getSingleton().create(
-			m_SceneName, 
+			mSceneName, 
 			Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 		res.getPointer()->parseBy(parser);
 		return parser->getDocument();
@@ -181,9 +181,9 @@ namespace rl {
 		Ogre::Entity* newEnt = NULL;
 		// Wurde der Entity ein Name zugewiesen
 		if( entName.length() == 0 )
-			entName = getNextEntityName(m_SceneName+"_"+parentNode->getName());
+			entName = getNextEntityName(mSceneName+"_"+parentNode->getName());
 
-		newEnt = m_SceneManager->createEntity(entName,meshName);				
+		newEnt = mSceneManager->createEntity(entName,meshName);				
 		parentNode->attachObject( newEnt );
 
 		CoreSubsystem::log( " Entity '"+meshName+"' mit dem Namen '"+entName+"' in den Knoten '"+parentNode->getName()+"' eingefügt." );

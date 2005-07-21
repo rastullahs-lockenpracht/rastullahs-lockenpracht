@@ -71,9 +71,9 @@ namespace rl {
 		Ogre::Quaternion processRotation( XERCES_CPP_NAMESPACE::DOMElement* rootQuatXml );
 
 		/// Der Name der Scene
-		std::string m_SceneName;
+		std::string mSceneName;
 		/// Der SceneManager
-		Ogre::SceneManager* m_SceneManager;
+		Ogre::SceneManager* mSceneManager;
 	};
 
 }
