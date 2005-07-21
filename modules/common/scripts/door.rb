@@ -64,8 +64,12 @@ class Door < RubyItem
     	addAction(OpenDoorAction.new);
     	addAction(CloseDoorAction.new);
     	$CORE.log("door.rb - Aktionen hinzugefuegt.");
+    else
+    	addAction(OpenDoorAction.new, 7);
+    	addAction(CloseDoorAction.new, 7);
+    	$CORE.log("door.rb - Aktionen versteckt hinzugefuegt.");
     end
   end
-  
+
 end
 

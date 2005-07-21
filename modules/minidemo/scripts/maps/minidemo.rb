@@ -4,6 +4,11 @@ require 'torch.rb'
 require 'hero.rb'
 require 'door.rb'
 require 'switch.rb'
+require 'truhe.rb'
+require 'door_opener.rb'
+
+# Der GC reisst oft die Objekte ab
+GC.disable
 
 $CORE.log("init map 'minidemo'...");
 $World = $CORE.getWorld()
@@ -35,12 +40,12 @@ $CORE.log("Held als aktiver Charakter gesetzt.");
 
 $CORE.log("Türen einsetzen")
 door1 = Door.new("Tuer_1", false, true);
-door1.getActor().placeIntoScene(1168.0, -75.0, -110.0, 1.0, 0.0, 0.0, 0.0);
+door1.getActor().placeIntoScene(1368.0, -75.0, -170.0, 1.0, 0.0, 0.0, 0.0);
 #, "Bone01");
 door1.getActor().yaw(-90.0)
 
 gtuer = Door.new("Tuer_2", false, false);
-gtuer.getActor().placeIntoScene(1168.0, -75.0, 88.0, 1.0, 0.0, 0.0, 0.0)
+gtuer.getActor().placeIntoScene(1368.0, -75.0, 60.0, 1.0, 0.0, 0.0, 0.0)
 #, "Bone01");
 gtuer.getActor().yaw(-90.0)
 $CORE.log("Türen fertig")
@@ -53,6 +58,14 @@ hebel.getActor().yaw(-90.0);
 #p hebel
 $CORE.log("Hebel fertig");
 
+doorprocessor = SecretDoorOpener.new(gtuer, hebel)
+
+$CORE.log("Truhe reinsetzen")
+hebel = Chest.new( "Truhe", false, true );
+hebel.getActor().placeIntoScene( 1750.0, -350.0, -105.0, 1.0, 0.0, 0.0, 0.0 );
+hebel.getActor().yaw(-90.0);
+#p hebel
+$CORE.log("Truhe fertig");
 
 load "kreislauf.rb"
 

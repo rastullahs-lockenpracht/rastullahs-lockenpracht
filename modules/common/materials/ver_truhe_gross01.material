@@ -1,0 +1,13 @@
+material ver_truhe_gross01
+{
+    technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture ver_truhe_gross.png 
+            }
+        }
+    }
+}
