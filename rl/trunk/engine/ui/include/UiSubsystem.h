@@ -64,6 +64,7 @@ namespace rl {
 		void toggleDialogWindow();
 		void toggleGameLogWindow();
 		void toggleObjectPicking();
+		void toggleCharacterStateWindow();
 
 		void showCharacterActionChoice();
 		void showPickedObjectActions();

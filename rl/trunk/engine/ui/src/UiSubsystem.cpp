@@ -145,7 +145,6 @@ namespace rl {
 			      
 		mGameLogger = new GameLoggerWindow();
 		mCharacterStateWindow = new CharacterStateWindow();
-		mCharacterStateWindow->setVisible(true);
         runTest();
     }
 
@@ -270,6 +269,11 @@ namespace rl {
 		CharacterSheetWindow* wnd = new CharacterSheetWindow();
 		wnd->setCharacter(chara);
 		wnd->setVisible(true);
+	}
+
+	void UiSubsystem::toggleCharacterStateWindow()
+	{
+		mCharacterStateWindow->setVisible(!mCharacterStateWindow->isVisible());
 	}
 
 	void UiSubsystem::setBattleMode(bool inBattle)

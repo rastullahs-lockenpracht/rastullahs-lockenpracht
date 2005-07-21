@@ -21,24 +21,23 @@
 
 #include "CeGuiWindow.h"
 #include "Eigenschaft.h"
+#include "ObjectStateChangeEventSource.h"
 
 namespace rl {
 
 	class Person;
 
-	class _RlUiExport CharacterStateWindow : public CeGuiWindow
+	class _RlUiExport CharacterStateWindow : public CeGuiWindow, public ObjectStateChangeListener
 	{
 	public:
 		CharacterStateWindow();
 		~CharacterStateWindow();
 
 		void setCharacter(Person* character);
-
-		/**
-		 * Aktualisiert die Tabellenelemente in Talent- und Magietabellen
-		 * und auf dem Charakterblatt
-		 */
 		void update();
+		void setVisible(bool visible);
+
+		void objectStateChanged(ObjectStateChangeEvent* evt);
 
 
 	private:
@@ -46,6 +45,7 @@ namespace rl {
 
 		CEGUI::ProgressBar* mLP;
 		CEGUI::ProgressBar* mAP;
+		CEGUI::ProgressBar* mAU;
 		CEGUI::StaticText* mName;
 		
 	};

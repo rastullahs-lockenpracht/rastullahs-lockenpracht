@@ -30,10 +30,12 @@ using namespace Ogre;
 namespace rl {
 
 CharacterStateWindow::CharacterStateWindow()
-: CeGuiWindow("characterstatewindow.xml", WND_SHOW)
+: CeGuiWindow("characterstatewindow.xml", WND_SHOW),
+	mCharacter(NULL)
 {
 	mLP = getProgressBar("CharacterStateWindow/LP");
 	mAP = getProgressBar("CharacterStateWindow/AP");
+	mAU = getProgressBar("CharacterStateWindow/AU");
 	mName = getStaticText("CharacterStateWindow/Name");
 	
 	addToRoot(mWindow);	
@@ -45,21 +47,34 @@ CharacterStateWindow::~CharacterStateWindow()
 
 void CharacterStateWindow::setCharacter(Person* person)
 {
+	if (mCharacter != NULL)
+		mCharacter->removeObjectStateChangeListener(this);
+
 	mCharacter = person;
+	mCharacter->addObjectStateChangeListener(this);
 	update();
 }
 
 void CharacterStateWindow::update()
 {
+	if (!isVisible())
+		return;
+
 	mName->setText(mCharacter->getName());
 
-	float lep, asp;
+	float lep;
 	if (mCharacter->getLeMax() <= 0)
 		lep = 0.0;
 	else
 		lep = (float)mCharacter->getLe() / (float)mCharacter->getLeMax();
-
 	mLP->setProgress(lep);
+
+	float au;
+	if (mCharacter->getAuMax() <= 0)
+		au = 0.0;
+	else
+		au = (float)mCharacter->getAu() / (float)mCharacter->getAuMax();
+	mAU->setProgress(au);
 
 	if (!mCharacter->isMagic())
 	{
@@ -71,12 +86,26 @@ void CharacterStateWindow::update()
 	if (!mAP->isVisible())
 		mAP->setVisible(true);
 
+	float asp;
 	if (mCharacter->getAeMax() <= 0)
 		asp = 0.0;
 	else
 		asp = (float)mCharacter->getAe() / (float)mCharacter->getAeMax();
-
 	mAP->setProgress(asp);
+
+}
+
+void CharacterStateWindow::objectStateChanged(ObjectStateChangeEvent* evt)
+{
+	update();
+}
+
+void CharacterStateWindow::setVisible(bool visible)
+{
+	CeGuiWindow::setVisible(visible);
+	if (visible) {
+		update();
+	}
 }
 
 
