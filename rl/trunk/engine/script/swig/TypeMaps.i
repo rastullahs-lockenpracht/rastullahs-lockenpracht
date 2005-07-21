@@ -35,6 +35,10 @@
      $result = rb_str_new2($1->c_str());
 }
 
+
+%typemap(typecheck) rl::CeGuiString = char *;
+%typemap(typecheck) const rl::CeGuiString & = char *;
+
 /* Wrapping rl::CeGuiStrings to ruby and back 
  for rl::CeGuiString, const rl::CeGuiString, rl::CeGuiString&, rl::CeGuiString*, const rl::CeGuiString*, const rl::CeGuiString&
 */
@@ -59,14 +63,14 @@
 %typemap(directorin) rl::CeGuiString *, const rl::CeGuiString * 
 	"$input = rb_str_new2($1->c_str());"
 
-%typemap(directorout) rl::CeGuiString {
+%typemap(directorout) rl::CeGuiString, const rl::CeGuiString {
     if (TYPE($input) == T_STRING)
         $result = rl::CeGuiString(StringValuePtr($input));
     else
         throw Swig::DirectorTypeMismatchException("string expected");
 }
 
-%typemap(directorout) const rl::CeGuiString & {
+%typemap(directorout) const rl::CeGuiString &, rl::CeGuiString&  {
     if (TYPE($input) == T_STRING) {
 		$result = new rl::CeGuiString();
         $result->assign(rl::CeGuiString(StringValuePtr($input)));
