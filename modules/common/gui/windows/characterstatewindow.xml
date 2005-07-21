@@ -17,8 +17,14 @@
             <Property Name="AbsoluteHeight" Value="10"/>
         </Window>
 
+        <Window Type="RastullahLook/ProgressBar" Name="CharacterStateWindow/AU">
+            <Property Name="AbsolutePosition" Value="x:10 y:65"/>
+            <Property Name="AbsoluteWidth" Value="80"/>
+            <Property Name="AbsoluteHeight" Value="10"/>
+        </Window>
+
         <Window Type="RastullahLook/ProgressBar" Name="CharacterStateWindow/AP">
-            <Property Name="AbsolutePosition" Value="x:10 y:75"/>
+            <Property Name="AbsolutePosition" Value="x:10 y:85"/>
             <Property Name="AbsoluteWidth" Value="80"/>
             <Property Name="AbsoluteHeight" Value="10"/>
         </Window>

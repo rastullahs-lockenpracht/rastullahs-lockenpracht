@@ -104,6 +104,16 @@ class ToggleOdeDebugAction < RubyAction
   end
 end
 
+class ToggleCharacterStateWindowAction < RubyAction
+    def initialize
+        super("togglecharacterstatewindow", "Characterstatus zeigen/verstecken")
+    end
+
+    def doAction(object, actor, target)
+        $UI.toggleCharacterStateWindow()
+    end
+end
+
 class ShowObjectActionsAction < RubyAction
   def initialize
     super("showobjectactions", "Objektaktionen anzeigen")
@@ -165,10 +175,12 @@ class PlayerSettings
     $act11 = ShowCharacterSheetAction.new
     $act12 = QuitGameAction.new
     $act13 = MakeScreenshotAction.new
+    $act14 = ToggleCharacterStateWindowAction.new
 
     player.addActionInGroup($act1, $grpGrp1, 7) # ACT_DISABLED
-    player.addActionInGroup($act2, $grpGrp1) 
-    player.addActionInGroup($act3, $grpGrp1) 
+    player.addActionInGroup($act2, $grpGrp1)
+    player.addActionInGroup($act3, $grpGrp1)
+
     player.addActionInGroup($act4, $grpGrp2)
     player.addActionInGroup($act5, $grpGrp2)
     player.addActionInGroup($act6, $grpGrp2)
@@ -177,8 +189,11 @@ class PlayerSettings
     player.addActionInGroup($act9, $grpGrp2)
     player.addActionInGroup($act10, $grpGrp2)
     player.addActionInGroup($act11, $grpGrp2)
-    player.addActionInGroup($act12, $grpGrp3) 
+    player.addActionInGroup($act14, $grpGrp2)
+    
+    player.addActionInGroup($act12, $grpGrp3)
     player.addActionInGroup($act13, $grpGrp3)
+    
   end
   
   def PlayerSettings.preparePlayer(player)

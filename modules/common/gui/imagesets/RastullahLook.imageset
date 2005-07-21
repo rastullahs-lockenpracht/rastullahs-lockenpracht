@@ -225,7 +225,7 @@
     <Image Name="ProgressBarMiddle" XPos="80" YPos="74" Width="6" Height="12" />
     <Image Name="ProgressBarRight" XPos="88" YPos="74" Width="6" Height="12" />
     <Image Name="ProgressBarDimSegment" XPos="96" YPos="74" Width="8" Height="12" />
-    <Image Name="ProgressBarLitSegment" XPos="106" YPos="74" Width="8" Height="12" />    
+    <Image Name="ProgressBarLitSegment" XPos="326" YPos="74" Width="8" Height="12" />    
 
     <Image Name="CheckboxNormal" XPos="110" YPos="2" Width="12" Height="12" />
     <Image Name="CheckboxHover" XPos="110" YPos="30" Width="12" Height="12" />
