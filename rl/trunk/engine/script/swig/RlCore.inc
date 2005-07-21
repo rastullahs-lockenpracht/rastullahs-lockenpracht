@@ -200,7 +200,7 @@ private:
 	GameAreaEvent( rl::GameAreaEventSource* src, const unsigned int reason );
 public:
     rl::Actor* getProvokingActor() const;
-    rl::GameAreaEventSource* getGameAreaEventSource() const;
+    rl::GameAreaEventSource* getSource() const;
 };
 
 class GameEventManager
@@ -216,7 +216,33 @@ public:
     static rl::GameEventManager & getSingleton(void);
 };
 
+%feature("director") ObjectStateChangeListener; 
+class ObjectStateChangeListener 
+{
+public:
+	virtual ~ObjectStateChangeListener();
+	virtual void objectStateChanged(rl::ObjectStateChangeEvent *anEvent) = 0;
+};
 
+class ObjectStateChangeEventSource
+{
+public:
+	ObjectStateChangeEventSource( );
+  
+    void addObjectStateChangeListener( rl::ObjectStateChangeListener*  list );
+    void removeObjectStateChangeListener( rl::ObjectStateChangeListener* list );
+    bool hasListeners( ) const;
+    Ogre::UserDefinedObject* getObject() const { return mObject; }
+	void fireObjectStateChangeEvent();
+};
+
+class ObjectStateChangeEvent
+{
+public:
+    ObjectStateChangeEvent( rl::ObjectStateChangeEventSource* src );
+    Ogre::UserDefinedObject* getProvokingObject() const { return mObject; };
+    rl::ObjectStateChangeEventSource* getSource() const;
+};
 
 /// Alles was mit Animationen zu tun hat
 %apply SWIGTYPE *DYNAMIC { Animation * };

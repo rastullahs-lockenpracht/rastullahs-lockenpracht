@@ -50,6 +50,8 @@ public:
 	void toggleGameLogWindow();
 	void toggleDialogWindow();
 	void toggleObjectPicking();
+	void toggleCharacterStateWindow();
+	
 	rl::GameController* getGameController();
 	rl::GameLoggerWindow* getGameLogger();
 	

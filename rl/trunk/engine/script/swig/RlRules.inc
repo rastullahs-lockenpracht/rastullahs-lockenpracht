@@ -164,7 +164,7 @@ namespace rl {
     };
     
     %feature("director") GameObject;
-    class GameObject
+    class GameObject: public ObjectStateChangeEventSource
     {
     public:
         GameObject(int id, const rl::CeGuiString& name, const rl::CeGuiString& description);
@@ -198,7 +198,10 @@ namespace rl {
 			const rl::CeGuiString& className, 
 			rl::Creature* actor,
             rl::GameObject* target);
-        void doAction(Action* action, rl::Creature* actor,
+        void doAction(
+			const rl::CeGuiString& actionName, 
+			const rl::CeGuiString& className);
+        void doAction(rl::Action* action, rl::Creature* actor,
             rl::GameObject* target);
             
         void setString(const char* key, rl::CeGuiString value);
@@ -235,6 +238,8 @@ namespace rl {
         virtual void modifyTalent(int id, int mod);
 
         virtual void modifyLe(int mod);
+        virtual void modifyAe(int mod);
+        virtual void modifyAu(int mod);
         virtual int getLe();
 
         virtual int doTalentprobe(int id, int modifier);

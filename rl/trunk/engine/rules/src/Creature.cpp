@@ -89,6 +89,7 @@ namespace rl
     void Creature::modifyEigenschaft(int key, int mod)
     {
         mEigenschaften[key] = mEigenschaften[key] + mod;
+		fireObjectStateChangeEvent();
     }
 
     void Creature::modifyTalent(int key, int mod)
@@ -99,6 +100,7 @@ namespace rl
             Throw(InvalidArgumentException, "Talent nicht gefunden.");
         }
         (*it).second += mod;
+		fireObjectStateChangeEvent();
     }
 
     void Creature::modifyLe(int mod, bool ignoreMax)
@@ -106,6 +108,7 @@ namespace rl
         mCurrentLe += mod;
 		if (!ignoreMax)
 			mCurrentLe = min(mCurrentLe, getLeMax());
+		fireObjectStateChangeEvent();
     }
 
     int Creature::getLe()
@@ -123,6 +126,7 @@ namespace rl
         mCurrentAe += mod;
 		if (!ignoreMax)
 			mCurrentAe = min(mCurrentAe, getAeMax());
+		fireObjectStateChangeEvent();
     }
 
     int Creature::getAe()
@@ -145,6 +149,7 @@ namespace rl
         mCurrentAu += mod;
 		if (!ignoreMax)
 			mCurrentAu = min(mCurrentAu, getAuMax());
+		fireObjectStateChangeEvent();
     }
 
     int Creature::getAu()

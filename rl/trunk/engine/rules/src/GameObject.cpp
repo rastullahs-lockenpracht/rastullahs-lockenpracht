@@ -15,6 +15,7 @@
  */
 
 #include "Action.h"
+#include "ObjectStateChangeEventSource.h"
 #include "GameObject.h"
 #include "Exception.h"
 #include "RulesSubsystem.h"
@@ -31,11 +32,14 @@ namespace rl
             mDescription(description)
     {
         // Standardactions registrieren
+
+		// Eventsource erzeugen
+		setObject(this);
     }
 
     GameObject::~GameObject(void)
     {
-    }
+	}
 
     int GameObject::getId() const
     {
@@ -117,6 +121,12 @@ namespace rl
         
 		doAction((*it).first, actor, target);
     }
+
+	void GameObject::doAction(const CeGuiString& className,
+							  const CeGuiString& actionName)
+	{
+		doAction(className, actionName, NULL, NULL);
+	}
 
 	void GameObject::doAction(Action* action,
                               Creature* actor,
@@ -208,21 +218,25 @@ namespace rl
 	void GameObject::setString(CeGuiString key, CeGuiString value)
 	{
         mAttributesString[key] = value;
+		fireObjectStateChangeEvent();
 	}
 
 	void GameObject::setBool(CeGuiString key, bool value)
 	{
 		mAttributesBoolean[key] = value;
+		fireObjectStateChangeEvent();
 	}
 
 	void GameObject::setInt(CeGuiString key, int value)
 	{
 		mAttributesInteger[key] = value;
+		fireObjectStateChangeEvent();
 	}
 
 	void GameObject::setReal(CeGuiString key, Ogre::Real value)
 	{
 		mAttributesReal[key] = value;
+		fireObjectStateChangeEvent();
 	}
 
 	CeGuiString GameObject::getString(CeGuiString key)

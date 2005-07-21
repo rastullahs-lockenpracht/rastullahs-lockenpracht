@@ -19,7 +19,9 @@
 
 #include "RulesPrerequisites.h"
 
-#include <Actor.h>
+#include "Actor.h"
+#include "ObjectStateChangeEventSource.h"
+
 namespace rl
 {
     class _RlRulesExport Creature;
@@ -40,7 +42,7 @@ namespace rl
     *
     * @todo Ueberlegen, wie man Aktionen situativ aktivierbar macht.
     */
-    class _RlRulesExport GameObject : public Ogre::UserDefinedObject
+    class _RlRulesExport GameObject : public Ogre::UserDefinedObject, public ObjectStateChangeEventSource
     {
     public:
         GameObject(int id,
@@ -80,6 +82,9 @@ namespace rl
                       const CeGuiString& actionName,
                       Creature* actor,
                       GameObject* target);
+
+		void doAction(const CeGuiString& className,
+					  const CeGuiString& actionName);
 
 		void doAction(Action* action,
                       Creature* actor,
