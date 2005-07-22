@@ -21,6 +21,9 @@
 	LightObject.h \
 	ListenerObject.h \
 	MeshObject.h \
+	ObjectStateChangeEvent.h \
+	ObjectStateChangeEventSource.h \
+	ObjectStateChangeListener.h \
 	ParticleSystemObject.h \
 	PhysicalThing.h \
 	PhysicsManager.h \

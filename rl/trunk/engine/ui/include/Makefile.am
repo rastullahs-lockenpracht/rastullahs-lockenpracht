@@ -2,6 +2,7 @@ noinst_HEADERS = \
 	ActionChoiceWindow.h \
 	CeGuiWindow.h \
 	CharacterSheetWindow.h \
+	CharacterStateWindow.h \
 	CommandExecutor.h \
 	CommandMapper.h \
 	CommandMapperWindow.h \
@@ -14,6 +15,7 @@ noinst_HEADERS = \
 	InventoryWindow.h \
 	MessageWindow.h \
 	PlaylistWindow.h \
+	TargetSelectionWindow.h \
 	UiPrerequisites.h \
 	UiSubsystem.h \
 	WindowManager.h \

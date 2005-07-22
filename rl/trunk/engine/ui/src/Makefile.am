@@ -10,6 +10,7 @@ libRlUi_la_SOURCES = \
 	ActionChoiceWindow.cpp \
 	CeGuiWindow.cpp \
 	CharacterSheetWindow.cpp \
+	CharacterStateWindow.cpp \
 	CommandExecutor.cpp \
 	CommandMapper.cpp \
 	CommandMapperWindow.cpp \
@@ -23,6 +24,7 @@ libRlUi_la_SOURCES = \
 	MainMenuWindow.cpp \
 	MessageWindow.cpp \
 	PlaylistWindow.cpp \
+	TargetSelectionWindow.cpp \
 	UiSubsystem.cpp \
 	WindowManager.cpp \
 	../components/src/ListboxWrappedTextItem.cpp
