@@ -60,6 +60,11 @@ SoundStreamMovable::SoundStreamMovable(const SoundResourcePtr &soundres):
  */
 SoundStreamMovable::~SoundStreamMovable()
 {
+    if (isValid())
+    {
+        stop();
+    }
+    unload();
 }
 
 
@@ -80,7 +85,7 @@ const String& SoundStreamMovable::getMovableType() const
  */
 void SoundStreamMovable::load() throw (RuntimeException)
 {
-    getSoundResource()->load();
+    getSoundResource().getPointer()->load();
     DataStreamPtr stream = getSoundResource()->getDataStream();
     int len = stream->size();
     char *data = new char[len];
@@ -94,6 +99,27 @@ void SoundStreamMovable::load() throw (RuntimeException)
         mode |= FSOUND_HW2D;
     } 
     mStream = FSOUND_Stream_Open(data, mode, 0, len);
+    if (mStream == 0)
+    {
+        // Stereo auf 3D?
+        set3d(false);
+        mode = FSOUND_LOADMEMORY | FSOUND_HW2D;
+        mStream = FSOUND_Stream_Open(data, mode, 0, len);
+    }
+}
+
+/**
+ * @author JoSch
+ * @date 07-22-2005
+ */
+void SoundStreamMovable::unload() throw (RuntimeException)
+{
+    if (isPlaying())
+    {
+        stop();
+    }
+    FSOUND_Stream_Close(getStream());
+    getSoundResource()->unload();
 }
 
 /**
@@ -108,7 +134,19 @@ void SoundStreamMovable::play() throw (RuntimeException)
     }
     if (getStream() != 0)
     {
-        setChannel(FSOUND_Stream_PlayEx(FSOUND_FREE, getStream(), 0, true));
+        setChannel(FSOUND_Stream_Play(FSOUND_FREE, getStream()));
+        if (getChannel() < 0)
+        {
+            int mode = FSOUND_Stream_GetMode(getStream());
+            unload();
+            set3d(false); // Wahrscheinlich ein Stereosound
+            load();
+            setChannel(FSOUND_Stream_Play(FSOUND_FREE, getStream()));
+            if (getChannel() < 0) // Jetzt weiss cih auch nicht weiter.
+            {
+                Throw(RuntimeException, "Sound konnte nicht gespielt werden");        
+            }
+        }
     }
 }
 

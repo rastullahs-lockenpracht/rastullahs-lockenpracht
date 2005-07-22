@@ -34,6 +34,38 @@ public:
 	    CPPUNIT_ASSERT(true);
 	}
  
+    void testMusicManager_playSingle()
+    {
+        SoundResourcePtr ptr = SoundResourcePtr(
+            dynamic_cast<SoundResource*>(SoundManager::getSingleton().getByName("doorcreak.ogg").getPointer()));
+        SoundStreamMovable *ssm = new SoundStreamMovable(ptr);
+        ssm->play();
+        while(ssm->isPlaying())
+        {
+            boost::xtime xt;
+            boost::xtime_get(&xt, boost::TIME_UTC);
+            xt.sec += 5;
+            boost::thread::sleep(xt);
+        }
+        ssm->stop();
+        ssm->unload();
+        delete ssm;        
+        ptr = SoundResourcePtr(
+            dynamic_cast<SoundResource*>(SoundManager::getSingleton().getByName("doorcreak.ogg").getPointer()));
+        ssm = new SoundStreamMovable(ptr);
+        ssm->play();
+        while(ssm->isPlaying())
+        {
+            boost::xtime xt;
+            boost::xtime_get(&xt, boost::TIME_UTC);
+            xt.sec += 5;
+            boost::thread::sleep(xt);
+        }
+        ssm->stop();
+        ssm->unload();
+        delete ssm;        
+        CPPUNIT_ASSERT(true);
+    }
 
     void testMusicManager_playForward()
     {
@@ -50,7 +82,6 @@ public:
             boost::xtime_get(&xt, boost::TIME_UTC);
             xt.sec += 5;
             boost::thread::sleep(xt);
-            cerr<<":";
         }
         cerr<<endl<<"Ende"<<endl;
         MusicManager::getSingletonPtr()->stopSong();
@@ -77,7 +108,8 @@ public:
 
     CPPUNIT_TEST_SUITE(MusicManagerTest);
     CPPUNIT_TEST(testMusicManager_addSoundDirectory);
-    CPPUNIT_TEST(testMusicManager_playForward);
+    CPPUNIT_TEST(testMusicManager_playSingle);
+//    CPPUNIT_TEST(testMusicManager_playForward);
 //    CPPUNIT_TEST(testMusicManager_playStop);
     CPPUNIT_TEST_SUITE_END(); 
 };

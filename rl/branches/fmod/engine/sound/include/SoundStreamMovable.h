@@ -49,6 +49,8 @@ namespace rl {
 
         /// Laedt den Sound.
         virtual void load() throw (RuntimeException);
+        /// Entlaedt den Sound.
+        virtual void unload() throw (RuntimeException);
         /// Spielt den Sound ab.
         virtual void play() throw (RuntimeException);
     

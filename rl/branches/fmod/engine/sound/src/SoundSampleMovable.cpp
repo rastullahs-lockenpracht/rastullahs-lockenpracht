@@ -67,8 +67,8 @@ SoundSampleMovable::~SoundSampleMovable()
     if (isValid())
     {
         stop();
-        FSOUND_Sample_Free(getSample());
     }
+    unload();
 }
 
 
@@ -95,6 +95,18 @@ void SoundSampleMovable::play() throw (RuntimeException)
     if (getSample() != 0)
     {
         setChannel(FSOUND_PlaySound(FSOUND_FREE, getSample()));
+        if (getChannel() < 0)
+        {
+            int mode = FSOUND_Sample_GetMode(getSample());
+            unload();
+            set3d(false); // Wahrscheinlich ein Stereosound
+            load();
+            setChannel(FSOUND_PlaySound(FSOUND_FREE, getSample()));
+            if (getChannel() < 0) // Jetzt weiss cih auch nicht weiter.
+            {
+                Throw(RuntimeException, "Sound konnte nicht gespielt werden");        
+            }
+        }
     }
 }
 
@@ -118,6 +130,27 @@ void SoundSampleMovable::load() throw (RuntimeException)
     }
     mSample = FSOUND_Sample_Load(FSOUND_FREE, data, mode,
         0, len);
+    if (mSample == 0)
+    {
+        // Stereo auf 3D?
+        set3d(false);
+        mode = FSOUND_LOADMEMORY | FSOUND_HW2D;
+        mSample = FSOUND_Sample_Load(FSOUND_FREE, data, mode,
+            0, len);
+    }
+}
+
+/**
+ * @author JoSch
+ * @date 07-22-2005
+ */
+void SoundSampleMovable::unload() throw (RuntimeException)
+{
+    if (isPlaying())
+    {
+        stop();
+    }
+    FSOUND_Sample_Free(getSample());
 }
 
 /**

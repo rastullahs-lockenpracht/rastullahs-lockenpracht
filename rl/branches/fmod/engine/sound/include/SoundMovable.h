@@ -47,7 +47,7 @@ namespace rl {
     {
     private:
         /// Fmod-Channel 
-        int mChannel;
+        signed int mChannel;
         /// Der Name des SoundMovable
         Ogre::String mName;
         /// Der Soundresource, auf den wir verweisen.
@@ -71,9 +71,9 @@ namespace rl {
         /// Name zurückgeben
         const Ogre::String& getName() const;
         /// Den Soundkanal zurueckgeben.
-        const int getChannel() const;
+        const signed int getChannel() const;
         /// Den Soundkanal setzen.
-        void setChannel(int channel);  
+        void setChannel(signed int channel);  
         /// Moveable-Typ
         virtual const Ogre::String& getMovableType() const;
         /// Kamera informieren
@@ -104,6 +104,8 @@ namespace rl {
         
         /// Laedt den Sound.
         virtual void load() throw (RuntimeException) = 0;
+        /// Entlaedt den Sound.
+        virtual void unload() throw (RuntimeException) = 0;
         /// Spielt den Sound ab.
         virtual void play() throw (RuntimeException) = 0;
         /// Pausiert den Sound.

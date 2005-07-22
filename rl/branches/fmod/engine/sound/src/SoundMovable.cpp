@@ -96,7 +96,7 @@ const String& SoundMovable::getName() const
  * @date 07-04-2005
  * @return Der Soundkanal
  */
-const int SoundMovable::getChannel() const
+const signed int SoundMovable::getChannel() const
 {
     return mChannel;
 }
@@ -106,7 +106,7 @@ const int SoundMovable::getChannel() const
  * @date 07-21-2005
  * @param channel Der Soundkanal
  */
-void SoundMovable::setChannel(int channel)
+void SoundMovable::setChannel(signed int channel)
 {
     mChannel = channel;
 }

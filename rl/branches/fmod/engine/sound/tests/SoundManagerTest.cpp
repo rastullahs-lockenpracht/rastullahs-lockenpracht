@@ -107,4 +107,4 @@ public:
 //    CPPUNIT_TEST(testSoundManager_loadPlayWithFade);
     CPPUNIT_TEST_SUITE_END();
 };
-CPPUNIT_TEST_SUITE_REGISTRATION(SoundManagerTest);
+//CPPUNIT_TEST_SUITE_REGISTRATION(SoundManagerTest);
