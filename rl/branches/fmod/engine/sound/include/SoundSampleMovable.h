@@ -56,16 +56,14 @@ namespace rl {
         virtual void load() throw (RuntimeException);
         /// Entlaedt den Sound.
         virtual void unload() throw (RuntimeException);
-        /// Spielt den Sound ab.
-        virtual void play() throw (RuntimeException);
+        // Sample zurueckgeben
+        FSOUND_SAMPLE *getSample() const;
     
 protected:
         /// Shared class-level name for Movable type
         static Ogre::String msMovableType;
         // Sind wir gueltig?
         virtual bool isValid() const throw (RuntimeException);
-        // Sample zurueckgeben
-        FSOUND_SAMPLE *getSample() const;
         // Sample setzen
         void setSample(FSOUND_SAMPLE *sample);
     }; 

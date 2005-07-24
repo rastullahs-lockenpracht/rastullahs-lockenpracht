@@ -30,35 +30,6 @@ namespace rl {
 
    	};
 
-   	class MusicManager  {
-   	private:
-        MusicManager();
-        ~MusicManager();
-   	public:
-        static MusicManager& getSingleton();
-        static MusicManager* getSingletonPtr();
-
-        void playSong(unsigned int fade = 0);
-        void stopSong(unsigned int fade = 0);
-
-        const bool isPlaying() const;
-        const bool isSourcePlaying() const;
-
-        void setNextSong();
-        void setGain(int newGain);
-        int getGain();
-        
-        void clearPlayList();
-        void addPlayList(std::string song);
-        void addPlayList(std::list<std::string> list);
-        void addSoundsIntoPlayList();
-        
-        bool isAuto();
-        void setAuto(bool isAuto);
-        bool isLooping();
-        void setLooping(bool isLooping);
-   	};
-   	    
     class SoundEvent {
     	SoundEvent();
     	virtual ~SoundEvent();

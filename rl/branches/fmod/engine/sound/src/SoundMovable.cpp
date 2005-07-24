@@ -40,8 +40,8 @@ SoundMovable::SoundMovable(const String &name):
     mIs3d(true)
 {
     mName = name;
-    mSoundResource = SoundResourcePtr(dynamic_cast<SoundResource*>
-        (SoundManager::getSingleton().getByName(name).getPointer()));
+    mSoundResource = SoundResourcePtr(
+        SoundManager::getSingleton().getByName(name));
 
     // ein paar Verknuepfungen
     addEventListener(this);
@@ -79,6 +79,19 @@ SoundMovable::~SoundMovable()
     // Listener entfernen.
     removeEventListener(this);
     mSoundResource->unload();
+}
+
+/**
+ * @author JoSch
+ * @date 07-23-2005
+ */
+void SoundMovable::play() throw (RuntimeException)
+{
+    if (!isValid())
+    {
+        load();
+    }
+    pause(false);
 }
 
 /**
@@ -227,6 +240,7 @@ const Vector3 SoundMovable::getPosition() const throw (RuntimeException)
     return result;
 }
 
+class SoundSampleMovable;
 /**
  * @param position Die neue Position der Soundquelle.
  * @author JoSch

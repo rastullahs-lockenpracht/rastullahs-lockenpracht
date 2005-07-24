@@ -6,7 +6,6 @@ testsound_LDADD = $(RUBY_LIBS) $(SDL_LIBS) $(OGRE_LIBS)  \
 	  -lRlCommon -lRlSound -lcppunit -lvorbis -logg -lboost_thread
 testsound_SOURCES = \
 	FmodTest.cpp \
-	MusicManagerTest.cpp \
 	SoundManagerTest.cpp \
 	TestStartup.cpp 
 

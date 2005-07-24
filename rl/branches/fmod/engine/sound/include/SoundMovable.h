@@ -107,7 +107,7 @@ namespace rl {
         /// Entlaedt den Sound.
         virtual void unload() throw (RuntimeException) = 0;
         /// Spielt den Sound ab.
-        virtual void play() throw (RuntimeException) = 0;
+        virtual void play() throw (RuntimeException);
         /// Pausiert den Sound.
         virtual void pause(bool pausing) throw (RuntimeException);
         /// Ist der Sound pausiert?

@@ -45,8 +45,8 @@ ListenerMovable::ListenerMovable(const String &name):
     /// Ein paar Standardwerte setzen
     setPosition(Vector3(0.0, 0.0, 0.0));
     setVelocity(Vector3(0.0, 0.0, 0.0));
-    setOrientation(Vector3(0.0, 0.0, 0.0),
-        Vector3(0.0, 0.0, 0.0));
+    setOrientation(Vector3(0.0, 0.0, 1.0),
+        Vector3(0.0, 1.0, 0.0));
 }
  
 /**

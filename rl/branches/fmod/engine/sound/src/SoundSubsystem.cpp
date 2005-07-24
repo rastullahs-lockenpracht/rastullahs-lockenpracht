@@ -16,7 +16,6 @@
 #include "SoundSubsystem.h"
 
 #include "SoundManager.h"
-#include "MusicManager.h"
 
 using namespace Ogre;
 
@@ -59,6 +58,9 @@ SoundSubsystem::SoundSubsystem()
     // fmod initialisieren und Fehler zuruecksetzen.
     FSOUND_SetMaxHardwareChannels(16);
     FSOUND_SetMinHardwareChannels(8);
+    /// TODO: More choices
+    //FSOUND_SetOutput(FSOUND_OUTPUT_ALSA);
+    FSOUND_SetMixer(FSOUND_MIXER_AUTODETECT);
     FSOUND_Init(44100, 32, 0); // TODO Wenns schiefgeht.
     SoundSubsystem::log("fmod initialisiert");
     
@@ -68,9 +70,8 @@ SoundSubsystem::SoundSubsystem()
     FSOUND_3D_Listener_SetAttributes(v, v, 1, 0, 0, 1, 0, 0);
     SoundSubsystem::log("Listener set");
     
-    //Singletons erzeugen (immer in dieser Reihenfolge)
+    //Singletons erzeugen 
     new SoundManager();
-    new MusicManager();
 
 }
 
@@ -81,7 +82,6 @@ SoundSubsystem::SoundSubsystem()
 SoundSubsystem::~SoundSubsystem()
 {
     delete SoundManager::getSingletonPtr();
-    delete MusicManager::getSingletonPtr();
     FSOUND_Close();
 }
 

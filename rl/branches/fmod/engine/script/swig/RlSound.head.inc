@@ -18,10 +18,12 @@
 //----------- Includes - Sound -----------
 #include "FixRubyHeaders.h"
 #include "SoundPrerequisites.h"
-#include "MusicManager.h"
 #include "SoundResource.h"
 #include "SoundManager.h"
 #include "SoundEvents.h"
-#include "AL/al.h"
+extern "C" {
+#include "fmod.h"
+#include "fmod_errors.h"
+}
 #include "OgreMovableObject.h"
 %}

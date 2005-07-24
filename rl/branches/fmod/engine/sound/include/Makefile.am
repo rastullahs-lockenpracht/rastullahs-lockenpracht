@@ -1,4 +1,4 @@
-noinst_HEADERS = MusicManager.h \
+noinst_HEADERS = \
 	ListenerMovable.h \
 	SoundManager.h \
 	SoundSubsystem.h \

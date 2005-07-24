@@ -94,7 +94,7 @@ void SoundStreamMovable::load() throw (RuntimeException)
     unsigned int mode = FSOUND_LOADMEMORY;
     if (is3d())
     {
-        mode |= FSOUND_HW3D;
+        mode |= FSOUND_HW3D | FSOUND_FORCEMONO;
     } else {
         mode |= FSOUND_HW2D;
     } 
@@ -102,10 +102,15 @@ void SoundStreamMovable::load() throw (RuntimeException)
     if (mStream == 0)
     {
         // Stereo auf 3D?
-        set3d(false);
-        mode = FSOUND_LOADMEMORY | FSOUND_HW2D;
+        mode |= FSOUND_FORCEMONO;
         mStream = FSOUND_Stream_Open(data, mode, 0, len);
     }
+    setChannel(FSOUND_Stream_PlayEx(FSOUND_FREE, getStream(), 0, true));
+    /// Ein paar Standardwerte setzen
+    setGain(255);
+    setPosition(Vector3(0.0, 0.0, 0.0));
+    setVelocity(Vector3(0.0, 0.0, 0.0));
+    setDirection(Vector3(0.0, 0.0, 0.0));
 }
 
 /**
@@ -122,33 +127,6 @@ void SoundStreamMovable::unload() throw (RuntimeException)
     getSoundResource()->unload();
 }
 
-/**
- * @author JoSch
- * @date 09-15-2004
- */
-void SoundStreamMovable::play() throw (RuntimeException)
-{
-    if (getStream() == 0)
-    {
-        load();
-    }
-    if (getStream() != 0)
-    {
-        setChannel(FSOUND_Stream_Play(FSOUND_FREE, getStream()));
-        if (getChannel() < 0)
-        {
-            int mode = FSOUND_Stream_GetMode(getStream());
-            unload();
-            set3d(false); // Wahrscheinlich ein Stereosound
-            load();
-            setChannel(FSOUND_Stream_Play(FSOUND_FREE, getStream()));
-            if (getChannel() < 0) // Jetzt weiss cih auch nicht weiter.
-            {
-                Throw(RuntimeException, "Sound konnte nicht gespielt werden");        
-            }
-        }
-    }
-}
 
 /**
  * @return TRUE wenn der Sound unterbrochen wurde.

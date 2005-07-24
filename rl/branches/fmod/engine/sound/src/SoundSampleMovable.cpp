@@ -35,11 +35,6 @@ SoundSampleMovable::SoundSampleMovable(const String &name):
     SoundMovable(name),
     mSample(0)
 {
-    /// Ein paar Standardwerte setzen
-    setGain(255);
-    setPosition(Vector3(0.0, 0.0, 0.0));
-    setVelocity(Vector3(0.0, 0.0, 0.0));
-    setDirection(Vector3(0.0, 0.0, 0.0));
 }
  
 /**
@@ -51,11 +46,6 @@ SoundSampleMovable::SoundSampleMovable(const SoundResourcePtr &soundres):
     SoundMovable(soundres),
     mSample(0)
 {
-    /// Ein paar Standardwerte setzen
-    setGain(255);
-    setPosition(Vector3(0.0, 0.0, 0.0));
-    setVelocity(Vector3(0.0, 0.0, 0.0));
-    setDirection(Vector3(0.0, 0.0, 0.0));
 }
 
 /**
@@ -84,34 +74,6 @@ const String& SoundSampleMovable::getMovableType() const
 
 /**
  * @author JoSch
- * @date 09-15-2004
- */
-void SoundSampleMovable::play() throw (RuntimeException)
-{
-    if (getSample() == 0)
-    {
-        load();
-    }
-    if (getSample() != 0)
-    {
-        setChannel(FSOUND_PlaySound(FSOUND_FREE, getSample()));
-        if (getChannel() < 0)
-        {
-            int mode = FSOUND_Sample_GetMode(getSample());
-            unload();
-            set3d(false); // Wahrscheinlich ein Stereosound
-            load();
-            setChannel(FSOUND_PlaySound(FSOUND_FREE, getSample()));
-            if (getChannel() < 0) // Jetzt weiss cih auch nicht weiter.
-            {
-                Throw(RuntimeException, "Sound konnte nicht gespielt werden");        
-            }
-        }
-    }
-}
-
-/**
- * @author JoSch
  * @date 07-12-2005
  */
 void SoundSampleMovable::load() throw (RuntimeException)
@@ -124,7 +86,7 @@ void SoundSampleMovable::load() throw (RuntimeException)
     unsigned int mode = FSOUND_LOADMEMORY;
     if (is3d())
     {
-        mode |= FSOUND_HW3D;
+        mode |= FSOUND_HW3D | FSOUND_FORCEMONO;
     } else {
         mode |= FSOUND_HW2D;
     }
@@ -132,12 +94,17 @@ void SoundSampleMovable::load() throw (RuntimeException)
         0, len);
     if (mSample == 0)
     {
-        // Stereo auf 3D?
-        set3d(false);
-        mode = FSOUND_LOADMEMORY | FSOUND_HW2D;
+        mode |= FSOUND_FORCEMONO;
         mSample = FSOUND_Sample_Load(FSOUND_FREE, data, mode,
             0, len);
     }
+    setChannel(FSOUND_PlaySoundEx(FSOUND_FREE, getSample(), 0, true));
+    /// Ein paar Standardwerte setzen
+    FSOUND_Sample_SetMinMaxDistance(mSample, 4.0f, 10000.0f);
+    setGain(255);
+    setPosition(Vector3(0.0, 0.0, 0.0));
+    setVelocity(Vector3(0.0, 0.0, 0.0));
+    setDirection(Vector3(0.0, 0.0, 0.0));
 }
 
 /**
