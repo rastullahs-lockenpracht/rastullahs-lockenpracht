@@ -105,9 +105,27 @@ void SoundSubsystem::log(const String& msg)
  * @author JoSch
  * @date 07-03-2005
  */
-void SoundSubsystem::update()
+void SoundSubsystem::update(Real elapsedTime)
 {
+    setElapsedTime(elapsedTime);
     FSOUND_Update();
+}
+
+/**
+ * @author JoSch
+ * @date 07-24-2005
+ */
+Real SoundSubsystem::getElapsedTime() const
+{
+    return mElapsedTime;
+}
+/**
+ * @author JoSch
+ * @date 07-24-2005
+ */
+void SoundSubsystem::setElapsedTime(Real elapsedTime)
+{
+    mElapsedTime = elapsedTime;
 }
 
 }

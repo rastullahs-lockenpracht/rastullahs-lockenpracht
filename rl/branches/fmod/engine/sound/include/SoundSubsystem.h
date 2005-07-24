@@ -44,7 +44,16 @@ public:
     /// Eine Log-Nachricht ausgeben.
     static void SoundSubsystem::log(const Ogre::String& msg);
     /// fmod weiterlaufen lassen.
-    static void update();
+    void update(Ogre::Real elapsedTime);
+
+    /// Die bisherige Zeit zurückgeben.
+    Ogre::Real getElapsedTime() const;
+    /// Die bisherige Zeit setzen
+    void setElapsedTime(Ogre::Real elapsedTime);
+
+private:
+    /// Zeit mitschreiben
+    Ogre::Real mElapsedTime;
 };
 
 }
