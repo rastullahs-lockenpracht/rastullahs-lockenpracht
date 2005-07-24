@@ -33,6 +33,7 @@ libRlCore_la_SOURCES = \
 	RubyInterpreter.cpp \
 	ScriptObject.cpp \
 	SoundObject.cpp \
+	SoundUpdateTask.cpp \
 	TrackAnimation.cpp \
 	World.cpp 		 
 

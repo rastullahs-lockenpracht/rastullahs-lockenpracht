@@ -27,6 +27,7 @@
 	RubyInterpreter.h \
 	ScriptObject.h \
 	SoundObject.h \
+	SoundUpdateTask.h \
 	TrackAnimation.h \
 	World.h 
 	
