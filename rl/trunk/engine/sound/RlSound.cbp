@@ -29,39 +29,22 @@
 					<Add option="/D_DEBUG"/>
 					<Add option="/DLIBOPENAL"/>
 					<Add option="/DHAVE_LIBOPENAL"/>
-					<Add directory=".\include"/>
-					<Add directory="..\common\include"/>
-					<Add directory="..\..\dependencies\ogre\OgreMain\include"/>
-					<Add directory="..\..\dependencies\ogre\OgreMain\Dependencies\include"/>
-					<Add directory="..\..\dependencies\openalpp\include"/>
-					<Add directory="..\..\dependencies\openal\include"/>
-					<Add directory="..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32"/>
-					<Add directory="..\..\dependencies\ogg\include"/>
-					<Add directory="..\..\dependencies\vorbis\include"/>
-					<Add directory="..\..\dependencies\boost\include"/>
 				</Compiler>
 				<Linker>
 					<Add option="/debug"/>
 					<Add option="/pdb:.\lib\Debug\RlSound.pdb"/>
-					<Add library="msvcrt-ruby18"/>
 					<Add library="OgreMain_d"/>
-					<Add library="ALut"/>
-					<Add library="OpenAl32"/>
 					<Add library="ogg_static_d"/>
 					<Add library="vorbis_static_d"/>
 					<Add library="vorbisenc_static_d"/>
 					<Add library="vorbisfile_static_d"/>
 					<Add directory="..\..\dependencies\ogre\OgreMain\lib\Debug"/>
-					<Add directory="..\..\dependencies\ruby\lib"/>
-					<Add directory="..\..\dependencies\OpenAL\libs"/>
-					<Add directory="..\..\dependencies\ogg\win32"/>
-					<Add directory="..\..\dependencies\vorbis\lib"/>
-					<Add directory="..\..\dependencies\boost\lib"/>
+					<Add directory="..\common\lib\Debug"/>
 				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output=".\lib\Release\RlSound.dll"/>
-				<Option working_dir="."/>
+				<Option working_dir=".\lib\Release"/>
 				<Option object_output=".\obj\Release"/>
 				<Option deps_output=".deps"/>
 				<Option external_deps=""/>
@@ -80,33 +63,16 @@
 					<Add option="/DRLSOUND_EXPORTS"/>
 					<Add option="/DLIBOPENAL"/>
 					<Add option="/DHAVE_LIBOPENAL"/>
-					<Add directory=".\include"/>
-					<Add directory="..\common\include"/>
-					<Add directory="..\..\dependencies\ogre\OgreMain\include"/>
-					<Add directory="..\..\dependencies\ogre\OgreMain\Dependencies\include"/>
-					<Add directory="..\..\dependencies\openalpp\include"/>
-					<Add directory="..\..\dependencies\openal\include"/>
-					<Add directory="..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32"/>
-					<Add directory="..\..\dependencies\ogg\include"/>
-					<Add directory="..\..\dependencies\vorbis\include"/>
-					<Add directory="..\..\dependencies\boost\include"/>
 				</Compiler>
 				<Linker>
 					<Add option="/incremental"/>
-					<Add library="msvcrt-ruby18"/>
 					<Add library="OgreMain"/>
 					<Add library="ogg_static"/>
 					<Add library="vorbis_static"/>
 					<Add library="vorbisenc_static"/>
 					<Add library="vorbisfile_static"/>
-					<Add library="ALut"/>
-					<Add library="OpenAl32"/>
 					<Add directory="..\..\dependencies\ogre\OgreMain\lib\Release"/>
-					<Add directory="..\..\dependencies\ruby\lib"/>
-					<Add directory="..\..\dependencies\OpenAL\libs"/>
-					<Add directory="..\..\dependencies\ogg\win32"/>
-					<Add directory="..\..\dependencies\vorbis\lib"/>
-					<Add directory="..\..\dependencies\boost\lib"/>
+					<Add directory="..\common\lib\Release"/>
 				</Linker>
 			</Target>
 		</Build>
@@ -114,8 +80,28 @@
 			<Add option="/GX"/>
 			<Add option="/GR"/>
 			<Add option="/W3"/>
-			<Add option="/Zi"/>
+			<Add directory=".\include"/>
+			<Add directory="..\common\include"/>
+			<Add directory="..\..\dependencies\ogre\OgreMain\include"/>
+			<Add directory="..\..\dependencies\ogre\OgreMain\Dependencies\include"/>
+			<Add directory="..\..\dependencies\openalpp\include"/>
+			<Add directory="..\..\dependencies\openal\include"/>
+			<Add directory="..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32"/>
+			<Add directory="..\..\dependencies\ogg\include"/>
+			<Add directory="..\..\dependencies\vorbis\include"/>
+			<Add directory="..\..\dependencies\boost\include"/>
 		</Compiler>
+		<Linker>
+			<Add library="RlCommon"/>
+			<Add library="msvcrt-ruby18"/>
+			<Add library="OpenAl32"/>
+			<Add library="ALut"/>
+			<Add directory="..\..\dependencies\ruby\lib"/>
+			<Add directory="..\..\dependencies\OpenAL\libs"/>
+			<Add directory="..\..\dependencies\ogg\win32"/>
+			<Add directory="..\..\dependencies\vorbis\lib"/>
+			<Add directory="..\..\dependencies\boost\lib"/>
+		</Linker>
 		<Unit filename="include\ListenerMovable.h">
 			<Option compilerVar=""/>
 			<Option compile="0"/>

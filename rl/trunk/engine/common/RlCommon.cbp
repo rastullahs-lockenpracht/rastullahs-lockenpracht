@@ -7,7 +7,7 @@
 		<Option makefile="Makefile"/>
 		<Option makefile_is_custom="0"/>
 		<Option default_target="-1"/>
-		<Option active_target="0"/>
+		<Option active_target="1"/>
 		<Option compiler="1"/>
 		<Build>
 			<Target title="Debug">
@@ -29,22 +29,14 @@
 					<Add option="/D_WINDOWS"/>
 					<Add option="/D_USRDLL"/>
 					<Add option="/DRLCOMMON_EXPORTS"/>
-					<Add directory=".\include"/>
-					<Add directory="..\..\dependencies\ogre\OgreMain\include"/>
-					<Add directory="..\..\dependencies\ogre\Dependencies\include"/>
-					<Add directory="..\..\dependencies\cegui\include"/>
-					<Add directory="..\..\dependencies\xerces\include"/>
 				</Compiler>
 				<Linker>
 					<Add option="/debug"/>
 					<Add option="/incremental"/>
 					<Add option="/pdb:.\lib\Debug\RlCommon.pdb"/>
-					<Add library="libcpd"/>
 					<Add library="OgreMain_d"/>
 					<Add library="xerces-c_2D"/>
 					<Add directory="..\..\dependencies\ogre\OgreMain\lib\Debug"/>
-					<Add directory="..\..\dependencies\xerces\lib"/>
-					<Add directory="..\..\dependencies\cegui\lib\$(PlatformName)\Debug"/>
 					<Add directory="..\..\dependencies\ogre\Dependencies\lib\Debug"/>
 				</Linker>
 			</Target>
@@ -67,28 +59,29 @@
 					<Add option="/D_WINDOWS"/>
 					<Add option="/D_USRDLL"/>
 					<Add option="/DRLCOMMON_EXPORTS"/>
-					<Add directory=".\include"/>
-					<Add directory="..\..\dependencies\ogre\OgreMain\include"/>
-					<Add directory="..\..\dependencies\ogre\Dependencies\include"/>
-					<Add directory="..\..\dependencies\cegui\include"/>
-					<Add directory="..\..\dependencies\xerces\include"/>
 				</Compiler>
 				<Linker>
 					<Add option="/incremental"/>
 					<Add library="OgreMain"/>
 					<Add library="xerces-c_2"/>
 					<Add directory="..\..\dependencies\ogre\OgreMain\lib\Release"/>
-					<Add directory="..\..\dependencies\xerces\lib"/>
-					<Add directory="..\..\dependencies\cegui\lib\$(PlatformName)\Release"/>
 					<Add directory="..\..\dependencies\ogre\Dependencies\lib\Release"/>
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="/GX"/>
+			<Add option="/GR"/>
 			<Add option="/W3"/>
 			<Add option="/Zi"/>
+			<Add directory=".\include"/>
+			<Add directory="..\..\dependencies\ogre\OgreMain\include"/>
+			<Add directory="..\..\dependencies\cegui\include"/>
+			<Add directory="..\..\dependencies\xerces\include"/>
 		</Compiler>
+		<Linker>
+			<Add directory="..\..\dependencies\xerces\lib"/>
+		</Linker>
 		<Unit filename="include\CommonPrerequisites.h">
 			<Option compilerVar=""/>
 			<Option compile="0"/>
