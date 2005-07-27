@@ -35,6 +35,7 @@
 #include "GameLoggerWindow.h"
 #include "TargetSelectionWindow.h"
 #include "CharacterStateWindow.h"
+#include "ContainerContentWindow.h"
 
 #include "GameLoop.h"
 #include "ActorManager.h"
@@ -204,6 +205,12 @@ namespace rl {
 
 		if (pickedObject != NULL)
 			showActionChoice(pickedObject);
+	}
+
+	void UiSubsystem::showContainerContent(Container* container)
+	{
+		ContainerContentWindow* wnd = new ContainerContentWindow(container);
+		wnd->setVisible(true);
 	}
 
 	bool UiSubsystem::showInputOptionsMenu(GameObject* actionHolder)

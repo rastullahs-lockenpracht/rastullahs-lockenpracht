@@ -46,7 +46,7 @@ namespace rl {
 		CEGUI::MultiLineEditbox* getMultiLineEditbox(const char* name);
 		CEGUI::TabPane* getTabPane(const char* name);
 		CEGUI::ProgressBar* getProgressBar(const char* name);
-		CEGUI::MenuBase* getMenu(const char* name);
+//		CEGUI::MenuBase* getMenu(const char* name);
 
 		static void addToRoot(CEGUI::Window* window);
 		static CEGUI::Window* getRoot();

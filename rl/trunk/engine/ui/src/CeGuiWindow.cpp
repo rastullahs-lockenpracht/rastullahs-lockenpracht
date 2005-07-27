@@ -15,6 +15,7 @@
  */
 #include <boost/bind.hpp>
 #include "UiPrerequisites.h"
+#include "Exception.h"
 
 #include "WindowManager.h"
 #include "UiSubsystem.h"
@@ -31,7 +32,10 @@ namespace rl
 CeGuiWindow::CeGuiWindow(const char* xmlfile, WindowType type, bool modal)
 {
    	mWindow = WindowManager::getSingleton().loadWindow(xmlfile, &mNamePrefix);
-	assert(mWindow != 0);
+	if (mWindow == NULL)
+	{
+		Throw(rl::IllegalStateException, std::string("Could not load window '")+xmlfile+"'.");
+	}
 	mWindow->hide();
 	
 	if (modal)
@@ -164,10 +168,10 @@ ProgressBar* CeGuiWindow::getProgressBar(const char* name)
 	return static_cast<ProgressBar*>(getWindow(name));
 }
 
-MenuBase* CeGuiWindow::getMenu(const char* name)
-{
-	return static_cast<MenuBase*>(getWindow(name));
-}
+//MenuBase* CeGuiWindow::getMenu(const char* name)
+//{
+//	return static_cast<MenuBase*>(getWindow(name));
+//}
 
 const CeGuiString& CeGuiWindow::getName() const
 {

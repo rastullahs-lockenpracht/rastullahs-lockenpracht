@@ -222,6 +222,21 @@ namespace rl {
         virtual ~Item(void);
     };
     
+    %feature("director") Container;
+    class Container : public GameObject
+    {
+    public:
+        Container(int id, const rl::CeGuiString& name, const rl::CeGuiString& description);
+        virtual ~Container(void);
+
+        int getCapacity() const;
+        void setCapacity(int capacity);
+        int getContentWeight() const;
+        void addItem(rl::Item* item);
+        rl::Item* removeItem(int itemId);
+        rl::ItemSet getItems() const;
+	};
+    
     %feature("director") Creature;
     class Creature : public GameObject {
     public:
@@ -277,6 +292,11 @@ static swig_type_info *GameObject_dynamic_cast(void **ptr)
     if (pItem) {
         *ptr=reinterpret_cast<void*>(pItem);
         return SWIGTYPE_p_rl__Item;
+    }
+    rl::Container *pContainer=dynamic_cast<rl::Container*>(*ppGameObject);
+    if (pContainer) {
+        *ptr=reinterpret_cast<void*>(pContainer);
+        return SWIGTYPE_p_rl__Container;
     }
     return 0;
 }

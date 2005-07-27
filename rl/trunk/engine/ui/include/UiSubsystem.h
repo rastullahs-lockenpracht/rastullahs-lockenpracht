@@ -38,6 +38,7 @@ namespace rl {
 	class Person;
 	class GameLoggerWindow;
 	class CharacterStateWindow;
+	class Container;
 
     class _RlUiExport UiSubsystem : protected Ogre::Singleton<UiSubsystem>
     {
@@ -70,6 +71,7 @@ namespace rl {
 		void showPickedObjectActions();
 		void showActionChoice(GameObject* obj);
 		void showTargetWindow();
+		void showContainerContent(Container* container);
 
 		void showMessageWindow(const CeGuiString& message);
 		void showMainMenu(GameObject* actionHolder);

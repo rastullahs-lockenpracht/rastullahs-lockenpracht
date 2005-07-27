@@ -41,6 +41,7 @@ public:
 	void showCharacterSheet(Person* chara);
     void showPlaylist();
 	void showTargetWindow();
+	void showContainerContent(rl::Container* container);
 
 	rl::Person* getActiveCharacter();
 	void setActiveCharacter(rl::Person* person);
