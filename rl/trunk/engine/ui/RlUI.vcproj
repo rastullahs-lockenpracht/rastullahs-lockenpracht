@@ -193,6 +193,9 @@
 				RelativePath=".\include\Console.h">
 			</File>
 			<File
+				RelativePath=".\include\ContainerContentWindow.h">
+			</File>
+			<File
 				RelativePath=".\include\DebugWindow.h">
 			</File>
 			<File
@@ -209,6 +212,9 @@
 			</File>
 			<File
 				RelativePath=".\include\InventoryWindow.h">
+			</File>
+			<File
+				RelativePath=".\components\include\ListboxImageItem.h">
 			</File>
 			<File
 				RelativePath=".\components\include\ListboxWrappedTextItem.h">
@@ -260,6 +266,9 @@
 				RelativePath=".\src\Console.cpp">
 			</File>
 			<File
+				RelativePath=".\src\ContainerContentWindow.cpp">
+			</File>
+			<File
 				RelativePath=".\src\DebugWindow.cpp">
 			</File>
 			<File
@@ -276,6 +285,9 @@
 			</File>
 			<File
 				RelativePath=".\src\InventoryWindow.cpp">
+			</File>
+			<File
+				RelativePath=".\components\src\ListboxImageItem.cpp">
 			</File>
 			<File
 				RelativePath=".\components\src\ListboxWrappedTextItem.cpp">

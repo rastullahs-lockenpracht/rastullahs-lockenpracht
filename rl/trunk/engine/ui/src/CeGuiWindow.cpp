@@ -164,6 +164,11 @@ ProgressBar* CeGuiWindow::getProgressBar(const char* name)
 	return static_cast<ProgressBar*>(getWindow(name));
 }
 
+MenuBase* CeGuiWindow::getMenu(const char* name)
+{
+	return static_cast<MenuBase*>(getWindow(name));
+}
+
 const CeGuiString& CeGuiWindow::getName() const
 {
 	return mName;
