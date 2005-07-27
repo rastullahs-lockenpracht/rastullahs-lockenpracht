@@ -3,7 +3,7 @@ require 'globals.rb'
 class Hero < Person
     def initialize
         super(10000, "Alrik", "Der Testheld");
-        
+
 	    setEigenschaft(1, 8);
      	setEigenschaft(2, 9);
         setEigenschaft(3, 10);
@@ -25,11 +25,11 @@ class Hero < Person
         addSounds()
         $CORE.log("done.");
     end
-    
+
     def addSounds
         heroActor = getActor()
         soundActor = $AF.createSoundActor(heroActor.getName()+"_schlucken","schlucken.ogg");
-        heroActor.attachToSlot(soundActor,"Bone01");
+        heroActor.attachToSlot(soundActor, "Bone01");
     end
 end
 

@@ -24,7 +24,7 @@ $CORE.log("Partikeldings erstellt.");
 held = $AM.createMeshActor("KreisLaufHeld", "held.mesh" );
 # , PhysicsManager::GT_CAPSULE);
 held.placeIntoScene(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0);
-held.attachToSlot( torch.getActor(), "Bone15", "SLOT_HANDLE", [0.0, 0.0, 0.0], [ 1.0, 0.0, 0.0 ], 90.0 );
+held.attachToSlotAxisRot( torch.getActor(), "Bone15", "SLOT_HANDLE", [0.0, 0.0, 0.0], [ 1.0, 0.0, 0.0 ], 90.0 );
 $CORE.log("Fackel plaziert.");
 
 # torch.getActor().setScale( 1.0, 1.0, 1.0 );
