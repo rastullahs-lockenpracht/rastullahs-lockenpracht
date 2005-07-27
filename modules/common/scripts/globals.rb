@@ -12,6 +12,7 @@ $GL = GameLoopManager.getSingleton();
 $MM = MusicManager.getSingleton();
 $UI = UiSubsystem.getSingleton();
 $SM = SoundManager.getSingleton();
+$DM = DsaManager.getSingleton();
 
 $GameEveMgr = GameEventManager.getSingleton();
 $AnimMgr = AnimationManager.getSingleton();

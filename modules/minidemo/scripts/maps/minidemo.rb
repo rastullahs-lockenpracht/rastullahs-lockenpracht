@@ -6,6 +6,7 @@ require 'door.rb'
 require 'switch.rb'
 require 'truhe.rb'
 require 'door_opener.rb'
+require 'heiltrank.rb'
 
 # Der GC reisst oft die Objekte ab
 GC.disable
@@ -66,6 +67,14 @@ hebel.getActor().placeIntoScene( 1750.0, -350.0, -105.0, 1.0, 0.0, 0.0, 0.0 );
 hebel.getActor().yaw(-90.0);
 #p hebel
 $CORE.log("Truhe fertig");
+
+$CORE.log("Trank reinsetzen")
+hebel = Heiltrank.new( 28, "Trank", "Eine Flasche mit einer geheimnisvollen Fluessigkeit", "obj_heiltrank01.mesh", "A" );
+hebel.getActor().placeIntoScene( 21.0, 2.0, -230.0, 1.0, 0.0, 0.0, 0.0 );
+hebel.getActor().yaw(-90.0);
+#p hebel
+$CORE.log("Trank fertig");
+
 
 load "kreislauf.rb"
 
