@@ -1,0 +1,307 @@
+<?xml version="1.0"?>
+<!DOCTYPE Code::Blocks_project_file>
+<Code::Blocks_project_file>
+	<FileVersion major="1" minor="1"/>
+	<Project>
+		<Option title="RlRules"/>
+		<Option makefile="Makefile"/>
+		<Option makefile_is_custom="0"/>
+		<Option default_target="-1"/>
+		<Option compiler="1"/>
+		<Build>
+			<Target title="Debug">
+				<Option output="lib\Debug\RlRules.dll"/>
+				<Option working_dir="."/>
+				<Option object_output="obj\Debug"/>
+				<Option deps_output=".deps"/>
+				<Option external_deps=""/>
+				<Option type="3"/>
+				<Option compiler="1"/>
+				<Option createDefFile="1"/>
+				<Option createStaticLib="1"/>
+				<Compiler>
+					<Add option="/DWIN32"/>
+					<Add option="/D_DEBUG"/>
+					<Add option="/D_WINDOWS"/>
+					<Add option="/DRLRULES_EXPORTS"/>
+					<Add option="/Wp64"/>
+					<Add option="/Gm"/>
+					<Add option="/GR"/>
+					<Add option="/Zi"/>
+					<Add directory=".\include"/>
+					<Add directory="..\core\include"/>
+					<Add directory="..\common\include"/>
+					<Add directory="..\..\dependencies\ogre\OgreMain\include"/>
+					<Add directory="..\..\dependencies\ogre\Dependencies\include"/>
+					<Add directory="..\..\dependencies\ogre\PlugIns\GuiElements\include"/>
+					<Add directory="..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32"/>
+					<Add directory="..\..\dependencies\cegui\include"/>
+					<Add directory="..\..\dependencies\xerces\include"/>
+				</Compiler>
+				<Linker>
+					<Add option="/debug"/>
+					<Add option="/incremental"/>
+					<Add option="/pdb:lib\Debug\RlRules.pdb"/>
+					<Add library="msvcrt-ruby18"/>
+					<Add library="OgreMain_d"/>
+					<Add library="xerces-c_2D"/>
+					<Add library="CEGUIBase_d"/>
+					<Add library="RlCore"/>
+					<Add directory="..\core\lib\Debug"/>
+					<Add directory="..\..\dependencies\ogre\OgreMain\lib\Debug"/>
+					<Add directory="..\..\dependencies\ogre\Dependencies\lib\Debug"/>
+					<Add directory="..\..\dependencies\ogre\PlugIns\GuiElements\bin\Debug"/>
+					<Add directory="..\..\dependencies\ruby\lib"/>
+					<Add directory="..\..\dependencies\xerces\lib"/>
+					<Add directory="..\..\dependencies\cegui\lib\"/>
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="lib\Release\RlRules.dll"/>
+				<Option working_dir="."/>
+				<Option object_output="obj\Release"/>
+				<Option deps_output=".deps"/>
+				<Option external_deps=""/>
+				<Option type="3"/>
+				<Option compiler="1"/>
+				<Option createDefFile="1"/>
+				<Option createStaticLib="1"/>
+				<Compiler>
+					<Add option="/DWIN32"/>
+					<Add option="/DNDEBUG"/>
+					<Add option="/D_WINDOWS"/>
+					<Add option="/DRLRULES_EXPORTS"/>
+					<Add option="/Wp64"/>
+					<Add option="/GR"/>
+					<Add directory=".\include"/>
+					<Add directory="..\core\include"/>
+					<Add directory="..\common\include"/>
+					<Add directory="..\..\dependencies\ogre\OgreMain\include"/>
+					<Add directory="..\..\dependencies\ogre\Dependencies\include"/>
+					<Add directory="..\..\dependencies\ogre\PlugIns\GuiElements\include"/>
+					<Add directory="..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32"/>
+					<Add directory="..\..\dependencies\cegui\include"/>
+					<Add directory="..\..\dependencies\xerces\include"/>
+				</Compiler>
+				<Linker>
+					<Add option="/incremental"/>
+					<Add library="msvcrt-ruby18"/>
+					<Add library="OgreMain"/>
+					<Add library="xerces-c_2"/>
+					<Add library="CEGUIBase"/>
+					<Add library="RlCore"/>
+					<Add directory="..\core\lib\Release"/>
+					<Add directory="..\..\dependencies\ogre\OgreMain\lib\Release"/>
+					<Add directory="..\..\dependencies\ogre\Dependencies\lib\Release"/>
+					<Add directory="..\..\dependencies\ogre\PlugIns\GuiElements\bin\Release"/>
+					<Add directory="..\..\dependencies\ruby\lib"/>
+					<Add directory="..\..\dependencies\xerces\lib"/>
+					<Add directory="..\..\dependencies\cegui\lib\"/>
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="/GX"/>
+			<Add option="/W3"/>
+		</Compiler>
+		<Unit filename="include\Action.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\ActionManager.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\Container.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\Creature.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\Date.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\DsaDataLoader.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\DsaManager.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\Eigenschaft.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\GameObject.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\Item.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\Kampftechnik.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\KampftechnikCsvIterator.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\Person.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\RulesPrerequisites.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\RulesSubsystem.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\Talent.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\TalentCsvIterator.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="src\Action.cpp">
+			<Option compilerVar="CPP"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="src\ActionManager.cpp">
+			<Option compilerVar="CPP"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="src\Container.cpp">
+			<Option compilerVar="CPP"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="src\Creature.cpp">
+			<Option compilerVar="CPP"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="src\Date.cpp">
+			<Option compilerVar="CPP"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="src\DsaDataLoader.cpp">
+			<Option compilerVar="CPP"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="src\DsaManager.cpp">
+			<Option compilerVar="CPP"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="src\Eigenschaft.cpp">
+			<Option compilerVar="CPP"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="src\GameObject.cpp">
+			<Option compilerVar="CPP"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="src\Item.cpp">
+			<Option compilerVar="CPP"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="src\Kampftechnik.cpp">
+			<Option compilerVar="CPP"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="src\KampftechnikCsvIterator.cpp">
+			<Option compilerVar="CPP"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="src\Person.cpp">
+			<Option compilerVar="CPP"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="src\RulesSubsystem.cpp">
+			<Option compilerVar="CPP"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="src\Talent.cpp">
+			<Option compilerVar="CPP"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="src\TalentCsvIterator.cpp">
+			<Option compilerVar="CPP"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+	</Project>
+</Code::Blocks_project_file>

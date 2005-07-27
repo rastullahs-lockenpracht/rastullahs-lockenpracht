@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE Code::Blocks_workspace_file>
+<Code::Blocks_workspace_file>
+	<Workspace title="Rastullah workspace">
+		<Project filename="engine\startup\RlStartup.cbp"/>
+		<Project filename="engine\script\RlScript.cbp"/>
+		<Project filename="engine\ui\RlUI.cbp"/>
+		<Project filename="engine\dialog\RlDialog.cbp"/>
+		<Project filename="engine\rules\RlRules.cbp"/>
+		<Project filename="engine\core\RlCore.cbp"/>
+		<Project filename="engine\sound\RlSound.cbp"/>
+		<Project filename="engine\common\RlCommon.cbp" active="1"/>
+	</Workspace>
+</Code::Blocks_workspace_file>
