@@ -24,7 +24,7 @@ class OpenChestAction < RubyAction
     knarzActor = doorActor.getChildByName(doorActor.getName()+"_knarzen");
     knarzActor.getControlledObject().play(0);
     chest.setBool("open", true);
-    # $UI.showContainerContent(chest);
+    $UI.showContainerContent(chest);
   end
 end
 
