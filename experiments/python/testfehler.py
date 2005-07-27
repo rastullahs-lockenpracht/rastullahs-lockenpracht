@@ -6,8 +6,8 @@ class TestClassFehler(TestClass):
 
 if __name__ == "__main__":
 	print "* TestFehler - Beinhaltet einen Fehler"
-	a = TestClassFehler()
-	print a.getInteger()
-	TestClass.test2(a)
+	abc = TestClassFehler()
+	print abc.getInteger()
+	TestClass.test2(abc)
 	print "Ende TestFehler"
 	print ""

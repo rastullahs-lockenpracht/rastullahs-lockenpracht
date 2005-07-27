@@ -3,7 +3,7 @@
 
 %{
 extern "C" { 
-#include <Python.h> 
+#include <Python.h>
 }
 
 #include <vector>
@@ -16,6 +16,7 @@ extern "C" {
 %feature("director") TestClass; 
 class TestClass {
 public:
+	TestClass();
 	virtual ~TestClass();
 
 	virtual int getInteger() const;

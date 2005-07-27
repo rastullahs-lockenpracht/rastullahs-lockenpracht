@@ -22,24 +22,29 @@
 				Optimization="0"
 				AdditionalIncludeDirectories="../PythonTest;C:\Programme\Programmieren\Python\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;PYTHONTESTLIB_EXPORTS"
-				MinimalRebuild="TRUE"
+				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="0"
+				BrowseInformation="1"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="TRUE"
-				DebugInformationFormat="4"/>
+				Detect64BitPortabilityProblems="FALSE"
+				DebugInformationFormat="3"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
+				RegisterOutput="FALSE"
 				AdditionalDependencies="PythonTest.lib"
 				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;..\PythonTest\$(ConfigurationName)&quot;;C:\Programme\Programmieren\Python\libs"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/PythonTestLib.pdb"
+				GenerateMapFile="TRUE"
+				MapExports="TRUE"
+				MapLines="TRUE"
 				SubSystem="2"
 				ImportLibrary=""
 				TargetMachine="1"/>
@@ -48,7 +53,9 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Pythonskript kopieren"
-				CommandLine="copy pythontest.py .."/>
+				CommandLine="copy pythontest.py ..
+copy $(OutDir)\PythonTestLib.dll ..\_pythontest.dll
+"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -101,7 +108,8 @@
 				Name="VCPostBuildEventTool"
 				Description="Pythonskript kopieren"
 				CommandLine="copy pythontest.py ..
-copy $(OutDir)\PythonTestLib.dll ..\_pythontest.dll"/>
+copy $(OutDir)\PythonTestLib.dll ..\_pythontest.dll
+"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -159,7 +167,8 @@ swig -c++ -python -v -Wall &quot;$(InputPath)&quot;
 						Name="VCCustomBuildTool"
 						CommandLine="# cd H:\rl\rastullah\branches\python\dependencies\swig
 cd &quot;$(ProjectDir)&quot;\..\dependencies\swig
-swig -c++ -python -v -Wall &quot;$(InputPath)&quot;"
+swig -c++ -python -v -Wall &quot;$(InputPath)&quot;
+"
 						Outputs="&quot;$(InputName).cxx&quot;"/>
 				</FileConfiguration>
 			</File>

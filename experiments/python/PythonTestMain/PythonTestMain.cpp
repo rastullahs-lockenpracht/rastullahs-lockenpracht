@@ -25,5 +25,6 @@ int main(int argc, char** argv)
 	PyRun_SimpleString("execfile(\"testfehler.py\")"); // Hier geht es
 	Py_Finalize();
 
-	return 0;
+    
+    return 0;
 }

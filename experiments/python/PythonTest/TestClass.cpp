@@ -8,10 +8,13 @@ TestClass::TestClass()
 	mDoubleAttribut = 0.0;
 	mPointerAttribute = NULL;
 	mStringAttribute = "";
+    printf("Erstelle TestClass Instanz ( %d ) \n", (int)this );
 }
 
 TestClass::~TestClass()
 {
+    mIntegerAttribute = 0;
+    printf("Entferne TestClass Instanz ( %d ) \n", (int)this );
 }
 
 int TestClass::getInteger() const
@@ -70,5 +73,9 @@ void TestClass::test2(TestClass* args)
 	double dbl = args->getDouble();
 	std::string str = args->getString();
 	int ptr = (int)args->getPointer();
-    printf("Felder: %d %f '%s' %d\n", intgr, dbl, str.c_str(), ptr);
+    printf( "Felder: " );
+    printf( "%d ", intgr );
+    printf( "%f ", dbl);
+    printf( "'%s' ", str.c_str() );
+    printf( "%d \n", ptr );
 }
