@@ -7,7 +7,6 @@
 		<Option makefile="Makefile"/>
 		<Option makefile_is_custom="0"/>
 		<Option default_target="-1"/>
-		<Option active_target="1"/>
 		<Option compiler="1"/>
 		<Build>
 			<Target title="Debug">
@@ -24,6 +23,7 @@
 					<Add option="/Gm"/>
 					<Add option="/Wp64"/>
 					<Add option="/Zi"/>
+					<Add option="/MDd"/>
 					<Add option="/DWIN32"/>
 					<Add option="/D_DEBUG"/>
 					<Add option="/D_WINDOWS"/>
@@ -43,7 +43,7 @@
 			<Target title="Release">
 				<Option output=".\lib\Release\RlCommon.dll"/>
 				<Option working_dir=".\lib\Release"/>
-				<Option object_output=".\obj\release"/>
+				<Option object_output=".\obj\Release"/>
 				<Option deps_output=".deps"/>
 				<Option external_deps=""/>
 				<Option type="3"/>
@@ -54,6 +54,7 @@
 					<Add option="/Ox"/>
 					<Add option="/Og"/>
 					<Add option="/Wp64"/>
+					<Add option="/MD"/>
 					<Add option="/DWIN32"/>
 					<Add option="/DNDEBUG"/>
 					<Add option="/D_WINDOWS"/>
@@ -73,7 +74,6 @@
 			<Add option="/GX"/>
 			<Add option="/GR"/>
 			<Add option="/W3"/>
-			<Add option="/Zi"/>
 			<Add directory=".\include"/>
 			<Add directory="..\..\dependencies\ogre\OgreMain\include"/>
 			<Add directory="..\..\dependencies\cegui\include"/>

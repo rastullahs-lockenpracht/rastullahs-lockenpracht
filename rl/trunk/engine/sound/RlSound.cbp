@@ -7,6 +7,7 @@
 		<Option makefile="Makefile"/>
 		<Option makefile_is_custom="0"/>
 		<Option default_target="-1"/>
+		<Option active_target="0"/>
 		<Option compiler="1"/>
 		<Build>
 			<Target title="Debug">
@@ -20,7 +21,6 @@
 				<Option createDefFile="1"/>
 				<Option createStaticLib="1"/>
 				<Compiler>
-					<Add option="/GR"/>
 					<Add option="/Zi"/>
 					<Add option="/MDd"/>
 					<Add option="/D_WINDOWS"/>
@@ -53,7 +53,6 @@
 				<Option createDefFile="1"/>
 				<Option createStaticLib="1"/>
 				<Compiler>
-					<Add option="/GR"/>
 					<Add option="/Ox"/>
 					<Add option="/Og"/>
 					<Add option="/MD"/>
