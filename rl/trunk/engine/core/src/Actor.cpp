@@ -391,7 +391,7 @@ namespace rl {
         mChilds.insert(actor);
     }
 
-    void Actor::attachToSlot( 
+    void Actor::attachToSlotAxisRot( 
         Actor* actor,
         const Ogre::String& slot,
         const Ogre::String& childSlot,            
@@ -414,7 +414,7 @@ namespace rl {
             offsetPosition, offsetOrientation );
     }
 
-    void Actor::attach( 
+    void Actor::attachAxisRot( 
         Actor* actor,
         const Ogre::String& childSlot,            
         const Ogre::Vector3& offsetPosition,

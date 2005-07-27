@@ -21,8 +21,8 @@ private:
 public:
 	static Ogre::Root& getSingleton(void);
 	
-	void addResourceLocation(const std::string& name, const std::string& locType, 
-			const std::string& groupName = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, 
+	void addResourceLocation(const Ogre::String& name, const Ogre::String& locType, 
+			const Ogre::String& groupName = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, 
 			bool recursive = false);
 };
 
@@ -112,17 +112,17 @@ private:
 public:
 	static ActorManager& getSingleton(void);
 
-	rl::Actor* createParticleSystemActor(const std::string& name, const String& soundfile);
-    rl::Actor* createSoundActor(const std::string& name, const String& soundfile);
-    rl::Actor* createEmptyActor(const std::string& name);
-    rl::Actor* createLightActor(const std::string& name, rl::LightObject::LightTypes type );
-	rl::Actor* createMeshActor(const std::string& name, const std::string& meshname,
+	rl::Actor* createParticleSystemActor(const Ogre::String& name, const Ogre::String& soundfile);
+    rl::Actor* createSoundActor(const Ogre::String& name, const Ogre::String& soundfile);
+    rl::Actor* createEmptyActor(const Ogre::String& name);
+    rl::Actor* createLightActor(const Ogre::String& name, rl::LightObject::LightTypes type );
+	rl::Actor* createMeshActor(const Ogre::String& name, const Ogre::String& meshname,
 		    rl::PhysicsManager::GeometryTypes geom = rl::PhysicsManager::GT_NONE,
 		    Real density=1.0);
 		    
 	//void createDebugActors();
 	    
-	rl::Actor* getActor(const std::string& name);
+	rl::Actor* getActor(const Ogre::String& name);
 	void destroyActor(rl::Actor* actor);
     void destroyAllActors();
 };
@@ -131,11 +131,11 @@ class World {
 public:	
 	enum FogMode { FOG_NONE, FOG_EXP, FOG_EXP2, FOG_LINEAR  };
 
-	void loadScene(const std::string& levelName ) = 0;
+	void loadScene(const Ogre::String& levelName ) = 0;
 
-    virtual void setSkyPlane (bool enable, const Plane &plane, const std::string& materialName, Real scale=1000, Real tiling=10, bool drawFirst=true, Real bow=0 );
-    virtual void setSkyBox (bool enable, const std::string& materialName, Real distance=5000, bool drawFirst=true );
-    virtual void setSkyDome (bool enable, const std::string& materialName, Real curvature=10, Real tiling=8, Real distance=4000, bool drawFirst=true );
+    virtual void setSkyPlane (bool enable, const Plane &plane, const Ogre::String& materialName, Real scale=1000, Real tiling=10, bool drawFirst=true, Real bow=0 );
+    virtual void setSkyBox (bool enable, const Ogre::String& materialName, Real distance=2500, bool drawFirst=true );
+    virtual void setSkyDome (bool enable, const Ogre::String& materialName, Real curvature=10, Real tiling=8, Real distance=4000, bool drawFirst=true );
     virtual void setFog ( FogMode mode=FOG_NONE, const ColourValue &colour=ColourValue::White, Real expDensity=0.001, Real linearStart=0.0, Real linearEnd=1.0);
     virtual FogMode getFogMode (void) const;
     virtual const ColourValue & getFogColour (void) const;
@@ -341,7 +341,7 @@ public:
 	enum InterpolationMode { IM_LINEAR, IM_SPLINE };
 	enum RotationInterpolationMode { RIM_LINEAR, RIM_SPHERICAL };
 	
-	rl::TrackAnimation* createTrackAnimation(rl::Actor* actor, const std::string& name, Real length );
+	rl::TrackAnimation* createTrackAnimation(rl::Actor* actor, const Ogre::String& name, Real length );
 	void removeAnimation( rl::Animation* anim );
 	
 	void setGlobalAnimationSpeed( Real speed );
@@ -365,7 +365,7 @@ public:
 class MeshObject : public ActorControlledObject
 {
 private:
-    MeshObject(const std::string& name, const std::string& meshname);
+    MeshObject(const Ogre::String& name, const Ogre::String& meshname);
 public:
     
     /// Groesse der Boundingbox
@@ -374,12 +374,12 @@ public:
     Ogre::Real getRadius();
     Ogre::Real getHeight();
     
-	rl::Animation* getAnimation(const std::string& animName) const;
-	rl::Animation* replaceAnimation(const std::string& oldAnimName, 
-	    const std::string& newAnimName, float speed=1.0, unsigned int timesToPlay=0);
-	rl::Animation* startAnimation(const std::string& animName, 
+	rl::Animation* getAnimation(const Ogre::String& animName) const;
+	rl::Animation* replaceAnimation(const Ogre::String& oldAnimName, 
+	    const Ogre::String& newAnimName, float speed=1.0, unsigned int timesToPlay=0);
+	rl::Animation* startAnimation(const Ogre::String& animName, 
 		float speed=1.0, unsigned int timesToPlay=0);
-    void stopAnimation(const std::string&);
+    void stopAnimation(const Ogre::String&);
     void stopAllAnimations();
     
     void setCastShadows (bool enabled);
@@ -389,7 +389,7 @@ public:
 class LightObject : public ActorControlledObject
 {
 private:
-    LightObject(const std::string& name, rl::LightObject::LightTypes type);
+    LightObject(const Ogre::String& name, rl::LightObject::LightTypes type);
 public:
 	enum LightTypes { LT_POINT, LT_DIRECTIONAL, LT_SPOTLIGHT };
 
@@ -412,21 +412,21 @@ public:
 class ParticleSystemObject : public ActorControlledObject
 {
 private:
-	 ParticleSystemObject(const std::string& name, const std::string& partSys );
+	 ParticleSystemObject(const Ogre::String& name, const Ogre::String& partSys );
 };
 
 class CameraObject : public ActorControlledObject
 {
 private:
-    CameraObject(const std::string& name);
+    CameraObject(const Ogre::String& name);
 public:
 };
 
 class Actor {
 private:
-	Actor(const std::string& name);
+	Actor(const Ogre::String& name);
 public:	
-	static std::string DEFAULT_SLOT_NAME;
+	static Ogre::String DEFAULT_SLOT_NAME;
 
     enum QueryGroupFlags
     {
@@ -436,7 +436,7 @@ public:
         QGF_ALL = 0xFFFFFFFF
     };
 
-	const const std::string& getName() const;
+	const const Ogre::String& getName() const;
 	const Vector3& getPosition(void);
 	const Quaternion& getOrientation(void);
 	const Vector3& getWorldPosition(void);
@@ -449,26 +449,39 @@ public:
     void placeIntoScene(
         Real px, Real py, Real pz,
         Real ow, Real ox, Real oy, Real oz, 
-        const std::string& odeBone = "");
+        const Ogre::String& odeBone = "");
     void removeFromScene();
            
-   	void attach( 
+    void attach( 
+            Actor* actor,
+            const Ogre::String& childSlot = "SLOT_DEFAULT",
+            const Ogre::Vector3& offsetPosition=Ogre::Vector3::ZERO,
+            const Ogre::Quaternion& offsetOrientation=Ogre::Quaternion::IDENTITY
+            );
+   	void attachAxisRot( 
             rl::Actor* actor,
-            const std::string& childSlot = "SLOT_DEFAULT",            
+            const Ogre::String& childSlot = "SLOT_DEFAULT",            
             const Vector3& offsetPosition=Ogre::Vector3::ZERO,
             const Vector3& offsetAxis=Ogre::Vector3::UNIT_X,
             const Radian& offsetRotation=Ogre::Radian(0) );
     void attachToSlot( 
+            Actor* actor,
+            const Ogre::String& slot,
+            const Ogre::String& childSlot = "SLOT_DEFAULT",
+            const Ogre::Vector3& offsetPosition=Ogre::Vector3::ZERO,
+			const Ogre::Quaternion& offsetOrientation=Ogre::Quaternion::IDENTITY
+			);
+    void attachToSlotAxisRot( 
             rl::Actor* actor,
-            const std::string& slot,
-            const std::string& childSlot = "SLOT_DEFAULT",            
+            const Ogre::String& slot,
+            const Ogre::String& childSlot = "SLOT_DEFAULT",            
 			const Vector3& offsetPosition=Ogre::Vector3::ZERO,
             const Vector3& offsetAxis=Ogre::Vector3::UNIT_X,
             const Radian& offsetRotation=Ogre::Radian(0) );
                     
     void detach(rl::Actor* actor);
     
-    rl::Actor* getChildByName(const std::string& name ) const;
+    rl::Actor* getChildByName(const Ogre::String& name ) const;
        
 	void roll(Real angleunits);
 	void pitch(Real angleunits);
@@ -560,11 +573,11 @@ private:
 public:
     static CoreSubsystem& getSingleton(void);
     
-    void initializeModule(const std::string& module);
-    void loadMap(const std::string& type, const std::string& filename, const std::string& startupScript = "");
+    void initializeModule(const Ogre::String& module);
+    void loadMap(const Ogre::String& type, const Ogre::String& filename, const Ogre::String& startupScript = "");
     World* getWorld();
-    void makeScreenshot(const std::string& sName);
-    void log(const std::string& msg);
+    void makeScreenshot(const Ogre::String& sName);
+    void log(const Ogre::String& msg);
 };
 
 

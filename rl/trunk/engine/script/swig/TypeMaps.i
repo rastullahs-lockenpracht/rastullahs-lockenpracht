@@ -20,28 +20,29 @@
 /* Wrapping Strings to ruby and back 
  for String, const String, String&, String*, const String*, const String&
 */
-%typemap(in) String, const String {
+%typemap(typecheck) Ogre::String, const Ogre::String & = char *;
+
+%typemap(in) Ogre::String, const Ogre::String {
     Check_Type($input, T_STRING);
     $1 = String(StringValuePtr($input));
 }
-%typemap(out) String, const String {
+%typemap(out) Ogre::String, const Ogre::String {
      $result = rb_str_new2($1.c_str());
 }
-%typemap(in) String*, String&, const String*, const String& {
+%typemap(in) Ogre::String*, Ogre::String&, const Ogre::String*, const Ogre::String& {
     Check_Type($input, T_STRING);
     $1 = new String(StringValuePtr($input));
 }
-%typemap(out) String*, String&,  const String*, const String& {
+%typemap(out) Ogre::String*, Ogre::String&, const Ogre::String*, const Ogre::String& {
      $result = rb_str_new2($1->c_str());
 }
 
 
-%typemap(typecheck) rl::CeGuiString = char *;
-%typemap(typecheck) const rl::CeGuiString & = char *;
-
 /* Wrapping rl::CeGuiStrings to ruby and back 
  for rl::CeGuiString, const rl::CeGuiString, rl::CeGuiString&, rl::CeGuiString*, const rl::CeGuiString*, const rl::CeGuiString&
 */
+%typemap(typecheck) rl::CeGuiString, const rl::CeGuiString & = char *;
+
 %typemap(in) rl::CeGuiString, const rl::CeGuiString {
     Check_Type($input, T_STRING);
     $1 = rl::CeGuiString(StringValuePtr($input));
@@ -80,6 +81,8 @@
 }
 
 /* Radian / Degree all Ruby Values are interpreted as DEGREE! */
+%typemap(typecheck) Radian, const Radian& = double;
+
 %typemap(in) Radian, const Radian, Radian&, const Radian& {
     Check_Type($input, T_FLOAT);
     $1 = Degree(RFLOAT($input)->value);
@@ -95,10 +98,12 @@
      $result = rb_float_new($1->valueDegrees());
 }
 
-    
+
 /* Wrapping Real to ruby and back 
  for Real, const Real, Real&, Real*, const Real*, const Real&
 */
+%typemap(typecheck) Real, const Real& = double;
+    
 %typemap(in) Real, const Real {
     Check_Type($input, T_FLOAT);
     $1 = RFLOAT($input)->value;
@@ -113,27 +118,6 @@
 %typemap(out) Real*, Real&,  const Real*, const Real& {
 	$result = rb_float_new(*$1);
 }
-
-/* Wrapping float to ruby and back 
- for float, const float, float&, float*, const float*, const float&
-*/
-%typemap(in) float, const float {
-    Check_Type($input, T_FLOAT);
-    $1 = RFLOAT($input)->value;
-}
-
-//%typemap(out) float, const float {
-//     $result = $1;
-//}
-
-%typemap(in) float*, float&, const float*, const float& {
-    Check_Type($input, T_FLOAT);
-    $1 = RFLOAT($input)->value;
-}
-
-//%typemap(out) float*, float&,  const float*, const float& {
-//	$result = $1;
-//}
 
 /* IN Typemaps fuer Tripel<int>.
  * Ein Tripel wird einfach auf ein dreielementiges Array abgebildet.
@@ -202,6 +186,12 @@
  * Nil wird zu 0. Indizes >= 3 werden ignoriert.
  * TODO eben das aendern
  */
+
+%typecheck(SWIG_TYPECHECK_DOUBLE_ARRAY) Vector3, const Vector3& {
+  $1 = TYPE($input) == T_ARRAY && RARRAY($input)->len == 3 ? 1 : 0;
+}
+
+ 
 %typemap(in) Vector3
 {
    Check_Type($input, T_ARRAY);
@@ -276,6 +266,12 @@
    }
    $1 = vector;
 }
+
+
+%typecheck(SWIG_TYPECHECK_DOUBLE_ARRAY) Quaternion, const Quaternion& {
+  $1 = TYPE($input) == T_ARRAY && RARRAY($input)->len == 4 ? 1 : 0;
+}
+
 
 %typemap(in) Quaternion*, Quaternion&,
    const Quaternion*, const Quaternion&

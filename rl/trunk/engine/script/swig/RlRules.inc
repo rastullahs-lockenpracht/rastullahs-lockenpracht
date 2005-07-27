@@ -139,7 +139,7 @@ namespace rl {
 	};
 	
 	// Vor Action stehen!
-	%apply SWIGTYPE *DYNAMIC { GameObject * };
+	%apply SWIGTYPE *DYNAMIC { rl::GameObject * };
 	
 	static const int ACT_NORMAL = 1<<0;
 	static const int ACT_INVIS_DESC = 1<<1;

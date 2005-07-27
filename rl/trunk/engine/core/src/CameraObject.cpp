@@ -24,13 +24,18 @@ using namespace Ogre;
 namespace rl {
     CameraObject::CameraObject(const String& name)
     {
-        mMovableObject = CoreSubsystem::getSingleton().getWorld()->
-            getSceneManager()->createCamera(name);
+		Camera* camera = CoreSubsystem::getSingleton().getWorld()->
+			getSceneManager()->createCamera(name);
+		
+		camera->setNearClipDistance(10);
+		camera->setFarClipDistance(1000000);
+
+		mMovableObject = camera;
     }
 
     Camera* CameraObject::getCamera()
     {
-        return reinterpret_cast<Camera*>(mMovableObject);
+        return static_cast<Camera*>(mMovableObject);
     }
 
     String CameraObject::getObjectType()

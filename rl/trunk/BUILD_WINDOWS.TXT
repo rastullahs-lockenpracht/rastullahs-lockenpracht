@@ -9,7 +9,7 @@ http://www.ogre3d.org
 ruby/ - Ruby - 1.8
 http://ruby-lang.org
 
-swig/ - SWIG - 3.21  (exakt diese Version)
+swig/ - SWIG - 1.3.25  (exakt diese Version)
 http://www.swig.org
 
 openal/ - OPENAL
@@ -34,7 +34,7 @@ boost/ - Boost Threads und Boost Bind
 http://www.boost.org
 
 rllooks/ - Der RastullahLook für CeGui
-svn://svn.berlios.de/dsa-hl/rllooks/trunk 
+svn://svn.berlios.de/dsa-hl/rllooks/trunk
 
 
 Diese Verzeichnisse sind alle unterhalb von rl/trunk/dependencies anzulegen.
@@ -47,7 +47,7 @@ Diese sind jedoch nicht immer aktuell. ( zum Beispiel zur Zeit der Verfassung di
 
 Das Projekt kann man dann einfach kompilieren.
 
-Sollte das nicht zutreffen  
+Sollte das nicht zutreffen
  - Überprüft ob alle Dependencies in den korrekten Versionen vorhanden sind
  - Fragt uns auf unserer Webseite oder im irc
 
