@@ -56,23 +56,19 @@ $CORE.log("Hebel reinsetzen")
 hebel = Switch.new( "Hebel" );
 hebel.getActor().placeIntoScene( 160.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0 );
 hebel.getActor().yaw(-90.0);
-#p hebel
 $CORE.log("Hebel fertig");
 
 doorprocessor = SecretDoorOpener.new(gtuer, hebel)
 
 $CORE.log("Truhe reinsetzen")
-hebel = Chest.new( "Truhe", false, true );
-hebel.getActor().placeIntoScene( 1750.0, -350.0, -105.0, 1.0, 0.0, 0.0, 0.0 );
-hebel.getActor().yaw(-90.0);
-#p hebel
+chest = Chest.new( "Truhe", false, true );
+chest.getActor().placeIntoScene( 1750.0, -350.0, -105.0, 1.0, 0.0, 0.0, 0.0 );
+chest.getActor().yaw(-90.0);
 $CORE.log("Truhe fertig");
 
 $CORE.log("Trank reinsetzen")
-hebel = Heiltrank.new( 28, "Trank", "Eine Flasche mit einer geheimnisvollen Fluessigkeit", "obj_heiltrank01.mesh", "A" );
-hebel.getActor().placeIntoScene( 21.0, 2.0, -230.0, 1.0, 0.0, 0.0, 0.0 );
-hebel.getActor().yaw(-90.0);
-#p hebel
+trank = Heiltrank.new( 28, "Trank", "Eine Flasche mit einer geheimnisvollen Fluessigkeit", "obj_heiltrank01.mesh", "A" );
+chest.addItem(trank);
 $CORE.log("Trank fertig");
 
 
