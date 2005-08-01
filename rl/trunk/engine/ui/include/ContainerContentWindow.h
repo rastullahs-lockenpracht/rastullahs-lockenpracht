@@ -29,6 +29,9 @@ public:
 	ContainerContentWindow(Container* container);
 
 private:
+
+	bool handleItemChoose();
+
 	CEGUI::Listbox* mItemList;
 };
 

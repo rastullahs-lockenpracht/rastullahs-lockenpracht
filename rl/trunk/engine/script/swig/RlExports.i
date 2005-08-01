@@ -42,7 +42,9 @@
 #endif
 
 %feature("director:except") {
-	Throw(rl::RuntimeException, StringValuePtr($error) );
+	// Throw(rl::RuntimeException, StringValuePtr($error) );
+    static VALUE rlException = rb_define_class("RlException", rb_eStandardError);
+    rb_raise(rlException, StringValuePtr($error));
 }
 
 namespace Swig {

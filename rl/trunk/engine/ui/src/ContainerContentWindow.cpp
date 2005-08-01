@@ -1,9 +1,13 @@
-#include "ContainerContentWindow.h"
-#include "Container.h"
-#include "ListboxImageItem.h"
 #include <CEGUIImagesetManager.h>
 #include <CEGUIImage.h>
 #include <CEGUIImageset.h>
+#include <boost/bind.hpp>
+
+#include "ContainerContentWindow.h"
+#include "Container.h"
+#include "ListboxImageItem.h"
+#include "UiSubsystem.h"
+
 #include "Item.h"
 
 namespace rl {
@@ -18,12 +22,25 @@ namespace rl {
 
 		for(ItemSet::iterator iter = items.begin(); iter != items.end(); iter++) {
 			Item* gameitem = *iter;
-			const Image& image = ImagesetManager::getSingleton().getImageset("ModelThumbnails")->getImage(gameitem->getName());
+			CeGuiString thumbname = gameitem->getName();
+			const Image& image = ImagesetManager::getSingleton().getImageset("ModelThumbnails")->getImage(thumbname);
 			ListboxImageItem* item = 
 				new ListboxImageItem(&image, 0, gameitem);
 
 			mItemList->addItem(item);
 		}
+
+		mItemList->subscribeEvent(
+			Window::EventMouseClick, 
+			boost::bind(&ContainerContentWindow::handleItemChoose, this));
+
+		addToRoot(mWindow);	
 	}
 
+	bool ContainerContentWindow::handleItemChoose()
+	{
+		Item* currentItem = static_cast<Item*>(mItemList->getFirstSelectedItem()->getUserData());
+		UiSubsystem::getSingleton().showActionChoice(currentItem);
+		return true;
+	}
 }

@@ -21,16 +21,14 @@
 
 namespace CEGUI {
 
-ListboxImageItem::ListboxImageItem(const Image* const image, uint item_id, void* item_data, bool disabled, bool auto_delete)
-: ListboxItem("", item_id, item_data, disabled, auto_delete)
+ListboxImageItem::ListboxImageItem(const Image* image, uint item_id, void* item_data, bool disabled, bool auto_delete)
+: ListboxItem("aaa", item_id, item_data, disabled, auto_delete)
 {
-	d_image = new RenderableImage();
-	d_image->setImage(image);
+	d_image = image;
 }
 
 ListboxImageItem::~ListboxImageItem()
 {
-	delete d_image;
 }
 
 void ListboxImageItem::draw(const Vector3& position, float alpha, const Rect& clipper) const

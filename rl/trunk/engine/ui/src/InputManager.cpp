@@ -27,6 +27,8 @@
 #include "XmlResource.h"
 #include "XmlResourceManager.h"
 
+#include "UiSubsystem.h"
+
 #if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
 #include "SDL/SDL.h"
 #endif
@@ -191,6 +193,14 @@ namespace rl {
 
 	bool InputManager::sendKeyToCeGui(KeyEvent* e)
 	{
+		DebugWindow::getSingleton().setText(
+			String("All")+StringConverter::toString(mNumActiveWindowsAllInput)+" "+
+			String("Key")+StringConverter::toString(mNumActiveWindowsAllInput)+" "+
+			String("Mouse")+StringConverter::toString(mNumActiveWindowsMouseInput)+ " "+
+			"Events"+StringConverter::toString(mEventInitialized)+ " "+
+			"Input"+StringConverter::toString(mInputInitialized)+" "+
+			"Buffered"+StringConverter::toString(mBuffered));
+
 		// Fenster, die alle Inputs wollen
 		if (mNumActiveWindowsAllInput > 0)
 			return true;
@@ -347,8 +357,10 @@ namespace rl {
 		
 		if (!active && isCeguiActive()) // war nicht aktiv, sollte jetzt aktiv sein -> anschalten
 		{
+			UiSubsystem::getSingleton().log("switch mouse to buffered - start");
 			switchMouseToBuffered();
 			CEGUI::MouseCursor::getSingleton().show();
+			UiSubsystem::getSingleton().log("switch mouse to buffered - end");
 		}
 	}
 
@@ -368,8 +380,10 @@ namespace rl {
 
 		if (active && !isCeguiActive()) // war aktiv, sollte nicht mehr aktiv sein -> ausschalten
 		{
+			UiSubsystem::getSingleton().log("switch mouse to unbuffered - start");
 			CEGUI::MouseCursor::getSingleton().hide();
 			switchMouseToUnbuffered();		
+			UiSubsystem::getSingleton().log("switch mouse to unbuffered - end");
 		}
 	}
 
@@ -425,6 +439,14 @@ namespace rl {
 
 	bool InputManager::isCeguiActive()
 	{
+		DebugWindow::getSingleton().setText(
+			String("All")+StringConverter::toString(mNumActiveWindowsAllInput)+" "+
+			String("Key")+StringConverter::toString(mNumActiveWindowsAllInput)+" "+
+			String("Mouse")+StringConverter::toString(mNumActiveWindowsMouseInput)+ " "+
+			"Events"+StringConverter::toString(mEventInitialized)+ " "+
+			"Input"+StringConverter::toString(mInputInitialized)+" "+
+			"Buffered"+StringConverter::toString(mBuffered));
+
 		return 
 			mNumActiveWindowsKeyboardInput > 0 || 
 			mNumActiveWindowsMouseInput > 0 || 
@@ -542,22 +564,22 @@ namespace rl {
 
     void InputManager::updatePickedObject(float mouseRelX, float mouseRelY)
     {
-        Actor* a = ActorManager::getSingleton().getActorAt(mouseRelX, mouseRelY, 30, 200);
-        DebugWindow::getSingleton().setText(
+        Actor* actor = ActorManager::getSingleton().getActorAt(mouseRelX, mouseRelY, 30, 200);
+        /*DebugWindow::getSingleton().setText(
             "X="+StringConverter::toString(mouseRelX)+
             "   Y="+StringConverter::toString(mouseRelY)+
-            "   - Object("+(a==NULL?"null":a->getName())+")");
+            "   - Object("+(a==NULL?"null":a->getName())+")");*/
 
-		if (a != NULL)
+		if (actor != NULL)
 		{
-			if (mTargetedObject != NULL && mTargetedObject->getActor() != NULL && a != mTargetedObject->getActor())
+			if (mTargetedObject != NULL && mTargetedObject->getActor() != NULL && actor != mTargetedObject->getActor())
 				mTargetedObject->getActor()->setHighlighted(false);
 
             // Nur ein Highlight wenn es auch ein dazugehöriges GameObject gibt
-            if( a->getGameObject() != NULL )
+            if( actor->getGameObject() != NULL )
             {
-			    a->setHighlighted(true);
-                mTargetedObject = reinterpret_cast<GameObject*>(a->getGameObject());
+			    actor->setHighlighted(true);
+                mTargetedObject = static_cast<GameObject*>(actor->getGameObject());
             }
 		}
 		else

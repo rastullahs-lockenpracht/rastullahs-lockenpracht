@@ -108,7 +108,6 @@ namespace rl {
 				Window::EventMouseClick,
 				boost::bind(
 					&ActionChoiceWindow::activateAction, this, action));
-			bindClickToCloseWindow(button);
 			button->subscribeEvent(
 				Window::EventMouseEnters,
 				boost::bind(
@@ -175,11 +174,13 @@ namespace rl {
 		UiSubsystem::getSingleton().log(
 			action->getName().c_str(), "ActionChoiceWindow::activateAction");
 			
-		action->doAction(mObject, mActor, NULL);
+		//TODO: Ask for target
+		action->doAction(mObject, mActor, NULL); 
 		
 		UiSubsystem::getSingleton().log(
 			"Ende", "ActionChoiceWindow::activateAction");
 
+		WindowManager::getSingleton().destroyWindow(this);
 		return true;
 	}
 

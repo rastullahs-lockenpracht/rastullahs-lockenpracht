@@ -55,7 +55,7 @@ class _RlUiExport ListboxImageItem : public ListboxItem
 {
 public:
 	ListboxImageItem(
-		const Image* const image, 
+		const Image* image, 
 		uint item_id = 0, 
 		void* item_data = NULL, 
 		bool disabled = false, 
@@ -63,15 +63,15 @@ public:
 
 	virtual ~ListboxImageItem();
 
-	virtual void draw(
+	void draw(
 		const Vector3& position, 
 		float alpha, 
 		const Rect& clipper) const;
 
-	virtual CEGUI::Size getPixelSize() const;
+	CEGUI::Size getPixelSize() const;
 
 private:
-	RenderableImage* d_image;
+	const Image* d_image;
 };
 
 }
