@@ -7,11 +7,10 @@
 		<Option makefile="Makefile"/>
 		<Option makefile_is_custom="0"/>
 		<Option default_target="-1"/>
-		<Option active_target="1"/>
 		<Option compiler="1"/>
 		<Build>
 			<Target title="Debug">
-				<Option output="RlCore.dll"/>
+				<Option output=".\lib\Debug\RlCore.dll"/>
 				<Option working_dir=".\lib\Debug"/>
 				<Option object_output=".\obj\Debug"/>
 				<Option deps_output=".deps"/>
@@ -23,10 +22,7 @@
 				<Compiler>
 					<Add option="/Zi"/>
 					<Add option="/MDd"/>
-					<Add option="/D_WINDOWS"/>
 					<Add option="/D_DEBUG"/>
-					<Add option="/DWIN32"/>
-					<Add option="/DRLCORE_EXPORTS"/>
 				</Compiler>
 				<Linker>
 					<Add option="/debug"/>
@@ -39,7 +35,6 @@
 					<Add directory="..\common\lib\Debug"/>
 					<Add directory="..\..\dependencies\ogre\OgreMain\lib\Debug"/>
 					<Add directory="..\..\dependencies\ogre\OgreOde\lib\Debug"/>
-					<Add directory="..\..\dependencies\ogreaddons\dotsceneoctree\PlugIns\DotSceneManager\bin\Debug"/>
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -57,9 +52,6 @@
 					<Add option="/Og"/>
 					<Add option="/MD"/>
 					<Add option="/DNDEBUG"/>
-					<Add option="/D_WINDOWS"/>
-					<Add option="/DWIN32"/>
-					<Add option="/DRLCORE_EXPORTS"/>
 				</Compiler>
 				<Linker>
 					<Add option="/incremental"/>
@@ -70,14 +62,18 @@
 					<Add directory="..\common\lib\Release"/>
 					<Add directory="..\..\dependencies\ogre\OgreMain\lib\Release"/>
 					<Add directory="..\..\dependencies\ogre\OgreOde\lib\Release"/>
-					<Add directory="..\..\dependencies\ogreaddons\dotsceneoctree\PlugIns\DotSceneManager\bin\Release"/>
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="/GA"/>
 			<Add option="/GX"/>
 			<Add option="/GR"/>
 			<Add option="/W3"/>
+			<Add option="/DWIN32"/>
+			<Add option="/D_WINDOWS"/>
+			<Add option="/D_USRDLL"/>
+			<Add option="/DRLCORE_EXPORTS"/>
 			<Add directory=".\include"/>
 			<Add directory="..\common\include"/>
 			<Add directory="..\sound\include"/>

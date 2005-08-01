@@ -23,8 +23,6 @@
 #include "XmlResourceManager.h"
 using namespace Ogre;
 
-using namespace Ogre;
-
 template<> rl::DialogSubsystem* Singleton<rl::DialogSubsystem>::ms_Singleton = 0;
 
 namespace rl 

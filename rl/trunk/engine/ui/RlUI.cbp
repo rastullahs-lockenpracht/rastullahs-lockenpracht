@@ -11,7 +11,7 @@
 		<Build>
 			<Target title="Debug">
 				<Option output=".\lib\debug\RlUI.dll"/>
-				<Option working_dir="."/>
+				<Option working_dir=".\lib\debug"/>
 				<Option object_output=".\obj\Debug"/>
 				<Option deps_output=".deps"/>
 				<Option external_deps=""/>
@@ -20,63 +20,32 @@
 				<Option createDefFile="1"/>
 				<Option createStaticLib="1"/>
 				<Compiler>
-					<Add option="/D_WINDOWS,_DEBUG,WIN32,RLUI_EXPORTS"/>
-					<Add option="/GR"/>
-					<Add option="/nologo"/>
 					<Add option="/Zi"/>
-					<Add directory=".\include"/>
-					<Add directory=".\components\include"/>
-					<Add directory="..\common\include"/>
-					<Add directory="..\dialog\include"/>
-					<Add directory="..\core\include"/>
-					<Add directory="..\sound\include"/>
-					<Add directory="..\rules\include"/>
-					<Add directory="..\..\dependencies\ogre\OgreMain\include"/>
-					<Add directory="..\..\dependencies\ogre\Samples\Common\CEGUIRenderer\include"/>
-					<Add directory="..\..\dependencies\ogre\OgreOde\include"/>
-					<Add directory="..\..\dependencies\ogre\Dependencies\include"/>
-					<Add directory="..\..\dependencies\ogre\PlugIns\GuiElements\include"/>
-					<Add directory="..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32"/>
-					<Add directory="..\..\dependencies\OpenAL\Include"/>
-					<Add directory="..\..\dependencies\cegui\include"/>
-					<Add directory="..\..\dependencies\boost\include"/>
-					<Add directory="..\..\dependencies\ogg\include"/>
-					<Add directory="..\..\dependencies\vorbis\include"/>
-					<Add directory="..\..\dependencies\xerces\include"/>
+					<Add option="/MDd"/>
+					<Add option="/D_DEBUG"/>
 				</Compiler>
 				<Linker>
 					<Add option="/debug"/>
-					<Add option="/nologo"/>
 					<Add option="/incremental"/>
 					<Add option="/pdb:.\lib\Debug\RlUI.pdb"/>
-					<Add library="RlCore"/>
-					<Add library="msvcrt-ruby18"/>
 					<Add library="OgreMain_d"/>
-					<Add library="RlRules"/>
-					<Add library="RlSound"/>
 					<Add library="CEGUIBase_d"/>
 					<Add library="CEGUITaharezLook_d"/>
-					<Add library="OgreGuiRenderer_d"/>
 					<Add library="OgreODE_Core_d"/>
 					<Add library="xerces-c_2D"/>
-					<Add directory="..\core\lib\Debug"/>
+					<Add library="OgreGUIRenderer_d"/>
+					<Add directory="..\common\lib\Debug"/>
 					<Add directory="..\sound\lib\Debug"/>
+					<Add directory="..\core\lib\Debug"/>
 					<Add directory="..\rules\lib\Debug"/>
+					<Add directory="..\dialog\lib\Debug"/>
 					<Add directory="..\..\dependencies\ogre\OgreMain\lib\Debug"/>
-					<Add directory="..\..\dependencies\ogre\Samples\Common\CEGUIRenderer\lib"/>
-					<Add directory="..\..\dependencies\ogre\PlugIns\GuiElements\bin\Debug"/>
-					<Add directory="..\..\dependencies\ruby\lib"/>
-					<Add directory="..\..\dependencies\cegui\lib"/>
-					<Add directory="..\..\dependencies\ogre\dependencies\lib\Debug"/>
 					<Add directory="..\..\dependencies\ogre\OgreODE\lib\Debug"/>
-					<Add directory="..\..\dependencies\boost\lib"/>
-					<Add directory="..\..\dependencies\ogg\win32"/>
-					<Add directory="..\..\dependencies\xerces\lib"/>
 				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output=".\lib\release\RlUI.dll"/>
-				<Option working_dir="."/>
+				<Option working_dir=".\lib\release"/>
 				<Option object_output=".\obj\Release"/>
 				<Option deps_output=".deps"/>
 				<Option external_deps=""/>
@@ -85,64 +54,69 @@
 				<Option createDefFile="1"/>
 				<Option createStaticLib="1"/>
 				<Compiler>
-					<Add option="/DNDEBUG,_WINDOWS,WIN32,RLUI_EXPORTS"/>
-					<Add option="/GR"/>
-					<Add option="/nologo"/>
-					<Add directory=".\include"/>
-					<Add directory=".\components\include"/>
-					<Add directory="..\common\include"/>
-					<Add directory="..\dialog\include"/>
-					<Add directory="..\core\include"/>
-					<Add directory="..\sound\include"/>
-					<Add directory="..\rules\include"/>
-					<Add directory="..\..\dependencies\ogre\OgreMain\include"/>
-					<Add directory="..\..\dependencies\ogre\Samples\Common\CEGUIRenderer\include"/>
-					<Add directory="..\..\dependencies\ogre\OgreOde\include"/>
-					<Add directory="..\..\dependencies\ogre\Dependencies\include"/>
-					<Add directory="..\..\dependencies\ogre\PlugIns\GuiElements\include"/>
-					<Add directory="..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32"/>
-					<Add directory="..\..\dependencies\OpenAL\Include"/>
-					<Add directory="..\..\dependencies\cegui\include"/>
-					<Add directory="..\..\dependencies\boost\include"/>
-					<Add directory="..\..\dependencies\ogg\include"/>
-					<Add directory="..\..\dependencies\vorbis\include"/>
-					<Add directory="..\..\dependencies\xerces\include"/>
+					<Add option="/Ox"/>
+					<Add option="/Og"/>
+					<Add option="/MD"/>
+					<Add option="/DNDEBUG"/>
 				</Compiler>
 				<Linker>
-					<Add option="/nologo"/>
 					<Add option="/incremental"/>
-					<Add library="RlCore"/>
-					<Add library="RlSound"/>
-					<Add library="msvcrt-ruby18"/>
 					<Add library="OgreMain"/>
-					<Add library="RlRules"/>
 					<Add library="CEGUIBase"/>
-					<Add library="OgreGuiRenderer"/>
 					<Add library="CEGUITaharezLook"/>
 					<Add library="OgreODE_Core"/>
 					<Add library="xerces-c_2"/>
-					<Add directory="..\core\lib\Release"/>
+					<Add library="OgreGUIRenderer"/>
+					<Add directory="..\common\lib\Release"/>
 					<Add directory="..\sound\lib\Release"/>
+					<Add directory="..\core\lib\Release"/>
 					<Add directory="..\rules\lib\Release"/>
+					<Add directory="..\dialog\lib\Release"/>
 					<Add directory="..\..\dependencies\ogre\OgreMain\lib\Release"/>
-					<Add directory="..\..\dependencies\ogre\Samples\Common\CEGUIRenderer\lib"/>
-					<Add directory="..\..\dependencies\ogre\PlugIns\GuiElements\bin\Release"/>
-					<Add directory="..\..\dependencies\ruby\lib"/>
-					<Add directory="..\..\dependencies\cegui\lib"/>
-					<Add directory="..\..\dependencies\ogre\dependencies\lib\Release"/>
 					<Add directory="..\..\dependencies\ogre\OgreODE\lib\Release"/>
-					<Add directory="..\..\dependencies\boost\lib"/>
-					<Add directory="..\..\dependencies\ogg\win32"/>
-					<Add directory="..\..\dependencies\xerces\lib"/>
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="/GA"/>
 			<Add option="/GX"/>
+			<Add option="/GR"/>
 			<Add option="/W3"/>
+			<Add option="/DWIN32"/>
+			<Add option="/D_WINDOWS"/>
+			<Add option="/D_USRDLL"/>
+			<Add option="/DRLUI_EXPORTS"/>
+			<Add directory=".\include"/>
+			<Add directory=".\components\include"/>
+			<Add directory="..\common\include"/>
+			<Add directory="..\dialog\include"/>
+			<Add directory="..\core\include"/>
+			<Add directory="..\sound\include"/>
+			<Add directory="..\rules\include"/>
+			<Add directory="..\..\dependencies\cegui\include"/>
+			<Add directory="..\..\dependencies\ogre\OgreMain\include"/>
+			<Add directory="..\..\dependencies\ogre\Dependencies\include"/>
+			<Add directory="..\..\dependencies\ogre\Samples\Common\CEGUIRenderer\include"/>
+			<Add directory="..\..\dependencies\ogre\OgreOde\include"/>
+			<Add directory="..\..\dependencies\boost\include"/>
+			<Add directory="..\..\dependencies\xerces\include"/>
+			<Add directory="..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32"/>
+			<Add directory="..\..\dependencies\ode\include"/>
+			<Add directory="..\..\dependencies\openal\include"/>
+			<Add directory="..\..\dependencies\vorbis\include"/>
 		</Compiler>
 		<Linker>
-			<Add option="/MACHINE:I386"/>
+			<Add library="RlCommon"/>
+			<Add library="RlSound"/>
+			<Add library="RlCore"/>
+			<Add library="RlRules"/>
+			<Add library="RlDialog"/>
+			<Add library="msvcrt-ruby18"/>
+			<Add directory="..\..\dependencies\cegui\lib"/>
+			<Add directory="..\..\dependencies\boost\lib"/>
+			<Add directory="..\..\dependencies\xerces\lib"/>
+			<Add directory="..\..\dependencies\ruby\lib\"/>
+			<Add directory="..\..\dependencies\ogre\Samples\Common\CEGUIRenderer\lib"/>
 		</Linker>
 		<Unit filename="components\include\ListboxImageItem.h">
 			<Option compilerVar=""/>

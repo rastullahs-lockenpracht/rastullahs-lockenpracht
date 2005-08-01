@@ -11,7 +11,7 @@
 		<Build>
 			<Target title="Debug">
 				<Option output="lib\Debug\RlDialog.dll"/>
-				<Option working_dir="."/>
+				<Option working_dir="lib\Debug"/>
 				<Option object_output="obj\Debug"/>
 				<Option deps_output=".deps"/>
 				<Option external_deps=""/>
@@ -20,21 +20,10 @@
 				<Option createDefFile="1"/>
 				<Option createStaticLib="1"/>
 				<Compiler>
-					<Add option="/DWIN32"/>
-					<Add option="/D_DEBUG"/>
-					<Add option="/D_WINDOWS"/>
-					<Add option="/D_USRDLL"/>
-					<Add option="/DRLDIALOG_EXPORTS"/>
 					<Add option="/Wp64"/>
-					<Add option="/Gm"/>
 					<Add option="/Zi"/>
-					<Add directory=".\include"/>
-					<Add directory="..\common\include"/>
-					<Add directory="..\core\include"/>
-					<Add directory="..\..\dependencies\ogre\dependencies\include"/>
-					<Add directory="..\..\dependencies\ogre\OgreMain\include"/>
-					<Add directory="..\..\dependencies\cegui\include"/>
-					<Add directory="..\..\dependencies\xerces\include"/>
+					<Add option="/MDd"/>
+					<Add option="/D_DEBUG"/>
 				</Compiler>
 				<Linker>
 					<Add option="/debug"/>
@@ -42,19 +31,16 @@
 					<Add option="/pdb:lib\Debug\RlDialog.pdb"/>
 					<Add library="OgreMain_d"/>
 					<Add library="xerces-c_2D"/>
-					<Add library="RlCore"/>
 					<Add library="CEGUIBase_d"/>
+					<Add directory="..\common\lib\Debug"/>
 					<Add directory="..\core\lib\Debug"/>
-					<Add directory="..\..\dependencies\ogre\dependencies\lib\Debug"/>
 					<Add directory="..\..\dependencies\ogre\OgreMain\lib\Debug"/>
-					<Add directory="..\..\dependencies\xerces\lib"/>
-					<Add directory="..\..\dependencies\cegui\lib"/>
 				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="lib\Release\RlDialog.dll"/>
-				<Option working_dir="."/>
-				<Option object_output="lib\Release"/>
+				<Option working_dir="lib\Release"/>
+				<Option object_output="obj\Release"/>
 				<Option deps_output=".deps"/>
 				<Option external_deps=""/>
 				<Option type="3"/>
@@ -62,40 +48,46 @@
 				<Option createDefFile="1"/>
 				<Option createStaticLib="1"/>
 				<Compiler>
-					<Add option="/DWIN32"/>
-					<Add option="/DNDEBUG"/>
-					<Add option="/D_WINDOWS"/>
-					<Add option="/D_USRDLL"/>
-					<Add option="/DRLDIALOG_EXPORTS"/>
+					<Add option="/Ox"/>
+					<Add option="/Og"/>
 					<Add option="/Wp64"/>
-					<Add option="/Zi"/>
-					<Add directory=".\include"/>
-					<Add directory="..\common\include"/>
-					<Add directory="..\core\include"/>
-					<Add directory="..\..\dependencies\ogre\dependencies\include"/>
-					<Add directory="..\..\dependencies\ogre\OgreMain\include"/>
-					<Add directory="..\..\dependencies\cegui\include"/>
-					<Add directory="..\..\dependencies\xerces\include"/>
+					<Add option="/MD"/>
+					<Add option="/DNDEBUG"/>
 				</Compiler>
 				<Linker>
 					<Add option="/debug"/>
 					<Add option="/incremental"/>
 					<Add library="OgreMain"/>
 					<Add library="xerces-c_2"/>
-					<Add library="RlCore"/>
 					<Add library="CEGUIBase"/>
+					<Add directory="..\common\lib\Release"/>
 					<Add directory="..\core\lib\Release"/>
-					<Add directory="..\..\dependencies\ogre\dependencies\lib\Release"/>
 					<Add directory="..\..\dependencies\ogre\OgreMain\lib\Release"/>
-					<Add directory="..\..\dependencies\xerces\lib"/>
-					<Add directory="..\..\dependencies\cegui\lib"/>
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="/GA"/>
 			<Add option="/GX"/>
+			<Add option="/GR"/>
 			<Add option="/W3"/>
+			<Add option="/DRLDIALOG_EXPORTS"/>
+			<Add option="/DWIN32"/>
+			<Add option="/D_WINDOWS"/>
+			<Add option="/D_USRDLL"/>
+			<Add directory=".\include"/>
+			<Add directory="..\common\include"/>
+			<Add directory="..\core\include"/>
+			<Add directory="..\..\dependencies\ogre\OgreMain\include"/>
+			<Add directory="..\..\dependencies\cegui\include"/>
+			<Add directory="..\..\dependencies\xerces\include"/>
 		</Compiler>
+		<Linker>
+			<Add library="RlCore"/>
+			<Add library="RlCommon"/>
+			<Add directory="..\..\dependencies\xerces\lib"/>
+			<Add directory="..\..\dependencies\cegui\lib"/>
+		</Linker>
 		<Unit filename="include\AimlParser.h">
 			<Option compilerVar=""/>
 			<Option compile="0"/>

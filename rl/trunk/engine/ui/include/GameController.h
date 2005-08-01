@@ -25,7 +25,7 @@
 #include <OgreSceneNode.h>
 #include <OgreSceneQuery.h>
 #undef sleep
-#include <OgreOde_Core.h>
+
 
 namespace rl {
 
@@ -50,7 +50,7 @@ namespace rl {
         GameController(Actor* camera, Actor* hero);
         virtual ~GameController();
 
-        void run(Real elapsedTime);
+        void run(Ogre::Real elapsedTime);
 
         Actor* getControlledActor();
 
@@ -87,19 +87,19 @@ namespace rl {
         Ogre::Real mMoveSpeed;
         Ogre::Real mRotSpeed;
         
-
+        // TODO Dummer Name, umbenennen
         AnimationState mCurrentAnimationState;
         AnimationState mLastAnimationState;
         
         // Die Soll/Ist-Werte
-        Radian mMaxPitch;
-        Radian mMinPitch;
-        Radian mTargetPitch;
+        Ogre::Radian mMaxPitch;
+        Ogre::Radian mMinPitch;
+        Ogre::Radian mTargetPitch;
 
-        Real mMaxDistance;
-        Real mMinDistance;
-        Real mTargetDistance;
-        Real mDesiredDistance;
+        Ogre::Real mMaxDistance;
+        Ogre::Real mMinDistance;
+        Ogre::Real mTargetDistance;
+        Ogre::Real mDesiredDistance;
         
         ViewMode mViewMode;
         

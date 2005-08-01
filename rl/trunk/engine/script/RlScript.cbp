@@ -11,7 +11,7 @@
 		<Build>
 			<Target title="Debug">
 				<Option output=".\lib\Debug\RlScript.dll"/>
-				<Option working_dir="."/>
+				<Option working_dir=".\lib\Debug"/>
 				<Option object_output=".\obj\Debug"/>
 				<Option deps_output=".deps"/>
 				<Option external_deps=""/>
@@ -20,55 +20,27 @@
 				<Option createDefFile="1"/>
 				<Option createStaticLib="1"/>
 				<Compiler>
-					<Add option="/DWIN32"/>
-					<Add option="/D_DEBUG"/>
-					<Add option="/D_WINDOWS"/>
-					<Add option="/D_USRDLL"/>
-					<Add option="/DRLSCRIPT_EXPORTS"/>
 					<Add option="/Gm"/>
-					<Add option="/GR"/>
 					<Add option="/Zi"/>
-					<Add directory=".\include"/>
-					<Add directory="..\common\include"/>
-					<Add directory="..\core\include"/>
-					<Add directory="..\dialog\include"/>
-					<Add directory="..\rules\include"/>
-					<Add directory="..\sound\include"/>
-					<Add directory="..\ui\include"/>
-					<Add directory="..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32"/>
-					<Add directory="..\..\dependencies\ogre\OgreMain\include"/>
-					<Add directory="..\..\dependencies\ogre\OgreOde\include"/>
-					<Add directory="..\..\dependencies\ogre\dependencies\include"/>
-					<Add directory="..\..\dependencies\cegui\include"/>
-					<Add directory="..\..\dependencies\OpenAL\Include"/>
-					<Add directory="..\..\dependencies\vorbis\include"/>
-					<Add directory="..\..\dependencies\ogg\include"/>
-					<Add directory="..\..\dependencies\boost\include"/>
-					<Add directory="..\..\dependencies\xerces\include"/>
-					<Add directory="..\..\dependencies\ode\include"/>
+					<Add option="/MDd"/>
+					<Add option="/D_DEBUG"/>
 				</Compiler>
 				<Linker>
 					<Add option="/debug"/>
 					<Add option="/incremental"/>
 					<Add option="/pdb:.\lib\Debug\RlScript.pdb"/>
-					<Add library="RlCore"/>
-					<Add library="RlUi"/>
-					<Add library="RlRules"/>
-					<Add library="RlSound"/>
 					<Add library="OgreMain_d"/>
-					<Add library="msvcrt-ruby18"/>
 					<Add library="CEGUIBase_d"/>
-					<Add directory="..\rules\lib\Debug"/>
-					<Add directory="..\core\lib\Debug"/>
+					<Add directory="..\common\lib\Debug"/>
 					<Add directory="..\sound\lib\Debug"/>
+					<Add directory="..\core\lib\Debug"/>
+					<Add directory="..\rules\lib\Debug"/>
 					<Add directory="..\ui\lib\Debug"/>
+					<Add directory="..\dialog\lib\Debug"/>
 					<Add directory="..\..\dependencies\ogre\OgreMain\lib\Debug"/>
-					<Add directory="..\..\dependencies\ruby\lib"/>
-					<Add directory="..\..\dependencies\cegui\lib"/>
-					<Add directory="..\..\dependencies\boost\lib"/>
 				</Linker>
 				<ExtraCommands>
-					<Add after="$(SolutionDir)\tools\copy_dlls.bat&quot; &quot;$(SolutionDir)&quot; &quot;Debug"/>
+					<Add after="..\..\tools\copy_dlls.bat ..\.. Debug"/>
 				</ExtraCommands>
 			</Target>
 			<Target title="Release">
@@ -82,60 +54,74 @@
 				<Option createDefFile="1"/>
 				<Option createStaticLib="1"/>
 				<Compiler>
-					<Add option="/DWIN32"/>
-					<Add option="/DNDEBUG"/>
-					<Add option="/D_WINDOWS"/>
-					<Add option="/D_USRDLL"/>
-					<Add option="/DRLSCRIPT_EXPORTS"/>
-					<Add option="/GR"/>
+					<Add option="/Ox"/>
+					<Add option="/Og"/>
 					<Add option="/Zi"/>
-					<Add directory=".\include"/>
-					<Add directory="..\common\include"/>
-					<Add directory="..\core\include"/>
-					<Add directory="..\dialog\include"/>
-					<Add directory="..\rules\include"/>
-					<Add directory="..\sound\include"/>
-					<Add directory="..\ui\include"/>
-					<Add directory="..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32"/>
-					<Add directory="..\..\dependencies\ogre\OgreMain\include"/>
-					<Add directory="..\..\dependencies\ogre\OgreOde\include"/>
-					<Add directory="..\..\dependencies\ogre\dependencies\include"/>
-					<Add directory="..\..\dependencies\cegui\include"/>
-					<Add directory="..\..\dependencies\OpenAL\Include"/>
-					<Add directory="..\..\dependencies\vorbis\include"/>
-					<Add directory="..\..\dependencies\ogg\include"/>
-					<Add directory="..\..\dependencies\boost\include"/>
-					<Add directory="..\..\dependencies\xerces\include"/>
-					<Add directory="..\..\dependencies\ode\include"/>
+					<Add option="/MD"/>
+					<Add option="/DNDEBUG"/>
 				</Compiler>
 				<Linker>
 					<Add option="/debug"/>
 					<Add option="/incremental"/>
-					<Add library="RlCore"/>
-					<Add library="RlUi"/>
-					<Add library="RlRules"/>
-					<Add library="RlSound"/>
 					<Add library="OgreMain"/>
-					<Add library="msvcrt-ruby18"/>
 					<Add library="CEGUIBase"/>
-					<Add directory="..\rules\lib\Release"/>
-					<Add directory="..\core\lib\Release"/>
+					<Add directory="..\common\lib\Release"/>
 					<Add directory="..\sound\lib\Release"/>
+					<Add directory="..\core\lib\Release"/>
+					<Add directory="..\rules\lib\Release"/>
+					<Add directory="..\dialog\lib\Release"/>
 					<Add directory="..\ui\lib\Release"/>
 					<Add directory="..\..\dependencies\ogre\OgreMain\lib\Release"/>
-					<Add directory="..\..\dependencies\ruby\lib"/>
-					<Add directory="..\..\dependencies\cegui\lib"/>
-					<Add directory="..\..\dependencies\boost\lib"/>
 				</Linker>
 				<ExtraCommands>
-					<Add after="$(SolutionDir)\tools\copy_dlls.bat&quot; &quot;$(SolutionDir)&quot; &quot;Release"/>
+					<Add after="..\..\tools\copy_dlls.bat ..\.. Release"/>
 				</ExtraCommands>
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="/GA"/>
 			<Add option="/GX"/>
+			<Add option="/GR"/>
 			<Add option="/W3"/>
+			<Add option="/DWIN32"/>
+			<Add option="/D_WINDOWS"/>
+			<Add option="/D_USRDLL"/>
+			<Add option="/DRLSCRIPT_EXPORTS"/>
+			<Add directory=".\include"/>
+			<Add directory="..\common\include"/>
+			<Add directory="..\core\include"/>
+			<Add directory="..\dialog\include"/>
+			<Add directory="..\rules\include"/>
+			<Add directory="..\sound\include"/>
+			<Add directory="..\ui\include"/>
+			<Add directory="..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32"/>
+			<Add directory="..\..\dependencies\ogre\OgreMain\include"/>
+			<Add directory="..\..\dependencies\ogre\OgreOde\include"/>
+			<Add directory="..\..\dependencies\ogre\dependencies\include"/>
+			<Add directory="..\..\dependencies\cegui\include"/>
+			<Add directory="..\..\dependencies\OpenAL\Include"/>
+			<Add directory="..\..\dependencies\vorbis\include"/>
+			<Add directory="..\..\dependencies\ogg\include"/>
+			<Add directory="..\..\dependencies\boost\include"/>
+			<Add directory="..\..\dependencies\xerces\include"/>
+			<Add directory="..\..\dependencies\ode\include"/>
 		</Compiler>
+		<Linker>
+			<Add library="RlCommon"/>
+			<Add library="RlSound"/>
+			<Add library="RlCore"/>
+			<Add library="RlRules"/>
+			<Add library="RlDialog"/>
+			<Add library="RlUi"/>
+			<Add library="msvcrt-ruby18"/>
+			<Add directory="..\..\dependencies\ruby\lib"/>
+			<Add directory="..\..\dependencies\cegui\lib"/>
+			<Add directory="..\..\dependencies\boost\lib"/>
+		</Linker>
+		<ExtraCommands>
+			<Mode before="always" />
+			<Add before="invoke_swig.bat"/>
+		</ExtraCommands>
 		<Unit filename="include\ScriptPrerequisites.h">
 			<Option compilerVar=""/>
 			<Option compile="0"/>
@@ -197,6 +183,7 @@
 			<Option compilerVar=""/>
 			<Option compile="0"/>
 			<Option link="0"/>
+			<Option weight="100"/>
 			<Option target="Debug"/>
 			<Option target="Release"/>
 		</Unit>

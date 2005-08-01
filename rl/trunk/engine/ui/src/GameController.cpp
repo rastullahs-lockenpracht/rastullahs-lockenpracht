@@ -32,9 +32,6 @@
 #include <OgreAxisAlignedBox.h>
 #include <OgreStringConverter.h>
 
-#include "OgreNoMemoryMacros.h"
-#include <ode/ode.h>
-#include "OgreMemoryMacros.h"
 
 using namespace Ogre;
 

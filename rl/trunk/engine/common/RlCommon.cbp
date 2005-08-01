@@ -24,11 +24,7 @@
 					<Add option="/Wp64"/>
 					<Add option="/Zi"/>
 					<Add option="/MDd"/>
-					<Add option="/DWIN32"/>
 					<Add option="/D_DEBUG"/>
-					<Add option="/D_WINDOWS"/>
-					<Add option="/D_USRDLL"/>
-					<Add option="/DRLCOMMON_EXPORTS"/>
 				</Compiler>
 				<Linker>
 					<Add option="/debug"/>
@@ -55,11 +51,7 @@
 					<Add option="/Og"/>
 					<Add option="/Wp64"/>
 					<Add option="/MD"/>
-					<Add option="/DWIN32"/>
 					<Add option="/DNDEBUG"/>
-					<Add option="/D_WINDOWS"/>
-					<Add option="/D_USRDLL"/>
-					<Add option="/DRLCOMMON_EXPORTS"/>
 				</Compiler>
 				<Linker>
 					<Add option="/incremental"/>
@@ -71,9 +63,14 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="/GA"/>
 			<Add option="/GX"/>
 			<Add option="/GR"/>
 			<Add option="/W3"/>
+			<Add option="/DWIN32"/>
+			<Add option="/D_WINDOWS"/>
+			<Add option="/D_USRDLL"/>
+			<Add option="/DRLCOMMON_EXPORTS"/>
 			<Add directory=".\include"/>
 			<Add directory="..\..\dependencies\ogre\OgreMain\include"/>
 			<Add directory="..\..\dependencies\cegui\include"/>

@@ -23,12 +23,7 @@
 				<Compiler>
 					<Add option="/Zi"/>
 					<Add option="/MDd"/>
-					<Add option="/D_WINDOWS"/>
-					<Add option="/DWIN32"/>
-					<Add option="/DRLSOUND_EXPORTS"/>
 					<Add option="/D_DEBUG"/>
-					<Add option="/DLIBOPENAL"/>
-					<Add option="/DHAVE_LIBOPENAL"/>
 				</Compiler>
 				<Linker>
 					<Add option="/debug"/>
@@ -57,11 +52,6 @@
 					<Add option="/Og"/>
 					<Add option="/MD"/>
 					<Add option="/DNDEBUG"/>
-					<Add option="/D_WINDOWS"/>
-					<Add option="/DWIN32"/>
-					<Add option="/DRLSOUND_EXPORTS"/>
-					<Add option="/DLIBOPENAL"/>
-					<Add option="/DHAVE_LIBOPENAL"/>
 				</Compiler>
 				<Linker>
 					<Add option="/incremental"/>
@@ -76,26 +66,29 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="/GA"/>
 			<Add option="/GX"/>
 			<Add option="/GR"/>
 			<Add option="/W3"/>
+			<Add option="/DWIN32"/>
+			<Add option="/D_WINDOWS"/>
+			<Add option="/D_USRDLL"/>
+			<Add option="/DLIBOPENAL"/>
+			<Add option="/DHAVE_LIBOPENAL"/>
+			<Add option="/DRLSOUND_EXPORTS"/>
 			<Add directory=".\include"/>
 			<Add directory="..\common\include"/>
 			<Add directory="..\..\dependencies\ogre\OgreMain\include"/>
 			<Add directory="..\..\dependencies\ogre\OgreMain\Dependencies\include"/>
-			<Add directory="..\..\dependencies\openalpp\include"/>
 			<Add directory="..\..\dependencies\openal\include"/>
-			<Add directory="..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32"/>
 			<Add directory="..\..\dependencies\ogg\include"/>
 			<Add directory="..\..\dependencies\vorbis\include"/>
 			<Add directory="..\..\dependencies\boost\include"/>
 		</Compiler>
 		<Linker>
 			<Add library="RlCommon"/>
-			<Add library="msvcrt-ruby18"/>
 			<Add library="OpenAl32"/>
 			<Add library="ALut"/>
-			<Add directory="..\..\dependencies\ruby\lib"/>
 			<Add directory="..\..\dependencies\OpenAL\libs"/>
 			<Add directory="..\..\dependencies\ogg\win32"/>
 			<Add directory="..\..\dependencies\vorbis\lib"/>

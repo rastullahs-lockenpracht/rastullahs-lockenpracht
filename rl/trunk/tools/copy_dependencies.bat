@@ -60,6 +60,5 @@ REM
 copy %RL_ROOT%\Dependencies\openal\dll\*.dll %RL_DIST%
 copy %RL_ROOT%\Dependencies\boost\bin\*.dll %RL_DIST%
 
-pause
 
 
