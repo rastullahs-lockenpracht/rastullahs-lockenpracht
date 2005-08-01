@@ -83,7 +83,7 @@
 				InlineFunctionExpansion="1"
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="2"
-				AdditionalIncludeDirectories=".\include;..\core\include;..\dialog\include;..\rules\include;..\ui\include;..\sound\include;..\common\include;..\script\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\openal\include;..\..\dependencies\openalpp\include;..\..\dependencies\vorbis\include;..\..\dependencies\ogg\include;..\..\dependencies\cegui\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogre\dependencies\include;..\..\dependencies\xerces\include"
+				AdditionalIncludeDirectories=".\include;..\core\include;..\dialog\include;..\rules\include;..\ui\include;..\sound\include;..\common\include;..\script\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\openal\include;..\..\dependencies\openalpp\include;..\..\dependencies\vorbis\include;..\..\dependencies\ogg\include;..\..\dependencies\cegui\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\xerces\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
