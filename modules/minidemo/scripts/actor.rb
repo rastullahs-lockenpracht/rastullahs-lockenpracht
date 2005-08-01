@@ -24,13 +24,13 @@ $CORE.log("HalteMesh Actor in die Szene einfügen");
 halteDings.placeIntoScene( 315.0, 5.0, -100.0, 1.0, 0.0, 0.0, 0.0);
 
 $CORE.log("Mesh an HalteMesh befestigen");
-halteDings.attachToSlot( befestigDings, "Bone15", "SLOT_HANDLE", [0.0, 0.0, 0.0], [ 1.0, 0.0, 0.0 ], 90.0 );
+halteDings.attachToSlotAxisRot( befestigDings, "Bone15", "SLOT_HANDLE", [0.0, 0.0, 0.0], [ 1.0, 0.0, 0.0 ], 90.0 );
 $CORE.log("Mesh von HalteMesh abnehmen");
 halteDings.detach( befestigDings );
 $CORE.log("Mesh an HalteMesh erneut befestigen");
-halteDings.attachToSlot( befestigDings, "Bone15", "SLOT_HANDLE", [0.0, 0.0, 0.0], [ 1.0, 0.0, 0.0 ], 90.0 );
+halteDings.attachToSlotAxisRot( befestigDings, "Bone15", "SLOT_HANDLE", [0.0, 0.0, 0.0], [ 1.0, 0.0, 0.0 ], 90.0 );
 $CORE.log("Mesh an BefestigungsMesh befestigen");
-befestigDings.attachToSlot( befestigDings2, "SLOT_FAR_END", "SLOT_HANDLE", [0.0, 0.0, 0.0], [ 1.0, 0.0, 0.0 ], 120.0 );
+befestigDings.attachToSlotAxisRot( befestigDings2, "SLOT_FAR_END", "SLOT_HANDLE", [0.0, 0.0, 0.0], [ 1.0, 0.0, 0.0 ], 120.0 );
 $CORE.log("Animation abspielen");
 halteDings.getControlledObject().startAnimation( "gehloop" )
 
