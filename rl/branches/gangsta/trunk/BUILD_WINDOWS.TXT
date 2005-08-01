@@ -18,11 +18,11 @@ http://developer.creative.com/landing.asp?cat=1&sbcat=31&top=38
 vorbis/ - Vorbis
 http://www.vorbis.com/
 
-ogre/ogreode/ OgreODE - Final Compatible 1.0.1
-http://www.green-eyed-monster.com/xoops/modules/mydownloads/visit.php?cid=3&lid=10
+gangsta/ GANGSTA Wrapper
+http://sourceforge.net/projects/gangsta/
 
 ode/ - Ode 0.5
-http://www.ode.org - Patched (siehe OgreODE Docs)
+http://www.ode.org - Single Precision mit 
 
 cegui/ - Cegui 0.3
 http://www.cegui.org.uk/

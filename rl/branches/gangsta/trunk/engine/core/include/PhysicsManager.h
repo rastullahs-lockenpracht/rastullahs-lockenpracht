@@ -17,29 +17,21 @@
 #ifndef __PhysicsManager_H__
 #define __PhysicsManager_H__
 
-#include <map>
-#include <vector>
 #include <OgreSingleton.h>
-#include <OgreOde_Core.h>
-#include "GameTask.h"
+
+#include <Gangsta.h>
+#include <GaCallbackInterface_Ogre.h>
 
 #include "CorePrerequisites.h"
 
 
 namespace rl {
-
     class PhysicalThing;
-    class Actor;
-    class World;
 
     class _RlCoreExport PhysicsManager
-        :   public GameTask,
-            public OgreOde::CollisionListener,
-            public OgreOde::StepListener,
-            protected Singleton<PhysicsManager>
+        :   protected Ogre::Singleton<PhysicsManager>
     {
     public:
-
         enum GeometryTypes {
             GT_NONE = -1,
             GT_BOX = 0,
@@ -48,18 +40,8 @@ namespace rl {
             GT_MESH = 3
         };
         
-        /// Typ bestimmt, wo der Usrprung (0/0/0) des Objektes liegt.
-        enum OffsetMode {
-            /// Ursprung in Objektmitte
-            OM_CENTERED = 0,
-            /// Ursprung Unten-Mitte
-            OM_BOTTOMCENTERED
-        };
-        
         PhysicsManager();
         virtual ~PhysicsManager();
-
-        virtual void run( Real elapsedTime );
 
         /**
          * @param geomType Grundform der Geometrie des Objektes
@@ -71,20 +53,15 @@ namespace rl {
          * @todo Geometry-Kapselung verallgemeinern. z.B. funktioniert Capusle
          *       momentan nur dann gut, wenn die Höhe die Y-Achse ist.
          */
-        PhysicalThing* createPhysicalThing(const int geomType, const Ogre::Vector3& size,
-			Real density, OgreOde::Space* space = NULL, OffsetMode offsetMode = OM_BOTTOMCENTERED);
+        PhysicalThing* createPhysicalThing( 
+            GeometryTypes geomType, 
+            const Ogre::Vector3& size,
+            const Ogre::Vector3& offsetPosition,
+            const Ogre::Quaternion& offsetOrientation,
+            Ogre::Real density = 0.0 );
 
-        void removeAndDestroyPhysicalThing(PhysicalThing* thing);
-
-        // Global Settings
         void setGravity(Ogre::Real x, Ogre::Real y, Ogre::Real z);
-        Vector3 getGravity();
-        void setCFM(Ogre::Real cfm);
-        Real getCFM();
-        void setERP(Ogre::Real erp);
-        Real getERP();
-
-        OgreOde::World* getWorld();
+        const Ogre::Vector3& getGravity() const;
 
         void setEnabled(bool enabled);
 
@@ -92,52 +69,23 @@ namespace rl {
         static PhysicsManager & getSingleton(void);
         static PhysicsManager * getSingletonPtr(void);
 
-        void addCollisionListener(OgreOde::CollisionListener*);
-        void removeCollisionListener(OgreOde::CollisionListener*);
-		/// CollisionListener callback
-		virtual bool collision(OgreOde::Contact* contact);
-
-
 		/// Levelgeometrie hinzufügen
-		void addLevelGeometry( Ogre::Entity* ent );
+		// void addLevelGeometry( Ogre::Entity* ent );
 		/// Komplette Levelgeometrie auflösen
-		void clearLevelGeometry(  );
+		// void clearLevelGeometry(  );
+		void toggleDebugGeometry();
 
-		
-
-        /// StepListener callback
-        virtual bool preStep(Real time);
-
-		void setActor(OgreOde::Geometry* actor, Ogre::SceneNode* controlNode);
-		void setCamera(OgreOde::Geometry* camera, Ogre::SceneNode* cameraNode);
-		OgreOde::Geometry* getActor();
-		OgreOde::Geometry* getCamera();
-
-		void setFallSpeed(Ogre::Real fallspeed);
-		Ogre::Real getFallSpeed();
-
-		void toggleDebugOde();
+        
 
     private:
-		bool collisionWithPlayerActor(OgreOde::Geometry* geometry, OgreOde::Contact* contact);
-		bool collisionCameraWithLevel(OgreOde::Contact* contact);
+        void initializePhysicsManager( );
 
-        bool mEnabled;
+        Ga::Manager	m_GaManager;
+        Ga::GaPtr<Ga::PhysicsDriver> m_GaDriver;
+        Ga::GaPtr<Ga::World> m_GaWorld;
+        Ga::GaPtr<Ga::CallbackInterface_Ogre> m_GaCallback;
 
-        std::vector<PhysicalThing*> mPhysicalThings;
-        std::vector<OgreOde::CollisionListener*> mCollisionListeners;
-        OgreOde::World* mOdeWorld;
-        OgreOde::Space* mGlobalSpace;
-
-		OgreOde::Space* mLevelGeomSpace;
-
-        OgreOde::Stepper* mOdeStepper;
-
-		OgreOde::Geometry* mOdeActor;
-		OgreOde::Geometry* mOdeCamera;
-		Ogre::SceneNode* mControlNode;
-		Ogre::SceneNode* mCameraNode;
-		Ogre::Real mFallSpeed;
+        bool m_IsEnabled;
     };
 }
 
