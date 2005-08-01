@@ -1,0 +1,219 @@
+<?xml version="1.0"?>
+<!DOCTYPE Code::Blocks_project_file>
+<Code::Blocks_project_file>
+	<FileVersion major="1" minor="1"/>
+	<Project>
+		<Option title="RlCommon"/>
+		<Option makefile="Makefile"/>
+		<Option makefile_is_custom="0"/>
+		<Option default_target="-1"/>
+		<Option compiler="0"/>
+		<Build>
+			<Target title="Debug">
+				<Option output=".\lib\Debug\RlCommon.dll"/>
+				<Option working_dir=".\lib\Debug"/>
+				<Option object_output=".\obj\Debug"/>
+				<Option deps_output=".deps"/>
+				<Option external_deps=""/>
+				<Option type="3"/>
+				<Option compiler="0"/>
+				<Option createDefFile="1"/>
+				<Option createStaticLib="1"/>
+				<Compiler>
+					<Add option="-g"/>
+					<Add option="-D_DEBUG"/>
+				</Compiler>
+				<Linker>
+					<Add option="/debug"/>
+					<Add option="/incremental"/>
+					<Add option="/pdb:.\lib\Debug\RlCommon.pdb"/>
+					<Add library="OgreMain_d"/>
+					<Add library="xerces-c_2D"/>
+					<Add directory="..\..\dependencies\ogre\OgreMain\lib\Debug"/>
+					<Add directory="..\..\dependencies\ogre\Dependencies\lib\Debug"/>
+				</Linker>
+				<ExtraCommands>
+					<Add after="copy .\lib\Debug\RlCommon.dll ..\..\rl_dist\"/>
+				</ExtraCommands>
+			</Target>
+			<Target title="Release">
+				<Option output=".\lib\Release\RlCommon.dll"/>
+				<Option working_dir=".\lib\Release"/>
+				<Option object_output=".\obj\Release"/>
+				<Option deps_output=".deps"/>
+				<Option external_deps=""/>
+				<Option type="3"/>
+				<Option compiler="0"/>
+				<Option createDefFile="1"/>
+				<Option createStaticLib="1"/>
+				<Compiler>
+					<Add option="-fexpensive-optimizations"/>
+					<Add option="-Os"/>
+					<Add option="-O3"/>
+					<Add option="-O"/>
+					<Add option="-DNDEBUG"/>
+				</Compiler>
+				<Linker>
+					<Add option="/incremental"/>
+					<Add library="OgreMain"/>
+					<Add library="xerces-c_2"/>
+					<Add directory="..\..\dependencies\ogre\OgreMain\lib\Release"/>
+					<Add directory="..\..\dependencies\ogre\Dependencies\lib\Release"/>
+				</Linker>
+				<ExtraCommands>
+					<Add after="copy .\lib\Release\RlCommon.dll ..\..\rl_dist\"/>
+				</ExtraCommands>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-DRLCOMMON_EXPORTS"/>
+			<Add directory=".\include"/>
+			<Add directory="..\..\dependencies\ogre\OgreMain\include"/>
+			<Add directory="..\..\dependencies\cegui\include"/>
+			<Add directory="..\..\dependencies\xerces\include"/>
+		</Compiler>
+		<Linker>
+			<Add directory="..\..\dependencies\xerces\lib"/>
+		</Linker>
+		<Unit filename="include\CommonPrerequisites.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option objectName="CommonPrerequisites.obj"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\CsvFile.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option objectName="CsvFile.obj"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\EventCaster.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option objectName="EventCaster.obj"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\EventListener.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option objectName="EventListener.obj"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\EventObject.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option objectName="EventObject.obj"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\EventSource.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option objectName="EventSource.obj"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\Exception.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option objectName="Exception.obj"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\FixRubyHeaders.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option objectName="FixRubyHeaders.obj"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\RastullahPrerequisites.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option objectName="RastullahPrerequisites.obj"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\Tripel.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option objectName="Tripel.obj"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\XmlHelper.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option objectName="XmlHelper.obj"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\XmlResource.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option objectName="XmlResource.obj"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="include\XmlResourceManager.h">
+			<Option compilerVar=""/>
+			<Option compile="0"/>
+			<Option link="0"/>
+			<Option objectName="XmlResourceManager.obj"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="src\CsvFile.cpp">
+			<Option compilerVar="CPP"/>
+			<Option objectName="CsvFile.obj"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="src\EventObject.cpp">
+			<Option compilerVar="CPP"/>
+			<Option objectName="EventObject.obj"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="src\EventSource.cpp">
+			<Option compilerVar="CPP"/>
+			<Option objectName="EventSource.obj"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="src\XmlHelper.cpp">
+			<Option compilerVar="CPP"/>
+			<Option objectName="XmlHelper.obj"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="src\XmlResource.cpp">
+			<Option compilerVar="CPP"/>
+			<Option objectName="XmlResource.obj"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+		<Unit filename="src\XmlResourceManager.cpp">
+			<Option compilerVar="CPP"/>
+			<Option objectName="XmlResourceManager.obj"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+	</Project>
+</Code::Blocks_project_file>
