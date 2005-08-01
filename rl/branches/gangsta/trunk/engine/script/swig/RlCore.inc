@@ -1,0 +1,597 @@
+/* This source file is part of Rastullahs Lockenpracht.
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
+ * 
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Perl Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  Perl Artistic License for more details.
+ *
+ *  You should have received a copy of the Perl Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.perldoc.com/perl5.6/Artistic.html.
+ */
+
+namespace Ogre {
+class Root {
+private:
+	Root();
+public:
+	static Ogre::Root& getSingleton(void);
+	
+	void addResourceLocation(const Ogre::String& name, const Ogre::String& locType, 
+			const Ogre::String& groupName = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, 
+			bool recursive = false);
+};
+
+class Quaternion {
+public:
+ 	Quaternion (Real fW=1.0, Real fX=0.0, Real fY=0.0, Real fZ=0.0);
+ 	void FromAngleAxis(const Radian &rfAngle, const Vector3 &rkAxis);
+};
+
+}
+
+namespace rl {
+
+%{
+static swig_type_info *GameAreaType_dynamic_cast(void **ptr) {
+    rl::GameAreaType **ppGameAreaType = reinterpret_cast<rl::GameAreaType **>(ptr);
+    
+    rl::GameSphereAreaType *pGameSphereAreaType = dynamic_cast<rl::GameSphereAreaType*>(*ppGameAreaType);
+    if(pGameSphereAreaType){
+      *ptr=reinterpret_cast<void*>(pGameSphereAreaType);
+      return SWIGTYPE_p_rl__GameSphereAreaType;
+    }    
+    
+    return 0;
+}
+%}
+DYNAMIC_CAST(SWIGTYPE_p_rl__GameAreaType, GameAreaType_dynamic_cast);
+
+
+
+%{
+static swig_type_info *Animation_dynamic_cast(void **ptr) {
+    rl::Animation **ppAnimation = reinterpret_cast<rl::Animation **>(ptr);
+    
+    rl::TrackAnimation *pTrackAnimation = dynamic_cast<rl::TrackAnimation*>(*ppAnimation);
+    if(pTrackAnimation){
+      *ptr=reinterpret_cast<void*>(pTrackAnimation);
+      return SWIGTYPE_p_rl__TrackAnimation;
+    }    
+    
+    return 0;
+}
+%}
+DYNAMIC_CAST(SWIGTYPE_p_rl__Animation, Animation_dynamic_cast);
+
+
+%{
+static swig_type_info *ActorControlledObject_dynamic_cast(void **ptr)
+{
+    rl::ActorControlledObject **ppActorControlledObject =
+        reinterpret_cast<rl::ActorControlledObject**>(ptr);
+
+    rl::MeshObject *pMeshObject=dynamic_cast<rl::MeshObject*>(*ppActorControlledObject);
+    if (pMeshObject) {
+        *ptr=reinterpret_cast<void*>(pMeshObject);
+        return SWIGTYPE_p_rl__MeshObject;
+    }
+    rl::CameraObject *pCameraObject=dynamic_cast<rl::CameraObject*>(*ppActorControlledObject);
+    if (pCameraObject) {
+        *ptr=reinterpret_cast<void*>(pCameraObject);
+        return SWIGTYPE_p_rl__CameraObject;
+    }
+    rl::LightObject *pLightObject=dynamic_cast<rl::LightObject*>(*ppActorControlledObject);
+    if (pLightObject) {
+        *ptr=reinterpret_cast<void*>(pLightObject);
+        return SWIGTYPE_p_rl__LightObject;
+    }
+    rl::ParticleSystemObject *pParticleSystemObject=dynamic_cast<rl::ParticleSystemObject*>(*ppActorControlledObject);
+    if (pParticleSystemObject) {
+        *ptr=reinterpret_cast<void*>(pParticleSystemObject);
+        return SWIGTYPE_p_rl__ParticleSystemObject;
+    }
+    rl::SoundObject *pSoundObject=dynamic_cast<rl::SoundObject*>(*ppActorControlledObject);
+    if (pSoundObject) {
+        *ptr=reinterpret_cast<void*>(pSoundObject);
+        return SWIGTYPE_p_rl__SoundObject;
+    }
+    return 0;
+}
+%}
+DYNAMIC_CAST(SWIGTYPE_p_rl__ActorControlledObject, ActorControlledObject_dynamic_cast);
+
+
+class ActorManager {
+private:
+	ActorManager();
+public:
+	static ActorManager& getSingleton(void);
+
+	rl::Actor* createParticleSystemActor(const Ogre::String& name, const Ogre::String& soundfile);
+    rl::Actor* createSoundActor(const Ogre::String& name, const Ogre::String& soundfile);
+    rl::Actor* createEmptyActor(const Ogre::String& name);
+    rl::Actor* createLightActor(const Ogre::String& name, rl::LightObject::LightTypes type );
+	rl::Actor* createMeshActor(const Ogre::String& name, const Ogre::String& meshname,
+		    rl::PhysicsManager::GeometryTypes geom = rl::PhysicsManager::GT_NONE,
+		    Real density=1.0);
+		    
+	//void createDebugActors();
+	    
+	rl::Actor* getActor(const Ogre::String& name);
+	void destroyActor(rl::Actor* actor);
+    void destroyAllActors();
+};
+
+class World {
+public:	
+	enum FogMode { FOG_NONE, FOG_EXP, FOG_EXP2, FOG_LINEAR  };
+
+	void loadScene(const Ogre::String& levelName ) = 0;
+
+    virtual void setSkyPlane (bool enable, const Plane &plane, const Ogre::String& materialName, Real scale=1000, Real tiling=10, bool drawFirst=true, Real bow=0 );
+    virtual void setSkyBox (bool enable, const Ogre::String& materialName, Real distance=2500, bool drawFirst=true );
+    virtual void setSkyDome (bool enable, const Ogre::String& materialName, Real curvature=10, Real tiling=8, Real distance=4000, bool drawFirst=true );
+    virtual void setFog ( FogMode mode=FOG_NONE, const ColourValue &colour=ColourValue::White, Real expDensity=0.001, Real linearStart=0.0, Real linearEnd=1.0);
+    virtual FogMode getFogMode (void) const;
+    virtual const ColourValue & getFogColour (void) const;
+    virtual Real getFogStart (void) const;
+    virtual Real getFogEnd (void) const;	
+    virtual void setAmbientLight(Real r, Real g, Real b);
+    virtual Vector3 getStartPoint() const;
+    virtual void setCastShadows(bool);
+
+    void setShowBoundingBoxes( bool dis );
+};
+
+/// Alles was mit AreaKrams zu tun hat
+%apply SWIGTYPE *DYNAMIC { GameAreaType * };
+
+%feature("director") GameAreaListener; 
+class GameAreaListener
+{
+public:
+	virtual ~GameAreaListener();
+
+    virtual void areaLeft(rl::GameAreaEvent *anEvent) const = 0;
+    virtual void areaEntered(rl::GameAreaEvent *anEvent) const = 0;
+};
+
+class GameAreaType
+{
+private:
+	GameAreaType();
+public:
+	unsigned long getQueryMask() const;
+    void setQueryMask( unsigned long mask );
+    void addQueryFlag( unsigned long flag  );
+    void removeQueryFlag( unsigned long flag );
+    const Ogre::Vector3& getQueryPosition() const;
+};
+
+class GameSphereAreaType : public GameAreaType
+{
+private:
+	GameSphereAreaType( Ogre::Vector3, Ogre::Real, unsigned long mask = 0xFFFFFFFF );
+public:
+};
+
+class GameAreaEventSource
+{
+private: 
+	GameAreaEventSource( rl::GameAreaType* areaType, rl::Actor* act );
+public:   
+    void addAreaListener( rl::GameAreaListener*  list );
+    void removeAreaListener( rl::GameAreaListener* list );
+    bool hasListeners( ) const;
+
+    rl::GameAreaType* getGameAreaType() const;
+    // const ActorMap& getInsideAreaList() const;
+    rl::Actor* getActor() const;
+};
+
+class GameAreaEvent
+{
+private:
+	GameAreaEvent( rl::GameAreaEventSource* src, const unsigned int reason );
+public:
+    rl::Actor* getProvokingActor() const;
+    rl::GameAreaEventSource* getSource() const;
+};
+
+class GameEventManager
+{
+private:
+    GameEventManager( );
+public:
+    void addSphereAreaListener( rl::Actor* actor, Real radius, 
+		rl::GameAreaListener* list, unsigned long queryMask = 0xFFFFFFFF );
+    void removeAreaListener( rl::GameAreaListener* list );
+    void removeAllAreas( rl::Actor* actor );
+
+    static rl::GameEventManager & getSingleton(void);
+};
+
+%feature("director") ObjectStateChangeListener; 
+class ObjectStateChangeListener 
+{
+public:
+	virtual ~ObjectStateChangeListener();
+	virtual void objectStateChanged(rl::ObjectStateChangeEvent *anEvent) = 0;
+};
+
+class ObjectStateChangeEventSource
+{
+public:
+	ObjectStateChangeEventSource( );
+  
+    void addObjectStateChangeListener( rl::ObjectStateChangeListener*  list );
+    void removeObjectStateChangeListener( rl::ObjectStateChangeListener* list );
+    bool hasListeners( ) const;
+    Ogre::UserDefinedObject* getObject() const { return mObject; }
+	void fireObjectStateChangeEvent();
+};
+
+class ObjectStateChangeEvent
+{
+public:
+    ObjectStateChangeEvent( rl::ObjectStateChangeEventSource* src );
+    Ogre::UserDefinedObject* getProvokingObject() const { return mObject; };
+    rl::ObjectStateChangeEventSource* getSource() const;
+};
+
+/// Alles was mit Animationen zu tun hat
+%apply SWIGTYPE *DYNAMIC { Animation * };
+
+%feature("director") AnimationListener; 
+class AnimationListener
+{
+public:
+	virtual ~AnimationListener();
+	virtual void animationFinished(rl::AnimationEvent *anEvent) const = 0;
+	virtual void animationPaused(rl::AnimationEvent *anEvent) const = 0;
+	virtual void animationUnpaused(rl::AnimationEvent *anEvent) const = 0;
+};
+
+%feature("director") AnimationFrameListener; 
+class AnimationFrameListener
+{
+public:
+	virtual ~AnimationFrameListener();
+	virtual void animationFrameReached( rl::AnimationFrameEvent *anEvent ) const = 0;
+};
+
+class AnimationEvent
+{
+public:
+	rl::Animation* getAnimation() const;
+	AnimationEvent( rl::Animation* anim,  const unsigned int reason );
+};
+
+class AnimationFrameEvent
+{
+public:
+	rl::Animation* getAnimation() const;
+	Ogre::Real getFrameNumber() const;
+	AnimationFrameEvent( rl::Animation* anim,  const unsigned int reason, Ogre::Real frameNumber );
+};
+
+
+class Animation {
+public:
+	bool isPaused() const;
+    void setPaused( bool isPaused );
+
+	bool isIgnoringGlobalSpeed() const;
+	void setIgnoringGlobalSpeed( bool isIgnoringGlobalSpeed );
+
+	Real getSpeed() const;
+	void setSpeed( Real speed );
+	void reverseAnimation();
+
+	void setTimesToPlay(unsigned int timesToPlay);
+	unsigned int getTimesPlayed() const;
+	void resetTimesPlayed();
+	unsigned int getTimesToPlay() const;
+	unsigned int getTimesToPlayLeft() const;
+	Real getTimePlayed() const;
+
+	Real getWeight(void) const;
+    void setWeight(Real weight);
+    
+    void addAnimationListener( rl::AnimationListener *listener);
+	void removeAnimationListener( rl::AnimationListener *listener);
+	
+	void addAnimationFrameListener( rl::AnimationFrameListener *listener, 
+									float frameNumber );
+private:
+	Animation(  );
+};
+
+class TrackAnimation : public Animation {
+public:
+	void addKeyFrame( Real timePos );
+    void setKeyFrameTranslation( Real timePos, Real xPos, Real yPos, Real zPos );
+    void setKeyFrameRotation( Real timePos, Real xRotAxis, Real yRotAxis, Real zRotAxis, Real angleUnits );
+    void setKeyFrameRotationQuaternion( Real timePos, Real w, Real x, Real y, Real z );
+    void setKeyFrameScale( Real timePos, Real xScale, Real yScale, Real zScale );
+
+	void setInterpolationMode( rl::AnimationManager::InterpolationMode im );
+	rl::AnimationManager::InterpolationMode getInterpolationMode() const;
+
+	void setRotationInterpolationMode( rl::AnimationManager::RotationInterpolationMode im );
+	rl::AnimationManager::RotationInterpolationMode getRotationInterpolationMode() const;
+
+	void setUseShortestRotationPath ( bool useShortestPath );
+	bool getUseShortestRotationPath () const;
+private:
+	TrackAnimation(  ); 
+};
+
+class AnimationManager {
+private:
+	AnimationManager();
+public:
+	static AnimationManager& getSingleton(void);
+	
+	enum InterpolationMode { IM_LINEAR, IM_SPLINE };
+	enum RotationInterpolationMode { RIM_LINEAR, RIM_SPHERICAL };
+	
+	rl::TrackAnimation* createTrackAnimation(rl::Actor* actor, const Ogre::String& name, Real length );
+	void removeAnimation( rl::Animation* anim );
+	
+	void setGlobalAnimationSpeed( Real speed );
+	Real getGlobalAnimationSpeed( ) const;
+	
+	void setDefaultInterpolationMode( rl::AnimationManager::InterpolationMode im );
+	rl::AnimationManager::InterpolationMode getDefaultInterpolationMode() const;
+
+	void setDefaultRotationInterpolationMode( rl::AnimationManager::RotationInterpolationMode rim );
+	rl::AnimationManager::RotationInterpolationMode getDefaultRotationInterpolationMode() const;
+};
+
+%apply SWIGTYPE *DYNAMIC { ActorControlledObject * };
+class ActorControlledObject {
+private:
+    ActorControlledObject();
+public:
+    rl::Actor* getActor();
+};
+
+class MeshObject : public ActorControlledObject
+{
+private:
+    MeshObject(const Ogre::String& name, const Ogre::String& meshname);
+public:
+    
+    /// Groesse der Boundingbox
+    Ogre::Vector3 getSize();
+    Ogre::Vector3 getCenter();
+    Ogre::Real getRadius();
+    Ogre::Real getHeight();
+    
+	rl::Animation* getAnimation(const Ogre::String& animName) const;
+	rl::Animation* replaceAnimation(const Ogre::String& oldAnimName, 
+	    const Ogre::String& newAnimName, float speed=1.0, unsigned int timesToPlay=0);
+	rl::Animation* startAnimation(const Ogre::String& animName, 
+		float speed=1.0, unsigned int timesToPlay=0);
+    void stopAnimation(const Ogre::String&);
+    void stopAllAnimations();
+    
+    void setCastShadows (bool enabled);
+    bool getCastShadows (void) const;    
+};
+
+class LightObject : public ActorControlledObject
+{
+private:
+    LightObject(const Ogre::String& name, rl::LightObject::LightTypes type);
+public:
+	enum LightTypes { LT_POINT, LT_DIRECTIONAL, LT_SPOTLIGHT };
+
+    void setAttenuation(float range, float constant,
+        float linear, float quadric);
+    void setDiffuseColour(float red, float green, float blue);
+    void setDirection(float x, float y, float z);
+    void setSpecularColour(float red, float green, float blue);
+    void setSpotlightRange(float innerangle, float outerangle,
+        float falloff);
+    void setCastShadows( bool cast );
+};
+
+class SoundObject : public ActorControlledObject
+{
+public:
+	 void play( unsigned int msec = 0 );
+};
+
+class ParticleSystemObject : public ActorControlledObject
+{
+private:
+	 ParticleSystemObject(const Ogre::String& name, const Ogre::String& partSys );
+};
+
+class CameraObject : public ActorControlledObject
+{
+private:
+    CameraObject(const Ogre::String& name);
+public:
+};
+
+class Actor {
+private:
+	Actor(const Ogre::String& name);
+public:	
+	static Ogre::String DEFAULT_SLOT_NAME;
+
+    enum QueryGroupFlags
+    {
+        QGF_NONE = 0,
+        QGF_DEFAULT = 1,
+        QGF_PLAYER = 2,
+        QGF_ALL = 0xFFFFFFFF
+    };
+
+	const const Ogre::String& getName() const;
+	const Vector3& getPosition(void);
+	const Quaternion& getOrientation(void);
+	const Vector3& getWorldPosition(void);
+	const Quaternion& getWorldOrientation(void);
+    void setPosition(Real x, Real y, Real z);
+    
+    rl::ActorControlledObject* getControlledObject();
+
+    void setScale( Real sx, Real sy, Real sz );
+    void placeIntoScene(
+        Real px, Real py, Real pz,
+        Real ow, Real ox, Real oy, Real oz, 
+        const Ogre::String& odeBone = "");
+    void removeFromScene();
+           
+    void attach( 
+            Actor* actor,
+            const Ogre::String& childSlot = "SLOT_DEFAULT",
+            const Ogre::Vector3& offsetPosition=Ogre::Vector3::ZERO,
+            const Ogre::Quaternion& offsetOrientation=Ogre::Quaternion::IDENTITY
+            );
+   	void attachAxisRot( 
+            rl::Actor* actor,
+            const Ogre::String& childSlot = "SLOT_DEFAULT",            
+            const Vector3& offsetPosition=Ogre::Vector3::ZERO,
+            const Vector3& offsetAxis=Ogre::Vector3::UNIT_X,
+            const Radian& offsetRotation=Ogre::Radian(0) );
+    void attachToSlot( 
+            Actor* actor,
+            const Ogre::String& slot,
+            const Ogre::String& childSlot = "SLOT_DEFAULT",
+            const Ogre::Vector3& offsetPosition=Ogre::Vector3::ZERO,
+			const Ogre::Quaternion& offsetOrientation=Ogre::Quaternion::IDENTITY
+			);
+    void attachToSlotAxisRot( 
+            rl::Actor* actor,
+            const Ogre::String& slot,
+            const Ogre::String& childSlot = "SLOT_DEFAULT",            
+			const Vector3& offsetPosition=Ogre::Vector3::ZERO,
+            const Vector3& offsetAxis=Ogre::Vector3::UNIT_X,
+            const Radian& offsetRotation=Ogre::Radian(0) );
+                    
+    void detach(rl::Actor* actor);
+    
+    rl::Actor* getChildByName(const Ogre::String& name ) const;
+       
+	void roll(Real angleunits);
+	void pitch(Real angleunits);
+	void yaw(Real angleunits);
+	
+	unsigned long getQueryMask() const;
+    void setQueryMask( unsigned long mask = 0xFFFFFFFF );
+    void addQueryFlag( unsigned long flag  );
+    void removeQueryFlag( unsigned long flag );
+};
+
+
+class PhysicalThing {
+private:
+	PhysicalThing();
+public:
+    void setPosition(Real x, Real y, Real z);
+    void setOrientation(Real w, Real x, Real y, Real z);
+
+    rl::Actor* getActor();
+
+    bool isDynamic();
+    void setDynamic(bool dynamic);
+
+    void addForce(Real dir_x, Real dir_y, Real dir_z);
+    void addForceWorldSpace(Real dir_x, Real dir_y, Real dir_z);
+    void addForce(Real dir_x, Real dir_y, Real dir_z,
+        Real pos_x, Real pos_y, Real pos_z);
+    void addForceWorldSpace(Real dir_x, Real dir_y, Real dir_z,
+        Real pos_x, Real pos_y, Real pos_z);
+    void addTorque(Real x, Real y, Real z);
+    void addTorqueWorldSpace(Real x, Real y, Real z);
+
+    void setBounceParameters(Real restitutionValue,
+        Real velocityThreshold);
+    Real getBounceRestitutionValue(void);
+    Real getBounceVelocityThreshold(void);
+
+    void setSoftness(Real softness);
+    Real getSoftness(void);
+
+    void setFriction(Real friction);
+    Real getFriction(void);
+    void setSoftErp(Real erp);
+    Real getSoftErp(void);
+
+    void setLinearVelocity(Real x, Real y, Real z);
+    const Vector3 getLinearVelocity(void);
+
+    const Vector3 getAngularVelocity(void);
+    void setAngularVelocity(Real x, Real y, Real z);
+};
+
+class PhysicsManager {
+private:
+	PhysicsManager();
+public:  
+    enum GeometryTypes {
+        GT_NONE = -1,
+        GT_BOX = 0,
+        GT_SPHERE = 1,
+        GT_CAPSULE = 2,
+        GT_MESH = 3
+    };
+    
+    enum OffsetMode {
+        OM_CENTERED = 0,
+        OM_BOTTOMCENTERED = 1
+    };
+
+    PhysicalThing* createPhysicalThing(GeometryTypes geomType,
+        const Ogre::Vector3& size, Real density, OgreOde::Space* space = NULL,
+        OffsetMode offsetMode = OM_BOTTOMCENTERED);
+    
+    void setGravity( Real x, Real y, Real z );
+    Vector3 getGravity();
+    
+    void setEnabled(bool enabled);
+    
+    static PhysicsManager & getSingleton(void);
+	static PhysicsManager * getSingletonPtr(void);
+	
+	void toggleDebugOde();
+};
+
+class CoreSubsystem {
+private:
+	CoreSubsystem();
+public:
+    static CoreSubsystem& getSingleton(void);
+    
+    void initializeModule(const Ogre::String& module);
+    void loadMap(const Ogre::String& type, const Ogre::String& filename, const Ogre::String& startupScript = "");
+    World* getWorld();
+    void makeScreenshot(const Ogre::String& sName);
+    void log(const Ogre::String& msg);
+};
+
+
+class GameLoopManager {
+private:
+	GameLoopManager();
+public:
+    static GameLoopManager& getSingleton(void);
+    
+    bool isPaused();
+    void setPaused(bool pause);
+};
+
+}
+
+
+
