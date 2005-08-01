@@ -29,9 +29,8 @@ using namespace OgreOde;
 
 namespace rl
 {
-	PhysicalThing::PhysicalThing( Geometry* geo, 
-        const Vector3& offsetPosition,
-        const Ogre::Quaternion& orientationRotation )
+	PhysicalThing::PhysicalThing(Geometry* geo, const Vector3& offset,
+        const Ogre::Quaternion& orientationBias)
         :   mBounceRestitution(0.8f),
             mBounceVelocityThresh(0.0005f),
             mSoftness(0.0f),
@@ -39,8 +38,8 @@ namespace rl
             mSoftErp(0.0f),
             mGeometry(geo),
             mActor(NULL),
-            mOffset(offsetPosition),
-            mOrientationBias(orientationRotation),
+            mOffset(offset),
+            mOrientationBias(orientationBias),
 			mEntityInformer(NULL)
 	{
         if (getBody())
