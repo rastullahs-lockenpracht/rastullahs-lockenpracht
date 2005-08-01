@@ -17,51 +17,33 @@
 #ifndef __RL_DYNAMICCAST_I__
 #define __RL_DYNAMICCAST_I__
 
-/* Wrapping Strings to ruby and back 
- for String, const String, String&, String*, const String*, const String&
-*/
-%typemap(in) String, const String {
-    Check_Type($input, T_STRING);
-    $1 = String(StringValuePtr($input));
-}
-%typemap(out) String, const String {
-     $result = rb_str_new2($1.c_str());
-}
-%typemap(in) String*, String&, const String*, const String& {
-    Check_Type($input, T_STRING);
-    $1 = new String(StringValuePtr($input));
-}
-%typemap(out) String*, String&,  const String*, const String& {
-     $result = rb_str_new2($1->c_str());
-}
-
 /* Wrapping rl::CeGuiStrings to ruby and back 
  for rl::CeGuiString, const rl::CeGuiString, rl::CeGuiString&, rl::CeGuiString*, const rl::CeGuiString*, const rl::CeGuiString&
 */
 %typemap(in) rl::CeGuiString, const rl::CeGuiString {
     Check_Type($input, T_STRING);
-    $1 = rl::CeGuiString(StringValuePtr($input));
+    $1 = rl::CeGuiString(PyString_AsString($input));
 }
 %typemap(out) rl::CeGuiString, const rl::CeGuiString {
-     $result = rb_str_new2($1.c_str());
+     $result = PyString_FromString($1.c_str());
 }
 %typemap(in) rl::CeGuiString*, rl::CeGuiString&, const rl::CeGuiString*, const rl::CeGuiString& {
     Check_Type($input, T_STRING);
-    $1 = new rl::CeGuiString(StringValuePtr($input));
+    $1 = new rl::CeGuiString(PyString_AsString($input));
 }
 %typemap(out) rl::CeGuiString*, rl::CeGuiString&,  const rl::CeGuiString*, const rl::CeGuiString& {
-     $result = rb_str_new2($1->c_str());
+     $result = PyString_FromString($1->c_str());
 }
 
 %typemap(directorin) rl::CeGuiString, const rl::CeGuiString &, rl::CeGuiString & 
-	"$input = rb_str_new2($1.c_str());"
+	"$input = PyString_FromString($1.c_str());"
 
 %typemap(directorin) rl::CeGuiString *, const rl::CeGuiString * 
-	"$input = rb_str_new2($1->c_str());"
+	"$input = PyString_FromString($1->c_str());"
 
 %typemap(directorout) rl::CeGuiString {
     if (TYPE($input) == T_STRING)
-        $result = rl::CeGuiString(StringValuePtr($input));
+        $result = rl::CeGuiString(PyString_AsString($input));
     else
         throw Swig::DirectorTypeMismatchException("string expected");
 }
@@ -69,7 +51,7 @@
 %typemap(directorout) const rl::CeGuiString & {
     if (TYPE($input) == T_STRING) {
 		$result = new rl::CeGuiString();
-        $result->assign(rl::CeGuiString(StringValuePtr($input)));
+        $result->assign(rl::CeGuiString(PyString_AsString($input)));
     } else {
         throw Swig::DirectorTypeMismatchException("string expected");
     }
@@ -78,17 +60,17 @@
 /* Radian / Degree all Ruby Values are interpreted as DEGREE! */
 %typemap(in) Radian, const Radian, Radian&, const Radian& {
     Check_Type($input, T_FLOAT);
-    $1 = Degree(RFLOAT($input)->value);
+    $1 = Degree(PyFloat_AsDouble($input));
 }
 %typemap(in) Radian*, const Radian*, Radian&, const Radian& {
     Check_Type($input, T_FLOAT);
-    $1 = new Radian(Degree(RFLOAT($input)->value));
+    $1 = new Radian(Degree(PyFloat_AsDouble($input)));
 }
 %typemap(out) Radian, const Radian {
-     $result = rb_float_new($1.valueDegrees());
+     $result = PyFloat_FromDouble($1.valueDegrees());
 }
 %typemap(out) Radian&, const Radian& {
-     $result = rb_float_new($1->valueDegrees());
+     $result = PyFloat_FromDouble($1->valueDegrees());
 }
 
     
@@ -97,17 +79,17 @@
 */
 %typemap(in) Real, const Real {
     Check_Type($input, T_FLOAT);
-    $1 = RFLOAT($input)->value;
+    $1 = PyFloat_AsDouble($input);
 }
 %typemap(out) Real, const Real {
-     $result = rb_float_new($1);
+     $result = PyFloat_FromDouble($1);
 }
 %typemap(in) Real*, Real&, const Real*, const Real& {
     Check_Type($input, T_FLOAT);
-    $1 = RFLOAT($input)->value;
+    $1 = PyFloat_AsDouble($input);
 }
 %typemap(out) Real*, Real&,  const Real*, const Real& {
-	$result = rb_float_new(*$1);
+	$result = PyFloat_FromDouble(*$1);
 }
 
 /* Wrapping float to ruby and back 
@@ -115,7 +97,7 @@
 */
 %typemap(in) float, const float {
     Check_Type($input, T_FLOAT);
-    $1 = RFLOAT($input)->value;
+    $1 = PyFloat_AsDouble($input);
 }
 
 //%typemap(out) float, const float {
@@ -124,7 +106,7 @@
 
 %typemap(in) float*, float&, const float*, const float& {
     Check_Type($input, T_FLOAT);
-    $1 = RFLOAT($input)->value;
+    $1 = PyFloat_AsDouble($input);
 }
 
 //%typemap(out) float*, float&,  const float*, const float& {
@@ -142,18 +124,15 @@
 {
    Check_Type($input, T_ARRAY);
    Tripel<int> tripel(0, 0, 0);
-   int length = RARRAY($input)->len;
-   VALUE* it = RARRAY($input)->ptr;
+   int length = PyTuple_Size($input);
    if (length > 0) {
-      tripel.first = FIX2INT(*it);
-      it++;
+      tripel.first = PyTuple_GetItem($input, 0);
    }
    if (length > 1) {
-      tripel.second = FIX2INT(*it);
-      it++;
+      tripel.second = PyTuple_GetItem($input, 1);
    }
    if (length > 2) {
-      tripel.third = FIX2INT(*it);
+      tripel.third = PyTuple_GetItem($input, 2);
    }
    $1 = tripel;
 }
@@ -163,18 +142,15 @@
 {
    Check_Type($input, T_ARRAY);
    Tripel<int>* tripel = new Tripel<int>(0, 0, 0);
-   int length = RARRAY($input)->len;
-   VALUE* it = RARRAY($input)->ptr;
+   int length = PyTuple_Size($input);
    if (length > 0) {
-      tripel->first = FIX2INT(*it);
-      it++;
+      tripel.first = PyInt_AsLong(PyTuple_GetItem($input, 0));
    }
    if (length > 1) {
-      tripel->second = FIX2INT(*it);
-      it++;
+      tripel.second = PyInt_AsLong(PyTuple_GetItem($input, 1));
    }
    if (length > 2) {
-      tripel->third = FIX2INT(*it);
+      tripel.third = PyInt_AsLong(PyTuple_GetItem($input, 2));
    }
    $1 = tripel;
 }
@@ -184,10 +160,10 @@
  * 
  */
 %typemap(out) Tripel<int> {
-   VALUE array = rb_ary_new();
-   rb_ary_push(array, INT2FIX($1.first));
-   rb_ary_push(array, INT2FIX($1.second));
-   rb_ary_push(array, INT2FIX($1.third));
+   PyObject* array = PyTuple_New(3);
+   PyTuple_SetItem(array, 0, PyInt_FromLong($1.first));
+   PyTuple_SetItem(array, 1, PyInt_FromLong($1.second));
+   PyTuple_SetItem(array, 2, PyInt_FromLong($1.third));
    $result = array;
 }
 
@@ -202,21 +178,20 @@
 {
    Check_Type($input, T_ARRAY);
    Vector3 vector(0.0, 0.0, 0.0);
-   int length = RARRAY($input)->len;
-   VALUE* it = RARRAY($input)->ptr;
+   int length = PyTuple_Size($input);
    if (length > 0) {
       Check_Type(*it, T_FLOAT);
-      vector.x = RFLOAT(*it)->value;
+      vector.x = PyFloat_AsDouble(PyTuple_GetItem($input, 0));
       it++;
    }
    if (length > 1) {
       Check_Type(*it, T_FLOAT);
-      vector.y = RFLOAT(*it)->value;
+      vector.y = PyFloat_AsDouble(PyTuple_GetItem($input, 1));
       it++;
    }
    if (length > 2) {
       Check_Type(*it, T_FLOAT);
-      vector.z = RFLOAT(*it)->value;
+      vector.z = PyFloat_AsDouble(PyTuple_GetItem($input, 2));
    }
    $1 = vector;
 }
@@ -226,49 +201,45 @@
 {
    Check_Type($input, T_ARRAY);
    Vector3* vector = new Vector3(0.0, 0.0, 0.0);
-   int length = RARRAY($input)->len;
+   int length = PyTuple_Size($input);
    VALUE* it = RARRAY($input)->ptr;
    if (length > 0) {
       Check_Type(*it, T_FLOAT);
-      vector->x = RFLOAT(*it)->value;
+      vector->x = PyFloat_AsDouble(PyTuple_GetItem($input, 0));
       it++;
    }
    if (length > 1) {
       Check_Type(*it, T_FLOAT);
-      vector->y = RFLOAT(*it)->value;
+      vector->y = PyFloat_AsDouble(PyTuple_GetItem($input, 1));
       it++;
    }
    if (length > 2) {
       Check_Type(*it, T_FLOAT);
-      vector->z = RFLOAT(*it)->value;
+      vector->z = PyFloat_AsDouble(PyTuple_GetItem($input, 2));
    }
    $1 = vector;
 }
 
-%typemap(in) Vector3
+%typemap(in) Quaternion
 {
    Check_Type($input, T_ARRAY);
    Quaternion quat(0.0, 0.0, 0.0, 0.0);
-   int length = RARRAY($input)->len;
-   VALUE* it = RARRAY($input)->ptr;
+   int length = PyTuple_Size($input);
    if (length > 0) {
       Check_Type(*it, T_FLOAT);
-      quat.w = RFLOAT(*it)->value;
-      it++;
+      quat.w = PyFloat_AsDouble(PyTuple_GetItem($input, 0));
    }
    if (length > 1) {
       Check_Type(*it, T_FLOAT);
-      quat.x = RFLOAT(*it)->value;
-      it++;
+      quat.x = PyFloat_AsDouble(PyTuple_GetItem($input, 1));
    }
    if (length > 2) {
       Check_Type(*it, T_FLOAT);
-      quat.y = RFLOAT(*it)->value;
-      it++;
+      quat.y = PyFloat_AsDouble(PyTuple_GetItem($input, 2));
    }
    if (length > 3) {
       Check_Type(*it, T_FLOAT);
-      quat.z = RFLOAT(*it)->value;
+      quat.z = PyFloat_AsDouble(PyTuple_GetItem($input, 3));
    }
    $1 = vector;
 }
@@ -278,26 +249,22 @@
 {
    Check_Type($input, T_ARRAY);
    Quaternion* quat = new Quaternion(0.0, 0.0, 0.0, 0.0);
-   int length = RARRAY($input)->len;
-   VALUE* it = RARRAY($input)->ptr;
+   int length = PyTuple_Size($input);
    if (length > 0) {
       Check_Type(*it, T_FLOAT);
-      quat->w = RFLOAT(*it)->value;
-      it++;
+      quat->w = PyFloat_AsDouble(PyTuple_GetItem($input, 0));
    }
    if (length > 1) {
       Check_Type(*it, T_FLOAT);
-      quat->x = RFLOAT(*it)->value;
-      it++;
+      quat->x = PyFloat_AsDouble(PyTuple_GetItem($input, 1));
    }
    if (length > 2) {
       Check_Type(*it, T_FLOAT);
-      quat->y = RFLOAT(*it)->value;
-      it++;
+      quat->y = PyFloat_AsDouble(PyTuple_GetItem($input, 2));
    }
    if (length > 3) {
       Check_Type(*it, T_FLOAT);
-      quat->z = RFLOAT(*it)->value;
+      quat->z = PyFloat_AsDouble(PyTuple_GetItem($input, 3));
    }
    $1 = vector;
 }
@@ -307,36 +274,36 @@
  * 
  */
 %typemap(out) Vector3, const Vector3 {
-   VALUE array = rb_ary_new();
-   rb_ary_push(array, rb_float_new($1.x));
-   rb_ary_push(array, rb_float_new($1.y));
-   rb_ary_push(array, rb_float_new($1.z));
+   PyObject* array = PyTuple_New(3);
+   PyTuple_SetItem(array, 0, PyFloat_FromDouble($1.x));
+   PyTuple_SetItem(array, 1, PyFloat_FromDouble($1.y));
+   PyTuple_SetItem(array, 2, PyFloat_FromDouble($1.z));
    $result = array;
 }
 
 %typemap(out) Vector3*, const Vector3*, const Vector3&, Vector& {
-   VALUE array = rb_ary_new();
-   rb_ary_push(array, rb_float_new($1->x));
-   rb_ary_push(array, rb_float_new($1->y));
-   rb_ary_push(array, rb_float_new($1->z));
+   PyObject* array = PyTuple_New(3);
+   PyTuple_SetItem(array, 0, PyFloat_FromDouble($1->x));
+   PyTuple_SetItem(array, 1, PyFloat_FromDouble($1->y));
+   PyTuple_SetItem(array, 2, PyFloat_FromDouble($1->z));
    $result = array;
 } 
 
 %typemap(out) Quaternion, const Quaternion {
-   VALUE array = rb_ary_new();
-   rb_ary_push(array, rb_float_new($1.w));
-   rb_ary_push(array, rb_float_new($1.x));
-   rb_ary_push(array, rb_float_new($1.y));
-   rb_ary_push(array, rb_float_new($1.z));
+   PyObject* array = PyTuple_New(3);
+   PyTuple_SetItem(array, 0, PyFloat_FromDouble($1.w));
+   PyTuple_SetItem(array, 1, PyFloat_FromDouble($1.x));
+   PyTuple_SetItem(array, 2, PyFloat_FromDouble($1.y));
+   PyTuple_SetItem(array, 3, PyFloat_FromDouble($1.z));
    $result = array;
 }
 
 %typemap(out) Quaternion*, const Quaternion*, const Quaternion&, Quaternion& {
-   VALUE array = rb_ary_new();
-   rb_ary_push(array, rb_float_new($1->w));
-   rb_ary_push(array, rb_float_new($1->x));
-   rb_ary_push(array, rb_float_new($1->y));
-   rb_ary_push(array, rb_float_new($1->z));
+   PyObject* array = PyTuple_New(3);
+   PyTuple_SetItem(array, 0, PyFloat_FromDouble($1->w));
+   PyTuple_SetItem(array, 1, PyFloat_FromDouble($1->x));
+   PyTuple_SetItem(array, 2, PyFloat_FromDouble($1->y));
+   PyTuple_SetItem(array, 3, PyFloat_FromDouble($1->z));
    $result = array;
 } 
 
@@ -348,24 +315,24 @@
   VALUE arr = rb_ary_new2($1->size()); 
   StringVector::iterator i = $1->begin(), iend = $1->end();
   for ( ; i!=iend; i++ )
-    rb_ary_push(arr, rb_str_new2(&(*i)));
+    rb_ary_push(arr, PyString_FromString(&(*i)));
   $result = arr;
 }
 %typemap(ruby, directorin) rl::CeGuiStringVector, const rl::CeGuiStringVector {
   VALUE arr = rb_ary_new2($1.size()); 
   StringVector::iterator i = $1.begin(), iend = $1.end();
   for ( ; i!=iend; i++ )
-    rb_ary_push(arr, rb_str_new2(*i));
+    rb_ary_push(arr, PyString_FromString(*i));
   $result = arr;
 }
 
 %typemap(ruby, directorout) rl::CeGuiStringVector , const rl::CeGuiStringVector {
   Check_Type($input, T_ARRAY);
   rl::CeGuiStringVector vec;
-  int len = RARRAY($input)->len;
+  int len = PyTuple_Size($input);
   for (int i=0; i!=len; i++) {
     VALUE inst = rb_ary_entry($input, i);
-    vec.push_back(rl::CeGuiString(StringValuePtr(inst)));
+    vec.push_back(rl::CeGuiString(PyString_AsString(inst)));
   }
   $result = vec;
 }
@@ -373,10 +340,10 @@
 %typemap(ruby, directorout) rl::CeGuiStringVector &, const rl::CeGuiStringVector& {
   Check_Type($input, T_ARRAY);
   rl::CeGuiStringVector *vec = new rl::CeGuiStringVector;
-  int len = RARRAY($input)->len;
+  int len = PyTuple_Size($input);
   for (int i=0; i!=len; i++) {
     VALUE inst = rb_ary_entry($input, i);
-    vec->push_back(rl::CeGuiString(StringValuePtr(inst)));
+    vec->push_back(rl::CeGuiString(PyString_AsString(inst)));
   }
   $result = vec;
 }
