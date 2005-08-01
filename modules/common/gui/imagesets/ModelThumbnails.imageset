@@ -1,4 +1,4 @@
 <?xml version="1.0" ?>
 <Imageset Name="ModelThumbnails" Imagefile="ModelThumbnails.tga" NativeHorzRes="800" NativeVertRes="600" AutoScaled="true">
-    <Image Name="Heiltrank" XPos="1" YPos="1" Width="32" Height="32" />
+    <Image Name="Trank" XPos="1" YPos="1" Width="32" Height="32" />
 </Imageset>
