@@ -29,6 +29,7 @@
 #include "ScriptSubsystem.h"
 
 #include "Exception.h"
+#include <GaException.h>
 #include <CEGUIExceptions.h>
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
@@ -74,6 +75,9 @@ void startupRl()
 	catch(Ogre::Exception& oe) {
 		rl::showError(oe.getFullDescription());
 	} 
+    catch(Ga::Exception& gaex) {
+        rl::showError( gaex.getText() );
+    }
 	catch(rl::Exception& re) {
 		rl::showError(re.toString());
 	} 
