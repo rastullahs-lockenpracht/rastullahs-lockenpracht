@@ -25,7 +25,7 @@ namespace rl {
        
        void addSounds();
        
-       std::list<String> getSounds();
+       std::list<Ogre::String> getSounds();
        void add(const std::string& resName);
 
    	};
