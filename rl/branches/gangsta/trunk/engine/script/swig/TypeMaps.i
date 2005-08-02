@@ -187,10 +187,9 @@
  * TODO eben das aendern
  */
 
-%typecheck(SWIG_TYPECHECK_DOUBLE_ARRAY) Vector3, const Vector3& {
+%typecheck(SWIG_TYPECHECK_DOUBLE_ARRAY) Ogre::Vector3, const Ogre::Vector3& {
   $1 = TYPE($input) == T_ARRAY && RARRAY($input)->len == 3 ? 1 : 0;
 }
-
  
 %typemap(in) Ogre::Vector3
 {
@@ -272,7 +271,6 @@
   $1 = TYPE($input) == T_ARRAY && RARRAY($input)->len == 4 ? 1 : 0;
 }
 
-
 %typemap(in) Ogre::Quaternion*, Ogre::Quaternion&,
    const Ogre::Quaternion*, const Ogre::Quaternion&
 {
@@ -314,7 +312,7 @@
    $result = array;
 }
 
-%typemap(out) Vector3*, const Vector3*, const Vector3&, Vector& {
+%typemap(out) Ogre::Vector3*, const Ogre::Vector3*, const Ogre::Vector3&, Ogre::Vector& {
    VALUE array = rb_ary_new();
    rb_ary_push(array, rb_float_new($1->x));
    rb_ary_push(array, rb_float_new($1->y));

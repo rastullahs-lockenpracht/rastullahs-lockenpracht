@@ -21,8 +21,6 @@ REM Ogre Dateien kopieren
 REM ---------------------
 copy %OGREHOME%\OgreMain\lib\%BUILD%\OgreMain.dll %RL_DIST%
 copy %OGREHOME%\OgreMain\lib\%BUILD%\OgreMain_d.dll %RL_DIST%
-copy %OGREHOME%\OgreOde\lib\%BUILD%\OgreOde_Core.dll %RL_DIST%
-copy %OGREHOME%\OgreOde\lib\%BUILD%\OgreOde_Core_d.dll %RL_DIST%
 
 copy %OGREPLUGINS%\CgProgramManager\bin\%BUILD%\Plugin_CgProgramManager.dll %RL_DIST%
 copy %OGREPLUGINS%\OctreeSceneManager\bin\%BUILD%\Plugin_OctreeSceneManager.dll %RL_DIST%
@@ -33,20 +31,32 @@ copy %OGRERENDERERS%\GL\bin\%BUILD%\RenderSystem_GL.dll %RL_DIST%
 copy %OGREPLATFORMS%\Win32\bin\%BUILD%\PlatFormManager_Win32.dll %RL_DIST%\OgrePlatform.dll
 copy %OGREPLATFORMS%\Win32\bin\%BUILD%\PlatFormManager_Win32.dll %RL_DIST%\OgrePlatform_d.dll
 
-copy %OGREHOME%\Samples\Common\CEGUIRenderer\bin\Debug\OgreGUIRenderer_d.dll %RL_DIST%
-copy %OGREHOME%\Samples\Common\CEGUIRenderer\bin\Release\OgreGUIRenderer.dll %RL_DIST%
-
 copy %OGREDEPS%\%BUILD%\lib\cg.dll %RL_DIST%
 copy %OGREDEPS%\%BUILD%\lib\ilu.dll %RL_DIST%
 copy %OGREDEPS%\%BUILD%\lib\ilut.dll %RL_DIST%
 copy %OGREDEPS%\%BUILD%\lib\devil.dll %RL_DIST%
 copy %OGREDEPS%\%BUILD%\lib\zlib1.dll %RL_DIST%
 
+REM Cegui Dateien kopieren
+REM ---------------------
+
+copy %OGREHOME%\Samples\Common\CEGUIRenderer\bin\Debug\OgreGUIRenderer_d.dll %RL_DIST%
+copy %OGREHOME%\Samples\Common\CEGUIRenderer\bin\Release\OgreGUIRenderer.dll %RL_DIST%
 copy %RL_ROOT%\Dependencies\cegui\bin\CEGUIBase.dll %RL_DIST%
 copy %RL_ROOT%\Dependencies\cegui\bin\CEGUIBase_d.dll %RL_DIST%
 
-copy %RL_ROOT%\Dependencies\cegui\dependencies\lib\xerces-c_2_5_0.dll %RL_DIST%
-copy %RL_ROOT%\Dependencies\cegui\dependencies\lib\xerces-c_2_5_0D.dll %RL_DIST%
+REM Xerces Dateien kopieren
+REM ---------------------
+copy %RL_ROOT%\Dependencies\xerces\lib\xerces-c_2_5_0.dll %RL_DIST%
+copy %RL_ROOT%\Dependencies\xerces\lib\xerces-c_2_5_0D.dll %RL_DIST%
+
+REM Gangsta Dateien kopieren
+REM ---------------------
+copy %RL_ROOT%\dependencies\gangsta\Gangsta_Ogre\CallbackInterface\lib\Debug\GaCallbackInterface_Ogre_d.dll %RL_DIST%
+copy %RL_ROOT%\dependencies\gangsta\Gangsta_Ogre\CallbackInterface\lib\Release\GaCallbackInterface_Ogre.dll %RL_DIST%
+copy %RL_ROOT%\dependencies\gangsta\GangstaWrapper\Gangsta\lib\Debug\Gangsta_d.dll %RL_DIST%
+copy %RL_ROOT%\dependencies\gangsta\GangstaWrapper\Gangsta\lib\Release\Gangsta.dll %RL_DIST%
+
 
 REM Ruby Dateien kopieren
 REM ---------------------

@@ -458,7 +458,7 @@ public:
             const Ogre::Quaternion& offsetOrientation=Ogre::Quaternion::IDENTITY
             );
    	void attachAxisRot( 
-            rl::Actor* actor,
+            Actor* actor,
             const Ogre::String& childSlot = "SLOT_DEFAULT",            
             const Ogre::Vector3& offsetPosition=Ogre::Vector3::ZERO,
             const Ogre::Vector3& offsetAxis=Ogre::Vector3::UNIT_X,
@@ -471,7 +471,7 @@ public:
 			const Ogre::Quaternion& offsetOrientation=Ogre::Quaternion::IDENTITY
 			);
     void attachToSlotAxisRot( 
-            rl::Actor* actor,
+            Actor* actor,
             const Ogre::String& slot,
             const Ogre::String& childSlot = "SLOT_DEFAULT",            
 			const Ogre::Vector3& offsetPosition=Ogre::Vector3::ZERO,
