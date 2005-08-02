@@ -14,8 +14,6 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#include "FixRubyHeaders.h"
-
 #include "RubyInterpreter.h"
 #include "ScriptObject.h"
 #include "CoreSubsystem.h"

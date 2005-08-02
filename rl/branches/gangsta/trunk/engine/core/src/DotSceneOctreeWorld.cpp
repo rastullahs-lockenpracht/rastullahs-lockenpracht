@@ -29,7 +29,7 @@
 #include "DotSceneLoader.h"
 
 
-
+using namespace Ogre;
 
 namespace rl {
 
@@ -93,7 +93,7 @@ namespace rl {
         mSceneMgr->clearScene();
         Ogre::Root::getSingleton().getAutoCreatedWindow()->removeAllViewports(); 
 		XmlResourceManager::getSingleton().unload(mSceneFile);
-		PhysicsManager::getSingleton().clearLevelGeometry();
+		// TODO PhysicsManager::getSingleton().clearLevelGeometry();
         mSceneMgr = Root::getSingleton().getSceneManager(ST_GENERIC);
 		mSceneFile = "";
     }

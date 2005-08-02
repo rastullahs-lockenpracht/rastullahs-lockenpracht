@@ -33,6 +33,7 @@
 
 using namespace XERCES_CPP_NAMESPACE;
 using namespace std;
+using namespace Ogre;
 
 namespace rl {
 	using XERCES_CPP_NAMESPACE::DOMDocument; //XXX: Warum brauche ich das unter VS 2003?
@@ -189,7 +190,7 @@ namespace rl {
 		CoreSubsystem::log( " Entity '"+meshName+"' mit dem Namen '"+entName+"' in den Knoten '"+parentNode->getName()+"' eingefügt." );
 
 		// Zur Physik des Levels hinzufügen
-		PhysicsManager::getSingleton().addLevelGeometry( newEnt );
+		// TODO PhysicsManager::getSingleton().addLevelGeometry( newEnt );
 		CoreSubsystem::log( " Entity '"+entName+"' als TriMesh in levelGeometry geladen");
 
 

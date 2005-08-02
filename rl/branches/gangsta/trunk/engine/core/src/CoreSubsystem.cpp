@@ -18,6 +18,9 @@
 
 #include "CoreSubsystem.h"
 
+#include <ctime>
+// TODO Linux
+#include <WinSock2.h>
 #include <OgreStringConverter.h>
 #include <OgreRoot.h>
 #include <OgreLog.h>
@@ -34,8 +37,9 @@
 #include "RubyInterpreter.h"
 #include "Exception.h"
 #include "ConfigurationManager.h"
-#include <ctime>
 
+
+using namespace Ogre;
 
 template<> rl::CoreSubsystem* Singleton<rl::CoreSubsystem>::ms_Singleton = 0;
 
@@ -143,8 +147,6 @@ namespace rl {
 		new PhysicsManager();
         mInterpreter=new RubyInterpreter();
         new GameLoopManager(100); //TODO: In Config-Datei verlagern
-        GameLoopManager::getSingleton().addSynchronizedTask(
-            PhysicsManager::getSingletonPtr());
         new AnimationManager();
         GameLoopManager::getSingleton().addSynchronizedTask(
             AnimationManager::getSingletonPtr());

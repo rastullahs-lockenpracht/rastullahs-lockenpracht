@@ -88,14 +88,14 @@ namespace rl
     void PhysicsManager::setGravity( Real x, Real y, Real z )
     {
         Ga::ParameterList parameters;
-        m_GaWorld->getSupportedParameters(parameters);
-
-        parameters["gravity"] = Ga::GaVec3(x,y,z);
+        
+        // Gibt es bisher noch nicht...
+        // m_GaWorld->setParameter( "gravity", Ga::GaVec3(x,y,z) );              
     }
 
     const Vector3& PhysicsManager::getGravity() const
     {
-        return Vector3(1,2,3);
+        return Vector3::NEGATIVE_UNIT_Y;
     }
 
     PhysicalThing* PhysicsManager::createPhysicalThing( 

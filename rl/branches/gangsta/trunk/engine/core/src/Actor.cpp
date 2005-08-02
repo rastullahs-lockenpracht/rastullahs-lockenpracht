@@ -46,8 +46,6 @@ namespace rl {
         if( mActorControlledObject != NULL )
             mActorControlledObject->_setActor(this);
 
-		if( mPhysicalThing != NULL )
-			mPhysicalThing->_setActor(this);
 
         setQueryMask( QGF_DEFAULT );
     }
@@ -564,9 +562,6 @@ namespace rl {
     {
         if (mSceneNode)
             mSceneNode->_update(true,false);
-
-		if (mPhysicalThing)
-			mPhysicalThing->_update();
 			
 		if (mActorControlledObject)
 		    mActorControlledObject->_update();
@@ -622,12 +617,12 @@ namespace rl {
                         "Aktor "+mName+": Der geforderte PhysicsBone '"+physicsBone+"' existiert nicht." );
                 }
 
-                mPhysicalThing->_attachToBone( meshObj, physicsBone );
+                //mPhysicalThing->_attachToBone( meshObj, physicsBone );
             }
             // Dann an einem SceneNode befestigen
 			else
             {      
-                mPhysicalThing->_attachToSceneNode(mSceneNode);
+                //mPhysicalThing->_attachToSceneNode(mSceneNode);
             }
         }
      

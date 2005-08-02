@@ -40,6 +40,8 @@
 
 void startupRl()
 {
+    SET_TERM_HANDLER;
+
 	rl::CoreSubsystem* core = NULL;
 	rl::SoundSubsystem* sound = NULL;
 	rl::RulesSubsystem* rules = NULL;

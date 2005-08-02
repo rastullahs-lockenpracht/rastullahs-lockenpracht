@@ -29,6 +29,8 @@
 #include "ListenerObject.h"
 #include "PhysicalThing.h"
 
+using namespace Ogre;
+
 template<> rl::ActorManager* Singleton<rl::ActorManager>::ms_Singleton = 0;
 
 namespace rl {
@@ -45,15 +47,11 @@ namespace rl {
 
     ActorManager::ActorManager() : mActors()
     {
-		static const int RADIUS = 20, LENGTH = 300;
         mWorld = CoreSubsystem::getSingleton().getWorld();
-		mActorOdeSpace = new OgreOde::SimpleSpace();
-		mSelectionCapsule = new OgreOde::CapsuleGeometry(RADIUS, LENGTH, NULL);
     }
 
     ActorManager::~ActorManager()
     {
-		delete mActorOdeSpace;
     }
 
     void ActorManager::setWorld( World* world )
@@ -81,9 +79,6 @@ namespace rl {
         ///@todo Loesch ihn!
 	}
 
-// Harle: Finger weg ;-)
-// Effective STL, item 5: Erase of associative containers doesn't return anything.
-// Item 9: How to loop through the container with erase.
     void ActorManager::destroyAllActors()
 	{
         for (ActorPtrMap::iterator it = mActors.begin();
@@ -188,10 +183,7 @@ namespace rl {
         try
         {
             CameraObject* co = new CameraObject(uniquename);
-            PhysicalThing* pt = PhysicsManager::getSingleton()
-                .createPhysicalThing(PhysicsManager::GT_SPHERE,
-                    Vector3(co->getCamera()->getNearClipDistance() * 1.5, 0, 0),
-                    0.0f, mActorOdeSpace, PhysicsManager::OM_CENTERED);
+            PhysicalThing* pt = NULL;
             actor = new Actor(uniquename, co, pt);
 
             mActors.insert(ActorPtrPair(uniquename,actor)); 
@@ -208,7 +200,7 @@ namespace rl {
     }
 
 	Actor* ActorManager::createMeshActor(const String& name,const String& meshname,
-		PhysicsManager::GeometryTypes geomType, Ogre::Real density)
+		PhysicsManager::GeometryTypes geomType, Real density)
 	{
 		const String&  uniquename = nextUniqueName(name);
 		
@@ -216,8 +208,7 @@ namespace rl {
         try
         {
 		    MeshObject* mo = new MeshObject(uniquename, meshname);
-		    PhysicalThing* pt = PhysicsManager::getSingleton()
-		        .createPhysicalThing(geomType, mo->getSize(), density, mActorOdeSpace);
+		    PhysicalThing* pt = NULL;
 
 		    actor = new Actor(uniquename, mo, pt);
 		    mActors.insert(ActorPtrPair(uniquename,actor)); 
@@ -307,7 +298,7 @@ namespace rl {
 	//void ActorManager::collectSelectableObjects( Real x, Real y )
 	//{
 	//	// Start a new ray query
-	//	Ogre::Ray cameraRay = getWorld()->getActiveCamera()->
+	//	Ray cameraRay = getWorld()->getActiveCamera()->
 	//		getCameraToViewportRay( x, y );
 
 	//	mSelectionCapsule->setPosition(cameraRay.getOrigin());
@@ -321,7 +312,7 @@ namespace rl {
 	void ActorManager::collectSelectableObjects( Real x, Real y )
 	{
 		// Start a new ray query
-		Ogre::Ray cameraRay = getWorld()->getActiveCamera()->
+		Ray cameraRay = getWorld()->getActiveCamera()->
 			getCameraToViewportRay( x, y );
 
 		RaySceneQuery* query = getWorld()->getSceneManager()->createRayQuery(cameraRay);
@@ -332,7 +323,7 @@ namespace rl {
 		{
 			for (RaySceneQueryResult::iterator iter = result.begin(); iter != result.end(); iter++)
 			{
-				Ogre::MovableObject* mo = (*iter).movable;
+				MovableObject* mo = (*iter).movable;
 
 				if (mo->getUserObject() == NULL || mo == getWorld()->getActiveCamera())
 					continue;
@@ -344,36 +335,5 @@ namespace rl {
 				mSelectableObjects.push_back(actor);
 			}
 		}
-	}
-
-	bool ActorManager::collision(OgreOde::Contact* contact)
-	{
-		OgreOde::Geometry* geom1 = contact->getFirstGeometry();
-		OgreOde::Geometry* geom2 = contact->getSecondGeometry();
-
-		Actor* target = NULL;
-		if (geom1 == mSelectionCapsule)
-			target = reinterpret_cast<Actor*>(geom2->getUserData());
-		else if (geom2 == mSelectionCapsule)
-			target = reinterpret_cast<Actor*>(geom2->getUserData());
-		if (target != NULL)
-			CoreSubsystem::getSingleton().log("Gefunden: "+target->getName());
-		if (target != NULL && target != getWorld()->getActiveActor())
-			mSelectableObjects.push_back(target);
-
-		return true;
-	}
-
-	void ActorManager::collideWithActors(OgreOde::Geometry* geometry, OgreOde::CollisionListener* listener)
-	{
-		if (listener != NULL)
-		{
-			PhysicsManager* physMan = PhysicsManager::getSingletonPtr();
-			physMan->getWorld()->setCollisionListener(listener);
-			mActorOdeSpace->collide(geometry, NULL);
-			physMan->getWorld()->setCollisionListener(physMan);
-		}
-		else
-			mActorOdeSpace->collide(geometry, NULL);
 	}
 }
