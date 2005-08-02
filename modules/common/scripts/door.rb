@@ -50,11 +50,11 @@ class Door < RubyItem
   def initialize(name, isOpen, canBeOpened)
     super(10, name, "Eine Tuer");
 
-    doorActor = $AF.createMeshActor( name, "arc_tuer_01.mesh",  0, 0.0 ); #PhysicsManager::GT_BOX , 6.0);
+    doorActor = $AM.createMeshActor( name, "arc_tuer_01.mesh",  0, 0.0 ); #PhysicsManager::GT_BOX , 6.0);
     $CORE.log("door.rb - Aktor erstellt.");
     setActor(doorActor);
     $CORE.log("door.rb - Aktor gesetzt");
-    soundActor = $AF.createSoundActor(name+"_knarzen","doorcreak.ogg");
+    soundActor = $AM.createSoundActor(name+"_knarzen","doorcreak.ogg");
     doorActor.attachToSlot(soundActor,"Bone01");
     $CORE.log("door.rb - Sound hinzugefuegt");
     

@@ -47,7 +47,7 @@ end
 class Heiltrank < RubyItem
   def initialize(id, name, beschreibung, model, quality)
     super(id, name, beschreibung)
-    trankActor = $AF.createMeshActor( name, model,  0, 0.0 );
+    trankActor = $AM.createMeshActor( name, model,  0, 0.0 );
     setActor(trankActor)
 
     addAction(HealAction.new("drink", "Trinken", quality, 0, 0))

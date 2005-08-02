@@ -28,7 +28,7 @@ DsaManager.getSingleton().loadDsaDataFile("kalchas.xml");
 $CORE.log("Held erstellen");
 $hero = Hero.new;
 #hero = DsaManager.getSingleton().getPerson(10000);
-#hero.setActor($AF.createMeshActor("Held","held.mesh", 2, -1.0));
+#hero.setActor($AM.createMeshActor("Held","held.mesh", 2, -1.0));
 $CORE.log("Held erstellt");
 $CORE.log("Held in die Szene einfuegen.");
 $hero.getActor().placeIntoScene(0.0, 20.0, 40.0, 1.0, 0.0, 0.0, 0.0);

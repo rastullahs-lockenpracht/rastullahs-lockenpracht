@@ -92,7 +92,7 @@ class Switch < RubyItem
   def initialize(name )
     super(10, name, "Ein Hebel");
 
-    switchActor = $AF.createMeshActor(name, "arc_hebel_01.mesh" );
+    switchActor = $AM.createMeshActor(name, "arc_hebel_01.mesh" );
     $CORE.log("switch-actor erstellt.");
     setActor(switchActor);
     $CORE.log("actor gesetzt");

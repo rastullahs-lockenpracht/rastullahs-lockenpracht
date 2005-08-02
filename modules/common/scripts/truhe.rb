@@ -51,11 +51,11 @@ class Chest < Container
   def initialize(name, isOpen, canBeOpened)
     super(10, name, "Eine Truhe");
 
-    chestActor = $AF.createMeshActor( name, "ver_truhe_gross01.mesh",  0, 0.0 ); #PhysicsManager::GT_BOX , 6.0);
+    chestActor = $AM.createMeshActor( name, "ver_truhe_gross01.mesh",  0, 0.0 ); #PhysicsManager::GT_BOX , 6.0);
     $CORE.log("truhe.rb - Aktor erstellt.");
     setActor(chestActor);
     $CORE.log("truhe.rb - Aktor gesetzt");
-    soundActor = $AF.createSoundActor(name+"_knarzen","doorcreak.ogg");
+    soundActor = $AM.createSoundActor(name+"_knarzen","doorcreak.ogg");
     chestActor.attachToSlot(soundActor,"Bone01");
     $CORE.log("truhe.rb - Sound hinzugefuegt");
 

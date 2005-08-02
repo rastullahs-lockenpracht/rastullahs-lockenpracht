@@ -19,7 +19,7 @@ class Hero < Person
 
 
         $CORE.log("Heldenaktor erstellen...");
-        $heldaktor = $AF.createMeshActor("Held","held.mesh", PhysicsManager::GT_CAPSULE, -1.0);
+        $heldaktor = $AM.createMeshActor("Held","held.mesh", PhysicsManager::GT_CAPSULE, -1.0);
         setActor($heldaktor);
 
         addSounds()
@@ -28,7 +28,7 @@ class Hero < Person
 
     def addSounds
         heroActor = getActor()
-        soundActor = $AF.createSoundActor(heroActor.getName()+"_schlucken","schlucken.ogg");
+        soundActor = $AM.createSoundActor(heroActor.getName()+"_schlucken","schlucken.ogg");
         heroActor.attachToSlot(soundActor, "Bone01");
     end
 end
