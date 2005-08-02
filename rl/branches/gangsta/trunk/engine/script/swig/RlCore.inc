@@ -510,6 +510,9 @@ public:
         GT_CAPSULE = 2,
         GT_MESH = 3
     };
+
+    void setEnabled( bool enabled );  
+    void createTestConnection( Actor* actor );  
         
     static PhysicsManager & getSingleton(void);
 	static PhysicsManager * getSingletonPtr(void);

@@ -19,6 +19,10 @@
 #include "CoreSubsystem.h"
 #include "World.h"
 
+#include "Actor.h"
+#include "ActorControlledObject.h"
+#include "MeshObject.h"
+
 #include "Exception.h"
 
 using namespace Ogre;
@@ -27,6 +31,8 @@ template<> rl::PhysicsManager* Singleton<rl::PhysicsManager>::ms_Singleton = 0;
 
 namespace rl
 {
+    int PhysicsManager::LEVELGEOMETRY_GROUP = 31;
+
     PhysicsManager& PhysicsManager::getSingleton(void)
     {
         return Singleton<PhysicsManager>::getSingleton();
@@ -38,11 +44,14 @@ namespace rl
     }
 
     PhysicsManager::PhysicsManager( )
-        :   m_IsEnabled(false)
+    :   m_IsEnabled(false),
+        m_LevelGeometry()
     {
         m_GaDriver = Ga::GaPtr<Ga::PhysicsDriver>();        
         m_GaWorld = Ga::GaPtr<Ga::World>();
         m_GaCallback = Ga::GaPtr<Ga::CallbackInterface_Ogre>();
+
+        initializePhysicsManager( );
     }
 
     void PhysicsManager::initializePhysicsManager( )
@@ -107,7 +116,44 @@ namespace rl
     {
         return NULL;
     }
+
+    void PhysicsManager::clearLevelGeometry()
+    {
+        // Alle bestehenden Levelgeometrien löschen
+        GaShapeListIterator iter;
+        for( iter = m_LevelGeometry.begin(); iter != m_LevelGeometry.end(); ++iter )
+        {
+            m_GaWorld->destroyShape( *iter );
+        }
+        m_LevelGeometry.clear();
+
+        // Test-Ebene einfügen
+        Ga::ParameterList params;
+        Ga::GaPtr<Ga::Shape> shape = m_GaWorld->createShape("plane");
+        shape->getSupportedParameters(params,"plane");
+
+        params["normal"] = Ga::GaVec3(0.0,1.0,0.0);
+        params["distance"] = (Ga::GaFloat)0.0;
+
+        shape->initialise(params);
+        shape->setGroup(LEVELGEOMETRY_GROUP);
+        m_LevelGeometry.push_back(shape);
+    }
     
+    void PhysicsManager::createTestConnection( Actor* actor )
+    {
+        ActorControlledObject* actObj = actor->getControlledObject();
+        
+        if( actObj->isMeshObject() )
+        {
+            MeshObject* meshObj = dynamic_cast<MeshObject*>( actObj );
+            Entity* ent = meshObj->getEntity();
+            //Ga::GaPtr<Ga::Body> body = 0;
+
+            m_GaCallback->shapeFromEntity(m_GaWorld, ent->getName() ,"mesh", NULL );
+        }
+    }
+
     void PhysicsManager::setEnabled(bool enabled)
     {
         m_IsEnabled = enabled;

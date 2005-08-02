@@ -67,7 +67,7 @@ namespace rl {
 		// staticGeom->setRegionDimensions(Vector3(1000,500,1000));
 		// staticGeom->setOrigin(Vector3(0,0,0));
 		/// FIXME  Diese Methode funktioniert nicht Ogre-Api-korrekt, daher Workaround
-		//staticGeom->addSceneNode( staticNode );
+		// staticGeom->addSceneNode( staticNode );
 		// Alle Entities unterhalb des Nodes einfügen
 		DotSceneLoader::staticGeometryAddSceneNodeWorkaround(
 			staticGeom, staticNode);

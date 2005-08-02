@@ -21,12 +21,14 @@
 
 #include <Gangsta.h>
 #include <GaCallbackInterface_Ogre.h>
+#include <list>
 
 #include "CorePrerequisites.h"
 
 
 namespace rl {
     class PhysicalThing;
+    class Actor;
 
     class _RlCoreExport PhysicsManager
         :   protected Ogre::Singleton<PhysicsManager>
@@ -39,6 +41,8 @@ namespace rl {
             GT_CAPSULE = 2,
             GT_MESH = 3
         };
+
+        static int LEVELGEOMETRY_GROUP;
         
         PhysicsManager();
         virtual ~PhysicsManager();
@@ -65,25 +69,31 @@ namespace rl {
 
         void setEnabled(bool enabled);
 
+        void createTestConnection( Actor* actor );
+
         // Singleton Stuff
         static PhysicsManager & getSingleton(void);
         static PhysicsManager * getSingletonPtr(void);
 
 		/// Levelgeometrie hinzufügen
 		// void addLevelGeometry( Ogre::Entity* ent );
-		/// Komplette Levelgeometrie auflösen
-		// void clearLevelGeometry(  );
 		void toggleDebugGeometry();
-
         
+        /// Komplette Levelgeometrie auflösen
+        void clearLevelGeometry();
 
     private:
+        typedef std::list< Ga::GaPtr<Ga::Shape> > GaShapeList;
+        typedef std::list< Ga::GaPtr<Ga::Shape> >::iterator GaShapeListIterator;
+
         void initializePhysicsManager( );
 
         Ga::Manager	m_GaManager;
         Ga::GaPtr<Ga::PhysicsDriver> m_GaDriver;
         Ga::GaPtr<Ga::World> m_GaWorld;
         Ga::GaPtr<Ga::CallbackInterface_Ogre> m_GaCallback;
+
+        GaShapeList m_LevelGeometry;
 
         bool m_IsEnabled;
     };
