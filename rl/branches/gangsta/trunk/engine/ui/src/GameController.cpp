@@ -86,11 +86,6 @@ namespace rl {
         mCameraActor->translate(Vector3(0, 0, mDesiredDistance), Node::TS_LOCAL);
         
         setup();
-
-		PhysicsManager::getSingleton().setActor(
-			actor->getPhysicalThing()->getGeometry(), mControlNode);
-		PhysicsManager::getSingleton().setCamera(
-			cameraActor->getPhysicalThing()->getGeometry(), mCameraActor->_getSceneNode() );
     }
     //------------------------------------------------------------------------
 
@@ -110,15 +105,6 @@ namespace rl {
         updateAnimationState(translation);
 
         translation *= mMoveScale;
-
-        // Runterfallen berücksichtigen.
-        // Zuerst Fallgeschwindigkeit berechnen
-		Ogre::Real fallSpeed = PhysicsManager::getSingleton().getFallSpeed();
-		translation.y = translation.y - fallSpeed * elapsedTime;
-
-		PhysicsManager::getSingleton().setFallSpeed(
-			fallSpeed - 
-			PhysicsManager::getSingleton().getWorld()->getGravity().y * elapsedTime * 20); //*200
 
         mControlNode->translate(translation, Node::TS_LOCAL);
 
@@ -217,10 +203,11 @@ namespace rl {
         if (cmdmap->isMovementActive(MOVE_LEFT))
             translation.x = -mMoveScale;
             
-		if (cmdmap->isMovementActive(MOVE_JUMP) && PhysicsManager::getSingleton().getFallSpeed() <= 0.1)
-			PhysicsManager::getSingleton().setFallSpeed(-500);
+		if (cmdmap->isMovementActive(MOVE_JUMP) )
+			translation.y = -mMoveScale;
 
         translation.normalise();
+
         if (cmdmap->isMovementActive(MOVE_RUN))
             translation *= 2;
     }

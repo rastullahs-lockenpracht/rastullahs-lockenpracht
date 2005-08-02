@@ -54,6 +54,8 @@
 #include "PlaylistWindow.h"
 // END TEST
 
+using namespace Ogre;
+
 template<> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
 
 namespace rl {

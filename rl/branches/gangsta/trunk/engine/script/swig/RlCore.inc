@@ -28,8 +28,8 @@ public:
 
 class Quaternion {
 public:
- 	Quaternion (Real fW=1.0, Real fX=0.0, Real fY=0.0, Real fZ=0.0);
- 	void FromAngleAxis(const Radian &rfAngle, const Vector3 &rkAxis);
+ 	Quaternion (Ogre::Real fW=1.0, Ogre::Real fX=0.0, Ogre::Real fY=0.0, Ogre::Real fZ=0.0);
+ 	void FromAngleAxis(const Ogre::Radian &rfAngle, const Ogre::Vector3 &rkAxis);
 };
 
 }
@@ -118,7 +118,7 @@ public:
     rl::Actor* createLightActor(const Ogre::String& name, rl::LightObject::LightTypes type );
 	rl::Actor* createMeshActor(const Ogre::String& name, const Ogre::String& meshname,
 		    rl::PhysicsManager::GeometryTypes geom = rl::PhysicsManager::GT_NONE,
-		    Real density=1.0);
+		    Ogre::Real density=1.0);
 		    
 	//void createDebugActors();
 	    
@@ -133,16 +133,15 @@ public:
 
 	void loadScene(const Ogre::String& levelName ) = 0;
 
-    virtual void setSkyPlane (bool enable, const Plane &plane, const Ogre::String& materialName, Real scale=1000, Real tiling=10, bool drawFirst=true, Real bow=0 );
-    virtual void setSkyBox (bool enable, const Ogre::String& materialName, Real distance=2500, bool drawFirst=true );
-    virtual void setSkyDome (bool enable, const Ogre::String& materialName, Real curvature=10, Real tiling=8, Real distance=4000, bool drawFirst=true );
-    virtual void setFog ( FogMode mode=FOG_NONE, const ColourValue &colour=ColourValue::White, Real expDensity=0.001, Real linearStart=0.0, Real linearEnd=1.0);
+    virtual void setSkyBox (bool enable, const Ogre::String& materialName, Ogre::Real distance=2500, bool drawFirst=true );
+    virtual void setSkyDome (bool enable, const Ogre::String& materialName, Ogre::Real curvature=10, Ogre::Real tiling=8, Ogre::Real distance=4000, bool drawFirst=true );
+    virtual void setFog ( FogMode mode=FOG_NONE, const Ogre::ColourValue &colour=Ogre::ColourValue::White, Ogre::Real expDensity=0.001, Ogre::Real linearStart=0.0, Ogre::Real linearEnd=1.0);
     virtual FogMode getFogMode (void) const;
-    virtual const ColourValue & getFogColour (void) const;
-    virtual Real getFogStart (void) const;
-    virtual Real getFogEnd (void) const;	
-    virtual void setAmbientLight(Real r, Real g, Real b);
-    virtual Vector3 getStartPoint() const;
+    virtual const Ogre::ColourValue & getFogColour (void) const;
+    virtual Ogre::Real getFogStart (void) const;
+    virtual Ogre::Real getFogEnd (void) const;	
+    virtual void setAmbientLight(Ogre::Real r, Ogre::Real g, Ogre::Real b);
+    virtual Ogre::Vector3 getStartPoint() const;
     virtual void setCastShadows(bool);
 
     void setShowBoundingBoxes( bool dis );
@@ -208,7 +207,7 @@ class GameEventManager
 private:
     GameEventManager( );
 public:
-    void addSphereAreaListener( rl::Actor* actor, Real radius, 
+    void addSphereAreaListener( rl::Actor* actor, Ogre::Real radius, 
 		rl::GameAreaListener* list, unsigned long queryMask = 0xFFFFFFFF );
     void removeAreaListener( rl::GameAreaListener* list );
     void removeAllAreas( rl::Actor* actor );
@@ -289,8 +288,8 @@ public:
 	bool isIgnoringGlobalSpeed() const;
 	void setIgnoringGlobalSpeed( bool isIgnoringGlobalSpeed );
 
-	Real getSpeed() const;
-	void setSpeed( Real speed );
+	Ogre::Real getSpeed() const;
+	void setSpeed( Ogre::Real speed );
 	void reverseAnimation();
 
 	void setTimesToPlay(unsigned int timesToPlay);
@@ -298,10 +297,10 @@ public:
 	void resetTimesPlayed();
 	unsigned int getTimesToPlay() const;
 	unsigned int getTimesToPlayLeft() const;
-	Real getTimePlayed() const;
+	Ogre::Real getTimePlayed() const;
 
-	Real getWeight(void) const;
-    void setWeight(Real weight);
+	Ogre::Real getWeight(void) const;
+    void setWeight(Ogre::Real weight);
     
     void addAnimationListener( rl::AnimationListener *listener);
 	void removeAnimationListener( rl::AnimationListener *listener);
@@ -314,11 +313,11 @@ private:
 
 class TrackAnimation : public Animation {
 public:
-	void addKeyFrame( Real timePos );
-    void setKeyFrameTranslation( Real timePos, Real xPos, Real yPos, Real zPos );
-    void setKeyFrameRotation( Real timePos, Real xRotAxis, Real yRotAxis, Real zRotAxis, Real angleUnits );
-    void setKeyFrameRotationQuaternion( Real timePos, Real w, Real x, Real y, Real z );
-    void setKeyFrameScale( Real timePos, Real xScale, Real yScale, Real zScale );
+	void addKeyFrame( Ogre::Real timePos );
+    void setKeyFrameTranslation( Ogre::Real timePos, Ogre::Real xPos, Ogre::Real yPos, Ogre::Real zPos );
+    void setKeyFrameRotation( Ogre::Real timePos, Ogre::Real xRotAxis, Ogre::Real yRotAxis, Ogre::Real zRotAxis, Ogre::Real angleUnits );
+    void setKeyFrameRotationQuaternion( Ogre::Real timePos, Ogre::Real w, Ogre::Real x, Ogre::Real y, Ogre::Real z );
+    void setKeyFrameScale( Ogre::Real timePos, Ogre::Real xScale, Ogre::Real yScale, Ogre::Real zScale );
 
 	void setInterpolationMode( rl::AnimationManager::InterpolationMode im );
 	rl::AnimationManager::InterpolationMode getInterpolationMode() const;
@@ -341,11 +340,11 @@ public:
 	enum InterpolationMode { IM_LINEAR, IM_SPLINE };
 	enum RotationInterpolationMode { RIM_LINEAR, RIM_SPHERICAL };
 	
-	rl::TrackAnimation* createTrackAnimation(rl::Actor* actor, const Ogre::String& name, Real length );
+	rl::TrackAnimation* createTrackAnimation(rl::Actor* actor, const Ogre::String& name, Ogre::Real length );
 	void removeAnimation( rl::Animation* anim );
 	
-	void setGlobalAnimationSpeed( Real speed );
-	Real getGlobalAnimationSpeed( ) const;
+	void setGlobalAnimationSpeed( Ogre::Real speed );
+	Ogre::Real getGlobalAnimationSpeed( ) const;
 	
 	void setDefaultInterpolationMode( rl::AnimationManager::InterpolationMode im );
 	rl::AnimationManager::InterpolationMode getDefaultInterpolationMode() const;
@@ -437,18 +436,18 @@ public:
     };
 
 	const const Ogre::String& getName() const;
-	const Vector3& getPosition(void);
-	const Quaternion& getOrientation(void);
-	const Vector3& getWorldPosition(void);
-	const Quaternion& getWorldOrientation(void);
-    void setPosition(Real x, Real y, Real z);
+	const Ogre::Vector3& getPosition(void);
+	const Ogre::Quaternion& getOrientation(void);
+	const Ogre::Vector3& getWorldPosition(void);
+	const Ogre::Quaternion& getWorldOrientation(void);
+    void setPosition(Ogre::Real x, Ogre::Real y, Ogre::Real z);
     
     rl::ActorControlledObject* getControlledObject();
 
-    void setScale( Real sx, Real sy, Real sz );
+    void setScale( Ogre::Real sx, Ogre::Real sy, Ogre::Real sz );
     void placeIntoScene(
-        Real px, Real py, Real pz,
-        Real ow, Real ox, Real oy, Real oz, 
+        Ogre::Real px, Ogre::Real py, Ogre::Real pz,
+        Ogre::Real ow, Ogre::Real ox, Ogre::Real oy, Ogre::Real oz, 
         const Ogre::String& odeBone = "");
     void removeFromScene();
            
@@ -461,9 +460,9 @@ public:
    	void attachAxisRot( 
             rl::Actor* actor,
             const Ogre::String& childSlot = "SLOT_DEFAULT",            
-            const Vector3& offsetPosition=Ogre::Vector3::ZERO,
-            const Vector3& offsetAxis=Ogre::Vector3::UNIT_X,
-            const Radian& offsetRotation=Ogre::Radian(0) );
+            const Ogre::Vector3& offsetPosition=Ogre::Vector3::ZERO,
+            const Ogre::Vector3& offsetAxis=Ogre::Vector3::UNIT_X,
+            const Ogre::Radian& offsetRotation=Ogre::Radian(0) );
     void attachToSlot( 
             Actor* actor,
             const Ogre::String& slot,
@@ -475,17 +474,17 @@ public:
             rl::Actor* actor,
             const Ogre::String& slot,
             const Ogre::String& childSlot = "SLOT_DEFAULT",            
-			const Vector3& offsetPosition=Ogre::Vector3::ZERO,
-            const Vector3& offsetAxis=Ogre::Vector3::UNIT_X,
-            const Radian& offsetRotation=Ogre::Radian(0) );
+			const Ogre::Vector3& offsetPosition=Ogre::Vector3::ZERO,
+            const Ogre::Vector3& offsetAxis=Ogre::Vector3::UNIT_X,
+            const Ogre::Radian& offsetRotation=Ogre::Radian(0) );
                     
     void detach(rl::Actor* actor);
     
     rl::Actor* getChildByName(const Ogre::String& name ) const;
        
-	void roll(Real angleunits);
-	void pitch(Real angleunits);
-	void yaw(Real angleunits);
+	void roll(Ogre::Real angleunits);
+	void pitch(Ogre::Real angleunits);
+	void yaw(Ogre::Real angleunits);
 	
 	unsigned long getQueryMask() const;
     void setQueryMask( unsigned long mask = 0xFFFFFFFF );
@@ -498,41 +497,6 @@ class PhysicalThing {
 private:
 	PhysicalThing();
 public:
-    void setPosition(Real x, Real y, Real z);
-    void setOrientation(Real w, Real x, Real y, Real z);
-
-    rl::Actor* getActor();
-
-    bool isDynamic();
-    void setDynamic(bool dynamic);
-
-    void addForce(Real dir_x, Real dir_y, Real dir_z);
-    void addForceWorldSpace(Real dir_x, Real dir_y, Real dir_z);
-    void addForce(Real dir_x, Real dir_y, Real dir_z,
-        Real pos_x, Real pos_y, Real pos_z);
-    void addForceWorldSpace(Real dir_x, Real dir_y, Real dir_z,
-        Real pos_x, Real pos_y, Real pos_z);
-    void addTorque(Real x, Real y, Real z);
-    void addTorqueWorldSpace(Real x, Real y, Real z);
-
-    void setBounceParameters(Real restitutionValue,
-        Real velocityThreshold);
-    Real getBounceRestitutionValue(void);
-    Real getBounceVelocityThreshold(void);
-
-    void setSoftness(Real softness);
-    Real getSoftness(void);
-
-    void setFriction(Real friction);
-    Real getFriction(void);
-    void setSoftErp(Real erp);
-    Real getSoftErp(void);
-
-    void setLinearVelocity(Real x, Real y, Real z);
-    const Vector3 getLinearVelocity(void);
-
-    const Vector3 getAngularVelocity(void);
-    void setAngularVelocity(Real x, Real y, Real z);
 };
 
 class PhysicsManager {
@@ -546,25 +510,9 @@ public:
         GT_CAPSULE = 2,
         GT_MESH = 3
     };
-    
-    enum OffsetMode {
-        OM_CENTERED = 0,
-        OM_BOTTOMCENTERED = 1
-    };
-
-    PhysicalThing* createPhysicalThing(GeometryTypes geomType,
-        const Ogre::Vector3& size, Real density, OgreOde::Space* space = NULL,
-        OffsetMode offsetMode = OM_BOTTOMCENTERED);
-    
-    void setGravity( Real x, Real y, Real z );
-    Vector3 getGravity();
-    
-    void setEnabled(bool enabled);
-    
+        
     static PhysicsManager & getSingleton(void);
 	static PhysicsManager * getSingletonPtr(void);
-	
-	void toggleDebugOde();
 };
 
 class CoreSubsystem {

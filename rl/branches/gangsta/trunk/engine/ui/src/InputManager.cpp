@@ -47,9 +47,10 @@
 #include "InputManager.h"
 #include "GameObject.h"
 
-template<> rl::InputManager* Singleton<rl::InputManager>::ms_Singleton = 0;
 using namespace Ogre;
 using CEGUI::System;
+
+template<> rl::InputManager* Singleton<rl::InputManager>::ms_Singleton = 0;
 
 namespace rl {
 
