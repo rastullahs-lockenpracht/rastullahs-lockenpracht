@@ -54,6 +54,8 @@ REM Gangsta Dateien kopieren
 REM ---------------------
 copy %RL_ROOT%\dependencies\gangsta\Gangsta_Ogre\CallbackInterface\lib\Debug\GaCallbackInterface_Ogre_d.dll %RL_DIST%
 copy %RL_ROOT%\dependencies\gangsta\Gangsta_Ogre\CallbackInterface\lib\Release\GaCallbackInterface_Ogre.dll %RL_DIST%
+copy %RL_ROOT%\dependencies\gangsta\GangstaWrapper\PhysicsDrivers\PhysicsDriver_ODE\lib\Debug\libGaPhysicsDriver_ODE_d.dll %RL_DIST%
+copy %RL_ROOT%\dependencies\gangsta\GangstaWrapper\PhysicsDrivers\PhysicsDriver_ODE\lib\Release\libGaPhysicsDriver_ODE.dll %RL_DIST%
 copy %RL_ROOT%\dependencies\gangsta\GangstaWrapper\Gangsta\lib\Debug\Gangsta_d.dll %RL_DIST%
 copy %RL_ROOT%\dependencies\gangsta\GangstaWrapper\Gangsta\lib\Release\Gangsta.dll %RL_DIST%
 
