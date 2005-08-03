@@ -176,6 +176,7 @@ class PlayerSettings
     $act12 = QuitGameAction.new
     $act13 = MakeScreenshotAction.new
     $act14 = ToggleCharacterStateWindowAction.new
+    $act15 = ShowTargetWindowAction.new
 
     player.addActionInGroup($act1, $grpGrp1, 7) # ACT_DISABLED
     player.addActionInGroup($act2, $grpGrp1)
@@ -190,7 +191,8 @@ class PlayerSettings
     player.addActionInGroup($act10, $grpGrp2)
     player.addActionInGroup($act11, $grpGrp2)
     player.addActionInGroup($act14, $grpGrp2)
-    
+    player.addActionInGroup($act15, $grpGrp2)
+
     player.addActionInGroup($act12, $grpGrp3)
     player.addActionInGroup($act13, $grpGrp3)
     
