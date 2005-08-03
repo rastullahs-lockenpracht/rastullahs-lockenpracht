@@ -59,6 +59,10 @@ namespace Swig {
     static VALUE ogreException = rb_define_class("OgreException", rb_eStandardError);
     rb_raise(ogreException, oe.getFullDescription().c_str());
   }
+  catch (Ga::Exception& ge ) {
+    static VALUE rlException = rb_define_class("GaException", rb_eStandardError);
+    rb_raise(rlException, ge.getText().c_str());
+  }
   catch (rl::Exception& re ) {
     static VALUE rlException = rb_define_class("RlException", rb_eStandardError);
     rb_raise(rlException, re.toString().c_str());

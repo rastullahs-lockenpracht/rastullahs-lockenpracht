@@ -86,6 +86,8 @@ namespace rl
 
         m_GaWorld->getDefaultMaterial()->setParameter("staticFriction",(Ga::GaFloat)60);
         m_GaWorld->getDefaultMaterial()->setParameter("softCFM",(Ga::GaFloat)0.01);
+
+        m_GaWorld->setDebugVisualMode(Ga::DebugVisual::GDV_SHAPES);
     }
 
     PhysicsManager::~PhysicsManager()
@@ -129,7 +131,7 @@ namespace rl
         for( iter = m_LevelGeometry.begin(); iter != m_LevelGeometry.end(); ++iter )
         {
             Ga::GaPtr<Ga::Shape> shape = *iter;
-            m_GaWorld->destroyShape( shape );
+            //m_GaWorld->destroyShape( shape );
         }
         m_LevelGeometry.clear();
     }
@@ -147,12 +149,19 @@ namespace rl
         params["mass"] = (Ga::GaFloat)1;
 
         body->initialise(params);
-        body->setPosition(Ga::GaVec3( 160.0, 124.0, 160.0 ));
+        body->setPosition( Ga::GaVec3( 160.0, 124.0, 160.0 ) );
 
         // Create a box shape
         shape = m_GaWorld->createShape("box",body);
         shape->getSupportedParameters(params,"box");
-        params["size"] = Ga::GaVec3(1.0,1.0,1.0);
+
+        AxisAlignedBox aab =
+            static_cast<Entity*>(body->getUserObject().cast<SceneNode>()
+            ->getAttachedObject(0))->getBoundingBox();
+
+        Vector3 vec = ( aab.getMaximum() - aab.getMinimum() ) 
+            * ( 1 - MeshManager::getSingleton().getBoundsPaddingFactor() ) ; 
+        params["size"] = Ga::GaVec3(vec.x,vec.y,vec.z);
 
         shape->initialise(params);
     }
@@ -179,6 +188,9 @@ namespace rl
 
 	void PhysicsManager::toggleDebugGeometry()
 	{
-		
+        if( m_GaWorld->getDebugVisualMode() == Ga::DebugVisual::GDV_NONE )
+            m_GaWorld->setDebugVisualMode(Ga::DebugVisual::GDV_SHAPES);
+        else if( m_GaWorld->getDebugVisualMode() != Ga::DebugVisual::GDV_NONE ) 
+            m_GaWorld->setDebugVisualMode(Ga::DebugVisual::GDV_NONE);
 	}
 }

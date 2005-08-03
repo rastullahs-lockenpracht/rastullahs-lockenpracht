@@ -513,7 +513,8 @@ public:
 
     void setEnabled( bool enabled );  
     void createTestObject( const Ogre::String& meshname ); 
-        
+    void toggleDebugGeometry();
+    
     static PhysicsManager & getSingleton(void);
 	static PhysicsManager * getSingletonPtr(void);
 };
