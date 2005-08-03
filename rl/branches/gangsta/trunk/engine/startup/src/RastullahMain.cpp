@@ -93,9 +93,6 @@ void startupRl()
 	catch(std::string& err) {
 		rl::showError( err );
 	} 
-	catch(...) {
-		rl::showError( "Unknown exception occured" );
-	}
 
 	try 
 	{

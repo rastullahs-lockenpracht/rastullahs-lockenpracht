@@ -79,7 +79,7 @@ namespace rl
         m_GaWorld->getSupportedParameters(parameters);
 
         parameters["gravity"] = Ga::GaVec3(0.0,-9.80665,0.0);
-        parameters["extents"] = Ga::GaVec3(1000.0,500.0,1000.0);
+        parameters["extents"] = Ga::GaVec3(1000000.0,500000.0,1000000.0);
         parameters["step"] =   (Ga::GaFloat)(1.0 / 60.0); 
 
         m_GaWorld->initialise(parameters);
@@ -92,6 +92,11 @@ namespace rl
     {
         Ga::Manager::getInstance()->unloadPhysicsDriver(m_GaDriver);
         m_GaCallback.release();
+    }
+
+    void PhysicsManager::run( Ogre::Real elapsedTime )
+    {
+        m_GaWorld->advanceTime(elapsedTime);
     }
 
     void PhysicsManager::setGravity( Real x, Real y, Real z )
@@ -123,35 +128,48 @@ namespace rl
         GaShapeListIterator iter;
         for( iter = m_LevelGeometry.begin(); iter != m_LevelGeometry.end(); ++iter )
         {
-            m_GaWorld->destroyShape( *iter );
+            Ga::GaPtr<Ga::Shape> shape = *iter;
+            m_GaWorld->destroyShape( shape );
         }
         m_LevelGeometry.clear();
-
-        // Test-Ebene einfügen
-        Ga::ParameterList params;
-        Ga::GaPtr<Ga::Shape> shape = m_GaWorld->createShape("plane");
-        shape->getSupportedParameters(params,"plane");
-
-        params["normal"] = Ga::GaVec3(0.0,1.0,0.0);
-        params["distance"] = (Ga::GaFloat)0.0;
-
-        shape->initialise(params);
-        shape->setGroup(LEVELGEOMETRY_GROUP);
-        m_LevelGeometry.push_back(shape);
     }
     
-    void PhysicsManager::createTestConnection( Actor* actor )
+    void PhysicsManager::createTestObject( const String& meshname )
     {
-        ActorControlledObject* actObj = actor->getControlledObject();
+        Ga::GaPtr<Ga::Shape> shape = 0;
+        Ga::GaPtr<Ga::Body> body = 0;
+        Ga::ParameterList params;
         
-        if( actObj->isMeshObject() )
-        {
-            MeshObject* meshObj = dynamic_cast<MeshObject*>( actObj );
-            Entity* ent = meshObj->getEntity();
-            //Ga::GaPtr<Ga::Body> body = 0;
+        body = m_GaWorld->createBody("box",meshname);
+        body->getSupportedParameters(params);
 
-            m_GaCallback->shapeFromEntity(m_GaWorld, ent->getName() ,"mesh", NULL );
-        }
+        params["inertia_tensor"] = Ga::GaVec3(1,1,1);
+        params["mass"] = (Ga::GaFloat)1;
+
+        body->initialise(params);
+        body->setPosition(Ga::GaVec3( 160.0, 124.0, 160.0 ));
+
+        // Create a box shape
+        shape = m_GaWorld->createShape("box",body);
+        shape->getSupportedParameters(params,"box");
+        params["size"] = Ga::GaVec3(1.0,1.0,1.0);
+
+        shape->initialise(params);
+    }
+
+    void PhysicsManager::addLevelGeometry( Ogre::Entity* ent )
+    {
+        Matrix4 m = Matrix4::IDENTITY;
+
+        // Wenn die Entity an einem Node befestigt ist, Transformation übernehmen
+        if( ent->getParentNode() != NULL )
+            m = ent->getParentNode()->_getFullTransform();
+
+        Ga::GaPtr<Ga::Shape> shape = 
+            m_GaCallback->shapeFromEntity(m_GaWorld, ent->getName() ,"mesh", NULL, m );
+
+        shape->setGroup(LEVELGEOMETRY_GROUP);
+        m_LevelGeometry.push_back(shape);
     }
 
     void PhysicsManager::setEnabled(bool enabled)

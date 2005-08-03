@@ -154,6 +154,8 @@ namespace rl {
         new GameEventManager();
         GameLoopManager::getSingleton().addSynchronizedTask(
             GameEventManager::getSingletonPtr());
+        GameLoopManager::getSingleton().addSynchronizedTask(
+            PhysicsManager::getSingletonPtr());
 
         return true;
     }

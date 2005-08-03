@@ -23,6 +23,7 @@
 #include <GaCallbackInterface_Ogre.h>
 #include <list>
 
+#include "GameTask.h"
 #include "CorePrerequisites.h"
 
 
@@ -31,7 +32,7 @@ namespace rl {
     class Actor;
 
     class _RlCoreExport PhysicsManager
-        :   protected Ogre::Singleton<PhysicsManager>
+        :   public GameTask, protected Ogre::Singleton<PhysicsManager>
     {
     public:
         enum GeometryTypes {
@@ -69,19 +70,21 @@ namespace rl {
 
         void setEnabled(bool enabled);
 
-        void createTestConnection( Actor* actor );
+        void createTestObject( const Ogre::String& meshname );
 
         // Singleton Stuff
         static PhysicsManager & getSingleton(void);
         static PhysicsManager * getSingletonPtr(void);
 
-		/// Levelgeometrie hinzufügen
-		// void addLevelGeometry( Ogre::Entity* ent );
+        // GameTask um die Welt weiterlaufen zu lassen
+        virtual void run( Ogre::Real elapsedTime );
+		
 		void toggleDebugGeometry();
         
         /// Komplette Levelgeometrie auflösen
         void clearLevelGeometry();
-
+        /// Levelgeometrie hinzufügen
+        void addLevelGeometry( Ogre::Entity* ent );
     private:
         typedef std::list< Ga::GaPtr<Ga::Shape> > GaShapeList;
         typedef std::list< Ga::GaPtr<Ga::Shape> >::iterator GaShapeListIterator;

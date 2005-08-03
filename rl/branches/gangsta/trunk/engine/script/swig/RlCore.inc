@@ -512,7 +512,7 @@ public:
     };
 
     void setEnabled( bool enabled );  
-    void createTestConnection( Actor* actor );  
+    void createTestObject( const Ogre::String& meshname ); 
         
     static PhysicsManager & getSingleton(void);
 	static PhysicsManager * getSingletonPtr(void);

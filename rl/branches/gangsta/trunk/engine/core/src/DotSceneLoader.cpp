@@ -190,7 +190,7 @@ namespace rl {
 		CoreSubsystem::log( " Entity '"+meshName+"' mit dem Namen '"+entName+"' in den Knoten '"+parentNode->getName()+"' eingefügt." );
 
 		// Zur Physik des Levels hinzufügen
-		// TODO PhysicsManager::getSingleton().addLevelGeometry( newEnt );
+		PhysicsManager::getSingleton().addLevelGeometry( newEnt );
 		CoreSubsystem::log( " Entity '"+entName+"' als TriMesh in levelGeometry geladen");
 
 

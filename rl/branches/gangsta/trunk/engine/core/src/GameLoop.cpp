@@ -145,13 +145,13 @@ using namespace Ogre;
 
 	bool SynchronizedGameLoop::frameStarted(const Ogre::FrameEvent & evt)
 	{
-		Real timeSinceLastFrame = evt.timeSinceLastEvent;
-		loop(timeSinceLastFrame);
-		return true;
+		return mRunning;
 	}
 
 	bool SynchronizedGameLoop::frameEnded(const Ogre::FrameEvent & evt)
 	{
+        Real timeSinceLastFrame = evt.timeSinceLastEvent;
+        loop(timeSinceLastFrame);
 		return mRunning;
 	}
 
