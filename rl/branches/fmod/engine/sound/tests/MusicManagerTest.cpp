@@ -113,4 +113,4 @@ public:
 //    CPPUNIT_TEST(testMusicManager_playStop);
     CPPUNIT_TEST_SUITE_END(); 
 };
-CPPUNIT_TEST_SUITE_REGISTRATION(MusicManagerTest);
+//CPPUNIT_TEST_SUITE_REGISTRATION(MusicManagerTest);

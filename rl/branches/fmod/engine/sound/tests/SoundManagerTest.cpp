@@ -81,10 +81,10 @@ public:
         
         Ogre::ResourceManager::ResourceMapIterator it =
             SoundManager::getSingleton().getResourceIterator();
-//        ListenerMovable listener("main");
-//        listener.setActive();
-        FSOUND_3D_SetRolloffFactor(2.5);
-        
+        FSOUND_3D_SetRolloffFactor(0.5);
+        ListenerMovable listener("main");
+        listener.setActive();
+
         while (it.hasMoreElements())
         {
             SoundResourcePtr soundres = it.getNext();
@@ -93,9 +93,6 @@ public:
             {
                 sound->load();
                 FSOUND_3D_SetMinMaxDistance(sound->getChannel(), 4.0, 100000.0f);
-            FSOUND_3D_Listener_SetAttributes(0, 0,
-                0, 0, 1,
-                0, 1, 0);
                 sound->play();
                 float angle = 0.0f;
                 
@@ -106,11 +103,11 @@ public:
                     xtime_get(&xt, TIME_UTC);
                     xt.nsec+=100000;
                     thread::sleep(xt);
-                    Vector3 pos(100.0f*sinf(angle), 100.0f*cosf(angle), 0.0f);
+                    Vector3 pos(1.0f*sinf(angle), 20.0f*cosf(angle), 0.0f);
                     sound->setPosition(pos);
                     pos = sound->getPosition();
-                    cerr <<pos[0]<<":"<<pos[1]<<":"<<pos[2]<<endl;
-                    angle += 0.01;
+                    //cerr <<pos[0]<<":"<<pos[1]<<":"<<pos[2]<<endl;
+                    angle += 0.005;
                     if (angle > 2 * M_PI)
                     {
                         angle = 0.0f;

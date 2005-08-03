@@ -177,7 +177,7 @@ namespace rl {
          * @param offsetAxis Die Achse der zusätzlichen Drehung
          * @param offsetRotation Die zusätzliche Drehung
          */
-        void attach( 
+        void attachAxisRot( 
             Actor* actor,
             const Ogre::String& childSlot = "SLOT_DEFAULT",            
             const Ogre::Vector3& offsetPosition=Ogre::Vector3::ZERO,
@@ -213,7 +213,7 @@ namespace rl {
          * @param offsetAxis Die Achse der zusätzlichen Drehung
          * @param offsetRotation Die zusätzliche Drehung
          */
-        void attachToSlot( 
+        void attachToSlotAxisRot( 
             Actor* actor,
             const Ogre::String& slot,
             const Ogre::String& childSlot = "SLOT_DEFAULT",            
