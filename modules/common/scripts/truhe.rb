@@ -19,9 +19,9 @@ class OpenChestAction < RubyAction
   end
 
   def doAction(chest, user, target)
-    doorActor = chest.getActor();
-    doorActor.getControlledObject().replaceAnimation("zu", "auf", 1.0, 1);
-    knarzActor = doorActor.getChildByName(doorActor.getName()+"_knarzen");
+    chestActor = chest.getActor();
+    chestActor.getControlledObject().replaceAnimation("zu", "auf", 1.0, 1);
+    knarzActor = chestActor.getChildByName(chestActor.getName()+"_knarzen");
     knarzActor.getControlledObject().play(0);
     chest.setBool("open", true);
     $UI.showContainerContent(chest);
@@ -41,7 +41,7 @@ class CloseChestAction < RubyAction
   def doAction(chest, user, target)
     chestActor = chest.getActor();
     chestActor.getControlledObject.replaceAnimation("auf", "zu", 1.0, 1);
-    knarzActor = chestActor.getChildByName(doorActor.getName()+"_knarzen");
+    knarzActor = chestActor.getChildByName(chestActor.getName()+"_knarzen");
     knarzActor.getControlledObject().play(0);
     chest.setBool("open", false);
   end
