@@ -24,6 +24,7 @@
 #include "Person.h"
 #include "WindowManager.h"
 #include "UiSubsystem.h"
+#include "Exception.h"
 
 #include "ActionChoiceWindow.h"
 
@@ -174,8 +175,16 @@ namespace rl {
 		UiSubsystem::getSingleton().log(
 			action->getName().c_str(), "ActionChoiceWindow::activateAction");
 			
-		//TODO: Ask for target
-		action->doAction(mObject, mActor, NULL); 
+		
+        try
+        {
+            //TODO: Ask for target
+            action->doAction(mObject, mActor, NULL); 
+        }
+        catch( ScriptInvocationFailedException& sife )
+        {
+            UiSubsystem::getSingleton().log( sife.toString() );
+        }
 		
 		UiSubsystem::getSingleton().log(
 			"Ende", "ActionChoiceWindow::activateAction");
