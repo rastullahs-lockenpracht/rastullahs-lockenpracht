@@ -67,7 +67,8 @@ AC_ARG_WITH(ogre-plugins,[  --with-ogre-plugins=path        Set location of Ogre
 AC_SUBST(OGRE_PLUGINDIR)
 
 # CEGUI
-PKG_CHECK_MODULES(CEGUI, CEGUI-OGRE)
+PKG_CHECK_MODULES(CEGUI, CEGUI)
+PKG_CHECK_MODULES(CEGUIOGRE, CEGUI-OGRE)
 
 dnl Other stuff we need
 AC_CHECK_LIB([log4cxx], [main], AC_DEFINE(HAVE_LOG4CXX,[], [Log4cxx is installed]))
