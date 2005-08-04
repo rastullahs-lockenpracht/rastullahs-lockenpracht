@@ -137,6 +137,7 @@ namespace rl {
 
             void switchMouseToUnbuffered();
             void switchMouseToBuffered();
+            void resetPressedKeys( bool up );
 
             CEGUI::utf32 getKeyChar(Ogre::KeyEvent* ke);			
 	};

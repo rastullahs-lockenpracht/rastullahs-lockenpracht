@@ -76,8 +76,8 @@ namespace rl {
 		switchMouseToUnbuffered();
 		mEventProcessor = new EventProcessor();
 		GameLoopManager::getSingleton().addSynchronizedTask(this);
-		for(int i=0; i<NUM_KEYS; i++)
-			mKeyDown[i] = false;
+        for(int i=0; i<NUM_KEYS; i++)
+            mKeyDown[i] = false;
 
 		mScreenX = Root::getSingleton().getAutoCreatedWindow()->getWidth();
 		mScreenY = Root::getSingleton().getAutoCreatedWindow()->getHeight();		
@@ -358,6 +358,7 @@ namespace rl {
 		if (!active && isCeguiActive()) // war nicht aktiv, sollte jetzt aktiv sein -> anschalten
 		{
 			UiSubsystem::getSingleton().log("switch mouse to buffered - start");
+            resetPressedKeys( true );
 			switchMouseToBuffered();
 			CEGUI::MouseCursor::getSingleton().show();
 			UiSubsystem::getSingleton().log("switch mouse to buffered - end");
@@ -382,10 +383,22 @@ namespace rl {
 		{
 			UiSubsystem::getSingleton().log("switch mouse to unbuffered - start");
 			CEGUI::MouseCursor::getSingleton().hide();
-			switchMouseToUnbuffered();		
+            resetPressedKeys( false );
+			switchMouseToUnbuffered();	
 			UiSubsystem::getSingleton().log("switch mouse to unbuffered - end");
 		}
 	}
+
+    void InputManager::resetPressedKeys( bool up )
+    {
+        for(int i=0; i<NUM_KEYS; i++)
+        {
+            if( mKeyDown[i] && up )
+                CommandMapper::getSingleton().injectKeyUp( i );
+            else if( mKeyDown[i] && !up ) 
+                CommandMapper::getSingleton().injectKeyDown( i );
+        }
+    }
 
 	void InputManager::switchMouseToBuffered()
 	{
@@ -434,6 +447,7 @@ namespace rl {
 		mInputReader->useBufferedInput(&mEventQueue, true, false);
 		mInputReader->setBufferedInput(true, false);
 		mInputReader->initialise(Ogre::Root::getSingleton().getAutoCreatedWindow(), true, true);
+
 		mInputInitialized = true; 
 	}
 
