@@ -31,7 +31,7 @@ class ObjectStateChangeEventSource;
  *  ObjectStateChangeEvent
  *  Ein Event der ausgelöst wird, wenn sich eine Eigenschaft eines GameObjects verändert hat 
  *
- *  @see ObjectStateChangeListener, ObjectStateChangeEventSource, GameEventManager
+ *  @see ObjectStateChangeListener, ObjectStateChangeEventSource
  *  @todo Feldgenauigkeit, also auch noch im Ereignis zu kodieren, was verändert wurde
  */
 class _RlCoreExport ObjectStateChangeEvent : public virtual EventObject 
@@ -44,14 +44,14 @@ public:
     /// Standarddestruktor
     virtual ~ObjectStateChangeEvent() {};
 
-    /// Setzt den verursachenden Actor des Events
+    /// Setzt das verursachenden Object des Events
     void setProvokingObject(Ogre::UserDefinedObject* obj ) {  mObject = obj; };
-    /// Gibt den verursachenden Actor des Events zurück
+    /// Gibt das verursachende Object des Events zurück
     Ogre::UserDefinedObject* getProvokingObject() const { return mObject; };
     /// Gibt die Eventquelle zurück
     ObjectStateChangeEventSource* getSource() const;
 private:
-    /// Der verursachende Actor
+    /// Das verursachende Object
     Ogre::UserDefinedObject* mObject;
 };
 }

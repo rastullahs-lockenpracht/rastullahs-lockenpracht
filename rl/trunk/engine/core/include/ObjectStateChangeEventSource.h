@@ -30,19 +30,14 @@
 namespace rl {
 
 /** 
- * GameAreaEventSource
- * Die Quelle für Ereignisse die das betreten/verlassen eines Areals betreffen.
- * Hier werden die Actoren die sich zur letzten Abfrage innerhalb des Areals befanden
- * aufbewahrt, um die Differenzen bestimmen zu können, und die Abfragemethode verwaltet
+ * ObjectStateChangeEventSource
  *
- *  @see GameAreaListener, GameAreaEvent, GameEventManager, GameAreaTypes
+ *  @see ObjectStateChangeEvent, ObjectStateChangeListener, GameObject
  */
 class _RlCoreExport ObjectStateChangeEventSource : public virtual EventSource
 {
 public:
     /** Konstruktor
-     *  @param areaType Die Art des abzufragenden Areals 
-     *  @param act Der Actor, an den das Zentrum des Areals geknüpft ist
      */
 	ObjectStateChangeEventSource( Ogre::UserDefinedObject* obj );
 	ObjectStateChangeEventSource( );
@@ -63,19 +58,17 @@ public:
     /// Gibt zurück ob sich Listener angemeldet haben
     bool hasListeners( ) const;
 
-    /// Gibt das Objekt zurück, der überwacht wird
+    /// Gibt das Objekt zurück, das überwacht wird
     Ogre::UserDefinedObject* getObject() const { return mObject; }
 
-	void fireObjectStateChangeEvent();
-
+    void fireObjectStateChangeEvent();
 protected:
 	void setObject(Ogre::UserDefinedObject* obj) { mObject = obj; }
 
 private: 
-
     /// Der EventCaster der die Verteilung an die Listener übernimmt
     EventCaster<ObjectStateChangeEvent> mObjectStateChangeEventCaster;
-    /// Der Aktor der überwacht wird
+    /// Das Object der überwacht wird
     Ogre::UserDefinedObject* mObject;
 };
 

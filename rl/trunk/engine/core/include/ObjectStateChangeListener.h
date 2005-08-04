@@ -24,10 +24,10 @@
 
 namespace rl {
 
-/** GameAreaListener
- *  Eine Basisklasse für Listener die auf GameAreaEvents lauschen
+/** ObjectStateChangeListener
+ *  Eine Basisklasse für Listener die auf ObjectStateChangeEvents lauschen
  *
- *  @see GameAreaEvent, GameAreaEventSource, GameEventManager, GameAreaTypes
+ *  @see ObjectStateChangeEvent, ObjectStateChangeEventSource, GameObject
  */
 class _RlCoreExport ObjectStateChangeListener : public virtual EventListener<ObjectStateChangeEvent>
 {
@@ -38,6 +38,9 @@ public:
      /// Kümmert sich um das Aufrufen benannter Methoden aus Reasons
 	virtual bool eventRaised(ObjectStateChangeEvent *anEvent);
 
+    /** Diese Methode wird aufgerufen, wenn sich der Status des Objectes geändert hat
+      * @param anEvent Der auslösende Event
+      */  
 	virtual void objectStateChanged(ObjectStateChangeEvent* anEvent) = 0;
 };
 }
