@@ -21,13 +21,17 @@
 	LightObject.h \
 	ListenerObject.h \
 	MeshObject.h \
+	ObjectStateChangeEvent.h \
+	ObjectStateChangeEventSource.h \
+	ObjectStateChangeListener.h \
 	ParticleSystemObject.h \
 	PhysicalThing.h \
 	PhysicsManager.h \
+	Primitive.h \
 	RubyInterpreter.h \
 	ScriptObject.h \
-	SoundObject.h \
 	SoundUpdateTask.h \
+	SoundObject.h \
 	TrackAnimation.h \
 	World.h 
 	

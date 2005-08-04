@@ -32,7 +32,7 @@ namespace rl {
     }
 
     GameEventManager::GameEventManager( ) :
-        m_AreaEventSources()
+        mAreaEventSources()
     {
         
     }
@@ -40,12 +40,12 @@ namespace rl {
     GameEventManager::~GameEventManager( )
     {
         GameAreaEventSourceList::iterator it;
-        for( it = m_AreaEventSources.begin(); it != m_AreaEventSources.end();++it) 
+        for( it = mAreaEventSources.begin(); it != mAreaEventSources.end();++it) 
         {
             GameAreaEventSource* gam = *it;
             delete gam;
         }
-        m_AreaEventSources.clear();
+        mAreaEventSources.clear();
     }
 
     void GameEventManager::addSphereAreaListener( Actor* actor,Ogre::Real radius,
@@ -56,7 +56,7 @@ namespace rl {
         // Event-Quelle erzeugen
         GameAreaEventSource* gam = new GameAreaEventSource( at, actor );
         // In die Menge einfügen
-        m_AreaEventSources.push_back( gam );
+        mAreaEventSources.push_back( gam );
         // Und Listener anhängen
         gam->addAreaListener( list );
     }
@@ -64,7 +64,7 @@ namespace rl {
     void GameEventManager::removeAreaListener( GameAreaListener* list )
     {
         GameAreaEventSourceList::iterator it;
-        for( it = m_AreaEventSources.begin(); it != m_AreaEventSources.end();) 
+        for( it = mAreaEventSources.begin(); it != mAreaEventSources.end();) 
         {
             GameAreaEventSource* gam = *it;
             gam->removeAreaListener( list );
@@ -73,7 +73,7 @@ namespace rl {
             if( !gam->hasListeners() )
             {            
                 // Iterator zurückgeben, da sich dieser nach löschen ändert
-                it = m_AreaEventSources.erase(it);
+                it = mAreaEventSources.erase(it);
                 // Die Area-Art löschen
                 delete gam->getGameAreaType();
                 // Das Objekt löschen
@@ -88,7 +88,7 @@ namespace rl {
     void GameEventManager::removeAllAreas( Actor* actor )
     {
         GameAreaEventSourceList::iterator it;
-        for( it = m_AreaEventSources.begin(); it != m_AreaEventSources.end();) 
+        for( it = mAreaEventSources.begin(); it != mAreaEventSources.end();) 
         {
             GameAreaEventSource* gam = *it;
 
@@ -96,7 +96,7 @@ namespace rl {
             if( gam->getActor() == actor )
             {      
                 // Iterator zurückgeben, da sich dieser nach löschen ändert
-                it = m_AreaEventSources.erase(it++);
+                it = mAreaEventSources.erase(it++);
                 // Die Area-Art löschen
                 delete gam->getGameAreaType();
                 // Das Objekt löschen
@@ -111,7 +111,7 @@ namespace rl {
     void GameEventManager::run( Ogre::Real elapsedTime )
     {
         GameAreaEventSourceList::iterator it;
-        for( it = m_AreaEventSources.begin(); it != m_AreaEventSources.end();++it) 
+        for( it = mAreaEventSources.begin(); it != mAreaEventSources.end();++it) 
         {
             GameAreaEventSource* gam = *it;
             gam->performQuery( elapsedTime );

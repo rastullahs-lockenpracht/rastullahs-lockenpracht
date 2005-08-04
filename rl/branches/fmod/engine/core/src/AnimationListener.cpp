@@ -31,7 +31,7 @@ Animation* AnimationEvent::getAnimation() const
 }
 
 
-bool AnimationListener::eventRaised( AnimationEvent* anEvent ) const
+bool AnimationListener::eventRaised( AnimationEvent* anEvent ) 
 {
 	switch( anEvent->getReason() )
 	{

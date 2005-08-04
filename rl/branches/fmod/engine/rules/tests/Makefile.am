@@ -4,5 +4,5 @@ noinst_PROGRAMS = testrules
 testrules_SOURCES = Main.cpp
 testrules_LDFLAGS = -L../../core/src  -L../../common/src -L../../rules/src
 testrules_LDADD = $(LIBS) $(OPENALPP_LIBS) $(SDL_LIBS) $(OGRE_LIBS) \
-	 $(RUBY_LIBS) -lRlCore -lRlCommon -lRlRules -lcppunit -lvorbis -logg -lboost_thread
+	 $(RUBY_LIBS) -lRlCore -lRlCommon -lRlRules -lcppunit -lvorbis -lvorbisfile -logg -lboost_thread
 

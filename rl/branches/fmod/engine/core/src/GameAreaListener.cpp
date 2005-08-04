@@ -25,7 +25,7 @@ namespace rl {
         GameEventManager::getSingleton().removeAreaListener( this );
     }
 
-    bool GameAreaListener::eventRaised( GameAreaEvent* anEvent ) const
+    bool GameAreaListener::eventRaised( GameAreaEvent* anEvent )
     {
         switch( anEvent->getReason() )
         {

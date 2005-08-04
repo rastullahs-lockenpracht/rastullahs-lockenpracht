@@ -38,22 +38,22 @@ namespace rl {
 
     GameSphereAreaType::GameSphereAreaType(Vector3 center, Real radius, unsigned long mask)
     {
-        m_SphereQuery = CoreSubsystem::getSingleton().getWorld()->
+        mSphereQuery = CoreSubsystem::getSingleton().getWorld()->
             getSceneManager()->createSphereQuery( Sphere(center,radius), mask );
 
         // Keine Welt-Geometrie erwünscht, nur Movables
-        m_SphereQuery->setWorldFragmentType( SceneQuery::WFT_NONE );
+        mSphereQuery->setWorldFragmentType( SceneQuery::WFT_NONE );
     }
 
     GameSphereAreaType::~GameSphereAreaType()
     {
-        m_SphereQuery->clearResults();
-        CoreSubsystem::getSingleton().getWorld()->getSceneManager()->destroyQuery( m_SphereQuery );
+        mSphereQuery->clearResults();
+        CoreSubsystem::getSingleton().getWorld()->getSceneManager()->destroyQuery( mSphereQuery );
     }
 
     ActorMap GameSphereAreaType::performQuery(  )
     {
-        SceneQueryResult rs = m_SphereQuery->execute();
+        SceneQueryResult rs = mSphereQuery->execute();
         SceneQueryResultMovableList movList = rs.movables;
         
         ActorMap retMap;
@@ -76,26 +76,26 @@ namespace rl {
 
     unsigned long GameSphereAreaType::getQueryMask() const
     {
-        return m_SphereQuery->getQueryMask();
+        return mSphereQuery->getQueryMask();
     }
 
     void GameSphereAreaType::setQueryMask( unsigned long mask ) 
     {
-        m_SphereQuery->setQueryMask( mask );
+        mSphereQuery->setQueryMask( mask );
     }
 
     void GameSphereAreaType::setQueryPosition( const Ogre::Vector3& vec )
     {
         // Wurde es bewegt?
-        if( vec != m_SphereQuery->getSphere().getCenter( ) )
+        if( vec != mSphereQuery->getSphere().getCenter( ) )
             // Kugel muss neu erzeugt werden :(
-            m_SphereQuery->setSphere( Sphere(vec,m_SphereQuery->getSphere().getRadius()) );
+            mSphereQuery->setSphere( Sphere(vec,mSphereQuery->getSphere().getRadius()) );
     }
 
     const Ogre::Vector3& GameSphereAreaType::getQueryPosition() const
     {
         
-        return m_SphereQuery->getSphere().getCenter( );
+        return mSphereQuery->getSphere().getCenter( );
     }
 
 }

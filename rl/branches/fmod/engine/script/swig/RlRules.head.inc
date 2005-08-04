@@ -29,5 +29,6 @@
 #include "Item.h"
 #include "Person.h"
 #include "RulesSubsystem.h"
+#include "Container.h"
 
 %}

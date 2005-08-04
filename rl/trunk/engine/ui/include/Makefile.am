@@ -7,6 +7,7 @@ noinst_HEADERS = \
 	CommandMapper.h \
 	CommandMapperWindow.h \
 	Console.h \
+	ContainerContentWindow.h \
 	DebugWindow.h \
 	DialogWindow.h \
 	GameController.h \
@@ -19,4 +20,6 @@ noinst_HEADERS = \
 	UiPrerequisites.h \
 	UiSubsystem.h \
 	WindowManager.h \
-	../components/include/ListboxWrappedTextItem.h
+	../components/include/ListboxWrappedTextItem.h \
+	../components/include/ListboxImageItem.h
+	

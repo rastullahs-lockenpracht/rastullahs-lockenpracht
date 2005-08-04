@@ -17,6 +17,8 @@
 #ifndef __CONTAINER_H__
 #define __CONTAINER_H__
 
+#include "RulesPrerequisites.h"
+
 #include "GameObject.h"
 #include "Item.h"
 
@@ -26,7 +28,7 @@ namespace rl
     class _RlRulesExport Container : public GameObject
     {
     public:
-        Container(int id, const std::string& name, const std::string& description);
+        Container(int id, const CeGuiString& name, const CeGuiString& description);
         virtual ~Container(void);
 
         /// Fassungsvermoegen in Unzen

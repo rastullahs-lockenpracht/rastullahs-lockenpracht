@@ -139,7 +139,7 @@ namespace rl {
 	};
 	
 	// Vor Action stehen!
-	%apply SWIGTYPE *DYNAMIC { GameObject * };
+	%apply SWIGTYPE *DYNAMIC { rl::GameObject * };
 	
 	static const int ACT_NORMAL = 1<<0;
 	static const int ACT_INVIS_DESC = 1<<1;
@@ -164,7 +164,7 @@ namespace rl {
     };
     
     %feature("director") GameObject;
-    class GameObject
+    class GameObject: public ObjectStateChangeEventSource
     {
     public:
         GameObject(int id, const rl::CeGuiString& name, const rl::CeGuiString& description);
@@ -198,7 +198,10 @@ namespace rl {
 			const rl::CeGuiString& className, 
 			rl::Creature* actor,
             rl::GameObject* target);
-        void doAction(Action* action, rl::Creature* actor,
+        void doAction(
+			const rl::CeGuiString& actionName, 
+			const rl::CeGuiString& className);
+        void doAction(rl::Action* action, rl::Creature* actor,
             rl::GameObject* target);
             
         void setString(const char* key, rl::CeGuiString value);
@@ -219,6 +222,21 @@ namespace rl {
         virtual ~Item(void);
     };
     
+    %feature("director") Container;
+    class Container : public GameObject
+    {
+    public:
+        Container(int id, const rl::CeGuiString& name, const rl::CeGuiString& description);
+        virtual ~Container(void);
+
+        int getCapacity() const;
+        void setCapacity(int capacity);
+        int getContentWeight() const;
+        void addItem(rl::Item* item);
+        rl::Item* removeItem(int itemId);
+        rl::ItemSet getItems() const;
+	};
+    
     %feature("director") Creature;
     class Creature : public GameObject {
     public:
@@ -235,10 +253,14 @@ namespace rl {
         virtual void modifyTalent(int id, int mod);
 
         virtual void modifyLe(int mod);
+        virtual void modifyAe(int mod);
+        virtual void modifyAu(int mod);
         virtual int getLe();
 
         virtual int doTalentprobe(int id, int modifier);
         virtual int doEigenschaftsprobe(int id, int modifier);
+        
+        void setWert(int id, int value);
    };
    
    %feature("director") Person;
@@ -270,6 +292,11 @@ static swig_type_info *GameObject_dynamic_cast(void **ptr)
     if (pItem) {
         *ptr=reinterpret_cast<void*>(pItem);
         return SWIGTYPE_p_rl__Item;
+    }
+    rl::Container *pContainer=dynamic_cast<rl::Container*>(*ppGameObject);
+    if (pContainer) {
+        *ptr=reinterpret_cast<void*>(pContainer);
+        return SWIGTYPE_p_rl__Container;
     }
     return 0;
 }

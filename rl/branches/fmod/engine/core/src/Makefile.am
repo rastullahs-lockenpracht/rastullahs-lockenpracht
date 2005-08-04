@@ -7,13 +7,13 @@ libRlCore_la_SOURCES = \
 	ActorControlledObject.cpp \
 	ActorManager.cpp \
 	Animation.cpp \
-    AnimationListener.cpp \
+	AnimationListener.cpp \
 	AnimationManager.cpp \
 	CameraObject.cpp \
 	ConfigurationManager.cpp \
-    ConfigurationManagerLinux.cpp \
-    ConfigurationManagerWin32.cpp \
-    ConfigurationManagerMac.cpp \
+	ConfigurationManagerLinux.cpp \
+	ConfigurationManagerWin32.cpp \
+	ConfigurationManagerMac.cpp \
 	CoreSubsystem.cpp \
 	DotSceneLoader.cpp \
 	DotSceneOctreeWorld.cpp \
@@ -27,9 +27,13 @@ libRlCore_la_SOURCES = \
 	LightObject.cpp \
 	ListenerObject.cpp \
 	MeshObject.cpp \
+	ObjectStateChangeEvent.cpp \
+	ObjectStateChangeEventSource.cpp \
+	ObjectStateChangeListener.cpp \
 	ParticleSystemObject.cpp \
 	PhysicalThing.cpp \
 	PhysicsManager.cpp \
+	Primitive.cpp \
 	RubyInterpreter.cpp \
 	ScriptObject.cpp \
 	SoundObject.cpp \

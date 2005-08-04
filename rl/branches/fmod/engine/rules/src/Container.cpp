@@ -22,7 +22,7 @@ using namespace std;
 
 namespace rl {
 
-    Container::Container(int id, const string& name, const string& description)
+    Container::Container(int id, const CeGuiString& name, const CeGuiString& description)
         : GameObject(id, name, description), mCapacity(1000)
     {
     }

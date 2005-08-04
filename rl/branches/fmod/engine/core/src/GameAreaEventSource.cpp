@@ -22,29 +22,29 @@
 namespace rl {
 
     GameAreaEventSource::GameAreaEventSource( GameAreaType* areaType, Actor* act ) :
-        m_AreaType( areaType ),
-        m_InsideAreaList(),
-        m_AreaEventCaster(),
-        m_Actor(act)
+        mAreaType( areaType ),
+        mInsideAreaList(),
+        mAreaEventCaster(),
+        mActor(act)
     {
        
     }
 
     GameAreaEventSource::~GameAreaEventSource() 
     {
-        m_InsideAreaList.clear();
-        m_AreaEventCaster.removeEventListeners();
+        mInsideAreaList.clear();
+        mAreaEventCaster.removeEventListeners();
     }
 
     
     void GameAreaEventSource::performQuery( Ogre::Real timePassed )
     {
         // Position übertragen
-        m_AreaType->setQueryPosition( m_Actor->getWorldPosition() );       
-        ActorMap currInside = m_AreaType->performQuery();
+        mAreaType->setQueryPosition( mActor->getWorldPosition() );       
+        ActorMap currInside = mAreaType->performQuery();
         // Der Actor um den herum die Quelle ist, wird vermutlich auch gefunden :)
         // Also rauslöschen
-        currInside.erase( m_Actor->getName() );
+        currInside.erase( mActor->getName() );
 
         ActorMap enteredMap, leftMap;
         // EinfuegeIteratoren erstellen        
@@ -52,15 +52,15 @@ namespace rl {
         insert_iterator<ActorMap> leftInsert(leftMap, leftMap.begin());
 
         // Alle feststellen die rausgefallen sind
-        set_difference( m_InsideAreaList.begin(), m_InsideAreaList.end(),
+        set_difference( mInsideAreaList.begin(), mInsideAreaList.end(),
                         currInside.begin(), currInside.end(), leftInsert );
         
         // Alle feststellen die neu hinzugekommen sind
         set_difference( currInside.begin(), currInside.end(),
-            m_InsideAreaList.begin(), m_InsideAreaList.end(), enteredInsert );
+            mInsideAreaList.begin(), mInsideAreaList.end(), enteredInsert );
 
-        // Die Übriggebliebenen in m_InsideAreaList speichern
-        m_InsideAreaList = currInside;
+        // Die Übriggebliebenen in mInsideAreaList speichern
+        mInsideAreaList = currInside;
 
         // Die Neuen und die Rausgefallenen an die Listener dispatchen
         doDispatchEvents( enteredMap, leftMap );
@@ -78,7 +78,7 @@ namespace rl {
         {
             actor = it->second;
             event->setProvokingActor( actor );
-            m_AreaEventCaster.dispatchEvent( event );
+            mAreaEventCaster.dispatchEvent( event );
         }
 
         event->setReason( GameAreaEvent::AREA_ENTERED );
@@ -87,23 +87,23 @@ namespace rl {
         {
             actor = it->second;
             event->setProvokingActor( actor );
-            m_AreaEventCaster.dispatchEvent( event );
+            mAreaEventCaster.dispatchEvent( event );
         }
     }
 
     void GameAreaEventSource::addAreaListener( GameAreaListener*  list )
     {
-        m_AreaEventCaster.addEventListener( list );
+        mAreaEventCaster.addEventListener( list );
     }
 
     void GameAreaEventSource::removeAreaListener( GameAreaListener* list )
     {
-        m_AreaEventCaster.removeEventListener( list );
+        mAreaEventCaster.removeEventListener( list );
     }
 
     bool GameAreaEventSource::hasListeners( ) const
     {
-        return m_AreaEventCaster.hasEventListeners();
+        return mAreaEventCaster.hasEventListeners();
     }
 }
 

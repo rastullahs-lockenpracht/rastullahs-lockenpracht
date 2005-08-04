@@ -138,7 +138,6 @@ namespace rl {
 		Ogre::SceneNode* mControlNode;
 		Ogre::SceneNode* mCameraNode;
 		Ogre::Real mFallSpeed;
-
     };
 }
 

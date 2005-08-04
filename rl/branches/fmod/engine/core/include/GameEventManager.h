@@ -79,7 +79,7 @@ public:
     /// Singleton
     static GameEventManager * getSingletonPtr(void);
 private:
-    GameAreaEventSourceList m_AreaEventSources;
+    GameAreaEventSourceList mAreaEventSources;
 };
 
 }

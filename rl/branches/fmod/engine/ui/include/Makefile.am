@@ -2,10 +2,12 @@ noinst_HEADERS = \
 	ActionChoiceWindow.h \
 	CeGuiWindow.h \
 	CharacterSheetWindow.h \
+	CharacterStateWindow.h \
 	CommandExecutor.h \
 	CommandMapper.h \
 	CommandMapperWindow.h \
 	Console.h \
+	ContainerContentWindow.h \
 	DebugWindow.h \
 	DialogWindow.h \
 	GameController.h \
@@ -14,7 +16,9 @@ noinst_HEADERS = \
 	InventoryWindow.h \
 	MessageWindow.h \
 	PlaylistWindow.h \
+	TargetSelectionWindow.h \
 	UiPrerequisites.h \
 	UiSubsystem.h \
 	WindowManager.h \
-	../components/include/ListboxWrappedTextItem.h
+	../components/include/ListboxWrappedTextItem.h \
+	../components/include/ListboxImageItem.h

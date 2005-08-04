@@ -20,24 +20,29 @@
 /* Wrapping Strings to ruby and back 
  for String, const String, String&, String*, const String*, const String&
 */
-%typemap(in) String, const String {
+%typemap(typecheck) Ogre::String, const Ogre::String & = char *;
+
+%typemap(in) Ogre::String, const Ogre::String {
     Check_Type($input, T_STRING);
-    $1 = String(StringValuePtr($input));
+    $1 = Ogre::String(StringValuePtr($input));
 }
-%typemap(out) String, const String {
+%typemap(out) Ogre::String, const Ogre::String {
      $result = rb_str_new2($1.c_str());
 }
-%typemap(in) String*, String&, const String*, const String& {
+%typemap(in) Ogre::String*, Ogre::String&, const Ogre::String*, const Ogre::String& {
     Check_Type($input, T_STRING);
-    $1 = new String(StringValuePtr($input));
+    $1 = new Ogre::String(StringValuePtr($input));
 }
-%typemap(out) String*, String&,  const String*, const String& {
+%typemap(out) Ogre::String*, Ogre::String&, const Ogre::String*, const Ogre::String& {
      $result = rb_str_new2($1->c_str());
 }
+
 
 /* Wrapping rl::CeGuiStrings to ruby and back 
  for rl::CeGuiString, const rl::CeGuiString, rl::CeGuiString&, rl::CeGuiString*, const rl::CeGuiString*, const rl::CeGuiString&
 */
+%typemap(typecheck) rl::CeGuiString, const rl::CeGuiString & = char *;
+
 %typemap(in) rl::CeGuiString, const rl::CeGuiString {
     Check_Type($input, T_STRING);
     $1 = rl::CeGuiString(StringValuePtr($input));
@@ -59,14 +64,14 @@
 %typemap(directorin) rl::CeGuiString *, const rl::CeGuiString * 
 	"$input = rb_str_new2($1->c_str());"
 
-%typemap(directorout) rl::CeGuiString {
+%typemap(directorout) rl::CeGuiString, const rl::CeGuiString {
     if (TYPE($input) == T_STRING)
         $result = rl::CeGuiString(StringValuePtr($input));
     else
         throw Swig::DirectorTypeMismatchException("string expected");
 }
 
-%typemap(directorout) const rl::CeGuiString & {
+%typemap(directorout) const rl::CeGuiString &, rl::CeGuiString&  {
     if (TYPE($input) == T_STRING) {
 		$result = new rl::CeGuiString();
         $result->assign(rl::CeGuiString(StringValuePtr($input)));
@@ -76,60 +81,43 @@
 }
 
 /* Radian / Degree all Ruby Values are interpreted as DEGREE! */
-%typemap(in) Radian, const Radian, Radian&, const Radian& {
+%typemap(typecheck) Ogre::Radian, const Ogre::Radian& = double;
+
+%typemap(in) Ogre::Radian, const Ogre::Radian, Ogre::Radian&, const Ogre::Radian& {
     Check_Type($input, T_FLOAT);
-    $1 = Degree(RFLOAT($input)->value);
+    $1 = Ogre::Degree(RFLOAT($input)->value);
 }
-%typemap(in) Radian*, const Radian*, Radian&, const Radian& {
+%typemap(in) Ogre::Radian*, const Ogre::Radian*, Ogre::Radian&, const Ogre::Radian& {
     Check_Type($input, T_FLOAT);
-    $1 = new Radian(Degree(RFLOAT($input)->value));
+    $1 = new Ogre::Radian(Ogre::Degree(RFLOAT($input)->value));
 }
-%typemap(out) Radian, const Radian {
+%typemap(out) Ogre::Radian, const Ogre::Radian {
      $result = rb_float_new($1.valueDegrees());
 }
-%typemap(out) Radian&, const Radian& {
+%typemap(out) Ogre::Radian&, const Ogre::Radian& {
      $result = rb_float_new($1->valueDegrees());
 }
 
-    
+
 /* Wrapping Real to ruby and back 
  for Real, const Real, Real&, Real*, const Real*, const Real&
 */
-%typemap(in) Real, const Real {
+%typemap(typecheck) Ogre::Real, const Ogre::Real& = double;
+    
+%typemap(in) Ogre::Real, const Ogre::Real {
     Check_Type($input, T_FLOAT);
     $1 = RFLOAT($input)->value;
 }
-%typemap(out) Real, const Real {
+%typemap(out) Ogre::Real, const Ogre::Real {
      $result = rb_float_new($1);
 }
-%typemap(in) Real*, Real&, const Real*, const Real& {
+%typemap(in) Ogre::Real*, Ogre::Real&, const Ogre::Real*, const Ogre::Real& {
     Check_Type($input, T_FLOAT);
     $1 = RFLOAT($input)->value;
 }
-%typemap(out) Real*, Real&,  const Real*, const Real& {
+%typemap(out) Ogre::Real*, Ogre::Real&,  const Ogre::Real*, const Ogre::Real& {
 	$result = rb_float_new(*$1);
 }
-
-/* Wrapping float to ruby and back 
- for float, const float, float&, float*, const float*, const float&
-*/
-%typemap(in) float, const float {
-    Check_Type($input, T_FLOAT);
-    $1 = RFLOAT($input)->value;
-}
-
-//%typemap(out) float, const float {
-//     $result = $1;
-//}
-
-%typemap(in) float*, float&, const float*, const float& {
-    Check_Type($input, T_FLOAT);
-    $1 = RFLOAT($input)->value;
-}
-
-//%typemap(out) float*, float&,  const float*, const float& {
-//	$result = $1;
-//}
 
 /* IN Typemaps fuer Tripel<int>.
  * Ein Tripel wird einfach auf ein dreielementiges Array abgebildet.
@@ -198,57 +186,62 @@
  * Nil wird zu 0. Indizes >= 3 werden ignoriert.
  * TODO eben das aendern
  */
-%typemap(in) Vector3
+
+%typecheck(SWIG_TYPECHECK_DOUBLE_ARRAY) Ogre::Vector3, const Ogre::Vector3& {
+  $1 = TYPE($input) == T_ARRAY && RARRAY($input)->len == 3 ? 1 : 0;
+}
+ 
+%typemap(in) Ogre::Vector3
 {
    Check_Type($input, T_ARRAY);
-   Vector3 vector(0.0, 0.0, 0.0);
+   Ogre::Vector3 vec(0.0, 0.0, 0.0);
    int length = RARRAY($input)->len;
    VALUE* it = RARRAY($input)->ptr;
    if (length > 0) {
       Check_Type(*it, T_FLOAT);
-      vector.x = RFLOAT(*it)->value;
+      vec.x = RFLOAT(*it)->value;
       it++;
    }
    if (length > 1) {
       Check_Type(*it, T_FLOAT);
-      vector.y = RFLOAT(*it)->value;
+      vec.y = RFLOAT(*it)->value;
       it++;
    }
    if (length > 2) {
       Check_Type(*it, T_FLOAT);
-      vector.z = RFLOAT(*it)->value;
+      vec.z = RFLOAT(*it)->value;
    }
-   $1 = vector;
+   $1 = vec;
 }
 
-%typemap(in) Vector3*, Vector3&,
-   const Vector3*, const Vector3&
+%typemap(in) Ogre::Vector3*, Ogre::Vector3&,
+   const Ogre::Vector3*, const Ogre::Vector3&
 {
    Check_Type($input, T_ARRAY);
-   Vector3* vector = new Vector3(0.0, 0.0, 0.0);
+   Ogre::Vector3* vec = new Ogre::Vector3(0.0, 0.0, 0.0);
    int length = RARRAY($input)->len;
    VALUE* it = RARRAY($input)->ptr;
    if (length > 0) {
       Check_Type(*it, T_FLOAT);
-      vector->x = RFLOAT(*it)->value;
+      vec->x = RFLOAT(*it)->value;
       it++;
    }
    if (length > 1) {
       Check_Type(*it, T_FLOAT);
-      vector->y = RFLOAT(*it)->value;
+      vec->y = RFLOAT(*it)->value;
       it++;
    }
    if (length > 2) {
       Check_Type(*it, T_FLOAT);
-      vector->z = RFLOAT(*it)->value;
+      vec->z = RFLOAT(*it)->value;
    }
-   $1 = vector;
+   $1 = vec;
 }
 
-%typemap(in) Vector3
+%typemap(in) Ogre::Quaternion
 {
    Check_Type($input, T_ARRAY);
-   Quaternion quat(0.0, 0.0, 0.0, 0.0);
+   Ogre::Quaternion quat(0.0, 0.0, 0.0, 0.0);
    int length = RARRAY($input)->len;
    VALUE* it = RARRAY($input)->ptr;
    if (length > 0) {
@@ -270,14 +263,19 @@
       Check_Type(*it, T_FLOAT);
       quat.z = RFLOAT(*it)->value;
    }
-   $1 = vector;
+   $1 = quat;
 }
 
-%typemap(in) Quaternion*, Quaternion&,
-   const Quaternion*, const Quaternion&
+
+%typecheck(SWIG_TYPECHECK_DOUBLE_ARRAY) Ogre::Quaternion, const Ogre::Quaternion& {
+  $1 = TYPE($input) == T_ARRAY && RARRAY($input)->len == 4 ? 1 : 0;
+}
+
+%typemap(in) Ogre::Quaternion*, Ogre::Quaternion&,
+   const Ogre::Quaternion*, const Ogre::Quaternion&
 {
    Check_Type($input, T_ARRAY);
-   Quaternion* quat = new Quaternion(0.0, 0.0, 0.0, 0.0);
+   Ogre::Quaternion* quat = new Ogre::Quaternion(0.0, 0.0, 0.0, 0.0);
    int length = RARRAY($input)->len;
    VALUE* it = RARRAY($input)->ptr;
    if (length > 0) {
@@ -299,14 +297,14 @@
       Check_Type(*it, T_FLOAT);
       quat->z = RFLOAT(*it)->value;
    }
-   $1 = vector;
+   $1 = quat;
 }
 
 /* OUT Typemaps fuer Tripel<int>.
  * Ein Tripel wird einfach auf ein dreielementiges Array abgebildet.
  * 
  */
-%typemap(out) Vector3, const Vector3 {
+%typemap(out) Ogre::Vector3, const Ogre::Vector3 {
    VALUE array = rb_ary_new();
    rb_ary_push(array, rb_float_new($1.x));
    rb_ary_push(array, rb_float_new($1.y));
@@ -314,7 +312,7 @@
    $result = array;
 }
 
-%typemap(out) Vector3*, const Vector3*, const Vector3&, Vector& {
+%typemap(out) Ogre::Vector3*, const Ogre::Vector3*, const Ogre::Vector3&, Ogre::Vector& {
    VALUE array = rb_ary_new();
    rb_ary_push(array, rb_float_new($1->x));
    rb_ary_push(array, rb_float_new($1->y));
@@ -322,7 +320,7 @@
    $result = array;
 } 
 
-%typemap(out) Quaternion, const Quaternion {
+%typemap(out) Ogre::Quaternion, const Ogre::Quaternion {
    VALUE array = rb_ary_new();
    rb_ary_push(array, rb_float_new($1.w));
    rb_ary_push(array, rb_float_new($1.x));
@@ -331,7 +329,7 @@
    $result = array;
 }
 
-%typemap(out) Quaternion*, const Quaternion*, const Quaternion&, Quaternion& {
+%typemap(out) Ogre::Quaternion*, const Ogre::Quaternion*, const Ogre::Quaternion&, Ogre::Quaternion& {
    VALUE array = rb_ary_new();
    rb_ary_push(array, rb_float_new($1->w));
    rb_ary_push(array, rb_float_new($1->x));

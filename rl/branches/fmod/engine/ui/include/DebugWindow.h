@@ -19,7 +19,6 @@
 
 #include "UiPrerequisites.h"
 #include <OgreSingleton.h>
-#include <OgreKeyEvent.h>
 
 #include "CeGuiWindow.h"
 #include "GameTask.h"

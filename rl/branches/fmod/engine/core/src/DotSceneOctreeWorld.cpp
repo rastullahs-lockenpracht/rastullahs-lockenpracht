@@ -36,12 +36,12 @@ namespace rl {
     DotSceneOctreeWorld::DotSceneOctreeWorld( )
         :   World(ST_GENERIC)
     {
-		 m_SceneFile = "";
+		 mSceneFile = "";
     }
 
     DotSceneOctreeWorld::~DotSceneOctreeWorld()
     {
-		if( m_SceneFile.length() != 0 )
+		if( mSceneFile.length() != 0 )
 			clearScene();
     }
 
@@ -58,8 +58,6 @@ namespace rl {
             mCamera->setPosition( getStartPoint() );
             mCamera->setFOVy(Degree(60));
             mCamera->setFixedYawAxis(false);
-			// 100 m weit
-			mCamera->setFarClipDistance(20000);
         }
 
         // Ein Viewport, das komplette Fenster
@@ -72,7 +70,7 @@ namespace rl {
 
     void DotSceneOctreeWorld::loadScene(const String& levelName)
     {
-        if( m_SceneFile.length() != 0 )
+        if( mSceneFile.length() != 0 )
             clearScene();
 
 		// Leerer String, keine Map laden
@@ -84,7 +82,7 @@ namespace rl {
 
 		DotSceneLoader* dot = new DotSceneLoader( levelName );
 		delete dot;
-		m_SceneFile = levelName;
+		mSceneFile = levelName;
 
         initializeDefaultCamera();
     }
@@ -94,10 +92,10 @@ namespace rl {
         ActorManager::getSingleton().destroyAllActors();
         mSceneMgr->clearScene();
         Ogre::Root::getSingleton().getAutoCreatedWindow()->removeAllViewports(); 
-		XmlResourceManager::getSingleton().unload(m_SceneFile);
+		XmlResourceManager::getSingleton().unload(mSceneFile);
 		PhysicsManager::getSingleton().clearLevelGeometry();
         mSceneMgr = Root::getSingleton().getSceneManager(ST_GENERIC);
-		m_SceneFile = "";
+		mSceneFile = "";
     }
     
 	void DotSceneOctreeWorld::setCastShadows(bool enabled)

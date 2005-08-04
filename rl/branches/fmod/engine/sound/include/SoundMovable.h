@@ -128,7 +128,7 @@ namespace rl {
 
 protected:
         /// Wir haben ein Ereignis erhalten.
-        virtual bool eventRaised(SoundEvent *anEvent) const;
+        virtual bool eventRaised(SoundEvent *anEvent);
 
         /// Shared class-level name for Movable type
         static Ogre::String msMovableType;

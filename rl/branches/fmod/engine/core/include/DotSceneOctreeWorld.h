@@ -35,7 +35,7 @@ namespace rl {
         virtual void loadScene(const Ogre::String& levelName);
 
     protected:
-		std::string m_SceneFile;
+		std::string mSceneFile;
     };
 
 }

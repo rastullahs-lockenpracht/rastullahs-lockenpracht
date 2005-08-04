@@ -17,6 +17,8 @@
 #ifndef __DialogSubsystem_H__
 #define __DialogSubsystem_H__
 
+#include <OgreSingleton.h>
+
 #include "DialogPrerequisites.h"
 
 namespace rl
@@ -24,7 +26,7 @@ namespace rl
 	/** Initialise ans manage everything for using dialogs
 	 *  @author Philipp Walser
 	*/
-	class _RlDialogExport DialogSubsystem: protected Ogre::Singleton<DialogSubsystem>
+	class _RlDialogExport DialogSubsystem: public Ogre::Singleton<DialogSubsystem>
 	{
 	public:
 		static DialogSubsystem & getSingleton(void);

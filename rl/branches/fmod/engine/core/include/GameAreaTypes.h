@@ -57,6 +57,10 @@ public:
     virtual void setQueryPosition( const Ogre::Vector3& vec ) = 0;
     /// Gibt die Position der Anfrage zurück, wird in Unterklassen implementiert
     virtual const Ogre::Vector3& getQueryPosition() const = 0;
+    /// Blendet ein Debug-Objekt ein, um das Areal zu verdeutlichen
+    //virtual setShowDebug() = 0;
+    /// Gibt zurück ob ein Debug-Objekt eingeblendet ist
+    //virtual bool getShowDebug() const = 0;
 private:
 };
 
@@ -90,7 +94,7 @@ public:
     virtual const Ogre::Vector3& getQueryPosition() const;    
 private:
     /// Die Kugel-Anfrage
-    Ogre::SphereSceneQuery* m_SphereQuery;
+    Ogre::SphereSceneQuery* mSphereQuery;
 };
 
 }

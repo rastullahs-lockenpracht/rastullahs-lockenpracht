@@ -175,7 +175,7 @@ void SoundMovable::_updateRenderQueue(RenderQueue *queue)
  * @author JoSch
  * @date 10-14-2004
  */
-bool SoundMovable::eventRaised(SoundEvent *anEvent) const
+bool SoundMovable::eventRaised(SoundEvent *anEvent)
 {
 #if 0
     SoundSubsystem::log("Event raised. Reason: " + StringConverter::toString(anEvent->getReason()));

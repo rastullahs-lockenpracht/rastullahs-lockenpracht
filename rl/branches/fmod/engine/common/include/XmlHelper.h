@@ -17,13 +17,13 @@
 #ifndef __XmlHelper_h__
 #define __XmlHelper_h__
 
-#include "CommonPrerequisites.h"
-
 #include <xercesc/dom/DOMElement.hpp>
 #include <xercesc/util/XMLChar.hpp>
 #include <xercesc/util/TransService.hpp>
 
-// Da sollten wir uns auf etwas enigen
+#include "CommonPrerequisites.h"
+
+// Da sollten wir uns auf etwas einigen
 // So ist das laestig.
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #   pragma warning (push)

@@ -33,6 +33,9 @@
 #include "MainMenuWindow.h"
 #include "WindowManager.h"
 #include "GameLoggerWindow.h"
+#include "TargetSelectionWindow.h"
+#include "CharacterStateWindow.h"
+#include "ContainerContentWindow.h"
 
 #include "GameLoop.h"
 #include "ActorManager.h"
@@ -111,7 +114,7 @@ namespace rl {
 								sceneMgr);
 
 		log("Initialisiere CEGUI-System", "UiSubsystem::initializeUiSubsystem");
-		new System(rend, NULL, new OgreCEGUIResourceProvider(), (utf8*)"cegui.config"); //, , (utf8*)"logs/cegui.log"
+		new System(rend, NULL, new OgreCEGUIResourceProvider(), (utf8*)"cegui.config"); 
 		log("CEGUI-System initialisiert", "UiSubsystem::initializeUiSubsystem");
         
 		// load scheme and set up defaults
@@ -142,7 +145,8 @@ namespace rl {
 		((RubyInterpreter*)CoreSubsystem::getSingleton().getInterpreter() )->initializeInterpreter( (VALUE(*)(...))&UiSubsystem::consoleWrite );
 			      
 		mGameLogger = new GameLoggerWindow();
-        //runTest();
+		mCharacterStateWindow = new CharacterStateWindow();
+        runTest();
     }
 
     void UiSubsystem::requestExit()
@@ -178,6 +182,8 @@ namespace rl {
         CoreSubsystem::getSingleton().log("GameController task added.");
         World* world = CoreSubsystem::getSingletonPtr()->getWorld();
         world->setActiveActor(person->getActor());
+		mCharacterStateWindow->setCharacter(person);
+		mCharacterStateWindow->update();
         CoreSubsystem::getSingleton().log("Actor set");		
 	}
 
@@ -201,6 +207,12 @@ namespace rl {
 			showActionChoice(pickedObject);
 	}
 
+	void UiSubsystem::showContainerContent(Container* container)
+	{
+		ContainerContentWindow* wnd = new ContainerContentWindow(container);
+		wnd->setVisible(true);
+	}
+
 	bool UiSubsystem::showInputOptionsMenu(GameObject* actionHolder)
 	{
 		CommandMapperWindow* wnd = new CommandMapperWindow(actionHolder);
@@ -219,6 +231,11 @@ namespace rl {
 	void UiSubsystem::showMainMenu(GameObject* actionHolder)
 	{
 		(new MainMenuWindow(actionHolder))->setVisible(true);
+	}
+
+	void UiSubsystem::showTargetWindow()
+	{
+		(new TargetSelectionWindow())->setVisible(true);
 	}
 
 	void UiSubsystem::toggleConsole()
@@ -261,6 +278,11 @@ namespace rl {
 		wnd->setVisible(true);
 	}
 
+	void UiSubsystem::toggleCharacterStateWindow()
+	{
+		mCharacterStateWindow->setVisible(!mCharacterStateWindow->isVisible());
+	}
+
 	void UiSubsystem::setBattleMode(bool inBattle)
 	{
 		mInBattle = inBattle;
@@ -274,8 +296,9 @@ namespace rl {
 
 	void UiSubsystem::runTest()
 	{
-		InputManager::getSingleton().setObjectPickingActive(true);
+	//	InputManager::getSingleton().setObjectPickingActive(true);
 		DialogWindow* dialog=new DialogWindow("startup.xml");  
+		
 	}
 	
     GameController* UiSubsystem::getGameController()

@@ -92,6 +92,14 @@ namespace rl {
 		ae.actionClass = "ShowCharacterSheetAction";
 		ae.actionName = "showcharactersheet";
 		mKeyCommandsOffBattle.insert(make_pair(KC_C, ae));
+
+		ae.actionClass = "ShowTargetWindowAction";
+		ae.actionName = "showtargetwindow";
+		mKeyCommandsOffBattle.insert(make_pair(KC_T, ae));
+
+		ae.actionClass = "ToggleCharacterStateWindowAction";
+		ae.actionName = "togglecharacterstatewindow";
+		mKeyCommandsOffBattle.insert(make_pair(KC_O, ae));
 	}
 
 	CommandMapper::~CommandMapper()
