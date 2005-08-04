@@ -17,6 +17,8 @@
 #include "AnimationListener.h"
 
 #include "Animation.h"
+#include "CoreSubsystem.h"
+#include "Exception.h"
 
 namespace rl {
 
@@ -33,25 +35,46 @@ Animation* AnimationEvent::getAnimation() const
 
 bool AnimationListener::eventRaised( AnimationEvent* anEvent ) 
 {
-	switch( anEvent->getReason() )
-	{
-	case AnimationEvent::ANIMATION_FINISHED:
-		this->animationFinished( anEvent );
-		break;
-	case AnimationEvent::ANIMATION_UNPAUSED:
-		this->animationUnpaused( anEvent );
-		break;
-	case AnimationEvent::ANIMATION_PAUSED:
-		this->animationPaused( anEvent );
-		break;
-	}
+    try
+    {
+	    switch( anEvent->getReason() )
+	    {
+	    case AnimationEvent::ANIMATION_FINISHED:
+		    this->animationFinished( anEvent );
+		    break;
+	    case AnimationEvent::ANIMATION_UNPAUSED:
+		    this->animationUnpaused( anEvent );
+		    break;
+	    case AnimationEvent::ANIMATION_PAUSED:
+		    this->animationPaused( anEvent );
+		    break;
+	    }
+    }
+    catch( ScriptInvocationFailedException& sife )
+    {
+        CoreSubsystem::getSingleton().log( sife.toString() );
+    }
+
 
 	// consumed or not ;)
 	return false;
 }
 
+ bool AnimationFrameListener::eventRaised(AnimationFrameEvent *anEvent)
+{
+    try
+    {
+        this->animationFrameReached( anEvent );
+    }
+    catch( ScriptInvocationFailedException& sife )
+    {
+        CoreSubsystem::getSingleton().log( sife.toString() );
+    }
 
 
+    // consumed or not ;)
+    return false;
+}
 
 
 AnimationFrameEvent::AnimationFrameEvent( Animation* anim,  const unsigned int reason, const Ogre::Real& frameNumber ) : 

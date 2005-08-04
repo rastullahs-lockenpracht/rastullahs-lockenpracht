@@ -16,6 +16,9 @@
 
 #include "ObjectStateChangeListener.h"
 
+#include "CoreSubsystem.h"
+#include "Exception.h"
+
 namespace rl {
 
     ObjectStateChangeListener::~ObjectStateChangeListener()
@@ -24,8 +27,17 @@ namespace rl {
 
 	bool ObjectStateChangeListener::eventRaised(ObjectStateChangeEvent* evt)
 	{
-		objectStateChanged(evt);
-		return true;
+        try
+        {
+            objectStateChanged(evt);
+        }
+		catch( ScriptInvocationFailedException& sife )
+        {
+            CoreSubsystem::getSingleton().log( sife.toString() );
+        }
+
+        // consumed or not
+		return false;
 	}
 }
 

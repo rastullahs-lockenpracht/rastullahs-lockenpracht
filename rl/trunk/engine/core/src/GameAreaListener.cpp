@@ -17,6 +17,8 @@
 #include "GameAreaListener.h"
 
 #include "GameEventManager.h"
+#include "CoreSubsystem.h"
+#include "Exception.h"
 
 namespace rl {
 
@@ -25,16 +27,24 @@ namespace rl {
         GameEventManager::getSingleton().removeAreaListener( this );
     }
 
+
     bool GameAreaListener::eventRaised( GameAreaEvent* anEvent )
     {
-        switch( anEvent->getReason() )
+        try
         {
-        case GameAreaEvent::AREA_ENTERED:
-            this->areaEntered( anEvent );
-            break;
-        case GameAreaEvent::AREA_LEFT:
-            this->areaLeft( anEvent );
-            break;
+            switch( anEvent->getReason() )
+            {
+            case GameAreaEvent::AREA_ENTERED:
+                this->areaEntered( anEvent );
+                break;
+            case GameAreaEvent::AREA_LEFT:
+                this->areaLeft( anEvent );
+                break;
+            }
+        }
+        catch( ScriptInvocationFailedException& sife )
+        {
+            CoreSubsystem::getSingleton().log( sife.toString() );
         }
 
         // consumed or not ;)

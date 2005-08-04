@@ -42,9 +42,10 @@
 #endif
 
 %feature("director:except") {
-	// Throw(rl::RuntimeException, StringValuePtr($error) );
-    static VALUE rlException = rb_define_class("RlException", rb_eStandardError);
-    rb_raise(rlException, StringValuePtr($error));
+	int status = -1;
+    rb_eval_string_protect("print $!", &status);
+	Throw(rl::ScriptInvocationFailedException, 
+		string("Es ist eine Ausnahme in Ruby aufgetreten. ") + StringValuePtr($error) );
 }
 
 namespace Swig {
@@ -65,7 +66,7 @@ namespace Swig {
   }
   catch (Swig::DirectorException& de) {
     static VALUE rlException = rb_define_class("DirectorException", rb_eStandardError);
-    rb_raise(rlException, "blah");
+    rb_raise(rlException, "DirectorException");
   } 
 }
 

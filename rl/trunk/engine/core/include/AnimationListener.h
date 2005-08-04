@@ -73,6 +73,8 @@ class _RlCoreExport AnimationFrameListener
 	public:
 		virtual ~AnimationFrameListener() {};
 		virtual void animationFrameReached( AnimationFrameEvent *anEvent ) const = 0;
+
+        virtual bool eventRaised(AnimationFrameEvent *anEvent);
 };
 
 }

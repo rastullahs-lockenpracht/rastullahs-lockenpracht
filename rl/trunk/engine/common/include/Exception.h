@@ -234,6 +234,18 @@ trat folgende Ausnahme vom Typ %s auf\n\
 
    };
 
+   class ScriptInvocationFailedException : public RuntimeException {
+   public:
+       ScriptInvocationFailedException(const std::string& message,
+           const std::string& file, const std::string& function, int line)
+           : RuntimeException(message, file, function, line) {}
+
+       ScriptInvocationFailedException(const InvalidArgumentException& rhs)
+               : RuntimeException(rhs) {}
+
+       virtual std::string getType() { return "ScriptInvocationFailedException"; }
+   };
+
 
    /**@brief Funktion zum ausgeben einer Nachricht an den Benutzer.
     *

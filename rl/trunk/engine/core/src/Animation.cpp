@@ -278,7 +278,7 @@ void Animation::checkAnimationFrameListeners( Ogre::Real timePassed )
 	for (iter = lowerBorder; iter != upperBorder; iter++) 
 	{
 		animEve->setFrameNumber( iter->first );
-		iter->second->animationFrameReached(animEve);
+		iter->second->eventRaised(animEve);
 	}
 
 	// Einmal abspielen abziehen
@@ -310,7 +310,7 @@ void Animation::checkAnimationFrameListeners( Ogre::Real timePassed )
 			for (iter = lowerBorder; iter != upperBorder; iter++) 
 			{
 				animEve->setFrameNumber( iter->first );
-				iter->second->animationFrameReached(animEve);
+				iter->second->eventRaised(animEve);
 			}
 		}		
 
@@ -338,7 +338,7 @@ void Animation::checkAnimationFrameListeners( Ogre::Real timePassed )
 			for (iter = lowerBorder; iter != upperBorder; iter++) 
 			{
 				animEve->setFrameNumber( iter->first );
-				iter->second->animationFrameReached(animEve);
+				iter->second->eventRaised(animEve);
 			}
 		}
 	}

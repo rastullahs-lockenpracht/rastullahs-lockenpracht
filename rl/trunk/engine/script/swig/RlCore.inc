@@ -155,7 +155,6 @@ class GameAreaListener
 {
 public:
 	virtual ~GameAreaListener();
-
     virtual void areaLeft(rl::GameAreaEvent *anEvent) const = 0;
     virtual void areaEntered(rl::GameAreaEvent *anEvent) const = 0;
 };
@@ -220,6 +219,7 @@ class ObjectStateChangeListener
 {
 public:
 	virtual ~ObjectStateChangeListener();
+
 	virtual void objectStateChanged(rl::ObjectStateChangeEvent *anEvent) = 0;
 };
 
@@ -251,6 +251,7 @@ class AnimationListener
 {
 public:
 	virtual ~AnimationListener();
+
 	virtual void animationFinished(rl::AnimationEvent *anEvent) const = 0;
 	virtual void animationPaused(rl::AnimationEvent *anEvent) const = 0;
 	virtual void animationUnpaused(rl::AnimationEvent *anEvent) const = 0;
@@ -261,6 +262,7 @@ class AnimationFrameListener
 {
 public:
 	virtual ~AnimationFrameListener();
+
 	virtual void animationFrameReached( rl::AnimationFrameEvent *anEvent ) const = 0;
 };
 
