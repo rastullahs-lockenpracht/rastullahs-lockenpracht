@@ -134,9 +134,18 @@ namespace rl {
 		if (command != commandMap->end())
 		{
 			Person* chara = UiSubsystem::getSingleton().getActiveCharacter();
-			chara->doAction((*command).second.actionClass, (*command).second.actionName, chara, chara);
-			return true;
+
+            try
+            {
+			    chara->doAction((*command).second.actionClass, (*command).second.actionName, chara, chara);
+			    return true;
+            }
+            catch( ScriptInvocationFailedException& sife )
+            {
+                UiSubsystem::getSingleton().log( sife.toString() );
+            }
 		}
+
 		return false;
 	}
 

@@ -145,6 +145,7 @@ namespace rl {
 	static const int ACT_INVIS_DESC = 1<<1;
 	static const int ACT_DISABLED = 1<<2;
 	static const int ACT_NEEDS_TALENT = 1<<8;
+	
 	%feature("director") Action;   
     class Action
     {
