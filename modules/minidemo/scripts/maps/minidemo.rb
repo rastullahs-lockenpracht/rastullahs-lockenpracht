@@ -11,6 +11,9 @@ require 'heiltrank.rb'
 # Der GC reisst oft die Objekte ab
 GC.disable
 
+# Physik aktivieren
+$PM.setEnabled(true);
+
 $CORE.log("init map 'minidemo'...");
 $World = $CORE.getWorld()
 $World.setSkyBox(true, "rl/dsa07")
@@ -74,7 +77,6 @@ $CORE.log("Trank fertig");
 
 load "kreislauf.rb"
 
-#Alles erzeugt, also Physik aktivieren
-$PM.setEnabled(true);
+load "area.rb"
 
 $CORE.log("map 'minidemo' initialisiert.");
