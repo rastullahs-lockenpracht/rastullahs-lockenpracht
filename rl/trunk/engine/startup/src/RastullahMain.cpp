@@ -47,7 +47,9 @@ void startupRl()
 	rl::UiSubsystem* ui =  NULL;
 	rl::ScriptSubsystem* script =  NULL;
 
+#ifndef _DEBUG
 	try {
+#endif
 		core = new rl::CoreSubsystem();
 		core->log("CoreSubsystem gestartet");
 
@@ -68,6 +70,7 @@ void startupRl()
 
 		core->log("Starte...");
 		core->startCore();
+#ifndef _DEBUG
 	} 
 	catch(Ogre::Exception& oe) {
 		rl::showError(oe.getFullDescription());
@@ -90,6 +93,7 @@ void startupRl()
 	catch(...) {
 		rl::showError( "Unknown exception occured" );
 	}
+#endif
 
 	try 
 	{
