@@ -9,8 +9,9 @@ http://www.ogre3d.org
 ruby/ - Ruby - 1.8
 http://ruby-lang.org
 
-swig/ - SWIG - 1.3.25  (exakt diese Version + Blakharaz Patch)
+swig/ - SWIG - 1.3.25  (exakt diese Version + Patches von Berlios )
 http://www.swig.org
+SWIG 1.3.25 - Patch von http://developer.berlios.de/project/showfiles.php?group_id=802
 
 openal/ - OPENAL
 http://developer.creative.com/landing.asp?cat=1&sbcat=31&top=38
