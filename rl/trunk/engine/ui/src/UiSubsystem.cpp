@@ -143,6 +143,8 @@ namespace rl {
 		new DebugWindow();
 		new Console();
 		((RubyInterpreter*)CoreSubsystem::getSingleton().getInterpreter() )->initializeInterpreter( (VALUE(*)(...))&UiSubsystem::consoleWrite );
+
+		new TargetSelectionWindow();
 			      
 		mGameLogger = new GameLoggerWindow();
 		mCharacterStateWindow = new CharacterStateWindow();
@@ -235,7 +237,8 @@ namespace rl {
 
 	void UiSubsystem::showTargetWindow()
 	{
-		(new TargetSelectionWindow())->setVisible(true);
+		TargetSelectionWindow::getSingleton().setAction(NULL);
+		TargetSelectionWindow::getSingleton().setVisible(true);
 	}
 
 	void UiSubsystem::toggleConsole()

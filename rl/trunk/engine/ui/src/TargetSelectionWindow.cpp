@@ -23,6 +23,7 @@
 
 #include "Person.h"
 #include "Actor.h"
+#include "GameObject.h"
 
 using namespace CEGUI;
 using namespace Ogre;
@@ -41,18 +42,19 @@ namespace rl
         return Ogre::Singleton<TargetSelectionWindow>::getSingletonPtr();
     }
 
-	TargetSelectionWindow::TargetSelectionWindow() : CeGuiWindow("TargetSelectionWindow.xml", WND_MOUSE_INPUT)
+	TargetSelectionWindow::TargetSelectionWindow() : 
+		CeGuiWindow("TargetSelectionWindow.xml", WND_MOUSE_INPUT)
 	{
 		mText = getStaticText("TargetSelectionWindow/Text");
 		mText->moveToFront();
 
 		mWindow->subscribeEvent(
 			Window::EventMouseMove,
-			boost::bind(&TargetSelectionWindow::handleMouseMove, this, _1));
+			boost::bind(&TargetSelectionWindow::showObjectDescription, this, _1));
 
 		mWindow->subscribeEvent(
 			Window::EventMouseClick,
-			boost::bind(&TargetSelectionWindow::handleMouseClick, this, _1));
+			boost::bind(&TargetSelectionWindow::showObjectActionsWindow, this, _1));
 		
 		addToRoot(mWindow);
 	}
@@ -67,23 +69,48 @@ namespace rl
 		CeGuiWindow::setVisible(visible);
 	}
 
-	bool TargetSelectionWindow::handleMouseMove(const CEGUI::EventArgs& e)
+	GameObject* TargetSelectionWindow::getTargetedObject(float x, float y)
 	{
-		CEGUI::MouseEventArgs me = reinterpret_cast<const CEGUI::MouseEventArgs&>(e);
 		InputManager::getSingleton().updatePickedObject(
-			me.position.d_x/(float)Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth(), 
-			me.position.d_y/(float)Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight());
+			x/(float)Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth(), 
+			y/(float)Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight());
+		return InputManager::getSingleton().getPickedObject();
+	}
+
+	bool TargetSelectionWindow::showObjectDescription(const CEGUI::EventArgs& e)
+	{
+		CEGUI::MouseEventArgs me = static_cast<const CEGUI::MouseEventArgs&>(e);
+
+		GameObject* object = getTargetedObject(me.position.d_x, me.position.d_y);
+
+		if (object != NULL)
+			setText(object->getName());
 		return true;
 	}
 
-	bool TargetSelectionWindow::handleMouseClick(const CEGUI::EventArgs& e)
+	bool TargetSelectionWindow::showObjectActionsWindow(const CEGUI::EventArgs& e)
 	{
-        setVisible(false);
+		CEGUI::MouseEventArgs me = static_cast<const CEGUI::MouseEventArgs&>(e);
+
+		if (mAction == NULL)
+		{
+			GameObject* object = getTargetedObject(me.position.d_x, me.position.d_y);
+			if (object != NULL)
+			{
+				UiSubsystem::getSingleton().showActionChoice(object);
+		        setVisible(false);
+			}
+		}
 		return true;
 	}
 
 	void TargetSelectionWindow::setAction(Action* action)
 	{
 		mAction = action;
+	}
+
+	void TargetSelectionWindow::setText(const CeGuiString& description)
+	{
+		mText->setText(description);
 	}
 }

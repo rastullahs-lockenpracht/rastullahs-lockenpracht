@@ -25,6 +25,7 @@
 namespace rl {
 
 	class Action;
+	class GameObject;
 
     class _RlUiExport TargetSelectionWindow
 		: public Ogre::Singleton<TargetSelectionWindow>, public CeGuiWindow
@@ -37,11 +38,13 @@ namespace rl {
 
 		void setVisible(bool visible);
 		void setAction(Action* action);
-		bool handleMouseMove(const CEGUI::EventArgs& e);
-		bool handleMouseClick(const CEGUI::EventArgs& e);
+		bool showObjectDescription(const CEGUI::EventArgs& e);
+		bool showObjectActionsWindow(const CEGUI::EventArgs& e);
 
     private:
-		void updateFps();
+		GameObject* getTargetedObject(float x, float y);
+		void setText(const CeGuiString& text);
+
         CEGUI::StaticText* mText;		
 		Action* mAction;
     };
