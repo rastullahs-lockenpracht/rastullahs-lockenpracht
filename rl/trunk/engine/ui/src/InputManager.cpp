@@ -394,7 +394,10 @@ namespace rl {
         for(int i=0; i<NUM_KEYS; i++)
         {
             if( mKeyDown[i] && up )
+            {
                 CommandMapper::getSingleton().injectKeyUp( i );
+                mKeyDown[i] = false;
+            }
             else if( mKeyDown[i] && !up ) 
                 CommandMapper::getSingleton().injectKeyDown( i );
         }
