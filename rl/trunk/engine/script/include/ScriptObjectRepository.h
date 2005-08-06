@@ -39,9 +39,29 @@ namespace rl {
         static ScriptObjectRepository& getSingleton();
         static ScriptObjectRepository* getSingletonPtr();
 
-        VALUE* getScriptObject( void* ptr );
-        void* getPtr( VALUE* val );
+        /** Gibt das zugehörige RubyObject zu einem eingetragenen
+         *  C++ Object zurück.
+         */
+        VALUE getScriptObject( void* ptr ) const;
+        /** Gibt das zugehörige C++ Object zu einem eingetragenen
+         *   RubyObject zurück.
+         */
+        void* getPtr( VALUE val ) const;
+
+        void insertPointerValuePair( void* ptr, VALUE val );
+
+        void removePointer( void* ptr );
+        void removeValue( VALUE val );
     private:
+        typedef std::map<void*,VALUE> PointerValueMap;
+        typedef std::pair<void*,VALUE> PointerValuePair;
+        typedef std::map<VALUE,void*> ValuePointerMap;
+        typedef std::pair<VALUE,void*> ValuePointerPair;
+
+        PointerValueMap m_CToRubyMap;
+        ValuePointerMap m_RubyToCMap;
+
+        VALUE mRubyArray;
     };
 }
 

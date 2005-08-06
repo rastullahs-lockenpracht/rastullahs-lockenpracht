@@ -16,6 +16,8 @@
 
 #include "ScriptObjectRepository.h"
 
+#include "Exception.h"
+
 template<> rl::ScriptObjectRepository* Ogre::Singleton<rl::ScriptObjectRepository>::ms_Singleton = 0;
 
 namespace rl {
@@ -30,14 +32,77 @@ namespace rl {
         return Ogre::Singleton<ScriptObjectRepository>::getSingletonPtr();
     }
 
-    ScriptObjectRepository::ScriptObjectRepository()
+    ScriptObjectRepository::ScriptObjectRepository() :
+        m_CToRubyMap(),
+        m_RubyToCMap()
     {
-
+        // Einen Ruby Array erzeugen
+        mRubyArray = rb_ary_new();
+        // Als globale Variable anmelden
+        rb_global_variable(&mRubyArray);
+        // Beim GC registrieren
+        rb_gc_register_address(&mRubyArray);
+        // Diesen Array einer globalen Variable zuordnen
+        rb_define_variable("$UsedRubyInstances", &mRubyArray);
     }
 
     ScriptObjectRepository::~ScriptObjectRepository()
     {
+        m_CToRubyMap.clear();
+        m_RubyToCMap.clear();
+    }
 
+    VALUE ScriptObjectRepository::getScriptObject( void* ptr ) const
+    {
+        PointerValueMap::const_iterator iter = m_CToRubyMap.find( ptr );
+
+        if( iter != m_CToRubyMap.end() )
+            return iter->second;
+        else
+            return Qnil;
+    }
+
+    void* ScriptObjectRepository::getPtr( VALUE val ) const
+    {
+        ValuePointerMap::const_iterator iter = m_RubyToCMap.find( val );
+
+        if( iter != m_RubyToCMap.end() )
+            return iter->second;
+        else
+            return NULL;
+    }
+
+    void ScriptObjectRepository::insertPointerValuePair( void* ptr, VALUE val )
+    {
+        if( m_CToRubyMap.find( ptr ) != m_CToRubyMap.end() )
+            Throw( InvalidArgumentException, "Dieser Zeiger existiert schon im ScriptObjectRepository" );
+        if( m_RubyToCMap.find( val ) != m_RubyToCMap.end() )
+            Throw( InvalidArgumentException, "Diese Ruby VALUE existiert schon im ScriptObjectRepository" );
+
+        m_CToRubyMap.insert( PointerValuePair( ptr, val ) );
+        m_RubyToCMap.insert( ValuePointerPair( val, ptr ) );
+    }
+
+    void ScriptObjectRepository::removePointer( void* ptr )
+    {
+        PointerValueMap::iterator iter = m_CToRubyMap.find( ptr );
+        if( iter == m_CToRubyMap.end() )
+            Throw( InvalidArgumentException, "Dieser Zeiger existiert nicht im ScriptObjectRepository" );
+
+        VALUE val = iter->second;
+        m_CToRubyMap.erase( ptr );
+        m_RubyToCMap.erase( val );
+    }
+
+    void ScriptObjectRepository::removeValue( VALUE val )
+    {
+        ValuePointerMap::iterator iter = m_RubyToCMap.find( val );
+        if( iter == m_RubyToCMap.end() )
+            Throw( InvalidArgumentException, "Diese Ruby VALUE existiert nicht im ScriptObjectRepository" );
+
+        void* ptr = iter->second;
+        m_CToRubyMap.erase( ptr );
+        m_RubyToCMap.erase( val );
     }
 
 }

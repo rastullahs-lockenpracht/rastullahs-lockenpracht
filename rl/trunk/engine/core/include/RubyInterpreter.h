@@ -21,7 +21,6 @@
 #include <map>
 
 #include <OgreNoMemoryMacros.h>
-
 #include "FixRubyHeaders.h"
 #include <ruby.h>
 #include "FixRubyHeaders.h"
