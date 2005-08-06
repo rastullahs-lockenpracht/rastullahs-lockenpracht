@@ -81,6 +81,8 @@ namespace rl {
 
         m_CToRubyMap.insert( PointerValuePair( ptr, val ) );
         m_RubyToCMap.insert( ValuePointerPair( val, ptr ) );
+
+        rb_ary_push( mRubyArray, val );
     }
 
     void ScriptObjectRepository::removePointer( void* ptr )
@@ -92,6 +94,7 @@ namespace rl {
         VALUE val = iter->second;
         m_CToRubyMap.erase( ptr );
         m_RubyToCMap.erase( val );
+        rb_ary_delete(mRubyArray, val );
     }
 
     void ScriptObjectRepository::removeValue( VALUE val )
@@ -103,6 +106,7 @@ namespace rl {
         void* ptr = iter->second;
         m_CToRubyMap.erase( ptr );
         m_RubyToCMap.erase( val );
+        rb_ary_delete(mRubyArray, val );
     }
 
 }
