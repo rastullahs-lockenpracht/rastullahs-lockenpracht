@@ -347,8 +347,12 @@ namespace rl
 	{
 		if (geometry != mOdeCamera)
 		{
-			Ogre::Vector3 correction = contact->getNormal() * contact->getPenetrationDepth();
+			// @TODO: Player zurückwerfen - nochmal anschauen, scheint ohne hüpfen zu laufen, aber ist das auch richtig?
+			Ogre::Vector3 correction = -contact->getNormal() * contact->getPenetrationDepth()*0.2;
+			
 			mOdeActor->setPosition(mOdeActor->getPosition() + correction);
+			mControlNode->translate(correction);
+
 			mFallSpeed = 0.0;
 		}
 		else
