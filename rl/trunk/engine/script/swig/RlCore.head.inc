@@ -48,4 +48,19 @@
 #include <OgreRoot.h>
 #include <OgreResourceGroupManager.h>
 #include <OgreLight.h>
+#include "ScriptObjectRepository.h"
 %}
+
+%typemap(out) rl::Actor* 
+{
+	rl::ScriptObjectRepository* sor = rl::ScriptObjectRepository::getSingletonPtr();
+	VALUE val = sor->getScriptObject( $1 );
+	
+	if( val == Qnil )
+	{
+		$result = SWIG_NewPointerObj((void *) $1, SWIGTYPE_p_rl__Actor,0);
+		sor->insertPointerValuePair( $1, $result );			
+	}
+	else	
+		$result = val;
+} 
