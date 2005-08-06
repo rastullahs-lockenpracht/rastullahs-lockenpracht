@@ -67,10 +67,12 @@ namespace rl
     {
         mOdeWorld->setGravity(Vector3(0, -98.0665, 0));
         mOdeWorld->setCFM(10e-5);
-        mOdeWorld->setERP(0.8);
+        mOdeWorld->setERP(0.2);
         mOdeWorld->setAutoSleep(true);
         mOdeWorld->setContactCorrectionVelocity(1.0);
+		mOdeWorld->setContactSurfaceLayer(0.00001);
         mOdeWorld->setCollisionListener(this);
+		mOdeWorld->setDamping(0.2, 0.0); // linear, angular
 	
 		mLevelGeomSpace->setInternalCollisions( false );
 
@@ -345,8 +347,8 @@ namespace rl
 	{
 		if (geometry != mOdeCamera)
 		{
-			mControlNode->translate( - contact->getNormal() * contact->getPenetrationDepth(),
-				Node::TS_WORLD);
+			Ogre::Vector3 correction = contact->getNormal() * contact->getPenetrationDepth();
+			mOdeActor->setPosition(mOdeActor->getPosition() + correction);
 			mFallSpeed = 0.0;
 		}
 		else
