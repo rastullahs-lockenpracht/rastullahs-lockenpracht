@@ -59,7 +59,10 @@ namespace rl {
         // Alle möglichen Area-Verknüpfungen entfernen
         GameEventManager::getSingleton().removeAllAreas( this );
 
-        removeFromScene();
+        if( mParent == NULL )
+            removeFromScene();
+        else
+            mParent->detach( this );
         
         if (mActorControlledObject)
         {

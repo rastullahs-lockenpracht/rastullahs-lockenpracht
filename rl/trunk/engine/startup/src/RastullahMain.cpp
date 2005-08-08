@@ -93,16 +93,18 @@ void startupRl()
 	catch(...) {
 		rl::showError( "Unknown exception occured" );
 	}
-#endif
+
 
 	try 
-	{
+    {
+#endif
 		delete script;
 		delete ui;
 		delete dialog;
 		delete rules;
 		delete sound;
 		delete core;
+#ifndef _DEBUG
 	}
 	catch(Ogre::Exception& oe) {
 		rl::showError(oe.getFullDescription());
@@ -122,6 +124,7 @@ void startupRl()
 	catch(...) {
 		rl::showError( "Unknown exception occured" );
 	}	
+#endif
 
 #if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
 	SDL_Quit();
