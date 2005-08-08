@@ -63,15 +63,15 @@ public:
 
 	virtual ~ListboxImageItem();
 
-	void draw(
+	virtual void draw(
 		const Vector3& position, 
 		float alpha, 
 		const Rect& clipper) const;
 
-	CEGUI::Size getPixelSize() const;
+	virtual CEGUI::Size getPixelSize() const;
 
 private:
-	const Image* d_image;
+	const CEGUI::Image* d_image;
 };
 
 }

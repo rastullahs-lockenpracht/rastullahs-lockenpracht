@@ -24,9 +24,9 @@
 #include "CameraObject.h"
 #include "LightObject.h"
 #include "SoundObject.h"
-#include "SoundMovable.h"
-#include "SoundStreamMovable.h"
-#include "SoundSampleMovable.h"
+#include "Sound.h"
+#include "SoundStream.h"
+#include "SoundSample.h"
 #include "ListenerMovable.h"
 #include "ListenerObject.h"
 #include "PhysicalThing.h"
@@ -127,15 +127,38 @@ namespace rl {
         return actor;
 	}
 
-    Actor* ActorManager::createSoundActor(const String& name, const String& soundfile)
+    Actor* ActorManager::createSoundSampleActor(const String& name, const String& soundfile)
     {
         const String&  uniquename = nextUniqueName(name);
 
         Actor* actor = 0;
         try
         {
-            SoundMovable* sm = new SoundStreamMovable(soundfile);
-            SoundObject* so = new SoundObject(sm);
+            Sound* sm = new SoundSample(soundfile);
+            SoundObject* so = new SoundObject(sm, soundfile);
+
+            actor = new Actor(uniquename, so);
+            mActors.insert(ActorPtrPair(uniquename,actor)); 
+        }
+        catch( Ogre::Exception& e)
+        {
+            CoreSubsystem::log("ActorManager - Der Sound '"
+                + uniquename + "' konnte nicht erstellt werden. Grund: "
+                + e.getFullDescription());
+        }
+
+        return actor;
+    }
+
+    Actor* ActorManager::createSoundStreamActor(const String& name, const String& soundfile)
+    {
+        const String&  uniquename = nextUniqueName(name);
+
+        Actor* actor = 0;
+        try
+        {
+            Sound* sm = new SoundStream(soundfile);
+            SoundObject* so = new SoundObject(sm, soundfile);
 
             actor = new Actor(uniquename, so);
             mActors.insert(ActorPtrPair(uniquename,actor)); 

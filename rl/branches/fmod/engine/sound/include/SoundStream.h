@@ -14,11 +14,12 @@
 *  http://www.perldoc.com/perl5.6/Artistic.html.
 */
 
-#ifndef __SoundStreamMovable_H__
-#define __SoundStreamMovable_H__
+#ifndef __SoundStream_H__
+#define __SoundStream_H__
 
 #include "SoundPrerequisites.h"
-#include "SoundMovable.h"
+#include "SoundResource.h"
+#include "Sound.h"
 
 namespace Ogre {
     class MovableObject;
@@ -32,20 +33,18 @@ namespace rl {
     * @date 07-03-2005
     * @version 1.0
     */
-    class _RlSoundExport SoundStreamMovable : public SoundMovable
+    class _RlSoundExport SoundStream : public Sound
     {
     private:
         FSOUND_STREAM *mStream;
 
     public:
         /// Konstruktor
-        SoundStreamMovable(const Ogre::String& name);
+        SoundStream(const Ogre::String& name);
         /// Konstruktor
-        SoundStreamMovable(const SoundResourcePtr &soundres);
+        SoundStream(const SoundResourcePtr &soundres);
         /// Destruktor
-        virtual ~SoundStreamMovable();
-        /// Moveable-Typ
-        virtual const Ogre::String& getMovableType() const;
+        virtual ~SoundStream();
 
         /// Laedt den Sound.
         virtual void load() throw (RuntimeException);
@@ -53,10 +52,11 @@ namespace rl {
         virtual void unload() throw (RuntimeException);
         // Stream zurueckgeben
         FSOUND_STREAM *getStream() const;
+
+        // Wir erzeugen einen Channel für SoundChannel
+        virtual int createChannel() throw (RuntimeException);
     
 protected:
-        /// Shared class-level name for Movable type
-        static Ogre::String msMovableType;
         // Sind wir gueltig?
         virtual bool isValid() const throw (RuntimeException);
         // Sample setzen
@@ -65,13 +65,13 @@ protected:
         
     }; 
 
-    class _RlSoundExport SoundStreamMovablePtr :
-        public Ogre::SharedPtr<SoundStreamMovable>
+    class _RlSoundExport SoundStreamPtr :
+        public Ogre::SharedPtr<SoundStream>
     {
     public:
-        SoundStreamMovablePtr() : Ogre::SharedPtr<SoundStreamMovable>() {}
-        explicit SoundStreamMovablePtr(SoundStreamMovable* rep) : Ogre::SharedPtr<SoundStreamMovable>(rep) {}
-        SoundStreamMovablePtr(const SoundStreamMovablePtr& res) : Ogre::SharedPtr<SoundStreamMovable>(res) {}
+        SoundStreamPtr() : Ogre::SharedPtr<SoundStream>() {}
+        explicit SoundStreamPtr(SoundStream* rep) : Ogre::SharedPtr<SoundStream>(rep) {}
+        SoundStreamPtr(const SoundStreamPtr& res) : Ogre::SharedPtr<SoundStream>(res) {}
     protected:
         void destroy();
     };

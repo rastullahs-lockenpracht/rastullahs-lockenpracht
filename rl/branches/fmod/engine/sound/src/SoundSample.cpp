@@ -1,4 +1,4 @@
-/* SoundSampleMovable.cpp - Diese Klassse kapselt einen Soundstream.
+/* SoundSample.cpp - Diese Klassse kapselt einen Soundstream.
  * (C) 2004. Team Pantheon. www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
@@ -13,7 +13,7 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
-#include "SoundSampleMovable.h"
+#include "SoundSample.h"
 #include "SoundManager.h"
 #include "SoundResource.h"
 
@@ -24,15 +24,15 @@ using namespace boost;
 
 namespace rl {
  
-String SoundSampleMovable::msMovableType = "SoundSampleMovable";
+String SoundSample::msMovableType = "SoundSample";
 
 /**
  * @param name Der Name des Sounds.
  * @author JoSch
  * @date 07-04-2005
  */
-SoundSampleMovable::SoundSampleMovable(const String &name):
-    SoundMovable(name),
+SoundSample::SoundSample(const String &name):
+    Sound(name),
     mSample(0)
 {
 }
@@ -42,8 +42,8 @@ SoundSampleMovable::SoundSampleMovable(const String &name):
  * @author JoSch
  * @date 07-04-2005
  */
-SoundSampleMovable::SoundSampleMovable(const SoundResourcePtr &soundres):
-    SoundMovable(soundres),
+SoundSample::SoundSample(const SoundResourcePtr &soundres):
+    Sound(soundres),
     mSample(0)
 {
 }
@@ -52,12 +52,8 @@ SoundSampleMovable::SoundSampleMovable(const SoundResourcePtr &soundres):
  * @author JoSch
  * @date 07-04-2005
  */
-SoundSampleMovable::~SoundSampleMovable()
+SoundSample::~SoundSample()
 {
-    if (isValid())
-    {
-        stop();
-    }
     unload();
 }
 
@@ -67,7 +63,7 @@ SoundSampleMovable::~SoundSampleMovable()
  * @date 03-11-2005
  * @return Den Objekttypen
  */
-const String& SoundSampleMovable::getMovableType() const
+const String& SoundSample::getMovableType() const
 {
     return msMovableType;
 }
@@ -76,7 +72,7 @@ const String& SoundSampleMovable::getMovableType() const
  * @author JoSch
  * @date 07-12-2005
  */
-void SoundSampleMovable::load() throw (RuntimeException)
+void SoundSample::load() throw (RuntimeException)
 {
     getSoundResource()->load();
     DataStreamPtr stream = getSoundResource()->getDataStream();
@@ -98,25 +94,21 @@ void SoundSampleMovable::load() throw (RuntimeException)
         mSample = FSOUND_Sample_Load(FSOUND_FREE, data, mode,
             0, len);
     }
-    setChannel(FSOUND_PlaySoundEx(FSOUND_FREE, getSample(), 0, true));
+/*    setChannel(FSOUND_PlaySoundEx(FSOUND_FREE, getSample(), 0, true));
     /// Ein paar Standardwerte setzen
     FSOUND_Sample_SetMinMaxDistance(mSample, 4.0f, 10000.0f);
     setGain(255);
     setPosition(Vector3(0.0, 0.0, 0.0));
     setVelocity(Vector3(0.0, 0.0, 0.0));
-    setDirection(Vector3(0.0, 0.0, 0.0));
+    setDirection(Vector3(0.0, 0.0, 0.0)); */
 }
 
 /**
  * @author JoSch
  * @date 07-22-2005
  */
-void SoundSampleMovable::unload() throw (RuntimeException)
+void SoundSample::unload() throw (RuntimeException)
 {
-    if (isPlaying())
-    {
-        stop();
-    }
     FSOUND_Sample_Free(getSample());
 }
 
@@ -125,9 +117,9 @@ void SoundSampleMovable::unload() throw (RuntimeException)
  * @author JoSch
  * @date 07-12-2005
  */
-bool SoundSampleMovable::isValid() const throw (RuntimeException)
+bool SoundSample::isValid() const throw (RuntimeException)
 {
-    return (getChannel() >= 0) && (getSample() != 0);
+    return (getSample() != 0);
 }
 
 /**
@@ -135,7 +127,7 @@ bool SoundSampleMovable::isValid() const throw (RuntimeException)
  * @author JoSch
  * @date 07-12-2005
  */
-FSOUND_SAMPLE *SoundSampleMovable::getSample() const
+FSOUND_SAMPLE *SoundSample::getSample() const
 {
     return mSample;
 }
@@ -145,15 +137,24 @@ FSOUND_SAMPLE *SoundSampleMovable::getSample() const
  * @author JoSch
  * @date 07-12-2005
  */
-void SoundSampleMovable::setSample(FSOUND_SAMPLE *sample)
+void SoundSample::setSample(FSOUND_SAMPLE *sample)
 {
     mSample = sample;
 }
 
-
-void SoundSampleMovablePtr::destroy()
+/**
+ * @return Der erzeugte Channel
+ * @author JoSch
+ * @date 08-08-2005
+ */
+int SoundSample::createChannel() throw (RuntimeException)
 {
-    SharedPtr<SoundSampleMovable>::destroy();
+    return FSOUND_PlaySoundEx(FSOUND_FREE, getSample(), 0, true);
+}
+
+void SoundSamplePtr::destroy()
+{
+    SharedPtr<SoundSample>::destroy();
 }
 
 } // Namespace

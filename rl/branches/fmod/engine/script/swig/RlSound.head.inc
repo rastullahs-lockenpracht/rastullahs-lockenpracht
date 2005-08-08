@@ -21,6 +21,8 @@
 #include "SoundResource.h"
 #include "SoundManager.h"
 #include "SoundEvents.h"
+#include "Sound.h"
+#include "SoundChannel.h"
 extern "C" {
 #include "fmod.h"
 #include "fmod_errors.h"

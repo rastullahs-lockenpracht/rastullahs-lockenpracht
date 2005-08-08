@@ -38,7 +38,7 @@ void ListboxImageItem::draw(const Vector3& position, float alpha, const Rect& cl
 //        d_selectBrush->draw(clipper, position.d_z, clipper, getModulateAlphaColourRect(d_selectCols, alpha));
     }
 
-//	d_image->draw(position, clipper);
+	//d_image->draw(position, clipper);
 }
 
 CEGUI::Size ListboxImageItem::getPixelSize() const

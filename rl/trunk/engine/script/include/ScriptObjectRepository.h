@@ -17,6 +17,8 @@
 #ifndef __SCRIPTOBJECTREPOSITORY_H__
 #define __SCRIPTOBJECTREPOSITORY_H__
 
+#include "ScriptPrerequisites.h"
+
 #include <OgreSingleton.h>
 
 #include <map>
@@ -27,7 +29,6 @@
 #include "FixRubyHeaders.h"
 #include <OgreMemoryMacros.h>
 
-#include "ScriptPrerequisites.h"
 
 namespace rl {
     class ScriptObjectRepository : protected Ogre::Singleton<ScriptObjectRepository>

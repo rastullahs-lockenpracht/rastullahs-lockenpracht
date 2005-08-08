@@ -113,7 +113,8 @@ public:
 	static ActorManager& getSingleton(void);
 
 	rl::Actor* createParticleSystemActor(const Ogre::String& name, const Ogre::String& soundfile);
-    rl::Actor* createSoundActor(const Ogre::String& name, const Ogre::String& soundfile);
+    rl::Actor* createSoundStreamActor(const Ogre::String& name, const Ogre::String& soundfile);
+    rl::Actor* createSoundSampleActor(const Ogre::String& name, const Ogre::String& soundfile);
     rl::Actor* createEmptyActor(const Ogre::String& name);
     rl::Actor* createLightActor(const Ogre::String& name, rl::LightObject::LightTypes type );
 	rl::Actor* createMeshActor(const Ogre::String& name, const Ogre::String& meshname,

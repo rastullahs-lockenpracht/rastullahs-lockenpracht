@@ -1,2 +1,1 @@
-SUBDIRS = JMap2Mesh XReleaseMouse
-
+SUBDIRS = 

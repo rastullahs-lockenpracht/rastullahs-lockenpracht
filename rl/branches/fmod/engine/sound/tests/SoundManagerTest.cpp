@@ -13,9 +13,10 @@
 #include <boost/thread.hpp>
 #include "SoundManager.h"
 #include "SoundResource.h"
-#include "SoundMovable.h"
-#include "SoundSampleMovable.h"
-#include "SoundStreamMovable.h"
+#include "Sound.h"
+#include "SoundSample.h"
+#include "SoundStream.h"
+#include "SoundChannel.h"
 #include "ListenerMovable.h"
 
 
@@ -55,21 +56,22 @@ public:
         while (it.hasMoreElements())
         {
             SoundResourcePtr soundres = it.getNext();
-            SoundSampleMovablePtr sound(new SoundSampleMovable(soundres));
-            if (!sound.isNull())
+            SoundSample *sound = new SoundSample(soundres);
+            SoundChannel *channel = new SoundChannel(sound, soundres->getName());
+            if (channel)
             {
-                sound->play();
+                channel->play();
                 
                 xtime_get(&xt, TIME_UTC);
                 xt.sec++;
                 thread::sleep(xt);
-                while (sound->isPlaying()) {
+                while (channel->isPlaying()) {
                     xtime_get(&xt, TIME_UTC);
                     xt.sec++;
                     thread::sleep(xt);
                 }
                 
-                sound.setNull();
+                delete sound;
             }            
         }
         CPPUNIT_ASSERT(true);
@@ -88,24 +90,25 @@ public:
         while (it.hasMoreElements())
         {
             SoundResourcePtr soundres = it.getNext();
-            SoundSampleMovablePtr sound(new SoundSampleMovable(soundres));
-            if (!sound.isNull())
+            SoundSample *sound = new SoundSample(soundres);
+            SoundChannel *channel = new SoundChannel(sound, soundres->getName());
+            if (channel)
             {
                 sound->load();
-                FSOUND_3D_SetMinMaxDistance(sound->getChannel(), 4.0, 100000.0f);
-                sound->play();
+                FSOUND_3D_SetMinMaxDistance(channel->getChannel(), 4.0, 100000.0f);
+                channel->play();
                 float angle = 0.0f;
                 
                 xtime_get(&xt, TIME_UTC);
                 xt.sec++;
                 thread::sleep(xt);
-                while (sound->isPlaying()) {
+                while (channel->isPlaying()) {
                     xtime_get(&xt, TIME_UTC);
                     xt.nsec+=100000;
                     thread::sleep(xt);
                     Vector3 pos(1.0f*sinf(angle), 20.0f*cosf(angle), 0.0f);
-                    sound->setPosition(pos);
-                    pos = sound->getPosition();
+                    channel->setPosition(pos);
+                    //pos = channel->getPosition();
                     //cerr <<pos[0]<<":"<<pos[1]<<":"<<pos[2]<<endl;
                     angle += 0.005;
                     if (angle > 2 * M_PI)
@@ -115,7 +118,7 @@ public:
                     FSOUND_Update();
                 }
                 
-                sound.setNull();
+                delete channel;
             }            
         }        
     }
@@ -129,16 +132,17 @@ public:
         while (it.hasMoreElements())
         {
             SoundResourcePtr soundres = it.getNext();
-            SoundMovablePtr sound(new SoundStreamMovable(soundres));
-            if (!sound.isNull())
+            SoundStream *sound = new SoundStream(soundres);
+            SoundChannel *channel = new SoundChannel(sound, soundres->getName());
+            if (channel)
             {
-                sound->play();
+                channel->play();
                 
                 xtime_get(&xt, boost::TIME_UTC);
                 xt.sec += 10;
                 thread::sleep(xt);
                 
-                sound->stop();
+                channel->stop();
                 
                 xtime_get(&xt, boost::TIME_UTC);
                 xt.sec += 5;

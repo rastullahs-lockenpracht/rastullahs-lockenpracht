@@ -22,7 +22,7 @@
 #include "Actor.h"
 #include "MeshObject.h"
 #include "SoundObject.h"
-#include "SoundMovable.h"
+#include "Sound.h"
 #include "ListenerObject.h"
 #include "ListenerMovable.h"
 #include "CameraObject.h"

@@ -1,4 +1,4 @@
-/* SoundStreamMovable.cpp - Diese Klassse kapselt einen Soundstream.
+/* SoundStream.cpp - Diese Klassse kapselt einen Soundstream.
  * (C) 2004. Team Pantheon. www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
@@ -13,7 +13,7 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
-#include "SoundStreamMovable.h"
+#include "SoundStream.h"
 #include "SoundManager.h"
 
 
@@ -22,21 +22,15 @@ using namespace boost;
 
 namespace rl {
  
-String SoundStreamMovable::msMovableType = "SoundStreamMovable";
 
 /**
  * @param name Der Name des Sounds.
  * @author JoSch
  * @date 07-04-2005
  */
-SoundStreamMovable::SoundStreamMovable(const String &name):
-    SoundMovable(name)
+SoundStream::SoundStream(const String &name):
+    Sound(name)
 {
-    /// Ein paar Standardwerte setzen
-    setGain(255);
-    setPosition(Vector3(0.0, 0.0, 0.0));
-    setVelocity(Vector3(0.0, 0.0, 0.0));
-    setDirection(Vector3(0.0, 0.0, 0.0));
 }
  
 /**
@@ -44,38 +38,18 @@ SoundStreamMovable::SoundStreamMovable(const String &name):
  * @author JoSch
  * @date 07-04-2005
  */
-SoundStreamMovable::SoundStreamMovable(const SoundResourcePtr &soundres):
-    SoundMovable(soundres)
+SoundStream::SoundStream(const SoundResourcePtr &soundres):
+    Sound(soundres)
 {
-    /// Ein paar Standardwerte setzen
-    setGain(255);
-    setPosition(Vector3(0.0, 0.0, 0.0));
-    setVelocity(Vector3(0.0, 0.0, 0.0));
-    setDirection(Vector3(0.0, 0.0, 0.0));
 }
 
 /**
  * @author JoSch
  * @date 07-04-2005
  */
-SoundStreamMovable::~SoundStreamMovable()
+SoundStream::~SoundStream()
 {
-    if (isValid())
-    {
-        stop();
-    }
     unload();
-}
-
-
-/**
- * @author JoSch
- * @date 03-11-2005
- * @return Den Objekttypen
- */
-const String& SoundStreamMovable::getMovableType() const
-{
-    return msMovableType;
 }
 
 
@@ -83,7 +57,7 @@ const String& SoundStreamMovable::getMovableType() const
  * @author JoSch
  * @date 07-12-2005
  */
-void SoundStreamMovable::load() throw (RuntimeException)
+void SoundStream::load() throw (RuntimeException)
 {
     getSoundResource().getPointer()->load();
     DataStreamPtr stream = getSoundResource()->getDataStream();
@@ -105,24 +79,14 @@ void SoundStreamMovable::load() throw (RuntimeException)
         mode |= FSOUND_FORCEMONO;
         mStream = FSOUND_Stream_Open(data, mode, 0, len);
     }
-    setChannel(FSOUND_Stream_PlayEx(FSOUND_FREE, getStream(), 0, true));
-    /// Ein paar Standardwerte setzen
-    setGain(255);
-    setPosition(Vector3(0.0, 0.0, 0.0));
-    setVelocity(Vector3(0.0, 0.0, 0.0));
-    setDirection(Vector3(0.0, 0.0, 0.0));
 }
 
 /**
  * @author JoSch
  * @date 07-22-2005
  */
-void SoundStreamMovable::unload() throw (RuntimeException)
+void SoundStream::unload() throw (RuntimeException)
 {
-    if (isPlaying())
-    {
-        stop();
-    }
     FSOUND_Stream_Close(getStream());
     getSoundResource()->unload();
 }
@@ -133,9 +97,9 @@ void SoundStreamMovable::unload() throw (RuntimeException)
  * @author JoSch
  * @date 07-12-2005
  */
-bool SoundStreamMovable::isValid() const throw (RuntimeException)
+bool SoundStream::isValid() const throw (RuntimeException)
 {
-    return (getChannel() >= 0) && (getStream() != 0);
+    return (getStream() != 0);
 }
 
 /**
@@ -143,7 +107,7 @@ bool SoundStreamMovable::isValid() const throw (RuntimeException)
  * @author JoSch
  * @date 07-12-2005
  */
-FSOUND_STREAM *SoundStreamMovable::getStream() const
+FSOUND_STREAM *SoundStream::getStream() const
 {
     return mStream;
 }
@@ -153,14 +117,25 @@ FSOUND_STREAM *SoundStreamMovable::getStream() const
  * @author JoSch
  * @date 07-12-2005
  */
-void SoundStreamMovable::setStream(FSOUND_STREAM *stream)
+void SoundStream::setStream(FSOUND_STREAM *stream)
 {
     mStream = stream;
 }
 
-void SoundStreamMovablePtr::destroy()
+/**
+ * @return Der erzeugte Channel
+ * @author JoSch
+ * @date 08-08-2005
+ */
+int SoundStream::createChannel() throw (RuntimeException)
 {
-    SharedPtr<SoundStreamMovable>::destroy();
+    return FSOUND_Stream_PlayEx(FSOUND_FREE, getStream(), 0, true);
+}
+
+
+void SoundStreamPtr::destroy()
+{
+    SharedPtr<SoundStream>::destroy();
 }
 
 } // Namespace

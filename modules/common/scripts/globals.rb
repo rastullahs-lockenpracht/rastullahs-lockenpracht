@@ -8,7 +8,6 @@ $CORE = CoreSubsystem.getSingleton();
 $AM = ActorManager.getSingleton();
 $PM = PhysicsManager.getSingleton();
 $GL = GameLoopManager.getSingleton();
-$MM = MusicManager.getSingleton();
 $UI = UiSubsystem.getSingleton();
 $SM = SoundManager.getSingleton();
 $DM = DsaManager.getSingleton();
