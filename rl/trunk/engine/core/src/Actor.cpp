@@ -66,7 +66,7 @@ namespace rl {
             mActorControlledObject->_setActor(0);
         }
 
-        if (mActorControlledObject)
+        if (mPhysicalThing)
         {
             mPhysicalThing->_setActor(0);
         }
