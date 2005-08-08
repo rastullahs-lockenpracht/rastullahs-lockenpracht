@@ -33,7 +33,6 @@ namespace rl {
 
 class World;
 class Actor;
-class DebugLine3D;
 
 typedef std::map<const String,Actor*> ActorPtrMap;
 typedef std::pair<const String,Actor*> ActorPtrPair;
@@ -77,6 +76,7 @@ class _RlCoreExport ActorManager : protected Singleton<ActorManager>, private Og
 	    static ActorManager * getSingletonPtr(void);
 
     private:
+        void doDestroyActor( Actor* actor );
         String nextUniqueName(const String& basename);
         ActorPtrMap mActors;
 		OgreOde::Space* mActorOdeSpace;

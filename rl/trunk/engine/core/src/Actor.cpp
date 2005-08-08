@@ -66,7 +66,11 @@ namespace rl {
             mActorControlledObject->_setActor(0);
         }
 
-        /// @todo Physikverknüpfung entfernen
+        if (mActorControlledObject)
+        {
+            mPhysicalThing->_setActor(0);
+        }
+
         /// @todo Highlightmaterial entfernen
     }
 
@@ -343,7 +347,7 @@ namespace rl {
             Throw(IllegalStateException,
             "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
 
-        if( mActorControlledObject )
+        if( mActorControlledObject && mSceneNode )
         {
             mSceneNode->detachObject(
                 mActorControlledObject->getMovableObject());

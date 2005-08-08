@@ -76,14 +76,28 @@ namespace rl {
 		return 0;
 	}
 
-	void ActorManager::destroyActor(Actor* actor)
+	void ActorManager::destroyActor( Actor* actor )
 	{
-        ///@todo Loesch ihn!
+        if( actor == NULL )
+            Throw( NullPointerException, "Der zu löschende Actor existiert nicht" );
+        
+        mActors.erase( actor->getName() );
+        doDestroyActor( actor );
 	}
 
-// Harle: Finger weg ;-)
-// Effective STL, item 5: Erase of associative containers doesn't return anything.
-// Item 9: How to loop through the container with erase.
+    void ActorManager::doDestroyActor( Actor* actor )
+    {
+        ActorControlledObject* actObj = actor->getControlledObject();
+        PhysicalThing* physThing = actor->getPhysicalThing();
+
+        delete actor;
+
+        if( actObj )
+            delete actObj;
+        if( physThing )
+            PhysicsManager::getSingleton().removeAndDestroyPhysicalThing( physThing );
+    }
+    
     void ActorManager::destroyAllActors()
 	{
         for (ActorPtrMap::iterator it = mActors.begin();
@@ -94,8 +108,8 @@ namespace rl {
             if( (!actor->getControlledObject()) || 
                 (actor->getControlledObject()->getObjectType().compare( "CameraObject" ) != 0 ) )
             {
-                mActors.erase(it++);
-                destroyActor(actor);
+                mActors.erase( it++ );  
+                doDestroyActor( actor );
             } else {
                 ++it;
             }

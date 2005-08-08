@@ -35,9 +35,9 @@ namespace rl {
 
 	MeshObject::~MeshObject()
 	{
+        stopAllAnimations();
 		CoreSubsystem::getSingletonPtr()->getWorld()
-			->getSceneManager()->removeEntity( getEntity() );
-		stopAllAnimations();
+			->getSceneManager()->removeEntity( getEntity() );		
 	}
 
     Entity* MeshObject::getEntity() const
@@ -119,7 +119,6 @@ namespace rl {
     
 	void MeshObject::stopAllAnimations( )
 	{
-
 			AnimationStateSet* animStates = getEntity()->getAllAnimationStates();
 			AnimationStateIterator iter(animStates->begin(),animStates->end());
 
