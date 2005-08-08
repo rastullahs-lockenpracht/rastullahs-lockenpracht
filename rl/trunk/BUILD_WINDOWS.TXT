@@ -5,6 +5,7 @@ Bibliotheken benötigt:
 
 ogre/ - Ogre 3D 1.03 - Azatoth
 http://www.ogre3d.org
+Die Source Version, nicht das SDK
 
 ruby/ - Ruby - 1.8
 http://ruby-lang.org
@@ -12,6 +13,8 @@ http://ruby-lang.org
 swig/ - SWIG - 1.3.25  (exakt diese Version + Patches von Berlios )
 http://www.swig.org
 SWIG 1.3.25 - Patch von http://developer.berlios.de/project/showfiles.php?group_id=802
+Man muss die Dateien [swig directory]/Lib/ruby/rubyswigtype.swg, 
+[swig directory]/Source/Modules/Ruby.cxx und [swig directory]/swig.exe ersetzen
 
 openal/ - OPENAL
 http://developer.creative.com/landing.asp?cat=1&sbcat=31&top=38
@@ -21,9 +24,10 @@ http://www.vorbis.com/
 
 ogre/ogreode/ OgreODE - Final Compatible 1.0.1
 http://www.green-eyed-monster.com/xoops/modules/mydownloads/visit.php?cid=3&lid=10
+Die beiliegende OgreOde_OGRE.txt beachten
 
 ode/ - Ode 0.5
-http://www.ode.org - Patched (siehe OgreODE Docs)
+http://www.ode.org
 
 cegui/ - Cegui 0.3
 http://www.cegui.org.uk/
@@ -42,9 +46,12 @@ Diese Verzeichnisse sind alle unterhalb von rl/trunk/dependencies anzulegen.
 Die Projekte müssen alle in diesen Verzeichnissen angelegt werden.
 Die Verzeichnisstruktur sollte jeweils erhalten bleiben.
 Die Versionsnummern sind wichtig.
+Man muss die Bibliotheken Ogre (mit den Änderungen von OgreOde), und dann OgreOde und Cegui
+noch erstellen
 
-VS.Net-2003-Nutzer können sich alternativ von der Projektseite auch die Dependencies runterladen und ins rl-Verzeichnis entpacken.
-Diese sind jedoch nicht immer aktuell. ( zum Beispiel zur Zeit der Verfassung dieses Textes. )
+VS.Net-2003-Nutzer können sich alternativ von der Projektseite auch die Dependencies runterladen 
+und ins rl-Verzeichnis entpacken. Diese sind jedoch nicht immer aktuell. ( zum Beispiel muß zur 
+Zeit der Verfassung dieses Textes swig erneuert werden. )
 
 Das Projekt kann man dann einfach kompilieren.
 
@@ -55,7 +62,7 @@ Sollte das nicht zutreffen
 
 
 Vor dem Debuggen müssen die nötigen Dateien in ein Distributionsverzeichnis
-kopiert werden. Dazu dient das Skript tools/make_release.bat. Je nach kompilierter Konfiguration
+kopiert werden. Je nach kompilierter Konfiguration
 müssen andere DLLs kopiert werden. Dafür gibt es die beiden bat-Dateien release_copy.bat
 und debug_copy.bat jeweils für Release- und Debug-Konfiguration.
 Es legt den Ordner rl_dist an. Danach muss man noch das modules-Verzeichnis dahin kopieren

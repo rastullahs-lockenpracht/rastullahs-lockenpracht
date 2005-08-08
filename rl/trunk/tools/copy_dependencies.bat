@@ -36,11 +36,11 @@ copy "%OGREPLATFORMS%\Win32\bin\%BUILD%\PlatFormManager_Win32.dll" "%RL_DIST%\Og
 copy "%OGREHOME%\Samples\Common\CEGUIRenderer\bin\Debug\OgreGUIRenderer_d.dll" "%RL_DIST%"
 copy "%OGREHOME%\Samples\Common\CEGUIRenderer\bin\Release\OgreGUIRenderer.dll" "%RL_DIST%"
 
-copy "%OGREDEPS%\%BUILD%\lib\cg.dll" "%RL_DIST%"
-copy "%OGREDEPS%\%BUILD%\lib\ilu.dll" "%RL_DIST%"
-copy "%OGREDEPS%\%BUILD%\lib\ilut.dll" "%RL_DIST%"
-copy "%OGREDEPS%\%BUILD%\lib\devil.dll" "%RL_DIST%"
-copy "%OGREDEPS%\%BUILD%\lib\zlib1.dll" "%RL_DIST%"
+copy "%OGREHOME%\Samples\Common\Bin\%BUILD%\cg.dll" "%RL_DIST%"
+copy "%OGREHOME%\Samples\Common\Bin\%BUILD%\ilu.dll" "%RL_DIST%"
+copy "%OGREHOME%\Samples\Common\Bin\%BUILD%\ilut.dll" "%RL_DIST%"
+copy "%OGREHOME%\Samples\Common\Bin\%BUILD%\devil.dll" "%RL_DIST%"
+copy "%OGREHOME%\Samples\Common\Bin\%BUILD%\zlib1.dll" "%RL_DIST%"
 
 copy "%RL_ROOT%\Dependencies\cegui\bin\CEGUIBase.dll" "%RL_DIST%"
 copy "%RL_ROOT%\Dependencies\cegui\bin\CEGUIBase_d.dll" "%RL_DIST%"
@@ -48,8 +48,8 @@ copy "%RL_ROOT%\Dependencies\cegui\bin\CEGUIBase_d.dll" "%RL_DIST%"
 copy "%RL_ROOT%\Dependencies\cegui\dependencies\lib\xerces-c_2_5_0.dll" "%RL_DIST%"
 copy "%RL_ROOT%\Dependencies\cegui\dependencies\lib\xerces-c_2_5_0D.dll" "%RL_DIST%"
 
-copy %RL_ROOT%\Dependencies\rllooks\RastullahLook\bin\release\RastullahLook.dll" "%RL_DIST%"
-copy %RL_ROOT%\Dependencies\rllooks\RastullahLook\bin\debug\RastullahLook_d.dll" "%RL_DIST%"
+copy "%RL_ROOT%\Dependencies\rllooks\RastullahLook\bin\release\RastullahLook.dll" "%RL_DIST%"
+copy "%RL_ROOT%\Dependencies\rllooks\RastullahLook\bin\debug\RastullahLook_d.dll" "%RL_DIST%"
 
 REM Ruby Dateien kopieren
 REM ---------------------
@@ -61,7 +61,7 @@ REM -----------------------------
 REM 
 
 copy "%RL_ROOT%\Dependencies\openal\dll\*.dll" "%RL_DIST%"
-copy "%RL_ROOT%\Dependencies\boost\bin\*.dll" "%RL_DIST%"
+copy "%RL_ROOT%\Dependencies\boost\lib\*.dll" "%RL_DIST%"
 
 
 

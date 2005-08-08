@@ -162,8 +162,7 @@ namespace rl
 		return getAuBasis() + getWert(WERT_MOD_AU);
     }
 
-    ///@todo Richten für negativen Talentwert.
-    ///@todo Kritischer Patzer/Erfolg.
+    ///@todo Kritischer Patzer/Erfolg -> SE bzw. sofirtige Senkung/Steigerung.
     int Creature::doTalentprobe(int id, int modifier)
     {
         Talent* talent = DsaManager::getSingleton().getTalent(id);
@@ -172,12 +171,33 @@ namespace rl
         // Der Probenwurf
         Tripel<int> probe(DsaManager::getSingleton().roll3D20());
 
+		// Glückliche
+		if ( (probe.first == 1) && (probe.second == 1) && (probe.third == 1) ) 
+			return 1000; 
+		if ( ((probe.first == 1) && (probe.second == 1)) || 
+			 ((probe.first == 1) && (probe.third == 1)) ||
+			 ((probe.second == 1) && (probe.third == 1))) return 100;
+		// Patzer
+		if ( (probe.first == 20) && (probe.second == 20) && (probe.third == 20) ) 
+			return -1000; 
+		if ( ((probe.first == 20) && (probe.second == 20)) || 
+			 ((probe.first == 20) && (probe.third == 20)) ||
+			 ((probe.second == 20) && (probe.third == 20))) return -100;
+
+
         // Vor dem Vergleich hat man den Talentwert übrig.
         int rval = getTalent(id) - modifier;
+		// Bei negativen TaP*
+		int handicap = 0;
+		if (rval < 0)
+		{
+			handicap = -rval;
+			rval = 0;
+		}
 
-        int diff1 = getEigenschaft(et.first) - probe.first;
-        int diff2 = getEigenschaft(et.second) - probe.second;
-        int diff3 = getEigenschaft(et.third) - probe.third;
+        int diff1 = getEigenschaft(et.first) - probe.first - handicap;
+        int diff2 = getEigenschaft(et.second) - probe.second - handicap;
+        int diff3 = getEigenschaft(et.third) - probe.third - handicap;
 
         // Falls man in einer Eigenschaft hoeher gewurfelt hat,
         // wird die Differenz vom Talentwert abgezogen.
