@@ -139,7 +139,7 @@ AC_CONFIG_FILES([Makefile \
 		engine/script/Makefile engine/script/swig/Makefile engine/script/src/Makefile \
 		engine/startup/Makefile engine/startup/src/Makefile \
 		rl.conf  \
-		tools/Makefile tools/JMap2Mesh/Makefile tools/XReleaseMouse/Makefile \
+		tools/Makefile  \
     ])
 
 AC_OUTPUT
