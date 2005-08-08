@@ -54,7 +54,7 @@ void SoundChannel::play() throw (RuntimeException)
     setChannel(mSound->createChannel());
     setGain(255);
     setPosition(Vector3(0.0, 0.0, 0.0));
-    setDirection(Vector3(1.0, 0.0, 0.0));
+    setDirection(Vector3(0.0, 0.0, 0.0));
     setVelocity(Vector3(0.0, 0.0, 0.0));
     pause(false);
 }

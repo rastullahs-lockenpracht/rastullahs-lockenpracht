@@ -86,16 +86,19 @@ public:
         FSOUND_3D_SetRolloffFactor(0.5);
         ListenerMovable listener("main");
         listener.setActive();
+        FSOUND_SetSFXMasterVolume(255);
 
         while (it.hasMoreElements())
         {
             SoundResourcePtr soundres = it.getNext();
             SoundSample *sound = new SoundSample(soundres);
             SoundChannel *channel = new SoundChannel(sound, soundres->getName());
+            std::cerr<<channel<<std::endl;
             if (channel)
             {
+                std::cerr<<"load"<<std::endl;
                 sound->load();
-                FSOUND_3D_SetMinMaxDistance(channel->getChannel(), 4.0, 100000.0f);
+                std::cerr<<"play"<<std::endl;
                 channel->play();
                 float angle = 0.0f;
                 

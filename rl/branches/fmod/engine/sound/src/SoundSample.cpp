@@ -94,13 +94,6 @@ void SoundSample::load() throw (RuntimeException)
         mSample = FSOUND_Sample_Load(FSOUND_FREE, data, mode,
             0, len);
     }
-/*    setChannel(FSOUND_PlaySoundEx(FSOUND_FREE, getSample(), 0, true));
-    /// Ein paar Standardwerte setzen
-    FSOUND_Sample_SetMinMaxDistance(mSample, 4.0f, 10000.0f);
-    setGain(255);
-    setPosition(Vector3(0.0, 0.0, 0.0));
-    setVelocity(Vector3(0.0, 0.0, 0.0));
-    setDirection(Vector3(0.0, 0.0, 0.0)); */
 }
 
 /**
