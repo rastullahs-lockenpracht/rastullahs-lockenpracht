@@ -25,7 +25,7 @@ namespace rl {
 	{
 	public:
 		ScriptSubsystem();
-		~ScriptSubsystem();
+		virtual ~ScriptSubsystem();
 
 		static ScriptSubsystem& getSingleton();
 		static ScriptSubsystem* getSingletonPtr();
