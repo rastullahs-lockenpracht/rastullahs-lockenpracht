@@ -16,10 +16,10 @@
 
 #include "SoundObject.h"
 #include "Actor.h"
-#include "SoundResource.h"
-#include "SoundManager.h"
+//TODO #include "SoundResource.h"
+//TODO #include "SoundManager.h"
 #include <Ogre.h>
-#include "SoundMovable.h"
+//TODO #include "SoundMovable.h"
 
 using namespace Ogre;
 
@@ -30,7 +30,7 @@ namespace rl {
  * @author JoSch
  * @date 03-11-2005
  */   
-SoundObject::SoundObject(SoundMovable *sound) : ActorControlledObject()
+SoundObject::SoundObject(/*TODO SoundMovable*/MovableObject *sound) : ActorControlledObject()
 {
     mMovableObject = dynamic_cast<MovableObject*>(sound);
 }
@@ -64,7 +64,7 @@ bool SoundObject::isMeshObject()
 void SoundObject::_update()
 {
     ActorControlledObject::_update();
-    SoundMovable *sound = getSound();
+/* TODO    SoundMovable *sound = getSound();
     Actor *actor = getActor();
     if (!sound || !actor) // Einer ist Null
     {
@@ -77,12 +77,12 @@ void SoundObject::_update()
     actor->getOrientation().ToAxes(temp1);
     *temp1 += *temp2;
     *temp1 *= length;
-    sound->setDirection(*temp1);
+    sound->setDirection(*temp1); */
 }
 
 void SoundObject::play( unsigned int msec )
 {
-    getSound()->play();
+// TODO    getSound()->play();
 }
 
 

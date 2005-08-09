@@ -15,7 +15,7 @@
  */
 
 namespace rl {
-   	class SoundManager {
+  	class SoundManager {
    	private:
         SoundManager();
         ~SoundManager();
@@ -76,5 +76,5 @@ namespace rl {
     	~SoundFadeEvent();
     	static const unsigned int STARTEVENT = 12;
     	static const unsigned int STOPEVENT = 13;
-    };
+    }; 
 }

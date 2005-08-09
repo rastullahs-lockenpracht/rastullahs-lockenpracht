@@ -18,14 +18,15 @@
 
 #include "CoreSubsystem.h"
 
+#include "Exception.h"
 #include "Actor.h"
 #include "World.h"
 #include "MeshObject.h"
 #include "CameraObject.h"
 #include "LightObject.h"
 #include "SoundObject.h"
-#include "SoundMovable.h"
-#include "ListenerMovable.h"
+//TODO #include "SoundMovable.h"
+//TODO #include "ListenerMovable.h"
 #include "ListenerObject.h"
 #include "PhysicalThing.h"
 
@@ -146,8 +147,8 @@ namespace rl {
         Actor* actor = 0;
         try
         {
-            SoundMovable* sm = new SoundMovable(soundfile);
-            SoundObject* so = new SoundObject(sm);
+            /*TODO SoundMovable* sm = new SoundMovable(soundfile); */
+            SoundObject* so = new SoundObject(/*TODO sm*/0);
 
             actor = new Actor(uniquename, so);
             mActors.insert(ActorPtrPair(uniquename,actor)); 
@@ -169,8 +170,8 @@ namespace rl {
         Actor* actor = 0;
         try
         {
-            ListenerMovable* lm = new ListenerMovable(name);
-            ListenerObject* lo = new ListenerObject(lm);
+            /*TODO ListenerMovable* lm = new ListenerMovable(name);*/
+            ListenerObject* lo = new ListenerObject(/*TODO lm*/0);
 
             actor = new Actor(uniquename, lo);
             mActors.insert(ActorPtrPair(uniquename,actor)); 

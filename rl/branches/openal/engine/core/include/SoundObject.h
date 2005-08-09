@@ -20,6 +20,7 @@
 #include "CorePrerequisites.h"
 #include "ActorControlledObject.h"
 
+
 /// @TODO SharedPtr
 namespace rl {
 
@@ -33,7 +34,7 @@ namespace rl {
     class _RlCoreExport SoundObject : public ActorControlledObject
     {
     public:
-        SoundObject(SoundMovable *sound);
+        SoundObject(/*TODO SoundMovable*/Ogre::MovableObject *sound);
         virtual ~SoundObject();
         
         /**

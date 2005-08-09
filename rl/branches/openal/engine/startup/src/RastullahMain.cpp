@@ -22,7 +22,7 @@
 #include <errno.h>
 
 #include "CoreSubsystem.h"
-#include "SoundSubsystem.h"
+//TODO #include "SoundSubsystem.h"
 #include "RulesSubsystem.h"
 #include "DialogSubsystem.h"
 #include "UiSubsystem.h"
@@ -41,7 +41,7 @@
 void startupRl()
 {
 	rl::CoreSubsystem* core = NULL;
-	rl::SoundSubsystem* sound = NULL;
+// TODO	rl::SoundSubsystem* sound = NULL;
 	rl::RulesSubsystem* rules = NULL;
 	rl::DialogSubsystem* dialog = NULL;
 	rl::UiSubsystem* ui =  NULL;
@@ -53,8 +53,8 @@ void startupRl()
 		core = new rl::CoreSubsystem();
 		core->log("CoreSubsystem gestartet");
 
-		sound = new rl::SoundSubsystem();
-		core->log("SoundSubsystem gestartet");
+/* TODO		sound = new rl::SoundSubsystem();
+		core->log("SoundSubsystem gestartet"); */
 
 		rules = new rl::RulesSubsystem();
 		core->log("RulesSubsystem gestartet");
@@ -102,7 +102,7 @@ void startupRl()
 		delete ui;
 		delete dialog;
 		delete rules;
-		delete sound;
+// TODO		delete sound;
 		delete core;
 #ifndef _DEBUG
 	}

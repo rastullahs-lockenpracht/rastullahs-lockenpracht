@@ -17,7 +17,7 @@
 #include "ListenerObject.h"
 #include "Actor.h"
 #include <Ogre.h>
-#include "ListenerMovable.h"
+//TODO #include "ListenerMovable.h"
 
 using namespace Ogre;
 
@@ -28,7 +28,7 @@ namespace rl {
  * @author JoSch
  * @date 03-16-2005
  */   
-ListenerObject::ListenerObject(ListenerMovable *listener) : ActorControlledObject()
+ListenerObject::ListenerObject(/*TODO ListenerMovable*/MovableObject *listener) : ActorControlledObject()
 {
     mMovableObject = dynamic_cast<MovableObject*>(listener);
 }
@@ -62,7 +62,7 @@ bool ListenerObject::isMeshObject()
 void ListenerObject::_update()
 {
     ActorControlledObject::_update();
-    ListenerMovable *listener = getListener();
+/* TODO    ListenerMovable *listener = getListener();
     Actor *actor = getActor();
     if (!listener || !actor) // Einer ist Null
     {
@@ -77,6 +77,7 @@ void ListenerObject::_update()
     *temp1 *= length;
     listener->setOrientation(*temp1, *temp1);
     // TODO Orientation korrigieren
+     */
 }
 
 /**
@@ -84,10 +85,10 @@ void ListenerObject::_update()
  * @author JoSch
  * @date 03-16-2005
  */   
-ListenerMovable* ListenerObject::getListener()
+/* TODO ListenerMovable* ListenerObject::getListener()
 {
     return reinterpret_cast<ListenerMovable*>(mMovableObject);
-}
+} */
 
 /**
  * @return Immer "ListenerObject"

@@ -23,7 +23,7 @@
 /// @TODO SharedPtr
 namespace rl {
 
-    class ListenerMovable;
+    //TODO class ListenerMovable;
     
     
     /** Klasse für alle Listenerobjekte, die man an einen Aktor
@@ -36,7 +36,7 @@ namespace rl {
         static ListenerObject* gActiveListener;
         
     public:
-        ListenerObject(ListenerMovable *listener);
+        ListenerObject(/* TODO ListenerMovable*/Ogre::MovableObject *listener);
         virtual ~ListenerObject();
         
         /**
@@ -49,7 +49,7 @@ namespace rl {
         
         /// Wie ActorControlledObject::getMovableObject()
         /// Nur schon gebrauchsfertig gecastet.
-        ListenerMovable* getListener();
+        //TODO ListenerMovable* getListener();
         
         virtual Ogre::String getObjectType();
 

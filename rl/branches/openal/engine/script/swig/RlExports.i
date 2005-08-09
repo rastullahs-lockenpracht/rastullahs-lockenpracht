@@ -20,8 +20,9 @@
 #undef min
 %}
 
+%include "RlCommon.head.inc"
 %include "RlUi.head.inc"
-%include "RlSound.head.inc"
+// TODO %include "RlSound.head.inc"
 %include "RlCore.head.inc"
 %include "RlRules.head.inc"
 %include "RlScript.head.inc"
@@ -71,7 +72,7 @@ namespace Swig {
 									// da dies in allen erzeugten Exceptionhandlern auftritt
 %}
 
-%include "RlSound.inc"
+// TODO %include "RlSound.inc"
 %include "RlCore.inc"
 %include "RlRules.inc"
 %include "RlUi.inc"

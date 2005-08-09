@@ -15,13 +15,10 @@
  */
 
 %{
-//----------- Includes - Sound -----------
+//----------- Includes - Common -----------
 #include "FixRubyHeaders.h"
-/* TODO #include "SoundPrerequisites.h"
-#include "MusicManager.h"
-#include "SoundResource.h"
-#include "SoundManager.h"
-#include "SoundEvents.h"
-#include "AL/al.h"
-#include "OgreMovableObject.h" */
+#include "CommonPrerequisites.h"
+#include "Exception.h"
 %}
+
+ 
