@@ -1,5 +1,4 @@
-#include "MusicManager.h"
-#include "SoundManager.h"
+
 #include "Ogre.h"
 #include "signal.h"
 #include "SoundSubsystem.h"
@@ -37,5 +36,6 @@ int main( int argc, char **argv)
     runner.addTest( registry.makeTest() );
     runner.run();
     
+    delete rl::SoundSubsystem::getSingletonPtr();
     return 0;
 }

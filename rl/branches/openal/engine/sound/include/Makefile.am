@@ -1,1 +1,3 @@
-noinst_HEADERS = 
+noinst_HEADERS = \
+	SoundPrerequisites.h \
+	SoundSubsystem.h 
