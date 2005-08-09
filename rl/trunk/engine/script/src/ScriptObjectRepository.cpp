@@ -44,10 +44,15 @@ namespace rl {
         rb_gc_register_address(&mRubyArray);
         // Diesen Array einer globalen Variable zuordnen
         rb_define_variable("$UsedRubyInstances", &mRubyArray);
+
+        // Beim ActorManager registrieren
+        ActorManager::getSingleton().setActorDeletionListener( this );
     }
 
     ScriptObjectRepository::~ScriptObjectRepository()
     {
+        ActorManager::getSingleton().setActorDeletionListener( 0 );
+        rb_gc_unregister_address(&mRubyArray);
         m_CToRubyMap.clear();
         m_RubyToCMap.clear();
     }
@@ -72,7 +77,7 @@ namespace rl {
             return NULL;
     }
 
-    void ScriptObjectRepository::insertPointerValuePair( void* ptr, VALUE val )
+    void ScriptObjectRepository::insertPointerValuePair( void* ptr, VALUE& val )
     {
         if( m_CToRubyMap.find( ptr ) != m_CToRubyMap.end() )
             Throw( InvalidArgumentException, "Dieser Zeiger existiert schon im ScriptObjectRepository" );
@@ -85,6 +90,24 @@ namespace rl {
         rb_ary_push( mRubyArray, val );
     }
 
+    void ScriptObjectRepository::removePointerValuePair( void* ptr, VALUE& val )
+    {
+        // Aus den Maps entfernen
+        m_CToRubyMap.erase( ptr );
+        m_RubyToCMap.erase( val );
+
+        // Aus dem RubyArray löschen
+        rb_ary_delete(mRubyArray, val );
+        // Beim GC abmelden wenn es angemeldet wurde
+        rb_gc_unregister_address( &val );
+
+        RData* test = RDATA( val );
+        /// @todo altes klass löschen? Wie denn nur, ist nen VALUE
+        test->basic.klass = rb_cNilClass;
+        // Nicht löschen, ist der ptr
+        test->data = NULL;
+    }
+
     void ScriptObjectRepository::removePointer( void* ptr )
     {
         PointerValueMap::iterator iter = m_CToRubyMap.find( ptr );
@@ -92,9 +115,7 @@ namespace rl {
             Throw( InvalidArgumentException, "Dieser Zeiger existiert nicht im ScriptObjectRepository" );
 
         VALUE val = iter->second;
-        m_CToRubyMap.erase( ptr );
-        m_RubyToCMap.erase( val );
-        rb_ary_delete(mRubyArray, val );
+        removePointerValuePair( ptr, val );
     }
 
     void ScriptObjectRepository::removeValue( VALUE val )
@@ -104,9 +125,16 @@ namespace rl {
             Throw( InvalidArgumentException, "Diese Ruby VALUE existiert nicht im ScriptObjectRepository" );
 
         void* ptr = iter->second;
-        m_CToRubyMap.erase( ptr );
-        m_RubyToCMap.erase( val );
-        rb_ary_delete(mRubyArray, val );
+        removePointerValuePair( ptr, val );
+    }
+
+    void ScriptObjectRepository::actorDeleted( Actor* act )
+    {
+        try
+        {
+            removePointer( act );
+        }
+        catch( InvalidArgumentException& iae ) {}
     }
 
 }

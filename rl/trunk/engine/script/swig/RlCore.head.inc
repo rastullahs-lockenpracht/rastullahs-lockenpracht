@@ -58,7 +58,7 @@
 	
 	if( val == Qnil )
 	{
-		$result = SWIG_NewPointerObj((void *) $1, SWIGTYPE_p_rl__Actor,0);
+		$result = SWIG_NewPointerObj((void *) $1, $1_descriptor, 0);
 		sor->insertPointerValuePair( $1, $result );			
 	}
 	else	

@@ -37,6 +37,14 @@ class Actor;
 typedef std::map<const String,Actor*> ActorPtrMap;
 typedef std::pair<const String,Actor*> ActorPtrPair;
 
+
+/// @todo - Verallgemeinern für alle Arten des Löschens
+class _RlCoreExport ActorDeletionListener 
+{
+public:
+    virtual void actorDeleted( Actor* act ) = 0;
+};
+
 class _RlCoreExport ActorManager : protected Singleton<ActorManager>, private OgreOde::CollisionListener
 {
     public:
@@ -75,22 +83,20 @@ class _RlCoreExport ActorManager : protected Singleton<ActorManager>, private Og
 	    static ActorManager & getSingleton(void);
 	    static ActorManager * getSingletonPtr(void);
 
+        /// Ermöglicht dem Script-Repository benachrichtigt zu werden, wenn
+        /// die Löschung eines Actors bevorsteht.
+        void setActorDeletionListener( ActorDeletionListener* list );
     private:
         void doDestroyActor( Actor* actor );
         String nextUniqueName(const String& basename);
+
         ActorPtrMap mActors;
 		OgreOde::Space* mActorOdeSpace;
 		OgreOde::Geometry* mSelectionCapsule;
 		std::vector<Actor*> mSelectableObjects;
-
         World* mWorld;
-		Actor* mDebugPlane1;
-		Actor* mDebugPlane2;
-		Actor* mDebugPlane3;
-		Actor* mDebugPlane4;
-		Actor* mDebugNormal1;
-		Actor* mDebugNormal2;
 
+        ActorDeletionListener* m_ActorDeletionListener;
 };
 
 }
