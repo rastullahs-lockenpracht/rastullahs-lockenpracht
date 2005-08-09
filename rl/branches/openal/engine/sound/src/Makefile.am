@@ -2,12 +2,5 @@ INCLUDES = $(SDL_CFLAGS) $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(STLPORT_CFLAGS) -I../in
 
 lib_LTLIBRARIES = libRlSound.la
 libRlSound_la_LDFLAGS =$(SDL_LIBS) $(OGRE_LIBS) $(RUBY_LIBS) $(LIBS)
-libRlSound_la_SOURCES = \
-	ListenerMovable.cpp \
-	MusicManager.cpp \
-	SoundManager.cpp \
-	SoundMovable.cpp \
-    SoundResource.cpp \
-	SoundSubsystem.cpp \
-	SoundEvents.cpp 
+libRlSound_la_SOURCES = 
     

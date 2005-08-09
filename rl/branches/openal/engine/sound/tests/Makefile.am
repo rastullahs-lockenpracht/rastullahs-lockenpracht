@@ -5,7 +5,5 @@ testsound_LDFLAGS = -L../../common/src -L../../sound/src
 testsound_LDADD = $(RUBY_LIBS) $(SDL_LIBS) $(OGRE_LIBS)  \
 	  -lRlCommon -lRlSound -lcppunit -lvorbis -lvorbisfile -logg -lboost_thread
 testsound_SOURCES = \
-	MusicManagerTest.cpp \
-	SoundManagerTest.cpp \
 	TestStartup.cpp 
 
