@@ -4,8 +4,6 @@
 #include <OgreSimpleRenderable.h>
 #include "CorePrerequisites.h"
 
-using namespace Ogre;
-
 namespace rl {
 
 class _RlCoreExport Primitive : public Ogre::SimpleRenderable
@@ -39,9 +37,9 @@ public:
     Ogre::Real getSquaredViewDepth(const Ogre::Camera *cam) const;
     Ogre::Real getBoundingRadius() const;
 
-    void getRenderOperation(RenderOperation& op);
-    void _notifyCurrentCamera(Camera* cam);
-    void _notifyAttached(Node* parent, bool isTagPoint = false);
+    void getRenderOperation(Ogre::RenderOperation& op);
+    void _notifyCurrentCamera(Ogre::Camera* cam);
+    void _notifyAttached(Ogre::Node* parent, bool isTagPoint = false);
     
 protected:
     /// contains vertices for the lines. two adjacent points are a line
