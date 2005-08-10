@@ -15,6 +15,9 @@ libRlRules_la_SOURCES = \
 	Item.cpp \
 	Kampftechnik.cpp \
 	KampftechnikCsvIterator.cpp \
+	ObjectStateChangeEvent.cpp \
+	ObjectStateChangeEventSource.cpp \
+	ObjectStateChangeListener.cpp \
 	Person.cpp \
 	RulesSubsystem.cpp \
 	Talent.cpp \

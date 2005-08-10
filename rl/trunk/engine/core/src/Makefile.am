@@ -27,9 +27,6 @@ libRlCore_la_SOURCES = \
 	LightObject.cpp \
 	ListenerObject.cpp \
 	MeshObject.cpp \
-	ObjectStateChangeEvent.cpp \
-	ObjectStateChangeEventSource.cpp \
-	ObjectStateChangeListener.cpp \
 	ParticleSystemObject.cpp \
 	PhysicalThing.cpp \
 	PhysicsManager.cpp \

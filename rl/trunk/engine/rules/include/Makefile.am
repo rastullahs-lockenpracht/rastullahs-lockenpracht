@@ -11,6 +11,9 @@ noinst_HEADERS = \
 	Item.h \
 	Kampftechnik.h \
 	KampftechnikCsvIterator.h \
+	ObjectStateChangeEvent.h \
+	ObjectStateChangeEventSource.h \
+	ObjectStateChangeListener.h \
 	Person.h \
 	RulesPrerequisites.h \
 	RulesSubsystem.h \
