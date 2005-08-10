@@ -38,7 +38,7 @@
 	#include "SDL.h"
 #endif
 
-void startupRl()
+void startupRl(bool developerMode, Ogre::String module)
 {
 	rl::CoreSubsystem* core = NULL;
 	rl::SoundSubsystem* sound = NULL;
@@ -49,8 +49,9 @@ void startupRl()
 
 #ifndef _DEBUG
 	try {
-#endif
+#endif // #ifndef _DEBUG
 		core = new rl::CoreSubsystem();
+		core->setDeveloperMode(developerMode);
 		core->log("CoreSubsystem gestartet");
 
 		sound = new rl::SoundSubsystem();
@@ -97,7 +98,7 @@ void startupRl()
 
 	try 
     {
-#endif
+#endif // #ifndef _DEBUG
 		delete script;
 		delete ui;
 		delete dialog;
@@ -124,19 +125,66 @@ void startupRl()
 	catch(...) {
 		rl::showError( "Unknown exception occured" );
 	}	
-#endif
+#endif //#ifndef _DEBUG
 
 #if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
 	SDL_Quit();
 #endif
 }
 
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-	INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT )
-#else
-	int main(int argc, char **argv)
-#endif
+void analyzeParameters(int argc, char** argv, bool& developerMode, Ogre::String& startModule)
 {
-	startupRl();
+	developerMode = false;
+	startModule = "";
+
+	for (int argIdx = 0; argIdx < argc; argIdx++)
+	{
+		if (strncmp(argv[argIdx], "--dev", 5) == 0)
+			developerMode = true;
+		else if (strncmp(argv[argIdx], "--module", 8) == 0
+				&& argc > argIdx + 2) // Nächster Parameter existiert
+			startModule = argv[argIdx + 1];
+	}
 }
 
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+
+INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT )
+{
+	int argc;
+	LPWSTR* argList = CommandLineToArgvW(GetCommandLineW(), &argc);
+	char** argv = new char*[argc];
+	for (int argIdx = 0; argIdx < argc; argIdx++)
+	{
+		int len = wcslen(argList[argIdx])+1;
+		argv[argIdx] = new char[len];
+		wcstombs(argv[argIdx], argList[argIdx], len);
+		argv[argIdx][len-1] = '\0';
+	}
+
+	bool developer; 
+	Ogre::String module;
+	analyzeParameters(argc, argv, developer, module);
+
+	delete[] argv;
+	LocalFree(argList);
+	
+    startupRl(developer, module);
+
+	return 0;
+}
+
+#else // if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
+
+int main(int argc, char **argv)
+{
+	bool developer; 
+	Ogre::String module;
+
+	analyzeParameters(argc, argv, developer, module);
+    startupRl(developer, module);
+
+	return 0;
+}
+
+#endif

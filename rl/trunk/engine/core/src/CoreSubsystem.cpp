@@ -109,6 +109,16 @@ namespace rl {
         }
     }
 
+	void CoreSubsystem::setDeveloperMode(bool developerMode)
+	{
+		mDeveloperMode = developerMode;
+	}
+
+	bool CoreSubsystem::getDeveloperMode() const
+	{
+		return mDeveloperMode;
+	}
+
     bool CoreSubsystem::initializeCoreSubsystem()
     {
         new Root(

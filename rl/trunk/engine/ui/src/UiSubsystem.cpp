@@ -52,6 +52,7 @@
 #include "DsaManager.h"
 #include "DialogWindow.h"
 #include "PlaylistWindow.h"
+#include "Primitive.h"
 // END TEST
 
 template<> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
@@ -186,7 +187,7 @@ namespace rl {
         world->setActiveActor(person->getActor());
 		mCharacterStateWindow->setCharacter(person);
 		mCharacterStateWindow->update();
-        CoreSubsystem::getSingleton().log("Actor set");		
+        CoreSubsystem::getSingleton().log("Actor set");
 	}
 
 	void UiSubsystem::showActionChoice(GameObject* obj)
@@ -300,8 +301,7 @@ namespace rl {
 	void UiSubsystem::runTest()
 	{
 	//	InputManager::getSingleton().setObjectPickingActive(true);
-		DialogWindow* dialog=new DialogWindow("startup.xml");  
-		
+	//	DialogWindow* dialog=new DialogWindow("startup.xml");  
 	}
 	
     GameController* UiSubsystem::getGameController()

@@ -60,6 +60,9 @@ public:
 	const Ogre::StringVector& getActivatableModules() const;
 	void setActiveModule(const Ogre::String& module);
 	void initializeModule(const std::string& module);
+
+	void setDeveloperMode(bool developerMode);
+	bool getDeveloperMode() const;
 	
 	/** Saves a timestamped jpg Screenshot
 		@param sName The filename (extended with the timestamp)
@@ -100,6 +103,8 @@ private:
 	Ogre::String mActiveModule;
 
 	RL_LONGLONG mClockStartTime;
+
+	bool mDeveloperMode;
 };
 
 }

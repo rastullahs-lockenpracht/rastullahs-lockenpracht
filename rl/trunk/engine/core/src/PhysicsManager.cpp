@@ -343,6 +343,12 @@ namespace rl
 		mOdeWorld->setShowDebugObjects(!mOdeWorld->getShowDebugObjects());
 	}
 
+	/**
+	 * Behandelt die Kollision eines Objekts mit dem Player
+	 * 
+	 * @todo Unterscheidung zwischen beweglichen und unbeweglichen Objekten, Player könnte 
+	 * bewegliche Objekte eventuell verschieben
+	 */
 	bool PhysicsManager::collisionWithPlayerActor(OgreOde::Geometry* geometry, Contact* contact)
 	{
 		if (geometry != mOdeCamera)

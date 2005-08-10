@@ -2,36 +2,42 @@
 #define __PRIMITIVE_H__
 
 #include <OgreSimpleRenderable.h>
+#include "CorePrerequisites.h"
 
 using namespace Ogre;
 
-class Primitive : public Ogre::SimpleRenderable
+namespace rl {
+
+class _RlCoreExport Primitive : public Ogre::SimpleRenderable
 {
 public:
-    Primitive(const String& materialName);
+	Primitive(const Ogre::String& materialName);
     ~Primitive();
 
     //void addLine(const Vector3 &start,const Vector3 &end);
-    void setBox(const Vector3& minVertex, const Vector3& maxVertex);
+    void setBox(const Ogre::Vector3& minVertex, const Ogre::Vector3& maxVertex);
     
     /// creates a Frustum (or even a more generic volume) made up by two
     /// recangles. points of one rectangle are connected to the
     /// coresponding points of the other rectangle.
     /// constraints: z-values of plane corners have to be equal for each plane
     /// (but may(must) differ from plane to plane)
-    void setFrustum(const Vector3& frontPlaneMin, const Vector3& frontPlaneMax,
-        const Vector3& backPlaneMin, const Vector3& backPlaneMax);
+    void setFrustum(const Ogre::Vector3& frontPlaneMin, const Ogre::Vector3& frontPlaneMax,
+        const Ogre::Vector3& backPlaneMin, const Ogre::Vector3& backPlaneMax);
         
-    void setCylinder(const Vector3& baseCenter, Real radius, Real height,
+    void setCylinder(const Ogre::Vector3& baseCenter, Ogre::Real radius, Ogre::Real height,
         unsigned int numSegments = 16);
     
-    void setCone(const Vector3& baseCenter, Real radius, Real height,
+    void setCone(const Ogre::Vector3& baseCenter, Ogre::Real radius, Ogre::Real height,
         unsigned int numSegments = 16);
+
+	void setSphereFrame(const Ogre::Vector3& center, Ogre::Real radius, Ogre::Real width, 
+		unsigned int numSegments = 10);
         
     void clear();
 
-    Real getSquaredViewDepth(const Camera *cam) const;
-    Real getBoundingRadius(void) const;
+    Ogre::Real getSquaredViewDepth(const Ogre::Camera *cam) const;
+    Ogre::Real getBoundingRadius() const;
 
     void getRenderOperation(RenderOperation& op);
     void _notifyCurrentCamera(Camera* cam);
@@ -39,7 +45,7 @@ public:
     
 protected:
     /// contains vertices for the lines. two adjacent points are a line
-    std::vector<Vector3> mPoints;
+    std::vector<Ogre::Vector3> mPoints;
     
     /// Flag signs if renderOp is uptodate
     bool mIsDirty;
@@ -47,7 +53,9 @@ protected:
     /// recreates the vertices in the RenderOp to content of mPoints
     void updateRenderOp();
     
-    void createBoxFromCorners(const std::vector<Vector3>& corners);
+    void createBoxFromCorners(const std::vector<Ogre::Vector3>& corners);
 };
+
+}
 
 #endif

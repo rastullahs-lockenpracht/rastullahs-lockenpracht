@@ -8,6 +8,9 @@
 #include <OgreHardwareBufferManager.h>
 
 using namespace std;
+using namespace Ogre;
+
+namespace rl {
 
 Primitive::Primitive(const String& materialName)
 {
@@ -135,6 +138,74 @@ void Primitive::setCone(const Vector3& baseCenter, Real radius, Real height,
         mPoints.push_back(baseCenter + Vector3(0, height, 0));
     }
 
+}
+
+Vector3 getKarthesianFromPolar(const Vector3& center, Real radius, Degree phi, Degree theta)
+{
+	return Vector3(
+		radius * Math::Sin(theta) * Math::Cos(phi),
+		radius * Math::Sin(theta) * Math::Sin(phi),
+		radius * Math::Cos(theta));
+}
+
+void Primitive::setSphereFrame(const Vector3& center, Real radius, Real width, unsigned int numSegments)
+{
+	mBox.setExtents(
+		Vector3(center.x - radius, center.y - radius, center.z - radius),
+		Vector3(center.x + radius, center.y + radius, center.z + radius));
+    clear();
+
+	// Falls jemand will, kann er hier mal einen richtigen Algorithmus reinpacken
+	for (unsigned int phiIdx = 0; phiIdx < numSegments; phiIdx++)
+	{
+		Degree anglePhiLast, anglePhiCurr;
+
+		anglePhiCurr = Degree(360 * phiIdx/numSegments);
+
+		if (phiIdx == 0)
+			anglePhiLast = Degree(360 * (numSegments-1)/numSegments);
+		else
+			anglePhiLast = Degree(360 * (phiIdx-1)/numSegments);
+
+		{
+        Vector3 point0 = center+Vector3(0, radius*Math::Sin(anglePhiLast), radius*Math::Cos(anglePhiLast));
+		Vector3 point1 = center+Vector3(0, radius*Math::Sin(anglePhiCurr), radius*Math::Cos(anglePhiCurr));
+										
+		mPoints.push_back(point0 + Vector3(-width, 0, 0));
+		mPoints.push_back(point0 + Vector3(width, 0, 0));
+		mPoints.push_back(point1 + Vector3(-width, 0, 0));
+
+		mPoints.push_back(point0 + Vector3(width, 0, 0));
+		mPoints.push_back(point1 + Vector3(width, 0, 0));
+		mPoints.push_back(point1 + Vector3(-width, 0, 0));
+		}
+
+		{
+        Vector3 point0 = center+Vector3(radius*Math::Sin(anglePhiLast), 0, radius*Math::Cos(anglePhiLast));
+		Vector3 point1 = center+Vector3(radius*Math::Sin(anglePhiCurr), 0, radius*Math::Cos(anglePhiCurr));
+										
+		mPoints.push_back(point0 + Vector3(0, -width, 0));
+		mPoints.push_back(point0 + Vector3(0, width, 0));
+		mPoints.push_back(point1 + Vector3(0, -width, 0));
+
+		mPoints.push_back(point0 + Vector3(0, width, 0));
+		mPoints.push_back(point1 + Vector3(0, width, 0));
+		mPoints.push_back(point1 + Vector3(0, -width, 0));
+		}
+
+		{
+        Vector3 point0 = center+Vector3(radius*Math::Sin(anglePhiLast), radius*Math::Cos(anglePhiLast), 0);
+		Vector3 point1 = center+Vector3(radius*Math::Sin(anglePhiCurr), radius*Math::Cos(anglePhiCurr), 0);
+										
+		mPoints.push_back(point0 + Vector3(0, 0, -width));
+		mPoints.push_back(point0 + Vector3(0, 0, width));
+		mPoints.push_back(point1 + Vector3(0, 0, -width));
+
+		mPoints.push_back(point0 + Vector3(0, 0, width));
+		mPoints.push_back(point1 + Vector3(0, 0, width));
+		mPoints.push_back(point1 + Vector3(0, 0, -width));
+		}
+	}
 }
 
 void Primitive::setBox(const Vector3& vmin, const Vector3& vmax)
@@ -294,7 +365,6 @@ void Primitive::getRenderOperation(RenderOperation& op)
     if(mIsDirty) updateRenderOp();
     SimpleRenderable::getRenderOperation(op);
 }
-
 void Primitive::_notifyCurrentCamera(Camera* cam)
 {
     if(mIsDirty) updateRenderOp();
@@ -305,4 +375,6 @@ void Primitive::_notifyAttached(Node* parent, bool isTagPoint)
 {
     if(mIsDirty) updateRenderOp();
     SimpleRenderable::_notifyAttached(parent, isTagPoint);
+}
+
 }
