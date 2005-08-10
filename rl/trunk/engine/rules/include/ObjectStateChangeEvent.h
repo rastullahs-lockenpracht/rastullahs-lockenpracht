@@ -21,11 +21,12 @@
 
 #include "EventObject.h"
 
-#include "CorePrerequisites.h"
+#include "RulesPrerequisites.h"
 
 namespace rl {
 
 class ObjectStateChangeEventSource;
+class GameObject;
 
 /** 
  *  ObjectStateChangeEvent
@@ -34,7 +35,7 @@ class ObjectStateChangeEventSource;
  *  @see ObjectStateChangeListener, ObjectStateChangeEventSource
  *  @todo Feldgenauigkeit, also auch noch im Ereignis zu kodieren, was verändert wurde
  */
-class _RlCoreExport ObjectStateChangeEvent : public virtual EventObject 
+class _RlRulesExport ObjectStateChangeEvent : public virtual EventObject 
 {
 public:
      /** Der Standardkonstruktor
@@ -45,14 +46,14 @@ public:
     virtual ~ObjectStateChangeEvent() {};
 
     /// Setzt das verursachenden Object des Events
-    void setProvokingObject(Ogre::UserDefinedObject* obj ) {  mObject = obj; };
+    void setProvokingObject(GameObject* obj ) {  mObject = obj; };
     /// Gibt das verursachende Object des Events zurück
-    Ogre::UserDefinedObject* getProvokingObject() const { return mObject; };
+    GameObject* getProvokingObject() const { return mObject; };
     /// Gibt die Eventquelle zurück
     ObjectStateChangeEventSource* getSource() const;
 private:
     /// Das verursachende Object
-    Ogre::UserDefinedObject* mObject;
+    GameObject* mObject;
 };
 }
 

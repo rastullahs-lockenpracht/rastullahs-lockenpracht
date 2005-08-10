@@ -244,15 +244,6 @@
 				RelativePath=".\include\MeshObject.h">
 			</File>
 			<File
-				RelativePath=".\include\ObjectStateChangeEvent.h">
-			</File>
-			<File
-				RelativePath=".\include\ObjectStateChangeEventSource.h">
-			</File>
-			<File
-				RelativePath=".\include\ObjectStateChangeListener.h">
-			</File>
-			<File
 				RelativePath=".\include\ParticleSystemObject.h">
 			</File>
 			<File
@@ -348,15 +339,6 @@
 			</File>
 			<File
 				RelativePath=".\src\MeshObject.cpp">
-			</File>
-			<File
-				RelativePath=".\src\ObjectStateChangeEvent.cpp">
-			</File>
-			<File
-				RelativePath=".\src\ObjectStateChangeEventSource.cpp">
-			</File>
-			<File
-				RelativePath=".\src\ObjectStateChangeListener.cpp">
 			</File>
 			<File
 				RelativePath=".\src\ParticleSystemObject.cpp">

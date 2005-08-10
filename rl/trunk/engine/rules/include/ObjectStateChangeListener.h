@@ -20,7 +20,7 @@
 #include "EventListener.h"
 #include "ObjectStateChangeEvent.h"
 
-#include "CorePrerequisites.h"
+#include "RulesPrerequisites.h"
 
 namespace rl {
 
@@ -29,7 +29,7 @@ namespace rl {
  *
  *  @see ObjectStateChangeEvent, ObjectStateChangeEventSource, GameObject
  */
-class _RlCoreExport ObjectStateChangeListener : public virtual EventListener<ObjectStateChangeEvent>
+class _RlRulesExport ObjectStateChangeListener : public virtual EventListener<ObjectStateChangeEvent>
 {
 public:
     /// Dekonstruktor

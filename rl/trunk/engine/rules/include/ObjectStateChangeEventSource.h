@@ -23,23 +23,24 @@
 #include "ObjectStateChangeListener.h"
 #include "ObjectStateChangeEvent.h"
 
-#include "CorePrerequisites.h"
+#include "RulesPrerequisites.h"
 
 #include <OgreUserDefinedObject.h>
 
 namespace rl {
 
+class GameObject;
 /** 
  * ObjectStateChangeEventSource
  *
  *  @see ObjectStateChangeEvent, ObjectStateChangeListener, GameObject
  */
-class _RlCoreExport ObjectStateChangeEventSource : public virtual EventSource
+class _RlRulesExport ObjectStateChangeEventSource : public virtual EventSource
 {
 public:
     /** Konstruktor
      */
-	ObjectStateChangeEventSource( Ogre::UserDefinedObject* obj );
+	ObjectStateChangeEventSource( GameObject* obj );
 	ObjectStateChangeEventSource( );
 	/// Dekonstruktor
     virtual ~ObjectStateChangeEventSource();
@@ -59,17 +60,17 @@ public:
     bool hasListeners( ) const;
 
     /// Gibt das Objekt zurück, das überwacht wird
-    Ogre::UserDefinedObject* getObject() const { return mObject; }
+    GameObject* getObject() const { return mObject; }
 
     void fireObjectStateChangeEvent();
 protected:
-	void setObject(Ogre::UserDefinedObject* obj) { mObject = obj; }
+	void setObject(GameObject* obj) { mObject = obj; }
 
 private: 
     /// Der EventCaster der die Verteilung an die Listener übernimmt
     EventCaster<ObjectStateChangeEvent> mObjectStateChangeEventCaster;
     /// Das Object der überwacht wird
-    Ogre::UserDefinedObject* mObject;
+    GameObject* mObject;
 };
 
 }

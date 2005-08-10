@@ -16,10 +16,11 @@
 
 #include "ObjectStateChangeEventSource.h"
 #include "ObjectStateChangeEvent.h"
+#include "GameObject.h"
 
 namespace rl {
 
-    ObjectStateChangeEventSource::ObjectStateChangeEventSource( Ogre::UserDefinedObject* obj ) :
+    ObjectStateChangeEventSource::ObjectStateChangeEventSource( GameObject* obj ) :
 		mObjectStateChangeEventCaster(),
         mObject(obj)
     {       
