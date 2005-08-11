@@ -55,7 +55,7 @@ public:
 	void setInterpreter(Interpreter* interpreter);
 	Interpreter* getInterpreter();
 
-	Ogre::StringVector getActiveModules() const;
+	const Ogre::String& getActiveModule() const;
 	const Ogre::StringVector& getCommonModules() const;
 	const Ogre::StringVector& getActivatableModules() const;
 	void setActiveModule(const Ogre::String& module);

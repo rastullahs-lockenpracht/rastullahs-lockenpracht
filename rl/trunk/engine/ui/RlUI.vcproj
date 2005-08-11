@@ -208,6 +208,9 @@
 				RelativePath=".\include\GameLoggerWindow.h">
 			</File>
 			<File
+				RelativePath=".\include\InGameMenuWindow.h">
+			</File>
+			<File
 				RelativePath=".\include\InputManager.h">
 			</File>
 			<File
@@ -279,6 +282,9 @@
 			</File>
 			<File
 				RelativePath=".\src\GameLoggerWindow.cpp">
+			</File>
+			<File
+				RelativePath=".\src\InGameMenuWindow.cpp">
 			</File>
 			<File
 				RelativePath=".\src\InputManager.cpp">

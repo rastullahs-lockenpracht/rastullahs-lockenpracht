@@ -77,4 +77,15 @@ namespace rl
         }
         return action;
     }
+
+	void ActionManager::registerInGameGlobalAction(Action* action, ActionGroup* group)
+	{
+		mInGameGlobalActions.push_back(action);
+		action->setGroup(group);
+	}
+
+	const ActionVector& ActionManager::getInGameGlobalActions()
+	{
+		return mInGameGlobalActions;
+	}
 }

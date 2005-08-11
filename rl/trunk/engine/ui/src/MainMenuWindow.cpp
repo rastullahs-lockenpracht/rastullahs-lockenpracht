@@ -1,3 +1,18 @@
+/* This source file is part of Rastullahs Lockenpracht.
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
+ * 
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Perl Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  Perl Artistic License for more details.
+ *
+ *  You should have received a copy of the Perl Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.perldoc.com/perl5.6/Artistic.html.
+ */
 #include <boost/bind.hpp>
 
 #include "UiPrerequisites.h"
@@ -18,54 +33,82 @@ namespace rl {
 		mActiveModule(""),
 		mActionHolder(actionHolder)
 	{
-		getWindow("MainMenuWindow/Modules")->subscribeEvent(
-			Window::EventMouseClick, 
-			boost::bind(&MainMenuWindow::handleChooseModules, this));
-
-		getWindow("MainMenuWindow/Start")->subscribeEvent(
-			Window::EventMouseClick, 
+		getWindow("MainMenu/Game/Start")->subscribeEvent(
+			MenuItem::EventClicked, 
 			boost::bind(&MainMenuWindow::handleStart, this));
-		bindClickToCloseWindow(getWindow("MainMenuWindow/Start"));
+		bindClickToCloseWindow(getWindow("MainMenu/Game/Start"));
 
-		getWindow("MainMenuWindow/GraphicOptions")->subscribeEvent(
+/*		getWindow("MainMenuWindow/GraphicOptions")->subscribeEvent(
 			Window::EventMouseClick, 
 			boost::bind(&MainMenuWindow::handleGraphicOptions, this));
 		
 		getWindow("MainMenuWindow/InputOptions")->subscribeEvent(
 			Window::EventMouseClick,
 			boost::bind(&UiSubsystem::showInputOptionsMenu, UiSubsystem::getSingletonPtr(), mActionHolder));
-
-		bindClickToCloseWindow(getWindow("MainMenuWindow/Quit"));
-		getWindow("MainMenuWindow/Quit")->subscribeEvent(
-			Window::EventMouseClick, 
+*/
+		bindClickToCloseWindow(getWindow("MainMenu/Game/Quit"));
+		getWindow("MainMenu/Game/Quit")->subscribeEvent(
+			MenuItem::EventClicked, 
 			boost::bind(&MainMenuWindow::handleQuit, this));
-			
-		mWindow->subscribeEvent(
-			Window::EventKeyUp,
-			boost::bind(&MainMenuWindow::handleKey, this, _1));
 		
-		centerWindow();
-		addToRoot(mWindow);		
+		mWindow->subscribeEvent(
+			Window::EventKeyUp, 
+			boost::bind(MainMenuWindow::handleKey, this, _1));
+
+		addToRoot(mWindow);
+
+		fillModules();
 	}
 
-	bool MainMenuWindow::handleChooseModules()
+	void MainMenuWindow::fillModules()
 	{
-		MainMenuChooseModulesWindow* w = 
-			new MainMenuChooseModulesWindow(
-				this, 
-				CoreSubsystem::getSingleton().getActivatableModules(), 
-				mActiveModule);
-		w->setVisible(true);
+		MenuBase* modulesMenu = getMenu("MainMenu/Modules/Menu");
+
+		Ogre::StringVector modules = CoreSubsystem::getSingleton().getActivatableModules();
+		mActiveModule = CoreSubsystem::getSingleton().getActiveModule();
+		if (mActiveModule.length() == 0)
+			mActiveModule = *modules.begin();
+
+		for(Ogre::StringVector::iterator mod = modules.begin();	
+			mod != modules.end(); mod++)
+		{
+			MenuItem* it = new MenuItem("RastullahLook/MenuItem", getNamePrefix()+"MainMenu/Modules/" + *mod);
+			
+			it->setText(*mod);
+			modulesMenu->addItem(it);
+			if ((*mod) == mActiveModule)
+				it->setText(*mod+" *");
+			it->subscribeEvent(
+				MenuItem::EventClicked,
+				boost::bind(&MainMenuWindow::handleChooseModule, this, it, *mod));
+		}
+	}
+
+	bool MainMenuWindow::handleChooseModule(MenuItem* it, Ogre::String module)
+	{
+		MenuBase* modulesMenu = getMenu("MainMenu/Modules/Menu");
+		
+		ItemEntry* itOld = NULL;
+		for (size_t i=0; i<modulesMenu->getItemCount(); i++)
+		{
+			ItemEntry* curr = modulesMenu->getItemFromIndex(i);
+			if (curr->getText().compare(mActiveModule+" *") == 0)
+			{
+				itOld = curr;
+				break;
+			}
+		}
+		itOld->setText(mActiveModule);
+
+		mActiveModule = module;
+		it->setText(module+" *");	
+
 		return true;
 	}
 
 	bool MainMenuWindow::handleStart()
 	{
-		if (mActiveModule.length() == 0)
-			mActiveModule = *(CoreSubsystem::getSingleton().getActivatableModules().begin());
-
 		CoreSubsystem::getSingleton().setActiveModule(mActiveModule.c_str());
-
 		return true;
 	}
 
@@ -86,60 +129,9 @@ namespace rl {
 		
 		UiSubsystem::getSingleton().log(StringConverter::toString(kevt.scancode), "blah");
 		
-		if (kevt.scancode == Key::S)
-			return handleStart();
-		else if (kevt.scancode == Key::G)
-			return handleGraphicOptions();
-		else if (kevt.scancode == Key::M)
-			return handleChooseModules();
-		else if (kevt.scancode == Key::Q || kevt.scancode == Key::Escape)
+		if (kevt.scancode == Key::Q || kevt.scancode == Key::Escape)
 			return handleQuit();
 
 		return false;
-	}
-
-	void MainMenuWindow::setActiveModule(const CeGuiString& module)
-	{
-		mActiveModule = module;
-	}
-
-	MainMenuChooseModulesWindow::MainMenuChooseModulesWindow(
-		MainMenuWindow* parent, 
-		const Ogre::StringVector& modules, 
-		const CeGuiString& activeModule) 
-		: CeGuiWindow("mainmenuchoosemoduleswindow.xml", WND_KEYBOARD_INPUT, true)
-	{
-		mModulesList = getListbox("MainMenuChooseModules/ModulesList");
-		mModulesList->setMultiselectEnabled(false);
-		mModulesList->setEnabled(true);
-		mParent = parent;
-
-		for (Ogre::StringVector::const_iterator mod = modules.begin();
-			mod != modules.end(); mod++)
-		{
-			ListboxTextItem* it = new ListboxTextItem(*mod);
-			it->setSelectionColours(colour(0.73f,0.58f,0.19f));
-			it->setSelectionBrushImage("RastullahLook", "ListboxSelectionBrush");
-			mModulesList->addItem(it);
-			if ((*mod).compare(activeModule.c_str()) == 0)
-				mModulesList->setItemSelectState(it, true);
-		}
-
-		getWindow("MainMenuChooseModules/OkayButton")->subscribeEvent(
-			Window::EventMouseClick,
-			boost::bind(&MainMenuChooseModulesWindow::handleChooseOkay, this));
-		bindClickToCloseWindow(getWindow("MainMenuChooseModules/OkayButton"));
-		bindClickToCloseWindow(getWindow("MainMenuChooseModules/CancelButton"));
-
-		centerWindow();
-		addToRoot(mWindow);		
-	}
-
-	bool MainMenuChooseModulesWindow::handleChooseOkay()
-	{
-		ListboxItem* item = mModulesList->getFirstSelectedItem();
-		if (item != NULL)
-			mParent->setActiveModule(item->getText());
-		return true;
 	}
 }

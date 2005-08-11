@@ -168,10 +168,15 @@ ProgressBar* CeGuiWindow::getProgressBar(const char* name)
 	return static_cast<ProgressBar*>(getWindow(name));
 }
 
-//MenuBase* CeGuiWindow::getMenu(const char* name)
-//{
-//	return static_cast<MenuBase*>(getWindow(name));
-//}
+MenuBase* CeGuiWindow::getMenu(const char* name)
+{
+	return static_cast<MenuBase*>(getWindow(name));
+}
+
+MenuItem* CeGuiWindow::getMenuItem(const char* name)
+{
+	return static_cast<MenuItem*>(getWindow(name));
+}
 
 const CeGuiString& CeGuiWindow::getName() const
 {
@@ -190,6 +195,11 @@ void CeGuiWindow::bindClickToCloseWindow(CEGUI::Window* button)
 {
 	button->subscribeEvent(Window::EventMouseClick,
 		boost::bind(&WindowManager::destroyWindow, WindowManager::getSingletonPtr(), this));
+}
+
+const CeGuiString& CeGuiWindow::getNamePrefix() const
+{
+	return mNamePrefix;
 }
 
 }

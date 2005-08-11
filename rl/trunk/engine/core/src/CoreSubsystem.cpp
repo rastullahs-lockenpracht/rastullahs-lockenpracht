@@ -322,11 +322,9 @@ namespace rl {
             writeContentsToTimestampedFile(sName, ".jpg");
     }
 
-    StringVector CoreSubsystem::getActiveModules() const
+    const String& CoreSubsystem::getActiveModule() const
     {
-        StringVector modules(mCommonModules);
-        modules.push_back(mActiveModule);
-        return modules;
+        return mActiveModule;
     }
 
     const StringVector& CoreSubsystem::getCommonModules() const

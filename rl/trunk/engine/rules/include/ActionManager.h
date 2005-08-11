@@ -26,6 +26,7 @@ using Ogre::Singleton;
 namespace rl
 {
 	class Action;
+	class ActionGroup;
 	
 	typedef std::vector<Action*> ActionVector;
         
@@ -41,6 +42,7 @@ namespace rl
     {
     private:
         ActionVector mActions;
+		ActionVector mInGameGlobalActions;
         
     public:
         ActionManager();
@@ -48,9 +50,12 @@ namespace rl
 
         void registerAction(Action* action);
         void unregisterAction(const CeGuiString& actionName);
-
         Action* getDefaultAction(const CeGuiString& actionName) const;
+		Action* getAction(const CeGuiString& actionName, const CeGuiString& className) const;
 
+		void registerInGameGlobalAction(Action* action, ActionGroup* group);
+		const ActionVector& ActionManager::getInGameGlobalActions();
+	
         static ActionManager& getSingleton(void);
         static ActionManager* getSingletonPtr(void);
     };
