@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <Imageset Name="RastullahLook" Imagefile="RastullahLook.png" NativeHorzRes="800" NativeVertRes="600" AutoScaled="true">
-    <Image Name="ClientBrush" XPos="257" YPos="1" Width="254" Height="254" />    
+    <Image Name="ClientBrush" XPos="257" YPos="1" Width="4" Height="4" />
     
     <Image Name="WindowLeftEdge" XPos="30" YPos="302" Width="4" Height="2" />
     <Image Name="WindowRightEdge" XPos="70" YPos="302" Width="4" Height="2" />
@@ -19,11 +19,11 @@
     <Image Name="ButtonLeftPushed"  XPos="78" YPos="301" Width="7" Height="17" />
     <Image Name="ButtonMiddlePushed" XPos="88" YPos="301" Width="4" Height="17" />
     <Image Name="ButtonRightPushed" XPos="95" YPos="301" Width="12" Height="17" />
-    
+
     <Image Name="ButtonLeftHighlight" XPos="78" YPos="281" Width="7" Height="17"  />
     <Image Name="ButtonMiddleHighlight" XPos="88" YPos="281" Width="4" Height="17" />
     <Image Name="ButtonRightHighlight" XPos="95" YPos="281" Width="12" Height="17" />
-    
+
     
     <Image Name="CheckboxNormal" XPos="110" YPos="2" Width="12" Height="12" />
     <Image Name="CheckboxHover" XPos="110" YPos="30" Width="12" Height="12" />
@@ -44,7 +44,7 @@
     <Image Name="SysAreaMiddle" XPos="224" YPos="294" Width="29" Height="23" />
     <Image Name="SysAreaRight" XPos="256" YPos="294" Width="12" Height="23" />
     
-    
+
     <Image Name="StaticLeft" XPos="106" YPos="263" Width="4" Height="2"  />
     <Image Name="StaticRight" XPos="116" YPos="263" Width="4" Height="2"   />
     <Image Name="StaticTop" XPos="112" YPos="257" Width="2" Height="4"   />
@@ -73,7 +73,7 @@
     <Image Name="SpinnerDownHover" XPos="82" YPos="118" Width="10" Height="6" />
     
     <Image Name="TextSelectionBrush" XPos="8" YPos="70" Width="16" Height="16" />
-    
+
     
     <Image Name="VertScrollTop" XPos="182" YPos="2" Width="20" Height="8" />
     <Image Name="VertScrollMiddle" XPos="182" YPos="12" Width="20" Height="8" />
@@ -98,7 +98,7 @@
     <Image Name="MiniVertScrollThumbTopHover" XPos="122" YPos="277" Width="11" Height="10" />
     <Image Name="MiniVertScrollThumbMiddleHover" XPos="136" YPos="279" Width="11" Height="7" />
     <Image Name="MiniVertScrollThumbBottomHover" XPos="149" YPos="279" Width="11" Height="9" />
-    
+
     <Image Name="MiniVertScrollUpNormal" XPos="123" YPos="257" Width="11" Height="13" />
     <Image Name="MiniVertScrollDownNormal" XPos="136" YPos="259" Width="11" Height="13" />
     
@@ -125,7 +125,7 @@
     
     <Image Name="MiniHorzScrollLeftNormal" XPos="181" YPos="259" Width="13" Height="11" />
     <Image Name="MiniHorzScrollRightNormal" XPos="164" YPos="259" Width="13" Height="11" />
-    
+
     <Image Name="MiniHorzScrollLeftHover" XPos="181" YPos="259" Width="13" Height="11" />
     <Image Name="MiniHorzScrollRightHover" XPos="164" YPos="259" Width="13" Height="11" />
 
@@ -210,7 +210,7 @@
     <Image Name="MultiLineEditboxTopRight" XPos="278" YPos="258" Width="5" Height="7" />
     <Image Name="MultiLineEditboxBottomLeft" XPos="258" YPos="273" Width="8" Height="5" />
     <Image Name="MultiLineEditboxBottomRight" XPos="278" YPos="273" Width="5" Height="5" />
-    <Image Name="MultiLineEditboxBackdrop" XPos="1" YPos="1" Width="254" Height="254" />
+    <Image Name="MultiLineEditboxBackdrop" XPos="1" YPos="1" Width="4" Height="4" />
     <Image Name="MultiLineEditboxSelectionBrush" XPos="40" YPos="350" Width="16" Height="16" />
     
     <Image Name="MouseTarget" XPos="1" YPos="283" Width="15" Height="20" />
@@ -248,4 +248,24 @@
     <Image Name="TabButtonLowerLeftSelected" XPos="41" YPos="99" Width="7" Height="7" />
     <Image Name="TabButtonLowerRightSelected" XPos="62" YPos="99" Width="7" Height="7" />
     <Image Name="TabButtonMiddleSelected" XPos="52" YPos="89" Width="6" Height="6" />
+
+    <Image Name="Background" XPos="257" YPos="1" Width="4" Height="4" />
+    <Image Name="MenuTopLeft" XPos="257" YPos="1" Width="4" Height="4" />
+    <Image Name="MenuTopRight" XPos="257" YPos="1" Width="4" Height="4" />
+    <Image Name="MenuBottomLeft" XPos="257" YPos="1" Width="4" Height="4" />
+    <Image Name="MenuBottomRight" XPos="257" YPos="1" Width="4" Height="4" />
+    <Image Name="MenuLeft" XPos="257" YPos="1" Width="4" Height="4" />
+    <Image Name="MenuRight" XPos="257" YPos="1" Width="4" Height="4" />
+    <Image Name="MenuTop" XPos="257" YPos="1" Width="4" Height="4" />
+    <Image Name="MenuBottom" XPos="257" YPos="1" Width="4" Height="4" />
+    <Image Name="PopupMenuArrowLeft" XPos="257" YPos="1" Width="4" Height="4" />
+    <Image Name="PopupMenuArrowRight" XPos="257" YPos="1" Width="4" Height="4" />
+    <Image Name="PopupMenuFrameTopLeft" XPos="257" YPos="1" Width="4" Height="4" />
+    <Image Name="PopupMenuFrameTopRight" XPos="257" YPos="1" Width="4" Height="4" />
+    <Image Name="PopupMenuFrameBottomLeft" XPos="257" YPos="1" Width="4" Height="4" />
+    <Image Name="PopupMenuFrameBottomRight" XPos="257" YPos="1" Width="4" Height="4" />
+    <Image Name="PopupMenuFrameLeft" XPos="257" YPos="1" Width="4" Height="4" />
+    <Image Name="PopupMenuFrameRight" XPos="257" YPos="1" Width="4" Height="4" />
+    <Image Name="PopupMenuFrameTop" XPos="257" YPos="1" Width="4" Height="4" />
+    <Image Name="PopupMenuFrameBottom" XPos="257" YPos="1" Width="4" Height="4" />
 </Imageset>

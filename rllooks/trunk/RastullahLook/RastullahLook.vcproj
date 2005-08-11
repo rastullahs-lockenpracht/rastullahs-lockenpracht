@@ -167,6 +167,12 @@
 				RelativePath=".\src\RLListHeaderSegment.cpp">
 			</File>
 			<File
+				RelativePath=".\src\RLMenubar.cpp">
+			</File>
+			<File
+				RelativePath=".\src\RLMenuItem.cpp">
+			</File>
+			<File
 				RelativePath=".\src\RLMiniHorzScrollbar.cpp">
 			</File>
 			<File
@@ -186,6 +192,9 @@
 			</File>
 			<File
 				RelativePath=".\src\RLMultiLineEditbox.cpp">
+			</File>
+			<File
+				RelativePath=".\src\RLPopupMenu.cpp">
 			</File>
 			<File
 				RelativePath=".\src\RLProgressBar.cpp">
@@ -277,6 +286,12 @@
 				RelativePath=".\include\RLListHeaderSegment.h">
 			</File>
 			<File
+				RelativePath=".\include\RLMenubar.h">
+			</File>
+			<File
+				RelativePath=".\include\RLMenuItem.h">
+			</File>
+			<File
 				RelativePath=".\include\RLMiniHorzScrollbar.h">
 			</File>
 			<File
@@ -296,6 +311,9 @@
 			</File>
 			<File
 				RelativePath=".\include\RLMultiLineEditbox.h">
+			</File>
+			<File
+				RelativePath=".\include\RLPopupMenu.h">
 			</File>
 			<File
 				RelativePath=".\include\RLProgressBar.h">

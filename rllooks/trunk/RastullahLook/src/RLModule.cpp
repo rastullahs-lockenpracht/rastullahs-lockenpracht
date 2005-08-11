@@ -59,6 +59,9 @@
 #include "RLSpinner.h"
 #include "RLScrollablePane.h"
 #include "RLTooltip.h"
+#include "RLMenubar.h"
+#include "RLMenuItem.h"
+#include "RLPopupMenu.h"
 
 
 /*************************************************************************
@@ -98,6 +101,10 @@ static CEGUI::RLVUMeterFactory			s_VUMeterFactory;
 static CEGUI::RLSpinnerFactory          s_SpinnerFactory;
 static CEGUI::RLScrollablePaneFactory   s_ScrollablePaneFactory;
 static CEGUI::RLTooltipFactory          s_TooltipFactory;
+static CEGUI::RLMenubarFactory			s_MenubarFactory;
+static CEGUI::RLMenubarItemFactory		s_MenubarItemFactory;
+static CEGUI::RLPopupMenuFactory		s_PopupMenuFactory;
+static CEGUI::RLPopupMenuItemFactory		s_PopupMenuItemFactory;
 
 
 /*************************************************************************
@@ -106,6 +113,8 @@ static CEGUI::RLTooltipFactory          s_TooltipFactory;
 extern "C" void registerFactory(const CEGUI::String& type_name)
 {
 	using namespace CEGUI;
+
+	const char* typeN = type_name.c_str();
 
 	if (type_name == RLFrameWindow::WidgetTypeName)
 	{
@@ -275,6 +284,26 @@ extern "C" void registerFactory(const CEGUI::String& type_name)
     else if (type_name == RLTooltip::WidgetTypeName)
     {
         WindowFactoryManager::getSingleton().addFactory(&s_TooltipFactory);
+        return;
+    }
+	else if (type_name == RLMenubar::WidgetTypeName)
+    {
+		WindowFactoryManager::getSingleton().addFactory(&s_MenubarFactory);
+        return;
+    }
+	else if (type_name == RLMenubarItem::WidgetTypeName)
+    {
+		WindowFactoryManager::getSingleton().addFactory(&s_MenubarItemFactory);
+        return;
+    }
+	else if (type_name == RLPopupMenu::WidgetTypeName)
+    {
+		WindowFactoryManager::getSingleton().addFactory(&s_PopupMenuFactory);
+        return;
+    }
+	else if (type_name == RLPopupMenuItem::WidgetTypeName)
+    {
+		WindowFactoryManager::getSingleton().addFactory(&s_PopupMenuItemFactory);
         return;
     }
 
