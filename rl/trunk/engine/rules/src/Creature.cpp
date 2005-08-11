@@ -14,6 +14,7 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
+
 #include "Creature.h"
 #include "Exception.h"
 #include "DsaManager.h"
@@ -82,6 +83,47 @@ namespace rl
         if (it == mTalente.end())
         {
             Throw(InvalidArgumentException, "Talent nicht gefunden.");
+        }
+        (*it).second = value;
+    }
+
+	void Creature::addSe(int talentId)
+	{
+		///@todo Mit Code fuellen
+	}
+
+    int Creature::getSf(int key) const
+    {
+        SonderfertigkeitMap::const_iterator it = mSonderfertigkeiten.find(key);
+        if (it == mSonderfertigkeiten.end())
+        {
+            Throw(InvalidArgumentException, "Sonderfertigkeit nicht gefunden.");
+        }
+        return (*it).second;
+    }
+
+	void Creature::addSf(int key)
+	{
+		SonderfertigkeitMap::const_iterator it = mSonderfertigkeiten.find(key);
+        if (it != mSonderfertigkeiten.end())
+        {
+            Throw(InvalidArgumentException, "Sonderfertigkeit nicht gefunden.");
+        }
+        
+		mSonderfertigkeiten[key] = 0;
+	}
+
+    void Creature::setSf(int key, int value)
+    {
+		if (value < SF_MIN_VALUE || value > SF_MAX_VALUE)
+		{
+			Throw(OutOfRangeException, "Der Sonderfertigkeit soll ein" 
+				"unzulässiger Wert zugewiesen werden");
+		}
+        SonderfertigkeitMap::iterator it = mSonderfertigkeiten.find(key);
+        if (it == mTalente.end())
+        {
+            Throw(InvalidArgumentException, "Sonderfertigkeit nicht gefunden.");
         }
         (*it).second = value;
     }
@@ -162,31 +204,58 @@ namespace rl
 		return getAuBasis() + getWert(WERT_MOD_AU);
     }
 
-    ///@todo Kritischer Patzer/Erfolg -> SE bzw. sofirtige Senkung/Steigerung.
-    int Creature::doTalentprobe(int id, int modifier)
+    int Creature::doAlternativeTalentprobe(int talentId, int spezialisierungId,
+		int modifier, int eigenschaft1Id, int eigenschaft2Id, int eigenschaft3Id)
     {
-        Talent* talent = DsaManager::getSingleton().getTalent(id);
-        EigenschaftTripel et(talent->getEigenschaften());
+        Talent* talent = DsaManager::getSingleton().getTalent(talentId);
+        EigenschaftTripel et(eigenschaft1Id, eigenschaft2Id, eigenschaft3Id);
 
         // Der Probenwurf
         Tripel<int> probe(DsaManager::getSingleton().roll3D20());
 
-		// Glückliche
+		/**
+		 * @warning Ich dachte ich haette irgendwo mal gelesen das bei einer
+		 *          Dreifach-1 der Talentwert *sofort* um 1 angehoben wird,
+		 *			bei einer Dreifach-20 sofort gesenkt. Weiss jemand was
+		 *			darueber?
+		 */
+		// Glueckliche
 		if ( (probe.first == 1) && (probe.second == 1) && (probe.third == 1) ) 
-			return 1000; 
+		{
+			addSe(talentId);
+			return RESULT_SPEKT_AUTOERFOLG;
+		}
 		if ( ((probe.first == 1) && (probe.second == 1)) || 
 			 ((probe.first == 1) && (probe.third == 1)) ||
-			 ((probe.second == 1) && (probe.third == 1))) return 100;
+			 ((probe.second == 1) && (probe.third == 1))) 
+		{
+			addSe(talentId);
+			return RESULT_AUTOERFOLG;
+		}
 		// Patzer
-		if ( (probe.first == 20) && (probe.second == 20) && (probe.third == 20) ) 
-			return -1000; 
+		if ((probe.first == 20) && (probe.second == 20) && (probe.third == 20)) 
+		{
+			addSe(talentId);
+			return RESULT_SPEKT_AUTOMISSERFOLG; 
+		}
 		if ( ((probe.first == 20) && (probe.second == 20)) || 
 			 ((probe.first == 20) && (probe.third == 20)) ||
-			 ((probe.second == 20) && (probe.third == 20))) return -100;
+			 ((probe.second == 20) && (probe.third == 20))) 
+		{
+			addSe(talentId);
+			return RESULT_AUTOMISSERFOLG;
+		}
 
 
         // Vor dem Vergleich hat man den Talentwert übrig.
-        int rval = getTalent(id) - modifier;
+		int taW = 0;
+		try 
+		{
+			if (1 == getSf(spezialisierungId)) taW = 2;
+		}
+		catch(InvalidArgumentException){};
+		taW += getTalent(talentId);
+        int rval = taW - modifier;
 		// Bei negativen TaP*
 		int handicap = 0;
 		if (rval < 0)
@@ -204,32 +273,58 @@ namespace rl
         rval = diff1 < 0 ? rval + diff1 : rval;
         rval = diff2 < 0 ? rval + diff2 : rval;
         rval = diff3 < 0 ? rval + diff3 : rval;
+
+		// TaP* niemals größer als TaW (MFF14)
+		if (rval > taW) rval = taW;
         return rval;
     }
 
-    int Creature::doEigenschaftsprobe(int id, int modifier)
+    int Creature::doAlternativeTalentprobe(int talentId, int modifier, 
+		int eigenschaft1Id, int eigenschaft2Id, int eigenschaft3Id)
+    {
+		return doAlternativeTalentprobe(talentId, -1, modifier, eigenschaft1Id,
+			eigenschaft2Id, eigenschaft3Id);
+	}
+
+    int Creature::doTalentprobe(int talentId, int spezialisierungId, int modifier)
+    {
+        Talent* talent = DsaManager::getSingleton().getTalent(talentId);
+        EigenschaftTripel et(talent->getEigenschaften());
+		return doAlternativeTalentprobe(talentId, spezialisierungId, modifier, 
+			et.first, et. second, et.third);
+	}
+
+    int Creature::doTalentprobe(int talentId, int modifier)
+    {
+        Talent* talent = DsaManager::getSingleton().getTalent(talentId);
+        EigenschaftTripel et(talent->getEigenschaften());
+		return doAlternativeTalentprobe(talentId, -1, modifier, et.first, 
+			et. second, et.third);
+	}
+
+    int Creature::doEigenschaftsprobe(int eigenschaftId, int modifier)
     {
         int rval;
 
         int probe = DsaManager::getSingleton().rollD20();
         if (probe == 1)
         {
-            rval = 100;
+            rval = RESULT_GLUECKLICH;
         }
         else if (probe == 20)
         {
-            rval = -100;
+            rval = RESULT_PATZER;
         }
         else
         {
-            rval = getEigenschaft(id) - (probe + modifier);
+            rval = getEigenschaft(eigenschaftId) - (probe + modifier);
         }
         return rval;
     }
 
-    pair<int, int> Creature::getKampftechnik(int id) const
+    pair<int, int> Creature::getKampftechnik(int kampftechnikId) const
     {
-        KampftechnikMap::const_iterator it = mKampftechniken.find(id);
+        KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikId);
         if (it == mKampftechniken.end())
         {
             Throw(InvalidArgumentException, "Kampftechnik nicht gefunden.");
@@ -237,9 +332,9 @@ namespace rl
         return (*it).second;
     }
 
-    void Creature::setKampftechnik(int id, const pair<int, int>& value)
+    void Creature::setKampftechnik(int kampftechnikId, const pair<int, int>& value)
     {
-        KampftechnikMap::iterator it = mKampftechniken.find(id);
+        KampftechnikMap::iterator it = mKampftechniken.find(kampftechnikId);
         if (it == mKampftechniken.end())
         {
             Throw(InvalidArgumentException, "Kampftechnik nicht gefunden.");
@@ -318,9 +413,9 @@ namespace rl
         return static_cast<int>(es / 2.0 + 0.5);
     }
 
-	int Creature::getWert(int id) const
+	int Creature::getWert(int wertId) const
 	{
-		WertMap::const_iterator it = mWerte.find(id);
+		WertMap::const_iterator it = mWerte.find(wertId);
         if (it == mWerte.end())
         {
             Throw(InvalidArgumentException, "Wert nicht gefunden.");
@@ -328,12 +423,12 @@ namespace rl
         return (*it).second;
 	}
 
-	void Creature::setWert(int id, int wert)
+	void Creature::setWert(int wertId, int wert)
 	{
-		WertMap::iterator it = mWerte.find(id);
+		WertMap::iterator it = mWerte.find(wertId);
         if (it == mWerte.end())
         {
-            mWerte.insert(make_pair(id, wert));
+            mWerte.insert(make_pair(wertId, wert));
         }
         (*it).second = wert;
 	}
