@@ -27,8 +27,12 @@
         <WindowFactory Name="RastullahLook/ListHeaderSegment" />
         <WindowFactory Name="RastullahLook/HorizontalScrollbar" />
         <WindowFactory Name="RastullahLook/HorizontalScrollbarThumb" />
+        <WindowFactory Name="RastullahLook/Menubar" />
+        <WindowFactory Name="RastullahLook/MenubarItem" />
         <WindowFactory Name="RastullahLook/MultiColumnList" />
         <WindowFactory Name="RastullahLook/MultiLineEditbox" />
+        <WindowFactory Name="RastullahLook/PopupMenu" />
+        <WindowFactory Name="RastullahLook/PopupMenuItem" />
         <WindowFactory Name="RastullahLook/ProgressBar" />
         <WindowFactory Name="RastullahLook/RadioButton" />
         <WindowFactory Name="RastullahLook/Slider" />
