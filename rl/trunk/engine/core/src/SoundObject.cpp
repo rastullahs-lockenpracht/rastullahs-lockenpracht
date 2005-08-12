@@ -19,7 +19,8 @@
 #include "SoundResource.h"
 #include "SoundManager.h"
 #include <Ogre.h>
-#include "SoundMovable.h"
+#include "Sound.h"
+#include "SoundChannel.h"
 
 using namespace Ogre;
 
@@ -30,9 +31,11 @@ namespace rl {
  * @author JoSch
  * @date 03-11-2005
  */   
-SoundObject::SoundObject(SoundMovable *sound) : ActorControlledObject()
+SoundObject::SoundObject(Sound *sound, const Ogre::String &name)
+    : ActorControlledObject()
 {
-    mMovableObject = dynamic_cast<MovableObject*>(sound);
+    SoundChannel *sc = new SoundChannel(sound, name);
+    mMovableObject = dynamic_cast<MovableObject*>(sc);
 }
 
 /**
@@ -64,25 +67,25 @@ bool SoundObject::isMeshObject()
 void SoundObject::_update()
 {
     ActorControlledObject::_update();
-    SoundMovable *sound = getSound();
+    SoundChannel *channel = getSoundChannel();
     Actor *actor = getActor();
-    if (!sound || !actor) // Einer ist Null
+    if (!channel || !actor) // Einer ist Null
     {
         return;
     }
-    sound->setPosition(actor->getPosition());
+    channel->setPosition(actor->getPosition());
     Vector3 *temp1 = new Vector3();
     Vector3 *temp2 = new Vector3(actor->getPosition());
     Real length = temp2->normalise();
     actor->getOrientation().ToAxes(temp1);
     *temp1 += *temp2;
     *temp1 *= length;
-    sound->setDirection(*temp1);
+    channel->setDirection(*temp1);
 }
 
 void SoundObject::play( unsigned int msec )
 {
-    getSound()->play();
+    getSoundChannel()->play();
 }
 
 
@@ -91,9 +94,9 @@ void SoundObject::play( unsigned int msec )
  * @author JoSch
  * @date 03-11-2005
  */   
-SoundMovable* SoundObject::getSound()
+SoundChannel* SoundObject::getSoundChannel()
 {
-    return reinterpret_cast<SoundMovable*>(mMovableObject);
+    return reinterpret_cast<SoundChannel*>(mMovableObject);
 }
 
 /**

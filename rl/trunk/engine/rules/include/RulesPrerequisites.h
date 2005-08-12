@@ -44,7 +44,7 @@
 #undef min
 #include <OgreNoMemoryMacros.h>
 #pragma warning (push)
-#pragma warning (disable : 4267)
+#pragma warning( disable : 4267 ) // Konvertierungswarnung in CEGUIString
 #include <CEGUIString.h>
 #pragma warning (pop)
 #include <OgreMemoryMacros.h>

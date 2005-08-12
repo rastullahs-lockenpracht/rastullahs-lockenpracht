@@ -17,7 +17,8 @@
 #include <OgreVector3.h>
 #include "SoundSubsystem.h"
 extern "C" {
-    #include <AL/al.h>
+    #include <fmod.h>
+    #include <fmod_errors.h>
 }
 
 
@@ -44,8 +45,8 @@ ListenerMovable::ListenerMovable(const String &name):
     /// Ein paar Standardwerte setzen
     setPosition(Vector3(0.0, 0.0, 0.0));
     setVelocity(Vector3(0.0, 0.0, 0.0));
-    setOrientation(Vector3(0.0, 0.0, 0.0),
-        Vector3(0.0, 0.0, 0.0));
+    setOrientation(Vector3(0.0, 0.0, 1.0),
+        Vector3(0.0, 1.0, 0.0));
 }
  
 /**
@@ -120,7 +121,7 @@ void ListenerMovable::_updateRenderQueue(RenderQueue *queue)
  */
 const Vector3 ListenerMovable::getOrientationAt() const throw (RuntimeException)
 {
-    return mOrientationAt;
+    return mAt;
 }
 
 /**
@@ -130,7 +131,7 @@ const Vector3 ListenerMovable::getOrientationAt() const throw (RuntimeException)
  */
 const Vector3 ListenerMovable::getOrientationUp() const throw (RuntimeException)
 {
-    return mOrientationUp;
+    return mUp;
 }
 
 /**
@@ -142,14 +143,15 @@ const Vector3 ListenerMovable::getOrientationUp() const throw (RuntimeException)
 void ListenerMovable::setOrientation(const Vector3 &at,
         const Vector3 &up) throw (RuntimeException)
 {
-    mOrientationAt = at;
-    mOrientationUp = up;
+    mUp = up;
+    mAt = at;
     if (isActive())
     {
-        ALfloat v[] = {at[0], at[1], at[2],
-            up[0], up[1], up[2]};
-        alListenerfv(AL_ORIENTATION, v);
-        check();
+        float v[] = {at[0], at[1], at[2]},
+            w[] =  {up[0], up[1], up[2]};
+        FSOUND_3D_Listener_SetAttributes(0, 0,
+            at[0], at[1], at[2],
+            up[0], up[1], up[2]);
     }
 }
 
@@ -173,9 +175,12 @@ void ListenerMovable::setPosition(const Vector3& position) throw (RuntimeExcepti
     mPosition = position;
     if (isActive())
     {
-        alListener3f(AL_POSITION,
-            position[0], position[1], position[2]);
-        check();
+        float fx, fy, fz, tx, ty, tz;
+        FSOUND_3D_Listener_GetAttributes(0, 0,
+            &fx, &fy, &fz, &tx, &ty, &tz);
+        float newpos[] = {position[0], position[1], position[2]};
+        FSOUND_3D_Listener_SetAttributes(newpos,
+            0, fx, fy, fz, tx, ty, tz);
     }
 }
 
@@ -199,9 +204,12 @@ void ListenerMovable::setVelocity(const Vector3& velocity) throw (RuntimeExcepti
     mVelocity = velocity;
     if (isActive())
     {
-        alListener3f(AL_VELOCITY,
-            velocity[0], velocity[1], velocity[2]);
-        check();
+        float fx, fy, fz, tx, ty, tz;
+        FSOUND_3D_Listener_GetAttributes(0, 0,
+            &fx, &fy, &fz, &tx, &ty, &tz);
+        float newvel[] = {velocity[0], velocity[1], velocity[2]};
+        FSOUND_3D_Listener_SetAttributes(0, &newvel[0],
+            fx, fy, fz, tx, ty, tz);
     }
 }
 
@@ -210,7 +218,7 @@ void ListenerMovable::setVelocity(const Vector3& velocity) throw (RuntimeExcepti
  * @author JoSch
  * @date 03-16-2005
  */
-const ALfloat ListenerMovable::getGain() const throw (RuntimeException)
+const int ListenerMovable::getGain() const throw (RuntimeException)
 {
     return mGain;
 }
@@ -220,28 +228,12 @@ const ALfloat ListenerMovable::getGain() const throw (RuntimeException)
  * @author JoSch
  * @date 03-16-2005
  */
-void ListenerMovable::setGain(const ALfloat gain) throw (RuntimeException)
+void ListenerMovable::setGain(const int gain) throw (RuntimeException)
 {
+    mGain = gain;
     if (isActive())
     {
-        alListenerf(AL_GAIN, gain);
-    }
-    check();
-}
-
-/**
- * Ueberprueft, ob Fehler aufgetreten ist, ansonsten Exception.
- * @author JoSch
- * @date 03-16-2005
- */
-void ListenerMovable::check() const throw (RuntimeException)
-{
-    ALenum error = alGetError();
-    if (error != AL_NO_ERROR)
-    {
-        String errormsg = (char*)alGetString(error);
-        SoundSubsystem::log("Error: " + errormsg);
-        Throw(RuntimeException, errormsg);
+        FSOUND_SetSFXMasterVolume(gain);
     }
 }
 

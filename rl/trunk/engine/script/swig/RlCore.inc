@@ -112,8 +112,10 @@ private:
 public:
 	static ActorManager& getSingleton(void);
 
+
 	rl::Actor* createParticleSystemActor(const Ogre::String& name, const Ogre::String& soundfile);
-    rl::Actor* createSoundActor(const Ogre::String& name, const Ogre::String& soundfile);
+    rl::Actor* createSoundStreamActor(const Ogre::String& name, const Ogre::String& soundfile);
+    rl::Actor* createSoundSampleActor(const Ogre::String& name, const Ogre::String& soundfile);
     rl::Actor* createEmptyActor(const Ogre::String& name);
     rl::Actor* createLightActor(const Ogre::String& name, rl::LightObject::LightTypes type );
 	rl::Actor* createMeshActor(const Ogre::String& name, const Ogre::String& meshname,
@@ -212,35 +214,6 @@ public:
     void removeAllAreas( rl::Actor* actor );
 
     static rl::GameEventManager & getSingleton(void);
-};
-
-%feature("director") ObjectStateChangeListener; 
-class ObjectStateChangeListener 
-{
-public:
-	virtual ~ObjectStateChangeListener();
-
-	virtual void objectStateChanged(rl::ObjectStateChangeEvent *anEvent) = 0;
-};
-
-class ObjectStateChangeEventSource
-{
-public:
-	ObjectStateChangeEventSource( );
-  
-    void addObjectStateChangeListener( rl::ObjectStateChangeListener*  list );
-    void removeObjectStateChangeListener( rl::ObjectStateChangeListener* list );
-    bool hasListeners( ) const;
-    Ogre::UserDefinedObject* getObject() const { return mObject; }
-	void fireObjectStateChangeEvent();
-};
-
-class ObjectStateChangeEvent
-{
-public:
-    ObjectStateChangeEvent( rl::ObjectStateChangeEventSource* src );
-    Ogre::UserDefinedObject* getProvokingObject() const { return mObject; };
-    rl::ObjectStateChangeEventSource* getSource() const;
 };
 
 /// Alles was mit Animationen zu tun hat

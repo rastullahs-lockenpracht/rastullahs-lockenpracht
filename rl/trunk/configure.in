@@ -48,10 +48,10 @@ if test "$enable_test_coverage" = "yes"; then
     CXXFLAGS="$CXXFLAGS -fprofile-arcs -ftest-coverage"
 fi
 
-# OpenAL
-AC_CHECK_LIB(openal, main, [], AC_MSG_ERROR([Can't find OpenAL]))
-AC_CHECK_HEADERS(AL/al.h, ,
-    [AC_MSG_ERROR([cannot find OpenAL headers]) ])
+# fmod
+AC_CHECK_LIB(fmod-3.74, main, [], AC_MSG_ERROR([Can't find fmod]))
+AC_CHECK_HEADERS(fmod.h, ,
+    [AC_MSG_ERROR([cannot find fmod headers]) ])
 
 # PortAudio
 AC_CHECK_LIB(portaudio,main,WITH_PORTAUDIO="yes")

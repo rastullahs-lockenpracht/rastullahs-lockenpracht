@@ -23,7 +23,14 @@
 
 
 namespace rl {
-
+    
+   /** Diese Klasse dient der Interkation mit Ogre3d und
+    * kapselt den Hörer.
+    * @author Josch
+    * @date 06-29-2005
+    * @version 1.0
+    * @version 2.0
+    */
     class _RlSoundExport ListenerMovable : public Ogre::MovableObject
     {
     private:
@@ -31,19 +38,20 @@ namespace rl {
         static ListenerMovable *gActiveListener;
         /// Der Name des ListenerMovable
         Ogre::String mName;
-        /// Position
-        Ogre::Vector3 mPosition;
-        /// Orientierung
-        Ogre::Vector3 mOrientationAt, mOrientationUp;
-        /// Geschwindigkeit
-        Ogre::Vector3 mVelocity;
-        /// Die Hauptlautstaerke
-        ALfloat mGain;
         
     protected:
          /// Shared class-level name for Movable type
         static Ogre::String msMovableType;
+        /// Alignment-Box: gebraucht von MovableObject.
         static Ogre::AxisAlignedBox msAABox;
+        /// Position
+        Ogre::Vector3 mPosition;
+        /// Geschwindigkeit
+        Ogre::Vector3 mVelocity;
+        /// Orientierung
+        Ogre::Vector3 mAt, mUp;
+        /// Hauptlautstärke
+        int mGain;
 
     public:
         /// Konstruktor
@@ -64,9 +72,9 @@ namespace rl {
         virtual void _updateRenderQueue(Ogre::RenderQueue *queue);
     
         /// Gibt die Hauptlautstaerke zurueck
-        const ALfloat getGain() const throw (RuntimeException);
+        const int getGain() const throw (RuntimeException);
         /// Setzt die Hauptlautstaerke.
-        void setGain(const ALfloat direction) throw (RuntimeException);
+        void setGain(const int direction) throw (RuntimeException);
         /// Gibt die eingestellte Position der Soundquelle zurueck
         const Ogre::Vector3 getPosition() const throw (RuntimeException);
         /// Setzt die Position der Soundquelle.
@@ -81,8 +89,6 @@ namespace rl {
         void setOrientation(const Ogre::Vector3 &at, const Ogre::Vector3 &up) throw (RuntimeException);
         /// Setzt die Geschwindigkeit der Soundquelle.
         void setVelocity(const Ogre::Vector3&) throw (RuntimeException);
-        /// Fehlerueberpruefung
-        void check() const throw (RuntimeException);
         /// Ueberpruefen, ob der aktive Listener.
         bool isActive() const;
         /// Den Listener als aktuellen setzen.

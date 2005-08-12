@@ -14,18 +14,18 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-%{
-//----------- Includes - Sound -----------
-#include "FixRubyHeaders.h"
-#include "SoundPrerequisites.h"
-#include "SoundResource.h"
-#include "SoundManager.h"
-#include "SoundEvents.h"
-#include "Sound.h"
-#include "SoundChannel.h"
-extern "C" {
-#include "fmod.h"
-#include "fmod_errors.h"
+#include "ObjectStateChangeListener.h"
+
+namespace rl {
+
+    ObjectStateChangeListener::~ObjectStateChangeListener()
+    {        
+	}
+
+	bool ObjectStateChangeListener::eventRaised(ObjectStateChangeEvent* evt)
+	{
+		objectStateChanged(evt);
+		return true;
+	}
 }
-#include "OgreMovableObject.h"
-%}
+

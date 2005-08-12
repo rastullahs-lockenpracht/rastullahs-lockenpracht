@@ -23,7 +23,8 @@
 /// @TODO SharedPtr
 namespace rl {
 
-    class SoundMovable;
+    class Sound;
+    class SoundChannel;
     
     
     /** Klasse für alle Soundobjekte, die man an einen Aktor
@@ -33,7 +34,7 @@ namespace rl {
     class _RlCoreExport SoundObject : public ActorControlledObject
     {
     public:
-        SoundObject(SoundMovable *sound);
+        SoundObject(Sound *sound, const Ogre::String &name);
         virtual ~SoundObject();
         
         /**
@@ -46,7 +47,7 @@ namespace rl {
         
         /// Wie ActorControlledObject::getMovableObject()
         /// Nur schon gebrauchsfertig gecastet.
-        SoundMovable* getSound();
+        SoundChannel* getSoundChannel();
         void play(unsigned int msec = 0);
 
         virtual Ogre::String getObjectType();

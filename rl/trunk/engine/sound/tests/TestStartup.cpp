@@ -1,4 +1,3 @@
-#include "MusicManager.h"
 #include "SoundManager.h"
 #include "Ogre.h"
 #include "signal.h"

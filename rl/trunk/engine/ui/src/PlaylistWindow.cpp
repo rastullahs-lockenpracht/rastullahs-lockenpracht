@@ -17,7 +17,6 @@
 
 #include "UiPrerequisites.h"
 
-#include "MusicManager.h"
 #include "SoundManager.h"
 #include "SoundResource.h"
 
@@ -70,7 +69,7 @@ bool PlaylistWindow::handleQuit()
 
 bool PlaylistWindow::handlePlay()
 {
-    MusicManager::getSingleton().playSong();
+
     return true;
 }
 

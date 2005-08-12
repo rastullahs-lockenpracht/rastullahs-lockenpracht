@@ -12,6 +12,7 @@ noinst_HEADERS = \
 	DialogWindow.h \
 	GameController.h \
 	GameLoggerWindow.h \
+	InGameMenuWindow.h \
 	InputManager.h \
 	InventoryWindow.h \
 	MessageWindow.h \

@@ -13,11 +13,16 @@
 #include <boost/thread.hpp>
 #include "SoundManager.h"
 #include "SoundResource.h"
-#include "SoundMovable.h"
+#include "Sound.h"
+#include "SoundSample.h"
+#include "SoundStream.h"
+#include "SoundChannel.h"
+#include "ListenerMovable.h"
 
 
 using namespace rl;
 using namespace boost;
+using namespace Ogre;
 
 class SoundManagerTest : public CppUnit::TestFixture {
 private:
@@ -51,26 +56,77 @@ public:
         while (it.hasMoreElements())
         {
             SoundResourcePtr soundres = it.getNext();
-            SoundMovablePtr sound(new SoundMovable(soundres));
-            if (!sound.isNull())
+            SoundSample *sound = new SoundSample(soundres);
+            SoundChannel *channel = new SoundChannel(sound, soundres->getName());
+            if (channel)
             {
-                sound->play();
+                channel->play();
                 
                 xtime_get(&xt, TIME_UTC);
                 xt.sec++;
                 thread::sleep(xt);
-                while (sound->playing()) {
+                while (channel->isPlaying()) {
                     xtime_get(&xt, TIME_UTC);
                     xt.sec++;
                     thread::sleep(xt);
                 }
                 
-                sound->stop();
+                delete sound;
             }            
         }
         CPPUNIT_ASSERT(true);
     }
     
+    void testSoundManager_playWith3D()
+    {
+        xtime xt;
+        
+        Ogre::ResourceManager::ResourceMapIterator it =
+            SoundManager::getSingleton().getResourceIterator();
+        FSOUND_3D_SetRolloffFactor(0.5);
+        ListenerMovable listener("main");
+        listener.setActive();
+        FSOUND_SetSFXMasterVolume(255);
+
+        while (it.hasMoreElements())
+        {
+            SoundResourcePtr soundres = it.getNext();
+            SoundSample *sound = new SoundSample(soundres);
+            SoundChannel *channel = new SoundChannel(sound, soundres->getName());
+            std::cerr<<channel<<std::endl;
+            if (channel)
+            {
+                std::cerr<<"load"<<std::endl;
+                sound->load();
+                std::cerr<<"play"<<std::endl;
+                channel->play();
+                float angle = 0.0f;
+                
+                xtime_get(&xt, TIME_UTC);
+                xt.sec++;
+                thread::sleep(xt);
+                while (channel->isPlaying()) {
+                    xtime_get(&xt, TIME_UTC);
+                    xt.nsec+=100000;
+                    thread::sleep(xt);
+                    Vector3 pos(1.0f*sinf(angle), 20.0f*cosf(angle), 0.0f);
+                    channel->setPosition(pos);
+                    //pos = channel->getPosition();
+                    //cerr <<pos[0]<<":"<<pos[1]<<":"<<pos[2]<<endl;
+                    angle += 0.005;
+                    if (angle > 2 * M_PI)
+                    {
+                        angle = 0.0f;
+                    }
+                    FSOUND_Update();
+                }
+                
+                delete channel;
+            }            
+        }        
+    }
+
+
     void testSoundManager_loadPlayWithFade()
     {
         xtime xt;
@@ -79,16 +135,17 @@ public:
         while (it.hasMoreElements())
         {
             SoundResourcePtr soundres = it.getNext();
-            SoundMovablePtr sound(new SoundMovable(soundres));
-            if (!sound.isNull())
+            SoundStream *sound = new SoundStream(soundres);
+            SoundChannel *channel = new SoundChannel(sound, soundres->getName());
+            if (channel)
             {
-                sound->play(2 * 1000);
+                channel->play();
                 
                 xtime_get(&xt, boost::TIME_UTC);
                 xt.sec += 10;
                 thread::sleep(xt);
                 
-                sound->stop(2 * 1000);
+                channel->stop();
                 
                 xtime_get(&xt, boost::TIME_UTC);
                 xt.sec += 5;
@@ -101,8 +158,9 @@ public:
 
 	CPPUNIT_TEST_SUITE(SoundManagerTest);
 	CPPUNIT_TEST(testSoundManager_addSoundDirectory);
-    CPPUNIT_TEST(testSoundManager_loadPlayUnload);
+//    CPPUNIT_TEST(testSoundManager_loadPlayUnload);
+    CPPUNIT_TEST(testSoundManager_playWith3D);
 //    CPPUNIT_TEST(testSoundManager_loadPlayWithFade);
     CPPUNIT_TEST_SUITE_END();
 };
-//CPPUNIT_TEST_SUITE_REGISTRATION(SoundManagerTest);
+CPPUNIT_TEST_SUITE_REGISTRATION(SoundManagerTest);

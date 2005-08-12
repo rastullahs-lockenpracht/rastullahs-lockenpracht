@@ -20,6 +20,7 @@ libRlUi_la_SOURCES = \
 	DialogWindow.cpp \
 	GameController.cpp \
 	GameLoggerWindow.cpp \
+	InGameMenuWindow.cpp \
 	InputManager.cpp \
 	InventoryWindow.cpp \
 	MainMenuWindow.cpp \

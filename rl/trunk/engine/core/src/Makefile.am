@@ -7,13 +7,13 @@ libRlCore_la_SOURCES = \
 	ActorControlledObject.cpp \
 	ActorManager.cpp \
 	Animation.cpp \
-    AnimationListener.cpp \
+	AnimationListener.cpp \
 	AnimationManager.cpp \
 	CameraObject.cpp \
 	ConfigurationManager.cpp \
-    ConfigurationManagerLinux.cpp \
-    ConfigurationManagerWin32.cpp \
-    ConfigurationManagerMac.cpp \
+	ConfigurationManagerLinux.cpp \
+	ConfigurationManagerWin32.cpp \
+	ConfigurationManagerMac.cpp \
 	CoreSubsystem.cpp \
 	DotSceneLoader.cpp \
 	DotSceneOctreeWorld.cpp \
@@ -34,6 +34,7 @@ libRlCore_la_SOURCES = \
 	RubyInterpreter.cpp \
 	ScriptObject.cpp \
 	SoundObject.cpp \
+	SoundUpdateTask.cpp \
 	TrackAnimation.cpp \
 	World.cpp 		 
 

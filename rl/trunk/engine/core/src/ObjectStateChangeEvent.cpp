@@ -14,18 +14,24 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-%{
-//----------- Includes - Sound -----------
-#include "FixRubyHeaders.h"
-#include "SoundPrerequisites.h"
-#include "SoundResource.h"
-#include "SoundManager.h"
-#include "SoundEvents.h"
-#include "Sound.h"
-#include "SoundChannel.h"
-extern "C" {
-#include "fmod.h"
-#include "fmod_errors.h"
+#include "ObjectStateChangeEvent.h"
+
+#include "ObjectStateChangeEventSource.h"
+
+namespace rl {
+
+ObjectStateChangeEvent::ObjectStateChangeEvent( ObjectStateChangeEventSource* src ) 
+    : EventObject(src,0),
+    mObject(NULL)
+{
+
 }
-#include "OgreMovableObject.h"
-%}
+
+ObjectStateChangeEventSource* ObjectStateChangeEvent::getSource() const
+{
+	EventSource* eve =  EventObject::getSource();
+    return dynamic_cast<ObjectStateChangeEventSource*>( eve );
+}
+
+}
+

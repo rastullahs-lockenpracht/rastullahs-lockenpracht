@@ -22,14 +22,14 @@
 
 namespace rl {
 
-class SoundEvent : public EventObject{
+class _RlSoundExport SoundEvent : public EventObject{
 
 public:
 	SoundEvent(EventSource *source);
 	virtual ~SoundEvent();
 };
 
-class SoundFadeEvent : public SoundEvent {
+class _RlSoundExport SoundFadeEvent : public SoundEvent {
 public:
     SoundFadeEvent(EventSource *source);
     virtual ~SoundFadeEvent();
@@ -38,7 +38,7 @@ public:
     static const unsigned int STOPEVENT = 13;
 };
 
-class SoundPlayEvent : public SoundEvent {
+class _RlSoundExport SoundPlayEvent : public SoundEvent {
 public:
 
     SoundPlayEvent(EventSource *source);
@@ -48,7 +48,7 @@ public:
     static const unsigned int STOPEVENT = 11;
 };
 
-class SoundTimingEvent : public SoundEvent {
+class _RlSoundExport  SoundTimingEvent : public SoundEvent {
 
 public:
     double mTime;
