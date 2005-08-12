@@ -66,7 +66,7 @@ class Torch < RubyItem
         sparksActor = $ActorManager.createParticleActor("TorchSparks",
             "TorchSparks.particles");
 
-        sfxActor = $ActorManager.createSoundActor("TorchCrackle",
+        sfxActor = $ActorManager.createSoundSampleActor("TorchCrackle",
             "TorchCrackle.wav", Sound.LOOP, Sound.VOLUME_QUIET);        
 
         # Defaultwert für den vierten Param ist Slots.SLOT_DEFAULT

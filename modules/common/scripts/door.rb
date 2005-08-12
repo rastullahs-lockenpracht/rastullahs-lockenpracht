@@ -54,7 +54,7 @@ class Door < RubyItem
     $CORE.log("door.rb - Aktor erstellt.");
     setActor(doorActor);
     $CORE.log("door.rb - Aktor gesetzt");
-    soundActor = $AM.createSoundActor(name+"_knarzen","doorcreak.ogg");
+    soundActor = $AM.createSoundSampleActor(name+"_knarzen","doorcreak.ogg");
     doorActor.attachToSlot(soundActor,"Bone01");
     $CORE.log("door.rb - Sound hinzugefuegt");
     

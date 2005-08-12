@@ -28,7 +28,7 @@ class Hero < Person
 
     def addSounds
         heroActor = getActor()
-        soundActor = $AM.createSoundActor(heroActor.getName()+"_schlucken","schlucken.ogg");
+        soundActor = $AM.createSoundSampleActor(heroActor.getName()+"_schlucken","schlucken.ogg");
         heroActor.attachToSlot(soundActor, "Bone01");
     end
 end

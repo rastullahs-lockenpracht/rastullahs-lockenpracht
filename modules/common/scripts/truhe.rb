@@ -55,7 +55,7 @@ class Chest < Container
     $CORE.log("truhe.rb - Aktor erstellt.");
     setActor(chestActor);
     $CORE.log("truhe.rb - Aktor gesetzt");
-    soundActor = $AM.createSoundActor(name+"_knarzen","doorcreak.ogg");
+    soundActor = $AM.createSoundSampleActor(name+"_knarzen","doorcreak.ogg");
     chestActor.attachToSlot(soundActor,"Bone01");
     $CORE.log("truhe.rb - Sound hinzugefuegt");
 
