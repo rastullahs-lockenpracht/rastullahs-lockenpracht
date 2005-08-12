@@ -30,5 +30,7 @@
 #include "Person.h"
 #include "RulesSubsystem.h"
 #include "Container.h"
-
+#include "ObjectStateChangeEventSource.h"
+#include "ObjectStateChangeEvent.h"
+#include "ObjectStateChangeListener.h"
 %}

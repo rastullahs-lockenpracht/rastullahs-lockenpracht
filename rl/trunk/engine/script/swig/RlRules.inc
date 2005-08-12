@@ -164,6 +164,36 @@ namespace rl {
 		ActionGroup* getGroup() const;
     };
     
+	 %feature("director") ObjectStateChangeListener; 	 
+	 class ObjectStateChangeListener 	 
+	 { 	 
+		public: 	 
+				virtual ~ObjectStateChangeListener(); 	 
+		  	 
+				virtual void objectStateChanged(rl::ObjectStateChangeEvent *anEvent) = 0; 	 
+		}; 	 
+		  	 
+		class ObjectStateChangeEventSource 	 
+		{ 	 
+		public: 	 
+				ObjectStateChangeEventSource( ); 	 
+		  	 
+			void addObjectStateChangeListener( rl::ObjectStateChangeListener*  list ); 	 
+			void removeObjectStateChangeListener( rl::ObjectStateChangeListener* list ); 	 
+			bool hasListeners( ) const; 	 
+			Ogre::UserDefinedObject* getObject() const { return mObject; } 	 
+				void fireObjectStateChangeEvent(); 	 
+		}; 	 
+		  	 
+		class ObjectStateChangeEvent 	 
+		{ 	 
+		public: 	 
+			ObjectStateChangeEvent( rl::ObjectStateChangeEventSource* src ); 	 
+			Ogre::UserDefinedObject* getProvokingObject() const { return mObject; }; 	 
+			rl::ObjectStateChangeEventSource* getSource() const; 	 
+		};
+		    
+    
     %feature("director") GameObject;
     class GameObject: public ObjectStateChangeEventSource
     {
