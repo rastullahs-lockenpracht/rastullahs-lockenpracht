@@ -35,9 +35,6 @@
 extern "C" {
 #include <fmod.h>
 #include <fmod_errors.h>
-#include <ogg/ogg.h>
-#include <vorbis/codec.h>
-#include <vorbis/vorbisfile.h>
 }
 
 

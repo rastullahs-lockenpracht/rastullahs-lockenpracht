@@ -21,7 +21,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreMain\Dependencies\include;..\..\dependencies\openalpp\include;..\..\dependencies\openal\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreMain\Dependencies\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\fmod\api\inc\"
 				PreprocessorDefinitions="_WINDOWS;WIN32;RLSOUND_EXPORTS;_DEBUG;LIBOPENAL;HAVE_LIBOPENAL"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="3"
@@ -40,11 +40,11 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msvcrt-ruby18.lib OgreMain_d.lib ALut.lib OpenAl32.lib ogg_static_d.lib vorbis_static_d.lib vorbisenc_static_d.lib vorbisfile_static_d.lib"
+				AdditionalDependencies="msvcrt-ruby18.lib OgreMain_d.lib fmodvc.lib"
 				OutputFile="$(OutDir)/RlSound.dll"
 				LinkIncremental="0"
 				SuppressStartupBanner="FALSE"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\ogg\win32;..\..\dependencies\vorbis\lib;..\..\dependencies\boost\lib"
+				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\fmod\api\lib"
 				GenerateDebugInformation="TRUE"
 				AssemblyDebug="1"
 				ProgramDatabaseFile="./lib/$(ConfigurationName)/$(ProjectName).pdb"
@@ -88,7 +88,7 @@
 				FavorSizeOrSpeed="1"
 				OptimizeForProcessor="2"
 				OptimizeForWindowsApplication="TRUE"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreMain\Dependencies\include;..\..\dependencies\openalpp\include;..\..\dependencies\openal\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreMain\Dependencies\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\fmod\api\inc\"
 				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32;RLSOUND_EXPORTS;LIBOPENAL;HAVE_LIBOPENAL"
 				MinimalRebuild="FALSE"
 				RuntimeLibrary="2"
@@ -104,11 +104,11 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msvcrt-ruby18.lib OgreMain.lib ogg_static.lib vorbis_static.lib vorbisenc_static.lib vorbisfile_static.lib ALut.lib OpenAl32.lib"
+				AdditionalDependencies="msvcrt-ruby18.lib OgreMain.lib fmodvc.lib"
 				OutputFile="$(OutDir)/RlSound.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="FALSE"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\ogg\win32;..\..\dependencies\vorbis\lib;..\..\dependencies\boost\lib"
+				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\fmod\api\lib"
 				GenerateDebugInformation="FALSE"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -149,7 +149,10 @@
 				RelativePath=".\src\ListenerMovable.cpp">
 			</File>
 			<File
-				RelativePath=".\src\MusicManager.cpp">
+				RelativePath=".\src\Sound.cpp">
+			</File>
+			<File
+				RelativePath=".\src\SoundChannel.cpp">
 			</File>
 			<File
 				RelativePath=".\src\SoundEvents.cpp">
@@ -158,10 +161,13 @@
 				RelativePath=".\src\SoundManager.cpp">
 			</File>
 			<File
-				RelativePath=".\src\SoundMovable.cpp">
+				RelativePath=".\src\SoundResource.cpp">
 			</File>
 			<File
-				RelativePath=".\src\SoundResource.cpp">
+				RelativePath=".\src\SoundSample.cpp">
+			</File>
+			<File
+				RelativePath=".\src\SoundStream.cpp">
 			</File>
 			<File
 				RelativePath=".\src\SoundSubsystem.cpp">
@@ -175,7 +181,10 @@
 				RelativePath=".\include\ListenerMovable.h">
 			</File>
 			<File
-				RelativePath=".\include\MusicManager.h">
+				RelativePath=".\include\Sound.h">
+			</File>
+			<File
+				RelativePath=".\include\SoundChannel.h">
 			</File>
 			<File
 				RelativePath=".\include\SoundEvents.h">
@@ -184,13 +193,16 @@
 				RelativePath=".\include\SoundManager.h">
 			</File>
 			<File
-				RelativePath=".\include\SoundMovable.h">
-			</File>
-			<File
 				RelativePath=".\include\SoundPrerequisites.h">
 			</File>
 			<File
 				RelativePath=".\include\SoundResource.h">
+			</File>
+			<File
+				RelativePath=".\include\SoundSample.h">
+			</File>
+			<File
+				RelativePath=".\include\SoundStream.h">
 			</File>
 			<File
 				RelativePath=".\include\SoundSubsystem.h">
