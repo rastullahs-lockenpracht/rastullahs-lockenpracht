@@ -109,6 +109,8 @@ namespace rl {
 	bool MainMenuWindow::handleStart()
 	{
 		CoreSubsystem::getSingleton().setActiveModule(mActiveModule.c_str());
+
+        this->setVisible( false );
 		return true;
 	}
 
