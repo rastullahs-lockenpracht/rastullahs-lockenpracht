@@ -278,10 +278,13 @@ public:
     void setWeight(Ogre::Real weight);
     
     void addAnimationListener( rl::AnimationListener *listener);
+    rl::AnimationListener* getAnimationListener( ) const;
 	void removeAnimationListener( rl::AnimationListener *listener);
 	
 	void addAnimationFrameListener( rl::AnimationFrameListener *listener, 
 									float frameNumber );
+	void removeAnimationFrameListener( rl::AnimationFrameListener *listener );
+	void removeAnimationFrameListener( rl::AnimationFrameListener *listener, Ogre::Real frameNumber );
 private:
 	Animation(  );
 };

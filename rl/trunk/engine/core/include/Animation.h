@@ -120,6 +120,10 @@ class _RlCoreExport Animation : public virtual EventSource
 		void addAnimationListener( AnimationListener *listener);
 		/// Entfernt einen AnimationListener
 		void removeAnimationListener( AnimationListener *listener);
+        /// Ist dieser Listener schon angehängt
+        bool containsAnimationListener( AnimationListener *listener ) const;
+        /// Gibt den erstbesten Listener wieder
+        AnimationListener* getAnimationListener( ) const;
 
 		/** Fügt einen AnimationFrameListener hinzu
 			@param listener Der hinzuzufügende Listener
@@ -163,6 +167,9 @@ class _RlCoreExport Animation : public virtual EventSource
 	private:
 		/// Überwacht das erreichen der einzelnen Frames für die Listener
 		void checkAnimationFrameListeners( Ogre::Real timePassed );
+
+
+        AnimationListener* tmpAnimDings;
 };
 
 }

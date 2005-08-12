@@ -40,17 +40,19 @@ public:
     /// Der Konstruktor
 	EventCaster();
     /// Der Destruktor
-	virtual ~EventCaster();
-   /// Fuege einen EventListener hinzu.
-   void addEventListener(EventListener<Event> *newListener);
-   /// Loesche einen EventListener.
-   void removeEventListener(EventListener<Event> *aListener);
-   /// Loescht alle EventListener.
-   void removeEventListeners();
-   /// Sind Listener vorhanden?
-   bool hasEventListeners() const;
-   /// Ein Ereignis verteilen.
-   void dispatchEvent(Event *anEvent);
+    virtual ~EventCaster();
+    /// Fuege einen EventListener hinzu.
+    void addEventListener(EventListener<Event> *newListener);
+    /// Loesche einen EventListener.
+    void removeEventListener(EventListener<Event> *aListener);
+    /// Loescht alle EventListener.
+    void removeEventListeners();
+    /// Gibt es diesen Listener bereits?
+    bool containsListener(EventListener<Event> *aListener) const;
+    /// Sind Listener vorhanden?
+    bool hasEventListeners() const;
+    /// Ein Ereignis verteilen.
+    void dispatchEvent(Event *anEvent);
 };
 
 /**
@@ -108,7 +110,18 @@ void EventCaster<Event>::removeEventListeners()
 
 /**
 * @author Harlequin
-* @date 10-05-2004
+* @date 11-08-2005
+* @version 1.0
+*/
+template <typename Event>
+bool EventCaster<Event>::containsListener( ListenerToEvent *aListener ) const
+{
+    return (mListeners.end() != mListeners.find(aListener) );
+}
+
+/**
+* @author Harlequin
+* @date 30-09-2004
 * @version 1.0
 */
 template <typename Event>

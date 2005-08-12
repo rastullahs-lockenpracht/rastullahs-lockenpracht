@@ -54,6 +54,9 @@ namespace rl {
         void insertPointerValuePair( void* ptr, VALUE& val );
         void removePointerValuePair( void* ptr, VALUE& val );
 
+        void incRefCount( VALUE& val );
+        void decRefCount( VALUE& val );
+
         void removePointer( void* ptr );
         void removeValue( VALUE val );
 
@@ -63,9 +66,12 @@ namespace rl {
         typedef std::pair<void*,VALUE> PointerValuePair;
         typedef std::map<VALUE,void*> ValuePointerMap;
         typedef std::pair<VALUE,void*> ValuePointerPair;
+        typedef std::map<VALUE,unsigned int> ValueCountMap;
+        typedef std::pair<VALUE,unsigned int> ValueCountPair;
 
         PointerValueMap m_CToRubyMap;
         ValuePointerMap m_RubyToCMap;
+        ValueCountMap m_RubyRefCountMap;
 
         VALUE mRubyArray;
     };

@@ -34,7 +34,8 @@ namespace rl {
 
     ScriptObjectRepository::ScriptObjectRepository() :
         m_CToRubyMap(),
-        m_RubyToCMap()
+        m_RubyToCMap(),
+        m_RubyRefCountMap()
     {
         // Einen Ruby Array erzeugen
         mRubyArray = rb_ary_new();
@@ -83,11 +84,43 @@ namespace rl {
             Throw( InvalidArgumentException, "Dieser Zeiger existiert schon im ScriptObjectRepository" );
         if( m_RubyToCMap.find( val ) != m_RubyToCMap.end() )
             Throw( InvalidArgumentException, "Diese Ruby VALUE existiert schon im ScriptObjectRepository" );
+        if( val == Qnil )
+            Throw( InvalidArgumentException, "Nil kann nicht ins ScriptObjectRepository eingefügt werden" );
+        if( ptr == NULL )
+            Throw( InvalidArgumentException, "Null kann nicht ins ScriptObjectRepository eingefügt werden" );
 
         m_CToRubyMap.insert( PointerValuePair( ptr, val ) );
         m_RubyToCMap.insert( ValuePointerPair( val, ptr ) );
 
         rb_ary_push( mRubyArray, val );
+    }
+
+    void ScriptObjectRepository::incRefCount( VALUE& val )
+    {
+        ValueCountMap::iterator iter = m_RubyRefCountMap.find( val );
+        unsigned int refCount = 1;
+        if( iter != m_RubyRefCountMap.end() )         
+            refCount = iter->second + 1;
+
+        m_RubyRefCountMap.insert( ValueCountPair( val, refCount ) ); 
+    }
+
+    void ScriptObjectRepository::decRefCount( VALUE& val )
+    {
+        ValueCountMap::iterator iter = m_RubyRefCountMap.find( val );
+        if( iter == m_RubyRefCountMap.end() )   
+            Throw( InvalidArgumentException, "Für diese VALUE existiert kein RefCount im ScriptObjectRepository" );
+        
+        unsigned int refCount = iter->second;
+
+        if( refCount > 0 )
+            m_RubyRefCountMap.insert( ValueCountPair(val, refCount-1) ); 
+        
+        if( refCount <= 1 )
+        {
+            rb_ary_delete(mRubyArray, val );
+            rb_gc_unregister_address( &val );
+        }
     }
 
     void ScriptObjectRepository::removePointerValuePair( void* ptr, VALUE& val )
@@ -98,8 +131,6 @@ namespace rl {
 
         // Aus dem RubyArray löschen
         rb_ary_delete(mRubyArray, val );
-        // Beim GC abmelden wenn es angemeldet wurde
-        rb_gc_unregister_address( &val );
 
         RData* test = RDATA( val );
         /// @todo altes klass löschen? Wie denn nur, ist nen VALUE

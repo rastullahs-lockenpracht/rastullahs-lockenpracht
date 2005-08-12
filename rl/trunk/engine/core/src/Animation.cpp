@@ -24,7 +24,8 @@ namespace rl {
 Animation::Animation( Ogre::AnimationState* animState, Ogre::Real speed, unsigned int timesToPlay ) :
 	EventSource(), 
 	mAnimationFrameListener(),
-	mAnimationCaster()
+	mAnimationCaster(),
+    tmpAnimDings( NULL )
 {
     mPaused = false;
 	mIgnoringGlobalSpeed = false;
@@ -163,14 +164,27 @@ void Animation::setWeight(Ogre::Real weight)
 	mAnimState->setWeight(weight);
 }
 
+
 void Animation::addAnimationListener(AnimationListener *listener)
 {
+    tmpAnimDings = listener;
 	mAnimationCaster.addEventListener(listener);
 }
 
 void Animation::removeAnimationListener(AnimationListener *listener)
 {
+    tmpAnimDings = NULL;
 	mAnimationCaster.removeEventListener(listener);
+}
+
+bool Animation::containsAnimationListener(AnimationListener *listener) const
+{
+    return mAnimationCaster.containsListener(listener);
+}
+
+AnimationListener* Animation::getAnimationListener( ) const
+{     
+     return tmpAnimDings;
 }
 
 void Animation::addAnimationFrameListener( 

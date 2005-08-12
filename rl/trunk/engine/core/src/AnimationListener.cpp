@@ -32,6 +32,10 @@ Animation* AnimationEvent::getAnimation() const
 	return dynamic_cast<Animation*>( eve );
 }
 
+AnimationListener::~AnimationListener()
+{
+
+}
 
 bool AnimationListener::eventRaised( AnimationEvent* anEvent ) 
 {

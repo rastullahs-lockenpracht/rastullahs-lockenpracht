@@ -51,11 +51,40 @@
 #include "ScriptObjectRepository.h"
 %}
 
-%typemap(out) rl::Actor* 
+%exception rl::Animation::addAnimationListener {
+	rl::ScriptObjectRepository* sor = rl::ScriptObjectRepository::getSingletonPtr();
+
+	// Noch nicht enthalten
+	if( !arg1->containsAnimationListener( arg2 ) )
+	{	 
+		// Originales einfügen
+		$action
+		
+		// Skriptverknüpfung herstellen
+		if( sor->getPtr( argv[0] ) == NULL )
+			sor->insertPointerValuePair( arg2, argv[0] );		
+		sor->incRefCount( argv[0] );
+	}
+}
+
+%exception rl::Animation::removeAnimationListener {
+	rl::ScriptObjectRepository* sor = rl::ScriptObjectRepository::getSingletonPtr();
+
+	// Enthalten
+	if( arg1->containsAnimationListener( arg2 ) )
+	{	 
+		// Originales entfernen
+		$action							
+		sor->decRefCount( argv[0] );
+	}
+}
+
+%typemap(out) rl::Actor*
 {
 	rl::ScriptObjectRepository* sor = rl::ScriptObjectRepository::getSingletonPtr();
 	VALUE val = sor->getScriptObject( $1 );
 	
+	// Es gab das SkriptObjekt noch nicht
 	if( val == Qnil )
 	{
 		$result = SWIG_NewPointerObj((void *) $1, $1_descriptor, 0);
