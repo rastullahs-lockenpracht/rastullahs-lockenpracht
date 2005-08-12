@@ -60,7 +60,8 @@ REM Die restlichen Abhängigkeiten
 REM -----------------------------
 REM 
 
-copy "%RL_ROOT%\Dependencies\openal\dll\*.dll" "%RL_DIST%"
+copy "%RL_ROOT%\dependencies\fmod\api\fmod.dll" "%RL_DIST%"
+
 copy "%RL_ROOT%\Dependencies\boost\lib\*.dll" "%RL_DIST%"
 
 
