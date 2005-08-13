@@ -85,9 +85,11 @@ namespace rl {
         if( m_RubyToCMap.find( val ) != m_RubyToCMap.end() )
             Throw( InvalidArgumentException, "Diese Ruby VALUE existiert schon im ScriptObjectRepository" );
         if( val == Qnil )
-            Throw( InvalidArgumentException, "Nil kann nicht ins ScriptObjectRepository eingefügt werden" );
+            // Nil muss nicht ins ScriptObjectRepository eingefügt werden
+            return;
         if( ptr == NULL )
-            Throw( InvalidArgumentException, "Null kann nicht ins ScriptObjectRepository eingefügt werden" );
+            // Null muss nicht ins ScriptObjectRepository eingefügt werden
+            return;
 
         m_CToRubyMap.insert( PointerValuePair( ptr, val ) );
         m_RubyToCMap.insert( ValuePointerPair( val, ptr ) );
