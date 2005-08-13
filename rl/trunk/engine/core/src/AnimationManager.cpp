@@ -20,6 +20,7 @@
 #include "Actor.h"
 #include "Animation.h"
 #include "TrackAnimation.h"
+#include "DeletionPropagator.h"
 
 
 template<> rl::AnimationManager* Ogre::Singleton<rl::AnimationManager>::ms_Singleton = 0;
@@ -135,6 +136,7 @@ void AnimationManager::removeAllAnimations()
     {
         Animation* anim = it->second;
         AnimationManager::stopAnimation(anim);
+        DeletionPropagator::getSingleton().notifyPointerDeleted( anim );
         delete anim;
     }
     mAnimationMap.clear();
@@ -150,6 +152,7 @@ void AnimationManager::removeAnimation(Ogre::AnimationState* animState)
 		Animation* anim = iter->second;
         AnimationManager::stopAnimation(anim);
 		mAnimationMap.erase(iter);
+        DeletionPropagator::getSingleton().notifyPointerDeleted( anim );
 		delete anim;
 	}
 }
