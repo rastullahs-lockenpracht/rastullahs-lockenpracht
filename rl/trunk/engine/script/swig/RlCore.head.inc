@@ -77,7 +77,7 @@
 }
 
 %typemap(out) 
-	rl::Actor*, rl::ActorControlledObject*
+	SWIGTYPE*
 {
 	rl::ScriptObjectRepository* sor = rl::ScriptObjectRepository::getSingletonPtr();
 	VALUE val = sor->getScriptObject( $1 );
@@ -86,6 +86,24 @@
 	if( val == Qnil )
 	{
 		$result = SWIG_NewPointerObj((void *) $1, $1_descriptor, 0);
+		sor->insertPointerValuePair( $1, $result );			
+	}
+	else	
+		$result = val;
+} 
+
+%typemap(out) 
+	SWIGTYPE* DYNAMIC, SWIGTYPE& DYNAMIC
+{
+	rl::ScriptObjectRepository* sor = rl::ScriptObjectRepository::getSingletonPtr();
+	VALUE val = sor->getScriptObject( $1 );
+	
+	// Es gab das SkriptObjekt noch nicht
+	if( val == Qnil )
+	{
+		// Dynamic Cast ausführen
+		swig_type_info *ty = SWIG_TypeDynamicCast($1_descriptor, (void **) &$1);
+		$result = SWIG_NewPointerObj((void *) $1, ty, 0);
 		sor->insertPointerValuePair( $1, $result );			
 	}
 	else	
