@@ -103,6 +103,10 @@ namespace rl {
             refCount = iter->second + 1;
 
         m_RubyRefCountMap.insert( ValueCountPair( val, refCount ) ); 
+        if( refCount == 1 )
+        {
+            rb_gc_register_address( &val );
+        }
     }
 
     void ScriptObjectRepository::decRefCount( VALUE& val )
