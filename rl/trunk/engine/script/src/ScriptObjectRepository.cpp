@@ -47,12 +47,12 @@ namespace rl {
         rb_define_variable("$UsedRubyInstances", &mRubyArray);
 
         // Beim ActorManager registrieren
-        ActorManager::getSingleton().setActorDeletionListener( this );
+        DeletionPropagator::getSingleton().setDeletionListener( this );
     }
 
     ScriptObjectRepository::~ScriptObjectRepository()
     {
-        ActorManager::getSingleton().setActorDeletionListener( 0 );
+        DeletionPropagator::getSingleton().setDeletionListener( 0 );
         rb_gc_unregister_address(&mRubyArray);
         m_CToRubyMap.clear();
         m_RubyToCMap.clear();
@@ -163,11 +163,11 @@ namespace rl {
         removePointerValuePair( ptr, val );
     }
 
-    void ScriptObjectRepository::actorDeleted( Actor* act )
+    void ScriptObjectRepository::pointerDeleted( void* ptr )
     {
         try
         {
-            removePointer( act );
+            removePointer( ptr );
         }
         catch( InvalidArgumentException& iae ) {}
     }

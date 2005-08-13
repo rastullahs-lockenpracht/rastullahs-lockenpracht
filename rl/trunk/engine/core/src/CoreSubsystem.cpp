@@ -28,6 +28,7 @@
 #include "DotSceneOctreeWorld.h"
 #include "PhysicsManager.h"
 #include "ActorManager.h"
+#include "DeletionPropagator.h"
 #include "AnimationManager.h"
 #include "GameEventManager.h"
 #include "GameLoop.h"
@@ -65,8 +66,8 @@ namespace rl {
     {  
         if(mWorld != 0)
             delete mWorld;
-
-        mWorld = 0;        
+ 
+        delete DeletionPropagator::getSingletonPtr();
     }
 
     void CoreSubsystem::startCore()
@@ -149,6 +150,7 @@ namespace rl {
         );
         log->setLogDetail( LL_BOREME );
 
+        new DeletionPropagator();
         mWorld = new DotSceneOctreeWorld();
 		new PhysicsManager();
         mInterpreter=new RubyInterpreter();

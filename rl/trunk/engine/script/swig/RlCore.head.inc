@@ -76,7 +76,8 @@
 	}
 }
 
-%typemap(out) rl::Actor*
+%typemap(out) 
+	rl::Actor*, rl::ActorControlledObject*
 {
 	rl::ScriptObjectRepository* sor = rl::ScriptObjectRepository::getSingletonPtr();
 	VALUE val = sor->getScriptObject( $1 );

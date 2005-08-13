@@ -208,6 +208,9 @@
 				RelativePath=".\include\CoreSubsystem.h">
 			</File>
 			<File
+				RelativePath=".\include\DeletionPropagator.h">
+			</File>
+			<File
 				RelativePath=".\include\DotSceneLoader.h">
 			</File>
 			<File
@@ -303,6 +306,9 @@
 			</File>
 			<File
 				RelativePath=".\src\CoreSubsystem.cpp">
+			</File>
+			<File
+				RelativePath=".\src\DeletionPropagator.cpp">
 			</File>
 			<File
 				RelativePath=".\src\DotSceneLoader.cpp">

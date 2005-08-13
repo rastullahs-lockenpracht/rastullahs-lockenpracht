@@ -30,6 +30,7 @@
 #include "ListenerMovable.h"
 #include "ListenerObject.h"
 #include "PhysicalThing.h"
+#include "DeletionPropagator.h"
 
 template<> rl::ActorManager* Singleton<rl::ActorManager>::ms_Singleton = 0;
 
@@ -46,8 +47,7 @@ namespace rl {
 	}
 
     ActorManager::ActorManager() : 
-        mActors(),
-        m_ActorDeletionListener(NULL)
+        mActors()
     {
 		static const int RADIUS = 20, LENGTH = 300;
         mWorld = CoreSubsystem::getSingleton().getWorld();
@@ -58,11 +58,6 @@ namespace rl {
     ActorManager::~ActorManager()
     {
 		delete mActorOdeSpace;
-    }
-
-    void ActorManager::setActorDeletionListener( ActorDeletionListener* list )
-    {
-        m_ActorDeletionListener = list;
     }
 
     void ActorManager::setWorld( World* world )
@@ -99,13 +94,14 @@ namespace rl {
         ActorControlledObject* actObj = actor->getControlledObject();
         PhysicalThing* physThing = actor->getPhysicalThing();
 
-        if( m_ActorDeletionListener != NULL )
-            m_ActorDeletionListener->actorDeleted( actor );
-
+        DeletionPropagator::getSingleton().notifyPointerDeleted( actor );
         delete actor;
 
         if( actObj )
+        {
+            DeletionPropagator::getSingleton().notifyPointerDeleted( actObj );
             delete actObj;
+        }
         if( physThing )
             PhysicsManager::getSingleton().removeAndDestroyPhysicalThing( physThing );
     }

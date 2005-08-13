@@ -34,35 +34,28 @@ namespace rl {
 class World;
 class Actor;
 
-typedef std::map<const String,Actor*> ActorPtrMap;
-typedef std::pair<const String,Actor*> ActorPtrPair;
+typedef std::map<const Ogre::String,Actor*> ActorPtrMap;
+typedef std::pair<const Ogre::String,Actor*> ActorPtrPair;
 
-
-/// @todo - Verallgemeinern für alle Arten des Löschens
-class _RlCoreExport ActorDeletionListener 
-{
-public:
-    virtual void actorDeleted( Actor* act ) = 0;
-};
-
-class _RlCoreExport ActorManager : protected Singleton<ActorManager>, private OgreOde::CollisionListener
+class _RlCoreExport ActorManager : protected Ogre::Singleton<ActorManager>, 
+    private OgreOde::CollisionListener
 {
     public:
         ActorManager( );
         virtual ~ActorManager( );
 
-        Actor* getActor(const String& name);
+        Actor* getActor(const Ogre::String& name);
 
-        Actor* createLightActor(const String& name, rl::LightObject::LightTypes type );
-        Actor* createSoundSampleActor(const String& name, const String& soundfile );
-        Actor* createSoundStreamActor(const String& name, const String& soundfile );
-        Actor* createListenerActor(const String& name);
-        Actor* createCameraActor(const String& name);
-        Actor* createEmptyActor(const String& name);
-   	    Actor* createMeshActor(const String& name,const String& meshname,
+        Actor* createLightActor(const Ogre::String& name, rl::LightObject::LightTypes type );
+        Actor* createSoundSampleActor(const Ogre::String& name, const Ogre::String& soundfile );
+        Actor* createSoundStreamActor(const Ogre::String& name, const Ogre::String& soundfile );
+        Actor* createListenerActor(const Ogre::String& name);
+        Actor* createCameraActor(const Ogre::String& name);
+        Actor* createEmptyActor(const Ogre::String& name);
+   	    Actor* createMeshActor(const Ogre::String& name,const String& meshname,
 			PhysicsManager::GeometryTypes geomType = PhysicsManager::GT_NONE,
 			Ogre::Real density = 1.0);
-        Actor* createParticleSystemActor(const String& name, 
+        Actor* createParticleSystemActor(const Ogre::String& name, 
             const String& partname);
         //void createDebugActors();
         void destroyActor(Actor* actor);
@@ -78,26 +71,20 @@ class _RlCoreExport ActorManager : protected Singleton<ActorManager>, private Og
 		bool collision(OgreOde::Contact* contact);
 
 		Actor* getActorAt(Ogre::Real x, Ogre::Real y, Ogre::Real width, Ogre::Real length, bool infinite = false);
-		void collectSelectableObjects( Real x, Real y );
+		void collectSelectableObjects( Ogre::Real x, Ogre::Real y );
 
         /** Returns the Singleton */
 	    static ActorManager & getSingleton(void);
-	    static ActorManager * getSingletonPtr(void);
-
-        /// Ermöglicht dem Script-Repository benachrichtigt zu werden, wenn
-        /// die Löschung eines Actors bevorsteht.
-        void setActorDeletionListener( ActorDeletionListener* list );
+	    static ActorManager * getSingletonPtr(void);        
     private:
         void doDestroyActor( Actor* actor );
-        String nextUniqueName(const String& basename);
+        String nextUniqueName(const Ogre::String& basename);
 
         ActorPtrMap mActors;
 		OgreOde::Space* mActorOdeSpace;
 		OgreOde::Geometry* mSelectionCapsule;
 		std::vector<Actor*> mSelectableObjects;
         World* mWorld;
-
-        ActorDeletionListener* m_ActorDeletionListener;
 };
 
 }

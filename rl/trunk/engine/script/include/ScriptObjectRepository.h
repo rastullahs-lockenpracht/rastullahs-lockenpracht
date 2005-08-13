@@ -29,11 +29,12 @@
 #include "FixRubyHeaders.h"
 #include <OgreMemoryMacros.h>
 
-#include "ActorManager.h"
+#include "DeletionPropagator.h"
 
 
 namespace rl {
-    class ScriptObjectRepository : protected Ogre::Singleton<ScriptObjectRepository>, protected ActorDeletionListener
+    class ScriptObjectRepository : protected Ogre::Singleton<ScriptObjectRepository>, 
+        protected DeletionListener
     {
     public:
         ScriptObjectRepository();
@@ -60,7 +61,7 @@ namespace rl {
         void removePointer( void* ptr );
         void removeValue( VALUE val );
 
-        virtual void actorDeleted( Actor* act );
+        virtual void pointerDeleted( void* ptr );
     private:
         typedef std::map<void*,VALUE> PointerValueMap;
         typedef std::pair<void*,VALUE> PointerValuePair;
