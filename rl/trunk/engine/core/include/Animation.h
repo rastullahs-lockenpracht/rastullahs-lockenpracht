@@ -120,10 +120,8 @@ class _RlCoreExport Animation : public virtual EventSource
 		void addAnimationListener( AnimationListener *listener);
 		/// Entfernt einen AnimationListener
 		void removeAnimationListener( AnimationListener *listener);
-        /// Ist dieser Listener schon angehängt
-        bool containsAnimationListener( AnimationListener *listener ) const;
-        /// Gibt den erstbesten Listener wieder
-        AnimationListener* getAnimationListener( ) const;
+        /// Gibt den erstbesten Listener wieder (nur ne Testmethode)
+        AnimationListener* getAnimationListener( );
 
 		/** Fügt einen AnimationFrameListener hinzu
 			@param listener Der hinzuzufügende Listener

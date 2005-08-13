@@ -228,6 +228,7 @@ public:
 	virtual void animationFinished(rl::AnimationEvent *anEvent) const = 0;
 	virtual void animationPaused(rl::AnimationEvent *anEvent) const = 0;
 	virtual void animationUnpaused(rl::AnimationEvent *anEvent) const = 0;
+	virtual void testActor( rl::Actor* act, rl::Animation* anim, rl::AnimationListener* list ) const = 0;
 };
 
 %feature("director") AnimationFrameListener; 
@@ -278,7 +279,7 @@ public:
     void setWeight(Ogre::Real weight);
     
     void addAnimationListener( rl::AnimationListener *listener);
-    rl::AnimationListener* getAnimationListener( ) const;
+    rl::AnimationListener* getAnimationListener( );
 	void removeAnimationListener( rl::AnimationListener *listener);
 	
 	void addAnimationFrameListener( rl::AnimationFrameListener *listener, 

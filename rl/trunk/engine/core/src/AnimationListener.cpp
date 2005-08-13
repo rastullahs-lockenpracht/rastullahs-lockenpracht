@@ -17,6 +17,7 @@
 #include "AnimationListener.h"
 
 #include "Animation.h"
+#include "Actor.h"
 #include "CoreSubsystem.h"
 #include "Exception.h"
 

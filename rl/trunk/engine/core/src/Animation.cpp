@@ -18,6 +18,7 @@
 
 #include "Exception.h"
 #include "AnimationManager.h"
+#include "ActorManager.h"
 
 namespace rl {
 
@@ -177,14 +178,10 @@ void Animation::removeAnimationListener(AnimationListener *listener)
 	mAnimationCaster.removeEventListener(listener);
 }
 
-bool Animation::containsAnimationListener(AnimationListener *listener) const
-{
-    return mAnimationCaster.containsListener(listener);
-}
-
-AnimationListener* Animation::getAnimationListener( ) const
+AnimationListener* Animation::getAnimationListener( ) 
 {     
-     return tmpAnimDings;
+    tmpAnimDings->testActor( ActorManager::getSingleton().getActor("Botter"), this, tmpAnimDings );
+    return tmpAnimDings;
 }
 
 void Animation::addAnimationFrameListener( 
