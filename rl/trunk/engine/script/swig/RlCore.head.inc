@@ -113,17 +113,26 @@
 // doWithAnimation( Animation* ) oder andere Director-Methoden Parameter für DYNAMICs
 %typemap(directorin) SWIGTYPE* DYNAMIC, SWIGTYPE& DYNAMIC
 {
-	rl::ScriptObjectRepository* sor = rl::ScriptObjectRepository::getSingletonPtr();
-	VALUE val = sor->getScriptObject( $1 );
-	
-	// Es gab das SkriptObjekt noch nicht
-	if( val == Qnil )
+	// Auf Director testen
+	Swig::Director *resultdirector = 0;
+	resultdirector = dynamic_cast<Swig::Director *>($1);
+    if (resultdirector) {
+        $input = resultdirector->swig_get_self();
+    }
+    else
 	{
-		// Dynamic Cast ausführen
-		swig_type_info *ty = SWIG_TypeDynamicCast($1_descriptor, (void **) &$1);
-		$input = SWIG_NewPointerObj((void *) $1, ty, 0);
-		sor->insertPointerValuePair( $1, $input );			
+		rl::ScriptObjectRepository* sor = rl::ScriptObjectRepository::getSingletonPtr();
+		VALUE val = sor->getScriptObject( $1 );
+		
+		// Es gab das SkriptObjekt noch nicht
+		if( val == Qnil )
+		{
+			// Dynamic Cast ausführen
+			swig_type_info *ty = SWIG_TypeDynamicCast($1_descriptor, (void **) &$1);
+			$input = SWIG_NewPointerObj((void *) $1, ty, 0);
+			sor->insertPointerValuePair( $1, $input );			
+		}
+		else	
+			$input = val;
 	}
-	else	
-		$input = val;
 } 
