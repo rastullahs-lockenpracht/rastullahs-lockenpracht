@@ -139,7 +139,7 @@ namespace rl
         //.rastullah.cfg ist eine für diesen Benutzer mit seinen persönlichen
         //settings angelegt werden, oder aber aus den oben genannten Standard
         //pfade eine kopiert und angepasst!!!
-        return string(::getenv("HOME"));
+        return string(::getenv("HOME")) + "/.rastullah.cfg";
     }
     
     bool ConfigurationManagerLinux::checkForFile(const std::string& filename)

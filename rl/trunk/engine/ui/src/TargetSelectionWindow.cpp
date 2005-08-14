@@ -43,7 +43,7 @@ namespace rl
     }
 
 	TargetSelectionWindow::TargetSelectionWindow() : 
-		CeGuiWindow("TargetSelectionWindow.xml", WND_MOUSE_INPUT)
+		CeGuiWindow("targetselectionwindow.xml", WND_MOUSE_INPUT)
 	{
 		mText = getStaticText("TargetSelectionWindow/Text");
 		mText->moveToFront();
