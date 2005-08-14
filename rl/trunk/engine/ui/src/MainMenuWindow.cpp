@@ -36,7 +36,6 @@ namespace rl {
 		getWindow("MainMenu/Game/Start")->subscribeEvent(
 			MenuItem::EventClicked, 
 			boost::bind(&MainMenuWindow::handleStart, this));
-		bindClickToCloseWindow(getWindow("MainMenu/Game/Start"));
 
 /*		getWindow("MainMenuWindow/GraphicOptions")->subscribeEvent(
 			Window::EventMouseClick, 
@@ -46,14 +45,13 @@ namespace rl {
 			Window::EventMouseClick,
 			boost::bind(&UiSubsystem::showInputOptionsMenu, UiSubsystem::getSingletonPtr(), mActionHolder));
 */
-		bindClickToCloseWindow(getWindow("MainMenu/Game/Quit"));
 		getWindow("MainMenu/Game/Quit")->subscribeEvent(
 			MenuItem::EventClicked, 
 			boost::bind(&MainMenuWindow::handleQuit, this));
 		
-/*		mWindow->subscribeEvent(
+		mWindow->subscribeEvent(
 			Window::EventKeyUp, 
-			boost::bind(MainMenuWindow::handleKey, this, _1)); */
+			boost::bind(MainMenuWindow::handleKey, this, _1));
 
 		addToRoot(mWindow);
 
@@ -108,6 +106,8 @@ namespace rl {
 
 	bool MainMenuWindow::handleStart()
 	{
+		setVisible(false);
+		rl::WindowManager::getSingleton().destroyWindow(this);
 		CoreSubsystem::getSingleton().setActiveModule(mActiveModule.c_str());
 
         this->setVisible( false );

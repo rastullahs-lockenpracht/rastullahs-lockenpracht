@@ -65,6 +65,7 @@ namespace rl {
         /// First oder Third person view.
         void setViewMode(ViewMode mode);
         ViewMode getViewMode();
+		void toggleViewMode();
         
         /** Setzt die Camera in einen 30-Grad-Winkel dem Helden auf den Hinterkopf
          *  schauend im aktuellen Abstand vom Helden, wie durch den Spieler bestimmt.

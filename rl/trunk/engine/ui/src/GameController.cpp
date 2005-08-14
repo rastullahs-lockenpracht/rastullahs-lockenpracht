@@ -329,7 +329,16 @@ namespace rl {
     {
         return mViewMode;
     }
-    //------------------------------------------------------------------------
+	//------------------------------------------------------------------------
+
+	void GameController::toggleViewMode()
+	{
+		if (getViewMode() == VM_FIRST_PERSON)
+			setViewMode(VM_THIRD_PERSON);
+		else
+			setViewMode(VM_FIRST_PERSON);
+	}
+	//------------------------------------------------------------------------
 
     void GameController::resetCamera()
     {

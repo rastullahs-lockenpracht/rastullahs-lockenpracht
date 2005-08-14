@@ -302,6 +302,21 @@ namespace rl {
                  const rl::CeGuiString& name,
                  const rl::CeGuiString& description);
 	};
+	
+    class ActionManager
+    {
+    public:
+        ActionManager();
+
+        void registerAction(rl::Action* action);
+        void unregisterAction(const rl::CeGuiString& actionName, const rl::CeGuiString& className);
+        rl::Action* getDefaultAction(const rl::CeGuiString& actionName) const;
+		rl::Action* getAction(const rl::CeGuiString& actionName, const rl::CeGuiString& className) const;
+
+		void registerInGameGlobalAction(rl::Action* action, rl::ActionGroup* group);
+	
+        static rl::ActionManager& getSingleton();
+	};
 } // Namespace
 
 %{

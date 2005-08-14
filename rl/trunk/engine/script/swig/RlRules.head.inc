@@ -26,6 +26,7 @@
 #include "GameObject.h"
 #include "Creature.h"
 #include "Action.h"
+#include "ActionManager.h"
 #include "Item.h"
 #include "Person.h"
 #include "RulesSubsystem.h"

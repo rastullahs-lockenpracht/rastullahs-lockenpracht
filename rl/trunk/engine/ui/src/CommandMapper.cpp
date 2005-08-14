@@ -18,6 +18,8 @@
 #include "UiSubsystem.h"
 #include "Person.h"
 #include "Exception.h"
+#include "Action.h"
+#include "ActionManager.h"
 
 using namespace Ogre;
 using namespace std;
@@ -100,6 +102,10 @@ namespace rl {
 		ae.actionClass = "ToggleCharacterStateWindowAction";
 		ae.actionName = "togglecharacterstatewindow";
 		mKeyCommandsOffBattle.insert(make_pair(KC_O, ae));
+
+		ae.actionClass = "ToggleInGameGlobalMenuAction";
+		ae.actionName = "toggleingameglobalmenu";
+		mKeyCommandsOffBattle.insert(make_pair(KC_F10, ae));
 	}
 
 	CommandMapper::~CommandMapper()
@@ -137,7 +143,11 @@ namespace rl {
 
             try
             {
-			    chara->doAction((*command).second.actionClass, (*command).second.actionName, chara, chara);
+				Action* action = ActionManager::getSingleton().getInGameGlobalAction((*command).second.actionName, (*command).second.actionClass);
+				if (action != NULL)
+					action->doAction(NULL, NULL, NULL); //TODO: Eigene Klasse für globale Aktionen? doAction hat keine Parameter(?)
+				else
+					chara->doAction((*command).second.actionClass, (*command).second.actionName, chara, chara);
 			    return true;
             }
             catch( ScriptInvocationFailedException& sife )

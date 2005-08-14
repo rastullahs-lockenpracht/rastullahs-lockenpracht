@@ -36,6 +36,7 @@
 #include "TargetSelectionWindow.h"
 #include "CharacterStateWindow.h"
 #include "ContainerContentWindow.h"
+#include "InGameMenuWindow.h"
 
 #include "GameLoop.h"
 #include "ActorManager.h"
@@ -149,6 +150,7 @@ namespace rl {
 			      
 		mGameLogger = new GameLoggerWindow();
 		mCharacterStateWindow = new CharacterStateWindow();
+		mInGameMenuWindow = new InGameMenuWindow();
         runTest();
     }
 
@@ -285,6 +287,11 @@ namespace rl {
 	void UiSubsystem::toggleCharacterStateWindow()
 	{
 		mCharacterStateWindow->setVisible(!mCharacterStateWindow->isVisible());
+	}
+
+	void UiSubsystem::toggleInGameGlobalMenu()
+	{
+		mInGameMenuWindow->setVisible(!mInGameMenuWindow->isVisible());
 	}
 
 	void UiSubsystem::setBattleMode(bool inBattle)

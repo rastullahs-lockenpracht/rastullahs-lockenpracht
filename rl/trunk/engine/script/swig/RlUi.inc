@@ -25,6 +25,7 @@ public:
     rl::Actor* getCamera();
     void setViewMode(ViewMode mode);
     ViewMode getViewMode();
+    void toggleViewMode();
     void resetCamera();
 };
 
@@ -52,6 +53,7 @@ public:
 	void toggleDialogWindow();
 	void toggleObjectPicking();
 	void toggleCharacterStateWindow();
+	void toggleInGameGlobalMenu();
 	
 	rl::GameController* getGameController();
 	rl::GameLoggerWindow* getGameLogger();

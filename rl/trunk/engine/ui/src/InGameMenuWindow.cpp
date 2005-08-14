@@ -34,7 +34,7 @@ using std::map;
 namespace rl {
 
 InGameMenuWindow::InGameMenuWindow()
-: CeGuiWindow("ingamemenuwindow", WND_MOUSE_INPUT)
+: CeGuiWindow("ingamemenuwindow.xml", WND_MOUSE_INPUT)
 {
 	createMenu(getMenu("InGameMenu/Menubar"));
 	addToRoot(mWindow);
