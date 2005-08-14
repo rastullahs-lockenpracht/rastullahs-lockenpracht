@@ -89,6 +89,8 @@ namespace rl {
 		void setBattleMode(bool inBattle);
 		bool isInBattleMode();
 
+		void update();
+
 		static const char* CEGUI_ROOT;
 
     private:

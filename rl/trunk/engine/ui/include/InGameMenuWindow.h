@@ -32,6 +32,10 @@ namespace rl {
 
 		void setAction(CEGUI::MenuItem* item, Action* action);
 		void createMenu(CEGUI::MenuBase* menu);
+
+		void update();
+	private:
+		bool handleAction(Action* action);
 	};
 }
 

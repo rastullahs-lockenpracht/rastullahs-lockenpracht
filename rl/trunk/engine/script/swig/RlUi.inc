@@ -58,6 +58,8 @@ public:
 	rl::GameController* getGameController();
 	rl::GameLoggerWindow* getGameLogger();
 	
+	void update();
+	
 	void requestExit();
 };
 

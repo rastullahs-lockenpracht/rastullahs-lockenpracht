@@ -310,6 +310,11 @@ namespace rl {
 	//	InputManager::getSingleton().setObjectPickingActive(true);
 	//	DialogWindow* dialog=new DialogWindow("startup.xml");  
 	}
+
+	void UiSubsystem::update()
+	{
+		mInGameMenuWindow->update();
+	}
 	
     GameController* UiSubsystem::getGameController()
     {

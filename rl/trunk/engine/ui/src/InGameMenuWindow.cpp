@@ -36,7 +36,7 @@ namespace rl {
 InGameMenuWindow::InGameMenuWindow()
 : CeGuiWindow("ingamemenuwindow.xml", WND_MOUSE_INPUT)
 {
-	createMenu(getMenu("InGameMenu/Menubar"));
+	update();
 	addToRoot(mWindow);
 }
 
@@ -46,6 +46,10 @@ InGameMenuWindow::~InGameMenuWindow()
 
 void InGameMenuWindow::createMenu(MenuBase* menu)
 {
+	WindowFactory* factoryPopup = WindowFactoryManager::getSingleton().getFactory("RastullahLook/PopupMenu");
+	WindowFactory* factoryPopupItem = WindowFactoryManager::getSingleton().getFactory("RastullahLook/PopupMenuItem");
+	WindowFactory* factoryMenuItem = WindowFactoryManager::getSingleton().getFactory("RastullahLook/MenubarItem");
+				
 	const ActionVector actions = ActionManager::getSingleton().getInGameGlobalActions();
 	map<CeGuiString, PopupMenu*> menuGroups;
 
@@ -63,16 +67,20 @@ void InGameMenuWindow::createMenu(MenuBase* menu)
 			}
 			else
 			{
-				WindowFactory* factory = WindowFactoryManager::getSingleton().getFactory("RastullahLook/PopupMenu");
-				menuGrp = static_cast<PopupMenu*>(factory->createWindow("IngameMenu/Menu"+group->getName()));
+				
+				MenuItem* grpItem = static_cast<MenuItem*>(factoryMenuItem->createWindow("IngameMenu/"+group->getName()));
+				grpItem->setText(group->getName());
+				menu->addChildWindow(grpItem);
 
-				MenuItem* grpItem = new MenuItem("RastullahLook/MenubarItem", "IngameMenu/"+group->getName());
-				grpItem->setPopupMenu(menuGrp);
-				menu->addItem(grpItem);
+				menuGrp = static_cast<PopupMenu*>(factoryPopup->createWindow("IngameMenu/Menu"+group->getName()));
+				grpItem->addChildWindow(menuGrp);				
+
+				menuGroups[group->getName()] = menuGrp;
 			}
 
-			MenuItem* item = new MenuItem("RastullahLook/MenubarItem", "IngameMenu/"+group->getName()+"/"+action->getName());
+			MenuItem* item = static_cast<MenuItem*>(factoryPopupItem->createWindow("IngameMenu/"+group->getName()+"/"+action->getName()));
 			item->setText(action->getDescription());
+			menuGrp->addChildWindow(item);
 
 			setAction(item, action);
 		}
@@ -81,6 +89,26 @@ void InGameMenuWindow::createMenu(MenuBase* menu)
 
 void InGameMenuWindow::setAction(MenuItem* item, Action* action)
 {
+	item->subscribeEvent(
+		MenuItem::EventClicked, 
+		boost::bind(
+			&InGameMenuWindow::handleAction, 
+			this, 
+			action));
+}
+
+bool InGameMenuWindow::handleAction(Action* action)
+{
+	action->doAction(NULL, NULL, NULL);
+
+	setVisible(false);
+	
+	return true;
+}
+
+void InGameMenuWindow::update()
+{
+	createMenu(getMenu("InGameMenu/Menubar"));	
 }
 
 }
