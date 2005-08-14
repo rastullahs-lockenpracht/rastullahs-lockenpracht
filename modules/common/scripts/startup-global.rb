@@ -13,6 +13,7 @@ $CORE.log("done.")
 
 GlobalSettings.addIngameActions(ActionManager.getSingleton())
 
+$UI.update()
 $CORE.log("showMainMenu()..")
 $UI.showMainMenu(player)
 $CORE.log("done.")
