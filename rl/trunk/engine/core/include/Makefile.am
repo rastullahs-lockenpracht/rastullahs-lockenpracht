@@ -8,6 +8,7 @@
 	CameraObject.h \
 	CorePrerequisites.h \
 	CoreSubsystem.h \
+	DeletionPropagator.h \
 	DotSceneLoader.h \
 	DotSceneOctreeWorld.h \
 	GameAreaEvent.h \
