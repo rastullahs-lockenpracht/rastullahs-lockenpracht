@@ -61,6 +61,7 @@ namespace rl {
 	void MainMenuWindow::fillModules()
 	{
 		MenuBase* modulesMenu = getMenu("MainMenu/Modules/Menu");
+		WindowFactory* factoryPopupItem = WindowFactoryManager::getSingleton().getFactory("RastullahLook/PopupMenuItem");
 
 		Ogre::StringVector modules = CoreSubsystem::getSingleton().getActivatableModules();
 		mActiveModule = CoreSubsystem::getSingleton().getActiveModule();
@@ -70,7 +71,8 @@ namespace rl {
 		for(Ogre::StringVector::iterator mod = modules.begin();	
 			mod != modules.end(); mod++)
 		{
-			MenuItem* it = new MenuItem("RastullahLook/MenuItem", getNamePrefix()+"MainMenu/Modules/" + *mod);
+			MenuItem* it = static_cast<MenuItem*>(
+				factoryPopupItem->createWindow(getNamePrefix()+"MainMenu/Modules/" + *mod));
 			
 			it->setText(*mod);
 			modulesMenu->addItem(it);
