@@ -23,7 +23,7 @@ rl::ActionManager* Singleton<rl::ActionManager> ::ms_Singleton = 0;
 namespace rl
 {
 
-	ActionVector::iterator findAction(ActionVector::iterator& begin, ActionVector::iterator& end, const CeGuiString& actionName)
+	ActionVector::iterator findAction(ActionVector::iterator begin, ActionVector::iterator end, const CeGuiString& actionName)
 	{
 		for (ActionVector::iterator it = begin; it != end; it++)
 			if ((*it)->getName().compare(actionName) == 0)
@@ -32,7 +32,7 @@ namespace rl
 		return end;
 	}
 
-	ActionVector::iterator findAction(ActionVector::iterator& begin, ActionVector::iterator& end, const CeGuiString& actionName, const CeGuiString& className)
+	ActionVector::iterator findAction(ActionVector::iterator begin, ActionVector::iterator end, const CeGuiString& actionName, const CeGuiString& className)
 	{
 		for (ActionVector::iterator it = begin; it != end; it++)
 			if ((*it)->getName().compare(actionName) == 0
@@ -42,7 +42,7 @@ namespace rl
 		return end;
 	}
 
-	ActionVector::const_iterator findActionConst(ActionVector::const_iterator& begin, ActionVector::const_iterator& end, const CeGuiString& actionName, const CeGuiString& className)
+	ActionVector::const_iterator findActionConst(ActionVector::const_iterator begin, ActionVector::const_iterator end, const CeGuiString& actionName, const CeGuiString& className)
 	{
 		for (ActionVector::const_iterator it = begin; it != end; it++)
 			if ((*it)->getName().compare(actionName) == 0

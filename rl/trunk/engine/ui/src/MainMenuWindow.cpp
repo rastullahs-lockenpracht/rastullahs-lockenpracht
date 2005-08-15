@@ -51,7 +51,7 @@ namespace rl {
 		
 		mWindow->subscribeEvent(
 			Window::EventKeyUp, 
-			boost::bind(MainMenuWindow::handleKey, this, _1));
+			boost::bind(&MainMenuWindow::handleKey, this, _1));
 
 		addToRoot(mWindow);
 
