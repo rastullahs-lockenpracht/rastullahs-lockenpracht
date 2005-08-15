@@ -139,7 +139,7 @@ namespace rl {
         }
         catch( Ogre::Exception& e)
         {
-            CoreSubsystem::log("ActorManager - Das Licht '"
+            CoreSubsystem::getSingleton().log(Ogre::LML_CRITICAL, "ActorManager - Das Licht '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getFullDescription());
         }
@@ -162,7 +162,7 @@ namespace rl {
         }
         catch( Ogre::Exception& e)
         {
-            CoreSubsystem::log("ActorManager - Der Sound '"
+            CoreSubsystem::getSingleton().log(Ogre::LML_CRITICAL, "ActorManager - Der Sound '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getFullDescription());
         }
@@ -185,7 +185,7 @@ namespace rl {
         }
         catch( Ogre::Exception& e)
         {
-            CoreSubsystem::log("ActorManager - Der Sound '"
+			CoreSubsystem::getSingleton().log(Ogre::LML_CRITICAL, "ActorManager - Der Sound '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getFullDescription());
         }
@@ -208,7 +208,7 @@ namespace rl {
         }
         catch( Ogre::Exception& e)
         {
-            CoreSubsystem::log("ActorManager - Der Listener '"
+            CoreSubsystem::getSingleton().log(Ogre::LML_CRITICAL, "ActorManager - Der Listener '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getFullDescription());
         }
@@ -243,7 +243,7 @@ namespace rl {
         }
         catch( Ogre::Exception& e)
         {
-            CoreSubsystem::log("ActorManager - Die Kamera '"
+            CoreSubsystem::getSingleton().log(Ogre::LML_CRITICAL, "ActorManager - Die Kamera '"
                 + name + "' für den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getFullDescription());
@@ -269,7 +269,7 @@ namespace rl {
         }
         catch( Ogre::Exception& e)
         {
-            CoreSubsystem::log("ActorManager - Das Mesh '"
+            CoreSubsystem::getSingleton().log(Ogre::LML_CRITICAL, "ActorManager - Das Mesh '"
                 + meshname + "' für den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getFullDescription());
@@ -292,7 +292,7 @@ namespace rl {
         }
         catch( Ogre::Exception& e )
         {
-            CoreSubsystem::log("ActorManager - Das Partikelsystem '"
+            CoreSubsystem::getSingleton().log(Ogre::LML_CRITICAL, "ActorManager - Das Partikelsystem '"
                 + partname + "' für den Aktor '"
 				+ uniquename + "' konnte nicht erstellt werden. Grund: "
 				+ e.getFullDescription());
@@ -313,7 +313,7 @@ namespace rl {
 		}
 		
 		if( basename != newname )
-            CoreSubsystem::log("ActorManager - Warnung! '" + basename
+            CoreSubsystem::getSingleton().log(Ogre::LML_CRITICAL, "ActorManager - Warnung! '" + basename
                 + "' war schon vergeben! Neuer Name ist '" + newname + "'.");
         
 		return newname;
@@ -339,10 +339,8 @@ namespace rl {
 		for ( resultIterator = mSelectableObjects.begin(); resultIterator != mSelectableObjects.end(); resultIterator++ ) 
 		{
 			Actor* movable = *resultIterator;
-			std::cerr<<movable->getName()<<"\n";
 			closestObject = movable;
 		}
-		std::cerr<<"\n";
 
 		return closestObject;
 	}
@@ -402,7 +400,7 @@ namespace rl {
 		else if (geom2 == mSelectionCapsule)
 			target = reinterpret_cast<Actor*>(geom2->getUserData());
 		if (target != NULL)
-			CoreSubsystem::getSingleton().log("Gefunden: "+target->getName());
+			CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Gefunden: "+target->getName());
 		if (target != NULL && target != getWorld()->getActiveActor())
 			mSelectableObjects.push_back(target);
 

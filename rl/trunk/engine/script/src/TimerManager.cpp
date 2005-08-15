@@ -94,20 +94,20 @@ namespace rl {
 		if (!run)
 			return;
 		
-		CoreSubsystem::getSingleton().log(StringConverter::toString(mSchedule.size())+" in Schedule");
+		CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, StringConverter::toString(mSchedule.size())+" in Schedule");
 		for (TaskCallSet::iterator first = execute.begin(); first != execute.end(); first++)
 		{			
 			TaskCall* call = *first;
-			CoreSubsystem::getSingleton().log(("1: Vor run '"+call->name+"'").c_str());
-			CoreSubsystem::getSingleton().log("           '"+StringConverter::toString(reinterpret_cast<unsigned int>(call->task))+"'");
+			CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, ("1: Vor run '"+call->name+"'").c_str());
+			CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "           '"+StringConverter::toString(reinterpret_cast<unsigned int>(call->task))+"'");
 			Date d(call->time);
-			CoreSubsystem::getSingleton().log("           '"+d.toString()+"'");
+			CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "           '"+d.toString()+"'");
 			call->task->run(call->name);
-			CoreSubsystem::getSingleton().log(("2: Nach run '"+call->name+"'").c_str());
+			CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, ("2: Nach run '"+call->name+"'").c_str());
 			mSchedule.erase(mSchedule.find(call));
-			CoreSubsystem::getSingleton().log("3: Aus Schedule geloescht, noch "+StringConverter::toString(mSchedule.size()));
+			CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "3: Aus Schedule geloescht, noch "+StringConverter::toString(mSchedule.size()));
 			delete call;
-			CoreSubsystem::getSingleton().log("4: fertig");
+			CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "4: fertig");
 		}			
 	}
 

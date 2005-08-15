@@ -59,7 +59,7 @@ namespace rl
 			
 			Ogre::String getPluginCfgPath();
 			
-			Ogre::String getRlCoreLogPath();
+			Ogre::String getRastullahLogPath();
 			
 			Ogre::String getModulesCfgPath();
 			
@@ -69,13 +69,13 @@ namespace rl
 			
 		protected:
 		
-			Ogre::String ogreLogPath;
-			Ogre::String rastullahCfgPath;
-			Ogre::String pluginCfgPath;
-			Ogre::String rlCoreLogPath;
-			Ogre::String modulesCfgPath;
-			Ogre::String moduleconfigCfgPath;
-			Ogre::String modulesRootDirectory;
+			Ogre::String mOgreLogPath;
+			Ogre::String mRastullahCfgPath;
+			Ogre::String mPluginCfgPath;
+			Ogre::String mRastullahLogPath;
+			Ogre::String mModulesCfgPath;
+			Ogre::String mModuleconfigCfgPath;
+			Ogre::String mModulesRootDirectory;
 	};
 }
 

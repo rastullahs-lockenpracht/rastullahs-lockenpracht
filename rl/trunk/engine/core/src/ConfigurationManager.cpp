@@ -49,36 +49,36 @@ namespace rl
 	
 	Ogre::String ConfigurationManager::getOgreLogPath()
 	{
-		return ogreLogPath;
+		return mOgreLogPath;
 	}
 	
 	Ogre::String ConfigurationManager::getRastullahCfgPath()
 	{
-		return rastullahCfgPath;
+		return mRastullahCfgPath;
 	}
 	
 	Ogre::String ConfigurationManager::getPluginCfgPath()
 	{
-		return pluginCfgPath;
+		return mPluginCfgPath;
 	}
 	
-	Ogre::String ConfigurationManager::getRlCoreLogPath()
+	Ogre::String ConfigurationManager::getRastullahLogPath()
 	{
-		return rlCoreLogPath;
+		return mRastullahLogPath;
 	}
 	
 	Ogre::String ConfigurationManager::getModulesCfgPath()
 	{
-		return modulesCfgPath;
+		return mModulesCfgPath;
 	}
 	
 	Ogre::String ConfigurationManager::getModuleconfigCfgPath(const Ogre::String& module)
 	{
-		return (modulesRootDirectory + "/modules/" + module + moduleconfigCfgPath);
+		return (mModulesRootDirectory + "/modules/" + module + mModuleconfigCfgPath);
 	}
 	
 	Ogre::String ConfigurationManager::getModulesRootDirectory()
 	{
-		return modulesRootDirectory;
+		return mModulesRootDirectory;
 	}
 }

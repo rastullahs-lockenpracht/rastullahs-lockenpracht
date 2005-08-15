@@ -69,9 +69,7 @@ public:
 	*/
 	void  makeScreenshot(const Ogre::String& sName);
 
-    static void log ( const Ogre::String& msg );
-
-	/** Gibt die abgelaufene Spielzeit zurück*/
+    /** Gibt die abgelaufene Spielzeit zurück*/
 	RL_LONGLONG getClock();
 
 	/** Setzt die abgelaufene Spielzeit wieder auf Null, die DSA-Zeit wird 
@@ -80,6 +78,9 @@ public:
 	* @see DsaManager
 	*/
 	void resetClock();
+
+	void log(const Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident = "");
+	void log(const Ogre::String& msg);
 	
 private:  
     /** Runs the setup methods  */

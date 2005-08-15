@@ -24,9 +24,9 @@ namespace rl
 
 	Graphmaster::~Graphmaster() 
 	{
-		DialogSubsystem::getSingleton().log("Delete all graphmaster nodes");
+		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Delete all graphmaster nodes");
 		mRoot->deleteAllNodes();
-		DialogSubsystem::getSingleton().log("Delete root");
+		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Delete root");
 		delete mRoot;
 	}
 

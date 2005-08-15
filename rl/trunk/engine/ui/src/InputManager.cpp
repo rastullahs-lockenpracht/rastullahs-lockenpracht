@@ -357,11 +357,11 @@ namespace rl {
 		
 		if (!active && isCeguiActive()) // war nicht aktiv, sollte jetzt aktiv sein -> anschalten
 		{
-			UiSubsystem::getSingleton().log("switch mouse to buffered - start");
+			UiSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "switch mouse to buffered - start");
             resetPressedKeys( true );
 			switchMouseToBuffered();
 			CEGUI::MouseCursor::getSingleton().show();
-			UiSubsystem::getSingleton().log("switch mouse to buffered - end");
+			UiSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "switch mouse to buffered - end");
 		}
 	}
 
@@ -381,11 +381,11 @@ namespace rl {
 
 		if (active && !isCeguiActive()) // war aktiv, sollte nicht mehr aktiv sein -> ausschalten
 		{
-			UiSubsystem::getSingleton().log("switch mouse to unbuffered - start");
+			UiSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "switch mouse to unbuffered - start");
 			CEGUI::MouseCursor::getSingleton().hide();
             resetPressedKeys( false );
 			switchMouseToUnbuffered();	
-			UiSubsystem::getSingleton().log("switch mouse to unbuffered - end");
+			UiSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "switch mouse to unbuffered - end");
 		}
 	}
 

@@ -23,6 +23,7 @@
 
 #include "RubyInterpreter.h"
 #include "CoreSubsystem.h"
+#include "Logger.h"
 #include "Console.h"
 #include "DebugWindow.h"
 #include "GameController.h"
@@ -77,9 +78,9 @@ namespace rl {
         mCharacter(0),
 		mInBattle(false)
 	{
-		log("Init Start");
+		log(Ogre::LML_TRIVIAL, "Init Start");
 		initializeUiSubsystem();
-		log("Init Ende");
+		log(Ogre::LML_TRIVIAL, "Init Ende");
 	}
 
     UiSubsystem::~UiSubsystem() 
@@ -90,24 +91,16 @@ namespace rl {
         GameLoopManager::getSingleton().removeSynchronizedTask(mGameController);
     }
 	
-	void UiSubsystem::log(const String& msg, const String& ident)
-	{
-		if (ident.length() > 0)
-			CoreSubsystem::getSingleton().log("Ui: ("+ident+") "+msg);
-		else
-			CoreSubsystem::getSingleton().log("Ui: "+msg);
-	}
-
     void UiSubsystem::initializeUiSubsystem( void )
     {
 		using namespace CEGUI;
 
-        log("Initialisiere UI", "UiSubsystem::initializeUiSubsystem");
+        log(Ogre::LML_TRIVIAL, "Initialisiere UI", "UiSubsystem::initializeUiSubsystem");
         World* world = CoreSubsystem::getSingleton().getWorld();
         SceneManager* sceneMgr = world->getSceneManager();
 		
 		Ogre::RenderWindow* window = Ogre::Root::getSingleton().getAutoCreatedWindow();
-		log("Initialisiere CEGUI-Renderer", "UiSubsystem::initializeUiSubsystem");
+		log(Ogre::LML_TRIVIAL, "Initialisiere CEGUI-Renderer", "UiSubsystem::initializeUiSubsystem");
 		OgreCEGUIRenderer* rend = 
 			new OgreCEGUIRenderer(window, 
 								Ogre::RENDER_QUEUE_OVERLAY, 
@@ -115,32 +108,32 @@ namespace rl {
 								3000,
 								sceneMgr);
 
-		log("Initialisiere CEGUI-System", "UiSubsystem::initializeUiSubsystem");
+		log(Ogre::LML_TRIVIAL, "Initialisiere CEGUI-System", "UiSubsystem::initializeUiSubsystem");
 		new System(rend, NULL, new OgreCEGUIResourceProvider(), (utf8*)"cegui.config"); 
-		log("CEGUI-System initialisiert", "UiSubsystem::initializeUiSubsystem");
+		log(Ogre::LML_TRIVIAL, "CEGUI-System initialisiert", "UiSubsystem::initializeUiSubsystem");
         
 		// load scheme and set up defaults
 		///@todo Hier sollte was Lookunabhängiges rein!!! FIXME TODO BUG!
 		System::getSingleton().setDefaultMouseCursor((utf8*)"RastullahLook", (utf8*)"MouseArrow");
-		log("Mauszeiger", "UiSubsystem::initializeUiSubsystem");
+		log(Ogre::LML_TRIVIAL, "Mauszeiger", "UiSubsystem::initializeUiSubsystem");
 		Window* sheet = CEGUI::WindowManager::getSingleton().createWindow((utf8*)"DefaultGUISheet", (utf8*)CEGUI_ROOT);
-		log("Rootfenster", "UiSubsystem::initializeUiSubsystem");
+		log(Ogre::LML_TRIVIAL, "Rootfenster", "UiSubsystem::initializeUiSubsystem");
 		sheet->setSize(
 			Absolute, 
 			CEGUI::Size(Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth(), 
 				Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight()));
 		sheet->setPosition(Absolute, CEGUI::Point(0, 0));
 		System::getSingleton().setGUISheet(sheet);
-        log("CEGUI geladen", "UiSubsystem::initializeUiSubsystem");
+        log(Ogre::LML_TRIVIAL, "CEGUI geladen", "UiSubsystem::initializeUiSubsystem");
 
 		//Initializing InputManager
 		new CommandMapper();
         new InputManager();
 		new rl::WindowManager();
-        log("UI-Manager geladen", "UiSubsystem::initializeUiSubsystem");
+        log(Ogre::LML_TRIVIAL, "UI-Manager geladen", "UiSubsystem::initializeUiSubsystem");
 
 		InputManager::getSingleton().loadKeyMapping("keymap-german.xml");
-		log("Keymap geladen", "UiSubsystem::initializeUiSubsystem");
+		log(Ogre::LML_TRIVIAL, "Keymap geladen", "UiSubsystem::initializeUiSubsystem");
 
 		new DebugWindow();
 		new Console();
@@ -156,7 +149,7 @@ namespace rl {
 
     void UiSubsystem::requestExit()
     {
-		log("Start", "UiSubsystem::requestExit");
+		log(Ogre::LML_TRIVIAL, "Start", "UiSubsystem::requestExit");
 		//TODO: Vorher mal nachfragen, ob wirklich beendet werden soll
     	GameLoopManager::getSingleton().quitGame();
 	}
@@ -182,14 +175,14 @@ namespace rl {
         mCharacter = person;
         Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
         mGameController = new GameController(camera, person->getActor());
-        CoreSubsystem::getSingleton().log("GameController created.");
+		log(Ogre::LML_TRIVIAL, "GameController created.");
         GameLoopManager::getSingleton().addSynchronizedTask(mGameController);
-        CoreSubsystem::getSingleton().log("GameController task added.");
+        log(Ogre::LML_TRIVIAL, "GameController task added.");
         World* world = CoreSubsystem::getSingletonPtr()->getWorld();
         world->setActiveActor(person->getActor());
 		mCharacterStateWindow->setCharacter(person);
 		mCharacterStateWindow->update();
-        CoreSubsystem::getSingleton().log("Actor set");
+        log(Ogre::LML_TRIVIAL, "Actor set");
 	}
 
 	void UiSubsystem::showActionChoice(GameObject* obj)
@@ -331,4 +324,9 @@ namespace rl {
         PlaylistWindow* wnd = new PlaylistWindow();
         wnd->setVisible(true);
     }
+
+	void UiSubsystem::log(Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident )
+	{
+		Logger::getSingleton().log(level, "Ui", msg, ident);
+	}
 }

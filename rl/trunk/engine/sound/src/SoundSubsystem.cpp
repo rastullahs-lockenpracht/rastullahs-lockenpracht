@@ -14,8 +14,8 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 #include "SoundSubsystem.h"
-
 #include "SoundManager.h"
+#include "Logger.h"
 
 using namespace Ogre;
 
@@ -49,12 +49,6 @@ SoundSubsystem* SoundSubsystem::getSingletonPtr(void)
  */
 SoundSubsystem::SoundSubsystem()
 {
-     Log* log = LogManager::getSingleton().createLog( "logs/rlSound.log" );
-     if (log != 0)
-     {
-        log->setLogDetail( LL_BOREME );
-     }
- 
     // fmod initialisieren und Fehler zuruecksetzen.
     FSOUND_SetMaxHardwareChannels(16);
     FSOUND_SetMinHardwareChannels(8);
@@ -62,13 +56,13 @@ SoundSubsystem::SoundSubsystem()
     //FSOUND_SetOutput(FSOUND_OUTPUT_ALSA);
     FSOUND_SetMixer(FSOUND_MIXER_AUTODETECT);
     FSOUND_Init(44100, 32, 0); // TODO Wenns schiefgeht.
-    SoundSubsystem::log("fmod initialisiert");
+	log(Ogre::LML_TRIVIAL, "fmod initialisiert");
     
     // Wir initialisieren den Listener
     // Position of the listener.
     float v[3] = {0, 0, 0};
     FSOUND_3D_Listener_SetAttributes(v, v, 1, 0, 0, 1, 0, 0);
-    SoundSubsystem::log("Listener set");
+    log(Ogre::LML_TRIVIAL, "Listener set");
     
     //Singletons erzeugen 
     new SoundManager();
@@ -89,16 +83,9 @@ SoundSubsystem::~SoundSubsystem()
  * @author Blakharaz
  * @date 10-14-2004
  */
-void SoundSubsystem::log(const String& msg)
+void SoundSubsystem::log(Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident )
 {
-    if (LogManager::getSingletonPtr() == 0)
-    {
-        new LogManager();
-    }
-    if (LogManager::getSingletonPtr() != 0)
-    {
-        LogManager::getSingleton().getLog( "logs/rlSound.log" )->logMessage(msg);
-    }
+	Logger::getSingleton().log(level, "Sound", msg, ident);
 }
 
 /**

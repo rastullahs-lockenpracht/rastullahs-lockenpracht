@@ -37,27 +37,27 @@ namespace rl
 	
 		string process(DOMNode* node,Match* m, const char *str, NaturalLanguageProcessor* nlp)
 		{
-			DialogSubsystem::getSingletonPtr()->log("Srai");
+			DialogSubsystem::getSingletonPtr()->log(Ogre::LML_TRIVIAL, "Srai");
 			Match* newMatch=nlp->getGM()->match("*",
 												AimlParser::transcodeXmlCharToString(
 												node->getFirstChild()->getNodeValue())
 												,"*","*");
 			if(newMatch)
 			{
-				DialogSubsystem::getSingletonPtr()->log("found new match");
+				DialogSubsystem::getSingletonPtr()->log(Ogre::LML_TRIVIAL, "found new match");
 				//  get the <template> tag as DOMDocument node
 				DOMDocument* doc=(DOMDocument *)newMatch->getNode()->getTemplateNode();
-				DialogSubsystem::getSingletonPtr()->log("getTemplateNode");
+				DialogSubsystem::getSingletonPtr()->log(Ogre::LML_TRIVIAL, "getTemplateNode");
 				//  get the content of DOMDocument
 				DOMNode* newNode=doc->getDocumentElement();
-				DialogSubsystem::getSingletonPtr()->log("getDocumentElement");
+				DialogSubsystem::getSingletonPtr()->log(Ogre::LML_TRIVIAL, "getDocumentElement");
 				
 				string result= nlp->process(newNode,newMatch,str);
-				DialogSubsystem::getSingletonPtr()->log("Processed");
+				DialogSubsystem::getSingletonPtr()->log(Ogre::LML_TRIVIAL, "Processed");
 				doc->release();
-				DialogSubsystem::getSingletonPtr()->log("doc release");
+				DialogSubsystem::getSingletonPtr()->log(Ogre::LML_TRIVIAL, "doc release");
 				delete newMatch;
-				DialogSubsystem::getSingletonPtr()->log("match delete");
+				DialogSubsystem::getSingletonPtr()->log(Ogre::LML_TRIVIAL, "match delete");
 				return result;
 			}
 			return "";

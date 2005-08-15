@@ -58,7 +58,7 @@ namespace rl
 		string value;
 		string rtn;
 		string tmp =transcodeXmlCharToString(localname);
-		DialogSubsystem::getSingleton().log("startElement");
+		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "startElement");
 	/////////////////////////////////////////
 	// Abfrage für Startup-File
 	////////////////////////////////////////
@@ -97,7 +97,7 @@ namespace rl
 				mNlp->processOption(name, value);
 	//		mNlp->mTest=tmp;
 		} else if(!tmp.compare("script")) {
-			DialogSubsystem::getSingleton().log("script");
+			DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "script");
 			mCurState= PARSER_SCRIPT;
 			name=getAttributeValueAsString(attrs,"name");
 			templateValue=getAttributeValueAsString(attrs,"class");
@@ -113,10 +113,10 @@ namespace rl
 				mCurState=PARSER_START;
 			} 
 		} else if(!tmp.compare("bot")) {
-			DialogSubsystem::getSingleton().log("Bot");
+			DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Bot");
 			mNlp->setName(getAttributeValueAsString(attrs,"name"));
 		} else if(!tmp.compare("learn")) {
-			DialogSubsystem::getSingleton().log("Learning");
+			DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Learning");
 			name=getAttributeValueAsString(attrs,"src");
 			//value=getAttributeValueAsString(attrs,"value");
 			if ( !name.empty())

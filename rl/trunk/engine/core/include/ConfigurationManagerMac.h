@@ -50,7 +50,7 @@ namespace rl
 			
 			ConfigurationManagerMac();
 			
-			static ConfigurationManager* instance;
+			static ConfigurationManager* sInstance;
 	};
 }
 

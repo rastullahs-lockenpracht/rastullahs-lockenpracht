@@ -29,14 +29,12 @@ namespace rl
         RulesSubsystem();
         ~RulesSubsystem();
 	
-        void log(const char *msg);
-		void log(const std::string& msg);
-		void log(const CeGuiString& msg);
+		void log(const Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident = "");
+		void log(const Ogre::LogMessageLevel level, const CeGuiString& msg, const Ogre::String& ident = "");
+		void log(const Ogre::LogMessageLevel level, const char* msg, const Ogre::String& ident = "");
 
         static RulesSubsystem& getSingleton(void);
         static RulesSubsystem* getSingletonPtr(void);
-	private:
-		Ogre::Log* mLog;
     };
 }
 

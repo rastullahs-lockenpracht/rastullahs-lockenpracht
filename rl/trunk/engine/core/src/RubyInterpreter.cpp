@@ -124,14 +124,14 @@ void RubyInterpreter::logRubyErrors(const std::string& intro, int errorcode)
 		VALUE info = rb_inspect(ruby_errinfo);
 		rb_backtrace();
 		if (intro.length() > 0)
-			CoreSubsystem::getSingleton().log(intro);
-		CoreSubsystem::getSingleton().log(STR2CSTR(info));
+			CoreSubsystem::getSingleton().log(Ogre::LML_CRITICAL, intro);
+		CoreSubsystem::getSingleton().log(Ogre::LML_CRITICAL, STR2CSTR(info));
 	}
 }
 
 void RubyInterpreter::setDefOut(staticValueMethod func)
 {
-	rb_define_singleton_method(rb_defout, "write",func, 1);
+	rb_define_singleton_method(rb_defout, "write", func, 1);
 }
 
 RubyInterpreter::~RubyInterpreter()
@@ -144,7 +144,7 @@ bool RubyInterpreter::execute(String command)
 {
 	int status = -1;
 
-	CoreSubsystem::getSingleton().log( "RubyInterpreter: (execute) "+ command );
+	CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, command, "RubyInterpreter::execute" );
 	rb_eval_string_protect(command.c_str(), &status);
 
 	logRubyErrors("", status);

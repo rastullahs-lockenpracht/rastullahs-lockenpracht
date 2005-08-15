@@ -18,9 +18,9 @@
 #include "AimlProcessorManager.h"
 #include "DialogSubsystem.h"
 
-#include <OgreLogManager.h>
 #include "XmlHelper.h"
 #include "XmlResourceManager.h"
+#include "Log.h"
 using namespace Ogre;
 
 template<> rl::DialogSubsystem* Singleton<rl::DialogSubsystem>::ms_Singleton = 0;
@@ -39,8 +39,6 @@ namespace rl
 
 	DialogSubsystem::DialogSubsystem()
 	{
-		mLog = LogManager::getSingleton().createLog( "logs/rlDialog.log" );
-        mLog->setLogDetail( LL_BOREME );
 		AimlProcessorManager::addStandardProcessors();
 	//  Initialize Xerces if this wasn't done already
 		try 
@@ -53,7 +51,7 @@ namespace rl
 			char* excmsg = XMLString::transcode(exc.getMessage());
 			std::string excs="Exception while initializing Xerces: ";
 			excs+=excmsg;
-			log(excs);
+			log(Ogre::LML_TRIVIAL, excs);
             XMLString::release(&excmsg);
         }
 
@@ -70,13 +68,8 @@ namespace rl
 
     }
 
-	void DialogSubsystem::log(const char *msg)
-    {
-        mLog->logMessage(msg);
-    }
-    
-	void DialogSubsystem::log(const std::string& msg)
+	void DialogSubsystem::log(const Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident)
 	{
-		mLog->logMessage(msg);
+		Logger::getSingleton().log(level, "Dialog", msg, ident);
 	}
 }

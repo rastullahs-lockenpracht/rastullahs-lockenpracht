@@ -39,7 +39,8 @@ namespace rl
 	Nodemaster::~Nodemaster() {}
 
 	void Nodemaster::deleteAllNodes()
-	{DialogSubsystem::getSingleton().log("Delete all children");
+	{
+		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Delete all children");
 		map<string, Nodemaster *>::const_iterator itr = mChildren.begin();
 		for(;itr!=mChildren.end();itr++)
 		{

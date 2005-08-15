@@ -17,44 +17,44 @@
 #include "ConfigurationManagerWin32.h"
 using namespace std;
 
-rl::ConfigurationManager* rl::ConfigurationManagerWin32::instance = 0;
+rl::ConfigurationManager* rl::ConfigurationManagerWin32::sInstance = 0;
 
 
 namespace rl
 {
 	ConfigurationManager* ConfigurationManagerWin32::getSingletonPtr()
 	{
-		if(instance == 0)
+		if(sInstance == NULL)
 		{
-			instance = new ConfigurationManagerWin32;
+			sInstance = new ConfigurationManagerWin32;
 		}
-		return instance;
+		return sInstance;
 	}
 	
 	ConfigurationManager& ConfigurationManagerWin32::getSingleton()
 	{
-		if(instance == 0)
+		if(sInstance == NULL)
 		{
-			instance = new ConfigurationManagerWin32;
+			sInstance = new ConfigurationManagerWin32;
 		}
-		return *instance;
+		return *sInstance;
 	}
 	
 	ConfigurationManagerWin32::ConfigurationManagerWin32()
 	{
 		Ogre::String confdir("modules/common/conf/");
-		pluginCfgPath = "./" + confdir + "plugins-win.cfg";
-		rastullahCfgPath = confdir + "rastullah.cfg";
-		ogreLogPath = "logs/ogre.log";
-		rlCoreLogPath = "logs/rlCore.log";
-		modulesCfgPath = "./modules/modules.cfg";
-		moduleconfigCfgPath = "/conf/moduleconfig.cfg";
-		modulesRootDirectory = ".";
+		mPluginCfgPath = "./" + confdir + "plugins-win.cfg";
+		mRastullahCfgPath = confdir + "rastullah.cfg";
+		mOgreLogPath = "logs/ogre.log";
+		mRastullahLogPath = "logs/rastullah.log";
+		mModulesCfgPath = "./modules/modules.cfg";
+		mModuleconfigCfgPath = "/conf/moduleconfig.cfg";
+		mModulesRootDirectory = ".";
 	}
 	
 	ConfigurationManagerWin32::~ConfigurationManagerWin32()
 	{
-	    instance = 0;
+	    sInstance = NULL;
 	}
 	
 }

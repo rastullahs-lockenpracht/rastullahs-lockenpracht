@@ -152,7 +152,7 @@ namespace rl {
             }
             catch( ScriptInvocationFailedException& sife )
             {
-                UiSubsystem::getSingleton().log( sife.toString() );
+                UiSubsystem::getSingleton().log(Ogre::LML_CRITICAL, sife.toString() );
             }
 		}
 

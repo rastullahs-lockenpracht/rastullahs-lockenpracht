@@ -92,7 +92,7 @@ void DialogWindow::getResponse(string msg)
 			{
 				item=reinterpret_cast<ListboxWrappedTextItem*>(mDialogOptions->getListboxItemFromIndex(i));
 				string test(itr->second);
-				DialogSubsystem::getSingleton().log(test);
+				DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, test);
 				item->setText(test+"\n");
 				item->setTextFormatting(CEGUI::WordWrapLeftAligned);
 			}

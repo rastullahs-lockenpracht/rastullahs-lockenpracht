@@ -51,7 +51,7 @@ namespace rl
 			
 			ConfigurationManagerWin32();
 			
-			static ConfigurationManager* instance;
+			static ConfigurationManager* sInstance;
 	};
 }
 

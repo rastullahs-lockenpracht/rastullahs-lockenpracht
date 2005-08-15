@@ -16,7 +16,7 @@
 
 #include "ConfigurationManagerMac.h"
 
-rl::ConfigurationManager* rl::ConfigurationManagerMac::instance = 0;
+rl::ConfigurationManager* rl::ConfigurationManagerMac::sInstance = NULL;
 
 using namespace std;
 
@@ -24,32 +24,32 @@ namespace rl
 {
 	ConfigurationManager* ConfigurationManagerMac::getSingletonPtr()
 	{
-		if(instance == 0)
+		if(sInstance == NULL)
 		{
-			instance = new ConfigurationManagerMac;
+			sInstance = new ConfigurationManagerMac;
 		}
-		return instance;
+		return sInstance;
 	}
 	
 	ConfigurationManager& ConfigurationManagerMac::getSingleton()
 	{
-		if(instance == 0)
+		if(sInstance == NULL)
 		{
-			instance = new ConfigurationManagerMac;
+			sInstance = new ConfigurationManagerMac;
 		}
-		return *instance;
+		return *sInstance;
 	}
 	
 	ConfigurationManagerMac::ConfigurationManagerMac()
 	{
 		string confdir("modules/common/conf/");
-		pluginCfgPath = confdir + "plugins-mac.cfg";
-		rastullahCfgPath = confdir + "rastullah.cfg";
-		ogreLogPath = "logs/ogre.log";
-		rlCoreLogPath = "logs/rlCore.log";
-		modulesCfgPath = "./modules/modules.cfg";
-		moduleconfigCfgPath = "/conf/moduleconfig.cfg";
-		modulesRootDirectory = ".";
+		mPluginCfgPath = confdir + "plugins-mac.cfg";
+		mRastullahCfgPath = confdir + "rastullah.cfg";
+		mOgreLogPath = "logs/ogre.log";
+		mRastullahLogPath = "logs/rastullah.log";
+		mModulesCfgPath = "./modules/modules.cfg";
+		mModuleconfigCfgPath = "/conf/moduleconfig.cfg";
+		mModulesRootDirectory = ".";
 	}
 	
 	ConfigurationManagerMac::~ConfigurationManagerMac()

@@ -137,7 +137,7 @@ bool CommandMapperWindow::handleChangeOffBattle()
 bool CommandMapperWindow::handleKeyDown(const CEGUI::EventArgs& e)
 {
 	const KeyEventArgs ke = static_cast<const KeyEventArgs&>(e);
-	UiSubsystem::getSingleton().log("Key Down "+StringConverter::toString(ke.scancode));
+	UiSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Key Down "+StringConverter::toString(ke.scancode));
 
 	muteWindow(true);
 	muteElements(false);
@@ -177,7 +177,7 @@ bool CommandMapperWindow::handleKeyDown(const CEGUI::EventArgs& e)
 bool CommandMapperWindow::handleMouseButton(const CEGUI::EventArgs& e)
 {
 	const MouseEventArgs me = static_cast<const MouseEventArgs&>(e);
-	UiSubsystem::getSingleton().log("Mouse Button Down "+StringConverter::toString(me.button));
+	UiSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Mouse Button Down "+StringConverter::toString(me.button));
 	//TODO: Mausknopf in CommandMapper eintragen
 
 	muteWindow(true);

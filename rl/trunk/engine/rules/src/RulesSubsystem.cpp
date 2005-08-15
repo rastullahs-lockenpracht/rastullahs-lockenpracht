@@ -18,6 +18,7 @@
 #include "ActionManager.h"
 #include "DsaManager.h"
 #include "DsaDataLoader.h"
+#include "Log.h"
 
 template <>
 rl::RulesSubsystem* Singleton<rl::RulesSubsystem> ::ms_Singleton = 0;
@@ -35,41 +36,37 @@ namespace rl
 
     RulesSubsystem::RulesSubsystem()
     {
-		//Log initialisieren
-		mLog = Ogre::LogManager::getSingleton().createLog( "logs/rlRules.log" );
-	
-		
-		log("RlRules: Start");
+		log(Ogre::LML_TRIVIAL, "Start");
         //Zufallsgenerator initialisieren
         srand(static_cast<unsigned int>(time(NULL)));
 
 		
         //Singletons erzeugen
         new ActionManager(); 
-		log("RlRules: ActionManager erzeugt");
+		log(Ogre::LML_TRIVIAL, "ActionManager erzeugt");
         new DsaManager();
-		log("RlRules: DsaManager erzeugt");
+		log(Ogre::LML_TRIVIAL, "DsaManager erzeugt");
 
 		//Daten laden
 		DsaDataLoader::loadData("basis.xdi");
-		log("RlRules: Basisdaten geladen");
+		log(Ogre::LML_TRIVIAL, "Basisdaten geladen");
 		
-		log("RlRules: Erzeugen abgeschlossen");		
+		log(Ogre::LML_TRIVIAL, "Erzeugen abgeschlossen");		
     }
 	
-    void RulesSubsystem::log(const char *msg)
-    {
-        mLog->logMessage(msg);
-    }
-    
-	void RulesSubsystem::log(const std::string& msg)
+	void RulesSubsystem::log(Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident )
 	{
-		mLog->logMessage(msg);
+		Logger::getSingleton().log(level, "Rules", msg, ident);
 	}
 
-	void RulesSubsystem::log(const CeGuiString& msg)
+	void RulesSubsystem::log(Ogre::LogMessageLevel level, const char* msg, const Ogre::String& ident )
 	{
-		log(msg.c_str());
+		log(level, Ogre::String(msg), ident);
+	}
+
+	void RulesSubsystem::log(Ogre::LogMessageLevel level, const CeGuiString& msg, const Ogre::String& ident )
+	{
+		log(level, Ogre::String(msg.c_str()), ident);
 	}
 
     RulesSubsystem::~RulesSubsystem()

@@ -136,6 +136,9 @@
 				RelativePath=".\src\EventSource.cpp">
 			</File>
 			<File
+				RelativePath=".\src\Logger.cpp">
+			</File>
+			<File
 				RelativePath=".\src\XmlHelper.cpp">
 			</File>
 			<File
@@ -177,6 +180,9 @@
 			</File>
 			<File
 				RelativePath=".\include\FixRubyHeaders.h">
+			</File>
+			<File
+				RelativePath=".\include\Logger.h">
 			</File>
 			<File
 				RelativePath=".\include\RastullahPrerequisites.h">

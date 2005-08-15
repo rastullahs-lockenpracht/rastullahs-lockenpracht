@@ -35,9 +35,7 @@ namespace rl
 		DialogSubsystem();
 		virtual ~DialogSubsystem();
 
-		void log(const char *msg);
-		void log(const std::string& msg);
-
+		void log(const Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident = "");
 	private:
 		Ogre::Log* mLog;
 	};

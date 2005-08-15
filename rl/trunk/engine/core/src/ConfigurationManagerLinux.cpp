@@ -18,7 +18,7 @@
 #include <iostream>
 #include <fstream>
 
-rl::ConfigurationManager* rl::ConfigurationManagerLinux::instance = 0;
+rl::ConfigurationManager* rl::ConfigurationManagerLinux::sInstance = NULL;
 
 using namespace std;
 
@@ -26,32 +26,32 @@ namespace rl
 {
 	ConfigurationManager* ConfigurationManagerLinux::getSingletonPtr()
 	{
-		if(instance == 0)
+		if(sInstance == 0)
 		{
-			instance = new ConfigurationManagerLinux;
+			sInstance = new ConfigurationManagerLinux;
 		}
-		return instance;
+		return sInstance;
 	}
 	
 	ConfigurationManager& ConfigurationManagerLinux::getSingleton()
 	{
-		if(instance == 0)
+		if(sInstance == 0)
 		{
-			instance = new ConfigurationManagerLinux;
+			sInstance = new ConfigurationManagerLinux;
 		}
-		return *instance;
+		return *sInstance;
 	}
 	
 	ConfigurationManagerLinux::ConfigurationManagerLinux()
 	{
-		modulesRootDirectory = findModulesRootDir();
-		pluginCfgPath = modulesRootDirectory + 
+		mModulesRootDirectory = findModulesRootDir();
+		mPluginCfgPath = modulesRootDirectory + 
 			"/modules/common/conf/plugins-linux.cfg";
-		rastullahCfgPath = findRastullahConf();
-		ogreLogPath = "logs/ogre.log";
-		rlCoreLogPath = "logs/rlCore.log";
-		modulesCfgPath = modulesRootDirectory + "/modules/modules.cfg";
-		moduleconfigCfgPath = "/conf/moduleconfig.cfg";
+		mRastullahCfgPath = findRastullahConf();
+		mOgreLogPath = modulesRootDirectory+"/logs/ogre.log";
+		mRastullahLogPath = modulesRootDirectory+"/logs/rastullah.log";
+		mModulesCfgPath = modulesRootDirectory + "/modules/modules.cfg";
+		mModuleconfigCfgPath = "/conf/moduleconfig.cfg";
 	}
 	
 	ConfigurationManagerLinux::~ConfigurationManagerLinux()

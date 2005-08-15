@@ -51,9 +51,9 @@ namespace rl {
 
 		XmlHelper::initializeTranscoder();
 
-		CoreSubsystem::log( "Lade Szenenbeschreibung aus " + mSceneName );
+		CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Lade Szenenbeschreibung aus " + mSceneName );
 		DOMDocument* doc = openSceneFile();
-		CoreSubsystem::log( " Beginne parsen der Unterelemente" );
+		CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Beginne parsen der Unterelemente" );
 		DOMElement* nodes = XmlHelper::getChildNamed(doc->getDocumentElement(), "nodes");
 
 		// Eine .scene wird in einem SceneNode mit dem Namen der .scene befestigt
@@ -74,11 +74,11 @@ namespace rl {
 		staticGeom->build();
 		// Nicht mehr den Original-Knoten rendern, da dieser erhalten bleibt.
 		staticNode->setVisible( false );
-		CoreSubsystem::log( " Statische Geometrie erstellt" );
+		CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Statische Geometrie erstellt" );
 
 		doc->release();
 		XMLPlatformUtils::Terminate();		
-		CoreSubsystem::log( "Szenenbeschreibung aus " + mSceneName +" fertig geparst" );
+		CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Szenenbeschreibung aus " + mSceneName +" fertig geparst" );
 	}
 
 	DOMDocument* DotSceneLoader::openSceneFile( )
@@ -138,7 +138,7 @@ namespace rl {
 		else
 			newNode = parentNode->createChildSceneNode(nodeName);
 
-		CoreSubsystem::log( " Node '"+newNode->getName()+"' als Unterknoten von '"+parentNode->getName()+"' erstellt." );
+		CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Node '"+newNode->getName()+"' als Unterknoten von '"+parentNode->getName()+"' erstellt." );
 
 		// Durch alle Unterelemente iterieren
 		DOMNode* child = rootNodeXml->getFirstChild();
@@ -186,11 +186,11 @@ namespace rl {
 		newEnt = mSceneManager->createEntity(entName,meshName);				
 		parentNode->attachObject( newEnt );
 
-		CoreSubsystem::log( " Entity '"+meshName+"' mit dem Namen '"+entName+"' in den Knoten '"+parentNode->getName()+"' eingefügt." );
+		CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Entity '"+meshName+"' mit dem Namen '"+entName+"' in den Knoten '"+parentNode->getName()+"' eingefügt." );
 
 		// Zur Physik des Levels hinzufügen
 		PhysicsManager::getSingleton().addLevelGeometry( newEnt );
-		CoreSubsystem::log( " Entity '"+entName+"' als TriMesh in levelGeometry geladen");
+		CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Entity '"+entName+"' als TriMesh in levelGeometry geladen");
 
 
 		newEnt->setCastShadows( false );
@@ -243,7 +243,7 @@ namespace rl {
 
 	Ogre::Vector3 DotSceneLoader::processPosition( DOMElement* rootPositionXml )
 	{
-		CoreSubsystem::log( " Position gefunden");
+		CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Position gefunden");
 
 		try
 		{
@@ -260,7 +260,7 @@ namespace rl {
 
 	Ogre::Vector3 DotSceneLoader::processScale( DOMElement* rootPositionXml )
 	{
-		CoreSubsystem::log( " Skalierung gefunden");
+		CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Skalierung gefunden");
 
 		try
 		{
@@ -277,7 +277,7 @@ namespace rl {
 	/// @TODO Sollten drei Möglichkeiten sein...
 	Ogre::Quaternion DotSceneLoader::processRotation( DOMElement* rootQuatXml )
 	{
-		CoreSubsystem::log( " Rotation gefunden");
+		CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Rotation gefunden");
 
 		// Durch w,x,y,z definiert
 		try

@@ -57,7 +57,7 @@ bool AnimationListener::eventRaised( AnimationEvent* anEvent )
     }
     catch( ScriptInvocationFailedException& sife )
     {
-        CoreSubsystem::getSingleton().log( sife.toString() );
+        CoreSubsystem::getSingleton().log(Ogre::LML_CRITICAL, sife.toString() );
     }
 
 
@@ -73,7 +73,7 @@ bool AnimationListener::eventRaised( AnimationEvent* anEvent )
     }
     catch( ScriptInvocationFailedException& sife )
     {
-        CoreSubsystem::getSingleton().log( sife.toString() );
+        CoreSubsystem::getSingleton().log(Ogre::LML_CRITICAL, sife.toString() );
     }
 
 

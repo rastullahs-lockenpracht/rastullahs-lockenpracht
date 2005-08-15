@@ -101,7 +101,7 @@ namespace rl
 	{
         CeGuiString temp = CeGuiString(output);		
 		appendTextRow(temp, 0xFF7F7F7F);
-		CoreSubsystem::getSingleton().log(output);
+		CoreSubsystem::getSingleton().log(Ogre::LML_NORMAL, output);
 	}
 
 	void Console::appendTextRow(CeGuiString& text, const colour color)

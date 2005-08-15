@@ -1,4 +1,4 @@
-noinst_HEADERS = 
+noinst_HEADERS =
 	CommonPrerequisites.h \
 	config.h \
 	CsvFile.h \
@@ -8,7 +8,8 @@ noinst_HEADERS =
 	EventSource.h \
 	Exception.h \
 	FixRubyHeaders.h \
-	RastullahPrerequisites.h \
+	Logger.h \
+       	RastullahPrerequisites.h \
 	Sleep.h \
 	Tripel.h \
 	XmlHelper.h \

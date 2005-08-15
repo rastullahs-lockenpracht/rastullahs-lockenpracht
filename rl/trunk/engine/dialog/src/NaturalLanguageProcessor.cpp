@@ -144,7 +144,7 @@ namespace rl
 		mExit(false)
 	{	
 		XMLPlatformUtils::Initialize();	//wahrscheinlich nicht nötig
-		DialogSubsystem::getSingleton().log("NLP gestartet");
+		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "NLP gestartet");
 	//	mExit=false;
 
 	// Create a new Parser for aiml files and register it as content handler
@@ -169,7 +169,7 @@ namespace rl
 			char* excmsg = XMLString::transcode(exc.getMessage());	
 			std::string excs="Exception while Parsing: ";
 			excs+=excmsg;
-			DialogSubsystem::getSingleton().log(excs);
+			DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, excs);
 		//  cleanup
 			if(parser)delete parser;
 			if(xmlHandler)delete xmlHandler;
@@ -178,7 +178,7 @@ namespace rl
 	//  cleanup
 		if(parser)delete parser;
 		if(xmlHandler)delete xmlHandler;
-				DialogSubsystem::getSingleton().log("Parsing beendet");
+				DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Parsing beendet");
 	}
 
     /** Destructor
@@ -187,7 +187,7 @@ namespace rl
     NaturalLanguageProcessor::~NaturalLanguageProcessor()
     {
         if(mGm)delete mGm;
-        DialogSubsystem::getSingleton().log("NLP beendet");
+        DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "NLP beendet");
         XMLPlatformUtils::Terminate();
     }
 
@@ -214,7 +214,7 @@ namespace rl
 	//  clear last responses
 		mResponses.clear();
 
-		DialogSubsystem::getSingleton().log("Matching...");
+		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Matching...");
 		Match *m = mGm->match(context, input, that, topic);
 	
 	//  get the <template> tag as DOMDocument node
@@ -222,7 +222,7 @@ namespace rl
 	//  get the content of DOMDocument
 		DOMNode* node=doc->getDocumentElement();
 
-		DialogSubsystem::getSingleton().log("Processing...");
+		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Processing...");
 		response+= process(node, m,"0");	// last Parameter has no function at the moment
 		response+="</response>";			// response must be in tags for postprocessing
 		// free the memory of the document and all its nodes
@@ -230,7 +230,7 @@ namespace rl
 		doc = NULL;
 		node = NULL;
 	
-		DialogSubsystem::getSingleton().log("Cleanup");
+		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Cleanup");
 		//if(doc)delete doc;
 
 	//  if a match has triggered the exit/close signal, return with 0 responses.
@@ -244,7 +244,7 @@ namespace rl
 
         //  if a match has triggered the exit/close signal, return with 0 responses.
 
-		DialogSubsystem::getSingleton().log("PostProcessing...");
+		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "PostProcessing...");
 		XercesDOMParser* parser=new XercesDOMParser();
 	// copy the response data into a memory buffer for postprocessing
 		MemBufInputSource memBuff((const XMLByte*)response.data(),response.size(),"response",false);
@@ -268,13 +268,13 @@ namespace rl
 			{
 				string dialogChoice=AimlParser::transcodeXmlCharToString( node->getNodeValue());//((DOMText*)node)->getData());
 				mResponses[id]=dialogChoice;
-				DialogSubsystem::getSingleton().log(dialogChoice);
+				DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, dialogChoice);
 				id=0;
 			}
 		}
 
 		if(parser)delete parser;
-		DialogSubsystem::getSingleton().log("Return response");
+		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Return response");
 		return mResponses;
 	}
 
@@ -287,7 +287,7 @@ namespace rl
 	void NaturalLanguageProcessor::processOption(const std::string& name, const std::string& value) 
 	{	
 		if(mGm)delete mGm;
-		DialogSubsystem::getSingleton().log("graphmaster deleted ");
+		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "graphmaster deleted ");
 		mGm=new Graphmaster();
 		if ( !name.compare("load") ) 
 		{
@@ -309,8 +309,8 @@ namespace rl
 	*/
 	bool NaturalLanguageProcessor::loadAiml(const std::string& filename) 
 	{
-		DialogSubsystem::getSingleton().log("Loading Aiml");
-		DialogSubsystem::getSingleton().log(filename);
+		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Loading Aiml");
+		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, filename);
 		AimlParser* xmlHandler=new AimlParser(this);
 		SAX2XMLReader* parser = XMLReaderFactory::createXMLReader();
 		parser->setContentHandler(xmlHandler);
@@ -339,7 +339,7 @@ namespace rl
 			char* excmsg = XMLString::transcode(exc.getMessage());
 			std::string excs="Exception while Parsing: ";
 			excs+=excmsg;
-			DialogSubsystem::getSingleton().log(excs);
+			DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, excs);
 			// cleanup
 			if(parser)delete parser;
 			if(xmlHandler)delete xmlHandler;
@@ -364,7 +364,7 @@ namespace rl
 	{	
 		// We need a start node
 		if ( node == NULL ) return "";
-		DialogSubsystem::getSingletonPtr()->log("StartProcessingCurrentNode");
+		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "StartProcessingCurrentNode");
 		string result;
 		string text;
 		string nodeData;
@@ -405,12 +405,12 @@ namespace rl
 				result += nodeData;
 			} else if ( node->getNodeType() == DOMNode::ELEMENT_NODE ) {
 				nodeData=AimlParser::transcodeXmlCharToString(node->getNodeName());
-				DialogSubsystem::getSingleton().log(nodeData);
+				DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, nodeData);
 				AimlProcessor* pt=AimlProcessorManager::getProcessor(nodeData);
 				if ( pt == NULL ) 
 				{
 					string err="Für den Tag "+nodeData+" existiert kein Processor";
-					DialogSubsystem::getSingleton().log(err);
+					DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, err);
 					text = process(node, match, id);
 					if ( !result.empty() && *(--result.end()) != ' ' && lastTailIsWS ) 
 					{
@@ -420,9 +420,9 @@ namespace rl
 					lastWasElement = true;
 					lastTailIsWS = false;
 				} else {
-					DialogSubsystem::getSingleton().log("Found AimlProcessor");
+					DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Found AimlProcessor");
 					text=pt->process(node, match, id.c_str(), this);
-					DialogSubsystem::getSingleton().log(text);
+					DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, text);
 					//--fix whitespace here
 					//--	if last was not an element
 					//--		if last text tail was whitespace

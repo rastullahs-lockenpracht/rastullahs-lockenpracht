@@ -249,7 +249,7 @@ namespace rl
 			str.append("','");
 			str.append((*iter).second);
 			str.append("']");
-			RulesSubsystem::getSingleton().log(str);
+			RulesSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, str);
 		}
 		iter = mAttributesString.find(key);
 

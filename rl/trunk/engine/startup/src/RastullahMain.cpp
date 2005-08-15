@@ -29,7 +29,14 @@
 #include "ScriptSubsystem.h"
 
 #include "Exception.h"
+#include "Logger.h"
+#include "ConfigurationManager.h"
 #include <CEGUIExceptions.h>
+
+void log(Ogre::LogMessageLevel level, const Ogre::String& msg, Ogre::String& ident = Ogre::String(""))
+{
+	rl::Logger::getSingleton().log(level, "Main", msg, ident);
+}
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 	#define WIN32_LEAN_AND_MEAN
@@ -50,26 +57,31 @@ void startupRl(bool developerMode, Ogre::String module)
 #ifndef _DEBUG
 	try {
 #endif // #ifndef _DEBUG
+		new rl::Logger(
+			rl::ConfigurationManager::getSingleton().getRastullahLogPath(),
+			rl::ConfigurationManager::getSingleton().getOgreLogPath());
+		rl::Logger::getSingleton().setLogDetail(Ogre::LL_BOREME);
+
 		core = new rl::CoreSubsystem();
 		core->setDeveloperMode(developerMode);
-		core->log("CoreSubsystem gestartet");
+		log(Ogre::LML_NORMAL, "CoreSubsystem gestartet");
 
 		sound = new rl::SoundSubsystem();
-		core->log("SoundSubsystem gestartet");
+		log(Ogre::LML_NORMAL, "SoundSubsystem gestartet");
 
 		rules = new rl::RulesSubsystem();
-		core->log("RulesSubsystem gestartet");
+		log(Ogre::LML_NORMAL, "RulesSubsystem gestartet");
 
 		dialog = new rl::DialogSubsystem();
-		core->log("DialogSubsystem gestartet");
+		log(Ogre::LML_NORMAL, "DialogSubsystem gestartet");
 
 		ui = new rl::UiSubsystem();
-		core->log("UiSubsystem gestartet");
+		log(Ogre::LML_NORMAL, "UiSubsystem gestartet");
 
 		script = new rl::ScriptSubsystem();
-		core->log("ScriptSubsystem gestartet");
+		log(Ogre::LML_NORMAL, "ScriptSubsystem gestartet");
 
-		core->log("Starte...");
+		log(Ogre::LML_NORMAL, "Starte...");
 		core->startCore();
 #ifndef _DEBUG
 	} 

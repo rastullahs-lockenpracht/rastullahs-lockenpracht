@@ -51,7 +51,7 @@ namespace rl
 			
 			ConfigurationManagerLinux();
 			
-			static ConfigurationManager* instance;
+			static ConfigurationManager* sInstance;
 			
 			std::string findModulesRootDir();
 			std::string findRastullahConf();

@@ -53,8 +53,6 @@ namespace rl {
         static UiSubsystem & getSingleton(void);
         static UiSubsystem * getSingletonPtr(void);
 
-		void log(const std::string& msg, const std::string& ident = "");
-	
         /** Requests the application's exit */
         void requestExit();
 
@@ -90,6 +88,8 @@ namespace rl {
 		bool isInBattleMode();
 
 		void update();
+
+		void log(const Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident = "");
 
 		static const char* CEGUI_ROOT;
 

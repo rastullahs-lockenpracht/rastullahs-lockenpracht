@@ -20,7 +20,6 @@
 
 #include <OgreStringConverter.h>
 #include <OgreRoot.h>
-#include <OgreLog.h>
 #include <OgreConfigFile.h>
 #include <OgreMeshManager.h>
 #include <OgreBillboardParticleRenderer.h>
@@ -35,6 +34,7 @@
 #include "RubyInterpreter.h"
 #include "Exception.h"
 #include "ConfigurationManager.h"
+#include "Logger.h"
 #include <ctime>
 
 
@@ -76,15 +76,14 @@ namespace rl {
         Root::getSingleton().startRendering();
     }
 
-    void CoreSubsystem::log(const String& msg)
+	void CoreSubsystem::log(const Ogre::LogMessageLevel level, const String& msg, const String& ident)
     {
-        if (LogManager::getSingletonPtr() == 0)
-        {
-            new LogManager();
-        }
-        LogManager::getSingleton().getLog(
-        	ConfigurationManager::getSingleton().getRlCoreLogPath()
-        	)->logMessage(msg);
+		Logger::getSingleton().log(level, "Core", msg, ident);
+    }
+
+	void CoreSubsystem::log(const String& msg)
+    {
+		log(Ogre::LML_NORMAL, msg);
     }
 
     bool  CoreSubsystem::setupConfiguration()
@@ -145,11 +144,7 @@ namespace rl {
         TextureManager::getSingleton().setDefaultNumMipmaps(5);
         MaterialManager::getSingleton().setDefaultTextureFiltering(TFO_TRILINEAR); 
         MaterialManager::getSingleton().setDefaultAnisotropy(1);
-        Log* log = LogManager::getSingleton().createLog(
-        	ConfigurationManager::getSingleton().getRlCoreLogPath()
-        );
-        log->setLogDetail( LL_BOREME );
-
+        
         new DeletionPropagator();
         mWorld = new DotSceneOctreeWorld();
 		new PhysicsManager();
