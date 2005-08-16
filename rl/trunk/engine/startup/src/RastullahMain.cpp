@@ -60,6 +60,7 @@ void startupRl(bool developerMode, Ogre::String module)
 		new rl::Logger(
 			rl::ConfigurationManager::getSingleton().getRastullahLogPath(),
 			rl::ConfigurationManager::getSingleton().getOgreLogPath());
+        // @todo in ConfigDatei auslagern/ oder auch Parameter
 		rl::Logger::getSingleton().setLogDetail(Ogre::LL_BOREME);
 
 		core = new rl::CoreSubsystem();

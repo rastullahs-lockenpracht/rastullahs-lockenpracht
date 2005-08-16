@@ -17,7 +17,7 @@
 #ifndef __SCRIPTOBJECTREPOSITORY_H__
 #define __SCRIPTOBJECTREPOSITORY_H__
 
-#include "ScriptPrerequisites.h"
+#include "CorePrerequisites.h"
 
 #include <OgreSingleton.h>
 
@@ -33,7 +33,7 @@
 
 
 namespace rl {
-    class ScriptObjectRepository : protected Ogre::Singleton<ScriptObjectRepository>, 
+    class _RlCoreExport ScriptObjectRepository : protected Ogre::Singleton<ScriptObjectRepository>, 
         protected DeletionListener
     {
     public:

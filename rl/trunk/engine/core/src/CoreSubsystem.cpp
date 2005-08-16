@@ -28,6 +28,7 @@
 #include "PhysicsManager.h"
 #include "ActorManager.h"
 #include "DeletionPropagator.h"
+#include "ScriptObjectRepository.h"
 #include "AnimationManager.h"
 #include "GameEventManager.h"
 #include "GameLoop.h"
@@ -66,8 +67,9 @@ namespace rl {
     {  
         if(mWorld != 0)
             delete mWorld;
- 
+        
         delete DeletionPropagator::getSingletonPtr();
+        delete ScriptObjectRepository::getSingletonPtr();
     }
 
     void CoreSubsystem::startCore()
@@ -159,6 +161,7 @@ namespace rl {
         new GameEventManager();
         GameLoopManager::getSingleton().addSynchronizedTask(
             GameEventManager::getSingletonPtr());
+        new ScriptObjectRepository();
 
         return true;
     }

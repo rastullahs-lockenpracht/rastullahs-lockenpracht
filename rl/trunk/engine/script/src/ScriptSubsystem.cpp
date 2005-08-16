@@ -15,7 +15,6 @@
  */
 
 #include "TimerManager.h"
-#include "ScriptObjectRepository.h"
 #include "ScriptSubsystem.h"
 
 using Ogre::Singleton;
@@ -37,13 +36,11 @@ namespace rl {
 	ScriptSubsystem::ScriptSubsystem()
 	{
 		new TimerManager();
-        new ScriptObjectRepository();
 	}
 
 	ScriptSubsystem::~ScriptSubsystem()
 	{
 		delete TimerManager::getSingletonPtr();
-        delete ScriptObjectRepository::getSingletonPtr();
 	}
 
 }
