@@ -33,7 +33,7 @@
 #include "ConfigurationManager.h"
 #include <CEGUIExceptions.h>
 
-void log(Ogre::LogMessageLevel level, const Ogre::String& msg, Ogre::String& ident = Ogre::String(""))
+void log(Ogre::LogMessageLevel level, const Ogre::String& msg, Ogre::String ident = Ogre::String(""))
 {
 	rl::Logger::getSingleton().log(level, "Main", msg, ident);
 }

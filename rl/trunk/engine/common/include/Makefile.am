@@ -9,7 +9,7 @@ noinst_HEADERS =
 	Exception.h \
 	FixRubyHeaders.h \
 	Logger.h \
-       	RastullahPrerequisites.h \
+    RastullahPrerequisites.h \
 	Sleep.h \
 	Tripel.h \
 	XmlHelper.h \

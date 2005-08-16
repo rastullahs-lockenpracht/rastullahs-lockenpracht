@@ -20,7 +20,8 @@
 
 #include "XmlHelper.h"
 #include "XmlResourceManager.h"
-#include "Log.h"
+#include "Logger.h"
+
 using namespace Ogre;
 
 template<> rl::DialogSubsystem* Singleton<rl::DialogSubsystem>::ms_Singleton = 0;

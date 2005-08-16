@@ -19,6 +19,7 @@
 #include <OgreAxisAlignedBox.h>
 #include <OgreVector3.h>
 #include "Sound.h"
+#include "SoundSubsystem.h"
 
 Ogre::String rl::SoundChannel::msMovableType = "SoundChannel";
 Ogre::AxisAlignedBox rl::SoundChannel::msAABox = Ogre::AxisAlignedBox(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5);
@@ -55,7 +56,7 @@ void SoundChannel::play() throw (RuntimeException)
     setGain(255);
     setPosition(Vector3(0.0, 0.0, 0.0));
     setDirection(Vector3(0.0, 0.0, 0.0));
-    setVelocity(Vector3(0.0, 0.0, 0.0));
+    setVelocity(Vector3(0.0, 0.0, 0.0)); 
     pause(false);
 }
 

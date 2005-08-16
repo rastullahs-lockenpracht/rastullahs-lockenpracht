@@ -45,12 +45,12 @@ namespace rl
 	ConfigurationManagerLinux::ConfigurationManagerLinux()
 	{
 		mModulesRootDirectory = findModulesRootDir();
-		mPluginCfgPath = modulesRootDirectory + 
+		mPluginCfgPath = mModulesRootDirectory + 
 			"/modules/common/conf/plugins-linux.cfg";
 		mRastullahCfgPath = findRastullahConf();
-		mOgreLogPath = modulesRootDirectory+"/logs/ogre.log";
-		mRastullahLogPath = modulesRootDirectory+"/logs/rastullah.log";
-		mModulesCfgPath = modulesRootDirectory + "/modules/modules.cfg";
+		mOgreLogPath = mModulesRootDirectory+"/logs/ogre.log";
+		mRastullahLogPath = mModulesRootDirectory+"/logs/rastullah.log";
+		mModulesCfgPath = mModulesRootDirectory + "/modules/modules.cfg";
 		mModuleconfigCfgPath = "/conf/moduleconfig.cfg";
 	}
 	

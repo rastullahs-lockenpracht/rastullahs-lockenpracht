@@ -16,7 +16,7 @@
 #include "SoundSample.h"
 #include "SoundManager.h"
 #include "SoundResource.h"
-
+#include "fmod_errors.h"
 
 
 using namespace Ogre;
@@ -76,6 +76,7 @@ void SoundSample::load() throw (RuntimeException)
 {
     getSoundResource()->load();
     DataStreamPtr stream = getSoundResource()->getDataStream();
+    stream->seek(0);
     int len = stream->size();
     char *data = new char[len];
     stream->read(data, len);
@@ -142,7 +143,8 @@ void SoundSample::setSample(FSOUND_SAMPLE *sample)
  */
 int SoundSample::createChannel() throw (RuntimeException)
 {
-    return FSOUND_PlaySoundEx(FSOUND_FREE, getSample(), 0, true);
+    int channel = FSOUND_PlaySoundEx(FSOUND_FREE, getSample(), 0, true);
+    return channel;
 }
 
 void SoundSamplePtr::destroy()

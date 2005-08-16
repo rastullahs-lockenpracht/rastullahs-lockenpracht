@@ -18,7 +18,7 @@
 #include "ActionManager.h"
 #include "DsaManager.h"
 #include "DsaDataLoader.h"
-#include "Log.h"
+#include "Logger.h"
 
 template <>
 rl::RulesSubsystem* Singleton<rl::RulesSubsystem> ::ms_Singleton = 0;
