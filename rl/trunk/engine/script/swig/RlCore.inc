@@ -114,6 +114,7 @@ public:
 
 
 	rl::Actor* createParticleSystemActor(const Ogre::String& name, const Ogre::String& soundfile);
+    rl::Actor* createListenerActor(const Ogre::String& name);
     rl::Actor* createSoundStreamActor(const Ogre::String& name, const Ogre::String& soundfile);
     rl::Actor* createSoundSampleActor(const Ogre::String& name, const Ogre::String& soundfile);
     rl::Actor* createEmptyActor(const Ogre::String& name);

@@ -28,6 +28,7 @@
 	Primitive.h \
 	RubyInterpreter.h \
 	ScriptObject.h \
+	ScriptObjectRepository.h \
 	SoundUpdateTask.h \
 	SoundObject.h \
 	TrackAnimation.h \

@@ -34,6 +34,7 @@ libRlCore_la_SOURCES = \
 	Primitive.cpp \
 	RubyInterpreter.cpp \
 	ScriptObject.cpp \
+	ScriptObjectRepository.cpp \
 	SoundObject.cpp \
 	SoundUpdateTask.cpp \
 	TrackAnimation.cpp \
