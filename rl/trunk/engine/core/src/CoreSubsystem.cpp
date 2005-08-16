@@ -151,6 +151,7 @@ namespace rl {
         mWorld = new DotSceneOctreeWorld();
 		new PhysicsManager();
         mInterpreter=new RubyInterpreter();
+
         new GameLoopManager(100); //TODO: In Config-Datei verlagern
         GameLoopManager::getSingleton().addSynchronizedTask(
             PhysicsManager::getSingletonPtr());
@@ -161,7 +162,7 @@ namespace rl {
         new GameEventManager();
         GameLoopManager::getSingleton().addSynchronizedTask(
             GameEventManager::getSingletonPtr());
-        new ScriptObjectRepository();
+        
 
         return true;
     }

@@ -20,6 +20,7 @@
 #include "ScriptObject.h"
 #include "CoreSubsystem.h"
 #include "ConfigurationManager.h"
+#include "ScriptObjectRepository.h"
 
 using namespace Ogre;
 
@@ -85,6 +86,8 @@ void RubyInterpreter::initializeInterpreter(staticValueMethod func)
 	//to Prevent the Ruby GC from deleting
 	mRubyObjects = rb_ary_new();
 	rb_gc_register_address(&mRubyObjects);
+
+    new ScriptObjectRepository();
 }
 
 void RubyInterpreter::addSearchPath(const String& path)
