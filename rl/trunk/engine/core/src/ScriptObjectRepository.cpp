@@ -52,7 +52,7 @@ namespace rl {
 
     ScriptObjectRepository::~ScriptObjectRepository()
     {
-        DeletionPropagator::getSingleton().setDeletionListener( 0 );
+        //DeletionPropagator::getSingleton().setDeletionListener( 0 );
         rb_gc_unregister_address(&mRubyArray);
         m_CToRubyMap.clear();
         m_RubyToCMap.clear();

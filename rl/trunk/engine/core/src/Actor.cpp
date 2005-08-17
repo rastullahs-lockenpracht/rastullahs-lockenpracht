@@ -63,6 +63,8 @@ namespace rl {
             removeFromScene();
         else
             mParent->detach( this );
+
+        detachAllChildren();
         
         if (mActorControlledObject)
         {
@@ -544,14 +546,14 @@ namespace rl {
 		{
 			MovableObject* movObj = actor->getControlledObject()->getMovableObject();
 			dynamic_cast<MeshObject*>(getControlledObject())->getEntity()->detachObjectFromBone(movObj);
-            mAttachedToBone = false;
+            actor->mAttachedToBone = false;
 			return;
 		}
         // Ganz normal über SceneNodes verknüpft
         else
         {
             mSceneNode->removeChild( actor->_getSceneNode() );
-            mAttachedToBone = false;
+            actor->mAttachedToBone = false;
             return;
         }
 	}
@@ -670,5 +672,18 @@ namespace rl {
         }
 
         return NULL;
+    }
+
+    void Actor::detachAllChildren( )
+    {
+        ChildSet::iterator iter =  mChilds.begin();
+        for( iter; iter != mChilds.end(); ++iter )
+        {
+            Actor* actor = *iter;
+
+            doDetach( actor );
+            actor->mParent = NULL;
+            iter = mChilds.erase( iter );
+        }
     }
 }

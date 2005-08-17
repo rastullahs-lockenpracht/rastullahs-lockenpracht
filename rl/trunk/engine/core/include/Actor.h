@@ -238,6 +238,9 @@ namespace rl {
         ///@todo mehr Query-Methoden für Childs
         Actor* getChildByName(const Ogre::String& name ) const;
         ///@todo Visibility
+
+        /// Entfernt alle Kinder vom Node
+        void detachAllChildren( );
     private:
         typedef std::set<Actor*> ChildSet;
 
