@@ -154,14 +154,14 @@ namespace rl {
 
         new GameLoopManager(100); //TODO: In Config-Datei verlagern
         GameLoopManager::getSingleton().addSynchronizedTask(
-            PhysicsManager::getSingletonPtr());
+            PhysicsManager::getSingletonPtr(), FRAME_STARTED);
         new AnimationManager();
         GameLoopManager::getSingleton().addSynchronizedTask(
-            AnimationManager::getSingletonPtr());
+            AnimationManager::getSingletonPtr(), FRAME_STARTED);
         new ActorManager();
         new GameEventManager();
         GameLoopManager::getSingleton().addSynchronizedTask(
-            GameEventManager::getSingletonPtr());
+            GameEventManager::getSingletonPtr(), FRAME_STARTED);
         
 
         return true;

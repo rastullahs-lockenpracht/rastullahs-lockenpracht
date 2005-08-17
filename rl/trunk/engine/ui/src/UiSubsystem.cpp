@@ -176,7 +176,7 @@ namespace rl {
         Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
         mGameController = new GameController(camera, person->getActor());
 		log(Ogre::LML_TRIVIAL, "GameController created.");
-        GameLoopManager::getSingleton().addSynchronizedTask(mGameController);
+        GameLoopManager::getSingleton().addSynchronizedTask(mGameController, FRAME_STARTED);
         log(Ogre::LML_TRIVIAL, "GameController task added.");
         World* world = CoreSubsystem::getSingletonPtr()->getWorld();
         world->setActiveActor(person->getActor());

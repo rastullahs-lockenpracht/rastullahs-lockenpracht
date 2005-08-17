@@ -17,10 +17,8 @@
 #include "TimerManager.h"
 #include "OgreSingleton.h"
 #include "GameLoop.h"
-#include "DsaManager.h"
 #include "TimerTask.h"
 #include "CoreSubsystem.h"
-#include "Date.h"
 
 using Ogre::Singleton;
 using Ogre::StringConverter;
@@ -43,7 +41,7 @@ namespace rl {
 	{
 		mTasks.clear();
 		mSchedule.clear();
-		GameLoopManager::getSingleton().addSynchronizedTask(this);
+		GameLoopManager::getSingleton().addSynchronizedTask(this, FRAME_ENDED);
 	}
 
 	TimerManager::~TimerManager()
@@ -64,7 +62,7 @@ namespace rl {
 			mTasks.erase(iter);
 	}
 
-	void TimerManager::registerTaskCallGameTime(RL_LONGLONG time, TimerTask* task, const rl::CeGuiString& name)
+	void TimerManager::registerTaskCallGameTime(RL_LONGLONG time, TimerTask* task, const Ogre::String& name)
 	{
 		TaskCall* call = new TaskCall();
 		call->name = name;
@@ -76,7 +74,7 @@ namespace rl {
 
 	void TimerManager::run(Ogre::Real elapsedTime)
 	{
-		RL_LONGLONG now = DsaManager::getSingleton().getTimestamp();
+/*		RL_LONGLONG now = DsaManager::getSingleton().getTimestamp();
 
 		TaskCallSet execute;
 		bool run = false;
@@ -108,7 +106,7 @@ namespace rl {
 			CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "3: Aus Schedule geloescht, noch "+StringConverter::toString(mSchedule.size()));
 			delete call;
 			CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "4: fertig");
-		}			
+		}			*/
 	}
 
 	TaskCall::TaskCall() :

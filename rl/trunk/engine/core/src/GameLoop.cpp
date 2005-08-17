@@ -48,8 +48,10 @@ using namespace Ogre;
 		mAsynchronousGameLoop = new AsynchronousGameLoop(timePerAsyncTick);	
 		//mAsynchronousGameLoop->setSchedulePriority(OpenThreads::Thread::PRIORITY_LOW);
 		
-		mSynchronizedGameLoop = new SynchronizedGameLoop();
-		Ogre::Root::getSingleton().addFrameListener(mSynchronizedGameLoop);
+		mSynchronizedFrameStartedGameLoop = new SynchronizedGameLoop(FRAME_STARTED);
+		mSynchronizedFrameEndedGameLoop = new SynchronizedGameLoop(FRAME_ENDED);
+		Ogre::Root::getSingleton().addFrameListener(mSynchronizedFrameStartedGameLoop);
+		Ogre::Root::getSingleton().addFrameListener(mSynchronizedFrameEndedGameLoop);
 		setPaused(true);
 	}
 
@@ -58,13 +60,19 @@ using namespace Ogre;
 		//mAsynchronousGameLoop->cancel();
 		delete mAsynchronousGameLoop;
 
-		Ogre::Root::getSingleton().removeFrameListener(mSynchronizedGameLoop);
-		delete mSynchronizedGameLoop;
+		Ogre::Root::getSingleton().removeFrameListener(mSynchronizedFrameStartedGameLoop);
+		Ogre::Root::getSingleton().removeFrameListener(mSynchronizedFrameEndedGameLoop);
+
+		delete mSynchronizedFrameStartedGameLoop;
+		delete mSynchronizedFrameEndedGameLoop;
 	}
 
-	void GameLoopManager::addSynchronizedTask(GameTask* newTask)
+	void GameLoopManager::addSynchronizedTask(GameTask* newTask, GameLoopSyncTime syncTime)
 	{
-		mSynchronizedGameLoop->add(newTask);
+		if (syncTime == FRAME_STARTED)
+			mSynchronizedFrameStartedGameLoop->add(newTask);
+		else if (syncTime == FRAME_ENDED)
+			mSynchronizedFrameEndedGameLoop->add(newTask);
 	}
 
 	void GameLoopManager::addAsynchronousTask(GameTask* newTask)
@@ -74,7 +82,8 @@ using namespace Ogre;
 
 	void GameLoopManager::removeSynchronizedTask(GameTask* oldTask)
 	{
-		mSynchronizedGameLoop->remove(oldTask);
+		mSynchronizedFrameStartedGameLoop->remove(oldTask);
+		mSynchronizedFrameEndedGameLoop->remove(oldTask);
 	}
 
 	void GameLoopManager::removeAsynchronousTask(GameTask* oldTask)
@@ -84,18 +93,21 @@ using namespace Ogre;
 
 	bool GameLoopManager::isPaused()
 	{
-		return mAsynchronousGameLoop->isPaused() && mSynchronizedGameLoop->isPaused();
+		return mAsynchronousGameLoop->isPaused() 
+			&& mSynchronizedFrameStartedGameLoop->isPaused()
+			&& mSynchronizedFrameEndedGameLoop->isPaused();
 	}
 
 	void GameLoopManager::setPaused(bool pause)
 	{
-		mSynchronizedGameLoop->setPaused(pause);
+		mSynchronizedFrameStartedGameLoop->setPaused(pause);
+		mSynchronizedFrameEndedGameLoop->setPaused(pause);
 		mAsynchronousGameLoop->setPaused(pause);
 	}
 
 	void GameLoopManager::quitGame()
 	{
-		mSynchronizedGameLoop->quitGame();
+		mSynchronizedFrameEndedGameLoop->quitGame();
 	}
 
 	GameLoop::GameLoop() 
@@ -113,7 +125,7 @@ using namespace Ogre;
 	{
 		if( !mPaused ) 
 		{
-			std::list<GameTask*>::iterator i;
+			GameTaskList::iterator i;
 
 			for(i = mTaskList.begin(); i != mTaskList.end(); i++)
 			{
@@ -145,13 +157,23 @@ using namespace Ogre;
 
 	bool SynchronizedGameLoop::frameStarted(const Ogre::FrameEvent & evt)
 	{
-		Real timeSinceLastFrame = evt.timeSinceLastEvent;
-		loop(timeSinceLastFrame);
+		if (mSyncTime == FRAME_STARTED)
+		{
+			Real timeSinceLastFrame = evt.timeSinceLastEvent;
+			loop(timeSinceLastFrame);
+		}
+
 		return true;
 	}
 
 	bool SynchronizedGameLoop::frameEnded(const Ogre::FrameEvent & evt)
 	{
+		if (mSyncTime == FRAME_ENDED)
+		{
+			Real timeSinceLastFrame = evt.timeSinceLastEvent;
+			loop(timeSinceLastFrame);
+		}
+
 		return mRunning;
 	}
 
@@ -160,8 +182,8 @@ using namespace Ogre;
 		mRunning = false;
 	}
 
-	SynchronizedGameLoop::SynchronizedGameLoop()
-		: mRunning(true), GameLoop()
+	SynchronizedGameLoop::SynchronizedGameLoop(GameLoopSyncTime syncTime)
+		: mRunning(true), mSyncTime(syncTime), GameLoop()
 	{
 	}
 

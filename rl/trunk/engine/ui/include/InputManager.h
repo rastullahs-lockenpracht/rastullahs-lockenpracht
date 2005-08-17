@@ -103,9 +103,11 @@ namespace rl {
 
 		private:
             enum { NUM_MOUSE_BUTTON=16, NUM_KEYS=256 };
+			enum InputSwitch { SWITCH_NO_SWITCH, SWITCH_TO_BUFFERED, SWITCH_TO_UNBUFFERED };
+			InputSwitch mScheduledInputSwitch;
             
 			Ogre::InputReader* mInputReader;
-			Ogre::EventQueue mEventQueue; 
+			Ogre::EventQueue* mEventQueue; 
 			Ogre::EventProcessor* mEventProcessor;
 
 			bool mKeyDown[NUM_KEYS];

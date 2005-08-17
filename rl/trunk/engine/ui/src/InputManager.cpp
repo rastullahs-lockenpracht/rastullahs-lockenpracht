@@ -71,11 +71,13 @@ namespace rl {
 		mNumActiveWindowsKeyboardInput(0),
 		mNumActiveWindowsAllInput(0),
 		mPickObjects(false),
-        mTargetedObject(0)
+        mTargetedObject(NULL),
+		mScheduledInputSwitch(SWITCH_NO_SWITCH)
 	{
-		switchMouseToUnbuffered();
+		mEventQueue = new EventQueue();
 		mEventProcessor = new EventProcessor();
-		GameLoopManager::getSingleton().addSynchronizedTask(this);
+		switchMouseToUnbuffered();
+		GameLoopManager::getSingleton().addSynchronizedTask(this, FRAME_ENDED);
         for(int i=0; i<NUM_KEYS; i++)
             mKeyDown[i] = false;
 
@@ -85,7 +87,7 @@ namespace rl {
 
 	InputManager::~InputManager()
 	{
-		mEventQueue.activateEventQueue(false);
+		mEventQueue->activateEventQueue(false);
 		GameLoopManager::getSingleton().removeSynchronizedTask(this);
 
 		mInputReader->useBufferedInput(NULL, false, false);
@@ -108,9 +110,9 @@ namespace rl {
 		if (mNumActiveWindowsKeyboardInput == 0)
 		{
 			mInputReader->capture();
-			while (mEventQueue.getSize() > 0)
+			while (mEventQueue->getSize() > 0)
 			{
-				InputEvent* ie = mEventQueue.pop();
+				InputEvent* ie = mEventQueue->pop();
 				if(ie->getID() == KeyEvent::KE_KEY_PRESSED)
 					keyPressed(static_cast<KeyEvent*>(ie));
 				else if(ie->getID() == KeyEvent::KE_KEY_RELEASED)
@@ -118,6 +120,17 @@ namespace rl {
 				else if(ie->getID() == KeyEvent::KE_KEY_CLICKED)
 					keyClicked(static_cast<KeyEvent*>(ie));
 			}			
+		}
+
+		if (mScheduledInputSwitch == SWITCH_TO_BUFFERED)
+		{
+			switchMouseToBuffered();
+			mScheduledInputSwitch = SWITCH_NO_SWITCH;
+		}
+		else if (mScheduledInputSwitch == SWITCH_TO_UNBUFFERED)
+		{
+			switchMouseToUnbuffered();
+			mScheduledInputSwitch = SWITCH_NO_SWITCH;
 		}
 	}
 
@@ -357,11 +370,11 @@ namespace rl {
 		
 		if (!active && isCeguiActive()) // war nicht aktiv, sollte jetzt aktiv sein -> anschalten
 		{
-			UiSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "switch mouse to buffered - start");
             resetPressedKeys( true );
-			switchMouseToBuffered();
-			CEGUI::MouseCursor::getSingleton().show();
-			UiSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "switch mouse to buffered - end");
+			if (mScheduledInputSwitch == SWITCH_TO_UNBUFFERED)
+				mScheduledInputSwitch = SWITCH_NO_SWITCH;
+			else
+				mScheduledInputSwitch = SWITCH_TO_BUFFERED;
 		}
 	}
 
@@ -381,11 +394,12 @@ namespace rl {
 
 		if (active && !isCeguiActive()) // war aktiv, sollte nicht mehr aktiv sein -> ausschalten
 		{
-			UiSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "switch mouse to unbuffered - start");
 			CEGUI::MouseCursor::getSingleton().hide();
             resetPressedKeys( false );
-			switchMouseToUnbuffered();	
-			UiSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "switch mouse to unbuffered - end");
+			if (mScheduledInputSwitch == SWITCH_TO_BUFFERED)
+				mScheduledInputSwitch = SWITCH_NO_SWITCH;
+			else
+				mScheduledInputSwitch = SWITCH_TO_UNBUFFERED;		
 		}
 	}
 
@@ -410,7 +424,7 @@ namespace rl {
 		// Check to see if input has been initialized
 		if (mInputInitialized) {
 
-			mEventQueue.activateEventQueue(false);
+			mEventQueue->activateEventQueue(false);
 			mInputReader->useBufferedInput(NULL, false, false);			
 			
             // Destroy the input reader.
@@ -426,6 +440,7 @@ namespace rl {
 		mEventProcessor->addKeyListener(this);
 		mEventProcessor->addMouseListener(this);
 		mEventProcessor->addMouseMotionListener(this);
+		UiSubsystem::getSingleton().log(LML_TRIVIAL, "Start processing events");
 		mEventProcessor->startProcessingEvents();
 
 		mEventInitialized = true; 
@@ -439,15 +454,19 @@ namespace rl {
 		if (mEventInitialized) {
 			// Stop buffering events
 
-		    mEventProcessor->stopProcessingEvents();
+			UiSubsystem::getSingleton().log(LML_TRIVIAL, "Stop processing events");
+			mEventProcessor->stopProcessingEvents();
 			mEventInitialized = false;
 		}
-		mEventInitialized = false;
 
-		mEventQueue.activateEventQueue(true);
-
+		while(mEventQueue->getSize() > 0)
+			mEventQueue->pop();
+		mEventQueue->activateEventQueue(true);
+		while(mEventQueue->getSize() > 0)
+			mEventQueue->pop();
+		
 		mInputReader = Ogre::PlatformManager::getSingleton().createInputReader();
-		mInputReader->useBufferedInput(&mEventQueue, true, false);
+		mInputReader->useBufferedInput(mEventQueue, true, false);
 		mInputReader->setBufferedInput(true, false);
 		mInputReader->initialise(Ogre::Root::getSingleton().getAutoCreatedWindow(), true, true);
 

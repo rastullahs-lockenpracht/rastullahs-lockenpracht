@@ -35,12 +35,12 @@ namespace rl {
 
 	ScriptSubsystem::ScriptSubsystem()
 	{
-		new TimerManager();
+		
 	}
 
 	ScriptSubsystem::~ScriptSubsystem()
 	{
-		delete TimerManager::getSingletonPtr();
+		
 	}
 
 }

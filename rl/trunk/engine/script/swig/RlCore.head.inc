@@ -46,6 +46,7 @@
 #include <OgreResourceGroupManager.h>
 #include <OgreLight.h>
 #include "ScriptObjectRepository.h"
+#include "TimerTask.h"
 %}
 
 

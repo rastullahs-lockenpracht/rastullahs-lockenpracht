@@ -17,11 +17,10 @@
 #include "Exception.h"
 #include "TimerTask.h"
 #include "TimerManager.h"
-#include "Date.h"
 
 namespace rl {
 
-	TimerTask::TimerTask(const rl::CeGuiString& name) :
+	TimerTask::TimerTask(const Ogre::String& name) :
 		mName(name),
 		mActive(false)
 	{
@@ -52,21 +51,21 @@ namespace rl {
 		return mActive;
 	}
 
-	void TimerTask::run(const rl::CeGuiString& name)
+	void TimerTask::run(const Ogre::String& name)
 	{
 		RlFail("Not implemented. Must be overwritten.");
 	}
 
-	void TimerTask::scheduleRelativeToActivation(const rl::CeGuiString& name, long timeAfterActivation)
+	void TimerTask::scheduleRelativeToActivation(const Ogre::String& name, long timeAfterActivation)
 	{
 	}
 
-	void TimerTask::scheduleRelativeToStart(const rl::CeGuiString& name, long timeAfterStart)
+	void TimerTask::scheduleRelativeToStart(const Ogre::String& name, long timeAfterStart)
 	{
 	}
 
-	void TimerTask::scheduleRelativeToGametime(const rl::CeGuiString& name, Date& gameTime)
+	void TimerTask::scheduleRelativeToGametime(const Ogre::String& name, Date& gameTime)
 	{
-		TimerManager::getSingleton().registerTaskCallGameTime(gameTime.getTimestamp(), this, name);
+//		TimerManager::getSingleton().registerTaskCallGameTime(gameTime.getTimestamp(), this, name);
 	}
 }

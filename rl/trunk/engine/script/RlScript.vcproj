@@ -127,12 +127,6 @@
 			<File
 				RelativePath=".\src\ScriptSubsystem.cpp">
 			</File>
-			<File
-				RelativePath=".\src\TimerManager.cpp">
-			</File>
-			<File
-				RelativePath=".\src\TimerTask.cpp">
-			</File>
 		</Filter>
 		<Filter
 			Name="Headerdateien"

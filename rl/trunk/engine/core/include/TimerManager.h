@@ -21,7 +21,7 @@
 #include <string>
 #include <vector>
 
-#include "ScriptPrerequisites.h"
+#include "CorePrerequisites.h"
 #include "GameTask.h"
 
 namespace rl {
@@ -34,14 +34,14 @@ namespace rl {
 	public:
 		RL_LONGLONG time;
 		TimerTask* task;
-		rl::CeGuiString name;
+		Ogre::String name;
 
 		TaskCall();
 	};
 
 	typedef std::set<TaskCall*> TaskCallSet;
 
-	class TimerManager : public Ogre::Singleton<TimerManager>, public GameTask
+	class _RlCoreExport TimerManager : public Ogre::Singleton<TimerManager>, public GameTask
 	{
 	public:
 		TimerManager();
@@ -49,7 +49,7 @@ namespace rl {
 
 		void registerTask(TimerTask* task);
 		void unregisterTask(TimerTask* task);
-		void registerTaskCallGameTime(RL_LONGLONG time, TimerTask* task, const rl::CeGuiString& name);
+		void registerTaskCallGameTime(RL_LONGLONG time, TimerTask* task, const Ogre::String& name);
 
 		void run(Ogre::Real elapsedTime);
 

@@ -31,13 +31,19 @@ class GameLoop;
 class SynchronizedGameLoop;
 class AsynchronousGameLoop;
 
+typedef std::list<GameTask*> GameTaskList;
+enum GameLoopSyncTime {
+	FRAME_STARTED,
+	FRAME_ENDED
+};
+
 class _RlCoreExport GameLoopManager : protected Ogre::Singleton<GameLoopManager>
 {
 public:
 	GameLoopManager(unsigned long millisPerAsyncTick);
 	virtual ~GameLoopManager();
 
-    void addSynchronizedTask(GameTask* newTask);
+    void addSynchronizedTask(GameTask* newTask, GameLoopSyncTime syncTime);
 	void addAsynchronousTask(GameTask* newTask);
 	void removeSynchronizedTask(GameTask* oldTask);
 	void removeAsynchronousTask(GameTask* oldTask);	
@@ -51,7 +57,8 @@ public:
 
 private:
     AsynchronousGameLoop* mAsynchronousGameLoop;    
-	SynchronizedGameLoop* mSynchronizedGameLoop;
+	SynchronizedGameLoop* mSynchronizedFrameStartedGameLoop;
+	SynchronizedGameLoop* mSynchronizedFrameEndedGameLoop;
 };
 
 class GameLoop
@@ -69,7 +76,7 @@ protected:
 	void loop( Ogre::Real timeSinceLastCall );
 	
 private:	
-	std::list<GameTask*> mTaskList;
+	GameTaskList mTaskList;
 	bool mPaused;
 };
 
@@ -77,9 +84,10 @@ class SynchronizedGameLoop : public GameLoop, public Ogre::FrameListener
 {
 private:
 	bool mRunning;
+	GameLoopSyncTime mSyncTime;
 
 public:
-	SynchronizedGameLoop();
+	SynchronizedGameLoop(GameLoopSyncTime syncTime);
     
 	void quitGame();
 

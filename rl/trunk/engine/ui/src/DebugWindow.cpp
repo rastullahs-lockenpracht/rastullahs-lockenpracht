@@ -96,7 +96,7 @@ namespace rl
 	void DebugWindow::setVisible(bool visible)
 	{
 		if (visible)
-			GameLoopManager::getSingleton().addSynchronizedTask(this);
+			GameLoopManager::getSingleton().addSynchronizedTask(this, FRAME_ENDED);
 		else
 			GameLoopManager::getSingleton().removeSynchronizedTask(this);
 		CeGuiWindow::setVisible(visible);

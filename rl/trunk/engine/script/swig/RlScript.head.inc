@@ -16,5 +16,4 @@
 
 %{
 //----------- Includes - Script -----------
-#include "TimerTask.h"
 %}
