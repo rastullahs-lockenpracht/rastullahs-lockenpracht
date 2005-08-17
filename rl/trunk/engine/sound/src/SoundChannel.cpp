@@ -254,6 +254,7 @@ const int SoundChannel::getGain() const throw (RuntimeException)
     {
         return FSOUND_GetVolume(getChannel());
     }
+    return 0;
 }
 
 /**
@@ -305,6 +306,7 @@ bool SoundChannel::isPaused() throw (RuntimeException)
     {
         return FSOUND_GetPaused(getChannel());
     }
+    return true;
 }
 
 
