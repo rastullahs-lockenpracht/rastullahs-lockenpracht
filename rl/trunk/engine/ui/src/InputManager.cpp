@@ -74,13 +74,14 @@ namespace rl {
         mTargetedObject(NULL),
 		mScheduledInputSwitch(SWITCH_NO_SWITCH)
 	{
+        for(int i=0; i<NUM_KEYS; i++)
+            mKeyDown[i] = false;
+
 		mEventQueue = new EventQueue();
 		mEventProcessor = new EventProcessor();
 		switchMouseToUnbuffered();
 		GameLoopManager::getSingleton().addSynchronizedTask(this, FRAME_ENDED);
-        for(int i=0; i<NUM_KEYS; i++)
-            mKeyDown[i] = false;
-
+        
 		mScreenX = Root::getSingleton().getAutoCreatedWindow()->getWidth();
 		mScreenY = Root::getSingleton().getAutoCreatedWindow()->getHeight();		
 	}
@@ -370,6 +371,7 @@ namespace rl {
 		
 		if (!active && isCeguiActive()) // war nicht aktiv, sollte jetzt aktiv sein -> anschalten
 		{
+            CEGUI::MouseCursor::getSingleton().show();
             resetPressedKeys( true );
 			if (mScheduledInputSwitch == SWITCH_TO_UNBUFFERED)
 				mScheduledInputSwitch = SWITCH_NO_SWITCH;
