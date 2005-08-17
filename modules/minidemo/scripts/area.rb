@@ -6,11 +6,13 @@ print( "GameEvent-Tests wird geladen" );
 print( "Definiere Listener" );
 # Definition des GameAreaListeners
 class DunkleEckenLachListener < GameAreaListener
+
 	def areaLeft(anEvent)
 		print( "Raus - " +  anEvent.getProvokingActor().getName() );
 	end
 	def areaEntered(anEvent)
 		print( "Rein - " + anEvent.getProvokingActor().getName() );
+		anEvent.getSource().getActor().getControlledObject().play(0);
 		$UI.showMessageWindow( "Das ist die dunkle Ecke" );
 	end
 end
@@ -20,7 +22,7 @@ held.setQueryMask( Actor::QGF_PLAYER );
 
 $CORE.log("Kugel-Zentrum Actor erstellen");
 # kugelDings = $AM.createEmptyActor( "Kugel-Zentrum" );
-kugelDings = $AM.createParticleSystemActor( "Kugel-Zentrum", "PEExamples/ignifaxius" );
+kugelDings = $AM.createSoundSampleActor( "Kugel-Zentrum", "lachen.ogg" );
 $CORE.log("Kugel-Zentrum Actor in die Szene einfügen");
 kugelDings.placeIntoScene( 415.0, 5.0, -300.0, 1.0, 0.0, 0.0, 0.0);
 
