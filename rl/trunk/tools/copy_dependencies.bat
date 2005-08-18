@@ -62,7 +62,7 @@ REM
 
 copy "%RL_ROOT%\dependencies\fmod\api\fmod.dll" "%RL_DIST%"
 
-copy "%RL_ROOT%\Dependencies\boost\lib\*.dll" "%RL_DIST%"
+copy "%RL_ROOT%\Dependencies\boost\bin\*.dll" "%RL_DIST%"
 
 
 
