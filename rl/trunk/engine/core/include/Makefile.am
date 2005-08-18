@@ -31,6 +31,8 @@
 	ScriptObjectRepository.h \
 	SoundUpdateTask.h \
 	SoundObject.h \
+	TimerManager.h \
+	TimerTask.h \
 	TrackAnimation.h \
 	World.h 
 	

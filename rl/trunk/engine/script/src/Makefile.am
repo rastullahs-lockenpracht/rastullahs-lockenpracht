@@ -8,6 +8,4 @@ libRlScript_la_LDFLAGS = $(CEGUI_LIBS) $(SDL_LIBS) $(OGRE_LIBS) $(RUBY_LIBS) $(L
 
 libRlScript_la_SOURCES = \
   ScriptSubsystem.cpp \
-  TimerManager.cpp \
-  TimerTask.cpp \
 	../swig/RlExports.cxx 

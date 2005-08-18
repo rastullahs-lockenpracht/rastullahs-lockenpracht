@@ -677,13 +677,13 @@ namespace rl {
     void Actor::detachAllChildren( )
     {
         ChildSet::iterator iter =  mChilds.begin();
-        for( iter; iter != mChilds.end(); ++iter )
+        for( iter; iter != mChilds.end();  )
         {
             Actor* actor = *iter;
 
             doDetach( actor );
             actor->mParent = NULL;
-            iter = mChilds.erase( iter );
-        }
+            mChilds.erase( iter++ );
+        } 
     }
 }

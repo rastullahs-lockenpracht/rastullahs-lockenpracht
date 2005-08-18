@@ -96,7 +96,7 @@ namespace rl {
             if( gam->getActor() == actor )
             {      
                 // Iterator zurückgeben, da sich dieser nach löschen ändert
-                it = mAreaEventSources.erase(it++);
+                it = mAreaEventSources.erase(it);
                 // Die Area-Art löschen
                 delete gam->getGameAreaType();
                 // Das Objekt löschen

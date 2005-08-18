@@ -37,6 +37,8 @@ libRlCore_la_SOURCES = \
 	ScriptObjectRepository.cpp \
 	SoundObject.cpp \
 	SoundUpdateTask.cpp \
+	TimerManager.cpp \
+	TimerTask.cpp \
 	TrackAnimation.cpp \
 	World.cpp 		 
 
