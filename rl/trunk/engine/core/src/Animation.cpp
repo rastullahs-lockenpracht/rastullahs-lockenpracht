@@ -22,7 +22,9 @@
 
 namespace rl {
 
-Animation::Animation( Ogre::AnimationState* animState, Ogre::Real speed, unsigned int timesToPlay ) :
+Animation::Animation( Ogre::AnimationState* animState, MeshObject* mesh,
+                     Ogre::Real speed, unsigned int timesToPlay 
+                     ) :
 	EventSource(), 
 	mAnimationFrameListener(),
 	mAnimationCaster(),
@@ -33,6 +35,7 @@ Animation::Animation( Ogre::AnimationState* animState, Ogre::Real speed, unsigne
 	mTimesToPlay = timesToPlay;
 	mTimePlayed = 0;
 	mSpeed = speed;
+    mMeshObject = mesh;
 
 	this->setAnimationState(animState);
 }
@@ -108,6 +111,11 @@ void Animation::setSpeed( Ogre::Real speed )
 void Animation::reverseAnimation()
 {
 	mSpeed = -mSpeed;
+}
+
+MeshObject* Animation::getMeshObject()
+{
+    return mMeshObject;
 }
 
 // Regelbare Wiederholungsanzahl

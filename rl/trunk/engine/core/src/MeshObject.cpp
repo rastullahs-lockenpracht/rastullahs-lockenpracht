@@ -90,7 +90,7 @@ namespace rl {
 		try
 		{
 			AnimationState* animState = getEntity()->getAnimationState(animName);
-			return AnimationManager::getSingleton().addAnimation(animState,speed,timesToPlay);
+			return AnimationManager::getSingleton().addAnimation(animState,this,speed,timesToPlay);
 		}
 		catch(Ogre::Exception&) 
 		{

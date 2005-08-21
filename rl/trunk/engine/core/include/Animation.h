@@ -25,6 +25,8 @@
 
 namespace rl {
 
+class MeshObject;
+
 /** 
 	Diese Klasse ermöglicht eine einfache Steuerung von Animationseinstellungen
 	und ist die Basisklasse erweiterter Animationen.
@@ -38,11 +40,12 @@ class _RlCoreExport Animation : public virtual EventSource
 			@param animState	AnimationState, intern
 			@param speed		Geschwindigkeit, auch negativ
 			@param timesToPlay	Abspielanzahl, 0 = unendlich
+            @mesh mesh  The MeshObjekt whose Animation is played
 			@remarks	Die Animation beginnt sofort zu spielen, bei negativer
 						Geschwindigkeit beginnt sie mit dem letzten Frame. Konstruktor
 						sollte nicht direkt aufgerufen werden, sondern vom AnimationManager.
 		*/
-        Animation(Ogre::AnimationState* animState, Ogre::Real speed=1.0,
+        Animation(Ogre::AnimationState* animState, MeshObject* mesh, Ogre::Real speed=1.0,
             unsigned int timesToPlay=0);
 		/**	Ein Konstruktor, für eine später festlegbare Animation
 		@remarks	Dieser Konstruktor ist für Unterklassen. Konstruktor
@@ -108,6 +111,9 @@ class _RlCoreExport Animation : public virtual EventSource
 		*/
         void setWeight( Ogre::Real weight );
 
+        /// Gibt das MeshObject
+        MeshObject* getMeshObject();
+
 		/// Zeit hinzufügen - wird vom AnimationManager aufgerufen
 		void addTime( Ogre::Real timePassed );
 
@@ -142,6 +148,9 @@ class _RlCoreExport Animation : public virtual EventSource
     protected:
 		/// Der AnimationState
 		Ogre::AnimationState* mAnimState;
+        
+        /// Das MeshObject
+        MeshObject* mMeshObject;
 
 		/// Pause
         bool mPaused;

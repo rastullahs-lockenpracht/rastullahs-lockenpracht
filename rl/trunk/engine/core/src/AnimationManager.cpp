@@ -75,7 +75,7 @@ AnimationManager::RotationInterpolationMode
 		Ogre::Animation::getDefaultRotationInterpolationMode() );
 }
 
-Animation* AnimationManager::addAnimation(Ogre::AnimationState* animState, 
+Animation* AnimationManager::addAnimation(Ogre::AnimationState* animState, MeshObject* mesh,
 										  Ogre::Real speed, unsigned int timesToPlay)
 {
 	AnimMap::iterator iter = 
@@ -86,7 +86,7 @@ Animation* AnimationManager::addAnimation(Ogre::AnimationState* animState,
 	// Noch nicht vorhanden
 	if( iter == mAnimationMap.end() )
 	{
-		anim = new Animation(animState,speed,timesToPlay);
+		anim = new Animation(animState,mesh,speed,timesToPlay);
 		mAnimationMap.insert(std::pair<Ogre::AnimationState*,Animation*>(animState,anim));
 		animState->setEnabled(true);
 	}
@@ -162,14 +162,15 @@ void AnimationManager::stopAnimation( Animation* anim )
     anim->resetTimesPlayed();
     anim->setTimesToPlay(1);
     anim->setSpeed(1.0);
-    anim->setPaused(true);
+    anim->setPaused(true);    
 }
 
+// @todo Check ob das das selbe MeshObject ist
 Animation* AnimationManager::replaceAnimation(Animation* oldAnim,  
     Ogre::AnimationState* newAnimState, Ogre::Real speed, unsigned int timesToPlay )
 {
     removeAnimation( oldAnim );
-    return addAnimation( newAnimState, speed, timesToPlay );
+    return addAnimation( newAnimState, oldAnim->getMeshObject(), speed, timesToPlay );
 }
 
 

@@ -28,6 +28,7 @@ namespace rl {
 class Actor;
 class Animation;
 class TrackAnimation;
+class MeshObject;
 
 /** 
 	Diese Klasse verwaltet sämtliche Animationen und kümmert sich um das Starten und Stoppen dieser
@@ -55,7 +56,7 @@ public:
 		@param	timesToPlay	Die Wiederholungen
 		@see Animation
 	*/
-    Animation* addAnimation(Ogre::AnimationState* animState,
+    Animation* addAnimation(Ogre::AnimationState* animState, MeshObject* mesh,
         Ogre::Real speed=1.0, unsigned int timesToPlay=0 ); 
 	/** Gibt die Animation zurück, die zum AnimationState gehört 
      *  @returns NULL wenn es die Animation nicht gibt
