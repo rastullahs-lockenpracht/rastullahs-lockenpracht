@@ -83,6 +83,8 @@ void startupRl(bool developerMode, Ogre::String module)
 		log(Ogre::LML_NORMAL, "ScriptSubsystem gestartet");
 
 		log(Ogre::LML_NORMAL, "Starte...");
+		if (module != "")
+			core->setDefaultActiveModule(module);
 		core->startCore();
 #ifndef _DEBUG
 	} 

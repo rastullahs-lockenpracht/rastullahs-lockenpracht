@@ -55,14 +55,17 @@ public:
 	void setInterpreter(Interpreter* interpreter);
 	Interpreter* getInterpreter();
 
-	const Ogre::String& getActiveModule() const;
+	const Ogre::String& getActiveAdventureModule() const;
 	const Ogre::StringVector& getCommonModules() const;
 	const Ogre::StringVector& getActivatableModules() const;
-	void setActiveModule(const Ogre::String& module);
-	void initializeModule(const std::string& module);
+	void startAdventureModule(const Ogre::String& module);
+	void setDefaultActiveModule(const Ogre::String& module); 
+	const Ogre::String& getDefaultActiveModule() const; 
+	void initializeModule(const Ogre::String& module);
 
 	void setDeveloperMode(bool developerMode);
 	bool getDeveloperMode() const;
+
 	
 	/** Saves a timestamped jpg Screenshot
 		@param sName The filename (extended with the timestamp)
@@ -101,7 +104,8 @@ private:
 	Interpreter* mInterpreter;
 	Ogre::StringVector mCommonModules;
 	Ogre::StringVector mActivatableModules;
-	Ogre::String mActiveModule;
+	Ogre::String mActiveAdventureModule;
+	Ogre::String mDefaultActiveModule;
 
 	RL_LONGLONG mClockStartTime;
 

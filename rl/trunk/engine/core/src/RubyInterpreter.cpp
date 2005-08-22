@@ -55,7 +55,7 @@ void RubyInterpreter::initializeInterpreter(staticValueMethod func)
 	
 	//Skript-Verzeichnisse der  Dateien duerfen auch in /script liegen
 	StringVector modules = CoreSubsystem::getSingleton().getCommonModules();
-	modules.push_back(CoreSubsystem::getSingleton().getActiveModule());
+	modules.push_back(CoreSubsystem::getSingleton().getActiveAdventureModule());
 	for (StringVector::iterator iter = modules.begin(); iter != modules.end(); iter++)
 	{
 		//wir suchen die Scripte im modules Verzeichnis relativ zum ModuleRootPath!

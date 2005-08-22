@@ -56,7 +56,8 @@ namespace rl {
     CoreSubsystem::CoreSubsystem()
         : 	mWorld(NULL),
         mInterpreter(NULL),
-        mActiveModule("")
+        mActiveAdventureModule(""),
+		mDefaultActiveModule("")
     {
         resetClock();
         initializeCoreSubsystem();        
@@ -75,6 +76,11 @@ namespace rl {
     void CoreSubsystem::startCore()
     {
         getInterpreter()->execute("load 'startup-global.rb'");
+		if (mDefaultActiveModule == "")
+			getInterpreter()->execute("load 'startup-global-mainmenu.rb'");
+		else
+			startAdventureModule(mDefaultActiveModule);
+
         Root::getSingleton().startRendering();
     }
 
@@ -201,10 +207,10 @@ namespace rl {
                 mActivatableModules.push_back(value);
         }
 
-        //if (!mActivatableModules.empty())
-        //	mActiveModule = *mActivatableModules.begin();
-        //else
-        //	mActiveModule = "";
+        if (!mActivatableModules.empty())
+        	mDefaultActiveModule = *mActivatableModules.begin();
+        else
+        	mDefaultActiveModule = "";
 
 		// Partikelsystem initialisieren
         ParticleSystemManager::getSingleton().addRendererFactory( 
@@ -282,7 +288,7 @@ namespace rl {
         //TODO: unloadModule
     }
 
-    void CoreSubsystem::setActiveModule(const std::string& module)
+    void CoreSubsystem::startAdventureModule(const std::string& module)
     {
         StringVector::iterator mod;
         for (mod = mActivatableModules.begin(); 
@@ -293,14 +299,24 @@ namespace rl {
         if (mod == mActivatableModules.end())
             Throw(InvalidArgumentException, "Unknown Module '"+module+"'");
 
-        if (mActiveModule.length() > 0)
-            unloadModule(mActiveModule);
+        if (mActiveAdventureModule.length() > 0)
+            unloadModule(mActiveAdventureModule);
 
         initializeModule(module);
-        mActiveModule = module;
+        mActiveAdventureModule = module;
 
         getInterpreter()->execute("load 'startup-module.rb'");
     }
+
+	void CoreSubsystem::setDefaultActiveModule(const Ogre::String& module)
+	{
+		mDefaultActiveModule = module;
+	}
+
+	const Ogre::String& CoreSubsystem::getDefaultActiveModule() const
+	{
+		return mDefaultActiveModule;
+	}
 
     World* CoreSubsystem::getWorld()
     { 
@@ -323,9 +339,9 @@ namespace rl {
             writeContentsToTimestampedFile(sName, ".jpg");
     }
 
-    const String& CoreSubsystem::getActiveModule() const
+    const String& CoreSubsystem::getActiveAdventureModule() const
     {
-        return mActiveModule;
+        return mActiveAdventureModule;
     }
 
     const StringVector& CoreSubsystem::getCommonModules() const
