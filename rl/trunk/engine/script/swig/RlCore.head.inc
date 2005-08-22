@@ -48,8 +48,7 @@
 #include "ScriptObjectRepository.h"
 #include "TimerTask.h"
 %}
-
-
+        
 // doWithActor( Actor* ) oder andere Director-Methoden Parameter
 %typemap(directorin) SWIGTYPE*
 {
@@ -118,7 +117,7 @@
 	Swig::Director *resultdirector = 0;
 	resultdirector = dynamic_cast<Swig::Director *>($1);
     if (resultdirector) {
-        $input = resultdirector->swig_get_self();
+        $input = resultdirector->swig_get_self();        	
     }
     else
 	{

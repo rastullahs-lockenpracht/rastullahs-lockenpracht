@@ -279,6 +279,8 @@ public:
 	Ogre::Real getWeight(void) const;
     void setWeight(Ogre::Real weight);
     
+    rl::MeshObject* getMeshObject( );
+    
     void addAnimationListener( rl::AnimationListener *listener);
     rl::AnimationListener* getAnimationListener( );
 	void removeAnimationListener( rl::AnimationListener *listener);

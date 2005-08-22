@@ -94,42 +94,73 @@ namespace rl {
         m_CToRubyMap.insert( PointerValuePair( ptr, val ) );
         m_RubyToCMap.insert( ValuePointerPair( val, ptr ) );
 
+        // In Ruby Array einfügen
         rb_ary_push( mRubyArray, val );
     }
 
-    void ScriptObjectRepository::incRefCount( VALUE& val )
+    void ScriptObjectRepository::own( void* ptr )
     {
+        VALUE val = getScriptObject(ptr);
+
+        // Hat kein Skript Equivalent, muss nicht verwaltet werden
+        if( val == Qnil )
+            return;
+
         ValueCountMap::iterator iter = m_RubyRefCountMap.find( val );
         unsigned int refCount = 1;
+
+        // Es gab schon einen RefCount, dann diesen hochzählen
         if( iter != m_RubyRefCountMap.end() )         
             refCount = iter->second + 1;
 
+        // In Liste einfügen
         m_RubyRefCountMap.insert( ValueCountPair( val, refCount ) ); 
+
+        // refCount wurde 1, beim GC anmelden
         if( refCount == 1 )
         {
             rb_gc_register_address( &val );
         }
     }
 
-    void ScriptObjectRepository::decRefCount( VALUE& val )
+    void ScriptObjectRepository::disown( void* ptr )
     {
-        ValueCountMap::iterator iter = m_RubyRefCountMap.find( val );
-        if( iter == m_RubyRefCountMap.end() )   
-            Throw( InvalidArgumentException, "Für diese VALUE existiert kein RefCount im ScriptObjectRepository" );
+        VALUE val = getScriptObject(ptr);
         
+        // Hat kein Skript Equivalent, muss nicht verwaltet werden
+        if( val == Qnil )
+            return;
+
+        ValueCountMap::iterator iter = m_RubyRefCountMap.find( val );
+        // Gibt es überhaupt noch einen RefCount?
+        if( iter == m_RubyRefCountMap.end() )   
+            return;
+        
+        // Alter RefCount
         unsigned int refCount = iter->second;
 
+        // Noch nicht 0
         if( refCount > 0 )
-            m_RubyRefCountMap.insert( ValueCountPair(val, refCount-1) ); 
-        
+        {
+            // Herunterzählen
+            refCount = refCount--;
+            // Neu einspeichern
+            m_RubyRefCountMap.insert( ValueCountPair(val, refCount ) ); 
+        }
+
+        // Null geworden
         if( refCount <= 1 )
         {
+            // Austragen aus RefCountliste
+            m_RubyRefCountMap.erase( val );
+            // Aus dem GC-Array löschen
             rb_ary_delete(mRubyArray, val );
-            rb_gc_unregister_address( &val );
+            // Skript/Cpp Link austragen, ohne die RubyInstanz zu überschreiben
+            removePointerValuePair( ptr, val, false );
         }
     }
 
-    void ScriptObjectRepository::removePointerValuePair( void* ptr, VALUE& val )
+    void ScriptObjectRepository::removePointerValuePair( void* ptr, VALUE& val, bool rbOverwrite )
     {
         // Aus den Maps entfernen
         m_CToRubyMap.erase( ptr );
@@ -138,11 +169,14 @@ namespace rl {
         // Aus dem RubyArray löschen
         rb_ary_delete(mRubyArray, val );
 
-        RData* test = RDATA( val );
-        /// @todo altes klass löschen? Wie denn nur, ist nen VALUE
-        test->basic.klass = rb_cNilClass;
-        // Nicht löschen, ist der ptr
-        test->data = NULL;
+        if( rbOverwrite )
+        {
+            RData* test = RDATA( val );
+            /// @todo altes klass löschen? Wie denn nur, ist nen VALUE
+            test->basic.klass = rb_cNilClass;
+            // Nicht löschen, ist der ptr
+            test->data = NULL;
+        }
     }
 
     void ScriptObjectRepository::removePointer( void* ptr )
@@ -171,7 +205,7 @@ namespace rl {
         {
             removePointer( ptr );
         }
-        catch( InvalidArgumentException& iae ) {}
+        catch( InvalidArgumentException& ) {}
     }
 
 }

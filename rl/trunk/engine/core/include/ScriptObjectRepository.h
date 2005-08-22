@@ -53,10 +53,10 @@ namespace rl {
         void* getPtr( VALUE val ) const;
 
         void insertPointerValuePair( void* ptr, VALUE& val );
-        void removePointerValuePair( void* ptr, VALUE& val );
+        void removePointerValuePair( void* ptr, VALUE& val, bool rbOverwrite = true );
 
-        void incRefCount( VALUE& val );
-        void decRefCount( VALUE& val );
+        void own( void* ptr );
+        void disown( void* ptr );
 
         void removePointer( void* ptr );
         void removeValue( VALUE val );
