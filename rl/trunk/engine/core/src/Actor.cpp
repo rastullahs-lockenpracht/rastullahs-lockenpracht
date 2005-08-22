@@ -360,7 +360,8 @@ namespace rl {
 
         if( mSceneNode )
         {
-            mSceneNode->getParentSceneNode()->removeChild( mSceneNode );
+            if( mSceneNode->getParentSceneNode() != NULL )
+                mSceneNode->getParentSceneNode()->removeChild( mSceneNode );
         
             // Überprüfen ob Childs am Node fest sind
             bool childsInNode = false;

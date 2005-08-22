@@ -64,13 +64,16 @@ namespace Swig {
     static VALUE rlException = rb_define_class("RlException", rb_eStandardError);
     rb_raise(rlException, re.toString().c_str());
   }
-  catch (Swig::DirectorException&) {
+  catch (Swig::DirectorException& de) {
     static VALUE rlException = rb_define_class("DirectorException", rb_eStandardError);
-    rb_raise(rlException, "DirectorException aufgetreten");
+    rb_raise(rlException, "blah");
   } 
 }
 
-
+%{
+#pragma warning( disable : 4101 )	// deaktiviere Warnung ueber unreferenzierte lokale Variable, 
+									// da dies in allen erzeugten Exceptionhandlern auftritt
+%}
 
 %include "RlSound.inc"
 %include "RlCore.inc"
