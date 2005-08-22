@@ -41,6 +41,7 @@ namespace rl {
 			mActor(actor)
 	{
 		mHint = getStaticText("ActionChoiceWindow/Hint");
+		bindClickToCloseWindow(getWindow("ActionChoiceWindow"));
 		addToRoot(mWindow);
 	}
 	

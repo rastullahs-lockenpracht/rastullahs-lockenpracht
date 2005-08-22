@@ -249,23 +249,23 @@
     <Image Name="TabButtonLowerRightSelected" XPos="62" YPos="99" Width="7" Height="7" />
     <Image Name="TabButtonMiddleSelected" XPos="52" YPos="89" Width="6" Height="6" />
 
-    <Image Name="Background" XPos="257" YPos="1" Width="4" Height="4" />
-    <Image Name="MenuTopLeft" XPos="257" YPos="1" Width="4" Height="4" />
-    <Image Name="MenuTopRight" XPos="257" YPos="1" Width="4" Height="4" />
-    <Image Name="MenuBottomLeft" XPos="257" YPos="1" Width="4" Height="4" />
-    <Image Name="MenuBottomRight" XPos="257" YPos="1" Width="4" Height="4" />
-    <Image Name="MenuLeft" XPos="257" YPos="1" Width="4" Height="4" />
-    <Image Name="MenuRight" XPos="257" YPos="1" Width="4" Height="4" />
-    <Image Name="MenuTop" XPos="257" YPos="1" Width="4" Height="4" />
-    <Image Name="MenuBottom" XPos="257" YPos="1" Width="4" Height="4" />
-    <Image Name="PopupMenuArrowLeft" XPos="257" YPos="1" Width="4" Height="4" />
-    <Image Name="PopupMenuArrowRight" XPos="257" YPos="1" Width="4" Height="4" />
-    <Image Name="PopupMenuFrameTopLeft" XPos="257" YPos="1" Width="4" Height="4" />
-    <Image Name="PopupMenuFrameTopRight" XPos="257" YPos="1" Width="4" Height="4" />
-    <Image Name="PopupMenuFrameBottomLeft" XPos="257" YPos="1" Width="4" Height="4" />
-    <Image Name="PopupMenuFrameBottomRight" XPos="257" YPos="1" Width="4" Height="4" />
-    <Image Name="PopupMenuFrameLeft" XPos="257" YPos="1" Width="4" Height="4" />
-    <Image Name="PopupMenuFrameRight" XPos="257" YPos="1" Width="4" Height="4" />
-    <Image Name="PopupMenuFrameTop" XPos="257" YPos="1" Width="4" Height="4" />
-    <Image Name="PopupMenuFrameBottom" XPos="257" YPos="1" Width="4" Height="4" />
+    <Image Name="Background" XPos="2" YPos="1" Width="4" Height="4" />
+    <Image Name="MenuTopLeft" XPos="2" YPos="1" Width="4" Height="4" />
+    <Image Name="MenuTopRight" XPos="2" YPos="1" Width="4" Height="4" />
+    <Image Name="MenuBottomLeft" XPos="2" YPos="1" Width="4" Height="4" />
+    <Image Name="MenuBottomRight" XPos="2" YPos="1" Width="4" Height="4" />
+    <Image Name="MenuLeft" XPos="2" YPos="1" Width="4" Height="4" />
+    <Image Name="MenuRight" XPos="2" YPos="1" Width="4" Height="4" />
+    <Image Name="MenuTop" XPos="2" YPos="1" Width="4" Height="4" />
+    <Image Name="MenuBottom" XPos="2" YPos="1" Width="4" Height="4" />
+    <Image Name="PopupMenuArrowLeft" XPos="2" YPos="1" Width="4" Height="4" />
+    <Image Name="PopupMenuArrowRight" XPos="2" YPos="1" Width="4" Height="4" />
+    <Image Name="PopupMenuFrameTopLeft" XPos="2" YPos="1" Width="4" Height="4" />
+    <Image Name="PopupMenuFrameTopRight" XPos="2" YPos="1" Width="4" Height="4" />
+    <Image Name="PopupMenuFrameBottomLeft" XPos="2" YPos="1" Width="4" Height="4" />
+    <Image Name="PopupMenuFrameBottomRight" XPos="2" YPos="1" Width="4" Height="4" />
+    <Image Name="PopupMenuFrameLeft" XPos="2" YPos="1" Width="4" Height="4" />
+    <Image Name="PopupMenuFrameRight" XPos="2" YPos="1" Width="4" Height="4" />
+    <Image Name="PopupMenuFrameTop" XPos="2" YPos="1" Width="4" Height="4" />
+    <Image Name="PopupMenuFrameBottom" XPos="2" YPos="1" Width="4" Height="4" />
 </Imageset>
