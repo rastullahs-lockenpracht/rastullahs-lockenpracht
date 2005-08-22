@@ -25,14 +25,6 @@ namespace rl
     class _RlRulesExport Creature;
 	class _RlRulesExport ActionGroup;
 
-    static const int TC_NO_TARGET = 0;
-    static const int TC_GAMEOBJECT = 1;
-    static const int TC_CREATURE = 2;
-    static const int TC_ITEM = 3;
-	static const int TC_POINT = 4;
-	static const int TC_RADIUS = 5;
-	static const int TC_POINT_AND_RADIUS = 6;
-
     /**
     * @brief Abstrakte Basisklasse für Aktionen an Spielobjekten.
     * Spielobjekte (GameObject) besitzen einen Satz von Aktionen, die man auf
@@ -50,6 +42,20 @@ namespace rl
 		ActionGroup* mGroup;
 	
     public:
+
+		static const int ACT_NORMAL = 1<<0;
+		static const int ACT_INVIS_DESC = 1<<1;
+		static const int ACT_DISABLED = 1<<2;
+		static const int ACT_NEEDS_TALENT = 1<<8;
+
+		static const int TC_NO_TARGET = 0;
+		static const int TC_GAMEOBJECT = 1;
+		static const int TC_CREATURE = 2;
+		static const int TC_ITEM = 3;
+		static const int TC_POINT = 4;
+		static const int TC_RADIUS = 5;
+		static const int TC_POINT_AND_RADIUS = 6;
+
         /**
         * @param name Name, mit der die Aktion dem Benutzer
         *             gegenüber dargestellt wird.
@@ -84,7 +90,7 @@ namespace rl
          *
          * @return true, falls die Aktion möglich ist, false sonst.
          */
-        virtual bool canDo(GameObject* object, Creature* actor);
+        virtual bool canDo(GameObject* object, Creature* actor) const;
 
         /**
          * Die Aktion wird ausgeführt. Diese Methode wird in Ruby

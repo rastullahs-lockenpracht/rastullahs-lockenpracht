@@ -14,8 +14,8 @@ class OpenDoorAction < RubyAction
   end
   
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
-  def canDo?(door, user)    
-    not door.getBool("open");
+  def canDo(door, user)    
+    not door.isOpen
   end
   
   def doAction(door, user, target)    
@@ -23,7 +23,7 @@ class OpenDoorAction < RubyAction
     doorActor.getControlledObject().replaceAnimation("zu", "auf", 1.0, 1);
     knarzActor = doorActor.getChildByName(doorActor.getName()+"_knarzen");
     knarzActor.getControlledObject().play(0);
-    # door.setOpen(true);
+    door.setOpen(true);
   end
 end
 
@@ -33,8 +33,8 @@ class CloseDoorAction < RubyAction
   end
   
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
-  def canDo?(door, user)    
-    door.getBool("open");
+  def canDo(door, user)    
+    door.isOpen
   end
   
   def doAction(door, user, target)    
@@ -42,7 +42,7 @@ class CloseDoorAction < RubyAction
     doorActor.getControlledObject.replaceAnimation("auf", "zu", 1.0, 1); 
     knarzActor = doorActor.getChildByName(doorActor.getName()+"_knarzen");
     knarzActor.getControlledObject().play(0);
-    # door.setOpen(false);
+    door.setOpen(false);
   end
 end
 
@@ -65,11 +65,18 @@ class Door < RubyItem
     	addAction(CloseDoorAction.new);
     	$CORE.log("door.rb - Aktionen hinzugefuegt.");
     else
-    	addAction(OpenDoorAction.new, 7);
-    	addAction(CloseDoorAction.new, 7);
+    	addAction(OpenDoorAction.new, Action::ACT_DISABLED);
+    	addAction(CloseDoorAction.new, Action::ACT_DISABLED);
     	$CORE.log("door.rb - Aktionen versteckt hinzugefuegt.");
     end
   end
-
+  
+  def setOpen(open)
+    @mOpen = open
+  end
+  
+  def isOpen()
+    @mOpen
+  end
 end
 

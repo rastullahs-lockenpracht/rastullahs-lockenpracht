@@ -207,11 +207,6 @@ namespace rl {
                 mActivatableModules.push_back(value);
         }
 
-        if (!mActivatableModules.empty())
-        	mDefaultActiveModule = *mActivatableModules.begin();
-        else
-        	mDefaultActiveModule = "";
-
 		// Partikelsystem initialisieren
         ParticleSystemManager::getSingleton().addRendererFactory( 
             new BillboardParticleRendererFactory() );

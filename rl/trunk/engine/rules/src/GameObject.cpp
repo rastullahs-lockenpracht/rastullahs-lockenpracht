@@ -91,14 +91,17 @@ namespace rl
         }
     }
 
-    const ActionVector GameObject::getValidActions() const
+	
+    const ActionVector GameObject::getValidActions(Creature* actor) const
     {
 		ActionVector actions;
 		for (ActionOptionVector::const_iterator it = mActions.begin(); it != mActions.end(); ++it)
 		{
-			if ((*it).second == ACT_DISABLED)
+			if ((*it).second == Action::ACT_DISABLED)
 				continue;
 			//if ((*it).second > ACT_NEEDS_TALENT)
+			if (!(*it).first->canDo(const_cast<GameObject*>(this), actor)) // Aktion nicht möglich
+				continue;
 				
 			actions.push_back((*it).first);
 		}

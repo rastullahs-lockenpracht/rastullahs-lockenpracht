@@ -141,15 +141,23 @@ namespace rl {
 	// Vor Action stehen!
 	%apply SWIGTYPE *DYNAMIC { rl::GameObject * };
 	
-	static const int ACT_NORMAL = 1<<0;
-	static const int ACT_INVIS_DESC = 1<<1;
-	static const int ACT_DISABLED = 1<<2;
-	static const int ACT_NEEDS_TALENT = 1<<8;
-	
 	%feature("director") Action;   
     class Action
     {
     public:
+    	static const int ACT_NORMAL = 1<<0;
+		static const int ACT_INVIS_DESC = 1<<1;
+		static const int ACT_DISABLED = 1<<2;
+		static const int ACT_NEEDS_TALENT = 1<<8;
+
+		static const int TC_NO_TARGET = 0;
+		static const int TC_GAMEOBJECT = 1;
+		static const int TC_CREATURE = 2;
+		static const int TC_ITEM = 3;
+		static const int TC_POINT = 4;
+		static const int TC_RADIUS = 5;
+		static const int TC_POINT_AND_RADIUS = 6;
+    
         Action(const rl::CeGuiString& name, const rl::CeGuiString& description);
         virtual ~Action();
 
@@ -159,9 +167,10 @@ namespace rl {
         virtual int getTargetClass() const;
         virtual void doAction(rl::GameObject *object, rl::Creature *actor,
             rl::GameObject *target);
+        virtual bool canDo(rl::GameObject* object, rl::Creature* actor) const;
             
-        void setGroup(ActionGroup* group);
-		ActionGroup* getGroup() const;
+        void setGroup(rl::ActionGroup* group);
+		rl::ActionGroup* getGroup() const;
     };
     
 	 %feature("director") ObjectStateChangeListener; 	 
@@ -213,16 +222,10 @@ namespace rl {
 		rl::Actor* getActor();
 
         void addAction(rl::Action *action, int option = ACT_NORMAL);
-        //%extend {
-        //    void rbAddAction(VALUE action) {
-        //        void* ptr = reinterpret_cast<void*>(action);
-        //        self->addAction(reinterpret_cast<Action*>(ptr));
-        //    }
-        //}
         void addActionInGroup(Action* action, ActionGroup* group, int option = ACT_NORMAL);
         void removeAction(rl::Action *action);
 
-        const std::vector<Action*> getValidActions() const;        
+        const std::vector<Action*> getValidActions(rl::Creature *actor) const;        
         
         void doAction(
 			const rl::CeGuiString& actionName, 

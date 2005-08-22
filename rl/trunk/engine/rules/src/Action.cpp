@@ -51,7 +51,7 @@ namespace rl
         return TC_NO_TARGET;
     }
 
-    bool Action::canDo(GameObject* object, Creature* actor)
+	bool Action::canDo(GameObject* object, Creature* actor) const
     {
         // Im Zweifel klappts halt. :)
         return true;

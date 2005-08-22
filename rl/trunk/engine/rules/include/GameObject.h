@@ -20,19 +20,13 @@
 #include "RulesPrerequisites.h"
 
 #include "Actor.h"
+#include "Action.h"
 #include "ObjectStateChangeEventSource.h"
 
 namespace rl
 {
     class _RlRulesExport Creature;
-	class _RlRulesExport Action;
-	class _RlRulesExport ActionGroup;
 
-	static const int ACT_NORMAL = 1<<0;
-	static const int ACT_INVIS_DESC = 1<<1;
-	static const int ACT_DISABLED = 1<<2;
-	static const int ACT_NEEDS_TALENT = 1<<8;
-	
     /**
     * \brief Basisklasse aller spielrelevanten Objekte in RL.
     * Stellt im Wesentlichen Methoden zur Identifikation von
@@ -60,14 +54,14 @@ namespace rl
         virtual const CeGuiString& getDescription() const;
         virtual void setDescription(CeGuiString& description);
 
-        void addAction(Action* action, int option = ACT_NORMAL);
-        void addActionInGroup(Action* action, ActionGroup* group, int option = ACT_NORMAL);
+		void addAction(Action* action, int option = Action::ACT_NORMAL);
+        void addActionInGroup(Action* action, ActionGroup* group, int option = Action::ACT_NORMAL);
         void removeAction(Action* action);
 	
 		void setActor(Actor* actor);
 		Actor* getActor();
 
-        const ActionVector getValidActions() const;
+        const ActionVector getValidActions(Creature* actor) const;
 
         /** Eine Aktion des Gegenstandes wird ausgeloest.
          *  @param actionName der Name der auszuloesenden Aktion.
