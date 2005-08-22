@@ -45,14 +45,14 @@
 
 %typemap(in) rl::CeGuiString, const rl::CeGuiString {
     Check_Type($input, T_STRING);
-    $1 = rl::CeGuiString(StringValuePtr($input));
+    $1 = rl::CeGuiString((CEGUI::utf8*)StringValuePtr($input));
 }
 %typemap(out) rl::CeGuiString, const rl::CeGuiString {
      $result = rb_str_new2($1.c_str());
 }
 %typemap(in) rl::CeGuiString*, rl::CeGuiString&, const rl::CeGuiString*, const rl::CeGuiString& {
     Check_Type($input, T_STRING);
-    $1 = new rl::CeGuiString(StringValuePtr($input));
+    $1 = new rl::CeGuiString((CEGUI::utf8*)StringValuePtr($input));
 }
 %typemap(out) rl::CeGuiString*, rl::CeGuiString&,  const rl::CeGuiString*, const rl::CeGuiString& {
      $result = rb_str_new2($1->c_str());
@@ -66,7 +66,7 @@
 
 %typemap(directorout) rl::CeGuiString, const rl::CeGuiString {
     if (TYPE($input) == T_STRING)
-        $result = rl::CeGuiString(StringValuePtr($input));
+        $result = rl::CeGuiString((CEGUI::utf8*)StringValuePtr($input));
     else
         throw Swig::DirectorTypeMismatchException("string expected");
 }
@@ -74,7 +74,7 @@
 %typemap(directorout) const rl::CeGuiString &, rl::CeGuiString&  {
     if (TYPE($input) == T_STRING) {
 		$result = new rl::CeGuiString();
-        $result->assign(rl::CeGuiString(StringValuePtr($input)));
+        $result->assign(rl::CeGuiString((CEGUI::utf8*)StringValuePtr($input)));
     } else {
         throw Swig::DirectorTypeMismatchException("string expected");
     }

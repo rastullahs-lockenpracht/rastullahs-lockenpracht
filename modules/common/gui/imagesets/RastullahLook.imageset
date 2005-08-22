@@ -59,8 +59,8 @@
     <Image Name="ProgressBarLeft" XPos="71" YPos="74" Width="7" Height="12" />
     <Image Name="ProgressBarMiddle" XPos="80" YPos="74" Width="6" Height="12" />
     <Image Name="ProgressBarRight" XPos="88" YPos="74" Width="6" Height="12" />
-    <Image Name="ProgressBarDimSegment" XPos="96" YPos="74" Width="8" Height="12" />
-    <Image Name="ProgressBarLitSegment" XPos="106" YPos="74" Width="8" Height="12" />
+    <Image Name="ProgressBarDimSegment" XPos="296" YPos="74" Width="8" Height="12" />
+    <Image Name="ProgressBarLitSegment" XPos="306" YPos="74" Width="8" Height="12" />
     
     <Image Name="EditBoxLeft" XPos="42" YPos="331" Width="8" Height="16" />
     <Image Name="EditBoxMiddle" XPos="53" YPos="331" Width="52" Height="16" />
