@@ -36,7 +36,7 @@ namespace rl {
 		ActionChoiceWindow(Person* actor);
 		~ActionChoiceWindow();
 		
-		void showActionsOfObject(GameObject* object);
+		int showActionsOfObject(GameObject* object);
 		bool showHint(const CeGuiString& evt);
 
 	private:

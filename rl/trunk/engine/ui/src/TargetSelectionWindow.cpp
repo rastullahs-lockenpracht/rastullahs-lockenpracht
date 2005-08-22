@@ -48,6 +48,9 @@ namespace rl
 		mText = getStaticText("TargetSelectionWindow/Text");
 		mText->moveToFront();
 
+		mTooltip = getWindow("TargetSelectionWindow/TooltipWindow");
+		mTooltip->setTooltipType("RastullahLooks/Tooltip");
+
 		mWindow->subscribeEvent(
 			Window::EventMouseMove,
 			boost::bind(&TargetSelectionWindow::showObjectDescription, this, _1));
@@ -84,9 +87,17 @@ namespace rl
 		GameObject* object = getTargetedObject(me.position.d_x, me.position.d_y);
 
 		if (object == NULL)
+		{
 			setText("");
+			mTooltip->setVisible(false);
+		}
 		else
-			setText(object->getName());
+		{
+            setText(object->getName());
+			mTooltip->setTooltipText(object->getName());
+			mTooltip->setVisible(true);
+			mTooltip->setPosition(Relative, me.position);
+		}
 		return true;
 	}
 

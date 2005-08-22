@@ -33,17 +33,9 @@ namespace rl {
 		static WindowManager& getSingleton();
 		static WindowManager* getSingletonPtr();
 
-		typedef std::set<CeGuiWindow*> WindowSet;
-
-		CEGUI::Window* loadWindow(const CeGuiString& xmlfile, CeGuiString* prefix = NULL);
-		void registerWindow(CeGuiWindow* window);
 		bool destroyWindow(CeGuiWindow* window);
-		void pruneWindows();
-
+		
 	private:
-		WindowSet mActiveWindows;
-		WindowSet mWindowsToDelete;
-	
 		int mNumCeGuiWindows;
 	};
 

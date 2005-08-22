@@ -19,7 +19,6 @@
 
 #include "UiSubsystem.h"
 #include "CoreSubsystem.h"
-#include "WindowManager.h"
 
 #include "MainMenuWindow.h"
 
@@ -107,7 +106,7 @@ namespace rl {
 	bool MainMenuWindow::handleStart()
 	{
 		setVisible(false);
-		rl::WindowManager::getSingleton().destroyWindow(this);
+		destroyWindow();
 		CoreSubsystem::getSingleton().startAdventureModule(mActiveModule.c_str());
 
         this->setVisible( false );

@@ -47,6 +47,7 @@ namespace rl {
 
         CEGUI::StaticText* mText;		
 		Action* mAction;
+		CEGUI::Window* mTooltip;
     };
 }
 

@@ -22,7 +22,6 @@
 #include "ActionManager.h"
 #include "GameObject.h"
 #include "Person.h"
-#include "WindowManager.h"
 #include "UiSubsystem.h"
 #include "Exception.h"
 
@@ -55,7 +54,7 @@ namespace rl {
 		mButtons.clear();*/
 	}
 	
-	void ActionChoiceWindow::showActionsOfObject(GameObject* object)
+	int ActionChoiceWindow::showActionsOfObject(GameObject* object)
 	{
 		UiSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, 
 			"Start", "ActionChoiceWindow::showActionsOfObject");
@@ -73,23 +72,27 @@ namespace rl {
 		CEGUI::Point center = mWindow->relativeToAbsolute(CEGUI::Point(0.5, 0.5));
 		static int RADIUS = 80;
 
-		ActionVector actions = object->getValidActions();
-		UiSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, 
-			"Aktionen ermittelt", "ActionChoiceWindow::showActionsOfObject");
-        ActionNode* actionTree = ActionNode::createActionTree(actions);
-		UiSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, 
-			"Baum erzeugt", "ActionChoiceWindow::showActionsOfObject");
-		createButtons(actionTree, center, RADIUS, 0, 360);
+		ActionVector actions = object->getValidActions(mActor);
+		if (actions.size() != 0)
+		{
+			UiSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, 
+				"Aktionen ermittelt", "ActionChoiceWindow::showActionsOfObject");
+			ActionNode* actionTree = ActionNode::createActionTree(actions);
+			UiSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, 
+				"Baum erzeugt", "ActionChoiceWindow::showActionsOfObject");
+			createButtons(actionTree, center, RADIUS, 0, 360);
 
-		mButtonCancel = createButton("cancelbutton", center);
-		bindClickToCloseWindow(mButtonCancel);
-		mWindow->addChildWindow(mButtonCancel);
-		
-		UiSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, 
-			"Buttons erzeugt", "ActionChoiceWindow::showActionsOfObject");
-		setButtonActions(actionTree, actionTree);
-		UiSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, 
-			"Ende", "ActionChoiceWindow::showActionsOfObject");
+			mButtonCancel = createButton("cancelbutton", center);
+			bindClickToCloseWindow(mButtonCancel);
+			mWindow->addChildWindow(mButtonCancel);
+			
+			UiSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, 
+				"Buttons erzeugt", "ActionChoiceWindow::showActionsOfObject");
+			setButtonActions(actionTree, actionTree);
+			UiSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, 
+				"Ende", "ActionChoiceWindow::showActionsOfObject");
+		}
+		return actions.size();
 	}
 	
 	void ActionChoiceWindow::setButtonActions(ActionNode* actions, ActionNode* treeRoot)
@@ -189,7 +192,7 @@ namespace rl {
 		UiSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, 
 			"Ende", "ActionChoiceWindow::activateAction");
 
-		WindowManager::getSingleton().destroyWindow(this);
+		destroyWindow();
 		return true;
 	}
 
@@ -229,13 +232,12 @@ namespace rl {
 
 	PushButton* ActionChoiceWindow::createButton(const CeGuiString& name, const CEGUI::Point& pos)
 	{
-		Window* button = WindowManager::getSingleton().loadWindow(
-				"buttons/"+name+".xml", NULL);
+		Window* button = CeGuiWindow::loadWindow("buttons/"+name+".xml");
 		if (button == NULL)
 		{
 			button = 
-				WindowManager::getSingleton().loadWindow(
-					"buttons/defaultbutton.xml", NULL);
+				CeGuiWindow::loadWindow(
+					"buttons/defaultbutton.xml");
 		}
 
 		CEGUI::Size size = button->getAbsoluteSize();
@@ -252,7 +254,7 @@ namespace rl {
 	
 	bool ActionChoiceWindow::setButtonVisible(PushButton* button, bool visible)
 	{
-		std::string showHide;
+		Ogre::String showHide;
 		
 		if (visible)
 			showHide = "Show ";

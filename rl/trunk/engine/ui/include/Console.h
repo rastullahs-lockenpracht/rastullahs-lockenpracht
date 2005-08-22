@@ -59,7 +59,7 @@ namespace rl {
 			bool handleKeyDown(const CEGUI::EventArgs& e);
 			void appendTextRow(CeGuiString& text, const CEGUI::colour color);
 
-			std::vector<std::string> mHistory;
+			std::vector<Ogre::String> mHistory;
 			unsigned int mHistoryMarker;
 			void cycleHistory(int skip);
 	};

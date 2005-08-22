@@ -19,11 +19,11 @@
 
 #include "InputManager.h"
 #include "UiSubsystem.h"
-#include "WindowManager.h"
 #include "CommandMapper.h"
 #include "CommandMapperWindow.h"
 
 #include "GameObject.h"
+#include "Creature.h"
 #include "Action.h"
 
 using namespace CEGUI;
@@ -31,7 +31,7 @@ using namespace Ogre;
 
 namespace rl {
 
-CommandMapperWindow::CommandMapperWindow(GameObject* actionHolder)
+CommandMapperWindow::CommandMapperWindow(Creature* actionHolder)
 	:	CeGuiWindow("commandmapper.xml", WND_ALL_INPUT),
 		mActionHolder(actionHolder),
 		mInputWindow(new CommandMapperInputWindow())		
@@ -40,10 +40,7 @@ CommandMapperWindow::CommandMapperWindow(GameObject* actionHolder)
 		subscribeEvent(
 			PushButton::EventClicked,
 			boost::bind(&CommandMapperWindow::handleChangeButton, this));
-	getWindow("CommandMapper/CloseButton")->
-		subscribeEvent(
-			PushButton::EventClicked,
-			boost::bind(&WindowManager::destroyWindow, WindowManager::getSingletonPtr(), this));
+	bindClickToCloseWindow(getWindow("CommandMapper/CloseButton"));
 	
 	mTabPane = getTabPane("CommandMapper/TabPane");
 
@@ -221,7 +218,7 @@ void CommandMapperWindow::refreshContent()
 	//} 
 
 	row = 0;
-	const ActionVector actions = mActionHolder->getValidActions();
+	const ActionVector actions = mActionHolder->getValidActions(mActionHolder);
 	for (ActionVector::const_iterator actionIter = actions.begin(); 
 		actionIter != actions.end(); actionIter++)
 	{

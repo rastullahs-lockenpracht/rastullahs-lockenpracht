@@ -37,6 +37,8 @@ namespace rl {
 			WND_ALL_INPUT,
 		};
 
+		CEGUI::Window* getWindow();
+
 		CEGUI::Window* getWindow(const char* name);
 		CEGUI::Editbox* getEditbox(const char* name);
 		CEGUI::Listbox* getListbox(const char* name);
@@ -62,10 +64,9 @@ namespace rl {
 		virtual ~CeGuiWindow();	
 
 	protected:
-		CeGuiWindow(const char* xmlfile, WindowType type, bool modal = false);
+		CeGuiWindow(const CeGuiString& xmlfile, WindowType type, bool modal = false);
 		const CeGuiString& getNamePrefix() const;
-
-        		
+		
 		void show();
 		void hide();
 
@@ -73,16 +74,22 @@ namespace rl {
 		virtual bool beforeHide();
 	
 		void centerWindow();
+		bool destroyWindow();
 
 		void bindClickToCloseWindow(CEGUI::Window* button);
-		
+
+		static CEGUI::Window* loadWindow(const CeGuiString& xmlfile, CeGuiString& prefix = CeGuiString(""));
+
 		CEGUI::Window* mWindow;
 		bool mIsVisible; 
 
 	private:
+		
 		WindowType mWindowType;
 		CeGuiString mNamePrefix;
 		CeGuiString mName;
+
+		static int sNumCeGuiWindows;
 
 	};
 

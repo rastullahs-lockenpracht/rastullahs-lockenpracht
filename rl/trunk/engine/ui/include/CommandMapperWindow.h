@@ -22,7 +22,7 @@
 
 namespace rl {
 
-	class GameObject;
+	class Creature;
 
 	class CommandMapperInputWindow :
 		public CeGuiWindow
@@ -37,7 +37,7 @@ namespace rl {
 		public CeGuiWindow
 	{
 	public:
-		CommandMapperWindow(GameObject* actionHolder);
+		CommandMapperWindow(Creature* actionHolder);
 			
 	private:
 		bool handleChangeButton();
@@ -53,7 +53,7 @@ namespace rl {
 
 		void refreshContent();
 
-		GameObject* mActionHolder;
+		Creature* mActionHolder;
 		CommandMapperInputWindow* mInputWindow;
 		CEGUI::MultiColumnList* mTableInBattle;
 		CEGUI::MultiColumnList* mTableOffBattle;

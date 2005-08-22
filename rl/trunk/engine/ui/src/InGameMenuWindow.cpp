@@ -19,7 +19,6 @@
 
 #include "UiSubsystem.h"
 #include "CoreSubsystem.h"
-#include "WindowManager.h"
 
 #include "InGameMenuWindow.h"
 #include "Action.h"

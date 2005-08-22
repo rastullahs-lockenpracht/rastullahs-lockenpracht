@@ -16,6 +16,7 @@
 
 #include "CeGuiWindow.h"
 #include "WindowManager.h"
+#include <CEGUIWindowManager.h>
 
 using namespace Ogre;
 
@@ -24,51 +25,16 @@ template<> rl::WindowManager* Ogre::Singleton<rl::WindowManager>::ms_Singleton =
 namespace rl {
 
 	WindowManager::WindowManager()
-	  : mWindowsToDelete(),
-	    mActiveWindows(),
-	    mNumCeGuiWindows(0)
+	  : mNumCeGuiWindows(0)
 	{
 	}
 	
-	CEGUI::Window* WindowManager::loadWindow(const CeGuiString& xmlfile, CeGuiString* prefix)    
-	{
-		CeGuiString namePrefix = StringConverter::toString(mNumCeGuiWindows);
-		if (prefix != NULL)
-			prefix->assign(namePrefix);
-		mNumCeGuiWindows++;
-		
-		CEGUI::Window* window = NULL;		
-		try 
-		{
-			window = CEGUI::WindowManager::getSingleton().loadWindowLayout(xmlfile, 
-				namePrefix);
-		}
-		catch(...)
-		{
-		}
-			
-		return window;
-	}	
- 
 	bool WindowManager::destroyWindow(CeGuiWindow* window)
 	{
-		pruneWindows();
-		
-		WindowSet::iterator iter = mActiveWindows.find(window);
-		if (iter == mActiveWindows.end())
-			return false;
-
 		window->setVisible(false);
-		mActiveWindows.erase(iter);
-		mWindowsToDelete.insert(window);
-
+		CEGUI::WindowManager::getSingleton().destroyWindow(window->getWindow());
+		delete window;
 		return true;
-	}
-
-	void WindowManager::registerWindow(CeGuiWindow* window)
-	{
-		pruneWindows();
-		mActiveWindows.insert(window);
 	}
 
 	WindowManager& WindowManager::getSingleton()
@@ -79,15 +45,5 @@ namespace rl {
 	WindowManager* WindowManager::getSingletonPtr()
 	{
 		return Singleton<WindowManager>::getSingletonPtr();
-	}
-	
-	void WindowManager::pruneWindows()
-	{
-		while(!mWindowsToDelete.empty())
-		{
-			CeGuiWindow* wnd = *mWindowsToDelete.begin();
-			mWindowsToDelete.erase(mWindowsToDelete.begin());
-			delete wnd;
-		}
 	}
 }

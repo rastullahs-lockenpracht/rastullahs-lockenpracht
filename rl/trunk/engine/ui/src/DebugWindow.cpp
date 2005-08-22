@@ -67,7 +67,7 @@ namespace rl
 		const RenderTarget::FrameStats& stats = Root::getSingleton().getAutoCreatedWindow()->getStatistics();
 		Window *textStats = getWindow("DebugWindow/Statistics");
 
-		std::string textSt = "Current FPS: " + 
+		Ogre::String textSt = "Current FPS: " + 
 			StringConverter::toString(stats.lastFPS)+
 			"\nBest/worst/avg FPS: " + 
 			StringConverter::toString(stats.bestFPS) + "/" + 

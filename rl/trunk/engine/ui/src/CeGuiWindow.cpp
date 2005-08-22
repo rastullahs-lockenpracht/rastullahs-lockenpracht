@@ -14,10 +14,10 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 #include <boost/bind.hpp>
+#include <CEGUIWindowManager.h>
 #include "UiPrerequisites.h"
 #include "Exception.h"
 
-#include "WindowManager.h"
 #include "UiSubsystem.h"
 #include "CeGuiWindow.h"
 #include "InputManager.h"
@@ -29,12 +29,14 @@ using namespace Ogre;
 namespace rl
 {
 
-CeGuiWindow::CeGuiWindow(const char* xmlfile, WindowType type, bool modal)
+int CeGuiWindow::sNumCeGuiWindows = 0;
+
+CeGuiWindow::CeGuiWindow(const CeGuiString& xmlfile, WindowType type, bool modal)
 {
-   	mWindow = WindowManager::getSingleton().loadWindow(xmlfile, &mNamePrefix);
+   	mWindow = CeGuiWindow::loadWindow(xmlfile, mNamePrefix);
 	if (mWindow == NULL)
 	{
-		Throw(rl::IllegalStateException, std::string("Could not load window '")+xmlfile+"'.");
+		Throw(rl::IllegalStateException, Ogre::String("Could not load window '")+xmlfile.c_str()+"'.");
 	}
 	mWindow->hide();
 	
@@ -45,12 +47,30 @@ CeGuiWindow::CeGuiWindow(const char* xmlfile, WindowType type, bool modal)
 	mWindowType = type;
 	
 	mName = mWindow->getName();
-	WindowManager::getSingleton().registerWindow(this);
 }
 
 CeGuiWindow::~CeGuiWindow()
 {
-	CEGUI::WindowManager::getSingleton().destroyWindow(mWindow);
+}
+
+CEGUI::Window* CeGuiWindow::loadWindow(const CeGuiString& xmlfile, CeGuiString& prefix)    
+{
+	CeGuiString namePrefix;
+	if (prefix == "")
+		prefix.assign(StringConverter::toString(sNumCeGuiWindows));
+	sNumCeGuiWindows++;
+
+	CEGUI::Window* window = NULL;		
+	try 
+	{
+		window = CEGUI::WindowManager::getSingleton().loadWindowLayout(xmlfile, 
+			prefix);
+	}
+	catch(...)
+	{
+	}
+
+	return window;
 }
 
 bool CeGuiWindow::isVisible()
@@ -194,7 +214,19 @@ void CeGuiWindow::centerWindow()
 void CeGuiWindow::bindClickToCloseWindow(CEGUI::Window* button)
 {
 	button->subscribeEvent(Window::EventMouseClick,
-		boost::bind(&WindowManager::destroyWindow, WindowManager::getSingletonPtr(), this));
+		boost::bind(&CeGuiWindow::destroyWindow, this));
+}
+
+bool CeGuiWindow::destroyWindow()
+{
+	setVisible(false);
+	CEGUI::WindowManager::getSingleton().destroyWindow(mWindow);
+	return true;
+}
+
+CEGUI::Window* CeGuiWindow::getWindow()
+{
+	return mWindow;
 }
 
 const CeGuiString& CeGuiWindow::getNamePrefix() const

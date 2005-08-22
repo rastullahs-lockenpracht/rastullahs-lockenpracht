@@ -32,7 +32,6 @@
 #include "CommandMapperWindow.h"
 #include "MessageWindow.h"
 #include "MainMenuWindow.h"
-#include "WindowManager.h"
 #include "GameLoggerWindow.h"
 #include "TargetSelectionWindow.h"
 #include "CharacterStateWindow.h"
@@ -129,8 +128,7 @@ namespace rl {
 		//Initializing InputManager
 		new CommandMapper();
         new InputManager();
-		new rl::WindowManager();
-        log(Ogre::LML_TRIVIAL, "UI-Manager geladen", "UiSubsystem::initializeUiSubsystem");
+		log(Ogre::LML_TRIVIAL, "UI-Manager geladen", "UiSubsystem::initializeUiSubsystem");
 
 		InputManager::getSingleton().loadKeyMapping("keymap-german.xml");
 		log(Ogre::LML_TRIVIAL, "Keymap geladen", "UiSubsystem::initializeUiSubsystem");
@@ -154,7 +152,7 @@ namespace rl {
     	GameLoopManager::getSingleton().quitGame();
 	}
     
-    void UiSubsystem::writeToConsole(std::string text)
+    void UiSubsystem::writeToConsole(Ogre::String text)
 	{
 		Console::getSingleton().write(text);
 	}
@@ -188,8 +186,9 @@ namespace rl {
 	void UiSubsystem::showActionChoice(GameObject* obj)
 	{
 		ActionChoiceWindow* w = new ActionChoiceWindow(UiSubsystem::getSingleton().getActiveCharacter());
-		w->showActionsOfObject(obj);
-		w->setVisible(true);
+		int numActions = w->showActionsOfObject(obj);
+		if (numActions > 0)
+			w->setVisible(true);
 	}
 
 	void UiSubsystem::showCharacterActionChoice()
@@ -211,7 +210,7 @@ namespace rl {
 		wnd->setVisible(true);
 	}
 
-	bool UiSubsystem::showInputOptionsMenu(GameObject* actionHolder)
+	bool UiSubsystem::showInputOptionsMenu(Creature* actionHolder)
 	{
 		CommandMapperWindow* wnd = new CommandMapperWindow(actionHolder);
 		wnd->setVisible(true);
