@@ -123,6 +123,8 @@ namespace rl {
 			}			
 		}
 
+		CEGUI::System::getSingleton().injectTimePulse(elapsedTime);
+
 		if (mScheduledInputSwitch == SWITCH_TO_BUFFERED)
 		{
 			switchMouseToBuffered();

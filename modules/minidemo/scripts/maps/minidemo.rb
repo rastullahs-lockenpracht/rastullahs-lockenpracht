@@ -57,8 +57,9 @@ $CORE.log("Türen fertig")
 
 $CORE.log("Hebel reinsetzen")
 hebel = Switch.new( "Hebel" );
-hebel.getActor().placeIntoScene( 160.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0 );
-hebel.getActor().yaw(-90.0);
+hebel.getActor().placeIntoScene( 1330.0, 25.0, 180.0, 1.0, 0.0, 0.0, 0.0 );
+hebel.getActor().pitch(90.0)
+hebel.getActor().roll(90.0)
 $CORE.log("Hebel fertig");
 
 doorprocessor = SecretDoorOpener.new(gtuer, hebel)
