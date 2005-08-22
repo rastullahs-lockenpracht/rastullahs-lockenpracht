@@ -300,8 +300,7 @@ namespace rl {
 
 	void UiSubsystem::runTest()
 	{
-	//	InputManager::getSingleton().setObjectPickingActive(true);
-	//	DialogWindow* dialog=new DialogWindow("startup.xml");  
+		DialogWindow* dialog = new DialogWindow("startup.xml");  
 	}
 
 	void UiSubsystem::update()

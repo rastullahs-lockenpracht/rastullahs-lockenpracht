@@ -14,7 +14,6 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-//#include <elements/CEGUIListbox.h>
 #include "ListboxImageItem.h"
 #include <CEGUIWindow.h>
 #include <CEGUIRenderableImage.h>
@@ -35,16 +34,15 @@ void ListboxImageItem::draw(const Vector3& position, float alpha, const Rect& cl
 {
 	if (d_selected && (d_selectBrush != NULL))
     {
-        //d_selectBrush->draw(clipper, position.d_z, clipper, getModulateAlphaColourRect(d_selectCols, alpha));
+        d_selectBrush->draw(clipper, position.d_z, clipper, getModulateAlphaColourRect(d_selectCols, alpha));
     }
 
-//	d_image->draw(position, clipper);
+	d_image->draw(position, clipper);
 }
 
 CEGUI::Size ListboxImageItem::getPixelSize() const
 {
-//	return d_image->getSize();
-    return CEGUI::Size(0,0);
+	return d_image->getSize();
 }
 
 

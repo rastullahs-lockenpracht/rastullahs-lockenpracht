@@ -64,9 +64,7 @@ namespace rl {
 		WindowFactory* factoryPopupItem = WindowFactoryManager::getSingleton().getFactory("RastullahLook/PopupMenuItem");
 
 		Ogre::StringVector modules = CoreSubsystem::getSingleton().getActivatableModules();
-		mActiveModule = CoreSubsystem::getSingleton().getActiveModule();
-		if (mActiveModule.length() == 0)
-			mActiveModule = *modules.begin();
+		mActiveModule = CoreSubsystem::getSingleton().getDefaultActiveModule();
 
 		for(Ogre::StringVector::iterator mod = modules.begin();	
 			mod != modules.end(); mod++)
@@ -110,7 +108,7 @@ namespace rl {
 	{
 		setVisible(false);
 		rl::WindowManager::getSingleton().destroyWindow(this);
-		CoreSubsystem::getSingleton().setActiveModule(mActiveModule.c_str());
+		CoreSubsystem::getSingleton().startAdventureModule(mActiveModule.c_str());
 
         this->setVisible( false );
 		return true;

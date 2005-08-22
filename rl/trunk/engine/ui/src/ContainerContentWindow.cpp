@@ -39,8 +39,11 @@ namespace rl {
 
 	bool ContainerContentWindow::handleItemChoose()
 	{
-		Item* currentItem = static_cast<Item*>(mItemList->getFirstSelectedItem()->getUserData());
-		UiSubsystem::getSingleton().showActionChoice(currentItem);
+		if (mItemList->getFirstSelectedItem() != NULL)
+		{
+			Item* currentItem = static_cast<Item*>(mItemList->getFirstSelectedItem()->getUserData());
+			UiSubsystem::getSingleton().showActionChoice(currentItem);
+		}
 		return true;
 	}
 }

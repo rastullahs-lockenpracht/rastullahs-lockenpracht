@@ -83,7 +83,9 @@ namespace rl
 
 		GameObject* object = getTargetedObject(me.position.d_x, me.position.d_y);
 
-		if (object != NULL)
+		if (object == NULL)
+			setText("");
+		else
 			setText(object->getName());
 		return true;
 	}

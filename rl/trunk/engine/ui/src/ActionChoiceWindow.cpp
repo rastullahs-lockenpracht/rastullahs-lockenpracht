@@ -84,7 +84,7 @@ namespace rl {
 		mButtonCancel = createButton("cancelbutton", center);
 		bindClickToCloseWindow(mButtonCancel);
 		mWindow->addChildWindow(mButtonCancel);
-
+		
 		UiSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, 
 			"Buttons erzeugt", "ActionChoiceWindow::showActionsOfObject");
 		setButtonActions(actionTree, actionTree);
