@@ -71,20 +71,19 @@ class _RlCoreExport ActorManager : protected Ogre::Singleton<ActorManager>,
 		bool collision(OgreOde::Contact* contact);
 
 		Actor* getActorAt(Ogre::Real x, Ogre::Real y, Ogre::Real width, Ogre::Real length, bool infinite = false);
-		void collectSelectableObjects( Ogre::Real x, Ogre::Real y );
 
         /** Returns the Singleton */
 	    static ActorManager & getSingleton(void);
 	    static ActorManager * getSingletonPtr(void);        
     private:
+		std::vector<Actor*> collectSelectableObjects( Ogre::Real x, Ogre::Real y );
         void doDestroyActor( Actor* actor );
         String nextUniqueName(const Ogre::String& basename);
 
         ActorPtrMap mActors;
 		OgreOde::Space* mActorOdeSpace;
 		OgreOde::Geometry* mSelectionCapsule;
-		std::vector<Actor*> mSelectableObjects;
-        World* mWorld;
+		World* mWorld;
 };
 
 }
