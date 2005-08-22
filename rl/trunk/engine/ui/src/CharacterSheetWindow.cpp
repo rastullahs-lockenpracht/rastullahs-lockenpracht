@@ -45,6 +45,8 @@ CharacterSheetWindow::CharacterSheetWindow()
 	mName = getStaticText("CharacterSheet/CharacterSheet/Name");
 	mRasse = getStaticText("CharacterSheet/CharacterSheet/Rasse");
 	mProfession = getStaticText("CharacterSheet/CharacterSheet/Profession");
+
+	bindCloseToCloseButton();
 	
 	for (int i=0; i<EIGENSCHAFT_COUNT; i++)
 		mEigenschaft[i] = 

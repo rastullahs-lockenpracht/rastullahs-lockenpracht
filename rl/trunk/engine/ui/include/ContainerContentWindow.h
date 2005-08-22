@@ -30,7 +30,11 @@ public:
 
 private:
 
-	bool handleItemChoose();
+	bool handleItemUse();
+	bool handleClose();
+
+
+	Container* mContainer;
 
 	CEGUI::Listbox* mItemList;
 };

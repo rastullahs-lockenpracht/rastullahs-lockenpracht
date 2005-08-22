@@ -45,6 +45,8 @@ namespace rl
 
         ItemSet getItems() const;
 
+		virtual void close() = 0;
+
     private:
         int mCapacity;
         ItemSet mItems;

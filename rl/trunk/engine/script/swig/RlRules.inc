@@ -269,6 +269,8 @@ namespace rl {
         void addItem(rl::Item* item);
         rl::Item* removeItem(int itemId);
         rl::ItemSet getItems() const;
+        
+        virtual void close() = 0;
 	};
     
     %feature("director") Creature;

@@ -217,6 +217,12 @@ void CeGuiWindow::bindClickToCloseWindow(CEGUI::Window* button)
 		boost::bind(&CeGuiWindow::destroyWindow, this));
 }
 
+void CeGuiWindow::bindCloseToCloseButton()
+{
+	mWindow->subscribeEvent(FrameWindow::EventCloseClicked,
+		boost::bind(&CeGuiWindow::destroyWindow, this));
+}
+
 bool CeGuiWindow::destroyWindow()
 {
 	setVisible(false);

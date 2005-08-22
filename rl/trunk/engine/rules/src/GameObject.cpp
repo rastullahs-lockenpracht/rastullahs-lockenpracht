@@ -118,7 +118,7 @@ namespace rl
 		if (it == mActions.end())
         {
             std::stringstream strstr;
-            strstr << actionName.c_str() << " aus " << className.c_str() << " ist eine dem Objekt unbekannte Aktion.";
+			strstr << "[Name:'" << actionName.c_str() << "', Klasse: '" << className.c_str() << "'] ist eine dem Objekt unbekannte Aktion.";
             Throw(InvalidArgumentException, strstr.str());
         }
         

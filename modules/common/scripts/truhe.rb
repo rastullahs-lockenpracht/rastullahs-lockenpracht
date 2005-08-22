@@ -67,6 +67,10 @@ class Chest < Container
     	$CORE.log("truhe.rb - Aktionen hinzugefuegt.");
     end
   end
+  
+  def close()
+    doAction("CloseChestAction", "closechest")
+  end
 
 end
 
