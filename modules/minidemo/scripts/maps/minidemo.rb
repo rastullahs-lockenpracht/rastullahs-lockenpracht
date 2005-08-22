@@ -35,14 +35,14 @@ $hero = Hero.new;
 $CORE.log("Held erstellt");
 $CORE.log("Held in die Szene einfuegen.");
 $hero.getActor().placeIntoScene(0.0, 20.0, 40.0, 1.0, 0.0, 0.0, 0.0);
-$CORE.log("Held eingefügt.");
+$CORE.log("Held eingefÃ¼gt.");
 PlayerSettings.preparePlayer($hero);
 $CORE.log("Held vorbereitet.");
 $UI.setActiveCharacter($hero);
 $CORE.log("Held als aktiver Charakter gesetzt.");
 
 
-$CORE.log("Türen einsetzen")
+$CORE.log("TÃ¼ren einsetzen")
 door1 = Door.new("Tuer_1", false, true);
 door1.getActor().placeIntoScene(1368.0, -75.0, -170.0, 1.0, 0.0, 0.0, 0.0);
 #, "Bone01");
@@ -52,7 +52,7 @@ gtuer = Door.new("Tuer_2", false, false);
 gtuer.getActor().placeIntoScene(1368.0, -75.0, 60.0, 1.0, 0.0, 0.0, 0.0)
 #, "Bone01");
 gtuer.getActor().yaw(-90.0)
-$CORE.log("Türen fertig")
+$CORE.log("TÃ¼ren fertig")
 
 
 $CORE.log("Hebel reinsetzen")

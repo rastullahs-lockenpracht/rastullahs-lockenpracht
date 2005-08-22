@@ -1,20 +1,20 @@
 # TODO Skript ausbauen in Hinblick auf Interaktion Held <-> Item.
 # und Aktoren untereinander.
 # Halt diese Klassen wie sie hier beschrieben sind auch benutzen.
-# TODO Über Speichersparen nachdenken. Inwiefern können Instanzen
-# einiger Klassen für Instanzen anderer Klassen nachgenutzt werden?
+# TODO Ãœber Speichersparen nachdenken. Inwiefern kÃ¶nnen Instanzen
+# einiger Klassen fÃ¼r Instanzen anderer Klassen nachgenutzt werden?
 # Inwiefern ist Deferred Construction sinnvoll?
 require 'globals.rb'
 require 'actions.rb'
 require 'items.rb'
 
-# Die Aktion für das Anzünden der Fackel.
+# Die Aktion fÃ¼r das AnzÃ¼nden der Fackel.
 class LightTorchAction < RubyAction
   def initialize
-    super("Anzünden", "Die Fackel anzünden für mehr Licht und so.");
+    super("AnzÃ¼nden", "Die Fackel anzÃ¼nden fÃ¼r mehr Licht und so.");
   end
   
-  # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
+  # Die Methode prÃ¼ft, ob die Aktion Ã¼berhaupt angeboten wird.
   def canDo?(torch, user)
     # Wenn die Fackel aus ist, kann sie angemacht werden.
     not torch.lit?;
@@ -22,8 +22,8 @@ class LightTorchAction < RubyAction
   
   def doAction(torch, user, target)
     # Fackel hat ein Licht am Slot SLOT_FAR_END
-    # Man könnte es auch so machen, dass dieses Licht jetzt
-    # erzeugt und angeheftet wird. Spräche einiges dafür.
+    # Man kÃ¶nnte es auch so machen, dass dieses Licht jetzt
+    # erzeugt und angeheftet wird. SprÃ¤che einiges dafÃ¼r.
     # Das alles ist implizites Wissen. Deshalb sollte es
     # allgemeine Richtlinien geben und die Item-Doku sollte
     # sowas ganz klar ausweisen. Da aber alles innerhalb von Ruby
@@ -34,7 +34,7 @@ class LightTorchAction < RubyAction
     torchActor.getChildBySlotAndIndex(Slots.SLOT_FAR_END, 0).activate();
     torchActor.getChildByName("TorchSparks").activate();
     torchActor.getChildByName("TorchCrackle").activate();
-    # Activation sollte folgendermaßen geregelt sein:
+    # Activation sollte folgendermaÃŸen geregelt sein:
     #       ist Child activated, so wird er angezeigt/erklingt
     #       wenn Parent-Activation true ist, sonst nicht
     #       Parent-Activity-Flag wird nicht an die
@@ -53,11 +53,11 @@ class Torch < RubyItem
   def initialize(name)
     super(1, "Fackel", "Handelsuebliche Fackel zum Beleuchten der Umgebung");
     # Momentan stelle ich mir die Erzeugung so vor:
-    # Die Aktorerstellung über spezifische
-    # Fabrikmethoden für die Dinge, die der Aktor repräsentiert.
+    # Die Aktorerstellung Ã¼ber spezifische
+    # Fabrikmethoden fÃ¼r die Dinge, die der Aktor reprÃ¤sentiert.
     # Die erzeugen alle die gleiche Aktorklasse,
     # aber erzeugen auch das Ogre::Movable
-    # (bzw RlMovable, was das kapselt) und hängen es ran.
+    # (bzw RlMovable, was das kapselt) und hÃ¤ngen es ran.
     
     # Argumente hier: Name, Mesh-Name, Die physikalische Form
     # und die Dichte (g/cm^3) des Objektes.
@@ -74,7 +74,7 @@ class Torch < RubyItem
     #sfxActor = $ActorManager.createSoundSampleActor("TorchCrackle",
     #        "TorchCrackle.wav", Sound.LOOP, Sound.VOLUME_QUIET);        
     
-    # Defaultwert für den vierten Param ist Slots.SLOT_DEFAULT
+    # Defaultwert fÃ¼r den vierten Param ist Slots.SLOT_DEFAULT
     #torchActor.attach(Slots.SLOT_FAR_END, lightActor);
     #torchActor.attach(Slots.SLOT_FAR_END, sparksActor);
     #torchActor.attach(Slots.SLOT_FAR_END, sfxActor);
@@ -87,7 +87,7 @@ class Torch < RubyItem
     # RubyItem selbst impliziert ja schon ein paar Standardactions
     # (Aufnehmen, Ansehen, etc.)
     # TODO soll nicht so bleiben, dass jede Fackel ne separate
-    # Action-Instanz erhält. Eine für alle sollte reichen.
+    # Action-Instanz erhÃ¤lt. Eine fÃ¼r alle sollte reichen.
     addAction(LightTorchAction.new);
     $CORE.log("Aktion hinzugefuegt.");
   end
