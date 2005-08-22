@@ -52,7 +52,10 @@ void RubyInterpreter::initializeInterpreter(staticValueMethod func)
 {
 	//Ruby Initialisieren
 	ruby_init();
-	
+
+    // UTF 8 aktivieren
+    execute( "$KCODE = 'u'" );
+
 	//Skript-Verzeichnisse der  Dateien duerfen auch in /script liegen
 	StringVector modules = CoreSubsystem::getSingleton().getCommonModules();
 	modules.push_back(CoreSubsystem::getSingleton().getActiveAdventureModule());
@@ -77,7 +80,7 @@ void RubyInterpreter::initializeInterpreter(staticValueMethod func)
 	//Ersetzt die Standard-Ausgabe von Ruby durch Ausgaben in die Console
 	rb_defout = rb_str_new("", 0);
 	// Eigentlich nicht mehr notwendig, aber ohne das gibts nen Absturz?!?!
-//	rb_define_singleton_method(rb_defout, "write", (VALUE(*)(...))console_write, 1);
+    // rb_define_singleton_method(rb_defout, "write", (VALUE(*)(...))console_write, 1);
 	rb_define_singleton_method(rb_defout, "write", func, 1);
 
     //Define Globals
