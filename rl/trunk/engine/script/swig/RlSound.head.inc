@@ -14,18 +14,3 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-%{
-//----------- Includes - Sound -----------
-#include "FixRubyHeaders.h"
-#include "SoundPrerequisites.h"
-#include "SoundResource.h"
-#include "SoundManager.h"
-#include "SoundEvents.h"
-#include "Sound.h"
-#include "SoundChannel.h"
-extern "C" {
-#include "fmod.h"
-#include "fmod_errors.h"
-}
-#include "OgreMovableObject.h"
-%}

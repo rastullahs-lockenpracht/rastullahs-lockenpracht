@@ -14,28 +14,7 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-namespace Ogre {
-class Root {
-private:
-	Root();
-public:
-	static Ogre::Root& getSingleton(void);
-	
-	void addResourceLocation(const Ogre::String& name, const Ogre::String& locType, 
-			const Ogre::String& groupName = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, 
-			bool recursive = false);
-};
-
-class Quaternion {
-public:
- 	Quaternion (Ogre::Real fW=1.0, Ogre::Real fX=0.0, Ogre::Real fY=0.0, Ogre::Real fZ=0.0);
- 	void FromAngleAxis(const Ogre::Radian &rfAngle, const Ogre::Vector3 &rkAxis);
-};
-
-}
-
 namespace rl {
-
 %{
 static swig_type_info *GameAreaType_dynamic_cast(void **ptr) {
     rl::GameAreaType **ppGameAreaType = reinterpret_cast<rl::GameAreaType **>(ptr);
