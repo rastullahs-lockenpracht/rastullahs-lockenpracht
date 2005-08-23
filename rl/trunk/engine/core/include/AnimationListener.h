@@ -26,7 +26,6 @@
 namespace rl {
 
 class Animation;
-class Actor;
 
 class _RlCoreExport AnimationEvent : public virtual EventObject
 {
@@ -49,8 +48,7 @@ class _RlCoreExport AnimationListener : public virtual EventListener<AnimationEv
 
 		virtual void animationFinished(AnimationEvent *anEvent) const = 0;
 		virtual void animationPaused(AnimationEvent *anEvent) const = 0;
-        virtual void testActor( Actor* act, Animation* anim, AnimationListener* list ) const = 0;
-		virtual void animationUnpaused(AnimationEvent *anEvent) const = 0;
+ 		virtual void animationUnpaused(AnimationEvent *anEvent) const = 0;
 
 		virtual bool eventRaised(AnimationEvent *anEvent);
 };

@@ -17,7 +17,6 @@
 #include "AnimationListener.h"
 
 #include "Animation.h"
-#include "Actor.h"
 #include "CoreSubsystem.h"
 #include "Exception.h"
 
@@ -59,7 +58,6 @@ bool AnimationListener::eventRaised( AnimationEvent* anEvent )
     {
         CoreSubsystem::getSingleton().log(Ogre::LML_CRITICAL, sife.toString() );
     }
-
 
 	// consumed or not ;)
 	return false;

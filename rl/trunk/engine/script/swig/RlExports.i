@@ -65,9 +65,9 @@ namespace Swig {
     static VALUE rlException = rb_define_class("RlException", rb_eStandardError);
     rb_raise(rlException, re.toString().c_str());
   }
-  catch (Swig::DirectorException& de) {
+  catch (Swig::DirectorException&) {
     static VALUE rlException = rb_define_class("DirectorException", rb_eStandardError);
-    rb_raise(rlException, "blah");
+    rb_raise(rlException, "Eine Director Exception ist aufgetreten");
   } 
 }
 

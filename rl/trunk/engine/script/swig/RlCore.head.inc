@@ -42,12 +42,35 @@
 #include "TrackAnimation.h"
 #include "GameLoop.h"
 #include "World.h"
-#include <OgreRoot.h>
-#include <OgreResourceGroupManager.h>
-#include <OgreLight.h>
 #include "ScriptObjectRepository.h"
 #include "TimerTask.h"
 %}
+
+%define DirectorConstructorHandler 
+{ 
+  try { 
+    $action 
+    rl::ScriptObjectRepository* sor = rl::ScriptObjectRepository::getSingletonPtr();
+	sor->insertPointerValuePair( result, arg1 ); 
+  } 
+  catch (Ogre::Exception& oe) { 
+    static VALUE ogreException = rb_define_class("OgreException", rb_eStandardError); 
+    rb_raise(ogreException, oe.getFullDescription().c_str()); 
+  } 
+  catch (rl::Exception& re ) { 
+    static VALUE rlException = rb_define_class("RlException", rb_eStandardError); 
+    rb_raise(rlException, re.toString().c_str()); 
+  } 
+  catch (Swig::DirectorException&) { 
+    static VALUE rlException = rb_define_class("DirectorException", rb_eStandardError); 
+    rb_raise(rlException, "Eine Director Exception ist aufgetreten"); 
+  } 
+}
+%enddef     
+        
+%exception rl::AnimationListener::AnimationListener() DirectorConstructorHandler
+%exception rl::AnimationFrameListener::AnimationFrameListener() DirectorConstructorHandler
+
         
 // doWithActor( Actor* ) oder andere Director-Methoden Parameter
 %typemap(directorin) SWIGTYPE*

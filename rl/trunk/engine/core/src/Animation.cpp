@@ -19,6 +19,7 @@
 #include "Exception.h"
 #include "AnimationManager.h"
 #include "ActorManager.h"
+#include "ScriptObjectRepository.h"
 
 namespace rl {
 
@@ -27,8 +28,7 @@ Animation::Animation( Ogre::AnimationState* animState, MeshObject* mesh,
                      ) :
 	EventSource(), 
 	mAnimationFrameListener(),
-	mAnimationCaster(),
-    tmpAnimDings( NULL )
+	mAnimationCaster()
 {
     mPaused = false;
 	mIgnoringGlobalSpeed = false;
@@ -176,20 +176,17 @@ void Animation::setWeight(Ogre::Real weight)
 
 void Animation::addAnimationListener(AnimationListener *listener)
 {
-    tmpAnimDings = listener;
 	mAnimationCaster.addEventListener(listener);
+    ScriptObjectRepository::getSingleton().own( listener );
 }
 
 void Animation::removeAnimationListener(AnimationListener *listener)
 {
-    tmpAnimDings = NULL;
-	mAnimationCaster.removeEventListener(listener);
-}
+    if( !mAnimationCaster.containsListener( listener ) ) 
+        return;
 
-AnimationListener* Animation::getAnimationListener( ) 
-{     
-    tmpAnimDings->testActor( ActorManager::getSingleton().getActor("Botter"), this, tmpAnimDings );
-    return tmpAnimDings;
+	mAnimationCaster.removeEventListener(listener);
+    ScriptObjectRepository::getSingleton().disown( listener );
 }
 
 void Animation::addAnimationFrameListener( 
@@ -197,6 +194,7 @@ void Animation::addAnimationFrameListener(
 {
 	mAnimationFrameListener.insert( 
 		std::pair<Ogre::Real,AnimationFrameListener*>(frameNumber,listener) );
+    ScriptObjectRepository::getSingleton().own( listener );
 }
 
 void Animation::removeAnimationFrameListener( AnimationFrameListener *listener )
