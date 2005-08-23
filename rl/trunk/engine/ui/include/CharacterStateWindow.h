@@ -39,7 +39,6 @@ namespace rl {
 
 		void objectStateChanged(ObjectStateChangeEvent* evt);
 
-
 	private:
 		Person* mCharacter;
 

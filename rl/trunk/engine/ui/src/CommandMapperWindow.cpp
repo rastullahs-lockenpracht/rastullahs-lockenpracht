@@ -76,6 +76,8 @@ CommandMapperWindow::CommandMapperWindow(Creature* actionHolder)
 			boost::bind(&CommandMapperWindow::handleMouseButton, this, _1));
 	muteWindow(true);
 
+	bindCloseToCloseButton();
+
 	centerWindow();
 	refreshContent();
 

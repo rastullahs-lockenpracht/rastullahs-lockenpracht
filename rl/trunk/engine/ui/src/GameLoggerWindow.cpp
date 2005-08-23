@@ -29,6 +29,7 @@ GameLoggerWindow::GameLoggerWindow() :
 	CeGuiWindow("gameloggerwindow.xml", WND_SHOW)
 {
 	mLog = getListbox ("GameLogger/Log");
+	bindCloseToCloseButton();
 	addToRoot(mWindow);
 }
 

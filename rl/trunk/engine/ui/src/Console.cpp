@@ -56,6 +56,8 @@ namespace rl
 			boost::bind(&Console::handleKeyDown, this, _1));
 		mDisplay->moveToFront();
 
+		bindCloseToCloseButton();
+
 		mHistory.clear();
         setVisible(false);
 		addToRoot(mWindow);	

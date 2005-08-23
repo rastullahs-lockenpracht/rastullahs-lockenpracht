@@ -38,6 +38,7 @@ namespace rl {
 	class Person;
 	class GameLoggerWindow;
 	class CharacterStateWindow;
+	class CharacterSheetWindow;
 	class Container;
 	class InGameMenuWindow;
 	class Creature;
@@ -105,6 +106,7 @@ namespace rl {
 		GameLoggerWindow* mGameLogger;
 		CharacterStateWindow* mCharacterStateWindow;
 		InGameMenuWindow* mInGameMenuWindow;
+		CharacterSheetWindow* mCharacterSheet;
     };
 }
 

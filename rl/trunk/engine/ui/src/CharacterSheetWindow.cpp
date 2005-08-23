@@ -22,6 +22,7 @@
 #include "Talent.h"
 
 #include "CharacterSheetWindow.h"
+#include "ObjectStateChangeEvent.h"
 
 using namespace CEGUI;
 using namespace Ogre;
@@ -61,8 +62,17 @@ CharacterSheetWindow::~CharacterSheetWindow()
 
 void CharacterSheetWindow::setCharacter(Person* person)
 {
-	mCharacter = person;
-	update();
+	if (person == NULL)
+	{
+		if (mCharacter != NULL)
+			mCharacter->removeObjectStateChangeListener(this);
+	}
+	else
+	{
+		person->addObjectStateChangeListener(this);
+		mCharacter = person;
+		update();
+	}
 }
 
 void CharacterSheetWindow::update()
@@ -144,8 +154,11 @@ void CharacterSheetWindow::updateTalents()
 
 		talentNum++;
 	}
-
 }
 
+void CharacterSheetWindow::objectStateChanged(ObjectStateChangeEvent* evt)
+{
+	update();
+}
 
 }

@@ -44,6 +44,8 @@ namespace rl
 		mText = getStaticText("DebugWindow/Text");
 		mText->moveToFront();
 		
+		bindCloseToCloseButton();
+
 		addToRoot(mWindow);
 	}
 

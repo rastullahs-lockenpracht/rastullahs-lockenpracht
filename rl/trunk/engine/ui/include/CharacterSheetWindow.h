@@ -21,12 +21,14 @@
 
 #include "CeGuiWindow.h"
 #include "Eigenschaft.h"
+#include "ObjectStateChangeListener.h"
 
 namespace rl {
 
 	class Person;
+	class ObjectStateChangeEvent;
 
-	class _RlUiExport CharacterSheetWindow : public CeGuiWindow
+	class _RlUiExport CharacterSheetWindow : public CeGuiWindow, public ObjectStateChangeListener
 	{
 	public:
 		CharacterSheetWindow();
@@ -46,6 +48,7 @@ namespace rl {
 		 */
 		void updateValues();
 
+		void objectStateChanged(ObjectStateChangeEvent* evt);
 
 	private:
 		Person* mCharacter;

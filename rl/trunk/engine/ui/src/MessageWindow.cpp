@@ -23,9 +23,12 @@ MessageWindow::MessageWindow() :
 	CeGuiWindow("messagewindow.xml", WND_MOUSE_INPUT)
 {
 	mTextField = getWindow("MessageWindow/Text");
-	bindClickToCloseWindow(getWindow("MessageWindow/CloseButton"));
 
 	centerWindow();
+
+	bindCloseToCloseButton();
+	bindClickToCloseWindow(getWindow("MessageWindow/CloseButton"));
+
 	addToRoot(mWindow);
 }
 

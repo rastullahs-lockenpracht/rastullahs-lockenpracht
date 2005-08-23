@@ -142,6 +142,8 @@ namespace rl {
 		mGameLogger = new GameLoggerWindow();
 		mCharacterStateWindow = new CharacterStateWindow();
 		mInGameMenuWindow = new InGameMenuWindow();
+		mCharacterSheet = new CharacterSheetWindow();
+
         runTest();
     }
 
@@ -266,7 +268,16 @@ namespace rl {
 
 	void UiSubsystem::showCharacterSheet()
 	{
-		showCharacterSheet(getActiveCharacter());
+		if (mCharacterSheet->isVisible())
+		{
+			mCharacterSheet->setCharacter(NULL);
+			mCharacterSheet->setVisible(false);
+		}
+		else
+		{
+			mCharacterSheet->setCharacter(getActiveCharacter());
+			mCharacterSheet->setVisible(true);
+		}
 	}
 
 	void UiSubsystem::showCharacterSheet(Person* chara)

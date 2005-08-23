@@ -59,9 +59,10 @@ DialogWindow::DialogWindow(string dialogFile) :
 	mDialogOptions->setShowHorzScrollbar(false);
 	mDialogOptions->setShowVertScrollbar(false);
 
+	bindCloseToCloseButton();
+
 	addToRoot(mWindow);
-    mIsVisible = false;
-	getResponse("START DIALOG");
+    getResponse("START DIALOG");
 	mName->setText(mNlp->getName());
 }
 
