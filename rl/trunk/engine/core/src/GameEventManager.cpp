@@ -58,7 +58,7 @@ namespace rl {
         // In die Menge einfügen
         mAreaEventSources.push_back( gam );
         // Und Listener anhängen
-        gam->addAreaListener( list );
+        gam->addAreaListener( list );        
     }
 
     void GameEventManager::removeAreaListener( GameAreaListener* list )

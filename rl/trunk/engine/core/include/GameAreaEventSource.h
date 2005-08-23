@@ -85,6 +85,9 @@ private:
     */
     void doDispatchEvents( const ActorMap& enteringActors, const ActorMap& leavingActors );
 
+    /// Entfernt alle AreaListener
+    void removeAllAreaListeners(  );
+
     /// Der Typ des Areals
     GameAreaType* mAreaType;
 

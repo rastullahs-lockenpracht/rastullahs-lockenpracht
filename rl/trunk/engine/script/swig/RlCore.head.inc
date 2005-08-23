@@ -51,7 +51,7 @@
   try { 
     $action 
     rl::ScriptObjectRepository* sor = rl::ScriptObjectRepository::getSingletonPtr();
-	sor->insertPointerValuePair( result, arg1 ); 
+	sor->insertPointerValuePair( result, arg1, false ); 
   } 
   catch (Ogre::Exception& oe) { 
     static VALUE ogreException = rb_define_class("OgreException", rb_eStandardError); 
@@ -70,7 +70,7 @@
         
 %exception rl::AnimationListener::AnimationListener() DirectorConstructorHandler
 %exception rl::AnimationFrameListener::AnimationFrameListener() DirectorConstructorHandler
-
+%exception rl::GameAreaListener::GameAreaListener() DirectorConstructorHandler
         
 // doWithActor( Actor* ) oder andere Director-Methoden Parameter
 %typemap(directorin) SWIGTYPE*
@@ -90,7 +90,7 @@
 		if( val == Qnil )
 		{
 			$input = SWIG_NewPointerObj((void *) $1, $1_descriptor, 0);
-			sor->insertPointerValuePair( $1, $input );			
+			sor->insertPointerValuePair( $1, $input, true );			
 		}
 		else	
 			$input = val;
@@ -108,7 +108,7 @@
 	if( val == Qnil )
 	{
 		$result = SWIG_NewPointerObj((void *) $1, $1_descriptor, 0);
-		sor->insertPointerValuePair( $1, $result );			
+		sor->insertPointerValuePair( $1, $result, true );			
 	}
 	else	
 		$result = val;
@@ -127,7 +127,7 @@
 		// Dynamic Cast ausführen
 		swig_type_info *ty = SWIG_TypeDynamicCast($1_descriptor, (void **) &$1);
 		$result = SWIG_NewPointerObj((void *) $1, ty, 0);
-		sor->insertPointerValuePair( $1, $result );			
+		sor->insertPointerValuePair( $1, $result, true );			
 	}
 	else	
 		$result = val;
@@ -153,7 +153,7 @@
 			// Dynamic Cast ausführen
 			swig_type_info *ty = SWIG_TypeDynamicCast($1_descriptor, (void **) &$1);
 			$input = SWIG_NewPointerObj((void *) $1, ty, 0);
-			sor->insertPointerValuePair( $1, $input );			
+			sor->insertPointerValuePair( $1, $input, true );			
 		}
 		else	
 			$input = val;

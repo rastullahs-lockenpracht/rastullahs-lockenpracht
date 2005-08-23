@@ -78,7 +78,7 @@ namespace rl {
             return NULL;
     }
 
-    void ScriptObjectRepository::insertPointerValuePair( void* ptr, VALUE& val )
+    void ScriptObjectRepository::insertPointerValuePair( void* ptr, VALUE& val, bool shouldOwn )
     {
         if( m_CToRubyMap.find( ptr ) != m_CToRubyMap.end() )
             Throw( InvalidArgumentException, "Dieser Zeiger existiert schon im ScriptObjectRepository" );
@@ -95,7 +95,8 @@ namespace rl {
         m_RubyToCMap.insert( ValuePointerPair( val, ptr ) );
 
         // In Ruby Array einfügen
-        rb_ary_push( mRubyArray, val );
+        if( shouldOwn )
+            rb_ary_push( mRubyArray, val );
     }
 
     void ScriptObjectRepository::own( void* ptr )
@@ -186,7 +187,7 @@ namespace rl {
             Throw( InvalidArgumentException, "Dieser Zeiger existiert nicht im ScriptObjectRepository" );
 
         VALUE val = iter->second;
-        removePointerValuePair( ptr, val );
+        removePointerValuePair( ptr, val, true );
     }
 
     void ScriptObjectRepository::removeValue( VALUE val )
@@ -196,7 +197,7 @@ namespace rl {
             Throw( InvalidArgumentException, "Diese Ruby VALUE existiert nicht im ScriptObjectRepository" );
 
         void* ptr = iter->second;
-        removePointerValuePair( ptr, val );
+        removePointerValuePair( ptr, val, true );
     }
 
     void ScriptObjectRepository::pointerDeleted( void* ptr )

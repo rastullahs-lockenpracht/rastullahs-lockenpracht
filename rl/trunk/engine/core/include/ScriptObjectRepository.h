@@ -52,8 +52,8 @@ namespace rl {
          */
         void* getPtr( VALUE val ) const;
 
-        void insertPointerValuePair( void* ptr, VALUE& val );
-        void removePointerValuePair( void* ptr, VALUE& val, bool rbOverwrite = true );
+        void insertPointerValuePair( void* ptr, VALUE& val, bool shouldOwn );
+        void removePointerValuePair( void* ptr, VALUE& val, bool rbOverwrite );
 
         void own( void* ptr );
         void disown( void* ptr );
