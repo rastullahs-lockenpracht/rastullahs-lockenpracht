@@ -20,6 +20,7 @@
 #include "CorePrerequisites.h"
 
 #include <set>
+#include <map>
 #include "AnimationListener.h"
 
 
@@ -169,14 +170,14 @@ class _RlCoreExport Animation : public virtual EventSource
 		/// EventCaster
 		EventCaster<AnimationEvent> mAnimationCaster;
 
+        typedef std::multimap<Ogre::Real,AnimationFrameListener*> 
+            AnimationFrameListenerMap;
 		/// Die Multimap mit den FrameNummern und den dazugehörigen Listenern
-		std::multimap<Ogre::Real,AnimationFrameListener*> mAnimationFrameListener;
+		AnimationFrameListenerMap mAnimationFrameListener;
 	private:
 		/// Überwacht das erreichen der einzelnen Frames für die Listener
 		void checkAnimationFrameListeners( Ogre::Real timePassed );
-
-
-        AnimationListener* tmpAnimDings;
+        void removeAllListeners();
 };
 
 }

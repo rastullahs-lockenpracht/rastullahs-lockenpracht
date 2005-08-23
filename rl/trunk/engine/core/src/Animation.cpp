@@ -55,6 +55,7 @@ Animation::Animation( ) :
 Animation::~Animation()
 {
 	mAnimState->setEnabled(false);
+    removeAllListeners();
 }
 
 bool Animation::isPaused() const
@@ -199,13 +200,66 @@ void Animation::addAnimationFrameListener(
 
 void Animation::removeAnimationFrameListener( AnimationFrameListener *listener )
 {
-	///@todo Alle zugehörigen löschen
+    AnimationFrameListenerMap::iterator iter = mAnimationFrameListener.begin();
+
+    for (iter; iter != mAnimationFrameListener.end(); ) 
+    {
+        AnimationFrameListener* afl = iter->second;
+        
+        if( afl == listener )
+        {
+            mAnimationFrameListener.erase( iter++ );  
+            ScriptObjectRepository::getSingleton().disown( listener );
+        } else {
+            ++iter;
+        }
+    }
 }
 
 void Animation::removeAnimationFrameListener( 
 	AnimationFrameListener *listener, Ogre::Real frameNumber)
 {
-	///@todo Zugehöriges löschen
+    AnimationFrameListenerMap::iterator iter = mAnimationFrameListener.begin();
+
+    for (iter; iter != mAnimationFrameListener.end(); ) 
+    {
+        Real time = iter->first;
+        AnimationFrameListener* afl = iter->second;
+
+        if( afl == listener && time == frameNumber )
+        {
+            mAnimationFrameListener.erase( iter++ );  
+            ScriptObjectRepository::getSingleton().disown( listener );
+        } else {
+            ++iter;
+        }
+    }
+}
+
+void Animation::removeAllListeners()
+{
+    AnimationFrameListenerMap::iterator iter = mAnimationFrameListener.begin();
+
+    for (iter; iter != mAnimationFrameListener.end(); ) 
+    {
+        AnimationFrameListener* afl = iter->second; 
+        ScriptObjectRepository::getSingleton().disown( afl );
+        iter++;
+    }
+    mAnimationFrameListener.clear();
+    
+    EventCaster<AnimationEvent>::EventSet evSet 
+        = mAnimationCaster.getEventSet();
+    EventCaster<AnimationEvent>::EventSet::iterator citer 
+        = evSet.begin();
+    for (citer; citer != evSet.end(); ) 
+    {
+        EventListener<AnimationEvent>* ev = *citer; 
+        AnimationListener* al = dynamic_cast<AnimationListener*>( ev );
+        ScriptObjectRepository::getSingleton().disown( al );
+        citer++;
+    }
+    mAnimationCaster.removeEventListeners();
 }
 
 // Zeit hinzufügen // wird vom AnimationManager aufgerufen

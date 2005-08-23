@@ -29,14 +29,14 @@ namespace rl {
  * @date 10-05-2004
  * @version 1.0
  */
+
 template <typename Event>
 class EventCaster {
-private:
+public:
     typedef EventListener<Event> ListenerToEvent;
     typedef set<ListenerToEvent*> EventSet;
     typedef typename EventSet::iterator EventSetIterator;
-    EventSet mListeners; 
-public:
+
     /// Der Konstruktor
 	EventCaster();
     /// Der Destruktor
@@ -53,6 +53,10 @@ public:
     bool hasEventListeners() const;
     /// Ein Ereignis verteilen.
     void dispatchEvent(Event *anEvent);
+    /// EventSet
+    EventSet getEventSet() const;
+private:    
+    EventSet mListeners; 
 };
 
 /**
@@ -145,6 +149,12 @@ void EventCaster<Event>::dispatchEvent(Event *anEvent)
         bind2nd(DispatchFunctor<Event>(), anEvent));
 }
 
-     
+    
+template <typename Event>
+set< EventListener<Event>* > EventCaster<Event>::getEventSet() const
+{
+    return mListeners;
+}
+
 }
 #endif // EVENTCASTER_H
