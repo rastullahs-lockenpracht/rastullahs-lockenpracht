@@ -36,7 +36,7 @@ namespace rl {
 
     ObjectStateChangeEventSource::~ObjectStateChangeEventSource() 
     {
-        mObjectStateChangeEventCaster.removeEventListeners();
+        removeObjectStateChangeListener();
     }
 
     
