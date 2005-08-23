@@ -18,6 +18,8 @@
 #include "ObjectStateChangeEvent.h"
 #include "GameObject.h"
 
+#include "ScriptObjectRepository.h"
+
 namespace rl {
 
     ObjectStateChangeEventSource::ObjectStateChangeEventSource( GameObject* obj ) :
@@ -47,12 +49,36 @@ namespace rl {
 
     void ObjectStateChangeEventSource::addObjectStateChangeListener( ObjectStateChangeListener*  list )
     {
-        mObjectStateChangeEventCaster.addEventListener( list );
+        if( !mObjectStateChangeEventCaster.containsListener( list ) )
+        {        
+            mObjectStateChangeEventCaster.addEventListener( list );
+            ScriptObjectRepository::getSingleton().own( list );
+        }
     }
 
     void ObjectStateChangeEventSource::removeObjectStateChangeListener( ObjectStateChangeListener* list )
     {
-        mObjectStateChangeEventCaster.removeEventListener( list );
+        if( mObjectStateChangeEventCaster.containsListener( list ) )
+        { 
+            mObjectStateChangeEventCaster.removeEventListener( list );
+            ScriptObjectRepository::getSingleton().own( list );
+        }
+    }
+
+    void ObjectStateChangeEventSource::removeObjectStateChangeListener(  )
+    {
+        EventCaster<ObjectStateChangeEvent>::EventSet arSet 
+            = mObjectStateChangeEventCaster.getEventSet();
+        EventCaster<ObjectStateChangeEvent>::EventSet::iterator iter 
+            = arSet.begin();
+        for (iter; iter != arSet.end(); ) 
+        {
+            EventListener<ObjectStateChangeEvent>* ev = *iter; 
+            ObjectStateChangeListener* gal = dynamic_cast<ObjectStateChangeListener*>( ev );
+            ScriptObjectRepository::getSingleton().disown( gal );
+            iter++;
+        }
+        mObjectStateChangeEventCaster.removeEventListeners();
     }
 
     bool ObjectStateChangeEventSource::hasListeners( ) const

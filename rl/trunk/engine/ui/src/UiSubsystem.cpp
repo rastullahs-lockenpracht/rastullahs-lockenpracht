@@ -43,6 +43,8 @@
 #include "Actor.h"
 #include "World.h"
 
+#include "ScriptObjectRepository.h"
+
 // BEGIN TEST
 #include "Person.h"
 #include "CharacterSheetWindow.h"
@@ -172,17 +174,27 @@ namespace rl {
 
 	void UiSubsystem::setActiveCharacter(Person* person)
 	{
-        mCharacter = person;
-        Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
-        mGameController = new GameController(camera, person->getActor());
-		log(Ogre::LML_TRIVIAL, "GameController created.");
-        GameLoopManager::getSingleton().addSynchronizedTask(mGameController, FRAME_STARTED);
-        log(Ogre::LML_TRIVIAL, "GameController task added.");
-        World* world = CoreSubsystem::getSingletonPtr()->getWorld();
-        world->setActiveActor(person->getActor());
-		mCharacterStateWindow->setCharacter(person);
-		mCharacterStateWindow->update();
-        log(Ogre::LML_TRIVIAL, "Actor set");
+        // Nur wenn es sich verändert hat
+        if( person != mCharacter )
+        {
+            if( mCharacter != NULL )
+                ScriptObjectRepository::getSingleton().disown( mCharacter );
+
+            ScriptObjectRepository::getSingleton().own( person );
+
+            // @todo alte Sachen löschen
+            mCharacter = person;
+            Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
+            mGameController = new GameController(camera, person->getActor());
+		    log(Ogre::LML_TRIVIAL, "GameController created.");
+            GameLoopManager::getSingleton().addSynchronizedTask(mGameController, FRAME_STARTED);
+            log(Ogre::LML_TRIVIAL, "GameController task added.");
+            World* world = CoreSubsystem::getSingletonPtr()->getWorld();
+            world->setActiveActor(person->getActor());
+		    mCharacterStateWindow->setCharacter(person);
+		    mCharacterStateWindow->update();
+            log(Ogre::LML_TRIVIAL, "Actor set");
+        }
 	}
 
 	void UiSubsystem::showActionChoice(GameObject* obj)

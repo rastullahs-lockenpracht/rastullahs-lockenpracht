@@ -94,16 +94,22 @@ namespace rl {
 
     void GameAreaEventSource::addAreaListener( GameAreaListener*  list )
     {
-        mAreaEventCaster.addEventListener( list );
-        // Owned ;)
-        ScriptObjectRepository::getSingleton().own( list );
+        if( !mAreaEventCaster.containsListener(list) )
+        {        
+            mAreaEventCaster.addEventListener( list );
+            // Owned ;)
+            ScriptObjectRepository::getSingleton().own( list );
+        }
     }
 
     void GameAreaEventSource::removeAreaListener( GameAreaListener* list )
     {
-        mAreaEventCaster.removeEventListener( list );
-        // Nicht mehr gebraucht
-        ScriptObjectRepository::getSingleton().disown( list );
+        if( mAreaEventCaster.containsListener(list) )
+        {        
+            mAreaEventCaster.removeEventListener( list );
+            // Nicht mehr gebraucht
+            ScriptObjectRepository::getSingleton().disown( list );
+        }
     }
 
     void GameAreaEventSource::removeAllAreaListeners(  )

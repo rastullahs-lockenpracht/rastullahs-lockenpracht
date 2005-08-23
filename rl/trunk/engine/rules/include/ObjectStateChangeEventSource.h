@@ -67,6 +67,8 @@ protected:
 	void setObject(GameObject* obj) { mObject = obj; }
 
 private: 
+    /// Alle Events entfernen
+    void removeObjectStateChangeListener(  );
     /// Der EventCaster der die Verteilung an die Listener übernimmt
     EventCaster<ObjectStateChangeEvent> mObjectStateChangeEventCaster;
     /// Das Object der überwacht wird

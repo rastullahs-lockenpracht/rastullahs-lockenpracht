@@ -46,7 +46,7 @@
 #include "TimerTask.h"
 %}
 
-%define DirectorConstructorHandler 
+%define ConstructorHandler 
 { 
   try { 
     $action 
@@ -68,10 +68,17 @@
 }
 %enddef     
         
-%exception rl::AnimationListener::AnimationListener() DirectorConstructorHandler
-%exception rl::AnimationFrameListener::AnimationFrameListener() DirectorConstructorHandler
-%exception rl::GameAreaListener::GameAreaListener() DirectorConstructorHandler
-        
+%exception rl::AnimationListener::AnimationListener ConstructorHandler
+%exception rl::AnimationFrameListener::AnimationFrameListener ConstructorHandler
+%exception rl::GameAreaListener::GameAreaListener ConstructorHandler
+%exception rl::Creature::Creature ConstructorHandler
+%exception rl::Person::Person ConstructorHandler
+%exception rl::GameObject::GameObject ConstructorHandler
+%exception rl::Item::Item ConstructorHandler
+%exception rl::Container::Container ConstructorHandler
+%exception rl::Action::Action ConstructorHandler
+%exception rl::ObjectStateChangedListener::ObjectStateChangedListener ConstructorHandler
+
 // doWithActor( Actor* ) oder andere Director-Methoden Parameter
 %typemap(directorin) SWIGTYPE*
 {

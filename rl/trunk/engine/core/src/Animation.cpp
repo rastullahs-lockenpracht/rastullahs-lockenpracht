@@ -177,19 +177,23 @@ void Animation::setWeight(Ogre::Real weight)
 
 void Animation::addAnimationListener(AnimationListener *listener)
 {
-	mAnimationCaster.addEventListener(listener);
-    ScriptObjectRepository::getSingleton().own( listener );
+    if( !mAnimationCaster.containsListener(listener) )
+    {    
+	    mAnimationCaster.addEventListener(listener);
+        ScriptObjectRepository::getSingleton().own( listener );
+    }
 }
 
 void Animation::removeAnimationListener(AnimationListener *listener)
 {
-    if( !mAnimationCaster.containsListener( listener ) ) 
-        return;
-
-	mAnimationCaster.removeEventListener(listener);
-    ScriptObjectRepository::getSingleton().disown( listener );
+    if( mAnimationCaster.containsListener( listener ) ) 
+    {
+	    mAnimationCaster.removeEventListener(listener);
+        ScriptObjectRepository::getSingleton().disown( listener );
+    }
 }
 
+// @todo - Existenz überprüfen
 void Animation::addAnimationFrameListener( 
 	AnimationFrameListener *listener, Ogre::Real frameNumber)
 {
@@ -198,6 +202,7 @@ void Animation::addAnimationFrameListener(
     ScriptObjectRepository::getSingleton().own( listener );
 }
 
+// @todo - Existenz überprüfen
 void Animation::removeAnimationFrameListener( AnimationFrameListener *listener )
 {
     AnimationFrameListenerMap::iterator iter = mAnimationFrameListener.begin();
@@ -216,6 +221,7 @@ void Animation::removeAnimationFrameListener( AnimationFrameListener *listener )
     }
 }
 
+// @todo - Existenz überprüfen
 void Animation::removeAnimationFrameListener( 
 	AnimationFrameListener *listener, Ogre::Real frameNumber)
 {
@@ -238,6 +244,7 @@ void Animation::removeAnimationFrameListener(
 
 void Animation::removeAllListeners()
 {
+    // Alle AnimationFrameListener
     AnimationFrameListenerMap::iterator iter = mAnimationFrameListener.begin();
 
     for (iter; iter != mAnimationFrameListener.end(); ) 
@@ -248,6 +255,7 @@ void Animation::removeAllListeners()
     }
     mAnimationFrameListener.clear();
     
+    // Alle AnimationListener
     EventCaster<AnimationEvent>::EventSet evSet 
         = mAnimationCaster.getEventSet();
     EventCaster<AnimationEvent>::EventSet::iterator citer 

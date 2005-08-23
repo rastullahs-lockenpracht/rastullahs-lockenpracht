@@ -185,13 +185,13 @@ namespace rl {
 		class ObjectStateChangeEventSource 	 
 		{ 	 
 		public: 	 
-				ObjectStateChangeEventSource( ); 	 
+			ObjectStateChangeEventSource( ); 	 
 		  	 
 			void addObjectStateChangeListener( rl::ObjectStateChangeListener*  list ); 	 
 			void removeObjectStateChangeListener( rl::ObjectStateChangeListener* list ); 	 
 			bool hasListeners( ) const; 	 
 			Ogre::UserDefinedObject* getObject() const { return mObject; } 	 
-				void fireObjectStateChangeEvent(); 	 
+			void fireObjectStateChangeEvent(); 	 
 		}; 	 
 		  	 
 		class ObjectStateChangeEvent 	 
