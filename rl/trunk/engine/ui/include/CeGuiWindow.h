@@ -79,7 +79,8 @@ namespace rl {
 		void bindClickToCloseWindow(CEGUI::Window* button);
 		void bindCloseToCloseButton();
 
-		static CEGUI::Window* loadWindow(const CeGuiString& xmlfile, CeGuiString& prefix = CeGuiString(""));
+		static CEGUI::Window* loadWindow(const CeGuiString& xmlfile);
+		static CEGUI::Window* loadWindow(const CeGuiString& xmlfile, CeGuiString& prefix);
 
 		CEGUI::Window* mWindow;
 		bool mIsVisible; 

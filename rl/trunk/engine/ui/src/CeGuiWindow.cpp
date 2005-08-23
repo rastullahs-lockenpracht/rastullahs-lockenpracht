@@ -53,6 +53,13 @@ CeGuiWindow::~CeGuiWindow()
 {
 }
 
+CEGUI::Window* CeGuiWindow::loadWindow(const CeGuiString& xmlfile)
+{
+	CeGuiString prefix = "";
+	return loadWindow(xmlfile, prefix);
+}
+
+
 CEGUI::Window* CeGuiWindow::loadWindow(const CeGuiString& xmlfile, CeGuiString& prefix)    
 {
 	CeGuiString namePrefix;

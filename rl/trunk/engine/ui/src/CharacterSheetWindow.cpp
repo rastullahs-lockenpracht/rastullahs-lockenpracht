@@ -47,7 +47,8 @@ CharacterSheetWindow::CharacterSheetWindow()
 	mRasse = getStaticText("CharacterSheet/CharacterSheet/Rasse");
 	mProfession = getStaticText("CharacterSheet/CharacterSheet/Profession");
 
-	bindCloseToCloseButton();
+	mWindow->subscribeEvent(FrameWindow::EventCloseClicked,
+		boost::bind(&CharacterSheetWindow::handleClose, this));
 	
 	for (int i=0; i<EIGENSCHAFT_COUNT; i++)
 		mEigenschaft[i] = 
@@ -159,6 +160,14 @@ void CharacterSheetWindow::updateTalents()
 void CharacterSheetWindow::objectStateChanged(ObjectStateChangeEvent* evt)
 {
 	update();
+}
+
+bool CharacterSheetWindow::handleClose()
+{
+	setCharacter(NULL);
+	setVisible(false);
+
+	return true;
 }
 
 }
