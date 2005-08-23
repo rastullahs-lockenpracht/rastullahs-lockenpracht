@@ -9,7 +9,6 @@ $AM = ActorManager.getSingleton();
 $PM = PhysicsManager.getSingleton();
 $GL = GameLoopManager.getSingleton();
 $UI = UiSubsystem.getSingleton();
-$SM = SoundManager.getSingleton();
 $DM = DsaManager.getSingleton();
 
 $GameEveMgr = GameEventManager.getSingleton();
