@@ -42,12 +42,6 @@ namespace rl {
 		 */
 		void update();
 
-		/**
-		 * Aktualisiert nur die Werte in den Talentlisten
-		 * und auf dem Charakterblatt
-		 */
-		void updateValues();
-
 		void objectStateChanged(ObjectStateChangeEvent* evt);
 
 	private:
@@ -67,6 +61,14 @@ namespace rl {
 		CEGUI::StaticText* mProfession;
 		
 		void updateTalents();
+
+		/**
+		* Aktualisiert nur die Werte in den Talentlisten
+		* und auf dem Charakterblatt
+		*/
+		void updateValues();
+
+		bool handleClose();
 	};
 }
 
