@@ -128,7 +128,7 @@ utf8* XmlHelper::transcodeToUtf8(const XMLCh* const string16)
 	return rval;	
 }
 
-CEGUI::String XmlHelper::transcodeToCeGuiString(const XMLCh* const string16)
+CeGuiString XmlHelper::transcodeToCeGuiString(const XMLCh* const string16)
 {
 	utf8* tmpVal = transcodeToUtf8(string16);
 	CEGUI::String rVal(tmpVal);

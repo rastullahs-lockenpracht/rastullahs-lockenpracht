@@ -21,6 +21,7 @@
 
 #undef _assert
 
+#undef min
 #pragma warning( disable : 4267 ) // Konvertierungswarnung in CEGUIString
 #include <CEGUIString.h>
 

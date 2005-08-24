@@ -23,11 +23,11 @@
 #include "DotSceneLoader.h"
 #include "World.h"
 
-#include "XmlHelper.h"
-#include "XmlResourceManager.h"
-
 #include "PhysicsManager.h"
 #include "CoreSubsystem.h"
+
+#include "XmlHelper.h"
+#include "XmlResourceManager.h"
 
 #include "Exception.h"
 

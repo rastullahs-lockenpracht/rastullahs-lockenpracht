@@ -23,10 +23,6 @@
 #include <OgreKeyEvent.h>
 #include <OgreRoot.h>
 
-#include "XmlHelper.h"
-#include "XmlResource.h"
-#include "XmlResourceManager.h"
-
 #include "UiSubsystem.h"
 
 #if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
@@ -44,8 +40,13 @@
 #include "GameLoop.h"
 #include "CoreSubsystem.h"
 
-#include "InputManager.h"
 #include "GameObject.h"
+
+#include "XmlHelper.h"
+#include "XmlResource.h"
+#include "XmlResourceManager.h"
+
+#include "InputManager.h"
 
 template<> rl::InputManager* Singleton<rl::InputManager>::ms_Singleton = 0;
 using namespace Ogre;
@@ -188,9 +189,9 @@ namespace rl {
 	bool InputManager::sendKeyToCeGui(KeyEvent* e)
 	{
 		DebugWindow::getSingleton().setText(
-			String("All")+StringConverter::toString(mNumActiveWindowsAllInput)+" "+
-			String("Key")+StringConverter::toString(mNumActiveWindowsAllInput)+" "+
-			String("Mouse")+StringConverter::toString(mNumActiveWindowsMouseInput)+ " "+
+			Ogre::String("All")+StringConverter::toString(mNumActiveWindowsAllInput)+" "+
+			Ogre::String("Key")+StringConverter::toString(mNumActiveWindowsAllInput)+" "+
+			Ogre::String("Mouse")+StringConverter::toString(mNumActiveWindowsMouseInput)+ " "+
 			"Events"+StringConverter::toString(mEventInitialized)+ " "+
 			"Input"+StringConverter::toString(mInputInitialized)+" "+
 			"Buffered"+StringConverter::toString(mBuffered));
@@ -458,9 +459,9 @@ namespace rl {
 	bool InputManager::isCeguiActive()
 	{
 		DebugWindow::getSingleton().setText(
-			String("All")+StringConverter::toString(mNumActiveWindowsAllInput)+" "+
-			String("Key")+StringConverter::toString(mNumActiveWindowsAllInput)+" "+
-			String("Mouse")+StringConverter::toString(mNumActiveWindowsMouseInput)+ " "+
+			Ogre::String("All")+StringConverter::toString(mNumActiveWindowsAllInput)+" "+
+			Ogre::String("Key")+StringConverter::toString(mNumActiveWindowsAllInput)+" "+
+			Ogre::String("Mouse")+StringConverter::toString(mNumActiveWindowsMouseInput)+ " "+
 			"Events"+StringConverter::toString(mEventInitialized)+ " "+
 			"Input"+StringConverter::toString(mInputInitialized)+" "+
 			"Buffered"+StringConverter::toString(mBuffered));

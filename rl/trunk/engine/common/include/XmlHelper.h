@@ -103,7 +103,7 @@ public:
 	 */
 	static utf8* transcodeToUtf8(const XMLCh* const string16);
 
-	static CEGUI::String transcodeToCeGuiString(const XMLCh* const string16);
+	static CeGuiString transcodeToCeGuiString(const XMLCh* const string16);
 
 private:
 	static XMLTranscoder* sTranscoder;

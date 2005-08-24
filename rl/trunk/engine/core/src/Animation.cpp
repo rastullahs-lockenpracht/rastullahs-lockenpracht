@@ -14,12 +14,13 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#include "Animation.h"
-
 #include "Exception.h"
 #include "AnimationManager.h"
 #include "ActorManager.h"
 #include "ScriptObjectRepository.h"
+
+#include "Animation.h"
+
 
 namespace rl {
 

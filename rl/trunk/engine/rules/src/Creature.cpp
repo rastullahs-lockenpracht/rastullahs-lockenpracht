@@ -458,6 +458,9 @@ namespace rl
         {
             mWerte.insert(make_pair(wertId, wert));
         }
-        (*it).second = wert;
+		else
+		{
+	        (*it).second = wert;
+		}
 	}
 }

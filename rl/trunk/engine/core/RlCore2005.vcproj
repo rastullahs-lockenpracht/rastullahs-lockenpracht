@@ -5,7 +5,6 @@
 	Name="RlCore"
 	ProjectGUID="{0935F495-4540-40E3-AC8F-AA54C85DC5B2}"
 	RootNamespace="RlCore"
-	SignManifests="true"
 	>
 	<Platforms>
 		<Platform
