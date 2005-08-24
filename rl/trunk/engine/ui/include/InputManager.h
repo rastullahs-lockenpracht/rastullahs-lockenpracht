@@ -134,7 +134,6 @@ namespace rl {
 			
             CEGUI::MouseButton convertOgreButtonToCegui(int ogre_button_id);
 
-            bool processGlobalKeyEvent(Ogre::KeyEvent* e);
             bool sendKeyToCeGui(Ogre::KeyEvent* e);
 
             void switchMouseToUnbuffered();

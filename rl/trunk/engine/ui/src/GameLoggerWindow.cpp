@@ -40,9 +40,9 @@ void GameLoggerWindow::logEvent(const CeGuiString& text, const CEGUI::colour col
 	mLog->insertItem(item, NULL);
 }
 
-void GameLoggerWindow::logDialogEvent(const CeGuiString& text)
+void GameLoggerWindow::logDialogEvent(const CeGuiString& speaker, const CeGuiString& text)
 {
-	logEvent("'"+text+"'", COLOR_DIALOG);
+	logEvent(speaker+": '"+text+"'", COLOR_DIALOG);
 }
 
 void GameLoggerWindow::logFightEvent(const CeGuiString& text)

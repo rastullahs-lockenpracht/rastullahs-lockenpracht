@@ -35,11 +35,11 @@ namespace rl
         return mName;
     }
 
-	const CeGuiString& Action::getClassName() const
+	/*const CeGuiString& Action::getClassName() const
 	{
 		static CeGuiString className = (CEGUI::utf8*)"Action";
 		return className;
-	}
+	}*/
 
     const CeGuiString& Action::getDescription() const
     {

@@ -108,27 +108,25 @@ namespace rl
         return actions;
     }
 
-    void GameObject::doAction(const CeGuiString& className,
-                              const CeGuiString& actionName,
+    void GameObject::doAction( const CeGuiString& actionName,
                               Creature* actor,
                               GameObject* target)
     {
-		ActionOptionVector::const_iterator it = findAction(mActions.begin(), mActions.end(), className, actionName);
+		ActionOptionVector::const_iterator it = findAction(mActions.begin(), mActions.end(), actionName);
 
 		if (it == mActions.end())
         {
             std::stringstream strstr;
-			strstr << "[Name:'" << actionName.c_str() << "', Klasse: '" << className.c_str() << "'] ist eine dem Objekt unbekannte Aktion.";
+			strstr << "'" << actionName.c_str() << "' ist eine dem Objekt unbekannte Aktion.";
             Throw(InvalidArgumentException, strstr.str());
         }
         
 		doAction((*it).first, actor, target);
     }
 
-	void GameObject::doAction(const CeGuiString& className,
-							  const CeGuiString& actionName)
+	void GameObject::doAction(const CeGuiString& actionName)
 	{
-		doAction(className, actionName, NULL, NULL);
+		doAction(actionName, NULL, NULL);
 	}
 
 	void GameObject::doAction(Action* action,
@@ -153,25 +151,10 @@ namespace rl
 			const CeGuiString& actionName)
 	{
 		for (ActionOptionVector::iterator iter = begin; iter != end; ++iter)
-			if ((*iter).first->getName().compare(actionName) == 0)
-				return iter;
-
-		return end;
-	}
-
-	GameObject::ActionOptionVector::iterator 
-		GameObject::findAction(
-			GameObject::ActionOptionVector::iterator begin, 
-			GameObject::ActionOptionVector::iterator end, 
-			const CeGuiString& className,
-			const CeGuiString& actionName)
-	{
-		for (ActionOptionVector::iterator iter = begin; iter != end; ++iter)
 		{
 			Action* action = (*iter).first;
 
-			if (action->getName().compare(actionName) == 0 &&
-				action->getClassName().compare(className) == 0)
+			if (action->getName().compare(actionName) == 0)
 				return iter;
 		}
 		return end;

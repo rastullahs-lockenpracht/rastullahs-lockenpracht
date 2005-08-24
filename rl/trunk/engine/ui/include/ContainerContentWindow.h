@@ -32,7 +32,7 @@ private:
 
 	bool handleItemUse();
 	bool handleClose();
-
+	bool handleMouseMove(const CEGUI::EventArgs& evt);
 
 	Container* mContainer;
 

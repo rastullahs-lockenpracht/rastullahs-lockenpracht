@@ -32,21 +32,10 @@ namespace rl
 		return end;
 	}
 
-	ActionVector::iterator findAction(ActionVector::iterator begin, ActionVector::iterator end, const CeGuiString& actionName, const CeGuiString& className)
-	{
-		for (ActionVector::iterator it = begin; it != end; it++)
-			if ((*it)->getName().compare(actionName) == 0
-				&& (*it)->getClassName().compare(className) == 0)
-				return it;
-
-		return end;
-	}
-
-	ActionVector::const_iterator findActionConst(ActionVector::const_iterator begin, ActionVector::const_iterator end, const CeGuiString& actionName, const CeGuiString& className)
+	ActionVector::const_iterator findActionConst(ActionVector::const_iterator begin, ActionVector::const_iterator end, const CeGuiString& actionName)
 	{
 		for (ActionVector::const_iterator it = begin; it != end; it++)
-			if ((*it)->getName().compare(actionName) == 0
-				&& (*it)->getClassName().compare(className) == 0)
+			if ((*it)->getName().compare(actionName) == 0)
 				return it;
 
 		return end;
@@ -80,45 +69,26 @@ namespace rl
         mActions.push_back(action);
     }
 
-	void ActionManager::unregisterAction(const CeGuiString& actionName, const CeGuiString& className)
+	void ActionManager::unregisterAction(const CeGuiString& actionName)
 	{
-		ActionVector::iterator iter = findAction(mActions.begin(), mActions.end(), actionName, className);
+		ActionVector::iterator iter = findAction(mActions.begin(), mActions.end(), actionName);
 		if (iter == mActions.end())
 			Throw(InvalidArgumentException, "Aktion nicht gefunden");
 		mActions.erase(iter);
 	}
 
-	Action* ActionManager::getAction(const CeGuiString& actionName, const CeGuiString& className) const
+	Action* ActionManager::getAction(const CeGuiString& actionName) const
 	{
 		ActionVector::const_iterator iter = 
 			findActionConst(
 				mActions.begin(), 
 				mActions.end(), 
-				actionName, 
-				className);
+				actionName);
 		if (iter == mActions.end())
 			Throw(InvalidArgumentException, "Aktion nicht gefunden");
 		return *iter;
 	}
 
-
-	Action* ActionManager::getDefaultAction(const CeGuiString& actionName) const
-    {
-		Action* action = NULL;
-		for (ActionVector::const_iterator it = mActions.begin(); it != mActions.end(); it++)
-        {
-			if ((*it)->getName().compare(actionName) == 0)
-			{
-				action = (*it);
-				break;
-			}
-        }
-        if (action == NULL)
-        {
-            Throw(InvalidArgumentException, "Unbekannte Aktion.");
-        }
-        return action;
-    }
 
 	void ActionManager::registerInGameGlobalAction(Action* action, ActionGroup* group)
 	{
@@ -126,14 +96,13 @@ namespace rl
 		action->setGroup(group);
 	}
 
-	Action* ActionManager::getInGameGlobalAction(const CeGuiString& actionName, const CeGuiString& className) const
+	Action* ActionManager::getInGameGlobalAction(const CeGuiString& actionName) const
 	{
 		ActionVector::const_iterator iter = 
 			findActionConst(
 				mInGameGlobalActions.begin(), 
 				mInGameGlobalActions.end(), 
-				actionName, 
-				className);
+				actionName);
 		if (iter == mInGameGlobalActions.end())
 			Throw(InvalidArgumentException, "Aktion nicht gefunden");
 		return *iter;

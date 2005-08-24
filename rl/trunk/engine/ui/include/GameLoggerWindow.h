@@ -27,7 +27,7 @@ namespace rl {
 	public:
 		GameLoggerWindow();
 
-		void logDialogEvent(const CeGuiString& text);
+		void logDialogEvent(const CeGuiString& speaker, const CeGuiString& text);
 		void logFightEvent(const CeGuiString& text);
 		void logCharacterEvent(const CeGuiString& text);
 		void logMiscEvent(const CeGuiString& text);

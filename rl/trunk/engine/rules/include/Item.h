@@ -47,7 +47,7 @@ namespace rl
 
     class FindItemById : public std::binary_function<int, Item*, bool> {
     public:
-        bool operator()(const int id, const Item* const item) const
+        bool operator()(int id, const Item* const item) const
         {
             return item->getId() == id;
         }

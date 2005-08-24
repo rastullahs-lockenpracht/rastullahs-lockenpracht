@@ -160,7 +160,7 @@ namespace rl {
         virtual ~Action();
 
         virtual const rl::CeGuiString& getName() const;
-        virtual const rl::CeGuiString& getClassName() const;
+        //virtual const rl::CeGuiString& getClassName() const;
         virtual const rl::CeGuiString& getDescription() const;
         virtual int getTargetClass() const;
         virtual void doAction(rl::GameObject *object, rl::Creature *actor,
@@ -228,12 +228,10 @@ namespace rl {
         
         void doAction(
 			const rl::CeGuiString& actionName, 
-			const rl::CeGuiString& className, 
 			rl::Creature* actor,
             rl::GameObject* target);
         void doAction(
-			const rl::CeGuiString& actionName, 
-			const rl::CeGuiString& className);
+			const rl::CeGuiString& actionName);
         void doAction(rl::Action* action, rl::Creature* actor,
             rl::GameObject* target);
             
@@ -314,9 +312,8 @@ namespace rl {
         ActionManager();
 
         void registerAction(rl::Action* action);
-        void unregisterAction(const rl::CeGuiString& actionName, const rl::CeGuiString& className);
-        rl::Action* getDefaultAction(const rl::CeGuiString& actionName) const;
-		rl::Action* getAction(const rl::CeGuiString& actionName, const rl::CeGuiString& className) const;
+        void unregisterAction(const rl::CeGuiString& actionName);
+		rl::Action* getAction(const rl::CeGuiString& actionName) const;
 
 		void registerInGameGlobalAction(rl::Action* action, rl::ActionGroup* group);
 	

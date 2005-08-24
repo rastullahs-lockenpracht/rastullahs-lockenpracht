@@ -27,11 +27,11 @@ class SecretDoorOpener < ObjectStateChangeListener
         p "Tuer muss veraendert werden"
         if (doorOpen)
           p "Oeffnen"
-          @mDoor.doAction("OpenDoorAction", "opendoor", NIL, NIL)
+          @mDoor.doAction("opendoor")
           p "Offen"
         else
           p "Schliessen"
-          @mDoor.doAction("CloseDoorAction", "closedoor", NIL, NIL)
+          @mDoor.doAction("closedoor")
           p "Geschlossen"
         end
       end

@@ -137,7 +137,15 @@ namespace rl {
 		}
 	}
 
-	void InputManager::mouseClicked(MouseEvent* e) {}
+	void InputManager::mouseClicked(MouseEvent* e) 
+	{
+		if ( ! (isCeguiActive() && mBuffered) )
+		{
+			CommandMapper::getSingleton().injectMouseClicked(e->getButtonID());
+			e->consume();
+		}
+	}
+
 	void InputManager::mouseEntered(MouseEvent* e) {}
 	void InputManager::mouseExited(MouseEvent* e)  {}
 
@@ -176,36 +184,6 @@ namespace rl {
 			e->consume();
 		}
 	}
-
-	bool InputManager::processGlobalKeyEvent(KeyEvent* e)
-    {
-        bool rval = false;
-        if (e->getKey() == KC_F11)
-        {
-            Console::getSingletonPtr()->setVisible(
-                !Console::getSingletonPtr()->isVisible());
-            rval = true;
-        }
-        else if (e->getKey() == KC_F5)
-        {
-            DebugWindow::getSingletonPtr()->setVisible(
-                !DebugWindow::getSingletonPtr()->isVisible());
-            rval = true;
-        }
-		else if (e->getKey() == KC_F8)
-		{
-			DialogWindow::getSingletonPtr()->setVisible(
-				!DialogWindow::getSingletonPtr()->isVisible());
-			rval=true;
-		}
-		else  if (e->getKey() == KC_SYSRQ)
-        {
-			CoreSubsystem::getSingleton().makeScreenshot("rastullah");
-            rval = true;
-        }
-
-        return rval;
-    }
 
 	bool InputManager::sendKeyToCeGui(KeyEvent* e)
 	{

@@ -44,17 +44,18 @@ namespace rl {
 		CMDMAP_KEYMAP_IN_BATTLE,
 		CMDMAP_KEYMAP_OFF_BATTLE,
 		CMDMAP_KEYMAP_MOVEMENT,
-		CMDMAP_MOUSEMAP
+		CMDMAP_MOUSEMAP_IN_BATTLE,
+		CMDMAP_MOUSEMAP_OFF_BATTLE
 	};
 
-	struct ActionEntry
+/*	struct ActionEntry
 	{
 		//ActionEntry()	{}
 
 		CeGuiString actionClass;
 		CeGuiString actionName;
 	};
-
+*/
 	const int CMDMAP_NO_MAPPING = -9999999;
 
 	class _RlUiExport CommandMapper : public Ogre::Singleton<CommandMapper>
@@ -80,29 +81,35 @@ namespace rl {
 		void setMapping(
 			MapType map, 
 			int code, 
-			const CeGuiString& actionClass, 
 			const CeGuiString& actionName);
 
 		int getMapping(
 			MapType map, 
-			const CeGuiString& actionClass, 
 			const CeGuiString& actionName);
 
 		std::map<CeGuiString, MovementState> getMovements();
 
 	private:
+
 		// KeyCode -> (Rubyklasse, Name)
-		typedef std::map<int, ActionEntry > KeyAndMouseCommandMap;
+		typedef std::map<int, const CeGuiString > KeyAndMouseCommandMap;
 		typedef std::map<int, MovementState> MovementCommandMap;
 
 		MovementCommandMap mMovementCommands;
 		KeyAndMouseCommandMap mKeyCommandsInBattle;
 		KeyAndMouseCommandMap mKeyCommandsOffBattle;
-		KeyAndMouseCommandMap mMouseCommands;
+		KeyAndMouseCommandMap mMouseCommandsInBattle;
+		KeyAndMouseCommandMap mMouseCommandsOffBattle;
 
 		std::map<CeGuiString, MovementState> mMovement;
 
 		int mActiveMovement;		
+
+		// Finde die der Taste oder dem Mausbutton zugeordneten Aktion in der 
+		// angegebenen CommandMap und führe sie aus
+		bool startAction(int keyCodeOrMouseButton, MapType mapType);
+
+		KeyAndMouseCommandMap* getCommandMap(MapType mapType);
 	};
 
 }

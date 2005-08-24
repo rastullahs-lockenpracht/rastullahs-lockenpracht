@@ -73,7 +73,7 @@ namespace rl
 		 *
 		 * @return Name der Ruby-Klasse
 		 */
-		virtual const CeGuiString& getClassName() const;
+		//virtual const CeGuiString& getClassName() const;
 
         /**
          * @return Die Art des auszuwaehlenden Zieles für die Aktion.

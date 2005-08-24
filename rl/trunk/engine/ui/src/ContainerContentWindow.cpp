@@ -51,6 +51,9 @@ namespace rl {
 		mItemList->subscribeEvent(
 			Window::EventMouseDoubleClick, 
 			boost::bind(&ContainerContentWindow::handleItemUse, this));
+		mItemList->subscribeEvent(
+			Window::EventMouseMove,
+			boost::bind(&ContainerContentWindow::handleMouseMove, this, _1));
 
 		getWindow("ContainerContentWindow/ContentFrameWindow")->subscribeEvent(
 			FrameWindow::EventCloseClicked,
@@ -82,5 +85,20 @@ namespace rl {
 		mContainer->close();
 		destroyWindow();
 		return true;
+	}
+
+	bool ContainerContentWindow::handleMouseMove(const CEGUI::EventArgs& evt)
+	{
+		const MouseEventArgs mouseEvt = static_cast<const MouseEventArgs&>(evt); 
+		ListboxItem* item = mItemList->getFirstSelectedItem();
+		if (item != NULL)
+		{
+			Item* currentItem = static_cast<Item*>(item->getUserData());
+			mItemList->setTooltipText(currentItem->getDescription());
+		}
+		else
+			mItemList->setTooltipText("");
+
+		return false;
 	}
 }

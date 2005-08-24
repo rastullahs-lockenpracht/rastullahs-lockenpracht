@@ -147,28 +147,20 @@ bool CommandMapperWindow::handleKeyDown(const CEGUI::EventArgs& e)
 			CMDMAP_KEYMAP_IN_BATTLE, 
 			ke.scancode, 
 			mTableInBattle->getItemAtGridReference(
-				MCLGridRef(mTableInBattle->getNominatedSelectionRow(), 0))->getText(),
-			mTableInBattle->getItemAtGridReference(
-				MCLGridRef(mTableInBattle->getNominatedSelectionRow(), 1))->getText()
+				MCLGridRef(mTableInBattle->getNominatedSelectionRow(), 0))->getText()
 		);
 	else if (mSelectedTable == mTableOffBattle)
 		CommandMapper::getSingleton().setMapping(
 			CMDMAP_KEYMAP_OFF_BATTLE, 
 			ke.scancode, 
 			mTableOffBattle->getItemAtGridReference(
-				MCLGridRef(mTableOffBattle->getNominatedSelectionRow(), 0))->getText(),
-			mTableOffBattle->getItemAtGridReference(
-				MCLGridRef(mTableOffBattle->getNominatedSelectionRow(), 1))->getText()
-		);
+				MCLGridRef(mTableOffBattle->getNominatedSelectionRow(), 0))->getText());
 	else if (mSelectedTable == mTableMovement)
 		CommandMapper::getSingleton().setMapping(
 			CMDMAP_KEYMAP_MOVEMENT, 
 			ke.scancode, 
 			mTableMovement->getItemAtGridReference(
-				MCLGridRef(mTableMovement->getNominatedSelectionRow(), 0))->getText(),
-			mTableMovement->getItemAtGridReference(
-				MCLGridRef(mTableMovement->getNominatedSelectionRow(), 1))->getText()
-		);
+				MCLGridRef(mTableMovement->getNominatedSelectionRow(), 0))->getText());
 	
 	return true;
 }
@@ -231,12 +223,10 @@ void CommandMapperWindow::refreshContent()
 
 		Action* action = *actionIter;
 		mTableInBattle->setItem(new ListboxTextItem(action->getName()), 0, row);
-		mTableInBattle->setItem(new ListboxTextItem(action->getClassName()), 1, row);
 		mTableOffBattle->setItem(new ListboxTextItem(action->getName()), 0, row);
-		mTableOffBattle->setItem(new ListboxTextItem(action->getClassName()), 1, row);
 
 		//int keyInBattle = CommandMapper::getSingleton().getMapping(CMDMAP_KEYMAP_IN_BATTLE, action->getClassName(), action->getName());
-		int keyOffBattle = CommandMapper::getSingleton().getMapping(CMDMAP_KEYMAP_OFF_BATTLE, action->getClassName(), action->getName());
+		int keyOffBattle = CommandMapper::getSingleton().getMapping(CMDMAP_KEYMAP_OFF_BATTLE, action->getName());
 		//mTableInBattle->setItem(
 		//	new ListboxTextItem(
 		//		InputManager::getSingleton().getKeyName(keyInBattle)), 2, row);

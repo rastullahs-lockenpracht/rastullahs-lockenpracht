@@ -70,7 +70,7 @@ class Door < RubyItem
     	$CORE.log("door.rb - Aktionen versteckt hinzugefuegt.");
     end
 
-    @mDoor.doAction("OpenDoorAction", "opendoor", NIL, NIL) unless not @mOpen
+    @mDoor.doAction("opendoor") unless not @mOpen
   end
   
   def setOpen(open)

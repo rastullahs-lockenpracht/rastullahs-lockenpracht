@@ -46,10 +46,8 @@ namespace rl
 
         virtual int getId() const;
 
-        //virtual CeGuiString getNameString();
         virtual const CeGuiString& getName() const;
         virtual void setName(CeGuiString& name);
-		//virtual void setName(const char* name);
 
         virtual const CeGuiString& getDescription() const;
         virtual void setDescription(CeGuiString& description);
@@ -62,6 +60,7 @@ namespace rl
 		Actor* getActor();
 
         const ActionVector getValidActions(Creature* actor) const;
+		Action* getDefaultAction(Creature* actor) const;
 
         /** Eine Aktion des Gegenstandes wird ausgeloest.
          *  @param actionName der Name der auszuloesenden Aktion.
@@ -72,13 +71,11 @@ namespace rl
          *         getriggert wurde.
          *  @param target Ziel, auf das die Aktion gewirkt wird.
          */
-        void doAction(const CeGuiString& className,
-                      const CeGuiString& actionName,
+        void doAction(const CeGuiString& actionName,
                       Creature* actor,
                       GameObject* target);
 
-		void doAction(const CeGuiString& className,
-					  const CeGuiString& actionName);
+		void doAction(const CeGuiString& actionName);
 
 		void doAction(Action* action,
                       Creature* actor,

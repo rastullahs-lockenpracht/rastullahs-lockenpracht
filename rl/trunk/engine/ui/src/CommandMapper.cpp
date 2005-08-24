@@ -20,6 +20,7 @@
 #include "Exception.h"
 #include "Action.h"
 #include "ActionManager.h"
+#include <OgreMouseEvent.h>
 
 using namespace Ogre;
 using namespace std;
@@ -32,7 +33,8 @@ namespace rl {
 	    : mMovementCommands(),
 		  mKeyCommandsInBattle(),
 		  mKeyCommandsOffBattle(),
-		  mMouseCommands(),
+		  mMouseCommandsInBattle(),
+		  mMouseCommandsOffBattle(),
 		  mActiveMovement(MOVE_NONE)		 
 	{
 		mMovementCommands.insert(make_pair(KC_A, MOVE_LEFT));
@@ -45,67 +47,21 @@ namespace rl {
         mMovementCommands.insert(make_pair(KC_LCONTROL, MOVE_SNEAK));
 		mMovementCommands.insert(make_pair(KC_SPACE, MOVE_JUMP));
 
-		ActionEntry ae;
-		ae.actionClass = "ShowActionMenuAction";
-		ae.actionName = "showactions";
-		mKeyCommandsInBattle.insert(make_pair(KC_F1, ae));
-		mKeyCommandsOffBattle.insert(make_pair(KC_F1, ae));
-
-		ae.actionClass = "QuitGameAction";
-		ae.actionName = "quitgame";
-		mKeyCommandsOffBattle.insert(make_pair(KC_ESCAPE, ae));
-
-		ae.actionClass = "ToggleConsoleAction";
-		ae.actionName = "toggleconsole";
-		mKeyCommandsOffBattle.insert(make_pair(KC_TAB, ae));
-
-		ae.actionClass = "ToggleDebugWindowAction";
-		ae.actionName = "toggledebugwindow";
-		mKeyCommandsOffBattle.insert(make_pair(KC_F2, ae));
-		
-		ae.actionClass = "ToggleGameLogWindowAction";
-		ae.actionName = "togglegamelogwindow";
-		mKeyCommandsOffBattle.insert(make_pair(KC_F3, ae));
-		
-		ae.actionClass = "ToggleDialogWindowAction";
-		ae.actionName = "toggledialogwindow";
-		mKeyCommandsOffBattle.insert(make_pair(KC_F8, ae));
-
-		ae.actionClass = "ToggleViewModeAction";
-		ae.actionName = "toggleviewmode";
-		mKeyCommandsOffBattle.insert(make_pair(KC_F, ae));
-		
-        ae.actionClass = "ResetCameraAction";
-		ae.actionName = "resetcamera";
-		mKeyCommandsOffBattle.insert(make_pair(KC_NUMPAD0, ae));
-
-        ae.actionClass = "MakeScreenshotAction";
-		ae.actionName = "makescreenshot";
-		mKeyCommandsOffBattle.insert(make_pair(KC_P, ae));
-
-		ae.actionClass = "ToggleOdeDebugAction";
-		ae.actionName = "toggleodedebug";
-		mKeyCommandsOffBattle.insert(make_pair(KC_L, ae));
-
-		ae.actionClass = "ShowObjectActionsAction";
-		ae.actionName = "showobjectactions";
-		mKeyCommandsOffBattle.insert(make_pair(KC_U, ae));
-
-		ae.actionClass = "ShowCharacterSheetAction";
-		ae.actionName = "showcharactersheet";
-		mKeyCommandsOffBattle.insert(make_pair(KC_C, ae));
-
-		ae.actionClass = "ShowTargetWindowAction";
-		ae.actionName = "showtargetwindow";
-		mKeyCommandsOffBattle.insert(make_pair(KC_T, ae));
-
-		ae.actionClass = "ToggleCharacterStateWindowAction";
-		ae.actionName = "togglecharacterstatewindow";
-		mKeyCommandsOffBattle.insert(make_pair(KC_O, ae));
-
-		ae.actionClass = "ToggleInGameGlobalMenuAction";
-		ae.actionName = "toggleingameglobalmenu";
-		mKeyCommandsOffBattle.insert(make_pair(KC_F10, ae));
+		setMapping(CMDMAP_MOUSEMAP_OFF_BATTLE, MouseEvent::BUTTON0_MASK, "showactions");
+		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_ESCAPE, "quitgame");
+		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_TAB, "toggleconsole");
+		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_F2, "toggledebugwindow");
+		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_F3, "togglegamelogwindow");
+		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_F8, "toggledialogwindow");
+		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_F, "toggleviewmode");
+		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_NUMPAD0, "resetcamera");
+		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_P, "makescreenshot");
+		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_L, "toggleodedebug");
+		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_U, "showobjectactions");
+		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_C, "showcharactersheet");
+		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_T, "showtargetwindow");
+		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_O, "togglecharacterstatewindow");
+		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_F10, "toggleingameglobalmenu");
 	}
 
 	CommandMapper::~CommandMapper()
@@ -122,41 +78,48 @@ namespace rl {
 		return Singleton<CommandMapper>::getSingletonPtr();
 	}
 
-	bool CommandMapper::injectMouseClicked(int mouseButtonMask)
+	bool CommandMapper::startAction(int keyCodeOrMouseButton, MapType mapType)
 	{
-		return false;
-	}
+		KeyAndMouseCommandMap* commandMap = getCommandMap(mapType);
 
-	bool CommandMapper::injectKeyClicked(int keycode)
-	{
-		KeyAndMouseCommandMap* commandMap;
-		if (UiSubsystem::getSingleton().isInBattleMode())
-			commandMap = &mKeyCommandsInBattle;
-		else
-			commandMap = &mKeyCommandsOffBattle;
-
-		KeyAndMouseCommandMap::const_iterator command = commandMap->find(keycode);
+		KeyAndMouseCommandMap::const_iterator command = commandMap->find(keyCodeOrMouseButton);
 
 		if (command != commandMap->end())
 		{
 			Person* chara = UiSubsystem::getSingleton().getActiveCharacter();
 
-            try
-            {
-				Action* action = ActionManager::getSingleton().getInGameGlobalAction((*command).second.actionName, (*command).second.actionClass);
+			try
+			{
+				Action* action = ActionManager::getSingleton().getInGameGlobalAction((*command).second);
 				if (action != NULL)
 					action->doAction(NULL, NULL, NULL); //TODO: Eigene Klasse für globale Aktionen? doAction hat keine Parameter(?)
 				else
-					chara->doAction((*command).second.actionClass, (*command).second.actionName, chara, chara);
-			    return true;
-            }
-            catch( ScriptInvocationFailedException& sife )
-            {
-                UiSubsystem::getSingleton().log(Ogre::LML_CRITICAL, sife.toString() );
-            }
+					chara->doAction((*command).second, chara, chara);
+				return true;
+			}
+			catch( ScriptInvocationFailedException& sife )
+			{
+				UiSubsystem::getSingleton().log(Ogre::LML_CRITICAL, sife.toString() );
+			}
 		}
 
 		return false;
+	}
+
+	bool CommandMapper::injectMouseClicked(int mouseButtonMask)
+	{
+		if (UiSubsystem::getSingleton().isInBattleMode())
+			return startAction(mouseButtonMask, CMDMAP_MOUSEMAP_IN_BATTLE);
+		else
+			return startAction(mouseButtonMask, CMDMAP_MOUSEMAP_OFF_BATTLE);		
+	}
+
+	bool CommandMapper::injectKeyClicked(int keycode)
+	{
+		if (UiSubsystem::getSingleton().isInBattleMode())
+			return startAction(keycode, CMDMAP_KEYMAP_IN_BATTLE);
+		else
+			return startAction(keycode, CMDMAP_KEYMAP_OFF_BATTLE);		
 	}
 
 	bool CommandMapper::injectKeyDown(int keycode)
@@ -194,56 +157,47 @@ namespace rl {
 	}
 
 	void CommandMapper::setMapping(
-			MapType map, 
+			MapType mapType, 
 			int code, 
-			const CeGuiString& actionClass, 
 			const CeGuiString& actionName)
 	{
-		ActionEntry ae;
-		ae.actionClass = actionClass;
-		ae.actionName = actionName;
+		getCommandMap(mapType)->insert(make_pair(code, actionName));
+	}
 
-		switch (map)
-		{
-		case CMDMAP_KEYMAP_IN_BATTLE:
-			mKeyCommandsInBattle.insert(make_pair(code, ae));
-			break;
-		case CMDMAP_KEYMAP_OFF_BATTLE:
-			mKeyCommandsOffBattle.insert(make_pair(code, ae));
-			break;
-		case CMDMAP_MOUSEMAP:
-			mKeyCommandsInBattle.insert(make_pair(code, ae));
-			break;
-		}
+	CommandMapper::KeyAndMouseCommandMap* CommandMapper::getCommandMap(MapType mapType)
+	{
+		KeyAndMouseCommandMap* commandMap;
+
+		if (mapType == CMDMAP_KEYMAP_OFF_BATTLE)
+			commandMap = &mKeyCommandsOffBattle;
+		else if (mapType == CMDMAP_KEYMAP_IN_BATTLE)
+			commandMap = &mKeyCommandsInBattle;
+		else if (mapType == CMDMAP_MOUSEMAP_OFF_BATTLE)
+			commandMap = &mMouseCommandsOffBattle;
+		else if (mapType == CMDMAP_MOUSEMAP_IN_BATTLE)
+			commandMap = &mMouseCommandsInBattle;
+		else
+			Throw(RuntimeException, "Unknown command map");
+
+		return commandMap;
 	}
 
 	int CommandMapper::getMapping(
-			MapType map, 
-			const CeGuiString& actionClass, 
+			MapType mapType, 
 			const CeGuiString& actionName)
 	{
-		if (map == CMDMAP_KEYMAP_MOVEMENT)
+		if (mapType == CMDMAP_KEYMAP_MOVEMENT)
 		{
 			return 0;
 		}
 
-		KeyAndMouseCommandMap* commandMap;
-
-		if (map == CMDMAP_KEYMAP_IN_BATTLE)
-			commandMap = &mKeyCommandsInBattle;
-		else if (map == CMDMAP_KEYMAP_OFF_BATTLE)
-            commandMap = &mKeyCommandsOffBattle;
-		else if (map == CMDMAP_MOUSEMAP)
-			commandMap = &mMouseCommands;
-		else
-			Throw(RuntimeException, "Unknown command map");
-
+		KeyAndMouseCommandMap* commandMap = getCommandMap(mapType);
+	
 		for (KeyAndMouseCommandMap::iterator command = commandMap->begin();
 				command != commandMap->end(); command++)
 		{
-			ActionEntry ae = (*command).second;
-			if (ae.actionClass.compare(actionClass) &&
-				ae.actionName.compare(actionName))
+			CeGuiString name = (*command).second;
+			if (name.compare(actionName) == 0)
 				return (*command).first;
 		}
 

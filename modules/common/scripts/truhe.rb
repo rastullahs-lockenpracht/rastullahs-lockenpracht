@@ -76,7 +76,7 @@ class Chest < Container
   end
 
   def close()
-    doAction("CloseChestAction", "closechest")
+    doAction("closechest")
   end
 end
 
