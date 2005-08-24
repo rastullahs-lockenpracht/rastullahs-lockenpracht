@@ -19,6 +19,7 @@
 #include "GameObject.h"
 #include "Exception.h"
 #include "RulesSubsystem.h"
+#include "ActionManager.h"
 
 using namespace std;
 
@@ -270,5 +271,10 @@ namespace rl
 			return (*iter).second;
 		else
 			return 0.0;
+	}
+
+	Action* getDefaultAction(Creature* actor)
+	{
+		return ActionManager::getSingleton().getAction("showdescription");
 	}
 }
