@@ -4,13 +4,14 @@ class Hero < Person
     def initialize
         super(10000, "Alrik", "Der Testheld");
 
-	    setEigenschaft(1, 8);
-     	setEigenschaft(2, 9);
-        setEigenschaft(3, 10);
-	    setEigenschaft(4, 11);
-	    setEigenschaft(5, 12);
-        setEigenschaft(6, 13); #KO
-        setEigenschaft(7, 14); #KK
+        setEigenschaft("MU", 12);
+	    setEigenschaft("KL", 8);
+     	setEigenschaft("IN", 9);
+        setEigenschaft("CH", 10);
+	    setEigenschaft("FF", 11);
+	    setEigenschaft("GE", 12);
+        setEigenschaft("KO", 13); #KO
+        setEigenschaft("KK", 14); #KK
         setWert(2, 10); # LE-Mod
 
         modifyLe(1000); # LeP = LE
