@@ -39,10 +39,27 @@ namespace rl {
 		int showActionsOfObject(GameObject* object);
 		bool showHint(const CeGuiString& evt);
 
-	private:
-		
+	private:	
 		class ActionNode;
-		typedef std::set<ActionNode*> NodeSet;
+
+        struct actnodecmp 
+        {
+            bool operator()(ActionNode* x, ActionNode* y) const
+            {
+                if( x->getAction() != NULL && y->getAction() != NULL )
+                    return x->getAction()->getName().compare( 
+                    y->getAction()->getName() ) < 0;
+                else if( x->getGroup() != NULL && y->getGroup() != NULL )
+                    return x->getGroup()->getName().compare( 
+                    y->getGroup()->getName() )  < 0;
+                else if( x->getGroup() != NULL )
+                    return true;
+                else
+                    return false;
+            }
+        };
+
+        typedef std::set<ActionNode*,actnodecmp> NodeSet;
 	
 		static CEGUI::Point 
 			getPositionOnCircle(
@@ -110,6 +127,8 @@ namespace rl {
 			ActionGroup* mGroup;
 			CEGUI::PushButton* mButton;
 		};
+
+
 	};
 
 }

@@ -17,6 +17,7 @@
 #include "UiPrerequisites.h"
 
 #include <set>
+#include <algorithm>
 
 #include "Action.h"
 #include "ActionManager.h"
@@ -78,6 +79,7 @@ namespace rl {
 		{
 			UiSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, 
 				"Aktionen ermittelt", "ActionChoiceWindow::showActionsOfObject");
+
 			ActionNode* actionTree = ActionNode::createActionTree(actions);
 			UiSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, 
 				"Baum erzeugt", "ActionChoiceWindow::showActionsOfObject");
@@ -214,7 +216,7 @@ namespace rl {
 				button = createButton(actions->getGroup()->getName(), center);
 			}
 			
-			const set<ActionNode*> children = actions->getChildren();
+            const NodeSet children = actions->getChildren();
 			float angleStep = angleWidth / (float)children.size();
 			float ang = children.size()>1 ? angle - angleWidth : angle;
 			for (NodeSet::const_iterator iter = children.begin(); 
@@ -319,13 +321,15 @@ namespace rl {
 		return center + CEGUI::Point(relX, relY);
 	}
 	
-	ActionChoiceWindow::ActionNode* ActionChoiceWindow::ActionNode::createActionTree(const ActionVector& actions, ActionGroup* rootGroup)
+	ActionChoiceWindow::ActionNode* 
+        ActionChoiceWindow::ActionNode::createActionTree(const ActionVector& actions, ActionGroup* rootGroup)
 	{
 		ActionNode* root = new ActionNode(false);
 		root->setGroup(rootGroup);
 
 		set<ActionGroup*> groups;
 		ActionVector rest;
+        
 		for (ActionVector::const_iterator iter = actions.begin(); iter != actions.end(); iter++)
 		{
 			Action* action = *iter;
@@ -380,15 +384,15 @@ namespace rl {
 		mChildren.insert(child); 
 	}
 	
-	const std::set<ActionChoiceWindow::ActionNode*>& ActionChoiceWindow::ActionNode::getChildren() 
+    const ActionChoiceWindow::NodeSet& ActionChoiceWindow::ActionNode::getChildren() 
 	{ 
 		return mChildren; 
 	}
 	
-	void ActionChoiceWindow::ActionNode::getAllNodes(ActionNode* treeRoot, std::set<ActionNode*>& nodes)
+    void ActionChoiceWindow::ActionNode::getAllNodes(ActionNode* treeRoot, NodeSet& nodes)
 	{
 		nodes.insert(treeRoot);
-		const set<ActionNode*> children = treeRoot->getChildren();
+		const NodeSet children = treeRoot->getChildren();
 		
 		for (NodeSet::const_iterator iter = children.begin(); iter != children.end(); iter++)
 			getAllNodes(*iter, nodes);
