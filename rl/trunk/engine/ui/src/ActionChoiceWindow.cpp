@@ -218,7 +218,7 @@ namespace rl {
 			
             const NodeSet children = actions->getChildren();
 			float angleStep = angleWidth / (float)children.size();
-			float ang = children.size()>1 ? angle - angleWidth : angle;
+			float ang = children.size()>1 ? angle - angleWidth : angle - 180;
 			for (NodeSet::const_iterator iter = children.begin(); 
 				iter != children.end(); iter++)
 			{
