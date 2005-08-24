@@ -22,7 +22,10 @@ Logger* Logger::getSingletonPtr(void)
 
 Logger::Logger(const Ogre::String& logPath, const Ogre::String& ogreLogPath)
 {
-	new LogManager();
+    if (LogManager::getSingletonPtr() == 0)
+    {
+	   new LogManager();
+    }
 
 	//Log für Ogre
 	LogManager::getSingleton().setDefaultLog(LogManager::getSingleton().createLog(ogreLogPath));

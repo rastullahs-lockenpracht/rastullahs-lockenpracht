@@ -49,8 +49,6 @@
 
 namespace CEGUI {
 
-class RenderableImage;
-
 class _RlUiExport ListboxImageItem : public ListboxItem
 {
 public:

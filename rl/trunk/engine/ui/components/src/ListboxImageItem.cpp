@@ -16,7 +16,7 @@
 
 #include "ListboxImageItem.h"
 #include <CEGUIWindow.h>
-#include <CEGUIRenderableImage.h>
+#include <CEGUIImage.h>
 
 namespace CEGUI {
 
