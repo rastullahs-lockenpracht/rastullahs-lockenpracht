@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreMain\Dependencies\include;..\..\dependencies\openalpp\include;..\..\dependencies\openal\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreMain\Dependencies\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\fmod\api\inc\"
 				PreprocessorDefinitions="_WINDOWS;WIN32;RLSOUND_EXPORTS;_DEBUG;LIBOPENAL;HAVE_LIBOPENAL"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -56,7 +56,7 @@
 				ProgramDataBaseFileName=".\obj\$(ConfigurationName)/"
 				WarningLevel="3"
 				DebugInformationFormat="3"
-				CompileAs="0"
+				CompileAs="2"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -69,11 +69,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msvcrt-ruby18.lib OgreMain_d.lib ALut.lib OpenAl32.lib ogg_static_d.lib vorbis_static_d.lib vorbisenc_static_d.lib vorbisfile_static_d.lib"
+				AdditionalDependencies="msvcrt-ruby18.lib OgreMain_d.lib fmodvc.lib"
 				OutputFile="$(OutDir)/RlSound.dll"
 				LinkIncremental="0"
 				SuppressStartupBanner="false"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\ogg\win32;..\..\dependencies\vorbis\lib;..\..\dependencies\boost\lib"
+				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\fmod\api\lib"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				ProgramDatabaseFile="./lib/$(ConfigurationName)/$(ProjectName).pdb"
@@ -136,7 +136,7 @@
 				Optimization="3"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreMain\Dependencies\include;..\..\dependencies\openalpp\include;..\..\dependencies\openal\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include;..\..\dependencies\boost\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreMain\Dependencies\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\fmod\api\inc\"
 				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32;RLSOUND_EXPORTS;LIBOPENAL;HAVE_LIBOPENAL"
 				MinimalRebuild="false"
 				RuntimeLibrary="2"
@@ -147,7 +147,7 @@
 				ProgramDataBaseFileName=".\obj\$(ConfigurationName)/"
 				WarningLevel="3"
 				DebugInformationFormat="3"
-				CompileAs="0"
+				CompileAs="2"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -160,15 +160,107 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msvcrt-ruby18.lib OgreMain.lib ogg_static.lib vorbis_static.lib vorbisenc_static.lib vorbisfile_static.lib ALut.lib OpenAl32.lib"
+				AdditionalDependencies="msvcrt-ruby18.lib OgreMain.lib fmodvc.lib"
 				OutputFile="$(OutDir)/RlSound.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="false"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\ogg\win32;..\..\dependencies\vorbis\lib;..\..\dependencies\boost\lib"
+				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\fmod\api\lib"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/RlSound.lib"
+				TargetMachine="1"
+				FixedBaseAddress="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug+DepRelease|Win32"
+			OutputDirectory="./lib/$(ConfigurationName)"
+			IntermediateDirectory="./obj/$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="UpgradeFromVC71.vsprops"
+			CharacterSet="2"
+			ManagedExtensions="0"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\OgreMain\Dependencies\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\fmod\api\inc\"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;RLSOUND_EXPORTS;LIBOPENAL;HAVE_LIBOPENAL"
+				MinimalRebuild="false"
+				BasicRuntimeChecks="0"
+				RuntimeLibrary="3"
+				BufferSecurityCheck="false"
+				RuntimeTypeInfo="true"
+				ExpandAttributedSource="true"
+				AssemblerOutput="4"
+				AssemblerListingLocation=".\obj\$(ConfigurationName)/"
+				ObjectFile=".\obj\$(ConfigurationName)/"
+				ProgramDataBaseFileName=".\obj\$(ConfigurationName)/"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+				CompileAs="2"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="msvcrt-ruby18.lib OgreMain.lib fmodvc.lib"
+				OutputFile="$(OutDir)/RlSound.dll"
+				LinkIncremental="0"
+				SuppressStartupBanner="false"
+				AdditionalLibraryDirectories="..\..\dependencies\ogre\OgreMain\lib\Release;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\fmod\api\lib"
+				GenerateDebugInformation="true"
+				AssemblyDebug="1"
+				ProgramDatabaseFile="./lib/$(ConfigurationName)/$(ProjectName).pdb"
+				SubSystem="2"
 				ImportLibrary="$(OutDir)/RlSound.lib"
 				TargetMachine="1"
 				FixedBaseAddress="0"
@@ -212,7 +304,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\MusicManager.cpp"
+				RelativePath=".\src\Sound.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SoundChannel.cpp"
 				>
 			</File>
 			<File
@@ -224,11 +320,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\SoundMovable.cpp"
+				RelativePath=".\src\SoundResource.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\SoundResource.cpp"
+				RelativePath=".\src\SoundSample.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SoundStream.cpp"
 				>
 			</File>
 			<File
@@ -246,7 +346,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\MusicManager.h"
+				RelativePath=".\include\Sound.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SoundChannel.h"
 				>
 			</File>
 			<File
@@ -258,15 +362,19 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\SoundMovable.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\SoundPrerequisites.h"
 				>
 			</File>
 			<File
 				RelativePath=".\include\SoundResource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SoundSample.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SoundStream.h"
 				>
 			</File>
 			<File

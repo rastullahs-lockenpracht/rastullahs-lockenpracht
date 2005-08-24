@@ -16,8 +16,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="lib\Debug"
-			IntermediateDirectory="obj\Debug"
+			OutputDirectory="./lib/$(ConfigurationName)"
+			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="2"
 			InheritedPropertySheets="UpgradeFromVC71.vsprops"
 			CharacterSet="2"
@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\core\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\ogre\PlugIns\GuiElements\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui\include;..\..\dependencies\xerces\include"
+				AdditionalIncludeDirectories=".\include;..\core\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\ogre\PlugIns\GuiElements\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui\include;..\..\dependencies\xerces\include;..\..\dependencies\boost\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;RLRULES_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -68,7 +68,7 @@
 				AdditionalDependencies="msvcrt-ruby18.lib OgreMain_d.lib xerces-c_2D.lib CEGUIBase_d.lib RlCore.lib"
 				OutputFile="$(OutDir)/RlRules.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\Dependencies\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui\lib\"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\Dependencies\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui\lib;..\..\dependencies\boost\lib"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/RlRules.pdb"
 				SubSystem="2"
@@ -102,8 +102,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="lib\Release"
-			IntermediateDirectory="obj\Release"
+			OutputDirectory="./lib/$(ConfigurationName)"
+			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="2"
 			InheritedPropertySheets="UpgradeFromVC71.vsprops"
 			CharacterSet="2"
@@ -125,7 +125,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".\include;..\core\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\ogre\PlugIns\GuiElements\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui\include;..\..\dependencies\xerces\include"
+				AdditionalIncludeDirectories=".\include;..\core\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\ogre\PlugIns\GuiElements\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui\include;..\..\dependencies\xerces\include;..\..\dependencies\boost\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;RLRULES_EXPORTS"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="true"
@@ -150,11 +150,97 @@
 				AdditionalDependencies="msvcrt-ruby18.lib OgreMain.lib xerces-c_2.lib CEGUIBase.lib RlCore.lib"
 				OutputFile="$(OutDir)/RlRules.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\Dependencies\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui\lib\"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\Dependencies\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui\lib;..\..\dependencies\boost\lib"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				ImportLibrary="$(OutDir)/RlRules.lib"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug+DepRelease|Win32"
+			OutputDirectory="./lib/$(ConfigurationName)"
+			IntermediateDirectory="./obj/$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="UpgradeFromVC71.vsprops"
+			CharacterSet="2"
+			ManagedExtensions="0"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories=".\include;..\core\include;..\common\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\ogre\PlugIns\GuiElements\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui\include;..\..\dependencies\xerces\include;..\..\dependencies\boost\include"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;RLRULES_EXPORTS"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				RuntimeTypeInfo="true"
+				UsePrecompiledHeader="0"
+				AssemblerListingLocation=".\obj\Debug/"
+				ObjectFile=".\obj\Debug/"
+				WarningLevel="3"
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="4"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="msvcrt-ruby18.lib OgreMain.lib xerces-c_2.lib CEGUIBase.lib RlCore.lib"
+				OutputFile="$(OutDir)/RlRules.dll"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\Dependencies\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui\lib;..\..\dependencies\boost\lib"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(OutDir)/RlRules.pdb"
+				SubSystem="2"
 				ImportLibrary="$(OutDir)/RlRules.lib"
 				TargetMachine="1"
 			/>
@@ -241,6 +327,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ObjectStateChangeEvent.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ObjectStateChangeEventSource.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ObjectStateChangeListener.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Person.cpp"
 				>
 			</File>
@@ -254,6 +352,22 @@
 			</File>
 			<File
 				RelativePath=".\src\TalentCsvIterator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\TimerEvent.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\TimerEventSource.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\TimerListener.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\TimerManager.cpp"
 				>
 			</File>
 		</Filter>
@@ -311,6 +425,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\ObjectStateChangeEvent.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ObjectStateChangeEventSource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ObjectStateChangeListener.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\Person.h"
 				>
 			</File>
@@ -328,6 +454,22 @@
 			</File>
 			<File
 				RelativePath=".\include\TalentCsvIterator.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\TimerEvent.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\TimerEventSource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\TimerListener.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\TimerManager.h"
 				>
 			</File>
 		</Filter>
