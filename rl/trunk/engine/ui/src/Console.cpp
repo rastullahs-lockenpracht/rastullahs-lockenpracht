@@ -56,7 +56,9 @@ namespace rl
 			boost::bind(&Console::handleKeyDown, this, _1));
 		mDisplay->moveToFront();
 
-		bindCloseToCloseButton();
+		mWindow->subscribeEvent(
+			FrameWindow::EventCloseClicked,
+			boost::bind(&Console::handleClose, this));
 
 		mHistory.clear();
         setVisible(false);
@@ -182,6 +184,12 @@ namespace rl
 			mCommandLine->setText((utf8*)"");
 		else
 			mCommandLine->setText(mHistory[mHistoryMarker]);
+	}
+
+	bool Console::handleClose()
+	{
+		setVisible(false);
+		return true;
 	}
 }
 

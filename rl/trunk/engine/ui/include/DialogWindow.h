@@ -48,7 +48,6 @@ namespace rl {
 		void setQuestion(std::string question);
 		void setImage(std::string imageset, std::string image);
 		int getSelectedOption();
-		bool handleSelectOption();		
 
 	private:
 		std::map<std::string, std::string> mVariableValues;
@@ -61,6 +60,8 @@ namespace rl {
 		CEGUI::StaticText* mName;
 				
 		void updateValues();
+		bool handleSelectOption();	
+		bool handleClose();
 	};
 
 }

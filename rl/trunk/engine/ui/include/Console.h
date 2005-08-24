@@ -57,6 +57,7 @@ namespace rl {
 			bool mPrompt;
 
 			bool handleKeyDown(const CEGUI::EventArgs& e);
+			bool handleClose();
 			void appendTextRow(CeGuiString& text, const CEGUI::colour color);
 
 			std::vector<Ogre::String> mHistory;

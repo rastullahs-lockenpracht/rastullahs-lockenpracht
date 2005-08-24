@@ -59,7 +59,8 @@ DialogWindow::DialogWindow(string dialogFile) :
 	mDialogOptions->setShowHorzScrollbar(false);
 	mDialogOptions->setShowVertScrollbar(false);
 
-	bindCloseToCloseButton();
+	mWindow->subscribeEvent(FrameWindow::EventCloseClicked, // Verstecken, falls Close geklickt wird
+		boost::bind(&DialogWindow::handleClose, this)); //TODO: als Abbrechen werten 
 
 	addToRoot(mWindow);
     getResponse("START DIALOG");
@@ -180,6 +181,12 @@ bool DialogWindow::handleSelectOption()
 	DebugWindow::getSingleton().setText("Pnk "+StringConverter::toString(getSelectedOption()));
 	ListboxWrappedTextItem* item=reinterpret_cast<ListboxWrappedTextItem*>(mDialogOptions->getFirstSelectedItem());
 	getResponse(StringConverter::toString(item->getID()));	
+	return true;
+}
+
+bool DialogWindow::handleClose()
+{
+	setVisible(false);
 	return true;
 }
 
