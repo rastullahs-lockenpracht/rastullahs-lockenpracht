@@ -131,6 +131,11 @@ namespace rl
         return Date(mTimestamp + rhs);
     }
 
+	Date Date::operator+(const Date& rhs)
+	{
+		return Date(mTimestamp + rhs.mTimestamp);
+	}
+
     Date Date::operator-(const RL_LONGLONG& rhs)
     {
         return Date(mTimestamp - rhs);

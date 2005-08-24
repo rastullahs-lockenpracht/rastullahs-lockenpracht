@@ -369,6 +369,8 @@ public:
 
 class ParticleSystemObject : public ActorControlledObject
 {
+public:
+     void setActive(bool active);
 private:
 	 ParticleSystemObject(const Ogre::String& name, const Ogre::String& partSys );
 };
@@ -536,6 +538,7 @@ public:
     World* getWorld();
     void makeScreenshot(const Ogre::String& sName);
     void log(const Ogre::String& msg);
+    RL_LONGLONG getClock();
 };
 
 
@@ -547,23 +550,6 @@ public:
     
     bool isPaused();
     void setPaused(bool pause);
-};
-
-%feature("director") TimerTask;   
-class TimerTask
-{
-public:
-	TimerTask(const Ogre::String& name);
-	virtual ~TimerTask();
-
-	void setActive(bool active);
-	bool isActive();
-
-	virtual void run(const Ogre::String& name); // muss in Ruby überschrieben werden, ruft eine Methode anhand ihres Namens auf
-
-	void scheduleRelativeToActivation(const Ogre::String& name, long timeAfterActivation);
-	void scheduleRelativeToStart(const Ogre::String& name, long timeAfterStart);
-	void scheduleRelativeToGametime(const Ogre::String& name, rl::Date gameTime);
 };
 
 }

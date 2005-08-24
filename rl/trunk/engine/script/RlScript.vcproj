@@ -138,12 +138,6 @@
 			<File
 				RelativePath=".\include\ScriptSubsystem.h">
 			</File>
-			<File
-				RelativePath=".\include\TimerManager.h">
-			</File>
-			<File
-				RelativePath=".\include\TimerTask.h">
-			</File>
 		</Filter>
 		<Filter
 			Name="swig"

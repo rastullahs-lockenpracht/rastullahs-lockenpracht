@@ -14,32 +14,30 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#include "ScriptSubsystem.h"
+#include "TimerListener.h"
 
-using Ogre::Singleton;
-
-template<> rl::ScriptSubsystem* Singleton<rl::ScriptSubsystem>::ms_Singleton = 0;
+#include "CoreSubsystem.h"
+#include "Exception.h"
 
 namespace rl {
 
-	ScriptSubsystem& ScriptSubsystem::getSingleton()
-	{
-		return Singleton<ScriptSubsystem>::getSingleton();
+    TimerListener::~TimerListener()
+    {        
 	}
 
-	ScriptSubsystem* ScriptSubsystem::getSingletonPtr()
+	bool TimerListener::eventRaised(TimerEvent* evt)
 	{
-		return Singleton<ScriptSubsystem>::getSingletonPtr();
-	}
+        try
+        {
+            timerFired(evt);
+        }
+		catch( ScriptInvocationFailedException& sife )
+        {
+            CoreSubsystem::getSingleton().log( Ogre::LML_CRITICAL, sife.toString() );
+        }
 
-	ScriptSubsystem::ScriptSubsystem()
-	{
-		
+        // consumed or not
+		return false;
 	}
-
-	ScriptSubsystem::~ScriptSubsystem()
-	{
-		
-	}
-
 }
+

@@ -43,7 +43,6 @@
 #include "GameLoop.h"
 #include "World.h"
 #include "ScriptObjectRepository.h"
-#include "TimerTask.h"
 %}
 
 %define ConstructorHandler 

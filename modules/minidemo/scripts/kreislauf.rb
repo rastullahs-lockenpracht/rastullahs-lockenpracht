@@ -15,8 +15,8 @@ $CORE.log("Fackellicht erstellt.");
 
 $CORE.log("Partikeldings erstellen..");
 partikeldings = $AM.createParticleSystemActor("Das fitzelnde Leuchten", "PEExamples/ignifaxius" );
-partikeldings.placeIntoScene( -402.735565185547, -128.517913818359, 25.9572200775146, 1.0, 0.0, 0.0, 0.0);
-# torch.getActor().attach("SLOT_FAR_END", partikeldings );
+partikeldings.placeIntoScene( -300.0, 0.0, 100.0, 1.0, 0.0, 0.0, 0.0);
+# torch.getActor().attachToSlot(partikeldings, "SLOT_FAR_END" );
 partikeldings.setScale( 4.54, 4.54, 4.54 );
 $CORE.log("Partikeldings erstellt.");
 

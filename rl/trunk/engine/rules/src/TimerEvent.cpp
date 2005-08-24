@@ -14,35 +14,23 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#ifndef __RL_TIMERTASK_H__
-#define __RL_TIMERTASK_H__
+#include "TimerEvent.h"
 
-#include "CorePrerequisites.h"
+#include "TimerEventSource.h"
 
 namespace rl {
-	
-	class Date;
-	using Ogre::String;
 
-	class _RlCoreExport TimerTask
-	{
-	public:
-		TimerTask(const Ogre::String& name);
-		virtual ~TimerTask();
+TimerEvent::TimerEvent( TimerEventSource* src ) 
+    : EventObject(src,0)
+{
 
-		void setActive(bool active);
-		bool isActive();
-
-		virtual void run(const Ogre::String& name); // muss in Ruby überschrieben werden, ruft eine Methode anhand ihres Namens auf
-
-		void scheduleRelativeToActivation(const Ogre::String& name, long timeAfterActivation);
-		void scheduleRelativeToStart(const Ogre::String& name, long timeAfterStart);
-		void scheduleRelativeToGametime(const Ogre::String& name, Date& gameTime);
-
-	private:
-		bool mActive;
-		Ogre::String mName;
-	};
 }
 
-#endif
+TimerEventSource* TimerEvent::getSource() const
+{
+	EventSource* eve =  EventObject::getSource();
+    return dynamic_cast<TimerEventSource*>( eve );
+}
+
+}
+

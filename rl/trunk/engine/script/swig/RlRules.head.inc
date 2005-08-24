@@ -34,4 +34,7 @@
 #include "ObjectStateChangeEventSource.h"
 #include "ObjectStateChangeEvent.h"
 #include "ObjectStateChangeListener.h"
+#include "TimerEventSource.h"
+#include "TimerEvent.h"
+#include "TimerListener.h"
 %}

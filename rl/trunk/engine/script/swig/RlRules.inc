@@ -180,7 +180,8 @@ namespace rl {
 				virtual ~ObjectStateChangeListener(); 	 
 		  	 
 				virtual void objectStateChanged(rl::ObjectStateChangeEvent *anEvent) = 0; 	 
-		}; 	 
+	  };
+		 	 
 		  	 
 		class ObjectStateChangeEventSource 	 
 		{ 	 
@@ -190,7 +191,7 @@ namespace rl {
 			void addObjectStateChangeListener( rl::ObjectStateChangeListener*  list ); 	 
 			void removeObjectStateChangeListener( rl::ObjectStateChangeListener* list ); 	 
 			bool hasListeners( ) const; 	 
-			Ogre::UserDefinedObject* getObject() const { return mObject; } 	 
+			rl::GameObject* getObject() const;
 			void fireObjectStateChangeEvent(); 	 
 		}; 	 
 		  	 
@@ -198,7 +199,7 @@ namespace rl {
 		{ 	 
 		public: 	 
 			ObjectStateChangeEvent( rl::ObjectStateChangeEventSource* src ); 	 
-			Ogre::UserDefinedObject* getProvokingObject() const { return mObject; }; 	 
+			rl::GameObject* getProvokingObject() const; 	 
 			rl::ObjectStateChangeEventSource* getSource() const; 	 
 		};
 		    
@@ -321,6 +322,38 @@ namespace rl {
 		void registerInGameGlobalAction(rl::Action* action, rl::ActionGroup* group);
 	
         static rl::ActionManager& getSingleton();
+	};
+	
+	class TimerEvent
+	{
+	public:
+		TimerEvent( rl::TimerEventSource* src );
+	
+		Ogre::Real getTime();
+		rl::Date getGameTime();
+
+		rl::TimerEventSource* getSource() const;
+	};
+	
+   %feature("director") TimerListener;
+	class TimerListener
+	{
+	public:
+		virtual ~TimerLister();
+	  
+  		virtual void timerFired(rl::TimerEvent* anEvent) = 0;
+	};
+	
+	class TimerEventSource
+	{
+	public:
+		static const RL_LONGLONG NO_REPEAT;
+
+		TimerEventSource( const RL_LONGLONG gameTime, const RL_LONGLONG interval = rl::TimerEventSource::NO_REPEAT );
+		TimerEventSource( const rl::Date dsaTime, const rl::Date interval = rl::TimerEventSource::NO_REPEAT );
+	
+		void addTimerListener( rl::TimerListener* ist );
+
 	};
 } // Namespace
 

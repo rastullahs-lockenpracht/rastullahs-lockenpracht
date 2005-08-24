@@ -19,6 +19,7 @@
 #include "DsaManager.h"
 #include "DsaDataLoader.h"
 #include "Logger.h"
+#include "TimerManager.h"
 
 template <>
 rl::RulesSubsystem* Singleton<rl::RulesSubsystem> ::ms_Singleton = 0;
@@ -40,12 +41,13 @@ namespace rl
         //Zufallsgenerator initialisieren
         srand(static_cast<unsigned int>(time(NULL)));
 
-		
         //Singletons erzeugen
         new ActionManager(); 
 		log(Ogre::LML_TRIVIAL, "ActionManager erzeugt");
         new DsaManager();
 		log(Ogre::LML_TRIVIAL, "DsaManager erzeugt");
+		new TimerManager(); 
+		log(Ogre::LML_TRIVIAL, "TimerManager erzeugt");
 
 		//Daten laden
 		DsaDataLoader::loadData("basis.xdi");

@@ -77,7 +77,7 @@ $CORE.log("Trank fertig");
 
 
 load "kreislauf.rb"
-
+load "timer.rb"
 load "area.rb"
 
 $CORE.log("map 'minidemo' initialisiert.");

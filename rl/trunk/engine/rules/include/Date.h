@@ -89,7 +89,8 @@ namespace rl
         bool operator>(const Date& rhs);
 
         Date operator+(const RL_LONGLONG& rhs);
-        Date operator-(const RL_LONGLONG& rhs);
+		Date operator+(const Date& rhs);
+		Date operator-(const RL_LONGLONG& rhs);
         RL_LONGLONG operator-(const Date& rhs);
 
         RL_LONGLONG getTimestamp() const;

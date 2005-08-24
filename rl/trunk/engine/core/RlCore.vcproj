@@ -271,18 +271,6 @@
 				RelativePath=".\include\SoundObject.h">
 			</File>
 			<File
-				RelativePath=".\include\TimerEvent.h">
-			</File>
-			<File
-				RelativePath=".\include\TimerEventSource.h">
-			</File>
-			<File
-				RelativePath=".\include\TimerManager.h">
-			</File>
-			<File
-				RelativePath=".\include\TimerTask.h">
-			</File>
-			<File
 				RelativePath=".\include\TrackAnimation.h">
 			</File>
 			<File
@@ -384,12 +372,6 @@
 			</File>
 			<File
 				RelativePath=".\src\SoundObject.cpp">
-			</File>
-			<File
-				RelativePath=".\src\TimerManager.cpp">
-			</File>
-			<File
-				RelativePath=".\src\TimerTask.cpp">
 			</File>
 			<File
 				RelativePath=".\src\TrackAnimation.cpp">
