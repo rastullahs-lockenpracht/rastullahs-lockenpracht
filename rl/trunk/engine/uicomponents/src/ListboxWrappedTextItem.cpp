@@ -53,8 +53,11 @@ void ListboxWrappedTextItem::draw(const Vector3& position, float alpha, const Re
 
     if (fnt != NULL)
     {
-         fnt->drawText(d_itemText, clipper, position.d_z, clipper, d_textFormatting, getModulateAlphaColourRect(d_textCols, alpha));
-    }
+        Vector3 finalPos(position);
+        finalPos.d_y -= PixelAligned((fnt->getLineSpacing() - fnt->getBaseline()) * 0.5f);
+		Rect draw_area(finalPos.d_x, finalPos.d_y, clipper.d_right, finalPos.d_y);
+		fnt->drawText(d_itemText, draw_area, finalPos.d_z, clipper, d_textFormatting, getModulateAlphaColourRect(d_textCols, alpha));  
+	}
 }
 
 CEGUI::Size ListboxWrappedTextItem::getPixelSize() const
@@ -62,7 +65,7 @@ CEGUI::Size ListboxWrappedTextItem::getPixelSize() const
 	 CEGUI::Size size = ListboxTextItem::getPixelSize();
 	 if (d_owner != NULL)
 	 {
-         size.d_width = d_owner->getSize().d_width;
+         size.d_width = d_owner->getAbsoluteSize().d_width;
 	 }
 
      const Font* fnt = getFont();
