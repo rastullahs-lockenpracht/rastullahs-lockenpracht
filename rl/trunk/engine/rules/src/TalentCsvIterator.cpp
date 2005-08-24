@@ -50,16 +50,13 @@ namespace rl {
         string name = mCsvFile.getValueAsString(mCurrentRow, 2);
         string desc = mCsvFile.getValueAsString(mCurrentRow, 3);
         EigenschaftTripel et(
-            dm.getEigenschaftIdFromString(
-                mCsvFile.getValueAsString(mCurrentRow, 4)),
-            dm.getEigenschaftIdFromString(
-                mCsvFile.getValueAsString(mCurrentRow, 5)),
-            dm.getEigenschaftIdFromString(
-                mCsvFile.getValueAsString(mCurrentRow, 6)));
+                mCsvFile.getValueAsString(mCurrentRow, 4),
+                mCsvFile.getValueAsString(mCurrentRow, 5),
+                mCsvFile.getValueAsString(mCurrentRow, 6));
 
         //string ebe = mCsvFile.getValueAsString(mCurrentRow, 7);
 		
-        return new Talent(id, name, desc, et, 0, id/100);
+        return new Talent(name, desc, et, 0, id/100);
     }
 
 }

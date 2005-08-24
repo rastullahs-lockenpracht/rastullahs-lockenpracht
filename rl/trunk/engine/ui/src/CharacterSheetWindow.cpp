@@ -50,10 +50,19 @@ CharacterSheetWindow::CharacterSheetWindow()
 	mWindow->subscribeEvent(FrameWindow::EventCloseClicked,
 		boost::bind(&CharacterSheetWindow::handleClose, this));
 	
-	for (int i=0; i<EIGENSCHAFT_COUNT; i++)
+	/*for (int i=0; i<EIGENSCHAFT_COUNT; i++)
 		mEigenschaft[i] = 
 			getStaticText(("CharacterSheet/CharacterSheet/Eigenschaften/"+
-				DsaManager::getSingleton().getEigenschaft(i)->getNameAbbreviation()).c_str());
+				DsaManager::getSingleton().getEigenschaft(i)->getNameAbbreviation()).c_str());*/
+	mEigenschaft[0]= getStaticText("CharacterSheet/CharacterSheet/Eigenschaften/MU");
+	mEigenschaft[1]= getStaticText("CharacterSheet/CharacterSheet/Eigenschaften/KL");
+	mEigenschaft[2]= getStaticText("CharacterSheet/CharacterSheet/Eigenschaften/IN");
+	mEigenschaft[3]= getStaticText("CharacterSheet/CharacterSheet/Eigenschaften/CH");
+	mEigenschaft[4]= getStaticText("CharacterSheet/CharacterSheet/Eigenschaften/FF");
+	mEigenschaft[5]= getStaticText("CharacterSheet/CharacterSheet/Eigenschaften/GE");
+	mEigenschaft[6]= getStaticText("CharacterSheet/CharacterSheet/Eigenschaften/KO");
+	mEigenschaft[7]= getStaticText("CharacterSheet/CharacterSheet/Eigenschaften/KK");
+
 	addToRoot(mWindow);	
 }
 
@@ -95,19 +104,35 @@ void CharacterSheetWindow::updateValues()
 		StringConverter::toString(mCharacter->getLe())+"/"+
 		StringConverter::toString(mCharacter->getLeMax()));
 	
-	for (unsigned int eig = 0; eig < EIGENSCHAFT_COUNT; eig++)
+	/*for (unsigned int eig = 0; eig < EIGENSCHAFT_COUNT; eig++)
 	{
 		CeGuiString name = DsaManager::getSingleton().getEigenschaft(eig)->getName();
 		mEigenschaft[eig]->setText(
 			name +": "+
 			StringConverter::toString(mCharacter->getEigenschaft(eig)));
-	}
+	}*/
+	mEigenschaft[0]->setText(DsaManager::getSingleton().getEigenschaft(E_MUT)->getName()
+		+": "+ mCharacter->getEigenschaft(E_MUT));
+	mEigenschaft[1]->setText(DsaManager::getSingleton().getEigenschaft(E_MUT)->getName()
+		+": "+ mCharacter->getEigenschaft(E_KLUGHEIT));
+	mEigenschaft[2]->setText(DsaManager::getSingleton().getEigenschaft(E_MUT)->getName()
+		+": "+ mCharacter->getEigenschaft(E_INTUITION));
+	mEigenschaft[3]->setText(DsaManager::getSingleton().getEigenschaft(E_MUT)->getName()
+		+": "+ mCharacter->getEigenschaft(E_CHARISMA));
+	mEigenschaft[4]->setText(DsaManager::getSingleton().getEigenschaft(E_MUT)->getName()
+		+": "+ mCharacter->getEigenschaft(E_FINGERFERTIGKEIT));
+	mEigenschaft[5]->setText(DsaManager::getSingleton().getEigenschaft(E_MUT)->getName()
+		+": "+ mCharacter->getEigenschaft(E_GEWANDTHEIT));
+	mEigenschaft[6]->setText(DsaManager::getSingleton().getEigenschaft(E_MUT)->getName()
+		+": "+ mCharacter->getEigenschaft(E_KONSTITUTION));
+	mEigenschaft[7]->setText(DsaManager::getSingleton().getEigenschaft(E_MUT)->getName()
+		+": "+ mCharacter->getEigenschaft(E_KOERPERKRAFT));
 	
 	for (unsigned int row = 0; row < mTalentTable->getRowCount(); row++)
 	{
 		// TalentID ist bei der Namenszelle jeweils als user_id hinterlegt
 		int tw = mCharacter->getTalent(
-			mTalentTable->getItemAtGridReference(MCLGridRef(row, 0))->getID());
+			mTalentTable->getItemAtGridReference(MCLGridRef(row, 0))->getText());
 
 		mTalentTable->getItemAtGridReference(MCLGridRef(row, 3))->setText(
 			StringConverter::toString(tw));
@@ -129,7 +154,7 @@ void CharacterSheetWindow::updateTalents()
 	{
 		//Talente in die Talenttabelle
 		Talent* talent = DsaManager::getSingleton().getTalent((*iter).first);
-		mTalentTable->setItem(new ListboxTextItem(talent->getName(), talent->getId()), 0, talentNum);
+		mTalentTable->setItem(new ListboxTextItem(talent->getName()), 0, talentNum);
 
 		EigenschaftTripel eigensch = talent->getEigenschaften();
 		CeGuiString probe;

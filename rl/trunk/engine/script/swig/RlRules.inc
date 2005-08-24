@@ -110,23 +110,21 @@ namespace rl {
     class Talent
     {
     public:
-        Talent(int id,
-               const rl::CeGuiString& name,
+        Talent(const rl::CeGuiString& name,
                const rl::CeGuiString& description,
-               const Tripel<int>& eigenschaften,
+               const Tripel<rl::CeGuiString>& eigenschaften,
                int ebe,
 			   int gruppe);
 
         bool operator==(const Talent& rhs) const;
         bool operator<(const Talent& rhs) const;
-        int getId() const;
         rl::CeGuiString getName() const;
         rl::CeGuiString getDescription() const;
 		int getEbe() const;
 
         /// Berechnet effektive Behinderung bei gegebener Behinderung;
         int calculateEbe(int be) const;
-        Tripel<int> getEigenschaften() const;
+        Tripel<rl::CeGuiString> getEigenschaften() const;
     };
 
     class ActionGroup
@@ -281,21 +279,22 @@ namespace rl {
         //Creature(const rl::CeGuiString& data);
         virtual ~Creature();
 
-        virtual int getEigenschaft(int id) const;
-        virtual void setEigenschaft(int id, int value);
-        virtual int getTalent(int id) const;
-        virtual void setTalent(int id, int value);
+        virtual int getEigenschaft(const rl::CeGuiString& eigenschaftName) const;
+        virtual void setEigenschaft(const rl::CeGuiString& eigenschaftName, int value);
+        virtual int getTalent(const rl::CeGuiString& talentName) const;
+        virtual void setTalent(const rl::CeGuiString& talentName, int value);
 
-        virtual void modifyEigenschaft(int id, int mod);
-        virtual void modifyTalent(int id, int mod);
+        virtual void modifyEigenschaft(const rl::CeGuiString& eigenschaftName, int mod);
+        virtual void modifyTalent(const rl::CeGuiString& talentName, int mod);
 
         virtual void modifyLe(int mod);
         virtual void modifyAe(int mod);
         virtual void modifyAu(int mod);
         virtual int getLe();
 
-        virtual int doTalentprobe(int id, int modifier);
-        virtual int doEigenschaftsprobe(int id, int modifier);
+        virtual int doTalentprobe(const rl::CeGuiString& talentName, int modifier);
+        virtual void addTalent(const rl::CeGuiString& talentName);
+        virtual int doEigenschaftsprobe(const rl::CeGuiString& eigenschaftName, int modifier);
         
         void setWert(int id, int value);
    };

@@ -34,26 +34,45 @@ namespace rl
 		setWert(WERT_MOD_FK, 0);
 		setWert(WERT_MOD_AU, 0);
 		setWert(WERT_MOD_MR, 0);
-		setWert(WERT_MOD_INI, 0);	
+		setWert(WERT_MOD_INI, 0);
+		mEigenschaften["MU"] = 0;
+		mEigenschaften["KL"] = 0;
+		mEigenschaften["IN"] = 0;
+		mEigenschaften["CH"] = 0;
+		mEigenschaften["FF"] = 0;
+		mEigenschaften["GE"] = 0;
+		mEigenschaften["KO"] = 0;
+		mEigenschaften["KK"] = 0;
     }
 
 	Creature::~Creature()
     {
     }
 
-    int Creature::getEigenschaft(int key) const
+    int Creature::getEigenschaft(const CeGuiString& eigenschaftName) const
     {
-        return mEigenschaften[key];
+		EigenschaftMap::const_iterator it = mEigenschaften.find(eigenschaftName);
+		if (it == mEigenschaften.end())
+		{
+			Throw(InvalidArgumentException, "Eigenschaft nicht gefunden.");
+		}
+        return (*it).second;
     }
 
-    void Creature::setEigenschaft(int key, int value)
+    void Creature::setEigenschaft(const CeGuiString& eigenschaftName, int value)
     {
-        mEigenschaften[key] = value;
+        EigenschaftMap::iterator it = mEigenschaften.find(eigenschaftName);
+        if (it == mEigenschaften.end())
+        {
+            Throw(InvalidArgumentException, "Eigenschaft nicht gefunden.");
+        }
+        (*it).second = value;
+		fireObjectStateChangeEvent();
     }
 
-    int Creature::getTalent(int key) const
+    int Creature::getTalent(const CeGuiString& talentName) const
     {
-        TalentMap::const_iterator it = mTalente.find(key);
+        TalentMap::const_iterator it = mTalente.find(talentName);
         if (it == mTalente.end())
         {
             Throw(InvalidArgumentException, "Talent nicht gefunden.");
@@ -61,15 +80,22 @@ namespace rl
         return (*it).second;
     }
 
-	void Creature::addTalent(int key)
+	void Creature::addTalent(const CeGuiString& talentName)
 	{
-		TalentMap::const_iterator it = mTalente.find(key);
+		/*TalentMap::const_iterator it = mTalente.find(talentName);
         if (it != mTalente.end())
         {
             Throw(InvalidArgumentException, "Talent nicht gefunden.");
         }
         
-		mTalente[key] = 0;
+		mTalente[talentName] = 0;*/
+		TalentMap::const_iterator it = mTalente.find(talentName);
+        if (it != mTalente.end())
+        {
+			Throw(InvalidArgumentException, "Talent schon in mTalente enthalten.");
+        }
+	    DsaManager::getSingleton().getTalent(talentName); //ueberpruefe ob es das Talent ueberhaupt gibt
+		mTalente[talentName] = 0;
 	}
 
 	const Creature::TalentMap& Creature::getAllTalents() const
@@ -77,24 +103,25 @@ namespace rl
 		return mTalente;
 	}
 
-    void Creature::setTalent(int key, int value)
+    void Creature::setTalent(const CeGuiString& talentName, int value)
     {
-        TalentMap::iterator it = mTalente.find(key);
+        TalentMap::iterator it = mTalente.find(talentName);
         if (it == mTalente.end())
         {
             Throw(InvalidArgumentException, "Talent nicht gefunden.");
         }
         (*it).second = value;
+		fireObjectStateChangeEvent();
     }
 
-	void Creature::addSe(int talentId)
+	void Creature::addSe(const CeGuiString& talentName)
 	{
 		///@todo Mit Code fuellen
 	}
 
-    int Creature::getSf(int key) const
+    int Creature::getSf(const CeGuiString& sfName) const
     {
-        SonderfertigkeitMap::const_iterator it = mSonderfertigkeiten.find(key);
+        SonderfertigkeitMap::const_iterator it = mSonderfertigkeiten.find(sfName);
         if (it == mSonderfertigkeiten.end())
         {
             Throw(InvalidArgumentException, "Sonderfertigkeit nicht gefunden.");
@@ -102,41 +129,42 @@ namespace rl
         return (*it).second;
     }
 
-	void Creature::addSf(int key)
+	void Creature::addSf(const CeGuiString& sfName)
 	{
-		SonderfertigkeitMap::const_iterator it = mSonderfertigkeiten.find(key);
+		SonderfertigkeitMap::const_iterator it = mSonderfertigkeiten.find(sfName);
         if (it != mSonderfertigkeiten.end())
         {
             Throw(InvalidArgumentException, "Sonderfertigkeit nicht gefunden.");
         }
         
-		mSonderfertigkeiten[key] = 0;
+		mSonderfertigkeiten[sfName] = 0;
 	}
 
-    void Creature::setSf(int key, int value)
+    void Creature::setSf(const CeGuiString& sfName, int value)
     {
 		if (value < SF_MIN_VALUE || value > SF_MAX_VALUE)
 		{
 			Throw(OutOfRangeException, "Der Sonderfertigkeit soll ein" 
 				"unzulässiger Wert zugewiesen werden");
 		}
-        SonderfertigkeitMap::iterator it = mSonderfertigkeiten.find(key);
-        if (it == mTalente.end())
+        SonderfertigkeitMap::iterator it = mSonderfertigkeiten.find(sfName);
+        if (it == mSonderfertigkeiten.end())
         {
             Throw(InvalidArgumentException, "Sonderfertigkeit nicht gefunden.");
         }
         (*it).second = value;
-    }
-
-    void Creature::modifyEigenschaft(int key, int mod)
-    {
-        mEigenschaften[key] = mEigenschaften[key] + mod;
 		fireObjectStateChangeEvent();
     }
 
-    void Creature::modifyTalent(int key, int mod)
+    void Creature::modifyEigenschaft(const CeGuiString& eigenschaftName, int mod)
     {
-        TalentMap::iterator it = mTalente.find(key);
+        mEigenschaften[eigenschaftName] = mEigenschaften[eigenschaftName] + mod;
+		fireObjectStateChangeEvent();
+    }
+
+    void Creature::modifyTalent(const CeGuiString& talentName, int mod)
+    {
+        TalentMap::iterator it = mTalente.find(talentName);
         if (it == mTalente.end())
         {
             Throw(InvalidArgumentException, "Talent nicht gefunden.");
@@ -204,11 +232,11 @@ namespace rl
 		return getAuBasis() + getWert(WERT_MOD_AU);
     }
 
-    int Creature::doAlternativeTalentprobe(int talentId, int spezialisierungId,
-		int modifier, int eigenschaft1Id, int eigenschaft2Id, int eigenschaft3Id)
+    int Creature::doAlternativeTalentprobe(const CeGuiString& talentName, int spezialisierungId,
+		int modifier, CeGuiString eigenschaft1Name, CeGuiString eigenschaft2Name, CeGuiString eigenschaft3Name)
     {
-        Talent* talent = DsaManager::getSingleton().getTalent(talentId);
-        EigenschaftTripel et(eigenschaft1Id, eigenschaft2Id, eigenschaft3Id);
+        Talent* talent = DsaManager::getSingleton().getTalent(talentName);
+        EigenschaftTripel et(eigenschaft1Name, eigenschaft2Name, eigenschaft3Name);
 
         // Der Probenwurf
         Tripel<int> probe(DsaManager::getSingleton().roll3D20());
@@ -222,27 +250,27 @@ namespace rl
 		// Glueckliche
 		if ( (probe.first == 1) && (probe.second == 1) && (probe.third == 1) ) 
 		{
-			addSe(talentId);
+			addSe(talentName);
 			return RESULT_SPEKT_AUTOERFOLG;
 		}
 		if ( ((probe.first == 1) && (probe.second == 1)) || 
 			 ((probe.first == 1) && (probe.third == 1)) ||
 			 ((probe.second == 1) && (probe.third == 1))) 
 		{
-			addSe(talentId);
+			addSe(talentName);
 			return RESULT_AUTOERFOLG;
 		}
 		// Patzer
 		if ((probe.first == 20) && (probe.second == 20) && (probe.third == 20)) 
 		{
-			addSe(talentId);
+			addSe(talentName);
 			return RESULT_SPEKT_AUTOMISSERFOLG; 
 		}
 		if ( ((probe.first == 20) && (probe.second == 20)) || 
 			 ((probe.first == 20) && (probe.third == 20)) ||
 			 ((probe.second == 20) && (probe.third == 20))) 
 		{
-			addSe(talentId);
+			addSe(talentName);
 			return RESULT_AUTOMISSERFOLG;
 		}
 
@@ -251,10 +279,10 @@ namespace rl
 		int taW = 0;
 		try 
 		{
-			if (1 == getSf(spezialisierungId)) taW = 2;
+			//if (1 == getSf(sfName)) taW = 2; //Spezialisiereung?
 		}
 		catch(InvalidArgumentException){};
-		taW += getTalent(talentId);
+		taW += getTalent(talentName);
         int rval = taW - modifier;
 		// Bei negativen TaP*
 		int handicap = 0;
@@ -279,30 +307,30 @@ namespace rl
         return rval;
     }
 
-    int Creature::doAlternativeTalentprobe(int talentId, int modifier, 
-		int eigenschaft1Id, int eigenschaft2Id, int eigenschaft3Id)
+    int Creature::doAlternativeTalentprobe(const CeGuiString& talentName, int modifier, 
+		CeGuiString eigenschaft1Name, CeGuiString eigenschaft2Name, CeGuiString eigenschaft3Name)
     {
-		return doAlternativeTalentprobe(talentId, -1, modifier, eigenschaft1Id,
-			eigenschaft2Id, eigenschaft3Id);
+		return doAlternativeTalentprobe(talentName, -1, modifier, eigenschaft1Name,
+			eigenschaft2Name, eigenschaft3Name);
 	}
 
-    int Creature::doTalentprobe(int talentId, int spezialisierungId, int modifier)
+    int Creature::doTalentprobe(const CeGuiString& talentName, int spezialisierungId, int modifier)
     {
-        Talent* talent = DsaManager::getSingleton().getTalent(talentId);
+        Talent* talent = DsaManager::getSingleton().getTalent(talentName);
         EigenschaftTripel et(talent->getEigenschaften());
-		return doAlternativeTalentprobe(talentId, spezialisierungId, modifier, 
+		return doAlternativeTalentprobe(talentName, spezialisierungId, modifier, 
 			et.first, et. second, et.third);
 	}
 
-    int Creature::doTalentprobe(int talentId, int modifier)
+    int Creature::doTalentprobe(const CeGuiString& talentName, int modifier)
     {
-        Talent* talent = DsaManager::getSingleton().getTalent(talentId);
+        Talent* talent = DsaManager::getSingleton().getTalent(talentName);
         EigenschaftTripel et(talent->getEigenschaften());
-		return doAlternativeTalentprobe(talentId, -1, modifier, et.first, 
+		return doAlternativeTalentprobe(talentName, -1, modifier, et.first, 
 			et. second, et.third);
 	}
 
-    int Creature::doEigenschaftsprobe(int eigenschaftId, int modifier)
+    int Creature::doEigenschaftsprobe(const CeGuiString& eigenschaftName, int modifier)
     {
         int rval;
 
@@ -317,7 +345,7 @@ namespace rl
         }
         else
         {
-            rval = getEigenschaft(eigenschaftId) - (probe + modifier);
+            rval = getEigenschaft(eigenschaftName) - (probe + modifier);
         }
         return rval;
     }

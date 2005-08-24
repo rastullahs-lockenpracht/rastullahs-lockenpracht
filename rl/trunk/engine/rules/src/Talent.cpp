@@ -19,14 +19,12 @@
 
 namespace rl
 {
-    Talent::Talent(int id,
-                   const CeGuiString& name,
+    Talent::Talent(const CeGuiString& name,
                    const CeGuiString& description,
                    const EigenschaftTripel& eigenschaften,
                    int ebe,
 				   int gruppe)
-                                       : mId(id),
-                                         mName(name),
+                                       : mName(name),
                                          mDescription(description),
                                          mEigenschaften(eigenschaften),
                                          mEbe(ebe),
@@ -36,17 +34,12 @@ namespace rl
 
     bool Talent::operator==(const Talent& rhs) const
     {
-        return mId == rhs.mId;
+        return mName == rhs.mName;
     }
 
     bool Talent::operator<(const Talent& rhs) const
     {
-        return mId < rhs.mId;
-    }
-
-    int Talent::getId() const
-    {
-        return mId;
+        return mName < rhs.mName;
     }
 
     CeGuiString Talent::getName() const

@@ -27,15 +27,13 @@ namespace rl
     class _RlRulesExport Talent
     {
     private:
-        const int mId;
         const CeGuiString mName;
         const CeGuiString mDescription;
         const EigenschaftTripel mEigenschaften;
         const int mEbe;
 		const int mTalentGruppe;
     public:
-        Talent(int id,
-               const CeGuiString& name,
+        Talent(const CeGuiString& name,
                const CeGuiString& description,
                const EigenschaftTripel& eigenschaften,
                int ebe,
@@ -43,7 +41,6 @@ namespace rl
 
         bool operator==(const Talent& rhs) const;
         bool operator<(const Talent& rhs) const;
-        int getId() const;
         CeGuiString getName() const;
         CeGuiString getDescription() const;
 		int getEbe() const;

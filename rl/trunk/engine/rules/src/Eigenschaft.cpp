@@ -18,11 +18,9 @@
 
 namespace rl
 {
-    Eigenschaft::Eigenschaft(int id,
-                             const CeGuiString& name,
+    Eigenschaft::Eigenschaft(const CeGuiString& name,
 							 const CeGuiString& nameAbbrev,
-                             const CeGuiString& description) : mId(id),
-                                                               mName(name),
+                             const CeGuiString& description) : mName(name),
 															   mNameAbbreviation(nameAbbrev),
                                                                mDescription(description)
     {
@@ -30,17 +28,12 @@ namespace rl
 
     bool Eigenschaft::operator==(const Eigenschaft& rhs) const
     {
-        return mId == rhs.mId;
+        return mNameAbbreviation == rhs.mNameAbbreviation;
     }
 
     bool Eigenschaft::operator<(const Eigenschaft& rhs) const
     {
-        return mId < rhs.mId;
-    }
-
-    int Eigenschaft::getId() const
-    {
-        return mId;
+        return mNameAbbreviation < rhs.mNameAbbreviation;
     }
 
     const CeGuiString& Eigenschaft::getName() const

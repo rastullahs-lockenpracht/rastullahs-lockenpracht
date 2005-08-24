@@ -42,7 +42,7 @@ namespace rl
     /** 
     *  Klasse kapselt alles was mit den DSA-Grundregeln zu tun hat.
     *  Namentlich sind das Eigenschaften, Talente, Kampftechniken und
-    *  Probenwrfe.
+    *  Probenwuerfe.
     */
 	class _RlRulesExport DsaManager : public Singleton<DsaManager>
     {
@@ -75,14 +75,14 @@ namespace rl
 
 		int roll(int d6, int d20);
 
-        Talent* getTalent(int id) const;
-		Talent* getTalent(const CeGuiString& name) const;
+        Talent* getTalent(const CeGuiString& talentName) const;
+		//Talent* getTalent(const CeGuiString& name) const;
         Kampftechnik* getKampftechnik(int id) const;
-        Eigenschaft* getEigenschaft(int id) const;
+        Eigenschaft* getEigenschaft(const CeGuiString& eigenschaftName) const;
 		Person* getPerson(int id) const;        
 		
-		int getEigenschaftIdFromString(const CeGuiString& str) const;
-		int getEigenschaftIdFromLongString(const CeGuiString& str) const;
+		//int getEigenschaftIdFromString(const CeGuiString& str) const;
+		//int getEigenschaftIdFromLongString(const CeGuiString& str) const;
 		
 		int getSteigerKosten(int column, int from, int to) const;
 		int getSteigerKosten(int column, int from) const;
@@ -95,10 +95,11 @@ namespace rl
     private:
 		RL_LONGLONG mBaseTime;
 
-        typedef std::map<int, Talent*> TalentMap;
+        typedef std::map<CeGuiString, Talent*> TalentMap;
 		typedef std::map<int, Person*> PersonMap;
         typedef std::map<int, Kampftechnik*> KampftechnikMap;
-        Eigenschaft* mEigenschaften[EIGENSCHAFT_COUNT];
+		typedef std::map<CeGuiString, Eigenschaft*> EigenschaftMap;
+		EigenschaftMap mEigenschaften;
         TalentMap mTalente;
         KampftechnikMap mKampftechniken;
 		PersonMap mPersonen;

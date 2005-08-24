@@ -25,34 +25,31 @@ namespace rl
 {
     static const int EIGENSCHAFT_COUNT = 8;
 
-    static const int E_MUT = 0;
-    static const int E_KLUGHEIT = 1;
-    static const int E_INTUITION = 2;
-    static const int E_CHARISMA = 3;
-    static const int E_FINGERFERTIGKEIT = 4;
-    static const int E_GEWANDTHEIT = 5;
-    static const int E_KONSTITUTION = 6;
-    static const int E_KOERPERKRAFT = 7;
+    static const CeGuiString E_MUT = "MU";
+    static const CeGuiString E_KLUGHEIT = "KL";
+    static const CeGuiString E_INTUITION = "IN";
+    static const CeGuiString E_CHARISMA = "CH";
+    static const CeGuiString E_FINGERFERTIGKEIT = "FF";
+    static const CeGuiString E_GEWANDTHEIT = "GE";
+	static const CeGuiString E_KONSTITUTION = "KO";
+    static const CeGuiString E_KOERPERKRAFT = "KK";
 
-    typedef Tripel<int> EigenschaftTripel;
+    typedef Tripel<CeGuiString> EigenschaftTripel;
 
     class _RlRulesExport Eigenschaft
     {
     private:
-        const int mId;
         const CeGuiString mName;
 		const CeGuiString mNameAbbreviation;
         const CeGuiString mDescription;
     public:
-        Eigenschaft(int id,
-                    const CeGuiString& name,
+        Eigenschaft(const CeGuiString& name,
 					const CeGuiString& nameAbbrev,
                     const CeGuiString& description);
 
         bool operator==(const Eigenschaft& rhs) const;
         bool operator<(const Eigenschaft& rhs) const;
 
-        int getId() const;
         const CeGuiString& getName() const;
         const CeGuiString& getNameAbbreviation() const;
         const CeGuiString& getDescription() const;

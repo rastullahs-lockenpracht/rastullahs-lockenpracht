@@ -65,22 +65,22 @@ namespace rl
 
     void DsaManager::initializeEigenschaften()
     {
-        mEigenschaften[E_MUT] = new Eigenschaft(
-            E_MUT, (utf8*)"Mut", (utf8*)"MU", (utf8*)"");
-        mEigenschaften[E_KLUGHEIT] = new Eigenschaft(
-            E_KLUGHEIT, (utf8*)"Klugheit", (utf8*)"KL", (utf8*)"");
-        mEigenschaften[E_INTUITION] = new Eigenschaft(
-            E_INTUITION, (utf8*)"Intuition", (utf8*)"IN", (utf8*)"");
-        mEigenschaften[E_CHARISMA] = new Eigenschaft(
-            E_CHARISMA, (utf8*)"Charisma", (utf8*)"CH", (utf8*)"");
-        mEigenschaften[E_FINGERFERTIGKEIT] = new Eigenschaft(
-            E_FINGERFERTIGKEIT, (utf8*)"Fingerfertigkeit", (utf8*)"FF", (utf8*)"");
-        mEigenschaften[E_GEWANDTHEIT] = new Eigenschaft(
-            E_GEWANDTHEIT, (utf8*)"Gewandtheit", (utf8*)"GE", (utf8*)"");
-        mEigenschaften[E_KONSTITUTION] = new Eigenschaft(
-            E_KONSTITUTION, (utf8*)"Konstitution", (utf8*)"KO", (utf8*)"");
-        mEigenschaften[E_KOERPERKRAFT] = new Eigenschaft(
-            E_KOERPERKRAFT, (utf8*)"Körperkraft", (utf8*)"KK", (utf8*)"");
+        mEigenschaften["MU"] = new Eigenschaft(
+            (utf8*)"Mut", (utf8*)"MU", (utf8*)"");
+        mEigenschaften["KL"] = new Eigenschaft(
+            (utf8*)"Klugheit", (utf8*)"KL", (utf8*)"");
+        mEigenschaften["IN"] = new Eigenschaft(
+            (utf8*)"Intuition", (utf8*)"IN", (utf8*)"");
+        mEigenschaften["CH"] = new Eigenschaft(
+            (utf8*)"Charisma", (utf8*)"CH", (utf8*)"");
+        mEigenschaften["FF"] = new Eigenschaft(
+            (utf8*)"Fingerfertigkeit", (utf8*)"FF", (utf8*)"");
+        mEigenschaften["GE"] = new Eigenschaft(
+            (utf8*)"Gewandtheit", (utf8*)"GE", (utf8*)"");
+        mEigenschaften["KO"] = new Eigenschaft(
+            (utf8*)"Konstitution", (utf8*)"KO", (utf8*)"");
+        mEigenschaften["KK"] = new Eigenschaft(
+            (utf8*)"Körperkraft", (utf8*)"KK", (utf8*)"");
     }
 
     void DsaManager::initializeTalente()
@@ -90,7 +90,7 @@ namespace rl
 
 	void DsaManager::_addTalent(Talent* talent)
 	{
-		mTalente.insert(make_pair(talent->getId(), talent));
+		mTalente.insert(make_pair(talent->getName(), talent));
 	}
 
 	void DsaManager::_addPerson(Person* person)
@@ -161,9 +161,9 @@ namespace rl
 		return sum;
 	}
 
-    Talent* DsaManager::getTalent(int id) const
+    Talent* DsaManager::getTalent(const CeGuiString& talentName) const
     {
-        TalentMap::const_iterator it = mTalente.find(id);
+        TalentMap::const_iterator it = mTalente.find(talentName);
         if (it != mTalente.end())
         {
             return (*it).second;
@@ -174,7 +174,7 @@ namespace rl
         }
     }
 
-	Talent* DsaManager::getTalent(const CeGuiString& name) const
+	/*Talent* DsaManager::getTalent(const CeGuiString& name) const
     {
 		for (TalentMap::const_iterator it = mTalente.begin(); it != mTalente.end(); it++)
 		{
@@ -185,7 +185,7 @@ namespace rl
 		}
         
 		Throw(InvalidArgumentException, "Talent nicht gefunden.");
-    }
+    }*/
 
     Kampftechnik* DsaManager::getKampftechnik(int id) const
     {
@@ -200,16 +200,20 @@ namespace rl
         }
     }
 
-    Eigenschaft* DsaManager::getEigenschaft(int id) const
+    Eigenschaft* DsaManager::getEigenschaft(const CeGuiString& eigenschaftName) const
     {
-        if (id < 0 || id >= EIGENSCHAFT_COUNT)
-        {
-            Throw(InvalidArgumentException, "Ungueltige Eigenschaft");
-        }
-        return mEigenschaften[id];
+		EigenschaftMap::const_iterator it = mEigenschaften.find(eigenschaftName);
+		if (it != mEigenschaften.end())
+		{
+			return (*it).second;
+		}
+		else
+		{
+			Throw(InvalidArgumentException, "Eigenschaft nicht gefunden.");
+		}
     }
 
-	int DsaManager::getEigenschaftIdFromLongString(const CeGuiString& str) const
+/*	int DsaManager::getEigenschaftIdFromLongString(const CeGuiString& str) const
 	{
 		RulesSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "DsaManager sucht "+str);
 		for (int idx = 0; idx < EIGENSCHAFT_COUNT; idx++)
@@ -267,7 +271,7 @@ namespace rl
         }
         return rval;
     }
-
+*/
 	/**
 	 * @todo SKT laden/erzeugen
 	 */

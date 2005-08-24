@@ -107,13 +107,12 @@ namespace rl {
 
 		CeGuiString name = XmlHelper::transcodeToUtf8(talentXml->getAttribute(XMLString::transcode("ID")));
         EigenschaftTripel eigenschaften;
-		eigenschaften.first = DsaManager::getSingleton().getEigenschaftIdFromString(probe.substr(0,2));
-        eigenschaften.second = DsaManager::getSingleton().getEigenschaftIdFromString(probe.substr(3,2));
-        eigenschaften.third = DsaManager::getSingleton().getEigenschaftIdFromString(probe.substr(6,2));
+		eigenschaften.first = probe.substr(0,2);
+        eigenschaften.second = probe.substr(3,2);
+        eigenschaften.third = probe.substr(6,2);
 		probe.clear();
 
         Talent* t = new Talent(
-            id, 
 			name,
             desc,
             eigenschaften,
@@ -182,13 +181,27 @@ namespace rl {
 		for (unsigned int idx = 0; idx < eigensch->getLength(); idx++)
 		{
 			DOMElement* eigenschXml = reinterpret_cast<DOMElement*>(eigensch->item(idx));
-			utf8* eigName = XmlHelper::transcodeToUtf8(eigenschXml->getAttribute(ID));
-			
-			int eigId = DsaManager::getSingleton().getEigenschaftIdFromLongString(eigName);
-			delete[] eigName;
+			CeGuiString eigName = XmlHelper::transcodeToUtf8(eigenschXml->getAttribute(ID));
+			//CeGuiString* eigenschaftName = new CeGuiString(eigName);
+			if (eigName == DsaManager::getSingleton().getEigenschaft(E_MUT)->getName()) 
+				eigName = DsaManager::getSingleton().getEigenschaft(E_MUT)->getNameAbbreviation();
+			if (eigName == DsaManager::getSingleton().getEigenschaft(E_KLUGHEIT)->getName()) 
+				eigName = DsaManager::getSingleton().getEigenschaft(E_KLUGHEIT)->getNameAbbreviation();
+			if (eigName == DsaManager::getSingleton().getEigenschaft(E_INTUITION)->getName()) 
+				eigName = DsaManager::getSingleton().getEigenschaft(E_INTUITION)->getNameAbbreviation();
+			if (eigName == DsaManager::getSingleton().getEigenschaft(E_CHARISMA)->getName()) 
+				eigName = DsaManager::getSingleton().getEigenschaft(E_CHARISMA)->getNameAbbreviation();
+			if (eigName == DsaManager::getSingleton().getEigenschaft(E_FINGERFERTIGKEIT)->getName()) 
+				eigName = DsaManager::getSingleton().getEigenschaft(E_FINGERFERTIGKEIT)->getNameAbbreviation();
+			if (eigName == DsaManager::getSingleton().getEigenschaft(E_GEWANDTHEIT)->getName()) 
+				eigName = DsaManager::getSingleton().getEigenschaft(E_GEWANDTHEIT)->getNameAbbreviation();
+			if (eigName == DsaManager::getSingleton().getEigenschaft(E_KONSTITUTION)->getName()) 
+				eigName = DsaManager::getSingleton().getEigenschaft(E_KONSTITUTION)->getNameAbbreviation();
+			if (eigName == DsaManager::getSingleton().getEigenschaft(E_KOERPERKRAFT)->getName()) 
+				eigName = DsaManager::getSingleton().getEigenschaft(E_KOERPERKRAFT)->getNameAbbreviation();
 			int wert = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(eigenschXml, "Wert"));
 
-			rval->setEigenschaft(eigId, wert);
+			rval->setEigenschaft(eigName, wert);
 		}		
 
 		// Abgeleitete Werte laden
@@ -234,13 +247,14 @@ namespace rl {
 			DOMElement* talentXml = reinterpret_cast<DOMElement*>(talente->item(idx));
 			
 			utf8* talName = XmlHelper::transcodeToUtf8(talentXml->getAttribute(ID));
+			CeGuiString* talentName = new CeGuiString(talName);
 			Talent* tal = 
-				DsaManager::getSingleton().getTalent(talName);
+				DsaManager::getSingleton().getTalent(*talentName);
 			delete[] talName;
 
-			rval->addTalent(tal->getId());
+			rval->addTalent(*talentName);
 			rval->setTalent(
-				tal->getId(), 
+				*talentName, 
 				XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(talentXml, "Wert")));
 		}
 

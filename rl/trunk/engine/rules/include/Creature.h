@@ -48,6 +48,9 @@ namespace rl
 
 	const int SF_MIN_VALUE = 0;
 	const int SF_MAX_VALUE = 2;
+	static const int SF_IN_TRAINING = 0;
+	static const int SF_OK = 1;
+	static const int SF_PREREQ_NOT_MET = 2; /// @todo Wird das überhaupt gebraucht?
 
     /**
     * @brief Basisklasse aller spielrelevanten Objekte in RL.
@@ -62,6 +65,12 @@ namespace rl
     {
 
     protected:
+		/** @brief Liefert den Basiswert id zurueck.
+		 *  @param id Bezeichnet welcher Wert zurueckgeliefert werden soll.
+		 *  @return Der Wert des Basiswerts.
+		 *  @exception InvalidArgumentException id konnte in mWerte nicht
+		 *    gefunden werden.
+		 */
         virtual int getWert(int id) const;
 		virtual int getAttackeBasis() const;
 	    virtual int getParadeBasis() const;
@@ -74,7 +83,8 @@ namespace rl
 
     public:
 		typedef map<int, int> WertMap;
-		typedef map<int, int> TalentMap;
+		typedef map<CeGuiString, int> EigenschaftMap;
+		typedef map<CeGuiString, int> TalentMap;
 		/**
 		 *  @brief Liste der Kampftechniken und ihrer AT/PA Werte.\n
 		 *  Eine Kampftechnik in diesem Sinne ist so was wie Hiebwaffen
@@ -85,12 +95,11 @@ namespace rl
         typedef map<int, pair<int, int> > KampftechnikMap;
 		/** @brief Die Sonderfertigkeiten der Kreatur
 		 *  Der erste Wert steht fuer die sfId, der zweite fuer den Status \n
-		 *  0 - In Ausbildung \n
-		 *	1 - gelernt \n
-		 *	2 - gelernt, aber Voraussetzungen nicht erfuellt (wird das
-		 *	    ueberhaupt gebraucht?) \n
+		 *  SF_LEARNING \n
+		 *	SF_OK \n
+		 *	SF_PREREQ_NOT_MET \n
 		 */
-		typedef map<int,int> SonderfertigkeitMap;
+		typedef map<CeGuiString ,int> SonderfertigkeitMap;
 
 		///@warning Nur zu Testzwecken da. Wird spaeter entfernt.
         Creature(int id,
@@ -99,28 +108,77 @@ namespace rl
 		        
         virtual ~Creature();
 
-        virtual int getEigenschaft(int eigenschaftId) const;
-        virtual void setEigenschaft(int eigenschaftId, int value);
-        virtual void modifyEigenschaft(int eigenschaftId, int mod);
+        virtual int getEigenschaft(const CeGuiString& eigenschaftName) const;
+        virtual void setEigenschaft(const CeGuiString& eigenschaftName, int value);
+        virtual void modifyEigenschaft(const CeGuiString& eigenschaftName, int mod);
 
+		/** @brief liefert die AT und PA Werte in einer bestimmten Kampftechnik
+		 *  zurueck.
+		 *  @param kampfTechnikId Beszeichnet die Kampftechnik.
+		 *  @return Ein pair<AT, PA>
+		 *  @exception InvalidArgumentException kampftechnikId konnte nicht in 
+		 *    mKampftechniken gefunden werden.
+		 */
         virtual pair<int, int> getKampftechnik(int kampftechnikId) const;
+		/** @brief Setzt die AT und PA Werte in einer bestimmten Kampftechnik.
+		 *  @param kampftechnikId Bestimmt die zu setzende Kampftechnik.
+		 *  @param value Die neuen AT/PA Werte.
+		 *  @exception InvalidArgumentException Die Kampftechnik kampftechnikId
+		 *    konnte nicht gefunden werden.
+		 */
         virtual void setKampftechnik(int kampftechnikId, const pair<int, int>& value);
 
-        virtual void addTalent(int talentId);
-		virtual int getTalent(int talentId) const;
-        virtual void setTalent(int talentId, int value);
-        virtual void modifyTalent(int talentId, int mod);
+		/** @brief Fuegt das Talent talentName zu mTalente hinzu.
+		 *  Das neue Talent wird mit TaW 0 initialisiert
+		 *  @param talentName Bezeichnet das Talent
+		 *  @exception InvalidArgumentException Das Talent konnte nicht
+		 *    gefunden werden.
+		 */
+        virtual void addTalent(const CeGuiString& talentName);
+		/** @brief Liefert den Wert des Talents talentName zurueck.
+		 *  @param talentName Bezeichnet das Talent.
+		 *  @return TaW
+		 *  @exception InvalidArgumentException Das Talent konnte in mTalente
+		 *    nicht gefunden werden.
+		 */
+		virtual int getTalent(const CeGuiString& talentName) const;
+		/** @brief Setzt den Wert des Talents talentName.
+		 *  @param talentName Bezeichnet das zu veraendernde Talent.
+		 *  @param value Der neue TaW.
+		 *  @exception InvalidArgumentException Das Talent konnte in mTalente
+		 *    nicht gefunden werden.
+		 */
+        virtual void setTalent(const CeGuiString& talentName, int value);
+		/** @brief Erhoeht das Talent talentName um mod.
+		 *  @param talentName Bezeichnet das zu steigernde Talent.
+		 *  @param mod Der Wert um den das Talent gesteigert werden soll.
+		 *  @exception InvalidArgumentException Das Talent konnte in mTalente
+		 *    nicht gefunden werden.
+		 */
+        virtual void modifyTalent(const CeGuiString& talentName, int mod);
 		virtual const Creature::TalentMap& getAllTalents() const;
 		/** @brief Markiert ein Talent mit einer Speziellen Erfahrung (SE).
 		 * Siehe Spezielle Erfahrungen, MFF 47
-		 * @param talentId Bezeichnet das Talent un dem die SE erhalten wurde.
+		 * @param talentName Bezeichnet das Talent un dem die SE erhalten wurde.
 		 */
-		virtual void addSe(int talentId);
+		virtual void addSe(const CeGuiString& talentName);
 
-		virtual void addSf(int sfId);
-		virtual int getSf(int sfId) const;
+		/** @brief Fuegt der Kreatur eine Sonderfertigkeit(SF) hinzu.
+		 *  Der Wert wird auf 0 gesetzt (nicht gelernt, in Ausbildung).
+		 *  @param sfId Bezeichnet die SF.
+		 *  @exception InvalidArgumentException sfId kann nicht gefunden
+		 *    werden.
+		 */
+		virtual void addSf(const CeGuiString& sfName);
+		/** @brief Liefert den Wert der Sonderfertigkeit(SF) zurück.
+		 *  @sa SonderfertigkeitMap
+		 *  @param sfId Bezeichnet die SF
+		 *  @exception InvalidArgumentException sfId kann nicht in 
+		 *    mSonderfertigkeiten gefunden werden.
+		 */
+		virtual int getSf(const CeGuiString& sfName) const;
 		/** @brief Setzt den Wert der SF.
-		 *  @sa KampftechnikMap
+		 *  @sa SonderfertigkeitMap
 		 *  @param sfId Bezeichnet die Sonderfertigkeit deren Wert gesetzt
 		 *    werden soll.
 		 *  @param value Der Wert auf den die Sonderfertigkeit gesetzt werden 
@@ -130,7 +188,7 @@ namespace rl
 		 *  @exception InvalidArgumentException sfId kann nicht in 
 		 *    mSonderfertigkeiten gefunden werden.
 		 */
-		virtual void setSf(int sfId, int value);
+		virtual void setSf(const CeGuiString& sfName, int value);
 
         virtual void modifyLe(int mod, bool ignoreMax = false);
         virtual int getLe();
@@ -151,68 +209,37 @@ namespace rl
 		*  Intern ruft sie doAlternativeTalentprobe mit den
 		*  Standardeigenschaften auf. Dies ist die uebliche Weise
 		*  eine Probe zu wuerfeln.
-        *
-        *  @param talentId Bezeichnet das Talent
-        *  @param modifier Modifikator der Probe, dabei
-        *     ist ein positiver Wert eine Erschwernis,
-        *     ein negativer Wert eine Erleichterung.
-        *  @return uebrig gebliebene Talentpunkte, ein
-        *     negativer Wert bedeutet die Probe ist nicht bestanden.\n
-        *  @retval   RESULT_AUTOERFOLG bedeutet 2*1 gewuerfelt.\n
-        *  @retval   RESULT_SPEKT_AUTOERFOLG bedeutet 3*1 gewuerfelt.\n
-        *  @retval   RESULT_AUTOMISSERFOLG bedeutet 2*20 gewuerfelt.\n
-        *  @retval   RESULT_SPEKT_AUTOMISSERFOLG bedeutet 3*20 gewuerfelt.\n
+		*  @see doAlternativeTalentprobe(CeGuiString* talentName, int spezialisierungId, int modifier, int eigenschaft1Id, int eigenschaft2Id, int eigenschaft3Id); 
+		*  fuer Parameter und Rueckgabewerte
         */
-        virtual int doTalentprobe(int talentId, int modifier);
+        virtual int doTalentprobe(const CeGuiString& talentName, int modifier);
 
         /** @brief Durchfuehren einer Talentprobe.
 		*  Intern ruft sie doAlternativeTalentprobe mit den
 		*  Standardeigenschaften auf. Dies ist die ideale Weise
 		*  eine Probe zu wuerfeln. Diese Version erlaubt auch
 		*  die Angabe einer Spezialisierung
-        *
-        *  @param talentId Bezeichnet das Talent
-        *  @param modifier Modifikator der Probe, dabei
-        *     ist ein positiver Wert eine Erschwernis,
-        *     ein negativer Wert eine Erleichterung.
-        *  @return uebrig gebliebene Talentpunkte, ein
-        *     negativer Wert bedeutet die Probe ist nicht bestanden.\n
-        *  @retval   RESULT_AUTOERFOLG bedeutet 2*1 gewuerfelt.\n
-        *  @retval   RESULT_SPEKT_AUTOERFOLG bedeutet 3*1 gewuerfelt.\n
-        *  @retval   RESULT_AUTOMISSERFOLG bedeutet 2*20 gewuerfelt.\n
-        *  @retval   RESULT_SPEKT_AUTOMISSERFOLG bedeutet 3*20 gewuerfelt.\n
-        */
-        virtual int doTalentprobe(int talentId, int spezialisierungId,
+		*  @see doAlternativeTalentprobe(CeGuiString* talentName, int spezialisierungId, int modifier, int eigenschaft1Id, int eigenschaft2Id, int eigenschaft3Id); 
+		*  fuer Parameter und Rueckgabewerte
+		*/
+        virtual int doTalentprobe(const CeGuiString& talentName, int spezialisierungId,
 			int modifier);
 
         /** @brief Durchfuehren einer Talentprobe mit alternativen Eigenschaften.
 		*  Siehe dazu auch MFF S.14. Wird nur der Korrektheit halber angeboten,
 		*  sollte eher selten eingesetzt werden.
-        *
-        *  @param talentId Bezeichnet das Talent
-        *  @param modifier Modifikator der Probe, dabei
-        *     ist ein positiver Wert eine Erschwernis,
-        *     ein negativer Wert eine Erleichterung.
-		*  @param eigenschaft1Id Bezeichnet die erste Eigenschaft auf die 
-		*     gewuerfelt werden soll
-		*  @param eigenschaft2Id Bezeichnet die zweite Eigenschaft
-		*  @param eigenschaft3Id Bezeichnet die dritte Eigenschaft
-        *  @return uebrig gebliebene Talentpunkte, ein
-        *     negativer Wert bedeutet die Probe ist nicht bestanden.
-        *  @retval   RESULT_AUTOERFOLG bedeutet 2*1 gewuerfelt.
-        *  @retval   RESULT_SPEKT_AUTOERFOLG bedeutet 3*1 gewuerfelt.
-        *  @retval   RESULT_AUTOMISSERFOLG bedeutet 2*20 gewuerfelt.
-        *  @retval   RESULT_SPEKT_AUTOMISSERFOLG bedeutet 3*20 gewuerfelt.
+		*  @see doAlternativeTalentprobe(CeGuiString* talentName, int spezialisierungId, int modifier, int eigenschaft1Id, int eigenschaft2Id, int eigenschaft3Id); 
+		*  fuer Parameter und Rueckgabewerte
         */
-        virtual int doAlternativeTalentprobe(int talentId, int modifier, 
-			int eigenschaft1Id, int eigenschaft2Id, int eigenschaft3Id);
+        virtual int doAlternativeTalentprobe(const CeGuiString& talentName, int modifier, 
+			CeGuiString eigenschaft1Name, CeGuiString eigenschaft2Name, CeGuiString eigenschaft3Name);
 
         /** @brief Durchfuehren einer Talentprobe mit alternativen Eigenschaften.
 		*  Siehe dazu auch MFF S.14. Wird nur der Korrektheit halber angeboten,
 		*  sollte eher selten eingesetzt werden. Diese Talentprobe erlaubt auch
         *  die Angabe einer Spezialisierung.
 		*
-        *  @param talentId Bezeichnet das Talent
+        *  @param talentName Bezeichnet das Talent
 		*  @param spezialisierungId Bezeichnet die Spezialisierung
         *  @param modifier Modifikator der Probe, dabei
         *     ist ein positiver Wert eine Erschwernis,
@@ -228,9 +255,9 @@ namespace rl
         *  @retval   RESULT_AUTOMISSERFOLG bedeutet 2*20 gewuerfelt.
         *  @retval   RESULT_SPEKT_AUTOMISSERFOLG bedeutet 3*20 gewuerfelt.
         */
-        virtual int doAlternativeTalentprobe(int talentId, int spezialisierungId, 
-			int modifier, int eigenschaft1Id, int eigenschaft2Id, 
-			int eigenschaft3Id);
+        virtual int doAlternativeTalentprobe(const CeGuiString& talentName, int spezialisierungId, 
+			int modifier, CeGuiString eigenschaft1Name, CeGuiString eigenschaft2Name, 
+			CeGuiString eigenschaft3Name);
 
         /** @brief Durchfuehren einer Eigenschaftsprobe.
         *
@@ -243,14 +270,14 @@ namespace rl
         *  @retval RESULT_GLUECKLICH bedeutet 1 gewuerfelt.
         *  @retval RESULT_PATZER bedeutet 20 gewuerfelt.
         */
-        virtual int doEigenschaftsprobe(int eigenschaftId, int modifier);
+        virtual int doEigenschaftsprobe(const CeGuiString& eigenschaftName, int modifier);
 
 	private:
         int mCurrentLe;
 		int mCurrentAe;
 		int mCurrentAu;		
 
-        int mEigenschaften[EIGENSCHAFT_COUNT];
+        EigenschaftMap mEigenschaften;
         TalentMap mTalente;
         KampftechnikMap mKampftechniken;
 		SonderfertigkeitMap mSonderfertigkeiten;
