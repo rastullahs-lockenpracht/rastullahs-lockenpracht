@@ -105,7 +105,7 @@ namespace rl {
         if (eBeNode != NULL)
 			ebe = getEBeFromString(XMLString::transcode(eBeNode->getFirstChild()->getNodeValue()));
 
-		CeGuiString name = XmlHelper::transcodeToUtf8(talentXml->getAttribute(XMLString::transcode("ID")));
+		CeGuiString name = XmlHelper::transcodeToCeGuiString(talentXml->getAttribute(XMLString::transcode("ID")));
         EigenschaftTripel eigenschaften;
 		eigenschaften.first = probe.substr(0,2);
         eigenschaften.second = probe.substr(3,2);
@@ -182,7 +182,7 @@ namespace rl {
 		for (unsigned int idx = 0; idx < eigensch->getLength(); idx++)
 		{
 			DOMElement* eigenschXml = reinterpret_cast<DOMElement*>(eigensch->item(idx));
-			CeGuiString eigName = XmlHelper::transcodeToUtf8(eigenschXml->getAttribute(ID));
+			CeGuiString eigName = XmlHelper::transcodeToCeGuiString(eigenschXml->getAttribute(ID));
 			if (eigName == DsaManager::getSingleton().getEigenschaft(E_MUT)->getName()) 
 				eigName = DsaManager::getSingleton().getEigenschaft(E_MUT)->getNameAbbreviation();
 			if (eigName == DsaManager::getSingleton().getEigenschaft(E_KLUGHEIT)->getName()) 
@@ -246,15 +246,14 @@ namespace rl {
 		{
 			DOMElement* talentXml = reinterpret_cast<DOMElement*>(talente->item(idx));
 			
-			utf8* talName = XmlHelper::transcodeToUtf8(talentXml->getAttribute(ID));
-			CeGuiString* talentName = new CeGuiString(talName);
-			Talent* tal = 
-				DsaManager::getSingleton().getTalent(*talentName);
-			delete[] talName;
+			CeGuiString talentName = XmlHelper::transcodeToCeGuiString(talentXml->getAttribute(ID));
 
-			rval->addTalent(*talentName);
+			Talent* tal = 
+				DsaManager::getSingleton().getTalent(talentName);
+
+			rval->addTalent(talentName);
 			rval->setTalent(
-				*talentName, 
+				talentName, 
 				XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(talentXml, "Wert")));
 		}
 
