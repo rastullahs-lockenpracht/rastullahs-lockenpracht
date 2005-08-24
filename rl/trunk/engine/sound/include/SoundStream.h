@@ -37,6 +37,12 @@ namespace rl {
     {
     private:
         FSOUND_STREAM *mStream;
+        
+        // FMOD Stream Callback
+        static signed char streamCallback(
+            FSOUND_STREAM *stream,
+            void *buf, int len,
+            void *userdata);
 
     public:
         /// Konstruktor
@@ -46,10 +52,6 @@ namespace rl {
         /// Destruktor
         virtual ~SoundStream();
 
-        /// Laedt den Sound.
-        virtual void load() throw (RuntimeException);
-        /// Entlaedt den Sound.
-        virtual void unload() throw (RuntimeException);
         // Stream zurueckgeben
         FSOUND_STREAM *getStream() const;
 
@@ -62,6 +64,10 @@ protected:
         // Sample setzen
         void setStream(FSOUND_STREAM *stream);
         
+        /// Laedt den Sound.
+        virtual void load() throw (RuntimeException);
+        /// Entlaedt den Sound.
+        virtual void unload() throw (RuntimeException);        
         
     }; 
 

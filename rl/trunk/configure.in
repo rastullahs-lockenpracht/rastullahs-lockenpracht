@@ -71,7 +71,7 @@ PKG_CHECK_MODULES(CEGUI, CEGUI)
 PKG_CHECK_MODULES(CEGUIOGRE, CEGUI-OGRE)
 
 dnl Other stuff we need
-AC_CHECK_LIB([log4cxx], [main], AC_DEFINE(HAVE_LOG4CXX,[], [Log4cxx is installed]))
+#AC_CHECK_LIB([log4cxx], [main], AC_DEFINE(HAVE_LOG4CXX,[], [Log4cxx is installed]))
 AC_CHECK_LIB([ode], [main], [], AC_MSG_ERROR([Can't find libode]))
 AC_CHECK_LIB(m, pow)
 AC_CHECK_LIB(z, gzopen)
@@ -79,6 +79,8 @@ AC_CHECK_FUNC(snprintf, AC_DEFINE(HAVE_SNPRINTF,,snprintf))
 AC_CHECK_FUNC(vsnprintf, AC_DEFINE(HAVE_VSNPRINTF,1,vsnprintf))
 AC_CHECK_PROG(HAVE_DOXYGEN_PROG, doxygen, `which doxygen`, false)
 AC_CHECK_LIB(OgreOde, [main],, AC_MSG_ERROR([Can't find OgreOde]))
+# CPPUNIT for testing
+AM_PATH_CPPUNIT(1.10.0)
 
 AC_CHECK_HEADERS(xercesc/util/XercesVersion.hpp, ,
     [AC_MSG_ERROR([cannot find libxerces25 headers]) ])

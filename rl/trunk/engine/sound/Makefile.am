@@ -1,4 +1,4 @@
 SUBDIRS = include src
 
-tests: all tests/MusicManagerTest.cpp tests/SoundManagerTest.cpp tests/TestStartup.cpp
+tests: all tests/SoundSampleTest.cpp tests/SoundStreamTest.cpp tests/TestStartup.cpp
 	cd tests; ${MAKE} all

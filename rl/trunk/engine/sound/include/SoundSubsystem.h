@@ -54,6 +54,14 @@ public:
 private:
     /// Zeit mitschreiben
     Ogre::Real mElapsedTime;
+
+    // FMOD-Callbacks
+    static void close(void *handle);
+    static void *open(const char *name);
+    static int read(void *buffer, int size, void *handle);
+    static int seek(void *handle, int pos, signed char mode);
+    static int tell(void *handle);
+        
 };
 
 }

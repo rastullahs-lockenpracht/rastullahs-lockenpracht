@@ -5,9 +5,9 @@ INCLUDES = $(RUBY_CFLAGS) $(SDL_CFLAGS) $(OGRE_CFLAGS) $(STLPORT_CFLAGS) -I../in
 noinst_PROGRAMS = testcore
 testcore_LDFLAGS = -L../../common/src -L../../sound/src -L../../dialog/src -L../../rules/src \
 	  -L../../ui/src -L../../core/src -L../../script/src
-testcore_LDADD = $(RUBY_LIBS) $(SDL_LIBS) $(OGRE_LIBS) $(CEGUI_LIBS) $(LIBS) \
+testcore_LDADD = $(RUBY_LIBS) $(SDL_LIBS) $(CPPUNIT_LIBS) $(OGRE_LIBS) $(CEGUI_LIBS) $(LIBS) \
 	  -lRlCommon -lRlCore -lRlSound -lRlUi -lRlRules -lRlDialog -lRlScript \
-	  -lvorbis -logg -lboost_thread -lcppunit
+	  -lvorbis -logg -lboost_thread 
 testcore_SOURCES = \
 	TestCore.cpp \
 	CoreTests.cpp
