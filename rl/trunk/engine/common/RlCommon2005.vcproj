@@ -6,7 +6,6 @@
 	ProjectGUID="{D3185FC6-9384-431A-A237-80284F859B21}"
 	RootNamespace="RlCommon"
 	Keyword="Win32Proj"
-	SignManifests="true"
 	>
 	<Platforms>
 		<Platform
@@ -67,10 +66,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain_d.lib xerces-c_2D.lib"
+				AdditionalDependencies="OgreMain_d.lib xerces-c_2D.lib CEGUIBase_d.lib"
 				OutputFile="./lib/$(ConfigurationName)/RlCommon.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui\lib\$(PlatformName)\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\Dependencies\lib\$(ConfigurationName)&quot;"
+				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui\lib\$(PlatformName)\$(ConfigurationName)&quot;;..\..\dependencies\cegui\lib\"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/RlCommon.pdb"
 				SubSystem="2"
@@ -149,10 +148,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib xerces-c_2.lib"
+				AdditionalDependencies="OgreMain.lib xerces-c_2.lib CEGUIBase.lib"
 				OutputFile="./lib/$(ConfigurationName)/RlCommon.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui\lib\$(PlatformName)\$(ConfigurationName)&quot;"
+				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui\lib\$(PlatformName)\$(ConfigurationName)&quot;;..\..\dependencies\cegui\lib\"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -239,7 +238,7 @@
 				AdditionalDependencies="OgreMain.lib xerces-c_2.lib"
 				OutputFile="./lib/$(ConfigurationName)/RlCommon.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\dependencies\ogre\OgreMain\lib\Release;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui\lib\$(PlatformName)\Release&quot;;..\..\dependencies\ogre\Dependencies\lib\Release"
+				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui\lib\$(PlatformName)\$(ConfigurationName)&quot;;..\..\dependencies\cegui\lib\"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/RlCommon.pdb"
 				SubSystem="2"

@@ -21,6 +21,9 @@
 
 #undef _assert
 
+#pragma warning( disable : 4267 ) // Konvertierungswarnung in CEGUIString
+#include <CEGUIString.h>
+
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 // Export control
 #   if defined( RLCOMMON_EXPORTS )
@@ -31,5 +34,12 @@
 #else // Linux / Mac OSX etc
 #   define _RlCommonExport
 #endif
+
+
+namespace rl
+{
+	typedef CEGUI::String CeGuiString;
+    typedef std::vector<CeGuiString> CeGuiStringVector;
+}
 
 #endif

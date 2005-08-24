@@ -36,6 +36,7 @@
 using XERCES_CPP_NAMESPACE::XMLTranscoder;
 using XERCES_CPP_NAMESPACE::XMLTransService;
 using CEGUI::utf8;
+using CEGUI::String;
 
 namespace rl {
 
@@ -102,7 +103,7 @@ public:
 	 */
 	static utf8* transcodeToUtf8(const XMLCh* const string16);
 
-	static CeGuiString transcodeToUtf8(const XmlCh* const string16);
+	static CEGUI::String transcodeToCeGuiString(const XMLCh* const string16);
 
 private:
 	static XMLTranscoder* sTranscoder;

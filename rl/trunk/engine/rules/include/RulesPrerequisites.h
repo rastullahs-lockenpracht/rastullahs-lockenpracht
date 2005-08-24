@@ -55,8 +55,6 @@ namespace rl
     class _RlRulesExport GameObject;
 
 	typedef std::vector<Action*> ActionVector;
-	typedef CEGUI::String CeGuiString;
-    typedef std::vector<CeGuiString> CeGuiStringVector;
 
 	ActionVector::iterator findAction(ActionVector::iterator& begin, ActionVector::iterator& end, const CeGuiString& actionName);
 }
