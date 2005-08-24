@@ -94,8 +94,8 @@ namespace rl
 		}
 		else
 		{
-            setText(object->getName());
-			mTooltip->setTooltipText(object->getName());
+            setText(object->getDescription());
+			mTooltip->setTooltipText(object->getDescription());
 			mTooltip->setVisible(true);
 			mTooltip->setPosition(Relative, me.position);
 			mWindow->setTooltipText(object->getName());
