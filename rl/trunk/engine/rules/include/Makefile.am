@@ -20,5 +20,9 @@ noinst_HEADERS = \
 	Talent.h \
 	TalentCsvIterator.h \
 	Talentgruppe.h \
-	TalentInputIterator.h 	
+	TalentInputIterator.h \
+	TimerEvent.h \
+	TimerEventSource.h \
+	TimerListener.h \
+	TimerManager.h 	
 	

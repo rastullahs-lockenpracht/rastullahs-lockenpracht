@@ -43,9 +43,9 @@ SoundStream::SoundStream(const SoundResourcePtr &soundres):
 {
     load();
     FSOUND_Stream_SetSyncCallback(getStream(), 
-        (FSOUND_STREAMCALLBACK)SoundStream::streamCallback, this);
+        (FSOUND_STREAMCALLBACK)SoundStream::streamSyncCallback, this);
     FSOUND_Stream_SetEndCallback(getStream(),
-        (FSOUND_STREAMCALLBACK)SoundStream::streamCallback, this);
+        (FSOUND_STREAMCALLBACK)SoundStream::streamEndCallback, this);
 }
 
 /**
@@ -132,28 +132,35 @@ int SoundStream::createChannel() throw (RuntimeException)
 }
 
 /**
- * @return 
+ * @return Wird ignoriert
  * @author JoSch
  * @date 24-08-2005
  */
-signed char SoundStream::streamCallback(FSOUND_STREAM *stream,
+signed char SoundStream::streamEndCallback(FSOUND_STREAM *stream,
     void *buf, int len, void *userdata)
 {
     SoundStream *that = static_cast<SoundStream*>(userdata);
     if (that != 0)
     {
         RlAssert(that->getStream() == stream, "Stream-Daten stimmen nicht überein");
-        if (len != 0) // FSOUND_Stream_Create
-        {
-            return false;
-        } else { 
-            if (buf == 0) // FSOUND_Stream_SetEndCallback
-            {
-            } else { // FSOUND_Stream_SetSyncCallback
-            }
-            return 0;
-        }
     }
+    return 0;
+}
+
+/**
+ * @return Wird ignoriert
+ * @author JoSch
+ * @date 24-08-2005
+ */
+signed char SoundStream::streamSyncCallback(FSOUND_STREAM *stream,
+    void *buf, int len, void *userdata)
+{
+    SoundStream *that = static_cast<SoundStream*>(userdata);
+    if (that != 0)
+    {
+        RlAssert(that->getStream() == stream, "Stream-Daten stimmen nicht überein");
+    }
+    return 0;
 }
 
 void SoundStreamPtr::destroy()

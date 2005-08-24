@@ -38,8 +38,14 @@ namespace rl {
     private:
         FSOUND_STREAM *mStream;
         
-        // FMOD Stream Callback
-        static signed char streamCallback(
+        // FMOD End Stream Callback
+        static signed char streamEndCallback(
+            FSOUND_STREAM *stream,
+            void *buf, int len,
+            void *userdata);
+
+        // FMOD Sync Stream Callback
+        static signed char streamSyncCallback(
             FSOUND_STREAM *stream,
             void *buf, int len,
             void *userdata);

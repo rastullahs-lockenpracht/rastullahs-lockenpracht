@@ -4,7 +4,6 @@
 #include "GameObject.h"
 #include "ActorManager.h"
 #include "LightObject.h"
-#include "SDL.h"
 
 using namespace rl;
 
@@ -12,7 +11,6 @@ class CoreTest : public CppUnit::TestFixture {
 
     void testActors()
     {
-        SDL_WM_GrabInput(SDL_GRAB_OFF);
         CPPUNIT_ASSERT(true);
     }
 

@@ -21,7 +21,6 @@
 #include <Ogre.h>
 #include <OgreDataStream.h>
 
-
 namespace rl {
  
  
@@ -45,6 +44,10 @@ class _RlSoundExport SoundResource: public Ogre::Resource
         SoundResource(Ogre::ResourceManager* creator, const Ogre::String& name, 
             Ogre::ResourceHandle handle, const Ogre::String& group, bool isManual, 
             Ogre::ManualResourceLoader* loader);
+        /// Copy-Konstruktor
+        SoundResource(const SoundResource &);
+        /// Konverterkonstruktor
+        SoundResource(const Resource&);
         /// Der Destruktor
         virtual ~SoundResource();
         /// Den Datenstrom zurückgeben

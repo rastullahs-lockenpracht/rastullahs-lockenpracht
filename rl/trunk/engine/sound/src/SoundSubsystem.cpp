@@ -57,6 +57,14 @@ SoundSubsystem::SoundSubsystem()
     /// TODO: More choices
     //FSOUND_SetOutput(FSOUND_OUTPUT_ALSA);
     FSOUND_SetMixer(FSOUND_MIXER_AUTODETECT);
+    // File Callbacks fuer FMOD setzen
+    FSOUND_File_SetCallbacks(
+        (FSOUND_OPENCALLBACK)SoundSubsystem::open,
+        (FSOUND_CLOSECALLBACK)SoundSubsystem::close,
+        (FSOUND_READCALLBACK)SoundSubsystem::read,
+        (FSOUND_SEEKCALLBACK)SoundSubsystem::seek,
+        (FSOUND_TELLCALLBACK)SoundSubsystem::tell); 
+
     FSOUND_Init(44100, 32, 0); // TODO Wenns schiefgeht.
 	log(Ogre::LML_TRIVIAL, "fmod initialisiert");
     
@@ -66,13 +74,6 @@ SoundSubsystem::SoundSubsystem()
     FSOUND_3D_Listener_SetAttributes(v, v, 1, 0, 0, 1, 0, 0);
     log(Ogre::LML_TRIVIAL, "Listener set");
     
-    // File Callbacks fuer FMOD setzen
-    FSOUND_File_SetCallbacks(
-        (FSOUND_OPENCALLBACK)SoundSubsystem::open,
-        (FSOUND_CLOSECALLBACK)SoundSubsystem::close,
-        (FSOUND_READCALLBACK)SoundSubsystem::read,
-        (FSOUND_SEEKCALLBACK)SoundSubsystem::seek,
-        (FSOUND_TELLCALLBACK)SoundSubsystem::tell); 
     //Singletons erzeugen 
     new SoundManager();
 
@@ -137,7 +138,7 @@ void SoundSubsystem::close(void *handle)
 {
     if (handle != 0)
     {
-        DataStreamPtr ds = *static_cast<DataStreamPtr*>(handle);
+        DataStreamPtr ds = *reinterpret_cast<DataStreamPtr*>(handle);
         if (!ds.isNull())
         {
             SoundSubsystem::getSingleton().log(LML_TRIVIAL, "Stream closed");
@@ -153,11 +154,12 @@ void SoundSubsystem::close(void *handle)
  */
 void *SoundSubsystem::open(const char *name)
 {
-    SoundResourcePtr res = SoundResourcePtr(
-        SoundManager::getSingleton().getByName(name));
-    DataStreamPtr ds = res->getDataStream();
-    SoundSubsystem::getSingleton().log(LML_TRIVIAL, "Stream opened");
-    return new DataStreamPtr(ds);
+    SoundResource res(*SoundManager::getSingleton().getByName(name));
+    res.load();
+    DataStreamPtr *dsp = new DataStreamPtr(res.getDataStream());
+    SoundSubsystem::getSingleton().log(LML_TRIVIAL,
+        "Opened file " + String(name));
+    return dsp;
 }
 
 /**
@@ -172,11 +174,10 @@ int SoundSubsystem::read(void *buffer, int size, void *handle)
 {
     if (handle != 0)
     {
-        DataStreamPtr ds = *static_cast<DataStreamPtr*>(handle);
-        if (!ds.isNull())
+        DataStreamPtr *ds = reinterpret_cast<DataStreamPtr*>(handle);
+        if (!ds->isNull())
         {
-            SoundSubsystem::getSingleton().log(LML_TRIVIAL, "Stream read");
-            return ds->read(buffer, size);
+            return (*ds)->read(buffer, size);
         }
     }
     return 0;
@@ -194,7 +195,7 @@ int SoundSubsystem::seek(void *handle, int pos, signed char mode)
 {
     if (handle != 0)
     {
-        DataStreamPtr ds = *static_cast<DataStreamPtr*>(handle);
+        DataStreamPtr ds = *reinterpret_cast<DataStreamPtr*>(handle);
         if (!ds.isNull())
         {
             if (mode == SEEK_END)
@@ -205,8 +206,8 @@ int SoundSubsystem::seek(void *handle, int pos, signed char mode)
             {
                 pos += ds->tell();
             }
-            SoundSubsystem::getSingleton().log(LML_TRIVIAL, "Stream seeked");
             ds->seek(pos);
+            return 0;
         }
     }
     return -1;
@@ -221,10 +222,9 @@ int SoundSubsystem::tell(void *handle)
 {
     if (handle != 0)
     {
-        DataStreamPtr ds = *static_cast<DataStreamPtr*>(handle);
+        DataStreamPtr ds = *reinterpret_cast<DataStreamPtr*>(handle);
         if (!ds.isNull())
         {
-            SoundSubsystem::getSingleton().log(LML_TRIVIAL, "Stream told");
             return ds->tell();
         }
     }

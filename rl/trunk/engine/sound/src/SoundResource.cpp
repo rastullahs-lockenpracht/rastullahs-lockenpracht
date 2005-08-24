@@ -20,8 +20,6 @@
 using namespace Ogre;
 
 namespace rl {
-    
-    
 
 /**
  * @author JoSch
@@ -29,7 +27,28 @@ namespace rl {
  */
 SoundResource::SoundResource(ResourceManager* creator, const String& name, ResourceHandle handle,
         const String& group, bool isManual, ManualResourceLoader* loader):
-    Resource(creator, name, handle, group, isManual, loader)
+    Resource(creator, name, handle, group, isManual, loader),
+    mDataStream(0)
+{
+}
+
+/**
+ * @author JoSch
+ * @date 08-24-2005
+ */
+SoundResource::SoundResource(const SoundResource &res)
+    : Resource(res),
+      mDataStream(res.getDataStream())
+{
+}
+
+/**
+ * @author JoSch
+ * @date 08-24-2005
+ */
+SoundResource::SoundResource(const Resource &res)
+    : Resource(res),
+      mDataStream(0)
 {
 }
 
@@ -97,7 +116,6 @@ int SoundResource::getSize() const
 {
     return calculateSize();
 }
-
 
 /**
  * @author Blakharaz

@@ -41,8 +41,6 @@ void log(Ogre::LogMessageLevel level, const Ogre::String& msg, Ogre::String iden
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 	#define WIN32_LEAN_AND_MEAN
 	#include "windows.h"
-#else
-	#include "SDL.h"
 #endif
 
 void startupRl(bool developerMode, Ogre::String module)
@@ -142,9 +140,6 @@ void startupRl(bool developerMode, Ogre::String module)
 	}	
 #endif //#ifndef _DEBUG
 
-#if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
-	SDL_Quit();
-#endif
 }
 
 void analyzeParameters(int argc, char** argv, bool& developerMode, Ogre::String& startModule)
