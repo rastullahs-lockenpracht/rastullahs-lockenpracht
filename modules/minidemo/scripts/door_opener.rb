@@ -1,16 +1,21 @@
 load "embed.rb"
 
+require 'door.rb'
+require 'switch.rb'
+
 class SecretDoorOpener < ObjectStateChangeListener
 
   def initialize(door, switch)
     super()
-    @door = door
-    @switch = switch
-    switch.addObjectStateChangeListener(self)
+    @mDoor = door
+    @mSwitch = switch
+    @mSwitch.addObjectStateChangeListener(self)
   end
 
   def objectStateChanged(event)
-      if (@switch.getString("state") == "Oben")
+      p event
+
+      if ( @mSwitch.getState() == Switch::STATE_OBEN )
         doorOpen = true
         p "Tuer sollte offen sein"
       else
@@ -18,15 +23,15 @@ class SecretDoorOpener < ObjectStateChangeListener
         p "Tuer sollte geschlossen sein"
       end
 
-      if (@door.getBool("open") != doorOpen)
+      if (@mDoor.isOpen() != doorOpen)
         p "Tuer muss veraendert werden"
         if (doorOpen)
           p "Oeffnen"
-          @door.doAction("OpenDoorAction", "opendoor", NIL, NIL)
+          @mDoor.doAction("OpenDoorAction", "opendoor", NIL, NIL)
           p "Offen"
         else
           p "Schliessen"
-          @door.doAction("CloseDoorAction", "closedoor", NIL, NIL)
+          @mDoor.doAction("CloseDoorAction", "closedoor", NIL, NIL)
           p "Geschlossen"
         end
       end

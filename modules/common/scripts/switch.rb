@@ -10,85 +10,79 @@ require 'items.rb'
 
 class SwitchUpAction < RubyAction
   def initialize
-    super("NachOben", "Hebel nach oben schalten");
+    super("Oben", "Hebel nach oben schalten");
   end
   
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
-  def canDo?(switch, user) 
-    p "CanDo"+switch
-    switch.getString("state") != "Hoch";
+  def canDo(switch, user) 
+    switch.getState() != Switch::STATE_OBEN;
   end
   
   def doAction(switch, user, target)    
     switchMesh = switch.getActor().getControlledObject(); 
-    p switch.getString("state")
-    if (switch.getString("state") == "Mitte")
+
+    if (switch.getState() == Switch::STATE_MITTE)
       switchMesh.stopAllAnimations()
-      switchMesh.startAnimation("MitteOben", 1.0, 1)
-    elsif (switch.getString("state") == "Unten")
+      switchMesh.startAnimation("MitteOben", 2.0, 1)
+    elsif (switch.getState() == Switch::STATE_UNTEN)
       switchMesh.stopAllAnimations()
-      switchMesh.startAnimation("UntenOben", 1.0, 1)
+      switchMesh.startAnimation("UntenOben", 4.0, 1)
     end
-    switch.setString("state", "Oben") 
-    
-    p switch
+    switch.setState( Switch::STATE_OBEN );
   end
 end
 
 class SwitchDownAction < RubyAction
   def initialize
-    super("NachUnten", "Hebel nach unten schalten");
+    super("Unten", "Hebel nach unten schalten");
   end
   
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
-  def canDo?(switch, user)
-     p "CanDo"+switch
-     switch.getString("state") != "Runter";
+  def canDo(switch, user)
+     switch.getState() != Switch::STATE_UNTEN;
   end
   
   def doAction(switch, user, target)    
     switchMesh = switch.getActor().getControlledObject();
-    if (switch.getString("state") == "Mitte")
-    	switchMesh.stopAllAnimations()
-      switchMesh.startAnimation("MitteUnten", 1.0, 1)
-    elsif (switch.getString("state") == "Oben")
-    	switchMesh.stopAllAnimations()
-      switchMesh.startAnimation("ObenUnten", 1.0, 1)
+    if (switch.getState() == Switch::STATE_MITTE)
+      switchMesh.stopAllAnimations()
+      switchMesh.startAnimation("MitteUnten", 2.0, 1)
+    elsif (switch.getState() == Switch::STATE_OBEN )
+      switchMesh.stopAllAnimations()
+      switchMesh.startAnimation("ObenUnten", 4.0, 1)
     end
-    switch.setString("state", "Unten") 
-    p switch
+    switch.setState( Switch::STATE_UNTEN );
   end
 end
 
 class SwitchMiddleAction < RubyAction
   def initialize
-    super("Mitteln", "Hebel in die Mitte schalten");
+    super("Mitte", "Hebel in die Mitte schalten");
   end
   
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
-  def canDo?(switch, user)    
-     p "CanDo"+switch
-     switch.getString("state") != "Mitte";
+  def canDo(switch, user)    
+     switch.getState() != Switch::STATE_MITTE;
   end
   
   def doAction(switch, user, target)    
     switchMesh = switch.getActor().getControlledObject();
-    if (switch.getString("state") == "Oben")
-    	switchMesh.stopAllAnimations()
-      # switchMesh.startAnimation("ObenMitte", 1.0, 1)
-    elsif (switch.getString("state") == "Unten")
-    	switchMesh.stopAllAnimations()
-      # switchMesh.startAnimation("UntenMitte", 1.0, 1)
+    if (switch.getState() == Switch::STATE_OBEN)
+      switchMesh.stopAllAnimations()
+      switchMesh.startAnimation("ObenMitte", 2.0, 1)
+    elsif (switch.getState() == Switch::STATE_UNTEN)
+      switchMesh.stopAllAnimations()
+      switchMesh.startAnimation("UntenMitte", 2.0, 1)
     end
-    switch.setString("state", "Mitte") 
-    p switch
-    p user
-    p target
+    switch.setState( Switch::STATE_MITTE );
   end
 end
 
-
 class Switch < RubyItem
+  Switch.const_set( "STATE_OBEN", 0 )
+  Switch.const_set( "STATE_MITTE", 1 )
+  Switch.const_set( "STATE_UNTEN", 2 )
+
   def initialize(name )
     super(10, name, "Ein Hebel");
 
@@ -97,12 +91,24 @@ class Switch < RubyItem
     setActor(switchActor);
     $CORE.log("actor gesetzt");
     
-    setString("state", "Mitte");
+    @state = Switch::STATE_MITTE;
     
     addAction(SwitchUpAction.new);
     addAction(SwitchDownAction.new);
     addAction(SwitchMiddleAction.new);
     $CORE.log("Aktionen hinzugefuegt.");
   end
+
+  def getState()
+    @state
+  end
+
+  def setState( state )
+    raise ArgumentError, "State existiert nicht", caller unless ( state >= 0 ) 
+
+    @state = state;
+    fireObjectStateChangeEvent();
+  end
+
 end
 

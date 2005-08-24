@@ -58,8 +58,8 @@ class Door < RubyItem
     doorActor.attachToSlot(soundActor,"Bone01");
     $CORE.log("door.rb - Sound hinzugefuegt");
     
-    setBool("open", isOpen);
-    
+    @mOpen = isOpen
+
     if (canBeOpened)
     	addAction(OpenDoorAction.new);
     	addAction(CloseDoorAction.new);
@@ -69,10 +69,13 @@ class Door < RubyItem
     	addAction(CloseDoorAction.new, Action::ACT_DISABLED);
     	$CORE.log("door.rb - Aktionen versteckt hinzugefuegt.");
     end
+
+    @mDoor.doAction("OpenDoorAction", "opendoor", NIL, NIL) unless not @mOpen
   end
   
   def setOpen(open)
     @mOpen = open
+    fireObjectStateChangeEvent();
   end
   
   def isOpen()
