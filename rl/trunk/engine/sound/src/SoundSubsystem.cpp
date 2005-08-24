@@ -16,6 +16,8 @@
 #include "SoundSubsystem.h"
 #include "SoundManager.h"
 #include "Logger.h"
+#include "SoundResource.h"
+#include <stdio.h>
 
 using namespace Ogre;
 
@@ -64,6 +66,13 @@ SoundSubsystem::SoundSubsystem()
     FSOUND_3D_Listener_SetAttributes(v, v, 1, 0, 0, 1, 0, 0);
     log(Ogre::LML_TRIVIAL, "Listener set");
     
+    // File Callbacks fuer FMOD setzen
+    FSOUND_File_SetCallbacks(
+        (FSOUND_OPENCALLBACK)SoundSubsystem::open,
+        (FSOUND_CLOSECALLBACK)SoundSubsystem::close,
+        (FSOUND_READCALLBACK)SoundSubsystem::read,
+        (FSOUND_SEEKCALLBACK)SoundSubsystem::seek,
+        (FSOUND_TELLCALLBACK)SoundSubsystem::tell); 
     //Singletons erzeugen 
     new SoundManager();
 
@@ -85,7 +94,10 @@ SoundSubsystem::~SoundSubsystem()
  */
 void SoundSubsystem::log(Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident )
 {
-	Logger::getSingleton().log(level, "Sound", msg, ident);
+    if (Logger::getSingletonPtr() != 0)
+    {
+        Logger::getSingleton().log(level, "Sound", msg, ident);
+    }
 }
 
 /**
@@ -106,6 +118,7 @@ Real SoundSubsystem::getElapsedTime() const
 {
     return mElapsedTime;
 }
+
 /**
  * @author JoSch
  * @date 07-24-2005
@@ -113,6 +126,109 @@ Real SoundSubsystem::getElapsedTime() const
 void SoundSubsystem::setElapsedTime(Real elapsedTime)
 {
     mElapsedTime = elapsedTime;
+}
+
+/**
+ * @param handle Das Handle der zu schliessenden Datei
+ * @author JoSch
+ * @date 08-22-2005
+ */
+void SoundSubsystem::close(void *handle)
+{
+    if (handle != 0)
+    {
+        DataStreamPtr ds = *static_cast<DataStreamPtr*>(handle);
+        if (!ds.isNull())
+        {
+            SoundSubsystem::getSingleton().log(LML_TRIVIAL, "Stream closed");
+            ds->close();
+        }
+    }
+}
+
+/**
+ * @param name. Der der Name der zu oeffnenden Datei
+ * @author JoSch
+ * @date 08-22-2005
+ */
+void *SoundSubsystem::open(const char *name)
+{
+    SoundResourcePtr res = SoundResourcePtr(
+        SoundManager::getSingleton().getByName(name));
+    DataStreamPtr ds = res->getDataStream();
+    SoundSubsystem::getSingleton().log(LML_TRIVIAL, "Stream opened");
+    return new DataStreamPtr(ds);
+}
+
+/**
+ * @param buffer. Zu fuellender Buffer
+ * @param size. Die Groesse der Daten
+ * @param handle. Handle der Datei
+ * @return. Anzahl der Bytes, die ERFOLGREICH gelesen wurden.
+ * @author JoSch
+ * @date 08-22-2005
+ */
+int SoundSubsystem::read(void *buffer, int size, void *handle)
+{
+    if (handle != 0)
+    {
+        DataStreamPtr ds = *static_cast<DataStreamPtr*>(handle);
+        if (!ds.isNull())
+        {
+            SoundSubsystem::getSingleton().log(LML_TRIVIAL, "Stream read");
+            return ds->read(buffer, size);
+        }
+    }
+    return 0;
+}
+
+/**
+ * @param handle. Das Handle der Datei.
+ * @param pos. Gesuchte Dateiposition.
+ * @param mode. Seekmode.
+ * @return 0 bei Erfolg, Nicht-0 ansonsten.
+ * @author JoSch
+ * @date 08-22-2005
+ */
+int SoundSubsystem::seek(void *handle, int pos, signed char mode)
+{
+    if (handle != 0)
+    {
+        DataStreamPtr ds = *static_cast<DataStreamPtr*>(handle);
+        if (!ds.isNull())
+        {
+            if (mode == SEEK_END)
+            {
+                pos += ds->size();
+            }
+            if (mode == SEEK_CUR)
+            {
+                pos += ds->tell();
+            }
+            SoundSubsystem::getSingleton().log(LML_TRIVIAL, "Stream seeked");
+            ds->seek(pos);
+        }
+    }
+    return -1;
+}
+
+/**
+ * @return Aktuelle Position
+ * @author JoSch
+ * @date 08-22-2005
+ */
+int SoundSubsystem::tell(void *handle)
+{
+    if (handle != 0)
+    {
+        DataStreamPtr ds = *static_cast<DataStreamPtr*>(handle);
+        if (!ds.isNull())
+        {
+            SoundSubsystem::getSingleton().log(LML_TRIVIAL, "Stream told");
+            return ds->tell();
+        }
+    }
+    return 0;
 }
 
 }

@@ -92,6 +92,15 @@ SoundResourcePtr Sound::getSoundResource() const
     return mSoundResource;
 }
 
+/**
+ * @return der Name der zugeordneten SoundResource.
+ * @author JoSch
+ * @date 08-22-2005
+ */
+const String& Sound::getName() const
+{
+    return mName;
+}
 
 void SoundPtr::destroy()
 {

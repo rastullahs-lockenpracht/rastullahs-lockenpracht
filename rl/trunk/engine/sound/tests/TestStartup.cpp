@@ -1,7 +1,9 @@
 #include "SoundManager.h"
-#include "Ogre.h"
-#include "signal.h"
+#include <Ogre.h>
+#include <signal.h>
+#include <OgreLog.h>
 #include "SoundSubsystem.h"
+#include "Logger.h"
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/ui/text/TestRunner.h>
 
@@ -29,6 +31,7 @@ int main( int argc, char **argv)
     Ogre::ResourceGroupManager::getSingleton().addResourceLocation("./modules/common/sound", "FileSystem");
     Ogre::ResourceGroupManager::getSingleton().addResourceLocation("./modules/minidemo/sound", "FileSystem");
 
+    (new rl::Logger("./logs", "./logs"))->setLogDetail(Ogre::LL_BOREME);
     new rl::SoundSubsystem;
     
     CppUnit::TextUi::TestRunner runner;

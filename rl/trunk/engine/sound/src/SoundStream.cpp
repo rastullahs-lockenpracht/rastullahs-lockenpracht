@@ -15,6 +15,7 @@
  */
 #include "SoundStream.h"
 #include "SoundManager.h"
+#include "SDL.h"
 
 
 using namespace Ogre;
@@ -31,6 +32,7 @@ namespace rl {
 SoundStream::SoundStream(const String &name):
     Sound(name)
 {
+    load();
 }
  
 /**
@@ -41,6 +43,11 @@ SoundStream::SoundStream(const String &name):
 SoundStream::SoundStream(const SoundResourcePtr &soundres):
     Sound(soundres)
 {
+    load();
+    FSOUND_Stream_SetSyncCallback(getStream(), 
+        SoundStream::streamCallback, this);
+    FSOUND_Stream_SetEndCallback(getStream(),
+        SoundStream::streamCallback, this);
 }
 
 /**
@@ -59,25 +66,20 @@ SoundStream::~SoundStream()
  */
 void SoundStream::load() throw (RuntimeException)
 {
-    getSoundResource().getPointer()->load();
-    DataStreamPtr stream = getSoundResource()->getDataStream();
-    int len = stream->size();
-    char *data = new char[len];
-    stream->read(data, len);
-    
-    unsigned int mode = FSOUND_LOADMEMORY;
+    unsigned int mode = 0;
     if (is3d())
     {
         mode |= FSOUND_HW3D | FSOUND_FORCEMONO;
     } else {
         mode |= FSOUND_HW2D;
     } 
-    mStream = FSOUND_Stream_Open(data, mode, 0, len);
+    SDL_WM_GrabInput(SDL_GRAB_OFF);
+    mStream = FSOUND_Stream_Open(getName().c_str(), mode, 0, 0);
     if (mStream == 0)
     {
         // Stereo auf 3D?
         mode |= FSOUND_FORCEMONO;
-        mStream = FSOUND_Stream_Open(data, mode, 0, len);
+        mStream = FSOUND_Stream_Open(getName().c_str(), mode, 0, 0);
     }
 }
 
@@ -132,6 +134,30 @@ int SoundStream::createChannel() throw (RuntimeException)
     return FSOUND_Stream_PlayEx(FSOUND_FREE, getStream(), 0, true);
 }
 
+/**
+ * @return 
+ * @author JoSch
+ * @date 24-08-2005
+ */
+signed char SoundStream::streamCallback(FSOUND_STREAM *stream,
+    void *buf, int len, void *userdata)
+{
+    SoundStream *that = static_cast<SoundStream*>(userdata);
+    if (that != 0)
+    {
+        RlAssert(that->getStream() == stream, "Stream-Daten stimmen nicht überein");
+        if (len != 0) // FSOUND_Stream_Create
+        {
+            return false;
+        } else { 
+            if (buf == 0) // FSOUND_Stream_SetEndCallback
+            {
+            } else { // FSOUND_Stream_SetSyncCallback
+            }
+            return 0;
+        }
+    }
+}
 
 void SoundStreamPtr::destroy()
 {
