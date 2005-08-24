@@ -15,8 +15,6 @@
  */
 #include "SoundStream.h"
 #include "SoundManager.h"
-#include "SDL.h"
-
 
 using namespace Ogre;
 using namespace boost;
@@ -45,9 +43,9 @@ SoundStream::SoundStream(const SoundResourcePtr &soundres):
 {
     load();
     FSOUND_Stream_SetSyncCallback(getStream(), 
-        SoundStream::streamCallback, this);
+        (FSOUND_STREAMCALLBACK)SoundStream::streamCallback, this);
     FSOUND_Stream_SetEndCallback(getStream(),
-        SoundStream::streamCallback, this);
+        (FSOUND_STREAMCALLBACK)SoundStream::streamCallback, this);
 }
 
 /**
@@ -73,7 +71,6 @@ void SoundStream::load() throw (RuntimeException)
     } else {
         mode |= FSOUND_HW2D;
     } 
-    SDL_WM_GrabInput(SDL_GRAB_OFF);
     mStream = FSOUND_Stream_Open(getName().c_str(), mode, 0, 0);
     if (mStream == 0)
     {
