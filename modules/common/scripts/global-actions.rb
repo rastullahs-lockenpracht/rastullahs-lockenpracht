@@ -64,7 +64,7 @@ end
 
 class ToggleInGameGlobalMenuAction < RubyAction
   def initialize
-    super("toggleingameglobalmenu", "Spielmenue anzeigen")
+    super("toggleingameglobalmenu", "Spielmenü anzeigen")
   end
 
   def doAction(object, actor, target)
@@ -74,7 +74,7 @@ end
 
 class ResetCameraAction < RubyAction
   def initialize
-    super("resetcamera", "Kamera zur�cksetzen")
+    super("resetcamera", "Kamera zurücksetzen")
   end
 
   def doAction(object, actor, target)
@@ -95,7 +95,7 @@ end
 
 class ToggleOdeDebugAction < RubyAction
   def initialize
-    super("toggleodedebug", "Ode-Koerper anzeigen")
+    super("toggleodedebug", "Ode-Körper anzeigen")
   end
   
   def doAction(object, actor, target)
@@ -105,7 +105,7 @@ end
 
 class ToggleCharacterStateWindowAction < RubyAction
     def initialize
-        super("togglecharacterstatewindow", "Characterstatus zeigen/verstecken")
+        super("togglecharacterstatewindow", "Charakterstatus zeigen/verstecken")
     end
 
     def doAction(object, actor, target)
