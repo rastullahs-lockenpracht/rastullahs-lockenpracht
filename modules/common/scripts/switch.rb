@@ -83,7 +83,7 @@ class Switch < RubyItem
   Switch.const_set( "STATE_MITTE", 1 )
   Switch.const_set( "STATE_UNTEN", 2 )
 
-  def initialize(name )
+  def initialize( name )
     super(10, name, "Ein Hebel");
 
     switchActor = $AM.createMeshActor(name, "arc_hebel_01.mesh" );

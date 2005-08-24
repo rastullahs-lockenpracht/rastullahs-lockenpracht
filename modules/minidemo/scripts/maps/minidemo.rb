@@ -65,7 +65,7 @@ $CORE.log("Hebel fertig");
 doorprocessor = SecretDoorOpener.new(gtuer, hebel)
 
 $CORE.log("Truhe reinsetzen")
-chest = Chest.new( "Truhe", false, true );
+chest = Chest.new( "Truhe", false );
 chest.getActor().placeIntoScene( 1750.0, -350.0, -105.0, 1.0, 0.0, 0.0, 0.0 );
 chest.getActor().yaw(-90.0);
 $CORE.log("Truhe fertig");
