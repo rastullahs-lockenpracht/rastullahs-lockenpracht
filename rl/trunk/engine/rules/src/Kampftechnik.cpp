@@ -18,12 +18,10 @@
 
 namespace rl
 {
-    Kampftechnik::Kampftechnik(int id,
-                   const CeGuiString& name,
+    Kampftechnik::Kampftechnik(const CeGuiString& name,
                    const CeGuiString& description,
                    const CeGuiString& ebe)
-                                       : mId(id),
-                                         mName(name),
+                                       : mName(name),
                                          mDescription(description),
                                          mEbe(ebe)
     {
@@ -31,17 +29,12 @@ namespace rl
 
     bool Kampftechnik::operator==(const Kampftechnik& rhs) const
     {
-        return mId == rhs.mId;
+        return mName == rhs.mName;
     }
 
     bool Kampftechnik::operator<(const Kampftechnik& rhs) const
     {
-        return mId < rhs.mId;
-    }
-
-    int Kampftechnik::getId() const
-    {
-        return mId;
+        return mName < rhs.mName;
     }
 
     CeGuiString Kampftechnik::getName() const

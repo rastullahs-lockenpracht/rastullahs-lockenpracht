@@ -178,11 +178,11 @@ namespace rl {
 		DOMNodeList* eigensch = 
 			XmlHelper::getChildNamed(personXml, "Eigenschaften")->
 				getElementsByTagName(EIGENSCHAFT);
+		// Die Eigenschaftsnamen müssen durch ihre Abkürzung ersetzt werden.
 		for (unsigned int idx = 0; idx < eigensch->getLength(); idx++)
 		{
 			DOMElement* eigenschXml = reinterpret_cast<DOMElement*>(eigensch->item(idx));
 			CeGuiString eigName = XmlHelper::transcodeToUtf8(eigenschXml->getAttribute(ID));
-			//CeGuiString* eigenschaftName = new CeGuiString(eigName);
 			if (eigName == DsaManager::getSingleton().getEigenschaft(E_MUT)->getName()) 
 				eigName = DsaManager::getSingleton().getEigenschaft(E_MUT)->getNameAbbreviation();
 			if (eigName == DsaManager::getSingleton().getEigenschaft(E_KLUGHEIT)->getName()) 

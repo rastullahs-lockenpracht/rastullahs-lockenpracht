@@ -35,14 +35,14 @@ namespace rl
 		setWert(WERT_MOD_AU, 0);
 		setWert(WERT_MOD_MR, 0);
 		setWert(WERT_MOD_INI, 0);
-		mEigenschaften["MU"] = 0;
-		mEigenschaften["KL"] = 0;
-		mEigenschaften["IN"] = 0;
-		mEigenschaften["CH"] = 0;
-		mEigenschaften["FF"] = 0;
-		mEigenschaften["GE"] = 0;
-		mEigenschaften["KO"] = 0;
-		mEigenschaften["KK"] = 0;
+		mEigenschaften[E_MUT] = 0;
+		mEigenschaften[E_KLUGHEIT] = 0;
+		mEigenschaften[E_INTUITION] = 0;
+		mEigenschaften[E_CHARISMA] = 0;
+		mEigenschaften[E_FINGERFERTIGKEIT] = 0;
+		mEigenschaften[E_GEWANDTHEIT] = 0;
+		mEigenschaften[E_KONSTITUTION] = 0;
+		mEigenschaften[E_KOERPERKRAFT] = 0;
     }
 
 	Creature::~Creature()
@@ -350,9 +350,9 @@ namespace rl
         return rval;
     }
 
-    pair<int, int> Creature::getKampftechnik(int kampftechnikId) const
+    pair<int, int> Creature::getKampftechnik(const CeGuiString& kampftechnikName) const
     {
-        KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikId);
+        KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikName);
         if (it == mKampftechniken.end())
         {
             Throw(InvalidArgumentException, "Kampftechnik nicht gefunden.");
@@ -360,9 +360,9 @@ namespace rl
         return (*it).second;
     }
 
-    void Creature::setKampftechnik(int kampftechnikId, const pair<int, int>& value)
+    void Creature::setKampftechnik(const CeGuiString& kampftechnikName, const pair<int, int>& value)
     {
-        KampftechnikMap::iterator it = mKampftechniken.find(kampftechnikId);
+        KampftechnikMap::iterator it = mKampftechniken.find(kampftechnikName);
         if (it == mKampftechniken.end())
         {
             Throw(InvalidArgumentException, "Kampftechnik nicht gefunden.");

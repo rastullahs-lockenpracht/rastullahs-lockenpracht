@@ -112,25 +112,24 @@ void CharacterSheetWindow::updateValues()
 			StringConverter::toString(mCharacter->getEigenschaft(eig)));
 	}*/
 	mEigenschaft[0]->setText(DsaManager::getSingleton().getEigenschaft(E_MUT)->getName()
-		+": "+ mCharacter->getEigenschaft(E_MUT));
-	mEigenschaft[1]->setText(DsaManager::getSingleton().getEigenschaft(E_MUT)->getName()
-		+": "+ mCharacter->getEigenschaft(E_KLUGHEIT));
-	mEigenschaft[2]->setText(DsaManager::getSingleton().getEigenschaft(E_MUT)->getName()
-		+": "+ mCharacter->getEigenschaft(E_INTUITION));
-	mEigenschaft[3]->setText(DsaManager::getSingleton().getEigenschaft(E_MUT)->getName()
-		+": "+ mCharacter->getEigenschaft(E_CHARISMA));
-	mEigenschaft[4]->setText(DsaManager::getSingleton().getEigenschaft(E_MUT)->getName()
-		+": "+ mCharacter->getEigenschaft(E_FINGERFERTIGKEIT));
-	mEigenschaft[5]->setText(DsaManager::getSingleton().getEigenschaft(E_MUT)->getName()
-		+": "+ mCharacter->getEigenschaft(E_GEWANDTHEIT));
-	mEigenschaft[6]->setText(DsaManager::getSingleton().getEigenschaft(E_MUT)->getName()
-		+": "+ mCharacter->getEigenschaft(E_KONSTITUTION));
-	mEigenschaft[7]->setText(DsaManager::getSingleton().getEigenschaft(E_MUT)->getName()
-		+": "+ mCharacter->getEigenschaft(E_KOERPERKRAFT));
+		+": "+ StringConverter::toString(mCharacter->getEigenschaft(E_MUT)));
+	mEigenschaft[1]->setText(DsaManager::getSingleton().getEigenschaft(E_KLUGHEIT)->getName()
+		+": "+ StringConverter::toString(mCharacter->getEigenschaft(E_KLUGHEIT)));
+	mEigenschaft[2]->setText(DsaManager::getSingleton().getEigenschaft(E_INTUITION)->getName()
+		+": "+ StringConverter::toString(mCharacter->getEigenschaft(E_INTUITION)));
+	mEigenschaft[3]->setText(DsaManager::getSingleton().getEigenschaft(E_CHARISMA)->getName()
+		+": "+ StringConverter::toString(mCharacter->getEigenschaft(E_CHARISMA)));
+	mEigenschaft[4]->setText(DsaManager::getSingleton().getEigenschaft(E_FINGERFERTIGKEIT)->getName()
+		+": "+ StringConverter::toString(mCharacter->getEigenschaft(E_FINGERFERTIGKEIT)));
+	mEigenschaft[5]->setText(DsaManager::getSingleton().getEigenschaft(E_GEWANDTHEIT)->getName()
+		+": "+ StringConverter::toString(mCharacter->getEigenschaft(E_GEWANDTHEIT)));
+	mEigenschaft[6]->setText(DsaManager::getSingleton().getEigenschaft(E_KONSTITUTION)->getName()
+		+": "+ StringConverter::toString(mCharacter->getEigenschaft(E_KONSTITUTION)));
+	mEigenschaft[7]->setText(DsaManager::getSingleton().getEigenschaft(E_KOERPERKRAFT)->getName()
+		+": "+ StringConverter::toString(mCharacter->getEigenschaft(E_KOERPERKRAFT)));
 	
 	for (unsigned int row = 0; row < mTalentTable->getRowCount(); row++)
 	{
-		// TalentID ist bei der Namenszelle jeweils als user_id hinterlegt
 		int tw = mCharacter->getTalent(
 			mTalentTable->getItemAtGridReference(MCLGridRef(row, 0))->getText());
 

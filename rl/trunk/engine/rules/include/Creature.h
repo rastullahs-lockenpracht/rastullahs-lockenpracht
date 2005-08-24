@@ -50,7 +50,7 @@ namespace rl
 	const int SF_MAX_VALUE = 2;
 	static const int SF_IN_TRAINING = 0;
 	static const int SF_OK = 1;
-	static const int SF_PREREQ_NOT_MET = 2; /// @todo Wird das überhaupt gebraucht?
+	static const int SF_PREREQ_NOT_MET = 2; /// @todo Wird das ueberhaupt gebraucht?
 
     /**
     * @brief Basisklasse aller spielrelevanten Objekte in RL.
@@ -83,7 +83,17 @@ namespace rl
 
     public:
 		typedef map<int, int> WertMap;
+		/**
+		 *  @brief Liste der guten Eigenschaften.
+		 *  Besteht aus dem Abkuerzung der Eigenschaft (z.B. MU, KL) als 
+		 *  Schluessel und ihrem Wert.
+		 **/
 		typedef map<CeGuiString, int> EigenschaftMap;
+		/**
+		 *  @brief Liste der Talente.
+		 *  Besteht aus den Namen der Talente (z.B. Athletik) als
+		 *  Schluessel und ihrem Wert.
+		 **/
 		typedef map<CeGuiString, int> TalentMap;
 		/**
 		 *  @brief Liste der Kampftechniken und ihrer AT/PA Werte.\n
@@ -92,9 +102,10 @@ namespace rl
 		 *  Der erste Wert entspricht der ID der Kampftechnik, das pair
 		 *  den AT und PA Werten.
 		 **/
-        typedef map<int, pair<int, int> > KampftechnikMap;
+        typedef map<CeGuiString, pair<int, int> > KampftechnikMap;
 		/** @brief Die Sonderfertigkeiten der Kreatur
-		 *  Der erste Wert steht fuer die sfId, der zweite fuer den Status \n
+		 *  Besteht aus dem Namen der Sonderfertigkeit als Schluessel
+		 *  und ihrem Status: \n
 		 *  SF_LEARNING \n
 		 *	SF_OK \n
 		 *	SF_PREREQ_NOT_MET \n
@@ -108,8 +119,31 @@ namespace rl
 		        
         virtual ~Creature();
 
+		/**
+		 *  @brief Liefert den Wert der Eigenschaft eigenschaftName zurueck.
+		 *  @param eigenschaftName Der Name al Abkuerzung (z.B. MU, FF, etc.).
+		 *  @return Der Wert der Eigenschaft.
+		 *  @exception InvalidArgumentException Die Eigenschaft konnte nicht
+		 *  gefunden werden (Name ausgeschrieben statt abgekuerzt? 
+		 *  Groß/Kleinschreibung beachtet?).
+		 **/
         virtual int getEigenschaft(const CeGuiString& eigenschaftName) const;
+		/**
+		 *  @brief Setzt den Wert der Eigenschaft eigenschaftName auf value.
+		 *  @param eigenschaftName Der Name al Abkuerzung (z.B. MU, FF, etc.).
+		 *  @param value Der Wert auf den die Eigenschaft gesetzt werden soll.
+		 *  @exception InvalidArgumentException Die Eigenschaft konnte nicht
+		 *  gefunden werden (Name ausgeschrieben statt abgekuerzt? 
+		 *  Groß/Kleinschreibung beachtet?).
+		 **/
         virtual void setEigenschaft(const CeGuiString& eigenschaftName, int value);
+		/** @brief Addiert mod auf den Wert der Eigenschaft eigenschaftName.
+		 *  @param eigenschaftName Der Name al Abkuerzung (z.B. MU, FF, etc.).
+		 *  @param mod Wird auf den Wert addiert (kann auch negativ sein).
+		 *  @exception InvalidArgumentException Die Eigenschaft konnte nicht
+		 *  gefunden werden (Name ausgeschrieben statt abgekuerzt? 
+		 *  Groß/Kleinschreibung beachtet?).
+		 **/
         virtual void modifyEigenschaft(const CeGuiString& eigenschaftName, int mod);
 
 		/** @brief liefert die AT und PA Werte in einer bestimmten Kampftechnik
@@ -119,14 +153,14 @@ namespace rl
 		 *  @exception InvalidArgumentException kampftechnikId konnte nicht in 
 		 *    mKampftechniken gefunden werden.
 		 */
-        virtual pair<int, int> getKampftechnik(int kampftechnikId) const;
+        virtual pair<int, int> getKampftechnik(const CeGuiString& kampftechnikName) const;
 		/** @brief Setzt die AT und PA Werte in einer bestimmten Kampftechnik.
 		 *  @param kampftechnikId Bestimmt die zu setzende Kampftechnik.
 		 *  @param value Die neuen AT/PA Werte.
 		 *  @exception InvalidArgumentException Die Kampftechnik kampftechnikId
 		 *    konnte nicht gefunden werden.
 		 */
-        virtual void setKampftechnik(int kampftechnikId, const pair<int, int>& value);
+        virtual void setKampftechnik(const CeGuiString& kampftechnikName, const pair<int, int>& value);
 
 		/** @brief Fuegt das Talent talentName zu mTalente hinzu.
 		 *  Das neue Talent wird mit TaW 0 initialisiert
@@ -159,21 +193,21 @@ namespace rl
 		virtual const Creature::TalentMap& getAllTalents() const;
 		/** @brief Markiert ein Talent mit einer Speziellen Erfahrung (SE).
 		 * Siehe Spezielle Erfahrungen, MFF 47
-		 * @param talentName Bezeichnet das Talent un dem die SE erhalten wurde.
+		 * @param talentName Bezeichnet das Talent in dem die SE erhalten wurde
 		 */
 		virtual void addSe(const CeGuiString& talentName);
 
 		/** @brief Fuegt der Kreatur eine Sonderfertigkeit(SF) hinzu.
 		 *  Der Wert wird auf 0 gesetzt (nicht gelernt, in Ausbildung).
 		 *  @param sfId Bezeichnet die SF.
-		 *  @exception InvalidArgumentException sfId kann nicht gefunden
+		 *  @exception InvalidArgumentException sfName kann nicht gefunden
 		 *    werden.
 		 */
 		virtual void addSf(const CeGuiString& sfName);
-		/** @brief Liefert den Wert der Sonderfertigkeit(SF) zurück.
+		/** @brief Liefert den Wert der Sonderfertigkeit(SF) zurueck.
 		 *  @sa SonderfertigkeitMap
 		 *  @param sfId Bezeichnet die SF
-		 *  @exception InvalidArgumentException sfId kann nicht in 
+		 *  @exception InvalidArgumentException sfName kann nicht in 
 		 *    mSonderfertigkeiten gefunden werden.
 		 */
 		virtual int getSf(const CeGuiString& sfName) const;
@@ -185,7 +219,7 @@ namespace rl
 		 *    soll.
 		 *  @exception OutOfRangeException value ist kleiner als
 		 *    SF_MIN_VALUE oder groesser als SF_MAX_VALUE.
-		 *  @exception InvalidArgumentException sfId kann nicht in 
+		 *  @exception InvalidArgumentException sfName kann nicht in 
 		 *    mSonderfertigkeiten gefunden werden.
 		 */
 		virtual void setSf(const CeGuiString& sfName, int value);
