@@ -30,11 +30,21 @@ namespace rl {
 
 	ParticleSystem* ParticleSystemObject::getParticleSystem()
 	{
-		return reinterpret_cast<ParticleSystem*>(mMovableObject);
+		return static_cast<ParticleSystem*>(mMovableObject);
 	}
 
 	String ParticleSystemObject::getObjectType()
 	{
 		return "ParticleSystemObject";
+	}
+
+	void ParticleSystemObject::setActive(bool active)
+	{
+		ParticleSystem* part = getParticleSystem();
+		unsigned int numEmitters = part->getNumEmitters();
+		for (unsigned int emitterIdx = 0; emitterIdx < numEmitters; emitterIdx++)
+		{
+			part->getEmitter(emitterIdx)->setEnabled(active);
+		}
 	}
 }

@@ -33,9 +33,9 @@ namespace rl {
         /// Nur schon gebrauchsfertig gecastet.
         Ogre::ParticleSystem* getParticleSystem();
 
-        virtual Ogre::String getObjectType();
-        
+		void setActive(bool active);
 
+        virtual Ogre::String getObjectType();
     };
 }
 #endif
