@@ -100,7 +100,11 @@ namespace rl
 	}
 
 	void Console::write(String output)
-	{
+	{        
+        if( StringUtil::endsWith( output, "\n" ) )
+            output = output.substr( 0, output.length() - 1 );
+        StringUtil::trim( output, false, true );
+
         CeGuiString temp = CeGuiString(output);		
 		appendTextRow(temp, 0xFF7F7F7F);
 		CoreSubsystem::getSingleton().log(Ogre::LML_NORMAL, output);
