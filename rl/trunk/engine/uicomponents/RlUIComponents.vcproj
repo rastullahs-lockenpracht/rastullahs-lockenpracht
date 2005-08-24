@@ -172,23 +172,23 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
 			<File
-				RelativePath="..\..\..\rl_public_svn\rl\trunk\engine\uicomponents\include\ListboxImageItem.h">
+				RelativePath=".\include\ListboxImageItem.h">
 			</File>
 			<File
-				RelativePath="..\..\..\rl_public_svn\rl\trunk\engine\uicomponents\include\ListboxWrappedTextItem.h">
+				RelativePath=".\include\ListboxWrappedTextItem.h">
 			</File>
 			<File
-				RelativePath="..\..\..\rl_public_svn\rl\trunk\engine\uicomponents\include\UiComponentsPrerequisites.h">
+				RelativePath=".\include\UiComponentsPrerequisites.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
-				RelativePath="..\..\..\rl_public_svn\rl\trunk\engine\uicomponents\src\ListboxImageItem.cpp">
+				RelativePath=".\src\ListboxImageItem.cpp">
 			</File>
 			<File
-				RelativePath="..\..\..\rl_public_svn\rl\trunk\engine\uicomponents\src\ListboxWrappedTextItem.cpp">
+				RelativePath=".\src\ListboxWrappedTextItem.cpp">
 			</File>
 		</Filter>
 		<Filter

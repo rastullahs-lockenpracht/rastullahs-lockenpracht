@@ -21,7 +21,7 @@
 namespace CEGUI {
 
 ListboxImageItem::ListboxImageItem(const Image* image, uint item_id, void* item_data, bool disabled, bool auto_delete)
-: ListboxItem("aaa", item_id, item_data, disabled, auto_delete)
+: ListboxItem("", item_id, item_data, disabled, auto_delete)
 {
 	d_image = image;
 }
