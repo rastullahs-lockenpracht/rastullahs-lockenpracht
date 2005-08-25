@@ -20,7 +20,4 @@ noinst_HEADERS = \
 	TargetSelectionWindow.h \
 	UiPrerequisites.h \
 	UiSubsystem.h \
-	WindowManager.h \
-	../components/include/ListboxWrappedTextItem.h \
-	../components/include/ListboxImageItem.h
-	
+	WindowManager.h 

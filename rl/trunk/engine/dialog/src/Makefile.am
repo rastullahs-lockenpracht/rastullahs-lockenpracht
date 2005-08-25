@@ -1,7 +1,7 @@
-INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(STLPORT_CFLAGS) -I../include -I../../common/include -I../../ui/include -I../../core/include
+INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(STLPORT_CFLAGS) -I../include -I../../common/include -I../../ui/include -I../../core/include
 
 lib_LTLIBRARIES = libRlDialog.la
-libRlDialog_la_LDFLAGS = $(RUBY_LIBS) $(OGRE_LIBS) $(LIBS) 
+libRlDialog_la_LDFLAGS = $(RUBY_LIBS) $(OGRE_LIBS) $(LIBS) $(CEGUI_LIBS) 
 libRlDialog_la_SOURCES = \
 	AimlParser.cpp \
 	AimlProcessorManager.cpp \
