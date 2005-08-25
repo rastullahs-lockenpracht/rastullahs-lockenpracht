@@ -8,42 +8,33 @@ require 'globals.rb'
 require 'actions.rb'
 require 'items.rb'
 
-class OpenChestAction < RubyAction
+class OpenContainerAction < RubyAction
   def initialize
-    super("openchest", "Truhe öffnen");
+    super("opencontainer", "Öffnen");
   end
 
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
-  def canDo(chest, user)
-    not chest.isOpen();
+  def canDo(container, user)
+    not container.isOpen();
   end
 
-  def doAction(chest, user, target)
-    chestActor = chest.getActor();
-    chestActor.getControlledObject().replaceAnimation("zu", "auf", 1.0, 1);
-    knarzActor = chestActor.getChildByName(chestActor.getName()+"_knarzen");
-    knarzActor.getControlledObject().play(0);
-    chest.setOpen( true);
-    $UI.showContainerContent(chest);
+  def doAction(container, user, target)
+    container.open()
   end
 end
 
-class CloseChestAction < RubyAction
+class CloseContainerAction < RubyAction
   def initialize
-    super("closechest", "Truhe schließen");
+    super("closecontainer", "Schließen");
   end
 
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
-  def canDo(chest, user)
-    chest.isOpen();
+  def canDo(container, user)
+    container.isOpen();
   end
 
-  def doAction(chest, user, target)
-    chestActor = chest.getActor();
-    chestActor.getControlledObject.replaceAnimation("auf", "zu", 1.0, 1);
-    knarzActor = chestActor.getChildByName(chestActor.getName()+"_knarzen");
-    knarzActor.getControlledObject().play(0);
-    chest.setOpen( false);
+  def doAction(container, user, target)
+    container.close()
   end
 end
 
@@ -61,8 +52,8 @@ class Chest < Container
 
     @mOpen = isOpen;
 
-    addAction(OpenChestAction.new);
-    addAction(CloseChestAction.new);
+    addAction(OpenContainerAction.new);
+    addAction(CloseContainerAction.new);
     $CORE.log("truhe.rb - Aktionen hinzugefuegt.");
   end
   
@@ -74,9 +65,22 @@ class Chest < Container
   def isOpen( )
     @mOpen;
   end
+  
+  def open()
+    chestActor = getActor();
+    chestActor.getControlledObject().replaceAnimation("zu", "auf", 1.0, 1);
+    knarzActor = chestActor.getChildByName(chestActor.getName()+"_knarzen");
+    knarzActor.getControlledObject().play(0);
+    setOpen( true);
+    $UI.showContainerContent(self);
+  end
 
   def close()
-    doAction("closechest")
+    chestActor = getActor();
+    chestActor.getControlledObject.replaceAnimation("auf", "zu", 1.0, 1);
+    knarzActor = chestActor.getChildByName(chestActor.getName()+"_knarzen");
+    knarzActor.getControlledObject().play(0);
+    setOpen( false);
   end
 end
 

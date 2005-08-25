@@ -153,3 +153,14 @@ class ShowTargetWindowAction < RubyAction
   end
 end
 
+class ShowObjectDescriptionWindow < RubyAction
+  def initialize
+    super("showdescription", "Anschauen")
+  end
+  
+  def doAction(object, actor, target)
+    $UI.showDescriptionWindow(object)
+  end
+end
+
+ActionManager.getSingleton().registerAction(ShowObjectDescriptionWindow.new())
