@@ -6,6 +6,7 @@
 	ProjectGUID="{D3185FC6-9384-431A-A237-80284F859B21}"
 	RootNamespace="RlCommon"
 	Keyword="Win32Proj"
+	SignManifests="true"
 	>
 	<Platforms>
 		<Platform
@@ -156,92 +157,6 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				ImportLibrary="$(OutDir)/RlCommon.lib"
-				TargetMachine="1"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Debug+DepRelease|Win32"
-			OutputDirectory="./lib/$(ConfigurationName)"
-			IntermediateDirectory="./obj/$(ConfigurationName)"
-			ConfigurationType="2"
-			InheritedPropertySheets="UpgradeFromVC71.vsprops"
-			CharacterSet="2"
-			ManagedExtensions="0"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\cegui\include;..\..\dependencies\xerces\include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;RLCOMMON_EXPORTS"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
-				UsePrecompiledHeader="0"
-				AssemblerListingLocation=".\obj\$(ConfigurationName)/"
-				ObjectFile=".\obj\$(ConfigurationName)/"
-				GenerateXMLDocumentationFiles="false"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
-				DebugInformationFormat="4"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib xerces-c_2.lib"
-				OutputFile="./lib/$(ConfigurationName)/RlCommon.dll"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui\lib\$(PlatformName)\$(ConfigurationName)&quot;;..\..\dependencies\cegui\lib\"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/RlCommon.pdb"
-				SubSystem="2"
 				ImportLibrary="$(OutDir)/RlCommon.lib"
 				TargetMachine="1"
 			/>

@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="RlUiComponents"
 	ProjectGUID="{ED15F1B3-8B3B-40D1-8F56-5399B2E5E851}"
+	SignManifests="true"
 	>
 	<Platforms>
 		<Platform
@@ -82,7 +83,7 @@
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="CEGUIBase_d.lib"
 				ShowProgress="0"
-				OutputFile="./lib/debug/RlUiComponents.dll"
+				OutputFile="$(OutDir)/RlUiComponents.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogre\Samples\Common\CEGUIRenderer\lib;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\cegui\lib;&quot;..\..\dependencies\ogre\dependencies\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreODE\lib\$(ConfigurationName)&quot;;..\..\dependencies\boost\lib;..\..\dependencies\ogg\win32;..\..\dependencies\xerces\lib"
@@ -156,7 +157,7 @@
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				AdditionalIncludeDirectories=".\include;.\components\include;..\common\include;..\dialog\include;..\core\include;..\sound\include;..\rules\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogre\OgreOde\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\ogre\PlugIns\GuiElements\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\OpenAL\Include;..\..\dependencies\cegui\include;..\..\dependencies\boost\include;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include;..\..\dependencies\xerces\include"
-				PreprocessorDefinitions="NDEBUG,_WINDOWS,WIN32,RLUI_EXPORTS"
+				PreprocessorDefinitions="NDEBUG,_WINDOWS,WIN32,RLUICOMPONENTS_EXPORT"
 				StringPooling="false"
 				ExceptionHandling="1"
 				RuntimeLibrary="2"
@@ -188,7 +189,7 @@
 				IgnoreImportLibrary="true"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="CEGUIBase.lib"
-				OutputFile="./lib/release/RlUiComponents.dll"
+				OutputFile="$(OutDir)/RlUiComponents.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogre\Samples\Common\CEGUIRenderer\lib;&quot;..\..\dependencies\ogre\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\cegui\lib;&quot;..\..\dependencies\ogre\dependencies\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreODE\lib\$(ConfigurationName)&quot;;..\..\dependencies\boost\lib;..\..\dependencies\ogg\win32;..\..\dependencies\xerces\lib"
@@ -230,11 +231,11 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath=".\include\ListboxWrappedTextItem.h"
+				RelativePath=".\include\ListboxImageItem.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\ListboxImageItem.h"
+				RelativePath=".\include\ListboxWrappedTextItem.h"
 				>
 			</File>
 		</Filter>
@@ -243,11 +244,11 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath=".\src\ListboxWrappedTextItem.cpp"
+				RelativePath=".\src\ListboxImageItem.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\ListboxImageItem.cpp"
+				RelativePath=".\src\ListboxWrappedTextItem.cpp"
 				>
 			</File>
 		</Filter>

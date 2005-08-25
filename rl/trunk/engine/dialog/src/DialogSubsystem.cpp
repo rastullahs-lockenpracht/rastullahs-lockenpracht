@@ -14,7 +14,10 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 #include <xercesc/sax2/SAX2XMLReader.hpp>
+#include <xercesc/sax2/DefaultHandler.hpp>
 #include <xercesc/sax2/XMLReaderFactory.hpp>
+#include <xercesc/dom/DOM.hpp>
+
 #include "AimlProcessorManager.h"
 #include "DialogSubsystem.h"
 
@@ -68,9 +71,125 @@ namespace rl
     {  
 
     }
+/*
+	DOMDocument* DialogSubsystem::createDOMDocumentFromFile(const std::string& fileName)
+	{
+		XercesDOMParser* parser = new XercesDOMParser();
+				
+		try
+		{	
+			XmlPtr res;
+			if(XmlResourceManager::getSingleton().getByName(fileName).isNull())
+			{
+				res = XmlResourceManager::getSingleton().create(
+						fileName, 
+						ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+			}
+			else
+			{
+				res = XmlResourceManager::getSingleton().getByName(fileName);
+			}
+			res.getPointer()->parseBy(parser);
+		}
+		catch(const XERCES_CPP_NAMESPACE::SAXParseException &exc)
+		{
+			// get & log xerces error message
+			char* excmsg = XMLString::transcode(exc.getMessage());
+			std::string excs="Exception while Parsing: ";
+			excs+=excmsg;
+			log(Ogre::LML_TRIVIAL, excs);
+			// cleanup
+			if(parser)delete parser;
+		//	if(xmlHandler)delete xmlHandler;
+			throw (exc);
+		}
+		DOMDocument* doc = parser->adoptDocument();
+		if(parser)delete parser;
+		return doc;
+	}
+*/
+	void DialogSubsystem::loadBot(const std::string& fileName)
+	{
+		loadBot(fileName, "");
+	}
+
+	void DialogSubsystem::loadBot(const std::string& fileName, const std::string& botName)
+	{
+		DOMDocument* doc;// = createDOMDocumentFromFile(fileName);
+
+		if ( doc != NULL ) 
+		{
+			//  get the content of DOMDocument
+			DOMElement* node = doc->getDocumentElement();	
+			if(node != NULL)
+			{
+				DOMElement* bot = XmlHelper::getChildNamed(node, "bot");
+				if(!botName.empty())
+				{
+					//load this bot
+					node = XmlHelper::getChildNamed(bot, "script");
+					// do script stuff
+					//learn Aiml
+					DOMNodeList* learnAiml = bot->getElementsByTagName(XMLString::transcode("learn"));
+					for (unsigned int i = 0; i < learnAiml->getLength(); ++i)
+					{
+						if(learnAiml->item(i)->getNodeType() == DOMNode::ELEMENT_NODE)
+						{
+							CeGuiString fileName = XmlHelper::getAttributeValueAsString(
+								static_cast<DOMElement*>(learnAiml->item(i)), 
+														"src");
+							loadAimlFile(fileName.c_str());
+						}
+						else
+						{
+							if(learnAiml->item(i)->getFirstChild()->getNodeType() == DOMNode::TEXT_NODE )
+							{
+							}
+						}
+					}
+				}
+				else
+				{
+					DOMNodeList* bots = node->getElementsByTagName(XMLString::transcode("bot"));
+					for (unsigned int i = 0; i < bots->getLength(); ++i)
+					{
+						if(bots->item(i)->getNodeType()  == DOMNode::ELEMENT_NODE )
+						{
+							static_cast<DOMElement*>(bots->item(i));
+						}
+						/*
+						if(std::string(XmlHelper::getAttributeValueAsString(
+							bots->item(i),
+							XMLString::transcode("name")) == botName)
+						{
+						}
+						*/
+					}
+				}
+				
+	/*
+				for (	node = node->getFirstChild(); 
+						node != NULL; 
+						node = node->getNextSibling() )
+				{
+
+				}
+				*/
+			}
+			doc->release();
+			doc = NULL;
+			node = NULL;
+		}
+		
+		
+
+
+	}
 
 	void DialogSubsystem::log(const Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident)
 	{
 		Logger::getSingleton().log(level, "Dialog", msg, ident);
 	}
+
+	
 }

@@ -541,26 +541,26 @@ namespace rl {
 			xmlch = key->getAttribute(NORMAL);
 			if (xmlch != NULL && XMLString::stringLen(xmlch) > 0)
 			{
-				CeGuiString s(XmlHelper::transcodeToCeGuiString(xmlch)); 
+				CeGuiString s(XmlHelper::transcodeToString(xmlch)); 
 				mKeyMapNormal.insert(make_pair(keycode, s[0]));
 			}
 
 			xmlch = key->getAttribute(ALT);
 			if (xmlch != NULL && XMLString::stringLen(xmlch) > 0)
 			{
-				CeGuiString s(XmlHelper::transcodeToCeGuiString(xmlch)); 
+				CeGuiString s(XmlHelper::transcodeToString(xmlch)); 
 				mKeyMapAlt.insert(make_pair(keycode, s[0]));
 			}
 
 			xmlch = key->getAttribute(SHIFT);
 			if (xmlch != NULL && XMLString::stringLen(xmlch) > 0)
 			{
-				CeGuiString s(XmlHelper::transcodeToCeGuiString(xmlch)); 
+				CeGuiString s(XmlHelper::transcodeToString(xmlch)); 
 				mKeyMapShift.insert(make_pair(keycode, s[0]));
 			}
 
 			xmlch = key->getAttribute(DESCR);
-			mKeyNames.insert(make_pair(keycode, XmlHelper::transcodeToCeGuiString(xmlch)));
+			mKeyNames.insert(make_pair(keycode, XmlHelper::transcodeToString(xmlch)));
 		}
 
 		XMLString::release(&ALT);

@@ -60,14 +60,13 @@ namespace rl
 		gespeichert, so dass die templates nicht nochmal extra auseinandergenommen werden müssen.
 		Dann erspart man sich auch das ständige ISO-gebimsel, IMHO.
 		Graphmaster: Matched. Nodemaster: Enthält AIML-Nodes, bzw. ist eine AIML-Node. 
-		Wozu master? Master=Mapper laut AIMLParer-Draft. Nodemapper hat string zur Erkennung
+		Wozu master? Master=Mapper laut AIMLParser-Draft. Nodemapper hat string zur Erkennung
 		der seinen "PATH" angibt, und eine AIMLNode, die eigentlich eine DOMNode ist.
 		Nach dem Laden einer AIML-File wird adoptDocument gemacht, der parser gelöscht und die 
 		file im resourceManager wieder ungeloaded. Das DOM-Document im Speicher wird traversiert
 		und an schlüsselstellen werden referenzen auf templates hinterlassen. allerdings muss
 		dann noch eine abbruch-bedingung implementiert werden beim processing, damit nicht auf
 		einmal aus versehen durch das ganze Dokument traversiert wird.
-
 	*/
 /*	
 	NaturalLanguageProcessor::NaturalLanguageProcessor(std::string botName): mExit(false)
@@ -139,7 +138,7 @@ namespace rl
 
 	const static string ISO="<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>";
 
-	NaturalLanguageProcessor::NaturalLanguageProcessor(std::string filename): 
+	NaturalLanguageProcessor::NaturalLanguageProcessor(const std::string& filename): 
 		mGm(NULL),
 		mExit(false)
 	{	
@@ -212,7 +211,7 @@ namespace rl
 		string that = "*";	//  since we do the sentence work, not Predicate
 	
 	//  clear last responses
-		mResponses.clear();
+		mCurrentResponses.clear();
 
 		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Matching...");
 		Match *m = mGm->match(context, input, that, topic);
@@ -261,13 +260,13 @@ namespace rl
 				string nodeName=AimlParser::transcodeXmlCharToString(node->getNodeName());
 				if(!nodeName.compare("li"))
 				{
-					id=XmlHelper::getAttributeValueAsInteger( (DOMElement*)node, XMLString::transcode("id") );
+					id = XmlHelper::getAttributeValueAsInteger( (DOMElement*)node, "id" );
 				}
 			}
 			if ( node->getNodeType() == DOMNode::TEXT_NODE )
 			{
 				string dialogChoice=AimlParser::transcodeXmlCharToString( node->getNodeValue());//((DOMText*)node)->getData());
-				mResponses[id]=dialogChoice;
+				mCurrentResponses[id]=dialogChoice;
 				DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, dialogChoice);
 				id=0;
 			}
@@ -275,7 +274,7 @@ namespace rl
 
 		if(parser)delete parser;
 		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Return response");
-		return mResponses;
+		return mCurrentResponses;
 	}
 
 	/** Processes option tags from startup xml-file
@@ -438,11 +437,11 @@ namespace rl
 		} // end for-loop
 		return result;
 	}
-	void NaturalLanguageProcessor::setName(string name)
+	void NaturalLanguageProcessor::setName(const std::string& name)
 	{
-		mName=name;
+		mName = name;
 	}
-	string NaturalLanguageProcessor::getName() 
+	const std::string& NaturalLanguageProcessor::getName() const 
 	{
 		return mName;
 	}

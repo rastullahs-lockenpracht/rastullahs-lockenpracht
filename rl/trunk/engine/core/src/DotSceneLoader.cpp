@@ -112,10 +112,12 @@ namespace rl {
 		while( child != NULL )
 		{
 			// Ein Node
-			if( XMLString::compareIString(child->getNodeName(), 
-				XMLString::transcode("node") ) == 0  )
+			XMLCh* nodeTag = XMLString::transcode("node");
+			if( XMLString::compareIString(child->getNodeName(), nodeTag) == 0  )
+			{
 				processNode( reinterpret_cast<DOMElement*>(child) , parentNode );
-			
+			}
+			XMLString::release(&nodeTag);
 			child = child->getNextSibling();
 		} 
 	}
@@ -129,7 +131,7 @@ namespace rl {
 			Throw( NullPointerException, "parentNode darf nicht null sein" );
 
 		string nodeName = XmlHelper::getAttributeValueAsString( rootNodeXml, 
-			XMLString::transcode("name") );
+			"name" ).c_str();
 		
 		Ogre::SceneNode* newNode;
 		// Wurde dem Node ein Name zugewiesen
@@ -174,16 +176,16 @@ namespace rl {
 	void DotSceneLoader::processEntity( DOMElement* rootEntityXml, Ogre::SceneNode* parentNode )
 	{
 		string entName = XmlHelper::getAttributeValueAsString( 
-			rootEntityXml, XMLString::transcode("entity") );
+			rootEntityXml, "entity" ).c_str();
 		string meshName = XmlHelper::getAttributeValueAsString( 
-			rootEntityXml, XMLString::transcode("meshFile") );
+			rootEntityXml, "meshFile" ).c_str();
 
 		Ogre::Entity* newEnt = NULL;
 		// Wurde der Entity ein Name zugewiesen
 		if( entName.length() == 0 )
 			entName = getNextEntityName(mSceneName+"_"+parentNode->getName());
 
-		newEnt = mSceneManager->createEntity(entName,meshName);				
+		newEnt = mSceneManager->createEntity(entName, meshName);				
 		parentNode->attachObject( newEnt );
 
 		CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Entity '"+meshName+"' mit dem Namen '"+entName+"' in den Knoten '"+parentNode->getName()+"' eingefügt." );
@@ -248,9 +250,9 @@ namespace rl {
 		try
 		{
 			return Ogre::Vector3( 
-				XmlHelper::getAttributeValueAsReal( rootPositionXml, XMLString::transcode("x") ),
-				XmlHelper::getAttributeValueAsReal( rootPositionXml, XMLString::transcode("y") ),
-				XmlHelper::getAttributeValueAsReal( rootPositionXml, XMLString::transcode("z") ) );;
+				XmlHelper::getAttributeValueAsReal( rootPositionXml, "x" ),
+				XmlHelper::getAttributeValueAsReal( rootPositionXml, "y" ),
+				XmlHelper::getAttributeValueAsReal( rootPositionXml, "z" ) );;
 		}
 		catch(...) {}
 
@@ -265,9 +267,9 @@ namespace rl {
 		try
 		{
 			return Ogre::Vector3( 
-				XmlHelper::getAttributeValueAsReal( rootPositionXml, XMLString::transcode("x") ),
-				XmlHelper::getAttributeValueAsReal( rootPositionXml, XMLString::transcode("y") ),
-				XmlHelper::getAttributeValueAsReal( rootPositionXml, XMLString::transcode("z") ) );
+				XmlHelper::getAttributeValueAsReal( rootPositionXml, "x" ),
+				XmlHelper::getAttributeValueAsReal( rootPositionXml, "y" ),
+				XmlHelper::getAttributeValueAsReal( rootPositionXml, "z" ) );
 		}
 		catch(...) {}
 
@@ -283,10 +285,10 @@ namespace rl {
 		try
 		{
 			return Ogre::Quaternion( 
-				XmlHelper::getAttributeValueAsReal( rootQuatXml, XMLString::transcode("qw") ),
-				XmlHelper::getAttributeValueAsReal( rootQuatXml, XMLString::transcode("qx") ),
-				XmlHelper::getAttributeValueAsReal( rootQuatXml, XMLString::transcode("qy") ),
-				XmlHelper::getAttributeValueAsReal( rootQuatXml, XMLString::transcode("qz") ) );
+				XmlHelper::getAttributeValueAsReal( rootQuatXml, "qw" ),
+				XmlHelper::getAttributeValueAsReal( rootQuatXml, "qx" ),
+				XmlHelper::getAttributeValueAsReal( rootQuatXml, "qy" ),
+				XmlHelper::getAttributeValueAsReal( rootQuatXml, "qz" ) );
 		}
 		catch(...) {}
 
@@ -294,11 +296,11 @@ namespace rl {
 		try
 		{
 			return Ogre::Quaternion( Ogre::Radian( XmlHelper::getAttributeValueAsReal( 
-				rootQuatXml, XMLString::transcode("angle") ) ),
+				rootQuatXml, "angle" ) ),
 				Ogre::Vector3(
-				XmlHelper::getAttributeValueAsReal( rootQuatXml, XMLString::transcode("axisX") ),
-				XmlHelper::getAttributeValueAsReal( rootQuatXml, XMLString::transcode("axisY") ),
-				XmlHelper::getAttributeValueAsReal( rootQuatXml, XMLString::transcode("axisZ") )) );
+				XmlHelper::getAttributeValueAsReal( rootQuatXml, "axisX" ),
+				XmlHelper::getAttributeValueAsReal( rootQuatXml, "axisY" ),
+				XmlHelper::getAttributeValueAsReal( rootQuatXml, "axisZ" )) );
 		}
 		catch(...) {}
 

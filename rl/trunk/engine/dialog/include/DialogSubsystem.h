@@ -20,13 +20,14 @@
 #include <OgreSingleton.h>
 
 #include "DialogPrerequisites.h"
+#include "AimlCoreComponent.h"
 
 namespace rl
 {
-	/** Initialise ans manage everything for using dialogs
-	 *  @author Philipp Walser
-	*/
-	class _RlDialogExport DialogSubsystem: public Ogre::Singleton<DialogSubsystem>
+	/// Initialises and manages everything for using dialogs
+	class _RlDialogExport DialogSubsystem : 
+		public AimlCoreComponent,
+		public Ogre::Singleton<DialogSubsystem>
 	{
 	public:
 		static DialogSubsystem & getSingleton(void);
@@ -34,10 +35,12 @@ namespace rl
 
 		DialogSubsystem();
 		virtual ~DialogSubsystem();
-
+		
+		
+		void loadBot(const std::string& fileName);
+		void loadBot(const std::string& fileName, const std::string& botName);
 		void log(const Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident = "");
-	private:
-		Ogre::Log* mLog;
+
 	};
 }
 #endif

@@ -16,8 +16,6 @@
 
 #include <xercesc/dom/DOM.hpp>
 
-
-
 #include "XmlHelper.h"
 #include "Exception.h"
 
@@ -36,7 +34,7 @@ void XmlHelper::initializeTranscoder()
 	XmlHelper::sTranscoder = XMLPlatformUtils::fgTransService->makeNewTranscoderFor(XMLRecognizer::UTF_8, XmlHelper::sFailCode, 16*1024);
 }
 
-DOMElement* XmlHelper::getChildNamed(DOMElement* parent, const char* name)
+DOMElement* XmlHelper::getChildNamed(DOMElement* parent, const char* const name)
 {
 	if( parent == NULL )
 		Throw( NullPointerException, "parent darf nicht NULL sein" );
@@ -62,9 +60,9 @@ DOMElement* XmlHelper::getChildNamed(DOMElement* parent, const char* name)
 	return rval;
 }
 
-char* XmlHelper::getValueAsString(DOMElement* element)
+CeGuiString XmlHelper::getValueAsString(DOMElement* element)
 {
-	return XMLString::transcode(element->getFirstChild()->getNodeValue());
+	return transcodeToString( element->getFirstChild()->getNodeValue() );
 }
 
 utf8* XmlHelper::getValueAsUtf8(DOMElement* element)
@@ -72,24 +70,46 @@ utf8* XmlHelper::getValueAsUtf8(DOMElement* element)
 	return XmlHelper::transcodeToUtf8(element->getFirstChild()->getNodeValue());
 }
 
-int XmlHelper::getAttributeValueAsInteger(DOMElement* element,XMLCh* name)
+int XmlHelper::getAttributeValueAsInteger(DOMElement* element,const char* const name)
 {
-	return XMLString::parseInt(element->getAttribute(name));
+	XMLCh* attrName = XMLString::transcode(name);
+	int rVal = XMLString::parseInt(element->getAttribute(attrName));
+	XMLString::release(&attrName);
+	return rVal;
 }
 
-Ogre::Real XmlHelper::getAttributeValueAsReal(DOMElement* element,XMLCh* name)
+Ogre::Real XmlHelper::getAttributeValueAsReal(DOMElement* element,const char* const name)
 {
-	return Ogre::StringConverter::parseReal( XMLString::transcode(element->getAttribute(name)) );
+	XMLCh* attrName = XMLString::transcode(name);
+	Ogre::Real rVal = Ogre::StringConverter::parseReal(
+		transcodeToString(element->getAttribute(attrName)).c_str() );
+	XMLString::release(&attrName);
+	return rVal;
 }
 
-char* XmlHelper::getAttributeValueAsString(DOMElement* element,XMLCh* name)
+CeGuiString XmlHelper::getAttributeValueAsString(DOMElement* element, const char* const name)
 {
-	return XMLString::transcode(element->getAttribute(name));
+	XMLCh* attrName = XMLString::transcode(name);
+	CeGuiString rVal(transcodeToString(element->getAttribute(attrName)));
+	XMLString::release(&attrName);
+	return rVal;
 }
 
-bool XmlHelper::getAttributeValueAsBool(DOMElement* element,XMLCh* name)
+CeGuiString XmlHelper::getAttributeValueAsString(XERCES_CPP_NAMESPACE::Attributes* attributes, const char* const name)
 {
-	if( XMLString::compareIString(getAttributeValueAsString(element, name),"true") == 0  )
+	XMLCh* attrName = XMLString::transcode(name);
+	const XMLCh* valStr = attributes->getValue(attrName);
+	XMLString::release(&attrName);
+	if(valStr != NULL)
+	{
+		return transcodeToString(valStr);
+	}
+	return CeGuiString();
+}
+
+bool XmlHelper::getAttributeValueAsBool(DOMElement* element,const char* const name)
+{
+	if( XMLString::compareIString(getAttributeValueAsString(element, name).c_str(),"true") == 0  )
 		return true;
 	else
 		return false;
@@ -128,7 +148,7 @@ utf8* XmlHelper::transcodeToUtf8(const XMLCh* const string16)
 	return rval;	
 }
 
-CeGuiString XmlHelper::transcodeToCeGuiString(const XMLCh* const string16)
+CeGuiString XmlHelper::transcodeToString(const XMLCh* const string16)
 {
 	unsigned int str16len = XMLString::stringLen(string16);
 	if (str16len == 0)
@@ -136,8 +156,10 @@ CeGuiString XmlHelper::transcodeToCeGuiString(const XMLCh* const string16)
 		return CeGuiString();
 	}
 
+	initializeTranscoder();
+
 	utf8* tmpVal = transcodeToUtf8(string16);
-	CEGUI::String rVal(tmpVal);
+	CeGuiString rVal(tmpVal);
 	delete[] tmpVal;
 	return rVal;
 }

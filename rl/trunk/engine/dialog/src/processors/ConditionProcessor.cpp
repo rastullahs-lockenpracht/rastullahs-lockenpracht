@@ -34,16 +34,16 @@ namespace rl
 		string buffer="";
 	//  Get name- and value-attribute. Name contains the function name, 
 	//  value is optional (if there are no values in <li> 
-		char* strName = XmlHelper::getAttributeValueAsString( (DOMElement*)node,XMLString::transcode("name") );
+		string strName = XmlHelper::getAttributeValueAsString( 
+			static_cast<DOMElement*>(node), "name" ).c_str();
 		int nValue = 0;//XmlHelper::getAttributeValueAsInteger( (DOMElement*)node,XMLString::transcode("value") );
 	//  If function name is missing, return
-		if(!((string)strName).empty())	
+		if(!strName.empty())	
 		{
 		//  Get the NPC dialog control script object and call the named function
 			ScriptObject* so=CoreSubsystem::getSingleton().getInterpreter()->getScriptObject("DialogMeister");  
 			// @todo: ScriptObject name has to be NPC name
 			int nReturn=so->callIntegerFunction(strName,0,0);
-			XMLString::release(&strName);
 		//  Search through all li-elements
 			for (DOMNode* childNode=node->getFirstChild(); childNode != node->getLastChild(); childNode = childNode->getNextSibling() )
 			{	
@@ -52,16 +52,15 @@ namespace rl
 					string nodeName=AimlParser::transcodeXmlCharToString(childNode->getNodeName());
 					if(!nodeName.compare("li"))
 					{
-						nValue=XmlHelper::getAttributeValueAsInteger( (DOMElement*)childNode,XMLString::transcode("value") );
-						char* test=XmlHelper::getAttributeValueAsString( (DOMElement*)childNode,XMLString::transcode("value") );
-						char* id =XmlHelper::getAttributeValueAsString( (DOMElement*)childNode,XMLString::transcode("id") );
+						nValue=XmlHelper::getAttributeValueAsInteger( (DOMElement*)childNode,"value" );
+					//	char* test=XmlHelper::getAttributeValueAsString( (DOMElement*)childNode, "value" );
+						std::string id =XmlHelper::getAttributeValueAsString( (DOMElement*)childNode, "id" ).c_str();
 					//  Add elements in <li> Tag only if <li>-value = return value of the named function
 						if(nValue==nReturn)
 						{
-							buffer+="<li id=\""+(string)id+"\" />";
+							buffer+="<li id=\""+id+"\" />";
 							buffer+=nlp->process(childNode,m,str);	
 						}
-						XMLString::release(&id);
 					} // end compare nodeName
 				} // end compare nodeType
 			} // end for loop

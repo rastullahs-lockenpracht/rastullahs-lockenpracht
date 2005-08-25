@@ -20,6 +20,7 @@
 #include <xercesc/dom/DOMElement.hpp>
 #include <xercesc/util/XMLChar.hpp>
 #include <xercesc/util/TransService.hpp>
+#include <xercesc/sax2/Attributes.hpp>
 
 #include "CommonPrerequisites.h"
 
@@ -35,6 +36,7 @@
 #endif
 using XERCES_CPP_NAMESPACE::XMLTranscoder;
 using XERCES_CPP_NAMESPACE::XMLTransService;
+using XERCES_CPP_NAMESPACE::Attributes;
 using CEGUI::utf8;
 using CEGUI::String;
 
@@ -57,38 +59,81 @@ public:
 	 *
 	 * @return Der Kindknoten
 	 */
-	static XERCES_CPP_NAMESPACE::DOMElement* getChildNamed(XERCES_CPP_NAMESPACE::DOMElement* parent, const char* name);
+	static XERCES_CPP_NAMESPACE::DOMElement* getChildNamed(XERCES_CPP_NAMESPACE::DOMElement* parent, const char* const name);
 	
 	/**
 	 * Ermittelt den Text eines Elementknotens
 	 *
 	 * @param element Das DOM-Element
-	 * @return Text innerhalb der Element-Tags, als char* (muss selbst gelöscht werden, z.B. mittels XMLString::release)
+	 * @return Text innerhalb der Element-Tags, als CeGuiString
 	 */
-	static char* getValueAsString(XERCES_CPP_NAMESPACE::DOMElement* element);
+	static CeGuiString getValueAsString(XERCES_CPP_NAMESPACE::DOMElement* element);
 	
 	/**
 	 * Ermittelt den Text eines Elementknotens, als UTF-8
 	 * vor Benutzung muss initializeTranscoder() aufgerufen werden
 	 *
 	 * @param element Das DOM-Element
-	 * @return Text innerhalb der Element-Tags, als utf8* (muss selbst gelöscht werden, z.B. mittels XMLString::release)
+	 * @return Text innerhalb der Element-Tags, als utf8* (muss selbst gelöscht werden)
 	 * @see initializeTranscoder()
 	 */
 	static utf8* getValueAsUtf8(XERCES_CPP_NAMESPACE::DOMElement* element);
 
 	/**
-	 * Ermittelt den Text eines Elementknotens und parst ihn, um eine Ganzzahl daraus zu machen
+	 * Ermittelt den Text eines Elementknotens und parst ihn, 
+	 * um eine Ganzzahl daraus zu machen
 	 *
 	 * @param element Das DOM-Element
 	 * @return Zahl, die innerhalb der Element-Tags steht
 	 */
 	static int getValueAsInteger(XERCES_CPP_NAMESPACE::DOMElement* element);
 
-	static int getAttributeValueAsInteger(XERCES_CPP_NAMESPACE::DOMElement* element, XMLCh* name);
-	static char* getAttributeValueAsString(XERCES_CPP_NAMESPACE::DOMElement* element, XMLCh* name);
-	static bool getAttributeValueAsBool(XERCES_CPP_NAMESPACE::DOMElement* element, XMLCh* name);
-	static Ogre::Real getAttributeValueAsReal(XERCES_CPP_NAMESPACE::DOMElement* element,XMLCh* name);
+	/**
+	 * Ermittelt den Text eines DOMElement-Attributes und parst ihn, 
+	 * um eine Ganzzahl daraus zu machen
+	 *
+	 * @param element Das DOM-Element
+	 * @param name Name des Attributes
+	 * @return Zahlenwert des Attributes
+	 */
+	static int getAttributeValueAsInteger(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
+	
+	/**
+	 * Ermittelt den Text eines DOMElement-Attributes und konvertiert ihn zu einem CeGuiString
+	 * 
+	 * @param element Das DOM-Element
+	 * @param name Name des Attributes
+	 * @return Konvertierter Text als CeGuiString
+	 */	
+	static CeGuiString getAttributeValueAsString(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
+
+	/**
+	 * Ermittelt den Text eines SAX Element-Attributes und konvertiert ihn zu einem CeGuiString
+	 *
+	 * @param element Liste aller Attribute des aktuellen Elementes
+	 * @param name Name des Attributes
+	 * @return Konvertierter Text als CeGuiString
+	 */
+	static CeGuiString getAttributeValueAsString(XERCES_CPP_NAMESPACE::Attributes* attributes, const char* const name);
+
+	/**
+	 * Ermittelt den Text eines DOMElement-Attributes und interpretier ihn als bool
+	 * 
+	 * @param element Das DOM-Element
+	 * @param name Name des Attributes
+	 * @return Konvertierter Text als bool
+	 */	
+	static bool getAttributeValueAsBool(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
+
+	/**
+	 * Ermittelt den Text eines DOMElement-Attributes und konvertiert ihn zu Ogre::Real
+	 * 
+	 * @param element Das DOM-Element
+	 * @param name Name des Attributes
+	 * @return Konvertierter Text als Ogre::Real
+	 */	
+	static Ogre::Real getAttributeValueAsReal(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
+
 
 	/**
 	 * Initialisiert den XML<->UTF-8 Transcoder, 
@@ -98,12 +143,26 @@ public:
 
 	/**
 	 * Konvertiert ein Xerces-XMLCh* in einen UTF-8-String
+	 * Vor Benutzung muss initializeTranscoder() aufgerufen werden
 	 *
-	 * davor muss initializeTranscoder() aufgerufen worden sein
+	 * @param string16 Der zu konvertierende Xerces-XMLCh*
+	 * @return Konvertierter Text als utf8* (muss selbst gelöscht werden)
+	 * @see initializeTranscoder()
 	 */
+
 	static utf8* transcodeToUtf8(const XMLCh* const string16);
 
-	static CeGuiString transcodeToCeGuiString(const XMLCh* const string16);
+	/**
+	 * Konvertiert einen Xerces-XMLCh* in eine CeGuiString
+	 * Intern wird eine Konvertierung in utf8* vorgenommen,
+	 * wobei man sich hier um das nachträgliche aufräumen 
+	 * nicht mehr zu kümmern braucht.
+	 * 
+	 * @param string16 Der zu konvertierende Xerces-XMLCh*
+	 * @return Konvertierter Text als CeGuiString
+	 * @see transcodeToUtf8(const XMLCh* const string16);
+	 */
+	static CeGuiString transcodeToString(const XMLCh* const string16);
 
 private:
 	static XMLTranscoder* sTranscoder;

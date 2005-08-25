@@ -13,11 +13,10 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#ifndef __Rl_AimlParser_H__
+#define __Rl_AimlParser_H__
 
-#ifndef __RL_DIALOGHANDLER_H__
-#define __RL_DIALOGHANDLER_H__
-
-#include "xercesc/sax2/DefaultHandler.hpp"
+#include <xercesc/sax2/DefaultHandler.hpp>
 #include "DialogPrerequisites.h"
 #include "NaturalLanguageProcessor.h"
 
@@ -97,7 +96,7 @@ namespace rl
 		string templateValue;
 	
 		AimlState mCurState;	
-		stack<AimlState> mPrevStates;
+		std::stack<AimlState> mPrevStates;
 		CategoryState mSubState;
 		unsigned int anyDepth;
 	

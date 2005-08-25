@@ -57,7 +57,7 @@ namespace rl
 		string name;
 		string value;
 		string rtn;
-		string tmp =transcodeXmlCharToString(localname);
+		string tmp = transcodeXmlCharToString(localname);
 		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "startElement");
 	/////////////////////////////////////////
 	// Abfrage für Startup-File
@@ -98,9 +98,9 @@ namespace rl
 	//		mNlp->mTest=tmp;
 		} else if(!tmp.compare("script")) {
 			DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "script");
-			mCurState= PARSER_SCRIPT;
-			name=getAttributeValueAsString(attrs,"name");
-			templateValue=getAttributeValueAsString(attrs,"class");
+			mCurState = PARSER_SCRIPT;
+			name = getAttributeValueAsString(attrs,"src");
+			templateValue = getAttributeValueAsString(attrs,"class");
 	//		CoreSubsystem::getSingleton().getInterpreter()->execute("print(\""+name+"\")");
 	//		CoreSubsystem::getSingleton().getInterpreter()->execute("print(\""+templateValue+"\")");
 			// If tag has no attribute, XmlChar::transcode returns "????"

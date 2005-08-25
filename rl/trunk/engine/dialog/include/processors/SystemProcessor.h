@@ -36,17 +36,18 @@ namespace rl
 	
 		string process(DOMNode* node,Match* m, const char *str, NaturalLanguageProcessor* nlp)
 		{
-			char* cmd=XmlHelper::getAttributeValueAsString( (DOMElement*)node,XMLString::transcode("command") );
-			DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "SYSTEM");
-			DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, cmd);
-			if(!static_cast<string>(cmd).compare("exit"))
-				nlp->mExit=true;
-			if(!static_cast<string>(cmd).compare("reload"))
+			CeGuiString cmd = XmlHelper::getAttributeValueAsString( (DOMElement*)node, "command" );
+		//	DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "SYSTEM");
+		//	DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, cmd);
+			if( cmd == "exit" )
 			{
-				DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "RELOOOAAAD");
+				nlp->mExit=true;
+			}
+			if( cmd == "reload" )
+			{
+			//	DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "RELOOOAAAD");
 				nlp->processOption("load","*.aiml");
 			}
-			XMLString::release(&cmd);
 			return "";
 		}
 	};

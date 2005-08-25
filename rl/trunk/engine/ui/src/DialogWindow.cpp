@@ -76,7 +76,7 @@ DialogWindow::~DialogWindow()
 void DialogWindow::getResponse(string msg)
 {
 	ListboxWrappedTextItem* item;
-	mResponses=mNlp->respond(msg);
+	mResponses = mNlp->respond(msg);
 	
 	if(mResponses.empty())
 	{
@@ -84,32 +84,33 @@ void DialogWindow::getResponse(string msg)
 		hide();	
 		return;
 	}
-	std::map<int,std::string>::iterator itr=mResponses.begin();
+	std::map<int,std::string>::iterator itr = mResponses.begin();
 	
 	mQuestion->setText(itr->second);
-	unsigned int i=0;
-	for(itr++;itr!=mResponses.end();itr++)
+	unsigned int i = 0;
+	string currentResponse;
+	for(++itr; itr != mResponses.end(); ++itr)
 	{			
-			if(i<mDialogOptions->getItemCount())
+			if(i < mDialogOptions->getItemCount())
 			{
-				item=reinterpret_cast<ListboxWrappedTextItem*>(mDialogOptions->getListboxItemFromIndex(i));
-				string test(itr->second);
-				DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, test);
-				item->setText(test+"\n");
+				item = reinterpret_cast<ListboxWrappedTextItem*>(mDialogOptions->getListboxItemFromIndex(i));
+				currentResponse = itr->second;
+				DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, currentResponse);
+				item->setText(currentResponse);
 				item->setTextFormatting(CEGUI::WordWrapLeftAligned);
 			}
 			else
 			{
-				string test(itr->second);
-				item=new ListboxWrappedTextItem(test+"\n");
+				currentResponse = itr->second;
+				item = new ListboxWrappedTextItem(currentResponse);
 				item->setTextFormatting(CEGUI::WordWrapLeftAligned);
 				mDialogOptions->addItem(item);
 			}
 			item->setID(itr->first);
 			mDialogOptions->ensureItemIsVisible(item);
-			i+=1;
+			++i;
 	}
-	while(i<mDialogOptions->getItemCount())
+	while(i < mDialogOptions->getItemCount())
 	{
 		mDialogOptions->removeItem(mDialogOptions->getListboxItemFromIndex(i));
 
@@ -155,21 +156,23 @@ int DialogWindow::getSelectedOption()
 
 void DialogWindow::updateValues()
 {
-	for (unsigned int line = 0; line < count(); line++)
+	CeGuiString text;
+	for (unsigned int line = 0; line < count(); ++line)
 	{
-		CeGuiString text = mTextLines[line];
-		for (map<string, string>::iterator var = mVariableValues.begin(); 
-				var != mVariableValues.end(); 
-				var++)
+		text = mTextLines[line];
+		map<string, string>::iterator itr = mVariableValues.begin();
+		for (; itr != mVariableValues.end(); ++itr)
 		{
 			int pos = 0;
 			
 			while (pos != CeGuiString::npos)
 			{
-				pos = text.find("%"+(*var).first+"%", pos);
-				int size = 2+(*var).first.length();
+				pos = text.find("%"+(*itr).first+"%", pos);
+				int size = 2 + (*itr).first.length();
 				if (pos != CeGuiString::npos)
-					text = text.replace(pos, size, (*var).second);
+				{
+					text = text.replace(pos, size, (*itr).second);
+				}
 			}
 		}
 		mDialogOptions->getListboxItemFromIndex(line)->setText(text);
@@ -179,7 +182,7 @@ void DialogWindow::updateValues()
 bool DialogWindow::handleSelectOption()
 {
 	DebugWindow::getSingleton().setText("Pnk "+StringConverter::toString(getSelectedOption()));
-	ListboxWrappedTextItem* item=reinterpret_cast<ListboxWrappedTextItem*>(mDialogOptions->getFirstSelectedItem());
+	ListboxWrappedTextItem* item = reinterpret_cast<ListboxWrappedTextItem*>(mDialogOptions->getFirstSelectedItem());
 	getResponse(StringConverter::toString(item->getID()));	
 	return true;
 }

@@ -40,25 +40,29 @@ namespace rl
 	class _RlDialogExport NaturalLanguageProcessor
 	{
 	public:
-		NaturalLanguageProcessor(std::string filename);
+		NaturalLanguageProcessor(const std::string& filename);
 		~NaturalLanguageProcessor();
 
 		Graphmaster *getGM() const { return mGm; }
 		void addGraphmaster(Graphmaster* pGm);
-		bool loadAiml(const std::string &filename);
-		map<int,std::string> respond(const std::string &input);
-		string process(DOMNode* node, Match *match, const string &id);
-		void processOption(const string &name, const std::string &value);
-		void setName(std::string name);
-		std::string getName();
+		bool loadAiml(const std::string& filename);
+		map<int,std::string> respond(const std::string& input);
+		string process(DOMNode* node, Match *match, const string& id);
+		void processOption(const string& name, const std::string& value);
+		void setName(const std::string& name);
+		const std::string& getName() const;
 		bool mExit;
 	private:
-		Graphmaster *mGm;	// this shoukd be a list with multiple Graphmasters.
-							// every Graphmaster contains one aiml-file
-							// this way, multiple bots can use the same AIML-Memory
-		std::map<int,std::string> mResponses;
+		typedef std::map<int, std::string> Responses;
+		Responses mCurrentResponses;
 		std::vector<Graphmaster*> mGraphList;
 		std::string mName;	// Name of the Bot, used for naming the script object etc.pp.
+		Graphmaster *mGm;	// this should be a list with multiple Graphmasters.
+							// every Graphmaster contains one aiml-file
+							// this way, multiple bots can use the same AIML-Memory
+		
+
+		
 		//string buffer;
 		//Predicates *pr;
 		//Substituter *sb;
