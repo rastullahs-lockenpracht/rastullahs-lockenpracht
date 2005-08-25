@@ -130,6 +130,12 @@ utf8* XmlHelper::transcodeToUtf8(const XMLCh* const string16)
 
 CeGuiString XmlHelper::transcodeToCeGuiString(const XMLCh* const string16)
 {
+	unsigned int str16len = XMLString::stringLen(string16);
+	if (str16len == 0)
+	{
+		return CeGuiString();
+	}
+
 	utf8* tmpVal = transcodeToUtf8(string16);
 	CEGUI::String rVal(tmpVal);
 	delete[] tmpVal;
