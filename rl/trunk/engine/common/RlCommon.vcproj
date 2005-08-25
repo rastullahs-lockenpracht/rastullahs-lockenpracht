@@ -87,7 +87,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib xerces-c_2.lib"
+				AdditionalDependencies="OgreMain.lib xerces-c_2.lib ceguibase.lib"
 				OutputFile="./lib/$(ConfigurationName)/RlCommon.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui\lib\$(PlatformName)\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\Dependencies\lib\$(ConfigurationName)&quot;"
