@@ -63,6 +63,7 @@
     * werden soll, falls \c test \c false ist.
     */
 #  define RlAssert(test, msg) if(!(test)) Throw(AssertionFailedError, msg)
+#  define RlAssert1(test) RlAssert(AssertionFailedError, #test)
    /**@brief Makro zur Absicherung von Annahmen.
     *
     * Wirft eine \c AssertionFailedException. N?tzlich um
