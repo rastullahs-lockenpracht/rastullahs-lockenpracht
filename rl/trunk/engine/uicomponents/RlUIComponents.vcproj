@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="RlUiComponents"
-	ProjectGUID="{ED15F0B2-8B3B-40D1-8F56-5399B2E5E850}"
+	ProjectGUID="{ED32F0B2-8B3B-40D1-8F56-5399B2E5E850}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
