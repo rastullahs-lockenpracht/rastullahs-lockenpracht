@@ -2,7 +2,7 @@
 
 <dialog-startup version="0.1">
 	<bot name="Alrik">
-		<script name="dialog.rb" class="GameActorScriptOne"/>
+		<script src="dialog.rb" class="GameActorScriptOne"/>
 		<!--<script src="dialog.rb" class="GameActorScriptOne"/>-->
 		<!-- <script class="GameActorTest">blablabla</script> -->
 		<!--<script></script>-->

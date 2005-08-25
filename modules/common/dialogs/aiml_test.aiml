@@ -10,9 +10,10 @@
 	Grüße!<br/>Ich sehe ihr seid soeben erst in Ruchin angekommen? Was gibt es Neues aus dem Lande? Kann ich euch irgendwie helfen?
 	<selection name="TestReturner">
 		<li value="4" id="1">Ich grüße euch ebenso. Ich suche den Weg zur Taverne, könnt ihr ihn mir beschreiben?</li>
-		<li value="4" id="2">Das Land ist ruhig und friedlich. Die Invasion der Orks droben im Norden ist vorerst gestoppt, wir sind sicher.</li>
-		<li value="4" id="3">Hinweg mit euch, Gezücht des Namenlosen!</li>
-
+		<li value="4" id="555">Das Land ist ruhig und friedlich. Die Invasion der Orks droben im Norden ist vorerst gestoppt, wir sind sicher.</li>
+		<li value="4" id="666">Hinweg mit euch, Gezücht des Namenlosen!</li>
+		<li value="4" id="789">Hahaha, ich schreibe hier mal lauter komisches Zeugs rein ohne Sinn und Verstand, mal sehen wieviel Text ich so zusammenbekomme bis das Scrollfenster aktiv wird und ich testen kann wie das scrolling wohl so an und für sich wirklich funktioniert. Wehe es geht nicht...dann...dann bin ich traurig und sauer und deprimiert und finds doof und so weiter und so fort und so langsam aber sich binich doch sicher über die Grenze hinaus gestoßen, oder? ODER?</li>
+		<li value="4" id="799">Verdammt, so knapp und doch so vorbei. Naja, muss ich eben noch einen Eintrag schreiben der auch nicht viel kürzer ist. Also schon kürzr aber nicht viel kürzer...mal sehen was da bei rauskommt. So, ließe sich bestimmt auch schon jetzt herausfinden....</li>
 	</selection>
 </template>
 </aiml:category>
@@ -55,7 +56,7 @@ Drei
 <aiml:category>
 <pattern>*</pattern><!-- Abfangen von "ungueltigen" Eingaben -->
 <template>
-Dies ist keine gueltive Gespraechsoption!
+Dies ist keine gueltige Gespraechsoption!
 </template>
 </aiml:category>
 
