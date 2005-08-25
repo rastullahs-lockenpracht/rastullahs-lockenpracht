@@ -208,5 +208,4 @@ namespace rl {
         }
         catch( InvalidArgumentException& ) {}
     }
-
 }

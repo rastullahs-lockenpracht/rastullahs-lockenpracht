@@ -5,7 +5,7 @@ INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(CEGUIOGRE_CFLAGS) \
 
 lib_LTLIBRARIES = libRlUi.la
 libRlUi_la_LDFLAGS = $(RUBY_LIBS) $(LIBS) \
-	$(CEGUI_LIBS) $(OGRE_LIBS) $(CEGUIOGRE_LIBS)
+	$(CEGUI_LIBS) $(OGRE_LIBS) $(CEGUIOGRE_LIBS) -lRlUiComponents -L../../uicomponents/src
 libRlUi_la_SOURCES = \
 	ActionChoiceWindow.cpp \
 	CeGuiWindow.cpp \
