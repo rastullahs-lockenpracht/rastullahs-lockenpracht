@@ -55,7 +55,7 @@ SoundSubsystem::SoundSubsystem()
     FSOUND_SetMaxHardwareChannels(16);
     FSOUND_SetMinHardwareChannels(8);
     /// TODO: More choices
-    //FSOUND_SetOutput(FSOUND_OUTPUT_ALSA);
+    FSOUND_SetOutput(FSOUND_OUTPUT_ALSA);
     FSOUND_SetMixer(FSOUND_MIXER_AUTODETECT);
     // File Callbacks fuer FMOD setzen
     FSOUND_File_SetCallbacks(
@@ -65,9 +65,12 @@ SoundSubsystem::SoundSubsystem()
         (FSOUND_SEEKCALLBACK)SoundSubsystem::seek,
         (FSOUND_TELLCALLBACK)SoundSubsystem::tell); 
 
-    FSOUND_Init(44100, 32, 0); // TODO Wenns schiefgeht.
+        FSOUND_Init(44100, 32, 0); // TODO Wenns schiefgeht.
 	log(Ogre::LML_TRIVIAL, "fmod initialisiert");
     
+    FSOUND_3D_SetRolloffFactor(0.5);
+    FSOUND_SetSFXMasterVolume(255);
+
     // Wir initialisieren den Listener
     // Position of the listener.
     float v[3] = {0, 0, 0};

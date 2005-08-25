@@ -57,6 +57,7 @@ void SoundChannel::play() throw (RuntimeException)
     setPosition(Vector3(0.0, 0.0, 0.0));
     setDirection(Vector3(0.0, 0.0, 0.0));
     setVelocity(Vector3(0.0, 0.0, 0.0)); 
+    FSOUND_3D_SetMinMaxDistance(mChannel, 4.0, 9999999.0);
     pause(false);
 }
 

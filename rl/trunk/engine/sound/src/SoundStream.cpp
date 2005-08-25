@@ -30,7 +30,6 @@ namespace rl {
 SoundStream::SoundStream(const String &name):
     Sound(name)
 {
-    load();
 }
  
 /**
@@ -41,11 +40,6 @@ SoundStream::SoundStream(const String &name):
 SoundStream::SoundStream(const SoundResourcePtr &soundres):
     Sound(soundres)
 {
-    load();
-    FSOUND_Stream_SetSyncCallback(getStream(), 
-        (FSOUND_STREAMCALLBACK)SoundStream::streamSyncCallback, this);
-    FSOUND_Stream_SetEndCallback(getStream(),
-        (FSOUND_STREAMCALLBACK)SoundStream::streamEndCallback, this);
 }
 
 /**
@@ -71,12 +65,25 @@ void SoundStream::load() throw (RuntimeException)
     } else {
         mode |= FSOUND_HW2D;
     } 
+    if (isLooping())
+    {
+        mode |= FSOUND_LOOP_NORMAL;
+    } else {
+        mode |= FSOUND_LOOP_OFF;
+    }
     mStream = FSOUND_Stream_Open(getName().c_str(), mode, 0, 0);
     if (mStream == 0)
     {
         // Stereo auf 3D?
         mode |= FSOUND_FORCEMONO;
         mStream = FSOUND_Stream_Open(getName().c_str(), mode, 0, 0);
+    }
+    if (mStream != 0)
+    {
+        FSOUND_Stream_SetSyncCallback(getStream(), 
+            (FSOUND_STREAMCALLBACK)SoundStream::streamSyncCallback, this);
+        FSOUND_Stream_SetEndCallback(getStream(),
+            (FSOUND_STREAMCALLBACK)SoundStream::streamEndCallback, this);
     }
 }
 

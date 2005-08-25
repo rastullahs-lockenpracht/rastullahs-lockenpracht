@@ -30,7 +30,8 @@ namespace rl {
  * @date 03-12-2005
  */
 Sound::Sound(const String &name):
-    mIs3d(true)
+    mIs3d(true),
+    mIsLooping(false)
 {
     mName = name;
     mSoundResource = SoundResourcePtr(
@@ -44,7 +45,8 @@ Sound::Sound(const String &name):
  */
 Sound::Sound(const SoundResourcePtr &soundres):
     mSoundResource(soundres),
-    mIs3d(true)
+    mIs3d(true),
+    mIsLooping(false)
 {
     if (!soundres.isNull())
     {
@@ -80,6 +82,26 @@ bool Sound::is3d() const
 void Sound::set3d(bool is3d)
 {
     mIs3d = is3d;
+}
+
+/**
+ * @return TRUE wenn der Sound loopen soll.
+ * @author JoSch
+ * @date 08-25-2005
+ */
+bool Sound::isLooping() const
+{
+    return mIsLooping;
+}
+
+/**
+ * @param is3d, ob der Sound loopen soll.
+ * @author JoSch
+ * @date 08-25-2005
+ */
+void Sound::setLooping(bool looping)
+{
+    mIsLooping = looping;
 }
 
 /**

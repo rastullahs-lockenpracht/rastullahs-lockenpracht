@@ -45,7 +45,8 @@ namespace rl {
         double mTime;
         // Ob dieser Sound 3D sein soll.
         bool mIs3d;
-       
+        // Ob dieser Sound loopen soll.
+        bool mIsLooping;
         
     public:
         /// Konstruktor
@@ -75,7 +76,10 @@ namespace rl {
         // Wir erzeugen einen Channel für SoundChannel
         virtual int createChannel() throw (RuntimeException) = 0;
        
-        
+        // Sollen der Sound wiederholt werden?
+        bool isLooping() const;
+        // Setzen des Loop-Flags.
+        void setLooping(bool looping);
     }; 
 
     class _RlSoundExport SoundPtr :

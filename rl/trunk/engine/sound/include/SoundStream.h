@@ -60,6 +60,10 @@ namespace rl {
 
         // Stream zurueckgeben
         FSOUND_STREAM *getStream() const;
+        /// Laedt den Sound.
+        virtual void load() throw (RuntimeException);
+        /// Entlaedt den Sound.
+        virtual void unload() throw (RuntimeException);        
 
         // Wir erzeugen einen Channel für SoundChannel
         virtual int createChannel() throw (RuntimeException);
@@ -69,11 +73,6 @@ protected:
         virtual bool isValid() const throw (RuntimeException);
         // Sample setzen
         void setStream(FSOUND_STREAM *stream);
-        
-        /// Laedt den Sound.
-        virtual void load() throw (RuntimeException);
-        /// Entlaedt den Sound.
-        virtual void unload() throw (RuntimeException);        
         
     }; 
 

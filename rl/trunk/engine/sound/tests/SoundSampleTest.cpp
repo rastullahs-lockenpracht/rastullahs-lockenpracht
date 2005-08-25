@@ -23,11 +23,11 @@ using namespace rl;
 using namespace boost;
 using namespace Ogre;
 
-class SoundManagerTest : public CppUnit::TestFixture {
+class SoundSampleTest : public CppUnit::TestFixture {
 private:
 
 public:
-    SoundManagerTest()
+    SoundSampleTest()
     {
     }
     
@@ -39,14 +39,14 @@ public:
 	{
 	}
 
-	void testSoundManager_addSoundDirectory()
+	void test_addSoundDirectory()
 	{
         SoundManager::getSingleton().addSounds();
 
 	    CPPUNIT_ASSERT(true);
 	}
  
-    void testSoundManager_loadPlayUnload()
+    void test_PlayLoop()
     {
         xtime xt;
         
@@ -56,19 +56,15 @@ public:
         {
             SoundResourcePtr soundres = it.getNext();
             SoundSample *sound = new SoundSample(soundres);
+            sound->setLooping(true);
             SoundChannel *channel = new SoundChannel(sound, soundres->getName());
             if (channel)
             {
                 channel->play();
                 
                 xtime_get(&xt, TIME_UTC);
-                xt.sec++;
+                xt.sec+=10;
                 thread::sleep(xt);
-                while (channel->isPlaying()) {
-                    xtime_get(&xt, TIME_UTC);
-                    xt.sec++;
-                    thread::sleep(xt);
-                }
                 
                 delete sound;
             }            
@@ -76,28 +72,21 @@ public:
         CPPUNIT_ASSERT(true);
     }
     
-    void testSoundManager_playWith3D()
+    void test_playWith3D()
     {
         xtime xt;
         
         Ogre::ResourceManager::ResourceMapIterator it =
             SoundManager::getSingleton().getResourceIterator();
-        FSOUND_3D_SetRolloffFactor(0.5);
-        ListenerMovable listener("main");
-        listener.setActive();
-        FSOUND_SetSFXMasterVolume(255);
 
         while (it.hasMoreElements())
         {
             SoundResourcePtr soundres = it.getNext();
             SoundSample *sound = new SoundSample(soundres);
             SoundChannel *channel = new SoundChannel(sound, soundres->getName());
-            std::cerr<<channel<<std::endl;
             if (channel)
             {
-                std::cerr<<"load"<<std::endl;
                 sound->load();
-                std::cerr<<"play"<<std::endl;
                 channel->play();
                 float angle = 0.0f;
                 
@@ -110,8 +99,6 @@ public:
                     thread::sleep(xt);
                     Vector3 pos(1.0f*sinf(angle), 20.0f*cosf(angle), 0.0f);
                     channel->setPosition(pos);
-                    //pos = channel->getPosition();
-                    //cerr <<pos[0]<<":"<<pos[1]<<":"<<pos[2]<<endl;
                     angle += 0.005;
                     if (angle > 2 * M_PI)
                     {
@@ -155,11 +142,11 @@ public:
         CPPUNIT_ASSERT(true);
     }
 
-	CPPUNIT_TEST_SUITE(SoundManagerTest);
-	CPPUNIT_TEST(testSoundManager_addSoundDirectory);
-//    CPPUNIT_TEST(testSoundManager_loadPlayUnload);
-    CPPUNIT_TEST(testSoundManager_playWith3D);
-//    CPPUNIT_TEST(testSoundManager_loadPlayWithFade);
+	CPPUNIT_TEST_SUITE(SoundSampleTest);
+	CPPUNIT_TEST(test_addSoundDirectory);
+    CPPUNIT_TEST(test_playWith3D);
+    CPPUNIT_TEST(test_PlayLoop);
+//    CPPUNIT_TEST(test_loadPlayWithFade);
     CPPUNIT_TEST_SUITE_END();
 };
-//CPPUNIT_TEST_SUITE_REGISTRATION(SoundManagerTest);
+//CPPUNIT_TEST_SUITE_REGISTRATION(SoundSampleTest);

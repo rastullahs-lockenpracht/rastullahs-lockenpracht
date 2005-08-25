@@ -87,6 +87,12 @@ void SoundSample::load() throw (RuntimeException)
     } else {
         mode |= FSOUND_HW2D;
     }
+    if (isLooping())
+    {
+        mode |= FSOUND_LOOP_NORMAL;
+    } else {
+        mode |= FSOUND_LOOP_OFF;
+    }
     mSample = FSOUND_Sample_Load(FSOUND_FREE, data, mode,
         0, len);
     if (mSample == 0)
