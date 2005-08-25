@@ -30,4 +30,6 @@
 #   define _RlUiComponentsExport
 #endif
 
+#include <OgreNoMemoryMacros.h>
+
 #endif
