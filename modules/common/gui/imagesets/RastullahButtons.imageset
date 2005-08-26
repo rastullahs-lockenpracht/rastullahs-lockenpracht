@@ -5,4 +5,5 @@
     <Image Name="Buttons/Cancel" XPos="74" YPos="0" Width="37" Height="37" /> 
     <Image Name="Buttons/OpenDoor" XPos="185" YPos="0" Width="37" Height="37" />
     <Image Name="Buttons/CloseDoor" XPos="222" YPos="0" Width="37" Height="37" />
+    <Image Name="Buttons/ViewObject" XPos="333" YPos="0" Width="37" Height="37" />
 </Imageset>
