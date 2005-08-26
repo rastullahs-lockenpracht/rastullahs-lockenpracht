@@ -186,21 +186,103 @@
    $result = array;
 }
 
-/* IN Typemaps fuer Vector3.
- * Ein Tripel wird einfach auf ein dreielementiges Array abgebildet.
+/* Typemaps fuer ColourValue.
+ * Ein ColourValue wird einfach auf ein dreielementiges Array abgebildet.
  * 
- * Eine Laengenueberpruefung findet nicht statt.
- * Nil wird zu 0. Indizes >= 3 werden ignoriert.
- * TODO eben das aendern
  */
 
-%typecheck(SWIG_TYPECHECK_DOUBLE_ARRAY) Ogre::Vector3, const Ogre::Vector3& {
-  $1 = TYPE($input) == T_ARRAY && RARRAY($input)->len == 3 ? 1 : 0;
+%typecheck(SWIG_TYPECHECK_DOUBLE_ARRAY) Ogre::ColourValue, const Ogre::ColourValue, Ogre::ColourValue*, Ogre::ColourValue&,
+   const Ogre::ColourValue*, const Ogre::ColourValue&
+{
+   $1 = TYPE($input) == T_ARRAY && RARRAY($input)->len == 4 ? 1 : 0;
 }
  
-%typemap(in) Ogre::Vector3
+%typemap(in) Ogre::ColourValue, const Ogre::ColourValue
 {
-   Check_Type($input, T_ARRAY);
+   Ogre::ColourValue vec(0.0, 0.0, 0.0);
+   int length = RARRAY($input)->len;
+   VALUE* it = RARRAY($input)->ptr;
+   if (length > 0) {
+      Check_Type(*it, T_FLOAT);
+      vec.r = RFLOAT(*it)->value;
+      it++;
+   }
+   if (length > 1) {
+      Check_Type(*it, T_FLOAT);
+      vec.g = RFLOAT(*it)->value;
+      it++;
+   }
+   if (length > 2) {
+      Check_Type(*it, T_FLOAT);
+      vec.b = RFLOAT(*it)->value;
+   }
+   if (length > 3) {
+      Check_Type(*it, T_FLOAT);
+      vec.a = RFLOAT(*it)->value;
+   }
+   $1 = vec;
+}
+
+%typemap(in) Ogre::ColourValue*, Ogre::ColourValue&,
+   const Ogre::ColourValue*, const Ogre::ColourValue&
+{
+   Ogre::ColourValue* vec = new Ogre::ColourValue(0.0, 0.0, 0.0);
+   int length = RARRAY($input)->len;
+   VALUE* it = RARRAY($input)->ptr;
+   if (length > 0) {
+      Check_Type(*it, T_FLOAT);
+      vec->r = RFLOAT(*it)->value;
+      it++;
+   }
+   if (length > 1) {
+      Check_Type(*it, T_FLOAT);
+      vec->g = RFLOAT(*it)->value;
+      it++;
+   }
+   if (length > 2) {
+      Check_Type(*it, T_FLOAT);
+      vec->b = RFLOAT(*it)->value;
+   }
+   if (length > 3) {
+      Check_Type(*it, T_FLOAT);
+      vec->a = RFLOAT(*it)->value;
+   }
+   $1 = vec;
+}
+
+%typemap(out) Ogre::ColourValue, const Ogre::ColourValue {
+   VALUE array = rb_ary_new();
+   rb_ary_push(array, rb_float_new($1.r));
+   rb_ary_push(array, rb_float_new($1.g));
+   rb_ary_push(array, rb_float_new($1.b));
+   rb_ary_push(array, rb_float_new($1.a));
+   $result = array;
+}
+
+%typemap(out) Ogre::ColourValue*, const Ogre::ColourValue*, const Ogre::ColourValue&, Ogre::Vector& {
+   VALUE array = rb_ary_new();
+   rb_ary_push(array, rb_float_new($1->r));
+   rb_ary_push(array, rb_float_new($1->g));
+   rb_ary_push(array, rb_float_new($1->b));
+   rb_ary_push(array, rb_float_new($1->a));
+   $result = array;
+} 
+
+
+
+/* Typemaps fuer Vector3.
+ * Ein Vector3 wird einfach auf ein dreielementiges Array abgebildet.
+ * 
+ */
+
+%typecheck(SWIG_TYPECHECK_DOUBLE_ARRAY) Ogre::Vector3, const Ogre::Vector3, Ogre::Vector3*, Ogre::Vector3&,
+   const Ogre::Vector3*, const Ogre::Vector3&
+{
+   $1 = TYPE($input) == T_ARRAY && RARRAY($input)->len == 3 ? 1 : 0;
+}
+ 
+%typemap(in) Ogre::Vector3, const Ogre::Vector3
+{
    Ogre::Vector3 vec(0.0, 0.0, 0.0);
    int length = RARRAY($input)->len;
    VALUE* it = RARRAY($input)->ptr;
@@ -224,7 +306,6 @@
 %typemap(in) Ogre::Vector3*, Ogre::Vector3&,
    const Ogre::Vector3*, const Ogre::Vector3&
 {
-   Check_Type($input, T_ARRAY);
    Ogre::Vector3* vec = new Ogre::Vector3(0.0, 0.0, 0.0);
    int length = RARRAY($input)->len;
    VALUE* it = RARRAY($input)->ptr;
@@ -245,9 +326,34 @@
    $1 = vec;
 }
 
-%typemap(in) Ogre::Quaternion
+%typemap(out) Ogre::Vector3, const Ogre::Vector3 {
+   VALUE array = rb_ary_new();
+   rb_ary_push(array, rb_float_new($1.x));
+   rb_ary_push(array, rb_float_new($1.y));
+   rb_ary_push(array, rb_float_new($1.z));
+   $result = array;
+}
+
+%typemap(out) Ogre::Vector3*, const Ogre::Vector3*, const Ogre::Vector3&, Ogre::Vector& {
+   VALUE array = rb_ary_new();
+   rb_ary_push(array, rb_float_new($1->x));
+   rb_ary_push(array, rb_float_new($1->y));
+   rb_ary_push(array, rb_float_new($1->z));
+   $result = array;
+} 
+
+
+/* Typemaps fuer Quaternion.
+ * Ein Quaternion wird einfach auf ein vierelementiges Array abgebildet.
+ * 
+ */
+
+%typecheck(SWIG_TYPECHECK_DOUBLE_ARRAY) Ogre::Quaternion, const Ogre::Quaternion& {
+  $1 = TYPE($input) == T_ARRAY && RARRAY($input)->len == 4 ? 1 : 0;
+}
+
+%typemap(in) Ogre::Quaternion, const Ogre::Quaternion
 {
-   Check_Type($input, T_ARRAY);
    Ogre::Quaternion quat(0.0, 0.0, 0.0, 0.0);
    int length = RARRAY($input)->len;
    VALUE* it = RARRAY($input)->ptr;
@@ -273,15 +379,9 @@
    $1 = quat;
 }
 
-
-%typecheck(SWIG_TYPECHECK_DOUBLE_ARRAY) Ogre::Quaternion, const Ogre::Quaternion& {
-  $1 = TYPE($input) == T_ARRAY && RARRAY($input)->len == 4 ? 1 : 0;
-}
-
 %typemap(in) Ogre::Quaternion*, Ogre::Quaternion&,
    const Ogre::Quaternion*, const Ogre::Quaternion&
 {
-   Check_Type($input, T_ARRAY);
    Ogre::Quaternion* quat = new Ogre::Quaternion(0.0, 0.0, 0.0, 0.0);
    int length = RARRAY($input)->len;
    VALUE* it = RARRAY($input)->ptr;
@@ -307,25 +407,6 @@
    $1 = quat;
 }
 
-/* OUT Typemaps fuer Tripel<int>.
- * Ein Tripel wird einfach auf ein dreielementiges Array abgebildet.
- * 
- */
-%typemap(out) Ogre::Vector3, const Ogre::Vector3 {
-   VALUE array = rb_ary_new();
-   rb_ary_push(array, rb_float_new($1.x));
-   rb_ary_push(array, rb_float_new($1.y));
-   rb_ary_push(array, rb_float_new($1.z));
-   $result = array;
-}
-
-%typemap(out) Ogre::Vector3*, const Ogre::Vector3*, const Ogre::Vector3&, Ogre::Vector& {
-   VALUE array = rb_ary_new();
-   rb_ary_push(array, rb_float_new($1->x));
-   rb_ary_push(array, rb_float_new($1->y));
-   rb_ary_push(array, rb_float_new($1->z));
-   $result = array;
-} 
 
 %typemap(out) Ogre::Quaternion, const Ogre::Quaternion {
    VALUE array = rb_ary_new();
