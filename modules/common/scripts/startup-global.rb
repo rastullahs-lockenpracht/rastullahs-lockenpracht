@@ -1,6 +1,9 @@
 load 'embed.rb'
 load 'global-settings.rb'
 
+# Der GC reisst oft die Objekte ab
+GC.disable
+
 $CORE.log("Loading menu background..")
 $CORE.loadMap("Octree", "intro.scene","intro.rb");
 $CORE.log("done")

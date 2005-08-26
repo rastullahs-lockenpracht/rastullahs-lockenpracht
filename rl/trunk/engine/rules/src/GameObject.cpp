@@ -25,6 +25,8 @@ using namespace std;
 
 namespace rl
 {
+	const CeGuiString GameObject::DEFAULT_ACTION = "defaultgameobjectaction";
+
     GameObject::GameObject(int id,
                            const CeGuiString& name,
                            const CeGuiString& description)
@@ -33,6 +35,9 @@ namespace rl
             mDescription(description)
     {
         // Standardactions registrieren
+//		Action* defaultAction = ActionManager::getSingleton().getAction(DEFAULT_ACTION);
+//		if (defaultAction != NULL)
+//			addAction(defaultAction);
 
 		// Eventsource erzeugen
 		setObject(this);
@@ -74,7 +79,11 @@ namespace rl
             Throw(NullPointerException, "Parameter action ist NULL.");
         }
 
-		mActions.push_back(make_pair(action, option));		
+		mActions.push_back(make_pair(action, option));	
+		RulesSubsystem::getSingleton().log(
+			Ogre::LML_TRIVIAL, 
+			"Bei GameObject #"+Ogre::StringConverter::toString(mId)+
+			" ("+getName()+") wurde Aktion "+action->getName().c_str()+" hinzugefügt.");
     }
 
 	void GameObject::addActionInGroup(Action* action, ActionGroup* group, int option)
@@ -98,10 +107,11 @@ namespace rl
 		ActionVector actions;
 		for (ActionOptionVector::const_iterator it = mActions.begin(); it != mActions.end(); ++it)
 		{
+			RulesSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Untersuche Aktion "+(*it).first->getName());
 			if ((*it).second == Action::ACT_DISABLED)
 				continue;
 			//if ((*it).second > ACT_NEEDS_TALENT)
-			if (!(*it).first->canDo(const_cast<GameObject*>(this), actor)) // Aktion nicht möglich
+			if (actor != NULL && !(*it).first->canDo(const_cast<GameObject*>(this), actor)) // Aktion nicht möglich
 				continue;
 				
 			actions.push_back((*it).first);
@@ -273,8 +283,8 @@ namespace rl
 			return 0.0;
 	}
 
-	Action* getDefaultAction(Creature* actor)
+	Action* GameObject::getDefaultAction(Creature* actor) const
 	{
-		return ActionManager::getSingleton().getAction("showdescription");
+		return ActionManager::getSingleton().getAction(DEFAULT_ACTION);
 	}
 }

@@ -21,6 +21,7 @@
 
 #include <OgreSingleton.h>
 #include <vector>
+#include <map>
 using Ogre::Singleton;
 
 namespace rl
@@ -41,7 +42,9 @@ namespace rl
     	public Singleton<ActionManager>
     {
     private:
-        ActionVector mActions;
+		typedef std::map<const CeGuiString, Action*> ActionMap;
+
+		ActionMap mActions;
 		ActionVector mInGameGlobalActions;
         
     public:

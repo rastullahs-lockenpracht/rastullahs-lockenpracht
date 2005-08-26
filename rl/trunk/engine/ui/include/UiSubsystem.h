@@ -69,6 +69,9 @@ namespace rl {
 		void toggleCharacterStateWindow();
 		void toggleInGameGlobalMenu();
 
+		void useDefaultAction(GameObject* obj, Creature* actor);
+		void usePickedObjectDefaultActions();
+
 		void showCharacterActionChoice();
 		void showPickedObjectActions();
 		void showActionChoice(GameObject* obj);

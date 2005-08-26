@@ -14,6 +14,7 @@ class GlobalSettings
       $act7 = ToggleOdeDebugAction.new
       $act8 = ToggleDialogWindowAction.new
       $act9 = ToggleViewModeAction.new
+      $act17 = UseGameObjectDefaultAction.new
       $act10 = ResetCameraAction.new
       $act11 = ShowCharacterSheetAction.new
       $act12 = QuitGameAction.new
@@ -35,6 +36,7 @@ class GlobalSettings
       actionManager.registerInGameGlobalAction($act14, $grpView)
       actionManager.registerInGameGlobalAction($act15, $grpView)
       actionManager.registerInGameGlobalAction($act16, $grpView)
+      actionManager.registerInGameGlobalAction($act17, $grpView)
 
       actionManager.registerInGameGlobalAction($act12, $grpOptions)
       actionManager.registerInGameGlobalAction($act13, $grpOptions)

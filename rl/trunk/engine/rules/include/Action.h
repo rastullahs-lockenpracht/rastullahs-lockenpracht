@@ -65,8 +65,8 @@ namespace rl
         Action(const CeGuiString& name, const CeGuiString& description);
         virtual ~Action();
 
-        virtual const CeGuiString& getName() const;
-        virtual const CeGuiString& getDescription() const;
+        const CeGuiString& getName() const;
+        const CeGuiString& getDescription() const;
 
 		/**
 		 * Gibt den Klassennamen der (Ruby-)Klasse zurück, muss in Ruby überschrieben werden

@@ -54,6 +54,7 @@ public:
 	void toggleObjectPicking();
 	void toggleCharacterStateWindow();
 	void toggleInGameGlobalMenu();
+	void usePickedObjectDefaultActions();
 	
 	rl::GameController* getGameController();
 	rl::GameLoggerWindow* getGameLogger();

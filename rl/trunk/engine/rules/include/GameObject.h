@@ -60,7 +60,7 @@ namespace rl
 		Actor* getActor();
 
         const ActionVector getValidActions(Creature* actor) const;
-		Action* getDefaultAction(Creature* actor) const;
+		virtual Action* getDefaultAction(Creature* actor) const;
 
         /** Eine Aktion des Gegenstandes wird ausgeloest.
          *  @param actionName der Name der auszuloesenden Aktion.
@@ -101,10 +101,11 @@ namespace rl
 		int getInt(CeGuiString key);
 		Ogre::Real getReal(CeGuiString key);
 
+		static const CeGuiString DEFAULT_ACTION;
+
 	private:
         ActionOptionVector mActions;
 		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const CeGuiString& actionName);
-		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const CeGuiString& className, const CeGuiString& actionName);
 		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const Action* action);
 	
 		Actor* mActor;

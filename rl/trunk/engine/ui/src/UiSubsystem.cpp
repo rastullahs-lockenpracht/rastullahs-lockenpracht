@@ -206,6 +206,19 @@ namespace rl {
 			w->setVisible(true);
 	}
 
+	void UiSubsystem::useDefaultAction(GameObject* obj, Creature* actor)
+	{
+		obj->doAction(obj->getDefaultAction(actor), actor, NULL); //TODO: Target
+	}
+
+	void UiSubsystem::usePickedObjectDefaultActions()
+	{
+		GameObject* pickedObject = InputManager::getSingleton().getPickedObject();
+
+		if (pickedObject != NULL)
+			useDefaultAction(pickedObject, getActiveCharacter());
+	}
+
 	void UiSubsystem::showCharacterActionChoice()
 	{
 		showActionChoice(getActiveCharacter());

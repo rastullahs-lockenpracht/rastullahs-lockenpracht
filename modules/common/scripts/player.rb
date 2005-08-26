@@ -2,7 +2,7 @@
 
 load 'actions.rb'
 
-class CampAction < RubyAction
+class CampAction < Action
   def initialize
     super("makecamp", "Das Zelt aufschlagen und rasten")
   end

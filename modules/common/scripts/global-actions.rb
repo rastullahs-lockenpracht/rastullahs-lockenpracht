@@ -153,9 +153,19 @@ class ShowTargetWindowAction < RubyAction
   end
 end
 
-class ShowObjectDescriptionWindow < RubyAction
+class UseGameObjectDefaultAction < RubyAction
   def initialize
-    super("showdescription", "Anschauen")
+    super("usecurrentobjectdefaultaction", "Standardaktion benutzen")
+  end
+  
+  def doAction(object, actor, target)
+    $UI.usePickedObjectDefaultActions()
+  end
+end
+
+class ShowObjectDescriptionWindow < Action
+  def initialize
+    super("defaultgameobjectaction", "Anschauen")
   end
   
   def doAction(object, actor, target)
@@ -163,4 +173,7 @@ class ShowObjectDescriptionWindow < RubyAction
   end
 end
 
-ActionManager.getSingleton().registerAction(ShowObjectDescriptionWindow.new())
+act = ShowObjectDescriptionWindow.new()
+ActionManager.getSingleton().registerAction(act)
+p ActionManager.getSingleton().getAction("defaultgameobjectaction")
+p $UsedRubyInstances

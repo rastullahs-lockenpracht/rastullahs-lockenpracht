@@ -32,5 +32,6 @@ class Hero < Person
         soundActor = $AM.createSoundSampleActor(heroActor.getName()+"_schlucken","schlucken.ogg");
         heroActor.attachToSlot(soundActor, "Bone01");
     end
+    
 end
 

@@ -59,14 +59,16 @@ class Door < RubyItem
     $CORE.log("door.rb - Sound hinzugefuegt");
     
     @mOpen = isOpen
-
+    @mOpenAction = OpenDoorAction.new()
+	@mCloseAction = CloseDoorAction.new()
+    
     if (canBeOpened)
-    	addAction(OpenDoorAction.new);
-    	addAction(CloseDoorAction.new);
+    	addAction(@mOpenAction);
+    	addAction(@mCloseAction);
     	$CORE.log("door.rb - Aktionen hinzugefuegt.");
     else
-    	addAction(OpenDoorAction.new, Action::ACT_DISABLED);
-    	addAction(CloseDoorAction.new, Action::ACT_DISABLED);
+    	addAction(@mOpenAction, Action::ACT_DISABLED);
+    	addAction(@mCloseAction, Action::ACT_DISABLED);
     	$CORE.log("door.rb - Aktionen versteckt hinzugefuegt.");
     end
 
@@ -81,5 +83,17 @@ class Door < RubyItem
   def isOpen()
     @mOpen
   end
+  
+  def getDefaultAction(actor)
+    p $UsedRubyInstances
+  	p ActionManager.getSingleton().getAction("defaultgameobjectaction") # nur ein Test
+  	
+     if (@mOpen)
+       @mCloseAction
+     else
+       @mOpenAction
+     end
+  end
+
 end
 

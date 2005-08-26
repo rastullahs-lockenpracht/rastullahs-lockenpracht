@@ -214,7 +214,7 @@ namespace rl {
         virtual const rl::CeGuiString& getName() const;
         virtual void setName(rl::CeGuiString& name);
 
-        virtual const rl::CeGuiString& getDescription() const;
+        const rl::CeGuiString& getDescription() const;
         virtual void setDescription(rl::CeGuiString& description);   
         
         void setActor(rl::Actor* actor);
@@ -225,6 +225,8 @@ namespace rl {
         void removeAction(rl::Action *action);
 
         const std::vector<Action*> getValidActions(rl::Creature *actor) const;        
+        
+        virtual Action* getDefaultAction(rl::Creature* actor) const;
         
         void doAction(
 			const rl::CeGuiString& actionName, 
@@ -244,6 +246,8 @@ namespace rl {
 		bool getBool(const char* key);
 		int getInt(const char* key);
 		Ogre::Real getReal(const char* key);
+		
+		static const Ogre::String DEFAULT_ACTION;
     };
     
     %feature("director") Item;
@@ -305,12 +309,10 @@ namespace rl {
                  const rl::CeGuiString& name,
                  const rl::CeGuiString& description);
 	};
-	
+	%feature("director") ActionMananger;
     class ActionManager
     {
     public:
-        ActionManager();
-
         void registerAction(rl::Action* action);
         void unregisterAction(const rl::CeGuiString& actionName);
 		rl::Action* getAction(const rl::CeGuiString& actionName) const;

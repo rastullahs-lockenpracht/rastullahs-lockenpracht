@@ -57,11 +57,13 @@ namespace rl {
 		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_NUMPAD0, "resetcamera");
 		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_P, "makescreenshot");
 		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_L, "toggleodedebug");
+		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_R, "usecurrentobjectdefaultaction");
 		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_U, "showobjectactions");
 		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_C, "showcharactersheet");
 		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_T, "showtargetwindow");
 		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_O, "togglecharacterstatewindow");
 		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_F10, "toggleingameglobalmenu");
+
 	}
 
 	CommandMapper::~CommandMapper()

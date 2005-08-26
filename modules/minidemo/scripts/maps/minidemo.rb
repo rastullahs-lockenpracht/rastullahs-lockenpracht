@@ -8,9 +8,6 @@ require 'truhe.rb'
 require 'door_opener.rb'
 require 'heiltrank.rb'
 
-# Der GC reisst oft die Objekte ab
-GC.disable
-
 # Physik aktivieren
 $PM.setEnabled(true);
 
@@ -26,7 +23,7 @@ sunlight.getControlledObject().setCastShadows(false);
 sunlight.getControlledObject().setDiffuseColour(0.8,0.8,0.7);
 $CORE.log("Tageslicht erstellt.");
 
-DsaManager.getSingleton().loadDsaDataFile("kalchas.xml");
+# DsaManager.getSingleton().loadDsaDataFile("kalchas.xml");
 
 $CORE.log("Held erstellen");
 $hero = Hero.new;

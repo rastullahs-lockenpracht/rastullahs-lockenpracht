@@ -17,6 +17,9 @@
 #include "ActionManager.h"
 #include "Action.h"
 #include "Exception.h"
+#include "RulesSubsystem.h"
+
+#include "ScriptObjectRepository.h"
 
 template <>
 rl::ActionManager* Singleton<rl::ActionManager> ::ms_Singleton = 0;
@@ -66,27 +69,38 @@ namespace rl
             Throw(NullPointerException, "Parameter action ist NULL.");
         }
 
-        mActions.push_back(action);
+		if (mActions.find(action->getName()) != mActions.end())
+		{
+			Throw(
+				InvalidArgumentException, 
+				("Action "+action->getName()+" bereits registriert").c_str());
+		}
+
+		ScriptObjectRepository::getSingleton().own(action);
+
+		mActions.insert(std::make_pair(action->getName(), action));
+		RulesSubsystem::getSingleton().log(
+			Ogre::LML_TRIVIAL, "Action "+action->getName()+" beim ActionManager registriert");
     }
 
 	void ActionManager::unregisterAction(const CeGuiString& actionName)
 	{
-		ActionVector::iterator iter = findAction(mActions.begin(), mActions.end(), actionName);
+		ActionMap::iterator iter = mActions.find(actionName);
 		if (iter == mActions.end())
 			Throw(InvalidArgumentException, "Aktion nicht gefunden");
 		mActions.erase(iter);
+		RulesSubsystem::getSingleton().log(
+			Ogre::LML_TRIVIAL, "Action "+actionName+" beim ActionManager gelöscht");
 	}
 
 	Action* ActionManager::getAction(const CeGuiString& actionName) const
 	{
-		ActionVector::const_iterator iter = 
-			findActionConst(
-				mActions.begin(), 
-				mActions.end(), 
-				actionName);
+		RulesSubsystem::getSingleton().log(
+			Ogre::LML_TRIVIAL, "Suche Action " + actionName);
+		ActionMap::const_iterator iter = mActions.find(actionName);
 		if (iter == mActions.end())
 			Throw(InvalidArgumentException, "Aktion nicht gefunden");
-		return *iter;
+		return (*iter).second;
 	}
 
 
