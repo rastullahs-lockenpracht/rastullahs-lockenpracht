@@ -88,7 +88,10 @@ namespace rl
 		ActionMap::iterator iter = mActions.find(actionName);
 		if (iter == mActions.end())
 			Throw(InvalidArgumentException, "Aktion nicht gefunden");
+
+		ScriptObjectRepository::getSingleton().disown((*iter).second);
 		mActions.erase(iter);
+
 		RulesSubsystem::getSingleton().log(
 			Ogre::LML_TRIVIAL, "Action "+actionName+" beim ActionManager gelöscht");
 	}

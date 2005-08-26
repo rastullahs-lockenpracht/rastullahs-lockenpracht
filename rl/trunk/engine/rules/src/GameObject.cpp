@@ -25,7 +25,7 @@ using namespace std;
 
 namespace rl
 {
-	const CeGuiString GameObject::DEFAULT_ACTION = "defaultgameobjectaction";
+	const CeGuiString GameObject::DEFAULT_VIEW_OBJECT_ACTION = "viewobject";
 
     GameObject::GameObject(int id,
                            const CeGuiString& name,
@@ -35,9 +35,9 @@ namespace rl
             mDescription(description)
     {
         // Standardactions registrieren
-//		Action* defaultAction = ActionManager::getSingleton().getAction(DEFAULT_ACTION);
-//		if (defaultAction != NULL)
-//			addAction(defaultAction);
+		Action* defaultAction = ActionManager::getSingleton().getAction(DEFAULT_ACTION);
+		if (defaultAction != NULL)
+			addAction(defaultAction);
 
 		// Eventsource erzeugen
 		setObject(this);

@@ -40,12 +40,12 @@ $CORE.log("Held als aktiver Charakter gesetzt.");
 
 
 $CORE.log("Türen einsetzen")
-door1 = Door.new("Tuer_1", false, true);
+door1 = Door.new("Eine Tür", "Eine Holztür", false, true);
 door1.getActor().placeIntoScene(1368.0, -75.0, -170.0, 1.0, 0.0, 0.0, 0.0);
 #, "Bone01");
 door1.getActor().yaw(-90.0)
 
-gtuer = Door.new("Tuer_2", false, false);
+gtuer = Door.new("Eine Tür", "Eine Holztür.\nDiese Tür hat weder Klinke noch Schlösser", false, false);
 gtuer.getActor().placeIntoScene(1368.0, -75.0, 60.0, 1.0, 0.0, 0.0, 0.0)
 #, "Bone01");
 gtuer.getActor().yaw(-90.0)

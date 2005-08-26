@@ -37,6 +37,7 @@ public:
 	void showCharacterActionChoice();
 	void showPickedObjectActions();
 	void showActionChoice(rl::GameObject* obj);
+	void showDescriptionWindow(rl::GameObject* obj);
 	void showMessageWindow(const rl::CeGuiString& message);
 	void showCharacterSheet();
 	void showCharacterSheet(Person* chara);

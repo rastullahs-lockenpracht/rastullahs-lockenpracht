@@ -47,8 +47,8 @@ class CloseDoorAction < RubyAction
 end
 
 class Door < RubyItem
-  def initialize(name, isOpen, canBeOpened)
-    super(10, name, "Eine Tuer");
+  def initialize(name, description, isOpen, canBeOpened)
+    super(10, name, description);
 
     doorActor = $AM.createMeshActor( name, "arc_tuer_01.mesh",  0, 0.0 ); #PhysicsManager::GT_BOX , 6.0);
     $CORE.log("door.rb - Aktor erstellt.");
@@ -61,6 +61,8 @@ class Door < RubyItem
     @mOpen = isOpen
     @mOpenAction = OpenDoorAction.new()
 	@mCloseAction = CloseDoorAction.new()
+
+    @mCanBeOpened = canBeOpened
     
     if (canBeOpened)
     	addAction(@mOpenAction);
@@ -75,8 +77,8 @@ class Door < RubyItem
     @mDoor.doAction("opendoor") unless not @mOpen
   end
   
-  def setOpen(open)
-    @mOpen = open
+  def setOpen(isOpen)
+    @mOpen = isOpen
     fireObjectStateChangeEvent();
   end
   
@@ -85,13 +87,14 @@ class Door < RubyItem
   end
   
   def getDefaultAction(actor)
-    p $UsedRubyInstances
-  	p ActionManager.getSingleton().getAction("defaultgameobjectaction") # nur ein Test
-  	
-     if (@mOpen)
-       @mCloseAction
+     if (not @mCanBeOpened)
+       super(actor)
      else
-       @mOpenAction
+       if (@mOpen)
+         @mCloseAction
+       else
+         @mOpenAction
+       end
      end
   end
 

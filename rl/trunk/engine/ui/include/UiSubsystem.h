@@ -75,6 +75,7 @@ namespace rl {
 		void showCharacterActionChoice();
 		void showPickedObjectActions();
 		void showActionChoice(GameObject* obj);
+		void showDescriptionWindow(GameObject* obj);
 		void showTargetWindow();
 		void showContainerContent(Container* container);
 

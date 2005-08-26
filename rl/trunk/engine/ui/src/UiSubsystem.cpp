@@ -313,6 +313,13 @@ namespace rl {
 		wnd->setVisible(true);
 	}
 
+	void UiSubsystem::showDescriptionWindow(GameObject* obj)
+	{
+		MessageWindow* wnd = new MessageWindow();
+		wnd->setText(obj->getDescription());
+		wnd->setVisible(true);
+	}
+
 	void UiSubsystem::toggleCharacterStateWindow()
 	{
 		mCharacterStateWindow->setVisible(!mCharacterStateWindow->isVisible());
