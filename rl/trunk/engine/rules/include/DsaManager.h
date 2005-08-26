@@ -77,7 +77,7 @@ namespace rl
 
         Talent* getTalent(const CeGuiString& talentName) const;
 		//Talent* getTalent(const CeGuiString& name) const;
-        Kampftechnik* getKampftechnik(int id) const;
+        Kampftechnik* getKampftechnik(const CeGuiString& kampftechnikName) const;
         Eigenschaft* getEigenschaft(const CeGuiString& eigenschaftName) const;
 		Person* getPerson(int id) const;        
 		
@@ -91,13 +91,14 @@ namespace rl
 
 		void _addTalent(Talent* talent);
 		void _addPerson(Person* person);
+		void _addKampftechnik(Kampftechnik* kampftechnik);
 
     private:
 		RL_LONGLONG mBaseTime;
 
         typedef std::map<CeGuiString, Talent*> TalentMap;
 		typedef std::map<int, Person*> PersonMap;
-        typedef std::map<int, Kampftechnik*> KampftechnikMap;
+        typedef std::map<CeGuiString, Kampftechnik*> KampftechnikMap;
 		typedef std::map<CeGuiString, Eigenschaft*> EigenschaftMap;
 		EigenschaftMap mEigenschaften;
         TalentMap mTalente;

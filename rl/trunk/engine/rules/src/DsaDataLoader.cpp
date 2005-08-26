@@ -28,6 +28,7 @@
 #include "DsaManager.h"
 #include "Talent.h"
 #include "Person.h"
+#include "Kampftechnik.h"
 #include "RulesSubsystem.h"
 
 #include "Exception.h"
@@ -88,14 +89,14 @@ namespace rl {
             int numTalent = 0;
             for (unsigned int talentIdx = 0; talentIdx < talenteXml->getLength(); talentIdx++)
             {
-                Talent* t = processTalent(gruppe*100+numTalent, gruppe, reinterpret_cast<DOMElement*>(talenteXml->item(talentIdx)));
+                Talent* t = processTalent(gruppe, reinterpret_cast<DOMElement*>(talenteXml->item(talentIdx)));
                 numTalent++;
 				DsaManager::getSingleton()._addTalent(t);
             }
 		}
     }
 
-    Talent* DsaDataLoader::processTalent(int id, int gruppe, DOMElement* talentXml)
+    Talent* DsaDataLoader::processTalent(int gruppe, DOMElement* talentXml)
     {
 		CeGuiString desc = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(talentXml, "Beschreibung"));
         CeGuiString probe = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(talentXml, "Probe"));
@@ -140,7 +141,45 @@ namespace rl {
 
     void DsaDataLoader::initializeKampftechniken(DOMElement* rootKampftechniken)
     {
+		if (rootKampftechniken == NULL)
+			return;
+
+		DOMNodeList* kampfarten = rootKampftechniken->getElementsByTagName(XMLString::transcode("Kampfart"));
+		for (unsigned int art = 0; art < kampfarten->getLength(); art++)
+		{
+			DOMElement* artData = reinterpret_cast<DOMElement*>(kampfarten->item(art));
+			DOMNodeList* kampftechnikenXml = artData->getElementsByTagName(XMLString::transcode("Kampftechnik"));
+			int numKampftechnik = 0;
+			for (unsigned int kampftechnikIdx = 0; kampftechnikIdx < kampftechnikenXml->getLength(); kampftechnikIdx++)
+			{
+				Kampftechnik* k = processKampftechnik(reinterpret_cast<DOMElement*>(kampftechnikenXml->item(kampftechnikIdx)));
+				numKampftechnik++;
+				DsaManager::getSingleton()._addKampftechnik(k);
+			}
+		}
+
 	}
+
+	Kampftechnik* DsaDataLoader::processKampftechnik(DOMElement* kampftechnikXml)
+	{
+		CeGuiString desc = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(kampftechnikXml, "Beschreibung"));
+		CeGuiString art = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(kampftechnikXml, "Art"));
+		DOMElement* eBeNode = XmlHelper::getChildNamed(kampftechnikXml, "eBE");
+		int ebe = EBE_KEINE_BE;
+		if (eBeNode != NULL)
+			ebe = getEBeFromString(XMLString::transcode(eBeNode->getFirstChild()->getNodeValue()));
+
+		CeGuiString name = XmlHelper::transcodeToString(kampftechnikXml->getAttribute(XMLString::transcode("ID")));
+
+		Kampftechnik* k = new Kampftechnik(
+			name,
+			desc,
+			ebe);
+
+		return k;
+
+	}
+
 
 	void DsaDataLoader::initializePersonen(DOMElement* rootPersons)
 	{

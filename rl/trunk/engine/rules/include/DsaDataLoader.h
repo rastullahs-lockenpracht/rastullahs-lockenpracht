@@ -26,6 +26,7 @@ namespace rl {
 
 	class Talent;
 	class Person;
+	class Kampftechnik;
 
 	class DsaDataLoader
 	{
@@ -37,13 +38,14 @@ namespace rl {
 		
 		static int getEBeFromString(const std::string& eBeString);
 
-		static void initializeTalente(XERCES_CPP_NAMESPACE::DOMElement*);
-		static Talent* processTalent(int id, int gruppe, XERCES_CPP_NAMESPACE::DOMElement* talentXml);
+		static void initializeTalente(XERCES_CPP_NAMESPACE::DOMElement* rootTalente);
+		static Talent* processTalent(int gruppe, XERCES_CPP_NAMESPACE::DOMElement* talentXml);
 
-		static void initializePersonen(XERCES_CPP_NAMESPACE::DOMElement*);
+		static void initializePersonen(XERCES_CPP_NAMESPACE::DOMElement* rootPersonen);
 		static Person* processPerson(int id, XERCES_CPP_NAMESPACE::DOMElement* talentXml);
 			
-		static void initializeKampftechniken(XERCES_CPP_NAMESPACE::DOMElement*);
+		static void initializeKampftechniken(XERCES_CPP_NAMESPACE::DOMElement* rootKampftechniken);
+		static Kampftechnik* processKampftechnik(XERCES_CPP_NAMESPACE::DOMElement* kampftechnikXml);
 
 		DsaDataLoader();
 	};

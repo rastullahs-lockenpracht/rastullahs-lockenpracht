@@ -20,7 +20,7 @@ namespace rl
 {
     Kampftechnik::Kampftechnik(const CeGuiString& name,
                    const CeGuiString& description,
-                   const CeGuiString& ebe)
+                   int ebe)
                                        : mName(name),
                                          mDescription(description),
                                          mEbe(ebe)
@@ -46,4 +46,9 @@ namespace rl
     {
         return mDescription;
     }
+
+	int Kampftechnik::getEbe() const
+	{
+		return mEbe;
+	}
 }

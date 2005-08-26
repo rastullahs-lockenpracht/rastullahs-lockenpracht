@@ -101,6 +101,9 @@ namespace rl
 		 *  oder Raufen, bei Tieren sowas wie Biss oder Prankenhieb.\n
 		 *  Der erste Wert entspricht der ID der Kampftechnik, das pair
 		 *  den AT und PA Werten.
+		 *  Die Werte werden auf den AT/PA Basiswert addiert bevor sie die fertige
+		 *  AT/PA Werte ergeben. Die Summe des pairs muss also dem TaW in dem
+		 *  Kampftalent entsprechen.
 		 **/
         typedef map<CeGuiString, pair<int, int> > KampftechnikMap;
 		/** @brief Die Sonderfertigkeiten der Kreatur
@@ -146,6 +149,14 @@ namespace rl
 		 **/
         virtual void modifyEigenschaft(const CeGuiString& eigenschaftName, int mod);
 
+		/**
+		 *  @brief Fuegt eine neue Kampftechnik zu mKampftechniken hinzu
+		 *  @param kampftechnikName Bezeichnet die Kampftechnik
+		 *  @param value Initialisiert die Kampftechnik mit value. Standard ist
+		 *  (0,0).
+		 *  @exception InvalidArgumentExeption Die Kampftechnik ist unbekannt.
+		 */
+		void addKampftechnik(const CeGuiString& kampftechnikName, const pair<int,int>& value = make_pair(0,0));
 		/** @brief liefert die AT und PA Werte in einer bestimmten Kampftechnik
 		 *  zurueck.
 		 *  @param kampfTechnikId Beszeichnet die Kampftechnik.
@@ -158,7 +169,7 @@ namespace rl
 		 *  @param kampftechnikId Bestimmt die zu setzende Kampftechnik.
 		 *  @param value Die neuen AT/PA Werte.
 		 *  @exception InvalidArgumentException Die Kampftechnik kampftechnikId
-		 *    konnte nicht gefunden werden.
+		 *    konnte nicht in mKampftechniken gefunden werden.
 		 */
         virtual void setKampftechnik(const CeGuiString& kampftechnikName, const pair<int, int>& value);
 
@@ -168,9 +179,10 @@ namespace rl
 		 *  @exception InvalidArgumentException Das Talent konnte nicht
 		 *    gefunden werden.
 		 */
-        virtual void addTalent(const CeGuiString& talentName);
+        void addTalent(const CeGuiString& talentName, int value = 0);
 		/** @brief Liefert den Wert des Talents talentName zurueck.
 		 *  @param talentName Bezeichnet das Talent.
+		 *  @param value Startwert des Talents
 		 *  @return TaW
 		 *  @exception InvalidArgumentException Das Talent konnte in mTalente
 		 *    nicht gefunden werden.
@@ -203,7 +215,7 @@ namespace rl
 		 *  @exception InvalidArgumentException sfName kann nicht gefunden
 		 *    werden.
 		 */
-		virtual void addSf(const CeGuiString& sfName);
+		virtual void addSf(const CeGuiString& sfName, int value = SF_IN_TRAINING);
 		/** @brief Liefert den Wert der Sonderfertigkeit(SF) zurueck.
 		 *  @sa SonderfertigkeitMap
 		 *  @param sfId Bezeichnet die SF
@@ -243,7 +255,7 @@ namespace rl
 		*  Intern ruft sie doAlternativeTalentprobe mit den
 		*  Standardeigenschaften auf. Dies ist die uebliche Weise
 		*  eine Probe zu wuerfeln.
-		*  @see doAlternativeTalentprobe(CeGuiString* talentName, int spezialisierungId, int modifier, int eigenschaft1Id, int eigenschaft2Id, int eigenschaft3Id); 
+		*  @see doAlternativeTalentprobe(CeGuiString* talentName, int spezialisierungId, int modifier, int eigenschaft1Id, int eigenschaft2Id, int eigenschaft3Id) 
 		*  fuer Parameter und Rueckgabewerte
         */
         virtual int doTalentprobe(const CeGuiString& talentName, int modifier);
@@ -253,7 +265,7 @@ namespace rl
 		*  Standardeigenschaften auf. Dies ist die ideale Weise
 		*  eine Probe zu wuerfeln. Diese Version erlaubt auch
 		*  die Angabe einer Spezialisierung
-		*  @see doAlternativeTalentprobe(CeGuiString* talentName, int spezialisierungId, int modifier, int eigenschaft1Id, int eigenschaft2Id, int eigenschaft3Id); 
+		*  @see doAlternativeTalentprobe(CeGuiString* talentName, int spezialisierungId, int modifier, int eigenschaft1Id, int eigenschaft2Id, int eigenschaft3Id) 
 		*  fuer Parameter und Rueckgabewerte
 		*/
         virtual int doTalentprobe(const CeGuiString& talentName, int spezialisierungId,
@@ -262,7 +274,7 @@ namespace rl
         /** @brief Durchfuehren einer Talentprobe mit alternativen Eigenschaften.
 		*  Siehe dazu auch MFF S.14. Wird nur der Korrektheit halber angeboten,
 		*  sollte eher selten eingesetzt werden.
-		*  @see doAlternativeTalentprobe(CeGuiString* talentName, int spezialisierungId, int modifier, int eigenschaft1Id, int eigenschaft2Id, int eigenschaft3Id); 
+		*  @see doAlternativeTalentprobe(CeGuiString* talentName, int spezialisierungId, int modifier, int eigenschaft1Id, int eigenschaft2Id, int eigenschaft3Id) 
 		*  fuer Parameter und Rueckgabewerte
         */
         virtual int doAlternativeTalentprobe(const CeGuiString& talentName, int modifier, 

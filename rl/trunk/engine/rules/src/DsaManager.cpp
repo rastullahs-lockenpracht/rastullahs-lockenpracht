@@ -18,7 +18,6 @@
 
 #include "Eigenschaft.h"
 #include "Talent.h"
-#include "KampftechnikCsvIterator.h"
 #include "Kampftechnik.h"
 #include "Person.h"
 #include "RulesSubsystem.h"
@@ -65,21 +64,22 @@ namespace rl
 
     void DsaManager::initializeEigenschaften()
     {
-        mEigenschaften["MU"] = new Eigenschaft(
+		/// @warning So nicht lokalisierbar
+        mEigenschaften[E_MUT] = new Eigenschaft(
             (utf8*)"Mut", (utf8*)"MU", (utf8*)"");
-        mEigenschaften["KL"] = new Eigenschaft(
+        mEigenschaften[E_KLUGHEIT] = new Eigenschaft(
             (utf8*)"Klugheit", (utf8*)"KL", (utf8*)"");
-        mEigenschaften["IN"] = new Eigenschaft(
+        mEigenschaften[E_INTUITION] = new Eigenschaft(
             (utf8*)"Intuition", (utf8*)"IN", (utf8*)"");
-        mEigenschaften["CH"] = new Eigenschaft(
+        mEigenschaften[E_CHARISMA] = new Eigenschaft(
             (utf8*)"Charisma", (utf8*)"CH", (utf8*)"");
-        mEigenschaften["FF"] = new Eigenschaft(
+        mEigenschaften[E_FINGERFERTIGKEIT] = new Eigenschaft(
             (utf8*)"Fingerfertigkeit", (utf8*)"FF", (utf8*)"");
-        mEigenschaften["GE"] = new Eigenschaft(
+        mEigenschaften[E_GEWANDTHEIT] = new Eigenschaft(
             (utf8*)"Gewandtheit", (utf8*)"GE", (utf8*)"");
-        mEigenschaften["KO"] = new Eigenschaft(
+        mEigenschaften[E_KONSTITUTION] = new Eigenschaft(
             (utf8*)"Konstitution", (utf8*)"KO", (utf8*)"");
-        mEigenschaften["KK"] = new Eigenschaft(
+        mEigenschaften[E_KOERPERKRAFT] = new Eigenschaft(
             (utf8*)"Körperkraft", (utf8*)"KK", (utf8*)"");
     }
 
@@ -98,17 +98,15 @@ namespace rl
 		mPersonen.insert(make_pair(person->getId(), person));
 	}
 
+	void DsaManager::_addKampftechnik(Kampftechnik* kampftechnik)
+	{
+		mKampftechniken.insert(make_pair(kampftechnik->getName(), kampftechnik));
+	}
+
+
     void DsaManager::initializeKampftechniken()
     {
 		mKampftechniken.clear();
-
-/*        KampftechnikCsvIterator it("kampftechniken.csv");
-        while (it.hasNext())
-        {
-            it.next();
-            Kampftechnik* k = it.createKampftechnik();
-            mKampftechniken.insert(make_pair(k->getId(), k));
-        }*/
     }
 
     RL_LONGLONG DsaManager::getTimestamp()
@@ -174,22 +172,9 @@ namespace rl
         }
     }
 
-	/*Talent* DsaManager::getTalent(const CeGuiString& name) const
+    Kampftechnik* DsaManager::getKampftechnik(const CeGuiString& kampftechnikName) const
     {
-		for (TalentMap::const_iterator it = mTalente.begin(); it != mTalente.end(); it++)
-		{
-			if ((*it).second->getName().compare(name) == 0)
-			{
-				return (*it).second;
-			}
-		}
-        
-		Throw(InvalidArgumentException, "Talent nicht gefunden.");
-    }*/
-
-    Kampftechnik* DsaManager::getKampftechnik(int id) const
-    {
-        KampftechnikMap::const_iterator it = mKampftechniken.find(id);
+        KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikName);
         if (it != mKampftechniken.end())
         {
             return (*it).second;

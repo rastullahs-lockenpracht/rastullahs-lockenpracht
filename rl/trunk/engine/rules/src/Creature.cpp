@@ -80,22 +80,16 @@ namespace rl
         return (*it).second;
     }
 
-	void Creature::addTalent(const CeGuiString& talentName)
+	void Creature::addTalent(const CeGuiString& talentName, int value)
 	{
-		/*TalentMap::const_iterator it = mTalente.find(talentName);
-        if (it != mTalente.end())
-        {
-            Throw(InvalidArgumentException, "Talent nicht gefunden.");
-        }
-        
-		mTalente[talentName] = 0;*/
 		TalentMap::const_iterator it = mTalente.find(talentName);
         if (it != mTalente.end())
         {
 			Throw(InvalidArgumentException, "Talent schon in mTalente enthalten.");
         }
 	    DsaManager::getSingleton().getTalent(talentName); //ueberpruefe ob es das Talent ueberhaupt gibt
-		mTalente[talentName] = 0;
+		mTalente[talentName] = value;
+		fireObjectStateChangeEvent();
 	}
 
 	const Creature::TalentMap& Creature::getAllTalents() const
@@ -129,15 +123,17 @@ namespace rl
         return (*it).second;
     }
 
-	void Creature::addSf(const CeGuiString& sfName)
+	void Creature::addSf(const CeGuiString& sfName, int value)
 	{
 		SonderfertigkeitMap::const_iterator it = mSonderfertigkeiten.find(sfName);
-        if (it != mSonderfertigkeiten.end())
-        {
-            Throw(InvalidArgumentException, "Sonderfertigkeit nicht gefunden.");
-        }
-        
-		mSonderfertigkeiten[sfName] = 0;
+		if (it != mSonderfertigkeiten.end())
+		{
+			Throw(InvalidArgumentException, "Sonderfertigkeit schon in mSonderfertigkeiten enthalten.");
+		}
+		//ueberpruefe ob es die Sonderfertigkeit ueberhaupt gib
+		DsaManager::getSingleton().getTalent(sfName);
+		mSonderfertigkeiten[sfName] = value;
+		fireObjectStateChangeEvent();
 	}
 
     void Creature::setSf(const CeGuiString& sfName, int value)
@@ -349,6 +345,20 @@ namespace rl
         }
         return rval;
     }
+
+	void Creature::addKampftechnik(const CeGuiString& kampftechnikName, const pair<int,int>& value)
+	{
+		KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikName);
+		if (it != mKampftechniken.end())
+		{
+			Throw(InvalidArgumentException, 
+				"Kampftechnik schon in mKampftechniken enthalten.");
+		}
+		//ueberpruefe ob es die Kampftechnik ueberhaupt gibt
+		DsaManager::getSingleton().getKampftechnik(kampftechnikName); 
+		mKampftechniken[kampftechnikName] = value;
+		fireObjectStateChangeEvent();
+	}
 
     pair<int, int> Creature::getKampftechnik(const CeGuiString& kampftechnikName) const
     {

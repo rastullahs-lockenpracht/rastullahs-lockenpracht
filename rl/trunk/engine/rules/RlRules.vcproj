@@ -161,9 +161,6 @@
 				RelativePath=".\src\Kampftechnik.cpp">
 			</File>
 			<File
-				RelativePath=".\src\KampftechnikCsvIterator.cpp">
-			</File>
-			<File
 				RelativePath=".\src\ObjectStateChangeEvent.cpp">
 			</File>
 			<File
@@ -180,9 +177,6 @@
 			</File>
 			<File
 				RelativePath=".\src\Talent.cpp">
-			</File>
-			<File
-				RelativePath=".\src\TalentCsvIterator.cpp">
 			</File>
 			<File
 				RelativePath=".\src\TimerEvent.cpp">
@@ -235,9 +229,6 @@
 				RelativePath=".\include\Kampftechnik.h">
 			</File>
 			<File
-				RelativePath=".\include\KampftechnikCsvIterator.h">
-			</File>
-			<File
 				RelativePath=".\include\ObjectStateChangeEvent.h">
 			</File>
 			<File
@@ -257,9 +248,6 @@
 			</File>
 			<File
 				RelativePath=".\include\Talent.h">
-			</File>
-			<File
-				RelativePath=".\include\TalentCsvIterator.h">
 			</File>
 			<File
 				RelativePath=".\include\TimerEvent.h">

@@ -283,8 +283,10 @@ namespace rl {
 
         virtual int getEigenschaft(const rl::CeGuiString& eigenschaftName) const;
         virtual void setEigenschaft(const rl::CeGuiString& eigenschaftName, int value);
+        void addTalent(const rl::CeGuiString& talentName, int value=0);
         virtual int getTalent(const rl::CeGuiString& talentName) const;
         virtual void setTalent(const rl::CeGuiString& talentName, int value);
+        void addKampftechnik(const rl::CeGuiString& kampftechnikName, pair<int,int> value = make_pair(0,0));
 
         virtual void modifyEigenschaft(const rl::CeGuiString& eigenschaftName, int mod);
         virtual void modifyTalent(const rl::CeGuiString& talentName, int mod);
@@ -295,7 +297,6 @@ namespace rl {
         virtual int getLe();
 
         virtual int doTalentprobe(const rl::CeGuiString& talentName, int modifier);
-        virtual void addTalent(const rl::CeGuiString& talentName);
         virtual int doEigenschaftsprobe(const rl::CeGuiString& eigenschaftName, int modifier);
         
         void setWert(int id, int value);

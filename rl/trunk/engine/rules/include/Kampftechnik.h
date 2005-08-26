@@ -28,16 +28,17 @@ namespace rl
     private:
         const CeGuiString mName;
         const CeGuiString mDescription;
-        const CeGuiString mEbe;
+        const int mEbe;
     public:
         Kampftechnik(const CeGuiString& name,
                      const CeGuiString& description,
-                     const CeGuiString& ebe);
+                     int ebe);
 
         bool operator==(const Kampftechnik& rhs) const;
         bool operator<(const Kampftechnik& rhs) const;
         CeGuiString getName() const;
         CeGuiString getDescription() const;
+		int getEbe() const;
         /// Berechnet effektive Behinderung
         int calculateEbe(int be) const;
     };
