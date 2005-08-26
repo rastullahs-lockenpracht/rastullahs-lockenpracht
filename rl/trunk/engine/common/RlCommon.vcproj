@@ -76,7 +76,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\ogre\Dependencies\include;..\..\dependencies\cegui\include;..\..\dependencies\xerces\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;RLCOMMON_EXPORTS"
-				RuntimeLibrary="0"
+				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				AssemblerListingLocation=".\obj\Release/"
 				ObjectFile=".\obj\Release/"
