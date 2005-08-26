@@ -52,7 +52,7 @@ namespace rl {
         setQueryMask( QGF_DEFAULT );
     }
 
-    Ogre::String Actor::DEFAULT_SLOT_NAME = "SLOT_DEFAULT";
+    const Ogre::String Actor::DEFAULT_SLOT_NAME = "SLOT_DEFAULT";
 
     Actor::~Actor()
     {

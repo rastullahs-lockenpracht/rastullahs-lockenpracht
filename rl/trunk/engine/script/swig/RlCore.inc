@@ -386,7 +386,7 @@ class Actor {
 private:
 	Actor(const Ogre::String& name);
 public:	
-	static Ogre::String DEFAULT_SLOT_NAME;
+	static const Ogre::String DEFAULT_SLOT_NAME;
 
     enum QueryGroupFlags
     {

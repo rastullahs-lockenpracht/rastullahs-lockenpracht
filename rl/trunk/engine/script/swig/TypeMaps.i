@@ -36,12 +36,15 @@
 %typemap(out) Ogre::String*, Ogre::String&, const Ogre::String*, const Ogre::String& {
      $result = rb_str_new2($1->c_str());
 }
+%typemap(varout) Ogre::String, const Ogre::String {
+     $result = rb_str_new2($1.c_str());
+}
 
 
 /* Wrapping rl::CeGuiStrings to ruby and back 
- for rl::CeGuiString, const rl::CeGuiString, rl::CeGuiString&, rl::CeGuiString*, const rl::CeGuiString*, const rl::CeGuiString&
+ for CeGuiString
 */
-%typemap(typecheck) rl::CeGuiString, const rl::CeGuiString & = char *;
+%typemap(typecheck) rl::CeGuiString, const rl::CeGuiString, rl::CeGuiString*, rl::CeGuiString&, const rl::CeGuiString*, const rl::CeGuiString& = char *;
 
 %typemap(in) rl::CeGuiString, const rl::CeGuiString {
     Check_Type($input, T_STRING);
@@ -57,6 +60,10 @@
 %typemap(out) rl::CeGuiString*, rl::CeGuiString&,  const rl::CeGuiString*, const rl::CeGuiString& {
      $result = rb_str_new2($1->c_str());
 }
+%typemap(varout) rl::CeGuiString, const rl::CeGuiString {
+     $result = rb_str_new2($1.c_str());
+}
+
 
 %typemap(directorin) rl::CeGuiString, const rl::CeGuiString &, rl::CeGuiString & 
 	"$input = rb_str_new2($1.c_str());"

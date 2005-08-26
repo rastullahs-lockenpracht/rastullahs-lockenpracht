@@ -28,7 +28,7 @@ namespace rl {
     class _RlCoreExport Actor : public Ogre::UserDefinedObject
     {
     public:
-        static Ogre::String DEFAULT_SLOT_NAME;
+        static const Ogre::String DEFAULT_SLOT_NAME;
 
         enum QueryGroupFlags
         {

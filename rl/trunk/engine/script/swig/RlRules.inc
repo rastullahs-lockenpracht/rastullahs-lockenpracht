@@ -247,7 +247,7 @@ namespace rl {
 		int getInt(const char* key);
 		Ogre::Real getReal(const char* key);
 		
-		static const Ogre::String DEFAULT_VIEW_OBJECT_ACTION;
+		static const rl::CeGuiString DEFAULT_VIEW_OBJECT_ACTION;
     };
     
     %feature("director") Item;
