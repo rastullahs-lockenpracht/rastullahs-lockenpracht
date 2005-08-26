@@ -101,7 +101,7 @@ namespace rl
 		int getInt(CeGuiString key);
 		Ogre::Real getReal(CeGuiString key);
 
-		static const CeGuiString DEFAULT_ACTION;
+		static const CeGuiString DEFAULT_VIEW_OBJECT_ACTION;
 
 	private:
         ActionOptionVector mActions;

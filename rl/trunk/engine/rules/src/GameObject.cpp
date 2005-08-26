@@ -35,7 +35,7 @@ namespace rl
             mDescription(description)
     {
         // Standardactions registrieren
-		Action* defaultAction = ActionManager::getSingleton().getAction(DEFAULT_ACTION);
+		Action* defaultAction = ActionManager::getSingleton().getAction(DEFAULT_VIEW_OBJECT_ACTION);
 		if (defaultAction != NULL)
 			addAction(defaultAction);
 
@@ -285,6 +285,6 @@ namespace rl
 
 	Action* GameObject::getDefaultAction(Creature* actor) const
 	{
-		return ActionManager::getSingleton().getAction(DEFAULT_ACTION);
+		return ActionManager::getSingleton().getAction(DEFAULT_VIEW_OBJECT_ACTION);
 	}
 }
