@@ -165,7 +165,7 @@ end
 
 class ShowObjectDescriptionWindow < Action
   def initialize
-    super("defaultgameobjectaction", "Anschauen")
+    super(GameObject.DEFAULT_VIEW_OBJECT_ACTION, "Anschauen")
   end
   
   def doAction(object, actor, target)
@@ -175,5 +175,3 @@ end
 
 act = ShowObjectDescriptionWindow.new()
 ActionManager.getSingleton().registerAction(act)
-p ActionManager.getSingleton().getAction("defaultgameobjectaction")
-p $UsedRubyInstances
