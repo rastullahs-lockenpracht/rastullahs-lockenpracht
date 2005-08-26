@@ -76,7 +76,7 @@
 %exception rl::Item::Item ConstructorHandler
 %exception rl::Container::Container ConstructorHandler
 %exception rl::Action::Action ConstructorHandler
-%exception rl::ObjectStateChangedListener::ObjectStateChangedListener ConstructorHandler
+%exception rl::ObjectStateChangeListener::ObjectStateChangeListener ConstructorHandler
 
 // doWithActor( Actor* ) oder andere Director-Methoden Parameter
 %typemap(directorin) SWIGTYPE*

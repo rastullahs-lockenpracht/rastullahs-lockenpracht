@@ -120,6 +120,7 @@ namespace rl {
         // refCount wurde 1, beim GC anmelden
         if( refCount == 1 )
         {
+            rb_ary_push( mRubyArray, val );
             rb_gc_register_address( &val );
         }
     }
