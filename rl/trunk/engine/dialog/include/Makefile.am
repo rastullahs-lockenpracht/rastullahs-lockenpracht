@@ -1,4 +1,5 @@
 noinst_HEADERS = \
+	AimlCoreComponent.h \
 	AimlParser.h \
 	AimlProcessor.h \
 	AimlProcessorManager.h \

@@ -10,7 +10,6 @@ noinst_HEADERS = \
 	GameObject.h \
 	Item.h \
 	Kampftechnik.h \
-	KampftechnikCsvIterator.h \
 	ObjectStateChangeEvent.h \
 	ObjectStateChangeEventSource.h \
 	ObjectStateChangeListener.h \
@@ -18,7 +17,6 @@ noinst_HEADERS = \
 	RulesPrerequisites.h \
 	RulesSubsystem.h \
 	Talent.h \
-	TalentCsvIterator.h \
 	Talentgruppe.h \
 	TalentInputIterator.h \
 	TimerEvent.h \

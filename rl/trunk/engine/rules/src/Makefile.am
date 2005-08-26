@@ -14,14 +14,12 @@ libRlRules_la_SOURCES = \
 	GameObject.cpp \
 	Item.cpp \
 	Kampftechnik.cpp \
-	KampftechnikCsvIterator.cpp \
 	ObjectStateChangeEvent.cpp \
 	ObjectStateChangeEventSource.cpp \
 	ObjectStateChangeListener.cpp \
 	Person.cpp \
 	RulesSubsystem.cpp \
 	Talent.cpp \
-	TalentCsvIterator.cpp \
 	Talentgruppe.cpp \
 	TimerEvent.cpp \
 	TimerEventSource.cpp \
