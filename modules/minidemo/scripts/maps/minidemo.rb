@@ -73,6 +73,8 @@ chest.addItem(trank);
 $CORE.log("Trank fertig");
 
 
+$World.setFog( World::FOG_EXP, [0.8,0.8,1.0,0.5], 0.00009, 0.2, 1.0);
+
 load "kreislauf.rb"
 load "timer.rb"
 load "area.rb"
