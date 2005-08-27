@@ -55,7 +55,7 @@ SoundSubsystem::SoundSubsystem()
     FSOUND_SetMaxHardwareChannels(16);
     FSOUND_SetMinHardwareChannels(8);
     /// TODO: More choices
-    FSOUND_SetOutput(FSOUND_OUTPUT_ALSA);
+    //FSOUND_SetOutput(FSOUND_OUTPUT_ALSA);
     FSOUND_SetMixer(FSOUND_MIXER_AUTODETECT);
     // File Callbacks fuer FMOD setzen
     FSOUND_File_SetCallbacks(
