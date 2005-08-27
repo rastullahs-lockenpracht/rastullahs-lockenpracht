@@ -14,16 +14,22 @@
 *  http://www.perldoc.com/perl5.6/Artistic.html.
 */
 #include "Graphmaster.h"
+#include "AimlParser.h"
 #include "AimlCoreComponent.h"
 
 namespace rl
 {
 	AimlCoreComponent::AimlCoreComponent(void)
+		: mParser(NULL)
 	{
 	}
 
 	AimlCoreComponent::~AimlCoreComponent(void)
 	{
+		if(mParser)
+		{
+			delete mParser;
+		}
 		for(GraphMasterMap::iterator iter = mGraphMasters.begin();
 			iter != mGraphMasters.end();
 			++iter)
@@ -35,6 +41,27 @@ namespace rl
 
 	bool AimlCoreComponent::loadAimlFile(const std::string& fileName)
 	{
-		return true;
+		if(mParser)
+		{
+			if(mGraphMasters.find(fileName) == mGraphMasters.end())
+			{
+				mGraphMasters[fileName] = new Graphmaster();
+				if(mParser->parse(fileName))
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	Graphmaster* AimlCoreComponent::getGraphMaster(const std::string& name)
+	{
+		GraphMasterMap::iterator iter = mGraphMasters.find(name);
+		if( iter != mGraphMasters.end())
+		{
+			return iter->second;
+		}
+		return NULL;
 	}
 }

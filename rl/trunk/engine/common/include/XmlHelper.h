@@ -114,7 +114,7 @@ public:
 	 * @param name Name des Attributes
 	 * @return Konvertierter Text als CeGuiString
 	 */
-	static CeGuiString getAttributeValueAsString(XERCES_CPP_NAMESPACE::Attributes* attributes, const char* const name);
+	static CeGuiString getAttributeValueAsString(const XERCES_CPP_NAMESPACE::Attributes& attributes, const char* const name);
 
 	/**
 	 * Ermittelt den Text eines DOMElement-Attributes und interpretier ihn als bool

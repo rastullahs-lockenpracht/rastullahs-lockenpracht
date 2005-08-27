@@ -13,38 +13,41 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-#include "AimlParser.h"
-//#include "NaturalLanguageProcessor.h"
-//#include "Predicates.h"
-//#include "Nodemaster.h"
-//#include "ScriptObject.h"
-//#include "CoreSubsystem.h"
-//#include "Interpreter.h"
-//#include "XmlHelper.h"
-//#include "DialogSubsystem.h"
-/*
-#include <string>
+#ifndef __Rl_DialogCharacter_H__
+#define __Rl_DialogCharacter_H__
 
+#include "NaturalLanguageProcessor.h"
 
-XERCES_CPP_NAMESPACE_USE
-using namespace std;
-*/
 namespace rl
 {
-	AimlParser::AimlParser(NaturalLanguageProcessor* nlp) 
-		: mNlp(nlp), mAimlCore(NULL) 
-	{ 
-	}
-	
-	AimlParser::AimlParser(AimlCoreComponent* aimlCore) 
-		:  mNlp(NULL), mAimlCore(aimlCore) 
-	{ 
-	}
 
-	bool AimlParser::parse(const std::string& fileName)
+	class DialogScriptObject;
+
+	class _RlDialogExport DialogCharacter :
+		public NaturalLanguageProcessor
 	{
-		mFileName = fileName;
-		return true;
+	public:
+		DialogCharacter();
+		DialogCharacter(const CeGuiString& name);
+		virtual ~DialogCharacter(void);
+
+		DialogScriptObject* getScriptObject();
+		void setScriptObject(DialogScriptObject* scriptObject);
+
+	private:
+		DialogScriptObject* mScriptObject;
+
+	};
+
+	inline DialogScriptObject* DialogCharacter::getScriptObject()
+	{
+		return mScriptObject;
 	}
 
-} // Namespace rl end
+	inline void DialogCharacter::setScriptObject(DialogScriptObject* scriptObject)
+	{
+		mScriptObject = scriptObject;
+	}
+}
+
+#endif

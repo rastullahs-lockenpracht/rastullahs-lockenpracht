@@ -5,7 +5,6 @@
 	Name="RlRules"
 	ProjectGUID="{1D1D45B2-A9C3-4D10-93EC-22AE4AA5C070}"
 	Keyword="Win32Proj"
-	SignManifests="true"
 	>
 	<Platforms>
 		<Platform
@@ -238,10 +237,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\KampftechnikCsvIterator.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\ObjectStateChangeEvent.cpp"
 				>
 			</File>
@@ -263,10 +258,6 @@
 			</File>
 			<File
 				RelativePath=".\src\Talent.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\TalentCsvIterator.cpp"
 				>
 			</File>
 			<File
@@ -336,10 +327,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\KampftechnikCsvIterator.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\ObjectStateChangeEvent.h"
 				>
 			</File>
@@ -365,10 +352,6 @@
 			</File>
 			<File
 				RelativePath=".\include\Talent.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\TalentCsvIterator.h"
 				>
 			</File>
 			<File

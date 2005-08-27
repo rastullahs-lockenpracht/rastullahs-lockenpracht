@@ -6,7 +6,6 @@
 	ProjectGUID="{B78AEF70-E618-4E9D-BD67-E17995ECF714}"
 	RootNamespace="RlStartup"
 	Keyword="Win32Proj"
-	SignManifests="true"
 	>
 	<Platforms>
 		<Platform
@@ -18,7 +17,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="./lib/$(ConfigurationName)"
+			OutputDirectory="./bin/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="UpgradeFromVC71.vsprops"
@@ -107,7 +106,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="./lib/$(ConfigurationName)"
+			OutputDirectory="./bin/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="UpgradeFromVC71.vsprops"

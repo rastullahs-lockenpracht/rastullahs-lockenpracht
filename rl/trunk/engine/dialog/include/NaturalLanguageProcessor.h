@@ -18,6 +18,7 @@
 
 #include <xercesc/dom/DOM.hpp>
 #include "DialogPrerequisites.h"
+#include "CommonPrerequisites.h"
 
 #include "Graphmaster.h"
 
@@ -40,23 +41,29 @@ namespace rl
 	class _RlDialogExport NaturalLanguageProcessor
 	{
 	public:
+		typedef std::map<int, CeGuiString> Responses;
+		
+		NaturalLanguageProcessor(){}
 		NaturalLanguageProcessor(const std::string& filename);
 		~NaturalLanguageProcessor();
 
 		Graphmaster *getGM() const { return mGm; }
-		void addGraphmaster(Graphmaster* pGm);
+		void addGraphMaster(Graphmaster* gm);
 		bool loadAiml(const std::string& filename);
-		map<int,std::string> respond(const std::string& input);
+		Responses& respond(const std::string& input);
 		string process(DOMNode* node, Match *match, const string& id);
 		void processOption(const string& name, const std::string& value);
-		void setName(const std::string& name);
-		const std::string& getName() const;
+		void setName(const CeGuiString& name);
+		const CeGuiString& getName() const;
 		bool mExit;
+	protected:
+		//// Name of the Bot, used for naming the script object etc.pp.
+		CeGuiString mName;	
+
 	private:
-		typedef std::map<int, std::string> Responses;
 		Responses mCurrentResponses;
 		std::vector<Graphmaster*> mGraphList;
-		std::string mName;	// Name of the Bot, used for naming the script object etc.pp.
+		
 		Graphmaster *mGm;	// this should be a list with multiple Graphmasters.
 							// every Graphmaster contains one aiml-file
 							// this way, multiple bots can use the same AIML-Memory

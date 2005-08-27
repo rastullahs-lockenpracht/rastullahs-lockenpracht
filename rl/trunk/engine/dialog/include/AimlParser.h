@@ -16,91 +16,33 @@
 #ifndef __Rl_AimlParser_H__
 #define __Rl_AimlParser_H__
 
-#include <xercesc/sax2/DefaultHandler.hpp>
 #include "DialogPrerequisites.h"
-#include "NaturalLanguageProcessor.h"
 
 #include <string>
-#include <stack>
-
-using namespace std;
 
 namespace rl
 {
-	static const string ASTERISK = "*";
-	
+	class NaturalLanguageProcessor;
+	class AimlCoreComponent;
+
 	/** Handler class used to parse the startup xml file and aiml files using SAX2
 	 *  @author Philipp Walser
      */
-	class _RlDialogExport AimlParser : public XERCES_CPP_NAMESPACE::DefaultHandler
+	class _RlDialogExport AimlParser
 	{
 	public:
 		//! Constructor
-		AimlParser(NaturalLanguageProcessor* nlp) : mNlp(nlp) { }
+		AimlParser(NaturalLanguageProcessor* nlp);
+		AimlParser(AimlCoreComponent* aimlCore);
 		//! Destructor
 		virtual ~AimlParser(void){ }
 
-		/*************************************************************************
-		SAX2 Handler overrides
-		*************************************************************************/ 
-		virtual void startDocument();
-		virtual void startElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const XERCES_CPP_NAMESPACE::Attributes& attrs);
-		virtual void endElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname);
-		virtual void characters(const XMLCh *const chars,const unsigned int len);
-		virtual void startCDATA();
-		void startCategory();
-		void endCategory();
+		virtual bool parse(const std::string& fileName);
 
-		virtual void  warning (const XERCES_CPP_NAMESPACE::SAXParseException &exc);
-		virtual void  error (const XERCES_CPP_NAMESPACE::SAXParseException &exc);
-		virtual void  fatalError (const XERCES_CPP_NAMESPACE::SAXParseException &exc);
-
-		/*************************************************************************
-		Static helper functions
-		*************************************************************************/ 
-		static std::string transcodeXmlCharToString(const XMLCh* const xmlch_str);
-		static std::string getAttributeValueAsString(const XERCES_CPP_NAMESPACE::Attributes& attrs, const char* const attributeName);
-		static int getAttributeValueAsInteger(const XERCES_CPP_NAMESPACE::Attributes& attrs, const char* const attributeName);
-		static int getAttributeValueAsInteger(DOMNamedNodeMap* node,const char* const nodeName);
-		static const XMLCh* getAttributeValueAsXmlChar(const XERCES_CPP_NAMESPACE::Attributes& attrs, const char* const attributeName);
-
-	private:
-		typedef enum 
-		{
-			PARSER_START = 1,
-			PARSER_AIML,
-			PARSER_CONTEXT,
-			PARSER_TOPIC,
-			PARSER_CATEGORY,
-			PARSER_FINISH,
-			PARSER_SCRIPT
-		} AimlState;
-
-		typedef enum 
-		{
-			CAT_NONE = 0,
-			CAT_START = 1,
-			CAT_PATTERN,
-			CAT_BOT,
-			CAT_NAME,
-			CAT_THAT,
-			CAT_TEMPLATE,
-			CAT_ANY,
-			CAT_FINISH
-		} CategoryState;
-
-		string contextName;
-		string topicName;
-		string patternValue;
-		string thatValue;
-		string templateValue;
-	
-		AimlState mCurState;	
-		std::stack<AimlState> mPrevStates;
-		CategoryState mSubState;
-		unsigned int anyDepth;
-	
+	protected:
+		std::string mFileName;
 		NaturalLanguageProcessor* mNlp;
+		AimlCoreComponent* mAimlCore;
 	};
 
 } // End of  rl namespace section

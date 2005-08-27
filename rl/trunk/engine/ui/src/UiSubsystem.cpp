@@ -24,6 +24,7 @@
 #include "RubyInterpreter.h"
 #include "CoreSubsystem.h"
 #include "Logger.h"
+#include "DialogCharacter.h"
 #include "Console.h"
 #include "DebugWindow.h"
 #include "GameController.h"
@@ -264,6 +265,11 @@ namespace rl {
 		TargetSelectionWindow::getSingleton().setVisible(true);
 	}
 
+	void UiSubsystem::showDialog(DialogCharacter* bot)
+	{
+		(new DialogWindow(bot))->setVisible(true);
+	}
+
 	void UiSubsystem::toggleConsole()
 	{
 		Console* cons = Console::getSingletonPtr();
@@ -278,8 +284,8 @@ namespace rl {
 
 	void UiSubsystem::toggleDialogWindow()
 	{
-		DialogWindow* dwnd = DialogWindow::getSingletonPtr();
-		dwnd->setVisible(!dwnd->isVisible());
+//		DialogWindow* dwnd = DialogWindow::getSingletonPtr();
+//		dwnd->setVisible(!dwnd->isVisible());
 	}
 
 	void UiSubsystem::toggleGameLogWindow()

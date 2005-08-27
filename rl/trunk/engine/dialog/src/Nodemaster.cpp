@@ -31,8 +31,9 @@ namespace rl
 {
 	Nodemaster* Nodemaster::cached;
 	Nodemaster::Nodemaster() { }
-	Nodemaster::Nodemaster(const string &templateValue) 
-		: mTemplate("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"+templateValue)
+	Nodemaster::Nodemaster(const string& templateValue) 
+	//	: mTemplate("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"+templateValue)
+	    : mTemplate("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"+templateValue)
 	{
 	}
 
@@ -40,7 +41,8 @@ namespace rl
 
 	void Nodemaster::deleteAllNodes()
 	{
-		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Delete all children");
+		// DON'T LOG AFTER DESTRUCTING DIALOGSUBSYSTEM
+//		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Delete all children");
 		map<string, Nodemaster *>::const_iterator itr = mChildren.begin();
 		for(;itr!=mChildren.end();itr++)
 		{

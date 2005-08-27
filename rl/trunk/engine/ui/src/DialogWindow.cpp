@@ -16,16 +16,20 @@
 
 #include <boost/bind.hpp>
 
-#include "DialogWindow.h"
+#include "NaturalLanguageProcessor.h"
+#include "DialogCharacter.h"
 #include "DialogSubsystem.h"
+
 #include "InputManager.h"
 #include "DebugWindow.h"
-#include "CharacterSheetWindow.h"
+//#include "CharacterSheetWindow.h"
 #include "ListboxWrappedTextItem.h"
+
+#include "DialogWindow.h"
 
 using namespace Ogre;
 
-template<> rl::DialogWindow* Ogre::Singleton<rl::DialogWindow>::ms_Singleton = 0;
+//template<> rl::DialogWindow* Ogre::Singleton<rl::DialogWindow>::ms_Singleton = 0;
 
 namespace rl {
 
@@ -33,7 +37,7 @@ using namespace CEGUI;
 using namespace std;
 
 
-
+/*
 DialogWindow& DialogWindow::getSingleton()
 {
 	return Ogre::Singleton<DialogWindow>::getSingleton();
@@ -42,10 +46,29 @@ DialogWindow* DialogWindow::getSingletonPtr()
 {
 	return Ogre::Singleton<DialogWindow>::getSingletonPtr();
 }
-
-DialogWindow::DialogWindow(string dialogFile) : 
+*/
+DialogWindow::DialogWindow(const std::string& dialogFile) : 
 	CeGuiWindow("dialogwindow.xml", WND_MOUSE_INPUT),
 	mNlp(new NaturalLanguageProcessor(dialogFile))
+{
+	initialize();
+}
+
+DialogWindow::DialogWindow(DialogCharacter* bot)
+  : CeGuiWindow("dialogwindow.xml", WND_MOUSE_INPUT),
+	mNlp(bot)
+{
+	initialize();
+
+}
+
+DialogWindow::~DialogWindow()
+{
+	// TO DO: DialogWindow::~DialogWindow()
+	if(mNlp)delete mNlp;
+}
+
+void DialogWindow::initialize()
 {
 	mImage = getStaticImage("DialogWindow/Image");
 	mName = getStaticText("DialogWindow/Name");
@@ -67,12 +90,6 @@ DialogWindow::DialogWindow(string dialogFile) :
 	mName->setText(mNlp->getName());
 }
 
-DialogWindow::~DialogWindow()
-{
-	// TO DO: DialogWindow::~DialogWindow()
-	if(mNlp)delete mNlp;
-}
-
 void DialogWindow::getResponse(string msg)
 {
 	ListboxWrappedTextItem* item;
@@ -84,18 +101,18 @@ void DialogWindow::getResponse(string msg)
 		hide();	
 		return;
 	}
-	std::map<int,std::string>::iterator itr = mResponses.begin();
+	NaturalLanguageProcessor::Responses::iterator itr = mResponses.begin();
 	
 	mQuestion->setText(itr->second);
 	unsigned int i = 0;
-	string currentResponse;
+	CeGuiString currentResponse;
 	for(++itr; itr != mResponses.end(); ++itr)
 	{			
 			if(i < mDialogOptions->getItemCount())
 			{
 				item = reinterpret_cast<ListboxWrappedTextItem*>(mDialogOptions->getListboxItemFromIndex(i));
 				currentResponse = itr->second;
-				DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, currentResponse);
+				DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, currentResponse.c_str());
 				item->setText(currentResponse);
 				item->setTextFormatting(CEGUI::WordWrapLeftAligned);
 			}

@@ -5,6 +5,7 @@
 	Name="RlScript"
 	ProjectGUID="{9A41EAE4-302A-4823-8F20-FA1AD58189A1}"
 	Keyword="Win32Proj"
+	SignManifests="true"
 	>
 	<Platforms>
 		<Platform
@@ -62,10 +63,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="RlCore.lib RlUi.lib RlRules.lib RlSound.lib OgreMain_d.lib msvcrt-ruby18.lib CEGUIBase_d.lib"
+				AdditionalDependencies="RlCore.lib RlUi.lib RlRules.lib RlSound.lib RlDialog.lib OgreMain_d.lib msvcrt-ruby18.lib CEGUIBase_d.lib"
 				OutputFile="$(OutDir)/RlScript.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\cegui\lib;..\..\dependencies\boost\lib"
+				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\dialog\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\cegui\lib;..\..\dependencies\boost\lib"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/RlScript.pdb"
 				SubSystem="2"
@@ -143,10 +144,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="RlCore.lib RlUi.lib RlRules.lib RlSound.lib OgreMain.lib msvcrt-ruby18.lib CEGUIBase.lib"
+				AdditionalDependencies="RlCore.lib RlUi.lib RlRules.lib RlSound.lib RlDialog.lib OgreMain.lib msvcrt-ruby18.lib CEGUIBase.lib"
 				OutputFile="$(OutDir)/RlScript.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\cegui\lib;..\..\dependencies\boost\lib"
+				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\dialog\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\cegui\lib;..\..\dependencies\boost\lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -251,6 +252,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\swig\RlDialog.head.inc"
+					>
+				</File>
+				<File
 					RelativePath=".\swig\RlRules.head.inc"
 					>
 				</File>
@@ -272,6 +277,10 @@
 				>
 				<File
 					RelativePath=".\swig\RlCore.inc"
+					>
+				</File>
+				<File
+					RelativePath=".\swig\RlDialog.inc"
 					>
 				</File>
 				<File

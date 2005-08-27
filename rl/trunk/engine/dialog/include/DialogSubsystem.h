@@ -24,7 +24,8 @@
 
 namespace rl
 {
-	/// Initialises and manages everything for using dialogs
+	class DialogCharacter;
+	/// Initialises and manages everything for using dialogs in Rl
 	class _RlDialogExport DialogSubsystem : 
 		public AimlCoreComponent,
 		public Ogre::Singleton<DialogSubsystem>
@@ -36,11 +37,30 @@ namespace rl
 		DialogSubsystem();
 		virtual ~DialogSubsystem();
 		
-		
-		void loadBot(const std::string& fileName);
-		void loadBot(const std::string& fileName, const std::string& botName);
+		/**
+		 *
+		 */
+		DialogCharacter* getCurrentBot();
+
+		/**
+		 * Load a DialogCharacter from a xml file
+		 * If no name is given, the first available bot in the xml file is loaded
+		 * @param fileName xml file with the bot definition
+		 * @param botName name of the bot to load
+		 * @return will return a DialogCharacter...
+		 */
+		DialogCharacter* loadBot(const std::string& fileName, const std::string& botName = "");
+	
+		/**
+		 * Logging
+		 */
 		void log(const Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident = "");
 
+	private:
+		typedef std::map<std::string, DialogCharacter*> BotMap;
+		BotMap mBots;
+
+		DialogCharacter* mCurrentBot;
 	};
 }
 #endif

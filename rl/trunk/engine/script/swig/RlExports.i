@@ -25,7 +25,9 @@
 %include "RlSound.head.inc"
 %include "RlCore.head.inc"
 %include "RlRules.head.inc"
+%include "RlDialog.head.inc"
 %include "RlScript.head.inc"
+
 
 
 %include "TypeMaps.i"
@@ -79,6 +81,7 @@ namespace Swig {
 %include "RlSound.inc"
 %include "RlCore.inc"
 %include "RlRules.inc"
+%include "RlDialog.inc"
 %include "RlUi.inc"
 %include "RlScript.inc"
 

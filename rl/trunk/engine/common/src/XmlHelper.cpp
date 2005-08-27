@@ -95,10 +95,10 @@ CeGuiString XmlHelper::getAttributeValueAsString(DOMElement* element, const char
 	return rVal;
 }
 
-CeGuiString XmlHelper::getAttributeValueAsString(XERCES_CPP_NAMESPACE::Attributes* attributes, const char* const name)
+CeGuiString XmlHelper::getAttributeValueAsString(const XERCES_CPP_NAMESPACE::Attributes& attributes, const char* const name)
 {
 	XMLCh* attrName = XMLString::transcode(name);
-	const XMLCh* valStr = attributes->getValue(attrName);
+	const XMLCh* valStr = attributes.getValue(attrName);
 	XMLString::release(&attrName);
 	if(valStr != NULL)
 	{

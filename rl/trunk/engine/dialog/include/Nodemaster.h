@@ -35,7 +35,7 @@ namespace rl
 	public:
 		Nodemaster();
 		Nodemaster(const string &templateValue);
-		~Nodemaster();
+		virtual ~Nodemaster();
 
 		void deleteAllNodes();
 		DOMNode* getTemplateNode() const;

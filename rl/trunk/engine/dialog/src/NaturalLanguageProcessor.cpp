@@ -26,7 +26,7 @@
 #include "Graphmaster.h"
 #include "AimlProcessorManager.h"
 #include "AimlProcessor.h"
-#include "AimlParser.h"
+#include "AimlParserImplXerces.h"
 #include "Nodemaster.h"
 #include "Match.h"
 #include "XmlHelper.h"
@@ -136,7 +136,8 @@ namespace rl
 	}
 	*/
 
-	const static string ISO="<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>";
+	//const static string ISO="<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>";
+	const static string ISO="<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
 	NaturalLanguageProcessor::NaturalLanguageProcessor(const std::string& filename): 
 		mGm(NULL),
@@ -148,7 +149,7 @@ namespace rl
 
 	// Create a new Parser for aiml files and register it as content handler
 	// for the sax parser
-		AimlParser* xmlHandler=new AimlParser(this);
+		AimlParserImplXerces* xmlHandler=new AimlParserImplXerces(this);
 		SAX2XMLReader* parser =XMLReaderFactory::createXMLReader();
 		parser->setContentHandler(xmlHandler);
 		parser->setErrorHandler(xmlHandler);
@@ -190,9 +191,12 @@ namespace rl
         XMLPlatformUtils::Terminate();
     }
 
-	void NaturalLanguageProcessor::addGraphmaster(Graphmaster* pGm)
+	void NaturalLanguageProcessor::addGraphMaster(Graphmaster* gm)
 	{
-		mGraphList.push_back(pGm);
+		if(gm)
+		{
+			mGraphList.push_back(gm);
+		}
 	}
 
 	/** Starts a response to an input message
@@ -201,10 +205,10 @@ namespace rl
 	 *  @param input The input message, for example a sentence chosen by the player
 	 *  @return A string map, containing all matches of the response 
 	 */
-	std::map<int,std::string> NaturalLanguageProcessor::respond(const std::string& input)
+	NaturalLanguageProcessor::Responses& NaturalLanguageProcessor::respond(const std::string& input)
 	{
 	//  prepare response-string (needs xml-tags for postprocessing
-		string response=ISO+"<response>", result;
+		CeGuiString response = ISO+"<response>", result;
 	//  initialize strings for graphmaster pathing
 		string context = "*";
 		string topic = "*";
@@ -214,15 +218,33 @@ namespace rl
 		mCurrentResponses.clear();
 
 		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Matching...");
-		Match *m = mGm->match(context, input, that, topic);
+
+		Match* match = NULL;
+		if(mGm)
+		{
+			match = mGm->match(context, input, that, topic);
+		}
+		else
+		{
+			std::vector<Graphmaster*>::iterator iter = mGraphList.begin();
+			for(; iter != mGraphList.end(); ++iter)
+			{
+				match = (*iter)->match(context, input, that, topic);
+				if(match) break;
+			}
+		}
 	
+		if(match == NULL)
+		{
+			return mCurrentResponses;
+		}
 	//  get the <template> tag as DOMDocument node
-		DOMDocument* doc=static_cast<DOMDocument*>(m->getNode()->getTemplateNode());
+		DOMDocument* doc=static_cast<DOMDocument*>(match->getNode()->getTemplateNode());
 	//  get the content of DOMDocument
 		DOMNode* node=doc->getDocumentElement();
 
 		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Processing...");
-		response+= process(node, m,"0");	// last Parameter has no function at the moment
+		response+= process(node, match ,"0");	// last Parameter has no function at the moment
 		response+="</response>";			// response must be in tags for postprocessing
 		// free the memory of the document and all its nodes
 		doc->release();
@@ -257,7 +279,9 @@ namespace rl
 		{
 			if ( node->getNodeType() == DOMNode::ELEMENT_NODE )
 			{
-				string nodeName=AimlParser::transcodeXmlCharToString(node->getNodeName());
+				string nodeName = 
+					XmlHelper::transcodeToString(node->getNodeName()).c_str();
+
 				if(!nodeName.compare("li"))
 				{
 					id = XmlHelper::getAttributeValueAsInteger( (DOMElement*)node, "id" );
@@ -265,7 +289,8 @@ namespace rl
 			}
 			if ( node->getNodeType() == DOMNode::TEXT_NODE )
 			{
-				string dialogChoice=AimlParser::transcodeXmlCharToString( node->getNodeValue());//((DOMText*)node)->getData());
+				string dialogChoice = 
+					XmlHelper::transcodeToString(node->getNodeValue()).c_str();
 				mCurrentResponses[id]=dialogChoice;
 				DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, dialogChoice);
 				id=0;
@@ -310,7 +335,7 @@ namespace rl
 	{
 		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Loading Aiml");
 		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, filename);
-		AimlParser* xmlHandler=new AimlParser(this);
+		AimlParserImplXerces* xmlHandler = new AimlParserImplXerces(this);
 		SAX2XMLReader* parser = XMLReaderFactory::createXMLReader();
 		parser->setContentHandler(xmlHandler);
 		parser->setErrorHandler(xmlHandler);
@@ -375,7 +400,8 @@ namespace rl
 			if ( node->getNodeType() == DOMNode::TEXT_NODE ) 
 			{
 				//--	fix whitespace here
-				nodeData=AimlParser::transcodeXmlCharToString(((DOMText*)node)->getData());
+				nodeData = XmlHelper::transcodeToString(
+									static_cast<DOMText*>(node)->getData()).c_str();
 				if ( normalise(nodeData).empty() ) 
 				{
 					lastTailIsWS = !nodeData.empty();
@@ -400,10 +426,11 @@ namespace rl
 				lastWasElement = false;
 			} else if ( node->getNodeType() == DOMNode::CDATA_SECTION_NODE ) {
 				//--	what to do about CDATA???	
-				nodeData=AimlParser::transcodeXmlCharToString(((DOMText*)node)->getData()); // Attention: Cast to CDATA, not to DOMText*!
+				nodeData = XmlHelper::transcodeToString(
+								static_cast<DOMText*>(node)->getData()).c_str(); // Attention: Cast to CDATA, not to DOMText*!
 				result += nodeData;
 			} else if ( node->getNodeType() == DOMNode::ELEMENT_NODE ) {
-				nodeData=AimlParser::transcodeXmlCharToString(node->getNodeName());
+				nodeData = XmlHelper::transcodeToString(node->getNodeName()).c_str();
 				DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, nodeData);
 				AimlProcessor* pt=AimlProcessorManager::getProcessor(nodeData);
 				if ( pt == NULL ) 
@@ -437,11 +464,11 @@ namespace rl
 		} // end for-loop
 		return result;
 	}
-	void NaturalLanguageProcessor::setName(const std::string& name)
+	void NaturalLanguageProcessor::setName(const CeGuiString& name)
 	{
 		mName = name;
 	}
-	const std::string& NaturalLanguageProcessor::getName() const 
+	const CeGuiString& NaturalLanguageProcessor::getName() const 
 	{
 		return mName;
 	}

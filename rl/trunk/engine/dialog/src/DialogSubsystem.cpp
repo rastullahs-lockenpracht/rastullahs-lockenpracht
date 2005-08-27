@@ -18,12 +18,16 @@
 #include <xercesc/sax2/XMLReaderFactory.hpp>
 #include <xercesc/dom/DOM.hpp>
 
-#include "AimlProcessorManager.h"
-#include "DialogSubsystem.h"
-
 #include "XmlHelper.h"
 #include "XmlResourceManager.h"
 #include "Logger.h"
+
+#include "AimlParserImplXerces.h"
+#include "AimlProcessorManager.h"
+
+#include "DialogCharacter.h"
+#include "BotParser.h"
+#include "DialogSubsystem.h"
 
 using namespace Ogre;
 
@@ -42,6 +46,7 @@ namespace rl
 	}
 
 	DialogSubsystem::DialogSubsystem()
+		: mCurrentBot(NULL)
 	{
 		AimlProcessorManager::addStandardProcessors();
 	//  Initialize Xerces if this wasn't done already
@@ -69,7 +74,12 @@ namespace rl
 
     DialogSubsystem::~DialogSubsystem() 
     {  
-
+		for(BotMap::iterator iter = mBots.begin();
+			iter != mBots.end();
+			++iter)
+		{
+			delete iter->second;
+		}
     }
 /*
 	DOMDocument* DialogSubsystem::createDOMDocumentFromFile(const std::string& fileName)
@@ -108,14 +118,41 @@ namespace rl
 		return doc;
 	}
 */
-	void DialogSubsystem::loadBot(const std::string& fileName)
+	DialogCharacter* DialogSubsystem::getCurrentBot()
 	{
-		loadBot(fileName, "");
+		return mCurrentBot;
+		/*
+		BotMap::iterator iter = mBots.find(botName);
+		if( iter != mBots.end())
+		{
+			return iter->second;
+		}
+		return NULL;
+		*/
 	}
 
-	void DialogSubsystem::loadBot(const std::string& fileName, const std::string& botName)
+
+	DialogCharacter* DialogSubsystem::loadBot(const std::string& fileName, const std::string& botName)
 	{
-		DOMDocument* doc;// = createDOMDocumentFromFile(fileName);
+		mCurrentBot = new DialogCharacter();
+		setAimlParser(new AimlParserImplXerces(this));
+		BotParser parser(botName);
+		if(parser.parse(fileName, mCurrentBot))
+		{
+			BotMap::iterator iter = mBots.find(mCurrentBot->getName().c_str());
+			if(iter == mBots.end())
+			{
+				mBots[mCurrentBot->getName().c_str()] = mCurrentBot;
+				return mCurrentBot;
+			}	
+		}
+		else
+		{
+			delete mCurrentBot;
+			mCurrentBot = NULL;
+		}
+		return NULL;
+/*		DOMDocument* doc;// = createDOMDocumentFromFile(fileName);
 
 		if ( doc != NULL ) 
 		{
@@ -157,16 +194,16 @@ namespace rl
 						{
 							static_cast<DOMElement*>(bots->item(i));
 						}
-						/*
+						
 						if(std::string(XmlHelper::getAttributeValueAsString(
 							bots->item(i),
 							XMLString::transcode("name")) == botName)
 						{
 						}
-						*/
+						
 					}
 				}
-				
+		*/		
 	/*
 				for (	node = node->getFirstChild(); 
 						node != NULL; 
@@ -175,12 +212,12 @@ namespace rl
 
 				}
 				*/
-			}
+	/*		}
 			doc->release();
 			doc = NULL;
 			node = NULL;
 		}
-		
+	*/	
 		
 
 

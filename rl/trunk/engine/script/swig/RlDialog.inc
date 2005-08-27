@@ -13,38 +13,31 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-#include "AimlParser.h"
-//#include "NaturalLanguageProcessor.h"
-//#include "Predicates.h"
-//#include "Nodemaster.h"
-//#include "ScriptObject.h"
-//#include "CoreSubsystem.h"
-//#include "Interpreter.h"
-//#include "XmlHelper.h"
-//#include "DialogSubsystem.h"
-/*
-#include <string>
 
-
-XERCES_CPP_NAMESPACE_USE
-using namespace std;
-*/
-namespace rl
+namespace rl 
 {
-	AimlParser::AimlParser(NaturalLanguageProcessor* nlp) 
-		: mNlp(nlp), mAimlCore(NULL) 
-	{ 
-	}
-	
-	AimlParser::AimlParser(AimlCoreComponent* aimlCore) 
-		:  mNlp(NULL), mAimlCore(aimlCore) 
-	{ 
-	}
 
-	bool AimlParser::parse(const std::string& fileName)
+	%feature("director") DialogScriptObject; 
+	class DialogScriptObject
 	{
-		mFileName = fileName;
-		return true;
-	}
+	public:
+		DialogScriptObject();
+		virtual ~DialogScriptObject();
+		virtual int calcOptionValue()=0;	
+	};
+	
+	class DialogCharacter
+	{
+	public:
+		DialogCharacter(const std::string& name);
+		void setScriptObject(rl::DialogScriptObject* scriptObject);
+	};
 
-} // Namespace rl end
+	class DialogSubsystem 
+	{
+	public:
+		static DialogSubsystem& getSingleton(void);
+		rl::DialogCharacter* getCurrentBot();
+		rl::DialogCharacter* loadBot(const std::string& fileName, const std::string& botName = "");
+	};
+}

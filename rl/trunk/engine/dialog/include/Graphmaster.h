@@ -36,7 +36,7 @@ namespace rl
 	{
 	public:
 		Graphmaster();
-		~Graphmaster();
+		virtual ~Graphmaster();
 	
 		Nodemaster* add(const string &context, const string &pattern, const string &that, const string &topic,const string &templateValue);
 		Match* match(const string &context, const string &pattern, const string &that, const string &topic);

@@ -14,16 +14,22 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#include "AimlParser.h"
-#include "processors/ConditionProcessor.h"
+#include <string>
+//#include "AimlParser.h"
+#include "XmlHelper.h"
+#include "DialogSubsystem.h"
+#include "DialogCharacter.h"
+#include "DialogScriptObject.h"
+
+
 #include "Utils.h"
 #include "ScriptObject.h"
 #include "CoreSubsystem.h"
 #include "Interpreter.h"
-#include "XmlHelper.h"
-#include <string>
 
-#include "DialogSubsystem.h"
+#include "processors/ConditionProcessor.h"
+
+
 
 using namespace std;
 
@@ -36,35 +42,43 @@ namespace rl
 	//  value is optional (if there are no values in <li> 
 		string strName = XmlHelper::getAttributeValueAsString( 
 			static_cast<DOMElement*>(node), "name" ).c_str();
-		int nValue = 0;//XmlHelper::getAttributeValueAsInteger( (DOMElement*)node,XMLString::transcode("value") );
+		int tmpVal = 0;//XmlHelper::getAttributeValueAsInteger( (DOMElement*)node,XMLString::transcode("value") );
+
 	//  If function name is missing, return
+		int rVal; 
 		if(!strName.empty())	
 		{
 		//  Get the NPC dialog control script object and call the named function
 			ScriptObject* so=CoreSubsystem::getSingleton().getInterpreter()->getScriptObject("DialogMeister");  
 			// @todo: ScriptObject name has to be NPC name
-			int nReturn=so->callIntegerFunction(strName,0,0);
+			rVal = so->callIntegerFunction(strName,0,0);
+		} 
+		else
+		{
+			rVal = (static_cast<DialogCharacter*>(nlp))->
+				getScriptObject()->calcOptionValue();
+		}
 		//  Search through all li-elements
-			for (DOMNode* childNode=node->getFirstChild(); childNode != node->getLastChild(); childNode = childNode->getNextSibling() )
-			{	
-				if ( childNode->getNodeType() == DOMNode::ELEMENT_NODE ) 
+		for (DOMNode* childNode=node->getFirstChild(); childNode != node->getLastChild(); childNode = childNode->getNextSibling() )
+		{	
+			if ( childNode->getNodeType() == DOMNode::ELEMENT_NODE ) 
+			{
+				string nodeName = XmlHelper::transcodeToString(
+											childNode->getNodeName()).c_str();
+				if(!nodeName.compare("li"))
 				{
-					string nodeName=AimlParser::transcodeXmlCharToString(childNode->getNodeName());
-					if(!nodeName.compare("li"))
+					tmpVal = XmlHelper::getAttributeValueAsInteger( (DOMElement*)childNode,"value" );
+				//	char* test=XmlHelper::getAttributeValueAsString( (DOMElement*)childNode, "value" );
+					std::string id = XmlHelper::getAttributeValueAsString( (DOMElement*)childNode, "id" ).c_str();
+				//  Add elements in <li> Tag only if <li>-value = return value of the named function
+					if(tmpVal == rVal)
 					{
-						nValue=XmlHelper::getAttributeValueAsInteger( (DOMElement*)childNode,"value" );
-					//	char* test=XmlHelper::getAttributeValueAsString( (DOMElement*)childNode, "value" );
-						std::string id =XmlHelper::getAttributeValueAsString( (DOMElement*)childNode, "id" ).c_str();
-					//  Add elements in <li> Tag only if <li>-value = return value of the named function
-						if(nValue==nReturn)
-						{
-							buffer+="<li id=\""+id+"\" />";
-							buffer+=nlp->process(childNode,m,str);	
-						}
-					} // end compare nodeName
-				} // end compare nodeType
-			} // end for loop
-		} // end check empty name
+						buffer += "<li id=\""+id+"\" />";
+						buffer += nlp->process(childNode,m,str);	
+					}
+				} // end compare nodeName
+			} // end compare nodeType
+		} // end for loop
 		return buffer;
 	}
 }// Namespace rl end

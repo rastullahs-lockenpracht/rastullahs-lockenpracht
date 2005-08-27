@@ -25,18 +25,43 @@ namespace rl
 	class AimlParser;
 	class Graphmaster;
 
+    /**
+	 * This class loads and manages AIML files
+	 * The AIML files are parsed with an AimlParser, the relevant Nodes get stored
+	 * in a Graph. Every AIML file has its own node 
+	 */
 	class _RlDialogExport AimlCoreComponent
 	{
 	public:
+		/// Constructors and Destructors
 		AimlCoreComponent(void);
 		virtual ~AimlCoreComponent(void);
 
+		/**
+		 * Getter for a GraphMaster with the given name
+		 * @param name name of the GraphMaster, equivalent to the name of an AIML file
+		 * @return The Graphmaster with the given name, if it exits (else NULL)
+		 */
+		virtual Graphmaster* getGraphMaster(const std::string& name);
+		
+	   /**
+	    * Loads an AIML file with the given name
+		* An AimlParser must be set
+		* @param fileName Filename of the AIML file 
+		* @return true if loading succeded
+		* @see setAimlParser(AimlParser* parser)
+		*/
 		virtual bool loadAimlFile(const std::string& fileName);
 
+		/**
+		 * Sets the AimlParser necessary for parsing an AIML file
+		 * @param Pointer to the AimlParser
+		 */
 		void setAimlParser(AimlParser* parser);
 		
 	private:
 		typedef std::map<std::string,Graphmaster*> GraphMasterMap;
+		
 		GraphMasterMap mGraphMasters;
 
 		AimlParser* mParser;

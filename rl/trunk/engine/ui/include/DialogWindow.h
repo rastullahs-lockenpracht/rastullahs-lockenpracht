@@ -17,9 +17,7 @@
 #ifndef __DialogWindow_H__
 #define __DialogWindow_H__
 
-#include "NaturalLanguageProcessor.h"
 #include "UiPrerequisites.h"
-
 
 #include <string>
 #include <vector>
@@ -27,16 +25,24 @@
 
 #include "CeGuiWindow.h"
 
+#include "NaturalLanguageProcessor.h"
+
 namespace rl {
 
-	class _RlUiExport DialogWindow : public CeGuiWindow, public Ogre::Singleton<DialogWindow>
+
+	class DialogCharacter;
+
+	class _RlUiExport DialogWindow : public CeGuiWindow //, public Ogre::Singleton<DialogWindow>
 	{
 	public:
-        static DialogWindow& getSingleton(void);
-        static DialogWindow* getSingletonPtr(void);
+   //     static DialogWindow& getSingleton(void);
+   //     static DialogWindow* getSingletonPtr(void);
 
-		DialogWindow(string dialogFile);
+		DialogWindow(const std::string& dialogFile);
+		DialogWindow(DialogCharacter* bot);
 		~DialogWindow();
+
+		void initialize();
 
 		void getResponse(std::string msg);
 		void addLine(std::string text);
@@ -52,7 +58,7 @@ namespace rl {
 	private:
 		std::map<std::string, std::string> mVariableValues;
 		std::vector<std::string> mTextLines;
-		std::map<int,std::string> mResponses;
+		NaturalLanguageProcessor::Responses mResponses;
 		NaturalLanguageProcessor* mNlp;
 		CEGUI::Listbox* mDialogOptions;
 		CEGUI::StaticImage* mImage;

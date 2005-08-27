@@ -42,6 +42,7 @@ namespace rl {
 	class Container;
 	class InGameMenuWindow;
 	class Creature;
+	class DialogCharacter;
 
     class _RlUiExport UiSubsystem : protected Ogre::Singleton<UiSubsystem>
     {
@@ -84,6 +85,7 @@ namespace rl {
 		void showCharacterSheet();
 		void showCharacterSheet(Person* chara);
 		bool showInputOptionsMenu(Creature* actionHolder);
+		void showDialog(DialogCharacter* bot);
         void showPlaylist();
 		Person* getActiveCharacter();
 		void setActiveCharacter(Person* person);

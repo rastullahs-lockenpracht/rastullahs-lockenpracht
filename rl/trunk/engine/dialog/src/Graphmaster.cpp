@@ -35,14 +35,13 @@ namespace rl
 {
 	Graphmaster::Graphmaster() : mRoot(new Nodemaster()) 
 	{
-		int test = 5;
 	}
 
 	Graphmaster::~Graphmaster() 
 	{
-		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Delete all graphmaster nodes");
+//		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Delete all graphmaster nodes");
 		mRoot->deleteAllNodes();
-		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Delete root");
+//		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Delete root");
 		delete mRoot;
 	}
 
@@ -84,13 +83,13 @@ namespace rl
 		return node;
 	}
 
-	Match *Graphmaster::match(const string &context, const string &pattern, const string &that, const string &topic) 
+	Match* Graphmaster::match(const string &context, const string &pattern, const string &that, const string &topic) 
 	{
 		string path = context + GM_PATTERN + pattern + GM_THAT + that + GM_TOPIC + topic;
 		return match(mRoot, mRoot, Context, path, "", "");
 	}
 
-	Match *Graphmaster::match(Nodemaster *node, Nodemaster *parent, component which, const string &input, const string &star, const string &path) 
+	Match* Graphmaster::match(Nodemaster *node, Nodemaster *parent, component which, const string &input, const string &star, const string &path) 
 	{
 		StringTokenizer st(input, " ");
 		
@@ -102,7 +101,7 @@ namespace rl
 				cout << "-- no template" << endl << endl;
 				return NULL;
 			}
-			Match *match = new Match();
+			Match* match = new Match();
 			match->setNode(node);
 			match->addStar(star, which);
 			match->setPattern(path, which);
@@ -113,8 +112,8 @@ namespace rl
 		
 		//cerr << "WORD:  " << word << endl;
 		string tail = "";
-		Match *m = NULL;
-		Nodemaster *n = NULL;
+		Match* m = NULL;
+		Nodemaster* n = NULL;
 		
 		if ( st.hasMoreTokens() ) 
 		{
