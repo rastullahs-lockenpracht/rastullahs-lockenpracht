@@ -130,7 +130,7 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="TRUE"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlSound.lib RlCommon.lib msvcrt-ruby18.lib OgreMain.lib xerces-c_2.lib OgreOde_Core.lib ceguibase_d.lib"
+				AdditionalDependencies="RlSound.lib RlCommon.lib msvcrt-ruby18.lib OgreMain.lib xerces-c_2.lib OgreOde_Core.lib ceguibase.lib"
 				OutputFile="./lib/$(ConfigurationName)/RlCore.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
