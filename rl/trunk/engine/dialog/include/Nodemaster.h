@@ -40,10 +40,10 @@ namespace rl
 		void deleteAllNodes();
 		DOMNode* getTemplateNode() const;
 		string getTemplate();
-		void setTemplate(const string &data);
+		void setTemplate(const string& data);
 
-		Nodemaster *getChild(const string &key);
-		void addChild(const string &key, Nodemaster *child);
+		Nodemaster* getChild(const string& key);
+		void addChild(const string& key, Nodemaster *child);
 
 	private:
 		map<string, Nodemaster *> mChildren;

@@ -33,7 +33,8 @@
 using namespace std;
 namespace rl
 {
-	Graphmaster::Graphmaster() : mRoot(new Nodemaster()) 
+	Graphmaster::Graphmaster() 
+		: mRoot(new Nodemaster())
 	{
 	}
 
@@ -45,31 +46,38 @@ namespace rl
 		delete mRoot;
 	}
 
-	const static string GM_PATTERN = " <pattern> ";
-	const static string GM_THAT = " <that> ";
-	const static string GM_TOPIC = " <topic> ";
-	const static string ASTERISK = "*";
-	const static string UNDERSCORE = "_";
+	const static CeGuiString GM_PATTERN = " <pattern> ";
+	const static CeGuiString GM_THAT = " <that> ";
+	const static CeGuiString GM_TOPIC = " <topic> ";
+	const static CeGuiString ASTERISK = "*";
+	const static CeGuiString UNDERSCORE = "_";
 
-	Nodemaster *Graphmaster::add(const string &context, const string &pattern, const string &that, const string &topic,const string &templateValue)
+	Nodemaster* Graphmaster::add(	const CeGuiString& context, 
+									const CeGuiString& pattern, 
+									const CeGuiString& that, 
+									const CeGuiString& topic,
+									const CeGuiString& templateValue)
 	{
-		string path = toUpper(context + GM_PATTERN + pattern + GM_THAT + that + GM_TOPIC + topic);
+		CeGuiString path = (context + GM_PATTERN + pattern + GM_THAT + that + GM_TOPIC + topic); // toUpper
 		Nodemaster *node = mRoot, *child = NULL;
-		char *c_string = (char *)path.c_str();
+		char* c_string = (char*)path.c_str();
+		//path
 		//--	this code needs to be updated to use the StringTokenizer (this ain't robust)
+		
 		for ( char *end = strchr(c_string, ' '); c_string != NULL; )
 		{
 			if ( end != NULL )
 				*end = '\0';
 		
-			string token(c_string);
-			child = node->getChild(token);
+			CeGuiString token(c_string);
+			token.data();
+			child = node->getChild(token.c_str());
 
 			if ( child == NULL ) 
 			{
-				child = new Nodemaster(templateValue);			// eigentlich müsste man direkt hier schon
+				child = new Nodemaster(templateValue.c_str());			// eigentlich müsste man direkt hier schon
 													// das templateValue übergeben können
-				node->addChild(token, child);
+				node->addChild(token.c_str(), child);
 			}
 			node = child;
 		
@@ -83,15 +91,19 @@ namespace rl
 		return node;
 	}
 
-	Match* Graphmaster::match(const string &context, const string &pattern, const string &that, const string &topic) 
+	Match* Graphmaster::match (	const CeGuiString& context, const CeGuiString& pattern, 
+								const CeGuiString& that, const CeGuiString& topic) 
 	{
-		string path = context + GM_PATTERN + pattern + GM_THAT + that + GM_TOPIC + topic;
+		CeGuiString path = context + GM_PATTERN + pattern + GM_THAT + that + GM_TOPIC + topic;
 		return match(mRoot, mRoot, Context, path, "", "");
 	}
 
-	Match* Graphmaster::match(Nodemaster *node, Nodemaster *parent, component which, const string &input, const string &star, const string &path) 
+	Match* Graphmaster::match (	Nodemaster *node, Nodemaster *parent, component which, 
+								const CeGuiString& input, const CeGuiString& star, 
+								const CeGuiString& path) 
 	{
-		StringTokenizer st(input, " ");
+		std::string tmpInput = input.c_str();
+		StringTokenizer st(tmpInput, " ");
 		
 		//cerr << "PATH:  " << path << endl << "STAR:  " << star << endl << "INPUT: " << input << endl << endl;
 		
@@ -103,8 +115,8 @@ namespace rl
 			}
 			Match* match = new Match();
 			match->setNode(node);
-			match->addStar(star, which);
-			match->setPattern(path, which);
+			match->addStar(star.c_str(), which);
+			match->setPattern(path.c_str(), which);
 			return match;
 		}
 		
@@ -138,18 +150,18 @@ namespace rl
 				m = match(n, node, c, tail, "", "");
 				if ( m != NULL ) 
 				{
-					m->addStar(star, which);
-					m->setPattern(path, which);
+					m->addStar(star.c_str(), which);
+					m->setPattern(path.c_str(), which);
 				}
 			}
 			return m;
 		}
-		if ( (n = node->getChild(UNDERSCORE)) ) 
+		if ( (n = node->getChild(UNDERSCORE.c_str())) ) 
 		{
 			m = match(n, node, which, tail, word, path + ' ' + UNDERSCORE);
 			if ( m != NULL ) 
 			{
-				m->addStar(star, which);
+				m->addStar(star.c_str(), which);
 				return m;
 			}
 		}
@@ -161,16 +173,16 @@ namespace rl
 				return m;
 			}
 		}
-		if ( (n = node->getChild(ASTERISK)) ) 
+		if ( (n = node->getChild(ASTERISK.c_str())) ) 
 		{
 			m = match(n, node, which, tail, word, path + ' ' + ASTERISK);
 			if ( m != NULL ) 
 			{
-				m->addStar(star, which);
+				m->addStar(star.c_str(), which);
 				return m;
 			}
 		}
-		if ( node == parent->getChild(ASTERISK) || node == parent->getChild(UNDERSCORE) ) 
+		if ( node == parent->getChild(ASTERISK.c_str()) || node == parent->getChild(UNDERSCORE.c_str()) ) 
 			return match(node, parent, which, tail, star + ' ' + word, path);
 
 		return NULL;

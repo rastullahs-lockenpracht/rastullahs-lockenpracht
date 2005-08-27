@@ -65,7 +65,7 @@ DialogWindow::DialogWindow(DialogCharacter* bot)
 DialogWindow::~DialogWindow()
 {
 	// TO DO: DialogWindow::~DialogWindow()
-	if(mNlp)delete mNlp;
+//	if(mNlp)delete mNlp;
 }
 
 void DialogWindow::initialize()
@@ -98,7 +98,7 @@ void DialogWindow::getResponse(string msg)
 	if(mResponses.empty())
 	{
 		mQuestion->setText(CeGuiString("DIALOG BEENDET"));
-		hide();	
+		handleClose();
 		return;
 	}
 	NaturalLanguageProcessor::Responses::iterator itr = mResponses.begin();

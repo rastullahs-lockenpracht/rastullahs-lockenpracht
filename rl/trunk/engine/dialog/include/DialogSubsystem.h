@@ -19,6 +19,7 @@
 
 #include <OgreSingleton.h>
 
+#include "CommonPrerequisites.h"
 #include "DialogPrerequisites.h"
 #include "AimlCoreComponent.h"
 
@@ -49,7 +50,7 @@ namespace rl
 		 * @param botName name of the bot to load
 		 * @return will return a DialogCharacter...
 		 */
-		DialogCharacter* loadBot(const std::string& fileName, const std::string& botName = "");
+		DialogCharacter* loadBot(const std::string& fileName, const CeGuiString& botName = "");
 	
 		/**
 		 * Logging
@@ -57,7 +58,7 @@ namespace rl
 		void log(const Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident = "");
 
 	private:
-		typedef std::map<std::string, DialogCharacter*> BotMap;
+		typedef std::map<CeGuiString, DialogCharacter*> BotMap;
 		BotMap mBots;
 
 		DialogCharacter* mCurrentBot;

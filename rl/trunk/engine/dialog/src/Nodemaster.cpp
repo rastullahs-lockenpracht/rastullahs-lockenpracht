@@ -86,7 +86,7 @@ namespace rl
 		mChildren[toUpper(key)] = cached;
 	}
 
-	Nodemaster *Nodemaster::getChild(const string &key) 
+	Nodemaster* Nodemaster::getChild(const string &key) 
 	{
 		if ( key.empty() ) return cached;
 		map<string, Nodemaster *>::iterator itr = mChildren.find(toUpper(key));

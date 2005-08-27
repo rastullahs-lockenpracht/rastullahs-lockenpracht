@@ -16,11 +16,11 @@
 #ifndef __Rl_BotParser_H__
 #define __Rl_BotParser_H__
 
-#include <string>
 #include <stack>
 
 #include <xercesc/sax2/DefaultHandler.hpp>
 
+#include "CommonPrerequisites.h"
 #include "DialogPrerequisites.h"
 
 namespace rl
@@ -30,7 +30,7 @@ namespace rl
 	class _RlDialogExport BotParser : public XERCES_CPP_NAMESPACE::DefaultHandler
 	{
 	public:
-		BotParser(const std::string& botName);
+		BotParser(const CeGuiString& botName);
 		virtual ~BotParser(void);
 
 		virtual bool parse(const std::string& fileName, DialogCharacter* bot);

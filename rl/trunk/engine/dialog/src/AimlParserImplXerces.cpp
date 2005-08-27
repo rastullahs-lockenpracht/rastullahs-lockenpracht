@@ -96,6 +96,15 @@ namespace rl
 		return false;
 	}
 	
+	bool AimlParserImplXerces::compareTagName (	const XMLCh* const arg1,
+												const char* const  arg2)
+	{
+		XMLCh* tmpVal = XMLString::transcode(arg2);
+		bool rVal = XMLString::equals(arg1, tmpVal);
+		XMLString::release(&tmpVal);
+		return rVal;		
+	}
+
 	/** Handles the start of a new xml/aiml document
 	 *  @author Philipp Walser
 	 */
@@ -113,11 +122,11 @@ namespace rl
 	 *  @author Philipp Walser, Jonathan Roewen
 	 *  @todo seperate xml- and aiml-processing?  error handling
 	 */
-	void AimlParserImplXerces::startElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const XERCES_CPP_NAMESPACE::Attributes& attrs)
+	void AimlParserImplXerces::startElement(const XMLCh* const uri, const XMLCh* const tagName, const XMLCh* const qname, const XERCES_CPP_NAMESPACE::Attributes& attrs)
 	{
 		CeGuiString name, value, rtn;
-		CeGuiString tmp = XmlHelper::transcodeToString(localname);
-		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "startElement");
+		CeGuiString tmp = XmlHelper::transcodeToString(tagName);
+	//	DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "startElement");
 	/////////////////////////////////////////
 	// Abfrage für Startup-File
 	////////////////////////////////////////
@@ -159,7 +168,7 @@ namespace rl
 				}
 			}
 		} else if(!tmp.compare("script")) {
-			DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "script");
+		//	DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "script");
 			mCurState = PARSER_SCRIPT;
 			name = XmlHelper::getAttributeValueAsString(attrs,"src");
 			templateValue = XmlHelper::getAttributeValueAsString(attrs,"class");
@@ -175,13 +184,13 @@ namespace rl
 				mCurState=PARSER_START;
 			} 
 		} else if(!tmp.compare("bot")) {
-			DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Bot");
+		//	DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Bot");
 			if(mNlp)
 			{
 				mNlp->setName(XmlHelper::getAttributeValueAsString(attrs,"name"));
 			}
 		} else if(!tmp.compare("learn")) {
-			DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Learning");
+		//	DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Learning");
 			name = XmlHelper::getAttributeValueAsString(attrs,"src");
 			if ( !name.empty())
 			{
@@ -196,24 +205,28 @@ namespace rl
 	/////////////////////////////////////////
 	// Abfrage für AIML-File
 	////////////////////////////////////////
-		if(!tmp.compare("aiml") && mCurState==PARSER_START)
+		if(compareTagName(tagName, "aiml"))
+		{
+			mCurState = PARSER_AIML;
+		}
+/*		if(!tmp.compare("aiml") && mCurState==PARSER_START)
 		{		
 			mCurState = PARSER_AIML;
 		}
-		switch( mCurState )
+*/		switch( mCurState )
 		{
 		case PARSER_AIML:
-			if(!tmp.compare("category"))
+			if(compareTagName(tagName, "category"))
 			{
 				mCurState = PARSER_CATEGORY;
 				startCategory();
-			} else if(!tmp.compare("topic")) {
+			} else if(compareTagName(tagName, "topic")) {
 				name = XmlHelper::getAttributeValueAsString(attrs,"name");
 				if(!name.empty())
 					topicName = name;
 
 				mCurState = PARSER_TOPIC;
-			} else if(!tmp.compare("context")) {
+			} else if(compareTagName(tagName, "context")) {
 				name = XmlHelper::getAttributeValueAsString(attrs,"name");
 				if(!name.empty())
 					contextName = name;
@@ -225,11 +238,11 @@ namespace rl
 			mPrevStates.push(PARSER_AIML);
 			break;
 		case PARSER_CONTEXT:
-			if(!tmp.compare("category"))
+			if(compareTagName(tagName, "category"))
 			{
 				mCurState = PARSER_CATEGORY;
 				startCategory();
-			} else if(!tmp.compare("topic")) {
+			} else if(compareTagName(tagName, "topic")) {
 				name = XmlHelper::getAttributeValueAsString(attrs,"name");
 				if(!name.empty())
 					topicName = name;
@@ -241,11 +254,11 @@ namespace rl
 			mPrevStates.push(PARSER_CONTEXT);
 			break;
 		case PARSER_TOPIC:
-			if(!tmp.compare("category"))
+			if(compareTagName(tagName, "category"))
 			{
 				mCurState = PARSER_CATEGORY;
 				startCategory();
-			} else if(!tmp.compare("context")) {
+			} else if(compareTagName(tagName, "context")) {
 				name = XmlHelper::getAttributeValueAsString(attrs,"name");
 				if(!name.empty())
 					contextName = name;
@@ -263,14 +276,14 @@ namespace rl
 			case CAT_START:
 				//--	one of "pattern", "that"
 				//--	or "template" is valid
-				if ( !tmp.compare("pattern") )
+				if ( compareTagName(tagName, "pattern") )
 				{	//--	"pattern"
 					mSubState = CAT_PATTERN;
-				} else if ( !tmp.compare("that") ) {
+				} else if ( compareTagName(tagName, "that") ) {
 					//--	"that"
 					thatValue = "";
 					mSubState = CAT_THAT;
-				} else if ( !tmp.compare("template") ) {
+				} else if ( compareTagName(tagName, "template") ) {
 					//--	"template"
 					templateValue = "<template>";
 					//--	assumed no attributes...
@@ -281,7 +294,7 @@ namespace rl
 				break;
 			case CAT_PATTERN:
 				//--	one of "bot" or "name" is valid
-				if ( !tmp.compare("bot") ) 
+				if ( compareTagName(tagName, "bot") ) 
 				{	//--	"bot"
 					name = XmlHelper::getAttributeValueAsString(attrs,"name");
 					if ( !name.empty() ) 
@@ -290,7 +303,7 @@ namespace rl
 						break;
 					}
 					mSubState = CAT_BOT;
-				} else if ( !tmp.compare("name") ) {
+				} else if ( compareTagName(tagName, "name") ) {
 					//--	"name"
 					//--	lookup bot property 'name'
 					patternValue += Predicates::getProperty("name");	// XXX PREDICATES
@@ -358,9 +371,9 @@ namespace rl
 	 *  Partially adopted from jAliceSource
 	 *  @author Philipp Walser, Jonathan Roewen
 	 */
-	void AimlParserImplXerces::endElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname)
+	void AimlParserImplXerces::endElement(const XMLCh* const uri, const XMLCh* const tagName, const XMLCh* const qname)
 	{
-		CeGuiString tmp = XmlHelper::transcodeToString(localname);
+		CeGuiString tmp = XmlHelper::transcodeToString(tagName);
 		switch ( mCurState ) {
 			case PARSER_START:
 				//--	an error
@@ -382,7 +395,7 @@ namespace rl
 				mPrevStates.pop();
 				break;
 			case PARSER_CATEGORY:
-				if ( !tmp.compare("category") ) {
+				if ( compareTagName(tagName, "category") ) {
 					endCategory();
 					mCurState = mPrevStates.top();
 					mPrevStates.pop();
@@ -556,11 +569,11 @@ namespace rl
 		if(mNlp)
 		{
 			Nodemaster* node = mNlp->getGM()->add(
-				contextName.c_str(),
-				patternValue.c_str(),
-				thatValue.c_str(),
-				topicName.c_str(),
-				templateValue.c_str()
+				contextName,
+				patternValue,
+				thatValue,
+				topicName,
+				templateValue
 				);
 		}
 		if(mAimlCore)
@@ -568,11 +581,11 @@ namespace rl
 			if(Graphmaster* gm = mAimlCore->getGraphMaster(mFileName))
 			{
 				Nodemaster* node = gm->add(
-									contextName.c_str(),
-									patternValue.c_str(),
-									thatValue.c_str(),
-									topicName.c_str(),
-									templateValue.c_str()
+									contextName,
+									patternValue,
+									thatValue,
+									topicName,
+									templateValue
 									);
 			}
 		}

@@ -33,7 +33,7 @@ XERCES_CPP_NAMESPACE_USE
 
 namespace rl
 {
-	BotParser::BotParser(const std::string& botName)
+	BotParser::BotParser(const CeGuiString& botName)
 		: hasScript(false), mBotName(botName), mBot(NULL)
 	{
 	}
@@ -52,7 +52,6 @@ namespace rl
 		SAX2XMLReader* parser = XMLReaderFactory::createXMLReader();
 		parser->setContentHandler(this);
 		parser->setErrorHandler(this);
-		//parser->setValidator(XMLValidator setValidationScheme(XercesDOMParser::Val_Always);
 		try
 		{	
 			XmlPtr res;
@@ -80,7 +79,6 @@ namespace rl
 			char* excmsg = XMLString::transcode(exc.getMessage());
 			std::string excs="Exception while Parsing: ";
 			excs+=excmsg;
-	//		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, excs);
 			// cleanup
 			if(parser)
 			{
@@ -91,13 +89,11 @@ namespace rl
 		return false;
 	}
 
-
 	void BotParser::startDocument()
 	{
 		mCurrentState = TAG_NONE;
 		mSubState = SUBTAG_NONE;
 	}
-
 
 	void BotParser::startElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const XERCES_CPP_NAMESPACE::Attributes& attrs)
 	{
@@ -116,6 +112,8 @@ namespace rl
 				{
 					CeGuiString botName = 
 						XmlHelper::getAttributeValueAsString(attrs, "name");
+					const CEGUI::utf8* test = botName.data();
+					botName = CeGuiString(test);
 					if(mBotName.empty() || mBotName == botName)
 					{
 						mBotName = botName;
@@ -149,17 +147,13 @@ namespace rl
 							value = XmlHelper::getAttributeValueAsString(attrs,"class");
 							if(src.find("?") && value.find("?"))
 							{
+								CoreSubsystem::getSingleton().getInterpreter()->execute(("load \"" + src + "\"").c_str());
 								std::stringstream test;
 								test << "DialogSubsystem.getSingleton()";
 								test << ".getCurrentBot().setScriptObject(";
 								test << value.c_str() << ".new())";
 								CoreSubsystem::getSingleton().getInterpreter()->execute(test.str());
-							/*
-								ScriptObject* so=new ScriptObject("DialogMeister"); // TODO: Name of NPC
-								Ogre::String bla[]={"Hans(RB)"};
-								so->setScript(src.c_str(),value.c_str(),1,bla);
-								so->callFunction("OnPlaySound",0,0);
-							*/
+
 								mSubState = SUBTAG_START;
 							}
 							
@@ -186,7 +180,6 @@ namespace rl
 										}
 									}
 								}
-							//	loadAimlFile(src.c_str());
 							}
 						}
 					}
@@ -198,21 +191,10 @@ namespace rl
 					break;
 				case SUBTAG_LEARN:
 					{
-				//		XmlHelper::getAttributeValueAsString(
 						// This should never happen
 					}
 					break;
 				}
-/*
-				else if(tagName == "learn")
-				{
-				}
-				else
-				{
-					// error
-				}
-				*/
-			//	mPrevStates.push(TAG_BOT);
 			}
 			break;
 		}
@@ -277,5 +259,4 @@ namespace rl
 	void BotParser::fatalError (const XERCES_CPP_NAMESPACE::SAXParseException &exc)
 	{
 	}
-
 }

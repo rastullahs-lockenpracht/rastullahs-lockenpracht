@@ -148,7 +148,7 @@ namespace rl {
 		mInGameMenuWindow = new InGameMenuWindow();
 		mCharacterSheet = new CharacterSheetWindow();
 
-        runTest();
+  //      runTest();
     }
 
     void UiSubsystem::requestExit()

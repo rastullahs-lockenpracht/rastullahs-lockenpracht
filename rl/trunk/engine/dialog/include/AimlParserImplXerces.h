@@ -34,30 +34,36 @@ namespace rl
 
 		virtual bool parse(const std::string& fileName);
 
-		/*************************************************************************
-		SAX2 Handler overrides
-		*************************************************************************/ 
+		bool AimlParserImplXerces::compareTagName (	const XMLCh* const arg1,
+													const char* const  arg2);
+
+		/**
+		 * SAX2 Handler overrides
+		 */
 		virtual void startDocument();
-		virtual void startElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname, const XERCES_CPP_NAMESPACE::Attributes& attrs);
-		virtual void endElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname);
-		virtual void characters(const XMLCh *const chars,const unsigned int len);
+		virtual void startElement (	const XMLCh* const uri, 
+									const XMLCh* const tagName, 
+									const XMLCh* const qname, 
+									const XERCES_CPP_NAMESPACE::Attributes& attrs);
+
+		virtual void endElement(const XMLCh* const uri, 
+								const XMLCh* const tagName, 
+								const XMLCh* const qname);
+
+		virtual void characters(const XMLCh *const chars, const unsigned int len);
+		
 		virtual void startCDATA();
+		
 		void startCategory();
+		
 		void endCategory();
 
 		virtual void  warning (const XERCES_CPP_NAMESPACE::SAXParseException &exc);
+		
 		virtual void  error (const XERCES_CPP_NAMESPACE::SAXParseException &exc);
+
 		virtual void  fatalError (const XERCES_CPP_NAMESPACE::SAXParseException &exc);
 
-		/*************************************************************************
-		Static helper functions
-		*************************************************************************/ 
-/*		static std::string transcodeXmlCharToString(const XMLCh* const xmlch_str);
-		static std::string getAttributeValueAsString(const XERCES_CPP_NAMESPACE::Attributes& attrs, const char* const attributeName);
-		static int getAttributeValueAsInteger(const XERCES_CPP_NAMESPACE::Attributes& attrs, const char* const attributeName);
-//		static int getAttributeValueAsInteger(DOMNamedNodeMap* node,const char* const nodeName);
-		static const XMLCh* getAttributeValueAsXmlChar(const XERCES_CPP_NAMESPACE::Attributes& attrs, const char* const attributeName);
-*/
 	private:
 		typedef enum 
 		{

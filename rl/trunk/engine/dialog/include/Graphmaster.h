@@ -20,11 +20,9 @@
 //--	Graphmaster.h
 #include "Match.h"
 #include "DialogPrerequisites.h"
+#include "CommonPrerequisites.h"
 
 #include <string>
-
-
-
 using namespace std;
 
 
@@ -38,13 +36,18 @@ namespace rl
 		Graphmaster();
 		virtual ~Graphmaster();
 	
-		Nodemaster* add(const string &context, const string &pattern, const string &that, const string &topic,const string &templateValue);
-		Match* match(const string &context, const string &pattern, const string &that, const string &topic);
+		Nodemaster* add(const CeGuiString& context, const CeGuiString& pattern, 
+						const CeGuiString& that, const CeGuiString& topic,
+						const CeGuiString& templateValue);
+		Match* match (	const CeGuiString& context, const CeGuiString& pattern, 
+						const CeGuiString& that, const CeGuiString& topic);
 	private:
-		Match* match(Nodemaster *node, Nodemaster *parent, component which, const string &input, const string &star, const string &path);
+		Match* match (	Nodemaster* node, Nodemaster* parent, component which, 
+						const CeGuiString& input, const CeGuiString& star, 
+						const CeGuiString& path);
 	
 		Nodemaster* mRoot;
-		string mName;	// name of the aiml-file the graphmaster contains
+		CeGuiString mName;	// name of the aiml-file the graphmaster contains
 	};
 }
 #endif
