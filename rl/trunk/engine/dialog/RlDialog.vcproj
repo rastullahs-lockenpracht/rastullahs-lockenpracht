@@ -124,13 +124,31 @@
 				RelativePath=".\src\AimlCoreComponent.cpp">
 			</File>
 			<File
+				RelativePath=".\src\AimlDocumentImplXerces.cpp">
+			</File>
+			<File
+				RelativePath=".\src\AimlNodeImplXerces.cpp">
+			</File>
+			<File
 				RelativePath=".\src\AimlParser.cpp">
+			</File>
+			<File
+				RelativePath=".\src\AimlParserImplXerces.cpp">
 			</File>
 			<File
 				RelativePath=".\src\AimlProcessorManager.cpp">
 			</File>
 			<File
+				RelativePath=".\src\BotParser.cpp">
+			</File>
+			<File
 				RelativePath=".\src\processors\ConditionProcessor.cpp">
+			</File>
+			<File
+				RelativePath=".\src\DialogCharacter.cpp">
+			</File>
+			<File
+				RelativePath=".\src\DialogScriptObject.cpp">
 			</File>
 			<File
 				RelativePath=".\src\DialogSubsystem.cpp">
@@ -165,7 +183,22 @@
 				RelativePath=".\include\AimlCoreComponent.h">
 			</File>
 			<File
+				RelativePath=".\include\AimlDocument.h">
+			</File>
+			<File
+				RelativePath=".\include\AimlDocumentImplXerces.h">
+			</File>
+			<File
+				RelativePath=".\include\AimlNode.h">
+			</File>
+			<File
+				RelativePath=".\include\AimlNodeImplXerces.h">
+			</File>
+			<File
 				RelativePath=".\include\AimlParser.h">
+			</File>
+			<File
+				RelativePath=".\include\AimlParserImplXerces.h">
 			</File>
 			<File
 				RelativePath=".\include\AimlProcessor.h">
@@ -174,13 +207,22 @@
 				RelativePath=".\include\AimlProcessorManager.h">
 			</File>
 			<File
+				RelativePath=".\include\BotParser.h">
+			</File>
+			<File
 				RelativePath=".\include\processors\BrProcessor.h">
 			</File>
 			<File
 				RelativePath=".\include\processors\ConditionProcessor.h">
 			</File>
 			<File
+				RelativePath=".\include\DialogCharacter.h">
+			</File>
+			<File
 				RelativePath=".\include\DialogPrerequisites.h">
+			</File>
+			<File
+				RelativePath=".\include\DialogScriptObject.h">
 			</File>
 			<File
 				RelativePath=".\include\DialogSubsystem.h">

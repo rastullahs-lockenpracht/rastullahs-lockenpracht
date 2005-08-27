@@ -14,6 +14,7 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 #include "DialogCharacter.h"
+#include "DialogScriptObject.h"
 
 namespace rl
 {
