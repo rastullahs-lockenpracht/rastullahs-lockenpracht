@@ -70,7 +70,7 @@ class Chest < Container
     chestActor = getActor();
     chestActor.getControlledObject().replaceAnimation("zu", "auf", 1.0, 1);
     knarzActor = chestActor.getChildByName(chestActor.getName()+"_knarzen");
-    knarzActor.getControlledObject().play(0);
+    knarzActor.getControlledObject().play();
     setOpen( true);
     $UI.showContainerContent(self);
   end
@@ -79,7 +79,7 @@ class Chest < Container
     chestActor = getActor();
     chestActor.getControlledObject.replaceAnimation("auf", "zu", 1.0, 1);
     knarzActor = chestActor.getChildByName(chestActor.getName()+"_knarzen");
-    knarzActor.getControlledObject().play(0);
+    knarzActor.getControlledObject().play();
     setOpen( false);
   end
 end

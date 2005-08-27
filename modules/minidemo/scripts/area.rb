@@ -12,7 +12,7 @@ class DunkleEckenLachListener < GameAreaListener
 	end
 	def areaEntered(anEvent)
 		print( "Rein - " + anEvent.getProvokingActor().getName() );
-		anEvent.getSource().getActor().getControlledObject().play(0);
+		anEvent.getSource().getActor().getControlledObject().play();
 		$UI.showMessageWindow( "Das ist die dunkle Ecke" );
 	end
 end

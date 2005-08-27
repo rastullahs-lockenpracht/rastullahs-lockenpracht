@@ -22,7 +22,7 @@ class OpenDoorAction < RubyAction
     doorActor = door.getActor(); 
     doorActor.getControlledObject().replaceAnimation("zu", "auf", 1.0, 1);
     knarzActor = doorActor.getChildByName(doorActor.getName()+"_knarzen");
-    knarzActor.getControlledObject().play(0);
+    knarzActor.getControlledObject().play();
     door.setOpen(true);
   end
 end
@@ -41,7 +41,7 @@ class CloseDoorAction < RubyAction
     doorActor = door.getActor();
     doorActor.getControlledObject.replaceAnimation("auf", "zu", 1.0, 1); 
     knarzActor = doorActor.getChildByName(doorActor.getName()+"_knarzen");
-    knarzActor.getControlledObject().play(0);
+    knarzActor.getControlledObject().play();
     door.setOpen(false);
   end
 end
@@ -60,7 +60,7 @@ class Door < RubyItem
     
     @mOpen = isOpen
     @mOpenAction = OpenDoorAction.new()
-	@mCloseAction = CloseDoorAction.new()
+    @mCloseAction = CloseDoorAction.new()
 
     @mCanBeOpened = canBeOpened
     

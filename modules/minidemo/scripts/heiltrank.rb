@@ -18,7 +18,7 @@ class HealAction < RubyAction
     def doAction(potion, user, target)
        targetActor = user.getActor();
        gulpActor = targetActor.getChildByName(targetActor.getName()+"_schlucken");
-       gulpActor.getControlledObject().play(0);
+       gulpActor.getControlledObject().play();
 
        overMax = false
        case @mQuality
