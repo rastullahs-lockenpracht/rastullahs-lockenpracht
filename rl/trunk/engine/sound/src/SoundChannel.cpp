@@ -20,6 +20,9 @@
 #include <OgreVector3.h>
 #include "Sound.h"
 #include "SoundSubsystem.h"
+extern "C" {
+    #include <fmod.h>
+}
 
 Ogre::String rl::SoundChannel::msMovableType = "SoundChannel";
 Ogre::AxisAlignedBox rl::SoundChannel::msAABox = Ogre::AxisAlignedBox(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5);
@@ -40,6 +43,11 @@ SoundChannel::SoundChannel(Sound *sound, const Ogre::String &name)
 
 SoundChannel::~SoundChannel()
 {
+    FSOUND_StopSound(getChannel());
+    if (mSound)
+    {
+        delete mSound;
+    }
 }
 
 /**
@@ -284,7 +292,7 @@ void SoundChannel::setGain(const int gain) throw (RuntimeException)
 }
 
 /**
- * @param pausing TRUE lässt den Sound unterbrechen.
+ * @param pausing TRUE lï¿½sst den Sound unterbrechen.
  * @author JoSch
  * @date 07-04-2005
  */

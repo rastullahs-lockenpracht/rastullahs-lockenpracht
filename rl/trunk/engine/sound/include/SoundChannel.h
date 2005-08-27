@@ -18,6 +18,7 @@
 #define _SOUNDCHANNEL_H_
 
 #include "SoundPrerequisites.h"
+#include "Exception.h"
 
 namespace Ogre {
     class MovableObject;
