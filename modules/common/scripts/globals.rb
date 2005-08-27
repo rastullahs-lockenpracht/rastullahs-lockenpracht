@@ -10,6 +10,7 @@ $PM = PhysicsManager.getSingleton();
 $GL = GameLoopManager.getSingleton();
 $UI = UiSubsystem.getSingleton();
 $DM = DsaManager.getSingleton();
+$DS = DialogSubsystem.getSingleton();
 
 $GameEveMgr = GameEventManager.getSingleton();
 $AnimMgr = AnimationManager.getSingleton();
