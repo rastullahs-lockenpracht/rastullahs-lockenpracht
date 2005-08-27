@@ -183,6 +183,18 @@ const bool SoundChannel::isPlaying() const
     return false;
 }
 
+
+bool SoundChannel::isLooping() const
+{
+    return mSound->isLooping();
+}
+
+void SoundChannel::setLooping( bool looping )
+{
+    mSound->setLooping( looping );
+}
+
+
 /**
  * @return Die aktuelle Position der Soundquelle
  * @author JoSch

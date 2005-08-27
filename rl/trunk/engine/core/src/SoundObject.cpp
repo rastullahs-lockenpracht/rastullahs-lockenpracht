@@ -83,9 +83,19 @@ void SoundObject::_update()
     channel->setDirection(*temp1);
 }
 
-void SoundObject::play( unsigned int msec )
+void SoundObject::play( )
 {
     getSoundChannel()->play();
+}
+
+bool SoundObject::isLooping() const
+{
+    return getSoundChannel()->isLooping();
+}
+
+void SoundObject::setLooping( bool looping )
+{
+    getSoundChannel()->setLooping( looping );
 }
 
 
@@ -94,7 +104,7 @@ void SoundObject::play( unsigned int msec )
  * @author JoSch
  * @date 03-11-2005
  */   
-SoundChannel* SoundObject::getSoundChannel()
+SoundChannel* SoundObject::getSoundChannel() const
 {
     return reinterpret_cast<SoundChannel*>(mMovableObject);
 }

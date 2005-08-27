@@ -364,7 +364,9 @@ public:
 class SoundObject : public ActorControlledObject
 {
 public:
-	 void play( unsigned int msec = 0 );
+	 void play( );
+	 bool isLooping() const;
+	 void setLooping( bool looping );
 };
 
 class ParticleSystemObject : public ActorControlledObject

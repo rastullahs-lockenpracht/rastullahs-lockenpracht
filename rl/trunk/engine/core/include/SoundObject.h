@@ -47,10 +47,17 @@ namespace rl {
         
         /// Wie ActorControlledObject::getMovableObject()
         /// Nur schon gebrauchsfertig gecastet.
-        SoundChannel* getSoundChannel();
-        void play(unsigned int msec = 0);
+        SoundChannel* getSoundChannel() const;
+        
+        
+        void play( );
 
         virtual Ogre::String getObjectType();
+
+        /// Gibt zurück ob der Sound geloopt werden soll 
+        bool isLooping() const;
+        /// Setzt ob der Sound geloopt werden soll 
+        void setLooping( bool looping );
 
 		virtual bool isMeshObject();
     };

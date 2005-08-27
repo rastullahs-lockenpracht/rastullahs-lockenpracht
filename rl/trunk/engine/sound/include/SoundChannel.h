@@ -94,6 +94,11 @@ public:
 //        virtual void rewind() throw (RuntimeException);
     /// Ist laeuft AL noch
     const bool isPlaying() const;
+
+    /// Gibt zurück ob der Sound geloopt werden soll 
+    bool isLooping() const;
+    /// Setzt ob der Sound geloopt werden soll 
+    void setLooping( bool looping );
     
     // Sind wir gueltig
     bool isValid() const throw (RuntimeException);
