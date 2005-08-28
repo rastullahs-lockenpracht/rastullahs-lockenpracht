@@ -81,4 +81,23 @@ namespace rl {
         }
         return rval;
     }
+
+	int Container::getItemCount() const
+	{
+		return mItems.size();
+	}
+
+	const Item* Container::getItem(int itemId) const
+	{
+		ItemSet::const_iterator it = find_if(mItems.begin(), mItems.end(),
+			bind1st(FindItemById(), itemId));
+		if (it != mItems.end())
+		{
+			return (*it);
+		}
+		else
+		{
+			Throw(InvalidArgumentException, "Item nicht in Container.");
+		}
+	}
 }

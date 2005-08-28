@@ -255,7 +255,35 @@ namespace rl {
     public:
         Item(int id, const rl::CeGuiString& name, const rl::CeGuiString& description);
         virtual ~Item(void);
+        
+        enum ItemType;
+        void setItemType(ItemType itemType);
+        ItemType getItemType() const;
     };
+    
+    %feature("director") Weapon;
+    class Weapon : public Item 
+    {
+    public:
+        Weapon(int id, const rl::CeGuiString& name, const rl::CeGuiString& description);
+        virtual ~Weapon(void);
+        
+        
+		void setTp(int d6, int d20, int mod);
+		const Tripel<int>& getTp() const;
+		void setTpKk(int base, int step);
+		const pair<int, int>& getTpKk() const;
+		void setBf(int newBf);
+		int getBf();
+		void setIni(int newIni);
+		int getIni();
+		void setWm(pair<int, int>& newWm);
+		const pair<int,int>& getWm() const;
+		void setDk(Weapon::Distanzklasse newDk);
+		Weapon::Distanzklasse getDk();
+		void setKampftechnik(const rl::CeGuiString& newKampftechnik);
+		const rl::CeGuiString& getKampftechnik() const;
+     };
     
     %feature("director") Container;
     class Container : public GameObject
@@ -270,6 +298,8 @@ namespace rl {
         void addItem(rl::Item* item);
         rl::Item* removeItem(int itemId);
         rl::ItemSet getItems() const;
+        int getItemCount() const;
+        rl::Item* getItem(int itemId);
         
         virtual void close() = 0;
 	};
@@ -287,6 +317,12 @@ namespace rl {
         virtual int getTalent(const rl::CeGuiString& talentName) const;
         virtual void setTalent(const rl::CeGuiString& talentName, int value);
         void addKampftechnik(const rl::CeGuiString& kampftechnikName, pair<int,int> value = make_pair(0,0));
+		void addContainer(Container* container);
+		Container* getContainer(const rl::CeGuiString& containterName) const;
+		Container* removeContainer(rl::CeGuiString& containerName);
+		void addWeapon(Weapon* weapon);
+		Weapon* getWeapon(int weaponId) const;
+		Weapon* removeWeapon(int waponId);
 
         virtual void modifyEigenschaft(const rl::CeGuiString& eigenschaftName, int mod);
         virtual void modifyTalent(const rl::CeGuiString& talentName, int mod);
@@ -295,6 +331,7 @@ namespace rl {
         virtual void modifyAe(int mod);
         virtual void modifyAu(int mod);
         virtual int getLe();
+        
 
         virtual int doTalentprobe(const rl::CeGuiString& talentName, int modifier);
         virtual int doEigenschaftsprobe(const rl::CeGuiString& eigenschaftName, int modifier);

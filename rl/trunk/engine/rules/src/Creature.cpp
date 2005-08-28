@@ -473,4 +473,74 @@ namespace rl
 	        (*it).second = wert;
 		}
 	}
+
+	void Creature::addContainer(Container* container)
+	{
+		if (container == NULL)
+			Throw(InvalidArgumentException, "Nullpointer uebergeben");
+		ContainerMap::const_iterator it = mContainer.find(container->getName());
+		if (it != mContainer.end())
+		{
+			Throw(InvalidArgumentException, 
+				"Container bereits in mContainer enthalten.");
+		}
+		mContainer.insert(make_pair(container->getName(), container));
+	}
+
+	Container* Creature::getContainer(const CeGuiString& containerName) const
+	{
+		ContainerMap::const_iterator it = mContainer.find(containerName);
+		if (it == mContainer.end())
+		{
+			Throw(InvalidArgumentException, "Container nicht in mContainer gefunden.");
+		}
+		return (*it).second;	
+	}
+
+	Container* Creature::removeContainer(const CeGuiString& containerName)
+	{
+		ContainerMap::iterator it = mContainer.find(containerName);
+		if (it == mContainer.end())
+		{
+			Throw(InvalidArgumentException, "Container nicht in mContainer gefunden.");
+		}
+		Container* rval = (*it).second;
+		mContainer.erase(it);
+		return rval;
+	}
+
+	void Creature::addWeapon(Weapon* weapon)
+	{
+		if (weapon == NULL)
+			Throw(InvalidArgumentException, "Nullpointer uebergeben");
+		WeaponMap::const_iterator it = mWeapons.find(weapon->getId());
+		if (it != mWeapons.end())
+		{
+			Throw(InvalidArgumentException, 
+				"weaponId bereits in mWeapons enthalten.");
+		}
+		mWeapons.insert(make_pair(weapon->getId(), weapon));
+	}
+
+	Weapon* Creature::getWeapon(int weaponId) const
+	{
+		WeaponMap::const_iterator it = mWeapons.find(weaponId);
+		if (it == mWeapons.end())
+		{
+			Throw(InvalidArgumentException, "weaponId nicht in mWeapons gefunden.");
+		}
+		return (*it).second;	
+	}
+
+	Weapon* Creature::removeWeapon(int weaponId)
+	{
+		WeaponMap::iterator it = mWeapons.find(weaponId);
+		if (it == mWeapons.end())
+		{
+			Throw(InvalidArgumentException, "weaponId nicht in mWeapons gefunden.");
+		}
+		Weapon* rval = (*it).second;
+		mWeapons.erase(it);
+		return rval;
+	}
 }

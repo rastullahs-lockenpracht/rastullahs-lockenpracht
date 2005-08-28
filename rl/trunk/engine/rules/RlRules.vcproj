@@ -190,6 +190,9 @@
 			<File
 				RelativePath=".\src\TimerManager.cpp">
 			</File>
+			<File
+				RelativePath=".\src\Weapon.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Headerdateien"
@@ -260,6 +263,9 @@
 			</File>
 			<File
 				RelativePath=".\include\TimerManager.h">
+			</File>
+			<File
+				RelativePath=".\include\Weapon.h">
 			</File>
 		</Filter>
 		<Filter

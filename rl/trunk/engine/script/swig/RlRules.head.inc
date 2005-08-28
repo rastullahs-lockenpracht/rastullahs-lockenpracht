@@ -28,6 +28,7 @@
 #include "Action.h"
 #include "ActionManager.h"
 #include "Item.h"
+#include "Weapon.h"
 #include "Person.h"
 #include "RulesSubsystem.h"
 #include "Container.h"

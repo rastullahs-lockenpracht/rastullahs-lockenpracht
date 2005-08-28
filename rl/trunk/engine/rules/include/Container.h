@@ -45,6 +45,10 @@ namespace rl
 
         ItemSet getItems() const;
 
+		int getItemCount() const;
+
+		const Item* getItem(int itemId) const;
+
 		virtual void close() = 0;
 
     private:

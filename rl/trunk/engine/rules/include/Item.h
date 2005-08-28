@@ -29,12 +29,17 @@ namespace rl
         Item(int id, const CeGuiString& name, const CeGuiString& description);
         virtual ~Item(void);
 
+		enum ItemType{ITEMTYPE_WAFFE = 0};
+
         void setWeight(int weight);
         int getWeight() const;
+		void setItemType(ItemType itemType);
+		ItemType getItemType() const;
 
     private:
         /// Masse in Unzen.
         int mWeight;
+		ItemType mItemType;
     };
 
     class ItemByIdOrdering : public std::binary_function<Item*, Item*, bool> {

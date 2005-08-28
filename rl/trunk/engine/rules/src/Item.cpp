@@ -39,4 +39,13 @@ namespace rl
         return mWeight;
     }
 
+	void Item::setItemType(ItemType itemType)
+	{
+		mItemType = itemType;
+	}
+
+	Item::ItemType Item::getItemType() const
+	{
+		return mItemType;
+	}
 }
