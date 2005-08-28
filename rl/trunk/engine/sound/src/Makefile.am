@@ -2,7 +2,8 @@ INCLUDES = $(Plugin_TheoraVideoSystem_CFLAGS) $(RUBY_CFLAGS) $(CEGUI_CFLAGS) $(O
 	 -I../include -I../../common/include -I../../core/include
 
 lib_LTLIBRARIES = libRlSound.la
-libRlSound_la_LDFLAGS = $(OGRE_LIBS) $(RUBY_LIBS) $(LIBS) $(CEGUI_LIBS) 
+libRlSound_la_LDFLAGS = $(OGRE_LIBS) $(RUBY_LIBS) $(LIBS) $(CEGUI_LIBS) $(CEGUIOGRE_LIBS) \
+	$(Plugin_TheoraVideoSystem_LIBS) -lboost_thread
 
 libRlSound_la_SOURCES = \
 	ListenerMovable.cpp \

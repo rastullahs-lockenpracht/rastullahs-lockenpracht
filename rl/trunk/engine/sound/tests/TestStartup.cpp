@@ -13,7 +13,7 @@ int main( int argc, char **argv)
 {
     static std::string CONF_DIR = "./modules/common/conf/";
  
-/*    #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+    #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
         new Ogre::Root( 
                 CONF_DIR+"plugins-win.cfg", 
                 CONF_DIR+"rastullah.cfg", 
@@ -31,12 +31,9 @@ int main( int argc, char **argv)
     #endif
     Ogre::ResourceGroupManager::getSingleton().addResourceLocation("./modules/common/sound", "FileSystem");
     Ogre::ResourceGroupManager::getSingleton().addResourceLocation("./modules/minidemo/sound", "FileSystem");
-*/
+
     (new rl::Logger("./logs", "./logs"))->setLogDetail(Ogre::LL_BOREME);
-    rl::CoreSubsystem *core = new rl::CoreSubsystem();
-    core->log("CoreSubsystem gestartet");
-    
-    new rl::SoundSubsystem;
+    new rl::SoundSubsystem; 
     
     CppUnit::TextUi::TestRunner runner;
     CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
