@@ -9,6 +9,7 @@
 #include <OgreCEGUIResourceProvider.h>
 #include <OgreFrameListener.h>
 #include <OgreLight.h>
+#include <Ogre.h>
 #include "World.h"
 #include "Sleep.h"
 #include "DebugWindow.h"
@@ -18,7 +19,7 @@ using namespace rl;
 using namespace CEGUI;
 using namespace Ogre;
 
-class VideoTest : public ExampleApplication {
+class VideoTest : public ExampleApplication, public FrameListener {
 private:
     Video *mVideo;
     
@@ -58,6 +59,7 @@ public:
         panel->setSize(Size(0.80f, 0.80f));
         panel->setAlwaysOnTop(true);
         
+        
 	}
     
     void createScene()
@@ -67,17 +69,17 @@ public:
         node->attachObject(e);
         node->setPosition(0,0,0);
 
-        ColourValue c = ColourValue(1.0, 1.0, 1.0);
+        ColourValue c = ColourValue(0.5, 0.5, 0.5);
         mSceneMgr->setAmbientLight(c);
         setUp();
-        //showVideo();
+        mRoot->addFrameListener(this);
+        showVideo();
     }
 
 	void showVideo()
 	{
-        mVideo = new Video("RootWindow/video", "intro.ogv");
+        mVideo = new Video("Example/TheoraVideoPlayer/Play", "intro.ogv");
         mVideo->play();
-        msleep(10000); 
 	}
     
     virtual bool frameStarted(const FrameEvent &evt)
@@ -86,6 +88,7 @@ public:
         {
             mVideo->update();
         }
+
         return true;
     }
 };
