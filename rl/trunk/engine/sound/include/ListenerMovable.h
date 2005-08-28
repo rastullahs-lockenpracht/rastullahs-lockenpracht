@@ -18,6 +18,7 @@
 #define __ListenerMovable_H__
 
 #include "SoundPrerequisites.h"
+#include "Exception.h"
 #include <OgreMovableObject.h>
 #include <OgreVector3.h>
 
