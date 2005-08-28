@@ -16,6 +16,10 @@
 #include "SoundStream.h"
 #include "SoundManager.h"
 
+extern "C" {
+    #include "fmod.h"
+}
+
 using namespace Ogre;
 using namespace boost;
 

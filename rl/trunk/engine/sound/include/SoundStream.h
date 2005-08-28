@@ -20,6 +20,10 @@
 #include "SoundPrerequisites.h"
 #include "SoundResource.h"
 #include "Sound.h"
+extern "C" {
+    #include <fmod.h>
+    #include <fmod_errors.h>
+}
 
 namespace Ogre {
     class MovableObject;

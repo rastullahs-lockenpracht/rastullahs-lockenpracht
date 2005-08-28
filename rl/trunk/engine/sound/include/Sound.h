@@ -19,6 +19,7 @@
 
 #include "SoundPrerequisites.h"
 #include "SoundResource.h"
+#include "Exception.h"
 
 
 namespace rl {

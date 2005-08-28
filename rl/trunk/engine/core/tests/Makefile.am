@@ -7,7 +7,7 @@ testcore_LDFLAGS = -L../../common/src -L../../sound/src -L../../dialog/src -L../
 	  -L../../ui/src -L../../core/src -L../../script/src
 testcore_LDADD = $(RUBY_LIBS) $(CPPUNIT_LIBS) $(OGRE_LIBS) $(CEGUI_LIBS) $(LIBS) \
 	  -lRlCommon -lRlCore -lRlSound -lRlUi -lRlRules -lRlDialog -lRlScript \
-	  -lvorbis -logg -lboost_thread 
+	  -lvorbis -logg -lboost_thread $(Plugin_TheoraVideoSystem_LIBS)
 testcore_SOURCES = \
 	TestCore.cpp \
 	CoreTests.cpp

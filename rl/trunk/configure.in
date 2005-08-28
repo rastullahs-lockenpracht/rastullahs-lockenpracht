@@ -68,6 +68,8 @@ AC_CHECK_LIB(vorbis,main,[],AC_MSG_ERROR([Can't find libvorbis]))
 PKG_CHECK_MODULES(OGRE, OGRE >= 0.14)
 AC_ARG_WITH(ogre-plugins,[  --with-ogre-plugins=path        Set location of Ogre plugins],[ OGRE_PLUGINDIR="$withval"], [OGRE_PLUGINDIR=/usr/local/lib/OGRE])
 AC_SUBST(OGRE_PLUGINDIR)
+PKG_CHECK_MODULES(Plugin_TheoraVideoSystem, Plugin_TheoraVideoSystem >= 0.5.0)
+
 
 # CEGUI
 PKG_CHECK_MODULES(CEGUI, CEGUI)
@@ -75,21 +77,28 @@ PKG_CHECK_MODULES(CEGUIOGRE, CEGUI-OGRE)
 
 dnl Other stuff we need
 #AC_CHECK_LIB([log4cxx], [main], AC_DEFINE(HAVE_LOG4CXX,[], [Log4cxx is installed]))
-AC_CHECK_LIB([ode], [main], [], AC_MSG_ERROR([Can't find libode]))
 AC_CHECK_LIB(m, pow)
 AC_CHECK_LIB(z, gzopen)
 AC_CHECK_FUNC(snprintf, AC_DEFINE(HAVE_SNPRINTF,,snprintf))
 AC_CHECK_FUNC(vsnprintf, AC_DEFINE(HAVE_VSNPRINTF,1,vsnprintf))
 AC_CHECK_PROG(HAVE_DOXYGEN_PROG, doxygen, `which doxygen`, false)
-AC_CHECK_LIB(OgreOde, [main],, AC_MSG_ERROR([Can't find OgreOde]))
 AM_PATH_CPPUNIT(1.0.0)
 
+# Physics
+AC_CHECK_LIB([ode], [main], [], AC_MSG_ERROR([Can't find libode]))
+AC_CHECK_LIB(OgreOde, [main], [], AC_MSG_ERROR([Can't find OgreOde]))
+AC_CHECK_LIB([Newton], [fopen], [], ) 
+#AC_MSG_ERROR([Can't find libNewton]))
+AC_CHECK_LIB([OgreNewt], [NewtonBallGetJointAngle], [], )
+#AC_MSG_ERROR([Can't find OgreNewt]))
 
 # XERCES
 AC_CHECK_HEADERS(xercesc/util/XercesVersion.hpp, ,
     [AC_MSG_ERROR([cannot find libxerces25 headers]) ])
 AC_CHECK_LIB(xerces-c,main,,
     [AC_MSG_ERROR([cannot find the libxerces25 library]) ])
+
+
 
 dnl --------------------------------------------
 dnl       determine location of RUBY (auto)

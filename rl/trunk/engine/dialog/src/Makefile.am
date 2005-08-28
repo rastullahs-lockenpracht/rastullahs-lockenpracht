@@ -4,8 +4,14 @@ lib_LTLIBRARIES = libRlDialog.la
 libRlDialog_la_LDFLAGS = $(RUBY_LIBS) $(OGRE_LIBS) $(LIBS) $(CEGUI_LIBS) 
 libRlDialog_la_SOURCES = \
 	AimlCoreComponent.cpp \
+	AimlDocumentImplXerces.cpp \
+	AimlNodeImplXerces.cpp \
 	AimlParser.cpp \
+        AimlParserImplXerces.cpp \
 	AimlProcessorManager.cpp \
+	BotParser.cpp \
+	DialogCharacter.cpp \
+	DialogScriptObject.cpp \
 	DialogSubsystem.cpp \
 	Graphmaster.cpp \
 	Match.cpp \

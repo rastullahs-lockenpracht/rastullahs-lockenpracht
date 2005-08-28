@@ -18,6 +18,10 @@
 #include "Logger.h"
 #include "SoundResource.h"
 #include <stdio.h>
+extern "C" {
+    #include <fmod.h>
+    #include <fmod_errors.h>
+}
 
 using namespace Ogre;
 

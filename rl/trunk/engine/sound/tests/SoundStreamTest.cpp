@@ -149,4 +149,4 @@ public:
 //    CPPUNIT_TEST(test_loadPlayWithFade);
     CPPUNIT_TEST_SUITE_END();
 };
-CPPUNIT_TEST_SUITE_REGISTRATION(SoundStreamTest);
+//CPPUNIT_TEST_SUITE_REGISTRATION(SoundStreamTest);

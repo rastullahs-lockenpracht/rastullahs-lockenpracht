@@ -94,9 +94,6 @@ public:
                 xt.sec++;
                 thread::sleep(xt);
                 while (channel->isPlaying()) {
-                    xtime_get(&xt, TIME_UTC);
-                    xt.nsec+=100000;
-                    thread::sleep(xt);
                     Vector3 pos(1.0f*sinf(angle), 20.0f*cosf(angle), 0.0f);
                     channel->setPosition(pos);
                     angle += 0.005;
@@ -105,6 +102,9 @@ public:
                         angle = 0.0f;
                     }
                     FSOUND_Update();
+                    xtime_get(&xt, TIME_UTC);
+                    xt.nsec+=10000;
+                    thread::sleep(xt);
                 }
                 
                 delete channel;

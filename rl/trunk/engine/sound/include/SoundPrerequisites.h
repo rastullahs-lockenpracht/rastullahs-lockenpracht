@@ -30,12 +30,13 @@
 #   define _RlSoundExport
 #endif
 
-#include "Exception.h"
-
-extern "C" {
-#include <fmod.h>
-#include <fmod_errors.h>
-}
+#include <OgreNoMemoryMacros.h>
+#   undef min
+#   pragma warning (push)
+#   pragma warning (disable : 4267)
+#   include <CEGUIString.h>
+#   pragma warning (pop)
+#include <OgreMemoryMacros.h>
 
 
 #endif

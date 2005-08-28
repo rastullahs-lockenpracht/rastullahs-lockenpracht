@@ -1,7 +1,9 @@
-INCLUDES = $(RUBY_CFLAGS) $(CEGUI_CFLAGS) $(OGRE_CFLAGS) $(STLPORT_CFLAGS) -I../include -I../../common/include -I../../core/include
+INCLUDES = $(Plugin_TheoraVideoSystem_CFLAGS) $(RUBY_CFLAGS) $(CEGUI_CFLAGS) $(OGRE_CFLAGS) $(STLPORT_CFLAGS) \
+	 -I../include -I../../common/include -I../../core/include
 
 lib_LTLIBRARIES = libRlSound.la
-libRlSound_la_LDFLAGS = $(OGRE_LIBS) $(RUBY_LIBS) $(LIBS) $(CEGUI_LIBS)
+libRlSound_la_LDFLAGS = $(OGRE_LIBS) $(RUBY_LIBS) $(LIBS) $(CEGUI_LIBS) 
+
 libRlSound_la_SOURCES = \
 	ListenerMovable.cpp \
 	SoundChannel.cpp \
@@ -11,5 +13,6 @@ libRlSound_la_SOURCES = \
     SoundSample.cpp \
     SoundStream.cpp \
 	SoundSubsystem.cpp \
-	SoundEvents.cpp 
+	SoundEvents.cpp \
+	Video.cpp
     
