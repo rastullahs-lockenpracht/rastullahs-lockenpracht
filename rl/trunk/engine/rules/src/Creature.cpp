@@ -543,4 +543,56 @@ namespace rl
 		mWeapons.erase(it);
 		return rval;
 	}
+
+	int Creature::doAttacke(const CeGuiString& kampftechnikName, int modifier)
+	{
+		KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikName);
+		if (it == mKampftechniken.end())
+		{
+			Throw(InvalidArgumentException, "kampftechnikName nicht in mKampftechniken gefunden");
+		}
+		int rval;
+
+		int probe = DsaManager::getSingleton().rollD20();
+		if (probe == 1)
+		{
+			rval = RESULT_GLUECKLICH;
+		}
+		else if (probe == 20)
+		{
+			rval = RESULT_PATZER;
+		}
+		else
+		{
+			rval = getAttackeBasis() + (*it).second.first - (probe + modifier);
+		}
+		if (rval < 0) return RESULT_MISSERFOLG;
+		else return RESULT_ERFOLG;
+	}
+
+	int Creature::doParade(const CeGuiString& kampftechnikName, int modifier)
+	{
+		KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikName);
+		if (it == mKampftechniken.end())
+		{
+			Throw(InvalidArgumentException, "kampftechnikName nicht in mKampftechniken gefunden");
+		}
+		int rval;
+
+		int probe = DsaManager::getSingleton().rollD20();
+		if (probe == 1)
+		{
+			rval = RESULT_GLUECKLICH;
+		}
+		else if (probe == 20)
+		{
+			rval = RESULT_PATZER;
+		}
+		else
+		{
+			rval = getParadeBasis() + (*it).second.second - (probe + modifier);
+		}
+		if (rval < 0) return RESULT_MISSERFOLG;
+		else return RESULT_ERFOLG;
+	}
 }

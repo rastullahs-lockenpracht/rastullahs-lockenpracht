@@ -47,6 +47,8 @@ namespace rl
 	static const int RESULT_SPEKT_AUTOMISSERFOLG = -1000;
 	static const int RESULT_GLUECKLICH = 100;
 	static const int RESULT_PATZER = -100;
+	static const int RESULT_ERFOLG = 1;
+	static const int RESULT_MISSERFOLG = -1;
 
 	const int SF_MIN_VALUE = 0;
 	const int SF_MAX_VALUE = 2;
@@ -396,6 +398,38 @@ namespace rl
 		WertMap mWerte;
 		ContainerMap mContainer;
 		WeaponMap mWeapons;
+
+		/** 
+		*  @brief Fuehrt eine Attacke aus.
+		*   Die Funktion wird von einem Angriffsmanoever aufgerufen.
+		*  @param kampftechnikName Bezeichnet die Kampftechnik in dem die 
+		*   Attacke ausgefuehrt wird.
+		*  @param mod Erschwert oder erleichtert die Attacke.
+		*  @return Der Rueckgabewert kann folgende Werte annehmen:\n
+		*   RESULT_ERFOLG\n
+		*   RESULT_MISSERFOLG\n
+		*   RESULT_GLUECKLICH\n
+		*   RESULT_PATZER\n
+		*  @exception InvalidArgumentException Kampftechnik nicht in 
+		*   mKampftechniken gefunden.
+		**/
+		int doAttacke(const CeGuiString& kampftechnikName, int modifier);
+		/** 
+		*  @brief Fuehrt eine Parade aus.
+		*   Die Funktion wird von einem Parademanoever aufgerufen.
+		*  @param kampftechnikName Bezeichnet die Kampftechnik in dem die 
+		*   Parade ausgefuehrt wird.
+		*  @param mod Erschwert oder erleichtert die Parade.
+		*  @return Der Rueckgabewert kann folgende Werte annehmen:\n
+		*   RESULT_ERFOLG\n
+		*   RESULT_MISSERFOLG\n
+		*   RESULT_GLUECKLICH\n
+		*   RESULT_PATZER\n
+		*  @exception InvalidArgumentException Kampftechnik nicht in 
+		*   mKampftechniken gefunden.
+		**/
+		int doParade(const CeGuiString& kampftechnikName, int modifier);
+
     };
 }
 #endif
