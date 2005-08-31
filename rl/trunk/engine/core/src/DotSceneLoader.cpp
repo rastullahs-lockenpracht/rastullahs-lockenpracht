@@ -135,10 +135,25 @@ namespace rl {
 		
 		Ogre::SceneNode* newNode;
 		// Wurde dem Node ein Name zugewiesen
-		if( nodeName.length() == 0 )
-			newNode = parentNode->createChildSceneNode();
+		if( nodeName.length() > 0 )
+        {
+            try
+            {
+                mSceneManager->getSceneNode( nodeName );
+                // Name war schon vergeben!
+                newNode = parentNode->createChildSceneNode();
+                CoreSubsystem::getSingleton().log(Ogre::LML_NORMAL, 
+                    " NodeName '"+nodeName+"' war schon vergeben! Es wurde der Name '"+newNode->getName()+"' benutzt." );                
+            }
+            catch( Ogre::Exception )
+            {
+                // Name war noch nicht vergeben!
+                newNode = parentNode->createChildSceneNode(nodeName);
+            }
+        }
 		else
-			newNode = parentNode->createChildSceneNode(nodeName);
+            newNode = parentNode->createChildSceneNode();
+			
 
 		CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Node '"+newNode->getName()+"' als Unterknoten von '"+parentNode->getName()+"' erstellt." );
 
@@ -176,28 +191,51 @@ namespace rl {
 	void DotSceneLoader::processEntity( DOMElement* rootEntityXml, Ogre::SceneNode* parentNode )
 	{
 		string entName = XmlHelper::getAttributeValueAsString( 
-			rootEntityXml, "entity" ).c_str();
+			rootEntityXml, "name" ).c_str();
 		string meshName = XmlHelper::getAttributeValueAsString( 
 			rootEntityXml, "meshFile" ).c_str();
 
 		Ogre::Entity* newEnt = NULL;
-		// Wurde der Entity ein Name zugewiesen
-		if( entName.length() == 0 )
+		// Wurde der Entity bisher kein Name zugewiesen
+		if( entName.length() == 0 )              
 			entName = getNextEntityName(mSceneName+"_"+parentNode->getName());
+        // Überprüfung auf Korrektheit des Namens
+        else
+        {
+            try
+            {
+                mSceneManager->getEntity( entName );
+                // Bereits vergebener Name
+                string oldName = entName;
+                entName = getNextEntityName(mSceneName+"_"+parentNode->getName());
+                CoreSubsystem::getSingleton().log(Ogre::LML_NORMAL, 
+                    " EntityName '"+oldName+"' war schon vergeben! Es wurde der Name '"+entName+"' benutzt." );
+            }
+            // Noch nicht gefunden
+            catch( Ogre::Exception ) {}
+        }
 
-		newEnt = mSceneManager->createEntity(entName, meshName);				
-		parentNode->attachObject( newEnt );
+        // Erschaffen versuchen
+        try
+        {        
+		    newEnt = mSceneManager->createEntity(entName, meshName);				
+		    parentNode->attachObject( newEnt );
 
-		CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Entity '"+meshName+"' mit dem Namen '"+entName+"' in den Knoten '"+parentNode->getName()+"' eingefügt." );
+		    CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Entity '"+meshName+"' mit dem Namen '"+entName+"' in den Knoten '"+parentNode->getName()+"' eingefügt." );
 
-		// Zur Physik des Levels hinzufügen
-		PhysicsManager::getSingleton().addLevelGeometry( newEnt );
-		CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Entity '"+entName+"' als TriMesh in levelGeometry geladen");
+		    // Zur Physik des Levels hinzufügen
+		    PhysicsManager::getSingleton().addLevelGeometry( newEnt );
+		    CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Entity '"+entName+"' als TriMesh in levelGeometry geladen");
 
-
-		newEnt->setCastShadows( false );
-	    // newEnt->setCastShadows( XmlHelper::getAttributeValueAsBool( rootEntityXml, XMLString::transcode("castShadows") ) );
-		// XmlHelper::getAttributeValueAsBool( rootEntityXml, XMLString::transcode("static") );
+		    newEnt->setCastShadows( false );
+	        // newEnt->setCastShadows( XmlHelper::getAttributeValueAsBool( rootEntityXml, XMLString::transcode("castShadows") ) );
+		    // XmlHelper::getAttributeValueAsBool( rootEntityXml, XMLString::transcode("static") );
+        }
+        catch( Ogre::Exception ) 
+        {
+            CoreSubsystem::getSingleton().log(Ogre::LML_CRITICAL, 
+                " Laden der Entity '"+meshName+"' gescheitert!" );
+        }
 	}
 
 	string DotSceneLoader::getNextEntityName( const string& baseName )
