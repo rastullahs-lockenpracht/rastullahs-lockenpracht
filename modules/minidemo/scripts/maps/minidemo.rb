@@ -67,10 +67,12 @@ chest.getActor().placeIntoScene( 1750.0, -350.0, -105.0, 1.0, 0.0, 0.0, 0.0 );
 chest.getActor().yaw(-90.0);
 $CORE.log("Truhe fertig");
 
-$CORE.log("Trank reinsetzen")
+$CORE.log("Traenke reinsetzen")
 trank = Heiltrank.new( 28, "Trank", "Eine Flasche mit einer geheimnisvollen Fluessigkeit", "obj_heiltrank01.mesh", "A" );
 chest.addItem(trank);
-$CORE.log("Trank fertig");
+trank = Heiltrank.new( 29, "Trank", "Eine andere Flasche mit einer anderen geheimnisvollen Fluessigkeit", "obj_heiltrank01.mesh", "B" );
+chest.addItem(trank);
+$CORE.log("Traenke fertig");
 
 $CORE.log("Sound laden");
 LevelLied = $AM.createSoundSampleActor( "LevelLied", "spannend.ogg" );
@@ -81,7 +83,6 @@ LevelLied.getControlledObject().setLooping( true );
 $CORE.log(" Abspielen");
 LevelLied.getControlledObject().play();
 $CORE.log("Sound fertig");
-
 
 $World.setFog( World::FOG_EXP, [0.8,0.8,1.0,0.5], 0.00009, 0.2, 1.0);
 
