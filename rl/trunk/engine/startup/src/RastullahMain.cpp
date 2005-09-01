@@ -116,8 +116,8 @@ void startupRl(bool developerMode, Ogre::String module)
 		delete ui;
 		delete dialog;
 		delete rules;
-		delete sound;
 		delete core;
+		delete sound;
 #ifndef _DEBUG
 	}
 	catch(Ogre::Exception& oe) {

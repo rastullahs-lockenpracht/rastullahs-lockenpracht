@@ -333,7 +333,7 @@ void Animation::checkAnimationFrameListeners( Ogre::Real timePassed )
 	// Vorwärts laufen
 	if( mSpeed > 0 )		
 	{
-		lower = max(mAnimState->getTimePosition(),0);
+		lower = max(mAnimState->getTimePosition(), 0.0f);
 		upper = min(mAnimState->getTimePosition()+timePassed, mAnimState->getLength() );
 	}
 	// Das ganze rückwärts
@@ -344,7 +344,7 @@ void Animation::checkAnimationFrameListeners( Ogre::Real timePassed )
 		if( timePos == 0 )
 			timePos = mAnimState->getLength();
 
-		lower = max(timePos-timePassed,0);
+		lower = max(timePos-timePassed, 0.0f);
 		upper = min(timePos, mAnimState->getLength() );
 	}
 
