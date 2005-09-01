@@ -1,0 +1,5 @@
+License of Rastullahs Lockenpracht
+
+The source and binaries of Rastullahs Lockenpracht are licensed under the 
+Clarified Artistic License (see LICENSE_PROGRAM.TXT) while all arts are
+may only be used with Rastullahs Lockenpracht (see LICENSE_ARTS.TXT).

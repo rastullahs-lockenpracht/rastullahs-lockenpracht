@@ -1,0 +1,275 @@
+/* This source file is part of Rastullahs Lockenpracht.
+* Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
+* 
+*  This program is free software; you can redistribute it and/or modify
+*  it under the terms of the Clarified Artistic License.
+*
+*  This program is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*  Clarified Artistic License for more details.
+*
+*  You should have received a copy of the Clarified Artistic License
+*  along with this program; if not you can get it here
+*  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+*/
+#include "Video.h"
+#include "Exception.h"
+
+#include <CEGUISystem.h>
+#include <OgreExternalTextureSourceManager.h>
+#include <OgreCEGUIRenderer.h>
+
+using namespace CEGUI;
+using namespace Ogre;
+
+namespace rl
+{
+
+/**
+ * Konstruktor
+ * @param textureName Name der zu benutzenden Textur.
+ * @param movieName Name des Videos, das abgespielt werden soll.
+ * @author JoSch
+ * @date 08-27-2005
+ */
+Video::Video(CEGUI::String textureName, CEGUI::String movieName)
+  : TheoraMovieMessage(),
+    mTextureName(textureName),
+    mMovieName(movieName),
+    mTexture(0),
+    mGUIRenderer(0),
+    mVideoControl(0),
+    mClip(0)
+{
+    RlAssert(System::getSingleton().getRenderer() != 0, "No renderer yet");
+    mVideoControl = dynamic_cast<TheoraVideoController*>
+        (ExternalTextureSourceManager::getSingleton().getExternalTextureSource("ogg_video"));
+    if (!mVideoControl)
+    {
+        Throw(RuntimeException, "Can't get VideoController");
+    }
+    mGUIRenderer = dynamic_cast<OgreCEGUIRenderer*>(System::getSingleton().getRenderer());
+    if (!mGUIRenderer)
+    {
+        Throw(RuntimeException, "Can't get renderer");
+    }
+}
+
+/**
+ * Destruktor
+ * @author JoSch
+ * @date 08-27-2005
+ */
+Video::~Video()
+{
+    stop();
+}
+
+/**
+ * Gibt die Breite des Videos zurueck.
+ * @return Breite des Videos
+ * @author JoSch
+ * @date 08-27-2005
+ */
+unsigned int Video::getWidth() const
+{
+    return mClip->getVideoDriver()->getWidth();
+}
+
+/**
+ * Gibt die Hoehe des Videos zurueck.
+ * @return Hoehe des Videos
+ * @author JoSch
+ * @date 08-27-2005
+ */
+unsigned int Video::getHeight() const
+{
+    return mClip->getVideoDriver()->getHeight();
+}
+
+/**
+ * Das Video auffrischen
+ * @author JoSch
+ * @date 08-27-2005
+ */
+void Video::update()
+{
+    if(mClip)
+    {
+        mClip->blitFrameCheck();
+    }
+}
+
+/**
+ * Das Video starten
+ * @author JoSch
+ * @date 08-27-2005
+ */
+void Video::play()
+{
+    if( mClip )
+    {
+        destroyCETexture();
+        mClip->changePlayMode(TextureEffectPause);
+        mVideoControl->destroyAdvancedTexture(mTextureName.c_str());
+        // TODO mSoundSystem.destroyAudioClip();
+        mClip = 0;
+    }
+    
+    //Sets an input file name - needed by plugin
+    mVideoControl->setInputName(mMovieName.c_str());
+    //Start paused so we can have audio
+    mVideoControl->setPlayMode(TextureEffectPause);
+    //! Used for attaching texture to Technique, State, and texture unit layer
+    mVideoControl->setTextureTecPassStateLevel(0, 0, 0);
+
+    //Set to true to allow for seeking - highly experimental though ;)
+    mVideoControl->setSeekEnabled(false);
+
+    // Grab Our material, then add a new texture unit
+    bool bSucceed = true;
+    MaterialPtr material;
+
+    try
+    {
+        material = MaterialManager::getSingleton().getByName(mTextureName.c_str());
+        if (material.isNull())
+            bSucceed = false;
+    }
+    catch(...)
+    {
+        bSucceed = false;
+    }
+
+    if (!bSucceed)
+    {
+        //Looks like material wasn't found, so create a new one here
+        material = MaterialManager::getSingleton().create(mTextureName.c_str(), "General");
+        if (material.isNull())
+        {
+            return;         //Some wierd error
+        }
+
+        material->createTechnique()->createPass();
+    }
+
+    material->getTechnique(0)->getPass(0)->createTextureUnitState();
+    
+    mVideoControl->createDefinedTexture(mTextureName.c_str(), "General");
+    mClip = mVideoControl->getMaterialNameClip(mTextureName.c_str());
+    
+    //Register, add audio, start playback
+    if (!mClip)
+    {
+        std::string text = "Clip "+ std::string(mMovieName.c_str()) + " not found while trying to play";
+        Throw(InvalidArgumentException, text);
+    }
+
+    mClip->registerMessageHandler(this);
+    // TODO mClip->setAudioDriver(mSoundSystem.getAudioClip());
+    mClip->changePlayMode(TextureEffectPlay_ASAP);
+    createCETexture();
+}
+
+/**
+ * Video-Textur erzeugen
+ * @author JoSch
+ * @date 08-27-2005
+ */
+void Video::createCETexture()
+{
+    if (mClip)
+    {
+        mTexture = mGUIRenderer->createTexture(mClip->getVideoDriver()->getTexture());
+    }
+}
+
+/**
+ * Video-Texttur zerstoeren.
+ * @author JoSch
+ * @date 08-27-2005
+ */
+void Video::destroyCETexture()
+{
+    if (mTexture)
+    {
+        mGUIRenderer->destroyTexture(mTexture);
+    }
+    mTexture = 0;
+}
+
+/**
+ * Das Video stoppen
+ * @author JoSch
+ * @date 08-27-2005
+ */
+void Video::stop()
+{
+    if( mClip )
+    {
+        mClip->changePlayMode(TextureEffectPause);
+        mVideoControl->destroyAdvancedTexture(mTextureName.c_str());
+    }
+    // TODO Audio behandenln
+}
+
+/**
+ * Das Video unterbrechen oder weiterspielen lassen.
+ * @param bPause TRUE, wenn unterbrochen werden soll. FALSE, wenn weitergespielt werden soll.
+ * @author JoSch
+ * @date 08-27-2005
+ */
+void Video::pause(bool bPause)
+{
+    if(mClip)
+    {
+        if(bPause == false)
+        {
+            mClip->changePlayMode(TextureEffectPause);
+        } else {
+            mClip->changePlayMode(TextureEffectPlay_ASAP);
+        }
+    }
+}
+
+/**
+ * Wird durch das Video-Plugin aufgerufen, um die Filmlaenge zu setzen.
+ * @param discoveredTime Die Filmlaenge.
+ * @author JoSch
+ * @date 08-27-2005
+ */
+void Video::discoveredMovieTime(float discoveredTime)
+{ 
+    mMaxTime = discoveredTime;
+}
+
+/**
+ * Das Video an einer bestimmten Stelle weiterspielen lassen
+ * @param time Die gewuenschte Stelle in Prozent.
+ * @author JoSch
+ * @date 08-27-2005
+ */
+void Video::seek(float percentage)
+{
+    if( mClip )
+    {
+        mClip->seekToTime(percentage * mMaxTime);
+    }
+    
+}
+
+/**
+ * Vom Plugin Nachrichten empfangen
+ * @return 
+ * @param message Die erhaltene Nachricht
+ * @author JoSch
+ * @date 08-27-2005
+ */
+int Video::messageEvent(PLUGIN_theora_message message)
+{
+    return 0;
+}
+
+
+}
