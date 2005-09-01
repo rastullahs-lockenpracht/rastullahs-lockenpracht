@@ -5,7 +5,7 @@ noinst_PROGRAMS = testsound testvideo
 testsound_LDFLAGS = -L../../common/src -L../../sound/src -L../../core/src \
 	-L../../ui/src -L../../rules/src -L../../dialog/src
 testsound_LDADD = $(RUBY_LIBS) $(CEGUI_LIBS) $(OGRE_LIBS) $(CPPUNIT_LIBS) $(LIBS) \
-	  -lRlCommon -lRlSound -lvorbis -logg
+	  -lRlCommon -lRlSound -lvorbis -logg $(Plugin_TheoraVideoSystem_LIBS)
 testsound_SOURCES = \
 	SoundSampleTest.cpp \
 	SoundStreamTest.cpp \
@@ -17,3 +17,4 @@ testvideo_SOURCES = \
 	VideoTest.cpp
 testvideo_LDADD = $(CEGUI_LIBS) $(OGRE_LIBS) $(LIBS) -lvorbis -logg -lboost_thread\
 	$(Plugin_TheoraVideoSystem_LIBS)  $(CEGUIOGRE_LIBS) -lRlSound -lRlCommon
+	

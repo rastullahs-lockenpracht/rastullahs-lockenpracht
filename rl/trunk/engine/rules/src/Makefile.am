@@ -24,4 +24,6 @@ libRlRules_la_SOURCES = \
 	TimerEvent.cpp \
 	TimerEventSource.cpp \
 	TimerListener.cpp \
-	TimerManager.cpp 
+	TimerManager.cpp  \
+	Weapon.cpp
+	

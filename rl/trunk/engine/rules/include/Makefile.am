@@ -22,5 +22,6 @@ noinst_HEADERS = \
 	TimerEvent.h \
 	TimerEventSource.h \
 	TimerListener.h \
-	TimerManager.h 	
+	TimerManager.h \
+	Weapon.h
 	
