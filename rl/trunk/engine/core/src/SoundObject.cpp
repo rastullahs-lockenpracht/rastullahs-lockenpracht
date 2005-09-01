@@ -46,6 +46,11 @@ SoundObject::~SoundObject()
 {
     if (mMovableObject)
     {
+        SoundChannel *sc = dynamic_cast<SoundChannel*>(mMovableObject);
+        if (sc)
+        {
+            sc->stop();
+        }
         delete mMovableObject;
     }
 }
