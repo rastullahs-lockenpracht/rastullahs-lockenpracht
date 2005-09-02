@@ -260,6 +260,28 @@ void Video::seek(float percentage)
 }
 
 /**
+ * Textur zurückgeben
+ * @return Die vom Videplugin erzeugte Textur.
+ * @author JoSch
+ * @date 02-09-2005
+ */
+CEGUI::Texture* Video::getTexture() const
+{
+    return mTexture;
+}
+
+/**
+ * Texturname zurückgeben
+ * @return Der Name der Textur.
+ * @author JoSch
+ * @date 02-09-2005
+ */
+const CEGUI::String Video::getTextureName() const
+{
+    return mTextureName;
+}
+
+/**
  * Vom Plugin Nachrichten empfangen
  * @return 
  * @param message Die erhaltene Nachricht

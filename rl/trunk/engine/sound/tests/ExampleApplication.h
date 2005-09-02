@@ -110,7 +110,6 @@ namespace Ogre
             ResourceGroupManager::getSingleton().addResourceLocation("./modules/common/materials", "FileSystem");
             ResourceGroupManager::getSingleton().addResourceLocation("./modules/minidemo/materials", "FileSystem");
             ResourceGroupManager::getSingleton().addResourceLocation("./modules/common/materials/alpha", "FileSystem");
-            ResourceGroupManager::getSingleton().addResourceLocation("./modules/common/OgreCore.zip", "Zip");
 //            ResourceGroupManager::getSingleton().addResourceLocation("./modules/minidemo/materials/alpha", "FileSystem");
             ResourceGroupManager::getSingleton().addResourceLocation("./modules/common/materials/env", "FileSystem");
 //            ResourceGroupManager::getSingleton().addResourceLocation("./modules/minidemo/materials/env", "FileSystem");
@@ -185,7 +184,7 @@ namespace Ogre
 		{
 			// Create one viewport, entire window
 			Viewport* vp = mWindow->addViewport(mCamera);
-			vp->setBackgroundColour(ColourValue(0,150,0));
+			vp->setBackgroundColour(ColourValue(0,0,0));
 
 			// Alter the camera aspect ratio to match the viewport
 			mCamera->setAspectRatio(

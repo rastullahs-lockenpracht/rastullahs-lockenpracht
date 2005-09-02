@@ -2,6 +2,7 @@
 #include "SoundPrerequisites.h"
 #include "Video.h"
 #include <CEGUI/CEGUI.h>
+#include <CEGUI/CEGUIWindow.h>
 #include <OgreRenderWindow.h>
 #include <OGRE/OgreCEGUIRenderer.h>
 #include <CoreSubsystem.h>
@@ -45,7 +46,7 @@ public:
         // load scheme and set up defaults
         ///@todo Hier sollte was Lookunabhängiges rein!!! FIXME TODO BUG!
         System::getSingleton().setDefaultMouseCursor((utf8*)"RastullahLook", (utf8*)"MouseArrow");
-        Window* sheet = CEGUI::WindowManager::getSingleton().createWindow((utf8*)"DefaultGUISheet", (utf8*)"RootWindow");
+        Window* sheet = CEGUI::WindowManager::getSingleton().createWindow((utf8*)"DefaultWindow", (utf8*)"root");
         sheet->setSize(
             Absolute, 
             CEGUI::Size(Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth(), 
@@ -53,32 +54,66 @@ public:
         sheet->setPosition(Absolute, CEGUI::Point(0, 0));
         System::getSingleton().setGUISheet(sheet);
         TextureManager::getSingleton().setDefaultNumMipmaps(5);
-        StaticText* panel = (StaticText*)WindowManager::getSingleton().createWindow("RastullahLook/StaticText", "Panel");
-        sheet->addChildWindow(panel);
-        panel->setPosition(Point(0.10f, 0.10f));
-        panel->setSize(Size(0.80f, 0.80f));
-        panel->setAlwaysOnTop(true);
+        FrameWindow* frame = (FrameWindow*)WindowManager::getSingleton().createWindow("RastullahLook/FrameWindow", "testWindow");
+        sheet->addChildWindow(frame);
+        frame->setPosition(Point(0.10f, 0.10f));
+        frame->setSize(Size(0.80f, 0.80f));
+        frame->setAlwaysOnTop(true);
+        frame->setText("Video");
+        mVideo = new Video("testWindow/Play", "intro.ogv");
+        mVideo->play();
+        StaticImage *image = (StaticImage*)WindowManager::getSingleton().createWindow("RastullahLook/StaticImage", "testWindow/image");
+        frame->addChildWindow(image);
+        
+        image->setMaximumSize(Size(2.0f, 2.0f));
+        image->setPosition(Point(0.0f, 0.05f));
+        image->setSize(Size(1.0f, 0.86f));
+        image->setFrameEnabled(false);
+        image->setBackgroundEnabled(false);
+    
+        //Now attach Texture to
+        if(mVideo->getTexture())
+        {
+            CEGUI::String temp = "MyImagesNumber";
+            CEGUI::String tempName = mVideo->getTextureName();
+    
+            Imageset *img = ImagesetManager::getSingleton().createImageset( 
+                    temp, mVideo->getTexture() );
+    
+            unsigned int width = mVideo->getWidth();
+            unsigned int height= mVideo->getHeight();
+    
+            img->defineImage( tempName, Point(0.0f,0.0f), Size( width, height ), Point(0.0f,0.0f));
+            image = (StaticImage*)WindowManager::getSingleton().getWindow("testWindow/image");
+            image->setImage( temp, tempName);
+        }
+  
+/*        WindowManager::WindowIterator it = WindowManager::getSingleton().getIterator();
+        while (!it.isAtEnd())
+        {
+            std::cerr<<it.getCurrentValue()->getName()<<std::endl;
+            it++;
+        } */
         
         
 	}
     
     void createScene()
     {
-        Entity *e = mSceneMgr->createEntity("held", "held.mesh");
-        SceneNode *node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-        node->attachObject(e);
-        node->setPosition(0,0,0);
+//        Entity *e = mSceneMgr->createEntity("held", "held.mesh");
+//        SceneNode *node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+//        node->attachObject(e);
+//        node->setPosition(0,0,0);
 
         ColourValue c = ColourValue(0.5, 0.5, 0.5);
         mSceneMgr->setAmbientLight(c);
         setUp();
         mRoot->addFrameListener(this);
-        showVideo();
+
     }
 
 	void showVideo()
 	{
-        mVideo = new Video("Example/TheoraVideoPlayer/Play", "intro.ogv");
         mVideo->play();
 	}
     

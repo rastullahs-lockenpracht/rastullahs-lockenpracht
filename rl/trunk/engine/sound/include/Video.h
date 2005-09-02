@@ -80,9 +80,12 @@ public:
     void discoveredMovieTime(float discoveredTime);
     /// Erzeuge Textur
     void createCETexture();
-    /// Zerstoere Texttur
+    /// Zerstoere Textur
     void destroyCETexture();
-    
+    /// Textur zurückgeben;
+    CEGUI::Texture* getTexture() const;
+    /// Texturname zurückgeben.
+    const CEGUI::String getTextureName() const;
 };
 
 }
