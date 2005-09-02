@@ -22,7 +22,8 @@
 
 namespace rl {
 
-class _RlSoundExport SoundEvent : public EventObject{
+class _RlSoundExport SoundEvent : public EventObject
+{
 
 public:
 	SoundEvent(EventSource *source);

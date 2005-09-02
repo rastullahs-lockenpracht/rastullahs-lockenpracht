@@ -9,4 +9,5 @@ noinst_HEADERS = \
     SoundSample.h \
     SoundStream.h \
     SoundEvents.h \
-	Video.h
+	Video.h \
+	VideoEvents.h

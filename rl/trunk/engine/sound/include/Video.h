@@ -21,6 +21,9 @@
 
 #include <TheoraMovieClip.h>
 #include <TheoraVideoController.h>
+#include "EventSource.h"
+#include "EventCaster.h"
+#include "EventListener.h"
 
 namespace CEGUI
 {
@@ -35,6 +38,9 @@ namespace Ogre
 
 namespace rl
 {
+    class VideoEvent;
+
+typedef EventListener<VideoEvent> VideoEventListener;
 
 /** 
  * Verbindet das VideoPlugin mit RL
@@ -42,7 +48,8 @@ namespace rl
  * @date 08-27-2005
  * @version 1.0
  */
-class _RlSoundExport Video : public Ogre::TheoraMovieMessage
+class _RlSoundExport Video : protected Ogre::TheoraMovieMessage,
+                             public EventSource
 {
 private:
     Ogre::TheoraVideoController *mVideoControl;
@@ -74,10 +81,6 @@ public:
     void play();
     /// Video an bestimmter Stelle weiterspielen
     void seek(float percentage);
-    /// Botschaften aus dem VideoPlugin
-    int messageEvent(PLUGIN_theora_message message);
-    /// Setzt die Laenge des Films
-    void discoveredMovieTime(float discoveredTime);
     /// Erzeuge Textur
     void createCETexture();
     /// Zerstoere Textur
@@ -86,6 +89,31 @@ public:
     CEGUI::Texture* getTexture() const;
     /// Texturname zurückgeben.
     const CEGUI::String getTextureName() const;
+    /// Die Videolänge zurückgeben
+    float getMaxTime() const;
+
+    /// Fügt einen ObjectStateChangeListener hinzu, der zukünftig bei Events benachrichtigt wird 
+    void addEventListener(VideoEventListener*  listener);
+    /// Entfernt einen Listener
+    void removeEventListener(VideoEventListener* listener);
+    /// Entfernt alle Listener
+    void removeEventListeners();
+    /// Gibt zurück ob sich Listener angemeldet haben
+    bool hasListeners() const;
+    
+protected:
+    /// Botschaften aus dem VideoPlugin
+    virtual int messageEvent(PLUGIN_theora_message message);
+    /// Setzt die Laenge des Films
+    virtual void discoveredMovieTime(float discoveredTime);
+    /// Anzeige des Frames
+    virtual void displayedFrame( float vTime, 
+                                 float aTime,
+                                 unsigned int frameNumber,
+                                 unsigned int framesDropped);
+private:
+    /// Der Ereignisverteiler
+    EventCaster<VideoEvent> mEventCaster;
 };
 
 }

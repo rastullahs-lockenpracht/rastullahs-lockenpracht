@@ -20,6 +20,8 @@
 #include <OgreExternalTextureSourceManager.h>
 #include <OgreCEGUIRenderer.h>
 
+#include "VideoEvents.h"
+
 using namespace CEGUI;
 using namespace Ogre;
 
@@ -282,15 +284,104 @@ const CEGUI::String Video::getTextureName() const
 }
 
 /**
+ * Die Videolänge zurückgeben
+ * @return Der Länge des Videos.
+ * @author JoSch
+ * @date 02-09-2005
+ */
+float Video::getMaxTime() const
+{
+    return mMaxTime;
+}
+
+/**
  * Vom Plugin Nachrichten empfangen
- * @return 
+ * @return Unused
  * @param message Die erhaltene Nachricht
  * @author JoSch
  * @date 08-27-2005
  */
 int Video::messageEvent(PLUGIN_theora_message message)
 {
+    if (hasListeners())
+    {
+        VideoPlayEvent *event = new VideoPlayEvent(this);
+        event->setReason((int)message);
+        mEventCaster.dispatchEvent(event);
+    }
     return 0;
+}
+
+/**
+ * Vom Plugin Nachrichten empfangen
+ * @return Unused
+ * @param message Die erhaltene Nachricht
+ * @author JoSch
+ * @date 09-02-2005
+ */
+void Video::displayedFrame(float vTime, 
+                           float aTime,
+                           unsigned int frameNumber,
+                           unsigned int framesDropped)
+{
+    if (hasListeners())
+    {
+        VideoTimingEvent *event = new VideoTimingEvent(this);
+        event->mVTime = vTime;
+        event->mATime = aTime;
+        event->mFrameNumber = frameNumber;
+        event->mFramesDropped = framesDropped;
+        mEventCaster.dispatchEvent(event);
+    }
+}
+
+/**
+ * Listener einfügen
+ * @param listener Der neue Listener
+ * @author JoSch
+ * @date 09-02-2005
+ */
+void Video::addEventListener(VideoEventListener* listener)
+{
+    if(!mEventCaster.containsListener(listener))
+    {        
+        mEventCaster.addEventListener(listener);
+    }
+}
+
+/**
+ * Listener eentfernen
+ * @param listener Der zu entfernende Listener
+ * @author JoSch
+ * @date 09-02-2005
+ */
+void Video::removeEventListener(VideoEventListener* listener)
+{
+    if(mEventCaster.containsListener(listener))
+    { 
+        mEventCaster.removeEventListener(listener);
+    }
+}
+
+/**
+ * Alle Listener entfernen
+ * @author JoSch
+ * @date 09-02-2005
+ */
+void Video::removeEventListeners()
+{
+    mEventCaster.removeEventListeners();
+}
+
+/**
+ * Hört jemand den Events zu?
+ * @return TRUE wenn es Listener gibt, FALSE sonst
+ * @author JoSch
+ * @date 09-02-2005
+ */
+bool Video::hasListeners( ) const
+{
+    return mEventCaster.hasEventListeners();
 }
 
 
