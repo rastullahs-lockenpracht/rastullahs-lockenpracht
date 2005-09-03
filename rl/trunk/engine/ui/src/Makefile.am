@@ -28,4 +28,5 @@ libRlUi_la_SOURCES = \
 	PlaylistWindow.cpp \
 	TargetSelectionWindow.cpp \
 	UiSubsystem.cpp \
+	VideoWindow.cpp \
 	WindowManager.cpp 

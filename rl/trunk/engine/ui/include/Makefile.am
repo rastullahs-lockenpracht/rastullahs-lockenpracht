@@ -20,4 +20,5 @@ noinst_HEADERS = \
 	TargetSelectionWindow.h \
 	UiPrerequisites.h \
 	UiSubsystem.h \
+	VideoWindow.h \
 	WindowManager.h 

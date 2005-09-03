@@ -66,6 +66,12 @@ public:
 	void requestExit();
 };
 
+class VideoWindow
+{
+public:
+    static VideoWindow& getSingleton(void);
+};
+
 class CommandMapper
 {
 public:

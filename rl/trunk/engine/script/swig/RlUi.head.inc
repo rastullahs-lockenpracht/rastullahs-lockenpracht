@@ -22,4 +22,5 @@
 #include "CommandMapper.h"
 #include "GameController.h"
 #include "GameLoggerWindow.h"
+#include "VideoWindow.h"
 %}
