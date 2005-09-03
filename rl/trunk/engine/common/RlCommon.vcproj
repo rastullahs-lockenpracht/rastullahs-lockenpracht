@@ -39,7 +39,7 @@
 				AdditionalDependencies="OgreMain_d.lib xerces-c_2D.lib ceguibase_d.lib"
 				OutputFile="./lib/$(ConfigurationName)/RlCommon.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui\lib\$(PlatformName)\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\Dependencies\lib\$(ConfigurationName)&quot;"
+				AdditionalLibraryDirectories="..\..\dependencies\cegui\lib;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\ogre\Dependencies\lib\$(ConfigurationName)&quot;"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/RlCommon.pdb"
 				SubSystem="2"
