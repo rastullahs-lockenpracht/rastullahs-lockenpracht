@@ -360,18 +360,7 @@ namespace rl {
         static rl::ActionManager& getSingleton();
 	};
 	
-	class TimerEvent
-	{
-	public:
-		TimerEvent( rl::TimerEventSource* src );
-	
-		Ogre::Real getTime();
-		rl::Date getGameTime();
-
-		rl::TimerEventSource* getSource() const;
-	};
-	
-   %feature("director") TimerListener;
+	%feature("director") TimerListener;
 	class TimerListener
 	{
 	public:
@@ -391,6 +380,18 @@ namespace rl {
 		void addTimerListener( rl::TimerListener* ist );
 
 	};
+	
+	class TimerEvent
+	{
+	public:
+		TimerEvent( rl::TimerEventSource* src );
+	
+		Ogre::Real getTime();
+		rl::Date getGameTime();
+
+		rl::TimerEventSource* getSource() const;
+	};
+	
 } // Namespace
 
 %{

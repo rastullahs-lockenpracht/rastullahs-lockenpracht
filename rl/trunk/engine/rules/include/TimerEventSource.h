@@ -17,19 +17,18 @@
 #ifndef __TimerEventSource_H__
 #define __TimerEventSource_H__
 
-#include "EventSource.h"
-#include "EventCaster.h"
-
-#include "TimerListener.h"
-#include "TimerEvent.h"
-
 #include "RulesPrerequisites.h"
 
-#include <OgreUserDefinedObject.h>
+#include "EventSource.h"
+#include "EventCaster.h"
+#include "Date.h"
 
 namespace rl {
 
 class GameObject;
+class TimerListener;
+class TimerEvent;
+
 /** 
  * TimerEventSource
  *

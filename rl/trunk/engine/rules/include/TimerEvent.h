@@ -17,11 +17,10 @@
 #ifndef __TimerEvent_H__
 #define __TimerEvent_H__
 
-#include <OgreUserDefinedObject.h>
+#include "RulesPrerequisites.h"
 
 #include "EventObject.h"
 
-#include "RulesPrerequisites.h"
 #include "Date.h"
 
 namespace rl {
