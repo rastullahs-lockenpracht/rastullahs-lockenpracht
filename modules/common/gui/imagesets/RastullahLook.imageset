@@ -268,4 +268,14 @@
     <Image Name="PopupMenuFrameRight" XPos="2" YPos="1" Width="4" Height="4" />
     <Image Name="PopupMenuFrameTop" XPos="2" YPos="1" Width="4" Height="4" />
     <Image Name="PopupMenuFrameBottom" XPos="2" YPos="1" Width="4" Height="4" />
+
+    <Image Name="TooltipLeftEdge" XPos="1" YPos="265" Width="5" Height="4" />
+    <Image Name="TooltipTopLeft" XPos="1" YPos="257" Width="5" Height="4" />
+    <Image Name="TooltipTopEdge" XPos="9" YPos="257" Width="6" Height="4" />
+    <Image Name="TooltipTopRight" XPos="19" YPos="257" Width="6" Height="4" />
+    <Image Name="TooltipBottomLeft" XPos="1" YPos="273" Width="5" Height="4" />
+    <Image Name="TooltipBottomEdge" XPos="9" YPos="273" Width="6" Height="4" />
+    <Image Name="TooltipBottomRight" XPos="19" YPos="273" Width="6" Height="4" />
+    <Image Name="TooltipRightEdge" XPos="19" YPos="265" Width="6" Height="4" />
+    <Image Name="TooltipMiddle" XPos="9" YPos="265" Width="6" Height="4" />
 </Imageset>

@@ -43,6 +43,7 @@
         <WindowFactory Name="RastullahLook/TabControl" />
         <WindowFactory Name="RastullahLook/TabPane" />
         <WindowFactory Name="RastullahLook/Titlebar" />
+        <WindowFactory Name="RastullahLook/Tooltip" />
         <WindowFactory Name="RastullahLook/VerticalScrollbar" />
         <WindowFactory Name="RastullahLook/VerticalScrollbarThumb" />
     </WindowSet>
