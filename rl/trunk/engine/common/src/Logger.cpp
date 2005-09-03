@@ -54,7 +54,20 @@ void Logger::log(const Ogre::LogMessageLevel level, const Ogre::String& msg )
 
 void Logger::setLogDetail(const Ogre::LoggingLevel level)
 {
+	mLogLevel = level;
 	mLog->setLogDetail(level);
+}
+
+const CEGUI::LoggingLevel Logger::getCeGuiLogDetail()
+{
+	if (mLogLevel == Ogre::LL_LOW)
+		return CEGUI::Errors;
+	else if (mLogLevel == Ogre::LL_NORMAL)
+		return CEGUI::Standard;
+	else if (mLogLevel == Ogre::LL_BOREME)
+		return CEGUI::Insane;
+
+	return CEGUI::Errors;
 }
 
 

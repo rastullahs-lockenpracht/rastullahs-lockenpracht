@@ -19,6 +19,7 @@
 #include "CommonPrerequisites.h"
 #include <OgreSingleton.h>
 #include <OgreLog.h>
+#include <CEGUILogger.h>
 
 namespace rl {
 	class _RlCommonExport Logger : public Ogre::Singleton<Logger>
@@ -38,10 +39,12 @@ namespace rl {
 			const Ogre::String& ident = "");
 
 		void setLogDetail(const Ogre::LoggingLevel level);
+		const CEGUI::LoggingLevel getCeGuiLogDetail();
 	private:
 		void log(const Ogre::LogMessageLevel level, const Ogre::String& msg );
 
 		Ogre::Log* mLog;
+		Ogre::LoggingLevel mLogLevel;
 	};
 }
 
