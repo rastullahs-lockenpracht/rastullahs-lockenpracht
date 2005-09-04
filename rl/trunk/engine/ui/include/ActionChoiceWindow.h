@@ -120,6 +120,8 @@ namespace rl {
 			static void getAllNodes(ActionNode* treeRoot, NodeSet& node);
 	
 		private:
+			bool handleClickNotOnButtons(const CEGUI::EventArgs& evt);
+
 			NodeSet mChildren;
 			ActionNode* mParent;
 			bool mLeaf;

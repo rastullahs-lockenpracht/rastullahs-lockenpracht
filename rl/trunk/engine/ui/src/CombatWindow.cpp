@@ -14,50 +14,14 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
-#include "Combat.h"
-#include "Creature.h"
-
-using namespace std;
+#include "CombatWindow.h"
 
 namespace rl {
 
-	Combat::Combat()
+	CombatWindow::CombatWindow(Combat* combat)
+		: mCombat(combat),
+		CeGuiWindow("combatwindow.xml", WND_MOUSE_INPUT)
 	{
-	}
 
-	Combat::~Combat()
-	{
-	}
-
-	void Combat::add(Creature* creature, int group)
-	{
-		Participant* part = new Participant(creature, group);
-		initialize(part);
-		mParticipants.push_back(part);
-	}
-
-	void Combat::initialize(Participant* creature)
-	{
-	}
-
-	Combat::Participant::Participant(Creature* creature, int group)
-	{
-		this->creature = creature;
-		this->group = group;
-		this->initiative = NO_INI;
-	}
-
-	int Combat::getGroupOf(Creature* creature)
-	{
-		return 0; //TODO
-	}
-
-	vector<Creature*> Combat::getGroupMembers(int group)
-	{
-		vector<Creature*> members;
-
-		//TODO
-
-		return members;
 	}
 }

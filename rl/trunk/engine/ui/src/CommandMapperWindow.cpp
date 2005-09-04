@@ -48,23 +48,23 @@ CommandMapperWindow::CommandMapperWindow(Creature* actionHolder)
 	mTableMovement->subscribeEvent(
 			Window::EventMouseDoubleClick,
 			boost::bind(&CommandMapperWindow::handleChangeMovement, this));
-	mTableInBattle = getMultiColumnList("CommandMapper/TableInBattle");
-	mTableInBattle->subscribeEvent(
+	mTableInCombat = getMultiColumnList("CommandMapper/TableInCombat");
+	mTableInCombat->subscribeEvent(
 			Window::EventMouseDoubleClick,
-			boost::bind(&CommandMapperWindow::handleChangeInBattle, this));
-	mTableOffBattle = getMultiColumnList("CommandMapper/TableOffBattle");
-	mTableOffBattle->subscribeEvent(
+			boost::bind(&CommandMapperWindow::handleChangeInCombat, this));
+	mTableOffCombat = getMultiColumnList("CommandMapper/TableOffCombat");
+	mTableOffCombat->subscribeEvent(
 			Window::EventMouseDoubleClick,
-			boost::bind(&CommandMapperWindow::handleChangeOffBattle, this));
+			boost::bind(&CommandMapperWindow::handleChangeOffCombat, this));
 
 	mTableMovement->addColumn("Aktion", 0, 0.5);
 	mTableMovement->addColumn("Taste", 1, 0.5);
-	mTableInBattle->addColumn("Aktion", 0, 0.3);
-	mTableInBattle->addColumn("Klasse", 1, 0.4);
-	mTableInBattle->addColumn("Taste", 2, 0.3);
-	mTableOffBattle->addColumn("Aktion", 0, 0.3);
-	mTableOffBattle->addColumn("Klasse", 1, 0.4);
-	mTableOffBattle->addColumn("Taste", 2, 0.3);
+	mTableInCombat->addColumn("Aktion", 0, 0.3);
+	mTableInCombat->addColumn("Klasse", 1, 0.4);
+	mTableInCombat->addColumn("Taste", 2, 0.3);
+	mTableOffCombat->addColumn("Aktion", 0, 0.3);
+	mTableOffCombat->addColumn("Klasse", 1, 0.4);
+	mTableOffCombat->addColumn("Taste", 2, 0.3);
 
 	getWindow("CommandMapper")->
 		subscribeEvent(
@@ -89,8 +89,8 @@ void CommandMapperWindow::muteElements(bool mute)
 	getWindow("CommandMapper/ChangeButton")->setMutedState(mute);
 	getWindow("CommandMapper/CloseButton")->setMutedState(mute);
 	getWindow("CommandMapper/TableMovement")->setMutedState(mute);
-	getWindow("CommandMapper/TableInBattle")->setMutedState(mute);
-	getWindow("CommandMapper/TableOffBattle")->setMutedState(mute);
+	getWindow("CommandMapper/TableInCombat")->setMutedState(mute);
+	getWindow("CommandMapper/TableOffCombat")->setMutedState(mute);
 }
 
 void CommandMapperWindow::muteWindow(bool mute)
@@ -115,9 +115,9 @@ bool CommandMapperWindow::handleCloseButton()
 	return true;
 }
 
-bool CommandMapperWindow::handleChangeInBattle()
+bool CommandMapperWindow::handleChangeInCombat()
 {
-	//TODO: ChangeInBattle
+	//TODO: ChangeInCombat
 	return true;
 }
 
@@ -127,9 +127,9 @@ bool CommandMapperWindow::handleChangeMovement()
 	return true;
 }
 
-bool CommandMapperWindow::handleChangeOffBattle()
+bool CommandMapperWindow::handleChangeOffCombat()
 {
-	//TODO: ChangeOffBattle
+	//TODO: ChangeOffCombat
 	return true;
 }
 
@@ -142,19 +142,19 @@ bool CommandMapperWindow::handleKeyDown(const CEGUI::EventArgs& e)
 	muteElements(false);
 
 	//TODO: Taste in CommandMapper eintragen
-	if (mSelectedTable == mTableInBattle)
+	if (mSelectedTable == mTableInCombat)
 		CommandMapper::getSingleton().setMapping(
-			CMDMAP_KEYMAP_IN_BATTLE, 
+			CMDMAP_KEYMAP_IN_COMBAT, 
 			ke.scancode, 
-			mTableInBattle->getItemAtGridReference(
-				MCLGridRef(mTableInBattle->getNominatedSelectionRow(), 0))->getText()
+			mTableInCombat->getItemAtGridReference(
+				MCLGridRef(mTableInCombat->getNominatedSelectionRow(), 0))->getText()
 		);
-	else if (mSelectedTable == mTableOffBattle)
+	else if (mSelectedTable == mTableOffCombat)
 		CommandMapper::getSingleton().setMapping(
-			CMDMAP_KEYMAP_OFF_BATTLE, 
+			CMDMAP_KEYMAP_OFF_COMBAT, 
 			ke.scancode, 
-			mTableOffBattle->getItemAtGridReference(
-				MCLGridRef(mTableOffBattle->getNominatedSelectionRow(), 0))->getText());
+			mTableOffCombat->getItemAtGridReference(
+				MCLGridRef(mTableOffCombat->getNominatedSelectionRow(), 0))->getText());
 	else if (mSelectedTable == mTableMovement)
 		CommandMapper::getSingleton().setMapping(
 			CMDMAP_KEYMAP_MOVEMENT, 
@@ -216,23 +216,23 @@ void CommandMapperWindow::refreshContent()
 	for (ActionVector::const_iterator actionIter = actions.begin(); 
 		actionIter != actions.end(); actionIter++)
 	{
-		if (mTableInBattle->getRowCount() <= row)
-			mTableInBattle->addRow();
-		if (mTableOffBattle->getRowCount() <= row)
-			mTableOffBattle->addRow();
+		if (mTableInCombat->getRowCount() <= row)
+			mTableInCombat->addRow();
+		if (mTableOffCombat->getRowCount() <= row)
+			mTableOffCombat->addRow();
 
 		Action* action = *actionIter;
-		mTableInBattle->setItem(new ListboxTextItem(action->getName()), 0, row);
-		mTableOffBattle->setItem(new ListboxTextItem(action->getName()), 0, row);
+		mTableInCombat->setItem(new ListboxTextItem(action->getName()), 0, row);
+		mTableOffCombat->setItem(new ListboxTextItem(action->getName()), 0, row);
 
-		//int keyInBattle = CommandMapper::getSingleton().getMapping(CMDMAP_KEYMAP_IN_BATTLE, action->getClassName(), action->getName());
-		int keyOffBattle = CommandMapper::getSingleton().getMapping(CMDMAP_KEYMAP_OFF_BATTLE, action->getName());
-		//mTableInBattle->setItem(
+		//int keyInCombat = CommandMapper::getSingleton().getMapping(CMDMAP_KEYMAP_IN_COMBAT, action->getClassName(), action->getName());
+		int keyOffCombat = CommandMapper::getSingleton().getMapping(CMDMAP_KEYMAP_OFF_COMBAT, action->getName());
+		//mTableInCombat->setItem(
 		//	new ListboxTextItem(
-		//		InputManager::getSingleton().getKeyName(keyInBattle)), 2, row);
-		mTableOffBattle->setItem(
+		//		InputManager::getSingleton().getKeyName(keyInCombat)), 2, row);
+		mTableOffCombat->setItem(
 			new ListboxTextItem(
-				InputManager::getSingleton().getKeyName(keyOffBattle)), 2, row);
+				InputManager::getSingleton().getKeyName(keyOffCombat)), 2, row);
 		row++;
 	}
 }

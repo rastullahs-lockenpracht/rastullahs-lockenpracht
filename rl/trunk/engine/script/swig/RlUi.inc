@@ -64,6 +64,10 @@ public:
 	void update();
 	
 	void requestExit();
+	
+	void setCombatMode(bool inCombat);
+	bool isInCombatMode();
+	void startCombat(Combat* combat);
 };
 
 class VideoWindow

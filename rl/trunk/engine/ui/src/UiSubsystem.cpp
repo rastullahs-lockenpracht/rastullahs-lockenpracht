@@ -38,6 +38,7 @@
 #include "CharacterStateWindow.h"
 #include "ContainerContentWindow.h"
 #include "InGameMenuWindow.h"
+#include "CombatWindow.h"
 
 #include "GameLoop.h"
 #include "ActorManager.h"
@@ -78,7 +79,7 @@ namespace rl {
         mGameController(0),
         mHero(0),
         mCharacter(0),
-		mInBattle(false)
+		mInCombat(false)
 	{
 		log(Ogre::LML_TRIVIAL, "Init Start");
 		initializeUiSubsystem();
@@ -336,15 +337,21 @@ namespace rl {
 		mInGameMenuWindow->setVisible(!mInGameMenuWindow->isVisible());
 	}
 
-	void UiSubsystem::setBattleMode(bool inBattle)
+	void UiSubsystem::startCombat(Combat* combat)
 	{
-		mInBattle = inBattle;
+		setCombatMode(true);
+		(new CombatWindow(combat))->setVisible(true);
+	}
+
+	void UiSubsystem::setCombatMode(bool inCombat)
+	{
+		mInCombat = inCombat;
 		//TODO: Irgendwann später, UI auf Kampfmodus umstellen
 	}
 
-	bool UiSubsystem::isInBattleMode()
+	bool UiSubsystem::isInCombatMode()
 	{
-		return mInBattle;
+		return mInCombat;
 	}
 
 	void UiSubsystem::runTest()

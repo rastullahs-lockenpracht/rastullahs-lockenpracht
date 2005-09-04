@@ -41,11 +41,11 @@ namespace rl {
 
 	enum MapType
 	{
-		CMDMAP_KEYMAP_IN_BATTLE,
-		CMDMAP_KEYMAP_OFF_BATTLE,
+		CMDMAP_KEYMAP_IN_COMBAT,
+		CMDMAP_KEYMAP_OFF_COMBAT,
 		CMDMAP_KEYMAP_MOVEMENT,
-		CMDMAP_MOUSEMAP_IN_BATTLE,
-		CMDMAP_MOUSEMAP_OFF_BATTLE
+		CMDMAP_MOUSEMAP_IN_COMBAT,
+		CMDMAP_MOUSEMAP_OFF_COMBAT
 	};
 
 /*	struct ActionEntry
@@ -96,10 +96,10 @@ namespace rl {
 		typedef std::map<int, MovementState> MovementCommandMap;
 
 		MovementCommandMap mMovementCommands;
-		KeyAndMouseCommandMap mKeyCommandsInBattle;
-		KeyAndMouseCommandMap mKeyCommandsOffBattle;
-		KeyAndMouseCommandMap mMouseCommandsInBattle;
-		KeyAndMouseCommandMap mMouseCommandsOffBattle;
+		KeyAndMouseCommandMap mKeyCommandsInCombat;
+		KeyAndMouseCommandMap mKeyCommandsOffCombat;
+		KeyAndMouseCommandMap mMouseCommandsInCombat;
+		KeyAndMouseCommandMap mMouseCommandsOffCombat;
 
 		std::map<CeGuiString, MovementState> mMovement;
 

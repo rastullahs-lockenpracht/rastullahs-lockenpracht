@@ -43,8 +43,8 @@ namespace rl {
 		bool handleChangeButton();
 		bool handleCloseButton();
 		bool handleChangeMovement();
-		bool handleChangeInBattle();
-		bool handleChangeOffBattle();
+		bool handleChangeInCombat();
+		bool handleChangeOffCombat();
 		bool handleKeyDown(const CEGUI::EventArgs& evt);
 		bool handleMouseButton(const CEGUI::EventArgs& evt);
 	
@@ -55,8 +55,8 @@ namespace rl {
 
 		Creature* mActionHolder;
 		CommandMapperInputWindow* mInputWindow;
-		CEGUI::MultiColumnList* mTableInBattle;
-		CEGUI::MultiColumnList* mTableOffBattle;
+		CEGUI::MultiColumnList* mTableInCombat;
+		CEGUI::MultiColumnList* mTableOffCombat;
 		CEGUI::MultiColumnList* mTableMovement;
 		CEGUI::TabPane* mTabPane;
 		CEGUI::Window* mSelectedTable;

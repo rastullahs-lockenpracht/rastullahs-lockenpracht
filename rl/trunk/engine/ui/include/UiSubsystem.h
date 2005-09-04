@@ -43,6 +43,7 @@ namespace rl {
 	class InGameMenuWindow;
 	class Creature;
 	class DialogCharacter;
+	class Combat;
 
     class _RlUiExport UiSubsystem : protected Ogre::Singleton<UiSubsystem>
     {
@@ -92,8 +93,9 @@ namespace rl {
         GameController* getGameController();
 		GameLoggerWindow* getGameLogger();
 
-		void setBattleMode(bool inBattle);
-		bool isInBattleMode();
+		void setCombatMode(bool inCombat);
+		bool isInCombatMode();
+		void startCombat(Combat* combat);
 
 		void update();
 
@@ -108,7 +110,7 @@ namespace rl {
         GameController* mGameController;
         GameActor* mHero;
         Person* mCharacter;
-        bool mInBattle;
+        bool mInCombat;
 		GameLoggerWindow* mGameLogger;
 		CharacterStateWindow* mCharacterStateWindow;
 		InGameMenuWindow* mInGameMenuWindow;

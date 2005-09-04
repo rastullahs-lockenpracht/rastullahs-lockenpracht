@@ -406,12 +406,17 @@ public:
     void setPosition(Ogre::Real x, Ogre::Real y, Ogre::Real z);
     
     rl::ActorControlledObject* getControlledObject();
+    Ogre::UserDefinedObject* getGameObject() const;
 
     void setScale( Ogre::Real sx, Ogre::Real sy, Ogre::Real sz );
     void placeIntoScene(
+            const Ogre::Vector3& position = Ogre::Vector3::ZERO,
+            const Ogre::Quaternion& orientation = Ogre::Quaternion::IDENTITY,
+            const Ogre::String& physicsBone = "");  
+    void placeIntoScene(
         Ogre::Real px, Ogre::Real py, Ogre::Real pz,
         Ogre::Real ow, Ogre::Real ox, Ogre::Real oy, Ogre::Real oz, 
-        const Ogre::String& odeBone = "");
+        const Ogre::String& physicsBone = "");
     void removeFromScene();
            
     void attach( 

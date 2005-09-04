@@ -38,4 +38,5 @@
 #include "TimerEventSource.h"
 #include "TimerEvent.h"
 #include "TimerListener.h"
+#include "Combat.h"
 %}

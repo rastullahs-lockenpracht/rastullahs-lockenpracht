@@ -391,6 +391,16 @@ namespace rl {
 		rl::TimerEventSource* getSource() const;
 	};
 	
+	class Combat
+	{
+	public:
+		Combat();
+
+		void add(rl::Creature* creature, int group);
+		std::vector<rl::Creature*> getGroupMembers(int group);
+		int getGroupOf(rl::Creature* creature);
+	};
+	
 } // Namespace
 
 %{

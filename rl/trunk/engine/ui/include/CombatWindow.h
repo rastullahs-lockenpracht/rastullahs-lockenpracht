@@ -14,50 +14,22 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
-#include "Combat.h"
-#include "Creature.h"
+#ifndef __CombatWindow_H__
+#define __CombatWindow_H__
 
-using namespace std;
+#include "CeGuiWindow.h"
 
 namespace rl {
 
-	Combat::Combat()
+	class Combat;
+
+	class CombatWindow : public CeGuiWindow
 	{
-	}
-
-	Combat::~Combat()
-	{
-	}
-
-	void Combat::add(Creature* creature, int group)
-	{
-		Participant* part = new Participant(creature, group);
-		initialize(part);
-		mParticipants.push_back(part);
-	}
-
-	void Combat::initialize(Participant* creature)
-	{
-	}
-
-	Combat::Participant::Participant(Creature* creature, int group)
-	{
-		this->creature = creature;
-		this->group = group;
-		this->initiative = NO_INI;
-	}
-
-	int Combat::getGroupOf(Creature* creature)
-	{
-		return 0; //TODO
-	}
-
-	vector<Creature*> Combat::getGroupMembers(int group)
-	{
-		vector<Creature*> members;
-
-		//TODO
-
-		return members;
-	}
+	public:
+		CombatWindow(Combat* combat);
+	private:
+		Combat* mCombat;
+	};
 }
+
+#endif //__CombatWindow_H__

@@ -34,7 +34,7 @@ namespace rl {
 		mContainer(container)
 	{
 		mItemList = getListbox("ContainerContentWindow/ContentList");
-		
+		mItemList->setItemTooltipsEnabled(true);
 
 		ItemSet items = container->getItems();
 
@@ -44,6 +44,7 @@ namespace rl {
 			const Image& image = ImagesetManager::getSingleton().getImageset("ModelThumbnails")->getImage(thumbname);
 			ListboxImageItem* item = 
 				new ListboxImageItem(&image, 0, gameitem);
+			//item->setTooltipText(gameitem->getDescription());
 
 			mItemList->addItem(item);
 		}
@@ -51,14 +52,9 @@ namespace rl {
 		mItemList->subscribeEvent(
 			Window::EventMouseDoubleClick, 
 			boost::bind(&ContainerContentWindow::handleItemUse, this));
-		mItemList->subscribeEvent(
-			Window::EventMouseMove,
-			boost::bind(&ContainerContentWindow::handleMouseMove, this, _1));
-
 		getWindow("ContainerContentWindow/ContentFrameWindow")->subscribeEvent(
 			FrameWindow::EventCloseClicked,
 			boost::bind(&ContainerContentWindow::handleClose, this));
-
 		getWindow("ContainerContentWindow/CloseButton")->subscribeEvent(
 			Window::EventMouseClick,
 			boost::bind(&ContainerContentWindow::handleClose, this));
@@ -85,20 +81,5 @@ namespace rl {
 		mContainer->close();
 		destroyWindow();
 		return true;
-	}
-
-	bool ContainerContentWindow::handleMouseMove(const CEGUI::EventArgs& evt)
-	{
-		const MouseEventArgs mouseEvt = static_cast<const MouseEventArgs&>(evt); 
-		ListboxItem* item = mItemList->getFirstSelectedItem();
-		if (item != NULL)
-		{
-			Item* currentItem = static_cast<Item*>(item->getUserData());
-			mItemList->setTooltipText(currentItem->getDescription());
-		}
-		else
-			mItemList->setTooltipText("");
-
-		return false;
 	}
 }

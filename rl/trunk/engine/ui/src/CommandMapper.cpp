@@ -31,10 +31,10 @@ namespace rl {
 
 	CommandMapper::CommandMapper()
 	    : mMovementCommands(),
-		  mKeyCommandsInBattle(),
-		  mKeyCommandsOffBattle(),
-		  mMouseCommandsInBattle(),
-		  mMouseCommandsOffBattle(),
+		  mKeyCommandsInCombat(),
+		  mKeyCommandsOffCombat(),
+		  mMouseCommandsInCombat(),
+		  mMouseCommandsOffCombat(),
 		  mActiveMovement(MOVE_NONE)		 
 	{
 		mMovementCommands.insert(make_pair(KC_A, MOVE_LEFT));
@@ -47,22 +47,22 @@ namespace rl {
         mMovementCommands.insert(make_pair(KC_LCONTROL, MOVE_SNEAK));
 		mMovementCommands.insert(make_pair(KC_SPACE, MOVE_JUMP));
 
-		setMapping(CMDMAP_MOUSEMAP_OFF_BATTLE, MouseEvent::BUTTON0_MASK, "showactions");
-		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_ESCAPE, "quitgame");
-		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_TAB, "toggleconsole");
-		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_F2, "toggledebugwindow");
-		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_F3, "togglegamelogwindow");
-		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_F8, "toggledialogwindow");
-		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_F, "toggleviewmode");
-		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_NUMPAD0, "resetcamera");
-		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_P, "makescreenshot");
-		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_L, "toggleodedebug");
-		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_R, "usecurrentobjectdefaultaction");
-		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_U, "showobjectactions");
-		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_C, "showcharactersheet");
-		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_T, "showtargetwindow");
-		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_O, "togglecharacterstatewindow");
-		setMapping(CMDMAP_KEYMAP_OFF_BATTLE, KC_F10, "toggleingameglobalmenu");
+		setMapping(CMDMAP_MOUSEMAP_OFF_COMBAT, MouseEvent::BUTTON0_MASK, "showactions");
+		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_ESCAPE, "quitgame");
+		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_TAB, "toggleconsole");
+		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_F2, "toggledebugwindow");
+		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_F3, "togglegamelogwindow");
+		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_F8, "toggledialogwindow");
+		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_F, "toggleviewmode");
+		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_NUMPAD0, "resetcamera");
+		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_P, "makescreenshot");
+		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_L, "toggleodedebug");
+		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_R, "usecurrentobjectdefaultaction");
+		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_U, "showobjectactions");
+		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_C, "showcharactersheet");
+		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_T, "showtargetwindow");
+		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_O, "togglecharacterstatewindow");
+		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_F10, "toggleingameglobalmenu");
 
 	}
 
@@ -110,18 +110,18 @@ namespace rl {
 
 	bool CommandMapper::injectMouseClicked(int mouseButtonMask)
 	{
-		if (UiSubsystem::getSingleton().isInBattleMode())
-			return startAction(mouseButtonMask, CMDMAP_MOUSEMAP_IN_BATTLE);
+		if (UiSubsystem::getSingleton().isInCombatMode())
+			return startAction(mouseButtonMask, CMDMAP_MOUSEMAP_IN_COMBAT);
 		else
-			return startAction(mouseButtonMask, CMDMAP_MOUSEMAP_OFF_BATTLE);		
+			return startAction(mouseButtonMask, CMDMAP_MOUSEMAP_OFF_COMBAT);		
 	}
 
 	bool CommandMapper::injectKeyClicked(int keycode)
 	{
-		if (UiSubsystem::getSingleton().isInBattleMode())
-			return startAction(keycode, CMDMAP_KEYMAP_IN_BATTLE);
+		if (UiSubsystem::getSingleton().isInCombatMode())
+			return startAction(keycode, CMDMAP_KEYMAP_IN_COMBAT);
 		else
-			return startAction(keycode, CMDMAP_KEYMAP_OFF_BATTLE);		
+			return startAction(keycode, CMDMAP_KEYMAP_OFF_COMBAT);		
 	}
 
 	bool CommandMapper::injectKeyDown(int keycode)
@@ -170,14 +170,14 @@ namespace rl {
 	{
 		KeyAndMouseCommandMap* commandMap;
 
-		if (mapType == CMDMAP_KEYMAP_OFF_BATTLE)
-			commandMap = &mKeyCommandsOffBattle;
-		else if (mapType == CMDMAP_KEYMAP_IN_BATTLE)
-			commandMap = &mKeyCommandsInBattle;
-		else if (mapType == CMDMAP_MOUSEMAP_OFF_BATTLE)
-			commandMap = &mMouseCommandsOffBattle;
-		else if (mapType == CMDMAP_MOUSEMAP_IN_BATTLE)
-			commandMap = &mMouseCommandsInBattle;
+		if (mapType == CMDMAP_KEYMAP_OFF_COMBAT)
+			commandMap = &mKeyCommandsOffCombat;
+		else if (mapType == CMDMAP_KEYMAP_IN_COMBAT)
+			commandMap = &mKeyCommandsInCombat;
+		else if (mapType == CMDMAP_MOUSEMAP_OFF_COMBAT)
+			commandMap = &mMouseCommandsOffCombat;
+		else if (mapType == CMDMAP_MOUSEMAP_IN_COMBAT)
+			commandMap = &mMouseCommandsInCombat;
 		else
 			Throw(RuntimeException, "Unknown command map");
 

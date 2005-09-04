@@ -42,7 +42,12 @@ namespace rl {
 			mActor(actor)
 	{
 		mHint = getStaticText("ActionChoiceWindow/Hint");
-		bindClickToCloseWindow(getWindow("ActionChoiceWindow"));
+		getWindow("ActionChoiceWindow")->subscribeEvent(
+			Window::EventMouseClick,
+			boost::bind(
+				ActionChoiceWindow::handleClickNotOnButtons,
+				this,
+				_1));
 		addToRoot(mWindow);
 	}
 	
@@ -54,6 +59,18 @@ namespace rl {
 			CEGUI::WindowManager::getSingleton().destroyWindow(mButtons[i]);
 		}
 		mButtons.clear();*/
+	}
+
+	bool ActionChoiceWindow::handleClickNotOnButtons(const EventArgs& evt)
+	{
+		//MouseEventArgs mevt = static_cast<const MouseEventArgs&>(evt);
+		//if (mevt.clickCount == 1) // Doppelklicks von der Truhe rausfiltern
+		//{
+			destroyWindow();
+			return true;
+		//}
+
+		//return false;
 	}
 	
 	int ActionChoiceWindow::showActionsOfObject(GameObject* object)
