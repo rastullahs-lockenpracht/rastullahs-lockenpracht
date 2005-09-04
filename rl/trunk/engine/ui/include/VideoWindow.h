@@ -17,20 +17,40 @@
 #ifndef VIDEOWINDOW_H_
 #define VIDEOWINDOW_H_
 
-#include "OgreSingleton.h"
+#include "UiPrerequisites.h"
+
+#include <OgreSingleton.h>
 #include "CeGuiWindow.h"
 
+namespace CEGUI {
+    class String;
+}
 
 namespace rl
 {
 
-class VideoWindow : public CeGuiWindow, public Ogre::Singleton<VideoWindow>
+class Video;
+
+class _RlUiExport VideoWindow : public CeGuiWindow, public Ogre::Singleton<VideoWindow>
 {
 private:
-    
+    /// Video-Objekt
+    Video *mVideo;
+    /// Der Name des Videos
+    CEGUI::String mVideoName;
 public:
+    /// Singleton-Object
+    static VideoWindow& getSingleton();
+    /// Singleton-Zeiger
+    static VideoWindow* getSingletonPtr();
+
+    ///Standardkonstruktor
 	VideoWindow();
+    /// Destruktor
 	virtual ~VideoWindow();
+    /// Spiel's nochmal, Sam
+    void play(const CEGUI::String &videoName);
+    
 };
 
 }

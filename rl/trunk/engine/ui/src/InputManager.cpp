@@ -25,9 +25,6 @@
 
 #include "UiSubsystem.h"
 
-#if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
-#include "SDL/SDL.h"
-#endif
 
 #include "Console.h"
 #include "DebugWindow.h"

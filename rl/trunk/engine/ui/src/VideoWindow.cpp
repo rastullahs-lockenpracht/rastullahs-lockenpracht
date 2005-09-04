@@ -15,17 +15,43 @@
  */
 
 #include "VideoWindow.h"
+#include "Video.h"
+
+template<> rl::VideoWindow* Ogre::Singleton<rl::VideoWindow>::ms_Singleton = 0;
+
+using namespace Ogre;
 
 namespace rl
 {
+VideoWindow& VideoWindow::getSingleton()
+{
+    return Singleton<VideoWindow>::getSingleton();
+}
+VideoWindow* VideoWindow::getSingletonPtr()
+{
+    return Singleton<VideoWindow>::getSingletonPtr();
+}
 
 VideoWindow::VideoWindow()
-    : CeGuiWindow("video.xml", WND_SHOW)
+    : CeGuiWindow("video.xml", WND_SHOW),
+      mVideoName(""),
+      mVideo(0)
 {
 }
 
 VideoWindow::~VideoWindow()
 {
+    if (mVideo != 0)
+    {
+        mVideo->stop();
+        delete mVideo;
+    }
 }
+
+void VideoWindow::play(const CEGUI::String &videoName)
+{
+    mVideo = new Video("/Video/texture", mVideoName);
+}
+
 
 }
