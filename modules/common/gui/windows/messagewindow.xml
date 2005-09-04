@@ -1,1 +1,22 @@
-<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">    <Window Type="RastullahLook/FrameWindow" Name="MessageWindow">        <Property Name="Position" Value="x:0.0 y:0.0"/>        <Property Name="AbsoluteWidth" Value="400"/>        <Property Name="AbsoluteHeight" Value="300"/>    <Window Type="RastullahLook/StaticText" Name="MessageWindow/Text">		  <Property Name="AbsoluteXPosition" Value="5"/>          <Property Name="AbsoluteWidth" Value="390"/>          <Property Name="AbsoluteYPosition" Value="26"/>          <Property Name="AbsoluteHeight" Value="234"/>      </Window>      <Window Type="RastullahLook/Button" Name="MessageWindow/CloseButton">          <Property Name="AbsoluteXPosition" Value="140"/>          <Property Name="AbsoluteYPosition" Value="265"/>          <Property Name="AbsoluteWidth" Value="120"/>          <Property Name="AbsoluteHeight" Value="28"/>          <Property Name="Font" Value="Vera Serif-10"/>          <Property Name="Text" Value="Schließen"/>    </Window>    </Window></GUILayout>
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+    <Window Type="RastullahLook/FrameWindow" Name="MessageWindow">
+        <Property Name="Position" Value="x:0.0 y:0.0"/>
+        <Property Name="AbsoluteWidth" Value="400"/>
+        <Property Name="AbsoluteHeight" Value="300"/>
+    <Window Type="RastullahLook/StaticText" Name="MessageWindow/Text">
+		  <Property Name="AbsoluteXPosition" Value="5"/>
+          <Property Name="AbsoluteWidth" Value="390"/>
+          <Property Name="AbsoluteYPosition" Value="26"/>
+          <Property Name="AbsoluteHeight" Value="234"/>
+      </Window>
+      <Window Type="RastullahLook/Button" Name="MessageWindow/CloseButton">
+          <Property Name="AbsoluteXPosition" Value="140"/>
+          <Property Name="AbsoluteYPosition" Value="265"/>
+          <Property Name="AbsoluteWidth" Value="120"/>
+          <Property Name="AbsoluteHeight" Value="28"/>
+          <Property Name="Font" Value="Vera Serif-10"/>
+          <Property Name="Text" Value="Schließen"/>
+		  <Property Name="Tooltip" Value="Das Fenster schließen"/>
+    </Window>
+    </Window>
+</GUILayout>

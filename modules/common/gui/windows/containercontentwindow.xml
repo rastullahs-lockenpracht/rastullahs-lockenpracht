@@ -1,1 +1,42 @@
-<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">    <Window Type="DefaultWindow" Name="ContainerContentWindow">        <Property Name="RelativeXPosition" Value="0.05"/>        <Property Name="RelativeYPosition" Value="0.05"/>        <Property Name="AbsoluteWidth" Value="320"/>        <Property Name="RelativeHeight" Value="0.9"/>    	    <Window Type="RastullahLook/FrameWindow" Name="ContainerContentWindow/ContentFrameWindow">	        <Property Name="RelativeXPosition" Value="0.05"/>	        <Property Name="RelativeYPosition" Value="0.05"/>	        <Property Name="AbsoluteWidth" Value="64"/>	        <Property Name="RelativeHeight" Value="0.9"/>		        <Window Type="RastullahLook/Listbox" Name="ContainerContentWindow/ContentList">	            <Property Name="AbsoluteXPosition" Value="5"/>	            <Property Name="RelativeYPosition" Value="0.05"/>	            <Property Name="AbsoluteWidth" Value="54"/>	            <Property Name="RelativeHeight" Value="0.9"/>	        </Window>	        	    </Window>	            <Window Type="RastullahLook/Button" Name="ContainerContentWindow/CloseButton">			<Property Name="Text" Value="SchlieÃŸen"/>            <Property Name="AbsoluteXPosition" Value="200"/>            <Property Name="AbsoluteYPosition" Value="200"/>            <Property Name="AbsoluteWidth" Value="100"/>            <Property Name="AbsoluteHeight" Value="26"/>		</Window>				<Window Type="RastullahLook/Button" Name="ContainerContentWindow/UseButton">			<Property Name="Text" Value="Benutzen"/>            <Property Name="AbsoluteXPosition" Value="200"/>            <Property Name="AbsoluteYPosition" Value="160"/>            <Property Name="AbsoluteWidth" Value="100"/>            <Property Name="AbsoluteHeight" Value="26"/>		</Window>    </Window></GUILayout>
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+    <Window Type="DefaultWindow" Name="ContainerContentWindow">
+        <Property Name="RelativeXPosition" Value="0.05"/>
+        <Property Name="RelativeYPosition" Value="0.05"/>
+        <Property Name="AbsoluteWidth" Value="320"/>
+        <Property Name="RelativeHeight" Value="0.9"/>
+
+    
+	    <Window Type="RastullahLook/FrameWindow" Name="ContainerContentWindow/ContentFrameWindow">
+	        <Property Name="RelativeXPosition" Value="0.05"/>
+	        <Property Name="RelativeYPosition" Value="0.05"/>
+	        <Property Name="AbsoluteWidth" Value="64"/>
+	        <Property Name="RelativeHeight" Value="0.9"/>
+			<Property Name="WantsMultiClickEvents" Value="True"/>
+	
+	        <Window Type="RastullahLook/Listbox" Name="ContainerContentWindow/ContentList">
+	            <Property Name="AbsoluteXPosition" Value="5"/>
+	            <Property Name="RelativeYPosition" Value="0.05"/>
+	            <Property Name="AbsoluteWidth" Value="54"/>
+	            <Property Name="RelativeHeight" Value="0.9"/>
+				<Property Name="ItemTooltips" Value="True"/>
+	        </Window>
+	        
+	    </Window>
+	    
+        <Window Type="RastullahLook/Button" Name="ContainerContentWindow/CloseButton">
+			<Property Name="Text" Value="Schließen"/>
+            <Property Name="AbsoluteXPosition" Value="200"/>
+            <Property Name="AbsoluteYPosition" Value="200"/>
+            <Property Name="AbsoluteWidth" Value="100"/>
+            <Property Name="AbsoluteHeight" Value="26"/>
+		</Window>
+		
+		<Window Type="RastullahLook/Button" Name="ContainerContentWindow/UseButton">
+			<Property Name="Text" Value="Benutzen"/>
+            <Property Name="AbsoluteXPosition" Value="200"/>
+            <Property Name="AbsoluteYPosition" Value="160"/>
+            <Property Name="AbsoluteWidth" Value="100"/>
+            <Property Name="AbsoluteHeight" Value="26"/>
+		</Window>
+    </Window>
+</GUILayout>
