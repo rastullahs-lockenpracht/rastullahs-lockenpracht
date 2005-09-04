@@ -12,6 +12,7 @@ libRlUi_la_SOURCES = \
 	CeGuiWindow.cpp \
 	CharacterSheetWindow.cpp \
 	CharacterStateWindow.cpp \
+	CombatWindow.cpp \
 	CommandExecutor.cpp \
 	CommandMapper.cpp \
 	CommandMapperWindow.cpp \

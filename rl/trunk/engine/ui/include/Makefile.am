@@ -3,6 +3,7 @@ noinst_HEADERS = \
 	CeGuiWindow.h \
 	CharacterSheetWindow.h \
 	CharacterStateWindow.h \
+	CombatWindow.h \
 	CommandExecutor.h \
 	CommandMapper.h \
 	CommandMapperWindow.h \
