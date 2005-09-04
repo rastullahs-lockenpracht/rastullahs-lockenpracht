@@ -57,9 +57,9 @@ fackel.placeIntoScene( 160.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0 );
 
 print( "Erstelle Track" );
 # Erstellen eines einfachen Tracks  
-#	- für die fackel 
+#	- fÃ¼r die fackel 
 #	- mit dem _EINZIGARTIGEN_ Namen "testTrackAnimation"
-#	- Und der Länge von 4 Sekunden
+#	- Und der LÃ¤nge von 4 Sekunden
 trackAnim = $AnimMgr.createTrackAnimation( fackel, "testTrackAnimation", 4.0 );
 # Setzen der ersten Keyframe
 trackAnim.addKeyFrame( 0.0 );
@@ -74,15 +74,15 @@ trackAnim.addKeyFrame( 4.0 );
 trackAnim.setKeyFrameRotation( 4.0, 0.0, 0.0, 0.0, 0.0 );
 trackAnim.setKeyFrameTranslation( 4.0, 0.0, 0.0, 0.0 );
 
-print( "Hänge Listener an" );
-# AnimationFrameListener hinzufügen
+print( "HÃ¤nge Listener an" );
+# AnimationFrameListener hinzufÃ¼gen
 animFrameListener = MachWasBeiFrameXListener.new();
 trackAnim.addAnimationFrameListener( animFrameListener, 2.0 );
 # Und los gehts
 trackAnim.setPaused( false );
 
 print( "Erstelle Track" );
-# Noch einfacherer ;) Track, aber mit nem Listener verknüpft
+# Noch einfacherer ;) Track, aber mit nem Listener verknÃ¼pft
 tischlein = $AM.createMeshActor("TavernenTisch","nat_stein02_mittel.mesh");
 tischlein.placeIntoScene( 160.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0 );
 
@@ -95,7 +95,7 @@ listenedTrackAnim.setKeyFrameTranslation( 1.0, 0.0, 100.0, 0.0 );
 listenedTrackAnim.setTimesToPlay( 1 );
 listenedTrackAnim.setSpeed( 2.0 );
 
-print( "Hänge Listener an" );
+print( "HÃ¤nge Listener an" );
 # AnimationsListener erzeugen
 animListener = UmdrehAbspielListener.new();
 # AnimationsListener hinzufuegen

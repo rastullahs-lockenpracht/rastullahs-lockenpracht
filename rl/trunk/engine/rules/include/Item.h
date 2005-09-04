@@ -26,7 +26,7 @@ namespace rl
     class _RlRulesExport Item : public GameObject
     {
     public:
-        Item(int id, const CeGuiString& name, const CeGuiString& description);
+        Item(const CeGuiString& name, const CeGuiString& description);
         virtual ~Item(void);
 
 		enum ItemType{ITEMTYPE_WAFFE = 0};

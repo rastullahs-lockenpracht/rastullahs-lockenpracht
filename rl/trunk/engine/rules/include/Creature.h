@@ -130,8 +130,7 @@ namespace rl
 		typedef map<int, Weapon*> WeaponMap;
 
 		///@warning Nur zu Testzwecken da. Wird spaeter entfernt.
-        Creature(int id,
-                 const CeGuiString& name,
+        Creature(const CeGuiString& name,
                  const CeGuiString& description);
 		        
         virtual ~Creature();

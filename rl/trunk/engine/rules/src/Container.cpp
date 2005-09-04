@@ -22,8 +22,8 @@ using namespace std;
 
 namespace rl {
 
-    Container::Container(int id, const CeGuiString& name, const CeGuiString& description)
-        : GameObject(id, name, description), mCapacity(1000)
+    Container::Container(const CeGuiString& name, const CeGuiString& description)
+        : GameObject(name, description), mCapacity(1000)
     {
     }
 

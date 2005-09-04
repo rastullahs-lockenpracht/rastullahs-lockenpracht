@@ -28,7 +28,7 @@ namespace rl
     class _RlRulesExport Container : public GameObject
     {
     public:
-        Container(int id, const CeGuiString& name, const CeGuiString& description);
+        Container(const CeGuiString& name, const CeGuiString& description);
         virtual ~Container(void);
 
         /// Fassungsvermoegen in Unzen

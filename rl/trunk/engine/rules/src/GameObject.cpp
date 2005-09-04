@@ -26,11 +26,11 @@ using namespace std;
 namespace rl
 {
 	const CeGuiString GameObject::DEFAULT_VIEW_OBJECT_ACTION = "viewobject";
+	int GameObject::sNextGameObjectId = 1;
 
-    GameObject::GameObject(int id,
-                           const CeGuiString& name,
+    GameObject::GameObject(const CeGuiString& name,
                            const CeGuiString& description)
-        :   mId(id),
+		:   mId(GameObject::sNextGameObjectId++),
             mName(name),
             mDescription(description)
     {

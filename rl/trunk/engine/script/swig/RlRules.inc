@@ -206,7 +206,7 @@ namespace rl {
     class GameObject: public ObjectStateChangeEventSource
     {
     public:
-        GameObject(int id, const rl::CeGuiString& name, const rl::CeGuiString& description);
+        GameObject(const rl::CeGuiString& name, const rl::CeGuiString& description);
         virtual ~GameObject(void);
 
         virtual int getId();
@@ -253,7 +253,7 @@ namespace rl {
     %feature("director") Item;
     class Item : public GameObject {
     public:
-        Item(int id, const rl::CeGuiString& name, const rl::CeGuiString& description);
+        Item(const rl::CeGuiString& name, const rl::CeGuiString& description);
         virtual ~Item(void);
         
         enum ItemType;
@@ -265,7 +265,7 @@ namespace rl {
     class Weapon : public Item 
     {
     public:
-        Weapon(int id, const rl::CeGuiString& name, const rl::CeGuiString& description);
+        Weapon(const rl::CeGuiString& name, const rl::CeGuiString& description);
         virtual ~Weapon(void);
         
         
@@ -289,7 +289,7 @@ namespace rl {
     class Container : public GameObject
     {
     public:
-        Container(int id, const rl::CeGuiString& name, const rl::CeGuiString& description);
+        Container(const rl::CeGuiString& name, const rl::CeGuiString& description);
         virtual ~Container(void);
 
         int getCapacity() const;
@@ -307,7 +307,7 @@ namespace rl {
     %feature("director") Creature;
     class Creature : public GameObject {
     public:
-        Creature(int id, const rl::CeGuiString& name, const rl::CeGuiString& description);
+        Creature(const rl::CeGuiString& name, const rl::CeGuiString& description);
         //Creature(const rl::CeGuiString& data);
         virtual ~Creature();
 
@@ -343,8 +343,7 @@ namespace rl {
    class Person : public Creature
    {
    public:
-	    Person(int id,
-                 const rl::CeGuiString& name,
+	    Person(  const rl::CeGuiString& name,
                  const rl::CeGuiString& description);
 	};
 	%feature("director") ActionMananger;

@@ -20,8 +20,8 @@ using namespace std;
 
 namespace rl
 {
-    Item::Item(int id, const CeGuiString& name, const CeGuiString& description)
-        : GameObject(id, name, description)
+    Item::Item(const CeGuiString& name, const CeGuiString& description)
+        : GameObject(name, description)
     {
     }
 

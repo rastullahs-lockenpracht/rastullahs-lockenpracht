@@ -1,7 +1,6 @@
 load 'embed.rb'
-load 'actions.rb'
 
-class ShowActionMenuAction < RubyAction
+class ShowActionMenuAction < Action
   def initialize
     super("showactions", "Aktionen anzeigen")
   end
@@ -11,7 +10,7 @@ class ShowActionMenuAction < RubyAction
   end
 end
 
-class QuitGameAction < RubyAction
+class QuitGameAction < Action
   def initialize
     super("quitgame", "Das Spiel beenden")
   end
@@ -21,7 +20,7 @@ class QuitGameAction < RubyAction
   end
 end
 
-class ToggleConsoleAction < RubyAction
+class ToggleConsoleAction < Action
   def initialize
     super("toggleconsole", "Konsole zeigen/verstecken")
   end
@@ -31,7 +30,7 @@ class ToggleConsoleAction < RubyAction
   end
 end
 
-class ToggleDebugWindowAction < RubyAction
+class ToggleDebugWindowAction < Action
   def initialize
     super("toggledebugwindow", "DebugWindow zeigen/verstecken")
   end
@@ -41,7 +40,7 @@ class ToggleDebugWindowAction < RubyAction
   end
 end
 
-class ToggleGameLogWindowAction < RubyAction
+class ToggleGameLogWindowAction < Action
     def initialize
         super("togglegamelogwindow", "Game Log zeigen/verstecken")
     end
@@ -51,7 +50,7 @@ class ToggleGameLogWindowAction < RubyAction
     end
 end
 
-class ToggleViewModeAction < RubyAction
+class ToggleViewModeAction < Action
   def initialize
     super("toggleviewmode", "First/ThirdPerson umschalten")
   end
@@ -62,7 +61,7 @@ class ToggleViewModeAction < RubyAction
   end
 end
 
-class ToggleInGameGlobalMenuAction < RubyAction
+class ToggleInGameGlobalMenuAction < Action
   def initialize
     super("toggleingameglobalmenu", "Spielmenü anzeigen")
   end
@@ -72,7 +71,7 @@ class ToggleInGameGlobalMenuAction < RubyAction
   end
 end
 
-class ResetCameraAction < RubyAction
+class ResetCameraAction < Action
   def initialize
     super("resetcamera", "Kamera zurücksetzen")
   end
@@ -83,7 +82,7 @@ class ResetCameraAction < RubyAction
   end
 end
 
-class MakeScreenshotAction < RubyAction
+class MakeScreenshotAction < Action
   def initialize
     super("makescreenshot", "Screenshot erstellen")
   end
@@ -93,7 +92,7 @@ class MakeScreenshotAction < RubyAction
   end
 end
 
-class ToggleOdeDebugAction < RubyAction
+class ToggleOdeDebugAction < Action
   def initialize
     super("toggleodedebug", "Ode-Körper anzeigen")
   end
@@ -103,7 +102,7 @@ class ToggleOdeDebugAction < RubyAction
   end
 end
 
-class ToggleCharacterStateWindowAction < RubyAction
+class ToggleCharacterStateWindowAction < Action
     def initialize
         super("togglecharacterstatewindow", "Charakterstatus zeigen/verstecken")
     end
@@ -113,7 +112,7 @@ class ToggleCharacterStateWindowAction < RubyAction
     end
 end
 
-class ShowObjectActionsAction < RubyAction
+class ShowObjectActionsAction < Action
   def initialize
     super("showobjectactions", "Objektaktionen anzeigen")
   end
@@ -123,7 +122,7 @@ class ShowObjectActionsAction < RubyAction
   end
 end
 
-class ShowCharacterSheetAction < RubyAction
+class ShowCharacterSheetAction < Action
   def initialize
     super("showcharactersheet", "Charakterblatt des aktiven Helden anzeigen")
   end
@@ -133,7 +132,7 @@ class ShowCharacterSheetAction < RubyAction
   end
 end
 
-class ToggleDialogWindowAction < RubyAction
+class ToggleDialogWindowAction < Action
   def initialize
     super("toggledialogwindow", "Charakterblatt des aktiven Helden anzeigen")
   end
@@ -143,7 +142,7 @@ class ToggleDialogWindowAction < RubyAction
   end
 end
 
-class ShowTargetWindowAction < RubyAction
+class ShowTargetWindowAction < Action
   def initialize
     super("showtargetwindow", "Zielauswahl")
   end
@@ -153,7 +152,7 @@ class ShowTargetWindowAction < RubyAction
   end
 end
 
-class UseGameObjectDefaultAction < RubyAction
+class UseGameObjectDefaultAction < Action
   def initialize
     super("usecurrentobjectdefaultaction", "Standardaktion benutzen")
   end

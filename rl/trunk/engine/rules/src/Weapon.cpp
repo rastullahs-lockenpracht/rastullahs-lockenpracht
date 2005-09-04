@@ -20,8 +20,8 @@ using namespace std;
 
 namespace rl
 {
-	Weapon::Weapon(int id, const CeGuiString& weaponName, const CeGuiString& description)
-		: Item(id, weaponName, description)
+	Weapon::Weapon(const CeGuiString& weaponName, const CeGuiString& description)
+		: Item(weaponName, description)
 	{
 	}
 

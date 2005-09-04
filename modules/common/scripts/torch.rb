@@ -5,11 +5,9 @@
 # einiger Klassen für Instanzen anderer Klassen nachgenutzt werden?
 # Inwiefern ist Deferred Construction sinnvoll?
 require 'globals.rb'
-require 'actions.rb'
-require 'items.rb'
 
 # Die Aktion für das Anzünden der Fackel.
-class LightTorchAction < RubyAction
+class LightTorchAction < Action
   def initialize
     super("Anzünden", "Die Fackel anzünden für mehr Licht und so.");
   end
@@ -49,9 +47,9 @@ end
 
 # TODO Physikalische Attribute etc..
 # TODO Persistenz *schreck*
-class Torch < RubyItem
+class Torch < Item
   def initialize(name)
-    super(1, "Fackel", "Handelsuebliche Fackel zum Beleuchten der Umgebung");
+    super("Fackel", "Handelsuebliche Fackel zum Beleuchten der Umgebung");
     # Momentan stelle ich mir die Erzeugung so vor:
     # Die Aktorerstellung über spezifische
     # Fabrikmethoden für die Dinge, die der Aktor repräsentiert.

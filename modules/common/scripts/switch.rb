@@ -5,10 +5,8 @@
 # einiger Klassen für Instanzen anderer Klassen nachgenutzt werden?
 # Inwiefern ist Deferred Construction sinnvoll?
 require 'globals.rb'
-require 'actions.rb'
-require 'items.rb'
 
-class SwitchUpAction < RubyAction
+class SwitchUpAction < Action
   def initialize
     super("Oben", "Hebel nach oben schalten");
   end
@@ -32,7 +30,7 @@ class SwitchUpAction < RubyAction
   end
 end
 
-class SwitchDownAction < RubyAction
+class SwitchDownAction < Action
   def initialize
     super("Unten", "Hebel nach unten schalten");
   end
@@ -55,7 +53,7 @@ class SwitchDownAction < RubyAction
   end
 end
 
-class SwitchMiddleAction < RubyAction
+class SwitchMiddleAction < Action
   def initialize
     super("Mitte", "Hebel in die Mitte schalten");
   end
@@ -78,13 +76,13 @@ class SwitchMiddleAction < RubyAction
   end
 end
 
-class Switch < RubyItem
+class Switch < GameObject
   Switch.const_set( "STATE_OBEN", 0 )
   Switch.const_set( "STATE_MITTE", 1 )
   Switch.const_set( "STATE_UNTEN", 2 )
 
   def initialize( name )
-    super(10, name, "Ein Hebel");
+    super(name, "Ein Hebel");
 
     switchActor = $AM.createMeshActor(name, "arc_hebel_01.mesh" );
     $CORE.log("switch-actor erstellt.");

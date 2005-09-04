@@ -39,8 +39,7 @@ namespace rl
     class _RlRulesExport GameObject : public Ogre::UserDefinedObject, public ObjectStateChangeEventSource
     {
     public:
-        GameObject(int id,
-                   const CeGuiString& name,
+        GameObject(const CeGuiString& name,
                    const CeGuiString& description);
         virtual ~GameObject(void);
 
@@ -114,6 +113,8 @@ namespace rl
 		std::map<CeGuiString, bool>		mAttributesBoolean;
 		std::map<CeGuiString, int>			mAttributesInteger;
 		std::map<CeGuiString, Ogre::Real>	mAttributesReal;
+
+		static int sNextGameObjectId;
 	
     protected:
         int mId;

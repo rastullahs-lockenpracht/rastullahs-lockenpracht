@@ -26,9 +26,15 @@ namespace rl
 	class _RlRulesExport Weapon : public Item
 	{
 	public:
-		enum Distanzklasse {DK_H=0,DK_N,DK_S,DK_P};
+		enum Distanzklasse 
+		{
+			DK_H=0,
+			DK_N,
+			DK_S,
+			DK_P
+		};
 
-		Weapon (int id, const CeGuiString& weaponName, const CeGuiString& description);
+		Weapon (const CeGuiString& weaponName, const CeGuiString& description);
 		virtual ~Weapon(void);
 
 		void setTp(int d6, int d20, int mod);

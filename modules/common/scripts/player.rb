@@ -1,7 +1,5 @@
 #require 'RlScript'
 
-load 'actions.rb'
-
 class CampAction < Action
   def initialize
     super("makecamp", "Das Zelt aufschlagen und rasten")

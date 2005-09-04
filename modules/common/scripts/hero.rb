@@ -2,7 +2,7 @@ require 'globals.rb'
 
 class Hero < Person
     def initialize
-        super(10000, "Alrik", "Der Testheld");
+        super("Alrik", "Der Testheld");
 
         setEigenschaft("MU", 12);
 	    setEigenschaft("KL", 8);

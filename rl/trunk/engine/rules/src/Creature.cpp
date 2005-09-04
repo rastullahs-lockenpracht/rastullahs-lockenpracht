@@ -23,9 +23,8 @@
 
 namespace rl
 {
-    Creature::Creature(int id,
-        const CeGuiString& name, const CeGuiString& description)
-        : GameObject(id, name, description), mCurrentLe(0)
+    Creature::Creature(const CeGuiString& name, const CeGuiString& description)
+        : GameObject(name, description), mCurrentLe(0)
     {
 		setWert(WERT_MOD_AE, 0);
 		setWert(WERT_MOD_LE, 0);

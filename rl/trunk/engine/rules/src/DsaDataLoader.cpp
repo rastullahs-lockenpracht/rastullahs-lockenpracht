@@ -192,14 +192,13 @@ namespace rl {
 		{
 			Person* p = 
 				processPerson(
-					idx+10000, 
 					reinterpret_cast<DOMElement*>(personenXml->item(idx)));
 			DsaManager::getSingleton()._addPerson(p);
 		}
 		
 	}
 
-	Person* DsaDataLoader::processPerson(int id, DOMElement* personXml)
+	Person* DsaDataLoader::processPerson(DOMElement* personXml)
 	{
 		XMLCh* TALENT = XMLString::transcode("Talent");
 		XMLCh* ID = XMLString::transcode("ID");
@@ -211,7 +210,7 @@ namespace rl {
 		CeGuiString desc = 
 			XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(personXml, "Beschreibung"));
 
-		Person* rval = new Person(id, name, desc);
+		Person* rval = new Person(name, desc);
 
 		// Eigenschaften laden
 		DOMNodeList* eigensch = 

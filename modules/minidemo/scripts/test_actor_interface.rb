@@ -6,7 +6,7 @@
 # Inwiefern ist Deferred Construction sinnvoll?
 
 # Die Aktion für das Anzünden der Fackel.
-class LightTorchAction < RubyAction
+class LightTorchAction < Action
     def initialize
         super("Anzünden", "Die Fackel anzünden für mehr Licht und so.");
     end
@@ -46,7 +46,7 @@ end
 
 # TODO Physikalische Attribute etc..
 # TODO Persistenz *schreck*
-class Torch < RubyItem
+class Torch < Item
     def initialize(name)
         # Momentan stelle ich mir die Erzeugung so vor:
         # Die Aktorerstellung über spezifische

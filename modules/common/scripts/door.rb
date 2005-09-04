@@ -5,10 +5,8 @@
 # einiger Klassen für Instanzen anderer Klassen nachgenutzt werden?
 # Inwiefern ist Deferred Construction sinnvoll?
 require 'globals.rb'
-require 'actions.rb'
-require 'items.rb'
 
-class OpenDoorAction < RubyAction
+class OpenDoorAction < Action
   def initialize
     super("opendoor", "Tür öffnen");
   end
@@ -27,7 +25,7 @@ class OpenDoorAction < RubyAction
   end
 end
 
-class CloseDoorAction < RubyAction
+class CloseDoorAction < Action
   def initialize
     super("closedoor", "Tür schließen");
   end
@@ -46,9 +44,9 @@ class CloseDoorAction < RubyAction
   end
 end
 
-class Door < RubyItem
+class Door < GameObject
   def initialize(name, description, isOpen, canBeOpened)
-    super(10, name, description);
+    super(name, description);
 
     doorActor = $AM.createMeshActor( name, "arc_tuer_01.mesh",  0, 0.0 ); #PhysicsManager::GT_BOX , 6.0);
     $CORE.log("door.rb - Aktor erstellt.");

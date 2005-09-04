@@ -42,7 +42,7 @@ namespace rl {
 		static Talent* processTalent(int gruppe, XERCES_CPP_NAMESPACE::DOMElement* talentXml);
 
 		static void initializePersonen(XERCES_CPP_NAMESPACE::DOMElement* rootPersonen);
-		static Person* processPerson(int id, XERCES_CPP_NAMESPACE::DOMElement* talentXml);
+		static Person* processPerson(XERCES_CPP_NAMESPACE::DOMElement* talentXml);
 			
 		static void initializeKampftechniken(XERCES_CPP_NAMESPACE::DOMElement* rootKampftechniken);
 		static Kampftechnik* processKampftechnik(XERCES_CPP_NAMESPACE::DOMElement* kampftechnikXml);

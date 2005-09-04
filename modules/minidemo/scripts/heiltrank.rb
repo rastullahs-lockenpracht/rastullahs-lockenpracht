@@ -1,9 +1,7 @@
 # Nur eingebettet starten
 load( "embed.rb" );
 
-require 'actions.rb'
-
-class HealAction < RubyAction
+class HealAction < Action
     def initialize(name, description, quality, customLep, customOverMax)
        super(name, description)
        @mQuality = quality
@@ -44,9 +42,9 @@ class HealAction < RubyAction
     end
 end
 
-class Heiltrank < RubyItem
-  def initialize(id, name, beschreibung, model, quality)
-    super(id, name, beschreibung)
+class Heiltrank < Item
+  def initialize(name, beschreibung, model, quality)
+    super(name, beschreibung)
     trankActor = $AM.createMeshActor( name, model,  0, 0.0 );
     setActor(trankActor)
 
