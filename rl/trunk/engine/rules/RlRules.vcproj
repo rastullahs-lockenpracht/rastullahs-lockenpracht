@@ -134,6 +134,9 @@
 				RelativePath=".\src\ActionManager.cpp">
 			</File>
 			<File
+				RelativePath=".\src\Combat.cpp">
+			</File>
+			<File
 				RelativePath=".\src\Container.cpp">
 			</File>
 			<File
@@ -203,6 +206,9 @@
 			</File>
 			<File
 				RelativePath=".\include\ActionManager.h">
+			</File>
+			<File
+				RelativePath=".\include\Combat.h">
 			</File>
 			<File
 				RelativePath=".\include\Container.h">
