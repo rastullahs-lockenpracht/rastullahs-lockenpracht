@@ -5,6 +5,7 @@ libRlRules_la_LDFLAGS = $(RUBY_LIBS) $(OGRE_LIBS) $(CEGUI_LIBS) $(LIBS)
 libRlRules_la_SOURCES = \
 	Action.cpp \
 	ActionManager.cpp \
+	Combat.cpp \
 	Container.cpp \
 	Creature.cpp \
 	Date.cpp \

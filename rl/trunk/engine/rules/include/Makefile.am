@@ -1,6 +1,7 @@
 noinst_HEADERS = \
 	Action.h \
 	ActionManager.h \
+	Combat.h \
 	Container.h \
 	Creature.h \
 	Date.h \
