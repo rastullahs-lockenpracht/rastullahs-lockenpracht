@@ -28,7 +28,7 @@ using namespace Ogre;
 namespace rl {
 
 	MainMenuWindow::MainMenuWindow(GameObject* actionHolder) :
-		CeGuiWindow("mainmenuwindow.xml", WND_ALL_INPUT),
+		CeGuiWindow("mainmenuwindow.xml", WND_MOUSE_INPUT),
 		mActiveModule(""),
 		mActionHolder(actionHolder)
 	{
