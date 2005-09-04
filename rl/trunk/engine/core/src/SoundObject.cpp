@@ -78,6 +78,10 @@ void SoundObject::_update()
     {
         return;
     }
+    if (!channel->isValid())
+    {
+        return;
+    }
     channel->setPosition(actor->getPosition());
     Vector3 *temp1 = new Vector3();
     Vector3 *temp2 = new Vector3(actor->getPosition());
@@ -85,7 +89,7 @@ void SoundObject::_update()
     actor->getOrientation().ToAxes(temp1);
     *temp1 += *temp2;
     *temp1 *= length;
-    channel->setDirection(*temp1);
+    channel->setDirection(*temp1); 
 }
 
 void SoundObject::play( )
