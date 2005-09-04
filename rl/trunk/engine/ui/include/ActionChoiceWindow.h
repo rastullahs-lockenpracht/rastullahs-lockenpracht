@@ -39,6 +39,8 @@ namespace rl {
 		int showActionsOfObject(GameObject* object);
 		bool showHint(const CeGuiString& evt);
 
+		bool handleClickNotOnButtons(const CEGUI::EventArgs& evt);
+
 	private:	
 		class ActionNode;
 
@@ -120,8 +122,7 @@ namespace rl {
 			static void getAllNodes(ActionNode* treeRoot, NodeSet& node);
 	
 		private:
-			bool handleClickNotOnButtons(const CEGUI::EventArgs& evt);
-
+			
 			NodeSet mChildren;
 			ActionNode* mParent;
 			bool mLeaf;
