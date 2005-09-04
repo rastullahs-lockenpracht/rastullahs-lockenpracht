@@ -85,20 +85,20 @@ public:
     void createCETexture();
     /// Zerstoere Textur
     void destroyCETexture();
-    /// Textur zurückgeben;
+    /// Textur zurï¿½ckgeben;
     CEGUI::Texture* getTexture() const;
-    /// Texturname zurückgeben.
+    /// Texturname zurï¿½ckgeben.
     const CEGUI::String getTextureName() const;
-    /// Die Videolänge zurückgeben
+    /// Die Videolï¿½nge zurï¿½ckgeben
     float getMaxTime() const;
 
-    /// Fügt einen ObjectStateChangeListener hinzu, der zukünftig bei Events benachrichtigt wird 
+    /// Fï¿½gt einen ObjectStateChangeListener hinzu, der zukï¿½nftig bei Events benachrichtigt wird 
     void addEventListener(VideoEventListener*  listener);
     /// Entfernt einen Listener
     void removeEventListener(VideoEventListener* listener);
     /// Entfernt alle Listener
     void removeEventListeners();
-    /// Gibt zurück ob sich Listener angemeldet haben
+    /// Gibt zurï¿½ck ob sich Listener angemeldet haben
     bool hasListeners() const;
     
 protected:

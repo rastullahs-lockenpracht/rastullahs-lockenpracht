@@ -15,11 +15,11 @@
  */
 
 #include "VideoWindow.h"
-#include "Video.h"
+#include "CEGUITexture.h"
 
 template<> rl::VideoWindow* Ogre::Singleton<rl::VideoWindow>::ms_Singleton = 0;
 
-using namespace Ogre;
+using namespace CEGUI;
 
 namespace rl
 {
@@ -34,23 +34,21 @@ VideoWindow* VideoWindow::getSingletonPtr()
 
 VideoWindow::VideoWindow()
     : CeGuiWindow("video.xml", WND_SHOW),
-      mVideoName(""),
-      mVideo(0)
+      mTexture(0)
 {
 }
 
 VideoWindow::~VideoWindow()
 {
-    if (mVideo != 0)
+    if (mTexture != 0)
     {
-        mVideo->stop();
-        delete mVideo;
+        delete mTexture;
     }
 }
 
-void VideoWindow::play(const CEGUI::String &videoName)
+void VideoWindow::play(CEGUI::Texture *texture)
 {
-    mVideo = new Video("/Video/texture", mVideoName);
+    mTexture = texture;
 }
 
 

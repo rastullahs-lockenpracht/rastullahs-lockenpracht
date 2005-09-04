@@ -24,20 +24,17 @@
 
 namespace CEGUI {
     class String;
+    class Texture;
 }
 
 namespace rl
 {
 
-class Video;
-
 class _RlUiExport VideoWindow : public CeGuiWindow, public Ogre::Singleton<VideoWindow>
 {
 private:
-    /// Video-Objekt
-    Video *mVideo;
-    /// Der Name des Videos
-    CEGUI::String mVideoName;
+    /// Textur des Videos
+    CEGUI::Texture *mTexture;
 public:
     /// Singleton-Object
     static VideoWindow& getSingleton();
@@ -49,7 +46,7 @@ public:
     /// Destruktor
 	virtual ~VideoWindow();
     /// Spiel's nochmal, Sam
-    void play(const CEGUI::String &videoName);
+    void play(CEGUI::Texture *texture);
     
 };
 
