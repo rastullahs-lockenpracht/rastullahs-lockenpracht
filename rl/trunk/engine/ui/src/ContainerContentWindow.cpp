@@ -34,7 +34,7 @@ namespace rl {
 		mContainer(container)
 	{
 		mItemList = getListbox("ContainerContentWindow/ContentList");
-		mItemList->setItemTooltipsEnabled(true);
+		//mItemList->setItemTooltipsEnabled(true);
 
 		ItemSet items = container->getItems();
 

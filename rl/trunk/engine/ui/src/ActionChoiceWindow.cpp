@@ -45,7 +45,7 @@ namespace rl {
 		getWindow("ActionChoiceWindow")->subscribeEvent(
 			Window::EventMouseClick,
 			boost::bind(
-				ActionChoiceWindow::handleClickNotOnButtons,
+				&ActionChoiceWindow::handleClickNotOnButtons,
 				this,
 				_1));
 		addToRoot(mWindow);
