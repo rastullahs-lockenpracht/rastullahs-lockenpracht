@@ -49,8 +49,8 @@ namespace rl
 		mText->moveToFront();
 
 		mTooltip = getWindow("TargetSelectionWindow/TooltipWindow");
-		mTooltip->setTooltipType("RastullahLooks/Tooltip");
-		mWindow->setTooltipType("RastullahLooks/Tooltip");
+		mTooltip->setTooltipType("RastullahLook/Tooltip");
+		mWindow->setTooltipType("RastullahLook/Tooltip");
 
 		mWindow->subscribeEvent(
 			Window::EventMouseMove,
