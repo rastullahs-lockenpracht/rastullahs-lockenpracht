@@ -57,13 +57,13 @@ private:
 
     CEGUI::OgreCEGUIRenderer* mGUIRenderer;
     CEGUI::Texture *mTexture;
-    CEGUI::String mMovieName;
-    CEGUI::String mTextureName;
+    CeGuiString mMovieName;
+    CeGuiString mTextureName;
     float mMaxTime;
 
 public:
     // Default-Konstruktor
-    Video(CEGUI::String textureName, CEGUI::String movieName);
+    Video(CeGuiString textureName, CeGuiString movieName);
     // Destruktor
     virtual ~Video();
 
@@ -88,7 +88,7 @@ public:
     /// Textur zur�ckgeben;
     CEGUI::Texture* getTexture() const;
     /// Texturname zur�ckgeben.
-    const CEGUI::String getTextureName() const;
+    const CeGuiString getTextureName() const;
     /// Die Videol�nge zur�ckgeben
     float getMaxTime() const;
 

@@ -30,6 +30,7 @@ copy "%OGREPLUGINS%\ParticleFx\bin\%BUILD%\Plugin_ParticleFx.dll" "%RL_DIST%"
 copy "%OGRERENDERERS%\Direct3D9\bin\%BUILD%\RenderSystem_Direct3D9.dll" "%RL_DIST%"
 copy "%OGRERENDERERS%\GL\bin\%BUILD%\RenderSystem_GL.dll" "%RL_DIST%"
 
+
 copy "%OGREPLATFORMS%\Win32\bin\%BUILD%\PlatFormManager_Win32.dll" "%RL_DIST%\OgrePlatform.dll"
 copy "%OGREPLATFORMS%\Win32\bin\%BUILD%\PlatFormManager_Win32.dll" "%RL_DIST%\OgrePlatform_d.dll"
 
@@ -42,27 +43,21 @@ copy "%OGREHOME%\Samples\Common\Bin\%BUILD%\ilut.dll" "%RL_DIST%"
 copy "%OGREHOME%\Samples\Common\Bin\%BUILD%\devil.dll" "%RL_DIST%"
 copy "%OGREHOME%\Samples\Common\Bin\%BUILD%\zlib1.dll" "%RL_DIST%"
 
-copy "%RL_ROOT%\Dependencies\cegui\bin\CEGUIBase.dll" "%RL_DIST%"
-copy "%RL_ROOT%\Dependencies\cegui\bin\CEGUIBase_d.dll" "%RL_DIST%"
-
-copy "%RL_ROOT%\Dependencies\cegui\dependencies\lib\xerces-c_2_5_0.dll" "%RL_DIST%"
-copy "%RL_ROOT%\Dependencies\cegui\dependencies\lib\xerces-c_2_5_0D.dll" "%RL_DIST%"
-
-copy "%RL_ROOT%\Dependencies\rllooks\RastullahLook\bin\release\RastullahLook.dll" "%RL_DIST%"
-copy "%RL_ROOT%\Dependencies\rllooks\RastullahLook\bin\debug\RastullahLook_d.dll" "%RL_DIST%"
-
 REM Ruby Dateien kopieren
 REM ---------------------
 
 copy "%RL_ROOT%\Dependencies\ruby\bin\msvcrt-ruby18.dll" "%RL_DIST%"
 
+REM Look kopieren
+REM ---------------------
+copy "%RL_ROOT%\Dependencies\rllooks\RastullahLook\bin\%BUILD%\*.dll" "%RL_DIST%"
+
+
 REM Die restlichen Abhängigkeiten
 REM -----------------------------
 REM 
-
 copy "%RL_ROOT%\dependencies\fmod\api\fmod.dll" "%RL_DIST%"
-
 copy "%RL_ROOT%\Dependencies\boost\bin\*.dll" "%RL_DIST%"
-
-
-
+copy "%RL_ROOT%\Dependencies\cegui\bin\*.dll" "%RL_DIST%"
+copy "%RL_ROOT%\Dependencies\xerces\bin\*.dll" "%RL_DIST%"
+copy "%RL_ROOT%\Dependencies\TheoraVideo\bin\%BUILD%\Plugin_TheoraVideoSystem.dll" "%RL_DIST%"

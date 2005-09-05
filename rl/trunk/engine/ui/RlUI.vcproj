@@ -238,6 +238,9 @@
 				RelativePath=".\include\UiSubsystem.h">
 			</File>
 			<File
+				RelativePath=".\include\VideoWindow.h">
+			</File>
+			<File
 				RelativePath=".\include\WindowManager.h">
 			</File>
 		</Filter>
@@ -306,6 +309,9 @@
 			</File>
 			<File
 				RelativePath=".\src\UiSubsystem.cpp">
+			</File>
+			<File
+				RelativePath=".\src\VideoWindow.cpp">
 			</File>
 			<File
 				RelativePath=".\src\WindowManager.cpp">

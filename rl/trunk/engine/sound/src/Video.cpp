@@ -16,7 +16,9 @@
 #include "Video.h"
 #include "Exception.h"
 
+#include <OgreNoMemoryMacros.h>
 #include <CEGUISystem.h>
+#include <OgreMemoryMacros.h>
 #include <OgreExternalTextureSourceManager.h>
 #include <OgreCEGUIRenderer.h>
 
@@ -35,7 +37,7 @@ namespace rl
  * @author JoSch
  * @date 08-27-2005
  */
-Video::Video(CEGUI::String textureName, CEGUI::String movieName)
+Video::Video(CeGuiString textureName, CeGuiString movieName)
   : TheoraMovieMessage(),
     mTextureName(textureName),
     mMovieName(movieName),
@@ -278,7 +280,7 @@ CEGUI::Texture* Video::getTexture() const
  * @author JoSch
  * @date 02-09-2005
  */
-const CEGUI::String Video::getTextureName() const
+const CeGuiString Video::getTextureName() const
 {
     return mTextureName;
 }
