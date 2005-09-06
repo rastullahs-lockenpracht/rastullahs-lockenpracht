@@ -165,6 +165,11 @@ String RubyInterpreter::val2str(const VALUE rval){
   return STR2CSTR(rb_funcall(rval, rb_intern("to_s"), 0));
 }
 
+CeGuiString RubyInterpreter::val2ceguistr(const VALUE rval){
+	return CeGuiString((CEGUI::utf8*)STR2CSTR(rb_funcall(rval, rb_intern("to_s"), 0)));
+}
+
+
 String RubyInterpreter::strval2str(const VALUE rval){
   return String(RSTRING(rval)->ptr);
 }

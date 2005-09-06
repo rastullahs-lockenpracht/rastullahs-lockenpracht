@@ -166,7 +166,7 @@ namespace rl {
 
 	VALUE UiSubsystem::consoleWrite(VALUE self, VALUE str)
 	{
-		Console::getSingleton().write(RubyInterpreter::val2str(str) + " \n");
+		Console::getSingleton().write(RubyInterpreter::val2ceguistr(str) + " \n");
 		return Qnil;
 	}
 

@@ -44,7 +44,7 @@ namespace rl {
 			void setInterpreter(Interpreter* interpreter);
 			Interpreter* getInterpreter();
 
-			void write(Ogre::String output);
+			void write(const CeGuiString& output);
 				
 		protected:
 			bool beforeShow();
@@ -58,9 +58,9 @@ namespace rl {
 
 			bool handleKeyDown(const CEGUI::EventArgs& e);
 			bool handleClose();
-			void appendTextRow(CeGuiString& text, const CEGUI::colour color);
+			void appendTextRow(const CeGuiString& text, const CEGUI::colour color);
 
-			std::vector<Ogre::String> mHistory;
+			std::vector<CeGuiString> mHistory;
 			unsigned int mHistoryMarker;
 			void cycleHistory(int skip);
 	};

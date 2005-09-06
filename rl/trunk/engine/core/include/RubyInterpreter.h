@@ -26,6 +26,7 @@
 #include "FixRubyHeaders.h"
 #include <OgreMemoryMacros.h>
 
+#include "CommonPrerequisites.h"
 #include "CorePrerequisites.h"
 
 namespace rl {
@@ -51,6 +52,7 @@ public:
 	bool execute(Ogre::String command);
 
 	static Ogre::String val2str(const VALUE rval);
+	static CeGuiString val2ceguistr(const VALUE rval);
 	static Ogre::String strval2str(const VALUE rval);
 
 	void setScript( const Ogre::String& instname,

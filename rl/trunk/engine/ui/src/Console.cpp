@@ -92,7 +92,7 @@ namespace rl
 				
 			mPrompt = CoreSubsystem::getSingleton().getInterpreter()->execute(command.c_str());
 
-			mHistory.push_back(command.c_str());
+			mHistory.push_back(command);
 			mHistoryMarker = mHistory.size();
 			mCommandLine->setText((utf8*)"");
 			return true;
@@ -101,18 +101,19 @@ namespace rl
 		return false;		
 	}
 
-	void Console::write(String output)
+	void Console::write(const CeGuiString& output)
 	{        
-        if( StringUtil::endsWith( output, "\n" ) )
-            output = output.substr( 0, output.length() - 1 );
-        StringUtil::trim( output, false, true );
+		CeGuiString temp;
+        if( output.substr(output.length() - 2).compare("\n") == 0 ) 
+            temp = output.substr( 0, output.length() - 1 );
+		else
+			temp = output;
 
-        CeGuiString temp = CeGuiString(output);		
-		appendTextRow(temp, 0xFF7F7F7F);
-		CoreSubsystem::getSingleton().log(Ogre::LML_NORMAL, output);
+        appendTextRow(temp, 0xFF7F7F7F);
+		CoreSubsystem::getSingleton().log(Ogre::LML_NORMAL, output.c_str(), "Console");
 	}
 
-	void Console::appendTextRow(CeGuiString& text, const colour color)
+	void Console::appendTextRow(const CeGuiString& text, const colour color)
 	{
 		const float MIN_SPACE_POS = 0.5;
 
