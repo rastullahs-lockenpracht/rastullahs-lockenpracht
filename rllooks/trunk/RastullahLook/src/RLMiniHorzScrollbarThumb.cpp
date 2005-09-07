@@ -3,7 +3,7 @@
 	created:	2/6/2004
 	author:		Paul D Turner
 	
-	purpose:	Implementation of thumb for Rastullah mini horizontal
+	purpose:	Implementation of thumb for Taharez mini horizontal
 				scroll bar.
 *************************************************************************/
 /*************************************************************************
@@ -221,9 +221,10 @@ void RLMiniHorzScrollbarThumb::onSized(WindowEventArgs& e)
 		}
 	}
 
-	// install new width values.
-	d_abs_area.setWidth(prefWidth);
-	d_rel_area.setWidth(absoluteToRelativeX_impl(getParent(), prefWidth));
+	// install new size.
+    UVector2 sze(d_area.getSize());
+    sze.d_x = cegui_absdim(prefWidth);
+    setWindowArea_impl(d_area.getPosition(), sze, false, false);
 
 	// base class processing.
 	Thumb::onSized(e);
@@ -246,10 +247,7 @@ void RLMiniHorzScrollbarThumb::onSized(WindowEventArgs& e)
 *************************************************************************/
 Window* RLMiniHorzScrollbarThumbFactory::createWindow(const String& name)
 {
-	RLMiniHorzScrollbarThumb* wnd = new RLMiniHorzScrollbarThumb(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+	return new RLMiniHorzScrollbarThumb(d_type, name);
 }
 
 } // End of  CEGUI namespace section

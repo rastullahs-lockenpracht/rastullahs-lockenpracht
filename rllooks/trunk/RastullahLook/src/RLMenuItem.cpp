@@ -52,9 +52,9 @@ const utf8	RLMenubarItem::BackgroundImageName[]		= "Background";
 RLMenubarItem::RLMenubarItem(const String& type, const String& name) :
 	MenuItem(type, name)
 {
-	setNormalTextColour(0x00000000);
-	setHoverColour(0x00A7C7FF);
-	setPushedColour(0x0087A7DF);
+	setNormalTextColour(0xFF000000);
+	setHoverColour(0xFFA7C7FF);
+	setPushedColour(0xFF87A7DF);
 
 	// get images
 	Imageset* iset = ImagesetManager::getSingleton().getImageset(ImagesetName);
@@ -83,7 +83,7 @@ RLMenubarItem::RLMenubarItem(const String& type, const String& name) :
 
 
 /*************************************************************************
-	Destructor for WLMenubar widgets.
+	Destructor for RLMenubar widgets.
 *************************************************************************/
 RLMenubarItem::~RLMenubarItem(void)
 {
@@ -133,8 +133,8 @@ void RLMenubarItem::drawBackground(float z)
 	else
 		return;
 
-	col.setAlpha(getEffectiveAlpha());
 	ColourRect colours(col);
+	colours.modulateAlpha(getEffectiveAlpha());
 
 	//
 	// draw the frame
@@ -189,10 +189,7 @@ void RLMenubarItem::storeFrameSizes(void)
 
 Window* RLMenubarItemFactory::createWindow(const String& name)
 {
-    RLMenubarItem* wnd = new RLMenubarItem(d_type, name);
-    wnd->initialise();
-
-    return wnd;
+    return new RLMenubarItem(d_type, name);
 }
 
 
@@ -236,9 +233,9 @@ const utf8	RLPopupMenuItem::ArrowRightImageName[]			= "PopupMenuArrowRight";
 RLPopupMenuItem::RLPopupMenuItem(const String& type, const String& name) :
 	MenuItem(type, name)
 {
-	setNormalTextColour(0x00000000);
-	setHoverColour(0x00A7C7FF);
-	setPushedColour(0x0087A7DF);
+	setNormalTextColour(0xFF000000);
+	setHoverColour(0xFFA7C7FF);
+	setPushedColour(0xFF87A7DF);
 	
 	d_textXOffset = 20;
 
@@ -407,10 +404,7 @@ Size RLPopupMenuItem::getItemPixelSize()
 
 Window* RLPopupMenuItemFactory::createWindow(const String& name)
 {
-    RLPopupMenuItem* wnd = new RLPopupMenuItem(d_type, name);
-    wnd->initialise();
-
-    return wnd;
+    return new RLPopupMenuItem(d_type, name);
 }
 
 

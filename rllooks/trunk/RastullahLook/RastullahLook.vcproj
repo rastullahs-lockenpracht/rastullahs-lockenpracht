@@ -134,9 +134,6 @@
 				RelativePath=".\src\RLButton.cpp">
 			</File>
 			<File
-				RelativePath=".\src\RLButtonProperties.cpp">
-			</File>
-			<File
 				RelativePath=".\src\RLCheckbox.cpp">
 			</File>
 			<File
@@ -251,9 +248,6 @@
 			</File>
 			<File
 				RelativePath=".\include\RLButton.h">
-			</File>
-			<File
-				RelativePath=".\include\RLButtonProperties.h">
 			</File>
 			<File
 				RelativePath=".\include\RLCheckbox.h">

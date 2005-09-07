@@ -3,7 +3,7 @@
 	created:	23/5/2004
 	author:		Paul D Turner
 	
-	purpose:	Implementation of the Rastullah Progress Bar
+	purpose:	Implementation of the Taharez Progress Bar
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -51,7 +51,7 @@ const float	RLProgressBar::SegmentOverlapRatio			= 0.25f;
 
 
 /*************************************************************************
-	Constructor for Rastullah progress bar objects
+	Constructor for Taharez progress bar objects
 *************************************************************************/
 RLProgressBar::RLProgressBar(const String& type, const String& name) :
 	ProgressBar(type, name)
@@ -68,7 +68,7 @@ RLProgressBar::RLProgressBar(const String& type, const String& name) :
 
 
 /*************************************************************************
-	Destructor for Rastullah progress bar objects
+	Destructor for Taharez progress bar objects
 *************************************************************************/
 RLProgressBar::~RLProgressBar(void)
 {
@@ -132,10 +132,11 @@ void RLProgressBar::drawSelf(float z)
 	float segWidth = d_litSegment->getWidth();
 	segWidth -= PixelAligned(segWidth * SegmentOverlapRatio);
 
-	// construct rect for segment area
-	Rect segClipper;
-	segClipper.setPosition(Point(absrect.d_left + PixelAligned(d_litSegment->getWidth() * FirstSegmentOffsetRatioX), absrect.d_top));
-	segClipper.setSize(Size(PixelAligned(segCount * segWidth * d_progress), absrect.getHeight()));
+    // construct rect for segment area
+    Rect segClipper(
+        Point(absrect.d_left + PixelAligned(d_litSegment->getWidth() * FirstSegmentOffsetRatioX), absrect.d_top),
+        Size(PixelAligned(segCount * segWidth * d_progress), absrect.getHeight())
+    );
 
 	// clip the clipper to 'lit area'
 	clipper = segClipper.getIntersection(clipper);
@@ -164,10 +165,7 @@ void RLProgressBar::drawSelf(float z)
 *************************************************************************/
 Window* RLProgressBarFactory::createWindow(const String& name)
 {
-	RLProgressBar* wnd = new RLProgressBar(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+	return new RLProgressBar(d_type, name);
 }
 
 } // End of  CEGUI namespace section

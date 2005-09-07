@@ -33,7 +33,7 @@ namespace CEGUI
 {
     /*!
     \brief
-        Spinner widget class for the Rastullah look Gui Scheme
+        Spinner widget class for the Taharez look Gui Scheme
     */
     class RASTULLAHLOOK_API RLSpinner : public Spinner
     {
@@ -56,13 +56,13 @@ namespace CEGUI
         *************************************************************************/
         /*!
         \brief
-            Constructor for Rastullah spinner widgets
+            Constructor for Taharez spinner widgets
         */
         RLSpinner(const String& type, const String& name);
 
         /*!
         \brief
-            Destructor for Rastullah spinner widgets
+            Destructor for Taharez spinner widgets
         */
         virtual ~RLSpinner(void);
 
@@ -78,10 +78,10 @@ namespace CEGUI
         /*************************************************************************
         	Implementation of Spinner abstract methods
         *************************************************************************/
-        PushButton* createIncreaseButton(void) const;
-        PushButton* createDecreaseButton(void) const;
-        Editbox* createEditbox(void) const;
-        void layoutComponentWidgets(void);
+        PushButton* createIncreaseButton(const String& name) const;
+        PushButton* createDecreaseButton(const String& name) const;
+        Editbox* createEditbox(const String& name) const;
+        void performChildWindowLayout();
 
         /*************************************************************************
         	Implementation of Window abstract methods

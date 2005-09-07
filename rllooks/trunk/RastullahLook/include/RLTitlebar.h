@@ -3,7 +3,7 @@
 	created:	9/5/2004
 	author:		Paul D Turner
 	
-	purpose:	Interface to Rastullah Look Titlebar widget
+	purpose:	Interface to Taharez Look Titlebar widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -64,7 +64,7 @@ public:
 	*************************************************************************/
 	/*!
 	\brief
-		Constructor for Rastullah Look Titlebar objects.
+		Constructor for Taharez Look Titlebar objects.
 
 	\param type
 		String object that specifies a type for this window, usually provided by a factory class.

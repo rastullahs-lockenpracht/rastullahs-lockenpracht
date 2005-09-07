@@ -49,7 +49,7 @@ namespace CEGUI
 
 
 	/*************************************************************************
-		Constructor for Rastullah RLVUMeter objects
+		Constructor for Taharez RLVUMeter objects
 	*************************************************************************/
 	RLVUMeter::RLVUMeter(const String& type, const String& name) :
 		ProgressBar(type, name),
@@ -66,7 +66,7 @@ namespace CEGUI
 
 
 	/*************************************************************************
-		Destructor for Rastullah RLVUMeter objects
+		Destructor for Taharez RLVUMeter objects
 	*************************************************************************/
 	RLVUMeter::~RLVUMeter(void)
 	{
@@ -228,10 +228,7 @@ namespace CEGUI
 	*************************************************************************/
 	Window* RLVUMeterFactory::createWindow(const String& name)
 	{
-		RLVUMeter* wnd = new RLVUMeter(d_type, name);
-		wnd->initialise();
-
-		return wnd;
+		return new RLVUMeter(d_type, name);
 	}
 
 

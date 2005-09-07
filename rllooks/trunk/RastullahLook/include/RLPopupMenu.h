@@ -36,7 +36,7 @@ namespace CEGUI
 
 /*!
 \brief
-    Menubar class for the WindowsLook Gui Scheme
+    Menubar class for the RastullahLook Gui Scheme
 */
 class RASTULLAHLOOK_API RLPopupMenu : public PopupMenu
 {
@@ -119,13 +119,10 @@ protected:
 	\brief
 		Perform the actual rendering for this Window.
 
-	\param z
-		float value specifying the base Z co-ordinate that should be used when rendering
-
 	\return
 		Nothing
 	*/
-	virtual	void	drawSelf(float z);
+	virtual	void	populateRenderCache();
 
 
 	/*************************************************************************
@@ -144,7 +141,7 @@ protected:
 
 /*!
 \brief
-    Factory class for producing Menubar objects for the WindowsLook GUI Scheme
+    Factory class for producing Menubar objects for the RastullahLook GUI Scheme
 */
 class RASTULLAHLOOK_API RLPopupMenuFactory : public WindowFactory
 {

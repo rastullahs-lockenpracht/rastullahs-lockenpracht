@@ -3,7 +3,7 @@
 	created:	11/5/2004
 	author:		Paul D Turner
 	
-	purpose:	Interface to Rastullah look button widget
+	purpose:	Interface to Taharez look button widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -71,7 +71,7 @@ public:
 	*************************************************************************/
 	/*!
 	\brief
-		Constructor for Rastullah Look Button objects.
+		Constructor for Taharez Look Button objects.
 
 	\param type
 		String object that specifies a type for this window, usually provided by a factory class.

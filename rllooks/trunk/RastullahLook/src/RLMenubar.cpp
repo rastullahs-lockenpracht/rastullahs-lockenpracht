@@ -1,12 +1,12 @@
 /************************************************************************
-    filename:   WLMenubar.cpp
+    filename:   RLMenubar.cpp
     created:    31/3/2005
     author:     Tomas Lindquist Olsen (based on code by Paul D Turner)
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
     Copyright (C)2004 - 2005 Paul D Turner (paul@cegui.org.uk)
-
+ 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
     License as published by the Free Software Foundation; either
@@ -20,7 +20,7 @@
     You should have received a copy of the GNU Lesser General Public
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-************************************************************************/
+*************************************************************************/
 #include "RLMenubar.h"
 #include "CEGUIImagesetManager.h"
 #include "CEGUIImageset.h"
@@ -80,15 +80,14 @@ Rect RLMenubar::getItemRenderArea(void) const
 /*************************************************************************
 	Perform the actual rendering of this RLMenubar
 *************************************************************************/
-void RLMenubar::drawSelf(float z)
+void RLMenubar::populateRenderCache()
 {
-	Rect clipper = getPixelRect();
-
 	const Image& white = ImagesetManager::getSingleton().getImageset(ImagesetName)->getImage(BackgroundImageName);
 
 	ColourRect cols = d_backgroundColours;
 	cols.modulateAlpha(getEffectiveAlpha());
-	white.draw(clipper,z,clipper,cols);
+
+    d_renderCache.cacheImage(white, getAbsoluteRect(), 0, cols);
 }
 
 
@@ -100,10 +99,7 @@ void RLMenubar::drawSelf(float z)
 
 Window* RLMenubarFactory::createWindow(const String& name)
 {
-    RLMenubar* wnd = new RLMenubar(d_type, name);
-    wnd->initialise();
-
-    return wnd;
+    return new RLMenubar(d_type, name);
 }
 
 

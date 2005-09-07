@@ -3,7 +3,7 @@
 	created:	9/5/2004
 	author:		Paul D Turner
 	
-	purpose:	Implementation of Rastullah Look Titlebar widget
+	purpose:	Implementation of Taharez Look Titlebar widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -212,10 +212,7 @@ void RLTitlebar::onDraggingModeChanged(WindowEventArgs& e)
 *************************************************************************/
 Window* RLTitlebarFactory::createWindow(const String& name)
 {
-	RLTitlebar* wnd = new RLTitlebar(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+    return new RLTitlebar(d_type, name);
 }
 
 } // End of  CEGUI namespace section

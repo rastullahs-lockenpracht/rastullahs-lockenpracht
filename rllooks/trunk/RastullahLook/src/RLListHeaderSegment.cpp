@@ -3,7 +3,7 @@
 	created:	15/6/2004
 	author:		Paul D Turner
 	
-	purpose:	Implements Rastullah look list header segment widget.
+	purpose:	Implements Taharez look list header segment widget.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -67,7 +67,7 @@ RLListHeaderSegment::RLListHeaderSegment(const String& type, const String& name)
 	d_sortAscendImage		= &iset->getImage(SortUpImageName);
 	d_sortDescendImage		= &iset->getImage(SortDownImageName);
 
-	d_normalMouseCursor		= &iset->getImage(NormalMouseCursor);
+	d_mouseCursor			= &iset->getImage(NormalMouseCursor);
 	d_sizingMouseCursor		= &iset->getImage(SizingMouseCursor);
 	d_movingMouseCursor		= &iset->getImage(MovingMouseCursor);
 }
@@ -209,10 +209,7 @@ void RLListHeaderSegment::renderSegmentImagery(Vector3 pos, float alpha, const R
 *************************************************************************/
 Window* RLListHeaderSegmentFactory::createWindow(const String& name)
 {
-	RLListHeaderSegment* wnd = new RLListHeaderSegment(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+	return new RLListHeaderSegment(d_type, name);
 }
 
 } // End of  CEGUI namespace section

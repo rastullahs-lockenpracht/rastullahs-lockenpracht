@@ -3,7 +3,7 @@
 	created:	2/6/2004
 	author:		Paul D Turner
 	
-	purpose:	Implementation of Rastullah mini horizontal scroll bar.
+	purpose:	Implementation of Taharez mini horizontal scroll bar.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -61,7 +61,7 @@ const utf8*	RLMiniHorzScrollbar::DecreaseButtonWidgetType	= RLButton::WidgetType
 
 
 /*************************************************************************
-	Constructor for Rastullah mini horizontal scroll bar widgets
+	Constructor for Taharez mini horizontal scroll bar widgets
 *************************************************************************/
 RLMiniHorzScrollbar::RLMiniHorzScrollbar(const String& type, const String& name) :
 	Scrollbar(type, name)
@@ -74,7 +74,7 @@ RLMiniHorzScrollbar::RLMiniHorzScrollbar(const String& type, const String& name)
 
 
 /*************************************************************************
-	Destructor for Rastullah mini horizontal scroll bar widgets
+	Destructor for Taharez mini horizontal scroll bar widgets
 *************************************************************************/
 RLMiniHorzScrollbar::~RLMiniHorzScrollbar(void)
 {
@@ -85,10 +85,10 @@ RLMiniHorzScrollbar::~RLMiniHorzScrollbar(void)
 	create a PushButton based widget to use as the increase button for
 	this scroll bar.
 *************************************************************************/
-PushButton* RLMiniHorzScrollbar::createIncreaseButton(void) const
+PushButton* RLMiniHorzScrollbar::createIncreaseButton(const String& name) const
 {
 	// create the widget
-	RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(IncreaseButtonWidgetType, getName() + "__auto_incbtn__");
+	RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(IncreaseButtonWidgetType, name);
 
 	// perform some initialisation
 	btn->setStandardImageryEnabled(false);
@@ -115,10 +115,10 @@ PushButton* RLMiniHorzScrollbar::createIncreaseButton(void) const
 	create a PushButton based widget to use as the decrease button for
 	this scroll bar.
 *************************************************************************/
-PushButton* RLMiniHorzScrollbar::createDecreaseButton(void) const
+PushButton* RLMiniHorzScrollbar::createDecreaseButton(const String& name) const
 {
 	// create the widget
-	RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(DecreaseButtonWidgetType, getName() + "__auto_decbtn__");
+	RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(DecreaseButtonWidgetType, name);
 
 	// perform some initialisation
 	btn->setStandardImageryEnabled(false);
@@ -144,10 +144,10 @@ PushButton* RLMiniHorzScrollbar::createDecreaseButton(void) const
 /*************************************************************************
 	create a Thumb based widget to use as the thumb for this scroll bar.
 *************************************************************************/
-Thumb* RLMiniHorzScrollbar::createThumb(void) const
+Thumb* RLMiniHorzScrollbar::createThumb(const String& name) const
 {
 	// create the widget
-	RLMiniHorzScrollbarThumb* thumb = (RLMiniHorzScrollbarThumb*)WindowManager::getSingleton().createWindow(ThumbWidgetType, getName() + "__auto_thumb__");
+	RLMiniHorzScrollbarThumb* thumb = (RLMiniHorzScrollbarThumb*)WindowManager::getSingleton().createWindow(ThumbWidgetType, name);
 
 	// perform some initialisation
 	thumb->setHorzFree(true);
@@ -161,10 +161,12 @@ Thumb* RLMiniHorzScrollbar::createThumb(void) const
 /*************************************************************************
 	layout the scroll bar component widgets
 *************************************************************************/
-void RLMiniHorzScrollbar::layoutComponentWidgets(void)
+void RLMiniHorzScrollbar::performChildWindowLayout()
 {
+    Scrollbar::performChildWindowLayout();
+
 	Size bsz;
-	bsz.d_width = bsz.d_height = d_abs_area.getHeight();
+	bsz.d_width = bsz.d_height = getAbsoluteHeight();
 
 	// install button sizes
 	d_increase->setSize(absoluteToRelative(bsz));
@@ -172,7 +174,7 @@ void RLMiniHorzScrollbar::layoutComponentWidgets(void)
 
 	// position buttons
 	d_decrease->setPosition(Point(0.0f, 0.0f));
-	d_increase->setPosition(Point(absoluteToRelativeX(d_abs_area.getWidth() - bsz.d_width), 0.0f));
+	d_increase->setPosition(Point(absoluteToRelativeX(getAbsoluteWidth() - bsz.d_width), 0.0f));
 
 	// this will configure thumb widget appropriately
 	updateThumb();
@@ -190,7 +192,7 @@ void RLMiniHorzScrollbar::updateThumb(void)
 
 	// calculate maximum extents for thumb positioning.
 	float posExtent		= d_documentSize - d_pageSize;
-	float slideExtent	= ceguimax(0.0f, d_abs_area.getWidth() - (2 * slideTrackXPadding) - d_thumb->getAbsoluteWidth());
+	float slideExtent	= ceguimax(0.0f, getAbsoluteWidth() - (2 * slideTrackXPadding) - d_thumb->getAbsoluteWidth());
 
 	// Thumb does not change size with document length, we just need to update position and range
 	d_thumb->setHorzRange(absoluteToRelativeX(slideTrackXPadding), absoluteToRelativeX(slideTrackXPadding + slideExtent));
@@ -209,7 +211,7 @@ float RLMiniHorzScrollbar::getValueFromThumb(void) const
 
 	// calculate maximum extents for thumb positioning.
 	float posExtent		= d_documentSize - d_pageSize;
-	float slideExtent	= d_abs_area.getWidth() - (2 * slideTrackXPadding) - d_thumb->getAbsoluteWidth();
+	float slideExtent	= getAbsoluteWidth() - (2 * slideTrackXPadding) - d_thumb->getAbsoluteWidth();
 
 	return	(d_thumb->getAbsoluteXPosition() - slideTrackXPadding) / (slideExtent / posExtent);
 }
@@ -282,10 +284,7 @@ void RLMiniHorzScrollbar::drawSelf(float z)
 *************************************************************************/
 Window* RLMiniHorzScrollbarFactory::createWindow(const String& name)
 {
-	RLMiniHorzScrollbar* wnd = new RLMiniHorzScrollbar(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+	return new RLMiniHorzScrollbar(d_type, name);
 }
 
 } // End of  CEGUI namespace section

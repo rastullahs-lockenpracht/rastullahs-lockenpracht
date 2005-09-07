@@ -3,7 +3,7 @@
 	created:	23/5/2004
 	author:		Paul D Turner
 	
-	purpose:	Implementation of the alternate Rastullah orogress bar
+	purpose:	Implementation of the alternate Taharez orogress bar
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -60,7 +60,7 @@ const float	RLAlternateProgressBar::FirstLightPaddingRatio		= 0.0f;
 
 
 /*************************************************************************
-	Constructor for Rastullah alternate progress bar objects
+	Constructor for Taharez alternate progress bar objects
 *************************************************************************/
 RLAlternateProgressBar::RLAlternateProgressBar(const String& type, const String& name) :
 	ProgressBar(type, name),
@@ -93,7 +93,7 @@ RLAlternateProgressBar::RLAlternateProgressBar(const String& type, const String&
 
 
 /*************************************************************************
-	Destructor for Rastullah alternate progress bar objects
+	Destructor for Taharez alternate progress bar objects
 *************************************************************************/
 RLAlternateProgressBar::~RLAlternateProgressBar(void)
 {
@@ -110,7 +110,7 @@ void RLAlternateProgressBar::setupLightsInfo(void)
 	// work out how many lights we are going to have
 	//
 	float lightWidth = d_lightImages[0]->getWidth();
-	float availWidth = d_abs_area.getWidth() - PixelAligned((d_left->getWidth() * FirstLightPaddingRatio) * 2);
+	float availWidth = getAbsoluteWidth() - PixelAligned((d_left->getWidth() * FirstLightPaddingRatio) * 2);
 
 	d_lightCount = (int)(availWidth / (lightWidth + 1));
 	d_lightSpacing = lightWidth + PixelAligned((availWidth - (d_lightCount * lightWidth)) / d_lightCount);
@@ -200,10 +200,11 @@ void RLAlternateProgressBar::drawSelf(float z)
 	pos.d_x = absrect.d_left + PixelAligned(leftWidth * FirstLightPaddingRatio);
 	pos.d_y = absrect.d_top + PixelAligned((containerHeight - sz.d_height) * 0.5f);
 
-	// construct rect for segment area
-	Rect	segClipper;
-	segClipper.setPosition(Point(pos.d_x, pos.d_y));
-	segClipper.setSize(Size(PixelAligned((absrect.getWidth() - ((leftWidth * FirstLightPaddingRatio) * 2.0f)) * d_progress), absrect.getHeight()));
+    // construct rect for segment area
+    Rect segClipper(
+        Point(pos.d_x, pos.d_y),
+        Size(PixelAligned((absrect.getWidth() - ((leftWidth * FirstLightPaddingRatio) * 2.0f)) * d_progress), absrect.getHeight())
+    );
 
 	// clip the clipper to the 'light area'
 	clipper = segClipper.getIntersection(clipper);
@@ -248,10 +249,7 @@ void RLAlternateProgressBar::onSized(WindowEventArgs& e)
 *************************************************************************/
 Window* RLAlternateProgressBarFactory::createWindow(const String& name)
 {
-	RLAlternateProgressBar* wnd = new RLAlternateProgressBar(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+	return new RLAlternateProgressBar(d_type, name);
 }
 
 } // End of  CEGUI namespace section

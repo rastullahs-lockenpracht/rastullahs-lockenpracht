@@ -57,7 +57,7 @@ namespace CEGUI
         *************************************************************************/
         Scrollbar* createHorizontalScrollbar(const String& name) const;
         Scrollbar* createVerticalScrollbar(const String& name) const;
-        void layoutComponentWidgets(void);
+        void performChildWindowLayout();
         Rect getViewableArea(void) const;
 
         /*************************************************************************
@@ -85,10 +85,7 @@ namespace CEGUI
 
         Window*	createWindow(const String& name)
         {
-            Window* wnd = new RLScrollablePane(d_type, name);
-            wnd->initialise();
-
-            return wnd;
+            return new RLScrollablePane(d_type, name);
         }
 
         virtual void destroyWindow(Window* window)

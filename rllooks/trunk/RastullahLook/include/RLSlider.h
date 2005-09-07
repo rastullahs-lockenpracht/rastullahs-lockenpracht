@@ -3,7 +3,7 @@
 	created:	22/5/2004
 	author:		Paul D Turner
 	
-	purpose:	Interface to Rastullah slider widget.
+	purpose:	Interface to Taharez slider widget.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -36,7 +36,7 @@ namespace CEGUI
 {
 /*!
 \brief
-	Slider class for the Rastullah Gui Scheme.
+	Slider class for the Taharez Gui Scheme.
 */
 class RASTULLAHLOOK_API RLSlider : public Slider
 {
@@ -63,14 +63,14 @@ public:
 	*************************************************************************/
 	/*!
 	\brief
-		Constructor for Rastullah slider widgets
+		Constructor for Taharez slider widgets
 	*/
 	RLSlider(const String& type, const String& name);
 
 
 	/*!
 	\brief
-		Destructor for Rastullah slider widgets
+		Destructor for Taharez slider widgets
 	*/
 	virtual ~RLSlider(void);
 
@@ -83,14 +83,14 @@ protected:
 	\brief
 		create a Thumb based widget to use as the thumb for this slider.
 	*/
-	virtual Thumb*	createThumb(void) const;
+	virtual Thumb*	createThumb(const String& name) const;
 
 
 	/*!
 	\brief
 		layout the slider component widgets
 	*/
-	virtual void	layoutComponentWidgets(void);
+	virtual void	performChildWindowLayout();
 
 
 	/*!

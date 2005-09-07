@@ -45,7 +45,7 @@ const utf8	RLPopupMenu::BackgroundImageName[]			= "Background";
 
 
 /*************************************************************************
-	Constructor for WLMenubar widgets.	
+	Constructor for RLMenubar widgets.	
 *************************************************************************/
 RLPopupMenu::RLPopupMenu(const String& type, const String& name) :
 	PopupMenu(type, name)
@@ -79,7 +79,7 @@ RLPopupMenu::RLPopupMenu(const String& type, const String& name) :
 
 
 /*************************************************************************
-	Destructor for WLMenubar widgets.
+	Destructor for RLMenubar widgets.
 *************************************************************************/
 RLPopupMenu::~RLPopupMenu(void)
 {
@@ -141,30 +141,23 @@ Rect RLPopupMenu::getItemRenderArea(void) const
 
 
 /*************************************************************************
-	Perform the actual rendering of this WLMenubar
+	Perform the actual rendering of this RLMenubar
 *************************************************************************/
-void RLPopupMenu::drawSelf(float z)
+void RLPopupMenu::populateRenderCache()
 {
-	Rect clipper(getPixelRect());
-
-	// do nothing if the widget is totally clipped.
-	if (clipper.getWidth() == 0)
-		return;
-
 	// get the destination screen rect for this window
-	Rect absrect(getUnclippedPixelRect());
+	Rect absrect(getAbsoluteRect());
 	
 	// set colour to use for the frame	
 	ColourRect colours(d_backgroundColours);
-	colours.modulateAlpha(getEffectiveAlpha());
+//	colours.modulateAlpha(getEffectiveAlpha());
 
 	//
 	// draw the frame
 	//
-	Vector3 pos(absrect.d_left, absrect.d_top, z);
 	d_frame.setSize(absrect.getSize());
 	d_frame.setColours(colours);
-	d_frame.draw(pos, clipper);
+	d_frame.draw(d_renderCache);
 
 	// calculate size for middle title bar segment
 	float midWidth		= absrect.getWidth() - d_frameLeftSize - d_frameRightSize;
@@ -185,9 +178,8 @@ void RLPopupMenu::drawSelf(float z)
 	
 	d_fill.setSize(Size(midWidth, midHeight));
 	d_fill.setColours(colours);
-	pos.d_x += d_frameLeftSize;
-	pos.d_y += d_frameTopSize;
-	d_fill.draw(pos, clipper);
+	d_fill.setPosition(Point(d_frameLeftSize, d_frameTopSize));
+	d_fill.draw(d_renderCache);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -198,10 +190,7 @@ void RLPopupMenu::drawSelf(float z)
 
 Window* RLPopupMenuFactory::createWindow(const String& name)
 {
-    RLPopupMenu* wnd = new RLPopupMenu(d_type, name);
-    wnd->initialise();
-
-    return wnd;
+    return new RLPopupMenu(d_type, name);
 }
 
 

@@ -3,7 +3,7 @@
 	created:	13/4/2004
 	author:		Paul D Turner
 	
-	purpose:	Defines interface for Rastullah Look Frame Window class.
+	purpose:	Defines interface for Taharez Look Frame Window class.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -39,7 +39,7 @@ namespace CEGUI
 
 /*!
 \brief
-	Concrete FramwWindow class for the Rastullah Look widget set.	
+	Concrete FramwWindow class for the Taharez Look widget set.	
 */
 class RASTULLAHLOOK_API RLFrameWindow : public FrameWindow
 {
@@ -90,7 +90,7 @@ public:
 	*************************************************************************/
 	/*!
 	\brief
-		Constructor for Rastullah Look frame window objects.
+		Constructor for Taharez Look frame window objects.
 
 	\param type
 		String object that specifies a type for this window, usually provided by a factory class.
@@ -144,46 +144,9 @@ protected:
 	/*************************************************************************
 		Implementation Functions
 	*************************************************************************/
-	/*!
-	\brief
-		Create a control based upon the Titlebar base class to be used as the title bar for this window.
-
-	\return
-		Pointer to an object who's class derives from Titlebar
-	*/
-	virtual Titlebar*	createTitlebar(void) const;
-
-
-	/*!
-	\brief
-		Create a control based upon the PushButton base class, to be used at the close button for the window.
-
-	\return
-		Pointer to an object who's class derives from PushButton.
-	*/
-	virtual PushButton*	createCloseButton(void) const;
-
-
-	/*!
-	\brief
-		Setup size and position for the title bar and close button widgets attached to this window
-
-	\return
-		Nothing.
-	*/
-	virtual void	layoutComponentWidgets();
-
-
-	/*!
-	\brief
-		Perform the actual rendering for this Window.
-
-	\param z
-		float value specifying the base Z co-ordinate that should be used when rendering
-
-	\return
-		Nothing
-	*/
+	virtual Titlebar*	createTitlebar(const String& name) const;
+	virtual PushButton*	createCloseButton(const String& name) const;
+	virtual void	performChildWindowLayout();
 	virtual	void	drawSelf(float z);
 
 
@@ -241,14 +204,14 @@ public:
 	*************************************************************************/
 	/*!
 	\brief
-		Constructor for Rastullah Frame Window factory class.
+		Constructor for Taharez Frame Window factory class.
 	*/
 	RLFrameWindowFactory(void) : WindowFactory(RLFrameWindow::WidgetTypeName) { }
 
 
 	/*
 	\brief
-		Destructor for Rastullah Frame Window factory class.
+		Destructor for Taharez Frame Window factory class.
 	*/
 	~RLFrameWindowFactory(void){}
 

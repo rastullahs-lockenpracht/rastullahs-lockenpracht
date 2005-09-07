@@ -3,7 +3,7 @@
 	created:	13/6/2004
 	author:		Paul D Turner
 	
-	purpose:	Implements Rastullah Look Combobox-Editbox widget
+	purpose:	Implements Taharez Look Combobox-Editbox widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -55,7 +55,7 @@ const uint	RLComboEditbox::CaratLayer		= 3;
 
 
 /*************************************************************************
-	Constructor for Rastullah edit box widgets	
+	Constructor for Taharez edit box widgets	
 *************************************************************************/
 RLComboEditbox::RLComboEditbox(const String& type, const String& name) :
 	Editbox(type, name),
@@ -74,7 +74,7 @@ RLComboEditbox::RLComboEditbox(const String& type, const String& name) :
 
 
 /*************************************************************************
-	Destructor for Rastullah edit box widgets	
+	Destructor for Taharez edit box widgets	
 *************************************************************************/
 RLComboEditbox::~RLComboEditbox(void)
 {
@@ -224,8 +224,9 @@ void RLComboEditbox::drawSelf(float z)
 	//
 	if ((!isReadOnly()) && hasFocus)
 	{
-		Vector3 pos(absrect.d_left + textOffset + extentToCarat, absrect.d_top, renderer->getZLayer(CaratLayer));
-		Size	sz(d_carat->getWidth(), absrect.getHeight());
+		pos = Vector3(absrect.d_left + textOffset + extentToCarat, absrect.d_top, renderer->getZLayer(CaratLayer));
+		sz.d_width = d_carat->getWidth();
+		sz.d_height = absrect.getHeight();
 		d_carat->draw(pos, sz, clipper, colours);
 	}
 
@@ -300,10 +301,7 @@ void RLComboEditbox::drawSelf(float z)
 *************************************************************************/
 Window* RLComboEditboxFactory::createWindow(const String& name)
 {
-	RLComboEditbox* wnd = new RLComboEditbox(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+	return new RLComboEditbox(d_type, name);
 }
 
 } // End of  CEGUI namespace section

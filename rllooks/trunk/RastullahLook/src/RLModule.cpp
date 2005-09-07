@@ -59,9 +59,9 @@
 #include "RLSpinner.h"
 #include "RLScrollablePane.h"
 #include "RLTooltip.h"
+#include "RLPopupMenu.h"
 #include "RLMenubar.h"
 #include "RLMenuItem.h"
-#include "RLPopupMenu.h"
 
 
 /*************************************************************************
@@ -101,211 +101,96 @@ static CEGUI::RLVUMeterFactory			s_VUMeterFactory;
 static CEGUI::RLSpinnerFactory          s_SpinnerFactory;
 static CEGUI::RLScrollablePaneFactory   s_ScrollablePaneFactory;
 static CEGUI::RLTooltipFactory          s_TooltipFactory;
+static CEGUI::RLPopupMenuFactory		s_PopupMenuFactory;
+static CEGUI::RLPopupMenuItemFactory	s_PopupMenuItemFactory;
 static CEGUI::RLMenubarFactory			s_MenubarFactory;
 static CEGUI::RLMenubarItemFactory		s_MenubarItemFactory;
-static CEGUI::RLPopupMenuFactory		s_PopupMenuFactory;
-static CEGUI::RLPopupMenuItemFactory		s_PopupMenuItemFactory;
 
+
+using namespace CEGUI;
+
+struct mapEntry
+{
+    const CEGUI::utf8* d_name;
+    CEGUI::WindowFactory* d_factory;
+};
+
+mapEntry factoriesMap[] =
+{
+    {RLAlternateProgressBar::WidgetTypeName, &s_AltProgressBarFactory},
+    {RLButton::WidgetTypeName, &s_ButtonFactory},
+    {RLCheckbox::WidgetTypeName, &s_CheckboxFactory},
+    {RLCloseButton::WidgetTypeName, &s_CloseButtonFactory},
+    {RLCombobox::WidgetTypeName, &s_ComboboxFactory},
+    {RLComboDropList::WidgetTypeName, &s_ComboDropListFactory},
+    {RLComboEditbox::WidgetTypeName, &s_ComboEditboxFactory},    
+    {RLEditbox::WidgetTypeName, &s_EditboxFactory},
+    {RLFrameWindow::WidgetTypeName, &s_FrameWindowFactory},
+    {RLListbox::WidgetTypeName, &s_ListboxFactory},
+    {RLListHeader::WidgetTypeName, &s_ListHeaderFactory},
+    {RLListHeaderSegment::WidgetTypeName, &s_ListHeaderSegmentFactory},
+    {RLMiniHorzScrollbar::WidgetTypeName, &s_MiniHorzScrollbarFactory},
+    {RLMiniHorzScrollbarThumb::WidgetTypeName, &s_MiniHorzScrollbarThumbFactory},
+    {RLMiniVertScrollbar::WidgetTypeName, &s_MiniVertScrollbarFactory},
+    {RLMiniVertScrollbarThumb::WidgetTypeName, &s_MiniVertScrollbarThumbFactory},
+    {RLMultiColumnList::WidgetTypeName, &s_MultiColumnListFactory},
+    {RLMultiLineEditbox::WidgetTypeName, &s_MultiLineEditboxFactory},
+    {RLProgressBar::WidgetTypeName, &s_ProgressBarFactory},
+    {RLRadioButton::WidgetTypeName, &s_RadioButtonFactory},
+    {RLScrollablePane::WidgetTypeName, &s_ScrollablePaneFactory},
+    {RLSlider::WidgetTypeName, &s_SliderFactory},
+    {RLSliderThumb::WidgetTypeName, &s_SliderThumbFactory},
+    {RLSpinner::WidgetTypeName, &s_SpinnerFactory},
+    {RLStaticImage::WidgetTypeName, &s_StaticImageFactory},
+    {RLStaticText::WidgetTypeName, &s_StaticTextFactory},
+    {RLTabButton::WidgetTypeName, &s_TabButtonFactory},
+    {RLTabControl::WidgetTypeName, &s_TabControlFactory},
+    {RLTabPane::WidgetTypeName, &s_TabPaneFactory},
+    {RLTitlebar::WidgetTypeName, &s_TitlebarFactory},
+    {RLTooltip::WidgetTypeName, &s_TooltipFactory},
+    {RLVertScrollbar::WidgetTypeName, &s_VertScrollbarFactory},
+    {RLVertScrollbarThumb::WidgetTypeName, &s_VertScrollbarThumbFactory},
+    {RLVUMeter::WidgetTypeName, &s_VUMeterFactory},
+	{RLPopupMenu::WidgetTypeName, &s_PopupMenuFactory},
+	{RLPopupMenuItem::WidgetTypeName, &s_PopupMenuItemFactory},
+	{RLMenubar::WidgetTypeName, &s_MenubarFactory},
+	{RLMenubarItem::WidgetTypeName, &s_MenubarItemFactory},
+    {0,0}
+};
 
 /*************************************************************************
 	Plugin access interface
 *************************************************************************/
 extern "C" void registerFactory(const CEGUI::String& type_name)
 {
-	using namespace CEGUI;
+    mapEntry* entry = factoriesMap;
 
-	const char* typeN = type_name.c_str();
+    while (entry->d_name)
+    {
+        if (entry->d_name == type_name)
+        {
+            WindowFactoryManager::getSingleton().addFactory(entry->d_factory);
+            return;
+        }
 
-	if (type_name == RLFrameWindow::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_FrameWindowFactory);
-		return;
-	}
-	else if (type_name == RLTitlebar::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_TitlebarFactory);
-		return;
-	}
-	else if (type_name == RLButton::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_ButtonFactory);
-		return;
-	}
-	else if (type_name == RLCloseButton::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_CloseButtonFactory);
-		return;
-	}
-	else if (type_name == RLCheckbox::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_CheckboxFactory);
-		return;
-	}
-	else if (type_name == RLRadioButton::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_RadioButtonFactory);
-		return;
-	}
-	else if (type_name == RLSliderThumb::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_SliderThumbFactory);
-		return;
-	}
-	else if (type_name == RLSlider::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_SliderFactory);
-		return;
-	}
-	else if (type_name == RLProgressBar::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_ProgressBarFactory);
-		return;
-	}
-	else if (type_name == RLAlternateProgressBar::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_AltProgressBarFactory);
-		return;
-	}
-	else if (type_name == RLEditbox::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_EditboxFactory);
-		return;
-	}
-	else if (type_name == RLVertScrollbar::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_VertScrollbarFactory);
-		return;
-	}
-	else if (type_name == RLVertScrollbarThumb::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_VertScrollbarThumbFactory);
-		return;
-	}
-	else if (type_name == RLMiniVertScrollbar::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_MiniVertScrollbarFactory);
-		return;
-	}
-	else if (type_name == RLMiniVertScrollbarThumb::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_MiniVertScrollbarThumbFactory);
-		return;
-	}
-	else if (type_name == RLMiniHorzScrollbar::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_MiniHorzScrollbarFactory);
-		return;
-	}
-	else if (type_name == RLMiniHorzScrollbarThumb::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_MiniHorzScrollbarThumbFactory);
-		return;
-	}
-	else if (type_name == RLStaticImage::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_StaticImageFactory);
-		return;
-	}
-	else if (type_name == RLStaticText::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_StaticTextFactory);
-		return;
-	}
-	else if (type_name == RLListbox::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_ListboxFactory);
-		return;
-	}
-	else if (type_name == RLCombobox::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_ComboboxFactory);
-		return;
-	}
-	else if (type_name == RLComboDropList::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_ComboDropListFactory);
-		return;
-	}
-	else if (type_name == RLComboEditbox::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_ComboEditboxFactory);
-		return;
-	}
-	else if (type_name == RLListHeaderSegment::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_ListHeaderSegmentFactory);
-		return;
-	}
-	else if (type_name == RLListHeader::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_ListHeaderFactory);
-		return;
-	}
-	else if (type_name == RLMultiColumnList::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_MultiColumnListFactory);
-		return;
-	}
-	else if (type_name == RLMultiLineEditbox::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_MultiLineEditboxFactory);
-		return;
-	}
-	else if (type_name == RLTabControl::WidgetTypeName)
-    {
-        WindowFactoryManager::getSingleton().addFactory(&s_TabControlFactory);
-        return;
-    }
-	else if (type_name == RLTabButton::WidgetTypeName)
-    {
-        WindowFactoryManager::getSingleton().addFactory(&s_TabButtonFactory);
-        return;
-    }
-	else if (type_name == RLTabPane::WidgetTypeName)
-    {
-        WindowFactoryManager::getSingleton().addFactory(&s_TabPaneFactory);
-        return;
-    }
-	else if (type_name == RLVUMeter::WidgetTypeName)
-	{
-		WindowFactoryManager::getSingleton().addFactory(&s_VUMeterFactory);
-		return;
-	}
-    else if (type_name == RLSpinner::WidgetTypeName)
-    {
-        WindowFactoryManager::getSingleton().addFactory(&s_SpinnerFactory);
-        return;
-    }
-    else if (type_name == RLScrollablePane::WidgetTypeName)
-    {
-        WindowFactoryManager::getSingleton().addFactory(&s_ScrollablePaneFactory);
-        return;
-    }
-    else if (type_name == RLTooltip::WidgetTypeName)
-    {
-        WindowFactoryManager::getSingleton().addFactory(&s_TooltipFactory);
-        return;
-    }
-	else if (type_name == RLMenubar::WidgetTypeName)
-    {
-		WindowFactoryManager::getSingleton().addFactory(&s_MenubarFactory);
-        return;
-    }
-	else if (type_name == RLMenubarItem::WidgetTypeName)
-    {
-		WindowFactoryManager::getSingleton().addFactory(&s_MenubarItemFactory);
-        return;
-    }
-	else if (type_name == RLPopupMenu::WidgetTypeName)
-    {
-		WindowFactoryManager::getSingleton().addFactory(&s_PopupMenuFactory);
-        return;
-    }
-	else if (type_name == RLPopupMenuItem::WidgetTypeName)
-    {
-		WindowFactoryManager::getSingleton().addFactory(&s_PopupMenuItemFactory);
-        return;
+        ++entry;
     }
 
-	throw UnknownObjectException((utf8*)"::registerFactory - The window factory for type '" + type_name + "' is not known in this module.");
+    throw UnknownObjectException((utf8*)"::registerFactory - The window factory for type '" + type_name + "' is not known in this module.");
+}
+
+extern "C" CEGUI::uint registerAllFactories(void)
+{
+    CEGUI::uint count = 0;
+    mapEntry* entry = factoriesMap;
+
+    while (entry->d_name)
+    {
+        WindowFactoryManager::getSingleton().addFactory(entry->d_factory);
+
+        ++entry;
+        ++count;
+    }
+
+    return count;
 }

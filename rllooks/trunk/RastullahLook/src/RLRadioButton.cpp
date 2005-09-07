@@ -3,7 +3,7 @@
 	created:	21/5/2004
 	author:		Paul D Turner
 	
-	purpose:	Implementation of Rastullah look Radio Button widget
+	purpose:	Implementation of Taharez look Radio Button widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -46,7 +46,7 @@ const float	RLRadioButton::LabelPadding				= 4.0f;
 
 
 /*************************************************************************
-	Constructor for Rastullah Look Radio Button objects.
+	Constructor for Taharez Look Radio Button objects.
 *************************************************************************/
 RLRadioButton::RLRadioButton(const String& type, const String& name) :
 	RadioButton(type, name)
@@ -105,7 +105,7 @@ void RLRadioButton::drawNormal(float z)
 	absrect.d_top	+= PixelAligned((absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f);
 	absrect.d_left	+= d_normalImage->getWidth() + LabelPadding;
 	colours.setColours(d_normalColour);
-	colours.setAlpha(alpha_comp);
+	colours.modulateAlpha(alpha_comp);
 	getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(1), clipper, LeftAligned, colours);
 }
 
@@ -147,7 +147,7 @@ void RLRadioButton::drawHover(float z)
 	absrect.d_top	+= PixelAligned((absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f);
 	absrect.d_left	+= d_hoverImage->getWidth() + LabelPadding;
 	colours.setColours(d_hoverColour);
-	colours.setAlpha(alpha_comp);
+	colours.modulateAlpha(alpha_comp);
 	getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(1), clipper, LeftAligned, colours);
 }
 
@@ -189,7 +189,7 @@ void RLRadioButton::drawPushed(float z)
 	absrect.d_top	+= PixelAligned((absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f);
 	absrect.d_left	+= d_normalImage->getWidth() + LabelPadding;
 	colours.setColours(d_pushedColour);
-	colours.setAlpha(alpha_comp);
+	colours.modulateAlpha(alpha_comp);
 	getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(1), clipper, LeftAligned, colours);
 }
 
@@ -231,7 +231,7 @@ void RLRadioButton::drawDisabled(float z)
 	absrect.d_top	+= PixelAligned((absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f);
 	absrect.d_left	+= d_normalImage->getWidth() + LabelPadding;
 	colours.setColours(d_disabledColour);
-	colours.setAlpha(alpha_comp);
+	colours.modulateAlpha(alpha_comp);
 	getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(1), clipper, LeftAligned, colours);
 }
 
@@ -248,10 +248,7 @@ void RLRadioButton::drawDisabled(float z)
 *************************************************************************/
 Window* RLRadioButtonFactory::createWindow(const String& name)
 {
-	RLRadioButton* wnd = new RLRadioButton(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+	return new RLRadioButton(d_type, name);
 }
 
 } // End of  CEGUI namespace section

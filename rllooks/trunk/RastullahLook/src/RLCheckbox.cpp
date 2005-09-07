@@ -3,7 +3,7 @@
 	created:	21/5/2004
 	author:		Paul D Turner
 	
-	purpose:	Implementation of Rastullah Checkbox
+	purpose:	Implementation of Taharez Checkbox
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -46,7 +46,7 @@ const float	RLCheckbox::LabelPadding			= 4.0f;
 
 
 /*************************************************************************
-	Constructor for Rastullah Look Checkbox objects.
+	Constructor for Taharez Look Checkbox objects.
 *************************************************************************/
 RLCheckbox::RLCheckbox(const String& type, const String& name) :
 	Checkbox(type, name)
@@ -105,7 +105,7 @@ void RLCheckbox::drawNormal(float z)
 	absrect.d_top	+= PixelAligned((absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f);
 	absrect.d_left	+= d_normalImage->getWidth() + LabelPadding;
 	colours.setColours(d_normalColour);
-	colours.setAlpha(alpha_comp);
+	colours.modulateAlpha(alpha_comp);
 	getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(1), clipper, LeftAligned, colours);
 }
 
@@ -147,7 +147,7 @@ void RLCheckbox::drawHover(float z)
 	absrect.d_top	+= PixelAligned((absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f);
 	absrect.d_left	+= d_hoverImage->getWidth() + LabelPadding;
 	colours.setColours(d_hoverColour);
-	colours.setAlpha(alpha_comp);
+	colours.modulateAlpha(alpha_comp);
 	getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(1), clipper, LeftAligned, colours);
 }
 
@@ -189,7 +189,7 @@ void RLCheckbox::drawPushed(float z)
 	absrect.d_top	+= PixelAligned((absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f);
 	absrect.d_left	+= d_normalImage->getWidth() + LabelPadding;
 	colours.setColours(d_pushedColour);
-	colours.setAlpha(alpha_comp);
+	colours.modulateAlpha(alpha_comp);
 	getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(1), clipper, LeftAligned, colours);
 }
 
@@ -231,7 +231,7 @@ void RLCheckbox::drawDisabled(float z)
 	absrect.d_top	+= PixelAligned((absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f);
 	absrect.d_left	+= d_normalImage->getWidth() + LabelPadding;
 	colours.setColours(d_disabledColour);
-	colours.setAlpha(alpha_comp);
+	colours.modulateAlpha(alpha_comp);
 	getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(1), clipper, LeftAligned, colours);
 }
 
@@ -248,10 +248,7 @@ void RLCheckbox::drawDisabled(float z)
 *************************************************************************/
 Window* RLCheckboxFactory::createWindow(const String& name)
 {
-	RLCheckbox* wnd = new RLCheckbox(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+	return new RLCheckbox(d_type, name);
 }
 
 } // End of  CEGUI namespace section

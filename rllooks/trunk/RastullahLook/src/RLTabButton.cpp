@@ -3,7 +3,7 @@
 	created:	11/08/2004
 	author:		Steve Streeting
 	
-	purpose:	Implementation of Rastullah look Tab Button widget.
+	purpose:	Implementation of Taharez look Tab Button widget.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -275,10 +275,7 @@ void RLTabButton::drawPushed(float z)
 *************************************************************************/
 Window* RLTabButtonFactory::createWindow(const String& name)
 {
-	RLTabButton* wnd = new RLTabButton(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+	return new RLTabButton(d_type, name);
 }
 
 } // End of  CEGUI namespace section

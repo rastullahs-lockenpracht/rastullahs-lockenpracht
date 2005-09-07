@@ -3,7 +3,7 @@
 	created:	19/6/2004
 	author:		Paul D Turner
 	
-	purpose:	Interface to Rastullah multi-column list widget
+	purpose:	Interface to Taharez multi-column list widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -74,7 +74,7 @@ public:
 	*************************************************************************/
 	/*!
 	\brief
-		Constructor for Rastullah Look multi-column list objects.
+		Constructor for Taharez Look multi-column list objects.
 
 	\param type
 		String object that specifies a type for this window, usually provided by a factory class.
@@ -115,7 +115,7 @@ protected:
 	\return
 		Pointer to a ListHeader based object.
 	*/
-	virtual ListHeader*	createListHeader(void) const;
+	virtual ListHeader*	createListHeader(const String& name) const;
  
 
 	/*!
@@ -125,7 +125,7 @@ protected:
 	\return
 		Pointer to a Scrollbar to be used for scrolling the list vertically.
 	*/
-	virtual Scrollbar*	createVertScrollbar(void) const;
+	virtual Scrollbar*	createVertScrollbar(const String& name) const;
  
 
 	/*!
@@ -135,7 +135,7 @@ protected:
 	\return
 		Pointer to a Scrollbar to be used for scrolling the list horizontally.
 	*/
-	virtual Scrollbar*	createHorzScrollbar(void) const;
+	virtual Scrollbar*	createHorzScrollbar(const String& name) const;
 
 
 	/*!
@@ -145,7 +145,7 @@ protected:
 	\return
 		Nothing.
 	*/
-	virtual void	layoutComponentWidgets();
+	virtual void	performChildWindowLayout();
 
 
 	/*!
@@ -155,13 +155,10 @@ protected:
 		rendered to layer 3, other layers can be used for rendering imagery behind and
 		infront of the items.
 
-	\param z
-		Z co-ordinate for layer 0.
-
 	\return
 		Nothing.
 	*/
-	virtual	void	renderListboxBaseImagery(float z);
+	virtual	void	cacheListboxBaseImagery();
 
 	/*!
 	\brief

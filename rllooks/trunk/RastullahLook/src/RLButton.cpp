@@ -3,7 +3,7 @@
 	created:	11/5/2004
 	author:		Paul D Turner
 	
-	purpose:	Implementation of Rastullah look Button widget.
+	purpose:	Implementation of Taharez look Button widget.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -71,10 +71,6 @@ RLButton::RLButton(const String& type, const String& name) :
 	d_rightSectionPushed	= &iset->getImage(RightPushedImageName);
 
 	setMouseCursor(&iset->getImage(MouseCursorImageName));
-
-    setNormalTextColour( colour( 0.33f,0.25f,0.094f ) );
-    setHoverTextColour( colour( 0.43f,0.35f,0.194f ) );
-    setPushedTextColour( colour( 0.27f,0.20f,0.044f ) );
 }
 
 
@@ -146,7 +142,7 @@ void RLButton::drawNormal(float z)
 	absrect.d_top += PixelAligned((absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f);
 	absrect.d_left += PixelAligned(d_textXOffset * absrect.getWidth());
 	colours.setColours(d_normalColour);
-	colours.setAlpha(alpha_comp);
+	colours.modulateAlpha(alpha_comp);
 	getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(2), clipper, Centred, colours);
 }
 
@@ -211,7 +207,7 @@ void RLButton::drawHover(float z)
 	absrect.d_top += PixelAligned((absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f);
 	absrect.d_left += PixelAligned(d_textXOffset * absrect.getWidth());
 	colours.setColours(d_hoverColour);
-	colours.setAlpha(alpha_comp);
+	colours.modulateAlpha(alpha_comp);
 	getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(2), clipper, Centred, colours);
 }
 
@@ -276,7 +272,7 @@ void RLButton::drawPushed(float z)
 	absrect.d_top += PixelAligned((absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f);
 	absrect.d_left += PixelAligned(d_textXOffset * absrect.getWidth());
 	colours.setColours(d_pushedColour);
-	colours.setAlpha(alpha_comp);
+	colours.modulateAlpha(alpha_comp);
 	getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(2), clipper, Centred, colours);
 }
 
@@ -341,7 +337,7 @@ void RLButton::drawDisabled(float z)
 	absrect.d_top += PixelAligned((absrect.getHeight() - getFont()->getLineSpacing()) * 0.5f);
 	absrect.d_left += PixelAligned(d_textXOffset * absrect.getWidth());
 	colours.setColours(d_disabledColour);
-	colours.setAlpha(alpha_comp);
+	colours.modulateAlpha(alpha_comp);
 	getFont()->drawText(getText(), absrect, System::getSingleton().getRenderer()->getZLayer(2), clipper, Centred, colours);
 }
 
@@ -358,10 +354,7 @@ void RLButton::drawDisabled(float z)
 *************************************************************************/
 Window* RLButtonFactory::createWindow(const String& name)
 {
-	RLButton* wnd = new RLButton(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+	return new RLButton(d_type, name);
 }
 
 } // End of  CEGUI namespace section

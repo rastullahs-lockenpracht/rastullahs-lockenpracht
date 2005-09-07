@@ -58,10 +58,10 @@ namespace CEGUI
     {
     }
 
-    PushButton* RLSpinner::createIncreaseButton(void) const
+    PushButton* RLSpinner::createIncreaseButton(const String& name) const
     {
         // create the widget
-        RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(IncreaseButtonWidgetType, getName() + "__auto_incbtn__");
+        RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(IncreaseButtonWidgetType, name);
 
         // perform some initialisation
         btn->setStandardImageryEnabled(false);
@@ -82,10 +82,10 @@ namespace CEGUI
         return btn;
     }
 
-    PushButton* RLSpinner::createDecreaseButton(void) const
+    PushButton* RLSpinner::createDecreaseButton(const String& name) const
     {
         // create the widget
-        RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(DecreaseButtonWidgetType, getName() + "__auto_decbtn__");
+        RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(DecreaseButtonWidgetType, name);
 
         // perform some initialisation
         btn->setStandardImageryEnabled(false);
@@ -105,15 +105,17 @@ namespace CEGUI
         return btn;
     }
 
-    Editbox* RLSpinner::createEditbox(void) const
+    Editbox* RLSpinner::createEditbox(const String& name) const
     {
         // create the widget
-        Editbox* ebox = (Editbox*)WindowManager::getSingleton().createWindow(EditboxWidgetType, getName() + "__auto_editbox__");
+        Editbox* ebox = (Editbox*)WindowManager::getSingleton().createWindow(EditboxWidgetType, name);
         return ebox;
     }
 
-    void RLSpinner::layoutComponentWidgets(void)
+    void RLSpinner::performChildWindowLayout()
     {
+        Spinner::performChildWindowLayout();
+
         Point pt(0,0);
         Size sz(getAbsoluteSize());
         sz.d_width -= d_buttonsWidth;
@@ -134,10 +136,7 @@ namespace CEGUI
 
     Window* RLSpinnerFactory::createWindow(const String& name)
     {
-        RLSpinner* wnd = new RLSpinner(d_type, name);
-        wnd->initialise();
-
-        return wnd;
+        return new RLSpinner(d_type, name);
     }
 
 } // End of  CEGUI namespace section

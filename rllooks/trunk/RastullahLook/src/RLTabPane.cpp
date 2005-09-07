@@ -3,7 +3,7 @@
 	created:	11/08/2004
 	author:		Steve Streeting
 	
-	purpose:	Implementation of Rastullah look Tab Pane widget.
+	purpose:	Implementation of Taharez look Tab Pane widget.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -147,10 +147,7 @@ void RLTabPane::drawSelf(float z)
 *************************************************************************/
 Window* RLTabPaneFactory::createWindow(const String& name)
 {
-	RLTabPane* wnd = new RLTabPane(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+	return new RLTabPane(d_type, name);
 }
 
 } // End of  CEGUI namespace section

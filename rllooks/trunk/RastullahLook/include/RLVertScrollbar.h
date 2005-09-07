@@ -3,7 +3,7 @@
 	created:	2/6/2004
 	author:		Paul D Turner
 	
-	purpose:	Interface to Rastullah Vertical Scroll bar widget
+	purpose:	Interface to Taharez Vertical Scroll bar widget
 				(Large version of scrollbar)
 *************************************************************************/
 /*************************************************************************
@@ -37,7 +37,7 @@ namespace CEGUI
 {
 /*!
 \brief
-	Large vertical scroll-bar bar for the Rastullah Gui Scheme.
+	Large vertical scroll-bar bar for the Taharez Gui Scheme.
 */
 class RASTULLAHLOOK_API RLVertScrollbar: public Scrollbar
 {
@@ -79,14 +79,14 @@ public:
 	*************************************************************************/
 	/*!
 	\brief
-		Constructor for Rastullah vertical scroll bar widgets
+		Constructor for Taharez vertical scroll bar widgets
 	*/
 	RLVertScrollbar(const String& type, const String& name);
 
 
 	/*!
 	\brief
-		Destructor for Rastullah vertical scroll bar widgets
+		Destructor for Taharez vertical scroll bar widgets
 	*/
 	virtual ~RLVertScrollbar(void);
 
@@ -99,28 +99,28 @@ protected:
 	\brief
 		create a PushButton based widget to use as the increase button for this scroll bar.
 	*/
-	virtual PushButton*	createIncreaseButton(void) const;
+	virtual PushButton*	createIncreaseButton(const String& name) const;
 
 
 	/*!
 	\brief
 		create a PushButton based widget to use as the decrease button for this scroll bar.
 	*/
-	virtual PushButton*	createDecreaseButton(void) const;
+	virtual PushButton*	createDecreaseButton(const String& name) const;
 
 
 	/*!
 	\brief
 		create a Thumb based widget to use as the thumb for this scroll bar.
 	*/
-	virtual Thumb*	createThumb(void) const;
+	virtual Thumb*	createThumb(const String& name) const;
 
 
 	/*!
 	\brief
 		layout the scroll bar component widgets
 	*/
-	virtual void	layoutComponentWidgets(void);
+	virtual void	performChildWindowLayout();
 
 
 	/*!

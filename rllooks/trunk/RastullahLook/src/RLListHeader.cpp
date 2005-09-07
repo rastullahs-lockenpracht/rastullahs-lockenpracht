@@ -3,7 +3,7 @@
 	created:	14/6/2004
 	author:		Paul D Turner
 	
-	purpose:	Implementation of Rastullah MultiColumn list header widget.
+	purpose:	Implementation of Taharez MultiColumn list header widget.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -96,10 +96,7 @@ void RLListHeader::destroyListSegment(ListHeaderSegment* segment) const
 *************************************************************************/
 Window* RLListHeaderFactory::createWindow(const String& name)
 {
-	RLListHeader* wnd = new RLListHeader(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+	return new RLListHeader(d_type, name);
 }
 
 

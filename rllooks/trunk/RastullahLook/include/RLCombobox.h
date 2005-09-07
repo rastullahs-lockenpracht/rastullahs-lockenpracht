@@ -3,7 +3,7 @@
 	created:	12/6/2004
 	author:		Paul D Turner
 	
-	purpose:	Interface to Rastullah look combo box class
+	purpose:	Interface to Taharez look combo box class
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -35,7 +35,7 @@ namespace CEGUI
 {
 /*!
 \brief
-	Combobox class for the Rastullah look Gui scheme
+	Combobox class for the Taharez look Gui scheme
 */
 class RASTULLAHLOOK_API RLCombobox : public Combobox
 {
@@ -62,14 +62,14 @@ public:
 	*************************************************************************/
 	/*!
 	\brief
-		Constructor for Rastullah Combobox
+		Constructor for Taharez Combobox
 	*/
 	RLCombobox(const String& type, const String& name);
 
 
 	/*!
 	\brief
-		Destructor for Rastullah Combobox
+		Destructor for Taharez Combobox
 	*/
 	virtual ~RLCombobox(void);
 
@@ -95,7 +95,7 @@ protected:
 	\return
 		Nothing.
 	*/
-	virtual void	layoutComponentWidgets();
+	virtual void	performChildWindowLayout();
 
 
 	/*!
@@ -106,7 +106,7 @@ protected:
 	\return
 		Pointer to an Editbox derived class.
 	*/
-	virtual	Editbox*	createEditbox(void) const;
+	virtual	Editbox*	createEditbox(const String& name) const;
 
 
 	/*!
@@ -117,7 +117,7 @@ protected:
 	\return
 		Pointer to a PushButton derived class.
 	*/
-	virtual	PushButton*	createPushButton(void) const;
+	virtual	PushButton*	createPushButton(const String& name) const;
 
 
 	/*!
@@ -128,7 +128,7 @@ protected:
 	\return
 		Pointer to a ComboDropList derived class.
 	*/
-	virtual	ComboDropList*	createDropList(void) const;
+	virtual	ComboDropList*	createDropList(const String& name) const;
 
 
 	/*************************************************************************

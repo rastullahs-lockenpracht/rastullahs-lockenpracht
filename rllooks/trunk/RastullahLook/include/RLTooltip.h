@@ -82,7 +82,7 @@ namespace CEGUI
 
     /*!
     \brief
-        Factory class for producing Tooltip objects for the Rastullah GUI Scheme
+        Factory class for producing Tooltip objects for the Taharez GUI Scheme
     */
     class RASTULLAHLOOK_API RLTooltipFactory : public WindowFactory
     {

@@ -3,7 +3,7 @@
 	created:	10/08/2004
 	author:		Steve Streeting
 	
-	purpose:	Implementation of Rastullah Look static widgets & factories.
+	purpose:	Implementation of Taharez Look static widgets & factories.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -65,14 +65,12 @@ namespace CEGUI
     /*************************************************************************
     Create a content pane
     *************************************************************************/
-    TabPane* RLTabControl::createTabContentPane(void) const
+    TabPane* RLTabControl::createTabContentPane(const String& name) const
     {
-        // construct name
-        String newName = getName() + (utf8*)"__auto_TabPane__";
         return static_cast<TabPane*>(
             WindowManager::getSingleton().createWindow(
                 TabContentPaneType, 
-                newName)
+                name)
                 );
 
     }
@@ -89,9 +87,9 @@ namespace CEGUI
     /*************************************************************************
     Layout components
     *************************************************************************/
-    void RLTabControl::layoutComponentWidgets()
+    void RLTabControl::performChildWindowLayout()
     {
-        TabControl::layoutComponentWidgets();
+        TabControl::performChildWindowLayout();
 
         // Create the 'filler'
         if (d_tabButtonPane)
@@ -155,14 +153,11 @@ namespace CEGUI
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-	Create, initialise and return a TabControl for the Rastullah Scheme
+	Create, initialise and return a TabControl for the Taharez Scheme
 *************************************************************************/
 Window* RLTabControlFactory::createWindow(const String& name)
 {
-	RLTabControl* wnd = new RLTabControl(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+	return new RLTabControl(d_type, name);
 }
 
 } // End of  CEGUI namespace section

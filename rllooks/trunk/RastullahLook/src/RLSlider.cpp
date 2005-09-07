@@ -3,7 +3,7 @@
 	created:	22/5/2004
 	author:		Paul D Turner
 	
-	purpose:	Implementation of Rastullah Slider widget
+	purpose:	Implementation of Taharez Slider widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -50,7 +50,7 @@ const float	RLSlider::ContainerPaddingX		= 3;
 
 
 /*************************************************************************
-	Constructor for Rastullah slider widgets
+	Constructor for Taharez slider widgets
 *************************************************************************/
 RLSlider::RLSlider(const String& type, const String& name) :
 	Slider(type, name)
@@ -60,7 +60,7 @@ RLSlider::RLSlider(const String& type, const String& name) :
 
 
 /*************************************************************************
-	Destructor for Rastullah slider widgets
+	Destructor for Taharez slider widgets
 *************************************************************************/
 RLSlider::~RLSlider(void)
 {
@@ -70,9 +70,9 @@ RLSlider::~RLSlider(void)
 /*************************************************************************
 	create a Thumb based widget to use as the thumb for this slider.	
 *************************************************************************/
-Thumb* RLSlider::createThumb(void) const
+Thumb* RLSlider::createThumb(const String& name) const
 {
-	Thumb* tmb = (Thumb*)WindowManager::getSingleton().createWindow(ThumbType, getName() + "__auto_thumb__");
+	Thumb* tmb = (Thumb*)WindowManager::getSingleton().createWindow(ThumbType, name);
 	tmb->setVertFree(true);
 
 	// set size for thumb
@@ -87,8 +87,9 @@ Thumb* RLSlider::createThumb(void) const
 /*************************************************************************
 	layout the slider component widgets
 *************************************************************************/
-void RLSlider::layoutComponentWidgets(void)
+void RLSlider::performChildWindowLayout()
 {
+    Slider::performChildWindowLayout();
 	updateThumb();
 }
 
@@ -184,10 +185,7 @@ void RLSlider::drawSelf(float z)
 *************************************************************************/
 Window* RLSliderFactory::createWindow(const String& name)
 {
-	RLSlider* wnd = new RLSlider(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+	return new RLSlider(d_type, name);
 }
 
 } // End of  CEGUI namespace section

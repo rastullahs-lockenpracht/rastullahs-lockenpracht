@@ -3,7 +3,7 @@
 	created:	21/5/2004
 	author:		Paul D Turner
 	
-	purpose:	Interface to Rastullah Checkbox widget
+	purpose:	Interface to Taharez Checkbox widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -60,7 +60,7 @@ public:
 	*************************************************************************/
 	/*!
 	\brief
-		Constructor for Rastullah Look Checkbox objects.
+		Constructor for Taharez Look Checkbox objects.
 
 	\param type
 		String object that specifies a type for this window, usually provided by a factory class.

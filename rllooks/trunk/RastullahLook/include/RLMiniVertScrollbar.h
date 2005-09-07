@@ -3,7 +3,7 @@
 	created:	2/6/2004
 	author:		Paul D Turner
 	
-	purpose:	Interface to Rastullah mini vertical scroll bar widget.
+	purpose:	Interface to Taharez mini vertical scroll bar widget.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -36,7 +36,7 @@ namespace CEGUI
 {
 /*!
 \brief
-	Mini vertical scroll-bar bar for the Rastullah Gui Scheme.
+	Mini vertical scroll-bar bar for the Taharez Gui Scheme.
 */
 class RASTULLAHLOOK_API RLMiniVertScrollbar: public Scrollbar
 {
@@ -72,14 +72,14 @@ public:
 	*************************************************************************/
 	/*!
 	\brief
-		Constructor for Rastullah mini vertical scroll bar widgets
+		Constructor for Taharez mini vertical scroll bar widgets
 	*/
 	RLMiniVertScrollbar(const String& type, const String& name);
 
 
 	/*!
 	\brief
-		Destructor for Rastullah mini vertical scroll bar widgets
+		Destructor for Taharez mini vertical scroll bar widgets
 	*/
 	virtual ~RLMiniVertScrollbar(void);
 
@@ -92,28 +92,28 @@ protected:
 	\brief
 		create a PushButton based widget to use as the increase button for this scroll bar.
 	*/
-	virtual PushButton*	createIncreaseButton(void) const;
+	virtual PushButton*	createIncreaseButton(const String& name) const;
 
 
 	/*!
 	\brief
 		create a PushButton based widget to use as the decrease button for this scroll bar.
 	*/
-	virtual PushButton*	createDecreaseButton(void) const;
+	virtual PushButton*	createDecreaseButton(const String& name) const;
 
 
 	/*!
 	\brief
 		create a Thumb based widget to use as the thumb for this scroll bar.
 	*/
-	virtual Thumb*	createThumb(void) const;
+	virtual Thumb*	createThumb(const String& name) const;
 
 
 	/*!
 	\brief
 		layout the scroll bar component widgets
 	*/
-	virtual void	layoutComponentWidgets(void);
+	virtual void	performChildWindowLayout();
 
 
 	/*!

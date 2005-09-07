@@ -3,7 +3,7 @@
 	created:	2/6/2004
 	author:		Paul D Turner
 	
-	purpose:	Implementation of Rastullah mini vertical scroll bar widget.
+	purpose:	Implementation of Taharez mini vertical scroll bar widget.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -61,7 +61,7 @@ const utf8*	RLMiniVertScrollbar::DecreaseButtonWidgetType	= RLButton::WidgetType
 
 
 /*************************************************************************
-	Constructor for Rastullah mini vertical scroll bar widgets
+	Constructor for Taharez mini vertical scroll bar widgets
 *************************************************************************/
 RLMiniVertScrollbar::RLMiniVertScrollbar(const String& type, const String& name) :
 	Scrollbar(type, name)
@@ -74,7 +74,7 @@ RLMiniVertScrollbar::RLMiniVertScrollbar(const String& type, const String& name)
 
 
 /*************************************************************************
-	Destructor for Rastullah mini vertical scroll bar widgets
+	Destructor for Taharez mini vertical scroll bar widgets
 *************************************************************************/
 RLMiniVertScrollbar::~RLMiniVertScrollbar(void)
 {
@@ -85,10 +85,10 @@ RLMiniVertScrollbar::~RLMiniVertScrollbar(void)
 	create a PushButton based widget to use as the increase button for
 	this scroll bar.
 *************************************************************************/
-PushButton* RLMiniVertScrollbar::createIncreaseButton(void) const
+PushButton* RLMiniVertScrollbar::createIncreaseButton(const String& name) const
 {
 	// create the widget
-	RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(IncreaseButtonWidgetType, getName() + "__auto_incbtn__");
+	RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(IncreaseButtonWidgetType, name);
 
 	// perform some initialisation
 	btn->setStandardImageryEnabled(false);
@@ -115,10 +115,10 @@ PushButton* RLMiniVertScrollbar::createIncreaseButton(void) const
 	create a PushButton based widget to use as the decrease button for
 	this scroll bar.
 *************************************************************************/
-PushButton* RLMiniVertScrollbar::createDecreaseButton(void) const
+PushButton* RLMiniVertScrollbar::createDecreaseButton(const String& name) const
 {
 	// create the widget
-	RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(DecreaseButtonWidgetType, getName() + "__auto_decbtn__");
+	RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(DecreaseButtonWidgetType, name);
 
 	// perform some initialisation
 	btn->setStandardImageryEnabled(false);
@@ -144,10 +144,10 @@ PushButton* RLMiniVertScrollbar::createDecreaseButton(void) const
 /*************************************************************************
 	create a Thumb based widget to use as the thumb for this scroll bar.
 *************************************************************************/
-Thumb* RLMiniVertScrollbar::createThumb(void) const
+Thumb* RLMiniVertScrollbar::createThumb(const String& name) const
 {
 	// create the widget
-	RLMiniVertScrollbarThumb* thumb = (RLMiniVertScrollbarThumb*)WindowManager::getSingleton().createWindow(ThumbWidgetType, getName() + "__auto_thumb__");
+	RLMiniVertScrollbarThumb* thumb = (RLMiniVertScrollbarThumb*)WindowManager::getSingleton().createWindow(ThumbWidgetType, name);
 
 	// perform some initialisation
 	thumb->setVertFree(true);
@@ -161,10 +161,12 @@ Thumb* RLMiniVertScrollbar::createThumb(void) const
 /*************************************************************************
 	layout the scroll bar component widgets
 *************************************************************************/
-void RLMiniVertScrollbar::layoutComponentWidgets(void)
+void RLMiniVertScrollbar::performChildWindowLayout()
 {
+    Scrollbar::performChildWindowLayout();
+
 	Size bsz;
-	bsz.d_width = bsz.d_height = d_abs_area.getWidth();
+	bsz.d_width = bsz.d_height = getAbsoluteWidth();
 
 	// install button sizes
 	d_increase->setSize(absoluteToRelative(bsz));
@@ -172,7 +174,7 @@ void RLMiniVertScrollbar::layoutComponentWidgets(void)
 
 	// position buttons
 	d_decrease->setPosition(Point(0.0f, 0.0f));
-	d_increase->setPosition(Point(0.0f, absoluteToRelativeY(d_abs_area.getHeight() - bsz.d_height)));
+	d_increase->setPosition(Point(0.0f, absoluteToRelativeY(getAbsoluteHeight() - bsz.d_height)));
 
 	// this will configure thumb widget appropriately
 	updateThumb();
@@ -190,7 +192,7 @@ void RLMiniVertScrollbar::updateThumb(void)
 
 	// calculate maximum extents for thumb positioning.
 	float posExtent		= d_documentSize - d_pageSize;
-	float slideExtent	= ceguimax(0.0f, d_abs_area.getHeight() - (2 * slideTrackYPadding) - d_thumb->getAbsoluteHeight());
+	float slideExtent	= ceguimax(0.0f, getAbsoluteHeight() - (2 * slideTrackYPadding) - d_thumb->getAbsoluteHeight());
 
 	// Thumb does not change size with document length, we just need to update position and range
 	d_thumb->setVertRange(absoluteToRelativeY(slideTrackYPadding), absoluteToRelativeY(slideTrackYPadding + slideExtent));
@@ -209,7 +211,7 @@ float RLMiniVertScrollbar::getValueFromThumb(void) const
 
 	// calculate maximum extents for thumb positioning.
 	float posExtent		= d_documentSize - d_pageSize;
-	float slideExtent	= d_abs_area.getHeight() - (2 * slideTrackYPadding) - d_thumb->getAbsoluteHeight();
+	float slideExtent	= getAbsoluteHeight() - (2 * slideTrackYPadding) - d_thumb->getAbsoluteHeight();
 
 	return	(d_thumb->getAbsoluteYPosition() - slideTrackYPadding) / (slideExtent / posExtent);
 }
@@ -282,10 +284,7 @@ void RLMiniVertScrollbar::drawSelf(float z)
 *************************************************************************/
 Window* RLMiniVertScrollbarFactory::createWindow(const String& name)
 {
-	RLMiniVertScrollbar* wnd = new RLMiniVertScrollbar(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+	return new RLMiniVertScrollbar(d_type, name);
 }
 
 } // End of  CEGUI namespace section

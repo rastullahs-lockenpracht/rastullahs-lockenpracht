@@ -3,7 +3,7 @@
 	created:	13/4/2004
 	author:		Paul D Turner
 	
-	purpose:	Implementation of Rastullah Look Frame Window class.
+	purpose:	Implementation of Taharez Look Frame Window class.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -122,6 +122,9 @@ RLFrameWindow::~RLFrameWindow(void)
 *************************************************************************/
 Rect RLFrameWindow::getUnclippedInnerRect(void) const
 {
+    if (d_rolledup)
+        return Rect(0,0,0,0);
+    
 	Rect tmp(getUnclippedPixelRect());
 
 	if (isFrameEnabled())
@@ -148,9 +151,9 @@ Rect RLFrameWindow::getUnclippedInnerRect(void) const
 	Create a control based upon the Titlebar base class to be used as
 	the title bar for this window.
 *************************************************************************/
-Titlebar* RLFrameWindow::createTitlebar(void) const
+Titlebar* RLFrameWindow::createTitlebar(const String& name) const
 {
-	RLTitlebar* tbar = (RLTitlebar*)WindowManager::getSingleton().createWindow(TitlebarType, getName() + "__auto_titlebar__");
+	RLTitlebar* tbar = (RLTitlebar*)WindowManager::getSingleton().createWindow(TitlebarType, name);
 	tbar->setMetricsMode(Absolute);
 	tbar->setPosition(Point(TitlebarXOffset, TitlebarYOffset));
 
@@ -162,9 +165,9 @@ Titlebar* RLFrameWindow::createTitlebar(void) const
 	Create a control based upon the PushButton base class, to be used as
 	the close button for the window.
 *************************************************************************/
-PushButton* RLFrameWindow::createCloseButton(void) const
+PushButton* RLFrameWindow::createCloseButton(const String& name) const
 {
-	RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(CloseButtonType, getName() + "__auto_closebutton__");
+	RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(CloseButtonType, name);
 
 	btn->setStandardImageryEnabled(false);
 	btn->setCustomImageryAutoSized(true);
@@ -194,14 +197,16 @@ PushButton* RLFrameWindow::createCloseButton(void) const
 	Setup size and position for the title bar and close button widgets
 	attached to this window
 *************************************************************************/
-void RLFrameWindow::layoutComponentWidgets()
+void RLFrameWindow::performChildWindowLayout()
 {
+    FrameWindow::performChildWindowLayout();
+
 	ImagesetManager& ismgr = ImagesetManager::getSingleton();
 
 	// calculate and set size of title bar
 	Size titleSz;
 	titleSz.d_height = d_titlebar->getFont()->getLineSpacing() + TitlebarTextPadding;
-	titleSz.d_width	 = isRolledup() ? d_abs_openSize.d_width : d_abs_area.getWidth();
+	titleSz.d_width	 = getAbsoluteWidth();
 	d_titlebar->setSize(titleSz);
 
 	// set size of close button to be the same as the height for the title bar.
@@ -223,6 +228,10 @@ void RLFrameWindow::layoutComponentWidgets()
 *************************************************************************/
 void RLFrameWindow::drawSelf(float z)
 {
+    // do nothing if rolled up
+    if (d_rolledup)
+        return;
+    
 	// get the destination screen rect for this window
 	Rect absrect(getUnclippedPixelRect());
 
@@ -339,16 +348,16 @@ void RLFrameWindow::storeFrameSizes(void)
 
 	const Image* img;
 	img = &iset->getImage(LeftFrameImageName);
-	d_frameLeftSize = img->getWidth() + fabs(img->getOffsetX());
+	d_frameLeftSize = img->getWidth() + fabsf(img->getOffsetX());
 
 	img = &iset->getImage(RightFrameImageName);
-	d_frameRightSize = img->getWidth() + fabs(img->getOffsetX());
+	d_frameRightSize = img->getWidth() + fabsf(img->getOffsetX());
 
 	img = &iset->getImage(TopFrameImageName);
-	d_frameTopSize = img->getHeight() + fabs(img->getOffsetY());
+	d_frameTopSize = img->getHeight() + fabsf(img->getOffsetY());
 
 	img = &iset->getImage(BottomFrameImageName);
-	d_frameBottomSize = img->getHeight() + fabs(img->getOffsetY());
+	d_frameBottomSize = img->getHeight() + fabsf(img->getOffsetY());
 }
 
 
@@ -444,10 +453,7 @@ bool RLFrameWindow::componentEnabledHandler(const EventArgs& e)
 *************************************************************************/
 Window* RLFrameWindowFactory::createWindow(const String& name)
 {
-	RLFrameWindow* wnd = new RLFrameWindow(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+	return new RLFrameWindow(d_type, name);
 }
 
 } // End of  CEGUI namespace section

@@ -3,7 +3,7 @@
 	created:	13/6/2004
 	author:		Paul D Turner
 	
-	purpose:	Implements Rastullah look Combobox Drop-list widget
+	purpose:	Implements Taharez look Combobox Drop-list widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -61,7 +61,7 @@ const utf8*	RLComboDropList::VertScrollbarTypeName	= RLMiniVertScrollbar::Widget
 
 	
 /*************************************************************************
-	Constructor for Rastullah look Combobox drop-down list.
+	Constructor for Taharez look Combobox drop-down list.
 *************************************************************************/
 RLComboDropList::RLComboDropList(const String& type, const String& name) :
 	ComboDropList(type, name)
@@ -90,7 +90,7 @@ RLComboDropList::RLComboDropList(const String& type, const String& name) :
 
 
 /*************************************************************************
-	Destructor for Rastullah look Combobox drop-down list.
+	Destructor for Taharez look Combobox drop-down list.
 *************************************************************************/
 RLComboDropList::~RLComboDropList(void)
 {
@@ -135,9 +135,9 @@ Rect RLComboDropList::getListRenderArea(void) const
 	create and return a pointer to a Scrollbar widget for use as
 	vertical scroll bar	
 *************************************************************************/
-Scrollbar* RLComboDropList::createVertScrollbar(void) const
+Scrollbar* RLComboDropList::createVertScrollbar(const String& name) const
 {
-	Scrollbar* sbar = (Scrollbar*)WindowManager::getSingleton().createWindow(VertScrollbarTypeName, getName() + "__auto_vscrollbar__");
+	Scrollbar* sbar = (Scrollbar*)WindowManager::getSingleton().createWindow(VertScrollbarTypeName, name);
 
 	// set min/max sizes
 	sbar->setMinimumSize(Size(0.0125f, 0.0f));
@@ -151,9 +151,9 @@ Scrollbar* RLComboDropList::createVertScrollbar(void) const
 	create and return a pointer to a Scrollbar widget for use as
 	horizontal scroll bar	
 *************************************************************************/
-Scrollbar* RLComboDropList::createHorzScrollbar(void) const
+Scrollbar* RLComboDropList::createHorzScrollbar(const String& name) const
 {
-	Scrollbar* sbar = (Scrollbar*)WindowManager::getSingleton().createWindow(HorzScrollbarTypeName, getName() + "__auto_hscrollbar__");
+	Scrollbar* sbar = (Scrollbar*)WindowManager::getSingleton().createWindow(HorzScrollbarTypeName, name);
 
 	// set min/max sizes
 	sbar->setMinimumSize(Size(0.0f, 0.016667f));
@@ -167,8 +167,10 @@ Scrollbar* RLComboDropList::createHorzScrollbar(void) const
 	Setup size and position for the component widgets attached to this
 	widget
 *************************************************************************/
-void RLComboDropList::layoutComponentWidgets()
+void RLComboDropList::performChildWindowLayout()
 {
+    ComboDropList::performChildWindowLayout();
+
 	// set desired size for vertical scroll-bar
 	Size v_sz(0.05f, 1.0f);
 	d_vertScrollbar->setSize(v_sz);
@@ -180,9 +182,9 @@ void RLComboDropList::layoutComponentWidgets()
 	// set desired size for horizontal scroll-bar
 	Size h_sz(1.0f, 0.0f);
 
-	if (d_abs_area.getHeight() != 0.0f)
+	if (getAbsoluteHeight() != 0.0f)
 	{
-		h_sz.d_height = (d_abs_area.getWidth() * v_sz.d_width) / d_abs_area.getHeight();
+		h_sz.d_height = (getAbsoluteWidth() * v_sz.d_width) / getAbsoluteHeight();
 	}
 
 	// adjust length to consider width of vertical scroll bar if that is visible
@@ -208,23 +210,11 @@ void RLComboDropList::layoutComponentWidgets()
 /*************************************************************************
 	Perform rendering of the widget control frame and other 'static' areas.
 *************************************************************************/
-void RLComboDropList::renderListboxBaseImagery(float z)
+void RLComboDropList::cacheListboxBaseImagery()
 {
-	Rect clipper(getPixelRect());
-
-	// do nothing if the widget is totally clipped.
-	if (clipper.getWidth() == 0)
-	{
-		return;
-	}
-
-	// get the destination screen rect for this window
-	Rect absrect(getUnclippedPixelRect());
-
 	// draw the box elements
-	Vector3 pos(absrect.d_left, absrect.d_top, z);
-	d_background.draw(pos, clipper);
-	d_frame.draw(pos, clipper);
+	d_background.draw(d_renderCache);
+	d_frame.draw(d_renderCache);
 }
 
 
@@ -295,10 +285,7 @@ void RLComboDropList::onAlphaChanged(WindowEventArgs& e)
 *************************************************************************/
 Window* RLComboDropListFactory::createWindow(const String& name)
 {
-	RLComboDropList* wnd = new RLComboDropList(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+	return new RLComboDropList(d_type, name);
 }
 
 

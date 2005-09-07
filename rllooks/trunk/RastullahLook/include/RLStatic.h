@@ -3,7 +3,7 @@
 	created:	5/6/2004
 	author:		Paul D Turner
 	
-	purpose:	Interface to Rastullah look static widgets & factories
+	purpose:	Interface to Taharez look static widgets & factories
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -58,7 +58,7 @@ public:
 	*************************************************************************/
 	/*!
 	\brief
-		Constructor for Rastullah Look StaticText objects.
+		Constructor for Taharez Look StaticText objects.
 
 	\param type
 		String object that specifies a type for this window, usually provided by a factory class.
@@ -100,7 +100,7 @@ protected:
 	\return
 		Pointer to a Scrollbar to be used for scrolling vertically.
 	*/
-	virtual Scrollbar*	createVertScrollbar(void) const;
+	virtual Scrollbar*	createVertScrollbar(const String& name) const;
  
 
 	/*!
@@ -110,7 +110,14 @@ protected:
 	\return
 		Pointer to a Scrollbar to be used for scrolling horizontally.
 	*/
-	virtual Scrollbar*	createHorzScrollbar(void) const;
+	virtual Scrollbar*	createHorzScrollbar(const String& name) const;
+
+
+	/*!
+	\brief
+		layout component widgets
+	*/
+	virtual void	performChildWindowLayout();
 };
 
 
@@ -133,7 +140,7 @@ public:
 	*************************************************************************/
 	/*!
 	\brief
-		Constructor for Rastullah Look StaticImage objects.
+		Constructor for Taharez Look StaticImage objects.
 
 	\param type
 		String object that specifies a type for this window, usually provided by a factory class.
@@ -168,7 +175,7 @@ public:
 
 /*!
 \brief
-	Factory class for producing StaticText objects for the Rastullah GUI Scheme
+	Factory class for producing StaticText objects for the Taharez GUI Scheme
 */
 class RASTULLAHLOOK_API RLStaticTextFactory : public WindowFactory
 {
@@ -209,7 +216,7 @@ public:
 
 /*!
 \brief
-	Factory class for producing StaticImage objects for the Rastullah GUI Scheme
+	Factory class for producing StaticImage objects for the Taharez GUI Scheme
 */
 class RASTULLAHLOOK_API RLStaticImageFactory : public WindowFactory
 {

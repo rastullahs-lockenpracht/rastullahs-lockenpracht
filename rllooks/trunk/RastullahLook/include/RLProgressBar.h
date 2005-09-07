@@ -3,7 +3,7 @@
 	created:	23/5/2004
 	author:		Paul D Turner
 	
-	purpose:	Interface to the Rastullah Progress Bar
+	purpose:	Interface to the Taharez Progress Bar
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -36,7 +36,7 @@ namespace CEGUI
 {
 /*!
 \brief
-	Standard progress bar for the Rastullah Gui Scheme.
+	Standard progress bar for the Taharez Gui Scheme.
 */
 class RASTULLAHLOOK_API RLProgressBar : public ProgressBar
 {
@@ -65,14 +65,14 @@ public:
 	*************************************************************************/
 	/*!
 	\brief
-		Constructor for Rastullah progress bar objects
+		Constructor for Taharez progress bar objects
 	*/
 	RLProgressBar(const String& type, const String& name);
 
 
 	/*!
 	\brief
-		Destructor for Rastullah progress bar objects
+		Destructor for Taharez progress bar objects
 	*/
 	virtual ~RLProgressBar(void);
 

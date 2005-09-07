@@ -3,7 +3,7 @@
 	created:	7/6/2004
 	author:		Paul D Turner
 	
-	purpose:	Interface to Rastullah Listbox widget
+	purpose:	Interface to Taharez Listbox widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -38,7 +38,7 @@ namespace CEGUI
 {
 /*!
 \brief
-	Listbox widget for the Rastullah Gui scheme.
+	Listbox widget for the Taharez Gui scheme.
 */
 class RASTULLAHLOOK_API RLListbox : public Listbox
 {
@@ -73,14 +73,14 @@ public:
 	*************************************************************************/
 	/*!
 	\brief
-		Constructor for Rastullah Look Listbox widgets
+		Constructor for Taharez Look Listbox widgets
 	*/
 	RLListbox(const String& type, const String& name);
 
 
 	/*!
 	\brief
-		Destructor for Rastullah Look Listbox widgets.
+		Destructor for Taharez Look Listbox widgets.
 	*/
 	virtual ~RLListbox(void);
 
@@ -108,7 +108,7 @@ protected:
 	\return
 		Pointer to a Scrollbar to be used for scrolling the list vertically.
 	*/
-	virtual Scrollbar*	createVertScrollbar(void) const;
+	virtual Scrollbar*	createVertScrollbar(const String& name) const;
  
 
 	/*!
@@ -118,7 +118,7 @@ protected:
 	\return
 		Pointer to a Scrollbar to be used for scrolling the list horizontally.
 	*/
-	virtual Scrollbar*	createHorzScrollbar(void) const;
+	virtual Scrollbar*	createHorzScrollbar(const String& name) const;
 
 
 	/*!
@@ -128,7 +128,7 @@ protected:
 	\return
 		Nothing.
 	*/
-	virtual void	layoutComponentWidgets();
+	virtual void	performChildWindowLayout();
 
 
 	/*!
@@ -138,13 +138,10 @@ protected:
 		rendered to layer 3, other layers can be used for rendering imagery behind and
 		infront of the items.
 
-	\param z
-		Z co-ordinate for layer 0.
-
 	\return
 		Nothing.
 	*/
-	virtual	void	renderListboxBaseImagery(float z);
+	virtual	void	cacheListboxBaseImagery();
 
 
 	/*!

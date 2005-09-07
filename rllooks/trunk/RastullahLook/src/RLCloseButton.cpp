@@ -4,7 +4,7 @@
 	author:		Paul D Turner
 	
 	purpose:	Implementation of 'close button' widget.  This is needed
-				due to the fact that Rastullah frame windows standard
+				due to the fact that Taharez frame windows standard
 				controls have custom clipping requirements.
 *************************************************************************/
 /*************************************************************************
@@ -68,10 +68,7 @@ Rect RLCloseButton::getPixelRect(void) const
 *************************************************************************/
 Window* RLCloseButtonFactory::createWindow(const String& name)
 {
-	RLCloseButton* wnd = new RLCloseButton(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+	return new RLCloseButton(d_type, name);
 }
 
 } // End of  CEGUI namespace section

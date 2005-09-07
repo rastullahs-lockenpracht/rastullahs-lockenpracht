@@ -3,7 +3,7 @@
 	created:	7/6/2004
 	author:		Paul D Turner
 	
-	purpose:	Implementation of Rastullah Listbox widget
+	purpose:	Implementation of Taharez Listbox widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -60,7 +60,7 @@ const utf8*	RLListbox::VertScrollbarTypeName		= RLMiniVertScrollbar::WidgetTypeN
 
 
 /*************************************************************************
-	Constructor for Rastullah Look Listbox widgets	
+	Constructor for Taharez Look Listbox widgets	
 *************************************************************************/
 RLListbox::RLListbox(const String& type, const String& name) :
 	Listbox(type, name)
@@ -89,7 +89,7 @@ RLListbox::RLListbox(const String& type, const String& name) :
 
 
 /*************************************************************************
-	Destructor for Rastullah Look Listbox widgets.	
+	Destructor for Taharez Look Listbox widgets.	
 *************************************************************************/
 RLListbox::~RLListbox(void)
 {
@@ -134,9 +134,9 @@ Rect RLListbox::getListRenderArea(void) const
 	create and return a pointer to a Scrollbar widget for use as vertical
 	scroll bar
 *************************************************************************/
-Scrollbar* RLListbox::createVertScrollbar(void) const
+Scrollbar* RLListbox::createVertScrollbar(const String& name) const
 {
-	Scrollbar* sbar = (Scrollbar*)WindowManager::getSingleton().createWindow(VertScrollbarTypeName, getName() + "__auto_vscrollbar__");
+	Scrollbar* sbar = (Scrollbar*)WindowManager::getSingleton().createWindow(VertScrollbarTypeName, name);
 
 	// set min/max sizes
 	sbar->setMinimumSize(Size(0.0125f, 0.0f));
@@ -150,9 +150,9 @@ Scrollbar* RLListbox::createVertScrollbar(void) const
 	create and return a pointer to a Scrollbar widget for use as
 	horizontal scroll bar
 *************************************************************************/
-Scrollbar* RLListbox::createHorzScrollbar(void) const
+Scrollbar* RLListbox::createHorzScrollbar(const String& name) const
 {
-	Scrollbar* sbar = (Scrollbar*)WindowManager::getSingleton().createWindow(HorzScrollbarTypeName, getName() + "__auto_hscrollbar__");
+	Scrollbar* sbar = (Scrollbar*)WindowManager::getSingleton().createWindow(HorzScrollbarTypeName, name);
 
 	// set min/max sizes
 	sbar->setMinimumSize(Size(0.0f, 0.016667f));
@@ -166,8 +166,10 @@ Scrollbar* RLListbox::createHorzScrollbar(void) const
 	Setup size and position for the component widgets attached to this
 	Listbox	
 *************************************************************************/
-void RLListbox::layoutComponentWidgets()
+void RLListbox::performChildWindowLayout()
 {
+    Listbox::performChildWindowLayout();
+
 	// set desired size for vertical scroll-bar
 	Size v_sz(0.05f, 1.0f);
 	d_vertScrollbar->setSize(v_sz);
@@ -179,9 +181,9 @@ void RLListbox::layoutComponentWidgets()
 	// set desired size for horizontal scroll-bar
 	Size h_sz(1.0f, 0.0f);
 
-	if (d_abs_area.getHeight() != 0.0f)
+	if (getAbsoluteHeight() != 0.0f)
 	{
-		h_sz.d_height = (d_abs_area.getWidth() * v_sz.d_width) / d_abs_area.getHeight();
+		h_sz.d_height = (getAbsoluteWidth() * v_sz.d_width) / getAbsoluteHeight();
 	}
 
 	// adjust length to consider width of vertical scroll bar if that is visible
@@ -207,23 +209,11 @@ void RLListbox::layoutComponentWidgets()
 /*************************************************************************
 	Perform the rendering for everything except the items
 *************************************************************************/
-void RLListbox::renderListboxBaseImagery(float z)
+void RLListbox::cacheListboxBaseImagery()
 {
-	Rect clipper(getPixelRect());
-
-	// do nothing if the widget is totally clipped.
-	if (clipper.getWidth() == 0)
-	{
-		return;
-	}
-
-	// get the destination screen rect for this window
-	Rect absrect(getUnclippedPixelRect());
-
 	// draw the box elements
-	Vector3 pos(absrect.d_left, absrect.d_top, z);
-	d_background.draw(pos, clipper);
-	d_frame.draw(pos, clipper);
+	d_background.draw(d_renderCache);
+	d_frame.draw(d_renderCache);
 }
 
 
@@ -294,10 +284,7 @@ void RLListbox::onAlphaChanged(WindowEventArgs& e)
 *************************************************************************/
 Window* RLListboxFactory::createWindow(const String& name)
 {
-	RLListbox* wnd = new RLListbox(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+	return new RLListbox(d_type, name);
 }
 
 } // End of  CEGUI namespace section

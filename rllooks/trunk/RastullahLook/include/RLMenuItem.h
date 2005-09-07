@@ -1,5 +1,5 @@
 /************************************************************************
-    filename:   WLMenuItem.h
+    filename:   RLMenuItem.h
     created:    2/4/2005
     author:     Tomas Lindquist Olsen (based on code by Paul D Turner)
 *************************************************************************/
@@ -36,7 +36,7 @@ namespace CEGUI
 
 /*!
 \brief
-    MenubarItem class for the WindowsLook Gui Scheme
+    MenubarItem class for the RastullahLook Gui Scheme
 */
 
 class RASTULLAHLOOK_API RLMenubarItem : public MenuItem
@@ -120,7 +120,7 @@ protected:
 
 /*!
 \brief
-    Factory class for producing RLMenubarItem objects for the WindowsLook GUI Scheme
+    Factory class for producing RLMenubarItem objects for the RastullahLook GUI Scheme
 */
 class RASTULLAHLOOK_API RLMenubarItemFactory : public WindowFactory
 {
@@ -150,7 +150,7 @@ public:
 
 /*!
 \brief
-    PopupMenuItem class for the WindowsLook Gui Scheme
+    PopupMenuItem class for the RastullahLook Gui Scheme
 */
 
 class RASTULLAHLOOK_API RLPopupMenuItem : public MenuItem
@@ -252,7 +252,7 @@ protected:
 
 /*!
 \brief
-    Factory class for producing RLPopupMenuItem objects for the WindowsLook GUI Scheme
+    Factory class for producing RLPopupMenuItem objects for the RastullahLook GUI Scheme
 */
 class RASTULLAHLOOK_API RLPopupMenuItemFactory : public WindowFactory
 {
@@ -274,4 +274,4 @@ public:
 } // End of  CEGUI namespace section
 
 
-#endif  // end of guard _WLMenuItem_h_
+#endif  // end of guard _RLMenuItem_h_

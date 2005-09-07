@@ -3,7 +3,7 @@
 	created:	22/5/2004
 	author:		Paul D Turner
 	
-	purpose:	Implementation of thumb used with Rastullah Slider widget
+	purpose:	Implementation of thumb used with Taharez Slider widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -127,10 +127,7 @@ void RLSliderThumb::drawDisabled(float z)
 *************************************************************************/
 Window* RLSliderThumbFactory::createWindow(const String& name)
 {
-	RLSliderThumb* wnd = new RLSliderThumb(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+	return new RLSliderThumb(d_type, name);
 }
 
 } // End of  CEGUI namespace section

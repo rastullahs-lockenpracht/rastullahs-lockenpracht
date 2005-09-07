@@ -3,7 +3,7 @@
 	created:	12/6/2004
 	author:		Paul D Turner
 	
-	purpose:	Implementation of Rastullah look Combo box class
+	purpose:	Implementation of Taharez look Combo box class
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -56,7 +56,7 @@ const utf8*	RLCombobox::ButtonTypeName		= RLButton::WidgetTypeName;
 
 
 /*************************************************************************
-	Constructor for Rastullah Combobox
+	Constructor for Taharez Combobox
 *************************************************************************/
 RLCombobox::RLCombobox(const String& type, const String& name) :
 	Combobox(type, name)
@@ -65,7 +65,7 @@ RLCombobox::RLCombobox(const String& type, const String& name) :
 
 
 /*************************************************************************
-	Destructor for Rastullah Combobox
+	Destructor for Taharez Combobox
 *************************************************************************/
 RLCombobox::~RLCombobox(void)
 {
@@ -86,8 +86,10 @@ void RLCombobox::drawSelf(float z)
 	Setup size and position for the component widgets attached to this
 	Combobox.	
 *************************************************************************/
-void RLCombobox::layoutComponentWidgets()
+void RLCombobox::performChildWindowLayout()
 {
+    Combobox::performChildWindowLayout();
+
 	Point	pos;
 	Size	sz;
 
@@ -123,9 +125,9 @@ void RLCombobox::layoutComponentWidgets()
 	Create, initialise, and return a pointer to an Editbox widget to be
 	used as part of this Combobox.
 *************************************************************************/
-Editbox* RLCombobox::createEditbox(void) const
+Editbox* RLCombobox::createEditbox(const String& name) const
 {
-	Editbox* eb = (Editbox*)WindowManager::getSingleton().createWindow(EditboxTypeName, getName() + "__auto_editbox__");
+	Editbox* eb = (Editbox*)WindowManager::getSingleton().createWindow(EditboxTypeName, name);
 	eb->setMetricsMode(Absolute);
 
 	return eb;
@@ -136,9 +138,9 @@ Editbox* RLCombobox::createEditbox(void) const
 	Create, initialise, and return a pointer to a PushButton widget to
 	be used as part of this Combobox.
 *************************************************************************/
-PushButton* RLCombobox::createPushButton(void) const
+PushButton* RLCombobox::createPushButton(const String& name) const
 {
-	RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(ButtonTypeName, getName() + "__auto_button__");
+	RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(ButtonTypeName, name);
 	btn->setMetricsMode(Absolute);
 
 	// Set up imagery
@@ -165,9 +167,9 @@ PushButton* RLCombobox::createPushButton(void) const
 	Create, initialise, and return a pointer to a ComboDropList widget
 	to be used as part of this Combobox.
 *************************************************************************/
-ComboDropList* RLCombobox::createDropList(void) const
+ComboDropList* RLCombobox::createDropList(const String& name) const
 {
-	return (ComboDropList*)WindowManager::getSingleton().createWindow(DropListTypeName, getName() + "__auto_droplist__");
+	return (ComboDropList*)WindowManager::getSingleton().createWindow(DropListTypeName, name);
 }
 
 
@@ -183,10 +185,7 @@ ComboDropList* RLCombobox::createDropList(void) const
 *************************************************************************/
 Window* RLComboboxFactory::createWindow(const String& name)
 {
-	RLCombobox* wnd = new RLCombobox(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+	return new RLCombobox(d_type, name);
 }
 
 } // End of  CEGUI namespace section

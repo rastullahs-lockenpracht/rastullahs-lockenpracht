@@ -34,7 +34,7 @@ namespace CEGUI
 {
 /*!
 \brief
-	Vertical "VU Meter" style progress bar for the Rastullah Gui Scheme.
+	Vertical "VU Meter" style progress bar for the Taharez Gui Scheme.
 */
 class RASTULLAHLOOK_API RLVUMeter : public ProgressBar
 {
@@ -69,14 +69,14 @@ public:
 	*************************************************************************/
 	/*!
 	\brief
-		Constructor for Rastullah RLVUMeter objects
+		Constructor for Taharez RLVUMeter objects
 	*/
 	RLVUMeter(const String& type, const String& name);
 
 
 	/*!
 	\brief
-		Destructor for Rastullah RLVUMeter objects
+		Destructor for Taharez RLVUMeter objects
 	*/
 	virtual ~RLVUMeter(void);
 

@@ -4,7 +4,7 @@
 	author:		Paul D Turner
 	
 	purpose:	Interface to 'close button' widget.  This is needed due
-				to the fact that Rastullah frame windows standard controls
+				to the fact that Taharez frame windows standard controls
 				have custom clipping requirements.
 *************************************************************************/
 /*************************************************************************
@@ -36,7 +36,7 @@ namespace CEGUI
 {
 /*!
 \brief
-	Customised push-button used for the close button control on Rastullah
+	Customised push-button used for the close button control on Taharez
 	frame windows.  This is required due to the custom clipping required
 	for these windows
 */
@@ -55,7 +55,7 @@ public:
 	*************************************************************************/
 	/*!
 	\brief
-		Constructor for Rastullah Look Close Button objects.
+		Constructor for Taharez Look Close Button objects.
 
 	\param type
 		String object that specifies a type for this window, usually provided by a factory class.

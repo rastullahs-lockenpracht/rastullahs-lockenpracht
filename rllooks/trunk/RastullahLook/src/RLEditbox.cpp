@@ -3,7 +3,7 @@
 	created:	29/5/2004
 	author:		Paul D Turner
 	
-	purpose:	Implementation of Rastullah Look Editbox widget
+	purpose:	Implementation of Taharez Look Editbox widget
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -56,7 +56,7 @@ const uint	RLEditbox::CaratLayer		= 3;
 
 
 /*************************************************************************
-	Constructor for Rastullah edit box widgets	
+	Constructor for Taharez edit box widgets	
 *************************************************************************/
 RLEditbox::RLEditbox(const String& type, const String& name) :
 	Editbox(type, name),
@@ -72,13 +72,11 @@ RLEditbox::RLEditbox(const String& type, const String& name) :
 	d_selection	= &iset->getImage(SelectionBrushImageName);
 
 	setMouseCursor(&iset->getImage(MouseCursorImageName));
-
-    setNormalTextColour( colour( 0.0,0.0,0.0) );
 }
 
 
 /*************************************************************************
-	Destructor for Rastullah edit box widgets	
+	Destructor for Taharez edit box widgets	
 *************************************************************************/
 RLEditbox::~RLEditbox(void)
 {
@@ -234,8 +232,9 @@ void RLEditbox::drawSelf(float z)
 	//
 	if ((!isReadOnly()) && hasFocus)
 	{
-		Vector3 pos(absrect.d_left + textOffset + extentToCarat, absrect.d_top, renderer->getZLayer(CaratLayer));
-		Size	sz(d_carat->getWidth(), absrect.getHeight());
+		pos = Vector3(absrect.d_left + textOffset + extentToCarat, absrect.d_top, renderer->getZLayer(CaratLayer));
+		sz.d_width = d_carat->getWidth();
+		sz.d_height = absrect.getHeight();
 		d_carat->draw(pos, sz, clipper, colours);
 	}
 
@@ -310,10 +309,7 @@ void RLEditbox::drawSelf(float z)
 *************************************************************************/
 Window* RLEditboxFactory::createWindow(const String& name)
 {
-	RLEditbox* wnd = new RLEditbox(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+	return new RLEditbox(d_type, name);
 }
 
 } // End of  CEGUI namespace section

@@ -3,7 +3,7 @@
 	created:	2/6/2004
 	author:		Paul D Turner
 	
-	purpose:	Implementation of Rastullah Vertical Scrollbar widget
+	purpose:	Implementation of Taharez Vertical Scrollbar widget
 				(Large version of scrollbar)
 *************************************************************************/
 /*************************************************************************
@@ -67,7 +67,7 @@ const utf8*	RLVertScrollbar::DecreaseButtonWidgetType	= RLButton::WidgetTypeName
 
 
 /*************************************************************************
-	Constructor for Rastullah vertical scroll bar widgets
+	Constructor for Taharez vertical scroll bar widgets
 *************************************************************************/
 RLVertScrollbar::RLVertScrollbar(const String& type, const String& name) :
 	Scrollbar(type, name)
@@ -84,7 +84,7 @@ RLVertScrollbar::RLVertScrollbar(const String& type, const String& name) :
 
 
 /*************************************************************************
-	Destructor for Rastullah vertical scroll bar widgets
+	Destructor for Taharez vertical scroll bar widgets
 *************************************************************************/
 RLVertScrollbar::~RLVertScrollbar(void)
 {
@@ -95,10 +95,10 @@ RLVertScrollbar::~RLVertScrollbar(void)
 	create a PushButton based widget to use as the increase button for
 	this scroll bar.
 *************************************************************************/
-PushButton* RLVertScrollbar::createIncreaseButton(void) const
+PushButton* RLVertScrollbar::createIncreaseButton(const String& name) const
 {
 	// create the widget
-	RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(IncreaseButtonWidgetType, getName() + "__auto_incbtn__");
+	RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(IncreaseButtonWidgetType, name);
 
 	// perform some initialisation
 	btn->setStandardImageryEnabled(false);
@@ -124,10 +124,10 @@ PushButton* RLVertScrollbar::createIncreaseButton(void) const
 	create a PushButton based widget to use as the decrease button for
 	this scroll bar.
 *************************************************************************/
-PushButton* RLVertScrollbar::createDecreaseButton(void) const
+PushButton* RLVertScrollbar::createDecreaseButton(const String& name) const
 {
 	// create the widget
-	RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(DecreaseButtonWidgetType, getName() + "__auto_decbtn__");
+	RLButton* btn = (RLButton*)WindowManager::getSingleton().createWindow(DecreaseButtonWidgetType, name);
 
 	// perform some initialisation
 	btn->setStandardImageryEnabled(false);
@@ -152,10 +152,10 @@ PushButton* RLVertScrollbar::createDecreaseButton(void) const
 /*************************************************************************
 	create a Thumb based widget to use as the thumb for this scroll bar.
 *************************************************************************/
-Thumb* RLVertScrollbar::createThumb(void) const
+Thumb* RLVertScrollbar::createThumb(const String& name) const
 {
 	// create the widget
-	RLVertScrollbarThumb* thumb = (RLVertScrollbarThumb*)WindowManager::getSingleton().createWindow(ThumbWidgetType, getName() + "__auto_thumb__");
+	RLVertScrollbarThumb* thumb = (RLVertScrollbarThumb*)WindowManager::getSingleton().createWindow(ThumbWidgetType, name);
 
 	// perform some initialisation
 	thumb->setVertFree(true);
@@ -169,11 +169,15 @@ Thumb* RLVertScrollbar::createThumb(void) const
 /*************************************************************************
 	layout the scroll bar component widgets
 *************************************************************************/
-void RLVertScrollbar::layoutComponentWidgets(void)
+void RLVertScrollbar::performChildWindowLayout()
 {
-	// calculate button sizes
+    Scrollbar::performChildWindowLayout();
+
+    d_thumb->setXPosition(ThumbPositionX);
+	
+    // calculate button sizes
 	Size bsz;
-	bsz.d_width = d_abs_area.getWidth() * ButtonWidth;
+	bsz.d_width = getAbsoluteWidth() * ButtonWidth;
 
 	float ratio = bsz.d_width / d_upNormal->getWidth();
 
@@ -186,7 +190,7 @@ void RLVertScrollbar::layoutComponentWidgets(void)
 	// position buttons
 	float ySpacing = d_containerTop->getHeight() * ButtonOffsetYRatio;
 	d_decrease->setPosition(Point(ButtonPositionX, absoluteToRelativeY(ySpacing)));
-	d_increase->setPosition(Point(ButtonPositionX, absoluteToRelativeY(d_abs_area.getHeight() - bsz.d_height - ySpacing)));
+	d_increase->setPosition(Point(ButtonPositionX, absoluteToRelativeY(getAbsoluteHeight() - bsz.d_height - ySpacing)));
 
 	// this will configure thumb widget appropriately
 	updateThumb();
@@ -204,7 +208,7 @@ void RLVertScrollbar::updateThumb(void)
 
 	// calculate maximum extents for thumb positioning.
 	float posExtent		= d_documentSize - d_pageSize;
-	float slideExtent	= ceguimax(0.0f, d_abs_area.getHeight() - (2 * slideTrackYPadding) - d_thumb->getAbsoluteHeight());
+	float slideExtent	= ceguimax(0.0f, getAbsoluteHeight() - (2 * slideTrackYPadding) - d_thumb->getAbsoluteHeight());
 
 	// Thumb does not change size with document length, we just need to update position and range
 	d_thumb->setVertRange(absoluteToRelativeY(slideTrackYPadding), absoluteToRelativeY(slideTrackYPadding + slideExtent));
@@ -223,7 +227,7 @@ float RLVertScrollbar::getValueFromThumb(void) const
 
 	// calculate maximum extents for thumb positioning.
 	float posExtent		= d_documentSize - d_pageSize;
-	float slideExtent	= d_abs_area.getHeight() - (2 * slideTrackYPadding) - d_thumb->getAbsoluteHeight();
+	float slideExtent	= getAbsoluteHeight() - (2 * slideTrackYPadding) - d_thumb->getAbsoluteHeight();
 
 	return	(d_thumb->getAbsoluteYPosition() - slideTrackYPadding) / (slideExtent / posExtent);
 }
@@ -329,10 +333,7 @@ void RLVertScrollbar::drawSelf(float z)
 *************************************************************************/
 Window* RLVertScrollbarFactory::createWindow(const String& name)
 {
-	RLVertScrollbar* wnd = new RLVertScrollbar(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+    return new RLVertScrollbar(d_type, name);
 }
 
 } // End of  CEGUI namespace section

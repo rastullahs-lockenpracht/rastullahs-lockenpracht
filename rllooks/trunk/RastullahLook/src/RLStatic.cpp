@@ -3,7 +3,7 @@
 	created:	5/6/2004
 	author:		Paul D Turner
 	
-	purpose:	Implementation of Rastullah Look static widgets & factories.
+	purpose:	Implementation of Taharez Look static widgets & factories.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -50,7 +50,7 @@ const utf8*	RLStaticText::VertScrollbarTypeName	= RLMiniVertScrollbar::WidgetTyp
 /*************************************************************************
 	Routine to do some common initialisation of static widgets
 *************************************************************************/
-void initRastullahStatic(Static* s)
+void initTaharezStatic(Static* s)
 {
 	Imageset* iset = ImagesetManager::getSingleton().getImageset((utf8*)"RastullahLook");
 	
@@ -84,9 +84,9 @@ void initRastullahStatic(Static* s)
 	create and return a pointer to a Scrollbar widget for use as
 	vertical scroll bar	
 *************************************************************************/
-Scrollbar* RLStaticText::createVertScrollbar(void) const
+Scrollbar* RLStaticText::createVertScrollbar(const String& name) const
 {
-	Scrollbar* sbar = (Scrollbar*)WindowManager::getSingleton().createWindow(VertScrollbarTypeName, getName() + "__auto_vscrollbar__");
+	Scrollbar* sbar = (Scrollbar*)WindowManager::getSingleton().createWindow(VertScrollbarTypeName, name);
 
 	// set min/max sizes
 	sbar->setMinimumSize(Size(0.0125f, 0.0f));
@@ -100,9 +100,9 @@ Scrollbar* RLStaticText::createVertScrollbar(void) const
 	create and return a pointer to a Scrollbar widget for use as
 	horizontal scroll bar	
 *************************************************************************/
-Scrollbar* RLStaticText::createHorzScrollbar(void) const
+Scrollbar* RLStaticText::createHorzScrollbar(const String& name) const
 {
-	Scrollbar* sbar = (Scrollbar*)WindowManager::getSingleton().createWindow(HorzScrollbarTypeName, getName() + "__auto_hscrollbar__");
+	Scrollbar* sbar = (Scrollbar*)WindowManager::getSingleton().createWindow(HorzScrollbarTypeName, name);
 
 	// set min/max sizes
 	sbar->setMinimumSize(Size(0.0f, 0.016667f));
@@ -118,7 +118,52 @@ Scrollbar* RLStaticText::createHorzScrollbar(void) const
 void RLStaticText::initialise(void)
 {
 	StaticText::initialise();
-	initRastullahStatic(this);
+	initTaharezStatic(this);
+}
+
+
+/*************************************************************************
+	Setup size and position for the component widgets attached to this
+	RLStaticText
+*************************************************************************/
+void RLStaticText::performChildWindowLayout()
+{
+    // base class layout
+    Static::performChildWindowLayout();
+
+	// set desired size for vertical scroll-bar
+	Size v_sz(0.05f, 1.0f);
+	d_vertScrollbar->setSize(v_sz);
+
+	// get the actual size used for vertical scroll bar.
+	v_sz = absoluteToRelative(d_vertScrollbar->getAbsoluteSize());
+
+
+	// set desired size for horizontal scroll-bar
+	Size h_sz(1.0f, 0.0f);
+
+	if (getAbsoluteHeight() != 0.0f)
+	{
+		h_sz.d_height = (getAbsoluteWidth() * v_sz.d_width) / getAbsoluteHeight();
+	}
+
+	// adjust length to consider width of vertical scroll bar if that is visible
+	if (d_vertScrollbar->isVisible())
+	{
+		h_sz.d_width -= v_sz.d_width;
+	}
+
+	d_horzScrollbar->setSize(h_sz);
+
+	// get actual size used
+	h_sz = absoluteToRelative(d_horzScrollbar->getAbsoluteSize());
+
+
+	// position vertical scroll bar
+	d_vertScrollbar->setPosition(Point(1.0f - v_sz.d_width, 0.0f));
+
+	// position horizontal scroll bar
+	d_horzScrollbar->setPosition(Point(0.0f, 1.0f - h_sz.d_height));
 }
 
 
@@ -136,7 +181,7 @@ void RLStaticText::initialise(void)
 void RLStaticImage::initialise(void)
 {
 	StaticImage::initialise();
-	initRastullahStatic(this);
+	initTaharezStatic(this);
 }
 
 
@@ -148,26 +193,20 @@ void RLStaticImage::initialise(void)
 *************************************************************************/
 //////////////////////////////////////////////////////////////////////////
 /*************************************************************************
-	Create, initialise and return a StaticText for the Rastullah Scheme
+	Create, initialise and return a StaticText for the Taharez Scheme
 *************************************************************************/
 Window* RLStaticTextFactory::createWindow(const String& name)
 {
-	RLStaticText* wnd = new RLStaticText(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+	return new RLStaticText(d_type, name);
 }
 
 
 /*************************************************************************
-	Create, initialise and return a StaticImage for the Rastullah Scheme
+	Create, initialise and return a StaticImage for the Taharez Scheme
 *************************************************************************/
 Window* RLStaticImageFactory::createWindow(const String& name)
 {
-	RLStaticImage* wnd = new RLStaticImage(d_type, name);
-	wnd->initialise();
-
-	return wnd;
+	return new RLStaticImage(d_type, name);
 }
 
 } // End of  CEGUI namespace section

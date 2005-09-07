@@ -3,7 +3,7 @@
 	created:	13/6/2004
 	author:		Paul D Turner
 	
-	purpose:	Interface to Rastullah look Combobox Drop-list
+	purpose:	Interface to Taharez look Combobox Drop-list
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -38,7 +38,7 @@ namespace CEGUI
 {
 /*!
 \brief
-	Combobox Drop-down list class for the Rastullah Gui Scheme.
+	Combobox Drop-down list class for the Taharez Gui Scheme.
 */
 class RASTULLAHLOOK_API RLComboDropList : public ComboDropList
 {
@@ -73,14 +73,14 @@ public:
 	*************************************************************************/
 	/*!
 	\brief
-		Constructor for Rastullah look Combobox drop-down list.
+		Constructor for Taharez look Combobox drop-down list.
 	*/
 	RLComboDropList(const String& type, const String& name);
 
 
 	/*!
 	\brief
-		Destructor for Rastullah look Combobox drop-down list.
+		Destructor for Taharez look Combobox drop-down list.
 	*/
 	virtual ~RLComboDropList(void);
 
@@ -110,7 +110,7 @@ protected:
 	\return
 		Pointer to a Scrollbar to be used for scrolling the list vertically.
 	*/
-	virtual Scrollbar*	createVertScrollbar(void) const;
+	virtual Scrollbar*	createVertScrollbar(const String& name) const;
  
 
 	/*!
@@ -120,7 +120,7 @@ protected:
 	\return
 		Pointer to a Scrollbar to be used for scrolling the list horizontally.
 	*/
-	virtual Scrollbar*	createHorzScrollbar(void) const;
+	virtual Scrollbar*	createHorzScrollbar(const String& name) const;
 
 
 	/*!
@@ -130,7 +130,7 @@ protected:
 	\return
 		Nothing.
 	*/
-	virtual void	layoutComponentWidgets();
+	virtual void	performChildWindowLayout();
 
 
 	/*!
@@ -140,13 +140,10 @@ protected:
 		rendered to layer 3, other layers can be used for rendering imagery behind and
 		infront of the items.
 
-	\param z
-		Z co-ordinate for layer 0.
-
 	\return
 		Nothing.
 	*/
-	virtual	void	renderListboxBaseImagery(float z);
+	virtual	void	cacheListboxBaseImagery();
 
 
 	/*!

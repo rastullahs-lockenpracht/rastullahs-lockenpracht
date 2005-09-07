@@ -36,7 +36,7 @@ namespace CEGUI
 {
 /*!
 \brief
-	Thumb class as used in the Rastullah vertical scroll bar.
+	Thumb class as used in the Taharez vertical scroll bar.
 */
 class RASTULLAHLOOK_API RLVertScrollbarThumb : public Thumb
 {

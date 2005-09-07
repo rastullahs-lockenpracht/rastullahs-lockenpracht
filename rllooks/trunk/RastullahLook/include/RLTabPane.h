@@ -3,7 +3,7 @@
 	created:	11/08/2004
 	author:		Steve Streeting
 	
-	purpose:	Defines interface for Rastullah Look Tab Pane class.
+	purpose:	Defines interface for Taharez Look Tab Pane class.
 *************************************************************************/
 /*************************************************************************
     Crazy Eddie's GUI System (http://www.cegui.org.uk)
@@ -37,7 +37,7 @@ namespace CEGUI
 
 /*!
 \brief
-	Concrete TabPane class for the Rastullah Look widget set.	
+	Concrete TabPane class for the Taharez Look widget set.	
 */
 class RASTULLAHLOOK_API RLTabPane : public TabPane
 {
@@ -61,7 +61,7 @@ public:
 	*************************************************************************/
 	/*!
 	\brief
-		Constructor for Rastullah Look TabPane objects.
+		Constructor for Taharez Look TabPane objects.
 
 	\param type
 		String object that specifies a type for this window, usually provided by a factory class.
@@ -125,14 +125,14 @@ public:
 	*************************************************************************/
 	/*!
 	\brief
-		Constructor for Rastullah Tab Button factory class.
+		Constructor for Taharez Tab Button factory class.
 	*/
 	RLTabPaneFactory(void) : WindowFactory(RLTabPane::WidgetTypeName) { }
 
 
 	/*
 	\brief
-		Destructor for Rastullah Tab Button factory class.
+		Destructor for Taharez Tab Button factory class.
 	*/
 	~RLTabPaneFactory(void){}
 

@@ -45,5 +45,6 @@
 	Prototypes
 *************************************************************************/
 extern "C" RASTULLAHLOOK_API void registerFactory(const CEGUI::String& type_name);
+extern "C" RASTULLAHLOOK_API CEGUI::uint registerAllFactories(void);
 
 #endif	// end of guard _RLModule_h_
