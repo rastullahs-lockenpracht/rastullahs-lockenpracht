@@ -40,6 +40,18 @@ void ListboxImageItem::draw(const Vector3& position, float alpha, const Rect& cl
 	d_image->draw(position, clipper);
 }
 
+void ListboxImageItem::draw(RenderCache& cache,const Rect& targetRect, float zBase, float alpha, const Rect* clipper) const
+{
+	if (d_selected && d_selectBrush != 0)
+	{
+		cache.cacheImage(*d_selectBrush, targetRect, zBase, getModulateAlphaColourRect(d_selectCols, alpha), clipper);
+	}
+
+	if (d_image)
+		cache.cacheImage(*d_image, targetRect, zBase, getModulateAlphaColourRect(d_selectCols, alpha), clipper);
+}
+
+
 CEGUI::Size ListboxImageItem::getPixelSize() const
 {
 	return d_image->getSize();

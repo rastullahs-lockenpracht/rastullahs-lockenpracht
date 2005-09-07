@@ -50,6 +50,13 @@ public:
 		float alpha, 
 		const Rect& clipper) const;
 
+	virtual void draw(
+		RenderCache& cache,
+		const Rect& targetRect, 
+		float zBase,  
+		float alpha, 
+		const Rect* clipper) const;
+
 	virtual CEGUI::Size getPixelSize() const;
 
 private:
