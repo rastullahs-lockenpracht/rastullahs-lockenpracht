@@ -34,7 +34,7 @@ namespace rl {
 		mContainer(container)
 	{
 		mItemList = getListbox("ContainerContentWindow/ContentList");
-		//mItemList->setItemTooltipsEnabled(true);
+		mItemList->setItemTooltipsEnabled(true);
 
 		ItemSet items = container->getItems();
 
@@ -44,7 +44,7 @@ namespace rl {
 			const Image& image = ImagesetManager::getSingleton().getImageset("ModelThumbnails")->getImage(thumbname);
 			ListboxImageItem* item = 
 				new ListboxImageItem(&image, 0, gameitem);
-			//item->setTooltipText(gameitem->getDescription());
+			item->setTooltipText(gameitem->getDescription());
 
 			mItemList->addItem(item);
 		}

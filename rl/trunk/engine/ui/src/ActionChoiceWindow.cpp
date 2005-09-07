@@ -63,14 +63,14 @@ namespace rl {
 
 	bool ActionChoiceWindow::handleClickNotOnButtons(const EventArgs& evt)
 	{
-		//MouseEventArgs mevt = static_cast<const MouseEventArgs&>(evt);
-		//if (mevt.clickCount == 1) // Doppelklicks von der Truhe rausfiltern
-		//{
+		MouseEventArgs mevt = static_cast<const MouseEventArgs&>(evt);
+		if (mevt.clickCount == 1) // Doppelklicks von der Truhe rausfiltern
+		{
 			destroyWindow();
 			return true;
-		//}
+		}
 
-		//return false;
+		return false;
 	}
 	
 	int ActionChoiceWindow::showActionsOfObject(GameObject* object)
