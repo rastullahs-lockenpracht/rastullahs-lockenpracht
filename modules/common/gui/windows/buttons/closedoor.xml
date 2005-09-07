@@ -2,6 +2,7 @@
    <Window Type="RastullahLook/StaticImage" Name="CloseDoor">
       <Property Name="AbsoluteWidth" Value="45"/>
       <Property Name="AbsoluteHeight" Value="45"/>
-      <Property Name="Image" Value="set:RastullahButtons image:Buttons/CloseDoor" /> 
+      <Property Name="Image" Value="set:RastullahButtons image:Buttons/CloseDoor" />
+	  <Property Name="FrameEnabled" Value="False"/>
    </Window>
 </GUILayout>

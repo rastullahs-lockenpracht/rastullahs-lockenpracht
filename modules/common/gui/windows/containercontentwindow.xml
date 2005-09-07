@@ -24,7 +24,7 @@
 	    </Window>
 	    
         <Window Type="RastullahLook/Button" Name="ContainerContentWindow/CloseButton">
-			<Property Name="Text" Value="Schließen"/>
+			<Property Name="Text" Value="SchlieÃŸen"/>
             <Property Name="AbsoluteXPosition" Value="200"/>
             <Property Name="AbsoluteYPosition" Value="200"/>
             <Property Name="AbsoluteWidth" Value="100"/>

@@ -3,5 +3,6 @@
       <Property Name="AbsoluteWidth" Value="45"/>
       <Property Name="AbsoluteHeight" Value="45"/>
       <Property Name="Image" Value="set:RastullahButtons image:Buttons/OpenDoor" /> 
+	  <Property Name="FrameEnabled" Value="False"/>
    </Window>
 </GUILayout>

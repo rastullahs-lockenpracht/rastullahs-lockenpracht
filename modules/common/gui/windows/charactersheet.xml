@@ -21,36 +21,42 @@
                         <Property Name="AbsolutePosition" Value="x:10 y:10"/>
                         <Property Name="AbsoluteWidth" Value="300"/>
                         <Property Name="AbsoluteHeight" Value="30"/>
+						<Property Name="FrameEnabled" Value="False"/>
                     </Window>
 
                     <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/Rasse">
                         <Property Name="AbsolutePosition" Value="x:10 y:45"/>
                         <Property Name="AbsoluteWidth" Value="300"/>
                         <Property Name="AbsoluteHeight" Value="30"/>
+						<Property Name="FrameEnabled" Value="False"/>
                     </Window>
                       
                     <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/Profession">
                         <Property Name="AbsolutePosition" Value="x:10 y:80"/>
                         <Property Name="AbsoluteWidth" Value="300"/>
                         <Property Name="AbsoluteHeight" Value="30"/>
+						<Property Name="FrameEnabled" Value="False"/>
                     </Window>
 
                     <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/LE">
                         <Property Name="AbsolutePosition" Value="x:10 y:410"/>
                         <Property Name="AbsoluteWidth" Value="150"/>
                         <Property Name="AbsoluteHeight" Value="30"/>
+						<Property Name="FrameEnabled" Value="False"/>
                     </Window>
 
                     <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/AE">
                         <Property Name="AbsolutePosition" Value="x:210 y:410"/>
                         <Property Name="AbsoluteWidth" Value="150"/>
                         <Property Name="AbsoluteHeight" Value="30"/>
+						<Property Name="FrameEnabled" Value="False"/>
                     </Window>
                       
                     <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/AP">
                         <Property Name="AbsolutePosition" Value="x:410 y:410"/>
                         <Property Name="AbsoluteWidth" Value="150"/>
                         <Property Name="AbsoluteHeight" Value="30"/>
+						<Property Name="FrameEnabled" Value="False"/>
                     </Window>
 
                     <Window Type="DefaultGUISheet" Name="CharacterSheet/CharacterSheet/Eigenschaften">
@@ -62,48 +68,56 @@
                             <Property Name="AbsolutePosition" Value="x:0 y:5"/>
                             <Property Name="AbsoluteWidth" Value="250"/>
                             <Property Name="AbsoluteHeight" Value="30"/>
+							<Property Name="FrameEnabled" Value="False"/>
                         </Window>
 
                         <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/Eigenschaften/KL">
                             <Property Name="AbsolutePosition" Value="x:0 y:40"/>
                             <Property Name="AbsoluteWidth" Value="250"/>
                             <Property Name="AbsoluteHeight" Value="30"/>
+							<Property Name="FrameEnabled" Value="False"/>
                         </Window>
 
                         <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/Eigenschaften/IN">
                             <Property Name="AbsolutePosition" Value="x:0 y:75"/>
                             <Property Name="AbsoluteWidth" Value="250"/>
                             <Property Name="AbsoluteHeight" Value="30"/>
+							<Property Name="FrameEnabled" Value="False"/>
                         </Window>
 
                         <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/Eigenschaften/CH">
                             <Property Name="AbsolutePosition" Value="x:0 y:110"/>
                             <Property Name="AbsoluteWidth" Value="250"/>
                             <Property Name="AbsoluteHeight" Value="30"/>
+							<Property Name="FrameEnabled" Value="False"/>
                         </Window>
 
                         <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/Eigenschaften/FF">
                             <Property Name="AbsolutePosition" Value="x:0 y:145"/>
                             <Property Name="AbsoluteWidth" Value="250"/>
                             <Property Name="AbsoluteHeight" Value="30"/>
+							<Property Name="FrameEnabled" Value="False"/>
                         </Window>
 
                         <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/Eigenschaften/GE">
                             <Property Name="AbsolutePosition" Value="x:0 y:180"/>
                             <Property Name="AbsoluteWidth" Value="250"/>
                             <Property Name="AbsoluteHeight" Value="30"/>
+							<Property Name="FrameEnabled" Value="False"/>
                         </Window>
 
                         <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/Eigenschaften/KO">
                             <Property Name="AbsolutePosition" Value="x:0 y:215"/>
                             <Property Name="AbsoluteWidth" Value="250"/>
                             <Property Name="AbsoluteHeight" Value="30"/>
+							<Property Name="FrameEnabled" Value="False"/>
                         </Window>
 
                         <Window Type="RastullahLook/StaticText" Name="CharacterSheet/CharacterSheet/Eigenschaften/KK">
                             <Property Name="AbsolutePosition" Value="x:0 y:250"/>
                             <Property Name="AbsoluteWidth" Value="250"/>
                             <Property Name="AbsoluteHeight" Value="30"/>
+							<Property Name="FrameEnabled" Value="False"/>
                         </Window>          
 
                     </Window>
