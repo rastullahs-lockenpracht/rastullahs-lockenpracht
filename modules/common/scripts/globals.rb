@@ -15,7 +15,7 @@ $DS = DialogSubsystem.getSingleton();
 $GameEveMgr = GameEventManager.getSingleton();
 $AnimMgr = AnimationManager.getSingleton();
 
-
+$VideoDisplay = VideoWindow.new();
 
 
 class HeroPosWriter
