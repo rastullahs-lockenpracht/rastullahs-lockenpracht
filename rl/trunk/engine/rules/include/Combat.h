@@ -30,6 +30,14 @@ namespace rl {
 	class _RlRulesExport Combat
 	{
 	public:
+		enum MoveType {
+			AT_NO_WALK,
+			AT_WALK_IN_PA_PHASE,
+			AT_WALK_IN_AT_PHASE,
+			AT_WALK_IN_AT_PA_PHASE,
+			AT_RUN_IN_AT_PA_PHASE
+		};
+
 		Combat();
 		~Combat();
 
@@ -53,6 +61,14 @@ namespace rl {
 		 */
 		int getGroupOf(Creature* creature);
 
+		Creature* getAttackeTarget(Creature* creature);
+		void setAttackeTarget(Creature* creature, Creature* target);
+		Creature* getParadeTarget(Creature* creature);
+		void setParadeTarget(Creature* creature, Creature* target);
+
+		Ogre::Real getMaxMoveDistance(MoveType action);
+		void doAttacke(Creature* creature);
+
 	private:
 		/**
 		 * Speichert alle Daten, die eine Kreatur in diesem Kampf hat
@@ -62,20 +78,30 @@ namespace rl {
 		public:
 			Participant(Creature* creature, int group);
 
+			//Wesen und Gruppe
 			Creature* creature;
 			int group;
-			int initiative;
 
+			//DSA-Daten
+			int initiative;
 			static const int NO_INI = -9999999;
+
+			//Nächstes Vorhaben
+			Creature* attackeTarget;
+			Creature* paradeTarget;
+
+			MoveType nextMoveAction;
 		};
-		typedef std::vector<Participant*> CombatVector;
+		typedef std::map<Creature*, Participant*> CombatMap;
+
+		Participant* getParticipant(Creature* creature);
 
 
 		void initialize(Participant* creature);
 
 		int mCurrentInitiative;
 		int mKampfrunde;
-		CombatVector mParticipants;
+		CombatMap mParticipants;
 	};
 
 }

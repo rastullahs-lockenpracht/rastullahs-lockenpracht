@@ -16,6 +16,8 @@
 
 #include "Combat.h"
 #include "Creature.h"
+#include "Exception.h"
+#include "DsaManager.h"
 
 using namespace std;
 
@@ -33,11 +35,13 @@ namespace rl {
 	{
 		Participant* part = new Participant(creature, group);
 		initialize(part);
-		mParticipants.push_back(part);
+		mParticipants.insert(make_pair(creature, part));
 	}
 
-	void Combat::initialize(Participant* creature)
+	void Combat::initialize(Participant* part)
 	{
+		//TODO: Aktuelle Waffe, INI würfeln
+		part->initiative = 5+DsaManager::getSingleton().rollD6();
 	}
 
 	Combat::Participant::Participant(Creature* creature, int group)
@@ -45,11 +49,14 @@ namespace rl {
 		this->creature = creature;
 		this->group = group;
 		this->initiative = NO_INI;
+		this->attackeTarget = NULL;
+		this->paradeTarget = NULL;
+		this->nextMoveAction = Combat::AT_NO_WALK;
 	}
 
 	int Combat::getGroupOf(Creature* creature)
 	{
-		return 0; //TODO
+		return getParticipant(creature)->group;
 	}
 
 	vector<Creature*> Combat::getGroupMembers(int group)
@@ -59,5 +66,58 @@ namespace rl {
 		//TODO
 
 		return members;
+	}
+
+	Combat::Participant* Combat::getParticipant(Creature* creature)
+	{
+		CombatMap::iterator iter = mParticipants.find(creature); 
+		if (iter == mParticipants.end())
+			Throw(InvalidArgumentException, "Wesen nimmt nicht am Kampf teil.");
+		return (*iter).second;
+	}
+
+	Creature* Combat::getAttackeTarget(Creature* creature)
+	{
+		return getParticipant(creature)->attackeTarget;
+	}
+
+	void Combat::setAttackeTarget(Creature* creature, Creature* target)
+	{
+		getParticipant(creature)->attackeTarget = target;
+	}
+
+	Creature* Combat::getParadeTarget(Creature* creature)
+	{
+		return getParticipant(creature)->paradeTarget;
+	}
+
+	void Combat::setParadeTarget(Creature* creature, Creature* target)
+	{
+		getParticipant(creature)->paradeTarget = target;
+	}
+
+	Ogre::Real Combat::getMaxMoveDistance(MoveType action)
+	{
+		//TODO: Geschwindigkeit
+		switch (action)
+		{
+		case AT_NO_WALK:
+			return 0;
+		case AT_WALK_IN_AT_PHASE:
+		case AT_WALK_IN_PA_PHASE:
+			return 300;
+		case AT_WALK_IN_AT_PA_PHASE:
+			return 600;
+		}
+
+		Throw(InvalidArgumentException, "Unbekannter MoveType.");
+	}
+
+	void Combat::doAttacke(Creature* creature)
+	{
+		//TODO: Passende Animationen
+		//TODO: Attacke würfeln
+		//TODO: Parade würfeln 
+		//TODO: Schaden würfeln und machen
 	}
 }
