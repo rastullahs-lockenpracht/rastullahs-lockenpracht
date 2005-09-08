@@ -25,7 +25,7 @@ namespace rl {
 	class Creature;
 
 	/**
-	 * Verwaltungsklasse für einen Kampf
+	 * Verwaltungsklasse fï¿½r einen Kampf
 	 */
 	class _RlRulesExport Combat
 	{
@@ -42,22 +42,22 @@ namespace rl {
 		~Combat();
 
 		/**
-		 * Läßt eine Creature am Kampf teilnehmen
+		 * Lï¿½ï¿½t eine Creature am Kampf teilnehmen
 		 * 
 		 * @param creature die Kreatur
-		 * @param group die Partei, in der die Kreatur kämpft
+		 * @param group die Partei, in der die Kreatur kï¿½mpft
 		 */
 		void add(Creature* creature, int group);
 
 		/**
-		 * Gibt alle Mitglieder einer Kampfpartei zurück
+		 * Gibt alle Mitglieder einer Kampfpartei zurï¿½ck
 		 * @param group die Partei
 		 * @param eine Vector mit allen Mitgliedern der Partei
 		 */
 		std::vector<Creature*> getGroupMembers(int group);
 
 		/**
-		 * Gibt die Partei zurück, der ein Wesen in diesem Kampf angehört
+		 * Gibt die Partei zurï¿½ck, der ein Wesen in diesem Kampf angehï¿½rt
 		 */
 		int getGroupOf(Creature* creature);
 
@@ -86,7 +86,7 @@ namespace rl {
 			int initiative;
 			static const int NO_INI = -9999999;
 
-			//Nächstes Vorhaben
+			//Nï¿½chstes Vorhaben
 			Creature* attackeTarget;
 			Creature* paradeTarget;
 

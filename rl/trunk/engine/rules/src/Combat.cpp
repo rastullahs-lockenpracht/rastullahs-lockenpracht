@@ -40,7 +40,7 @@ namespace rl {
 
 	void Combat::initialize(Participant* part)
 	{
-		//TODO: Aktuelle Waffe, INI würfeln
+		//TODO: Aktuelle Waffe, INI wï¿½rfeln
 		part->initiative = 5+DsaManager::getSingleton().rollD6();
 	}
 
@@ -116,8 +116,8 @@ namespace rl {
 	void Combat::doAttacke(Creature* creature)
 	{
 		//TODO: Passende Animationen
-		//TODO: Attacke würfeln
-		//TODO: Parade würfeln 
-		//TODO: Schaden würfeln und machen
+		//TODO: Attacke wï¿½rfeln
+		//TODO: Parade wï¿½rfeln 
+		//TODO: Schaden wï¿½rfeln und machen
 	}
 }
