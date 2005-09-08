@@ -15,7 +15,7 @@
  */
 
 #include "VideoWindow.h"
-#include "CEGUITexture.h"
+#include <CEGUITexture.h>
 
 template<> rl::VideoWindow* Ogre::Singleton<rl::VideoWindow>::ms_Singleton = 0;
 
@@ -25,17 +25,19 @@ namespace rl
 {
 VideoWindow& VideoWindow::getSingleton()
 {
-    return Singleton<VideoWindow>::getSingleton();
+    return Ogre::Singleton<VideoWindow>::getSingleton();
 }
 VideoWindow* VideoWindow::getSingletonPtr()
 {
-    return Singleton<VideoWindow>::getSingletonPtr();
+    return Ogre::Singleton<VideoWindow>::getSingletonPtr();
 }
 
 VideoWindow::VideoWindow()
     : CeGuiWindow("video.xml", WND_SHOW),
       mTexture(0)
 {
+    addToRoot(mWindow);
+    setVisible(false);
 }
 
 VideoWindow::~VideoWindow()
@@ -46,9 +48,26 @@ VideoWindow::~VideoWindow()
     }
 }
 
-void VideoWindow::play(CEGUI::Texture *texture)
+void VideoWindow::show(Texture *texture, CeGuiString name)
 {
     mTexture = texture;
+    mName = name;
+    
+    //Now attach Texture to
+    if(mTexture)
+    {
+        CeGuiString temp = "MyImagesNumber";
+
+        Imageset *img = ImagesetManager::getSingleton().createImageset( 
+                temp, mTexture );
+
+        unsigned int width = mWindow->getWidth();
+        unsigned int height= mWindow->getHeight();
+
+        img->defineImage( mName, Point(0.0f,0.0f), Size( width, height ), Point(0.0f,0.0f));
+        ((StaticImage*)mWindow)->setImage( temp, mName);
+    }
+    CeGuiWindow::show();
 }
 
 

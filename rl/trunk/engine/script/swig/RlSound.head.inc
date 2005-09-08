@@ -14,3 +14,10 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
+%{
+//----------- Includes - Multimedia -----------
+#include "FixRubyHeaders.h"
+#include "SoundPrerequisites.h"
+#include "SoundSubsystem.h"
+#include "Video.h"
+%}

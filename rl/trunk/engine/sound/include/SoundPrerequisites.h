@@ -38,5 +38,11 @@
 #   pragma warning (pop)
 #include <OgreMemoryMacros.h>
 
+namespace rl
+{
+    typedef CEGUI::String CeGuiString;
+    typedef std::vector<CeGuiString> CeGuiStringVector;
+}
+
 
 #endif

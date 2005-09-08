@@ -14,3 +14,37 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
+namespace rl {
+
+class  Video {
+
+public:
+    // Default-Konstruktor
+    Video(rl::CeGuiString textureName, rl::CeGuiString movieName);
+
+    /// Getter fuer Breite
+    unsigned int getWidth() const;
+    /// Getter fuer Hoehe
+    unsigned int getHeight() const;
+    /// Das Video auffrischen
+    void update();
+    /// Video anhalten
+    void stop();
+    /// Video unterbrechen oder wieder starten
+    void pause(bool bPause = true);
+    /// Video abspielen
+    void play();
+    /// Video an bestimmter Stelle weiterspielen
+    void seek(float percentage);
+    /// Erzeuge Textur
+    CEGUI::Texture* getTexture() const;
+    /// Texturname zurueckgeben.
+    const rl::CeGuiString getTextureName() const;
+    /// Die Videolaenge zurueckgeben
+    float getMaxTime() const;
+
+    /// Gibt den Zustand zurück.
+    bool isPlaying() const;
+};
+
+}

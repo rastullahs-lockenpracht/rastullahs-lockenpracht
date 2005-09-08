@@ -60,6 +60,7 @@ private:
     CeGuiString mMovieName;
     CeGuiString mTextureName;
     float mMaxTime;
+    bool mPlaying;
 
 public:
     // Default-Konstruktor
@@ -85,21 +86,23 @@ public:
     void createCETexture();
     /// Zerstoere Textur
     void destroyCETexture();
-    /// Textur zur�ckgeben;
+    /// Textur zurueckgeben;
     CEGUI::Texture* getTexture() const;
-    /// Texturname zur�ckgeben.
+    /// Texturname zurueckgeben.
     const CeGuiString getTextureName() const;
-    /// Die Videol�nge zur�ckgeben
+    /// Die Videol�nge zurueckgeben
     float getMaxTime() const;
 
-    /// F�gt einen ObjectStateChangeListener hinzu, der zuk�nftig bei Events benachrichtigt wird 
+    /// Fuegt einen ObjectStateChangeListener hinzu, der zukuenftig bei Events benachrichtigt wird 
     void addEventListener(VideoEventListener*  listener);
     /// Entfernt einen Listener
     void removeEventListener(VideoEventListener* listener);
     /// Entfernt alle Listener
     void removeEventListeners();
-    /// Gibt zur�ck ob sich Listener angemeldet haben
+    /// Gibt zurueck ob sich Listener angemeldet haben
     bool hasListeners() const;
+    /// Gibt den Zustand zurück.
+    bool isPlaying() const;
     
 protected:
     /// Botschaften aus dem VideoPlugin

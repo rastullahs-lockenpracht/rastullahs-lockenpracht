@@ -17,11 +17,14 @@
 #include "SoundManager.h"
 #include "Logger.h"
 #include "SoundResource.h"
+#include "Video.h"
 #include <stdio.h>
 extern "C" {
     #include <fmod.h>
     #include <fmod_errors.h>
 }
+#include "GameLoop.h"
+#include "SoundUpdateTask.h"
 
 using namespace Ogre;
 
@@ -83,6 +86,9 @@ SoundSubsystem::SoundSubsystem()
     
     //Singletons erzeugen 
     new SoundManager();
+    
+    // SoundUpdates anschmeissen.
+    GameLoopManager::getSingleton().addAsynchronousTask(new SoundUpdateTask());
 
 }
 
@@ -116,6 +122,11 @@ void SoundSubsystem::update(Real elapsedTime)
 {
     setElapsedTime(elapsedTime);
     FSOUND_Update();
+    for(VideoList::iterator i = mVideoList.begin(); // TODO: The STL way
+        i != mVideoList.end(); i++)
+    {
+        (*i)->update();
+    }
 }
 
 /**
@@ -236,6 +247,45 @@ int SoundSubsystem::tell(void *handle)
         }
     }
     return 0;
+}
+
+/**
+ * @param video Das Video, das hinzugefügt werden soll.
+ * @author JoSch
+ * @date 09-06-2005
+ */
+void SoundSubsystem::addVideo(Video *video)
+{
+    mVideoList.push_back(video);
+}
+
+/**
+ * @return Alle Videos in der Liste löschen
+ * @author JoSch
+ * @date 09-06-2005
+ */
+void SoundSubsystem::clearVideos()
+{
+    mVideoList.clear();
+}
+
+/**
+ * @param Das Video, das gelöscht werden soll
+ * @author JoSch
+ * @date 09-06-2005
+ */
+void SoundSubsystem::removeVideo(Video *video)
+{
+    for(VideoList::iterator i = mVideoList.begin();
+        i != mVideoList.end();)
+    {
+        if (*i == video)
+        {
+            i = mVideoList.erase(i);
+        } else {
+            i ++;
+        }
+    }
 }
 
 }

@@ -23,6 +23,7 @@
 #include <OgreCEGUIRenderer.h>
 
 #include "VideoEvents.h"
+#include "SoundSubsystem.h"
 
 using namespace CEGUI;
 using namespace Ogre;
@@ -99,7 +100,7 @@ unsigned int Video::getHeight() const
  */
 void Video::update()
 {
-    if(mClip)
+    if(mClip && isPlaying())
     {
         mClip->blitFrameCheck();
     }
@@ -174,6 +175,8 @@ void Video::play()
     // TODO mClip->setAudioDriver(mSoundSystem.getAudioClip());
     mClip->changePlayMode(TextureEffectPlay_ASAP);
     createCETexture();
+    SoundSubsystem::getSingleton().addVideo(this);
+    mPlaying = true;
 }
 
 /**
@@ -210,11 +213,13 @@ void Video::destroyCETexture()
  */
 void Video::stop()
 {
+    mPlaying = false;
     if( mClip )
     {
         mClip->changePlayMode(TextureEffectPause);
         mVideoControl->destroyAdvancedTexture(mTextureName.c_str());
     }
+    SoundSubsystem::getSingleton().removeVideo(this);
     // TODO Audio behandenln
 }
 
@@ -226,6 +231,7 @@ void Video::stop()
  */
 void Video::pause(bool bPause)
 {
+    mPlaying = !bPause;
     if(mClip)
     {
         if(bPause == false)
@@ -264,7 +270,7 @@ void Video::seek(float percentage)
 }
 
 /**
- * Textur zurückgeben
+ * Textur zurï¿½ckgeben
  * @return Die vom Videplugin erzeugte Textur.
  * @author JoSch
  * @date 02-09-2005
@@ -275,7 +281,7 @@ CEGUI::Texture* Video::getTexture() const
 }
 
 /**
- * Texturname zurückgeben
+ * Texturname zurï¿½ckgeben
  * @return Der Name der Textur.
  * @author JoSch
  * @date 02-09-2005
@@ -286,8 +292,8 @@ const CeGuiString Video::getTextureName() const
 }
 
 /**
- * Die Videolänge zurückgeben
- * @return Der Länge des Videos.
+ * Die Videolï¿½nge zurï¿½ckgeben
+ * @return Der Lï¿½nge des Videos.
  * @author JoSch
  * @date 02-09-2005
  */
@@ -338,7 +344,7 @@ void Video::displayedFrame(float vTime,
 }
 
 /**
- * Listener einfügen
+ * Listener einfï¿½gen
  * @param listener Der neue Listener
  * @author JoSch
  * @date 09-02-2005
@@ -376,7 +382,7 @@ void Video::removeEventListeners()
 }
 
 /**
- * Hört jemand den Events zu?
+ * HÃ¶rt jemand den Events zu?
  * @return TRUE wenn es Listener gibt, FALSE sonst
  * @author JoSch
  * @date 09-02-2005
@@ -386,5 +392,16 @@ bool Video::hasListeners( ) const
     return mEventCaster.hasEventListeners();
 }
 
+
+/**
+ * Spielt der Clip?
+ * @return TRUE wenn der Clip spielt, FALSE sonst
+ * @author JoSch
+ * @date 09-02-2005
+ */
+bool Video::isPlaying( ) const
+{
+    return mPlaying;
+}
 
 }

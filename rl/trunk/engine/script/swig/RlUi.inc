@@ -74,6 +74,7 @@ class VideoWindow
 {
 public:
     static VideoWindow& getSingleton(void);
+    void show(CEGUI::Texture *texture, rl::CeGuiString name);
 };
 
 class CommandMapper

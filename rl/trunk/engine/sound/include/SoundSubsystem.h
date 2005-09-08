@@ -19,8 +19,12 @@
 
 #include "SoundPrerequisites.h"
 #include <OgreLogManager.h>
+#include <list>
 
 namespace rl {
+
+class Video;
+typedef std::list<Video*> VideoList;
 
 /** Diese Klasse dient der Initialisierung und Steuerung des
  * Sound-Subsystems.
@@ -29,8 +33,9 @@ namespace rl {
  * @version 1.0
  * @version 2.0
  */
-    class _RlSoundExport SoundSubsystem : public Ogre::Singleton<SoundSubsystem>
+class _RlSoundExport SoundSubsystem : public Ogre::Singleton<SoundSubsystem>
 {
+
 public:
 	/// Der Standardkonstruktor
 	SoundSubsystem();
@@ -46,14 +51,24 @@ public:
     /// fmod weiterlaufen lassen.
     void update(Ogre::Real elapsedTime);
 
-    /// Die bisherige Zeit zur�ckgeben.
+    /// Die bisherige Zeit zur�ckgeben.
     Ogre::Real getElapsedTime() const;
     /// Die bisherige Zeit setzen
     void setElapsedTime(Ogre::Real elapsedTime);
+    
+    /// Neues Video hinzufügen.
+    void addVideo(Video *video);
+    /// Videoliste leeren.
+    void clearVideos();
+    /// Video entfernen
+    void removeVideo(Video *video);
+    
 
 private:
     /// Zeit mitschreiben
     Ogre::Real mElapsedTime;
+    /// Die Liste der Videos, die upgedatet werden müssen.
+    VideoList mVideoList;
 
     // FMOD-Callbacks
     static void close(void *handle);

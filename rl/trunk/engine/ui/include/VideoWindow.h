@@ -35,6 +35,8 @@ class _RlUiExport VideoWindow : public CeGuiWindow, public Ogre::Singleton<Video
 private:
     /// Textur des Videos
     CEGUI::Texture *mTexture;
+    /// Texturname
+    CeGuiString mName;
 public:
     /// Singleton-Object
     static VideoWindow& getSingleton();
@@ -46,7 +48,8 @@ public:
     /// Destruktor
 	virtual ~VideoWindow();
     /// Spiel's nochmal, Sam
-    void play(CEGUI::Texture *texture);
+    void show(CEGUI::Texture *texture, CeGuiString name);
+    
     
 };
 
