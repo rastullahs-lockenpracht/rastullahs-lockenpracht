@@ -93,7 +93,7 @@ public:
     /// Die Videol�nge zurueckgeben
     float getMaxTime() const;
 
-    /// Fuegt einen ObjectStateChangeListener hinzu, der zukuenftig bei Events benachrichtigt wird 
+    /// Fuegt einen EventListener hinzu, der zukuenftig bei Events benachrichtigt wird 
     void addEventListener(VideoEventListener*  listener);
     /// Entfernt einen Listener
     void removeEventListener(VideoEventListener* listener);

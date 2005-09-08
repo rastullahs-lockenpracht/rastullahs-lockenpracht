@@ -18,6 +18,8 @@ namespace rl {
 
 class  Video {
 
+class VideoEventListener;
+
 public:
     // Default-Konstruktor
     Video(rl::CeGuiString textureName, rl::CeGuiString movieName);
@@ -45,6 +47,14 @@ public:
 
     /// Gibt den Zustand zurück.
     bool isPlaying() const;
+    /// Fuegt einen EventListener hinzu, der zukuenftig bei Events benachrichtigt wird 
+    void addEventListener(rl::VideoEventListener*  listener);
+    /// Entfernt einen Listener
+    void removeEventListener(rl::VideoEventListener* listener);
+    /// Entfernt alle Listener
+    void removeEventListeners();
+    /// Gibt zurueck ob sich Listener angemeldet haben
+    bool hasListeners() const;
 };
 
 }

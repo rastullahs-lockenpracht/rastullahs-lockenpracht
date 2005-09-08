@@ -100,7 +100,7 @@ unsigned int Video::getHeight() const
  */
 void Video::update()
 {
-    if(mClip && isPlaying())
+    if(mClip)
     {
         mClip->blitFrameCheck();
     }
@@ -175,7 +175,10 @@ void Video::play()
     // TODO mClip->setAudioDriver(mSoundSystem.getAudioClip());
     mClip->changePlayMode(TextureEffectPlay_ASAP);
     createCETexture();
-    SoundSubsystem::getSingleton().addVideo(this);
+    if (SoundSubsystem::getSingletonPtr())
+    {
+        SoundSubsystem::getSingleton().addVideo(this);
+    }
     mPlaying = true;
 }
 

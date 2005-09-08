@@ -53,22 +53,33 @@ void VideoWindow::show(Texture *texture, CeGuiString name)
     mTexture = texture;
     mName = name;
     
-    //Now attach Texture to
+    mImage = (StaticImage*)WindowManager::getSingleton().createWindow("RastullahLook/StaticImage", "Video/image");
+    mImage->setMetricsMode(Relative);
+    mImage->setPosition(Relative, Vector2(0.02, 0.02));
+    mImage->setHeight(0.95);
+    mImage->setWidth(0.95);
+    mWindow->addChildWindow(mImage);
+
+    CeGuiWindow::show();
+
+   //Now attach Texture to
     if(mTexture)
     {
-        CeGuiString temp = "MyImagesNumber";
-
+        CeGuiString temp = "MyImages";
         Imageset *img = ImagesetManager::getSingleton().createImageset( 
                 temp, mTexture );
-
-        unsigned int width = mWindow->getWidth();
-        unsigned int height= mWindow->getHeight();
-
-        img->defineImage( mName, Point(0.0f,0.0f), Size( width, height ), Point(0.0f,0.0f));
-        ((StaticImage*)mWindow)->setImage( temp, mName);
-    }
-    CeGuiWindow::show();
+        img->defineImage( mName, Point(0.0f,0.0f), mImage->getSize(), Point(0.0f,0.0f));
+        mImage->setImage(temp, mName);
+    } 
 }
 
+/// Reaktion auf Videoevents.
+bool VideoWindow::eventRaised(VideoPlayEvent *event)
+{
+    if (event->getReason() == VideoPlayEvent::ENDOFSTREAM)
+    {
+        hide();
+    }
+}
 
 }

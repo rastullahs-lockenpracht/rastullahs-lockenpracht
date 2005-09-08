@@ -16,5 +16,6 @@ testvideo_LDFLAGS = -L../../common/src -L../../sound/src -L../../core/src \
 testvideo_SOURCES = \
 	VideoTest.cpp
 testvideo_LDADD = $(CEGUI_LIBS) $(OGRE_LIBS) $(LIBS) -lvorbis -logg -lboost_thread\
-	$(Plugin_TheoraVideoSystem_LIBS)  $(CEGUIOGRE_LIBS) -lRlSound -lRlCommon
+	$(Plugin_TheoraVideoSystem_LIBS)  $(CEGUIOGRE_LIBS) -lRlSound -lRlCommon -lRlCore \
+	$(RUBY_LIBS)
 	

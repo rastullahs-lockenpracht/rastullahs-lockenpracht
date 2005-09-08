@@ -42,9 +42,8 @@ public:
                                 mSceneMgr);
 
         new System(rend, NULL, new OgreCEGUIResourceProvider(), (utf8*)"cegui.config"); 
-        
         // load scheme and set up defaults
-        ///@todo Hier sollte was Lookunabhängiges rein!!! FIXME TODO BUG!
+        ///@todo Hier sollte was Lookunabhï¿½ngiges rein!!! FIXME TODO BUG!
         System::getSingleton().setDefaultMouseCursor((utf8*)"RastullahLook", (utf8*)"MouseArrow");
         Window* sheet = CEGUI::WindowManager::getSingleton().createWindow((utf8*)"DefaultWindow", (utf8*)"root");
         sheet->setSize(
@@ -88,14 +87,6 @@ public:
             image->setImage( temp, tempName);
         }
   
-/*        WindowManager::WindowIterator it = WindowManager::getSingleton().getIterator();
-        while (!it.isAtEnd())
-        {
-            std::cerr<<it.getCurrentValue()->getName()<<std::endl;
-            it++;
-        } */
-        
-        
 	}
     
     void createScene()

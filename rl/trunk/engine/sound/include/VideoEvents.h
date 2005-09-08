@@ -19,9 +19,9 @@
 
 #include "SoundPrerequisites.h"
 #include "EventObject.h"
-#include <TheoraMovieClip.h>
 
 namespace rl {
+
 
 class _RlSoundExport VideoEvent : public EventObject
 {
@@ -37,9 +37,9 @@ public:
     VideoPlayEvent(EventSource *source);
     virtual ~VideoPlayEvent();
     
-    static const unsigned int ENDOFSTREAM = Ogre::TheoraMovieMessage::TH_OggStreamDone;
-    static const unsigned int ENDOFAUDIOSTREAM = Ogre::TheoraMovieMessage::TH_VorbisStreamDone;
-    static const unsigned int ENDOFVIDEOSTREAM = Ogre::TheoraMovieMessage::TH_TheoraStreamDone;
+    static const unsigned int ENDOFSTREAM = 0;
+    static const unsigned int ENDOFAUDIOSTREAM = 1;
+    static const unsigned int ENDOFVIDEOSTREAM = 2;
 };
 
 class _RlSoundExport  VideoTimingEvent : public VideoEvent {

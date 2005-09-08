@@ -21,22 +21,29 @@
 
 #include <OgreSingleton.h>
 #include "CeGuiWindow.h"
+#include "VideoEvents.h"
+#include "EventListener.h"
 
 namespace CEGUI {
     class String;
     class Texture;
+    class StaticImage;
 }
 
 namespace rl
 {
 
-class _RlUiExport VideoWindow : public CeGuiWindow, public Ogre::Singleton<VideoWindow>
+class _RlUiExport VideoWindow : public CeGuiWindow,
+     public Ogre::Singleton<VideoWindow>,
+     public EventListener<VideoPlayEvent>
 {
 private:
     /// Textur des Videos
     CEGUI::Texture *mTexture;
     /// Texturname
     CeGuiString mName;
+    /// Das Bild
+    CEGUI::StaticImage *mImage;
 public:
     /// Singleton-Object
     static VideoWindow& getSingleton();
@@ -49,6 +56,8 @@ public:
 	virtual ~VideoWindow();
     /// Spiel's nochmal, Sam
     void show(CEGUI::Texture *texture, CeGuiString name);
+    /// Reaktion auf Videoevents.
+    virtual bool eventRaised(VideoPlayEvent *event);
     
     
 };
