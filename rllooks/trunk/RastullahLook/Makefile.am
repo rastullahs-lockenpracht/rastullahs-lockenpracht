@@ -5,7 +5,6 @@ libRastullahLook_la_LIBADD = $(OGRE_LIBS) $(CEGUI_LIBS)
 libRastullahLook_la_SOURCES = \
 	 src/RLAlternateProgressBar.cpp \
      src/RLButton.cpp \
-     src/RLButtonProperties.cpp \
      src/RLCheckbox.cpp \
      src/RLCloseButton.cpp \
      src/RLCombobox.cpp \
