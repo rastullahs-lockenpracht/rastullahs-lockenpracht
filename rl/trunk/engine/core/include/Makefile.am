@@ -17,7 +17,6 @@
 	GameAreaTypes.h \
 	GameEventManager.h \
 	GameLoop.h \
-	GameTask.h \
 	Interpreter.h \
 	LightObject.h \
 	ListenerObject.h \
@@ -29,7 +28,6 @@
 	RubyInterpreter.h \
 	ScriptObject.h \
 	ScriptObjectRepository.h \
-	SoundUpdateTask.h \
 	SoundObject.h \
 	TrackAnimation.h \
 	World.h 

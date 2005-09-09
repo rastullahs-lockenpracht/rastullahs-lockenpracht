@@ -5,6 +5,7 @@ libRlCommon_la_LDFLAGS = $(RUBY_LIBS) $(OGRE_LIBS) $(CEGUI_LIBS) $(LIBS)
 libRlCommon_la_SOURCES = \
   EventObject.cpp \
   EventSource.cpp \
+  GameTask.cpp \
   Logger.cpp \
   XmlHelper.cpp \
   XmlResource.cpp \

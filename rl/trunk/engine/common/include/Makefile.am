@@ -7,6 +7,7 @@ noinst_HEADERS =
 	EventSource.h \
 	Exception.h \
 	FixRubyHeaders.h \
+	GameTask.h \
 	Logger.h \
     RastullahPrerequisites.h \
 	Sleep.h \

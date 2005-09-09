@@ -16,6 +16,7 @@ libRlSound_la_SOURCES = \
     SoundStream.cpp \
 	SoundSubsystem.cpp \
 	SoundEvents.cpp \
+	SoundUpdateTask.cpp \
 	Video.cpp \
 	VideoEvents.cpp 
     

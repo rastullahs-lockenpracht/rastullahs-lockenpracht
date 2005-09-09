@@ -14,7 +14,7 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
-#include <xercesc/util/XMemory.hpp>	// Muss vor Ogre stehen (zumindest für VS)
+#include <xercesc/util/XMemory.hpp>	// Muss vor Ogre stehen (zumindest fï¿½r VS)
 
 #include <Ogre.h>
 #include <OgreLogManager.h>
@@ -22,7 +22,7 @@
 #include <errno.h>
 
 #include "CoreSubsystem.h"
-#include "GameLoopManager.h"
+#include "GameLoop.h"
 #include "SoundSubsystem.h"
 #include "SoundUpdateTask.h"
 #include "RulesSubsystem.h"
@@ -155,7 +155,7 @@ void analyzeParameters(int argc, char** argv, bool& developerMode, Ogre::String&
 		if (strncmp(argv[argIdx], "--dev", 5) == 0)
 			developerMode = true;
 		else if (strncmp(argv[argIdx], "--module", 8) == 0
-				&& argc > argIdx + 1) // Nächster Parameter existiert
+				&& argc > argIdx + 1) // Nï¿½chster Parameter existiert
 			startModule = argv[argIdx + 1];
 	}
 }
