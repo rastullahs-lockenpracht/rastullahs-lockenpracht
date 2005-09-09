@@ -18,7 +18,7 @@
 #ifndef _SOUNDUPDATETASK_H_
 #define _SOUNDUPDATETASK_H_
 
-#include "CorePrerequisites.h"
+#include "SoundPrerequisites.h"
 #include "GameTask.h"
 
 namespace rl {
@@ -30,7 +30,7 @@ namespace rl {
      * @date 07-24-05
      * @version 1.0
      */
-    class _RlCoreExport SoundUpdateTask: public GameTask,
+    class _RlSoundExport SoundUpdateTask: public GameTask,
         protected Ogre::Singleton<SoundUpdateTask>
     {
         public:

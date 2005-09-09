@@ -19,6 +19,9 @@
 #include "FixRubyHeaders.h"
 #include "SoundPrerequisites.h"
 #include "SoundSubsystem.h"
+#undef message
+#undef send
 #include "VideoEvents.h"
 #include "Video.h"
+#undef send
 %}

@@ -28,3 +28,4 @@
 #undef vsnprintf
 #undef Sleep
 #undef sleep
+#undef strcasecmp

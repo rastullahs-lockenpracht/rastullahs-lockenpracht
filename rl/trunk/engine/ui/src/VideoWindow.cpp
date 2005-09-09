@@ -56,8 +56,8 @@ void VideoWindow::show(Texture *texture, CeGuiString name)
     mImage = (StaticImage*)WindowManager::getSingleton().createWindow("RastullahLook/StaticImage", "Video/image");
     mImage->setMetricsMode(Relative);
     mImage->setPosition(Relative, Vector2(0.02, 0.02));
-    mImage->setHeight(0.95);
-    mImage->setWidth(0.95);
+    mImage->setHeight(Relative, 0.95);
+    mImage->setWidth(Relative, 0.95);
     mWindow->addChildWindow(mImage);
 
     CeGuiWindow::show();
@@ -80,6 +80,7 @@ bool VideoWindow::eventRaised(VideoPlayEvent *event)
     {
         hide();
     }
+	return true;
 }
 
 }

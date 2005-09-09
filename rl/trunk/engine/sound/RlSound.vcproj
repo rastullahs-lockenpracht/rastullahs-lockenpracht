@@ -173,6 +173,9 @@
 				RelativePath=".\src\SoundSubsystem.cpp">
 			</File>
 			<File
+				RelativePath=".\src\SoundUpdateTask.cpp">
+			</File>
+			<File
 				RelativePath=".\src\Video.cpp">
 			</File>
 			<File
@@ -212,6 +215,9 @@
 			</File>
 			<File
 				RelativePath=".\include\SoundSubsystem.h">
+			</File>
+			<File
+				RelativePath=".\include\SoundUpdateTask.h">
 			</File>
 			<File
 				RelativePath=".\include\Video.h">

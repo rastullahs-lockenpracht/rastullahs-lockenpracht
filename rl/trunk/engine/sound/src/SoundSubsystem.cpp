@@ -23,7 +23,6 @@ extern "C" {
     #include <fmod.h>
     #include <fmod_errors.h>
 }
-#include "GameLoop.h"
 #include "SoundUpdateTask.h"
 
 using namespace Ogre;
@@ -87,9 +86,8 @@ SoundSubsystem::SoundSubsystem()
     //Singletons erzeugen 
     new SoundManager();
     
-    // SoundUpdates anschmeissen.
-    GameLoopManager::getSingleton().addAsynchronousTask(new SoundUpdateTask());
-
+    // SoundUpdates anschmeissen.	
+    new SoundUpdateTask();
 }
 
 /**

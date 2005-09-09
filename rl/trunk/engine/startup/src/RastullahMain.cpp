@@ -22,7 +22,9 @@
 #include <errno.h>
 
 #include "CoreSubsystem.h"
+#include "GameLoopManager.h"
 #include "SoundSubsystem.h"
+#include "SoundUpdateTask.h"
 #include "RulesSubsystem.h"
 #include "DialogSubsystem.h"
 #include "UiSubsystem.h"
@@ -66,6 +68,7 @@ void startupRl(bool developerMode, Ogre::String module)
 		log(Ogre::LML_NORMAL, "CoreSubsystem gestartet");
 
 		sound = new rl::SoundSubsystem();
+		rl::GameLoopManager::getSingleton().addAsynchronousTask(rl::SoundUpdateTask::getSingletonPtr());
 		log(Ogre::LML_NORMAL, "SoundSubsystem gestartet");
 
 		rules = new rl::RulesSubsystem();

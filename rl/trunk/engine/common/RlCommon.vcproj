@@ -133,6 +133,9 @@
 				RelativePath=".\src\EventSource.cpp">
 			</File>
 			<File
+				RelativePath=".\src\GameTask.cpp">
+			</File>
+			<File
 				RelativePath=".\src\Logger.cpp">
 			</File>
 			<File
@@ -174,6 +177,9 @@
 			</File>
 			<File
 				RelativePath=".\include\FixRubyHeaders.h">
+			</File>
+			<File
+				RelativePath=".\include\GameTask.h">
 			</File>
 			<File
 				RelativePath=".\include\Logger.h">

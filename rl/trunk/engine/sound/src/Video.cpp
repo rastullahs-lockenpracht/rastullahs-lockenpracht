@@ -48,13 +48,13 @@ Video::Video(CeGuiString textureName, CeGuiString movieName)
     mClip(0)
 {
     RlAssert(System::getSingleton().getRenderer() != 0, "No renderer yet");
-    mVideoControl = dynamic_cast<TheoraVideoController*>
+    mVideoControl = static_cast<TheoraVideoController*>
         (ExternalTextureSourceManager::getSingleton().getExternalTextureSource("ogg_video"));
     if (!mVideoControl)
     {
         Throw(RuntimeException, "Can't get VideoController");
     }
-    mGUIRenderer = dynamic_cast<OgreCEGUIRenderer*>(System::getSingleton().getRenderer());
+    mGUIRenderer = static_cast<OgreCEGUIRenderer*>(System::getSingleton().getRenderer());
     if (!mGUIRenderer)
     {
         Throw(RuntimeException, "Can't get renderer");

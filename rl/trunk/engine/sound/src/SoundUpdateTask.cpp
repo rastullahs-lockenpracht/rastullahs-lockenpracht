@@ -35,5 +35,25 @@ namespace rl {
     {
         SoundSubsystem::getSingleton().update(elapsedTime);
     }
+
+	/**
+	* @return Das Singleton-Objekt
+	* @author JoSch
+	* @date 05-26-2004
+	*/
+	SoundUpdateTask& SoundUpdateTask::getSingleton(void)
+	{
+		return Singleton<SoundUpdateTask>::getSingleton();
+	}
+
+	/**
+	* @return Das Singleton-Zeiger
+	* @author JoSch
+	* @date 05-26-2004
+	*/
+	SoundUpdateTask* SoundUpdateTask::getSingletonPtr(void)
+	{
+		return Singleton<SoundUpdateTask>::getSingletonPtr();
+	}
     
 } // End of namespace rl

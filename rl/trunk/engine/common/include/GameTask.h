@@ -17,13 +17,13 @@
 #ifndef __GameTask_H__
 #define __GameTask_H__
 
-#include "CorePrerequisites.h"
+#include "CommonPrerequisites.h"
 
 namespace rl {
 /** Diese Klasse ist die Basisklasse aller Synchronisierten Aufgaben, die jeden Frame ausgeführt werden.
 	Dazu gehören zum Beispiel Animationen.
 */
-class _RlCoreExport GameTask
+class _RlCommonExport GameTask
 {
     public:
 		/// Default Konstruktor, startet unpausiert
