@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<!DOCTYPE Code::Blocks_project_file>
+<Code::Blocks_project_file>
+	<FileVersion major="1" minor="1"/>
+	<Project>
+		<Option title="RlStartup"/>
+		<Option makefile="Makefile"/>
+		<Option makefile_is_custom="0"/>
+		<Option active_target="1"/>
+		<Option compiler="1"/>
+		<Build>
+			<Target title="Debug">
+				<Option output="bin\Debug\Rastullah.exe"/>
+				<Option working_dir="..\..\rl_dist"/>
+				<Option object_output=".\obj\debug"/>
+				<Option deps_output=".deps"/>
+				<Option external_deps=""/>
+				<Option type="1"/>
+				<Option compiler="1"/>
+				<Option projectResourceIncludeDirsRelation="1"/>
+				<Compiler>
+					<Add option="/Zi"/>
+					<Add option="/D_DEBUG"/>
+				</Compiler>
+				<Linker>
+					<Add option="/debug"/>
+					<Add option="/incremental"/>
+					<Add option="/pdb:.\bin\debug\Rastullah.pdb"/>
+					<Add library="OgreMain_d"/>
+					<Add library="CEGUIBase_d"/>
+					<Add directory="..\common\lib\Debug"/>
+					<Add directory="..\rules\lib\Debug"/>
+					<Add directory="..\core\lib\Debug"/>
+					<Add directory="..\sound\lib\Debug"/>
+					<Add directory="..\script\lib\Debug"/>
+					<Add directory="..\dialog\lib\Debug"/>
+					<Add directory="..\ui\lib\Debug"/>
+					<Add directory="..\..\dependencies\ogre\OgreMain\lib\Debug"/>
+				</Linker>
+				<ExtraCommands>
+					<Add after="..\..\tools\copy_dlls.bat ..\.. Debug"/>
+				</ExtraCommands>
+			</Target>
+			<Target title="Release">
+				<Option output="bin\Release\Rastullah.exe"/>
+				<Option working_dir="..\..\rl_dist"/>
+				<Option object_output=".\obj\release"/>
+				<Option deps_output=".deps"/>
+				<Option external_deps=""/>
+				<Option type="1"/>
+				<Option compiler="1"/>
+				<Option projectResourceIncludeDirsRelation="1"/>
+				<Compiler>
+					<Add option="/Ox"/>
+					<Add option="/Og"/>
+					<Add option="/DNDEBUG"/>
+				</Compiler>
+				<Linker>
+					<Add option="/incremental"/>
+					<Add library="OgreMain"/>
+					<Add library="CEGUIBase"/>
+					<Add directory="..\rules\lib\Release"/>
+					<Add directory="..\core\lib\Release"/>
+					<Add directory="..\sound\lib\Release"/>
+					<Add directory="..\script\lib\Release"/>
+					<Add directory="..\ui\lib\Release"/>
+					<Add directory="..\dialog\lib\Release"/>
+					<Add directory="..\common\lib\Release"/>
+					<Add directory="..\..\dependencies\ogre\OgreMain\lib\Release"/>
+				</Linker>
+				<ExtraCommands>
+					<Mode after="always" />
+					<Add after="..\..\tools\copy_dlls.bat ..\.. Release"/>
+				</ExtraCommands>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="/GA"/>
+			<Add option="/GX"/>
+			<Add option="/GR"/>
+			<Add option="/W3"/>
+			<Add option="/DWIN32"/>
+			<Add option="/D_WINDOWS"/>
+			<Add directory=".\include"/>
+			<Add directory="..\core\include"/>
+			<Add directory="..\dialog\include"/>
+			<Add directory="..\common\include"/>
+			<Add directory="..\rules\include"/>
+			<Add directory="..\ui\include"/>
+			<Add directory="..\sound\include"/>
+			<Add directory="..\script\include"/>
+			<Add directory="..\..\dependencies\ogre\OgreMain\include"/>
+			<Add directory="..\..\dependencies\openal\include"/>
+			<Add directory="..\..\dependencies\vorbis\include"/>
+			<Add directory="..\..\dependencies\ogg\include"/>
+			<Add directory="..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32"/>
+			<Add directory="..\..\dependencies\xerces\include"/>
+			<Add directory="..\..\dependencies\cegui\include"/>
+		</Compiler>
+		<Linker>
+			<Add library="RlCommon"/>
+			<Add library="RlSound"/>
+			<Add library="RlCore"/>
+			<Add library="RlUi"/>
+			<Add library="RlRules"/>
+			<Add library="RlScript"/>
+			<Add library="RlDialog"/>
+			<Add library="user32"/>
+			<Add directory="..\..\dependencies\cegui\lib"/>
+			<Add directory="..\..\dependencies\xerces\lib"/>
+		</Linker>
+		<Unit filename="src\RastullahMain.cpp">
+			<Option compilerVar="CPP"/>
+			<Option target="Debug"/>
+			<Option target="Release"/>
+		</Unit>
+	</Project>
+</Code::Blocks_project_file>

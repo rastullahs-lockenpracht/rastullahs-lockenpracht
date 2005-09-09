@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE Code::Blocks_workspace_file>
+<Code::Blocks_workspace_file>
+	<Workspace title="Rastullah gcc">
+		<Project filename="engine\common\RlCommon_gcc.cbp" active="1"/>
+		<Project filename="engine\sound\RlSound_gcc.cbp"/>
+		<Project filename="engine\core\RlCore_gcc.cbp"/>
+		<Project filename="engine\rules\RlRules_gcc.cbp"/>
+		<Project filename="engine\dialog\RlDialog_gcc.cbp"/>
+		<Project filename="engine\ui\RlUI_gcc.cbp"/>
+		<Project filename="engine\script\RlScript_gcc.cbp"/>
+		<Project filename="engine\startup\RlStartup_gcc.cbp"/>
+	</Workspace>
+</Code::Blocks_workspace_file>

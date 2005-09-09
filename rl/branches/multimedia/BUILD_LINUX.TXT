@@ -1,0 +1,39 @@
+GCC
+
+Um Rastullahs Lockenpracht bauen zu können werden folgende zusätzliche
+Bibliotheken benötigt:
+
+Ogre 3D - > 0.15+ ( latest CVS )
+http://www.ogre3d.org
+
+Ruby - 1.8
+http://ruby-lang.org
+
+SWIG - 1.3.25 
+http://www.swig.org
+
+OPENAL
+http://developer.creative.com/landing.asp?cat=1&sbcat=31&top=38
+
+Ode - 0.5
+http://www.ode.org - Single Precision mit Trimesh
+
+OgreODE - aktuelle preview
+http://www.ogre3d.org/phpBB2/viewtopic.php?p=32348#32348
+
+Xerxes
+http://xml.apache.org/xerces-c/download.cgi
+
+boost
+http://www.boost.org
+
+
+Eigentlich ganz normal:
+configure; make; make install.
+
+Wenn ein frischer Sourcecode aus dem SVN geholt wird, bitte vorher
+bootstrap aufrufen. bootstrap ruft als letzte Aktion (wenn vorher
+alles gut gegangen ist) configure mit den Parametern auf, die bootstrap
+übergeben wurden.
+
+Bei Fragen: http://www.team-pantheon.de
