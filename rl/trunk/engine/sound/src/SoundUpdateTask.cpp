@@ -16,9 +16,6 @@
  */
 #include "SoundUpdateTask.h"
 #include "SoundSubsystem.h"
-extern "C" {
-    #include "fmod.h"
-}
 
 template<> rl::SoundUpdateTask* Ogre::Singleton<rl::SoundUpdateTask>::ms_Singleton = 0;
 
