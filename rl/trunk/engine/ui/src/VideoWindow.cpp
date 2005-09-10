@@ -16,6 +16,7 @@
 
 #include "VideoWindow.h"
 #include <CEGUITexture.h>
+#include "DebugWindow.h"
 
 template<> rl::VideoWindow* Ogre::Singleton<rl::VideoWindow>::ms_Singleton = 0;
 
@@ -36,6 +37,10 @@ VideoWindow::VideoWindow()
     : CeGuiWindow("video.xml", WND_SHOW),
       mTexture(0)
 {
+	mImage = getStaticImage( "VideoWindow/Video" );
+	mWindow->addChildWindow(mImage);
+	bindCloseToCloseButton();
+	
     addToRoot(mWindow);
     setVisible(false);
 }
@@ -53,24 +58,18 @@ void VideoWindow::show(Texture *texture, CeGuiString name)
     mTexture = texture;
     mName = name;
     
-    mImage = (StaticImage*)WindowManager::getSingleton().createWindow("RastullahLook/StaticImage", "Video/image");
-    mImage->setMetricsMode(Relative);
-    mImage->setPosition(Relative, Vector2(0.02, 0.02));
-    mImage->setHeight(Relative, 0.95);
-    mImage->setWidth(Relative, 0.95);
-    mWindow->addChildWindow(mImage);
-
-    CeGuiWindow::show();
-
+ 
    //Now attach Texture to
     if(mTexture)
     {
         CeGuiString temp = "MyImages";
         Imageset *img = ImagesetManager::getSingleton().createImageset( 
                 temp, mTexture );
-        img->defineImage( mName, Point(0.0f,0.0f), mImage->getSize(), Point(0.0f,0.0f));
+        img->defineImage( mName, Point(0.0f,0.0f), mImage->getAbsoluteSize(), Point(0.0f,0.0f));
         mImage->setImage(temp, mName);
     } 
+
+	CeGuiWindow::show();
 }
 
 /// Reaktion auf Videoevents.
@@ -78,8 +77,17 @@ bool VideoWindow::eventRaised(VideoPlayEvent *event)
 {
     if (event->getReason() == VideoPlayEvent::ENDOFSTREAM)
     {
-        hide();
+		hide();
+        destroyWindow();
     }
+	return true;
+}
+
+bool VideoWindow::eventRaised(VideoTimingEvent* event)
+{
+	DebugWindow::getSingleton().setText(
+		"Frame: "+Ogre::StringConverter::toString(event->mFrameNumber)+
+		"   Dropped: "+Ogre::StringConverter::toString(event->mFramesDropped));
 	return true;
 }
 

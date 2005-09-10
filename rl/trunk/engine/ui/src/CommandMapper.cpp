@@ -61,6 +61,7 @@ namespace rl {
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_U, "showobjectactions");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_C, "showcharactersheet");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_T, "showtargetwindow");
+		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_V, "showtestvideowindow");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_O, "togglecharacterstatewindow");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_F10, "toggleingameglobalmenu");
 

@@ -172,5 +172,15 @@ class ShowObjectDescriptionWindow < Action
   end
 end
 
+class ShowTestVideoWindow < Action
+  def initialize
+    super("showtestvideowindow", "Anschauen")
+  end
+  
+  def doAction(object, actor, target)
+    load "video.rb"
+  end
+end
+
 act = ShowObjectDescriptionWindow.new()
 ActionManager.getSingleton().registerAction(act)

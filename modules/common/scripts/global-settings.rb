@@ -22,6 +22,7 @@ class GlobalSettings
       $act14 = ToggleCharacterStateWindowAction.new
       $act15 = ShowTargetWindowAction.new
       $act16 = ToggleInGameGlobalMenuAction.new
+      $act17 = ShowTestVideoWindow.new
 
       actionManager.registerInGameGlobalAction($act1, $grpView)
       actionManager.registerInGameGlobalAction($act3, $grpView)

@@ -35,7 +35,8 @@ namespace rl
 
 class _RlUiExport VideoWindow : public CeGuiWindow,
      public Ogre::Singleton<VideoWindow>,
-     public EventListener<VideoPlayEvent>
+     public EventListener<VideoPlayEvent>,
+	 public EventListener<VideoTimingEvent>
 {
 private:
     /// Textur des Videos
@@ -57,7 +58,8 @@ public:
     /// Spiel's nochmal, Sam
     void show(CEGUI::Texture *texture, CeGuiString name);
     /// Reaktion auf Videoevents.
-    virtual bool eventRaised(VideoPlayEvent *event);
+	virtual bool eventRaised(VideoPlayEvent *event);
+	virtual bool eventRaised(VideoTimingEvent *event);
     
     
 };
