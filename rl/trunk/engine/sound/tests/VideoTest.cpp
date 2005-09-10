@@ -75,7 +75,7 @@ public:
         
         image->setMaximumSize(Size(2.0f, 2.0f));
         image->setPosition(Point(0.0f, 0.05f));
-        image->setSize(Size(1.0f, 0.86f));
+        image->setSize(Absolute, Size(mVideo->getWidth(), mVideo->getHeight()));
         image->setFrameEnabled(false);
         image->setBackgroundEnabled(false);
     
