@@ -1,20 +1,29 @@
+#include <xercesc/util/XMemory.hpp>	// Muss vor Ogre stehen (zumindest für VS)
+
 
 #include "SoundPrerequisites.h"
-#include "Video.h"
-#include <CEGUI/CEGUI.h>
-#include <CEGUI/CEGUIWindow.h>
+
+#include <Ogre.h>
+
 #include <OgreRenderWindow.h>
-#include <OGRE/OgreCEGUIRenderer.h>
+#include <OgreCEGUIRenderer.h>
+
+#include <OgreNoMemoryMacros.h>
+#include <CEGUI.h>
+#include <OgreMemoryMacros.h>
+
 #include <CoreSubsystem.h>
 #include <OgreSceneManager.h>
 #include <OgreCEGUIResourceProvider.h>
 #include <OgreFrameListener.h>
 #include <OgreLight.h>
-#include <Ogre.h>
+#include <OgrePlatform.h>
 #include "World.h"
 #include "Sleep.h"
 #include "DebugWindow.h"
 #include "ExampleApplication.h"
+#include "Video.h"
+
 
 using namespace rl;
 using namespace CEGUI;
