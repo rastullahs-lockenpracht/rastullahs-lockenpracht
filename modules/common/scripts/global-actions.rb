@@ -56,7 +56,7 @@ class ToggleViewModeAction < Action
   end
 
   def doAction(object, actor, target)
-    gc = $UI.getGameController();
+    gc = $UI.getCharacterController();
     gc.toggleViewMode()
   end
 end
@@ -77,7 +77,7 @@ class ResetCameraAction < Action
   end
 
   def doAction(object, actor, target)
-    gc = $UI.getGameController();
+    gc = $UI.getCharacterController();
     gc.resetCamera();
   end
 end
@@ -92,13 +92,13 @@ class MakeScreenshotAction < Action
   end
 end
 
-class ToggleOdeDebugAction < Action
+class ToggleCollisionDebugAction < Action
   def initialize
-    super("toggleodedebug", "Ode-Körper anzeigen")
+    super("togglecollisiondebug", "Kollisionskörper anzeigen")
   end
   
   def doAction(object, actor, target)
-    $PM.toggleDebugOde();
+    $PM.toggleDebugMode();
   end
 end
 

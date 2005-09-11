@@ -20,7 +20,7 @@ class Hero < Person
 
 
         $CORE.log("Heldenaktor erstellen...");
-        $heldaktor = $AM.createMeshActor("Held","held.mesh", PhysicsManager::GT_CAPSULE, -1.0);
+        $heldaktor = $AM.createMeshActor("Held","held.mesh", PhysicsManager::GT_ELLIPSOID, 75.0);
         setActor($heldaktor);
 
         addSounds()

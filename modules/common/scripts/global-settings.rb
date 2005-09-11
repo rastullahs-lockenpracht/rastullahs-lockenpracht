@@ -11,7 +11,7 @@ class GlobalSettings
       $act4 = ToggleConsoleAction.new
       $act5 = ToggleDebugWindowAction.new
       $act6 = ToggleGameLogWindowAction.new
-      $act7 = ToggleOdeDebugAction.new
+      $act7 = ToggleCollisionDebugAction.new
       $act8 = ToggleDialogWindowAction.new
       $act9 = ToggleViewModeAction.new
       $act17 = UseGameObjectDefaultAction.new
