@@ -27,7 +27,7 @@
 #include "DialogCharacter.h"
 #include "Console.h"
 #include "DebugWindow.h"
-#include "GameController.h"
+#include "CharacterController.h"
 #include "InputManager.h"
 #include "CommandMapper.h"
 #include "CommandMapperWindow.h"
@@ -76,7 +76,7 @@ namespace rl {
 	}
 
 	UiSubsystem::UiSubsystem() :
-        mGameController(0),
+        mCharacterController(0),
         mHero(0),
         mCharacter(0),
 		mInCombat(false)
@@ -91,7 +91,7 @@ namespace rl {
 		delete Console::getSingletonPtr();
         delete InputManager::getSingletonPtr();
 
-        GameLoopManager::getSingleton().removeSynchronizedTask(mGameController);
+        GameLoopManager::getSingleton().removeSynchronizedTask(mCharacterController);
     }
 	
     void UiSubsystem::initializeUiSubsystem( void )
@@ -188,10 +188,10 @@ namespace rl {
             // @todo alte Sachen löschen
             mCharacter = person;
             Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
-            mGameController = new GameController(camera, person->getActor());
-		    log(Ogre::LML_TRIVIAL, "GameController created.");
-            GameLoopManager::getSingleton().addSynchronizedTask(mGameController, FRAME_STARTED);
-            log(Ogre::LML_TRIVIAL, "GameController task added.");
+            mCharacterController = new CharacterController(camera, person->getActor());
+		    log(Ogre::LML_TRIVIAL, "CharacterController created.");
+            GameLoopManager::getSingleton().addSynchronizedTask(mCharacterController, FRAME_STARTED);
+            log(Ogre::LML_TRIVIAL, "CharacterController task added.");
             World* world = CoreSubsystem::getSingletonPtr()->getWorld();
             world->setActiveActor(person->getActor());
 		    mCharacterStateWindow->setCharacter(person);
@@ -364,9 +364,9 @@ namespace rl {
 		mInGameMenuWindow->update();
 	}
 	
-    GameController* UiSubsystem::getGameController()
+    CharacterController* UiSubsystem::getCharacterController()
     {
-        return mGameController;
+        return mCharacterController;
     }
 
 	GameLoggerWindow* UiSubsystem::getGameLogger()

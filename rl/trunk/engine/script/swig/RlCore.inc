@@ -460,79 +460,72 @@ public:
     void removeQueryFlag( unsigned long flag );
 };
 
-
-class PhysicalThing {
-private:
-	PhysicalThing();
+class PhysicalThing
+{
 public:
+    PhysicalThing(OgreNewt::Body* body, const Ogre::Vector3& offset = Ogre::Vector3::ZERO,
+        const Ogre::Quaternion& orientationBias = Ogre::Quaternion::IDENTITY);
+
     void setPosition(Ogre::Real x, Ogre::Real y, Ogre::Real z);
     void setOrientation(Ogre::Real w, Ogre::Real x, Ogre::Real y, Ogre::Real z);
 
-    rl::Actor* getActor();
+    // Sets the vector, that will always point up.
+    void setUpConstraint(const Ogre::Vector3& upVector = Ogre::Vector3::UNIT_Y);
+    Ogre::Vector3 getUpConstraint() const;
+    void clearUpConstraint();
 
-    bool isDynamic();
-    void setDynamic(bool dynamic);
+    Actor* getActor() const;
 
-    void addForce(Ogre::Real dir_x, Ogre::Real dir_y, Ogre::Real dir_z);
-    void addForceWorldSpace(Ogre::Real dir_x, Ogre::Real dir_y, Ogre::Real dir_z);
-    void addForce(Ogre::Real dir_x, Ogre::Real dir_y, Ogre::Real dir_z,
-        Ogre::Real pos_x, Ogre::Real pos_y, Ogre::Real pos_z);
-    void addForceWorldSpace(Ogre::Real dir_x, Ogre::Real dir_y, Ogre::Real dir_z,
-        Ogre::Real pos_x, Ogre::Real pos_y, Ogre::Real pos_z);
-    void addTorque(Ogre::Real x, Ogre::Real y, Ogre::Real z);
-    void addTorqueWorldSpace(Ogre::Real x, Ogre::Real y, Ogre::Real z);
+    void addForce(const Ogre::Vector3& force);
 
-    void setBounceParameters(Ogre::Real restitutionValue,
-        Ogre::Real velocityThreshold);
-    Ogre::Real getBounceRestitutionValue(void);
-    Ogre::Real getBounceVelocityThreshold(void);
-
-    void setSoftness(Ogre::Real softness);
-    Ogre::Real getSoftness(void);
-
-    void setFriction(Ogre::Real friction);
-    Ogre::Real getFriction(void);
-    void setSoftErp(Ogre::Real erp);
-    Ogre::Real getSoftErp(void);
-
-    void setLinearVelocity(Ogre::Real x, Ogre::Real y, Ogre::Real z);
-    const Ogre::Vector3 getLinearVelocity(void);
-
-    const Ogre::Vector3 getAngularVelocity(void);
-    void setAngularVelocity(Ogre::Real x, Ogre::Real y, Ogre::Real z);
+    Ogre::Real getMass() const;
 };
 
-class PhysicsManager {
-private:
-	PhysicsManager();
-public:  
+
+class PhysicsManager
+{
+public:
+
     enum GeometryTypes {
         GT_NONE = -1,
         GT_BOX = 0,
         GT_SPHERE = 1,
         GT_CAPSULE = 2,
-        GT_MESH = 3
+        GT_MESH = 3,
+        GT_ELLIPSOID = 4
     };
     
+    /// Typ bestimmt, wo der Usrprung (0/0/0) des Objektes liegt.
     enum OffsetMode {
+        /// Ursprung in Objektmitte
         OM_CENTERED = 0,
-        OM_BOTTOMCENTERED = 1
+        /// Ursprung Unten-Mitte
+        OM_BOTTOMCENTERED
     };
+    
+    PhysicsManager();
+	static PhysicsManager& getSingleton(void);
+    
+    PhysicalThing* createPhysicalThing(const int geomType, const Ogre::Vector3& size,
+		Real mass, OffsetMode offsetMode = OM_BOTTOMCENTERED);
 
-    PhysicalThing* createPhysicalThing(GeometryTypes geomType,
-        const Ogre::Vector3& size, Ogre::Real density, OgreOde::Space* space = NULL,
-        OffsetMode offsetMode = OM_BOTTOMCENTERED);
-    
-    void setGravity( Ogre::Real x, Ogre::Real y, Ogre::Real z );
-    Ogre::Vector3 getGravity();
-    
+    void removeAndDestroyPhysicalThing(PhysicalThing* thing);
+
+    // Global Settings
+    void setGravity(Ogre::Real x, Ogre::Real y, Ogre::Real z);
+    Vector3 getGravity() const;
+
     void setEnabled(bool enabled);
-    
-    static PhysicsManager & getSingleton(void);
-	static PhysicsManager * getSingletonPtr(void);
+
+	/// Levelgeometrie hinzufügen
+	void addLevelGeometry(Ogre::Entity* ent);
+	/// Komplette Levelgeometrie auflösen
+	void clearLevelGeometry();
 	
-	void toggleDebugOde();
+	void toggleDebugMode();
+    bool isDebugMode() const;
 };
+
 
 class CoreSubsystem {
 private:

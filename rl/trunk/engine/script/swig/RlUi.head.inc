@@ -20,7 +20,7 @@
 #include "UiPrerequisites.h"
 #include "UiSubsystem.h"
 #include "CommandMapper.h"
-#include "GameController.h"
+#include "CharacterController.h"
 #include "GameLoggerWindow.h"
 #include "VideoWindow.h"
 %}

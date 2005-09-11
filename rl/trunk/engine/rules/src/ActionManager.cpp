@@ -106,7 +106,6 @@ namespace rl
 		return (*iter).second;
 	}
 
-
 	void ActionManager::registerInGameGlobalAction(Action* action, ActionGroup* group)
 	{
 		mInGameGlobalActions.push_back(action);

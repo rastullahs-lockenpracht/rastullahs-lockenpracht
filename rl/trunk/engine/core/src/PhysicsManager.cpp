@@ -1,39 +1,29 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
- * 
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the Clarified Artistic License.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  Clarified Artistic License for more details.
- *
- *  You should have received a copy of the Clarified Artistic License
- *  along with this program; if not you can get it here
- *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
- */
+* Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
+* 
+*  This program is free software; you can redistribute it and/or modify
+*  it under the terms of the Clarified Artistic License.
+*
+*  This program is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*  Clarified Artistic License for more details.
+*
+*  You should have received a copy of the Clarified Artistic License
+*  along with this program; if not you can get it here
+*  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+*/
 
 #include "PhysicsManager.h"
-
-#include "OgreNoMemoryMacros.h"
-#include <ode/ode.h>
-#include "OgreMemoryMacros.h"
 
 #include "CoreSubsystem.h"
 #include "World.h"
 #include "PhysicalThing.h"
 #include "Actor.h"
 #include "ActorManager.h"
-
 #include "Exception.h"
+#include "PhysicsController.h"
 
-// Define a max macro
-#ifndef max
-#define max(a,b) (((a)>=(b))?(a):(b))
-#endif
-
-using namespace OgreOde;
 using namespace std;
 
 template<> rl::PhysicsManager* Singleton<rl::PhysicsManager>::ms_Singleton = 0;
@@ -52,134 +42,107 @@ namespace rl
 
     PhysicsManager::PhysicsManager( )
         :   mEnabled(false),
-            mPhysicalThings(),
-            mCollisionListeners(),
-			mOdeWorld(new OgreOde::World( 
-				CoreSubsystem::getSingleton().getWorld()->getSceneManager() ) ),
-            mGlobalSpace(mOdeWorld->getDefaultSpace()),
-			mLevelGeomSpace(mGlobalSpace),
-            mOdeStepper(new OgreOde::ForwardFixedQuickStepper(0.05)),
-			mFallSpeed(0.1),
-			mCameraNode(NULL),
-			mOdeCamera(NULL),
-			mControlNode(NULL),
-			mOdeActor(NULL)
+        mWorld(),
+        mNewtonDebugger(),
+        mPhysicalThings(),
+        mControlledThings(),
+        mDebugMode(false),
+        mGravity(0, -98.0, 0),
+        mWorldAABB(Vector3(-100, -100, -100), Vector3(100, 100, 100)),
+        mElapsed(0.0f),
+        mUpdate(1.0f/120.0f),
+        mLevelID(),
+        mCharacterID(),
+        mCharLevelPair()
     {
-        mOdeWorld->setGravity(Vector3(0, -98.0665, 0));
-        mOdeWorld->setCFM(10e-5);
-        mOdeWorld->setERP(0.2);
-        mOdeWorld->setAutoSleep(true);
-        mOdeWorld->setContactCorrectionVelocity(1.0);
-		mOdeWorld->setContactSurfaceLayer(0.00001);
-        mOdeWorld->setCollisionListener(this);
-		mOdeWorld->setDamping(0.2, 0.0); // linear, angular
-	
-		mLevelGeomSpace->setInternalCollisions( false );
+        mWorld = new OgreNewt::World();
+        mWorld->setSolverModel(0);
+        mWorld->setFrictionModel(0);
 
-		mOdeStepper->setAutomatic(OgreOde::ForwardFixedQuickStepper::AutoMode_NotAutomatic,
-	        Root::getSingletonPtr());
+        // setup materials: default<->default
+        OgreNewt::MaterialID* defaultID = mWorld->getDefaultMaterialID();
+        OgreNewt::MaterialPair* defaultPair =
+            new OgreNewt::MaterialPair(mWorld, defaultID, defaultID);
+        defaultPair->setContactCallback(new PhysicsGenericContactCallback);
+
+        // setup materials: character<->level
+        mLevelID = new OgreNewt::MaterialID(mWorld);
+        mCharacterID = new OgreNewt::MaterialID(mWorld);
+        mCharLevelPair = new OgreNewt::MaterialPair(mWorld, mCharacterID, mLevelID);
+        mCharLevelPair->setDefaultFriction(0, 0);
     }
 
     PhysicsManager::~PhysicsManager()
     {
-		delete mLevelGeomSpace;
-		mLevelGeomSpace = 0;
-        delete mGlobalSpace;
-        mGlobalSpace = 0;
-        delete mOdeWorld;
-        mOdeWorld = 0;
+        delete mWorld;
     }
 
     void PhysicsManager::run(Real elapsedTime)
     {
-        if( mEnabled && elapsedTime > 0.0f )
+        mElapsed += elapsedTime;
+        int count = 0;
+
+        if ((mElapsed > mUpdate) && (mElapsed < (1.0f)) )
         {
-            mOdeStepper->step(elapsedTime);
-			mLevelGeomSpace->collide(mOdeActor);
-
-			//mOdeActor->collide(mOdeLevel, this);
-			//mOdeCamera->collide(mOdeLevel, this);
+            while (mElapsed > mUpdate)
+            {
+                mWorld->update(mUpdate);
+                mElapsed -= mUpdate;
+                count++;
+            }
         }
-    }
+        else
+        {
+            if (mElapsed < (mUpdate))
+            {
+                // not enough time has passed this loop, so ignore for now.
+            }
+            else
+            {
+                mWorld->update(mElapsed);
+                count++;
+            }
+        }
 
-    void PhysicsManager::setCFM(Real cfm)
-    {
-        mOdeWorld->setCFM(cfm);
-    }
-
-    Real PhysicsManager::getCFM()
-    {
-        return mOdeWorld->getCFM();
-    }
-
-    void PhysicsManager::setERP(Real erp)
-    {
-        mOdeWorld->setERP(erp);
-    }
-
-    Real PhysicsManager::getERP()
-    {
-        return mOdeWorld->getERP();
+        //if( mEnabled && elapsedTime > 0.0f )
+        //{
+        //    mWorld->update(elapsedTime);
+        //    if(mDebugMode)
+        //    {
+        //        mNewtonDebugger->showLines(mWorld);
+        //    }
+        //}
     }
 
     void PhysicsManager::setGravity( Real x, Real y, Real z )
     {
-        mOdeWorld->setGravity(Vector3(x, y, z));
+        mGravity = Vector3(x, y, z);
     }
 
-    Vector3 PhysicsManager::getGravity()
+    Vector3 PhysicsManager::getGravity() const
     {
-        return mOdeWorld->getGravity();
+        return mGravity;
     }
-
-    OgreOde::World* PhysicsManager::getWorld()
-    {
-        return mOdeWorld;
-    }
-
-
-	/*PhysicalThing* PhysicsManager::createOrientedPhysicalThing(
-		Actor* actor, const int geomType,
-		Real density, OgreOde::Space* odeSpace, 
-		OffsetMode offsetMode)
-	{
-
-	}*/
-
 
     PhysicalThing* PhysicsManager::createPhysicalThing(const int geomType,
-        const Vector3& size, Real density, OgreOde::Space* odeSpace, OffsetMode offsetMode)
+        const Vector3& size, Real mass, OffsetMode offsetMode)
     {
         PhysicalThing* rval = NULL;
-        
+
         if (geomType != GT_NONE) {
-            Geometry* geom = NULL;
-            Body* body = density > 0.0 ? new Body() : NULL;
-			
-			//Objekte mit Body werden in TransformGeometry gekapselt und die dürfen
-			//nicht in einem Space liegen
-			OgreOde::Space* space = body != NULL ? NULL : odeSpace;
-			
-            
-            ///@todo verallgemeinern
+            OgreNewt::Collision* coll = NULL;
+
             Vector3 offset(Vector3::ZERO);
             Quaternion orientationBias(Quaternion::IDENTITY);
-            
+            Vector3 inertiaCoefficients(Vector3(1.0, 1.0, 1.0));
+
             if (geomType == GT_BOX)
             {
-                geom = new BoxGeometry(size, space);
+                coll = new OgreNewt::CollisionPrimitives::Box(mWorld, size);
 
                 if (offsetMode == OM_BOTTOMCENTERED)
                 {
                     offset = Vector3(0.0, size.y / 2.0, 0.0);
-                }
-
-                if (density > 0.0)
-                {
-                    // Objekt hat eine Masse, also einen Body verpassen.
-                    OgreOde::BoxMass mass(1.0, size);
-                    mass.setDensity(density, size);
-                    body->setMass(mass);
                 }
             }
             else if (geomType == GT_SPHERE)
@@ -190,64 +153,51 @@ namespace rl
                 {
                     offset = Vector3(0.0, size.y / 2.0, 0.0);
                 }
-                
-                geom = new SphereGeometry(radius, space);
 
-                if (density > 0.0)
-                {
-                    // Objekt hat eine Masse, also einen Body verpassen.
-                    OgreOde::SphereMass mass(1.0, radius);
-                    mass.setDensity(density, radius);
-                    body->setMass(mass);
-                }
+                coll = new OgreNewt::CollisionPrimitives::Ellipsoid(mWorld,
+                    Vector3(radius, radius, radius));
             }
             else if (geomType == GT_CAPSULE)
             {
                 double radius = max(size.x, size.z) / 2.0;
-                double height = size.y - 2.0 * radius;
 
                 if (offsetMode == OM_BOTTOMCENTERED)
                 {
-                    offset = Vector3(0.0, (size.y - 2.0 * radius) / 2.0 + radius, 0.0);
+                    offset = Vector3(0.0, size.y / 2.0, 0.0);
                 }
 
-                geom = new CapsuleGeometry(radius, height, space);
+                orientationBias = Quaternion(Degree(90), Vector3::NEGATIVE_UNIT_Z);
 
-                orientationBias = Quaternion(Degree(90), Vector3::UNIT_X); //UNIT_X
-                if (density > 0.0)
-                {
-                    // Objekt hat eine Masse, also einen Body verpassen.
-                    OgreOde::Body* body = new OgreOde::Body();
-                    OgreOde::CapsuleMass mass(1.0, radius, Vector3::UNIT_Y, height);//Y
-                    mass.setDensity(density, radius, Vector3::UNIT_Y, height);//Y
-                    body->setMass(mass);
-                }
+                coll = new OgreNewt::CollisionPrimitives::Capsule(mWorld, radius, size.y);
             }
-
-            // Falls es ein Körper ist, können wir die Ursprungsänderung
-            // nicht per offset regeln, sondern nehmen eine TransformGeometry
-            if (body)
+            else if (geomType == GT_ELLIPSOID)
             {
-                TransformGeometry* trans = new TransformGeometry(mGlobalSpace);
-                geom->setPosition(offset);
-                geom->setOrientation(orientationBias);
-                trans->setEncapsulatedGeometry(geom);
-                
-                geom = trans;
-                geom->setBody(body);
-               
-                // Offset und bias werden schon von der TransformGeom geregelt
-                // deshalb diese zurücksetzen.
-                offset = Vector3::ZERO;
-                orientationBias = Quaternion::IDENTITY;
+                if (offsetMode == OM_BOTTOMCENTERED)
+                {
+                    offset = Vector3(0.0, size.y / 2.0, 0.0);
+                }
+                // set the size x/z values to the maximum of each for testing
+                Vector3 s(size/2.0);
+                s.x = max(s.x, s.z);
+                s.z = s.x;
+                coll = new OgreNewt::CollisionPrimitives::Ellipsoid(mWorld, s);
+                inertiaCoefficients = Vector3(s.x*s.x, s.y*s.y, s.z*s.z);
             }
 
-            rval = new PhysicalThing(geom, offset, orientationBias);
+            OgreNewt::Body* body = new OgreNewt::Body(mWorld, coll);
+
+            if (mass > 0.0)
+            {
+                body->setMassMatrix(mass, mass*inertiaCoefficients);
+            }
+
+            body->setCustomForceAndTorqueCallback(genericForceCallback);
+
+            rval = new PhysicalThing(body, offset, orientationBias);
             mPhysicalThings.push_back(rval);        
         }
         return rval;
     }
-
 
     void PhysicsManager::removeAndDestroyPhysicalThing(PhysicalThing* thing)
     {
@@ -262,168 +212,171 @@ namespace rl
         }
     }
 
-    bool PhysicsManager::collision(Contact* contact)
-    {
-        Geometry* g1 = contact->getFirstGeometry();
-        Geometry* g2 = contact->getSecondGeometry();
-                
-        if(g1 && g2)
-        {
-			if (g1 == mOdeActor)
-				return collisionWithPlayerActor(g2, contact);
-			if (g2 == mOdeActor)
-				return collisionWithPlayerActor(g1, contact);
-			if (g1 == mOdeCamera || g2 == mOdeCamera)
-				return collisionCameraWithLevel(contact);
-
-            // Check for collisions between things that are connected
-            // and ignore them.
-            OgreOde::Body* b1 = g1->getBody();
-            OgreOde::Body* b2 = g2->getBody();
-            if(b1 && b2)
-            {
-                if(OgreOde::Joint::areConnected(b1,b2)) return false; 
-				
-				PhysicalThing* pt1 = reinterpret_cast<PhysicalThing*>(b1->getUserData());
-                PhysicalThing* pt2 = reinterpret_cast<PhysicalThing*>(b2->getUserData());
-                contact->setCoulombFriction(pt1->getFriction() * pt2->getFriction());
-                contact->setBouncyness(
-                    pt1->getBounceRestitutionValue() * pt2->getBounceRestitutionValue(),
-                    max(pt1->getBounceVelocityThreshold(),
-                        pt2->getBounceVelocityThreshold())); 
-                contact->setSoftness(max(pt1->getSoftErp(), pt2->getSoftErp()),
-                    pt1->getSoftness() * pt2->getSoftness());
-            }
-            else if (b1 || b2)
-            {
-                PhysicalThing* pt = reinterpret_cast<PhysicalThing*>(b1 ? 
-                    b1->getUserData() : b2->getUserData());
-                if (pt)
-                {
-                    contact->setCoulombFriction(pt->getFriction());
-                    contact->setBouncyness(pt->getBounceRestitutionValue(),
-                        pt->getBounceVelocityThreshold()); 
-                    contact->setSoftness(pt->getSoftErp(), pt->getSoftness());
-                }
-            }
-        }
-
-        // Yes, this collision is valid
-        return true;
-    }
-
-    bool PhysicsManager::preStep(Real time)
-    {
-        return true;
-    }
-    
     void PhysicsManager::setEnabled(bool enabled)
     {
         mEnabled = enabled;
     }
 
-    void PhysicsManager::addCollisionListener(CollisionListener* cl)
+    bool PhysicsManager::isDebugMode() const
     {
-        mCollisionListeners.push_back(cl);
+        return mDebugMode;
     }
-    
-    void PhysicsManager::removeCollisionListener(CollisionListener* cl)
+
+    void PhysicsManager::toggleDebugMode()
     {
-        vector<CollisionListener*>::iterator it =
-            find(mCollisionListeners.begin(), mCollisionListeners.end(), cl);
-        
-        if (it != mCollisionListeners.end())
+        if (mDebugMode)
+            mNewtonDebugger->hideLines();
+        else
         {
-            mCollisionListeners.erase(it);
+            mNewtonDebugger = &OgreNewt::Debugger::getSingleton();
+            mNewtonDebugger->init(
+                CoreSubsystem::getSingleton().getWorld()->getSceneManager());
+            mNewtonDebugger->showLines(mWorld);
+        }
+        mDebugMode = !mDebugMode;
+    }
+
+    void PhysicsManager::addLevelGeometry( Ogre::Entity* levelEntity )
+    {
+        RlAssert1(levelEntity);
+        RlAssert1(levelEntity->getParentSceneNode());
+
+        SceneNode* node = levelEntity->getParentSceneNode();
+        //Level entity has to be attached to a scene node.
+
+        OgreNewt::Collision* collision =
+            new OgreNewt::CollisionPrimitives::TreeCollision(mWorld, node, true);
+        OgreNewt::Body* body = new OgreNewt::Body(mWorld, collision);
+
+        body->attachToNode(node);
+        body->setPositionOrientation(node->getWorldPosition(),
+            node->getWorldOrientation());
+        body->setMaterialGroupID(mLevelID);
+
+        mLevelBodies.push_back(body);
+
+        // adjust worldAABB
+        Vector3 minV(mWorldAABB.getMinimum());
+        Vector3 maxV(mWorldAABB.getMaximum());
+
+        AxisAlignedBox entityAABB = levelEntity->getWorldBoundingBox();
+        minV.makeFloor(entityAABB.getMinimum());
+        maxV.makeCeil(entityAABB.getMaximum());
+        mWorldAABB.setMinimum(minV);
+        mWorldAABB.setMaximum(maxV);
+
+        mWorld->setWorldSize(mWorldAABB);
+    }
+
+    void PhysicsManager::clearLevelGeometry(  )
+    {
+        for (size_t i = 0; i < mLevelBodies.size(); ++i)
+        {
+            delete mLevelBodies[i];
+        }
+        mLevelBodies.clear();
+    }
+
+    // adopted from the chararcter demo in the newton sdk
+    // copyright 2000-2004
+    // By Julio Jerez
+    void PhysicsManager::genericForceCallback(OgreNewt::Body* body)
+    {
+        // apply a simple gravity force.
+        Ogre::Real mass;
+        Ogre::Vector3 inertia;
+
+        body->getMassMatrix(mass, inertia);
+
+        // apply saved forces in the PhysicalThing
+        PhysicalThing* thing =
+            static_cast<Actor*>(body->getUserData())->getPhysicalThing();
+
+        thing->addForce(getSingleton().mGravity*mass);
+        thing->onApplyForceAndTorque();
+    }
+
+    void PhysicsManager::controlledForceCallback(OgreNewt::Body* body)
+    {
+        PhysicalThing* thing =
+            static_cast<Actor*>(body->getUserData())->getPhysicalThing();
+
+        ControllerMap::const_iterator it = getSingleton().mControlledThings.find(thing);
+        if (it != getSingleton().mControlledThings.end())
+        {
+            (*it).second->OnApplyForceAndTorque(thing);
+        }
+        else
+        {
+            Throw(IllegalStateException,
+                "controlledForceCallback called for uncontrolled PhysicalThing.");
         }
     }
 
-	void PhysicsManager::toggleDebugOde()
-	{
-		mOdeWorld->setShowDebugObjects(!mOdeWorld->getShowDebugObjects());
-	}
+    void PhysicsManager::prepareUserControl(PhysicalThing* thing, OgreNewt::ContactCallback* cb) const
+    {
+        OgreNewt::Body* body = thing->_getBody();
+        body->setMaterialGroupID(mCharacterID);
+        body->setAutoFreeze(0);
+        body->unFreeze();
+        body->setLinearDamping(0.0f);
+        body->setAngularDamping(Vector3(0, 0, 0));
 
-	/**
-	 * Behandelt die Kollision eines Objekts mit dem Player
-	 * 
-	 * @todo Unterscheidung zwischen beweglichen und unbeweglichen Objekten, Player könnte 
-	 * bewegliche Objekte eventuell verschieben
-	 */
-	bool PhysicsManager::collisionWithPlayerActor(OgreOde::Geometry* geometry, Contact* contact)
-	{
-		if (geometry != mOdeCamera)
-		{
-			// @TODO: Player zurückwerfen - nochmal anschauen, scheint ohne hüpfen zu laufen, aber ist das auch richtig?
-			Ogre::Vector3 correction = -contact->getNormal() * contact->getPenetrationDepth()*0.2;
-			
-			mOdeActor->setPosition(mOdeActor->getPosition() + correction);
-			mControlNode->translate(correction);
+        body->setCustomForceAndTorqueCallback(controlledForceCallback);
 
-			mFallSpeed = 0.0;
-		}
-		else
-		{
-			mFallSpeed = 0.1;
-		}
-		return true;
-	}
+        // Set up-vector, so force application doesn't let the char fall over
+        thing->setUpConstraint(Vector3::UNIT_Y);
 
-	bool PhysicsManager::collisionCameraWithLevel(Contact* contact)
-	{
-		mCameraNode->translate(
-			Vector3(0.0, 0.0, -contact->getPenetrationDepth()),
-			Node::TS_LOCAL);
-		mCameraNode->_update(true, false);
-		//mTargetDistance = mCameraNode->getPosition().z;
-		return true;
-	}
+        ///\todo alles andere als sauber. Es können mehrere Controllers mit einem Material geben.
+        /// in diesem Falle würde stets der letzte als Callback für alle verwendet.
+        mCharLevelPair->setContactCallback(cb);
+    }
 
-	void PhysicsManager::addLevelGeometry( Ogre::Entity* ent )
-	{
-		if( ent == NULL )
-			Throw( NullPointerException, "Übergebene Entity darf nicht NULL sein" );
+    void PhysicsManager::unprepareUserControl(PhysicalThing* thing) const
+    {
+        OgreNewt::Body* body = thing->_getBody();
+        body->setMaterialGroupID(mWorld->getDefaultMaterialID());
+        body->setCustomForceAndTorqueCallback(genericForceCallback);
+        thing->setUpConstraint(Vector3::ZERO);
+    }
 
-		Matrix4 m = Matrix4::IDENTITY;
+    PhysicsController* PhysicsManager::getPhysicsController(PhysicalThing* thing) const
+    {
+        PhysicsController* rval = 0;
 
-		// Wenn die Entity an einem Node befestigt ist, Transformation übernehmen
-		if( ent->getParentNode() != NULL )
-			m = ent->getParentNode()->_getFullTransform();
+        ControllerMap::const_iterator it = mControlledThings.find(thing);
+        if (it != mControlledThings.end())
+        {
+            rval = (*it).second;
+        }
 
-		// Ein Ode-TriMesh erstellen
-		OgreOde::EntityInformer ei( ent, m );
-		Geometry* odeGeom = ei.createStaticTriangleMesh(mLevelGeomSpace);
-	}
+        return rval;
+    }
 
-	void PhysicsManager::clearLevelGeometry(  )
-	{
-		for( int i=(mLevelGeomSpace->getGeometryCount()-1); i >=0 ; i-- )
-		{
-			Geometry* odeGeom = mLevelGeomSpace->getGeometry(i);
-			mLevelGeomSpace->removeGeometry(*odeGeom);
-			delete odeGeom;
-		}
-	}
+    void PhysicsManager::setPhysicsController(PhysicalThing* thing,
+        PhysicsController* controller)
+    {
+        RlAssert1(thing);
 
+        // first see, if the thing has another controller already
+        PhysicsController* oldController = getPhysicsController(thing);
+        if (oldController)
+        {
+            // if so, remove it
+            unprepareUserControl(thing);
+            mControlledThings.erase(thing);
+        }
 
-	void PhysicsManager::setFallSpeed(Ogre::Real fallspeed)
-	{
-		mFallSpeed = fallspeed;
-	}
+        if(controller)
+        {
+            // add it to the map and prepare it for control
+            mControlledThings[thing] = controller;
+            prepareUserControl(thing, controller);
+        }
+    }
 
-	Ogre::Real PhysicsManager::getFallSpeed()
-	{
-		return mFallSpeed;
-	}
-
-	void PhysicsManager::setActor(Geometry* actor, SceneNode* controlNode)
-	{
-		mOdeActor = actor; 
-		mControlNode = controlNode;
-	}
-
-	void PhysicsManager::setCamera(Geometry* camera, SceneNode* cameraNode)
-	{
-		mOdeCamera = camera;
-		mCameraNode = cameraNode;
-	}
+    OgreNewt::World* PhysicsManager::_getNewtonWorld() const
+    {
+        return mWorld;
+    }
 }

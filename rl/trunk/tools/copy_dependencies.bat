@@ -58,6 +58,11 @@ REM -----------------------------
 REM 
 copy "%RL_ROOT%\dependencies\fmod\api\fmod.dll" "%RL_DIST%"
 copy "%RL_ROOT%\Dependencies\boost\bin\*.dll" "%RL_DIST%"
+
+copy "%RL_ROOT%\Dependencies\NewtonSDK\sdk\dll\Newton.dll" "%RL_DIST%"
+copy "%RL_ROOT%\Dependencies\OgreNewt\OgreNewt_Main\lib\debug\OgreNewt_d.dll" "%RL_DIST%"
+copy "%RL_ROOT%\Dependencies\OgreNewt\OgreNewt_Main\lib\release\OgreNewt.dll" "%RL_DIST%"
+
 copy "%RL_ROOT%\Dependencies\cegui\bin\*.dll" "%RL_DIST%"
 copy "%RL_ROOT%\Dependencies\xerces\bin\*.dll" "%RL_DIST%"
 copy "%RL_ROOT%\Dependencies\TheoraVideo\bin\%BUILD%\Plugin_TheoraVideoSystem.dll" "%RL_DIST%"
