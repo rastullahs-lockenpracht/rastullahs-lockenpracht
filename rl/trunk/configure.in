@@ -89,14 +89,11 @@ AC_CHECK_PROG(HAVE_DOXYGEN_PROG, doxygen, `which doxygen`, false)
 AM_PATH_CPPUNIT(1.0.0)
 
 # Physics
-AC_CHECK_LIB([ode], [main], [], AC_MSG_ERROR([Can't find libode]))
-AC_CHECK_LIB(OgreOde, [main], [], AC_MSG_ERROR([Can't find OgreOde]))
-AC_CHECK_LIB([Newton], [fopen], [], ) 
-#AC_MSG_ERROR([Can't find libNewton]))
-AC_LANG([C])
-AC_CHECK_LIB([OgreNewt], [NewtonBallGetJointAngle], [], )
-AC_LANG([C++])
-#AC_MSG_ERROR([Can't find OgreNewt]))
+AC_CHECK_LIB([Newton], [fopen], [], AC_MSG_ERROR([Can't find libNewton]) ) 
+AC_CHECK_HEADERS(Newton.h, , AC_MSG_ERROR([Can't find Newton headers]))
+AC_CHECK_LIB([OgreNewt], [NewtonBallGetJointAngle], [], AC_MSG_ERROR([Can't find OgreNewt]) )
+#AC_CHECK_HEADERS(OgreNewt.h, , AC_MSG_ERROR([Can't find OgreNewt headers]))
+
 
 # XERCES
 AC_CHECK_HEADERS(xercesc/util/XercesVersion.hpp, ,

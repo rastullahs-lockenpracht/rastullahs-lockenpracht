@@ -29,6 +29,7 @@ libRlCore_la_SOURCES = \
 	MeshObject.cpp \
 	ParticleSystemObject.cpp \
 	PhysicalThing.cpp \
+	PhysicsGenericContactCallback.cpp \
 	PhysicsManager.cpp \
 	Primitive.cpp \
 	RubyInterpreter.cpp \

@@ -320,15 +320,16 @@ namespace rl
         body->setAutoFreeze(0);
         body->unFreeze();
         body->setLinearDamping(0.0f);
-        body->setAngularDamping(Vector3(0, 0, 0));
+        Vector3 v(0, 0, 0); // Sonst mag GCC nicht.
+        body->setAngularDamping(v);
 
         body->setCustomForceAndTorqueCallback(controlledForceCallback);
 
         // Set up-vector, so force application doesn't let the char fall over
         thing->setUpConstraint(Vector3::UNIT_Y);
 
-        ///\todo alles andere als sauber. Es können mehrere Controllers mit einem Material geben.
-        /// in diesem Falle würde stets der letzte als Callback für alle verwendet.
+        ///\todo alles andere als sauber. Es kï¿½nnen mehrere Controllers mit einem Material geben.
+        /// in diesem Falle wï¿½rde stets der letzte als Callback fï¿½r alle verwendet.
         mCharLevelPair->setContactCallback(cb);
     }
 

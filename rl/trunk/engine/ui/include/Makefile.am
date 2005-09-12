@@ -1,6 +1,7 @@
 noinst_HEADERS = \
 	ActionChoiceWindow.h \
 	CeGuiWindow.h \
+	CharacterController.h \
 	CharacterSheetWindow.h \
 	CharacterStateWindow.h \
 	CombatWindow.h \
@@ -11,7 +12,6 @@ noinst_HEADERS = \
 	ContainerContentWindow.h \
 	DebugWindow.h \
 	DialogWindow.h \
-	GameController.h \
 	GameLoggerWindow.h \
 	InGameMenuWindow.h \
 	InputManager.h \

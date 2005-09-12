@@ -9,6 +9,7 @@ libRlUi_la_LDFLAGS = $(RUBY_LIBS) $(LIBS) \
 libRlUi_la_SOURCES = \
 	ActionChoiceWindow.cpp \
 	CeGuiWindow.cpp \
+	CharacterController.cpp \
 	CharacterSheetWindow.cpp \
 	CharacterStateWindow.cpp \
 	CombatWindow.cpp \
@@ -19,7 +20,6 @@ libRlUi_la_SOURCES = \
 	ContainerContentWindow.cpp \
 	DebugWindow.cpp \
 	DialogWindow.cpp \
-	GameController.cpp \
 	GameLoggerWindow.cpp \
 	InGameMenuWindow.cpp \
 	InputManager.cpp \

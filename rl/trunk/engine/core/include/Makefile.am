@@ -23,6 +23,8 @@
 	MeshObject.h \
 	ParticleSystemObject.h \
 	PhysicalThing.h \
+	PhysicsGenericContactCallback.h \
+	PhysicsController.h \
 	PhysicsManager.h \
 	Primitive.h \
 	RubyInterpreter.h \
