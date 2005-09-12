@@ -31,33 +31,39 @@ namespace rl {
 	{
 	public:
 		enum MoveType {
-			AT_NO_WALK,
-			AT_WALK_IN_PA_PHASE,
-			AT_WALK_IN_AT_PHASE,
-			AT_WALK_IN_AT_PA_PHASE,
-			AT_RUN_IN_AT_PA_PHASE
+			MT_NO_WALK,
+			MT_WALK_IN_PA_PHASE,
+			MT_WALK_IN_AT_PHASE,
+			MT_WALK_IN_AT_PA_PHASE,
+			MT_RUN_IN_AT_PA_PHASE
+		};
+		enum ActionTypeAktion {
+			AT_ATTACKE,
+			AT_PARADE,
+			AT_WALK,
+			AT_RUN,
 		};
 
 		Combat();
 		~Combat();
 
 		/**
-		 * L��t eine Creature am Kampf teilnehmen
+		 * Laesst eine Creature am Kampf teilnehmen
 		 * 
 		 * @param creature die Kreatur
-		 * @param group die Partei, in der die Kreatur k�mpft
+		 * @param group die Partei, in der die Kreatur kaempft
 		 */
 		void add(Creature* creature, int group);
 
 		/**
-		 * Gibt alle Mitglieder einer Kampfpartei zur�ck
+		 * Gibt alle Mitglieder einer Kampfpartei zurueck
 		 * @param group die Partei
 		 * @param eine Vector mit allen Mitgliedern der Partei
 		 */
 		std::vector<Creature*> getGroupMembers(int group);
 
 		/**
-		 * Gibt die Partei zur�ck, der ein Wesen in diesem Kampf angeh�rt
+		 * Gibt die Partei zurueck, der ein Wesen in diesem Kampf angehoert
 		 */
 		int getGroupOf(Creature* creature);
 
@@ -69,6 +75,10 @@ namespace rl {
 		Ogre::Real getMaxMoveDistance(MoveType action);
 		void doAttacke(Creature* creature);
 
+		Creature* getNext();
+		Creature* getNext(int group);
+
+
 	private:
 		/**
 		 * Speichert alle Daten, die eine Kreatur in diesem Kampf hat
@@ -76,21 +86,23 @@ namespace rl {
 		class Participant 
 		{
 		public:
-			Participant(Creature* creature, int group);
+			Participant(Creature* creature, int group, int no);
 
 			//Wesen und Gruppe
 			Creature* creature;
 			int group;
+			int id;
 
 			//DSA-Daten
 			int initiative;
 			static const int NO_INI = -9999999;
 
-			//N�chstes Vorhaben
+			//Naechste Vorhaben
 			Creature* attackeTarget;
 			Creature* paradeTarget;
 
-			MoveType nextMoveAction;
+			ActionTypeAktion nextAttackeAction;
+			ActionTypeAktion nextParadeAction;
 		};
 		typedef std::map<Creature*, Participant*> CombatMap;
 

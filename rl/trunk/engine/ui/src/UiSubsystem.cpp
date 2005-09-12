@@ -40,6 +40,7 @@
 #include "InGameMenuWindow.h"
 #include "CombatWindow.h"
 
+#include "Combat.h"
 #include "GameLoop.h"
 #include "ActorManager.h"
 #include "Actor.h"
@@ -340,7 +341,8 @@ namespace rl {
 	void UiSubsystem::startCombat(Combat* combat)
 	{
 		setCombatMode(true);
-		(new CombatWindow(combat))->setVisible(true);
+		int group = combat->getGroupOf(getActiveCharacter());
+		(new CombatWindow(combat, group))->setVisible(true);
 	}
 
 	void UiSubsystem::setCombatMode(bool inCombat)

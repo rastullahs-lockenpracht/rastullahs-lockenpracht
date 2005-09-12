@@ -17,18 +17,36 @@
 #ifndef __CombatWindow_H__
 #define __CombatWindow_H__
 
+#include "UiPrerequisites.h"
+
 #include "CeGuiWindow.h"
 
 namespace rl {
 
 	class Combat;
+	class Creature;
 
-	class CombatWindow : public CeGuiWindow
+	class _RlUiExport CombatWindow : public CeGuiWindow
 	{
 	public:
-		CombatWindow(Combat* combat);
+		CombatWindow(Combat* combat, int group);
 	private:
+
+		bool handleRightClick(const CEGUI::EventArgs& evt);
+		bool handleNextKR();
+		bool handleContextMenuClose();
+
+		Creature* mCurrentCreature;
 		Combat* mCombat;
+		int mGroup;
+
+		CEGUI::MenuBase* mOpponentContextMenu;
+		CEGUI::MenuItem* mMenuItemAttackWalkAt;
+		CEGUI::MenuItem* mMenuItemAttackWalkAtPa;
+		CEGUI::MenuItem* mMenuItemAttackRunAtPa;
+		CEGUI::MenuItem* mMenuItemParadeThis;
+		CEGUI::MenuItem* mMenuItemInfo;
+		CEGUI::PushButton* mButtonNextRound;
 	};
 }
 
