@@ -465,12 +465,22 @@ namespace rl
 
 	int Creature::getCurrentBe()
 	{
-		return mCurrentBe;
+		return mCurrentBe; /// @todo - Ruestungsgewoehnung
 	}
 
 	void Creature::setCurrentBe(int newBe)
 	{
 		mCurrentBe = newBe;
+	}
+
+	int Creature::getCurrentInitiativeModifier()
+	{
+		return mCurrentInitiativeModifier;
+	}
+
+	void Creature::setCurrentInitiativeModifier(int newIniMod)
+	{
+		mCurrentInitiativeModifier = newIniMod;
 	}
 
 	void Creature::setWert(int wertId, int wert)
@@ -564,8 +574,7 @@ namespace rl
 			Throw(InvalidArgumentException, "kampftechnikName nicht in mKampftechniken gefunden");
 		}
 		int rval;
-		int eBe = floor(float(DsaManager::getSingleton().getKampftechnik(kampftechnikName)->calculateEbe(mCurrentBe)
-			/*- Ruestungsgewoehnung*/) / 2.0);
+		int eBe = floor(float(DsaManager::getSingleton().getKampftechnik(kampftechnikName)->calculateEbe(getCurrentBe())) / 2.0);
 
 		int probe = DsaManager::getSingleton().rollD20();
 		if (probe == 1)
@@ -592,8 +601,7 @@ namespace rl
 			Throw(InvalidArgumentException, "kampftechnikName nicht in mKampftechniken gefunden");
 		}
 		int rval;
-		int eBe = ceil(float(DsaManager::getSingleton().getKampftechnik(kampftechnikName)->calculateEbe(mCurrentBe)
-			/*- Ruestungsgewoehnung*/) / 2.0);
+		int eBe = ceil(float(DsaManager::getSingleton().getKampftechnik(kampftechnikName)->calculateEbe(getCurrentBe())) / 2.0);
 
 		int probe = DsaManager::getSingleton().rollD20();
 		if (probe == 1)
@@ -610,5 +618,15 @@ namespace rl
 		}
 		if (rval < 0) return RESULT_MISSERFOLG;
 		else return RESULT_ERFOLG;
+	}
+
+	int Creature::doInitiativeWurf(bool getMaxInitiave)
+	{
+		int rval = getInitiativeBasis();
+		rval += getCurrentInitiativeModifier();
+		rval -= getCurrentBe();
+		if (getMaxInitiave) rval += 6;
+		else rval += DsaManager::getSingleton().rollD6();
+		return rval;
 	}
 }
