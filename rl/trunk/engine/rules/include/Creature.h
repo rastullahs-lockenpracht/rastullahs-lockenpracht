@@ -129,6 +129,8 @@ namespace rl
 		**/
 		typedef map<int, Weapon*> WeaponMap;
 
+
+
 		///@warning Nur zu Testzwecken da. Wird spaeter entfernt.
         Creature(const CeGuiString& name,
                  const CeGuiString& description);
@@ -262,6 +264,9 @@ namespace rl
         virtual int getAu();
         virtual int getAuMax();
 
+		virtual int getCurrentBe();
+		virtual void setCurrentBe(int newBe);
+
 		void setWert(int wertId, int wert);
 
 		/**
@@ -385,19 +390,6 @@ namespace rl
         */
         virtual int doEigenschaftsprobe(const CeGuiString& eigenschaftName, int modifier);
 
-	private:
-        int mCurrentLe;
-		int mCurrentAe;
-		int mCurrentAu;		
-
-        EigenschaftMap mEigenschaften;
-        TalentMap mTalente;
-        KampftechnikMap mKampftechniken;
-		SonderfertigkeitMap mSonderfertigkeiten;
-		WertMap mWerte;
-		ContainerMap mContainer;
-		WeaponMap mWeapons;
-
 		/** 
 		*  @brief Fuehrt eine Attacke aus.
 		*   Die Funktion wird von einem Angriffsmanoever aufgerufen.
@@ -429,6 +421,19 @@ namespace rl
 		**/
 		int doParade(const CeGuiString& kampftechnikName, int modifier);
 
+	private:
+        int mCurrentLe;
+		int mCurrentAe;
+		int mCurrentAu;		
+
+        EigenschaftMap mEigenschaften;
+        TalentMap mTalente;
+        KampftechnikMap mKampftechniken;
+		SonderfertigkeitMap mSonderfertigkeiten;
+		WertMap mWerte;
+		ContainerMap mContainer;
+		WeaponMap mWeapons;
+		int mCurrentBe;
     };
 }
 #endif

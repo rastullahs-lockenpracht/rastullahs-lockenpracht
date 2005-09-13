@@ -20,6 +20,7 @@
 #include "DsaManager.h"
 #include "Talent.h"
 #include "Eigenschaft.h"
+#include "Kampftechnik.h"
 
 namespace rl
 {
@@ -42,6 +43,7 @@ namespace rl
 		mEigenschaften[E_GEWANDTHEIT] = 0;
 		mEigenschaften[E_KONSTITUTION] = 0;
 		mEigenschaften[E_KOERPERKRAFT] = 0;
+		mCurrentBe = 0;
     }
 
 	Creature::~Creature()
@@ -272,13 +274,14 @@ namespace rl
 
         // Vor dem Vergleich hat man den Talentwert übrig.
 		int taW = 0;
+		int eBe = DsaManager::getSingleton().getTalent(talentName)->calculateEbe(mCurrentBe);
 		try 
 		{
 			//if (1 == getSf(sfName)) taW = 2; //Spezialisiereung?
 		}
 		catch(InvalidArgumentException){};
 		taW += getTalent(talentName);
-        int rval = taW - modifier;
+        int rval = taW - modifier - eBe;
 		// Bei negativen TaP*
 		int handicap = 0;
 		if (rval < 0)
@@ -460,6 +463,16 @@ namespace rl
         return (*it).second;
 	}
 
+	int Creature::getCurrentBe()
+	{
+		return mCurrentBe;
+	}
+
+	void Creature::setCurrentBe(int newBe)
+	{
+		mCurrentBe = newBe;
+	}
+
 	void Creature::setWert(int wertId, int wert)
 	{
 		WertMap::iterator it = mWerte.find(wertId);
@@ -551,6 +564,8 @@ namespace rl
 			Throw(InvalidArgumentException, "kampftechnikName nicht in mKampftechniken gefunden");
 		}
 		int rval;
+		int eBe = floor(float(DsaManager::getSingleton().getKampftechnik(kampftechnikName)->calculateEbe(mCurrentBe)
+			/*- Ruestungsgewoehnung*/) / 2.0);
 
 		int probe = DsaManager::getSingleton().rollD20();
 		if (probe == 1)
@@ -563,7 +578,7 @@ namespace rl
 		}
 		else
 		{
-			rval = getAttackeBasis() + (*it).second.first - (probe + modifier);
+			rval = getAttackeBasis() + (*it).second.first - (probe + modifier - eBe);
 		}
 		if (rval < 0) return RESULT_MISSERFOLG;
 		else return RESULT_ERFOLG;
@@ -577,6 +592,8 @@ namespace rl
 			Throw(InvalidArgumentException, "kampftechnikName nicht in mKampftechniken gefunden");
 		}
 		int rval;
+		int eBe = ceil(float(DsaManager::getSingleton().getKampftechnik(kampftechnikName)->calculateEbe(mCurrentBe)
+			/*- Ruestungsgewoehnung*/) / 2.0);
 
 		int probe = DsaManager::getSingleton().rollD20();
 		if (probe == 1)
@@ -589,7 +606,7 @@ namespace rl
 		}
 		else
 		{
-			rval = getParadeBasis() + (*it).second.second - (probe + modifier);
+			rval = getParadeBasis() + (*it).second.second - (probe + modifier - eBe);
 		}
 		if (rval < 0) return RESULT_MISSERFOLG;
 		else return RESULT_ERFOLG;

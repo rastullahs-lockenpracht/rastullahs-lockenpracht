@@ -15,6 +15,7 @@
  */
 
 #include "Kampftechnik.h"
+#include "DsaManager.h"
 
 namespace rl
 {
@@ -51,4 +52,15 @@ namespace rl
 	{
 		return mEbe;
 	}
+
+	int Kampftechnik::calculateEbe(int be) const
+	{
+		if (mEbe == EBE_KEINE_BE)
+			return 0;
+		if (mEbe == EBE_BEx2)
+			return be*2;
+
+		return std::max(be + mEbe, 0);
+	}
+
 }
