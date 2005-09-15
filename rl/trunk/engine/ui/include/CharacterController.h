@@ -77,6 +77,9 @@ namespace rl {
         Actor* mCamera;
         Actor* mCharacter;
 
+        OgreNewt::Body* mCamBody;
+        OgreNewt::Body* mCharBody;
+
         // camera control params
         /// optimal distance to the character
         Ogre::Real mDesiredDistance;

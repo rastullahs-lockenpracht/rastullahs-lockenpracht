@@ -51,6 +51,8 @@ namespace rl {
         : 
         mCamera(camera),
         mCharacter(character),
+        mCamBody(),
+        mCharBody(),
         mDesiredDistance(200),
         mPitch(20),
         mYaw(0),
@@ -75,6 +77,9 @@ namespace rl {
         {
             Throw(InvalidArgumentException, "character has to be placed in the scene beforehand");
         }
+
+        mCharBody = mCharacter->getPhysicalThing()->_getBody();
+        mCamBody = mCamera->getPhysicalThing()->_getBody();
 
         if (!mCamera->_getSceneNode())
         {
@@ -163,43 +168,42 @@ namespace rl {
 
     int CharacterController::userProcess()
     {
-        // apply the default behaviuor
-        PhysicsGenericContactCallback::userProcess();
-
-        // determine what body of the two is the char.
-        // Since the char has a mass and the level hasn't this is easy.
-        Real mass;
-        Vector3 inertia;
-        m_body0->getMassMatrix(mass, inertia);
-        OgreNewt::Body* characterBody = mass > 0.0f ? m_body0 : m_body1;
-
-        // Get the pointer to the character
-        Vector3 point;
-        Vector3 normal;
-        getContactPositionAndNormal(point, normal);
-
-        // determine if this contact is with the floor.
-        // Meaning the contact normal has an angle to UNIT_Y of 20° or less.
-        Degree angle = Math::ACos(normal.dotProduct(Vector3::UNIT_Y));
-
-        if (angle <= Degree(20.0f))
+        if (m_body0 == mCamBody || m_body1 == mCamBody)
         {
-            mIsAirBorne = false;
-
-            Vector3 velocity = characterBody->getVelocity();
-
-            // calculate char velocity perpendicular to the contact normal
-            Vector3 tangentVel = velocity - normal * (normal.dotProduct(velocity));
-
-            // align the tangent at the contact point with the tangent velocity vector of the char
-            rotateTangentDirections(tangentVel);
-
-            // we do want bound back we hitting the floor
-            setContactElasticity(0.3f);
+            // this is camera collision
+            ///\todo
+            // change normal to let it look toward the hero
         }
+        else
+        {
+            // this is character collision
+            Vector3 point;
+            Vector3 normal;
+            getContactPositionAndNormal(point, normal);
 
-        setContactFrictionState(0, 0);
-        setContactFrictionState(0, 1);
+            // determine if this contact is with the floor.
+            // Meaning the contact normal has an angle to UNIT_Y of 20° or less.
+            Degree angle = Math::ACos(normal.dotProduct(Vector3::UNIT_Y));
+
+            if (angle <= Degree(20.0f))
+            {
+                mIsAirBorne = false;
+
+                Vector3 velocity = mCharBody->getVelocity();
+
+                // calculate char velocity perpendicular to the contact normal
+                Vector3 tangentVel = velocity - normal * (normal.dotProduct(velocity));
+
+                // align the tangent at the contact point with the tangent velocity vector of the char
+                rotateTangentDirections(tangentVel);
+
+                // we do want bound back we hitting the floor
+                setContactElasticity(0.1f); // was 0.3f
+            }
+
+            setContactFrictionState(0, 0);
+            setContactFrictionState(0, 1);
+        }
 
         // return one to tell Newton we want to accept this contact
         return 1;
@@ -210,49 +214,57 @@ namespace rl {
         OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
         OgreNewt::Body* body = thing->_getBody();
 
-        Vector3 position;
-        Quaternion orientation;
-        body->getPositionOrientation(position, orientation);
-
-        // Get the current world timestep
-        Real timestep = world->getTimeStep();
-
-        // get the charater mass
-        Real mass;
-        Vector3 inertia;
-        body->getMassMatrix(mass, inertia);
-
-        // apply gravity
-        Vector3 force = Vector3(0.0f, -mass * 988.0, 0.0f);
-
-        // Get the velocity vector
-        Vector3 currentVel = body->getVelocity();
-
-        // Gravity is applied above, so not needed here
-        currentVel.y = 0;
-
-        force += mass*(orientation*mDesiredVel - currentVel) / timestep;
-
-        // apply the jump
-        if (!mIsAirBorne && mStartJump)
+        if (body == mCamBody)
         {
-            mStartJump = false;
-            force += mass*400.f/timestep * Vector3::UNIT_Y;
+            // apply camera force
         }
+        else
+        {
+            // apply character force
+            Vector3 position;
+            Quaternion orientation;
+            body->getPositionOrientation(position, orientation);
 
-        body->setForce(force);
+            // Get the current world timestep
+            Real timestep = world->getTimeStep();
 
-        // calculate the torque vector
-        Vector3 omega = body->getOmega();
-        Real k = 0.25f; // What exactly is this k, and why is it either 0.25 or 0.5
-        Vector3 torque (0.0f, k * inertia.y * (mDesiredOmega-omega.y) / timestep, 0.0f);
-        body->setTorque(torque);
+            // get the charater mass
+            Real mass;
+            Vector3 inertia;
+            body->getMassMatrix(mass, inertia);
 
-        // assume we are air borne. Might be set to false in the collision callback
-        mIsAirBorne = true;
+            // apply gravity
+            Vector3 force = Vector3(0.0f, -mass * 988.0, 0.0f);
 
-        // did we apply force in horizontal direction? If not, the char is stopped.
-        mIsStopped = Math::Abs(force.x) < 0.001f && Math::Abs(force.z) < 0.001f;
+            // Get the velocity vector
+            Vector3 currentVel = body->getVelocity();
+
+            // Gravity is applied above, so not needed here
+            currentVel.y = 0;
+
+            force += mass*(orientation*mDesiredVel - currentVel) / timestep;
+
+            // apply the jump
+            if (!mIsAirBorne && mStartJump)
+            {
+                mStartJump = false;
+                force += mass*400.f/timestep * Vector3::UNIT_Y;
+            }
+
+            body->setForce(force);
+
+            // calculate the torque vector
+            Vector3 omega = body->getOmega();
+            Real k = 0.25f; // What exactly is this k, and why is it either 0.25 or 0.5
+            Vector3 torque (0.0f, k * inertia.y * (mDesiredOmega-omega.y) / timestep, 0.0f);
+            body->setTorque(torque);
+
+            // assume we are air borne. Might be set to false in the collision callback
+            mIsAirBorne = true;
+
+            // did we apply force in horizontal direction? If not, the char is stopped.
+            mIsStopped = Math::Abs(force.x) < 0.001f && Math::Abs(force.z) < 0.001f;
+        }
     }
 
     void CharacterController::updatePickedObject() const
@@ -313,7 +325,7 @@ namespace rl {
     {
         if (mViewMode == VM_THIRD_PERSON)
         {
-            mPitch = Degree(-30.0);
+            mPitch = Degree(30.0);
             mDesiredDistance = 150.0;
         }
     }
