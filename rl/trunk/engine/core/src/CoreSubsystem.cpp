@@ -352,17 +352,6 @@ namespace rl {
     void CoreSubsystem::loadMap(const String type, const String filename, 
     	const String startupScript)
     {
-        /*if (type.compare("BSP") == 0)
-        mWorld = new BSPWorld( );
-        else if (type.compare("Octree") == 0)
-        mWorld = new DotSceneOctreeWorld();
-        else if (type.compare("Nature") == 0)
-        mWorld = new NatureWorld();
-        else if (type.compare("Terrain") == 0)
-        mWorld = new TerrainWorld();
-        else
-        Throw(RuntimeException, "Unknown world type");*/
-
         GameLoopManager::getSingleton().setPaused(true);
 
         mWorld->loadScene(filename);

@@ -318,8 +318,6 @@ namespace rl {
 
 	Actor* ActorManager::getActorAt(Real x, Real y, Real width, Real length, bool infinite)
 	{      
-//		return NULL;
-
         if (getWorld()->getActiveCamera() == NULL ||
 			getWorld()->getActiveActor() == NULL)
 			return NULL;
