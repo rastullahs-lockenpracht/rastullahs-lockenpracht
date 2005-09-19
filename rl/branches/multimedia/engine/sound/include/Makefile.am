@@ -1,3 +1,4 @@
+
 noinst_HEADERS = \
 	ListenerMovable.h \
 	SoundChannel.h \
@@ -6,9 +7,18 @@ noinst_HEADERS = \
 	SoundPrerequisites.h \
     Sound.h \
     SoundResource.h \
-    SoundSample.h \
-    SoundStream.h \
     SoundEvents.h \
 	SoundUpdateTask.h \
 	Video.h \
 	VideoEvents.h
+
+if WITH_FMOD
+noinst_HEADERS += \
+	fmod/FmodSoundChannel.h \
+	fmod/FmodSoundSample.h \
+	fmod/FmodSoundStream.h
+endif
+	
+if WITH_OAL
+
+endif

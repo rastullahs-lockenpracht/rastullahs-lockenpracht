@@ -22,7 +22,7 @@
 
 %include "RlCommon.head.inc"
 %include "RlUi.head.inc"
-%include "RlSound.head.inc"
+%include "RlMultimedia.head.inc"
 %include "RlCore.head.inc"
 %include "RlRules.head.inc"
 %include "RlDialog.head.inc"
@@ -78,7 +78,7 @@ namespace Swig {
 									// da dies in allen erzeugten Exceptionhandlern auftritt
 %}
 
-%include "RlSound.inc"
+%include "RlMultimedia.inc"
 %include "RlCore.inc"
 %include "RlRules.inc"
 %include "RlDialog.inc"

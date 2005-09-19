@@ -20,7 +20,11 @@
 #include "SoundManager.h"
 #include <Ogre.h>
 #include "Sound.h"
+#ifdef WITH_FMOD
 #include "SoundChannel.h"
+#endif
+#ifdef WITH_OPENAL
+#endif
 
 using namespace Ogre;
 
@@ -34,8 +38,10 @@ namespace rl {
 SoundObject::SoundObject(Sound *sound, const Ogre::String &name)
     : ActorControlledObject()
 {
+#ifdef WITH_FMOD
     SoundChannel *sc = new SoundChannel(sound, name);
     mMovableObject = dynamic_cast<MovableObject*>(sc);
+#endif
 }
 
 /**
@@ -46,11 +52,13 @@ SoundObject::~SoundObject()
 {
     if (mMovableObject)
     {
+#ifdef WITH_FMOD
         SoundChannel *sc = dynamic_cast<SoundChannel*>(mMovableObject);
         if (sc)
         {
             sc->stop();
         }
+#endif
         delete mMovableObject;
     }
 }
@@ -78,6 +86,7 @@ void SoundObject::_update()
     {
         return;
     }
+#ifdef WITH_FMOD
     if (!channel->isValid())
     {
         return;
@@ -90,21 +99,28 @@ void SoundObject::_update()
     *temp1 += *temp2;
     *temp1 *= length;
     channel->setDirection(*temp1); 
+#endif
 }
 
 void SoundObject::play( )
 {
+#ifdef WITH_FMOD
     getSoundChannel()->play();
+#endif
 }
 
 bool SoundObject::isLooping() const
 {
+#ifdef WITH_FMOD
     return getSoundChannel()->isLooping();
+#endif
 }
 
 void SoundObject::setLooping( bool looping )
 {
+#ifdef WITH_FMOD    
     getSoundChannel()->setLooping( looping );
+#endif
 }
 
 

@@ -81,4 +81,34 @@ namespace rl
 	{
 		return mModulesRootDirectory;
 	}
+  
+    /**
+     * Wurde FMOD installiert
+     * @return 
+     * @author JoSch
+     * @date 09/10/2005
+     */
+    bool ConfigurationManager::isFmodEnabled() const
+    {
+#ifdef WITH_FMOD
+        return true;
+#else
+        return false;
+#endif
+    }
+
+    /**
+     * Wurde OpenAL installiert
+     * @return 
+     * @author JoSch
+     * @date 09/10/2005
+     */
+    bool ConfigurationManager::isOpenALEnabled() const
+    {
+#ifdef WITH_OPENAL
+        return true;
+#else
+        return false;
+#endif
+    }
 }

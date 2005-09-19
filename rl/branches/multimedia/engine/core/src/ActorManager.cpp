@@ -25,8 +25,12 @@
 #include "LightObject.h"
 #include "SoundObject.h"
 #include "Sound.h"
+#ifdef WITH_FMOD
 #include "SoundStream.h"
 #include "SoundSample.h"
+#endif
+#ifdef WITH_OPENAL
+#endif
 #include "ListenerMovable.h"
 #include "ListenerObject.h"
 #include "PhysicalThing.h"
@@ -154,7 +158,14 @@ namespace rl {
         Actor* actor = 0;
         try
         {
-            Sound* sm = new SoundSample(soundfile);
+            Sound* sm =
+#ifdef WITH_FMOD
+                new SoundSample(soundfile);
+#elif WITH_OPENAL
+                0;
+#else
+                0;
+#endif
             SoundObject* so = new SoundObject(sm, soundfile);
 
             actor = new Actor(uniquename, so);
@@ -177,7 +188,14 @@ namespace rl {
         Actor* actor = 0;
         try
         {
-            Sound* sm = new SoundStream(soundfile);
+            Sound* sm =
+#ifdef WITH_FMOD
+                new SoundStream(soundfile);
+#elif WITH_OPENAL
+                0;
+#else
+                0;
+#endif
             SoundObject* so = new SoundObject(sm, soundfile);
 
             actor = new Actor(uniquename, so);

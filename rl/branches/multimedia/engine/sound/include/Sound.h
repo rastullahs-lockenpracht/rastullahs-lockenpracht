@@ -19,6 +19,7 @@
 
 #include "SoundPrerequisites.h"
 #include "SoundResource.h"
+#include "SoundChannel.h"
 #include "Exception.h"
 
 
@@ -33,8 +34,6 @@ namespace rl {
     class _RlSoundExport Sound
     {
     private:
-        /// Fmod-Channel 
-        signed int mChannel;
         /// Der Name des Sounds
         Ogre::String mName;
         /// Der Soundresource, auf den wir verweisen.
@@ -75,7 +74,7 @@ namespace rl {
         virtual bool isValid() const throw (RuntimeException) = 0;
         
         // Wir erzeugen einen Channel für SoundChannel
-        virtual int createChannel() throw (RuntimeException) = 0;
+        virtual SoundChannel* createChannel() throw (RuntimeException) = 0;
        
         // Sollen der Sound wiederholt werden?
         bool isLooping() const;

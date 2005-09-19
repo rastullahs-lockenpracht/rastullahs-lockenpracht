@@ -1,22 +1,33 @@
 INCLUDES = $(Plugin_TheoraVideoSystem_CFLAGS) $(RUBY_CFLAGS) $(CEGUI_CFLAGS) $(OGRE_CFLAGS) $(STLPORT_CFLAGS) \
 	 -I../include -I../../common/include -I../../core/include
 
-lib_LTLIBRARIES = libRlSound.la
-libRlSound_la_LIBADD = $(OGRE_LIBS) $(RUBY_LIBS) $(LIBS) $(CEGUI_LIBS) $(CEGUIOGRE_LIBS) \
-	$(Plugin_TheoraVideoSystem_LIBS) -lboost_thread -lRlCommon -lRlCore
-libRlSound_la_LDFLAGS = -L../../core/src -L../../common/src
+lib_LTLIBRARIES = libRlMultimedia.la
+libRlMultimedia_la_LIBADD = $(OGRE_LIBS) $(RUBY_LIBS) $(LIBS) $(CEGUI_LIBS) $(CEGUIOGRE_LIBS) \
+	$(Plugin_TheoraVideoSystem_LIBS) -lboost_thread -lRlCommon
+libRlMultimedia_la_LDFLAGS = -L../../common/src
 
-libRlSound_la_SOURCES = \
+libRlMultimedia_la_SOURCES = \
 	ListenerMovable.cpp \
-	SoundChannel.cpp \
 	SoundManager.cpp \
 	Sound.cpp \
+	SoundChannel.cpp \
     SoundResource.cpp \
-    SoundSample.cpp \
-    SoundStream.cpp \
 	SoundSubsystem.cpp \
 	SoundEvents.cpp \
 	SoundUpdateTask.cpp \
 	Video.cpp \
 	VideoEvents.cpp 
-    
+
+if WITH_FMOD
+INCLUDES += $(FMOD_CFLAGS) -I../include/fmod
+libRlMultimedia_la_LIBADD += $(FMOD_LIBS)
+libRlMultimedia_la_SOURCES += \
+	fmod/FmodSoundChannel.cpp \
+	fmod/FmodSoundSample.cpp \
+	fmod/FmodSoundStream.cpp
+endif
+	
+if WITH_OAL
+INCLUDES += $(OPENAL_CFLAGS) -I../include/openal
+libRlMultimedia_la_LIBADD += $(OPENAL_LIBS)
+endif

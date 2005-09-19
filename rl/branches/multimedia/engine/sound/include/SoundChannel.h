@@ -27,7 +27,6 @@ namespace Ogre {
 
 namespace rl
 {
-    const int NO_CHANNEL = -1234;
     
     class Sound;
 
@@ -37,12 +36,9 @@ private:
     rl::Sound *mSound;
 
     /// Shared class-level name for Movable type
-    static Ogre::String msMovableType;
     static Ogre::AxisAlignedBox msAABox;
     /// Der Name des Soundchannels
     Ogre::String mName;
-    /// Fmod-Channel 
-    signed int mChannel;
     
 public:
 	SoundChannel(Sound *sound, const Ogre::String &name);
@@ -50,12 +46,6 @@ public:
     
     /// Name zurückgeben
     const Ogre::String& getName() const;
-    /// Den Soundkanal zurueckgeben.
-    const signed int getChannel() const;
-    /// Den Soundkanal setzen.
-    void setChannel(signed int channel);  
-    /// Moveable-Typ
-    virtual const Ogre::String& getMovableType() const;
     /// Kamera informieren
     virtual void _notifyCurrentCamera(Ogre::Camera *cam);
     /// Unsere Bounding-Box
@@ -67,34 +57,34 @@ public:
 
 
     /// Gibt die eingestellte Position der Soundquelle zurueck
-    const Ogre::Vector3 getPosition() const throw (RuntimeException);
+    virtual const Ogre::Vector3 getPosition() const throw (RuntimeException) = 0;
     /// Setzt die Position der Soundquelle.
-    void setPosition(const Ogre::Vector3& direction) throw (RuntimeException);
+    virtual void setPosition(const Ogre::Vector3& direction) throw (RuntimeException) = 0;
     /// Gibt die eingestellte relative Lautstaerke der Soundquelle zurueck
-    const int getGain() const throw (RuntimeException); 
+    virtual const int getGain() const throw (RuntimeException) = 0; 
     /// Setzt die relative Lautstaerke der Soundquelle.
-    void setGain(const int gain) throw (RuntimeException);
+    virtual void setGain(const int gain) throw (RuntimeException) = 0;
     /// Gibt die Richtung der Soundquelle zurueck.
-    const Ogre::Vector3 getDirection() const throw (RuntimeException);
+    virtual const Ogre::Vector3 getDirection() const throw (RuntimeException) = 0;
     /// Gibt die Geschwindigkeit der Soundquelle zurueck.
-    const Ogre::Vector3 getVelocity() const throw (RuntimeException);
+    virtual const Ogre::Vector3 getVelocity() const throw (RuntimeException) = 0;
     /// Setzt die Richtung der Soundquelle.
-    void setDirection(const Ogre::Vector3&) throw (RuntimeException);
+    virtual void setDirection(const Ogre::Vector3&) throw (RuntimeException) = 0;
     /// Setzt die Geschwindigkeit der Soundquelle.
-    void setVelocity(const Ogre::Vector3&) throw (RuntimeException);
+    virtual void setVelocity(const Ogre::Vector3&) throw (RuntimeException) = 0;
 
     /// Spielt den Sound ab.
-    virtual void play() throw (RuntimeException);
+    virtual void play() throw (RuntimeException) = 0;
     /// Pausiert den Sound.
-    virtual void pause(bool pausing) throw (RuntimeException);
+    virtual void pause(bool pausing) throw (RuntimeException) = 0;
     /// Ist der Sound pausiert?
-    virtual bool isPaused() throw (RuntimeException);
+    virtual bool isPaused() throw (RuntimeException) = 0;
     /// Stoppt den Sound.
-    virtual void stop() throw (RuntimeException);
+    virtual void stop() throw (RuntimeException) = 0;
     /// Zurueck auf Anfang.
-//        virtual void rewind() throw (RuntimeException);
-    /// Ist laeuft AL noch
-    const bool isPlaying() const;
+//        virtual void rewind() throw (RuntimeException) = 0;
+    /// Laeuft der Sound noch
+    virtual const bool isPlaying() const = 0;
 
     /// Gibt zurück ob der Sound geloopt werden soll 
     bool isLooping() const;
@@ -102,7 +92,11 @@ public:
     void setLooping( bool looping );
     
     // Sind wir gueltig
-    bool isValid() const throw (RuntimeException);
+    virtual bool isValid() const throw (RuntimeException);
+
+    /// Hole den zugehoerigen Sound
+    Sound *getSound() const;
+
 };
 
 };
