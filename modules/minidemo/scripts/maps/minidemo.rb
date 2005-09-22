@@ -23,12 +23,8 @@ sunlight.getControlledObject().setCastShadows(false);
 sunlight.getControlledObject().setDiffuseColour(0.8,0.8,0.7);
 $CORE.log("Tageslicht erstellt.");
 
-# DsaManager.getSingleton().loadDsaDataFile("kalchas.xml");
-
 $CORE.log("Held erstellen");
 $hero = Hero.new;
-#hero = DsaManager.getSingleton().getPerson(10000);
-#hero.setActor($AM.createMeshActor("Held","held.mesh", 2, -1.0));
 $CORE.log("Held erstellt");
 $CORE.log("Held in die Szene einfuegen.");
 $hero.getActor().placeIntoScene(0.0, 20.0, 40.0, 1.0, 0.0, 0.0, 0.0);
@@ -38,11 +34,13 @@ $CORE.log("Held vorbereitet.");
 $UI.setActiveCharacter($hero);
 $CORE.log("Held als aktiver Charakter gesetzt.");
 
+$CORE.log("Kiste einsetzen");
+crate = $AM.createMeshActor( "crate", "kiste.mesh",  PhysicsManager::GT_BOX, 120.0 );
+crate.placeIntoScene(180.0, 50.0, 220.0, 1.0, 0.0, 0.0, 0.0);
 
 $CORE.log("Türen einsetzen")
 door1 = Door.new("Eine Tür", "Eine Holztür", false, true);
 door1.getActor().placeIntoScene(1368.0, -75.0, -170.0, 1.0, 0.0, 0.0, 0.0);
-#, "Bone01");
 door1.getActor().yaw(-90.0)
 
 gtuer = Door.new("Eine Tür", "Eine Holztür.\nDiese Tür hat weder Klinke noch Schlösser", false, false);
