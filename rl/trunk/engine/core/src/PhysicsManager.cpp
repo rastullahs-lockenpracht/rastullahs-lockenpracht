@@ -53,7 +53,8 @@ namespace rl
         mUpdate(1.0f/120.0f),
         mLevelID(),
         mCharacterID(),
-        mCharLevelPair()
+        mCharLevelPair(),
+        mCharCharPair()
     {
         mWorld = new OgreNewt::World();
         mWorld->setSolverModel(0);
@@ -64,12 +65,16 @@ namespace rl
         OgreNewt::MaterialPair* defaultPair =
             new OgreNewt::MaterialPair(mWorld, defaultID, defaultID);
         defaultPair->setContactCallback(new PhysicsGenericContactCallback);
+        //defaultPair->setDefaultFriction(0.75f, 0.60f);
 
         // setup materials: character<->level
         mLevelID = new OgreNewt::MaterialID(mWorld);
         mCharacterID = new OgreNewt::MaterialID(mWorld);
         mCharLevelPair = new OgreNewt::MaterialPair(mWorld, mCharacterID, mLevelID);
         mCharLevelPair->setDefaultFriction(0, 0);
+
+        mCharCharPair = new OgreNewt::MaterialPair(mWorld, mCharacterID, mCharacterID);
+        mCharCharPair->setDefaultCollidable(0);
     }
 
     PhysicsManager::~PhysicsManager()

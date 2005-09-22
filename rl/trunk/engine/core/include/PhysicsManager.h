@@ -130,6 +130,7 @@ namespace rl {
         OgreNewt::MaterialID* mLevelID;
         OgreNewt::MaterialID* mCharacterID;
         OgreNewt::MaterialPair* mCharLevelPair;
+        OgreNewt::MaterialPair* mCharCharPair;
 
         /// internal method, that prepares physical thing to be controlled
         void prepareUserControl(PhysicalThing* thing, OgreNewt::ContactCallback* cb) const;
