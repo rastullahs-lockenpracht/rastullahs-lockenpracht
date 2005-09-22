@@ -128,6 +128,7 @@ namespace rl
                 {
                     offset = Vector3(0.0, size.y / 2.0, 0.0);
                 }
+                inertiaCoefficients = Vector3(size.x*size.x/6.0f, size.y*size.y/6.0f, size.z*size.z/6.0f);
             }
             else if (geomType == GT_SPHERE)
             {
