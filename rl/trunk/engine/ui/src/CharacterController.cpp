@@ -54,8 +54,10 @@ namespace rl {
         mCamBody(),
         mCharBody(),
         mDesiredDistance(200),
-        mPitch(20),
+        mDistanceRange(150, 500),
         mYaw(0),
+        mPitch(20),
+        mPitchRange(Degree(-75), Degree(85)),
         mLookAtOffset(),
         mMovementSpeed(180.0f),
         mRotationSpeed(5),
@@ -98,15 +100,19 @@ namespace rl {
         // Offset for the look at point,
         // so the cam does look at the characters head instead of the feet.
         MeshObject* charMesh = static_cast<MeshObject*>(mCharacter->getControlledObject());
-        mLookAtOffset = Vector3(0, charMesh->getHeight() * 0.9, 0);
+        mLookAtOffset = Vector3(0, charMesh->getHeight() * 0.45, 0);
 
         // The actor should be controlled manually, so let the PM prepare it accordingly
         PhysicsManager::getSingleton().setPhysicsController(mCharacter->getPhysicalThing(), this);
+        PhysicsManager::getSingleton().setPhysicsController(mCamera->getPhysicalThing(), this);
     }
 
     //------------------------------------------------------------------------
     CharacterController::~CharacterController()
     {
+        // actors aren't controlled anymore
+        PhysicsManager::getSingleton().setPhysicsController(mCharacter->getPhysicalThing(), 0);
+        PhysicsManager::getSingleton().setPhysicsController(mCamera->getPhysicalThing(), 0);
     }
 
     //------------------------------------------------------------------------
@@ -143,21 +149,17 @@ namespace rl {
             mDesiredVel *= 4.0;
 
         mDesiredDistance -= im->getMouseRelativeZ() * 0.05;
+        if (mDesiredDistance < mDistanceRange.first) mDesiredDistance = mDistanceRange.first;
+        if (mDesiredDistance > mDistanceRange.second) mDesiredDistance = mDistanceRange.second;
+
         mPitch += Degree(im->getMouseRelativeY() * 0.13);
+        if (mPitch < mPitchRange.first) mPitch = mPitchRange.first;
+        if (mPitch > mPitchRange.second) mPitch = mPitchRange.second;
 
         mDesiredOmega -=im->getMouseRelativeX() * 0.25;
 
         SceneNode* cameraNode = mCamera->_getSceneNode();
-        Radian yaw = mCharacter->getWorldOrientation().getYaw();
-
-        Vector3 cameraPosition = Vector3(0, Math::Sin(mPitch) * mDesiredDistance, Math::Cos(mPitch) * mDesiredDistance);
-
-        cameraPosition = mCharacter->getWorldOrientation()*cameraPosition;
-        cameraPosition += mCharacter->getWorldPosition() + mLookAtOffset;
-
-        cameraNode->setPosition(cameraPosition);
-        cameraNode->lookAt(mCharacter->getWorldPosition() + mLookAtOffset, Node::TS_WORLD);
-        mCamera->_update();
+        cameraNode->lookAt(mCharacter->getWorldPosition() + mLookAtOffset*2.0, Node::TS_WORLD);
 
         if (!InputManager::getSingleton().isCeguiActive())
         {
@@ -171,8 +173,7 @@ namespace rl {
         if (m_body0 == mCamBody || m_body1 == mCamBody)
         {
             // this is camera collision
-            ///\todo
-            // change normal to let it look toward the hero
+            // empty so far
         }
         else
         {
@@ -214,9 +215,39 @@ namespace rl {
         OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
         OgreNewt::Body* body = thing->_getBody();
 
+        // Get the current world timestep
+        Real timestep = world->getTimeStep();
+
         if (body == mCamBody)
         {
-            // apply camera force
+            Vector3 charPos;
+            Quaternion charOri;
+            mCharBody->getPositionOrientation(charPos, charOri);
+
+            Vector3 camPos;
+            Quaternion camOri;
+            mCamBody->getPositionOrientation(camPos, camOri);
+
+            // determine the optimal target position of the camera
+            Vector3 targetCamPos = Vector3(0, Math::Sin(mPitch) * mDesiredDistance,
+                Math::Cos(mPitch) * mDesiredDistance);
+            targetCamPos = charOri * targetCamPos;
+            targetCamPos += charPos + mLookAtOffset;
+
+            // determine velocity vector to get there.
+            Vector3 diff = targetCamPos - camPos;
+            // if distance is small reduce cam velocity to prevent camera jittering.
+            Ogre::Real speedFactor = diff.squaredLength() > 100.0f ?
+                5.0f : diff.squaredLength() / 10.0f;
+
+            Vector3 vel = diff.normalisedCopy() * mMovementSpeed * speedFactor;
+
+            // calcuate force and apply it
+            Real mass;
+            Vector3 inertia;
+            mCamBody->getMassMatrix(mass, inertia);
+            Vector3 force = mass * (vel - mCamBody->getVelocity()) / timestep;
+            mCamBody->setForce(force);
         }
         else
         {
@@ -224,9 +255,6 @@ namespace rl {
             Vector3 position;
             Quaternion orientation;
             body->getPositionOrientation(position, orientation);
-
-            // Get the current world timestep
-            Real timestep = world->getTimeStep();
 
             // get the charater mass
             Real mass;

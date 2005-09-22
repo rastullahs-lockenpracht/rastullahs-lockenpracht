@@ -83,8 +83,12 @@ namespace rl {
         // camera control params
         /// optimal distance to the character
         Ogre::Real mDesiredDistance;
+        std::pair<Ogre::Real, Ogre::Real> mDistanceRange;
         Ogre::Degree mYaw;
         Ogre::Degree mPitch;
+        std::pair<Ogre::Degree, Ogre::Degree> mPitchRange;
+        Ogre::Degree mMaxPitch;
+
         Ogre::Vector3 mLookAtOffset;
         Ogre::Real mMovementSpeed;
         Ogre::Real mRotationSpeed;

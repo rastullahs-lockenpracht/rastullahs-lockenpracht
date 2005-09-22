@@ -232,8 +232,8 @@ namespace rl {
             CameraObject* co = new CameraObject(uniquename);
             PhysicalThing* pt = PhysicsManager::getSingleton()
                 .createPhysicalThing(PhysicsManager::GT_SPHERE,
-                    Vector3(co->getCamera()->getNearClipDistance() * 1.5, 0, 0),
-                    0.0f, PhysicsManager::OM_CENTERED);
+                    Vector3(co->getCamera()->getNearClipDistance() * 3.0f, 0, 0),
+                    100.0f, PhysicsManager::OM_CENTERED);
             actor = new Actor(uniquename, co, pt);
 
             mActors.insert(ActorPtrPair(uniquename,actor)); 

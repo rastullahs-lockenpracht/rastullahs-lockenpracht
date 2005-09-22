@@ -91,27 +91,11 @@ namespace rl
                 count++;
             }
         }
-        else
+        else if (mElapsed >= mUpdate)
         {
-            if (mElapsed < (mUpdate))
-            {
-                // not enough time has passed this loop, so ignore for now.
-            }
-            else
-            {
-                mWorld->update(mElapsed);
-                count++;
-            }
+            mWorld->update(mElapsed);
+            count++;
         }
-
-        //if( mEnabled && elapsedTime > 0.0f )
-        //{
-        //    mWorld->update(elapsedTime);
-        //    if(mDebugMode)
-        //    {
-        //        mNewtonDebugger->showLines(mWorld);
-        //    }
-        //}
     }
 
     void PhysicsManager::setGravity( Real x, Real y, Real z )
@@ -156,6 +140,7 @@ namespace rl
 
                 coll = new OgreNewt::CollisionPrimitives::Ellipsoid(mWorld,
                     Vector3(radius, radius, radius));
+                inertiaCoefficients = Vector3(radius*radius, radius*radius, radius*radius);
             }
             else if (geomType == GT_CAPSULE)
             {
@@ -328,8 +313,7 @@ namespace rl
         // Set up-vector, so force application doesn't let the char fall over
         thing->setUpConstraint(Vector3::UNIT_Y);
 
-        ///\todo alles andere als sauber. Es k�nnen mehrere Controllers mit einem Material geben.
-        /// in diesem Falle w�rde stets der letzte als Callback f�r alle verwendet.
+        ///\todo alles andere als sauber.
         mCharLevelPair->setContactCallback(cb);
     }
 
