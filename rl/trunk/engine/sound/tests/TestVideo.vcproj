@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\include;..\..\common\include;..\..\core\include;..\..\..\dependencies\ogre\OgreMain\include;..\..\..\dependencies\ogre\OgreMain\Dependencies\include;&quot;..\..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\..\dependencies\boost\include;..\..\..\dependencies\fmod\api\inc\;..\..\..\dependencies\cegui\include;..\..\..\dependencies\theora\include;..\..\..\dependencies\TheoraVideo\include;..\..\..\dependencies\ogg\include;..\..\..\dependencies\vorbis\include;&quot;..\..\..\dependencies\ptypes-1.8.3\include&quot;;..\..\..\dependencies\ogre\Samples\Common\CEGUIRenderer\include;..\..\..\dependencies\ogre\dependencies\include;..\..\ui\include"
+				AdditionalIncludeDirectories="..\include;..\..\common\include;..\..\core\include;..\..\..\dependencies\ogrenew\OgreMain\include;..\..\..\dependencies\ogrenew\OgreMain\Dependencies\include;&quot;..\..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\..\dependencies\boost\include;..\..\..\dependencies\fmod\api\inc\;..\..\..\dependencies\cegui_mk2\include;..\..\..\dependencies\theora\include;..\..\..\dependencies\TheoraVideo\include;..\..\..\dependencies\ogg\include;..\..\..\dependencies\vorbis\include;&quot;..\..\..\dependencies\ptypes-1.8.3\include&quot;;..\..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\..\dependencies\ogrenew\dependencies\include;..\..\ui\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -35,7 +35,7 @@
 				AdditionalDependencies="Plugin_TheoraVideoSystem.lib OgreMain_d.lib fmodvc.lib CEGUIBase_d.lib OgreGUIRenderer_d.lib RlSound.lib RlCore.lib RlUi.lib"
 				OutputFile="..\..\..\rl_dist\TestVideo.exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\..\dependencies\ruby\lib;..\..\..\dependencies\boost\lib;..\..\..\dependencies\fmod\api\lib;..\..\..\dependencies\cegui\lib;&quot;..\..\..\dependencies\TheoraVideo\bin\$(ConfigurationName)&quot;;..\..\..\dependencies\ogre\Samples\Common\CEGUIRenderer\lib;&quot;..\..\sound\lib\$(ConfigurationName)&quot;;&quot;..\..\core\lib\$(ConfigurationName)&quot;;&quot;..\..\ui\lib\$(ConfigurationName)&quot;"
+				AdditionalLibraryDirectories="&quot;..\..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\..\dependencies\ruby\lib;..\..\..\dependencies\boost\lib;..\..\..\dependencies\fmod\api\lib;..\..\..\dependencies\cegui_mk2\lib;&quot;..\..\..\dependencies\TheoraVideo\bin\$(ConfigurationName)&quot;;..\..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\lib;&quot;..\..\sound\lib\$(ConfigurationName)&quot;;&quot;..\..\core\lib\$(ConfigurationName)&quot;;&quot;..\..\ui\lib\$(ConfigurationName)&quot;"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/tests.pdb"
 				SubSystem="1"
@@ -69,7 +69,7 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\include;..\..\common\include;..\..\core\include;..\..\..\dependencies\ogre\OgreMain\include;..\..\..\dependencies\ogre\OgreMain\Dependencies\include;&quot;..\..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\..\dependencies\boost\include;..\..\..\dependencies\fmod\api\inc\;..\..\..\dependencies\cegui\include;..\..\..\dependencies\theora\include;..\..\..\dependencies\TheoraVideo\include;..\..\..\dependencies\ogg\include;..\..\..\dependencies\vorbis\include;&quot;..\..\..\dependencies\ptypes-1.8.3\include&quot;;..\..\..\dependencies\ogre\Samples\Common\CEGUIRenderer\include;..\..\..\dependencies\ogre\dependencies\include;..\..\ui\include"
+				AdditionalIncludeDirectories="..\include;..\..\common\include;..\..\core\include;..\..\..\dependencies\ogrenew\OgreMain\include;..\..\..\dependencies\ogrenew\OgreMain\Dependencies\include;&quot;..\..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\..\dependencies\boost\include;..\..\..\dependencies\fmod\api\inc\;..\..\..\dependencies\cegui_mk2\include;..\..\..\dependencies\theora\include;..\..\..\dependencies\TheoraVideo\include;..\..\..\dependencies\ogg\include;..\..\..\dependencies\vorbis\include;&quot;..\..\..\dependencies\ptypes-1.8.3\include&quot;;..\..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\..\dependencies\ogrenew\dependencies\include;..\..\ui\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="4"
 				UsePrecompiledHeader="0"
@@ -83,7 +83,7 @@
 				AdditionalDependencies="Plugin_TheoraVideoSystem.lib OgreMain.lib fmodvc.lib CEGUIBase.lib OgreGUIRenderer.lib RlSound.lib RlCore.lib RlUi.lib"
 				OutputFile="..\..\..\rl_dist\TestVideo.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\..\dependencies\ruby\lib;..\..\..\dependencies\boost\lib;..\..\..\dependencies\fmod\api\lib;..\..\..\dependencies\cegui\lib;&quot;..\..\..\dependencies\TheoraVideo\bin\$(ConfigurationName)&quot;;..\..\..\dependencies\ogre\Samples\Common\CEGUIRenderer\lib;&quot;..\..\sound\lib\$(ConfigurationName)&quot;;&quot;..\..\core\lib\$(ConfigurationName)&quot;;&quot;..\..\ui\lib\$(ConfigurationName)&quot;"
+				AdditionalLibraryDirectories="&quot;..\..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\..\dependencies\ruby\lib;..\..\..\dependencies\boost\lib;..\..\..\dependencies\fmod\api\lib;..\..\..\dependencies\cegui_mk2\lib;&quot;..\..\..\dependencies\TheoraVideo\bin\$(ConfigurationName)&quot;;..\..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\lib;&quot;..\..\sound\lib\$(ConfigurationName)&quot;;&quot;..\..\core\lib\$(ConfigurationName)&quot;;&quot;..\..\ui\lib\$(ConfigurationName)&quot;"
 				GenerateDebugInformation="TRUE"
 				SubSystem="1"
 				OptimizeReferences="2"
