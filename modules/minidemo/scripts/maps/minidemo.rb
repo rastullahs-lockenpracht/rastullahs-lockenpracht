@@ -72,15 +72,15 @@ trank = Heiltrank.new( "Trank", "Eine andere Flasche mit einer anderen geheimnis
 chest.addItem(trank);
 $CORE.log("Traenke fertig");
 
-$CORE.log("Sound laden");
-LevelLied = $AM.createSoundSampleActor( "LevelLied", "spannend.ogg" );
-$CORE.log(" Platzieren");
-LevelLied.placeIntoScene( 160.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0 );
-$CORE.log(" Loopen");
-LevelLied.getControlledObject().setLooping( true );
-$CORE.log(" Abspielen");
-LevelLied.getControlledObject().play();
-$CORE.log("Sound fertig");
+#$CORE.log("Sound laden");
+#LevelLied = $AM.createSoundSampleActor( "LevelLied", "spannend.ogg" );
+#$CORE.log(" Platzieren");
+#LevelLied.placeIntoScene( 160.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0 );
+#$CORE.log(" Loopen");
+#LevelLied.getControlledObject().setLooping( true );
+#$CORE.log(" Abspielen");
+#LevelLied.getControlledObject().play();
+#$CORE.log("Sound fertig");
 
 $World.setFog( World::FOG_EXP, [0.8,0.8,1.0,0.5], 0.00009, 0.2, 1.0);
 
