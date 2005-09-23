@@ -251,7 +251,16 @@ namespace rl {
         addCommonSearchPath(moduleDir + "/dsa");
         addCommonSearchPath(moduleDir + "/maps");
         addCommonSearchPath(moduleDir + "/models");
-        addCommonSearchPath(moduleDir + "/sound");
+        addCommonSearchPath(moduleDir + "/sound"); //@todo ueber Verzeichnisnamen nachdenken
+		addCommonSearchPath(moduleDir + "/sound/holz");
+		addCommonSearchPath(moduleDir + "/sound/metall");
+		addCommonSearchPath(moduleDir + "/sound/natur");
+		addCommonSearchPath(moduleDir + "/sound/ost");
+		addCommonSearchPath(moduleDir + "/sound/sonst");
+		addCommonSearchPath(moduleDir + "/sound/waffen");
+		addCommonSearchPath(moduleDir + "/sound/wesen");
+		addCommonSearchPath(moduleDir + "/sound/zauber");
+		addCommonSearchPath(moduleDir + "/sound/mensch");
         addCommonSearchPath(moduleDir + "/gui");
         addCommonSearchPath(moduleDir + "/gui/fonts");
         addCommonSearchPath(moduleDir + "/gui/imagesets");
