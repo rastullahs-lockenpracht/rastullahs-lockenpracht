@@ -19,15 +19,19 @@
 
 #include "RulesPrerequisites.h"
 #include <vector>
+#include "EventSource.h"
+#include "EventCaster.h"
+#include "CombatEvents.h"
+#include "GameTask.h"
 
 namespace rl {
 
 	class Creature;
 
 	/**
-	 * Verwaltungsklasse f�r einen Kampf
+	 * Verwaltungsklasse fuer einen Kampf
 	 */
-	class _RlRulesExport Combat
+	class _RlRulesExport Combat : public EventSource, public GameTask
 	{
 	public:
 		enum MoveType {
@@ -78,6 +82,9 @@ namespace rl {
 		Creature* getNext();
 		Creature* getNext(int group);
 
+		void addCombatEventListener(CombatEventListener* listener);
+		void removeCombatEventListener(CombatEventListener* listener);
+
 
 	private:
 		/**
@@ -114,6 +121,10 @@ namespace rl {
 		int mCurrentInitiative;
 		int mKampfrunde;
 		CombatMap mParticipants;
+
+		EventCaster<CombatEvent> mEventCaster;
+
+		void run(Ogre::Real elapsedTime);
 	};
 
 }

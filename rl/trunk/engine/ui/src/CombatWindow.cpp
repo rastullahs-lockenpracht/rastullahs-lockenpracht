@@ -32,16 +32,35 @@ namespace rl {
 	CombatWindow::CombatWindow(Combat* combat, int group)
 		: mCombat(combat),
 		  mGroup(group),
+		  mPareeTarget(NULL),
+		  mAttackTarget(NULL),
 		CeGuiWindow("combatwindow.xml", WND_MOUSE_INPUT)
 	{
         mCurrentCreature = mCombat->getNext(group);
 
 		mOpponentContextMenu = getMenu("CombatWindow/OpponentMenu");
 		mOpponentContextMenu->setAutoResizeEnabled(true);
+
 		mMenuItemAttackWalkAt = getMenuItem("CombatWindow/OpponentMenu/AttackWalkAt");
+		mMenuItemAttackWalkAt->subscribeEvent(
+			Window::EventMouseClick,
+			boost::bind(&CombatWindow::handleContextMenu, this, CTX_AT_WALK_AT));
+		
 		mMenuItemAttackWalkAtPa = getMenuItem("CombatWindow/OpponentMenu/AttackWalkAtPa");
+		mMenuItemAttackWalkAtPa->subscribeEvent(
+			Window::EventMouseClick,
+			boost::bind(&CombatWindow::handleContextMenu, this, CTX_AT_WALK_ATPA));
+
 		mMenuItemAttackRunAtPa = getMenuItem("CombatWindow/OpponentMenu/AttackRunAtPa");
+		mMenuItemAttackRunAtPa->subscribeEvent(
+			Window::EventMouseClick,
+			boost::bind(&CombatWindow::handleContextMenu, this, CTX_AT_RUN_ATPA));
+
 		mMenuItemParadeThis = getMenuItem("CombatWindow/OpponentMenu/ParadeThis");
+		mMenuItemParadeThis->subscribeEvent(
+			Window::EventMouseClick,
+			boost::bind(&CombatWindow::handleContextMenu, this, CTX_PA));
+
 		mMenuItemInfo = getMenuItem("CombatWindow/OpponentMenu/Info");
 		mMenuItemInfo->setEnabled(false);
 
@@ -55,6 +74,7 @@ namespace rl {
 			boost::bind(&CombatWindow::handleRightClick, this, _1));
 
 		addToRoot(mWindow);
+		mCombat->addCombatEventListener(this);
 	}
 
 	bool CombatWindow::handleRightClick(const EventArgs& evt)
@@ -63,7 +83,15 @@ namespace rl {
 		if (mouseEvt.button == RightButton)
 		{
 			GameObject* pickedObject = InputManager::getSingleton().getPickedObject();
-			if (pickedObject != NULL)
+			Creature* creature = NULL;
+			try {
+				creature = dynamic_cast<Creature*>(pickedObject);
+			}
+			catch (bad_cast)
+			{
+			}
+
+			if (creature != NULL && mCombat->getGroupOf(creature) != mGroup)
 			{
 				mMenuItemAttackRunAtPa->setText("Hinrennen (XX Aktionen) und angreifen, keine Parade");
 				mMenuItemAttackWalkAtPa->setText("Hinlaufen (XX Aktionen) und angreifen, keine Parade");
@@ -72,11 +100,27 @@ namespace rl {
 				mMenuItemInfo->setText(pickedObject->getDescription());
 				mOpponentContextMenu->setPosition(Absolute, mouseEvt.position);
 				mOpponentContextMenu->show();
+				mOpponentContextMenu->setUserData(creature);
 				return true;
 			}
 		}
 	
 		return false; // Ereignis nicht loeschen
+	}
+
+	bool CombatWindow::handleContextMenu(ContextMenuAction action)
+	{
+		switch (action) {
+			case CTX_AT_RUN_ATPA:
+			case CTX_AT_WALK_AT:
+			case CTX_AT_WALK_ATPA:
+				mAttackTarget = static_cast<Creature*>(mOpponentContextMenu->getUserData());
+				return true;
+			case CTX_PA:
+				mPareeTarget = static_cast<Creature*>(mOpponentContextMenu->getUserData());
+				return true;
+		}
+		return false;
 	}
 
 	bool CombatWindow::handleContextMenuClose()
@@ -89,4 +133,28 @@ namespace rl {
 	{
 		return true;
 	}
+
+	bool CombatWindow::eventRaised(AskForReactionEvent* anEvent)
+	{
+		if (mPareeTarget == NULL) // Pariere ersten erfolgreichen Angriff
+			mCombat->setParadeTarget(mCurrentCreature, anEvent->getOpponent());
+		else
+			mCombat->setParadeTarget(mCurrentCreature, mPareeTarget);
+
+		return true;
+	}
+
+	bool CombatWindow::eventRaised(AskForActionEvent* anEvent)
+	{
+		if (mAttackTarget != NULL)
+			mCombat->setAttackeTarget(mCurrentCreature, mAttackTarget);
+		return true;
+	}
+
+	bool CombatWindow::eventRaised(CombatFinishEvent* anEvent)
+	{
+		destroyWindow();
+		return true;
+	}
+
 }

@@ -20,18 +20,32 @@
 #include "UiPrerequisites.h"
 
 #include "CeGuiWindow.h"
+#include "CombatEvents.h"
 
 namespace rl {
 
 	class Combat;
 	class Creature;
 
-	class _RlUiExport CombatWindow : public CeGuiWindow
+	class _RlUiExport CombatWindow : public CeGuiWindow, public CombatEventListener
 	{
 	public:
 		CombatWindow(Combat* combat, int group);
-	private:
 
+	protected:
+		bool eventRaised(AskForReactionEvent* anEvent);
+		bool eventRaised(AskForActionEvent* anEvent);
+		bool eventRaised(CombatFinishEvent* anEvent);
+
+	private:
+		enum ContextMenuAction {
+			CTX_PA,
+			CTX_AT_RUN_ATPA,
+			CTX_AT_WALK_ATPA,
+			CTX_AT_WALK_AT
+		};
+
+		bool handleContextMenu(ContextMenuAction action);
 		bool handleRightClick(const CEGUI::EventArgs& evt);
 		bool handleNextKR();
 		bool handleContextMenuClose();
@@ -47,6 +61,10 @@ namespace rl {
 		CEGUI::MenuItem* mMenuItemParadeThis;
 		CEGUI::MenuItem* mMenuItemInfo;
 		CEGUI::PushButton* mButtonNextRound;
+
+		Creature* mAttackTarget;
+		Creature* mPareeTarget;
+
 	};
 }
 

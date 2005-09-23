@@ -14,6 +14,7 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
+#include "CombatEvents.h"
 #include "Combat.h"
 #include "Creature.h"
 #include "Exception.h"
@@ -24,6 +25,7 @@ using namespace std;
 namespace rl {
 
 	Combat::Combat()
+		: mEventCaster()
 	{
 	}
 
@@ -137,5 +139,20 @@ namespace rl {
 		//TODO: Attacke wuerfeln
 		//TODO: Parade wuerfeln 
 		//TODO: Schaden wuerfeln und machen
+	}
+
+	void Combat::run(Ogre::Real elapsedTime)
+	{
+		//TODO: Zeitliche Steuerung eines Kampfes
+	}
+
+	void Combat::addCombatEventListener(CombatEventListener* listener)
+	{
+		mEventCaster.addEventListener(listener);
+	}
+
+	void Combat::removeCombatEventListener(CombatEventListener* listener)
+	{
+		mEventCaster.addEventListener(listener);
 	}
 }
