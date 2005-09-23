@@ -19,14 +19,13 @@ Man muss die Dateien [swig directory]/Lib/ruby/rubyswigtype.swg,
 fmod/ -  FMOD 3.74 Programmers API
 http://www.fmod.org/
 
-ogre/ogreode/ OgreODE - Final Compatible 1.0.1
-http://www.green-eyed-monster.com/xoops/modules/mydownloads/visit.php?cid=3&lid=10
-Die beiliegende OgreOde_OGRE.txt beachten
+OgreNewt/ OgreNewt - unsere modifizierte Version
+http://team-pantheon.de/~haffax/dependencies/OgreNewt.rar
 
-ode/ - Ode 0.5
-http://www.ode.org
+NewtonSDK/ - 1.32
+http://newtondynamics.org
 
-cegui/ - Cegui 0.3
+cegui/ - Cegui 0.4
 http://www.cegui.org.uk/
 
 xerces/ - Xerces-c
@@ -43,20 +42,15 @@ Diese Verzeichnisse sind alle unterhalb von rl/trunk/dependencies anzulegen.
 Die Projekte müssen alle in diesen Verzeichnissen angelegt werden.
 Die Verzeichnisstruktur sollte jeweils erhalten bleiben.
 Die Versionsnummern sind wichtig.
-Man muss die Bibliotheken Ogre (mit den Änderungen von OgreOde), und dann OgreOde und Cegui
-noch erstellen
+Man muss die Bibliotheken CeGUI und Ogre und dann OgreNewt noch erstellen.
 
-VS.Net-2003-Nutzer können sich alternativ von der Projektseite auch die Dependencies runterladen 
-und ins rl-Verzeichnis entpacken. Diese sind jedoch nicht immer aktuell. ( zum Beispiel muß zur 
-Zeit der Verfassung dieses Textes swig erneuert werden. )
+VS.Net-2003-Nutzer können sich alternativ von der Projektseite auch die Dependencies runterladen und ins rl-Verzeichnis entpacken. Diese sind jedoch nicht immer aktuell. ( zum Beispiel muß zur Zeit der Verfassung dieses Textes swig erneuert werden. )
 
 Das Projekt kann man dann einfach kompilieren.
 
 Sollte das nicht zutreffen
  - Überprüft ob alle Dependencies in den korrekten Versionen vorhanden sind
  - Fragt uns auf unserer Webseite oder im irc
-
-
 
 Vor dem Debuggen müssen die nötigen Dateien in ein Distributionsverzeichnis
 kopiert werden. Je nach kompilierter Konfiguration
