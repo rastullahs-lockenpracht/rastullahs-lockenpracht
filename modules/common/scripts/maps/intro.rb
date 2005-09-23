@@ -12,7 +12,7 @@ $CORE.log("Tageslicht erstellt.");
 
 
 $CORE.log("Sound laden");
-titelLied = $AM.createSoundSampleActor( "TitelLied", "menu.ogg" ); 
+titelLied = $AM.createSoundSampleActor( "TitelLied", "ruchin001.ogg" ); 
 $CORE.log(" Platzieren");
 titelLied.placeIntoScene( 160.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0 );
 $CORE.log(" Loopen");
