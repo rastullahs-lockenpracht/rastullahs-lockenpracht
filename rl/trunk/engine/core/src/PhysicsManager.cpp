@@ -47,7 +47,7 @@ namespace rl
         mPhysicalThings(),
         mControlledThings(),
         mDebugMode(false),
-        mGravity(0, -98.0, 0),
+        mGravity(0, -998.0, 0),
         mWorldAABB(Vector3(-100, -100, -100), Vector3(100, 100, 100)),
         mElapsed(0.0f),
         mUpdate(1.0f/120.0f),
@@ -128,22 +128,11 @@ namespace rl
             if (geomType == GT_BOX)
             {
                 coll = new OgreNewt::CollisionPrimitives::Box(mWorld, size);
-
-                if (offsetMode == OM_BOTTOMCENTERED)
-                {
-                    offset = Vector3(0.0, size.y / 2.0, 0.0);
-                }
                 inertiaCoefficients = Vector3(size.x*size.x/6.0f, size.y*size.y/6.0f, size.z*size.z/6.0f);
             }
             else if (geomType == GT_SPHERE)
             {
                 double radius = max(size.x, max(size.y, size.z)) / 2.0;
-
-                if (offsetMode == OM_BOTTOMCENTERED)
-                {
-                    offset = Vector3(0.0, size.y / 2.0, 0.0);
-                }
-
                 coll = new OgreNewt::CollisionPrimitives::Ellipsoid(mWorld,
                     Vector3(radius, radius, radius));
                 inertiaCoefficients = Vector3(radius*radius, radius*radius, radius*radius);
@@ -151,22 +140,11 @@ namespace rl
             else if (geomType == GT_CAPSULE)
             {
                 double radius = max(size.x, size.z) / 2.0;
-
-                if (offsetMode == OM_BOTTOMCENTERED)
-                {
-                    offset = Vector3(0.0, size.y / 2.0, 0.0);
-                }
-
                 orientationBias = Quaternion(Degree(90), Vector3::NEGATIVE_UNIT_Z);
-
                 coll = new OgreNewt::CollisionPrimitives::Capsule(mWorld, radius, size.y);
             }
             else if (geomType == GT_ELLIPSOID)
             {
-                if (offsetMode == OM_BOTTOMCENTERED)
-                {
-                    offset = Vector3(0.0, size.y / 2.0, 0.0);
-                }
                 // set the size x/z values to the maximum of each for testing
                 Vector3 s(size/2.0);
                 s.x = max(s.x, s.z);
@@ -183,6 +161,11 @@ namespace rl
             }
 
             body->setCustomForceAndTorqueCallback(genericForceCallback);
+
+            if (offsetMode == OM_BOTTOMCENTERED)
+            {
+                offset = Vector3(0.0, size.y / 2.0, 0.0);
+            }
 
             rval = new PhysicalThing(body, offset, orientationBias);
             mPhysicalThings.push_back(rval);        
