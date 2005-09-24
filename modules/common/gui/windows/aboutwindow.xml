@@ -1,0 +1,59 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+    <Window Type="RastullahLook/FrameWindow" Name="AboutWindow">
+        <Property Name="Position" Value="x:0.0 y:0.0"/>
+        <Property Name="AbsoluteWidth" Value="400"/>
+        <Property Name="AbsoluteHeight" Value="300"/>
+		<Property Name="Text" Value="Über Rastullahs Lockenpracht"/>
+		<Window Type="RastullahLook/StaticText" Name="AboutWindow/Text">
+			<Property Name="AbsoluteXPosition" Value="5"/>
+			<Property Name="AbsoluteWidth" Value="290"/>
+			<Property Name="AbsoluteYPosition" Value="26"/>
+			<Property Name="AbsoluteHeight" Value="200"/>
+			<Property Name="FrameEnabled" Value="False"/>
+		</Window>
+
+		<Window Type="RastullahLook/StaticText" Name="AboutWindow/EngineLabel">
+			<Property Name="AbsoluteXPosition" Value="5"/>
+			<Property Name="AbsoluteWidth" Value="50"/>
+			<Property Name="AbsoluteYPosition" Value="215"/>
+			<Property Name="AbsoluteHeight" Value="15"/>
+			<Property Name="Text" Value="Engine"/>
+			<Property Name="FrameEnabled" Value="False"/>
+		</Window>
+
+		<Window Type="RastullahLook/StaticText" Name="AboutWindow/EngineText">
+			<Property Name="AbsoluteXPosition" Value="60"/>
+			<Property Name="AbsoluteWidth" Value="150"/>
+			<Property Name="AbsoluteYPosition" Value="215"/>
+			<Property Name="AbsoluteHeight" Value="15"/>
+			<Property Name="FrameEnabled" Value="False"/>
+		</Window>
+
+		<Window Type="RastullahLook/StaticText" Name="AboutWindow/ModuleLabel">
+			<Property Name="AbsoluteXPosition" Value="5"/>
+			<Property Name="AbsoluteWidth" Value="150"/>
+			<Property Name="AbsoluteYPosition" Value="235"/>
+			<Property Name="AbsoluteHeight" Value="20"/>
+			<Property Name="Text" Value="Modul:"/>
+			<Property Name="FrameEnabled" Value="False"/>
+		</Window>
+
+		<Window Type="RastullahLook/StaticText" Name="AboutWindow/ModuleText">
+			<Property Name="AbsoluteXPosition" Value="60"/>
+			<Property Name="AbsoluteWidth" Value="50"/>
+			<Property Name="AbsoluteYPosition" Value="235"/>
+			<Property Name="AbsoluteHeight" Value="20"/>
+			<Property Name="FrameEnabled" Value="False"/>
+		</Window>
+
+		<Window Type="RastullahLook/Button" Name="AboutWindow/CloseButton">
+			<Property Name="AbsoluteXPosition" Value="140"/>
+			<Property Name="AbsoluteYPosition" Value="265"/>
+			<Property Name="AbsoluteWidth" Value="120"/>
+			<Property Name="AbsoluteHeight" Value="28"/>
+			<Property Name="Font" Value="Vera Serif-10"/>
+			<Property Name="Text" Value="Schließen"/>
+			<Property Name="Tooltip" Value="Das Fenster schließen"/>
+		</Window>
+    </Window>
+</GUILayout>

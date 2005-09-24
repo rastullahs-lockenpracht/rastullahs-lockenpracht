@@ -182,5 +182,15 @@ class ShowTestVideoWindow < Action
   end
 end
 
+class ShowAboutWindowAction < Action
+  def initialize
+    super("showaboutwindow", "Über")
+  end
+  
+  def doAction(object, actor, target)
+    $UI.showAboutWindow()
+  end
+end
+
 act = ShowObjectDescriptionWindow.new()
 ActionManager.getSingleton().registerAction(act)

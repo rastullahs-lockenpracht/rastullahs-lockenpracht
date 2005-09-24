@@ -4,7 +4,9 @@ load 'global-actions.rb'
 class GlobalSettings
   def GlobalSettings.addIngameActions(actionManager)
       $grpView = ActionGroup.new("View")
-      $grpOptions = ActionGroup.new("Options")
+      $grpActions = ActionGroup.new("Aktionen")
+      $grpHelp = ActionGroup.new("Hilfe")
+      $grpOptions = ActionGroup.new("Optionen")
 
       $act1 = ShowActionMenuAction.new
       $act3 = ShowObjectActionsAction.new
@@ -14,7 +16,6 @@ class GlobalSettings
       $act7 = ToggleCollisionDebugAction.new
       $act8 = ToggleDialogWindowAction.new
       $act9 = ToggleViewModeAction.new
-      $act17 = UseGameObjectDefaultAction.new
       $act10 = ResetCameraAction.new
       $act11 = ShowCharacterSheetAction.new
       $act12 = QuitGameAction.new
@@ -23,6 +24,8 @@ class GlobalSettings
       $act15 = ShowTargetWindowAction.new
       $act16 = ToggleInGameGlobalMenuAction.new
       $act17 = ShowTestVideoWindow.new
+      $act18 = UseGameObjectDefaultAction.new
+      $act19 = ShowAboutWindowAction.new
 
       actionManager.registerInGameGlobalAction($act1, $grpView)
       actionManager.registerInGameGlobalAction($act3, $grpView)
@@ -41,6 +44,10 @@ class GlobalSettings
 
       actionManager.registerInGameGlobalAction($act12, $grpOptions)
       actionManager.registerInGameGlobalAction($act13, $grpOptions)
+
+      actionManager.registerInGameGlobalAction($act19, $grpHelp)
+      actionManager.registerInGameGlobalAction($act18, $grpActions)
+
 
   end
 end
