@@ -7,6 +7,7 @@ require 'switch.rb'
 require 'truhe.rb'
 require 'door_opener.rb'
 require 'heiltrank.rb'
+require 'crate.rb'
 
 # Physik aktivieren
 $PM.setEnabled(true);
@@ -35,8 +36,8 @@ $UI.setActiveCharacter($hero);
 $CORE.log("Held als aktiver Charakter gesetzt.");
 
 $CORE.log("Kiste einsetzen");
-crate = $AM.createMeshActor( "crate", "kiste.mesh",  PhysicsManager::GT_BOX, 120.0 );
-crate.placeIntoScene(180.0, 50.0, 220.0, 1.0, 0.0, 0.0, 0.0);
+crate = Crate.new("Eine Kiste", "Eine Kiste.\nWas mag da drin sein?");
+crate.getActor().placeIntoScene(180.0, 50.0, 220.0, 1.0, 0.0, 0.0, 0.0);
 
 $CORE.log("Türen einsetzen")
 door1 = Door.new("Eine Tür", "Eine Holztür", false, true);
@@ -45,7 +46,6 @@ door1.getActor().yaw(-90.0)
 
 gtuer = Door.new("Eine Tür", "Eine Holztür.\nDiese Tür hat weder Klinke noch Schlösser", false, false);
 gtuer.getActor().placeIntoScene(1368.0, -75.0, 60.0, 1.0, 0.0, 0.0, 0.0)
-#, "Bone01");
 gtuer.getActor().yaw(-90.0)
 $CORE.log("Türen fertig")
 
