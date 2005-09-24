@@ -17,7 +17,7 @@
 #ifndef __CorePrerequisites_H__
 #define __CorePrerequisites_H__
 
-#include "RastullahPrerequisites.h"
+#include "CommonPrerequisites.h"
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 // Export control

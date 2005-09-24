@@ -17,7 +17,7 @@
 #ifndef __SoundPrerequisites_H__
 #define __SoundPrerequisites_H__
 
-#include "RastullahPrerequisites.h"
+#include "CommonPrerequisites.h"
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 // Export control
@@ -29,20 +29,5 @@
 #else // Linux / Mac OSX etc
 #   define _RlSoundExport
 #endif
-
-#include <OgreNoMemoryMacros.h>
-#   undef min
-#   pragma warning (push)
-#   pragma warning (disable : 4267)
-#   include <CEGUIString.h>
-#   pragma warning (pop)
-#include <OgreMemoryMacros.h>
-
-namespace rl
-{
-    typedef CEGUI::String CeGuiString;
-    typedef std::vector<CeGuiString> CeGuiStringVector;
-}
-
 
 #endif

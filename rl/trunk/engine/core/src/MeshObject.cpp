@@ -120,13 +120,16 @@ namespace rl {
 	void MeshObject::stopAllAnimations( )
 	{
 			AnimationStateSet* animStates = getEntity()->getAllAnimationStates();
-			AnimationStateIterator iter(animStates->begin(),animStates->end());
-
-			while(iter.hasMoreElements()) 
+			if (animStates != NULL)
 			{
-			    AnimationState state = iter.getNext(); 
-                stopAnimation( state.getAnimationName() );
-			} 
+				AnimationStateIterator iter(animStates->begin(),animStates->end());
+
+				while(iter.hasMoreElements()) 
+				{
+					AnimationState state = iter.getNext(); 
+					stopAnimation( state.getAnimationName() );
+				} 
+			}
 	}
 
 

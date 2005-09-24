@@ -108,6 +108,8 @@ namespace rl
 
 	void ActionManager::registerInGameGlobalAction(Action* action, ActionGroup* group)
 	{
+		RulesSubsystem::getSingleton().log(
+			Ogre::LML_TRIVIAL, "Globale Aktion " + action->getName() + " hinzugefuegt.");
 		mInGameGlobalActions.push_back(action);
 		action->setGroup(group);
 	}
@@ -120,7 +122,7 @@ namespace rl
 				mInGameGlobalActions.end(), 
 				actionName);
 		if (iter == mInGameGlobalActions.end())
-			Throw(InvalidArgumentException, "Aktion nicht gefunden");
+			return NULL;
 		return *iter;
 	}
 
