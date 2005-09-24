@@ -27,6 +27,7 @@
 #include <OgreSceneQuery.h>
 #undef sleep
 
+#include <deque>
 
 namespace rl {
 
@@ -84,10 +85,8 @@ namespace rl {
         /// optimal distance to the character
         Ogre::Real mDesiredDistance;
         std::pair<Ogre::Real, Ogre::Real> mDistanceRange;
-        Ogre::Degree mYaw;
         Ogre::Degree mPitch;
         std::pair<Ogre::Degree, Ogre::Degree> mPitchRange;
-        Ogre::Degree mMaxPitch;
 
         Ogre::Vector3 mLookAtOffset;
         Ogre::Real mMovementSpeed;
@@ -95,6 +94,8 @@ namespace rl {
 
         Ogre::Vector3 mDesiredVel;
         Ogre::Real mDesiredOmega;
+        std::deque<Ogre::Real> mDesiredOmegas;
+        size_t mQueueLength;
 
         AnimationState mCurrentAnimationState;
         AnimationState mLastAnimationState;

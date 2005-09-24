@@ -20,6 +20,7 @@
 #include "Exception.h"
 #include "Action.h"
 #include "ActionManager.h"
+#include "InputManager.h"
 #include <OgreMouseEvent.h>
 
 using namespace Ogre;
@@ -37,12 +38,12 @@ namespace rl {
 		  mMouseCommandsOffCombat(),
 		  mActiveMovement(MOVE_NONE)		 
 	{
-		mMovementCommands.insert(make_pair(KC_A, MOVE_LEFT));
-		mMovementCommands.insert(make_pair(KC_D, MOVE_RIGHT));
+        mMovementCommands.insert(make_pair(InputManager::getSingleton().encodeKey(KC_A, KC_LMENU), MOVE_LEFT));
+		mMovementCommands.insert(make_pair(InputManager::getSingleton().encodeKey(KC_D, KC_LMENU), MOVE_RIGHT));
 		mMovementCommands.insert(make_pair(KC_W, MOVE_FORWARD));
 		mMovementCommands.insert(make_pair(KC_S, MOVE_BACKWARD));
-		mMovementCommands.insert(make_pair(KC_Q, TURN_LEFT));
-		mMovementCommands.insert(make_pair(KC_E, TURN_RIGHT));
+		mMovementCommands.insert(make_pair(KC_A, TURN_LEFT));
+		mMovementCommands.insert(make_pair(KC_D, TURN_RIGHT));
 		mMovementCommands.insert(make_pair(KC_LSHIFT, MOVE_RUN));
         mMovementCommands.insert(make_pair(KC_LCONTROL, MOVE_SNEAK));
 		mMovementCommands.insert(make_pair(KC_SPACE, MOVE_JUMP));

@@ -34,6 +34,7 @@
 #include <OgreStringConverter.h>
 #include <OgreMath.h>
 
+#include <numeric>
 
 using namespace Ogre;
 
@@ -55,14 +56,15 @@ namespace rl {
         mCharBody(),
         mDesiredDistance(200),
         mDistanceRange(150, 500),
-        mYaw(0),
         mPitch(20),
         mPitchRange(Degree(-75), Degree(85)),
         mLookAtOffset(),
         mMovementSpeed(180.0f),
-        mRotationSpeed(5),
+        mRotationSpeed(4.0f),
         mDesiredVel(),
         mDesiredOmega(),
+        mDesiredOmegas(),
+        mQueueLength(4),
         mCurrentAnimationState(AS_STAND),
         mLastAnimationState(AS_STAND),
         mViewMode(VM_THIRD_PERSON),
@@ -124,6 +126,7 @@ namespace rl {
         mDesiredVel = Vector3::ZERO;
         mDesiredOmega = 0.0f;
 
+        Real newOmega = 0.0;
         if (cmdmap->isMovementActive(MOVE_FORWARD))
             mDesiredVel.z = -mMovementSpeed;
 
@@ -140,10 +143,10 @@ namespace rl {
             mStartJump = true;
 
         if (cmdmap->isMovementActive(TURN_LEFT))
-            mDesiredOmega += mRotationSpeed;
+            newOmega += mRotationSpeed;
 
         if (cmdmap->isMovementActive(TURN_RIGHT))
-            mDesiredOmega -= mRotationSpeed;
+            newOmega -= mRotationSpeed;
 
         if (cmdmap->isMovementActive(MOVE_RUN))
             mDesiredVel *= 4.0;
@@ -156,7 +159,11 @@ namespace rl {
         if (mPitch < mPitchRange.first) mPitch = mPitchRange.first;
         if (mPitch > mPitchRange.second) mPitch = mPitchRange.second;
 
-        mDesiredOmega -=im->getMouseRelativeX() * 0.25;
+        newOmega -= Math::Sign(im->getMouseRelativeX())*mRotationSpeed*1.5;
+        mDesiredOmegas.push_back(newOmega);
+        if (mDesiredOmegas.size() > mQueueLength) mDesiredOmegas.pop_front();
+        mDesiredOmega = std::accumulate(mDesiredOmegas.begin(), mDesiredOmegas.end(), 0.0f) / mDesiredOmegas.size();
+
 
         SceneNode* cameraNode = mCamera->_getSceneNode();
         cameraNode->lookAt(mCharacter->getWorldPosition() + mLookAtOffset*2.0, Node::TS_WORLD);

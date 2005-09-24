@@ -134,8 +134,8 @@ namespace rl {
         log(Ogre::LML_TRIVIAL, "CEGUI geladen", "UiSubsystem::initializeUiSubsystem");
 
 		//Initializing InputManager
-		new CommandMapper();
         new InputManager();
+        new CommandMapper();
 		log(Ogre::LML_TRIVIAL, "UI-Manager geladen", "UiSubsystem::initializeUiSubsystem");
 
 		InputManager::getSingleton().loadKeyMapping("keymap-german.xml");
