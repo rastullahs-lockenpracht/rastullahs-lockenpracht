@@ -37,7 +37,7 @@ $CORE.log("Held als aktiver Charakter gesetzt.");
 
 $CORE.log("Kiste einsetzen");
 crate = Crate.new("Eine Kiste", "Eine Kiste.\nWas mag da drin sein?");
-crate.getActor().placeIntoScene(180.0, 50.0, 220.0, 1.0, 0.0, 0.0, 0.0);
+crate.getActor().placeIntoScene(180.0, 80.0, 220.0, 1.0, 0.0, 0.0, 0.0);
 
 $CORE.log("Türen einsetzen")
 door1 = Door.new("Eine Tür", "Eine Holztür", false, true);
