@@ -2,7 +2,7 @@
 @SET RL_DIST="%1\rl_dist"
 @SET BUILD="%2"
 
-@SET OGREHOME="%RL_ROOT%\Dependencies\ogre"
+@SET OGREHOME="%RL_ROOT%\Dependencies\ogrenew"
 @SET OGREDEPS="%OGREHOME%\Dependencies"
 @SET OGREPLUGINS="%OGREHOME%\PlugIns"
 @SET OGRERENDERERS="%OGREHOME%\RenderSystems"
@@ -63,6 +63,6 @@ copy "%RL_ROOT%\Dependencies\NewtonSDK\sdk\dll\Newton.dll" "%RL_DIST%"
 copy "%RL_ROOT%\Dependencies\OgreNewt\bin\debug\OgreNewt_d.dll" "%RL_DIST%"
 copy "%RL_ROOT%\Dependencies\OgreNewt\bin\release\OgreNewt.dll" "%RL_DIST%"
 
-copy "%RL_ROOT%\Dependencies\cegui\bin\*.dll" "%RL_DIST%"
+copy "%RL_ROOT%\Dependencies\cegui_mk2\bin\*.dll" "%RL_DIST%"
 copy "%RL_ROOT%\Dependencies\xerces\bin\*.dll" "%RL_DIST%"
 copy "%RL_ROOT%\Dependencies\TheoraVideo\bin\%BUILD%\Plugin_TheoraVideoSystem.dll" "%RL_DIST%"
