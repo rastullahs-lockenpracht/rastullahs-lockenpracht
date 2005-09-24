@@ -19,6 +19,7 @@
 
 #include "UiSubsystem.h"
 #include "CoreSubsystem.h"
+#include "ConfigurationManager.h"
 
 #include "MainMenuWindow.h"
 
@@ -32,6 +33,12 @@ namespace rl {
 		mActiveModule(""),
 		mActionHolder(actionHolder)
 	{
+
+		getWindow("MainMenu/EngineVersion")->setText(
+			ConfigurationManager::getSingleton().getEngineVersionString()+
+			" ("+StringConverter::toString(ConfigurationManager::getSingleton().getEngineBuildNumber())+")");
+
+
 		getWindow("MainMenu/Game/Start")->subscribeEvent(
 			MenuItem::EventClicked, 
 			boost::bind(&MainMenuWindow::handleStart, this));

@@ -39,6 +39,7 @@
 #include "ContainerContentWindow.h"
 #include "InGameMenuWindow.h"
 #include "CombatWindow.h"
+#include "AboutWindow.h"
 
 #include "Combat.h"
 #include "GameLoop.h"
@@ -312,6 +313,11 @@ namespace rl {
 			mCharacterSheet->setCharacter(getActiveCharacter());
 			mCharacterSheet->setVisible(true);
 		}
+	}
+
+	void UiSubsystem::showAboutWindow()
+	{
+		(new AboutWindow())->setVisible(true);
 	}
 
 	void UiSubsystem::showCharacterSheet(Person* chara)

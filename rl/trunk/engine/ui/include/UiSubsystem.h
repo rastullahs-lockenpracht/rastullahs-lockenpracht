@@ -88,6 +88,7 @@ namespace rl {
 		bool showInputOptionsMenu(Creature* actionHolder);
 		void showDialog(DialogCharacter* bot);
         void showPlaylist();
+		void showAboutWindow();
 		Person* getActiveCharacter();
 		void setActiveCharacter(Person* person);
         CharacterController* getCharacterController();
