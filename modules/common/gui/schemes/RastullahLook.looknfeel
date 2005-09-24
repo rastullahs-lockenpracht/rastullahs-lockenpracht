@@ -3195,7 +3195,7 @@
     ***************************************************
     -->
     <WidgetLook name="RastullahLook/PopupMenu">
-        <NamedArea name="ItemRenderArea">
+		<NamedArea name="ItemRenderArea">
             <Area>
                 <Dim type="LeftEdge" ><ImageDim imageset="RastullahLook" image="PopupMenuFrameLeft" dimension="Width" /></Dim>
                 <Dim type="TopEdge" ><ImageDim imageset="RastullahLook" image="PopupMenuFrameTop" dimension="Height" /></Dim>
@@ -3215,7 +3215,7 @@
                 </Dim>
             </Area>
         </NamedArea>
-        <ImagerySection name="frame">
+		<ImagerySection name="frame">
             <FrameComponent>
                 <Area>
                     <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
@@ -3236,7 +3236,9 @@
         </ImagerySection>
         <StateImagery name="Enabled">
             <Layer>
-                <Section section="frame" />
+                <Section section="frame">
+                    <Colours topLeft="FFDFEFF5" topRight="FFDFDFF5" bottomLeft="FFF4F3F5" bottomRight="FFF4F3F5" />
+				</Section>
             </Layer>
         </StateImagery>
         <StateImagery name="Disabled">

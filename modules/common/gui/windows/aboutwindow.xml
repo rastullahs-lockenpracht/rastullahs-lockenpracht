@@ -5,7 +5,7 @@
         <Property Name="AbsoluteHeight" Value="300"/>
 		<Property Name="Text" Value="Über Rastullahs Lockenpracht"/>
 		<Window Type="RastullahLook/StaticText" Name="AboutWindow/Text">
-			<Property Name="AbsoluteXPosition" Value="5"/>
+			<Property Name="AbsoluteXPosition" Value="15"/>
 			<Property Name="AbsoluteWidth" Value="290"/>
 			<Property Name="AbsoluteYPosition" Value="26"/>
 			<Property Name="AbsoluteHeight" Value="200"/>
@@ -13,16 +13,16 @@
 		</Window>
 
 		<Window Type="RastullahLook/StaticText" Name="AboutWindow/EngineLabel">
-			<Property Name="AbsoluteXPosition" Value="5"/>
-			<Property Name="AbsoluteWidth" Value="50"/>
+			<Property Name="AbsoluteXPosition" Value="15"/>
+			<Property Name="AbsoluteWidth" Value="70"/>
 			<Property Name="AbsoluteYPosition" Value="215"/>
-			<Property Name="AbsoluteHeight" Value="15"/>
-			<Property Name="Text" Value="Engine"/>
+			<Property Name="AbsoluteHeight" Value="20"/>
+			<Property Name="Text" Value="Engine:"/>
 			<Property Name="FrameEnabled" Value="False"/>
 		</Window>
 
 		<Window Type="RastullahLook/StaticText" Name="AboutWindow/EngineText">
-			<Property Name="AbsoluteXPosition" Value="60"/>
+			<Property Name="AbsoluteXPosition" Value="90"/>
 			<Property Name="AbsoluteWidth" Value="150"/>
 			<Property Name="AbsoluteYPosition" Value="215"/>
 			<Property Name="AbsoluteHeight" Value="20"/>
@@ -30,8 +30,8 @@
 		</Window>
 
 		<Window Type="RastullahLook/StaticText" Name="AboutWindow/ModuleLabel">
-			<Property Name="AbsoluteXPosition" Value="5"/>
-			<Property Name="AbsoluteWidth" Value="150"/>
+			<Property Name="AbsoluteXPosition" Value="15"/>
+			<Property Name="AbsoluteWidth" Value="70"/>
 			<Property Name="AbsoluteYPosition" Value="235"/>
 			<Property Name="AbsoluteHeight" Value="20"/>
 			<Property Name="Text" Value="Modul:"/>
@@ -39,8 +39,8 @@
 		</Window>
 
 		<Window Type="RastullahLook/StaticText" Name="AboutWindow/ModuleText">
-			<Property Name="AbsoluteXPosition" Value="60"/>
-			<Property Name="AbsoluteWidth" Value="50"/>
+			<Property Name="AbsoluteXPosition" Value="90"/>
+			<Property Name="AbsoluteWidth" Value="150"/>
 			<Property Name="AbsoluteYPosition" Value="235"/>
 			<Property Name="AbsoluteHeight" Value="20"/>
 			<Property Name="FrameEnabled" Value="False"/>
