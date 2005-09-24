@@ -253,6 +253,7 @@
     <Image Name="MenuRight" XPos="2" YPos="1" Width="4" Height="4" />
     <Image Name="MenuTop" XPos="2" YPos="1" Width="4" Height="4" />
     <Image Name="MenuBottom" XPos="2" YPos="1" Width="4" Height="4" />
+    <Image Name="MenuMiddle" XPos="2" YPos="1" Width="4" Height="4" />
     <Image Name="PopupMenuArrowLeft" XPos="2" YPos="1" Width="4" Height="4" />
     <Image Name="PopupMenuArrowRight" XPos="2" YPos="1" Width="4" Height="4" />
     <Image Name="PopupMenuFrameTopLeft" XPos="2" YPos="1" Width="4" Height="4" />
@@ -263,6 +264,7 @@
     <Image Name="PopupMenuFrameRight" XPos="2" YPos="1" Width="4" Height="4" />
     <Image Name="PopupMenuFrameTop" XPos="2" YPos="1" Width="4" Height="4" />
     <Image Name="PopupMenuFrameBottom" XPos="2" YPos="1" Width="4" Height="4" />
+    <Image Name="PopupMenuMiddle" XPos="2" YPos="1" Width="4" Height="4" />
 
     <Image Name="TooltipLeftEdge" XPos="1" YPos="265" Width="5" Height="4" />
     <Image Name="TooltipTopLeft" XPos="1" YPos="257" Width="5" Height="4" />

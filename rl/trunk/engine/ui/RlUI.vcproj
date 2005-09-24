@@ -51,7 +51,7 @@
 				OutputFile="./lib/debug/RlUI.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\uicomponents\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\lib;&quot;..\..\dependencies\ogrenew\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;&quot;..\..\dependencies\ogrenew\dependencies\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\OgreNewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll;..\..\dependencies\boost\lib;..\..\dependencies\ogg\win32;..\..\dependencies\xerces\lib"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\uicomponents\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\lib;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;&quot;..\..\dependencies\ogrenew\dependencies\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\OgreNewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll;..\..\dependencies\boost\lib;..\..\dependencies\ogg\win32;..\..\dependencies\xerces\lib"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
 				AssemblyDebug="1"

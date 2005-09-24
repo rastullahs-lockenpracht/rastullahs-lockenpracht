@@ -25,7 +25,7 @@
 			<Property Name="AbsoluteXPosition" Value="60"/>
 			<Property Name="AbsoluteWidth" Value="150"/>
 			<Property Name="AbsoluteYPosition" Value="215"/>
-			<Property Name="AbsoluteHeight" Value="15"/>
+			<Property Name="AbsoluteHeight" Value="20"/>
 			<Property Name="FrameEnabled" Value="False"/>
 		</Window>
 

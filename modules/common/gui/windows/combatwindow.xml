@@ -6,12 +6,12 @@
         <Property Name="RelativeHeight" Value="1.0"/>
 
 		<Window Type="RastullahLook/PopupMenu" Name="CombatWindow/OpponentMenu">
-			<Window Type="RastullahLook/PopupMenuItem" Name="CombatWindow/OpponentMenu/AttackWalkAt"/>
-			<Window Type="RastullahLook/PopupMenuItem" Name="CombatWindow/OpponentMenu/AttackWalkAtPa"/>
-			<Window Type="RastullahLook/PopupMenuItem" Name="CombatWindow/OpponentMenu/AttackRunAtPa"/>
-			<Window Type="RastullahLook/PopupMenuItem" Name="CombatWindow/OpponentMenu/ParadeThis"/>
-			<Window Type="RastullahLook/PopupMenuItem" Name="CombatWindow/OpponentMenu/Info"/>
-			<Window Type="RastullahLook/PopupMenuItem" Name="CombatWindow/OpponentMenu/Cancel">
+			<Window Type="RastullahLook/MenuItem" Name="CombatWindow/OpponentMenu/AttackWalkAt"/>
+			<Window Type="RastullahLook/MenuItem" Name="CombatWindow/OpponentMenu/AttackWalkAtPa"/>
+			<Window Type="RastullahLook/MenuItem" Name="CombatWindow/OpponentMenu/AttackRunAtPa"/>
+			<Window Type="RastullahLook/MenuItem" Name="CombatWindow/OpponentMenu/ParadeThis"/>
+			<Window Type="RastullahLook/MenuItem" Name="CombatWindow/OpponentMenu/Info"/>
+			<Window Type="RastullahLook/MenuItem" Name="CombatWindow/OpponentMenu/Cancel">
 				<Property Name="Text" Value="Schließen"/>
 			</Window>
 	    </Window>

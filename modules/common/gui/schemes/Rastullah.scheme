@@ -10,41 +10,43 @@
     <Font Name="Vera Serif-13" Filename="vera_serif-13.font" />
     <Font Name="Vera Serif-14" Filename="vera_serif-14.font" />
     
-    <WindowSet Filename="RastullahLook">
-        <WindowFactory Name="RastullahLook/AlternateProgressBar" />
-        <WindowFactory Name="RastullahLook/Button" />
-        <WindowFactory Name="RastullahLook/Checkbox" />
-        <WindowFactory Name="RastullahLook/CloseButton" />
-        <WindowFactory Name="RastullahLook/Combobox" />
-        <WindowFactory Name="RastullahLook/ComboDropList" />
-        <WindowFactory Name="RastullahLook/ComboEditbox" />
-        <WindowFactory Name="RastullahLook/Editbox" />
-        <WindowFactory Name="RastullahLook/FrameWindow" />
-        <WindowFactory Name="RastullahLook/LargeVerticalScrollbar" />
-        <WindowFactory Name="RastullahLook/LargeVerticalScrollbarThumb" />
-        <WindowFactory Name="RastullahLook/Listbox" />
-        <WindowFactory Name="RastullahLook/ListHeader" />
-        <WindowFactory Name="RastullahLook/ListHeaderSegment" />
-        <WindowFactory Name="RastullahLook/HorizontalScrollbar" />
-        <WindowFactory Name="RastullahLook/HorizontalScrollbarThumb" />
-        <WindowFactory Name="RastullahLook/Menubar" />
-        <WindowFactory Name="RastullahLook/MenubarItem" />
-        <WindowFactory Name="RastullahLook/MultiColumnList" />
-        <WindowFactory Name="RastullahLook/MultiLineEditbox" />
-        <WindowFactory Name="RastullahLook/PopupMenu" />
-        <WindowFactory Name="RastullahLook/PopupMenuItem" />
-        <WindowFactory Name="RastullahLook/ProgressBar" />
-        <WindowFactory Name="RastullahLook/RadioButton" />
-        <WindowFactory Name="RastullahLook/Slider" />
-        <WindowFactory Name="RastullahLook/SliderThumb" />
-        <WindowFactory Name="RastullahLook/StaticImage" />
-        <WindowFactory Name="RastullahLook/StaticText" />
-        <WindowFactory Name="RastullahLook/TabButton" />
-        <WindowFactory Name="RastullahLook/TabControl" />
-        <WindowFactory Name="RastullahLook/TabPane" />
-        <WindowFactory Name="RastullahLook/Titlebar" />
-        <WindowFactory Name="RastullahLook/Tooltip" />
-        <WindowFactory Name="RastullahLook/VerticalScrollbar" />
-        <WindowFactory Name="RastullahLook/VerticalScrollbarThumb" />
-    </WindowSet>
+    <LookNFeel Filename="RastullahLook.looknfeel" />
+
+    <WindowSet Filename="CEGUIFalagardBase"/>
+
+	<FalagardMapping WindowType="RastullahLook/AlternateProgressBar" TargetType="Falagard/AlternateProgressBar" LookNFeel="RastullahLook/AlternateProgressBar" />
+        <FalagardMapping WindowType="RastullahLook/Button" TargetType="Falagard/Button" LookNFeel="RastullahLook/Button" />
+        <FalagardMapping WindowType="RastullahLook/Checkbox" TargetType="Falagard/Checkbox" LookNFeel="RastullahLook/Checkbox" />
+        <FalagardMapping WindowType="RastullahLook/CloseButton" TargetType="Falagard/SystemButton" LookNFeel="RastullahLook/CloseButton" />
+        <FalagardMapping WindowType="RastullahLook/Combobox" TargetType="Falagard/Combobox" LookNFeel="RastullahLook/Combobox" />
+        <FalagardMapping WindowType="RastullahLook/ComboDropList" TargetType="Falagard/ComboDropList" LookNFeel="RastullahLook/ComboDropList" />
+        <FalagardMapping WindowType="RastullahLook/ComboEditbox" TargetType="Falagard/ComboEditbox" LookNFeel="RastullahLook/ComboEditbox" />
+        <FalagardMapping WindowType="RastullahLook/Editbox" TargetType="Falagard/Editbox" LookNFeel="RastullahLook/Editbox" />
+        <FalagardMapping WindowType="RastullahLook/FrameWindow" TargetType="Falagard/FrameWindow" LookNFeel="RastullahLook/FrameWindow" />
+        <FalagardMapping WindowType="RastullahLook/LargeVerticalScrollbar" TargetType="Falagard/LargeVerticalScrollbar" LookNFeel="RastullahLook/LargeVerticalScrollbar" />
+        <FalagardMapping WindowType="RastullahLook/LargeVerticalScrollbarThumb" TargetType="Falagard/LargeVerticalScrollbarThumb" LookNFeel="RastullahLook/LargeVerticalScrollbarThumb" />
+        <FalagardMapping WindowType="RastullahLook/Listbox" TargetType="Falagard/Listbox" LookNFeel="RastullahLook/Listbox" />
+        <FalagardMapping WindowType="RastullahLook/ListHeader" TargetType="Falagard/ListHeader" LookNFeel="RastullahLook/ListHeader" />
+        <FalagardMapping WindowType="RastullahLook/ListHeaderSegment" TargetType="Falagard/ListHeaderSegment" LookNFeel="RastullahLook/ListHeaderSegment" />
+        <FalagardMapping WindowType="RastullahLook/HorizontalScrollbar" TargetType="Falagard/Scrollbar" LookNFeel="RastullahLook/HorizontalScrollbar" />
+        <FalagardMapping WindowType="RastullahLook/HorizontalScrollbarThumb" TargetType="Falagard/Thumb" LookNFeel="RastullahLook/HorizontalScrollbarThumb" />
+        <FalagardMapping WindowType="RastullahLook/Menubar" TargetType="Falagard/Menubar" LookNFeel="RastullahLook/Menubar" />
+        <FalagardMapping WindowType="RastullahLook/MenuItem" TargetType="Falagard/MenuItem" LookNFeel="RastullahLook/MenuItem" />
+        <FalagardMapping WindowType="RastullahLook/MultiColumnList" TargetType="Falagard/MultiColumnList" LookNFeel="RastullahLook/MultiColumnList" />
+        <FalagardMapping WindowType="RastullahLook/MultiLineEditbox" TargetType="Falagard/MultiLineEditbox" LookNFeel="RastullahLook/MultiLineEditbox" />
+        <FalagardMapping WindowType="RastullahLook/PopupMenu" TargetType="Falagard/PopupMenu" LookNFeel="RastullahLook/PopupMenu" />
+        <FalagardMapping WindowType="RastullahLook/ProgressBar" TargetType="Falagard/ProgressBar" LookNFeel="RastullahLook/ProgressBar" />
+        <FalagardMapping WindowType="RastullahLook/RadioButton" TargetType="Falagard/RadioButton" LookNFeel="RastullahLook/RadioButton" />
+        <FalagardMapping WindowType="RastullahLook/Slider" TargetType="Falagard/Slider" LookNFeel="RastullahLook/Slider" />
+        <FalagardMapping WindowType="RastullahLook/SliderThumb" TargetType="Falagard/SliderThumb" LookNFeel="RastullahLook/SliderThumb" />
+        <FalagardMapping WindowType="RastullahLook/StaticImage" TargetType="Falagard/StaticImage" LookNFeel="RastullahLook/StaticImage" />
+        <FalagardMapping WindowType="RastullahLook/StaticText" TargetType="Falagard/StaticText" LookNFeel="RastullahLook/StaticText" />
+        <FalagardMapping WindowType="RastullahLook/SystemButton" TargetType="Falagard/SystemButton" LookNFeel="RastullahLook/Button" />
+        <FalagardMapping WindowType="RastullahLook/TabButton" TargetType="Falagard/TabButton" LookNFeel="RastullahLook/TabButton" />
+        <FalagardMapping WindowType="RastullahLook/TabControl" TargetType="Falagard/TabControl" LookNFeel="RastullahLook/TabControl" />
+        <FalagardMapping WindowType="RastullahLook/TabPane" TargetType="Falagard/TabPane" LookNFeel="RastullahLook/TabPane" />
+        <FalagardMapping WindowType="RastullahLook/Titlebar" TargetType="Falagard/Titlebar" LookNFeel="RastullahLook/Titlebar" />
+        <FalagardMapping WindowType="RastullahLook/Tooltip" TargetType="Falagard/Tooltip" LookNFeel="RastullahLook/Tooltip" />
+        <FalagardMapping WindowType="RastullahLook/VerticalScrollbar" TargetType="Falagard/Scrollbar" LookNFeel="RastullahLook/VerticalScrollbar" />
+        <FalagardMapping WindowType="RastullahLook/VerticalScrollbarThumb" TargetType="Falagard/Thumb" LookNFeel="RastullahLook/VerticalScrollbarThumb" />
 </GUIScheme>

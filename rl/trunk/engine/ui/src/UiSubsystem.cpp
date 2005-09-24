@@ -114,7 +114,8 @@ namespace rl {
 								sceneMgr);
 
 		log(Ogre::LML_TRIVIAL, "Initialisiere CEGUI-System", "UiSubsystem::initializeUiSubsystem");
-		new System(rend, NULL, new OgreCEGUIResourceProvider(), (utf8*)"cegui.config"); 
+		new System(rend, NULL, new OgreCEGUIResourceProvider(), (utf8*)"cegui.config");
+		CEGUI::Logger::getSingleton().setLoggingLevel(rl::Logger::getSingleton().getCeGuiLogDetail());
 		log(Ogre::LML_TRIVIAL, "CEGUI-System initialisiert", "UiSubsystem::initializeUiSubsystem");
         
 		// load scheme and set up defaults
