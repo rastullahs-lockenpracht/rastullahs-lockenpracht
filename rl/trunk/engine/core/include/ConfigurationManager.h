@@ -66,6 +66,10 @@ namespace rl
 			Ogre::String getModuleconfigCfgPath(const Ogre::String& module);
 			
 			Ogre::String getModulesRootDirectory();
+
+			Ogre::String getEngineVersionString();
+			int          getEngineBuildNumber();
+			const rl::CeGuiString&  getAboutText();
 			
 		protected:
 		

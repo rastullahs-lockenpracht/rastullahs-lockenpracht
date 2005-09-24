@@ -81,4 +81,27 @@ namespace rl
 	{
 		return mModulesRootDirectory;
 	}
+
+	Ogre::String ConfigurationManager::getEngineVersionString()
+	{
+		static Ogre::String version = "Internal Build";
+		return version;
+	}
+
+	int ConfigurationManager::getEngineBuildNumber()
+	{
+		static int buildNumber = 
+/* Jahr */			2005 * 100000+
+/* Monat */			9 * 1000 + 
+/* Tag */			24 * 10 + 
+/* Sub-Version */	0;
+		return buildNumber;
+	}
+
+	const CeGuiString& ConfigurationManager::getAboutText()
+	{
+		static CeGuiString aboutText = 
+			"Rastullahs Lockenpracht\n\nCopyright 2003-2005 Team Pantheon\n\nBenutzte Bibliotheken: Ogre, fmod, Newton, boost, ...";
+		return aboutText;
+	}
 }
