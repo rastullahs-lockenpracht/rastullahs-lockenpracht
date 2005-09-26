@@ -65,14 +65,15 @@ namespace rl
         OgreNewt::MaterialPair* defaultPair =
             new OgreNewt::MaterialPair(mWorld, defaultID, defaultID);
         defaultPair->setContactCallback(new PhysicsGenericContactCallback);
-        //defaultPair->setDefaultFriction(0.75f, 0.60f);
+        defaultPair->setDefaultFriction(0.85f, 0.80f);
 
-        // setup materials: character<->level
+        // setup materials: character/cam<->level
         mLevelID = new OgreNewt::MaterialID(mWorld);
         mCharacterID = new OgreNewt::MaterialID(mWorld);
         mCharLevelPair = new OgreNewt::MaterialPair(mWorld, mCharacterID, mLevelID);
         mCharLevelPair->setDefaultFriction(0, 0);
 
+        // setup material: char<->cam. there should be no collision
         mCharCharPair = new OgreNewt::MaterialPair(mWorld, mCharacterID, mCharacterID);
         mCharCharPair->setDefaultCollidable(0);
     }
