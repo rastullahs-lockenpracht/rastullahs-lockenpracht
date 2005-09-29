@@ -28,6 +28,7 @@
 #include "PhysicalThing.h"
 #include "MeshObject.h"
 #include "ActorManager.h"
+#include "Logger.h"
 
 #include <OgreSceneManager.h>
 #include <OgreAxisAlignedBox.h>
@@ -56,15 +57,13 @@ namespace rl {
         mCharBody(),
         mDesiredDistance(200),
         mDistanceRange(150, 500),
+        mYaw(0),
         mPitch(20),
         mPitchRange(Degree(-75), Degree(85)),
         mLookAtOffset(),
         mMovementSpeed(180.0f),
         mRotationSpeed(4.0f),
         mDesiredVel(),
-        mDesiredOmega(),
-        mDesiredOmegas(),
-        mQueueLength(4),
         mCurrentAnimationState(AS_STAND),
         mLastAnimationState(AS_STAND),
         mViewMode(VM_THIRD_PERSON),
@@ -124,9 +123,7 @@ namespace rl {
         CommandMapper* cmdmap = CommandMapper::getSingletonPtr();
 
         mDesiredVel = Vector3::ZERO;
-        mDesiredOmega = 0.0f;
 
-        Real newOmega = 0.0;
         if (cmdmap->isMovementActive(MOVE_FORWARD))
             mDesiredVel.z = -mMovementSpeed;
 
@@ -143,10 +140,10 @@ namespace rl {
             mStartJump = true;
 
         if (cmdmap->isMovementActive(TURN_LEFT))
-            newOmega += mRotationSpeed;
+            mYaw += Degree(mRotationSpeed * 40.0 * elapsedTime);
 
         if (cmdmap->isMovementActive(TURN_RIGHT))
-            newOmega -= mRotationSpeed;
+            mYaw -= Degree(mRotationSpeed * 40.0 * elapsedTime);
 
         if (cmdmap->isMovementActive(MOVE_RUN))
             mDesiredVel *= 4.0;
@@ -155,18 +152,23 @@ namespace rl {
         if (mDesiredDistance < mDistanceRange.first) mDesiredDistance = mDistanceRange.first;
         if (mDesiredDistance > mDistanceRange.second) mDesiredDistance = mDistanceRange.second;
 
-        mPitch += Degree(im->getMouseRelativeY() * 0.13);
+        mPitch += Degree(im->getMouseRelativeY() * 30.0 * elapsedTime);
         if (mPitch < mPitchRange.first) mPitch = mPitchRange.first;
         if (mPitch > mPitchRange.second) mPitch = mPitchRange.second;
 
-        newOmega -= Math::Sign(im->getMouseRelativeX())*mRotationSpeed*1.5;
-        mDesiredOmegas.push_back(newOmega);
-        if (mDesiredOmegas.size() > mQueueLength) mDesiredOmegas.pop_front();
-        mDesiredOmega = std::accumulate(mDesiredOmegas.begin(), mDesiredOmegas.end(), 0.0f) / mDesiredOmegas.size();
-
+        mYaw -= Degree(im->getMouseRelativeX() * 30.0 * elapsedTime);
 
         SceneNode* cameraNode = mCamera->_getSceneNode();
         cameraNode->lookAt(mCharacter->getWorldPosition() + mLookAtOffset*2.0, Node::TS_WORLD);
+
+        while (mYaw.valueDegrees() > 360.0f)
+        {
+            mYaw -= Degree(360.0f);
+        }
+        while (mYaw.valueDegrees() < -360.0f)
+        {
+            mYaw += Degree(360.0f);
+        }
 
         if (!InputManager::getSingleton().isCeguiActive())
         {
@@ -269,7 +271,7 @@ namespace rl {
             body->getMassMatrix(mass, inertia);
 
             // apply gravity
-            Vector3 force = Vector3(0.0f, -mass * 988.0, 0.0f);
+            Vector3 force = Vector3(0.0f, -mass * 980.0, 0.0f);
 
             // Get the velocity vector
             Vector3 currentVel = body->getVelocity();
@@ -288,11 +290,50 @@ namespace rl {
 
             body->setForce(force);
 
+
+            /////////////////////////////////////////////////////////////////
             // calculate the torque vector
+
+            // we first need the yaw rotation from actual yaw to desired yaw
+            ///\todo this can be made easier
+            Vector3 src = orientation*Vector3::NEGATIVE_UNIT_Z;
+            src.y = 0;
+            Vector3 dst = Quaternion(mYaw, Vector3::UNIT_Y)*Vector3::NEGATIVE_UNIT_Z;
+            dst.y = 0;
+            Radian yaw = src.getRotationTo(dst).getYaw();
+
+            // clamp target/actual distance to 60°. If greater, adjuast target yaw (mYaw)
+            if (Math::Abs(yaw.valueDegrees()) > 60.0f)
+            {
+                mYaw = yaw.valueDegrees() > 0.0f ? yaw + Degree(60.0f) : yaw - Degree(60.0f);
+            }
+
+            // we then determine in what direction to go
+            Real newOmega = 0.0;
+            //if (Math::Abs(yaw.valueDegrees() - 2.0f) > 0.0f)
+            //{
+            newOmega = yaw.valueDegrees() > 0.0f ? mRotationSpeed : -mRotationSpeed;
+            //}
+
+            // a speedfactor slows down the movement, when the desired yaw is almost reached.
+            Ogre::Real speedFactor = Math::Abs(Math::Abs(yaw.valueDegrees()) > 4.0f ?
+                1.0f : yaw.valueDegrees() / 10.0f);
+
             Vector3 omega = body->getOmega();
             Real k = 0.25f; // What exactly is this k, and why is it either 0.25 or 0.5
-            Vector3 torque (0.0f, k * inertia.y * (mDesiredOmega-omega.y) / timestep, 0.0f);
+            Vector3 torque (0.0f, k * inertia.y * (speedFactor*newOmega - omega.y) / timestep, 0.0f);
             body->setTorque(torque);
+
+            std::stringstream ss;
+            ss << "orientation: " << orientation.getYaw().valueDegrees()
+                << " mYaw: " << mYaw.valueDegrees()
+                << " yaw: " << yaw.valueDegrees()
+                << " no: " << newOmega
+                << " sf: " << speedFactor
+                << " sf*no " << speedFactor*newOmega
+                << " torque: "<< torque;
+
+            Logger::getSingleton().log(Ogre::LML_TRIVIAL, "Ui", ss.str());
 
             // assume we are air borne. Might be set to false in the collision callback
             mIsAirBorne = true;

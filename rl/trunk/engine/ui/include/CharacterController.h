@@ -85,6 +85,7 @@ namespace rl {
         /// optimal distance to the character
         Ogre::Real mDesiredDistance;
         std::pair<Ogre::Real, Ogre::Real> mDistanceRange;
+        Ogre::Degree mYaw;
         Ogre::Degree mPitch;
         std::pair<Ogre::Degree, Ogre::Degree> mPitchRange;
 
@@ -93,9 +94,6 @@ namespace rl {
         Ogre::Real mRotationSpeed;
 
         Ogre::Vector3 mDesiredVel;
-        Ogre::Real mDesiredOmega;
-        std::deque<Ogre::Real> mDesiredOmegas;
-        size_t mQueueLength;
 
         AnimationState mCurrentAnimationState;
         AnimationState mLastAnimationState;
