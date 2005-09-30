@@ -4,16 +4,14 @@ material herkulesstaude
    { 
       pass 
       { 
-                         // Rendert beidseitig 
          cull_hardware none 
          cull_software none 
+         alpha_rejection greater 215 
 
          texture_unit 
          { 
             texture herkules.png 
             filtering anisotropic anisotropic anisotropic 
-                                // Simple Transparenz 
-            alpha_rejection greater 215 
          } 
       } 
    } 

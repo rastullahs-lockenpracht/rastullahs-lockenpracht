@@ -4,16 +4,14 @@ material tutbaum2
    { 
       pass 
       { 
-                         // Rendert beidseitig 
          cull_hardware none 
          cull_software none 
+         alpha_rejection greater 215 
 
          texture_unit 
          { 
             texture tutbaum2.png 
             filtering anisotropic anisotropic anisotropic 
-                                // Simple Transparenz 
-            alpha_rejection greater 215 
          } 
       } 
    } 
