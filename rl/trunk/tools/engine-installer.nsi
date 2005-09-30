@@ -67,7 +67,6 @@ FunctionEnd
 
 Section "Engine" SEC01
   SetOutPath "$INSTDIR"
-  SetOutPath "$INSTDIR\logs"
 
   SetOverwrite ifnewer
   File "..\rl_dist\xerces-c_2_5_0.dll"
@@ -110,6 +109,8 @@ Section "Engine" SEC01
   File "..\rl_dist\CEGUIBase.dll"
   File "..\rl_dist\boost_thread-vc71-mt-1_31.dll"
   File "..\rl_dist\zlib1.dll"
+
+  SetOutPath "$INSTDIR\logs"
 
 ; Shortcuts
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application

@@ -75,8 +75,6 @@ Section "Engine" SEC01
   File "..\rl_dist\fmod.dll"
   File "..\rl_dist\ilu.dll"
   File "..\rl_dist\ilut.dll"
-  SetOutPath "$INSTDIR"
-  SetOutPath "$INSTDIR\logs"
   File "..\rl_dist\msvcrt-ruby18.dll"
   File "..\rl_dist\Newton.dll"
   File "..\rl_dist\ogg.dll"
@@ -109,6 +107,7 @@ Section "Engine" SEC01
   File "..\rl_dist\wrap_oal.dll"
   File "..\rl_dist\xerces-c_2_5_0.dll"
   File "..\rl_dist\zlib1.dll"
+  SetOutPath "$INSTDIR\logs"
 
 ; Shortcuts
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
