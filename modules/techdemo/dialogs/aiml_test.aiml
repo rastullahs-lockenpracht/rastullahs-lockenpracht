@@ -1,0 +1,52 @@
+<?xml version='1.0'?>
+
+<aiml>
+
+<category>
+<pattern>START DIALOG</pattern>
+<template>
+	Hallo!<br/>Ich bin das dreckige Rattenkind. Was treibt so einen Taugenichst wie dich in mein wunderschoenes Domizil?
+	<condition script="dialog.rb" class="GameActorScriptOne" name="OnPlaySound">
+		<li value="4" id="45">Tja also...hmm....keine Ahnung</li>
+		<li value="4" id="46">Oh..ehm....ich muss weg</li>
+		<li value="4" id="47">Spiel dich mal nicht so auf hier du kleine Drecksratte!</li>
+		<li value="4" id="48">*gaehn* Du langweilst mich!</li>
+	</condition>
+</template>
+</category>
+
+<category>
+<pattern>45</pattern>
+<template>
+	Was soll das heissen keine Ahnung? Du bist wohl auf Streit aus was?
+	<condition script="dialog.rb" class="GameActorScriptOne" name="OnPlaySound">
+		<li value="4" id="333">Neee, lass ma stecken du</li>
+		<li value="4" id="666">Pft, dich kleine Drecksratte mach ich doch locker alle!</li>
+	</condition>
+</template>
+</category>
+
+<category>
+<pattern>333</pattern>
+<template>
+	War ja klar....du feige Sau!
+	<condition script="dialog.rb" class="GameActorScriptOne" name="OnPlaySound">
+		<li value="4" id="554">......NIEMAND, nennt mich eine feige Sau!</li>
+		<li value="4" id="555">*wein*</li>
+	</condition>
+</template>
+</category>
+
+<category>
+<pattern>555</pattern>
+<template>
+	<system command="exit"/>
+</template>
+</category>
+<category>
+<pattern>*</pattern><!-- Abfangen von "ungueltigen" Eingaben-->
+<template>Nix gefunden zu dem Thema!</template>
+</category>
+
+
+</aiml>

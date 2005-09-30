@@ -1,0 +1,2331 @@
+<scene formatVersion="0.2.0">
+  <nodes>
+    <node name="Mesh.089">
+      <position x="2758.509521" y="300.178032" z="-3726.859436"/>
+      <rotation qx="0.000000" qy="0.176510" qz="0.000000" qw="0.984299"/>
+      <scale x="0.849430" y="0.849430" z="0.849430"/>
+      <entity name="Mesh.089" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.088">
+      <position x="1546.085510" y="330.584679" z="-5389.096680"/>
+      <rotation qx="0.000000" qy="-0.658495" qz="0.000000" qw="0.752585"/>
+      <scale x="1.184875" y="1.184875" z="1.184875"/>
+      <entity name="Mesh.088" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.081">
+      <position x="1938.688354" y="342.966194" z="-3744.855347"/>
+      <rotation qx="0.000000" qy="-0.084906" qz="0.000000" qw="0.996389"/>
+      <scale x="0.784750" y="0.784750" z="0.784750"/>
+      <entity name="Mesh.081" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.080">
+      <position x="1422.409973" y="318.232021" z="-3790.996094"/>
+      <rotation qx="0.000000" qy="0.833404" qz="0.000000" qw="0.552664"/>
+      <scale x="1.528750" y="1.528750" z="1.528750"/>
+      <entity name="Mesh.080" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.083">
+      <position x="1107.342224" y="321.165695" z="-5305.187988"/>
+      <rotation qx="0.000000" qy="-0.993573" qz="0.000000" qw="0.113192"/>
+      <scale x="0.716697" y="0.716697" z="0.716697"/>
+      <entity name="Mesh.083" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.082">
+      <position x="1460.917664" y="356.160965" z="-4376.235657"/>
+      <rotation qx="0.000000" qy="-0.998921" qz="0.000000" qw="0.046448"/>
+      <scale x="1.032273" y="1.032273" z="1.032273"/>
+      <entity name="Mesh.082" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.085">
+      <position x="1993.182068" y="309.353104" z="-4526.624451"/>
+      <rotation qx="0.000000" qy="-0.454201" qz="0.000000" qw="0.890899"/>
+      <scale x="1.160237" y="1.160237" z="1.160238"/>
+      <entity name="Mesh.085" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.084">
+      <position x="1089.908524" y="337.087173" z="-5182.766113"/>
+      <rotation qx="0.000000" qy="-0.823291" qz="0.000000" qw="0.567620"/>
+      <scale x="0.618506" y="0.618506" z="0.618506"/>
+      <entity name="Mesh.084" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.087">
+      <position x="2541.994629" y="265.508690" z="-3550.215149"/>
+      <rotation qx="0.000000" qy="0.574215" qz="0.000000" qw="0.818704"/>
+      <scale x="0.964556" y="0.964556" z="0.964556"/>
+      <entity name="Mesh.087" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.086">
+      <position x="1728.367157" y="345.266991" z="-4388.723450"/>
+      <rotation qx="0.000000" qy="0.997912" qz="0.000000" qw="0.064583"/>
+      <scale x="0.688397" y="0.688397" z="0.688397"/>
+      <entity name="Mesh.086" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="nat_baum_03">
+      <position x="7117.263794" y="4862.537537" z="1079.864731"/>
+      <rotation qx="0.000000" qy="0.991246" qz="0.000000" qw="0.132030"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="nat_baum_03" meshFile="nat_baum_03.mesh"/>
+    </node>
+    <node name="nat_busch_stachlig">
+      <position x="-7337.738647" y="216.466770" z="-8888.592529"/>
+      <rotation qx="0.000000" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="0.238996" y="0.238996" z="0.238996"/>
+      <entity name="nat_busch_stachlig" meshFile="nat_busch_stachlig.mesh"/>
+    </node>
+    <node name="Mesh.348">
+      <position x="9540.689087" y="1001.723404" z="4469.452209"/>
+      <rotation qx="0.000000" qy="-0.279748" qz="0.000000" qw="0.960073"/>
+      <scale x="0.710806" y="0.710806" z="0.710806"/>
+      <entity name="Mesh.348" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.060">
+      <position x="2872.940369" y="286.842022" z="-5147.973633"/>
+      <rotation qx="0.000000" qy="0.890312" qz="0.000000" qw="0.455351"/>
+      <scale x="1.177760" y="1.177760" z="1.177760"/>
+      <entity name="Mesh.060" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.179">
+      <position x="5405.523682" y="203.001232" z="-2852.188416"/>
+      <rotation qx="0.000000" qy="-0.931439" qz="0.000000" qw="0.363897"/>
+      <scale x="0.737533" y="0.737533" z="0.737533"/>
+      <entity name="Mesh.179" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.178">
+      <position x="9092.687988" y="1221.785431" z="-7384.968872"/>
+      <rotation qx="0.000000" qy="-0.996568" qz="0.000000" qw="0.082781"/>
+      <scale x="0.628671" y="0.628672" z="0.628671"/>
+      <entity name="Mesh.178" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.175">
+      <position x="4967.885132" y="280.714607" z="234.006653"/>
+      <rotation qx="0.000000" qy="-0.877614" qz="0.000000" qw="0.479368"/>
+      <scale x="0.873064" y="0.873064" z="0.873064"/>
+      <entity name="Mesh.175" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.174">
+      <position x="-5570.257568" y="458.346024" z="-6159.512939"/>
+      <rotation qx="0.000000" qy="0.353163" qz="0.000000" qw="0.935562"/>
+      <scale x="0.682969" y="0.682969" z="0.682969"/>
+      <entity name="Mesh.174" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.177">
+      <position x="-4015.802002" y="83.221369" z="841.333237"/>
+      <rotation qx="0.000000" qy="-0.344716" qz="0.000000" qw="0.938707"/>
+      <scale x="0.703183" y="0.703183" z="0.703183"/>
+      <entity name="Mesh.177" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.176">
+      <position x="-2805.914307" y="36.292524" z="8465.549927"/>
+      <rotation qx="0.000000" qy="-0.041832" qz="0.000000" qw="0.999125"/>
+      <scale x="0.827628" y="0.827628" z="0.827628"/>
+      <entity name="Mesh.176" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.171">
+      <position x="-2847.281799" y="149.291077" z="1454.995880"/>
+      <rotation qx="0.000000" qy="0.999992" qz="0.000000" qw="0.003887"/>
+      <scale x="0.806696" y="0.806696" z="0.806696"/>
+      <entity name="Mesh.171" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.170">
+      <position x="-8225.289917" y="130.198812" z="-5932.254639"/>
+      <rotation qx="0.000000" qy="0.959132" qz="0.000000" qw="0.282958"/>
+      <scale x="0.786721" y="0.786721" z="0.786721"/>
+      <entity name="Mesh.170" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.173">
+      <position x="-3280.733337" y="20.535789" z="8234.891968"/>
+      <rotation qx="0.000000" qy="0.269737" qz="0.000000" qw="0.962934"/>
+      <scale x="0.704324" y="0.704324" z="0.704324"/>
+      <entity name="Mesh.173" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.172">
+      <position x="6735.770874" y="957.945175" z="4686.526794"/>
+      <rotation qx="0.000000" qy="0.999874" qz="0.000000" qw="0.015857"/>
+      <scale x="0.853012" y="0.853013" z="0.853012"/>
+      <entity name="Mesh.172" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.074">
+      <position x="2374.474792" y="358.044090" z="-4015.726318"/>
+      <rotation qx="0.000000" qy="-0.748946" qz="0.000000" qw="0.662631"/>
+      <scale x="0.635276" y="0.635276" z="0.635276"/>
+      <entity name="Mesh.074" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.075">
+      <position x="2178.451385" y="354.069977" z="-5215.649414"/>
+      <rotation qx="0.000000" qy="0.998293" qz="0.000000" qw="0.058409"/>
+      <scale x="1.152692" y="1.152692" z="1.152692"/>
+      <entity name="Mesh.075" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.076">
+      <position x="2539.132996" y="271.256161" z="-3583.873901"/>
+      <rotation qx="0.000000" qy="0.828759" qz="0.000000" qw="0.559605"/>
+      <scale x="1.151310" y="1.151310" z="1.151310"/>
+      <entity name="Mesh.076" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.077">
+      <position x="2578.418884" y="298.874588" z="-4474.558411"/>
+      <rotation qx="0.000000" qy="0.990204" qz="0.000000" qw="0.139626"/>
+      <scale x="0.912996" y="0.912996" z="0.912996"/>
+      <entity name="Mesh.077" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.070">
+      <position x="1826.852417" y="353.857079" z="-5261.678467"/>
+      <rotation qx="0.000000" qy="-0.126398" qz="0.000000" qw="0.991980"/>
+      <scale x="0.822577" y="0.822577" z="0.822577"/>
+      <entity name="Mesh.070" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.071">
+      <position x="2626.170044" y="281.615238" z="-4571.313477"/>
+      <rotation qx="0.000000" qy="-0.737341" qz="0.000000" qw="0.675520"/>
+      <scale x="0.647216" y="0.647216" z="0.647216"/>
+      <entity name="Mesh.071" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.072">
+      <position x="2224.255981" y="350.198669" z="-4229.975586"/>
+      <rotation qx="0.000000" qy="0.798233" qz="0.000000" qw="0.602349"/>
+      <scale x="1.372344" y="1.372344" z="1.372344"/>
+      <entity name="Mesh.072" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.073">
+      <position x="1795.645142" y="346.525383" z="-5115.117493"/>
+      <rotation qx="0.000000" qy="0.214444" qz="0.000000" qw="0.976736"/>
+      <scale x="1.276083" y="1.276083" z="1.276083"/>
+      <entity name="Mesh.073" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.341">
+      <position x="9691.981201" y="985.825958" z="4490.944824"/>
+      <rotation qx="0.000000" qy="-0.558984" qz="0.000000" qw="0.829178"/>
+      <scale x="0.555034" y="0.555034" z="0.555034"/>
+      <entity name="Mesh.341" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.078">
+      <position x="2505.818176" y="364.385490" z="-5421.011963"/>
+      <rotation qx="0.000000" qy="-0.987252" qz="0.000000" qw="0.159167"/>
+      <scale x="1.311991" y="1.311991" z="1.311991"/>
+      <entity name="Mesh.078" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.079">
+      <position x="2488.425293" y="320.717354" z="-3794.062500"/>
+      <rotation qx="0.000000" qy="0.505989" qz="0.000000" qw="0.862540"/>
+      <scale x="0.830962" y="0.830962" z="0.830962"/>
+      <entity name="Mesh.079" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Camera">
+      <position x="74.811316" y="53.436651" z="65.076399"/>
+      <rotation qx="-0.481707" qy="0.334251" qz="-0.212922" qw="0.781600"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <camera name="Camera" fov="37.849289" projectionType="perspective">
+        <normal x="0.0" y="0.0" z="-1.0"/>
+        <clipping near="0.100000" far="100.000000"/>
+      </camera>
+    </node>
+    <node name="Mesh.108">
+      <position x="1002.302246" y="288.991013" z="-3588.302612"/>
+      <rotation qx="0.000000" qy="0.930530" qz="0.000000" qw="0.366216"/>
+      <scale x="0.821291" y="0.821291" z="0.821291"/>
+      <entity name="Mesh.108" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.109">
+      <position x="1174.519119" y="341.625786" z="-4077.370911"/>
+      <rotation qx="0.000000" qy="-0.999973" qz="0.000000" qw="0.007321"/>
+      <scale x="1.582026" y="1.582026" z="1.582026"/>
+      <entity name="Mesh.109" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.100">
+      <position x="2560.171814" y="263.218689" z="-4785.026245"/>
+      <rotation qx="0.000000" qy="-0.773978" qz="0.000000" qw="0.633213"/>
+      <scale x="0.443663" y="0.443663" z="0.443663"/>
+      <entity name="Mesh.100" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.101">
+      <position x="1359.888763" y="318.583794" z="-3781.436157"/>
+      <rotation qx="0.000000" qy="0.771698" qz="0.000000" qw="0.635989"/>
+      <scale x="0.477161" y="0.477161" z="0.477161"/>
+      <entity name="Mesh.101" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.102">
+      <position x="1649.157715" y="323.964539" z="-4698.737183"/>
+      <rotation qx="0.000000" qy="-0.133188" qz="0.000000" qw="0.991091"/>
+      <scale x="0.713832" y="0.713832" z="0.713832"/>
+      <entity name="Mesh.102" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.103">
+      <position x="2068.063354" y="309.024696" z="-4484.416199"/>
+      <rotation qx="0.000000" qy="0.617198" qz="0.000000" qw="0.786808"/>
+      <scale x="0.699805" y="0.699805" z="0.699805"/>
+      <entity name="Mesh.103" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.104">
+      <position x="1358.163605" y="299.324665" z="-3542.026062"/>
+      <rotation qx="0.000000" qy="-0.992269" qz="0.000000" qw="0.124105"/>
+      <scale x="1.572729" y="1.572729" z="1.572729"/>
+      <entity name="Mesh.104" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.105">
+      <position x="2351.175232" y="285.708809" z="-5080.366211"/>
+      <rotation qx="0.000000" qy="0.875110" qz="0.000000" qw="0.483923"/>
+      <scale x="0.702475" y="0.702475" z="0.702475"/>
+      <entity name="Mesh.105" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.106">
+      <position x="2548.068237" y="269.568481" z="-4701.059570"/>
+      <rotation qx="0.000000" qy="-0.955751" qz="0.000000" qw="0.294177"/>
+      <scale x="1.106547" y="1.106547" z="1.106547"/>
+      <entity name="Mesh.106" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.107">
+      <position x="2306.226501" y="356.283760" z="-4087.802429"/>
+      <rotation qx="0.000000" qy="-0.261567" qz="0.000000" qw="0.965185"/>
+      <scale x="0.529448" y="0.529448" z="0.529448"/>
+      <entity name="Mesh.107" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="tutbaum2">
+      <position x="-8517.257080" y="367.160378" z="2085.806732"/>
+      <rotation qx="0.000000" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="tutbaum2" meshFile="tutbaum2.mesh"/>
+    </node>
+    <node name="Mesh.203">
+      <position x="-9199.093628" y="185.823097" z="-1796.174011"/>
+      <rotation qx="0.000000" qy="-0.661286" qz="0.000000" qw="0.750134"/>
+      <scale x="1.102834" y="1.102834" z="1.102834"/>
+      <entity name="Mesh.203" meshFile="nat_steinpilz_klein.mesh"/>
+    </node>
+    <node name="Mesh.202">
+      <position x="-9370.999146" y="184.779854" z="-1853.045654"/>
+      <rotation qx="0.000000" qy="-0.408415" qz="0.000000" qw="0.912796"/>
+      <scale x="1.154893" y="1.154893" z="1.154893"/>
+      <entity name="Mesh.202" meshFile="nat_steinpilz_klein.mesh"/>
+    </node>
+    <node name="Mesh.201">
+      <position x="-9178.377686" y="186.833382" z="-1747.327271"/>
+      <rotation qx="0.000000" qy="-0.374752" qz="0.000000" qw="0.927125"/>
+      <scale x="0.844629" y="0.844629" z="0.844629"/>
+      <entity name="Mesh.201" meshFile="nat_steinpilz_klein.mesh"/>
+    </node>
+    <node name="Mesh.200">
+      <position x="-9140.803223" y="185.855446" z="-1794.516907"/>
+      <rotation qx="0.000000" qy="0.590746" qz="0.000000" qw="0.806857"/>
+      <scale x="1.041613" y="1.041613" z="1.041613"/>
+      <entity name="Mesh.200" meshFile="nat_steinpilz_klein.mesh"/>
+    </node>
+    <node name="Mesh.207">
+      <position x="-9126.098633" y="180.291729" z="-2063.682556"/>
+      <rotation qx="0.000000" qy="0.398184" qz="0.000000" qw="0.917305"/>
+      <scale x="1.118303" y="1.118303" z="1.118303"/>
+      <entity name="Mesh.207" meshFile="nat_steinpilz_klein.mesh"/>
+    </node>
+    <node name="Mesh.206">
+      <position x="-9338.428955" y="182.270203" z="-1976.573486"/>
+      <rotation qx="0.000000" qy="0.986663" qz="0.000000" qw="0.162775"/>
+      <scale x="0.999078" y="0.999078" z="0.999078"/>
+      <entity name="Mesh.206" meshFile="nat_steinpilz_klein.mesh"/>
+    </node>
+    <node name="Mesh.205">
+      <position x="-9281.402588" y="184.248466" z="-1877.048035"/>
+      <rotation qx="0.000000" qy="-0.992406" qz="0.000000" qw="0.123005"/>
+      <scale x="0.967748" y="0.967748" z="0.967748"/>
+      <entity name="Mesh.205" meshFile="nat_steinpilz_klein.mesh"/>
+    </node>
+    <node name="Mesh.204">
+      <position x="-9423.344727" y="185.778751" z="-1803.743896"/>
+      <rotation qx="0.000000" qy="0.970643" qz="0.000000" qw="0.240525"/>
+      <scale x="0.853650" y="0.853650" z="0.853650"/>
+      <entity name="Mesh.204" meshFile="nat_steinpilz_klein.mesh"/>
+    </node>
+    <node name="Mesh.209">
+      <position x="2073.153687" y="353.274612" z="-5220.704346"/>
+      <rotation qx="0.000000" qy="0.920293" qz="0.000000" qw="0.391230"/>
+      <scale x="1.005651" y="1.005651" z="1.005651"/>
+      <entity name="Mesh.209" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.208">
+      <position x="2068.105774" y="359.006233" z="-5352.305298"/>
+      <rotation qx="0.000000" qy="0.520866" qz="0.000000" qw="0.853639"/>
+      <scale x="1.339579" y="1.339579" z="1.339579"/>
+      <entity name="Mesh.208" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="nat_baum_03.002">
+      <position x="7380.543823" y="4908.312073" z="1319.216156"/>
+      <rotation qx="0.000000" qy="-0.878801" qz="0.000000" qw="0.477188"/>
+      <scale x="0.668031" y="0.668031" z="0.668031"/>
+      <entity name="nat_baum_03.002" meshFile="nat_baum_03.mesh"/>
+    </node>
+    <node name="nat_baum_03.001">
+      <position x="7629.587402" y="4861.758728" z="968.308868"/>
+      <rotation qx="0.000000" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.196691" y="1.196691" z="1.196691"/>
+      <entity name="nat_baum_03.001" meshFile="nat_baum_03.mesh"/>
+    </node>
+    <node name="Mesh.337">
+      <position x="9745.969849" y="979.712067" z="4485.018616"/>
+      <rotation qx="0.000000" qy="0.995485" qz="0.000000" qw="0.094918"/>
+      <scale x="0.917213" y="0.917213" z="0.917213"/>
+      <entity name="Mesh.337" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.336">
+      <position x="9585.057373" y="994.817429" z="4466.768799"/>
+      <rotation qx="0.000000" qy="-0.940714" qz="0.000000" qw="0.339202"/>
+      <scale x="0.732120" y="0.732120" z="0.732120"/>
+      <entity name="Mesh.336" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.335">
+      <position x="9180.085449" y="1102.748032" z="4809.427490"/>
+      <rotation qx="0.000000" qy="-0.201376" qz="0.000000" qw="0.979514"/>
+      <scale x="1.191425" y="1.191424" z="1.191425"/>
+      <entity name="Mesh.335" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.334">
+      <position x="9065.073242" y="1132.680588" z="4804.619446"/>
+      <rotation qx="0.000000" qy="0.279947" qz="0.000000" qw="0.960015"/>
+      <scale x="0.630906" y="0.630906" z="0.630906"/>
+      <entity name="Mesh.334" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.333">
+      <position x="9048.157959" y="1135.981522" z="4760.494690"/>
+      <rotation qx="0.000000" qy="0.723905" qz="0.000000" qw="0.689900"/>
+      <scale x="1.264101" y="1.264101" z="1.264101"/>
+      <entity name="Mesh.333" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Wirtshaus">
+      <position x="3748.894348" y="3.457336" z="895.923920"/>
+      <rotation qx="0.000000" qy="-0.767135" qz="0.000000" qw="0.641486"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="Wirtshaus" meshFile="Wirtshaus.mesh"/>
+    </node>
+    <node name="Mesh.331">
+      <position x="9154.069824" y="1114.303970" z="4746.867981"/>
+      <rotation qx="0.000000" qy="-0.124126" qz="0.000000" qw="0.992266"/>
+      <scale x="1.003103" y="1.003103" z="1.003103"/>
+      <entity name="Mesh.331" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.330">
+      <position x="9375.860596" y="1055.480194" z="4813.962708"/>
+      <rotation qx="0.000000" qy="0.305995" qz="0.000000" qw="0.952033"/>
+      <scale x="1.200850" y="1.200850" z="1.200851"/>
+      <entity name="Mesh.330" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.339">
+      <position x="9530.220337" y="1010.843048" z="4513.501587"/>
+      <rotation qx="0.000000" qy="-0.926349" qz="0.000000" qw="0.376667"/>
+      <scale x="0.999114" y="0.999114" z="0.999114"/>
+      <entity name="Mesh.339" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.338">
+      <position x="9613.358154" y="989.285660" z="4460.544739"/>
+      <rotation qx="0.000000" qy="-0.618046" qz="0.000000" qw="0.786142"/>
+      <scale x="1.133434" y="1.133434" z="1.133434"/>
+      <entity name="Mesh.338" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.144">
+      <position x="1983.034058" y="298.290024" z="-4698.268127"/>
+      <rotation qx="0.000000" qy="-0.839939" qz="0.000000" qw="0.542680"/>
+      <scale x="0.449676" y="0.449676" z="0.449676"/>
+      <entity name="Mesh.144" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.145">
+      <position x="2443.468628" y="345.156898" z="-3950.346375"/>
+      <rotation qx="0.000000" qy="0.168282" qz="0.000000" qw="0.985739"/>
+      <scale x="0.715674" y="0.715674" z="0.715673"/>
+      <entity name="Mesh.145" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.146">
+      <position x="2639.767151" y="339.384766" z="-4015.732727"/>
+      <rotation qx="0.000000" qy="-0.951118" qz="0.000000" qw="0.308826"/>
+      <scale x="0.635044" y="0.635044" z="0.635044"/>
+      <entity name="Mesh.146" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.147">
+      <position x="2273.395081" y="333.601761" z="-5186.557617"/>
+      <rotation qx="0.000000" qy="-0.109386" qz="0.000000" qw="0.993999"/>
+      <scale x="1.468406" y="1.468406" z="1.468406"/>
+      <entity name="Mesh.147" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.140">
+      <position x="2318.468781" y="321.198921" z="-3769.151306"/>
+      <rotation qx="0.000000" qy="-0.978047" qz="0.000000" qw="0.208384"/>
+      <scale x="0.685308" y="0.685308" z="0.685308"/>
+      <entity name="Mesh.140" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.141">
+      <position x="1112.787476" y="315.254745" z="-3665.763550"/>
+      <rotation qx="0.000000" qy="0.479141" qz="0.000000" qw="0.877738"/>
+      <scale x="1.413568" y="1.413568" z="1.413568"/>
+      <entity name="Mesh.141" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.142">
+      <position x="2319.221802" y="322.668533" z="-5177.868652"/>
+      <rotation qx="0.000000" qy="0.995888" qz="0.000000" qw="0.090593"/>
+      <scale x="0.874240" y="0.874240" z="0.874240"/>
+      <entity name="Mesh.142" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.143">
+      <position x="1296.447144" y="350.301361" z="-4635.093384"/>
+      <rotation qx="0.000000" qy="0.655883" qz="0.000000" qw="0.754863"/>
+      <scale x="1.301011" y="1.301011" z="1.301011"/>
+      <entity name="Mesh.143" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.023">
+      <position x="-3576.340027" y="-26.083529" z="-1011.174316"/>
+      <rotation qx="0.000000" qy="-0.121481" qz="0.000000" qw="0.992594"/>
+      <scale x="1.183205" y="1.183205" z="1.183205"/>
+      <entity name="Mesh.023" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.022">
+      <position x="-2070.594635" y="68.581252" z="150.579910"/>
+      <rotation qx="0.000000" qy="-0.708983" qz="0.000000" qw="0.705225"/>
+      <scale x="0.791456" y="0.791457" z="0.791456"/>
+      <entity name="Mesh.022" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.021">
+      <position x="-1076.653290" y="79.484138" z="124.560394"/>
+      <rotation qx="0.000000" qy="-0.545447" qz="0.000000" qw="0.838145"/>
+      <scale x="0.600782" y="0.600782" z="0.600782"/>
+      <entity name="Mesh.021" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.020">
+      <position x="-3736.217346" y="142.918453" z="1511.533966"/>
+      <rotation qx="0.000000" qy="0.227114" qz="0.000000" qw="0.973868"/>
+      <scale x="1.059767" y="1.059767" z="1.059767"/>
+      <entity name="Mesh.020" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.148">
+      <position x="1186.834488" y="345.365181" z="-4864.807434"/>
+      <rotation qx="0.000000" qy="0.963699" qz="0.000000" qw="0.266992"/>
+      <scale x="0.872670" y="0.872670" z="0.872670"/>
+      <entity name="Mesh.148" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.149">
+      <position x="981.212387" y="357.439842" z="-4376.158752"/>
+      <rotation qx="0.000000" qy="0.657166" qz="0.000000" qw="0.753746"/>
+      <scale x="0.647896" y="0.647896" z="0.647896"/>
+      <entity name="Mesh.149" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.025">
+      <position x="-2968.345032" y="9.345033" z="-700.894089"/>
+      <rotation qx="0.000000" qy="-0.069074" qz="0.000000" qw="0.997612"/>
+      <scale x="0.816665" y="0.816665" z="0.816665"/>
+      <entity name="Mesh.025" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.024">
+      <position x="-1266.807022" y="126.284132" z="792.021179"/>
+      <rotation qx="0.000000" qy="-0.674760" qz="0.000000" qw="0.738037"/>
+      <scale x="0.802722" y="0.802722" z="0.802722"/>
+      <entity name="Mesh.024" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.249">
+      <position x="1642.637024" y="321.897812" z="-4774.676208"/>
+      <rotation qx="0.000000" qy="-0.538663" qz="0.000000" qw="0.842521"/>
+      <scale x="1.535606" y="1.535606" z="1.535606"/>
+      <entity name="Mesh.249" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.248">
+      <position x="1671.781006" y="319.910507" z="-4746.079712"/>
+      <rotation qx="0.000000" qy="0.294214" qz="0.000000" qw="0.955739"/>
+      <scale x="1.025474" y="1.025474" z="1.025474"/>
+      <entity name="Mesh.248" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.247">
+      <position x="1783.232727" y="328.262711" z="-4459.690857"/>
+      <rotation qx="0.000000" qy="0.575922" qz="0.000000" qw="0.817505"/>
+      <scale x="1.191139" y="1.191139" z="1.191139"/>
+      <entity name="Mesh.247" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.246">
+      <position x="1802.145081" y="317.021637" z="-4607.720032"/>
+      <rotation qx="0.000000" qy="0.723963" qz="0.000000" qw="0.689839"/>
+      <scale x="1.389084" y="1.389084" z="1.389084"/>
+      <entity name="Mesh.246" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.245">
+      <position x="1732.294769" y="326.701012" z="-4534.323425"/>
+      <rotation qx="0.000000" qy="-0.140416" qz="0.000000" qw="0.990093"/>
+      <scale x="1.382726" y="1.382726" z="1.382726"/>
+      <entity name="Mesh.245" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.244">
+      <position x="1824.826965" y="315.182037" z="-4612.174683"/>
+      <rotation qx="0.000000" qy="-0.604954" qz="0.000000" qw="0.796261"/>
+      <scale x="1.230670" y="1.230670" z="1.230670"/>
+      <entity name="Mesh.244" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.243">
+      <position x="1713.767242" y="329.758911" z="-4507.563477"/>
+      <rotation qx="0.000000" qy="0.921639" qz="0.000000" qw="0.388049"/>
+      <scale x="1.098171" y="1.098172" z="1.098171"/>
+      <entity name="Mesh.243" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.242">
+      <position x="1722.870026" y="329.772034" z="-4498.180237"/>
+      <rotation qx="0.000000" qy="0.598208" qz="0.000000" qw="0.801341"/>
+      <scale x="1.570303" y="1.570303" z="1.570303"/>
+      <entity name="Mesh.242" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.241">
+      <position x="1843.041229" y="317.659893" z="-4556.952209"/>
+      <rotation qx="0.000000" qy="0.440450" qz="0.000000" qw="0.897777"/>
+      <scale x="1.056471" y="1.056471" z="1.056471"/>
+      <entity name="Mesh.241" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.240">
+      <position x="1773.256378" y="322.338829" z="-4557.829895"/>
+      <rotation qx="0.000000" qy="-0.520661" qz="0.000000" qw="0.853764"/>
+      <scale x="1.404788" y="1.404788" z="1.404788"/>
+      <entity name="Mesh.240" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.029">
+      <position x="-1457.003021" y="166.847553" z="1512.117310"/>
+      <rotation qx="0.000000" qy="-0.300684" qz="0.000000" qw="0.953724"/>
+      <scale x="0.894238" y="0.894238" z="0.894238"/>
+      <entity name="Mesh.029" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.028">
+      <position x="-340.838699" y="212.395496" z="1970.753784"/>
+      <rotation qx="0.000000" qy="0.752900" qz="0.000000" qw="0.658135"/>
+      <scale x="0.879624" y="0.879625" z="0.879624"/>
+      <entity name="Mesh.028" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.027">
+      <position x="-36.567326" y="113.615990" z="639.053802"/>
+      <rotation qx="0.000000" qy="-0.691426" qz="0.000000" qw="0.722448"/>
+      <scale x="1.193362" y="1.193362" z="1.193362"/>
+      <entity name="Mesh.027" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.026">
+      <position x="-1966.071930" y="48.440123" z="-278.722153"/>
+      <rotation qx="0.000000" qy="-0.758564" qz="0.000000" qw="0.651599"/>
+      <scale x="1.043504" y="1.043504" z="1.043504"/>
+      <entity name="Mesh.026" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.180">
+      <position x="2154.873657" y="133.128214" z="-1613.191376"/>
+      <rotation qx="0.000000" qy="-0.786911" qz="0.000000" qw="0.617067"/>
+      <scale x="0.829282" y="0.829282" z="0.829282"/>
+      <entity name="Mesh.180" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.181">
+      <position x="-3365.990295" y="69.238973" z="7245.415649"/>
+      <rotation qx="0.000000" qy="0.997640" qz="0.000000" qw="0.068664"/>
+      <scale x="0.626771" y="0.626771" z="0.626771"/>
+      <entity name="Mesh.181" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.182">
+      <position x="3242.842102" y="-50.732164" z="-64.837933"/>
+      <rotation qx="0.000000" qy="-0.226444" qz="0.000000" qw="0.974024"/>
+      <scale x="0.619117" y="0.619117" z="0.619117"/>
+      <entity name="Mesh.182" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.183">
+      <position x="-4120.226440" y="12.522769" z="-1339.073181"/>
+      <rotation qx="0.000000" qy="0.150885" qz="0.000000" qw="0.988551"/>
+      <scale x="0.734469" y="0.734469" z="0.734469"/>
+      <entity name="Mesh.183" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.184">
+      <position x="-5451.554565" y="176.928730" z="-5504.162598"/>
+      <rotation qx="0.000000" qy="0.999545" qz="0.000000" qw="0.030152"/>
+      <scale x="0.804832" y="0.804832" z="0.804832"/>
+      <entity name="Mesh.184" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.185">
+      <position x="-2403.458405" y="-17.919067" z="-1011.390686"/>
+      <rotation qx="0.000000" qy="0.754982" qz="0.000000" qw="0.655745"/>
+      <scale x="0.788743" y="0.788743" z="0.788743"/>
+      <entity name="Mesh.185" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.186">
+      <position x="-2893.291016" y="80.742140" z="6689.937134"/>
+      <rotation qx="0.000000" qy="-0.170458" qz="0.000000" qw="0.985365"/>
+      <scale x="0.800712" y="0.800712" z="0.800712"/>
+      <entity name="Mesh.186" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.187">
+      <position x="-12.905598" y="100.147085" z="-2440.507355"/>
+      <rotation qx="0.000000" qy="-0.966230" qz="0.000000" qw="0.257681"/>
+      <scale x="0.691795" y="0.691795" z="0.691795"/>
+      <entity name="Mesh.187" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.188">
+      <position x="2699.351196" y="-37.776246" z="1656.143036"/>
+      <rotation qx="0.000000" qy="0.925447" qz="0.000000" qw="0.378876"/>
+      <scale x="0.623376" y="0.623376" z="0.623376"/>
+      <entity name="Mesh.188" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.189">
+      <position x="1330.082397" y="230.468216" z="4225.582581"/>
+      <rotation qx="0.000000" qy="0.209519" qz="0.000000" qw="0.977804"/>
+      <scale x="0.803267" y="0.803267" z="0.803267"/>
+      <entity name="Mesh.189" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.067">
+      <position x="2063.925171" y="283.448696" z="-4914.167786"/>
+      <rotation qx="0.000000" qy="0.012505" qz="0.000000" qw="0.999922"/>
+      <scale x="0.555673" y="0.555673" z="0.555673"/>
+      <entity name="Mesh.067" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.066">
+      <position x="1513.184204" y="342.045670" z="-4012.346497"/>
+      <rotation qx="0.000000" qy="0.154259" qz="0.000000" qw="0.988030"/>
+      <scale x="0.481569" y="0.481569" z="0.481569"/>
+      <entity name="Mesh.066" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.065">
+      <position x="2110.867615" y="373.518600" z="-4012.518311"/>
+      <rotation qx="0.000000" qy="-0.031297" qz="0.000000" qw="0.999510"/>
+      <scale x="1.589989" y="1.589989" z="1.589989"/>
+      <entity name="Mesh.065" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.064">
+      <position x="2533.464050" y="317.767506" z="-3785.305786"/>
+      <rotation qx="0.000000" qy="-0.992987" qz="0.000000" qw="0.118222"/>
+      <scale x="1.430208" y="1.430209" z="1.430208"/>
+      <entity name="Mesh.064" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.063">
+      <position x="2407.387695" y="289.492245" z="-4517.431946"/>
+      <rotation qx="0.000000" qy="-0.801339" qz="0.000000" qw="0.598210"/>
+      <scale x="1.440436" y="1.440436" z="1.440436"/>
+      <entity name="Mesh.063" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.062">
+      <position x="2162.222595" y="360.548019" z="-5425.737305"/>
+      <rotation qx="0.000000" qy="0.596857" qz="0.000000" qw="0.802348"/>
+      <scale x="0.405175" y="0.405175" z="0.405175"/>
+      <entity name="Mesh.062" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.061">
+      <position x="2845.809021" y="293.295479" z="-3693.061523"/>
+      <rotation qx="0.000000" qy="0.774735" qz="0.000000" qw="0.632287"/>
+      <scale x="0.686764" y="0.686764" z="0.686764"/>
+      <entity name="Mesh.061" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.349">
+      <position x="9521.567383" y="1020.066528" z="4627.650757"/>
+      <rotation qx="0.000000" qy="-0.996927" qz="0.000000" qw="0.078341"/>
+      <scale x="1.060386" y="1.060385" z="1.060386"/>
+      <entity name="Mesh.349" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.346">
+      <position x="9438.881226" y="1030.538940" z="4528.870239"/>
+      <rotation qx="0.000000" qy="-0.783810" qz="0.000000" qw="0.621000"/>
+      <scale x="0.556470" y="0.556470" z="0.556470"/>
+      <entity name="Mesh.346" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.347">
+      <position x="9634.000854" y="985.247345" z="4455.991516"/>
+      <rotation qx="0.000000" qy="0.792291" qz="0.000000" qw="0.610144"/>
+      <scale x="0.412975" y="0.412975" z="0.412975"/>
+      <entity name="Mesh.347" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.344">
+      <position x="9545.777588" y="1006.888199" z="4514.898682"/>
+      <rotation qx="0.000000" qy="0.709617" qz="0.000000" qw="0.704588"/>
+      <scale x="1.116692" y="1.116692" z="1.116692"/>
+      <entity name="Mesh.344" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.345">
+      <position x="9556.619873" y="1004.891357" z="4512.694702"/>
+      <rotation qx="0.000000" qy="0.972957" qz="0.000000" qw="0.230988"/>
+      <scale x="0.738839" y="0.738839" z="0.738839"/>
+      <entity name="Mesh.345" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.342">
+      <position x="9609.434204" y="981.826935" z="4428.464966"/>
+      <rotation qx="0.000000" qy="0.498960" qz="0.000000" qw="0.866625"/>
+      <scale x="1.189849" y="1.189849" z="1.189849"/>
+      <entity name="Mesh.342" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.343">
+      <position x="9729.803467" y="974.846878" z="4423.572693"/>
+      <rotation qx="0.000000" qy="-0.400305" qz="0.000000" qw="0.916382"/>
+      <scale x="1.266941" y="1.266941" z="1.266941"/>
+      <entity name="Mesh.343" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.069">
+      <position x="1435.975037" y="326.976852" z="-5240.598145"/>
+      <rotation qx="0.000000" qy="0.904118" qz="0.000000" qw="0.427284"/>
+      <scale x="0.479670" y="0.479670" z="0.479670"/>
+      <entity name="Mesh.069" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.068">
+      <position x="2269.757233" y="303.096714" z="-4485.958862"/>
+      <rotation qx="0.000000" qy="0.972278" qz="0.000000" qw="0.233828"/>
+      <scale x="1.477075" y="1.477075" z="1.477075"/>
+      <entity name="Mesh.068" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.332">
+      <position x="9162.047119" y="1112.715073" z="4741.719055"/>
+      <rotation qx="0.000000" qy="-0.535646" qz="0.000000" qw="0.844443"/>
+      <scale x="0.761713" y="0.761713" z="0.761713"/>
+      <entity name="Mesh.332" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.119">
+      <position x="2472.607422" y="362.683334" z="-5465.805664"/>
+      <rotation qx="0.000000" qy="-0.966445" qz="0.000000" qw="0.256872"/>
+      <scale x="1.238020" y="1.238020" z="1.238020"/>
+      <entity name="Mesh.119" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.118">
+      <position x="1342.111359" y="331.767921" z="-3967.076721"/>
+      <rotation qx="0.000000" qy="-0.791879" qz="0.000000" qw="0.610678"/>
+      <scale x="1.142754" y="1.142754" z="1.142754"/>
+      <entity name="Mesh.118" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.113">
+      <position x="2347.807312" y="274.461422" z="-4694.093628"/>
+      <rotation qx="0.000000" qy="0.245988" qz="0.000000" qw="0.969273"/>
+      <scale x="0.660183" y="0.660183" z="0.660183"/>
+      <entity name="Mesh.113" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.112">
+      <position x="2138.068237" y="363.812981" z="-3933.168030"/>
+      <rotation qx="0.000000" qy="-0.155409" qz="0.000000" qw="0.987850"/>
+      <scale x="1.135988" y="1.135988" z="1.135988"/>
+      <entity name="Mesh.112" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.111">
+      <position x="1090.338516" y="318.071308" z="-3699.956970"/>
+      <rotation qx="0.000000" qy="0.895634" qz="0.000000" qw="0.444792"/>
+      <scale x="0.529790" y="0.529790" z="0.529790"/>
+      <entity name="Mesh.111" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.110">
+      <position x="1490.501709" y="324.091301" z="-5396.976318"/>
+      <rotation qx="0.000000" qy="0.491513" qz="0.000000" qw="0.870870"/>
+      <scale x="1.099654" y="1.099654" z="1.099654"/>
+      <entity name="Mesh.110" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.117">
+      <position x="1998.087158" y="332.016563" z="-5043.231506"/>
+      <rotation qx="0.000000" qy="-0.677591" qz="0.000000" qw="0.735439"/>
+      <scale x="0.716311" y="0.716311" z="0.716311"/>
+      <entity name="Mesh.117" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.116">
+      <position x="2542.570190" y="365.623856" z="-5388.342896"/>
+      <rotation qx="0.000000" qy="0.890052" qz="0.000000" qw="0.455860"/>
+      <scale x="0.519465" y="0.519465" z="0.519465"/>
+      <entity name="Mesh.116" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.115">
+      <position x="1488.152924" y="322.505875" z="-3764.432678"/>
+      <rotation qx="0.000000" qy="-0.992718" qz="0.000000" qw="0.120461"/>
+      <scale x="0.623003" y="0.623003" z="0.623003"/>
+      <entity name="Mesh.115" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.114">
+      <position x="1920.235901" y="370.208740" z="-3866.975403"/>
+      <rotation qx="0.000000" qy="0.962440" qz="0.000000" qw="0.271495"/>
+      <scale x="0.712729" y="0.712729" z="0.712729"/>
+      <entity name="Mesh.114" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="nat_farn_01">
+      <position x="9195.263062" y="1105.553055" z="4732.204895"/>
+      <rotation qx="0.000000" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="nat_farn_01" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Lamp">
+      <position x="40.762453" y="59.038620" z="-10.054539"/>
+      <rotation qx="-0.169076" qy="0.755880" qz="-0.272171" qw="0.570948"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <light name="Spot" type="point">
+        <colourDiffuse r="1.000000" g="1.000000" b="1.000000"/>
+        <colourSpecular r="1.000000" g="1.000000" b="1.000000"/>
+        <lightAttenuation range="5000.0" constant="1.000000" linear="0.033333" quadratic="0.000000"/>
+      </light>
+    </node>
+    <node name="Mesh.340">
+      <position x="9489.834595" y="1016.896896" z="4490.530396"/>
+      <rotation qx="0.000000" qy="0.863135" qz="0.000000" qw="0.504974"/>
+      <scale x="0.685971" y="0.685971" z="0.685971"/>
+      <entity name="Mesh.340" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.289">
+      <position x="2201.305389" y="170.823669" z="-1788.958740"/>
+      <rotation qx="0.000000" qy="-0.999998" qz="0.000000" qw="0.001795"/>
+      <scale x="0.867871" y="0.867871" z="0.867871"/>
+      <entity name="Mesh.289" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="nat_busch_klein">
+      <position x="0.000000" y="84.498100" z="0.000000"/>
+      <rotation qx="0.000000" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="nat_busch_klein" meshFile="nat_busch_klein.mesh"/>
+    </node>
+    <node name="Mesh.288">
+      <position x="2318.197632" y="177.198143" z="-1740.872345"/>
+      <rotation qx="0.000000" qy="-0.912066" qz="0.000000" qw="0.410044"/>
+      <scale x="0.691267" y="0.691267" z="0.691267"/>
+      <entity name="Mesh.288" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.319">
+      <position x="-7551.677246" y="283.565769" z="-10553.618164"/>
+      <rotation qx="0.000000" qy="0.270245" qz="0.000000" qw="0.962792"/>
+      <scale x="0.204398" y="0.204398" z="0.204398"/>
+      <entity name="Mesh.319" meshFile="busch_stachlig.mesh"/>
+    </node>
+    <node name="Mesh.318">
+      <position x="-5786.721191" y="639.896049" z="-10572.138672"/>
+      <rotation qx="0.000000" qy="0.283347" qz="0.000000" qw="0.959018"/>
+      <scale x="0.226550" y="0.226550" z="0.226550"/>
+      <entity name="Mesh.318" meshFile="busch_stachlig.mesh"/>
+    </node>
+    <node name="Mesh.236">
+      <position x="1631.552429" y="340.103493" z="-4436.757507"/>
+      <rotation qx="0.000000" qy="-0.023856" qz="0.000000" qw="0.999715"/>
+      <scale x="0.970412" y="0.970412" z="0.970412"/>
+      <entity name="Mesh.236" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.237">
+      <position x="1661.031036" y="338.655167" z="-4428.534546"/>
+      <rotation qx="0.000000" qy="-0.999546" qz="0.000000" qw="0.030127"/>
+      <scale x="1.575565" y="1.575565" z="1.575565"/>
+      <entity name="Mesh.237" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.234">
+      <position x="1695.606079" y="368.916168" z="-4306.786804"/>
+      <rotation qx="0.000000" qy="0.170059" qz="0.000000" qw="0.985434"/>
+      <scale x="1.424735" y="1.424735" z="1.424735"/>
+      <entity name="Mesh.234" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.235">
+      <position x="1787.800598" y="356.138306" z="-4344.259949"/>
+      <rotation qx="0.000000" qy="-0.996683" qz="0.000000" qw="0.081379"/>
+      <scale x="1.046438" y="1.046439" z="1.046438"/>
+      <entity name="Mesh.235" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.232">
+      <position x="1768.578644" y="370.560265" z="-4275.354919"/>
+      <rotation qx="0.000000" qy="0.974898" qz="0.000000" qw="0.222654"/>
+      <scale x="0.978014" y="0.978014" z="0.978014"/>
+      <entity name="Mesh.232" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.233">
+      <position x="1675.061340" y="348.695793" z="-4381.765442"/>
+      <rotation qx="0.000000" qy="0.999212" qz="0.000000" qw="0.039693"/>
+      <scale x="1.622353" y="1.622353" z="1.622353"/>
+      <entity name="Mesh.233" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.230">
+      <position x="1644.056396" y="337.586212" z="-4461.560364"/>
+      <rotation qx="0.000000" qy="0.121725" qz="0.000000" qw="0.992564"/>
+      <scale x="1.162247" y="1.162247" z="1.162247"/>
+      <entity name="Mesh.230" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.231">
+      <position x="1749.778595" y="368.731537" z="-4303.233948"/>
+      <rotation qx="0.000000" qy="-0.978146" qz="0.000000" qw="0.207917"/>
+      <scale x="1.357162" y="1.357162" z="1.357162"/>
+      <entity name="Mesh.231" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.328">
+      <position x="9366.306152" y="1062.582397" z="4756.241455"/>
+      <rotation qx="0.000000" qy="-0.490432" qz="0.000000" qw="0.871480"/>
+      <scale x="0.943157" y="0.943157" z="0.943157"/>
+      <entity name="Mesh.328" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.238">
+      <position x="1816.801758" y="317.744083" z="-4582.185669"/>
+      <rotation qx="0.000000" qy="-0.544107" qz="0.000000" qw="0.839016"/>
+      <scale x="1.530900" y="1.530900" z="1.530900"/>
+      <entity name="Mesh.238" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.239">
+      <position x="1808.464966" y="320.470963" z="-4550.060730"/>
+      <rotation qx="0.000000" qy="-0.160176" qz="0.000000" qw="0.987089"/>
+      <scale x="1.113829" y="1.113829" z="1.113829"/>
+      <entity name="Mesh.239" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="techdemo_terrain">
+      <position x="0.000000" y="0.000000" z="0.000000"/>
+      <rotation qx="0.000000" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="techdemo_terrain" meshFile="techdemo_terrain.mesh"/>
+    </node>
+    <node name="Mesh.313">
+      <position x="1674.860992" y="431.171417" z="-7820.335083"/>
+      <rotation qx="0.000000" qy="-0.923242" qz="0.000000" qw="0.384219"/>
+      <scale x="1.285440" y="1.285440" z="1.285440"/>
+      <entity name="Mesh.313" meshFile="herkulesstaude.mesh"/>
+    </node>
+    <node name="Mesh.312">
+      <position x="1663.852081" y="430.411072" z="-7848.361816"/>
+      <rotation qx="0.000000" qy="0.877827" qz="0.000000" qw="0.478978"/>
+      <scale x="1.094170" y="1.094171" z="1.094170"/>
+      <entity name="Mesh.312" meshFile="herkulesstaude.mesh"/>
+    </node>
+    <node name="Mesh.308">
+      <position x="1698.511810" y="432.804985" z="-7866.010132"/>
+      <rotation qx="0.000000" qy="-0.995335" qz="0.000000" qw="0.096477"/>
+      <scale x="1.034181" y="1.034181" z="1.034181"/>
+      <entity name="Mesh.308" meshFile="herkulesstaude.mesh"/>
+    </node>
+    <node name="Mesh.309">
+      <position x="1739.594574" y="435.642509" z="-7895.894165"/>
+      <rotation qx="0.000000" qy="-0.746666" qz="0.000000" qw="0.665199"/>
+      <scale x="1.193531" y="1.193531" z="1.193531"/>
+      <entity name="Mesh.309" meshFile="herkulesstaude.mesh"/>
+    </node>
+    <node name="Mesh.302">
+      <position x="-5587.976685" y="418.751144" z="-6079.052734"/>
+      <rotation qx="0.000000" qy="0.223332" qz="0.000000" qw="0.974743"/>
+      <scale x="0.789146" y="0.789146" z="0.789146"/>
+      <entity name="Mesh.302" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.303">
+      <position x="-5618.625488" y="406.035995" z="-6060.821533"/>
+      <rotation qx="0.000000" qy="-0.932358" qz="0.000000" qw="0.361537"/>
+      <scale x="0.944973" y="0.944973" z="0.944973"/>
+      <entity name="Mesh.303" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.300">
+      <position x="-5564.882202" y="446.149673" z="-6131.427002"/>
+      <rotation qx="0.000000" qy="-0.197217" qz="0.000000" qw="0.980360"/>
+      <scale x="0.814838" y="0.814838" z="0.814838"/>
+      <entity name="Mesh.300" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.301">
+      <position x="-5643.083496" y="384.184074" z="-6020.890503"/>
+      <rotation qx="0.000000" qy="-0.571589" qz="0.000000" qw="0.820540"/>
+      <scale x="0.954298" y="0.954298" z="0.954298"/>
+      <entity name="Mesh.301" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.306">
+      <position x="-5491.531982" y="459.282341" z="-6137.548828"/>
+      <rotation qx="0.000000" qy="0.258008" qz="0.000000" qw="0.966143"/>
+      <scale x="0.754946" y="0.754946" z="0.754946"/>
+      <entity name="Mesh.306" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.307">
+      <position x="-5478.914795" y="465.485687" z="-6147.155151"/>
+      <rotation qx="0.000000" qy="-0.933009" qz="0.000000" qw="0.359853"/>
+      <scale x="1.042368" y="1.042368" z="1.042368"/>
+      <entity name="Mesh.307" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.304">
+      <position x="-5650.615234" y="450.033264" z="-6200.260010"/>
+      <rotation qx="0.000000" qy="0.398065" qz="0.000000" qw="0.917357"/>
+      <scale x="0.897313" y="0.897313" z="0.897313"/>
+      <entity name="Mesh.304" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.305">
+      <position x="-5652.218628" y="445.004311" z="-6184.345093"/>
+      <rotation qx="0.000000" qy="0.719918" qz="0.000000" qw="0.694059"/>
+      <scale x="0.661680" y="0.661680" z="0.661680"/>
+      <entity name="Mesh.305" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="nat_steinpilz_gross">
+      <position x="-9402.227173" y="183.142548" z="-1936.707916"/>
+      <rotation qx="0.000000" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="0.256074" y="0.256074" z="0.256074"/>
+      <entity name="nat_steinpilz_gross" meshFile="nat_steinpilz_gross.mesh"/>
+    </node>
+    <node name="nat_gras_01">
+      <position x="-9166.190796" y="182.728481" z="-1947.815094"/>
+      <rotation qx="0.000000" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="nat_gras_01" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="nat_gras_03">
+      <position x="0.000000" y="84.498100" z="0.000000"/>
+      <rotation qx="0.000000" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="nat_gras_03" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.157">
+      <position x="1626.450653" y="329.631271" z="-3681.821289"/>
+      <rotation qx="0.000000" qy="0.924155" qz="0.000000" qw="0.382018"/>
+      <scale x="1.051064" y="1.051064" z="1.051064"/>
+      <entity name="Mesh.157" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.156">
+      <position x="2776.092529" y="328.632278" z="-4303.591614"/>
+      <rotation qx="0.000000" qy="-0.698215" qz="0.000000" qw="0.715888"/>
+      <scale x="0.785361" y="0.785361" z="0.785361"/>
+      <entity name="Mesh.156" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.155">
+      <position x="2534.175720" y="327.499657" z="-3858.180542"/>
+      <rotation qx="0.000000" qy="-0.253435" qz="0.000000" qw="0.967352"/>
+      <scale x="1.102938" y="1.102938" z="1.102938"/>
+      <entity name="Mesh.155" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.154">
+      <position x="1119.992065" y="356.303291" z="-4559.098816"/>
+      <rotation qx="0.000000" qy="-0.766498" qz="0.000000" qw="0.642247"/>
+      <scale x="0.664826" y="0.664826" z="0.664826"/>
+      <entity name="Mesh.154" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.153">
+      <position x="1617.081757" y="336.644897" z="-4502.781677"/>
+      <rotation qx="0.000000" qy="-0.556859" qz="0.000000" qw="0.830607"/>
+      <scale x="1.426456" y="1.426456" z="1.426456"/>
+      <entity name="Mesh.153" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.152">
+      <position x="2094.873352" y="295.356655" z="-4625.455627"/>
+      <rotation qx="0.000000" qy="-0.032437" qz="0.000000" qw="0.999474"/>
+      <scale x="1.460526" y="1.460526" z="1.460526"/>
+      <entity name="Mesh.152" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.151">
+      <position x="1836.030273" y="345.469933" z="-4377.444153"/>
+      <rotation qx="0.000000" qy="0.798886" qz="0.000000" qw="0.601483"/>
+      <scale x="1.455186" y="1.455186" z="1.455186"/>
+      <entity name="Mesh.151" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.150">
+      <position x="1764.517822" y="335.728683" z="-3692.736816"/>
+      <rotation qx="0.000000" qy="0.441553" qz="0.000000" qw="0.897235"/>
+      <scale x="1.143704" y="1.143704" z="1.143704"/>
+      <entity name="Mesh.150" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.016">
+      <position x="-2454.788666" y="157.960300" z="1543.316650"/>
+      <rotation qx="0.000000" qy="-0.790218" qz="0.000000" qw="0.612826"/>
+      <scale x="1.043610" y="1.043610" z="1.043610"/>
+      <entity name="Mesh.016" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.017">
+      <position x="-1560.614166" y="110.387440" z="854.232712"/>
+      <rotation qx="0.000000" qy="0.557684" qz="0.000000" qw="0.830053"/>
+      <scale x="1.105097" y="1.105096" z="1.105097"/>
+      <entity name="Mesh.017" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.014">
+      <position x="823.988266" y="96.121864" z="80.155106"/>
+      <rotation qx="0.000000" qy="0.037644" qz="0.000000" qw="0.999291"/>
+      <scale x="1.011082" y="1.011082" z="1.011082"/>
+      <entity name="Mesh.014" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.015">
+      <position x="-1673.826141" y="162.341061" z="1713.408051"/>
+      <rotation qx="0.000000" qy="0.450166" qz="0.000000" qw="0.892945"/>
+      <scale x="0.965090" y="0.965090" z="0.965090"/>
+      <entity name="Mesh.015" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.012">
+      <position x="-840.726166" y="225.709152" z="2483.437805"/>
+      <rotation qx="0.000000" qy="0.987436" qz="0.000000" qw="0.158017"/>
+      <scale x="0.895910" y="0.895910" z="0.895910"/>
+      <entity name="Mesh.012" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.013">
+      <position x="-778.299789" y="117.609816" z="835.793304"/>
+      <rotation qx="0.000000" qy="-0.596619" qz="0.000000" qw="0.802525"/>
+      <scale x="0.953530" y="0.953530" z="0.953530"/>
+      <entity name="Mesh.013" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.159">
+      <position x="2020.017242" y="368.203583" z="-4218.758545"/>
+      <rotation qx="0.000000" qy="0.905194" qz="0.000000" qw="0.424999"/>
+      <scale x="0.481863" y="0.481863" z="0.481863"/>
+      <entity name="Mesh.159" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.158">
+      <position x="1029.413757" y="356.576004" z="-4373.989563"/>
+      <rotation qx="0.000000" qy="-0.436322" qz="0.000000" qw="0.899790"/>
+      <scale x="1.443515" y="1.443515" z="1.443515"/>
+      <entity name="Mesh.158" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.272">
+      <position x="-3339.952393" y="99.380102" z="7117.985840"/>
+      <rotation qx="0.000000" qy="0.440141" qz="0.000000" qw="0.897929"/>
+      <scale x="0.647538" y="0.647538" z="0.647538"/>
+      <entity name="Mesh.272" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.273">
+      <position x="-3398.818054" y="104.296722" z="7113.610840"/>
+      <rotation qx="0.000000" qy="-0.887491" qz="0.000000" qw="0.460825"/>
+      <scale x="0.579451" y="0.579452" z="0.579451"/>
+      <entity name="Mesh.273" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.270">
+      <position x="-3341.308899" y="89.453096" z="7010.366821"/>
+      <rotation qx="0.000000" qy="-0.998365" qz="0.000000" qw="0.057153"/>
+      <scale x="0.521563" y="0.521563" z="0.521563"/>
+      <entity name="Mesh.270" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.271">
+      <position x="-3404.123535" y="98.860016" z="7050.251465"/>
+      <rotation qx="0.000000" qy="0.510760" qz="0.000000" qw="0.859723"/>
+      <scale x="0.600298" y="0.600298" z="0.600298"/>
+      <entity name="Mesh.271" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.276">
+      <position x="-3436.968689" y="88.225861" z="7171.618652"/>
+      <rotation qx="0.000000" qy="-0.866197" qz="0.000000" qw="0.499704"/>
+      <scale x="0.810238" y="0.810238" z="0.810238"/>
+      <entity name="Mesh.276" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.277">
+      <position x="-3319.381409" y="85.460644" z="6988.854980"/>
+      <rotation qx="0.000000" qy="-0.923935" qz="0.000000" qw="0.382549"/>
+      <scale x="0.824533" y="0.824532" z="0.824533"/>
+      <entity name="Mesh.277" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.274">
+      <position x="-3306.301880" y="97.161970" z="7126.831055"/>
+      <rotation qx="0.000000" qy="-0.223128" qz="0.000000" qw="0.974789"/>
+      <scale x="0.572343" y="0.572343" z="0.572343"/>
+      <entity name="Mesh.274" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.275">
+      <position x="-3414.261475" y="102.608461" z="7080.571289"/>
+      <rotation qx="0.000000" qy="-0.777991" qz="0.000000" qw="0.628275"/>
+      <scale x="0.611922" y="0.611922" z="0.611922"/>
+      <entity name="Mesh.275" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.278">
+      <position x="-1071.907883" y="198.481483" z="3988.619385"/>
+      <rotation qx="0.000000" qy="-0.637140" qz="0.000000" qw="0.770748"/>
+      <scale x="0.889900" y="0.889899" z="0.889900"/>
+      <entity name="Mesh.278" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.279">
+      <position x="-1015.956879" y="183.654079" z="4077.217407"/>
+      <rotation qx="0.000000" qy="-0.750829" qz="0.000000" qw="0.660497"/>
+      <scale x="1.017536" y="1.017536" z="1.017536"/>
+      <entity name="Mesh.279" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="waf_sense_01">
+      <position x="3327.839355" y="113.736601" z="3086.455688"/>
+      <rotation qx="0.001840" qy="0.679697" qz="-0.119399" qw="0.723707"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="waf_sense_01" meshFile="waf_sense_01.mesh"/>
+    </node>
+    <node name="Mesh">
+      <position x="-397.978973" y="210.860271" z="1951.643982"/>
+      <rotation qx="0.000000" qy="0.973351" qz="0.000000" qw="0.229322"/>
+      <scale x="0.756854" y="0.756854" z="0.756854"/>
+      <entity name="Mesh" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.038">
+      <position x="-680.016785" y="199.723969" z="1989.113464"/>
+      <rotation qx="0.000000" qy="-0.823002" qz="0.000000" qw="0.568038"/>
+      <scale x="0.638214" y="0.638214" z="0.638214"/>
+      <entity name="Mesh.038" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.039">
+      <position x="-3111.965637" y="-8.914487" z="-827.930069"/>
+      <rotation qx="0.000000" qy="-0.107612" qz="0.000000" qw="0.994193"/>
+      <scale x="0.890875" y="0.890875" z="0.890875"/>
+      <entity name="Mesh.039" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.030">
+      <position x="-2257.313080" y="-22.689111" z="-1099.192505"/>
+      <rotation qx="0.000000" qy="0.647775" qz="0.000000" qw="0.761832"/>
+      <scale x="0.676728" y="0.676728" z="0.676728"/>
+      <entity name="Mesh.030" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.031">
+      <position x="-1288.496704" y="206.415844" z="2108.094482"/>
+      <rotation qx="0.000000" qy="-0.188475" qz="0.000000" qw="0.982078"/>
+      <scale x="1.073029" y="1.073029" z="1.073029"/>
+      <entity name="Mesh.031" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.193">
+      <position x="-8477.463379" y="122.218361" z="-9784.368286"/>
+      <rotation qx="0.000000" qy="-0.437392" qz="0.000000" qw="0.899271"/>
+      <scale x="0.848433" y="0.848433" z="0.848433"/>
+      <entity name="Mesh.193" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.192">
+      <position x="-3287.003479" y="88.748255" z="7055.426636"/>
+      <rotation qx="0.000000" qy="-0.927830" qz="0.000000" qw="0.373004"/>
+      <scale x="0.661935" y="0.661935" z="0.661935"/>
+      <entity name="Mesh.192" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.191">
+      <position x="7672.195435" y="183.397903" z="-2830.435181"/>
+      <rotation qx="0.000000" qy="-0.404900" qz="0.000000" qw="0.914361"/>
+      <scale x="0.808980" y="0.808980" z="0.808980"/>
+      <entity name="Mesh.191" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.059">
+      <position x="-3024.374695" y="100.677786" z="855.959930"/>
+      <rotation qx="0.000000" qy="-0.043031" qz="0.000000" qw="0.999074"/>
+      <scale x="0.608559" y="0.608559" z="0.608559"/>
+      <entity name="Mesh.059" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.197">
+      <position x="829.029083" y="609.781342" z="8056.627808"/>
+      <rotation qx="0.000000" qy="0.918814" qz="0.000000" qw="0.394691"/>
+      <scale x="0.879706" y="0.879707" z="0.879706"/>
+      <entity name="Mesh.197" meshFile="nat_stein02_mittel.mesh"/>
+    </node>
+    <node name="Mesh.196">
+      <position x="826.588898" y="132.451267" z="684.238052"/>
+      <rotation qx="0.000000" qy="-0.786336" qz="0.000000" qw="0.617799"/>
+      <scale x="0.672363" y="0.672363" z="0.672363"/>
+      <entity name="Mesh.196" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.195">
+      <position x="-6617.593994" y="195.201683" z="-7244.580688"/>
+      <rotation qx="0.000000" qy="-0.994383" qz="0.000000" qw="0.105845"/>
+      <scale x="0.642606" y="0.642606" z="0.642606"/>
+      <entity name="Mesh.195" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.194">
+      <position x="5375.057373" y="252.147675" z="-3004.841919"/>
+      <rotation qx="0.000000" qy="-0.154659" qz="0.000000" qw="0.987968"/>
+      <scale x="0.997245" y="0.997245" z="0.997245"/>
+      <entity name="Mesh.194" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.052">
+      <position x="-2060.332336" y="39.569857" z="-365.253754"/>
+      <rotation qx="0.000000" qy="-0.657501" qz="0.000000" qw="0.753454"/>
+      <scale x="0.691468" y="0.691468" z="0.691468"/>
+      <entity name="Mesh.052" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.053">
+      <position x="-359.459839" y="184.213924" z="1715.258789"/>
+      <rotation qx="0.000000" qy="0.363902" qz="0.000000" qw="0.931437"/>
+      <scale x="1.038488" y="1.038488" z="1.038488"/>
+      <entity name="Mesh.053" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.050">
+      <position x="-3452.970276" y="-8.996919" z="-843.467178"/>
+      <rotation qx="0.000000" qy="-0.077286" qz="0.000000" qw="0.997009"/>
+      <scale x="1.016056" y="1.016056" z="1.016056"/>
+      <entity name="Mesh.050" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.051">
+      <position x="-1976.648254" y="129.262705" z="952.456207"/>
+      <rotation qx="0.000000" qy="-0.122633" qz="0.000000" qw="0.992452"/>
+      <scale x="0.866963" y="0.866963" z="0.866963"/>
+      <entity name="Mesh.051" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.056">
+      <position x="-78.241520" y="164.322758" z="1223.003464"/>
+      <rotation qx="0.000000" qy="-0.259195" qz="0.000000" qw="0.965825"/>
+      <scale x="0.779097" y="0.779097" z="0.779097"/>
+      <entity name="Mesh.056" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.057">
+      <position x="-2482.898407" y="107.663612" z="800.547028"/>
+      <rotation qx="0.000000" qy="-0.815751" qz="0.000000" qw="0.578404"/>
+      <scale x="1.124021" y="1.124022" z="1.124021"/>
+      <entity name="Mesh.057" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.054">
+      <position x="-574.030380" y="217.637482" z="2222.464294"/>
+      <rotation qx="0.000000" qy="0.930179" qz="0.000000" qw="0.367108"/>
+      <scale x="1.061329" y="1.061329" z="1.061329"/>
+      <entity name="Mesh.054" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.055">
+      <position x="-2046.554871" y="174.033298" z="1881.413879"/>
+      <rotation qx="0.000000" qy="0.719061" qz="0.000000" qw="0.694947"/>
+      <scale x="0.805779" y="0.805779" z="0.805779"/>
+      <entity name="Mesh.055" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.298">
+      <position x="-5493.752441" y="435.903053" z="-6087.528076"/>
+      <rotation qx="0.000000" qy="-0.922225" qz="0.000000" qw="0.386653"/>
+      <scale x="0.935647" y="0.935647" z="0.935647"/>
+      <entity name="Mesh.298" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.299">
+      <position x="-5499.365234" y="476.412392" z="-6177.082520"/>
+      <rotation qx="0.000000" qy="-0.107710" qz="0.000000" qw="0.994182"/>
+      <scale x="0.747501" y="0.747501" z="0.747501"/>
+      <entity name="Mesh.299" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.353">
+      <position x="9329.952393" y="1037.860413" z="4461.071777"/>
+      <rotation qx="0.000000" qy="-0.762533" qz="0.000000" qw="0.646950"/>
+      <scale x="1.125715" y="1.125715" z="1.125715"/>
+      <entity name="Mesh.353" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.352">
+      <position x="9385.237427" y="1041.440430" z="4562.560425"/>
+      <rotation qx="0.000000" qy="-0.896605" qz="0.000000" qw="0.442832"/>
+      <scale x="1.308942" y="1.308942" z="1.308942"/>
+      <entity name="Mesh.352" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="ns_hackstock_01">
+      <position x="2855.904846" y="13.634870" z="2052.324982"/>
+      <rotation qx="-0.707380" qy="0.000000" qz="0.000000" qw="0.706833"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="ns_hackstock_01" meshFile="ns_hackstock_01.mesh"/>
+    </node>
+    <node name="Mesh.354">
+      <position x="9448.806763" y="1021.960220" z="4550.752563"/>
+      <rotation qx="0.000000" qy="0.362115" qz="0.000000" qw="0.932133"/>
+      <scale x="1.218471" y="1.218471" z="1.218471"/>
+      <entity name="Mesh.354" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.357">
+      <position x="9302.039795" y="1048.620377" z="4474.753113"/>
+      <rotation qx="0.000000" qy="-0.949440" qz="0.000000" qw="0.313949"/>
+      <scale x="0.496373" y="0.496373" z="0.496373"/>
+      <entity name="Mesh.357" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.356">
+      <position x="9529.588013" y="1028.455734" z="4696.521301"/>
+      <rotation qx="0.000000" qy="-0.993704" qz="0.000000" qw="0.112033"/>
+      <scale x="0.990684" y="0.990684" z="0.990684"/>
+      <entity name="Mesh.356" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.290">
+      <position x="2128.626862" y="164.197941" z="-1770.013580"/>
+      <rotation qx="0.000000" qy="-0.745574" qz="0.000000" qw="0.666423"/>
+      <scale x="1.131189" y="1.131189" z="1.131189"/>
+      <entity name="Mesh.290" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.291">
+      <position x="2241.480560" y="157.060995" z="-1649.604797"/>
+      <rotation qx="0.000000" qy="-0.928485" qz="0.000000" qw="0.371370"/>
+      <scale x="1.134560" y="1.134560" z="1.134560"/>
+      <entity name="Mesh.291" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.292">
+      <position x="2271.146698" y="173.910770" z="-1735.926208"/>
+      <rotation qx="0.000000" qy="-0.953123" qz="0.000000" qw="0.302584"/>
+      <scale x="0.923172" y="0.923172" z="0.923172"/>
+      <entity name="Mesh.292" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.293">
+      <position x="2169.700470" y="169.135513" z="-1805.925293"/>
+      <rotation qx="0.000000" qy="0.816531" qz="0.000000" qw="0.577302"/>
+      <scale x="0.774021" y="0.774021" z="0.774021"/>
+      <entity name="Mesh.293" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.294">
+      <position x="2139.155731" y="160.955467" z="-1701.030273"/>
+      <rotation qx="0.000000" qy="0.144771" qz="0.000000" qw="0.989465"/>
+      <scale x="0.840127" y="0.840127" z="0.840127"/>
+      <entity name="Mesh.294" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.295">
+      <position x="2144.138947" y="166.888847" z="-1801.821594"/>
+      <rotation qx="0.000000" qy="0.407042" qz="0.000000" qw="0.913409"/>
+      <scale x="1.006496" y="1.006496" z="1.006496"/>
+      <entity name="Mesh.295" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.296">
+      <position x="2299.664001" y="176.595440" z="-1745.117035"/>
+      <rotation qx="0.000000" qy="0.775673" qz="0.000000" qw="0.631135"/>
+      <scale x="0.923779" y="0.923779" z="0.923779"/>
+      <entity name="Mesh.296" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.297">
+      <position x="2135.480194" y="163.192520" z="-1736.349335"/>
+      <rotation qx="0.000000" qy="-0.874702" qz="0.000000" qw="0.484662"/>
+      <scale x="0.950578" y="0.950578" z="0.950578"/>
+      <entity name="Mesh.297" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.165">
+      <position x="4429.200439" y="915.291824" z="-8112.014160"/>
+      <rotation qx="0.000000" qy="0.861978" qz="0.000000" qw="0.506946"/>
+      <scale x="0.846023" y="0.846023" z="0.846023"/>
+      <entity name="Mesh.165" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.128">
+      <position x="1072.012558" y="346.276665" z="-4861.132507"/>
+      <rotation qx="0.000000" qy="-0.430627" qz="0.000000" qw="0.902530"/>
+      <scale x="0.990794" y="0.990794" z="0.990794"/>
+      <entity name="Mesh.128" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.129">
+      <position x="2190.960846" y="294.539871" z="-4560.873718"/>
+      <rotation qx="0.000000" qy="0.938717" qz="0.000000" qw="0.344688"/>
+      <scale x="0.870893" y="0.870893" z="0.870893"/>
+      <entity name="Mesh.129" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.126">
+      <position x="2138.905487" y="280.126686" z="-4800.220032"/>
+      <rotation qx="0.000000" qy="0.798153" qz="0.000000" qw="0.602454"/>
+      <scale x="0.747350" y="0.747350" z="0.747350"/>
+      <entity name="Mesh.126" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.127">
+      <position x="2752.015991" y="308.701859" z="-4444.276123"/>
+      <rotation qx="0.000000" qy="0.886939" qz="0.000000" qw="0.461886"/>
+      <scale x="1.325293" y="1.325293" z="1.325293"/>
+      <entity name="Mesh.127" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.124">
+      <position x="1849.920349" y="326.892624" z="-3678.651733"/>
+      <rotation qx="0.000000" qy="0.692045" qz="0.000000" qw="0.721854"/>
+      <scale x="1.512054" y="1.512054" z="1.512054"/>
+      <entity name="Mesh.124" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.125">
+      <position x="1442.120667" y="340.418434" z="-5051.528625"/>
+      <rotation qx="0.000000" qy="0.681084" qz="0.000000" qw="0.732205"/>
+      <scale x="1.094472" y="1.094472" z="1.094472"/>
+      <entity name="Mesh.125" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.122">
+      <position x="1011.363144" y="349.269104" z="-4800.734253"/>
+      <rotation qx="0.000000" qy="0.476472" qz="0.000000" qw="0.879189"/>
+      <scale x="0.982946" y="0.982946" z="0.982946"/>
+      <entity name="Mesh.122" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.123">
+      <position x="2643.760681" y="339.180984" z="-4190.230713"/>
+      <rotation qx="0.000000" qy="0.994095" qz="0.000000" qw="0.108513"/>
+      <scale x="0.798655" y="0.798655" z="0.798655"/>
+      <entity name="Mesh.123" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.120">
+      <position x="2700.008545" y="252.122555" z="-4962.441101"/>
+      <rotation qx="0.000000" qy="-0.297214" qz="0.000000" qw="0.954811"/>
+      <scale x="1.105829" y="1.105829" z="1.105829"/>
+      <entity name="Mesh.120" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.121">
+      <position x="2017.777100" y="285.550289" z="-3581.715088"/>
+      <rotation qx="0.000000" qy="-0.942420" qz="0.000000" qw="0.334431"/>
+      <scale x="1.403778" y="1.403778" z="1.403778"/>
+      <entity name="Mesh.121" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.058">
+      <position x="-680.233688" y="118.013754" z="763.141785"/>
+      <rotation qx="0.000000" qy="-0.080251" qz="0.000000" qw="0.996775"/>
+      <scale x="0.869122" y="0.869122" z="0.869122"/>
+      <entity name="Mesh.058" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.009">
+      <position x="273.761349" y="125.347557" z="761.982880"/>
+      <rotation qx="0.000000" qy="0.450190" qz="0.000000" qw="0.892933"/>
+      <scale x="1.093405" y="1.093405" z="1.093405"/>
+      <entity name="Mesh.009" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.190">
+      <position x="-272.222748" y="161.468468" z="7472.327881"/>
+      <rotation qx="0.000000" qy="-0.799897" qz="0.000000" qw="0.600138"/>
+      <scale x="0.641556" y="0.641556" z="0.641557"/>
+      <entity name="Mesh.190" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.008">
+      <position x="-2724.063110" y="-6.947902" z="-997.502747"/>
+      <rotation qx="0.000000" qy="0.705023" qz="0.000000" qw="0.709185"/>
+      <scale x="0.873959" y="0.873959" z="0.873959"/>
+      <entity name="Mesh.008" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.199">
+      <position x="3452.795715" y="569.665413" z="-7084.289551"/>
+      <rotation qx="0.000000" qy="-0.235979" qz="0.000000" qw="0.971758"/>
+      <scale x="0.967358" y="0.967358" z="0.967358"/>
+      <entity name="Mesh.199" meshFile="nat_stein02_mittel.mesh"/>
+    </node>
+    <node name="Mesh.198">
+      <position x="-8618.545532" y="447.618484" z="3173.200989"/>
+      <rotation qx="0.000000" qy="-0.025807" qz="0.000000" qw="0.999667"/>
+      <scale x="0.850055" y="0.850055" z="0.850055"/>
+      <entity name="Mesh.198" meshFile="nat_stein02_mittel.mesh"/>
+    </node>
+    <node name="Mesh.229">
+      <position x="1670.400085" y="360.240021" z="-4341.195984"/>
+      <rotation qx="0.000000" qy="-0.720800" qz="0.000000" qw="0.693143"/>
+      <scale x="1.225071" y="1.225071" z="1.225071"/>
+      <entity name="Mesh.229" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.228">
+      <position x="1814.486847" y="364.638939" z="-4311.432800"/>
+      <rotation qx="0.000000" qy="-0.971492" qz="0.000000" qw="0.237074"/>
+      <scale x="1.473587" y="1.473587" z="1.473587"/>
+      <entity name="Mesh.228" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.221">
+      <position x="1619.721985" y="351.663361" z="-4073.442688"/>
+      <rotation qx="0.000000" qy="0.662649" qz="0.000000" qw="0.748930"/>
+      <scale x="0.945716" y="0.945716" z="0.945716"/>
+      <entity name="Mesh.221" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.220">
+      <position x="1738.531952" y="363.203278" z="-4117.561340"/>
+      <rotation qx="0.000000" qy="0.977275" qz="0.000000" qw="0.211975"/>
+      <scale x="1.621087" y="1.621087" z="1.621087"/>
+      <entity name="Mesh.220" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.223">
+      <position x="1573.767700" y="354.669609" z="-4196.577759"/>
+      <rotation qx="0.000000" qy="-0.656680" qz="0.000000" qw="0.754170"/>
+      <scale x="1.202987" y="1.202988" z="1.202988"/>
+      <entity name="Mesh.223" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.222">
+      <position x="1620.737152" y="361.227875" z="-4254.144287"/>
+      <rotation qx="0.000000" qy="-0.361282" qz="0.000000" qw="0.932457"/>
+      <scale x="1.159109" y="1.159109" z="1.159109"/>
+      <entity name="Mesh.222" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.225">
+      <position x="1718.223724" y="362.946091" z="-4205.389709"/>
+      <rotation qx="0.000000" qy="0.441326" qz="0.000000" qw="0.897347"/>
+      <scale x="1.225611" y="1.225611" z="1.225611"/>
+      <entity name="Mesh.225" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.224">
+      <position x="1644.125519" y="361.128769" z="-4235.214844"/>
+      <rotation qx="0.000000" qy="0.395494" qz="0.000000" qw="0.918469"/>
+      <scale x="1.070788" y="1.070788" z="1.070788"/>
+      <entity name="Mesh.224" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.227">
+      <position x="1608.464355" y="354.408455" z="-4166.881409"/>
+      <rotation qx="0.000000" qy="-0.882792" qz="0.000000" qw="0.469764"/>
+      <scale x="1.621518" y="1.621518" z="1.621518"/>
+      <entity name="Mesh.227" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.226">
+      <position x="1572.260590" y="349.781952" z="-4128.571472"/>
+      <rotation qx="0.000000" qy="-0.439002" qz="0.000000" qw="0.898486"/>
+      <scale x="1.370186" y="1.370186" z="1.370186"/>
+      <entity name="Mesh.226" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.351">
+      <position x="9291.173706" y="1057.211456" z="4521.386108"/>
+      <rotation qx="0.000000" qy="0.870327" qz="0.000000" qw="0.492475"/>
+      <scale x="0.464593" y="0.464593" z="0.464593"/>
+      <entity name="Mesh.351" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.350">
+      <position x="9371.679688" y="1039.142761" z="4517.194214"/>
+      <rotation qx="0.000000" qy="-0.939159" qz="0.000000" qw="0.343483"/>
+      <scale x="1.342890" y="1.342890" z="1.342890"/>
+      <entity name="Mesh.350" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="nat_eiche_kahl">
+      <position x="8978.377686" y="1134.499817" z="4145.498047"/>
+      <rotation qx="0.000000" qy="-0.140001" qz="0.000000" qw="0.990151"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="nat_eiche_kahl" meshFile="nat_eiche_kahl.mesh"/>
+    </node>
+    <node name="Mesh.355">
+      <position x="9260.704956" y="1064.098053" z="4490.729980"/>
+      <rotation qx="0.000000" qy="0.944082" qz="0.000000" qw="0.329711"/>
+      <scale x="0.864754" y="0.864754" z="0.864754"/>
+      <entity name="Mesh.355" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.359">
+      <position x="9425.090332" y="1027.440491" z="4548.423767"/>
+      <rotation qx="0.000000" qy="0.527502" qz="0.000000" qw="0.849554"/>
+      <scale x="1.296429" y="1.296429" z="1.296429"/>
+      <entity name="Mesh.359" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.358">
+      <position x="9333.051758" y="1034.485855" z="4439.099731"/>
+      <rotation qx="0.000000" qy="0.963596" qz="0.000000" qw="0.267362"/>
+      <scale x="0.881255" y="0.881255" z="0.881255"/>
+      <entity name="Mesh.358" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.096">
+      <position x="2746.344299" y="278.740692" z="-5120.681763"/>
+      <rotation qx="0.000000" qy="0.646916" qz="0.000000" qw="0.762561"/>
+      <scale x="1.463586" y="1.463586" z="1.463586"/>
+      <entity name="Mesh.096" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.097">
+      <position x="2154.145203" y="279.378185" z="-4794.914856"/>
+      <rotation qx="0.000000" qy="-0.729482" qz="0.000000" qw="0.684000"/>
+      <scale x="0.402894" y="0.402894" z="0.402894"/>
+      <entity name="Mesh.097" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.094">
+      <position x="2029.909058" y="349.567642" z="-4344.025574"/>
+      <rotation qx="0.000000" qy="0.998257" qz="0.000000" qw="0.059022"/>
+      <scale x="1.411464" y="1.411464" z="1.411464"/>
+      <entity name="Mesh.094" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.095">
+      <position x="928.495407" y="349.428864" z="-5019.116211"/>
+      <rotation qx="0.000000" qy="-0.988315" qz="0.000000" qw="0.152426"/>
+      <scale x="0.584881" y="0.584881" z="0.584881"/>
+      <entity name="Mesh.095" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.092">
+      <position x="999.596558" y="349.851036" z="-4160.761719"/>
+      <rotation qx="0.000000" qy="-0.994030" qz="0.000000" qw="0.109112"/>
+      <scale x="0.743933" y="0.743933" z="0.743933"/>
+      <entity name="Mesh.092" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.093">
+      <position x="1341.764526" y="332.227211" z="-5173.183594"/>
+      <rotation qx="0.000000" qy="0.570044" qz="0.000000" qw="0.821614"/>
+      <scale x="1.083730" y="1.083730" z="1.083730"/>
+      <entity name="Mesh.093" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.090">
+      <position x="2422.079163" y="340.246696" z="-4194.930420"/>
+      <rotation qx="0.000000" qy="-0.565608" qz="0.000000" qw="0.824674"/>
+      <scale x="1.532539" y="1.532539" z="1.532539"/>
+      <entity name="Mesh.090" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.091">
+      <position x="1706.974487" y="341.877403" z="-3749.773865"/>
+      <rotation qx="0.000000" qy="0.347924" qz="0.000000" qw="0.937523"/>
+      <scale x="0.876779" y="0.876779" z="0.876779"/>
+      <entity name="Mesh.091" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.315">
+      <position x="1712.125244" y="433.745232" z="-7914.284668"/>
+      <rotation qx="0.000000" qy="-0.771015" qz="0.000000" qw="0.636817"/>
+      <scale x="1.307492" y="1.307492" z="1.307492"/>
+      <entity name="Mesh.315" meshFile="herkulesstaude.mesh"/>
+    </node>
+    <node name="Mesh.314">
+      <position x="1742.382813" y="435.835114" z="-7839.894409"/>
+      <rotation qx="0.000000" qy="-0.874645" qz="0.000000" qw="0.484764"/>
+      <scale x="0.845533" y="0.845533" z="0.845533"/>
+      <entity name="Mesh.314" meshFile="herkulesstaude.mesh"/>
+    </node>
+    <node name="Mesh.317">
+      <position x="1655.480042" y="429.832802" z="-7949.752808"/>
+      <rotation qx="0.000000" qy="-0.125409" qz="0.000000" qw="0.992105"/>
+      <scale x="1.231913" y="1.231913" z="1.231913"/>
+      <entity name="Mesh.317" meshFile="herkulesstaude.mesh"/>
+    </node>
+    <node name="Mesh.316">
+      <position x="1819.278870" y="441.146240" z="-7831.897583"/>
+      <rotation qx="0.000000" qy="-0.975797" qz="0.000000" qw="0.218678"/>
+      <scale x="0.888473" y="0.888473" z="0.888473"/>
+      <entity name="Mesh.316" meshFile="herkulesstaude.mesh"/>
+    </node>
+    <node name="Mesh.311">
+      <position x="1767.474976" y="437.568169" z="-7848.837891"/>
+      <rotation qx="0.000000" qy="0.755645" qz="0.000000" qw="0.654981"/>
+      <scale x="0.841873" y="0.841873" z="0.841873"/>
+      <entity name="Mesh.311" meshFile="herkulesstaude.mesh"/>
+    </node>
+    <node name="Mesh.310">
+      <position x="1732.754517" y="435.170097" z="-7907.753906"/>
+      <rotation qx="0.000000" qy="-0.981218" qz="0.000000" qw="0.192903"/>
+      <scale x="0.992343" y="0.992343" z="0.992343"/>
+      <entity name="Mesh.310" meshFile="herkulesstaude.mesh"/>
+    </node>
+    <node name="Mesh.098">
+      <position x="2086.802826" y="366.143913" z="-3925.142517"/>
+      <rotation qx="0.000000" qy="-0.908435" qz="0.000000" qw="0.418027"/>
+      <scale x="0.921099" y="0.921099" z="0.921099"/>
+      <entity name="Mesh.098" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.099">
+      <position x="1636.871033" y="347.208366" z="-5160.657959"/>
+      <rotation qx="0.000000" qy="-0.953818" qz="0.000000" qw="0.300385"/>
+      <scale x="0.774142" y="0.774142" z="0.774142"/>
+      <entity name="Mesh.099" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="nat_steinpilz_klein">
+      <position x="-9457.786255" y="181.591663" z="-2020.222321"/>
+      <rotation qx="0.000000" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="nat_steinpilz_klein" meshFile="nat_steinpilz_klein.mesh"/>
+    </node>
+    <node name="Mesh.168">
+      <position x="-9274.625244" y="53.767495" z="-9212.008667"/>
+      <rotation qx="0.000000" qy="0.892147" qz="0.000000" qw="0.451745"/>
+      <scale x="0.989189" y="0.989189" z="0.989189"/>
+      <entity name="Mesh.168" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.169">
+      <position x="-450.391159" y="120.232582" z="644.944916"/>
+      <rotation qx="0.000000" qy="-0.707472" qz="0.000000" qw="0.706742"/>
+      <scale x="0.717834" y="0.717834" z="0.717834"/>
+      <entity name="Mesh.169" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.329">
+      <position x="9297.434082" y="1077.377930" z="4776.623840"/>
+      <rotation qx="0.000000" qy="-0.783472" qz="0.000000" qw="0.621427"/>
+      <scale x="0.443004" y="0.443005" z="0.443004"/>
+      <entity name="Mesh.329" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.162">
+      <position x="8519.352417" y="1164.868088" z="5125.750122"/>
+      <rotation qx="0.000000" qy="-0.612701" qz="0.000000" qw="0.790315"/>
+      <scale x="0.410222" y="0.410222" z="0.410222"/>
+      <entity name="Mesh.162" meshFile="nat_busch_klein.mesh"/>
+    </node>
+    <node name="Mesh.163">
+      <position x="7620.409546" y="-92.015095" z="-781.557541"/>
+      <rotation qx="0.000000" qy="0.065042" qz="0.000000" qw="0.997883"/>
+      <scale x="0.664102" y="0.664102" z="0.664102"/>
+      <entity name="Mesh.163" meshFile="nat_busch_klein.mesh"/>
+    </node>
+    <node name="Mesh.160">
+      <position x="8013.659668" y="264.045391" z="-4997.088928"/>
+      <rotation qx="0.000000" qy="0.310332" qz="0.000000" qw="0.950628"/>
+      <scale x="1.137051" y="1.137051" z="1.137051"/>
+      <entity name="Mesh.160" meshFile="nat_busch_klein.mesh"/>
+    </node>
+    <node name="Mesh.161">
+      <position x="1113.017807" y="75.517006" z="-1655.896912"/>
+      <rotation qx="0.000000" qy="-0.642441" qz="0.000000" qw="0.766335"/>
+      <scale x="1.358099" y="1.358099" z="1.358099"/>
+      <entity name="Mesh.161" meshFile="nat_busch_klein.mesh"/>
+    </node>
+    <node name="Mesh.166">
+      <position x="-998.666306" y="179.601688" z="4113.848877"/>
+      <rotation qx="0.000000" qy="-0.982019" qz="0.000000" qw="0.188780"/>
+      <scale x="0.813505" y="0.813505" z="0.813505"/>
+      <entity name="Mesh.166" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.167">
+      <position x="4689.706421" y="305.331631" z="693.715820"/>
+      <rotation qx="0.000000" qy="0.059404" qz="0.000000" qw="0.998234"/>
+      <scale x="0.964044" y="0.964044" z="0.964044"/>
+      <entity name="Mesh.167" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.164">
+      <position x="-4149.135437" y="168.452816" z="3582.525940"/>
+      <rotation qx="0.000000" qy="0.998798" qz="0.000000" qw="0.049025"/>
+      <scale x="0.513588" y="0.513588" z="0.513588"/>
+      <entity name="Mesh.164" meshFile="nat_busch_klein.mesh"/>
+    </node>
+    <node name="herkulesstaude">
+      <position x="1681.323395" y="431.617775" z="-7855.361938"/>
+      <rotation qx="0.000000" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="herkulesstaude" meshFile="herkulesstaude.mesh"/>
+    </node>
+    <node name="Mesh.001">
+      <position x="-2259.128571" y="169.825497" z="1721.559448"/>
+      <rotation qx="0.000000" qy="0.517617" qz="0.000000" qw="0.855613"/>
+      <scale x="1.019634" y="1.019634" z="1.019634"/>
+      <entity name="Mesh.001" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.003">
+      <position x="915.530167" y="98.987846" z="127.611694"/>
+      <rotation qx="0.000000" qy="0.510531" qz="0.000000" qw="0.859860"/>
+      <scale x="1.048232" y="1.048232" z="1.048232"/>
+      <entity name="Mesh.003" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.002">
+      <position x="-2553.517456" y="74.489207" z="428.569374"/>
+      <rotation qx="0.000000" qy="0.998679" qz="0.000000" qw="0.051389"/>
+      <scale x="1.165417" y="1.165417" z="1.165417"/>
+      <entity name="Mesh.002" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.005">
+      <position x="-1943.598785" y="40.704875" z="-70.629425"/>
+      <rotation qx="0.000000" qy="0.999396" qz="0.000000" qw="0.034747"/>
+      <scale x="0.964609" y="0.964609" z="0.964609"/>
+      <entity name="Mesh.005" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.004">
+      <position x="-248.181705" y="191.196175" z="1704.494019"/>
+      <rotation qx="0.000000" qy="-0.202056" qz="0.000000" qw="0.979374"/>
+      <scale x="1.016354" y="1.016354" z="1.016354"/>
+      <entity name="Mesh.004" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.007">
+      <position x="-624.285736" y="126.523342" z="913.500290"/>
+      <rotation qx="0.000000" qy="0.186799" qz="0.000000" qw="0.982398"/>
+      <scale x="1.007500" y="1.007500" z="1.007500"/>
+      <entity name="Mesh.007" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.006">
+      <position x="-485.915604" y="209.918842" z="1930.034637"/>
+      <rotation qx="0.000000" qy="0.835278" qz="0.000000" qw="0.549828"/>
+      <scale x="0.692273" y="0.692273" z="0.692273"/>
+      <entity name="Mesh.006" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.360">
+      <position x="9293.992310" y="1047.803879" z="4441.927795"/>
+      <rotation qx="0.000000" qy="-0.687883" qz="0.000000" qw="0.725821"/>
+      <scale x="0.915615" y="0.915615" z="0.915615"/>
+      <entity name="Mesh.360" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.361">
+      <position x="9461.313477" y="1038.495026" z="4652.805786"/>
+      <rotation qx="0.000000" qy="0.936176" qz="0.000000" qw="0.351533"/>
+      <scale x="1.235477" y="1.235478" z="1.235477"/>
+      <entity name="Mesh.361" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.033">
+      <position x="766.506424" y="150.209570" z="833.987274"/>
+      <rotation qx="0.000000" qy="0.734361" qz="0.000000" qw="0.678759"/>
+      <scale x="1.186587" y="1.186587" z="1.186587"/>
+      <entity name="Mesh.033" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.265">
+      <position x="2086.642151" y="290.774593" z="-4698.276062"/>
+      <rotation qx="0.000000" qy="0.997921" qz="0.000000" qw="0.064447"/>
+      <scale x="1.236399" y="1.236400" z="1.236399"/>
+      <entity name="Mesh.265" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.264">
+      <position x="1919.732971" y="293.079681" z="-4843.987732"/>
+      <rotation qx="0.000000" qy="0.138381" qz="0.000000" qw="0.990379"/>
+      <scale x="1.031454" y="1.031454" z="1.031454"/>
+      <entity name="Mesh.264" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.267">
+      <position x="2010.095215" y="292.720451" z="-4751.889343"/>
+      <rotation qx="0.000000" qy="-0.429228" qz="0.000000" qw="0.903196"/>
+      <scale x="1.121615" y="1.121615" z="1.121615"/>
+      <entity name="Mesh.267" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.266">
+      <position x="1932.546997" y="296.043243" z="-4786.111450"/>
+      <rotation qx="0.000000" qy="-0.461285" qz="0.000000" qw="0.887252"/>
+      <scale x="1.043752" y="1.043752" z="1.043752"/>
+      <entity name="Mesh.266" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.261">
+      <position x="2080.007019" y="288.503475" z="-4739.195251"/>
+      <rotation qx="0.000000" qy="-0.583507" qz="0.000000" qw="0.812108"/>
+      <scale x="1.121100" y="1.121100" z="1.121100"/>
+      <entity name="Mesh.261" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.260">
+      <position x="1893.891602" y="305.005455" z="-4693.756409"/>
+      <rotation qx="0.000000" qy="0.348731" qz="0.000000" qw="0.937223"/>
+      <scale x="1.453347" y="1.453347" z="1.453347"/>
+      <entity name="Mesh.260" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.263">
+      <position x="2053.744202" y="295.577335" z="-4662.349243"/>
+      <rotation qx="0.000000" qy="-0.963747" qz="0.000000" qw="0.266816"/>
+      <scale x="1.187080" y="1.187080" z="1.187080"/>
+      <entity name="Mesh.263" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.262">
+      <position x="1954.010010" y="301.319942" z="-4684.519958"/>
+      <rotation qx="0.000000" qy="0.863224" qz="0.000000" qw="0.504821"/>
+      <scale x="1.124197" y="1.124197" z="1.124197"/>
+      <entity name="Mesh.262" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.269">
+      <position x="-3406.679993" y="102.743988" z="7089.367065"/>
+      <rotation qx="0.000000" qy="-0.737150" qz="0.000000" qw="0.675729"/>
+      <scale x="0.663771" y="0.663771" z="0.663771"/>
+      <entity name="Mesh.269" meshFile="nat_gras_03.mesh"/>
+    </node>
+    <node name="Mesh.268">
+      <position x="-3344.258728" y="91.683235" z="7031.390991"/>
+      <rotation qx="0.000000" qy="-0.954886" qz="0.000000" qw="0.296973"/>
+      <scale x="0.806730" y="0.806729" z="0.806730"/>
+      <entity name="Mesh.268" meshFile="nat_gras_03.mesh"/>
+    </node>
+   
+    <node name="nat_blume_weis">
+      <position x="1882.329559" y="318.705902" z="-4501.744995"/>
+      <rotation qx="0.000000" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="nat_blume_weis" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.210">
+      <position x="1984.820557" y="357.641907" z="-5330.013428"/>
+      <rotation qx="0.000000" qy="0.721025" qz="0.000000" qw="0.692909"/>
+      <scale x="1.015890" y="1.015890" z="1.015890"/>
+      <entity name="Mesh.210" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.211">
+      <position x="1967.190247" y="355.928040" z="-5294.146729"/>
+      <rotation qx="0.000000" qy="0.907537" qz="0.000000" qw="0.419972"/>
+      <scale x="1.599692" y="1.599692" z="1.599692"/>
+      <entity name="Mesh.211" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.212">
+      <position x="2062.028961" y="358.906670" z="-5338.037720"/>
+      <rotation qx="0.000000" qy="0.822475" qz="0.000000" qw="0.568801"/>
+      <scale x="1.358864" y="1.358864" z="1.358864"/>
+      <entity name="Mesh.212" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.213">
+      <position x="1980.126343" y="354.905815" z="-5271.361084"/>
+      <rotation qx="0.000000" qy="-0.328125" qz="0.000000" qw="0.944634"/>
+      <scale x="1.171651" y="1.171651" z="1.171651"/>
+      <entity name="Mesh.213" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.214">
+      <position x="2057.145691" y="354.329147" z="-5244.736328"/>
+      <rotation qx="0.000000" qy="0.488539" qz="0.000000" qw="0.872542"/>
+      <scale x="1.256618" y="1.256618" z="1.256618"/>
+      <entity name="Mesh.214" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.215">
+      <position x="2014.296265" y="358.124733" z="-5411.994019"/>
+      <rotation qx="0.000000" qy="-0.951440" qz="0.000000" qw="0.307833"/>
+      <scale x="1.449788" y="1.449788" z="1.449788"/>
+      <entity name="Mesh.215" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.216">
+      <position x="2142.167969" y="356.217155" z="-5265.310669"/>
+      <rotation qx="0.000000" qy="0.490113" qz="0.000000" qw="0.871659"/>
+      <scale x="1.115528" y="1.115528" z="1.115528"/>
+      <entity name="Mesh.216" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.217">
+      <position x="1987.158508" y="356.366653" z="-5298.884277"/>
+      <rotation qx="0.000000" qy="0.300754" qz="0.000000" qw="0.953702"/>
+      <scale x="1.275456" y="1.275456" z="1.275456"/>
+      <entity name="Mesh.217" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.218">
+      <position x="1732.382050" y="361.153717" z="-4158.102112"/>
+      <rotation qx="0.000000" qy="0.936159" qz="0.000000" qw="0.351578"/>
+      <scale x="1.034896" y="1.034896" z="1.034896"/>
+      <entity name="Mesh.218" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.219">
+      <position x="1718.108215" y="364.282417" z="-4224.378357"/>
+      <rotation qx="0.000000" qy="0.419271" qz="0.000000" qw="0.907861"/>
+      <scale x="1.592524" y="1.592524" z="1.592524"/>
+      <entity name="Mesh.219" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="arch_bruecke_01">
+      <position x="-8077.482300" y="182.511806" z="-5472.480469"/>
+      <rotation qx="0.000000" qy="0.453991" qz="0.000000" qw="0.891007"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="arch_bruecke_01" meshFile="arch_bruecke_01.mesh"/>
+    </node>
+    <node name="Mesh.049">
+      <position x="-1788.115692" y="29.965661" z="-367.032928"/>
+      <rotation qx="0.000000" qy="-0.642751" qz="0.000000" qw="0.766075"/>
+      <scale x="0.608725" y="0.608725" z="0.608725"/>
+      <entity name="Mesh.049" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.048">
+      <position x="-1542.469330" y="2.740630" z="-784.752121"/>
+      <rotation qx="0.000000" qy="0.342445" qz="0.000000" qw="0.939538"/>
+      <scale x="1.051643" y="1.051643" z="1.051643"/>
+      <entity name="Mesh.048" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.045">
+      <position x="-2070.638275" y="203.864365" z="2211.191406"/>
+      <rotation qx="0.000000" qy="-0.821188" qz="0.000000" qw="0.570657"/>
+      <scale x="1.128913" y="1.128913" z="1.128913"/>
+      <entity name="Mesh.045" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.044">
+      <position x="-3974.481812" y="54.841037" z="422.990112"/>
+      <rotation qx="0.000000" qy="0.331440" qz="0.000000" qw="0.943476"/>
+      <scale x="0.610159" y="0.610159" z="0.610159"/>
+      <entity name="Mesh.044" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.047">
+      <position x="-2611.249084" y="181.224842" z="2040.568237"/>
+      <rotation qx="0.000000" qy="-0.761998" qz="0.000000" qw="0.647579"/>
+      <scale x="1.079687" y="1.079687" z="1.079687"/>
+      <entity name="Mesh.047" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.046">
+      <position x="-4011.071472" y="74.820485" z="796.129303"/>
+      <rotation qx="0.000000" qy="0.993119" qz="0.000000" qw="0.117105"/>
+      <scale x="1.167613" y="1.167613" z="1.167613"/>
+      <entity name="Mesh.046" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.041">
+      <position x="663.596115" y="88.312416" z="54.306412"/>
+      <rotation qx="0.000000" qy="-0.827547" qz="0.000000" qw="0.561396"/>
+      <scale x="1.045623" y="1.045623" z="1.045623"/>
+      <entity name="Mesh.041" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.040">
+      <position x="248.180447" y="105.452785" z="179.100266"/>
+      <rotation qx="0.000000" qy="-0.650008" qz="0.000000" qw="0.759928"/>
+      <scale x="0.666676" y="0.666676" z="0.666676"/>
+      <entity name="Mesh.040" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.043">
+      <position x="-3479.276428" y="69.835925" z="335.111694"/>
+      <rotation qx="0.000000" qy="0.560329" qz="0.000000" qw="0.828270"/>
+      <scale x="1.013181" y="1.013181" z="1.013181"/>
+      <entity name="Mesh.043" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.042">
+      <position x="-3883.714905" y="85.487890" z="878.471527"/>
+      <rotation qx="0.000000" qy="-0.757952" qz="0.000000" qw="0.652311"/>
+      <scale x="0.670382" y="0.670382" z="0.670382"/>
+      <entity name="Mesh.042" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.324">
+      <position x="9016.850586" y="1141.415939" z="4774.980164"/>
+      <rotation qx="0.000000" qy="-0.941733" qz="0.000000" qw="0.336362"/>
+      <scale x="0.787973" y="0.787973" z="0.787973"/>
+      <entity name="Mesh.324" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.325">
+      <position x="9062.450562" y="1131.844025" z="4821.157227"/>
+      <rotation qx="0.000000" qy="-0.996596" qz="0.000000" qw="0.082444"/>
+      <scale x="1.026560" y="1.026560" z="1.026560"/>
+      <entity name="Mesh.325" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.326">
+      <position x="9055.089111" y="1135.179062" z="4769.749146"/>
+      <rotation qx="0.000000" qy="-0.490589" qz="0.000000" qw="0.871391"/>
+      <scale x="1.068606" y="1.068606" z="1.068606"/>
+      <entity name="Mesh.326" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.327">
+      <position x="9179.673462" y="1106.728592" z="4762.880859"/>
+      <rotation qx="0.000000" qy="0.739672" qz="0.000000" qw="0.672967"/>
+      <scale x="0.482566" y="0.482566" z="0.482566"/>
+      <entity name="Mesh.327" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.320">
+      <position x="-6040.521851" y="333.731804" z="-8223.481445"/>
+      <rotation qx="0.000000" qy="0.997602" qz="0.000000" qw="0.069215"/>
+      <scale x="0.212071" y="0.212071" z="0.212071"/>
+      <entity name="Mesh.320" meshFile="busch_stachlig.mesh"/>
+    </node>
+    <node name="Mesh.321">
+      <position x="-7808.453979" y="240.223961" z="-10939.455566"/>
+      <rotation qx="0.000000" qy="-0.776650" qz="0.000000" qw="0.629932"/>
+      <scale x="0.244990" y="0.244990" z="0.244990"/>
+      <entity name="Mesh.321" meshFile="busch_stachlig.mesh"/>
+    </node>
+    <node name="Mesh.322">
+      <position x="-9062.642822" y="53.850598" z="-7642.701416"/>
+      <rotation qx="0.000000" qy="0.741884" qz="0.000000" qw="0.670528"/>
+      <scale x="0.255106" y="0.255106" z="0.255106"/>
+      <entity name="Mesh.322" meshFile="busch_stachlig.mesh"/>
+    </node>
+    <node name="Mesh.323">
+      <position x="9151.186523" y="1115.479431" z="4742.494202"/>
+      <rotation qx="0.000000" qy="0.998692" qz="0.000000" qw="0.051123"/>
+      <scale x="0.892865" y="0.892865" z="0.892865"/>
+      <entity name="Mesh.323" meshFile="nat_farn_01.mesh"/>
+    </node>
+    <node name="Mesh.283">
+      <position x="-912.082977" y="185.122166" z="4030.571594"/>
+      <rotation qx="0.000000" qy="0.923437" qz="0.000000" qw="0.383750"/>
+      <scale x="0.803006" y="0.803005" z="0.803006"/>
+      <entity name="Mesh.283" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.282">
+      <position x="-948.074722" y="181.887779" z="4067.185974"/>
+      <rotation qx="0.000000" qy="-0.786731" qz="0.000000" qw="0.617296"/>
+      <scale x="0.838856" y="0.838856" z="0.838856"/>
+      <entity name="Mesh.282" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.281">
+      <position x="-1051.367645" y="179.598103" z="4185.867004"/>
+      <rotation qx="0.000000" qy="-0.719351" qz="0.000000" qw="0.694647"/>
+      <scale x="0.762012" y="0.762012" z="0.762012"/>
+      <entity name="Mesh.281" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.280">
+      <position x="-974.924088" y="179.585228" z="4160.611267"/>
+      <rotation qx="0.000000" qy="0.998946" qz="0.000000" qw="0.045903"/>
+      <scale x="1.067783" y="1.067783" z="1.067783"/>
+      <entity name="Mesh.280" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.287">
+      <position x="-1019.511414" y="188.040676" z="4037.108459"/>
+      <rotation qx="0.000000" qy="-0.829141" qz="0.000000" qw="0.559040"/>
+      <scale x="1.128117" y="1.128116" z="1.128117"/>
+      <entity name="Mesh.287" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.286">
+      <position x="-1030.758972" y="186.298904" z="4066.569519"/>
+      <rotation qx="0.000000" qy="0.969638" qz="0.000000" qw="0.244544"/>
+      <scale x="0.990350" y="0.990350" z="0.990350"/>
+      <entity name="Mesh.286" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.285">
+      <position x="-916.265182" y="179.605007" z="4123.209229"/>
+      <rotation qx="0.000000" qy="-0.657503" qz="0.000000" qw="0.753452"/>
+      <scale x="0.808904" y="0.808904" z="0.808904"/>
+      <entity name="Mesh.285" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="Mesh.284">
+      <position x="-958.640747" y="188.910351" z="4021.397705"/>
+      <rotation qx="0.000000" qy="0.994237" qz="0.000000" qw="0.107201"/>
+      <scale x="0.886729" y="0.886729" z="0.886729"/>
+      <entity name="Mesh.284" meshFile="nat_gras_01.mesh"/>
+    </node>
+    <node name="arc_stall_01">
+      <position x="3564.516602" y="35.477793" z="2160.738831"/>
+      <rotation qx="0.000000" qy="0.995127" qz="0.000000" qw="0.098601"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="arc_stall_01" meshFile="arc_stall_01.mesh"/>
+    </node>
+    <node name="Mesh.131">
+      <position x="1817.280884" y="341.914444" z="-4971.882629"/>
+      <rotation qx="0.000000" qy="-0.869798" qz="0.000000" qw="0.493409"/>
+      <scale x="1.148641" y="1.148641" z="1.148641"/>
+      <entity name="Mesh.131" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.130">
+      <position x="2512.129517" y="338.466606" z="-4197.864380"/>
+      <rotation qx="0.000000" qy="-0.154355" qz="0.000000" qw="0.988015"/>
+      <scale x="1.086868" y="1.086868" z="1.086868"/>
+      <entity name="Mesh.130" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.133">
+      <position x="1654.077148" y="356.926842" z="-4168.320618"/>
+      <rotation qx="0.000000" qy="0.987770" qz="0.000000" qw="0.155921"/>
+      <scale x="1.333177" y="1.333177" z="1.333177"/>
+      <entity name="Mesh.133" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.132">
+      <position x="1413.748779" y="341.410675" z="-5016.570435"/>
+      <rotation qx="0.000000" qy="-0.748528" qz="0.000000" qw="0.663103"/>
+      <scale x="1.593000" y="1.593000" z="1.593000"/>
+      <entity name="Mesh.132" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.135">
+      <position x="1852.472839" y="308.834534" z="-4678.637085"/>
+      <rotation qx="0.000000" qy="-0.132413" qz="0.000000" qw="0.991195"/>
+      <scale x="1.573093" y="1.573093" z="1.573093"/>
+      <entity name="Mesh.135" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.134">
+      <position x="1391.240845" y="340.926666" z="-4111.278076"/>
+      <rotation qx="0.000000" qy="-0.987297" qz="0.000000" qw="0.158886"/>
+      <scale x="0.763849" y="0.763849" z="0.763849"/>
+      <entity name="Mesh.134" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.137">
+      <position x="1581.136780" y="337.458000" z="-3854.524231"/>
+      <rotation qx="0.000000" qy="0.082010" qz="0.000000" qw="0.996632"/>
+      <scale x="1.384161" y="1.384161" z="1.384161"/>
+      <entity name="Mesh.137" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.136">
+      <position x="1281.593628" y="323.042793" z="-3823.810120"/>
+      <rotation qx="0.000000" qy="-0.994690" qz="0.000000" qw="0.102914"/>
+      <scale x="1.447334" y="1.447334" z="1.447334"/>
+      <entity name="Mesh.136" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.139">
+      <position x="2173.927155" y="334.530907" z="-4375.307312"/>
+      <rotation qx="0.000000" qy="0.993137" qz="0.000000" qw="0.116955"/>
+      <scale x="0.878937" y="0.878936" z="0.878937"/>
+      <entity name="Mesh.139" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.138">
+      <position x="1384.299164" y="356.734657" z="-4438.676758"/>
+      <rotation qx="0.000000" qy="0.949202" qz="0.000000" qw="0.314667"/>
+      <scale x="1.269946" y="1.269945" z="1.269945"/>
+      <entity name="Mesh.138" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.032">
+      <position x="369.453964" y="198.416958" z="1760.343323"/>
+      <rotation qx="0.000000" qy="-0.420980" qz="0.000000" qw="0.907070"/>
+      <scale x="0.669238" y="0.669238" z="0.669238"/>
+      <entity name="Mesh.032" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="nat_stein02_mittel">
+      <position x="-10080.474243" y="181.002522" z="-4009.280090"/>
+      <rotation qx="0.000000" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
+      <entity name="nat_stein02_mittel" meshFile="nat_stein02_mittel.mesh"/>
+    </node>
+    <node name="Mesh.034">
+      <position x="-651.468506" y="225.743847" z="2519.024048"/>
+      <rotation qx="0.000000" qy="0.936197" qz="0.000000" qw="0.351475"/>
+      <scale x="1.093953" y="1.093953" z="1.093953"/>
+      <entity name="Mesh.034" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.035">
+      <position x="-1743.278503" y="82.493582" z="196.098671"/>
+      <rotation qx="0.000000" qy="-0.580820" qz="0.000000" qw="0.814032"/>
+      <scale x="0.656022" y="0.656022" z="0.656022"/>
+      <entity name="Mesh.035" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.036">
+      <position x="-2465.073395" y="189.974003" z="1983.592834"/>
+      <rotation qx="0.000000" qy="0.887401" qz="0.000000" qw="0.460998"/>
+      <scale x="1.081255" y="1.081255" z="1.081255"/>
+      <entity name="Mesh.036" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.037">
+      <position x="-432.967377" y="238.686390" z="2448.392334"/>
+      <rotation qx="0.000000" qy="0.884636" qz="0.000000" qw="0.466282"/>
+      <scale x="0.835091" y="0.835091" z="0.835091"/>
+      <entity name="Mesh.037" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.018">
+      <position x="-2425.596466" y="75.171657" z="561.313362"/>
+      <rotation qx="0.000000" qy="0.999325" qz="0.000000" qw="0.036729"/>
+      <scale x="0.649163" y="0.649164" z="0.649163"/>
+      <entity name="Mesh.018" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.019">
+      <position x="-3103.558044" y="104.419088" z="1101.943207"/>
+      <rotation qx="0.000000" qy="-0.297938" qz="0.000000" qw="0.954585"/>
+      <scale x="1.128209" y="1.128209" z="1.128209"/>
+      <entity name="Mesh.019" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.258">
+      <position x="2054.769287" y="293.113632" z="-4697.871094"/>
+      <rotation qx="0.000000" qy="-0.582552" qz="0.000000" qw="0.812793"/>
+      <scale x="1.489549" y="1.489549" z="1.489549"/>
+      <entity name="Mesh.258" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.259">
+      <position x="2036.206360" y="284.471607" z="-4846.367188"/>
+      <rotation qx="0.000000" qy="-0.822281" qz="0.000000" qw="0.569081"/>
+      <scale x="1.143044" y="1.143044" z="1.143044"/>
+      <entity name="Mesh.259" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.254">
+      <position x="1721.893616" y="318.813419" z="-4662.085266"/>
+      <rotation qx="0.000000" qy="-0.908762" qz="0.000000" qw="0.417315"/>
+      <scale x="1.490604" y="1.490604" z="1.490604"/>
+      <entity name="Mesh.254" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.255">
+      <position x="1796.791687" y="309.593506" z="-4723.556213"/>
+      <rotation qx="0.000000" qy="-0.962789" qz="0.000000" qw="0.270254"/>
+      <scale x="1.170651" y="1.170651" z="1.170651"/>
+      <entity name="Mesh.255" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.256">
+      <position x="1773.384247" y="308.750114" z="-4783.494873"/>
+      <rotation qx="0.000000" qy="-0.939556" qz="0.000000" qw="0.342394"/>
+      <scale x="1.431063" y="1.431064" z="1.431063"/>
+      <entity name="Mesh.256" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.257">
+      <position x="1777.556458" y="309.479694" z="-4755.496521"/>
+      <rotation qx="0.000000" qy="0.981248" qz="0.000000" qw="0.192747"/>
+      <scale x="1.497966" y="1.497966" z="1.497966"/>
+      <entity name="Mesh.257" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.250">
+      <position x="1729.940796" y="315.051746" z="-4729.463806"/>
+      <rotation qx="0.000000" qy="-0.326757" qz="0.000000" qw="0.945108"/>
+      <scale x="1.087807" y="1.087807" z="1.087807"/>
+      <entity name="Mesh.250" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.251">
+      <position x="1693.230896" y="317.174358" z="-4763.427429"/>
+      <rotation qx="0.000000" qy="0.496888" qz="0.000000" qw="0.867815"/>
+      <scale x="1.610892" y="1.610892" z="1.610892"/>
+      <entity name="Mesh.251" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.252">
+      <position x="1703.862610" y="318.015251" z="-4717.398987"/>
+      <rotation qx="0.000000" qy="0.299803" qz="0.000000" qw="0.954001"/>
+      <scale x="0.939383" y="0.939383" z="0.939383"/>
+      <entity name="Mesh.252" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.253">
+      <position x="1781.952209" y="312.982712" z="-4688.148193"/>
+      <rotation qx="0.000000" qy="0.232041" qz="0.000000" qw="0.972706"/>
+      <scale x="1.585241" y="1.585241" z="1.585241"/>
+      <entity name="Mesh.253" meshFile="nat_blume_weis.mesh"/>
+    </node>
+    <node name="Mesh.010">
+      <position x="-1128.135757" y="25.394921" z="-535.242538"/>
+      <rotation qx="0.000000" qy="-0.964257" qz="0.000000" qw="0.264968"/>
+      <scale x="1.048755" y="1.048755" z="1.048755"/>
+      <entity name="Mesh.010" meshFile="kurbis.mesh"/>
+    </node>
+    <node name="Mesh.011">
+      <position x="454.504929" y="117.842417" z="534.502487"/>
+      <rotation qx="0.000000" qy="0.874331" qz="0.000000" qw="0.485330"/>
+      <scale x="0.658146" y="0.658147" z="0.658146"/>
+      <entity name="Mesh.011" meshFile="kurbis.mesh"/>
+    </node>
+  </nodes>
+  <externals>
+    <item type="material">
+      <file name="Scene.material"/>
+    </item>
+  </externals>
+  <environment>
+    <colourAmbient r="0.000000" g="0.000000" b="0.000000"/>
+    <colourBackground r="0.056563" g="0.220815" b="0.400000"/>
+  </environment>
+</scene>

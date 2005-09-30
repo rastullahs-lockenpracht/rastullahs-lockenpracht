@@ -1,0 +1,76 @@
+material fackel
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+
+			texture_unit
+			{
+				texture flamme.jpg
+			
+			}
+		}
+	}
+}
+
+material feuer
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+
+			texture_unit
+			{
+				texture flamme2.png
+			
+			}
+		}
+	}
+}
+
+material staub
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+
+			texture_unit
+			{
+				texture taenzelnderstaub.png
+			
+			}
+		}
+	}
+}
+
+
+material regen
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+
+			texture_unit
+			{
+				texture regentropfen.png
+			
+			}
+		}
+	}
+}

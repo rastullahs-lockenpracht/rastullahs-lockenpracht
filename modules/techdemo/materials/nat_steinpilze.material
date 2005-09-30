@@ -1,0 +1,42 @@
+
+
+material steinpilze/SOLID/steinpilz.png
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			ambient 0.8 0.8 0.8 1
+			diffuse 0.8 0.8 0.8 1
+
+			texture_unit
+			{
+				texture nat_steinpilz.png
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}
+
+material steinpilze/ALPHA/steinpilz.png
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+		        cull_software none
+
+			ambient 0.8 0.8 0.8 1
+			diffuse 0.8 0.8 0.8 1
+
+			texture_unit
+			{
+				texture nat_steinpilz.png
+				filtering anisotropic anisotropic anisotropic
+		}
+		}
+	}
+}
