@@ -95,8 +95,8 @@ material techdemo_terrain
 		// Beleuchtung (extra pass)
 		pass
 		{
-			ambient 0.5 0.5 0.5 1
-			diffuse 0.3 0.3 0.3 
+			ambient 0.6 0.6 0.6 1
+			diffuse 0.5 0.5 0.5 
 			
 
 			depth_func equal
