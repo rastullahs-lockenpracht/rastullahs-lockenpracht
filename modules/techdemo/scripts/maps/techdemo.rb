@@ -12,7 +12,7 @@ $CORE.log("skybox set");
 
 $CORE.log("Tageslicht erstellen..");
 sunlight = $AM.createLightActor("sunlight", LightObject::LT_DIRECTIONAL);
-sunlight.getControlledObject().setDirection(0.8, -2.0, 3.0);
+sunlight.getControlledObject().setDirection(0.7, -2.0, 0.8);
 sunlight.getControlledObject().setCastShadows(false);
 sunlight.getControlledObject().setDiffuseColour(0.8,0.8,0.7);
 $CORE.log("Tageslicht erstellt.");
