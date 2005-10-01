@@ -50,7 +50,7 @@ namespace rl
         mGravity(0, -998.0, 0),
         mWorldAABB(Vector3(-100, -100, -100), Vector3(100, 100, 100)),
         mElapsed(0.0f),
-        mUpdate(1.0f/90.0f),
+        mUpdate(1.0f/120.0f),
         mLevelID(),
         mCharacterID(),
         mCharLevelPair(),

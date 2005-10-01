@@ -52,7 +52,7 @@ public:
 
 	rl::Person* getActiveCharacter();
 	void setActiveCharacter(rl::Person* person);
-	void showMainMenu(GameObject* actionHolder);
+	void showMainMenu();
 	void toggleConsole();
 	void toggleDebugWindow();
 	void toggleGameLogWindow();

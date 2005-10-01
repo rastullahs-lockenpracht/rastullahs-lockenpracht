@@ -104,6 +104,11 @@ namespace rl {
         bool mIsStopped;
         bool mStartJump;
 
+        /// the maximum amount of time, the character or cmaera should need,
+        /// in order to reach the position, desired by the user.
+        /// the smaller, the tighter the feel.
+        Ogre::Real mMaxDelay;
+
         void updatePickedObject() const;
         void updateAnimationState(const Vector3& translation);
     };

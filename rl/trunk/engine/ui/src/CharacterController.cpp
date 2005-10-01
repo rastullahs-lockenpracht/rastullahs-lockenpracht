@@ -61,7 +61,7 @@ namespace rl {
         mPitch(20),
         mPitchRange(Degree(-75), Degree(85)),
         mLookAtOffset(),
-        mMovementSpeed(180.0f),
+        mMovementSpeed(360.0f),
         mRotationSpeed(4.0f),
         mDesiredVel(),
         mCurrentAnimationState(AS_STAND),
@@ -69,7 +69,8 @@ namespace rl {
         mViewMode(VM_THIRD_PERSON),
         mIsAirBorne(true),
         mIsStopped(false),
-        mStartJump(false)
+        mStartJump(false),
+        mMaxDelay(1.0/30.0)
     {
         if (mCamera == 0 || mCharacter == 0)
         {
@@ -106,6 +107,8 @@ namespace rl {
         // The actor should be controlled manually, so let the PM prepare it accordingly
         PhysicsManager::getSingleton().setPhysicsController(mCharacter->getPhysicalThing(), this);
         PhysicsManager::getSingleton().setPhysicsController(mCamera->getPhysicalThing(), this);
+
+        resetCamera();
     }
 
     //------------------------------------------------------------------------
@@ -243,13 +246,11 @@ namespace rl {
             targetCamPos = charOri * targetCamPos;
             targetCamPos += charPos + mLookAtOffset;
 
-            // determine velocity vector to get there.
             Vector3 diff = targetCamPos - camPos;
-            // if distance is small reduce cam velocity to prevent camera jittering.
-            Ogre::Real speedFactor = diff.squaredLength() > 100.0f ?
-                5.0f : diff.squaredLength() / 10.0f;
+            // determine velocity vector to get there.
+            // how fast has the camera to be, in order to get there in mMaxDelay seconds?
 
-            Vector3 vel = diff.normalisedCopy() * mMovementSpeed * speedFactor;
+            Vector3 vel = diff / mMaxDelay;
 
             // calcuate force and apply it
             Real mass;
@@ -285,7 +286,7 @@ namespace rl {
             if (!mIsAirBorne && mStartJump)
             {
                 mStartJump = false;
-                force += mass*400.f/timestep * Vector3::UNIT_Y;
+                force += mass*800.f/timestep * Vector3::UNIT_Y;
             }
 
             body->setForce(force);
@@ -302,36 +303,20 @@ namespace rl {
             dst.y = 0;
             Radian yaw = src.getRotationTo(dst).getYaw();
 
-            // clamp target/actual distance to 60°. If greater, adjuast target yaw (mYaw)
-            if (Math::Abs(yaw.valueDegrees()) > 60.0f)
-            {
-                mYaw = yaw.valueDegrees() > 0.0f ? yaw + Degree(60.0f) : yaw - Degree(60.0f);
-            }
-
             // we then determine in what direction to go
-            Real newOmega = 0.0;
-            //if (Math::Abs(yaw.valueDegrees() - 2.0f) > 0.0f)
-            //{
-            newOmega = yaw.valueDegrees() > 0.0f ? mRotationSpeed : -mRotationSpeed;
-            //}
+            Real newOmega = yaw.valueRadians() / mMaxDelay;
 
-            // a speedfactor slows down the movement, when the desired yaw is almost reached.
-            Ogre::Real speedFactor = Math::Abs(Math::Abs(yaw.valueDegrees()) > 4.0f ?
-                1.0f : yaw.valueDegrees() / 10.0f);
-
-            Vector3 omega = body->getOmega();
-            Real k = 0.25f; // What exactly is this k, and why is it either 0.25 or 0.5
-            Vector3 torque (0.0f, k * inertia.y * (speedFactor*newOmega - omega.y) / timestep, 0.0f);
-            body->setTorque(torque);
+            //Vector3 omega = body->getOmega();
+            //Real k = 0.25f; // What exactly is this k, and why is it either 0.25 or 0.5
+            //Vector3 torque (0.0f, k * inertia.y * (newOmega - omega.y) / timestep, 0.0f);
+            //body->setTorque(torque);
+            body->setOmega(Vector3(0, newOmega, 0));
 
             std::stringstream ss;
             ss << "orientation: " << orientation.getYaw().valueDegrees()
                 << " mYaw: " << mYaw.valueDegrees()
                 << " yaw: " << yaw.valueDegrees()
-                << " no: " << newOmega
-                << " sf: " << speedFactor
-                << " sf*no " << speedFactor*newOmega
-                << " torque: "<< torque;
+                << " no: " << newOmega;
 
             Logger::getSingleton().log(Ogre::LML_TRIVIAL, "Ui", ss.str());
 
@@ -399,6 +384,8 @@ namespace rl {
 
     void CharacterController::resetCamera()
     {
+        // Position camera at char position
+        mCamera->getPhysicalThing()->setPosition(mCharacter->getPhysicalThing()->getPosition());
         if (mViewMode == VM_THIRD_PERSON)
         {
             mPitch = Degree(30.0);
