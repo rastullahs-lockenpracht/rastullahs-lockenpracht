@@ -258,9 +258,9 @@ namespace rl {
 		w->setVisible(true);
 	}
 
-	void UiSubsystem::showMainMenu(GameObject* actionHolder)
+	void UiSubsystem::showMainMenu()
 	{
-		(new MainMenuWindow(actionHolder))->setVisible(true);
+		(new MainMenuWindow())->setVisible(true);
 	}
 
 	void UiSubsystem::showTargetWindow()

@@ -28,10 +28,9 @@ using namespace Ogre;
 
 namespace rl {
 
-	MainMenuWindow::MainMenuWindow(GameObject* actionHolder) :
+	MainMenuWindow::MainMenuWindow() :
 		CeGuiWindow("mainmenuwindow.xml", WND_MOUSE_INPUT),
-		mActiveModule(""),
-		mActionHolder(actionHolder)
+		mActiveModule("")
 	{
 
 		getWindow("MainMenu/EngineVersion")->setText(
@@ -43,14 +42,6 @@ namespace rl {
 			MenuItem::EventClicked, 
 			boost::bind(&MainMenuWindow::handleStart, this));
 
-/*		getWindow("MainMenuWindow/GraphicOptions")->subscribeEvent(
-			Window::EventMouseClick, 
-			boost::bind(&MainMenuWindow::handleGraphicOptions, this));
-		
-		getWindow("MainMenuWindow/InputOptions")->subscribeEvent(
-			Window::EventMouseClick,
-			boost::bind(&UiSubsystem::showInputOptionsMenu, UiSubsystem::getSingletonPtr(), mActionHolder));
-*/
 		getWindow("MainMenu/Game/Quit")->subscribeEvent(
 			MenuItem::EventClicked, 
 			boost::bind(&MainMenuWindow::handleQuit, this));

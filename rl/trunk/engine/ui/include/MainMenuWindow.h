@@ -27,7 +27,7 @@ namespace rl {
 	class _RlUiExport MainMenuWindow : public CeGuiWindow
 	{
 	public:
-		MainMenuWindow(GameObject* actionHolder);
+		MainMenuWindow();
 
 		void setActiveModule(const CeGuiString& module);
 
@@ -41,7 +41,6 @@ namespace rl {
 		void fillModules();
 		
 		CeGuiString mActiveModule;
-		GameObject* mActionHolder;
 	};
 }
 

@@ -82,7 +82,7 @@ namespace rl {
 		void showContainerContent(Container* container);
 
 		void showMessageWindow(const CeGuiString& message);
-		void showMainMenu(GameObject* actionHolder);
+		void showMainMenu();
 		void showCharacterSheet();
 		void showCharacterSheet(Person* chara);
 		bool showInputOptionsMenu(Creature* actionHolder);
