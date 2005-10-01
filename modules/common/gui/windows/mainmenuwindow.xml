@@ -2,7 +2,7 @@
 	<Window Type="DefaultWindow" Name="MainMenu">
 		<Window Type="RastullahLook/Menubar" Name="MainMenu/Menubar">
 			<Property Name="RelativeWidth" Value="1.0"/>
-			<Property Name="AbsoluteHeight" Value="20"/>
+			<Property Name="RelativeHeight" Value="0.025"/>
 			<Property Name="RelativeXPosition" Value="0.0"/>
 			<Property Name="RelativeYPosition" Value="0.0"/>
 
