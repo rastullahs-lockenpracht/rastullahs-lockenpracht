@@ -50,7 +50,7 @@ namespace rl
         mGravity(0, -998.0, 0),
         mWorldAABB(Vector3(-100, -100, -100), Vector3(100, 100, 100)),
         mElapsed(0.0f),
-        mUpdate(1.0f/120.0f),
+        mUpdate(1.0f/90.0f),
         mLevelID(),
         mCharacterID(),
         mCharLevelPair(),
@@ -220,7 +220,7 @@ namespace rl
         //Level entity has to be attached to a scene node.
 
         OgreNewt::Collision* collision =
-            new OgreNewt::CollisionPrimitives::TreeCollision(mWorld, node, true);
+            new OgreNewt::CollisionPrimitives::TreeCollision(mWorld, node, false);
         OgreNewt::Body* body = new OgreNewt::Body(mWorld, collision);
 
         body->attachToNode(node);

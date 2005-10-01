@@ -38,20 +38,46 @@ namespace rl
     {
     }
 
-    void PhysicalThing::setPosition(Real x, Real y, Real z)
+    Ogre::Vector3 PhysicalThing::getPosition() const
     {
         Quaternion quat;
         Vector3 pos;
         mBody->getPositionOrientation(pos, quat);
-        mBody->setPositionOrientation(Vector3(x, y, z), quat);
+        return pos;
     }
 
-    void PhysicalThing::setOrientation( Real w, Real x, Real y, Real z )
+    void PhysicalThing::setPosition(Real x, Real y, Real z)
+    {
+        setPosition(Vector3(x, y, z));
+    }
+
+    void PhysicalThing::setPosition(const Vector3& pos)
+    {
+        Quaternion quat;
+        Vector3 oldPos;
+        mBody->getPositionOrientation(oldPos, quat);
+        mBody->setPositionOrientation(pos, quat);
+    }
+
+    Ogre::Quaternion PhysicalThing::getOrientation() const
     {
         Quaternion quat;
         Vector3 pos;
         mBody->getPositionOrientation(pos, quat);
-        mBody->setPositionOrientation(pos, Quaternion(w, x, y, z));
+        return quat;
+    }
+
+    void PhysicalThing::setOrientation(Real w, Real x, Real y, Real z)
+    {
+        setOrientation(Quaternion(w, x, y, z));
+    }
+
+    void PhysicalThing::setOrientation(const Quaternion& orientation)
+    {
+        Quaternion oldOrientation;
+        Vector3 pos;
+        mBody->getPositionOrientation(pos, oldOrientation);
+        mBody->setPositionOrientation(pos, orientation);
     }
 
     Actor *PhysicalThing::getActor(void) const

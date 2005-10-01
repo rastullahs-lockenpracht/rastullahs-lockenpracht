@@ -32,7 +32,12 @@ namespace rl {
             const Ogre::Quaternion& orientationBias = Ogre::Quaternion::IDENTITY);
         ~PhysicalThing();
 
+        Ogre::Vector3 getPosition() const;
+        void setPosition(const Ogre::Vector3& pos);
         void setPosition(Ogre::Real x, Ogre::Real y, Ogre::Real z);
+
+        Ogre::Quaternion getOrientation() const;
+        void setOrientation(const Ogre::Quaternion& orienation);
         void setOrientation(Ogre::Real w, Ogre::Real x, Ogre::Real y, Ogre::Real z);
 
         // Sets the vector, that will always point up.
