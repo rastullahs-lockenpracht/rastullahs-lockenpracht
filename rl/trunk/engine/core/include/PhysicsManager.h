@@ -66,12 +66,14 @@ namespace rl {
          * @param size Größe des Objektes in cm
          * @param mass die Masse in kg, wenn <= 0.0 ist es ein statisches Objekt
          * @param offsetMode bestimmt, wo der lokale Koordinatenursprung sitzt.
+         * @param hullModifer soll ein Collision in NewtonConvexHullModifier gewrapped werden?
+         *        Das ist bei sich schnell bewegenden bodies hilfreich um tunneling zu verhindern.
          *
          * @todo Geometry-Kapselung verallgemeinern. z.B. funktioniert Capusle
          *       momentan nur dann gut, wenn die Höhe die Y-Achse ist.
          */
         PhysicalThing* createPhysicalThing(const int geomType, const Ogre::Vector3& size,
-			Real mass, OffsetMode offsetMode = OM_BOTTOMCENTERED);
+			Real mass, OffsetMode offsetMode = OM_BOTTOMCENTERED, bool hullModifier = false);
 
         void removeAndDestroyPhysicalThing(PhysicalThing* thing);
 
@@ -111,6 +113,7 @@ namespace rl {
         static void controlledForceCallback(OgreNewt::Body* body);
 
         OgreNewt::World* _getNewtonWorld() const;
+        OgreNewt::MaterialID* _getLevelMaterialID() const;
 
     private:
         typedef std::map<PhysicalThing*, PhysicsController*> ControllerMap;

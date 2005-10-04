@@ -259,6 +259,9 @@
 				RelativePath=".\include\PhysicsManager.h">
 			</File>
 			<File
+				RelativePath=".\include\PhysicsMaterialRaycast.h">
+			</File>
+			<File
 				RelativePath=".\include\Primitive.h">
 			</File>
 			<File
@@ -360,6 +363,9 @@
 			</File>
 			<File
 				RelativePath=".\src\PhysicsManager.cpp">
+			</File>
+			<File
+				RelativePath=".\src\PhysicsMaterialRaycast.cpp">
 			</File>
 			<File
 				RelativePath=".\src\Primitive.cpp">

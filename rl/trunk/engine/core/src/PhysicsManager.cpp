@@ -115,7 +115,7 @@ namespace rl
     }
 
     PhysicalThing* PhysicsManager::createPhysicalThing(const int geomType,
-        const Vector3& size, Real mass, OffsetMode offsetMode)
+        const Vector3& size, Real mass, OffsetMode offsetMode, bool hullModifier)
     {
         PhysicalThing* rval = NULL;
 
@@ -136,6 +136,11 @@ namespace rl
                 double radius = max(size.x, max(size.y, size.z)) / 2.0;
                 coll = new OgreNewt::CollisionPrimitives::Ellipsoid(mWorld,
                     Vector3(radius, radius, radius));
+                if (hullModifier)
+                {
+                    coll = new OgreNewt::CollisionPrimitives::HullModifier(mWorld, coll);
+                }
+
                 inertiaCoefficients = Vector3(radius*radius, radius*radius, radius*radius);
             }
             else if (geomType == GT_CAPSULE)
@@ -234,7 +239,7 @@ namespace rl
         Vector3 minV(mWorldAABB.getMinimum());
         Vector3 maxV(mWorldAABB.getMaximum());
 
-        AxisAlignedBox entityAABB = levelEntity->getWorldBoundingBox();
+        AxisAlignedBox entityAABB = levelEntity->getWorldBoundingBox(true);
         minV.makeFloor(entityAABB.getMinimum());
         maxV.makeCeil(entityAABB.getMaximum());
         mWorldAABB.setMinimum(minV);
@@ -353,5 +358,10 @@ namespace rl
     OgreNewt::World* PhysicsManager::_getNewtonWorld() const
     {
         return mWorld;
+    }
+
+    OgreNewt::MaterialID* PhysicsManager::_getLevelMaterialID() const
+    {
+        return mLevelID;
     }
 }

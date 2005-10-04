@@ -26,6 +26,7 @@
 #include "MeshObject.h"
 #include "PhysicsManager.h"
 #include "PhysicalThing.h"
+#include "PhysicsMaterialRaycast.h"
 #include "MeshObject.h"
 #include "ActorManager.h"
 #include "Logger.h"
@@ -70,7 +71,8 @@ namespace rl {
         mIsAirBorne(true),
         mIsStopped(false),
         mStartJump(false),
-        mMaxDelay(1.0/30.0)
+        mMaxDelay(1.0/30.0),
+        mObstractedFrameCount(0)
     {
         if (mCamera == 0 || mCharacter == 0)
         {
@@ -164,13 +166,16 @@ namespace rl {
         SceneNode* cameraNode = mCamera->_getSceneNode();
         cameraNode->lookAt(mCharacter->getWorldPosition() + mLookAtOffset*2.0, Node::TS_WORLD);
 
-        while (mYaw.valueDegrees() > 360.0f)
+        while (mYaw.valueDegrees() > 360.0f) mYaw -= Degree(360.0f);
+        while (mYaw.valueDegrees() < -360.0f) mYaw += Degree(360.0f);
+
+        if (isCharacterOccluded()) ++mObstractedFrameCount;
+
+        // if we have more than five frames with no direct sight, reset camera
+        if (mObstractedFrameCount > 10)
         {
-            mYaw -= Degree(360.0f);
-        }
-        while (mYaw.valueDegrees() < -360.0f)
-        {
-            mYaw += Degree(360.0f);
+            mObstractedFrameCount = 0;
+            resetCamera();
         }
 
         if (!InputManager::getSingleton().isCeguiActive())
@@ -247,10 +252,11 @@ namespace rl {
             targetCamPos += charPos + mLookAtOffset;
 
             Vector3 diff = targetCamPos - camPos;
+
             // determine velocity vector to get there.
             // how fast has the camera to be, in order to get there in mMaxDelay seconds?
-
             Vector3 vel = diff / mMaxDelay;
+
 
             // calcuate force and apply it
             Real mass;
@@ -292,33 +298,26 @@ namespace rl {
             body->setForce(force);
 
 
-            /////////////////////////////////////////////////////////////////
-            // calculate the torque vector
-
+            // Calculate angular velocity
+            
             // we first need the yaw rotation from actual yaw to desired yaw
-            ///\todo this can be made easier
             Vector3 src = orientation*Vector3::NEGATIVE_UNIT_Z;
             src.y = 0;
             Vector3 dst = Quaternion(mYaw, Vector3::UNIT_Y)*Vector3::NEGATIVE_UNIT_Z;
             dst.y = 0;
             Radian yaw = src.getRotationTo(dst).getYaw();
 
-            // we then determine in what direction to go
-            Real newOmega = yaw.valueRadians() / mMaxDelay;
-
-            //Vector3 omega = body->getOmega();
-            //Real k = 0.25f; // What exactly is this k, and why is it either 0.25 or 0.5
-            //Vector3 torque (0.0f, k * inertia.y * (newOmega - omega.y) / timestep, 0.0f);
-            //body->setTorque(torque);
+            // calculate omega in order to go this rotation in mMaxDelay seconds.
+            Real newOmega = yaw.valueRadians() / (mMaxDelay*0.25);
             body->setOmega(Vector3(0, newOmega, 0));
 
-            std::stringstream ss;
-            ss << "orientation: " << orientation.getYaw().valueDegrees()
-                << " mYaw: " << mYaw.valueDegrees()
-                << " yaw: " << yaw.valueDegrees()
-                << " no: " << newOmega;
+            //std::stringstream ss;
+            //ss << "orientation: " << orientation.getYaw().valueDegrees()
+            //    << " mYaw: " << mYaw.valueDegrees()
+            //    << " yaw: " << yaw.valueDegrees()
+            //    << " no: " << newOmega;
 
-            Logger::getSingleton().log(Ogre::LML_TRIVIAL, "Ui", ss.str());
+            //Logger::getSingleton().log(Ogre::LML_TRIVIAL, "Ui", ss.str());
 
             // assume we are air borne. Might be set to false in the collision callback
             mIsAirBorne = true;
@@ -326,6 +325,31 @@ namespace rl {
             // did we apply force in horizontal direction? If not, the char is stopped.
             mIsStopped = Math::Abs(force.x) < 0.001f && Math::Abs(force.z) < 0.001f;
         }
+    }
+
+    /// Do raycasts to determine whether sight to character is free
+    bool CharacterController::isCharacterOccluded() const
+    {
+        /// \todo remove hard coded numbers
+        bool rval = true;
+        int numPoints = 4;
+        float xs[] = {0.0f, 30.0f, -30.0f, 0.0f};
+        float ys[] = {mLookAtOffset.y*2.0, mLookAtOffset.y, mLookAtOffset.y, 20.0f};
+        OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
+        OgreNewt::MaterialID* levelId = PhysicsManager::getSingleton()._getLevelMaterialID();
+
+        PhysicsMaterialRaycast* rc = new PhysicsMaterialRaycast();
+        for (int i = 0; i < numPoints; ++i)
+        {
+            RaycastInfo info = rc->execute(world, levelId,
+                mCamera->getWorldPosition(),
+                mCharacter->getWorldPosition() + Vector3(xs[i], ys[i], 0.0f));
+            rval = rval && info.mBody;
+            if (!rval) break;
+        }
+        delete rc;
+
+        return rval;
     }
 
     void CharacterController::updatePickedObject() const
@@ -360,6 +384,7 @@ namespace rl {
         {
             mCharacter->_getSceneNode()->setVisible(false);
             mDesiredDistance = 0.0;
+            mCamera->getPhysicalThing()->setPosition(mCharacter->getPhysicalThing()->getPosition());
         }
         else
         {
