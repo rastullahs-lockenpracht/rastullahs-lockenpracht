@@ -106,6 +106,7 @@ namespace rl {
         bool mStartJump;
 
         int mObstractedFrameCount;
+        int mCameraJammedFrameCount;
 
         PhysicsMaterialRaycast* mRaycast;
 

@@ -72,6 +72,7 @@ namespace rl {
         mStartJump(false),
         mMaxDelay(1.0/30.0),
         mObstractedFrameCount(0),
+        mCameraJammedFrameCount(0),
         mRaycast(new PhysicsMaterialRaycast())
     {
         if (mCamera == 0 || mCharacter == 0)
@@ -171,10 +172,23 @@ namespace rl {
 
         if (isCharacterOccluded()) ++mObstractedFrameCount;
 
-        // if we have more than five frames with no direct sight, reset camera
+        // if we have more than ten frames with no direct sight, reset camera
         if (mObstractedFrameCount > 10)
         {
             mObstractedFrameCount = 0;
+            resetCamera();
+        }
+
+        if ((mCamera->getWorldPosition() - (mCharacter->getWorldPosition() + mLookAtOffset*2.0)).length() 
+            > 2.0f * mDesiredDistance)
+        {
+            ++mCameraJammedFrameCount;
+        }
+        // if we have more than ten frames with camera distance higher
+        // than desired distance, reset camera
+        if (mCameraJammedFrameCount > 10)
+        {
+            mCameraJammedFrameCount = 0;
             resetCamera();
         }
 
