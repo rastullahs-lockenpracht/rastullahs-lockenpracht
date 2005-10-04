@@ -26,7 +26,6 @@
 #include "MeshObject.h"
 #include "PhysicsManager.h"
 #include "PhysicalThing.h"
-#include "PhysicsMaterialRaycast.h"
 #include "MeshObject.h"
 #include "ActorManager.h"
 #include "Logger.h"
@@ -72,7 +71,8 @@ namespace rl {
         mIsStopped(false),
         mStartJump(false),
         mMaxDelay(1.0/30.0),
-        mObstractedFrameCount(0)
+        mObstractedFrameCount(0),
+        mRaycast(new PhysicsMaterialRaycast())
     {
         if (mCamera == 0 || mCharacter == 0)
         {
@@ -253,10 +253,27 @@ namespace rl {
 
             Vector3 diff = targetCamPos - camPos;
 
+            // cap the diff to the next obstacle
+            OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
+            OgreNewt::MaterialID* levelId = PhysicsManager::getSingleton()._getLevelMaterialID();
+            Camera* camera = static_cast<Camera*>(mCamera->_getMovableObject());
+            Vector3 target = targetCamPos + 1.2f * camera->getNearClipDistance() * diff.normalisedCopy();
+            RaycastInfo info = mRaycast->execute(world, levelId, camPos, target);
+            if (info.mBody)
+            {
+                diff = info.mDistance * (target - camPos) -
+                    info.mDistance * (1.2f * camera->getNearClipDistance() * diff.normalisedCopy());
+            }
+
             // determine velocity vector to get there.
             // how fast has the camera to be, in order to get there in mMaxDelay seconds?
             Vector3 vel = diff / mMaxDelay;
 
+            // adjust scale of camera collision according to the velocity vector
+            OgreNewt::CollisionPrimitives::HullModifier* hc =
+                static_cast<OgreNewt::CollisionPrimitives::HullModifier*>(mCamBody->getCollision());
+            Matrix4 mat = Matrix4::getScale(Vector3(1.0f, 1.0f, 1.0f) + 3.0f * vel / vel.length());
+            hc->setMatrix(mat);
 
             // calcuate force and apply it
             Real mass;
@@ -333,21 +350,19 @@ namespace rl {
         /// \todo remove hard coded numbers
         bool rval = true;
         int numPoints = 4;
-        float xs[] = {0.0f, 30.0f, -30.0f, 0.0f};
+        float xs[] = {0.0f, 30.0f, -35.0f, 0.0f};
         float ys[] = {mLookAtOffset.y*2.0, mLookAtOffset.y, mLookAtOffset.y, 20.0f};
         OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
         OgreNewt::MaterialID* levelId = PhysicsManager::getSingleton()._getLevelMaterialID();
 
-        PhysicsMaterialRaycast* rc = new PhysicsMaterialRaycast();
         for (int i = 0; i < numPoints; ++i)
         {
-            RaycastInfo info = rc->execute(world, levelId,
+            RaycastInfo info = mRaycast->execute(world, levelId,
                 mCamera->getWorldPosition(),
                 mCharacter->getWorldPosition() + Vector3(xs[i], ys[i], 0.0f));
             rval = rval && info.mBody;
             if (!rval) break;
         }
-        delete rc;
 
         return rval;
     }

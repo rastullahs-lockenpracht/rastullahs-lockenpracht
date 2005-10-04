@@ -20,6 +20,7 @@
 #include "UiPrerequisites.h"
 #include "GameTask.h"
 #include "PhysicsController.h"
+#include "PhysicsMaterialRaycast.h"
 
 #include <OgreEntity.h>
 #include <OgreCamera.h>
@@ -105,6 +106,8 @@ namespace rl {
         bool mStartJump;
 
         int mObstractedFrameCount;
+
+        PhysicsMaterialRaycast* mRaycast;
 
         /// the maximum amount of time, the character or cmaera should need,
         /// in order to reach the position, desired by the user.
