@@ -1,4 +1,5 @@
 noinst_HEADERS = \
+	AboutWindow.h \
 	ActionChoiceWindow.h \
 	CeGuiWindow.h \
 	CharacterController.h \

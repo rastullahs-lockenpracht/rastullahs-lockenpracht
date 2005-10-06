@@ -31,6 +31,7 @@ libRlCore_la_SOURCES = \
 	PhysicalThing.cpp \
 	PhysicsGenericContactCallback.cpp \
 	PhysicsManager.cpp \
+	PhysicsMaterialRaycast.cpp \
 	Primitive.cpp \
 	RubyInterpreter.cpp \
 	ScriptObject.cpp \

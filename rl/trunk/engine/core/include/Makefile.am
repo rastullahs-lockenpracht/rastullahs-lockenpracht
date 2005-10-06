@@ -26,6 +26,7 @@
 	PhysicsGenericContactCallback.h \
 	PhysicsController.h \
 	PhysicsManager.h \
+        PhysicsMaterialRaycast.h \
 	Primitive.h \
 	RubyInterpreter.h \
 	ScriptObject.h \

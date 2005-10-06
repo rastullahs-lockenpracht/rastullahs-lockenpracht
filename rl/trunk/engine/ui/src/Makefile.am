@@ -7,6 +7,7 @@ lib_LTLIBRARIES = libRlUi.la
 libRlUi_la_LDFLAGS = $(RUBY_LIBS) $(LIBS) \
 	$(CEGUI_LIBS) $(OGRE_LIBS) $(CEGUIOGRE_LIBS) -lRlUiComponents -L../../uicomponents/src 
 libRlUi_la_SOURCES = \
+	AboutWindow.cpp \
 	ActionChoiceWindow.cpp \
 	CeGuiWindow.cpp \
 	CharacterController.cpp \
