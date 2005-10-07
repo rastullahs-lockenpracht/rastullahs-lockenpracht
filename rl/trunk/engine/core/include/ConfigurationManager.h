@@ -68,7 +68,7 @@ namespace rl
 			Ogre::String getModulesRootDirectory();
 
 			Ogre::String getEngineVersionString();
-			int          getEngineBuildNumber();
+			long          getEngineBuildNumber();
 			const rl::CeGuiString&  getAboutText();
 			
 		protected:

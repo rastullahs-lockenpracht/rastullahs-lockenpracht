@@ -88,15 +88,20 @@ namespace rl
 		return version;
 	}
 
-	int ConfigurationManager::getEngineBuildNumber()
+	long parseDate(char* date)
+	{ //TODO: __DATE__ in ein long verwandeln, damit man 
+		return /* Jahr */			2005 * 100000+
+			/* Monat */			9 * 1000 + 
+			/* Tag */			24 * 10 + 
+			/* Sub-Version */	0;	
+	}
+
+	long ConfigurationManager::getEngineBuildNumber()
 	{
-		static int buildNumber = 
-/* Jahr */			2005 * 100000+
-/* Monat */			9 * 1000 + 
-/* Tag */			24 * 10 + 
-/* Sub-Version */	0;
+		static long buildNumber = parseDate(__DATE__);
 		return buildNumber;
 	}
+
 
 	const CeGuiString& ConfigurationManager::getAboutText()
 	{
