@@ -24,7 +24,7 @@ namespace rl {
 
 	class _RlRulesExport CombatAction {
 	public:
-		static enum CombatActionType {
+		enum CombatActionType {
 			NO_ACTION,
 			MOVE,
 			ATTACK,

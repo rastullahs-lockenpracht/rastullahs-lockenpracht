@@ -6,6 +6,7 @@ noinst_HEADERS = \
 	CharacterSheetWindow.h \
 	CharacterStateWindow.h \
 	CombatWindow.h \
+        CombatWindowStrategy.h \
 	CommandExecutor.h \
 	CommandMapper.h \
 	CommandMapperWindow.h \

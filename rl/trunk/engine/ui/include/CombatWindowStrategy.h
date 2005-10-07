@@ -39,7 +39,7 @@ namespace rl {
 
 	protected:
 		CombatWindowStrategy(Creature* attackTarget, Creature* pareeTarget);
-		virtual ~CombatWindowStrategy() = 0 {};
+		virtual ~CombatWindowStrategy() {};
 
 	private:
 
