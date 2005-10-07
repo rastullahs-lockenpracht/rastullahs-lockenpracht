@@ -137,6 +137,9 @@
 				RelativePath=".\src\Combat.cpp">
 			</File>
 			<File
+				RelativePath=".\src\CombatActions.cpp">
+			</File>
+			<File
 				RelativePath=".\src\CombatEvents.cpp">
 			</File>
 			<File
@@ -212,6 +215,9 @@
 			</File>
 			<File
 				RelativePath=".\include\Combat.h">
+			</File>
+			<File
+				RelativePath=".\include\CombatActions.h">
 			</File>
 			<File
 				RelativePath=".\include\CombatEvents.h">

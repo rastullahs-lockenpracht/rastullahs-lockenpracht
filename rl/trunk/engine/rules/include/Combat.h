@@ -25,8 +25,19 @@
 #include "GameTask.h"
 
 namespace rl {
+	enum MoveType {
+		MT_NO_WALK,
+		MT_WALK,
+		MT_RUN,
+		MT_WALK_IN_PA_PHASE,
+		MT_WALK_IN_AT_PHASE,
+		MT_WALK_IN_AT_PA_PHASE,
+		MT_RUN_IN_AT_PA_PHASE
+	};
 
 	class Creature;
+	class CombatAction;
+
 
 	/**
 	 * Verwaltungsklasse fuer einen Kampf
@@ -34,19 +45,6 @@ namespace rl {
 	class _RlRulesExport Combat : public EventSource, public GameTask
 	{
 	public:
-		enum MoveType {
-			MT_NO_WALK,
-			MT_WALK_IN_PA_PHASE,
-			MT_WALK_IN_AT_PHASE,
-			MT_WALK_IN_AT_PA_PHASE,
-			MT_RUN_IN_AT_PA_PHASE
-		};
-		enum ActionTypeAktion {
-			AT_ATTACKE,
-			AT_PARADE,
-			AT_WALK,
-			AT_RUN,
-		};
 
 		Combat();
 		~Combat();
@@ -75,12 +73,16 @@ namespace rl {
 		void setAttackeTarget(Creature* creature, Creature* target);
 		Creature* getParadeTarget(Creature* creature);
 		void setParadeTarget(Creature* creature, Creature* target);
+		void setNextAction(Creature* creature, CombatAction* action);
+		void setNextReaction(Creature* creature, CombatAction* action);
 
 		Ogre::Real getMaxMoveDistance(MoveType action);
 		void doAttacke(Creature* creature);
+		bool isInAttackDistance(Creature* attacker, Creature* target);
 
 		Creature* getNext();
 		Creature* getNext(int group);
+		bool isActionPhaseDone(Creature* actor);
 
 		void addCombatEventListener(CombatEventListener* listener);
 		void removeCombatEventListener(CombatEventListener* listener);
@@ -108,8 +110,8 @@ namespace rl {
 			Creature* attackeTarget;
 			Creature* paradeTarget;
 
-			ActionTypeAktion nextAttackeAction;
-			ActionTypeAktion nextParadeAction;
+			CombatAction* nextAction;
+			CombatAction* nextReaction;
 		};
 		typedef std::map<Creature*, Participant*> CombatMap;
 

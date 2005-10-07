@@ -32,8 +32,15 @@ namespace rl {
 
 	class _RlRulesExport CombatEventListener : public EventListener<CombatEvent>
 	{
+	private:
+		int mGroup;
+
 	public:
-		virtual bool eventRaised(CombatEvent *anEvent);
+		CombatEventListener(int group);
+
+		int getGroup();
+
+		bool eventRaised(CombatEvent *anEvent);
 
 		virtual bool eventRaised(AskForReactionEvent* anEvent) = 0;
 		virtual bool eventRaised(AskForActionEvent* anEvent) = 0;
@@ -56,14 +63,13 @@ namespace rl {
 		virtual ~CombatEvent();
 
 		Combat* getCombat();
+		virtual bool isGroupRelevant(int group) = 0;
 
 	protected:
 		virtual CombatEventType getEventType() = 0;
 
 	private:
 		Combat* mCombat;
-
-
 
 		friend bool CombatEventListener::eventRaised(CombatEvent*);
 	};
@@ -73,12 +79,16 @@ namespace rl {
 	public:
 		AskForActionEvent(
 			Combat* combat, 
+			Creature* actor,
 			Ogre::Real timeLeftToAct, 
 			Ogre::Real slowMotionFactor);
 		~AskForActionEvent();
 
 		Ogre::Real getTimeLeftToAct();
 		Ogre::Real getSlowMotionFactor();
+		Creature* getActor();
+
+		virtual bool isGroupRelevant(int group);
 
 	protected:
 		virtual CombatEventType getEventType();
@@ -86,6 +96,7 @@ namespace rl {
 	private:
 		Ogre::Real mTimeLeftToAct;
 		Ogre::Real mSlowMotionFactor;
+		Creature* mActor;
 	};
 
 	class _RlRulesExport AskForReactionEvent : public AskForActionEvent
@@ -93,11 +104,13 @@ namespace rl {
 	public:
 		AskForReactionEvent(
 			Combat* combat, 
+			Creature* actor,
 			Ogre::Real timeToAct, 
 			Ogre::Real slowMotionFactor,
 			Creature* opponent);
 
 		Creature* getOpponent();
+		virtual bool isGroupRelevant(int group);
 
 	protected:
 		virtual CombatEventType getEventType();
@@ -111,6 +124,7 @@ namespace rl {
 	public:
 		CombatFinishEvent(
 			Combat* combat);
+		virtual bool isGroupRelevant(int group);
 	protected:
 		virtual CombatEventType getEventType();
 	};

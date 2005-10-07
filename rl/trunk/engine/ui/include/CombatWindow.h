@@ -25,13 +25,18 @@
 namespace rl {
 
 	class Combat;
+	class CombatAction;
 	class Creature;
+	class CombatWindowStrategy;
 
 	class _RlUiExport CombatWindow : public CeGuiWindow, public CombatEventListener
 	{
 	public:
 		CombatWindow(Combat* combat, int group);
 
+		void setNextAction(CombatAction* action);
+		void setNextReaction(CombatAction* action);
+		
 	protected:
 		bool eventRaised(AskForReactionEvent* anEvent);
 		bool eventRaised(AskForActionEvent* anEvent);
@@ -52,8 +57,9 @@ namespace rl {
 
 		Creature* mCurrentCreature;
 		Combat* mCombat;
-		int mGroup;
-
+		CombatAction* mNextAction;
+		CombatAction* mNextReaction;
+		
 		CEGUI::MenuBase* mOpponentContextMenu;
 		CEGUI::MenuItem* mMenuItemAttackWalkAt;
 		CEGUI::MenuItem* mMenuItemAttackWalkAtPa;
@@ -62,10 +68,9 @@ namespace rl {
 		CEGUI::MenuItem* mMenuItemInfo;
 		CEGUI::PushButton* mButtonNextRound;
 
-		Creature* mAttackTarget;
-		Creature* mPareeTarget;
-
+		CombatWindowStrategy* mPlannedStrategy;
 	};
+
 }
 
 #endif //__CombatWindow_H__

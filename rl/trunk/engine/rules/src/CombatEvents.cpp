@@ -37,12 +37,14 @@ namespace rl {
 
 	AskForActionEvent::AskForActionEvent(
 		Combat* combat, 
+		Creature* actor,
 		Ogre::Real timeToAct, 
 		Ogre::Real slowMotionFactor) 
 			: CombatEvent(combat),
 			EventObject(combat),
 			mTimeLeftToAct(timeToAct),
-			mSlowMotionFactor(slowMotionFactor)
+			mSlowMotionFactor(slowMotionFactor),
+			mActor(actor)
 	{ 
 		
 	}
@@ -66,12 +68,23 @@ namespace rl {
 		return CEV_ASK_FOR_ACTION;
 	}
 
+	bool AskForActionEvent::isGroupRelevant(int group)
+	{
+		return getCombat()->getGroupOf(mActor) == group;
+	}
+
+	Creature* AskForActionEvent::getActor()
+	{
+		return mActor;
+	}
+
 	AskForReactionEvent::AskForReactionEvent(
-		Combat* combat, 
+		Combat* combat,
+		Creature* actor,
 		Ogre::Real timeToAct, 
 		Ogre::Real slowMotionFactor,
 		Creature* opponent) 
-		: AskForActionEvent(combat, timeToAct, slowMotionFactor),
+		: AskForActionEvent(combat, actor, timeToAct, slowMotionFactor),
 		EventObject(combat),
 		mOpponent(opponent)
 	{ 
@@ -87,6 +100,11 @@ namespace rl {
 		return CEV_ASK_FOR_REACTION;
 	}
 
+	bool AskForReactionEvent::isGroupRelevant(int group)
+	{
+		return getCombat()->getGroupOf(mOpponent) == group;
+	}
+
 	CombatFinishEvent::CombatFinishEvent(Combat* combat)
 		: CombatEvent(combat),
 		EventObject(combat)
@@ -99,19 +117,39 @@ namespace rl {
 		return CEV_FINISH;
 	}
 
+	bool CombatFinishEvent::isGroupRelevant(int group)
+	{
+		return true;
+	}
+
+	CombatEventListener::CombatEventListener(int group)
+		: mGroup(group),
+		EventListener<CombatEvent>()
+	{
+	}
+	
+	int CombatEventListener::getGroup()
+	{
+		return mGroup;
+	}
+
 	bool CombatEventListener::eventRaised(CombatEvent *anEvent) 
 	{
-		switch (anEvent->getEventType())
+		if (anEvent->isGroupRelevant(getGroup()))
 		{
-		case CEV_ASK_FOR_REACTION:
-			return eventRaised(static_cast<AskForReactionEvent*>(anEvent));
-		case CEV_ASK_FOR_ACTION:
-			return eventRaised(static_cast<AskForActionEvent*>(anEvent));
-		case CEV_FINISH:
-			return eventRaised(static_cast<CombatFinishEvent*>(anEvent));
+			switch (anEvent->getEventType())
+			{
+			case CEV_ASK_FOR_REACTION:
+				return eventRaised(static_cast<AskForReactionEvent*>(anEvent));
+			case CEV_ASK_FOR_ACTION:
+				return eventRaised(static_cast<AskForActionEvent*>(anEvent));
+			case CEV_FINISH:
+				return eventRaised(static_cast<CombatFinishEvent*>(anEvent));
+			}
 		}
 
 		return false;
 	}
-	
+
+
 }

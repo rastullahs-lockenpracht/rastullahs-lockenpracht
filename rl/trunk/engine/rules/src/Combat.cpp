@@ -54,8 +54,8 @@ namespace rl {
 		this->initiative = NO_INI;
 		this->attackeTarget = NULL;
 		this->paradeTarget = NULL;
-		this->nextAttackeAction = Combat::AT_ATTACKE;
-		this->nextParadeAction = Combat::AT_PARADE;
+		this->nextAction = NULL;
+		this->nextReaction = NULL;
 	}
 
 	int Combat::getGroupOf(Creature* creature)
@@ -116,6 +116,16 @@ namespace rl {
 		getParticipant(creature)->paradeTarget = target;
 	}
 
+	void Combat::setNextAction(Creature* creature, CombatAction* action)
+	{
+		getParticipant(creature)->nextAction = action;
+	}
+
+	void Combat::setNextReaction(Creature* creature, CombatAction* reaction)
+	{
+		getParticipant(creature)->nextReaction = reaction;
+	}
+
 	Ogre::Real Combat::getMaxMoveDistance(MoveType action)
 	{
 		//TODO: Geschwindigkeit
@@ -154,5 +164,19 @@ namespace rl {
 	void Combat::removeCombatEventListener(CombatEventListener* listener)
 	{
 		mEventCaster.addEventListener(listener);
+	}
+
+	bool Combat::isInAttackDistance(Creature* attacker, Creature* target)
+	{
+		static Ogre::Real strikeDistance = 100; //TODO: (DK, Möglichkeit ohne DK)
+
+		return (attacker->getActor()->getPosition()
+				- target->getActor()->getPosition()).length() 
+				<= strikeDistance; 
+	}
+
+	bool Combat::isActionPhaseDone(Creature* actor)
+	{
+		return false; //TODO
 	}
 }

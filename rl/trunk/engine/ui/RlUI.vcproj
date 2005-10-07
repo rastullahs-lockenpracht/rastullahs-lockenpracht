@@ -193,6 +193,9 @@
 				RelativePath=".\include\CombatWindow.h">
 			</File>
 			<File
+				RelativePath=".\include\CombatWindowStrategy.h">
+			</File>
+			<File
 				RelativePath=".\include\CommandMapper.h">
 			</File>
 			<File
@@ -270,6 +273,9 @@
 			</File>
 			<File
 				RelativePath=".\src\CombatWindow.cpp">
+			</File>
+			<File
+				RelativePath=".\src\CombatWindowStrategy.cpp">
 			</File>
 			<File
 				RelativePath=".\src\CommandMapper.cpp">

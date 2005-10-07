@@ -15,6 +15,7 @@
 */
 
 #include "CombatWindow.h"
+#include "CombatWindowStrategy.h"
 #include <boost/bind.hpp>
 #include <CEGUIEventArgs.h>
 
@@ -31,10 +32,9 @@ namespace rl {
 
 	CombatWindow::CombatWindow(Combat* combat, int group)
 		: mCombat(combat),
-		  mGroup(group),
-		  mPareeTarget(NULL),
-		  mAttackTarget(NULL),
-		CeGuiWindow("combatwindow.xml", WND_MOUSE_INPUT)
+		  mPlannedStrategy(NULL),
+		CeGuiWindow("combatwindow.xml", WND_MOUSE_INPUT),
+		CombatEventListener(group)
 	{
         mCurrentCreature = mCombat->getNext(group);
 
@@ -91,7 +91,7 @@ namespace rl {
 			{
 			}
 
-			if (creature != NULL && mCombat->getGroupOf(creature) != mGroup)
+			if (creature != NULL && mCombat->getGroupOf(creature) != getGroup())
 			{
 				mMenuItemAttackRunAtPa->setText("Hinrennen (XX Aktionen) und angreifen, keine Parade");
 				mMenuItemAttackWalkAtPa->setText("Hinlaufen (XX Aktionen) und angreifen, keine Parade");
@@ -110,17 +110,35 @@ namespace rl {
 
 	bool CombatWindow::handleContextMenu(ContextMenuAction action)
 	{
+		Creature* target = static_cast<Creature*>(mOpponentContextMenu->getUserData());
+
 		switch (action) {
 			case CTX_AT_RUN_ATPA:
+				mPlannedStrategy = 
+					new RunInActAndReactPhaseAttackStrategy(target);
+				break;
 			case CTX_AT_WALK_AT:
+				mPlannedStrategy = 
+					new WalkInActPhaseAttackStrategy(target);
+				break;
 			case CTX_AT_WALK_ATPA:
-				mAttackTarget = static_cast<Creature*>(mOpponentContextMenu->getUserData());
-				return true;
+				mPlannedStrategy = 
+					new WalkInActAndReactPhaseAttackStrategy(target);
+				break;
 			case CTX_PA:
-				mPareeTarget = static_cast<Creature*>(mOpponentContextMenu->getUserData());
-				return true;
+				mPlannedStrategy->setPareeTarget(target);
+				break;
+
+			default:
+				return false;
 		}
-		return false;
+		
+		if (mPlannedStrategy != NULL)
+		{
+			mPlannedStrategy->applyAction(this, mCombat);
+			mPlannedStrategy->applyReaction(this, mCombat);
+		}
+		return true;
 	}
 
 	bool CombatWindow::handleContextMenuClose()
@@ -131,23 +149,39 @@ namespace rl {
 
 	bool CombatWindow::handleNextKR()
 	{
+		if (mPlannedStrategy != NULL)
+		{
+			mPlannedStrategy->applyAction(this, mCombat);
+			mPlannedStrategy->applyReaction(this, mCombat);
+		}
 		return true;
 	}
 
 	bool CombatWindow::eventRaised(AskForReactionEvent* anEvent)
 	{
-		if (mPareeTarget == NULL) // Pariere ersten erfolgreichen Angriff
-			mCombat->setParadeTarget(mCurrentCreature, anEvent->getOpponent());
+		if (anEvent->getTimeLeftToAct() == 0.0) // Entscheidung wird abgefragt
+		{
+			mCombat->setNextReaction(mCurrentCreature, mNextReaction);
+		}
 		else
-			mCombat->setParadeTarget(mCurrentCreature, mPareeTarget);
-
+		{
+			if (mPlannedStrategy != NULL)
+				mPlannedStrategy->applyReaction(this, mCombat, anEvent);
+		}
 		return true;
 	}
 
 	bool CombatWindow::eventRaised(AskForActionEvent* anEvent)
 	{
-		if (mAttackTarget != NULL)
-			mCombat->setAttackeTarget(mCurrentCreature, mAttackTarget);
+		if (anEvent->getTimeLeftToAct() == 0.0) // Entscheidung wird abgefragt
+		{
+			mCombat->setNextAction(mCurrentCreature, mNextAction);
+		}
+		else
+		{
+			if (mPlannedStrategy != NULL)
+				mPlannedStrategy->applyAction(this, mCombat, anEvent);
+		}
 		return true;
 	}
 
@@ -155,6 +189,16 @@ namespace rl {
 	{
 		destroyWindow();
 		return true;
+	}
+
+	void CombatWindow::setNextAction(CombatAction* action)
+	{
+		mNextAction = action;
+	}
+
+	void CombatWindow::setNextReaction(CombatAction* reaction)
+	{
+		mNextReaction = reaction;
 	}
 
 }
