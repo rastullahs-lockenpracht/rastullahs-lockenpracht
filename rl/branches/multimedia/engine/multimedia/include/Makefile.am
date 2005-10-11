@@ -5,20 +5,23 @@ noinst_HEADERS = \
 	SoundManager.h \
 	SoundSubsystem.h \
 	SoundPrerequisites.h \
-    Sound.h \
-    SoundResource.h \
-    SoundEvents.h \
+        Sound.h \
+        SoundResource.h \
+        SoundEvents.h \
 	SoundUpdateTask.h \
 	Video.h \
-	VideoEvents.h
+	VideoEvents.h \
+	null/NullSoundChannel.h \
+	null/NullSoundSample.h \
+	null/NullSoundStream.h 
 
-if WITH_FMOD
+if with_fmod
 noinst_HEADERS += \
 	fmod/FmodSoundChannel.h \
 	fmod/FmodSoundSample.h \
 	fmod/FmodSoundStream.h
 endif
 	
-if WITH_OAL
+if with_oal
 
 endif

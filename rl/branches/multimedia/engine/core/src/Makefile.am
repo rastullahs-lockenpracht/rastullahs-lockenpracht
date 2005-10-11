@@ -39,9 +39,9 @@ libRlCore_la_SOURCES = \
 	TrackAnimation.cpp \
 	World.cpp 		 
 
-if WITH_FMOD
+if with_fmod
 libRlCore_la_CFLAGS += -DWITH_FMOD
 endif
-if WITH_OAL
+if with_oal
 libRlCore_la_CFLAGS += -DWITH_OPENAL
 endif

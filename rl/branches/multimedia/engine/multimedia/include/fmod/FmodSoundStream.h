@@ -14,8 +14,8 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
-#ifndef __FmodFmodSoundStream_H__
-#define __FmodFmodSoundStream_H__
+#ifndef __FmodSoundStream_H__
+#define __FmodSoundStream_H__
 
 #include "SoundPrerequisites.h"
 #include "SoundResource.h"

@@ -56,7 +56,9 @@ AC_ARG_ENABLE(fmod, AC_HELP_STRING([--enable-fmod], [enable fmod 3.74 support [d
 if test "$enable_fmod" = "yes"; then
 	AC_CHECK_LIB(fmod-3.74, main, , AC_MSG_ERROR([Cannot find fmod 3.74 libs]))
 	AC_CHECK_HEADERS(fmod.h, , AC_MSG_ERROR([Cannot find fmod headers]))
-	AM_CONDITIONAL(WITH_FMOD, [true])
+	AM_CONDITIONAL(with_fmod, [true])
+else
+        AM_CONDITIONAL(with_fmod, [false])
 fi
 
 # openal
@@ -64,7 +66,9 @@ AC_ARG_ENABLE(openal, AC_HELP_STRING([--enable-openal], [enable OpenAL support [
 if test "$enable_openal" = "yes"; then
 	AC_CHECK_LIB(openal, main, , AC_MSG_ERROR([Cannot find OpenAL libs]))
 	AC_CHECK_HEADERS(AL/al.h, , AC_MSG_ERROR([Cannot find OpenAL headers]))
-	AM_CONDITIONAL(WITH_OAL, [true])
+	AM_CONDITIONAL(with_oal, [true])
+else
+        AM_CONDITIONAL(with_oal, [false])
 fi
 
 # PortAudio
@@ -100,14 +104,8 @@ AC_CHECK_PROG(HAVE_DOXYGEN_PROG, doxygen, `which doxygen`, false)
 AM_PATH_CPPUNIT(1.0.0)
 
 # Physics
-AC_CHECK_LIB([ode], [main], [], AC_MSG_ERROR([Can't find libode]))
-AC_CHECK_LIB(OgreOde, [main], [], AC_MSG_ERROR([Can't find OgreOde]))
-AC_CHECK_LIB([Newton], [fopen], [], ) 
-#AC_MSG_ERROR([Can't find libNewton]))
-AC_LANG([C])
-AC_CHECK_LIB([OgreNewt], [NewtonBallGetJointAngle], [], )
-AC_LANG([C++])
-#AC_MSG_ERROR([Can't find OgreNewt]))
+AC_CHECK_LIB([Newton], [fopen], [], AC_MSG_ERROR([Can't find libNewton]))
+AC_CHECK_LIB([OgreNewt], [NewtonBallGetJointAngle], [], AC_MSG_ERROR([Can't find OgreNewt]))
 
 # XERCES
 AC_CHECK_HEADERS(xercesc/util/XercesVersion.hpp, ,
