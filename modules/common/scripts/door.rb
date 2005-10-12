@@ -1,10 +1,5 @@
-# TODO Skript ausbauen in Hinblick auf Interaktion Held <-> Item.
-# und Aktoren untereinander.
-# Halt diese Klassen wie sie hier beschrieben sind auch benutzen.
-# TODO Über Speichersparen nachdenken. Inwiefern können Instanzen
-# einiger Klassen für Instanzen anderer Klassen nachgenutzt werden?
-# Inwiefern ist Deferred Construction sinnvoll?
 require 'globals.rb'
+require 'actorupdateanimationlistener.rb'
 
 class OpenDoorAction < Action
   def initialize
@@ -17,8 +12,17 @@ class OpenDoorAction < Action
   end
   
   def doAction(door, user, target)    
+    $CORE.log("doAction");
+    print "doAction";
     doorActor = door.getActor(); 
     doorActor.getControlledObject().replaceAnimation("zu", "auf", 1.0, 1);
+    animListener = ActorUpdateAnimationListener.new();
+    print animListener;    
+    anim = doorActor.getControlledObject().getAnimation("auf");
+    print anim;
+    anim.addAnimationListener(animListener);
+    print anim;
+    print animListener;
     knarzActor = doorActor.getChildByName(doorActor.getName()+"_knarzen");
     knarzActor.getControlledObject().play();
     door.setOpen(true);
@@ -38,8 +42,13 @@ class CloseDoorAction < Action
   def doAction(door, user, target)    
     doorActor = door.getActor();
     doorActor.getControlledObject.replaceAnimation("auf", "zu", 1.0, 1); 
+    animListener = ActorUpdateAnimationListener.new();
+    anim = doorActor.getControlledObject().getAnimation("zu");
+    anim.addAnimationListener(animListener);
+
     knarzActor = doorActor.getChildByName(doorActor.getName()+"_knarzen");
     knarzActor.getControlledObject().play();
+
     door.setOpen(false);
   end
 end
@@ -48,14 +57,14 @@ class Door < GameObject
   def initialize(name, description, isOpen, canBeOpened)
     super(name, description);
 
-    doorActor = $AM.createMeshActor( name, "arc_tuer_01.mesh",  0, 0.0 ); #PhysicsManager::GT_BOX , 6.0);
+    doorActor = $AM.createMeshActor( name, "arc_tuer_01.mesh",  PhysicsManager::GT_CONVEXHULL, 0.0 ); #PhysicsManager::GT_BOX , 6.0);
     $CORE.log("door.rb - Aktor erstellt.");
     setActor(doorActor);
     $CORE.log("door.rb - Aktor gesetzt");
     soundActor = $AM.createSoundSampleActor(name+"_knarzen","doorcreak.ogg");
     doorActor.attachToSlot(soundActor,"Bone01");
     $CORE.log("door.rb - Sound hinzugefuegt");
-    
+
     @mOpen = isOpen
     @mOpenAction = OpenDoorAction.new()
     @mCloseAction = CloseDoorAction.new()
