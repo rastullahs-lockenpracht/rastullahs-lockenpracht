@@ -21,7 +21,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\ogrenew\OgreMain\Dependencies\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\fmod\api\inc\;..\..\dependencies\cegui_mk2\include;..\..\dependencies\theora\include;..\..\dependencies\TheoraVideo\include;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include;&quot;..\..\dependencies\ptypes-1.8.3\include&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\dependencies\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\fmod\api\inc\;..\..\dependencies\cegui_mk2\include;..\..\dependencies\theora\include;..\..\dependencies\TheoraVideo\include;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include;&quot;..\..\dependencies\ptypes-1.8.3\include&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\dependencies\include"
 				PreprocessorDefinitions="_WINDOWS;WIN32;RLSOUND_EXPORTS;_DEBUG;LIBOPENAL;HAVE_LIBOPENAL"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="3"
@@ -88,7 +88,7 @@
 				FavorSizeOrSpeed="1"
 				OptimizeForProcessor="2"
 				OptimizeForWindowsApplication="TRUE"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\ogrenew\OgreMain\Dependencies\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\fmod\api\inc\;..\..\dependencies\cegui_mk2\include;..\..\dependencies\theora\include;..\..\dependencies\TheoraVideo\include;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include;&quot;..\..\dependencies\ptypes-1.8.3\include&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\dependencies\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\fmod\api\inc\;..\..\dependencies\cegui_mk2\include;..\..\dependencies\theora\include;..\..\dependencies\TheoraVideo\include;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include;&quot;..\..\dependencies\ptypes-1.8.3\include&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\dependencies\include"
 				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32;RLSOUND_EXPORTS;LIBOPENAL;HAVE_LIBOPENAL"
 				MinimalRebuild="FALSE"
 				RuntimeLibrary="2"
