@@ -407,6 +407,7 @@ public:
     
     rl::ActorControlledObject* getControlledObject();
     Ogre::UserDefinedObject* getGameObject() const;
+    rl::PhysicalThing* getPhysicalThing() const;
 
     void setScale( Ogre::Real sx, Ogre::Real sy, Ogre::Real sz );
     void placeIntoScene(
@@ -479,6 +480,8 @@ public:
     void addForce(const Ogre::Vector3& force);
 
     Ogre::Real getMass() const;
+    
+    void updateCollisionHull();
 };
 
 
@@ -492,7 +495,8 @@ public:
         GT_SPHERE = 1,
         GT_CAPSULE = 2,
         GT_MESH = 3,
-        GT_ELLIPSOID = 4
+        GT_ELLIPSOID = 4,
+        GT_CONVEXHULL = 5
     };
     
     /// Typ bestimmt, wo der Usrprung (0/0/0) des Objektes liegt.

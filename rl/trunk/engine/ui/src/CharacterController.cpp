@@ -41,14 +41,6 @@ using namespace Ogre;
 
 namespace rl {
 
-    CharacterController::CharacterController()
-    {
-        // Must not be used.
-        Throw(OperationNotSupportedException, "Do not use the standard constructor.");
-    }
-    
-    //------------------------------------------------------------------------
-
     CharacterController::CharacterController(Actor* camera, Actor* character)
         : 
         mCamera(camera),

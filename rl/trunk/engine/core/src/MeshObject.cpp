@@ -37,7 +37,7 @@ namespace rl {
 	{
         stopAllAnimations();
 		CoreSubsystem::getSingletonPtr()->getWorld()
-			->getSceneManager()->removeEntity( getEntity() );		
+			->getSceneManager()->destroyEntity( getEntity() );		
 	}
 
     Entity* MeshObject::getEntity() const
@@ -122,12 +122,12 @@ namespace rl {
 			AnimationStateSet* animStates = getEntity()->getAllAnimationStates();
 			if (animStates != NULL)
 			{
-				AnimationStateIterator iter(animStates->begin(),animStates->end());
+				AnimationStateIterator iter = animStates->getAnimationStateIterator();
 
 				while(iter.hasMoreElements()) 
 				{
-					AnimationState state = iter.getNext(); 
-					stopAnimation( state.getAnimationName() );
+					AnimationState* state = iter.getNext(); 
+					stopAnimation( state->getAnimationName() );
 				} 
 			}
 	}

@@ -60,6 +60,13 @@ namespace rl {
 
         Ogre::Real getMass() const;
 
+        /** Called to update the collision of the physical thing, in order to adapt
+         *  to a new animation state.
+         *  @warning This is only applicable to ConvexHullCollisions.
+         *  @throw IllegalStateException, if PhysicalThing does not represent a ConvexHullCollision
+         */
+        void updateCollisionHull();
+
     private:
         Actor* mActor;
         OgreNewt::Body* mBody;

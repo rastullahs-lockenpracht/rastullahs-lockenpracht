@@ -257,9 +257,18 @@ namespace rl {
 		Actor* actor = 0;
         try
         {
+            PhysicalThing* pt = 0;
 		    MeshObject* mo = new MeshObject(uniquename, meshname);
-		    PhysicalThing* pt = PhysicsManager::getSingleton()
-		        .createPhysicalThing(geomType, mo->getSize(), density);
+            if (geomType == PhysicsManager::GT_CONVEXHULL)
+            {
+                pt = PhysicsManager::getSingleton()
+                    .createConvexHullPhysicalThing(mo->getEntity());
+            }
+            else
+            {
+                pt = PhysicsManager::getSingleton()
+                    .createPhysicalThing(geomType, mo->getSize(), density);
+            }
 
 		    actor = new Actor(uniquename, mo, pt);
 		    mActors.insert(ActorPtrPair(uniquename,actor)); 

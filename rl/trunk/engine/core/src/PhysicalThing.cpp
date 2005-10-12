@@ -21,6 +21,9 @@
 #include "PhysicsManager.h"
 #include "Exception.h"
 
+using namespace OgreNewt;
+using namespace OgreNewt::CollisionPrimitives;
+
 namespace rl
 {
     PhysicalThing::PhysicalThing(OgreNewt::Body* body, const Vector3& offset,
@@ -150,7 +153,6 @@ namespace rl
 
     void PhysicalThing::onApplyForceAndTorque()
     {
-        //mBody->addLocalForce(mPendingForce, Vector3(0, 0, 0));
         mBody->addForce(mPendingForce);
         mPendingForce = Vector3::ZERO;
     }
@@ -166,6 +168,72 @@ namespace rl
         Vector3 inertia;
         mBody->getMassMatrix(mass, inertia);
         return mass;
+    }
+
+    void PhysicalThing::updateCollisionHull()
+    {
+        Entity* entity = static_cast<Entity*>(mActor->_getMovableObject());
+        entity->_updateAnimation();
+        Node* node = entity->getParentNode();
+        RlAssert(node, "Actor has to be placed in the scene in order to update its collision hull.");
+        Matrix4 transform = node->_getFullTransform().inverse();
+
+        std::vector<Vector3> vertices;
+        vertices.reserve(100);
+
+        bool sharedAdded = false;
+        // loop over subentities and retrieve vertex positions
+        size_t subentityCount = entity->getNumSubEntities();
+        for (size_t i = 0; i < subentityCount; ++i)
+        {
+            SubEntity* subEntity = entity->getSubEntity(i);
+            VertexData* vdata = 0;
+            if (subEntity->getSubMesh()->useSharedVertices && !sharedAdded)
+            {
+                vdata = entity->_getSkelAnimVertexData();
+                sharedAdded = true;
+            }
+            else if (!subEntity->getSubMesh()->useSharedVertices)
+            {
+                vdata = subEntity->_getSkelAnimVertexData();
+            }
+
+            if (vdata)
+            {
+                size_t vcount = vdata->vertexCount;
+                VertexDeclaration* vdecl = vdata->vertexDeclaration;
+                const VertexElement* velem = vdecl->findElementBySemantic( Ogre::VES_POSITION );
+
+                HardwareVertexBufferSharedPtr vbuffer =
+                    vdata->vertexBufferBinding->getBuffer(velem->getSource());
+                unsigned char* vptr = static_cast<unsigned char*>(
+                    vbuffer->lock(HardwareBuffer::HBL_READ_ONLY ));
+
+                //loop through vertex data...
+                size_t start = vdata->vertexStart;
+                for (size_t j = start; j < (start + vcount); ++j)
+                {
+                    float* vpos;
+                    //get offset to Position data!
+                    unsigned char* offset = vptr + (j * vbuffer->getVertexSize());
+                    velem->baseVertexPointerToElement(offset, &vpos);
+                    Vector3 v = Vector3(vpos[0], vpos[1], vpos[2]);
+                    //Positions in world space. So we need to transform them back.
+                    vertices.push_back(transform * v);
+                    offset++;
+                }
+
+                vbuffer->unlock();
+            }
+        }
+
+        Vector3 position;
+        Quaternion orientation;
+        mBody->getPositionOrientation(position, orientation);
+        ConvexHull* collision = new ConvexHull(PhysicsManager::getSingleton()._getNewtonWorld(),
+            &vertices[0], vertices.size());
+        mBody->setCollision(collision);
+        mBody->setPositionOrientation(position, orientation);
     }
 }
 
