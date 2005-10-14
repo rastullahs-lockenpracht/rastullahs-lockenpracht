@@ -85,6 +85,9 @@ namespace rl
 
     void PhysicsManager::run(Real elapsedTime)
     {
+        // do nothing, if not enabled
+        if (!mEnabled) return;
+
         mElapsed += elapsedTime;
         int count = 0;
 
@@ -204,6 +207,11 @@ namespace rl
             mPhysicalThings.erase(it);
             delete phys;
         }
+    }
+
+    bool PhysicsManager::isEnabled() const
+    {
+        return mEnabled;
     }
 
     void PhysicsManager::setEnabled(bool enabled)

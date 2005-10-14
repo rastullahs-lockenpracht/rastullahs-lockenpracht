@@ -519,6 +519,7 @@ public:
     void setGravity(Ogre::Real x, Ogre::Real y, Ogre::Real z);
     Vector3 getGravity() const;
 
+    bool isEnabled() const;
     void setEnabled(bool enabled);
 
 	/// Levelgeometrie hinzufügen
