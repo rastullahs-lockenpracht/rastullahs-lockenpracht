@@ -10,7 +10,7 @@ float4 g_MaterialAmbientColor;
 float4 g_MaterialDiffuseColor;
 
 // light attributes
-float3 g_LightDir;
+float4 g_LightPos;
 float4 g_LightAmbient;
 float4 g_LightDiffuse;
 
@@ -75,7 +75,7 @@ sampler_state
     AddressV = Repeat;
 };
 
-struct VS_IN
+struct VS_INPUT
 {
     float4 position  : POSITION;
     float3 normal    : NORMAL;
@@ -88,19 +88,19 @@ struct VS_OUTPUT
     float2 detailUV : TEXCOORD0;
     float2 alphaUV  : TEXCOORD1;
     float3 normal   : TEXCOORD2;
-    float3 lightDir : TEXCOORD3;
+    float4 lightPos : TEXCOORD3;
 };
 
 VS_OUTPUT main_vp(VS_INPUT IN)
 {
     VS_OUTPUT OUT;
 
-    OUT.detailUV = detailScale * IN.texCoord;
+    OUT.detailUV = g_detailScale * IN.texCoord;
     OUT.alphaUV = IN.texCoord;
 
     // vertex normal in eye space
     OUT.normal = normalize(mul(IN.normal, g_WorldViewProjection));
-    OUT.lightDir = normalize(g_LightDir);
+    OUT.lightPos = normalize(g_LightPos);
     OUT.position = mul(IN.position, g_WorldViewProjection);
 
     return OUT;
@@ -128,17 +128,17 @@ PS_OUTPUT main_fp(VS_OUTPUT IN)
     alpha = tex2D(alpha3Sampler, IN.alphaUV).a;
     // alpha blend third detail with current colour
     currentColor = (1.0 - alpha)*currentColor +
-        alpha*tex2D(detail3, IN.detailUV);
+        alpha*tex2D(detail3Sampler, IN.detailUV);
 
     // compute the lighting
     float4 color = g_LightAmbient * g_MaterialAmbientColor;
-    float nl = dot(normalize(normal),g_LightDir);
+    float nl = dot(normalize(IN.normal), IN.lightPos);
     if (nl > 0.0)
     {
         color += nl * g_LightDiffuse * g_MaterialDiffuseColor;
     }
     
-    OUT.RGBColor = (currentColor * color).rgb;
+    OUT.RGBColor = currentColor * color;
     
     return OUT;
 }
