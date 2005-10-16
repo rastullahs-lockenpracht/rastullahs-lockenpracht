@@ -51,11 +51,7 @@ namespace rl
 	 *  @param dialogFile The startup xml-file, contains information about a specific NPC
 	 *
 	*/
-	/*  Hier wird in Zukunft keine startup.xml, sondern eine Bot-definitionsdatei übergeben
-		Die loadAiml-Methode wird ins DialogSubsystem verschoben, sie liefert ab sofort einen
-		Graphmaster zurück, der dem NLP hinzugefügt werden kann.
-
-		Weiteres für die Zukunft:
+	/* 
 		In Zukunft wird in der AIML-Node vom Nodemater direkt eine Referenz auf eine DOMNode
 		gespeichert, so dass die templates nicht nochmal extra auseinandergenommen werden müssen.
 		Dann erspart man sich auch das ständige ISO-gebimsel, IMHO.
@@ -66,7 +62,8 @@ namespace rl
 		file im resourceManager wieder ungeloaded. Das DOM-Document im Speicher wird traversiert
 		und an schlüsselstellen werden referenzen auf templates hinterlassen. allerdings muss
 		dann noch eine abbruch-bedingung implementiert werden beim processing, damit nicht auf
-		einmal aus versehen durch das ganze Dokument traversiert wird.
+		einmal aus versehen durch das ganze Dokument traversiert wird. <-- kein Problem:
+		Einfach nurdie siblings von template abarbeiten
 	*/
 /*	
 	NaturalLanguageProcessor::NaturalLanguageProcessor(std::string botName): mExit(false)
@@ -220,18 +217,12 @@ namespace rl
 		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Matching...");
 
 		Match* match = NULL;
-		if(mGm)
+
+		std::vector<Graphmaster*>::iterator iter = mGraphList.begin();
+		for(; iter != mGraphList.end(); ++iter)
 		{
-			match = mGm->match(context, input, that, topic);
-		}
-		else
-		{
-			std::vector<Graphmaster*>::iterator iter = mGraphList.begin();
-			for(; iter != mGraphList.end(); ++iter)
-			{
-				match = (*iter)->match(context, input, that, topic);
-				if(match) break;
-			}
+			match = (*iter)->match(context, input, that, topic);
+			if(match) break;
 		}
 	
 		if(match == NULL)
@@ -291,7 +282,7 @@ namespace rl
 			{
 				string dialogChoice = 
 					XmlHelper::transcodeToString(node->getNodeValue()).c_str();
-				mCurrentResponses[id]=dialogChoice;
+				mCurrentResponses[id] = dialogChoice + "\n ";
 				DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, dialogChoice);
 				id=0;
 			}
@@ -400,61 +391,68 @@ namespace rl
 			if ( node->getNodeType() == DOMNode::TEXT_NODE ) 
 			{
 				//--	fix whitespace here
-				nodeData = XmlHelper::transcodeToString(
-									static_cast<DOMText*>(node)->getData()).c_str();
-				if ( normalise(nodeData).empty() ) 
-				{
-					lastTailIsWS = !nodeData.empty();
-					continue;
-				}
-				nextHeadIsWS = checkHeadWS(nodeData);
-				//--	if last was not an element
-				//--		if last text tail was whitespace
-				//--			add ' ' before next text
-				//--	else last was an element (closing)
-				//--		if next text head is whitespace
-				//--			add ' ' before next text
-				//--	add text with normalised internal whitespace
-				if ( !lastWasElement && lastTailIsWS ) 
-				{
-					result += ' ';
-				} else if ( lastWasElement && nextHeadIsWS ) {
-					result += ' ';
-				}
-				lastTailIsWS = checkTailWS(nodeData);
-				result += normalise(nodeData);
+				result += getTextData(
+					XmlHelper::transcodeToString(
+							static_cast<DOMText*>(node)->getData()).c_str());
 				lastWasElement = false;
-			} else if ( node->getNodeType() == DOMNode::CDATA_SECTION_NODE ) {
+			} 
+			else if ( node->getNodeType() == DOMNode::CDATA_SECTION_NODE ) 
+			{
 				//--	what to do about CDATA???	
 				nodeData = XmlHelper::transcodeToString(
 								static_cast<DOMText*>(node)->getData()).c_str(); // Attention: Cast to CDATA, not to DOMText*!
 				result += nodeData;
-			} else if ( node->getNodeType() == DOMNode::ELEMENT_NODE ) {
-				nodeData = XmlHelper::transcodeToString(node->getNodeName()).c_str();
-				DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, nodeData);
-				AimlProcessor* pt=AimlProcessorManager::getProcessor(nodeData);
+			} 
+			else if ( node->getNodeType() == DOMNode::ELEMENT_NODE ) 
+			{
+				nodeData = 
+					XmlHelper::transcodeToString(node->getNodeName()).c_str();
+				
+				//DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, nodeData);
+				
+				// get available tag processor
+				AimlProcessor* pt = AimlProcessorManager::getProcessor(nodeData);
 				if ( pt == NULL ) 
 				{
-					string err="Für den Tag "+nodeData+" existiert kein Processor";
-					DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, err);
-					text = process(node, match, id);
-					if ( !result.empty() && *(--result.end()) != ' ' && lastTailIsWS ) 
+					if(nodeData == "response")
 					{
-						result += ' ';
+						lastWasElement = true;
+						lastTailIsWS = false;
+						//--	add next element
+						text = process(node, match, id);
+						if ( !result.empty() && *(--result.end()) != ' ' && lastTailIsWS ) 
+						{
+							result += ' ';
+						}
+						result += text;
 					}
-					result += text;
-					lastWasElement = true;
-					lastTailIsWS = false;
-				} else {
+					else
+					{
+						string err = "Für den Tag " + nodeData + " existiert kein Processor";
+						DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, err);
+						text = process(node, match, id);
+						if ( !result.empty() && *(--result.end()) != ' ' && lastTailIsWS ) 
+						{
+							result += ' ';
+						}
+						result += text;
+						lastWasElement = true;
+						lastTailIsWS = false;
+					}
+				} 
+				else 
+				{
 					DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Found AimlProcessor");
-					text=pt->process(node, match, id.c_str(), this);
+					text = pt->process(node, match, id.c_str(), this);
 					DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, text);
 					//--fix whitespace here
 					//--	if last was not an element
 					//--		if last text tail was whitespace
 					//--			add ' ' before next element
 					if ( !result.empty() && *(--result.end()) != ' ' && lastTailIsWS )
+					{
 						result += ' ';
+					}
 					//--	add next element
 					result += text;
 					lastWasElement = true;
@@ -471,5 +469,33 @@ namespace rl
 	const CeGuiString& NaturalLanguageProcessor::getName() const 
 	{
 		return mName;
+	}
+
+	std::string NaturalLanguageProcessor::getTextData(const std::string& nodeData)
+	{
+		std::string result;
+		bool lastTailIsWS = false, nextHeadIsWS = false, lastWasElement = false;
+		if ( normalise(nodeData).empty() ) 
+		{
+			lastTailIsWS = !nodeData.empty();
+			return "";
+		}
+		nextHeadIsWS = checkHeadWS(nodeData);
+		//--	if last was not an element
+		//--		if last text tail was whitespace
+		//--			add ' ' before next text
+		//--	else last was an element (closing)
+		//--		if next text head is whitespace
+		//--			add ' ' before next text
+		//--	add text with normalised internal whitespace
+		if ( !lastWasElement && lastTailIsWS ) 
+		{
+			result += ' ';
+		} else if ( lastWasElement && nextHeadIsWS ) {
+			result += ' ';
+		}
+		lastTailIsWS = checkTailWS(nodeData);
+		result += normalise(nodeData);
+		return result;
 	}
 } // Namespace rl end

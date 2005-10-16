@@ -56,11 +56,14 @@ namespace rl
 		void setName(const CeGuiString& name);
 		const CeGuiString& getName() const;
 		bool mExit;
+
 	protected:
 		//// Name of the Bot, used for naming the script object etc.pp.
 		CeGuiString mName;	
 
 	private:
+		std::string getTextData(const std::string& nodeData);
+
 		Responses mCurrentResponses;
 		std::vector<Graphmaster*> mGraphList;
 		
