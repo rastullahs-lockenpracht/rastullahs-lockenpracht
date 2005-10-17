@@ -20,7 +20,7 @@ fmod/ -  FMOD 3.74 Programmers API
 http://www.fmod.org/
 
 OgreNewt/ OgreNewt - unsere modifizierte Version
-http://team-pantheon.de/~haffax/dependencies/OgreNewt.rar
+http://team-pantheon.de/~haffax/dependencies/OgreNewt.zip
 
 NewtonSDK/ - 1.32
 http://newtondynamics.org
