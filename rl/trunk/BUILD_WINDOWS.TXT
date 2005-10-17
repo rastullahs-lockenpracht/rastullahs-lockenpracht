@@ -23,7 +23,7 @@ OgreNewt/ OgreNewt - unsere modifizierte Version
 http://team-pantheon.de/~haffax/dependencies/OgreNewt.zip
 
 NewtonSDK/ - 1.32
-http://newtondynamics.org
+http://www.physicsengine.com/
 
 cegui/ - Cegui 0.4
 http://www.cegui.org.uk/
