@@ -43,6 +43,12 @@ copy "%OGREHOME%\Samples\Common\Bin\%BUILD%\ilut.dll" "%RL_DIST%"
 copy "%OGREHOME%\Samples\Common\Bin\%BUILD%\devil.dll" "%RL_DIST%"
 copy "%OGREHOME%\Samples\Common\Bin\%BUILD%\zlib1.dll" "%RL_DIST%"
 
+REM Boost Dateien kopieren
+REM ---------------------
+copy "%RL_ROOT%\Dependencies\boost\lib\*.dll" "%RL_DIST%"
+
+
+
 REM Ruby Dateien kopieren
 REM ---------------------
 
