@@ -3,7 +3,7 @@ VS.NET
 Um Rastullahs Lockenpracht bauen zu können werden folgende zusätzliche
 Bibliotheken benötigt:
 
-ogre/ - Ogre 3D 1.03 - Azatoth
+ogre/ - Ogre 3D - CVS HEAD - Dagon
 http://www.ogre3d.org
 Die Source Version, nicht das SDK
 
@@ -31,7 +31,7 @@ http://www.cegui.org.uk/
 xerces/ - Xerces-c
 http://xml.apache.org/xerces-c/download.cgi
 
-boost/ - Boost Threads und Boost Bind
+boost/ - Boost Threads und Boost Bind - mindestens 1.3.1
 http://www.boost.org
 
 rllooks/ - Der RastullahLook für CeGui
