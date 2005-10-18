@@ -19,3 +19,21 @@ class GameActorScriptOne
 	end
 end
 
+class DialogScriptObjectTest < DialogScriptObject
+	def initialize()
+		super()
+		@name = "AlrikTest"
+		print(@name + " entschließt sich dazu, redselig zu werden") 
+	end
+
+	def calcOptionValue( optionName )
+		print("Calc Option Values")
+		return 4
+	end
+
+	def calcResponseValue( responseName )
+		print("Calc Response Value")
+		return 4
+	end		
+end
+

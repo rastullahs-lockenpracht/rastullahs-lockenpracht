@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- !DOCTYPE aiml SYSTEM "includes.dtd" -->
+
+<aiml:aiml  version="1.0.1"
+            xmlns:aiml="http://alicebot.org/2001/AIML">
+
+<rldialog:rldialog  version="0.1"
+		    xmlns:rldialog="http://www.team-pantheon.de/projekt/rl">
+
+<aiml:category>
+<aiml:pattern>START DIALOG</aiml:pattern>
+<aiml:template>
+	<aiml:condition rldialog:context="response">
+		Grueße!<aiml:br/>
+		Ich sehe ihr seid soeben erst in Ruchin angekommen? Was gibt es Neues aus dem Lande?
+		Kann ich euch irgendwie helfen?
+	</aiml:condition>
+	<aiml:condition rldialog:context="option">
+		<aiml:li value="4" id="1">
+			Grueßen und nach einer Taverne fragen
+			<aiml:condition rldialog:context="selection" type="Eigenschaft" name="CH">
+				<aiml:li value="1" id="1">
+					Ich grueße euch ebenso. Ich suche den Weg zur Taverne, koennt ihr ihn mir beschreiben?
+				</aiml:li>
+				<aiml:li value="0" id="555">
+					Genug der Hoeflichkeitsfloskeln. Sag mir endlich wie ich zur Taverne komme, man!
+				</aiml:li>
+			</aiml:condition>
+		</aiml:li>
+		<aiml:li value="4" id="2">Das Land ist ruhig und friedlich. Die Invasion der
+			Orks droben im Norden ist vorerst gestoppt, wir sind sicher.
+		</aiml:li>
+		<aiml:li value="4" id="555">
+			Hinweg mit euch, Gezuecht des Namenlosen!
+		</aiml:li>
+	</aiml:condition>
+</aiml:template>
+</aiml:category>
+
+<aiml:category>
+<aiml:pattern>1</aiml:pattern>
+<aiml:template>
+	<aiml:condition rldialog:context="response">
+		Mit vergnügen werd ich euch den weg beschreiben!<aiml:br/> 
+	</aiml:condition>
+	<aiml:condition rldialog:context="option">
+		<aiml:li value="4" id="555">Ich warte...</aiml:li>
+		<aiml:li value="4" id="666">Lasst gut sein, ich muss weg!</aiml:li>
+	</aiml:condition>
+</aiml:template>
+</aiml:category>
+
+<aiml:category>
+<aiml:pattern>2</aiml:pattern>
+<aiml:template>
+	<aiml:condition rldialog:context="response">
+		Sagt, woher habt ihr diese Kunde? Ward ihr selbst hoch droben im Norden und habt gegen die Orks
+		gekämpft?<aiml:br/>
+		Wenn dem so ist, besaeßet ihr auch den Mut, die wilde Raubkatze aus meiner Scheune zu vertreiben?
+	</aiml:condition>
+	<aiml:condition rldialog:context="option" type="Eigenschaft" name="MU">
+		<aiml:li value="1" id="3">Ich bin mutig!</aiml:li>
+		<aiml:li value="0" id="555">Ich trau mich nicht!</aiml:li>
+	</aiml:condition>
+</aiml:template>
+</aiml:category>
+
+<aiml:category>
+<aiml:pattern>3</aiml:pattern>
+<aiml:template>
+Drei
+</aiml:template>
+</aiml:category>
+
+<aiml:category>
+<aiml:pattern>555</aiml:pattern>
+<aiml:template>
+	<aiml:system command="exit"/>
+</aiml:template>
+</aiml:category>
+
+<aiml:category>
+<aiml:pattern>666</aiml:pattern>
+<aiml:template>
+	<aiml:system command="reload"/><aiml:srai>START DIALOG</aiml:srai>
+</aiml:template>
+</aiml:category>
+
+<aiml:category>
+<aiml:pattern>*</aiml:pattern><!-- Abfangen von "ungueltigen" Eingaben -->
+<aiml:template>
+Dies ist keine gueltige Gespraechsoption!
+</aiml:template>
+</aiml:category>
+
+</rldialog:rldialog>
+</aiml:aiml>

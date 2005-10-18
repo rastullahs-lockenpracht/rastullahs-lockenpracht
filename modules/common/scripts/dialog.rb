@@ -26,9 +26,14 @@ class DialogScriptObjectTest < DialogScriptObject
 		print(@name + " entschließt sich dazu, redselig zu werden") 
 	end
 
-	def calcOptionValue()
+	def calcOptionValue( optionName )
 		print("Calc Option Values")
 		return 4
 	end
+
+	def calcResponseValue( responseName )
+		print("Calc Response Value")
+		return 4
+	end		
 end
 
