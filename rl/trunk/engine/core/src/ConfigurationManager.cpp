@@ -91,8 +91,8 @@ namespace rl
 	long parseDate(char* date)
 	{ //TODO: __DATE__ in ein long verwandeln, damit man 
 		return /* Jahr */			2005 * 100000+
-			/* Monat */			9 * 1000 + 
-			/* Tag */			24 * 10 + 
+			/* Monat */			10 * 1000 + 
+			/* Tag */			18 * 10 + 
 			/* Sub-Version */	0;	
 	}
 
