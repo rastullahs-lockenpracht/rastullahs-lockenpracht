@@ -52,6 +52,7 @@ namespace rl
 	const static CeGuiString ASTERISK = "*";
 	const static CeGuiString UNDERSCORE = "_";
 
+	// TODO: templateValue should be an AimlNode
 	Nodemaster* Graphmaster::add(	const CeGuiString& context, 
 									const CeGuiString& pattern, 
 									const CeGuiString& that, 

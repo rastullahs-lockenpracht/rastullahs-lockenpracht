@@ -46,7 +46,7 @@ namespace rl
 			if( cmd == "reload" )
 			{
 			//	DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "RELOOOAAAD");
-				nlp->processOption("load","*.aiml");
+			//	nlp->processOption("load","*.aiml");
 			}
 			return "";
 		}

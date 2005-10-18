@@ -38,10 +38,10 @@ namespace rl
 		string process(DOMNode* node,Match* m, const char *str, NaturalLanguageProcessor* nlp)
 		{
 			DialogSubsystem::getSingletonPtr()->log(Ogre::LML_TRIVIAL, "Srai");
-			Match* newMatch = nlp->getGM()->match("*",
-										XmlHelper::transcodeToString(
-										node->getFirstChild()->getNodeValue()).c_str()
-										,"*","*");
+			Match* newMatch = nlp->match( "*", XmlHelper::transcodeToString(
+												node->getFirstChild()->
+												getNodeValue()).c_str(),
+										  "*","*");
 			if(newMatch)
 			{
 				DialogSubsystem::getSingletonPtr()->log(Ogre::LML_TRIVIAL, "found new match");

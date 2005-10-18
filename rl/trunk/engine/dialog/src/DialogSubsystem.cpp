@@ -80,7 +80,7 @@ namespace rl
 		return mCurrentBot;
 	}
 
-	DialogCharacter* DialogSubsystem::loadBot(const std::string& fileName, const CeGuiString& botName)
+	DialogCharacter* DialogSubsystem::loadBot(const CeGuiString& fileName, const CeGuiString& botName)
 	{
 		mCurrentBot = new DialogCharacter();
 		setAimlParser(new AimlParserImplXerces(this));

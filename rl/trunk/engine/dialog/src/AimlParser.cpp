@@ -13,22 +13,9 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+
 #include "AimlParser.h"
-//#include "NaturalLanguageProcessor.h"
-//#include "Predicates.h"
-//#include "Nodemaster.h"
-//#include "ScriptObject.h"
-//#include "CoreSubsystem.h"
-//#include "Interpreter.h"
-//#include "XmlHelper.h"
-//#include "DialogSubsystem.h"
-/*
-#include <string>
 
-
-XERCES_CPP_NAMESPACE_USE
-using namespace std;
-*/
 namespace rl
 {
 	AimlParser::AimlParser(NaturalLanguageProcessor* nlp) 

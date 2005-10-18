@@ -38,7 +38,7 @@ namespace rl {
    //     static DialogWindow& getSingleton(void);
    //     static DialogWindow* getSingletonPtr(void);
 
-		DialogWindow(const std::string& dialogFile);
+	//	DialogWindow(const std::string& dialogFile);
 		DialogWindow(DialogCharacter* bot);
 		~DialogWindow();
 
@@ -60,6 +60,7 @@ namespace rl {
 		std::vector<std::string> mTextLines;
 		NaturalLanguageProcessor::Responses mResponses;
 		NaturalLanguageProcessor* mNlp;
+		DialogResponse* mCurrentResponse;
 		CEGUI::Listbox* mDialogOptions;
 		CEGUI::StaticImage* mImage;
 		CEGUI::MultiLineEditbox* mQuestion;

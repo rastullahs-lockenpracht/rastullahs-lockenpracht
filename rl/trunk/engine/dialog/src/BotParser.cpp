@@ -22,11 +22,12 @@
 #include "XmlResourceManager.h"
 
 #include <OgreResourceGroupManager.h>
-//#include "ScriptObject.h"
+
 #include "Interpreter.h"
 #include "CoreSubsystem.h"
 #include "DialogSubsystem.h"
 #include "DialogCharacter.h"
+#include "DialogScriptObject.h"
 #include "BotParser.h"
 
 XERCES_CPP_NAMESPACE_USE
@@ -34,7 +35,7 @@ XERCES_CPP_NAMESPACE_USE
 namespace rl
 {
 	BotParser::BotParser(const CeGuiString& botName)
-		: hasScript(false), mBotName(botName), mBot(NULL)
+		: mHasScript(false), mBotName(botName), mBot(NULL)
 	{
 	}
 
@@ -42,7 +43,7 @@ namespace rl
 	{
 	}
 
-	bool BotParser::parse(const std::string& fileName, DialogCharacter* bot)
+	bool BotParser::parse(const CeGuiString& fileName, DialogCharacter* bot)
 	{
 		XMLPlatformUtils::Initialize();
 
@@ -52,18 +53,19 @@ namespace rl
 		SAX2XMLReader* parser = XMLReaderFactory::createXMLReader();
 		parser->setContentHandler(this);
 		parser->setErrorHandler(this);
+		Ogre::String xmlFile = fileName.c_str();
 		try
 		{	
 			XmlPtr res;
-			if(XmlResourceManager::getSingleton().getByName(fileName).isNull())
+			if(XmlResourceManager::getSingleton().getByName(xmlFile).isNull())
 			{
 				res = XmlResourceManager::getSingleton().create(
-								fileName, 
+								xmlFile, 
 								Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 			}
 			else
 			{
-				res = XmlResourceManager::getSingleton().getByName(fileName);
+				res = XmlResourceManager::getSingleton().getByName(xmlFile);
 			}
 			res.getPointer()->parseBy(parser);
 			
@@ -77,8 +79,8 @@ namespace rl
 		{
 			// get & log xerces error message
 			char* excmsg = XMLString::transcode(exc.getMessage());
-			std::string excs="Exception while Parsing: ";
-			excs+=excmsg;
+			std::string excs = "Exception while Parsing: ";
+			excs += excmsg;
 			// cleanup
 			if(parser)
 			{
@@ -112,19 +114,12 @@ namespace rl
 				{
 					CeGuiString botName = 
 						XmlHelper::getAttributeValueAsString(attrs, "name");
-					const CEGUI::utf8* test = botName.data();
-					botName = CeGuiString(test);
+
 					if(mBotName.empty() || mBotName == botName)
 					{
 						mBotName = botName;
-						if(mBot == NULL)
-						{
-							mBot = new DialogCharacter(mBotName);
-						}
-						else
-						{
-							mBot->setName(mBotName);
-						}
+						initBot();
+						
 						mCurrentState = TAG_BOT;
 						mSubState = SUBTAG_START;
 					}
@@ -143,44 +138,14 @@ namespace rl
 						{
 							// Get Attributes and so on...
 							mSubState = SUBTAG_SCRIPT;
-							src = XmlHelper::getAttributeValueAsString(attrs,"src");
-							value = XmlHelper::getAttributeValueAsString(attrs,"class");
-							if(src.find("?") && value.find("?"))
-							{
-								CoreSubsystem::getSingleton().getInterpreter()->execute(("load \"" + src + "\"").c_str());
-								std::stringstream test;
-								test << "DialogSubsystem.getSingleton()";
-								test << ".getCurrentBot().setScriptObject(";
-								test << value.c_str() << ".new())";
-								CoreSubsystem::getSingleton().getInterpreter()->execute(test.str());
 
-								mSubState = SUBTAG_START;
-							}
-							
-							hasScript = true;
+							loadDialogScriptObject(
+								XmlHelper::getAttributeValueAsString(attrs,"src"),
+								XmlHelper::getAttributeValueAsString(attrs,"class"));
 						}
 						else if(tagName == "learn")
 						{
-							src = XmlHelper::getAttributeValueAsString(attrs,"src");
-							if(src.find("?"))
-							{
-								Ogre::StringVectorPtr sl = 
-									Ogre::ResourceGroupManager::getSingleton().findResourceNames(
-									Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, src.c_str() );
-								Ogre::StringVector::iterator iter;
-								for (iter = sl.get()->begin(); iter != sl.get()->end(); ++iter)
-								{
-									if(DialogSubsystem::getSingletonPtr()->loadAimlFile((*iter).c_str()))
-									{
-										if(mBot)
-										{
-											mBot->addGraphMaster(
-												DialogSubsystem::getSingletonPtr()->
-													getGraphMaster((*iter).c_str()));
-										}
-									}
-								}
-							}
+							learnAiml(XmlHelper::getAttributeValueAsString(attrs,"src"));
 						}
 					}
 					break;
@@ -258,5 +223,64 @@ namespace rl
 
 	void BotParser::fatalError (const XERCES_CPP_NAMESPACE::SAXParseException &exc)
 	{
+	}
+
+	void BotParser::initBot()
+	{
+		if(mBot == NULL)
+		{
+			mBot = new DialogCharacter(mBotName);
+		}
+		else
+		{
+			mBot->setName(mBotName);
+		}
+	}
+		
+	void BotParser::loadDialogScriptObject(const CeGuiString& src, const CeGuiString& className)
+	{
+		if(src.find("?") && className.find("?"))
+		{
+			// load the ruby scriptfile into the interpreter 
+			CoreSubsystem::getSingleton().getInterpreter()->execute(("load \"" + src + "\"").c_str());
+			// create the string for instanciating the class
+			std::stringstream newDialogScriptObject;
+			newDialogScriptObject << "DialogSubsystem.getSingleton()";
+			newDialogScriptObject << ".getCurrentBot().setScriptObject(";
+			newDialogScriptObject << className.c_str() << ".new())";
+			// execute the ruby command
+			CoreSubsystem::getSingleton().getInterpreter()
+				->execute(newDialogScriptObject.str());
+			
+			mSubState = SUBTAG_START;
+		}
+
+		mHasScript = true;
+	}
+
+	void BotParser::learnAiml(const CeGuiString& fileName)
+	{
+		if(fileName.find("?"))
+		{
+			Ogre::StringVectorPtr sl = 
+				Ogre::ResourceGroupManager::getSingleton().findResourceNames(
+				Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, fileName.c_str() );
+			Ogre::StringVector::iterator iter;
+			for (iter = sl.get()->begin(); iter != sl.get()->end(); ++iter)
+			{
+				// check if loading of the aimlfile succeeded
+				// if so, a GraphMaster for the given aimlfile is created
+				if(DialogSubsystem::getSingletonPtr()->loadAimlFile((*iter).c_str()))
+				{
+					if(mBot)
+					{
+						// add the GraphMaster of the aimlfile to the bot
+						mBot->addGraphMaster(
+							DialogSubsystem::getSingletonPtr()->
+								getGraphMaster((*iter).c_str()));
+					}
+				}
+			} // end for(...
+		} // end if(fileName.find...
 	}
 }

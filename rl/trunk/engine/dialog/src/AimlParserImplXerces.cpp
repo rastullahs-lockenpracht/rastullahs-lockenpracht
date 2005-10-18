@@ -164,7 +164,7 @@ namespace rl
 			{
 				if(mNlp)
 				{
-					mNlp->processOption(name.c_str(), value.c_str());
+//					mNlp->processOption(name.c_str(), value.c_str());
 				}
 			}
 		} else if(!tmp.compare("script")) {
@@ -196,7 +196,7 @@ namespace rl
 			{
 				if(mNlp)
 				{
-					mNlp->processOption("load", name.c_str());
+//					mNlp->processOption("load", name.c_str());
 				}
 			}
 		}
@@ -565,7 +565,7 @@ namespace rl
 		//--	this if statement might be wrong!
 		if ( mSubState != CAT_FINISH ) {
 			//--	an error
-		}
+		}/*
 		if(mNlp)
 		{
 			Nodemaster* node = mNlp->getGM()->add(
@@ -575,7 +575,7 @@ namespace rl
 				topicName,
 				templateValue
 				);
-		}
+		}*/
 		if(mAimlCore)
 		{
 			if(Graphmaster* gm = mAimlCore->getGraphMaster(mFileName))

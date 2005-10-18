@@ -107,6 +107,8 @@ public:
 	 */	
 	static CeGuiString getAttributeValueAsString(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
 
+
+	static std::string getAttributeValueAsStdString(XERCES_CPP_NAMESPACE::DOMElement* element, const char* const name);
 	/**
 	 * Ermittelt den Text eines SAX Element-Attributes und konvertiert ihn zu einem CeGuiString
 	 *
@@ -163,6 +165,8 @@ public:
 	 * @see transcodeToUtf8(const XMLCh* const string16);
 	 */
 	static CeGuiString transcodeToString(const XMLCh* const string16);
+
+	static std::string transcodeToStdString(const XMLCh* const string16);
 
 private:
 	static XMLTranscoder* sTranscoder;

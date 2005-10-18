@@ -87,19 +87,20 @@ namespace rl
 
 	void AimlProcessorManager::addStandardProcessors()
 	{
-		ConditionProcessor* cp=new ConditionProcessor();
-		mProcessors["br"]=new BrProcessor();
-		mProcessors["selection"]=cp;
-		mProcessors["condition"]=cp;
-		mProcessors["if"]=cp;
-		mProcessors["srai"]=new SraiProcessor();
-		mProcessors["system"]=new SystemProcessor();
+		ConditionProcessor* cp = new ConditionProcessor();
+		mProcessors["br"] = new BrProcessor();
+		mProcessors["selection"] = cp;
+		mProcessors["condition"] = cp;
+		mProcessors["option"] = cp;
+		mProcessors["if"] = cp;
+		mProcessors["srai"] = new SraiProcessor();
+		mProcessors["system"] = new SystemProcessor();
 	}
 
 	AimlProcessor* AimlProcessorManager::getProcessor(const string &name)
 	{
-		map<string, AimlProcessor *>::const_iterator itr=mProcessors.find(name);
-		if(itr!= mProcessors.end())
+		map<string, AimlProcessor *>::const_iterator itr = mProcessors.find(name);
+		if(itr != mProcessors.end())
 			return itr->second;
 		else return NULL;
 	}

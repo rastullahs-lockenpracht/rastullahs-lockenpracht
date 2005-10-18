@@ -37,6 +37,7 @@ namespace rl
 		void parseXmlFromMemory(const std::string& xmlContent);
 	private:
 		DOMDocument* mDocument;
+		AimlNode* mRootNode;
 	};
 }
 

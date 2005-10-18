@@ -19,7 +19,7 @@
 namespace rl
 {
 	DialogCharacter::DialogCharacter()
-		: mScriptObject(NULL)
+		: mScriptObject(NULL), mCharacter(NULL), mDialogPartner(NULL)
 	{
 	}
 
@@ -35,5 +35,10 @@ namespace rl
 			delete mScriptObject;
 		}
 	}
-
+	
+	void DialogCharacter::setScriptObject(DialogScriptObject* scriptObject)
+	{
+		mScriptObject = scriptObject;
+		scriptObject->setParent(this);
+	}
 }

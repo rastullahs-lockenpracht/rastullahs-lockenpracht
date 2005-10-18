@@ -50,7 +50,7 @@ namespace rl
 		 * @param botName name of the bot to load
 		 * @return will return a DialogCharacter...
 		 */
-		DialogCharacter* loadBot(const std::string& fileName, const CeGuiString& botName = "");
+		DialogCharacter* loadBot(const CeGuiString& fileName, const CeGuiString& botName = "");
 	
 		/**
 		 * Logging

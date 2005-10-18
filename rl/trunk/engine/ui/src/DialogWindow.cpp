@@ -18,6 +18,7 @@
 
 #include "NaturalLanguageProcessor.h"
 #include "DialogCharacter.h"
+#include "DialogResponse.h"
 #include "DialogSubsystem.h"
 
 #include "InputManager.h"
@@ -47,16 +48,17 @@ DialogWindow* DialogWindow::getSingletonPtr()
 	return Ogre::Singleton<DialogWindow>::getSingletonPtr();
 }
 */
+/*
 DialogWindow::DialogWindow(const std::string& dialogFile) : 
 	CeGuiWindow("dialogwindow.xml", WND_MOUSE_INPUT),
 	mNlp(new NaturalLanguageProcessor(dialogFile))
 {
 	initialize();
 }
-
+*/
 DialogWindow::DialogWindow(DialogCharacter* bot)
   : CeGuiWindow("dialogwindow.xml", WND_MOUSE_INPUT),
-	mNlp(bot)
+	mNlp(bot), mCurrentResponse(NULL)
 {
 	initialize();
 
@@ -93,7 +95,18 @@ void DialogWindow::initialize()
 void DialogWindow::getResponse(string msg)
 {
 	ListboxWrappedTextItem* item;
-	mResponses = mNlp->respond(msg);
+	if(mCurrentResponse) delete mCurrentResponse;
+	mCurrentResponse = mNlp->createResponse(msg);
+	if(mCurrentResponse == NULL)
+	{
+		mQuestion->setText(CeGuiString("DIALOG BEENDET"));
+		handleClose();
+		return;
+	}
+	mQuestion->setText(mCurrentResponse->getResponse());
+	mResponses = mCurrentResponse->getOptions();
+	
+	//mResponses = mNlp->respond(msg);
 	
 	if(mResponses.empty())
 	{
@@ -101,36 +114,36 @@ void DialogWindow::getResponse(string msg)
 		handleClose();
 		return;
 	}
+	
 	NaturalLanguageProcessor::Responses::iterator itr = mResponses.begin();
 	
-	mQuestion->setText(itr->second);
+
 	unsigned int i = 0;
 	CeGuiString currentResponse;
-	for(++itr; itr != mResponses.end(); ++itr)
+	for(; itr != mResponses.end(); ++itr)
 	{			
-			if(i < mDialogOptions->getItemCount())
-			{
-				item = reinterpret_cast<ListboxWrappedTextItem*>(mDialogOptions->getListboxItemFromIndex(i));
-				currentResponse = itr->second;
-				DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, currentResponse.c_str());
-				item->setText(currentResponse);
-				item->setTextFormatting(CEGUI::WordWrapLeftAligned);
-			}
-			else
-			{
-				currentResponse = itr->second;
-				item = new ListboxWrappedTextItem(currentResponse);
-				item->setTextFormatting(CEGUI::WordWrapLeftAligned);
-				mDialogOptions->addItem(item);
-			}
-			item->setID(itr->first);
-			mDialogOptions->ensureItemIsVisible(item);
-			++i;
+		if(i < mDialogOptions->getItemCount())
+		{
+			item = reinterpret_cast<ListboxWrappedTextItem*>(mDialogOptions->getListboxItemFromIndex(i));
+			currentResponse = itr->second;
+			DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, currentResponse.c_str());
+			item->setText(currentResponse);
+			item->setTextFormatting(CEGUI::WordWrapLeftAligned);
+		}
+		else
+		{
+			currentResponse = itr->second;
+			item = new ListboxWrappedTextItem(currentResponse);
+			item->setTextFormatting(CEGUI::WordWrapLeftAligned);
+			mDialogOptions->addItem(item);
+		}
+		item->setID(itr->first);
+		mDialogOptions->ensureItemIsVisible(item);
+		++i;
 	}
 	while(i < mDialogOptions->getItemCount())
 	{
 		mDialogOptions->removeItem(mDialogOptions->getListboxItemFromIndex(i));
-
 	}
 	mResponses.clear();
 }
@@ -200,6 +213,8 @@ bool DialogWindow::handleSelectOption()
 {
 	DebugWindow::getSingleton().setText("Pnk "+StringConverter::toString(getSelectedOption()));
 	ListboxWrappedTextItem* item = reinterpret_cast<ListboxWrappedTextItem*>(mDialogOptions->getFirstSelectedItem());
+	CeGuiString test = mCurrentResponse->getSelectedOption(item->getID());
+	test.data();
 	getResponse(StringConverter::toString(item->getID()));	
 	return true;
 }

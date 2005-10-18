@@ -33,7 +33,7 @@ namespace rl
 		BotParser(const CeGuiString& botName);
 		virtual ~BotParser(void);
 
-		virtual bool parse(const std::string& fileName, DialogCharacter* bot);
+		virtual bool parse(const CeGuiString& fileName, DialogCharacter* bot);
 
 		virtual DialogCharacter* getBot();
 		
@@ -44,6 +44,10 @@ namespace rl
 		virtual void startCDATA();
 		void startCategory();
 		void endCategory();
+
+		void initBot();
+		void loadDialogScriptObject(const CeGuiString& src, const CeGuiString& className);
+		void learnAiml(const CeGuiString& fileName);
 
 		virtual void  warning (const XERCES_CPP_NAMESPACE::SAXParseException &exc);
 		virtual void  error (const XERCES_CPP_NAMESPACE::SAXParseException &exc);
@@ -85,7 +89,7 @@ namespace rl
 		std::stack<BotState> mPrevStates;
 		SubState mSubState;
 		unsigned int anyDepth;
-		bool hasScript;
+		bool mHasScript;
 		CeGuiString mBotName;
 
 		DialogCharacter* mBot;

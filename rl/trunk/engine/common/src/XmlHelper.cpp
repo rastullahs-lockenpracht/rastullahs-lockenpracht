@@ -107,6 +107,14 @@ CeGuiString XmlHelper::getAttributeValueAsString(const XERCES_CPP_NAMESPACE::Att
 	return CeGuiString();
 }
 
+std::string XmlHelper::getAttributeValueAsStdString(DOMElement* element, const char* const name)
+{
+	XMLCh* attrName = XMLString::transcode(name);
+	std::string rVal(transcodeToStdString(element->getAttribute(attrName)));
+	XMLString::release(&attrName);
+	return rVal;
+}
+
 bool XmlHelper::getAttributeValueAsBool(DOMElement* element,const char* const name)
 {
 	if( XMLString::compareIString(getAttributeValueAsString(element, name).c_str(),"true") == 0  )
@@ -164,5 +172,12 @@ CeGuiString XmlHelper::transcodeToString(const XMLCh* const string16)
 	return rVal;
 }
 
-
+std::string XmlHelper::transcodeToStdString(const XMLCh* const string16)
+{
+	char* tmpVal = XMLString::transcode(string16);
+	std::string rVal(tmpVal);
+	XMLString::release(&tmpVal);
+	return rVal;
 }
+
+} // end namespace rl

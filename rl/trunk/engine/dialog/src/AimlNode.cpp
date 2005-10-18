@@ -13,27 +13,45 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "AimlNode.h"
 
-#ifndef __DialogPrerequisites_H__
-#define __DialogPrerequisites_H__
 
-// Common is only needed for the CeGuiString typedef
-#include "CommonPrerequisites.h"
+namespace rl
+{
+	AimlNode::AimlNode(AimlNode* parent) 
+		: mParent(parent) 
+	{ 
+		if(mParent)
+		{
+			mIndex = mParent->getCurrentChildIndex();
+		}
+	}
 
-#include "RastullahPrerequisites.h"
+	AimlNode::~AimlNode()
+	{
+	}
 
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-// Export control
-#   if defined( RLDIALOG_EXPORTS )
-#       define _RlDialogExport __declspec( dllexport )
-#   else
-#       define _RlDialogExport __declspec( dllimport )
-#   endif
-#else // Linux / Mac OSX etc
-#   define _RlDialogExport
-#endif
+	unsigned int AimlNode::getCurrentChildIndex()
+	{
+		return mChildNodes.size();
+	}
 
-#pragma warning (disable : 4251)
+	AimlNode* AimlNode::getFirstChild()
+	{
+		return mChildNodes[0];
+	}
 
-#endif
+	AimlNode* AimlNode::getNextSibling()
+	{
+//		std::find(mChildNodes.begin(), mChildNodes.end(), mParent  );
+		return mParent->getNode(mIndex+1);
+	}
 
+	AimlNode* AimlNode::getNode(unsigned int index)
+	{
+		return mChildNodes[index];
+	}
+	
+
+
+} // Namespace rl end

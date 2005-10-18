@@ -15,70 +15,169 @@
  */
 
 #include <string>
-//#include "AimlParser.h"
+
 #include "XmlHelper.h"
+#include "CoreSubsystem.h"
+#include "Interpreter.h"
+
+#include "Creature.h"
+
+#include "Utils.h"
 #include "DialogSubsystem.h"
 #include "DialogCharacter.h"
 #include "DialogScriptObject.h"
 
-
-#include "Utils.h"
-#include "ScriptObject.h"
-#include "CoreSubsystem.h"
-#include "Interpreter.h"
-
 #include "processors/ConditionProcessor.h"
-
-
 
 using namespace std;
 
 namespace rl
 {
-	string ConditionProcessor::process(DOMNode* node,Match* m, const char* str, NaturalLanguageProcessor* nlp)
+	std::string ConditionProcessor::process(DOMNode* node,Match* m, const char* str, NaturalLanguageProcessor* nlp)
 	{		
-		string buffer="";
-	//  Get name- and value-attribute. Name contains the function name, 
-	//  value is optional (if there are no values in <li> 
-		string strName = XmlHelper::getAttributeValueAsString( 
-			static_cast<DOMElement*>(node), "name" ).c_str();
-		int tmpVal = 0;//XmlHelper::getAttributeValueAsInteger( (DOMElement*)node,XMLString::transcode("value") );
+		std::string buffer;
+		std::string typeInfo;
 
-	//  If function name is missing, return
-		int rVal; 
-		if(!strName.empty())	
+		//  get attributes
+		std::string conditionContext = XmlHelper::getAttributeValueAsString(
+				static_cast<DOMElement*>(node), "context" ).c_str();
+
+		std::string conditionType = XmlHelper::getAttributeValueAsString( 
+				static_cast<DOMElement*>(node), "type" ).c_str();
+		
+		std::string conditionName = XmlHelper::getAttributeValueAsString( 
+				static_cast<DOMElement*>(node), "name" ).c_str();
+
+		int rVal = 0; 
+		int tmpVal = 0;//XmlHelper::getAttributeValueAsInteger( (DOMElement*)node,XMLString::transcode("value") );
+		int modifier = 0;
+
+		if(static_cast<DOMElement*>(node)->hasAttribute((XMLCh*)"mod"))
 		{
-		//  Get the NPC dialog control script object and call the named function
-			ScriptObject* so=CoreSubsystem::getSingleton().getInterpreter()->getScriptObject("DialogMeister");  
-			// @todo: ScriptObject name has to be NPC name
-			rVal = so->callIntegerFunction(strName,0,0);
-		} 
+			modifier = 
+				XmlHelper::getAttributeValueAsInteger( 
+										static_cast<DOMElement*>(node), "mod" );
+		}
+
+		DialogScriptObject* scriptObject = 
+			(static_cast<DialogCharacter*>(nlp))->getScriptObject();
+
+		if(conditionType == "Talent")
+		{
+			typeInfo = " (T) ";
+			rVal = scriptObject->getDialogPartner()->doTalentprobe(conditionName, modifier);
+		}
+		else if (conditionType == "Eigenschaft")
+		{
+			typeInfo = " (E) ";
+			rVal = scriptObject->getDialogPartner()->doEigenschaftsprobe(conditionName, modifier);
+		}
+		else if(conditionType == "Basiswert")
+		{
+		}
 		else
 		{
-			rVal = (static_cast<DialogCharacter*>(nlp))->
-				getScriptObject()->calcOptionValue();
+			if(conditionContext == "response")
+			{
+				rVal = scriptObject->calcResponseValue(conditionName);
+			}
+			else if(conditionContext == "option")
+			{
+				rVal = scriptObject->calcOptionValue(conditionName);
+			}
+		}
+		bool conditionChild = false;
+
+		if(XmlHelper::transcodeToString(
+			node->getParentNode()->getNodeName()) == "li")
+		{
+			conditionChild = true;
+			buffer += typeInfo;
+			buffer += "<option type=\"" + conditionType + "\" ";
+			buffer += "name=\"" + conditionName + "\" ";
+			buffer += ">";
 		}
 		//  Search through all li-elements
-		for (DOMNode* childNode=node->getFirstChild(); childNode != node->getLastChild(); childNode = childNode->getNextSibling() )
+		for (DOMNode* childNode = node->getFirstChild(); childNode != NULL; childNode = childNode->getNextSibling() )
 		{	
 			if ( childNode->getNodeType() == DOMNode::ELEMENT_NODE ) 
 			{
-				string nodeName = XmlHelper::transcodeToString(
+				std::string nodeName = XmlHelper::transcodeToString(
 											childNode->getNodeName()).c_str();
 				if(!nodeName.compare("li"))
 				{
-					tmpVal = XmlHelper::getAttributeValueAsInteger( (DOMElement*)childNode,"value" );
-				//	char* test=XmlHelper::getAttributeValueAsString( (DOMElement*)childNode, "value" );
-					std::string id = XmlHelper::getAttributeValueAsString( (DOMElement*)childNode, "id" ).c_str();
-				//  Add elements in <li> Tag only if <li>-value = return value of the named function
-					if(tmpVal == rVal)
+					tmpVal = XmlHelper::getAttributeValueAsInteger( 
+						static_cast<DOMElement*>(childNode), "value" );
+					std::string sValue = XmlHelper::getAttributeValueAsStdString(
+						static_cast<DOMElement*>(childNode), "value" );
+					std::string id = XmlHelper::getAttributeValueAsStdString( 
+						static_cast<DOMElement*>(childNode), "id" );
+
+					bool conditionFulfilled = false;
+			
+					//  Add elements in <li> Tag only if <li>-value = return value of the named function
+					if(conditionContext == "selection")
 					{
-						buffer += "<li id=\""+id+"\" />";
-						buffer += nlp->process(childNode,m,str);	
+						conditionFulfilled = true;
 					}
+					else if ( (conditionType == "Talent" 
+						|| conditionType == "Eigenschaft")
+						)
+					{
+						if( (rVal > 0 && tmpVal > 0)
+							|| (rVal <= 0 && tmpVal == 0))
+						{
+							conditionFulfilled = true;
+						}
+					}
+					else
+					{
+						conditionFulfilled = (tmpVal == rVal);
+					}
+
+					
+					if(conditionFulfilled)
+					{
+						std::string temp = nlp->process(childNode, m, str);
+						if(conditionContext.empty())
+						{
+							buffer += temp;
+						}
+						else if(conditionContext == "selection")
+						{
+							buffer += "<li id=\"" + id + "\" ";
+							buffer += "value=\"" + sValue + "\" ";
+							buffer += ">";
+							buffer += temp;
+							buffer += "</li>";
+						}
+						else
+						{
+							buffer += "<li id=\"" + id + "\" ";
+							buffer += "value=\"" + sValue + "\" ";
+							buffer += "/>";
+							buffer += temp;
+						}
+					} // end if conditionFulfilled						
 				} // end compare nodeName
 			} // end compare nodeType
+			else if( childNode->getNodeType() == DOMNode::TEXT_NODE ) 
+			{
+				std::string text = XmlHelper::transcodeToString(
+						static_cast<DOMText*>(childNode)->getData())
+						.c_str();
+				
+				if( !normalise(text).empty())
+				{
+					buffer += nlp->process(node, m, str);
+					return buffer;
+				}
+			}
 		} // end for loop
+		if(conditionChild)
+		{
+			buffer += "</option>";
+		}
 		return buffer;
 	}
 }// Namespace rl end

@@ -31,9 +31,12 @@
 XERCES_CPP_NAMESPACE_USE
 
 
+
 namespace rl
 {
 	using XERCES_CPP_NAMESPACE::DOMDocument; //XXX: Warum brauche ich das unter VS 2003?
+
+	class DialogResponse;
 
 	/** Main class for starting a dialog with a NPC
 	 *  @author Philipp Walser
@@ -43,16 +46,19 @@ namespace rl
 	public:
 		typedef std::map<int, CeGuiString> Responses;
 		
-		NaturalLanguageProcessor(){}
-		NaturalLanguageProcessor(const std::string& filename);
+		NaturalLanguageProcessor();
+//		NaturalLanguageProcessor(const std::string& filename);
 		~NaturalLanguageProcessor();
 
-		Graphmaster *getGM() const { return mGm; }
+//		Graphmaster *getGM() const { return mGm; }
 		void addGraphMaster(Graphmaster* gm);
-		bool loadAiml(const std::string& filename);
-		Responses& respond(const std::string& input);
+//		bool loadAiml(const std::string& filename);
+	//	Responses& respond(const std::string& input);
+		DialogResponse* createResponse(const std::string& input);
+		Match* match(const std::string& context, const std::string& input, 
+						const std::string& that, const std::string& topic);
 		string process(DOMNode* node, Match *match, const string& id);
-		void processOption(const string& name, const std::string& value);
+//		void processOption(const string& name, const std::string& value);
 		void setName(const CeGuiString& name);
 		const CeGuiString& getName() const;
 		bool mExit;
@@ -67,7 +73,7 @@ namespace rl
 		Responses mCurrentResponses;
 		std::vector<Graphmaster*> mGraphList;
 		
-		Graphmaster *mGm;	// this should be a list with multiple Graphmasters.
+	//	Graphmaster *mGm;	// this should be a list with multiple Graphmasters.
 							// every Graphmaster contains one aiml-file
 							// this way, multiple bots can use the same AIML-Memory
 		

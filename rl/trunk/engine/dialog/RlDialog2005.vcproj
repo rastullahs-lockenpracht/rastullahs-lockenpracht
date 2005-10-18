@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\xerces\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\rules\include;..\..\dependencies\ogre\dependencies\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\cegui\include;..\..\dependencies\xerces\include"
 				PreprocessorDefinitions="_WINDOWS,_DEBUG,WIN32,RLDIALOG_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -70,10 +70,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="false"
-				AdditionalDependencies="OgreMain_d.lib xerces-c_2D.lib RlCommon.lib RlCore.lib CEGUIBase_d.lib"
+				AdditionalDependencies="OgreMain_d.lib xerces-c_2D.lib RlCommon.lib RlCore.lib RlRules.lib CEGUIBase_d.lib"
 				OutputFile="$(OutDir)/RlDialog.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\dependencies\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib"
+				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\xerces\lib;..\..\dependencies\cegui\lib"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/RlDialog.pdb"
 				SubSystem="2"
@@ -130,7 +130,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\xerces\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\rules\include;..\..\dependencies\ogre\dependencies\include;..\..\dependencies\ogre\OgreMain\include;..\..\dependencies\cegui\include;..\..\dependencies\xerces\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;RLDIALOG_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -149,10 +149,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib xerces-c_2.lib RlCommon.lib RlCore.lib CEGUIBase.lib"
+				AdditionalDependencies="OgreMain.lib xerces-c_2.lib RlCommon.lib RlCore.lib RlRules.lib CEGUIBase.lib"
 				OutputFile="$(OutDir)/RlDialog.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib"
+				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogre\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\xerces\lib;..\..\dependencies\cegui\lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -203,6 +203,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\AimlNode.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\AimlNodeImplXerces.cpp"
 				>
 			</File>
@@ -224,6 +228,10 @@
 			</File>
 			<File
 				RelativePath=".\src\DialogCharacter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\DialogResponse.cpp"
 				>
 			</File>
 			<File
@@ -313,6 +321,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\DialogResponse.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\DialogScriptObject.h"
 				>
 			</File>
@@ -372,6 +384,10 @@
 			</File>
 			<File
 				RelativePath=".\include\processors\ConditionProcessor.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\processors\SraiProcessor.h"
 				>
 			</File>
 			<File

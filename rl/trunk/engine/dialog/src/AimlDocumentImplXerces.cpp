@@ -29,7 +29,7 @@ namespace rl
 	using namespace Ogre;
 
 	AimlDocumentImplXerces::AimlDocumentImplXerces(const std::string& document, bool fromMemory)
-		: mDocument(NULL)
+		: mDocument(NULL), mRootNode(NULL)
 	{
 		if(fromMemory)
 		{
@@ -82,6 +82,7 @@ namespace rl
 		//	if(xmlHandler)delete xmlHandler;  TODO: xmlHandler!!!
 			throw (exc);
 		}
+		mRootNode = new AimlNodeImplXerces(NULL, mDocument->getDocumentElement());
 	}
 
 	void AimlDocumentImplXerces::parseXmlFromMemory(const std::string& xmlContent)
@@ -91,6 +92,6 @@ namespace rl
 
 	AimlNode* AimlDocumentImplXerces::getDocumentElement()
 	{
-		return (new AimlNodeImplXerces(mDocument->getDocumentElement()));
+		return mRootNode;
 	}
 }
