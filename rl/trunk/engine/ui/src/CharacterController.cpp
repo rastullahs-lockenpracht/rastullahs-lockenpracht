@@ -55,6 +55,7 @@ namespace rl {
         mLookAtOffset(),
         mMovementSpeed(360.0f),
         mRotationSpeed(4.0f),
+        mSpeedModifier(1.0f),
         mDesiredVel(),
         mCurrentAnimationState(AS_STAND),
         mLastAnimationState(AS_STAND),
@@ -62,6 +63,7 @@ namespace rl {
         mIsAirBorne(true),
         mIsStopped(false),
         mStartJump(false),
+        mJumpTimer(0.0),
         mMaxDelay(1.0/30.0),
         mObstractedFrameCount(0),
         mCameraJammedFrameCount(0),
@@ -256,6 +258,7 @@ namespace rl {
 
         // Get the current world timestep
         Real timestep = world->getTimeStep();
+        mJumpTimer += timestep;
 
         if (body == mCamBody)
         {
@@ -329,7 +332,8 @@ namespace rl {
             Vector3 currentVel = body->getVelocity();
 
             // Gravity is applied above, so not needed here
-            currentVel.y = 0;
+            // prevent adding a counter force against gravity
+            if (currentVel.y < 0.0f || mJumpTimer < 2.0f) currentVel.y = 0.0f;
 
             force += mass*(orientation*mDesiredVel - currentVel) / timestep;
 
@@ -337,7 +341,8 @@ namespace rl {
             if (!mIsAirBorne && mStartJump)
             {
                 mStartJump = false;
-                force += mass*800.f/timestep * Vector3::UNIT_Y;
+                mJumpTimer = 0.0f;
+                force += mass*400.f/timestep * Vector3::UNIT_Y;
             }
 
             body->setForce(force);

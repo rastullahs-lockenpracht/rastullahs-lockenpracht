@@ -89,6 +89,7 @@ namespace rl {
         Ogre::Vector3 mLookAtOffset;
         Ogre::Real mMovementSpeed;
         Ogre::Real mRotationSpeed;
+        Ogre::Real mSpeedModifier;
 
         Ogre::Vector3 mDesiredVel;
 
@@ -100,6 +101,7 @@ namespace rl {
         bool mIsAirBorne;
         bool mIsStopped;
         bool mStartJump;
+        Ogre::Real mJumpTimer;
 
         int mObstractedFrameCount;
         int mCameraJammedFrameCount;
