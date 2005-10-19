@@ -44,89 +44,6 @@ material techdemo_terrain
 {
 	receive_shadows on
 
-	technique ff
-	{
-		// Basis Pass
-		pass
-		{
-			// Kein Licht
-			lighting off
-			
-			texture_unit
-			{
-			 	
-				// Das Gras ist unsere Basistextur, auf sie soll der Stein gelegt werden
-				texture Wiese_01.png
-				// Skalieren, je nach Textur und Terraingröße anpassen
-				scale 0.05 0.05
-				// Es wird nur die Farbe eingeblendet
-				//colour_op_ex source1 src_texture src_texture
-			}
-		}
-		pass
-		{
-
-			depth_func equal
-			scene_blend zero src_colour
-
-			// Die AlphaMap
-			texture_unit
-			{
-				// Die Textur
-				texture Berg_blending.png
-				// Wir setzen Alpha auf das Alpha dieser Textur
-				alpha_op_ex source1 src_texture src_texture
-				// Und die Farben auf das bisherige Mischergebnisses
-				colour_op_ex source1 src_current src_current
-			}
-
-			// Die zweite Textur
-			texture_unit
-			{
-			    
-				texture Fels_01.png
-				scale 0.05 0.05
-				// Wir blenden anhand des aktuellen Alpha die Textur dazu
-				colour_op_ex blend_current_alpha src_texture src_current
-			}
-		}
-		pass
-		{
-			depth_func equal
-			scene_blend zero src_colour
-
-			// Die AlphaMap für den Weg
-			texture_unit
-			{
-				// Die Textur
-				texture weg_blending.png
-				// Wir setzen Alpha auf das Alpha dieser Textur
-				alpha_op_ex source1 src_texture src_texture
-				// Und die Farben auf das bisherige Mischergebnisses
-				colour_op_ex source1 src_current src_current
-			}
-
-			// Die Textur für den Weg
-			texture_unit
-			{
-				
-				texture lehmboden_01.png
-				scale 0.05 0.05
-				// Wir blenden anhand des aktuellen Alpha die Textur dazu
-				colour_op_ex blend_current_alpha src_texture src_current
-			}
-		}
-
-		// Beleuchtung (extra pass, da im ersten Pass deaktiviert)
-		pass
-		{
-			ambient 0.6 0.6 0.6 1
-			diffuse 0.5 0.5 0.5 
-
-			depth_func equal
-			scene_blend zero src_colour
-		}
-	}
 
 	// Erste Technik
 	technique glsl
@@ -213,4 +130,95 @@ material techdemo_terrain
 		}
 	}
 
+	technique ff
+	{
+		// Basis Pass
+		pass
+		{
+			// Kein Licht
+			lighting off
+			
+			texture_unit
+			{
+			 	
+				// Das Gras ist unsere Basistextur, auf sie soll der Stein gelegt werden
+				texture Wiese_01.png
+				// Skalieren, je nach Textur und Terraingröße anpassen
+				scale 0.05 0.05
+				// Es wird nur die Farbe eingeblendet
+				//colour_op_ex source1 src_texture src_texture
+			}
+		}
+		pass
+		{
+
+			// Kein Licht
+			lighting off
+
+			scene_blend alpha_blend
+			depth_func equal
+			alpha_rejection greater 2
+
+			// Die AlphaMap für den Berg
+			texture_unit
+			{
+				// Die Textur
+				texture Berg_blending.png
+				// Wir setzen Alpha auf das Alpha dieser Textur
+				alpha_op_ex source1 src_texture src_texture
+				// Und die Farben auf das bisherige Mischergebnisses
+				colour_op_ex source1 src_current src_current
+			}
+
+			// Die zweite Textur
+			texture_unit
+			{
+			    
+				texture Fels_01.png
+				scale 0.05 0.05
+				// Wir blenden anhand des aktuellen Alpha die Textur dazu
+				colour_op_ex blend_current_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			// Kein Licht
+			lighting off
+
+			scene_blend alpha_blend
+			depth_func equal
+			alpha_rejection greater 2
+
+			// Die AlphaMap für den Weg
+			texture_unit
+			{
+				// Die Textur
+				texture weg_blending.png
+				// Wir setzen Alpha auf das Alpha dieser Textur
+				alpha_op_ex source1 src_texture src_texture
+				// Und die Farben auf das bisherige Mischergebnisses
+				colour_op_ex source1 src_current src_current
+			}
+
+			// Die Textur für den Weg
+			texture_unit
+			{
+				
+				texture lehmboden_01.png
+				scale 0.05 0.05
+				// Wir blenden anhand des aktuellen Alpha die Textur dazu
+				colour_op_ex blend_current_alpha src_texture src_current
+			}
+		}
+
+		// Beleuchtung (extra pass, da im ersten Pass deaktiviert)
+		pass
+		{
+			ambient 0.6 0.6 0.6 1
+			diffuse 0.5 0.5 0.5 
+
+			depth_func equal
+			scene_blend zero src_colour
+		}
+	}
 }
