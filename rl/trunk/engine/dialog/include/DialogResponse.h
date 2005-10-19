@@ -33,7 +33,7 @@ namespace rl
 						const Options& currentOptions, 
 						const Options& selectableOptions,
 						NaturalLanguageProcessor* nlp);
-		~DialogResponse(void);
+		virtual ~DialogResponse(void);
 
 
 		const Options& getOptions() { return mCurrentOptions; }
