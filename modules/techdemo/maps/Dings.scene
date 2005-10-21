@@ -863,13 +863,13 @@
       <position x="-7551.677246" y="283.565769" z="-10553.618164"/>
       <rotation qx="0.000000" qy="0.270245" qz="0.000000" qw="0.962792"/>
       <scale x="0.204398" y="0.204398" z="0.204398"/>
-      <entity name="Mesh.319" meshFile="busch_stachlig.mesh"/>
+      <entity name="Mesh.319" meshFile="nat_busch_stachlig.mesh"/>
     </node>
     <node name="Mesh.318">
       <position x="-5786.721191" y="639.896049" z="-10572.138672"/>
       <rotation qx="0.000000" qy="0.283347" qz="0.000000" qw="0.959018"/>
       <scale x="0.226550" y="0.226550" z="0.226550"/>
-      <entity name="Mesh.318" meshFile="busch_stachlig.mesh"/>
+      <entity name="Mesh.318" meshFile="nat_busch_stachlig.mesh"/>
     </node>
     <node name="Mesh.236">
       <position x="1631.552429" y="340.103493" z="-4436.757507"/>
@@ -2064,19 +2064,19 @@
       <position x="-6040.521851" y="333.731804" z="-8223.481445"/>
       <rotation qx="0.000000" qy="0.997602" qz="0.000000" qw="0.069215"/>
       <scale x="0.212071" y="0.212071" z="0.212071"/>
-      <entity name="Mesh.320" meshFile="busch_stachlig.mesh"/>
+      <entity name="Mesh.320" meshFile="nat_busch_stachlig.mesh"/>
     </node>
     <node name="Mesh.321">
       <position x="-7808.453979" y="240.223961" z="-10939.455566"/>
       <rotation qx="0.000000" qy="-0.776650" qz="0.000000" qw="0.629932"/>
       <scale x="0.244990" y="0.244990" z="0.244990"/>
-      <entity name="Mesh.321" meshFile="busch_stachlig.mesh"/>
+      <entity name="Mesh.321" meshFile="nat_busch_stachlig.mesh"/>
     </node>
     <node name="Mesh.322">
       <position x="-9062.642822" y="53.850598" z="-7642.701416"/>
       <rotation qx="0.000000" qy="0.741884" qz="0.000000" qw="0.670528"/>
       <scale x="0.255106" y="0.255106" z="0.255106"/>
-      <entity name="Mesh.322" meshFile="busch_stachlig.mesh"/>
+      <entity name="Mesh.322" meshFile="nat_busch_stachlig.mesh"/>
     </node>
     <node name="Mesh.323">
       <position x="9151.186523" y="1115.479431" z="4742.494202"/>
