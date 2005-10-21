@@ -17,8 +17,7 @@
 #ifndef __UiComponentsPrerequisites_H__
 #define __UiComponentsPrerequisites_H__
 
-#include <Ogre.h>
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#if defined( WIN32 )
 // Export control
 #   if defined( RLUICOMPONENTS_EXPORT )
 #       define _RlUiComponentsExport __declspec( dllexport )
