@@ -342,15 +342,17 @@ namespace rl {
 		}
 		catch(...) {}
 
-		/* IMPLEMENT  ^^ / Durch angleX,angleY,angleZ definiert
+		// Durch angleX,angleY,angleZ definiert
 		try
 		{
-			return Ogre::Quaternion(
-				XmlHelper::getAttributeValueAsReal( rootQuatXml, XMLString::transcode("angleX") ),
-				XmlHelper::getAttributeValueAsReal( rootQuatXml, XMLString::transcode("angleY") ),
-				XmlHelper::getAttributeValueAsReal( rootQuatXml, XMLString::transcode("angleZ") ) );
+            Ogre::Matrix3 mat;
+			mat.FromEulerAnglesXYZ(
+				Degree(XmlHelper::getAttributeValueAsReal(rootQuatXml, "angleX")),
+				Degree(XmlHelper::getAttributeValueAsReal(rootQuatXml, "angleY")),
+				Degree(XmlHelper::getAttributeValueAsReal(rootQuatXml, "angleZ")));
+            return Quaternion(mat);
 		}
-		catch(...) {} */
+		catch(...) {}
 
 		return Ogre::Quaternion::IDENTITY;
 	}
