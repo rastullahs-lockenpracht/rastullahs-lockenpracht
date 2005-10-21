@@ -31,6 +31,9 @@
 
 #include "Exception.h"
 
+#include <cstdlib>
+#include <ctime>
+
 using namespace XERCES_CPP_NAMESPACE;
 using namespace std;
 
@@ -39,6 +42,8 @@ namespace rl {
 
 	DotSceneLoader::DotSceneLoader( const std::string &filename )
 	{
+        srand(static_cast<unsigned int>(time(NULL)));
+
 		mSceneName = filename;
 		mSceneManager = CoreSubsystem::getSingleton().getWorld()->getSceneManager();
 
@@ -196,7 +201,8 @@ namespace rl {
 	}
 
 	// Eine Entity
-	void DotSceneLoader::processEntity( DOMElement* rootEntityXml, Ogre::SceneNode* parentNode )
+	void DotSceneLoader::processEntity( DOMElement* rootEntityXml,
+        Ogre::SceneNode* parentNode )
 	{
 		string entName = XmlHelper::getAttributeValueAsString( 
 			rootEntityXml, "name" ).c_str();
@@ -204,73 +210,56 @@ namespace rl {
 			rootEntityXml, "meshFile" ).c_str();
 
 		Ogre::Entity* newEnt = NULL;
-		// Wurde der Entity bisher kein Name zugewiesen
-		if( entName.length() == 0 )              
-			entName = getNextEntityName(mSceneName+"_"+parentNode->getName());
-        // Überprüfung auf Korrektheit des Namens
-        else
+
+        // Wurde der Entity bisher kein Name zugewiesen
+		if( entName.length() == 0 )
         {
+            entName = getRandomName(mSceneName+"_"+parentNode->getName());
+        }
+
+        bool isEntityCreated = false;
+        while(!isEntityCreated)
+        {
+            // Erschaffen versuchen
             try
-            {
-                mSceneManager->getEntity( entName );
-                // Bereits vergebener Name
-                string oldName = entName;
-                entName = getNextEntityName(mSceneName+"_"+parentNode->getName());
-                CoreSubsystem::getSingleton().log(Ogre::LML_NORMAL, 
-                    " EntityName '"+oldName+"' war schon vergeben! Es wurde der Name '"+entName+"' benutzt." );
+            {        
+                newEnt = mSceneManager->createEntity(entName, meshName);
+                parentNode->attachObject( newEnt );
+                isEntityCreated = true;
+
+                CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Entity '"+meshName+"' mit dem Namen '"+entName+"' in den Knoten '"+parentNode->getName()+"' eingefügt." );
+
+                // Zur Physik des Levels hinzufügen
+                PhysicsManager::getSingleton().addLevelGeometry( newEnt );
+                CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Entity '"+entName+"' als TriMesh in levelGeometry geladen");
+
+                newEnt->setCastShadows( false );
             }
-            // Noch nicht gefunden
-            catch( Ogre::Exception ) {}
-        }
-
-        // Erschaffen versuchen
-        try
-        {        
-		    newEnt = mSceneManager->createEntity(entName, meshName);				
-		    parentNode->attachObject( newEnt );
-
-		    CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Entity '"+meshName+"' mit dem Namen '"+entName+"' in den Knoten '"+parentNode->getName()+"' eingefügt." );
-
-		    // Zur Physik des Levels hinzufügen
-		    PhysicsManager::getSingleton().addLevelGeometry( newEnt );
-		    CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Entity '"+entName+"' als TriMesh in levelGeometry geladen");
-
-		    newEnt->setCastShadows( false );
-	        // newEnt->setCastShadows( XmlHelper::getAttributeValueAsBool( rootEntityXml, XMLString::transcode("castShadows") ) );
-		    // XmlHelper::getAttributeValueAsBool( rootEntityXml, XMLString::transcode("static") );
-        }
-        catch( Ogre::Exception ) 
-        {
-            CoreSubsystem::getSingleton().log(Ogre::LML_CRITICAL, 
-                " Laden der Entity '"+meshName+"' gescheitert!" );
+            catch (Ogre::Exception& e) 
+            {
+                if (e.getNumber() == Ogre::Exception::ERR_DUPLICATE_ITEM)
+                {
+                    // Ok, gab es schon. Neuen Namen probieren.
+                    entName = getRandomName(entName);
+                }
+                else
+                {
+                    CoreSubsystem::getSingleton().log(Ogre::LML_CRITICAL, 
+                        " Laden der Entity '"+meshName+"' gescheitert!" );
+                    // Nicht weiter versuchen
+                    break;
+                }
+            }
         }
 	}
 
-	string DotSceneLoader::getNextEntityName( const string& baseName )
-	{
-		bool found = true;
-		int number = 0;
-		string name;
-		Ogre::SceneManager* sceneManager = CoreSubsystem::getSingleton().getWorld()->getSceneManager();
-
-		while( found )
-		{
-			name = baseName + "_" + Ogre::StringConverter::toString(number);
-
-			try
-			{
-				sceneManager->getEntity(name);
-				number++;
-			}
-			// Nicht gefunden, den Namen können wir nehmen
-			catch( Ogre::Exception ex )
-			{
-				found = false;
-			}
-		}
-
-		return name;
-	}
+    string DotSceneLoader::getRandomName(const string& baseName)
+    {
+        int rnd = rand();
+        stringstream rval;
+        rval << baseName << "_" << rnd;
+        return rval.str();
+    }
 
 	void DotSceneLoader::staticGeometryAddSceneNodeWorkaround( 
 		Ogre::StaticGeometry* staticGeom, Ogre::SceneNode* baseNode )

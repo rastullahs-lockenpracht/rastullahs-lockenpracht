@@ -40,7 +40,6 @@ namespace rl {
 		~DotSceneLoader() {};
 
 		/// Hilfsmethode zur Generierung eines nopch nicht vergebenen Entitynamens
-		static std::string getNextEntityName( const std::string& baseName );
 		static void staticGeometryAddSceneNodeWorkaround( Ogre::StaticGeometry* staticGeom , Ogre::SceneNode* baseNode );
 	private:
 		/// Laden der Szene
@@ -69,6 +68,8 @@ namespace rl {
 		*  Sollten die Attribute nicht korrekt definiert sein, gibt es Quaternion::IDENTITY zurück (1,0,0,0)
 		*/
 		Ogre::Quaternion processRotation( XERCES_CPP_NAMESPACE::DOMElement* rootQuatXml );
+
+        std::string getRandomName(const std::string& baseName);
 
 		/// Der Name der Scene
 		std::string mSceneName;
