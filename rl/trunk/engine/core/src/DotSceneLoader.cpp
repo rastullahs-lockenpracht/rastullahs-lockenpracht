@@ -134,26 +134,34 @@ namespace rl {
 			"name" ).c_str();
 		
 		Ogre::SceneNode* newNode;
-		// Wurde dem Node ein Name zugewiesen
+		// Wurde dem Node ein Name zugewiesen?
 		if( nodeName.length() > 0 )
         {
             try
             {
-                mSceneManager->getSceneNode( nodeName );
-                // Name war schon vergeben!
-                newNode = parentNode->createChildSceneNode();
-                CoreSubsystem::getSingleton().log(Ogre::LML_NORMAL, 
-                    " NodeName '"+nodeName+"' war schon vergeben! Es wurde der Name '"+newNode->getName()+"' benutzt." );                
-            }
-            catch( Ogre::Exception )
-            {
-                // Name war noch nicht vergeben!
+                // Dann versuche einen Knoten mit dem Namen zu erstellen
                 newNode = parentNode->createChildSceneNode(nodeName);
+            }
+            catch( Ogre::Exception& e )
+            {
+                // Name schon vergeben?
+                if (e.getNumber() == Ogre::Exception::ERR_DUPLICATE_ITEM)
+                {
+                    newNode = parentNode->createChildSceneNode();
+                    CoreSubsystem::getSingleton().log(Ogre::LML_NORMAL, 
+                        " NodeName '"+nodeName+"' war schon vergeben! Es wurde der Name '"+newNode->getName()+"' benutzt." );
+                }
+                else
+                {
+                    // Andere Exception-Ursache - weiterwerfen.
+                    throw e;
+                }
             }
         }
 		else
+        {
             newNode = parentNode->createChildSceneNode();
-			
+        }	
 
 		CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Node '"+newNode->getName()+"' als Unterknoten von '"+parentNode->getName()+"' erstellt." );
 
