@@ -8,6 +8,7 @@ require 'truhe.rb'
 require 'door_opener.rb'
 require 'heiltrank.rb'
 require 'crate.rb'
+require 'Oger.rb'
 
 # Physik aktivieren
 $PM.setEnabled(true);
@@ -20,7 +21,7 @@ $CORE.log("skybox set");
 $CORE.log("Tageslicht erstellen..");
 sunlight = $AM.createLightActor("sunlight", LightObject::LT_DIRECTIONAL);
 sunlight.getControlledObject().setDirection(-0.8, -2.0, 3.0);
-sunlight.getControlledObject().setCastShadows(false);
+sunlight.getControlledObject().setCastShadows(true);
 sunlight.getControlledObject().setDiffuseColour(0.8,0.8,0.7);
 $CORE.log("Tageslicht erstellt.");
 
@@ -39,10 +40,14 @@ $CORE.log("Kiste einsetzen");
 crate = Crate.new("Eine Kiste", "Eine Kiste.\nWas mag da drin sein?");
 crate.getActor().placeIntoScene(180.0, 80.0, 220.0, 1.0, 0.0, 0.0, 0.0);
 
+$CORE.log("Oger einsetzen");
+oger = Oger.new("Ein Oger", "Ein Oger.\nGott!. Was n Vieh!");
+oger.getActor().placeIntoScene(0.0, 8.0, -180.0, 1.0, 0.0, 0.0, 0.0);
+
 $CORE.log("Türen einsetzen")
-door1 = Door.new("Eine Tür", "Eine Holztür", false, true);
-door1.getActor().placeIntoScene(1368.0, -75.0, -170.0, 1.0, 0.0, 0.0, 0.0);
-door1.getActor().yaw(-90.0)
+$door1 = Door.new("Eine Tür", "Eine Holztür", false, true);
+$door1.getActor().placeIntoScene(1368.0, -75.0, -170.0, 1.0, 0.0, 0.0, 0.0);
+$door1.getActor().yaw(-90.0)
 
 gtuer = Door.new("Eine Tür", "Eine Holztür.\nDiese Tür hat weder Klinke noch Schlösser", false, false);
 gtuer.getActor().placeIntoScene(1368.0, -75.0, 60.0, 1.0, 0.0, 0.0, 0.0)

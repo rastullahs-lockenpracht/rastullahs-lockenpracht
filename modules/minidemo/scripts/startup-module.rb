@@ -1,4 +1,4 @@
-$CORE.loadMap("Octree", "minidemo.scene", "minidemo.rb");
+$CORE.loadMap("Octree", "minidemo.scene", "minidemo", "minidemo.rb");
 
 $World = $CORE.getWorld();
 
