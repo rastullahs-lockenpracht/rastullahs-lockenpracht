@@ -68,7 +68,7 @@ namespace rl {
         newVp->setBackgroundColour(ColourValue(0,0,0));
     }
 
-    void DotSceneOctreeWorld::loadScene(const String& levelName)
+    void DotSceneOctreeWorld::loadScene(const String& levelName, const String& module)
     {
         if( mSceneFile.length() != 0 )
             clearScene();
@@ -80,7 +80,7 @@ namespace rl {
 		/// TODO - In den Sky-Sonnenpart verschieben
 		mSceneMgr->setAmbientLight(ColourValue(0.55, 0.55, 0.55));
 
-		DotSceneLoader* dot = new DotSceneLoader( levelName );
+		DotSceneLoader* dot = new DotSceneLoader(levelName, module);
 		delete dot;
 		mSceneFile = levelName;
 

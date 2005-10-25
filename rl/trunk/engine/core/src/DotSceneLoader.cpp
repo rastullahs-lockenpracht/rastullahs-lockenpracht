@@ -40,13 +40,13 @@ using namespace std;
 namespace rl {
 	using XERCES_CPP_NAMESPACE::DOMDocument; //XXX: Warum brauche ich das unter VS 2003?
 
-	DotSceneLoader::DotSceneLoader( const std::string &filename )
+    DotSceneLoader::DotSceneLoader(const string& filename, const string& resourceGroup)
+        : mSceneName(filename),
+          mResourceGroup(resourceGroup),
+          mSceneManager(CoreSubsystem::getSingleton().getWorld()->getSceneManager())
+
 	{
         srand(static_cast<unsigned int>(time(NULL)));
-
-		mSceneName = filename;
-		mSceneManager = CoreSubsystem::getSingleton().getWorld()->getSceneManager();
-
 		initializeScene();
 	}
 
@@ -96,7 +96,7 @@ namespace rl {
 		XmlPtr res = 
 			XmlResourceManager::getSingleton().create(
 			mSceneName, 
-			Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+			mResourceGroup);
 		res.getPointer()->parseBy(parser);
 		return parser->getDocument();
 	}
@@ -218,11 +218,18 @@ namespace rl {
         }
 
         bool isEntityCreated = false;
+        ResourceGroupManager& resGroupMgr = ResourceGroupManager::getSingleton();
         while(!isEntityCreated)
         {
             // Erschaffen versuchen
             try
-            {        
+            {
+                // if this mesh exists in our module's resource group: preload it
+                if (resGroupMgr.resourceExists(mResourceGroup, meshName))
+                {
+                    MeshManager::getSingleton().load(meshName, mResourceGroup);
+                }
+                // if not, it is now loaded implicitly from the default group
                 newEnt = mSceneManager->createEntity(entName, meshName);
                 parentNode->attachObject( newEnt );
                 isEntityCreated = true;

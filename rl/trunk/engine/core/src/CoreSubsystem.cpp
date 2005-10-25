@@ -96,18 +96,9 @@ namespace rl {
 
     bool  CoreSubsystem::setupConfiguration()
     {
-        // Show the configuration dialog and initialise the system
-        // You can skip this and use root.restoreConfig() to load configuration
-        // settings if you were sure there are valid ones saved in ogre.cfg
-        // Ein kleiner C-Trick: Wir versuchen erstmal die Konfiguration
-        // wiederherzustellen. Klappt das nicht (Rueckgabe: FALSE), dann
-        // zeigen wir den Konf.dialog.
         if(Root::getSingleton().restoreConfig()
             || Root::getSingleton().showConfigDialog())
         {
-            // If returned true, user clicked OK so initialise
-            // Here we choose to let the system create a default rendering 
-            // window by passing 'true'
             Root::getSingleton().initialise(true);
             return true;
         }
@@ -178,8 +169,8 @@ namespace rl {
         new XmlResourceManager();
 
 		// Fuer Configs die keinem Typ zugeordnet sind, und die per kompletten Verezeichnis erfragt werden
-        addCommonSearchPath(ConfigurationManager::getSingleton().
-        	getModulesRootDirectory());
+        addSearchPath(ConfigurationManager::getSingleton().
+            getModulesRootDirectory(), ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
         // Laden mittels eines Configfiles
         ConfigFile cf;
@@ -193,28 +184,58 @@ namespace rl {
             key = i.peekNextKey();
             value = i.getNext();
 
-            // ehemals Texturen vorraus laden / 
-			initializeModuleTextures(value);
-
 			// Ein common-modul - wird sofort hinzugeladen
             if (key.compare("common") == 0)
             {
-                initializeModule(value);
+                initializeModuleTextures(value, true);
+                initializeModule(value, true);
                 mCommonModules.push_back(value);
             }
 			// Ein normales-modul, zur späteren Auswahl
             else if (key.compare("module") == 0)
+            {
                 mActivatableModules.push_back(value);
+            }
         }
 
 		// Partikelsystem initialisieren
         ParticleSystemManager::getSingleton().addRendererFactory( 
             new BillboardParticleRendererFactory() );
 
-        ResourceGroupManager::getSingleton().initialiseAllResourceGroups();        
+        ResourceGroupManager::getSingleton()
+            .initialiseResourceGroup(ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+
+        precreateTextures();
     }
 
-    void CoreSubsystem::initializeModuleTextures(const std::string& module)
+    void CoreSubsystem::precreateTextures()
+    {
+        // Falls Texturen noch nicht über Materialien referenziert erzeugt wurden,
+        // hole das jetzt nach.
+        char* suffixes[] = {"png", "jpg", "jpeg", "tga", "dds"};
+        int suffix_count = 5;
+        vector<String> texes;
+        for (int i = 0; i < suffix_count; ++i)
+        {
+            StringVectorPtr curTexes = ResourceGroupManager::getSingleton()
+                .findResourceNames(ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+                String("*.") + suffixes[i]);
+            texes.insert(texes.end(), curTexes->begin(), curTexes->end());
+        }
+        for (size_t i = 0; i < texes.size(); ++i)
+        {
+            ResourcePtr res = TextureManager::getSingleton().getByName(texes[i]);
+            if (res.isNull())
+            {
+                TexturePtr tex = TextureManager::getSingleton().create(texes[i],
+                    ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+                tex->setNumMipmaps(TextureManager::getSingleton().getDefaultNumMipmaps());
+                tex->enable32Bit(true);
+            }
+        }
+    }
+
+    void CoreSubsystem::initializeModuleTextures(const std::string& module, bool isCommon)
     {
         std::string moduleDir = ConfigurationManager::getSingleton().
         	getModulesRootDirectory() + "/modules/" + module;
@@ -223,6 +244,9 @@ namespace rl {
         	module));
         ConfigFile::SettingsIterator i = cf.getSettingsIterator();
 
+        string resourceGroup = isCommon ?
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME : module;
+
         std::string key, value;
         while (i.hasMoreElements())
         {
@@ -230,44 +254,53 @@ namespace rl {
             value = i.getNext();
 
             if (key.compare("TextureArchive") == 0)
+            {
                 ResourceGroupManager::getSingleton().addResourceLocation(
-                	moduleDir + "/materials/" + value, "Zip");
+                	moduleDir + "/materials/" + value, "Zip", resourceGroup);
+            }
             else if (key.compare("TextureDir") == 0)
+            {
                 ResourceGroupManager::getSingleton().addResourceLocation(
-                	moduleDir + "/materials/" + value, "FileSystem");
+                	moduleDir + "/materials/" + value, "FileSystem", resourceGroup);
+            }
             else if (key.compare("Archive") == 0)
+            {
                 ResourceGroupManager::getSingleton().addResourceLocation(
-                	moduleDir + "/" + value, "Zip");
+                	moduleDir + "/" + value, "Zip", resourceGroup);
+            }
         }
-        addCommonSearchPath(moduleDir+"/materials");
+        addSearchPath(moduleDir+"/materials", resourceGroup);
     }
 
-    void CoreSubsystem::initializeModule(const std::string& module)
+    void CoreSubsystem::initializeModule(const std::string& module, bool isCommon)
     {
         std::string moduleDir = ConfigurationManager::getSingleton().
         	getModulesRootDirectory() + "/modules/" + module;
 
-        addCommonSearchPath(moduleDir + "/conf");
-        addCommonSearchPath(moduleDir + "/dsa");
-        addCommonSearchPath(moduleDir + "/maps");
-        addCommonSearchPath(moduleDir + "/models");
-        addCommonSearchPath(moduleDir + "/sound"); //@todo ueber Verzeichnisnamen nachdenken
-		addCommonSearchPath(moduleDir + "/sound/holz");
-		addCommonSearchPath(moduleDir + "/sound/metall");
-		addCommonSearchPath(moduleDir + "/sound/natur");
-		addCommonSearchPath(moduleDir + "/sound/ost");
-		addCommonSearchPath(moduleDir + "/sound/sonst");
-		addCommonSearchPath(moduleDir + "/sound/waffen");
-		addCommonSearchPath(moduleDir + "/sound/wesen");
-		addCommonSearchPath(moduleDir + "/sound/zauber");
-		addCommonSearchPath(moduleDir + "/sound/mensch");
-        addCommonSearchPath(moduleDir + "/gui");
-        addCommonSearchPath(moduleDir + "/gui/fonts");
-        addCommonSearchPath(moduleDir + "/gui/imagesets");
-        addCommonSearchPath(moduleDir + "/gui/schemes");
-        addCommonSearchPath(moduleDir + "/gui/windows");
-        addCommonSearchPath(moduleDir + "/gui/windows/buttons");
-        addCommonSearchPath(moduleDir + "/dialogs");     
+        string resourceGroup = isCommon ?
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME : module;
+
+        addSearchPath(moduleDir + "/conf", resourceGroup);
+        addSearchPath(moduleDir + "/dsa", resourceGroup);
+        addSearchPath(moduleDir + "/maps", resourceGroup);
+        addSearchPath(moduleDir + "/models", resourceGroup);
+        addSearchPath(moduleDir + "/sound", resourceGroup); //@todo ueber Verzeichnisnamen nachdenken
+		addSearchPath(moduleDir + "/sound/holz", resourceGroup);
+		addSearchPath(moduleDir + "/sound/metall", resourceGroup);
+		addSearchPath(moduleDir + "/sound/natur", resourceGroup);
+		addSearchPath(moduleDir + "/sound/ost", resourceGroup);
+		addSearchPath(moduleDir + "/sound/sonst", resourceGroup);
+		addSearchPath(moduleDir + "/sound/waffen", resourceGroup);
+		addSearchPath(moduleDir + "/sound/wesen", resourceGroup);
+		addSearchPath(moduleDir + "/sound/zauber", resourceGroup);
+		addSearchPath(moduleDir + "/sound/mensch", resourceGroup);
+        addSearchPath(moduleDir + "/gui", resourceGroup);
+        addSearchPath(moduleDir + "/gui/fonts", resourceGroup);
+        addSearchPath(moduleDir + "/gui/imagesets", resourceGroup);
+        addSearchPath(moduleDir + "/gui/schemes", resourceGroup);
+        addSearchPath(moduleDir + "/gui/windows", resourceGroup);
+        addSearchPath(moduleDir + "/gui/windows/buttons", resourceGroup);
+        addSearchPath(moduleDir + "/dialogs", resourceGroup);     
 
         if (getInterpreter() != NULL)
         {
@@ -276,12 +309,13 @@ namespace rl {
         }
     }
 
-    void CoreSubsystem::addCommonSearchPath(const std::string& path)
+    void CoreSubsystem::addSearchPath(const std::string& path,
+        const std::string& resourceGroup)
     {
         try 
         {
             ResourceGroupManager::getSingleton().addResourceLocation(path, 
-            	"FileSystem");
+                "FileSystem", resourceGroup);
         } 
         catch(...) 
         {} // and forget
@@ -306,7 +340,10 @@ namespace rl {
         if (mActiveAdventureModule.length() > 0)
             unloadModule(mActiveAdventureModule);
 
-        initializeModule(module);
+        initializeModuleTextures(module, false);
+        initializeModule(module, false);
+        ResourceGroupManager::getSingleton().initialiseResourceGroup(module);
+
         mActiveAdventureModule = module;
 
         getInterpreter()->execute("load 'startup-module.rb'");
@@ -359,11 +396,11 @@ namespace rl {
     }
 
     void CoreSubsystem::loadMap(const String type, const String filename, 
-    	const String startupScript)
+    	const String module, const String startupScript)
     {
         GameLoopManager::getSingleton().setPaused(true);
 
-        mWorld->loadScene(filename);
+        mWorld->loadScene(filename, module);
         if (startupScript.length() > 0)
             getInterpreter()->execute(String("load '") + startupScript + 
             	String("'"));

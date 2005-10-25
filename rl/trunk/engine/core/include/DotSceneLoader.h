@@ -35,7 +35,7 @@ namespace rl {
 	{
 	public:
 		/// Erstellt einen Dotscene Loader, der das gewünschte File einliest
-		DotSceneLoader(const std::string & filename);
+        DotSceneLoader(const std::string& filename, const std::string& resourceGroup);
 		/// Standard Destruktor
 		~DotSceneLoader() {};
 
@@ -72,9 +72,11 @@ namespace rl {
         std::string getRandomName(const std::string& baseName);
 
 		/// Der Name der Scene
-		std::string mSceneName;
+		const std::string mSceneName;
+        /// ResourceGroup der dotscene-Resource
+        const std::string mResourceGroup;
 		/// Der SceneManager
-		Ogre::SceneManager* mSceneManager;
+		Ogre::SceneManager* const mSceneManager;
 	};
 
 }
