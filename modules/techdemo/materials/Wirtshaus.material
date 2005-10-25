@@ -109,7 +109,7 @@ material Wirtshaus/Geländer
 
 			texture_unit
 			{
-				texture geländer.png
+				texture gelaender.png
 
 				
 			}
