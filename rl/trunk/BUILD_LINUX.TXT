@@ -3,25 +3,28 @@ GCC
 Um Rastullahs Lockenpracht bauen zu können werden folgende zusätzliche
 Bibliotheken benötigt:
 
-Ogre 3D - > 1.0.x (oder CVS-Branch v1-0)
+Ogre 3D - > CVS HEAD - Dagon
 http://www.ogre3d.org
 
 Ruby - 1.8
 http://ruby-lang.org
 
-SWIG - 1.3.25 
+SWIG - 1.3.27
 http://www.swig.org
+Patch von http://developer.berlios.de/project/showfiles.php?group_id=802
+Man muss die Dateien [swig directory]/Source/Modules/Ruby.cxx und neu kompilieren
 
-FMOD - 3.x
+
+FMOD - 3.74
 http://www.fmod.org/
 
-Newton - 1.32
-http://newtondynamics.org
+NewtonSDK - 1.32
+http://newtondynamics.com
 
 OgreNewt - unsere modifizierte Version
-http://team-pantheon.de/~haffax/dependencies/OgreNewt.rar
+http://download.berlios.de/dsa-hl/OgreNewt.zip
 
-Xerxes
+Xerces-c
 http://xml.apache.org/xerces-c/download.cgi
 
 boost
@@ -37,3 +40,4 @@ alles gut gegangen ist) configure mit den Parametern auf, die bootstrap
 übergeben wurden.
 
 Bei Fragen: http://www.team-pantheon.de/projekt
+oder #pantheon auf irc.quakenet.org

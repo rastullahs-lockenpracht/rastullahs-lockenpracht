@@ -5,7 +5,7 @@ Bibliotheken benötigt:
 
 ogre/ - Ogre 3D - CVS HEAD - Dagon
 http://www.ogre3d.org
-Die Source Version, nicht das SDK
+
 
 ruby/ - Ruby - 1.8
 http://ruby-lang.org
