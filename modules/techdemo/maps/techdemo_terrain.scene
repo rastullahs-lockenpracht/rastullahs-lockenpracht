@@ -1,4 +1,4 @@
-<scene formatVersion=0.0 >
+<scene formatVersion="0.2.0" >
 	<nodes>
 		<node name="techdemo_terrain" id="1" >
 			<position x="0.0" y="0.0" z="0.0" />
