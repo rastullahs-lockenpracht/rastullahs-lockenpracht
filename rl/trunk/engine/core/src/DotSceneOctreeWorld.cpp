@@ -54,10 +54,10 @@ namespace rl {
             // und initialisieren.
             mCamera = mSceneMgr->getCamera("DefaultCamera");
 
-			// 0, 0, 0
             mCamera->setPosition( getStartPoint() );
             mCamera->setFOVy(Degree(60));
             mCamera->setFixedYawAxis(false);
+            mCamera->setAutoAspectRatio(true);
         }
 
         // Ein Viewport, das komplette Fenster
