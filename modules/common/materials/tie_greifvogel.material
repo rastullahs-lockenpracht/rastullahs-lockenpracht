@@ -1,0 +1,16 @@
+material tie_greifvogel
+{
+    technique
+    {
+        pass
+        {
+        
+        alpha_rejection greater 215
+            texture_unit
+            {
+                texture tie_greifvogel.png 
+            }
+        }
+    }
+}
+
