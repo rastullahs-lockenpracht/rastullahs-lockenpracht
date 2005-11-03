@@ -8,7 +8,7 @@ material Wirtshaus/Dach
 		{
 			texture_unit
 			{
-				texture dachtest.png
+				texture arc_dach_rot_gebrannt.png
 
 			}
 		}
@@ -59,7 +59,7 @@ material Wirtshaus/Wand
 
 			texture_unit
 			{
-				texture lehmwand2.png
+				texture arc_lehmwand2.png
 
 			}
 		}
@@ -75,7 +75,7 @@ material Wirtshaus/balken
 
 			texture_unit
 			{
-				texture balken.png
+				texture arc_holzbalken.png
 
 			}
 		}
@@ -92,7 +92,7 @@ material Wirtshaus/Stein
 
 			texture_unit
 			{
-				texture lehmwand.png
+				texture arc_lehmwand.png
 
 			}
 		}
@@ -109,7 +109,7 @@ material Wirtshaus/Geländer
 
 			texture_unit
 			{
-				texture gelaender.png
+				texture arc_holzgelaender.png
 
 				
 			}
