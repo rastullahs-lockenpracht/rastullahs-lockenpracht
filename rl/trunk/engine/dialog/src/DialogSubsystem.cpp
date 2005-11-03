@@ -22,6 +22,8 @@
 #include "XmlResourceManager.h"
 #include "Logger.h"
 
+#include "CoreSubsystem.h"
+
 #include "AimlParserImplXerces.h"
 #include "AimlProcessorManager.h"
 
@@ -110,4 +112,23 @@ namespace rl
 	{
 		Logger::getSingleton().log(level, "Dialog", msg, ident);
 	}
+
+    ResourcePtr DialogSubsystem::getXmlResource(const Ogre::String& filename)
+    {
+        ResourcePtr res = XmlResourceManager::getSingleton().getByName(filename);
+
+        if (res.isNull())
+        {
+            Ogre::String group = ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME;
+            if (ResourceGroupManager::getSingleton().resourceExists(
+                CoreSubsystem::getSingleton().getActiveAdventureModule(), filename))
+            {
+                group = CoreSubsystem::getSingleton().getActiveAdventureModule();
+            }
+            res = XmlResourceManager::getSingleton().create(filename, group);
+
+        }
+        return res;
+    }
+
 }

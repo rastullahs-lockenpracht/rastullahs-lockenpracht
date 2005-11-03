@@ -57,6 +57,13 @@ namespace rl
 		 */
 		void log(const Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident = "");
 
+        /**
+         * Helper function, that retrieves an xml resource from its file name
+         * If resource not yet created, it gets first searched in the current
+         * adventure module group, then in the default group.
+         */
+        Ogre::ResourcePtr getXmlResource(const Ogre::String& filename);
+
 	private:
 		typedef std::map<CeGuiString, DialogCharacter*> BotMap;
 		BotMap mBots;

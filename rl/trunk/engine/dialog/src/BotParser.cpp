@@ -56,18 +56,8 @@ namespace rl
 		Ogre::String xmlFile = fileName.c_str();
 		try
 		{	
-			XmlPtr res;
-			if(XmlResourceManager::getSingleton().getByName(xmlFile).isNull())
-			{
-				res = XmlResourceManager::getSingleton().create(
-								xmlFile, 
-								Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-			}
-			else
-			{
-				res = XmlResourceManager::getSingleton().getByName(xmlFile);
-			}
-			res.getPointer()->parseBy(parser);
+			XmlPtr res = DialogSubsystem::getSingleton().getXmlResource(xmlFile);
+			res->parseBy(parser);
 			
 			if(parser)
 			{
@@ -262,22 +252,29 @@ namespace rl
 	{
 		if(fileName.find("?"))
 		{
+            std::set<Ogre::String> files;
+
 			Ogre::StringVectorPtr sl = 
 				Ogre::ResourceGroupManager::getSingleton().findResourceNames(
-				Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, fileName.c_str() );
-			Ogre::StringVector::iterator iter;
-			for (iter = sl.get()->begin(); iter != sl.get()->end(); ++iter)
+                CoreSubsystem::getSingleton().getActiveAdventureModule(), fileName.c_str());
+            files.insert(sl->begin(), sl->end());
+
+            sl = Ogre::ResourceGroupManager::getSingleton().findResourceNames(
+                Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, fileName.c_str() );
+            files.insert(sl->begin(), sl->end());
+
+            for (std::set<Ogre::String>::iterator it = files.begin(); it != files.end(); ++it)
 			{
 				// check if loading of the aimlfile succeeded
 				// if so, a GraphMaster for the given aimlfile is created
-				if(DialogSubsystem::getSingletonPtr()->loadAimlFile((*iter).c_str()))
+				if(DialogSubsystem::getSingletonPtr()->loadAimlFile((*it).c_str()))
 				{
 					if(mBot)
 					{
 						// add the GraphMaster of the aimlfile to the bot
 						mBot->addGraphMaster(
 							DialogSubsystem::getSingletonPtr()->
-								getGraphMaster((*iter).c_str()));
+								getGraphMaster((*it).c_str()));
 					}
 				}
 			} // end for(...

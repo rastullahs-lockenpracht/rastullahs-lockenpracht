@@ -23,6 +23,8 @@
 #include "AimlDocumentImplXerces.h"
 #include "AimlNodeImplXerces.h"
 
+#include "DialogSubsystem.h"
+
 namespace rl
 {
 	XERCES_CPP_NAMESPACE_USE
@@ -53,18 +55,8 @@ namespace rl
 		XercesDOMParser* parser = new XercesDOMParser();
 		try
 		{	
-			XmlPtr res;
-			if(XmlResourceManager::getSingleton().getByName(fileName).isNull())
-			{
-				res = XmlResourceManager::getSingleton().create(
-						fileName, 
-						ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-			}
-			else
-			{
-				res = XmlResourceManager::getSingleton().getByName(fileName);
-			}
-			res.getPointer()->parseBy(parser);
+            XmlPtr res = DialogSubsystem::getSingleton().getXmlResource(fileName);
+			res->parseBy(parser);
 			mDocument = parser->adoptDocument();
 			delete parser;
 		}
