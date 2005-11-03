@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dialog-startup version="0.1">
+	<bot name="Bauer">
+		<script src="dialog.rb" class="DialogScriptObjectTest"/>
+		<learn src="bauer.aiml"/> 
+	</bot>
+</dialog-startup>

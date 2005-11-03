@@ -53,7 +53,6 @@ $hebeltuer = Door.new("Eine Tür", "Eine Tür, allerdings ist keine Klinke vorha
 $hebeltuer.getActor().placeIntoScene(13270.0, 906.0, 3746.0, 0.965926, 0.0, 0.258819, 0.0)
 $hebel = Switch.new("HoehlenHebel")
 $hebel.getActor().placeIntoScene(12153.0, 1050.0, 4725.0, 0.707107, 0.707107, 0.0, 0.0)
-$hebel.
 
 $tueroeffner = CaveDoorOpener.new($hebeltuer, $hebel)
 

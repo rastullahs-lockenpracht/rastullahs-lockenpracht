@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- !DOCTYPE aiml SYSTEM "includes.dtd" -->
+
+<aiml:aiml  version="1.0.1"
+            xmlns:aiml="http://alicebot.org/2001/AIML">
+
+<rldialog:rldialog  version="0.1"
+		    xmlns:rldialog="http://www.team-pantheon.de/projekt/rl">
+
+<aiml:category>
+<aiml:pattern>START DIALOG</aiml:pattern>
+<aiml:template>
+	<aiml:condition rldialog:context="response">
+		Grueße!<aiml:br/>
+	</aiml:condition>
+	<aiml:condition rldialog:context="option">
+		<aiml:li value="4" id="555">
+			Gehabt euch wohl.
+		</aiml:li>
+	</aiml:condition>
+</aiml:template>
+</aiml:category>
+
+<aiml:category>
+<aiml:pattern>555</aiml:pattern>
+<aiml:template>
+	<aiml:system command="exit"/>
+</aiml:template>
+</aiml:category>
+
+<aiml:category>
+<aiml:pattern>*</aiml:pattern><!-- Abfangen von "ungueltigen" Eingaben -->
+<aiml:template>
+Dies ist keine gueltige Gespraechsoption!
+</aiml:template>
+</aiml:category>
+
+</rldialog:rldialog>
+</aiml:aiml>
