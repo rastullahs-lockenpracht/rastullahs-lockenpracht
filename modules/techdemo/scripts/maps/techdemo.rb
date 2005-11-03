@@ -53,8 +53,13 @@ $hebeltuer = Door.new("Eine Tür", "Eine Tür, allerdings ist keine Klinke vorha
 $hebeltuer.getActor().placeIntoScene(13270.0, 906.0, 3746.0, 0.965926, 0.0, 0.258819, 0.0)
 $hebel = Switch.new("HoehlenHebel")
 $hebel.getActor().placeIntoScene(12153.0, 1050.0, 4725.0, 0.707107, 0.707107, 0.0, 0.0)
-
 $tueroeffner = CaveDoorOpener.new($hebeltuer, $hebel)
+
+require "truhe.rb"
+$truhe = Chest.new( "Truhe", false );
+$truhe.getActor().placeIntoScene(12353.0, 950.0, 4725.0, 1.0, 0.0, 0.0, 0.0 );
+$truhe.getActor().yaw(-90.0);
+$truhe.addItem(Torch.new("Fackel"))
 
 
 $CORE.log("map 'techdemo' initialisiert.");
