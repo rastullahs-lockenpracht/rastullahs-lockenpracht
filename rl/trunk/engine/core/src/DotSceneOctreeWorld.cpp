@@ -94,6 +94,7 @@ namespace rl {
         Ogre::Root::getSingleton().getAutoCreatedWindow()->removeAllViewports(); 
 		XmlResourceManager::getSingleton().unload(mSceneFile);
 		PhysicsManager::getSingleton().clearLevelGeometry();
+
         mSceneMgr = Root::getSingleton().getSceneManager(ST_GENERIC);
 		mSceneFile = "";
     }

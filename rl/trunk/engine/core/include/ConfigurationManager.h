@@ -23,14 +23,14 @@
  * Definiert die abstrakte Basisklasse für das Konfigurationsmanagement.
  */
 
-#include <Ogre.h>
+#include <OgreConfigFile.h>
 
 namespace rl
 {
 	class _RlCoreExport ConfigurationManager
 	{
 		public:
-
+            ConfigurationManager();
 			~ConfigurationManager();
 			
 			/**
@@ -67,6 +67,12 @@ namespace rl
 			
 			Ogre::String getModulesRootDirectory();
 
+            Ogre::String getRastullahSystemCfgPath();
+            
+            Ogre::ConfigFile* getSystemConfig();
+
+            bool shouldUseStaticGeometry( );
+
 			Ogre::String getEngineVersionString();
 			long          getEngineBuildNumber();
 			const rl::CeGuiString&  getAboutText();
@@ -80,6 +86,9 @@ namespace rl
 			Ogre::String mModulesCfgPath;
 			Ogre::String mModuleconfigCfgPath;
 			Ogre::String mModulesRootDirectory;
+            Ogre::String mRastullahSystemCfgPath;
+
+            Ogre::ConfigFile* mSystemConfig;
 	};
 }
 

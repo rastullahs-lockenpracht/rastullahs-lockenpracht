@@ -47,7 +47,8 @@ namespace rl
 		mModulesRootDirectory = findModulesRootDir();
 		mPluginCfgPath = mModulesRootDirectory + 
 			"/modules/common/conf/plugins-linux.cfg";
-		mRastullahCfgPath = findRastullahConf();
+		mRastullahCfgPath = findRastullahConf( "rastullah_ogre.cfg" );
+		mRastullahSystemCfgPath = findRastullahConf( "rastullah_system.cfg" );
 		mOgreLogPath = mModulesRootDirectory+"/logs/ogre.log";
 		mRastullahLogPath = mModulesRootDirectory+"/logs/rastullah.log";
 		mModulesCfgPath = mModulesRootDirectory + "/modules/modules.cfg";
@@ -112,34 +113,34 @@ namespace rl
 
 	//Später die gesamten ausgeschriebenen Pfade durch das Install-
 	//prefix welches vom configure script gesetzt wird ersetzen
-    string ConfigurationManagerLinux::findRastullahConf()
+    string ConfigurationManagerLinux::findRastullahConf( const string& cfg_name )
     {
         // Erstmal im Homeverzeichnis suchen.
         // getenv(home) nicht ungefährlich...
-        string filename = string(::getenv("HOME")) + "/.rastullah.cfg";
+        string filename = string(::getenv("HOME")) + "/." + cfg_name;
         
         //wenn die Datei existiert ist das unsere favorisierte Wahl
         if(checkForFile(filename)) return filename;
        
         // Als nächstes schauen wir mal ob in /etc/rl eine standard
         // config vorhanden ist
-        filename = "/etc/rl/rastullah.cfg";
+        filename = "/etc/rl/" + cfg_name;
         if(checkForFile(filename)) return filename;
         
         // /usr/local/share/rl und /usr/share/rl wären noch Kandidaten
-        filename = "/usr/local/share/rl/rastullah.cfg";
+        filename = "/usr/local/share/rl/" + cfg_name;
         if(checkForFile(filename)) return filename;
         
-        filename = "/usr/share/rl/rastullah.cfg";
+        filename = "/usr/share/rl/" + cfg_name;
         if(checkForFile(filename)) return filename;
         
         //nix gefunden, also geben wir das home des Benutzers zurück, damit eine
         //neue Datei angelegt werden kann.
         //TODO: Es sollte IMMER wenn im home des current calling users keine 
-        //.rastullah.cfg ist eine für diesen Benutzer mit seinen persönlichen
+        //.rastullah_ogre.cfg ist eine für diesen Benutzer mit seinen persönlichen
         //settings angelegt werden, oder aber aus den oben genannten Standard
         //pfade eine kopiert und angepasst!!!
-        return string(::getenv("HOME")) + "/.rastullah.cfg";
+        return string(::getenv("HOME")) + "/." + cfg_name;
     }
     
     bool ConfigurationManagerLinux::checkForFile(const std::string& filename)

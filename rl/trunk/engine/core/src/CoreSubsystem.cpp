@@ -94,8 +94,8 @@ namespace rl {
 		log(Ogre::LML_NORMAL, msg);
     }
 
-    bool  CoreSubsystem::setupConfiguration()
-    {
+    bool CoreSubsystem::setupConfiguration()
+    {      
         if(Root::getSingleton().restoreConfig()
             || Root::getSingleton().showConfigDialog())
         {

@@ -19,6 +19,12 @@
 #include "ConfigurationManagerWin32.h"
 #include "ConfigurationManagerMac.h"
 
+#include <OgreRenderSystem.h>
+#include <OgreResourceGroupManager.h>
+
+#include "CoreSubsystem.h"
+
+
 namespace rl
 {
 	ConfigurationManager* ConfigurationManager::getSingletonPtr()
@@ -43,8 +49,14 @@ namespace rl
 #       endif
 	}
 	
+    ConfigurationManager::ConfigurationManager() :
+        mSystemConfig(NULL)
+    {
+    }
+
 	ConfigurationManager::~ConfigurationManager()
 	{
+        delete mSystemConfig;
 	}
 	
 	Ogre::String ConfigurationManager::getOgreLogPath()
@@ -82,6 +94,57 @@ namespace rl
 		return mModulesRootDirectory;
 	}
 
+    Ogre::String ConfigurationManager::getRastullahSystemCfgPath()
+    {
+        return mRastullahSystemCfgPath;
+    }
+
+    Ogre::ConfigFile* ConfigurationManager::getSystemConfig()
+    {
+        if( mSystemConfig == NULL )
+        {
+            mSystemConfig = new Ogre::ConfigFile();
+
+            try
+            {            
+                mSystemConfig->loadFromResourceSystem( mRastullahSystemCfgPath, 
+                    Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, "=" );
+            }           
+            catch ( Ogre::Exception  ) 
+            {
+                CoreSubsystem::getSingleton().log( Ogre::LML_CRITICAL, 
+                    "Konnte Rastullah-System-Konfiguration aus '" + mRastullahSystemCfgPath + 
+                    "' nicht laden! Defaulteinstellungen werden benutzt.","Configuration");
+            }
+        }
+        
+        return mSystemConfig;
+    }
+
+    bool ConfigurationManager::shouldUseStaticGeometry()
+    {
+        Ogre::String mode = getSystemConfig()->getSetting( "use_static_geometry" );
+        
+        if( mode == Ogre::StringUtil::BLANK )
+            mode = "auto";
+        
+        if( mode.compare("yes") == 0 )
+        {
+            return true;
+        }
+        else if( mode.compare("no") == 0 )
+        {
+            return false;
+        }        
+        else
+        {
+            // Überprüfen ob der Renderer VertexBuffer unterstützt
+            return Ogre::Root::getSingleton().getRenderSystem()
+                ->getCapabilities()->hasCapability( Ogre::RSC_VBO );
+        }
+        
+    }
+
 	Ogre::String ConfigurationManager::getEngineVersionString()
 	{
 		static Ogre::String version = "Internal Build";
@@ -89,11 +152,11 @@ namespace rl
 	}
 
 	long parseDate(char* date)
-	{ //TODO: __DATE__ in ein long verwandeln, damit man 
-		return /* Jahr */			2005 * 100000+
-			/* Monat */			10 * 1000 + 
-			/* Tag */			18 * 10 + 
-			/* Sub-Version */	0;	
+	{   //TODO: __DATE__ in ein long verwandeln, damit man 
+		return /* Jahr */		  2005 * 100000 +
+			   /* Monat */			11 * 1000 + 
+			   /* Tag */			 3 * 10 + 
+			   /* Sub-Version */	 0;	
 	}
 
 	long ConfigurationManager::getEngineBuildNumber()

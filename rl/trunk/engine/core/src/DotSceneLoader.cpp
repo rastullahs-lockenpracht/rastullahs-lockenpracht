@@ -25,6 +25,7 @@
 
 #include "PhysicsManager.h"
 #include "CoreSubsystem.h"
+#include "ConfigurationManager.h"
 
 #include "XmlHelper.h"
 #include "XmlResourceManager.h"
@@ -66,20 +67,26 @@ namespace rl {
 		processNodes( nodes, staticNode );
 
 
-		StaticGeometry* staticGeom = mSceneManager->createStaticGeometry( mSceneName );
-		// Usprung und Größe der Blöcke einstellen
-		// staticGeom->setRegionDimensions(Vector3(1000,500,1000));
-		// staticGeom->setOrigin(Vector3(0,0,0));
-		/// FIXME  Diese Methode funktioniert nicht Ogre-Api-korrekt, daher Workaround
-		//staticGeom->addSceneNode( staticNode );
-		// Alle Entities unterhalb des Nodes einfügen
-		DotSceneLoader::staticGeometryAddSceneNodeWorkaround(
-			staticGeom, staticNode);
-		// Statische Geometrie bauen
-		staticGeom->build();
-		// Nicht mehr den Original-Knoten rendern, da dieser erhalten bleibt.
-		staticNode->setVisible( false );
-		CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Statische Geometrie erstellt" );
+        if( ConfigurationManager::getSingleton().shouldUseStaticGeometry() )
+        {        
+		    StaticGeometry* staticGeom = mSceneManager->createStaticGeometry( mSceneName );
+		    // Usprung und Größe der Blöcke einstellen
+		    // staticGeom->setRegionDimensions(Vector3(1000,500,1000));
+		    // staticGeom->setOrigin(Vector3(0,0,0));
+		    /// FIXME  Diese Methode funktioniert nicht Ogre-Api-korrekt, daher Workaround
+		    //staticGeom->addSceneNode( staticNode );
+		    // Alle Entities unterhalb des Nodes einfügen
+		    DotSceneLoader::staticGeometryAddSceneNodeWorkaround(
+			    staticGeom, staticNode);
+		    // Statische Geometrie bauen
+		    staticGeom->build();
+		    // Nicht mehr den Original-Knoten rendern, da dieser erhalten bleibt.
+		    staticNode->setVisible( false );
+            CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Statische Geometrie erstellt" );
+        }
+        else
+            CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Keine statische Geometrie erstellt" );
+		
 
 		doc->release();
 		XMLPlatformUtils::Terminate();		
