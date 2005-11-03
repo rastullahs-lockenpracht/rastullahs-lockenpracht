@@ -208,6 +208,22 @@ namespace rl {
         precreateTextures();
     }
 
+    void CoreSubsystem::precreateMeshes(const std::string& module)
+    {
+        StringVectorPtr meshes = ResourceGroupManager::getSingleton()
+            .findResourceNames(module, "*.mesh");
+
+        for (size_t i = 0; i < meshes->size(); ++i)
+        {
+            ResourcePtr res = MeshManager::getSingleton().getByName((*meshes)[i]);
+            if (res.isNull())
+            {
+                MeshPtr mesh = MeshManager::getSingleton().create((*meshes)[i],
+                    module);
+            }
+        }
+    }
+
     void CoreSubsystem::precreateTextures()
     {
         // Falls Texturen noch nicht über Materialien referenziert erzeugt wurden,
@@ -343,6 +359,8 @@ namespace rl {
         initializeModuleTextures(module, false);
         initializeModule(module, false);
         ResourceGroupManager::getSingleton().initialiseResourceGroup(module);
+
+        precreateMeshes(module);
 
         mActiveAdventureModule = module;
 

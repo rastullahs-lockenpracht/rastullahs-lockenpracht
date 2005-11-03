@@ -92,12 +92,16 @@ private:
 	/** Loads all needed ressources */
 	void initializeResources();
 	void initializeModuleTextures(const std::string& module, bool isCommon);
+
     /**
      * Texturen werden nicht gefunden, wenn sie erst bei Materialnutzung erzeugt werden
      * und nicht in der Gruppe des Materials sind. Deshalb hier vorerstellen.
      * @XXX Das ist mehr oder weniger ein Hack um eine Ogre-Einschränkung herum.
      */
     void precreateTextures();
+
+    void precreateMeshes(const std::string& module);
+
 	void unloadModule(const std::string& module);
     void addSearchPath(const std::string& path, const std::string& module);
 
