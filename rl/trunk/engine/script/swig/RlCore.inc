@@ -479,6 +479,9 @@ public:
 
     void addForce(const Ogre::Vector3& force);
 
+    void setGravityOverride(bool override,
+        Ogre::Real x = 0.0f, Ogre::Real y = 0.0f, Ogre::Real z = 0.0f);
+        
     Ogre::Real getMass() const;
     
     void updateCollisionHull();

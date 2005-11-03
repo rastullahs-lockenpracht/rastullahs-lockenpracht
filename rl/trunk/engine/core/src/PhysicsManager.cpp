@@ -294,7 +294,6 @@ namespace rl
         PhysicalThing* thing =
             static_cast<Actor*>(body->getUserData())->getPhysicalThing();
 
-        thing->addForce(getSingleton().mGravity*mass);
         thing->onApplyForceAndTorque();
     }
 

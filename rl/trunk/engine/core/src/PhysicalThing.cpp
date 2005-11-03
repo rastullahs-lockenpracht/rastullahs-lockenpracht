@@ -33,7 +33,9 @@ namespace rl
         mUpVectorJoint(0),
         mOffset(offset),
         mOrientationBias(orientationBias),
-        mPendingForce()
+        mPendingForce(Vector3::ZERO),
+        mOverrideGravity(false),
+        mGravity(Vector3::ZERO)
     {
     }
 
@@ -153,7 +155,9 @@ namespace rl
 
     void PhysicalThing::onApplyForceAndTorque()
     {
-        mBody->addForce(mPendingForce);
+        Vector3 gravity = mOverrideGravity ?
+            mGravity : PhysicsManager::getSingleton().getGravity();
+        mBody->addForce(mPendingForce + gravity*getMass());
         mPendingForce = Vector3::ZERO;
     }
 
@@ -168,6 +172,17 @@ namespace rl
         Vector3 inertia;
         mBody->getMassMatrix(mass, inertia);
         return mass;
+    }
+
+    void PhysicalThing::setGravityOverride(bool override, const Vector3& gravity)
+    {
+        mOverrideGravity = override;
+        mGravity = mOverrideGravity ? gravity : Vector3::ZERO;
+    }
+
+    void PhysicalThing::setGravityOverride(bool override, Real x, Real y, Real z)
+    {
+        setGravityOverride(override, Vector3(x, y, z));
     }
 
     void PhysicalThing::updateCollisionHull()

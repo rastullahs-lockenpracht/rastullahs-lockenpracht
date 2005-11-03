@@ -45,6 +45,11 @@ namespace rl {
         Ogre::Vector3 getUpConstraint() const;
         void clearUpConstraint();
 
+        // Sets whether to use default gravity, or override it with its own
+        void setGravityOverride(bool override, const Ogre::Vector3& gravity);
+        void setGravityOverride(bool override,
+            Ogre::Real x = 0.0f, Ogre::Real y = 0.0f, Ogre::Real z = 0.0f);
+
         Actor* getActor() const;
         
         void _update();
@@ -74,6 +79,8 @@ namespace rl {
         Ogre::Vector3 mOffset;
         Ogre::Quaternion mOrientationBias;
         Ogre::Vector3 mPendingForce;
+        bool mOverrideGravity;
+        Ogre::Vector3 mGravity;
     };
 }
 
