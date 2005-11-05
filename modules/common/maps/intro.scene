@@ -1,9 +1,18 @@
 <scene formatVersion="0.2.0">
 	<nodes>
-		<node>
-			<position x="-300" y="-300" z="-800" />
+		<node name="a" >
+			<position x="0" y="0" z="0" />
 			<scale x="1" y="1" z="1" />
-			<entity meshFile="ter_waldboden.mesh" castShadows="false" static="true" />
+			<entity name="a" meshFile="ter_waldboden.mesh" castShadows="false" static="true" />
+             
+            <userData>
+                <!-- physical_body - none|mesh   TODO box|sphere|cylinder...  Physikrepräsentation  -->
+                <property type="STRING" name="physical_body" data="none"/>
+                <!-- TODO pb_offset & pb_rotation & pb_scale | pb_size  -->
+
+                <!-- static - 0|1  Ein Aktor oder festes Level? -->
+                <property type="BOOL" name="static" data="1"/>
+            </userData>
 		</node>
 	</nodes>
 </scene>
