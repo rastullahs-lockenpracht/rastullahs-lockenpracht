@@ -70,17 +70,17 @@ namespace rl {
         if( ConfigurationManager::getSingleton().shouldUseStaticGeometry() )
         {        
 		    StaticGeometry* staticGeom = mSceneManager->createStaticGeometry( mSceneName );
-		    // Usprung und Größe der Blöcke einstellen
-		    // staticGeom->setRegionDimensions(Vector3(1000,500,1000));
-		    // staticGeom->setOrigin(Vector3(0,0,0));
+
 		    /// FIXME  Diese Methode funktioniert nicht Ogre-Api-korrekt, daher Workaround
 		    //staticGeom->addSceneNode( staticNode );
+
 		    // Alle Entities unterhalb des Nodes einfügen
 		    DotSceneLoader::staticGeometryAddSceneNodeWorkaround(
 			    staticGeom, staticNode);
+
 		    // Statische Geometrie bauen
 		    staticGeom->build();
-		    // Nicht mehr den Original-Knoten rendern, da dieser erhalten bleibt.
+		    // Nicht mehr den Original-Knoten rendern, da dieser noch erhalten ist.
 		    staticNode->setVisible( false );
             CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Statische Geometrie erstellt" );
         }
@@ -142,8 +142,8 @@ namespace rl {
 		if ( parentNode == NULL )
 			Throw( NullPointerException, "parentNode darf nicht null sein" );
 
-		string nodeName = XmlHelper::getAttributeValueAsString( rootNodeXml, 
-			"name" ).c_str();
+		string nodeName = XmlHelper::getAttributeValueAsStdString( rootNodeXml, 
+			"name" );
 		
 		Ogre::SceneNode* newNode;
 		// Wurde dem Node ein Name zugewiesen?
@@ -175,11 +175,31 @@ namespace rl {
             newNode = parentNode->createChildSceneNode();
         }	
 
-		CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Node '"+newNode->getName()+"' als Unterknoten von '"+parentNode->getName()+"' erstellt." );
+		CoreSubsystem::getSingleton().log( Ogre::LML_TRIVIAL, 
+            " Node '"+newNode->getName()+"' als Unterknoten von '"+parentNode->getName()+"' erstellt." );		
+		
+        DOMNode* child = rootNodeXml->getFirstChild();
+        NodeUserData userData;
+        // Defaults einstellen
+        userData.is_static = true;
+        userData.physical_body = "mesh";
 
-		// Durch alle Unterelemente iterieren
-		DOMNode* child = rootNodeXml->getFirstChild();
+        // Durch alle Unterelemente iterieren, um die userDatas zu finden
+        while( child != NULL )
+        {
+            // Ein selbstdefinierter Bereich
+            if( XMLString::compareIString(child->getNodeName(), 
+                XMLString::transcode("userData") ) == 0 )
+                processNodeUserData( reinterpret_cast<DOMElement*>(child) , &userData );
 
+            child = child->getNextSibling();
+        } 
+
+        // Muss für Meshes in diesem Node ein TriMeshBody erstellt werden?
+        bool createMeshPhysicalBody = userData.physical_body.compare("mesh") == 0;
+
+        child = rootNodeXml->getFirstChild();
+        // Durch alle Unterelemente iterieren
 		while( child != NULL )
 		{
 			// Ein Node
@@ -200,21 +220,59 @@ namespace rl {
 				newNode->setScale( processScale( reinterpret_cast<DOMElement*>(child) ) );
 			// Eine Entity
 			else if( XMLString::compareIString(child->getNodeName(), 
-				XMLString::transcode("entity") ) == 0  )
-				processEntity( reinterpret_cast<DOMElement*>(child) , newNode );
+				XMLString::transcode("entity") ) == 0  )                
+				processEntity( reinterpret_cast<DOMElement*>(child) , newNode,  createMeshPhysicalBody );
 
 			child = child->getNextSibling();
 		} 
 	}
 
+    void DotSceneLoader::processNodeUserData( XERCES_CPP_NAMESPACE::DOMElement* rootUserDataXml, 
+        NodeUserData* userData )
+    {
+        DOMNode* child = rootUserDataXml->getFirstChild();
+        CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " NodeUserData gefunden");
+
+        // Durch alle Unterelemente iterieren, um die properties zu finden
+        while( child != NULL )
+        {
+            // Ein selbstdefinierter Bereich
+            if( XMLString::compareIString(child->getNodeName(), 
+                XMLString::transcode("property") ) == 0 )
+            {
+                DOMElement* propertyXml = reinterpret_cast<DOMElement*>(child);
+                string propertyName = XmlHelper::getAttributeValueAsStdString( propertyXml, 
+			        "name" );
+
+                try
+                {
+                    if( propertyName.compare("physical_body") == 0 )
+                        userData->physical_body = XmlHelper::getAttributeValueAsStdString( 
+                            propertyXml, "data" );
+                    else if( propertyName.compare("static") == 0 )
+                        userData->is_static = XmlHelper::getAttributeValueAsInteger( 
+                        propertyXml, "data" ) != 0;
+                }
+                catch(...)
+                {
+                    CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, 
+                        " > Parse Error beim Übernehmen der Property '"+propertyName+"'!");
+                }
+
+            }
+
+            child = child->getNextSibling();
+        } 
+    }
+
 	// Eine Entity
 	void DotSceneLoader::processEntity( DOMElement* rootEntityXml,
-        Ogre::SceneNode* parentNode )
+        Ogre::SceneNode* parentNode, bool createMeshPhysicalBody )
 	{
-		string entName = XmlHelper::getAttributeValueAsString( 
-			rootEntityXml, "name" ).c_str();
-		string meshName = XmlHelper::getAttributeValueAsString( 
-			rootEntityXml, "meshFile" ).c_str();
+		string entName = XmlHelper::getAttributeValueAsStdString( 
+			rootEntityXml, "name" );
+		string meshName = XmlHelper::getAttributeValueAsStdString( 
+			rootEntityXml, "meshFile" );
 
 		Ogre::Entity* newEnt = NULL;
 
@@ -244,9 +302,13 @@ namespace rl {
                 CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Entity '"+meshName+"' mit dem Namen '"+entName+"' in den Knoten '"+parentNode->getName()+"' eingefügt." );
 
                 // Zur Physik des Levels hinzufügen
-                PhysicsManager::getSingleton().addLevelGeometry( newEnt );
-                CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Entity '"+entName+"' als TriMesh in levelGeometry geladen");
+                if( createMeshPhysicalBody )
+                {                
+                    PhysicsManager::getSingleton().addLevelGeometry( newEnt );
+                    CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Entity '"+entName+"' als TriMesh in levelGeometry geladen");
+                }
 
+                
                 newEnt->setCastShadows( false );
             }
             catch (Ogre::Exception& e) 
@@ -303,7 +365,10 @@ namespace rl {
 				XmlHelper::getAttributeValueAsReal( rootPositionXml, "y" ),
 				XmlHelper::getAttributeValueAsReal( rootPositionXml, "z" ) );;
 		}
-		catch(...) {}
+		catch(...) 
+        {
+            CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " > Parse Error beim Übernehmen der Position! ");
+        }
 
 		return Ogre::Vector3::ZERO;
 	}
@@ -320,7 +385,10 @@ namespace rl {
 				XmlHelper::getAttributeValueAsReal( rootPositionXml, "y" ),
 				XmlHelper::getAttributeValueAsReal( rootPositionXml, "z" ) );
 		}
-		catch(...) {}
+        catch(...) 
+        {
+            CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " > Parse Error beim Übernehmen der Skalierung! ");
+        }
 
 		return Ogre::Vector3::UNIT_SCALE;
 	}
@@ -364,6 +432,8 @@ namespace rl {
             return Quaternion(mat);
 		}
 		catch(...) {}
+
+        CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " > Parse Error beim Übernehmen der Rotation! ");
 
 		return Ogre::Quaternion::IDENTITY;
 	}

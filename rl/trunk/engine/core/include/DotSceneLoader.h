@@ -42,6 +42,13 @@ namespace rl {
 		/// Hilfsmethode zur Generierung eines nopch nicht vergebenen Entitynamens
 		static void staticGeometryAddSceneNodeWorkaround( Ogre::StaticGeometry* staticGeom , Ogre::SceneNode* baseNode );
 	private:
+        struct NodeUserData
+        {
+            std::string physical_body;
+            bool is_static;
+        };
+
+
 		/// Laden der Szene
 		void initializeScene();
 		/// Öffnen der XML-Ressource
@@ -52,7 +59,9 @@ namespace rl {
 		/// Node und alle Unterelemente
 		void processNode(XERCES_CPP_NAMESPACE::DOMElement* rootNodeXml, Ogre::SceneNode* parentNode );
 		/// Eine Entity+Attribute
-		void processEntity( XERCES_CPP_NAMESPACE::DOMElement* rootEntityXml, Ogre::SceneNode* parentNode );
+		void processEntity( XERCES_CPP_NAMESPACE::DOMElement* rootEntityXml, Ogre::SceneNode* parentNode, bool createMeshPhysicalBody );
+        /// Ein benutzerdefinierter Bereich im Node
+        void processNodeUserData( XERCES_CPP_NAMESPACE::DOMElement* rootUserDataXml, NodeUserData* userData );
 
 		/** Liest einen Vector aus einem XML Element, über die Attribute x, y, z
 		 *  Sollten die Attribute nicht korrekt definiert sein, gibt es Vector::ZERO zurück (0,0,0)
