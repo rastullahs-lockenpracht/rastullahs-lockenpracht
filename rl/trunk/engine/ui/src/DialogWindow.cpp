@@ -100,7 +100,7 @@ void DialogWindow::getResponse(string msg)
 	if(mCurrentResponse == NULL)
 	{
 		mQuestion->setText(CeGuiString("DIALOG BEENDET"));
-		handleClose();
+//		handleClose();
 		return;
 	}
 	mQuestion->setText(mCurrentResponse->getResponse());
