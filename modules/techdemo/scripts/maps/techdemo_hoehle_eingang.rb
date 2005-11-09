@@ -13,7 +13,7 @@ class Rock < GameObject
 
   def spawn
     if ( ! @mSpawned )
-      rockActor = $AM.createMeshActor(getName(), @mModel, PhysicsManager::GT_ELLIPSOID)
+      rockActor = $AM.createMeshActor(getName(), @mModel, PhysicsManager::GT_ELLIPSOID, 2500.0)
       rockActor.getPhysicalThing().setGravityOverride(true)
       setActor(rockActor)
 
@@ -31,7 +31,12 @@ class Rock < GameObject
   end
 
   def setGravityState(active)
-    getActor().getPhysicalThing().setGravityOverride(!active)
+    if (active)
+      getActor().getPhysicalThing().setGravityOverride(true, 0.0, -9880.0, 0.0)
+    else
+      getActor().getPhysicalThing().setGravityOverride(true, 0.0, 0.0, 0.0)
+    end
+    getActor().getPhysicalThing().unfreeze();
   end
 end
 
