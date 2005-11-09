@@ -41,7 +41,7 @@ namespace rl
     }
 
 	Console::Console() : 
-		CeGuiWindow("console.xml", WND_ALL_INPUT)
+		CeGuiWindow("console.xml", WND_KEYBOARD_INPUT)
 	{
 		using namespace CEGUI;
 		
