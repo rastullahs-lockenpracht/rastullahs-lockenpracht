@@ -250,5 +250,15 @@ namespace rl
         mBody->setCollision(collision);
         mBody->setPositionOrientation(position, orientation);
     }
+
+    void PhysicalThing::freeze()
+    {
+        mBody->freeze();
+    }
+
+    void PhysicalThing::unfreeze()
+    {
+        mBody->unFreeze();
+    }
 }
 

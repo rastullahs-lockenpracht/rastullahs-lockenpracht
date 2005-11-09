@@ -250,7 +250,7 @@ namespace rl {
     }
 
 	Actor* ActorManager::createMeshActor(const String& name,const String& meshname,
-		PhysicsManager::GeometryTypes geomType, Ogre::Real density)
+		PhysicsManager::GeometryTypes geomType, Ogre::Real mass)
 	{
 		const String&  uniquename = nextUniqueName(name);
 		
@@ -267,7 +267,7 @@ namespace rl {
             else
             {
                 pt = PhysicsManager::getSingleton()
-                    .createPhysicalThing(geomType, mo->getSize(), density);
+                    .createPhysicalThing(geomType, mo->getSize(), mass);
             }
 
 		    actor = new Actor(uniquename, mo, pt);

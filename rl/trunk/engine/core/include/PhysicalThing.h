@@ -63,6 +63,9 @@ namespace rl {
         void onApplyForceAndTorque();
         void addForce(const Ogre::Vector3& force);
 
+        void freeze();
+        void unfreeze();
+
         Ogre::Real getMass() const;
 
         /** Called to update the collision of the physical thing, in order to adapt
