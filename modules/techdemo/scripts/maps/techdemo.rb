@@ -61,5 +61,13 @@ $truhe.getActor().placeIntoScene(12353.0, 950.0, 4725.0, 1.0, 0.0, 0.0, 0.0 );
 $truhe.getActor().yaw(-90.0);
 $truhe.addItem(Torch.new("Fackel"))
 
+require "techdemo_hoehle_eingang.rb"
+$kleinefelsen = RockManager.new()
+$grossefelsen = RockManager.new()
+$grossefelsen.add(Rock.new("nat_stein_gross_01.mesh", [9300.0, 1088.0, 4113.0], [1.0, 0.0, 0.0, 0.0], true))
+$grossefelsen.add(Rock.new("nat_stein_gross_01.mesh", [9450.0, 1020.0, 4900.0], [1.0, 0.0, 0.0, 0.0], true))
+$luftfels = Rock.new("nat_stein_gross_01.mesh", [9300.0, 2088.0, 4113.0], [1.0, 0.0, 0.0, 0.0], true)
+$grossefelsen.add($luftfels)
+
 
 $CORE.log("map 'techdemo' initialisiert.");
