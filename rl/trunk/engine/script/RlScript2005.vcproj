@@ -19,7 +19,7 @@
 			OutputDirectory="./lib/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="2"
-			InheritedPropertySheets="C:\Programme\Programmieren\Microsoft Visual Studio 8\VC\VCProjectDefaults\UpgradeFromVC71.vsprops"
+			InheritedPropertySheets="UpgradeFromVC71.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -103,7 +103,7 @@
 			OutputDirectory="./lib/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="2"
-			InheritedPropertySheets="C:\Programme\Programmieren\Microsoft Visual Studio 8\VC\VCProjectDefaults\UpgradeFromVC71.vsprops"
+			InheritedPropertySheets="UpgradeFromVC71.vsprops"
 			CharacterSet="2"
 			>
 			<Tool

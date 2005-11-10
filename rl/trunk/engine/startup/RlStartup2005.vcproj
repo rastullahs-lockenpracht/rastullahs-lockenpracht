@@ -20,7 +20,7 @@
 			OutputDirectory="./bin/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="C:\Programme\Programmieren\Microsoft Visual Studio 8\VC\VCProjectDefaults\UpgradeFromVC71.vsprops"
+			InheritedPropertySheets="UpgradeFromVC71.vsprops"
 			CharacterSet="2"
 			ManagedExtensions="0"
 			>
@@ -109,7 +109,7 @@
 			OutputDirectory="./bin/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="C:\Programme\Programmieren\Microsoft Visual Studio 8\VC\VCProjectDefaults\UpgradeFromVC71.vsprops"
+			InheritedPropertySheets="UpgradeFromVC71.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
