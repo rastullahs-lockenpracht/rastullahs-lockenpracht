@@ -5,7 +5,6 @@
 	Name="RlCore"
 	ProjectGUID="{0935F495-4540-40E3-AC8F-AA54C85DC5B2}"
 	RootNamespace="RlCore"
-	SignManifests="true"
 	>
 	<Platforms>
 		<Platform
@@ -20,7 +19,7 @@
 			OutputDirectory="./lib/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="2"
-			InheritedPropertySheets="UpgradeFromVC71.vsprops"
+			InheritedPropertySheets="C:\Programme\Programmieren\Microsoft Visual Studio 8\VC\VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -49,7 +48,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\sound\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\ogrenew\OgreOde\include;..\..\dependencies\ogrenew\Dependencies\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\fmod\api\inc"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\sound\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\OgreNewt\inc;..\..\dependencies\ogrenew\Dependencies\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\NewtonSDK\sdk\"
 				PreprocessorDefinitions="_WINDOWS,_DEBUG,WIN32,RLCORE_EXPORTS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -82,12 +81,12 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlSound.lib RlCommon.lib msvcrt-ruby18.lib OgreMain_d.lib xerces-c_2D.lib OgreOde_Core_d.lib CEGUIBase_d.lib"
+				AdditionalDependencies="RlSound.lib RlCommon.lib msvcrt-ruby18.lib OgreMain_d.lib xerces-c_2D.lib CEGUIBase_d.lib OgreNewt_d.lib Newton.lib"
 				ShowProgress="0"
 				OutputFile="./lib/$(ConfigurationName)/RlCore.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreOde\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogreaddons\dotsceneoctree\PlugIns\DotSceneManager\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib"
+				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;&quot;..\..\dependencies\OgreNewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll"
 				IgnoreDefaultLibraryNames=""
 				TypeLibraryFile="$(OutDir)\RlCore.lib"
 				GenerateDebugInformation="true"
@@ -128,7 +127,7 @@
 			OutputDirectory="./lib/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="2"
-			InheritedPropertySheets="UpgradeFromVC71.vsprops"
+			InheritedPropertySheets="C:\Programme\Programmieren\Microsoft Visual Studio 8\VC\VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -158,7 +157,7 @@
 				Optimization="3"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\sound\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\ogrenew\OgreOde\include;..\..\dependencies\ogrenew\Dependencies\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\fmod\api\inc"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\sound\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\OgreNewt\inc;..\..\dependencies\ogrenew\Dependencies\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\NewtonSDK\sdk\"
 				PreprocessorDefinitions="NDEBUG,_WINDOWS,WIN32,RLCORE_EXPORTS"
 				StringPooling="false"
 				ExceptionHandling="1"
@@ -192,11 +191,11 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlSound.lib RlCommon.lib msvcrt-ruby18.lib OgreMain.lib xerces-c_2.lib OgreOde_Core.lib CEGUIBase.lib"
+				AdditionalDependencies="RlSound.lib RlCommon.lib msvcrt-ruby18.lib OgreMain.lib xerces-c_2.lib CEGUIBase.lib OgreNewt.lib Newton.lib"
 				OutputFile="./lib/$(ConfigurationName)/RlCore.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreOde\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogreaddons\dotsceneoctree\PlugIns\DotSceneManager\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\OpenAL\libs;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib"
+				AdditionalLibraryDirectories="&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;&quot;..\..\dependencies\OgreNewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll"
 				TypeLibraryFile="$(OutDir)\RlCore.lib"
 				ProgramDatabaseFile=""
 				SubSystem="2"
@@ -268,6 +267,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\ConfigurationManagerLinux.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ConfigurationManagerMac.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\ConfigurationManagerWin32.h"
 				>
 			</File>
@@ -316,15 +323,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\GameTask.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\Interpreter.h"
 				>
 			</File>
 			<File
 				RelativePath=".\include\LightObject.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ListenerObject.h"
 				>
 			</File>
 			<File
@@ -340,7 +347,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\PhysicsController.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\PhysicsGenericContactCallback.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\PhysicsManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\PhysicsMaterialRaycast.h"
 				>
 			</File>
 			<File
@@ -361,14 +380,6 @@
 			</File>
 			<File
 				RelativePath=".\include\SoundObject.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\TimerEvent.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\TimerEventSource.h"
 				>
 			</File>
 			<File
@@ -417,6 +428,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ConfigurationManagerLinux.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ConfigurationManagerMac.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\ConfigurationManagerWin32.cpp"
 				>
 			</File>
@@ -461,10 +480,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\GameTask.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\LightObject.cpp"
 				>
 			</File>
@@ -485,7 +500,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\PhysicsGenericContactCallback.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\PhysicsManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\PhysicsMaterialRaycast.cpp"
 				>
 			</File>
 			<File

@@ -18,7 +18,7 @@
 			OutputDirectory="./lib/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="2"
-			InheritedPropertySheets="UpgradeFromVC71.vsprops"
+			InheritedPropertySheets="C:\Programme\Programmieren\Microsoft Visual Studio 8\VC\VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -47,7 +47,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\uicomponents\include;..\common\include;..\dialog\include;..\core\include;..\sound\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\OgreOde\include;..\..\dependencies\ogrenew\Dependencies\include;..\..\dependencies\ogrenew\PlugIns\GuiElements\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc"
+				AdditionalIncludeDirectories=".\include;..\uicomponents\include;..\common\include;..\dialog\include;..\core\include;..\sound\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\Dependencies\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\OgreNewt\inc;..\..\dependencies\NewtonSDK\sdk\"
 				PreprocessorDefinitions="_WINDOWS,_DEBUG,WIN32,RLUI_EXPORTS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -80,12 +80,12 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlCore.lib RlRules.lib RlSound.lib RlUiComponents.lib msvcrt-ruby18.lib OgreMain_d.lib OgreGuiRenderer_d.lib OgreODE_Core_d.lib CEGUIBase_d.lib xerces-c_2D.lib"
+				AdditionalDependencies="RlCore.lib RlRules.lib RlSound.lib RlUiComponents.lib msvcrt-ruby18.lib OgreMain_d.lib OgreGuiRenderer_d.lib CEGUIBase_d.lib xerces-c_2D.lib OgreNewt_d.lib Newton.lib"
 				ShowProgress="0"
 				OutputFile="$(OutDir)/RlUI.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\uicomponents\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\lib;&quot;..\..\dependencies\ogrenew\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;&quot;..\..\dependencies\ogrenew\dependencies\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreODE\lib\$(ConfigurationName)&quot;;..\..\dependencies\boost\lib;..\..\dependencies\ogg\win32;..\..\dependencies\xerces\lib"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\uicomponents\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\dependencies\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\ogg\win32;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\OgreNewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
@@ -125,7 +125,7 @@
 			OutputDirectory="./lib/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="2"
-			InheritedPropertySheets="UpgradeFromVC71.vsprops"
+			InheritedPropertySheets="C:\Programme\Programmieren\Microsoft Visual Studio 8\VC\VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -155,7 +155,7 @@
 				Optimization="3"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".\include;..\uicomponents\include;..\common\include;..\dialog\include;..\core\include;..\sound\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\OgreOde\include;..\..\dependencies\ogrenew\Dependencies\include;..\..\dependencies\ogrenew\PlugIns\GuiElements\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc"
+				AdditionalIncludeDirectories=".\include;..\uicomponents\include;..\common\include;..\dialog\include;..\core\include;..\sound\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\Dependencies\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\OgreNewt\inc;..\..\dependencies\NewtonSDK\sdk\"
 				PreprocessorDefinitions="NDEBUG,_WINDOWS,WIN32,RLUI_EXPORTS"
 				StringPooling="false"
 				ExceptionHandling="1"
@@ -187,11 +187,11 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlCore.lib RlRules.lib RlSound.lib RlUiComponents.lib msvcrt-ruby18.lib OgreMain.lib OgreGuiRenderer.lib OgreODE_Core.lib CEGUIBase.lib xerces-c_2.lib"
+				AdditionalDependencies="RlCore.lib RlRules.lib RlSound.lib RlUiComponents.lib msvcrt-ruby18.lib OgreMain.lib OgreGuiRenderer.lib CEGUIBase.lib xerces-c_2.lib OgreNewt.lib Newton.lib"
 				OutputFile="$(OutDir)/RlUI.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\uicomponents\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\lib;&quot;..\..\dependencies\ogrenew\PlugIns\GuiElements\bin\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;&quot;..\..\dependencies\ogrenew\dependencies\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreODE\lib\$(ConfigurationName)&quot;;..\..\dependencies\boost\lib;..\..\dependencies\ogg\win32;..\..\dependencies\xerces\lib"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\uicomponents\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\dependencies\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\ogg\win32;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\OgreNewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll"
 				ProgramDatabaseFile=""
 				SubSystem="2"
 			/>
@@ -230,6 +230,10 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
+				RelativePath=".\include\AboutWindow.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\ActionChoiceWindow.h"
 				>
 			</File>
@@ -238,11 +242,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\CharacterController.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\CharacterSheetWindow.h"
 				>
 			</File>
 			<File
 				RelativePath=".\include\CharacterStateWindow.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\CombatWindow.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\CombatWindowStrategy.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\CommandExecutor.h"
 				>
 			</File>
 			<File
@@ -270,10 +290,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\GameController.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\GameLoggerWindow.h"
 				>
 			</File>
@@ -287,14 +303,6 @@
 			</File>
 			<File
 				RelativePath=".\include\InventoryWindow.h"
-				>
-			</File>
-			<File
-				RelativePath=".\components\include\ListboxImageItem.h"
-				>
-			</File>
-			<File
-				RelativePath=".\components\include\ListboxWrappedTextItem.h"
 				>
 			</File>
 			<File
@@ -322,6 +330,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\VideoWindow.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\WindowManager.h"
 				>
 			</File>
@@ -331,6 +343,10 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
+				RelativePath=".\src\AboutWindow.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\ActionChoiceWindow.cpp"
 				>
 			</File>
@@ -339,11 +355,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\CharacterController.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\CharacterSheetWindow.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\src\CharacterStateWindow.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\CombatWindow.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\CombatWindowStrategy.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\CommandExecutor.cpp"
 				>
 			</File>
 			<File
@@ -368,10 +400,6 @@
 			</File>
 			<File
 				RelativePath=".\src\DialogWindow.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\GameController.cpp"
 				>
 			</File>
 			<File
@@ -408,6 +436,10 @@
 			</File>
 			<File
 				RelativePath=".\src\UiSubsystem.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\VideoWindow.cpp"
 				>
 			</File>
 			<File

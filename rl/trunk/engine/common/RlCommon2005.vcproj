@@ -20,7 +20,7 @@
 			OutputDirectory="./lib/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="2"
-			InheritedPropertySheets="UpgradeFromVC71.vsprops"
+			InheritedPropertySheets="C:\Programme\Programmieren\Microsoft Visual Studio 8\VC\VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
 			ManagedExtensions="0"
 			>
@@ -106,7 +106,7 @@
 			OutputDirectory="./lib/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="2"
-			InheritedPropertySheets="UpgradeFromVC71.vsprops"
+			InheritedPropertySheets="C:\Programme\Programmieren\Microsoft Visual Studio 8\VC\VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -202,6 +202,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\GameTask.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Logger.cpp"
 				>
 			</File>
@@ -258,11 +262,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\GameTask.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\Logger.h"
 				>
 			</File>
 			<File
 				RelativePath=".\include\RastullahPrerequisites.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\Sleep.h"
 				>
 			</File>
 			<File

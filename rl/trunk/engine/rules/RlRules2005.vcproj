@@ -19,7 +19,7 @@
 			OutputDirectory="./lib/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="2"
-			InheritedPropertySheets="UpgradeFromVC71.vsprops"
+			InheritedPropertySheets="C:\Programme\Programmieren\Microsoft Visual Studio 8\VC\VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
 			ManagedExtensions="0"
 			>
@@ -105,7 +105,7 @@
 			OutputDirectory="./lib/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="2"
-			InheritedPropertySheets="UpgradeFromVC71.vsprops"
+			InheritedPropertySheets="C:\Programme\Programmieren\Microsoft Visual Studio 8\VC\VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -201,6 +201,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Combat.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\CombatActions.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\CombatEvents.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Container.cpp"
 				>
 			</File>
@@ -217,7 +229,7 @@
 				>
 			</File>
 			<File
-				RelativePath="src\DsaManager.cpp"
+				RelativePath=".\src\DsaManager.cpp"
 				>
 			</File>
 			<File
@@ -261,6 +273,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Talentgruppe.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\TimerEvent.cpp"
 				>
 			</File>
@@ -276,6 +292,10 @@
 				RelativePath=".\src\TimerManager.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\src\Weapon.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Headerdateien"
@@ -288,6 +308,18 @@
 			</File>
 			<File
 				RelativePath=".\include\ActionManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\Combat.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\CombatActions.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\CombatEvents.h"
 				>
 			</File>
 			<File
@@ -355,6 +387,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\Talentgruppe.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\TalentInputIterator.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\TimerEvent.h"
 				>
 			</File>
@@ -368,6 +408,10 @@
 			</File>
 			<File
 				RelativePath=".\include\TimerManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\Weapon.h"
 				>
 			</File>
 		</Filter>

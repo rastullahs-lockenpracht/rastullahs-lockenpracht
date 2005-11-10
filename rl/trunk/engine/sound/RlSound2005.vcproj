@@ -20,7 +20,7 @@
 			OutputDirectory="./lib/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="2"
-			InheritedPropertySheets="UpgradeFromVC71.vsprops"
+			InheritedPropertySheets="C:\Programme\Programmieren\Microsoft Visual Studio 8\VC\VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
 			ManagedExtensions="0"
 			>
@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\ogrenew\OgreMain\Dependencies\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\fmod\api\inc\;..\..\dependencies\cegui_mk2\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\ogrenew\OgreMain\Dependencies\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\fmod\api\inc\;..\..\dependencies\cegui_mk2\include;..\..\dependencies\TheoraVideo\include;..\..\dependencies\theora\include;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include;&quot;..\..\dependencies\ptypes-1.8.3\include&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include"
 				PreprocessorDefinitions="_WINDOWS;WIN32;RLSOUND_EXPORTS;_DEBUG;LIBOPENAL;HAVE_LIBOPENAL"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -69,11 +69,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msvcrt-ruby18.lib OgreMain_d.lib fmodvc.lib CEGUIBase_d.lib"
+				AdditionalDependencies="OgreMain_d.lib fmodvc.lib CEGUIBase_d.lib Plugin_TheoraVideoSystem.lib OgreGUIRenderer_d.lib"
 				OutputFile="$(OutDir)/RlSound.dll"
 				LinkIncremental="0"
 				SuppressStartupBanner="false"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\fmod\api\lib;..\..\dependencies\cegui_mk2\lib"
+				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\fmod\api\lib;..\..\dependencies\cegui_mk2\lib;&quot;..\..\dependencies\TheoraVideo\bin\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\lib"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				ProgramDatabaseFile="./lib/$(ConfigurationName)/$(ProjectName).pdb"
@@ -112,7 +112,7 @@
 			OutputDirectory="./lib/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="2"
-			InheritedPropertySheets="UpgradeFromVC71.vsprops"
+			InheritedPropertySheets="C:\Programme\Programmieren\Microsoft Visual Studio 8\VC\VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
 			ManagedExtensions="0"
 			>
@@ -136,7 +136,7 @@
 				Optimization="3"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\ogrenew\OgreMain\Dependencies\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\fmod\api\inc\;..\..\dependencies\cegui_mk2\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\ogrenew\OgreMain\Dependencies\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\fmod\api\inc\;..\..\dependencies\cegui_mk2\include;..\..\dependencies\TheoraVideo\include;..\..\dependencies\theora\include;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include;&quot;..\..\dependencies\ptypes-1.8.3\include&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include"
 				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32;RLSOUND_EXPORTS;LIBOPENAL;HAVE_LIBOPENAL"
 				MinimalRebuild="false"
 				RuntimeLibrary="2"
@@ -160,11 +160,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msvcrt-ruby18.lib OgreMain.lib fmodvc.lib CEGUIBase.lib"
+				AdditionalDependencies="OgreMain.lib fmodvc.lib CEGUIBase.lib Plugin_TheoraVideoSystem.lib OgreGUIRenderer.lib"
 				OutputFile="$(OutDir)/RlSound.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="false"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\fmod\api\lib;..\..\dependencies\cegui_mk2\lib"
+				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\boost\lib;..\..\dependencies\fmod\api\lib;..\..\dependencies\cegui_mk2\lib;&quot;..\..\dependencies\TheoraVideo\bin\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\lib"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -243,6 +243,18 @@
 				RelativePath=".\src\SoundSubsystem.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\src\SoundUpdateTask.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Video.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\VideoEvents.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Headerdateien"
@@ -287,6 +299,18 @@
 			</File>
 			<File
 				RelativePath=".\include\SoundSubsystem.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SoundUpdateTask.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\Video.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\VideoEvents.h"
 				>
 			</File>
 		</Filter>

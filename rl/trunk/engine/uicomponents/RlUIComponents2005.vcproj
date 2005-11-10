@@ -4,7 +4,6 @@
 	Version="8,00"
 	Name="RlUIComponents"
 	ProjectGUID="{ED15F1B3-8B3B-40D1-8F56-5399B2E5E851}"
-	SignManifests="true"
 	>
 	<Platforms>
 		<Platform
@@ -19,7 +18,7 @@
 			OutputDirectory=".\lib\Debug"
 			IntermediateDirectory=".\obj\Debug"
 			ConfigurationType="2"
-			InheritedPropertySheets="UpgradeFromVC71.vsprops"
+			InheritedPropertySheets="C:\Programme\Programmieren\Microsoft Visual Studio 8\VC\VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -126,7 +125,7 @@
 			OutputDirectory=".\lib\Release"
 			IntermediateDirectory=".\obj\Release"
 			ConfigurationType="2"
-			InheritedPropertySheets="UpgradeFromVC71.vsprops"
+			InheritedPropertySheets="C:\Programme\Programmieren\Microsoft Visual Studio 8\VC\VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
