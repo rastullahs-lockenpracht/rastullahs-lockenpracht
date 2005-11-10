@@ -21,15 +21,13 @@ REM Ogre Dateien kopieren
 REM ---------------------
 copy "%OGREHOME%\OgreMain\lib\%BUILD%\OgreMain.dll" "%RL_DIST%"
 copy "%OGREHOME%\OgreMain\lib\%BUILD%\OgreMain_d.dll" "%RL_DIST%"
-copy "%OGREHOME%\OgreOde\lib\%BUILD%\OgreOde_Core.dll" "%RL_DIST%"
-copy "%OGREHOME%\OgreOde\lib\%BUILD%\OgreOde_Core_d.dll" "%RL_DIST%"
 
 copy "%OGREPLUGINS%\CgProgramManager\bin\%BUILD%\Plugin_CgProgramManager.dll" "%RL_DIST%"
 copy "%OGREPLUGINS%\OctreeSceneManager\bin\%BUILD%\Plugin_OctreeSceneManager.dll" "%RL_DIST%"
 copy "%OGREPLUGINS%\ParticleFx\bin\%BUILD%\Plugin_ParticleFx.dll" "%RL_DIST%"
+
 copy "%OGRERENDERERS%\Direct3D9\bin\%BUILD%\RenderSystem_Direct3D9.dll" "%RL_DIST%"
 copy "%OGRERENDERERS%\GL\bin\%BUILD%\RenderSystem_GL.dll" "%RL_DIST%"
-
 
 copy "%OGREPLATFORMS%\Win32\bin\%BUILD%\PlatFormManager_Win32.dll" "%RL_DIST%\OgrePlatform.dll"
 copy "%OGREPLATFORMS%\Win32\bin\%BUILD%\PlatFormManager_Win32.dll" "%RL_DIST%\OgrePlatform_d.dll"
@@ -46,7 +44,7 @@ copy "%OGREHOME%\Samples\Common\Bin\%BUILD%\zlib1.dll" "%RL_DIST%"
 REM Boost Dateien kopieren
 REM ---------------------
 copy "%RL_ROOT%\Dependencies\boost\lib\*.dll" "%RL_DIST%"
-
+copy "%RL_ROOT%\Dependencies\boost\bin\*.dll" "%RL_DIST%"
 
 
 REM Ruby Dateien kopieren
@@ -54,16 +52,11 @@ REM ---------------------
 
 copy "%RL_ROOT%\Dependencies\ruby\bin\msvcrt-ruby18.dll" "%RL_DIST%"
 
-REM Look kopieren
-REM ---------------------
-copy "%RL_ROOT%\Dependencies\rllooks\RastullahLook\bin\%BUILD%\*.dll" "%RL_DIST%"
-
 
 REM Die restlichen Abhängigkeiten
 REM -----------------------------
 REM 
 copy "%RL_ROOT%\dependencies\fmod\api\fmod.dll" "%RL_DIST%"
-copy "%RL_ROOT%\Dependencies\boost\bin\*.dll" "%RL_DIST%"
 
 copy "%RL_ROOT%\Dependencies\NewtonSDK\sdk\dll\Newton.dll" "%RL_DIST%"
 copy "%RL_ROOT%\Dependencies\OgreNewt\bin\debug\OgreNewt_d.dll" "%RL_DIST%"
