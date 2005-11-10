@@ -154,7 +154,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib RlCommon.lib RlCore.lib RlUi.lib RlScript.lib CEGUIBase.lib Shell32.lib"
+				AdditionalDependencies="OgreMain.lib RlCommon.lib RlCore.lib RlUi.lib RlScript.lib CEGUIBase.lib Shell32.lib user32.lib"
 				OutputFile="$(OutDir)/Rastullah.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\sound\lib\$(ConfigurationName)&quot;;&quot;..\script\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\xerces\lib;..\..\dependencies\boost\lib"
