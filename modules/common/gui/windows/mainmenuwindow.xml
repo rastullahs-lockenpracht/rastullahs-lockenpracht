@@ -42,13 +42,12 @@
 			</Window>
 		</Window>
 		<Window Type="RastullahLook/StaticText" Name="MainMenu/EngineVersion">
-			<Property Name="HorzFormatting" Value="LeftAligned"/>
-			<Property Name="VertFormatting" Value="TopAligned"/>
-			<Property Name="RelativeXPosition" Value="0.75"/>
-			<Property Name="RelativeYPosition" Value="0.95"/>
-			<Property Name="RelativeWidth" Value="0.25"/>
-			<Property Name="RelativeHeight" Value="0.08"/>
+			<Property Name="VerticalAlignment" Value="Bottom" />
+	        <Property Name="HorizontalAlignment" Value="Right" />
+            <Property Name="HorzFormatting" Value="RightAligned"/>
+            <Property Name="Position" Value="x:0 y:0" />
 			<Property Name="FrameEnabled" Value="False"/>
+            <Property Name="AbsoluteSize" Value="w:200 h:20" />
 		</Window>
 	</Window>
 </GUILayout>
