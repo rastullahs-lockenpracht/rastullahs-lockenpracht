@@ -23,6 +23,7 @@
 
 #include "InputManager.h"
 #include "DebugWindow.h"
+#include "GameLoggerWindow.h"
 //#include "CharacterSheetWindow.h"
 #include "ListboxWrappedTextItem.h"
 
@@ -56,9 +57,11 @@ DialogWindow::DialogWindow(const std::string& dialogFile) :
 	initialize();
 }
 */
-DialogWindow::DialogWindow(DialogCharacter* bot)
+DialogWindow::DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger)
   : CeGuiWindow("dialogwindow.xml", WND_MOUSE_INPUT),
-	mNlp(bot), mCurrentResponse(NULL)
+	mNlp(bot), 
+	mCurrentResponse(NULL),
+	mGameLogger(gamelogger)
 {
 	initialize();
 
@@ -103,7 +106,9 @@ void DialogWindow::getResponse(string msg)
 //		handleClose();
 		return;
 	}
-	mQuestion->setText(mCurrentResponse->getResponse());
+	CeGuiString responseText = mCurrentResponse->getResponse();
+	mQuestion->setText(responseText);
+	mGameLogger->logDialogEvent(mNlp->getName(), responseText);
 	mResponses = mCurrentResponse->getOptions();
 	
 	//mResponses = mNlp->respond(msg);
@@ -213,8 +218,8 @@ bool DialogWindow::handleSelectOption()
 {
 	DebugWindow::getSingleton().setText("Pnk "+StringConverter::toString(getSelectedOption()));
 	ListboxWrappedTextItem* item = reinterpret_cast<ListboxWrappedTextItem*>(mDialogOptions->getFirstSelectedItem());
-	CeGuiString test = mCurrentResponse->getSelectedOption(item->getID());
-	test.data();
+	CeGuiString text = mCurrentResponse->getSelectedOption(item->getID());
+	mGameLogger->logDialogEvent("Held", text);
 	getResponse(StringConverter::toString(item->getID()));	
 	return true;
 }

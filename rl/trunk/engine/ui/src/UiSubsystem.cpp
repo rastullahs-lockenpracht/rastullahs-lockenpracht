@@ -274,7 +274,7 @@ namespace rl {
 
 	void UiSubsystem::showDialog(DialogCharacter* bot)
 	{
-		(new DialogWindow(bot))->setVisible(true);
+		(new DialogWindow(bot, mGameLogger))->setVisible(true);
 	}
 
 	void UiSubsystem::toggleConsole()
