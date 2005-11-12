@@ -210,8 +210,6 @@
             <Property name="PushedImage" value="set:RastullahLook-Images image:CloseButtonPressed" />
         </Child>
 
-
-
         <ImagerySection name="withtitle_frame">
             <FrameComponent>
                 <Area>
@@ -242,6 +240,7 @@
                 <Image type="LeftEdge" imageset="RastullahLook-Images" image="WindowLeftEdge" />
                 <Image type="RightEdge" imageset="RastullahLook-Images" image="WindowRightEdge" />
                 <Image type="BottomEdge" imageset="RastullahLook-Images" image="WindowBottomEdge" />
+                <Image type="TopEdge" imageset="RastullahLook-Images" image="WindowTopEdge" />
             </FrameComponent>
         </ImagerySection>
         <ImagerySection name="withtitle_noframe_client_area">
