@@ -2,6 +2,7 @@
 <GUIScheme Name="RastullahLook">
 	<Imageset Name="RastullahLook-Images" Filename="RastullahLook.imageset" />
     <Imageset Name="RastullahButtons" Filename="RastullahButtons.imageset" />
+    <Imageset Name="ModelThumbnails" Filename="ModelThumbnails.imageset" />
 
 	<Font Name="Vera Serif-8" Filename="vera_serif-8.font" />
     <Font Name="Vera Serif Bold-8" Filename="vera_serif_bold-8.font" />
