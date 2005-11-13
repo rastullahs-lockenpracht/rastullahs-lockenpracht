@@ -73,8 +73,8 @@ namespace rl
 
             bool shouldUseStaticGeometry( );
 
-			Ogre::String getEngineVersionString();
-			long          getEngineBuildNumber();
+			Ogre::String getEngineVersionString() const;
+			long          getEngineBuildNumber() const;
 			const rl::CeGuiString&  getAboutText();
 			
 		protected:

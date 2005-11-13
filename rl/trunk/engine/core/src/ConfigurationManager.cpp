@@ -145,21 +145,35 @@ namespace rl
         
     }
 
-	Ogre::String ConfigurationManager::getEngineVersionString()
+	Ogre::String ConfigurationManager::getEngineVersionString() const
 	{
 		static Ogre::String version = "Internal Build";
 		return version;
 	}
 
+	static const Ogre::String sMonths[] = 
+			{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
+             "Sep", "Oct", "Nov", "Dec"};
+
+	/// __DATE__ sieht ca. so aus : Nov 08 2005
 	long parseDate(char* date)
-	{   //TODO: __DATE__ in ein long verwandeln, damit man 
-		return /* Jahr */		  2005 * 100000 +
-			   /* Monat */			11 * 1000 + 
-			   /* Tag */			 3 * 10 + 
+	{   
+		Ogre::String dateStr = Ogre::String(date);
+		Ogre::String monthStr = dateStr.substr(0,3);
+		int day = Ogre::StringConverter::parseInt( dateStr.substr(4,2) );
+		int year = Ogre::StringConverter::parseInt( dateStr.substr(7,4) );
+		int month = 0;
+
+		while( month < 12 && monthStr.compare(sMonths[month]) != 0 )
+			month++;
+
+		return /* Jahr */		  year * 100000 +
+			   /* Monat */	 (month+1) * 1000 + 
+			   /* Tag */		   day * 10 + 
 			   /* Sub-Version */	 0;	
 	}
 
-	long ConfigurationManager::getEngineBuildNumber()
+	long ConfigurationManager::getEngineBuildNumber() const
 	{
 		static long buildNumber = parseDate(__DATE__);
 		return buildNumber;
