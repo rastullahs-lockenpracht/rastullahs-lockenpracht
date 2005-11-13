@@ -126,6 +126,8 @@ namespace rl {
         	ConfigurationManager::getSingleton().getOgreLogPath()
         );
 
+        Root::getSingleton().setFrameSmoothingPeriod(0.5f);
+
         // Muss vor dem Laden der Ressourcen geschehen,
         // weil es sonst sofort angewandt wird.
         MeshManager::getSingleton().setBoundsPaddingFactor(0.0);
