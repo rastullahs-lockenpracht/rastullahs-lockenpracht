@@ -39,15 +39,12 @@ namespace rl {
 		/// Standard Destruktor
 		~DotSceneLoader() {};
 
-		/// Hilfsmethode zur Generierung eines nopch nicht vergebenen Entitynamens
-		static void staticGeometryAddSceneNodeWorkaround( Ogre::StaticGeometry* staticGeom , Ogre::SceneNode* baseNode );
 	private:
         struct NodeUserData
         {
             std::string physical_body;
             bool is_static;
         };
-
 
 		/// Laden der Szene
 		void initializeScene();

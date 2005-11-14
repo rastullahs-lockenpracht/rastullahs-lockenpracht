@@ -71,12 +71,7 @@ namespace rl {
         {        
 		    StaticGeometry* staticGeom = mSceneManager->createStaticGeometry( mSceneName );
 
-		    /// FIXME  Diese Methode funktioniert nicht Ogre-Api-korrekt, daher Workaround
-		    //staticGeom->addSceneNode( staticNode );
-
-		    // Alle Entities unterhalb des Nodes einfügen
-		    DotSceneLoader::staticGeometryAddSceneNodeWorkaround(
-			    staticGeom, staticNode);
+		    staticGeom->addSceneNode( staticNode );
 
 		    // Statische Geometrie bauen
 		    staticGeom->build();
@@ -336,23 +331,6 @@ namespace rl {
         rval << baseName << "_" << rnd;
         return rval.str();
     }
-
-	void DotSceneLoader::staticGeometryAddSceneNodeWorkaround( 
-		Ogre::StaticGeometry* staticGeom, Ogre::SceneNode* baseNode )
-	{
-		// Das hier sollte eigentlich reichen
-		staticGeom->addSceneNode(baseNode);
-
-		// Aber das hier muss wohl erstmal sein ^^
-		Ogre::SceneNode::ChildNodeIterator it = baseNode->getChildIterator();
-
-		while (it.hasMoreElements())
-		{
-			SceneNode* node = reinterpret_cast<SceneNode*>(it.getNext());
-			
-			staticGeometryAddSceneNodeWorkaround(staticGeom,node);
-		}
-	}
 
 	Ogre::Vector3 DotSceneLoader::processPosition( DOMElement* rootPositionXml )
 	{
