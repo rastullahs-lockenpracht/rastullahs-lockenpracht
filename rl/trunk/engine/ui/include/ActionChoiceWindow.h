@@ -80,8 +80,8 @@ namespace rl {
 			const CeGuiString& name,
 			const CEGUI::Point& pos);
 			
+		bool handleMouseClickNoButton(const CEGUI::EventArgs& evt);
 		void setButtonActions(ActionNode* actions, ActionNode* treeRoot);
-
 		bool setButtonVisible(CEGUI::PushButton* button, bool visible);
 		bool activateAction(Action* action);
 		static float normalizeAngle(float angle);
@@ -89,6 +89,7 @@ namespace rl {
 		GameObject* mObject;
 		std::vector<CEGUI::PushButton*> mButtons;
 		CEGUI::PushButton* mButtonCancel;
+		CEGUI::Window* mButtonArea;
 		CEGUI::StaticText* mHint;
 
 		Person* mActor;		
