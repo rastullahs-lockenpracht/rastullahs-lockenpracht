@@ -141,8 +141,8 @@ namespace rl {
 		InputManager::getSingleton().loadKeyMapping("keymap-german.xml");
 		log(Ogre::LML_TRIVIAL, "Keymap geladen", "UiSubsystem::initializeUiSubsystem");
 
-		new DebugWindow();
 		new Console();
+		new DebugWindow();
 		((RubyInterpreter*)CoreSubsystem::getSingleton().getInterpreter() )->initializeInterpreter( (VALUE(*)(...))&UiSubsystem::consoleWrite );
 
 		new TargetSelectionWindow();
