@@ -66,13 +66,14 @@ namespace rl
 		//--	this code needs to be updated to use the StringTokenizer (this ain't robust)
 		
 		StringTokenizer tokenizer(path, " ");
-		for ( CeGuiString token = tokenizer.nextToken(); tokenizer.hasMoreTokens(); )
+		for ( ; tokenizer.hasMoreTokens(); )
 		{
+			CeGuiString token = tokenizer.nextToken();
 			//if ( end != NULL )
 			//	*end = '\0';
 		
 			//CeGuiString token(c_string);
-			//token.data();
+			token.data();
 			child = node->getChild(token);
 
 			if ( child == NULL ) 

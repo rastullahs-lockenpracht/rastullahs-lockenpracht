@@ -29,7 +29,7 @@ namespace rl
 	//--	substr(1) accounts for leading space
 	void Match::setPattern(const CeGuiString &pattern, component which) 
 	{
-		patterns[which] = pattern.substr(1);
+		patterns[which] = pattern;
 	}
 
 	CeGuiString Match::getPattern(component which) 

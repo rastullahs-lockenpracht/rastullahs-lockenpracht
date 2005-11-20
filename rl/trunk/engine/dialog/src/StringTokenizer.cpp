@@ -75,7 +75,9 @@ namespace rl
 
 	CeGuiString StringTokenizer::nextToken() 
 	{
+		str.c_str();
 		CeGuiString::size_type pos = str.find_first_of(delim);
+		
 		if (pos == CeGuiString::npos)
 		{
 			str = "";
@@ -83,8 +85,10 @@ namespace rl
 		}
 		else
 		{
-			CeGuiString token = str.substr(0, pos-1);
+			CeGuiString token = str.substr(0, pos);
+			token.c_str();
 			str = str.substr(pos+1);
+			str.c_str();
 			return token;
 		}
 		//if ( str == NULL ) return "";
