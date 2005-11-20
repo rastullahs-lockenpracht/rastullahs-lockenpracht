@@ -31,7 +31,7 @@ namespace rl
 {
 	Nodemaster* Nodemaster::cached;
 	Nodemaster::Nodemaster() { }
-	Nodemaster::Nodemaster(const string& templateValue) 
+	Nodemaster::Nodemaster(const CeGuiString& templateValue) 
 	//	: mTemplate("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"+templateValue)
 	    : mTemplate("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"+templateValue)
 	{
@@ -43,7 +43,7 @@ namespace rl
 	{
 		// DON'T LOG AFTER DESTRUCTING DIALOGSUBSYSTEM
 //		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Delete all children");
-		map<string, Nodemaster *>::const_iterator itr = mChildren.begin();
+		std::map<CeGuiString, Nodemaster *>::const_iterator itr = mChildren.begin();
 		for(;itr!=mChildren.end();itr++)
 		{
 			if(itr->second)
@@ -70,26 +70,26 @@ namespace rl
 		return doc;
 	}
 
-	string Nodemaster::getTemplate()
+	CeGuiString Nodemaster::getTemplate()
 	{
 		return mTemplate;
 	}
 
-	void Nodemaster::setTemplate(const string &data) 
+	void Nodemaster::setTemplate(const CeGuiString &data) 
 	{
 		mTemplate=data;
 	}
 
-	void Nodemaster::addChild(const string &key, Nodemaster *child) 
+	void Nodemaster::addChild(const CeGuiString &key, Nodemaster *child) 
 	{
 		cached = child;
 		mChildren[toUpper(key)] = cached;
 	}
 
-	Nodemaster* Nodemaster::getChild(const string &key) 
+	Nodemaster* Nodemaster::getChild(const CeGuiString &key) 
 	{
 		if ( key.empty() ) return cached;
-		map<string, Nodemaster *>::iterator itr = mChildren.find(toUpper(key));
+		std::map<CeGuiString, Nodemaster *>::iterator itr = mChildren.find(toUpper(key));
 		if ( itr == mChildren.end() ) return NULL;
 		cached = itr->second;
 		return cached;

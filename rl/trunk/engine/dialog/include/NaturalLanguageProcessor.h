@@ -25,7 +25,7 @@
 //#include "Substituter.h"
 //#include "Predicates.h"
 
-#include <string>
+//#include <string>
 
 
 XERCES_CPP_NAMESPACE_USE
@@ -54,10 +54,10 @@ namespace rl
 		void addGraphMaster(Graphmaster* gm);
 //		bool loadAiml(const std::string& filename);
 	//	Responses& respond(const std::string& input);
-		DialogResponse* createResponse(const std::string& input);
-		Match* match(const std::string& context, const std::string& input, 
-						const std::string& that, const std::string& topic);
-		string process(DOMNode* node, Match *match, const string& id);
+		DialogResponse* createResponse(const CeGuiString& input);
+		Match* match(const CeGuiString& context, const CeGuiString& input, 
+						const CeGuiString& that, const CeGuiString& topic);
+		CeGuiString process(DOMNode* node, Match *match, const CeGuiString& id);
 //		void processOption(const string& name, const std::string& value);
 		void setName(const CeGuiString& name);
 		const CeGuiString& getName() const;
@@ -68,7 +68,7 @@ namespace rl
 		CeGuiString mName;	
 
 	private:
-		std::string getTextData(const std::string& nodeData);
+		CeGuiString getTextData(const CeGuiString& nodeData);
 
 		Responses mCurrentResponses;
 		std::vector<Graphmaster*> mGraphList;

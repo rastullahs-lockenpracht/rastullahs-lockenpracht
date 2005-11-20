@@ -61,33 +61,34 @@ namespace rl
 	{
 		CeGuiString path = (context + GM_PATTERN + pattern + GM_THAT + that + GM_TOPIC + topic); // toUpper
 		Nodemaster *node = mRoot, *child = NULL;
-		char* c_string = (char*)path.c_str();
+		//char* c_string = (char*)path.c_str();
 		//path
 		//--	this code needs to be updated to use the StringTokenizer (this ain't robust)
 		
-		for ( char *end = strchr(c_string, ' '); c_string != NULL; )
+		StringTokenizer tokenizer = new StringTokenizer(path, ' ');
+		for ( CeGuiString token = tokenizer.nextToken(); tokenizer.hasMoreTokens(); )
 		{
-			if ( end != NULL )
-				*end = '\0';
+			//if ( end != NULL )
+			//	*end = '\0';
 		
-			CeGuiString token(c_string);
-			token.data();
-			child = node->getChild(token.c_str());
+			//CeGuiString token(c_string);
+			//token.data();
+			child = node->getChild(token);
 
 			if ( child == NULL ) 
 			{
-				child = new Nodemaster(templateValue.c_str());			// eigentlich müsste man direkt hier schon
+				child = new Nodemaster(templateValue);			// eigentlich müsste man direkt hier schon
 													// das templateValue übergeben können
-				node->addChild(token.c_str(), child);
+				node->addChild(token, child);
 			}
 			node = child;
 		
-			if ( end != NULL ) 
-			{
-				c_string = end + 1;
-				end = strchr(c_string, ' ');
-			} else
-				break;
+			//if ( end != NULL ) 
+			//{
+			//	c_string = end + 1;
+			//	end = strchr(c_string, ' ');
+			//} else
+			//	break;
 		}
 		return node;
 	}

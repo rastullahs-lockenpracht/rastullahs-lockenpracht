@@ -35,19 +35,19 @@ ScriptObject::~ScriptObject()
  //   Console::getSingleton().getInterpreter()->unregisterScriptObject( mName );
 }
 
-void ScriptObject::setScript( const String& scriptname, const String& classname, int argc, const String args[] )
+void ScriptObject::setScript( const String& scriptname, const String& classname, int argc, const CeGuiString args[] )
 {
 	CoreSubsystem::getSingleton().getInterpreter()->setScript( mName, scriptname, classname, argc, args );
 //	Console::getSingleton().getInterpreter()->setScript( mName, scriptname, classname, argc, args );
 }
 
-void ScriptObject::callFunction( const String& funcname, int argc, const String args[] )
+void ScriptObject::callFunction( const String& funcname, int argc, const CeGuiString args[] )
 {
 	CoreSubsystem::getSingleton().getInterpreter()->callFunction( mName, funcname, argc, args );
 //	Console::getSingleton().getInterpreter()->callFunction( mName, funcname, argc, args );
 }
 
-int ScriptObject::callIntegerFunction( const String& funcname, int argc, const String args[] )
+int ScriptObject::callIntegerFunction( const String& funcname, int argc, const CeGuiString args[] )
 {
 	return CoreSubsystem::getSingleton().getInterpreter()->callIntegerFunction( mName, funcname, argc, args );
 }

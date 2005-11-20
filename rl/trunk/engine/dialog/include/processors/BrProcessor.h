@@ -36,7 +36,7 @@ namespace rl
 	public:
 		~BrProcessor() { }
 	
-		inline string process(DOMNode*,Match *, const char *, NaturalLanguageProcessor*) 
+		inline CeGuiString process(DOMNode*,Match *, const CeGuiString&, NaturalLanguageProcessor*) 
 		{
 			return "\n";
 		}

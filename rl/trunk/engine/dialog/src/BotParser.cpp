@@ -274,7 +274,7 @@ namespace rl
 						// add the GraphMaster of the aimlfile to the bot
 						mBot->addGraphMaster(
 							DialogSubsystem::getSingletonPtr()->
-								getGraphMaster((*it).c_str()));
+								getGraphMaster(*it));
 					}
 				}
 			} // end for(...

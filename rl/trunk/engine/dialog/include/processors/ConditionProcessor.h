@@ -31,7 +31,7 @@ namespace rl
 	public:
 		~ConditionProcessor() { }
 	
-		string process(DOMNode* node,Match* m, const char *str, NaturalLanguageProcessor* nlp);
+		CeGuiString process(DOMNode* node,Match* m, const CeGuiString& str, NaturalLanguageProcessor* nlp);
 	};
 }
 #endif

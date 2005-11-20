@@ -32,15 +32,15 @@ namespace rl
 	class _RlDialogExport StringTokenizer
 	{
 	public:
-		StringTokenizer(const string &data, const char *delimiter): str(data.c_str()), delim(delimiter), opt(false) { }
+		StringTokenizer(const CeGuiString &data, const CeGuiString &delimiter): str(data), delim(delimiter), opt(false) { }
 		~StringTokenizer() { }
 	
 		bool hasMoreTokens();
-		string nextToken();
-		string getString();
+		CeGuiString nextToken();
+		CeGuiString getString();
 	private:
-		const char *str;
-		const char *delim;
+		CeGuiString str;
+		CeGuiString delim;
 		bool opt;
 	};
 }

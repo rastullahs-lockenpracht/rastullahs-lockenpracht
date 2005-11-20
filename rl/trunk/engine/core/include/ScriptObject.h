@@ -46,7 +46,7 @@ public:
 	*/
 	void setScript( const Ogre::String& scriptname,
 	    const Ogre::String& classname, int argc,
-	    const Ogre::String args[] = 0 );
+	    const CeGuiString args[] = 0 );
 
 	/** Calls a Function of the script-instance of this Object
 		@param funcname The Name of the Funktion
@@ -54,7 +54,7 @@ public:
 		@param args The parameters of the function, supports only String
 	*/
 	void callFunction( const Ogre::String& funcname, int argc,
-	    const Ogre::String args[] = 0 ); 
+	    const CeGuiString args[] = 0 ); 
 
     /** Calls a Function of the script-instance of this Object
 		@param funcname The Name of the Funktion
@@ -63,7 +63,7 @@ public:
         @return The VALUE Ruby returns, parsed to an Integer, 0 if no Integer was returned
 	*/
     int callIntegerFunction( const Ogre::String& funcname,
-        int argc, const Ogre::String args[] = 0 ); 
+        int argc, const CeGuiString args[] = 0 ); 
 
 private:
 	/** The Name */

@@ -22,11 +22,11 @@
 #include "DialogPrerequisites.h"
 
 #include <map>
-#include <string>
+//#include <string>
 
 
 XERCES_CPP_NAMESPACE_USE
-using namespace std;
+//using namespace std;
 
 namespace rl
 {
@@ -34,21 +34,21 @@ namespace rl
 	{
 	public:
 		Nodemaster();
-		Nodemaster(const string &templateValue);
+		Nodemaster(const CeGuiString &templateValue);
 		virtual ~Nodemaster();
 
 		void deleteAllNodes();
 		DOMNode* getTemplateNode() const;
-		string getTemplate();
-		void setTemplate(const string& data);
+		CeGuiString getTemplate();
+		void setTemplate(const CeGuiString& data);
 
-		Nodemaster* getChild(const string& key);
-		void addChild(const string& key, Nodemaster *child);
+		Nodemaster* getChild(const CeGuiString& key);
+		void addChild(const CeGuiString& key, Nodemaster *child);
 
 	private:
-		map<string, Nodemaster *> mChildren;
+		std::map<CeGuiString, Nodemaster *> mChildren;
 		static Nodemaster* cached;
-		string mTemplate;
+		CeGuiString mTemplate;
 	};
 }
 #endif

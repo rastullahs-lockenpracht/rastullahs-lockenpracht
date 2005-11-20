@@ -55,7 +55,8 @@ namespace rl
 		/**
 		 * Logging
 		 */
-		void log(const Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident = "");
+		//void log(const Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident = "");
+		void log(const Ogre::LogMessageLevel level, const CeGuiString& msg, const Ogre::String& ident = "");
 
         /**
          * Helper function, that retrieves an xml resource from its file name

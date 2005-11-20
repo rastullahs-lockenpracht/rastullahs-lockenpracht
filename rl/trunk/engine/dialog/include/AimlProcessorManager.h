@@ -23,7 +23,7 @@
 
 
 #include <map>
-#include <string>
+//#include <string>
 
 using namespace std;
 
@@ -35,13 +35,13 @@ namespace rl
 		AimlProcessorManager(){}
 		virtual ~AimlProcessorManager();
 		static void init();
-		static void addProcessor(const string &name,AimlProcessor* proc);
+		static void addProcessor(const CeGuiString &name,AimlProcessor* proc);
 		static void addStandardProcessors();
-		static AimlProcessor* getProcessor(const string &name);
-		static bool hasProcessor(const string &name);
+		static AimlProcessor* getProcessor(const CeGuiString &name);
+		static bool hasProcessor(const CeGuiString &name);
 		
-		static map<string, AimlProcessor *> mProcessors;
-		static map<string, Graphmaster*> mGraphMasters;
+		static map<CeGuiString, AimlProcessor *> mProcessors;
+		static map<CeGuiString, Graphmaster*> mGraphMasters;
 	};
 }
 #endif

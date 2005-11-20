@@ -22,16 +22,16 @@
 
 /* Some helper functions, don't know where they should belong to */
 
-#include <string>
+//#include <string>
 
-using namespace std;
+//using namespace std;
 namespace rl
 {
-	string toUpper(const string &str);
-	string toLower(const string &str);
-	string trim(const string &str);
-	bool checkHeadWS(const string &);
-	bool checkTailWS(const string &);
-	string normalise(const string &);
+	CeGuiString toUpper(const CeGuiString &str);
+	CeGuiString toLower(const CeGuiString &str);
+	CeGuiString trim(const CeGuiString &str);
+	bool checkHeadWS(const CeGuiString &);
+	bool checkTailWS(const CeGuiString &);
+	CeGuiString normalise(const CeGuiString &);
 }
 #endif

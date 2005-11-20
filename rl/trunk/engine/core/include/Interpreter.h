@@ -36,13 +36,13 @@ class _RlCoreExport Interpreter
 		virtual void setScript( const Ogre::String& instname,
 		    const Ogre::String& scriptname,
 		    const Ogre::String& classname,
-		    int argc, const Ogre::String args[] = 0 ) = 0;
+		    int argc, const CeGuiString args[] = 0 ) = 0;
 		virtual void callFunction( const Ogre::String& instname,
 		    const Ogre::String& funcname, int argc,
-		    const Ogre::String args[] = 0 ) = 0;
+		    const CeGuiString args[] = 0 ) = 0;
 		virtual int callIntegerFunction( const Ogre::String& instname,
 		    const Ogre::String& funcname, int argc,
-		    const Ogre::String args[] = 0 ) = 0;
+		    const CeGuiString args[] = 0 ) = 0;
 
 		virtual ScriptObject* getScriptObject( const Ogre::String& name ) = 0;
 

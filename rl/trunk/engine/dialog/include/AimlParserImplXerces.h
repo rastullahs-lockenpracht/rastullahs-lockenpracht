@@ -91,16 +91,16 @@ namespace rl
 
 		static const char* ASTERISK;
 
-		CeGuiString contextName;
-		CeGuiString topicName;
-		CeGuiString patternValue;
-		CeGuiString thatValue;
-		CeGuiString templateValue;
+		CeGuiString mContextName;
+		CeGuiString mTopicName;
+		CeGuiString mPatternValue;
+		CeGuiString mThatValue;
+		CeGuiString mTemplateValue;
 	
 		AimlState mCurState;	
 		std::stack<AimlState> mPrevStates;
 		CategoryState mSubState;
-		unsigned int anyDepth;
+		unsigned int mAnyDepth;
 	};
 }
 

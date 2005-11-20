@@ -33,20 +33,20 @@ using namespace std;
 
 namespace rl
 {
-	std::string ConditionProcessor::process(DOMNode* node,Match* m, const char* str, NaturalLanguageProcessor* nlp)
+	CeGuiString ConditionProcessor::process(DOMNode* node,Match* m, const CeGuiString& str, NaturalLanguageProcessor* nlp)
 	{		
-		std::string buffer;
-		std::string typeInfo;
+		CeGuiString buffer;
+		CeGuiString typeInfo;
 
 		//  get attributes
-		std::string conditionContext = XmlHelper::getAttributeValueAsString(
-				static_cast<DOMElement*>(node), "context" ).c_str();
+		CeGuiString conditionContext = XmlHelper::getAttributeValueAsString(
+				static_cast<DOMElement*>(node), "context" );
 
-		std::string conditionType = XmlHelper::getAttributeValueAsString( 
-				static_cast<DOMElement*>(node), "type" ).c_str();
+		CeGuiString conditionType = XmlHelper::getAttributeValueAsString( 
+				static_cast<DOMElement*>(node), "type" );
 		
-		std::string conditionName = XmlHelper::getAttributeValueAsString( 
-				static_cast<DOMElement*>(node), "name" ).c_str();
+		CeGuiString conditionName = XmlHelper::getAttributeValueAsString( 
+				static_cast<DOMElement*>(node), "name" );
 
 		int rVal = 0; 
 		int tmpVal = 0;//XmlHelper::getAttributeValueAsInteger( (DOMElement*)node,XMLString::transcode("value") );
@@ -89,7 +89,7 @@ namespace rl
 		bool conditionChild = false;
 
 		if(XmlHelper::transcodeToString(
-			node->getParentNode()->getNodeName()) == "li")
+			node->getParentNode()->getNodeName()).compare("li") == 0)
 		{
 			conditionChild = true;
 			buffer += typeInfo;
@@ -102,9 +102,9 @@ namespace rl
 		{	
 			if ( childNode->getNodeType() == DOMNode::ELEMENT_NODE ) 
 			{
-				std::string nodeName = XmlHelper::transcodeToString(
-											childNode->getNodeName()).c_str();
-				if(!nodeName.compare("li"))
+				CeGuiString nodeName = XmlHelper::transcodeToString(
+											childNode->getNodeName());
+				if(nodeName.compare("li") == 0)
 				{
 					tmpVal = XmlHelper::getAttributeValueAsInteger( 
 						static_cast<DOMElement*>(childNode), "value" );
@@ -138,7 +138,7 @@ namespace rl
 					
 					if(conditionFulfilled)
 					{
-						std::string temp = nlp->process(childNode, m, str);
+						CeGuiString temp = nlp->process(childNode, m, str);
 						if(conditionContext.empty())
 						{
 							buffer += temp;
@@ -163,9 +163,8 @@ namespace rl
 			} // end compare nodeType
 			else if( childNode->getNodeType() == DOMNode::TEXT_NODE ) 
 			{
-				std::string text = XmlHelper::transcodeToString(
-						static_cast<DOMText*>(childNode)->getData())
-						.c_str();
+				CeGuiString text = XmlHelper::transcodeToString(
+						static_cast<DOMText*>(childNode)->getData());
 				
 				if( !normalise(text).empty())
 				{

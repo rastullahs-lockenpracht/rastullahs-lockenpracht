@@ -108,9 +108,9 @@ namespace rl
 		return mCurrentBot;
 	}
 
-	void DialogSubsystem::log(const Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident)
+	void DialogSubsystem::log(const Ogre::LogMessageLevel level, const CeGuiString& msg, const Ogre::String& ident)
 	{
-		Logger::getSingleton().log(level, "Dialog", msg, ident);
+		Logger::getSingleton().log(level, "Dialog", msg.c_str(), ident);
 	}
 
     ResourcePtr DialogSubsystem::getXmlResource(const Ogre::String& filename)

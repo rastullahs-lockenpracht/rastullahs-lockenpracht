@@ -33,7 +33,7 @@ namespace rl
 	{
 	public:
 		virtual ~AimlProcessor() { };
-		virtual string process(DOMNode *, Match *, const char *, NaturalLanguageProcessor *)=0;
+		virtual CeGuiString process(DOMNode *, Match *, const CeGuiString&, NaturalLanguageProcessor *)=0;
 	};
 }
 #endif

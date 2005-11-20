@@ -70,7 +70,7 @@ namespace rl
 
 	const static string ISO="<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 /*
-	NaturalLanguageProcessor::NaturalLanguageProcessor(const std::string& filename): 
+	NaturalLanguageProcessor::NaturalLanguageProcessor(const CeGuiString& filename): 
 		mGm(NULL),
 		mExit(false)
 	{	
@@ -98,7 +98,7 @@ namespace rl
 		{
 		//  get & log xerces error message
 			char* excmsg = XMLString::transcode(exc.getMessage());	
-			std::string excs="Exception while Parsing: ";
+			CeGuiString excs="Exception while Parsing: ";
 			excs+=excmsg;
 			DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, excs);
 		//  cleanup
@@ -145,8 +145,8 @@ namespace rl
 	 * @param input The input message, for example a sentence chosen by the player
 	 * @return A string map, containing all matches of the response 
 	 */
-	//NaturalLanguageProcessor::Responses& NaturalLanguageProcessor::respond(const std::string& input)
-	DialogResponse* NaturalLanguageProcessor::createResponse(const std::string& input)
+	//NaturalLanguageProcessor::Responses& NaturalLanguageProcessor::respond(const CeGuiString& input)
+	DialogResponse* NaturalLanguageProcessor::createResponse(const CeGuiString& input)
 	{
 		// prepare response-string (needs xml-tags for postprocessing)
 		CeGuiString response = ISO+"<response>", result;
@@ -191,14 +191,14 @@ namespace rl
 
 		int id = 0;
 		bool isListItem = false;
-		string retResponse;
+		CeGuiString retResponse;
 		Responses selectableOptions;
 		for ( node = node->getFirstChild(); node != NULL; node = node->getNextSibling() )
 		{
 			if ( node->getNodeType() == DOMNode::ELEMENT_NODE )
 			{
-				string nodeName = 
-					XmlHelper::transcodeToString(node->getNodeName()).c_str();
+				CeGuiString nodeName = 
+					XmlHelper::transcodeToString(node->getNodeName();
 
 				if(nodeName == "li")
 				{
@@ -223,8 +223,8 @@ namespace rl
 			}
 			if ( node->getNodeType() == DOMNode::TEXT_NODE )
 			{
-				string dialogChoice = 
-					XmlHelper::transcodeToString(node->getNodeValue()).c_str();
+				CeGuiString dialogChoice = 
+					XmlHelper::transcodeToString(node->getNodeValue());
 				if(isListItem)
 				{
 					mCurrentResponses[id] = dialogChoice + "\n ";
@@ -245,10 +245,10 @@ namespace rl
 	//	return mCurrentResponses;
 	}
 
-	Match* NaturalLanguageProcessor::match( const std::string& context, 
-											const std::string& input, 
-											const std::string& that, 
-											const std::string& topic)
+	Match* NaturalLanguageProcessor::match( const CeGuiString& context, 
+											const CeGuiString& input, 
+											const CeGuiString& that, 
+											const CeGuiString& topic)
 	{
 		Match* match = NULL;
 
@@ -267,7 +267,7 @@ namespace rl
 	 *  @param value Option value
 	 *  @note Maybe this could become an AimlProcessor
 	*/
-/*	void NaturalLanguageProcessor::processOption(const std::string& name, const std::string& value) 
+/*	void NaturalLanguageProcessor::processOption(const CeGuiString& name, const CeGuiString& value) 
 	{	
 		if(mGm)delete mGm;
 		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "graphmaster deleted ");
@@ -291,7 +291,7 @@ namespace rl
 	 *  @param filename AIML filename
 	 *  @return False if loading fails
 	*/
-/*	bool NaturalLanguageProcessor::loadAiml(const std::string& filename) 
+/*	bool NaturalLanguageProcessor::loadAiml(const CeGuiString& filename) 
 	{
 		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Loading Aiml");
 		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, filename);
@@ -321,7 +321,7 @@ namespace rl
 		{
 			// get & log xerces error message
 			char* excmsg = XMLString::transcode(exc.getMessage());
-			std::string excs="Exception while Parsing: ";
+			CeGuiString excs="Exception while Parsing: ";
 			excs+=excmsg;
 			DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, excs);
 			// cleanup
@@ -344,14 +344,14 @@ namespace rl
 	 *  @param id deprecated
 	 *  @return processed string 
 	*/
-	string NaturalLanguageProcessor::process(DOMNode* node, Match* match, const string& id) 
+	CeGuiString NaturalLanguageProcessor::process(DOMNode* node, Match* match, const CeGuiString& id) 
 	{	
 		// We need a start node
 		if ( node == NULL ) return "";
 		//DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "StartProcessingCurrentNode");
-		string result;
-		string text;
-		string nodeData;
+		CeGuiString result;
+		CeGuiString text;
+		CeGuiString nodeData;
 		bool lastWasElement = false;
 		bool lastTailIsWS = false;
 		bool nextHeadIsWS = false;
@@ -362,20 +362,20 @@ namespace rl
 				//--	fix whitespace here
 				result += getTextData(
 					XmlHelper::transcodeToString(
-							static_cast<DOMText*>(node)->getData()).c_str());
+							static_cast<DOMText*>(node)->getData()));
 				lastWasElement = false;
 			} 
 			else if ( node->getNodeType() == DOMNode::CDATA_SECTION_NODE ) 
 			{
 				//--	what to do about CDATA???	
 				nodeData = XmlHelper::transcodeToString(
-								static_cast<DOMText*>(node)->getData()).c_str(); // Attention: Cast to CDATA, not to DOMText*!
+								static_cast<DOMText*>(node)->getData()); // Attention: Cast to CDATA, not to DOMText*!
 				result += nodeData;
 			} 
 			else if ( node->getNodeType() == DOMNode::ELEMENT_NODE ) 
 			{
 				nodeData = 
-					XmlHelper::transcodeToString(node->getNodeName()).c_str();
+					XmlHelper::transcodeToString(node->getNodeName());
 				
 				//DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, nodeData);
 				
@@ -397,7 +397,7 @@ namespace rl
 					}
 					else
 					{
-						string err = "Für den Tag " + nodeData + " existiert kein Processor";
+						CeGuiString err = "Für den Tag " + nodeData + " existiert kein Processor";
 						DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, err);
 						text = process(node, match, id);
 						if ( !result.empty() && *(--result.end()) != ' ' && lastTailIsWS ) 
@@ -412,7 +412,7 @@ namespace rl
 				else 
 				{
 					//DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Found AimlProcessor");
-					text = pt->process(node, match, id.c_str(), this);
+					text = pt->process(node, match, id, this);
 					//DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, text);
 					//--fix whitespace here
 					//--	if last was not an element
@@ -440,9 +440,9 @@ namespace rl
 		return mName;
 	}
 
-	std::string NaturalLanguageProcessor::getTextData(const std::string& nodeData)
+	CeGuiString NaturalLanguageProcessor::getTextData(const CeGuiString& nodeData)
 	{
-		std::string result;
+		CeGuiString result;
 		bool lastTailIsWS = false, nextHeadIsWS = false, lastWasElement = false;
 		if ( normalise(nodeData).empty() ) 
 		{
