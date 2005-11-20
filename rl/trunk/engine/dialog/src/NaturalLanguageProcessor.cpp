@@ -198,7 +198,7 @@ namespace rl
 			if ( node->getNodeType() == DOMNode::ELEMENT_NODE )
 			{
 				CeGuiString nodeName = 
-					XmlHelper::transcodeToString(node->getNodeName();
+					XmlHelper::transcodeToString(node->getNodeName());
 
 				if(nodeName == "li")
 				{

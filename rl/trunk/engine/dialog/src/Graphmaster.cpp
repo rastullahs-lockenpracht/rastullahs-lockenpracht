@@ -65,7 +65,7 @@ namespace rl
 		//path
 		//--	this code needs to be updated to use the StringTokenizer (this ain't robust)
 		
-		StringTokenizer tokenizer = new StringTokenizer(path, ' ');
+		StringTokenizer tokenizer(path, " ");
 		for ( CeGuiString token = tokenizer.nextToken(); tokenizer.hasMoreTokens(); )
 		{
 			//if ( end != NULL )
@@ -104,7 +104,7 @@ namespace rl
 								const CeGuiString& input, const CeGuiString& star, 
 								const CeGuiString& path) 
 	{
-		std::string tmpInput = input.c_str();
+		CeGuiString tmpInput = input;
 		StringTokenizer st(tmpInput, " ");
 		
 		//cerr << "PATH:  " << path << endl << "STAR:  " << star << endl << "INPUT: " << input << endl << endl;
@@ -117,15 +117,15 @@ namespace rl
 			}
 			Match* match = new Match();
 			match->setNode(node);
-			match->addStar(star.c_str(), which);
-			match->setPattern(path.c_str(), which);
+			match->addStar(star, which);
+			match->setPattern(path, which);
 			return match;
 		}
 		
-		string word = st.nextToken();
+		CeGuiString word = st.nextToken();
 		
 		//cerr << "WORD:  " << word << endl;
-		string tail = "";
+		CeGuiString tail = "";
 		Match* m = NULL;
 		Nodemaster* n = NULL;
 		
@@ -135,7 +135,7 @@ namespace rl
 		}
 		//cerr << "TAIL:  " << tail << endl << endl;
 		
-		static const string states = " <pattern> <that> <topic> ";
+		static const CeGuiString states = " <pattern> <that> <topic> ";
 		if ( states.find(' ' + word + ' ') != string::npos ) 
 		{
 			//--	we're moving to next component match .. must return!

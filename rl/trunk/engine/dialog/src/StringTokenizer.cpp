@@ -50,42 +50,66 @@ namespace rl
 {
 	bool StringTokenizer::hasMoreTokens() 
 	{
-		while ( str != NULL ) 
-		{
-			register char ch = *str;
-			if ( ch == '\0' ) { str = NULL; return false; }
-			//--	d'oh!
-			else if ( strchr(delim, ch) == NULL ) { opt = true; return true; }
-			else ++str;
-		}
-		return false;
+		if (str.find_first_of(delim) == CeGuiString::npos)
+			return false;
+		else
+			return true;
+		//while ( str.length() > 0 ) 
+		//{
+		//	register char ch = *str;
+
+		//	if ( ch == '\0' ) 
+		//	{ 
+		//		str = NULL; 
+		//		return false; 
+		//	}	//--	d'oh!
+		//	else if ( strchr(delim, ch) == NULL ) 
+		//	{ 
+		//		opt = true; 
+		//		return true; 
+		//	}
+		//	else ++str;
+		//}
+		//return false;
 	}
 
-	string StringTokenizer::nextToken() 
+	CeGuiString StringTokenizer::nextToken() 
 	{
-		if ( str == NULL ) return "";
-		if ( !opt )
-			if ( !hasMoreTokens() ) return "";
-
-		opt = false;
-		//--	then using slightly more optimal approach
-		const char *end = strpbrk(str, delim);
-		if ( end != NULL ) 
+		CeGuiString::size_type pos = str.find_first_of(delim);
+		if (pos == CeGuiString::npos)
 		{
-			int size = (end - str) / sizeof(char);
-			string token(str, size);
-			str = end + 1;
-			return token;
-		} else {
-			string token(str);
-			str = NULL;
+			str = "";
+			return "";
+		}
+		else
+		{
+			CeGuiString token = str.substr(0, pos-1);
+			str = str.substr(pos+1);
 			return token;
 		}
+		//if ( str == NULL ) return "";
+		//if ( !opt )
+		//	if ( !hasMoreTokens() ) return "";
+
+		//opt = false;
+		////--	then using slightly more optimal approach
+		//const char *end = strpbrk(str, delim);
+		//if ( end != NULL ) 
+		//{
+		//	int size = (end - str) / sizeof(char);
+		//	string token(str, size);
+		//	str = end + 1;
+		//	return token;
+		//} else {
+		//	string token(str);
+		//	str = NULL;
+		//	return token;
+		//}
 	}
 
-	string StringTokenizer::getString() 
+	CeGuiString StringTokenizer::getString() 
 	{
-		return str == NULL ? "" : str;
+		return str;
 	}
 }//Namespace rl ends
 //--	end-of-file

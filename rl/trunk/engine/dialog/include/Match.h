@@ -37,20 +37,20 @@ namespace rl
 		Match();
 		~Match();
 	
-		void setPattern(const string &pattern, component which);
-		string getPattern(component which);
+		void setPattern(const CeGuiString &pattern, component which);
+		CeGuiString getPattern(component which);
 	
-		void addStar(const string &star, component which);
-		string getStar(unsigned int index, component which);
+		void addStar(const CeGuiString &star, component which);
+		CeGuiString getStar(unsigned int index, component which);
 	
 		void setNode(Nodemaster *node);
 		Nodemaster *getNode();
 	
-		string getPath();
+		CeGuiString getPath();
 	private:
 		//--	size derived from enum 'component'
-		string patterns[4];
-		vector<string> stars[4];
+		CeGuiString patterns[4];
+		vector<CeGuiString> stars[4];
 		Nodemaster *node;
 	};
 }
