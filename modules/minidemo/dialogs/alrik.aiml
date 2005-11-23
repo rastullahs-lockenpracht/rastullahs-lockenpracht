@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- !DOCTYPE aiml SYSTEM "includes.dtd" -->
 
 <aiml:aiml  version="1.0.1"
@@ -11,19 +11,19 @@
 <aiml:pattern>START DIALOG</aiml:pattern>
 <aiml:template>
 	<aiml:condition rldialog:context="response">
-		Grueße!<aiml:br/>
+		Grüße!<aiml:br/>
 		Ich sehe ihr seid soeben erst in Ruchin angekommen? Was gibt es Neues aus dem Lande?
 		Kann ich euch irgendwie helfen?
 	</aiml:condition>
 	<aiml:condition rldialog:context="option">
 		<aiml:li value="4" id="1">
-			Grueßen und nach einer Taverne fragen
+			[Grüßen und nach einer Taverne fragen]
 			<aiml:condition rldialog:context="selection" type="Eigenschaft" name="CH">
 				<aiml:li value="1" id="1">
-					Ich grueße euch ebenso. Ich suche den Weg zur Taverne, koennt ihr ihn mir beschreiben?
+					Ich grüße euch ebenso. Ich suche den Weg zur Taverne, könnt ihr ihn mir beschreiben?
 				</aiml:li>
 				<aiml:li value="0" id="555">
-					Genug der Hoeflichkeitsfloskeln. Sag mir endlich wie ich zur Taverne komme, man!
+					Genug der Höflichkeitsfloskeln. Sag mir endlich wie ich zur Taverne komme, Mann!
 				</aiml:li>
 			</aiml:condition>
 		</aiml:li>
@@ -31,7 +31,7 @@
 			Orks droben im Norden ist vorerst gestoppt, wir sind sicher.
 		</aiml:li>
 		<aiml:li value="4" id="555">
-			Hinweg mit euch, Gezuecht des Namenlosen!
+			Hinweg mit euch, Gezücht des Namenlosen!
 		</aiml:li>
 	</aiml:condition>
 </aiml:template>
@@ -41,7 +41,7 @@
 <aiml:pattern>1</aiml:pattern>
 <aiml:template>
 	<aiml:condition rldialog:context="response">
-		Mit vergnügen werd ich euch den weg beschreiben!<aiml:br/> 
+		Mit Vergnügen werd ich euch den Weg beschreiben!<aiml:br/> 
 	</aiml:condition>
 	<aiml:condition rldialog:context="option">
 		<aiml:li value="4" id="555">Ich warte...</aiml:li>
@@ -56,11 +56,11 @@
 	<aiml:condition rldialog:context="response">
 		Sagt, woher habt ihr diese Kunde? Ward ihr selbst hoch droben im Norden und habt gegen die Orks
 		gekämpft?<aiml:br/>
-		Wenn dem so ist, besaeßet ihr auch den Mut, die wilde Raubkatze aus meiner Scheune zu vertreiben?
+		Wenn dem so ist, besitzt ihr auch den Mut die wilde Raubkatze aus meiner Scheune zu vertreiben?
 	</aiml:condition>
 	<aiml:condition rldialog:context="option" type="Eigenschaft" name="MU">
-		<aiml:li value="1" id="3">Ich bin mutig!</aiml:li>
-		<aiml:li value="0" id="555">Ich trau mich nicht!</aiml:li>
+		<aiml:li value="1" id="3">Immer her mit dem Kuscheltiger!!</aiml:li>
+		<aiml:li value="0" id="555">Ich ... äh ... Mami!</aiml:li>
 	</aiml:condition>
 </aiml:template>
 </aiml:category>
@@ -87,9 +87,9 @@ Drei
 </aiml:category>
 
 <aiml:category>
-<aiml:pattern>*</aiml:pattern><!-- Abfangen von "ungueltigen" Eingaben -->
+<aiml:pattern>*</aiml:pattern><!-- Abfangen von "ungültigen" Eingaben -->
 <aiml:template>
-Dies ist keine gueltige Gespraechsoption!
+Dies ist keine gültige Gesprächsoption!
 </aiml:template>
 </aiml:category>
 
