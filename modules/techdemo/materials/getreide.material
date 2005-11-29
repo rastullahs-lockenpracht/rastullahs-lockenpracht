@@ -1,0 +1,17 @@
+material ALPHA/getreide.png
+{
+  technique
+  {
+    pass
+    {
+      alpha_rejection greater 100
+
+			texture_unit
+
+      {
+        texture getreide.png
+      }
+    }
+  }
+}
+
