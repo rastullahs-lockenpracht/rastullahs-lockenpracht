@@ -31861,10 +31861,10 @@
       </userData>
     </node>
     <node name="Wirtshaus">
-      <position x="3697.185364" y="0.000000" z="829.938812"/>
-      <rotation qx="0.000000" qy="-0.777923" qz="0.000000" qw="0.628359"/>
+      <position x="3740.185364" y="-30.000000" z="760.938812"/>
+      <rotation qx="0.000000" qy="-0.770023" qz="0.000000" qw="0.628359"/>
       <scale x="1.000000" y="1.000000" z="1.000000"/>
-      <entity name="Wirtshaus" meshFile="Wirtshaus.mesh"/>
+      <entity name="Wirtshaus" meshFile="arc_Wirtshaus_01.mesh"/>
     </node>
     <node name="Mesh.219">
       <position x="860.366821" y="156.918411" z="1091.351776"/>
