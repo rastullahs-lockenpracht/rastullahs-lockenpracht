@@ -4,12 +4,13 @@ material ALPHA/getreide.png
   {
     pass
     {
-      alpha_rejection greater 100
+     
+      alpha_rejection greater 215
 
 			texture_unit
 
       {
-        texture getreide.png
+        texture nat_getreide_01.dds
       }
     }
   }
