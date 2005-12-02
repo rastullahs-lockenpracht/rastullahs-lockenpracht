@@ -30,7 +30,10 @@ namespace rl {
      */
     void SoundUpdateTask::run(Real elapsedTime)
     {
-        SoundSubsystem::getSingleton().update(elapsedTime);
+        if (SoundSubsystem::getSingletonPtr())
+        {
+            SoundSubsystem::getSingleton().update(elapsedTime);
+        }
     }
 
 	/**

@@ -15,6 +15,7 @@
 #include "SoundResource.h"
 #include "Sound.h"
 #include "SoundStream.h"
+#include "SoundSample.h"
 #include "SoundChannel.h"
 #include "ListenerMovable.h"
 
@@ -50,15 +51,14 @@ public:
     {
         xtime xt;
         
-        Ogre::ResourceManager::ResourceMapIterator it =
+/*        Ogre::ResourceManager::ResourceMapIterator it =
             SoundManager::getSingleton().getResourceIterator();
-        while (it.hasMoreElements())
+        while (it.hasMoreElements()) */
         {
-            SoundResourcePtr soundres = it.getNext();
-            SoundStream *sound = new SoundStream(soundres);
+            SoundSample *sound = new SoundSample("test.ogg");
             sound->setLooping(true);
             sound->load();
-            SoundChannel *channel = new SoundChannel(sound, soundres->getName());
+            SoundChannel *channel = new SoundChannel(sound, sound->getName());
             if (channel)
             {
                 channel->play();
@@ -149,4 +149,4 @@ public:
 //    CPPUNIT_TEST(test_loadPlayWithFade);
     CPPUNIT_TEST_SUITE_END();
 };
-//CPPUNIT_TEST_SUITE_REGISTRATION(SoundStreamTest);
+CPPUNIT_TEST_SUITE_REGISTRATION(SoundStreamTest);

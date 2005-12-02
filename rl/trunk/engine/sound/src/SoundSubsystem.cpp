@@ -96,7 +96,10 @@ SoundSubsystem::SoundSubsystem()
  */
 SoundSubsystem::~SoundSubsystem()
 {
-    delete SoundManager::getSingletonPtr();
+    if (SoundManager::getSingletonPtr())
+    {
+        delete SoundManager::getSingletonPtr();
+    }
     FSOUND_Close();
 }
 
