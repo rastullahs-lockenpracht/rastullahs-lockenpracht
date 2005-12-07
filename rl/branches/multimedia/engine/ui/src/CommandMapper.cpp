@@ -20,6 +20,7 @@
 #include "Exception.h"
 #include "Action.h"
 #include "ActionManager.h"
+#include "InputManager.h"
 #include <OgreMouseEvent.h>
 
 using namespace Ogre;
@@ -37,12 +38,12 @@ namespace rl {
 		  mMouseCommandsOffCombat(),
 		  mActiveMovement(MOVE_NONE)		 
 	{
-		mMovementCommands.insert(make_pair(KC_A, MOVE_LEFT));
-		mMovementCommands.insert(make_pair(KC_D, MOVE_RIGHT));
+        mMovementCommands.insert(make_pair(KC_Q, TURN_LEFT));
+		mMovementCommands.insert(make_pair(KC_E, TURN_RIGHT));
 		mMovementCommands.insert(make_pair(KC_W, MOVE_FORWARD));
 		mMovementCommands.insert(make_pair(KC_S, MOVE_BACKWARD));
-		mMovementCommands.insert(make_pair(KC_Q, TURN_LEFT));
-		mMovementCommands.insert(make_pair(KC_E, TURN_RIGHT));
+		mMovementCommands.insert(make_pair(KC_A, MOVE_LEFT));
+		mMovementCommands.insert(make_pair(KC_D, MOVE_RIGHT));
 		mMovementCommands.insert(make_pair(KC_LSHIFT, MOVE_RUN));
         mMovementCommands.insert(make_pair(KC_LCONTROL, MOVE_SNEAK));
 		mMovementCommands.insert(make_pair(KC_SPACE, MOVE_JUMP));
@@ -56,11 +57,12 @@ namespace rl {
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_F, "toggleviewmode");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_NUMPAD0, "resetcamera");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_P, "makescreenshot");
-		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_L, "toggleodedebug");
-		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_R, "usecurrentobjectdefaultaction");
+		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_L, "togglecollisiondebug");
+		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_R, "usecurrentobjectdefaultaction");													
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_U, "showobjectactions");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_C, "showcharactersheet");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_T, "showtargetwindow");
+		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_V, "showtestvideowindow");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_O, "togglecharacterstatewindow");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_F10, "toggleingameglobalmenu");
 

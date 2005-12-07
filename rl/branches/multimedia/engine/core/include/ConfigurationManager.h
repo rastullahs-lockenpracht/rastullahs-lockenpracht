@@ -67,13 +67,10 @@ namespace rl
 			
 			Ogre::String getModulesRootDirectory();
 
-            /// Ist Fmod vorhanden?
-            bool isFmodEnabled() const;
-            /// Ist OpenAL vorhanden?
-            bool isOpenALEnabled() const;
-            /// Welcher Treiber wurde ausgewählt?
-            void getSelectedSoundDriver() const;
-            
+			Ogre::String getEngineVersionString();
+			long          getEngineBuildNumber();
+			const rl::CeGuiString&  getAboutText();
+			
 		protected:
 		
 			Ogre::String mOgreLogPath;

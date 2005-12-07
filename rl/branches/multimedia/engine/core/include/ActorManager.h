@@ -25,10 +25,6 @@
 #include "LightObject.h"
 #include "ParticleSystemObject.h"
 
-#include <OgreOdeSpace.h>
-#include <OgreOdeGeometry.h>
-#include <OgreOdeCollision.h>
-
 namespace rl {
 
 class World;
@@ -37,8 +33,7 @@ class Actor;
 typedef std::map<const Ogre::String,Actor*> ActorPtrMap;
 typedef std::pair<const Ogre::String,Actor*> ActorPtrPair;
 
-class _RlCoreExport ActorManager : protected Ogre::Singleton<ActorManager>, 
-    private OgreOde::CollisionListener
+class _RlCoreExport ActorManager : protected Ogre::Singleton<ActorManager>
 {
     public:
         ActorManager( );
@@ -67,9 +62,6 @@ class _RlCoreExport ActorManager : protected Ogre::Singleton<ActorManager>,
         void setWorld(World* world);
 		const World* const getWorld() const;
 
-		void collideWithActors(OgreOde::Geometry* geometry, OgreOde::CollisionListener* listener = NULL);
-		bool collision(OgreOde::Contact* contact);
-
 		Actor* getActorAt(Ogre::Real x, Ogre::Real y, Ogre::Real width, Ogre::Real length, bool infinite = false);
 
         /** Returns the Singleton */
@@ -81,8 +73,6 @@ class _RlCoreExport ActorManager : protected Ogre::Singleton<ActorManager>,
         String nextUniqueName(const Ogre::String& basename);
 
         ActorPtrMap mActors;
-		OgreOde::Space* mActorOdeSpace;
-		OgreOde::Geometry* mSelectionCapsule;
 		World* mWorld;
 };
 

@@ -17,19 +17,60 @@
 #ifndef __CombatWindow_H__
 #define __CombatWindow_H__
 
+#include "UiPrerequisites.h"
+
 #include "CeGuiWindow.h"
+#include "CombatEvents.h"
 
 namespace rl {
 
 	class Combat;
+	class CombatAction;
+	class Creature;
+	class CombatWindowStrategy;
 
-	class CombatWindow : public CeGuiWindow
+	class _RlUiExport CombatWindow : public CeGuiWindow, public CombatEventListener
 	{
 	public:
-		CombatWindow(Combat* combat);
+		CombatWindow(Combat* combat, int group);
+
+		void setNextAction(CombatAction* action);
+		void setNextReaction(CombatAction* action);
+		
+	protected:
+		bool eventRaised(AskForReactionEvent* anEvent);
+		bool eventRaised(AskForActionEvent* anEvent);
+		bool eventRaised(CombatFinishEvent* anEvent);
+
 	private:
+		enum ContextMenuAction {
+			CTX_PA,
+			CTX_AT_RUN_ATPA,
+			CTX_AT_WALK_ATPA,
+			CTX_AT_WALK_AT
+		};
+
+		bool handleContextMenu(ContextMenuAction action);
+		bool handleRightClick(const CEGUI::EventArgs& evt);
+		bool handleNextKR();
+		bool handleContextMenuClose();
+
+		Creature* mCurrentCreature;
 		Combat* mCombat;
+		CombatAction* mNextAction;
+		CombatAction* mNextReaction;
+		
+		CEGUI::MenuBase* mOpponentContextMenu;
+		CEGUI::MenuItem* mMenuItemAttackWalkAt;
+		CEGUI::MenuItem* mMenuItemAttackWalkAtPa;
+		CEGUI::MenuItem* mMenuItemAttackRunAtPa;
+		CEGUI::MenuItem* mMenuItemParadeThis;
+		CEGUI::MenuItem* mMenuItemInfo;
+		CEGUI::PushButton* mButtonNextRound;
+
+		CombatWindowStrategy* mPlannedStrategy;
 	};
+
 }
 
 #endif //__CombatWindow_H__

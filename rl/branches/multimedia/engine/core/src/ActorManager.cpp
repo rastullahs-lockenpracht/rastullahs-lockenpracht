@@ -25,12 +25,6 @@
 #include "LightObject.h"
 #include "SoundObject.h"
 #include "Sound.h"
-#ifdef WITH_FMOD
-#include "SoundStream.h"
-#include "SoundSample.h"
-#endif
-#ifdef WITH_OPENAL
-#endif
 #include "ListenerMovable.h"
 #include "ListenerObject.h"
 #include "PhysicalThing.h"
@@ -55,13 +49,10 @@ namespace rl {
     {
 		static const int RADIUS = 20, LENGTH = 300;
         mWorld = CoreSubsystem::getSingleton().getWorld();
-		mActorOdeSpace = new OgreOde::SimpleSpace();
-		mSelectionCapsule = new OgreOde::CapsuleGeometry(RADIUS, LENGTH, NULL);
     }
 
     ActorManager::~ActorManager()
     {
-		delete mActorOdeSpace;
     }
 
     void ActorManager::setWorld( World* world )
@@ -158,14 +149,7 @@ namespace rl {
         Actor* actor = 0;
         try
         {
-            Sound* sm =
-#ifdef WITH_FMOD
-                new SoundSample(soundfile);
-#elif WITH_OPENAL
-                0;
-#else
-                0;
-#endif
+            Sound* sm = 0; //TODO new SoundSample(soundfile);
             SoundObject* so = new SoundObject(sm, soundfile);
 
             actor = new Actor(uniquename, so);
@@ -188,14 +172,7 @@ namespace rl {
         Actor* actor = 0;
         try
         {
-            Sound* sm =
-#ifdef WITH_FMOD
-                new SoundStream(soundfile);
-#elif WITH_OPENAL
-                0;
-#else
-                0;
-#endif
+            Sound* sm = 0; //TODO new SoundStream(soundfile);
             SoundObject* so = new SoundObject(sm, soundfile);
 
             actor = new Actor(uniquename, so);
@@ -253,8 +230,8 @@ namespace rl {
             CameraObject* co = new CameraObject(uniquename);
             PhysicalThing* pt = PhysicsManager::getSingleton()
                 .createPhysicalThing(PhysicsManager::GT_SPHERE,
-                    Vector3(co->getCamera()->getNearClipDistance() * 1.5, 0, 0),
-                    0.0f, mActorOdeSpace, PhysicsManager::OM_CENTERED);
+                    Vector3(co->getCamera()->getNearClipDistance() * 3.0f, 0, 0),
+                    100.0f, PhysicsManager::OM_CENTERED, true);
             actor = new Actor(uniquename, co, pt);
 
             mActors.insert(ActorPtrPair(uniquename,actor)); 
@@ -280,7 +257,7 @@ namespace rl {
         {
 		    MeshObject* mo = new MeshObject(uniquename, meshname);
 		    PhysicalThing* pt = PhysicsManager::getSingleton()
-		        .createPhysicalThing(geomType, mo->getSize(), density, mActorOdeSpace);
+		        .createPhysicalThing(geomType, mo->getSize(), density);
 
 		    actor = new Actor(uniquename, mo, pt);
 		    mActors.insert(ActorPtrPair(uniquename,actor)); 
@@ -339,8 +316,6 @@ namespace rl {
 
 	Actor* ActorManager::getActorAt(Real x, Real y, Real width, Real length, bool infinite)
 	{      
-//		return NULL;
-
         if (getWorld()->getActiveCamera() == NULL ||
 			getWorld()->getActiveActor() == NULL)
 			return NULL;
@@ -392,34 +367,5 @@ namespace rl {
 			}
 		}
 		return selectableObjects;
-	}
-
-	bool ActorManager::collision(OgreOde::Contact* contact)
-	{
-		OgreOde::Geometry* geom1 = contact->getFirstGeometry();
-		OgreOde::Geometry* geom2 = contact->getSecondGeometry();
-
-		Actor* target = NULL;
-		if (geom1 == mSelectionCapsule)
-			target = reinterpret_cast<Actor*>(geom2->getUserData());
-		else if (geom2 == mSelectionCapsule)
-			target = reinterpret_cast<Actor*>(geom2->getUserData());
-		if (target != NULL)
-			CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Gefunden: "+target->getName());
-
-		return true;
-	}
-
-	void ActorManager::collideWithActors(OgreOde::Geometry* geometry, OgreOde::CollisionListener* listener)
-	{
-		if (listener != NULL)
-		{
-			PhysicsManager* physMan = PhysicsManager::getSingletonPtr();
-			physMan->getWorld()->setCollisionListener(listener);
-			mActorOdeSpace->collide(geometry, NULL);
-			physMan->getWorld()->setCollisionListener(physMan);
-		}
-		else
-			mActorOdeSpace->collide(geometry, NULL);
 	}
 }

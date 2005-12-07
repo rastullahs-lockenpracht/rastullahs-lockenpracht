@@ -20,8 +20,8 @@
 #include <map>
 #include <vector>
 #include <OgreSingleton.h>
-#include <OgreOde_Core.h>
 #include "GameTask.h"
+#include <OgreNewt.h>
 
 #include "CorePrerequisites.h"
 
@@ -29,13 +29,12 @@
 namespace rl {
 
     class PhysicalThing;
+    class PhysicsController;
     class Actor;
     class World;
 
     class _RlCoreExport PhysicsManager
         :   public GameTask,
-            public OgreOde::CollisionListener,
-            public OgreOde::StepListener,
             protected Singleton<PhysicsManager>
     {
     public:
@@ -45,7 +44,8 @@ namespace rl {
             GT_BOX = 0,
             GT_SPHERE = 1,
             GT_CAPSULE = 2,
-            GT_MESH = 3
+            GT_MESH = 3,
+            GT_ELLIPSOID = 4
         };
         
         /// Typ bestimmt, wo der Usrprung (0/0/0) des Objektes liegt.
@@ -64,27 +64,22 @@ namespace rl {
         /**
          * @param geomType Grundform der Geometrie des Objektes
          * @param size Größe des Objektes in cm
-         * @param density die Dichte, wenn <= 0.0, dann wird keine Physik
-         *        dafür erstellt, sondern nur Geometry für die Kollision.
+         * @param mass die Masse in kg, wenn <= 0.0 ist es ein statisches Objekt
          * @param offsetMode bestimmt, wo der lokale Koordinatenursprung sitzt.
+         * @param hullModifer soll ein Collision in NewtonConvexHullModifier gewrapped werden?
+         *        Das ist bei sich schnell bewegenden bodies hilfreich um tunneling zu verhindern.
          *
          * @todo Geometry-Kapselung verallgemeinern. z.B. funktioniert Capusle
          *       momentan nur dann gut, wenn die Höhe die Y-Achse ist.
          */
         PhysicalThing* createPhysicalThing(const int geomType, const Ogre::Vector3& size,
-			Real density, OgreOde::Space* space = NULL, OffsetMode offsetMode = OM_BOTTOMCENTERED);
+			Real mass, OffsetMode offsetMode = OM_BOTTOMCENTERED, bool hullModifier = false);
 
         void removeAndDestroyPhysicalThing(PhysicalThing* thing);
 
         // Global Settings
         void setGravity(Ogre::Real x, Ogre::Real y, Ogre::Real z);
-        Vector3 getGravity();
-        void setCFM(Ogre::Real cfm);
-        Real getCFM();
-        void setERP(Ogre::Real erp);
-        Real getERP();
-
-        OgreOde::World* getWorld();
+        Vector3 getGravity() const;
 
         void setEnabled(bool enabled);
 
@@ -92,52 +87,57 @@ namespace rl {
         static PhysicsManager & getSingleton(void);
         static PhysicsManager * getSingletonPtr(void);
 
-        void addCollisionListener(OgreOde::CollisionListener*);
-        void removeCollisionListener(OgreOde::CollisionListener*);
-		/// CollisionListener callback
-		virtual bool collision(OgreOde::Contact* contact);
-
-
 		/// Levelgeometrie hinzufügen
-		void addLevelGeometry( Ogre::Entity* ent );
+		void addLevelGeometry(Ogre::Entity* ent);
 		/// Komplette Levelgeometrie auflösen
-		void clearLevelGeometry(  );
-
+		void clearLevelGeometry();
 		
+		void toggleDebugMode();
+        bool isDebugMode() const;
 
-        /// StepListener callback
-        virtual bool preStep(Real time);
+        PhysicsController* getPhysicsController(PhysicalThing* thing) const;
+        /**
+         * @param thing, the PhysicalThing to be controlled by controller
+         * @param controller, the controller may be NULL.
+         *        In this case, thing is not controlled anymore
+         */
+        void setPhysicsController(PhysicalThing* thing, PhysicsController* controller);
 
-		void setActor(OgreOde::Geometry* actor, Ogre::SceneNode* controlNode);
-		void setCamera(OgreOde::Geometry* camera, Ogre::SceneNode* cameraNode);
-		OgreOde::Geometry* getActor();
-		OgreOde::Geometry* getCamera();
+        // Newton callbacks ...
+        /// generic force callback. Gravity is applied and the force,
+        /// applied via PhysicalThing interface.
+        static void genericForceCallback(OgreNewt::Body* body);
 
-		void setFallSpeed(Ogre::Real fallspeed);
-		Ogre::Real getFallSpeed();
+        /// special force callback for controlled characters (or monsters even)
+        /// those bodies have up vector and are controlled using inverse dynamics
+        static void controlledForceCallback(OgreNewt::Body* body);
 
-		void toggleDebugOde();
+        OgreNewt::World* _getNewtonWorld() const;
+        OgreNewt::MaterialID* _getLevelMaterialID() const;
 
     private:
-		bool collisionWithPlayerActor(OgreOde::Geometry* geometry, OgreOde::Contact* contact);
-		bool collisionCameraWithLevel(OgreOde::Contact* contact);
+        typedef std::map<PhysicalThing*, PhysicsController*> ControllerMap;
 
         bool mEnabled;
-
+        OgreNewt::World* mWorld;
+        OgreNewt::Debugger* mNewtonDebugger;
         std::vector<PhysicalThing*> mPhysicalThings;
-        std::vector<OgreOde::CollisionListener*> mCollisionListeners;
-        OgreOde::World* mOdeWorld;
-        OgreOde::Space* mGlobalSpace;
+        ControllerMap mControlledThings;
+        std::vector<OgreNewt::Body*> mLevelBodies;
+        bool mDebugMode;
+        Ogre::Vector3 mGravity;
+        Ogre::AxisAlignedBox mWorldAABB;
+        Ogre::Real mElapsed;
+        Ogre::Real mUpdate;
 
-		OgreOde::Space* mLevelGeomSpace;
+        OgreNewt::MaterialID* mLevelID;
+        OgreNewt::MaterialID* mCharacterID;
+        OgreNewt::MaterialPair* mCharLevelPair;
+        OgreNewt::MaterialPair* mCharCharPair;
 
-        OgreOde::Stepper* mOdeStepper;
-
-		OgreOde::Geometry* mOdeActor;
-		OgreOde::Geometry* mOdeCamera;
-		Ogre::SceneNode* mControlNode;
-		Ogre::SceneNode* mCameraNode;
-		Ogre::Real mFallSpeed;
+        /// internal method, that prepares physical thing to be controlled
+        void prepareUserControl(PhysicalThing* thing, OgreNewt::ContactCallback* cb) const;
+        void unprepareUserControl(PhysicalThing* thing) const;
     };
 }
 

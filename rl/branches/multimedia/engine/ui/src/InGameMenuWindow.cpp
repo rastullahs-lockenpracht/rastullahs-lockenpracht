@@ -45,9 +45,7 @@ InGameMenuWindow::~InGameMenuWindow()
 
 void InGameMenuWindow::createMenu(MenuBase* menu)
 {
-	WindowFactory* factoryPopup = WindowFactoryManager::getSingleton().getFactory("RastullahLook/PopupMenu");
-	WindowFactory* factoryPopupItem = WindowFactoryManager::getSingleton().getFactory("RastullahLook/PopupMenuItem");
-	WindowFactory* factoryMenuItem = WindowFactoryManager::getSingleton().getFactory("RastullahLook/MenubarItem");
+	CEGUI::WindowManager* windowMan = CEGUI::WindowManager::getSingletonPtr(); 
 				
 	const ActionVector actions = ActionManager::getSingleton().getInGameGlobalActions();
 	map<CeGuiString, PopupMenu*> menuGroups;
@@ -65,19 +63,18 @@ void InGameMenuWindow::createMenu(MenuBase* menu)
 				menuGrp = (*grpIter).second;
 			}
 			else
-			{
-				
-				MenuItem* grpItem = static_cast<MenuItem*>(factoryMenuItem->createWindow(getNamePrefix()+"IngameMenu/"+group->getName()));
+			{				
+				MenuItem* grpItem = static_cast<MenuItem*>(windowMan->createWindow("RastullahLook/MenuItem", getNamePrefix()+"IngameMenu/"+group->getName()));
 				grpItem->setText(group->getName());
 				menu->addChildWindow(grpItem);
 
-				menuGrp = static_cast<PopupMenu*>(factoryPopup->createWindow(getNamePrefix()+"IngameMenu/Menu"+group->getName()));
+				menuGrp = static_cast<PopupMenu*>(windowMan->createWindow("RastullahLook/PopupMenu", getNamePrefix()+"IngameMenu/Menu"+group->getName()));
 				grpItem->addChildWindow(menuGrp);				
 
 				menuGroups[group->getName()] = menuGrp;
 			}
 
-			MenuItem* item = static_cast<MenuItem*>(factoryPopupItem->createWindow(getNamePrefix()+"IngameMenu/"+group->getName()+"/"+action->getName()));
+			MenuItem* item = static_cast<MenuItem*>(windowMan->createWindow("RastullahLook/MenuItem", getNamePrefix()+"IngameMenu/"+group->getName()+"/"+action->getName()));
 			item->setText(action->getDescription());
 			menuGrp->addChildWindow(item);
 

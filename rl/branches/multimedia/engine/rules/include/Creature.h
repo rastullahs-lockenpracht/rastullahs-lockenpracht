@@ -129,6 +129,8 @@ namespace rl
 		**/
 		typedef map<int, Weapon*> WeaponMap;
 
+
+
 		///@warning Nur zu Testzwecken da. Wird spaeter entfernt.
         Creature(const CeGuiString& name,
                  const CeGuiString& description);
@@ -262,6 +264,16 @@ namespace rl
         virtual int getAu();
         virtual int getAuMax();
 
+		/**
+		 *  @brief Liefert die derzeitge BE der Kreatur zurueck.
+		 *    Eventuelle Ruestungsgewoehnung schon beruecksichtigt
+		 **/
+		virtual int getCurrentBe();
+		virtual void setCurrentBe(int newBe);
+
+		virtual int getCurrentInitiativeModifier();
+		virtual void setCurrentInitiativeModifier(int newIniMod);
+
 		void setWert(int wertId, int wert);
 
 		/**
@@ -385,19 +397,6 @@ namespace rl
         */
         virtual int doEigenschaftsprobe(const CeGuiString& eigenschaftName, int modifier);
 
-	private:
-        int mCurrentLe;
-		int mCurrentAe;
-		int mCurrentAu;		
-
-        EigenschaftMap mEigenschaften;
-        TalentMap mTalente;
-        KampftechnikMap mKampftechniken;
-		SonderfertigkeitMap mSonderfertigkeiten;
-		WertMap mWerte;
-		ContainerMap mContainer;
-		WeaponMap mWeapons;
-
 		/** 
 		*  @brief Fuehrt eine Attacke aus.
 		*   Die Funktion wird von einem Angriffsmanoever aufgerufen.
@@ -429,6 +428,28 @@ namespace rl
 		**/
 		int doParade(const CeGuiString& kampftechnikName, int modifier);
 
+		/**
+		 *  @brief Fuehrt einen Initiativewurf durch.
+		 *  @param getMaxInitiative Wenn true wird ein Wert zurueckgeliefert,
+		 *    als ob eine 6 gewuerfelt worden waere, z.B. fuer das Manoever
+		 *    'Orientieren'.
+		 **/
+		int doInitiativeWurf(bool getMaxInitiative = false);
+
+	private:
+        int mCurrentLe;
+		int mCurrentAe;
+		int mCurrentAu;		
+
+        EigenschaftMap mEigenschaften;
+        TalentMap mTalente;
+        KampftechnikMap mKampftechniken;
+		SonderfertigkeitMap mSonderfertigkeiten;
+		WertMap mWerte;
+		ContainerMap mContainer;
+		WeaponMap mWeapons;
+		int mCurrentBe;
+		int mCurrentInitiativeModifier;
     };
 }
 #endif

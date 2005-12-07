@@ -19,45 +19,53 @@
 
 #include "RulesPrerequisites.h"
 #include <vector>
+#include "EventSource.h"
+#include "EventCaster.h"
+#include "CombatEvents.h"
+#include "GameTask.h"
 
 namespace rl {
+	enum MoveType {
+		MT_NO_WALK,
+		MT_WALK,
+		MT_RUN,
+		MT_WALK_IN_PA_PHASE,
+		MT_WALK_IN_AT_PHASE,
+		MT_WALK_IN_AT_PA_PHASE,
+		MT_RUN_IN_AT_PA_PHASE
+	};
 
 	class Creature;
+	class CombatAction;
+
 
 	/**
-	 * Verwaltungsklasse f�r einen Kampf
+	 * Verwaltungsklasse fuer einen Kampf
 	 */
-	class _RlRulesExport Combat
+	class _RlRulesExport Combat : public EventSource, public GameTask
 	{
 	public:
-		enum MoveType {
-			AT_NO_WALK,
-			AT_WALK_IN_PA_PHASE,
-			AT_WALK_IN_AT_PHASE,
-			AT_WALK_IN_AT_PA_PHASE,
-			AT_RUN_IN_AT_PA_PHASE
-		};
 
 		Combat();
 		~Combat();
 
 		/**
-		 * L��t eine Creature am Kampf teilnehmen
+		 * Laesst eine Creature am Kampf teilnehmen
 		 * 
 		 * @param creature die Kreatur
-		 * @param group die Partei, in der die Kreatur k�mpft
+		 * @param group die Partei, in der die Kreatur kaempft
 		 */
 		void add(Creature* creature, int group);
 
 		/**
-		 * Gibt alle Mitglieder einer Kampfpartei zur�ck
+		 * Gibt alle Mitglieder einer Kampfpartei zurueck
 		 * @param group die Partei
 		 * @param eine Vector mit allen Mitgliedern der Partei
 		 */
 		std::vector<Creature*> getGroupMembers(int group);
 
 		/**
-		 * Gibt die Partei zur�ck, der ein Wesen in diesem Kampf angeh�rt
+		 * Gibt die Partei zurueck, der ein Wesen in diesem Kampf angehoert
 		 */
 		int getGroupOf(Creature* creature);
 
@@ -65,9 +73,20 @@ namespace rl {
 		void setAttackeTarget(Creature* creature, Creature* target);
 		Creature* getParadeTarget(Creature* creature);
 		void setParadeTarget(Creature* creature, Creature* target);
+		void setNextAction(Creature* creature, CombatAction* action);
+		void setNextReaction(Creature* creature, CombatAction* action);
 
 		Ogre::Real getMaxMoveDistance(MoveType action);
 		void doAttacke(Creature* creature);
+		bool isInAttackDistance(Creature* attacker, Creature* target);
+
+		Creature* getNext();
+		Creature* getNext(int group);
+		bool isActionPhaseDone(Creature* actor);
+
+		void addCombatEventListener(CombatEventListener* listener);
+		void removeCombatEventListener(CombatEventListener* listener);
+
 
 	private:
 		/**
@@ -76,21 +95,23 @@ namespace rl {
 		class Participant 
 		{
 		public:
-			Participant(Creature* creature, int group);
+			Participant(Creature* creature, int group, int no);
 
 			//Wesen und Gruppe
 			Creature* creature;
 			int group;
+			int id;
 
 			//DSA-Daten
 			int initiative;
 			static const int NO_INI = -9999999;
 
-			//N�chstes Vorhaben
+			//Naechste Vorhaben
 			Creature* attackeTarget;
 			Creature* paradeTarget;
 
-			MoveType nextMoveAction;
+			CombatAction* nextAction;
+			CombatAction* nextReaction;
 		};
 		typedef std::map<Creature*, Participant*> CombatMap;
 
@@ -102,6 +123,10 @@ namespace rl {
 		int mCurrentInitiative;
 		int mKampfrunde;
 		CombatMap mParticipants;
+
+		EventCaster<CombatEvent> mEventCaster;
+
+		void run(Ogre::Real elapsedTime);
 	};
 
 }

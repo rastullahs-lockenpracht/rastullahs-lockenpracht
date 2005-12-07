@@ -22,6 +22,7 @@
 
 #include "Person.h"
 #include "Actor.h"
+#include "ActorManager.h"
 
 using namespace CEGUI;
 using namespace Ogre;
@@ -88,8 +89,12 @@ namespace rl
 				getActiveCharacter()->getActor()->
 				_getSceneNode()->getWorldPosition();
 
-			textSt += 
-				"\nPlayer Position ("+StringConverter::toString(pos)+")";
+			textSt += "\nPlayer Position (" + StringConverter::toString(pos) + ")";
+
+            Actor* camActor = ActorManager::getSingleton().getActor("DefaultCamera");
+            Ogre::Vector3 camPos = camActor->_getSceneNode()->getWorldPosition();
+
+            textSt += " Camera Position (" + StringConverter::toString(camPos) + ")";
 		}
 
 		textStats->setText(textSt);

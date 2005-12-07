@@ -1,7 +1,6 @@
 INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(STLPORT_CFLAGS) -I../include -I../../common/include -I../../multimedia/include
 
 lib_LTLIBRARIES = libRlCore.la
-libRlCore_la_CFLAGS =
 libRlCore_la_LDFLAGS = -L../../multimedia/src -lRlMultimedia $(OGRE_LIBS) $(CEGUI_LIBS) $(RUBY_LIBS) $(LIBS)
 libRlCore_la_SOURCES = \
 	Actor.cpp \
@@ -30,7 +29,9 @@ libRlCore_la_SOURCES = \
 	MeshObject.cpp \
 	ParticleSystemObject.cpp \
 	PhysicalThing.cpp \
+	PhysicsGenericContactCallback.cpp \
 	PhysicsManager.cpp \
+	PhysicsMaterialRaycast.cpp \
 	Primitive.cpp \
 	RubyInterpreter.cpp \
 	ScriptObject.cpp \
@@ -39,9 +40,3 @@ libRlCore_la_SOURCES = \
 	TrackAnimation.cpp \
 	World.cpp 		 
 
-if with_fmod
-libRlCore_la_CFLAGS += -DWITH_FMOD
-endif
-if with_oal
-libRlCore_la_CFLAGS += -DWITH_OPENAL
-endif

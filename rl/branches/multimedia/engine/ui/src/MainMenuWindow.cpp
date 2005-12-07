@@ -19,6 +19,7 @@
 
 #include "UiSubsystem.h"
 #include "CoreSubsystem.h"
+#include "ConfigurationManager.h"
 
 #include "MainMenuWindow.h"
 
@@ -27,23 +28,20 @@ using namespace Ogre;
 
 namespace rl {
 
-	MainMenuWindow::MainMenuWindow(GameObject* actionHolder) :
+	MainMenuWindow::MainMenuWindow() :
 		CeGuiWindow("mainmenuwindow.xml", WND_MOUSE_INPUT),
-		mActiveModule(""),
-		mActionHolder(actionHolder)
+		mActiveModule("")
 	{
+
+		getWindow("MainMenu/EngineVersion")->setText(
+			ConfigurationManager::getSingleton().getEngineVersionString()+
+			" ("+StringConverter::toString(ConfigurationManager::getSingleton().getEngineBuildNumber())+")");
+
+
 		getWindow("MainMenu/Game/Start")->subscribeEvent(
 			MenuItem::EventClicked, 
 			boost::bind(&MainMenuWindow::handleStart, this));
 
-/*		getWindow("MainMenuWindow/GraphicOptions")->subscribeEvent(
-			Window::EventMouseClick, 
-			boost::bind(&MainMenuWindow::handleGraphicOptions, this));
-		
-		getWindow("MainMenuWindow/InputOptions")->subscribeEvent(
-			Window::EventMouseClick,
-			boost::bind(&UiSubsystem::showInputOptionsMenu, UiSubsystem::getSingletonPtr(), mActionHolder));
-*/
 		getWindow("MainMenu/Game/Quit")->subscribeEvent(
 			MenuItem::EventClicked, 
 			boost::bind(&MainMenuWindow::handleQuit, this));
@@ -60,7 +58,6 @@ namespace rl {
 	void MainMenuWindow::fillModules()
 	{
 		MenuBase* modulesMenu = getMenu("MainMenu/Modules/Menu");
-		WindowFactory* factoryPopupItem = WindowFactoryManager::getSingleton().getFactory("RastullahLook/PopupMenuItem");
 
 		Ogre::StringVector modules = CoreSubsystem::getSingleton().getActivatableModules();
 		mActiveModule = CoreSubsystem::getSingleton().getActiveAdventureModule();
@@ -71,7 +68,7 @@ namespace rl {
 			mod != modules.end(); mod++)
 		{
 			MenuItem* it = static_cast<MenuItem*>(
-				factoryPopupItem->createWindow(getNamePrefix()+"MainMenu/Modules/" + *mod));
+				CEGUI::WindowManager::getSingleton().createWindow("RastullahLook/MenuItem", getNamePrefix()+"MainMenu/Modules/" + *mod));
 			
 			it->setText(*mod);
 			modulesMenu->addItem(it);

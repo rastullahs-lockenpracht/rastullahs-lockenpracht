@@ -120,13 +120,16 @@ namespace rl {
 	void MeshObject::stopAllAnimations( )
 	{
 			AnimationStateSet* animStates = getEntity()->getAllAnimationStates();
-			AnimationStateIterator iter(animStates->begin(),animStates->end());
-
-			while(iter.hasMoreElements()) 
+			if (animStates != NULL)
 			{
-			    AnimationState state = iter.getNext(); 
-                stopAnimation( state.getAnimationName() );
-			} 
+				AnimationStateIterator iter(animStates->begin(),animStates->end());
+
+				while(iter.hasMoreElements()) 
+				{
+					AnimationState state = iter.getNext(); 
+					stopAnimation( state.getAnimationName() );
+				} 
+			}
 	}
 
 
@@ -161,12 +164,12 @@ namespace rl {
     void MeshObject::setHighlighted( bool highlight )
     {
         String nameExtension = "_HighLight";
-		Entity* ent = getEntity();
+        Entity* ent = getEntity();
         int numEnts = ent->getNumSubEntities();
 
         for( int i = 0; i < numEnts; i++ )
         {
-		    SubEntity* subent = ent->getSubEntity(i);
+            SubEntity* subent = ent->getSubEntity(i);
 
             if( subent == NULL )
                 continue;
@@ -179,28 +182,28 @@ namespace rl {
             MaterialPtr oldMaterial = subent->getMaterial();
 
             // Highlight setzen
-		    if( highlight )
-		    {           	 
+            if( highlight )
+            {           	 
                 MaterialPtr material = MaterialManager::getSingleton().getByName( oldMaterial->getName()+nameExtension );
 
                 if( material.isNull() )
                 {
                     material = oldMaterial->clone( oldMaterial->getName()+nameExtension );
 
-				    material->setAmbient(1.0, 1.0, 1.0);
-				    material->setDiffuse(1.0, 1.0, 1.0, 1.0);
-				    material->setSelfIllumination(0.4, 0.4, 0.4); 
+                    material->setAmbient(1.0, 1.0, 1.0);
+                    material->setDiffuse(1.0, 1.0, 1.0, 1.0);
+                    material->setSelfIllumination(0.4, 0.4, 0.4); 
                 }
 
                 subent->setMaterialName(material->getName());
-		    }
+            }
             // Highlight entfernen
-		    else
-		    {
+            else
+            {
                 String matName = oldMaterial->getName();
                 matName = matName.erase(matName.length() - nameExtension.length(), nameExtension.length() );
                 subent->setMaterialName( matName );				
-		    }
+            }
 
 
         }

@@ -91,7 +91,7 @@ namespace rl {
 
 		mInputReader->useBufferedInput(NULL, false, false);
 		mInputReader->setBufferedInput(false, false);
-		delete mEventProcessor;
+//		delete mEventProcessor;
 	}
 
 	void InputManager::addKeyListener(KeyListener *l)
@@ -185,14 +185,6 @@ namespace rl {
 
 	bool InputManager::sendKeyToCeGui(KeyEvent* e)
 	{
-		DebugWindow::getSingleton().setText(
-			Ogre::String("All")+StringConverter::toString(mNumActiveWindowsAllInput)+" "+
-			Ogre::String("Key")+StringConverter::toString(mNumActiveWindowsAllInput)+" "+
-			Ogre::String("Mouse")+StringConverter::toString(mNumActiveWindowsMouseInput)+ " "+
-			"Events"+StringConverter::toString(mEventInitialized)+ " "+
-			"Input"+StringConverter::toString(mInputInitialized)+" "+
-			"Buffered"+StringConverter::toString(mBuffered));
-
 		// Fenster, die alle Inputs wollen
 		if (mNumActiveWindowsAllInput > 0)
 			return true;
@@ -455,14 +447,6 @@ namespace rl {
 
 	bool InputManager::isCeguiActive()
 	{
-		DebugWindow::getSingleton().setText(
-			Ogre::String("All")+StringConverter::toString(mNumActiveWindowsAllInput)+" "+
-			Ogre::String("Key")+StringConverter::toString(mNumActiveWindowsAllInput)+" "+
-			Ogre::String("Mouse")+StringConverter::toString(mNumActiveWindowsMouseInput)+ " "+
-			"Events"+StringConverter::toString(mEventInitialized)+ " "+
-			"Input"+StringConverter::toString(mInputInitialized)+" "+
-			"Buffered"+StringConverter::toString(mBuffered));
-
 		return 
 			mNumActiveWindowsKeyboardInput > 0 || 
 			mNumActiveWindowsMouseInput > 0 || 

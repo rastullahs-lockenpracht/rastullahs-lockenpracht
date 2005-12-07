@@ -33,6 +33,8 @@ int CeGuiWindow::sNumCeGuiWindows = 0;
 
 CeGuiWindow::CeGuiWindow(const CeGuiString& xmlfile, WindowType type, bool modal)
 {
+	UiSubsystem::getSingleton().log(
+		LML_TRIVIAL, "Lade Fenster '"+Ogre::String(xmlfile.c_str())+"'");
    	mWindow = CeGuiWindow::loadWindow(xmlfile, mNamePrefix);
 	if (mWindow == NULL)
 	{

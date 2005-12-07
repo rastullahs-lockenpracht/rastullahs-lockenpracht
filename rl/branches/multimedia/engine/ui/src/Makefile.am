@@ -7,11 +7,14 @@ lib_LTLIBRARIES = libRlUi.la
 libRlUi_la_LDFLAGS = $(RUBY_LIBS) $(LIBS) \
 	$(CEGUI_LIBS) $(OGRE_LIBS) $(CEGUIOGRE_LIBS) -lRlUiComponents -L../../uicomponents/src 
 libRlUi_la_SOURCES = \
+	AboutWindow.cpp \
 	ActionChoiceWindow.cpp \
 	CeGuiWindow.cpp \
+	CharacterController.cpp \
 	CharacterSheetWindow.cpp \
 	CharacterStateWindow.cpp \
 	CombatWindow.cpp \
+	CombatWindowStrategy.cpp \
 	CommandExecutor.cpp \
 	CommandMapper.cpp \
 	CommandMapperWindow.cpp \
@@ -19,7 +22,6 @@ libRlUi_la_SOURCES = \
 	ContainerContentWindow.cpp \
 	DebugWindow.cpp \
 	DialogWindow.cpp \
-	GameController.cpp \
 	GameLoggerWindow.cpp \
 	InGameMenuWindow.cpp \
 	InputManager.cpp \

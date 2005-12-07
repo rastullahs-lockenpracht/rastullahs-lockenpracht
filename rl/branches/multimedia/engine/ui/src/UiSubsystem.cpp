@@ -27,7 +27,7 @@
 #include "DialogCharacter.h"
 #include "Console.h"
 #include "DebugWindow.h"
-#include "GameController.h"
+#include "CharacterController.h"
 #include "InputManager.h"
 #include "CommandMapper.h"
 #include "CommandMapperWindow.h"
@@ -39,7 +39,9 @@
 #include "ContainerContentWindow.h"
 #include "InGameMenuWindow.h"
 #include "CombatWindow.h"
+#include "AboutWindow.h"
 
+#include "Combat.h"
 #include "GameLoop.h"
 #include "ActorManager.h"
 #include "Actor.h"
@@ -76,7 +78,7 @@ namespace rl {
 	}
 
 	UiSubsystem::UiSubsystem() :
-        mGameController(0),
+        mCharacterController(0),
         mHero(0),
         mCharacter(0),
 		mInCombat(false)
@@ -91,7 +93,7 @@ namespace rl {
 		delete Console::getSingletonPtr();
         delete InputManager::getSingletonPtr();
 
-        GameLoopManager::getSingleton().removeSynchronizedTask(mGameController);
+        GameLoopManager::getSingleton().removeSynchronizedTask(mCharacterController);
     }
 	
     void UiSubsystem::initializeUiSubsystem( void )
@@ -112,7 +114,8 @@ namespace rl {
 								sceneMgr);
 
 		log(Ogre::LML_TRIVIAL, "Initialisiere CEGUI-System", "UiSubsystem::initializeUiSubsystem");
-		new System(rend, NULL, new OgreCEGUIResourceProvider(), (utf8*)"cegui.config"); 
+		new System(rend, NULL, new OgreCEGUIResourceProvider(), (utf8*)"cegui.config");
+		CEGUI::Logger::getSingleton().setLoggingLevel(rl::Logger::getSingleton().getCeGuiLogDetail());
 		log(Ogre::LML_TRIVIAL, "CEGUI-System initialisiert", "UiSubsystem::initializeUiSubsystem");
         
 		// load scheme and set up defaults
@@ -131,8 +134,8 @@ namespace rl {
         log(Ogre::LML_TRIVIAL, "CEGUI geladen", "UiSubsystem::initializeUiSubsystem");
 
 		//Initializing InputManager
-		new CommandMapper();
         new InputManager();
+        new CommandMapper();
 		log(Ogre::LML_TRIVIAL, "UI-Manager geladen", "UiSubsystem::initializeUiSubsystem");
 
 		InputManager::getSingleton().loadKeyMapping("keymap-german.xml");
@@ -188,10 +191,10 @@ namespace rl {
             // @todo alte Sachen löschen
             mCharacter = person;
             Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
-            mGameController = new GameController(camera, person->getActor());
-		    log(Ogre::LML_TRIVIAL, "GameController created.");
-            GameLoopManager::getSingleton().addSynchronizedTask(mGameController, FRAME_STARTED);
-            log(Ogre::LML_TRIVIAL, "GameController task added.");
+            mCharacterController = new CharacterController(camera, person->getActor());
+		    log(Ogre::LML_TRIVIAL, "CharacterController created.");
+            GameLoopManager::getSingleton().addSynchronizedTask(mCharacterController, FRAME_STARTED);
+            log(Ogre::LML_TRIVIAL, "CharacterController task added.");
             World* world = CoreSubsystem::getSingletonPtr()->getWorld();
             world->setActiveActor(person->getActor());
 		    mCharacterStateWindow->setCharacter(person);
@@ -255,9 +258,9 @@ namespace rl {
 		w->setVisible(true);
 	}
 
-	void UiSubsystem::showMainMenu(GameObject* actionHolder)
+	void UiSubsystem::showMainMenu()
 	{
-		(new MainMenuWindow(actionHolder))->setVisible(true);
+		(new MainMenuWindow())->setVisible(true);
 	}
 
 	void UiSubsystem::showTargetWindow()
@@ -313,6 +316,11 @@ namespace rl {
 		}
 	}
 
+	void UiSubsystem::showAboutWindow()
+	{
+		(new AboutWindow())->setVisible(true);
+	}
+
 	void UiSubsystem::showCharacterSheet(Person* chara)
 	{
 		CharacterSheetWindow* wnd = new CharacterSheetWindow();
@@ -340,7 +348,8 @@ namespace rl {
 	void UiSubsystem::startCombat(Combat* combat)
 	{
 		setCombatMode(true);
-		(new CombatWindow(combat))->setVisible(true);
+		int group = combat->getGroupOf(getActiveCharacter());
+		(new CombatWindow(combat, group))->setVisible(true);
 	}
 
 	void UiSubsystem::setCombatMode(bool inCombat)
@@ -364,9 +373,9 @@ namespace rl {
 		mInGameMenuWindow->update();
 	}
 	
-    GameController* UiSubsystem::getGameController()
+    CharacterController* UiSubsystem::getCharacterController()
     {
-        return mGameController;
+        return mCharacterController;
     }
 
 	GameLoggerWindow* UiSubsystem::getGameLogger()

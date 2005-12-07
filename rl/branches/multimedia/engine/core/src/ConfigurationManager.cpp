@@ -81,34 +81,32 @@ namespace rl
 	{
 		return mModulesRootDirectory;
 	}
-  
-    /**
-     * Wurde FMOD installiert
-     * @return 
-     * @author JoSch
-     * @date 09/10/2005
-     */
-    bool ConfigurationManager::isFmodEnabled() const
-    {
-#ifdef WITH_FMOD
-        return true;
-#else
-        return false;
-#endif
-    }
 
-    /**
-     * Wurde OpenAL installiert
-     * @return 
-     * @author JoSch
-     * @date 09/10/2005
-     */
-    bool ConfigurationManager::isOpenALEnabled() const
-    {
-#ifdef WITH_OPENAL
-        return true;
-#else
-        return false;
-#endif
-    }
+	Ogre::String ConfigurationManager::getEngineVersionString()
+	{
+		static Ogre::String version = "Internal Build";
+		return version;
+	}
+
+	long parseDate(char* date)
+	{ //TODO: __DATE__ in ein long verwandeln, damit man 
+		return /* Jahr */			2005 * 100000+
+			/* Monat */			9 * 1000 + 
+			/* Tag */			24 * 10 + 
+			/* Sub-Version */	0;	
+	}
+
+	long ConfigurationManager::getEngineBuildNumber()
+	{
+		static long buildNumber = parseDate(__DATE__);
+		return buildNumber;
+	}
+
+
+	const CeGuiString& ConfigurationManager::getAboutText()
+	{
+		static CeGuiString aboutText = 
+			"Rastullahs Lockenpracht\n\nCopyright 2003-2005 Team Pantheon\n\nBenutzte Bibliotheken: Ogre, fmod, Newton, boost, ...";
+		return aboutText;
+	}
 }

@@ -8,6 +8,5 @@ rastullah_LDADD = $(RUBY_LIBS) $(LIBS) $(CEGUI_LIBS) $(OGRE_LIBS) \
 	 $(Plugin_TheoraVideoSystem_LIBS) \
 	 -lRlUiComponents -lRlCore -lRlScript -lRlCommon -lRlDialog -lRlUi -lRlRules -lRlMultimedia -logg -lvorbis -lboost_thread
 
-if with_fmod
-rastullah_LDADD += $(FMOD_LIBS)
-endif
+
+

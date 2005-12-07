@@ -16,15 +16,18 @@
 
 namespace rl {
 
-class GameController
+class CharacterController
 {
 public:
     typedef enum {VM_THIRD_PERSON, VM_FIRST_PERSON} ViewMode;
-    rl::Actor* getControlledActor();
-    void setControlledActor(rl::Actor* actor);
-    rl::Actor* getCamera();
-    void setViewMode(ViewMode mode);
-    ViewMode getViewMode();
+    
+    CharacterController();
+    
+    /**
+        *  @throw NullPointerException if camera or character is NULL.
+        *  @throw InvalidArgumentException if character is not placed in the scene.
+        */
+    CharacterController(rl::Actor* camera, rl::Actor* character);
     void toggleViewMode();
     void resetCamera();
 };
@@ -45,10 +48,11 @@ public:
 	void showTargetWindow();
 	void showContainerContent(rl::Container* container);
 	void showDialog(DialogCharacter* bot);
+	void showAboutWindow();
 
 	rl::Person* getActiveCharacter();
 	void setActiveCharacter(rl::Person* person);
-	void showMainMenu(GameObject* actionHolder);
+	void showMainMenu();
 	void toggleConsole();
 	void toggleDebugWindow();
 	void toggleGameLogWindow();
@@ -58,7 +62,7 @@ public:
 	void toggleInGameGlobalMenu();
 	void usePickedObjectDefaultActions();
 	
-	rl::GameController* getGameController();
+	rl::CharacterController* getCharacterController();
 	rl::GameLoggerWindow* getGameLogger();
 	
 	void update();

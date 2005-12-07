@@ -32,7 +32,7 @@
 namespace rl {
 
     class Interpreter;
-    class GameController;
+    class CharacterController;
     class GameActor;
 	class GameObject;
 	class Person;
@@ -82,15 +82,16 @@ namespace rl {
 		void showContainerContent(Container* container);
 
 		void showMessageWindow(const CeGuiString& message);
-		void showMainMenu(GameObject* actionHolder);
+		void showMainMenu();
 		void showCharacterSheet();
 		void showCharacterSheet(Person* chara);
 		bool showInputOptionsMenu(Creature* actionHolder);
 		void showDialog(DialogCharacter* bot);
         void showPlaylist();
+		void showAboutWindow();
 		Person* getActiveCharacter();
 		void setActiveCharacter(Person* person);
-        GameController* getGameController();
+        CharacterController* getCharacterController();
 		GameLoggerWindow* getGameLogger();
 
 		void setCombatMode(bool inCombat);
@@ -107,7 +108,7 @@ namespace rl {
         void initializeUiSubsystem( void );
         void runTest();
         
-        GameController* mGameController;
+        CharacterController* mCharacterController;
         GameActor* mHero;
         Person* mCharacter;
         bool mInCombat;

@@ -1,3 +1,19 @@
+/* This source file is part of Rastullahs Lockenpracht.
+* Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
+* 
+*  This program is free software; you can redistribute it and/or modify
+*  it under the terms of the Clarified Artistic License.
+*
+*  This program is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*  Clarified Artistic License for more details.
+*
+*  You should have received a copy of the Clarified Artistic License
+*  along with this program; if not you can get it here
+*  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+*/
+
 /*
  * Based on work by monster (TODO substitue with real name)
  * Copyright 2005 Daniel Wickert
@@ -21,13 +37,6 @@ Primitive::~Primitive()
 {
 }
 
-//void Primitive::addLine(const Vector3 &start,const Vector3 &end)
-//{
-//    mIsDirty = true;
-//    
-//    mPoints.push_back(start);
-//    mPoints.push_back(end);
-//}
 void Primitive::setFrustum(const Vector3& frontPlaneMin,
     const Vector3& frontPlaneMax,
     const Vector3& backPlaneMin, const Vector3& backPlaneMax)
@@ -292,14 +301,11 @@ void Primitive::createBoxFromCorners(const vector<Vector3>& corners)
 
 Real Primitive::getBoundingRadius() const
 {
-    //if(mIsDirty) updateRenderOp();
     return (mBox.getMaximum() - mBox.getMinimum()).length() / 2.0;
 }
 
 Real Primitive::getSquaredViewDepth(const Camera* cam) const
 {
-    //if(mIsDirty) updateRenderOp();
-    
     Vector3 vmin, vmax, vmid, vdist;
     vmin = mBox.getMinimum();
     vmax = mBox.getMaximum();

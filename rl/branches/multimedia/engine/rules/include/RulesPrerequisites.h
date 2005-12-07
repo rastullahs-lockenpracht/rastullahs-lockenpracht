@@ -17,7 +17,7 @@
 #ifndef __RulesPrerequisites_H__
 #define __RulesPrerequisites_H__
 
-#include "RastullahPrerequisites.h"
+#include "CommonPrerequisites.h"
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 // Export control
@@ -42,12 +42,6 @@
 #define log_debug(msg) Ogre::LogManager::getSingleton().logMessage(msg, LML_TRIVIAL);
 
 #undef min
-#include <OgreNoMemoryMacros.h>
-#pragma warning (push)
-#pragma warning( disable : 4267 ) // Konvertierungswarnung in CEGUIString
-#include <CEGUIString.h>
-#pragma warning (pop)
-#include <OgreMemoryMacros.h>
 
 namespace rl
 {
@@ -55,9 +49,7 @@ namespace rl
     class _RlRulesExport GameObject;
 
 	typedef std::vector<Action*> ActionVector;
-	typedef CEGUI::String CeGuiString;
-    typedef std::vector<CeGuiString> CeGuiStringVector;
-
+	
 	ActionVector::iterator findAction(ActionVector::iterator& begin, ActionVector::iterator& end, const CeGuiString& actionName);
 }
 #endif

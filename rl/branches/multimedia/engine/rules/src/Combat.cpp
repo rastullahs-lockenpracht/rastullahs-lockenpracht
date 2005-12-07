@@ -14,6 +14,7 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
+#include "CombatEvents.h"
 #include "Combat.h"
 #include "Creature.h"
 #include "Exception.h"
@@ -24,6 +25,7 @@ using namespace std;
 namespace rl {
 
 	Combat::Combat()
+		: mEventCaster()
 	{
 	}
 
@@ -33,25 +35,27 @@ namespace rl {
 
 	void Combat::add(Creature* creature, int group)
 	{
-		Participant* part = new Participant(creature, group);
+		Participant* part = new Participant(creature, group, mParticipants.size() + 1);
 		initialize(part);
 		mParticipants.insert(make_pair(creature, part));
 	}
 
 	void Combat::initialize(Participant* part)
 	{
-		//TODO: Aktuelle Waffe, INI wï¿½rfeln
+		//TODO: Aktuelle Waffe, INI wuerfeln
 		part->initiative = 5+DsaManager::getSingleton().rollD6();
 	}
 
-	Combat::Participant::Participant(Creature* creature, int group)
+	Combat::Participant::Participant(Creature* creature, int group, int id)
 	{
+		this->id = id;
 		this->creature = creature;
 		this->group = group;
 		this->initiative = NO_INI;
 		this->attackeTarget = NULL;
 		this->paradeTarget = NULL;
-		this->nextMoveAction = Combat::AT_NO_WALK;
+		this->nextAction = NULL;
+		this->nextReaction = NULL;
 	}
 
 	int Combat::getGroupOf(Creature* creature)
@@ -63,7 +67,13 @@ namespace rl {
 	{
 		vector<Creature*> members;
 
-		//TODO
+		for (CombatMap::iterator partIter = mParticipants.begin();
+			partIter != mParticipants.end(); partIter++)
+		{
+			Participant* part = (*partIter).second;
+			if (part->group == group)
+				members.push_back(part->creature);
+		}
 
 		return members;
 	}
@@ -74,6 +84,16 @@ namespace rl {
 		if (iter == mParticipants.end())
 			Throw(InvalidArgumentException, "Wesen nimmt nicht am Kampf teil.");
 		return (*iter).second;
+	}
+
+	Creature* Combat::getNext()
+	{
+		return NULL; //TODO
+	}
+
+	Creature* Combat::getNext(int group)
+	{
+		return getGroupMembers(group)[0];
 	}
 
 	Creature* Combat::getAttackeTarget(Creature* creature)
@@ -96,17 +116,27 @@ namespace rl {
 		getParticipant(creature)->paradeTarget = target;
 	}
 
+	void Combat::setNextAction(Creature* creature, CombatAction* action)
+	{
+		getParticipant(creature)->nextAction = action;
+	}
+
+	void Combat::setNextReaction(Creature* creature, CombatAction* reaction)
+	{
+		getParticipant(creature)->nextReaction = reaction;
+	}
+
 	Ogre::Real Combat::getMaxMoveDistance(MoveType action)
 	{
 		//TODO: Geschwindigkeit
 		switch (action)
 		{
-		case AT_NO_WALK:
+		case MT_NO_WALK:
 			return 0;
-		case AT_WALK_IN_AT_PHASE:
-		case AT_WALK_IN_PA_PHASE:
+		case MT_WALK_IN_AT_PHASE:
+		case MT_WALK_IN_PA_PHASE:
 			return 300;
-		case AT_WALK_IN_AT_PA_PHASE:
+		case MT_WALK_IN_AT_PA_PHASE:
 			return 600;
 		}
 
@@ -116,8 +146,37 @@ namespace rl {
 	void Combat::doAttacke(Creature* creature)
 	{
 		//TODO: Passende Animationen
-		//TODO: Attacke wï¿½rfeln
-		//TODO: Parade wï¿½rfeln 
-		//TODO: Schaden wï¿½rfeln und machen
+		//TODO: Attacke wuerfeln
+		//TODO: Parade wuerfeln 
+		//TODO: Schaden wuerfeln und machen
+	}
+
+	void Combat::run(Ogre::Real elapsedTime)
+	{
+		//TODO: Zeitliche Steuerung eines Kampfes
+	}
+
+	void Combat::addCombatEventListener(CombatEventListener* listener)
+	{
+		mEventCaster.addEventListener(listener);
+	}
+
+	void Combat::removeCombatEventListener(CombatEventListener* listener)
+	{
+		mEventCaster.addEventListener(listener);
+	}
+
+	bool Combat::isInAttackDistance(Creature* attacker, Creature* target)
+	{
+		static Ogre::Real strikeDistance = 100; //TODO: (DK, Möglichkeit ohne DK)
+
+		return (attacker->getActor()->getPosition()
+				- target->getActor()->getPosition()).length() 
+				<= strikeDistance; 
+	}
+
+	bool Combat::isActionPhaseDone(Creature* actor)
+	{
+		return false; //TODO
 	}
 }
