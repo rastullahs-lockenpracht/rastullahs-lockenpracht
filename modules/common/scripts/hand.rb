@@ -17,5 +17,9 @@ class Hand < Container
     @mOwner.getActor().detach( item.getActor() );
     @mOwner.removeWeapon( item.getId() );
     removeItem( item.getId() );    
-  end  
+  end
+  
+  def close ( )
+  end
+    
 end
