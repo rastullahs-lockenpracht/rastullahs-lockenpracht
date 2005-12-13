@@ -36,6 +36,8 @@ namespace rl {
     class _RlSoundExport NullSoundStream : public Sound
     {
     private:
+        /// Loop?
+        bool mLooping;
         
     public:
         /// Konstruktor
@@ -52,7 +54,7 @@ namespace rl {
 
         // Wir erzeugen einen Channel für SoundChannel
         virtual SoundChannel *createChannel() throw (RuntimeException);
-    
+
 protected:
         // Sind wir gueltig?
         virtual bool isValid() const throw (RuntimeException);

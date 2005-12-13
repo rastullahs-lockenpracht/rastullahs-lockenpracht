@@ -103,12 +103,12 @@ public:
 	// TODO - kumulatives Animieren ein/aus
 private:
 	/// Interne Methode ein KeyFrame zu einer ZeitPosition zu erlangen
-	Ogre::KeyFrame* getKeyFrameAtTimePos(Ogre::Real timePos);	
+	Ogre::TransformKeyFrame* getKeyFrameAtTimePos(Ogre::Real timePos);	
 
 	/// Die erstellte Animation
 	Ogre::Animation* mAnimation;
 	/// Der erstellte Track
-	Ogre::AnimationTrack* mAnimationTrack;
+	Ogre::NodeAnimationTrack* mAnimationTrack;
 };
 
 }

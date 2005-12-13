@@ -14,7 +14,7 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 #include "NullSoundSample.h"
-#include "FmodSoundChannel.h"
+#include "NullSoundChannel.h"
 #include "SoundManager.h"
 #include "SoundResource.h"
 
@@ -72,11 +72,6 @@ const String& NullSoundSample::getMovableType() const
 void NullSoundSample::load() throw (RuntimeException)
 {
     getSoundResource()->load();
-    DataStreamPtr stream = getSoundResource()->getDataStream();
-    stream->seek(0);
-    int len = stream->size();
-    char *data = new char[len];
-    stream->read(data, len);
 }
 
 /**
@@ -85,6 +80,7 @@ void NullSoundSample::load() throw (RuntimeException)
  */
 void NullSoundSample::unload() throw (RuntimeException)
 {
+    getSoundResource()->unload(); // TODO Ist das wirklich nötig?
 }
 
 /**
@@ -94,6 +90,18 @@ void NullSoundSample::unload() throw (RuntimeException)
  */
 bool NullSoundSample::isValid() const throw (RuntimeException)
 {
+    return true;
+}
+
+/**
+ * @return Der erzeugte Channel
+ * @author JoSch
+ * @date 08-08-2005
+ */
+SoundChannel *NullSoundSample::createChannel() throw (RuntimeException)
+{
+    NullSoundChannel *nullchannel = new NullSoundChannel(this, getName());
+    return nullchannel; 
 }
 
 

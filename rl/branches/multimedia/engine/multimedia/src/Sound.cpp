@@ -56,6 +56,54 @@ const String& Sound::getName() const
     return mName;
 }
 
+/**
+ * @return Ob der Sound wiederholt werden soll
+ * @author JoSch
+ * @date 08-08-2005
+ */
+bool Sound::isLooping() const
+{
+    return mIsLooping; 
+}
 
+/**
+ * @param looping Ob der Sound wiederholt werden soll
+ * @author JoSch
+ * @date 08-08-2005
+ */
+void Sound::setLooping(bool looping)
+{
+    mIsLooping = looping;
+}
+
+/**
+ * @return Ob der Sound ein 3D-Sound ist.
+ * @author JoSch
+ * @date 08-08-2005
+ */
+bool Sound::is3d() const
+{
+    return mIs3d; 
+}
+
+/**
+ * @param is3d Ob der Sound ein 3D-Sound ist.
+ * @author JoSch
+ * @date 08-08-2005
+ */
+void Sound::set3d(bool is3d)
+{
+    mIs3d = is3d;
+}
+
+/** SoundResource zurückgeben.
+ * @return Der Pointer auf die zugehörige Soundresource.
+ * @author JoSch
+ * @date 08-08-2005
+ */
+SoundResourcePtr Sound::getSoundResource() const
+{
+    return mSoundResource;
+}
 
 };

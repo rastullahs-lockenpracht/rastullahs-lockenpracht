@@ -31,8 +31,7 @@ namespace rl
 NullSoundChannel::NullSoundChannel(Sound *sound, const Ogre::String &name)
  : SoundChannel(sound, name),
    mChannel(NO_CHANNEL)
-{
-    
+{   
 }
 
 NullSoundChannel::~NullSoundChannel()
@@ -49,7 +48,7 @@ void NullSoundChannel::play() throw (RuntimeException)
     {
         getSound()->load();
     }
-    // TODO: setChannel(getSound()->createChannel());
+    // TODO setChannel(getSound()->createChannel());
     setGain(255);
     setPosition(Vector3(0.0, 0.0, 0.0));
     setDirection(Vector3(0.0, 0.0, 0.0));
@@ -95,8 +94,7 @@ const String& NullSoundChannel::getMovableType() const
  */
 const Vector3 NullSoundChannel::getDirection() const throw (RuntimeException)
 {
-    Vector3 result;
-    return result;
+    return mDirection;
 }
 
 /**
@@ -106,7 +104,7 @@ const Vector3 NullSoundChannel::getDirection() const throw (RuntimeException)
  */
 void NullSoundChannel::setDirection (const Vector3& direction) throw (RuntimeException)
 {
-    // TODO
+    mDirection = direction;
 }
 
 /**
@@ -116,7 +114,7 @@ void NullSoundChannel::setDirection (const Vector3& direction) throw (RuntimeExc
  */
 bool NullSoundChannel::isValid() const throw (RuntimeException)
 {
-    return SoundChannel::isValid() && (mChannel > 0);
+    return true;
 }
 
 /**
@@ -126,12 +124,8 @@ bool NullSoundChannel::isValid() const throw (RuntimeException)
  */
 const bool NullSoundChannel::isPlaying() const
 {
-    if (isValid())
-    {
-    }
-    return false;
+    return mIsPlaying;
 }
-
 
 
 /**
@@ -141,15 +135,9 @@ const bool NullSoundChannel::isPlaying() const
  */
 const Vector3 NullSoundChannel::getPosition() const throw (RuntimeException)
 {
-    float pos[3];
-    if (isValid())
-    {
-    }
-    Vector3 result(pos);
-    return result;
+    return mPosition;
 }
 
-class FmodSoundSample;
 /**
  * @param position Die neue Position der Soundquelle.
  * @author JoSch
@@ -157,10 +145,7 @@ class FmodSoundSample;
  */
 void NullSoundChannel::setPosition(const Vector3& position) throw (RuntimeException)
 {
-    if (isValid())
-    {
-        float pos[] = {position[0], position[1], position[2]};
-    }
+    mPosition = position;
 }
 
 /**
@@ -170,12 +155,7 @@ void NullSoundChannel::setPosition(const Vector3& position) throw (RuntimeExcept
  */
 const Vector3 NullSoundChannel::getVelocity() const throw (RuntimeException)
 {
-    float vel[3];
-    if (isValid())
-    {
-    }
-    Vector3 result(vel);
-    return result;
+    return mVelocity;
 }
 
 /**
@@ -185,10 +165,7 @@ const Vector3 NullSoundChannel::getVelocity() const throw (RuntimeException)
  */
 void NullSoundChannel::setVelocity(const Vector3& velocity) throw (RuntimeException)
 {
-    if (isValid())
-    {
-        float vel[] = {velocity[0], velocity[1], velocity[2]};
-    }
+    mVelocity = velocity;
 }
 
 /**
@@ -198,10 +175,7 @@ void NullSoundChannel::setVelocity(const Vector3& velocity) throw (RuntimeExcept
  */
 const int NullSoundChannel::getGain() const throw (RuntimeException)
 {
-    if (isValid())
-    {
-    }
-    return 0;
+    return mGain;
 }
 
 /**
@@ -211,9 +185,7 @@ const int NullSoundChannel::getGain() const throw (RuntimeException)
  */
 void NullSoundChannel::setGain(const int gain) throw (RuntimeException)
 {
-    if (isValid())
-    {
-    }
+    mGain = gain;
 }
 
 /**
@@ -223,9 +195,7 @@ void NullSoundChannel::setGain(const int gain) throw (RuntimeException)
  */
 void NullSoundChannel::pause(bool pausing) throw (RuntimeException)
 {
-    if (isValid())
-    {
-    }
+    mIsPlaying = !pausing;
 }
 
 /**
@@ -234,9 +204,7 @@ void NullSoundChannel::pause(bool pausing) throw (RuntimeException)
  */
 void NullSoundChannel::stop() throw (RuntimeException)
 {
-    if (isValid())
-    {
-    }
+    mIsPlaying = false;
 }
 
 /**
@@ -246,10 +214,7 @@ void NullSoundChannel::stop() throw (RuntimeException)
  */
 bool NullSoundChannel::isPaused() throw (RuntimeException)
 {
-    if (isValid())
-    {
-    }
-    return true;
+    return !mIsPlaying;
 }
 
 
