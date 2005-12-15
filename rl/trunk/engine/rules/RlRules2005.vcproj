@@ -19,7 +19,6 @@
 			OutputDirectory="./lib/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="2"
-			
 			CharacterSet="2"
 			ManagedExtensions="0"
 			>
@@ -105,7 +104,6 @@
 			OutputDirectory="./lib/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="2"
-			
 			CharacterSet="2"
 			>
 			<Tool
@@ -265,6 +263,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Quest.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\rastullah_svn_public\rl\trunk\engine\rules\src\QuestBook.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\RulesSubsystem.cpp"
 				>
 			</File>
@@ -372,6 +378,14 @@
 			</File>
 			<File
 				RelativePath=".\include\Person.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\Quest.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\rastullah_svn_public\rl\trunk\engine\rules\include\QuestBook.h"
 				>
 			</File>
 			<File
