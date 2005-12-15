@@ -21,6 +21,8 @@ libRlRules_la_SOURCES = \
 	ObjectStateChangeEventSource.cpp \
 	ObjectStateChangeListener.cpp \
 	Person.cpp \
+	Quest.cpp \
+	QuestBook.cpp \
 	RulesSubsystem.cpp \
 	Talent.cpp \
 	Talentgruppe.cpp \

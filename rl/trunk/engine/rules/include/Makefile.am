@@ -17,6 +17,8 @@ noinst_HEADERS = \
 	ObjectStateChangeEventSource.h \
 	ObjectStateChangeListener.h \
 	Person.h \
+	Quest.h \
+	QuestBook.h \
 	RulesPrerequisites.h \
 	RulesSubsystem.h \
 	Talent.h \
