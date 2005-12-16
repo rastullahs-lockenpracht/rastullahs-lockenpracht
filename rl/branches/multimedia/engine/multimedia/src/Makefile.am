@@ -33,4 +33,8 @@ endif
 if with_oal
 INCLUDES += $(OPENAL_CFLAGS) -I../include/openal
 libRlMultimedia_la_LIBADD += $(OPENAL_LIBS)
+libRlMultimedia_la_SOURCES += \
+	openal/OalSoundChannel.cpp \
+	openal/OalSoundSample.cpp \
+	openal/OalSoundStream.cpp
 endif

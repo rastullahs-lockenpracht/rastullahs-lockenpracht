@@ -23,5 +23,8 @@ noinst_HEADERS += \
 endif
 	
 if with_oal
-
+noinst_HEADERS += \
+	openal/OalSoundChannel.h \
+	openal/OalSoundSample.h \
+	openal/OalSoundStream.h
 endif
