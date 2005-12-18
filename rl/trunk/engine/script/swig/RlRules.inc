@@ -99,14 +99,42 @@ namespace rl {
 
         void loadDsaDataFile(const std::string& filename);	
     };
-    
-    class RulesSubsystem 
-    {
-    public:
-		static rl::RulesSubsystem& getSingleton();
-    };
 
-    
+	class Quest
+	{
+	public:
+		enum State
+		{
+			UNKNOWN = 0,
+			OPEN,
+			FAILED,
+			DONE
+		};
+
+		Quest(const CeGuiString& id, const CeGuiString& name, const CeGuiString& description);
+		~Quest();
+
+		const CeGuiString& getId();
+		const CeGuiString& getName();
+		const CeGuiString& getDescription();
+		int getPartsToDo();
+		void setPartsToDo(int partsToDo);
+		int getPartsDone();
+		void setPartsDone(int partsDone);
+		Quest::State getState();
+		void setState(Quest::State state);
+
+		QuestVector getSubquests();
+		void addSubquest(Quest* quest); 
+	};   
+	
+	class QuestBook
+	{
+	public:
+		Quest* getQuest(const CeGuiString& id);
+		void addQuest(Quest* quest);
+	};
+	
     class Talent
     {
     public:
@@ -346,6 +374,7 @@ namespace rl {
 	    Person(  const rl::CeGuiString& name,
                  const rl::CeGuiString& description);
 	};
+	
 	%feature("director") ActionMananger;
     class ActionManager
     {
@@ -400,6 +429,15 @@ namespace rl {
 		std::vector<rl::Creature*> getGroupMembers(int group);
 		int getGroupOf(rl::Creature* creature);
 	};
+	
+    class RulesSubsystem 
+    {
+    public:
+		static rl::RulesSubsystem& getSingleton();
+		QuestBook* getQuestBook();
+		void resetQuestBook();
+    };
+
 	
 } // Namespace
 
