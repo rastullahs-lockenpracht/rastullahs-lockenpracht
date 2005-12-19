@@ -117,7 +117,7 @@ void Quest::checkDone()
 	if (getPartsDone() == getPartsToDo()
 		&& mState == Quest::OPEN)
 	{
-		mState == Quest::DONE;
+		mState = Quest::DONE;
 	}
 
 	if (mParent != NULL)
