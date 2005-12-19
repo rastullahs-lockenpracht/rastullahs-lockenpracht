@@ -111,28 +111,28 @@ namespace rl {
 			DONE
 		};
 
-		Quest(const CeGuiString& id, const CeGuiString& name, const CeGuiString& description);
-		~Quest();
+		Quest(const rl::CeGuiString& id, const rl::CeGuiString& name, const rl::CeGuiString& description);
+		virtual ~Quest();
 
-		const CeGuiString& getId();
-		const CeGuiString& getName();
-		const CeGuiString& getDescription();
+		const rl::CeGuiString& getId();
+		const rl::CeGuiString& getName();
+		const rl::CeGuiString& getDescription();
 		int getPartsToDo();
 		void setPartsToDo(int partsToDo);
 		int getPartsDone();
 		void setPartsDone(int partsDone);
-		Quest::State getState();
-		void setState(Quest::State state);
+		rl::Quest::State getState();
+		void setState(rl::Quest::State state);
 
-		QuestVector getSubquests();
-		void addSubquest(Quest* quest); 
+		// QuestVector getSubquests();
+		void addSubquest(rl::Quest* quest); 
 	};   
 	
 	class QuestBook
 	{
 	public:
-		Quest* getQuest(const CeGuiString& id);
-		void addQuest(Quest* quest);
+		rl::Quest* getQuest(const rl::CeGuiString& id);
+		void addQuest(rl::Quest* quest);
 	};
 	
     class Talent

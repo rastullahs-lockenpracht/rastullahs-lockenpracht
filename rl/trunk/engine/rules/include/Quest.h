@@ -25,7 +25,7 @@ namespace rl {
 class Quest;
 typedef std::vector<Quest*> QuestVector;
 
-class Quest
+class _RlRulesExport Quest
 {
 public:
 	enum State

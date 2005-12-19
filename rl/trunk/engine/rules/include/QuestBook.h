@@ -23,7 +23,7 @@ namespace rl {
 
 class Quest;
 
-class QuestBook
+class _RlRulesExport QuestBook
 {
 public:
 	QuestBook();
