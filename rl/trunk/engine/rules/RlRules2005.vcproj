@@ -267,7 +267,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\rastullah_svn_public\rl\trunk\engine\rules\src\QuestBook.cpp"
+				RelativePath=".\src\QuestBook.cpp"
 				>
 			</File>
 			<File
@@ -385,7 +385,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\rastullah_svn_public\rl\trunk\engine\rules\include\QuestBook.h"
+				RelativePath=".\include\QuestBook.h"
 				>
 			</File>
 			<File
