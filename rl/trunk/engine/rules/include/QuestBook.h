@@ -29,7 +29,17 @@ public:
 	QuestBook();
 	~QuestBook();
 
+
+	/**
+	 * Sucht einen Quest anhand einer ID
+	 * @return der Quest
+	 */
 	Quest* getQuest(const CeGuiString& id);
+
+	/**
+	 * Fuegt einen Quest hinzu
+	 * @param quest der Qubquest
+	 */
 	void addQuest(Quest* quest);
 
 private:

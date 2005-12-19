@@ -25,7 +25,8 @@ Quest::Quest(const CeGuiString& id, const CeGuiString& name, const CeGuiString& 
 	mDescription(description),
 	mPartsToDo(1),
 	mPartsDone(0),
-	mState(Quest::UNKNOWN)
+	mState(Quest::UNKNOWN),
+	mParent(NULL)
 {
 }
 
@@ -50,7 +51,9 @@ const CeGuiString& Quest::getDescription()
 
 int Quest::getPartsToDo()
 {
-	return mPartsToDo;
+	if (mSubquests.size() == 0)
+		return mPartsToDo;
+	return mSubquests.size();
 }
 
 void Quest::setPartsToDo(int partsToDo)
@@ -60,7 +63,16 @@ void Quest::setPartsToDo(int partsToDo)
 
 int Quest::getPartsDone()
 {
-	return mPartsDone;
+	if (mSubquests.size() == 0)
+		return mPartsDone;
+
+	int done = 0;
+	for(QuestVector::iterator it = mSubquests.begin(); it != mSubquests.end(); it++)
+	{
+		if ((*it)->getState() == Quest::DONE)
+			done++;
+	}
+	return done;
 }
 
 void Quest::setPartsDone(int partsDone)
@@ -73,10 +85,10 @@ Quest::State Quest::getState()
 	return mState;
 }
 
-
 void Quest::setState(Quest::State state)
 {
 	mState = state;
+	checkDone();
 }
 
 QuestVector Quest::getSubquests()
@@ -87,6 +99,29 @@ QuestVector Quest::getSubquests()
 void Quest::addSubquest(Quest* quest)
 {
 	mSubquests.push_back(quest);
+	quest->setParent(this);
+}
+
+void Quest::setParent(Quest* quest)
+{
+	mParent = quest;
+}
+
+Quest* Quest::getParent()
+{
+	return mParent;
+}
+
+void Quest::checkDone()
+{
+	if (getPartsDone() == getPartsToDo()
+		&& mState == Quest::OPEN)
+	{
+		mState == Quest::DONE;
+	}
+
+	if (mParent != NULL)
+		mParent->checkDone();
 }
 
 }

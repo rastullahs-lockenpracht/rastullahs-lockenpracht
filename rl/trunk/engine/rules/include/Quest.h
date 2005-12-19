@@ -25,6 +25,9 @@ namespace rl {
 class _RlRulesExport Quest;
 typedef std::vector<Quest*> QuestVector;
 
+/**
+ * @brief Verwaltet einen Quest oder Subquest
+ */
 class _RlRulesExport Quest
 {
 public:
@@ -36,21 +39,74 @@ public:
 		DONE
 	};
 
+	/**
+	 * @param id eine einzigartige ID, um den Quest wiederzufinden
+	 * @param name Titel des Quests
+	 * @param description Lange Beschreibung, die im Tagebuch angezeigt wird
+	 */
 	Quest(const CeGuiString& id, const CeGuiString& name, const CeGuiString& description);
-	~Quest();
+	virtual ~Quest();
 
+	/**
+	 * @return die Quest-ID
+	 */
 	const CeGuiString& getId();
+
+	/**
+	 * @return der Titel des Quests
+	 */
 	const CeGuiString& getName();
+
+	/**
+	 * @return die Questbeschreibung
+	 */
 	const CeGuiString& getDescription();
-	int getPartsToDo();
+
+	/**
+	 * @param partsToDo Anzahl der zu erledigenden Teile des Quests
+	 */
 	void setPartsToDo(int partsToDo);
-	int getPartsDone();
+
+	/**
+	 * @return die Anzahl der zu erledigenden Teile des Quests oder, falls der 
+	 * Quest Teilquests enthaelt, die Anzahl der Teilquests
+	 */
+	int getPartsToDo();
+
+	/**
+	 * @param partsDone Anzahl der erledigten Teile des Quests
+	 */
 	void setPartsDone(int partsDone);
+
+	/**
+	 * @return die Anzahl der zu erledigenden Teile des Quests oder, falls der 
+	 * Quest Teilquests enthaelt, die Anzahl der Teilquests
+	 */
+	int getPartsDone();
+
+
+	/**
+	 * @return Status des Quests
+	 */
 	Quest::State getState();
+
+	/**
+	 * @param Status des Quests
+	 */
 	void setState(Quest::State state);
 
+	/**
+	 * @return die Subquests dieses Quests
+	 */
 	QuestVector getSubquests();
+
+	/**
+	 * Fuegt einen Subquest hinzu
+	 * @param quest der Subquest
+	 */
 	void addSubquest(Quest* quest);
+
+	Quest* getParent();
 	
 
 private:
@@ -61,6 +117,10 @@ private:
 	int mPartsToDo;
 	int mPartsDone;
 	State mState;
+	Quest* mParent;
+
+	void checkDone();
+	void setParent(Quest* parentQuest);
 };
 
 }
