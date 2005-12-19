@@ -434,7 +434,7 @@ namespace rl {
     {
     public:
 		static rl::RulesSubsystem& getSingleton();
-		QuestBook* getQuestBook();
+		rl::QuestBook* getQuestBook();
 		void resetQuestBook();
     };
 

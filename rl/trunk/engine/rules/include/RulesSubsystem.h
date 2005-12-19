@@ -23,7 +23,7 @@
 
 namespace rl
 {
-	class QuestBook;
+	class _RlRulesExport QuestBook;
 
 	class _RlRulesExport RulesSubsystem : public Ogre::Singleton<RulesSubsystem>
     {

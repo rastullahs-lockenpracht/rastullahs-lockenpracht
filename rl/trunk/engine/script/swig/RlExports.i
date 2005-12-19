@@ -18,7 +18,15 @@
 
 %{
 #undef min
+
+#if defined(_MSC_VER) && (_MSC_VER > 1300)   // MS Visual Studio 2005
+// Sichere Versionen der Stringfunktionen benutzen
+#	if !defined(_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES)
+#		define _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES
+#	endif
+#endif
 %}
+
 
 %include "RlCommon.head.inc"
 %include "RlUi.head.inc"

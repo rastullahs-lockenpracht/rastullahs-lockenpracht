@@ -21,7 +21,7 @@
 
 namespace rl {
 
-class Quest;
+class _RlRulesExport Quest;
 
 class _RlRulesExport QuestBook
 {

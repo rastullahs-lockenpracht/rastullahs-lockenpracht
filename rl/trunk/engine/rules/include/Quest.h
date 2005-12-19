@@ -22,7 +22,7 @@
 
 namespace rl {
 
-class Quest;
+class _RlRulesExport Quest;
 typedef std::vector<Quest*> QuestVector;
 
 class _RlRulesExport Quest
