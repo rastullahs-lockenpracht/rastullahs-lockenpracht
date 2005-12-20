@@ -34,6 +34,7 @@ namespace rl {
 	private:
 		bool handleChooseModule(CEGUI::MenuItem* it, Ogre::String module);
 		bool handleGraphicOptions();
+		bool handleSoundOptions();
 		bool handleStart();
 		bool handleQuit();
 		
