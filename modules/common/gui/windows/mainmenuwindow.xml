@@ -35,6 +35,9 @@
 					<Window Type="RastullahLook/MenuItem" Name="MainMenu/Options/Graphics">
 						<Property Name="Text" Value="Grafikoptionen"/>
 					</Window>
+					<Window Type="RastullahLook/MenuItem" Name="MainMenu/Options/Sound">
+						<Property Name="Text" Value="Soundoptionen"/>
+					</Window>
 					<Window Type="RastullahLook/MenuItem" Name="MainMenu/Options/Shortcuts">
 						<Property Name="Text" Value="Tastaturbelegung"/>
 					</Window>
