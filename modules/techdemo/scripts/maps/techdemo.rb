@@ -37,11 +37,12 @@ $CORE.log("Held als aktiver Charakter gesetzt.");
 $World.setFog( World::FOG_EXP, [0.8,0.8,1.0,0.5], 0.00003, 0.4, 1.0);
 
 load "techdemo_umgebung.rb"
+load "techdemo_quests.rb"
 
 
 load "techdemo_bauer.rb"
 $bauer = BauerArnolfGrossschaedel.new()
-$bauer.getActor().placeIntoScene(3161.82, -65.54, 982.0, 0.767904, 0.0, 0.640565, 0.0)
+$bauer.getActor().placeIntoScene(3161.82, -65.54, 982.0, -0.767904, 0.0, 0.640565, 0.0)
 
 load "techdemo_spinne.rb"
 $waldspinne = Waldspinne.new()

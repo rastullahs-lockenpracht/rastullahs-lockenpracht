@@ -16,12 +16,19 @@ class Waldspinne < Creature
 	actor = $AM.createMeshActor("Waldspinne", "tie_waldspinne.mesh", PhysicsManager::GT_ELLIPSOID )
 	setActor(actor)
 
-	addAction(ScareToDeathAction.new())
+	@mScareAction = ScareToDeathAction.new()
+	addAction(@mScareAction)
   end
 
   def die(player)
+	# Todesanimation
 	getActor().getControlledObject().startAnimation("ko", 1.0, 1)
-	# TODO: Dialog/Queststatus, Player verletzen
+	# Quest erledigt
+	RulesSubsystem.getSingleton().getQuestBook().getQuest("spinne").setState(Quest::DONE)
+	# Spieler verletzen
+	player.modifyLe(player.getLe() - 1)
+	# Aktion ist nicht mehr möglich
+	removeAction(@mScareAction)
   end
 end
 
