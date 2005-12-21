@@ -12,7 +12,7 @@ end
 
 class Waldspinne < Creature
   def initialize
-	super("Waldspinne", "Eine große Spinne, die sich anscheinend vor irgendetwas ängstigt")
+	super("Waldspinne", "Eine große Spinne, die sich anscheinend vor irgendetwas ängstigt.")
 	actor = $AM.createMeshActor("Waldspinne", "tie_waldspinne.mesh", PhysicsManager::GT_ELLIPSOID )
 	setActor(actor)
 
@@ -26,9 +26,11 @@ class Waldspinne < Creature
 	# Quest erledigt
 	RulesSubsystem.getSingleton().getQuestBook().getQuest("spinne").setState(Quest::DONE)
 	# Spieler verletzen
-	player.modifyLe(player.getLe() - 1)
+	player.modifyLe( -(player.getLe() - 1) )
 	# Aktion ist nicht mehr möglich
 	removeAction(@mScareAction)
+	#
+	setDescription("Eine große tote Spinne, die sich nie wieder vor irgendetwas ängstigt.")
   end
 end
 

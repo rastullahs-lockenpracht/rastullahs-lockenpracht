@@ -8,12 +8,12 @@ unterkunftQuest =
 questBook.addQuest(unterkunftQuest)
 unterkunftQuest.setState(Quest::OPEN)
 
-unterkunftQuest.add(
+unterkunftQuest.addSubquest(
 	Quest.new(
 		"spinne", 
 		"Die Riesenspinne", 
 		"Auf der anderen Seite des Flusses lebt eine riesige Waldspinne. Arnolf Großschädel möchte, dass diese Spinne getötet wird. Erst danach bekomme ich ein Zimmer."))
-unterkunftQuest.add(
+unterkunftQuest.addSubquest(
 	Quest.new(
 		"unterkunft_reden",
 		"Nochmal nach der Unterkunft fragen",
