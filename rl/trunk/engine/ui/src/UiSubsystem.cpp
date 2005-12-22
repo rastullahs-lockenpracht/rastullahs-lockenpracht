@@ -274,6 +274,8 @@ namespace rl {
 
 	void UiSubsystem::showDialog(DialogCharacter* bot)
 	{
+		if (bot->getCharacter() == NULL)
+			bot->setCharacter(getActiveCharacter());
 		(new DialogWindow(bot, mGameLogger))->setVisible(true);
 	}
 

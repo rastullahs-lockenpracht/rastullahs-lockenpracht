@@ -65,12 +65,12 @@ namespace rl
 		if(conditionType == "Talent")
 		{
 			typeInfo = " (T) ";
-			rVal = scriptObject->getDialogPartner()->doTalentprobe(conditionName, modifier);
+			rVal = scriptObject->getCharacter()->doTalentprobe(conditionName, modifier);
 		}
 		else if (conditionType == "Eigenschaft")
 		{
 			typeInfo = " (E) ";
-			rVal = scriptObject->getDialogPartner()->doEigenschaftsprobe(conditionName, modifier);
+			rVal = scriptObject->getCharacter()->doEigenschaftsprobe(conditionName, modifier);
 		}
 		else if(conditionType == "Basiswert")
 		{
