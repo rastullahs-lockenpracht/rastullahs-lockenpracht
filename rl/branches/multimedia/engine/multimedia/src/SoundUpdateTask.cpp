@@ -1,5 +1,4 @@
-/* SoundUpdateTask.cpp - Diese Klassse updatet die 3D-Informationen
- *      von FMOD.
+/* SoundUpdateTask.cpp - Diese Klassse updatet die 3D-Informationen.
  * (C) 2005. Team Pantheon. www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
@@ -33,7 +32,10 @@ namespace rl {
      */
     void SoundUpdateTask::run(Real elapsedTime)
     {
-        MultimediaSubsystem::getSingleton().update(elapsedTime);
+        if (MultimediaSubsystem::getSingletonPtr())
+        {
+            MultimediaSubsystem::getSingleton().update(elapsedTime);
+        }
     }
 
 	/**
