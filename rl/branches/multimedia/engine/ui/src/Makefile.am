@@ -29,6 +29,7 @@ libRlUi_la_SOURCES = \
 	MainMenuWindow.cpp \
 	MessageWindow.cpp \
 	PlaylistWindow.cpp \
+	SoundConfig.cpp \
 	TargetSelectionWindow.cpp \
 	UiSubsystem.cpp \
 	VideoWindow.cpp \

@@ -22,6 +22,7 @@
 #include "ConfigurationManager.h"
 
 #include "MainMenuWindow.h"
+#include "SoundConfig.h"
 
 using namespace CEGUI;
 using namespace Ogre;
@@ -46,6 +47,10 @@ namespace rl {
 			MenuItem::EventClicked, 
 			boost::bind(&MainMenuWindow::handleQuit, this));
 		
+        getWindow("MainMenu/Options/Sound")->subscribeEvent(
+            MenuItem::EventClicked, 
+            boost::bind(&MainMenuWindow::handleSoundOptions, this));
+
 		mWindow->subscribeEvent(
 			Window::EventKeyUp, 
 			boost::bind(&MainMenuWindow::handleKey, this, _1));
@@ -125,6 +130,7 @@ namespace rl {
 	
 	bool MainMenuWindow::handleSoundOptions()
 	{
+        new SoundConfig();
 		return true;
 	}
 	

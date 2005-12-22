@@ -14,19 +14,42 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
+#include <boost/bind.hpp>
+#include "UiPrerequisites.h"
+#include "Exception.h"
+#include "CEGUI.h"
 #include "SoundConfig.h"
+
+using namespace CEGUI;
+using namespace Ogre;
 
 namespace rl
 {
 
 SoundConfig::SoundConfig()
-    : CeGuiWindow("soundconfig.xml", WND_MOUSE_INPUT)
+    : CeGuiWindow("soundconfig.xml", WND_MOUSE_INPUT),
+      mListbox(0)
 {
-    bindClickToCloseWindow(getWindow("SoundConfig"));
+    //bindClickToCloseWindow(getWindow("SoundConfig"));
     bindCloseToCloseButton();
 
+    getWindow("SoundConfig/OK")->subscribeEvent(
+            Window::EventMouseClick, 
+            boost::bind(&SoundConfig::handleOK, this));
+
+    getWindow("SoundConfig/Cancel")->subscribeEvent(
+            Window::EventMouseClick, 
+            boost::bind(&SoundConfig::handleCancel, this));
+
+    mListbox = (Listbox*)getWindow("SoundConfig/Table");
+    if (mListbox == 0)
+    {
+        Throw(NullPointerException, "Couldn't the listbox");
+    }
+    mListbox->addItem(new ListboxTextItem("Null-Treiber"));
     centerWindow();
     addToRoot(mWindow); 
+    setVisible(true);
 }
 
 SoundConfig::~SoundConfig()
@@ -35,13 +58,13 @@ SoundConfig::~SoundConfig()
 
 bool SoundConfig::handleCancel()
 {
-    hide();
-    delete this;
+    setVisible(false);
     return true;
 }
 
 bool SoundConfig::handleOK()
 {
+    setVisible(false);
     return true;
 }
 
