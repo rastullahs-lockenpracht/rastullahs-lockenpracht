@@ -96,6 +96,7 @@ MultimediaSubsystem::MultimediaSubsystem()
  */
 MultimediaSubsystem::~MultimediaSubsystem()
 {
+    delete SoundUpdateTask::getSingletonPtr();
     delete SoundManager::getSingletonPtr();
     // TODO FSOUND_Close();
 }

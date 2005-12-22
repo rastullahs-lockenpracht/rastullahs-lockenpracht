@@ -12,6 +12,7 @@ libRlMultimedia_la_SOURCES = \
 	SoundManager.cpp \
 	Sound.cpp \
 	SoundChannel.cpp \
+	SoundDriver.cpp \
     SoundResource.cpp \
 	SoundEvents.cpp \
 	SoundUpdateTask.cpp \
@@ -19,22 +20,25 @@ libRlMultimedia_la_SOURCES = \
 	VideoEvents.cpp \
 	null/NullSoundChannel.cpp \
 	null/NullSoundSample.cpp \
-	null/NullSoundStream.cpp 
+	null/NullSoundStream.cpp \
+	null/NullDriver.cpp
 
 if with_fmod
-INCLUDES += $(FMOD_CFLAGS) -I../include/fmod
+INCLUDES += $(FMOD_CFLAGS) -I../include/fmod -DWITH_FMOD
 libRlMultimedia_la_LIBADD += $(FMOD_LIBS)
 libRlMultimedia_la_SOURCES += \
 	fmod/FmodSoundChannel.cpp \
+	fmod/FmodDriver.cpp \
 	fmod/FmodSoundSample.cpp \
 	fmod/FmodSoundStream.cpp
 endif
 	
 if with_oal
-INCLUDES += $(OPENAL_CFLAGS) -I../include/openal
+INCLUDES += $(OPENAL_CFLAGS) -I../include/openal -DWITH_FMOD
 libRlMultimedia_la_LIBADD += $(OPENAL_LIBS)
 libRlMultimedia_la_SOURCES += \
 	openal/OalSoundChannel.cpp \
+	openal/OalDriver.cpp \
 	openal/OalSoundSample.cpp \
 	openal/OalSoundStream.cpp
 endif
