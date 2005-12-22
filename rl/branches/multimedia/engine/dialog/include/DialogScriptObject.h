@@ -17,16 +17,40 @@
 #define __Rl_DialogScriptObject_H__
 
 #include "DialogPrerequisites.h"
+
 namespace rl
 {
+	class Creature;
+
 	class _RlDialogExport DialogScriptObject
 	{
 	public:
 		DialogScriptObject();
 		virtual ~DialogScriptObject(void);
 
-		virtual int calcOptionValue()=0;
+		virtual int calcOptionValue(const CeGuiString& optionName)=0;
+		virtual int calcResponseValue(const CeGuiString& responseName)=0;
+
+		DialogCharacter* getParent() const;
+		void setParent(DialogCharacter* parent);
+
+		Creature* getDialogPartner() const;
+		Creature* getCharacter() const;
+
+	private:
+		DialogCharacter* mParent;
+
 	};
+
+	inline DialogCharacter* DialogScriptObject::getParent() const
+	{
+		return mParent;
+	}
+
+	inline void DialogScriptObject::setParent(DialogCharacter* parent)
+	{
+		mParent = parent;
+	}
 }
 
 #endif

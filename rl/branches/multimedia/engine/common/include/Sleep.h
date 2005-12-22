@@ -17,7 +17,7 @@
 
 #include "RastullahPrerequisites.h"
 
-#if OGRE_PLATFORM == PLATFORM_WIN32
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #include "Windows.h"
 #endif
 	
@@ -29,7 +29,7 @@ namespace rl {
  */
 inline void msleep(unsigned long sleeptime)
 {
-#if OGRE_PLATFORM == PLATFORM_WIN32
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
     Sleep(sleeptime);
 #else
     usleep(sleeptime * 1000);

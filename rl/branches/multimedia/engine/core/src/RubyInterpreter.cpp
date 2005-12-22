@@ -210,7 +210,9 @@ VALUE rb_funcall_wrapper(VALUE data)
 	return rb_funcall2(args[0], rb_intern(StringValuePtr(args[1])), (int)NUM2INT(args[2]), &argsT);
 }
 
-void RubyInterpreter::setScript( const String& instname, const String& scriptname, const String& classname, int argc, const String args[] )
+void RubyInterpreter::setScript( 
+		const String& instname, const String& scriptname, 
+		const String& classname, int argc, const CeGuiString args[] )
 {
 	// unregister old script
 	removeScriptInstance(instname);
@@ -244,7 +246,7 @@ void RubyInterpreter::setScript( const String& instname, const String& scriptnam
 	delete[] rArgs;
 }
 	
-void RubyInterpreter::callFunction( const String& instname, const String& funcname, int argc, const String args[] )
+void RubyInterpreter::callFunction( const String& instname, const String& funcname, int argc, const CeGuiString args[] )
 {
 	Value_Map::const_iterator pSoIter = mScriptInstances.find(instname);
 
@@ -266,7 +268,7 @@ void RubyInterpreter::callFunction( const String& instname, const String& funcna
 	}
 }
 
-int RubyInterpreter::callIntegerFunction( const String& instname, const String& funcname, int argc, const String args[] )
+int RubyInterpreter::callIntegerFunction( const String& instname, const String& funcname, int argc, const CeGuiString args[] )
 {
 	Value_Map::const_iterator pSoIter = mScriptInstances.find(instname);
 
@@ -294,11 +296,11 @@ int RubyInterpreter::callIntegerFunction( const String& instname, const String& 
     return iReturn;
 }
 
-std::string RubyInterpreter::callStringFunction( const String& instname, const String& funcname, int argc, const String args[] )
+CeGuiString RubyInterpreter::callStringFunction( const String& instname, const String& funcname, int argc, const CeGuiString args[] )
 {
 	Value_Map::const_iterator pSoIter = mScriptInstances.find(instname);
 
-	std::string sReturn = "";
+	CeGuiString sReturn = "";
 
 	if( pSoIter != mScriptInstances.end() )
 	{
@@ -323,7 +325,7 @@ std::string RubyInterpreter::callStringFunction( const String& instname, const S
     return sReturn;	
 }
 
-VALUE* RubyInterpreter::rubyArgs( int argc, const String args[] )
+VALUE* RubyInterpreter::rubyArgs( int argc, const CeGuiString args[] )
 {
 	VALUE *rArgs = new VALUE[argc];
 

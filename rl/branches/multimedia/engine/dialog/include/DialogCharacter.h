@@ -21,6 +21,8 @@
 namespace rl
 {
 
+	class Creature;
+
 	class DialogScriptObject;
 
 	class _RlDialogExport DialogCharacter :
@@ -31,22 +33,45 @@ namespace rl
 		DialogCharacter(const CeGuiString& name);
 		virtual ~DialogCharacter(void);
 
-		DialogScriptObject* getScriptObject();
-		void setScriptObject(DialogScriptObject* scriptObject);
+		Creature* getCharacter() const;
+		void setCharacter(Creature* character);
 
+		Creature* getDialogPartner() const;
+		void setDialogPartner(Creature* dialogPartner);
+
+		DialogScriptObject* getScriptObject() const;
+		void setScriptObject(DialogScriptObject* scriptObject);
+		
 	private:
 		DialogScriptObject* mScriptObject;
+		Creature* mCharacter;
+		Creature* mDialogPartner;
 
 	};
 
-	inline DialogScriptObject* DialogCharacter::getScriptObject()
+	inline Creature* DialogCharacter::getCharacter() const
 	{
-		return mScriptObject;
+		return mCharacter;
+	}
+	
+	inline void DialogCharacter::setCharacter(Creature* character)
+	{
+		mCharacter = character;
 	}
 
-	inline void DialogCharacter::setScriptObject(DialogScriptObject* scriptObject)
+	inline Creature* DialogCharacter::getDialogPartner() const
 	{
-		mScriptObject = scriptObject;
+		return mDialogPartner;
+	}
+
+	inline void DialogCharacter::setDialogPartner(Creature* dialogPartner)
+	{
+		mDialogPartner = dialogPartner;
+	}
+
+	inline DialogScriptObject* DialogCharacter::getScriptObject() const
+	{
+		return mScriptObject;
 	}
 }
 

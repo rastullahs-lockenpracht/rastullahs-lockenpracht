@@ -45,7 +45,8 @@ namespace rl {
             GT_SPHERE = 1,
             GT_CAPSULE = 2,
             GT_MESH = 3,
-            GT_ELLIPSOID = 4
+            GT_ELLIPSOID = 4,
+            GT_CONVEXHULL = 5
         };
         
         /// Typ bestimmt, wo der Usrprung (0/0/0) des Objektes liegt.
@@ -73,7 +74,10 @@ namespace rl {
          *       momentan nur dann gut, wenn die Höhe die Y-Achse ist.
          */
         PhysicalThing* createPhysicalThing(const int geomType, const Ogre::Vector3& size,
-			Real mass, OffsetMode offsetMode = OM_BOTTOMCENTERED, bool hullModifier = false);
+            Ogre::Real mass, OffsetMode offsetMode = OM_BOTTOMCENTERED, bool hullModifier = false);
+
+        PhysicalThing* createConvexHullPhysicalThing(Ogre::Entity*, Ogre::Real mass = 0.0f,
+            const Ogre::Vector3& inertiaCoefficients = Ogre::Vector3(1.0f, 1.0f, 1.0f));
 
         void removeAndDestroyPhysicalThing(PhysicalThing* thing);
 
@@ -81,6 +85,7 @@ namespace rl {
         void setGravity(Ogre::Real x, Ogre::Real y, Ogre::Real z);
         Vector3 getGravity() const;
 
+        bool isEnabled() const;
         void setEnabled(bool enabled);
 
         // Singleton Stuff

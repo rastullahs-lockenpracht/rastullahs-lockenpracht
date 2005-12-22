@@ -45,6 +45,11 @@ namespace rl {
         Ogre::Vector3 getUpConstraint() const;
         void clearUpConstraint();
 
+        // Sets whether to use default gravity, or override it with its own
+        void setGravityOverride(bool override, const Ogre::Vector3& gravity);
+        void setGravityOverride(bool override,
+            Ogre::Real x = 0.0f, Ogre::Real y = 0.0f, Ogre::Real z = 0.0f);
+
         Actor* getActor() const;
         
         void _update();
@@ -58,7 +63,17 @@ namespace rl {
         void onApplyForceAndTorque();
         void addForce(const Ogre::Vector3& force);
 
+        void freeze();
+        void unfreeze();
+
         Ogre::Real getMass() const;
+
+        /** Called to update the collision of the physical thing, in order to adapt
+         *  to a new animation state.
+         *  @warning This is only applicable to ConvexHullCollisions.
+         *  @throw IllegalStateException, if PhysicalThing does not represent a ConvexHullCollision
+         */
+        void updateCollisionHull();
 
     private:
         Actor* mActor;
@@ -67,6 +82,8 @@ namespace rl {
         Ogre::Vector3 mOffset;
         Ogre::Quaternion mOrientationBias;
         Ogre::Vector3 mPendingForce;
+        bool mOverrideGravity;
+        Ogre::Vector3 mGravity;
     };
 }
 

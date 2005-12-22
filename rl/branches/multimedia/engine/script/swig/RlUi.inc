@@ -20,13 +20,10 @@ class CharacterController
 {
 public:
     typedef enum {VM_THIRD_PERSON, VM_FIRST_PERSON} ViewMode;
-    
-    CharacterController();
-    
-    /**
-        *  @throw NullPointerException if camera or character is NULL.
-        *  @throw InvalidArgumentException if character is not placed in the scene.
-        */
+     /**
+       *  @throw NullPointerException if camera or character is NULL.
+       *  @throw InvalidArgumentException if character is not placed in the scene.
+       */
     CharacterController(rl::Actor* camera, rl::Actor* character);
     void toggleViewMode();
     void resetCamera();

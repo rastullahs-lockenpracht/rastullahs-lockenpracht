@@ -19,6 +19,12 @@
 #include "ConfigurationManagerWin32.h"
 #include "ConfigurationManagerMac.h"
 
+#include <OgreRenderSystem.h>
+#include <OgreResourceGroupManager.h>
+
+#include "CoreSubsystem.h"
+
+
 namespace rl
 {
 	ConfigurationManager* ConfigurationManager::getSingletonPtr()
@@ -43,8 +49,14 @@ namespace rl
 #       endif
 	}
 	
+    ConfigurationManager::ConfigurationManager() :
+        mSystemConfig(NULL)
+    {
+    }
+
 	ConfigurationManager::~ConfigurationManager()
 	{
+        delete mSystemConfig;
 	}
 	
 	Ogre::String ConfigurationManager::getOgreLogPath()
@@ -82,21 +94,86 @@ namespace rl
 		return mModulesRootDirectory;
 	}
 
-	Ogre::String ConfigurationManager::getEngineVersionString()
+    Ogre::String ConfigurationManager::getRastullahSystemCfgPath()
+    {
+        return mRastullahSystemCfgPath;
+    }
+
+    Ogre::ConfigFile* ConfigurationManager::getSystemConfig()
+    {
+        if( mSystemConfig == NULL )
+        {
+            mSystemConfig = new Ogre::ConfigFile();
+
+            try
+            {            
+                mSystemConfig->loadFromResourceSystem( mRastullahSystemCfgPath, 
+                    Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, "=" );
+            }           
+            catch ( Ogre::Exception  ) 
+            {
+                CoreSubsystem::getSingleton().log( Ogre::LML_CRITICAL, 
+                    "Konnte Rastullah-System-Konfiguration aus '" + mRastullahSystemCfgPath + 
+                    "' nicht laden! Defaulteinstellungen werden benutzt.","Configuration");
+            }
+        }
+        
+        return mSystemConfig;
+    }
+
+    bool ConfigurationManager::shouldUseStaticGeometry()
+    {
+        Ogre::String mode = getSystemConfig()->getSetting( "use_static_geometry" );
+        
+        if( mode == Ogre::StringUtil::BLANK )
+            mode = "auto";
+        
+        if( mode.compare("yes") == 0 )
+        {
+            return true;
+        }
+        else if( mode.compare("no") == 0 )
+        {
+            return false;
+        }        
+        else
+        {
+            // Überprüfen ob der Renderer VertexBuffer unterstützt
+            return Ogre::Root::getSingleton().getRenderSystem()
+                ->getCapabilities()->hasCapability( Ogre::RSC_VBO );
+        }
+        
+    }
+
+	Ogre::String ConfigurationManager::getEngineVersionString() const
 	{
 		static Ogre::String version = "Internal Build";
 		return version;
 	}
 
+	static const Ogre::String sMonths[] = 
+			{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
+             "Sep", "Oct", "Nov", "Dec"};
+
+	/// __DATE__ sieht ca. so aus : Nov 08 2005
 	long parseDate(char* date)
-	{ //TODO: __DATE__ in ein long verwandeln, damit man 
-		return /* Jahr */			2005 * 100000+
-			/* Monat */			9 * 1000 + 
-			/* Tag */			24 * 10 + 
-			/* Sub-Version */	0;	
+	{   
+		Ogre::String dateStr = Ogre::String(date);
+		Ogre::String monthStr = dateStr.substr(0,3);
+		int day = Ogre::StringConverter::parseInt( dateStr.substr(4,2) );
+		int year = Ogre::StringConverter::parseInt( dateStr.substr(7,4) );
+		int month = 0;
+
+		while( month < 12 && monthStr.compare(sMonths[month]) != 0 )
+			month++;
+
+		return /* Jahr */		  year * 100000 +
+			   /* Monat */	 (month+1) * 1000 + 
+			   /* Tag */		   day * 10 + 
+			   /* Sub-Version */	 0;	
 	}
 
-	long ConfigurationManager::getEngineBuildNumber()
+	long ConfigurationManager::getEngineBuildNumber() const
 	{
 		static long buildNumber = parseDate(__DATE__);
 		return buildNumber;

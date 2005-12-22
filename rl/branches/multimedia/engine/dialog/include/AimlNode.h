@@ -23,10 +23,17 @@ namespace rl
 	class _RlDialogExport AimlNode
 	{
 	public:
-		virtual ~AimlNode(void){};
+		AimlNode(AimlNode* parent);
+		virtual ~AimlNode(void);
 
-		virtual AimlNode* getFirstChild()=0;
-		virtual AimlNode* getNextSibling()=0;
+		virtual unsigned int getCurrentChildIndex();
+		virtual AimlNode* getFirstChild();
+		virtual AimlNode* getNextSibling();
+		virtual AimlNode* getNode(unsigned int index);
+	protected:
+		std::vector<AimlNode*> mChildNodes;
+		unsigned int mIndex;
+		AimlNode* mParent;
 	};
 }
 #endif

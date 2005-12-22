@@ -120,7 +120,7 @@ namespace rl {
         
 		// load scheme and set up defaults
 		///@todo Hier sollte was Lookunabhängiges rein!!! FIXME TODO BUG!
-		System::getSingleton().setDefaultMouseCursor((utf8*)"RastullahLook", (utf8*)"MouseArrow");
+		System::getSingleton().setDefaultMouseCursor((utf8*)"RastullahLook-Images", (utf8*)"MouseArrow");
 		log(Ogre::LML_TRIVIAL, "Mauszeiger", "UiSubsystem::initializeUiSubsystem");
 		Window* sheet = CEGUI::WindowManager::getSingleton().createWindow((utf8*)"DefaultGUISheet", (utf8*)CEGUI_ROOT);
 		log(Ogre::LML_TRIVIAL, "Rootfenster", "UiSubsystem::initializeUiSubsystem");
@@ -141,8 +141,8 @@ namespace rl {
 		InputManager::getSingleton().loadKeyMapping("keymap-german.xml");
 		log(Ogre::LML_TRIVIAL, "Keymap geladen", "UiSubsystem::initializeUiSubsystem");
 
-		new DebugWindow();
 		new Console();
+		new DebugWindow();
 		((RubyInterpreter*)CoreSubsystem::getSingleton().getInterpreter() )->initializeInterpreter( (VALUE(*)(...))&UiSubsystem::consoleWrite );
 
 		new TargetSelectionWindow();
@@ -169,7 +169,10 @@ namespace rl {
 
 	VALUE UiSubsystem::consoleWrite(VALUE self, VALUE str)
 	{
-		Console::getSingleton().write(RubyInterpreter::val2ceguistr(str) + " \n");
+        if (Console::getSingletonPtr())
+        {
+            Console::getSingleton().write(RubyInterpreter::val2ceguistr(str) + " \n");
+        }
 		return Qnil;
 	}
 
@@ -271,7 +274,7 @@ namespace rl {
 
 	void UiSubsystem::showDialog(DialogCharacter* bot)
 	{
-		(new DialogWindow(bot))->setVisible(true);
+		(new DialogWindow(bot, mGameLogger))->setVisible(true);
 	}
 
 	void UiSubsystem::toggleConsole()
@@ -365,7 +368,6 @@ namespace rl {
 
 	void UiSubsystem::runTest()
 	{
-		DialogWindow* dialog = new DialogWindow("startup.xml");  
 	}
 
 	void UiSubsystem::update()

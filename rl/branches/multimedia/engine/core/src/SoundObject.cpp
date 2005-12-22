@@ -34,8 +34,8 @@ namespace rl {
 SoundObject::SoundObject(Sound *sound, const Ogre::String &name)
     : ActorControlledObject()
 {
-    SoundChannel *sc = 0; // TODO new SoundChannel(sound, name);
-    mMovableObject = dynamic_cast<MovableObject*>(sc);
+/* TODO    SoundChannel *sc = new SoundChannel(sound, name);
+    mMovableObject = dynamic_cast<MovableObject*>(sc); */
 }
 
 /**

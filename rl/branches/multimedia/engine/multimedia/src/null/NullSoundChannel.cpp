@@ -19,7 +19,7 @@
 #include <OgreAxisAlignedBox.h>
 #include <OgreVector3.h>
 #include "Sound.h"
-#include "SoundSubsystem.h"
+#include "MultimediaSubsystem.h"
 
 Ogre::String rl::NullSoundChannel::msMovableType = "NullSoundChannel";
 

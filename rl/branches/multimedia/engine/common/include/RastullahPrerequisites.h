@@ -65,9 +65,12 @@ bool max(T1 m1, T2 m2) { return (m1 < m2)?m2:m1; }
 #endif
 
 #if defined(_MSC_VER) && (_MSC_VER > 1300)   // MS Visual Studio 2005
-// deprecated-Warnung aus, denn fast alle Stringfunktionen sind unsicher
 // signed / unsigned auf 1x
-#  pragma warning(disable : 4996; once : 4018) 
+#	pragma warning(once : 4018) 
+// Sichere Versionen der Stringfunktionen benutzen
+#	if !defined(_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES)
+#		define _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES
+#	endif
 #endif
 
 #endif

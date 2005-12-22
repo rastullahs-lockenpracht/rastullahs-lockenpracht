@@ -1,13 +1,13 @@
 
 noinst_HEADERS = \
 	ListenerMovable.h \
+	MultimediaSubsystem.h \
 	SoundChannel.h \
 	SoundManager.h \
-	SoundSubsystem.h \
 	SoundPrerequisites.h \
-        Sound.h \
-        SoundResource.h \
-        SoundEvents.h \
+    Sound.h \
+    SoundResource.h \
+    SoundEvents.h \
 	SoundUpdateTask.h \
 	Video.h \
 	VideoEvents.h \

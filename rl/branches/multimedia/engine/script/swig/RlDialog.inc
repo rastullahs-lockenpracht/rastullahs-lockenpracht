@@ -23,7 +23,11 @@ namespace rl
 	public:
 		DialogScriptObject();
 		virtual ~DialogScriptObject();
-		virtual int calcOptionValue()=0;	
+		virtual int calcOptionValue(const rl::CeGuiString& optionName)=0;	
+		virtual int calcResponseValue(const rl::CeGuiString& responseName)=0;
+		
+		rl::Creature* getCharacter() const;
+		rl::Creature* getDialogPartner() const;
 	};
 	
 	class DialogCharacter
@@ -31,6 +35,12 @@ namespace rl
 	public:
 		DialogCharacter(const std::string& name);
 		void setScriptObject(rl::DialogScriptObject* scriptObject);
+		
+		rl::Creature* getCharacter() const;
+		void setCharacter(rl::Creature* character);
+		
+		rl::Creature* getDialogPartner() const;
+		void setDialogPartner(rl::Creature* dialogPartner);
 	};
 
 	class DialogSubsystem 
@@ -38,6 +48,6 @@ namespace rl
 	public:
 		static DialogSubsystem& getSingleton(void);
 		rl::DialogCharacter* getCurrentBot();
-		rl::DialogCharacter* loadBot(const std::string& fileName, const std::string& botName = "");
+		rl::DialogCharacter* loadBot(const rl::CeGuiString& fileName, const rl::CeGuiString& botName = "");
 	};
 }

@@ -113,7 +113,7 @@ class World {
 public:	
 	enum FogMode { FOG_NONE, FOG_EXP, FOG_EXP2, FOG_LINEAR  };
 
-	void loadScene(const Ogre::String& levelName ) = 0;
+	void loadScene(const Ogre::String& levelName, const Ogre::String& resourceGroup ) = 0;
 
     virtual void setSkyBox (bool enable, const Ogre::String& materialName, Ogre::Real distance=2500, bool drawFirst=true );
     virtual void setSkyDome (bool enable, const Ogre::String& materialName, Ogre::Real curvature=10, Ogre::Real tiling=8, Ogre::Real distance=4000, bool drawFirst=true );
@@ -407,6 +407,7 @@ public:
     
     rl::ActorControlledObject* getControlledObject();
     Ogre::UserDefinedObject* getGameObject() const;
+    rl::PhysicalThing* getPhysicalThing() const;
 
     void setScale( Ogre::Real sx, Ogre::Real sy, Ogre::Real sz );
     void placeIntoScene(
@@ -478,7 +479,15 @@ public:
 
     void addForce(const Ogre::Vector3& force);
 
+    void freeze();
+    void unfreeze();
+        
+    void setGravityOverride(bool override,
+        Ogre::Real x = 0.0f, Ogre::Real y = 0.0f, Ogre::Real z = 0.0f);
+        
     Ogre::Real getMass() const;
+    
+    void updateCollisionHull();
 };
 
 
@@ -492,7 +501,8 @@ public:
         GT_SPHERE = 1,
         GT_CAPSULE = 2,
         GT_MESH = 3,
-        GT_ELLIPSOID = 4
+        GT_ELLIPSOID = 4,
+        GT_CONVEXHULL = 5
     };
     
     /// Typ bestimmt, wo der Usrprung (0/0/0) des Objektes liegt.
@@ -515,6 +525,7 @@ public:
     void setGravity(Ogre::Real x, Ogre::Real y, Ogre::Real z);
     Vector3 getGravity() const;
 
+    bool isEnabled() const;
     void setEnabled(bool enabled);
 
 	/// Levelgeometrie hinzufügen
@@ -533,8 +544,8 @@ private:
 public:
     static CoreSubsystem& getSingleton(void);
     
-    void initializeModule(const Ogre::String& module);
-    void loadMap(const Ogre::String& type, const Ogre::String& filename, const Ogre::String& startupScript = "");
+    void loadMap(const Ogre::String& type, const Ogre::String& filename,
+		const Ogre::String& resourceGroup, const Ogre::String& startupScript = "");
     World* getWorld();
     void makeScreenshot(const Ogre::String& sName);
     void log(const Ogre::String& msg);

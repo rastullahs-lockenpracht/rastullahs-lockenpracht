@@ -25,11 +25,15 @@
 
 #include "PhysicsManager.h"
 #include "CoreSubsystem.h"
+#include "ConfigurationManager.h"
 
 #include "XmlHelper.h"
 #include "XmlResourceManager.h"
 
 #include "Exception.h"
+
+#include <cstdlib>
+#include <ctime>
 
 using namespace XERCES_CPP_NAMESPACE;
 using namespace std;
@@ -37,11 +41,13 @@ using namespace std;
 namespace rl {
 	using XERCES_CPP_NAMESPACE::DOMDocument; //XXX: Warum brauche ich das unter VS 2003?
 
-	DotSceneLoader::DotSceneLoader( const std::string &filename )
-	{
-		mSceneName = filename;
-		mSceneManager = CoreSubsystem::getSingleton().getWorld()->getSceneManager();
+    DotSceneLoader::DotSceneLoader(const string& filename, const string& resourceGroup)
+        : mSceneName(filename),
+          mResourceGroup(resourceGroup),
+          mSceneManager(CoreSubsystem::getSingleton().getWorld()->getSceneManager())
 
+	{
+        srand(static_cast<unsigned int>(time(NULL)));
 		initializeScene();
 	}
 
@@ -61,20 +67,21 @@ namespace rl {
 		processNodes( nodes, staticNode );
 
 
-		StaticGeometry* staticGeom = mSceneManager->createStaticGeometry( mSceneName );
-		// Usprung und Größe der Blöcke einstellen
-		// staticGeom->setRegionDimensions(Vector3(1000,500,1000));
-		// staticGeom->setOrigin(Vector3(0,0,0));
-		/// FIXME  Diese Methode funktioniert nicht Ogre-Api-korrekt, daher Workaround
-		//staticGeom->addSceneNode( staticNode );
-		// Alle Entities unterhalb des Nodes einfügen
-		DotSceneLoader::staticGeometryAddSceneNodeWorkaround(
-			staticGeom, staticNode);
-		// Statische Geometrie bauen
-		staticGeom->build();
-		// Nicht mehr den Original-Knoten rendern, da dieser erhalten bleibt.
-		staticNode->setVisible( false );
-		CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Statische Geometrie erstellt" );
+        if( ConfigurationManager::getSingleton().shouldUseStaticGeometry() )
+        {        
+		    StaticGeometry* staticGeom = mSceneManager->createStaticGeometry( mSceneName );
+
+		    staticGeom->addSceneNode( staticNode );
+
+		    // Statische Geometrie bauen
+		    staticGeom->build();
+		    // Nicht mehr den Original-Knoten rendern, da dieser noch erhalten ist.
+		    staticNode->setVisible( false );
+            CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Statische Geometrie erstellt" );
+        }
+        else
+            CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Keine statische Geometrie erstellt" );
+		
 
 		doc->release();
 		XMLPlatformUtils::Terminate();		
@@ -91,7 +98,7 @@ namespace rl {
 		XmlPtr res = 
 			XmlResourceManager::getSingleton().create(
 			mSceneName, 
-			Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+			mResourceGroup);
 		res.getPointer()->parseBy(parser);
 		return parser->getDocument();
 	}
@@ -130,36 +137,64 @@ namespace rl {
 		if ( parentNode == NULL )
 			Throw( NullPointerException, "parentNode darf nicht null sein" );
 
-		string nodeName = XmlHelper::getAttributeValueAsString( rootNodeXml, 
-			"name" ).c_str();
+		string nodeName = XmlHelper::getAttributeValueAsStdString( rootNodeXml, 
+			"name" );
 		
 		Ogre::SceneNode* newNode;
-		// Wurde dem Node ein Name zugewiesen
+		// Wurde dem Node ein Name zugewiesen?
 		if( nodeName.length() > 0 )
         {
             try
             {
-                mSceneManager->getSceneNode( nodeName );
-                // Name war schon vergeben!
-                newNode = parentNode->createChildSceneNode();
-                CoreSubsystem::getSingleton().log(Ogre::LML_NORMAL, 
-                    " NodeName '"+nodeName+"' war schon vergeben! Es wurde der Name '"+newNode->getName()+"' benutzt." );                
-            }
-            catch( Ogre::Exception )
-            {
-                // Name war noch nicht vergeben!
+                // Dann versuche einen Knoten mit dem Namen zu erstellen
                 newNode = parentNode->createChildSceneNode(nodeName);
+            }
+            catch( Ogre::Exception& e )
+            {
+                // Name schon vergeben?
+                if (e.getNumber() == Ogre::Exception::ERR_DUPLICATE_ITEM)
+                {
+                    newNode = parentNode->createChildSceneNode();
+                    CoreSubsystem::getSingleton().log(Ogre::LML_NORMAL, 
+                        " NodeName '"+nodeName+"' war schon vergeben! Es wurde der Name '"+newNode->getName()+"' benutzt." );
+                }
+                else
+                {
+                    // Andere Exception-Ursache - weiterwerfen.
+                    throw e;
+                }
             }
         }
 		else
+        {
             newNode = parentNode->createChildSceneNode();
-			
+        }	
 
-		CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Node '"+newNode->getName()+"' als Unterknoten von '"+parentNode->getName()+"' erstellt." );
+		CoreSubsystem::getSingleton().log( Ogre::LML_TRIVIAL, 
+            " Node '"+newNode->getName()+"' als Unterknoten von '"+parentNode->getName()+"' erstellt." );		
+		
+        DOMNode* child = rootNodeXml->getFirstChild();
+        NodeUserData userData;
+        // Defaults einstellen
+        userData.is_static = true;
+        userData.physical_body = "mesh";
 
-		// Durch alle Unterelemente iterieren
-		DOMNode* child = rootNodeXml->getFirstChild();
+        // Durch alle Unterelemente iterieren, um die userDatas zu finden
+        while( child != NULL )
+        {
+            // Ein selbstdefinierter Bereich
+            if( XMLString::compareIString(child->getNodeName(), 
+                XMLString::transcode("userData") ) == 0 )
+                processNodeUserData( reinterpret_cast<DOMElement*>(child) , &userData );
 
+            child = child->getNextSibling();
+        } 
+
+        // Muss für Meshes in diesem Node ein TriMeshBody erstellt werden?
+        bool createMeshPhysicalBody = userData.physical_body.compare("mesh") == 0;
+
+        child = rootNodeXml->getFirstChild();
+        // Durch alle Unterelemente iterieren
 		while( child != NULL )
 		{
 			// Ein Node
@@ -180,106 +215,122 @@ namespace rl {
 				newNode->setScale( processScale( reinterpret_cast<DOMElement*>(child) ) );
 			// Eine Entity
 			else if( XMLString::compareIString(child->getNodeName(), 
-				XMLString::transcode("entity") ) == 0  )
-				processEntity( reinterpret_cast<DOMElement*>(child) , newNode );
+				XMLString::transcode("entity") ) == 0  )                
+				processEntity( reinterpret_cast<DOMElement*>(child) , newNode,  createMeshPhysicalBody );
 
 			child = child->getNextSibling();
 		} 
 	}
 
+    void DotSceneLoader::processNodeUserData( XERCES_CPP_NAMESPACE::DOMElement* rootUserDataXml, 
+        NodeUserData* userData )
+    {
+        DOMNode* child = rootUserDataXml->getFirstChild();
+        CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " NodeUserData gefunden");
+
+        // Durch alle Unterelemente iterieren, um die properties zu finden
+        while( child != NULL )
+        {
+            // Ein selbstdefinierter Bereich
+            if( XMLString::compareIString(child->getNodeName(), 
+                XMLString::transcode("property") ) == 0 )
+            {
+                DOMElement* propertyXml = reinterpret_cast<DOMElement*>(child);
+                string propertyName = XmlHelper::getAttributeValueAsStdString( propertyXml, 
+			        "name" );
+
+                try
+                {
+                    if( propertyName.compare("physical_body") == 0 )
+                        userData->physical_body = XmlHelper::getAttributeValueAsStdString( 
+                            propertyXml, "data" );
+                    else if( propertyName.compare("static") == 0 )
+                        userData->is_static = XmlHelper::getAttributeValueAsInteger( 
+                        propertyXml, "data" ) != 0;
+                }
+                catch(...)
+                {
+                    CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, 
+                        " > Parse Error beim Übernehmen der Property '"+propertyName+"'!");
+                }
+
+            }
+
+            child = child->getNextSibling();
+        } 
+    }
+
 	// Eine Entity
-	void DotSceneLoader::processEntity( DOMElement* rootEntityXml, Ogre::SceneNode* parentNode )
+	void DotSceneLoader::processEntity( DOMElement* rootEntityXml,
+        Ogre::SceneNode* parentNode, bool createMeshPhysicalBody )
 	{
-		string entName = XmlHelper::getAttributeValueAsString( 
-			rootEntityXml, "name" ).c_str();
-		string meshName = XmlHelper::getAttributeValueAsString( 
-			rootEntityXml, "meshFile" ).c_str();
+		string entName = XmlHelper::getAttributeValueAsStdString( 
+			rootEntityXml, "name" );
+		string meshName = XmlHelper::getAttributeValueAsStdString( 
+			rootEntityXml, "meshFile" );
 
 		Ogre::Entity* newEnt = NULL;
-		// Wurde der Entity bisher kein Name zugewiesen
-		if( entName.length() == 0 )              
-			entName = getNextEntityName(mSceneName+"_"+parentNode->getName());
-        // Überprüfung auf Korrektheit des Namens
-        else
+
+        // Wurde der Entity bisher kein Name zugewiesen
+		if( entName.length() == 0 )
         {
+            entName = getRandomName(mSceneName+"_"+parentNode->getName());
+        }
+
+        bool isEntityCreated = false;
+        ResourceGroupManager& resGroupMgr = ResourceGroupManager::getSingleton();
+        while(!isEntityCreated)
+        {
+            // Erschaffen versuchen
             try
             {
-                mSceneManager->getEntity( entName );
-                // Bereits vergebener Name
-                string oldName = entName;
-                entName = getNextEntityName(mSceneName+"_"+parentNode->getName());
-                CoreSubsystem::getSingleton().log(Ogre::LML_NORMAL, 
-                    " EntityName '"+oldName+"' war schon vergeben! Es wurde der Name '"+entName+"' benutzt." );
+                // if this mesh exists in our module's resource group: preload it
+                if (resGroupMgr.resourceExists(mResourceGroup, meshName))
+                {
+                    MeshManager::getSingleton().load(meshName, mResourceGroup);
+                }
+                // if not, it is now loaded implicitly from the default group
+                newEnt = mSceneManager->createEntity(entName, meshName);
+                parentNode->attachObject( newEnt );
+                isEntityCreated = true;
+
+                CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Entity '"+meshName+"' mit dem Namen '"+entName+"' in den Knoten '"+parentNode->getName()+"' eingefügt." );
+
+                // Zur Physik des Levels hinzufügen
+                if( createMeshPhysicalBody )
+                {                
+                    PhysicsManager::getSingleton().addLevelGeometry( newEnt );
+                    CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Entity '"+entName+"' als TriMesh in levelGeometry geladen");
+                }
+
+                
+                newEnt->setCastShadows( false );
             }
-            // Noch nicht gefunden
-            catch( Ogre::Exception ) {}
-        }
-
-        // Erschaffen versuchen
-        try
-        {        
-		    newEnt = mSceneManager->createEntity(entName, meshName);				
-		    parentNode->attachObject( newEnt );
-
-		    CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Entity '"+meshName+"' mit dem Namen '"+entName+"' in den Knoten '"+parentNode->getName()+"' eingefügt." );
-
-		    // Zur Physik des Levels hinzufügen
-		    PhysicsManager::getSingleton().addLevelGeometry( newEnt );
-		    CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " Entity '"+entName+"' als TriMesh in levelGeometry geladen");
-
-		    newEnt->setCastShadows( false );
-	        // newEnt->setCastShadows( XmlHelper::getAttributeValueAsBool( rootEntityXml, XMLString::transcode("castShadows") ) );
-		    // XmlHelper::getAttributeValueAsBool( rootEntityXml, XMLString::transcode("static") );
-        }
-        catch( Ogre::Exception ) 
-        {
-            CoreSubsystem::getSingleton().log(Ogre::LML_CRITICAL, 
-                " Laden der Entity '"+meshName+"' gescheitert!" );
+            catch (Ogre::Exception& e) 
+            {
+                if (e.getNumber() == Ogre::Exception::ERR_DUPLICATE_ITEM)
+                {
+                    // Ok, gab es schon. Neuen Namen probieren.
+                    entName = getRandomName(entName);
+                }
+                else
+                {
+                    CoreSubsystem::getSingleton().log(Ogre::LML_CRITICAL, 
+                        " Laden der Entity '"+meshName+"' gescheitert!" );
+                    // Nicht weiter versuchen
+                    break;
+                }
+            }
         }
 	}
 
-	string DotSceneLoader::getNextEntityName( const string& baseName )
-	{
-		bool found = true;
-		int number = 0;
-		string name;
-		Ogre::SceneManager* sceneManager = CoreSubsystem::getSingleton().getWorld()->getSceneManager();
-
-		while( found )
-		{
-			name = baseName + "_" + Ogre::StringConverter::toString(number);
-
-			try
-			{
-				sceneManager->getEntity(name);
-				number++;
-			}
-			// Nicht gefunden, den Namen können wir nehmen
-			catch( Ogre::Exception ex )
-			{
-				found = false;
-			}
-		}
-
-		return name;
-	}
-
-	void DotSceneLoader::staticGeometryAddSceneNodeWorkaround( 
-		Ogre::StaticGeometry* staticGeom, Ogre::SceneNode* baseNode )
-	{
-		// Das hier sollte eigentlich reichen
-		staticGeom->addSceneNode(baseNode);
-
-		// Aber das hier muss wohl erstmal sein ^^
-		Ogre::SceneNode::ChildNodeIterator it = baseNode->getChildIterator();
-
-		while (it.hasMoreElements())
-		{
-			SceneNode* node = reinterpret_cast<SceneNode*>(it.getNext());
-			
-			staticGeometryAddSceneNodeWorkaround(staticGeom,node);
-		}
-	}
+    string DotSceneLoader::getRandomName(const string& baseName)
+    {
+        int rnd = rand();
+        stringstream rval;
+        rval << baseName << "_" << rnd;
+        return rval.str();
+    }
 
 	Ogre::Vector3 DotSceneLoader::processPosition( DOMElement* rootPositionXml )
 	{
@@ -292,7 +343,10 @@ namespace rl {
 				XmlHelper::getAttributeValueAsReal( rootPositionXml, "y" ),
 				XmlHelper::getAttributeValueAsReal( rootPositionXml, "z" ) );;
 		}
-		catch(...) {}
+		catch(...) 
+        {
+            CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " > Parse Error beim Übernehmen der Position! ");
+        }
 
 		return Ogre::Vector3::ZERO;
 	}
@@ -309,7 +363,10 @@ namespace rl {
 				XmlHelper::getAttributeValueAsReal( rootPositionXml, "y" ),
 				XmlHelper::getAttributeValueAsReal( rootPositionXml, "z" ) );
 		}
-		catch(...) {}
+        catch(...) 
+        {
+            CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " > Parse Error beim Übernehmen der Skalierung! ");
+        }
 
 		return Ogre::Vector3::UNIT_SCALE;
 	}
@@ -342,15 +399,19 @@ namespace rl {
 		}
 		catch(...) {}
 
-		/* IMPLEMENT  ^^ / Durch angleX,angleY,angleZ definiert
+		// Durch angleX,angleY,angleZ definiert
 		try
 		{
-			return Ogre::Quaternion(
-				XmlHelper::getAttributeValueAsReal( rootQuatXml, XMLString::transcode("angleX") ),
-				XmlHelper::getAttributeValueAsReal( rootQuatXml, XMLString::transcode("angleY") ),
-				XmlHelper::getAttributeValueAsReal( rootQuatXml, XMLString::transcode("angleZ") ) );
+            Ogre::Matrix3 mat;
+			mat.FromEulerAnglesXYZ(
+				Degree(XmlHelper::getAttributeValueAsReal(rootQuatXml, "angleX")),
+				Degree(XmlHelper::getAttributeValueAsReal(rootQuatXml, "angleY")),
+				Degree(XmlHelper::getAttributeValueAsReal(rootQuatXml, "angleZ")));
+            return Quaternion(mat);
 		}
-		catch(...) {} */
+		catch(...) {}
+
+        CoreSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, " > Parse Error beim Übernehmen der Rotation! ");
 
 		return Ogre::Quaternion::IDENTITY;
 	}

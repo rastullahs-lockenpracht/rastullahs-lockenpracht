@@ -22,11 +22,11 @@
 
 namespace rl
 {
-	map<string, AimlProcessor *> AimlProcessorManager::mProcessors;
+	map<CeGuiString, AimlProcessor *> AimlProcessorManager::mProcessors;
 
 	AimlProcessorManager::~AimlProcessorManager()
 	{
-		map<string,AimlProcessor*>::const_iterator itr = mProcessors.begin();
+		map<CeGuiString,AimlProcessor*>::const_iterator itr = mProcessors.begin();
 		for(itr++;itr!=mProcessors.end();itr++)
 		{
 			delete itr->second;
@@ -80,31 +80,32 @@ namespace rl
 	//	mProcessors["ruby"] = new RubyProcessor();				// Versuchen hiermit RubyCode zuzulassen
 */	}
 
-	void AimlProcessorManager::addProcessor(const string &name,AimlProcessor* proc)
+	void AimlProcessorManager::addProcessor(const CeGuiString &name,AimlProcessor* proc)
 	{
 		mProcessors[name]=proc;
 	}
 
 	void AimlProcessorManager::addStandardProcessors()
 	{
-		ConditionProcessor* cp=new ConditionProcessor();
-		mProcessors["br"]=new BrProcessor();
-		mProcessors["selection"]=cp;
-		mProcessors["condition"]=cp;
-		mProcessors["if"]=cp;
-		mProcessors["srai"]=new SraiProcessor();
-		mProcessors["system"]=new SystemProcessor();
+		ConditionProcessor* cp = new ConditionProcessor();
+		mProcessors["br"] = new BrProcessor();
+		mProcessors["selection"] = cp;
+		mProcessors["condition"] = cp;
+		mProcessors["option"] = cp;
+		mProcessors["if"] = cp;
+		mProcessors["srai"] = new SraiProcessor();
+		mProcessors["system"] = new SystemProcessor();
 	}
 
-	AimlProcessor* AimlProcessorManager::getProcessor(const string &name)
+	AimlProcessor* AimlProcessorManager::getProcessor(const CeGuiString &name)
 	{
-		map<string, AimlProcessor *>::const_iterator itr=mProcessors.find(name);
-		if(itr!= mProcessors.end())
+		map<CeGuiString, AimlProcessor *>::const_iterator itr = mProcessors.find(name);
+		if(itr != mProcessors.end())
 			return itr->second;
 		else return NULL;
 	}
 
-	bool AimlProcessorManager::hasProcessor(const string &name) {
+	bool AimlProcessorManager::hasProcessor(const CeGuiString &name) {
 		return mProcessors.find(name) != mProcessors.end();
 	}
 }

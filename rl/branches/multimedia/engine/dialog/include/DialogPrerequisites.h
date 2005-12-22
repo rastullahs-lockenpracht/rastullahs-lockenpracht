@@ -17,6 +17,9 @@
 #ifndef __DialogPrerequisites_H__
 #define __DialogPrerequisites_H__
 
+// Common is only needed for the CeGuiString typedef
+#include "CommonPrerequisites.h"
+
 #include "RastullahPrerequisites.h"
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32

@@ -19,13 +19,15 @@
 #include "Creature.h"
 #include "Exception.h"
 #include "DsaManager.h"
+#include "Date.h"
 
 using namespace std;
 
 namespace rl {
 
-	Combat::Combat()
-		: mEventCaster()
+	Combat::Combat(int slowMotionFactor)
+		: mEventCaster(),
+		mSlowMotionFactor(slowMotionFactor)
 	{
 	}
 
@@ -153,7 +155,8 @@ namespace rl {
 
 	void Combat::run(Ogre::Real elapsedTime)
 	{
-		//TODO: Zeitliche Steuerung eines Kampfes
+		if (mEventList.empty())
+			initializeKampfrunde();
 	}
 
 	void Combat::addCombatEventListener(CombatEventListener* listener)
@@ -178,5 +181,37 @@ namespace rl {
 	bool Combat::isActionPhaseDone(Creature* actor)
 	{
 		return false; //TODO
+	}
+
+	void Combat::initializeKampfrunde()
+	{
+		mTimeOfAction = Date::ONE_KAMPFRUNDE / mParticipants.size();
+		for (CombatMap::iterator partIter = mParticipants.begin();
+				partIter != mParticipants.end(); partIter++)
+		{
+			Participant* part = (*partIter).second;
+			CombatTime actionTime = make_pair(part->initiative, 0);
+			mEventList.insert(make_pair(actionTime, part));
+		}
+		mCurrentInitiative = INI_START;
+	}
+
+	Combat::CombatEventList::const_iterator Combat::findNextCombatEvent(const CombatEventList& eventList)
+	{
+		int maxIni = mCurrentInitiative;
+		long minTIme = mCurrentIniTime;
+		CombatEventList::const_iterator retVal = eventList.end();
+		for (CombatEventList::const_iterator iter = eventList.begin(); iter != eventList.end(); iter++)
+		{
+			CombatTime time = (*iter).first;
+			if (time.first > maxIni || (time.first == maxIni && time.second > minTIme))
+			{
+				maxIni = time.first;
+				minTIme = time.second;
+				retVal = iter;
+			}
+		}
+
+		return retVal;		
 	}
 }

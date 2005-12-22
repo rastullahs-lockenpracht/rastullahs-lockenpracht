@@ -41,14 +41,6 @@ using namespace Ogre;
 
 namespace rl {
 
-    CharacterController::CharacterController()
-    {
-        // Must not be used.
-        Throw(OperationNotSupportedException, "Do not use the standard constructor.");
-    }
-    
-    //------------------------------------------------------------------------
-
     CharacterController::CharacterController(Actor* camera, Actor* character)
         : 
         mCamera(camera),
@@ -63,6 +55,7 @@ namespace rl {
         mLookAtOffset(),
         mMovementSpeed(360.0f),
         mRotationSpeed(4.0f),
+        mSpeedModifier(1.0f),
         mDesiredVel(),
         mCurrentAnimationState(AS_STAND),
         mLastAnimationState(AS_STAND),
@@ -70,6 +63,7 @@ namespace rl {
         mIsAirBorne(true),
         mIsStopped(false),
         mStartJump(false),
+        mJumpTimer(0.0),
         mMaxDelay(1.0/30.0),
         mObstractedFrameCount(0),
         mCameraJammedFrameCount(0),
@@ -82,7 +76,8 @@ namespace rl {
 
         if (!mCharacter->_getSceneNode())
         {
-            Throw(InvalidArgumentException, "character has to be placed in the scene beforehand");
+            Throw(InvalidArgumentException,
+                "character has to be placed in the scene beforehand");
         }
 
         mCharBody = mCharacter->getPhysicalThing()->_getBody();
@@ -104,12 +99,16 @@ namespace rl {
 
         // Offset for the look at point,
         // so the cam does look at the characters head instead of the feet.
-        MeshObject* charMesh = static_cast<MeshObject*>(mCharacter->getControlledObject());
+        MeshObject* charMesh = static_cast<MeshObject*>(
+            mCharacter->getControlledObject());
         mLookAtOffset = Vector3(0, charMesh->getHeight() * 0.45, 0);
 
-        // The actor should be controlled manually, so let the PM prepare it accordingly
-        PhysicsManager::getSingleton().setPhysicsController(mCharacter->getPhysicalThing(), this);
-        PhysicsManager::getSingleton().setPhysicsController(mCamera->getPhysicalThing(), this);
+        // The actor should be controlled manually,
+        // so let the PM prepare it accordingly
+        PhysicsManager::getSingleton().setPhysicsController(
+            mCharacter->getPhysicalThing(), this);
+        PhysicsManager::getSingleton().setPhysicsController(
+            mCamera->getPhysicalThing(), this);
 
         resetCamera();
     }
@@ -118,8 +117,10 @@ namespace rl {
     CharacterController::~CharacterController()
     {
         // actors aren't controlled anymore
-        PhysicsManager::getSingleton().setPhysicsController(mCharacter->getPhysicalThing(), 0);
-        PhysicsManager::getSingleton().setPhysicsController(mCamera->getPhysicalThing(), 0);
+        PhysicsManager::getSingleton().setPhysicsController(
+            mCharacter->getPhysicalThing(), 0);
+        PhysicsManager::getSingleton().setPhysicsController(
+            mCamera->getPhysicalThing(), 0);
     }
 
     //------------------------------------------------------------------------
@@ -155,8 +156,14 @@ namespace rl {
             mDesiredVel *= 4.0;
 
         mDesiredDistance -= im->getMouseRelativeZ() * 0.05;
-        if (mDesiredDistance < mDistanceRange.first) mDesiredDistance = mDistanceRange.first;
-        if (mDesiredDistance > mDistanceRange.second) mDesiredDistance = mDistanceRange.second;
+        if (mDesiredDistance < mDistanceRange.first)
+        {
+            mDesiredDistance = mDistanceRange.first;
+        }
+        if (mDesiredDistance > mDistanceRange.second)
+        {
+            mDesiredDistance = mDistanceRange.second;
+        }
 
         mPitch += Degree(im->getMouseRelativeY() * 30.0 * elapsedTime);
         if (mPitch < mPitchRange.first) mPitch = mPitchRange.first;
@@ -165,7 +172,8 @@ namespace rl {
         mYaw -= Degree(im->getMouseRelativeX() * 30.0 * elapsedTime);
 
         SceneNode* cameraNode = mCamera->_getSceneNode();
-        cameraNode->lookAt(mCharacter->getWorldPosition() + mLookAtOffset*2.0, Node::TS_WORLD);
+        cameraNode->lookAt(mCharacter->getWorldPosition()
+            + mLookAtOffset*2.0, Node::TS_WORLD);
 
         while (mYaw.valueDegrees() > 360.0f) mYaw -= Degree(360.0f);
         while (mYaw.valueDegrees() < -360.0f) mYaw += Degree(360.0f);
@@ -179,13 +187,14 @@ namespace rl {
             resetCamera();
         }
 
-        if ((mCamera->getWorldPosition() - (mCharacter->getWorldPosition() + mLookAtOffset*2.0)).length() 
+        // if we have more than ten frames with camera distance higher
+        // than desired distance, reset camera
+        if ((mCamera->getWorldPosition()
+            - (mCharacter->getWorldPosition() + mLookAtOffset*2.0)).length() 
             > 2.0f * mDesiredDistance)
         {
             ++mCameraJammedFrameCount;
         }
-        // if we have more than ten frames with camera distance higher
-        // than desired distance, reset camera
         if (mCameraJammedFrameCount > 10)
         {
             mCameraJammedFrameCount = 0;
@@ -226,7 +235,8 @@ namespace rl {
                 // calculate char velocity perpendicular to the contact normal
                 Vector3 tangentVel = velocity - normal * (normal.dotProduct(velocity));
 
-                // align the tangent at the contact point with the tangent velocity vector of the char
+                // align the tangent at the contact point with the
+                // tangent velocity vector of the char
                 rotateTangentDirections(tangentVel);
 
                 // we do want bound back we hitting the floor
@@ -248,6 +258,7 @@ namespace rl {
 
         // Get the current world timestep
         Real timestep = world->getTimeStep();
+        mJumpTimer += timestep;
 
         if (body == mCamBody)
         {
@@ -269,24 +280,30 @@ namespace rl {
 
             // cap the diff to the next obstacle
             OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
-            OgreNewt::MaterialID* levelId = PhysicsManager::getSingleton()._getLevelMaterialID();
+            OgreNewt::MaterialID* levelId =
+                PhysicsManager::getSingleton()._getLevelMaterialID();
             Camera* camera = static_cast<Camera*>(mCamera->_getMovableObject());
-            Vector3 target = targetCamPos + 1.2f * camera->getNearClipDistance() * diff.normalisedCopy();
+            Vector3 target = targetCamPos
+                + 1.2f * camera->getNearClipDistance() * diff.normalisedCopy();
             RaycastInfo info = mRaycast->execute(world, levelId, camPos, target);
             if (info.mBody)
             {
                 diff = info.mDistance * (target - camPos) -
-                    info.mDistance * (1.2f * camera->getNearClipDistance() * diff.normalisedCopy());
+                    info.mDistance *
+                    (1.2f * camera->getNearClipDistance() * diff.normalisedCopy());
             }
 
             // determine velocity vector to get there.
-            // how fast has the camera to be, in order to get there in mMaxDelay seconds?
+            // how fast has the camera to be,
+            // in order to get there in mMaxDelay seconds?
             Vector3 vel = diff / mMaxDelay;
 
             // adjust scale of camera collision according to the velocity vector
             OgreNewt::CollisionPrimitives::HullModifier* hc =
-                static_cast<OgreNewt::CollisionPrimitives::HullModifier*>(mCamBody->getCollision());
-            Matrix4 mat = Matrix4::getScale(Vector3(1.0f, 1.0f, 1.0f) + 3.0f * vel / vel.length());
+                static_cast<OgreNewt::CollisionPrimitives::HullModifier*>(
+                mCamBody->getCollision());
+            Matrix4 mat = Matrix4::getScale(
+                Vector3(1.0f, 1.0f, 1.0f) + 3.0f * vel / vel.length());
             hc->setMatrix(mat);
 
             // calcuate force and apply it
@@ -315,7 +332,8 @@ namespace rl {
             Vector3 currentVel = body->getVelocity();
 
             // Gravity is applied above, so not needed here
-            currentVel.y = 0;
+            // prevent adding a counter force against gravity
+            if (currentVel.y < 0.0f || mJumpTimer < 2.0f) currentVel.y = 0.0f;
 
             force += mass*(orientation*mDesiredVel - currentVel) / timestep;
 
@@ -323,22 +341,22 @@ namespace rl {
             if (!mIsAirBorne && mStartJump)
             {
                 mStartJump = false;
-                force += mass*800.f/timestep * Vector3::UNIT_Y;
+                mJumpTimer = 0.0f;
+                force += mass*400.f/timestep * Vector3::UNIT_Y;
             }
 
             body->setForce(force);
 
-
             // Calculate angular velocity
             
-            // we first need the yaw rotation from actual yaw to desired yaw
+            // We first need the yaw rotation from actual yaw to desired yaw
             Vector3 src = orientation*Vector3::NEGATIVE_UNIT_Z;
             src.y = 0;
             Vector3 dst = Quaternion(mYaw, Vector3::UNIT_Y)*Vector3::NEGATIVE_UNIT_Z;
             dst.y = 0;
             Radian yaw = src.getRotationTo(dst).getYaw();
 
-            // calculate omega in order to go this rotation in mMaxDelay seconds.
+            // Calculate omega in order to go this rotation in mMaxDelay seconds.
             Real newOmega = yaw.valueRadians() / (mMaxDelay*0.25);
             body->setOmega(Vector3(0, newOmega, 0));
 
@@ -350,10 +368,12 @@ namespace rl {
 
             //Logger::getSingleton().log(Ogre::LML_TRIVIAL, "Ui", ss.str());
 
-            // assume we are air borne. Might be set to false in the collision callback
+            // Assume we are air borne.
+            // Might be set to false in the collision callback
             mIsAirBorne = true;
 
-            // did we apply force in horizontal direction? If not, the char is stopped.
+            // Did we apply force in horizontal direction?
+            // If not, the char is stopped.
             mIsStopped = Math::Abs(force.x) < 0.001f && Math::Abs(force.z) < 0.001f;
         }
     }
@@ -369,6 +389,8 @@ namespace rl {
         OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
         OgreNewt::MaterialID* levelId = PhysicsManager::getSingleton()._getLevelMaterialID();
 
+        // Test the track points on the char.
+        // Break early, if one ray doesn't hit an obstacle
         for (int i = 0; i < numPoints; ++i)
         {
             RaycastInfo info = mRaycast->execute(world, levelId,

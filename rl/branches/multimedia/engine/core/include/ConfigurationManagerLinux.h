@@ -54,7 +54,7 @@ namespace rl
 			static ConfigurationManager* sInstance;
 			
 			std::string findModulesRootDir();
-			std::string findRastullahConf();
+			std::string findRastullahConf( const std::string& cfg_name );
 			
 			bool checkForFile(const std::string& filename);
 			

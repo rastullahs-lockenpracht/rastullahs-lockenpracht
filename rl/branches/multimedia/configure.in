@@ -54,11 +54,19 @@ fi
 # fmod
 AC_ARG_ENABLE(fmod, AC_HELP_STRING([--enable-fmod], [enable fmod 3.74 support [default=off]]))
 if test "$enable_fmod" = "yes"; then
-	AC_CHECK_LIB(fmod-3.74, main, , AC_MSG_ERROR([Cannot find fmod 3.74 libs]))
-	AC_CHECK_HEADERS(fmod.h, , AC_MSG_ERROR([Cannot find fmod headers]))
+	AC_CHECK_LIB(fmod-3.74, main, , 
+		[
+		  AM_CONDITIONAL(with_fmod, [false])
+		  AC_MSG_ERROR([Cannot find fmod 3.74 libs])
+		])
+	AC_CHECK_HEADERS(fmod.h, , 
+	    [
+		  AM_CONDITIONAL(with_fmod, [false])
+	      AC_MSG_ERROR([Cannot find fmod headers])
+	    ])
 	AM_CONDITIONAL(with_fmod, [true])
 else
-        AM_CONDITIONAL(with_fmod, [false])
+    AM_CONDITIONAL(with_fmod, [false])
 fi
 
 # openal

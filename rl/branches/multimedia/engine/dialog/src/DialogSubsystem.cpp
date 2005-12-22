@@ -22,6 +22,8 @@
 #include "XmlResourceManager.h"
 #include "Logger.h"
 
+#include "CoreSubsystem.h"
+
 #include "AimlParserImplXerces.h"
 #include "AimlProcessorManager.h"
 
@@ -80,7 +82,7 @@ namespace rl
 		return mCurrentBot;
 	}
 
-	DialogCharacter* DialogSubsystem::loadBot(const std::string& fileName, const CeGuiString& botName)
+	DialogCharacter* DialogSubsystem::loadBot(const CeGuiString& fileName, const CeGuiString& botName)
 	{
 		mCurrentBot = new DialogCharacter();
 		setAimlParser(new AimlParserImplXerces(this));
@@ -106,8 +108,27 @@ namespace rl
 		return mCurrentBot;
 	}
 
-	void DialogSubsystem::log(const Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident)
+	void DialogSubsystem::log(const Ogre::LogMessageLevel level, const CeGuiString& msg, const Ogre::String& ident)
 	{
-		Logger::getSingleton().log(level, "Dialog", msg, ident);
+		Logger::getSingleton().log(level, "Dialog", msg.c_str(), ident);
 	}
+
+    ResourcePtr DialogSubsystem::getXmlResource(const Ogre::String& filename)
+    {
+        ResourcePtr res = XmlResourceManager::getSingleton().getByName(filename);
+
+        if (res.isNull())
+        {
+            Ogre::String group = ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME;
+            if (ResourceGroupManager::getSingleton().resourceExists(
+                CoreSubsystem::getSingleton().getActiveAdventureModule(), filename))
+            {
+                group = CoreSubsystem::getSingleton().getActiveAdventureModule();
+            }
+            res = XmlResourceManager::getSingleton().create(filename, group);
+
+        }
+        return res;
+    }
+
 }

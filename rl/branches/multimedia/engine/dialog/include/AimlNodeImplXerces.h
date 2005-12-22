@@ -29,7 +29,7 @@ namespace rl
 		public AimlNode
 	{
 	public:
-		AimlNodeImplXerces(DOMNode* node);
+		AimlNodeImplXerces(AimlNode* parent, DOMNode* node);
 		~AimlNodeImplXerces(void);
 
 		AimlNode* getFirstChild();
@@ -37,7 +37,6 @@ namespace rl
 
 	private:
 		DOMNode* mNode;
-
 	};
 }
 

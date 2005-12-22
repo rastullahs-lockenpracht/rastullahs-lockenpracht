@@ -11,6 +11,7 @@ noinst_HEADERS = \
 	BotParser.h \
 	DialogCharacter.h \
 	DialogPrerequisites.h \
+	DialogResponse.h \
 	DialogScriptObject.h \
 	DialogSubsystem.h \
 	Graphmaster.h \

@@ -123,6 +123,11 @@ namespace rl {
 		return true;
 	}
 	
+	bool MainMenuWindow::handleSoundOptions()
+	{
+		return true;
+	}
+	
 	bool MainMenuWindow::handleKey(const EventArgs& evt)
 	{
 		const KeyEventArgs kevt = static_cast<const KeyEventArgs&>(evt);

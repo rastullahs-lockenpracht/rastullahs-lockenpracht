@@ -6,7 +6,7 @@ libRlRules_la_SOURCES = \
 	Action.cpp \
 	ActionManager.cpp \
 	Combat.cpp \
-	CombatActions.cpp \
+        CombatActions.cpp \
 	CombatEvents.cpp \
 	Container.cpp \
 	Creature.cpp \
@@ -21,6 +21,8 @@ libRlRules_la_SOURCES = \
 	ObjectStateChangeEventSource.cpp \
 	ObjectStateChangeListener.cpp \
 	Person.cpp \
+	Quest.cpp \
+	QuestBook.cpp \
 	RulesSubsystem.cpp \
 	Talent.cpp \
 	Talentgruppe.cpp \

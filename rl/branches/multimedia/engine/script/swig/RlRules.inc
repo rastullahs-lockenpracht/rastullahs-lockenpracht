@@ -99,14 +99,42 @@ namespace rl {
 
         void loadDsaDataFile(const std::string& filename);	
     };
-    
-    class RulesSubsystem 
-    {
-    public:
-		static rl::RulesSubsystem& getSingleton();
-    };
 
-    
+	class Quest
+	{
+	public:
+		enum State
+		{
+			UNKNOWN = 0,
+			OPEN,
+			FAILED,
+			DONE
+		};
+
+		Quest(const rl::CeGuiString& id, const rl::CeGuiString& name, const rl::CeGuiString& description);
+		virtual ~Quest();
+
+		const rl::CeGuiString& getId();
+		const rl::CeGuiString& getName();
+		const rl::CeGuiString& getDescription();
+		int getPartsToDo();
+		void setPartsToDo(int partsToDo);
+		int getPartsDone();
+		void setPartsDone(int partsDone);
+		rl::Quest::State getState();
+		void setState(rl::Quest::State state);
+
+		// QuestVector getSubquests();
+		void addSubquest(rl::Quest* quest); 
+	};   
+	
+	class QuestBook
+	{
+	public:
+		rl::Quest* getQuest(const rl::CeGuiString& id);
+		void addQuest(rl::Quest* quest);
+	};
+	
     class Talent
     {
     public:
@@ -346,6 +374,7 @@ namespace rl {
 	    Person(  const rl::CeGuiString& name,
                  const rl::CeGuiString& description);
 	};
+	
 	%feature("director") ActionMananger;
     class ActionManager
     {
@@ -400,6 +429,15 @@ namespace rl {
 		std::vector<rl::Creature*> getGroupMembers(int group);
 		int getGroupOf(rl::Creature* creature);
 	};
+	
+    class RulesSubsystem 
+    {
+    public:
+		static rl::RulesSubsystem& getSingleton();
+		rl::QuestBook* getQuestBook();
+		void resetQuestBook();
+    };
+
 	
 } // Namespace
 

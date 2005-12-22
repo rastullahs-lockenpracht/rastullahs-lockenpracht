@@ -15,7 +15,7 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 #include "SoundUpdateTask.h"
-#include "SoundSubsystem.h"
+#include "MultimediaSubsystem.h"
 extern "C" {
     #include "fmod.h"
 }
@@ -33,7 +33,7 @@ namespace rl {
      */
     void SoundUpdateTask::run(Real elapsedTime)
     {
-        SoundSubsystem::getSingleton().update(elapsedTime);
+        MultimediaSubsystem::getSingleton().update(elapsedTime);
     }
 
 	/**

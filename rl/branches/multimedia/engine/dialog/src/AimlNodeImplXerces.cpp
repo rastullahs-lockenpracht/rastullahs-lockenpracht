@@ -26,23 +26,36 @@
 
 namespace rl
 {
-	AimlNodeImplXerces::AimlNodeImplXerces(DOMNode* node)
+	AimlNodeImplXerces::AimlNodeImplXerces(AimlNode* parent, DOMNode* node)
+		: AimlNode(parent), mNode(node)
 	{
 		mNode = node;
+		for(node = node->getFirstChild(); node != NULL; node->getNextSibling())
+		{
+			mChildNodes.push_back(new AimlNodeImplXerces(this, node));
+		}
 	}
 
 	AimlNodeImplXerces::~AimlNodeImplXerces(void)
 	{
+/*		std::vector<AimlNode*>::iterator iter = mChilNodes.begin();
+		for(; iter != mChildNodes.end(); ++iter)
+		{
+			delete (*iter);
+		}
+		mChildNodes.clear();
+		*/
 	}
 
 	AimlNode* AimlNodeImplXerces::getFirstChild()
 	{
-		return (new AimlNodeImplXerces(mNode->getFirstChild()));
+		return mChildNodes[0];
 	}
 
 	AimlNode* AimlNodeImplXerces::getNextSibling()
 	{
-		return (new AimlNodeImplXerces(mNode->getNextSibling()));
+//		return (new AimlNodeImplXerces(mNode->getNextSibling()));
+		return NULL;
 	}
 
 }

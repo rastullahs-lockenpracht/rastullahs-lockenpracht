@@ -23,13 +23,15 @@
 #include "AimlDocumentImplXerces.h"
 #include "AimlNodeImplXerces.h"
 
+#include "DialogSubsystem.h"
+
 namespace rl
 {
 	XERCES_CPP_NAMESPACE_USE
 	using namespace Ogre;
 
 	AimlDocumentImplXerces::AimlDocumentImplXerces(const std::string& document, bool fromMemory)
-		: mDocument(NULL)
+		: mDocument(NULL), mRootNode(NULL)
 	{
 		if(fromMemory)
 		{
@@ -53,18 +55,8 @@ namespace rl
 		XercesDOMParser* parser = new XercesDOMParser();
 		try
 		{	
-			XmlPtr res;
-			if(XmlResourceManager::getSingleton().getByName(fileName).isNull())
-			{
-				res = XmlResourceManager::getSingleton().create(
-						fileName, 
-						ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-			}
-			else
-			{
-				res = XmlResourceManager::getSingleton().getByName(fileName);
-			}
-			res.getPointer()->parseBy(parser);
+            XmlPtr res = DialogSubsystem::getSingleton().getXmlResource(fileName);
+			res->parseBy(parser);
 			mDocument = parser->adoptDocument();
 			delete parser;
 		}
@@ -82,6 +74,7 @@ namespace rl
 		//	if(xmlHandler)delete xmlHandler;  TODO: xmlHandler!!!
 			throw (exc);
 		}
+		mRootNode = new AimlNodeImplXerces(NULL, mDocument->getDocumentElement());
 	}
 
 	void AimlDocumentImplXerces::parseXmlFromMemory(const std::string& xmlContent)
@@ -91,6 +84,6 @@ namespace rl
 
 	AimlNode* AimlDocumentImplXerces::getDocumentElement()
 	{
-		return (new AimlNodeImplXerces(mDocument->getDocumentElement()));
+		return mRootNode;
 	}
 }

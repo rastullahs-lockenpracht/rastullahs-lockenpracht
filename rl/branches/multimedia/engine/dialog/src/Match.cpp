@@ -27,26 +27,26 @@ namespace rl
 	Match::~Match() { node=NULL;}
 
 	//--	substr(1) accounts for leading space
-	void Match::setPattern(const string &pattern, component which) 
+	void Match::setPattern(const CeGuiString &pattern, component which) 
 	{
-		patterns[which] = pattern.substr(1);
+		patterns[which] = pattern;
 	}
 
-	string Match::getPattern(component which) 
+	CeGuiString Match::getPattern(component which) 
 	{
 		return patterns[which];
 	}
 
-	void Match::addStar(const string &star, component which) 
+	void Match::addStar(const CeGuiString &star, component which) 
 	{
 		//--	values added in reverse order due to Graphmaster design
 		stars[which].push_back(star);
 	}
 
-	string Match::getStar(unsigned int index, component which) 
+	CeGuiString Match::getStar(unsigned int index, component which) 
 	{
 		//--	only need to check index > size (due to unsigned int)
-		vector<string> &vs = stars[which];
+		vector<CeGuiString> &vs = stars[which];
 		size_t size = vs.size();
 		//--	++index accounts for default first item (why is it there?)
 		if ( ++index > size ) {
@@ -67,7 +67,7 @@ namespace rl
 		return node;
 	}
 
-	string Match::getPath() 
+	CeGuiString Match::getPath() 
 	{
 		const static string separator = " : ";
 		return patterns[Context] + separator

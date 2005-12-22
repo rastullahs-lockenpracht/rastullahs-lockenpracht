@@ -23,7 +23,7 @@
 #include <list>
 #include <boost/thread/mutex.hpp>
 #include "SoundPrerequisites.h"
-#include "SoundSubsystem.h"
+#include "MultimediaSubsystem.h"
 
 namespace rl {
 

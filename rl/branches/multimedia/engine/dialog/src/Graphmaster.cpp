@@ -52,6 +52,7 @@ namespace rl
 	const static CeGuiString ASTERISK = "*";
 	const static CeGuiString UNDERSCORE = "_";
 
+	// TODO: templateValue should be an AimlNode
 	Nodemaster* Graphmaster::add(	const CeGuiString& context, 
 									const CeGuiString& pattern, 
 									const CeGuiString& that, 
@@ -60,33 +61,35 @@ namespace rl
 	{
 		CeGuiString path = (context + GM_PATTERN + pattern + GM_THAT + that + GM_TOPIC + topic); // toUpper
 		Nodemaster *node = mRoot, *child = NULL;
-		char* c_string = (char*)path.c_str();
+		//char* c_string = (char*)path.c_str();
 		//path
 		//--	this code needs to be updated to use the StringTokenizer (this ain't robust)
 		
-		for ( char *end = strchr(c_string, ' '); c_string != NULL; )
+		StringTokenizer tokenizer(path, " ");
+		for ( ; tokenizer.hasMoreTokens(); )
 		{
-			if ( end != NULL )
-				*end = '\0';
+			CeGuiString token = tokenizer.nextToken();
+			//if ( end != NULL )
+			//	*end = '\0';
 		
-			CeGuiString token(c_string);
+			//CeGuiString token(c_string);
 			token.data();
-			child = node->getChild(token.c_str());
+			child = node->getChild(token);
 
 			if ( child == NULL ) 
 			{
-				child = new Nodemaster(templateValue.c_str());			// eigentlich müsste man direkt hier schon
+				child = new Nodemaster(templateValue);			// eigentlich müsste man direkt hier schon
 													// das templateValue übergeben können
-				node->addChild(token.c_str(), child);
+				node->addChild(token, child);
 			}
 			node = child;
 		
-			if ( end != NULL ) 
-			{
-				c_string = end + 1;
-				end = strchr(c_string, ' ');
-			} else
-				break;
+			//if ( end != NULL ) 
+			//{
+			//	c_string = end + 1;
+			//	end = strchr(c_string, ' ');
+			//} else
+			//	break;
 		}
 		return node;
 	}
@@ -102,7 +105,7 @@ namespace rl
 								const CeGuiString& input, const CeGuiString& star, 
 								const CeGuiString& path) 
 	{
-		std::string tmpInput = input.c_str();
+		CeGuiString tmpInput = input;
 		StringTokenizer st(tmpInput, " ");
 		
 		//cerr << "PATH:  " << path << endl << "STAR:  " << star << endl << "INPUT: " << input << endl << endl;
@@ -115,15 +118,15 @@ namespace rl
 			}
 			Match* match = new Match();
 			match->setNode(node);
-			match->addStar(star.c_str(), which);
-			match->setPattern(path.c_str(), which);
+			match->addStar(star, which);
+			match->setPattern(path, which);
 			return match;
 		}
 		
-		string word = st.nextToken();
+		CeGuiString word = st.nextToken();
 		
 		//cerr << "WORD:  " << word << endl;
-		string tail = "";
+		CeGuiString tail = "";
 		Match* m = NULL;
 		Nodemaster* n = NULL;
 		
@@ -133,7 +136,7 @@ namespace rl
 		}
 		//cerr << "TAIL:  " << tail << endl << endl;
 		
-		static const string states = " <pattern> <that> <topic> ";
+		static const CeGuiString states = " <pattern> <that> <topic> ";
 		if ( states.find(' ' + word + ' ') != string::npos ) 
 		{
 			//--	we're moving to next component match .. must return!

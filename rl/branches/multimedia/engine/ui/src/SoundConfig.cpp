@@ -14,21 +14,35 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#ifndef __CorePrerequisites_H__
-#define __CorePrerequisites_H__
+#include "SoundConfig.h"
 
-#include "CommonPrerequisites.h"
-#include <Ogre.h>
+namespace rl
+{
 
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-// Export control
-#   if defined( RLCORE_EXPORTS )
-#       define _RlCoreExport __declspec( dllexport )
-#   else
-#       define _RlCoreExport __declspec( dllimport )
-#   endif
-#else // Linux / Mac OSX etc
-#   define _RlCoreExport
-#endif
+SoundConfig::SoundConfig()
+    : CeGuiWindow("soundconfig.xml", WND_MOUSE_INPUT)
+{
+    bindClickToCloseWindow(getWindow("SoundConfig"));
+    bindCloseToCloseButton();
 
-#endif
+    centerWindow();
+    addToRoot(mWindow); 
+}
+
+SoundConfig::~SoundConfig()
+{
+}
+
+bool SoundConfig::handleCancel()
+{
+    hide();
+    delete this;
+    return true;
+}
+
+bool SoundConfig::handleOK()
+{
+    return true;
+}
+
+}

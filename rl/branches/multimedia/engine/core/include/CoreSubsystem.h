@@ -50,7 +50,7 @@ public:
 
 	World* getWorld();
 	void loadMap(const Ogre::String type, const Ogre::String filename,
-	    const Ogre::String startupScript = "");
+	    const Ogre::String module, const Ogre::String startupScript = "");
 
 	void setInterpreter(Interpreter* interpreter);
 	Interpreter* getInterpreter();
@@ -61,7 +61,7 @@ public:
 	void startAdventureModule(const Ogre::String& module);
 	void setDefaultActiveModule(const Ogre::String& module); 
 	const Ogre::String& getDefaultActiveModule() const; 
-	void initializeModule(const Ogre::String& module);
+	void initializeModule(const Ogre::String& module, bool isCommon);
 
 	void setDeveloperMode(bool developerMode);
 	bool getDeveloperMode() const;
@@ -91,9 +91,19 @@ private:
 
 	/** Loads all needed ressources */
 	void initializeResources();
-	void initializeModuleTextures(const std::string& module);
+	void initializeModuleTextures(const std::string& module, bool isCommon);
+
+    /**
+     * Texturen werden nicht gefunden, wenn sie erst bei Materialnutzung erzeugt werden
+     * und nicht in der Gruppe des Materials sind. Deshalb hier vorerstellen.
+     * @XXX Das ist mehr oder weniger ein Hack um eine Ogre-Einschränkung herum.
+     */
+    void precreateTextures();
+
+    void precreateMeshes(const std::string& module);
+
 	void unloadModule(const std::string& module);
-	void addCommonSearchPath(const std::string& path);	
+    void addSearchPath(const std::string& path, const std::string& module);
 
 	/** Opens a configuration dialog */
 	bool setupConfiguration();

@@ -31,6 +31,7 @@ namespace rl {
 
 
 	class DialogCharacter;
+	class GameLoggerWindow;
 
 	class _RlUiExport DialogWindow : public CeGuiWindow //, public Ogre::Singleton<DialogWindow>
 	{
@@ -38,8 +39,8 @@ namespace rl {
    //     static DialogWindow& getSingleton(void);
    //     static DialogWindow* getSingletonPtr(void);
 
-		DialogWindow(const std::string& dialogFile);
-		DialogWindow(DialogCharacter* bot);
+	//	DialogWindow(const std::string& dialogFile);
+		DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger);
 		~DialogWindow();
 
 		void initialize();
@@ -60,10 +61,12 @@ namespace rl {
 		std::vector<std::string> mTextLines;
 		NaturalLanguageProcessor::Responses mResponses;
 		NaturalLanguageProcessor* mNlp;
+		DialogResponse* mCurrentResponse;
 		CEGUI::Listbox* mDialogOptions;
 		CEGUI::StaticImage* mImage;
 		CEGUI::MultiLineEditbox* mQuestion;
 		CEGUI::StaticText* mName;
+		GameLoggerWindow* mGameLogger;
 				
 		void updateValues();
 		bool handleSelectOption();	

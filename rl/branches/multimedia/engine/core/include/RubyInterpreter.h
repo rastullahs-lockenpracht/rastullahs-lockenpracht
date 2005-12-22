@@ -57,16 +57,16 @@ public:
 
 	void setScript( const Ogre::String& instname,
 	    const Ogre::String& scriptname, const Ogre::String& classname,
-	    int argc, const Ogre::String args[] = 0 );
+	    int argc, const CeGuiString args[] = 0 );
 	void callFunction( const Ogre::String& instname,
 	    const Ogre::String& funcname,
-	    int argc, const Ogre::String args[] = 0 );
+	    int argc, const CeGuiString args[] = 0 );
     int callIntegerFunction( const Ogre::String& instname,
         const Ogre::String& funcname, int argc,
-        const Ogre::String args[] = 0 );
-	std::string callStringFunction( const Ogre::String& instname,
+        const CeGuiString args[] = 0 );
+	CeGuiString callStringFunction( const Ogre::String& instname,
 	    const Ogre::String& funcname, int argc,
-	    const Ogre::String args[] = 0 );
+	    const CeGuiString args[] = 0 );
 	void registerScriptObject( ScriptObject* obj,
 	    const Ogre::String& instname );
 	void unregisterScriptObject( const Ogre::String& instname );
@@ -92,7 +92,7 @@ private:
 	static VALUE loadDlls(VALUE);
 	static VALUE loadGlobals(VALUE val);
 
-	VALUE* rubyArgs( int argc, const Ogre::String args[] );
+	VALUE* rubyArgs( int argc, const CeGuiString args[] );
 };
 
 }

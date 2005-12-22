@@ -19,7 +19,7 @@
 #include <OgreAxisAlignedBox.h>
 #include <OgreVector3.h>
 #include "Sound.h"
-#include "SoundSubsystem.h"
+#include "MultimediaSubsystem.h"
 extern "C" {
     #include <fmod.h>
 }

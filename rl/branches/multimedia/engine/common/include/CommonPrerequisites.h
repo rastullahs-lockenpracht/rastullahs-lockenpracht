@@ -19,12 +19,6 @@
 
 #include "RastullahPrerequisites.h"
 
-#undef _assert
-
-#undef min
-#pragma warning( disable : 4267 ) // Konvertierungswarnung in CEGUIString
-#include <CEGUIString.h>
-
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 // Export control
 #   if defined( RLCOMMON_EXPORTS )
@@ -36,6 +30,12 @@
 #   define _RlCommonExport
 #endif
 
+
+#undef _assert
+
+#undef min
+#pragma warning( disable : 4267 ) // Konvertierungswarnung in CEGUIString
+#include <CEGUIString.h>
 
 namespace rl
 {

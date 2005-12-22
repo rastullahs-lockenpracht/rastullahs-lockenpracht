@@ -35,13 +35,13 @@ namespace rl
 		SraiProcessor(){};
 		~SraiProcessor() { }
 	
-		string process(DOMNode* node,Match* m, const char *str, NaturalLanguageProcessor* nlp)
+		CeGuiString process(DOMNode* node,Match* m, const CeGuiString& str, NaturalLanguageProcessor* nlp)
 		{
 			DialogSubsystem::getSingletonPtr()->log(Ogre::LML_TRIVIAL, "Srai");
-			Match* newMatch = nlp->getGM()->match("*",
-										XmlHelper::transcodeToString(
-										node->getFirstChild()->getNodeValue()).c_str()
-										,"*","*");
+			Match* newMatch = nlp->match( "*", XmlHelper::transcodeToString(
+												node->getFirstChild()->
+												getNodeValue()),
+										  "*", "*");
 			if(newMatch)
 			{
 				DialogSubsystem::getSingletonPtr()->log(Ogre::LML_TRIVIAL, "found new match");
@@ -52,7 +52,7 @@ namespace rl
 				DOMNode* newNode=doc->getDocumentElement();
 				DialogSubsystem::getSingletonPtr()->log(Ogre::LML_TRIVIAL, "getDocumentElement");
 				
-				string result= nlp->process(newNode,newMatch,str);
+				CeGuiString result= nlp->process(newNode,newMatch,str);
 				DialogSubsystem::getSingletonPtr()->log(Ogre::LML_TRIVIAL, "Processed");
 				doc->release();
 				DialogSubsystem::getSingletonPtr()->log(Ogre::LML_TRIVIAL, "doc release");

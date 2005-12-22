@@ -18,11 +18,19 @@
 
 %{
 #undef min
+
+#if defined(_MSC_VER) && (_MSC_VER > 1300)   // MS Visual Studio 2005
+// Sichere Versionen der Stringfunktionen benutzen
+#	if !defined(_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES)
+#		define _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES
+#	endif
+#endif
 %}
+
 
 %include "RlCommon.head.inc"
 %include "RlUi.head.inc"
-%include "RlSound.head.inc"
+%include "RlMultimedia.head.inc"
 %include "RlCore.head.inc"
 %include "RlRules.head.inc"
 %include "RlDialog.head.inc"
@@ -78,7 +86,7 @@ namespace Swig {
 									// da dies in allen erzeugten Exceptionhandlern auftritt
 %}
 
-%include "RlSound.inc"
+%include "RlMultimedia.inc"
 %include "RlCore.inc"
 %include "RlRules.inc"
 %include "RlDialog.inc"

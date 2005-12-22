@@ -23,7 +23,7 @@
 #include <OgreCEGUIRenderer.h>
 
 #include "VideoEvents.h"
-#include "SoundSubsystem.h"
+#include "MultimediaSubsystem.h"
 
 using namespace CEGUI;
 using namespace Ogre;
@@ -175,9 +175,9 @@ void Video::play()
     // TODO mClip->setAudioDriver(mSoundSystem.getAudioClip());
     mClip->changePlayMode(TextureEffectPlay_ASAP);
     createCETexture();
-    if (SoundSubsystem::getSingletonPtr())
+    if (MultimediaSubsystem::getSingletonPtr())
     {
-        SoundSubsystem::getSingleton().addVideo(this);
+        MultimediaSubsystem::getSingleton().addVideo(this);
     }
     mPlaying = true;
 }
@@ -222,7 +222,7 @@ void Video::stop()
         mClip->changePlayMode(TextureEffectPause);
         mVideoControl->destroyAdvancedTexture(mTextureName.c_str());
     }
-    SoundSubsystem::getSingleton().removeVideo(this);
+    MultimediaSubsystem::getSingleton().removeVideo(this);
     // TODO Audio behandenln
 }
 

@@ -14,7 +14,7 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
-#include <xercesc/util/XMemory.hpp>	// Muss vor Ogre stehen (zumindest f�r VS)
+#include <xercesc/util/XMemory.hpp>	// Muss vor Ogre stehen (zumindest fuer VS)
 
 #include <Ogre.h>
 #include <OgreLogManager.h>
@@ -23,7 +23,7 @@
 
 #include "CoreSubsystem.h"
 #include "GameLoop.h"
-#include "SoundSubsystem.h"
+#include "MultimediaSubsystem.h"
 #include "SoundUpdateTask.h"
 #include "RulesSubsystem.h"
 #include "DialogSubsystem.h"
@@ -48,7 +48,7 @@ void log(Ogre::LogMessageLevel level, const Ogre::String& msg, Ogre::String iden
 void startupRl(bool developerMode, Ogre::String module)
 {
 	rl::CoreSubsystem* core = NULL;
-	rl::SoundSubsystem* sound = NULL;
+	rl::MultimediaSubsystem* sound = NULL;
 	rl::RulesSubsystem* rules = NULL;
 	rl::DialogSubsystem* dialog = NULL;
 	rl::UiSubsystem* ui =  NULL;
@@ -67,9 +67,9 @@ void startupRl(bool developerMode, Ogre::String module)
 		core->setDeveloperMode(developerMode);
 		log(Ogre::LML_NORMAL, "CoreSubsystem gestartet");
 
-		sound = new rl::SoundSubsystem();
+		sound = new rl::MultimediaSubsystem();
 		rl::GameLoopManager::getSingleton().addAsynchronousTask(rl::SoundUpdateTask::getSingletonPtr());
-		log(Ogre::LML_NORMAL, "SoundSubsystem gestartet");
+		log(Ogre::LML_NORMAL, "MultimediaSubsystem gestartet");
 
 		rules = new rl::RulesSubsystem();
 		log(Ogre::LML_NORMAL, "RulesSubsystem gestartet");

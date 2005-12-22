@@ -14,7 +14,7 @@ libRlUi_la_SOURCES = \
 	CharacterSheetWindow.cpp \
 	CharacterStateWindow.cpp \
 	CombatWindow.cpp \
-	CombatWindowStrategy.cpp \
+    CombatWindowStrategy.cpp \
 	CommandExecutor.cpp \
 	CommandMapper.cpp \
 	CommandMapperWindow.cpp \

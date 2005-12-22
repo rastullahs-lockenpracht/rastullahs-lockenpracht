@@ -149,11 +149,11 @@ namespace rl {
         Actor* actor = 0;
         try
         {
-            Sound* sm = 0; //TODO new SoundSample(soundfile);
-            SoundObject* so = new SoundObject(sm, soundfile);
+            // TODO Sound* sm = new SoundSample(soundfile);
+            // SoundObject* so = new SoundObject(sm, soundfile);
 
-            actor = new Actor(uniquename, so);
-            mActors.insert(ActorPtrPair(uniquename,actor)); 
+            // actor = new Actor(uniquename, so);
+            // mActors.insert(ActorPtrPair(uniquename,actor)); 
         }
         catch( Ogre::Exception& e)
         {
@@ -172,11 +172,11 @@ namespace rl {
         Actor* actor = 0;
         try
         {
-            Sound* sm = 0; //TODO new SoundStream(soundfile);
-            SoundObject* so = new SoundObject(sm, soundfile);
+            // TODO Sound* sm = new SoundStream(soundfile);
+            // SoundObject* so = new SoundObject(sm, soundfile);
 
-            actor = new Actor(uniquename, so);
-            mActors.insert(ActorPtrPair(uniquename,actor)); 
+            // actor = new Actor(uniquename, so);
+            // mActors.insert(ActorPtrPair(uniquename,actor)); 
         }
         catch( Ogre::Exception& e)
         {
@@ -248,16 +248,25 @@ namespace rl {
     }
 
 	Actor* ActorManager::createMeshActor(const String& name,const String& meshname,
-		PhysicsManager::GeometryTypes geomType, Ogre::Real density)
+		PhysicsManager::GeometryTypes geomType, Ogre::Real mass)
 	{
 		const String&  uniquename = nextUniqueName(name);
 		
 		Actor* actor = 0;
         try
         {
+            PhysicalThing* pt = 0;
 		    MeshObject* mo = new MeshObject(uniquename, meshname);
-		    PhysicalThing* pt = PhysicsManager::getSingleton()
-		        .createPhysicalThing(geomType, mo->getSize(), density);
+            if (geomType == PhysicsManager::GT_CONVEXHULL)
+            {
+                pt = PhysicsManager::getSingleton()
+                    .createConvexHullPhysicalThing(mo->getEntity());
+            }
+            else
+            {
+                pt = PhysicsManager::getSingleton()
+                    .createPhysicalThing(geomType, mo->getSize(), mass);
+            }
 
 		    actor = new Actor(uniquename, mo, pt);
 		    mActors.insert(ActorPtrPair(uniquename,actor)); 

@@ -15,7 +15,7 @@
 */
 #include "ListenerMovable.h"
 #include <OgreVector3.h>
-#include "SoundSubsystem.h"
+#include "MultimediaSubsystem.h"
 extern "C" {
     #include <fmod.h>
     #include <fmod_errors.h>
@@ -149,9 +149,9 @@ void ListenerMovable::setOrientation(const Vector3 &at,
     {
         float v[] = {at[0], at[1], at[2]},
             w[] =  {up[0], up[1], up[2]};
-        FSOUND_3D_Listener_SetAttributes(0, 0,
+/* TODO         FSOUND_3D_Listener_SetAttributes(0, 0,
             at[0], at[1], at[2],
-            up[0], up[1], up[2]);
+            up[0], up[1], up[2]); */
     }
 }
 
@@ -176,11 +176,11 @@ void ListenerMovable::setPosition(const Vector3& position) throw (RuntimeExcepti
     if (isActive())
     {
         float fx, fy, fz, tx, ty, tz;
-        FSOUND_3D_Listener_GetAttributes(0, 0,
+/* TODO        FSOUND_3D_Listener_GetAttributes(0, 0,
             &fx, &fy, &fz, &tx, &ty, &tz);
         float newpos[] = {position[0], position[1], position[2]};
         FSOUND_3D_Listener_SetAttributes(newpos,
-            0, fx, fy, fz, tx, ty, tz);
+            0, fx, fy, fz, tx, ty, tz); */
     }
 }
 
@@ -205,11 +205,11 @@ void ListenerMovable::setVelocity(const Vector3& velocity) throw (RuntimeExcepti
     if (isActive())
     {
         float fx, fy, fz, tx, ty, tz;
-        FSOUND_3D_Listener_GetAttributes(0, 0,
+/* TODO        FSOUND_3D_Listener_GetAttributes(0, 0,
             &fx, &fy, &fz, &tx, &ty, &tz);
         float newvel[] = {velocity[0], velocity[1], velocity[2]};
         FSOUND_3D_Listener_SetAttributes(0, &newvel[0],
-            fx, fy, fz, tx, ty, tz);
+            fx, fy, fz, tx, ty, tz); */
     }
 }
 
@@ -233,7 +233,7 @@ void ListenerMovable::setGain(const int gain) throw (RuntimeException)
     mGain = gain;
     if (isActive())
     {
-        FSOUND_SetSFXMasterVolume(gain);
+        // TODO FSOUND_SetSFXMasterVolume(gain);
     }
 }
 

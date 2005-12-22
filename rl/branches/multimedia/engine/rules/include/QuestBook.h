@@ -14,26 +14,38 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#ifndef __Rl_DialogAimlProcessor_H__
-#define __Rl_DialogAimlProcessor_H__
+#ifndef __QUESTBOOK_H__
+#define __QUESTBOOK_H__
 
-#include <xercesc/dom/DOM.hpp>
-#include "NaturalLanguageProcessor.h"
-#include "Match.h"
-#include "DialogPrerequisites.h"
-#include "XmlHelper.h"
+#include "RulesPrerequisites.h"
 
-#include <string>
+namespace rl {
 
-using namespace std;
-XERCES_CPP_NAMESPACE_USE
-namespace rl
+class _RlRulesExport Quest;
+
+class _RlRulesExport QuestBook
 {
-	class _RlDialogExport AimlProcessor
-	{
-	public:
-		virtual ~AimlProcessor() { };
-		virtual CeGuiString process(DOMNode *, Match *, const CeGuiString&, NaturalLanguageProcessor *)=0;
-	};
+public:
+	QuestBook();
+	~QuestBook();
+
+
+	/**
+	 * Sucht einen Quest anhand einer ID
+	 * @return der Quest
+	 */
+	Quest* getQuest(const CeGuiString& id);
+
+	/**
+	 * Fuegt einen Quest hinzu
+	 * @param quest der Qubquest
+	 */
+	void addQuest(Quest* quest);
+
+private:
+	Quest* getQuest(Quest* parent, const CeGuiString& id);
+	Quest* mRootQuest;
+};
+
 }
 #endif

@@ -13,7 +13,7 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#include "SoundSubsystem.h"
+#include "MultimediaSubsystem.h"
 #include "SoundManager.h"
 #include "Logger.h"
 #include "SoundResource.h"
@@ -27,7 +27,7 @@ extern "C" {
 
 using namespace Ogre;
 
-template<> rl::SoundSubsystem* Singleton<rl::SoundSubsystem>::ms_Singleton = 0;
+template<> rl::MultimediaSubsystem* Singleton<rl::MultimediaSubsystem>::ms_Singleton = 0;
 
 namespace rl {
 
@@ -36,9 +36,9 @@ namespace rl {
  * @author JoSch
  * @date 05-26-2004
  */
-SoundSubsystem& SoundSubsystem::getSingleton(void)
+MultimediaSubsystem& MultimediaSubsystem::getSingleton(void)
 {
-	return Singleton<SoundSubsystem>::getSingleton();
+	return Singleton<MultimediaSubsystem>::getSingleton();
 }
 
 /**
@@ -46,30 +46,30 @@ SoundSubsystem& SoundSubsystem::getSingleton(void)
  * @author JoSch
  * @date 05-26-2004
  */
-SoundSubsystem* SoundSubsystem::getSingletonPtr(void)
+MultimediaSubsystem* MultimediaSubsystem::getSingletonPtr(void)
 {
-    return Singleton<SoundSubsystem>::getSingletonPtr();
+    return Singleton<MultimediaSubsystem>::getSingletonPtr();
 }
 
 /**
  * @author JoSch
  * @date 05-26-2004
  */
-SoundSubsystem::SoundSubsystem()
+MultimediaSubsystem::MultimediaSubsystem()
 {
     // fmod initialisieren und Fehler zuruecksetzen.
+    /* TODO 
     FSOUND_SetMaxHardwareChannels(16);
     FSOUND_SetMinHardwareChannels(8);
-    /// TODO: More choices
-    //FSOUND_SetOutput(FSOUND_OUTPUT_ALSA);
+    FSOUND_SetOutput(FSOUND_OUTPUT_ALSA);
     FSOUND_SetMixer(FSOUND_MIXER_AUTODETECT);
     // File Callbacks fuer FMOD setzen
     FSOUND_File_SetCallbacks(
-        (FSOUND_OPENCALLBACK)SoundSubsystem::open,
-        (FSOUND_CLOSECALLBACK)SoundSubsystem::close,
-        (FSOUND_READCALLBACK)SoundSubsystem::read,
-        (FSOUND_SEEKCALLBACK)SoundSubsystem::seek,
-        (FSOUND_TELLCALLBACK)SoundSubsystem::tell); 
+        (FSOUND_OPENCALLBACK)MultimediaSubsystem::open,
+        (FSOUND_CLOSECALLBACK)MultimediaSubsystem::close,
+        (FSOUND_READCALLBACK)MultimediaSubsystem::read,
+        (FSOUND_SEEKCALLBACK)MultimediaSubsystem::seek,
+        (FSOUND_TELLCALLBACK)MultimediaSubsystem::tell); 
 
         FSOUND_Init(44100, 32, 0); // TODO Wenns schiefgeht.
 	log(Ogre::LML_TRIVIAL, "fmod initialisiert");
@@ -80,8 +80,8 @@ SoundSubsystem::SoundSubsystem()
     // Wir initialisieren den Listener
     // Position of the listener.
     float v[3] = {0, 0, 0};
-    FSOUND_3D_Listener_SetAttributes(v, v, 1, 0, 0, 1, 0, 0);
-    log(Ogre::LML_TRIVIAL, "Listener set");
+    FSOUND_3D_Listener_SetAttributes(v, v, 1, 0, 0, 1, 0, 0); 
+    log(Ogre::LML_TRIVIAL, "Listener set"); */
     
     //Singletons erzeugen 
     new SoundManager();
@@ -94,17 +94,17 @@ SoundSubsystem::SoundSubsystem()
  * @author JoSch
  * @date 05-26-2004
  */
-SoundSubsystem::~SoundSubsystem()
+MultimediaSubsystem::~MultimediaSubsystem()
 {
     delete SoundManager::getSingletonPtr();
-    FSOUND_Close();
+    // TODO FSOUND_Close();
 }
 
 /**
  * @author Blakharaz
  * @date 10-14-2004
  */
-void SoundSubsystem::log(Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident )
+void MultimediaSubsystem::log(Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident )
 {
     if (Logger::getSingletonPtr() != 0)
     {
@@ -116,10 +116,10 @@ void SoundSubsystem::log(Ogre::LogMessageLevel level, const Ogre::String& msg, c
  * @author JoSch
  * @date 07-03-2005
  */
-void SoundSubsystem::update(Real elapsedTime)
+void MultimediaSubsystem::update(Real elapsedTime)
 {
     setElapsedTime(elapsedTime);
-    FSOUND_Update();
+    // TODO FSOUND_Update();
     for(VideoList::iterator i = mVideoList.begin(); // TODO: The STL way
         i != mVideoList.end(); i++)
     {
@@ -131,7 +131,7 @@ void SoundSubsystem::update(Real elapsedTime)
  * @author JoSch
  * @date 07-24-2005
  */
-Real SoundSubsystem::getElapsedTime() const
+Real MultimediaSubsystem::getElapsedTime() const
 {
     return mElapsedTime;
 }
@@ -140,7 +140,7 @@ Real SoundSubsystem::getElapsedTime() const
  * @author JoSch
  * @date 07-24-2005
  */
-void SoundSubsystem::setElapsedTime(Real elapsedTime)
+void MultimediaSubsystem::setElapsedTime(Real elapsedTime)
 {
     mElapsedTime = elapsedTime;
 }
@@ -150,14 +150,14 @@ void SoundSubsystem::setElapsedTime(Real elapsedTime)
  * @author JoSch
  * @date 08-22-2005
  */
-void SoundSubsystem::close(void *handle)
+void MultimediaSubsystem::close(void *handle)
 {
     if (handle != 0)
     {
         DataStreamPtr ds = *reinterpret_cast<DataStreamPtr*>(handle);
         if (!ds.isNull())
         {
-            SoundSubsystem::getSingleton().log(LML_TRIVIAL, "Stream closed");
+            MultimediaSubsystem::getSingleton().log(LML_TRIVIAL, "Stream closed");
             ds->close();
         }
     }
@@ -168,12 +168,12 @@ void SoundSubsystem::close(void *handle)
  * @author JoSch
  * @date 08-22-2005
  */
-void *SoundSubsystem::open(const char *name)
+void *MultimediaSubsystem::open(const char *name)
 {
     SoundResource res(*SoundManager::getSingleton().getByName(name));
     res.load();
     DataStreamPtr *dsp = new DataStreamPtr(res.getDataStream());
-    SoundSubsystem::getSingleton().log(LML_TRIVIAL,
+    MultimediaSubsystem::getSingleton().log(LML_TRIVIAL,
         "Opened file " + String(name));
     return dsp;
 }
@@ -186,7 +186,7 @@ void *SoundSubsystem::open(const char *name)
  * @author JoSch
  * @date 08-22-2005
  */
-int SoundSubsystem::read(void *buffer, int size, void *handle)
+int MultimediaSubsystem::read(void *buffer, int size, void *handle)
 {
     if (handle != 0)
     {
@@ -207,7 +207,7 @@ int SoundSubsystem::read(void *buffer, int size, void *handle)
  * @author JoSch
  * @date 08-22-2005
  */
-int SoundSubsystem::seek(void *handle, int pos, signed char mode)
+int MultimediaSubsystem::seek(void *handle, int pos, signed char mode)
 {
     if (handle != 0)
     {
@@ -234,7 +234,7 @@ int SoundSubsystem::seek(void *handle, int pos, signed char mode)
  * @author JoSch
  * @date 08-22-2005
  */
-int SoundSubsystem::tell(void *handle)
+int MultimediaSubsystem::tell(void *handle)
 {
     if (handle != 0)
     {
@@ -252,7 +252,7 @@ int SoundSubsystem::tell(void *handle)
  * @author JoSch
  * @date 09-06-2005
  */
-void SoundSubsystem::addVideo(Video *video)
+void MultimediaSubsystem::addVideo(Video *video)
 {
     mVideoList.push_back(video);
 }
@@ -262,7 +262,7 @@ void SoundSubsystem::addVideo(Video *video)
  * @author JoSch
  * @date 09-06-2005
  */
-void SoundSubsystem::clearVideos()
+void MultimediaSubsystem::clearVideos()
 {
     mVideoList.clear();
 }
@@ -272,7 +272,7 @@ void SoundSubsystem::clearVideos()
  * @author JoSch
  * @date 09-06-2005
  */
-void SoundSubsystem::removeVideo(Video *video)
+void MultimediaSubsystem::removeVideo(Video *video)
 {
     for(VideoList::iterator i = mVideoList.begin();
         i != mVideoList.end();)

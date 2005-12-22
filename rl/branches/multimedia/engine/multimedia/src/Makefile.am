@@ -8,11 +8,11 @@ libRlMultimedia_la_LDFLAGS = -L../../common/src
 
 libRlMultimedia_la_SOURCES = \
 	ListenerMovable.cpp \
+	MultimediaSubsystem.cpp \
 	SoundManager.cpp \
 	Sound.cpp \
 	SoundChannel.cpp \
-        SoundResource.cpp \
-	SoundSubsystem.cpp \
+    SoundResource.cpp \
 	SoundEvents.cpp \
 	SoundUpdateTask.cpp \
 	Video.cpp \

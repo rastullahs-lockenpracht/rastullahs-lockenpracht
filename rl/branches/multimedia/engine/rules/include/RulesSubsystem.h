@@ -23,6 +23,8 @@
 
 namespace rl
 {
+	class _RlRulesExport QuestBook;
+
 	class _RlRulesExport RulesSubsystem : public Ogre::Singleton<RulesSubsystem>
     {
     public:
@@ -35,6 +37,13 @@ namespace rl
 
         static RulesSubsystem& getSingleton(void);
         static RulesSubsystem* getSingletonPtr(void);
+
+		QuestBook* getQuestBook();
+		void resetQuestBook();
+
+	private:
+		QuestBook* mQuestBook;
+
     };
 }
 

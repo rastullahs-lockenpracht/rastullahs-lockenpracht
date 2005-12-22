@@ -13,36 +13,47 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-#ifndef __MainMenuWindow_H__
-#define __MainMenuWindow_H__
 
-#include "UiPrerequisites.h"
-#include "CeGuiWindow.h"
-#include <elements/CEGUIMenuItem.h>
+#include "QuestBook.h"
+#include "Quest.h"
 
 namespace rl {
-	
-	class GameObject;
 
-	class _RlUiExport MainMenuWindow : public CeGuiWindow
-	{
-	public:
-		MainMenuWindow();
-
-		void setActiveModule(const CeGuiString& module);
-
-	private:
-		bool handleChooseModule(CEGUI::MenuItem* it, Ogre::String module);
-		bool handleGraphicOptions();
-		bool handleSoundOptions();
-		bool handleStart();
-		bool handleQuit();
-		
-		bool handleKey(const CEGUI::EventArgs& evt);
-		void fillModules();
-		
-		CeGuiString mActiveModule;
-	};
+QuestBook::QuestBook()
+	: mRootQuest(new Quest("<root>", "<root>", "<root>"))
+{
 }
 
-#endif
+QuestBook::~QuestBook()
+{
+	delete mRootQuest;
+}
+
+Quest* QuestBook::getQuest(const CeGuiString& id)
+{
+	return getQuest(mRootQuest, id);
+}
+
+Quest* QuestBook::getQuest(Quest* parent, const CeGuiString& id)
+{
+	if (parent->getId().compare(id) == 0)
+		return parent;
+
+	QuestVector children = parent->getSubquests();
+	for(QuestVector::iterator it = children.begin(); it != children.end(); it++)
+	{
+		Quest* subquest = getQuest(*it, id);
+		if (subquest != NULL)
+			return subquest;
+	}
+
+	return NULL;
+}
+
+void QuestBook::addQuest(Quest* quest)
+{
+	mRootQuest->addSubquest(quest);
+}
+
+
+}

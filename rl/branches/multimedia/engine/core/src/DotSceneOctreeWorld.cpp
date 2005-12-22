@@ -54,10 +54,10 @@ namespace rl {
             // und initialisieren.
             mCamera = mSceneMgr->getCamera("DefaultCamera");
 
-			// 0, 0, 0
             mCamera->setPosition( getStartPoint() );
             mCamera->setFOVy(Degree(60));
             mCamera->setFixedYawAxis(false);
+            mCamera->setAutoAspectRatio(true);
         }
 
         // Ein Viewport, das komplette Fenster
@@ -68,7 +68,7 @@ namespace rl {
         newVp->setBackgroundColour(ColourValue(0,0,0));
     }
 
-    void DotSceneOctreeWorld::loadScene(const String& levelName)
+    void DotSceneOctreeWorld::loadScene(const String& levelName, const String& module)
     {
         if( mSceneFile.length() != 0 )
             clearScene();
@@ -80,7 +80,7 @@ namespace rl {
 		/// TODO - In den Sky-Sonnenpart verschieben
 		mSceneMgr->setAmbientLight(ColourValue(0.55, 0.55, 0.55));
 
-		DotSceneLoader* dot = new DotSceneLoader( levelName );
+		DotSceneLoader* dot = new DotSceneLoader(levelName, module);
 		delete dot;
 		mSceneFile = levelName;
 
@@ -94,6 +94,7 @@ namespace rl {
         Ogre::Root::getSingleton().getAutoCreatedWindow()->removeAllViewports(); 
 		XmlResourceManager::getSingleton().unload(mSceneFile);
 		PhysicsManager::getSingleton().clearLevelGeometry();
+
         mSceneMgr = Root::getSingleton().getSceneManager(ST_GENERIC);
 		mSceneFile = "";
     }

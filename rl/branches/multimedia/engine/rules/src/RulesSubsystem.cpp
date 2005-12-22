@@ -20,6 +20,7 @@
 #include "DsaDataLoader.h"
 #include "Logger.h"
 #include "TimerManager.h"
+#include "QuestBook.h"
 
 template <>
 rl::RulesSubsystem* Singleton<rl::RulesSubsystem> ::ms_Singleton = 0;
@@ -36,6 +37,7 @@ namespace rl
     }
 
     RulesSubsystem::RulesSubsystem()
+		: mQuestBook(NULL)
     {
 		log(Ogre::LML_TRIVIAL, "Start");
         //Zufallsgenerator initialisieren
@@ -48,6 +50,8 @@ namespace rl
 		log(Ogre::LML_TRIVIAL, "DsaManager erzeugt");
 		new TimerManager(); 
 		log(Ogre::LML_TRIVIAL, "TimerManager erzeugt");
+		resetQuestBook();
+		log(Ogre::LML_TRIVIAL, "Questverwaltung erzeugt");
 
 		//Daten laden
 		DsaDataLoader::loadData("basis.xdi");
@@ -75,4 +79,15 @@ namespace rl
     {
         delete DsaManager::getSingletonPtr();
     }
+
+	QuestBook* RulesSubsystem::getQuestBook()
+	{
+		return mQuestBook;
+	}
+
+	void RulesSubsystem::resetQuestBook()
+	{
+		delete mQuestBook;
+		mQuestBook = new QuestBook();
+	}
 }

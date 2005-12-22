@@ -32,7 +32,7 @@ namespace rl {
         virtual void clearScene();
         virtual void initializeDefaultCamera();	
 		virtual void setCastShadows(bool enabled);
-        virtual void loadScene(const Ogre::String& levelName);
+        virtual void loadScene(const Ogre::String& levelName, const Ogre::String& module);
 
     protected:
 		std::string mSceneFile;

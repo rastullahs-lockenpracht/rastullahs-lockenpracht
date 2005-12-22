@@ -14,8 +14,8 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
-#ifndef __SOUNDSUBSYSTEM_H__
-#define __SOUNDSUBSYSTEM_H__
+#ifndef __MULTIMEDIASUBSYSTEM_H__
+#define __MULTIMEDIASUBSYSTEM_H__
 
 #include "SoundPrerequisites.h"
 #include <OgreLogManager.h>
@@ -33,19 +33,19 @@ typedef std::list<Video*> VideoList;
  * @version 1.0
  * @version 2.0
  */
-class _RlSoundExport SoundSubsystem : public Ogre::Singleton<SoundSubsystem>
+class _RlSoundExport MultimediaSubsystem : public Ogre::Singleton<MultimediaSubsystem>
 {
 
 public:
 	/// Der Standardkonstruktor
-	SoundSubsystem();
+	MultimediaSubsystem();
 	/// Der Destruktor
-    ~SoundSubsystem();
+    ~MultimediaSubsystem();
 
 	/// Gibt Singleton-Objekt zurueck.
-    static SoundSubsystem& getSingleton(void);
+    static MultimediaSubsystem& getSingleton(void);
     /// Gibt Singleton-Zeiger zurueck.
-    static SoundSubsystem* getSingletonPtr(void);
+    static MultimediaSubsystem* getSingletonPtr(void);
     /// Eine Log-Nachricht ausgeben.
    	void log(const Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident = "");
     /// fmod weiterlaufen lassen.

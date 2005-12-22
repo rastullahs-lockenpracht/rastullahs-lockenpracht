@@ -63,18 +63,8 @@ namespace rl
 		
 		try
 		{	
-			XmlPtr res;
-			if(XmlResourceManager::getSingleton().getByName(fileName).isNull())
-			{
-				res = XmlResourceManager::getSingleton().create(
-								fileName, 
-								Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-			}
-			else
-			{
-				res = XmlResourceManager::getSingleton().getByName(fileName);
-			}
-			res.getPointer()->parseBy(parser);
+			XmlPtr res = DialogSubsystem::getSingleton().getXmlResource(fileName);
+			res->parseBy(parser);
 			
 			if(parser)
 			{
@@ -111,8 +101,8 @@ namespace rl
 	void AimlParserImplXerces::startDocument()
 	{
 		mCurState = PARSER_START;
-		contextName = ASTERISK;
-		topicName = ASTERISK;
+		mContextName = ASTERISK;
+		mTopicName = ASTERISK;
 		
 		mSubState = CAT_NONE;
 	}
@@ -153,7 +143,7 @@ namespace rl
 			
 			if ( !name.empty() && !value.empty() )
 			{
-			//	(const char*)name.c_str(); // ?
+			//	(const char*)name; // ?
 				Predicates::setProperty(name.c_str(), value.c_str()); // XXX PREDICATES
 			}
 		} else if(!tmp.compare("option")) {	
@@ -164,22 +154,22 @@ namespace rl
 			{
 				if(mNlp)
 				{
-					mNlp->processOption(name.c_str(), value.c_str());
+//					mNlp->processOption(name, value);
 				}
 			}
 		} else if(!tmp.compare("script")) {
 		//	DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "script");
 			mCurState = PARSER_SCRIPT;
 			name = XmlHelper::getAttributeValueAsString(attrs,"src");
-			templateValue = XmlHelper::getAttributeValueAsString(attrs,"class");
+			mTemplateValue = XmlHelper::getAttributeValueAsString(attrs,"class");
 	//		CoreSubsystem::getSingleton().getInterpreter()->execute("print(\""+name+"\")");
-	//		CoreSubsystem::getSingleton().getInterpreter()->execute("print(\""+templateValue+"\")");
+	//		CoreSubsystem::getSingleton().getInterpreter()->execute("print(\""+mTemplateValue+"\")");
 			// If tag has no attribute, XmlChar::transcode returns "????"
-			if(name.find("?") && templateValue.find("?"))
+			if(name.find("?") && mTemplateValue.find("?"))
 			{
 				ScriptObject* so=new ScriptObject("DialogMeister"); // TODO: Name of NPC
-				Ogre::String bla[]={"Hans(RB)"};
-				so->setScript(name.c_str(),templateValue.c_str(),1,bla);
+				CeGuiString bla[]={"Hans(RB)"};
+				so->setScript(name.c_str(),mTemplateValue.c_str(),1,bla);
 				so->callFunction("OnPlaySound",0,0);
 				mCurState=PARSER_START;
 			} 
@@ -196,7 +186,7 @@ namespace rl
 			{
 				if(mNlp)
 				{
-					mNlp->processOption("load", name.c_str());
+//					mNlp->processOption("load", name);
 				}
 			}
 		}
@@ -223,13 +213,13 @@ namespace rl
 			} else if(compareTagName(tagName, "topic")) {
 				name = XmlHelper::getAttributeValueAsString(attrs,"name");
 				if(!name.empty())
-					topicName = name;
+					mTopicName = name;
 
 				mCurState = PARSER_TOPIC;
 			} else if(compareTagName(tagName, "context")) {
 				name = XmlHelper::getAttributeValueAsString(attrs,"name");
 				if(!name.empty())
-					contextName = name;
+					mContextName = name;
 
 				mCurState = PARSER_CONTEXT;
 			} else { 
@@ -245,7 +235,7 @@ namespace rl
 			} else if(compareTagName(tagName, "topic")) {
 				name = XmlHelper::getAttributeValueAsString(attrs,"name");
 				if(!name.empty())
-					topicName = name;
+					mTopicName = name;
 
 				mCurState = PARSER_TOPIC;
 			} else { 
@@ -261,7 +251,7 @@ namespace rl
 			} else if(compareTagName(tagName, "context")) {
 				name = XmlHelper::getAttributeValueAsString(attrs,"name");
 				if(!name.empty())
-					contextName = name;
+					mContextName = name;
 
 				mCurState = PARSER_CONTEXT;
 			} else { 
@@ -281,11 +271,11 @@ namespace rl
 					mSubState = CAT_PATTERN;
 				} else if ( compareTagName(tagName, "that") ) {
 					//--	"that"
-					thatValue = "";
+					mThatValue = "";
 					mSubState = CAT_THAT;
 				} else if ( compareTagName(tagName, "template") ) {
 					//--	"template"
-					templateValue = "<template>";
+					mTemplateValue = "<template>";
 					//--	assumed no attributes...
 					mSubState = CAT_TEMPLATE;
 				} else {
@@ -299,14 +289,14 @@ namespace rl
 					name = XmlHelper::getAttributeValueAsString(attrs,"name");
 					if ( !name.empty() ) 
 					{	//--	lookup bot property with adata
-						patternValue += Predicates::getProperty(name.c_str());	// XXX PREDICATES
+						mPatternValue += Predicates::getProperty(name.c_str());	// XXX PREDICATES
 						break;
 					}
 					mSubState = CAT_BOT;
 				} else if ( compareTagName(tagName, "name") ) {
 					//--	"name"
 					//--	lookup bot property 'name'
-					patternValue += Predicates::getProperty("name");	// XXX PREDICATES
+					mPatternValue += Predicates::getProperty("name");	// XXX PREDICATES
 					mSubState = CAT_NAME;
 				} else {
 					//--	an error
@@ -324,37 +314,37 @@ namespace rl
 				break;
 			case CAT_TEMPLATE:
 				//--	assume anything is valid!
-				templateValue += "<";
-				templateValue += tmp;
+				mTemplateValue += "<";
+				mTemplateValue += tmp;
 				for (unsigned int i = 0; i < attrs.getLength(); i++) 
 				{
-					templateValue += " ";
-					templateValue += XmlHelper::transcodeToString(attrs.getLocalName(i));
-					templateValue += "='";
+					mTemplateValue += " ";
+					mTemplateValue += XmlHelper::transcodeToString(attrs.getLocalName(i));
+					mTemplateValue += "='";
 					//--	prolly need to ensure no "'"
-					templateValue += XmlHelper::transcodeToString(attrs.getValue(i));
-					templateValue += "'";
+					mTemplateValue += XmlHelper::transcodeToString(attrs.getValue(i));
+					mTemplateValue += "'";
 				}
-				templateValue += ">";
+				mTemplateValue += ">";
 				mSubState = CAT_ANY;
-				anyDepth = 1;
+				mAnyDepth = 1;
 				break;
 			case CAT_ANY:
 				//--	continue anything valid
 				//--	assumption
-				templateValue += "<";
-				templateValue += tmp;
+				mTemplateValue += "<";
+				mTemplateValue += tmp;
 				for (unsigned int i = 0; i < attrs.getLength(); i++) 
 				{
-					templateValue += " ";
-					templateValue += XmlHelper::transcodeToString(attrs.getLocalName(i));
-					templateValue += "='";
+					mTemplateValue += " ";
+					mTemplateValue += XmlHelper::transcodeToString(attrs.getLocalName(i));
+					mTemplateValue += "='";
 					//--	prolly need to ensure no "'"
-					templateValue += XmlHelper::transcodeToString(attrs.getValue(i));
-					templateValue += "'";
+					mTemplateValue += XmlHelper::transcodeToString(attrs.getValue(i));
+					mTemplateValue += "'";
 				}
-				templateValue += ">";
-				++anyDepth;
+				mTemplateValue += ">";
+				++mAnyDepth;
 				break;
 			case CAT_FINISH:
 				//--	an error
@@ -383,13 +373,13 @@ namespace rl
 				mCurState = PARSER_FINISH;
 				break;
 			case PARSER_CONTEXT:
-				contextName = ASTERISK;
+				mContextName = ASTERISK;
 				//--	go to prev state
 				mCurState = mPrevStates.top();
 				mPrevStates.pop();
 				break;
 			case PARSER_TOPIC:
-				topicName = ASTERISK;
+				mTopicName = ASTERISK;
 				//--	go to prev state
 				mCurState = mPrevStates.top();
 				mPrevStates.pop();
@@ -420,14 +410,14 @@ namespace rl
 						mSubState = CAT_START;
 						break;
 					case CAT_TEMPLATE:
-						templateValue += "</template>";
+						mTemplateValue += "</template>";
 						mSubState = CAT_START;
 						break;
 					case CAT_ANY:
-						templateValue += "</";
-						templateValue += tmp;
-						templateValue += ">";
-						if ( --anyDepth == 0 ) 
+						mTemplateValue += "</";
+						mTemplateValue += tmp;
+						mTemplateValue += ">";
+						if ( --mAnyDepth == 0 ) 
 						{
 							mSubState = CAT_TEMPLATE;
 						}
@@ -458,7 +448,7 @@ namespace rl
 				//--	an error
 				break;
 			case CAT_PATTERN:
-				patternValue += XmlHelper::transcodeToString(chars);
+				mPatternValue += XmlHelper::transcodeToString(chars);
 				break;
 			case CAT_BOT:
 				//--	an error
@@ -467,13 +457,13 @@ namespace rl
 				//--	an error
 				break;
 			case CAT_THAT:
-				thatValue += XmlHelper::transcodeToString(chars);
+				mThatValue += XmlHelper::transcodeToString(chars);
 				break;
 			case CAT_TEMPLATE:
-				templateValue += XmlHelper::transcodeToString(chars).c_str();
+				mTemplateValue += XmlHelper::transcodeToString(chars);
 				break;
 			case CAT_ANY:
-				templateValue += XmlHelper::transcodeToString(chars).c_str();
+				mTemplateValue += XmlHelper::transcodeToString(chars);
 				break;
 			case CAT_FINISH:
 				//--	an error
@@ -483,18 +473,18 @@ namespace rl
 			mCurState=PARSER_START;
 			CeGuiString script="class ";
 			// If tag has no attribute, XmlChar::transcode returns "????"
-			if(!templateValue.find("?"))
-				templateValue="DialogClass";
+			if(!mTemplateValue.find("?"))
+				mTemplateValue="DialogClass";
 			
-			script += templateValue+"\n";
+			script += mTemplateValue+"\n";
 			script += XmlHelper::transcodeToString(chars);
 			script += "\n end";
 			CoreSubsystem::getSingleton().getInterpreter()->execute(script.c_str());
 
 			ScriptObject* so=new ScriptObject("DialogMeister");
-			Ogre::String bla[]={templateValue.c_str()};
+			CeGuiString bla[]={mTemplateValue};
 			// don't pass a scriptfile, since the class is already loaded into memory
-			so->setScript("",templateValue.c_str(),1,bla);
+			so->setScript("",mTemplateValue.c_str(),1,bla);
 			so->callFunction("OnPlaySound",0,0);
 
 		} else {
@@ -521,9 +511,9 @@ namespace rl
 				break;
 			case CAT_TEMPLATE:
 			case CAT_ANY:
-				templateValue += "<![CDATA[";
-				templateValue += string((const char *)value, len);
-				templateValue += "]]>";
+				mTemplateValue += "<![CDATA[";
+				mTemplateValue += string((const char *)value, len);
+				mTemplateValue += "]]>";
 				break;
 			case CAT_FINISH:
 				//--	an error
@@ -553,11 +543,11 @@ namespace rl
 	void AimlParserImplXerces::startCategory()
 	{
 		mSubState = CAT_START;
-		anyDepth = 0;
+		mAnyDepth = 0;
 		
-		patternValue = "";
-		thatValue = ASTERISK;
-		templateValue = "";
+		mPatternValue = "";
+		mThatValue = ASTERISK;
+		mTemplateValue = "";
 	}
 
 	void AimlParserImplXerces::endCategory()
@@ -565,27 +555,27 @@ namespace rl
 		//--	this if statement might be wrong!
 		if ( mSubState != CAT_FINISH ) {
 			//--	an error
-		}
+		}/*
 		if(mNlp)
 		{
 			Nodemaster* node = mNlp->getGM()->add(
-				contextName,
-				patternValue,
-				thatValue,
-				topicName,
-				templateValue
+				mContextName,
+				mPatternValue,
+				mThatValue,
+				mTopicName,
+				mTemplateValue
 				);
-		}
+		}*/
 		if(mAimlCore)
 		{
 			if(Graphmaster* gm = mAimlCore->getGraphMaster(mFileName))
 			{
 				Nodemaster* node = gm->add(
-									contextName,
-									patternValue,
-									thatValue,
-									topicName,
-									templateValue
+									mContextName,
+									mPatternValue,
+									mThatValue,
+									mTopicName,
+									mTemplateValue
 									);
 			}
 		}
@@ -593,7 +583,7 @@ namespace rl
 	/*	if ( node == NULL ) {
 			//--	an error
 		} else {
-			node->setTemplate(templateValue);
+			node->setTemplate(mTemplateValue);
 		}
 	*/
 		mSubState = CAT_NONE;

@@ -46,7 +46,7 @@ namespace rl {
 	{
 	public:
 
-		Combat();
+		Combat(int slowMotionFactor = 1.0);
 		~Combat();
 
 		/**
@@ -89,6 +89,8 @@ namespace rl {
 
 
 	private:
+		static const int INI_START = 99999999;
+
 		/**
 		 * Speichert alle Daten, die eine Kreatur in diesem Kampf hat
 		 */
@@ -115,18 +117,28 @@ namespace rl {
 		};
 		typedef std::map<Creature*, Participant*> CombatMap;
 
+		typedef std::pair<int, long> CombatTime; // INI, vergangene Zeit in dieser INI-Phase
+		typedef std::map<CombatTime, Participant*> CombatEventList;
+		CombatEventList mEventList;
+
 		Participant* getParticipant(Creature* creature);
 
-
 		void initialize(Participant* creature);
+		void initializeKampfrunde();
 
 		int mCurrentInitiative;
 		int mKampfrunde;
+		Ogre::Real mCurrentIniTime;
+
 		CombatMap mParticipants;
+
+		int mSlowMotionFactor;
+		int mTimeOfAction;
 
 		EventCaster<CombatEvent> mEventCaster;
 
 		void run(Ogre::Real elapsedTime);
+		CombatEventList::const_iterator findNextCombatEvent(const CombatEventList& eventList);
 	};
 
 }
