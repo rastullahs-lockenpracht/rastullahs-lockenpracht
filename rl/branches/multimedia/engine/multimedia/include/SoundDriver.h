@@ -16,6 +16,8 @@
 #ifndef SOUNDDRIVER_H_
 #define SOUNDDRIVER_H_
 
+#include "MultimediaPrerequisites.h"
+
 namespace rl
 {
 
@@ -25,15 +27,21 @@ namespace rl
  * ein Treiber vorhanden ist oder nicht. Der Nulltreiber
  * existiert dabei immer.
  */
-class SoundDriver
+class _RlMultimediaExport SoundDriver
 {
 public:
     /// Der Konstruktor
 	SoundDriver();
     /// Der Destruktor
 	virtual ~SoundDriver();
-    /// Ist der Treiber angeschaltet?
-    virtual bool isDriverEnabled() = 0;
+    /// Zeigt an, ob der Treiber funktionsfähig ist.
+    virtual bool isDriverAvailable() = 0;
+    /// Initialisiere den Treiber
+    virtual void init() = 0;
+    /// Beende den Treiber
+    virtual void deInit() = 0;
+    /// Der Name des Treibers
+    virtual CeGuiString getName() const = 0;
 };
 
 }

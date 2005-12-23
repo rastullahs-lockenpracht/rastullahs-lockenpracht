@@ -19,6 +19,8 @@
 #include "Exception.h"
 #include "CEGUI.h"
 #include "SoundConfig.h"
+#include "MultimediaSubsystem.h"
+#include "SoundDriver.h"
 
 using namespace CEGUI;
 using namespace Ogre;
@@ -46,7 +48,14 @@ SoundConfig::SoundConfig()
     {
         Throw(NullPointerException, "Couldn't the listbox");
     }
-    mListbox->addItem(new ListboxTextItem("Null-Treiber"));
+    DriverList list = 
+        MultimediaSubsystem::getSingleton().getSoundDriverList();
+    DriverList::const_iterator it;
+    for (it = list.begin(); it != list.end(); it++)
+    {
+        CeGuiString name = (*it)->getName();
+        mListbox->addItem(new ListboxTextItem(name));
+    }
     centerWindow();
     addToRoot(mWindow); 
     setVisible(true);
@@ -64,6 +73,33 @@ bool SoundConfig::handleCancel()
 
 bool SoundConfig::handleOK()
 {
+    ListboxTextItem *item = 
+        dynamic_cast<ListboxTextItem*>(mListbox->getFirstSelectedItem());
+    if (item != 0)
+    {
+        SoundDriver *activeDriver = MultimediaSubsystem::getSingleton().getActiveDriver();        
+        if (item->getText() != activeDriver->getName())
+        {
+            // Nicht der aktive Treiber, also ändern.
+            DriverList list = MultimediaSubsystem::getSingleton().getSoundDriverList();
+            DriverList::const_iterator it;
+            SoundDriver *searched = NULL;
+            for (it = list.begin(); it != list.end(); it++)
+            {
+                if (item->getText() == (*it)->getName())
+                {
+                    searched = *it;
+                    break;
+                }
+            }
+            if (searched)
+            {
+                activeDriver->deInit();
+                searched->deInit();
+                MultimediaSubsystem::getSingleton().setActiveDriver(searched);
+            }
+        }
+    }
     setVisible(false);
     return true;
 }

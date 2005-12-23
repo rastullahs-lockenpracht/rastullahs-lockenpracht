@@ -14,6 +14,7 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
+#ifdef WITH_FMOD
 #include "FmodSoundChannel.h"
 #include <OgreMovableObject.h>
 #include <OgreAxisAlignedBox.h>
@@ -269,3 +270,4 @@ bool FmodSoundChannel::isPaused() throw (RuntimeException)
 
 
 };
+#endif // WITH_FMOD

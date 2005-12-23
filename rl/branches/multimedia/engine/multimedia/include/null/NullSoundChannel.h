@@ -17,7 +17,7 @@
 #ifndef _NULLSOUNDCHANNEL_H_
 #define _NULLSOUNDCHANNEL_H_
 
-#include "SoundPrerequisites.h"
+#include "MultimediaPrerequisites.h"
 #include "SoundChannel.h"
 #include "Exception.h"
 
@@ -32,7 +32,7 @@ namespace rl
     
     class Sound;
 
-class _RlSoundExport NullSoundChannel  : public SoundChannel
+class _RlMultimediaExport NullSoundChannel  : public SoundChannel
 {
 private:
     /// Shared class-level name for Movable type

@@ -13,11 +13,11 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-
+#ifdef WITH_OAL
 #ifndef __OalSoundStream_H__
 #define __OalSoundStream_H__
 
-#include "SoundPrerequisites.h"
+#include "MultimediaPrerequisites.h"
 #include "SoundResource.h"
 #include "Sound.h"
 
@@ -33,7 +33,7 @@ namespace rl {
     * @date 07-03-2005
     * @version 1.0
     */
-    class _RlSoundExport OalSoundStream : public Sound
+    class _RlMultimediaExport OalSoundStream : public Sound
     {
     private:
         /// Loop?
@@ -61,7 +61,7 @@ protected:
         
     }; 
 
-    class _RlSoundExport OalSoundStreamPtr :
+    class _RlMultimediaExport OalSoundStreamPtr :
         public Ogre::SharedPtr<OalSoundStream>
     {
     public:
@@ -74,3 +74,4 @@ protected:
 
 }
 #endif
+#endif // WITH_OAL

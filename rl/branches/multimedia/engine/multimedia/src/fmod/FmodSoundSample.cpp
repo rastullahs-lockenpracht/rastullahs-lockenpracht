@@ -13,6 +13,7 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#ifdef WITH_FMOD
 #include "FmodSoundSample.h"
 #include "FmodSoundChannel.h"
 #include "SoundManager.h"
@@ -160,3 +161,4 @@ void FmodSoundSamplePtr::destroy()
 }
 
 } // Namespace
+#endif // WITH_FMOD

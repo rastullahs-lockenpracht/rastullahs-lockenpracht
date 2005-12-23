@@ -17,7 +17,7 @@
 #ifndef __NullSoundSample_H__
 #define __NullSoundSample_H__
 
-#include "SoundPrerequisites.h"
+#include "MultimediaPrerequisites.h"
 #include "SoundResource.h"
 #include "Sound.h"
 
@@ -33,7 +33,7 @@ namespace rl {
     * @date 07-03-2005
     * @version 1.0
     */
-    class _RlSoundExport NullSoundSample : public Sound
+    class _RlMultimediaExport NullSoundSample : public Sound
     {
     private:
 
@@ -62,7 +62,7 @@ protected:
         virtual bool isValid() const throw (RuntimeException);
     }; 
 
-    class _RlSoundExport NullSoundSamplePtr :
+    class _RlMultimediaExport NullSoundSamplePtr :
         public Ogre::SharedPtr<NullSoundSample>
     {
     public:

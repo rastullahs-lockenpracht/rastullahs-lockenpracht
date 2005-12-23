@@ -17,7 +17,7 @@
 #ifndef __NullSoundStream_H__
 #define __NullSoundStream_H__
 
-#include "SoundPrerequisites.h"
+#include "MultimediaPrerequisites.h"
 #include "SoundResource.h"
 #include "Sound.h"
 
@@ -33,7 +33,7 @@ namespace rl {
     * @date 07-03-2005
     * @version 1.0
     */
-    class _RlSoundExport NullSoundStream : public Sound
+    class _RlMultimediaExport NullSoundStream : public Sound
     {
     private:
         /// Loop?
@@ -61,7 +61,7 @@ protected:
         
     }; 
 
-    class _RlSoundExport NullSoundStreamPtr :
+    class _RlMultimediaExport NullSoundStreamPtr :
         public Ogre::SharedPtr<NullSoundStream>
     {
     public:

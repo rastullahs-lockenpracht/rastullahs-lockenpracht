@@ -6,7 +6,7 @@
  * Build the rl/engine/sound/src/OalppSoundInterfaceTest target from the Make Target view
  */
 
-#include "SoundPrerequisites.h"
+#include "MultimediaPrerequisites.h"
 #include <math.h>
 #include <OgreIteratorWrappers.h>
 #include <cppunit/extensions/HelperMacros.h>

@@ -17,7 +17,7 @@
 #ifndef _SOUNDCHANNEL_H_
 #define _SOUNDCHANNEL_H_
 
-#include "SoundPrerequisites.h"
+#include "MultimediaPrerequisites.h"
 #include "Exception.h"
 
 namespace Ogre {
@@ -30,7 +30,7 @@ namespace rl
     
     class Sound;
 
-class _RlSoundExport SoundChannel  : public Ogre::MovableObject
+class _RlMultimediaExport SoundChannel  : public Ogre::MovableObject
 {
 private:
     rl::Sound *mSound;

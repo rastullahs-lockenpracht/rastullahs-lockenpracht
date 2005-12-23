@@ -1,5 +1,5 @@
 
-#include "SoundPrerequisites.h"
+#include "MultimediaPrerequisites.h"
 #include "Video.h"
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/CEGUIWindow.h>

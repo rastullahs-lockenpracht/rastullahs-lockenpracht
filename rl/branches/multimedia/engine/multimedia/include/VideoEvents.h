@@ -17,13 +17,13 @@
 #ifndef VIDEOEVENT_H
 #define VIDEOEVENT_H
 
-#include "SoundPrerequisites.h"
+#include "MultimediaPrerequisites.h"
 #include "EventObject.h"
 
 namespace rl {
 
 
-class _RlSoundExport VideoEvent : public EventObject
+class _RlMultimediaExport VideoEvent : public EventObject
 {
 
 public:
@@ -31,7 +31,7 @@ public:
 	virtual ~VideoEvent();
 };
 
-class _RlSoundExport VideoPlayEvent : public VideoEvent {
+class _RlMultimediaExport VideoPlayEvent : public VideoEvent {
 public:
 
     VideoPlayEvent(EventSource *source);
@@ -42,7 +42,7 @@ public:
     static const unsigned int ENDOFVIDEOSTREAM = 2;
 };
 
-class _RlSoundExport  VideoTimingEvent : public VideoEvent {
+class _RlMultimediaExport  VideoTimingEvent : public VideoEvent {
 
 public:
     float mVTime;

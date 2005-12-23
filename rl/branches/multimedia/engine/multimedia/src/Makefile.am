@@ -34,7 +34,7 @@ libRlMultimedia_la_SOURCES += \
 endif
 	
 if with_oal
-INCLUDES += $(OPENAL_CFLAGS) -I../include/openal -DWITH_FMOD
+INCLUDES += $(OPENAL_CFLAGS) -I../include/openal -DWITH_OAL
 libRlMultimedia_la_LIBADD += $(OPENAL_LIBS)
 libRlMultimedia_la_SOURCES += \
 	openal/OalSoundChannel.cpp \

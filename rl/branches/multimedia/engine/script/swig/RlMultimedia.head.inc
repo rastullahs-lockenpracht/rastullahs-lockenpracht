@@ -17,7 +17,7 @@
 %{
 //----------- Includes - Multimedia -----------
 #include "FixRubyHeaders.h"
-#include "SoundPrerequisites.h"
+#include "MultimediaPrerequisites.h"
 #include "MultimediaSubsystem.h"
 #undef message
 #undef send

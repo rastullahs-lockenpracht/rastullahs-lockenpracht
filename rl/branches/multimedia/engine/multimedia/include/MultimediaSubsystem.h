@@ -17,7 +17,7 @@
 #ifndef __MULTIMEDIASUBSYSTEM_H__
 #define __MULTIMEDIASUBSYSTEM_H__
 
-#include "SoundPrerequisites.h"
+#include "MultimediaPrerequisites.h"
 #include <OgreLogManager.h>
 #include <list>
 
@@ -25,6 +25,8 @@ namespace rl {
 
 class Video;
 typedef std::list<Video*> VideoList;
+class SoundDriver;
+typedef std::list<SoundDriver*> DriverList;
 
 /** Diese Klasse dient der Initialisierung und Steuerung des
  * Sound-Subsystems.
@@ -33,7 +35,7 @@ typedef std::list<Video*> VideoList;
  * @version 1.0
  * @version 2.0
  */
-class _RlSoundExport MultimediaSubsystem : public Ogre::Singleton<MultimediaSubsystem>
+class _RlMultimediaExport MultimediaSubsystem : public Ogre::Singleton<MultimediaSubsystem>
 {
 
 public:
@@ -47,36 +49,38 @@ public:
     /// Gibt Singleton-Zeiger zurueck.
     static MultimediaSubsystem* getSingletonPtr(void);
     /// Eine Log-Nachricht ausgeben.
-   	void log(const Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident = "");
+   	static void log(const Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident = "");
     /// fmod weiterlaufen lassen.
     void update(Ogre::Real elapsedTime);
 
-    /// Die bisherige Zeit zurï¿½ckgeben.
+    /// Die bisherige Zeit zurückgeben.
     Ogre::Real getElapsedTime() const;
     /// Die bisherige Zeit setzen
     void setElapsedTime(Ogre::Real elapsedTime);
     
-    /// Neues Video hinzufÃ¼gen.
+    /// Neues Video hinzufügen.
     void addVideo(Video *video);
     /// Videoliste leeren.
     void clearVideos();
     /// Video entfernen
     void removeVideo(Video *video);
     
+    /// Liste der Soundtreiber.
+    const DriverList& getSoundDriverList() const;
+    /// Den aktiven Treiber zurückgeben.
+    SoundDriver* getActiveDriver() const;
+    /// Den aktiven Treiber setzen.
+    void setActiveDriver(SoundDriver *driver);
 
 private:
     /// Zeit mitschreiben
     Ogre::Real mElapsedTime;
-    /// Die Liste der Videos, die upgedatet werden mÃ¼ssen.
+    /// Die Liste der Videos, die upgedatet werden müssen.
     VideoList mVideoList;
-
-    // FMOD-Callbacks
-    static void close(void *handle);
-    static void *open(const char *name);
-    static int read(void *buffer, int size, void *handle);
-    static int seek(void *handle, int pos, signed char mode);
-    static int tell(void *handle);
-        
+    /// die Liste der bekannten und funktionierenden Treiber
+    DriverList mDriverList;  
+    /// Der aktuell bentutzte Soundtreiber
+    SoundDriver *mActiveDriver;
 };
 
 }

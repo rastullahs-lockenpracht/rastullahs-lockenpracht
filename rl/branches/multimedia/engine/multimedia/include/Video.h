@@ -17,7 +17,7 @@
 #ifndef VIDEO_H_
 #define VIDEO_H_
 
-#include "SoundPrerequisites.h"
+#include "MultimediaPrerequisites.h"
 
 #include <TheoraMovieClip.h>
 #include <TheoraVideoController.h>
@@ -48,7 +48,7 @@ typedef EventListener<VideoEvent> VideoEventListener;
  * @date 08-27-2005
  * @version 1.0
  */
-class _RlSoundExport Video : protected Ogre::TheoraMovieMessage,
+class _RlMultimediaExport Video : protected Ogre::TheoraMovieMessage,
                              public EventSource
 {
 private:

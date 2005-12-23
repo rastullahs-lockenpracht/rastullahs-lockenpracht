@@ -14,10 +14,11 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
+#ifdef WITH_FMOD
 #ifndef __FmodSoundSample_H__
 #define __FmodSoundSample_H__
 
-#include "SoundPrerequisites.h"
+#include "MultimediaPrerequisites.h"
 #include "SoundResource.h"
 #include "Sound.h"
 
@@ -38,7 +39,7 @@ namespace rl {
     * @date 07-03-2005
     * @version 1.0
     */
-    class _RlSoundExport FmodSoundSample : public Sound
+    class _RlMultimediaExport FmodSoundSample : public Sound
     {
     private:
         FSOUND_SAMPLE *mSample;
@@ -72,7 +73,7 @@ protected:
         void setSample(FSOUND_SAMPLE *sample);
     }; 
 
-    class _RlSoundExport FmodSoundSamplePtr :
+    class _RlMultimediaExport FmodSoundSamplePtr :
         public Ogre::SharedPtr<FmodSoundSample>
     {
     public:
@@ -85,3 +86,4 @@ protected:
 
 }
 #endif
+#endif // WITH_FMOD

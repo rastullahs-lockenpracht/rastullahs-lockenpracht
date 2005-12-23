@@ -17,7 +17,7 @@
 #ifndef __Sound_H__
 #define __Sound_H__
 
-#include "SoundPrerequisites.h"
+#include "MultimediaPrerequisites.h"
 #include "SoundResource.h"
 #include "SoundChannel.h"
 #include "Exception.h"
@@ -31,7 +31,7 @@ namespace rl {
     * @version 1.0
     * @version 2.0
     */
-    class _RlSoundExport Sound
+    class _RlMultimediaExport Sound
     {
     private:
         /// Der Name des Sounds
@@ -82,7 +82,7 @@ namespace rl {
         void setLooping(bool looping);
     }; 
 
-    class _RlSoundExport SoundPtr :
+    class _RlMultimediaExport SoundPtr :
         public Ogre::SharedPtr<Sound>
     {
     public:

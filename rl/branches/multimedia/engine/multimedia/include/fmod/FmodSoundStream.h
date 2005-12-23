@@ -14,10 +14,11 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
+#ifdef WITH_FMOD
 #ifndef __FmodSoundStream_H__
 #define __FmodSoundStream_H__
 
-#include "SoundPrerequisites.h"
+#include "MultimediaPrerequisites.h"
 #include "SoundResource.h"
 #include "Sound.h"
 extern "C" {
@@ -37,7 +38,7 @@ namespace rl {
     * @date 07-03-2005
     * @version 1.0
     */
-    class _RlSoundExport FmodSoundStream : public Sound
+    class _RlMultimediaExport FmodSoundStream : public Sound
     {
     private:
         FSOUND_STREAM *mStream;
@@ -80,7 +81,7 @@ protected:
         
     }; 
 
-    class _RlSoundExport FmodSoundStreamPtr :
+    class _RlMultimediaExport FmodSoundStreamPtr :
         public Ogre::SharedPtr<FmodSoundStream>
     {
     public:
@@ -93,3 +94,4 @@ protected:
 
 }
 #endif
+#endif // WITH_FMOD

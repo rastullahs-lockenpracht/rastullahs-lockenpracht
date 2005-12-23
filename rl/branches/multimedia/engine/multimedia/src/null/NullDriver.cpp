@@ -15,15 +15,66 @@
  */
 #include "NullDriver.h"
 
-namespace r
+namespace rl
 {
 
+/** 
+ * Konstruktor
+ * @author JoSch
+ * @date 12-23-2005
+ */
 NullDriver::NullDriver()
 {
 }
 
+/** 
+ * Destruktor
+ * @author JoSch
+ * @date 12-23-2005
+ */
 NullDriver::~NullDriver()
 {
 }
+
+/** 
+ * Zeigt an, ob der Treiber funktionsfähig ist.
+ * @return Immer TRUE.
+ * @author JoSch
+ * @date 12-23-2005
+ */
+bool NullDriver::isDriverAvailable()
+{
+    return true;
+}
+
+/** 
+ * Starte den Nulltreiber und mache alle Initialisierung.
+ * @author JoSch
+ * @date 12-23-2005
+ */
+void NullDriver::init()
+{
+}
+
+/** 
+ * Beeende den Nulltreiber und gebe alle Resourcen frei.
+ * @author JoSch
+ * @date 12-23-2005
+ */
+void NullDriver::deInit()
+{
+}
+
+/** 
+ * Gibt den Anzeigename des Treiber zurück.
+ * @return Anzeigename
+ * @author JoSch
+ * @date 12-23-2005
+ */
+CeGuiString NullDriver::getName() const
+{
+    return "Nulltreiber";
+}
+
 
 }

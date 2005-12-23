@@ -13,7 +13,7 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-
+#ifdef WITH_OAL
 #include "OalSoundChannel.h"
 #include <OgreMovableObject.h>
 #include <OgreAxisAlignedBox.h>
@@ -217,5 +217,5 @@ bool OalSoundChannel::isPaused() throw (RuntimeException)
     return !mIsPlaying;
 }
 
-
 };
+#endif // WITH_OAL

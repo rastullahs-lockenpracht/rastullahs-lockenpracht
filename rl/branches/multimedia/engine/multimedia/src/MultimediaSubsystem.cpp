@@ -16,14 +16,17 @@
 #include "MultimediaSubsystem.h"
 #include "SoundManager.h"
 #include "Logger.h"
-#include "SoundResource.h"
 #include "Video.h"
 #include <stdio.h>
-extern "C" {
-    #include <fmod.h>
-    #include <fmod_errors.h>
-}
 #include "SoundUpdateTask.h"
+#include "SoundDriver.h"
+#include "NullDriver.h"
+#ifdef WITH_FMOD
+#include "FmodDriver.h"
+#endif
+#ifdef WITH_OAL
+#include "OalDriver.h"
+#endif
 
 using namespace Ogre;
 
@@ -56,33 +59,36 @@ MultimediaSubsystem* MultimediaSubsystem::getSingletonPtr(void)
  * @date 05-26-2004
  */
 MultimediaSubsystem::MultimediaSubsystem()
-{
-    // fmod initialisieren und Fehler zuruecksetzen.
-    /* TODO 
-    FSOUND_SetMaxHardwareChannels(16);
-    FSOUND_SetMinHardwareChannels(8);
-    FSOUND_SetOutput(FSOUND_OUTPUT_ALSA);
-    FSOUND_SetMixer(FSOUND_MIXER_AUTODETECT);
-    // File Callbacks fuer FMOD setzen
-    FSOUND_File_SetCallbacks(
-        (FSOUND_OPENCALLBACK)MultimediaSubsystem::open,
-        (FSOUND_CLOSECALLBACK)MultimediaSubsystem::close,
-        (FSOUND_READCALLBACK)MultimediaSubsystem::read,
-        (FSOUND_SEEKCALLBACK)MultimediaSubsystem::seek,
-        (FSOUND_TELLCALLBACK)MultimediaSubsystem::tell); 
-
-        FSOUND_Init(44100, 32, 0); // TODO Wenns schiefgeht.
-	log(Ogre::LML_TRIVIAL, "fmod initialisiert");
-    
-    FSOUND_3D_SetRolloffFactor(0.5);
-    FSOUND_SetSFXMasterVolume(255);
-
-    // Wir initialisieren den Listener
-    // Position of the listener.
-    float v[3] = {0, 0, 0};
-    FSOUND_3D_Listener_SetAttributes(v, v, 1, 0, 0, 1, 0, 0); 
-    log(Ogre::LML_TRIVIAL, "Listener set"); */
-    
+{   
+    SoundDriver *driver = NULL;
+    // Die Treiberliste ermitteln.
+    mDriverList.clear();
+    // Immer Nulltreiber
+    SoundDriver *nullDriver = new NullDriver();
+    mDriverList.push_back(nullDriver);
+#ifdef WITH_FMOD
+    // Fmod testen.
+    driver = new FmodDriver();
+    if (driver->isDriverAvailable())
+    {
+        mDriverList.push_back(driver);
+    } else {
+        delete driver;
+    }
+#endif
+#ifdef WITH_OAL
+    // OpenAL testen.
+    driver = new OalDriver();
+    if (driver->isDriverAvailable())
+    {
+        mDriverList.push_back(driver);
+    } else {
+        delete driver;
+    }
+#endif
+    // Nulltreiber als aktiven Treiber setzen.
+    setActiveDriver(nullDriver);
+     
     //Singletons erzeugen 
     new SoundManager();
     
@@ -96,9 +102,12 @@ MultimediaSubsystem::MultimediaSubsystem()
  */
 MultimediaSubsystem::~MultimediaSubsystem()
 {
-    delete SoundUpdateTask::getSingletonPtr();
     delete SoundManager::getSingletonPtr();
-    // TODO FSOUND_Close();
+    delete SoundUpdateTask::getSingletonPtr();
+    if (getActiveDriver() != 0)
+    {
+        getActiveDriver()->deInit();
+    }
 }
 
 /**
@@ -109,7 +118,7 @@ void MultimediaSubsystem::log(Ogre::LogMessageLevel level, const Ogre::String& m
 {
     if (Logger::getSingletonPtr() != 0)
     {
-        Logger::getSingleton().log(level, "Sound", msg, ident);
+        Logger::getSingleton().log(level, "Multimedia", msg, ident);
     }
 }
 
@@ -147,109 +156,7 @@ void MultimediaSubsystem::setElapsedTime(Real elapsedTime)
 }
 
 /**
- * @param handle Das Handle der zu schliessenden Datei
- * @author JoSch
- * @date 08-22-2005
- */
-void MultimediaSubsystem::close(void *handle)
-{
-    if (handle != 0)
-    {
-        DataStreamPtr ds = *reinterpret_cast<DataStreamPtr*>(handle);
-        if (!ds.isNull())
-        {
-            MultimediaSubsystem::getSingleton().log(LML_TRIVIAL, "Stream closed");
-            ds->close();
-        }
-    }
-}
-
-/**
- * @param name. Der der Name der zu oeffnenden Datei
- * @author JoSch
- * @date 08-22-2005
- */
-void *MultimediaSubsystem::open(const char *name)
-{
-    SoundResource res(*SoundManager::getSingleton().getByName(name));
-    res.load();
-    DataStreamPtr *dsp = new DataStreamPtr(res.getDataStream());
-    MultimediaSubsystem::getSingleton().log(LML_TRIVIAL,
-        "Opened file " + String(name));
-    return dsp;
-}
-
-/**
- * @param buffer. Zu fuellender Buffer
- * @param size. Die Groesse der Daten
- * @param handle. Handle der Datei
- * @return. Anzahl der Bytes, die ERFOLGREICH gelesen wurden.
- * @author JoSch
- * @date 08-22-2005
- */
-int MultimediaSubsystem::read(void *buffer, int size, void *handle)
-{
-    if (handle != 0)
-    {
-        DataStreamPtr *ds = reinterpret_cast<DataStreamPtr*>(handle);
-        if (!ds->isNull())
-        {
-            return (*ds)->read(buffer, size);
-        }
-    }
-    return 0;
-}
-
-/**
- * @param handle. Das Handle der Datei.
- * @param pos. Gesuchte Dateiposition.
- * @param mode. Seekmode.
- * @return 0 bei Erfolg, Nicht-0 ansonsten.
- * @author JoSch
- * @date 08-22-2005
- */
-int MultimediaSubsystem::seek(void *handle, int pos, signed char mode)
-{
-    if (handle != 0)
-    {
-        DataStreamPtr ds = *reinterpret_cast<DataStreamPtr*>(handle);
-        if (!ds.isNull())
-        {
-            if (mode == SEEK_END)
-            {
-                pos += ds->size();
-            }
-            if (mode == SEEK_CUR)
-            {
-                pos += ds->tell();
-            }
-            ds->seek(pos);
-            return 0;
-        }
-    }
-    return -1;
-}
-
-/**
- * @return Aktuelle Position
- * @author JoSch
- * @date 08-22-2005
- */
-int MultimediaSubsystem::tell(void *handle)
-{
-    if (handle != 0)
-    {
-        DataStreamPtr ds = *reinterpret_cast<DataStreamPtr*>(handle);
-        if (!ds.isNull())
-        {
-            return ds->tell();
-        }
-    }
-    return 0;
-}
-
-/**
- * @param video Das Video, das hinzugefÃ¼gt werden soll.
+ * @param video Das Video, das hinzugefügt werden soll.
  * @author JoSch
  * @date 09-06-2005
  */
@@ -259,7 +166,7 @@ void MultimediaSubsystem::addVideo(Video *video)
 }
 
 /**
- * @return Alle Videos in der Liste lÃ¶schen
+ * @return Alle Videos in der Liste löschen
  * @author JoSch
  * @date 09-06-2005
  */
@@ -269,7 +176,7 @@ void MultimediaSubsystem::clearVideos()
 }
 
 /**
- * @param Das Video, das gelÃ¶scht werden soll
+ * @param Das Video, das gelöscht werden soll
  * @author JoSch
  * @date 09-06-2005
  */
@@ -286,5 +193,41 @@ void MultimediaSubsystem::removeVideo(Video *video)
         }
     }
 }
+
+/**
+ * @return Die Liste der funktionierenden Treiber.
+ * @author JoSch
+ * @date 12-23-2005
+ */
+const DriverList& MultimediaSubsystem::getSoundDriverList() const
+{
+    return mDriverList;
+}
+
+/**
+ * @param Der neue Treiber.
+ * @author JoSch
+ * @date 12-23-2005
+ */
+void MultimediaSubsystem::setActiveDriver(SoundDriver *driver)
+{
+    if (mActiveDriver != 0)
+    {
+        MultimediaSubsystem::log(LML_TRIVIAL, (CeGuiString("Changing sound driver from ")
+            + mActiveDriver->getName() + CeGuiString(" to ") + driver->getName()).c_str());
+    }
+    mActiveDriver = driver;
+}
+
+/**
+ * @return Der aktive Treiber.
+ * @author JoSch
+ * @date 12-23-2005
+ */
+SoundDriver* MultimediaSubsystem::getActiveDriver() const
+{
+    return mActiveDriver;
+}
+
 
 }

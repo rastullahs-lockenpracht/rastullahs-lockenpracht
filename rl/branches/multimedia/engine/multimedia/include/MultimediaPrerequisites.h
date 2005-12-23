@@ -14,20 +14,20 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
-#ifndef __SoundPrerequisites_H__
-#define __SoundPrerequisites_H__
+#ifndef __MultimediaPrerequisites_H__
+#define __MultimediaPrerequisites_H__
 
 #include "RastullahPrerequisites.h"
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 // Export control
-#   if defined( RLSOUND_EXPORTS )
-#       define _RlSoundExport __declspec( dllexport )
+#   if defined( RLMULTIMEDIA_EXPORTS )
+#       define _RlMultimediaExport __declspec( dllexport )
 #   else
-#       define _RlSoundExport __declspec( dllimport )
+#       define _RlMultimediaExport __declspec( dllimport )
 #   endif
 #else // Linux / Mac OSX etc
-#   define _RlSoundExport
+#   define _RlMultimediaExport
 #endif
 
 #include <OgreNoMemoryMacros.h>
@@ -42,6 +42,7 @@ namespace rl
 {
     typedef CEGUI::String CeGuiString;
     typedef std::vector<CeGuiString> CeGuiStringVector;
+    typedef std::list<Ogre::String> StringList;
 }
 
 

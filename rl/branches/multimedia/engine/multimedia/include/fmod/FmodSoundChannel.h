@@ -13,11 +13,11 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-
+#ifdef WITH_FMOD
 #ifndef _FMODSOUNDCHANNEL_H_
 #define _FMODSOUNDCHANNEL_H_
 
-#include "SoundPrerequisites.h"
+#include "MultimediaPrerequisites.h"
 #include "SoundChannel.h"
 #include "Exception.h"
 
@@ -32,7 +32,7 @@ namespace rl
     
     class Sound;
 
-class _RlSoundExport FmodSoundChannel  : public SoundChannel
+class _RlMultimediaExport FmodSoundChannel  : public SoundChannel
 {
 private:
     /// Shared class-level name for Movable type
@@ -88,3 +88,4 @@ public:
 };
 
 #endif //_FMODSOUNDCHANNEL_H_
+#endif // WITH_FMOD

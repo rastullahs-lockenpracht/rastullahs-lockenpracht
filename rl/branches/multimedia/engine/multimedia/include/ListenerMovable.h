@@ -17,7 +17,7 @@
 #ifndef __ListenerMovable_H__
 #define __ListenerMovable_H__
 
-#include "SoundPrerequisites.h"
+#include "MultimediaPrerequisites.h"
 #include "Exception.h"
 #include <OgreMovableObject.h>
 #include <OgreVector3.h>
@@ -32,7 +32,7 @@ namespace rl {
     * @version 1.0
     * @version 2.0
     */
-    class _RlSoundExport ListenerMovable : public Ogre::MovableObject
+    class _RlMultimediaExport ListenerMovable : public Ogre::MovableObject
     {
     private:
         /// Der aktive Listener
@@ -98,7 +98,7 @@ namespace rl {
         static ListenerMovable* getActiveListener();
     };
 
-    class _RlSoundExport ListenerMovablePtr :
+    class _RlMultimediaExport ListenerMovablePtr :
         public Ogre::SharedPtr<ListenerMovable>
     {
     public:

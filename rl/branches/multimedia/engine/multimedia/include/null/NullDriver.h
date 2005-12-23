@@ -16,16 +16,30 @@
 #ifndef NULLDRIVER_H_
 #define NULLDRIVER_H_
 
+#include "MultimediaPrerequisites.h"
 #include "SoundDriver.h"
 
-namespace r
+namespace rl
 {
 
-class NullDriver : public rl::SoundDriver
+/** Diese Klasse ist der Nulltreiber, der immer
+ * vorhanden ist und einfach nichts ausgibt.
+ */
+class _RlMultimediaExport NullDriver : public rl::SoundDriver
 {
 public:
+    /// Der Konstruktor
 	NullDriver();
+    /// Der Destruktor
 	virtual ~NullDriver();
+    /// Ist der Treiber angeschaltet?
+    virtual bool isDriverAvailable();
+    /// Initialisiere den Treiber.
+    virtual void init();
+    /// Deinitialisiere den Treiber.
+    virtual void deInit();
+    /// Der Name des Treibers
+    virtual CeGuiString getName() const;
 };
 
 }

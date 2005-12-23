@@ -13,21 +13,45 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#ifdef WITH_FMOD
 #ifndef FMODDRIVER_H_
 #define FMODDRIVER_H_
 
+#include "MultimediaPrerequisites.h"
 #include "SoundDriver.h"
 
 namespace rl
 {
 
-class FmodDriver : public rl::SoundDriver
+/** Diese Klasse ist der Treiber, der OpenAL zur
+ * Ausgabe benutzt.
+ */
+class _RlMultimediaExport FmodDriver : public rl::SoundDriver
 {
+private:
+    // FMOD-Callbacks
+    static void close(void *handle);
+    static void *open(const char *name);
+    static int read(void *buffer, int size, void *handle);
+    static int seek(void *handle, int pos, signed char mode);
+    static int tell(void *handle);
+
 public:
+    /// Der Konstruktor
 	FmodDriver();
+    /// Der Destruktor
 	virtual ~FmodDriver();
+    /// Ist der Treiber angeschaltet?
+    virtual bool isDriverAvailable();
+    /// Initialisiere den Treiber.
+    virtual void init();
+    /// Deinitialisiere den Treiber.
+    virtual void deInit();
+    /// Der Name des Treibers
+    virtual CeGuiString getName() const;
 };
 
 }
 
 #endif /*FMODDRIVER_H_*/
+#endif // WITH_FMOD

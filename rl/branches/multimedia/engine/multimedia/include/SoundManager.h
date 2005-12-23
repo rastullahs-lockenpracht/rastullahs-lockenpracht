@@ -22,12 +22,11 @@
 #include <OgreResourceGroupManager.h>
 #include <list>
 #include <boost/thread/mutex.hpp>
-#include "SoundPrerequisites.h"
+#include "MultimediaPrerequisites.h"
 #include "MultimediaSubsystem.h"
 
 namespace rl {
 
-typedef std::list<Ogre::String> StringList;
 
 /**
  * Der SoundManager verwaltet die Sounds, die das Spiel benutzt.
@@ -39,7 +38,7 @@ typedef std::list<Ogre::String> StringList;
  * @version 2.0
  * @date 06-29-2005
  */ 
-class _RlSoundExport SoundManager: public Ogre::ResourceManager,
+class _RlMultimediaExport SoundManager: public Ogre::ResourceManager,
         public Ogre::Singleton<SoundManager> {
     public:
         /// Gibt das Singleton zurueck.

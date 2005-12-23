@@ -1,10 +1,10 @@
 
 noinst_HEADERS = \
 	ListenerMovable.h \
+	MultimediaPrerequisites.h \
 	MultimediaSubsystem.h \
 	SoundChannel.h \
 	SoundManager.h \
-	SoundPrerequisites.h \
     Sound.h \
     SoundDriver.h \
     SoundResource.h \
