@@ -7,6 +7,13 @@ using Ogre::LogManager;
 using Ogre::Singleton;
 
 template<> rl::Logger* Singleton<rl::Logger>::ms_Singleton = 0;
+const char* rl::Logger::RULES = "Rules";
+const char* rl::Logger::CORE = "Core";
+const char* rl::Logger::DIALOG = "Dialog";
+const char* rl::Logger::UI = "Ui";
+const char* rl::Logger::SOUND = "Sound";
+const char* rl::Logger::MAIN = "Main";
+const char* rl::Logger::SCRIPT = "Script";
 
 namespace rl
 {
@@ -38,8 +45,26 @@ Logger::~Logger()
 {
 }
 
-void Logger::log(const Ogre::LogMessageLevel level, const Ogre::String& component, 
+void Logger::log(const Ogre::String& component, const Ogre::LogMessageLevel level, 
 			const Ogre::String& message, const Ogre::String& ident)
+{
+	if (ident.length() == 0)
+		log(level, "[" + component + "] " + message);
+	else
+		log(level, "[" + component + "] (" + ident + ") " + message);
+}
+
+void Logger::log(const Ogre::String& component, const Ogre::LogMessageLevel level, 
+			const CeGuiString& message, const Ogre::String& ident)
+{
+	if (ident.length() == 0)
+		log(level, "[" + component + "] " + message.c_str());
+	else
+		log(level, "[" + component + "] (" + ident + ") " + message.c_str());
+}
+
+void Logger::log(const Ogre::String& component, const Ogre::LogMessageLevel level, 
+			const char* message, const Ogre::String& ident)
 {
 	if (ident.length() == 0)
 		log(level, "[" + component + "] " + message);

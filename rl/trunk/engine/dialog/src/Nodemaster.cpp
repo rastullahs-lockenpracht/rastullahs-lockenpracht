@@ -42,7 +42,7 @@ namespace rl
 	void Nodemaster::deleteAllNodes()
 	{
 		// DON'T LOG AFTER DESTRUCTING DIALOGSUBSYSTEM
-//		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Delete all children");
+//		Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "Delete all children");
 		std::map<CeGuiString, Nodemaster *>::const_iterator itr = mChildren.begin();
 		for(;itr!=mChildren.end();itr++)
 		{

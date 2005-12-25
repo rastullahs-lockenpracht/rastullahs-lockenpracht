@@ -132,7 +132,7 @@ namespace rl {
 	{
 		const KeyEventArgs kevt = static_cast<const KeyEventArgs&>(evt);
 		
-		UiSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, StringConverter::toString(kevt.scancode), "blah");
+		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, StringConverter::toString(kevt.scancode), "blah");
 		
 		if (kevt.scancode == Key::Q || kevt.scancode == Key::Escape)
 			return handleQuit();

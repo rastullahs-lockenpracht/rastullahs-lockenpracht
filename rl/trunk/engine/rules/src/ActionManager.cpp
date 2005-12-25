@@ -79,7 +79,7 @@ namespace rl
 		ScriptObjectRepository::getSingleton().own(action);
 
 		mActions.insert(std::make_pair(action->getName(), action));
-		RulesSubsystem::getSingleton().log(
+		Logger::getSingleton().log(Logger::RULES,
 			Ogre::LML_TRIVIAL, "Action "+action->getName()+" beim ActionManager registriert");
     }
 
@@ -92,23 +92,23 @@ namespace rl
 		ScriptObjectRepository::getSingleton().disown((*iter).second);
 		mActions.erase(iter);
 
-		RulesSubsystem::getSingleton().log(
+		Logger::getSingleton().log(Logger::RULES,
 			Ogre::LML_TRIVIAL, "Action "+actionName+" beim ActionManager gelöscht");
 	}
 
 	Action* ActionManager::getAction(const CeGuiString& actionName) const
 	{
-		RulesSubsystem::getSingleton().log(
+		Logger::getSingleton().log(Logger::RULES,
 			Ogre::LML_TRIVIAL, "Suche Action " + actionName);
 		ActionMap::const_iterator iter = mActions.find(actionName);
 		if (iter == mActions.end())
-			Throw(InvalidArgumentException, "Aktion nicht gefunden");
+			return NULL;
 		return (*iter).second;
 	}
 
 	void ActionManager::registerInGameGlobalAction(Action* action, ActionGroup* group)
 	{
-		RulesSubsystem::getSingleton().log(
+		Logger::getSingleton().log(Logger::RULES,
 			Ogre::LML_TRIVIAL, "Globale Aktion " + action->getName() + " hinzugefuegt.");
 		mInGameGlobalActions.push_back(action);
 		action->setGroup(group);

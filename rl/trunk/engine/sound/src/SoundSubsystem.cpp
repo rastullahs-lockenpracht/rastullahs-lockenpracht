@@ -72,7 +72,7 @@ SoundSubsystem::SoundSubsystem()
         (FSOUND_TELLCALLBACK)SoundSubsystem::tell); 
 
         FSOUND_Init(44100, 32, 0); // TODO Wenns schiefgeht.
-	log(Ogre::LML_TRIVIAL, "fmod initialisiert");
+	Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "fmod initialisiert");
     
     FSOUND_3D_SetRolloffFactor(0.5);
     FSOUND_SetSFXMasterVolume(255);
@@ -81,7 +81,7 @@ SoundSubsystem::SoundSubsystem()
     // Position of the listener.
     float v[3] = {0, 0, 0};
     FSOUND_3D_Listener_SetAttributes(v, v, 1, 0, 0, 1, 0, 0);
-    log(Ogre::LML_TRIVIAL, "Listener set");
+    Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "Listener set");
     
     //Singletons erzeugen 
     new SoundManager();
@@ -101,18 +101,6 @@ SoundSubsystem::~SoundSubsystem()
         delete SoundManager::getSingletonPtr();
     }
     FSOUND_Close();
-}
-
-/**
- * @author Blakharaz
- * @date 10-14-2004
- */
-void SoundSubsystem::log(Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident )
-{
-    if (Logger::getSingletonPtr() != 0)
-    {
-        Logger::getSingleton().log(level, "Sound", msg, ident);
-    }
 }
 
 /**
@@ -160,7 +148,7 @@ void SoundSubsystem::close(void *handle)
         DataStreamPtr ds = *reinterpret_cast<DataStreamPtr*>(handle);
         if (!ds.isNull())
         {
-            SoundSubsystem::getSingleton().log(LML_TRIVIAL, "Stream closed");
+			Logger::getSingleton().log(Logger::SOUND, LML_TRIVIAL, "Stream closed");
             ds->close();
         }
     }
@@ -176,7 +164,7 @@ void *SoundSubsystem::open(const char *name)
     SoundResource res(*SoundManager::getSingleton().getByName(name));
     res.load();
     DataStreamPtr *dsp = new DataStreamPtr(res.getDataStream());
-    SoundSubsystem::getSingleton().log(LML_TRIVIAL,
+	Logger::getSingleton().log(Logger::SOUND, LML_TRIVIAL,
         "Opened file " + String(name));
     return dsp;
 }

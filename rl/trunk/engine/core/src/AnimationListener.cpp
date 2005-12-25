@@ -56,7 +56,7 @@ bool AnimationListener::eventRaised( AnimationEvent* anEvent )
     }
     catch( ScriptInvocationFailedException& sife )
     {
-        CoreSubsystem::getSingleton().log(Ogre::LML_CRITICAL, sife.toString() );
+        Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL, sife.toString() );
     }
 
 	// consumed or not ;)
@@ -71,7 +71,7 @@ bool AnimationListener::eventRaised( AnimationEvent* anEvent )
     }
     catch( ScriptInvocationFailedException& sife )
     {
-        CoreSubsystem::getSingleton().log(Ogre::LML_CRITICAL, sife.toString() );
+        Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL, sife.toString() );
     }
 
 

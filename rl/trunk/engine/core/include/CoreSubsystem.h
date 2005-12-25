@@ -82,9 +82,6 @@ public:
 	*/
 	void resetClock();
 
-	void log(const Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident = "");
-	void log(const Ogre::String& msg);
-	
 private:  
     /** Runs the setup methods  */
 	bool initializeCoreSubsystem();

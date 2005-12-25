@@ -413,7 +413,7 @@ namespace rl {
 		mEventProcessor->addKeyListener(this);
 		mEventProcessor->addMouseListener(this);
 		mEventProcessor->addMouseMotionListener(this);
-		UiSubsystem::getSingleton().log(LML_TRIVIAL, "Start processing events");
+		Logger::getSingleton().log(Logger::UI, LML_TRIVIAL, "Start processing events");
 		mEventProcessor->startProcessingEvents();
 
 		mEventInitialized = true; 
@@ -427,7 +427,7 @@ namespace rl {
 		if (mEventInitialized) {
 			// Stop buffering events
 
-			UiSubsystem::getSingleton().log(LML_TRIVIAL, "Stop processing events");
+			Logger::getSingleton().log(Logger::UI, LML_TRIVIAL, "Stop processing events");
 			mEventProcessor->stopProcessingEvents();
 			mEventInitialized = false;
 		}

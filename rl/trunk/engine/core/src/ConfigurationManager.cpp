@@ -112,7 +112,7 @@ namespace rl
             }           
             catch ( Ogre::Exception  ) 
             {
-                CoreSubsystem::getSingleton().log( Ogre::LML_CRITICAL, 
+                Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL, 
                     "Konnte Rastullah-System-Konfiguration aus '" + mRastullahSystemCfgPath + 
                     "' nicht laden! Defaulteinstellungen werden benutzt.","Configuration");
             }

@@ -75,7 +75,7 @@ namespace rl
 		mExit(false)
 	{	
 		XMLPlatformUtils::Initialize();	//wahrscheinlich nicht nötig
-		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "NLP gestartet");
+		Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "NLP gestartet");
 	//	mExit=false;
 
 	// Create a new Parser for aiml files and register it as content handler
@@ -100,7 +100,7 @@ namespace rl
 			char* excmsg = XMLString::transcode(exc.getMessage());	
 			CeGuiString excs="Exception while Parsing: ";
 			excs+=excmsg;
-			DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, excs);
+			Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, excs);
 		//  cleanup
 			if(parser)delete parser;
 			if(xmlHandler)delete xmlHandler;
@@ -109,7 +109,7 @@ namespace rl
 	//  cleanup
 		if(parser)delete parser;
 		if(xmlHandler)delete xmlHandler;
-				DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Parsing beendet");
+				Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "Parsing beendet");
 	}
 */
 	/** 
@@ -126,7 +126,7 @@ namespace rl
     NaturalLanguageProcessor::~NaturalLanguageProcessor()
     {
      //   if(mGm)delete mGm;
-        DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "NLP beendet");
+        Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "NLP beendet");
         XMLPlatformUtils::Terminate();
     }
 
@@ -158,7 +158,7 @@ namespace rl
 		// clear last responses
 		mCurrentResponses.clear();
 
-		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Matching...");
+		Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "Matching...");
 		Match* newMatch = match(context, input, that, topic);
 		if(newMatch == NULL)
 		{
@@ -170,17 +170,17 @@ namespace rl
 		// get the content of DOMDocument
 		DOMNode* node=doc->getDocumentElement();
 
-		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Processing...");
+		Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "Processing...");
 		response+= process(node, newMatch ,"0");	// last Parameter has no function at the moment
 		response+="</response>";			// response must be in tags for postprocessing
 		
-		//DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Cleanup");
+		//Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "Cleanup");
 		// free the memory of the document and all its nodes
 		doc->release();
 		doc = NULL;
 		node = NULL;
 	
-		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "PostProcessing...");
+		Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "PostProcessing...");
 		XercesDOMParser* parser=new XercesDOMParser();
 		// copy the response data into a memory buffer for postprocessing
 		MemBufInputSource memBuff((const XMLByte*)response.data(),response.size(),"response",false);
@@ -233,13 +233,13 @@ namespace rl
 				{
 					retResponse += dialogChoice;
 				}
-				//DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, dialogChoice);
+				//Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, dialogChoice);
 				//id=0;
 			}
 		}
 
 		if(parser)delete parser;
-		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Return response");
+		Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "Return response");
 		return new DialogResponse(input, retResponse, mCurrentResponses, 
 			selectableOptions, this);
 	//	return mCurrentResponses;
@@ -270,7 +270,7 @@ namespace rl
 /*	void NaturalLanguageProcessor::processOption(const CeGuiString& name, const CeGuiString& value) 
 	{	
 		if(mGm)delete mGm;
-		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "graphmaster deleted ");
+		Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "graphmaster deleted ");
 		mGm=new Graphmaster();
 		if ( !name.compare("load") ) 
 		{
@@ -293,8 +293,8 @@ namespace rl
 	*/
 /*	bool NaturalLanguageProcessor::loadAiml(const CeGuiString& filename) 
 	{
-		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Loading Aiml");
-		DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, filename);
+		Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "Loading Aiml");
+		Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, filename);
 		AimlParserImplXerces* xmlHandler = new AimlParserImplXerces(this);
 		SAX2XMLReader* parser = XMLReaderFactory::createXMLReader();
 		parser->setContentHandler(xmlHandler);
@@ -323,7 +323,7 @@ namespace rl
 			char* excmsg = XMLString::transcode(exc.getMessage());
 			CeGuiString excs="Exception while Parsing: ";
 			excs+=excmsg;
-			DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, excs);
+			Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, excs);
 			// cleanup
 			if(parser)delete parser;
 			if(xmlHandler)delete xmlHandler;
@@ -348,7 +348,7 @@ namespace rl
 	{	
 		// We need a start node
 		if ( node == NULL ) return "";
-		//DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "StartProcessingCurrentNode");
+		//Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "StartProcessingCurrentNode");
 		CeGuiString result;
 		CeGuiString text;
 		CeGuiString nodeData;
@@ -377,7 +377,7 @@ namespace rl
 				nodeData = 
 					XmlHelper::transcodeToString(node->getNodeName());
 				
-				//DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, nodeData);
+				//Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, nodeData);
 				
 				// get available tag processor
 				AimlProcessor* pt = AimlProcessorManager::getProcessor(nodeData);
@@ -398,7 +398,7 @@ namespace rl
 					else
 					{
 						CeGuiString err = "Für den Tag " + nodeData + " existiert kein Processor";
-						DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, err);
+						Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, err);
 						text = process(node, match, id);
 						if ( !result.empty() && *(--result.end()) != ' ' && lastTailIsWS ) 
 						{
@@ -411,9 +411,9 @@ namespace rl
 				} 
 				else 
 				{
-					//DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Found AimlProcessor");
+					//Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "Found AimlProcessor");
 					text = pt->process(node, match, id, this);
-					//DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, text);
+					//Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, text);
 					//--fix whitespace here
 					//--	if last was not an element
 					//--		if last text tail was whitespace

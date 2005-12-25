@@ -39,43 +39,28 @@ namespace rl
     RulesSubsystem::RulesSubsystem()
 		: mQuestBook(NULL)
     {
-		log(Ogre::LML_TRIVIAL, "Start");
+		Logger::getSingleton().log(Logger::RULES, Ogre::LML_TRIVIAL, "Start");
         //Zufallsgenerator initialisieren
         srand(static_cast<unsigned int>(time(NULL)));
 
         //Singletons erzeugen
         new ActionManager(); 
-		log(Ogre::LML_TRIVIAL, "ActionManager erzeugt");
+		Logger::getSingleton().log(Logger::RULES, Ogre::LML_TRIVIAL, "ActionManager erzeugt");
         new DsaManager();
-		log(Ogre::LML_TRIVIAL, "DsaManager erzeugt");
+		Logger::getSingleton().log(Logger::RULES, Ogre::LML_TRIVIAL, "DsaManager erzeugt");
 		new TimerManager(); 
-		log(Ogre::LML_TRIVIAL, "TimerManager erzeugt");
+		Logger::getSingleton().log(Logger::RULES, Ogre::LML_TRIVIAL, "TimerManager erzeugt");
 		resetQuestBook();
-		log(Ogre::LML_TRIVIAL, "Questverwaltung erzeugt");
+		Logger::getSingleton().log(Logger::RULES, Ogre::LML_TRIVIAL, "Questverwaltung erzeugt");
 
 		//Daten laden
 		DsaDataLoader::loadData("basis.xdi");
-		log(Ogre::LML_TRIVIAL, "Basisdaten geladen");
+		Logger::getSingleton().log(Logger::RULES, Ogre::LML_TRIVIAL, "Basisdaten geladen");
 		
-		log(Ogre::LML_TRIVIAL, "Erzeugen abgeschlossen");		
+		Logger::getSingleton().log(Logger::RULES, Ogre::LML_TRIVIAL, "Erzeugen abgeschlossen");		
     }
 	
-	void RulesSubsystem::log(Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident )
-	{
-		Logger::getSingleton().log(level, "Rules", msg, ident);
-	}
-
-	void RulesSubsystem::log(Ogre::LogMessageLevel level, const char* msg, const Ogre::String& ident )
-	{
-		log(level, Ogre::String(msg), ident);
-	}
-
-	void RulesSubsystem::log(Ogre::LogMessageLevel level, const CeGuiString& msg, const Ogre::String& ident )
-	{
-		log(level, Ogre::String(msg.c_str()), ident);
-	}
-
-    RulesSubsystem::~RulesSubsystem()
+	RulesSubsystem::~RulesSubsystem()
     {
         delete DsaManager::getSingletonPtr();
     }

@@ -200,10 +200,10 @@ namespace rl
 
 /*	int DsaManager::getEigenschaftIdFromLongString(const CeGuiString& str) const
 	{
-		RulesSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "DsaManager sucht "+str);
+		Logger::getSingleton().log(Logger::RULES, Ogre::LML_TRIVIAL, "DsaManager sucht "+str);
 		for (int idx = 0; idx < EIGENSCHAFT_COUNT; idx++)
 		{
-			RulesSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "DsaManager findet "+mEigenschaften[idx]->getName());
+			Logger::getSingleton().log(Logger::RULES, Ogre::LML_TRIVIAL, "DsaManager findet "+mEigenschaften[idx]->getName());
 			if (mEigenschaften[idx]->getName().compare(str) == 0)
 				return idx;
 		}

@@ -25,6 +25,15 @@ namespace rl {
 	class _RlCommonExport Logger : public Ogre::Singleton<Logger>
 	{
 	public:
+
+		static const char* RULES;
+		static const char* CORE;
+		static const char* DIALOG;
+		static const char* UI;
+		static const char* SOUND;
+		static const char* MAIN;
+		static const char* SCRIPT;
+
 		Logger(const Ogre::String& logPath, const Ogre::String& ogreLogPath);
 		virtual ~Logger();
 
@@ -33,11 +42,23 @@ namespace rl {
         static Logger * getSingletonPtr(void);
 
 		void log(
-			const Ogre::LogMessageLevel level, 
 			const Ogre::String& component, 
+			const Ogre::LogMessageLevel level, 
+			const char* message, 
+			const Ogre::String& ident = "");
+
+		void log(
+			const Ogre::String& component, 
+			const Ogre::LogMessageLevel level, 
 			const Ogre::String& message, 
 			const Ogre::String& ident = "");
 
+		void log(
+			const Ogre::String& component, 
+			const Ogre::LogMessageLevel level, 			
+			const CeGuiString& msg, 
+			const Ogre::String& ident = "");
+	
 		void setLogDetail(const Ogre::LoggingLevel level);
 		const CEGUI::LoggingLevel getCeGuiLogDetail();
 	private:

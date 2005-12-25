@@ -46,8 +46,6 @@ public:
     static SoundSubsystem& getSingleton(void);
     /// Gibt Singleton-Zeiger zurueck.
     static SoundSubsystem* getSingletonPtr(void);
-    /// Eine Log-Nachricht ausgeben.
-   	void log(const Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident = "");
     /// fmod weiterlaufen lassen.
     void update(Ogre::Real elapsedTime);
 

@@ -30,6 +30,8 @@ namespace rl {
 		static ScriptSubsystem& getSingleton();
 		static ScriptSubsystem* getSingletonPtr();
 
+		void log(const CeGuiString& message);
+
 	private:
 		void initializeScriptSubsystem();
 	};

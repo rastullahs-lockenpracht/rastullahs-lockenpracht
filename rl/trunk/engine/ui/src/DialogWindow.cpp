@@ -131,7 +131,7 @@ void DialogWindow::getResponse(string msg)
 		{
 			item = reinterpret_cast<ListboxWrappedTextItem*>(mDialogOptions->getListboxItemFromIndex(i));
 			currentResponse = itr->second;
-			DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, currentResponse.c_str());
+			Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, currentResponse.c_str());
 			item->setText(currentResponse);
 			item->setTextFormatting(CEGUI::WordWrapLeftAligned);
 		}

@@ -78,7 +78,7 @@ namespace rl
 			char* excmsg = XMLString::transcode(exc.getMessage());
 			std::string excs="Exception while Parsing: ";
 			excs+=excmsg;
-			DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, excs);
+			Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, excs);
 			// cleanup
 			if(parser)delete parser;
 			throw (exc);
@@ -116,7 +116,7 @@ namespace rl
 	{
 		CeGuiString name, value, rtn;
 		CeGuiString tmp = XmlHelper::transcodeToString(tagName);
-	//	DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "startElement");
+	//	Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "startElement");
 	/////////////////////////////////////////
 	// Abfrage für Startup-File
 	////////////////////////////////////////
@@ -158,7 +158,7 @@ namespace rl
 				}
 			}
 		} else if(!tmp.compare("script")) {
-		//	DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "script");
+		//	Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "script");
 			mCurState = PARSER_SCRIPT;
 			name = XmlHelper::getAttributeValueAsString(attrs,"src");
 			mTemplateValue = XmlHelper::getAttributeValueAsString(attrs,"class");
@@ -174,13 +174,13 @@ namespace rl
 				mCurState=PARSER_START;
 			} 
 		} else if(!tmp.compare("bot")) {
-		//	DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Bot");
+		//	Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "Bot");
 			if(mNlp)
 			{
 				mNlp->setName(XmlHelper::getAttributeValueAsString(attrs,"name"));
 			}
 		} else if(!tmp.compare("learn")) {
-		//	DialogSubsystem::getSingleton().log(Ogre::LML_TRIVIAL, "Learning");
+		//	Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "Learning");
 			name = XmlHelper::getAttributeValueAsString(attrs,"src");
 			if ( !name.empty())
 			{

@@ -62,7 +62,7 @@ namespace rl
 			char* excmsg = XMLString::transcode(exc.getMessage());
 			std::string excs="Exception while initializing Xerces: ";
 			excs+=excmsg;
-			log(Ogre::LML_TRIVIAL, excs);
+			Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, excs);
             XMLString::release(&excmsg);
         }
 	}
@@ -106,11 +106,6 @@ namespace rl
 			mCurrentBot = NULL;
 		}
 		return mCurrentBot;
-	}
-
-	void DialogSubsystem::log(const Ogre::LogMessageLevel level, const CeGuiString& msg, const Ogre::String& ident)
-	{
-		Logger::getSingleton().log(level, "Dialog", msg.c_str(), ident);
 	}
 
     ResourcePtr DialogSubsystem::getXmlResource(const Ogre::String& filename)

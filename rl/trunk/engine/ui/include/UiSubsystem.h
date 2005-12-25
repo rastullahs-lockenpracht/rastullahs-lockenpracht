@@ -100,8 +100,6 @@ namespace rl {
 
 		void update();
 
-		void log(const Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident = "");
-
 		static const char* CEGUI_ROOT;
 
     private:

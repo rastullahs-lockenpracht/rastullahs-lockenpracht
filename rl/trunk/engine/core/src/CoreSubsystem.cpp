@@ -84,16 +84,6 @@ namespace rl {
         Root::getSingleton().startRendering();
     }
 
-	void CoreSubsystem::log(const Ogre::LogMessageLevel level, const String& msg, const String& ident)
-    {
-		Logger::getSingleton().log(level, "Core", msg, ident);
-    }
-
-	void CoreSubsystem::log(const String& msg)
-    {
-		log(Ogre::LML_NORMAL, msg);
-    }
-
     bool CoreSubsystem::setupConfiguration()
     {      
         if(Root::getSingleton().restoreConfig()

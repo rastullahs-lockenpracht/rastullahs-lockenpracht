@@ -37,7 +37,7 @@
 
 void log(Ogre::LogMessageLevel level, const Ogre::String& msg, Ogre::String ident = Ogre::String(""))
 {
-	rl::Logger::getSingleton().log(level, "Main", msg, ident);
+	rl::Logger::getSingleton().log(rl::Logger::MAIN, level, msg, ident);
 }
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32

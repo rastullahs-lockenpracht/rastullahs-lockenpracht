@@ -53,25 +53,25 @@ namespace rl {
 		if (target != NULL) 
 		{
 			if (combat->isInAttackDistance(actor, target))
-				return new CombatActionAttack(target);
+				return new CombatActionAttack(actor, target);
 			else
-				return new CombatActionMove(moveType, target->getActor()->getPosition());
+				return new CombatActionMove(actor, moveType, target->getActor()->getPosition());
 		}
 		else
 			return new CombatActionNop();
 	}
 
-	CombatAction* createPareeAction(Combat* combat, Creature* pareeTarget, Creature* opponent)
+	CombatAction* createPareeAction(Combat* combat, Creature* actor, Creature* pareeTarget, Creature* opponent)
 	{
 		if (pareeTarget == NULL // Ersten erfolgreichen Angriff parieren, also jetzt
 			|| pareeTarget == opponent // oder festgelegter Pariergegner greift erfolgreich an
 			|| combat->isActionPhaseDone(pareeTarget)) // oder festgelegter Gegner ist schon dran gewesen
 		{
-			return new CombatActionParee(opponent);
+			return new CombatActionParee(actor, opponent);
 		}
 		else 
 		{
-			return new CombatActionParee(pareeTarget);
+			return new CombatActionParee(actor, pareeTarget);
 		}
 	}
 
@@ -93,7 +93,7 @@ namespace rl {
 
     void WalkInActPhaseAttackStrategy::applyReaction(CombatWindow* combatwindow, Combat* combat, AskForReactionEvent* anEvent)
 	{
-		combatwindow->setNextReaction(createPareeAction(combat, getPareeTarget(), anEvent->getOpponent()));
+		combatwindow->setNextReaction(createPareeAction(combat, anEvent->getActor(), getPareeTarget(), anEvent->getOpponent()));
 	}
 	
 

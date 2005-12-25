@@ -15,6 +15,7 @@
  */
 
 #include "ScriptSubsystem.h"
+#include "Logger.h"
 
 using Ogre::Singleton;
 
@@ -40,6 +41,11 @@ namespace rl {
 	ScriptSubsystem::~ScriptSubsystem()
 	{
 		
+	}
+
+	void ScriptSubsystem::log(const rl::CeGuiString &message)
+	{
+		Logger::getSingleton().log(Logger::SCRIPT, Ogre::LML_NORMAL, message);
 	}
 
 }

@@ -52,12 +52,6 @@ namespace rl
 		 */
 		DialogCharacter* loadBot(const CeGuiString& fileName, const CeGuiString& botName = "");
 	
-		/**
-		 * Logging
-		 */
-		//void log(const Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident = "");
-		void log(const Ogre::LogMessageLevel level, const CeGuiString& msg, const Ogre::String& ident = "");
-
         /**
          * Helper function, that retrieves an xml resource from its file name
          * If resource not yet created, it gets first searched in the current

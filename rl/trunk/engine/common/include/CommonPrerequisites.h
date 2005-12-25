@@ -43,4 +43,6 @@ namespace rl
     typedef std::vector<CeGuiString> CeGuiStringVector;
 }
 
+#include "Logger.h"
+
 #endif

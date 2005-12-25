@@ -548,7 +548,6 @@ public:
 		const Ogre::String& resourceGroup, const Ogre::String& startupScript = "");
     World* getWorld();
     void makeScreenshot(const Ogre::String& sName);
-    void log(const Ogre::String& msg);
     RL_LONGLONG getClock();
 };
 

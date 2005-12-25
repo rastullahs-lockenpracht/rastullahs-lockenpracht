@@ -15,6 +15,10 @@
  */
 
 namespace rl {
+	class ScriptSubsystem
+	{
+		static rl::ScriptSubsystem& getSingleton();
 
-
+		void log(const rl::CeGuiString& message);
+	};
 }

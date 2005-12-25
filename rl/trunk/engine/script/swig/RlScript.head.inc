@@ -16,4 +16,5 @@
 
 %{
 //----------- Includes - Script -----------
+#include "ScriptSubsystem.h"
 %}
