@@ -14,8 +14,9 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
-#include "CombatEvents.h"
 #include "Combat.h"
+#include "CombatActions.h"
+#include "CombatEvents.h"
 #include "Creature.h"
 #include "Exception.h"
 #include "DsaManager.h"
@@ -26,8 +27,11 @@ using namespace std;
 namespace rl {
 
 	Combat::Combat(int slowMotionFactor)
-		: mEventCaster(),
-		mSlowMotionFactor(slowMotionFactor)
+		: mEventCasters(),
+		mSlowMotionFactor(slowMotionFactor),
+		mIsSlowMotion(false),
+		mTimeInKampfrunde(0),
+		mStarted(false)
 	{
 	}
 
@@ -45,7 +49,7 @@ namespace rl {
 	void Combat::initialize(Participant* part)
 	{
 		//TODO: Aktuelle Waffe, INI wuerfeln
-		part->initiative = 5+DsaManager::getSingleton().rollD6();
+		part->initiative = part->creature->doInitiativeWurf();
 	}
 
 	Combat::Participant::Participant(Creature* creature, int group, int id)
@@ -58,6 +62,15 @@ namespace rl {
 		this->paradeTarget = NULL;
 		this->nextAction = NULL;
 		this->nextReaction = NULL;
+	}
+
+	Combat::CombatEvt::CombatEvt(int ini, int iniIdx, bool isAction, Participant* part, CombatAction* action)
+	{
+		this->ini = ini;
+		this->iniIdx = iniIdx;
+		this->isAction = isAction;
+		this->part = part;
+		this->action = action;
 	}
 
 	int Combat::getGroupOf(Creature* creature)
@@ -95,7 +108,7 @@ namespace rl {
 
 	Creature* Combat::getNext(int group)
 	{
-		return getGroupMembers(group)[0];
+		return getGroupMembers(group)[0]; //TODO
 	}
 
 	Creature* Combat::getAttackeTarget(Creature* creature)
@@ -145,28 +158,50 @@ namespace rl {
 		Throw(InvalidArgumentException, "Unbekannter MoveType.");
 	}
 
-	void Combat::doAttacke(Creature* creature)
-	{
-		//TODO: Passende Animationen
-		//TODO: Attacke wuerfeln
-		//TODO: Parade wuerfeln 
-		//TODO: Schaden wuerfeln und machen
-	}
-
 	void Combat::run(Ogre::Real elapsedTime)
 	{
+		if (!mStarted)
+			return;
+
 		if (mEventList.empty())
 			initializeKampfrunde();
+
+		mTimeInKampfrunde += mIsSlowMotion
+								? elapsedTime / mSlowMotionFactor
+								: elapsedTime;
+
+		bool switchToNext = false;
+
+		if (mEventStack.empty())
+			switchToNext = true;
+		else if (mTimeInKampfrunde - mCurrentEventStart >= mTimeOfAction)
+		{
+			sendStopEvent(getLastEvent());
+			switchToNext = processEvent(getLastEvent());
+		}
+
+		if (switchToNext)
+		{
+			CombatEventList::const_iterator evtIt = findNextCombatEvent(mEventList);
+			CombatEvt* evt = (*evtIt).second;
+			mCurrentInitiative = evt->ini;
+			mCurrentIniTime = evt->iniIdx;
+
+			mEventStack.push_back(evt);
+			mEventCasters[evt->part->group].dispatchEvent(new AskForActionEvent(this, evt->part->creature, mTimeOfAction, mSlowMotionFactor));
+			mIsSlowMotion = true;
+		}
 	}
 
 	void Combat::addCombatEventListener(CombatEventListener* listener)
 	{
-		mEventCaster.addEventListener(listener);
+		
+		mEventCasters[listener->getGroup()].addEventListener(listener);
 	}
 
 	void Combat::removeCombatEventListener(CombatEventListener* listener)
 	{
-		mEventCaster.addEventListener(listener);
+		mEventCasters[listener->getGroup()].removeEventListener(listener);
 	}
 
 	bool Combat::isInAttackDistance(Creature* attacker, Creature* target)
@@ -185,26 +220,51 @@ namespace rl {
 
 	void Combat::initializeKampfrunde()
 	{
-		mTimeOfAction = Date::ONE_KAMPFRUNDE / mParticipants.size();
+		mTimeOfAction = Date::ONE_KAMPFRUNDE / (mParticipants.size() * 2); //TODO: Es gehen auch Anzahlen != 2 Aktionen pro Teilnehmer
 		for (CombatMap::iterator partIter = mParticipants.begin();
 				partIter != mParticipants.end(); partIter++)
 		{
 			Participant* part = (*partIter).second;
+
+
+			if (part->nextKRAction != NULL)
+			{
+				part->nextAction = part->nextKRAction;
+				part->nextKRAction = NULL;				
+			}
+			if (part->nextKRReaction != NULL)
+			{
+				part->nextReaction = part->nextKRReaction;
+				part->nextKRReaction = NULL;				
+			}
+
+			part->pareesLeft = 1; //TODO: Mehr als 1 PA / KR
+
+			//TODO: Gleiche INIs behandeln
 			CombatTime actionTime = make_pair(part->initiative, 0);
-			mEventList.insert(make_pair(actionTime, part));
+			CombatTime reactionTime = make_pair(NO_INI, part->initiative*100);
+			mEventList.insert(make_pair(actionTime, new CombatEvt(part->initiative, 0, true, part, part->nextAction)));
+			mEventList.insert(make_pair(reactionTime, new CombatEvt(part->initiative, 0, false, part, part->nextReaction)));
 		}
+
 		mCurrentInitiative = INI_START;
+		mTimeInKampfrunde = 0;
 	}
 
 	Combat::CombatEventList::const_iterator Combat::findNextCombatEvent(const CombatEventList& eventList)
 	{
-		int maxIni = mCurrentInitiative;
-		long minTIme = mCurrentIniTime;
+		int maxIni = NO_INI;
+		long minTIme = INI_START;
 		CombatEventList::const_iterator retVal = eventList.end();
 		for (CombatEventList::const_iterator iter = eventList.begin(); iter != eventList.end(); iter++)
 		{
 			CombatTime time = (*iter).first;
-			if (time.first > maxIni || (time.first == maxIni && time.second > minTIme))
+			CombatEvt* evt = (*iter).second;
+			
+			if ( (		time.first > maxIni 
+						|| (time.first == maxIni && time.second < minTIme))
+				&& ((    time.first < mCurrentInitiative)
+						|| (time.first == mCurrentInitiative && time.second > mCurrentIniTime)))
 			{
 				maxIni = time.first;
 				minTIme = time.second;
@@ -213,5 +273,118 @@ namespace rl {
 		}
 
 		return retVal;		
+	}
+	
+	bool Combat::processEvent(CombatEvt* evt)
+	{
+		switch (evt->action->getType())
+		{
+		case CombatAction::ATTACK:
+			return processAttack(evt->part, dynamic_cast<CombatActionAttack*>(evt->action));
+		case CombatAction::MOVE:
+			return processMove(evt->part, dynamic_cast<CombatActionMove*>(evt->action));
+		case CombatAction::PAREE:
+			return processParee(evt->part, dynamic_cast<CombatActionParee*>(evt->action), dynamic_cast<CombatActionAttack*>(getSecondLastEvent()->action));
+		}
+		return true;
+	}
+
+	void Combat::sendStopEvent(CombatEvt* evt)
+	{
+		if (evt->isAction)
+			mEventCasters[evt->part->group].dispatchEvent(new AskForActionEvent(this, evt->part->creature, ACTION_TIME_OVER, mSlowMotionFactor));
+		else
+			mEventCasters[evt->part->group].dispatchEvent(new AskForReactionEvent(this, evt->part->creature, ACTION_TIME_OVER, mSlowMotionFactor, NULL)); //TODO: Opponent may be NULL in time over event?
+	}
+
+	bool Combat::processAttack(Participant* attacker, CombatActionAttack* attack)
+	{
+		Participant* defender = getParticipant(attack->getTarget());
+		int result = attacker->creature->doAttacke(attack->getKampftechnik(), getAttackeModifier(attacker));
+
+		if (canDefend(defender, attacker))
+		{
+			CombatEvt* evt = new CombatEvt(mCurrentInitiative, 0, false, defender, defender->nextReaction);
+			mEventStack.push_back(evt);
+			mCurrentEventStart = mTimeInKampfrunde;
+			mEventCasters[evt->part->group].dispatchEvent(new AskForReactionEvent(this, evt->part->creature, mTimeOfAction, mSlowMotionFactor, attacker->creature));
+			return false;
+		}
+		else
+		{
+			executeAttacke(attacker, defender);
+			popEventStack();
+			return true;
+		}
+	}
+
+	bool Combat::processParee(Participant* defender, CombatActionParee* paree, CombatActionAttack* attack)
+	{
+		if (paree->getTarget() == attack->getSource() 
+			&& paree->getSource() == attack->getTarget())
+		{
+			defender->pareesLeft--;
+			int parade = paree->getSource()->doParade(paree->getKampftechnik(), getParadeModifier(defender));
+			if (parade != RESULT_ERFOLG)
+				executeAttacke(getParticipant(attack->getSource()), defender);
+
+			popEventStack(); // Parade
+			popEventStack(); // Attacke
+		}
+
+		return true;
+	}
+
+	bool Combat::processMove(rl::Combat::Participant *part, rl::CombatActionMove *move)
+	{
+		//TODO: Implement
+		return true;
+	}
+
+	void Combat::executeAttacke(Participant* attacker, Participant* defender)
+	{
+		//TODO Schaden auswürfeln
+		int damage = 5;
+		defender->creature->applyDamage(damage, NULL); //TODO: Waffe des Angreifers
+	}
+
+	bool Combat::canDefend(Participant* defender, Participant* attacker)
+	{
+		if (defender->pareesLeft == 0)
+			return false;
+
+		return true;
+	}
+
+	Combat::CombatEvt* Combat::getLastEvent()
+	{
+		return mEventStack[mEventStack.size() - 1];
+	}
+
+	Combat::CombatEvt* Combat::getSecondLastEvent()
+	{
+		return mEventStack[mEventStack.size() - 2];
+	}
+
+	void Combat::popEventStack()
+	{
+		CombatEvt* evt = getLastEvent();
+		mEventStack.pop_back();
+		delete evt;
+	}
+
+	int Combat::getAttackeModifier(rl::Combat::Participant *attacker)
+	{
+		return 0; //TODO
+	}
+
+	int Combat::getParadeModifier(rl::Combat::Participant *defender)
+	{
+		return 0; //TODO
+	}
+
+	void Combat::start()
+	{
+		mStarted = true;
 	}
 }

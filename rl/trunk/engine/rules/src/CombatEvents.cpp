@@ -63,7 +63,7 @@ namespace rl {
 		return mSlowMotionFactor;
 	}
 
-	CombatEventType AskForActionEvent::getEventType() 
+	CombatEvent::CombatEventType AskForActionEvent::getEventType() 
 	{
 		return CEV_ASK_FOR_ACTION;
 	}
@@ -95,7 +95,7 @@ namespace rl {
 		return mOpponent;
 	}
 
-	CombatEventType AskForReactionEvent::getEventType() 
+	CombatEvent::CombatEventType AskForReactionEvent::getEventType() 
 	{
 		return CEV_ASK_FOR_REACTION;
 	}
@@ -112,7 +112,7 @@ namespace rl {
 
 	}
 
-	CombatEventType CombatFinishEvent::getEventType()
+	CombatEvent::CombatEventType CombatFinishEvent::getEventType()
 	{
 		return CEV_FINISH;
 	}
@@ -139,11 +139,11 @@ namespace rl {
 		{
 			switch (anEvent->getEventType())
 			{
-			case CEV_ASK_FOR_REACTION:
+			case CombatEvent::CEV_ASK_FOR_REACTION:
 				return eventRaised(static_cast<AskForReactionEvent*>(anEvent));
-			case CEV_ASK_FOR_ACTION:
+			case CombatEvent::CEV_ASK_FOR_ACTION:
 				return eventRaised(static_cast<AskForActionEvent*>(anEvent));
-			case CEV_FINISH:
+			case CombatEvent::CEV_FINISH:
 				return eventRaised(static_cast<CombatFinishEvent*>(anEvent));
 			}
 		}

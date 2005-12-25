@@ -23,35 +23,13 @@
 
 namespace rl {
 
-	class Combat;
-	class CombatEvent;
-	class AskForReactionEvent;
-	class AskForActionEvent;
-	class CombatFinishEvent;
-	class Creature;
-
-	class _RlRulesExport CombatEventListener : public EventListener<CombatEvent>
-	{
-	private:
-		int mGroup;
-
-	public:
-		CombatEventListener(int group);
-
-		int getGroup();
-
-		bool eventRaised(CombatEvent *anEvent);
-
-		virtual bool eventRaised(AskForReactionEvent* anEvent) = 0;
-		virtual bool eventRaised(AskForActionEvent* anEvent) = 0;
-		virtual bool eventRaised(CombatFinishEvent* anEvent) = 0;
-	};
-
-	enum CombatEventType {
-		CEV_ASK_FOR_ACTION,
-		CEV_ASK_FOR_REACTION,
-		CEV_FINISH
-	};
+	class _RlRulesExport Combat;
+	class _RlRulesExport CombatEvent;
+	class _RlRulesExport CombatEventListener;
+	class _RlRulesExport AskForReactionEvent;
+	class _RlRulesExport AskForActionEvent;
+	class _RlRulesExport CombatFinishEvent;
+	class _RlRulesExport Creature;
 
 	/**
 	 * Events im Kampf
@@ -59,19 +37,24 @@ namespace rl {
 	class _RlRulesExport CombatEvent : public virtual EventObject
 	{
 	public:
+
+		enum CombatEventType {
+			CEV_ASK_FOR_ACTION,
+			CEV_ASK_FOR_REACTION,
+			CEV_FINISH
+		};
+
+
 		CombatEvent(EventSource* combat);
 		virtual ~CombatEvent();
 
 		Combat* getCombat();
 		virtual bool isGroupRelevant(int group) = 0;
 
-	protected:
 		virtual CombatEventType getEventType() = 0;
 
 	private:
 		Combat* mCombat;
-
-		friend bool CombatEventListener::eventRaised(CombatEvent*);
 	};
 
 	class _RlRulesExport AskForActionEvent : public CombatEvent
@@ -90,7 +73,6 @@ namespace rl {
 
 		virtual bool isGroupRelevant(int group);
 
-	protected:
 		virtual CombatEventType getEventType();
 
 	private:
@@ -111,8 +93,6 @@ namespace rl {
 
 		Creature* getOpponent();
 		virtual bool isGroupRelevant(int group);
-
-	protected:
 		virtual CombatEventType getEventType();
 
 	private:
@@ -125,8 +105,24 @@ namespace rl {
 		CombatFinishEvent(
 			Combat* combat);
 		virtual bool isGroupRelevant(int group);
-	protected:
 		virtual CombatEventType getEventType();
+	};
+
+	class _RlRulesExport CombatEventListener : public EventListener<CombatEvent>
+	{
+	private:
+		int mGroup;
+
+	public:
+		CombatEventListener(int group);
+
+		int getGroup();
+
+		bool eventRaised(CombatEvent *anEvent);
+
+		virtual bool eventRaised(AskForReactionEvent* anEvent) = 0;
+		virtual bool eventRaised(AskForActionEvent* anEvent) = 0;
+		virtual bool eventRaised(CombatFinishEvent* anEvent) = 0;
 	};
 }
 

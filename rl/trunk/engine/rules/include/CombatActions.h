@@ -22,6 +22,8 @@
 
 namespace rl {
 
+	class _RlRulesExport Creature;
+
 	class _RlRulesExport CombatAction {
 	public:
 		enum CombatActionType {
@@ -31,12 +33,23 @@ namespace rl {
 			PAREE
 		};
 
+		CombatAction();
+		CombatAction(Creature* source);
+		virtual ~CombatAction() = 0 {};
+
 		virtual CombatActionType getType() = 0; 
+
+		Creature* getSource();
+		void setSource(Creature* source);
+	private:
+		Creature* mSource;
 	};
 
 	class _RlRulesExport CombatActionMove : public CombatAction {
 	public:
-		CombatActionMove(MoveType moveType, Ogre::Vector3 moveTarget);
+		CombatActionMove(Creature* source, MoveType moveType, Ogre::Vector3 moveTarget);
+		virtual ~CombatActionMove();
+
 		virtual CombatActionType getType() { return MOVE; }
 
 		MoveType getMoveType();
@@ -48,27 +61,32 @@ namespace rl {
 
 	class _RlRulesExport CombatActionAttack : public CombatAction {
 	public:
-		CombatActionAttack(Creature* target);
+		CombatActionAttack(Creature* source, Creature* target);
+		virtual ~CombatActionAttack();
+
 		virtual CombatActionType getType() { return ATTACK; }
 
 		Creature* getTarget();
+		
+		const CeGuiString& getKampftechnik();
+		void setKampftechnik(const CeGuiString& kampftechnik);
 	private:
 		Creature* mTarget;
+		CeGuiString mKampftechnik;
 	};
 
-	class _RlRulesExport CombatActionParee : public CombatAction {
+	class _RlRulesExport CombatActionParee : public CombatActionAttack {
 	public:
-		CombatActionParee(Creature* target);
+		CombatActionParee(Creature* source, Creature* target);
+		virtual ~CombatActionParee();
 		virtual CombatActionType getType() { return PAREE; }
-
-		Creature* getTarget();
-	private:
-		Creature* mTarget;
 	};
 
 	class _RlRulesExport CombatActionNop : public CombatAction {
 	public:
 		CombatActionNop();
+		virtual ~CombatActionNop();
+
 		virtual CombatActionType getType() { return NO_ACTION; }
 	};
 

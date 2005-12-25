@@ -76,10 +76,6 @@ namespace rl
 		 *    gefunden werden.
 		 */
         virtual int getWert(int id) const;
-		virtual int getAttackeBasis() const;
-	    virtual int getParadeBasis() const;
-		virtual int getFernkampfBasis() const;
-		virtual int getInitiativeBasis() const;
 		virtual int getMrBasis() const;
         virtual int getLeBasis() const;
 		virtual int getAuBasis() const;
@@ -418,6 +414,7 @@ namespace rl
 		*  @param kampftechnikName Bezeichnet die Kampftechnik in dem die 
 		*   Parade ausgefuehrt wird.
 		*  @param mod Erschwert oder erleichtert die Parade.
+		*  @param gluecklicheParade Versucht eine gute Parade (bei einem gluecklichen Treffer)
 		*  @return Der Rueckgabewert kann folgende Werte annehmen:\n
 		*   RESULT_ERFOLG\n
 		*   RESULT_MISSERFOLG\n
@@ -426,7 +423,7 @@ namespace rl
 		*  @exception InvalidArgumentException Kampftechnik nicht in 
 		*   mKampftechniken gefunden.
 		**/
-		int doParade(const CeGuiString& kampftechnikName, int modifier);
+		int doParade(const CeGuiString& kampftechnikName, int modifier, bool guteParade = false);
 
 		/**
 		 *  @brief Fuehrt einen Initiativewurf durch.
@@ -435,6 +432,19 @@ namespace rl
 		 *    'Orientieren'.
 		 **/
 		int doInitiativeWurf(bool getMaxInitiative = false);
+
+		/**
+		 *  @brief Fuegt der Kreatur Schaden zu
+		 *  @param sp die Schadenspunkte
+		 *  @param weapon die Waffe, mit der der Schaden zugefuegt wurde (fuer
+		 *    Schadenstypen), bei NULL sind die SP als TP zu werten
+		 **/
+		void applyDamage(int sp, Weapon* weapon);
+
+		virtual int getAttackeBasis() const;
+	    virtual int getParadeBasis() const;
+		virtual int getFernkampfBasis() const;
+		virtual int getInitiativeBasis() const;
 
 	private:
         int mCurrentLe;

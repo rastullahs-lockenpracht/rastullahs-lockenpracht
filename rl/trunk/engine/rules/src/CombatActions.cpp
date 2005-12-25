@@ -17,9 +17,34 @@
 #include "CombatActions.h"
 
 namespace rl {
-	CombatActionMove::CombatActionMove(MoveType moveType, Ogre::Vector3 moveTarget) 
+
+	CombatAction::CombatAction()
+		: mSource(NULL)
+	{
+	}
+
+	CombatAction::CombatAction(rl::Creature* source)
+		: mSource(source)
+	{
+	}
+
+	Creature* CombatAction::getSource()
+	{
+		return mSource;
+	}
+
+	void CombatAction::setSource(rl::Creature* source)
+	{
+		mSource = source;
+	}
+
+	CombatActionMove::CombatActionMove(Creature* source, MoveType moveType, Ogre::Vector3 moveTarget) 
 		: mType(moveType),
 		mTarget(moveTarget)
+	{
+	}
+
+	CombatActionMove::~CombatActionMove()
 	{
 	}
 
@@ -33,10 +58,9 @@ namespace rl {
 		return mType;
 	}
 
-	CombatActionAttack::CombatActionAttack(Creature* target)
+	CombatActionAttack::CombatActionAttack(Creature* source, Creature* target)
 		: mTarget(target)
 	{
-
 	}
 
 	Creature* CombatActionAttack::getTarget()
@@ -44,19 +68,35 @@ namespace rl {
 		return mTarget;
 	}
 
-	CombatActionParee::CombatActionParee(Creature* target)
-		: mTarget(target)
+	const CeGuiString& CombatActionAttack::getKampftechnik()
 	{
-
+		return mKampftechnik;
 	}
 
-	Creature* CombatActionParee::getTarget()
+	CombatActionAttack::~CombatActionAttack()
 	{
-		return mTarget;
 	}
 
-	CombatActionNop::
-		CombatActionNop()
+	void CombatActionAttack::setKampftechnik(const CeGuiString& kampftechnik)
+	{
+		mKampftechnik = kampftechnik;
+	}
+
+	CombatActionParee::CombatActionParee(Creature* source, Creature* target)
+		: CombatActionAttack(source, target)
+	{
+	}
+
+	CombatActionParee::~CombatActionParee()
+	{
+	}
+
+
+	CombatActionNop::CombatActionNop()
+	{
+	}
+
+	CombatActionNop::~CombatActionNop()
 	{
 	}
 }

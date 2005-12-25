@@ -18,7 +18,10 @@
 #define __Combat_H__
 
 #include "RulesPrerequisites.h"
+
+#include <stack>
 #include <vector>
+
 #include "EventSource.h"
 #include "EventCaster.h"
 #include "CombatEvents.h"
@@ -37,6 +40,9 @@ namespace rl {
 
 	class Creature;
 	class CombatAction;
+	class CombatActionAttack;
+	class CombatActionMove;
+	class CombatActionParee;
 
 
 	/**
@@ -45,6 +51,7 @@ namespace rl {
 	class _RlRulesExport Combat : public EventSource, public GameTask
 	{
 	public:
+		static const int ACTION_TIME_OVER = 0;
 
 		Combat(int slowMotionFactor = 1.0);
 		~Combat();
@@ -87,9 +94,13 @@ namespace rl {
 		void addCombatEventListener(CombatEventListener* listener);
 		void removeCombatEventListener(CombatEventListener* listener);
 
+		void run(Ogre::Real elapsedTime);
 
-	private:
+		void start();
+
+	protected:
 		static const int INI_START = 99999999;
+		static const int NO_INI = -9999999;
 
 		/**
 		 * Speichert alle Daten, die eine Kreatur in diesem Kampf hat
@@ -106,19 +117,35 @@ namespace rl {
 
 			//DSA-Daten
 			int initiative;
-			static const int NO_INI = -9999999;
 
+			int pareesLeft;
+			
 			//Naechste Vorhaben
 			Creature* attackeTarget;
 			Creature* paradeTarget;
 
 			CombatAction* nextAction;
 			CombatAction* nextReaction;
+
+			CombatAction* nextKRAction;
+			CombatAction* nextKRReaction;
 		};
 		typedef std::map<Creature*, Participant*> CombatMap;
 
+		class CombatEvt
+		{
+		public:
+			CombatEvt(int ini, int iniIdx, bool isAction, Participant* part, CombatAction* action);
+
+			int ini; 
+			int iniIdx; 
+			bool isAction; 
+			Participant* part;
+			CombatAction* action;
+		};
+
 		typedef std::pair<int, long> CombatTime; // INI, vergangene Zeit in dieser INI-Phase
-		typedef std::map<CombatTime, Participant*> CombatEventList;
+		typedef std::map<CombatTime, CombatEvt*> CombatEventList;
 		CombatEventList mEventList;
 
 		Participant* getParticipant(Creature* creature);
@@ -128,17 +155,41 @@ namespace rl {
 
 		int mCurrentInitiative;
 		int mKampfrunde;
+		
 		Ogre::Real mCurrentIniTime;
+		Ogre::Real mCurrentEventStart;
+		Ogre::Real mTimeInKampfrunde;
+		std::vector<CombatEvt*> mEventStack;
 
 		CombatMap mParticipants;
 
 		int mSlowMotionFactor;
-		int mTimeOfAction;
+		bool mIsSlowMotion;
+		Ogre::Real mTimeOfAction;
 
-		EventCaster<CombatEvent> mEventCaster;
+		bool mStarted;
 
-		void run(Ogre::Real elapsedTime);
+		std::map<int, EventCaster<CombatEvent> > mEventCasters;
+
 		CombatEventList::const_iterator findNextCombatEvent(const CombatEventList& eventList);
+
+		bool processEvent(CombatEvt* evt);
+		void sendStartEvent(CombatEvt* evt);
+		void sendStopEvent(CombatEvt* evt);
+		bool processAttack(Participant* part, CombatActionAttack* attack);
+		bool processMove(Participant* part, CombatActionMove* move);
+		bool processParee(Participant* part, CombatActionParee* paree, CombatActionAttack* attack);
+
+		CombatEvt* getLastEvent();
+		CombatEvt* getSecondLastEvent();
+
+		bool canDefend(Participant* defender, Participant* attacker);
+		void executeAttacke(Participant* attacker, Participant* defender);
+
+		int getAttackeModifier(Participant* attacker);
+		int getParadeModifier(Participant* defender);
+
+		void popEventStack();
 	};
 
 }

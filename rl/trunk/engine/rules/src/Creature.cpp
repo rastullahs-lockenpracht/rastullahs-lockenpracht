@@ -44,6 +44,7 @@ namespace rl
 		mEigenschaften[E_KONSTITUTION] = 0;
 		mEigenschaften[E_KOERPERKRAFT] = 0;
 		mCurrentBe = 0;
+		mCurrentInitiativeModifier = 0;
     }
 
 	Creature::~Creature()
@@ -577,11 +578,11 @@ namespace rl
 		int eBe = floor(float(DsaManager::getSingleton().getKampftechnik(kampftechnikName)->calculateEbe(getCurrentBe())) / 2.0);
 
 		int probe = DsaManager::getSingleton().rollD20();
-		if (probe == 1)
+		if (probe == 1) // TODO: Bestätigen
 		{
 			rval = RESULT_GLUECKLICH;
 		}
-		else if (probe == 20)
+		else if (probe == 20) // TODO: Bestätigen
 		{
 			rval = RESULT_PATZER;
 		}
@@ -589,11 +590,13 @@ namespace rl
 		{
 			rval = getAttackeBasis() + (*it).second.first - (probe + modifier - eBe);
 		}
-		if (rval < 0) return RESULT_MISSERFOLG;
-		else return RESULT_ERFOLG;
+		if (rval < 0) 
+			return RESULT_MISSERFOLG;
+		else 
+			return RESULT_ERFOLG;
 	}
 
-	int Creature::doParade(const CeGuiString& kampftechnikName, int modifier)
+	int Creature::doParade(const CeGuiString& kampftechnikName, int modifier, bool guteParade)
 	{
 		KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikName);
 		if (it == mKampftechniken.end())
@@ -604,20 +607,23 @@ namespace rl
 		int eBe = ceil(float(DsaManager::getSingleton().getKampftechnik(kampftechnikName)->calculateEbe(getCurrentBe())) / 2.0);
 
 		int probe = DsaManager::getSingleton().rollD20();
-		if (probe == 1)
+		if (probe == 1) // TODO: Bestätigen
 		{
 			rval = RESULT_GLUECKLICH;
 		}
 		else if (probe == 20)
 		{
-			rval = RESULT_PATZER;
+			rval = RESULT_PATZER; // TODO: Bestätigen
 		}
 		else
 		{
+			// TODO: Gute Parade
 			rval = getParadeBasis() + (*it).second.second - (probe + modifier - eBe);
 		}
-		if (rval < 0) return RESULT_MISSERFOLG;
-		else return RESULT_ERFOLG;
+		if (rval < 0) 
+			return RESULT_MISSERFOLG;
+		else 
+			return RESULT_ERFOLG;
 	}
 
 	int Creature::doInitiativeWurf(bool getMaxInitiave)
@@ -628,5 +634,11 @@ namespace rl
 		if (getMaxInitiave) rval += 6;
 		else rval += DsaManager::getSingleton().rollD6();
 		return rval;
+	}
+
+	/** @TODO: Implement correctly */
+	void Creature::applyDamage(int sp, Weapon* weapon)
+	{
+		modifyLe(-sp);
 	}
 }
