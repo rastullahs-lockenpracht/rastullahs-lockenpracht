@@ -1,6 +1,8 @@
 #ifndef __DATETEST_H__
 #define __DATETEST_H__
 
+#include "RulesTestPrerequisites.h"
+
 #include "Date.h"
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>

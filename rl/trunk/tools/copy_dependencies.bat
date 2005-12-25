@@ -1,5 +1,5 @@
 @SET RL_ROOT="%1"
-@SET RL_DIST="%1\rl_dist"
+@SET RL_DIST="%3"
 @SET BUILD="%2"
 
 @SET OGREHOME="%RL_ROOT%\Dependencies\ogrenew"

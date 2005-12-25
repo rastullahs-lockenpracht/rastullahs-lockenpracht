@@ -1,2 +1,1 @@
-@call copy_dependencies.bat .. debug
-
+@call copy_dependencies.bat .. debug ..\rl_dist

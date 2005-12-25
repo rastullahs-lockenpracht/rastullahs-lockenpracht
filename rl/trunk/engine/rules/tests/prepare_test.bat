@@ -1,26 +1,34 @@
-@SET RL_ROOT=%1
-@SET BUILD=%2
-@SET TARGET_DIR=%1\engine\rules\tests\%BUILD%
+@echo off
+set RL_ROOT=%1
+set BUILD=%2
+set TARGET_DIR=%1\engine\rules\tests\%BUILD%
 
-@SET OGREHOME=%RL_ROOT%\Dependencies\ogre
-@SET OGREDEPS=%OGREHOME%\Dependencies
+set DEPENDENCIES=%RL_ROOT%dependencies
+set OGREHOME=%DEPENDENCIES%\ogrenew
+set OGREDEPS=%OGREHOME%\Dependencies
+
 
 REM Binaries kopieren
 REM ---------------------
-copy %RL_ROOT%\engine\rules\lib\%BUILD%\RlRules.dll %TARGET_DIR%\
+copy %RL_ROOT%\engine\common\lib\%BUILD%\RlCommon.dll	%TARGET_DIR%\
+copy %RL_ROOT%\engine\core\lib\%BUILD%\RlCore.dll	%TARGET_DIR%\
+copy %RL_ROOT%\engine\sound\lib\%BUILD%\RlSound.dll	%TARGET_DIR%\
+copy %RL_ROOT%\engine\rules\lib\%BUILD%\RlRules.dll	%TARGET_DIR%\
 
-REM Ogre-Dateien kopieren
+REM Dependencies kopieren
 REM ---------------------
-copy %OGREHOME%\OgreMain\lib\%BUILD%\OgreMain.dll %TARGET_DIR%
-xcopy %OGREDEPS%\DevIL\lib\*.dll %TARGET_DIR%\ /I /K /Y /F
+copy %DEPENDENCIES%\cppunit\lib\*.dll			%TARGET_DIR%
+call %RL_ROOT%\tools\copy_dependencies.bat %1 %2	%TARGET_DIR%
 
-REM Ruby-Dateien kopieren
-REM ---------------------
-@REM copy %RL_ROOT%\Dependencies\ruby\bin\msvcrt-ruby18.dll %TARGET_DIR%
 
-REM Daten-Dateien kopieren
+REM Dependencies kopieren
 REM ---------------------
-copy %RL_ROOT%\engine\rules\data\* %TARGET_DIR%
+REM /* copy %DEPENDENCIES%\ruby\bin\msvcrt-ruby18.dll %TARGET_DIR% */
+copy %DEPENDENCIES%\fmod\api\fmod.dll			%TARGET_DIR%
+
+REM Testdaten-Dateien kopieren
+REM ---------------------
+copy %RL_ROOT%\engine\rules\data\*			%TARGET_DIR%
 
 pause
 

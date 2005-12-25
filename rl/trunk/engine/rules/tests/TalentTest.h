@@ -1,6 +1,8 @@
 #ifndef __TALENTTEST_H__
 #define __TALENTTEST_H__
 
+#include "RulesTestPrerequisites.h"
+
 #include "DsaManager.h"
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>

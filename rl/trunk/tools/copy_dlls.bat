@@ -18,6 +18,3 @@ copy "%RL_ROOT%\engine\common\lib\%BUILD%\RlCommon.dll" "%RL_DIST%"
 copy "%RL_ROOT%\engine\dialog\lib\%BUILD%\RlDialog.dll" "%RL_DIST%"
 copy "%RL_ROOT%\engine\script\lib\%BUILD%\RlScript.dll" "%RL_DIST%"
 copy "%RL_ROOT%\engine\uicomponents\lib\%BUILD%\RlUiComponents.dll" "%RL_DIST%"
-
-
-
