@@ -1,5 +1,5 @@
 load 'embed.rb'
 
-$CORE.log("showMainMenu()..")
+$SCRIPT.log("showMainMenu()..")
 $UI.showMainMenu()
-$CORE.log("done.")
+$SCRIPT.log("done.")

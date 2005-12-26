@@ -5,9 +5,9 @@ class Crate < GameObject
     super(name, description);
 
     crateActor = $AM.createMeshActor( "crate", "kiste.mesh",  PhysicsManager::GT_BOX, 220.0 );
-    $CORE.log("crate.rb - Aktor erstellt.");
+    $SCRIPT.log("crate.rb - Aktor erstellt.");
     setActor(crateActor);
-    $CORE.log("crate.rb - Aktor gesetzt");
+    $SCRIPT.log("crate.rb - Aktor gesetzt");
   end
 end
 

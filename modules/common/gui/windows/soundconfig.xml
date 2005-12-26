@@ -6,43 +6,31 @@
 		<Property Name="Height" Value="450"/>
 		<Property Name="SizingEnabled" Value="true"/>
 
-		<Window Type="DefaultGUISheet" Name="PlaylistSheet/ButtonSheet">
-			<Property Name="RelativePosition" Value="x:0.0 y:0.0"/>
-			<Property Name="RelativeWidth" Value="1.0"/>
-			<Property Name="RelativeHeight" Value="0.5"/>
-			<Property Name="Text" Value="Buttons"/>
-			
-			<Window Type="RastullahLook/Button" Name="PlaylistSheet/ButtonSheet/OK">
-				<Property Name="Text" Value="OK"/>
-            	<Property Name="RelativeXPosition" Value="0.01"/>
-            	<Property Name="AbsoluteYPosition" Value="17"/>
-            	<Property Name="RelativeWidth" Value="0.1"/>
-            	<Property Name="AbsoluteHeight" Value="25"/>
-            	<Property Name="Font" Value="Vera Serif-14"/>
-			</Window>
-
-			<Window Type="RastullahLook/Button" Name="PlaylistSheet/ButtonSheet/Cancel">
-				<Property Name="Text" Value="Cancel"/>
-            	<Property Name="RelativeXPosition" Value="0.9"/>
-            	<Property Name="AbsoluteYPosition" Value="17"/>
-            	<Property Name="RelativeWidth" Value="0.1"/>
-            	<Property Name="AbsoluteHeight" Value="25"/>
-            	<Property Name="Font" Value="Vera Serif-14"/>
-			</Window>
+		<Window Type="RastullahLook/Listbox" Name="SoundConfig/Table">
+			<Property Name="RelativeXPosition" Value="0.05" />
+			<Property Name="RelativeYPosition" Value="0.1" />
+			<Property Name="RelativeWidth" Value="0.9" />
+			<Property Name="RelativeHeight" Value="0.7" />
 		</Window>
 
-    	<Window Type="DefaultGUISheet" Name="PlaylistSheet/PlaylistSheet">
-      		<Property Name="RelativePosition" Value="x:0.0 y:0.0"/>
-      		<Property Name="RelativeWidth" Value="1.0"/>
-      		<Property Name="RelativeHeight" Value="1.0"/>
-			<Property Name="Text" Value="List" />
-
-			<Window Type="RastullahLook/MultiColumnList" Name="PlaylistSheet/PlaylistSheet/Table">
-				<Property Name="RelativePosition" Value="x:0.0 y:0.0"/>
-				<Property Name="RelativeWidth" Value="1.0"/>
-				<Property Name="RelativeHeight" Value="1.0"/>
-			</Window>
+		<Window Type="RastullahLook/Button" Name="SoundConfig/OK">
+			<Property Name="Text" Value="OK"/>
+        	<Property Name="RelativeXPosition" Value="0.05"/>
+        	<Property Name="RelativeYPosition" Value="0.85"/>
+        	<Property Name="RelativeWidth" Value="0.1"/>
+        	<Property Name="AbsoluteHeight" Value="35"/>
+        	<Property Name="Font" Value="Vera Serif-14"/>
 		</Window>
+
+		<Window Type="RastullahLook/Button" Name="SoundConfig/Cancel">
+			<Property Name="Text" Value="Cancel"/>
+        	<Property Name="RelativeXPosition" Value="0.85"/>
+        	<Property Name="RelativeYPosition" Value="0.85"/>
+        	<Property Name="RelativeWidth" Value="0.1"/>
+        	<Property Name="AbsoluteHeight" Value="35"/>
+        	<Property Name="Font" Value="Vera Serif-14"/>
+		</Window>
+
 	</Window>
 </GUILayout>
 

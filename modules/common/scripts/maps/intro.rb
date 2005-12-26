@@ -1,22 +1,22 @@
-$CORE.log("init map 'minidemo'...");
+$SCRIPT.log("init map 'minidemo'...");
 $World = $CORE.getWorld()
 $World.setSkyBox(true, "rl/dsa07")
-$CORE.log("skybox set");
+$SCRIPT.log("skybox set");
 
-$CORE.log("Tageslicht erstellen..");
+$SCRIPT.log("Tageslicht erstellen..");
 sunlight = $AM.createLightActor("sunlight", LightObject::LT_DIRECTIONAL);
 sunlight.getControlledObject().setDirection(0.7, -2.0, 0.8);
 sunlight.getControlledObject().setCastShadows(false);
 sunlight.getControlledObject().setDiffuseColour(0.9,0.9,0.8);
-$CORE.log("Tageslicht erstellt.");
+$SCRIPT.log("Tageslicht erstellt.");
 
 
-$CORE.log("Sound laden");
+$SCRIPT.log("Sound laden");
 titelLied = $AM.createSoundSampleActor( "TitelLied", "ruchin001.ogg" ); 
-$CORE.log(" Platzieren");
+$SCRIPT.log(" Platzieren");
 titelLied.placeIntoScene( 160.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0 );
-$CORE.log(" Loopen");
+$SCRIPT.log(" Loopen");
 titelLied.getControlledObject().setLooping( true );
-$CORE.log(" Abspielen");
+$SCRIPT.log(" Abspielen");
 titelLied.getControlledObject().play();
-$CORE.log("Sound fertig");
+$SCRIPT.log("Sound fertig");

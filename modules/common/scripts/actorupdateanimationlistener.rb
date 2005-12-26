@@ -2,7 +2,7 @@ require 'globals.rb'
 
 class ActorUpdateAnimationListener < AnimationListener
 	def animationFinished(anEvent)
-		$CORE.log("animationFinished.");
+		$SCRIPT.log("animationFinished.");
 		anim = anEvent.getAnimation();
 		mo = anim.getMeshObject();
 		actor = mo.getActor();
@@ -11,11 +11,11 @@ class ActorUpdateAnimationListener < AnimationListener
 	end
 	
 	def animationPaused(anEvent)
-		$CORE.log("animationPaused.");
+		$SCRIPT.log("animationPaused.");
 	end
 	
 	def animationUnpaused(anEvent)
-		$CORE.log("animationUnpaused.");
+		$SCRIPT.log("animationUnpaused.");
 	end
 end
 

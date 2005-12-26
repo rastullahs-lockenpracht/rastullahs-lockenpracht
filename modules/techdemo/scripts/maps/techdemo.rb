@@ -5,32 +5,32 @@ require 'hero.rb'
 # Physik aktivieren
 $PM.setEnabled(true);
 
-$CORE.log("init map 'minidemo'...");
+$SCRIPT.log("init map 'minidemo'...");
 $World = $CORE.getWorld()
 $World.setSkyBox(true, "rl/dsa07")
-$CORE.log("skybox set");
+$SCRIPT.log("skybox set");
 
-$CORE.log("Tageslicht erstellen..");
+$SCRIPT.log("Tageslicht erstellen..");
 sunlight = $AM.createLightActor("sunlight", LightObject::LT_DIRECTIONAL);
 sunlight.getControlledObject().setDirection(0.7, -2.0, 0.8);
 sunlight.getControlledObject().setCastShadows(false);
 sunlight.getControlledObject().setDiffuseColour(0.8,0.8,0.7);
-$CORE.log("Tageslicht erstellt.");
+$SCRIPT.log("Tageslicht erstellt.");
 
 # DsaManager.getSingleton().loadDsaDataFile("kalchas.xml");
 
-$CORE.log("Held erstellen");
+$SCRIPT.log("Held erstellen");
 $hero = Hero.new;
 #hero = DsaManager.getSingleton().getPerson(10000);
 #hero.setActor($AM.createMeshActor("Held","held.mesh", 2, -1.0));
-$CORE.log("Held erstellt");
-$CORE.log("Held in die Szene einfuegen.");
+$SCRIPT.log("Held erstellt");
+$SCRIPT.log("Held in die Szene einfuegen.");
 $hero.getActor().placeIntoScene(-300.0, 200.0, 400.0, 1.0, 0.0, 0.0, 0.0);
-$CORE.log("Held eingefügt.");
+$SCRIPT.log("Held eingefügt.");
 PlayerSettings.preparePlayer($hero);
-$CORE.log("Held vorbereitet.");
+$SCRIPT.log("Held vorbereitet.");
 $UI.setActiveCharacter($hero);
-$CORE.log("Held als aktiver Charakter gesetzt.");
+$SCRIPT.log("Held als aktiver Charakter gesetzt.");
 
 
 
@@ -71,4 +71,4 @@ $luftfels = Rock.new("nat_stein_gross_01.mesh", [9300.0, 2088.0, 4113.0], [1.0, 
 $grossefelsen.add($luftfels)
 
 
-$CORE.log("map 'techdemo' initialisiert.");
+$SCRIPT.log("map 'techdemo' initialisiert.");

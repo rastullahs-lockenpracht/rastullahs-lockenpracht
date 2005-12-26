@@ -41,18 +41,18 @@ class Chest < Container
     super(name, "Eine Truhe");
 
     chestActor = $AM.createMeshActor( name, "ver_truhe_gross01.mesh",  0, 0.0 ); 
-    $CORE.log("truhe.rb - Aktor erstellt.");
+    $SCRIPT.log("truhe.rb - Aktor erstellt.");
     setActor(chestActor);
-    $CORE.log("truhe.rb - Aktor gesetzt");
+    $SCRIPT.log("truhe.rb - Aktor gesetzt");
     soundActor = $AM.createSoundSampleActor(name+"_knarzen","doorcreak.ogg");
     chestActor.attachToSlot(soundActor,"Bone01");
-    $CORE.log("truhe.rb - Sound hinzugefuegt");
+    $SCRIPT.log("truhe.rb - Sound hinzugefuegt");
 
     @mOpen = isOpen;
 
     addAction(OpenContainerAction.new);
     addAction(CloseContainerAction.new);
-    $CORE.log("truhe.rb - Aktionen hinzugefuegt.");
+    $SCRIPT.log("truhe.rb - Aktionen hinzugefuegt.");
   end
   
   def setOpen( isOpen )

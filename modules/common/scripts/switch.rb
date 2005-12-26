@@ -85,16 +85,16 @@ class Switch < GameObject
     super(name, "Ein Hebel");
 
     switchActor = $AM.createMeshActor(name, "arc_hebel_01.mesh" );
-    $CORE.log("switch-actor erstellt.");
+    $SCRIPT.log("switch-actor erstellt.");
     setActor(switchActor);
-    $CORE.log("actor gesetzt");
+    $SCRIPT.log("actor gesetzt");
     
     @state = Switch::STATE_MITTE;
     
     addAction(SwitchUpAction.new);
     addAction(SwitchDownAction.new);
     addAction(SwitchMiddleAction.new);
-    $CORE.log("Aktionen hinzugefuegt.");
+    $SCRIPT.log("Aktionen hinzugefuegt.");
   end
 
   def getState()

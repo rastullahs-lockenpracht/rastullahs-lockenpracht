@@ -19,12 +19,12 @@ class Hero < Person
 	    modifyLe(-20); # 10 LeP abziehen
 
 
-        $CORE.log("Heldenaktor erstellen...");
+        $SCRIPT.log("Heldenaktor erstellen...");
         $heldaktor = $AM.createMeshActor("Held","held.mesh", PhysicsManager::GT_ELLIPSOID, 75.0);
         setActor($heldaktor);
 
         addSounds()
-        $CORE.log("done.");
+        $SCRIPT.log("done.");
     end
 
     def addSounds

@@ -12,7 +12,7 @@ class OpenDoorAction < Action
   end
   
   def doAction(door, user, target)    
-    $CORE.log("doAction");
+    $SCRIPT.log("doAction");
     print "doAction";
     doorActor = door.getActor(); 
     doorActor.getControlledObject().replaceAnimation("zu", "auf", 1.0, 1);
@@ -58,12 +58,12 @@ class Door < GameObject
     super(name, description);
 
     doorActor = $AM.createMeshActor( name, "arc_tuer_01.mesh",  PhysicsManager::GT_CONVEXHULL, 0.0 ); #PhysicsManager::GT_BOX , 6.0);
-    $CORE.log("door.rb - Aktor erstellt.");
+    $SCRIPT.log("door.rb - Aktor erstellt.");
     setActor(doorActor);
-    $CORE.log("door.rb - Aktor gesetzt");
+    $SCRIPT.log("door.rb - Aktor gesetzt");
     soundActor = $AM.createSoundSampleActor(name+"_knarzen","doorcreak.ogg");
     doorActor.attachToSlot(soundActor,"Bone01");
-    $CORE.log("door.rb - Sound hinzugefuegt");
+    $SCRIPT.log("door.rb - Sound hinzugefuegt");
 
     @mOpen = isOpen
     @mOpenAction = OpenDoorAction.new()
@@ -74,11 +74,11 @@ class Door < GameObject
     if (canBeOpened)
     	addAction(@mOpenAction);
     	addAction(@mCloseAction);
-    	$CORE.log("door.rb - Aktionen hinzugefuegt.");
+    	$SCRIPT.log("door.rb - Aktionen hinzugefuegt.");
     else
     	addAction(@mOpenAction, Action::ACT_DISABLED);
     	addAction(@mCloseAction, Action::ACT_DISABLED);
-    	$CORE.log("door.rb - Aktionen versteckt hinzugefuegt.");
+    	$SCRIPT.log("door.rb - Aktionen versteckt hinzugefuegt.");
     end
 
     @mDoor.doAction("opendoor") unless not @mOpen

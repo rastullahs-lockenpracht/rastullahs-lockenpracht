@@ -8,7 +8,7 @@
 greifvogel = $AM.createMeshActor("Greifvogel", "tie_greifvogel.mesh" );
 # , PhysicsManager::GT_CAPSULE);
 greifvogel.placeIntoScene(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0);
-$CORE.log("Fackel plaziert.");
+$SCRIPT.log("Fackel plaziert.");
 
 # torch.getActor().setScale( 1.0, 1.0, 1.0 );
 

@@ -43,7 +43,7 @@ class Torch < Item
     super("Fackel", "Handelsuebliche Fackel zum Beleuchten der Umgebung");
 
     torchActor = $AM.createMeshActor( name, "ins_fackel_01.mesh" );
-    $CORE.log("actor erstellt.");
+    $SCRIPT.log("actor erstellt.");
 
     fackellicht = $AM.createLightActor("Das Licht der Fackel", LightObject::LT_POINT );
     fackellicht.getControlledObject().setCastShadows(false);
@@ -52,12 +52,12 @@ class Torch < Item
     torchActor.attachToSlot( fackellicht, "SLOT_FAR_END" );    
     
     setActor(torchActor);
-    $CORE.log("actor gesetzt");
+    $SCRIPT.log("actor gesetzt");
     
     @lit = false;
     
     addAction(UseTorchAction.new);
-    $CORE.log("Aktion hinzugefuegt.");
+    $SCRIPT.log("Aktion hinzugefuegt.");
   end
   
   def setLit(lit)

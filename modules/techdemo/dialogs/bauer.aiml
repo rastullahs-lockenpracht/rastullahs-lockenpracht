@@ -11,22 +11,128 @@
 <aiml:pattern>START DIALOG</aiml:pattern>
 <aiml:template>
 	<aiml:condition rldialog:context="response">
-		Grueße!<aiml:br/>
+		Hallo, Reisender. Was gibt es?<aiml:br/>
 	</aiml:condition>
 	<aiml:condition rldialog:context="option">
-		<aiml:li value="4" id="555">
-			Gehabt euch wohl.
+		<aiml:li value="4" id="1">
+                  Oh Bauer, oh Bauer, es regnet allso sehr! Lasst mich herein!
+	 	</aiml:li>
+
+	 	
+	 	<aiml:li value="4" id="2">
+                  Warum ist denn alles so haesslich hier?
+	 	</aiml:li>
+
+
+                 <aiml:condition rldialog:context="option" type="Eigenschaft" name="MU">
+	                <aiml:li value="1" id="555">Ich bin mutig!</aiml:li>
+	                <aiml:li value="0" id="555">Ich trau mich nicht!</aiml:li>
+                </aiml:condition>
+                
+
+               	<aiml:li value="4" id="3">
+                  Ich moechte noch etwas herumlaufen. Bis dann
 		</aiml:li>
 	</aiml:condition>
 </aiml:template>
 </aiml:category>
 
 <aiml:category>
-<aiml:pattern>555</aiml:pattern>
+<aiml:pattern>1</aiml:pattern>
+<aiml:template>
+  <aiml:condition rldialog:context="response">
+	Ha! Da kann ja jeder kommen. Aber ich lasse dich vielleicht rein. Entweder du erledigst die Spinne auf der anderen Seite des Flusses, oder du bist mir einfach
+        sympathisch, dann lass dich mal anschauen.
+  </aiml:condition>
+  <aiml:condition rldialog:context="option">
+     <aiml:li value="4" id="666">
+     Sich anschauen lassen
+       <aiml:condition rldialog:context="selection" type="Eigenschaft" name="CH">
+   	  <aiml:li value="1" id="6">Geschafft!</aiml:li>
+	  <aiml:li value="0" id="5">Nicht geschafft!</aiml:li>
+	</aiml:condition>
+       </aiml:li>
+     <aiml:li value="4" id="7">Ne dann mach ich lieber die Spinne platt!</aiml:li>
+  </aiml:condition>
+ </aiml:template>
+</aiml:category>
+
+<aiml:category>
+<aiml:pattern>2</aiml:pattern>
+<aiml:template>
+<aiml:condition rldialog:context="response">
+	Dies ist nur eine Techdemo. Auf meinem Land moechte ich keine Schoenheit! Ich moechte nur Funktionalitaet haben!
+</aiml:condition>
+<aiml:condition rldialog:context="option">
+    <aiml:li value="4" id="3">Ach so ist das. Na dann werd ich mich doch mal dem Pantheon-Team anschliessen und selbst helfen alles besser zu machen! Tschoe!</aiml:li>
+</aiml:condition>
+</aiml:template>
+</aiml:category>
+
+<aiml:category>
+<aiml:pattern>3</aiml:pattern>
 <aiml:template>
 	<aiml:system command="exit"/>
 </aiml:template>
 </aiml:category>
+
+
+<aiml:category>
+<aiml:pattern>5</aiml:pattern>
+<aiml:template>
+  <aiml:condition rldialog:context="response">
+    Ne, du bist zu haesslich! Tschoe.
+  </aiml:condition>
+  <aiml:condition rldialog:context="option">
+    <aiml:li value="4" id="3">
+    ja mist... tschoe
+    </aiml:li>
+  </aiml:condition>
+</aiml:template>
+</aiml:category>
+
+<aiml:category>
+<aiml:pattern>6</aiml:pattern>
+<aiml:template>
+  <aiml:condition rldialog:context="response">
+    Du bist so toll! Komm herein!
+  </aiml:condition>
+  <aiml:condition rldialog:context="option">
+    <aiml:li value="4" id="3">
+    Ok. Ich gehe rein.
+    </aiml:li>
+  </aiml:condition>
+</aiml:template>
+</aiml:category>
+
+<aiml:category>
+<aiml:pattern>7</aiml:pattern>
+<aiml:template>
+  <aiml:condition rldialog:context="response">
+    Ja, mach die Spinne platt.
+  </aiml:condition>
+  <aiml:condition rldialog:context="option">
+    <aiml:li value="4" id="3">
+    Mach ich! Tschoe!
+    </aiml:li>
+  </aiml:condition>
+</aiml:template>
+</aiml:category>
+
+<aiml:category>
+<aiml:pattern>666</aiml:pattern>
+<aiml:template>
+  <aiml:condition rldialog:context="response">
+    Dies ist die Dummy-ID
+  </aiml:condition>
+  <aiml:condition rldialog:context="option">
+    <aiml:li value="4" id="3">
+    Ok. Exit.
+    </aiml:li>
+  </aiml:condition>
+</aiml:template>
+</aiml:category>
+
 
 <aiml:category>
 <aiml:pattern>*</aiml:pattern><!-- Abfangen von "ungueltigen" Eingaben -->

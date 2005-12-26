@@ -1,31 +1,31 @@
 # Nur eingebettet starten
 load( "embed.rb" );
 
-$CORE.log("Fackel erstellen...");
+$SCRIPT.log("Fackel erstellen...");
 torch = Torch.new("Fackel des Grauens");
-$CORE.log("Fackel erstellt.");
+$SCRIPT.log("Fackel erstellt.");
 
-$CORE.log("Fackellicht erstellen..");
+$SCRIPT.log("Fackellicht erstellen..");
 fackellicht = $AM.createLightActor("Das Licht der Fackel", LightObject::LT_POINT );
 fackellicht.getControlledObject().setCastShadows(false);
 fackellicht.getControlledObject().setDiffuseColour(1.0,0.8,0.0);
 fackellicht.getControlledObject().setAttenuation(500.0, 1.0,  0.005, 0.0 );
 torch.getActor().attachToSlot( fackellicht, "SLOT_FAR_END" );
-$CORE.log("Fackellicht erstellt.");
+$SCRIPT.log("Fackellicht erstellt.");
 
-$CORE.log("Partikeldings erstellen..");
+$SCRIPT.log("Partikeldings erstellen..");
 partikeldings = $AM.createParticleSystemActor("Das fitzelnde Leuchten", "PEExamples/ignifaxius" );
 partikeldings.placeIntoScene( -300.0, 0.0, 100.0, 1.0, 0.0, 0.0, 0.0);
 # torch.getActor().attachToSlot(partikeldings, "SLOT_FAR_END" );
 partikeldings.setScale( 4.54, 4.54, 4.54 );
-$CORE.log("Partikeldings erstellt.");
+$SCRIPT.log("Partikeldings erstellt.");
 
 
 held = $AM.createMeshActor("KreisLaufHeld", "held.mesh" );
 # , PhysicsManager::GT_CAPSULE);
 held.placeIntoScene(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0);
 held.attachToSlotAxisRot( torch.getActor(), "Bone15", "SLOT_HANDLE", [0.0, 0.0, 0.0], [ 1.0, 0.0, 0.0 ], 90.0 );
-$CORE.log("Fackel plaziert.");
+$SCRIPT.log("Fackel plaziert.");
 
 # torch.getActor().setScale( 1.0, 1.0, 1.0 );
 

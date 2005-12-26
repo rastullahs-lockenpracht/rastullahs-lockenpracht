@@ -62,7 +62,7 @@ class Torch < Item
     #torchActor = $ActorManager.createMeshActor("Torch", "Torch.mesh",
     #Physics.CAPSULE_GEOM, 1.0);
     torchActor = $AM.createMeshActor( name, "ins_fackel_01.mesh" );
-    $CORE.log("actor erstellt.");
+    $SCRIPT.log("actor erstellt.");
     #lightActor = $ActorManager.createLightActor("TorchLight",
     #Color.YELLOW, Light.POINTLIGHT, Light.LINEAR_ATTENUATION);
     
@@ -78,7 +78,7 @@ class Torch < Item
     #torchActor.attach(Slots.SLOT_FAR_END, sfxActor);
     
     setActor(torchActor);
-    $CORE.log("actor gesetzt");
+    $SCRIPT.log("actor gesetzt");
     
     @lit = false;
     
@@ -87,7 +87,7 @@ class Torch < Item
     # TODO soll nicht so bleiben, dass jede Fackel ne separate
     # Action-Instanz erhält. Eine für alle sollte reichen.
     addAction(LightTorchAction.new);
-    $CORE.log("Aktion hinzugefuegt.");
+    $SCRIPT.log("Aktion hinzugefuegt.");
   end
   
   def setLit(lit)
