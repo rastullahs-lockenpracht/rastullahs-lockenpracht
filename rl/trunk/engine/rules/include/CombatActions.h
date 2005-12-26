@@ -35,7 +35,7 @@ namespace rl {
 
 		CombatAction();
 		CombatAction(Creature* source);
-		virtual ~CombatAction() = 0 {};
+		virtual ~CombatAction() = 0;
 
 		virtual CombatActionType getType() = 0; 
 

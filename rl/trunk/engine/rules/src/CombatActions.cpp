@@ -28,6 +28,11 @@ namespace rl {
 	{
 	}
 
+    CombatAction::~CombatAction()
+    {
+    }
+
+
 	Creature* CombatAction::getSource()
 	{
 		return mSource;
