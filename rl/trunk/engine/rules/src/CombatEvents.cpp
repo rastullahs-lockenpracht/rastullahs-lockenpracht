@@ -20,8 +20,9 @@
 using namespace std;
 
 namespace rl {
-	CombatEvent::CombatEvent(EventSource* combat) 
-		: EventObject(combat)
+	CombatEvent::CombatEvent(EventSource* combat, int id) 
+		: EventObject(combat),
+			mId(id)
 	{ 
 	}
 	
@@ -34,13 +35,19 @@ namespace rl {
 		return static_cast<Combat*>(getSource());
 	}
 
+	int CombatEvent::getId()
+	{
+		return mId;
+	}
+
 
 	AskForActionEvent::AskForActionEvent(
 		Combat* combat, 
+		int id,
 		Creature* actor,
 		Ogre::Real timeToAct, 
 		Ogre::Real slowMotionFactor) 
-			: CombatEvent(combat),
+			: CombatEvent(combat, id),
 			EventObject(combat),
 			mTimeLeftToAct(timeToAct),
 			mSlowMotionFactor(slowMotionFactor),
@@ -80,12 +87,13 @@ namespace rl {
 
 	AskForReactionEvent::AskForReactionEvent(
 		Combat* combat,
+		int id,
 		Creature* actor,
 		Ogre::Real timeToAct, 
 		Ogre::Real slowMotionFactor,
 		Creature* opponent) 
-		: AskForActionEvent(combat, actor, timeToAct, slowMotionFactor),
-		EventObject(combat),
+		: AskForActionEvent(combat, id, actor, timeToAct, slowMotionFactor),
+			EventObject(combat),
 		mOpponent(opponent)
 	{ 
 	}
@@ -105,8 +113,8 @@ namespace rl {
 		return getCombat()->getGroupOf(mOpponent) == group;
 	}
 
-	CombatFinishEvent::CombatFinishEvent(Combat* combat)
-		: CombatEvent(combat),
+	CombatFinishEvent::CombatFinishEvent(Combat* combat, int id)
+		: CombatEvent(combat, id),
 		EventObject(combat)
 	{
 

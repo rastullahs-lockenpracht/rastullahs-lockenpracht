@@ -24,7 +24,10 @@
 
 using namespace std;
 
+
 namespace rl {
+
+	int Combat::CombatEvt::sId = 0;
 
 	Combat::Combat(int slowMotionFactor)
 		: mEventCasters(),
@@ -71,6 +74,7 @@ namespace rl {
 		this->isAction = isAction;
 		this->part = part;
 		this->action = action;
+		this->id = sId++;
 	}
 
 	int Combat::getGroupOf(Creature* creature)
@@ -131,12 +135,26 @@ namespace rl {
 		getParticipant(creature)->paradeTarget = target;
 	}
 
-	void Combat::setNextAction(Creature* creature, CombatAction* action)
+	void Combat::setNextAction(Creature* creature, CombatAction* action, int eventId)
 	{
 		getParticipant(creature)->nextAction = action;
+		if (eventId != -1)
+		{
+			for (std::vector<CombatEvt*>::iterator it = mEventStack.begin(); it != mEventStack.end(); it++)
+			{
+				if ((*it)->id == eventId)
+					(*it)->action = action;
+			}
+
+			for (CombatEventList::iterator it = mEventList.begin(); it != mEventList.end(); it++)
+			{
+				if ((*it).second->id == eventId)
+					(*it).second->action = action;
+			}
+		}
 	}
 
-	void Combat::setNextReaction(Creature* creature, CombatAction* reaction)
+	void Combat::setNextReaction(Creature* creature, CombatAction* reaction, int eventId)
 	{
 		getParticipant(creature)->nextReaction = reaction;
 	}
@@ -188,7 +206,7 @@ namespace rl {
 			mCurrentIniTime = evt->iniIdx;
 
 			mEventStack.push_back(evt);
-			mEventCasters[evt->part->group].dispatchEvent(new AskForActionEvent(this, evt->part->creature, mTimeOfAction, mSlowMotionFactor));
+			mEventCasters[evt->part->group].dispatchEvent(new AskForActionEvent(this, evt->id, evt->part->creature, mTimeOfAction, mSlowMotionFactor));
 			mIsSlowMotion = true;
 		}
 	}
@@ -292,9 +310,9 @@ namespace rl {
 	void Combat::sendStopEvent(CombatEvt* evt)
 	{
 		if (evt->isAction)
-			mEventCasters[evt->part->group].dispatchEvent(new AskForActionEvent(this, evt->part->creature, ACTION_TIME_OVER, mSlowMotionFactor));
+			mEventCasters[evt->part->group].dispatchEvent(new AskForActionEvent(this, evt->id, evt->part->creature, ACTION_TIME_OVER, mSlowMotionFactor));
 		else
-			mEventCasters[evt->part->group].dispatchEvent(new AskForReactionEvent(this, evt->part->creature, ACTION_TIME_OVER, mSlowMotionFactor, NULL)); //TODO: Opponent may be NULL in time over event?
+			mEventCasters[evt->part->group].dispatchEvent(new AskForReactionEvent(this, evt->id, evt->part->creature, ACTION_TIME_OVER, mSlowMotionFactor, NULL)); //TODO: Opponent may be NULL in time over event?
 	}
 
 	bool Combat::processAttack(Participant* attacker, CombatActionAttack* attack)
@@ -302,18 +320,18 @@ namespace rl {
 		Participant* defender = getParticipant(attack->getTarget());
 		int result = attacker->creature->doAttacke(attack->getKampftechnik(), getAttackeModifier(attacker));
 
-		if (canDefend(defender, attacker))
+		if (true /*canDefend(defender, attacker, result)*/)
 		{
 			CombatEvt* evt = new CombatEvt(mCurrentInitiative, 0, false, defender, defender->nextReaction);
 			mEventStack.push_back(evt);
 			mCurrentEventStart = mTimeInKampfrunde;
-			mEventCasters[evt->part->group].dispatchEvent(new AskForReactionEvent(this, evt->part->creature, mTimeOfAction, mSlowMotionFactor, attacker->creature));
+			mEventCasters[evt->part->group].dispatchEvent(new AskForReactionEvent(this, evt->id, evt->part->creature, mTimeOfAction, mSlowMotionFactor, attacker->creature));
 			return false;
 		}
 		else
 		{
-			executeAttacke(attacker, defender);
-			popEventStack();
+			//executeAttacke(attacker, defender);
+			//popEventStack();
 			return true;
 		}
 	}

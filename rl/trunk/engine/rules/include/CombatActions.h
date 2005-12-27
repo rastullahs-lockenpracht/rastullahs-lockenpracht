@@ -61,7 +61,7 @@ namespace rl {
 
 	class _RlRulesExport CombatActionAttack : public CombatAction {
 	public:
-		CombatActionAttack(Creature* source, Creature* target);
+		CombatActionAttack(Creature* source, Creature* target, const CeGuiString& kampftechnik = "");
 		virtual ~CombatActionAttack();
 
 		virtual CombatActionType getType() { return ATTACK; }
@@ -77,7 +77,7 @@ namespace rl {
 
 	class _RlRulesExport CombatActionParee : public CombatActionAttack {
 	public:
-		CombatActionParee(Creature* source, Creature* target);
+		CombatActionParee(Creature* source, Creature* target, const CeGuiString& kampftechnik = "");
 		virtual ~CombatActionParee();
 		virtual CombatActionType getType() { return PAREE; }
 	};

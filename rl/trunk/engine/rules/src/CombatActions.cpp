@@ -44,7 +44,8 @@ namespace rl {
 	}
 
 	CombatActionMove::CombatActionMove(Creature* source, MoveType moveType, Ogre::Vector3 moveTarget) 
-		: mType(moveType),
+		: CombatAction(source),
+		mType(moveType),
 		mTarget(moveTarget)
 	{
 	}
@@ -63,8 +64,10 @@ namespace rl {
 		return mType;
 	}
 
-	CombatActionAttack::CombatActionAttack(Creature* source, Creature* target)
-		: mTarget(target)
+	CombatActionAttack::CombatActionAttack(Creature* source, Creature* target, const CeGuiString& kampftechnik)
+		: CombatAction(source),
+		mTarget(target),
+		mKampftechnik(kampftechnik)
 	{
 	}
 
@@ -87,8 +90,8 @@ namespace rl {
 		mKampftechnik = kampftechnik;
 	}
 
-	CombatActionParee::CombatActionParee(Creature* source, Creature* target)
-		: CombatActionAttack(source, target)
+	CombatActionParee::CombatActionParee(Creature* source, Creature* target, const CeGuiString& kampftechnik)
+		: CombatActionAttack(source, target, kampftechnik)
 	{
 	}
 
@@ -98,6 +101,7 @@ namespace rl {
 
 
 	CombatActionNop::CombatActionNop()
+		: CombatAction(NULL)
 	{
 	}
 

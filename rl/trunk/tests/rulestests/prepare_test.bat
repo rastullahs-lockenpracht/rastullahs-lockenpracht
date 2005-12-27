@@ -1,12 +1,13 @@
 @echo off
-set RL_ROOT=%1
+set RL_ROOT=%1\..
 set BUILD=%2
-set TARGET_DIR=%1\engine\rules\tests\%BUILD%
+set TARGET_DIR=%1\tests\rulestests\%BUILD%
 
 set DEPENDENCIES=%RL_ROOT%dependencies
 set OGREHOME=%DEPENDENCIES%\ogrenew
 set OGREDEPS=%OGREHOME%\Dependencies
 
+call prepare_test_dlls.bat
 
 REM Binaries kopieren
 REM ---------------------
@@ -29,6 +30,3 @@ copy %DEPENDENCIES%\fmod\api\fmod.dll			%TARGET_DIR%
 REM Testdaten-Dateien kopieren
 REM ---------------------
 copy %RL_ROOT%\engine\rules\data\*			%TARGET_DIR%
-
-pause
-

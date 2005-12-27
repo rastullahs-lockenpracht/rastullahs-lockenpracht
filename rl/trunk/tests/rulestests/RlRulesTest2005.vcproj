@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\common\include;..\..\core\include;..\..\rules\include;..\..\..\dependencies\cppunit\include;..\..\..\dependencies\ogrenew\OgreMain\include;..\..\..\dependencies\cegui_mk2\include;..\..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32"
+				AdditionalIncludeDirectories="..\..\engine\common\include;..\..\engine\core\include;..\..\engine\rules\include;..\..\dependencies\cppunit\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,7 +64,7 @@
 				AdditionalDependencies="CEGUIBase_d.lib OgreMain_d.lib cppunitd_dll.lib rlRules.lib rlCore.lib rlCommon.lib"
 				OutputFile="$(OutDir)/RlRulesTest.exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\..\common\lib\$(ConfigurationName)&quot;;&quot;..\..\core\lib\$(ConfigurationName)&quot;;&quot;..\..\rules\lib\$(ConfigurationName)&quot;;..\..\..\dependencies\cppunit\lib;&quot;..\..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\..\dependencies\cegui_mk2\lib;&quot;..\..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;"
+				AdditionalLibraryDirectories="&quot;..\..\engine\common\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\core\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\rules\lib\$(ConfigurationName)&quot;;..\..\dependencies\cppunit\lib;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/RlRulesTest.pdb"
 				SubSystem="1"
@@ -94,7 +94,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Zum Testen nötige Bibliotheken kopieren."
-				CommandLine="$(ProjectDir)prepare_test.bat $(SolutionDir) $(ConfigurationName)"
+				CommandLine="$(ProjectDir)prepare_test_dlls.bat $(SolutionDir) $(ConfigurationName)"
 			/>
 		</Configuration>
 		<Configuration
@@ -122,7 +122,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\common\include;..\..\core\include;..\..\rules\include;..\..\..\dependencies\cppunit\include;..\..\..\dependencies\ogrenew\OgreMain\include;..\..\..\dependencies\cegui_mk2\include;..\..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32"
+				AdditionalIncludeDirectories="..\..\engine\common\include;..\..\engine\core\include;..\..\engine\rules\include;..\..\dependencies\cppunit\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -144,7 +144,7 @@
 				AdditionalDependencies="CEGUIBase.lib OgreMain.lib cppunit_dll.lib RlRules.lib RlCore.lib RlCommon.lib"
 				OutputFile="$(OutDir)/RlRulesTest.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\common\lib\$(ConfigurationName)&quot;;&quot;..\..\core\lib\$(ConfigurationName)&quot;;&quot;..\..\rules\lib\$(ConfigurationName)&quot;;..\..\..\dependencies\cppunit\lib;&quot;..\..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\..\dependencies\cegui_mk2\lib"
+				AdditionalLibraryDirectories="&quot;..\..\engine\common\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\core\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\rules\lib\$(ConfigurationName)&quot;;..\..\dependencies\cppunit\lib;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib"
 				GenerateDebugInformation="false"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -175,7 +175,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Zum Testen nötige Bibliotheken kopieren."
-				CommandLine="$(ProjectDir)prepare_test.bat $(SolutionDir) $(ConfigurationName)&#x0D;&#x0A;cd $(TargetDir)&#x0D;&#x0A;$(TargetPath)"
+				CommandLine="$(ProjectDir)prepare_test_dlls.bat $(SolutionDir) $(ConfigurationName)"
 			/>
 		</Configuration>
 	</Configurations>

@@ -44,12 +44,15 @@ namespace rl {
 	class CombatActionMove;
 	class CombatActionParee;
 
+	class CombatTest;
 
 	/**
 	 * Verwaltungsklasse fuer einen Kampf
 	 */
 	class _RlRulesExport Combat : public EventSource, public GameTask
 	{
+		friend class CombatTest;
+
 	public:
 		static const int ACTION_TIME_OVER = 0;
 
@@ -80,8 +83,8 @@ namespace rl {
 		void setAttackeTarget(Creature* creature, Creature* target);
 		Creature* getParadeTarget(Creature* creature);
 		void setParadeTarget(Creature* creature, Creature* target);
-		void setNextAction(Creature* creature, CombatAction* action);
-		void setNextReaction(Creature* creature, CombatAction* action);
+		void setNextAction(Creature* creature, CombatAction* action, int eventId = -1);
+		void setNextReaction(Creature* creature, CombatAction* action, int eventId = -1);
 
 		Ogre::Real getMaxMoveDistance(MoveType action);
 		void doAttacke(Creature* creature);
@@ -98,7 +101,7 @@ namespace rl {
 
 		void start();
 
-	protected:
+	private:
 		static const int INI_START = 99999999;
 		static const int NO_INI = -9999999;
 
@@ -139,9 +142,12 @@ namespace rl {
 
 			int ini; 
 			int iniIdx; 
+			int id;
 			bool isAction; 
 			Participant* part;
 			CombatAction* action;
+
+			static int sId;
 		};
 
 		typedef std::pair<int, long> CombatTime; // INI, vergangene Zeit in dieser INI-Phase

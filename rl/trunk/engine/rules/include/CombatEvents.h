@@ -45,7 +45,7 @@ namespace rl {
 		};
 
 
-		CombatEvent(EventSource* combat);
+		CombatEvent(EventSource* combat, int id);
 		virtual ~CombatEvent();
 
 		Combat* getCombat();
@@ -53,8 +53,11 @@ namespace rl {
 
 		virtual CombatEventType getEventType() = 0;
 
+		int getId();
+
 	private:
 		Combat* mCombat;
+		int mId;
 	};
 
 	class _RlRulesExport AskForActionEvent : public CombatEvent
@@ -62,6 +65,7 @@ namespace rl {
 	public:
 		AskForActionEvent(
 			Combat* combat, 
+			int id,
 			Creature* actor,
 			Ogre::Real timeLeftToAct, 
 			Ogre::Real slowMotionFactor);
@@ -86,6 +90,7 @@ namespace rl {
 	public:
 		AskForReactionEvent(
 			Combat* combat, 
+			int id,
 			Creature* actor,
 			Ogre::Real timeToAct, 
 			Ogre::Real slowMotionFactor,
@@ -102,8 +107,7 @@ namespace rl {
 	class _RlRulesExport CombatFinishEvent : public CombatEvent
 	{
 	public:
-		CombatFinishEvent(
-			Combat* combat);
+		CombatFinishEvent(Combat* combat, int id);
 		virtual bool isGroupRelevant(int group);
 		virtual CombatEventType getEventType();
 	};

@@ -1,25 +1,25 @@
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual C++ Express 2005
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RlCommon", "engine\common\RlCommon2005.vcproj", "{D3185FC6-9384-431A-A237-80284F859B21}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RlCommon", "..\engine\common\RlCommon2005.vcproj", "{D3185FC6-9384-431A-A237-80284F859B21}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RlCore", "engine\core\RlCore2005.vcproj", "{0935F495-4540-40E3-AC8F-AA54C85DC5B2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RlCore", "..\engine\core\RlCore2005.vcproj", "{0935F495-4540-40E3-AC8F-AA54C85DC5B2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{B2BC9A9E-0DA8-451D-8123-4C8FE543A231} = {B2BC9A9E-0DA8-451D-8123-4C8FE543A231}
 		{D3185FC6-9384-431A-A237-80284F859B21} = {D3185FC6-9384-431A-A237-80284F859B21}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RlRules", "engine\rules\RlRules2005.vcproj", "{1D1D45B2-A9C3-4D10-93EC-22AE4AA5C070}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RlRules", "..\engine\rules\RlRules2005.vcproj", "{1D1D45B2-A9C3-4D10-93EC-22AE4AA5C070}"
 	ProjectSection(ProjectDependencies) = postProject
 		{0935F495-4540-40E3-AC8F-AA54C85DC5B2} = {0935F495-4540-40E3-AC8F-AA54C85DC5B2}
 		{D3185FC6-9384-431A-A237-80284F859B21} = {D3185FC6-9384-431A-A237-80284F859B21}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RlSound", "engine\sound\RlSound2005.vcproj", "{B2BC9A9E-0DA8-451D-8123-4C8FE543A231}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RlSound", "..\engine\sound\RlSound2005.vcproj", "{B2BC9A9E-0DA8-451D-8123-4C8FE543A231}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D3185FC6-9384-431A-A237-80284F859B21} = {D3185FC6-9384-431A-A237-80284F859B21}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RlRulesTest", "engine\rules\tests\RlRulesTest2005.vcproj", "{A9806261-9BBF-4F57-8331-C9E232A183CE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RlRulesTest", "rulestests\RlRulesTest2005.vcproj", "{A9806261-9BBF-4F57-8331-C9E232A183CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
