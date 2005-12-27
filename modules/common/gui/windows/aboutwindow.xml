@@ -4,6 +4,7 @@
         <Property Name="AbsoluteWidth" Value="400"/>
         <Property Name="AbsoluteHeight" Value="300"/>
 		<Property Name="Text" Value="Über Rastullahs Lockenpracht"/>
+
 		<Window Type="RastullahLook/StaticText" Name="AboutWindow/Text">
 			<Property Name="AbsoluteXPosition" Value="15"/>
 			<Property Name="AbsoluteWidth" Value="290"/>

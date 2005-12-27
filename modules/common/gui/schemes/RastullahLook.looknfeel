@@ -1,5 +1,92 @@
 <?xml version="1.0" ?>
 <Falagard>
+     <!--
+    ***************************************************
+        RastullahLook/StatusBar
+    ***************************************************
+    -->
+    <WidgetLook name="RastullahLook/StatusBar">
+        <PropertyDefinition name="StatusColour" initialValue="FF0000FF" redrawOnWrite="true" />
+        <Property name="AbsoluteMinSize" value="w:36 h:13" />
+
+        <NamedArea name="ProgressArea">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="2" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <AbsoluteDim value="2" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+      
+        <ImagerySection name="status_filling" >
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="LeftEdge" imageset="RastullahLook-Images" image="StatusBarFillingLeft" />
+                <Image type="RightEdge" imageset="RastullahLook-Images" image="StatusBarFillingRight" />
+                <Image type="Background" imageset="RastullahLook-Images" image="StatusBarFilling" />
+
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Tiled" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="LeftEdge" imageset="RastullahLook-Images" image="StatusBarLeft" />
+                <Image type="RightEdge" imageset="RastullahLook-Images" image="StatusBarRight" />
+                <Image type="Background" imageset="RastullahLook-Images" image="StatusBarMiddle" />
+            </FrameComponent>
+        </ImagerySection>
+        
+
+        <StateImagery name="EnabledProgress">
+            <Layer>
+                <Section section="status_filling" >
+                    <ColourProperty name="StatusColour" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledProgress">
+            <Layer>
+                <Section section="status_filling">
+                    <Colours topLeft="EEEEEEEE" topRight="EEEEEEEE" bottomLeft="DDDDDDDD" bottomRight="DDDDDDDD" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="frame">
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="frame">
+                    <Colours topLeft="EEEEEEEE" topRight="EEEEEEEE" bottomLeft="DDDDDDDD" bottomRight="DDDDDDDD" />
+                </Section>
+            </Layer>
+        </StateImagery> 
+    </WidgetLook>
+
+
+
+
     <!-- RastullahLook/MultiLineEditbox  -->
     <WidgetLook name="RastullahLook/MultiLineEditbox">
         <Property name="MouseCursorImage" value="set:RastullahLook-Images image:MouseTextBar" />
@@ -1532,9 +1619,9 @@
                     <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
                     <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
                 </Area>
-                <Image type="LeftEdge" imageset="RastullahLook-Images" image="MiniHorzScrollThumbLeftNormal" />
-                <Image type="RightEdge" imageset="RastullahLook-Images" image="MiniHorzScrollThumbRightNormal" />
-                <Image type="Background" imageset="RastullahLook-Images" image="MiniHorzScrollThumbMiddleNormal" />
+                <Image type="LeftEdge" imageset="RastullahLook-Images" image="HorzScrollThumbLeftNormal" />
+                <Image type="RightEdge" imageset="RastullahLook-Images" image="HorzScrollThumbRightNormal" />
+                <Image type="Background" imageset="RastullahLook-Images" image="HorzScrollThumbMiddleNormal" />
             </FrameComponent>
         </ImagerySection>
         <ImagerySection name="hover">
@@ -1545,9 +1632,9 @@
                     <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
                     <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
                 </Area>
-                <Image type="LeftEdge" imageset="RastullahLook-Images" image="MiniHorzScrollThumbLeftHover" />
-                <Image type="RightEdge" imageset="RastullahLook-Images" image="MiniHorzScrollThumbRightHover" />
-                <Image type="Background" imageset="RastullahLook-Images" image="MiniHorzScrollThumbMiddleHover" />
+                <Image type="LeftEdge" imageset="RastullahLook-Images" image="HorzScrollThumbLeftHover" />
+                <Image type="RightEdge" imageset="RastullahLook-Images" image="HorzScrollThumbRightHover" />
+                <Image type="Background" imageset="RastullahLook-Images" image="HorzScrollThumbMiddleHover" />
             </FrameComponent>
         </ImagerySection>
         <StateImagery name="Normal">
@@ -1582,12 +1669,12 @@
     <WidgetLook name="RastullahLook/HorizontalScrollbar">
         <NamedArea name="ThumbTrackArea">
             <Area>
-                <Dim type="LeftEdge" ><ImageDim imageset="RastullahLook-Images" image="MiniHorzScrollLeftNormal" dimension="Width" /></Dim>
+                <Dim type="LeftEdge" ><ImageDim imageset="RastullahLook-Images" image="HorzScrollLeftNormal" dimension="Width" /></Dim>
                 <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="RightEdge" >
                     <UnifiedDim scale="1.0" type="RightEdge">
                         <DimOperator op="Subtract">
-                            <ImageDim imageset="RastullahLook-Images" image="MiniHorzScrollRightNormal" dimension="Width" />
+                            <ImageDim imageset="RastullahLook-Images" image="HorzScrollRightNormal" dimension="Width" />
                         </DimOperator>
                     </UnifiedDim>
                 </Dim>
@@ -1598,26 +1685,26 @@
             <Area>
                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
-                <Dim type="Width" ><ImageDim imageset="RastullahLook-Images" image="MiniHorzScrollRightNormal" dimension="Width" /></Dim>
+                <Dim type="Width" ><ImageDim imageset="RastullahLook-Images" image="HorzScrollRightNormal" dimension="Width" /></Dim>
                 <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
             </Area>
             <HorzAlignment type="RightAligned" />
             <Property name="UseStandardImagery" value="False" />
-            <Property name="NormalImage" value="set:RastullahLook-Images image:MiniHorzScrollRightNormal" />
-            <Property name="HoverImage" value="set:RastullahLook-Images image:MiniHorzScrollRightHover" />
-            <Property name="PushedImage" value="set:RastullahLook-Images image:MiniHorzScrollRightNormal" />
+            <Property name="NormalImage" value="set:RastullahLook-Images image:HorzScrollRightNormal" />
+            <Property name="HoverImage" value="set:RastullahLook-Images image:HorzScrollRightHover" />
+            <Property name="PushedImage" value="set:RastullahLook-Images image:HorzScrollRightNormal" />
         </Child>
         <Child  type="RastullahLook/Button" nameSuffix="__auto_decbtn__">
             <Area>
                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
-                <Dim type="Width" ><ImageDim imageset="RastullahLook-Images" image="MiniHorzScrollLeftNormal" dimension="Width" /></Dim>
+                <Dim type="Width" ><ImageDim imageset="RastullahLook-Images" image="HorzScrollLeftNormal" dimension="Width" /></Dim>
                 <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
             </Area>
             <Property name="UseStandardImagery" value="False" />
-            <Property name="NormalImage" value="set:RastullahLook-Images image:MiniHorzScrollLeftNormal" />
-            <Property name="HoverImage" value="set:RastullahLook-Images image:MiniHorzScrollLeftHover" />
-            <Property name="PushedImage" value="set:RastullahLook-Images image:MiniHorzScrollLeftNormal" />
+            <Property name="NormalImage" value="set:RastullahLook-Images image:HorzScrollLeftNormal" />
+            <Property name="HoverImage" value="set:RastullahLook-Images image:HorzScrollLeftHover" />
+            <Property name="PushedImage" value="set:RastullahLook-Images image:HorzScrollLeftNormal" />
         </Child>
         <Child  type="RastullahLook/HorizontalScrollbarThumb" nameSuffix="__auto_thumb__">
             <Area>
@@ -1630,18 +1717,18 @@
         <ImagerySection name="main">
             <ImageryComponent>
                 <Area>
-                    <Dim type="LeftEdge" ><ImageDim imageset="RastullahLook-Images" image="MiniHorzScrollLeftNormal" dimension="Width" /></Dim>
+                    <Dim type="LeftEdge" ><ImageDim imageset="RastullahLook-Images" image="HorzScrollLeftNormal" dimension="Width" /></Dim>
                     <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
                     <Dim type="RightEdge" >
                         <UnifiedDim scale="1.0" type="RightEdge">
                             <DimOperator op="Subtract">
-                                <ImageDim imageset="RastullahLook-Images" image="MiniHorzScrollRightNormal" dimension="Width" />
+                                <ImageDim imageset="RastullahLook-Images" image="HorzScrollRightNormal" dimension="Width" />
                             </DimOperator>
                         </UnifiedDim>
                     </Dim>
                     <Dim type="BottomEdge" ><UnifiedDim scale="1.0" type="BottomEdge" /></Dim>
                 </Area>
-                <Image imageset="RastullahLook-Images" image="MiniHorzScrollBarSegment" />
+                <Image imageset="RastullahLook-Images" image="HorzScrollBarSegment" />
                 <VertFormat type="CentreAligned" />
                 <HorzFormat type="Stretched" />
             </ImageryComponent>
@@ -1672,12 +1759,12 @@
                 <Area>
                     <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
                     <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
-                    <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
-                    <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
                 </Area>
-                <Image type="TopEdge" imageset="RastullahLook-Images" image="MiniVertScrollThumbTopNormal" />
-                <Image type="BottomEdge" imageset="RastullahLook-Images" image="MiniVertScrollThumbBottomNormal" />
-                <Image type="Background" imageset="RastullahLook-Images" image="MiniVertScrollThumbMiddleNormal" />
+                <Image type="TopEdge" imageset="RastullahLook-Images" image="VertScrollThumbTopNormal" />
+                <Image type="BottomEdge" imageset="RastullahLook-Images" image="VertScrollThumbBottomNormal" />
+                <Image type="Background" imageset="RastullahLook-Images" image="VertScrollThumbMiddleNormal" />
             </FrameComponent>
         </ImagerySection>
         <ImagerySection name="hover">
@@ -1688,9 +1775,9 @@
                     <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
                     <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
                 </Area>
-                <Image type="TopEdge" imageset="RastullahLook-Images" image="MiniVertScrollThumbTopHover" />
-                <Image type="BottomEdge" imageset="RastullahLook-Images" image="MiniVertScrollThumbBottomHover" />
-                <Image type="Background" imageset="RastullahLook-Images" image="MiniVertScrollThumbMiddleHover" />
+                <Image type="TopEdge" imageset="RastullahLook-Images" image="VertScrollThumbTopHover" />
+                <Image type="BottomEdge" imageset="RastullahLook-Images" image="VertScrollThumbBottomHover" />
+                <Image type="Background" imageset="RastullahLook-Images" image="VertScrollThumbMiddleHover" />
             </FrameComponent>
         </ImagerySection>
         <StateImagery name="Normal">
@@ -1727,12 +1814,12 @@
         <NamedArea name="ThumbTrackArea">
             <Area>
                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
-                <Dim type="TopEdge" ><ImageDim imageset="RastullahLook-Images" image="MiniVertScrollUpNormal" dimension="Height" /></Dim>
+                <Dim type="TopEdge" ><ImageDim imageset="RastullahLook-Images" image="VertScrollUpNormal" dimension="Height" /></Dim>
                 <Dim type="RightEdge" ><UnifiedDim scale="1.0" type="RightEdge" /></Dim>
                 <Dim type="BottomEdge" >
                     <UnifiedDim scale="1.0" type="BottomEdge">
                         <DimOperator op="Subtract">
-                            <ImageDim imageset="RastullahLook-Images" image="MiniVertScrollDownNormal" dimension="Height" />
+                            <ImageDim imageset="RastullahLook-Images" image="VertScrollDownNormal" dimension="Height" />
                         </DimOperator>
                     </UnifiedDim>
                 </Dim>
@@ -1743,25 +1830,25 @@
                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
-                <Dim type="Height" ><ImageDim imageset="RastullahLook-Images" image="MiniVertScrollDownNormal" dimension="Height" /></Dim>
+                <Dim type="Height" ><ImageDim imageset="RastullahLook-Images" image="VertScrollDownNormal" dimension="Height" /></Dim>
             </Area>
             <VertAlignment type="BottomAligned" />
             <Property name="UseStandardImagery" value="False" />
-            <Property name="NormalImage" value="set:RastullahLook-Images image:MiniVertScrollDownNormal" />
-            <Property name="HoverImage" value="set:RastullahLook-Images image:MiniVertScrollDownHover" />
-            <Property name="PushedImage" value="set:RastullahLook-Images image:MiniVertScrollDownNormal" />
+            <Property name="NormalImage" value="set:RastullahLook-Images image:VertScrollDownNormal" />
+            <Property name="HoverImage" value="set:RastullahLook-Images image:VertScrollDownHover" />
+            <Property name="PushedImage" value="set:RastullahLook-Images image:VertScrollDownNormal" />
         </Child>
         <Child  type="RastullahLook/Button" nameSuffix="__auto_decbtn__">
             <Area>
                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
-                <Dim type="Height" ><ImageDim imageset="RastullahLook-Images" image="MiniVertScrollUpNormal" dimension="Height" /></Dim>
+                <Dim type="Height" ><ImageDim imageset="RastullahLook-Images" image="VertScrollUpNormal" dimension="Height" /></Dim>
             </Area>
             <Property name="UseStandardImagery" value="False" />
-            <Property name="NormalImage" value="set:RastullahLook-Images image:MiniVertScrollUpNormal" />
-            <Property name="HoverImage" value="set:RastullahLook-Images image:MiniVertScrollUpHover" />
-            <Property name="PushedImage" value="set:RastullahLook-Images image:MiniVertScrollUpNormal" />
+            <Property name="NormalImage" value="set:RastullahLook-Images image:VertScrollUpNormal" />
+            <Property name="HoverImage" value="set:RastullahLook-Images image:VertScrollUpHover" />
+            <Property name="PushedImage" value="set:RastullahLook-Images image:VertScrollUpNormal" />
         </Child>
         <Child  type="RastullahLook/VerticalScrollbarThumb" nameSuffix="__auto_thumb__">
             <Area>
@@ -1775,17 +1862,17 @@
             <ImageryComponent>
                 <Area>
                     <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
-                    <Dim type="TopEdge" ><ImageDim imageset="RastullahLook-Images" image="MiniVertScrollUpNormal" dimension="Height" /></Dim>
+                    <Dim type="TopEdge" ><ImageDim imageset="RastullahLook-Images" image="VertScrollUpNormal" dimension="Height" /></Dim>
                     <Dim type="RightEdge" ><UnifiedDim scale="1.0" type="RightEdge" /></Dim>
                     <Dim type="BottomEdge" >
                         <UnifiedDim scale="1.0" type="BottomEdge">
                             <DimOperator op="Subtract">
-                                <ImageDim imageset="RastullahLook-Images" image="MiniVertScrollDownNormal" dimension="Height" />
+                                <ImageDim imageset="RastullahLook-Images" image="VertScrollDownNormal" dimension="Height" />
                             </DimOperator>
                         </UnifiedDim>
                     </Dim>
                 </Area>
-                <Image imageset="RastullahLook-Images" image="MiniVertScrollBarSegment" />
+                <Image imageset="RastullahLook-Images" image="VertScrollBarSegment" />
                 <VertFormat type="Stretched" />
                 <HorzFormat type="CentreAligned" />
             </ImageryComponent>
@@ -2329,6 +2416,7 @@
     <WidgetLook name="RastullahLook/StaticImage">
         <Property name="FrameEnabled" value="True" />
         <Property name="BackgroundEnabled" value="True" />
+
         <NamedArea name="WithFrameImageRenderArea">
             <Area>
                 <Dim type="LeftEdge" ><ImageDim imageset="RastullahLook-Images" image="StaticLeft" dimension="Width" /></Dim>
@@ -2357,6 +2445,8 @@
                 <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
             </Area>
         </NamedArea>
+
+
         <StateImagery name="Enabled" />
         <StateImagery name="Disabled" />
         <StateImagery name="EnabledFrame">
@@ -3411,7 +3501,7 @@
                     <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
                     <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
                 </Area>
-                <Image imageset="RastullahLook-Images" image="VertScrollThumbNormal" />
+                <Image imageset="RastullahLook-Images" image="LargeVertScrollThumbNormal" />
                 <VertFormat type="Stretched" />
                 <HorzFormat type="Stretched" />
             </ImageryComponent>
@@ -3424,7 +3514,7 @@
                     <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
                     <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
                 </Area>
-                <Image imageset="RastullahLook-Images" image="VertScrollThumbHover" />
+                <Image imageset="RastullahLook-Images" image="LargeVertScrollThumbHover" />
                 <VertFormat type="Stretched" />
                 <HorzFormat type="Stretched" />
             </ImageryComponent>
@@ -3466,7 +3556,7 @@
                 <Dim type="TopEdge" >
                     <WidgetDim widget="__auto_decbtn__" dimension="Height">
                         <DimOperator op="Add">
-                            <ImageDim imageset="RastullahLook-Images" image="VertScrollTop" dimension="Height">
+                            <ImageDim imageset="RastullahLook-Images" image="LargeVertScrollTop" dimension="Height">
                                 <DimOperator op="Multiply">
                                     <AbsoluteDim value="0.5" />
                                 </DimOperator>
@@ -3480,7 +3570,7 @@
                         <DimOperator op="Subtract">
                             <WidgetDim widget="__auto_decbtn__" dimension="Height">
                                 <DimOperator op="Add">
-                                    <ImageDim imageset="RastullahLook-Images" image="VertScrollTop" dimension="Height">
+                                    <ImageDim imageset="RastullahLook-Images" image="LargeVertScrollTop" dimension="Height">
                                         <DimOperator op="Multiply">
                                             <AbsoluteDim value="0.5" />
                                         </DimOperator>
@@ -3498,7 +3588,7 @@
                 <Dim type="TopEdge" >
                     <AbsoluteDim value="-1">
                         <DimOperator op="Multiply">
-                            <ImageDim imageset="RastullahLook-Images" image="VertScrollTop" dimension="Height">
+                            <ImageDim imageset="RastullahLook-Images" image="LargeVertScrollTop" dimension="Height">
                                 <DimOperator op="Multiply">
                                     <AbsoluteDim value="0.5" />
                                 </DimOperator>
@@ -3510,9 +3600,9 @@
                 <Dim type="Height" >
                     <UnifiedDim scale="0.6" type="Width">
                         <DimOperator op="Multiply">
-                            <ImageDim imageset="RastullahLook-Images" image="VertScrollUpNormal" dimension="Width">
+                            <ImageDim imageset="RastullahLook-Images" image="LargeVertScrollUpNormal" dimension="Width">
                                 <DimOperator op="Divide">
-                                    <ImageDim imageset="RastullahLook-Images" image="VertScrollUpNormal" dimension="Height"/>
+                                    <ImageDim imageset="RastullahLook-Images" image="LargeVertScrollUpNormal" dimension="Height"/>
                                 </DimOperator>
                             </ImageDim>
                         </DimOperator>
@@ -3521,15 +3611,15 @@
             </Area>
             <VertAlignment type="BottomAligned" />
             <Property name="UseStandardImagery" value="False" />
-            <Property name="NormalImage" value="set:RastullahLook-Images image:VertScrollDownNormal" />
-            <Property name="HoverImage" value="set:RastullahLook-Images image:VertScrollDownHover" />
-            <Property name="PushedImage" value="set:RastullahLook-Images image:VertScrollDownNormal" />
+            <Property name="NormalImage" value="set:RastullahLook-Images image:LargeVertScrollDownNormal" />
+            <Property name="HoverImage" value="set:RastullahLook-Images image:LargeVertScrollDownHover" />
+            <Property name="PushedImage" value="set:RastullahLook-Images image:LargeVertScrollDownNormal" />
         </Child>
         <Child  type="RastullahLook/Button" nameSuffix="__auto_decbtn__">
             <Area>
                 <Dim type="LeftEdge" ><UnifiedDim scale="0.25" type="LeftEdge" /></Dim>
                 <Dim type="TopEdge">
-                    <ImageDim imageset="RastullahLook-Images" image="VertScrollTop" dimension="Height">
+                    <ImageDim imageset="RastullahLook-Images" image="LargeVertScrollTop" dimension="Height">
                         <DimOperator op="Multiply">
                             <AbsoluteDim value="0.5" />
                         </DimOperator>
@@ -3539,9 +3629,9 @@
                 <Dim type="Height" >
                     <UnifiedDim scale="0.6" type="Width">
                         <DimOperator op="Multiply">
-                            <ImageDim imageset="RastullahLook-Images" image="VertScrollUpNormal" dimension="Width">
+                            <ImageDim imageset="RastullahLook-Images" image="LargeVertScrollUpNormal" dimension="Width">
                                 <DimOperator op="Divide">
-                                    <ImageDim imageset="RastullahLook-Images" image="VertScrollUpNormal" dimension="Height"/>
+                                    <ImageDim imageset="RastullahLook-Images" image="LargeVertScrollUpNormal" dimension="Height"/>
                                 </DimOperator>
                             </ImageDim>
                         </DimOperator>
@@ -3549,9 +3639,9 @@
                 </Dim>
             </Area>
             <Property name="UseStandardImagery" value="False" />
-            <Property name="NormalImage" value="set:RastullahLook-Images image:VertScrollUpNormal" />
-            <Property name="HoverImage" value="set:RastullahLook-Images image:VertScrollUpHover" />
-            <Property name="PushedImage" value="set:RastullahLook-Images image:VertScrollUpNormal" />
+            <Property name="NormalImage" value="set:RastullahLook-Images image:LargeVertScrollUpNormal" />
+            <Property name="HoverImage" value="set:RastullahLook-Images image:LargeVertScrollUpHover" />
+            <Property name="PushedImage" value="set:RastullahLook-Images image:LargeVertScrollUpNormal" />
         </Child>
         <Child  type="RastullahLook/LargeVerticalScrollbarThumb" nameSuffix="__auto_thumb__">
             <Area>
@@ -3561,9 +3651,9 @@
                 <Dim type="Height" >
                     <UnifiedDim scale="0.4" type="Width">
                         <DimOperator op="Multiply">
-                            <ImageDim imageset="RastullahLook-Images" image="VertScrollThumbNormal" dimension="Height">
+                            <ImageDim imageset="RastullahLook-Images" image="LargeVertScrollThumbNormal" dimension="Height">
                                 <DimOperator op="Divide">
-                                    <ImageDim imageset="RastullahLook-Images" image="VertScrollThumbNormal" dimension="Width"/>
+                                    <ImageDim imageset="RastullahLook-Images" image="LargeVertScrollThumbNormal" dimension="Width"/>
                                 </DimOperator>
                             </ImageDim>
                         </DimOperator>
@@ -3579,9 +3669,9 @@
                     <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
                     <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
                 </Area>
-                <Image type="TopEdge" imageset="RastullahLook-Images" image="VertScrollTop" />
-                <Image type="BottomEdge" imageset="RastullahLook-Images" image="VertScrollBottom" />
-                <Image type="Background" imageset="RastullahLook-Images" image="VertScrollMiddle" />
+                <Image type="TopEdge" imageset="RastullahLook-Images" image="LargeVertScrollTop" />
+                <Image type="BottomEdge" imageset="RastullahLook-Images" image="LargeVertScrollBottom" />
+                <Image type="Background" imageset="RastullahLook-Images" image="LargeVertScrollMiddle" />
             </FrameComponent>
             <ImageryComponent>
                 <Area>
@@ -3589,7 +3679,7 @@
                     <Dim type="TopEdge" >
                         <WidgetDim widget="__auto_decbtn__" dimension="Height">
                             <DimOperator op="Add">
-                                <ImageDim imageset="RastullahLook-Images" image="VertScrollTop" dimension="Height">
+                                <ImageDim imageset="RastullahLook-Images" image="LargeVertScrollTop" dimension="Height">
                                     <DimOperator op="Multiply">
                                         <AbsoluteDim value="0.5" />
                                     </DimOperator>
@@ -3603,7 +3693,7 @@
                             <DimOperator op="Subtract">
                                 <WidgetDim widget="__auto_decbtn__" dimension="Height">
                                     <DimOperator op="Add">
-                                        <ImageDim imageset="RastullahLook-Images" image="VertScrollTop" dimension="Height">
+                                        <ImageDim imageset="RastullahLook-Images" image="LargeVertScrollTop" dimension="Height">
                                             <DimOperator op="Multiply">
                                                 <AbsoluteDim value="0.5" />
                                             </DimOperator>
@@ -3614,7 +3704,7 @@
                         </UnifiedDim>
                     </Dim>
                 </Area>
-                <Image imageset="RastullahLook-Images" image="VertScrollBarSegment" />
+                <Image imageset="RastullahLook-Images" image="LargeVertScrollBarSegment" />
                 <VertFormat type="Tiled" />
             </ImageryComponent>
         </ImagerySection>

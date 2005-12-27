@@ -47,4 +47,5 @@
 	<FalagardMapping WindowType="RastullahLook/Tooltip" TargetType="Falagard/Tooltip" LookNFeel="RastullahLook/Tooltip" />
 	<FalagardMapping WindowType="RastullahLook/VerticalScrollbar" TargetType="Falagard/Scrollbar" LookNFeel="RastullahLook/VerticalScrollbar" />
 	<FalagardMapping WindowType="RastullahLook/VerticalScrollbarThumb" TargetType="Falagard/Thumb" LookNFeel="RastullahLook/VerticalScrollbarThumb" />
+    <FalagardMapping WindowType="RastullahLook/StatusBar" TargetType="Falagard/ProgressBar" LookNFeel="RastullahLook/StatusBar" />
 </GUIScheme>

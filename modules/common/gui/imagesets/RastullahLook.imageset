@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<Imageset Name="RastullahLook-Images" Imagefile="RastullahLook.png" NativeHorzRes="800" NativeVertRes="600" AutoScaled="false">
+<Imageset Name="RastullahLook-Images" Imagefile="RastullahLook.png" >
 
     <!-- Rastullah/FrameWindow -->
     <Image Name="WindowBackground" XPos="256" YPos="1" Width="254" Height="254" />    
@@ -27,6 +27,14 @@
     <Image Name="EditBoxCarat" XPos="117" YPos="331" Width="3" Height="16" />
 
 
+    <!-- Rastullah/StatusBar -->
+    <Image Name="StatusBarLeft" XPos="147" YPos="320" Width="4" Height="13" />
+    <Image Name="StatusBarMiddle" XPos="154" YPos="320" Width="1" Height="13" />
+    <Image Name="StatusBarRight" XPos="158" YPos="320" Width="4" Height="13" />
+    <Image Name="StatusBarFillingLeft" XPos="166" YPos="320" Width="6" Height="13" />
+    <Image Name="StatusBarFillingRight" XPos="202" YPos="320" Width="6" Height="13" />
+    <Image Name="StatusBarFilling" XPos="177" YPos="320" Width="4" Height="13" />
+
 
     <Image Name="TitlebarLeft" XPos="113" YPos="294" Width="22" Height="23" />
     <Image Name="TitlebarMiddle" XPos="138" YPos="294" Width="7" Height="23" />
@@ -48,41 +56,62 @@
     
 
 
-    <Image Name="MiniVertScrollBarSegment" XPos="163" YPos="275" Width="7" Height="4" />
+    <Image Name="LargeVertScrollBarSegment" XPos="163" YPos="275" Width="7" Height="4" />
     
-    <Image Name="MiniVertScrollThumbNormal" XPos="1" YPos="495" Width="11" Height="26" />
-    <Image Name="MiniVertScrollThumbTopNormal" XPos="122" YPos="277" Width="11" Height="10" />
-    <Image Name="MiniVertScrollThumbMiddleNormal" XPos="136" YPos="279" Width="11" Height="7" />
-    <Image Name="MiniVertScrollThumbBottomNormal" XPos="149" YPos="279" Width="11" Height="9" />
+    <Image Name="LargeVertScrollTop" XPos="182" YPos="2" Width="20" Height="8" />
+    <Image Name="LargeVertScrollMiddle" XPos="182" YPos="12" Width="20" Height="8" />
+    <Image Name="LargeVertScrollBottom" XPos="182" YPos="22" Width="20" Height="8" />
+
+    <Image Name="LargeVertScrollThumbNormal" XPos="214" YPos="2" Width="8" Height="24" />
+    <Image Name="LargeVertScrollThumbHover" XPos="224" YPos="2" Width="8" Height="24" />
+    <Image Name="LargeVertScrollUpNormal" XPos="196" YPos="32" Width="12" Height="12" />
+    <Image Name="LargeVertScrollDownNormal" XPos="182" YPos="32" Width="12" Height="12" />
+    <Image Name="LargeVertScrollUpHover" XPos="196" YPos="46" Width="12" Height="12" />
+    <Image Name="LargeVertScrollDownHover" XPos="182" YPos="46" Width="12" Height="12" />
+
+
+    <Image Name="VertScrollBarSegment" XPos="163" YPos="275" Width="7" Height="4" />
     
-    <Image Name="MiniVertScrollThumbHover" XPos="1" YPos="495" Width="11" Height="26" />
-    <Image Name="MiniVertScrollThumbTopHover" XPos="122" YPos="277" Width="11" Height="10" />
-    <Image Name="MiniVertScrollThumbMiddleHover" XPos="136" YPos="279" Width="11" Height="7" />
-    <Image Name="MiniVertScrollThumbBottomHover" XPos="149" YPos="279" Width="11" Height="9" />
+    <Image Name="VertScrollThumbNormal" XPos="1" YPos="495" Width="11" Height="26" />
+    <Image Name="VertScrollThumbTopNormal" XPos="122" YPos="277" Width="11" Height="10" />
+    <Image Name="VertScrollThumbMiddleNormal" XPos="136" YPos="279" Width="11" Height="7" />
+    <Image Name="VertScrollThumbBottomNormal" XPos="149" YPos="279" Width="11" Height="9" />
     
-    <Image Name="MiniVertScrollUpNormal" XPos="123" YPos="257" Width="11" Height="13" />
-    <Image Name="MiniVertScrollDownNormal" XPos="136" YPos="259" Width="11" Height="13" />
+    <Image Name="VertScrollThumbHover" XPos="1" YPos="495" Width="11" Height="26" />
+    <Image Name="VertScrollThumbTopHover" XPos="122" YPos="277" Width="11" Height="10" />
+    <Image Name="VertScrollThumbMiddleHover" XPos="136" YPos="279" Width="11" Height="7" />
+    <Image Name="VertScrollThumbBottomHover" XPos="149" YPos="279" Width="11" Height="9" />
     
-    <Image Name="MiniVertScrollUpHover" XPos="123" YPos="257" Width="11" Height="13" />
-    <Image Name="MiniVertScrollDownHover" XPos="136" YPos="259" Width="11" Height="13" />
+    <Image Name="VertScrollUpNormal" XPos="123" YPos="257" Width="11" Height="13" />
+    <Image Name="VertScrollDownNormal" XPos="136" YPos="259" Width="11" Height="13" />
+    
+    <Image Name="VertScrollUpHover" XPos="123" YPos="257" Width="11" Height="13" />
+    <Image Name="VertScrollDownHover" XPos="136" YPos="259" Width="11" Height="13" />
        
-    <Image Name="MiniHorzScrollBarSegment" XPos="174" YPos="274" Width="4" Height="7" />
+
+    <Image Name="HorzScrollBarSegment" XPos="174" YPos="274" Width="4" Height="7" />
     
-    <Image Name="MiniHorzScrollThumbNormal" XPos="1" YPos="500" Width="26" Height="11" />
-    <Image Name="MiniHorzScrollThumbLeftNormal" XPos="220" YPos="259" Width="9" Height="11" />
-    <Image Name="MiniHorzScrollThumbMiddleNormal" XPos="232" YPos="259" Width="7" Height="11" />
-    <Image Name="MiniHorzScrollThumbRightNormal" XPos="242" YPos="259" Width="10" Height="11" />
+    <Image Name="HorzScrollThumbNormal" XPos="1" YPos="500" Width="26" Height="11" />
+    <Image Name="HorzScrollThumbLeftNormal" XPos="220" YPos="259" Width="9" Height="11" />
+    <Image Name="HorzScrollThumbMiddleNormal" XPos="232" YPos="259" Width="7" Height="11" />
+    <Image Name="HorzScrollThumbRightNormal" XPos="242" YPos="259" Width="10" Height="11" />
     
-    <Image Name="MiniHorzScrollThumbHover" XPos="1" YPos="500" Width="26" Height="11" />
-    <Image Name="MiniHorzScrollThumbLeftHover" XPos="220" YPos="259" Width="9" Height="11" />
-    <Image Name="MiniHorzScrollThumbMiddleHover" XPos="232" YPos="259" Width="7" Height="11" />
-    <Image Name="MiniHorzScrollThumbRightHover" XPos="242" YPos="259" Width="10" Height="11" />
+    <Image Name="HorzScrollThumbHover" XPos="1" YPos="500" Width="26" Height="11" />
+    <Image Name="HorzScrollThumbLeftHover" XPos="220" YPos="259" Width="9" Height="11" />
+    <Image Name="HorzScrollThumbMiddleHover" XPos="232" YPos="259" Width="7" Height="11" />
+    <Image Name="HorzScrollThumbRightHover" XPos="242" YPos="259" Width="10" Height="11" />
     
-    <Image Name="MiniHorzScrollLeftNormal" XPos="181" YPos="259" Width="13" Height="11" />
-    <Image Name="MiniHorzScrollRightNormal" XPos="164" YPos="259" Width="13" Height="11" />
+    <Image Name="HorzScrollLeftNormal" XPos="181" YPos="259" Width="13" Height="11" />
+    <Image Name="HorzScrollRightNormal" XPos="164" YPos="259" Width="13" Height="11" />
     
-    <Image Name="MiniHorzScrollLeftHover" XPos="181" YPos="259" Width="13" Height="11" />
-    <Image Name="MiniHorzScrollRightHover" XPos="164" YPos="259" Width="13" Height="11" />
+    <Image Name="HorzScrollLeftHover" XPos="181" YPos="259" Width="13" Height="11" />
+    <Image Name="HorzScrollRightHover" XPos="164" YPos="259" Width="13" Height="11" />
+
+
+
+
+
+
 
     <Image Name="ListboxLeft" XPos="106" YPos="263" Width="4" Height="2" />
     <Image Name="ListboxRight" XPos="116" YPos="263" Width="4" Height="2"  />
@@ -217,16 +246,7 @@
     <Image Name="RadioButtonMark" XPos="124" YPos="16" Width="12" Height="12" />
     
 
-    <Image Name="VertScrollTop" XPos="182" YPos="2" Width="20" Height="8" />
-    <Image Name="VertScrollMiddle" XPos="182" YPos="12" Width="20" Height="8" />
-    <Image Name="VertScrollBottom" XPos="182" YPos="22" Width="20" Height="8" />
-    <Image Name="VertScrollBarSegment" XPos="206" YPos="2" Width="4" Height="10" />
-    <Image Name="VertScrollThumbNormal" XPos="214" YPos="2" Width="8" Height="24" />
-    <Image Name="VertScrollThumbHover" XPos="224" YPos="2" Width="8" Height="24" />
-    <Image Name="VertScrollUpNormal" XPos="196" YPos="32" Width="12" Height="12" />
-    <Image Name="VertScrollDownNormal" XPos="182" YPos="32" Width="12" Height="12" />
-    <Image Name="VertScrollUpHover" XPos="196" YPos="46" Width="12" Height="12" />
-    <Image Name="VertScrollDownHover" XPos="182" YPos="46" Width="12" Height="12" />
+
     
     <Image Name="SpinnerUpNormal" XPos="68" YPos="110" Width="10" Height="6" />
     <Image Name="SpinnerDownNormal" XPos="68" YPos="118" Width="10" Height="6" />
