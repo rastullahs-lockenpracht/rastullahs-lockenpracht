@@ -90,7 +90,6 @@ private:
 	void loadProtected(ProtectedMethod func, VALUE args,
 	    const std::string& msg, bool exitOnFail = false);
 	static VALUE loadDlls(VALUE);
-	static VALUE loadGlobals(VALUE val);
 
 	VALUE* rubyArgs( int argc, const CeGuiString args[] );
 };

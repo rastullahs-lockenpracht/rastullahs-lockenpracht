@@ -75,6 +75,7 @@ namespace rl {
 
     void CoreSubsystem::startCore()
     {
+		getInterpreter()->execute("load 'globals.rb'");
         getInterpreter()->execute("load 'startup-global.rb'");
 		if (mDefaultActiveModule == "")
 			getInterpreter()->execute("load 'startup-global-mainmenu.rb'");

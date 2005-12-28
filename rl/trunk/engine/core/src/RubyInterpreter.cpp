@@ -83,9 +83,6 @@ void RubyInterpreter::initializeInterpreter(staticValueMethod func)
     // rb_define_singleton_method(rb_defout, "write", (VALUE(*)(...))console_write, 1);
 	rb_define_singleton_method(rb_defout, "write", func, 1);
 
-    //Define Globals
-	loadProtected(&RubyInterpreter::loadGlobals, 0, "Ruby error while loading globals.rb");
-
 	//to Prevent the Ruby GC from deleting
 	mRubyObjects = rb_ary_new();
 	rb_gc_register_address(&mRubyObjects);
@@ -105,13 +102,6 @@ VALUE RubyInterpreter::loadDlls(VALUE val)
 #else
     rb_require("libRlScript");
 #endif
-
-	return Qnil;
-}
-
-VALUE RubyInterpreter::loadGlobals(VALUE val)
-{
-	rb_require("globals.rb");
 
 	return Qnil;
 }
