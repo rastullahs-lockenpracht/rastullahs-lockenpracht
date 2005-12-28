@@ -16,7 +16,9 @@ $SCRIPT = ScriptSubsystem.getSingleton();
 $GameEveMgr = GameEventManager.getSingleton();
 $AnimMgr = AnimationManager.getSingleton();
 
-$VideoDisplay = VideoWindow.new();
+if ($VideoDisplay == nil)
+    $VideoDisplay = VideoWindow.new();
+end
 
 
 class HeroPosWriter
