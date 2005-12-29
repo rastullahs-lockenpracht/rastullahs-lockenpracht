@@ -8,37 +8,47 @@
 		    xmlns:rldialog="http://www.team-pantheon.de/projekt/rl">
 
 <aiml:category>
-<aiml:pattern>START DIALOG</aiml:pattern>
+<aiml:pattern>1</aiml:pattern> <!-- START DIALOG -->
 <aiml:template>
 	<aiml:condition rldialog:context="response">
 		Hallo, Reisender. Was gibt es?<aiml:br/>
 	</aiml:condition>
+	<!-- Don't use, Predicates won't work yet!
+	<aiml:condition rldialog:context="option" type="Predicate" name="firstEncounter">
+		<aiml:li value="true" id="666">Haben wir uns nicht schonmal gesehen?</aiml:li>
+	</amil:condition>
+	
+	<set type="default" name="firstEncounter">true</set>
+	-->
+	
 	<aiml:condition rldialog:context="option">
-		<aiml:li value="4" id="1">
+		<aiml:li value="4" id="2">
                   Oh Bauer, oh Bauer, es regnet allso sehr! Lasst mich herein!
 	 	</aiml:li>
-
-	 	
-	 	<aiml:li value="4" id="2">
+	 	<aiml:li value="4" id="3">
                   Warum ist denn alles so haesslich hier?
 	 	</aiml:li>
-
-
-                 <aiml:condition rldialog:context="option" type="Eigenschaft" name="MU">
-	                <aiml:li value="1" id="555">Ich bin mutig!</aiml:li>
-	                <aiml:li value="0" id="555">Ich trau mich nicht!</aiml:li>
-                </aiml:condition>
-                
-
-               	<aiml:li value="4" id="3">
+       	<aiml:li value="4" id="4">
                   Ich moechte noch etwas herumlaufen. Bis dann
 		</aiml:li>
 	</aiml:condition>
+	
+	<aiml:condition rldialog:context="option" type="Eigenschaft" name="MU">
+		<aiml:li value="1" id="666">Ich bin mutig!</aiml:li>
+		<aiml:li value="0" id="666">Ich trau mich nicht!</aiml:li>
+	</aiml:condition>
+	
+	<aiml:condition rldialog:context="option" type="quest" name="test">
+		<aiml:li value="0" id="444">Test-Quest ist noch nicht erfüllt</aiml:li>
+		<aiml:li value="1" id="666">Test-Quest wurde bekannt gegeben</aiml:li>
+	</aiml:condition>
+	
+	
 </aiml:template>
 </aiml:category>
 
 <aiml:category>
-<aiml:pattern>1</aiml:pattern>
+<aiml:pattern>2</aiml:pattern>
 <aiml:template>
   <aiml:condition rldialog:context="response">
 	Ha! Da kann ja jeder kommen. Aber ich lasse dich vielleicht rein. Entweder du erledigst die Spinne auf der anderen Seite des Flusses, oder du bist mir einfach
@@ -58,7 +68,7 @@
 </aiml:category>
 
 <aiml:category>
-<aiml:pattern>2</aiml:pattern>
+<aiml:pattern>3</aiml:pattern>
 <aiml:template>
 <aiml:condition rldialog:context="response">
 	Dies ist nur eine Techdemo. Auf meinem Land moechte ich keine Schoenheit! Ich moechte nur Funktionalitaet haben!
@@ -70,7 +80,7 @@
 </aiml:category>
 
 <aiml:category>
-<aiml:pattern>3</aiml:pattern>
+<aiml:pattern>4</aiml:pattern>
 <aiml:template>
 	<aiml:system command="exit"/>
 </aiml:template>
@@ -120,6 +130,20 @@
 </aiml:category>
 
 <aiml:category>
+<aiml:pattern>444</aiml:pattern>
+<aiml:template>
+  <aiml:condition rldialog:context="response">
+    Da gibts sone Quest und von der erzaehl ich dir jetzt mal.
+  </aiml:condition>
+  <aiml:condition rldialog:context="option">
+    <aiml:li value="4" id="3">
+    Ok. Exit.<set type="quest" name="test">1</set>
+    </aiml:li>
+  </aiml:condition>
+</aiml:template>
+</aiml:category>
+<aiml:category>
+
 <aiml:pattern>666</aiml:pattern>
 <aiml:template>
   <aiml:condition rldialog:context="response">
