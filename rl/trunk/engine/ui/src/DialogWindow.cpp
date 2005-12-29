@@ -218,9 +218,15 @@ bool DialogWindow::handleSelectOption()
 {
 	DebugWindow::getSingleton().setText("Pnk "+StringConverter::toString(getSelectedOption()));
 	ListboxWrappedTextItem* item = reinterpret_cast<ListboxWrappedTextItem*>(mDialogOptions->getFirstSelectedItem());
-	CeGuiString text = mCurrentResponse->getSelectedOption(item->getID());
-	mGameLogger->logDialogEvent("Held", text);
-	getResponse(StringConverter::toString(item->getID()));	
+	int id = item->getID();
+	std::pair<int, CeGuiString> selectedOption 
+		= mCurrentResponse->getSelectedOption(id);
+	if(selectedOption.first != 0 && selectedOption.first != 666)
+	{
+		id = selectedOption.first;
+		mGameLogger->logDialogEvent("Held", selectedOption.second);
+	}
+	getResponse(StringConverter::toString(id));	
 	return true;
 }
 

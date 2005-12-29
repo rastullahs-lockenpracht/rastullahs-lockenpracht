@@ -141,7 +141,10 @@ namespace rl
 						CeGuiString temp = nlp->process(childNode, m, str);
 						if(conditionContext.empty())
 						{
-							buffer += temp;
+							// used for postprocessing of the option-tag when
+							// checking for skills(talents)
+							
+							buffer += id + " " + temp;
 						}
 						else if(conditionContext == "selection")
 						{

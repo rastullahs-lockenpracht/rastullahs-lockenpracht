@@ -38,7 +38,9 @@ namespace rl
 
 		const Options& getOptions() { return mCurrentOptions; }
 		const CeGuiString& getResponse() { return mResponse;}
-		CeGuiString getSelectedOption(int id);
+		std::pair<int, CeGuiString> getSelectedOption(int id);
+
+
 
 	private:
 		CeGuiString mInput;

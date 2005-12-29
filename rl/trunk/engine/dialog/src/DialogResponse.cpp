@@ -17,6 +17,8 @@
 #include <xercesc/framework/MemBufInputSource.hpp>
 #include <xercesc/dom/DOM.hpp>
 
+#include <CEGUIPropertyHelper.h>
+
 #include "XmlHelper.h"
 #include "AimlProcessorManager.h"
 #include "DialogResponse.h"
@@ -37,7 +39,7 @@ namespace rl
 	{
 	}
 
-	CeGuiString DialogResponse::getSelectedOption(int id)
+	std::pair<int, CeGuiString> DialogResponse::getSelectedOption(int id)
 	{
 		if(mSelectableOptions.find(id) != mSelectableOptions.end())
 		{
@@ -49,7 +51,7 @@ namespace rl
 		//  get doc from parser and get first node
 			DOMDocument* doc = parser->getDocument();
 			DOMNode* node = doc->getDocumentElement();
-		
+
 			CeGuiString result;
 			AimlProcessor* pt = AimlProcessorManager::getProcessor("condition");
 			if(pt)
@@ -57,12 +59,16 @@ namespace rl
 				result = pt->process(node, NULL, "0", mNlp);
 			}
 			if(parser) delete parser;
-			return result;
+			int endPos = result.find_first_of(" ");
+			
+			int rVal = CEGUI::PropertyHelper::stringToInt(result.substr(0, endPos));
+			
+			return std::pair<int, CeGuiString>(rVal,result);
 
 		}
 		else
 		{
-			return mCurrentOptions[id];
+			return std::pair<int, CeGuiString>(id, mCurrentOptions[id]);
 		}
 	}
 }
