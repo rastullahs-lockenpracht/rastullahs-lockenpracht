@@ -16,7 +16,7 @@
             <Property Name="AbsolutePosition" Value="x:10 y:45"/>
             <Property Name="AbsoluteWidth" Value="80"/>
             <Property Name="AbsoluteHeight" Value="13"/>
-            <Property Name="CurrentProgress" Value="25"/>
+            <Property Name="CurrentProgress" Value="100"/>
             <Property Name="StatusColour" Value="FFFF0000"/>
         </Window>
 
@@ -24,7 +24,7 @@
             <Property Name="AbsolutePosition" Value="x:10 y:68"/>
             <Property Name="AbsoluteWidth" Value="80"/>
             <Property Name="AbsoluteHeight" Value="13"/>
-            <Property Name="CurrentProgress" Value="50"/>
+            <Property Name="CurrentProgress" Value="100"/>
             <Property Name="StatusColour" Value="FFFFFF00"/>
         </Window>
 
