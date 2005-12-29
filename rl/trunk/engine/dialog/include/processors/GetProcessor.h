@@ -13,45 +13,29 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-
-#ifndef SYSTEM_PROCESSOR_H
-#define SYSTEM_PROCESSOR_H
+#ifndef GET_PROCESSOR_H
+#define GET_PROCESSOR_H
 
 #include "DialogPrerequisites.h"
 #include "../AimlProcessor.h"
 #include "../NaturalLanguageProcessor.h"
-#include "../AimlParser.h"
-#include "../DialogSubsystem.h"
 
 namespace rl
 {
 	/**
-	 * Provides control over some features of the system the dialog module runs on
+	 * Get bot predicates
 	 *
 	 * @author	Philipp Walser
 	 */
-	class SystemProcessor : public AimlProcessor
+	class GetProcessor :
+		public AimlProcessor
 	{
 	public:
-		SystemProcessor(){};
-		~SystemProcessor() { }
-	
-		CeGuiString process(DOMNode* node,Match* m, const CeGuiString& str, NaturalLanguageProcessor* nlp)
-		{
-			CeGuiString cmd = XmlHelper::getAttributeValueAsString( (DOMElement*)node, "command" );
-		//	Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "SYSTEM");
-		//	Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, cmd);
-			if( cmd == "exit" )
-			{
-				nlp->mExit=true;
-			}
-			if( cmd == "reload" )
-			{
-			//	Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "RELOOOAAAD");
-			//	nlp->processOption("load","*.aiml");
-			}
-			return "";
-		}
+		GetProcessor(void);
+		virtual ~GetProcessor(void);
+
+		CeGuiString process(DOMNode* node,Match* match, const CeGuiString& str, NaturalLanguageProcessor* nlp);
+		
 	};
 }
 #endif

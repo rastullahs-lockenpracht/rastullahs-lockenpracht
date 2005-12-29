@@ -19,6 +19,8 @@
 #include "processors/ConditionProcessor.h"
 #include "processors/SystemProcessor.h"
 #include "processors/SraiProcessor.h"
+#include "processors/SetProcessor.h"
+#include "processors/GetProcessor.h"
 
 namespace rl
 {
@@ -95,6 +97,8 @@ namespace rl
 		mProcessors["if"] = cp;
 		mProcessors["srai"] = new SraiProcessor();
 		mProcessors["system"] = new SystemProcessor();
+		mProcessors["set"] = new SetProcessor();
+		mProcessors["get"] = new GetProcessor();
 	}
 
 	AimlProcessor* AimlProcessorManager::getProcessor(const CeGuiString &name)

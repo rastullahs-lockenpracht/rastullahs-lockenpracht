@@ -26,7 +26,7 @@ namespace rl
 		virtual int calcOptionValue(const rl::CeGuiString& optionName)=0;	
 		virtual int calcResponseValue(const rl::CeGuiString& responseName)=0;
 		
-		rl::Creature* getCharacter() const;
+		rl::Creature* getDialogCharacter() const;
 		rl::Creature* getDialogPartner() const;
 	};
 	
@@ -36,8 +36,8 @@ namespace rl
 		DialogCharacter(const std::string& name);
 		void setScriptObject(rl::DialogScriptObject* scriptObject);
 		
-		rl::Creature* getCharacter() const;
-		void setCharacter(rl::Creature* character);
+		rl::Creature* getDialogCharacter() const;
+		void setDialogCharacter(rl::Creature* dialogCharacter);
 		
 		rl::Creature* getDialogPartner() const;
 		void setDialogPartner(rl::Creature* dialogPartner);

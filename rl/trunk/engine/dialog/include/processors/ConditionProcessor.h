@@ -26,6 +26,11 @@ using namespace std;
 
 namespace rl
 {
+	/**
+	 * Base class for checking conditions in dialogs
+	 *
+	 * @author	Philipp Walser
+	 */
 	class ConditionProcessor : public AimlProcessor
 	{
 	public:

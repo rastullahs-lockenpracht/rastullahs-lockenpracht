@@ -13,12 +13,6 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-
-/**
- * BrProcessor - Breaks output into multiple lines
- *
- * @author	Jonathan Roewen
- */
 #ifndef BR_PROCESSOR_H
 #define BR_PROCESSOR_H
 
@@ -26,11 +20,13 @@
 #include "../AimlProcessor.h"
 #include "../NaturalLanguageProcessor.h"
 
-#include <string>
-#include "OgreLogManager.h"
-using namespace std;
 namespace rl
 {
+	/**
+	 * Substitution of <br/>-Tag to a line break in text
+	 *
+	 * @author	Philipp Walser
+	 */
 	class BrProcessor : public AimlProcessor
 	{
 	public:

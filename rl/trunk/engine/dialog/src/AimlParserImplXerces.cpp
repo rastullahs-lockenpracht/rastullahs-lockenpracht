@@ -131,9 +131,9 @@ namespace rl
 				bool b = !rtn.compare("name") ? true : false; //(bool)!rtn.compare("name"); //xmlStrcmp(rtn, (const xmlChar *)"name");
 				if ( !name.compare("*") )
 				{
-					Predicates::setGlobalDefault(s.c_str());	// XXX PREDICATES
+				//	Predicates::setGlobalDefault(s.c_str());	// XXX PREDICATES
 				} else {
-					Predicates::specializePredicate(name.c_str(), s.c_str(), b); // XXX PREDICATES
+				//	Predicates::specializePredicate(name.c_str(), s.c_str(), b); // XXX PREDICATES
 				}
 			}
 		} else if(!tmp.compare("property"))	{	
@@ -144,7 +144,7 @@ namespace rl
 			if ( !name.empty() && !value.empty() )
 			{
 			//	(const char*)name; // ?
-				Predicates::setProperty(name.c_str(), value.c_str()); // XXX PREDICATES
+//				Predicates::setProperty(name.c_str(), value.c_str()); // XXX PREDICATES
 			}
 		} else if(!tmp.compare("option")) {	
 			// Options haben name & value
@@ -289,14 +289,14 @@ namespace rl
 					name = XmlHelper::getAttributeValueAsString(attrs,"name");
 					if ( !name.empty() ) 
 					{	//--	lookup bot property with adata
-						mPatternValue += Predicates::getProperty(name.c_str());	// XXX PREDICATES
+//						mPatternValue += Predicates::getProperty(name.c_str());	// XXX PREDICATES
 						break;
 					}
 					mSubState = CAT_BOT;
 				} else if ( compareTagName(tagName, "name") ) {
 					//--	"name"
 					//--	lookup bot property 'name'
-					mPatternValue += Predicates::getProperty("name");	// XXX PREDICATES
+//					mPatternValue += Predicates::getProperty("name");	// XXX PREDICATES
 					mSubState = CAT_NAME;
 				} else {
 					//--	an error

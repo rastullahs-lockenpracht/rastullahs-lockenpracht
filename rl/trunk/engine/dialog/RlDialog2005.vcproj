@@ -19,7 +19,6 @@
 			OutputDirectory="./lib/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="2"
-			
 			CharacterSet="2"
 			>
 			<Tool
@@ -109,7 +108,6 @@
 			OutputDirectory="./lib/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="2"
-			
 			CharacterSet="2"
 			>
 			<Tool
@@ -276,6 +274,18 @@
 					RelativePath=".\src\processors\ConditionProcessor.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\src\processors\GetProcessor.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\processors\SetProcessor.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\processors\SraiProcessor.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -380,6 +390,14 @@
 				</File>
 				<File
 					RelativePath=".\include\processors\ConditionProcessor.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\processors\GetProcessor.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\processors\SetProcessor.h"
 					>
 				</File>
 				<File

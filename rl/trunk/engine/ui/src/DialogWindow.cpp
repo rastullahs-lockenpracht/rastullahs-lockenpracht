@@ -69,7 +69,8 @@ DialogWindow::DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger)
 
 DialogWindow::~DialogWindow()
 {
-	// TO DO: DialogWindow::~DialogWindow()
+	if(mCurrentResponse) delete mCurrentResponse;
+	mCurrentResponse = NULL;
 //	if(mNlp)delete mNlp;
 }
 
@@ -91,7 +92,7 @@ void DialogWindow::initialize()
 		boost::bind(&DialogWindow::handleClose, this)); //TODO: als Abbrechen werten 
 
 	addToRoot(mWindow);
-    getResponse("START DIALOG");
+    getResponse("1");
 	mName->setText(mNlp->getName());
 }
 
@@ -227,6 +228,7 @@ bool DialogWindow::handleSelectOption()
 		mGameLogger->logDialogEvent("Held", selectedOption.second);
 	}
 	getResponse(StringConverter::toString(id));	
+	
 	return true;
 }
 

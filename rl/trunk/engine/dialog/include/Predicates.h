@@ -17,23 +17,18 @@
 #ifndef __RL_DialogPredicates_H__
 #define __RL_DialogPredicates_H__
 
-/*
-	This Class was for setting and getting the properties etc.pp. of a Chatterbot
-	This is done through a Ruby-Interface now, but still "History" etc.pp might be useful
-	later, so I've included this class unchanged from original jAlice-Sourcecode, but made it static
-*/
-
 #include "DialogPrerequisites.h"
 
-#include <string>
+//#include <string>
 #include <map>
 
-using namespace std;
+//using namespace std;
 
-#define HISTORY_SIZE 5
+//#define HISTORY_SIZE 5
+
 namespace rl
 {
-	typedef struct 
+/*	typedef struct 
 	{
 		int size;
 		int top;
@@ -49,13 +44,26 @@ namespace rl
 
 	typedef map<pair<string, string>, History> HistoryMap;
 	typedef map<pair<string, string>, Array> ArrayMap;
-
+*/
+	/**
+	 * Encapsulates the access to most of the properties and attributes of a bot
+	 * Later, all Attributes and Skills of a DSA-Bot should or could be encapsulated
+	 * in this class, too.
+	 *
+	 * @author	Philipp Walser
+	 */
 	class _RlDialogExport Predicates
 	{
 	public:
-		//Predicates();
-		//~Predicates();
-		static void loadPredicates();
+		Predicates();
+		virtual ~Predicates();
+
+		void addPredicate(const CeGuiString& name, const CeGuiString& type, const CeGuiString& value);
+		void clearPredicate(const CeGuiString& name, const CeGuiString& type);
+		const CeGuiString& getPredicate(const CeGuiString& name, const CeGuiString& type);
+		void setPredicate(const CeGuiString& name, const CeGuiString& type, const CeGuiString& value);
+		
+	/*	static void loadPredicates();
 		static void savePredicates();
 	
 		static void addValue(const string &property, const string &id, const string &value);
@@ -74,13 +82,17 @@ namespace rl
 		static void specializePredicate(const string &property, const string &value, bool returnName = false);
 		static void setGlobalDefault(const string &value);
 		static string lookupPredicate(const string &property, const string &defaultValue);
+	*/
 	private:
-		static HistoryMap history;
+	
+		std::map<CeGuiString, CeGuiString> mPredicates;
+	/*	static HistoryMap history;
 		static ArrayMap predicates;
 		static map<string, string> properties;
 	
 		static map<string, pair<string, bool> > specializedPredicates;
 		static string defaultPredicate;
+	*/
 	};
 }
 #endif

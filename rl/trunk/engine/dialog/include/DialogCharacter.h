@@ -33,8 +33,8 @@ namespace rl
 		DialogCharacter(const CeGuiString& name);
 		virtual ~DialogCharacter(void);
 
-		Creature* getCharacter() const;
-		void setCharacter(Creature* character);
+		Creature* getDialogCharacter() const;
+		void setDialogCharacter(Creature* dialogCharacter);
 
 		Creature* getDialogPartner() const;
 		void setDialogPartner(Creature* dialogPartner);
@@ -49,14 +49,14 @@ namespace rl
 
 	};
 
-	inline Creature* DialogCharacter::getCharacter() const
+	inline Creature* DialogCharacter::getDialogCharacter() const
 	{
 		return mCharacter;
 	}
 	
-	inline void DialogCharacter::setCharacter(Creature* character)
+	inline void DialogCharacter::setDialogCharacter(Creature* dialogCharacter)
 	{
-		mCharacter = character;
+		mCharacter = dialogCharacter;
 	}
 
 	inline Creature* DialogCharacter::getDialogPartner() const

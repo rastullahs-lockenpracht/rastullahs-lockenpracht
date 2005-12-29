@@ -34,8 +34,8 @@ namespace rl
 		return mParent->getDialogPartner();
 	}
 
-	Creature* DialogScriptObject::getCharacter() const
+	Creature* DialogScriptObject::getDialogCharacter() const
 	{
-		return mParent->getCharacter();
+		return mParent->getDialogCharacter();
 	}
 }

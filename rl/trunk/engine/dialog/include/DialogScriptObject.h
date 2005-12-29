@@ -35,7 +35,7 @@ namespace rl
 		void setParent(DialogCharacter* parent);
 
 		Creature* getDialogPartner() const;
-		Creature* getCharacter() const;
+		Creature* getDialogCharacter() const;
 
 	private:
 		DialogCharacter* mParent;

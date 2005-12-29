@@ -18,9 +18,12 @@
 
 #include "XmlHelper.h"
 #include "CoreSubsystem.h"
+#include "RulesSubsystem.h"
 #include "Interpreter.h"
 
 #include "Creature.h"
+#include "QuestBook.h"
+#include "Quest.h"
 
 #include "Utils.h"
 #include "DialogSubsystem.h"
@@ -61,16 +64,21 @@ namespace rl
 
 		DialogScriptObject* scriptObject = 
 			(static_cast<DialogCharacter*>(nlp))->getScriptObject();
-
-		if(conditionType == "Talent")
+		Quest* quest = NULL;
+		
+		if(conditionType == "quest" || conditionType == "Quest")
+		{
+			quest = RulesSubsystem::getSingletonPtr()->getQuestBook()->getQuest(conditionName);
+		}
+		else if(conditionType == "Talent")
 		{
 			typeInfo = " (T) ";
-			rVal = scriptObject->getCharacter()->doTalentprobe(conditionName, modifier);
+			rVal = scriptObject->getDialogCharacter()->doTalentprobe(conditionName, modifier);
 		}
 		else if (conditionType == "Eigenschaft")
 		{
 			typeInfo = " (E) ";
-			rVal = scriptObject->getCharacter()->doEigenschaftsprobe(conditionName, modifier);
+			rVal = scriptObject->getDialogCharacter()->doEigenschaftsprobe(conditionName, modifier);
 		}
 		else if(conditionType == "Basiswert")
 		{
@@ -108,6 +116,8 @@ namespace rl
 				{
 					tmpVal = XmlHelper::getAttributeValueAsInteger( 
 						static_cast<DOMElement*>(childNode), "value" );
+					CeGuiString strValue = XmlHelper::getAttributeValueAsString(
+						static_cast<DOMElement*>(childNode), "value" );
 					std::string sValue = XmlHelper::getAttributeValueAsStdString(
 						static_cast<DOMElement*>(childNode), "value" );
 					std::string id = XmlHelper::getAttributeValueAsStdString( 
@@ -120,6 +130,15 @@ namespace rl
 					{
 						conditionFulfilled = true;
 					}
+					else if(conditionType == "Predicate")
+					{
+						CeGuiString predicate = nlp->getPredicates().getPredicate(
+							conditionName, "default");
+						if(!predicate.empty())
+						{
+							conditionFulfilled = (predicate == strValue);
+						}
+					}
 					else if ( (conditionType == "Talent" 
 						|| conditionType == "Eigenschaft")
 						)
@@ -129,6 +148,10 @@ namespace rl
 						{
 							conditionFulfilled = true;
 						}
+					}
+					else if(quest != NULL)
+					{
+						conditionFulfilled = (tmpVal == quest->getState());
 					}
 					else
 					{

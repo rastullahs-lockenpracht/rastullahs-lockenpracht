@@ -21,9 +21,9 @@
 #include "CommonPrerequisites.h"
 
 #include "Graphmaster.h"
-
+#include "Predicates.h"
 //#include "Substituter.h"
-//#include "Predicates.h"
+
 
 //#include <string>
 
@@ -61,7 +61,11 @@ namespace rl
 //		void processOption(const string& name, const std::string& value);
 		void setName(const CeGuiString& name);
 		const CeGuiString& getName() const;
+
+		Predicates& getPredicates();
+
 		bool mExit;
+
 
 	protected:
 		//// Name of the Bot, used for naming the script object etc.pp.
@@ -72,6 +76,7 @@ namespace rl
 
 		Responses mCurrentResponses;
 		std::vector<Graphmaster*> mGraphList;
+		Predicates mPredicates;
 		
 	//	Graphmaster *mGm;	// this should be a list with multiple Graphmasters.
 							// every Graphmaster contains one aiml-file
@@ -83,7 +88,14 @@ namespace rl
 		//Predicates *pr;
 		//Substituter *sb;
 	};
+
+	inline Predicates& NaturalLanguageProcessor::getPredicates()
+	{
+		return mPredicates;
+	}
 }
+
+
 
 
 /*		//Not yet implemented and maybe never will be...

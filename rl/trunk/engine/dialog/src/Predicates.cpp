@@ -40,7 +40,56 @@ using namespace std;
 
 namespace rl 
 {
-	string urldecode(const string &input) 
+	const static CeGuiString emptyString = "";
+	Predicates::Predicates()
+	{
+	}
+
+	Predicates::~Predicates()
+	{
+	}
+
+	void Predicates::addPredicate(const CeGuiString& name, const CeGuiString& type, const CeGuiString& value)
+	{
+		if(mPredicates.find(name) == mPredicates.end())
+		{
+			mPredicates[name] = value;
+		}
+	}
+
+
+	void Predicates::clearPredicate(const CeGuiString& name, const CeGuiString& type)
+	{
+		std::map<CeGuiString, CeGuiString>::iterator itr
+			= mPredicates.find(name);
+		if(itr != mPredicates.end())
+		{
+			mPredicates.erase(itr);
+		}
+	}
+	
+	const CeGuiString& Predicates::getPredicate(const CeGuiString& name, const CeGuiString& type)
+	{
+		if(mPredicates.find(name) != mPredicates.end())
+		{
+			return mPredicates[name];
+		}
+		return emptyString;
+	}
+
+
+	void Predicates::setPredicate(const CeGuiString& name, const CeGuiString& type, const CeGuiString& value)
+	{
+		if(mPredicates.find(name) != mPredicates.end())
+		{
+			mPredicates[name] = value;
+		}
+	}
+
+
+
+
+/*	string urldecode(const string &input) 
 	{
 		return input;
 	}
@@ -249,5 +298,6 @@ namespace rl
 		}
 		return defaultPredicate;
 	}
+	*/
 }// Namespace rl end
 //--	end-of-file
