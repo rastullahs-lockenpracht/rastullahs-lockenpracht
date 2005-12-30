@@ -74,7 +74,7 @@
 	Dies ist nur eine Techdemo. Auf meinem Land moechte ich keine Schoenheit! Ich moechte nur Funktionalitaet haben!
 </aiml:condition>
 <aiml:condition rldialog:context="option">
-    <aiml:li value="4" id="3">Ach so ist das. Na dann werd ich mich doch mal dem Pantheon-Team anschliessen und selbst helfen alles besser zu machen! Tschoe!</aiml:li>
+    <aiml:li value="4" id="4">Ach so ist das. Na dann werd ich mich doch mal dem Pantheon-Team anschliessen und selbst helfen alles besser zu machen! Tschoe!</aiml:li>
 </aiml:condition>
 </aiml:template>
 </aiml:category>
@@ -94,7 +94,7 @@
     Ne, du bist zu haesslich! Tschoe.
   </aiml:condition>
   <aiml:condition rldialog:context="option">
-    <aiml:li value="4" id="3">
+    <aiml:li value="4" id="4">
     ja mist... tschoe
     </aiml:li>
   </aiml:condition>
@@ -108,7 +108,7 @@
     Du bist so toll! Komm herein!
   </aiml:condition>
   <aiml:condition rldialog:context="option">
-    <aiml:li value="4" id="3">
+    <aiml:li value="4" id="4">
     Ok. Ich gehe rein.
     </aiml:li>
   </aiml:condition>
@@ -122,7 +122,7 @@
     Ja, mach die Spinne platt.
   </aiml:condition>
   <aiml:condition rldialog:context="option">
-    <aiml:li value="4" id="3">
+    <aiml:li value="4" id="4">
     Mach ich! Tschoe!
     </aiml:li>
   </aiml:condition>
@@ -136,7 +136,7 @@
     Da gibts sone Quest und von der erzaehl ich dir jetzt mal.
   </aiml:condition>
   <aiml:condition rldialog:context="option">
-    <aiml:li value="4" id="3">
+    <aiml:li value="4" id="4">
     Ok. Exit.<set type="quest" name="test">1</set>
     </aiml:li>
   </aiml:condition>
