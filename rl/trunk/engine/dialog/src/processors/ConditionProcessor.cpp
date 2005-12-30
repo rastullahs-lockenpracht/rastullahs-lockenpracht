@@ -15,6 +15,7 @@
  */
 
 #include <string>
+#include <CEGUIPropertyHelper.h>
 
 #include "XmlHelper.h"
 #include "CoreSubsystem.h"
@@ -83,6 +84,10 @@ namespace rl
 		else if(conditionType == "Basiswert")
 		{
 		}
+		else if(conditionType == "Predicate")
+		{
+			// ToDo, resp. check if there should be something done here
+		}
 		else
 		{
 			if(conditionContext == "response")
@@ -93,7 +98,12 @@ namespace rl
 			{
 				rVal = scriptObject->calcOptionValue(conditionName);
 			}
+			else if(conditionContext == "selection")
+			{
+				rVal = scriptObject->calcSelectionValue(conditionName);
+			}
 		}
+
 		bool conditionChild = false;
 
 		if(XmlHelper::transcodeToString(
@@ -112,16 +122,18 @@ namespace rl
 			{
 				CeGuiString nodeName = XmlHelper::transcodeToString(
 											childNode->getNodeName());
+
 				if(nodeName.compare("li") == 0)
 				{
-					tmpVal = XmlHelper::getAttributeValueAsInteger( 
-						static_cast<DOMElement*>(childNode), "value" );
+					//tmpVal = XmlHelper::getAttributeValueAsInteger( 
+					//	static_cast<DOMElement*>(childNode), "value" );
 					CeGuiString strValue = XmlHelper::getAttributeValueAsString(
 						static_cast<DOMElement*>(childNode), "value" );
 					std::string sValue = XmlHelper::getAttributeValueAsStdString(
 						static_cast<DOMElement*>(childNode), "value" );
 					std::string id = XmlHelper::getAttributeValueAsStdString( 
 						static_cast<DOMElement*>(childNode), "id" );
+					tmpVal = CEGUI::PropertyHelper::stringToInt(strValue);
 
 					bool conditionFulfilled = false;
 			

@@ -30,6 +30,7 @@ namespace rl
 
 		virtual int calcOptionValue(const CeGuiString& optionName)=0;
 		virtual int calcResponseValue(const CeGuiString& responseName)=0;
+		virtual int calcSelectionValue(const CeGuiString& selectionName)=0;
 
 		DialogCharacter* getParent() const;
 		void setParent(DialogCharacter* parent);

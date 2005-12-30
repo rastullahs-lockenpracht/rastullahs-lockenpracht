@@ -25,6 +25,7 @@ namespace rl
 		virtual ~DialogScriptObject();
 		virtual int calcOptionValue(const rl::CeGuiString& optionName)=0;	
 		virtual int calcResponseValue(const rl::CeGuiString& responseName)=0;
+		virtual int calcSelectionValue(const rl::CeGuiString& selectionName)=0;
 		
 		rl::Creature* getDialogCharacter() const;
 		rl::Creature* getDialogPartner() const;

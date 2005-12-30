@@ -80,10 +80,10 @@ namespace rl
 
 	void Predicates::setPredicate(const CeGuiString& name, const CeGuiString& type, const CeGuiString& value)
 	{
-		if(mPredicates.find(name) != mPredicates.end())
-		{
+	//	if(mPredicates.find(name) != mPredicates.end())
+	//	{
 			mPredicates[name] = value;
-		}
+	//	}
 	}
 
 
