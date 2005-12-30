@@ -23,6 +23,8 @@ noinst_HEADERS = \
 	Utils.h \
 	processors/BrProcessor.h \
 	processors/ConditionProcessor.h \
+	processors/GetProcessor.h \
+	processors/SetProcessor.h \
 	processors/SystemProcessor.h \
 	processors/SraiProcessor.h
 	
