@@ -29,3 +29,4 @@
 #undef Sleep
 #undef sleep
 #undef strcasecmp
+#undef rename
