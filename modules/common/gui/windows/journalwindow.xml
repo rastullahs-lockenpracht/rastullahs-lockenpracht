@@ -1,0 +1,39 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+    <Window Type="RastullahLook/FrameWindow" Name="JournalWindow">
+        <Property Name="MetricsMode" Value="Absolute"/>
+        <Property Name="Position" Value="x:0.0 y:0.0"/>
+        <Property Name="Width" Value="640"/>
+        <Property Name="Height" Value="510"/>
+
+		<Window Type="RastullahLook/ListBox" Name="JournalWindow/Quests/QuestList">
+			<Property Name="AbsolutePosition" Value="x:10 y:80"/>
+			<Property Name="AbsoluteWidth" Value="300"/>
+			<Property Name="AbsoluteHeight" Value="30"/>
+			<Property Name="FrameEnabled" Value="False"/>
+		</Window>
+
+		<Window Type="RastullahLook/StaticText" Name="JournalWindow/Quests/QuestTitle">
+			<Property Name="AbsolutePosition" Value="x:10 y:10"/>
+			<Property Name="AbsoluteWidth" Value="300"/>
+			<Property Name="AbsoluteHeight" Value="30"/>
+			<Property Name="FrameEnabled" Value="False"/>
+		</Window>
+
+		<Window Type="RastullahLook/StaticText" Name="JournalWindow/Quests/QuestState">
+			<Property Name="AbsolutePosition" Value="x:10 y:45"/>
+			<Property Name="AbsoluteWidth" Value="300"/>
+			<Property Name="AbsoluteHeight" Value="30"/>
+			<Property Name="FrameEnabled" Value="False"/>
+		</Window>
+		  
+		<Window Type="RastullahLook/MultiLineEditbox" Name="JournalWindow/Quests/QuestDescription">
+			<Property Name="AbsolutePosition" Value="x:10 y:410"/>
+			<Property Name="AbsoluteWidth" Value="150"/>
+			<Property Name="AbsoluteHeight" Value="30"/>
+			<Property Name="FrameEnabled" Value="False"/>
+		</Window>
+
+	</Window>
+</GUILayout>
+
+
