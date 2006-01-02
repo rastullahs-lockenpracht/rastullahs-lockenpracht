@@ -66,10 +66,9 @@ print( "GameEvent-Tests wird geladen" );
 print( "Definiere SteinschlagzoneListener" );
 # Definition des GameAreaListeners
 class SteinschlagzoneListener < GameAreaListener
-
 	def areaLeft(anEvent)
 		print( "Raus - " +  anEvent.getProvokingActor().getName() );
-		areaListener = SteinschlagzoneListener.remove()
+		areaListener = $GameEveMgr.removeAreaListener(@self)
 	end
 	def areaEntered(anEvent)
 		print( "Rein - " + anEvent.getProvokingActor().getName() );
