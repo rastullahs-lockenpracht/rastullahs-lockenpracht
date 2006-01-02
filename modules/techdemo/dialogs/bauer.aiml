@@ -1,30 +1,9 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- !DOCTYPE aiml SYSTEM "includes.dtd" -->
 
-	<!-- Don't use, Predicates won't work yet!
-	<aiml:condition rldialog:context="option" type="Predicate" name="firstEncounter">
-		<aiml:li value="true" id="666">Haben wir uns nicht schonmal gesehen?</aiml:li>
-	</amil:condition>
- 	<set type="default" name="firstEncounter">true</set>
-	-->
+<!-- Achtung! Anstatt der 3 für DONE bei Questen gibt es bald eine Syntaxänderung zu: 3 = COMPLETED und 4 = CLOSED, also eine Instanz mehr. Entweder anstatt dessen oder danach wird es eine erneute Änderung zu Strings geben, also die Wörter direkt. -->
 
 
-	<!-- Standard Eigenschaftsprobe
- 	 <aiml:condition rldialog:context="option" type="Eigenschaft" name="MU">
-		<aiml:li value="1" id="666">Ich bin mutig!</aiml:li>
-		<aiml:li value="0" id="666">Ich trau mich nicht!</aiml:li>
-	</aiml:condition> -->
-
-
-<!-- Selection
-       <aiml:li value="4" id="666">
-     Sich anschauen lassen
-       <aiml:condition rldialog:context="selection" type="Eigenschaft" name="CH">
-   	  <aiml:li value="1" id="6">Geschafft!</aiml:li>
-	  <aiml:li value="0" id="5">Nicht geschafft!</aiml:li>
-	</aiml:condition>
-       </aiml:li>
--->
 
 <aiml:aiml  version="1.0.1"
             xmlns:aiml="http://alicebot.org/2001/AIML">
@@ -36,21 +15,30 @@
 <aiml:pattern>1</aiml:pattern> <!-- START DIALOG -->
 <aiml:template>
 	<aiml:condition rldialog:context="response">
-		Hallo, Reisender. Mein Name ist Arnolf Großschädel. Was gibt es?<aiml:br/>
+		Hallo, Reisender. Mein Name ist Arnolf Großschädel. Was gibt es?
+	</aiml:condition>
+
+	<aiml:condition rldialog:context="option" type="quest" name="spinne">
+		<aiml:li value="0" id="2">Oh Bauer, ich suche eine Bleibe für die Nacht. Aber ich habe kein Geld.</aiml:li>
+		<aiml:li value="1" id="7">Ich kann die Spinne nicht finden.</aiml:li>
+		<aiml:li value="3" id="5">Ich habe das Biest erwischt! Es liegt nun, alle Achte von sich gestreckt, im Gras und regt sich nicht mehr. Scheint ein schwaches Herz gehabt zu haben.</aiml:li>
+	</aiml:condition>
+
+	<aiml:condition rldialog:context="option" type="quest" name="hoehleEingang">
+		<aiml:li value="1" id="8">Ich kann den Eingang zur Höhle nicht finden.</aiml:li>
+	</aiml:condition>
+
+	<aiml:condition rldialog:context="option" type="quest" name="hoehleZeug"> 
+		<aiml:li value="1" id="9">Ich habe noch nicht alle Gegenstände gefunden. Was kann ich da machen?</aiml:li>
 	</aiml:condition>
 	
+	<aiml:condition rldialog:context="option" type="quest" name="hoehle"> 
+		<aiml:li value="2" id="11">War das alles?</aiml:li>
+		<aiml:li value="3" id="10">Ich war in der Höhle und habe alles entdeckt was es dort gab!</aiml:li>
+	</aiml:condition> 
+
 	
 	<aiml:condition rldialog:context="option">
-		<!-- Eigentlich nur wenn man die Quest noch nicht hat -->
-		<aiml:li value="4" id="2">
-                  Oh Bauer, ich suche eine Bleibe für die Nacht. Aber ich habe kein Geld.
-	 	</aiml:li>
-	 	
-		<!-- Wenn die Spinne erledigt ist -->
-		<aiml:li value="4" id="5">
-                  Ich habe das Biest erwischt! Es liegt nun, alle Achte von sich gestreckt, im Gras und regt sich nicht mehr. Scheint ein schwaches Herz gehabt zu haben.
-	 	</aiml:li>
-
 		<aiml:li value="4" id="3">
                   Warum ist denn alles so trist und leer in diesem Landstrich?
 	 	</aiml:li>
@@ -58,15 +46,7 @@
                   Gerade nichts. Ich möchte noch etwas herumlaufen.
 		</aiml:li>
 	</aiml:condition>
-	
 
-	
-	<!-- <aiml:condition rldialog:context="option" type="quest" name="test">
-		<aiml:li value="0" id="444">Test-Quest ist noch nicht erfuellt</aiml:li>
-		<aiml:li value="1" id="666">Test-Quest wurde bekannt gegeben</aiml:li>
-	</aiml:condition> -->
-	
-	
 </aiml:template>
 </aiml:category>
 
@@ -75,13 +55,12 @@
 <aiml:template>
   <aiml:condition rldialog:context="response">
 	Ha! Da kann ja jeder kommen. Aber ich lasse dich erstmal herein. Hier, nimm erstmal etwas etwas Speck und Brot.
-  </aiml:condition>
+  </aiml:condition> <!-- Speck und Brot ins Inventar -->
 <aiml:condition rldialog:context="option">
      <aiml:li value="4" id="22">Habt vielen Dank, Arnolf. Wie kann ich euch dies bezahlen?</aiml:li>
 </aiml:condition>
  </aiml:template>
 </aiml:category>
-
 
 <aiml:category>
 <aiml:pattern>22</aiml:pattern>
@@ -90,7 +69,7 @@
     Seit einiger Zeit treibt sich auf der anderen Seite des ausgetrockneten Flusses eine grosse Waldspinne herum. Aber sie traut sich nicht hierher, vielleicht ist sie ängstlich. Aber auch ich habe Angst. Bringt die Spinne um und ich gebe euch ein Zimmer für die Nacht!
   </aiml:condition>
 <aiml:condition rldialog:context="option">
-     <aiml:li value="4" id="222">Einverstanden, ich mache es. Das ungetüm ist schon so gut wie in Borons Hallen! Bis später!</aiml:li>
+     <aiml:li value="4" id="222">Einverstanden, ich mache es. Das ungetüm ist schon so gut wie in Borons Hallen!</aiml:li>
 </aiml:condition>
  </aiml:template>
 </aiml:category>
@@ -102,12 +81,10 @@
 	Habt vielen Dank! Ich bin voller Zuversicht. Ich habe auch noch eine kleine Belohnung wenn ihr wiederkehrt!
   </aiml:condition>
 <aiml:condition rldialog:context="option">
-     <aiml:li value="4" id="4">Das hört sich ja gut an! Also los... </aiml:li> <!-- an dieser Stelle Questeintrag machen und darauf hinweisen, dass es einen neuen Eintrag gibt, mit popup und sound -->
-
+     <aiml:li value="4" id="4">Das hört sich ja gut an! Also los... <set type="quest" name="spinne">1</set></aiml:li> <!-- popup und sound -->
 </aiml:condition>
  </aiml:template>
 </aiml:category>
-
 
 <aiml:category>
 <aiml:pattern>3</aiml:pattern>
@@ -122,6 +99,7 @@
 </aiml:category>
 
 
+
 <!-- Exit aus dem Dialog. Sollte ein standardfeld werde, ähnlich 666 -->
 <aiml:category>
 <aiml:pattern>4</aiml:pattern>
@@ -129,6 +107,9 @@
 	<aiml:system command="exit"/>
 </aiml:template>
 </aiml:category>
+
+
+
 
 <aiml:category>
 <aiml:pattern>5</aiml:pattern>
@@ -167,7 +148,7 @@
 	Doch, ich habe euch sofort ins Herz geschlossen. Also hört: Dort soll es einen magischen Trank geben, der euch heilt. So wie ihr ausseht, könnt ihr ihn sogar gebrauchen, also zögert nicht, wenn ihr ihn in den Händen haltet. Ich hörte dort gäbe es auch eine Fackel. Sehr nützlich für diese Höhlen. Ob es sonst noch etwas gibt weiß ich allerdings wirklich nicht.
 </aiml:condition>
 <aiml:condition rldialog:context="option">
-    <aiml:li value="4" id="4">Danke, ich werde mich sofort auf den Weg machen. Wärmt schonmal das Essen an!</aiml:li> <!-- Spinnenquest beenden, Höhlenquest aktivieren -->
+    <aiml:li value="4" id="4">Danke, ich werde mich sofort auf den Weg machen. Wärmt schonmal das Essen an!<set type="quest" name="spinne">2</set><set type="quest" name="hoehleEingang">1</set></aiml:li><!-- Spinnenquest beenden, Höhlenquest aktivieren -->
 </aiml:condition>
 </aiml:template>
 </aiml:category>
@@ -179,27 +160,84 @@
 	Ich würde euch wohl kaum schon als Freund bezeichnen, trotz allem. Was ihr dort findet oder wie gefährlich es ist, das ist euer Problem. Nun geht.
 </aiml:condition>
 <aiml:condition rldialog:context="option">
-    <aiml:li value="4" id="4">Unfreundlicher Kerl! Ich werde schon wiederkommen, keine Sorge. Auf bald!</aiml:li> <!-- Spinnenquest beenden, Höhlenquest aktivieren -->
+    <aiml:li value="4" id="4">Unfreundlicher Kerl! Ich werde schon wiederkommen, keine Sorge. Auf bald!<set type="quest" name="spinne">2</set><set type="quest" name="hoehleEingang">1</set></aiml:li> <!-- Spinnenquest beenden, Höhlenquest aktivieren -->
 </aiml:condition>
 </aiml:template>
 </aiml:category>
 
-
 <aiml:category>
-<aiml:pattern>444</aiml:pattern>
+<aiml:pattern>7</aiml:pattern>
 <aiml:template>
   <aiml:condition rldialog:context="response">
-    Da gibts sone Quest und von der erzähl ich dir jetzt mal.
+   Sucht sie auf der anderen Seite des ehemaligen Flusses. Erst über die Brücke und sucht das andere Ufer ab.
   </aiml:condition>
   <aiml:condition rldialog:context="option">
     <aiml:li value="4" id="4">
-    Ok. Exit.<set type="quest" name="test">1</set>
+    Ich bleibe dran und werde nicht ruhen!
     </aiml:li>
   </aiml:condition>
 </aiml:template>
 </aiml:category>
-<aiml:category>
 
+<aiml:category>
+<aiml:pattern>8</aiml:pattern>
+<aiml:template>
+  <aiml:condition rldialog:context="response">
+   Sie ist in den Bergen. Gehe von mir aus gesehen nach links um den Aufgang zu finden. Wenn du den großen Baum siehst, bist du richtig.
+  </aiml:condition>
+  <aiml:condition rldialog:context="option">
+    <aiml:li value="4" id="4">
+    Ich mache mich gleich auf den Weg!
+    </aiml:li>
+  </aiml:condition>
+</aiml:template>
+</aiml:category>
+
+<aiml:category>
+<aiml:pattern>9</aiml:pattern>
+<aiml:template>  
+  <aiml:condition rldialog:context="response">
+   Hast du den Heiltrank, die Fackel und den Hebel mit der Tür gefunden? Gehe noch einmal zurück und komme wieder, wenn du alles gesehen hast.
+  </aiml:condition>
+  <aiml:condition rldialog:context="option">
+    <aiml:li value="4" id="4">
+    Ich mache mich gleich auf den Weg!
+    </aiml:li>
+  </aiml:condition>
+</aiml:template>
+</aiml:category>
+
+<aiml:category>
+<aiml:pattern>10</aiml:pattern>
+<aiml:template> 
+  <aiml:condition rldialog:context="response">
+   Sehr gut! Du hast alle Herausforderungen der Techdemo erfüllt. Schau dich jetzt ruhig noch etwas um. Betrachte den kreisenden Vogel am Himmel, suche nach Bugs und Fehlern und melde sie ans Team Pantheon. Viel Spaß!
+  </aiml:condition>
+  <aiml:condition rldialog:context="option">
+    <aiml:li value="4" id="4">
+    Das werde ich machen! Auf wiedersehen! <set type="quest" name="hoehle">2</set> <!-- Wird auf Failed (2) gesetzt, da es noch keinen Zustand gibt, wo ein Quest getan (DONE/3) ist, aber noch nicht bestätigt wurde.-->
+    </aiml:li>
+  </aiml:condition>
+</aiml:template>
+</aiml:category>
+
+<aiml:category>
+<aiml:pattern>11</aiml:pattern>
+<aiml:template> 
+  <aiml:condition rldialog:context="response">
+   Das war alles. Du hast alle Herausforderungen der Techdemo erfüllt. Schau dich jetzt ruhig noch etwas um. Betrachte den kreisenden Vogel am Himmel, suche nach Bugs und Fehlern und melde sie ans Team Pantheon. Viel Spaß!
+  </aiml:condition>
+  <aiml:condition rldialog:context="option">
+    <aiml:li value="4" id="4">
+    Das werde ich machen! Auf wiedersehen!
+    </aiml:li>
+  </aiml:condition>
+</aiml:template>
+</aiml:category>
+
+
+
+<aiml:category>
 <aiml:pattern>666</aiml:pattern>
 <aiml:template>
   <aiml:condition rldialog:context="response">
@@ -212,6 +250,7 @@
   </aiml:condition>
 </aiml:template>
 </aiml:category>
+
 
 
 <aiml:category>
