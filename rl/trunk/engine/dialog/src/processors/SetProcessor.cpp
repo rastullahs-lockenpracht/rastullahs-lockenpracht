@@ -14,6 +14,8 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
+#include <xercesc/util/XMemory.hpp>	// Muss vor Ogre stehen (zumindest fuer VS)
+
 #include <CEGUIPropertyHelper.h>
 
 #include "processors/SetProcessor.h"
@@ -55,7 +57,7 @@ namespace rl
 			if(quest != NULL)
 			{
 				Quest::State state = static_cast<Quest::State>(
-					CEGUI::PropertyHelper::stringToInt(propertyValue));
+					Quest::getStateFromName(propertyValue));
 				quest->setState(state);
 			}
 		}

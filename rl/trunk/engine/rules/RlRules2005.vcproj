@@ -271,6 +271,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\QuestStateChangeEvent.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\QuestStateChangeListener.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\RulesSubsystem.cpp"
 				>
 			</File>
@@ -386,6 +394,14 @@
 			</File>
 			<File
 				RelativePath=".\include\QuestBook.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\QuestStateChangeEvent.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\QuestStateChangeListener.h"
 				>
 			</File>
 			<File

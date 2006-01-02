@@ -40,6 +40,9 @@
 #include "InGameMenuWindow.h"
 #include "CombatWindow.h"
 #include "AboutWindow.h"
+#include "JournalWindow.h"
+#include "RulesSubsystem.h"
+#include "QuestBook.h"
 
 #include "Combat.h"
 #include "GameLoop.h"
@@ -151,6 +154,8 @@ namespace rl {
 		mCharacterStateWindow = new CharacterStateWindow();
 		mInGameMenuWindow = new InGameMenuWindow();
 		mCharacterSheet = new CharacterSheetWindow();
+		mJournalWindow = new JournalWindow();
+		RulesSubsystem::getSingleton().getQuestBook()->addQuestStateChangeListener(mJournalWindow);
 
   //      runTest();
     }

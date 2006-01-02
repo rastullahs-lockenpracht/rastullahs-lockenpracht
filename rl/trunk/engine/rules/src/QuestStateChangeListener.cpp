@@ -14,29 +14,11 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#ifndef SRAI_PROCESSOR_H
-#define SRAI_PROCESSOR_H
+#include "QuestStateChangeListener.h"
 
-#include <xercesc/util/XMemory.hpp> // Muss vor Ogre stehen (zumindest fuer VS)
+namespace rl {
 
-#include "DialogPrerequisites.h"
-#include "../AimlProcessor.h"
-#include "../NaturalLanguageProcessor.h"
-
-namespace rl
-{
-	/**
-	 * Realizes a recursiv call of an other dialog-pattern
-	 *
-	 * @author	Philipp Walser
-	 */
-	class SraiProcessor : public AimlProcessor
+	QuestStateChangeListener::~QuestStateChangeListener()
 	{
-	public:
-		SraiProcessor();
-		virtual ~SraiProcessor();
-	
-		CeGuiString process(DOMNode* node,Match* m, const CeGuiString& str, NaturalLanguageProcessor* nlp);
-	};
+	}
 }
-#endif

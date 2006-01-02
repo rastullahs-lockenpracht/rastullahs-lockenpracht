@@ -108,7 +108,8 @@ namespace rl {
 			UNKNOWN = 0,
 			OPEN,
 			FAILED,
-			DONE
+			COMPLETED,
+			CLOSED			
 		};
 
 		Quest(const rl::CeGuiString& id, const rl::CeGuiString& name, const rl::CeGuiString& description);

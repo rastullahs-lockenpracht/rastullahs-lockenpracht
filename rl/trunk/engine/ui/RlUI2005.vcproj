@@ -18,7 +18,6 @@
 			OutputDirectory="./lib/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="2"
-			
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -125,7 +124,6 @@
 			OutputDirectory="./lib/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="2"
-			
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -306,6 +304,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\JournalWindow.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\MainMenuWindow.h"
 				>
 			</File>
@@ -416,6 +418,10 @@
 			</File>
 			<File
 				RelativePath=".\src\InventoryWindow.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\JournalWindow.cpp"
 				>
 			</File>
 			<File

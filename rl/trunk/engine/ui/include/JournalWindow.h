@@ -14,29 +14,31 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#ifndef SRAI_PROCESSOR_H
-#define SRAI_PROCESSOR_H
+#ifndef __JOURNALWINDOW_H__
+#define __JOURNALWINDOW_H__
 
-#include <xercesc/util/XMemory.hpp> // Muss vor Ogre stehen (zumindest fuer VS)
+#include "UiPrerequisites.h"
 
-#include "DialogPrerequisites.h"
-#include "../AimlProcessor.h"
-#include "../NaturalLanguageProcessor.h"
+#include "CeGuiWindow.h"
+#include "QuestStateChangeListener.h"
 
-namespace rl
-{
-	/**
-	 * Realizes a recursiv call of an other dialog-pattern
-	 *
-	 * @author	Philipp Walser
-	 */
-	class SraiProcessor : public AimlProcessor
-	{
+namespace rl {
+
+	class JournalWindow : public CeGuiWindow, public QuestStateChangeListener {
 	public:
-		SraiProcessor();
-		virtual ~SraiProcessor();
-	
-		CeGuiString process(DOMNode* node,Match* m, const CeGuiString& str, NaturalLanguageProcessor* nlp);
+		JournalWindow();
+		virtual ~JournalWindow();
+
+		virtual bool eventRaised(QuestStateChangeEvent *anEvent);
+
+	private:
+		void updateQuests();
+
+		CEGUI::Listbox* mQuests;
+		CEGUI::StaticText* mQuestTitle;
+		CEGUI::StaticText* mQuestState;
+		CEGUI::MultiLineEditbox* mQuestDescription;
 	};
 }
-#endif
+
+#endif //__JOURNALWINDOW_H__

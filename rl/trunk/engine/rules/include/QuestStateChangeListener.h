@@ -13,30 +13,26 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#ifndef __QuestStateChangeEventListener_H__
+#define __QuestStateChangeEventListener_H__
 
-#ifndef SRAI_PROCESSOR_H
-#define SRAI_PROCESSOR_H
+#include "RulesPrerequisites.h"
+#include "EventListener.h"
+#include "QuestStateChangeEvent.h"
 
-#include <xercesc/util/XMemory.hpp> // Muss vor Ogre stehen (zumindest fuer VS)
 
-#include "DialogPrerequisites.h"
-#include "../AimlProcessor.h"
-#include "../NaturalLanguageProcessor.h"
+namespace rl {
 
-namespace rl
+
+class _RlRulesExport QuestStateChangeListener : public virtual EventListener<QuestStateChangeEvent>
 {
-	/**
-	 * Realizes a recursiv call of an other dialog-pattern
-	 *
-	 * @author	Philipp Walser
-	 */
-	class SraiProcessor : public AimlProcessor
-	{
-	public:
-		SraiProcessor();
-		virtual ~SraiProcessor();
-	
-		CeGuiString process(DOMNode* node,Match* m, const CeGuiString& str, NaturalLanguageProcessor* nlp);
-	};
+public:
+    /// Dekonstruktor
+	virtual ~QuestStateChangeListener();
+
+	virtual bool eventRaised(QuestStateChangeEvent *anEvent) = 0;
+};
+
 }
-#endif
+
+#endif // __QuestStateChangeEventListener_H__

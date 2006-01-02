@@ -14,29 +14,27 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#ifndef SRAI_PROCESSOR_H
-#define SRAI_PROCESSOR_H
+#include "QuestStateChangeEvent.h"
 
-#include <xercesc/util/XMemory.hpp> // Muss vor Ogre stehen (zumindest fuer VS)
+#include "Quest.h"
+#include "QuestBook.h"
 
-#include "DialogPrerequisites.h"
-#include "../AimlProcessor.h"
-#include "../NaturalLanguageProcessor.h"
+namespace rl {
 
-namespace rl
+QuestStateChangeEvent::QuestStateChangeEvent( QuestBook* src )
+: EventObject(src)
 {
-	/**
-	 * Realizes a recursiv call of an other dialog-pattern
-	 *
-	 * @author	Philipp Walser
-	 */
-	class SraiProcessor : public AimlProcessor
-	{
-	public:
-		SraiProcessor();
-		virtual ~SraiProcessor();
-	
-		CeGuiString process(DOMNode* node,Match* m, const CeGuiString& str, NaturalLanguageProcessor* nlp);
-	};
 }
-#endif
+
+void QuestStateChangeEvent::setQuest(Quest* quest)
+{
+	mQuest = quest;
+}
+
+Quest* QuestStateChangeEvent::getQuest()
+{
+	return mQuest;
+}
+
+
+}

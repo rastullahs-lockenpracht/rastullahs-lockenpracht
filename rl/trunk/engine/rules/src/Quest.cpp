@@ -14,8 +14,11 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 #include <vector>
+#include <map>
 
 #include "Quest.h"
+#include "QuestBook.h"
+#include "Exception.h"
 
 namespace rl {
 
@@ -69,7 +72,8 @@ int Quest::getPartsDone()
 	int done = 0;
 	for(QuestVector::iterator it = mSubquests.begin(); it != mSubquests.end(); it++)
 	{
-		if ((*it)->getState() == Quest::DONE)
+		Quest* cur = (*it);
+		if (cur->getState() == Quest::COMPLETED || cur->getState() == Quest::CLOSED)
 			done++;
 	}
 	return done;
@@ -78,6 +82,8 @@ int Quest::getPartsDone()
 void Quest::setPartsDone(int partsDone)
 {
 	mPartsDone = partsDone;
+	notify();
+	checkDone();
 }
 
 Quest::State Quest::getState()
@@ -88,6 +94,12 @@ Quest::State Quest::getState()
 void Quest::setState(Quest::State state)
 {
 	mState = state;
+
+	if (state == Quest::OPEN 
+		&& mParent->getState() == Quest::UNKNOWN)
+		mParent->setState(Quest::OPEN);
+
+	notify();
 	checkDone();
 }
 
@@ -100,6 +112,7 @@ void Quest::addSubquest(Quest* quest)
 {
 	mSubquests.push_back(quest);
 	quest->setParent(this);
+	quest->setQuestBook(mQuestBook);
 }
 
 void Quest::setParent(Quest* quest)
@@ -117,11 +130,40 @@ void Quest::checkDone()
 	if (getPartsDone() == getPartsToDo()
 		&& mState == Quest::OPEN)
 	{
-		mState = Quest::DONE;
+		mState = Quest::COMPLETED;
+		notify();
 	}
 
 	if (mParent != NULL)
 		mParent->checkDone();
 }
+
+void Quest::notify()
+{
+	mQuestBook->fireQuestStateChanged(this);
+}
+
+void Quest::setQuestBook(QuestBook* questBook)
+{
+	mQuestBook = questBook;
+}
+
+Quest::State Quest::getStateFromName(const CeGuiString& stateName)
+{
+	if (stateName == "UNKNOWN") 
+		return Quest::UNKNOWN;
+	if (stateName == "OPEN") 
+		return Quest::OPEN;
+	if (stateName == "FAILED") 
+		return Quest::FAILED;
+	if (stateName == "COMPLETED") 
+		return Quest::COMPLETED;
+	if (stateName == "CLOSED") 
+		return Quest::CLOSED;
+
+	Throw(InvalidArgumentException, (stateName + " is no valid quest state.").c_str());
+	return Quest::UNKNOWN;
+}
+
 
 }

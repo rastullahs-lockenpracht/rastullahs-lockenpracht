@@ -19,11 +19,17 @@
 
 #include "RulesPrerequisites.h"
 
+#include "EventSource.h"
+#include "EventCaster.h"
+
+#include "QuestStateChangeEvent.h"
+#include "QuestStateChangeListener.h"
+
 namespace rl {
 
 class _RlRulesExport Quest;
 
-class _RlRulesExport QuestBook
+class _RlRulesExport QuestBook : public EventSource
 {
 public:
 	QuestBook();
@@ -42,9 +48,19 @@ public:
 	 */
 	void addQuest(Quest* quest);
 
+	/**
+	 * Sendet das Ereignis, dass sich ein Quest geändert hat
+	 * @param quest der Quest, der verändert wurde
+	 */
+	void fireQuestStateChanged(Quest* quest);
+
+	void addQuestStateChangeListener(QuestStateChangeListener* listener);
+	void removeQuestStateChangeListener(QuestStateChangeListener* listener);
+
 private:
 	Quest* getQuest(Quest* parent, const CeGuiString& id);
 	Quest* mRootQuest;
+	EventCaster<QuestStateChangeEvent> mEventCaster;
 };
 
 }

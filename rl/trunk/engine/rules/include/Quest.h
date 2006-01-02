@@ -23,6 +23,8 @@
 namespace rl {
 
 class _RlRulesExport Quest;
+class _RlRulesExport QuestBook;
+
 typedef std::vector<Quest*> QuestVector;
 
 /**
@@ -36,7 +38,8 @@ public:
 		UNKNOWN = 0,
 		OPEN,
 		FAILED,
-		DONE
+		COMPLETED,
+		CLOSED
 	};
 
 	/**
@@ -108,6 +111,10 @@ public:
 
 	Quest* getParent();
 	
+	void setQuestBook(QuestBook* questBook);
+
+	static Quest::State getStateFromName(const CeGuiString& stateName);
+
 
 private:
 	QuestVector mSubquests;
@@ -118,9 +125,11 @@ private:
 	int mPartsDone;
 	State mState;
 	Quest* mParent;
+	QuestBook* mQuestBook;
 
 	void checkDone();
 	void setParent(Quest* parentQuest);
+	void notify();
 };
 
 }

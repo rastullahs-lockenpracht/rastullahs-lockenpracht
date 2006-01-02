@@ -16,6 +16,8 @@
 #ifndef GET_PROCESSOR_H
 #define GET_PROCESSOR_H
 
+#include <xercesc/util/XMemory.hpp>	// Muss vor Ogre stehen (zumindest fuer VS)
+
 #include "DialogPrerequisites.h"
 #include "../AimlProcessor.h"
 #include "../NaturalLanguageProcessor.h"

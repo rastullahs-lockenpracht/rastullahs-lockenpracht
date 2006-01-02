@@ -44,6 +44,7 @@ namespace rl {
 	class Creature;
 	class DialogCharacter;
 	class Combat;
+	class JournalWindow;
 
     class _RlUiExport UiSubsystem : protected Ogre::Singleton<UiSubsystem>
     {
@@ -114,6 +115,7 @@ namespace rl {
 		CharacterStateWindow* mCharacterStateWindow;
 		InGameMenuWindow* mInGameMenuWindow;
 		CharacterSheetWindow* mCharacterSheet;
+		JournalWindow* mJournalWindow;
     };
 }
 
