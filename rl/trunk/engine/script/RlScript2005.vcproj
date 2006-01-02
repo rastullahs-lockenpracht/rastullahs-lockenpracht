@@ -218,9 +218,9 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="[SWIG] RubyWrapper erzeugen."
-						CommandLine="cd ..\..\dependencies\swig&#x0D;&#x0A;swig.exe -o &quot;$(InputDir)\$(InputName)_wrap.cxx&quot; -c++ -ruby -minherit -v -Wall  &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(InputDir)\$(InputName)_wrap.cxx"
+						Description="[SWIG] RubyWrapper erzeugen. &quot;$(InputDir)$(InputName)_wrap.cxx&quot;"
+						CommandLine="..\..\dependencies\swig\swig.exe -o &quot;$(InputDir)$(InputName)_wrap.cxx&quot; -c++ -ruby -minherit -v -Wall  &quot;$(InputPath)&quot;"
+						Outputs="&quot;$(InputDir)$(InputName)_wrap.cxx&quot;"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -229,8 +229,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="[SWIG] RubyWrapper erzeugen."
-						CommandLine="cd ..\..\dependencies\swig&#x0D;&#x0A;swig.exe -c++ -ruby -minherit -v -Wall -o swig\$(InputFile)_wrap.cxx &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="swig\$(InputFile)_wrap.cxx"
+						CommandLine="..\..\dependencies\swig\swig.exe -o &quot;$(InputDir)$(InputName)_wrap.cxx&quot; -c++ -ruby -minherit -v -Wall  &quot;$(InputPath)&quot;"
+						Outputs="&quot;$(InputDir)$(InputName)_wrap.cxx&quot;"
 					/>
 				</FileConfiguration>
 			</File>
