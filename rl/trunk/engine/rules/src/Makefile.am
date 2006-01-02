@@ -23,6 +23,8 @@ libRlRules_la_SOURCES = \
 	Person.cpp \
 	Quest.cpp \
 	QuestBook.cpp \
+	QuestStateChangeEvent.cpp \
+	QuestStateChangeListener.cpp \
 	RulesSubsystem.cpp \
 	Talent.cpp \
 	Talentgruppe.cpp \

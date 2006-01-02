@@ -19,6 +19,8 @@ noinst_HEADERS = \
 	Person.h \
 	Quest.h \
 	QuestBook.h \
+	QuestStateChangeEvent.h \
+	QuestStateChangeListener.h \
 	RulesPrerequisites.h \
 	RulesSubsystem.h \
 	Talent.h \
