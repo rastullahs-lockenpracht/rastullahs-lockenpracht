@@ -57,3 +57,38 @@ class RockManager
     @mRocks.each { |rock| rock.spawn() }
   end
 end
+
+
+# Zone für Questveränderung und später Steinschlag erstellen. Steinschlagauslösung ist abhängig davon ob das Quest "spinne" schon auf COMPLETED steht
+
+print( "GameEvent-Tests wird geladen" );
+
+print( "Definiere SteinschlagzoneListener" );
+# Definition des GameAreaListeners
+class SteinschlagzoneListener < GameAreaListener
+
+	def areaLeft(anEvent)
+		print( "Raus - " +  anEvent.getProvokingActor().getName() );
+		areaListener = SteinschlagzoneListener.remove()
+	end
+	def areaEntered(anEvent)
+		print( "Rein - " + anEvent.getProvokingActor().getName() );
+		RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleEingang").setState(Quest::DONE)
+		RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleZeug").setState(Quest::OPEN)
+	end
+end
+
+held = $AM.getActor( "Held" );
+held.setQueryMask( Actor::QGF_PLAYER );
+
+
+$SCRIPT.log("Kugel-Zentrum Actor erstellen");
+kugelDings = $AM.createEmptyActor( "Kugel-Zentrum" );
+$SCRIPT.log("Kugel-Zentrum Actor in die Szene einfügen");
+kugelDings.placeIntoScene( 7817.69, 1013.17, 5093.91, 1.0, 0.0, 0.0, 0.0);
+
+$SCRIPT.log("SteinschlagzoneListener erstellen");
+areaListener = SteinschlagzoneListener.new();
+
+$SCRIPT.log("SteinschlagzoneListener hinzufügen");
+$GameEveMgr.addSphereAreaListener( kugelDings, 50.0, areaListener, Actor::QGF_PLAYER );
