@@ -5,7 +5,7 @@
         <Property Name="Width" Value="640"/>
         <Property Name="Height" Value="510"/>
 
-		<Window Type="RastullahLook/ListBox" Name="JournalWindow/Quests/QuestList">
+		<Window Type="RastullahLook/Listbox" Name="JournalWindow/Quests/QuestList">
 			<Property Name="AbsolutePosition" Value="x:10 y:80"/>
 			<Property Name="AbsoluteWidth" Value="300"/>
 			<Property Name="AbsoluteHeight" Value="30"/>
