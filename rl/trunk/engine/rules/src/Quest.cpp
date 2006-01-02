@@ -95,7 +95,7 @@ void Quest::setState(Quest::State state)
 {
 	mState = state;
 
-	if (state == Quest::OPEN 
+	if (state == Quest::OPEN && mParent != 0 
 		&& mParent->getState() == Quest::UNKNOWN)
 		mParent->setState(Quest::OPEN);
 
