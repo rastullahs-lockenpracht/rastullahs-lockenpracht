@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="RlScript"
 	ProjectGUID="{9A41EAE4-302A-4823-8F20-FA1AD58189A1}"
+	RootNamespace="RlScript"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -218,8 +219,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="[SWIG] RubyWrapper erzeugen."
-						CommandLine="cd ..\..\dependencies\swig&#x0D;&#x0A;swig.exe -c++ -ruby -minherit -v -Wall &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="swig\$(InputFileName)_wrap.cxx"
+						CommandLine="cd ..\..\dependencies\swig&#x0D;&#x0A;swig.exe -o &quot;$(InputDir)\$(InputName)_wrap.cxx&quot; -c++ -ruby -minherit -v -Wall  &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(InputDir)\$(InputName)_wrap.cxx"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -227,9 +228,9 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="[SWIG] Rubydateien erzeugen."
-						CommandLine="cd ..\..\dependencies\swig&#x0D;&#x0A;swig.exe -c++ -ruby -minherit -v -Wall &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="swig\$(InputFileName)_wrap.cxx"
+						Description="[SWIG] RubyWrapper erzeugen."
+						CommandLine="cd ..\..\dependencies\swig&#x0D;&#x0A;swig.exe -c++ -ruby -minherit -v -Wall -o swig\$(InputFile)_wrap.cxx &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="swig\$(InputFile)_wrap.cxx"
 					/>
 				</FileConfiguration>
 			</File>
