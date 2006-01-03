@@ -229,7 +229,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="[SWIG] RubyWrapper erzeugen."
-						CommandLine="cd $(InputDir)&#x0D;&#x0A;$(ProjectDir)..\..\dependencies\swig\swig.exe -o &quot;$(InputDir)$(InputName)_wrap.cxx&quot; -c++ -ruby -minherit -v -Wall  &quot;$(InputPath)&quot;"
+						CommandLine="cd &quot;$(InputDir)&quot;&#x0D;&#x0A;&quot;$(ProjectDir)..\..\dependencies\swig\swig.exe&quot; -o &quot;$(InputDir)$(InputName)_wrap.cxx&quot; -c++ -ruby -minherit -v -Wall  &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="&quot;$(InputDir)TypeMaps.i&quot;;&quot;$(InputDir)RlCore.inc&quot;;&quot;$(InputDir)RlDialog.inc&quot;;&quot;$(InputDir)RlCommon.inc&quot;;&quot;$(InputDir)RlRules.inc&quot;;&quot;$(InputDir)RlScript.inc&quot;;&quot;$(InputDir)RlSound.inc&quot;;&quot;$(InputDir)RlUi.inc&quot;"
 						Outputs="&quot;$(InputDir)$(InputName)_wrap.cxx&quot;"
 					/>
 				</FileConfiguration>
@@ -245,6 +246,10 @@
 			<Filter
 				Name="include"
 				>
+				<File
+					RelativePath=".\swig\RlCommon.head.inc"
+					>
+				</File>
 				<File
 					RelativePath=".\swig\RlCore.head.inc"
 					>
@@ -273,6 +278,10 @@
 			<Filter
 				Name="src"
 				>
+				<File
+					RelativePath=".\swig\RlCommon.inc"
+					>
+				</File>
 				<File
 					RelativePath=".\swig\RlCore.inc"
 					>
