@@ -42,6 +42,8 @@ public:
 		CLOSED
 	};
 
+	static CeGuiString STATE_NAMES[5];
+
 	/**
 	 * @param id eine einzigartige ID, um den Quest wiederzufinden
 	 * @param name Titel des Quests
@@ -92,6 +94,11 @@ public:
 	 * @return Status des Quests
 	 */
 	Quest::State getState();
+
+	/**
+	 * @return Status des Quests (als String)
+	 */
+	const CeGuiString& getStateName();
 
 	/**
 	 * @param Status des Quests

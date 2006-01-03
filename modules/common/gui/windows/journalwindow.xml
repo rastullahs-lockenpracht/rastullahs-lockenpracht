@@ -6,30 +6,30 @@
         <Property Name="Height" Value="510"/>
 
 		<Window Type="RastullahLook/Listbox" Name="JournalWindow/Quests/QuestList">
-			<Property Name="AbsolutePosition" Value="x:10 y:80"/>
-			<Property Name="AbsoluteWidth" Value="300"/>
-			<Property Name="AbsoluteHeight" Value="30"/>
-			<Property Name="FrameEnabled" Value="False"/>
+			<Property Name="AbsolutePosition" Value="x:20 y:80"/>
+			<Property Name="AbsoluteWidth" Value="100"/>
+			<Property Name="AbsoluteHeight" Value="400"/>
+			<Property Name="FrameEnabled" Value="True"/>
 		</Window>
 
 		<Window Type="RastullahLook/StaticText" Name="JournalWindow/Quests/QuestTitle">
-			<Property Name="AbsolutePosition" Value="x:10 y:10"/>
+			<Property Name="AbsolutePosition" Value="x:150 y:40"/>
 			<Property Name="AbsoluteWidth" Value="300"/>
 			<Property Name="AbsoluteHeight" Value="30"/>
 			<Property Name="FrameEnabled" Value="False"/>
 		</Window>
 
 		<Window Type="RastullahLook/StaticText" Name="JournalWindow/Quests/QuestState">
-			<Property Name="AbsolutePosition" Value="x:10 y:45"/>
+			<Property Name="AbsolutePosition" Value="x:150 y:85"/>
 			<Property Name="AbsoluteWidth" Value="300"/>
 			<Property Name="AbsoluteHeight" Value="30"/>
 			<Property Name="FrameEnabled" Value="False"/>
 		</Window>
 		  
 		<Window Type="RastullahLook/MultiLineEditbox" Name="JournalWindow/Quests/QuestDescription">
-			<Property Name="AbsolutePosition" Value="x:10 y:410"/>
-			<Property Name="AbsoluteWidth" Value="150"/>
-			<Property Name="AbsoluteHeight" Value="30"/>
+			<Property Name="AbsolutePosition" Value="x:150 y:120"/>
+			<Property Name="AbsoluteWidth" Value="300"/>
+			<Property Name="AbsoluteHeight" Value="300"/>
 			<Property Name="FrameEnabled" Value="False"/>
 		</Window>
 

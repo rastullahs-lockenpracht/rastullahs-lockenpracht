@@ -22,6 +22,8 @@
 
 namespace rl {
 
+CeGuiString	Quest::STATE_NAMES[5] = {"UNKNOWN", "OPEN", "FAILED", "COMPLETED", "CLOSED"};
+
 Quest::Quest(const CeGuiString& id, const CeGuiString& name, const CeGuiString& description)
 :	mId(id),
 	mName(name),
@@ -91,6 +93,11 @@ Quest::State Quest::getState()
 	return mState;
 }
 
+const CeGuiString& Quest::getStateName()
+{
+	return Quest::STATE_NAMES[mState];
+}
+
 void Quest::setState(Quest::State state)
 {
 	mState = state;
@@ -113,6 +120,7 @@ void Quest::addSubquest(Quest* quest)
 	mSubquests.push_back(quest);
 	quest->setParent(this);
 	quest->setQuestBook(mQuestBook);
+	notify();
 }
 
 void Quest::setParent(Quest* quest)
@@ -150,18 +158,19 @@ void Quest::setQuestBook(QuestBook* questBook)
 
 Quest::State Quest::getStateFromName(const CeGuiString& stateName)
 {
-	if (stateName == "UNKNOWN") 
+	if (stateName == Quest::STATE_NAMES[Quest::UNKNOWN]) 
 		return Quest::UNKNOWN;
-	if (stateName == "OPEN") 
+	if (stateName == Quest::STATE_NAMES[Quest::OPEN]) 
 		return Quest::OPEN;
-	if (stateName == "FAILED") 
+	if (stateName == Quest::STATE_NAMES[Quest::FAILED]) 
 		return Quest::FAILED;
-	if (stateName == "COMPLETED") 
+	if (stateName == Quest::STATE_NAMES[Quest::COMPLETED]) 
 		return Quest::COMPLETED;
-	if (stateName == "CLOSED") 
+	if (stateName == Quest::STATE_NAMES[Quest::CLOSED]) 
 		return Quest::CLOSED;
 
-	Throw(InvalidArgumentException, (stateName + " is no valid quest state.").c_str());
+	const char* msg = (stateName + " is no valid quest state.").c_str();
+	Throw(InvalidArgumentException, msg);
 	return Quest::UNKNOWN;
 }
 

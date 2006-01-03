@@ -81,7 +81,7 @@
 	Habt vielen Dank! Ich bin voller Zuversicht. Ich habe auch noch eine kleine Belohnung wenn ihr wiederkehrt!
   </aiml:condition>
 <aiml:condition rldialog:context="option">
-     <aiml:li value="4" id="4">Das hört sich ja gut an! Also los... <set type="quest" name="spinne">1</set></aiml:li> <!-- popup und sound -->
+     <aiml:li value="4" id="4">Das hört sich ja gut an! Also los... <set type="quest" name="spinne">OPEN</set></aiml:li> <!-- popup und sound -->
 </aiml:condition>
  </aiml:template>
 </aiml:category>
@@ -148,7 +148,10 @@
 	Doch, ich habe euch sofort ins Herz geschlossen. Also hört: Dort soll es einen magischen Trank geben, der euch heilt. So wie ihr ausseht, könnt ihr ihn sogar gebrauchen, also zögert nicht, wenn ihr ihn in den Händen haltet. Ich hörte dort gäbe es auch eine Fackel. Sehr nützlich für diese Höhlen. Ob es sonst noch etwas gibt weiß ich allerdings wirklich nicht.
 </aiml:condition>
 <aiml:condition rldialog:context="option">
-    <aiml:li value="4" id="4">Danke, ich werde mich sofort auf den Weg machen. Wärmt schonmal das Essen an!<set type="quest" name="spinne">2</set><set type="quest" name="hoehleEingang">1</set></aiml:li><!-- Spinnenquest beenden, Höhlenquest aktivieren -->
+    <aiml:li value="4" id="4">Danke, ich werde mich sofort auf den Weg machen. Wärmt schonmal das Essen an!
+		<set type="quest" name="spinne">CLOSED</set>
+		<set type="quest" name="hoehleEingang">OPEN</set>
+	</aiml:li><!-- Spinnenquest beenden, Höhlenquest aktivieren -->
 </aiml:condition>
 </aiml:template>
 </aiml:category>
@@ -160,7 +163,9 @@
 	Ich würde euch wohl kaum schon als Freund bezeichnen, trotz allem. Was ihr dort findet oder wie gefährlich es ist, das ist euer Problem. Nun geht.
 </aiml:condition>
 <aiml:condition rldialog:context="option">
-    <aiml:li value="4" id="4">Unfreundlicher Kerl! Ich werde schon wiederkommen, keine Sorge. Auf bald!<set type="quest" name="spinne">2</set><set type="quest" name="hoehleEingang">1</set></aiml:li> <!-- Spinnenquest beenden, Höhlenquest aktivieren -->
+    <aiml:li value="4" id="4">Unfreundlicher Kerl! Ich werde schon wiederkommen, keine Sorge. Auf bald!
+	<set type="quest" name="spinne">CLOSED</set>
+	<set type="quest" name="hoehleEingang">OPEN</set></aiml:li> <!-- Spinnenquest beenden, Höhlenquest aktivieren -->
 </aiml:condition>
 </aiml:template>
 </aiml:category>
@@ -215,7 +220,8 @@
   </aiml:condition>
   <aiml:condition rldialog:context="option">
     <aiml:li value="4" id="4">
-    Das werde ich machen! Auf wiedersehen! <set type="quest" name="hoehle">2</set> <!-- Wird auf Failed (2) gesetzt, da es noch keinen Zustand gibt, wo ein Quest getan (DONE/3) ist, aber noch nicht bestätigt wurde.-->
+    Das werde ich machen! Auf wiedersehen! 
+	<set type="quest" name="hoehle">COMPLETED</set> 
     </aiml:li>
   </aiml:condition>
 </aiml:template>

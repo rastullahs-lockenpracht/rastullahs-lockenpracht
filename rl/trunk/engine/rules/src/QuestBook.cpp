@@ -75,6 +75,9 @@ void QuestBook::removeQuestStateChangeListener(QuestStateChangeListener* listene
 	mEventCaster.removeEventListener(listener);
 }
 
-
+QuestVector QuestBook::getTopLevelQuests()
+{
+	return mRootQuest->getSubquests();
+}
 
 }

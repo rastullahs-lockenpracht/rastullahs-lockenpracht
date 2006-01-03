@@ -46,6 +46,7 @@ public:
 	void showContainerContent(rl::Container* container);
 	void showDialog(DialogCharacter* bot);
 	void showAboutWindow();
+	void showJournalWindow();
 
 	rl::Person* getActiveCharacter();
 	void setActiveCharacter(rl::Person* person);

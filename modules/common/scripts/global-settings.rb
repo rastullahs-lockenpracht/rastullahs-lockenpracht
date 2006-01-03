@@ -26,6 +26,7 @@ class GlobalSettings
       $act17 = ShowTestVideoWindow.new
       $act18 = UseGameObjectDefaultAction.new
       $act19 = ShowAboutWindowAction.new
+      $act20 = ShowJournalWindowAction.new
 
       actionManager.registerInGameGlobalAction($act1, $grpView)
       actionManager.registerInGameGlobalAction($act3, $grpView)
@@ -41,6 +42,7 @@ class GlobalSettings
       actionManager.registerInGameGlobalAction($act15, $grpView)
       actionManager.registerInGameGlobalAction($act16, $grpView)
       actionManager.registerInGameGlobalAction($act17, $grpView)
+      actionManager.registerInGameGlobalAction($act20, $grpView)
 
       actionManager.registerInGameGlobalAction($act12, $grpOptions)
       actionManager.registerInGameGlobalAction($act13, $grpOptions)

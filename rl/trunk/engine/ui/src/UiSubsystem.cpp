@@ -326,6 +326,18 @@ namespace rl {
 		}
 	}
 
+	void UiSubsystem::showJournalWindow()
+	{
+		if (mJournalWindow->isVisible())
+		{
+			mJournalWindow->setVisible(false);
+		}
+		else
+		{
+			mJournalWindow->setVisible(true);
+		}
+	}
+
 	void UiSubsystem::showAboutWindow()
 	{
 		(new AboutWindow())->setVisible(true);

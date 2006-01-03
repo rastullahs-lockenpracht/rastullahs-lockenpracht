@@ -33,6 +33,9 @@ namespace rl {
 
 	private:
 		void updateQuests();
+		void selectQuest(CEGUI::ListboxItem* item);
+		bool updateSelection();
+		void addQuest(Quest* quest, int level = 0);
 
 		CEGUI::Listbox* mQuests;
 		CEGUI::StaticText* mQuestTitle;

@@ -22,12 +22,12 @@
 #include "EventSource.h"
 #include "EventCaster.h"
 
+#include "Quest.h"
 #include "QuestStateChangeEvent.h"
 #include "QuestStateChangeListener.h"
 
 namespace rl {
 
-class _RlRulesExport Quest;
 
 class _RlRulesExport QuestBook : public EventSource
 {
@@ -41,6 +41,8 @@ public:
 	 * @return der Quest
 	 */
 	Quest* getQuest(const CeGuiString& id);
+
+	QuestVector getTopLevelQuests();
 
 	/**
 	 * Fuegt einen Quest hinzu

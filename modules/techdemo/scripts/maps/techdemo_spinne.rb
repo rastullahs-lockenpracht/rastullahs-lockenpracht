@@ -24,7 +24,7 @@ class Waldspinne < Creature
 	# Todesanimation
 	getActor().getControlledObject().startAnimation("ko", 1.0, 1)
 	# Quest erledigt
-	RulesSubsystem.getSingleton().getQuestBook().getQuest("spinne").setState(Quest::DONE)
+	RulesSubsystem.getSingleton().getQuestBook().getQuest("spinne").setState(Quest::COMPLETED)
 	# Spieler verletzen
 	player.modifyLe( -(player.getLe() - 1) )
 	# Aktion ist nicht mehr möglich

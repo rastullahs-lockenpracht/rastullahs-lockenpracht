@@ -72,7 +72,7 @@ class SteinschlagzoneListener < GameAreaListener
 	end
 	def areaEntered(anEvent)
 		print( "Rein - " + anEvent.getProvokingActor().getName() );
-		RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleEingang").setState(Quest::DONE)
+		RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleEingang").setState(Quest::COMPLETED)
 		RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleZeug").setState(Quest::OPEN)
 	end
 end

@@ -90,6 +90,8 @@ namespace rl {
 		void showDialog(DialogCharacter* bot);
         void showPlaylist();
 		void showAboutWindow();
+		void showJournalWindow();
+
 		Person* getActiveCharacter();
 		void setActiveCharacter(Person* person);
         CharacterController* getCharacterController();

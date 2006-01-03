@@ -152,6 +152,16 @@ class ShowTargetWindowAction < Action
   end
 end
 
+class ShowJournalWindowAction < Action
+  def initialize
+    super("showjournalwindow", "Tagebuch")
+  end
+
+  def doAction(object, actor, target)
+    $UI.showJournalWindow()
+  end
+end
+
 class UseGameObjectDefaultAction < Action
   def initialize
     super("usecurrentobjectdefaultaction", "Standardaktion benutzen")
@@ -174,7 +184,7 @@ end
 
 class ShowTestVideoWindow < Action
   def initialize
-    super("showtestvideowindow", "Anschauen")
+    super("showtestvideowindow", "Video")
   end
   
   def doAction(object, actor, target)

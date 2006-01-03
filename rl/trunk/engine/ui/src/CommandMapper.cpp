@@ -60,6 +60,7 @@ namespace rl {
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_L, "togglecollisiondebug");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_R, "usecurrentobjectdefaultaction");													
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_U, "showobjectactions");
+		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_J, "showjournalwindow");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_C, "showcharactersheet");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_T, "showtargetwindow");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_V, "showtestvideowindow");
