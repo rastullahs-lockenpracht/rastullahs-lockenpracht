@@ -219,7 +219,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="[SWIG] RubyWrapper erzeugen. &quot;$(InputDir)$(InputName)_wrap.cxx&quot;"
-						CommandLine="..\..\dependencies\swig\swig.exe -o &quot;$(InputDir)$(InputName)_wrap.cxx&quot; -c++ -ruby -minherit -v -Wall  &quot;$(InputPath)&quot;"
+						CommandLine="..\..\dependencies\swig\swig.exe -o &quot;$(InputDir)$(InputName)_wrap.cxx&quot; -c++ -ruby -minherit -v -Wall  &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 						Outputs="&quot;$(InputDir)$(InputName)_wrap.cxx&quot;"
 					/>
 				</FileConfiguration>
@@ -229,7 +229,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="[SWIG] RubyWrapper erzeugen."
-						CommandLine="..\..\dependencies\swig\swig.exe -o &quot;$(InputDir)$(InputName)_wrap.cxx&quot; -c++ -ruby -minherit -v -Wall  &quot;$(InputPath)&quot;"
+						CommandLine="cd $(InputDir)&#x0D;&#x0A;$(ProjectDir)..\..\dependencies\swig\swig.exe -o &quot;$(InputDir)$(InputName)_wrap.cxx&quot; -c++ -ruby -minherit -v -Wall  &quot;$(InputPath)&quot;"
 						Outputs="&quot;$(InputDir)$(InputName)_wrap.cxx&quot;"
 					/>
 				</FileConfiguration>
