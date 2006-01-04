@@ -56,7 +56,8 @@ public:
     /// EventSet
     EventSet getEventSet() const;
 private:    
-    EventSet mListeners; 
+    EventSet mListeners;
+    EventSet mRemovedListeners;
 };
 
 /**
@@ -98,7 +99,11 @@ void EventCaster<Event>::addEventListener(ListenerToEvent *newListener)
 template <typename Event>
 void EventCaster<Event>::removeEventListener(ListenerToEvent *aListener)
 {
-    mListeners.erase(mListeners.find(aListener));
+    EventSet::const_iterator it = mListeners.find(aListener);
+    if (it != mListeners.end())
+    {
+        mRemovedListeners.insert(*it);
+    }
 }
 
 /**
@@ -109,7 +114,8 @@ void EventCaster<Event>::removeEventListener(ListenerToEvent *aListener)
 template <typename Event>
 void EventCaster<Event>::removeEventListeners()
 {
-    mListeners.clear();
+    mRemovedListeners.clear();
+    mListeners.swap(mRemovedListeners);
 }
 
 /**
@@ -120,7 +126,8 @@ void EventCaster<Event>::removeEventListeners()
 template <typename Event>
 bool EventCaster<Event>::containsListener( ListenerToEvent *aListener ) const
 {
-    return (mListeners.end() != mListeners.find(aListener) );
+    return (mListeners.end() != mListeners.find(aListener)) ||
+        (mRemovedListeners.end() == mRemovedListeners.find(aListener));
 }
 
 /**
@@ -131,7 +138,7 @@ bool EventCaster<Event>::containsListener( ListenerToEvent *aListener ) const
 template <typename Event>
 bool EventCaster<Event>::hasEventListeners() const
 {
-    return !mListeners.empty();
+    return mListeners.size() > mRemovedListeners.size();
 }
 
 /**
@@ -142,13 +149,17 @@ bool EventCaster<Event>::hasEventListeners() const
 template <typename Event>
 void EventCaster<Event>::dispatchEvent(Event *anEvent)
 {
+    while (!mRemovedListeners.empty())
+    {
+        mListeners.erase(mListeners.find(*mRemovedListeners.begin()));
+    }
+
 	if (mListeners.empty())
 		return;
 
     for_each(mListeners.begin(), mListeners.end(),
         bind2nd(DispatchFunctor<Event>(), anEvent));
 }
-
     
 template <typename Event>
 set< EventListener<Event>* > EventCaster<Event>::getEventSet() const
