@@ -1,0 +1,49 @@
+RL/Staubwolke
+{
+	quota	200
+	material	RL/Staubwolke
+	particle_width	100
+	particle_height	100
+	cull_each	false
+	renderer	billboard
+	billboard_type	point
+
+	emitter Cylinder
+	{
+		angle	20
+		colour	0.7 0.7 0.65 1
+		colour_range_start	0.7 0.7 0.65 1
+		colour_range_end	0.7 0.7 0.65 1
+		direction	0 1 0
+		emission_rate	20
+		position	0 0 0
+		velocity	16
+		velocity_min	16
+		velocity_max	40
+		time_to_live	6
+		time_to_live_min	6
+		time_to_live_max	15
+		duration	5
+		duration_min	5
+		duration_max	5
+		repeat_delay	10
+		repeat_delay_min	10
+		repeat_delay_max	10
+		width	400
+		height	400
+		depth	20
+	}
+
+	affector ColourFader
+	{
+		red	-0.1
+		green	-0.1
+		blue	-0.1
+		alpha	0.1
+	}
+
+	affector Scaler
+	{
+		rate	8
+	}
+}
