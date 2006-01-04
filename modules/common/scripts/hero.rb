@@ -22,7 +22,7 @@ class Hero < Person
         $SCRIPT.log("Heldenaktor erstellen...");
         $heldaktor = $AM.createMeshActor("Held","held.mesh", PhysicsManager::GT_ELLIPSOID, 75.0);
         setActor($heldaktor);
-	$heldActor.setQueryMask(Actor::QGF_PLAYER);
+	$heldaktor.setQueryMask(Actor::QGF_PLAYER);
 
         addSounds()
         $SCRIPT.log("done.");
