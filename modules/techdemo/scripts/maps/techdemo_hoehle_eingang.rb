@@ -92,7 +92,7 @@ class SteinschlagzoneListener < GameAreaListener
 	end
 	def areaLeft(anEvent)
 		print( "Raus - " +  anEvent.getProvokingActor().getName() );
-		areaListener = $GameEveMgr.removeAreaListener(@self)
+		$GameEveMgr.removeAreaListener(self)
 	end
 	def areaEntered(anEvent)
 		print( "Rein - " + anEvent.getProvokingActor().getName() );
