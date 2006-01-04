@@ -70,7 +70,7 @@ require "techdemo_hoehle_eingang.rb"
 #$luftfels = Rock.new("nat_stein_gross_01.mesh", [9300.0, 2088.0, 4113.0], [1.0, 0.0, 0.0, 0.0], true)
 #$grossefelsen.add($luftfels)
 
-$felshaufen = RockPile.new([0.0, -80.0, -300.0], [1.0, 0.0, 0.0, 0.0], [9300.0, 1088.0, 4113.0])
+$felshaufen = RockPile.new([0.0, 0.0, 0.0], [1.0, 0.0, 0.0, 0.0], [9300.0, 1088.0, 4113.0])
 
 $SCRIPT.log("Steinschlag: Kugel-Zentrum Actor erstellen");
 kugelDings = $AM.createEmptyActor( "Kugel-Zentrum" );
