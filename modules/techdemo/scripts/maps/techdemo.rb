@@ -60,7 +60,7 @@ require "truhe.rb"
 $truhe = Chest.new( "Truhe", false );
 $truhe.getActor().placeIntoScene(12353.0, 950.0, 4725.0, 1.0, 0.0, 0.0, 0.0 );
 $truhe.getActor().yaw(-90.0);
-$truhe.addItem(Torch.new("Fackel"))
+$truhe.addItem(Torch.new("Fackel2"))
 
 require "techdemo_hoehle_eingang.rb"
 $kleinefelsen = RockManager.new()
@@ -70,5 +70,17 @@ $grossefelsen.add(Rock.new("nat_stein_gross_01.mesh", [9450.0, 1020.0, 4900.0], 
 $luftfels = Rock.new("nat_stein_gross_01.mesh", [9300.0, 2088.0, 4113.0], [1.0, 0.0, 0.0, 0.0], true)
 $grossefelsen.add($luftfels)
 
+$felshaufen = RockPile.new([0.0, -80.0, -300.0], [1.0, 0.0, 0.0, 0.0])
+
+$SCRIPT.log("Steinschlag: Kugel-Zentrum Actor erstellen");
+kugelDings = $AM.createEmptyActor( "Kugel-Zentrum" );
+$SCRIPT.log("Steinschlag: Kugel-Zentrum Actor in die Szene einfügen");
+kugelDings.placeIntoScene( 7817.69, 1013.17, 5093.91, 1.0, 0.0, 0.0, 0.0);
+
+$SCRIPT.log("Steinschlag: SteinschlagzoneListener erstellen");
+areaListener = SteinschlagzoneListener.new($felshaufen);
+
+$SCRIPT.log("Steinschlag: SteinschlagzoneListener hinzufügen");
+$GameEveMgr.addSphereAreaListener( kugelDings, 50.0, areaListener, Actor::QGF_PLAYER );
 
 $SCRIPT.log("map 'techdemo' initialisiert.");

@@ -59,6 +59,26 @@ class RockManager
 end
 
 
+class RockPile < GameObject
+  def initialize(position, orientation)
+    super("Steinhaufen", "Ein großer Steinhaufen")
+    rockPile = $AM.createMeshActor("Steinhaufen", "Steinhaufen.mesh", PhysicsManager::GT_NONE, 25000.0)
+    setActor(rockPile)
+    rockPile.placeIntoScene( 
+	position[0],
+	position[1],
+	position[2],
+	orientation[0],
+	orientation[1],
+	orientation[2],
+	orientation[3])
+  end
+
+  def collapse()
+    getActor().getControlledObject().startAnimation("Zusammenfallen", 1.0, 1)
+  end
+end
+
 # Zone für Questveränderung und später Steinschlag erstellen. Steinschlagauslösung ist abhängig davon ob das Quest "spinne" schon auf COMPLETED steht
 
 print( "GameEvent-Tests wird geladen" );
@@ -66,6 +86,10 @@ print( "GameEvent-Tests wird geladen" );
 print( "Definiere SteinschlagzoneListener" );
 # Definition des GameAreaListeners
 class SteinschlagzoneListener < GameAreaListener
+	def initialize(rockPile)
+		super()
+		@mRockPile = rockPile
+	end
 	def areaLeft(anEvent)
 		print( "Raus - " +  anEvent.getProvokingActor().getName() );
 		areaListener = $GameEveMgr.removeAreaListener(@self)
@@ -74,20 +98,7 @@ class SteinschlagzoneListener < GameAreaListener
 		print( "Rein - " + anEvent.getProvokingActor().getName() );
 		RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleEingang").setState(Quest::COMPLETED)
 		RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleZeug").setState(Quest::OPEN)
+		@mRockPile.collapse()
 	end
 end
 
-held = $AM.getActor( "Held" );
-held.setQueryMask( Actor::QGF_PLAYER );
-
-
-$SCRIPT.log("Kugel-Zentrum Actor erstellen");
-kugelDings = $AM.createEmptyActor( "Kugel-Zentrum" );
-$SCRIPT.log("Kugel-Zentrum Actor in die Szene einfügen");
-kugelDings.placeIntoScene( 7817.69, 1013.17, 5093.91, 1.0, 0.0, 0.0, 0.0);
-
-$SCRIPT.log("SteinschlagzoneListener erstellen");
-areaListener = SteinschlagzoneListener.new();
-
-$SCRIPT.log("SteinschlagzoneListener hinzufügen");
-$GameEveMgr.addSphereAreaListener( kugelDings, 50.0, areaListener, Actor::QGF_PLAYER );

@@ -1,0 +1,14 @@
+material Steinhaufen
+{
+    technique
+    {
+        pass
+        {
+            
+            texture_unit
+            {
+                texture Fels_02.png 
+            }
+        }
+    }
+}
