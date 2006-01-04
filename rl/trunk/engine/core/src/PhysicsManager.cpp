@@ -22,6 +22,7 @@
 #include "Actor.h"
 #include "ActorManager.h"
 #include "Exception.h"
+#include "PhysicalObject.h"
 #include "PhysicsController.h"
 
 using namespace std;
@@ -118,10 +119,10 @@ namespace rl
     }
 
     PhysicalThing* PhysicsManager::createPhysicalThing(const int geomType,
-        const Vector3& size, Real mass, OffsetMode offsetMode, bool hullModifier)
+        PhysicalObject* po, Real mass, OffsetMode offsetMode, bool hullModifier)
     {
         PhysicalThing* rval = NULL;
-
+		const Vector3& size = po->getSize();
         if (geomType != GT_NONE) {
             OgreNewt::Collision* coll = NULL;
 
@@ -161,10 +162,18 @@ namespace rl
                 coll = new OgreNewt::CollisionPrimitives::Ellipsoid(mWorld, s);
                 inertiaCoefficients = Vector3(s.x*s.x, s.y*s.y, s.z*s.z);
             }
+			else if (geomType == GT_CONVEXHULL)
+			{
+				coll = new OgreNewt::CollisionPrimitives::ConvexHull(mWorld, po->getEntity());
+			}
+			else if (geomType == GT_MESH)
+			{
+				coll = new OgreNewt::CollisionPrimitives::TreeCollision(mWorld, po->getMovableObject()->getParentSceneNode(), false);
+			}
 
             OgreNewt::Body* body = new OgreNewt::Body(mWorld, coll);
 
-            if (mass > 0.0)
+            if (mass > 0.0 && geomType != GT_MESH)
             {
                 body->setMassMatrix(mass, mass*inertiaCoefficients);
             }
@@ -182,19 +191,19 @@ namespace rl
         return rval;
     }
 
-    PhysicalThing* PhysicsManager::createConvexHullPhysicalThing(Entity* entity, Real mass,
-        const Vector3& inertiaCoefficients)
-    {
-        OgreNewt::Collision* coll = new OgreNewt::CollisionPrimitives::ConvexHull(mWorld, entity);
-        OgreNewt::Body* body = new OgreNewt::Body(mWorld, coll);
-        PhysicalThing* rval = new PhysicalThing(body);
-        if (mass > 0.0)
-        {
-            body->setMassMatrix(mass, mass*inertiaCoefficients);
-        }
-        mPhysicalThings.push_back(rval);
-        return rval;
-    }
+    //PhysicalThing* PhysicsManager::createConvexHullPhysicalThing(Entity* entity, Real mass,
+    //    const Vector3& inertiaCoefficients)
+    //{
+    //    OgreNewt::Collision* coll = new OgreNewt::CollisionPrimitives::ConvexHull(mWorld, entity);
+    //    OgreNewt::Body* body = new OgreNewt::Body(mWorld, coll);
+    //    PhysicalThing* rval = new PhysicalThing(body);
+    //    if (mass > 0.0)
+    //    {
+    //        body->setMassMatrix(mass, mass*inertiaCoefficients);
+    //    }
+    //    mPhysicalThings.push_back(rval);
+    //    return rval;
+    //}
 
     void PhysicsManager::removeAndDestroyPhysicalThing(PhysicalThing* thing)
     {

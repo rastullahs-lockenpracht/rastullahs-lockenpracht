@@ -19,7 +19,6 @@
 			OutputDirectory="./lib/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="2"
-			
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -127,7 +126,6 @@
 			OutputDirectory="./lib/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="2"
-			
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -340,6 +338,10 @@
 			</File>
 			<File
 				RelativePath=".\include\ParticleSystemObject.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\PhysicalObject.h"
 				>
 			</File>
 			<File

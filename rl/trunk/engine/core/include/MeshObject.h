@@ -18,7 +18,7 @@
 #define __MeshObject_H__
 
 #include "CorePrerequisites.h"
-#include "ActorControlledObject.h"
+#include "PhysicalObject.h"
 
 #include <OgreEntity.h>
 
@@ -26,7 +26,7 @@ namespace rl {
 
 	class Animation;
 
-    class _RlCoreExport MeshObject : public ActorControlledObject
+	class _RlCoreExport MeshObject : public PhysicalObject
     {
     public:
         MeshObject(const Ogre::String& name, const Ogre::String& meshname);

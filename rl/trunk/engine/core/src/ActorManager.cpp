@@ -232,7 +232,7 @@ namespace rl {
             CameraObject* co = new CameraObject(uniquename);
             PhysicalThing* pt = PhysicsManager::getSingleton()
                 .createPhysicalThing(PhysicsManager::GT_SPHERE,
-                    Vector3(co->getCamera()->getNearClipDistance() * 3.0f, 0, 0),
+                    co,
                     100.0f, PhysicsManager::OM_CENTERED, true);
             actor = new Actor(uniquename, co, pt);
 
@@ -259,16 +259,7 @@ namespace rl {
         {
             PhysicalThing* pt = 0;
 		    MeshObject* mo = new MeshObject(uniquename, meshname);
-            if (geomType == PhysicsManager::GT_CONVEXHULL)
-            {
-                pt = PhysicsManager::getSingleton()
-                    .createConvexHullPhysicalThing(mo->getEntity());
-            }
-            else
-            {
-                pt = PhysicsManager::getSingleton()
-                    .createPhysicalThing(geomType, mo->getSize(), mass);
-            }
+            pt = PhysicsManager::getSingleton().createPhysicalThing(geomType, mo, mass);
 
 		    actor = new Actor(uniquename, mo, pt);
 		    mActors.insert(ActorPtrPair(uniquename,actor)); 

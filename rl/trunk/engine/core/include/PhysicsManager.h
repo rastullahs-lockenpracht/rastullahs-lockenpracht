@@ -32,6 +32,7 @@ namespace rl {
     class PhysicsController;
     class Actor;
     class World;
+	class PhysicalObject;
 
     class _RlCoreExport PhysicsManager
         :   public GameTask,
@@ -73,11 +74,11 @@ namespace rl {
          * @todo Geometry-Kapselung verallgemeinern. z.B. funktioniert Capusle
          *       momentan nur dann gut, wenn die Höhe die Y-Achse ist.
          */
-        PhysicalThing* createPhysicalThing(const int geomType, const Ogre::Vector3& size,
+        PhysicalThing* createPhysicalThing(const int geomType, PhysicalObject* po,
             Ogre::Real mass, OffsetMode offsetMode = OM_BOTTOMCENTERED, bool hullModifier = false);
 
-        PhysicalThing* createConvexHullPhysicalThing(Ogre::Entity*, Ogre::Real mass = 0.0f,
-            const Ogre::Vector3& inertiaCoefficients = Ogre::Vector3(1.0f, 1.0f, 1.0f));
+        //PhysicalThing* createConvexHullPhysicalThing(Ogre::Entity*, Ogre::Real mass = 0.0f,
+        //    const Ogre::Vector3& inertiaCoefficients = Ogre::Vector3(1.0f, 1.0f, 1.0f));
 
         void removeAndDestroyPhysicalThing(PhysicalThing* thing);
 

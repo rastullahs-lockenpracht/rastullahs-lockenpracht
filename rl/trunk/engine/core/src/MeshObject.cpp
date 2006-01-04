@@ -28,9 +28,12 @@ using namespace Ogre;
 namespace rl {
     MeshObject::MeshObject(const String& name, const String& meshname)
     {
-        mMovableObject = CoreSubsystem::getSingletonPtr()->getWorld()
-            ->getSceneManager()->createEntity(name, meshname);
-        calculateSize();
+		if (meshname.length() > 0)
+		{
+			mMovableObject = CoreSubsystem::getSingletonPtr()->getWorld()
+				->getSceneManager()->createEntity(name, meshname);
+			calculateSize();
+		}
     }
 
 	MeshObject::~MeshObject()

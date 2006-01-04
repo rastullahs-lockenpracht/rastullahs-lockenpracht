@@ -320,7 +320,11 @@ public:
     rl::Actor* getActor();
 };
 
-class MeshObject : public ActorControlledObject
+class PhysicalObject : public ActorControlledObject
+{
+};
+
+class MeshObject : public PhysicalObject
 {
 private:
     MeshObject(const Ogre::String& name, const Ogre::String& meshname);
@@ -377,7 +381,7 @@ private:
 	 ParticleSystemObject(const Ogre::String& name, const Ogre::String& partSys );
 };
 
-class CameraObject : public ActorControlledObject
+class CameraObject : public PhysicalObject
 {
 private:
     CameraObject(const Ogre::String& name);
@@ -516,7 +520,7 @@ public:
     PhysicsManager();
 	static PhysicsManager& getSingleton(void);
     
-    PhysicalThing* createPhysicalThing(const int geomType, const Ogre::Vector3& size,
+    PhysicalThing* createPhysicalThing(const int geomType, rl::PhysicalObject* po,
 		Real mass, OffsetMode offsetMode = OM_BOTTOMCENTERED);
 
     void removeAndDestroyPhysicalThing(PhysicalThing* thing);

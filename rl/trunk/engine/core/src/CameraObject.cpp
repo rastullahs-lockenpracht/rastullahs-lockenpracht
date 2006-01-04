@@ -18,6 +18,7 @@
 #include "Actor.h"
 #include "CoreSubsystem.h"
 #include "World.h"
+#include "Exception.h"
 
 using namespace Ogre;
 
@@ -42,4 +43,15 @@ namespace rl {
     {
         return "CameraObject";
     }
+
+	Vector3 CameraObject::getSize()
+	{
+		return Vector3(getCamera()->getNearClipDistance() * 3.0f, 0, 0);
+	}
+
+	Entity* CameraObject::getEntity() const
+	{
+		Throw(rl::IllegalStateException, "CameraObject has no Entity");
+		return NULL;
+	}
 }

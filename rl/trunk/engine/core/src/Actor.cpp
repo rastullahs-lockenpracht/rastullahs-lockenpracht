@@ -603,13 +603,13 @@ namespace rl {
             parent->addChild( mSceneNode );
 
         // Falls ein noch nicht befestigtes MovableObject vorhanden, dieses attachen
-        if( mActorControlledObject && !mActorControlledObject->isAttached() )
+        if( mActorControlledObject != NULL && !mActorControlledObject->isAttached() )
         {
             mActorControlledObject->_attachSceneNode(mSceneNode);
         }
 
         // Physikverknüpfung anpassen
-        if( mPhysicalThing && mActorControlledObject )
+        if( mPhysicalThing != NULL && mActorControlledObject != NULL )
         {
             // Knochen angegeben und handelt sich um ein Mesh
 			if( physicsBone.length() > 0 && mActorControlledObject->isMeshObject())
@@ -640,7 +640,7 @@ namespace rl {
                 mPhysicalThing->_attachToSceneNode(mSceneNode);
             }
         }
-     
+
         _update();
     }
 
