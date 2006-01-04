@@ -60,22 +60,34 @@ end
 
 
 class RockPile < GameObject
-  def initialize(position, orientation)
+  def initialize(positionPile, orientation, positionParticles)
     super("Steinhaufen", "Ein großer Steinhaufen")
-    rockPile = $AM.createMeshActor("Steinhaufen", "Steinhaufen.mesh", PhysicsManager::GT_NONE, 25000.0)
-    setActor(rockPile)
-    rockPile.placeIntoScene( 
-	position[0],
-	position[1],
-	position[2],
+    @mRockPile = $AM.createMeshActor("Steinhaufen", "Steinhaufen.mesh", PhysicsManager::GT_CONVEXHULL, 100000.0)
+    @mRockPile.getPhysicalThing().setGravityOverride(true, 0.0, 0.0, 0.0)
+    setActor(@mRockPile)
+    @mRockPile.placeIntoScene( 
+	positionPile[0],
+	positionPile[1],
+	positionPile[2],
 	orientation[0],
 	orientation[1],
 	orientation[2],
 	orientation[3])
+    @mPositionPart = positionParticles;
   end
 
   def collapse()
     getActor().getControlledObject().startAnimation("Zusammenfallen", 1.0, 1)
+    @mDustCloud = $AM.createParticleSystemActor("Steinstaubwolke", "RL/Staubwolke")
+    @mDustCloud.placeIntoScene(
+	@mPositionPart[0], 
+	@mPositionPart[1],
+	@mPositionPart[2],
+	1.0, 
+	0.0, 
+	0.0, 
+	0.0);
+    @mDustCloud.getControlledObject().setActive(true)
   end
 end
 
@@ -92,7 +104,7 @@ class SteinschlagzoneListener < GameAreaListener
 	end
 	def areaLeft(anEvent)
 		print( "Raus - " +  anEvent.getProvokingActor().getName() );
-		$GameEveMgr.removeAreaListener(self)
+		# $GameEveMgr.removeAreaListener(self)
 	end
 	def areaEntered(anEvent)
 		print( "Rein - " + anEvent.getProvokingActor().getName() );
