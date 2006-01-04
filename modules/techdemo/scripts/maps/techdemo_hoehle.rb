@@ -1,5 +1,10 @@
 require "door.rb"
 require "switch.rb"
+require "heiltrank_tech.rb"
+
+
+trank = Heiltrank.new( "Trank", "Eine Flasche mit einer geheimnisvollen Fluessigkeit", "obj_heiltrank01.mesh", "A" );
+trank.getActor().placeIntoScene( 15742.1, 713.068, 2130.57, 1.0, 0.0, 0.0, 0.0 );
 
 class CaveDoorOpener < ObjectStateChangeListener
 
@@ -11,7 +16,8 @@ class CaveDoorOpener < ObjectStateChangeListener
   end
 
   def objectStateChanged(event)
-      if ( @mSwitch.getState() == Switch::STATE_OBEN )
+   RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleZeugHebel").setState(Quest::COMPLETED)
+     if ( @mSwitch.getState() == Switch::STATE_OBEN )
         doorOpen = true
       else
         doorOpen = false
@@ -33,6 +39,7 @@ class UseTorchAction < Action
   end
 
   def doAction(torch, player, target)
+    RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleZeugFackel").setState(Quest::COMPLETED)
     player.getActor().attachToSlotAxisRot( torch.getActor(), "Bone15", "SLOT_HANDLE", [0.0, 0.0, 0.0], [ 1.0, 0.0, 0.0 ], 90.0 );
     torch.getActor().getChildBySlotAndIndex(Slots.SLOT_FAR_END, 0).activate(); # Licht an
   end

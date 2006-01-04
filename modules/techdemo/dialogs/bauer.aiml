@@ -33,7 +33,7 @@
 	</aiml:condition>
 	
 	<aiml:condition rldialog:context="option" type="quest" name="hoehle"> 
-		<aiml:li value="2" id="11">War das alles?</aiml:li>
+		<aiml:li value="4" id="11">War das alles?</aiml:li>
 		<aiml:li value="3" id="10">Ich war in der Höhle und habe alles entdeckt was es dort gab!</aiml:li>
 	</aiml:condition> 
 
@@ -93,7 +93,7 @@
 	Dies ist nur eine Techdemo. Auf meinem Land möchte ich keine Schönheit! Ich möchte nur Funktionalität haben!
 </aiml:condition>
 <aiml:condition rldialog:context="option">
-    <aiml:li value="4" id="4">Ach so ist das. Na dann werd ich mich doch mal dem Pantheon-Team anschliessen und selbst helfen alles besser zu machen! Tschö!</aiml:li>
+    <aiml:li value="4" id="4">Ach so ist das. Na dann werd ich mich doch mal dem Pantheon-Team anschliessen und selbst helfen alles besser zu machen! Tschö!<set type="quest" name="techdemoEverquest">OPEN</set></aiml:li>
 </aiml:condition>
 </aiml:template>
 </aiml:category>
@@ -221,7 +221,7 @@
   <aiml:condition rldialog:context="option">
     <aiml:li value="4" id="4">
     Das werde ich machen! Auf wiedersehen! 
-	<set type="quest" name="hoehle">COMPLETED</set> 
+	<set type="quest" name="hoehle">CLOSED</set> 
     </aiml:li>
   </aiml:condition>
 </aiml:template>
