@@ -28,9 +28,11 @@ material RL/Staubwolke
 			depth_write off
 			scene_blend colour_blend
 			fog_override true none
+            
 
 			texture_unit
 			{
+                tex_address_mode clamp
 				texture rauch_part.png
 			}
 		}
