@@ -54,8 +54,8 @@
 <aiml:pattern>2</aiml:pattern>
 <aiml:template>
   <aiml:condition rldialog:context="response">
-	Ha! Da kann ja jeder kommen. Aber ich lasse dich erstmal herein. Hier, nimm erstmal etwas etwas Speck und Brot.
-  </aiml:condition> <!-- Speck und Brot ins Inventar -->
+	Ha! Da kann ja jeder kommen. Aber ich lasse dich erstmal herein.
+  </aiml:condition>
 <aiml:condition rldialog:context="option">
      <aiml:li value="4" id="22">Habt vielen Dank, Arnolf. Wie kann ich euch dies bezahlen?</aiml:li>
 </aiml:condition>
