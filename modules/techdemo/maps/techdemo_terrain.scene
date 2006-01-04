@@ -39316,12 +39316,6 @@
         <property type="STRING" name="physical_body" data="none"/>
       </userData>
     </node>
-    <node name="Spieler">
-      <position x="0.000000" y="0.000000" z="0.000000"/>
-      <rotation qx="0.000000" qy="0.000000" qz="0.000000" qw="1.000000"/>
-      <scale x="0.100000" y="0.100000" z="0.100000"/>
-      <entity name="Spieler" meshFile="Spieler.mesh"/>
-    </node>
     <node name="Mesh.595">
       <position x="-788.393631" y="118.651085" z="626.906433"/>
       <rotation qx="0.009621" qy="0.344263" qz="0.013417" qw="0.938728"/>
