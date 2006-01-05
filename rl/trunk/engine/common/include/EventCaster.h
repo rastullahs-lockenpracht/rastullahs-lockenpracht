@@ -99,7 +99,7 @@ void EventCaster<Event>::addEventListener(ListenerToEvent *newListener)
 template <typename Event>
 void EventCaster<Event>::removeEventListener(ListenerToEvent *aListener)
 {
-    EventSet::const_iterator it = mListeners.find(aListener);
+    typename EventSet::const_iterator it = mListeners.find(aListener);
     if (it != mListeners.end())
     {
         mRemovedListeners.insert(*it);
