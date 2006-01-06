@@ -157,6 +157,7 @@ void EventCaster<Event>::dispatchEvent(Event *anEvent)
     while(!mRemovedListeners.empty())
     {
         mListeners.erase(mListeners.find(*mRemovedListeners.begin()));
+        mRemovedListeners.erase(mRemovedListeners.begin());
     }
 
 	if (mListeners.empty())
