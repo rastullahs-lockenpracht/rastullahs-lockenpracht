@@ -7,6 +7,9 @@
 
 #include <iostream>
 
+#define NDEBUG
+#undef _DEBUG
+
 #include "Exception.h"
 #include "Logger.h"
 #include "ScriptObjectRepository.h"
@@ -15,9 +18,9 @@
 #include "DateTest.h"
 #include "TalentTest.h"
 
-CPPUNIT_TEST_SUITE_REGISTRATION( TalentTest );
-CPPUNIT_TEST_SUITE_REGISTRATION( DateTest );
 CPPUNIT_TEST_SUITE_REGISTRATION( CombatTest );
+CPPUNIT_TEST_SUITE_REGISTRATION( DateTest );
+CPPUNIT_TEST_SUITE_REGISTRATION( TalentTest );
 
 int main(int argc, char** argv)
 {
