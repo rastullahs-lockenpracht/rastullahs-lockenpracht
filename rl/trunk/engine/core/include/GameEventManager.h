@@ -28,7 +28,7 @@
 
 namespace rl {
 
-typedef std::list<GameAreaEventSource*> GameAreaEventSourceList;
+typedef std::set<GameAreaEventSource*> GameAreaEventSourceList;
 
 /** GameEventManager
  *  
@@ -79,7 +79,10 @@ public:
     /// Singleton
     static GameEventManager * getSingletonPtr(void);
 private:
+	void removeQueuedDeletionSources();
+
     GameAreaEventSourceList mAreaEventSources;
+	GameAreaEventSourceList mQueuedDeletionSources;
 };
 
 }
