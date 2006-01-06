@@ -120,10 +120,7 @@ void EventCaster<Event>::removeEventListener(ListenerToEvent *aListener)
 template <typename Event>
 void EventCaster<Event>::removeEventListeners()
 {
-    /// @todo Falsch! mListeners sollte nachher noch alle Listener enthalten!
-	/// Die Entfernung findet erst bei dispatch statt...
-	mRemovedListeners.clear();
-    mListeners.swap(mRemovedListeners);
+	mRemovedListeners.insert(mListeners.begin(), mListeners.end());
 }
 
 /**
@@ -157,17 +154,10 @@ bool EventCaster<Event>::hasEventListeners() const
 template <typename Event>
 void EventCaster<Event>::dispatchEvent(Event *anEvent)
 {
-	for( typename EventSet::iterator rem_it = mRemovedListeners.begin(); 
-		rem_it != mRemovedListeners.end(); ) 
-	{
-		typename EventSet::iterator it = mListeners.find(*rem_it);
-		if( it != mListeners.end() )
-		{
-			mListeners.erase(it);
-		}
-
-		mRemovedListeners.erase(rem_it++); 
-	}
+    while(!mRemovedListeners.empty())
+    {
+        mListeners.erase(mListeners.find(*mRemovedListeners.begin()));
+    }
 
 	if (mListeners.empty())
 		return;
