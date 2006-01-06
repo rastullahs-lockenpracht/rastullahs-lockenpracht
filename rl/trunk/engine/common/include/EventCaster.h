@@ -88,6 +88,12 @@ EventCaster<Event>::~EventCaster()
 template <typename Event>
 void EventCaster<Event>::addEventListener(ListenerToEvent *newListener)
 {
+	typename EventSet::const_iterator it = mRemovedListeners.find(newListener);
+
+	// Listener sollte zuvor entfernt werden, aus mRemovedListeners nehmen
+    if (it != mRemovedListeners.end())
+		mRemovedListeners.erase(*it);	
+
     mListeners.insert(newListener);
 }
 
@@ -126,8 +132,8 @@ void EventCaster<Event>::removeEventListeners()
 template <typename Event>
 bool EventCaster<Event>::containsListener( ListenerToEvent *aListener ) const
 {
-    return (mListeners.end() != mListeners.find(aListener)) ||
-        (mRemovedListeners.end() == mRemovedListeners.find(aListener));
+    return ( mListeners.end() != mListeners.find(aListener) ) &&
+        (mRemovedListeners.end() == mRemovedListeners.find(aListener) );
 }
 
 /**
@@ -149,10 +155,17 @@ bool EventCaster<Event>::hasEventListeners() const
 template <typename Event>
 void EventCaster<Event>::dispatchEvent(Event *anEvent)
 {
-    while (!mRemovedListeners.empty())
-    {
-        mListeners.erase(mListeners.find(*mRemovedListeners.begin()));
-    }
+	for( typename EventSet::iterator rem_it = mRemovedListeners.begin(); 
+		rem_it != mRemovedListeners.end(); ) 
+	{
+		typename EventSet::iterator it = mListeners.find(*rem_it);
+		if( it != mListeners.end() )
+		{
+			mListeners.erase(it);
+		}
+
+		mRemovedListeners.erase(rem_it++); 
+	}
 
 	if (mListeners.empty())
 		return;

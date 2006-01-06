@@ -40,6 +40,10 @@ namespace rl {
     
     void GameAreaEventSource::performQuery( Ogre::Real timePassed )
     {
+		// Ohne Listener ist der Query unwichtig...
+		if( !mAreaEventCaster.hasEventListeners() )
+			return;
+
         // Position übertragen
         mAreaType->setQueryPosition( mActor->getWorldPosition() );       
         ActorMap currInside = mAreaType->performQuery();
@@ -64,7 +68,7 @@ namespace rl {
         mInsideAreaList = currInside;
 
         // Die Neuen und die Rausgefallenen an die Listener dispatchen
-        doDispatchEvents( enteredMap, leftMap );
+		doDispatchEvents( enteredMap, leftMap );
     }
 
     void GameAreaEventSource::doDispatchEvents( 
