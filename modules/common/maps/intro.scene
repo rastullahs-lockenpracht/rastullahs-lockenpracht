@@ -1,9 +1,11 @@
 <scene formatVersion="0.2.0">
 	<nodes>
 		<node name="a" >
-			<position x="0" y="0" z="0" />
-			<scale x="1" y="1" z="1" />
-			<entity name="a" meshFile="ter_waldboden.mesh" castShadows="false" static="true" />
+			<position x="0" y="200" z="-10000" />
+			<scale x="100" y="100" z="100" />
+            <rotation angleX="280" angleY="0" angleZ="45"  />
+
+			<entity meshFile="wueste.mesh" castShadows="false" static="true" />
              
             <userData>
                 <!-- physical_body - none|mesh   TODO box|sphere|cylinder...  Physikrepräsentation  -->
