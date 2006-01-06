@@ -108,7 +108,7 @@ namespace rl {
 	{
 		while(!mQueuedDeletionSources.empty())
 		{
-			GameAreaEventSource* gam = *mQueuedDeletionSources.begin()
+			GameAreaEventSource* gam = *mQueuedDeletionSources.begin();
 
 			mAreaEventSources.erase(mAreaEventSources.find(gam));
 			mQueuedDeletionSources.erase(mQueuedDeletionSources.begin());
