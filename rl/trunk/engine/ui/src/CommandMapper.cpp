@@ -48,7 +48,8 @@ namespace rl {
         mMovementCommands.insert(make_pair(KC_LCONTROL, MOVE_SNEAK));
 		mMovementCommands.insert(make_pair(KC_SPACE, MOVE_JUMP));
 
-		setMapping(CMDMAP_MOUSEMAP_OFF_COMBAT, MouseEvent::BUTTON0_MASK, "showactions");
+		setMapping(CMDMAP_MOUSEMAP_OFF_COMBAT, MouseEvent::BUTTON0_MASK, "usecurrentobjectdefaultaction");
+		setMapping(CMDMAP_MOUSEMAP_OFF_COMBAT, MouseEvent::BUTTON1_MASK, "showobjectactions");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_ESCAPE, "quitgame");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_TAB, "toggleconsole");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_F2, "toggledebugwindow");
@@ -149,6 +150,19 @@ namespace rl {
 			return true;
 		}
 		return false;
+	}
+
+	bool CommandMapper::injectMouseDown(int mouseButtonMask)
+	{
+		return false;
+	}
+
+	bool CommandMapper::injectMouseUp(int mouseButtonMask)
+	{
+		if (UiSubsystem::getSingleton().isInCombatMode())
+			return startAction(mouseButtonMask, CMDMAP_MOUSEMAP_IN_COMBAT);
+		else
+			return startAction(mouseButtonMask, CMDMAP_MOUSEMAP_OFF_COMBAT);		
 	}
 
 	int CommandMapper::getActiveMovement()

@@ -74,6 +74,8 @@ namespace rl {
 	{
         for(int i=0; i<NUM_KEYS; i++)
             mKeyDown[i] = false;
+		for(int i=0; i<NUM_MOUSE_BUTTON; i++)
+			mMouseButtonDown[i] = false;
 
 		mEventQueue = new EventQueue();
 		mEventProcessor = new EventProcessor();
@@ -121,6 +123,21 @@ namespace rl {
 			}			
 		}
 
+		if (!mBuffered)
+		{
+			int pressedButtonMask = 0, releasedButtonMask = 0; 
+			checkMouseButton(0, MouseEvent::BUTTON0_MASK, pressedButtonMask, releasedButtonMask);
+			checkMouseButton(1, MouseEvent::BUTTON1_MASK, pressedButtonMask, releasedButtonMask);
+			checkMouseButton(2, MouseEvent::BUTTON2_MASK, pressedButtonMask, releasedButtonMask);
+			checkMouseButton(3, MouseEvent::BUTTON3_MASK, pressedButtonMask, releasedButtonMask);
+
+			if (releasedButtonMask != 0)
+				CommandMapper::getSingleton().injectMouseUp(releasedButtonMask);
+
+			if (pressedButtonMask != 0)
+				CommandMapper::getSingleton().injectMouseDown(pressedButtonMask);
+		}
+
 		CEGUI::System::getSingleton().injectTimePulse(elapsedTime);
 
 		if (mScheduledInputSwitch == SWITCH_TO_BUFFERED)
@@ -132,6 +149,25 @@ namespace rl {
 		{
 			switchMouseToUnbuffered();
 			mScheduledInputSwitch = SWITCH_NO_SWITCH;
+		}
+	}
+
+	void InputManager::checkMouseButton(
+		const int button, const int buttonMask, int& pressedButtonMask, int& releasedButtonMask)
+	{
+		if (mInputReader->getMouseButton(button))
+		{
+			if (mMouseButtonDown[button] == false)
+				pressedButtonMask |= buttonMask;
+
+			mMouseButtonDown[button] = true;
+		}
+		else
+		{
+			if (mMouseButtonDown[button] == true)
+				releasedButtonMask |= buttonMask;
+
+			mMouseButtonDown[button] = false;
 		}
 	}
 
@@ -155,6 +191,12 @@ namespace rl {
 				convertOgreButtonToCegui(e->getButtonID()));
 			e->consume();
 		}
+		else
+		{
+			CommandMapper::getSingleton().injectMouseDown(e->getButtonID());
+			e->consume();
+		}
+			
 	}
 
 	void InputManager::mouseReleased(MouseEvent* e)

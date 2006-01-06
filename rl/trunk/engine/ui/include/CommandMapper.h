@@ -74,6 +74,8 @@ namespace rl {
 		bool isMovementActive(MovementState movmt);
 
 		bool injectMouseClicked(int mouseButtonMask);
+		bool injectMouseDown(int mouseButtonMask);
+		bool injectMouseUp(int mouseButtonMask);
 		bool injectKeyClicked(int keycode);		
 		bool injectKeyDown(int keycode);
 		bool injectKeyUp(int keycode);		

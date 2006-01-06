@@ -102,7 +102,7 @@ namespace rl {
 			typedef std::map<int, CeGuiString> KeyNameMap;
 
 		private:
-            enum { NUM_MOUSE_BUTTON=16, NUM_KEYS=256 };
+            enum { NUM_MOUSE_BUTTON=4, NUM_KEYS=256 };
 			enum InputSwitch { SWITCH_NO_SWITCH, SWITCH_TO_BUFFERED, SWITCH_TO_UNBUFFERED };
 			InputSwitch mScheduledInputSwitch;
             
@@ -111,6 +111,7 @@ namespace rl {
 			Ogre::EventProcessor* mEventProcessor;
 
 			bool mKeyDown[NUM_KEYS];
+			bool mMouseButtonDown[NUM_MOUSE_BUTTON];
 
 			std::set<Ogre::KeyListener*> mKeyListeners;
 			std::set<Ogre::MouseListener*> mMouseListeners;
@@ -139,6 +140,8 @@ namespace rl {
             void switchMouseToUnbuffered();
             void switchMouseToBuffered();
             void resetPressedKeys( bool up );
+			void checkMouseButton(
+				const int button, const int buttonMask, int& pressedButtonMask, int& releasedButtonMask);
 
             CEGUI::utf32 getKeyChar(Ogre::KeyEvent* ke);			
 	};
