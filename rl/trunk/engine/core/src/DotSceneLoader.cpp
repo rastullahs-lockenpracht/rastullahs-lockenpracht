@@ -338,35 +338,43 @@ namespace rl {
 
 		try
 		{
-			return Ogre::Vector3( 
-				XmlHelper::getAttributeValueAsReal( rootPositionXml, "x" ),
-				XmlHelper::getAttributeValueAsReal( rootPositionXml, "y" ),
-				XmlHelper::getAttributeValueAsReal( rootPositionXml, "z" ) );;
+			if( rootPositionXml->hasAttribute( XMLString::transcode("x") ) && 
+				rootPositionXml->hasAttribute( XMLString::transcode("y") ) && 
+				rootPositionXml->hasAttribute( XMLString::transcode("z") ) )
+			{
+				return Ogre::Vector3( 
+					XmlHelper::getAttributeValueAsReal( rootPositionXml, "x" ),
+					XmlHelper::getAttributeValueAsReal( rootPositionXml, "y" ),
+					XmlHelper::getAttributeValueAsReal( rootPositionXml, "z" ) );
+			}
 		}
-		catch(...) 
-        {
-            Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, " > Parse Error beim Übernehmen der Position! ");
-        }
+		catch(...) { }
+         
+		Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, " > Parse Error beim Übernehmen der Position! ");
 
 		return Ogre::Vector3::ZERO;
 	}
 
 
-	Ogre::Vector3 DotSceneLoader::processScale( DOMElement* rootPositionXml )
+	Ogre::Vector3 DotSceneLoader::processScale( DOMElement* rootScaleXml )
 	{
 		Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, " Skalierung gefunden");
 
 		try
 		{
-			return Ogre::Vector3( 
-				XmlHelper::getAttributeValueAsReal( rootPositionXml, "x" ),
-				XmlHelper::getAttributeValueAsReal( rootPositionXml, "y" ),
-				XmlHelper::getAttributeValueAsReal( rootPositionXml, "z" ) );
+			if( rootScaleXml->hasAttribute( XMLString::transcode("x") ) && 
+				rootScaleXml->hasAttribute( XMLString::transcode("y") ) && 
+				rootScaleXml->hasAttribute( XMLString::transcode("z") ) )
+			{
+				return Ogre::Vector3( 
+					XmlHelper::getAttributeValueAsReal( rootScaleXml, "x" ),
+					XmlHelper::getAttributeValueAsReal( rootScaleXml, "y" ),
+					XmlHelper::getAttributeValueAsReal( rootScaleXml, "z" ) );
+			}
 		}
-        catch(...) 
-        {
-            Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, " > Parse Error beim Übernehmen der Skalierung! ");
-        }
+        catch(...) { }
+
+		Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, " > Parse Error beim Übernehmen der Skalierung! ");
 
 		return Ogre::Vector3::UNIT_SCALE;
 	}
@@ -376,38 +384,48 @@ namespace rl {
 	{
 		Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, " Rotation gefunden");
 
-		// Durch w,x,y,z definiert
 		try
 		{
-			return Ogre::Quaternion( 
-				XmlHelper::getAttributeValueAsReal( rootQuatXml, "qw" ),
-				XmlHelper::getAttributeValueAsReal( rootQuatXml, "qx" ),
-				XmlHelper::getAttributeValueAsReal( rootQuatXml, "qy" ),
-				XmlHelper::getAttributeValueAsReal( rootQuatXml, "qz" ) );
-		}
-		catch(...) {}
+			// Durch w,x,y,z definiert
+			if( rootQuatXml->hasAttribute( XMLString::transcode("qw") ) && 
+				rootQuatXml->hasAttribute( XMLString::transcode("qx") ) && 
+				rootQuatXml->hasAttribute( XMLString::transcode("qy") ) && 
+				rootQuatXml->hasAttribute( XMLString::transcode("qz") ) )
+			{
 
-		// Durch axisX,axisY,axisZ,angle definiert
-		try
-		{
-			return Ogre::Quaternion( Ogre::Radian( XmlHelper::getAttributeValueAsReal( 
-				rootQuatXml, "angle" ) ),
-				Ogre::Vector3(
-				XmlHelper::getAttributeValueAsReal( rootQuatXml, "axisX" ),
-				XmlHelper::getAttributeValueAsReal( rootQuatXml, "axisY" ),
-				XmlHelper::getAttributeValueAsReal( rootQuatXml, "axisZ" )) );
-		}
-		catch(...) {}
+				return Ogre::Quaternion( 
+					XmlHelper::getAttributeValueAsReal( rootQuatXml, "qw" ),
+					XmlHelper::getAttributeValueAsReal( rootQuatXml, "qx" ),
+					XmlHelper::getAttributeValueAsReal( rootQuatXml, "qy" ),
+					XmlHelper::getAttributeValueAsReal( rootQuatXml, "qz" ) );
+			}
 
-		// Durch angleX,angleY,angleZ definiert
-		try
-		{
-            Ogre::Matrix3 mat;
-			mat.FromEulerAnglesXYZ(
-				Degree(XmlHelper::getAttributeValueAsReal(rootQuatXml, "angleX")),
-				Degree(XmlHelper::getAttributeValueAsReal(rootQuatXml, "angleY")),
-				Degree(XmlHelper::getAttributeValueAsReal(rootQuatXml, "angleZ")));
-            return Quaternion(mat);
+			// Durch axisX,axisY,axisZ,angle definiert
+			if( rootQuatXml->hasAttribute( XMLString::transcode("angle") ) &&
+				rootQuatXml->hasAttribute( XMLString::transcode("axisX") ) && 
+				rootQuatXml->hasAttribute( XMLString::transcode("axisY") ) && 
+				rootQuatXml->hasAttribute( XMLString::transcode("axisZ") )  )
+			{
+				return Ogre::Quaternion( 
+					Ogre::Degree( XmlHelper::getAttributeValueAsReal( rootQuatXml, "angle" ) ),
+					Ogre::Vector3(
+					XmlHelper::getAttributeValueAsReal( rootQuatXml, "axisX" ),
+					XmlHelper::getAttributeValueAsReal( rootQuatXml, "axisY" ),
+					XmlHelper::getAttributeValueAsReal( rootQuatXml, "axisZ" ) ) );
+			}
+
+			// Durch angleX,angleY,angleZ definiert
+			if( rootQuatXml->hasAttribute( XMLString::transcode("angleX") ) && 
+				rootQuatXml->hasAttribute( XMLString::transcode("angleY") ) && 
+				rootQuatXml->hasAttribute( XMLString::transcode("angleZ") )  )
+			{
+				Ogre::Matrix3 mat;
+				mat.FromEulerAnglesXYZ(
+					Degree(XmlHelper::getAttributeValueAsReal(rootQuatXml, "angleX")),
+					Degree(XmlHelper::getAttributeValueAsReal(rootQuatXml, "angleY")),
+					Degree(XmlHelper::getAttributeValueAsReal(rootQuatXml, "angleZ")));
+				return Quaternion(mat);
+			}
 		}
 		catch(...) {}
 
