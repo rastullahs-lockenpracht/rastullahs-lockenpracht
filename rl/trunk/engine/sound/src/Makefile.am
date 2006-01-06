@@ -11,9 +11,9 @@ libRlSound_la_SOURCES = \
 	SoundChannel.cpp \
 	SoundManager.cpp \
 	Sound.cpp \
-    SoundResource.cpp \
-    SoundSample.cpp \
-    SoundStream.cpp \
+	SoundResource.cpp \
+	SoundSample.cpp \
+	SoundStream.cpp \
 	SoundSubsystem.cpp \
 	SoundEvents.cpp \
 	SoundUpdateTask.cpp \

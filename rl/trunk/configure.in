@@ -33,15 +33,15 @@ AC_ARG_ENABLE(debug,[  --enable-debug          enable debugging [default=no]])
 if test "$enable_debug" = "yes"; then
     CXXFLAGS="$CXXFLAGS -g -O0"
 else
-    CXXFLAGS="$CXXFLAGS -O2"
+    CXXFLAGS="$CXXFLAGS -O2 -s"
 fi
 
 # ***** PROFILING
-AC_ARG_ENABLE(profiling,[  --enable-profiling  enable profiling [default=no]])
-if test "$enable_profiling" = "yes"; then
-    CXXFLAGS="$CXXFLAGS -pg"
-    LDFLAGS="$LDFLAGS -pg"
-fi
+#AC_ARG_ENABLE(profiling,[  --enable-profiling  enable profiling [default=no]])
+#if test "$enable_profiling" = "yes"; then
+#    CXXFLAGS="$CXXFLAGS -pg"
+#    LDFLAGS="$LDFLAGS -pg"
+#fi
 
 # Pthreads
 CXXFLAGS="$CXXFLAGS -pthread"
@@ -143,12 +143,12 @@ AC_CONFIG_FILES([Makefile \
 		docs/Makefile docs/src/Makefile \
 		engine/Makefile \
 		engine/common/Makefile engine/common/src/Makefile engine/common/include/Makefile \
-		engine/core/Makefile engine/core/src/Makefile engine/core/include/Makefile engine/core/tests/Makefile \
+		engine/core/Makefile engine/core/src/Makefile engine/core/include/Makefile \
 		engine/dialog/Makefile engine/dialog/src/Makefile engine/dialog/include/Makefile \
 		engine/uicomponents/Makefile engine/uicomponents/src/Makefile engine/uicomponents/include/Makefile \
 		engine/ui/Makefile engine/ui/src/Makefile engine/ui/include/Makefile \
-		engine/rules/Makefile engine/rules/src/Makefile engine/rules/include/Makefile engine/rules/tests/Makefile \
-		engine/sound/Makefile engine/sound/src/Makefile engine/sound/include/Makefile engine/sound/tests/Makefile \
+		engine/rules/Makefile engine/rules/src/Makefile engine/rules/include/Makefile \
+		engine/sound/Makefile engine/sound/src/Makefile engine/sound/include/Makefile \
 		engine/script/Makefile engine/script/swig/Makefile engine/script/src/Makefile \
 		engine/startup/Makefile engine/startup/src/Makefile \
 		rl.conf  \
