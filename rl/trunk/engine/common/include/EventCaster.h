@@ -120,7 +120,9 @@ void EventCaster<Event>::removeEventListener(ListenerToEvent *aListener)
 template <typename Event>
 void EventCaster<Event>::removeEventListeners()
 {
-    mRemovedListeners.clear();
+    /// @todo Falsch! mListeners sollte nachher noch alle Listener enthalten!
+	/// Die Entfernung findet erst bei dispatch statt...
+	mRemovedListeners.clear();
     mListeners.swap(mRemovedListeners);
 }
 
