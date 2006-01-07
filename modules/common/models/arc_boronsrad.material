@@ -1,0 +1,13 @@
+material boronsrad/SOLID/arc_boronsrad.png
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture arc_boronsrad.png
+			}
+		}
+	}
+}

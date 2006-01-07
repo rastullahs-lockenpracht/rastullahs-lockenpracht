@@ -1,0 +1,15 @@
+material nat_stein_01
+{
+    technique
+    {
+        pass
+        {
+
+            texture_unit
+            {
+                texture nat_stein_01.png 
+            }
+        }
+    }
+}
+
