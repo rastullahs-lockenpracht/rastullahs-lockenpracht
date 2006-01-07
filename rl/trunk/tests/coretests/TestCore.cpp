@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <errno.h>
 
+#include "Logger.h"
 #include "CoreSubsystem.h"
 #include "SoundSubsystem.h"
 #include "RulesSubsystem.h"
@@ -39,31 +40,31 @@ int main( int argc, char **argv)
         /**@todo das nach RastullahApplication
         * und RastullahApplication nach Startup. */
         core = new rl::CoreSubsystem();
-        core->log("CoreSubsystem gestartet");
+        rl::Logger::getSingleton().log(rl::Logger::CORE, Ogre::LML_NORMAL, "CoreSubsystem gestartet");
 
         sound = new rl::SoundSubsystem();
-        core->log("SoundSubsystem gestartet");
+        rl::Logger::getSingleton().log(rl::Logger::CORE, Ogre::LML_NORMAL, "SoundSubsystem gestartet");
 
         rules = new rl::RulesSubsystem();
-        core->log("RulesSubsystem gestartet");
+        rl::Logger::getSingleton().log(rl::Logger::CORE, Ogre::LML_NORMAL, "RulesSubsystem gestartet");
 
         dialog = new rl::DialogSubsystem();
-        core->log("DialogSubsystem gestartet");
+        rl::Logger::getSingleton().log(rl::Logger::CORE, Ogre::LML_NORMAL, "DialogSubsystem gestartet");
 
         ui = new rl::UiSubsystem();
-        core->log("UiSubsystem gestartet");
+        rl::Logger::getSingleton().log(rl::Logger::CORE, Ogre::LML_NORMAL, "UiSubsystem gestartet");
 
         script = new rl::ScriptSubsystem();
-        core->log("ScriptSubsystem gestartet");
+        rl::Logger::getSingleton().log(rl::Logger::CORE, Ogre::LML_NORMAL, "ScriptSubsystem gestartet");
 
-        core->log("Starte...");
+        rl::Logger::getSingleton().log(rl::Logger::CORE, Ogre::LML_NORMAL, "Starte...");
         //core->getInterpreter()->execute("load 'startup-global.rb'");
 
         CppUnit::TextUi::TestRunner runner;
         CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
         runner.addTest( registry.makeTest() );
         runner.run();
-        core->log("Ende...");
+        rl::Logger::getSingleton().log(rl::Logger::CORE, Ogre::LML_NORMAL, "Ende...");
 
     } 
     catch(Ogre::Exception& oe) {
