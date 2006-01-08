@@ -31,7 +31,9 @@ Quest::Quest(const CeGuiString& id, const CeGuiString& name, const CeGuiString& 
 	mPartsToDo(1),
 	mPartsDone(0),
 	mState(Quest::UNKNOWN),
-	mParent(NULL)
+	mParent(NULL),
+	mQuestBook(NULL),
+	mKnown(false)
 {
 }
 
@@ -102,9 +104,11 @@ void Quest::setState(Quest::State state)
 {
 	mState = state;
 
-	if (state == Quest::OPEN && mParent != 0 
+	if (state == Quest::OPEN && mParent != NULL
 		&& mParent->getState() == Quest::UNKNOWN)
+	{
 		mParent->setState(Quest::OPEN);
+	}
 
 	notify();
 	checkDone();
@@ -117,6 +121,9 @@ QuestVector Quest::getSubquests()
 
 void Quest::addSubquest(Quest* quest)
 {
+	if (mQuestBook->getQuest(quest->getId()) != NULL)
+		Throw(rl::DuplicateIdException, ("Duplicate quest id " + quest->getId()).c_str());
+
 	mSubquests.push_back(quest);
 	quest->setParent(this);
 	quest->setQuestBook(mQuestBook);
@@ -136,7 +143,8 @@ Quest* Quest::getParent()
 void Quest::checkDone()
 {
 	if (getPartsDone() == getPartsToDo()
-		&& mState == Quest::OPEN)
+		&& mState != Quest::COMPLETED
+		&& mState != Quest::CLOSED)
 	{
 		mState = Quest::COMPLETED;
 		notify();
@@ -148,7 +156,8 @@ void Quest::checkDone()
 
 void Quest::notify()
 {
-	mQuestBook->fireQuestStateChanged(this);
+	if (mQuestBook != NULL)
+		mQuestBook->fireQuestStateChanged(this);
 }
 
 void Quest::setQuestBook(QuestBook* questBook)
@@ -172,6 +181,21 @@ Quest::State Quest::getStateFromName(const CeGuiString& stateName)
 	const char* msg = (stateName + " is no valid quest state.").c_str();
 	Throw(InvalidArgumentException, msg);
 	return Quest::UNKNOWN;
+}
+
+bool Quest::isKnown()
+{
+	return mKnown;
+}
+
+void Quest::setKnown(bool known)
+{
+	mKnown = known;
+
+	if (known == true && mParent != NULL && !mParent->isKnown())
+		mParent->setKnown(true);
+
+	notify();
 }
 
 

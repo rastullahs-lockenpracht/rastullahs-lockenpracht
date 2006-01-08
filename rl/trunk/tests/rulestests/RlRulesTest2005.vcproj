@@ -206,6 +206,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\QuestTest.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\RulesTestPrerequisites.h"
 				>
 			</File>

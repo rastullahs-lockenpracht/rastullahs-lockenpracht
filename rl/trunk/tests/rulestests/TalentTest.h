@@ -17,8 +17,17 @@ class TalentTest : public TestFixture {
   CPPUNIT_TEST_SUITE_END();
 protected:
    void testConstruction()
+   {       
+   }
+public:
+   void setUp()
    {
-       new DsaManager();
+   	   new DsaManager();
+   }
+
+   void tearDown()
+   {
+	   delete DsaManager::getSingletonPtr();
    }
 };
 

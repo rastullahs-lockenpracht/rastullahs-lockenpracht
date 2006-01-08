@@ -105,6 +105,9 @@ public:
 	 */
 	void setState(Quest::State state);
 
+	void setKnown(bool known);
+	bool isKnown();
+
 	/**
 	 * @return die Subquests dieses Quests
 	 */
@@ -130,6 +133,8 @@ private:
 	CeGuiString mDescription;
 	int mPartsToDo;
 	int mPartsDone;
+	bool mKnown;
+
 	State mState;
 	Quest* mParent;
 	QuestBook* mQuestBook;
