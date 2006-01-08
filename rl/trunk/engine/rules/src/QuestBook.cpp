@@ -20,7 +20,8 @@
 namespace rl {
 
 QuestBook::QuestBook()
-	: mRootQuest(new Quest("<root>", "<root>", "<root>"))
+	: mRootQuest(new Quest("<root>", "<root>", "<root>")) ,
+	mEventCaster()
 {
 	mRootQuest->setQuestBook(this);
 	mRootQuest->setState(Quest::OPEN);
@@ -57,20 +58,20 @@ void QuestBook::addQuest(Quest* quest)
 	mRootQuest->addSubquest(quest);
 }
 
-void QuestBook::fireQuestStateChanged(rl::Quest *quest)
+void QuestBook::fireQuestChanged( Quest *quest, int reason )
 {
-	QuestStateChangeEvent* evt = new QuestStateChangeEvent(this);
+	QuestChangeEvent* evt = new QuestChangeEvent( this, reason );
 	evt->setQuest(quest);
 	mEventCaster.dispatchEvent(evt);
 	delete evt;
 }
 
-void QuestBook::addQuestStateChangeListener(QuestStateChangeListener* listener)
+void QuestBook::addQuestChangeListener(QuestChangeListener* listener)
 {
 	mEventCaster.addEventListener(listener);
 }
 
-void QuestBook::removeQuestStateChangeListener(QuestStateChangeListener* listener)
+void QuestBook::removeQuestChangeListener(QuestChangeListener* listener)
 {
 	mEventCaster.removeEventListener(listener);
 }

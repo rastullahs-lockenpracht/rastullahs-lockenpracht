@@ -16,7 +16,6 @@
 
 #include "ObjectStateChangeListener.h"
 
-#include "CoreSubsystem.h"
 #include "Exception.h"
 
 namespace rl {
@@ -33,7 +32,7 @@ namespace rl {
         }
 		catch( ScriptInvocationFailedException& sife )
         {
-            Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL, sife.toString() );
+			Logger::getSingleton().log(Logger::RULES, Ogre::LML_CRITICAL, sife.toString() );
         }
 
         // consumed or not

@@ -20,6 +20,7 @@
 #include "RulesPrerequisites.h"
 #include <vector>
 
+
 namespace rl {
 
 class _RlRulesExport Quest;
@@ -124,8 +125,6 @@ public:
 	void setQuestBook(QuestBook* questBook);
 
 	static Quest::State getStateFromName(const CeGuiString& stateName);
-
-
 private:
 	QuestVector mSubquests;
 	CeGuiString mId;
@@ -141,7 +140,7 @@ private:
 
 	void checkDone();
 	void setParent(Quest* parentQuest);
-	void notify();
+	void notify( int reason );
 };
 
 }

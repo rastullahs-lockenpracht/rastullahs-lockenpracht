@@ -49,11 +49,26 @@ namespace rl {
 	{
 	}
 
-	bool JournalWindow::eventRaised(QuestStateChangeEvent *anEvent)
+	void JournalWindow::QuestChanged(QuestChangeEvent* anEvent)
 	{
 		updateQuests();
-		return false;
 	}
+
+	void JournalWindow::questPartsDoneChanged(QuestChangeEvent* anEvent)
+	{
+		updateQuests();
+	}
+
+	void JournalWindow::questKnownChanged(QuestChangeEvent* anEvent)
+	{
+		updateQuests();
+	}
+
+	void JournalWindow::questSubquestAdded(QuestChangeEvent* anEvent)
+	{
+		updateQuests();
+	}
+
 
 	void JournalWindow::updateQuests()
 	{

@@ -18,6 +18,9 @@
 
 #include "Quest.h"
 #include "QuestBook.h"
+#include "QuestChangeEvent.h"
+#include "QuestChangeListener.h"
+
 #include "Exception.h"
 
 namespace rl {
@@ -85,9 +88,12 @@ int Quest::getPartsDone()
 
 void Quest::setPartsDone(int partsDone)
 {
-	mPartsDone = partsDone;
-	notify();
-	checkDone();
+	if( partsDone != mPartsDone )
+	{
+		mPartsDone = partsDone;
+		notify(QuestChangeEvent::QUEST_PARTSDONE);
+		checkDone();
+	}
 }
 
 Quest::State Quest::getState()
@@ -102,16 +108,21 @@ const CeGuiString& Quest::getStateName()
 
 void Quest::setState(Quest::State state)
 {
-	mState = state;
-
-	if (state == Quest::OPEN && mParent != NULL
-		&& mParent->getState() == Quest::UNKNOWN)
+	if( mState != state )
 	{
-		mParent->setState(Quest::OPEN);
-	}
+		mState = state;
 
-	notify();
-	checkDone();
+		notify(QuestChangeEvent::QUEST_STATE);
+
+		if (state == Quest::OPEN && mParent != NULL
+			&& mParent->getState() == Quest::UNKNOWN)
+		{
+			mParent->setState(Quest::OPEN);
+		}
+
+		if( mState != Quest::COMPLETED )
+			checkDone();
+	}
 }
 
 QuestVector Quest::getSubquests()
@@ -127,7 +138,7 @@ void Quest::addSubquest(Quest* quest)
 	mSubquests.push_back(quest);
 	quest->setParent(this);
 	quest->setQuestBook(mQuestBook);
-	notify();
+	notify(QuestChangeEvent::QUEST_SUBQUEST);
 }
 
 void Quest::setParent(Quest* quest)
@@ -147,17 +158,17 @@ void Quest::checkDone()
 		&& mState != Quest::CLOSED)
 	{
 		mState = Quest::COMPLETED;
-		notify();
+		notify(QuestChangeEvent::QUEST_STATE);
 	}
 
 	if (mParent != NULL)
 		mParent->checkDone();
 }
 
-void Quest::notify()
+void Quest::notify( int reason )
 {
 	if (mQuestBook != NULL)
-		mQuestBook->fireQuestStateChanged(this);
+		mQuestBook->fireQuestChanged(this, reason);
 }
 
 void Quest::setQuestBook(QuestBook* questBook)
@@ -190,13 +201,15 @@ bool Quest::isKnown()
 
 void Quest::setKnown(bool known)
 {
-	mKnown = known;
+	if( known != mKnown )
+	{
+		mKnown = known;
 
-	if (known == true && mParent != NULL && !mParent->isKnown())
-		mParent->setKnown(true);
+		if (known == true && mParent != NULL && !mParent->isKnown())
+			mParent->setKnown(true);
 
-	notify();
+		notify(QuestChangeEvent::QUEST_KNOWN);
+	}
 }
-
 
 }

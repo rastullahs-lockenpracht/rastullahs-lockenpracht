@@ -23,8 +23,8 @@
 #include "EventCaster.h"
 
 #include "Quest.h"
-#include "QuestStateChangeEvent.h"
-#include "QuestStateChangeListener.h"
+#include "QuestChangeEvent.h"
+#include "QuestChangeListener.h"
 
 namespace rl {
 
@@ -54,15 +54,15 @@ public:
 	 * Sendet das Ereignis, dass sich ein Quest geändert hat
 	 * @param quest der Quest, der verändert wurde
 	 */
-	void fireQuestStateChanged(Quest* quest);
+	void fireQuestChanged( Quest* quest, int reason );
 
-	void addQuestStateChangeListener(QuestStateChangeListener* listener);
-	void removeQuestStateChangeListener(QuestStateChangeListener* listener);
+	void addQuestChangeListener(QuestChangeListener* listener);
+	void removeQuestChangeListener(QuestChangeListener* listener);
 
 private:
 	Quest* getQuest(Quest* parent, const CeGuiString& id);
 	Quest* mRootQuest;
-	EventCaster<QuestStateChangeEvent> mEventCaster;
+	EventCaster<QuestChangeEvent> mEventCaster;
 };
 
 }

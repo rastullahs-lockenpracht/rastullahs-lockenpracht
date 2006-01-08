@@ -129,11 +129,34 @@ namespace rl {
 		void addSubquest(rl::Quest* quest); 
 	};   
 	
+	%feature("director") AnimationListener; 
+	class QuestChangeListener
+	{
+	public:
+		virtual ~QuestChangeListener();
+		
+		virtual void QuestChanged(rl::QuestChangeEvent* anEvent) = 0;
+		virtual void questPartsDoneChanged(rl::QuestChangeEvent* anEvent) = 0;
+		virtual void questKnownChanged(rl::QuestChangeEvent* anEvent) = 0;
+		virtual void questSubquestAdded(rl::QuestChangeEvent* anEvent) = 0;
+	};
+	
+	class QuestChangeEvent
+	{
+	public:
+		rl::Quest* getQuest();
+	private:
+		QuestChangeEvent( rl::QuestBook* src, int reason );
+	};
+	
 	class QuestBook
 	{
 	public:
 		rl::Quest* getQuest(const rl::CeGuiString& id);
 		void addQuest(rl::Quest* quest);
+		
+		void addQuestChangeListener(rl::QuestChangeListener* listener);
+		void removeQuestChangeListener(rl::QuestChangeListener* listener);
 	};
 	
     class Talent

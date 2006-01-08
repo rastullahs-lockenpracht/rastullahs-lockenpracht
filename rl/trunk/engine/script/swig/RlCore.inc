@@ -223,6 +223,7 @@ class AnimationEvent
 {
 public:
 	rl::Animation* getAnimation() const;
+private:
 	AnimationEvent( rl::Animation* anim,  const unsigned int reason );
 };
 
@@ -231,6 +232,7 @@ class AnimationFrameEvent
 public:
 	rl::Animation* getAnimation() const;
 	Ogre::Real getFrameNumber() const;
+private:
 	AnimationFrameEvent( rl::Animation* anim,  const unsigned int reason, Ogre::Real frameNumber );
 };
 
@@ -301,6 +303,9 @@ public:
 	
 	rl::TrackAnimation* createTrackAnimation(rl::Actor* actor, const Ogre::String& name, Ogre::Real length );
 	void removeAnimation( rl::Animation* anim );
+	void removeTrackAnimation( rl::Actor* act, const Ogre::String& name );
+	void removeAllTrackAnimations( rl::Actor* act );
+	
 	
 	void setGlobalAnimationSpeed( Ogre::Real speed );
 	Ogre::Real getGlobalAnimationSpeed( ) const;

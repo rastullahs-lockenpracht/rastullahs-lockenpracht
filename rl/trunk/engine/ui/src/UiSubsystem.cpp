@@ -155,7 +155,7 @@ namespace rl {
 		mInGameMenuWindow = new InGameMenuWindow();
 		mCharacterSheet = new CharacterSheetWindow();
 		mJournalWindow = new JournalWindow();
-		RulesSubsystem::getSingleton().getQuestBook()->addQuestStateChangeListener(mJournalWindow);
+		RulesSubsystem::getSingleton().getQuestBook()->addQuestChangeListener(mJournalWindow);
 
   //      runTest();
     }

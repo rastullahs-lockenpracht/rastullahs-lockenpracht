@@ -20,17 +20,19 @@
 #include "UiPrerequisites.h"
 
 #include "CeGuiWindow.h"
-#include "QuestStateChangeListener.h"
+#include "QuestChangeListener.h"
 
 namespace rl {
 
-	class JournalWindow : public CeGuiWindow, public QuestStateChangeListener {
+	class JournalWindow : public CeGuiWindow, public QuestChangeListener {
 	public:
 		JournalWindow();
 		virtual ~JournalWindow();
 
-		virtual bool eventRaised(QuestStateChangeEvent *anEvent);
-
+		virtual void QuestChanged(QuestChangeEvent* anEvent);
+		virtual void questPartsDoneChanged(QuestChangeEvent* anEvent);
+		virtual void questKnownChanged(QuestChangeEvent* anEvent);
+		virtual void questSubquestAdded(QuestChangeEvent* anEvent);
 	private:
 		void updateQuests();
 		void selectQuest(CEGUI::ListboxItem* item);
