@@ -74,16 +74,6 @@ namespace rl {
 	{
 	}
 
-	CommandMapper& CommandMapper::getSingleton()
-	{
-		return Singleton<CommandMapper>::getSingleton();
-	}
-
-	CommandMapper* CommandMapper::getSingletonPtr()
-	{
-		return Singleton<CommandMapper>::getSingletonPtr();
-	}
-
 	bool CommandMapper::startAction(int keyCodeOrMouseButton, MapType mapType)
 	{
 		KeyAndMouseCommandMap* commandMap = getCommandMap(mapType);

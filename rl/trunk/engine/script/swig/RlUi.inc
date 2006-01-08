@@ -79,14 +79,6 @@ public:
     void show(CEGUI::Texture *texture, rl::CeGuiString name);
 };
 
-class CommandMapper
-{
-public:
-	static CommandMapper& getSingleton();
-	//void loadCommandMap(const char* mapfile);
-
-};
-
 class GameLoggerWindow
 {
 public:

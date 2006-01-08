@@ -127,7 +127,7 @@ namespace rl {
     void CharacterController::run(Real elapsedTime)
     {
         InputManager* im = InputManager::getSingletonPtr();
-        CommandMapper* cmdmap = CommandMapper::getSingletonPtr();
+		CommandMapper* cmdmap = im->getCommandMapper();
 
         mDesiredVel = Vector3::ZERO;
 

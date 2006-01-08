@@ -23,6 +23,7 @@
 namespace rl {
 
 	class Creature;
+	class CommandMapper;
 
 	class CommandMapperInputWindow :
 		public CeGuiWindow
@@ -37,7 +38,7 @@ namespace rl {
 		public CeGuiWindow
 	{
 	public:
-		CommandMapperWindow(Creature* actionHolder);
+		CommandMapperWindow(Creature* actionHolder, CommandMapper* commandMapper);
 			
 	private:
 		bool handleChangeButton();
@@ -55,6 +56,7 @@ namespace rl {
 
 		Creature* mActionHolder;
 		CommandMapperInputWindow* mInputWindow;
+		CommandMapper* mCommandMapper;
 		CEGUI::MultiColumnList* mTableInCombat;
 		CEGUI::MultiColumnList* mTableOffCombat;
 		CEGUI::MultiColumnList* mTableMovement;

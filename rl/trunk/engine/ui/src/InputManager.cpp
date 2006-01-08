@@ -77,6 +77,7 @@ namespace rl {
 		for(int i=0; i<NUM_MOUSE_BUTTON; i++)
 			mMouseButtonDown[i] = false;
 
+		mCommandMapper = new CommandMapper();
 		mEventQueue = new EventQueue();
 		mEventProcessor = new EventProcessor();
 		switchMouseToUnbuffered();
@@ -93,6 +94,8 @@ namespace rl {
 
 		mInputReader->useBufferedInput(NULL, false, false);
 		mInputReader->setBufferedInput(false, false);
+
+		delete mCommandMapper;
 //		delete mEventProcessor;
 	}
 
@@ -132,10 +135,10 @@ namespace rl {
 			checkMouseButton(3, MouseEvent::BUTTON3_MASK, pressedButtonMask, releasedButtonMask);
 
 			if (releasedButtonMask != 0)
-				CommandMapper::getSingleton().injectMouseUp(releasedButtonMask);
+				mCommandMapper->injectMouseUp(releasedButtonMask);
 
 			if (pressedButtonMask != 0)
-				CommandMapper::getSingleton().injectMouseDown(pressedButtonMask);
+				mCommandMapper->injectMouseDown(pressedButtonMask);
 		}
 
 		CEGUI::System::getSingleton().injectTimePulse(elapsedTime);
@@ -175,7 +178,7 @@ namespace rl {
 	{
 		if ( ! (isCeguiActive() && mBuffered) )
 		{
-			CommandMapper::getSingleton().injectMouseClicked(e->getButtonID());
+			mCommandMapper->injectMouseClicked(e->getButtonID());
 			e->consume();
 		}
 	}
@@ -193,7 +196,7 @@ namespace rl {
 		}
 		else
 		{
-			CommandMapper::getSingleton().injectMouseDown(e->getButtonID());
+			mCommandMapper->injectMouseDown(e->getButtonID());
 			e->consume();
 		}
 			
@@ -263,7 +266,7 @@ namespace rl {
 		}
 
 		mKeyDown[e->getKey()]=true;
-		CommandMapper::getSingleton().injectKeyDown(e->getKey());
+		mCommandMapper->injectKeyDown(e->getKey());
         std::set<KeyListener*>::iterator i;
         for(i=mKeyListeners.begin(); i!=mKeyListeners.end(); i++)
 			(*i)->keyPressed(e);
@@ -283,7 +286,7 @@ namespace rl {
 		}
 
 		mKeyDown[e->getKey()]=false;
-		CommandMapper::getSingleton().injectKeyUp(e->getKey());
+		mCommandMapper->injectKeyUp(e->getKey());
 		std::set<KeyListener*>::iterator i;
 		for(i=mKeyListeners.begin(); i!=mKeyListeners.end(); i++)
 			(*i)->keyReleased(e);
@@ -295,7 +298,7 @@ namespace rl {
 		if (sendKeyToCeGui(e)) 
 			return;
 		
-		CommandMapper::getSingleton().injectKeyClicked(encodeKey(e->getKey(), e->getModifiers()));
+		mCommandMapper->injectKeyClicked(encodeKey(e->getKey(), e->getModifiers()));
 		e->consume();
 	}
 
@@ -424,11 +427,11 @@ namespace rl {
         {
             if( mKeyDown[i] && up )
             {
-                CommandMapper::getSingleton().injectKeyUp( i );
+                mCommandMapper->injectKeyUp( i );
                 mKeyDown[i] = false;
             }
             else if( mKeyDown[i] && !up ) 
-                CommandMapper::getSingleton().injectKeyDown( i );
+                mCommandMapper->injectKeyDown( i );
         }
     }
 
@@ -678,4 +681,8 @@ namespace rl {
 	}
 
 
+	CommandMapper* InputManager::getCommandMapper()
+	{
+		return mCommandMapper;
+	}
 }

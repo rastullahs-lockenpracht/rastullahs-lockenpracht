@@ -19,7 +19,6 @@
 
 #include "UiPrerequisites.h"
 
-#include <OgreSingleton.h>
 #include <OgreInput.h>
 #include <map>
 
@@ -48,25 +47,14 @@ namespace rl {
 		CMDMAP_MOUSEMAP_OFF_COMBAT
 	};
 
-/*	struct ActionEntry
-	{
-		//ActionEntry()	{}
-
-		CeGuiString actionClass;
-		CeGuiString actionName;
-	};
-*/
 	const int CMDMAP_NO_MAPPING = -9999999;
 
-	class _RlUiExport CommandMapper : public Ogre::Singleton<CommandMapper>
+	class _RlUiExport CommandMapper
 	{
 	public:
 
 		CommandMapper();
 		~CommandMapper();
-
-		static CommandMapper& getSingleton();
-		static CommandMapper* getSingletonPtr();
 
 		void loadCommandMap(const char* mapfile);
 

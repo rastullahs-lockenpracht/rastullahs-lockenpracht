@@ -39,6 +39,7 @@ namespace rl {
 
 	class CeGuiWindow;
 	class GameObject;
+	class CommandMapper;
 
 	class _RlUiExport InputManager
 		:	public GameTask, 
@@ -101,6 +102,8 @@ namespace rl {
 			typedef std::map<int, CEGUI::utf8> KeyCharMap;
 			typedef std::map<int, CeGuiString> KeyNameMap;
 
+			CommandMapper* getCommandMapper();
+
 		private:
             enum { NUM_MOUSE_BUTTON=4, NUM_KEYS=256 };
 			enum InputSwitch { SWITCH_NO_SWITCH, SWITCH_TO_BUFFERED, SWITCH_TO_UNBUFFERED };
@@ -143,7 +146,9 @@ namespace rl {
 			void checkMouseButton(
 				const int button, const int buttonMask, int& pressedButtonMask, int& releasedButtonMask);
 
-            CEGUI::utf32 getKeyChar(Ogre::KeyEvent* ke);			
+            CEGUI::utf32 getKeyChar(Ogre::KeyEvent* ke);
+
+			CommandMapper* mCommandMapper;
 	};
 
 }

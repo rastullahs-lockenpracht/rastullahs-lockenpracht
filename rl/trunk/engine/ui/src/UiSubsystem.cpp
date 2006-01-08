@@ -253,7 +253,7 @@ namespace rl {
 
 	bool UiSubsystem::showInputOptionsMenu(Creature* actionHolder)
 	{
-		CommandMapperWindow* wnd = new CommandMapperWindow(actionHolder);
+		CommandMapperWindow* wnd = new CommandMapperWindow(actionHolder, InputManager::getSingleton().getCommandMapper());
 		wnd->setVisible(true);
 
 		return true;
