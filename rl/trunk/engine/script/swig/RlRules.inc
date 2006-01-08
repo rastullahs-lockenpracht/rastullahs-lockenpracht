@@ -129,7 +129,7 @@ namespace rl {
 		void addSubquest(rl::Quest* quest); 
 	};   
 	
-	%feature("director") AnimationListener; 
+	%feature("director") QuestChangeListener; 
 	class QuestChangeListener
 	{
 	public:
