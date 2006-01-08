@@ -260,6 +260,18 @@ trat folgende Ausnahme vom Typ %s auf\n\
 
    };
 
+   class DuplicateIdException : public RuntimeException {
+   public:
+      DuplicateIdException(const std::string& message,
+         const std::string& file, const std::string& function, int line)
+         : RuntimeException(message, file, function, line) {}
+
+      DuplicateIdException(const DuplicateIdException& rhs)
+         : RuntimeException(rhs) {}
+
+      virtual std::string getType() { return "DuplicateIdException"; }
+   };
+
 
    /**@brief Funktion zum ausgeben einer Nachricht an den Benutzer.
     *
