@@ -74,11 +74,14 @@ class RockPile < GameObject
 	orientation[2],
 	orientation[3])
     @mPositionPart = positionParticles;
+    @mSteinSchlagActor = $AM.createSoundSampleActor("SteinSchlagSound","steinschlag_wenig_zu_vielen.ogg");
+    @mSteinSchlagActor.placeIntoScene( 9416.5, 1005.4, 4387.2, 1.0, 0.0, 0.0, 0.0 );
   end
 
   def collapse()
     getActor().getControlledObject().startAnimation("Zusammenfallen", 1.0, 1)
     @mDustCloud = $AM.createParticleSystemActor("Steinstaubwolke", "RL/Staubwolke")
+    @mSteinSchlagActor.getControlledObject().play();
     @mDustCloud.placeIntoScene(
 	@mPositionPart[0], 
 	@mPositionPart[1],
@@ -106,7 +109,7 @@ class SteinschlagzoneListener < GameAreaListener
 			
 	end
 	def areaEntered(anEvent)
-		if (RulesSubsystem.getSingleton().getQuestBook().getQuest("spinne").getState() == Quest::CLOSED) 
+		#if (RulesSubsystem.getSingleton().getQuestBook().getQuest("spinne").getState() == Quest::CLOSED) 
 			RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleEingang").setState(Quest::COMPLETED)
 			RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleZeug").setState(Quest::OPEN)
 			RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleZeug").setState(Quest::OPEN)
@@ -115,7 +118,7 @@ class SteinschlagzoneListener < GameAreaListener
 			RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleZeugTrank").setState(Quest::OPEN)
 			@mRockPile.collapse()
 			$GameEveMgr.removeAreaListener(self)
-		end		
+		#end		
 	end
 end
 
