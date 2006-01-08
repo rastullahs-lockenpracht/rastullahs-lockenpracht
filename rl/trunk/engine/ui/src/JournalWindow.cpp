@@ -49,7 +49,7 @@ namespace rl {
 	{
 	}
 
-	void JournalWindow::QuestChanged(QuestChangeEvent* anEvent)
+	void JournalWindow::questStateChanged(QuestChangeEvent* anEvent)
 	{
 		updateQuests();
 	}

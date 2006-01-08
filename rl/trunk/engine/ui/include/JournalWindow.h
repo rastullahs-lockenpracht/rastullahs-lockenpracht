@@ -29,7 +29,7 @@ namespace rl {
 		JournalWindow();
 		virtual ~JournalWindow();
 
-		virtual void QuestChanged(QuestChangeEvent* anEvent);
+		virtual void questStateChanged(QuestChangeEvent* anEvent);
 		virtual void questPartsDoneChanged(QuestChangeEvent* anEvent);
 		virtual void questKnownChanged(QuestChangeEvent* anEvent);
 		virtual void questSubquestAdded(QuestChangeEvent* anEvent);

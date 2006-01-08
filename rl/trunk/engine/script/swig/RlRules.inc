@@ -135,7 +135,7 @@ namespace rl {
 	public:
 		virtual ~QuestChangeListener();
 		
-		virtual void QuestChanged(rl::QuestChangeEvent* anEvent) = 0;
+		virtual void questStateChanged(rl::QuestChangeEvent* anEvent) = 0;
 		virtual void questPartsDoneChanged(rl::QuestChangeEvent* anEvent) = 0;
 		virtual void questKnownChanged(rl::QuestChangeEvent* anEvent) = 0;
 		virtual void questSubquestAdded(rl::QuestChangeEvent* anEvent) = 0;
