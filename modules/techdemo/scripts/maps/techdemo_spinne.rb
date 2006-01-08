@@ -15,18 +15,31 @@ class Waldspinne < Creature
 	super("Waldspinne", "Eine große Spinne, die sich anscheinend vor irgendetwas ängstigt.")
 	actor = $AM.createMeshActor("Waldspinne", "tie_waldspinne.mesh", PhysicsManager::GT_ELLIPSOID )
 	setActor(actor)
-
 	@mScareAction = ScareToDeathAction.new()
 	addAction(@mScareAction)
+	@mErschreckenSound = $AM.createSoundSampleActor("ErschreckenSound","erschrecken_psst_buh_01.ogg");
+	@mErschreckenSound.placeIntoScene($UI.getActiveCharacter().getActor().getPosition ());
+	
+	@mSpinnenTodSound = $AM.createSoundSampleActor("SpinnenTotSound","spinne_todesschrei_01.ogg");
+	@mSpinnenTodSound.placeIntoScene( -2040.0, 343.0, -8200.0, 1.0, 0.0, 0.0, 0.0);
+
+	@mSchmerzSchreiSound = $AM.createSoundSampleActor("SchmerzSchreiSound","schmerz_schrei_au_01.ogg");
+	@mSchmerzSchreiSound.placeIntoScene($UI.getActiveCharacter().getActor().getPosition ());
   end
 
+$UI.getActiveCharacter().getActor().getPosition ()
+
   def die(player)
+	#Player erschreckt die Spinne
+	@mErschreckenSound.getControlledObject().play();	
 	# Todesanimation
 	getActor().getControlledObject().startAnimation("ko", 1.0, 1)
+	@mSpinnenTodSound.getControlledObject().play();
 	# Quest erledigt
 	RulesSubsystem.getSingleton().getQuestBook().getQuest("spinne").setState(Quest::COMPLETED)
 	# Spieler verletzen
 	player.modifyLe( -(player.getLe() - 1) )
+	@mSchmerzSchreiSound.getControlledObject().play();	
 	# Aktion ist nicht mehr möglich
 	removeAction(@mScareAction)
 	#

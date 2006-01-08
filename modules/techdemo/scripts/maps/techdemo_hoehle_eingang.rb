@@ -75,7 +75,7 @@ class RockPile < GameObject
 	orientation[3])
     @mPositionPart = positionParticles;
     @mSteinSchlagActor = $AM.createSoundSampleActor("SteinSchlagSound","steinschlag_wenig_zu_vielen.ogg");
-    @mSteinSchlagActor.placeIntoScene( 9416.5, 1005.4, 4387.2, 1.0, 0.0, 0.0, 0.0 );
+    @mSteinSchlagActor.placeIntoScene( -2040.0, 343.0, -8200.0, 1.0, 0.0, 0.0, 0.0 );
   end
 
   def collapse()
