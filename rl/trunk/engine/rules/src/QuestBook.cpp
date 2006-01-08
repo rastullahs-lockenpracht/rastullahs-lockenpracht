@@ -17,6 +17,8 @@
 #include "QuestBook.h"
 #include "Quest.h"
 
+#include "ScriptObjectRepository.h"
+
 namespace rl {
 
 QuestBook::QuestBook()
@@ -68,12 +70,20 @@ void QuestBook::fireQuestChanged( Quest *quest, int reason )
 
 void QuestBook::addQuestChangeListener(QuestChangeListener* listener)
 {
-	mEventCaster.addEventListener(listener);
+	if( !mEventCaster.containsListener(listener) )
+    {    
+		mEventCaster.addEventListener(listener);
+        ScriptObjectRepository::getSingleton().own( listener );
+    }
 }
 
 void QuestBook::removeQuestChangeListener(QuestChangeListener* listener)
 {
-	mEventCaster.removeEventListener(listener);
+	if( mEventCaster.containsListener( listener ) ) 
+    {
+	    mEventCaster.removeEventListener(listener);
+        ScriptObjectRepository::getSingleton().disown( listener );
+    }
 }
 
 QuestVector QuestBook::getTopLevelQuests()

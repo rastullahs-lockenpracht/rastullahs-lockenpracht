@@ -100,6 +100,18 @@ namespace rl {
         void loadDsaDataFile(const std::string& filename);	
     };
 
+	%feature("director") QuestChangeListener; 
+	class QuestChangeListener
+	{
+	public:
+		virtual ~QuestChangeListener();
+		
+		virtual void questStateChanged(rl::QuestChangeEvent* anEvent) = 0;
+		virtual void questPartsDoneChanged(rl::QuestChangeEvent* anEvent) = 0;
+		virtual void questKnownChanged(rl::QuestChangeEvent* anEvent) = 0;
+		virtual void questSubquestAdded(rl::QuestChangeEvent* anEvent) = 0;
+	};
+
 	class Quest
 	{
 	public:
@@ -129,18 +141,6 @@ namespace rl {
 		void addSubquest(rl::Quest* quest); 
 	};   
 	
-	%feature("director") QuestChangeListener; 
-	class QuestChangeListener
-	{
-	public:
-		virtual ~QuestChangeListener();
-		
-		virtual void questStateChanged(rl::QuestChangeEvent* anEvent) = 0;
-		virtual void questPartsDoneChanged(rl::QuestChangeEvent* anEvent) = 0;
-		virtual void questKnownChanged(rl::QuestChangeEvent* anEvent) = 0;
-		virtual void questSubquestAdded(rl::QuestChangeEvent* anEvent) = 0;
-	};
-	
 	class QuestChangeEvent
 	{
 	public:
@@ -155,8 +155,8 @@ namespace rl {
 		rl::Quest* getQuest(const rl::CeGuiString& id);
 		void addQuest(rl::Quest* quest);
 		
-		void addQuestChangeListener(rl::QuestChangeListener* listener);
-		void removeQuestChangeListener(rl::QuestChangeListener* listener);
+		void addQuestChangeListener( rl::QuestChangeListener* listener );
+		void removeQuestChangeListener( rl::QuestChangeListener* listener );
 	};
 	
     class Talent
@@ -223,35 +223,35 @@ namespace rl {
 		rl::ActionGroup* getGroup() const;
     };
     
-	 %feature("director") ObjectStateChangeListener; 	 
-	 class ObjectStateChangeListener 	 
-	 { 	 
-		public: 	 
-				virtual ~ObjectStateChangeListener(); 	 
+	%feature("director") ObjectStateChangeListener; 	 
+	class ObjectStateChangeListener 	 
+	{ 	 
+	public: 	 
+		virtual ~ObjectStateChangeListener(); 	 
 		  	 
-				virtual void objectStateChanged(rl::ObjectStateChangeEvent *anEvent) = 0; 	 
-	  };
+		virtual void objectStateChanged(rl::ObjectStateChangeEvent *anEvent) = 0; 	 
+	};
 		 	 
 		  	 
-		class ObjectStateChangeEventSource 	 
-		{ 	 
-		public: 	 
-			ObjectStateChangeEventSource( ); 	 
+	class ObjectStateChangeEventSource 	 
+	{ 	 
+	public: 	 
+		ObjectStateChangeEventSource( ); 	 
 		  	 
-			void addObjectStateChangeListener( rl::ObjectStateChangeListener*  list ); 	 
-			void removeObjectStateChangeListener( rl::ObjectStateChangeListener* list ); 	 
-			bool hasListeners( ) const; 	 
-			rl::GameObject* getObject() const;
-			void fireObjectStateChangeEvent(); 	 
-		}; 	 
+		void addObjectStateChangeListener( rl::ObjectStateChangeListener*  list ); 	 
+		void removeObjectStateChangeListener( rl::ObjectStateChangeListener* list ); 	 
+		bool hasListeners( ) const; 	 
+		rl::GameObject* getObject() const;
+		void fireObjectStateChangeEvent(); 	 
+	}; 	 
 		  	 
-		class ObjectStateChangeEvent 	 
-		{ 	 
-		public: 	 
-			ObjectStateChangeEvent( rl::ObjectStateChangeEventSource* src ); 	 
-			rl::GameObject* getProvokingObject() const; 	 
-			rl::ObjectStateChangeEventSource* getSource() const; 	 
-		};
+	class ObjectStateChangeEvent 	 
+	{ 	 
+	public: 	 
+		ObjectStateChangeEvent( rl::ObjectStateChangeEventSource* src ); 	 
+		rl::GameObject* getProvokingObject() const; 	 
+		rl::ObjectStateChangeEventSource* getSource() const; 	 
+	};
 		    
     
     %feature("director") GameObject;
