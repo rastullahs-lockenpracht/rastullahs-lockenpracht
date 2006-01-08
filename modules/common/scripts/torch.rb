@@ -4,7 +4,7 @@
 # TODO Über Speichersparen nachdenken. Inwiefern können Instanzen
 # einiger Klassen für Instanzen anderer Klassen nachgenutzt werden?
 # Inwiefern ist Deferred Construction sinnvoll?
-require 'globals.rb'
+load "embed.rb"
 
 # Die Aktion für das Anzünden der Fackel.
 class LightTorchAction < Action

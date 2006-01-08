@@ -1,4 +1,4 @@
-require 'globals.rb'
+load "embed.rb"
 
 class ActorUpdateAnimationListener < AnimationListener
 	def animationFinished(anEvent)

@@ -1,4 +1,4 @@
-require 'globals.rb'
+load "embed.rb"
 
 class Crate < GameObject
   def initialize(name, description)

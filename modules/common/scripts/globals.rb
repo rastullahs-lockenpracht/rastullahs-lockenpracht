@@ -1,8 +1,11 @@
-print( "\n- Registering Globals" );
-
 load "embed.rb"
 
+print( "\n- Registering Globals" );
+
 include RlScript
+
+# Der GC reisst oft die Objekte ab
+GC.disable
 
 $CORE = CoreSubsystem.getSingleton();
 $AM = ActorManager.getSingleton();
@@ -26,7 +29,7 @@ class HeroPosWriter
 	
   end
   def writePos()
-	actor = $AM.getActor("Held");
+	actor = $UI.getActiveCharacter().getActor();
 	$SCRIPT.log("[ "+actor.getWorldPosition()[0].to_s+", "+actor.getWorldPosition()[1].to_s+", "+actor.getWorldPosition()[2].to_s+"]" );  
 	$SCRIPT.log("[ "+actor.getWorldOrientation()[0].to_s+", "+actor.getWorldOrientation()[1].to_s+", "+actor.getWorldOrientation()[2].to_s+", "+actor.getWorldOrientation()[3].to_s+"]") ; 
   end
@@ -35,4 +38,6 @@ end
 $hpw = HeroPosWriter.new()
 
 
-$SCRIPT.log("Aktuelle Spielerposition in Log schreiben mit '$hpw.writePos'");
+p "Aktuelle Spielerposition in Log schreiben mit '$hpw.writePos'"
+
+require( "questsound.rb" ); 

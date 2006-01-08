@@ -1,4 +1,5 @@
-require 'globals.rb'
+load "embed.rb"
+
 require 'player.rb'
 require 'hero.rb'
 

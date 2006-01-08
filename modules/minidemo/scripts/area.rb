@@ -9,6 +9,8 @@ class DunkleEckenLachListener < GameAreaListener
 
 	def areaLeft(anEvent)
 		print( "Raus - " +  anEvent.getProvokingActor().getName() );
+		$GameEveMgr.removeAreaListener(self)
+		print( "Raus - lösch " );
 	end
 	def areaEntered(anEvent)
 		print( "Rein - " + anEvent.getProvokingActor().getName() );

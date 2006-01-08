@@ -1,4 +1,4 @@
-require 'globals.rb'
+load "embed.rb"
 require 'actorupdateanimationlistener.rb'
 
 class OpenDoorAction < Action
