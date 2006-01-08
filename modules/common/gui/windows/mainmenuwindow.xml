@@ -44,13 +44,25 @@
 				</Window>
 			</Window>
 		</Window>
+        <Window Type="RastullahLook/StaticText" Name="MainMenu/GameName">
+			<Property Name="VerticalAlignment" Value="Bottom" />
+	        <Property Name="HorizontalAlignment" Value="Right" />
+            <Property Name="HorzFormatting" Value="RightAligned"/>
+            <Property Name="UnifiedPosition" Value="{{0,-5},{0,-8}}" />
+			<Property Name="FrameEnabled" Value="False"/>
+            <Property Name="AbsoluteSize" Value="w:350 h:50" />
+            <Property Name="Text" Value="Rastullahs Lockenpracht"/>
+            <Property Name="Font" Value="Vera Serif Bold-18" />
+            <Property Name="TextColours" Value="tl:FFEDD5A1 tr:FFEDD5A1 bl:FFEDD5A1 br:FFEDD5A1" />
+		</Window>
 		<Window Type="RastullahLook/StaticText" Name="MainMenu/EngineVersion">
 			<Property Name="VerticalAlignment" Value="Bottom" />
 	        <Property Name="HorizontalAlignment" Value="Right" />
             <Property Name="HorzFormatting" Value="RightAligned"/>
-            <Property Name="Position" Value="x:0 y:0" />
+            <Property Name="UnifiedPosition" Value="{{0,-10},{0,0}}" />
 			<Property Name="FrameEnabled" Value="False"/>
             <Property Name="AbsoluteSize" Value="w:200 h:20" />
+            <Property Name="TextColours" Value="tl:FFEDD5A1 tr:FFEDD5A1 bl:FFEDD5A1 br:FFEDD5A1" />
 		</Window>
 	</Window>
 </GUILayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<Font 
+    Name="Vera Serif Bold-18" 
+    Filename="VeraSeBd.ttf" 
+    Type="Dynamic" 
+    Size="18" 
+    NativeHorzRes="800" 
+    NativeVertRes="600" 
+    FirstCodepoint="18" 
+    LastCodepoint="300" 
+    AutoScaled="false"
+/>
