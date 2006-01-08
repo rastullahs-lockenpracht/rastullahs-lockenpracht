@@ -34,16 +34,11 @@ hoehlenQuest.addSubquest(
 		"Den Eingang finden",
 		"Als erstes muss ich den Eingang finden. Er ist eventuell verschüttet."))
 
-hoehlenQuest.addSubquest(
-	Quest.new(
-		"hoehleEingang",
-		"Den Eingang finden",
-		"Als erstes muss ich den Eingang finden. Er ist eventuell verschüttet."))
-
 	hoehlenZeugQuest = Quest.new(
 		"hoehleZeug",
 		"In der Höhle umsehen",
 		"Ich sollte mich in der Höhle umsehen und verschiedene Sachen ausprobieren.")
+
 	hoehlenQuest.addSubquest( hoehlenZeugQuest )
 
 		  hoehlenZeugQuest.addSubquest(
