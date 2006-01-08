@@ -64,7 +64,7 @@ else
 fi
 
 # fmod
-AC_CHECK_LIB(fmod-3.74, main, [], AC_MSG_ERROR([Can't find fmod]))
+AC_CHECK_LIB(fmod, main, [], AC_MSG_ERROR([Can't find libfmod 3.7.x]))
 AC_CHECK_HEADERS(fmod.h, ,
     [AC_MSG_ERROR([cannot find fmod headers]) ])
 
@@ -77,7 +77,7 @@ AC_CHECK_LIB(ogg,main,[], AC_MSG_ERROR([Can't find libogg]))
 AC_CHECK_LIB(vorbis,main,[],AC_MSG_ERROR([Can't find libvorbis]))
 
 # Ogre
-PKG_CHECK_MODULES(OGRE, OGRE >= 0.14)
+PKG_CHECK_MODULES(OGRE, OGRE >= 1.1.0)
 AC_ARG_WITH(ogre-plugins,[  --with-ogre-plugins=path        Set location of Ogre plugins],[ OGRE_PLUGINDIR="$withval"], [OGRE_PLUGINDIR=/usr/local/lib/OGRE])
 AC_SUBST(OGRE_PLUGINDIR)
 PKG_CHECK_MODULES(Plugin_TheoraVideoSystem, Plugin_TheoraVideoSystem >= 0.5.0)
@@ -108,9 +108,9 @@ AC_CHECK_LIB([OgreNewt], [NewtonBallGetJointAngle], [], AC_MSG_ERROR([Can't find
 
 # XERCES
 AC_CHECK_HEADERS(xercesc/util/XercesVersion.hpp, ,
-    [AC_MSG_ERROR([cannot find libxerces25 headers]) ])
+    [AC_MSG_ERROR([cannot find libxerces headers]) ])
 AC_CHECK_LIB(xerces-c,main,,
-    [AC_MSG_ERROR([cannot find the libxerces25 library]) ])
+    [AC_MSG_ERROR([cannot find the libxerces library]) ])
 
 
 
