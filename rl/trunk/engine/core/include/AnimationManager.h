@@ -79,9 +79,12 @@ public:
     /// Ersetzt eine alte Animation durch eine Neue
     Animation* replaceAnimation(Animation* oldAnim,  
 	Ogre::AnimationState* newAnimState, Ogre::Real speed=1.0, unsigned int timesToPlay=0  );
-	///@todo Alle Animationen löschen, beim Szenen-Neuladen
-
+	/// Entfernt eine TrackAnimation dieses Actors
+	void removeTrackAnimation( Actor* act, const Ogre::String& name );
+	/// Entfernt alle TrackAnimations dieses Actors
+	void removeAllTrackAnimations( Actor* act );
 	
+
 	/** Globale Beschleunigung, für SlowMotion oder andere sinnige Effekte
 		@param speed Der Beschleunigungsfaktor. 
 		@remarks Negative Werte lassen das Spiel nicht rückwärts laufen, nur

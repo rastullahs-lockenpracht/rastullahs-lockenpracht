@@ -24,6 +24,7 @@
 #include "Exception.h"
 #include "ActorControlledObject.h"
 #include "MeshObject.h"
+#include "AnimationManager.h"
 
 using namespace Ogre;
 
@@ -58,14 +59,16 @@ namespace rl {
     {
         // Alle möglichen Area-Verknüpfungen entfernen
         GameEventManager::getSingleton().removeAllAreas( this );
+		// Alle TrackAnimations entfernen
+		AnimationManager::getSingleton().removeAllTrackAnimations( this );
 
         detachAllChildren();
 
         if( mParent == NULL )
             removeFromScene();
         else
-            mParent->detach( this );        
-        
+            mParent->detach( this );  
+
         if (mActorControlledObject)
         {
             mActorControlledObject->_setActor(0);
@@ -75,7 +78,6 @@ namespace rl {
         {
             mPhysicalThing->_setActor(0);
         }
-
         /// @todo Highlightmaterial entfernen
     }
 

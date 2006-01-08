@@ -55,7 +55,9 @@ Animation::Animation( ) :
 
 Animation::~Animation()
 {
-	mAnimState->setEnabled(false);
+	if( mAnimState != NULL )
+		mAnimState->setEnabled(false);
+
     removeAllListeners();
 }
 

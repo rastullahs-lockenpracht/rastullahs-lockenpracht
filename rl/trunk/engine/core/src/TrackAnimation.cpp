@@ -20,7 +20,7 @@
 
 #include "CoreSubsystem.h"
 #include "World.h"
-
+#include "Actor.h"
 
 namespace rl {
 
@@ -29,8 +29,16 @@ TrackAnimation::TrackAnimation( const Ogre::String& name, Ogre::Node *node, Ogre
 {
 	Ogre::SceneManager* mgr =  CoreSubsystem::getSingleton().getWorld()->getSceneManager();
 
+	try
+	{
+		// Gibt es die Animation schon?
+		if( mgr->getAnimation( name ) != NULL )
+			Throw(RuntimeException, "Eine Animation mit dem Namen '"+name+"' war schon vorhanden." );
+	}
+	catch( Ogre::Exception& ) { }
+
 	node->setInitialState();
-	mAnimation = mgr->createAnimation(name, length );
+	mAnimation = mgr->createAnimation(name, length );	
 	mAnimationTrack = mAnimation->createNodeTrack(0, node);
 	this->setAnimationState( mgr->createAnimationState(name) );
 }
@@ -44,6 +52,12 @@ TrackAnimation::~TrackAnimation()
 	mAnimation->destroyNodeTrack( 0 );
 	mgr->destroyAnimationState( mAnimation->getName() );
 	mgr->destroyAnimation( mAnimation->getName() );
+	mAnimState = NULL;
+}
+
+const Ogre::String& TrackAnimation::getName() const
+{
+	return mAnimation->getName();
 }
 
 void TrackAnimation::addKeyFrame( Ogre::Real timePos )
@@ -117,6 +131,11 @@ void TrackAnimation::setUseShortestRotationPath ( bool useShortestPath )
 bool TrackAnimation::getUseShortestRotationPath () const
 {
 	return mAnimationTrack->getUseShortestRotationPath();
+}
+
+bool TrackAnimation::isSameNodeAsActor ( Actor* act ) const
+{
+	return ( mAnimationTrack->getAssociatedNode() == act->_getSceneNode() );
 }
 
 Ogre::TransformKeyFrame* TrackAnimation::getKeyFrameAtTimePos( Ogre::Real timePos )

@@ -129,6 +129,50 @@ Animation* AnimationManager::getAnimation(Ogre::AnimationState* animState) const
 		return iter->second;
 }
 
+void AnimationManager::removeTrackAnimation( Actor* act, const Ogre::String& name ) 
+{
+    AnimMap::iterator it;
+    for( it = mAnimationMap.begin(); it != mAnimationMap.end();) 
+    {
+        TrackAnimation* anim = dynamic_cast<TrackAnimation*>( it->second );
+		
+		if ( anim != 0 && 
+			 anim->isSameNodeAsActor( act ) && 
+			 anim->getName() == name ) 
+		{
+			AnimationManager::stopAnimation(anim);
+			DeletionPropagator::getSingleton().notifyPointerDeleted( anim );
+			delete anim;
+			mAnimationMap.erase(it++); // ++i geht nicht
+		} 
+		else 
+		{
+		   ++it; // Oder i++
+		} 
+    }
+}
+
+void AnimationManager::removeAllTrackAnimations( Actor* act ) 
+{
+    AnimMap::iterator it;
+    for( it = mAnimationMap.begin(); it != mAnimationMap.end();) 
+    {
+        TrackAnimation* anim = dynamic_cast<TrackAnimation*>( it->second );
+		
+		if ( anim != 0 && anim->isSameNodeAsActor( act ) ) 
+		{
+			AnimationManager::stopAnimation(anim);
+			DeletionPropagator::getSingleton().notifyPointerDeleted( anim );
+			delete anim;
+			mAnimationMap.erase(it++); // ++i geht nicht
+		} 
+		else 
+		{
+		   ++it; // Oder i++
+		} 
+    }
+}
+
 void AnimationManager::removeAllAnimations() 
 {
     AnimMap::iterator it;
@@ -138,6 +182,7 @@ void AnimationManager::removeAllAnimations()
         AnimationManager::stopAnimation(anim);
         DeletionPropagator::getSingleton().notifyPointerDeleted( anim );
         delete anim;
+		it++;
     }
     mAnimationMap.clear();
 }

@@ -100,6 +100,10 @@ public:
 	/// Gibt zurück ob bei Rotation der kürzeste Weg benutzt werden soll
 	bool getUseShortestRotationPath () const;
 
+	/// Teste ob der Track zu einem bestimmten Actor gehört
+	bool isSameNodeAsActor( Actor* act ) const ;
+
+	const Ogre::String& getName() const;
 	// TODO - kumulatives Animieren ein/aus
 private:
 	/// Interne Methode ein KeyFrame zu einer ZeitPosition zu erlangen
