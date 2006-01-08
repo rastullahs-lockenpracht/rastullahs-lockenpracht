@@ -131,10 +131,10 @@
 </aiml:condition>
 <aiml:condition rldialog:context="option">
     <aiml:li value="4" id="666">
-     Würdet ihr mir vielleicht auch verraten was es dort gibt, oder traut ihr mir dafür dann doch nicht genug?
+      [Fragen was es dort gibt und auf den eigenen Charme hoffen]
        <aiml:condition rldialog:context="selection" type="Eigenschaft" name="CH">
-   	  <aiml:li value="1" id="555">Geschafft!</aiml:li>
-	  <aiml:li value="0" id="556">Nicht geschafft!</aiml:li>
+   	  <aiml:li value="1" id="555">Würdet ihr mir vielleicht auch verraten was es dort gibt?</aiml:li>
+	  <aiml:li value="0" id="556">Komm, für einen simplen Bauern wie dich muss ich doch schon als guter Freund gelten, sag mir schon was es dort gibt!</aiml:li>
        </aiml:condition>
     </aiml:li>
 </aiml:condition>
