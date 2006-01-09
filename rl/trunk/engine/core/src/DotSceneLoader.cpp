@@ -51,10 +51,14 @@ namespace rl {
 		initializeScene();
 	}
 
+	DotSceneLoader::~DotSceneLoader()
+	{
+        XmlResourceManager::getSingleton().unload(mSceneName);
+	}
+
 	void DotSceneLoader::initializeScene()
 	{
 		XMLPlatformUtils::Initialize();
-
 		XmlHelper::initializeTranscoder();
 
 		Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, "Lade Szenenbeschreibung aus " + mSceneName );
@@ -75,8 +79,12 @@ namespace rl {
 
 		    // Statische Geometrie bauen
 		    staticGeom->build();
-		    // Nicht mehr den Original-Knoten rendern, da dieser noch erhalten ist.
+		    // Nicht mehr den Original-Knoten rendern, da dieser noch erhalten ist.			
 		    staticNode->setVisible( false );
+			staticNode->removeAndDestroyAllChildren();
+			mSceneManager->destroySceneNode( staticNode->getName() );
+			
+			staticNode = NULL;
             Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, " Statische Geometrie erstellt" );
         }
         else

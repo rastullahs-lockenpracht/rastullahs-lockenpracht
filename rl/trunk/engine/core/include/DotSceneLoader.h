@@ -37,7 +37,7 @@ namespace rl {
 		/// Erstellt einen Dotscene Loader, der das gewünschte File einliest
         DotSceneLoader(const std::string& filename, const std::string& resourceGroup);
 		/// Standard Destruktor
-		~DotSceneLoader() {};
+		~DotSceneLoader();
 
 	private:
         struct NodeUserData

@@ -83,7 +83,7 @@ namespace rl {
 		DotSceneLoader* dot = new DotSceneLoader(levelName, module);
 		delete dot;
 		mSceneFile = levelName;
-
+		
         initializeDefaultCamera();
     }
 
@@ -92,7 +92,7 @@ namespace rl {
         ActorManager::getSingleton().destroyAllActors();
         mSceneMgr->clearScene();
         Ogre::Root::getSingleton().getAutoCreatedWindow()->removeAllViewports(); 
-		XmlResourceManager::getSingleton().unload(mSceneFile);
+		
 		PhysicsManager::getSingleton().clearLevelGeometry();
 
         mSceneMgr = Root::getSingleton().getSceneManager(ST_GENERIC);
