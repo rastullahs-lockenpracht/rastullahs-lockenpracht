@@ -21,6 +21,10 @@
 #include "Quest.h"
 #include "QuestBook.h"
 
+#include <CEGUIPropertyHelper.h>
+
+using namespace CEGUI;
+
 namespace rl {
 
 	JournalWindow::JournalWindow()
@@ -32,13 +36,16 @@ namespace rl {
 			CEGUI::Listbox::EventSelectionChanged,
 			boost::bind(&JournalWindow::updateSelection, this));
 
+		mQuestSelectionColour = 
+			PropertyHelper::stringToColour(
+				mQuests->getProperty("DefaultSelectionColour"));
+		mQuestSelectionImageset = mQuests->getProperty("DefaultSelectionImageset");
+		mQuestSelectionBrush = mQuests->getProperty("DefaultSelectionBrush");
+			
 		mQuestTitle = getStaticText("JournalWindow/Quests/QuestTitle");
-		
 		mQuestState = getStaticText("JournalWindow/Quests/QuestState");
-
 		mQuestDescription = getMultiLineEditbox("JournalWindow/Quests/QuestDescription");
 		mQuestDescription->setReadOnly(true);
-
 
 		addToRoot(mWindow);
 
@@ -110,7 +117,11 @@ namespace rl {
 			questName.append(INDENT);
 		questName.append(quest->getName());
 
-		mQuests->addItem(new CEGUI::ListboxTextItem(questName, 0, quest));
+		ListboxTextItem* item = new ListboxTextItem(questName, 0, quest);
+		item->setSelectionBrushImage(
+			mQuestSelectionImageset,
+			mQuestSelectionBrush);
+		mQuests->addItem(item);
 		QuestVector quests = quest->getSubquests();
 		for (QuestVector::iterator it = quests.begin(); it != quests.end(); it++)
 		{

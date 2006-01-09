@@ -43,6 +43,11 @@ namespace rl {
 		CEGUI::StaticText* mQuestTitle;
 		CEGUI::StaticText* mQuestState;
 		CEGUI::MultiLineEditbox* mQuestDescription;
+
+		CeGuiString mQuestSelectionBrush;
+		CeGuiString mQuestSelectionImageset;
+		CEGUI::colour mQuestSelectionColour;
+
 	};
 }
 
