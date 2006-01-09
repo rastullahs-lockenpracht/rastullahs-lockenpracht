@@ -26,7 +26,7 @@ $hero = Hero.new;
 #hero.setActor($AM.createMeshActor("Held","held.mesh", 2, -1.0));
 $SCRIPT.log("Held erstellt");
 $SCRIPT.log("Held in die Szene einfuegen.");
-$hero.getActor().placeIntoScene(-300.0, 200.0, 400.0, 1.0, 0.0, 0.0, 0.0);
+$hero.getActor().placeIntoScene(-6922.0, 344.0, -400.0, 1.0, 0.0, 0.0, 0.0);
 $SCRIPT.log("Held eingefügt.");
 PlayerSettings.preparePlayer($hero);
 $SCRIPT.log("Held vorbereitet.");
@@ -43,7 +43,7 @@ load "techdemo_quests.rb"
 
 load "techdemo_bauer.rb"
 $bauer = BauerArnolfGrossschaedel.new()
-$bauer.getActor().placeIntoScene(3161.82, -65.54, 982.0, -0.767904, 0.0, 0.640565, 0.0)
+$bauer.getActor().placeIntoScene(2991.82, -65.54, 959.0, -0.767904, 0.0, 0.640565, 0.0)
 
 load "techdemo_spinne.rb"
 $waldspinne = Waldspinne.new()
@@ -54,7 +54,7 @@ load "techdemo_hoehle.rb"
 $hebeltuer = Door.new("Eine Tür", "Eine Tür, allerdings ist keine Klinke vorhanden", false, false)
 $hebeltuer.getActor().placeIntoScene(13270.0, 906.0, 3746.0, 0.965926, 0.0, 0.258819, 0.0)
 $hebel = Switch.new("HoehlenHebel")
-$hebel.getActor().placeIntoScene(12153.0, 1050.0, 4725.0, 0.707107, 0.707107, 0.0, 0.0)
+$hebel.getActor().placeIntoScene(11480.0, 1070.0, 3475.0, 0.707107, 0.707107, 0.0, 0.0)
 $tueroeffner = CaveDoorOpener.new($hebeltuer, $hebel)
 
 require "truhe.rb"
