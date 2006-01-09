@@ -152,59 +152,71 @@ CEGUI::Window* CeGuiWindow::getRoot()
 	return CEGUI::WindowManager::getSingleton().getWindow((utf8*)UiSubsystem::CEGUI_ROOT);
 }
 
-Window* CeGuiWindow::getWindow(const char* name)
+Window* CeGuiWindow::getWindow(const char* name, const char* requiredClass)
 {
-	return CEGUI::WindowManager::getSingleton().getWindow(mNamePrefix + (utf8*)name);
+	CEGUI::Window* wnd = CEGUI::WindowManager::getSingleton().getWindow(mNamePrefix + (utf8*)name);
+	
+	if (wnd == NULL)
+		Throw(
+			rl::NullPointerException, 
+			"Window "+Ogre::String(name)+" is NULL");
+
+	if (requiredClass != NULL && !wnd->testClassName(requiredClass))
+		Throw(
+			rl::NullPointerException, 
+			"Window "+Ogre::String(name)+" has not the required class " + Ogre::String(requiredClass));
+
+	return wnd;
 }
 
 Editbox* CeGuiWindow::getEditbox(const char* name)
 {
-	return static_cast<Editbox*>(getWindow(name));
+	return static_cast<Editbox*>(getWindow(name, "Editbox"));
 }
 
 TabPane* CeGuiWindow::getTabPane(const char* name)
 {
-	return static_cast<TabPane*>(getWindow(name));
+	return static_cast<TabPane*>(getWindow(name, "TabPane"));
 }
 
 Listbox* CeGuiWindow::getListbox(const char* name)
 {
-	return static_cast<Listbox*>(getWindow(name));
+	return static_cast<Listbox*>(getWindow(name, "Listbox"));
 }
 
 StaticText* CeGuiWindow::getStaticText(const char* name)
 {
-	return static_cast<StaticText*>(getWindow(name));
+	return static_cast<StaticText*>(getWindow(name, "StaticText"));
 }
 
 StaticImage* CeGuiWindow::getStaticImage(const char* name)
 {
-	return static_cast<StaticImage*>(getWindow(name));
+	return static_cast<StaticImage*>(getWindow(name, "StaticImage"));
 }
 
 MultiColumnList* CeGuiWindow::getMultiColumnList(const char* name)
 {
-	return static_cast<MultiColumnList*>(getWindow(name));
+	return static_cast<MultiColumnList*>(getWindow(name, "MultiColumnList"));
 }
 
 MultiLineEditbox* CeGuiWindow::getMultiLineEditbox(const char* name)
 {
-	return static_cast<MultiLineEditbox*>(getWindow(name));
+	return static_cast<MultiLineEditbox*>(getWindow(name, "MultiLineEditbox"));
 }
 
 ProgressBar* CeGuiWindow::getProgressBar(const char* name)
 {
-	return static_cast<ProgressBar*>(getWindow(name));
+	return static_cast<ProgressBar*>(getWindow(name, "ProgressBar"));
 }
 
 MenuBase* CeGuiWindow::getMenu(const char* name)
 {
-	return static_cast<MenuBase*>(getWindow(name));
+	return static_cast<MenuBase*>(getWindow(name, "MenuBase"));
 }
 
 MenuItem* CeGuiWindow::getMenuItem(const char* name)
 {
-	return static_cast<MenuItem*>(getWindow(name));
+	return static_cast<MenuItem*>(getWindow(name, "MenuItem"));
 }
 
 const CeGuiString& CeGuiWindow::getName() const

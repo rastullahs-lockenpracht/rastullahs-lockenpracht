@@ -39,7 +39,7 @@ namespace rl {
 
 		CEGUI::Window* getWindow();
 
-		CEGUI::Window* getWindow(const char* name);
+		CEGUI::Window* getWindow(const char* name, const char* requiredClass = NULL);
 		CEGUI::Editbox* getEditbox(const char* name);
 		CEGUI::Listbox* getListbox(const char* name);
 		CEGUI::StaticText* getStaticText(const char* name);
