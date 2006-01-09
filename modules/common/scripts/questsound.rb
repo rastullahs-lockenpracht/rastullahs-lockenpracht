@@ -3,7 +3,7 @@ load "embed.rb"
 class QuestSoundPlayer < QuestChangeListener 
 
 	def initialize()
-		p "erzeugt"
+		super()
 	end
 
 	def questStateChanged( anEvent )
