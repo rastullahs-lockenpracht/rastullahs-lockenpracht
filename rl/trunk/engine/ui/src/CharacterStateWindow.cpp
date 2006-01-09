@@ -59,6 +59,8 @@ void CharacterStateWindow::update()
 {
 	if (!isVisible())
 		return;
+	if (mCharacter == NULL)
+		return;
 
 	mName->setText(mCharacter->getName());
 
