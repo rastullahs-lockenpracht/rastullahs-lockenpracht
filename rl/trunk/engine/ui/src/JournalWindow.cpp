@@ -79,6 +79,9 @@ namespace rl {
 
 	void JournalWindow::updateQuests()
 	{
+		mQuests->clearAllSelections();
+		selectQuest(NULL);
+
 		while (mQuests->getItemCount() > 0)
 			mQuests->removeItem(mQuests->getListboxItemFromIndex(0));
 
@@ -89,10 +92,8 @@ namespace rl {
 			addQuest(*it);
 		}
 
-		if (mQuests->getItemCount() == 0)
-			selectQuest(NULL);
-		else
-			selectQuest(mQuests->getListboxItemFromIndex(0));
+		if (mQuests->getItemCount() > 0)
+			mQuests->setItemSelectState( (size_t)0, true );
 	}
 
 	bool JournalWindow::updateSelection()
