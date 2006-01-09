@@ -1897,6 +1897,10 @@
     ***************************************************
     -->
     <WidgetLook name="RastullahLook/Listbox">
+        <PropertyDefinition name="DefaultSelectionColour" initialValue="DDEDD5A1" redrawOnWrite="true" />
+        <PropertyDefinition name="DefaultSelectionImageset" initialValue="RastullahLook-Images" redrawOnWrite="true" />
+        <PropertyDefinition name="DefaultSelectionBrush" initialValue="ListboxSelectionBrush" redrawOnWrite="true" />
+
         <NamedArea name="ItemRenderingArea">
             <Area>
                 <Dim type="LeftEdge" ><ImageDim imageset="RastullahLook-Images" image="ListboxLeft" dimension="Width" /></Dim>
