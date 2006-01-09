@@ -62,6 +62,7 @@ namespace rl
 			int endPos = result.find_first_of(" ");
 			
 			int rVal = CEGUI::PropertyHelper::stringToInt(result.substr(0, endPos));
+			result = result.substr(endPos + 1) + "\n";
 			
 			return std::pair<int, CeGuiString>(rVal,result);
 

@@ -19,7 +19,6 @@
 
 #include "UiPrerequisites.h"
 
-#include <string>
 #include <vector>
 #include <map>
 
@@ -33,26 +32,18 @@ namespace rl {
 	class DialogCharacter;
 	class GameLoggerWindow;
 
-	class _RlUiExport DialogWindow : public CeGuiWindow //, public Ogre::Singleton<DialogWindow>
+	class _RlUiExport DialogWindow : public CeGuiWindow
 	{
 	public:
-   //     static DialogWindow& getSingleton(void);
-   //     static DialogWindow* getSingletonPtr(void);
-
-	//	DialogWindow(const std::string& dialogFile);
 		DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger);
 		~DialogWindow();
 
 		void initialize();
 
-		void getResponse(std::string msg);
-		void addLine(std::string text);
-		void removeLine(int num);
+		void getResponse(const CeGuiString& msg);
 		unsigned int count();
-		void setVariableValue(std::string name, std::string value);
 		void setCallback(std::string function);
 		void setName(std::string name);
-		void setQuestion(std::string question);
 		void setImage(std::string imageset, std::string image);
 		int getSelectedOption();
 
@@ -64,13 +55,17 @@ namespace rl {
 		DialogResponse* mCurrentResponse;
 		CEGUI::Listbox* mDialogOptions;
 		CEGUI::StaticImage* mImage;
-		CEGUI::MultiLineEditbox* mQuestion;
+		CEGUI::Listbox* mQuestion;
 		CEGUI::StaticText* mName;
 		GameLoggerWindow* mGameLogger;
 				
-		void updateValues();
 		bool handleSelectOption();	
 		bool handleClose();
+
+		static const CEGUI::colour COLOR_PLAYER_CHARACTER;
+		static const CEGUI::colour COLOR_NON_PLAYER_CHARACTER;
+		static const CeGuiString DIALOG_START;
+		static const CeGuiString DIALOG_END;
 	};
 
 }

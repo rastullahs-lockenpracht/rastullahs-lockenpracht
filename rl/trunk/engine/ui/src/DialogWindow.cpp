@@ -13,50 +13,30 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-
 #include <boost/bind.hpp>
 
-#include "NaturalLanguageProcessor.h"
+#include "DialogWindow.h"
 #include "DialogCharacter.h"
 #include "DialogResponse.h"
-#include "DialogSubsystem.h"
 
 #include "InputManager.h"
 #include "DebugWindow.h"
 #include "GameLoggerWindow.h"
-//#include "CharacterSheetWindow.h"
 #include "ListboxWrappedTextItem.h"
 
-#include "DialogWindow.h"
 
-using namespace Ogre;
-
-//template<> rl::DialogWindow* Ogre::Singleton<rl::DialogWindow>::ms_Singleton = 0;
 
 namespace rl {
 
+using namespace Ogre;
 using namespace CEGUI;
-using namespace std;
 
+const CEGUI::colour DialogWindow::COLOR_PLAYER_CHARACTER(	 0xFFFF7F7F);
+const CEGUI::colour DialogWindow::COLOR_NON_PLAYER_CHARACTER(0xFFFFFF7F);
 
-/*
-DialogWindow& DialogWindow::getSingleton()
-{
-	return Ogre::Singleton<DialogWindow>::getSingleton();
-}
-DialogWindow* DialogWindow::getSingletonPtr()
-{
-	return Ogre::Singleton<DialogWindow>::getSingletonPtr();
-}
-*/
-/*
-DialogWindow::DialogWindow(const std::string& dialogFile) : 
-	CeGuiWindow("dialogwindow.xml", WND_MOUSE_INPUT),
-	mNlp(new NaturalLanguageProcessor(dialogFile))
-{
-	initialize();
-}
-*/
+const CeGuiString DialogWindow::DIALOG_START = "1";
+const CeGuiString DialogWindow::DIALOG_END = "DIALOG BEENDET";
+
 DialogWindow::DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger)
   : CeGuiWindow("dialogwindow.xml", WND_MOUSE_INPUT),
 	mNlp(bot), 
@@ -64,22 +44,21 @@ DialogWindow::DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger)
 	mGameLogger(gamelogger)
 {
 	initialize();
-
 }
 
 DialogWindow::~DialogWindow()
 {
 	if(mCurrentResponse) delete mCurrentResponse;
 	mCurrentResponse = NULL;
-//	if(mNlp)delete mNlp;
 }
 
 void DialogWindow::initialize()
 {
 	mImage = getStaticImage("DialogWindow/Image");
 	mName = getStaticText("DialogWindow/Name");
-	mQuestion = getMultiLineEditbox("DialogWindow/Question");
+	mQuestion = getListbox("DialogWindow/Question");
 	mDialogOptions = getListbox("DialogWindow/OptionList");
+
 	mDialogOptions->subscribeEvent(
 		Listbox::EventSelectionChanged, 
 		boost::bind(&DialogWindow::handleSelectOption, this));
@@ -87,42 +66,58 @@ void DialogWindow::initialize()
 	mDialogOptions->setClippedByParent(true);
 	mDialogOptions->setShowHorzScrollbar(false);
 	mDialogOptions->setShowVertScrollbar(false);
+	
+	// Add 2 ListboxItems, one for the nsc responses, 
+	// one for the player selections
+	ListboxWrappedTextItem* item = new ListboxWrappedTextItem("");
+	item->setTextColours(COLOR_PLAYER_CHARACTER);
+	mQuestion->addItem(item);
+	item = new ListboxWrappedTextItem("");
+	item->setTextColours(COLOR_NON_PLAYER_CHARACTER);
+	mQuestion->addItem(item);
+	item = NULL;
 
 	mWindow->subscribeEvent(FrameWindow::EventCloseClicked, // Verstecken, falls Close geklickt wird
 		boost::bind(&DialogWindow::handleClose, this)); //TODO: als Abbrechen werten 
 
 	addToRoot(mWindow);
-    getResponse("1");
+    getResponse(DIALOG_START);
 	mName->setText(mNlp->getName());
 }
 
-void DialogWindow::getResponse(string msg)
+void DialogWindow::getResponse(const CeGuiString& msg)
 {
-	ListboxWrappedTextItem* item;
 	if(mCurrentResponse) delete mCurrentResponse;
 	mCurrentResponse = mNlp->createResponse(msg);
+	
+	ListboxWrappedTextItem* item = NULL;
+
 	if(mCurrentResponse == NULL)
 	{
-		mQuestion->setText(CeGuiString("DIALOG BEENDET"));
+		mQuestion->getListboxItemFromIndex(0)->setText(DIALOG_END);
+		mQuestion->getListboxItemFromIndex(1)->setText("");
 //		handleClose();
 		return;
 	}
 	CeGuiString responseText = mCurrentResponse->getResponse();
-	mQuestion->setText(responseText);
-	mGameLogger->logDialogEvent(mNlp->getName(), responseText);
-	mResponses = mCurrentResponse->getOptions();
 	
-	//mResponses = mNlp->respond(msg);
+	mQuestion->getListboxItemFromIndex(1)->
+		setText(mNlp->getName() + ": " + responseText);
+	mQuestion->handleUpdatedItemData();
+
+	mGameLogger->logDialogEvent(mNlp->getName(), responseText);
+	
+	mResponses = mCurrentResponse->getOptions();
 	
 	if(mResponses.empty())
 	{
-		mQuestion->setText(CeGuiString("DIALOG BEENDET"));
+		mQuestion->getListboxItemFromIndex(0)->setText(DIALOG_END);
+		mQuestion->getListboxItemFromIndex(1)->setText("");
 		handleClose();
 		return;
 	}
 	
 	NaturalLanguageProcessor::Responses::iterator itr = mResponses.begin();
-	
 
 	unsigned int i = 0;
 	CeGuiString currentResponse;
@@ -135,6 +130,7 @@ void DialogWindow::getResponse(string msg)
 			Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, currentResponse.c_str());
 			item->setText(currentResponse);
 			item->setTextFormatting(CEGUI::WordWrapLeftAligned);
+			mDialogOptions->handleUpdatedItemData();
 		}
 		else
 		{
@@ -144,7 +140,9 @@ void DialogWindow::getResponse(string msg)
 			mDialogOptions->addItem(item);
 		}
 		item->setID(itr->first);
-		mDialogOptions->ensureItemIsVisible(item);
+
+		
+
 		++i;
 	}
 	while(i < mDialogOptions->getItemCount())
@@ -154,29 +152,9 @@ void DialogWindow::getResponse(string msg)
 	mResponses.clear();
 }
 
-void DialogWindow::addLine(string text)
-{
-	ListboxWrappedTextItem* item = new ListboxWrappedTextItem(text);
-	item->setTextFormatting(CEGUI::WordWrapLeftAligned);
-	mDialogOptions->addItem(item);
-	mTextLines.push_back(text);
-	updateValues();
-}
-
-void DialogWindow::removeLine(int num)
-{
-	// TO DO: DialogWindow::removeLine(int num)
-}
-
 unsigned int DialogWindow::count()
 {
 	return mDialogOptions->getItemCount();
-}
-
-void DialogWindow::setVariableValue(string name, string value)
-{
-	mVariableValues.insert(pair<string, string>(name, value));
-	updateValues();
 }
 
 void DialogWindow::setCallback(string function)
@@ -190,31 +168,6 @@ int DialogWindow::getSelectedOption()
 	return 0;
 }
 
-void DialogWindow::updateValues()
-{
-	CeGuiString text;
-	for (unsigned int line = 0; line < count(); ++line)
-	{
-		text = mTextLines[line];
-		map<string, string>::iterator itr = mVariableValues.begin();
-		for (; itr != mVariableValues.end(); ++itr)
-		{
-			int pos = 0;
-			
-			while (pos != CeGuiString::npos)
-			{
-				pos = text.find("%"+(*itr).first+"%", pos);
-				int size = 2 + (*itr).first.length();
-				if (pos != CeGuiString::npos)
-				{
-					text = text.replace(pos, size, (*itr).second);
-				}
-			}
-		}
-		mDialogOptions->getListboxItemFromIndex(line)->setText(text);
-	}	
-}
-
 bool DialogWindow::handleSelectOption()
 {
 	DebugWindow::getSingleton().setText("Pnk "+StringConverter::toString(getSelectedOption()));
@@ -225,7 +178,11 @@ bool DialogWindow::handleSelectOption()
 	if(selectedOption.first != 0 && selectedOption.first != 666)
 	{
 		id = selectedOption.first;
-		mGameLogger->logDialogEvent("Held", selectedOption.second);
+		if(!selectedOption.second.empty())
+		{
+			mGameLogger->logDialogEvent("Held", selectedOption.second);
+			mQuestion->getListboxItemFromIndex(0)->setText("Held: " + selectedOption.second);	
+		}
 	}
 	getResponse(StringConverter::toString(id));	
 	
@@ -236,11 +193,6 @@ bool DialogWindow::handleClose()
 {
 	setVisible(false);
 	return true;
-}
-
-void DialogWindow::setQuestion(string question)
-{
-	mQuestion->setText(question);
 }
 
 void DialogWindow::setImage(string imageset, string image)

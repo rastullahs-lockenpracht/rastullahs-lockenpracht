@@ -33,9 +33,22 @@
 
 namespace CEGUI {
 
-class _RlUiComponentsExport ListboxWrappedTextItem : public ListboxTextItem
+class _RlUiComponentsExport ListboxWrappedTextItem : public ListboxItem
 {
 public:
+	/*************************************************************************
+		Constants
+	*************************************************************************/
+	static const colour	DefaultTextColour;			//!< Default text colour.
+
+
+	/*************************************************************************
+		Construction and Destruction
+	*************************************************************************/
+	/*!
+	\brief
+		base class constructor
+	*/
 	ListboxWrappedTextItem(
 		const String& text, 
 		uint item_id = 0, 
@@ -43,17 +56,154 @@ public:
 		bool disabled = false, 
 		bool auto_delete = true);
 
+	/*!
+	\brief
+		base class destructor
+	*/
 	virtual ~ListboxWrappedTextItem();
 
-	void setTextFormatting(TextFormatting fmt);
+
+	/*************************************************************************
+		Accessor methods
+	*************************************************************************/
+	/*!
+	\brief
+		Return a pointer to the font being used by this ListboxTextItem
+
+		This method will try a number of places to find a font to be used.  If no font can be
+		found, NULL is returned.
+
+	\return
+		Font to be used for rendering this item
+	*/
+	const Font*	getFont(void) const;
+
+
+	/*!
+	\brief
+		Return the current colours used for text rendering.
+
+	\return
+		ColourRect object describing the currently set colours
+	*/
+	ColourRect	getTextColours(void) const		{return d_textCols;}
+	
+	
+	/*!
+	\brief
+		Return the text format used for text rendering.
+
+	\return
+		TextFormatting value describing the currently set text format
+	*/
 	const TextFormatting& getTextFormatting() const;
 
-	virtual void draw(
-		const Vector3& position, 
-		float alpha, 
-		const Rect& clipper) const;
 
-	virtual CEGUI::Size getPixelSize() const;
+	/*************************************************************************
+		Manipulator methods
+	*************************************************************************/
+	/*!
+	\brief
+		Set the font to be used by this ListboxTextItem
+
+	\param font
+		Font to be used for rendering this item
+
+	\return
+		Nothing
+	*/
+	void	setFont(const Font* font)		{d_font = font;}
+
+
+	/*!
+	\brief
+		Set the font to be used by this ListboxTextItem
+
+	\param font_name
+		String object containing the name of the Font to be used for rendering this item
+
+	\return
+		Nothing
+	*/
+	void	setFont(const String& font_name);
+
+
+	/*!
+	\brief
+		Set the colours used for text rendering.
+
+	\param cols
+		ColourRect object describing the colours to be used.
+
+	\return
+		Nothing.
+	*/
+	void	setTextColours(const ColourRect& cols)			{d_textCols = cols;}
+
+
+	/*!
+	\brief
+		Set the colours used for text rendering.
+
+	\param top_left_colour
+		Colour (as ARGB value) to be applied to the top-left corner of each text glyph rendered.
+
+	\param top_right_colour
+		Colour (as ARGB value) to be applied to the top-right corner of each text glyph rendered.
+
+	\param bottom_left_colour
+		Colour (as ARGB value) to be applied to the bottom-left corner of each text glyph rendered.
+
+	\param bottom_right_colour
+		Colour (as ARGB value) to be applied to the bottom-right corner of each text glyph rendered.
+
+	\return 
+		Nothing.
+	*/
+	void	setTextColours(colour top_left_colour, colour top_right_colour, colour bottom_left_colour, colour bottom_right_colour);
+
+
+	/*!
+	\brief
+		Set the colours used for text rendering.
+
+	\param col
+		colour value to be used when rendering.
+
+	\return
+		Nothing.
+	*/
+	void	setTextColours(colour col)		{setTextColours(col, col, col, col);}
+
+
+	/*!
+	\brief
+		Set the text format used for text rendering.
+
+	\param fmt
+		TextFormat to be used when rendering.
+
+	\return
+		Nothing.
+	*/
+	void setTextFormatting(TextFormatting fmt);
+
+
+	/*************************************************************************
+		Required implementations of pure virtuals from the base class.
+	*************************************************************************/
+    Size getPixelSize(void) const;
+    void draw(const Vector3& position, float alpha, const Rect& clipper) const;
+    void draw(RenderCache& cache,const Rect& targetRect, float zBase,  float alpha, const Rect* clipper) const;
+
+protected:
+	/*************************************************************************
+		Implementation Data
+	*************************************************************************/
+	ColourRect		d_textCols;			//!< Colours used for rendering the text.
+	const Font*		d_font;				//!< Font used for rendering text.
+
+
 
 private:
 	TextFormatting d_textFormatting;
