@@ -4,7 +4,7 @@
 #include "RulesTestPrerequisites.h"
 
 #include "Quest.h"
-#include "QuestStateChangeEvent.h"
+#include "QuestChangeEvent.h"
 #include "QuestBook.h"
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
@@ -14,7 +14,7 @@ using namespace CppUnit;
 using namespace std;
 using namespace rl;
 
-class QuestEventCollector : public rl::QuestStateChangeListener {
+class QuestEventCollector : public rl::QuestChangeListener {
 
 public:
 	QuestEventCollector()
@@ -27,7 +27,7 @@ public:
 		mEvents.clear();
 	}
 
-	bool eventRaised(rl::QuestStateChangeEvent* evt)
+	bool eventRaised(rl::QuestChangeEvent* evt)
 	{
 		return true;
 	}
@@ -38,13 +38,30 @@ public:
 		return mEvents.size();
 	}
 
-	rl::QuestStateChangeEvent* getEvent(int num)
+	rl::QuestChangeEvent* getEvent(int num)
 	{
 		return mEvents[num];
 	}
 
+    virtual void questStateChanged(QuestChangeEvent* anEvent)
+    {
+    }
+    
+    virtual void questPartsDoneChanged(QuestChangeEvent* anEvent)
+    {
+    }
+    
+    virtual void questKnownChanged(QuestChangeEvent* anEvent)
+    {
+    }
+    
+    virtual void questSubquestAdded(QuestChangeEvent* anEvent)
+    {
+    }
+
+
 private:
-	std::vector<rl::QuestStateChangeEvent*> mEvents;
+	std::vector<rl::QuestChangeEvent*> mEvents;
 };
 
 
@@ -147,12 +164,12 @@ public:
    {
 	   mQuestBook = new QuestBook();
 	   mEventCollector = new QuestEventCollector();
-	   mQuestBook->addQuestStateChangeListener(mEventCollector);
+	   mQuestBook->addQuestChangeListener(mEventCollector);
    }
 
    void tearDown()
    {
-	   mQuestBook->removeQuestStateChangeListener(mEventCollector);
+	   mQuestBook->removeQuestChangeListener(mEventCollector);
 	   delete mEventCollector;
 	   delete mQuestBook;
    }

@@ -2,7 +2,7 @@ noinst_HEADERS = \
 	Action.h \
 	ActionManager.h \
 	Combat.h \
-        CombatActions.h \
+    CombatActions.h \
 	CombatEvents.h \
 	Container.h \
 	Creature.h \
@@ -19,8 +19,8 @@ noinst_HEADERS = \
 	Person.h \
 	Quest.h \
 	QuestBook.h \
-	QuestStateChangeEvent.h \
-	QuestStateChangeListener.h \
+	QuestChangeEvent.h \
+	QuestChangeListener.h \
 	RulesPrerequisites.h \
 	RulesSubsystem.h \
 	Talent.h \
