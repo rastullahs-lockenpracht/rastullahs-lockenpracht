@@ -4774,7 +4774,7 @@
     <node name="Mesh.4552">
       <position x="-8526.564941" y="179.667740" z="-2638.777466"/>
       <rotation qx="0.000000" qy="0.063170" qz="0.000000" qw="0.998003"/>
-      <scale x="1.302567" y="1.303000" z="1.302567"/>
+      <scale x="0.602567" y="0.602567" z="0.602567"/>
       <entity name="Mesh.4552" meshFile="nat_baum_03.mesh"/>
     </node>
     <node name="Mesh.968">
@@ -4790,7 +4790,7 @@
     <node name="Mesh.4556">
       <position x="6024.806519" y="282.787018" z="-4624.986877"/>
       <rotation qx="0.000000" qy="-0.961970" qz="0.000000" qw="0.273155"/>
-      <scale x="1.291379" y="1.291379" z="1.291379"/>
+      <scale x="0.891379" y="0.891379" z="0.891379"/>
       <entity name="Mesh.4556" meshFile="nat_baum_03.mesh"/>
     </node>
     <node name="Mesh.4137">
@@ -10584,7 +10584,7 @@
       </userData>
     </node>
     <node name="nat_baum_03">
-      <position x="2102.785339" y="136.433392" z="3125.370483"/>
+      <position x="2102.785339" y="-65.781879" z="3125.370483"/>
       <rotation qx="0.000000" qy="0.000000" qz="0.000000" qw="1.000000"/>
       <scale x="2.000000" y="2.000000" z="2.000000"/>
       <entity name="nat_baum_03" meshFile="nat_baum_03.mesh"/>
@@ -18318,8 +18318,8 @@
       </userData>
     </node>
     <node name="arc_Wirtshaus_01">
-      <position x="3697.185364" y="0.000000" z="829.938812"/>
-      <rotation qx="0.000000" qy="-0.777923" qz="0.000000" qw="0.628359"/>
+      <position x="3697.185364" y="-30.282605" z="794.500427"/>
+      <rotation qx="0.000000" qy="-0.767851" qz="0.000000" qw="0.640629"/>
       <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="arc_Wirtshaus_01" meshFile="arc_Wirtshaus_01.mesh"/>
     </node>
@@ -24272,8 +24272,8 @@
       </userData>
     </node>
     <node name="arc_stall_01">
-      <position x="3419.595947" y="70.893822" z="2594.133301"/>
-      <rotation qx="0.013647" qy="0.962217" qz="-0.055803" qw="0.266155"/>
+      <position x="3259.090271" y="-65.580568" z="2674.386292"/>
+      <rotation qx="0.000000" qy="0.992941" qz="0.000000" qw="0.118612"/>
       <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="arc_stall_01" meshFile="arc_stall_01.mesh"/>
     </node>
@@ -33527,15 +33527,6 @@
         <property type="STRING" name="physical_body" data="none"/>
       </userData>
     </node>
-    <node name="Mesh.4964">
-      <position x="2732.515259" y="193.378868" z="5035.508118"/>
-      <rotation qx="0.000000" qy="0.535954" qz="0.000000" qw="0.844248"/>
-      <scale x="1.199733" y="1.199733" z="1.199733"/>
-      <entity name="Mesh.4964" meshFile="nat_flaechengras_01.mesh"/>
-      <userData>
-        <property type="STRING" name="physical_body" data="none"/>
-      </userData>
-    </node>
     <node name="Mesh.4967">
       <position x="4450.529785" y="171.874313" z="3935.734558"/>
       <rotation qx="0.000000" qy="0.481314" qz="0.000000" qw="0.876548"/>
@@ -33679,9 +33670,9 @@
       </userData>
     </node>
     <node name="arch_bruecke_01">
-      <position x="-7375.186157" y="187.072601" z="-4220.535889"/>
-      <rotation qx="0.001879" qy="0.668784" qz="0.010876" qw="0.743374"/>
-      <scale x="1.264202" y="1.000008" z="0.909001"/>
+      <position x="-7435.843506" y="193.272400" z="-4185.388184"/>
+      <rotation qx="-0.009868" qy="0.668695" qz="-0.004075" qw="0.743460"/>
+      <scale x="1.344987" y="1.000040" z="1.003630"/>
       <entity name="arch_bruecke_01" meshFile="arch_bruecke_01.mesh"/>
     </node>
     <node name="Mesh.2481">
@@ -39315,6 +39306,12 @@
         <property type="STRING" name="physical-body" data="none"/>
         <property type="STRING" name="physical_body" data="none"/>
       </userData>
+    </node>
+    <node name="Spieler">
+      <position x="0.000000" y="84.498100" z="0.000000"/>
+      <rotation qx="0.000000" qy="0.000000" qz="0.000000" qw="1.000000"/>
+      <scale x="0.100000" y="0.100000" z="0.100000"/>
+      <entity name="Spieler" meshFile="Spieler.mesh"/>
     </node>
     <node name="Mesh.595">
       <position x="-788.393631" y="118.651085" z="626.906433"/>
