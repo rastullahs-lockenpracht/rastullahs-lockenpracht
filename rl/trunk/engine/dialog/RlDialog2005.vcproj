@@ -102,7 +102,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Kopiere DLL"
-				CommandLine="copy $(TargetPath) $(SolutionDir)rl_dist\"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(SolutionDir)rl_dist\&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -183,7 +183,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Kopiere DLL"
-				CommandLine="copy $(TargetPath) $(SolutionDir)rl_dist\"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(SolutionDir)rl_dist\&quot;"
 			/>
 		</Configuration>
 	</Configurations>
