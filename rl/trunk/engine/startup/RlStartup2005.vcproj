@@ -20,7 +20,6 @@
 			OutputDirectory="./bin/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="1"
-			
 			CharacterSet="2"
 			ManagedExtensions="0"
 			>
@@ -43,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories=".\include;..\core\include;..\dialog\include;..\rules\include;..\ui\include;..\sound\include;..\common\include;..\script\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\boost\include;..\..\dependencies\ogrenew\dependencies\include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -100,8 +99,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Kopiere DLLs und EXE"
-				CommandLine="&quot;$(SolutionDir)\tools\copy_dlls.bat&quot; &quot;$(SolutionDir)&quot; &quot;$(ConfigurationName)&quot;"
+				Description="Kopiere EXE"
+				CommandLine="copy $(TargetPath) $(SolutionDir)rl_dist\"
 			/>
 		</Configuration>
 		<Configuration
@@ -109,7 +108,6 @@
 			OutputDirectory="./bin/$(ConfigurationName)"
 			IntermediateDirectory="./obj/$(ConfigurationName)"
 			ConfigurationType="1"
-			
 			CharacterSet="2"
 			>
 			<Tool
@@ -133,7 +131,7 @@
 				InlineFunctionExpansion="1"
 				OmitFramePointers="true"
 				AdditionalIncludeDirectories=".\include;..\core\include;..\dialog\include;..\rules\include;..\ui\include;..\sound\include;..\common\include;..\script\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\boost\include;..\..\dependencies\ogrenew\dependencies\include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="false"
@@ -187,8 +185,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Kopiere DLLs und EXE"
-				CommandLine="&quot;$(SolutionDir)\tools\copy_dlls.bat&quot; &quot;$(SolutionDir)&quot; &quot;$(ConfigurationName)&quot;"
+				Description="Kopiere EXE"
+				CommandLine="copy $(TargetPath) $(SolutionDir)rl_dist\"
 			/>
 		</Configuration>
 	</Configurations>

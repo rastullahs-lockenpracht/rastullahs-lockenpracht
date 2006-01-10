@@ -18,7 +18,6 @@
 			OutputDirectory=".\lib\Debug"
 			IntermediateDirectory=".\obj\Debug"
 			ConfigurationType="2"
-			
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -48,7 +47,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories=".\include;.\components\include;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include"
-				PreprocessorDefinitions="_WINDOWS,_DEBUG,WIN32,RLUICOMPONENTS_EXPORT"
+				PreprocessorDefinitions="_WINDOWS,_DEBUG,WIN32,RLUICOMPONENTS_EXPORT;_CRT_SECURE_NO_DEPRECATE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				BufferSecurityCheck="false"
@@ -117,6 +116,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Kopiere DLL"
+				CommandLine="copy $(TargetPath) $(SolutionDir)rl_dist\"
 				ExcludedFromBuild="false"
 			/>
 		</Configuration>
@@ -125,7 +126,6 @@
 			OutputDirectory=".\lib\Release"
 			IntermediateDirectory=".\obj\Release"
 			ConfigurationType="2"
-			
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -156,7 +156,7 @@
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				AdditionalIncludeDirectories=".\include;.\components\include;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include"
-				PreprocessorDefinitions="NDEBUG,_WINDOWS,WIN32,RLUICOMPONENTS_EXPORT"
+				PreprocessorDefinitions="NDEBUG,_WINDOWS,WIN32,RLUICOMPONENTS_EXPORT;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="false"
 				ExceptionHandling="1"
 				RuntimeLibrary="2"
@@ -218,6 +218,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Kopiere DLL"
+				CommandLine="copy $(TargetPath) $(SolutionDir)rl_dist\"
 				ExcludedFromBuild="false"
 			/>
 		</Configuration>
