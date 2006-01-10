@@ -143,6 +143,7 @@ material arc_Wirtshaus_01/dirt
 		{
 
 		scene_blend alpha_blend
+        alpha_rejection greater 5
 		depth_write off
 
 			texture_unit

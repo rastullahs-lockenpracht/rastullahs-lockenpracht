@@ -6,9 +6,8 @@ material nat_busch_stachlig
         {
             ambient 0.588235 0.588235 0.588235
             diffuse 0.588235 0.588235 0.588235
-            specular 0.9 0.9 0.9 0.0
-            emissive 0.0 0.0 0.0
-	    cull_hardware none
+
+	        cull_hardware none
             cull_software none
             texture_unit
             {

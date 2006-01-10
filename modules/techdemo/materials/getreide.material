@@ -7,8 +7,7 @@ material ALPHA/getreide.png
      
       alpha_rejection greater 215
 
-			texture_unit
-
+	  texture_unit
       {
         texture nat_getreide_01.dds
       }

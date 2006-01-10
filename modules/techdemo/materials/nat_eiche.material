@@ -14,7 +14,6 @@ material eiche/ALPHA/nat_eichenast_gruen.png
 			texture_unit
 			{
 				texture nat_eichenast_gruen.png
-				filtering point point point
 			}
 		}
 	}
@@ -36,7 +35,6 @@ material eiche/ALPHA/nat_eichenast_kahl.png
 			texture_unit
 			{
 				texture nat_eichenast_kahl.png
-				filtering point point point
 			}
 		}
 	}

@@ -11,7 +11,6 @@ material tutbaum2
          texture_unit 
          { 
             texture tutbaum2.png 
-            filtering anisotropic anisotropic anisotropic 
          } 
       } 
    } 
