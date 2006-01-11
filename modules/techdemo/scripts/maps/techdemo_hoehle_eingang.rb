@@ -109,7 +109,7 @@ class SteinschlagzoneListener < GameAreaListener
 			
 	end
 	def areaEntered(anEvent)
-		#if (RulesSubsystem.getSingleton().getQuestBook().getQuest("spinne").getState() == Quest::CLOSED) 
+		if (RulesSubsystem.getSingleton().getQuestBook().getQuest("spinne").getState() == Quest::CLOSED) 
 			RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleEingang").setState(Quest::COMPLETED)
 			RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleZeug").setState(Quest::OPEN)
 			RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleZeug").setState(Quest::OPEN)
@@ -118,7 +118,7 @@ class SteinschlagzoneListener < GameAreaListener
 			RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleZeugTrank").setState(Quest::OPEN)
 			@mRockPile.collapse()
 			$GameEveMgr.removeAreaListener(self)
-		#end		
+		end		
 	end
 end
 
