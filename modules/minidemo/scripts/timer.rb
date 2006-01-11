@@ -9,7 +9,7 @@ class FackelAenderung < TimerListener
 
    def timerFired(event)
        @mFireParticle.getControlledObject().setActive(@mOn)
-       @mOn = not @mOn;
+       @mOn = !@mOn
    end
 end
 
