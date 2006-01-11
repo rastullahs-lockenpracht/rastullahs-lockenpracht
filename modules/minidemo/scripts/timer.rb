@@ -9,12 +9,11 @@ class FackelAenderung < TimerListener
 
    def timerFired(event)
        @mFireParticle.getControlledObject().setActive(@mOn)
+       @mOn = not @mOn;
    end
 end
 
 fackel = $AM.getActor("Das fitzelnde Leuchten")
 
-fackelAnTimer = TimerEventSource.new($CORE.getClock() + 10000, 10000)
+fackelAnTimer = TimerEventSource.new($CORE.getClock() + 5000, 10000)
 fackelAnTimer.addTimerListener(FackelAenderung.new(true, fackel))
-fackelAusTimer = TimerEventSource.new($CORE.getClock() + 5000, 10000)
-fackelAusTimer.addTimerListener(FackelAenderung.new(false, fackel))
