@@ -93,8 +93,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Zum Testen nötige Bibliotheken kopieren."
-				CommandLine="&quot;$(ProjectDir)prepare_test_dlls.bat&quot; &quot;$(SolutionDir)&quot; $(ConfigurationName)"
+				Description="EXE kopieren."
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(SolutionDir)..\rl_dist\&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -174,8 +174,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Zum Testen nötige Bibliotheken kopieren."
-				CommandLine="&quot;$(ProjectDir)prepare_test_dlls.bat&quot; &quot;$(SolutionDir)&quot; $(ConfigurationName)"
+				Description="EXE kopieren."
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(SolutionDir)..\rl_dist\&quot;"
 			/>
 		</Configuration>
 	</Configurations>
