@@ -37,7 +37,7 @@
                 <Image type="Background" imageset="RastullahLook-Images" image="StatusBarFilling" />
 
                 <VertFormat type="Stretched" />
-                <HorzFormat type="Tiled" />
+                <!--<HorzFormat type="Tiled" />-->
             </FrameComponent>
         </ImagerySection>
         <ImagerySection name="frame">
