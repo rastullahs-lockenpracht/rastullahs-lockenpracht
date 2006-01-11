@@ -15,5 +15,5 @@ end
 
 fackel = $AM.getActor("Das fitzelnde Leuchten")
 
-fackelAnTimer = TimerEventSource.new($CORE.getClock() + 5000, 10000)
+fackelAnTimer = TimerEventSource.new($CORE.getClock() + 5000, 5000)
 fackelAnTimer.addTimerListener(FackelAenderung.new(true, fackel))
