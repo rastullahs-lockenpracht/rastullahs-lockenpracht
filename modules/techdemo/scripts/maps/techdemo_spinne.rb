@@ -18,16 +18,14 @@ class Waldspinne < Creature
 	@mScareAction = ScareToDeathAction.new()
 	addAction(@mScareAction)
 	@mErschreckenSound = $AM.createSoundSampleActor("ErschreckenSound","erschrecken_psst_buh_01.ogg");
-	@mErschreckenSound.placeIntoScene($UI.getActiveCharacter().getActor().getPosition ());
+	@mErschreckenSound.placeIntoScene( -2040.0, 343.0, -8200.0, 1.0, 0.0, 0.0, 0.0);
 	
 	@mSpinnenTodSound = $AM.createSoundSampleActor("SpinnenTotSound","spinne_todesschrei_01.ogg");
 	@mSpinnenTodSound.placeIntoScene( -2040.0, 343.0, -8200.0, 1.0, 0.0, 0.0, 0.0);
 
 	@mSchmerzSchreiSound = $AM.createSoundSampleActor("SchmerzSchreiSound","schmerz_schrei_au_01.ogg");
-	@mSchmerzSchreiSound.placeIntoScene($UI.getActiveCharacter().getActor().getPosition ());
+	@mSchmerzSchreiSound.placeIntoScene( -2040.0, 343.0, -8200.0, 1.0, 0.0, 0.0, 0.0); 
   end
-
-$UI.getActiveCharacter().getActor().getPosition ()
 
   def die(player)
 	#Player erschreckt die Spinne
