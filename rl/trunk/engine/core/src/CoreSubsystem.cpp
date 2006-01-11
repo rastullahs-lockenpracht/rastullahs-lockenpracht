@@ -31,6 +31,7 @@
 #include "ScriptObjectRepository.h"
 #include "AnimationManager.h"
 #include "GameEventManager.h"
+#include "SoundManager.h"
 #include "GameLoop.h"
 #include "RubyInterpreter.h"
 #include "Exception.h"
@@ -310,6 +311,8 @@ namespace rl {
         addSearchPath(moduleDir + "/gui/windows", resourceGroup);
         addSearchPath(moduleDir + "/gui/windows/buttons", resourceGroup);
         addSearchPath(moduleDir + "/dialogs", resourceGroup);     
+
+		SoundManager::getSingleton().addSounds( resourceGroup );
 
         if (getInterpreter() != NULL)
         {

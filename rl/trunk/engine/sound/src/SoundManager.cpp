@@ -55,7 +55,6 @@ SoundManager* SoundManager::getSingletonPtr()
  */
 SoundManager::SoundManager() : ResourceManager()
 {
-    addSounds();
 }
 
 /**

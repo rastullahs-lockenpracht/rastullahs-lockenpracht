@@ -63,13 +63,12 @@ void startupRl(bool developerMode, Ogre::String module)
         // @todo in ConfigDatei auslagern/ oder auch Parameter
 		rl::Logger::getSingleton().setLogDetail(Ogre::LL_BOREME);
 
+		sound = new rl::SoundSubsystem();
+		log(Ogre::LML_NORMAL, "SoundSubsystem gestartet");
+
 		core = new rl::CoreSubsystem();
 		core->setDeveloperMode(developerMode);
 		log(Ogre::LML_NORMAL, "CoreSubsystem gestartet");
-
-		sound = new rl::SoundSubsystem();
-		rl::GameLoopManager::getSingleton().addAsynchronousTask(rl::SoundUpdateTask::getSingletonPtr());
-		log(Ogre::LML_NORMAL, "SoundSubsystem gestartet");
 
 		rules = new rl::RulesSubsystem();
 		log(Ogre::LML_NORMAL, "RulesSubsystem gestartet");
@@ -86,7 +85,12 @@ void startupRl(bool developerMode, Ogre::String module)
 		log(Ogre::LML_NORMAL, "Starte...");
 		if (module != "")
 			core->setDefaultActiveModule(module);
+
+		// @todo Woandershin verschieben...
+		rl::GameLoopManager::getSingleton().addAsynchronousTask(rl::SoundUpdateTask::getSingletonPtr());
 		core->startCore();
+		
+
 #ifndef _DEBUG
 	} 
 	catch(Ogre::Exception& oe) {
