@@ -147,6 +147,12 @@ namespace rl
 
 	Ogre::String ConfigurationManager::getEngineVersionString() const
 	{
+		static Ogre::String version = "0.0.9";
+		return version;
+	}
+
+	Ogre::String ConfigurationManager::getEngineVersionName() const
+	{
 		static Ogre::String version = "Internal Build";
 		return version;
 	}
@@ -180,7 +186,7 @@ namespace rl
 	}
 
 
-	const CeGuiString& ConfigurationManager::getAboutText()
+	const CeGuiString& ConfigurationManager::getAboutText() const
 	{
 		static CeGuiString aboutText = 
 			"Rastullahs Lockenpracht\n\nCopyright 2003-2005 Team Pantheon\n\nBenutzte Bibliotheken: Ogre, fmod, Newton, boost, ...";
