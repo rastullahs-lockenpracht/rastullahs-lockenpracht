@@ -2405,7 +2405,7 @@
                         </UnifiedDim>
                     </Dim>
                 </Area>
-                <Image imageset="RastullahLook-Images" image="StaticBackdrop" />
+                <Image imageset="RastullahLook-Images" image="StaticBackdrop" /> 
                 <VertFormat type="Stretched" />
                 <HorzFormat type="Stretched" />
             </ImageryComponent>
@@ -2482,8 +2482,7 @@
     -->
     <WidgetLook name="RastullahLook/StaticText">
         <Property name="FrameEnabled" value="True" />
-        <Property name="BackgroundEnabled" value="True" />
-
+        <Property name="BackgroundEnabled" value="False" />
 
         <NamedArea name="TextRenderArea">
             <Area>
