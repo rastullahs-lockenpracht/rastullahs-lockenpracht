@@ -89,12 +89,21 @@ namespace rl
 				getActiveCharacter()->getActor()->
 				_getSceneNode()->getWorldPosition();
 
-			textSt += "\nPlayer Position (" + StringConverter::toString(pos) + ")";
+			textSt += "\nPlayer Position [ "	
+				+ StringConverter::toString(pos.x,1,0,32,std::ios_base::fixed)+", "
+				+ StringConverter::toString(pos.y,1,0,32,std::ios_base::fixed)+", "
+				+ StringConverter::toString(pos.z,1,0,32,std::ios_base::fixed)+" ]";
+		}
 
-            Actor* camActor = ActorManager::getSingleton().getActor("DefaultCamera");
-            Ogre::Vector3 camPos = camActor->_getSceneNode()->getWorldPosition();
+        Actor* camActor = ActorManager::getSingleton().getActor("DefaultCamera");
+		if( camActor != 0 && camActor->_getSceneNode() != NULL )
+		{
+            Ogre::Vector3 pos = camActor->_getSceneNode()->getWorldPosition();
 
-            textSt += " Camera Position (" + StringConverter::toString(camPos) + ")";
+			textSt += "\nCamera Position [ "	
+				+ StringConverter::toString(pos.x,1,0,32,std::ios_base::fixed)+", "
+				+ StringConverter::toString(pos.y,1,0,32,std::ios_base::fixed)+", "
+				+ StringConverter::toString(pos.z,1,0,32,std::ios_base::fixed)+" ]";
 		}
 
 		textStats->setText(textSt);
