@@ -13,7 +13,7 @@ end
 class Waldspinne < Creature
   def initialize
 	super("Waldspinne", "Eine große Spinne, die sich anscheinend vor irgendetwas ängstigt.")
-	actor = $AM.createMeshActor("Waldspinne", "tie_waldspinne.mesh", PhysicsManager::GT_ELLIPSOID )
+	actor = $AM.createMeshActor("Waldspinne", "tie_waldspinne.mesh", PhysicsManager::GT_SPHERE, 0.0)
 	setActor(actor)
 	@mScareAction = ScareToDeathAction.new()
 	addAction(@mScareAction)
