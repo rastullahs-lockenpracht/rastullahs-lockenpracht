@@ -33,6 +33,9 @@ namespace rl
 int CeGuiWindow::sNumCeGuiWindows = 0;
 
 CeGuiWindow::CeGuiWindow(const CeGuiString& xmlfile, WindowType type, bool modal)
+: mVisible(false),
+	mModal(modal),
+	mWindowType(type)
 {
 	Logger::getSingleton().log(Logger::UI, 
 		LML_TRIVIAL, "Lade Fenster '"+Ogre::String(xmlfile.c_str())+"'");
@@ -44,11 +47,11 @@ CeGuiWindow::CeGuiWindow(const CeGuiString& xmlfile, WindowType type, bool modal
 	mWindow->hide();
 	
 	if (modal)
+	{
 		mWindow->setAlwaysOnTop(true);
+		mWindow->setModalState(true);
+	}
 
-	mIsVisible = false;
-	mWindowType = type;
-	
 	mName = mWindow->getName();
 	getRoot()->addChildWindow(mWindow);
 	WindowManager::getSingleton().registerWindow(this);
@@ -92,12 +95,12 @@ CEGUI::Window* CeGuiWindow::loadWindow(const CeGuiString& xmlfile, CeGuiString& 
 
 bool CeGuiWindow::isVisible()
 {
-    return mIsVisible;
+    return mVisible;
 }
 
 void CeGuiWindow::setVisible(bool visible)
 {
-    if(mIsVisible != visible)
+    if(mVisible != visible)
     {
         if (visible)
             show();
@@ -106,9 +109,14 @@ void CeGuiWindow::setVisible(bool visible)
     }
 }
 
+bool CeGuiWindow::isModal()
+{
+	return mModal;
+}
+
 void CeGuiWindow::show()
 {
-	if (!mIsVisible)
+	if (!mVisible)
 	{
 		if (!beforeShow())
 			return;
@@ -116,13 +124,13 @@ void CeGuiWindow::show()
 		InputManager::getSingleton().registerCeGuiWindow(this);
 
 		mWindow->show();
-        mIsVisible = true;
+        mVisible = true;
     }
 }
 
 void CeGuiWindow::hide()
 {
-	if (mIsVisible)
+	if (mVisible)
 	{
 		if (!beforeHide())
 			return;
@@ -131,7 +139,7 @@ void CeGuiWindow::hide()
 		
 		InputManager::getSingleton().unregisterCeGuiWindow(this);
 
-		mIsVisible = false;
+		mVisible = false;
 	}
 }
 
@@ -220,6 +228,11 @@ MenuBase* CeGuiWindow::getMenu(const char* name)
 MenuItem* CeGuiWindow::getMenuItem(const char* name)
 {
 	return static_cast<MenuItem*>(getWindow(name, "MenuItem"));
+}
+
+PushButton* CeGuiWindow::getPushButton(const char* name)
+{
+	return static_cast<PushButton*>(getWindow(name, "PushButton"));
 }
 
 const CeGuiString& CeGuiWindow::getName() const

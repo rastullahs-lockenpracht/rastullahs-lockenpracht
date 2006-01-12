@@ -40,6 +40,7 @@
 #include "InGameMenuWindow.h"
 #include "CombatWindow.h"
 #include "AboutWindow.h"
+#include "CloseConfirmationWindow.h"
 #include "JournalWindow.h"
 #include "RulesSubsystem.h"
 #include "QuestBook.h"
@@ -165,8 +166,7 @@ namespace rl {
     void UiSubsystem::requestExit()
     {
 		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Start", "UiSubsystem::requestExit");
-		//TODO: Vorher mal nachfragen, ob wirklich beendet werden soll
-    	GameLoopManager::getSingleton().quitGame();
+		(new CloseConfirmationWindow())->setVisible(true);
 	}
     
     void UiSubsystem::writeToConsole(Ogre::String text)
@@ -237,8 +237,11 @@ namespace rl {
 	void UiSubsystem::closeCurrentWindow()
 	{
 		CeGuiWindow* wnd = rl::WindowManager::getSingleton().getTopWindow();
-		wnd->setVisible(false);
-		rl::WindowManager::getSingleton().handleMovedToBack(wnd);
+		if (wnd != NULL && !wnd->isModal())
+		{
+			wnd->setVisible(false);
+			rl::WindowManager::getSingleton().handleMovedToBack(wnd);
+		}
 	}
 
 	void UiSubsystem::showCharacterActionChoice()

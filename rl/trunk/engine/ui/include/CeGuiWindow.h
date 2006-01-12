@@ -50,6 +50,7 @@ namespace rl {
 		CEGUI::ProgressBar* getProgressBar(const char* name);
 		CEGUI::MenuBase* getMenu(const char* name);
 		CEGUI::MenuItem* getMenuItem(const char* name);
+		CEGUI::PushButton* getPushButton(const char* name);
 
 		static CEGUI::Window* getRoot();
 
@@ -57,6 +58,8 @@ namespace rl {
 
         virtual bool isVisible();
         virtual void setVisible(bool visible);
+
+		bool isModal();
 
 		const CeGuiString& getName() const;
 
@@ -82,13 +85,14 @@ namespace rl {
 		static CEGUI::Window* loadWindow(const CeGuiString& xmlfile, CeGuiString& prefix);
 
 		CEGUI::Window* mWindow;
-		bool mIsVisible; 
+		bool mVisible; 
 
 	private:
 		
 		WindowType mWindowType;
 		CeGuiString mNamePrefix;
 		CeGuiString mName;
+		bool mModal;
 
 		static int sNumCeGuiWindows;
 

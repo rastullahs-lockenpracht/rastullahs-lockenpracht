@@ -52,7 +52,7 @@ namespace rl {
 			if (cur->isVisible())
 				return cur;
 		}
-		return mWindowList.front();
+		return NULL;
 	}
 
 	bool WindowManager::handleMovedToFront(CeGuiWindow* window)
