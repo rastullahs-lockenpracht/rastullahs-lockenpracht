@@ -12,7 +12,6 @@ class QuestSoundTimer < TimerListener
 end
 
 class QuestSoundPlayer < QuestChangeListener 
-
 	def initialize()
 		super()
 		@mHasSound = false;
@@ -54,4 +53,4 @@ class QuestSoundPlayer < QuestChangeListener
 	end
 end
 
-RulesSubsystem.getSingleton().getQuestBook().addQuestChangeListener(  QuestSoundPlayer.new()  );
+#RulesSubsystem.getSingleton().getQuestBook().addQuestChangeListener(  QuestSoundPlayer.new()  );
