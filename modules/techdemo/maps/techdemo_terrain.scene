@@ -18318,7 +18318,7 @@
       </userData>
     </node>
     <node name="arc_Wirtshaus_01">
-      <position x="3697.185364" y="-30.282605" z="794.500427"/>
+      <position x="3697.185364" y="-30.282605" z="784.663773"/>
       <rotation qx="0.000000" qy="-0.767851" qz="0.000000" qw="0.640629"/>
       <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="arc_Wirtshaus_01" meshFile="arc_Wirtshaus_01.mesh"/>
@@ -33536,12 +33536,13 @@
         <property type="STRING" name="physical_body" data="none"/>
       </userData>
     </node>
-    <node name="Mesh.4966">
-      <position x="2975.442810" y="72.167363" z="2558.473206"/>
-      <rotation qx="0.000000" qy="-0.179008" qz="0.000000" qw="0.983848"/>
-      <scale x="0.852614" y="0.852614" z="0.852614"/>
-      <entity name="Mesh.4966" meshFile="nat_flaechengras_01.mesh"/>
+    <node name="Mesh.022">
+      <position x="-3675.039063" y="175.198498" z="2800.283813"/>
+      <rotation qx="0.000000" qy="0.354079" qz="0.000000" qw="0.935216"/>
+      <scale x="1.010597" y="1.010597" z="1.010597"/>
+      <entity name="Mesh.022" meshFile="nat_blume_weis.mesh"/>
       <userData>
+        <property type="STRING" name="physical-body" data="none"/>
         <property type="STRING" name="physical_body" data="none"/>
       </userData>
     </node>
@@ -33670,9 +33671,9 @@
       </userData>
     </node>
     <node name="arch_bruecke_01">
-      <position x="-7435.843506" y="193.272400" z="-4185.388184"/>
-      <rotation qx="-0.009868" qy="0.668695" qz="-0.004075" qw="0.743460"/>
-      <scale x="1.344987" y="1.000040" z="1.003630"/>
+      <position x="-7375.186157" y="185.546341" z="-4277.570496"/>
+      <rotation qx="-0.005651" qy="0.621050" qz="-0.002807" qw="0.783746"/>
+      <scale x="1.111450" y="1.000016" z="1.001322"/>
       <entity name="arch_bruecke_01" meshFile="arch_bruecke_01.mesh"/>
     </node>
     <node name="Mesh.2481">
@@ -36657,12 +36658,13 @@
         <property type="STRING" name="physical_body" data="none"/>
       </userData>
     </node>
-    <node name="Mesh.4972">
-      <position x="-6445.090942" y="114.086351" z="-4260.379028"/>
-      <rotation qx="0.000000" qy="0.308706" qz="0.000000" qw="0.951158"/>
-      <scale x="0.963242" y="0.963242" z="0.963242"/>
-      <entity name="Mesh.4972" meshFile="nat_flaechengras_01.mesh"/>
+    <node name="Mesh.2408">
+      <position x="-494.217529" y="129.778547" z="689.120102"/>
+      <rotation qx="0.000000" qy="0.999633" qz="0.000000" qw="0.027084"/>
+      <scale x="79.698868" y="79.698883" z="79.698868"/>
+      <entity name="Mesh.2408" meshFile="getreide.mesh"/>
       <userData>
+        <property type="STRING" name="physical-body" data="none"/>
         <property type="STRING" name="physical_body" data="none"/>
       </userData>
     </node>
@@ -36728,16 +36730,6 @@
       <scale x="0.852053" y="0.852053" z="0.852053"/>
       <entity name="Mesh.4979" meshFile="nat_flaechengras_01.mesh"/>
       <userData>
-        <property type="STRING" name="physical_body" data="none"/>
-      </userData>
-    </node>
-    <node name="Mesh.022">
-      <position x="-3675.039063" y="175.198498" z="2800.283813"/>
-      <rotation qx="0.000000" qy="0.354079" qz="0.000000" qw="0.935216"/>
-      <scale x="1.010597" y="1.010597" z="1.010597"/>
-      <entity name="Mesh.022" meshFile="nat_blume_weis.mesh"/>
-      <userData>
-        <property type="STRING" name="physical-body" data="none"/>
         <property type="STRING" name="physical_body" data="none"/>
       </userData>
     </node>
@@ -42632,15 +42624,6 @@
         <property type="STRING" name="physical_body" data="none"/>
       </userData>
     </node>
-    <node name="Mesh.4959">
-      <position x="-3029.776917" y="413.547363" z="-5770.249634"/>
-      <rotation qx="0.000000" qy="0.420303" qz="0.000000" qw="0.907384"/>
-      <scale x="1.225598" y="1.225598" z="1.225598"/>
-      <entity name="Mesh.4959" meshFile="nat_flaechengras_01.mesh"/>
-      <userData>
-        <property type="STRING" name="physical_body" data="none"/>
-      </userData>
-    </node>
     <node name="Mesh.586">
       <position x="-742.572784" y="95.212374" z="453.032608"/>
       <rotation qx="-0.004461" qy="-0.517612" qz="0.015896" qw="0.855456"/>
@@ -43156,16 +43139,6 @@
       <rotation qx="0.008496" qy="-0.766285" qz="-0.014156" qw="0.642288"/>
       <scale x="79.698883" y="79.698891" z="79.698875"/>
       <entity name="Mesh.354" meshFile="getreide.mesh"/>
-      <userData>
-        <property type="STRING" name="physical-body" data="none"/>
-        <property type="STRING" name="physical_body" data="none"/>
-      </userData>
-    </node>
-    <node name="Mesh.2408">
-      <position x="-494.217529" y="129.778547" z="689.120102"/>
-      <rotation qx="0.000000" qy="0.999633" qz="0.000000" qw="0.027084"/>
-      <scale x="79.698868" y="79.698883" z="79.698868"/>
-      <entity name="Mesh.2408" meshFile="getreide.mesh"/>
       <userData>
         <property type="STRING" name="physical-body" data="none"/>
         <property type="STRING" name="physical_body" data="none"/>
