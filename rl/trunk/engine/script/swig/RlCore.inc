@@ -470,6 +470,16 @@ public:
     void removeQueryFlag( unsigned long flag );
 };
 
+%feature("director") PhysicsContactListener; 
+class PhysicsContactListener
+{
+public:
+    PhysicsContactListener();
+    virtual ~PhysicsContactListener();
+    
+    virtual void contactOccured(rl::Actor* actor1, rl::Actor* actor2) = 0;
+};
+
 class PhysicalThing
 {
 public:
@@ -497,6 +507,9 @@ public:
     Ogre::Real getMass() const;
     
     void updateCollisionHull();
+
+    void setContactListener(rl::PhysicsContactListener* listener);
+    rl::PhysicsContactListener* getContactListener() const;
 };
 
 

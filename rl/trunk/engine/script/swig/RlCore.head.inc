@@ -31,6 +31,7 @@
 #include "CoreSubsystem.h"
 #include "PhysicalThing.h"
 #include "PhysicsManager.h"
+#include "PhysicsContactListener.h"
 #include "GameEventManager.h"
 #include "GameAreaEventSource.h"
 #include "GameAreaListener.h"
@@ -77,6 +78,7 @@
 %exception rl::Container::Container ConstructorHandler
 %exception rl::Action::Action ConstructorHandler
 %exception rl::ObjectStateChangeListener::ObjectStateChangeListener ConstructorHandler
+%exception rl::PhysicsContactListener::PhysicsContactListener ConstructorHandler
 %exception rl::QuestChangeListener::QuestChangeListener ConstructorHandler
 
 // doWithActor( Actor* ) oder andere Director-Methoden Parameter

@@ -15,6 +15,8 @@
 */
 
 #include "PhysicsGenericContactCallback.h"
+#include "Actor.h"
+#include "PhysicalThing.h"
 
 namespace rl
 {
@@ -30,5 +32,17 @@ namespace rl
 
     void PhysicsGenericContactCallback::userEnd()
     {
+        Actor* a1 = static_cast<Actor*>(m_body0->getUserData());
+        Actor* a2 = static_cast<Actor*>(m_body1->getUserData());
+        if (a1 && a1->getPhysicalThing()->getContactListener())
+        {
+            a1->getPhysicalThing()->getContactListener()->
+                contactOccured(a1->getPhysicalThing(), a2->getPhysicalThing());
+        }
+        if (a2 && a2->getPhysicalThing()->getContactListener())
+        {
+            a2->getPhysicalThing()->getContactListener()->
+                contactOccured(a2->getPhysicalThing(), a1->getPhysicalThing());
+        }
     }
 }

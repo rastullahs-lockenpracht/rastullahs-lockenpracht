@@ -27,6 +27,8 @@ namespace rl {
     public:
         int userBegin();
         int userProcess();
+        /// This function call the contact listeners. So any specialised listener overriding
+        /// this one, has to call it explicitly.
         void userEnd();
     private:
     };

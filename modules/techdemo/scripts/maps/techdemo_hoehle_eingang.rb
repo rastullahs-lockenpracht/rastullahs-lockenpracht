@@ -38,31 +38,16 @@ class Rock < GameObject
     end
     getActor().getPhysicalThing().unfreeze();
   end
-end
 
-class RockManager
-  def initialize
-    @mRocks = Array.new()
-  end
-
-  def add(rock)
-    @mRocks.push(rock)
-  end
-
-  def startFalling
-    @mRocks.each { |rock| rock.setGravityState(true) }
-  end
-
-  def spawn
-    @mRocks.each { |rock| rock.spawn() }
+  def startFalling()
+	setGravityState(true)
   end
 end
-
 
 class RockPile < GameObject
   def initialize(positionPile, orientation, positionParticles)
     super("Steinhaufen", "Ein großer Steinhaufen")
-    @mRockPile = $AM.createMeshActor("Steinhaufen", "Steinhaufen.mesh", PhysicsManager::GT_CONVEXHULL, 100000.0)
+    @mRockPile = $AM.createMeshActor("Steinhaufen", "Steinhaufen.mesh", PhysicsManager::GT_CONVEXHULL, 0.0)
     @mRockPile.getPhysicalThing().setGravityOverride(true, 0.0, 0.0, 0.0)
     setActor(@mRockPile)
     @mRockPile.placeIntoScene( 
@@ -75,7 +60,11 @@ class RockPile < GameObject
 	orientation[3])
     @mPositionPart = positionParticles;
     @mSteinSchlagActor = $AM.createSoundSampleActor("SteinSchlagSound","steinschlag_wenig_zu_vielen.ogg");
-    @mSteinSchlagActor.placeIntoScene( -2040.0, 343.0, -8200.0, 1.0, 0.0, 0.0, 0.0 );
+    @mSteinSchlagActor.placeIntoScene( 
+	positionParticles[0], 
+	positionParticles[1], 
+	positionParticles[2], 
+	1.0, 0.0, 0.0, 0.0 );
   end
 
   def collapse()
@@ -91,32 +80,56 @@ class RockPile < GameObject
 	0.0, 
 	0.0);
     @mDustCloud.getControlledObject().setActive(true)
+
+    RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleEingang").setState(Quest::COMPLETED)
+    RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleZeug").setState(Quest::OPEN)
+    RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleZeug").setState(Quest::OPEN)
+    RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleZeugFackel").setState(Quest::OPEN)
+    RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleZeugHebel").setState(Quest::OPEN)
+    RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleZeugTrank").setState(Quest::OPEN)
   end
 end
 
-# Zone für Questveränderung und später Steinschlag erstellen. Steinschlagauslösung ist abhängig davon ob das Quest "spinne" schon auf CLOSED steht
+# Stein-Steinhaufen-Kontakt
+class RockpileContactListener < PhysicsContactListener
+	def initialize(rockPile, rock1, rock2)
+		super()
+		@mRock1 = rock1
+		@mRock2 = rock2
+		@mRockPile = rockPile
+	end
 
+	def contactOccured(actor1, actor2)
+		if (actor2 == @mRock1.getActor() || actor2 == @mRock2.getActor())
+			@mRockPile.collapse()
+			@mRockPile.getActor().getPhysicalThing().setContactListener(nil)
+		end
+	end
+end
+
+# Zone für Questveränderung und später Steinschlag erstellen. Steinschlagauslösung ist abhängig davon ob das Quest "spinne" schon auf CLOSED steht
 print( "GameEvent-Tests wird geladen" );
 
 print( "Definiere SteinschlagzoneListener" );
 # Definition des GameAreaListeners
 class SteinschlagzoneListener < GameAreaListener
-	def initialize(rockPile)
+	def initialize(rock1, rock2)
 		super()
-		@mRockPile = rockPile
+		@mRock1 = rock1
+		@mRock2 = rock2
 	end
+
 	def areaLeft(anEvent)
-			
 	end
+
 	def areaEntered(anEvent)
 		if (RulesSubsystem.getSingleton().getQuestBook().getQuest("spinne").getState() == Quest::CLOSED) 
-			RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleEingang").setState(Quest::COMPLETED)
-			RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleZeug").setState(Quest::OPEN)
-			RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleZeug").setState(Quest::OPEN)
-			RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleZeugFackel").setState(Quest::OPEN)
-			RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleZeugHebel").setState(Quest::OPEN)
-			RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleZeugTrank").setState(Quest::OPEN)
-			@mRockPile.collapse()
+			
+			@mRock1.spawn()
+			@mRock1.startFalling()
+			@mRock2.spawn()
+			@mRock2.startFalling()
+
 			$GameEveMgr.removeAreaListener(self)
 		end		
 	end

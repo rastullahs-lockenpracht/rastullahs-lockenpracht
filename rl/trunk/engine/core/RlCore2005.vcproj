@@ -353,6 +353,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\PhysicsContactListener.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\PhysicsController.h"
 				>
 			</File>
@@ -503,6 +507,10 @@
 			</File>
 			<File
 				RelativePath=".\src\PhysicalThing.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\PhysicsContactListener.cpp"
 				>
 			</File>
 			<File

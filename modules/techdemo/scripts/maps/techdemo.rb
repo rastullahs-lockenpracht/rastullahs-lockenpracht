@@ -64,14 +64,12 @@ $truhe.getActor().yaw(-90.0);
 $truhe.addItem(Torch.new("Fackel2"))
 
 require "techdemo_hoehle_eingang.rb"
-#$kleinefelsen = RockManager.new()
-#$grossefelsen = RockManager.new()
-#$grossefelsen.add(Rock.new("nat_stein_gross_01.mesh", [9300.0, 1088.0, 4113.0], [1.0, 0.0, 0.0, 0.0], true))
-#$grossefelsen.add(Rock.new("nat_stein_gross_01.mesh", [9450.0, 1020.0, 4900.0], [1.0, 0.0, 0.0, 0.0], true))
-#$luftfels = Rock.new("nat_stein_gross_01.mesh", [9300.0, 2088.0, 4113.0], [1.0, 0.0, 0.0, 0.0], true)
-#$grossefelsen.add($luftfels)
+luftfels1 = Rock.new("nat_stein_gross_01.mesh", [9300.0, 3088.0, 4113.0], [1.0, 0.0, 0.0, 0.0], false)
+luftfels2 = Rock.new("nat_stein_gross_01.mesh", [9300.0, 3088.0, 4413.0], [1.0, 0.0, 0.0, 0.0], false)
 
 $felshaufen = RockPile.new([0.0, 0.0, 0.0], [1.0, 0.0, 0.0, 0.0], [9300.0, 1088.0, 4113.0])
+$felshaufen.getActor().getPhysicalThing().setContactListener( 
+	RockpileContactListener.new($felshaufen, luftfels1, luftfels2) )
 
 $SCRIPT.log("Steinschlag: Kugel-Zentrum Actor erstellen");
 kugelDings = $AM.createEmptyActor( "Kugel-Zentrum" );
@@ -79,7 +77,7 @@ $SCRIPT.log("Steinschlag: Kugel-Zentrum Actor in die Szene einfügen");
 kugelDings.placeIntoScene( 7817.69, 1013.17, 5093.91, 1.0, 0.0, 0.0, 0.0);
 
 $SCRIPT.log("Steinschlag: SteinschlagzoneListener erstellen");
-areaListener = SteinschlagzoneListener.new($felshaufen);
+areaListener = SteinschlagzoneListener.new(luftfels1, luftfels2);
 
 $SCRIPT.log("Steinschlag: SteinschlagzoneListener hinzufügen");
 $GameEveMgr.addSphereAreaListener( kugelDings, 400.0, areaListener, Actor::QGF_PLAYER );

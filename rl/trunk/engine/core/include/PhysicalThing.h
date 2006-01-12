@@ -18,6 +18,8 @@
 #define __PhysicalThing_H__
 
 #include "CorePrerequisites.h"
+#include "PhysicsContactListener.h"
+
 #include <OgreNewt.h>
 
 namespace rl {
@@ -30,7 +32,8 @@ namespace rl {
     public:
         PhysicalThing(OgreNewt::Body* body, const Ogre::Vector3& offset = Ogre::Vector3::ZERO,
             const Ogre::Quaternion& orientationBias = Ogre::Quaternion::IDENTITY);
-        ~PhysicalThing();
+        /// Klasse Polymorph machen, damit SWIG glücklich ist.
+        virtual ~PhysicalThing();
 
         Ogre::Vector3 getPosition() const;
         void setPosition(const Ogre::Vector3& pos);
@@ -75,6 +78,9 @@ namespace rl {
          */
         void updateCollisionHull();
 
+        void setContactListener(PhysicsContactListener* listener);
+        PhysicsContactListener* getContactListener() const;
+
     private:
         Actor* mActor;
         OgreNewt::Body* mBody;
@@ -84,6 +90,7 @@ namespace rl {
         Ogre::Vector3 mPendingForce;
         bool mOverrideGravity;
         Ogre::Vector3 mGravity;
+        PhysicsContactListener* mContactListener;
     };
 }
 

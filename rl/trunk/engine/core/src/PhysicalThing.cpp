@@ -35,7 +35,8 @@ namespace rl
         mOrientationBias(orientationBias),
         mPendingForce(Vector3::ZERO),
         mOverrideGravity(false),
-        mGravity(Vector3::ZERO)
+        mGravity(Vector3::ZERO),
+        mContactListener(0)
     {
     }
 
@@ -260,5 +261,16 @@ namespace rl
     {
         mBody->unFreeze();
     }
+
+    void PhysicalThing::setContactListener(PhysicsContactListener* listener)
+    {
+        mContactListener = listener;
+    }
+
+    PhysicsContactListener* PhysicalThing::getContactListener() const
+    {
+        return mContactListener;
+    }
+
 }
 

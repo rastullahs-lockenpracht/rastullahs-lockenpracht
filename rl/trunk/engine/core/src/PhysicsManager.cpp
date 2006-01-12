@@ -65,7 +65,7 @@ namespace rl
         OgreNewt::MaterialID* defaultID = mWorld->getDefaultMaterialID();
         OgreNewt::MaterialPair* defaultPair =
             new OgreNewt::MaterialPair(mWorld, defaultID, defaultID);
-        defaultPair->setContactCallback(new PhysicsGenericContactCallback);
+        defaultPair->setContactCallback(new PhysicsGenericContactCallback());
         defaultPair->setDefaultFriction(0.85f, 0.80f);
 
         // setup materials: character/cam<->level
