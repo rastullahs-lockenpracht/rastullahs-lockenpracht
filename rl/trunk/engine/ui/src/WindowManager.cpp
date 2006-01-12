@@ -71,11 +71,11 @@ namespace rl {
 
 	WindowManager& WindowManager::getSingleton()
 	{
-		return Singleton<WindowManager>::getSingleton();
+		return Ogre::Singleton<WindowManager>::getSingleton();
 	}
 
 	WindowManager* WindowManager::getSingletonPtr()
 	{
-		return Singleton<WindowManager>::getSingletonPtr();
+		return Ogre::Singleton<WindowManager>::getSingletonPtr();
 	}
 }
