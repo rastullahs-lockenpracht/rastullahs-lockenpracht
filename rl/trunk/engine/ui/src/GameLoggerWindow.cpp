@@ -30,7 +30,6 @@ GameLoggerWindow::GameLoggerWindow() :
 {
 	mLog = getListbox ("GameLogger/Log");
 	bindCloseToCloseButton();
-	addToRoot(mWindow);
 }
 
 void GameLoggerWindow::logEvent(const CeGuiString& text, const CEGUI::colour color)

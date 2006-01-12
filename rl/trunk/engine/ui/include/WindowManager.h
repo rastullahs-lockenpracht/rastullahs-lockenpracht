@@ -19,7 +19,6 @@
 
 #include "UiPrerequisites.h"
 #include <OgreSingleton.h>
-#include <set>
 
 namespace rl {
 
@@ -33,10 +32,14 @@ namespace rl {
 		static WindowManager& getSingleton();
 		static WindowManager* getSingletonPtr();
 
+		void registerWindow(CeGuiWindow* window);
 		bool destroyWindow(CeGuiWindow* window);
+		CeGuiWindow* getTopWindow();
+		bool handleMovedToFront(CeGuiWindow* window);
+		bool handleMovedToBack(CeGuiWindow* window);
 		
 	private:
-		int mNumCeGuiWindows;
+		std::list<CeGuiWindow*> mWindowList;
 	};
 
 }

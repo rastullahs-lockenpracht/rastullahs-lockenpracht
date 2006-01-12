@@ -28,8 +28,6 @@ MessageWindow::MessageWindow() :
 
 	bindCloseToCloseButton();
 	bindClickToCloseWindow(getWindow("MessageWindow/CloseButton"));
-
-	addToRoot(mWindow);
 }
 
 void MessageWindow::setText(const CeGuiString& message)

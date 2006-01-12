@@ -24,13 +24,16 @@ namespace rl {
 AboutWindow::AboutWindow() :
 	CeGuiWindow("AboutWindow.xml", WND_MOUSE_INPUT)
 {
-	ConfigurationManager confMan = ConfigurationManager::getSingleton();
+	const ConfigurationManager& confMan = ConfigurationManager::getSingleton();
 
 	getWindow("AboutWindow/Text")->setText(confMan.getAboutText());
 	getWindow("AboutWindow/EngineText")->setText(
-		confMan.getEngineVersionString()+
-		" ("+Ogre::StringConverter::toString(
-				confMan.getEngineBuildNumber())+")");
+		confMan.getEngineVersionString()
+		+ "("
+		+ confMan.getEngineVersionName()
+		+ "), Build "
+		+ Ogre::StringConverter::toString(
+				confMan.getEngineBuildNumber()));
 
 	getWindow("AboutWindow/ModuleText")->setText(
 		CoreSubsystem::getSingleton().getActiveAdventureModule());
@@ -39,8 +42,6 @@ AboutWindow::AboutWindow() :
 	bindClickToCloseWindow(getWindow("AboutWindow/CloseButton"));
 
 	centerWindow();
-
-	addToRoot(mWindow);
 }
 
 }

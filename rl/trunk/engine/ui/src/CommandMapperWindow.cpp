@@ -81,8 +81,6 @@ CommandMapperWindow::CommandMapperWindow(Creature* actionHolder, CommandMapper* 
 
 	centerWindow();
 	refreshContent();
-
-	addToRoot(mWindow);
 }
 
 void CommandMapperWindow::muteElements(bool mute)
@@ -180,7 +178,6 @@ bool CommandMapperWindow::handleMouseButton(const CEGUI::EventArgs& e)
 CommandMapperInputWindow::CommandMapperInputWindow() :
 	CeGuiWindow("commandmapperinput.xml", CeGuiWindow::WND_SHOW)
 {
-	addToRoot(mWindow);
 	setVisible(false);
 	mWindow->moveToFront();
 	centerWindow();

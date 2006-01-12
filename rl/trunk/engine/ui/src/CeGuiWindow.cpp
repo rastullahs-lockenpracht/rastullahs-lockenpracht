@@ -21,6 +21,7 @@
 #include "UiSubsystem.h"
 #include "CeGuiWindow.h"
 #include "InputManager.h"
+#include "WindowManager.h"
 
 using namespace std;
 using namespace CEGUI;
@@ -49,6 +50,13 @@ CeGuiWindow::CeGuiWindow(const CeGuiString& xmlfile, WindowType type, bool modal
 	mWindowType = type;
 	
 	mName = mWindow->getName();
+	getRoot()->addChildWindow(mWindow);
+	WindowManager::getSingleton().registerWindow(this);
+	mWindow->subscribeEvent(Window::EventActivated, 
+		boost::bind(
+			&rl::WindowManager::handleMovedToFront,
+			rl::WindowManager::getSingletonPtr(),
+			this));
 }
 
 CeGuiWindow::~CeGuiWindow()
@@ -140,11 +148,6 @@ bool CeGuiWindow::beforeHide()
 bool CeGuiWindow::beforeShow()
 {
 	return true;
-}
-
-void CeGuiWindow::addToRoot(Window* window)
-{
-	CEGUI::WindowManager::getSingleton().getWindow((utf8*)UiSubsystem::CEGUI_ROOT)->addChildWindow(window);
 }
 
 CEGUI::Window* CeGuiWindow::getRoot()

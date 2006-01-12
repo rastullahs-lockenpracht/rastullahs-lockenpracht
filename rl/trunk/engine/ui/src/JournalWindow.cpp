@@ -47,8 +47,6 @@ namespace rl {
 		mQuestDescription = getMultiLineEditbox("JournalWindow/Quests/QuestDescription");
 		mQuestDescription->setReadOnly(true);
 
-		addToRoot(mWindow);
-
 		updateQuests();
 	}
 	

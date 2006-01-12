@@ -80,7 +80,6 @@ void DialogWindow::initialize()
 	mWindow->subscribeEvent(FrameWindow::EventCloseClicked, // Verstecken, falls Close geklickt wird
 		boost::bind(&DialogWindow::handleClose, this)); //TODO: als Abbrechen werten 
 
-	addToRoot(mWindow);
     getResponse(DIALOG_START);
 	mName->setText(mNlp->getName());
 }

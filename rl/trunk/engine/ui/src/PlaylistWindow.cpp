@@ -50,7 +50,6 @@ PlaylistWindow::PlaylistWindow()
 	bindCloseToCloseButton();
 
     centerWindow();
-	addToRoot(mWindow);	
 }
 
 PlaylistWindow::~PlaylistWindow()

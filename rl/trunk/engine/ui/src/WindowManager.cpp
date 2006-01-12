@@ -18,22 +18,53 @@
 #include "WindowManager.h"
 #include <CEGUIWindowManager.h>
 
-using namespace Ogre;
+using namespace CEGUI;
 
 template<> rl::WindowManager* Ogre::Singleton<rl::WindowManager>::ms_Singleton = 0;
 
 namespace rl {
 
 	WindowManager::WindowManager()
-	  : mNumCeGuiWindows(0)
 	{
 	}
 	
+	void WindowManager::registerWindow(CeGuiWindow* window)
+	{
+		mWindowList.push_back(window);
+	}
+
 	bool WindowManager::destroyWindow(CeGuiWindow* window)
 	{
+		mWindowList.remove(window);
+		CeGuiWindow::getRoot()->removeChildWindow(window->getWindow());
 		window->setVisible(false);
 		CEGUI::WindowManager::getSingleton().destroyWindow(window->getWindow());
 		delete window;
+		return true;
+	}
+
+	CeGuiWindow* WindowManager::getTopWindow()
+	{
+		for(std::list<CeGuiWindow*>::iterator it = mWindowList.begin(); it != mWindowList.end(); it++)
+		{
+			CeGuiWindow* cur = *it;
+			if (cur->isVisible())
+				return cur;
+		}
+		return mWindowList.front();
+	}
+
+	bool WindowManager::handleMovedToFront(CeGuiWindow* window)
+	{
+		mWindowList.remove(window);
+		mWindowList.push_front(window);
+		return true;
+	}
+	
+	bool WindowManager::handleMovedToBack(CeGuiWindow* window)
+	{
+		mWindowList.remove(window);
+		mWindowList.push_back(window);
 		return true;
 	}
 

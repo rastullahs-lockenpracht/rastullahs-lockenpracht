@@ -37,8 +37,6 @@ CharacterStateWindow::CharacterStateWindow()
 	mAP = getProgressBar("CharacterStateWindow/AP");
 	mAU = getProgressBar("CharacterStateWindow/AU");
 	mName = getStaticText("CharacterStateWindow/Name");
-	
-	addToRoot(mWindow);	
 }
 
 CharacterStateWindow::~CharacterStateWindow()

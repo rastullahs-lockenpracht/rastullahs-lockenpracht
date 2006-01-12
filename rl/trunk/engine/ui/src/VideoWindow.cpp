@@ -41,7 +41,6 @@ VideoWindow::VideoWindow()
 	mWindow->addChildWindow(mImage);
 	bindCloseToCloseButton();
 	
-    addToRoot(mWindow);
     setVisible(false);
 }
 

@@ -62,8 +62,6 @@ namespace rl {
 		getWindow("ContainerContentWindow/UseButton")->subscribeEvent(
 			Window::EventMouseClick,
 			boost::bind(&ContainerContentWindow::handleItemUse, this));
-
-		addToRoot(mWindow);	
 	}
 
 	bool ContainerContentWindow::handleItemUse()

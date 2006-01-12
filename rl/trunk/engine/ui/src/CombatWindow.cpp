@@ -73,7 +73,6 @@ namespace rl {
 			Window::EventMouseClick,
 			boost::bind(&CombatWindow::handleRightClick, this, _1));
 
-		addToRoot(mWindow);
 		mCombat->addCombatEventListener(this);
 	}
 

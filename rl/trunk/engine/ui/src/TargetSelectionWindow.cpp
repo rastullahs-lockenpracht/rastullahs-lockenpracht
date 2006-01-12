@@ -59,8 +59,6 @@ namespace rl
 		mWindow->subscribeEvent(
 			Window::EventMouseClick,
 			boost::bind(&TargetSelectionWindow::showObjectActionsWindow, this, _1));
-		
-		addToRoot(mWindow);
 	}
 
 	TargetSelectionWindow::~TargetSelectionWindow()

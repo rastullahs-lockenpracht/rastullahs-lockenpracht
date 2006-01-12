@@ -62,8 +62,6 @@ CharacterSheetWindow::CharacterSheetWindow()
 	mEigenschaft[5]= getStaticText("CharacterSheet/CharacterSheet/Eigenschaften/GE");
 	mEigenschaft[6]= getStaticText("CharacterSheet/CharacterSheet/Eigenschaften/KO");
 	mEigenschaft[7]= getStaticText("CharacterSheet/CharacterSheet/Eigenschaften/KK");
-
-	addToRoot(mWindow);	
 }
 
 CharacterSheetWindow::~CharacterSheetWindow()

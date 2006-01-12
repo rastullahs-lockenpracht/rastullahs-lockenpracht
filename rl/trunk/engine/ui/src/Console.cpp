@@ -62,7 +62,6 @@ namespace rl
 
 		mHistory.clear();
         setVisible(false);
-		addToRoot(mWindow);	
 	}
 
 	bool Console::beforeShow()

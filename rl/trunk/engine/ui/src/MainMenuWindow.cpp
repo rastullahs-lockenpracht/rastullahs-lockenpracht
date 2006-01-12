@@ -46,12 +46,6 @@ namespace rl {
 			MenuItem::EventClicked, 
 			boost::bind(&MainMenuWindow::handleQuit, this));
 		
-		mWindow->subscribeEvent(
-			Window::EventKeyUp, 
-			boost::bind(&MainMenuWindow::handleKey, this, _1));
-
-		addToRoot(mWindow);
-
 		fillModules();
 	}
 
@@ -126,17 +120,5 @@ namespace rl {
 	bool MainMenuWindow::handleSoundOptions()
 	{
 		return true;
-	}
-	
-	bool MainMenuWindow::handleKey(const EventArgs& evt)
-	{
-		const KeyEventArgs kevt = static_cast<const KeyEventArgs&>(evt);
-		
-		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, StringConverter::toString(kevt.scancode), "blah");
-		
-		if (kevt.scancode == Key::Q || kevt.scancode == Key::Escape)
-			return handleQuit();
-
-		return false;
 	}
 }

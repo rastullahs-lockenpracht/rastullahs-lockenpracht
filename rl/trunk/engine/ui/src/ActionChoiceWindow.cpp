@@ -48,7 +48,6 @@ namespace rl {
 				&ActionChoiceWindow::handleClickNotOnButtons,
 				this,
 				_1));
-		addToRoot(mWindow);
 	}
 	
 	ActionChoiceWindow::~ActionChoiceWindow()

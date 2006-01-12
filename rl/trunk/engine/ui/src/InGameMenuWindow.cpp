@@ -36,7 +36,6 @@ InGameMenuWindow::InGameMenuWindow()
 : CeGuiWindow("ingamemenuwindow.xml", WND_MOUSE_INPUT)
 {
 	update();
-	addToRoot(mWindow);
 }
 
 InGameMenuWindow::~InGameMenuWindow()

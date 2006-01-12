@@ -46,8 +46,6 @@ namespace rl
 		mText->moveToFront();
 		
 		bindCloseToCloseButton();
-
-		addToRoot(mWindow);
 	}
 
 	DebugWindow::~DebugWindow()

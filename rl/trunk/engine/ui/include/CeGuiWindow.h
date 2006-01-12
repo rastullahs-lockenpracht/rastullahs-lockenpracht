@@ -51,7 +51,6 @@ namespace rl {
 		CEGUI::MenuBase* getMenu(const char* name);
 		CEGUI::MenuItem* getMenuItem(const char* name);
 
-		static void addToRoot(CEGUI::Window* window);
 		static CEGUI::Window* getRoot();
 
 		WindowType getWindowType();
