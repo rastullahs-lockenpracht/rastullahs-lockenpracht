@@ -163,7 +163,7 @@ AC_CONFIG_FILES([Makefile \
 		engine/sound/Makefile engine/sound/src/Makefile engine/sound/include/Makefile \
 		engine/script/Makefile engine/script/swig/Makefile engine/script/src/Makefile \
 		engine/startup/Makefile engine/startup/src/Makefile \
-		tests/Makefile tests/coretests/Makefile tests/rulestests/Makefile tests/soundtests/Makefile \
+		tests/Makefile tests/coretests/Makefile tests/rulestests/Makefile tests/multimediatests/Makefile \
 		rl.conf  \
 		tools/Makefile \
     ])

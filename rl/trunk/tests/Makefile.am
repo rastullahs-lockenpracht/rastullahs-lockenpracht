@@ -1,2 +1,2 @@
-SUBDIRS =  coretests rulestests soundtests
+SUBDIRS =  coretests rulestests multimediatests
 
