@@ -54,7 +54,6 @@ public:
 	void toggleConsole();
 	void toggleDebugWindow();
 	void toggleGameLogWindow();
-	void toggleDialogWindow();
 	void toggleObjectPicking();
 	void toggleCharacterStateWindow();
 	void toggleInGameGlobalMenu();
@@ -66,6 +65,7 @@ public:
 	void update();
 	
 	void requestExit();
+	void closeCurrentWindow();
 	
 	void setCombatMode(bool inCombat);
 	bool isInCombatMode();

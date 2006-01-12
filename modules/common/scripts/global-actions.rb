@@ -202,5 +202,15 @@ class ShowAboutWindowAction < Action
   end
 end
 
+class CloseCurrentWindowAction < Action
+  def initialize
+    super("closecurrentwindow", "Oberstes Fenster schliessen")
+  end
+  
+  def doAction(object, actor, target)
+    $UI.closeCurrentWindow()
+  end
+end
+
 act = ShowObjectDescriptionWindow.new()
 ActionManager.getSingleton().registerAction(act)

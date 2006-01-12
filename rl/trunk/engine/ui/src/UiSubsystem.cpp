@@ -43,6 +43,7 @@
 #include "JournalWindow.h"
 #include "RulesSubsystem.h"
 #include "QuestBook.h"
+#include "WindowManager.h"
 
 #include "Combat.h"
 #include "GameLoop.h"
@@ -144,6 +145,7 @@ namespace rl {
 		InputManager::getSingleton().loadKeyMapping("keymap-german.xml");
 		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Keymap geladen", "UiSubsystem::initializeUiSubsystem");
 
+		new WindowManager();
 		new Console();
 		new DebugWindow();
 		((RubyInterpreter*)CoreSubsystem::getSingleton().getInterpreter() )->initializeInterpreter( (VALUE(*)(...))&UiSubsystem::consoleWrite );
@@ -232,6 +234,13 @@ namespace rl {
 			useDefaultAction(pickedObject, getActiveCharacter());
 	}
 
+	void UiSubsystem::closeCurrentWindow()
+	{
+		CeGuiWindow* wnd = rl::WindowManager::getSingleton().getTopWindow();
+		wnd->setVisible(false);
+		rl::WindowManager::getSingleton().handleMovedToBack(wnd);
+	}
+
 	void UiSubsystem::showCharacterActionChoice()
 	{
 		showActionChoice(getActiveCharacter());
@@ -294,12 +303,6 @@ namespace rl {
 	{
 		DebugWindow* dbgwnd = DebugWindow::getSingletonPtr();
 		dbgwnd->setVisible(!dbgwnd->isVisible());
-	}
-
-	void UiSubsystem::toggleDialogWindow()
-	{
-//		DialogWindow* dwnd = DialogWindow::getSingletonPtr();
-//		dwnd->setVisible(!dwnd->isVisible());
 	}
 
 	void UiSubsystem::toggleGameLogWindow()

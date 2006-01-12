@@ -298,7 +298,7 @@ namespace rl {
 		if (sendKeyToCeGui(e)) 
 			return;
 		
-		mCommandMapper->injectKeyClicked(encodeKey(e->getKey(), e->getModifiers()));
+		mCommandMapper->injectKeyClicked(CommandMapper::encodeKey(e->getKey(), e->getModifiers()));
 		e->consume();
 	}
 
@@ -307,21 +307,10 @@ namespace rl {
 		mouseMoved(e);
 	}
 
-	int InputManager::encodeKey(int scancode, int syskeys)
-	{
-        return scancode | syskeys << 16;
-	}
-
-	void InputManager::decodeKey(int combinedKeyCode, int* scancode, int* syskeys)
-	{
-		*syskeys = combinedKeyCode >> 16;
-		*scancode = combinedKeyCode & ~(*syskeys << 16);
-	}
-
 	CeGuiString InputManager::getKeyName(int combinedKeyCode)
 	{
 		int scancode, syskeys;
-		decodeKey(combinedKeyCode, &scancode, &syskeys);
+		CommandMapper::decodeKey(combinedKeyCode, &scancode, &syskeys);
 		return getKeyName(scancode, syskeys);
 	}
 

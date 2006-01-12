@@ -61,12 +61,13 @@ namespace rl {
         /** Requests the application's exit */
         void requestExit();
 
+		void closeCurrentWindow();
+
 		/** Writes Text into the Console or other output media */
 		void writeToConsole(std::string text);
 		static VALUE consoleWrite(VALUE self, VALUE str);
 		void toggleConsole();
 		void toggleDebugWindow();
-		void toggleDialogWindow();
 		void toggleGameLogWindow();
 		void toggleObjectPicking();
 		void toggleCharacterStateWindow();

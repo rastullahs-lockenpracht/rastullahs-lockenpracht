@@ -50,7 +50,8 @@ namespace rl {
 
 		setMapping(CMDMAP_MOUSEMAP_OFF_COMBAT, MouseEvent::BUTTON0_MASK, "usecurrentobjectdefaultaction");
 		setMapping(CMDMAP_MOUSEMAP_OFF_COMBAT, MouseEvent::BUTTON1_MASK, "showobjectactions");
-		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_ESCAPE, "quitgame");
+		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, CommandMapper::encodeKey(KC_X, InputEvent::CTRL_MASK), "quitgame");
+		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_ESCAPE, "closecurrentwindow");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_TAB, "toggleconsole");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_F2, "toggledebugwindow");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_F3, "togglegamelogwindow");
@@ -213,6 +214,16 @@ namespace rl {
 		return CMDMAP_NO_MAPPING;
 	}
 
+	int CommandMapper::encodeKey(int scancode, int syskeys)
+	{
+        return scancode | syskeys << 16;
+	}
+
+	void CommandMapper::decodeKey(int combinedKeyCode, int* scancode, int* syskeys)
+	{
+		*syskeys = combinedKeyCode >> 16;
+		*scancode = combinedKeyCode & ~(*syskeys << 16);
+	}
     
 }
 

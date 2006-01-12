@@ -79,6 +79,9 @@ namespace rl {
 
 		std::map<CeGuiString, MovementState> getMovements();
 
+		static int encodeKey(int scancode, int syskeys);
+		static void decodeKey(int combinedKeyCode, int* scancode, int* syskeys);
+
 	private:
 
 		// KeyCode -> (Rubyklasse, Name)

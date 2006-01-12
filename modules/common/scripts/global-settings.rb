@@ -27,6 +27,7 @@ class GlobalSettings
       $act18 = UseGameObjectDefaultAction.new
       $act19 = ShowAboutWindowAction.new
       $act20 = ShowJournalWindowAction.new
+      $act21 = CloseCurrentWindowAction.new
 
       actionManager.registerInGameGlobalAction($act1, $grpView)
       actionManager.registerInGameGlobalAction($act3, $grpView)
@@ -43,6 +44,7 @@ class GlobalSettings
       actionManager.registerInGameGlobalAction($act16, $grpView)
       actionManager.registerInGameGlobalAction($act17, $grpView)
       actionManager.registerInGameGlobalAction($act20, $grpView)
+      actionManager.registerInGameGlobalAction($act21, $grpView)
 
       actionManager.registerInGameGlobalAction($act12, $grpOptions)
       actionManager.registerInGameGlobalAction($act13, $grpOptions)
