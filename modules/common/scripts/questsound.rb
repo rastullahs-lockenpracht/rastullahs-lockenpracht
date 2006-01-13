@@ -53,4 +53,4 @@ class QuestSoundPlayer < QuestChangeListener
 	end
 end
 
-#RulesSubsystem.getSingleton().getQuestBook().addQuestChangeListener(  QuestSoundPlayer.new()  );
+RulesSubsystem.getSingleton().getQuestBook().addQuestChangeListener(  QuestSoundPlayer.new()  );
