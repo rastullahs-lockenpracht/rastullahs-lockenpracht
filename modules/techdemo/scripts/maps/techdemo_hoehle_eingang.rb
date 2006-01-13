@@ -105,13 +105,13 @@ end
 class RockpileContactListener < PhysicsContactListener
 	def initialize(rockPile, rock1, rock2)
 		super()
-		@mRock1 = rock1
-		@mRock2 = rock2
+		@mRockActor1 = rock1.getActor()
+		@mRockActor2 = rock2.getActor()
 		@mRockPile = rockPile
 	end
 
 	def contactOccured(actor1, actor2)
-		if (actor2 == @mRock1.getActor() || actor2 == @mRock2.getActor())
+		if (actor2 == @mRockActor1 || actor2 == @mRockActor2 )
 			@mRockPile.collapse()
 			@mRockPile.getActor().getPhysicalThing().setContactListener(nil)
 		end
@@ -127,7 +127,11 @@ class SteinschlagzoneListener < GameAreaListener
 	def initialize(rock1, rock2)
 		super()
 		@mRock1 = rock1
+		@mRock1.spawn()
+		@mRock1.getActor().setVisible(false);
 		@mRock2 = rock2
+		@mRock2.spawn()
+		@mRock2.getActor().setVisible(false);
 	end
 
 	def areaLeft(anEvent)
@@ -135,12 +139,10 @@ class SteinschlagzoneListener < GameAreaListener
 
 	def areaEntered(anEvent)
 		if (RulesSubsystem.getSingleton().getQuestBook().getQuest("spinne").getState() == Quest::CLOSED) 
-			
-			@mRock1.spawn()
+			@mRock1.getActor().setVisible(true);
+			@mRock2.getActor().setVisible(true);
 			@mRock1.startFalling()
-			@mRock2.spawn()
-			@mRock2.startFalling()
-
+			@mRock2.startFalling()			
 			$GameEveMgr.removeAreaListener(self)
 		end		
 	end

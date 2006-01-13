@@ -27,7 +27,7 @@ $hero = Hero.new;
 $SCRIPT.log("Held erstellt");
 $SCRIPT.log("Held in die Szene einfuegen.");
 $hero.getActor().placeIntoScene(-6922.0, 344.0, -400.0, 1.0, 0.0, 0.0, 0.0);
-#$hero.getActor().placeIntoScene( 9442.5087890625, 2009.78625488281, 4410.947265625, 1.0, 0.0, 0.0, 0.0);
+#$hero.getActor().placeIntoScene( 8777.5087890625, 1509.78625488281, 4410.947265625, 1.0, 0.0, 0.0, 0.0);
 $SCRIPT.log("Held eingefügt.");
 PlayerSettings.preparePlayer($hero);
 $SCRIPT.log("Held vorbereitet.");
@@ -68,6 +68,9 @@ require "techdemo_hoehle_eingang.rb"
 luftfels1 = Rock.new("nat_stein_gross_01.mesh", [10551.0400390625, 2604.99194335938, 4034.99243164063], [1.0, 0.0, 0.0, 0.0], false)
 luftfels2 = Rock.new("nat_stein_gross_01.mesh", [9982.107421875, 2136.60180664063, 4587.017578125], [1.0, 0.0, 0.0, 0.0], false)
 
+$SCRIPT.log("Steinschlag: SteinschlagzoneListener erstellen");
+areaListener = SteinschlagzoneListener.new(luftfels1, luftfels2);
+
 $felshaufen = RockPile.new([0.0, 0.0, 0.0], [1.0, 0.0, 0.0, 0.0], [ 9442.5087890625, 1009.78625488281, 4410.947265625 ])
 $felshaufen.getActor().getPhysicalThing().setContactListener( 
 	RockpileContactListener.new($felshaufen, luftfels1, luftfels2) )
@@ -77,8 +80,7 @@ kugelDings = $AM.createEmptyActor( "Kugel-Zentrum" );
 $SCRIPT.log("Steinschlag: Kugel-Zentrum Actor in die Szene einfügen");
 kugelDings.placeIntoScene( 7817.69, 1013.17, 5093.91, 1.0, 0.0, 0.0, 0.0);
 
-$SCRIPT.log("Steinschlag: SteinschlagzoneListener erstellen");
-areaListener = SteinschlagzoneListener.new(luftfels1, luftfels2);
+
 
 $SCRIPT.log("Steinschlag: SteinschlagzoneListener hinzufügen");
 $GameEveMgr.addSphereAreaListener( kugelDings, 400.0, areaListener, Actor::QGF_PLAYER );
