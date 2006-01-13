@@ -689,4 +689,14 @@ namespace rl {
             mChilds.erase( iter++ );
         } 
     }
+
+	void Actor::setVisible( bool vis, bool cascade )
+	{
+		mSceneNode->setVisible( vis, cascade );
+	}
+
+	bool Actor::isVisible(  ) const
+	{
+		return getControlledObject()->getMovableObject()->isVisible();
+	}
 }

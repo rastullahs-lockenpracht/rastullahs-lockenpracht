@@ -236,12 +236,20 @@ namespace rl
     void PhysicsManager::toggleDebugMode()
     {
         if (mDebugMode)
+		{
             mNewtonDebugger->hideLines();
+		}
         else
         {
             mNewtonDebugger = &OgreNewt::Debugger::getSingleton();
-            mNewtonDebugger->init(
-                CoreSubsystem::getSingleton().getWorld()->getSceneManager());
+
+			try
+			{
+				mNewtonDebugger->init(
+					CoreSubsystem::getSingleton().getWorld()->getSceneManager());
+			}
+			catch(Ogre::Exception) {}
+
             mNewtonDebugger->showLines(mWorld);
         }
         mDebugMode = !mDebugMode;

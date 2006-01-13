@@ -462,6 +462,9 @@ public:
     void detach(rl::Actor* actor);
     
     rl::Actor* getChildByName(const Ogre::String& name ) const;
+    
+    void setVisible( bool vis, bool cascade = true );
+	bool isVisible() const;
        
 	void roll(Ogre::Real angleunits);
 	void pitch(Ogre::Real angleunits);
