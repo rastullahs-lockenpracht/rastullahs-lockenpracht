@@ -44,6 +44,26 @@ class Rock < GameObject
   end
 end
 
+class ZusammenfallListener < AnimationListener
+	def initialize(rockPile,dustCloud)
+		super()
+		@mDustCloud = dustCloud
+		@mRockPile = rockPile
+	end
+
+	def animationFinished(anEvent)
+		@mDustCloud.getControlledObject().setActive(false)
+	end
+	
+	def animationPaused(anEvent)
+
+	end
+	
+	def animationUnpaused(anEvent)
+	end
+end
+
+
 class RockPile < GameObject
   def initialize(positionPile, orientation, positionParticles)
     super("Steinhaufen", "Ein großer Steinhaufen")
@@ -58,6 +78,7 @@ class RockPile < GameObject
 	orientation[1],
 	orientation[2],
 	orientation[3])
+    @mRockPile.getPhysicalThing().updateCollisionHull();
     @mPositionPart = positionParticles;
     @mSteinSchlagActor = $AM.createSoundSampleActor("SteinSchlagSound","steinschlag_wenig_zu_vielen.ogg");
     @mSteinSchlagActor.placeIntoScene( 
@@ -68,7 +89,8 @@ class RockPile < GameObject
   end
 
   def collapse()
-    getActor().getControlledObject().startAnimation("Zusammenfallen", 1.0, 1)
+    fallAnim = getActor().getControlledObject().startAnimation("Zusammenfallen", 1.0, 1)
+    
     @mDustCloud = $AM.createParticleSystemActor("Steinstaubwolke", "RL/Staubwolke")
     @mSteinSchlagActor.getControlledObject().play();
     @mDustCloud.placeIntoScene(
@@ -80,6 +102,7 @@ class RockPile < GameObject
 	0.0, 
 	0.0);
     @mDustCloud.getControlledObject().setActive(true)
+    fallAnim.addAnimationListener( ZusammenfallListener.new(@mRockPile,@mDustCloud) );
 
     RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleEingang").setState(Quest::COMPLETED)
     RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleZeug").setState(Quest::OPEN)
