@@ -13,7 +13,7 @@ class Rock < GameObject
 
   def spawn
     if ( ! @mSpawned )
-      rockActor = $AM.createMeshActor(getName(), @mModel, PhysicsManager::GT_ELLIPSOID, 2500.0)
+      rockActor = $AM.createMeshActor(getName(), @mModel, PhysicsManager::GT_ELLIPSOID, 3000.0)
       rockActor.getPhysicalThing().setGravityOverride(true)
       setActor(rockActor)
 
@@ -53,6 +53,7 @@ class ZusammenfallListener < AnimationListener
 
 	def animationFinished(anEvent)
 		@mDustCloud.getControlledObject().setActive(false)
+		@mRockPile.getPhysicalThing().updateCollisionHull();
 	end
 	
 	def animationPaused(anEvent)
@@ -67,25 +68,18 @@ end
 class RockPile < GameObject
   def initialize(positionPile, orientation, positionParticles)
     super("Steinhaufen", "Ein großer Steinhaufen")
-    @mRockPile = $AM.createMeshActor("Steinhaufen", "Steinhaufen.mesh", PhysicsManager::GT_CONVEXHULL, 0.0)
+
+    @mRockPile = $AM.createMeshActor("Steinhaufen", "Steinhaufen.mesh", PhysicsManager::GT_CONVEXHULL, 0.0,  PhysicsManager::OM_CENTERED )
     @mRockPile.getPhysicalThing().setGravityOverride(true, 0.0, 0.0, 0.0)
-    setActor(@mRockPile)
     @mRockPile.placeIntoScene( 
-	positionPile[0],
-	positionPile[1],
-	positionPile[2],
-	orientation[0],
-	orientation[1],
-	orientation[2],
-	orientation[3])
-    @mRockPile.getPhysicalThing().updateCollisionHull();
+	positionPile[0],positionPile[1], positionPile[2],
+	orientation[0],	orientation[1],	orientation[2],	orientation[3] )
+
     @mPositionPart = positionParticles;
     @mSteinSchlagActor = $AM.createSoundSampleActor("SteinSchlagSound","steinschlag_wenig_zu_vielen.ogg");
-    @mSteinSchlagActor.placeIntoScene( 
-	positionParticles[0], 
-	positionParticles[1], 
-	positionParticles[2], 
-	1.0, 0.0, 0.0, 0.0 );
+    @mSteinSchlagActor.placeIntoScene( 	positionParticles[0], positionParticles[1], positionParticles[2], 1.0, 0.0, 0.0, 0.0 );
+
+    setActor(@mRockPile)
   end
 
   def collapse()
@@ -94,13 +88,7 @@ class RockPile < GameObject
     @mDustCloud = $AM.createParticleSystemActor("Steinstaubwolke", "RL/Staubwolke")
     @mSteinSchlagActor.getControlledObject().play();
     @mDustCloud.placeIntoScene(
-	@mPositionPart[0], 
-	@mPositionPart[1],
-	@mPositionPart[2],
-	1.0, 
-	0.0, 
-	0.0, 
-	0.0);
+	@mPositionPart[0], @mPositionPart[1], @mPositionPart[2], 1.0, 0.0, 0.0, 0.0);
     @mDustCloud.getControlledObject().setActive(true)
     fallAnim.addAnimationListener( ZusammenfallListener.new(@mRockPile,@mDustCloud) );
 

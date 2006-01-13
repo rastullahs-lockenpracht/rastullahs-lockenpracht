@@ -27,6 +27,7 @@ $hero = Hero.new;
 $SCRIPT.log("Held erstellt");
 $SCRIPT.log("Held in die Szene einfuegen.");
 $hero.getActor().placeIntoScene(-6922.0, 344.0, -400.0, 1.0, 0.0, 0.0, 0.0);
+#$hero.getActor().placeIntoScene( 9442.5087890625, 2009.78625488281, 4410.947265625, 1.0, 0.0, 0.0, 0.0);
 $SCRIPT.log("Held eingefügt.");
 PlayerSettings.preparePlayer($hero);
 $SCRIPT.log("Held vorbereitet.");
@@ -64,8 +65,8 @@ $truhe.getActor().yaw(-90.0);
 $truhe.addItem(Torch.new("Fackel2"))
 
 require "techdemo_hoehle_eingang.rb"
-luftfels1 = Rock.new("nat_stein_gross_01.mesh", [9300.0, 3088.0, 4113.0], [1.0, 0.0, 0.0, 0.0], false)
-luftfels2 = Rock.new("nat_stein_gross_01.mesh", [9300.0, 3088.0, 4413.0], [1.0, 0.0, 0.0, 0.0], false)
+luftfels1 = Rock.new("nat_stein_gross_01.mesh", [10551.0400390625, 2604.99194335938, 4034.99243164063], [1.0, 0.0, 0.0, 0.0], false)
+luftfels2 = Rock.new("nat_stein_gross_01.mesh", [9982.107421875, 2136.60180664063, 4587.017578125], [1.0, 0.0, 0.0, 0.0], false)
 
 $felshaufen = RockPile.new([0.0, 0.0, 0.0], [1.0, 0.0, 0.0, 0.0], [ 9442.5087890625, 1009.78625488281, 4410.947265625 ])
 $felshaufen.getActor().getPhysicalThing().setContactListener( 
