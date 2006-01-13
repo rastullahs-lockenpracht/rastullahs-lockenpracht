@@ -33,7 +33,7 @@ class Hero < Person
         soundActor = $AM.createSoundSampleActor(heroActor.getName()+"_schlucken","schlucken.ogg");
         heroActor.attachToSlot(soundActor, "Bone01");
         schmerzSchreiSound = $AM.createSoundSampleActor("SchmerzSchreiSound","schmerz_schrei_au_01.ogg");
-        heroActor.attach(schmerzSchreiSound); 
+        heroActor.attachToSlot(schmerzSchreiSound, "Bone01"); 
     end
     
 end
