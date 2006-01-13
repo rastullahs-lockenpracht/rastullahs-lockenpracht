@@ -67,7 +67,7 @@ require "techdemo_hoehle_eingang.rb"
 luftfels1 = Rock.new("nat_stein_gross_01.mesh", [9300.0, 3088.0, 4113.0], [1.0, 0.0, 0.0, 0.0], false)
 luftfels2 = Rock.new("nat_stein_gross_01.mesh", [9300.0, 3088.0, 4413.0], [1.0, 0.0, 0.0, 0.0], false)
 
-$felshaufen = RockPile.new([0.0, 0.0, 0.0], [1.0, 0.0, 0.0, 0.0], [9300.0, 1088.0, 4113.0])
+$felshaufen = RockPile.new([0.0, 0.0, 0.0], [1.0, 0.0, 0.0, 0.0], [ 9442.5087890625, 1009.78625488281, 4410.947265625 ])
 $felshaufen.getActor().getPhysicalThing().setContactListener( 
 	RockpileContactListener.new($felshaufen, luftfels1, luftfels2) )
 
