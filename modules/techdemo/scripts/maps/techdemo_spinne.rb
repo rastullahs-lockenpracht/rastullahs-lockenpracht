@@ -27,16 +27,18 @@ class Waldspinne < Creature
 
   def die(player)
 	#Player erschreckt die Spinne
-	@mErschreckenSound.getControlledObject().play();	
+    #queue = SoundPlaylist.new()
+    #queue.add(@mErschreckenSound.getControlledObject())	
+	#queue.add(@mSpinnenTodSound.getControlledObject())
+	#GameLoopManager.getSingleton().addAsynchronousTask(queue);
+	@mErschreckenSound.getControlledObject().play();
+	
 	# Todesanimation
 	getActor().getControlledObject().startAnimation("ko", 1.0, 1)
-	@mSpinnenTodSound.getControlledObject().play();
 	# Quest erledigt
 	RulesSubsystem.getSingleton().getQuestBook().getQuest("spinne").setState(Quest::COMPLETED)
 	# Spieler verletzen
 	player.modifyLe( -(player.getLe() - 4) )
-	#SchmerzSchreiSound = $AM.getObject("SchmerzSchreiSound");
-	#SchmerzSchreiSound.getControlledObject().play();	
 	# Aktion ist nicht mehr möglich
 	removeAction(@mScareAction)
 	#
