@@ -100,7 +100,7 @@ public:
     rl::Actor* createLightActor(const Ogre::String& name, rl::LightObject::LightTypes type );
 	rl::Actor* createMeshActor(const Ogre::String& name, const Ogre::String& meshname,
 		    rl::PhysicsManager::GeometryTypes geom = rl::PhysicsManager::GT_NONE,
-		    Ogre::Real density=1.0);
+		    Ogre::Real density=1.0, rl::PhysicsManager::OffsetMode offsetMode = rl::PhysicsManager::OM_BOTTOMCENTERED);
 		    
 	//void createDebugActors();
 	    
@@ -494,7 +494,7 @@ public:
     Ogre::Vector3 getUpConstraint() const;
     void clearUpConstraint();
 
-    Actor* getActor() const;
+    rl::Actor* getActor() const;
 
     void addForce(const Ogre::Vector3& force);
 
@@ -538,22 +538,17 @@ public:
     PhysicsManager();
 	static PhysicsManager& getSingleton(void);
     
-    PhysicalThing* createPhysicalThing(const int geomType, rl::PhysicalObject* po,
-		Real mass, OffsetMode offsetMode = OM_BOTTOMCENTERED);
+    rl::PhysicalThing* createPhysicalThing(rl::PhysicsManager::GeometryTypes geomType, rl::PhysicalObject* po,
+		Ogre::Real mass, rl::PhysicsManager::OffsetMode offsetMode = rl::PhysicsManager::OM_BOTTOMCENTERED );
 
     void removeAndDestroyPhysicalThing(PhysicalThing* thing);
 
     // Global Settings
     void setGravity(Ogre::Real x, Ogre::Real y, Ogre::Real z);
-    Vector3 getGravity() const;
+    Ogre::Vector3 getGravity() const;
 
     bool isEnabled() const;
     void setEnabled(bool enabled);
-
-	/// Levelgeometrie hinzufügen
-	void addLevelGeometry(Ogre::Entity* ent);
-	/// Komplette Levelgeometrie auflösen
-	void clearLevelGeometry();
 	
 	void toggleDebugMode();
     bool isDebugMode() const;

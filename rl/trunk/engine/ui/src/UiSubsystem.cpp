@@ -99,6 +99,7 @@ namespace rl {
         delete InputManager::getSingletonPtr();
 
         GameLoopManager::getSingleton().removeSynchronizedTask(mCharacterController);
+		delete mCharacterController;
     }
 	
     void UiSubsystem::initializeUiSubsystem( void )
@@ -194,16 +195,19 @@ namespace rl {
         if( person != mCharacter )
         {
             if( mCharacter != NULL )
+			{
                 ScriptObjectRepository::getSingleton().disown( mCharacter );
+				GameLoopManager::getSingleton().removeSynchronizedTask(mCharacterController);
+				delete mCharacterController;
+			}
+
 
             ScriptObjectRepository::getSingleton().own( person );
-
-            // @todo alte Sachen löschen
             mCharacter = person;
             Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
             mCharacterController = new CharacterController(camera, person->getActor());
 		    Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "CharacterController created.");
-			GameLoopManager::getSingleton().addSynchronizedTask(mCharacterController, FRAME_ENDED );
+			GameLoopManager::getSingleton().addSynchronizedTask(mCharacterController, FRAME_STARTED );
             Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "CharacterController task added.");
             World* world = CoreSubsystem::getSingletonPtr()->getWorld();
             world->setActiveActor(person->getActor());

@@ -49,7 +49,7 @@ class _RlCoreExport ActorManager : protected Ogre::Singleton<ActorManager>
         Actor* createEmptyActor(const Ogre::String& name);
    	    Actor* createMeshActor(const Ogre::String& name,const String& meshname,
 			PhysicsManager::GeometryTypes geomType = PhysicsManager::GT_NONE,
-			Ogre::Real density = 1.0);
+			Ogre::Real density = 1.0, PhysicsManager::OffsetMode offsetMode = PhysicsManager::OM_BOTTOMCENTERED);
         Actor* createParticleSystemActor(const Ogre::String& name, 
             const String& partname);
         //void createDebugActors();

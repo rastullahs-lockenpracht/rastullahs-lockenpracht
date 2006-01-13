@@ -90,16 +90,15 @@ namespace rl {
         }
 
         // Reset camera position/orientation, as it is now controlled via scene nodes.
-        Camera* ogreCam = static_cast<CameraObject*>(
-            mCamera->getControlledObject())->getCamera();
-        ogreCam->setPosition(Vector3::ZERO);
+        Camera* ogreCam = dynamic_cast<CameraObject*>(mCamera->getControlledObject())->getCamera();
+		ogreCam->setPosition(Vector3::UNIT_Z);
         ogreCam->setOrientation(Quaternion::IDENTITY);
 
-        mCamera->_getSceneNode()->setFixedYawAxis(true);
+		mCamera->_getSceneNode()->setFixedYawAxis(true);
 
         // Offset for the look at point,
         // so the cam does look at the characters head instead of the feet.
-        MeshObject* charMesh = static_cast<MeshObject*>(
+        MeshObject* charMesh = dynamic_cast<MeshObject*>(
             mCharacter->getControlledObject());
         mLookAtOffset = Vector3(0, charMesh->getHeight() * 0.45, 0);
 
@@ -282,7 +281,7 @@ namespace rl {
             OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
             OgreNewt::MaterialID* levelId =
                 PhysicsManager::getSingleton()._getLevelMaterialID();
-            Camera* camera = static_cast<Camera*>(mCamera->_getMovableObject());
+            Camera* camera = dynamic_cast<CameraObject*>(mCamera->getControlledObject())->getCamera();
             Vector3 target = targetCamPos
                 + 1.2f * camera->getNearClipDistance() * diff.normalisedCopy();
             RaycastInfo info = mRaycast->execute(world, levelId, camPos, target);
@@ -410,7 +409,7 @@ namespace rl {
 
     void CharacterController::updateAnimationState(const Vector3& translation)
     {
-        MeshObject* mesh = static_cast<MeshObject*>(mCharacter->getControlledObject());
+        MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacter->getControlledObject());
         mCurrentAnimationState =
             translation != Vector3::ZERO ? AS_WALK_FORWARD : AS_STAND;
 

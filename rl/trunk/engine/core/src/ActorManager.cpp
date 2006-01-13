@@ -250,7 +250,7 @@ namespace rl {
     }
 
 	Actor* ActorManager::createMeshActor(const String& name,const String& meshname,
-		PhysicsManager::GeometryTypes geomType, Ogre::Real mass)
+		PhysicsManager::GeometryTypes geomType, Ogre::Real mass, PhysicsManager::OffsetMode offsetMode )
 	{
 		const String&  uniquename = nextUniqueName(name);
 		
@@ -259,7 +259,7 @@ namespace rl {
         {
             PhysicalThing* pt = 0;
 		    MeshObject* mo = new MeshObject(uniquename, meshname);
-            pt = PhysicsManager::getSingleton().createPhysicalThing(geomType, mo, mass);
+            pt = PhysicsManager::getSingleton().createPhysicalThing( geomType, mo, mass, offsetMode );
 
 		    actor = new Actor(uniquename, mo, pt);
 		    mActors.insert(ActorPtrPair(uniquename,actor)); 
