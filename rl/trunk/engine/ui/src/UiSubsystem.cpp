@@ -203,7 +203,7 @@ namespace rl {
             Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
             mCharacterController = new CharacterController(camera, person->getActor());
 		    Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "CharacterController created.");
-            GameLoopManager::getSingleton().addSynchronizedTask(mCharacterController, FRAME_STARTED);
+			GameLoopManager::getSingleton().addSynchronizedTask(mCharacterController, FRAME_ENDED );
             Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "CharacterController task added.");
             World* world = CoreSubsystem::getSingletonPtr()->getWorld();
             world->setActiveActor(person->getActor());

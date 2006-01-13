@@ -41,7 +41,7 @@ namespace rl {
 	TimerManager::TimerManager()
 	{
 		mTimers.clear();
-		GameLoopManager::getSingleton().addSynchronizedTask(this, FRAME_ENDED);
+		GameLoopManager::getSingleton().addSynchronizedTask(this, FRAME_STARTED);
 	}
 
 	TimerManager::~TimerManager()
