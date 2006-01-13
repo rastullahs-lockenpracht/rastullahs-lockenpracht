@@ -256,6 +256,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\CloseConfirmationWindow.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\CombatWindow.h"
 				>
 			</File>
@@ -370,6 +374,10 @@
 			</File>
 			<File
 				RelativePath=".\src\CharacterStateWindow.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\CloseConfirmationWindow.cpp"
 				>
 			</File>
 			<File
