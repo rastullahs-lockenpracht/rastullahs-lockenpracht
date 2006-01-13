@@ -83,3 +83,4 @@ $SCRIPT.log("Steinschlag: SteinschlagzoneListener hinzufügen");
 $GameEveMgr.addSphereAreaListener( kugelDings, 400.0, areaListener, Actor::QGF_PLAYER );
 
 $SCRIPT.log("map 'techdemo' initialisiert.");
+$UI.toggleCharacterStateWindow()

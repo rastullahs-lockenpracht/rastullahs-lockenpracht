@@ -5,18 +5,18 @@ class Hero < Person
         super("Alrik", "Der Testheld");
 
         setEigenschaft("MU", 12);
-	    setEigenschaft("KL", 8);
+	setEigenschaft("KL", 8);
      	setEigenschaft("IN", 9);
         setEigenschaft("CH", 10);
-	    setEigenschaft("FF", 11);
-	    setEigenschaft("GE", 12);
+	setEigenschaft("FF", 11);
+	setEigenschaft("GE", 12);
         setEigenschaft("KO", 13); #KO
         setEigenschaft("KK", 14); #KK
         setWert(2, 10); # LE-Mod
 
         modifyLe(1000); # LeP = LE
-	    modifyAu(1000); # Au = voll
-	    modifyLe(-20); # 10 LeP abziehen
+	modifyAu(1000); # Au = voll
+	# modifyLe(-20); # 10 LeP abziehen
 
 
         $SCRIPT.log("Heldenaktor erstellen...");

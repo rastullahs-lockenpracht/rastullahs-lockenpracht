@@ -36,7 +36,7 @@ class Waldspinne < Creature
 	# Quest erledigt
 	RulesSubsystem.getSingleton().getQuestBook().getQuest("spinne").setState(Quest::COMPLETED)
 	# Spieler verletzen
-	player.modifyLe( -(player.getLe() - 1) )
+	player.modifyLe( -(player.getLe() - 4) )
 	@mSchmerzSchreiSound.getControlledObject().play();	
 	# Aktion ist nicht mehr möglich
 	removeAction(@mScareAction)

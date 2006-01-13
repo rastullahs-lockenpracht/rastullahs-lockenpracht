@@ -41,11 +41,11 @@ crate = Crate.new("Eine Kiste", "Eine Kiste.\nWas mag da drin sein?");
 crate.getActor().placeIntoScene(180.0, 80.0, 220.0, 1.0, 0.0, 0.0, 0.0);
 
 $SCRIPT.log("Türen einsetzen")
-door1 = Door.new("Eine Tür", "Eine Holztür", false, true);
+door1 = Door.new("Eine Tür links", "Eine Holztür", false, true);
 door1.getActor().placeIntoScene(1368.0, -75.0, -170.0, 1.0, 0.0, 0.0, 0.0);
 door1.getActor().yaw(-90.0)
 
-gtuer = Door.new("Eine Tür", "Eine Holztür.\nDiese Tür hat weder Klinke noch Schlösser", false, false);
+gtuer = Door.new("Eine Tür rechts", "Eine Holztür.\nDiese Tür hat weder Klinke noch Schlösser", false, false);
 gtuer.getActor().placeIntoScene(1368.0, -75.0, 60.0, 1.0, 0.0, 0.0, 0.0)
 gtuer.getActor().yaw(-90.0)
 $SCRIPT.log("Türen fertig")
