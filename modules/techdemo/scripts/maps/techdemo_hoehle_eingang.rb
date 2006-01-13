@@ -142,7 +142,7 @@ class SteinschlagzoneListener < GameAreaListener
 	end
 
 	def areaEntered(anEvent)
-		#if (RulesSubsystem.getSingleton().getQuestBook().getQuest("spinne").getState() == Quest::CLOSED) 
+		if (RulesSubsystem.getSingleton().getQuestBook().getQuest("spinne").getState() == Quest::CLOSED) 
 			@mRock1.getActor().setVisible(true);
 			@mRock2.getActor().setVisible(true);
 			@mRock3.getActor().setVisible(true);
@@ -150,7 +150,7 @@ class SteinschlagzoneListener < GameAreaListener
 			@mRock2.startFalling()		
 			@mRock3.startFalling()	
 			$GameEveMgr.removeAreaListener(self)
-		#end		
+		end		
 	end
 end
 
