@@ -50,6 +50,12 @@ load "techdemo_spinne.rb"
 $waldspinne = Waldspinne.new()
 $waldspinne.getActor().placeIntoScene(-2040.0, 343.0, -8200.0, 1.0, 0.0, 0.0, 0.0)	
 $waldspinne.getActor().setScale(5.0, 5.0, 5.0)
+erschreckenSound = $AM.createSoundSampleActor("ErschreckenSound","erschrecken_psst_buh_01.ogg");
+$waldspinne.getActor().attach(erschreckenSound);
+spinnenTodSound = $AM.createSoundSampleActor("SpinnenTotSound","spinne_todesschrei_01.ogg");
+$waldspinne.getActor().attach(@mSpinnenTodSound);
+schmerzSchreiSound = $AM.createSoundSampleActor("SchmerzSchreiSound","schmerz_schrei_au_01.ogg");
+$hero.getActor().attach(schmerzSchreiSound); 
 
 load "techdemo_hoehle.rb"
 $hebeltuer = Door.new("Eine Tür", "Eine Tür, allerdings ist keine Klinke vorhanden", false, false)
