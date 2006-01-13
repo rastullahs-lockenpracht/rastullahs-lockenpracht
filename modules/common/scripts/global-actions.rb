@@ -188,7 +188,7 @@ class ShowTestVideoWindow < Action
   end
   
   def doAction(object, actor, target)
-    load "video.rb"
+    #load "video.rb"
   end
 end
 
