@@ -103,15 +103,16 @@ end
 
 # Stein-Steinhaufen-Kontakt
 class RockpileContactListener < PhysicsContactListener
-	def initialize(rockPile, rock1, rock2)
+	def initialize(rockPile, rock1, rock2, rock3)
 		super()
 		@mRockActor1 = rock1.getActor()
 		@mRockActor2 = rock2.getActor()
+		@mRockActor3 = rock3.getActor()
 		@mRockPile = rockPile
 	end
 
 	def contactOccured(actor1, actor2)
-		if (actor2 == @mRockActor1 || actor2 == @mRockActor2 )
+		if (actor2 == @mRockActor1 || actor2 == @mRockActor2 || actor2 == @mRockActor3 )
 			@mRockPile.collapse()
 			@mRockPile.getActor().getPhysicalThing().setContactListener(nil)
 		end
@@ -124,7 +125,7 @@ print( "GameEvent-Tests wird geladen" );
 print( "Definiere SteinschlagzoneListener" );
 # Definition des GameAreaListeners
 class SteinschlagzoneListener < GameAreaListener
-	def initialize(rock1, rock2)
+	def initialize(rock1, rock2, rock3)
 		super()
 		@mRock1 = rock1
 		@mRock1.spawn()
@@ -132,19 +133,24 @@ class SteinschlagzoneListener < GameAreaListener
 		@mRock2 = rock2
 		@mRock2.spawn()
 		@mRock2.getActor().setVisible(false);
+		@mRock3 = rock3
+		@mRock3.spawn()
+		@mRock3.getActor().setVisible(false);
 	end
 
 	def areaLeft(anEvent)
 	end
 
 	def areaEntered(anEvent)
-		if (RulesSubsystem.getSingleton().getQuestBook().getQuest("spinne").getState() == Quest::CLOSED) 
+		#if (RulesSubsystem.getSingleton().getQuestBook().getQuest("spinne").getState() == Quest::CLOSED) 
 			@mRock1.getActor().setVisible(true);
 			@mRock2.getActor().setVisible(true);
+			@mRock3.getActor().setVisible(true);
 			@mRock1.startFalling()
-			@mRock2.startFalling()			
+			@mRock2.startFalling()		
+			@mRock3.startFalling()	
 			$GameEveMgr.removeAreaListener(self)
-		end		
+		#end		
 	end
 end
 
