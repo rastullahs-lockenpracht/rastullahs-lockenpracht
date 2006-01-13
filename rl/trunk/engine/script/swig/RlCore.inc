@@ -376,6 +376,9 @@ public:
 	 void play( );
 	 bool isLooping() const;
 	 void setLooping( bool looping );
+     void pause(bool pausing);
+     bool isPaused();
+     void stop();
 };
 
 class ParticleSystemObject : public ActorControlledObject

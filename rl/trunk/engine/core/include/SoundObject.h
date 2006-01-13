@@ -58,6 +58,12 @@ namespace rl {
         bool isLooping() const;
         /// Setzt ob der Sound geloopt werden soll 
         void setLooping( bool looping );
+        /// Pausiert den Sound.
+        void pause(bool pausing);
+        /// Ist der Sound pausiert?
+        bool isPaused();
+        /// Stoppt den Sound.
+        void stop();
 
 		virtual bool isMeshObject();
     };

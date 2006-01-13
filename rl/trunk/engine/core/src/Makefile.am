@@ -28,6 +28,7 @@ libRlCore_la_SOURCES = \
 	ListenerObject.cpp \
 	MeshObject.cpp \
 	ParticleSystemObject.cpp \
+	PhysicsContactListener.cpp \
 	PhysicalThing.cpp \
 	PhysicsGenericContactCallback.cpp \
 	PhysicsManager.cpp \

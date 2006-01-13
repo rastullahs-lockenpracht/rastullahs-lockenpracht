@@ -22,6 +22,7 @@
 	ListenerObject.h \
 	MeshObject.h \
 	ParticleSystemObject.h \
+	PhysicsContactListener.h \
 	PhysicalObject.h \
 	PhysicalThing.h \
 	PhysicsGenericContactCallback.h \

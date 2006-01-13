@@ -97,6 +97,22 @@ void SoundObject::play( )
     getSoundChannel()->play();
 }
 
+void SoundObject::pause(bool pausing)
+{
+    getSoundChannel()->pause(pausing);
+}
+
+bool SoundObject::isPaused()
+{
+    return getSoundChannel()->isPaused();
+}
+
+void SoundObject::stop()
+{
+    getSoundChannel()->stop();
+}
+
+
 bool SoundObject::isLooping() const
 {
     return getSoundChannel()->isLooping();

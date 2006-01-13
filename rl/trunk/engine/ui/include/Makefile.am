@@ -5,6 +5,7 @@ noinst_HEADERS = \
 	CharacterController.h \
 	CharacterSheetWindow.h \
 	CharacterStateWindow.h \
+	CloseConfirmationWindow.h \
 	CombatWindow.h \
 	CombatWindowStrategy.h \
 	CommandExecutor.h \
