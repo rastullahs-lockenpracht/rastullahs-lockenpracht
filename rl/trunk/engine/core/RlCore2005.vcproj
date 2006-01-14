@@ -393,6 +393,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\SoundPlaylist.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\TrackAnimation.h"
 				>
 			</File>
@@ -543,6 +547,10 @@
 			</File>
 			<File
 				RelativePath=".\src\SoundObject.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SoundPlaylist.cpp"
 				>
 			</File>
 			<File
