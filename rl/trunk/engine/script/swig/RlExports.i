@@ -25,6 +25,8 @@
 #		define _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES 1
 #	endif
 #endif
+
+#include <xercesc/util/XMemory.hpp>	// Muss vor Ogre stehen (zumindest fuer VS)
 %}
 
 

@@ -120,7 +120,9 @@ void Quest::setState(Quest::State state)
 			mParent->setState(Quest::OPEN);
 		}
 
-		if( mState != Quest::COMPLETED )
+		if( mState == Quest::COMPLETED || mState == Quest::CLOSED)
+			mParent->checkDone();
+		else
 			checkDone();
 	}
 }
