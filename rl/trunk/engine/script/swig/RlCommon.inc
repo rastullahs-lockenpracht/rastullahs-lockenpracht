@@ -25,21 +25,17 @@ namespace Ogre {
     };
 }
 
-
-%template(RlActorPtr) Ogre::SharedPtr<rl::Actor>;
 namespace rl {
-class Actor;
-class ActorPtr : public RlActorPtr
+
+class GameTask
 {
-	public:
-    	ActorPtr() : RlActorPtr();
-    	explicit ActorPtr(rl::Actor* rep) : RlActorPtr(rep);
-    	ActorPtr(const rl::ActorPtr& res) : RlActorPtr(res);
-    	bool operator< (const rl::ActorPtr &res) const;
-    	bool operator!= (const rl::ActorPtr &res) const;
-    	Actor *get() const;
-	protected:
-   		void destroy();
+    public:
+        GameTask();
+        virtual ~GameTask( ) {};
+        bool isPaused() const;
+        void setPaused( bool isPaused );
+		virtual void run(float) = 0;
 };
+
 }
 

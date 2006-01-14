@@ -86,6 +86,7 @@ namespace Swig {
 									// da dies in allen erzeugten Exceptionhandlern auftritt
 %}
 
+%include "RlCommon.inc"
 %include "RlSound.inc"
 %include "RlCore.inc"
 %include "RlRules.inc"

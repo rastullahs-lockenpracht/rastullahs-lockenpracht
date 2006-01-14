@@ -574,6 +574,10 @@ public:
     RL_LONGLONG getClock();
 };
 
+enum GameLoopSyncTime {
+	FRAME_STARTED,
+	FRAME_ENDED
+};
 
 class GameLoopManager {
 private:
@@ -583,7 +587,20 @@ public:
     
     bool isPaused();
     void setPaused(bool pause);
+    void addSynchronizedTask(GameTask* newTask, GameLoopSyncTime syncTime);
+	void addAsynchronousTask(GameTask* newTask);
 };
+
+class SoundPlaylist : public GameTask
+{
+public:
+	SoundPlaylist();
+	virtual ~SoundPlaylist();
+    void add(SoundObject *object);
+    virtual void run(float);
+};
+
+
 
 }
 

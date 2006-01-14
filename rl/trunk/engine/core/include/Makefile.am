@@ -34,6 +34,7 @@
 	ScriptObject.h \
 	ScriptObjectRepository.h \
 	SoundObject.h \
+	SoundPlaylist.h \
 	TrackAnimation.h \
 	World.h 
 	

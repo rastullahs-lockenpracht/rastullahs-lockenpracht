@@ -38,6 +38,7 @@ libRlCore_la_SOURCES = \
 	ScriptObject.cpp \
 	ScriptObjectRepository.cpp \
 	SoundObject.cpp \
+	SoundPlaylist.cpp \
 	TrackAnimation.cpp \
 	World.cpp 		 
 

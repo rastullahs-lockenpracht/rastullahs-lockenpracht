@@ -44,6 +44,7 @@
 #include "GameLoop.h"
 #include "World.h"
 #include "ScriptObjectRepository.h"
+#include "SoundPlaylist.h"
 %}
 
 %define ConstructorHandler 
