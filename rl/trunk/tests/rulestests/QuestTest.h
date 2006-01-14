@@ -14,57 +14,6 @@ using namespace CppUnit;
 using namespace std;
 using namespace rl;
 
-class QuestEventCollector : public rl::QuestChangeListener {
-
-public:
-	QuestEventCollector()
-	{
-		reset();
-	}
-
-	void reset()
-	{
-		mEvents.clear();
-	}
-
-	bool eventRaised(rl::QuestChangeEvent* evt)
-	{
-		return true;
-	}
-
-
-	int getEventCount()
-	{
-		return mEvents.size();
-	}
-
-	rl::QuestChangeEvent* getEvent(int num)
-	{
-		return mEvents[num];
-	}
-
-    virtual void questStateChanged(QuestChangeEvent* anEvent)
-    {
-    }
-    
-    virtual void questPartsDoneChanged(QuestChangeEvent* anEvent)
-    {
-    }
-    
-    virtual void questKnownChanged(QuestChangeEvent* anEvent)
-    {
-    }
-    
-    virtual void questSubquestAdded(QuestChangeEvent* anEvent)
-    {
-    }
-
-
-private:
-	std::vector<rl::QuestChangeEvent*> mEvents;
-};
-
-
 class QuestTest : public TestFixture {
   CPPUNIT_TEST_SUITE( QuestTest );
   CPPUNIT_TEST( testGetQuestStateFromName );
@@ -75,7 +24,6 @@ class QuestTest : public TestFixture {
   CPPUNIT_TEST_SUITE_END();
 private:
 	QuestBook* mQuestBook;
-	QuestEventCollector* mEventCollector;
 
 protected:
    void testGetQuestStateFromName()
@@ -90,6 +38,7 @@ protected:
    void testAddSubQuest()
    {
 	   Quest* testObj_Parent = new Quest("id1", "Name", "Description");
+	   testObj_Parent->setQuestBook(mQuestBook);
 	   Quest* testObj_Sub1 = new Quest("id2", "Name", "Description");
 	   Quest* testObj_Sub2 = new Quest("id3", "Name", "Description");
 	   testObj_Parent->addSubquest(testObj_Sub1);
@@ -103,6 +52,7 @@ protected:
    void testAutoComplete()
    {
 	   Quest* testObj = new Quest("id1", "Name", "Description");
+	   testObj->setQuestBook(mQuestBook);	   
 	   testObj->setState(Quest::OPEN);
 	   testObj->setPartsToDo(5);
 	   testObj->setPartsDone(4);
@@ -114,6 +64,7 @@ protected:
    void testAutoCompleteParent1()
    {
 	   Quest* testObj_Parent = new Quest("id1", "Name", "Description");
+	   testObj_Parent->setQuestBook(mQuestBook);
 	   Quest* testObj_Sub1 = new Quest("id2", "Name", "Description");
 	   Quest* testObj_Sub2 = new Quest("id3", "Name", "Description");
 	   testObj_Parent->addSubquest(testObj_Sub1);
@@ -133,6 +84,7 @@ protected:
    void testAutoCompleteParent2()
    {
 	   Quest* testObj_Parent = new Quest("id1", "Name", "Description");
+	   testObj_Parent->setQuestBook(mQuestBook);
 	   Quest* testObj_Sub1 = new Quest("id2", "Name", "Description");
 	   Quest* testObj_Sub2 = new Quest("id3", "Name", "Description");
 	   Quest* testObj_Sub2Sub1 = new Quest("id4", "Name", "Description");
@@ -163,14 +115,10 @@ public:
    void setUp()
    {
 	   mQuestBook = new QuestBook();
-	   mEventCollector = new QuestEventCollector();
-	   mQuestBook->addQuestChangeListener(mEventCollector);
    }
 
    void tearDown()
    {
-	   mQuestBook->removeQuestChangeListener(mEventCollector);
-	   delete mEventCollector;
 	   delete mQuestBook;
    }
 };

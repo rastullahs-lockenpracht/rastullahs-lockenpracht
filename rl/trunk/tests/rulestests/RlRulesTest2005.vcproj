@@ -94,7 +94,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="EXE kopieren."
-				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(SolutionDir)..\rl_dist\&quot;"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\rl_dist\&quot;"
 			/>
 		</Configuration>
 		<Configuration
