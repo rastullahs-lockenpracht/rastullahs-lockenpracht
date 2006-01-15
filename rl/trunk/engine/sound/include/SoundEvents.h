@@ -24,10 +24,18 @@ namespace rl {
 
 class _RlSoundExport SoundEvent : public EventObject
 {
-
 public:
+    static const unsigned int START_PLAY_EVENT = 10;
+    static const unsigned int STOP_PLAY_EVENT = 11;
+	static const unsigned int START_FADE_EVENT = 12;
+    static const unsigned int STOP_FADE_EVENT = 13;
+    static const unsigned int TIMEEVENT = 14;
+
 	SoundEvent(EventSource *source);
 	virtual ~SoundEvent();
+
+private:
+	int mEventType;
 };
 
 class _RlSoundExport SoundFadeEvent : public SoundEvent {
@@ -35,8 +43,6 @@ public:
     SoundFadeEvent(EventSource *source);
     virtual ~SoundFadeEvent();
 
-    static const unsigned int STARTEVENT = 12;
-    static const unsigned int STOPEVENT = 13;
 };
 
 class _RlSoundExport SoundPlayEvent : public SoundEvent {
@@ -45,8 +51,6 @@ public:
     SoundPlayEvent(EventSource *source);
     virtual ~SoundPlayEvent();
     
-    static const unsigned int STARTEVENT = 10;
-    static const unsigned int STOPEVENT = 11;
 };
 
 class _RlSoundExport  SoundTimingEvent : public SoundEvent {
@@ -57,7 +61,6 @@ public:
     SoundTimingEvent(EventSource *source);
     virtual ~SoundTimingEvent();
     
-    static const unsigned int TIMEEVENT = 14;
 };
 
 

@@ -111,6 +111,19 @@ namespace rl {
 
 	void InputManager::run(Real elapsedTime)
 	{
+		CEGUI::System::getSingleton().injectTimePulse(elapsedTime);
+
+		if (mScheduledInputSwitch == SWITCH_TO_BUFFERED)
+		{
+			switchMouseToBuffered();
+			mScheduledInputSwitch = SWITCH_NO_SWITCH;
+		}
+		else if (mScheduledInputSwitch == SWITCH_TO_UNBUFFERED)
+		{
+			switchMouseToUnbuffered();
+			mScheduledInputSwitch = SWITCH_NO_SWITCH;
+		}
+
 		if (mNumActiveWindowsKeyboardInput == 0)
 		{
 			mInputReader->capture();
@@ -139,20 +152,7 @@ namespace rl {
 
 			if (pressedButtonMask != 0)
 				mCommandMapper->injectMouseDown(pressedButtonMask);
-		}
-
-		CEGUI::System::getSingleton().injectTimePulse(elapsedTime);
-
-		if (mScheduledInputSwitch == SWITCH_TO_BUFFERED)
-		{
-			switchMouseToBuffered();
-			mScheduledInputSwitch = SWITCH_NO_SWITCH;
-		}
-		else if (mScheduledInputSwitch == SWITCH_TO_UNBUFFERED)
-		{
-			switchMouseToUnbuffered();
-			mScheduledInputSwitch = SWITCH_NO_SWITCH;
-		}
+		}		
 	}
 
 	void InputManager::checkMouseButton(
@@ -178,8 +178,8 @@ namespace rl {
 	{
 		if ( ! (isCeguiActive() && mBuffered) )
 		{
-			mCommandMapper->injectMouseClicked(e->getButtonID());
 			e->consume();
+			mCommandMapper->injectMouseClicked(e->getButtonID());
 		}
 	}
 
@@ -188,34 +188,36 @@ namespace rl {
 
 	void InputManager::mousePressed(MouseEvent* e)
 	{
+		e->consume();
 		if (isCeguiActive() && mBuffered)
 		{
 			System::getSingleton().injectMouseButtonDown(
 				convertOgreButtonToCegui(e->getButtonID()));
-			e->consume();
 		}
 		else
 		{
 			mCommandMapper->injectMouseDown(e->getButtonID());
-			e->consume();
 		}
 			
 	}
 
 	void InputManager::mouseReleased(MouseEvent* e)
 	{
+		e->consume();
 		if (isCeguiActive() && mBuffered)
 		{
 			System::getSingleton().injectMouseButtonUp(
 				convertOgreButtonToCegui(e->getButtonID()));
-			e->consume();
 		}	
 	}
 
     void InputManager::mouseMoved(MouseEvent* e)
 	{
+
 		if (isCeguiActive() && mBuffered)
 		{			
+			e->consume();
+
 			CEGUI::Renderer* renderer  = System::getSingleton().getRenderer();
 			System::getSingleton().injectMouseMove(
 				e->getRelX() * renderer->getWidth(), 
@@ -224,7 +226,6 @@ namespace rl {
 			if (mPickObjects)
 				updatePickedObject(e->getX(), e->getY());
 
-			e->consume();
 		}
 	}
 
@@ -256,12 +257,13 @@ namespace rl {
 
 	void InputManager::keyPressed(KeyEvent* e)
 	{
+		e->consume();
+
 		if (sendKeyToCeGui(e)) 
 		{   // Send all events to CEGUI
 			CEGUI::System& cegui = CEGUI::System::getSingleton();
 			cegui.injectKeyDown(e->getKey());
 			cegui.injectChar(getKeyChar(e));
-			e->consume();
 			return;
 		}
 
@@ -270,17 +272,16 @@ namespace rl {
         std::set<KeyListener*>::iterator i;
         for(i=mKeyListeners.begin(); i!=mKeyListeners.end(); i++)
 			(*i)->keyPressed(e);
-
-		e->consume();
 	}
 
 	void InputManager::keyReleased(KeyEvent* e)
 	{
+		e->consume();
+
 		if (sendKeyToCeGui(e)) 
 		{
 			CEGUI::System& cegui = CEGUI::System::getSingleton();
 			cegui.injectKeyUp(e->getKey());
-			e->consume();
 
 			return;
 		}
@@ -290,16 +291,15 @@ namespace rl {
 		std::set<KeyListener*>::iterator i;
 		for(i=mKeyListeners.begin(); i!=mKeyListeners.end(); i++)
 			(*i)->keyReleased(e);
-		e->consume();
 	}
 
 	void InputManager::keyClicked(KeyEvent* e) 
 	{
+		e->consume();
 		if (sendKeyToCeGui(e)) 
 			return;
 		
 		mCommandMapper->injectKeyClicked(CommandMapper::encodeKey(e->getKey(), e->getModifiers()));
-		e->consume();
 	}
 
 	void InputManager::mouseDragged(MouseEvent* e)
