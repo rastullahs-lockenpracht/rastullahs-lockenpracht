@@ -27,7 +27,7 @@ $hero = Hero.new;
 $SCRIPT.log("Held erstellt");
 $SCRIPT.log("Held in die Szene einfuegen.");
 $hero.getActor().placeIntoScene(-6922.0, 344.0, -400.0, 1.0, 0.0, 0.0, 0.0);
-#$hero.getActor().placeIntoScene( 9442.5087890625, 2009.78625488281, 4410.947265625, 1.0, 0.0, 0.0, 0.0);
+#$hero.getActor().placeIntoScene( 12353.0, 950.0, 4725.0, 1.0, 0.0, 0.0, 0.0);
 $SCRIPT.log("Held eingefügt.");
 PlayerSettings.preparePlayer($hero);
 $SCRIPT.log("Held vorbereitet.");
@@ -53,13 +53,13 @@ load "techdemo_hoehle.rb"
 $hebeltuer = Door.new("Eine Tür", "Eine Tür, allerdings ist keine Klinke vorhanden", false, false)
 $hebeltuer.getActor().placeIntoScene(14195.0, 720.0, 3255.0, 0.965926, 0.0, 0.8, 0.0)
 $hebel = Switch.new("HoehlenHebel")
-$hebel.getActor().placeIntoScene(11480.0, 1070.0, 3475.0, -0.767904, 0.0, 0.5, 0.0)
+$hebel.getActor().placeIntoScene(11480.0, 1070.0, 3475.0, -0.767904, 0.0, 0.5, 0.0 )
+$hebel.getActor().roll(-90.0);$hebel.getActor().yaw(90.0);
 $tueroeffner = CaveDoorOpener.new($hebeltuer, $hebel)
 
 require "truhe.rb"
 $truhe = Chest.new( "Truhe", false );
 $truhe.getActor().placeIntoScene(12353.0, 950.0, 4725.0, 1.0, 0.0, 0.0, 0.0 );
-$truhe.getActor().yaw(-90.0);
 $truhe.addItem(Torch.new("Fackel2"))
 
 require "techdemo_hoehle_eingang.rb"
