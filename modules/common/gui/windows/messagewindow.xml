@@ -9,6 +9,7 @@
           <Property Name="AbsoluteYPosition" Value="26"/>
           <Property Name="AbsoluteHeight" Value="234"/>
 		  <Property Name="FrameEnabled" Value="False"/>
+          <Property Name="HorzFormatting" Value="WordWrapCentred" />
       </Window>
       <Window Type="RastullahLook/Button" Name="MessageWindow/CloseButton">
           <Property Name="AbsoluteXPosition" Value="140"/>

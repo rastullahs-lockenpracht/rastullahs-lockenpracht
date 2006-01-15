@@ -2,16 +2,17 @@
     <Window Type="RastullahLook/FrameWindow" Name="CloseConfirmationWindow">
         <Property Name="Position" Value="x:0.0 y:0.0"/>
         <Property Name="AbsoluteWidth" Value="400"/>
-        <Property Name="AbsoluteHeight" Value="300"/>
+        <Property Name="AbsoluteHeight" Value="171"/>
 		<Property Name="Text" Value="Rastullahs Lockenpracht beenden"/>
 
 		<Window Type="RastullahLook/StaticText" Name="CloseConfirmationWindow/Text">
 			<Property Name="AbsoluteXPosition" Value="15"/>
-			<Property Name="AbsoluteWidth" Value="290"/>
+			<Property Name="AbsoluteWidth" Value="370"/>
 			<Property Name="AbsoluteYPosition" Value="26"/>
 			<Property Name="AbsoluteHeight" Value="50"/>
 			<Property Name="FrameEnabled" Value="False"/>
 			<Property Name="Text" Value="Soll Rastullahs Lockenpracht wirklich beendet werden?" />
+            <Property Name="HorzFormatting" Value="WordWrapCentred" />
 		</Window>
 
 		<Window Type="RastullahLook/Button" Name="CloseConfirmationWindow/YesButton">

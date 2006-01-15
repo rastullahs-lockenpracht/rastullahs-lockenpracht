@@ -10,6 +10,7 @@
             <Property Name="RelativeYPosition" Value="0.7"/>
             <Property Name="RelativeWidth" Value="0.9"/>
             <Property Name="RelativeHeight" Value="0.25"/>
+            <Property Name="HorzFormatting" Value="WordWrapCentred" />
         </Window>
         
         <Window Type="DefaultWindow" Name="TargetSelectionWindow/TooltipWindow">
