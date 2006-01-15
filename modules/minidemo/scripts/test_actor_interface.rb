@@ -88,7 +88,7 @@ class Torch < Item
         # (Aufnehmen, Ansehen, etc.)
         # TODO soll nicht so bleiben, dass jede Fackel ne separate
         # Action-Instanz erhält. Eine für alle sollte reichen.
-        addAction(new LightTorchAction);
+        addAction(LightTorchAction.new());
     end
 end
 
