@@ -40,7 +40,7 @@ class Waldspinne < Creature
 	getActor().setScale(5.0, 5.0, 5.0)
 	@mScareAction = ScareToDeathAction.new()
 	addAction(@mScareAction)
-	@mErschreckenSound = $AM.createSoundSampleActor("ErschreckenSound","erschrecken_psst_buh_01.ogg");
+	@mErschreckenSound = $AM.createSoundSampleActor("ErschreckenSound","erschrecken_buh_01.ogg");
 	getActor().attach(@mErschreckenSound);
 	@mSpinnenTodSound = $AM.createSoundSampleActor("SpinnenTotSound","spinne_todesschrei_01.ogg");
 	getActor().attach(@mSpinnenTodSound);
