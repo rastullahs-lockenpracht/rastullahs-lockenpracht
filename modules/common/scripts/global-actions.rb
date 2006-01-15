@@ -132,16 +132,6 @@ class ShowCharacterSheetAction < Action
   end
 end
 
-class ToggleDialogWindowAction < Action
-  def initialize
-    super("toggledialogwindow", "Charakterblatt des aktiven Helden anzeigen")
-  end
-
-  def doAction(object, actor, target)
-    $UI.toggleDialogWindow()
-  end
-end
-
 class ShowTargetWindowAction < Action
   def initialize
     super("showtargetwindow", "Zielauswahl")

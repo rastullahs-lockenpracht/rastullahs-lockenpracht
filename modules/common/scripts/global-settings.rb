@@ -14,7 +14,6 @@ class GlobalSettings
       $act5 = ToggleDebugWindowAction.new
       $act6 = ToggleGameLogWindowAction.new
       $act7 = ToggleCollisionDebugAction.new
-      $act8 = ToggleDialogWindowAction.new
       $act9 = ToggleViewModeAction.new
       $act10 = ResetCameraAction.new
       $act11 = ShowCharacterSheetAction.new
@@ -35,7 +34,6 @@ class GlobalSettings
       actionManager.registerInGameGlobalAction($act5, $grpView)
       actionManager.registerInGameGlobalAction($act6, $grpView)
       actionManager.registerInGameGlobalAction($act7, $grpView)
-      actionManager.registerInGameGlobalAction($act8, $grpView)
       actionManager.registerInGameGlobalAction($act9, $grpView)
       actionManager.registerInGameGlobalAction($act10, $grpView)
       actionManager.registerInGameGlobalAction($act11, $grpView)
