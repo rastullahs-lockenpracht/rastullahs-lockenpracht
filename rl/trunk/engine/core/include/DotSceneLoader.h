@@ -22,6 +22,7 @@
 
 #include <OgreSceneNode.h>
 #include <string>
+#include <map>
 
 namespace rl {
 
@@ -43,8 +44,14 @@ namespace rl {
         struct NodeUserData
         {
             std::string physical_body;
-            bool is_static;
+			Ogre::Real renderingdistance;
+			int staticgeom_group;
+            bool is_dynamic;
+			bool is_inheriting;
         };
+
+		
+
 
 		/// Laden der Szene
 		void initializeScene();
@@ -52,13 +59,19 @@ namespace rl {
 		XERCES_CPP_NAMESPACE::DOMDocument* openSceneFile();
 
 		/// Geht alle Nodes in der .scene durch
-		void processNodes(XERCES_CPP_NAMESPACE::DOMElement* rootNodesXml, Ogre::SceneNode* parentNode );
+		void processNodes(XERCES_CPP_NAMESPACE::DOMElement* rootNodesXml, 
+			Ogre::SceneNode* parentNode );
 		/// Node und alle Unterelemente
-		void processNode(XERCES_CPP_NAMESPACE::DOMElement* rootNodeXml, Ogre::SceneNode* parentNode );
+		void processNode(XERCES_CPP_NAMESPACE::DOMElement* rootNodeXml, 
+			Ogre::SceneNode* parentNode, NodeUserData* parentUserData );
 		/// Eine Entity+Attribute
-		void processEntity( XERCES_CPP_NAMESPACE::DOMElement* rootEntityXml, Ogre::SceneNode* parentNode, bool createMeshPhysicalBody );
+		void processEntity( XERCES_CPP_NAMESPACE::DOMElement* rootEntityXml, 
+			Ogre::SceneNode* parentNode, bool createMeshPhysicalBody,  Ogre::Real renderingDistance);
         /// Ein benutzerdefinierter Bereich im Node
-        void processNodeUserData( XERCES_CPP_NAMESPACE::DOMElement* rootUserDataXml, NodeUserData* userData );
+        void processNodeUserData( XERCES_CPP_NAMESPACE::DOMElement* rootUserDataXml, 
+			NodeUserData* userData );
+		/// Ein benutzerdefinierter Bereich in der Szene
+		void processSceneUserData( XERCES_CPP_NAMESPACE::DOMElement* rootUserDataXml );
 
 		/** Liest einen Vector aus einem XML Element, über die Attribute x, y, z
 		 *  Sollten die Attribute nicht korrekt definiert sein, gibt es Vector::ZERO zurück (0,0,0)
@@ -77,6 +90,14 @@ namespace rl {
 
         std::string getRandomName(const std::string& baseName);
 
+		/// Der Node der Scene
+		Ogre::SceneNode* mSceneNode;
+		/// Alle statischen GeometrieNodes
+		std::map<int,Ogre::SceneNode*> mStaticNodes;
+
+		Ogre::Real mRenderingDistance;
+		std::map<int,Ogre::Real> mStaticgeomRenderingDistances;
+		
 		/// Der Name der Scene
 		const std::string mSceneName;
         /// ResourceGroup der dotscene-Resource

@@ -51,6 +51,7 @@ namespace rl {
     {
 		static const int RADIUS = 20, LENGTH = 300;
         mWorld = CoreSubsystem::getSingleton().getWorld();
+		m_ActorRenderingDistance = 10000; 
     }
 
     ActorManager::~ActorManager()
@@ -65,6 +66,30 @@ namespace rl {
 	const World* const ActorManager::getWorld() const
 	{
 		return mWorld;
+	}
+
+	Ogre::Real ActorManager::getDefaultActorRenderingDistance() const
+	{
+		return m_ActorRenderingDistance;
+	}
+
+	void ActorManager::setDefaultActorRenderingDistance( Ogre::Real dist ) 
+	{
+		for (ActorPtrMap::iterator it = mActors.begin();
+            it != mActors.end();) 
+        {
+            Actor* actor = it->second;
+
+			// Nur die Actoren verändern, deren Distanz nicht geändert wurde
+			if( actor->getRenderingDistance() == m_ActorRenderingDistance )
+            {
+				actor->setRenderingDistance( dist );
+            } 
+
+            ++it;
+        }
+
+		m_ActorRenderingDistance = dist;
 	}
 
     Actor* ActorManager::getActor(const String& name)

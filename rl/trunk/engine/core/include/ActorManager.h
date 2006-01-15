@@ -64,6 +64,10 @@ class _RlCoreExport ActorManager : protected Ogre::Singleton<ActorManager>
 
 		Actor* getActorAt(Ogre::Real x, Ogre::Real y, Ogre::Real width, Ogre::Real length, bool infinite = false);
 
+		// View Distance
+		Ogre::Real getDefaultActorRenderingDistance() const;
+		void setDefaultActorRenderingDistance( Ogre::Real dist );
+
         /** Returns the Singleton */
 	    static ActorManager & getSingleton(void);
 	    static ActorManager * getSingletonPtr(void);        
@@ -74,6 +78,8 @@ class _RlCoreExport ActorManager : protected Ogre::Singleton<ActorManager>
 
         ActorPtrMap mActors;
 		World* mWorld;
+
+		Ogre::Real m_ActorRenderingDistance;
 };
 
 }

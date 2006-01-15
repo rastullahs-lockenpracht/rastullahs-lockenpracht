@@ -237,10 +237,13 @@ namespace rl {
         
         ///@todo mehr Query-Methoden für Childs
         Actor* getChildByName(const Ogre::String& name ) const;
-        ///@todo Visibility
+        /// Sets the Visibility
 		void setVisible( bool vis, bool cascade = true );
 		bool isVisible() const;
 
+		/// Set Rendering Distance
+		Ogre::Real getRenderingDistance() const;
+		void setRenderingDistance( Ogre::Real dist );
 
         /// Entfernt alle Kinder vom Node
         void detachAllChildren( );

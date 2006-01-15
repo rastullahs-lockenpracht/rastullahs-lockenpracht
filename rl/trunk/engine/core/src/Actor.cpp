@@ -25,6 +25,7 @@
 #include "ActorControlledObject.h"
 #include "MeshObject.h"
 #include "AnimationManager.h"
+#include "ActorManager.h"
 
 using namespace Ogre;
 
@@ -46,6 +47,8 @@ namespace rl {
 	{
         if( mActorControlledObject != NULL )
             mActorControlledObject->_setActor(this);
+
+		setRenderingDistance( ActorManager::getSingleton().getDefaultActorRenderingDistance() );
 
 		if( mPhysicalThing != NULL )
 			mPhysicalThing->_setActor(this);
@@ -98,8 +101,28 @@ namespace rl {
 
     void Actor::setPhysicalThing( PhysicalThing* pt ) 
     {
-       
+	   /// @todo ?
+       mPhysicalThing = pt;
     }
+
+	Ogre::Real Actor::getRenderingDistance() const
+	{
+		if( mActorControlledObject != NULL )
+		{
+			return mActorControlledObject->getMovableObject()->getRenderingDistance();
+		}
+
+		return ActorManager::getSingleton().getDefaultActorRenderingDistance();
+	}
+
+	void Actor::setRenderingDistance( Ogre::Real dist )
+	{
+		if( mActorControlledObject != NULL )
+		{
+			mActorControlledObject->getMovableObject()->setRenderingDistance(dist);
+		}
+	}
+
 
     ActorControlledObject* Actor::getControlledObject() const
     {
