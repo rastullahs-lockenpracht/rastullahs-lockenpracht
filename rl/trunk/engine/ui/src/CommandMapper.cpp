@@ -55,7 +55,6 @@ namespace rl {
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_TAB, "toggleconsole");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_F2, "toggledebugwindow");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_F3, "togglegamelogwindow");
-		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_F8, "toggledialogwindow");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_F, "toggleviewmode");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_NUMPAD0, "resetcamera");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_P, "makescreenshot");
@@ -68,7 +67,6 @@ namespace rl {
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_V, "showtestvideowindow");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_O, "togglecharacterstatewindow");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_F10, "toggleingameglobalmenu");
-
 	}
 
 	CommandMapper::~CommandMapper()
