@@ -52,7 +52,8 @@ class Waldspinne < Creature
 	
 	# Listener auf Todesanimation, läßt die Spinne entgültig sterben
 	animListener = SpiderDieAnimationListener.new(player)
-	
+	# Aktion entfernen
+	removeAction(@mScareAction)
 	# Todesanimation starten
 	getActor().getControlledObject().startAnimation("ko", 0.33, 1)
 	getActor().getControlledObject().getAnimation("ko").addAnimationListener(animListener)
@@ -65,8 +66,6 @@ class Waldspinne < Creature
 	RulesSubsystem.getSingleton().getQuestBook().getQuest("spinne").setState(Quest::COMPLETED)
 	# Spieler verletzen
 	player.modifyLe( -(player.getLe() - 4) )
-	# Aktion ist nicht mehr möglich
-	removeAction(@mScareAction)
 	# Beschreibung der Spinne ändern
 	setDescription("Eine große tote Spinne, die sich nie wieder vor irgendetwas ängstigt.")
   end
