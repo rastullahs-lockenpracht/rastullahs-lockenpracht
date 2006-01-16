@@ -4,20 +4,22 @@ Rastullahs Lockenpracht - Readme
 
 Inhaltsverzeichnis
 
-I. Was ist das?   
-II. Bedienung     
-III. Kontakt      
-IV. Bekannte suboptimale Funktionsmerkmale  
+I.   Was ist das?   
+II.  Bedienung     
+III. Kontakt
+IV.  Lizenz
+V.   Bekannte suboptimale Funktionsmerkmale  
 
 ----------------------------------------------------------------
 
 Table of Contents
 
-I. What's this?
-II. Controls
+I.   What's this?
+II.  Controls
 III. Contact
-IV. Known Fixmes
-V. An appendix for people whose German sucks
+IV.  License
+V.   Known unwanted features
+VI.  An appendix for people whose German sucks
 
 
 
@@ -62,9 +64,8 @@ II. Bedienung
 
 
     * Tab: Konsole auf/zu
-    * F1: Spieler-Menü aufrufen
     * F2: Debug-Panel an/aus
-    * F3: Helden-Radial-Menü aktivieren
+    * F3: Log-Fenster öffnen
     * F10: Menü
     * P: Screenshot erstellen
     * L: Kollisionsproxies anzeigen
@@ -86,13 +87,25 @@ melden.
 
 ----------------------------------------------------------------
 
-IV. Bekannte suboptimale Funktionsmerkmale
+IV. Lizenz
 
+* Die Engine selbst steht unter der Clarified Artistic License, siehe dazu
+  die Datei LICENSE_PROGRAM.TXT.
+
+* Alle Texturen, Modelle, Soundeffekte, Musikstücke und andere mediale Inhalte
+  sind von ihren Urhebern für die Nutzung in Rastullahs Lockenpracht lizensiert.
+  Sie können nur mit explizieter Erlaubnis ihrer Urheber anderweitig benutzt
+  werden. Für Details siehe die Datei LICENSE_ARTS.TXT.
+
+----------------------------------------------------------------
+
+V. Bekannte suboptimale Funktionsmerkmale
 
 - die Animationen passen nicht
 - die Physik (Fallen, Springen) ist unrealistisch
 - die Kamera ist nur bedingt für das Innere von Gebäuden geeignet
-- die Position der Kamera in der First-Person-Ansicht ist nicht wirklich der Kopf
+- die Position der Kamera in der First-Person-View ist falsch
+- unter Umständen kommt die Kamera ins Zittern
 - die Bilder in Dialog und Truheninhalt sind falsch und falsch skaliert
 - Türen schweben nicht in Felshöhlen herum
 - die Spinne ist durchlässig
@@ -109,16 +122,16 @@ English
 
 ----------------------------------------------------------------
 
-I. What's this?
+I. What is this?
 
 
-This is the first Tech-Demo of "Rastullahs Lockenpracht" ("Rastullah's Gorgeous
-Head of Curls"). The free-time project of the Team Pantheon (some German,
+This is the first techdemo of "Rastullahs Lockenpracht" ("Rastullah's Gorgeous
+Head of Curls"). The hobby project of Team Pantheon (some German,
 Austrian and even Bavarian developers) should be the basis for complete PC-RPGs
 following the rules of the German system "Das Schwarze Auge" ("The Dark Eye") in
 a not further specified future.
 
-This demo is the proof, that the implementation of some needed basic
+This demo is the proof, that the implementation of some necessary basic
 functionality is already done.
 
 ----------------------------------------------------------------
@@ -142,18 +155,17 @@ II. Controls
 
 
     * F: switch First Person/Third Person
-    * Numpad 0: reset camera, if it should be blocked. 
+    * Numpad 0: reset camera, if it is jammed. 
 
 
     * Tab: console open/close
-    * F1: open player-menu
     * F2: debug-panel on/off
-    * F3: hero-radial-menu activate
-    * F10: Menü
+    * F3: game log window
+    * F10: game menu
     * P: make Screenshot
-    * L: show collision-proxies
-    * T: 'Aim with Mouse at Objects'-Mode (important for tiny stuff)
-    * C: open character-screen
+    * L: show collision proxies
+    * T: 'Aim with mouse at objects'-Mode (important for tiny objects)
+    * C: open character screen
     * O: show state of the hero
     * J: show known quests 
 
@@ -166,30 +178,47 @@ irc-Channel #pantheon at quakenet.
 
 ----------------------------------------------------------------
 
-IV. Knows Fixmes
+IV. License
 
-- animations don't fit
-- the physic (falling, jumping) isn't too realistic
-- the camera won't do for the inner of buildings
-- the position of the camera in first-person-view isn't exactly the head
-- images in dialog and chest-content are wrong and don't fit
-- usually, doors don't fload in caves
-- the spider's collision body don't fit
-- the bird moves to slow
-- coming out of the cave isn't to easy
-- you may fall from the edge
+* The engine itself is licensed under the Clarified Artistic License,
+  for details see the file LICENSE_PROGRAM.TXT.
+
+* All textures, models, sound effects, music and other multimedia content
+  is licensed yb their copyright holders for the use with
+  Rastullahs Lockenpracht. They can only be used otherwise with the written
+  permit by their copyright holders.
+  For details see the file LICENSE_ARTS.TXT.
+  
+----------------------------------------------------------------
+
+V. Known unwanted features
+
+- Animations don't fit.
+- Physics (falling, jumping) is off.
+- Camera doesn't work correctly inside buildings.
+- Position of the camera in first-person-view is off.
+- Occasional camera jitter.
+- Images in dialog and chest content are wrong and don't fit.
+- Usually, doors don't fload in caves
+- The spider's collision body doesn't fit
+- The bird moves too slow
+- The cave entrance is invisibly obstacled. Leaving it is difficult.
+- You can fall from the map's edge
 
 ----------------------------------------------------------------
 
-V. An appendix for people whose German sucks
+VI. An appendix for people whose German sucks
 
-Near the house, you'll find the white dressed guy. He could give you some useful
+Near the house, you'll find the white dressed guy. He can give you some useful
 information, unfortunately, he'll do that in German.
 
 So just try the first option. He asks you to kill a huge spider on the other
-bank. Just try, the beast suffers from a weak heart!
+bank. Just try it. The beast suffers from a weak heart!
 
 When you're done with it, the rocks at the upper end of the path will act
-different to normal rocks behaviour.
+different than before. Go there and see yourself..
+
+This is a good german -> english translator:
+  http://dict.leo.org/?lang=en&lp=ende&search=
 
 ----------------------------------------------------------------
