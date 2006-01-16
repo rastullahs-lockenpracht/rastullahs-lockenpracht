@@ -27,6 +27,7 @@ class Rock < GameObject
 	@mOrientation[3])
 
       @mSpawned = true
+      setHighlightingEnabled(false)
     end
   end
 
@@ -80,6 +81,7 @@ class RockPile < GameObject
     @mSteinSchlagActor.placeIntoScene( 	positionParticles[0], positionParticles[1], positionParticles[2], 1.0, 0.0, 0.0, 0.0 );
 
     setActor(@mRockPile)
+    setHighlightingEnabled(false)
   end
 
   def collapse()
