@@ -100,6 +100,9 @@ public:
     bool isLooping() const;
     /// Setzt ob der Sound geloopt werden soll 
     void setLooping( bool looping );
+
+	bool is3d() const;
+	void set3d( bool is3d );
     
     // Sind wir gueltig
     bool isValid() const throw (RuntimeException);

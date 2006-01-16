@@ -376,6 +376,8 @@ public:
 	 void play( );
 	 bool isLooping() const;
 	 void setLooping( bool looping );
+	 bool is3d() const;
+	 void set3d( bool );
      void pause(bool pausing);
      bool isPaused();
      void stop();

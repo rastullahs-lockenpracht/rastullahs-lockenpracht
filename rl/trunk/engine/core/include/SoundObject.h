@@ -54,6 +54,9 @@ namespace rl {
 
         virtual Ogre::String getObjectType();
 
+		bool is3d() const;
+		void set3d( bool is3d );
+
         /// Gibt zurück ob der Sound geloopt werden soll 
         bool isLooping() const;
         /// Setzt ob der Sound geloopt werden soll 

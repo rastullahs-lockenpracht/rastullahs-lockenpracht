@@ -202,6 +202,16 @@ void SoundChannel::setLooping( bool looping )
     mSound->setLooping( looping );
 }
 
+bool SoundChannel::is3d() const
+{
+	return mSound->is3d();
+}
+
+void SoundChannel::set3d( bool is3d )
+{
+	mSound->set3d(is3d);
+}
+
 
 /**
  * @return Die aktuelle Position der Soundquelle

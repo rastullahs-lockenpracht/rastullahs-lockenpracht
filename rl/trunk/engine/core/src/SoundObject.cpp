@@ -124,6 +124,15 @@ void SoundObject::setLooping( bool looping )
 }
 
 
+bool SoundObject::is3d() const
+{
+	return getSoundChannel()->is3d();
+}
+
+void SoundObject::set3d( bool is3d )
+{
+	getSoundChannel()->set3d(is3d);
+}
 /**
  * @param Der bewegbare Sound
  * @author JoSch
