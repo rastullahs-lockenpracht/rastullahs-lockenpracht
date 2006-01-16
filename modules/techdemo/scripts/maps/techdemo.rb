@@ -20,6 +20,16 @@ $SCRIPT.log("Tageslicht erstellt.");
 
 # DsaManager.getSingleton().loadDsaDataFile("kalchas.xml");
 
+$SCRIPT.log("Welten-Thema laden");
+techdemoWelt = $AM.createSoundSampleActor( "techdemoWelt", "techdemo001.ogg" ); 
+$SCRIPT.log(" Platzieren");
+techdemoWelt.placeIntoScene( 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 );
+$SCRIPT.log(" Loopen");
+techdemoWelt.getControlledObject().setLooping( true );
+$SCRIPT.log(" Abspielen");
+techdemoWelt.getControlledObject().play();
+$SCRIPT.log("Welten-Thema fertig");
+
 $SCRIPT.log("Held erstellen");
 $hero = Hero.new;
 #hero = DsaManager.getSingleton().getPerson(10000);
