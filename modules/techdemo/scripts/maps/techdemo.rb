@@ -22,8 +22,9 @@ $SCRIPT.log("Tageslicht erstellt.");
 
 $SCRIPT.log("Welten-Thema laden");
 techdemoWelt = $AM.createSoundSampleActor( "techdemoWelt", "techdemo001.ogg" ); 
+techdemoWelt.getControlledObject().set3d(false);
 $SCRIPT.log(" Platzieren");
-techdemoWelt.placeIntoScene( 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 );
+techdemoWelt.placeIntoScene( 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0 );
 $SCRIPT.log(" Loopen");
 techdemoWelt.getControlledObject().setLooping( true );
 $SCRIPT.log(" Abspielen");
