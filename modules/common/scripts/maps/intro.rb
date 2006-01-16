@@ -17,7 +17,7 @@ $World.setFog( World::FOG_EXP, [0.7,0.6,0.5,0.5], 0.00009, 0.5, 1.0);
 $SCRIPT.log("Sound laden");
 titelLied = $AM.createSoundSampleActor( "TitelLied", "ruchin001.ogg" ); 
 $SCRIPT.log(" Platzieren");
-titelLied.placeIntoScene( 160.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0 );
+titelLied.placeIntoScene( 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 );
 $SCRIPT.log(" Loopen");
 titelLied.getControlledObject().setLooping( true );
 $SCRIPT.log(" Abspielen");
