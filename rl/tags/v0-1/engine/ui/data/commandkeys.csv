@@ -1,0 +1,5 @@
+W,__MOVE_FORWARD__
+S,__MOVE_BACK__
+A,__STRAFE_LEFT__
+D,__STRAFE_RIGHT__
+I,inventory.rb
