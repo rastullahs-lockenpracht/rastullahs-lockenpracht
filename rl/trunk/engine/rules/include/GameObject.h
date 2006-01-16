@@ -87,8 +87,8 @@ namespace rl
 		typedef std::vector<std::pair<Action*, int> > ActionOptionVector;
 
         /// Soll der Aktor überhaupt leuchten?
-        bool isHigligthingEnabled();
-        void setHigligthingEnabled( bool highlightenabled );
+        bool isHighlightingEnabled();
+        void setHighlightingEnabled( bool highlightenabled );
 
 		void setString(CeGuiString key, CeGuiString value);
 		void setBool(CeGuiString key, bool value);

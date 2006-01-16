@@ -300,6 +300,9 @@ namespace rl {
 		Ogre::Real getReal(const char* key);
 		
 		static const rl::CeGuiString DEFAULT_VIEW_OBJECT_ACTION;
+		
+		bool isHighlightingEnabled();
+        void setHighlightingEnabled( bool highlightenabled );
     };
     
     %feature("director") Item;

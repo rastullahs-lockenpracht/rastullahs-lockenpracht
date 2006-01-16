@@ -196,12 +196,12 @@ namespace rl
 	}
 
 
-    bool GameObject::isHigligthingEnabled()
+    bool GameObject::isHighlightingEnabled()
     {
         return mHighlightingEnabled;
     }
     
-    void GameObject::setHigligthingEnabled( bool highlightenabled )
+    void GameObject::setHighlightingEnabled( bool highlightenabled )
     {
         // Leuchtet zur Zeit, sollte aber nicht leuchten
         if( mActor != NULL && !highlightenabled && mActor->isHighlighted() )
