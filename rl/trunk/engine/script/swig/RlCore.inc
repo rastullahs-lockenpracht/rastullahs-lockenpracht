@@ -381,6 +381,7 @@ public:
      void pause(bool pausing);
      bool isPaused();
      void stop();
+     void setVolume(float volume = 1.0);
 };
 
 class ParticleSystemObject : public ActorControlledObject

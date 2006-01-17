@@ -67,6 +67,8 @@ namespace rl {
         bool isPaused();
         /// Stoppt den Sound.
         void stop();
+		/// Setzt die Lautstaerke (1.0 = volle Lautstärke)
+		void setVolume(float volume = 1.0);
 
 		virtual bool isMeshObject();
     };

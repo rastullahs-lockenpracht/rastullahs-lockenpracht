@@ -123,6 +123,15 @@ void SoundObject::setLooping( bool looping )
     getSoundChannel()->setLooping( looping );
 }
 
+void SoundObject::setVolume(float volume)
+{
+	if (volume > 1.0)
+		volume = 1.0;
+	else if (volume < 0.0)
+		volume = 0.0;
+
+	getSoundChannel()->setVolume(volume);
+}
 
 bool SoundObject::is3d() const
 {

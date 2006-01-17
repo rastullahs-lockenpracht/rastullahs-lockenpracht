@@ -65,7 +65,7 @@ void SoundChannel::play() throw (RuntimeException)
     setPosition(Vector3(0.0, 0.0, 0.0));
     setDirection(Vector3(0.0, 0.0, 0.0));
     setVelocity(Vector3(0.0, 0.0, 0.0)); 
-    FSOUND_3D_SetMinMaxDistance(mChannel, 4.0, 9999999.0);
+    //FSOUND_3D_SetMinMaxDistance(mChannel, 4.0, 9999999.0);
     pause(false);
 }
 
@@ -174,7 +174,7 @@ void SoundChannel::setDirection (const Vector3& direction) throw (RuntimeExcepti
  */
 bool SoundChannel::isValid() const throw (RuntimeException)
 {
-    return mSound->isValid() && (mChannel > 0);
+    return mSound->isValid() && (mChannel != -1);
 }
 
 /**
@@ -338,6 +338,11 @@ bool SoundChannel::isPaused() throw (RuntimeException)
         return FSOUND_GetPaused(getChannel());
     }
     return true;
+}
+
+void SoundChannel::setVolume(float volume)
+{
+	FSOUND_SetVolume(getChannel(), 255.0 * volume);
 }
 
 
