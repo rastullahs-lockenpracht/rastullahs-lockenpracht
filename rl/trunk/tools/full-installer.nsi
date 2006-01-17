@@ -122,12 +122,13 @@ Section -post SEC0002
     WriteUninstaller $INSTDIR\uninstall.exe
     !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
     SetOutPath $SMPROGRAMS\$StartMenuGroup
-    CreateShortCut "$SMPROGRAMS\$StartMenuGroup\$(^Name).lnk" "$INSTDIR\Rastullah.exe"
-    CreateShortCut "$DESKTOP\$(^Name).lnk" "$INSTDIR\Rastullah.exe"
     WriteIniStr "$INSTDIR\Pantheon.url" "InternetShortcut" "URL" "${URL}"
     WriteIniStr "$INSTDIR\$(^Name).url" "InternetShortcut" "URL" "${URL}/projekt"
-    CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Pantheon im Web.lnk" "$INSTDIR\Pantheon.url"
-    CreateShortCut "$SMPROGRAMS\$StartMenuGroup\$(^Name) Website.lnk" "$INSTDIR\$(^Name).url"
+    SetOutPath $INSTDIR    
+    CreateShortCut "$SMPROGRAMS\$StartMenuGroup\$(^Name).lnk" "$INSTDIR\Rastullah.exe" "" "$INSTDIR\uninstall.exe"
+    CreateShortCut "$DESKTOP\$(^Name).lnk" "$INSTDIR\Rastullah.exe" "" "$INSTDIR\uninstall.exe"
+    CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Pantheon im Web.lnk" "$INSTDIR\Pantheon.url" 
+    CreateShortCut "$SMPROGRAMS\$StartMenuGroup\$(^Name) Website.lnk" "$INSTDIR\$(^Name).url" 
     CreateShortCut "$SMPROGRAMS\$StartMenuGroup\Uninstall $(^Name).lnk" $INSTDIR\uninstall.exe
     !insertmacro MUI_STARTMENU_WRITE_END
     WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayName "$(^Name)"

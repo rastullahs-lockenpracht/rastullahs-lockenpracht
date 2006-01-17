@@ -39,6 +39,14 @@ vierten Edition des deutschen Rollenspiel-Systems "Das Schwarze Auge"
 Diese Demonstration führt den Nachweis, dass die Implementierung einiger
 notwendiger (Grund)Funktionen bereits gelungen ist.
 
+Was ihr braucht - ein aktuelles DirectX
+(http://download.microsoft.com/download/a/6/1/a6153887-2fe7-4dab-88c4-4da642909b9e/directx_9c_Apr05sdk_redist.exe)
+, einen aktuellen MicrosoftInstaller 
+(v3.2 http://www.softwarepatch.com/windows/wininstallnt.html) sowie eine 
+3D-Grafikkarte, mindestens eine Geforce3.
+
+
+
 
 ----------------------------------------------------------------
 
@@ -134,6 +142,13 @@ a not further specified future.
 This demo is the proof, that the implementation of some necessary basic
 functionality is already done.
 
+
+What you need - a up to date DirectX
+(http://download.microsoft.com/download/a/6/1/a6153887-2fe7-4dab-88c4-4da642909b9e/directx_9c_Apr05sdk_redist.exe)
+,  a up to date MicrosoftInstaller 
+(v3.2 http://www.softwarepatch.com/windows/wininstallnt.html) and also a 
+3D-GraphicsCard, at least a Geforce3.
+
 ----------------------------------------------------------------
 
 II. Controls
@@ -215,8 +230,11 @@ information, unfortunately, he'll do that in German.
 So just try the first option. He asks you to kill a huge spider on the other
 bank. Just try it. The beast suffers from a weak heart!
 
-When you're done with it, the rocks at the upper end of the path will act
-different than before. Go there and see yourself..
+When you're done with it, return to the white dressed guy and choose the third option.
+Now the rocks at the upper end of the path to the mountain will act
+different than before. Go there and see yourself... 
+There you will find and use a lever, a torch in a chest and, behind a door, a healing-potion.
+All this completes a little quest which is used as a plot.
 
 This is a good german -> english translator:
   http://dict.leo.org/?lang=en&lp=ende&search=
