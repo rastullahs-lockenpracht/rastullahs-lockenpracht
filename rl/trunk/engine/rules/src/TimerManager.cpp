@@ -54,12 +54,20 @@ namespace rl {
 		RL_LONGLONG nowDsa = DsaManager::getSingleton().getTimestamp();
 		RL_LONGLONG now = CoreSubsystem::getSingleton().getClock();
 
+		std::list<TimerEventSource*> deletionList;
+
 		for (std::list<TimerEventSource*>::iterator timerIter = mTimers.begin(); timerIter != mTimers.end(); timerIter++)
 		{
 			TimerEventSource* currTimer = *timerIter;
 			bool toDelete = currTimer->injectTimePulse(now, nowDsa);
 			if (toDelete)
-				timerIter = mTimers.erase(timerIter);
+				deletionList.push_back(currTimer);
+		}
+
+		for(std::list<TimerEventSource*>::iterator deleteIter = deletionList.begin(); 
+			deleteIter != deletionList.end(); deleteIter++)
+		{
+			mTimers.remove(*deleteIter);
 		}
 	}
 
