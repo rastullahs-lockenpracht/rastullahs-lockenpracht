@@ -102,7 +102,11 @@ public:
     void setLooping( bool looping );
     /// Setzt die Lautstaerke
 	void setVolume(float volume);
+    /// Holt die Lautstaerke
+    float getVolume();
+    /// Ist es ein 3D-Stueck?
 	bool is3d() const;
+    /// Ob es ein 3D-Stueck sein soll.
 	void set3d( bool is3d );
     
     // Sind wir gueltig
