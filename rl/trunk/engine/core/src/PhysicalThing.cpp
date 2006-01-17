@@ -41,7 +41,9 @@ namespace rl
     }
 
     PhysicalThing::~PhysicalThing()
-    {
+	{
+		delete mBody;
+		mBody = NULL;
     }
 
     Ogre::Vector3 PhysicalThing::getPosition() const
