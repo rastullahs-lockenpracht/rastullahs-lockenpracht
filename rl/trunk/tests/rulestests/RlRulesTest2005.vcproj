@@ -61,10 +61,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="CEGUIBase_d.lib OgreMain_d.lib cppunitd_dll.lib rlRules.lib rlCore.lib rlCommon.lib"
+				AdditionalDependencies="CEGUIBase_d.lib OgreMain_d.lib cppunitd_dll.lib RlCommon.lib"
 				OutputFile="$(OutDir)/RlRulesTest.exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\..\engine\common\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\core\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\rules\lib\$(ConfigurationName)&quot;;..\..\dependencies\cppunit\lib;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib"
+				AdditionalLibraryDirectories="&quot;..\..\engine\common\lib\$(ConfigurationName)&quot;;..\..\dependencies\cppunit\lib;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/RlRulesTest.pdb"
 				SubSystem="1"
@@ -94,7 +94,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="EXE kopieren."
-				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\rl_dist\&quot;"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\rl_dist\&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -141,10 +141,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="CEGUIBase.lib OgreMain.lib cppunit_dll.lib RlRules.lib RlCore.lib RlCommon.lib"
+				AdditionalDependencies="CEGUIBase.lib OgreMain.lib cppunit_dll.lib RlCommon.lib"
 				OutputFile="$(OutDir)/RlRulesTest.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\..\engine\common\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\core\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\rules\lib\$(ConfigurationName)&quot;;..\..\dependencies\cppunit\lib;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib"
+				AdditionalLibraryDirectories="&quot;..\..\engine\common\lib\$(ConfigurationName)&quot;;..\..\dependencies\cppunit\lib;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib"
 				GenerateDebugInformation="false"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -175,7 +175,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="EXE kopieren."
-				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(SolutionDir)..\rl_dist\&quot;"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\rl_dist\&quot;"
 			/>
 		</Configuration>
 	</Configurations>

@@ -2,9 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="RlMultimediaTests"
-	ProjectGUID="{585757E8-EEA9-4616-81DB-635922EF22D2}"
-	RootNamespace="SoundTests"
+	Name="RlCoreTests"
+	ProjectGUID="{91BC7885-069C-4457-9A67-C5E1222063EF}"
 	>
 	<Platforms>
 		<Platform
@@ -37,10 +36,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="..\..\engine\sound\include;..\..\engine\common\include;..\..\engine\core\include;..\..\dependencies\ogrenew\ogremain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\cppunit\include;..\..\dependencies\fmod\api\inc"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
-				RuntimeLibrary="3"
+				AdditionalIncludeDirectories="..\..\engine\script\include;..\..\engine\ui\include;..\..\engine\uicomponents\include;..\..\engine\dialog\include;..\..\engine\sound\include;..\..\engine\common\include;..\..\engine\core\include;..\..\engine\rules\include;..\..\dependencies\cppunit\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogrenewt\inc;..\..\dependencies\xerces\include;..\..\dependencies\newtonsdk\sdk"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -53,8 +49,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain_d.lib cppunitd_dll.lib"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogrenew\ogremain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\cppunit\lib;..\..\dependencies\fmod\api\lib"
+				AdditionalDependencies="CEGUIBase_d.lib OgreMain_d.lib cppunitd_dll.lib user32.lib RlUi.lib RlCore.lib"
+				AdditionalLibraryDirectories="&quot;..\..\engine\ui\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\core\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\ogremain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\cppunit\lib;..\..\dependencies\fmod\api\lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -80,7 +76,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="EXE kopieren."
-				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(SolutionDir)..\rl_dist\&quot;"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\rl_dist\&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -106,8 +102,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\engine\sound\include;..\..\engine\common\include;..\..\engine\core\include;..\..\dependencies\ogrenew\ogremain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\cppunit\include;..\..\dependencies\fmod\api\inc"
-				RuntimeLibrary="2"
+				AdditionalIncludeDirectories="..\..\engine\script\include;..\..\engine\ui\include;..\..\engine\uicomponents\include;..\..\engine\dialog\include;..\..\engine\sound\include;..\..\engine\common\include;..\..\engine\core\include;..\..\engine\rules\include;..\..\dependencies\cppunit\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogrenewt\inc;..\..\dependencies\xerces\include;..\..\dependencies\newtonsdk\sdk"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -120,8 +115,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib cppunit_dll.lib"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogrenew\ogremain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\cppunit\lib;..\..\dependencies\fmod\api\lib"
+				AdditionalDependencies="CEGUIBase.lib OgreMain.lib cppunit_dll.lib  user32.lib  RlUi.lib RlCore.lib"
+				AdditionalLibraryDirectories="&quot;..\..\engine\ui\lib\$(ConfigurationName)&quot;; &quot;..\..\engine\core\lib\$(ConfigurationName)&quot;; &quot;..\..\dependencies\ogrenew\ogremain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\cppunit\lib;..\..\dependencies\fmod\api\lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -147,7 +142,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="EXE kopieren."
-				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(SolutionDir)..\rl_dist\&quot;"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\rl_dist\&quot;"
 			/>
 		</Configuration>
 	</Configurations>
@@ -160,15 +155,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\SoundSampleTest.cpp"
+				RelativePath=".\CoreTests.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\SoundStreamTest.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\TestStartup.cpp"
+				RelativePath=".\TestCore.cpp"
 				>
 			</File>
 		</Filter>
