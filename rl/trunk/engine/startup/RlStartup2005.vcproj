@@ -100,7 +100,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Kopiere EXE"
-				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(SolutionDir)rl_dist\&quot;"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\rl_dist\&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -186,7 +186,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Kopiere EXE"
-				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(SolutionDir)rl_dist\&quot;"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\rl_dist\&quot;"
 			/>
 		</Configuration>
 	</Configurations>
