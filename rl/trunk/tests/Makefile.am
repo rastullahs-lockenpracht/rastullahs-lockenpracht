@@ -1,2 +1,2 @@
-SUBDIRS =  coretests rulestests multimediatests
+SUBDIRS =  coretests rulestests multimediatests RlDialogTests
 
