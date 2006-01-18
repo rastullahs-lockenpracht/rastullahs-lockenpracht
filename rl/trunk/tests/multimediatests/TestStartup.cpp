@@ -31,7 +31,9 @@ int main( int argc, char **argv)
                 "logs/ogre.log" );
     #endif
     Ogre::ResourceGroupManager::getSingleton().addResourceLocation("./modules/common/sound", "FileSystem");
+    Ogre::ResourceGroupManager::getSingleton().addResourceLocation("./modules/common/sound/ost", "FileSystem");
     Ogre::ResourceGroupManager::getSingleton().addResourceLocation("./modules/minidemo/sound", "FileSystem");
+    Ogre::ResourceGroupManager::getSingleton().addResourceLocation("./modules/techdemo/sound", "FileSystem");
 
     (new rl::Logger("./logs", "./logs"))->setLogDetail(Ogre::LL_BOREME);
     new rl::SoundSubsystem; 

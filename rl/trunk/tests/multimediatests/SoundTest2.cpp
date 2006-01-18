@@ -44,6 +44,20 @@ public:
 
     void test()
     {
+        Sound *sound1 = new SoundSample("ruchin001.ogg");
+        SoundChannel *channel1 = new SoundChannel(sound1, "musik");
+        Sound *sound2 = new SoundSample("lachen.ogg");
+        SoundChannel *channel2 = new SoundChannel(sound2, "stream");
+        channel1->set3d(false);
+        channel1->play();
+        Vector3 pos(500.0, 0.0, 0.0);
+        channel2->setPosition(pos);
+        channel2->play();
+        xtime xt;
+        xtime_get(&xt, TIME_UTC);
+        xt.sec+=15;
+        thread::sleep(xt);
+        
         CPPUNIT_ASSERT(true);
     }
  
