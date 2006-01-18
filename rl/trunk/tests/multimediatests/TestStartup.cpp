@@ -5,6 +5,7 @@
 #include "SoundSubsystem.h"
 #include "Logger.h"
 #include "CoreSubsystem.h"
+#include "SoundManager.h"
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/ui/text/TestRunner.h>
 
@@ -34,6 +35,7 @@ int main( int argc, char **argv)
 
     (new rl::Logger("./logs", "./logs"))->setLogDetail(Ogre::LL_BOREME);
     new rl::SoundSubsystem; 
+    rl::SoundManager::getSingleton().addSounds( Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME );
     
     CppUnit::TextUi::TestRunner runner;
     CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();

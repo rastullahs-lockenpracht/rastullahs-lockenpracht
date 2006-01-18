@@ -15,6 +15,7 @@
 */
 #include "Sound.h"
 #include "SoundManager.h"
+#include "Exception.h"
 #include <boost/thread.hpp>
 
 
@@ -36,6 +37,10 @@ Sound::Sound(const String &name):
     mName = name;
     mSoundResource = SoundResourcePtr(
         SoundManager::getSingleton().getByName(name));
+    if (mSoundResource.isNull())
+    {
+        Throw(InvalidArgumentException, "Resource not found");
+    }
 }
  
 /**
