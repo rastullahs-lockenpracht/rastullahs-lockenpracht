@@ -100,10 +100,6 @@ public:
     bool isLooping() const;
     /// Setzt ob der Sound geloopt werden soll 
     void setLooping( bool looping );
-    /// Setzt die Lautstaerke
-	void setVolume(float volume);
-    /// Holt die Lautstaerke
-    float getVolume();
     /// Ist es ein 3D-Stueck?
 	bool is3d() const;
     /// Ob es ein 3D-Stueck sein soll.

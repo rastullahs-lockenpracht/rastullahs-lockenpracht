@@ -80,6 +80,8 @@ public:
         }
         channel2->stop();
         delete channel2;
+        
+        
 
 
 	    CPPUNIT_ASSERT(true);
@@ -90,4 +92,4 @@ public:
 	CPPUNIT_TEST(test);
     CPPUNIT_TEST_SUITE_END();
 };
-CPPUNIT_TEST_SUITE_REGISTRATION(SoundTest1);
+//CPPUNIT_TEST_SUITE_REGISTRATION(SoundTest1);
