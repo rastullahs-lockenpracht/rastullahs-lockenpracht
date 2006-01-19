@@ -61,15 +61,15 @@ SoundSubsystem::SoundSubsystem()
     FSOUND_SetMaxHardwareChannels(16);
     FSOUND_SetMinHardwareChannels(8);
     /// TODO: More choices
-    FSOUND_SetOutput(FSOUND_OUTPUT_ALSA);
+//    FSOUND_SetOutput(FSOUND_OUTPUT_ALSA);
     FSOUND_SetMixer(FSOUND_MIXER_AUTODETECT);
     // File Callbacks fuer FMOD setzen
-/*    FSOUND_File_SetCallbacks(
+    FSOUND_File_SetCallbacks(
         (FSOUND_OPENCALLBACK)SoundSubsystem::open,
         (FSOUND_CLOSECALLBACK)SoundSubsystem::close,
         (FSOUND_READCALLBACK)SoundSubsystem::read,
         (FSOUND_SEEKCALLBACK)SoundSubsystem::seek,
-        (FSOUND_TELLCALLBACK)SoundSubsystem::tell);  */
+        (FSOUND_TELLCALLBACK)SoundSubsystem::tell);  
 
     FSOUND_Init(44100, 32, 0); // TODO Wenns schiefgeht.
 	Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "fmod initialisiert");
