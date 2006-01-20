@@ -18,6 +18,8 @@
 #include "Logger.h"
 #include "SoundResource.h"
 #include "Video.h"
+#include "Exception.h"
+#include "GameLoop.h"
 #include <stdio.h>
 extern "C" {
     #include <fmod.h>
@@ -71,19 +73,22 @@ SoundSubsystem::SoundSubsystem()
         (FSOUND_SEEKCALLBACK)SoundSubsystem::seek,
         (FSOUND_TELLCALLBACK)SoundSubsystem::tell);  
 
-    FSOUND_Init(44100, 32, 0); // TODO Wenns schiefgeht.
+    if (!FSOUND_Init(44100, 32, 0))
+    {
+        Throw(RuntimeException, "FMOD not initialized");
+    }
 	Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "fmod initialisiert");
-    printData();
     
-    //FSOUND_3D_SetRolloffFactor(0.5);
     FSOUND_SetSFXMasterVolume(255);
 
-    // Wir initialisieren den Listener
+    // Wir initialisieren den Listener.
     // Position of the listener.
     float v[3] = {0, 0, 0};
-    FSOUND_3D_Listener_SetAttributes(v, v, 1, 0, 0, 1, 0, 0);
+    FSOUND_3D_Listener_SetAttributes(v, v, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,  0.0f);
     Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "Listener set");
 
+    // Wir wollen mal wissen, was los ist.
+    printData();
     
     //Singletons erzeugen 
     new SoundManager();
@@ -357,5 +362,30 @@ void SoundSubsystem::removeVideo(Video *video)
         }
     }
 }
+
+/**
+ * Den Update-Task starten.
+ * @author JoSch
+ * @date 01-20-2006
+ */
+void SoundSubsystem::startUpdate()
+{
+    rl::GameLoopManager::getSingleton().
+        addAsynchronousTask(rl::SoundUpdateTask::getSingletonPtr());
+}
+
+/**
+ * Den Update-Task starten.
+ * @author JoSch
+ * @date 01-20-2006
+ */
+void SoundSubsystem::stopUpdate()
+{
+    rl::GameLoopManager::getSingleton().
+        removeAsynchronousTask(rl::SoundUpdateTask::getSingletonPtr());
+}
+
+
+
 
 }

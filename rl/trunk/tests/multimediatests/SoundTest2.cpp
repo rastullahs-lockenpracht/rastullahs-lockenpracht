@@ -44,27 +44,22 @@ public:
 
     void test()
     {
-        Sound *sound1 = new SoundSample("ruchin001.ogg");
+        SoundSample *sound1 = new SoundSample("ruchin001.ogg");
         SoundChannel *channel1 = new SoundChannel(sound1, "musik");
-        Sound *sound2 = new SoundSample("lachen.ogg");
-        SoundChannel *channel2 = new SoundChannel(sound2, "stream");
+        SoundSample *sound2 = new SoundSample("lachen.ogg");
+        SoundChannel *channel2 = new SoundChannel(sound2, "bewegung");
         channel1->set3d(false);
         channel1->play();
         channel2->setLooping(true);
         channel2->play();
-        Vector3 pos(100.0, 1.0, 1.0);
+        Vector3 pos(-70.0f, 0.0f, 0.0f);
         channel2->setPosition(pos);
         FSOUND_Update();
-        for(float i=100.0; i>=-100.0; i-=1.0)
-        {
-            pos.x = i;
-            channel2->setPosition(pos);
-            FSOUND_Update();
-            xtime xt;
-            xtime_get(&xt, TIME_UTC);
-            xt.nsec+=100000000;
-            thread::sleep(xt);
-        }
+        xtime xt;
+        xtime_get(&xt, TIME_UTC);
+        xt.sec += 15;
+        thread::sleep(xt);
+ 
         channel1->stop();
         channel2->stop();
         delete channel1;

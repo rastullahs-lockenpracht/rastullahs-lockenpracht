@@ -61,6 +61,11 @@ public:
     /// Video entfernen
     void removeVideo(Video *video);
     
+    /// Update starten
+    void startUpdate();
+    /// Update stoppen
+    void stopUpdate();
+    
 
 private:
     /// Zeit mitschreiben

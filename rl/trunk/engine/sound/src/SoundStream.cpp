@@ -17,7 +17,7 @@
 #include "SoundManager.h"
 
 extern "C" {
-    #include "fmod.h"
+    #include <fmod.h>
 }
 
 using namespace Ogre;
