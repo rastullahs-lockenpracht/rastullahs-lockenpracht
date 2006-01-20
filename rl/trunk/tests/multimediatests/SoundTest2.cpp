@@ -44,6 +44,7 @@ public:
 
     void test()
     {
+        Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Starte Test #2");
         SoundSample *sound1 = new SoundSample("ruchin001.ogg");
         SoundChannel *channel1 = new SoundChannel(sound1, "musik");
         SoundSample *sound2 = new SoundSample("lachen.ogg");
@@ -65,6 +66,7 @@ public:
         delete channel1;
         delete channel2;
 
+        Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Beende Test #2");
         CPPUNIT_ASSERT(true);
     }
  

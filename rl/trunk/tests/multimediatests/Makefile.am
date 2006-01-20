@@ -13,6 +13,12 @@ testsound_LDADD = $(RUBY_LIBS) $(CEGUI_LIBS) $(OGRE_LIBS) $(CPPUNIT_LIBS) $(LIBS
 testsound_SOURCES = \
 	SoundTest1.cpp \
 	SoundTest2.cpp \
+	SoundTest3.cpp \
+	SoundTest4.cpp \
+	SoundTest5.cpp \
+	SoundTest6.cpp \
+	SoundTest7.cpp \
+	SoundTest8.cpp \
 	TestStartup.cpp 
 
 testvideo_LDFLAGS = -L../../engine/common/src -L../../engine/sound/src -L../../engine/core/src \
