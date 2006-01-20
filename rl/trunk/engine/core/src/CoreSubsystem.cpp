@@ -37,6 +37,7 @@
 #include "Exception.h"
 #include "ConfigurationManager.h"
 #include "Logger.h"
+#include "SoundUpdateTask.h"
 #include <ctime>
 
 
@@ -153,7 +154,8 @@ namespace rl {
         new GameEventManager();
         GameLoopManager::getSingleton().addSynchronizedTask(
             GameEventManager::getSingletonPtr(), FRAME_STARTED);
-        
+        GameLoopManager::getSingleton().addAsynchronousTask(
+            SoundUpdateTask::getSingletonPtr()); 
 
         return true;
     }

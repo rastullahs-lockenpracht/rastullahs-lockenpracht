@@ -86,7 +86,6 @@ void startupRl(bool developerMode, Ogre::String module)
 		if (module != "")
 			core->setDefaultActiveModule(module);
 
-        sound->startUpdate();
 		core->startCore();
 		
 
@@ -118,7 +117,6 @@ void startupRl(bool developerMode, Ogre::String module)
 	try 
     {
 #endif // #ifndef _DEBUG
-        sound->stopUpdate();
 		delete script;
 		delete ui;
 		delete dialog;

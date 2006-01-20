@@ -1,5 +1,5 @@
 INCLUDES = $(Plugin_TheoraVideoSystem_CFLAGS) $(RUBY_CFLAGS) $(CEGUI_CFLAGS) $(OGRE_CFLAGS) $(STLPORT_CFLAGS) \
-	 -I../include -I../../common/include -I../../core/include
+	 -I../include -I../../common/include
 
 lib_LTLIBRARIES = libRlSound.la
 libRlSound_la_LIBADD = $(OGRE_LIBS) $(RUBY_LIBS) $(LIBS) $(CEGUI_LIBS) $(CEGUIOGRE_LIBS) \

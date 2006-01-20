@@ -19,7 +19,6 @@
 #include "SoundResource.h"
 #include "Video.h"
 #include "Exception.h"
-#include "GameLoop.h"
 #include <stdio.h>
 extern "C" {
     #include <fmod.h>
@@ -362,30 +361,5 @@ void SoundSubsystem::removeVideo(Video *video)
         }
     }
 }
-
-/**
- * Den Update-Task starten.
- * @author JoSch
- * @date 01-20-2006
- */
-void SoundSubsystem::startUpdate()
-{
-    rl::GameLoopManager::getSingleton().
-        addAsynchronousTask(rl::SoundUpdateTask::getSingletonPtr());
-}
-
-/**
- * Den Update-Task starten.
- * @author JoSch
- * @date 01-20-2006
- */
-void SoundSubsystem::stopUpdate()
-{
-    rl::GameLoopManager::getSingleton().
-        removeAsynchronousTask(rl::SoundUpdateTask::getSingletonPtr());
-}
-
-
-
 
 }
