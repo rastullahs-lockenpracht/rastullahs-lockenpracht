@@ -74,6 +74,8 @@ private:
     static int read(void *buffer, int size, void *handle);
     static int seek(void *handle, int pos, signed char mode);
     static int tell(void *handle);
+    
+    void printData();
         
 };
 
