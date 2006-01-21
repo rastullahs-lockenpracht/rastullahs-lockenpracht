@@ -32,7 +32,8 @@ namespace rl {
  * @date 07-04-2005
  */
 SoundStream::SoundStream(const String &name):
-    Sound(name)
+    Sound(name),
+    mStream(0)
 {
 }
  
@@ -42,7 +43,8 @@ SoundStream::SoundStream(const String &name):
  * @date 07-04-2005
  */
 SoundStream::SoundStream(const SoundResourcePtr &soundres):
-    Sound(soundres)
+    Sound(soundres),
+    mStream(0)
 {
 }
 
