@@ -107,51 +107,59 @@ void SoundSubsystem::printData()
         switch (FSOUND_GetOutput())
     {
         case FSOUND_OUTPUT_NOSOUND:
-            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "NoSound");
+			Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FMOD Output: NoSound");
             break;
-#if OGRE_PLATFORM == PLATFORM_WIN32
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
         case FSOUND_OUTPUT_WINMM:
-            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "Windows Multimedia Waveout");
+            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FMOD Output: Windows Multimedia Waveout");
             break;
         case FSOUND_OUTPUT_DSOUND:
-            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "Direct Sound");
+            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FMOD Output: Direct Sound");
             break;
         case FSOUND_OUTPUT_ASIO:
-            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "ASIO");
+            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FMOD Output: ASIO");
+            break;
+		default:
+            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FMOD Output: Unknown");
             break;
 #else
         case FSOUND_OUTPUT_OSS:
-            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "Open Sound System");
+            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FMOD Output: Open Sound System");
             break;
         case FSOUND_OUTPUT_ESD:
-            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "Enlightment Sound Daemon");
+            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FMOD Output: Enlightment Sound Daemon");
             break;
         case FSOUND_OUTPUT_ALSA:
-            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "Alsa");
+            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FMOD Output: Alsa");
+            break;
+		default:
+            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FMOD Output: Unknown");
             break;
 #endif
     }
 
-    Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FSOUND Mixer");
     switch (FSOUND_GetMixer())
     {
         case FSOUND_MIXER_BLENDMODE:
-            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FSOUND_MIXER_BLENDMODE");
+			Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FMOD Mixer: FSOUND_MIXER_BLENDMODE");
             break;
         case FSOUND_MIXER_MMXP5:
-            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FSOUND_MIXER_MMXP5");
+            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FMOD Mixer: FSOUND_MIXER_MMXP5");
             break;
         case FSOUND_MIXER_MMXP6:
-            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FSOUND_MIXER_MMXP6");
+            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FMOD Mixer: FSOUND_MIXER_MMXP6");
             break;
         case FSOUND_MIXER_QUALITY_FPU:
-            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FSOUND_MIXER_QUALITY_FPU");
+            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FMOD Mixer: FSOUND_MIXER_QUALITY_FPU");
             break;
         case FSOUND_MIXER_QUALITY_MMXP5:
-            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FSOUND_MIXER_QUALITY_MMXP5");
+            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FMOD Mixer: FSOUND_MIXER_QUALITY_MMXP5");
             break;
         case FSOUND_MIXER_QUALITY_MMXP6:
-            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FSOUND_MIXER_QUALITY_MMXP6");
+            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FMOD Mixer: FSOUND_MIXER_QUALITY_MMXP6");
+            break;
+        default:
+            Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FMOD Mixer: Unknown");
             break;
     };
  
