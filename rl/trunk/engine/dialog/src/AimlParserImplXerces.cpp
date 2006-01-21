@@ -23,7 +23,7 @@
 
 #include "CoreSubsystem.h"
 #include "DialogSubsystem.h"
-#include "Interpreter.h"
+#include "RubyInterpreter.h"
 
 #include "XmlHelper.h"
 #include "XmlResourceManager.h"
@@ -32,7 +32,6 @@
 #include "Graphmaster.h"
 #include "NaturalLanguageProcessor.h"
 
-#include "ScriptObject.h" //deprecated!!!
 #include "Predicates.h"
 
 #include "AimlParserImplXerces.h"
@@ -157,22 +156,6 @@ namespace rl
 //					mNlp->processOption(name, value);
 				}
 			}
-		} else if(!tmp.compare("script")) {
-		//	Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "script");
-			mCurState = PARSER_SCRIPT;
-			name = XmlHelper::getAttributeValueAsString(attrs,"src");
-			mTemplateValue = XmlHelper::getAttributeValueAsString(attrs,"class");
-	//		CoreSubsystem::getSingleton().getInterpreter()->execute("print(\""+name+"\")");
-	//		CoreSubsystem::getSingleton().getInterpreter()->execute("print(\""+mTemplateValue+"\")");
-			// If tag has no attribute, XmlChar::transcode returns "????"
-			if(name.find("?") && mTemplateValue.find("?"))
-			{
-				ScriptObject* so=new ScriptObject("DialogMeister"); // TODO: Name of NPC
-				CeGuiString bla[]={"Hans(RB)"};
-				so->setScript(name.c_str(),mTemplateValue.c_str(),1,bla);
-				so->callFunction("OnPlaySound",0,0);
-				mCurState=PARSER_START;
-			} 
 		} else if(!tmp.compare("bot")) {
 		//	Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "Bot");
 			if(mNlp)
@@ -479,14 +462,7 @@ namespace rl
 			script += mTemplateValue+"\n";
 			script += XmlHelper::transcodeToString(chars);
 			script += "\n end";
-			CoreSubsystem::getSingleton().getInterpreter()->execute(script.c_str());
-
-			ScriptObject* so=new ScriptObject("DialogMeister");
-			CeGuiString bla[]={mTemplateValue};
-			// don't pass a scriptfile, since the class is already loaded into memory
-			so->setScript("",mTemplateValue.c_str(),1,bla);
-			so->callFunction("OnPlaySound",0,0);
-
+			CoreSubsystem::getSingleton().getRubyInterpreter()->execute(script.c_str());
 		} else {
 			//--	an error
 		}

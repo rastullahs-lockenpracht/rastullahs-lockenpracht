@@ -28,7 +28,7 @@
 
 namespace rl {
 
-    class Interpreter;
+    class RubyInterpreter;
 
 	/** This is a Console System
 	 */
@@ -41,8 +41,7 @@ namespace rl {
 			static Console& getSingleton();
 			static Console* getSingletonPtr();
 
-			void setInterpreter(Interpreter* interpreter);
-			Interpreter* getInterpreter();
+			void setRubyInterpreter(RubyInterpreter* interpreter);
 
 			void write(const CeGuiString& output);
 				
@@ -53,7 +52,7 @@ namespace rl {
 			CEGUI::Editbox* mCommandLine;
 			CEGUI::Listbox* mDisplay;
 			
-			Interpreter* mInterpreter;
+			RubyInterpreter* mRubyInterpreter;
 			bool mPrompt;
 
 			bool handleKeyDown(const CEGUI::EventArgs& e);

@@ -16,7 +16,7 @@
 #include <boost/bind.hpp>
 #include "UiPrerequisites.h"
 
-#include "Interpreter.h"
+#include "RubyInterpreter.h"
 #include "ListboxWrappedTextItem.h"
 #include "CoreSubsystem.h"
 #include "Console.h"
@@ -89,7 +89,7 @@ namespace rl
 			CeGuiString printCommand = ">" + command;
 			appendTextRow(printCommand, 0xFF7FFF7F);
 				
-			mPrompt = CoreSubsystem::getSingleton().getInterpreter()->execute(command.c_str());
+			mPrompt = CoreSubsystem::getSingleton().getRubyInterpreter()->execute(command.c_str());
 
 			mHistory.push_back(command);
 			mHistoryMarker = mHistory.size();
@@ -158,15 +158,11 @@ namespace rl
 		//mDisplay->ensureItemIsVisible(item); // scroll to bottom;*/
 	}
 	
-	void Console::setInterpreter(Interpreter* interpreter)
+	void Console::setRubyInterpreter(RubyInterpreter* RubyInterpreter)
 	{
-		mInterpreter = interpreter;
+		mRubyInterpreter = RubyInterpreter;
 	}
 
-	Interpreter* Console::getInterpreter()
-	{
-		return mInterpreter;
-	}
 
 	void Console::cycleHistory(int skip)
 	{

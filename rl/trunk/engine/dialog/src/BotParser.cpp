@@ -23,7 +23,7 @@
 
 #include <OgreResourceGroupManager.h>
 
-#include "Interpreter.h"
+#include "RubyInterpreter.h"
 #include "CoreSubsystem.h"
 #include "DialogSubsystem.h"
 #include "DialogCharacter.h"
@@ -232,14 +232,14 @@ namespace rl
 		if(src.find("?") && className.find("?"))
 		{
 			// load the ruby scriptfile into the interpreter 
-			CoreSubsystem::getSingleton().getInterpreter()->execute(("load \"" + src + "\"").c_str());
+			CoreSubsystem::getSingleton().getRubyInterpreter()->execute(("load \"" + src + "\"").c_str());
 			// create the string for instanciating the class
 			std::stringstream newDialogScriptObject;
 			newDialogScriptObject << "DialogSubsystem.getSingleton()";
 			newDialogScriptObject << ".getCurrentBot().setScriptObject(";
 			newDialogScriptObject << className.c_str() << ".new())";
 			// execute the ruby command
-			CoreSubsystem::getSingleton().getInterpreter()
+			CoreSubsystem::getSingleton().getRubyInterpreter()
 				->execute(newDialogScriptObject.str());
 			
 			mSubState = SUBTAG_START;

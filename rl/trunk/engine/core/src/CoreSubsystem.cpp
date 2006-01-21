@@ -57,7 +57,7 @@ namespace rl {
 
     CoreSubsystem::CoreSubsystem()
         : 	mWorld(NULL),
-        mInterpreter(NULL),
+        mRubyInterpreter(NULL),
         mActiveAdventureModule(""),
 		mDefaultActiveModule("")
     {
@@ -77,10 +77,10 @@ namespace rl {
 
     void CoreSubsystem::startCore()
     {
-		getInterpreter()->execute("load 'globals.rb'");
-        getInterpreter()->execute("load 'startup-global.rb'");
+		mRubyInterpreter->execute("load 'globals.rb'");
+        mRubyInterpreter->execute("load 'startup-global.rb'");
 		if (mDefaultActiveModule == "")
-			getInterpreter()->execute("load 'startup-global-mainmenu.rb'");
+			mRubyInterpreter->execute("load 'startup-global-mainmenu.rb'");
 		else
 			startAdventureModule(mDefaultActiveModule);
 
@@ -142,7 +142,7 @@ namespace rl {
         new DeletionPropagator();
         mWorld = new DotSceneOctreeWorld();
 		new PhysicsManager();
-        mInterpreter=new RubyInterpreter();
+        mRubyInterpreter=new RubyInterpreter();
 
         new GameLoopManager(100); //TODO: In Config-Datei verlagern
         GameLoopManager::getSingleton().addSynchronizedTask(
@@ -316,10 +316,10 @@ namespace rl {
 
 		SoundManager::getSingleton().addSounds( resourceGroup );
 
-        if (getInterpreter() != NULL)
+        if (mRubyInterpreter != NULL)
         {
-            getInterpreter()->addSearchPath(moduleDir + "/scripts");
-            getInterpreter()->addSearchPath(moduleDir + "/scripts/maps");
+            mRubyInterpreter->addSearchPath(moduleDir + "/scripts");
+            mRubyInterpreter->addSearchPath(moduleDir + "/scripts/maps");
         }
     }
 
@@ -362,7 +362,7 @@ namespace rl {
 
         mActiveAdventureModule = module;
 
-        getInterpreter()->execute("load 'startup-module.rb'");
+        mRubyInterpreter->execute("load 'startup-module.rb'");
     }
 
 	void CoreSubsystem::setDefaultActiveModule(const Ogre::String& module)
@@ -380,14 +380,10 @@ namespace rl {
         return mWorld;
     }
 
-    void CoreSubsystem::setInterpreter(Interpreter* interpreter)
-    {
-        mInterpreter = interpreter;
-    }
 
-    Interpreter* CoreSubsystem::getInterpreter()
+    RubyInterpreter* CoreSubsystem::getRubyInterpreter()
     {
-        return mInterpreter;
+        return mRubyInterpreter;
     }
 
     void CoreSubsystem::makeScreenshot( const String& sName )
@@ -418,7 +414,7 @@ namespace rl {
 
         mWorld->loadScene(filename, module);
         if (startupScript.length() > 0)
-            getInterpreter()->execute(String("load '") + startupScript + 
+            mRubyInterpreter->execute(String("load '") + startupScript + 
             	String("'"));
 
         GameLoopManager::getSingleton().setPaused(false);

@@ -25,7 +25,7 @@
 
 namespace rl {
 
-class Interpreter;
+class RubyInterpreter;
 class World;
 
 /** CoreSubsystem. 
@@ -52,8 +52,7 @@ public:
 	void loadMap(const Ogre::String type, const Ogre::String filename,
 	    const Ogre::String module, const Ogre::String startupScript = "");
 
-	void setInterpreter(Interpreter* interpreter);
-	Interpreter* getInterpreter();
+	RubyInterpreter* getRubyInterpreter();
 
 	const Ogre::String& getActiveAdventureModule() const;
 	const Ogre::StringVector& getCommonModules() const;
@@ -108,7 +107,7 @@ private:
 	RL_LONGLONG getCurrentTime();
 
 	World* mWorld;
-	Interpreter* mInterpreter;
+	RubyInterpreter* mRubyInterpreter;
 	Ogre::StringVector mCommonModules;
 	Ogre::StringVector mActivatableModules;
 	Ogre::String mActiveAdventureModule;

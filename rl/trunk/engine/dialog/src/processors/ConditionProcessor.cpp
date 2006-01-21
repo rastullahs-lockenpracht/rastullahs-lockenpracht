@@ -20,7 +20,6 @@
 #include "XmlHelper.h"
 #include "CoreSubsystem.h"
 #include "RulesSubsystem.h"
-#include "Interpreter.h"
 
 #include "Creature.h"
 #include "QuestBook.h"

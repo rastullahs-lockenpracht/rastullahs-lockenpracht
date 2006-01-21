@@ -325,10 +325,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\Interpreter.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\LightObject.h"
 				>
 			</File>
@@ -378,10 +374,6 @@
 			</File>
 			<File
 				RelativePath=".\include\RubyInterpreter.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\ScriptObject.h"
 				>
 			</File>
 			<File
@@ -535,10 +527,6 @@
 			</File>
 			<File
 				RelativePath=".\src\RubyInterpreter.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ScriptObject.cpp"
 				>
 			</File>
 			<File

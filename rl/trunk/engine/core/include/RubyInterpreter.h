@@ -17,81 +17,34 @@
 #ifndef __RubyInterpreter_H__
 #define __RubyInterpreter_H__
 
-#include "Interpreter.h"
-#include <map>
-
-#include <OgreNoMemoryMacros.h>
-#include "FixRubyHeaders.h"
-#include <ruby.h>
-#include "FixRubyHeaders.h"
-#include <OgreMemoryMacros.h>
-
 #include "CommonPrerequisites.h"
 #include "CorePrerequisites.h"
 
-namespace rl {
+typedef unsigned long VALUE;
 
-typedef std::map <Ogre::String, VALUE> Value_Map;
-typedef std::pair <Ogre::String, VALUE> Value_Pair;
-typedef std::map <Ogre::String, ScriptObject*> ScriptObjectPtr_Map;
-typedef std::pair <Ogre::String, ScriptObject*> ScriptObjectPtr_Pair;
+namespace rl {
 
 typedef VALUE(*staticValueMethod)(...);
 typedef VALUE(*ProtectedMethod)(VALUE);
-class ScriptObject;
 
-class _RlCoreExport RubyInterpreter : public Interpreter
+class _RlCoreExport RubyInterpreter
 {
 public:
 	RubyInterpreter();
 	virtual ~RubyInterpreter();
 
-	void initializeInterpreter();
 	void initializeInterpreter(staticValueMethod func);
-	
+
 	bool execute(Ogre::String command);
-
-	static Ogre::String val2str(const VALUE rval);
-	static CeGuiString val2ceguistr(const VALUE rval);
-	static Ogre::String strval2str(const VALUE rval);
-
-	void setScript( const Ogre::String& instname,
-	    const Ogre::String& scriptname, const Ogre::String& classname,
-	    int argc, const CeGuiString args[] = 0 );
-	void callFunction( const Ogre::String& instname,
-	    const Ogre::String& funcname,
-	    int argc, const CeGuiString args[] = 0 );
-    int callIntegerFunction( const Ogre::String& instname,
-        const Ogre::String& funcname, int argc,
-        const CeGuiString args[] = 0 );
-	CeGuiString callStringFunction( const Ogre::String& instname,
-	    const Ogre::String& funcname, int argc,
-	    const CeGuiString args[] = 0 );
-	void registerScriptObject( ScriptObject* obj,
-	    const Ogre::String& instname );
-	void unregisterScriptObject( const Ogre::String& instname );
 
 	void addSearchPath(const Ogre::String& path);
 
-	void setDefOut( staticValueMethod func);
-
-	ScriptObject* getScriptObject( const Ogre::String& name );
-private:
-    VALUE mRubyObjects;
-	Value_Map mScriptInstances;
-	ScriptObjectPtr_Map mScriptObjects;
-	
-	void createScriptInstance( const Ogre::String& instname );
-	void removeScriptInstance( const Ogre::String& instname );
-	void registerRubyObject(VALUE object);
-    void unregisterRubyObject(VALUE object);
-
+	static CeGuiString val2ceguistr(const VALUE rval);
+private:	
 	void logRubyErrors(const std::string& intro, int errorcode);
 	void loadProtected(ProtectedMethod func, VALUE args,
 	    const std::string& msg, bool exitOnFail = false);
 	static VALUE loadDlls(VALUE);
-
-	VALUE* rubyArgs( int argc, const CeGuiString args[] );
 };
 
 }
