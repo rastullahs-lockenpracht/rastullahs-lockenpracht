@@ -17,7 +17,6 @@
 	GameAreaTypes.h \
 	GameEventManager.h \
 	GameLoop.h \
-	Interpreter.h \
 	LightObject.h \
 	ListenerObject.h \
 	MeshObject.h \
@@ -28,10 +27,9 @@
 	PhysicsGenericContactCallback.h \
 	PhysicsController.h \
 	PhysicsManager.h \
-        PhysicsMaterialRaycast.h \
+    PhysicsMaterialRaycast.h \
 	Primitive.h \
 	RubyInterpreter.h \
-	ScriptObject.h \
 	ScriptObjectRepository.h \
 	SoundObject.h \
 	SoundPlaylist.h \
