@@ -48,7 +48,7 @@ namespace rl {
         mCamBody(),
         mCharBody(),
         mDesiredDistance(200),
-        mDistanceRange(150, 500),
+        mDistanceRange(80, 500),
         mYaw(0),
         mPitch(20),
         mPitchRange(Degree(-75), Degree(85)),
@@ -66,7 +66,9 @@ namespace rl {
         mJumpTimer(0.0),
         mMaxDelay(1.0/30.0),
         mObstractedFrameCount(0),
+        mObstractedTime(0.0f),
         mCameraJammedFrameCount(0),
+        mCameraJammedTime(0.0f),
         mRaycast(new PhysicsMaterialRaycast())
     {
         if (mCamera == 0 || mCharacter == 0)
@@ -177,24 +179,40 @@ namespace rl {
         while (mYaw.valueDegrees() > 360.0f) mYaw -= Degree(360.0f);
         while (mYaw.valueDegrees() < -360.0f) mYaw += Degree(360.0f);
 
-        if (isCharacterOccluded()) ++mObstractedFrameCount;
+        if (isCharacterOccluded())
+        {
+            mObstractedTime += elapsedTime;
+            ++mObstractedFrameCount;
+        }
+        else
+        {
+            mObstractedTime = 0.0f;
+            mObstractedFrameCount = 0;
+        }
 
-        // if we have more than ten frames with no direct sight, reset camera
-        if (mObstractedFrameCount > 10)
+        // if we have more than 250ms and at least five frames with no direct sight, reset camera
+        if (mObstractedTime > 0.250f && mObstractedFrameCount > 5)
         {
             mObstractedFrameCount = 0;
             resetCamera();
         }
 
-        // if we have more than ten frames with camera distance higher
+        // if we have more than 250ms and at least five frames with camera distance higher
         // than desired distance, reset camera
         if ((mCamera->getWorldPosition()
             - (mCharacter->getWorldPosition() + mLookAtOffset*2.0)).length() 
             > 2.0f * mDesiredDistance)
         {
+            mCameraJammedTime += elapsedTime;
             ++mCameraJammedFrameCount;
         }
-        if (mCameraJammedFrameCount > 10)
+        else
+        {
+            mCameraJammedTime = 0.0f;
+            mCameraJammedFrameCount = 0;
+        }
+
+        if (mCameraJammedTime > 0.250f && mCameraJammedFrameCount > 5)
         {
             mCameraJammedFrameCount = 0;
             resetCamera();
@@ -464,7 +482,6 @@ namespace rl {
         if (mViewMode == VM_THIRD_PERSON)
         {
             mPitch = Degree(30.0);
-            mDesiredDistance = 150.0;
         }
     }
 }

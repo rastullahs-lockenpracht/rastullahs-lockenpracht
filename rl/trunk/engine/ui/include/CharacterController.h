@@ -104,7 +104,9 @@ namespace rl {
         Ogre::Real mJumpTimer;
 
         int mObstractedFrameCount;
+        Ogre::Real mObstractedTime;
         int mCameraJammedFrameCount;
+        Ogre::Real mCameraJammedTime;
 
         PhysicsMaterialRaycast* mRaycast;
 
