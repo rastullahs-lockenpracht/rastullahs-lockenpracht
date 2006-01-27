@@ -29,7 +29,7 @@ using namespace Ogre;
 namespace rl {
 
 	MainMenuWindow::MainMenuWindow() :
-		CeGuiWindow("mainmenuwindow.xml", WND_MOUSE_INPUT),
+		CeGuiWindow("mainmenuwindow.xml", WND_MOUSE_INPUT, true),
 		mActiveModule("")
 	{
 
