@@ -40,10 +40,11 @@ public:
 		OPEN,
 		FAILED,
 		COMPLETED,
-		CLOSED
+		CLOSED,
+		HEARD_OF
 	};
 
-	static CeGuiString STATE_NAMES[5];
+	static CeGuiString STATE_NAMES[6];
 
 	/**
 	 * @param id eine einzigartige ID, um den Quest wiederzufinden

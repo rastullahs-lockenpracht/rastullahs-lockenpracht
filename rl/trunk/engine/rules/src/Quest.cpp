@@ -25,7 +25,7 @@
 
 namespace rl {
 
-CeGuiString	Quest::STATE_NAMES[5] = {"UNKNOWN", "OPEN", "FAILED", "COMPLETED", "CLOSED"};
+CeGuiString	Quest::STATE_NAMES[6] = {"UNKNOWN", "OPEN", "FAILED", "COMPLETED", "CLOSED", "HEARDOF"};
 
 Quest::Quest(const CeGuiString& id, const CeGuiString& name, const CeGuiString& description)
 :	mId(id),
@@ -190,6 +190,8 @@ Quest::State Quest::getStateFromName(const CeGuiString& stateName)
 		return Quest::COMPLETED;
 	if (stateName == Quest::STATE_NAMES[Quest::CLOSED]) 
 		return Quest::CLOSED;
+	if (stateName == Quest::STATE_NAMES[Quest::HEARD_OF]) 
+		return Quest::HEARD_OF;
 
 	const char* msg = (stateName + " is no valid quest state.").c_str();
 	Throw(InvalidArgumentException, msg);
