@@ -1,0 +1,27 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+    <Window Type="RastullahLook/FrameWindow" Name="DataLoadingProgressWindow">
+        <Property Name="Position" Value="x:0.0 y:0.0"/>
+        <Property Name="AbsoluteWidth" Value="400"/>
+        <Property Name="AbsoluteHeight" Value="171"/>
+		<Property Name="Text" Value="Bitte warten"/>
+
+		<Window Type="RastullahLook/StaticText" Name="DataLoadingProgressWindow/Text">
+			<Property Name="AbsoluteXPosition" Value="15"/>
+			<Property Name="AbsoluteWidth" Value="370"/>
+			<Property Name="AbsoluteYPosition" Value="26"/>
+			<Property Name="AbsoluteHeight" Value="50"/>
+			<Property Name="FrameEnabled" Value="False"/>
+			<Property Name="Text" Value="Rastullahs Lockenpracht lädt Daten, bitte warten..." />
+            <Property Name="HorzFormatting" Value="WordWrapCentred" />
+		</Window>
+
+		<Window Type="RastullahLook/ProgressBar" Name="DataLoadingProgressWindow/ProgressBar">
+			<Property Name="AbsoluteXPosition" Value="15"/>
+			<Property Name="AbsoluteWidth" Value="370"/>
+			<Property Name="AbsoluteYPosition" Value="100"/>
+			<Property Name="AbsoluteHeight" Value="50"/>
+			<Property Name="FrameEnabled" Value="False"/>
+		</Window>
+
+    </Window>
+</GUILayout>

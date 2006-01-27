@@ -37,6 +37,7 @@
 #include "Exception.h"
 #include "ConfigurationManager.h"
 #include "Logger.h"
+#include "CoreEvents.h"
 #include "SoundUpdateTask.h"
 #include <ctime>
 
@@ -68,6 +69,8 @@ namespace rl {
 
     CoreSubsystem::~CoreSubsystem() 
     {  
+		mCoreEventCaster.removeEventListeners();
+
         if(mWorld != 0)
             delete mWorld;
         
@@ -356,11 +359,13 @@ namespace rl {
 
         initializeModuleTextures(module, false);
         initializeModule(module, false);
+		mCoreEventCaster.dispatchEvent(new DataLoadedEvent(0.0));
         ResourceGroupManager::getSingleton().initialiseResourceGroup(module);
 
         precreateMeshes(module);
 
         mActiveAdventureModule = module;
+		mCoreEventCaster.dispatchEvent(new DataLoadedEvent(100.0));
 
         mRubyInterpreter->execute("load 'startup-module.rb'");
     }
@@ -438,4 +443,9 @@ namespace rl {
         return static_cast<RL_LONGLONG>(timebuffer.tv_sec) * 1000L + 
         	static_cast<RL_LONGLONG>(timebuffer.tv_usec / 1000);
     }
+
+	void CoreSubsystem::addCoreEventListener(rl::CoreEventListener *listener)
+	{
+		mCoreEventCaster.addEventListener(listener);
+	}
 }

@@ -281,6 +281,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\CoreEvents.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\CorePrerequisites.h"
 				>
 			</File>
@@ -443,6 +447,10 @@
 			</File>
 			<File
 				RelativePath=".\src\ConfigurationManagerWin32.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\CoreEvents.cpp"
 				>
 			</File>
 			<File

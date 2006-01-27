@@ -21,19 +21,23 @@
 #include <OgreSingleton.h>
 #include <OgreString.h>
 
+#include "EventSource.h"
+#include "EventCaster.h"
 #include "CorePrerequisites.h"
 
 namespace rl {
 
 class RubyInterpreter;
 class World;
+class CoreEvent;
+class CoreEventListener;
 
 /** CoreSubsystem. 
 	@remarks		
         It follows the Singleton Pattern,
 		and initialises the game context.
 */
-class _RlCoreExport CoreSubsystem : protected Ogre::Singleton<CoreSubsystem>
+class _RlCoreExport CoreSubsystem : protected Ogre::Singleton<CoreSubsystem>, public virtual EventSource
 {
 public:
 	/** Default Constructor */
@@ -81,6 +85,8 @@ public:
 	*/
 	void resetClock();
 
+	void addCoreEventListener(CoreEventListener* listener);
+
 private:  
     /** Runs the setup methods  */
 	bool initializeCoreSubsystem();
@@ -116,6 +122,7 @@ private:
 	RL_LONGLONG mClockStartTime;
 
 	bool mDeveloperMode;
+	EventCaster<CoreEvent> mCoreEventCaster;
 };
 
 }

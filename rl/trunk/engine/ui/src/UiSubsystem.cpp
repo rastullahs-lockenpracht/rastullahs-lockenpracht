@@ -54,7 +54,6 @@
 
 #include "ScriptObjectRepository.h"
 
-// BEGIN TEST
 #include "Person.h"
 #include "CharacterSheetWindow.h"
 #include "GameObject.h"
@@ -65,7 +64,7 @@
 #include "DialogWindow.h"
 #include "PlaylistWindow.h"
 #include "Primitive.h"
-// END TEST
+#include "DataLoadingProgressWindow.h"
 
 template<> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
 
@@ -160,7 +159,7 @@ namespace rl {
 		mCharacterSheet = new CharacterSheetWindow();
 		mJournalWindow = new JournalWindow();
 		RulesSubsystem::getSingleton().getQuestBook()->addQuestChangeListener(mJournalWindow);
-
+		CoreSubsystem::getSingleton().addCoreEventListener(new DataLoadingProgressWindow());
   //      runTest();
     }
 
