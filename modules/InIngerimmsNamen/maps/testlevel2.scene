@@ -1,0 +1,34 @@
+<scene formatVersion="0.2.0">
+  <nodes>
+    <node name="ter_nemfelsen">
+      <position x="0.0" y="0.0" z="0.0" />
+      <rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0" />
+      <scale x="0.01" y="0.01" z="0.01" />
+      <entity name="ter_nemfelsen" meshFile="ter_nemfelsen.mesh"/>
+    </node>
+    <node name="geb_kate_01_neu">
+      <position x="-12.502752" y="5.4755645" z="-14.992015" />
+      <rotation qw="0.175212" qx="0.0" qy="-0.984531" qz="0.0" />
+      <scale x="0.01" y="0.01" z="0.01" />
+      <entity name="geb_kate_01_neu" meshFile="geb_kate_01_neu.mesh"/>
+    </node>
+    <node name="Plane">
+      <position x="-2.0837915" y="5.786506" z="-14.145052" />
+      <rotation qw="0.999015" qx="0.009609" qy="0.037832" qz="-0.021084" />
+      <scale x="0.01" y="0.01" z="0.01" />
+      <entity name="Plane" meshFile="nat_eiche_gruen.mesh"/>
+    </node>
+    <node name="Plane.001">
+      <position x="14.536981" y="2.8868423" z="7.770358" />
+      <rotation qw="0.999124" qx="-0.005585" qy="0.041024" qz="0.006007" />
+      <scale x="0.01" y="0.01" z="0.01" />
+      <entity name="Plane.001" meshFile="nat_eiche_kahl.mesh"/>
+    </node>
+    <node name="Plane.002">
+      <position x="17.03185" y="-1.2184674" z="22.533983" />
+      <rotation qw="0.994295" qx="0.069138" qy="0.034855" qz="-0.073359" />
+      <scale x="0.013814719" y="0.013814719" z="0.01630445" />
+      <entity name="Plane.002" meshFile="nat_eiche_kahl.mesh"/>
+    </node>
+  </nodes>
+</scene>

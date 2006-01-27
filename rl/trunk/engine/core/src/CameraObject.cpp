@@ -28,8 +28,8 @@ namespace rl {
 		Camera* camera = CoreSubsystem::getSingleton().getWorld()->
 			getSceneManager()->createCamera(name);
 		
-		camera->setNearClipDistance(10);
-		camera->setFarClipDistance(1000000);
+		camera->setNearClipDistance(0.1);
+		camera->setFarClipDistance(10000);
 
 		mMovableObject = camera;
     }

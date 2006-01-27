@@ -47,13 +47,13 @@ namespace rl {
         mCharacter(character),
         mCamBody(),
         mCharBody(),
-        mDesiredDistance(200),
-        mDistanceRange(80, 500),
+        mDesiredDistance(2.00),
+        mDistanceRange(1.50, 5.00),
         mYaw(0),
         mPitch(20),
         mPitchRange(Degree(-75), Degree(85)),
         mLookAtOffset(),
-        mMovementSpeed(360.0f),
+        mMovementSpeed(3.600f),
         mRotationSpeed(4.0f),
         mSpeedModifier(1.0f),
         mDesiredVel(),
@@ -69,7 +69,8 @@ namespace rl {
         mObstractedTime(0.0f),
         mCameraJammedFrameCount(0),
         mCameraJammedTime(0.0f),
-        mRaycast(new PhysicsMaterialRaycast())
+        mRaycast(new PhysicsMaterialRaycast()),
+		mGravitation(Vector3(0.0f, -9.81f, 0.0f))
     {
         if (mCamera == 0 || mCharacter == 0)
         {
@@ -343,7 +344,7 @@ namespace rl {
             body->getMassMatrix(mass, inertia);
 
             // apply gravity
-            Vector3 force = Vector3(0.0f, -mass * 980.0, 0.0f);
+            Vector3 force = mass * mGravitation;
 
             // Get the velocity vector
             Vector3 currentVel = body->getVelocity();
@@ -359,7 +360,7 @@ namespace rl {
             {
                 mStartJump = false;
                 mJumpTimer = 0.0f;
-                force += mass*400.f/timestep * Vector3::UNIT_Y;
+                force += mass*4.0f/timestep * Vector3::UNIT_Y;
             }
 
             body->setForce(force);

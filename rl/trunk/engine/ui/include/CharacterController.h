@@ -92,6 +92,7 @@ namespace rl {
         Ogre::Real mSpeedModifier;
 
         Ogre::Vector3 mDesiredVel;
+		Ogre::Vector3 mGravitation;
 
         AnimationState mCurrentAnimationState;
         AnimationState mLastAnimationState;

@@ -48,7 +48,7 @@ namespace rl
         mPhysicalThings(),
         mControlledThings(),
         mDebugMode(false),
-        mGravity(0, -998.0, 0),
+        mGravity(0, -9.81, 0),
         mWorldAABB(Vector3(-100, -100, -100), Vector3(100, 100, 100)),
         mElapsed(0.0f),
         mUpdate(1.0f/120.0f),
