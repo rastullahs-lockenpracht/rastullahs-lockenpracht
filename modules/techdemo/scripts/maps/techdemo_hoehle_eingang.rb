@@ -55,6 +55,10 @@ class ZusammenfallListener < AnimationListener
 	def animationFinished(anEvent)
 		@mDustCloud.getControlledObject().setActive(false)
 		@mRockPile.getPhysicalThing().updateCollisionHull();
+#		pt = @mRockPile.getPhysicalThing();
+#		@mRockPile.setPhysicalThing(nil)
+#		$PM.removeAndDestroyPhysicalThing(pt)
+
 	end
 	
 	def animationPaused(anEvent)
