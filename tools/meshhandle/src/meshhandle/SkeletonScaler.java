@@ -9,7 +9,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import meshhandle.model.Skeleton;
+import meshhandle.skeleton.Skeleton;
 import meshhandle.xml.SkeletonLoader;
 
 public class SkeletonScaler {

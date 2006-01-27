@@ -7,11 +7,11 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import meshhandle.data.Vector3;
-import meshhandle.model.Animation;
-import meshhandle.model.AnimationTrack;
-import meshhandle.model.Bone;
-import meshhandle.model.Keyframe;
-import meshhandle.model.Skeleton;
+import meshhandle.skeleton.Animation;
+import meshhandle.skeleton.AnimationTrack;
+import meshhandle.skeleton.Bone;
+import meshhandle.skeleton.Keyframe;
+import meshhandle.skeleton.Skeleton;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

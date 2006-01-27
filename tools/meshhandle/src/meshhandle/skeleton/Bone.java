@@ -1,4 +1,4 @@
-package meshhandle.model;
+package meshhandle.skeleton;
 
 import meshhandle.data.Vector3;
 
