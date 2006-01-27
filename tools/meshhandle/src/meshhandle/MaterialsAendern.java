@@ -1,3 +1,4 @@
+package meshhandle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -20,12 +21,11 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class MaterialsAendern extends JPanel {
+	private static final String SUBMESH_MATERIAL = "        <submesh material=\"";
 
-	private PropertyManager pm = new PropertyManager();
-
-	String[] matname;
-
-	ArrayList materials;
+	private PropertyManager mPropertyManager = new PropertyManager();
+	private String[] matname;
+	private ArrayList materials;
 
 	private void convert(String[] args) {
 
@@ -94,8 +94,9 @@ public class MaterialsAendern extends JPanel {
 
 	}
 
-	protected MaterialsAendern(final File mesh) {
-		final File[] files = pm.propertiesLaden();
+	protected MaterialsAendern(final File mesh) 
+	{
+		final File[] files = mPropertyManager.propertiesLaden();
 
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -134,7 +135,7 @@ public class MaterialsAendern extends JPanel {
 			BufferedReader reader = new BufferedReader(xmlreader);
 			for (String s; (s = reader.readLine()) != null;) {
 				if (s.indexOf("<submesh material=") != -1) {
-					int a = "        <submesh material=\"".length();
+					int a = SUBMESH_MATERIAL.length();
 					int b = s.substring(a).indexOf("\"");
 					JPanel aPane = new JPanel();
 					aPane.setLayout(new BoxLayout(aPane, BoxLayout.X_AXIS));
@@ -206,7 +207,7 @@ public class MaterialsAendern extends JPanel {
 		JButton ok = new JButton("OK");
 		ok.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (xmlneuschreiben(factorfield, model, newname)) {
+				if (xmlneuschreiben(Float.parseFloat(factorfield.getText()), model, newname.getText())) {
 					mesh.delete();
 					String[] args = {
 							files[1].getAbsolutePath() + "/OgreXMLConverter",
@@ -235,35 +236,33 @@ public class MaterialsAendern extends JPanel {
 
 	}
 
-	public boolean xmlneuschreiben(JTextField factorfield, File model,
-			JTextField newname) {
+	public boolean xmlneuschreiben(float factor, File model,
+			String newname) {
 		matname = new String[materials.size()];
 		for (int i = 0; i < materials.size(); i++) {
 			matname[i] = ((JTextField) materials.get(i)).getText();
 		}
 
-		float factor = Float.parseFloat(factorfield.getText());
 		int i = 0;
-		StringBuffer dateiinhalt = new StringBuffer();
+		StringBuffer dateiInhalt = new StringBuffer();
 		try {
-			FileReader xmlreader = new FileReader(model);
-			BufferedReader reader = new BufferedReader(xmlreader);
+			BufferedReader reader = new BufferedReader(new FileReader(model));
 
-			for (String s; (s = reader.readLine()) != null;) {
-				if (s.indexOf("<submesh material=") != -1 && i < matname.length) {
-
-					dateiinhalt.append(s.substring(0,
-							"        <submesh material=\"".length())
+			for (String s; (s = reader.readLine()) != null;) 
+			{
+				if (s.indexOf("<submesh material=") != -1 && i < matname.length) 
+				{
+					dateiInhalt.append(
+							s.substring(0, SUBMESH_MATERIAL.length())
 							+ matname[i]
-							+ s.substring("        <submesh material=\""
-									.length()
-									+ s.substring(
-											"        <submesh material=\""
-													.length()).indexOf("\""))
+							+ s.substring(SUBMESH_MATERIAL.length()
+							+ s.substring(SUBMESH_MATERIAL.length()).indexOf("\""))
 							// Hier funktioniert schonmal irgendetwas nicht!!!
 							+ "\n");
 					i++;
-				} else if (s.indexOf("<position x=\"") != -1) {
+				} 
+				else if (s.indexOf("<position x=\"") != -1) 
+				{
 					int[] positionx = gaenseFuesse(s);
 					float x = Float.parseFloat(s.substring(positionx[0] + 1,
 							positionx[1]));
@@ -274,42 +273,55 @@ public class MaterialsAendern extends JPanel {
 							.substring(positionx[1] + positiony[0] + 2,
 									positionx[1] + positiony[1] + 1));
 
-					int[] positionz = gaenseFuesse(s.substring(positionx[1]
-							+ positiony[1] + 2));
-					float z = Float.parseFloat(s.substring(positionx[1]
-							+ positiony[1] + positionz[0] + 3, positionx[1]
-							+ positiony[1] + positionz[1] + 2));
-					dateiinhalt.append(s.substring(0, positionx[0])
+					int[] positionz = gaenseFuesse(
+							s.substring(
+									positionx[1]
+								  + positiony[1]
+								  + 2));
+					float z = Float.parseFloat(
+							s.substring(
+								  positionx[1]
+							      + positiony[1] 
+							      + positionz[0] + 3, 
+							      positionx[1]
+							      + positiony[1] 
+							      + positionz[1] + 2));
+					dateiInhalt.append(
+							s.substring(0, positionx[0])
 							+ "\""
 							+ (x * factor)
 							+ "\""
-							+ s.substring(positionx[1] + 1, positionx[1]
-									+ positiony[0] + 1)
+							+ s.substring(
+									positionx[1] + 1, 
+									positionx[1] + positiony[0] + 1)
 							+ "\""
 							+ (y * factor)
 							+ "\""
-							+ s.substring(positionx[1] + positiony[1] + 2,
-									positionx[1] + positiony[1] + positionz[0]
-											+ 2)
+							+ s.substring(
+									positionx[1] + positiony[1] + 2,
+									positionx[1] + positiony[1] + positionz[0] + 2)
 							+ "\""
 							+ (z * factor)
 							+ "\""
 							+ s.substring(positionx[1] + positiony[1]
 									+ positionz[1] + 3) + "\n");
 
-				} else if (s.indexOf("<skeletonlink name=\"") != -1) {
+				} 
+				else if (s.indexOf("<skeletonlink name=\"") != -1) 
+				{
 					int[] pos = gaenseFuesse(s);
-					dateiinhalt.append(s.substring(0, pos[0] + 1)
-							+ newname.getText() + ".skeleton"
+					dateiInhalt.append(s.substring(0, pos[0] + 1)
+							+ newname + ".skeleton"
 							+ s.substring(pos[1]) + "\n");
-				} else {
-					dateiinhalt.append(s + "\n");
+				} 
+				else 
+				{
+					dateiInhalt.append(s + "\n");
 				}
 			}
 
-			byte[] neuedatei = String.valueOf(dateiinhalt).getBytes();
 			FileOutputStream out = new FileOutputStream(model);
-			out.write(neuedatei);
+			out.write(dateiInhalt.toString().getBytes());
 			out.close();
 			return true;
 		} catch (FileNotFoundException e1) {
