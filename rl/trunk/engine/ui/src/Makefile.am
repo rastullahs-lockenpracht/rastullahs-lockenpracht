@@ -21,6 +21,7 @@ libRlUi_la_SOURCES = \
 	CommandMapperWindow.cpp \
 	Console.cpp \
 	ContainerContentWindow.cpp \
+	DataLoadingProgressWindow.cpp \
 	DebugWindow.cpp \
 	DialogWindow.cpp \
 	GameLoggerWindow.cpp \

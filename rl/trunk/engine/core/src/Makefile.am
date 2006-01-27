@@ -14,6 +14,7 @@ libRlCore_la_SOURCES = \
 	ConfigurationManagerLinux.cpp \
 	ConfigurationManagerWin32.cpp \
 	ConfigurationManagerMac.cpp \
+	CoreEvents.cpp \
 	CoreSubsystem.cpp \
 	DeletionPropagator.cpp \
 	DotSceneLoader.cpp \

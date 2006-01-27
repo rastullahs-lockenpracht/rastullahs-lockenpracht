@@ -6,6 +6,7 @@
 	AnimationListener.h \
 	AnimationManager.h \
 	CameraObject.h \
+	CoreEvents.h \
 	CorePrerequisites.h \
 	CoreSubsystem.h \
 	DeletionPropagator.h \

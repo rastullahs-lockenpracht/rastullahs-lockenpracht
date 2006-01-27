@@ -13,6 +13,7 @@ noinst_HEADERS = \
 	CommandMapperWindow.h \
 	Console.h \
 	ContainerContentWindow.h \
+	DataLoadingProgressWindow.h \
 	DebugWindow.h \
 	DialogWindow.h \
 	GameLoggerWindow.h \
