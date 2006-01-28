@@ -59,10 +59,12 @@ SoundSubsystem* SoundSubsystem::getSingletonPtr(void)
 SoundSubsystem::SoundSubsystem()
 {
     // fmod initialisieren und Fehler zuruecksetzen.
-    FSOUND_SetMaxHardwareChannels(16);
+	//FSOUND_SetDriver(1);
+	FSOUND_SetMaxHardwareChannels(16);
     FSOUND_SetMinHardwareChannels(8);
     /// TODO: More choices
 //    FSOUND_SetOutput(FSOUND_OUTPUT_ALSA);
+	
     FSOUND_SetMixer(FSOUND_MIXER_AUTODETECT);
     // File Callbacks fuer FMOD setzen
     FSOUND_File_SetCallbacks(
@@ -104,7 +106,20 @@ SoundSubsystem::SoundSubsystem()
  */
 void SoundSubsystem::printData()
 {
-        switch (FSOUND_GetOutput())
+	int numDrivers = FSOUND_GetNumDrivers();
+	int activeDriver = FSOUND_GetDriver();
+	for(int driver = 0; driver < numDrivers; driver++)
+	{
+		Logger::getSingleton().log(
+			Logger::SOUND, 
+			Ogre::LML_TRIVIAL, 
+			String("FMOD Driver #")
+			+ StringConverter::toString(driver) + ": " +
+			+ FSOUND_GetDriverName(driver)
+			+ (driver == activeDriver ? "(active)" : ""));
+	}
+
+    switch (FSOUND_GetOutput())
     {
         case FSOUND_OUTPUT_NOSOUND:
 			Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FMOD Output: NoSound");
