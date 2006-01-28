@@ -68,11 +68,22 @@ public class MeshLoader extends XMLLoader
 
 	private static Vertex processVertex(Element vertElem) {
 		Vertex vert = new Vertex();
-		vert.setNormal(Vector3.createFromXML(vertElem.getElementsByTagName("normal").item(0)));
-		vert.setPosition(Vector3.createFromXML(vertElem.getElementsByTagName("position").item(0)));
+		Element normalElem = (Element) vertElem.getElementsByTagName("normal").item(0);
+		if (normalElem != null)
+		{
+			vert.setNormal(Vector3.createFromXML(normalElem));
+		}		
+		Element positionElem = (Element) vertElem.getElementsByTagName("position").item(0);
+		if (positionElem != null)
+		{
+			vert.setPosition(Vector3.createFromXML(positionElem));
+		}		
 		Element texCoordElem = (Element) vertElem.getElementsByTagName("texcoord").item(0);
-		vert.setTexCoordU(Float.parseFloat(texCoordElem.getAttribute("u")));
-		vert.setTexCoordV(Float.parseFloat(texCoordElem.getAttribute("v")));
+		if (texCoordElem != null)
+		{
+			vert.setTexCoordU(Float.parseFloat(texCoordElem.getAttribute("u")));
+			vert.setTexCoordV(Float.parseFloat(texCoordElem.getAttribute("v")));			
+		}
 		return vert;
 	}
 

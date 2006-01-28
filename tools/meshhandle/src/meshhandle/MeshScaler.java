@@ -44,6 +44,7 @@ public class MeshScaler {
 			outputFile = args[2];
 		}
 		
+		System.out.println("processing " + inputFile);
 		Mesh mesh = MeshLoader.readMesh(inputFile);
 		mesh.scale(factor);
 		RandomAccessFile outFile = new RandomAccessFile(outputFile, "rw");
