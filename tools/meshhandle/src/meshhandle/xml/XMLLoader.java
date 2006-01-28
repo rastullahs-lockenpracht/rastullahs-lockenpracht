@@ -11,10 +11,11 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 public class XMLLoader {
-	protected static Document readDocument(String filename) throws ParserConfigurationException, SAXException, IOException {
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder = factory.newDocumentBuilder();
-		Document document = builder.parse(new File(filename));
-		return document;
-	}
+    protected static Document readDocument(String filename)
+            throws ParserConfigurationException, SAXException, IOException {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(new File(filename));
+        return document;
+    }
 }
