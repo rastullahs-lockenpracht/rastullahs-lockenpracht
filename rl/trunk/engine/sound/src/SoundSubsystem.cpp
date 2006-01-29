@@ -58,27 +58,32 @@ SoundSubsystem* SoundSubsystem::getSingletonPtr(void)
  */
 SoundSubsystem::SoundSubsystem()
 {
-    // fmod initialisieren und Fehler zuruecksetzen.
-	//FSOUND_SetDriver(1);
-	FSOUND_SetMaxHardwareChannels(16);
-    FSOUND_SetMinHardwareChannels(8);
-    /// TODO: More choices
-//    FSOUND_SetOutput(FSOUND_OUTPUT_ALSA);
+
+	if (FSOUND_GetVersion() < FMOD_VERSION)
+    {
+		Throw(RuntimeException, 
+			String("Error : You are using the wrong DLL version!  You should be using FMOD ")
+			+ StringConverter::toString(FMOD_VERSION));
+    }
 	
-    FSOUND_SetMixer(FSOUND_MIXER_AUTODETECT);
-    // File Callbacks fuer FMOD setzen
+	initializeDriver();
+
+	// File Callbacks fuer FMOD setzen
     FSOUND_File_SetCallbacks(
         (FSOUND_OPENCALLBACK)SoundSubsystem::open,
         (FSOUND_CLOSECALLBACK)SoundSubsystem::close,
         (FSOUND_READCALLBACK)SoundSubsystem::read,
         (FSOUND_SEEKCALLBACK)SoundSubsystem::seek,
         (FSOUND_TELLCALLBACK)SoundSubsystem::tell);  
-
-    if (!FSOUND_Init(44100, 32, 0))
+    
+	if (!FSOUND_Init(44100, 32, 0))
     {
         Throw(RuntimeException, "FMOD not initialized");
     }
-	Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "fmod initialisiert");
+	Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, 
+		String("fmod initialisiert, Fehler: ")
+		+ FMOD_ErrorString(FSOUND_GetError()));
+	printData();
     
     FSOUND_SetSFXMasterVolume(255);
 
@@ -87,9 +92,6 @@ SoundSubsystem::SoundSubsystem()
     float v[3] = {0, 0, 0};
     FSOUND_3D_Listener_SetAttributes(v, v, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,  0.0f);
     Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "Listener set");
-
-    // Wir wollen mal wissen, was los ist.
-    printData();
     
     //Singletons erzeugen 
     new SoundManager();
@@ -99,27 +101,19 @@ SoundSubsystem::SoundSubsystem()
 }
 
 
-/**
- * Ausdruck einiger Werte des Soundsystems.
- * @author JoSch
- * @date 01-20-2006
- */
-void SoundSubsystem::printData()
+void SoundSubsystem::initializeDriver()
 {
-	int numDrivers = FSOUND_GetNumDrivers();
-	int activeDriver = FSOUND_GetDriver();
-	for(int driver = 0; driver < numDrivers; driver++)
-	{
-		Logger::getSingleton().log(
-			Logger::SOUND, 
-			Ogre::LML_TRIVIAL, 
-			String("FMOD Driver #")
-			+ StringConverter::toString(driver) + ": " +
-			+ FSOUND_GetDriverName(driver)
-			+ (driver == activeDriver ? "(active)" : ""));
-	}
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+	FSOUND_SetOutput(FSOUND_OUTPUT_DSOUND);
+#else
+    FSOUND_SetOutput(FSOUND_OUTPUT_ALSA);
+#endif
 
-    switch (FSOUND_GetOutput())
+
+	FSOUND_SetMixer(FSOUND_MIXER_AUTODETECT);
+
+
+	switch (FSOUND_GetOutput())
     {
         case FSOUND_OUTPUT_NOSOUND:
 			Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FMOD Output: NoSound");
@@ -153,6 +147,45 @@ void SoundSubsystem::printData()
 #endif
     }
 
+    unsigned int caps = 0;
+    FSOUND_GetDriverCaps(FSOUND_GetDriver(), &caps);
+    
+    Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "FMOD Driver capabilities");
+	const char* driverName = FSOUND_GetDriverName(FSOUND_GetDriver());
+    if (driverName != NULL)
+		Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, driverName);
+	else
+		Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "No driver");
+    if (!caps)
+        Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "- This driver will support software mode only.\n  It does not properly support 3D sound hardware.");
+    if (caps & FSOUND_CAPS_HARDWARE)
+        Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "- Driver supports hardware 3D sound!");
+    if (caps & FSOUND_CAPS_EAX2)
+        Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "- Driver supports EAX 2 reverb!");
+    if (caps & FSOUND_CAPS_EAX3)
+        Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "- Driver supports EAX 3 reverb!");
+}
+
+/**
+ * Ausdruck einiger Werte des Soundsystems.
+ * @author JoSch
+ * @date 01-20-2006
+ */
+void SoundSubsystem::printData()
+{
+	int numDrivers = FSOUND_GetNumDrivers();
+	int activeDriver = FSOUND_GetDriver();
+	for(int driver = 0; driver < numDrivers; driver++)
+	{
+		Logger::getSingleton().log(
+			Logger::SOUND, 
+			Ogre::LML_TRIVIAL, 
+			String("FMOD Driver #")
+			+ StringConverter::toString(driver) + ": " +
+			+ FSOUND_GetDriverName(driver)
+			+ (driver == activeDriver ? "(active)" : ""));
+	}
+
     switch (FSOUND_GetMixer())
     {
         case FSOUND_MIXER_BLENDMODE:
@@ -178,23 +211,15 @@ void SoundSubsystem::printData()
             break;
     };
  
-    unsigned int caps = 0;
-    FSOUND_GetDriverCaps(FSOUND_GetDriver(), &caps);
-    
-    Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "Driver capabilities");
-    Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, FSOUND_GetDriverName(FSOUND_GetDriver()));
-    if (!caps)
-        Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "- This driver will support software mode only.\n  It does not properly support 3D sound hardware.");
-    if (caps & FSOUND_CAPS_HARDWARE)
-        Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "- Driver supports hardware 3D sound!");
-    if (caps & FSOUND_CAPS_EAX2)
-        Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "- Driver supports EAX 2 reverb!");
-    if (caps & FSOUND_CAPS_EAX3)
-        Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, "- Driver supports EAX 3 reverb!");
- 
-    int num2d, num3d;
-    FSOUND_GetNumHWChannels(&num2d, &num3d, NULL);
-    String line = "HW channels 3D: " + StringConverter::toString(num3d) + ", 2D: " + StringConverter::toString(num2d);
+    int num2d, num3d, total;
+    FSOUND_GetNumHWChannels(&num2d, &num3d, &total);
+    String line = 
+		"HW channels 3D: " 
+		+ StringConverter::toString(num3d) 
+		+ ", 2D: " 
+		+ StringConverter::toString(num2d)
+		+ ", Total: " 
+		+ StringConverter::toString(total);
     Logger::getSingleton().log(Logger::SOUND, Ogre::LML_TRIVIAL, line);
 }
 

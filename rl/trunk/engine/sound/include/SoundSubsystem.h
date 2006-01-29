@@ -75,6 +75,7 @@ private:
     static int seek(void *handle, int pos, signed char mode);
     static int tell(void *handle);
     
+	void initializeDriver();
     void printData();
         
 };
