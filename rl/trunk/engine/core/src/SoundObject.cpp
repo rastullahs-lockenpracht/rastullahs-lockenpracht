@@ -95,6 +95,7 @@ void SoundObject::_update()
 void SoundObject::play( )
 {
     getSoundChannel()->play();
+	_update();
 }
 
 void SoundObject::pause(bool pausing)
