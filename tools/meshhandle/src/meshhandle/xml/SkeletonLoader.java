@@ -99,15 +99,30 @@ public class SkeletonLoader extends XMLLoader {
             Keyframe keyframe = new Keyframe();
             keyframe.setTime(Float
                     .parseFloat(keyframeElem.getAttribute("time")));
-            keyframe.setRotationAngle(Float.parseFloat(keyframeElem
-                    .getElementsByTagName("rotate").item(0).getAttributes()
-                    .getNamedItem("angle").getNodeValue()));
-            keyframe.setRotationAxis(Vector3.createFromXML(keyframeElem
-                    .getElementsByTagName("axis").item(0)));
-            keyframe.setTranslation(Vector3.createFromXML(keyframeElem
-                    .getElementsByTagName("translate").item(0)));
-            keyframe.setScale(Vector3.createFromXML(keyframeElem
-                    .getElementsByTagName("scale").item(0)));
+
+            Element rotateElem = (Element) keyframeElem.getElementsByTagName(
+                    "rotate").item(0);
+
+            if (rotateElem != null) {
+                keyframe.setRotationAngle(Float.parseFloat(rotateElem
+                        .getAttributes().getNamedItem("angle").getNodeValue()));
+                keyframe.setRotationAxis(Vector3.createFromXML(keyframeElem
+                        .getElementsByTagName("axis").item(0)));
+            }
+
+            Element translateElem = (Element) keyframeElem
+                    .getElementsByTagName("translate").item(0);
+
+            if (translateElem != null) {
+                keyframe.setTranslation(Vector3.createFromXML(translateElem));
+            }
+
+            Element scaleElem = (Element) keyframeElem.getElementsByTagName(
+                    "scale").item(0);
+
+            if (scaleElem != null) {
+                keyframe.setScale(Vector3.createFromXML(scaleElem));
+            }
             track.addKeyframe(keyframe);
         }
     }

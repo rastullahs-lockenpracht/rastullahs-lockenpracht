@@ -61,16 +61,24 @@ public class Keyframe {
         StringBuffer buf = new StringBuffer();
         buf.append("                        <keyframe time=\"" + mTime
                 + "\">\n");
-        buf.append("                            "
-                + mTranslation.toXML("translate") + "\n");
-        buf.append("                            <rotate angle=\""
-                + mRotationAngle + "\">\n");
-        buf.append("                                "
-                + mRotationAxis.toXML("axis") + "\n");
-        buf.append("                            </rotate>\n");
-        buf.append("                            " + mScale.toXML("scale")
-                + "\n");
-        buf.append("                        </keyframe>");
+        if (mTranslation != null) {
+            buf.append("                            "
+                    + mTranslation.toXML("translate") + "\n");            
+        }
+        
+        if (mRotationAxis != null) {
+            buf.append("                            <rotate angle=\""
+                    + mRotationAngle + "\">\n");
+            buf.append("                                "
+                    + mRotationAxis.toXML("axis") + "\n");
+            buf.append("                            </rotate>\n");            
+        }
+        
+        if (mScale != null) {
+            buf.append("                            " + mScale.toXML("scale")
+                    + "\n");
+            buf.append("                        </keyframe>");            
+        }
 
         return buf.toString();
     }
