@@ -77,8 +77,8 @@ public class Keyframe {
         if (mScale != null) {
             buf.append("                            " + mScale.toXML("scale")
                     + "\n");
-            buf.append("                        </keyframe>");            
         }
+        buf.append("                        </keyframe>");            
 
         return buf.toString();
     }
