@@ -95,7 +95,10 @@ void SoundObject::_update()
 void SoundObject::play( )
 {
     getSoundChannel()->play();
-	_update();
+    if (is3d())
+    {
+	   _update();
+    }
 }
 
 void SoundObject::pause(bool pausing)

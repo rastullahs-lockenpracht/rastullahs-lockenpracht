@@ -101,6 +101,11 @@ SoundSubsystem::SoundSubsystem()
 }
 
 
+/**
+ * @author JoSch
+ * @date 01-30-2006
+ * @author Blakharaz
+ */
 void SoundSubsystem::initializeDriver()
 {
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
