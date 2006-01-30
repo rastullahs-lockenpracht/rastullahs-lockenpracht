@@ -7,6 +7,8 @@ public class Scene {
 
     private ArrayList<SceneNode> mNodes;
 
+    private SceneUserData mUserData;
+
     public Scene(String formatVersion) {
         mFormatVersion = formatVersion;
         mNodes = new ArrayList<SceneNode>();
@@ -20,6 +22,8 @@ public class Scene {
             buf.append(node.toXML() + "\n");
         }
         buf.append("  </nodes>\n");
+        if (mUserData != null)
+            buf.append(mUserData.toXML());
         buf.append("</scene>");
         return buf.toString();
     }
@@ -32,5 +36,9 @@ public class Scene {
 
     public void addNode(SceneNode scenenode) {
         mNodes.add(scenenode);
+    }
+
+    public void addUserData(SceneUserData sceneUserData) {
+        mUserData = sceneUserData;
     }
 }

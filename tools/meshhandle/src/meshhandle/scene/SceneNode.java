@@ -15,6 +15,16 @@ public class SceneNode {
 
     private Entity mEntity;
 
+    private NodeUserData mUserData;
+
+    public NodeUserData getUserData() {
+        return mUserData;
+    }
+
+    public void setUserData(NodeUserData userData) {
+        mUserData = userData;
+    }
+
     public SceneNode(String name) {
         mName = name;
     }
@@ -66,13 +76,20 @@ public class SceneNode {
         buf.append("      " + mRotation.toXML("rotation") + "\n");
         buf.append("      " + mScale.toXML("scale") + "\n");
         buf.append("      " + mEntity.toXML() + "\n");
+        if (mUserData != null) {
+            buf.append(mUserData.toXML());
+        }
         buf.append("    </node>");
         return buf.toString();
     }
 
     public void scale(float factor) {
-        mPosition.scale(factor);
-        mScale.scale(factor);
+        if (mPosition != null)
+            mPosition.scale(factor);
+        if (mScale != null)
+            mScale.scale(factor);
+        if (mUserData != null)
+            mUserData.scale(factor);
     }
 
 }

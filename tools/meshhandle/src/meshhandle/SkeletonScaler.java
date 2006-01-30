@@ -43,6 +43,7 @@ public class SkeletonScaler {
             outputFile = args[2];
         }
 
+        System.out.println("processing " + inputFile);
         Skeleton skel = SkeletonLoader.readSkeleton(inputFile);
         skel.scale(factor);
         RandomAccessFile outFile = new RandomAccessFile(outputFile, "rw");

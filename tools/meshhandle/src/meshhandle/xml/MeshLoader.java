@@ -29,12 +29,11 @@ public class MeshLoader extends XMLLoader {
             Submesh scenenode = processSubmesh((Element) subMeshList.item(idx));
             mesh.addSubmesh(scenenode);
         }
-        NodeList skeletonLinkList = meshElem.getElementsByTagName("skeletonlink");
-        if (skeletonLinkList != null && skeletonLinkList.getLength() >= 0)
-        {
-            Element skeletonLinkElem = (Element) skeletonLinkList.item(0);
-            mesh.setSkeletonLink(skeletonLinkElem.getAttribute("name"));            
-        }
+        NodeList skeletonLinkList = meshElem
+                .getElementsByTagName("skeletonlink");
+        Element skeletonLinkElem = (Element) skeletonLinkList.item(0);
+        if (skeletonLinkElem != null)
+            mesh.setSkeletonLink(skeletonLinkElem.getAttribute("name"));
         return mesh;
     }
 

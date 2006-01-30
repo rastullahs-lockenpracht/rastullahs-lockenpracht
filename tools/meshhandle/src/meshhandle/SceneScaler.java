@@ -43,6 +43,7 @@ public class SceneScaler {
             outputFile = args[2];
         }
 
+        System.out.println("processing " + inputFile);
         Scene scene = SceneLoader.readScene(inputFile);
         scene.scale(factor);
         RandomAccessFile outFile = new RandomAccessFile(outputFile, "rw");
