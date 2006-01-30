@@ -198,6 +198,7 @@ namespace rl {
                 ScriptObjectRepository::getSingleton().disown( mCharacter );
 				GameLoopManager::getSingleton().removeSynchronizedTask(mCharacterController);
 				delete mCharacterController;
+				mCharacter->getActor()->detach(CoreSubsystem::getSingleton().getSoundListener());
 			}
 
 
@@ -210,8 +211,14 @@ namespace rl {
             Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "CharacterController task added.");
             World* world = CoreSubsystem::getSingletonPtr()->getWorld();
             world->setActiveActor(person->getActor());
-		    mCharacterStateWindow->setCharacter(person);
+		    
+			mCharacterStateWindow->setCharacter(person);
 		    mCharacterStateWindow->update();
+			Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "CharacterStateWindow updated");
+
+			mCharacter->getActor()->attach(CoreSubsystem::getSingleton().getSoundListener());
+			Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "SoundListener attached.");
+            
             Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Actor set");
         }
 	}

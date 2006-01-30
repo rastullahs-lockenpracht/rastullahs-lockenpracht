@@ -605,6 +605,12 @@ namespace rl {
 			
 		if (mActorControlledObject)
 		    mActorControlledObject->_update();
+
+		for( ChildSet::const_iterator iter = mChilds.begin(); iter != mChilds.end(); ++iter )
+		{
+			Actor* child = *iter;
+			child->_update();
+		}        
     }
     
     void Actor::doPlaceIntoScene(SceneNode* parent, const Vector3& position,
@@ -624,8 +630,12 @@ namespace rl {
         if( !mSceneNode )
             mSceneNode = parent->createChildSceneNode( mName, position, orientation );
         // Ansonsten am Parent befestigen
-        else
-            parent->addChild( mSceneNode );
+		else
+		{
+			parent->addChild( mSceneNode );
+			mSceneNode->setPosition(position);
+			mSceneNode->setOrientation(orientation);
+		}
 
         // Falls ein noch nicht befestigtes MovableObject vorhanden, dieses attachen
         if( mActorControlledObject != NULL && !mActorControlledObject->isAttached() )

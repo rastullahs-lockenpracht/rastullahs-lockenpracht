@@ -31,6 +31,7 @@ class RubyInterpreter;
 class World;
 class CoreEvent;
 class CoreEventListener;
+class Actor;
 
 /** CoreSubsystem. 
 	@remarks		
@@ -87,6 +88,8 @@ public:
 
 	void addCoreEventListener(CoreEventListener* listener);
 
+	Actor* getSoundListener();
+
 private:  
     /** Runs the setup methods  */
 	bool initializeCoreSubsystem();
@@ -123,6 +126,8 @@ private:
 
 	bool mDeveloperMode;
 	EventCaster<CoreEvent> mCoreEventCaster;
+
+	Actor* mSoundListenerActor;
 };
 
 }

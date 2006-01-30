@@ -76,6 +76,8 @@ namespace rl {
         
         delete DeletionPropagator::getSingletonPtr();
         delete ScriptObjectRepository::getSingletonPtr();
+
+//		ActorManager::getSingleton().destroyActor(mSoundListenerActor);
     }
 
     void CoreSubsystem::startCore()
@@ -159,6 +161,8 @@ namespace rl {
             GameEventManager::getSingletonPtr(), FRAME_STARTED);
         GameLoopManager::getSingleton().addAsynchronousTask(
             SoundUpdateTask::getSingletonPtr()); 
+
+		mSoundListenerActor = ActorManager::getSingleton().createListenerActor("SoundListenerObject");
 
         return true;
     }
@@ -447,5 +451,10 @@ namespace rl {
 	void CoreSubsystem::addCoreEventListener(rl::CoreEventListener *listener)
 	{
 		mCoreEventCaster.addEventListener(listener);
+	}
+
+	Actor* CoreSubsystem::getSoundListener()
+	{
+		return mSoundListenerActor;
 	}
 }

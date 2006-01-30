@@ -85,7 +85,7 @@ SoundSubsystem::SoundSubsystem()
 		+ FMOD_ErrorString(FSOUND_GetError()));
 	printData();
     
-    FSOUND_SetSFXMasterVolume(255);
+    //FSOUND_SetSFXMasterVolume(255);
 
     // Wir initialisieren den Listener.
     // Position of the listener.
