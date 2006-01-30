@@ -9,6 +9,7 @@ import meshhandle.model.Face;
 import meshhandle.model.Mesh;
 import meshhandle.model.Submesh;
 import meshhandle.model.Vertex;
+import meshhandle.model.VertexBoneAssignment;
 import meshhandle.model.VertexBufferData;
 
 import org.w3c.dom.Document;
@@ -21,14 +22,20 @@ public class MeshLoader extends XMLLoader {
             throws ParserConfigurationException, SAXException, IOException {
         Document doc = readDocument(fileName);
 
-        Element sceneElem = (Element) doc.getElementsByTagName("mesh").item(0);
-        Mesh scene = new Mesh();
-        NodeList subMeshList = sceneElem.getElementsByTagName("submesh");
+        Element meshElem = (Element) doc.getElementsByTagName("mesh").item(0);
+        Mesh mesh = new Mesh();
+        NodeList subMeshList = meshElem.getElementsByTagName("submesh");
         for (int idx = 0; idx < subMeshList.getLength(); idx++) {
             Submesh scenenode = processSubmesh((Element) subMeshList.item(idx));
-            scene.addSubmesh(scenenode);
+            mesh.addSubmesh(scenenode);
         }
-        return scene;
+        NodeList skeletonLinkList = meshElem.getElementsByTagName("skeletonlink");
+        if (skeletonLinkList != null && skeletonLinkList.getLength() >= 0)
+        {
+            Element skeletonLinkElem = (Element) skeletonLinkList.item(0);
+            mesh.setSkeletonLink(skeletonLinkElem.getAttribute("name"));            
+        }
+        return mesh;
     }
 
     private static Submesh processSubmesh(Element submeshElem) {
@@ -52,7 +59,27 @@ public class MeshLoader extends XMLLoader {
             submesh.addVertexBufferData(vertexBuffer);
         }
 
+        NodeList boneAssignmentsList = submeshElem
+                .getElementsByTagName("vertexboneassignment");
+        for (int i = 0; i < boneAssignmentsList.getLength(); ++i) {
+            VertexBoneAssignment boneAssignment = processVertexBoneAssignment((Element) boneAssignmentsList
+                    .item(i));
+            submesh.addVertexBoneAssignment(boneAssignment);
+        }
+
         return submesh;
+    }
+
+    private static VertexBoneAssignment processVertexBoneAssignment(
+            Element assignmentElem) {
+        VertexBoneAssignment assignment = new VertexBoneAssignment();
+        assignment.setVertexIndex(Integer.parseInt(assignmentElem
+                .getAttribute("vertexindex")));
+        assignment.setBoneIndex(Integer.parseInt(assignmentElem
+                .getAttribute("boneindex")));
+        assignment.setWeight(Float.parseFloat(assignmentElem
+                .getAttribute("weight")));
+        return assignment;
     }
 
     private static VertexBufferData processVertexBuffer(Element vertexBufferElem) {

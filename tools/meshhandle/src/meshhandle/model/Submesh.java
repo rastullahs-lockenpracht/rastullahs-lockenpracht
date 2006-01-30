@@ -15,9 +15,12 @@ public class Submesh {
 
     private ArrayList<VertexBufferData> mVertexBufferDatas;
 
+    private ArrayList<VertexBoneAssignment> mVertexBoneAssignments;
+
     public Submesh() {
         mFaces = new ArrayList<Face>();
         mVertexBufferDatas = new ArrayList<VertexBufferData>();
+        mVertexBoneAssignments = new ArrayList<VertexBoneAssignment>();
     }
 
     public void scale(float factor) {
@@ -46,6 +49,12 @@ public class Submesh {
             buf.append(buffer.toXML());
         }
         buf.append("            </geometry>\n");
+        buf.append("            <boneassignments>\n");
+        for (VertexBoneAssignment assignment : mVertexBoneAssignments)
+        {
+            buf.append(assignment.toXML());
+        }
+        buf.append("            </boneassignments>\n");
 
         buf.append("        </submesh>");
         return buf.toString();
@@ -97,6 +106,10 @@ public class Submesh {
 
     public void addFace(Face face) {
         mFaces.add(face);
+    }
+
+    public void addVertexBoneAssignment(VertexBoneAssignment boneAssignment) {
+        mVertexBoneAssignments.add(boneAssignment);
     }
 
 }
