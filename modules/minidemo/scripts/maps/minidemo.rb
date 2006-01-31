@@ -15,7 +15,7 @@ $PM.setEnabled(true);
 
 $SCRIPT.log("init map 'minidemo'...");
 $World = $CORE.getWorld()
-$World.setSkyBox(true, "rl/dsa07")
+$World.setSkyBox(true, "rl/dsa07", 100.0)
 $SCRIPT.log("skybox set");
 
 $SCRIPT.log("Tageslicht erstellen..");
