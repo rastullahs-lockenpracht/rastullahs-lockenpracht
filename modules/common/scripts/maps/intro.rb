@@ -41,7 +41,7 @@ trackAnim = $AnimMgr.createTrackAnimation( greifvogel, "Patrouilleflug", 6.0 );
 trackAnim.addKeyFrame( 0.0 );
 trackAnim.setKeyFrameTranslation( 0.0, -10.03609657, 12.18200302, -17.48200226 );
 trackAnim.addKeyFrame( 1.0 );
-trackAnim.setKeyFrameTranslation( 1.0, 3.08505869, 2.025336266, -43.03391266 );
+trackAnim.setKeyFrameTranslation( 1.0, 3.08505869, 20.025336266, -43.03391266 );
 trackAnim.setKeyFrameRotationQuaternion( 1.0, 0.710575, 0.026213, -0.701152, 0.052746 );
 trackAnim.addKeyFrame( 2.0 );
 trackAnim.setKeyFrameTranslation( 2.0, 15.60979843, 11.34342003, -26.82585526 );

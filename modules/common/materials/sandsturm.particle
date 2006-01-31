@@ -2,8 +2,8 @@ Rl/Sandsturm
 {
 	quota	50
 	material	RL/Sandsturm
-	particle_width	160
-	particle_height	40
+	particle_width	1.60
+	particle_height	0.40
 	cull_each	false
 	renderer	billboard
 	billboard_type	point
@@ -16,10 +16,10 @@ Rl/Sandsturm
 		colour_range_end	1 1 1 0.4
 		direction	1 0 0
 		emission_rate	8
-		position	0.590229 14.6031 -13.8853
-		velocity	10
-		velocity_min	10
-		velocity_max	80
+		position	0.00590229 0.146031 -0.138853
+		velocity	0.10
+		velocity_min	0.10
+		velocity_max	0.80
 		time_to_live	4
 		time_to_live_min	3
 		time_to_live_max	5
@@ -29,20 +29,20 @@ Rl/Sandsturm
 		repeat_delay	5
 		repeat_delay_min	5
 		repeat_delay_max	15
-		width	10
-		height	25
-		depth	50
+		width	0.10
+		height	0.25
+		depth	0.50
 	}
 
 	affector LinearForce
 	{
-		force_vector	20 10 0
+		force_vector	0.20 0.10 0
 		force_application	add
 	}
 
 	affector Scaler
 	{
-		rate	15
+		rate	0.15
 	}
 
 	affector ColourFader
