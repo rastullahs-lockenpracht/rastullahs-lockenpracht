@@ -48,6 +48,6 @@ public class MeshScaler {
         mesh.scale(factor);
         FileWriter outFile = new FileWriter(outputFile, false);
         outFile.write(mesh.toXML());
-
+        outFile.flush();
     }
 }

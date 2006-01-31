@@ -48,6 +48,6 @@ public class SkeletonScaler {
         skel.scale(factor);
         FileWriter outFile = new FileWriter(outputFile, false);
         outFile.write(skel.toXML());
-
+        outFile.flush();
     }
 }
