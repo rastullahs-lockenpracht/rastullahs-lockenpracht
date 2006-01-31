@@ -91,12 +91,22 @@
 %typemap(typecheck) Ogre::Radian, const Ogre::Radian& = double;
 
 %typemap(in) Ogre::Radian, const Ogre::Radian, Ogre::Radian&, const Ogre::Radian& {
-    Check_Type($input, T_FLOAT);
-    $1 = Ogre::Degree(RFLOAT($input)->value);
+    if (TYPE($input) == T_FLOAT) {
+		$1 = Ogre::Degree(RFLOAT($input)->value);
+    } else if (TYPE($input) == T_FIXNUM) {
+		$1 = Ogre::Degree(FIX2INT($input));
+    } else {
+        throw Swig::DirectorTypeMismatchException("float or fixnum expected");
+    }
 }
 %typemap(in) Ogre::Radian*, const Ogre::Radian*, Ogre::Radian&, const Ogre::Radian& {
-    Check_Type($input, T_FLOAT);
-    $1 = new Ogre::Radian(Ogre::Degree(RFLOAT($input)->value));
+    if (TYPE($input) == T_FLOAT) {
+		$1 = new Ogre::Radian(Ogre::Degree(RFLOAT($input)->value));
+    } else if (TYPE($input) == T_FIXNUM) {
+		$1 = new Ogre::Radian(Ogre::Degree(FIX2INT($input)));
+    } else {
+        throw Swig::DirectorTypeMismatchException("float or fixnum expected");
+    }
 }
 %typemap(out) Ogre::Radian, const Ogre::Radian {
      $result = rb_float_new($1.valueDegrees());
