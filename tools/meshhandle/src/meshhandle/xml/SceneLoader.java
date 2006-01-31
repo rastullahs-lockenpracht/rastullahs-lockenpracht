@@ -47,7 +47,7 @@ public class SceneLoader extends XMLLoader {
             Element elem = (Element) nl.item(i);
             if (elem.getAttribute("name").equals("default_renderingdistance")) {
                 sceneUserData.setDefaultRenderingDistance(Float
-                        .parseFloat(userDataElem.getAttribute("data")));
+                        .parseFloat(elem.getAttribute("data")));
 
             }
         }
@@ -86,16 +86,15 @@ public class SceneLoader extends XMLLoader {
         for (int i = 0; i < nl.getLength(); ++i) {
             Element elem = (Element) nl.item(i);
             if (elem.getAttribute("name").equals("renderingdistance")) {
-                nodeUserData.setRenderingDistance(Float.parseFloat(userDataElem
+                nodeUserData.setRenderingDistance(Float.parseFloat(elem
                         .getAttribute("data")));
 
             } else if (elem.getAttribute("name").equals("staticgeom_group")) {
-                nodeUserData.setStaticGeomGroup(Integer.parseInt(userDataElem
+                nodeUserData.setStaticGeomGroup(Integer.parseInt(elem
                         .getAttribute("data")));
 
             } else if (elem.getAttribute("name").equals("physical_body")) {
-                nodeUserData.setPhysicalBody(userDataElem.getAttribute("data"));
-
+                nodeUserData.setPhysicalBody(elem.getAttribute("data"));
             }
         }
         return nodeUserData;

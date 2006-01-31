@@ -11,8 +11,13 @@ public class Entity {
     }
 
     public String toXML() {
-        return "<entity name=\"" + mName + "\" meshFile=\"" + mMeshFile
-                + "\"/>";
+        if (mName != null && !mName.equals("")) {
+            return "<entity name=\"" + mName + "\" meshFile=\"" + mMeshFile
+                    + "\"/>";
+        } else {
+            return "<entity meshFile=\"" + mMeshFile + "\"/>";
+
+        }
     }
 
 }

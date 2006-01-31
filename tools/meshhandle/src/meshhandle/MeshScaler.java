@@ -1,9 +1,9 @@
 package meshhandle;
 
 import java.io.BufferedReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.RandomAccessFile;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -46,8 +46,8 @@ public class MeshScaler {
         System.out.println("processing " + inputFile);
         Mesh mesh = MeshLoader.readMesh(inputFile);
         mesh.scale(factor);
-        RandomAccessFile outFile = new RandomAccessFile(outputFile, "rw");
-        outFile.writeBytes(mesh.toXML());
+        FileWriter outFile = new FileWriter(outputFile, false);
+        outFile.write(mesh.toXML());
 
     }
 }

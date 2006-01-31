@@ -16,7 +16,7 @@ public class NodeUserData {
                             "                <property type=\"INT\" name=\"staticgeom_group\" data=\"")
                     .append(staticGeomGroup).append("\"/>\n");
         }
-        if (physicalBody != null && physicalBody != "") {
+        if (physicalBody != null && !physicalBody.equals("")) {
             buf
                     .append(
                             "                <property type=\"STRING\" name=\"physical_body\" data=\"")

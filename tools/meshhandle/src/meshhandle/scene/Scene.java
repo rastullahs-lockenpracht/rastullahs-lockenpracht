@@ -17,11 +17,11 @@ public class Scene {
     public String toXML() {
         StringBuffer buf = new StringBuffer();
         buf.append("<scene formatVersion=\"" + mFormatVersion + "\">\n");
-        buf.append("  <nodes>\n");
+        buf.append("    <nodes>\n");
         for (SceneNode node : mNodes) {
             buf.append(node.toXML() + "\n");
         }
-        buf.append("  </nodes>\n");
+        buf.append("    </nodes>\n");
         if (mUserData != null)
             buf.append(mUserData.toXML());
         buf.append("</scene>");
@@ -32,6 +32,8 @@ public class Scene {
         for (SceneNode node : mNodes) {
             node.scale(factor);
         }
+        if (mUserData != null)
+            mUserData.scale(factor);
     }
 
     public void addNode(SceneNode scenenode) {

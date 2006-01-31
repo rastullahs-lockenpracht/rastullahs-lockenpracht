@@ -12,7 +12,7 @@ public class SceneUserData {
                             "            <property type=\"FLOAT\" name=\"default_renderingdistance\" data=\"")
                     .append(defaultRenderingDistance).append("\"/>\n");
         }
-        buf.append("            </userdata>\n");
+        buf.append("        </userdata>\n");
         return buf.toString();
     }
 

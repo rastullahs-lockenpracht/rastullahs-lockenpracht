@@ -1,9 +1,9 @@
 package meshhandle;
 
 import java.io.BufferedReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.RandomAccessFile;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -46,8 +46,8 @@ public class SceneScaler {
         System.out.println("processing " + inputFile);
         Scene scene = SceneLoader.readScene(inputFile);
         scene.scale(factor);
-        RandomAccessFile outFile = new RandomAccessFile(outputFile, "rw");
-        outFile.writeBytes(scene.toXML());
-
+        FileWriter outFile = new FileWriter(outputFile, false);
+        outFile.write(scene.toXML());
+        outFile.flush();
     }
 }

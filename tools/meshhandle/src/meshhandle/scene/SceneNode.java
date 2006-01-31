@@ -71,23 +71,28 @@ public class SceneNode {
 
     public String toXML() {
         StringBuffer buf = new StringBuffer();
-        buf.append("    <node name=\"" + mName + "\">\n");
-        buf.append("      " + mPosition.toXML("position") + "\n");
-        buf.append("      " + mRotation.toXML("rotation") + "\n");
-        buf.append("      " + mScale.toXML("scale") + "\n");
-        buf.append("      " + mEntity.toXML() + "\n");
-        if (mUserData != null) {
+        if (mName != null && !mName.equals(""))
+            buf.append("        <node name=\"" + mName + "\">\n");
+        else
+            buf.append("        <node>\n");
+
+        if (mPosition != null)
+            buf.append("            " + mPosition.toXML("position") + "\n");
+        if (mRotation != null)
+            buf.append("            " + mRotation.toXML("rotation") + "\n");
+        if (mScale != null)
+            buf.append("            " + mScale.toXML("scale") + "\n");
+        if (mEntity != null)
+            buf.append("            " + mEntity.toXML() + "\n");
+        if (mUserData != null)
             buf.append(mUserData.toXML());
-        }
-        buf.append("    </node>");
+        buf.append("        </node>");
         return buf.toString();
     }
 
     public void scale(float factor) {
         if (mPosition != null)
             mPosition.scale(factor);
-        if (mScale != null)
-            mScale.scale(factor);
         if (mUserData != null)
             mUserData.scale(factor);
     }
