@@ -29,7 +29,7 @@ $SCRIPT.log("Held erstellen");
 $hero = Hero.new;
 $SCRIPT.log("Held erstellt");
 $SCRIPT.log("Held in die Szene einfuegen.");
-$hero.getActor().placeIntoScene(0.0, 20.0, 40.0, 1.0, 0.0, 0.0, 0.0);
+$hero.getActor().placeIntoScene(0.0, 0.2, 0.4, 1.0, 0.0, 0.0, 0.0);
 $SCRIPT.log("Held eingefügt.");
 PlayerSettings.preparePlayer($hero);
 $SCRIPT.log("Held vorbereitet.");
@@ -38,22 +38,22 @@ $SCRIPT.log("Held als aktiver Charakter gesetzt.");
 
 $SCRIPT.log("Kiste einsetzen");
 crate = Crate.new("Eine Kiste", "Eine Kiste.\nWas mag da drin sein?");
-crate.getActor().placeIntoScene(180.0, 80.0, 220.0, 1.0, 0.0, 0.0, 0.0);
+crate.getActor().placeIntoScene(1.80, 1.80, 2.20, 1.0, 0.0, 0.0, 0.0);
 
 $SCRIPT.log("Türen einsetzen")
 door1 = Door.new("Eine Tür links", "Eine Holztür", false, true);
-door1.getActor().placeIntoScene(1368.0, -75.0, -170.0, 1.0, 0.0, 0.0, 0.0);
+door1.getActor().placeIntoScene(13.68, -0.75, -1.70, 1.0, 0.0, 0.0, 0.0);
 door1.getActor().yaw(-90.0)
 
 gtuer = Door.new("Eine Tür rechts", "Eine Holztür.\nDiese Tür hat weder Klinke noch Schlösser", false, false);
-gtuer.getActor().placeIntoScene(1368.0, -75.0, 60.0, 1.0, 0.0, 0.0, 0.0)
+gtuer.getActor().placeIntoScene(13.68, -0.75, 0.60, 1.0, 0.0, 0.0, 0.0)
 gtuer.getActor().yaw(-90.0)
 $SCRIPT.log("Türen fertig")
 
 
 $SCRIPT.log("Hebel reinsetzen")
 hebel = Switch.new( "Hebel" );
-hebel.getActor().placeIntoScene( 1330.0, 25.0, 180.0, 1.0, 0.0, 0.0, 0.0 );
+hebel.getActor().placeIntoScene( 13.30, 0.25, 1.80, 1.0, 0.0, 0.0, 0.0 );
 hebel.getActor().pitch(90.0)
 hebel.getActor().roll(90.0)
 $SCRIPT.log("Hebel fertig");
@@ -62,7 +62,7 @@ doorprocessor = SecretDoorOpener.new(gtuer, hebel)
 
 $SCRIPT.log("Truhe reinsetzen")
 chest = Chest.new( "Truhe", false );
-chest.getActor().placeIntoScene( 1750.0, -350.0, -105.0, 1.0, 0.0, 0.0, 0.0 );
+chest.getActor().placeIntoScene( 17.50, -3.50, -1.05, 1.0, 0.0, 0.0, 0.0 );
 chest.getActor().yaw(-90.0);
 $SCRIPT.log("Truhe fertig");
 
@@ -72,16 +72,6 @@ chest.addItem(trank);
 trank = Heiltrank.new( "Trank", "Eine andere Flasche mit einer anderen geheimnisvollen Fluessigkeit", "obj_heiltrank01.mesh", "B" );
 chest.addItem(trank);
 $SCRIPT.log("Traenke fertig");
-
-#$SCRIPT.log("Sound laden");
-#LevelLied = $AM.createSoundSampleActor( "LevelLied", "spannend.ogg" );
-#$SCRIPT.log(" Platzieren");
-#LevelLied.placeIntoScene( 160.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0 );
-#$SCRIPT.log(" Loopen");
-#LevelLied.getControlledObject().setLooping( true );
-#$SCRIPT.log(" Abspielen");
-#LevelLied.getControlledObject().play();
-#$SCRIPT.log("Sound fertig");
 
 $World.setFog( World::FOG_EXP, [0.8,0.8,1.0,0.5], 0.00009, 0.2, 1.0);
 
