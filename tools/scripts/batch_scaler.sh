@@ -8,7 +8,7 @@ find . -maxdepth 1 -name "*.skeleton.xml" -print -exec java -cp . meshhandle.Ske
 find . -maxdepth 1 -name "*.mesh.xml" -print -exec java -cp . meshhandle.MeshScaler \{\} $1 $2/\{\} \;
 find . -maxdepth 1 -name "*.scene" -print -exec java -cp . meshhandle.SceneScaler \{\} $1 $2/\{\} \;
 
-cd neu
+cd $2
 find . -name "*.skeleton.xml" -exec OgreXmlConverter \{\} \;
 find . -name "*.mesh.xml" -exec OgreXmlConverter \{\} \;
 cd ..
