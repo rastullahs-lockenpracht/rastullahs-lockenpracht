@@ -33,7 +33,7 @@ class Rock < GameObject
 
   def setGravityState(active)
     if (active)
-      getActor().getPhysicalThing().setGravityOverride(true, 0.0, -9880.0, 0.0)
+      getActor().getPhysicalThing().setGravityOverride(true, 0.0, -98.800, 0.0)
     else
       getActor().getPhysicalThing().setGravityOverride(true, 0.0, 0.0, 0.0)
     end

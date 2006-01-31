@@ -36,7 +36,7 @@ class Waldspinne < Creature
 	super("Waldspinne", "Eine große Spinne, die sich anscheinend vor irgendetwas ängstigt.")
 	actor = $AM.createMeshActor("Waldspinne", "tie_waldspinne.mesh", PhysicsManager::GT_SPHERE, 0.0)
 	setActor(actor)
-	getActor().placeIntoScene(-2040.0, 343.0, -8200.0, 1.0, 0.0, 0.0, 0.0)	
+	getActor().placeIntoScene(-20.400, 3.430, -82.000, 1.0, 0.0, 0.0, 0.0)	
 	getActor().setScale(5.0, 5.0, 5.0)
 	@mScareAction = ScareToDeathAction.new()
 	addAction(@mScareAction)

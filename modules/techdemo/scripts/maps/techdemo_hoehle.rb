@@ -4,7 +4,7 @@ require "heiltrank_tech.rb"
 
 
 trank = Heiltrank.new( "Trank", "Eine Flasche mit einer geheimnisvollen Fluessigkeit", "obj_heiltrank01.mesh", "A" );
-trank.getActor().placeIntoScene( 15559.3017578125, 674.539489746094, 2096.4052734375, 1.0, 0.0, 0.0, 0.0 );
+trank.getActor().placeIntoScene( 155.593017578125, 6.74539489746094, 20.964052734375, 1.0, 0.0, 0.0, 0.0 );
 
 class CaveDoorOpener < ObjectStateChangeListener
 

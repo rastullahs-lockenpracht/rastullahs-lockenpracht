@@ -1,33 +1,30 @@
 <scene formatVersion="0.2.0">
     <nodes>
         <node>
-            <position x="770.229530" y="1851.350594" z="-7149.255371"/>
-            <rotation qx="0.187985" qy="0.337050" qz="0.068873" qw="0.919954"/>
+            <position x="7.7022953" y="18.513506" z="-71.49255" />
+            <rotation qw="0.919954" qx="0.187985" qy="0.33705" qz="0.068873" />
             <entity meshFile="wueste.mesh"/>
-
-            <userData>
+            <userdata>
                 <property type="STRING" name="physical_body" data="none"/>
-            </userData>
+            </userdata>
         </node>
         <node name="nat_stein_01">
-            <position x="1348.766518" y="825.950851" z="-3713.589096"/>
-            <rotation qx="0.061914" qy="0.204045" qz="-0.012932" qw="0.976916"/>
-            <scale x="0.65" y="0.5" z="0.65"/>
+            <position x="13.487664" y="8.259508" z="-37.13589" />
+            <rotation qw="0.976916" qx="0.061914" qy="0.204045" qz="-0.012932" />
+            <scale x="0.65" y="0.5" z="0.65" />
             <entity name="nat_stein_01" meshFile="nat_stein_01.mesh"/>
-
-            <userData>
+            <userdata>
                 <property type="STRING" name="physical_body" data="none"/>
-            </userData>  
+            </userdata>
         </node>
         <node name="arc_boronsrad">
-            <position x="170.446599" y="-92.208049" z="-255.569286"/>
-            <rotation qx="0.055446" qy="0.623836" qz="-0.019875" qw="0.779333"/>
-            <scale x="1.000000" y="1.000000" z="1.000000"/>
+            <position x="1.7044659" y="-0.92208046" z="-2.555693" />
+            <rotation qw="0.779333" qx="0.055446" qy="0.623836" qz="-0.019875" />
+            <scale x="1.0" y="1.0" z="1.0" />
             <entity name="arc_boronsrad" meshFile="arc_boronsrad.mesh"/>
-
-            <userData>
+            <userdata>
                 <property type="STRING" name="physical_body" data="none"/>
-            </userData>  
+            </userdata>
         </node>
     </nodes>
 </scene>
