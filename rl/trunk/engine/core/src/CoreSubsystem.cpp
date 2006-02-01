@@ -59,8 +59,14 @@ namespace rl {
     CoreSubsystem::CoreSubsystem()
         : 	mWorld(NULL),
         mRubyInterpreter(NULL),
+        mCommonModules(),
+        mActivatableModules(),
         mActiveAdventureModule(""),
-		mDefaultActiveModule("")
+        mDefaultActiveModule(""),
+        mClockStartTime(),
+        mDeveloperMode(false),
+        mCoreEventCaster(),
+        mSoundListenerActor(NULL)
     {
         resetClock();
         initializeCoreSubsystem();        
