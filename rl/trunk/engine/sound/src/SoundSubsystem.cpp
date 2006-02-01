@@ -234,10 +234,7 @@ void SoundSubsystem::printData()
  */
 SoundSubsystem::~SoundSubsystem()
 {
-    if (SoundManager::getSingletonPtr())
-    {
-        delete SoundManager::getSingletonPtr();
-    }
+    delete SoundManager::getSingletonPtr();
     FSOUND_Close();
 }
 
