@@ -162,9 +162,7 @@ namespace rl {
         GameLoopManager::getSingleton().addAsynchronousTask(
             SoundUpdateTask::getSingletonPtr()); 
 
-		mSoundListenerActor = ActorManager::getSingleton().createListenerActor("SoundListenerObject");
-
-        return true;
+		return true;
     }
 
     void CoreSubsystem::initializeResources()
@@ -455,6 +453,8 @@ namespace rl {
 
 	Actor* CoreSubsystem::getSoundListener()
 	{
+		if (mSoundListenerActor == NULL)
+			mSoundListenerActor = ActorManager::getSingleton().createListenerActor("SoundListenerObject");
 		return mSoundListenerActor;
 	}
 }
