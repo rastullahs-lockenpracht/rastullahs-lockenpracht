@@ -53,7 +53,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain_d.lib cppunitd_dll.lib"
+				AdditionalDependencies="OgreMain_d.lib cppunitd_dll.lib fmodvc.lib"
 				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogrenew\ogremain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\cppunit\lib;..\..\dependencies\fmod\api\lib"
 			/>
 			<Tool
@@ -80,7 +80,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="EXE kopieren."
-				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(SolutionDir)..\rl_dist\&quot;"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\rl_dist\&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -120,7 +120,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib cppunit_dll.lib"
+				AdditionalDependencies="OgreMain.lib cppunit_dll.lib fmodvc.lib"
 				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogrenew\ogremain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\cppunit\lib;..\..\dependencies\fmod\api\lib"
 			/>
 			<Tool
@@ -147,7 +147,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="EXE kopieren."
-				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(SolutionDir)..\rl_dist\&quot;"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\rl_dist\&quot;"
 			/>
 		</Configuration>
 	</Configurations>
@@ -160,11 +160,35 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\SoundSampleTest.cpp"
+				RelativePath=".\SoundTest1.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\SoundStreamTest.cpp"
+				RelativePath=".\SoundTest2.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SoundTest3.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SoundTest4.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SoundTest5.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SoundTest6.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SoundTest7.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SoundTest8.cpp"
 				>
 			</File>
 			<File
@@ -177,6 +201,14 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\ExampleApplication.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ExampleFrameListener.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
