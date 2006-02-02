@@ -111,7 +111,7 @@ void SoundSubsystem::initializeDriver()
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 	FSOUND_SetOutput(FSOUND_OUTPUT_DSOUND);
 #else
-    FSOUND_SetOutput(FSOUND_OUTPUT_ALSA);
+    FSOUND_SetOutput(FSOUND_OUTPUT_ESD);
 #endif
 
 

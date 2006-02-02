@@ -32,6 +32,7 @@ int main( int argc, char **argv)
     #endif
     Ogre::ResourceGroupManager::getSingleton().addResourceLocation("./modules/common/sound", "FileSystem");
     Ogre::ResourceGroupManager::getSingleton().addResourceLocation("./modules/common/sound/ost", "FileSystem");
+    Ogre::ResourceGroupManager::getSingleton().addResourceLocation("./modules/common/sound/natur", "FileSystem");
     Ogre::ResourceGroupManager::getSingleton().addResourceLocation("./modules/minidemo/sound", "FileSystem");
     Ogre::ResourceGroupManager::getSingleton().addResourceLocation("./modules/techdemo/sound", "FileSystem");
 

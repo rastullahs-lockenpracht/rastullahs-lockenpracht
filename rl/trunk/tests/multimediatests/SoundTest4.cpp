@@ -45,6 +45,34 @@ public:
     void test()
     {
         Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Starte Test #4");
+        ListenerMovable listener("Listener");
+        listener.setActive();
+        
+        // Der Stereosound wird auf Mono gezwungen (hoffentlich!)
+        SoundSample *sound = new SoundSample("rain.ogg");
+        SoundChannel *channel = new SoundChannel(sound, "musik");
+        channel->set3d(true);
+        channel->setLooping(true);
+        channel->setPosition(Vector3(10, 10, 0));
+        channel->play();
+        
+        // Fünfmal im Kreis herum
+        for (int i = 1; i <= 5; i++)
+        {
+            for(float d = 0; d <= 2 * M_PI; d += 0.1)
+            {
+                float x = 10 * sinf(d);
+                float y = 20 * cosf(d);
+                listener.setPosition(Vector3(x, y, 0.0f));
+                FSOUND_Update();
+                
+                xtime xt;
+                xtime_get(&xt, TIME_UTC);
+                xt.nsec += 50000000;
+                thread::sleep(xt);
+            }
+        }
+
 
         Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Beende Test #4");
         CPPUNIT_ASSERT(true);

@@ -43,10 +43,11 @@ ListenerMovable::ListenerMovable(const String &name):
     mName = name;
 
     /// Ein paar Standardwerte setzen
+    setGain(255);
     setPosition(Vector3(0.0, 0.0, 0.0));
     setVelocity(Vector3(0.0, 0.0, 0.0));
     setOrientation(Vector3::UNIT_Y,
-        Vector3::NEGATIVE_UNIT_Z);
+        Vector3::NEGATIVE_UNIT_Z); 
 }
  
 /**
@@ -179,8 +180,9 @@ void ListenerMovable::setPosition(const Vector3& position) throw (RuntimeExcepti
         FSOUND_3D_Listener_GetAttributes(0, 0,
             &fx, &fy, &fz, &tx, &ty, &tz);
         float newpos[] = {position[0], position[1], position[2]};
+        float speed[] = {1.0f, 1.0f, 1.0f};
         FSOUND_3D_Listener_SetAttributes(newpos,
-            0, fx, fy, fz, tx, ty, tz);
+            speed, fx, fy, fz, tx, ty, tz);
     }
 }
 
