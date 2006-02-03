@@ -252,6 +252,7 @@
    if (length > 2) {
       Check_Type(*it, T_FLOAT);
       vec->b = RFLOAT(*it)->value;
+      it++;
    }
    if (length > 3) {
       Check_Type(*it, T_FLOAT);
@@ -337,103 +338,114 @@
 }
 
 %typemap(out) Ogre::Vector3, const Ogre::Vector3 {
-   VALUE array = rb_ary_new();
-   rb_ary_push(array, rb_float_new($1.x));
-   rb_ary_push(array, rb_float_new($1.y));
-   rb_ary_push(array, rb_float_new($1.z));
-   $result = array;
+   VALUE rval = rb_ary_new();
+   rb_ary_push(rval, rb_float_new($1.x));
+   rb_ary_push(rval, rb_float_new($1.y));
+   rb_ary_push(rval, rb_float_new($1.z));
+   $result = rval;
 }
 
 %typemap(out) Ogre::Vector3*, const Ogre::Vector3*, const Ogre::Vector3&, Ogre::Vector& {
-   VALUE array = rb_ary_new();
-   rb_ary_push(array, rb_float_new($1->x));
-   rb_ary_push(array, rb_float_new($1->y));
-   rb_ary_push(array, rb_float_new($1->z));
-   $result = array;
+   VALUE rval = rb_ary_new();
+   rb_ary_push(rval, rb_float_new($1->x));
+   rb_ary_push(rval, rb_float_new($1->y));
+   rb_ary_push(rval, rb_float_new($1->z));
+   $result = rval;
 } 
 
 
 /* Typemaps fuer Quaternion.
- * Ein Quaternion wird einfach auf ein vierelementiges Array abgebildet.
+ * Ein Quaternion wird auf ein Array aus einem 3-elementigen Array 
+ * für die Rotationsachse und einem Wert für den Winkel abgebildet
  * 
  */
 
-%typecheck(SWIG_TYPECHECK_DOUBLE_ARRAY) Ogre::Quaternion, const Ogre::Quaternion& {
-  $1 = TYPE($input) == T_ARRAY && RARRAY($input)->len == 4 ? 1 : 0;
+%typemap(typecheck) Ogre::Quaternion, const Ogre::Quaternion& {
+	  if (TYPE($input) == T_ARRAY && RARRAY($input)->len == 2)
+	  {
+			VALUE entry0 = rb_ary_entry($input, 0);
+			VALUE entry1 = rb_ary_entry($input, 1);
+			if ((TYPE(entry1) == T_FLOAT || TYPE(entry1) == T_FIXNUM)
+				&& TYPE(entry0) == T_ARRAY 
+				&& RARRAY(entry0)->len == 3)
+			{
+				$1 = 1;
+			}
+			else
+			{
+				$1 = 0;
+			}
+	  }
+	  else
+	  {
+			$1 = 0;
+	  }
 }
 
 %typemap(in) Ogre::Quaternion, const Ogre::Quaternion
 {
+   VALUE axisVal = rb_ary_entry($input, 0);
+   Ogre::Vector3 axis(
+			NUM2DBL(rb_ary_entry(axisVal, 0)), 
+			NUM2DBL(rb_ary_entry(axisVal, 1)),
+			NUM2DBL(rb_ary_entry(axisVal, 2)));
+
+   double angle = NUM2DBL(rb_ary_entry($input, 1));
+   
    Ogre::Quaternion quat(0.0, 0.0, 0.0, 0.0);
-   int length = RARRAY($input)->len;
-   VALUE* it = RARRAY($input)->ptr;
-   if (length > 0) {
-      Check_Type(*it, T_FLOAT);
-      quat.w = RFLOAT(*it)->value;
-      it++;
-   }
-   if (length > 1) {
-      Check_Type(*it, T_FLOAT);
-      quat.x = RFLOAT(*it)->value;
-      it++;
-   }
-   if (length > 2) {
-      Check_Type(*it, T_FLOAT);
-      quat.y = RFLOAT(*it)->value;
-      it++;
-   }
-   if (length > 3) {
-      Check_Type(*it, T_FLOAT);
-      quat.z = RFLOAT(*it)->value;
-   }
+   quat.FromAngleAxis(Ogre::Degree(angle), axis);
    $1 = quat;
 }
 
 %typemap(in) Ogre::Quaternion*, Ogre::Quaternion&,
    const Ogre::Quaternion*, const Ogre::Quaternion&
 {
+   VALUE axisVal = rb_ary_entry($input, 0);
+   Ogre::Vector3 axis(
+			NUM2DBL(rb_ary_entry(axisVal, 0)), 
+			NUM2DBL(rb_ary_entry(axisVal, 1)),
+			NUM2DBL(rb_ary_entry(axisVal, 2)));
+
+   double angle = NUM2DBL(rb_ary_entry($input, 1));
+   
    Ogre::Quaternion* quat = new Ogre::Quaternion(0.0, 0.0, 0.0, 0.0);
-   int length = RARRAY($input)->len;
-   VALUE* it = RARRAY($input)->ptr;
-   if (length > 0) {
-      Check_Type(*it, T_FLOAT);
-      quat->w = RFLOAT(*it)->value;
-      it++;
-   }
-   if (length > 1) {
-      Check_Type(*it, T_FLOAT);
-      quat->x = RFLOAT(*it)->value;
-      it++;
-   }
-   if (length > 2) {
-      Check_Type(*it, T_FLOAT);
-      quat->y = RFLOAT(*it)->value;
-      it++;
-   }
-   if (length > 3) {
-      Check_Type(*it, T_FLOAT);
-      quat->z = RFLOAT(*it)->value;
-   }
+   quat->FromAngleAxis(Ogre::Degree(angle), axis);
    $1 = quat;
 }
 
 
 %typemap(out) Ogre::Quaternion, const Ogre::Quaternion {
-   VALUE array = rb_ary_new();
-   rb_ary_push(array, rb_float_new($1.w));
-   rb_ary_push(array, rb_float_new($1.x));
-   rb_ary_push(array, rb_float_new($1.y));
-   rb_ary_push(array, rb_float_new($1.z));
-   $result = array;
+   Degree angle;
+   Vector3 axis;
+   
+   $1.ToAngleAxis(angle, axis);
+   
+   VALUE arrAxis = rb_ary_new();
+   rb_ary_push(arrAxis, rb_float_new(axis.x));
+   rb_ary_push(arrAxis, rb_float_new(axis.y));
+   rb_ary_push(arrAxis, rb_float_new(axis.z));
+   VALUE rval = rb_ary_new();
+   rb_ary_push(rval, rb_float_new(arrAxis));
+   rb_ary_push(rval, rb_float_new(angle.valueDegrees()));
+   
+   $result = rval;
 }
 
 %typemap(out) Ogre::Quaternion*, const Ogre::Quaternion*, const Ogre::Quaternion&, Ogre::Quaternion& {
-   VALUE array = rb_ary_new();
-   rb_ary_push(array, rb_float_new($1->w));
-   rb_ary_push(array, rb_float_new($1->x));
-   rb_ary_push(array, rb_float_new($1->y));
-   rb_ary_push(array, rb_float_new($1->z));
-   $result = array;
+   Degree angle;
+   Vector3 axis;
+   
+   $1->ToAngleAxis(angle, axis);
+   
+   VALUE arrAxis = rb_ary_new();
+   rb_ary_push(arrAxis, rb_float_new(axis.x));
+   rb_ary_push(arrAxis, rb_float_new(axis.y));
+   rb_ary_push(arrAxis, rb_float_new(axis.z));
+   VALUE rval = rb_ary_new();
+   rb_ary_push(rval, rb_float_new(arrAxis));
+   rb_ary_push(rval, rb_float_new(angle.valueDegrees()));
+   
+   $result = rval;
 } 
 
 %typemap(ruby, freearg) rl::CeGuiStringVector &, const rl::CeGuiStringVector & {

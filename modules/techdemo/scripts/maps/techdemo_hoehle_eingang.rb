@@ -17,14 +17,7 @@ class Rock < GameObject
       rockActor.getPhysicalThing().setGravityOverride(true)
       setActor(rockActor)
 
-      rockActor.placeIntoScene( 
-	@mPosition[0],
-	@mPosition[1],
-	@mPosition[2],
-	@mOrientation[0],
-	@mOrientation[1],
-	@mOrientation[2],
-	@mOrientation[3])
+      rockActor.placeIntoScene(@mPosition, @mOrientation)
 
       @mSpawned = true
       setHighlightingEnabled(false)
@@ -76,9 +69,7 @@ class RockPile < GameObject
 
     @mRockPile = $AM.createMeshActor("Steinhaufen", "Steinhaufen.mesh", PhysicsManager::GT_CONVEXHULL, 0.0,  PhysicsManager::OM_CENTERED )
     @mRockPile.getPhysicalThing().setGravityOverride(true, 0.0, 0.0, 0.0)
-    @mRockPile.placeIntoScene( 
-	positionPile[0],positionPile[1], positionPile[2],
-	orientation[0],	orientation[1],	orientation[2],	orientation[3] )
+    @mRockPile.placeIntoScene(positionPile, orientation)
 
     @mPositionPart = positionParticles;
     @mSteinSchlagActor = $AM.createSoundSampleActor("SteinSchlagSound","steinschlag_wenig_zu_vielen.ogg");
@@ -93,8 +84,7 @@ class RockPile < GameObject
     
     @mDustCloud = $AM.createParticleSystemActor("Steinstaubwolke", "RL/Staubwolke")
     @mSteinSchlagActor.getControlledObject().play();
-    @mDustCloud.placeIntoScene(
-	@mPositionPart[0], @mPositionPart[1], @mPositionPart[2], 1.0, 0.0, 0.0, 0.0);
+    @mDustCloud.placeIntoScene(@mPositionPart);
     @mDustCloud.getControlledObject().setActive(true)
     fallAnim.addAnimationListener( ZusammenfallListener.new(@mRockPile,@mDustCloud) );
 

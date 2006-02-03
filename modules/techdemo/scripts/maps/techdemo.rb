@@ -35,7 +35,7 @@ $hero = Hero.new;
 #hero.setActor($AM.createMeshActor("Held","held.mesh", 2, -1.0));
 $SCRIPT.log("Held erstellt");
 $SCRIPT.log("Held in die Szene einfuegen.");
-$hero.getActor().placeIntoScene(-69.220, 3.440, -4.000, 1.0, 0.0, 0.0, 0.0);
+$hero.getActor().placeIntoScene([-69.220, 3.440, -4.000], [[0.0, 1.0, 0.0], 0.0]);
 $SCRIPT.log("Held eingefügt.");
 PlayerSettings.preparePlayer($hero);
 $SCRIPT.log("Held vorbereitet.");
@@ -52,33 +52,34 @@ load "techdemo_quests.rb"
 
 load "techdemo_bauer.rb"
 $bauer = BauerArnolfGrossschaedel.new()
-$bauer.getActor().placeIntoScene(29.9182, -0.6554, 9.590, -0.767904, 0.0, 0.640565, 0.0)
+$bauer.getActor().placeIntoScene([29.9182, -0.6554, 9.590], [[0, 1, 0], 280])
 
 load "techdemo_spinne.rb"
 $waldspinne = Waldspinne.new()
 
 load "techdemo_hoehle.rb"
 $hebeltuer = Door.new("Eine Tür", "Eine Tür, allerdings ist keine Klinke vorhanden", false, false)
-$hebeltuer.getActor().placeIntoScene(141.950, 7.200, 32.550, 0.965926, 0.0, 0.8, 0.0)
+$hebeltuer.getActor().placeIntoScene([141.950, 7.200, 32.550], [[0, 1, 0], 30])
 $hebel = Switch.new("HoehlenHebel")
-$hebel.getActor().placeIntoScene(114.800, 10.700, 34.750, -0.767904, 0.0, 0.5, 0.0 )
-$hebel.getActor().roll(-90.0);$hebel.getActor().yaw(90.0);
+$hebel.getActor().placeIntoScene([114.800, 10.700, 34.750], [[0, 1, 0], 280] )
+$hebel.getActor().roll(-90.0);
+$hebel.getActor().yaw(90.0);
 $tueroeffner = CaveDoorOpener.new($hebeltuer, $hebel)
 
 require "truhe.rb"
 $truhe = Chest.new( "Truhe", false );
-$truhe.getActor().placeIntoScene(123.530, 9.500, 47.250, 1.0, 0.0, 0.0, 0.0 );
+$truhe.getActor().placeIntoScene([123.530, 9.500, 47.250]);
 $truhe.addItem(Torch.new("Fackel2"))
 
 require "techdemo_hoehle_eingang.rb"
-luftfels1 = Rock.new("nat_stein_gross_01.mesh", [105.510400390625, 26.0499194335938, 40.3499243164063], [1.0, 0.0, 0.0, 0.0], false)
-luftfels2 = Rock.new("nat_stein_gross_01.mesh", [99.82107421875, 21.3660180664063, 45.87017578125], [1.0, 0.0, 0.0, 0.0], false)
-luftfels3 = Rock.new("nat_stein_gross_01.mesh", [ 94.425087890625, 30.0978625488281, 44.10947265625], [1.0, 0.0, 0.0, 0.0], false)
+luftfels1 = Rock.new("nat_stein_gross_01.mesh", [105.510400390625, 26.0499194335938, 40.3499243164063], [[1.0, 0.0, 0.0], 0.0], false)
+luftfels2 = Rock.new("nat_stein_gross_01.mesh", [99.82107421875, 21.3660180664063, 45.87017578125], [[1.0, 0.0, 0.0], 0.0], false)
+luftfels3 = Rock.new("nat_stein_gross_01.mesh", [ 94.425087890625, 30.0978625488281, 44.10947265625], [[1.0, 0.0, 0.0], 0.0], false)
 
 $SCRIPT.log("Steinschlag: SteinschlagzoneListener erstellen");
 areaListener = SteinschlagzoneListener.new(luftfels1, luftfels2, luftfels3 );
 
-$felshaufen = RockPile.new([0.0, 0.0, 0.0], [1.0, 0.0, 0.0, 0.0], [ 94.425087890625, 10.0978625488281, 44.10947265625 ])
+$felshaufen = RockPile.new([0.0, 0.0, 0.0], [[1.0, 0.0, 0.0], 0.0], [ 94.425087890625, 10.0978625488281, 44.10947265625 ])
 $felshaufen.getActor().getPhysicalThing().setContactListener( 
 	RockpileContactListener.new($felshaufen, luftfels1, luftfels2, luftfels3) );
 
@@ -86,7 +87,7 @@ $felshaufen.getActor().getPhysicalThing().setContactListener(
 $SCRIPT.log("Steinschlag: Kugel-Zentrum Actor erstellen");
 kugelDings = $AM.createEmptyActor( "Kugel-Zentrum" );
 $SCRIPT.log("Steinschlag: Kugel-Zentrum Actor in die Szene einfügen");
-kugelDings.placeIntoScene( 78.1769, 10.1317, 50.9391, 1.0, 0.0, 0.0, 0.0);
+kugelDings.placeIntoScene( [78.1769, 10.1317, 50.9391] );
 
 
 

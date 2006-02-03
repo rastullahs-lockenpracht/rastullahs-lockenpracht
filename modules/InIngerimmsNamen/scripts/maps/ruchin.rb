@@ -36,7 +36,7 @@ $SCRIPT.log("Held erstellen");
 hero = Hero.new;
 $SCRIPT.log("Held erstellt");
 $SCRIPT.log("Held in die Szene einfuegen.");
-hero.getActor().placeIntoScene([-5.300, 4.200, -10.200], [1.0, 0.0, 1.0, 0.0]);
+hero.getActor().placeIntoScene([-5.300, 4.200, -10.200], [[0.0, 1.0, 0.0], 0.0]);
 # hero.getActor().yaw(180.0)
 $SCRIPT.log("Held eingefügt.");
 PlayerSettings.preparePlayer(hero);
@@ -44,11 +44,13 @@ $SCRIPT.log("Held vorbereitet.");
 $UI.setActiveCharacter(hero);
 $SCRIPT.log("Held als aktiver Charakter gesetzt.");
 
-#load "waldspinne.rb"
+load "waldspinne.rb"
 #waldspinne = Waldspinne.new
-#waldspinne.getActor().placeIntoScene(-1500.0, -135.0, 1020.0, 1.0, 0.0, 0.0, 0.0);	
-#waldspinne.getActor().setScale(5.0, 5.0, 5.0)
+#waldspinne.getActor().placeIntoScene([-15.0, -1.35, 10.20], [1.0, 0.0, 0.0, 0.0]);	
+#waldspinne.getActor().setScale(0.05, 0.05, 0.05)
 #$GameEveMgr.addSphereAreaListener( waldspinne.getActor(), 500.0, CombatTrigger.new(), Actor::QGF_PLAYER )
 
-held = $AM.getActor( "Held" );
-held.setQueryMask( Actor::QGF_PLAYER );
+sound = $AM.createSoundSampleActor("Feuer", "feuer_knisternd_01.ogg")
+sound.getControlledObject().setLooping(true)
+sound.placeIntoScene([-15.0, -1.35, 10.200])
+sound.getControlledObject().play()
