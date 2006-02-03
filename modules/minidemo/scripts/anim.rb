@@ -30,7 +30,7 @@ print( "Erstelle Roboter" );
 
 # Erstellen eines laufenden Roboters
 actBotter = $AM.createMeshActor("Botter","held.mesh");
-actBotter.placeIntoScene( 160.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0 );
+actBotter.placeIntoScene( [160.0, 24.0, 160.0] );
 boBotter = actBotter.getControlledObject();
 
 print( "Starte Animation" );
@@ -53,7 +53,7 @@ boBotter.stopAllAnimations();
 
 print( "Erstelle Fackel" );
 fackel = $AM.createMeshActor("Fackel","ins_fackel_01.mesh");
-fackel.placeIntoScene( 160.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0 );
+fackel.placeIntoScene( [160.0, 24.0, 160.0] );
 
 print( "Erstelle Track" );
 # Erstellen eines einfachen Tracks  
@@ -84,7 +84,7 @@ trackAnim.setPaused( false );
 print( "Erstelle Track" );
 # Noch einfacherer ;) Track, aber mit nem Listener verknüpft
 tischlein = $AM.createMeshActor("TavernenTisch","nat_stein02_mittel.mesh");
-tischlein.placeIntoScene( 160.0, 24.0, 160.0, 1.0, 0.0, 0.0, 0.0 );
+tischlein.placeIntoScene( [160.0, 24.0, 160.0] );
 
 listenedTrackAnim = $AnimMgr.createTrackAnimation( tischlein, "testListenerTrackAnimation", 6.0 );
 listenedTrackAnim.addKeyFrame( 0.0 );

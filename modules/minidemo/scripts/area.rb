@@ -26,7 +26,7 @@ $SCRIPT.log("Kugel-Zentrum Actor erstellen");
 # kugelDings = $AM.createEmptyActor( "Kugel-Zentrum" );
 kugelDings = $AM.createSoundSampleActor( "Kugel-Zentrum", "lachen.ogg" );
 $SCRIPT.log("Kugel-Zentrum Actor in die Szene einfügen");
-kugelDings.placeIntoScene( 415.0, 5.0, -300.0, 1.0, 0.0, 0.0, 0.0);
+kugelDings.placeIntoScene( [415.0, 5.0, -300.0] );
 
 $SCRIPT.log("DunkleEckenLachListener erstellen");
 areaListener = DunkleEckenLachListener.new();

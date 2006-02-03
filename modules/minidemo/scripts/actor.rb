@@ -9,7 +9,7 @@ $World.setShowBoundingBoxes( true );
 $SCRIPT.log("Partikel Actor erstellen");
 partikelDings = $AM.createParticleSystemActor("EinfachsePartikel", "PEExamples/ignifaxius" );
 $SCRIPT.log("Partikel Actor in die Szene einfügen");
-partikelDings.placeIntoScene( 415.0, 5.0, -100.0, 1.0, 0.0, 0.0, 0.0);
+partikelDings.placeIntoScene( [415.0, 5.0, -100.0] );
 
 
 # Ein Objekt an einen Bone anhängen
@@ -21,7 +21,7 @@ befestigDings2 = $AM.createMeshActor("BefestigungsMesh2", "ins_fackel_01.mesh" )
 $SCRIPT.log("HalteMesh Actor erstellen");
 halteDings = $AM.createMeshActor("HalteMesh", "held.mesh" );
 $SCRIPT.log("HalteMesh Actor in die Szene einfügen");
-halteDings.placeIntoScene( 315.0, 5.0, -100.0, 1.0, 0.0, 0.0, 0.0);
+halteDings.placeIntoScene( [315.0, 5.0, -100.0] );
 
 $SCRIPT.log("Mesh an HalteMesh befestigen");
 halteDings.attachToSlotAxisRot( befestigDings, "Bone15", "SLOT_HANDLE", [0.0, 0.0, 0.0], [ 1.0, 0.0, 0.0 ], 90.0 );
@@ -41,7 +41,7 @@ befestigDingsP = $AM.createParticleSystemActor("BefestigungsPartikel", "PEExampl
 $SCRIPT.log("Leeren Actor erstellen");
 leerDings = $AM.createEmptyActor("Leer");
 $SCRIPT.log("Leeren Actor in die Szene einfügen");
-leerDings.placeIntoScene( 115.0, 5.0, -100.0, 1.0, 0.0, 0.0, 0.0);
+leerDings.placeIntoScene( [115.0, 5.0, -100.0] );
 
 $SCRIPT.log("Partikel an Leeren Actor befestigen");
 leerDings.attach( befestigDingsP );
@@ -52,6 +52,6 @@ leerDings.attach( befestigDingsP );
 $SCRIPT.log("Leeren Actor aus der Szene entfernen");
 leerDings.removeFromScene();
 $SCRIPT.log("Leeren Actor wieder in die Szene einfügen");
-leerDings.placeIntoScene( 115.0, 5.0, -100.0, 1.0, 0.0, 0.0, 0.0);
+leerDings.placeIntoScene( [115.0, 5.0, -100.0] );
 
 print( "Actor-Tests fertig geladen" );
