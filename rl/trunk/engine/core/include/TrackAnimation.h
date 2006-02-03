@@ -25,6 +25,8 @@
 #include "AnimationManager.h"
 
 namespace rl {
+
+class _RlCoreExport Actor;
 /** Diese Klasse stellt eine Möglichkeit zur Verfügung, einfach Tracks zu erzeugen denen
 	Aktoren folgen.
 */
@@ -38,10 +40,13 @@ public:
 		@remarks Konstruktor sollte nicht direkt aufgerufen werden, 
 		sondern vom AnimationManager.
 	 */
-	TrackAnimation(const Ogre::String& name, Ogre::Node *node,
+	TrackAnimation(const Ogre::String& name, Actor *act,
 	    Ogre::Real length);
 	/// Virtueller Destruktor
 	virtual ~TrackAnimation();
+
+	/// Überschriebe von Animation
+	virtual void addTime( Ogre::Real timePassed );
 	
 	/** Setzt ein neues Keyframe an einer Zeitposition
 		@param timePos	Die ZeitPosition
@@ -101,7 +106,7 @@ public:
 	bool getUseShortestRotationPath () const;
 
 	/// Teste ob der Track zu einem bestimmten Actor gehört
-	bool isSameNodeAsActor( Actor* act ) const ;
+	Actor* getActor( ) const ;
 
 	const Ogre::String& getName() const;
 	// TODO - kumulatives Animieren ein/aus
@@ -113,6 +118,8 @@ private:
 	Ogre::Animation* mAnimation;
 	/// Der erstellte Track
 	Ogre::NodeAnimationTrack* mAnimationTrack;
+	/// Der bewegte Actor
+	Actor* mActor;
 };
 
 }

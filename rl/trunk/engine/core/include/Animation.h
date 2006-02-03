@@ -116,7 +116,7 @@ class _RlCoreExport Animation : public virtual EventSource
         MeshObject* getMeshObject();
 
 		/// Zeit hinzufügen - wird vom AnimationManager aufgerufen
-		void addTime( Ogre::Real timePassed );
+		virtual void addTime( Ogre::Real timePassed );
 
 		/** Fügt einen AnimationListener hinzu
 			@param listener Der hinzuzufügende Listener

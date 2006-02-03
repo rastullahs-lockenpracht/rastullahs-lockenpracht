@@ -110,8 +110,7 @@ TrackAnimation* AnimationManager::createTrackAnimation(Actor* actor,
 		Throw( NullPointerException, "Actor darf nicht null sein" );
 
 	///@todo Namen abfangen
-
-	TrackAnimation* trackAnim = new TrackAnimation(name,actor->_getSceneNode(),length);
+	TrackAnimation* trackAnim = new TrackAnimation(name,actor,length);
 	mAnimationMap.insert(std::pair<Ogre::AnimationState*,Animation*>( 
 		trackAnim->getAnimationState(),trackAnim));
 
@@ -137,7 +136,7 @@ void AnimationManager::removeTrackAnimation( Actor* act, const Ogre::String& nam
         TrackAnimation* anim = dynamic_cast<TrackAnimation*>( it->second );
 		
 		if ( anim != 0 && 
-			 anim->isSameNodeAsActor( act ) && 
+			 anim->getActor() == act && 
 			 anim->getName() == name ) 
 		{
 			AnimationManager::stopAnimation(anim);
@@ -159,7 +158,7 @@ void AnimationManager::removeAllTrackAnimations( Actor* act )
     {
         TrackAnimation* anim = dynamic_cast<TrackAnimation*>( it->second );
 		
-		if ( anim != 0 && anim->isSameNodeAsActor( act ) ) 
+		if ( anim != 0 && anim->getActor() == act ) 
 		{
 			AnimationManager::stopAnimation(anim);
 			DeletionPropagator::getSingleton().notifyPointerDeleted( anim );

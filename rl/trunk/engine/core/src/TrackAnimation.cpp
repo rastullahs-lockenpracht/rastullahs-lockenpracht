@@ -24,8 +24,9 @@
 
 namespace rl {
 
-TrackAnimation::TrackAnimation( const Ogre::String& name, Ogre::Node *node, Ogre::Real length ) :	
-	Animation( )
+TrackAnimation::TrackAnimation( const Ogre::String& name, Actor *act, Ogre::Real length ) :	
+	Animation( ),
+	mActor(act)
 {
 	Ogre::SceneManager* mgr =  CoreSubsystem::getSingleton().getWorld()->getSceneManager();
 
@@ -37,9 +38,9 @@ TrackAnimation::TrackAnimation( const Ogre::String& name, Ogre::Node *node, Ogre
 	}
 	catch( Ogre::Exception& ) { }
 
-	node->setInitialState();
+	act->_getSceneNode()->setInitialState();
 	mAnimation = mgr->createAnimation(name, length );	
-	mAnimationTrack = mAnimation->createNodeTrack(0, node);
+	mAnimationTrack = mAnimation->createNodeTrack(0, act->_getSceneNode() );
 	this->setAnimationState( mgr->createAnimationState(name) );
 }
 
@@ -53,6 +54,13 @@ TrackAnimation::~TrackAnimation()
 	mgr->destroyAnimationState( mAnimation->getName() );
 	mgr->destroyAnimation( mAnimation->getName() );
 	mAnimState = NULL;
+}
+
+void TrackAnimation::addTime( Ogre::Real timePassed )
+{
+	Animation::addTime(timePassed);
+	if( mActor != NULL )
+		mActor->_update();
 }
 
 const Ogre::String& TrackAnimation::getName() const
@@ -133,9 +141,9 @@ bool TrackAnimation::getUseShortestRotationPath () const
 	return mAnimationTrack->getUseShortestRotationPath();
 }
 
-bool TrackAnimation::isSameNodeAsActor ( Actor* act ) const
+Actor* TrackAnimation::getActor ( ) const
 {
-	return ( mAnimationTrack->getAssociatedNode() == act->_getSceneNode() );
+	return mActor;
 }
 
 Ogre::TransformKeyFrame* TrackAnimation::getKeyFrameAtTimePos( Ogre::Real timePos )
