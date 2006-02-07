@@ -283,7 +283,17 @@ namespace rl {
 			// Skalierung des Nodes
 			else if( XMLString::compareIString(child->getNodeName(), 
 				XMLString::transcode("scale") ) == 0  )
+			{
 				newNode->setScale( processScale( reinterpret_cast<DOMElement*>(child) ) );
+				
+				// Skalierung auf alle Entities übertragen
+				for( unsigned short i = 0; i < newNode->numAttachedObjects(); i++ )
+				{
+					MovableObject* mo = newNode->getAttachedObject(i);
+					if( mo->getMovableType().compare("Entity") == 0 )
+						static_cast<Entity*>(mo)->setNormaliseNormals( newNode->getScale() != Vector3::UNIT_SCALE );
+				}
+			}
 			// Eine Entity
 			else if( XMLString::compareIString(child->getNodeName(), 
 				XMLString::transcode("entity") ) == 0  )                
@@ -410,6 +420,9 @@ namespace rl {
                 }
                 // if not, it is now loaded implicitly from the default group
                 newEnt = mSceneManager->createEntity(entName, meshName);
+				if( parentNode->getScale() != Vector3::UNIT_SCALE )
+					newEnt->setNormaliseNormals( true );
+
                 parentNode->attachObject( newEnt );
                 isEntityCreated = true;
 
