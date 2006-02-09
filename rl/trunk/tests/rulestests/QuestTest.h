@@ -14,6 +14,14 @@ using namespace CppUnit;
 using namespace std;
 using namespace rl;
 
+class QuestTestListener : public QuestChangeListener {
+public:
+	void questKnownChanged(QuestChangeEvent* evt) {};
+	void questPartsDoneChanged(QuestChangeEvent* evt) {};
+	void questStateChanged(QuestChangeEvent* evt) {};
+	void questSubquestAdded(QuestChangeEvent* evt) {};
+};
+
 class QuestTest : public TestFixture {
   CPPUNIT_TEST_SUITE( QuestTest );
   CPPUNIT_TEST( testGetQuestStateFromName );
@@ -24,6 +32,7 @@ class QuestTest : public TestFixture {
   CPPUNIT_TEST_SUITE_END();
 private:
 	QuestBook* mQuestBook;
+	QuestTestListener* mQuestListener;
 
 protected:
    void testGetQuestStateFromName()
@@ -115,10 +124,14 @@ public:
    void setUp()
    {
 	   mQuestBook = new QuestBook();
+	   mQuestListener = new QuestTestListener();
+	   mQuestBook->addQuestChangeListener(mQuestListener);
    }
 
    void tearDown()
    {
+	   mQuestBook->removeQuestChangeListener(mQuestListener);
+	   delete mQuestListener;
 	   delete mQuestBook;
    }
 };
