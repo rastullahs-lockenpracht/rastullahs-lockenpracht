@@ -256,8 +256,7 @@ namespace rl {
         {
             CameraObject* co = new CameraObject(uniquename);
             PhysicalThing* pt = PhysicsManager::getSingleton()
-                .createPhysicalThing(PhysicsManager::GT_SPHERE,
-                    co,
+                .createPhysicalThing(PhysicsManager::GT_SPHERE, co, 
                     100.0f, PhysicsManager::OM_CENTERED, true);
             actor = new Actor(uniquename, co, pt);
 

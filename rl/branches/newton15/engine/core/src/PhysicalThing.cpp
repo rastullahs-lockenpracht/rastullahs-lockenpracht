@@ -18,27 +18,34 @@
 #include "OgreLogManager.h"
 #include "MeshObject.h"
 #include "Actor.h"
-#include "PhysicsManager.h"
 #include "Exception.h"
+#include "PhysicalObject.h"
 
 using namespace OgreNewt;
 using namespace OgreNewt::CollisionPrimitives;
 
 namespace rl
 {
-    PhysicalThing::PhysicalThing(OgreNewt::Body* body, const Vector3& offset,
-        const Ogre::Quaternion& orientationBias) :
-        mActor(0),
-        mBody(body),
-        mUpVectorJoint(0),
-        mOffset(offset),
-        mOrientationBias(orientationBias),
+	PhysicalThing::PhysicalThing(
+		PhysicsManager::GeometryTypes geomType, PhysicalObject* po, Real mass, 
+		PhysicsManager::OffsetMode offsetMode, bool hullModifier) 
+		:
+		mActor(NULL),
+        mBody(NULL),
+        mUpVectorJoint(NULL),
+        mOffset(Vector3::ZERO),
+		mOrientationBias(Quaternion::IDENTITY),
         mPendingForce(Vector3::ZERO),
         mOverrideGravity(false),
         mGravity(Vector3::ZERO),
-        mContactListener(0)
-    {
-    }
+        mContactListener(NULL),
+		mGeometryType(geomType),
+		mPhysicalObject(po),
+		mMass(mass),
+		mOffsetMode(offsetMode),
+		mHullModifier(hullModifier)
+	{
+	}
 
     PhysicalThing::~PhysicalThing()
 	{
@@ -88,6 +95,21 @@ namespace rl
         mBody->setPositionOrientation(pos, orientation);
     }
 
+	void PhysicalThing::_setOrientationBias(const Ogre::Quaternion& orientation)
+	{
+		mOrientationBias = orientation;
+	}
+
+	void PhysicalThing::_setOffset(const Vector3& offset)
+	{
+		mOffset = offset;
+	}
+
+	PhysicalObject* PhysicalThing::_getPhysicalObject() const
+	{
+		return mPhysicalObject;
+	}
+
     Actor *PhysicalThing::getActor(void) const
     {
         return mActor;
@@ -96,6 +118,12 @@ namespace rl
     OgreNewt::Body* PhysicalThing::_getBody() const
     {
         return mBody;
+    }
+
+	void PhysicalThing::_setBody(OgreNewt::Body* body)
+    {
+        mBody = body;
+		mBody->setUserData(mActor);
     }
 
     void PhysicalThing::_update()
@@ -107,7 +135,8 @@ namespace rl
     void PhysicalThing::_setActor(Actor* actor)
     {
         mActor = actor;
-        mBody->setUserData(actor);
+		if (mBody != NULL)
+			mBody->setUserData(actor);
     }
 
     void PhysicalThing::_attachToSceneNode(Ogre::SceneNode* node)
@@ -171,11 +200,23 @@ namespace rl
 
     Ogre::Real PhysicalThing::getMass() const
     {
-        Real mass;
-        Vector3 inertia;
-        mBody->getMassMatrix(mass, inertia);
-        return mass;
+        return mMass;
     }
+
+	PhysicsManager::GeometryTypes PhysicalThing::_getGeometryType() const
+	{
+		return mGeometryType;
+	}
+
+	bool PhysicalThing::getHullModifier() const
+	{
+		return mHullModifier;
+	}
+
+	PhysicsManager::OffsetMode PhysicalThing::_getOffsetMode() const
+	{
+		return mOffsetMode;
+	}
 
     void PhysicalThing::setGravityOverride(bool override, const Vector3& gravity)
     {
@@ -273,6 +314,8 @@ namespace rl
     {
         return mContactListener;
     }
+
+
 
 }
 

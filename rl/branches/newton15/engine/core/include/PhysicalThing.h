@@ -18,20 +18,27 @@
 #define __PhysicalThing_H__
 
 #include "CorePrerequisites.h"
-#include "PhysicsContactListener.h"
 
 #include <OgreNewt.h>
+
+#include "PhysicsContactListener.h"
+#include "PhysicsManager.h"
 
 namespace rl {
 
 	class Actor;
 	class MeshObject;
+	class PhysicalObject;
 
     class _RlCoreExport PhysicalThing
     {
     public:
-        PhysicalThing(OgreNewt::Body* body, const Ogre::Vector3& offset = Ogre::Vector3::ZERO,
-            const Ogre::Quaternion& orientationBias = Ogre::Quaternion::IDENTITY);
+		PhysicalThing(
+			PhysicsManager::GeometryTypes geomType,
+			PhysicalObject* po, 
+			Real mass, 
+			PhysicsManager::OffsetMode offsetMode, 
+			bool hullModifier = false);
         /// Klasse Polymorph machen, damit SWIG glücklich ist.
         virtual ~PhysicalThing();
 
@@ -40,8 +47,15 @@ namespace rl {
         void setPosition(Ogre::Real x, Ogre::Real y, Ogre::Real z);
 
         Ogre::Quaternion getOrientation() const;
-        void setOrientation(const Ogre::Quaternion& orienation);
+        void setOrientation(const Ogre::Quaternion& orientation);
         void setOrientation(Ogre::Real w, Ogre::Real x, Ogre::Real y, Ogre::Real z);
+
+		void _setOffset(const Ogre::Vector3& offset);
+		void _setOrientationBias(const Ogre::Quaternion& orientation);
+
+		PhysicsManager::GeometryTypes _getGeometryType() const;
+		bool  getHullModifier() const;
+		PhysicsManager::OffsetMode _getOffsetMode() const;
 
         // Sets the vector, that will always point up.
         void setUpConstraint(const Ogre::Vector3& upVector = Ogre::Vector3::UNIT_Y);
@@ -62,6 +76,9 @@ namespace rl {
         void _detachFromSceneNode(Ogre::SceneNode* node);
 
         OgreNewt::Body* _getBody() const;
+		void _setBody(OgreNewt::Body* body);
+
+		PhysicalObject* _getPhysicalObject() const;
 
         void onApplyForceAndTorque();
         void addForce(const Ogre::Vector3& force);
@@ -91,6 +108,12 @@ namespace rl {
         bool mOverrideGravity;
         Ogre::Vector3 mGravity;
         PhysicsContactListener* mContactListener;
+
+		Ogre::Real mMass;
+		PhysicsManager::GeometryTypes mGeometryType;
+		PhysicsManager::OffsetMode mOffsetMode;
+		PhysicalObject* mPhysicalObject;
+		bool mHullModifier;
     };
 }
 

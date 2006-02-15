@@ -367,7 +367,7 @@ namespace rl {
         Ogre::SceneNode* parent, const Vector3& position, const Quaternion& orientation,
         const Ogre::String& physicsBone )
     {
-        doPlaceIntoScene(parent,position,orientation, physicsBone);
+        doPlaceIntoScene(parent,position,orientation, physicsBone);		
     }
 
     
@@ -646,6 +646,8 @@ namespace rl {
         // Physikverknüpfung anpassen
         if( mPhysicalThing != NULL && mActorControlledObject != NULL )
         {
+			PhysicsManager::getSingleton().createPhysicsProxy(mPhysicalThing, mSceneNode);
+
             // Knochen angegeben und handelt sich um ein Mesh
 			if( physicsBone.length() > 0 && mActorControlledObject->isMeshObject())
             {
