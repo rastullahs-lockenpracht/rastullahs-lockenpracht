@@ -96,12 +96,19 @@ material techdemo_terrain
 		// Beleuchtung (extra pass)
 		pass
 		{
-			ambient 0.6 0.6 0.6 1
+			ambient 0.0 0.0 0.0 1
 			diffuse 0.5 0.5 0.5 
-			
 
 			depth_func equal
 			scene_blend zero src_colour
+			
+			texture_unit
+			{
+				// Die Textur
+				texture techdemo_lightmap.png
+				// Und die Farben des Basispasses
+				colour_op_ex modulate src_texture src_current
+			}
 		}
 	}
 }
