@@ -368,6 +368,7 @@ public:
     void setSpotlightRange(float innerangle, float outerangle,
         float falloff);
     void setCastShadows( bool cast );
+    void setActive(bool active);
 };
 
 class SoundObject : public ActorControlledObject
