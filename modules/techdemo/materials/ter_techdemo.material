@@ -105,9 +105,10 @@ material techdemo_terrain
 			texture_unit
 			{
 				// Die Textur
-				texture LightingMap.png
+				texture techdemo_lightmap.png
+//				colour_op_ex add src_texture src_manual 0.5 
 				// Und die Farben des Basispasses
-				colour_op_ex modulate src_texture src_current
+				colour_op_ex modulate_x2 src_texture src_current
 			}
 		}
 	}
