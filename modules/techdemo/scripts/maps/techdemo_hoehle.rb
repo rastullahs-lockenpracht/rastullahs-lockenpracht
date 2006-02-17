@@ -41,7 +41,7 @@ class UseTorchAction < Action
   def doAction(torch, player, target)
     RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleZeugFackel").setState(Quest::COMPLETED)
     player.getActor().attachToSlotAxisRot( torch.getActor(), "Bone15", "SLOT_HANDLE", [0.0, 0.0, 0.0], [ 1.0, 0.0, 0.0 ], 90.0 );
-    torch.getActor().getChildBySlotAndIndex(Slots.SLOT_FAR_END, 0).setActive(true); # Licht an
+    torch.getActor().getChildBySlotAndIndex(Slots.SLOT_FAR_END, 0).setVisible(true); # Licht an
   end
 end
 
@@ -69,7 +69,7 @@ class Torch < Item
   end
   
   def setLit(lit)
-    fackellicht.getControlledObject().setActive(lit)
+    fackellicht.setVisible(lit)
     @lit = lit;
   end
   
