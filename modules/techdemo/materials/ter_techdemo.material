@@ -105,7 +105,7 @@ material techdemo_terrain
 			texture_unit
 			{
 				// Die Textur
-				texture techdemo_lightmap.tga
+				texture LightingMap.png
 				// Und die Farben des Basispasses
 				colour_op_ex modulate src_texture src_current
 			}
