@@ -71,15 +71,4 @@ namespace rl {
 	{
 		getLight()->setCastShadows( cast );
 	}
-
-	void LightObject::setActive(bool active)
-	{
-		Ogre::uint32 flags;
-		if (active)
-			flags = ~0;
-		else
-			flags = 0;
-
-		getLight()->setVisibilityFlags(flags);
-	}
 }
