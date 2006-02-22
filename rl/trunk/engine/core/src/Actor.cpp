@@ -367,7 +367,7 @@ namespace rl {
         Ogre::SceneNode* parent, const Vector3& position, const Quaternion& orientation,
         const Ogre::String& physicsBone )
     {
-        doPlaceIntoScene(parent,position,orientation, physicsBone);
+        doPlaceIntoScene(parent,position,orientation, physicsBone);		
     }
 
     
@@ -725,7 +725,14 @@ namespace rl {
 
 	void Actor::setVisible( bool vis, bool cascade )
 	{
-		mSceneNode->setVisible( vis, cascade );
+		if (mSceneNode != NULL)
+		{
+			mSceneNode->setVisible( vis, cascade );
+		}
+		else
+		{
+			getControlledObject()->getMovableObject()->setVisible(vis);
+		}
 	}
 
 	bool Actor::isVisible(  ) const
