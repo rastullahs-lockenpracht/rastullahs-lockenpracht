@@ -41,7 +41,7 @@ class UseTorchAction < Action
   def doAction(torch, player, target)
     RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleZeugFackel").setState(Quest::COMPLETED)
     player.getActor().attachToSlotAxisRot( torch.getActor(), "Bone15", "SLOT_HANDLE", [0.0, 0.0, 0.0], [ 1.0, 0.0, 0.0 ], 90.0 );
-    torch.getActor().getChildBySlotAndIndex(Slots.SLOT_FAR_END, 0).setVisible(true); # Licht an
+    torch.setLit(true); # Licht an
   end
 end
 
@@ -52,28 +52,28 @@ class Torch < Item
     torchActor = $AM.createMeshActor( name, "ins_fackel_01.mesh" );
     $SCRIPT.log("actor erstellt.");
 
-    fackellicht = $AM.createLightActor("Das Licht der Fackel", LightObject::LT_POINT );
-    fackellicht.getControlledObject().setCastShadows(false);
-    fackellicht.getControlledObject().setDiffuseColour(1.0,0.8,0.0);
-    fackellicht.getControlledObject().setAttenuation(5.0, 0.1,  0.005, 0.0 );
-    fackellicht.getControlledObject().setActive(false)
-    torchActor.attachToSlot( fackellicht, "SLOT_FAR_END" );    
+    @fackellicht = $AM.createLightActor("Das Licht der Fackel", LightObject::LT_POINT );
+    @fackellicht.getControlledObject().setCastShadows(false);
+    @fackellicht.getControlledObject().setDiffuseColour(1.0,0.8,0.0);
+    @fackellicht.getControlledObject().setAttenuation(5.0, 0.1,  0.005, 0.0 );
+    
+    torchActor.attachToSlot( @fackellicht, "SLOT_FAR_END" );    
     
     setActor(torchActor);
     $SCRIPT.log("actor gesetzt");
     
-    @lit = false;
+    setLit(false);
     
     addAction(UseTorchAction.new);
     $SCRIPT.log("Aktion hinzugefuegt.");
   end
   
   def setLit(lit)
-    fackellicht.setVisible(lit)
+    @fackellicht.setVisible(lit)
     @lit = lit;
   end
   
-  def lit?
-    @lit;
+  def isLit()
+    return @lit;
   end
 end
