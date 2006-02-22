@@ -118,12 +118,14 @@ namespace rl
         return mGravity;
     }
 
-    PhysicalThing* PhysicsManager::createPhysicalThing(const int geomType,
-        PhysicalObject* po, Real mass, OffsetMode offsetMode, bool hullModifier)
-    {
-        PhysicalThing* rval = NULL;
-		const Vector3& size = po->getSize();
-        if (geomType != GT_NONE) {
+	void PhysicsManager::createPhysicsProxy(PhysicalThing* pt,
+		SceneNode* node)
+	{
+		if (pt != NULL && pt->_getBody() == NULL) 
+		{
+			const Vector3& size = pt->_getPhysicalObject()->getSize();
+			GeometryTypes geomType = pt->_getGeometryType();
+
             OgreNewt::Collision* coll = NULL;
 
             Vector3 offset(Vector3::ZERO);
@@ -140,7 +142,7 @@ namespace rl
                 double radius = max(size.x, max(size.y, size.z)) / 2.0;
                 coll = new OgreNewt::CollisionPrimitives::Ellipsoid(mWorld,
                     Vector3(radius, radius, radius));
-                if (hullModifier)
+                if (pt->getHullModifier())
                 {
                     coll = new OgreNewt::CollisionPrimitives::HullModifier(mWorld, coll);
                 }
@@ -164,31 +166,45 @@ namespace rl
             }
 			else if (geomType == GT_CONVEXHULL)
 			{
-				coll = new OgreNewt::CollisionPrimitives::ConvexHull(mWorld, po->getEntity());
+				coll = new OgreNewt::CollisionPrimitives::ConvexHull(mWorld, pt->_getPhysicalObject()->getEntity());
 			}
 			else if (geomType == GT_MESH)
 			{
-				coll = new OgreNewt::CollisionPrimitives::TreeCollision(mWorld, po->getMovableObject()->getParentSceneNode(), false);
+				coll = new OgreNewt::CollisionPrimitives::TreeCollision(mWorld, node, pt->_getPhysicalObject()->getEntity(), false);
 			}
 
             OgreNewt::Body* body = new OgreNewt::Body(mWorld, coll);
 
-            if (mass > 0.0 && geomType != GT_MESH)
+			Ogre::Real mass = pt->getMass();
+			if (mass > 0.0 && geomType != GT_MESH)
             {
                 body->setMassMatrix(mass, mass*inertiaCoefficients);
             }
 
             body->setCustomForceAndTorqueCallback(genericForceCallback);
 
-            if (offsetMode == OM_BOTTOMCENTERED)
+            if (pt->_getOffsetMode() == OM_BOTTOMCENTERED)
             {
                 offset = Vector3(0.0, size.y / 2.0, 0.0);
             }
 
-            rval = new PhysicalThing(body, offset, orientationBias);
-            mPhysicalThings.push_back(rval);        
+            pt->_setBody(body);
+			pt->_setOffset(offset);
+			pt->_setOrientationBias(orientationBias);
+            mPhysicalThings.push_back(pt);        
         }
-        return rval;
+	}
+
+    PhysicalThing* PhysicsManager::createPhysicalThing(GeometryTypes geomType,
+        PhysicalObject* po, Real mass, OffsetMode offsetMode, bool hullModifier)
+    {
+		PhysicalThing* rval = NULL;
+		if (geomType != GT_NONE)
+		{
+			rval = new PhysicalThing(geomType, po, mass, offsetMode, hullModifier);
+		}
+
+		return rval;
     }
 
     //PhysicalThing* PhysicsManager::createConvexHullPhysicalThing(Entity* entity, Real mass,
@@ -264,7 +280,7 @@ namespace rl
         //Level entity has to be attached to a scene node.
 
         OgreNewt::Collision* collision =
-            new OgreNewt::CollisionPrimitives::TreeCollision(mWorld, node, false);
+            new OgreNewt::CollisionPrimitives::TreeCollision(mWorld, node, levelEntity, false);
         OgreNewt::Body* body = new OgreNewt::Body(mWorld, collision);
 
         body->attachToNode(node);

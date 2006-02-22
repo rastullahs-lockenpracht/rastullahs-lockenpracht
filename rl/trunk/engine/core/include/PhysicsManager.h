@@ -74,8 +74,15 @@ namespace rl {
          * @todo Geometry-Kapselung verallgemeinern. z.B. funktioniert Capusle
          *       momentan nur dann gut, wenn die Höhe die Y-Achse ist.
          */
-        PhysicalThing* createPhysicalThing(const int geomType, PhysicalObject* po,
+        /*PhysicalThing* createPhysicalThing(const int geomType, PhysicalObject* po,
+            Ogre::Real mass, OffsetMode offsetMode = OM_BOTTOMCENTERED, bool hullModifier = false);*/
+		PhysicalThing* createPhysicalThing(GeometryTypes geomType, PhysicalObject* po,
             Ogre::Real mass, OffsetMode offsetMode = OM_BOTTOMCENTERED, bool hullModifier = false);
+
+		/**
+		 * Erschafft den entgültigen Physikproxy
+		 */
+		void createPhysicsProxy(PhysicalThing* pt, SceneNode* node);
 
         //PhysicalThing* createConvexHullPhysicalThing(Ogre::Entity*, Ogre::Real mass = 0.0f,
         //    const Ogre::Vector3& inertiaCoefficients = Ogre::Vector3(1.0f, 1.0f, 1.0f));

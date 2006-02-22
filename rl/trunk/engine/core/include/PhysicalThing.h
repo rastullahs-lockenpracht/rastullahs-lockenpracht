@@ -19,6 +19,7 @@
 
 #include "CorePrerequisites.h"
 #include "PhysicsContactListener.h"
+#include "PhysicsManager.h"
 
 #include <OgreNewt.h>
 
@@ -30,8 +31,15 @@ namespace rl {
     class _RlCoreExport PhysicalThing
     {
     public:
-        PhysicalThing(OgreNewt::Body* body, const Ogre::Vector3& offset = Ogre::Vector3::ZERO,
-            const Ogre::Quaternion& orientationBias = Ogre::Quaternion::IDENTITY);
+        /*PhysicalThing(OgreNewt::Body* body, const Ogre::Vector3& offset = Ogre::Vector3::ZERO,
+            const Ogre::Quaternion& orientationBias = Ogre::Quaternion::IDENTITY);*/
+		PhysicalThing(
+			PhysicsManager::GeometryTypes geomType,
+			PhysicalObject* po, 
+			Real mass, 
+			PhysicsManager::OffsetMode offsetMode, 
+			bool hullModifier = false);
+
         /// Klasse Polymorph machen, damit SWIG glücklich ist.
         virtual ~PhysicalThing();
 
@@ -60,8 +68,16 @@ namespace rl {
         void _attachToSceneNode(Ogre::SceneNode* node);
 		void _attachToBone(MeshObject* object, const std::string& boneName);
         void _detachFromSceneNode(Ogre::SceneNode* node);
+		void _setOffset(const Ogre::Vector3& offset);
+		void _setOrientationBias(const Ogre::Quaternion& orientation);
+
+		PhysicsManager::GeometryTypes _getGeometryType() const;
+		bool  getHullModifier() const;
+		PhysicsManager::OffsetMode _getOffsetMode() const;
 
         OgreNewt::Body* _getBody() const;
+		void _setBody(OgreNewt::Body* body);
+		PhysicalObject* _getPhysicalObject() const;
 
         void onApplyForceAndTorque();
         void addForce(const Ogre::Vector3& force);
@@ -91,6 +107,12 @@ namespace rl {
         bool mOverrideGravity;
         Ogre::Vector3 mGravity;
         PhysicsContactListener* mContactListener;
+
+		Ogre::Real mMass;
+		PhysicsManager::GeometryTypes mGeometryType;
+		PhysicsManager::OffsetMode mOffsetMode;
+		PhysicalObject* mPhysicalObject;
+		bool mHullModifier;
     };
 }
 

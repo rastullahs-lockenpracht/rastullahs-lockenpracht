@@ -646,6 +646,8 @@ namespace rl {
         // Physikverknüpfung anpassen
         if( mPhysicalThing != NULL && mActorControlledObject != NULL )
         {
+			PhysicsManager::getSingleton().createPhysicsProxy(mPhysicalThing, mSceneNode);
+
             // Knochen angegeben und handelt sich um ein Mesh
 			if( physicsBone.length() > 0 && mActorControlledObject->isMeshObject())
             {

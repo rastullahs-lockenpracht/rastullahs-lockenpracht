@@ -492,8 +492,14 @@ public:
 class PhysicalThing
 {
 public:
-    PhysicalThing(OgreNewt::Body* body, const Ogre::Vector3& offset = Ogre::Vector3::ZERO,
-        const Ogre::Quaternion& orientationBias = Ogre::Quaternion::IDENTITY);
+//    PhysicalThing(OgreNewt::Body* body, const Ogre::Vector3& offset = Ogre::Vector3::ZERO,
+//        const Ogre::Quaternion& orientationBias = Ogre::Quaternion::IDENTITY);
+    PhysicalThing(
+			rl::PhysicsManager::GeometryTypes geomType,
+			rl::PhysicalObject* po, 
+			Ogre::Real mass, 
+			rl::PhysicsManager::OffsetMode offsetMode, 
+			bool hullModifier = false);
 
     void setPosition(Ogre::Real x, Ogre::Real y, Ogre::Real z);
     void setOrientation(Ogre::Real w, Ogre::Real x, Ogre::Real y, Ogre::Real z);
@@ -519,8 +525,8 @@ public:
 
     void setContactListener(rl::PhysicsContactListener* listener);
     rl::PhysicsContactListener* getContactListener() const;
-};
 
+};
 
 class PhysicsManager
 {

@@ -18,27 +18,34 @@
 #include "OgreLogManager.h"
 #include "MeshObject.h"
 #include "Actor.h"
-#include "PhysicsManager.h"
 #include "Exception.h"
+#include "PhysicalObject.h"
 
 using namespace OgreNewt;
 using namespace OgreNewt::CollisionPrimitives;
 
 namespace rl
 {
-    PhysicalThing::PhysicalThing(OgreNewt::Body* body, const Vector3& offset,
-        const Ogre::Quaternion& orientationBias) :
-        mActor(0),
-        mBody(body),
-        mUpVectorJoint(0),
-        mOffset(offset),
-        mOrientationBias(orientationBias),
+	PhysicalThing::PhysicalThing(
+		PhysicsManager::GeometryTypes geomType, PhysicalObject* po, Real mass, 
+		PhysicsManager::OffsetMode offsetMode, bool hullModifier) 
+		:
+		mActor(NULL),
+        mBody(NULL),
+        mUpVectorJoint(NULL),
+        mOffset(Vector3::ZERO),
+		mOrientationBias(Quaternion::IDENTITY),
         mPendingForce(Vector3::ZERO),
         mOverrideGravity(false),
         mGravity(Vector3::ZERO),
-        mContactListener(0)
-    {
-    }
+        mContactListener(NULL),
+		mGeometryType(geomType),
+		mPhysicalObject(po),
+		mMass(mass),
+		mOffsetMode(offsetMode),
+		mHullModifier(hullModifier)
+	{
+	}
 
     PhysicalThing::~PhysicalThing()
 	{
@@ -88,6 +95,21 @@ namespace rl
         mBody->setPositionOrientation(pos, orientation);
     }
 
+	void PhysicalThing::_setOrientationBias(const Ogre::Quaternion& orientation)
+	{
+		mOrientationBias = orientation;
+	}
+
+	void PhysicalThing::_setOffset(const Vector3& offset)
+	{
+		mOffset = offset;
+	}
+
+	PhysicalObject* PhysicalThing::_getPhysicalObject() const
+	{
+		return mPhysicalObject;
+	}
+
     Actor *PhysicalThing::getActor(void) const
     {
         return mActor;
@@ -96,6 +118,12 @@ namespace rl
     OgreNewt::Body* PhysicalThing::_getBody() const
     {
         return mBody;
+    }
+
+	void PhysicalThing::_setBody(OgreNewt::Body* body)
+    {
+        mBody = body;
+		mBody->setUserData(mActor);
     }
 
     void PhysicalThing::_update()
@@ -107,7 +135,8 @@ namespace rl
     void PhysicalThing::_setActor(Actor* actor)
     {
         mActor = actor;
-        mBody->setUserData(actor);
+		if (mBody != NULL)
+			mBody->setUserData(actor);
     }
 
     void PhysicalThing::_attachToSceneNode(Ogre::SceneNode* node)
@@ -171,11 +200,23 @@ namespace rl
 
     Ogre::Real PhysicalThing::getMass() const
     {
-        Real mass;
-        Vector3 inertia;
-        mBody->getMassMatrix(mass, inertia);
-        return mass;
+        return mMass;
     }
+
+	PhysicsManager::GeometryTypes PhysicalThing::_getGeometryType() const
+	{
+		return mGeometryType;
+	}
+
+	bool PhysicalThing::getHullModifier() const
+	{
+		return mHullModifier;
+	}
+
+	PhysicsManager::OffsetMode PhysicalThing::_getOffsetMode() const
+	{
+		return mOffsetMode;
+	}
 
     void PhysicalThing::setGravityOverride(bool override, const Vector3& gravity)
     {
@@ -194,63 +235,82 @@ namespace rl
         entity->_updateAnimation();
         Node* node = entity->getParentNode();
         RlAssert(node, "Actor has to be placed in the scene in order to update its collision hull.");
-        Matrix4 transform = node->_getFullTransform().inverse();
-
-        std::vector<Vector3> vertices;
-        vertices.reserve(100);
-
-        bool sharedAdded = false;
-        // loop over subentities and retrieve vertex positions
-        size_t subentityCount = entity->getNumSubEntities();
-        for (size_t i = 0; i < subentityCount; ++i)
-        {
-            SubEntity* subEntity = entity->getSubEntity(i);
-            VertexData* vdata = 0;
-            if (subEntity->getSubMesh()->useSharedVertices && !sharedAdded)
-            {
-                vdata = entity->_getSkelAnimVertexData();
-                sharedAdded = true;
-            }
-            else if (!subEntity->getSubMesh()->useSharedVertices)
-            {
-                vdata = subEntity->_getSkelAnimVertexData();
-            }
-
-            if (vdata)
-            {
-                size_t vcount = vdata->vertexCount;
-                VertexDeclaration* vdecl = vdata->vertexDeclaration;
-                const VertexElement* velem = vdecl->findElementBySemantic( Ogre::VES_POSITION );
-
-                HardwareVertexBufferSharedPtr vbuffer =
-                    vdata->vertexBufferBinding->getBuffer(velem->getSource());
-                unsigned char* vptr = static_cast<unsigned char*>(
-                    vbuffer->lock(HardwareBuffer::HBL_READ_ONLY ));
-
-                //loop through vertex data...
-                size_t start = vdata->vertexStart;
-                for (size_t j = start; j < (start + vcount); ++j)
-                {
-                    float* vpos;
-                    //get offset to Position data!
-                    unsigned char* offset = vptr + (j * vbuffer->getVertexSize());
-                    velem->baseVertexPointerToElement(offset, &vpos);
-                    Vector3 v = Vector3(vpos[0], vpos[1], vpos[2]);
-                    //Positions in world space. So we need to transform them back.
-                    vertices.push_back(transform * v);
-                    offset++;
-                }
-
-                vbuffer->unlock();
-            }
-        }
+        
 
         Vector3 position;
         Quaternion orientation;
         mBody->getPositionOrientation(position, orientation);
-        ConvexHull* collision = new ConvexHull(PhysicsManager::getSingleton()._getNewtonWorld(),
-            &vertices[0], vertices.size());
-        mBody->setCollision(collision);
+
+		if (mGeometryType == PhysicsManager::GT_CONVEXHULL)
+		{
+			Matrix4 transform = node->_getFullTransform().inverse();
+
+			std::vector<Vector3> vertices;
+			vertices.reserve(100);
+
+			bool sharedAdded = false;
+			// loop over subentities and retrieve vertex positions
+			size_t subentityCount = entity->getNumSubEntities();
+			for (size_t i = 0; i < subentityCount; ++i)
+			{
+				SubEntity* subEntity = entity->getSubEntity(i);
+				VertexData* vdata = 0;
+				if (subEntity->getSubMesh()->useSharedVertices && !sharedAdded)
+				{
+					vdata = entity->_getSkelAnimVertexData();
+					sharedAdded = true;
+				}
+				else if (!subEntity->getSubMesh()->useSharedVertices)
+				{
+					vdata = subEntity->_getSkelAnimVertexData();
+				}
+
+				if (vdata)
+				{
+					size_t vcount = vdata->vertexCount;
+					VertexDeclaration* vdecl = vdata->vertexDeclaration;
+					const VertexElement* velem = vdecl->findElementBySemantic( Ogre::VES_POSITION );
+
+					HardwareVertexBufferSharedPtr vbuffer =
+						vdata->vertexBufferBinding->getBuffer(velem->getSource());
+					unsigned char* vptr = static_cast<unsigned char*>(
+						vbuffer->lock(HardwareBuffer::HBL_READ_ONLY ));
+
+					//loop through vertex data...
+					size_t start = vdata->vertexStart;
+					for (size_t j = start; j < (start + vcount); ++j)
+					{
+						float* vpos;
+						//get offset to Position data!
+						unsigned char* offset = vptr + (j * vbuffer->getVertexSize());
+						velem->baseVertexPointerToElement(offset, &vpos);
+						Vector3 v = Vector3(vpos[0], vpos[1], vpos[2]);
+						//Positions in world space. So we need to transform them back.
+						vertices.push_back(transform * v);
+						offset++;
+					}
+
+					vbuffer->unlock();
+				}
+			}
+			Collision* oldCollision = mBody->getCollision();
+	        ConvexHull* collision = new ConvexHull(PhysicsManager::getSingleton()._getNewtonWorld(),
+			    &vertices[0], vertices.size());
+		    mBody->setCollision(collision);
+			delete oldCollision;
+		}
+		else if (mGeometryType == PhysicsManager::GT_MESH)
+		{
+			Collision* oldCollision = mBody->getCollision();
+	        TreeCollision* collision = new TreeCollision(
+				PhysicsManager::getSingleton()._getNewtonWorld(),
+				entity->getParentSceneNode(), 
+				entity, 
+				false);
+		    mBody->setCollision(collision);
+			delete oldCollision;
+		}
+
         mBody->setPositionOrientation(position, orientation);
     }
 
@@ -273,6 +333,8 @@ namespace rl
     {
         return mContactListener;
     }
+
+
 
 }
 
