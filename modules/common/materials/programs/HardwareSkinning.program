@@ -12,6 +12,11 @@ vertex_program HardwareSkinningOneWeight24Bones cg
    entry_point hardwareSkinningOneWeight24Bones_vp
    profiles vs_1_1 arbvp1
    includes_skeletal_animation true   
+
+   default_params
+   {
+      param_named_auto highlight custom 0;
+   }
 }
 vertex_program HardwareSkinningFourWeights24Bones cg
 {
@@ -19,6 +24,11 @@ vertex_program HardwareSkinningFourWeights24Bones cg
    entry_point hardwareSkinningFourWeights24Bones_vp
    profiles vs_1_1 arbvp1
    includes_skeletal_animation true
+
+   default_params
+   {
+      param_named_auto highlight custom 0;
+   }
 }
 vertex_program HardwareSkinningOneWeight64BonesShadowCaster cg
 {
@@ -33,6 +43,11 @@ vertex_program HardwareSkinningOneWeight64Bones cg
    entry_point hardwareSkinningOneWeight64Bones_vp
    profiles vs_2_0 vp30
    includes_skeletal_animation true   
+
+   default_params
+   {
+      param_named_auto highlight custom 0;
+   }
 }
 vertex_program HardwareSkinningFourWeights64Bones cg
 {
@@ -40,4 +55,9 @@ vertex_program HardwareSkinningFourWeights64Bones cg
    entry_point hardwareSkinningFourWeights64Bones_vp
    profiles vs_2_0 vp30
    includes_skeletal_animation true
+
+   default_params
+   {
+      param_named_auto highlight custom 0;
+   }
 }
