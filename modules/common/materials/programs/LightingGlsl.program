@@ -1,3 +1,4 @@
+// lighting programs
 fragment_program alphaBlendPhongFP_glsl glsl
 {
   source AlphaBlendPhong.frag
