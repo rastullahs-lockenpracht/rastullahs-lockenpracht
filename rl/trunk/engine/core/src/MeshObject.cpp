@@ -30,8 +30,17 @@ namespace rl {
     {
 		if (meshname.length() > 0)
 		{
-			mMovableObject = CoreSubsystem::getSingletonPtr()->getWorld()
+			Entity* entity = CoreSubsystem::getSingletonPtr()->getWorld()
 				->getSceneManager()->createEntity(name, meshname);
+            if (entity->isHardwareAnimationEnabled())
+            {
+                for (unsigned int i = 0; i < entity->getNumSubEntities(); ++i)
+                {
+                    SubEntity* se = entity->getSubEntity(i);
+                    se->setCustomParameter(0, Vector4(0, 0, 0, 0));
+                }
+            }
+            mMovableObject = entity;
 			calculateSize();
 		}
     }
@@ -181,6 +190,12 @@ namespace rl {
             //if(StringUtil::endsWith(subent->getMaterialName(),nameExtension)
             // == highlight )
             //  continue;  
+
+            if (ent->isHardwareAnimationEnabled())
+            {
+                subent->setCustomParameter(0,
+                    highlight ? Vector4(1, 1, 1, 1) : Vector4(0, 0, 0, 0));
+            }
 
             MaterialPtr oldMaterial = subent->getMaterial();
 
