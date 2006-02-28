@@ -82,6 +82,8 @@ public class MeshHandlerWindow extends JFrame {
 		ogretools.setControlButtonsAreShown(false);
 		ogretools.setDialogTitle("OgreXMLConverter");
 
+		final JButton confirm = new JButton("Bestätigen");
+		
 		JPanel chosePanel = new JPanel();
 
 		/* Die interaktiven Dinge */
@@ -111,8 +113,7 @@ public class MeshHandlerWindow extends JFrame {
 							if (!noSkeleton
 									&& ConverterUser.fromMeshToXML(ogretools
 											.getSelectedFile()
-											.getAbsolutePath(), modeldir + "/"
-											+ model.getSkeletonLink())) {
+											.getAbsolutePath(), modeldir + model.getSkeletonLink())) {
 								loggen("         .skeleton.xml erzeugt.");
 								skeleton = SkeletonLoader.readSkeleton(modeldir
 										+ model.getSkeletonLink() + ".xml");
@@ -124,7 +125,9 @@ public class MeshHandlerWindow extends JFrame {
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
-						removeOgreChooser();
+						ogretools.setVisible(false);
+						confirm.setVisible(true);
+						logField.setVisible(true);
 						complete();
 
 					}
@@ -139,7 +142,6 @@ public class MeshHandlerWindow extends JFrame {
 		/*
 		 * Zusammenbau des Fensters.
 		 */
-		JButton confirm = new JButton("Bestätigen");
 		confirm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				File newXml = new File(modeldir + model.getName() + ".mesh.xml");
@@ -180,12 +182,12 @@ public class MeshHandlerWindow extends JFrame {
 		centerPanel.add(infoPanel);
 		centerPanel.add(materialsPanel);
 		centerPanel.add(factorPanel);
-		this.getContentPane().add(logField, BorderLayout.EAST);
+		this.getContentPane().add(logField, BorderLayout.NORTH);
 		this.getContentPane().add(confirm, BorderLayout.SOUTH);
 		this.getContentPane().add(ogretools, BorderLayout.NORTH);
 		this.getContentPane().add(chosePanel, BorderLayout.WEST);
 		this.getContentPane().add(centerPanel, BorderLayout.CENTER);
-
+		confirm.setVisible(false);
 		this.pack();
 		this.setVisible(true);
 	}

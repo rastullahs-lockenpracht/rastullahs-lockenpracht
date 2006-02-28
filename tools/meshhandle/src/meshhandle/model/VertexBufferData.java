@@ -95,7 +95,7 @@ public class VertexBufferData {
 	public float getXMin() {
 		float xmin = 0;
 		for (Vertex vertex : mVertices) {
-			if (vertex != null && vertex.getPosition().getX() < xmin) {
+			if (vertex.getPosition() != null && vertex.getPosition().getX() < xmin) {
 				xmin = vertex.getPosition().getX();
 			}
 		}
@@ -105,7 +105,7 @@ public class VertexBufferData {
 	public float getXMax() {
 		float xmax = 0;
 		for (Vertex vertex : mVertices) {
-			if (vertex != null && vertex.getPosition().getX() > xmax) {
+			if (vertex.getPosition() != null && vertex.getPosition().getX() > xmax) {
 				xmax = vertex.getPosition().getX();
 			}
 		}
@@ -115,7 +115,7 @@ public class VertexBufferData {
 	public float getYMin() {
 		float ymin = 0;
 		for (Vertex vertex : mVertices) {
-			if (vertex != null && vertex.getPosition().getY() < ymin) {
+			if (vertex.getPosition() != null && vertex.getPosition().getY() < ymin) {
 				ymin = vertex.getPosition().getY();
 			}
 		}
@@ -125,7 +125,7 @@ public class VertexBufferData {
 	public float getYMax() {
 		float ymax = 0;
 		for (Vertex vertex : mVertices) {
-			if (vertex != null && vertex.getPosition().getY() > ymax) {
+			if (vertex.getPosition() != null && vertex.getPosition().getY() > ymax) {
 				ymax = vertex.getPosition().getY();
 			}
 		}
@@ -135,7 +135,7 @@ public class VertexBufferData {
 	public float getZMin() {
 		float zmin = 0;
 		for (Vertex vertex : mVertices) {
-			if (vertex != null && vertex.getPosition().getZ() < zmin) {
+			if (vertex.getPosition() != null && vertex.getPosition().getZ() < zmin) {
 				zmin = vertex.getPosition().getZ();
 			}
 		}
@@ -145,7 +145,7 @@ public class VertexBufferData {
 	public float getZMax() {
 		float zmax = 0;
 		for (Vertex vertex : mVertices) {
-			if (vertex != null && vertex.getPosition().getZ() > zmax) {
+			if (vertex.getPosition() != null && vertex.getPosition().getZ() > zmax) {
 				zmax = vertex.getPosition().getZ();
 			}
 		}
