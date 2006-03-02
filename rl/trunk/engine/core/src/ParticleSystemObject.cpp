@@ -16,14 +16,18 @@
 
 #include "ParticleSystemObject.h"
 #include "Actor.h"
-#include "OgreParticleSystemManager.h"
+#include "CoreSubsystem.h"
+#include "World.h"
+
+#include <OgreMeshManager.h>
 
 using namespace Ogre;
 
 namespace rl {
 	ParticleSystemObject::ParticleSystemObject(const String& name, const String& partSys)
 	{
-		ParticleSystem* part = ParticleSystemManager::getSingleton().createSystem(name,partSys);
+		ParticleSystem* part = CoreSubsystem::getSingletonPtr()->getWorld()
+				->getSceneManager()->createParticleSystem(name,partSys);
         
 		mMovableObject = part;
 	}

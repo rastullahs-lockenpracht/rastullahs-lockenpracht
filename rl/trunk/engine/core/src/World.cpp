@@ -24,11 +24,12 @@ using namespace Ogre;
 namespace rl {
 
 	World::World(SceneType sceneType)
-		:   mSceneMgr(Root::getSingleton().getSceneManager( sceneType )),
+		:   mSceneMgr(0),
             mCamera(0),
 	        mActiveActor(0)
 	{
-        
+        mSceneMgr = Root::getSingleton()
+            .createSceneManager(sceneType, "world_sm");
 	}
 
 	SceneManager* World::getSceneManager(void) const

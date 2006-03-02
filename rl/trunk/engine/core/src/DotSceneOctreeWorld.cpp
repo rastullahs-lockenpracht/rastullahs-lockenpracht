@@ -95,7 +95,7 @@ namespace rl {
 		
 		PhysicsManager::getSingleton().clearLevelGeometry();
 
-        mSceneMgr = Root::getSingleton().getSceneManager(ST_GENERIC);
+        //mSceneMgr = Root::getSingleton().createSceneManager(ST_GENERIC, "world_sm");
 		mSceneFile = "";
     }
     
