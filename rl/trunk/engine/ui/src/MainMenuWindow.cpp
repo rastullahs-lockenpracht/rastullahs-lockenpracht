@@ -20,6 +20,7 @@
 #include "UiSubsystem.h"
 #include "CoreSubsystem.h"
 #include "ConfigurationManager.h"
+#include "Module.h"
 
 #include "MainMenuWindow.h"
 
@@ -30,7 +31,7 @@ namespace rl {
 
 	MainMenuWindow::MainMenuWindow() :
 		CeGuiWindow("mainmenuwindow.xml", WND_MOUSE_INPUT, true),
-		mActiveModule("")
+		mActiveModule(NULL)
 	{
 
 		getWindow("MainMenu/EngineVersion")->setText(
@@ -53,28 +54,37 @@ namespace rl {
 	{
 		MenuBase* modulesMenu = getMenu("MainMenu/Modules/Menu");
 
-		Ogre::StringVector modules = CoreSubsystem::getSingleton().getActivatableModules();
+		ModuleMap modules = CoreSubsystem::getSingleton().getAllModules();
 		mActiveModule = CoreSubsystem::getSingleton().getActiveAdventureModule();
-		if (mActiveModule == "")
-			mActiveModule = *modules.begin();
 
-		for(Ogre::StringVector::iterator mod = modules.begin();	
-			mod != modules.end(); mod++)
+		for(ModuleMap::iterator modIt = modules.begin();	
+			modIt != modules.end(); modIt++)
 		{
-			MenuItem* it = static_cast<MenuItem*>(
-				CEGUI::WindowManager::getSingleton().createWindow("RastullahLook/MenuItem", getNamePrefix()+"MainMenu/Modules/" + *mod));
-			
-			it->setText(*mod);
-			modulesMenu->addItem(it);
-			if ((*mod) == mActiveModule)
-				it->setText(*mod+" *");
-			it->subscribeEvent(
-				MenuItem::EventClicked,
-				boost::bind(&MainMenuWindow::handleChooseModule, this, it, *mod));
+			ContentModule* mod = (*modIt).second;
+
+			if (!mod->isCommon())
+			{
+				if (mActiveModule == NULL)
+					mActiveModule = mod;
+
+				MenuItem* it = static_cast<MenuItem*>(
+					CEGUI::WindowManager::getSingleton().createWindow("RastullahLook/MenuItem", 
+					getNamePrefix()+"MainMenu/Modules/" + mod->getId()));
+				
+				if (mod == mActiveModule)
+					it->setText(mod->getName() + " *");
+				else
+					it->setText(mod->getName());
+				modulesMenu->addItem(it);
+				
+				it->subscribeEvent(
+					MenuItem::EventClicked,
+					boost::bind(&MainMenuWindow::handleChooseModule, this, it, mod));
+			}
 		}
 	}
 
-	bool MainMenuWindow::handleChooseModule(MenuItem* it, Ogre::String module)
+	bool MainMenuWindow::handleChooseModule(MenuItem* it, ContentModule* module)
 	{
 		MenuBase* modulesMenu = getMenu("MainMenu/Modules/Menu");
 		
@@ -82,16 +92,16 @@ namespace rl {
 		for (size_t i=0; i<modulesMenu->getItemCount(); i++)
 		{
 			ItemEntry* curr = modulesMenu->getItemFromIndex(i);
-			if (curr->getText().compare(mActiveModule+" *") == 0)
+			if (curr->getText().compare(mActiveModule->getName()+" *") == 0)
 			{
 				itOld = curr;
 				break;
 			}
 		}
-		itOld->setText(mActiveModule);
+		itOld->setText(mActiveModule->getName());
 
 		mActiveModule = module;
-		it->setText(module+" *");	
+		it->setText(module->getName()+" *");	
 
 		return true;
 	}
@@ -100,7 +110,7 @@ namespace rl {
 	{
 		setVisible(false);
 		destroyWindow();
-		CoreSubsystem::getSingleton().startAdventureModule(mActiveModule.c_str());
+		CoreSubsystem::getSingleton().startAdventureModule(mActiveModule);
 
         this->setVisible( false );
 		return true;

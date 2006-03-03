@@ -24,6 +24,7 @@
 #include <OgreMeshManager.h>
 #include <OgreBillboardParticleRenderer.h>
 
+#include "Module.h"
 #include "DotSceneOctreeWorld.h"
 #include "PhysicsManager.h"
 #include "ActorManager.h"
@@ -59,9 +60,8 @@ namespace rl {
     CoreSubsystem::CoreSubsystem()
         : 	mWorld(NULL),
         mRubyInterpreter(NULL),
-        mCommonModules(),
-        mActivatableModules(),
-        mActiveAdventureModule(""),
+        mModules(),
+        mActiveAdventureModule(NULL),
         mDefaultActiveModule(""),
         mClockStartTime(),
         mDeveloperMode(false),
@@ -88,12 +88,20 @@ namespace rl {
 
     void CoreSubsystem::startCore()
     {
-		mRubyInterpreter->execute("load 'globals.rb'");
-        mRubyInterpreter->execute("load 'startup-global.rb'");
+		mRubyInterpreter->executeFile("globals.rb");
+		mRubyInterpreter->executeFile("startup-global.rb");
+
 		if (mDefaultActiveModule == "")
-			mRubyInterpreter->execute("load 'startup-global-mainmenu.rb'");
+		{
+			mRubyInterpreter->executeFile("startup-global-mainmenu.rb");
+		}
 		else
-			startAdventureModule(mDefaultActiveModule);
+		{
+			ContentModule* mod = getModule(mDefaultActiveModule);
+			if (mod == NULL)
+				Throw(rl::RuntimeException, "Module "+mDefaultActiveModule+" not found");
+			startAdventureModule(mod);
+		}
 
         Root::getSingleton().startRendering();
     }
@@ -142,6 +150,10 @@ namespace rl {
         if (!carryOn) 
             return false;
 
+		new DeletionPropagator();
+		mRubyInterpreter = new RubyInterpreter();
+		mRubyInterpreter->initializeInterpreter();
+		
 		initializeResources();
 
         // Set default mipmap level (NB some APIs ignore this)
@@ -150,11 +162,10 @@ namespace rl {
         MaterialManager::getSingleton().setDefaultTextureFiltering(TFO_TRILINEAR); 
         MaterialManager::getSingleton().setDefaultAnisotropy(1);
         
-        new DeletionPropagator();
+        
         mWorld = new DotSceneOctreeWorld();
 		new PhysicsManager();
-        mRubyInterpreter=new RubyInterpreter();
-
+        
         new GameLoopManager(100); //TODO: In Config-Datei verlagern
         GameLoopManager::getSingleton().addSynchronizedTask(
             PhysicsManager::getSingletonPtr(), FRAME_STARTED);
@@ -176,8 +187,11 @@ namespace rl {
         new XmlResourceManager();
 
 		// Fuer Configs die keinem Typ zugeordnet sind, und die per kompletten Verezeichnis erfragt werden
-        addSearchPath(ConfigurationManager::getSingleton().
-            getModulesRootDirectory(), ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+		ResourceGroupManager::getSingleton().addResourceLocation(
+			ConfigurationManager::getSingleton().
+				getModulesRootDirectory(), 
+            "FileSystem", 
+			ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
         // Laden mittels eines Configfiles
         ConfigFile cf;
@@ -191,17 +205,26 @@ namespace rl {
             key = i.peekNextKey();
             value = i.getNext();
 
-			// Ein common-modul - wird sofort hinzugeladen
-            if (key.compare("common") == 0)
+			if (key.compare("module") == 0)
             {
-                initializeModuleTextures(value, true);
-                initializeModule(value, true);
-                mCommonModules.push_back(value);
-            }
-			// Ein normales-modul, zur späteren Auswahl
-            else if (key.compare("module") == 0)
-            {
-                mActivatableModules.push_back(value);
+				mRubyInterpreter->executeFile(ContentModule::getInitFile(value));
+				
+				ContentModule* module = getModule(value);
+
+				if (module == NULL)
+				{
+					Throw(
+						rl::RuntimeException,
+						ContentModule::getInitFile(value) + " did not register module '"+value+"'");
+				}
+				else
+				{
+					if (module->isCommon())
+					{
+						module->initializeTextures();
+						module->initialize();
+					}
+				}
             }
         }
 
@@ -213,22 +236,6 @@ namespace rl {
             .initialiseResourceGroup(ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
         precreateTextures();
-    }
-
-    void CoreSubsystem::precreateMeshes(const std::string& module)
-    {
-        StringVectorPtr meshes = ResourceGroupManager::getSingleton()
-            .findResourceNames(module, "*.mesh");
-
-        for (size_t i = 0; i < meshes->size(); ++i)
-        {
-            ResourcePtr res = MeshManager::getSingleton().getByName((*meshes)[i]);
-            if (res.isNull())
-            {
-                MeshPtr mesh = MeshManager::getSingleton().create((*meshes)[i],
-                    module);
-            }
-        }
     }
 
     void CoreSubsystem::precreateTextures()
@@ -258,124 +265,44 @@ namespace rl {
         }
     }
 
-    void CoreSubsystem::initializeModuleTextures(const std::string& module, bool isCommon)
+	ContentModule* CoreSubsystem::getModule(const String& moduleId) const
+	{
+		ModuleMap::const_iterator moduleIt = mModules.find(moduleId);
+
+		if (moduleIt != mModules.end())
+		{
+			return (*moduleIt).second;
+		}
+		else
+		{
+			return NULL;
+		}
+	}
+
+	void CoreSubsystem::registerModule(ContentModule* module)
+	{
+		mModules[module->getId()] = module;
+	}
+
+    void CoreSubsystem::startAdventureModule(ContentModule* module)
     {
-        std::string moduleDir = ConfigurationManager::getSingleton().
-        	getModulesRootDirectory() + "/modules/" + module;
-        ConfigFile cf;
-        cf.load(ConfigurationManager::getSingleton().getModuleconfigCfgPath(
-        	module));
-        ConfigFile::SettingsIterator i = cf.getSettingsIterator();
+		if (mActiveAdventureModule != NULL)
+		{
+	        mActiveAdventureModule->unload();
+		}
 
-        string resourceGroup = isCommon ?
-            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME : module;
+        module->initializeTextures();
+        module->initialize();
 
-        std::string key, value;
-        while (i.hasMoreElements())
-        {
-            key = i.peekNextKey();
-            value = i.getNext();
-
-            if (key.compare("TextureArchive") == 0)
-            {
-                ResourceGroupManager::getSingleton().addResourceLocation(
-                	moduleDir + "/materials/" + value, "Zip", resourceGroup);
-            }
-            else if (key.compare("TextureDir") == 0)
-            {
-                ResourceGroupManager::getSingleton().addResourceLocation(
-                	moduleDir + "/materials/" + value, "FileSystem", resourceGroup);
-            }
-            else if (key.compare("Archive") == 0)
-            {
-                ResourceGroupManager::getSingleton().addResourceLocation(
-                	moduleDir + "/" + value, "Zip", resourceGroup);
-            }
-        }
-        addSearchPath(moduleDir+"/materials", resourceGroup);
-    }
-
-    void CoreSubsystem::initializeModule(const std::string& module, bool isCommon)
-    {
-        std::string moduleDir = ConfigurationManager::getSingleton().
-        	getModulesRootDirectory() + "/modules/" + module;
-
-        string resourceGroup = isCommon ?
-            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME : module;
-
-        addSearchPath(moduleDir + "/conf", resourceGroup);
-        addSearchPath(moduleDir + "/dsa", resourceGroup);
-        addSearchPath(moduleDir + "/maps", resourceGroup);
-        addSearchPath(moduleDir + "/models", resourceGroup);
-        addSearchPath(moduleDir + "/sound", resourceGroup); //@todo ueber Verzeichnisnamen nachdenken
-		addSearchPath(moduleDir + "/sound/holz", resourceGroup);
-		addSearchPath(moduleDir + "/sound/metall", resourceGroup);
-		addSearchPath(moduleDir + "/sound/natur", resourceGroup);
-		addSearchPath(moduleDir + "/sound/ost", resourceGroup);
-		addSearchPath(moduleDir + "/sound/sonst", resourceGroup);
-		addSearchPath(moduleDir + "/sound/waffen", resourceGroup);
-		addSearchPath(moduleDir + "/sound/wesen", resourceGroup);
-		addSearchPath(moduleDir + "/sound/zauber", resourceGroup);
-		addSearchPath(moduleDir + "/sound/mensch", resourceGroup);
-        addSearchPath(moduleDir + "/gui", resourceGroup);
-        addSearchPath(moduleDir + "/gui/fonts", resourceGroup);
-        addSearchPath(moduleDir + "/gui/imagesets", resourceGroup);
-        addSearchPath(moduleDir + "/gui/schemes", resourceGroup);
-        addSearchPath(moduleDir + "/gui/windows", resourceGroup);
-        addSearchPath(moduleDir + "/gui/windows/buttons", resourceGroup);
-        addSearchPath(moduleDir + "/dialogs", resourceGroup);     
-
-		SoundManager::getSingleton().addSounds( resourceGroup );
-
-        if (mRubyInterpreter != NULL)
-        {
-            mRubyInterpreter->addSearchPath(moduleDir + "/scripts");
-            mRubyInterpreter->addSearchPath(moduleDir + "/scripts/maps");
-        }
-    }
-
-    void CoreSubsystem::addSearchPath(const std::string& path,
-        const std::string& resourceGroup)
-    {
-        try 
-        {
-            ResourceGroupManager::getSingleton().addResourceLocation(path, 
-                "FileSystem", resourceGroup);
-        } 
-        catch(...) 
-        {} // and forget
-    }
-
-    void CoreSubsystem::unloadModule(const std::string& module)
-    {
-        //TODO: unloadModule
-    }
-
-    void CoreSubsystem::startAdventureModule(const std::string& module)
-    {
-        StringVector::iterator mod;
-        for (mod = mActivatableModules.begin(); 
-            mod != mActivatableModules.end(); mod++)
-            if ((*mod).compare(module) == 0)
-                break;
-
-        if (mod == mActivatableModules.end())
-            Throw(InvalidArgumentException, "Unknown Module '"+module+"'");
-
-        if (mActiveAdventureModule.length() > 0)
-            unloadModule(mActiveAdventureModule);
-
-        initializeModuleTextures(module, false);
-        initializeModule(module, false);
 		mCoreEventCaster.dispatchEvent(new DataLoadedEvent(0.0));
-        ResourceGroupManager::getSingleton().initialiseResourceGroup(module);
-
-        precreateMeshes(module);
-
+		
+		ResourceGroupManager::getSingleton().initialiseResourceGroup(module->getId());
+        module->precreateMeshes();
         mActiveAdventureModule = module;
+
 		mCoreEventCaster.dispatchEvent(new DataLoadedEvent(100.0));
 
-        mRubyInterpreter->execute("load 'startup-module.rb'");
+        module->start();
     }
 
 	void CoreSubsystem::setDefaultActiveModule(const Ogre::String& module)
@@ -405,20 +332,15 @@ namespace rl {
             writeContentsToTimestampedFile(sName, ".jpg");
     }
 
-    const String& CoreSubsystem::getActiveAdventureModule() const
+    ContentModule* CoreSubsystem::getActiveAdventureModule() const
     {
         return mActiveAdventureModule;
     }
 
-    const StringVector& CoreSubsystem::getCommonModules() const
-    {
-        return mCommonModules;
-    }
-
-    const StringVector& CoreSubsystem::getActivatableModules() const
-    {
-        return mActivatableModules;
-    }
+	const ModuleMap& CoreSubsystem::getAllModules() const
+	{
+		return mModules;
+	}
 
     void CoreSubsystem::loadMap(const String type, const String filename, 
     	const String module, const String startupScript)
@@ -427,8 +349,7 @@ namespace rl {
 
         mWorld->loadScene(filename, module);
         if (startupScript.length() > 0)
-            mRubyInterpreter->execute(String("load '") + startupScript + 
-            	String("'"));
+            mRubyInterpreter->executeFile(startupScript);
 
         GameLoopManager::getSingleton().setPaused(false);
     }

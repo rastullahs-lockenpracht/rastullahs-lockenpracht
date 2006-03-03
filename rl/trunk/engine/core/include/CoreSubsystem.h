@@ -20,6 +20,7 @@
 
 #include <OgreSingleton.h>
 #include <OgreString.h>
+#include <map>
 
 #include "EventSource.h"
 #include "EventCaster.h"
@@ -32,6 +33,9 @@ class World;
 class CoreEvent;
 class CoreEventListener;
 class Actor;
+class ContentModule;
+
+typedef _RlCoreExport std::map<Ogre::String, ContentModule*> ModuleMap;
 
 /** CoreSubsystem. 
 	@remarks		
@@ -59,13 +63,13 @@ public:
 
 	RubyInterpreter* getRubyInterpreter();
 
-	const Ogre::String& getActiveAdventureModule() const;
-	const Ogre::StringVector& getCommonModules() const;
-	const Ogre::StringVector& getActivatableModules() const;
-	void startAdventureModule(const Ogre::String& module);
-	void setDefaultActiveModule(const Ogre::String& module); 
+	ContentModule* getActiveAdventureModule() const;
+	ContentModule* getModule(const Ogre::String& moduleId) const;
+	const ModuleMap& getAllModules() const;
+	void startAdventureModule(ContentModule* module);
+	void setDefaultActiveModule(const Ogre::String& moduleId); 
 	const Ogre::String& getDefaultActiveModule() const; 
-	void initializeModule(const Ogre::String& module, bool isCommon);
+	void registerModule(ContentModule* module);
 
 	void setDeveloperMode(bool developerMode);
 	bool getDeveloperMode() const;
@@ -96,7 +100,6 @@ private:
 
 	/** Loads all needed ressources */
 	void initializeResources();
-	void initializeModuleTextures(const std::string& module, bool isCommon);
 
     /**
      * Texturen werden nicht gefunden, wenn sie erst bei Materialnutzung erzeugt werden
@@ -105,11 +108,6 @@ private:
      */
     void precreateTextures();
 
-    void precreateMeshes(const std::string& module);
-
-	void unloadModule(const std::string& module);
-    void addSearchPath(const std::string& path, const std::string& module);
-
 	/** Opens a configuration dialog */
 	bool setupConfiguration();
 
@@ -117,9 +115,8 @@ private:
 
 	World* mWorld;
 	RubyInterpreter* mRubyInterpreter;
-	Ogre::StringVector mCommonModules;
-	Ogre::StringVector mActivatableModules;
-	Ogre::String mActiveAdventureModule;
+	ModuleMap mModules;
+	ContentModule* mActiveAdventureModule;
 	Ogre::String mDefaultActiveModule;
 
 	RL_LONGLONG mClockStartTime;

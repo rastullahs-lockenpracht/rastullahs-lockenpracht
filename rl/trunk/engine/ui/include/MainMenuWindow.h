@@ -22,7 +22,7 @@
 
 namespace rl {
 	
-	class GameObject;
+	class ContentModule;
 
 	class _RlUiExport MainMenuWindow : public CeGuiWindow
 	{
@@ -32,7 +32,7 @@ namespace rl {
 		void setActiveModule(const CeGuiString& module);
 
 	private:
-		bool handleChooseModule(CEGUI::MenuItem* it, Ogre::String module);
+		bool handleChooseModule(CEGUI::MenuItem* it, ContentModule* module);
 		bool handleGraphicOptions();
 		bool handleSoundOptions();
 		bool handleStart();
@@ -41,7 +41,7 @@ namespace rl {
 		bool handleKey(const CEGUI::EventArgs& evt);
 		void fillModules();
 		
-		CeGuiString mActiveModule;
+		ContentModule* mActiveModule;
 	};
 }
 

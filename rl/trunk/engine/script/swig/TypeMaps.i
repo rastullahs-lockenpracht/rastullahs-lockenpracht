@@ -529,14 +529,14 @@
 
 %typemap(ruby, directorin) rl::CeGuiStringVector &, const rl::CeGuiStringVector & {
   VALUE arr = rb_ary_new2($1->size()); 
-  StringVector::iterator i = $1->begin(), iend = $1->end();
+  CeGuiStringVector::iterator i = $1->begin(), iend = $1->end();
   for ( ; i!=iend; i++ )
     rb_ary_push(arr, rb_str_new2(&(*i)));
   $result = arr;
 }
 %typemap(ruby, directorin) rl::CeGuiStringVector, const rl::CeGuiStringVector {
   VALUE arr = rb_ary_new2($1.size()); 
-  StringVector::iterator i = $1.begin(), iend = $1.end();
+  CeGuiStringVector::iterator i = $1.begin(), iend = $1.end();
   for ( ; i!=iend; i++ )
     rb_ary_push(arr, rb_str_new2(*i));
   $result = arr;
@@ -560,6 +560,47 @@
   for (int i=0; i!=len; i++) {
     VALUE inst = rb_ary_entry($input, i);
     vec->push_back(rl::CeGuiString(StringValuePtr(inst)));
+  }
+  $result = vec;
+}
+
+%typemap(ruby, freearg) Ogre::StringVector &, const Ogre::StringVector & {
+  delete $1;
+}
+
+%typemap(ruby, directorin) Ogre::StringVector &, const Ogre::StringVector & {
+  VALUE arr = rb_ary_new2($1->size()); 
+  StringVector::iterator i = $1->begin(), iend = $1->end();
+  for ( ; i!=iend; i++ )
+    rb_ary_push(arr, rb_str_new2(&(*i)));
+  $result = arr;
+}
+%typemap(ruby, directorin) Ogre::StringVector, const Ogre::StringVector {
+  VALUE arr = rb_ary_new2($1.size()); 
+  StringVector::iterator i = $1.begin(), iend = $1.end();
+  for ( ; i!=iend; i++ )
+    rb_ary_push(arr, rb_str_new2(*i));
+  $result = arr;
+}
+
+%typemap(ruby, directorout) Ogre::StringVector , const Ogre::StringVector {
+  Check_Type($input, T_ARRAY);
+  Ogre::StringVector vec;
+  int len = RARRAY($input)->len;
+  for (int i=0; i!=len; i++) {
+    VALUE inst = rb_ary_entry($input, i);
+    vec.push_back(Ogre::String(StringValuePtr(inst)));
+  }
+  $result = vec;
+}
+
+%typemap(ruby, directorout) Ogre::StringVector &, const Ogre::StringVector& {
+  Check_Type($input, T_ARRAY);
+  Ogre::StringVector *vec = new Ogre::StringVector;
+  int len = RARRAY($input)->len;
+  for (int i=0; i!=len; i++) {
+    VALUE inst = rb_ary_entry($input, i);
+    vec->push_back(Ogre::String(StringValuePtr(inst)));
   }
   $result = vec;
 }

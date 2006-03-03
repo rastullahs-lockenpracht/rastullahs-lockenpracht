@@ -23,6 +23,7 @@
 #include "Logger.h"
 
 #include "CoreSubsystem.h"
+#include "Module.h"
 
 #include "AimlParserImplXerces.h"
 #include "AimlProcessorManager.h"
@@ -116,9 +117,9 @@ namespace rl
         {
             Ogre::String group = ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME;
             if (ResourceGroupManager::getSingleton().resourceExists(
-                CoreSubsystem::getSingleton().getActiveAdventureModule(), filename))
+				CoreSubsystem::getSingleton().getActiveAdventureModule()->getId(), filename))
             {
-                group = CoreSubsystem::getSingleton().getActiveAdventureModule();
+                group = CoreSubsystem::getSingleton().getActiveAdventureModule()->getId();
             }
             res = XmlResourceManager::getSingleton().create(filename, group);
 

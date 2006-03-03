@@ -30,6 +30,8 @@
 #include "DialogScriptObject.h"
 #include "BotParser.h"
 
+#include "Module.h"
+
 XERCES_CPP_NAMESPACE_USE
 
 namespace rl
@@ -256,11 +258,13 @@ namespace rl
 
 			Ogre::StringVectorPtr sl = 
 				Ogre::ResourceGroupManager::getSingleton().findResourceNames(
-                CoreSubsystem::getSingleton().getActiveAdventureModule(), fileName.c_str());
+				CoreSubsystem::getSingleton().getActiveAdventureModule()->getId(), 
+				fileName.c_str());
             files.insert(sl->begin(), sl->end());
 
             sl = Ogre::ResourceGroupManager::getSingleton().findResourceNames(
-                Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, fileName.c_str() );
+                Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, 
+				fileName.c_str() );
             files.insert(sl->begin(), sl->end());
 
             for (std::set<Ogre::String>::iterator it = files.begin(); it != files.end(); ++it)

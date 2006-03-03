@@ -26,6 +26,7 @@
 #include "CoreSubsystem.h"
 #include "ConfigurationManager.h"
 #include "ScriptObjectRepository.h"
+#include "Module.h"
 
 using namespace Ogre;
 
@@ -41,7 +42,7 @@ RubyInterpreter::~RubyInterpreter()
 	ruby_finalize();
 }
 
-void RubyInterpreter::initializeInterpreter(staticValueMethod func)
+void RubyInterpreter::initializeInterpreter()
 {
 	//Ruby Initialisieren
 	ruby_init();
@@ -50,16 +51,14 @@ void RubyInterpreter::initializeInterpreter(staticValueMethod func)
     execute( "$KCODE = 'u'" );
 
 	//Skript-Verzeichnisse der  Dateien duerfen auch in /script liegen
-	StringVector modules = CoreSubsystem::getSingleton().getCommonModules();
-	modules.push_back(CoreSubsystem::getSingleton().getActiveAdventureModule());
-	for (StringVector::iterator iter = modules.begin(); iter != modules.end(); iter++)
+	ModuleMap modules = CoreSubsystem::getSingleton().getAllModules();
+	for (ModuleMap::iterator iter = modules.begin(); iter != modules.end(); iter++)
 	{
+		ContentModule* mod = (*iter).second;
 		//wir suchen die Scripte im modules Verzeichnis relativ zum ModuleRootPath!
-		addSearchPath(ConfigurationManager::getSingleton().
-			getModulesRootDirectory() + "/modules/" + (*iter) + "/scripts");
-		addSearchPath(ConfigurationManager::getSingleton().
-			getModulesRootDirectory() + "/modules/" + (*iter) + 
-			"/scripts/maps");
+		addSearchPath(mod->getDirectory() + "/conf");
+		addSearchPath(mod->getDirectory() + "/scripts");
+		addSearchPath(mod->getDirectory() + "/scripts/maps");
 	}
 	
 	ruby_init_loadpath();
@@ -70,13 +69,17 @@ void RubyInterpreter::initializeInterpreter(staticValueMethod func)
 	loadProtected(&RubyInterpreter::loadDlls, 0, "Ruby error while loading dlls");
 
 	
+    new ScriptObjectRepository();
+}
+
+
+void RubyInterpreter::setOutputFunction(staticValueMethod func)
+{
 	//Ersetzt die Standard-Ausgabe von Ruby durch Ausgaben in die Console
 	rb_defout = rb_str_new("", 0);
 	// Eigentlich nicht mehr notwendig, aber ohne das gibts nen Absturz?!?!
     // rb_define_singleton_method(rb_defout, "write", (VALUE(*)(...))console_write, 1);
 	rb_define_singleton_method(rb_defout, "write", func, 1);
-
-    new ScriptObjectRepository();
 }
 
 void RubyInterpreter::addSearchPath(const String& path)
@@ -127,6 +130,11 @@ bool RubyInterpreter::execute(String command)
         rb_eval_string_protect("print $!", &status);
 
 	return false;
+}
+
+bool RubyInterpreter::executeFile(String rubyfile)
+{
+	return execute("load '" + rubyfile + "'");
 }
 
 CeGuiString RubyInterpreter::val2ceguistr(const VALUE rval){

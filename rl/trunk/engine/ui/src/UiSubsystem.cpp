@@ -149,7 +149,7 @@ namespace rl {
 		new WindowManager();
 		new Console();
 		new DebugWindow();
-		CoreSubsystem::getSingleton().getRubyInterpreter()->initializeInterpreter( (VALUE(*)(...))&UiSubsystem::consoleWrite );
+		CoreSubsystem::getSingleton().getRubyInterpreter()->setOutputFunction( (VALUE(*)(...))&UiSubsystem::consoleWrite );
 
 		new TargetSelectionWindow();
 			      

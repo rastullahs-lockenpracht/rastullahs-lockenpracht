@@ -569,6 +569,22 @@ public:
     bool isDebugMode() const;
 };
 
+%feature("director") ContentModule; 
+class ContentModule
+{
+public:
+	ContentModule(
+		const Ogre::String& id, 
+		const rl::CeGuiString& name, 
+		bool common, 
+		long minimumEngineVersion);
+		
+	virtual ~ContentModule();
+		
+	virtual const Ogre::StringVector& getDependencies() const = 0;
+	virtual const Ogre::StringVector& getTextureLocations() const = 0;
+	virtual void start() = 0;
+};
 
 class CoreSubsystem {
 private:
@@ -578,6 +594,7 @@ public:
     
     void loadMap(const Ogre::String& type, const Ogre::String& filename,
 		const Ogre::String& resourceGroup, const Ogre::String& startupScript = "");
+	void registerModule(ContentModule* module);
     World* getWorld();
     void makeScreenshot(const Ogre::String& sName);
     RL_LONGLONG getClock();

@@ -16,6 +16,7 @@
 #include "AboutWindow.h"
 #include "ConfigurationManager.h"
 #include "CoreSubsystem.h"
+#include "Module.h"
 
 using namespace CEGUI;
 
@@ -36,7 +37,7 @@ AboutWindow::AboutWindow() :
 				confMan.getEngineBuildNumber()));
 
 	getWindow("AboutWindow/ModuleText")->setText(
-		CoreSubsystem::getSingleton().getActiveAdventureModule());
+		CoreSubsystem::getSingleton().getActiveAdventureModule()->getName());
 
 	bindCloseToCloseButton();
 	bindClickToCloseWindow(getWindow("AboutWindow/CloseButton"));

@@ -341,6 +341,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\Module.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\ParticleSystemObject.h"
 				>
 			</File>
@@ -503,6 +507,10 @@
 			</File>
 			<File
 				RelativePath=".\src\MeshObject.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Module.cpp"
 				>
 			</File>
 			<File

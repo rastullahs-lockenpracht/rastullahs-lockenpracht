@@ -33,9 +33,11 @@ public:
 	RubyInterpreter();
 	virtual ~RubyInterpreter();
 
-	void initializeInterpreter(staticValueMethod func);
+	void initializeInterpreter();
+	void setOutputFunction(staticValueMethod func);
 
 	bool execute(Ogre::String command);
+	bool executeFile(Ogre::String rubyfile);
 
 	void addSearchPath(const Ogre::String& path);
 
