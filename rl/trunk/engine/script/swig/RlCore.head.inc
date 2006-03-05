@@ -45,7 +45,7 @@
 #include "World.h"
 #include "ScriptObjectRepository.h"
 #include "SoundPlaylist.h"
-#include "Module.h"
+#include "ContentModule.h"
 %}
 
 %define ConstructorHandler 
