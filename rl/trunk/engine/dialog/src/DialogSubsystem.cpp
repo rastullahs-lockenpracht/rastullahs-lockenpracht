@@ -23,7 +23,7 @@
 #include "Logger.h"
 
 #include "CoreSubsystem.h"
-#include "Module.h"
+#include "ContentModule.h"
 
 #include "AimlParserImplXerces.h"
 #include "AimlProcessorManager.h"

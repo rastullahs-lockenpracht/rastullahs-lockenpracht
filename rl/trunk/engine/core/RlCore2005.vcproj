@@ -281,6 +281,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\ContentModule.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\CoreEvents.h"
 				>
 			</File>
@@ -338,10 +342,6 @@
 			</File>
 			<File
 				RelativePath=".\include\MeshObject.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\Module.h"
 				>
 			</File>
 			<File
@@ -454,6 +454,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ContentModule.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\CoreEvents.cpp"
 				>
 			</File>
@@ -507,10 +511,6 @@
 			</File>
 			<File
 				RelativePath=".\src\MeshObject.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Module.cpp"
 				>
 			</File>
 			<File

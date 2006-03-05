@@ -26,7 +26,7 @@
 #include "CoreSubsystem.h"
 #include "ConfigurationManager.h"
 #include "ScriptObjectRepository.h"
-#include "Module.h"
+#include "ContentModule.h"
 
 using namespace Ogre;
 

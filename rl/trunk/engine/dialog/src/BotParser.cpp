@@ -30,7 +30,7 @@
 #include "DialogScriptObject.h"
 #include "BotParser.h"
 
-#include "Module.h"
+#include "ContentModule.h"
 
 XERCES_CPP_NAMESPACE_USE
 

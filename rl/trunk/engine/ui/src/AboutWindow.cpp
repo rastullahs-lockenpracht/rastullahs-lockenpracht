@@ -16,7 +16,7 @@
 #include "AboutWindow.h"
 #include "ConfigurationManager.h"
 #include "CoreSubsystem.h"
-#include "Module.h"
+#include "ContentModule.h"
 
 using namespace CEGUI;
 

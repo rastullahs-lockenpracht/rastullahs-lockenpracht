@@ -20,7 +20,7 @@
 #include "UiSubsystem.h"
 #include "CoreSubsystem.h"
 #include "ConfigurationManager.h"
-#include "Module.h"
+#include "ContentModule.h"
 
 #include "MainMenuWindow.h"
 

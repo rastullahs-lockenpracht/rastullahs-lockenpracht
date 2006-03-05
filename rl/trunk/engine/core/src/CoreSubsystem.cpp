@@ -24,7 +24,7 @@
 #include <OgreMeshManager.h>
 #include <OgreBillboardParticleRenderer.h>
 
-#include "Module.h"
+#include "ContentModule.h"
 #include "DotSceneOctreeWorld.h"
 #include "PhysicsManager.h"
 #include "ActorManager.h"

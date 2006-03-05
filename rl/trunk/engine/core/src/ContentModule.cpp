@@ -14,7 +14,7 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
-#include "Module.h"
+#include "ContentModule.h"
 
 #include <OgreMeshManager.h>
 #include <OgreResource.h>
