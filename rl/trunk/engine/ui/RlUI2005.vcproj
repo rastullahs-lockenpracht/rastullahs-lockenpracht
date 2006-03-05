@@ -320,6 +320,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\LogWindow.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\MainMenuWindow.h"
 				>
 			</File>
@@ -442,6 +446,10 @@
 			</File>
 			<File
 				RelativePath=".\src\JournalWindow.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\LogWindow.cpp"
 				>
 			</File>
 			<File
