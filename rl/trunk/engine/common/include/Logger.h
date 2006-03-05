@@ -60,14 +60,19 @@ namespace rl {
 			const Ogre::String& ident = "");
 	
 		void setLogDetail(const Ogre::LoggingLevel level);
-		const CEGUI::LoggingLevel getCeGuiLogDetail();
+		const CEGUI::LoggingLevel getCeGuiLogDetail() const;
+
+		bool isErrorPresent() const;
+		void resetErrorState();
+		const Ogre::String& getErrorLog() const;
 	private:
 		void log(const Ogre::LogMessageLevel level, const Ogre::String& msg );
 
 		Ogre::Log* mLog;
 		Ogre::LoggingLevel mLogLevel;
+		Ogre::String mErrorBuffer;
+		bool mErrorPresent;
 	};
 }
 
 #endif
-

@@ -1,3 +1,19 @@
+/* This source file is part of Rastullahs Lockenpracht.
+ * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
+ * 
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Clarified Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  Clarified Artistic License for more details.
+ *
+ *  You should have received a copy of the Clarified Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+ */
+
 #include "Logger.h"
 
 #include <OgreLogManager.h>
@@ -17,6 +33,7 @@ const char* rl::Logger::SCRIPT = "Script";
 
 namespace rl
 {
+	
 Logger& Logger::getSingleton(void)
 {
     return Singleton<Logger>::getSingleton();
@@ -28,6 +45,8 @@ Logger* Logger::getSingletonPtr(void)
 }
 
 Logger::Logger(const Ogre::String& logPath, const Ogre::String& ogreLogPath)
+	: mErrorBuffer(""),
+	  mErrorPresent(false)
 {
     if (LogManager::getSingletonPtr() == 0)
     {
@@ -75,15 +94,22 @@ void Logger::log(const Ogre::String& component, const Ogre::LogMessageLevel leve
 void Logger::log(const Ogre::LogMessageLevel level, const Ogre::String& msg )
 {
     mLog->logMessage(msg, level);
+	
+	if (level == Ogre::LML_CRITICAL) // Fehler
+	{
+		mErrorBuffer.append("\n");
+		mErrorBuffer.append(msg);
+		mErrorPresent = true;
+	}
 }
 
 void Logger::setLogDetail(const Ogre::LoggingLevel level)
 {
-	mLogLevel = level;
+	mLogLevel = level;	
 	mLog->setLogDetail(level);
 }
 
-const CEGUI::LoggingLevel Logger::getCeGuiLogDetail()
+const CEGUI::LoggingLevel Logger::getCeGuiLogDetail() const
 {
 	if (mLogLevel == Ogre::LL_LOW)
 		return CEGUI::Errors;
@@ -95,6 +121,19 @@ const CEGUI::LoggingLevel Logger::getCeGuiLogDetail()
 	return CEGUI::Errors;
 }
 
+bool Logger::isErrorPresent() const
+{
+	return mErrorPresent;
+}
 
+void Logger::resetErrorState()
+{
+	mErrorPresent = false;
+}
+
+const Ogre::String& Logger::getErrorLog() const
+{
+	return mErrorBuffer;
+}
 
 }

@@ -29,6 +29,7 @@ libRlUi_la_SOURCES = \
 	InputManager.cpp \
 	InventoryWindow.cpp \
 	JournalWindow.cpp \
+	LogWindow.cpp \
 	MainMenuWindow.cpp \
 	MessageWindow.cpp \
 	PlaylistWindow.cpp \

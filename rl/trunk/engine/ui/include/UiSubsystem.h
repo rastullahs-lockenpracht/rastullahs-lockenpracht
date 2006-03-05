@@ -45,6 +45,7 @@ namespace rl {
 	class DialogCharacter;
 	class Combat;
 	class JournalWindow;
+	class LogWindow;
 
     class _RlUiExport UiSubsystem : protected Ogre::Singleton<UiSubsystem>
     {
@@ -92,6 +93,8 @@ namespace rl {
         void showPlaylist();
 		void showAboutWindow();
 		void showJournalWindow();
+		
+		void checkForErrors();
 
 		Person* getActiveCharacter();
 		void setActiveCharacter(Person* person);
@@ -119,6 +122,7 @@ namespace rl {
 		InGameMenuWindow* mInGameMenuWindow;
 		CharacterSheetWindow* mCharacterSheet;
 		JournalWindow* mJournalWindow;
+		LogWindow* mLogWindow;
     };
 }
 

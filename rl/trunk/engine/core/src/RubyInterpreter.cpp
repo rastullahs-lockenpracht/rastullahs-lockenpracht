@@ -117,7 +117,7 @@ void RubyInterpreter::logRubyErrors(const std::string& intro, int errorcode)
 	}
 }
 
-bool RubyInterpreter::execute(String command)
+bool RubyInterpreter::execute(const String& command)
 {
 	int status = -1;
 
@@ -127,9 +127,12 @@ bool RubyInterpreter::execute(String command)
 	logRubyErrors("", status);
 
     if( status )
+	{
         rb_eval_string_protect("print $!", &status);
+		return false;
+	}
 
-	return false;
+	return true;
 }
 
 bool RubyInterpreter::executeFile(String rubyfile)
@@ -137,9 +140,14 @@ bool RubyInterpreter::executeFile(String rubyfile)
 	return execute("load '" + rubyfile + "'");
 }
 
-CeGuiString RubyInterpreter::val2ceguistr(const VALUE rval){
-	return CeGuiString((CEGUI::utf8*)STR2CSTR(rb_funcall(rval, rb_intern("to_s"), 0)));
+CeGuiString RubyInterpreter::val2ceguistr(const VALUE rval)
+{
+	return CeGuiString(
+		(CEGUI::utf8*)STR2CSTR(
+			rb_funcall(
+				rval, 
+				rb_intern("to_s"), 
+				0)));
 }
-
 
 }

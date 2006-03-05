@@ -65,6 +65,7 @@
 #include "PlaylistWindow.h"
 #include "Primitive.h"
 #include "DataLoadingProgressWindow.h"
+#include "LogWindow.h"
 
 template<> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
 
@@ -160,7 +161,8 @@ namespace rl {
 		mJournalWindow = new JournalWindow();
 		RulesSubsystem::getSingleton().getQuestBook()->addQuestChangeListener(mJournalWindow);
 		CoreSubsystem::getSingleton().addCoreEventListener(new DataLoadingProgressWindow());
-  //      runTest();
+
+		mLogWindow = new LogWindow();
     }
 
     void UiSubsystem::requestExit()
@@ -425,4 +427,13 @@ namespace rl {
         PlaylistWindow* wnd = new PlaylistWindow();
         wnd->setVisible(true);
     }
+	
+	void UiSubsystem::checkForErrors()
+	{
+		if (Logger::getSingleton().isErrorPresent())
+		{
+			mLogWindow->setVisible(true);
+			Logger::getSingleton().resetErrorState();
+		}
+	}
 }

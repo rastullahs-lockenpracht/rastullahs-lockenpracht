@@ -58,6 +58,8 @@ public:
 	void toggleCharacterStateWindow();
 	void toggleInGameGlobalMenu();
 	void usePickedObjectDefaultActions();
+
+	void checkForErrors();
 	
 	rl::CharacterController* getCharacterController();
 	rl::GameLoggerWindow* getGameLogger();

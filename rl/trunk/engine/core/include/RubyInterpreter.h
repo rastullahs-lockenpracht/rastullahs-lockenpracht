@@ -36,7 +36,7 @@ public:
 	void initializeInterpreter();
 	void setOutputFunction(staticValueMethod func);
 
-	bool execute(Ogre::String command);
+	bool execute(const Ogre::String& command);
 	bool executeFile(Ogre::String rubyfile);
 
 	void addSearchPath(const Ogre::String& path);
@@ -51,4 +51,3 @@ private:
 
 }
 #endif
-
