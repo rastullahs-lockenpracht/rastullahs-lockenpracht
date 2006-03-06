@@ -6,7 +6,7 @@ public class StartKlasse {
      * @param args
      */
     public static void main(String[] args) {
-       new MeshHandlerWindow();
+    	new MeshHandlerWindow();
 //    DialogKlasse dk = new DialogKlasse();
 //    dk.main();
     }
