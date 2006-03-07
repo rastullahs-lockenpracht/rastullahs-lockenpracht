@@ -94,6 +94,8 @@ public:
 
 	Actor* getSoundListener();
 
+	bool isInitialized() const;
+
 private:  
     /** Runs the setup methods  */
 	bool initializeCoreSubsystem();
@@ -122,6 +124,7 @@ private:
 	RL_LONGLONG mClockStartTime;
 
 	bool mDeveloperMode;
+	bool mInitialized;
 	EventCaster<CoreEvent> mCoreEventCaster;
 
 	Actor* mSoundListenerActor;

@@ -66,7 +66,8 @@ namespace rl {
         mClockStartTime(),
         mDeveloperMode(false),
         mCoreEventCaster(),
-        mSoundListenerActor(NULL)
+        mSoundListenerActor(NULL),
+		mInitialized(false)
     {
         resetClock();
         initializeCoreSubsystem();        
@@ -90,6 +91,7 @@ namespace rl {
     {
 		mRubyInterpreter->executeFile("globals.rb");
 		mRubyInterpreter->executeFile("startup-global.rb");
+		mInitialized = true;
 
 		if (mDefaultActiveModule == "")
 		{
@@ -128,6 +130,11 @@ namespace rl {
 	bool CoreSubsystem::getDeveloperMode() const
 	{
 		return mDeveloperMode;
+	}
+
+	bool CoreSubsystem::isInitialized() const
+	{
+		return mInitialized;
 	}
 
     bool CoreSubsystem::initializeCoreSubsystem()

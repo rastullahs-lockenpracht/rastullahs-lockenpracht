@@ -335,7 +335,7 @@ namespace rl {
 		}
 		
 		if( basename != newname )
-            Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL, "ActorManager - Warnung! '" + basename
+            Logger::getSingleton().log(Logger::CORE, Ogre::LML_NORMAL, "ActorManager - Warnung! '" + basename
                 + "' war schon vergeben! Neuer Name ist '" + newname + "'.");
         
 		return newname;

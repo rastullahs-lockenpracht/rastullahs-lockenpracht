@@ -25,12 +25,17 @@ namespace rl
 	LogWindow::LogWindow()
 		: CeGuiWindow("logwindow.xml", WND_MOUSE_INPUT, false)
 	{
-		mRastullahLog = getMultiLineEditbox("LogWindow/RastullahLog");
-		mOgreLog = getMultiLineEditbox("LogWindow/OgreLog");
-		mErrorLog = getMultiLineEditbox("LogWindow/ErrorLog");
+		mRastullahLog = getMultiLineEditbox("LogWindow/RastullahLog/Text");
+		mOgreLog = getMultiLineEditbox("LogWindow/OgreLog/Text");
+		mErrorLog = getMultiLineEditbox("LogWindow/ErrorLog/Text");
+
 		getWindow("LogWindow/UpdateButton")->subscribeEvent(
 			CEGUI::Window::EventMouseClick,
 			boost::bind(&LogWindow::update, this));
+		bindCloseToCloseButton();
+		bindClickToCloseWindow(getWindow("LogWindow/CloseButton"));
+
+		centerWindow();
 	}
 	
 	LogWindow::~LogWindow()
@@ -40,6 +45,8 @@ namespace rl
 	bool LogWindow::update()
 	{
 		mErrorLog->setText(Logger::getSingleton().getErrorLog());
+		mErrorLog->setCaratIndex(1999999999);
+		mErrorLog->ensureCaratIsVisible();
 		//TODO: ogre.log und rastullah.log
 		
 		return true;

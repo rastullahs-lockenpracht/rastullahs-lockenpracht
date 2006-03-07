@@ -93,7 +93,7 @@ void Logger::log(const Ogre::String& component, const Ogre::LogMessageLevel leve
 
 void Logger::log(const Ogre::LogMessageLevel level, const Ogre::String& msg )
 {
-    mLog->logMessage(msg, level);
+	mLog->logMessage(msg, level);
 	
 	if (level == Ogre::LML_CRITICAL) // Fehler
 	{

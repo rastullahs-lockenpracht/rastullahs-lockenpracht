@@ -599,6 +599,7 @@ public:
     void makeScreenshot(const Ogre::String& sName);
     RL_LONGLONG getClock();
     Actor* getSoundListener();
+    bool isInitialized() const;
 };
 
 enum GameLoopSyncTime {

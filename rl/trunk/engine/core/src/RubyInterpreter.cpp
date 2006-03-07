@@ -137,7 +137,12 @@ bool RubyInterpreter::execute(const String& command)
 
 bool RubyInterpreter::executeFile(String rubyfile)
 {
-	return execute("load '" + rubyfile + "'");
+	bool error = execute("load '" + rubyfile + "'");
+	if (CoreSubsystem::getSingleton().isInitialized())
+	{
+		execute("load 'checkerrors.rb'");
+	}
+	return error;
 }
 
 CeGuiString RubyInterpreter::val2ceguistr(const VALUE rval)
