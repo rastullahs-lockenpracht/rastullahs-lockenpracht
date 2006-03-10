@@ -36,25 +36,28 @@ public class Submesh {
 		buf.append(" usesharedvertices=\"" + mUseSharedVertices + "\"");
 		buf.append(" use32bitindexes=\"" + mUse32bitIndices + "\"");
 		buf.append(" operationtype=\"" + mOperationType + "\">\n");
-
-		buf.append("            <faces count=\"" + mFaces.size() + "\">\n");
-		for (Face face : mFaces) {
-			buf.append("                " + face.toXML() + "\n");
+		if (!mFaces.isEmpty()) {
+			buf.append("            <faces count=\"" + mFaces.size() + "\">\n");
+			for (Face face : mFaces) {
+				buf.append("                " + face.toXML() + "\n");
+			}
+			buf.append("            </faces>\n");
 		}
-		buf.append("            </faces>\n");
-
-		buf.append("            <geometry vertexcount=\""
-				+ mVertexBufferDatas.get(0).getVertexCount() + "\">\n");
-		for (VertexBufferData buffer : mVertexBufferDatas) {
-			buf.append(buffer.toXML());
+		if (!mVertexBufferDatas.isEmpty()) {
+			buf.append("            <geometry vertexcount=\""
+					+ mVertexBufferDatas.get(0).getVertexCount() + "\">\n");
+			for (VertexBufferData buffer : mVertexBufferDatas) {
+				buf.append(buffer.toXML());
+			}
+			buf.append("            </geometry>\n");
 		}
-		buf.append("            </geometry>\n");
-		buf.append("            <boneassignments>\n");
-		for (VertexBoneAssignment assignment : mVertexBoneAssignments) {
-			buf.append(assignment.toXML());
+		if (!mVertexBoneAssignments.isEmpty()) {
+			buf.append("            <boneassignments>\n");
+			for (VertexBoneAssignment assignment : mVertexBoneAssignments) {
+				buf.append(assignment.toXML());
+			}
+			buf.append("            </boneassignments>\n");
 		}
-		buf.append("            </boneassignments>\n");
-
 		buf.append("        </submesh>");
 		return buf.toString();
 	}

@@ -103,6 +103,7 @@ public class Mesh {
 
 	public void setName(String name) {
 		this.name = name;
-		this.mSkeletonLink = name+".skeleton";
+		if (this.getSkeletonLink()!="")
+		this.setSkeletonLink(name+".skeleton");
 	}
 }
