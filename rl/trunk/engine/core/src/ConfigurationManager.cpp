@@ -107,8 +107,7 @@ namespace rl
 
             try
             {            
-                mSystemConfig->loadFromResourceSystem( mRastullahSystemCfgPath, 
-                    Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, "=" );
+                mSystemConfig->load( mRastullahSystemCfgPath, "=", true );
             }           
             catch ( Ogre::Exception  ) 
             {
@@ -144,6 +143,12 @@ namespace rl
         }
         
     }
+
+	Ogre::LoggingLevel ConfigurationManager::getLogLevel() 
+	{
+		int loglevel = Ogre::StringConverter::parseInt(getSystemConfig()->getSetting("log_level"));
+		return static_cast<Ogre::LoggingLevel>(loglevel);
+	}
 
 	Ogre::String ConfigurationManager::getEngineVersionString() const
 	{

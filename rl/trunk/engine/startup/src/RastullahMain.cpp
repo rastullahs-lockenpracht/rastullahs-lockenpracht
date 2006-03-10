@@ -61,7 +61,9 @@ void startupRl(bool developerMode, Ogre::String module)
 			rl::ConfigurationManager::getSingleton().getRastullahLogPath(),
 			rl::ConfigurationManager::getSingleton().getOgreLogPath());
         // @todo in ConfigDatei auslagern/ oder auch Parameter
-		rl::Logger::getSingleton().setLogDetail(Ogre::LL_BOREME);
+
+		rl::Logger::getSingleton().setLogDetail(
+			rl::ConfigurationManager::getSingleton().getLogLevel());
 
 		sound = new rl::SoundSubsystem();
 		log(Ogre::LML_NORMAL, "SoundSubsystem gestartet");

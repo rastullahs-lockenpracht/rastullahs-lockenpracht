@@ -72,6 +72,7 @@ namespace rl
             Ogre::ConfigFile* getSystemConfig();
 
             bool shouldUseStaticGeometry( );
+			Ogre::LoggingLevel getLogLevel();
 
 			Ogre::String getEngineVersionString() const;
 			Ogre::String getEngineVersionName() const;
