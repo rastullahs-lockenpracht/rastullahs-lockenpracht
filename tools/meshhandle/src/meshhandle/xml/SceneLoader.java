@@ -74,7 +74,7 @@ public class SceneLoader extends XMLLoader {
             scenenode.setEntity(new Entity(elem.getAttribute("name"), elem
                     .getAttribute("meshFile")));
 
-        elem = (Element) sceneNodeElem.getElementsByTagName("userData").item(0);
+        elem = (Element) sceneNodeElem.getElementsByTagName("userdata").item(0);
         if (elem != null)
             scenenode.setUserData(processNodeUserData(elem));
         return scenenode;
