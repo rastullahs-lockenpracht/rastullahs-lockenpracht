@@ -20,4 +20,12 @@ public class Entity {
         }
     }
 
+	public String getMeshFile() {
+		return mMeshFile;
+	}
+
+	public String getName() {
+		return mName;
+	}
+
 }

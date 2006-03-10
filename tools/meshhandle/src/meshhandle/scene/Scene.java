@@ -43,4 +43,14 @@ public class Scene {
     public void addUserData(SceneUserData sceneUserData) {
         mUserData = sceneUserData;
     }
+
+	public ArrayList<SceneNode> getNodes() {
+		return mNodes;
+	}
+
+	public void removeNode(SceneNode node) {
+		if (mNodes.contains(node)) {
+			mNodes.remove(node);
+		}
+	}
 }

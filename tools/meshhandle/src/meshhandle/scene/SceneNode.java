@@ -96,5 +96,19 @@ public class SceneNode {
         if (mUserData != null)
             mUserData.scale(factor);
     }
+    
+    @Override
+    public String toString() {
+        StringBuffer buf = new StringBuffer();
+        if (mName != null && !mName.equals(""))
+            buf.append(mName);
+        else
+            buf.append("n.n.");
+
+        if (mEntity != null)
+            buf.append(", " + mEntity.getMeshFile());
+        
+        return buf.toString();
+    }
 
 }
