@@ -7,6 +7,8 @@ import javax.swing.filechooser.FileFilter;
 
 public class MeshChooser extends JFileChooser {
 
+	private static final long serialVersionUID = 1L;
+
 	public MeshChooser() {
 		this.setDialogType(JFileChooser.CUSTOM_DIALOG);
 

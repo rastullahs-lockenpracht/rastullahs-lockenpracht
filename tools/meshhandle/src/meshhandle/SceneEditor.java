@@ -24,13 +24,14 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import meshhandle.scene.Scene;
 import meshhandle.scene.SceneNode;
-import meshhandle.sceneeditor.MeshFile;
 import meshhandle.sceneeditor.SceneTreeCreator;
 import meshhandle.xml.SceneLoader;
 
 import org.xml.sax.SAXException;
 
 public class SceneEditor extends JFrame implements ActionListener {
+
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @param args
