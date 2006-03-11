@@ -30,7 +30,7 @@
 #include "ListenerMovable.h"
 #include "ListenerObject.h"
 #include "PhysicalThing.h"
-#include "DeletionPropagator.h"
+#include "ScriptWrapper.h"
 
 template<> rl::ActorManager* Singleton<rl::ActorManager>::ms_Singleton = 0;
 
@@ -116,12 +116,12 @@ namespace rl {
         ActorControlledObject* actObj = actor->getControlledObject();
         PhysicalThing* physThing = actor->getPhysicalThing();
 
-        DeletionPropagator::getSingleton().notifyPointerDeleted( actor );
+        ScriptWrapper::getSingleton().deleted( actor );
         delete actor;
 
         if( actObj )
         {
-            DeletionPropagator::getSingleton().notifyPointerDeleted( actObj );
+            ScriptWrapper::getSingleton().deleted( actObj );
             delete actObj;
         }
         if( physThing )

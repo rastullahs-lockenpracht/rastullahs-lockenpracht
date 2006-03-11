@@ -20,7 +20,7 @@
 #include "Actor.h"
 #include "Animation.h"
 #include "TrackAnimation.h"
-#include "DeletionPropagator.h"
+#include "ScriptWrapper.h"
 
 
 template<> rl::AnimationManager* Ogre::Singleton<rl::AnimationManager>::ms_Singleton = 0;
@@ -140,7 +140,7 @@ void AnimationManager::removeTrackAnimation( Actor* act, const Ogre::String& nam
 			 anim->getName() == name ) 
 		{
 			AnimationManager::stopAnimation(anim);
-			DeletionPropagator::getSingleton().notifyPointerDeleted( anim );
+			ScriptWrapper::getSingleton().deleted( anim );
 			delete anim;
 			mAnimationMap.erase(it++); // ++i geht nicht
 		} 
@@ -161,7 +161,7 @@ void AnimationManager::removeAllTrackAnimations( Actor* act )
 		if ( anim != 0 && anim->getActor() == act ) 
 		{
 			AnimationManager::stopAnimation(anim);
-			DeletionPropagator::getSingleton().notifyPointerDeleted( anim );
+			ScriptWrapper::getSingleton().deleted( anim );
 			delete anim;
 			mAnimationMap.erase(it++); // ++i geht nicht
 		} 
@@ -179,7 +179,7 @@ void AnimationManager::removeAllAnimations()
     {
         Animation* anim = it->second;
         AnimationManager::stopAnimation(anim);
-        DeletionPropagator::getSingleton().notifyPointerDeleted( anim );
+        ScriptWrapper::getSingleton().deleted( anim );
         delete anim;
 		it++;
     }
@@ -196,7 +196,7 @@ void AnimationManager::removeAnimation(Ogre::AnimationState* animState)
 		Animation* anim = iter->second;
         AnimationManager::stopAnimation(anim);
 		mAnimationMap.erase(iter);
-        DeletionPropagator::getSingleton().notifyPointerDeleted( anim );
+        ScriptWrapper::getSingleton().deleted( anim );
 		delete anim;
 	}
 }

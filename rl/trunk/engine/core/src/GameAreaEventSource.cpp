@@ -15,7 +15,7 @@
  */
 
 #include "GameAreaEventSource.h"
-#include "ScriptObjectRepository.h"
+#include "ScriptWrapper.h"
 
 // Für Intersection und so :)
 #include <algorithm>
@@ -102,7 +102,7 @@ namespace rl {
         {        
             mAreaEventCaster.addEventListener( list );
             // Owned ;)
-            ScriptObjectRepository::getSingleton().own( list );
+            ScriptWrapper::getSingleton().owned( list );
         }
     }
 
@@ -112,7 +112,7 @@ namespace rl {
         {        
             mAreaEventCaster.removeEventListener( list );
             // Nicht mehr gebraucht
-            ScriptObjectRepository::getSingleton().disown( list );
+            ScriptWrapper::getSingleton().disowned( list );
         }
     }
 
@@ -126,7 +126,7 @@ namespace rl {
         {
             EventListener<GameAreaEvent>* ev = *iter; 
             GameAreaListener* gal = dynamic_cast<GameAreaListener*>( ev );
-            ScriptObjectRepository::getSingleton().disown( gal );
+            ScriptWrapper::getSingleton().disowned( gal );
             iter++;
         }
         mAreaEventCaster.removeEventListeners();

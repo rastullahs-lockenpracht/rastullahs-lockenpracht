@@ -17,7 +17,7 @@
 #include "Exception.h"
 #include "AnimationManager.h"
 #include "ActorManager.h"
-#include "ScriptObjectRepository.h"
+#include "ScriptWrapper.h"
 
 #include "Animation.h"
 
@@ -183,7 +183,7 @@ void Animation::addAnimationListener(AnimationListener *listener)
     if( !mAnimationCaster.containsListener(listener) )
     {    
 	    mAnimationCaster.addEventListener(listener);
-        ScriptObjectRepository::getSingleton().own( listener );
+        ScriptWrapper::getSingleton().owned( listener );
     }
 }
 
@@ -192,7 +192,7 @@ void Animation::removeAnimationListener(AnimationListener *listener)
     if( mAnimationCaster.containsListener( listener ) ) 
     {
 	    mAnimationCaster.removeEventListener(listener);
-        ScriptObjectRepository::getSingleton().disown( listener );
+        ScriptWrapper::getSingleton().disowned( listener );
     }
 }
 
@@ -202,7 +202,7 @@ void Animation::addAnimationFrameListener(
 {
 	mAnimationFrameListener.insert( 
 		std::pair<Ogre::Real,AnimationFrameListener*>(frameNumber,listener) );
-    ScriptObjectRepository::getSingleton().own( listener );
+    ScriptWrapper::getSingleton().owned( listener );
 }
 
 // @todo - Existenz überprüfen
@@ -217,7 +217,7 @@ void Animation::removeAnimationFrameListener( AnimationFrameListener *listener )
         if( afl == listener )
         {
             mAnimationFrameListener.erase( iter++ );  
-            ScriptObjectRepository::getSingleton().disown( listener );
+            ScriptWrapper::getSingleton().disowned( listener );
         } else {
             ++iter;
         }
@@ -238,7 +238,7 @@ void Animation::removeAnimationFrameListener(
         if( afl == listener && time == frameNumber )
         {
             mAnimationFrameListener.erase( iter++ );  
-            ScriptObjectRepository::getSingleton().disown( listener );
+            ScriptWrapper::getSingleton().disowned( listener );
         } else {
             ++iter;
         }
@@ -253,7 +253,7 @@ void Animation::removeAllListeners()
     for (iter; iter != mAnimationFrameListener.end(); ) 
     {
         AnimationFrameListener* afl = iter->second; 
-        ScriptObjectRepository::getSingleton().disown( afl );
+        ScriptWrapper::getSingleton().disowned( afl );
         iter++;
     }
     mAnimationFrameListener.clear();
@@ -267,7 +267,7 @@ void Animation::removeAllListeners()
     {
         EventListener<AnimationEvent>* ev = *citer; 
         AnimationListener* al = dynamic_cast<AnimationListener*>( ev );
-        ScriptObjectRepository::getSingleton().disown( al );
+        ScriptWrapper::getSingleton().disowned( al );
         citer++;
     }
     mAnimationCaster.removeEventListeners();

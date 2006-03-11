@@ -18,7 +18,7 @@
 #include "ObjectStateChangeEvent.h"
 #include "GameObject.h"
 
-#include "ScriptObjectRepository.h"
+#include "ScriptWrapper.h"
 
 namespace rl {
 
@@ -52,7 +52,7 @@ namespace rl {
         if( !mObjectStateChangeEventCaster.containsListener( list ) )
         {        
             mObjectStateChangeEventCaster.addEventListener( list );
-            ScriptObjectRepository::getSingleton().own( list );
+            ScriptWrapper::getSingleton().owned( list );
         }
     }
 
@@ -61,7 +61,7 @@ namespace rl {
         if( mObjectStateChangeEventCaster.containsListener( list ) )
         { 
             mObjectStateChangeEventCaster.removeEventListener( list );
-            ScriptObjectRepository::getSingleton().own( list );
+            ScriptWrapper::getSingleton().owned( list );
         }
     }
 
@@ -75,7 +75,7 @@ namespace rl {
         {
             EventListener<ObjectStateChangeEvent>* ev = *iter; 
             ObjectStateChangeListener* gal = dynamic_cast<ObjectStateChangeListener*>( ev );
-            ScriptObjectRepository::getSingleton().disown( gal );
+            ScriptWrapper::getSingleton().disowned( gal );
             iter++;
         }
         mObjectStateChangeEventCaster.removeEventListeners();

@@ -15,6 +15,8 @@
  */
 
 %module(directors="1") RlScript
+/* Tell SWIG to keep track of mappings between C/C++ structs/classes. */
+%trackobjects;
 
 %{
 #undef min
@@ -55,7 +57,6 @@
 #endif
 
 %feature("director:except") {
-	$depth--;
 	int status = -1;
     rb_eval_string_protect("print $!", &status);
 	Throw(rl::ScriptInvocationFailedException, string("Es ist eine Ausnahme in Ruby aufgetreten. ") + StringValuePtr($error) );
@@ -87,6 +88,88 @@ namespace Swig {
 #pragma warning( disable : 4101 )	// deaktiviere Warnung ueber unreferenzierte lokale Variable, 
 									// da dies in allen erzeugten Exceptionhandlern auftritt
 %}
+
+// doWithActor( Actor* ) oder andere Director-Methoden Parameter
+%typemap(directorin) SWIGTYPE*
+{
+	// Auf Director testen
+	Swig::Director *resultdirector = 0;
+	resultdirector = dynamic_cast<Swig::Director *>($1);
+    if (resultdirector) {
+        $input = resultdirector->swig_get_self();
+    }
+    else
+	{
+		VALUE val = SWIG_RubyInstanceFor( $1 );
+		
+		// Es gab das SkriptObjekt noch nicht
+		if( val == Qnil )
+		{
+			$input = SWIG_NewPointerObj((void *) $1, $1_descriptor, 0);		
+		}
+		else	
+			$input = val;
+	}
+} 
+
+
+    
+// Actor* getActor oder andere OUTPUT Parameter
+%typemap(out) SWIGTYPE*
+{
+	VALUE val = SWIG_RubyInstanceFor( $1 );
+	
+	// Es gab das SkriptObjekt noch nicht
+	if( val == Qnil )
+	{
+		$result = SWIG_NewPointerObj((void *) $1, $1_descriptor, 0);			
+	}
+	else	
+		$result = val;
+} 
+
+
+// Animation* getActor oder andere OUTPUT Parameter für DYNAMICs
+%typemap(out) SWIGTYPE* DYNAMIC, SWIGTYPE& DYNAMIC
+{
+	VALUE val = SWIG_RubyInstanceFor( $1 );
+	
+	// Es gab das SkriptObjekt noch nicht
+	if( val == Qnil )
+	{
+		// Dynamic Cast ausführen
+		swig_type_info *ty = SWIG_TypeDynamicCast($1_descriptor, (void **) &$1);
+		$result = SWIG_NewPointerObj((void *) $1, ty, 0);		
+	}
+	else	
+		$result = val;
+} 
+
+// doWithAnimation( Animation* ) oder andere Director-Methoden Parameter für DYNAMICs
+%typemap(directorin) SWIGTYPE* DYNAMIC, SWIGTYPE& DYNAMIC
+{
+	// Auf Director testen
+	Swig::Director *resultdirector = 0;
+	resultdirector = dynamic_cast<Swig::Director *>($1);
+    if (resultdirector) {
+        $input = resultdirector->swig_get_self();        	
+    }
+    else
+	{
+		VALUE val = SWIG_RubyInstanceFor( $1 );
+		
+		// Es gab das SkriptObjekt noch nicht
+		if( val == Qnil )
+		{
+			// Dynamic Cast ausführen
+			swig_type_info *ty = SWIG_TypeDynamicCast($1_descriptor, (void **) &$1);
+			$input = SWIG_NewPointerObj((void *) $1, ty, 0);		
+		}
+		else	
+			$input = val;
+	}
+} 
+
 
 %include "RlCommon.inc"
 %include "RlSound.inc"

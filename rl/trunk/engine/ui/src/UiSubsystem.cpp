@@ -52,7 +52,7 @@
 #include "Actor.h"
 #include "World.h"
 
-#include "ScriptObjectRepository.h"
+#include "ScriptWrapper.h"
 
 #include "Person.h"
 #include "CharacterSheetWindow.h"
@@ -197,14 +197,14 @@ namespace rl {
         {
             if( mCharacter != NULL )
 			{
-                ScriptObjectRepository::getSingleton().disown( mCharacter );
+                ScriptWrapper::getSingleton().disowned( mCharacter );
 				GameLoopManager::getSingleton().removeSynchronizedTask(mCharacterController);
 				delete mCharacterController;
 				mCharacter->getActor()->detach(CoreSubsystem::getSingleton().getSoundListener());
 			}
 
 
-            ScriptObjectRepository::getSingleton().own( person );
+            ScriptWrapper::getSingleton().owned( person );
             mCharacter = person;
             Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
             mCharacterController = new CharacterController(camera, person->getActor());

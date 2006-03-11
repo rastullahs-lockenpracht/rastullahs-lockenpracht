@@ -28,8 +28,7 @@
 #include "DotSceneOctreeWorld.h"
 #include "PhysicsManager.h"
 #include "ActorManager.h"
-#include "DeletionPropagator.h"
-#include "ScriptObjectRepository.h"
+#include "ScriptWrapper.h"
 #include "AnimationManager.h"
 #include "GameEventManager.h"
 #include "SoundManager.h"
@@ -40,8 +39,15 @@
 #include "Logger.h"
 #include "CoreEvents.h"
 #include "SoundUpdateTask.h"
+
 #include <ctime>
 
+// gettimeofday for windows
+#include <OgreNoMemoryMacros.h>
+#include "FixRubyHeaders.h"
+#include <ruby.h>
+#include "FixRubyHeaders.h"
+#include <OgreMemoryMacros.h>
 
 template<> rl::CoreSubsystem* Singleton<rl::CoreSubsystem>::ms_Singleton = 0;
 
@@ -81,8 +87,7 @@ namespace rl {
         if(mWorld != 0)
             delete mWorld;
         
-        delete DeletionPropagator::getSingletonPtr();
-        delete ScriptObjectRepository::getSingletonPtr();
+        delete ScriptWrapper::getSingletonPtr();
 
 //		ActorManager::getSingleton().destroyActor(mSoundListenerActor);
     }
@@ -157,7 +162,7 @@ namespace rl {
         if (!carryOn) 
             return false;
 
-		new DeletionPropagator();
+		new ScriptWrapper();
 		mRubyInterpreter = new RubyInterpreter();
 		mRubyInterpreter->initializeInterpreter();
 		
@@ -374,7 +379,8 @@ namespace rl {
     RL_LONGLONG CoreSubsystem::getCurrentTime()
     {
         timeval timebuffer;
-        gettimeofday(&timebuffer, NULL);
+		
+        gettimeofday( &timebuffer, NULL );
 
         return static_cast<RL_LONGLONG>(timebuffer.tv_sec) * 1000L + 
         	static_cast<RL_LONGLONG>(timebuffer.tv_usec / 1000);

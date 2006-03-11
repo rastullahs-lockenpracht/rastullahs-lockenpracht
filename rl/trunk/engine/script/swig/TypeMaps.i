@@ -523,18 +523,18 @@
    $result = rval;
 } 
 
-%typemap(ruby, freearg) rl::CeGuiStringVector &, const rl::CeGuiStringVector & {
+%typemap(freearg) rl::CeGuiStringVector &, const rl::CeGuiStringVector & {
   delete $1;
 }
 
-%typemap(ruby, directorin) rl::CeGuiStringVector &, const rl::CeGuiStringVector & {
+%typemap(directorin) rl::CeGuiStringVector &, const rl::CeGuiStringVector & {
   VALUE arr = rb_ary_new2($1->size()); 
   CeGuiStringVector::iterator i = $1->begin(), iend = $1->end();
   for ( ; i!=iend; i++ )
     rb_ary_push(arr, rb_str_new2(&(*i)));
   $result = arr;
 }
-%typemap(ruby, directorin) rl::CeGuiStringVector, const rl::CeGuiStringVector {
+%typemap(directorin) rl::CeGuiStringVector, const rl::CeGuiStringVector {
   VALUE arr = rb_ary_new2($1.size()); 
   CeGuiStringVector::iterator i = $1.begin(), iend = $1.end();
   for ( ; i!=iend; i++ )
@@ -542,7 +542,7 @@
   $result = arr;
 }
 
-%typemap(ruby, directorout) rl::CeGuiStringVector , const rl::CeGuiStringVector {
+%typemap(directorout) rl::CeGuiStringVector , const rl::CeGuiStringVector {
   Check_Type($input, T_ARRAY);
   rl::CeGuiStringVector vec;
   int len = RARRAY($input)->len;
@@ -553,7 +553,7 @@
   $result = vec;
 }
 
-%typemap(ruby, directorout) rl::CeGuiStringVector &, const rl::CeGuiStringVector& {
+%typemap(directorout) rl::CeGuiStringVector &, const rl::CeGuiStringVector& {
   Check_Type($input, T_ARRAY);
   rl::CeGuiStringVector *vec = new rl::CeGuiStringVector;
   int len = RARRAY($input)->len;
@@ -564,18 +564,18 @@
   $result = vec;
 }
 
-%typemap(ruby, freearg) Ogre::StringVector &, const Ogre::StringVector & {
+%typemap(freearg) Ogre::StringVector &, const Ogre::StringVector & {
   delete $1;
 }
 
-%typemap(ruby, directorin) Ogre::StringVector &, const Ogre::StringVector & {
+%typemap(directorin) Ogre::StringVector &, const Ogre::StringVector & {
   VALUE arr = rb_ary_new2($1->size()); 
   StringVector::iterator i = $1->begin(), iend = $1->end();
   for ( ; i!=iend; i++ )
     rb_ary_push(arr, rb_str_new2(&(*i)));
   $result = arr;
 }
-%typemap(ruby, directorin) Ogre::StringVector, const Ogre::StringVector {
+%typemap(directorin) Ogre::StringVector, const Ogre::StringVector {
   VALUE arr = rb_ary_new2($1.size()); 
   StringVector::iterator i = $1.begin(), iend = $1.end();
   for ( ; i!=iend; i++ )
@@ -583,7 +583,7 @@
   $result = arr;
 }
 
-%typemap(ruby, directorout) Ogre::StringVector , const Ogre::StringVector {
+%typemap(directorout) Ogre::StringVector , const Ogre::StringVector {
   Check_Type($input, T_ARRAY);
   Ogre::StringVector vec;
   int len = RARRAY($input)->len;
@@ -594,7 +594,7 @@
   $result = vec;
 }
 
-%typemap(ruby, directorout) Ogre::StringVector &, const Ogre::StringVector& {
+%typemap(directorout) Ogre::StringVector &, const Ogre::StringVector& {
   Check_Type($input, T_ARRAY);
   Ogre::StringVector *vec = new Ogre::StringVector;
   int len = RARRAY($input)->len;

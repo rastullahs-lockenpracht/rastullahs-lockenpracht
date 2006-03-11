@@ -15,6 +15,7 @@
  */
 
 #include "ScriptSubsystem.h"
+#include "ScriptObjectMarker.h"
 #include "Logger.h"
 
 using Ogre::Singleton;
@@ -35,7 +36,7 @@ namespace rl {
 
 	ScriptSubsystem::ScriptSubsystem()
 	{
-		
+		new ScriptObjectMarker();	
 	}
 
 	ScriptSubsystem::~ScriptSubsystem()

@@ -19,7 +19,7 @@
 #include "Exception.h"
 #include "RulesSubsystem.h"
 
-#include "ScriptObjectRepository.h"
+#include "ScriptWrapper.h"
 
 template <>
 rl::ActionManager* Singleton<rl::ActionManager> ::ms_Singleton = 0;
@@ -76,7 +76,7 @@ namespace rl
 				("Action "+action->getName()+" bereits registriert").c_str());
 		}
 
-		ScriptObjectRepository::getSingleton().own(action);
+		ScriptWrapper::getSingleton().owned(action);
 
 		mActions.insert(std::make_pair(action->getName(), action));
 		Logger::getSingleton().log(Logger::RULES,
@@ -89,7 +89,7 @@ namespace rl
 		if (iter == mActions.end())
 			Throw(InvalidArgumentException, "Aktion nicht gefunden");
 
-		ScriptObjectRepository::getSingleton().disown((*iter).second);
+		ScriptWrapper::getSingleton().disowned((*iter).second);
 		mActions.erase(iter);
 
 		Logger::getSingleton().log(Logger::RULES,

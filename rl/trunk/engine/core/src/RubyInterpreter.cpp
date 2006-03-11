@@ -25,7 +25,6 @@
 
 #include "CoreSubsystem.h"
 #include "ConfigurationManager.h"
-#include "ScriptObjectRepository.h"
 #include "ContentModule.h"
 
 using namespace Ogre;
@@ -67,9 +66,6 @@ void RubyInterpreter::initializeInterpreter()
 	// Fuer Ruby .dll oder .so dazu laden
 	
 	loadProtected(&RubyInterpreter::loadDlls, 0, "Ruby error while loading dlls");
-
-	
-    new ScriptObjectRepository();
 }
 
 

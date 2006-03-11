@@ -17,7 +17,7 @@
 #include "QuestBook.h"
 #include "Quest.h"
 
-#include "ScriptObjectRepository.h"
+#include "ScriptWrapper.h"
 
 namespace rl {
 
@@ -73,7 +73,7 @@ void QuestBook::addQuestChangeListener(QuestChangeListener* listener)
 	if( !mEventCaster.containsListener(listener) )
     {    
 		mEventCaster.addEventListener(listener);
-        ScriptObjectRepository::getSingleton().own( listener );
+        ScriptWrapper::getSingleton().owned( listener );
     }
 }
 
@@ -82,7 +82,7 @@ void QuestBook::removeQuestChangeListener(QuestChangeListener* listener)
 	if( mEventCaster.containsListener( listener ) ) 
     {
 	    mEventCaster.removeEventListener(listener);
-        ScriptObjectRepository::getSingleton().disown( listener );
+        ScriptWrapper::getSingleton().disowned( listener );
     }
 }
 

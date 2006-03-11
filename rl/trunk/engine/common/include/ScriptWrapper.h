@@ -14,36 +14,41 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#ifndef __DeletionPropagator_H__
-#define __DeletionPropagator_H__
+#ifndef __ScriptWrapper_H__
+#define __ScriptWrapper_H__
 
-#include "CorePrerequisites.h"
+#include "CommonPrerequisites.h"
 #include <OgreSingleton.h>
 
 namespace rl {
 
-    class _RlCoreExport DeletionListener 
+    class _RlCommonExport ScriptWrapperInstance 
     {
     public:
-        virtual void pointerDeleted( void* ptr ) = 0;
+        virtual void deleted( void* ptr ) = 0;
+		virtual void owned( void* ptr ) = 0;
+		virtual void disowned( void* ptr ) = 0;
     };
 
-    class _RlCoreExport DeletionPropagator : protected Ogre::Singleton<DeletionPropagator>
+    class _RlCommonExport ScriptWrapper : protected Ogre::Singleton<ScriptWrapper>
     {
     public:
-        DeletionPropagator();
-        virtual ~DeletionPropagator();
+        ScriptWrapper();
+        virtual ~ScriptWrapper();
 
         /// Ermöglicht dem Script-Repository benachrichtigt zu werden, wenn
         /// die Löschung eines Actors bevorsteht.
-        void setDeletionListener( DeletionListener* list );
+        void setScriptWrapperInstance( ScriptWrapperInstance* list );
+		
 
-        void notifyPointerDeleted( void* ptr );
+		void deleted( void* ptr );
+		void owned( void* ptr );
+        void disowned( void* ptr );
         /** Returns the Singleton */
-        static DeletionPropagator & getSingleton(void);
-        static DeletionPropagator * getSingletonPtr(void);  
+        static ScriptWrapper & getSingleton(void);
+        static ScriptWrapper * getSingletonPtr(void);  
     private:
-        DeletionListener* m_DeletionListener;
+        ScriptWrapperInstance* m_ScriptWrapperInstance;
     };
 
 }

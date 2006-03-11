@@ -212,6 +212,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ScriptWrapper.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\XmlHelper.cpp"
 				>
 			</File>
@@ -273,6 +277,10 @@
 			</File>
 			<File
 				RelativePath=".\include\RastullahPrerequisites.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ScriptWrapper.h"
 				>
 			</File>
 			<File

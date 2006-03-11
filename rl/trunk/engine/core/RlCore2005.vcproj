@@ -297,10 +297,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\DeletionPropagator.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\DotSceneLoader.h"
 				>
 			</File>
@@ -385,10 +381,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\ScriptObjectRepository.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\SoundObject.h"
 				>
 			</File>
@@ -466,10 +458,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\DeletionPropagator.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\DotSceneLoader.cpp"
 				>
 			</File>
@@ -543,10 +531,6 @@
 			</File>
 			<File
 				RelativePath=".\src\RubyInterpreter.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ScriptObjectRepository.cpp"
 				>
 			</File>
 			<File
