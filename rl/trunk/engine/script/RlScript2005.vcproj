@@ -246,6 +246,22 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath=".\swig\RlExports_wrap.cxx"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\swig\RlExports_wrap.h"
+				>
+			</File>
 			<Filter
 				Name="include"
 				>

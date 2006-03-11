@@ -15,6 +15,7 @@
 */
 
 #include "ScriptObjectMarker.h"
+
 #include "../swig/RlExports_wrap.cxx"
 
 #include "Exception.h"
