@@ -72,7 +72,13 @@ class _RlCoreExport ActorManager : protected Ogre::Singleton<ActorManager>
 	    static ActorManager & getSingleton(void);
 	    static ActorManager * getSingletonPtr(void);        
     private:
-		std::vector<Actor*> collectSelectableObjects( Ogre::Real x, Ogre::Real y );
+		/**	Variante mit Strahl, ob der geringen Ausdehnung eines Strahls nicht zufriedenstellend.	 
+				Geändert von ChaosBlender am 11.März 2006 (irgendwann nachts)
+		    Änderung: Man muss sich nun in der Nähe eines Objekts befinden um eine Aktion auszuführen
+		    Weitere Änderung: collectSelectableObjects hat jetzt auch die Länge des Rays als Argument, die in
+		    InputManager.cpp übergeben wird. Sie sollte einen Wert zwischen 5-8 haben. (5 - nah dran, 8 - weiter weg)
+		 */
+		std::vector<Actor*> collectSelectableObjects( Ogre::Real x, Ogre::Real y, Ogre::Real length );
         void doDestroyActor( Actor* actor );
         String nextUniqueName(const Ogre::String& basename);
 

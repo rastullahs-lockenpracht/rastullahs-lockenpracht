@@ -599,7 +599,12 @@ namespace rl {
 
     void InputManager::updatePickedObject(float mouseRelX, float mouseRelY)
     {
-        Actor* actor = ActorManager::getSingleton().getActorAt(mouseRelX, mouseRelY, 30, 200);
+		// -----------------------------------------------------------------------------------------
+		// Geändert von ChaosBlender
+		// am 11.März 2006 (irgendwann nachts)
+		// Änderung: Den Wert length auf 5 reduziert. Der Wert sollte sich zwischen 5 und 8 befinden
+		// -----------------------------------------------------------------------------------------
+        Actor* actor = ActorManager::getSingleton().getActorAt(mouseRelX, mouseRelY, 30, 5);
         /*DebugWindow::getSingleton().setText(
             "X="+StringConverter::toString(mouseRelX)+
             "   Y="+StringConverter::toString(mouseRelY)+

@@ -335,7 +335,7 @@ namespace rl {
 		}
 		
 		if( basename != newname )
-            Logger::getSingleton().log(Logger::CORE, Ogre::LML_NORMAL, "ActorManager - Warnung! '" + basename
+            Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL, "ActorManager - Warnung! '" + basename
                 + "' war schon vergeben! Neuer Name ist '" + newname + "'.");
         
 		return newname;
@@ -347,10 +347,10 @@ namespace rl {
 			getWorld()->getActiveActor() == NULL)
 			return NULL;
 
-		std::vector<Actor*> selectableObjects = collectSelectableObjects( x, y );
+		std::vector<Actor*> selectableObjects = collectSelectableObjects( x, y, length );
 		
 		Actor* closestObject = NULL;
-		Real closestDistance = LONG_MAX;
+		Real closestDistance = 400;
 
 		if (selectableObjects.size() == 0)
 			return NULL;
@@ -365,34 +365,68 @@ namespace rl {
 		return closestObject;
 	}
 
-	// Variante mit Strahl, ob der geringen Ausdehnung eines Strahls nicht zufriedenstellend
-	std::vector<Actor*> ActorManager::collectSelectableObjects( Real x, Real y )
+
+	std::vector<Actor*> ActorManager::collectSelectableObjects(Real x, Real y, Real length)
 	{
 		std::vector<Actor*> selectableObjects;
 		// Start a new ray query
 		Ogre::Ray cameraRay = getWorld()->getActiveCamera()->
 			getCameraToViewportRay( x, y );
 
+		//Startpunkt des Rays setzen
+		Vector3 rayStart = cameraRay.getOrigin();
+
+		//Ray "abfeuern"
 		RaySceneQuery* query = getWorld()->getSceneManager()->createRayQuery(cameraRay);
+
+		//Nach Abstand sortieren
 		query->setSortByDistance(true);
+
+		//Treffer auslesen
 		RaySceneQueryResult result = query->execute();
+
+		//Auswählbare Objekte aus der Liste löschen
 		selectableObjects.clear();
+
+		//Falls mehr als 0 Objekte getroffen wurde
 		if (result.size() > 0)
 		{
+			//Iterator loslaufen lassen
 			for (RaySceneQueryResult::iterator iter = result.begin(); iter != result.end(); iter++)
 			{
+				//Entsprechendes MovableObject lesen
 				Ogre::MovableObject* mo = (*iter).movable;
 
+				//Die Position des Getroffenen Objekts speichern
+				Vector3 actorPos = mo->getParentNode()->getPosition();
+
+				//Ein bisschen Mathematik um den Abstand zwischen dem Actor und dem Ray zu berechnen
+				//(Abstand = Betrag der Differenz der Beiden Vektoren)
+				//(Betrag = Wurzel aus der Summe der Quadrate der einzelnen Vektorkomponenten)
+				Real actorDistance = sqrt(((actorPos.x-rayStart.x)*(actorPos.x-rayStart.x))
+										  +((actorPos.y-rayStart.y)*(actorPos.y-rayStart.y))
+										  +((actorPos.z-rayStart.z)*(actorPos.z-rayStart.z)));
+
+				//Falls mo nicht vorhanden oder falls mo die aktuelle Kamera ist
 				if (mo->getUserObject() == NULL || mo == getWorld()->getActiveCamera())
-					continue;
+					continue; //Schleife wiederholen
 
-				Actor* actor = reinterpret_cast<Actor*>(mo->getUserObject());
+				//Falls der Abstand des Actors zum Ray größer ist als die Länge des Rays
+				if (actorDistance > length)
+					continue; //Schleife wiederholen
+
+				//Actor auslesen
+				Actor* actor = reinterpret_cast<Actor*> (mo->getUserObject());
+
+				//Falls der Actor der aktuelle Spielcharacter ist
 				if (actor == getWorld()->getActiveActor())
-					continue;
+					continue; //Schleife wiederholen
 
+				//Actor zu den auswählbaren Objekten hinzufügen
 				selectableObjects.push_back(actor);
 			}
 		}
+		//Die auswählbaren Objekte zurückgeben
 		return selectableObjects;
 	}
 }
