@@ -16,7 +16,7 @@
 
 #include "ScriptObjectMarker.h"
 
-#include "../swig/RlExports_wrap.cxx"
+extern VALUE RL_RubyInstanceFor(void* ptr);
 
 #include "Exception.h"
 
@@ -59,7 +59,7 @@ namespace rl {
 
     void ScriptObjectMarker::owned( void* ptr )
     {
-        VALUE val = SWIG_RubyInstanceFor(ptr);
+        VALUE val = RL_RubyInstanceFor(ptr);
 
         // Hat kein Skript Equivalent, muss nicht verwaltet werden
         if( val == Qnil )
@@ -85,7 +85,7 @@ namespace rl {
 
     void ScriptObjectMarker::disowned( void* ptr )
     {
-        VALUE val = SWIG_RubyInstanceFor(ptr);
+        VALUE val = RL_RubyInstanceFor(ptr);
         
         // Hat kein Skript Equivalent, muss nicht verwaltet werden
         if( val == Qnil )
@@ -121,7 +121,7 @@ namespace rl {
     {
         try
         {
-			VALUE val = SWIG_RubyInstanceFor(ptr);
+			VALUE val = RL_RubyInstanceFor(ptr);
 			// Hat kein Skript Equivalent, muss nicht verwaltet werden
 			if( val == Qnil )
 				return;

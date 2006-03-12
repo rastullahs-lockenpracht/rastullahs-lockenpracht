@@ -29,6 +29,10 @@
 #endif
 
 #include <xercesc/util/XMemory.hpp>	// Muss vor Ogre stehen (zumindest fuer VS)
+VALUE RL_RubyInstanceFor(void* ptr) 
+{
+	return SWIG_RubyInstanceFor(ptr);
+}
 %}
 
 
