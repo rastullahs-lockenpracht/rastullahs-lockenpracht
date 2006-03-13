@@ -85,7 +85,7 @@ public class PropertyManager {
 
 	}
 
-	private void changeOgredir() {
+	public void changeOgredir() {
 
 		JFileChooser ogretools = new JFileChooser();
 		ogretools.setFileFilter(new FileFilter() {
