@@ -1,14 +1,24 @@
 package meshhandle;
 
+import javax.swing.JFrame;
+
 public class StartKlasse {
 
     /**
      * @param args
      */
     public static void main(String[] args) {
-    	new MeshHandlerWindow();
-//    DialogKlasse dk = new DialogKlasse();
-//    dk.main();
+    	JFrame frame = null;
+    	try {
+        	frame = new MeshHandlerWindow();    		
+    		frame.setVisible(true);
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    		if (frame != null) {
+    			frame.setVisible(false);
+    			System.exit(0);
+    		}
+    	}
+    	
     }
-
 }

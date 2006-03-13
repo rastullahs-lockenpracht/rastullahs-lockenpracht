@@ -1,6 +1,7 @@
 package meshhandle;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -12,7 +13,9 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
@@ -22,6 +25,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.SpringLayout;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.xml.parsers.ParserConfigurationException;
 
 import meshhandle.converter.ConverterUser;
@@ -33,141 +40,232 @@ import meshhandle.xml.SkeletonLoader;
 
 import org.xml.sax.SAXException;
 
-public class MeshHandlerWindow extends JFrame implements ActionListener {
+public class MeshHandlerWindow extends JFrame implements ActionListener,
+		ListSelectionListener {
 
 	private static final long serialVersionUID = 1L;
 
-	/* Die eigentlichen Daten */
+	// Die eigentlichen Daten
 	private Mesh model;
 
 	private Skeleton skeleton;
 
-	private PropertyManager pm;
-
-	/* Ein paar häufig gebrauchte Hilfsvariablen/-konstanten */
-
-	private final String ogrepath;
-
-	private String moduldir;
-
-	private boolean noSkeleton;
+	private PropertyManager propertyManager;
 
 	private boolean nameChanged;
 
 	private String oldname;
 
-	/* Layout-Hilfen */
-	private JPanel centerPanel = new JPanel();
+	// Fensterelemente
+	private JTextArea logField;
 
-	private JPanel namePanel = new JPanel();
+	private JScrollPane logPane;
 
-	private JPanel materialsPanel = new JPanel();
+	private JList modelList;
 
-	private JPanel factorPanel = new JPanel();
-
-	private JPanel choosePanel = new JPanel();
-
-	/* Fensterelemente */
-	private JTextArea logField = new JTextArea();
-
-	private JScrollPane logPane = new JScrollPane(logField);
-
-	private JButton changeModule = new JButton("Modul ändern");
-
-	private JList modulModels = new JList();
-
-	private JScrollPane modelsPane = new JScrollPane(modulModels);
-
-	private JButton choose = new JButton("Bearbeiten");
-
-	private JTextField modelName = new JTextField();
-
-	private JButton rename = new JButton("Umbenennen");
-
-	private JLabel modelTriNumber = new JLabel("Dreiecke:     ");
-
-	private JLabel modelRigged = new JLabel("         ");
-
-	private JTextArea modelMeasures = new JTextArea("\n\n\n");
-
-	private NumberFormat format = NumberFormat.getNumberInstance(Locale.ENGLISH);
+	private JScrollPane modelsPane;
 	
+	private JTextField converterPathField;
+	
+	private JTextField moduleDirField;
+
+	private JTextField modelNameEdit;
+
+	private JTextField modelTriangleCountField;
+
+	private JTextField modelHasSkeletonField;
+
+	private JTextArea modelMeasures;
+
 	private JFormattedTextField factorField;
 
-	private JButton scale = new JButton("Skalieren");
-
-	private JTextArea modelMaterials = new JTextArea("         ");
-
-	private JButton save = new JButton("Änderungen speichern");
+	private JTextArea modelMaterials;
 
 	public MeshHandlerWindow() {
 		super("Der wunderbarer Meshhandler v0.7");
+
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		pm = new PropertyManager();
-		ogrepath = pm.getOgreTools();
-		moduldir = pm.getModule();
 
-		this.setLayout(new BorderLayout());
+		// Setup form elements..
 
-		choosePanel.setLayout(new BoxLayout(choosePanel, BoxLayout.Y_AXIS));
-		choosePanel.add(changeModule);
-		changeModule.addActionListener(this);
-		modelsLaden();
-		modelsPane = new JScrollPane(modulModels);
-		choosePanel.add(modelsPane);
-		choose.addActionListener(this);
-		choosePanel.add(choose);
+		// config panel with module dir and path to the xml converter
+		// and controls to change both
 
-		centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+		JLabel moduleLbl = new JLabel("Modul-Verzeichnis: ", JLabel.TRAILING);
+		JTextField moduleDirField = new JTextField(Integer.MAX_VALUE);
+		moduleDirField.setEditable(false);
+		moduleLbl.setLabelFor(moduleDirField);
 
+		JButton changeModuleBtn = new JButton("Ändern..");
+		changeModuleBtn.setActionCommand("ChangeModuleDirectory");
+		changeModuleBtn.addActionListener(this);
+
+		JLabel converterLbl = new JLabel("OgreXmlConverter: ", JLabel.TRAILING);
+		converterPathField = new JTextField(Integer.MAX_VALUE);
+		converterPathField.setEditable(false);
+		converterLbl.setLabelFor(converterPathField);
+
+		JButton changeConverterBtn = new JButton("Ändern..");
+		changeConverterBtn.setActionCommand("ChangeConverterPath");
+		changeConverterBtn.addActionListener(this);
+
+		JPanel configPanel = new JPanel();
+		configPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+				.createTitledBorder("Konfiguration"), BorderFactory
+				.createEmptyBorder(5, 5, 5, 5)));
+		configPanel.setPreferredSize(new Dimension(800, 100));
+		configPanel.setMinimumSize(new Dimension(600, 100));
+		SpringLayout layout = new SpringLayout();
+		configPanel.setLayout(layout);
+
+		configPanel.add(changeConverterBtn);
+		configPanel.add(changeModuleBtn);
+		configPanel.add(moduleLbl);
+		configPanel.add(converterLbl);
+		configPanel.add(converterPathField);
+		configPanel.add(moduleDirField);
+
+		layout.putConstraint(SpringLayout.WEST, moduleLbl, 5,
+				SpringLayout.WEST, configPanel);
+		layout.putConstraint(SpringLayout.NORTH, moduleLbl, 5,
+				SpringLayout.NORTH, configPanel);
+
+		layout.putConstraint(SpringLayout.EAST, changeModuleBtn, -5,
+				SpringLayout.EAST, configPanel);
+		layout.putConstraint(SpringLayout.NORTH, changeModuleBtn, 5,
+				SpringLayout.NORTH, configPanel);
+
+		layout.putConstraint(SpringLayout.NORTH, moduleDirField, 5,
+				SpringLayout.NORTH, configPanel);
+		layout.putConstraint(SpringLayout.EAST, moduleDirField, -5,
+				SpringLayout.WEST, changeModuleBtn);
+		layout.putConstraint(SpringLayout.WEST, moduleDirField, 5,
+				SpringLayout.EAST, moduleLbl);
+
+		layout.putConstraint(SpringLayout.WEST, converterLbl, 5,
+				SpringLayout.WEST, configPanel);
+		layout.putConstraint(SpringLayout.NORTH, converterLbl, 5,
+				SpringLayout.SOUTH, changeModuleBtn);
+
+		layout.putConstraint(SpringLayout.EAST, changeConverterBtn, -5,
+				SpringLayout.EAST, configPanel);
+		layout.putConstraint(SpringLayout.NORTH, changeConverterBtn, 5,
+				SpringLayout.SOUTH, changeModuleBtn);
+
+		layout.putConstraint(SpringLayout.NORTH, converterPathField, 5,
+				SpringLayout.SOUTH, changeModuleBtn);
+		layout.putConstraint(SpringLayout.EAST, converterPathField, -5,
+				SpringLayout.WEST, changeConverterBtn);
+		layout.putConstraint(SpringLayout.WEST, converterPathField, 5,
+				SpringLayout.EAST, converterLbl);
+
+		JButton loadMeshBtn = new JButton("Laden");
+		loadMeshBtn.setActionCommand("LoadMesh");
+		loadMeshBtn.addActionListener(this);
+
+		modelList = new JList();
+		modelList.setModel(new DefaultListModel());
+		modelList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		modelList.addListSelectionListener(this);
+		modelList.setPreferredSize(new Dimension(300, 400));
+
+		JScrollPane modelListPanel = new JScrollPane(modelList);
+		modelListPanel.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createTitledBorder("Models"), BorderFactory
+						.createEmptyBorder(5, 5, 5, 5)));
+
+		JButton renameBtn = new JButton("Umbenennen");
+		renameBtn.setActionCommand("RenameModel");
+		renameBtn.addActionListener(this);
+
+		modelNameEdit = new JTextField();
+
+		JPanel namePanel = new JPanel();
 		namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.X_AXIS));
-		namePanel.add(modelName);
-		rename.addActionListener(this);
-		namePanel.add(rename);
-		centerPanel.add(namePanel);
-		centerPanel.add(modelTriNumber);
-		centerPanel.add(modelRigged);
-		centerPanel.add(modelMeasures);
+		namePanel.add(modelNameEdit);
+		namePanel.add(renameBtn);
 
+		JLabel modelTriNumberLbl = new JLabel("Triangle count");
+		modelTriangleCountField = new JTextField(Integer.MAX_VALUE);
+		modelTriNumberLbl.setLabelFor(modelTriangleCountField);
+
+		JLabel modelRiggedLbl = new JLabel("Skeleton");
+		
+
+		modelMeasures = new JTextArea("\n\n\n");
+		modelMaterials = new JTextArea("........");
+
+		JPanel materialsPanel = new JPanel();
 		materialsPanel.add(modelMaterials);
-		centerPanel.add(materialsPanel);
 
-		factorPanel.setLayout(new BoxLayout(factorPanel, BoxLayout.X_AXIS));
-		
-		format.setMinimumFractionDigits(2);
-		factorField = new JFormattedTextField(format);
-		
+		factorField = new JFormattedTextField(NumberFormat.getNumberInstance(Locale.ENGLISH));
 		factorField.setValue(new Float(1));
 		factorField.setColumns(10);
+
+		JButton scaleBtn = new JButton("Skalieren");
+		scaleBtn.setActionCommand("ScaleModel");
+		scaleBtn.addActionListener(this);
+
+		JPanel factorPanel = new JPanel();
+		factorPanel.setLayout(new BoxLayout(factorPanel, BoxLayout.X_AXIS));
 		factorPanel.add(new JLabel("Skalieren um Faktor: "));
 		factorPanel.add(factorField);
-		scale.addActionListener(this);
-		factorPanel.add(scale);
+		factorPanel.add(scaleBtn);
 
-		centerPanel.add(factorPanel);
+		JPanel modelDetailsPanel = new JPanel();
+		layout = new SpringLayout();
+		modelDetailsPanel.setLayout(layout);
+		modelDetailsPanel.add(namePanel);
+		modelDetailsPanel.add(modelTriNumberLbl);
+		modelDetailsPanel.add(modelRiggedLbl);
+		modelDetailsPanel.add(modelMeasures);
+		modelDetailsPanel.add(materialsPanel);
+		modelDetailsPanel.add(factorPanel);
 
-		save.addActionListener(this);
+		JButton saveBtn = new JButton("Speichern");
+		saveBtn.setActionCommand("SaveModel");
+		saveBtn.addActionListener(this);
+
+		logField = new JTextArea("\n");
 		logField.setEditable(false);
-		this.getContentPane().add(logPane, BorderLayout.NORTH);
-		this.getContentPane().add(save, BorderLayout.EAST);
-		this.getContentPane().add(choosePanel, BorderLayout.WEST);
-		this.getContentPane().add(centerPanel, BorderLayout.CENTER);
-		this.setSize(800, 600);
-		this.setVisible(true);
+
+		logPane = new JScrollPane(logField);
+
+		this.setLayout(new BorderLayout());
+		this.getContentPane().add(configPanel, BorderLayout.NORTH);
+		this.getContentPane().add(saveBtn, BorderLayout.EAST);
+		this.getContentPane().add(modelListPanel, BorderLayout.WEST);
+		this.getContentPane().add(modelDetailsPanel, BorderLayout.CENTER);
+		this.getContentPane().add(logPane, BorderLayout.SOUTH);
+
+		// Initialise propery manager and retrieve needed props
+		propertyManager = new PropertyManager();
+		String ogrepath = propertyManager.getOgreTools();
+		converterPathField.setText(ogrepath != null ? ogrepath
+				: "<nicht gesetzt>");
+		String moduldir = propertyManager.getModule();
+		moduleDirField.setText(moduldir != null ? moduldir : "<nicht gesetzt>");
+
+		modelsLaden(moduldir, (DefaultListModel) modelList.getModel());
 		loggen("Meshhandler gestartet.");
 		loggen("OgreXMLConverter: " + ogrepath);
 		loggen("Modul: " + moduldir);
+
+		this.pack();
 	}
 
-	private void modelsLaden() {
-		modulModels.removeAll();
-		File modelsdir = new File(moduldir, "models");
-		modulModels = new JList(modelsdir.list(new FilenameFilter() {
+	private void modelsLaden(String moduleDir, DefaultListModel listModel) {
+		listModel.clear();
+		File modelsdir = new File(moduleDir, "models");
+		String[] meshNames = modelsdir.list(new FilenameFilter() {
 			public boolean accept(File f, String s) {
 				return s.endsWith(".mesh");
 			}
-		}));
-		loggen("Modul: " + moduldir);
+		});
+		for (int i = 0; i < meshNames.length; ++i) {
+			listModel.addElement(meshNames[i]);
+		}
+		loggen("Modul: " + moduleDir);
 	}
 
 	private void paintMeasures() {
@@ -177,56 +275,54 @@ public class MeshHandlerWindow extends JFrame implements ActionListener {
 				+ measures.getZ() + " m breit\n und " + measures.getY()
 				+ " m hoch.");
 		modelMeasures.setEditable(false);
-		centerPanel.invalidate();
-		centerPanel.repaint();
-
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == changeModule) {
-			pm.changeModuldir();
-			moduldir = pm.getModule();
-			modelsLaden();
+		if (e.getActionCommand().equals("ChangeConverterPath")) {
+			propertyManager.changeOgredir();
+			converterPathField.setText(propertyManager.getOgreTools());
+
+		} else if (e.getActionCommand().equals("ChangeModuleDirectory")) {
+			propertyManager.changeModuldir();
+			modelsLaden(propertyManager.getModule(),
+					(DefaultListModel) modelList.getModel());
+			moduleDirField.setText(propertyManager.getModule());
 			modelsPane.invalidate();
 			modelsPane.repaint();
 
-		} else if (e.getSource() == choose
-				&& modulModels.getSelectedValue() != null) {
+		} else if (e.getActionCommand().equals("LoadMesh")
+				&& modelList.getSelectedValue() != null) {
+			String moduleDir = propertyManager.getModule();
+			String converterPath = propertyManager.getOgreTools();
 
-			if (ConverterUser.fromMeshToXML(ogrepath, moduldir + "/models/"
-					+ modulModels.getSelectedValue())) {
-				loggen(modulModels.getSelectedValue() + " wird bearbeitet.");
+			if (ConverterUser.fromMeshToXML(converterPath, moduleDir
+					+ "/models/" + modelList.getSelectedValue())) {
+				loggen(modelList.getSelectedValue() + " wird bearbeitet.");
 				loggen(" .mesh.xml erzeugt.");
 			} else {
 				loggen("Fehler beim Konvertieren des Mesh!");
 			}
 			nameChanged = false;
 			try {
-				model = MeshLoader.readMesh(moduldir + "/models/"
-						+ modulModels.getSelectedValue() + ".xml");
+				model = MeshLoader.readMesh(moduleDir + "/models/"
+						+ modelList.getSelectedValue() + ".xml");
 
 				loggen(".mesh.xml eingelesen");
-			} catch (ParserConfigurationException e1) {
-				loggen("Fehler beim Einlesen der .mesh.xml. (Siehe Konsole)");
-				e1.printStackTrace();
-			} catch (SAXException e1) {
-				loggen("Fehler beim Einlesen der .mesh.xml. (Siehe Konsole)");
-				e1.printStackTrace();
-			} catch (IOException e1) {
+			} catch (Exception e1) {
 				loggen("Fehler beim Einlesen der .mesh.xml. (Siehe Konsole)");
 				e1.printStackTrace();
 			}
 
-			noSkeleton = model.getSkeletonLink().equals("");
-			model.setName(((String) modulModels.getSelectedValue()).substring(
-					0, ((String) modulModels.getSelectedValue()).length() - 5));
-			if (!noSkeleton
-					&& ConverterUser.fromMeshToXML(ogrepath, moduldir
-							+ "/models/"+ model.getSkeletonLink())) {
+			boolean hasSkeleton = !model.getSkeletonLink().equals("");
+			model.setName(((String) modelList.getSelectedValue()).substring(0,
+					((String) modelList.getSelectedValue()).length() - 5));
+			if (hasSkeleton
+					&& ConverterUser.fromMeshToXML(converterPath, moduleDir
+							+ "/models/" + model.getSkeletonLink())) {
 				loggen(" .skeleton.xml erzeugt.");
 				try {
-					skeleton = SkeletonLoader.readSkeleton(moduldir
-							+ "/models/" +model.getSkeletonLink() + ".xml");
+					skeleton = SkeletonLoader.readSkeleton(moduleDir
+							+ "/models/" + model.getSkeletonLink() + ".xml");
 					loggen(".skeleton.xml eingelesen.");
 				} catch (SAXException e1) {
 					loggen("Fehler beim Einlesen der .skeleton.xml. (Siehe Konsole)");
@@ -239,12 +335,10 @@ public class MeshHandlerWindow extends JFrame implements ActionListener {
 					e1.printStackTrace();
 				}
 			}
-			modelName.setText(model.getName());
-			modelTriNumber.setText(model.getPolycount() + " Dreiecke");
-			if (noSkeleton)
-				modelRigged.setText("Statisch");
-			else
-				modelRigged.setText("Animierbar");
+
+			modelNameEdit.setText(model.getName());
+			modelTriangleCountField.setText(String.valueOf(model.getPolycount()));
+			modelHasSkeletonField.setText(hasSkeleton ? "Animierbar" : "Statisch");
 
 			paintMeasures();
 
@@ -252,53 +346,53 @@ public class MeshHandlerWindow extends JFrame implements ActionListener {
 			modelMaterials.setText("");
 			ArrayList<String> materials = model.getMaterials();
 			for (String material : materials) {
-				modelMaterials.append("Material: "+material+"\n");
+				modelMaterials.append("Material: " + material + "\n");
 			}
 			modelMaterials.setEditable(false);
-			materialsPanel.invalidate();
-			materialsPanel.repaint();
 			loggen(model.getName() + " geladen.");
-
-			centerPanel.invalidate();
-			centerPanel.repaint();
 
 			this.setSize(800, 600);
 			this.invalidate();
 			this.repaint();
 
-		} else if (e.getSource() == rename && model != null) {
-			if (model != null) {
-				oldname = model.getName();
-				nameChanged = true;
-				model.setName(modelName.getText());
-				if (!noSkeleton)
-					model.setSkeletonLink(modelName + ".skeleton");
-			}
-		} else if (e.getSource() == scale && model != null) {
-			float factor = (float)(Double.parseDouble(factorField.getText()));
+		} else if (e.getActionCommand().equals("RenameModel") && model != null) {
+			boolean hasSkeleton = !model.getSkeletonLink().equals("");
+			oldname = model.getName();
+			nameChanged = true;
+			model.setName(modelNameEdit.getText());
+			if (!hasSkeleton)
+				model.setSkeletonLink(modelNameEdit + ".skeleton");
+		} else if (e.getActionCommand().equals("ScaleModel") && model != null) {
+			boolean hasSkeleton = !model.getSkeletonLink().equals("");
+			float factor = (float) (Double.parseDouble(factorField.getText()));
 			model.scale(factor);
-			if (!noSkeleton) {
+			if (hasSkeleton) {
 				skeleton.scale(factor);
 			}
 			paintMeasures();
 			factorField.setValue(new Float(1));
 
-		} else if (e.getSource() == save) {
+		} else if (e.getActionCommand().equals("SaveModel") && model != null) {
+			boolean hasSkeleton = !model.getSkeletonLink().equals("");
+			String moduleDir = propertyManager.getModule();
+			String converterPath = propertyManager.getOgreTools();
+			// TODO Unsicherheit entfernen. Erst löschen, dann neuschreiben ist zu unsicher
+			// Wenn Neuschreiben fehlschlägt droht Totalverlust
 			if (nameChanged) {
-				(new File(moduldir + "/models", oldname + ".mesh")).delete();
-				(new File(moduldir + "/models", oldname + ".mesh.xml"))
+				(new File(moduleDir + "/models", oldname + ".mesh")).delete();
+				(new File(moduleDir + "/models", oldname + ".mesh.xml"))
 						.delete();
-				if (!noSkeleton) {
-					(new File(moduldir + "/models", oldname + ".skeleton"))
+				if (hasSkeleton) {
+					(new File(moduleDir + "/models", oldname + ".skeleton"))
 							.delete();
-					(new File(moduldir + "/models", oldname + ".skeleton.xml"))
+					(new File(moduleDir + "/models", oldname + ".skeleton.xml"))
 							.delete();
 				}
 			}
 
-			File newXml = new File(moduldir + "/models", model.getName()
+			File newXml = new File(moduleDir + "/models", model.getName()
 					+ ".mesh.xml");
-			File newSkelXml = new File(moduldir + "/models", model
+			File newSkelXml = new File(moduleDir + "/models", model
 					.getSkeletonLink()
 					+ ".xml");
 			try {
@@ -309,7 +403,7 @@ public class MeshHandlerWindow extends JFrame implements ActionListener {
 				loggen("Fehler beim Schreiben der .mesh.xml");
 				e1.printStackTrace();
 			}
-			if (!noSkeleton) {
+			if (hasSkeleton) {
 				try {
 					FileWriter xmlout = new FileWriter(newSkelXml);
 					xmlout.write(skeleton.toXML());
@@ -319,12 +413,13 @@ public class MeshHandlerWindow extends JFrame implements ActionListener {
 							.println("Fehler beim Schreiben der .skeleton.xml");
 					e1.printStackTrace();
 				}
-				if (ConverterUser.fromXMLToMesh(ogrepath, newSkelXml
+				if (ConverterUser.fromXMLToMesh(converterPath, newSkelXml
 						.getAbsolutePath())) {
 					loggen(" skeleton geschrieben");
 				}
 			}
-			if (ConverterUser.fromXMLToMesh(ogrepath, newXml.getAbsolutePath())) {
+			if (ConverterUser.fromXMLToMesh(converterPath, newXml
+					.getAbsolutePath())) {
 				loggen(" mesh geschrieben");
 			}
 		}
@@ -341,8 +436,13 @@ public class MeshHandlerWindow extends JFrame implements ActionListener {
 	protected void processWindowEvent(WindowEvent e) {
 		super.processWindowEvent(e);
 		if (e.getID() == WindowEvent.WINDOW_CLOSING) {
-			pm.setModule(moduldir);
+			propertyManager.setModule(propertyManager.getModule());
 			System.exit(0);
 		}
+	}
+
+	public void valueChanged(ListSelectionEvent e) {
+		if (modelList.getSelectedIndex() >= 0)
+			modelNameEdit.setText((String) modelList.getSelectedValue());
 	}
 }
