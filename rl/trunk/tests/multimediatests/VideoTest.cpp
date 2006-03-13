@@ -1,7 +1,7 @@
 #include <xercesc/util/XMemory.hpp>	// Muss vor Ogre stehen (zumindest für VS)
 
 
-#include "SoundPrerequisites.h"
+#include "MultimediaPrerequisites.h"
 
 #include <Ogre.h>
 

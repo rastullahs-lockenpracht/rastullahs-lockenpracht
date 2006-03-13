@@ -2,7 +2,7 @@
 #include <Ogre.h>
 #include <signal.h>
 #include <OgreLog.h>
-#include "SoundSubsystem.h"
+#include "MultimediaSubsystem.h"
 #include "Logger.h"
 #include "CoreSubsystem.h"
 #include "SoundManager.h"
@@ -37,7 +37,7 @@ int main( int argc, char **argv)
     Ogre::ResourceGroupManager::getSingleton().addResourceLocation("./modules/techdemo/sound", "FileSystem");
 
     (new rl::Logger("./logs", "./logs"))->setLogDetail(Ogre::LL_BOREME);
-    new rl::SoundSubsystem; 
+    new rl::MultimediaSubsystem; 
     rl::SoundManager::getSingleton().addSounds( Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME );
     
     CppUnit::TextUi::TestRunner runner;

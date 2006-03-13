@@ -1,2 +1,2 @@
-SUBDIRS = common sound dialog uicomponents ui core rules script startup
+SUBDIRS = common multimedia dialog uicomponents ui core rules script startup
 

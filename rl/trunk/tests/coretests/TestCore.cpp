@@ -7,7 +7,7 @@
 
 #include "Logger.h"
 #include "CoreSubsystem.h"
-#include "SoundSubsystem.h"
+#include "MultimediaSubsystem.h"
 #include "RulesSubsystem.h"
 #include "DialogSubsystem.h"
 #include "UiSubsystem.h"
@@ -29,7 +29,7 @@
 int main( int argc, char **argv)
 {
     rl::CoreSubsystem* core = NULL;
-    rl::SoundSubsystem* sound = NULL;
+    rl::MultimediaSubsystem* sound = NULL;
     rl::RulesSubsystem* rules = NULL;
     rl::DialogSubsystem* dialog = NULL;
     rl::UiSubsystem* ui =  NULL;
@@ -42,8 +42,8 @@ int main( int argc, char **argv)
         core = new rl::CoreSubsystem();
         rl::Logger::getSingleton().log(rl::Logger::CORE, Ogre::LML_NORMAL, "CoreSubsystem gestartet");
 
-        sound = new rl::SoundSubsystem();
-        rl::Logger::getSingleton().log(rl::Logger::CORE, Ogre::LML_NORMAL, "SoundSubsystem gestartet");
+        sound = new rl::MultimediaSubsystem();
+        rl::Logger::getSingleton().log(rl::Logger::CORE, Ogre::LML_NORMAL, "MultimediaSubsystem gestartet");
 
         rules = new rl::RulesSubsystem();
         rl::Logger::getSingleton().log(rl::Logger::CORE, Ogre::LML_NORMAL, "RulesSubsystem gestartet");

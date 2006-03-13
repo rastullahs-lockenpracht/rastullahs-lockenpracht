@@ -220,9 +220,9 @@ namespace Ogre
 			{
 				mSceneDetailIndex = (mSceneDetailIndex+1)%3 ;
 				switch(mSceneDetailIndex) {
-					case 0 : mCamera->setDetailLevel(SDL_SOLID) ; break ;
-					case 1 : mCamera->setDetailLevel(SDL_WIREFRAME) ; break ;
-					case 2 : mCamera->setDetailLevel(SDL_POINTS) ; break ;
+					case 0 : mCamera->setPolygonMode(PM_SOLID) ; break ;
+					case 1 : mCamera->setPolygonMode(PM_WIREFRAME) ; break ;
+					case 2 : mCamera->setPolygonMode(PM_POINTS) ; break ;
 				}
 				mTimeUntilNextToggle = 0.5;
 			}

@@ -23,7 +23,7 @@
 
 #include "CoreSubsystem.h"
 #include "GameLoop.h"
-#include "SoundSubsystem.h"
+#include "MultimediaSubsystem.h"
 #include "SoundUpdateTask.h"
 #include "RulesSubsystem.h"
 #include "DialogSubsystem.h"
@@ -48,7 +48,7 @@ void log(Ogre::LogMessageLevel level, const Ogre::String& msg, Ogre::String iden
 void startupRl(bool developerMode, Ogre::String module)
 {
 	rl::CoreSubsystem* core = NULL;
-	rl::SoundSubsystem* sound = NULL;
+	rl::MultimediaSubsystem* sound = NULL;
 	rl::RulesSubsystem* rules = NULL;
 	rl::DialogSubsystem* dialog = NULL;
 	rl::UiSubsystem* ui =  NULL;
@@ -65,8 +65,8 @@ void startupRl(bool developerMode, Ogre::String module)
 		rl::Logger::getSingleton().setLogDetail(
 			rl::ConfigurationManager::getSingleton().getLogLevel());
 
-		sound = new rl::SoundSubsystem();
-		log(Ogre::LML_NORMAL, "SoundSubsystem gestartet");
+		sound = new rl::MultimediaSubsystem();
+		log(Ogre::LML_NORMAL, "MultimediaSubsystem gestartet");
 
 		core = new rl::CoreSubsystem();
 		core->setDeveloperMode(developerMode);

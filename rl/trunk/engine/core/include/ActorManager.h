@@ -47,11 +47,11 @@ class _RlCoreExport ActorManager : protected Ogre::Singleton<ActorManager>
         Actor* createListenerActor(const Ogre::String& name);
         Actor* createCameraActor(const Ogre::String& name);
         Actor* createEmptyActor(const Ogre::String& name);
-   	    Actor* createMeshActor(const Ogre::String& name,const String& meshname,
+   	    Actor* createMeshActor(const Ogre::String& name,const Ogre::String& meshname,
 			PhysicsManager::GeometryTypes geomType = PhysicsManager::GT_NONE,
 			Ogre::Real mass = 1.0, PhysicsManager::OffsetMode offsetMode = PhysicsManager::OM_BOTTOMCENTERED);
         Actor* createParticleSystemActor(const Ogre::String& name, 
-            const String& partname);
+            const Ogre::String& partname);
         //void createDebugActors();
         void destroyActor(Actor* actor);
         
@@ -80,7 +80,7 @@ class _RlCoreExport ActorManager : protected Ogre::Singleton<ActorManager>
 		 */
 		std::vector<Actor*> collectSelectableObjects( Ogre::Real x, Ogre::Real y, Ogre::Real length );
         void doDestroyActor( Actor* actor );
-        String nextUniqueName(const Ogre::String& basename);
+        Ogre::String nextUniqueName(const Ogre::String& basename);
 
         ActorPtrMap mActors;
 		World* mWorld;

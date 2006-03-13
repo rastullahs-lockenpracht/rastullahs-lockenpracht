@@ -6,7 +6,7 @@
  * Build the rl/engine/sound/src/OalppSoundInterfaceTest target from the Make Target view
  */
 
-#include "SoundPrerequisites.h"
+#include "MultimediaPrerequisites.h"
 #ifdef  _MSC_VER
 #define _USE_MATH_DEFINES
 #endif
@@ -14,13 +14,14 @@
 #include <OgreIteratorWrappers.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include <boost/thread.hpp>
+#include "MultimediaSubsystem.h"
 #include "SoundManager.h"
 #include "SoundResource.h"
 #include "Sound.h"
-#include "SoundSample.h"
-#include "SoundStream.h"
+#include "SoundDriver.h"
 #include "SoundChannel.h"
 #include "ListenerMovable.h"
+#include "Logger.h"
 
 
 using namespace rl;
@@ -45,12 +46,16 @@ public:
 
 	void test()
 	{
+		MultimediaSubsystem *mm = MultimediaSubsystem::getSingletonPtr();
+		SoundDriver *driver = mm->getActiveDriver();
+		
         Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Starte Test #1");
+        Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Using Driver " + driver->getName());
         xtime xt;
-        Sound *sound1 = new SoundSample("lachen.ogg");
-        SoundChannel *channel1 = new SoundChannel(sound1, "sample");
-        Sound *sound2 = new SoundStream("lachen.ogg");
-        SoundChannel *channel2 = new SoundChannel(sound2, "stream");
+        Sound *sound1 = driver->createSample("lachen.ogg");
+        SoundChannel *channel1 = driver->createChannel(sound1, "sample");
+        Sound *sound2 = driver->createStream("lachen.ogg");
+        SoundChannel *channel2 = driver->createChannel(sound2, "stream");
         
         Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Starte ersten Sound");
         channel1->play();
@@ -59,7 +64,7 @@ public:
         thread::sleep(xt);
         while (channel1->isPlaying())
         {
-            FSOUND_Update();
+            driver->update();
             xtime_get(&xt, TIME_UTC);
             xt.sec+=1;
             thread::sleep(xt);
@@ -74,7 +79,7 @@ public:
         thread::sleep(xt);
         while (channel2->isPlaying())
         {
-            FSOUND_Update();
+            driver->update();
             xtime_get(&xt, TIME_UTC);
             xt.sec+=1;
             thread::sleep(xt);

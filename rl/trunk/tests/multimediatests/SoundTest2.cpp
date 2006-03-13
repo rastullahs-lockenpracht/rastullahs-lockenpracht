@@ -6,7 +6,7 @@
  * Build the rl/engine/sound/src/OalppSoundInterfaceTest target from the Make Target view
  */
 
-#include "SoundPrerequisites.h"
+#include "MultimediaPrerequisites.h"
 #ifdef  _MSC_VER
 #define _USE_MATH_DEFINES
 #endif
@@ -17,9 +17,10 @@
 #include "SoundManager.h"
 #include "SoundResource.h"
 #include "Sound.h"
-#include "SoundSample.h"
-#include "SoundChannel.h"
+#include "SoundDriver.h"
+#include "MultimediaSubsystem.h"
 #include "ListenerMovable.h"
+#include "Logger.h"
 
 
 using namespace rl;
@@ -44,18 +45,23 @@ public:
 
     void test()
     {
+		MultimediaSubsystem *mm = MultimediaSubsystem::getSingletonPtr();
+		SoundDriver *driver = mm->getActiveDriver();
+		
         Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Starte Test #2");
-        SoundSample *sound1 = new SoundSample("ruchin001.ogg");
-        SoundChannel *channel1 = new SoundChannel(sound1, "musik");
-        SoundSample *sound2 = new SoundSample("lachen.ogg");
-        SoundChannel *channel2 = new SoundChannel(sound2, "bewegung");
-        channel1->set3d(false);
+        Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Using Driver " + driver->getName());
+
+        Sound *sound1 = driver->createSample("ruchin001.ogg");
+        SoundChannel *channel1 = driver->createChannel(sound1, "musik");
+        Sound *sound2 = driver->createSample("lachen.ogg");
+        SoundChannel *channel2 = driver->createChannel(sound2, "bewegung");
+        sound1->set3d(false);
         channel1->play();
         channel2->setLooping(true);
         channel2->play();
         Vector3 pos(-70.0f, 0.0f, 0.0f);
         channel2->setPosition(pos);
-        FSOUND_Update();
+        driver->update();
         xtime xt;
         xtime_get(&xt, TIME_UTC);
         xt.sec += 15;

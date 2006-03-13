@@ -21,6 +21,8 @@
 #include <Ogre.h>
 #include "Sound.h"
 #include "SoundChannel.h"
+#include "SoundDriver.h"
+#include "MultimediaSubsystem.h"
 
 using namespace Ogre;
 
@@ -34,8 +36,12 @@ namespace rl {
 SoundObject::SoundObject(Sound *sound, const Ogre::String &name)
     : ActorControlledObject()
 {
-    SoundChannel *sc = new SoundChannel(sound, name);
-    mMovableObject = dynamic_cast<MovableObject*>(sc);
+	SoundDriver *driver = MultimediaSubsystem::getSingleton().getActiveDriver();
+	if (driver != 0)
+	{
+    	SoundChannel *sc = driver->createChannel(sound, name);
+    	mMovableObject = dynamic_cast<MovableObject*>(sc);
+	}
 }
 
 /**

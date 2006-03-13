@@ -7,6 +7,7 @@ libRlCommon_la_SOURCES = \
   EventSource.cpp \
   GameTask.cpp \
   Logger.cpp \
+  ScriptWrapper.cpp \
   XmlHelper.cpp \
   XmlResource.cpp \
   XmlResourceManager.cpp   

@@ -12,7 +12,6 @@
 
 #include "Exception.h"
 #include "Logger.h"
-#include "ScriptObjectRepository.h"
 
 #include "CombatTest.h"
 #include "DateTest.h"

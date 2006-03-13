@@ -10,6 +10,7 @@ noinst_HEADERS =
 	GameTask.h \
 	Logger.h \
     RastullahPrerequisites.h \
+    ScriptWrapper.h \
 	Sleep.h \
 	Tripel.h \
 	XHelper.h \

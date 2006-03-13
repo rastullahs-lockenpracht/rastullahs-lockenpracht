@@ -6,10 +6,10 @@
 	AnimationListener.h \
 	AnimationManager.h \
 	CameraObject.h \
+	ContentModule.h \
 	CoreEvents.h \
 	CorePrerequisites.h \
 	CoreSubsystem.h \
-	DeletionPropagator.h \
 	DotSceneLoader.h \
 	DotSceneOctreeWorld.h \
 	GameAreaEvent.h \
@@ -31,7 +31,6 @@
     PhysicsMaterialRaycast.h \
 	Primitive.h \
 	RubyInterpreter.h \
-	ScriptObjectRepository.h \
 	SoundObject.h \
 	SoundPlaylist.h \
 	TrackAnimation.h \

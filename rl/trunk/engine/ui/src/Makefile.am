@@ -1,7 +1,7 @@
 INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(CEGUIOGRE_CFLAGS) \
 	$(STLPORT_CFLAGS) -I../include -I../../common/include  -I../../core/include \
 	-I../../rules/include -I../components/include -I../../dialog/include \
-	-I../../startup/include -I../../sound/include -I../../uicomponents/include 
+	-I../../startup/include -I../../multimedia/include -I../../uicomponents/include 
 
 lib_LTLIBRARIES = libRlUi.la
 libRlUi_la_LDFLAGS = $(RUBY_LIBS) $(LIBS) \
@@ -33,6 +33,7 @@ libRlUi_la_SOURCES = \
 	MainMenuWindow.cpp \
 	MessageWindow.cpp \
 	PlaylistWindow.cpp \
+	SoundConfig.cpp \
 	TargetSelectionWindow.cpp \
 	UiSubsystem.cpp \
 	VideoWindow.cpp \

@@ -25,12 +25,12 @@
 #include "LightObject.h"
 #include "SoundObject.h"
 #include "Sound.h"
-#include "SoundStream.h"
-#include "SoundSample.h"
 #include "ListenerMovable.h"
 #include "ListenerObject.h"
 #include "PhysicalThing.h"
 #include "ScriptWrapper.h"
+#include "MultimediaSubsystem.h"
+#include "SoundDriver.h"
 
 template<> rl::ActorManager* Singleton<rl::ActorManager>::ms_Singleton = 0;
 
@@ -176,11 +176,11 @@ namespace rl {
         Actor* actor = 0;
         try
         {
-            Sound* sm = new SoundSample(soundfile);
+            Sound* sm = MultimediaSubsystem::getSingleton().getActiveDriver()->createSample(soundfile);
             SoundObject* so = new SoundObject(sm, soundfile);
 
-            actor = new Actor(uniquename, so);
-            mActors.insert(ActorPtrPair(uniquename,actor)); 
+            actor = new Actor(uniquename, 0 /* TODO so */);
+            mActors.insert(ActorPtrPair(uniquename,actor));  
         }
         catch( Ogre::Exception& e)
         {
@@ -199,10 +199,10 @@ namespace rl {
         Actor* actor = 0;
         try
         {
-            Sound* sm = new SoundStream(soundfile);
+            Sound* sm = MultimediaSubsystem::getSingleton().getActiveDriver()->createStream(soundfile);
             SoundObject* so = new SoundObject(sm, soundfile);
 
-            actor = new Actor(uniquename, so);
+            actor = new Actor(uniquename, 0 /* TODO so */);
             mActors.insert(ActorPtrPair(uniquename,actor)); 
         }
         catch( Ogre::Exception& e)

@@ -21,9 +21,11 @@ noinst_HEADERS = \
 	InputManager.h \
 	InventoryWindow.h \
 	JournalWindow.h \
+	LogWindow.h \
 	MessageWindow.h \
 	LogWindow.h \
 	PlaylistWindow.h \
+	SoundConfig.h \
 	TargetSelectionWindow.h \
 	UiPrerequisites.h \
 	UiSubsystem.h \

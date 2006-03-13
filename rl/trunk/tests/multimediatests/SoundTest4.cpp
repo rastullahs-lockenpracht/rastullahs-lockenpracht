@@ -6,7 +6,7 @@
  * Build the rl/engine/sound/src/OalppSoundInterfaceTest target from the Make Target view
  */
 
-#include "SoundPrerequisites.h"
+#include "MultimediaPrerequisites.h"
 #ifdef  _MSC_VER
 #define _USE_MATH_DEFINES
 #endif
@@ -17,9 +17,10 @@
 #include "SoundManager.h"
 #include "SoundResource.h"
 #include "Sound.h"
-#include "SoundSample.h"
-#include "SoundChannel.h"
+#include "SoundDriver.h"
+#include "MultimediaSubsystem.h"
 #include "ListenerMovable.h"
+#include "Logger.h"
 
 
 using namespace rl;
@@ -44,14 +45,19 @@ public:
 
     void test()
     {
+		MultimediaSubsystem *mm = MultimediaSubsystem::getSingletonPtr();
+		SoundDriver *driver = mm->getActiveDriver();
+		
         Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Starte Test #4");
+        Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Using Driver " + driver->getName());
+
         ListenerMovable listener("Listener");
         listener.setActive();
         
         // Der Stereosound wird auf Mono gezwungen (hoffentlich!)
-        SoundSample *sound = new SoundSample("rain.ogg");
-        SoundChannel *channel = new SoundChannel(sound, "musik");
-        channel->set3d(true);
+        Sound *sound = driver->createSample("feuer_knisternd_01.ogg");
+        SoundChannel *channel = driver->createChannel(sound, "musik");
+        sound->set3d(true);
         channel->setLooping(true);
         channel->setPosition(Vector3(10, 10, 0));
         channel->play();
@@ -64,7 +70,7 @@ public:
                 float x = 10 * sinf(d);
                 float y = 20 * cosf(d);
                 listener.setPosition(Vector3(x, y, 0.0f));
-                FSOUND_Update();
+                driver->update();
                 
                 xtime xt;
                 xtime_get(&xt, TIME_UTC);

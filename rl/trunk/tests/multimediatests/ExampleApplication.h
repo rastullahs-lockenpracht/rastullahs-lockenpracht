@@ -158,7 +158,7 @@ namespace Ogre
 		virtual void chooseSceneManager(void)
 		{
 			// Get the SceneManager, in this case a generic one
-			mSceneMgr = mRoot->getSceneManager(ST_GENERIC);
+			mSceneMgr = mRoot->getSceneManager("Generic");
 		}
 		virtual void createCamera(void)
 		{

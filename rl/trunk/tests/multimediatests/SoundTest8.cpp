@@ -6,7 +6,7 @@
  * Build the rl/engine/sound/src/OalppSoundInterfaceTest target from the Make Target view
  */
 
-#include "SoundPrerequisites.h"
+#include "MultimediaPrerequisites.h"
 #ifdef  _MSC_VER
 #define _USE_MATH_DEFINES
 #endif
@@ -17,9 +17,10 @@
 #include "SoundManager.h"
 #include "SoundResource.h"
 #include "Sound.h"
-#include "SoundSample.h"
 #include "SoundChannel.h"
 #include "ListenerMovable.h"
+#include "Logger.h"
+#include "SoundDriver.h"
 
 
 using namespace rl;
@@ -44,7 +45,11 @@ public:
 
     void test()
     {
+		MultimediaSubsystem *mm = MultimediaSubsystem::getSingletonPtr();
+		SoundDriver *driver = mm->getActiveDriver();
+		
         Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Starte Test #8");
+        Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Using Driver " + driver->getName());
 
         Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Beende Test #8");
         CPPUNIT_ASSERT(true);

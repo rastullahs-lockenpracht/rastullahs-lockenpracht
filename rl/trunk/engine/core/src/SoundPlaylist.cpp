@@ -16,6 +16,7 @@
 
 #include "SoundPlaylist.h"
 #include "SoundObject.h"
+#include "SoundChannel.h"
 #include "GameLoop.h"
 
 namespace rl
@@ -34,7 +35,7 @@ void SoundPlaylist::run( Ogre::Real elapsedTime )
     bool destroy = false;
     if (!mQueue.empty())
     {
-        if (mQueue.front()->isPaused())
+        if (mQueue.front()->getSoundChannel()->isPaused())
         {
             delete mQueue.front();
             mQueue.pop();
