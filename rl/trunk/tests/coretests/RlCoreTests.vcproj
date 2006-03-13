@@ -36,7 +36,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\engine\script\include;..\..\engine\ui\include;..\..\engine\uicomponents\include;..\..\engine\dialog\include;..\..\engine\sound\include;..\..\engine\common\include;..\..\engine\core\include;..\..\engine\rules\include;..\..\dependencies\cppunit\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogrenewt\inc;..\..\dependencies\xerces\include;..\..\dependencies\newtonsdk\sdk"
+				AdditionalIncludeDirectories="..\..\engine\script\include;..\..\engine\ui\include;..\..\engine\uicomponents\include;..\..\engine\dialog\include;..\..\engine\multimedia\include;..\..\engine\common\include;..\..\engine\core\include;..\..\engine\rules\include;..\..\dependencies\cppunit\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogrenewt\inc;..\..\dependencies\xerces\include;..\..\dependencies\newtonsdk\sdk"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -102,7 +102,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\engine\script\include;..\..\engine\ui\include;..\..\engine\uicomponents\include;..\..\engine\dialog\include;..\..\engine\sound\include;..\..\engine\common\include;..\..\engine\core\include;..\..\engine\rules\include;..\..\dependencies\cppunit\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogrenewt\inc;..\..\dependencies\xerces\include;..\..\dependencies\newtonsdk\sdk"
+				AdditionalIncludeDirectories="..\..\engine\script\include;..\..\engine\ui\include;..\..\engine\uicomponents\include;..\..\engine\dialog\include;..\..\engine\multimedia\include;..\..\engine\common\include;..\..\engine\core\include;..\..\engine\rules\include;..\..\dependencies\cppunit\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogrenewt\inc;..\..\dependencies\xerces\include;..\..\dependencies\newtonsdk\sdk"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

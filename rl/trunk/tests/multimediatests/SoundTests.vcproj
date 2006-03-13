@@ -38,7 +38,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\engine\sound\include;..\..\engine\common\include;..\..\engine\core\include;..\..\dependencies\ogrenew\ogremain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\cppunit\include;..\..\dependencies\fmod\api\inc"
+				AdditionalIncludeDirectories="..\..\engine\multimedia\include;..\..\engine\common\include;..\..\engine\core\include;..\..\dependencies\ogrenew\ogremain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\cppunit\include;..\..\dependencies\fmod\api\inc"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				RuntimeLibrary="3"
 			/>
@@ -106,7 +106,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\engine\sound\include;..\..\engine\common\include;..\..\engine\core\include;..\..\dependencies\ogrenew\ogremain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\cppunit\include;..\..\dependencies\fmod\api\inc"
+				AdditionalIncludeDirectories="..\..\engine\multimedia\include;..\..\engine\common\include;..\..\engine\core\include;..\..\dependencies\ogrenew\ogremain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\cppunit\include;..\..\dependencies\fmod\api\inc"
 				RuntimeLibrary="2"
 			/>
 			<Tool
