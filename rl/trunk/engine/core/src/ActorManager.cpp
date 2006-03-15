@@ -178,8 +178,7 @@ namespace rl {
         {
             Sound* sm = MultimediaSubsystem::getSingleton().getActiveDriver()->createSample(soundfile);
             SoundObject* so = new SoundObject(sm, soundfile);
-
-            actor = new Actor(uniquename, 0 /* TODO so */);
+            actor = new Actor(uniquename, so);
             mActors.insert(ActorPtrPair(uniquename,actor));  
         }
         catch( Ogre::Exception& e)
@@ -202,7 +201,7 @@ namespace rl {
             Sound* sm = MultimediaSubsystem::getSingleton().getActiveDriver()->createStream(soundfile);
             SoundObject* so = new SoundObject(sm, soundfile);
 
-            actor = new Actor(uniquename, 0 /* TODO so */);
+            actor = new Actor(uniquename, so);
             mActors.insert(ActorPtrPair(uniquename,actor)); 
         }
         catch( Ogre::Exception& e)

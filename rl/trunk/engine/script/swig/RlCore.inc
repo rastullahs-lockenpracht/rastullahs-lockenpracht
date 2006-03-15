@@ -434,6 +434,22 @@ class SoundObject : public ActorControlledObject
 public:
 	void play( );
 	rl::SoundChannel* getSoundChannel() const;
+	bool is3d() const;
+	void set3d( bool is3d );
+
+    /// Gibt zurück ob der Sound geloopt werden soll 
+    bool isLooping() const;
+    /// Setzt ob der Sound geloopt werden soll 
+    void setLooping( bool looping );
+    /// Pausiert den Sound.
+    void pause(bool pausing);
+    /// Ist der Sound pausiert?
+    bool isPaused();
+    /// Stoppt den Sound.
+    void stop();
+	/// Setzt die Lautstaerke (1.0 = volle Lautstärke)
+	void setVolume(float volume = 1.0);
+	
 };
 
 class ParticleSystemObject : public ActorControlledObject

@@ -49,6 +49,14 @@ namespace rl
 			"/modules/common/conf/plugins-linux.cfg";
 		mRastullahCfgPath = findRastullahConf( "rastullah_ogre.cfg" );
 		mRastullahSystemCfgPath = findRastullahConf( "rastullah_system.cfg" );
+        if (!checkForFile(mRastullahSystemCfgPath))
+        {
+            string filename = mModulesRootDirectory + "/modules/common/conf/rastullah_system.cfg";
+            if (checkForFile(filename))
+            {
+                mRastullahSystemCfgPath = filename;
+            }
+        }
 		mOgreLogPath = mModulesRootDirectory+"/logs/ogre.log";
 		mRastullahLogPath = mModulesRootDirectory+"/logs/rastullah.log";
 		mModulesCfgPath = mModulesRootDirectory + "/modules/modules.cfg";
@@ -98,7 +106,7 @@ namespace rl
     		while(getline(file, line))
     		{
     			if(line.length() > 0)
-    			{
+    			{http://www.userfriendly.org/
     				file.close();
     				return line;
     			}

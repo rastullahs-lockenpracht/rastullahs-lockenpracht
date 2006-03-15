@@ -59,7 +59,7 @@ public:
         channel1->play();
         channel2->setLooping(true);
         channel2->play();
-        Vector3 pos(-70.0f, 0.0f, 0.0f);
+        Vector3 pos(-50.0f, 0.0f, 0.0f);
         channel2->setPosition(pos);
         driver->update();
         xtime xt;
@@ -81,4 +81,4 @@ public:
     CPPUNIT_TEST(test);
     CPPUNIT_TEST_SUITE_END();
 };
-CPPUNIT_TEST_SUITE_REGISTRATION(SoundTest2);
+//CPPUNIT_TEST_SUITE_REGISTRATION(SoundTest2);

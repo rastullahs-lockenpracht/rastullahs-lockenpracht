@@ -23,6 +23,7 @@
 #include "ContentModule.h"
 
 #include "MainMenuWindow.h"
+#include "SoundConfig.h"
 
 using namespace CEGUI;
 using namespace Ogre;
@@ -46,6 +47,10 @@ namespace rl {
 		getWindow("MainMenu/Game/Quit")->subscribeEvent(
 			MenuItem::EventClicked, 
 			boost::bind(&MainMenuWindow::handleQuit, this));
+            
+        getWindow("MainMenu/Options/Sound")->subscribeEvent(
+            MenuItem::EventClicked,
+            boost::bind(&MainMenuWindow::handleSoundOptions, this));
 		
 		fillModules();
 	}
@@ -129,6 +134,7 @@ namespace rl {
 	
 	bool MainMenuWindow::handleSoundOptions()
 	{
+        new SoundConfig();
 		return true;
 	}
 }
