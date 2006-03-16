@@ -19,11 +19,6 @@
 
 #include "CeGuiWindow.h"
 
-namespace CEGUI
-{
-    class Listbox;
-}
-
 namespace rl
 {
 
