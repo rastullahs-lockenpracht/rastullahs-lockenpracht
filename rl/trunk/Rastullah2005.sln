@@ -5,6 +5,7 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RlCore", "engine\core\RlCore2005.vcproj", "{0935F495-4540-40E3-AC8F-AA54C85DC5B2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D3185FC6-9384-431A-A237-80284F859B21} = {D3185FC6-9384-431A-A237-80284F859B21}
+		{895EED4D-7308-4A03-9D79-CC59EB867FE8} = {895EED4D-7308-4A03-9D79-CC59EB867FE8}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RlDialog", "engine\dialog\RlDialog2005.vcproj", "{6361481B-A6D5-4BC2-826C-C26A49C631A8}"
@@ -52,6 +53,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RlUIComponents", "engine\uicomponents\RlUIComponents2005.vcproj", "{ED15F1B3-8B3B-40D1-8F56-5399B2E5E851}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RlMultimedia", "engine\multimedia\RlMultimedia2005.vcproj", "{895EED4D-7308-4A03-9D79-CC59EB867FE8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D3185FC6-9384-431A-A237-80284F859B21} = {D3185FC6-9384-431A-A237-80284F859B21}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
