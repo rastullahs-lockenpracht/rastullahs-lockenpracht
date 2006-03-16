@@ -85,7 +85,7 @@ public class PropertyManager {
 
 	}
 
-	public void changeOgredir() {
+	public boolean changeOgredir() {
 
 		JFileChooser ogretools = new JFileChooser();
 		ogretools.setFileFilter(new FileFilter() {
@@ -103,8 +103,9 @@ public class PropertyManager {
 		int returnVal = ogretools.showOpenDialog(new JDialog());
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			ogredir = ogretools.getSelectedFile().getAbsolutePath();
+		return true;
 		}
-
+		else return false;
 	}
 
 	private void write() {
