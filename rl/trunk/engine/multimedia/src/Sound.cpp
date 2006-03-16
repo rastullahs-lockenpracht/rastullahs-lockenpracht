@@ -47,7 +47,6 @@ Sound::~Sound()
 }
 
 
-
 /**
  * @author JoSch
  * @date 03-11-2005
@@ -107,5 +106,13 @@ const SoundResourcePtr &Sound::getSoundResource() const
 {
     return mSoundResource;
 }
+
+/**
+ * @FIXME: destroy sound pointer
+ */
+void SoundPtr::destroy()
+{
+}
+
 
 };
