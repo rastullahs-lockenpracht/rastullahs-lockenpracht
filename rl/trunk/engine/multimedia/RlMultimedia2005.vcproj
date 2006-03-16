@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="RlMultimedia"
 	ProjectGUID="{895EED4D-7308-4A03-9D79-CC59EB867FE8}"
+	RootNamespace="RlMultimedia"
 	>
 	<Platforms>
 		<Platform
@@ -17,7 +18,7 @@
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
+			ConfigurationType="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -36,7 +37,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\xerces\include;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\TheoraVideo\include;.\include\fmod3;.\include\null;.\include\openal;..\..\dependencies\theora\include;..\..\dependencies\boost\include;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include;&quot;..\..\dependencies\ptypes-1.8.3\include&quot;"
+				Optimization="0"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\rules\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\cegui_mk2\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\xerces\include;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\TheoraVideo\include;.\include\fmod3;.\include\null;.\include\openal;..\..\dependencies\theora\include;..\..\dependencies\boost\include;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include;&quot;..\..\dependencies\ptypes-1.8.3\include&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include"
 				PreprocessorDefinitions="WITH_FMOD3;WIN32;_DEBUG;_WINDOWS;_USRDLL;RLMULTIMEDIA_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="3"
 			/>
@@ -51,6 +53,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="RlCommon.lib OgreMain_d.lib ceguibase_d.lib fmodvc.lib  Plugin_TheoraVideoSystem.lib OgreGUIRenderer_d.lib"
+				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;..\..\dependencies\boost\lib;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\fmod\api\lib;&quot;..\..\dependencies\TheoraVideo\bin\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -83,7 +87,7 @@
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
+			ConfigurationType="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -102,7 +106,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\xerces\include;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\TheoraVideo\include;.\include\fmod3;.\include\null;.\include\openal;..\..\dependencies\theora\include;..\..\dependencies\boost\include;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include;&quot;..\..\dependencies\ptypes-1.8.3\include&quot;"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\rules\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\cegui_mk2\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\xerces\include;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\TheoraVideo\include;.\include\fmod3;.\include\null;.\include\openal;..\..\dependencies\theora\include;..\..\dependencies\boost\include;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include;&quot;..\..\dependencies\ptypes-1.8.3\include&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include"
 				PreprocessorDefinitions="WITH_FMOD3;WIN32;NDEBUG;_WINDOWS;_USRDLL;RLMULTIMEDIA_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="2"
 			/>
@@ -117,6 +121,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="RlCommon.lib OgreMain.lib ceguibase.lib fmodvc.lib  Plugin_TheoraVideoSystem.lib OgreGUIRenderer.lib"
+				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;..\..\dependencies\boost\lib;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\fmod\api\lib;&quot;..\..\dependencies\TheoraVideo\bin\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -155,59 +161,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\src\fmod3\Fmod3Driver.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\fmod3\Fmod3SoundChannel.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\fmod3\Fmod3SoundSample.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\fmod3\Fmod3SoundStream.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\ListenerMovable.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\src\MultimediaSubsystem.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\null\NullDriver.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\null\NullSoundChannel.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\null\NullSoundSample.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\null\NullSoundStream.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\openal\OalDriver.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\openal\OalSoundChannel.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\openal\OalSoundSample.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\openal\OalSoundStream.cpp"
 				>
 			</File>
 			<File
@@ -246,32 +204,72 @@
 				RelativePath=".\src\VideoEvents.cpp"
 				>
 			</File>
+			<Filter
+				Name="Fmod3Driver"
+				>
+				<File
+					RelativePath=".\src\fmod3\Fmod3Driver.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\fmod3\Fmod3SoundChannel.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\fmod3\Fmod3SoundSample.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\fmod3\Fmod3SoundStream.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="OpenALDriver"
+				>
+				<File
+					RelativePath=".\src\openal\OalDriver.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\openal\OalSoundChannel.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\openal\OalSoundSample.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\openal\OalSoundStream.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="NullDriver"
+				>
+				<File
+					RelativePath=".\src\null\NullDriver.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\null\NullSoundChannel.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\null\NullSoundSample.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\null\NullSoundStream.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath=".\include\fmod3\Fmod3Driver.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\fmod3\Fmod3Sound.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\fmod3\Fmod3SoundChannel.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\fmod3\Fmod3SoundSample.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\fmod3\Fmod3SoundStream.h"
-				>
-			</File>
 			<File
 				RelativePath=".\include\ListenerMovable.h"
 				>
@@ -282,38 +280,6 @@
 			</File>
 			<File
 				RelativePath=".\include\MultimediaSubsystem.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\null\NullDriver.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\null\NullSoundChannel.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\null\NullSoundSample.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\null\NullSoundStream.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\openal\OalDriver.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\openal\OalSoundChannel.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\openal\OalSoundSample.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\openal\OalSoundStream.h"
 				>
 			</File>
 			<File
@@ -352,6 +318,70 @@
 				RelativePath=".\include\VideoEvents.h"
 				>
 			</File>
+			<Filter
+				Name="Fmod3Driver"
+				>
+				<File
+					RelativePath=".\include\fmod3\Fmod3Driver.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\fmod3\Fmod3Sound.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\fmod3\Fmod3SoundChannel.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\fmod3\Fmod3SoundSample.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\fmod3\Fmod3SoundStream.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="OpenALDriver"
+				>
+				<File
+					RelativePath=".\include\openal\OalDriver.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\openal\OalSoundChannel.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\openal\OalSoundSample.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\openal\OalSoundStream.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="NullDriver"
+				>
+				<File
+					RelativePath=".\include\null\NullDriver.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\null\NullSoundChannel.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\null\NullSoundSample.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\null\NullSoundStream.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"
