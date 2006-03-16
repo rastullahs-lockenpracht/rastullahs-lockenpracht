@@ -370,64 +370,6 @@ public:
     void setCastShadows( bool cast );
 };
 
-class SoundChannel  : public Ogre::MovableObject
-{
-public:
-	SoundChannel(Sound *sound, const Ogre::String &name);
-	virtual ~SoundChannel();
-    
-    /// Name zurückgeben
-    const Ogre::String& getName() const;
-    /// Kamera informieren
-    virtual void _notifyCurrentCamera(Ogre::Camera *cam);
-    /// Unsere Bounding-Box
-    virtual const Ogre::AxisAlignedBox& getBoundingBox(void) const;
-    /// Bound-Radius
-    virtual Ogre::Real getBoundingRadius() const;
-    /// Rendern
-    virtual void _updateRenderQueue(Ogre::RenderQueue *queue);
-
-
-    /// Gibt die eingestellte Position der Soundquelle zurueck
-    virtual const Ogre::Vector3 getPosition() const = 0;
-    /// Setzt die Position der Soundquelle.
-    virtual void setPosition(const Ogre::Vector3& direction) = 0;
-    /// Gibt die eingestellte relative Lautstaerke der Soundquelle zurueck
-    virtual const int getGain() const = 0; 
-    /// Setzt die relative Lautstaerke der Soundquelle.
-    virtual void setGain(const int gain) = 0;
-    /// Gibt die Richtung der Soundquelle zurueck.
-    virtual const Ogre::Vector3 getDirection() const = 0;
-    /// Gibt die Geschwindigkeit der Soundquelle zurueck.
-    virtual const Ogre::Vector3 getVelocity() const = 0;
-    /// Setzt die Richtung der Soundquelle.
-    virtual void setDirection(const Ogre::Vector3&) = 0;
-    /// Setzt die Geschwindigkeit der Soundquelle.
-    virtual void setVelocity(const Ogre::Vector3&) = 0;
-
-    /// Spielt den Sound ab.
-    virtual void play() = 0;
-    /// Pausiert den Sound.
-    virtual void pause(bool pausing) = 0;
-    /// Ist der Sound pausiert?
-    virtual bool isPaused() = 0;
-    /// Stoppt den Sound.
-    virtual void stop() = 0;
-    /// Zurueck auf Anfang.
-//        virtual void rewind() = 0;
-    /// Laeuft der Sound noch
-    virtual const bool isPlaying() const = 0;
-
-    /// Gibt zurück ob der Sound geloopt werden soll 
-    bool isLooping() const;
-    /// Setzt ob der Sound geloopt werden soll 
-    void setLooping( bool looping );
-    
-    // Sind wir gueltig
-    virtual bool isValid() const;
-
-
-};
 
 class SoundObject : public ActorControlledObject
 {

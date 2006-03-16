@@ -270,15 +270,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\swig\RlMultimedia.head.inc"
+					>
+				</File>
+				<File
 					RelativePath=".\swig\RlRules.head.inc"
 					>
 				</File>
 				<File
 					RelativePath=".\swig\RlScript.head.inc"
-					>
-				</File>
-				<File
-					RelativePath=".\swig\RlSound.head.inc"
 					>
 				</File>
 				<File
@@ -302,15 +302,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\swig\RlMultimedia.inc"
+					>
+				</File>
+				<File
 					RelativePath=".\swig\RlRules.inc"
 					>
 				</File>
 				<File
 					RelativePath=".\swig\RlScript.inc"
-					>
-				</File>
-				<File
-					RelativePath=".\swig\RlSound.inc"
 					>
 				</File>
 				<File

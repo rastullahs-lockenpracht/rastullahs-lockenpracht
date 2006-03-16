@@ -19,6 +19,7 @@
 #include "FixRubyHeaders.h"
 #include "MultimediaPrerequisites.h"
 #include "MultimediaSubsystem.h"
+#include "Sound.h"
 #undef message
 #undef send
 #include "VideoEvents.h"

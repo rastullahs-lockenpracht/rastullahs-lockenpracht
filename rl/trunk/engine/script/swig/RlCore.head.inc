@@ -22,7 +22,6 @@
 #include "Actor.h"
 #include "MeshObject.h"
 #include "SoundObject.h"
-#include "Sound.h"
 #include "ListenerObject.h"
 #include "ListenerMovable.h"
 #include "CameraObject.h"
