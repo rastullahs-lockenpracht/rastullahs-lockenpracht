@@ -50,6 +50,6 @@ trackAnim.addKeyFrame( 4.0 );
 trackAnim.setKeyFrameTranslation( 4.0, -10.03609657, 12.18200302, -17.48200226 );
 trackAnim.setKeyFrameRotationQuaternion( 4.0, 0.706683, 0.000000, 0.707531, 0.000000 );
 trackAnim.setInterpolationMode( AnimationManager::IM_SPLINE );
-
+trackAnim.setDelay( 1.0 );
 trackAnim.setSpeed( 0.25 );
 trackAnim.setPaused( false );
