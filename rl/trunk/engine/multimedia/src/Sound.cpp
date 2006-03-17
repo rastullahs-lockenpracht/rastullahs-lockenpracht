@@ -32,12 +32,20 @@ namespace rl
 
 Sound::Sound(const String& name)
  : mName(name),
+   mIsLooping(false),
+   mIs3d(false),
+   mTime(0.0),
+   mTicks(0),
    mSoundResource(SoundManager::getSingleton().getByName(name))
 {
 }
 
 Sound::Sound(const SoundResourcePtr &soundres)
  : mSoundResource(soundres),
+   mIsLooping(false),
+   mIs3d(false),
+   mTime(0.0),
+   mTicks(0),
    mName(soundres->getName()) 
 {
 }

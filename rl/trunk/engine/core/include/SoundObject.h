@@ -70,6 +70,9 @@ namespace rl {
 		/// Setzt die Lautstaerke (1.0 = volle Lautstärke)
 		void setVolume(float volume = 1.0);
 
+		/// Lädt den Ton
+		void load();
+
 		virtual bool isMeshObject();
     };
 }

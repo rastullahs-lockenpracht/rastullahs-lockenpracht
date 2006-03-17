@@ -152,6 +152,12 @@ void SoundObject::set3d( bool is3d )
 {
 	getSoundChannel()->set3d(is3d);
 }
+
+void SoundObject::load()
+{
+	getSoundChannel()->load();
+}
+
 /**
  * @param Der bewegbare Sound
  * @author JoSch

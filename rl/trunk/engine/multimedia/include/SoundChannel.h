@@ -86,6 +86,9 @@ public:
     /// Laeuft der Sound noch
     virtual const bool isPlaying() const = 0;
 
+	/// Laedt den Sound.
+    virtual void load() throw (RuntimeException);
+
     /// Gibt zurück ob der Sound geloopt werden soll 
     bool isLooping() const;
     /// Setzt ob der Sound geloopt werden soll 

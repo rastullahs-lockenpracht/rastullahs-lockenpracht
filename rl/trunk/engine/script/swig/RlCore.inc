@@ -376,6 +376,8 @@ class SoundObject : public ActorControlledObject
 public:
 	void play( );
 	rl::SoundChannel* getSoundChannel() const;
+
+	void load();
 	bool is3d() const;
 	void set3d( bool is3d );
 
