@@ -2,8 +2,8 @@
     <Window Type="DefaultGUISheet" Name="CharacterStateWindow">
         <Property Name="VerticalAlignment" Value="Bottom" />
 	    <Property Name="HorizontalAlignment" Value="Left" />
-        <Property Name="UnifiedPosition" Value="{{0,-5},{0,-8}}" />
-        <Property Name="AbsoluteSize" Value="w:100 h:100" />
+        <Property Name="UnifiedPosition" Value="{{0,-10},{0,-10}}" />
+        <Property Name="AbsoluteSize" Value="w:104 h:104" />
 
         <Window Type="RastullahLook/StaticText" Name="CharacterStateWindow/Name">
             <Property Name="AbsolutePosition" Value="x:10 y:10"/>
