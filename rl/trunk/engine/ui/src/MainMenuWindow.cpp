@@ -22,6 +22,7 @@
 #include "ConfigurationManager.h"
 #include "ContentModule.h"
 
+#include "MainMenuEngineWindow.h"
 #include "MainMenuWindow.h"
 #include "SoundConfig.h"
 
@@ -30,16 +31,11 @@ using namespace Ogre;
 
 namespace rl {
 
-	MainMenuWindow::MainMenuWindow() :
-		CeGuiWindow("mainmenuwindow.xml", WND_MOUSE_INPUT, true),
-		mActiveModule(NULL)
+	MainMenuWindow::MainMenuWindow(MainMenuEngineWindow* enginewindow) :
+		CeGuiWindow("mainmenuwindow.xml", WND_MOUSE_INPUT, false, false),
+		mActiveModule(NULL),
+		mEngineWindow(enginewindow)
 	{
-
-		getWindow("MainMenu/EngineVersion")->setText(
-			ConfigurationManager::getSingleton().getEngineVersionString()+
-			" ("+StringConverter::toString(ConfigurationManager::getSingleton().getEngineBuildNumber())+")");
-
-
 		getWindow("MainMenu/Game/Start")->subscribeEvent(
 			MenuItem::EventClicked, 
 			boost::bind(&MainMenuWindow::handleStart, this));
@@ -131,10 +127,18 @@ namespace rl {
 	{
 		return true;
 	}
+
+	void MainMenuWindow::setVisible(bool visible)
+	{
+		CeGuiWindow::setVisible(visible);
+		mEngineWindow->setVisible(visible);
+	}
 	
 	bool MainMenuWindow::handleSoundOptions()
 	{
-        new SoundConfig();
+        (new SoundConfig())->setVisible(true);
 		return true;
 	}
+
+	
 }

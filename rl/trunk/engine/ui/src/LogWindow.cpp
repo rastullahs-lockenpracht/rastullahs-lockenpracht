@@ -23,7 +23,7 @@
 namespace rl
 {
 	LogWindow::LogWindow()
-		: CeGuiWindow("logwindow.xml", WND_MOUSE_INPUT, false)
+		: CeGuiWindow("logwindow.xml", WND_MOUSE_INPUT)
 	{
 		mRastullahLog = getMultiLineEditbox("LogWindow/RastullahLog/Text");
 		mOgreLog = getMultiLineEditbox("LogWindow/OgreLog/Text");

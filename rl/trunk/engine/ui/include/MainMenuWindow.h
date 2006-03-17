@@ -23,13 +23,15 @@
 namespace rl {
 	
 	class ContentModule;
+	class MainMenuEngineWindow;
 
 	class _RlUiExport MainMenuWindow : public CeGuiWindow
 	{
 	public:
-		MainMenuWindow();
+		MainMenuWindow(MainMenuEngineWindow* enginewindow);
 
 		void setActiveModule(const CeGuiString& module);
+		void setVisible(bool visible);
 
 	private:
 		bool handleChooseModule(CEGUI::MenuItem* it, ContentModule* module);
@@ -42,6 +44,7 @@ namespace rl {
 		void fillModules();
 		
 		ContentModule* mActiveModule;
+		MainMenuEngineWindow* mEngineWindow;
 	};
 }
 

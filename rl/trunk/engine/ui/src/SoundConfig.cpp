@@ -56,9 +56,7 @@ SoundConfig::SoundConfig()
         CeGuiString name = (*it)->getName();
         mListbox->addItem(new ListboxTextItem(name));
     }
-    centerWindow();
-    //addToRoot(mWindow); 
-    setVisible(true);
+    centerWindow();    
 }
 
 SoundConfig::~SoundConfig()

@@ -30,7 +30,7 @@ using namespace Ogre;
 namespace rl {
 
 CharacterStateWindow::CharacterStateWindow()
-: CeGuiWindow("characterstatewindow.xml", WND_SHOW),
+: CeGuiWindow("characterstatewindow.xml", WND_SHOW, false),
 	mCharacter(NULL)
 {
 	mLP = getProgressBar("CharacterStateWindow/LP");

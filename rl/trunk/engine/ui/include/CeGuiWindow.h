@@ -60,13 +60,19 @@ namespace rl {
         virtual void setVisible(bool visible);
 
 		bool isModal();
+		bool isClosingOnEscape();
 
 		const CeGuiString& getName() const;
 
 		virtual ~CeGuiWindow();	
 
 	protected:
-		CeGuiWindow(const CeGuiString& xmlfile, WindowType type, bool modal = false);
+		CeGuiWindow(
+			const CeGuiString& xmlfile, 
+			WindowType type, 
+			bool closeOnEscape = true,
+			bool modal = false);
+
 		const CeGuiString& getNamePrefix() const;
 		
 		void show();
@@ -93,6 +99,7 @@ namespace rl {
 		CeGuiString mNamePrefix;
 		CeGuiString mName;
 		bool mModal;
+		bool mCloseOnEscape;
 
 		static int sNumCeGuiWindows;
 

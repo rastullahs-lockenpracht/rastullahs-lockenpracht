@@ -44,16 +44,20 @@ namespace rl {
 		return true;
 	}
 
-	CeGuiWindow* WindowManager::getTopWindow()
+	void WindowManager::closeTopWindow()
 	{
 		for(std::list<CeGuiWindow*>::iterator it = mWindowList.begin(); it != mWindowList.end(); it++)
 		{
 			CeGuiWindow* cur = *it;
-			if (cur->isVisible())
-				return cur;
+			if (cur->isVisible() && cur->isClosingOnEscape())
+			{
+				cur->setVisible(false);
+				break;
+			}
 		}
-		return NULL;
 	}
+
+
 
 	bool WindowManager::handleMovedToFront(CeGuiWindow* window)
 	{

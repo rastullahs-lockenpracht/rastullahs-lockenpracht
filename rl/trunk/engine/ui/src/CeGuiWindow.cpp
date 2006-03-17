@@ -32,10 +32,11 @@ namespace rl
 
 int CeGuiWindow::sNumCeGuiWindows = 0;
 
-CeGuiWindow::CeGuiWindow(const CeGuiString& xmlfile, WindowType type, bool modal)
+CeGuiWindow::CeGuiWindow(const CeGuiString& xmlfile, WindowType type, bool closeOnEscape, bool modal)
 : mVisible(false),
 	mModal(modal),
-	mWindowType(type)
+	mWindowType(type),
+	mCloseOnEscape(closeOnEscape)
 {
 	Logger::getSingleton().log(Logger::UI, 
 		LML_TRIVIAL, "Lade Fenster '"+Ogre::String(xmlfile.c_str())+"'");
@@ -112,6 +113,11 @@ void CeGuiWindow::setVisible(bool visible)
 bool CeGuiWindow::isModal()
 {
 	return mModal;
+}
+
+bool CeGuiWindow::isClosingOnEscape()
+{
+	return mCloseOnEscape;
 }
 
 void CeGuiWindow::show()

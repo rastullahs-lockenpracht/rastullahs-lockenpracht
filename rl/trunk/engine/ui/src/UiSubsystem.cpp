@@ -33,6 +33,7 @@
 #include "CommandMapperWindow.h"
 #include "MessageWindow.h"
 #include "MainMenuWindow.h"
+#include "MainMenuEngineWindow.h"
 #include "GameLoggerWindow.h"
 #include "TargetSelectionWindow.h"
 #include "CharacterStateWindow.h"
@@ -248,12 +249,7 @@ namespace rl {
 
 	void UiSubsystem::closeCurrentWindow()
 	{
-		CeGuiWindow* wnd = rl::WindowManager::getSingleton().getTopWindow();
-		if (wnd != NULL && !wnd->isModal())
-		{
-			wnd->setVisible(false);
-			rl::WindowManager::getSingleton().handleMovedToBack(wnd);
-		}
+		rl::WindowManager::getSingleton().closeTopWindow();
 	}
 
 	void UiSubsystem::showCharacterActionChoice()
@@ -292,7 +288,7 @@ namespace rl {
 
 	void UiSubsystem::showMainMenu()
 	{
-		(new MainMenuWindow())->setVisible(true);
+		(new MainMenuWindow(new MainMenuEngineWindow()))->setVisible(true);
 	}
 
 	void UiSubsystem::showTargetWindow()

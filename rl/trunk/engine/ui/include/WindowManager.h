@@ -34,7 +34,7 @@ namespace rl {
 
 		void registerWindow(CeGuiWindow* window);
 		bool destroyWindow(CeGuiWindow* window);
-		CeGuiWindow* getTopWindow();
+		void closeTopWindow();
 		bool handleMovedToFront(CeGuiWindow* window);
 		bool handleMovedToBack(CeGuiWindow* window);
 		
