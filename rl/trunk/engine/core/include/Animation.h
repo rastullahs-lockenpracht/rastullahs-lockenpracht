@@ -46,8 +46,10 @@ class _RlCoreExport Animation : public virtual EventSource
 						Geschwindigkeit beginnt sie mit dem letzten Frame. Konstruktor
 						sollte nicht direkt aufgerufen werden, sondern vom AnimationManager.
 		*/
-        Animation(Ogre::AnimationState* animState, MeshObject* mesh, Ogre::Real speed=1.0,
-            unsigned int timesToPlay=0);
+        Animation(Ogre::AnimationState* animState, 
+				MeshObject* mesh, 
+				Ogre::Real speed=1.0,
+				unsigned int timesToPlay=0 );
 		/**	Ein Konstruktor, für eine später festlegbare Animation
 		@remarks	Dieser Konstruktor ist für Unterklassen. Konstruktor
 					sollte nicht direkt aufgerufen werden, sondern vom AnimationManager.
@@ -105,6 +107,12 @@ class _RlCoreExport Animation : public virtual EventSource
 		/// Gibt die Abspieldauer zurück (intern)
 		Ogre::Real getTimePlayed() const;
 
+		/** Setzt das Delay vor dem ersten Abspielen der Animation.
+		    @param delay Die Verzögerung in Sekunden  */
+		void setDelay( Ogre::Real delay );
+		/// Gibt die Verzögerung vor dem Ersten Abspielen in Sekunden zurück.
+		Ogre::Real getDelay() const;
+
 		/// Gibt das Gewicht der Animation zurück
 		Ogre::Real getWeight(void) const;
 		/** Setzt das Gewicht (Einfluss) der Animation
@@ -153,6 +161,9 @@ class _RlCoreExport Animation : public virtual EventSource
         /// Das MeshObject
         MeshObject* mMeshObject;
 
+
+		/// Ein Delay vor dem ersten Abspielen
+		Ogre::Real mDelay;
 		/// Pause
         bool mPaused;
 		/// Ignoriert die globale Geschwindigkeit

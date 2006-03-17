@@ -33,13 +33,11 @@ TrackAnimation::TrackAnimation( const Ogre::String& name, Actor *act, Ogre::Real
 	try
 	{
 		// Gibt es die Animation schon?
-		if( mgr->getAnimation( name ) != NULL )
-			Throw(RuntimeException, "Eine Animation mit dem Namen '"+name+"' war schon vorhanden." );
+		mAnimation = mgr->createAnimation(name, length );
 	}
-	catch( Ogre::Exception& ) { }
-
+	catch( Ogre::Exception& ) { Throw(RuntimeException, "Eine Animation mit dem Namen '"+name+"' war schon vorhanden." ); }
+	
 	act->_getSceneNode()->setInitialState();
-	mAnimation = mgr->createAnimation(name, length );	
 	mAnimationTrack = mAnimation->createNodeTrack(0, act->_getSceneNode() );
 	this->setAnimationState( mgr->createAnimationState(name) );
 }

@@ -25,8 +25,7 @@
 namespace rl {
 
 Animation::Animation( Ogre::AnimationState* animState, MeshObject* mesh,
-                     Ogre::Real speed, unsigned int timesToPlay 
-                     ) :
+                     Ogre::Real speed, unsigned int timesToPlay ) :
 	EventSource(), 
 	mAnimationFrameListener(),
 	mAnimationCaster()
@@ -37,6 +36,7 @@ Animation::Animation( Ogre::AnimationState* animState, MeshObject* mesh,
 	mTimePlayed = 0;
 	mSpeed = speed;
     mMeshObject = mesh;
+	mDelay = 0.0;
 
 	this->setAnimationState(animState);
 }
@@ -51,6 +51,7 @@ Animation::Animation( ) :
 	mTimesToPlay = 0;
 	mTimePlayed = 0;
 	mSpeed = 1.0;
+	mDelay = 0.0;
 }
 
 Animation::~Animation()
@@ -177,6 +178,16 @@ void Animation::setWeight(Ogre::Real weight)
 	mAnimState->setWeight(weight);
 }
 
+void Animation::setDelay( Ogre::Real delay )
+{
+	mDelay = delay;
+}
+
+Ogre::Real Animation::getDelay() const
+{
+	return mDelay;
+}
+
 
 void Animation::addAnimationListener(AnimationListener *listener)
 {
@@ -278,6 +289,19 @@ void Animation::addTime( Ogre::Real timePassed )
 {
 	if( !mPaused )
 	{
+		if( mDelay > 0.0 )
+		{
+			mDelay -= timePassed;
+			
+			if( mDelay > 0.0 )
+				return;
+			else
+			{
+				timePassed = fabs(mDelay);
+				mDelay = 0.0;
+			}
+		}
+
 		timePassed = timePassed * mSpeed;
 
 		if( !mAnimationFrameListener.empty() && timePassed != 0 )
@@ -317,6 +341,9 @@ void Animation::addTime( Ogre::Real timePassed )
 */
 void Animation::checkAnimationFrameListeners( Ogre::Real timePassed )
 {
+	if( mAnimationFrameListener.empty() ) 
+		return;
+
 	// Iteratoren
 	std::multimap<Ogre::Real,AnimationFrameListener*>::iterator 
 		lowerBorder;
@@ -341,7 +368,7 @@ void Animation::checkAnimationFrameListeners( Ogre::Real timePassed )
 	// Das ganze rückwärts
 	else
 	{
-		// FIX für die erste Runde beim Rückwärtsspielen, beginnt leider bei 0, nicht Length
+		// FIXME für die erste Runde beim Rückwärtsspielen, beginnt leider bei 0, nicht Length
 		Ogre::Real timePos = mAnimState->getTimePosition();
 		if( timePos == 0 )
 			timePos = mAnimState->getLength();

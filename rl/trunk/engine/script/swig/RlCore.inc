@@ -258,6 +258,9 @@ public:
 
 	Ogre::Real getWeight(void) const;
     void setWeight(Ogre::Real weight);
+
+	Ogre::Real getDelay(void) const;
+    void setDelay(Ogre::Real delay);
     
     rl::MeshObject* getMeshObject( );
     
