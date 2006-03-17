@@ -45,6 +45,7 @@ class QuestSoundPlayer < QuestChangeListener
 			if( @mSound == nil )
 				@mSound = $AM.createSoundSampleActor( "QuestAenderung", "quest_aenderung_gekritzel_01.ogg" ); 
 				@mSound.getControlledObject().set3d(false);
+				@mSound.getControlledObject().load();
 				# Sollte ein 2D Sound sein
 			end
 			@mSound.getControlledObject().play();

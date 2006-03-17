@@ -73,6 +73,7 @@ class RockPile < GameObject
 
     @mPositionPart = positionParticles;
     @mSteinSchlagActor = $AM.createSoundSampleActor("SteinSchlagSound","steinschlag_wenig_zu_vielen.ogg");
+    @mSteinSchlagActor.getControlledObject().load();
     @mSteinSchlagActor.placeIntoScene( 	positionParticles[0], positionParticles[1], positionParticles[2], 1.0, 0.0, 0.0, 0.0 );
 
     setActor(@mRockPile)
