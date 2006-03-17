@@ -452,11 +452,12 @@ namespace rl {
 				}
 			}
 			else if ((mCharacterState.mCurrentMovementState & MOVE_RUN) &&
-				(mCharacterState.mCurrentMovementState & MOVE_FORWARD))
+				(mCharacterState.mCurrentMovementState != MOVE_RUN))
 			{
 				mesh->startAnimation("Run", 2.0, 0);
 			}
-			else if (mCharacterState.mCurrentMovementState == MOVE_NONE)
+			else if (mCharacterState.mCurrentMovementState == MOVE_NONE ||
+				mCharacterState.mCurrentMovementState == MOVE_RUN)
 			{
 				mesh->startAnimation("Idle", 2.0, 0);
 			}
