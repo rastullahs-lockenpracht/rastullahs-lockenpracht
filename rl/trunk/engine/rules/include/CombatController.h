@@ -13,28 +13,25 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#ifndef __CombatController_H__
+#define __CombatController_H__
 
-#ifndef __CombatWindow_H__
-#define __CombatWindow_H__
 
-#include "UiPrerequisites.h"
-
-#include "CeGuiWindow.h"
-#include "CombatController.h"
+#include "RulesPrerequisites.h"
 
 namespace rl {
 
-	class Combat;
-	class Creature;
-
-	class _RlUiExport CombatWindow : public CeGuiWindow, public CombatController
+	class _RlRulesExport CombatController 
 	{
 	public:
-		CombatWindow(Combat* combat, int group);
+		CombatController(int group);
+
+		int getGroup();
 	private:
-		Combat* mCombat;
+		
+		int mGroup;
 	};
 
 }
 
-#endif //__CombatWindow_H__
+#endif //__CombatController_H__

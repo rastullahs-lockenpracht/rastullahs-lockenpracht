@@ -455,7 +455,6 @@ namespace rl {
 
 		void add(rl::Creature* creature, int group);
 		std::vector<rl::Creature*> getGroupMembers(int group);
-		int getGroupOf(rl::Creature* creature);
 		void start();
 	};
 	

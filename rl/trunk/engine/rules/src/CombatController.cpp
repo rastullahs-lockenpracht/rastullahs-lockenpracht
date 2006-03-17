@@ -14,27 +14,12 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
-#ifndef __CombatWindow_H__
-#define __CombatWindow_H__
-
-#include "UiPrerequisites.h"
-
-#include "CeGuiWindow.h"
 #include "CombatController.h"
 
 namespace rl {
 
-	class Combat;
-	class Creature;
-
-	class _RlUiExport CombatWindow : public CeGuiWindow, public CombatController
+	CombatController::CombatController(int group)
+		: mGroup(group)
 	{
-	public:
-		CombatWindow(Combat* combat, int group);
-	private:
-		Combat* mCombat;
-	};
-
+	}
 }
-
-#endif //__CombatWindow_H__

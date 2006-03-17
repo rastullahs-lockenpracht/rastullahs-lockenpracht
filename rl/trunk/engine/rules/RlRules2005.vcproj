@@ -207,11 +207,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\CombatActions.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\CombatEvents.cpp"
+				RelativePath=".\src\CombatController.cpp"
 				>
 			</File>
 			<File
@@ -333,11 +329,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\CombatActions.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\CombatEvents.h"
+				RelativePath=".\include\CombatController.h"
 				>
 			</File>
 			<File
