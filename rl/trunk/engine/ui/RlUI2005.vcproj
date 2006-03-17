@@ -264,10 +264,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\CombatWindowStrategy.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\CommandExecutor.h"
 				>
 			</File>
@@ -321,6 +317,10 @@
 			</File>
 			<File
 				RelativePath=".\include\LogWindow.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\MainMenuEngineWindow.h"
 				>
 			</File>
 			<File
@@ -393,10 +393,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\CombatWindowStrategy.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\CommandExecutor.cpp"
 				>
 			</File>
@@ -450,6 +446,10 @@
 			</File>
 			<File
 				RelativePath=".\src\LogWindow.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\MainMenuEngineWindow.cpp"
 				>
 			</File>
 			<File
