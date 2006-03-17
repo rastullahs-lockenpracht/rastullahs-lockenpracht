@@ -21,6 +21,7 @@
 #include "GameTask.h"
 #include "PhysicsController.h"
 #include "PhysicsMaterialRaycast.h"
+#include "CommandMapper.h"
 
 #include <OgreEntity.h>
 #include <OgreCamera.h>
@@ -34,6 +35,21 @@ namespace rl {
 
     class Actor;
     class MeshObject;
+
+	/// private struct for holding state info of the controller
+	struct CharacterState
+	{
+		CharacterState();
+		bool mIsAirBorne;
+		bool mStartJump;
+
+		Ogre::Real mJumpTimer;
+
+		Ogre::Vector3 mDesiredVel;
+
+		int mCurrentMovementState;
+		int mLastMovementState;
+	};
 
     /**
      * This class handles character control via user input.
@@ -70,7 +86,7 @@ namespace rl {
         void resetCamera();
 
     private:
-        typedef enum {AS_STAND, AS_WALK_FORWARD} AnimationState;
+		CharacterState mCharacterState;
 
         Actor* mCamera;
         Actor* mCharacter;
@@ -91,18 +107,9 @@ namespace rl {
         Ogre::Real mRotationSpeed;
         Ogre::Real mSpeedModifier;
 
-        Ogre::Vector3 mDesiredVel;
 		Ogre::Vector3 mGravitation;
 
-        AnimationState mCurrentAnimationState;
-        AnimationState mLastAnimationState;
-
         ViewMode mViewMode;
-
-        bool mIsAirBorne;
-        bool mIsStopped;
-        bool mStartJump;
-        Ogre::Real mJumpTimer;
 
         int mObstractedFrameCount;
         Ogre::Real mObstractedTime;
@@ -117,7 +124,7 @@ namespace rl {
         Ogre::Real mMaxDelay;
 
         void updatePickedObject() const;
-        void updateAnimationState(const Vector3& translation);
+        void updateAnimationState();
 
         bool isCharacterOccluded() const;
     };
