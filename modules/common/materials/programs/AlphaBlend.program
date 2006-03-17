@@ -1,0 +1,46 @@
+// lighting programs
+fragment_program alphaBlendFP_glsl glsl
+{
+  source AlphaBlend.frag
+}
+
+vertex_program alphaBlendVP_glsl glsl
+{
+  source AlphaBlend.vert
+  //default_params
+  //{
+  //  param_named detailScale float 0.05
+  //}
+}
+
+fragment_program alphaBlendPhongFP_hlsl hlsl
+{
+  source AlphaBlendPhong.hlsl
+  entry_point main_fp
+  target ps_2_0
+
+  default_params
+  {
+    param_named g_MaterialAmbientColor float4 0.6 0.6 0.6 1.0
+    param_named g_MaterialDiffuseColor float4 0.6 0.6 0.6 1.0
+
+    param_named_auto g_LightAmbient ambient_light_colour
+    param_named_auto g_LightDiffuse light_diffuse_colour
+  }
+}
+
+vertex_program alphaBlendPhongVP_hlsl hlsl
+{
+  source AlphaBlendPhong.hlsl
+  entry_point main_vp
+  target vs_1_1
+
+  default_params
+  {
+    param_named g_detailScale float 20.0
+    param_named_auto g_World world_matrix
+    param_named_auto g_WorldViewProjection worldviewproj_matrix
+    param_named_auto g_LightPos light_position
+  }
+}
+

@@ -1,0 +1,30 @@
+
+material men_alrike/base
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture men_alrike.png
+			}
+		}
+	}
+}
+material men_alrike/alpha
+{
+	technique
+	{
+		pass
+		{
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture men_alrike.png
+			}
+		}
+	}
+}
