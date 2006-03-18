@@ -70,6 +70,12 @@ namespace rl {
 
     void DotSceneOctreeWorld::loadScene(const String& levelName, const String& module)
     {
+		mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_MODULATIVE);
+		mSceneMgr->setShadowTextureSize(1024);
+		mSceneMgr->setShadowColour(ColourValue(0.7, 0.7, 0.7));
+		mSceneMgr->setShadowFarDistance(8.0f);
+		mSceneMgr->setShadowDirLightTextureOffset(0.8f);
+
         if( mSceneFile.length() != 0 )
             clearScene();
 
