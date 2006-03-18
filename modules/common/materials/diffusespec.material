@@ -1,0 +1,66 @@
+// GLSL offset bump mapping
+vertex_program DiffuseSpecMappingVS glsl
+{
+    source DiffuseSpecMapping.vert
+}
+
+fragment_program DiffuseSpecMappingFS glsl
+{
+    source DiffuseSpecMapping.frag
+}
+
+material DiffuseSpecMapping
+{
+    technique glsl
+    {
+        pass
+        {
+            ambient 0.2 0.2 0.2
+            diffuse 0.7 0.7 0.7
+            specular 0.8 0.8 0.8 128
+
+            vertex_program_ref DiffuseSpecMappingVS
+            {
+                param_named_auto lightPosition light_position_object_space 0
+                param_named_auto eyePosition camera_position_object_space
+                param_named textureScale float 1.0
+            }
+
+            fragment_program_ref DiffuseSpecMappingFS
+            {
+                param_named diffuseMap int 0
+                param_named specMap int 1
+            }
+
+            // Base diffuse texture map
+            texture_unit diffuse_map
+            {
+            }
+
+            // spec map for shinnines
+            texture_unit spec_map
+            {
+            }
+        }
+    }
+
+    technique fixed_function
+    {
+        pass
+        {
+            ambient 0.2 0.2 0.2
+            diffuse 0.7 0.7 0.7
+            specular 0.8 0.8 0.8 128
+
+            // Base diffuse texture map
+            texture_unit diffuse_map
+            {
+            }
+
+            // spec map for shinnines
+            texture_unit spec_map
+            {
+            }
+        } 
+    }
+}

@@ -1,30 +1,67 @@
 
-material men_alrike/base
+material men_alrike/base : DiffuseSpecMapping
 {
-	technique
+	technique glsl
 	{
-		pass
+		pass 0
 		{
-			texture_unit
+			texture_unit diffuse_map
+			{
+				texture men_alrike.png
+			}
+
+            texture_unit spec_map
+            {
+				texture men_alrike_spec.png
+            }
+		}
+	}
+
+    technique fixed_function
+    {
+		pass 0
+		{
+			texture_unit diffuse_map
 			{
 				texture men_alrike.png
 			}
 		}
-	}
+    }
 }
-material men_alrike/alpha
+
+material men_alrike/alpha : DiffuseSpecMapping
 {
-	technique
+	technique glsl
 	{
-		pass
+		pass 0
 		{
 			scene_blend alpha_blend
 			depth_write off
 
-			texture_unit
+			texture_unit diffuse_map
+			{
+				texture men_alrike.png
+			}
+
+            texture_unit spec_map
+            {
+				texture men_alrike_spec.png
+            }
+		}
+	}
+
+    technique fixed_function
+    {
+		pass 0
+		{
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit diffuse_map
 			{
 				texture men_alrike.png
 			}
 		}
-	}
+    }
 }
+
