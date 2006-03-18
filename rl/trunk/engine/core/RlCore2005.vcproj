@@ -249,7 +249,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\Animation.h"
+				RelativePath=".\include\AnimationFader.h"
 				>
 			</File>
 			<File
@@ -258,6 +258,10 @@
 			</File>
 			<File
 				RelativePath=".\include\AnimationManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\BaseAnimation.h"
 				>
 			</File>
 			<File
@@ -334,6 +338,10 @@
 			</File>
 			<File
 				RelativePath=".\include\ListenerObject.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\MeshAnimation.h"
 				>
 			</File>
 			<File
@@ -414,7 +422,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\Animation.cpp"
+				RelativePath=".\src\AnimationFader.cpp"
 				>
 			</File>
 			<File
@@ -423,6 +431,10 @@
 			</File>
 			<File
 				RelativePath=".\src\AnimationManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\BaseAnimation.cpp"
 				>
 			</File>
 			<File
@@ -495,6 +507,10 @@
 			</File>
 			<File
 				RelativePath=".\src\ListenerObject.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\MeshAnimation.cpp"
 				>
 			</File>
 			<File

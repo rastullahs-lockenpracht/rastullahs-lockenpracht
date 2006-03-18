@@ -26,9 +26,11 @@
 namespace rl {
 
 class Actor;
-class Animation;
+class BaseAnimation;
+class MeshAnimation;
 class TrackAnimation;
 class MeshObject;
+class AnimationFader;
 
 /** 
 	Diese Klasse verwaltet sämtliche Animationen und kümmert sich um das Starten und Stoppen dieser
@@ -50,18 +52,19 @@ public:
     virtual ~AnimationManager();
 
 	/** Erzeugt eine Animation, trägt diese ein und beginnt
-		sofort mit dem Abspielen.
+		sofort mit dem Abspielen, wenn gewünscht.
 		@param	animState Der AnimationState
-		@param	speed	Die Geschwindigkeit
+		@param	speed	Die Geschwindigkeit, 1.0 Originalgeschw.
 		@param	timesToPlay	Die Wiederholungen
+
 		@see Animation
 	*/
-    Animation* addAnimation(Ogre::AnimationState* animState, MeshObject* mesh,
-        Ogre::Real speed=1.0, unsigned int timesToPlay=0 ); 
+    MeshAnimation* addMeshAnimation(Ogre::AnimationState* animState, MeshObject* mesh,
+        Ogre::Real speed=1.0, unsigned int timesToPlay=0, bool paused=false ); 
 	/** Gibt die Animation zurück, die zum AnimationState gehört 
      *  @returns NULL wenn es die Animation nicht gibt
      */
-	Animation* getAnimation(Ogre::AnimationState* animState) const;
+	BaseAnimation* getAnimation(Ogre::AnimationState* animState) const;
 	/// Entfernt eine Animation, und stoppt das Abspielen dieser
     void removeAnimation(Ogre::AnimationState* animState);
 	/** Erzeugt eine neue, leere TrackAnimation, der der SceneNode
@@ -75,9 +78,10 @@ public:
     /// Entfernt alle Animationen
     void removeAllAnimations();
 	/// Entfernt eine Animation
-	void removeAnimation(Animation* anim);
+	void removeAnimation(TrackAnimation* anim);
+    void removeAnimation(MeshAnimation* anim);
     /// Ersetzt eine alte Animation durch eine Neue
-    Animation* replaceAnimation(Animation* oldAnim,  
+    MeshAnimation* replaceAnimation(MeshAnimation* oldAnim,  
 	Ogre::AnimationState* newAnimState, Ogre::Real speed=1.0, unsigned int timesToPlay=0  );
 	/// Entfernt eine TrackAnimation dieses Actors
 	void removeTrackAnimation( Actor* act, const Ogre::String& name );
@@ -112,11 +116,11 @@ public:
 	/// Singleton
 	static AnimationManager * getSingletonPtr(void);
 private:
-    static void stopAnimation( Animation* anim );
+    static void stopAnimation( BaseAnimation* anim );
 
-    typedef std::map<Ogre::AnimationState*,Animation*> AnimMap;
+    typedef std::map<Ogre::AnimationState*,BaseAnimation*> MeshAnimMap;
     /// Alle auszuführenden Animationen
-    AnimMap mAnimationMap;
+    MeshAnimMap mMeshAnimationMap;
 
 	/// Die globale Beschleunigung
 	Ogre::Real mGlobalAnimationSpeed;

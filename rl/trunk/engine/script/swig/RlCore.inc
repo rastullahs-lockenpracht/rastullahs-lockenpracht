@@ -33,19 +33,24 @@ DYNAMIC_CAST(SWIGTYPE_p_rl__GameAreaType, GameAreaType_dynamic_cast);
 
 
 %{
-static swig_type_info *Animation_dynamic_cast(void **ptr) {
-    rl::Animation **ppAnimation = reinterpret_cast<rl::Animation **>(ptr);
+static swig_type_info *BaseAnimation_dynamic_cast(void **ptr) {
+    rl::BaseAnimation **ppBaseAnimation = reinterpret_cast<rl::BaseAnimation **>(ptr);
     
-    rl::TrackAnimation *pTrackAnimation = dynamic_cast<rl::TrackAnimation*>(*ppAnimation);
+    rl::MeshAnimation *pMeshAnimation = dynamic_cast<rl::MeshAnimation*>(*ppBaseAnimation);
+    if(pMeshAnimation){
+      *ptr=reinterpret_cast<void*>(pMeshAnimation);
+      return SWIGTYPE_p_rl__MeshAnimation;
+    }    
+    rl::TrackAnimation *pTrackAnimation = dynamic_cast<rl::TrackAnimation*>(*ppBaseAnimation);
     if(pTrackAnimation){
       *ptr=reinterpret_cast<void*>(pTrackAnimation);
       return SWIGTYPE_p_rl__TrackAnimation;
-    }    
+    }  
     
     return 0;
 }
 %}
-DYNAMIC_CAST(SWIGTYPE_p_rl__Animation, Animation_dynamic_cast);
+DYNAMIC_CAST(SWIGTYPE_p_rl__BaseAnimation, BaseAnimation_dynamic_cast);
 
 
 %{
@@ -197,7 +202,7 @@ public:
 };
 
 /// Alles was mit Animationen zu tun hat
-%apply SWIGTYPE *DYNAMIC { Animation * };
+%apply SWIGTYPE *DYNAMIC { BaseAnimation * };
 
 %feature("director") AnimationListener; 
 class AnimationListener
@@ -222,22 +227,22 @@ public:
 class AnimationEvent
 {
 public:
-	rl::Animation* getAnimation() const;
+	rl::BaseAnimation* getAnimation() const;
 private:
-	AnimationEvent( rl::Animation* anim,  const unsigned int reason );
+	AnimationEvent( rl::BaseAnimation* anim,  const unsigned int reason );
 };
 
 class AnimationFrameEvent
 {
 public:
-	rl::Animation* getAnimation() const;
+	rl::BaseAnimation* getAnimation() const;
 	Ogre::Real getFrameNumber() const;
 private:
-	AnimationFrameEvent( rl::Animation* anim,  const unsigned int reason, Ogre::Real frameNumber );
+	AnimationFrameEvent( rl::BaseAnimation* anim,  const unsigned int reason, Ogre::Real frameNumber );
 };
 
 
-class Animation {
+class BaseAnimation {
 public:
 	bool isPaused() const;
     void setPaused( bool isPaused );
@@ -256,13 +261,8 @@ public:
 	unsigned int getTimesToPlayLeft() const;
 	Ogre::Real getTimePlayed() const;
 
-	Ogre::Real getWeight(void) const;
-    void setWeight(Ogre::Real weight);
-
 	Ogre::Real getDelay(void) const;
     void setDelay(Ogre::Real delay);
-    
-    rl::MeshObject* getMeshObject( );
     
     void addAnimationListener( rl::AnimationListener *listener);
 	void removeAnimationListener( rl::AnimationListener *listener);
@@ -272,10 +272,20 @@ public:
 	void removeAnimationFrameListener( rl::AnimationFrameListener *listener );
 	void removeAnimationFrameListener( rl::AnimationFrameListener *listener, Ogre::Real frameNumber );
 private:
-	Animation(  );
+	BaseAnimation(  );
 };
 
-class TrackAnimation : public Animation {
+class MeshAnimation : public BaseAnimation {
+public:
+    rl::MeshObject* getMeshObject( );
+    
+	Ogre::Real getWeight(void) const;
+    void setWeight(Ogre::Real weight);
+private:
+	MeshAnimation(  ); 
+};
+
+class TrackAnimation : public BaseAnimation {
 public:
 	void addKeyFrame( Ogre::Real timePos );
     void setKeyFrameTranslation( Ogre::Real timePos, Ogre::Real xPos, Ogre::Real yPos, Ogre::Real zPos );
@@ -305,10 +315,10 @@ public:
 	enum RotationInterpolationMode { RIM_LINEAR, RIM_SPHERICAL };
 	
 	rl::TrackAnimation* createTrackAnimation(rl::Actor* actor, const Ogre::String& name, Ogre::Real length );
-	void removeAnimation( rl::Animation* anim );
+	void removeAnimation( rl::MeshAnimation* anim );
+    void removeAnimation( rl::TrackAnimation* anim );
 	void removeTrackAnimation( rl::Actor* act, const Ogre::String& name );
 	void removeAllTrackAnimations( rl::Actor* act );
-	
 	
 	void setGlobalAnimationSpeed( Ogre::Real speed );
 	Ogre::Real getGlobalAnimationSpeed( ) const;
@@ -344,10 +354,10 @@ public:
     Ogre::Real getRadius();
     Ogre::Real getHeight();
     
-	rl::Animation* getAnimation(const Ogre::String& animName) const;
-	rl::Animation* replaceAnimation(const Ogre::String& oldAnimName, 
+	rl::BaseAnimation* getAnimation(const Ogre::String& animName) const;
+	rl::BaseAnimation* replaceAnimation(const Ogre::String& oldAnimName, 
 	    const Ogre::String& newAnimName, float speed=1.0, unsigned int timesToPlay=0);
-	rl::Animation* startAnimation(const Ogre::String& animName, 
+	rl::BaseAnimation* startAnimation(const Ogre::String& animName, 
 		float speed=1.0, unsigned int timesToPlay=0);
     void stopAnimation(const Ogre::String&);
     void stopAllAnimations();

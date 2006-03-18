@@ -19,7 +19,7 @@
 #include "CoreSubsystem.h"
 #include "World.h"
 
-#include "Animation.h"
+#include "MeshAnimation.h"
 #include "AnimationManager.h"
 
 #include <OgreMeshManager.h>
@@ -82,12 +82,13 @@ namespace rl {
 
 	/// @todo Exception Handling
 
-	Animation* MeshObject::getAnimation(const String& animName) const
+	MeshAnimation* MeshObject::getAnimation(const String& animName) const
 	{
 		try
 		{
 			AnimationState* animState = getEntity()->getAnimationState(animName);
-			return AnimationManager::getSingleton().getAnimation(animState);
+			return dynamic_cast<MeshAnimation*>
+                (AnimationManager::getSingleton().getAnimation(animState));
 		}
 		catch(Ogre::Exception&) 
 		{
@@ -97,12 +98,12 @@ namespace rl {
 	}
 
 
-	Animation* MeshObject::startAnimation(const String& animName, Real speed, unsigned int timesToPlay )
+	MeshAnimation* MeshObject::startAnimation(const String& animName, Real speed, unsigned int timesToPlay )
 	{
 		try
 		{
 			AnimationState* animState = getEntity()->getAnimationState(animName);
-			return AnimationManager::getSingleton().addAnimation(animState,this,speed,timesToPlay);
+			return AnimationManager::getSingleton().addMeshAnimation(animState,this,speed,timesToPlay);
 		}
 		catch(Ogre::Exception&) 
 		{
@@ -111,7 +112,7 @@ namespace rl {
 		return 0;
 	}
 
-	Animation* MeshObject::replaceAnimation(const Ogre::String& oldAnimName, const Ogre::String& newAnimName, Real speed, unsigned int timesToPlay )
+	MeshAnimation* MeshObject::replaceAnimation(const Ogre::String& oldAnimName, const Ogre::String& newAnimName, Real speed, unsigned int timesToPlay )
 	{
         stopAnimation(oldAnimName);
         return startAnimation( newAnimName, speed, timesToPlay );

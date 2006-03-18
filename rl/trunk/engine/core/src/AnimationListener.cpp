@@ -16,20 +16,20 @@
 
 #include "AnimationListener.h"
 
-#include "Animation.h"
+#include "BaseAnimation.h"
 #include "CoreSubsystem.h"
 #include "Exception.h"
 
 namespace rl {
 
-AnimationEvent::AnimationEvent( Animation* anim, const unsigned int reason ) : 
+AnimationEvent::AnimationEvent( BaseAnimation* anim, const unsigned int reason ) : 
 	EventObject(anim,reason)
 {}
 
-Animation* AnimationEvent::getAnimation() const
+BaseAnimation* AnimationEvent::getAnimation() const
 {
 	EventSource* eve =  this->getSource();
-	return dynamic_cast<Animation*>( eve );
+	return dynamic_cast<BaseAnimation*>( eve );
 }
 
 AnimationListener::~AnimationListener()
@@ -80,16 +80,16 @@ bool AnimationListener::eventRaised( AnimationEvent* anEvent )
 }
 
 
-AnimationFrameEvent::AnimationFrameEvent( Animation* anim,  const unsigned int reason, const Ogre::Real& frameNumber ) : 
+AnimationFrameEvent::AnimationFrameEvent( BaseAnimation* anim,  const unsigned int reason, const Ogre::Real& frameNumber ) : 
 EventObject(anim,reason)
 {
 	mFrameNumber = frameNumber;
 }
 
-Animation* AnimationFrameEvent::getAnimation() const
+BaseAnimation* AnimationFrameEvent::getAnimation() const
 {
 	EventSource* eve =  this->getSource();
-	return dynamic_cast<Animation*>( eve );
+	return dynamic_cast<BaseAnimation*>( eve );
 }
 
 Ogre::Real AnimationFrameEvent::getFrameNumber() const

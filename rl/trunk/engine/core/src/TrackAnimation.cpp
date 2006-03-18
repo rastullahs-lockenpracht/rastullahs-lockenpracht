@@ -25,7 +25,7 @@
 namespace rl {
 
 TrackAnimation::TrackAnimation( const Ogre::String& name, Actor *act, Ogre::Real length ) :	
-	Animation( ),
+	BaseAnimation(length,1.0,0,true),
 	mActor(act)
 {
 	Ogre::SceneManager* mgr =  CoreSubsystem::getSingleton().getWorld()->getSceneManager();
@@ -39,24 +39,41 @@ TrackAnimation::TrackAnimation( const Ogre::String& name, Actor *act, Ogre::Real
 	
 	act->_getSceneNode()->setInitialState();
 	mAnimationTrack = mAnimation->createNodeTrack(0, act->_getSceneNode() );
-	this->setAnimationState( mgr->createAnimationState(name) );
+	setAnimationState( mgr->createAnimationState(name) );
 }
 
 TrackAnimation::~TrackAnimation()
 {
 	Ogre::SceneManager* mgr =  CoreSubsystem::getSingleton().getWorld()->getSceneManager();
-
 	mAnimState->setEnabled(false);
 	mAnimationTrack->getAssociatedNode()->resetToInitialState();
 	mAnimation->destroyNodeTrack( 0 );
 	mgr->destroyAnimationState( mAnimation->getName() );
 	mgr->destroyAnimation( mAnimation->getName() );
-	mAnimState = NULL;
 }
 
-void TrackAnimation::addTime( Ogre::Real timePassed )
+void TrackAnimation::setAnimationState( Ogre::AnimationState* animState )
 {
-	Animation::addTime(timePassed);
+	if( animState == 0 )
+		Throw( NullPointerException,"Ogre::AnimationState darf nicht null sein" );
+
+	mAnimState = animState;
+	
+	if( mTimesToPlay != 1 )
+		mAnimState->setLoop( true );
+	
+	// Wenn die Zeit negativ ist, beginnen wir am Ende
+	if( mSpeed < 0 )
+		mAnimState->setTimePosition( mAnimState->getLength() );
+
+	mAnimState->setEnabled( true );
+}
+
+
+void TrackAnimation::doAddTime( Ogre::Real timePassed )
+{
+    mAnimState->addTime( timePassed );
+
 	if( mActor != NULL )
 		mActor->_update();
 }
@@ -156,6 +173,11 @@ Ogre::TransformKeyFrame* TrackAnimation::getKeyFrameAtTimePos( Ogre::Real timePo
 	mAnimationTrack->getKeyFramesAtTime(timePos, &frame1, &frame2);
 
     return static_cast<Ogre::TransformKeyFrame*>(frame1);
+}
+
+Ogre::AnimationState* TrackAnimation::getAnimationState() const
+{
+    return mAnimState;
 }
 
 

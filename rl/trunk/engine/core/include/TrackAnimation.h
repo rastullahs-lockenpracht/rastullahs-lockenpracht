@@ -21,7 +21,7 @@
 
 #include "OgreAnimation.h"
 
-#include "Animation.h"
+#include "BaseAnimation.h"
 #include "AnimationManager.h"
 
 namespace rl {
@@ -30,7 +30,7 @@ class _RlCoreExport Actor;
 /** Diese Klasse stellt eine Möglichkeit zur Verfügung, einfach Tracks zu erzeugen denen
 	Aktoren folgen.
 */
-class _RlCoreExport TrackAnimation : public rl::Animation
+class _RlCoreExport TrackAnimation : public BaseAnimation
 {
 public:
 	/** Konstruktor, der einen neuen Track erstellt
@@ -45,8 +45,8 @@ public:
 	/// Virtueller Destruktor
 	virtual ~TrackAnimation();
 
-	/// Überschriebe von Animation
-	virtual void addTime( Ogre::Real timePassed );
+	/// Überschriebe von BaseAnimation
+	virtual void doAddTime( Ogre::Real timePassed );
 	
 	/** Setzt ein neues Keyframe an einer Zeitposition
 		@param timePos	Die ZeitPosition
@@ -107,13 +107,18 @@ public:
 
 	/// Teste ob der Track zu einem bestimmten Actor gehört
 	Actor* getActor( ) const ;
+    Ogre::AnimationState* getAnimationState() const;
 
 	const Ogre::String& getName() const;
-	// TODO - kumulatives Animieren ein/aus
 private:
 	/// Interne Methode ein KeyFrame zu einer ZeitPosition zu erlangen
 	Ogre::TransformKeyFrame* getKeyFrameAtTimePos(Ogre::Real timePos);	
+    
+    /// Setzt den AnimationState
+	void setAnimationState( Ogre::AnimationState* animState );
 
+    /// Der AnimationState
+    Ogre::AnimationState* mAnimState;
 	/// Die erstellte Animation
 	Ogre::Animation* mAnimation;
 	/// Der erstellte Track

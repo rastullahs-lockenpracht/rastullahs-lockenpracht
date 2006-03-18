@@ -19,55 +19,38 @@
 #include "ActorManager.h"
 #include "ScriptWrapper.h"
 
-#include "Animation.h"
+#include "BaseAnimation.h"
 
 
 namespace rl {
 
-Animation::Animation( Ogre::AnimationState* animState, MeshObject* mesh,
-                     Ogre::Real speed, unsigned int timesToPlay ) :
+BaseAnimation::BaseAnimation( Ogre::Real length, Ogre::Real speed, 
+    unsigned int timesToPlay, bool paused ) :
+    mLength(length),
 	EventSource(), 
 	mAnimationFrameListener(),
-	mAnimationCaster()
+	mAnimationCaster(),
+    mPaused(paused),
+    mTimesToPlay( timesToPlay ),
+    mSpeed( speed ),
+    mDelay( 0.0f ),
+    mIgnoringGlobalSpeed(false),
+    mTimePlayed( 0.0f )
 {
-    mPaused = false;
-	mIgnoringGlobalSpeed = false;
-	mTimesToPlay = timesToPlay;
-	mTimePlayed = 0;
-	mSpeed = speed;
-    mMeshObject = mesh;
-	mDelay = 0.0;
-
-	this->setAnimationState(animState);
+    setLoop( mTimesToPlay == 0 ); 
 }
 
-Animation::Animation( ) :
-	EventSource(),
-	mAnimationFrameListener(),
-	mAnimationCaster()
+BaseAnimation::~BaseAnimation()
 {
-	mPaused = true;
-	mIgnoringGlobalSpeed = false;
-	mTimesToPlay = 0;
-	mTimePlayed = 0;
-	mSpeed = 1.0;
-	mDelay = 0.0;
-}
-
-Animation::~Animation()
-{
-	if( mAnimState != NULL )
-		mAnimState->setEnabled(false);
-
     removeAllListeners();
 }
 
-bool Animation::isPaused() const
+bool BaseAnimation::isPaused() const
 {
     return mPaused;
 }
 
-void Animation::setPaused( bool isPaused )
+void BaseAnimation::setPaused( bool isPaused )
 {
 	if( mPaused && !isPaused )
 	{
@@ -86,110 +69,89 @@ void Animation::setPaused( bool isPaused )
 }
 
 
-bool Animation::isIgnoringGlobalSpeed() const
+bool BaseAnimation::isIgnoringGlobalSpeed() const
 {
 	return mIgnoringGlobalSpeed;
 }
 
-void Animation::setIgnoringGlobalSpeed( bool isIgnoringGlobalSpeed )
+void BaseAnimation::setIgnoringGlobalSpeed( bool isIgnoringGlobalSpeed )
 {
 	mIgnoringGlobalSpeed = isIgnoringGlobalSpeed;
 }
 
 // Regelbare Geschwindigkeit
-Ogre::Real Animation::getSpeed() const
+Ogre::Real BaseAnimation::getSpeed() const
 {
 	return mSpeed;
 }
 
-void Animation::setSpeed( Ogre::Real speed )
+void BaseAnimation::setSpeed( Ogre::Real speed )
 {
-	// Eventuell auf Anfang/Ende setzen
-	if( speed < 0 && mAnimState->getTimePosition() == 0 )
-		mAnimState->setTimePosition( mAnimState->getLength() );
-	else if( speed > 0 && mAnimState->getTimePosition() == mAnimState->getLength() )
-		mAnimState->setTimePosition( 0 );
-
 	mSpeed = speed;
 }
 
-void Animation::reverseAnimation()
+void BaseAnimation::reverseAnimation()
 {
 	mSpeed = -mSpeed;
 }
 
-MeshObject* Animation::getMeshObject()
-{
-    return mMeshObject;
-}
-
 // Regelbare Wiederholungsanzahl
-void Animation::setTimesToPlay(unsigned int timesToPlay)
+void BaseAnimation::setTimesToPlay(unsigned int timesToPlay)
 {
 	mTimesToPlay = timesToPlay;
+    setLoop( mTimesToPlay == 0 ); 
 }
 
-unsigned int Animation::getTimesToPlay() const
+unsigned int BaseAnimation::getTimesToPlay() const
 {
 	return mTimesToPlay;
 }
 
-void Animation::resetTimesPlayed()
+void BaseAnimation::resetTimesPlayed()
 {
-	// Zurückspulen
-	if( mSpeed < 0 )
-		mAnimState->setTimePosition( mAnimState->getLength() );
-	else if( mSpeed > 0 )
-		mAnimState->setTimePosition( 0 );
-
 	mTimePlayed = 0;
-	
-	if( mTimesToPlay != 1 )
-		mAnimState->setLoop( true );
-
+    setLoop( mTimesToPlay != 1 );
 	setPaused( false );
 }
 
-Ogre::Real Animation::getTimePlayed() const
+Ogre::Real BaseAnimation::getTimePlayed() const
 {
 	return mTimePlayed;
 }
 
-unsigned int Animation::getTimesPlayed() const
+unsigned int BaseAnimation::getTimesPlayed() const
 {
-	return floor(mTimePlayed/mAnimState->getLength());
+	return floor(mTimePlayed/mLength);
 }
 
-unsigned int Animation::getTimesToPlayLeft() const
+unsigned int BaseAnimation::getTimesToPlayLeft() const
 {
 	// Nicht unsigned :)
 	int left = mTimesToPlay - getTimesPlayed();
 	return max( left ,0);
 }
 
-// Gewicht (Einfluss) der Animation
-Ogre::Real Animation::getWeight(void) const
-{
-	return mAnimState->getWeight();
-}
-
-void Animation::setWeight(Ogre::Real weight)
-{
-	mAnimState->setWeight(weight);
-}
-
-void Animation::setDelay( Ogre::Real delay )
+void BaseAnimation::setDelay( Ogre::Real delay )
 {
 	mDelay = delay;
 }
 
-Ogre::Real Animation::getDelay() const
+Ogre::Real BaseAnimation::getDelay() const
 {
 	return mDelay;
 }
 
 
-void Animation::addAnimationListener(AnimationListener *listener)
+void BaseAnimation::setLoop( bool loop )
+{
+}
+
+bool BaseAnimation::isLoop() const
+{
+    return mTimesToPlay!=1;
+}
+
+void BaseAnimation::addAnimationListener(AnimationListener *listener)
 {
     if( !mAnimationCaster.containsListener(listener) )
     {    
@@ -198,7 +160,7 @@ void Animation::addAnimationListener(AnimationListener *listener)
     }
 }
 
-void Animation::removeAnimationListener(AnimationListener *listener)
+void BaseAnimation::removeAnimationListener(AnimationListener *listener)
 {
     if( mAnimationCaster.containsListener( listener ) ) 
     {
@@ -208,7 +170,7 @@ void Animation::removeAnimationListener(AnimationListener *listener)
 }
 
 // @todo - Existenz überprüfen
-void Animation::addAnimationFrameListener( 
+void BaseAnimation::addAnimationFrameListener( 
 	AnimationFrameListener *listener, Ogre::Real frameNumber)
 {
 	mAnimationFrameListener.insert( 
@@ -217,7 +179,7 @@ void Animation::addAnimationFrameListener(
 }
 
 // @todo - Existenz überprüfen
-void Animation::removeAnimationFrameListener( AnimationFrameListener *listener )
+void BaseAnimation::removeAnimationFrameListener( AnimationFrameListener *listener )
 {
     AnimationFrameListenerMap::iterator iter = mAnimationFrameListener.begin();
 
@@ -235,8 +197,7 @@ void Animation::removeAnimationFrameListener( AnimationFrameListener *listener )
     }
 }
 
-// @todo - Existenz überprüfen
-void Animation::removeAnimationFrameListener( 
+void BaseAnimation::removeAnimationFrameListener( 
 	AnimationFrameListener *listener, Ogre::Real frameNumber)
 {
     AnimationFrameListenerMap::iterator iter = mAnimationFrameListener.begin();
@@ -256,7 +217,7 @@ void Animation::removeAnimationFrameListener(
     }
 }
 
-void Animation::removeAllListeners()
+void BaseAnimation::removeAllListeners()
 {
     // Alle AnimationFrameListener
     AnimationFrameListenerMap::iterator iter = mAnimationFrameListener.begin();
@@ -285,7 +246,7 @@ void Animation::removeAllListeners()
 }
 
 // Zeit hinzufügen // wird vom AnimationManager aufgerufen
-void Animation::addTime( Ogre::Real timePassed )
+void BaseAnimation::addTime( Ogre::Real timePassed )
 {
 	if( !mPaused )
 	{
@@ -306,8 +267,8 @@ void Animation::addTime( Ogre::Real timePassed )
 
 		if( !mAnimationFrameListener.empty() && timePassed != 0 )
 			checkAnimationFrameListeners( timePassed );
-
-		mAnimState->addTime( timePassed );
+        
+        doAddTime(timePassed);
 
 		// Begrenzte Abspielanzahl
 		if( mTimesToPlay > 0 )
@@ -316,11 +277,11 @@ void Animation::addTime( Ogre::Real timePassed )
 
 			if( getTimesToPlayLeft() == 1 )
 			{
-				mAnimState->setLoop(false);
+				setLoop(false);
 			}
 			else if( getTimesToPlayLeft() == 0 ) 
 			{
-				mAnimState->setLoop(false);
+				setLoop(false);
 				mPaused = true;
 			
 				AnimationEvent* animEve = new AnimationEvent(this,AnimationEvent::ANIMATION_FINISHED);
@@ -339,7 +300,7 @@ void Animation::addTime( Ogre::Real timePassed )
 	 * Wenn Überlauf, dann wird die Anzahl weiterer Durchläufe bestimmt
 	 * Für den Rest im letzten Durchlauf wird erneut geprüft
 */
-void Animation::checkAnimationFrameListeners( Ogre::Real timePassed )
+void BaseAnimation::checkAnimationFrameListeners( Ogre::Real timePassed )
 {
 	if( mAnimationFrameListener.empty() ) 
 		return;
@@ -359,22 +320,24 @@ void Animation::checkAnimationFrameListeners( Ogre::Real timePassed )
 	// Eventuelles Vorzeichen weg
 	timePassed = fabs( timePassed );
 
+    Ogre::Real elapsedTime = (mTimePlayed/mLength)*mLength;
+
 	// Vorwärts laufen
 	if( mSpeed > 0 )		
 	{
-		lower = max(mAnimState->getTimePosition(), 0.0f);
-		upper = min(mAnimState->getTimePosition()+timePassed, mAnimState->getLength() );
+        lower = max(elapsedTime, 0.0f);
+		upper = min(elapsedTime, mLength );
 	}
 	// Das ganze rückwärts
 	else
 	{
 		// FIXME für die erste Runde beim Rückwärtsspielen, beginnt leider bei 0, nicht Length
-		Ogre::Real timePos = mAnimState->getTimePosition();
-		if( timePos == 0 )
-			timePos = mAnimState->getLength();
+		Ogre::Real timePos = elapsedTime;
+		if( timePos == 0.0f )
+			timePos = mLength;
 
 		lower = max(timePos-timePassed, 0.0f);
-		upper = min(timePos, mAnimState->getLength() );
+		upper = min(timePos, mLength );
 	}
 
 	// Iteratoren für die Grenzen holen
@@ -391,16 +354,16 @@ void Animation::checkAnimationFrameListeners( Ogre::Real timePassed )
 	}
 
 	// Einmal abspielen abziehen
-	timePassed -= mAnimState->getLength();
+	timePassed -= mLength;
 	// Ums Wrapping kümmern - wenn Looping - und AbspielZeit
-	if( timePassed > 0 && mAnimState->getLoop() && 
+	if( timePassed > 0 && isLoop() && 
 		// Falls begrenzte Wiederholungen, müssen mindestens 2(1+die oben abgearbeitete) fehlen
 		( ( mTimesToPlay > 0 && getTimesToPlayLeft() > 1 ) || ( mTimesToPlay == 0 ) )
 	   )
 	{
 		// Wie oft passt die Länge in die gesamte fortgeschrittene Zeit		
-		unsigned int timesSkipped = floor( timePassed/mAnimState->getLength() );
-		Ogre::Real timeLeft = timePassed - timesSkipped*mAnimState->getLength();
+		unsigned int timesSkipped = floor( timePassed/mLength );
+		Ogre::Real timeLeft = timePassed - timesSkipped*mLength;
 
 		// Falls die Abspielanzahlbegrenzt ist, nicht häufiger als verbliebene Anzahl abspielen
 		if( mTimesToPlay > 0 && timesSkipped >= getTimesToPlayLeft()-1)
@@ -438,9 +401,9 @@ void Animation::checkAnimationFrameListeners( Ogre::Real timePassed )
 			else if( mSpeed < 0 )
 			{
 				lowerBorder = mAnimationFrameListener.lower_bound(
-					mAnimState->getLength() - timeLeft );
+					mLength - timeLeft );
 				upperBorder = mAnimationFrameListener.upper_bound(
-					mAnimState->getLength() );
+					mLength );
 			}
 
 			// Ein letztes Mal durchlaufen ^^
@@ -453,26 +416,6 @@ void Animation::checkAnimationFrameListeners( Ogre::Real timePassed )
 	}
 
 	delete animEve;
-}
-
-
-void Animation::setAnimationState( Ogre::AnimationState* animState )
-{
-	if( animState == 0 )
-		Throw( NullPointerException,"Ogre::AnimationState darf nicht null sein" );
-
-	mAnimState = animState;
-	
-	if( mTimesToPlay != 1 )
-		mAnimState->setLoop( true );
-	
-	// Wenn die Zeit negativ ist, beginnen wir am Ende
-	if( mSpeed < 0 )
-		mAnimState->setTimePosition( mAnimState->getLength() );
-
-	mAnimState->setEnabled( true );
-
-
 }
 
 }
