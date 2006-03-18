@@ -3,40 +3,6 @@
 material techdemo_terrain
 {
 	receive_shadows on
-    // GLSL shader pass
-    technique
-    {
-        pass
-        {
-            vertex_program_ref alphaBlendVP_glsl
-            {
-            }
-
-            fragment_program_ref alphaBlendFP_glsl
-            {
-            }
-            
-            // textures in the order they are used in the fragment program
-
-            texture_unit
-            {
-				texture Wiese_03.png
-            }
-            texture_unit
-            {
-				texture lehmboden_01.png
-            }
-            texture_unit
-            {
-				texture Fels_03.png
-            }
-            texture_unit
-            {
-				texture terrain_blendmap.png
-            }
-        }
-    }
-
 	// Erste Technik
 	technique
 	{
@@ -49,7 +15,8 @@ material techdemo_terrain
 			texture_unit
 			{
 			 	
-				// Der Fels ist unsere Basistextur, auf sie soll der Rasen & Weg gelegt werden
+				// Der Fels ist unsere Basistextur,
+                // auf sie soll der Rasen & Weg gelegt werden
 				texture Fels_03.png
 				// Skalieren, je nach Textur und Terraingröße anpassen
 				scale 0.05 0.05
@@ -66,7 +33,8 @@ material techdemo_terrain
 
 			// Dieser Pass wird über den ersten gelegt
 			scene_blend alpha_blend
-			// Dabei werden nur Pixel überschrieben, die an der selben Position liegen
+			// Dabei werden nur Pixel überschrieben,
+            // die an der selben Position liegen
 		    depth_func equal
 			alpha_rejection greater 2
 			
@@ -100,7 +68,8 @@ material techdemo_terrain
 
 			// Dieser Pass wird über den ersten gelegt
 			scene_blend alpha_blend
-			// Dabei werden nur Pixel überschrieben, die an der selben Position liegen
+			// Dabei werden nur Pixel überschrieben,
+            // die an der selben Position liegen
 		    depth_func equal
             alpha_rejection greater 2
 			
@@ -139,7 +108,6 @@ material techdemo_terrain
 			{
 				// Die Textur
 				texture techdemo_lightmap.png
-//				colour_op_ex add src_texture src_manual 0.5 
 				// Und die Farben des Basispasses
 				colour_op_ex modulate_x2 src_texture src_current
 			}
