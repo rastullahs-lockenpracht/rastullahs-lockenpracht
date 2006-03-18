@@ -62,7 +62,7 @@ namespace rl
         mWorld->setFrictionModel(0);
 
         // setup materials: default<->default
-        OgreNewt::MaterialID* defaultID = mWorld->getDefaultMaterialID();
+        const OgreNewt::MaterialID* defaultID = mWorld->getDefaultMaterialID();
         OgreNewt::MaterialPair* defaultPair =
             new OgreNewt::MaterialPair(mWorld, defaultID, defaultID);
         defaultPair->setContactCallback(new PhysicsGenericContactCallback());
@@ -166,11 +166,13 @@ namespace rl
             }
 			else if (geomType == GT_CONVEXHULL)
 			{
-				coll = new OgreNewt::CollisionPrimitives::ConvexHull(mWorld, pt->_getPhysicalObject()->getEntity());
+				coll = new OgreNewt::CollisionPrimitives::ConvexHull(
+					mWorld, pt->_getPhysicalObject()->getEntity());
 			}
 			else if (geomType == GT_MESH)
 			{
-				coll = new OgreNewt::CollisionPrimitives::TreeCollision(mWorld, node, pt->_getPhysicalObject()->getEntity(), false);
+				coll = new OgreNewt::CollisionPrimitives::TreeCollision(
+					mWorld, pt->_getPhysicalObject()->getEntity(), false);
 			}
 
             OgreNewt::Body* body = new OgreNewt::Body(mWorld, coll);
@@ -280,7 +282,7 @@ namespace rl
         //Level entity has to be attached to a scene node.
 
         OgreNewt::Collision* collision =
-            new OgreNewt::CollisionPrimitives::TreeCollision(mWorld, node, levelEntity, false);
+            new OgreNewt::CollisionPrimitives::TreeCollision(mWorld, levelEntity, false);
         OgreNewt::Body* body = new OgreNewt::Body(mWorld, collision);
 
         body->attachToNode(node);

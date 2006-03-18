@@ -293,22 +293,15 @@ namespace rl
 					vbuffer->unlock();
 				}
 			}
-			Collision* oldCollision = mBody->getCollision();
 	        ConvexHull* collision = new ConvexHull(PhysicsManager::getSingleton()._getNewtonWorld(),
 			    &vertices[0], vertices.size());
 		    mBody->setCollision(collision);
-			delete oldCollision;
 		}
 		else if (mGeometryType == PhysicsManager::GT_MESH)
 		{
-			Collision* oldCollision = mBody->getCollision();
 	        TreeCollision* collision = new TreeCollision(
-				PhysicsManager::getSingleton()._getNewtonWorld(),
-				entity->getParentSceneNode(), 
-				entity, 
-				false);
+				PhysicsManager::getSingleton()._getNewtonWorld(), entity, false);
 		    mBody->setCollision(collision);
-			delete oldCollision;
 		}
 
         mBody->setPositionOrientation(position, orientation);
