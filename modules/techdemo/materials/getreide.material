@@ -1,5 +1,6 @@
 material ALPHA/getreide.png
 {
+  receive_shadows off
   technique
   {
     pass
