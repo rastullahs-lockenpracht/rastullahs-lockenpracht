@@ -14,7 +14,7 @@ $SCRIPT.log("skybox set");
 $SCRIPT.log("Tageslicht erstellen..");
 sunlight = $AM.createLightActor("sunlight", LightObject::LT_DIRECTIONAL);
 sunlight.getControlledObject().setDirection(0.7, -2.0, 0.8);
-sunlight.getControlledObject().setCastShadows(false);
+#sunlight.getControlledObject().setCastShadows(false);
 sunlight.getControlledObject().setDiffuseColour(1,1,1);
 # sunlight.getControlledObject().setDiffuseColour(0.8,0.8,0.7);
 $SCRIPT.log("Tageslicht erstellt.");

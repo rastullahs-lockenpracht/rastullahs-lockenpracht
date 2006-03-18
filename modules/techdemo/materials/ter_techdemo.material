@@ -3,6 +3,39 @@
 material techdemo_terrain
 {
 	receive_shadows on
+    // GLSL shader pass
+    technique
+    {
+        pass
+        {
+            vertex_program_ref alphaBlendVP_glsl
+            {
+            }
+
+            fragment_program_ref alphaBlendFP_glsl
+            {
+            }
+            
+            // textures in the order they are used in the fragment program
+
+            texture_unit
+            {
+				texture Wiese_03.png
+            }
+            texture_unit
+            {
+				texture lehmboden_01.png
+            }
+            texture_unit
+            {
+				texture Fels_03.png
+            }
+            texture_unit
+            {
+				texture terrain_blendmap.png
+            }
+        }
+    }
 
 	// Erste Technik
 	technique
