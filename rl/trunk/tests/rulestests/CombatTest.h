@@ -7,8 +7,7 @@
 
 #include "ActionManager.h"
 #include "Combat.h"
-#include "CombatActions.h"
-#include "CombatEvents.h"
+#include "CombatController.h"
 #include "Creature.h"
 #include "Date.h"
 #include "DsaManager.h"

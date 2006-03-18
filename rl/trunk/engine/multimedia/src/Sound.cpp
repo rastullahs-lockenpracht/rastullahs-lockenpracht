@@ -120,6 +120,7 @@ const SoundResourcePtr &Sound::getSoundResource() const
  */
 void SoundPtr::destroy()
 {
+    SharedPtr<Sound>::destroy();
 }
 
 

@@ -13,26 +13,28 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#include "NullSoundSample.h"
+#include "NullSound.h"
 #include "NullSoundChannel.h"
 #include "SoundManager.h"
 #include "SoundResource.h"
+#include "VorbisFile.h"
 
 using namespace Ogre;
 using namespace boost;
 
 namespace rl {
  
-String NullSoundSample::msMovableType = "NullSoundSample";
+String NullSound::msMovableType = "NullSound";
 
 /**
  * @param name Der Name des Sounds.
  * @author JoSch
  * @date 07-04-2005
  */
-NullSoundSample::NullSoundSample(const String &name):
+NullSound::NullSound(const String &name):
     Sound(name)
 {
+    mTotalTime.sec = mTotalTime.nsec = 0;
 }
  
 /**
@@ -40,7 +42,7 @@ NullSoundSample::NullSoundSample(const String &name):
  * @author JoSch
  * @date 07-04-2005
  */
-NullSoundSample::NullSoundSample(const SoundResourcePtr &soundres):
+NullSound::NullSound(const SoundResourcePtr &soundres):
     Sound(soundres)
 {
 }
@@ -49,7 +51,7 @@ NullSoundSample::NullSoundSample(const SoundResourcePtr &soundres):
  * @author JoSch
  * @date 07-04-2005
  */
-NullSoundSample::~NullSoundSample()
+NullSound::~NullSound()
 {
     unload();
 }
@@ -60,7 +62,7 @@ NullSoundSample::~NullSoundSample()
  * @date 03-11-2005
  * @return Den Objekttypen
  */
-const String& NullSoundSample::getMovableType() const
+const String& NullSound::getMovableType() const
 {
     return msMovableType;
 }
@@ -69,16 +71,18 @@ const String& NullSoundSample::getMovableType() const
  * @author JoSch
  * @date 07-12-2005
  */
-void NullSoundSample::load() throw (RuntimeException)
+void NullSound::load() throw (RuntimeException)
 {
     getSoundResource()->load();
+    VorbisFile file(getSoundResource());
+    mTotalTime = file.getTotalTime();
 }
 
 /**
  * @author JoSch
  * @date 07-22-2005
  */
-void NullSoundSample::unload() throw (RuntimeException)
+void NullSound::unload() throw (RuntimeException)
 {
     getSoundResource()->unload(); // TODO Ist das wirklich nötig?
 }
@@ -88,9 +92,9 @@ void NullSoundSample::unload() throw (RuntimeException)
  * @author JoSch
  * @date 07-12-2005
  */
-bool NullSoundSample::isValid() const throw (RuntimeException)
+bool NullSound::isValid() const throw (RuntimeException)
 {
-    return true;
+    return getSoundResource()->isLoaded();
 }
 
 /**
@@ -98,17 +102,25 @@ bool NullSoundSample::isValid() const throw (RuntimeException)
  * @author JoSch
  * @date 08-08-2005
  */
-SoundChannel *NullSoundSample::createChannel() throw (RuntimeException)
+SoundChannel *NullSound::createChannel() throw (RuntimeException)
 {
     NullSoundChannel *nullchannel = new NullSoundChannel(this, getName());
     return nullchannel; 
 }
 
-
-
-void NullSoundSamplePtr::destroy()
+/**
+ * @return Die gesamte Spiellänge des Sounds
+ * @author JoSch
+ * @date 03-18-2005
+ */
+const boost::xtime &NullSound::getTotalTime() const
 {
-    SharedPtr<NullSoundSample>::destroy();
+    return mTotalTime;
+}
+
+void NullSoundPtr::destroy()
+{
+    SharedPtr<NullSound>::destroy();
 }
 
 } // Namespace

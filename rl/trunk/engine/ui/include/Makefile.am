@@ -7,7 +7,6 @@ noinst_HEADERS = \
 	CharacterStateWindow.h \
 	CloseConfirmationWindow.h \
 	CombatWindow.h \
-	CombatWindowStrategy.h \
 	CommandExecutor.h \
 	CommandMapper.h \
 	CommandMapperWindow.h \
@@ -22,6 +21,8 @@ noinst_HEADERS = \
 	InventoryWindow.h \
 	JournalWindow.h \
 	LogWindow.h \
+	MainMenuWindow.h \
+	MainMenuEngineWindow.h \
 	MessageWindow.h \
 	LogWindow.h \
 	PlaylistWindow.h \

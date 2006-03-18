@@ -14,8 +14,7 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 #include "NullDriver.h"
-#include "NullSoundSample.h"
-#include "NullSoundStream.h"
+#include "NullSound.h"
 #include "NullSoundChannel.h"
 
 namespace rl
@@ -98,7 +97,7 @@ CeGuiString NullDriver::getName() const
   */
  Sound *NullDriver::createStream(const Ogre::String &name)
  {
- 	Sound *sound = new NullSoundStream(name);
+ 	Sound *sound = new NullSound(name);
  	return sound;
  }
  
@@ -111,7 +110,7 @@ CeGuiString NullDriver::getName() const
   */
 Sound *NullDriver::createStream(const SoundResourcePtr &res)
 {
- 	Sound *sound = new NullSoundStream(res);
+ 	Sound *sound = new NullSound(res);
  	return sound;
 }
 
@@ -124,7 +123,7 @@ Sound *NullDriver::createStream(const SoundResourcePtr &res)
  */
 Sound *NullDriver::createSample(const Ogre::String &name)
 {
- 	Sound *sound = new NullSoundSample(name);
+ 	Sound *sound = new NullSound(name);
  	return sound;	
 }
 
@@ -137,7 +136,7 @@ Sound *NullDriver::createSample(const Ogre::String &name)
  */
 Sound *NullDriver::createSample(const SoundResourcePtr &res)
 {
- 	Sound *sound = new NullSoundSample(res);
+ 	Sound *sound = new NullSound(res);
  	return sound;
 }
 

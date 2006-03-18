@@ -31,7 +31,7 @@ namespace rl {
     * @version 1.0
     * @version 2.0
     */
-    class _RlMultimediaExport Sound
+    class _RlMultimediaExport Sound 
     {
     private:
         /// Der Name des Sounds
@@ -58,7 +58,6 @@ namespace rl {
         /// Name zurückgeben
         const Ogre::String& getName() const;
     
-        
         /// Laedt den Sound.
         virtual void load() throw (RuntimeException) = 0;
         /// Entlaedt den Sound.

@@ -20,6 +20,7 @@
 #include "MultimediaPrerequisites.h"
 #include "SoundResource.h"
 #include "Sound.h"
+#include <boost/thread/xtime.hpp>
 
 namespace Ogre {
     class MovableObject;
@@ -33,17 +34,18 @@ namespace rl {
     * @date 07-03-2005
     * @version 1.0
     */
-    class _RlMultimediaExport NullSoundSample : public Sound
+    class _RlMultimediaExport NullSound : public Sound
     {
     private:
+        boost::xtime mTotalTime;
 
     public:
         /// Konstruktor
-        NullSoundSample(const Ogre::String& name);
+        NullSound(const Ogre::String& name);
         /// Konstruktor
-        NullSoundSample(const SoundResourcePtr &soundres);
+        NullSound(const SoundResourcePtr &soundres);
         /// Destruktor
-        virtual ~NullSoundSample();
+        virtual ~NullSound();
         /// Moveable-Typ
         virtual const Ogre::String& getMovableType() const;
 
@@ -54,6 +56,9 @@ namespace rl {
  
         // Wir erzeugen einen Channel für SoundChannel
         virtual SoundChannel* createChannel() throw (RuntimeException);
+        
+        // Wir geben zurück, wie lange der Sound ist.
+        const boost::xtime& getTotalTime() const;
     
 protected:
         /// Shared class-level name for Movable type
@@ -62,13 +67,13 @@ protected:
         virtual bool isValid() const throw (RuntimeException);
     }; 
 
-    class _RlMultimediaExport NullSoundSamplePtr :
-        public Ogre::SharedPtr<NullSoundSample>
+    class _RlMultimediaExport NullSoundPtr :
+        public Ogre::SharedPtr<NullSound>
     {
     public:
-        NullSoundSamplePtr() : Ogre::SharedPtr<NullSoundSample>() {}
-        explicit NullSoundSamplePtr(NullSoundSample* rep) : Ogre::SharedPtr<NullSoundSample>(rep) {}
-        NullSoundSamplePtr(const NullSoundSamplePtr& res) : Ogre::SharedPtr<NullSoundSample>(res) {}
+        NullSoundPtr() : Ogre::SharedPtr<NullSound>() {}
+        explicit NullSoundPtr(NullSound* rep) : Ogre::SharedPtr<NullSound>(rep) {}
+        NullSoundPtr(const NullSoundPtr& res) : Ogre::SharedPtr<NullSound>(res) {}
     protected:
         void destroy();
     };

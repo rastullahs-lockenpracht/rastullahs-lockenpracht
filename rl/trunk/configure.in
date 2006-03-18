@@ -96,8 +96,11 @@ AC_CHECK_LIB(portaudio,main,WITH_PORTAUDIO="yes")
 AM_CONDITIONAL(WITH_PORTAUDIO, test "$WITH_PORTAUDIO" = "yes")
 
 # Ogg Vorbis
-AC_CHECK_LIB(ogg,main,[], AC_MSG_ERROR([Can't find libogg]))
-AC_CHECK_LIB(vorbis,main,[],AC_MSG_ERROR([Can't find libvorbis]))
+AC_CHECK_LIB(ogg, main, [], AC_MSG_ERROR([Can't find libogg]))
+AC_CHECK_LIB(vorbis, main, [], AC_MSG_ERROR([Can't find libvorbis]))
+OLDLIBS="$LIBS"
+AC_CHECK_LIB(vorbisfile, main, [VORBISFILE_LIBS="-lvorbisfile"], AC_MSG_ERROR([Can't find libvorbisfile]))
+LIBS="$OLDLIBS"
 
 # Ogre
 PKG_CHECK_MODULES(OGRE, OGRE >= 1.1.0)
@@ -162,6 +165,7 @@ RUBY_LIBS=$ruby_lib
 
 AC_SUBST(RUBY_CFLAGS)
 AC_SUBST(RUBY_LIBS)
+AC_SUBST(VORBISFILE_LIBS)
 
 SWIG_PROG
 SWIG_ENABLE_CXX
@@ -184,6 +188,7 @@ AC_CONFIG_FILES([Makefile \
 		engine/ui/Makefile engine/ui/src/Makefile engine/ui/include/Makefile \
 		engine/rules/Makefile engine/rules/src/Makefile engine/rules/include/Makefile \
 		engine/multimedia/Makefile engine/multimedia/src/Makefile engine/multimedia/include/Makefile \
+		engine/multimedia/src/fmod3/Makefile
 		engine/script/Makefile engine/script/swig/Makefile engine/script/src/Makefile \
 		engine/startup/Makefile engine/startup/src/Makefile \
 		tests/Makefile tests/coretests/Makefile tests/rulestests/Makefile tests/multimediatests/Makefile \

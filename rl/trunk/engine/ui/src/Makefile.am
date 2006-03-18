@@ -15,7 +15,6 @@ libRlUi_la_SOURCES = \
 	CharacterStateWindow.cpp \
 	CloseConfirmationWindow.cpp \
 	CombatWindow.cpp \
-	CombatWindowStrategy.cpp \
 	CommandExecutor.cpp \
 	CommandMapper.cpp \
 	CommandMapperWindow.cpp \
@@ -31,6 +30,7 @@ libRlUi_la_SOURCES = \
 	JournalWindow.cpp \
 	LogWindow.cpp \
 	MainMenuWindow.cpp \
+	MainMenuEngineWindow.cpp \
 	MessageWindow.cpp \
 	PlaylistWindow.cpp \
 	SoundConfig.cpp \

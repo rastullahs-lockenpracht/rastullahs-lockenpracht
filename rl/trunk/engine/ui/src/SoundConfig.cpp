@@ -29,24 +29,20 @@ namespace rl
 {
 
 SoundConfig::SoundConfig()
-    : CeGuiWindow("soundconfig.xml", WND_MOUSE_INPUT),
-      mListbox(0)
+    : CeGuiWindow("soundconfig.xml", WND_ALL_INPUT, true),
+      mBox(0)
 {
-    //bindClickToCloseWindow(getWindow("SoundConfig"));
     bindCloseToCloseButton();
+    bindClickToCloseWindow(getPushButton("SoundConfig/Cancel"));
 
     getWindow("SoundConfig/OK")->subscribeEvent(
             Window::EventMouseClick, 
             boost::bind(&SoundConfig::handleOK, this));
 
-    getWindow("SoundConfig/Cancel")->subscribeEvent(
-            Window::EventMouseClick, 
-            boost::bind(&SoundConfig::handleCancel, this));
-
-    mListbox = (Listbox*)getWindow("SoundConfig/Table");
-    if (mListbox == 0)
+    mBox = (Listbox*)getWindow("SoundConfig/Table");
+    if (mBox == 0)
     {
-        Throw(NullPointerException, "Couldn't the listbox");
+        Throw(NullPointerException, "Couldn't find the listbox");
     }
     DriverList list = 
         MultimediaSubsystem::getSingleton().getSoundDriverList();
@@ -54,25 +50,19 @@ SoundConfig::SoundConfig()
     for (it = list.begin(); it != list.end(); it++)
     {
         CeGuiString name = (*it)->getName();
-        mListbox->addItem(new ListboxTextItem(name));
+        mBox->addItem(new ListboxTextItem(name));
     }
-    centerWindow();    
+    centerWindow();
 }
 
 SoundConfig::~SoundConfig()
 {
 }
 
-bool SoundConfig::handleCancel()
-{
-    setVisible(false);
-    return true;
-}
-
 bool SoundConfig::handleOK()
 {
     ListboxTextItem *item = 
-        dynamic_cast<ListboxTextItem*>(mListbox->getFirstSelectedItem());
+        dynamic_cast<ListboxTextItem*>(mBox->getFirstSelectedItem());
     if (item != 0)
     {
         SoundDriver *activeDriver = MultimediaSubsystem::getSingleton().getActiveDriver();        
@@ -99,6 +89,7 @@ bool SoundConfig::handleOK()
         }
     }
     setVisible(false);
+    destroyWindow();
     return true;
 }
 

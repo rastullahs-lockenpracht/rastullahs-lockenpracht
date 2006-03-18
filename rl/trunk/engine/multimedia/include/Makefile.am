@@ -12,9 +12,9 @@ noinst_HEADERS = \
 	SoundUpdateTask.h \
 	Video.h \
 	VideoEvents.h \
+	VorbisFile.h \
 	null/NullSoundChannel.h \
-	null/NullSoundSample.h \
-	null/NullSoundStream.h \
+	null/NullSound.h \
 	null/NullDriver.h
 
 if with_fmod3

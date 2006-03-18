@@ -26,10 +26,9 @@ class SoundConfig : public rl::CeGuiWindow
 {
 private:
     bool handleOK();
-    bool handleCancel();
     
-    // Die Listbox, aus der gewählt wird.
-    CEGUI::Listbox *mListbox;
+    // Die Combobox, aus der gewählt wird.
+    CEGUI::Listbox *mBox;
 
 public:
 	SoundConfig();
