@@ -6,6 +6,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import meshhandle.data.Vector3;
 import meshhandle.skeleton.Animation;
+import meshhandle.skeleton.AnimationLink;
 import meshhandle.skeleton.AnimationTrack;
 import meshhandle.skeleton.Bone;
 import meshhandle.skeleton.Keyframe;
@@ -30,12 +31,14 @@ public class SkeletonLoader extends XMLLoader {
         processBoneHierarchy(skel, (Element) document.getElementsByTagName(
                 "bonehierarchy").item(0));
         processAnimations(skel, (Element) document.getElementsByTagName(
-                "animations").item(0));
+        		"animations").item(0));        
+        processAnimationLinks(skel, (Element) document.getElementsByTagName(
+        		"animationlinks").item(0));
 
         return skel;
     }
 
-    private static void processBones(Skeleton skel, Element bonesNode) {
+	private static void processBones(Skeleton skel, Element bonesNode) {
         NodeList bonesList = bonesNode.getElementsByTagName("bone");
         for (int idx = 0; idx < bonesList.getLength(); idx++) {
             Element boneNode = (Element) bonesList.item(idx);
@@ -67,16 +70,19 @@ public class SkeletonLoader extends XMLLoader {
     }
 
     private static void processAnimations(Skeleton skel, Element animationsNode) {
-        NodeList animationList = animationsNode
-                .getElementsByTagName("animation");
-        for (int idx = 0; idx < animationList.getLength(); idx++) {
-            Element animation = (Element) animationList.item(idx);
-            Animation anim = new Animation(animation.getAttribute("name"),
-                    Float.parseFloat(animation.getAttribute("length")));
-            skel.addAnimation(anim);
-            processAnimationTracks(anim, animation
-                    .getElementsByTagName("track"));
-        }
+    	if (animationsNode != null)
+    	{
+	        NodeList animationList = animationsNode
+	                .getElementsByTagName("animation");
+	        for (int idx = 0; idx < animationList.getLength(); idx++) {
+	            Element animation = (Element) animationList.item(idx);
+	            Animation anim = new Animation(animation.getAttribute("name"),
+	                    Float.parseFloat(animation.getAttribute("length")));
+	            skel.addAnimation(anim);
+	            processAnimationTracks(anim, animation
+	                    .getElementsByTagName("track"));
+	        }
+    	}
 
     }
 
@@ -127,4 +133,25 @@ public class SkeletonLoader extends XMLLoader {
         }
     }
 
+    private static void processAnimationLinks(Skeleton skel, Element animationLinksElement) {
+    	if (animationLinksElement != null)
+    	{
+    		NodeList keyframeList = animationLinksElement.getElementsByTagName("animationlink");
+    		
+	    	for (int idx = 0; idx < keyframeList.getLength(); idx++) {
+	            Element keyframeElem = (Element) keyframeList.item(idx);
+	            String skeletonName = keyframeElem.getAttribute("skeletonName");
+	            String scale = keyframeElem.getAttribute("scale");
+	            
+	            AnimationLink link;
+				if (scale == null)
+	            	link = new AnimationLink(skeletonName);
+	            else
+	            	link = new AnimationLink(skeletonName, Float.parseFloat(scale));
+	            
+	            skel.addAnimationLink(link);
+	    	}
+    	}
+    }
 }
+

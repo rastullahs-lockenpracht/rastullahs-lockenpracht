@@ -26,15 +26,18 @@ public class Mesh {
 	public String toXML() {
 		StringBuffer buf = new StringBuffer();
 		buf.append("<mesh>\n");
+		
 		buf.append("    <submeshes>\n");
 		for (Submesh submesh : mSubmeshes) {
 			buf.append(submesh.toXML() + "\n");
 		}
 		buf.append("    </submeshes>\n");
-		if (mSkeletonLink != null && mSkeletonLink != "") {
+
+		if (mSkeletonLink != null && !mSkeletonLink.equals("")) {
 			buf.append("    <skeletonlink name=\"").append(mSkeletonLink)
 					.append("\" />\n");
 		}
+		
 		buf.append("</mesh>");
 		return buf.toString();
 	}
