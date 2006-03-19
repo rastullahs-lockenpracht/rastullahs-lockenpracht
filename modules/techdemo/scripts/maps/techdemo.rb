@@ -6,7 +6,7 @@ require 'hero.rb'
 # Physik aktivieren
 $PM.setEnabled(true);
 
-$SCRIPT.log("init map 'minidemo'...");
+$SCRIPT.log("init map 'techdemo'...");
 $World = $CORE.getWorld()
 $World.setSkyBox(true, "rl/dsa07", 100.0)
 $SCRIPT.log("skybox set");
