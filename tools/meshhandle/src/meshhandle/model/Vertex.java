@@ -5,12 +5,10 @@ import meshhandle.data.Vector3;
 public class Vertex {
 
     private Vector3 mPosition;
-
     private Vector3 mNormal;
-
     private Float mTexCoordU;
-
     private Float mTexCoordV;
+	private String mColorDiffuse;
 
     public String toXML() {
         StringBuffer buf = new StringBuffer();
@@ -26,6 +24,9 @@ public class Vertex {
         if (mTexCoordU != null) {
             buf.append("                        <texcoord u=\"" + mTexCoordU
                     + "\" v=\"" + mTexCoordV + "\" />\n");
+        }
+        if (mColorDiffuse != null) {
+        	buf.append("                        <color_diffuse value=\"" + mColorDiffuse+"\" />");
         }
         buf.append("                    </vertex>");
         return buf.toString();
@@ -62,6 +63,14 @@ public class Vertex {
     public void setTexCoordV(Float texCoordV) {
         mTexCoordV = texCoordV;
     }
+    
+    public String getColorDiffuse() {
+		return mColorDiffuse;
+	}
+    
+    public void setColorDiffuse(String colorDiffuse) {
+		mColorDiffuse = colorDiffuse;
+	}
 
     public void scale(float factor) {
         if (mPosition != null)

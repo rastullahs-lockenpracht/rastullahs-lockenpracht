@@ -89,6 +89,8 @@ public class MeshLoader extends XMLLoader {
                 .getAttribute("texture_coord_dimensions_0"));
         vertexbuffer.setTexCoords(vertexBufferElem
                 .getAttribute("texture_coords"));
+        vertexbuffer.setColorsDiffuse(vertexBufferElem
+                .getAttribute("colours_diffuse"));
 
         NodeList vertList = vertexBufferElem.getElementsByTagName("vertex");
         for (int idx = 0; idx < vertList.getLength(); idx++) {
@@ -116,6 +118,12 @@ public class MeshLoader extends XMLLoader {
             vert.setTexCoordU(Float.parseFloat(texCoordElem.getAttribute("u")));
             vert.setTexCoordV(Float.parseFloat(texCoordElem.getAttribute("v")));
         }
+        
+        Element colorDiffuseElem = (Element) vertElem.getElementsByTagName(
+        "texcoord").item(0);
+		if (colorDiffuseElem != null) {
+		    vert.setColorDiffuse(colorDiffuseElem.getAttribute("value"));
+		}
         return vert;
     }
 

@@ -14,6 +14,8 @@ public class VertexBufferData {
 
 	private ArrayList<Vertex> mVertices;
 
+	private String mColorsDiffuse;
+
 	public VertexBufferData() {
 		mVertices = new ArrayList<Vertex>();
 	}
@@ -78,6 +80,14 @@ public class VertexBufferData {
 
 	public String getTexCoords() {
 		return mTexCoords;
+	}
+	
+	public void setColorsDiffuse(String attribute) {
+		mColorsDiffuse = attribute;
+	}
+	
+	public String getColorsDiffuse() {
+		return mColorsDiffuse;
 	}
 
 	public ArrayList<Vertex> getVertices() {
@@ -151,4 +161,5 @@ public class VertexBufferData {
 		}
 		return zmax;
 	}
+
 }
