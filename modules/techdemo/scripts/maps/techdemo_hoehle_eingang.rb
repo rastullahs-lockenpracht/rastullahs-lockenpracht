@@ -1,6 +1,6 @@
 class Rock < GameObject
-  def initialize(model, position, orientation, spawned)
-    super("Fels", "Ein Fels")
+  def initialize(name, model, position, orientation, spawned)
+    super(name, "Ein Fels")
     @mPosition = position
     @mOrientation = orientation
     @mModel = model

@@ -71,9 +71,9 @@ $truhe.getActor().placeIntoScene([123.530, 9.500, 47.250]);
 $truhe.addItem(Torch.new("Fackel2"))
 
 require "techdemo_hoehle_eingang.rb"
-luftfels1 = Rock.new("nat_stein_gross_01.mesh", [105.510400390625, 26.0499194335938, 40.3499243164063], [[1.0, 0.0, 0.0], 0.0], false)
-luftfels2 = Rock.new("nat_stein_gross_01.mesh", [99.82107421875, 21.3660180664063, 45.87017578125], [[1.0, 0.0, 0.0], 0.0], false)
-luftfels3 = Rock.new("nat_stein_gross_01.mesh", [ 94.425087890625, 30.0978625488281, 44.10947265625], [[1.0, 0.0, 0.0], 0.0], false)
+luftfels1 = Rock.new("Fels1", "nat_stein_gross_01.mesh", [105.510400390625, 26.0499194335938, 40.3499243164063], [[1.0, 0.0, 0.0], 0.0], false)
+luftfels2 = Rock.new("Fels2", "nat_stein_gross_01.mesh", [99.82107421875, 21.3660180664063, 45.87017578125], [[1.0, 0.0, 0.0], 0.0], false)
+luftfels3 = Rock.new("Fels3", "nat_stein_gross_01.mesh", [ 94.425087890625, 30.0978625488281, 44.10947265625], [[1.0, 0.0, 0.0], 0.0], false)
 
 $SCRIPT.log("Steinschlag: SteinschlagzoneListener erstellen");
 areaListener = SteinschlagzoneListener.new(luftfels1, luftfels2, luftfels3 );
