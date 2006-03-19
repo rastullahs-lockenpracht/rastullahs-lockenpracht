@@ -16,26 +16,13 @@
 
 #include "CharacterController.h"
 #include "CoreSubsystem.h"
-#include "World.h"
-#include "InputManager.h"
-#include "CommandMapper.h"
-#include "DebugWindow.h"
 #include "Exception.h"
 #include "Actor.h"
-#include "CameraObject.h"
-#include "MeshObject.h"
-#include "PhysicsManager.h"
 #include "PhysicalThing.h"
-#include "MeshObject.h"
-#include "ActorManager.h"
-#include "Logger.h"
+#include "World.h"
+#include "CameraObject.h"
 
 #include <OgreSceneManager.h>
-#include <OgreAxisAlignedBox.h>
-#include <OgreStringConverter.h>
-#include <OgreMath.h>
-
-#include <numeric>
 
 using namespace Ogre;
 
