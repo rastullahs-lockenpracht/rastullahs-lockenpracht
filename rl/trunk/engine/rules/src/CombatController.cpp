@@ -15,11 +15,43 @@
 */
 
 #include "CombatController.h"
+#include "Combat.h"
 
 namespace rl {
 
-	CombatController::CombatController(int group)
-		: mGroup(group)
+	CombatController::CombatController(Combat* combat, int group)
+		: mGroup(group), mCombat(combat), mCurrentCreature(NULL)
 	{
 	}
+
+	int CombatController::getGroup()
+	{
+		return mGroup;
+	}
+
+	void CombatController::setActionOption(int option)
+	{
+		mCombat->setActionOption(this, getCurrentCreature(), option);
+	}
+
+	void CombatController::setAttackTarget(Creature* creature)
+	{
+		mCombat->setAttackTarget(this, getCurrentCreature(), creature);
+	}
+
+	void CombatController::setPareeTarget(Creature* creature)
+	{
+		mCombat->setPareeTarget(this, getCurrentCreature(), creature);
+	}
+
+	Creature* CombatController::getCurrentCreature()
+	{
+		return mCurrentCreature;
+	}
+
+	void CombatController::setCurrentCreature(Creature* creature)
+	{
+		mCurrentCreature = creature;
+	}
+
 }

@@ -15,18 +15,58 @@
 */
 
 #include "CombatWindow.h"
+#include <boost/bind.hpp>
+#include <elements/CEGUIListboxTextItem.h>
 
 #include "Combat.h"
+#include "Creature.h"
 
 using namespace CEGUI;
 
 namespace rl {
 
 	CombatWindow::CombatWindow(Combat* combat, int group)
-		: CeGuiWindow("combatwindow.xml", WND_MOUSE_INPUT, false, true),
-		mCombat(combat),
-		CombatController(group)
+		: CeGuiWindow("combatwindow.xml", WND_MOUSE_INPUT, false, false),
+		CombatController(combat, group)
 	{
 		mCombat->addController(this);
+		mActionOptions = getCombobox("CombatWindow/ActionOptions");
+		mAttackTargets = getCombobox("CombatWindow/AttackTargets");
+		mPareeTargets = getCombobox("CombatWindow/PareeTargets");
+		getWindow("CombatWindow/Execute")->subscribeEvent(
+			Window::EventMouseClick,
+			boost::bind(&CombatWindow::handleExecute, this));
+
+		update();
+	}
+
+	void CombatWindow::setVisible(bool visible)
+	{
+		CeGuiWindow::setVisible(visible);
+		//TODO: Change CharacterController
+	}
+
+	void CombatWindow::update()
+	{
+		/// FIXME
+		std::vector<Creature*> opponents = mCombat->getGroupMembers(2);
+		for (std::vector<Creature*>::iterator it = opponents.begin(); 
+			it != opponents.end(); it++)
+		{
+			Creature* cr = *it;
+			ListboxItem* item = new ListboxTextItem(cr->getName(), 0, cr);
+			mAttackTargets->addItem(item);
+		}
+	}
+
+	bool CombatWindow::handleExecute()
+	{
+		setActionOption(mActionOptions->getSelectedItem()->getID());
+		setAttackTarget(
+			static_cast<Creature*>(mAttackTargets->getSelectedItem()->getUserData()));
+		setPareeTarget(
+			static_cast<Creature*>(mPareeTargets->getSelectedItem()->getUserData()));
+		mCombat->tick();
+		return true;
 	}
 }

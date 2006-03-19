@@ -5,26 +5,41 @@
         <Property Name="RelativeWidth" Value="1.0"/>
         <Property Name="RelativeHeight" Value="1.0"/>
 
-		<Window Type="RastullahLook/PopupMenu" Name="CombatWindow/OpponentMenu">
-			<Window Type="RastullahLook/MenuItem" Name="CombatWindow/OpponentMenu/AttackWalkAt"/>
-			<Window Type="RastullahLook/MenuItem" Name="CombatWindow/OpponentMenu/AttackWalkAtPa"/>
-			<Window Type="RastullahLook/MenuItem" Name="CombatWindow/OpponentMenu/AttackRunAtPa"/>
-			<Window Type="RastullahLook/MenuItem" Name="CombatWindow/OpponentMenu/ParadeThis"/>
-			<Window Type="RastullahLook/MenuItem" Name="CombatWindow/OpponentMenu/Info"/>
-			<Window Type="RastullahLook/MenuItem" Name="CombatWindow/OpponentMenu/Cancel">
-				<Property Name="Text" Value="Schließen"/>
-			</Window>
-	    </Window>
-
-		<Window Type="RastullahLook/Button" Name="CombatWindow/NextKR">
-			<Property Name="Text" Value="Nächste KR"/>
+		<Window Type="RastullahLook/Combobox" Name="CombatWindow/ActionOptions">
+			<Property Name="AbsoluteXPosition" Value="50"/>
+			<Property Name="AbsoluteYPosition" Value="100"/>
+			<Property Name="AbsoluteWidth" Value="200"/>
+			<Property Name="AbsoluteHeight" Value="30"/>
 		</Window>
 
-		<Window Type="RastullahLook/StaticText Name="CombatWindow/DebugMessage">
-	        <Property Name="RelativeXPosition" Value="0.6"/>
+		<Window Type="RastullahLook/Combobox" Name="CombatWindow/AttackTargets">
+			<Property Name="AbsoluteXPosition" Value="50"/>
+			<Property Name="AbsoluteYPosition" Value="150"/>
+			<Property Name="AbsoluteWidth" Value="200"/>
+			<Property Name="AbsoluteHeight" Value="30"/>
+		</Window>
+
+		<Window Type="RastullahLook/Combobox" Name="CombatWindow/PareeTargets">
+			<Property Name="AbsoluteXPosition" Value="50"/>
+			<Property Name="AbsoluteYPosition" Value="200"/>
+			<Property Name="AbsoluteWidth" Value="200"/>
+			<Property Name="AbsoluteHeight" Value="30"/>
+		</Window>
+
+		<Window Type="RastullahLook/Button" Name="CombatWindow/Confirm">
+			<Property Name="Text" Value="Ausführen"/>
+			<Property Name="AbsoluteXPosition" Value="50"/>
+			<Property Name="AbsoluteYPosition" Value="200"/>
+			<Property Name="AbsoluteWidth" Value="150"/>
+			<Property Name="AbsoluteHeight" Value="30"/>
+		</Window>
+
+		<Window Type="RastullahLook/StaticText" Name="CombatWindow/DebugMessage">
+	        <Property Name="RelativeXPosition" Value="0.5"/>
 		    <Property Name="RelativeYPosition" Value="0.0"/>
-			<Property Name="RelativeWidth" Value="0.4"/>
-			<Property Name="RelativeHeight" Value="0.2"/>
+			<Property Name="RelativeWidth" Value="0.45"/>
+			<Property Name="RelativeHeight" Value="0.5"/>
 		</Window>
+
     </Window>
 </GUILayout>

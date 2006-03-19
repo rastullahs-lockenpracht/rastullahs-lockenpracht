@@ -95,4 +95,20 @@ namespace rl {
 	{
 	}
 
+	void Combat::tick()
+	{
+	}
+
+	void Combat::setActionOption(CombatController* controller, Creature* actor, int option)
+	{
+	}
+
+	void Combat::setAttackTarget(CombatController* controller, Creature* actor, Creature* target)
+	{
+	}
+
+	void Combat::setPareeTarget(CombatController* controller, Creature* actor, Creature* target)
+	{
+	}
+
 }

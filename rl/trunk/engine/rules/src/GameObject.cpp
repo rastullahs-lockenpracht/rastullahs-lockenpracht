@@ -186,6 +186,9 @@ namespace rl
 	
 	void GameObject::setActor(Actor* actor)
 	{
+		if (NULL == actor)
+			Throw(InvalidArgumentException, "Actor must not be NULL");
+
 		mActor = actor;
 		mActor->setGameObject(this);
 	}

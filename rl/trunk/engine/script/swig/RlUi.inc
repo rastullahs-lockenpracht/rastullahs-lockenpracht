@@ -18,13 +18,14 @@ namespace rl {
 
 class CharacterController
 {
+private:
+	CharacterController(rl::Actor* camera, rl::Actor* character);
+	
 public:
-    typedef enum {VM_THIRD_PERSON, VM_FIRST_PERSON} ViewMode;
      /**
        *  @throw NullPointerException if camera or character is NULL.
        *  @throw InvalidArgumentException if character is not placed in the scene.
        */
-    CharacterController(rl::Actor* camera, rl::Actor* character);
     void toggleViewMode();
     void resetCamera();
 };

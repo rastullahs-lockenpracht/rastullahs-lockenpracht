@@ -14,119 +14,39 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#ifndef __GameController_H__
-#define __GameController_H__
+#ifndef __CharacterController_H__
+#define __CharacterController_H__
 
 #include "UiPrerequisites.h"
 #include "GameTask.h"
-#include "PhysicsController.h"
-#include "PhysicsMaterialRaycast.h"
-#include "CommandMapper.h"
-
-#include <OgreEntity.h>
-#include <OgreCamera.h>
-#include <OgreSceneNode.h>
-#include <OgreSceneQuery.h>
-#undef sleep
-
-#include <deque>
+#include <OgreNewt.h>
 
 namespace rl {
 
     class Actor;
-    class MeshObject;
-
-	/// private struct for holding state info of the controller
-	struct CharacterState
-	{
-		CharacterState();
-		bool mIsAirBorne;
-		bool mStartJump;
-
-		Ogre::Real mJumpTimer;
-
-		Ogre::Vector3 mDesiredVel;
-
-		int mCurrentMovementState;
-		int mLastMovementState;
-	};
-
     /**
      * This class handles character control via user input.
      */
-    class _RlUiExport CharacterController : public GameTask,
-        public PhysicsController
+	class _RlUiExport CharacterController : public GameTask
     {
     public:
-        typedef enum {VM_THIRD_PERSON, VM_FIRST_PERSON} ViewMode;
         /**
          *  @throw NullPointerException if camera or character is NULL.
          *  @throw InvalidArgumentException if character is not placed in the scene.
          */
         CharacterController(Actor* camera, Actor* character);
-        virtual ~CharacterController();
+		virtual ~CharacterController()= 0 {};
 
-        void run(Ogre::Real elapsedTime);
+		virtual void toggleViewMode() = 0;
+		virtual void resetCamera() = 0;
 
-        /// This is the OgreNewt contact process callback for the combination
-        /// Character <-> Level
-        int userProcess();
-
-        /// Newton force and torque callback
-        void OnApplyForceAndTorque(PhysicalThing* thing);
-
-        /// First oder Third person view.
-        void setViewMode(ViewMode mode);
-        ViewMode getViewMode();
-        void toggleViewMode();
-
-        /** Setzt die Camera in einen 30-Grad-Winkel dem Helden auf den Hinterkopf
-        *  schauend im aktuellen Abstand vom Helden, wie durch den Spieler bestimmt.
-        */
-        void resetCamera();
-
-    private:
-		CharacterState mCharacterState;
-
+	protected:
         Actor* mCamera;
         Actor* mCharacter;
 
         OgreNewt::Body* mCamBody;
         OgreNewt::Body* mCharBody;
 
-        // camera control params
-        /// optimal distance to the character
-        Ogre::Real mDesiredDistance;
-        std::pair<Ogre::Real, Ogre::Real> mDistanceRange;
-        Ogre::Degree mYaw;
-        Ogre::Degree mPitch;
-        std::pair<Ogre::Degree, Ogre::Degree> mPitchRange;
-
-        Ogre::Vector3 mLookAtOffset;
-        Ogre::Real mMovementSpeed;
-        Ogre::Real mRotationSpeed;
-        Ogre::Real mSpeedModifier;
-
-		Ogre::Vector3 mGravitation;
-
-        ViewMode mViewMode;
-
-        int mObstractedFrameCount;
-        Ogre::Real mObstractedTime;
-        int mCameraJammedFrameCount;
-        Ogre::Real mCameraJammedTime;
-
-        PhysicsMaterialRaycast* mRaycast;
-
-        /// the maximum amount of time, the character or cmaera should need,
-        /// in order to reach the position, desired by the user.
-        /// the smaller, the tighter the feel.
-        Ogre::Real mMaxDelay;
-
-        void updatePickedObject() const;
-        void updateAnimationState();
-
-        bool isCharacterOccluded() const;
     };
 }
 #endif

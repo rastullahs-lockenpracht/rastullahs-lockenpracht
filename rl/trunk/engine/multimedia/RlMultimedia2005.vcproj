@@ -53,8 +53,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="RlCommon.lib OgreMain_d.lib ceguibase_d.lib fmodvc.lib  Plugin_TheoraVideoSystem.lib OgreGUIRenderer_d.lib"
-				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;..\..\dependencies\boost\lib;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\fmod\api\lib;&quot;..\..\dependencies\TheoraVideo\bin\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\lib"
+				AdditionalDependencies="RlCommon.lib OgreMain_d.lib ceguibase_d.lib fmodvc.lib Plugin_TheoraVideoSystem.lib OgreGUIRenderer_d.lib vorbisfile_d.lib"
+				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;..\..\dependencies\boost\lib;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\fmod\api\lib;&quot;..\..\dependencies\TheoraVideo\bin\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\lib;..\..\dependencies\vorbis\lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -121,8 +121,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="RlCommon.lib OgreMain.lib ceguibase.lib fmodvc.lib  Plugin_TheoraVideoSystem.lib OgreGUIRenderer.lib"
-				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;..\..\dependencies\boost\lib;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\fmod\api\lib;&quot;..\..\dependencies\TheoraVideo\bin\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\lib"
+				AdditionalDependencies="RlCommon.lib OgreMain.lib ceguibase.lib fodvc.lib Plugin_TheoraVideoSystem.lib OgreGUIRenderer.lib vorbisfile.lib"
+				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;..\..\dependencies\boost\lib;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\fmod\api\lib;&quot;..\..\dependencies\TheoraVideo\bin\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\lib;..\..\dependencies\vorbis\lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -204,6 +204,10 @@
 				RelativePath=".\src\VideoEvents.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\src\VorbisFile.cpp"
+				>
+			</File>
 			<Filter
 				Name="Fmod3Driver"
 				>
@@ -252,15 +256,11 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\null\NullSound.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\null\NullSoundChannel.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\null\NullSoundSample.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\null\NullSoundStream.cpp"
 					>
 				</File>
 			</Filter>
@@ -318,6 +318,10 @@
 				RelativePath=".\include\VideoEvents.h"
 				>
 			</File>
+			<File
+				RelativePath=".\include\VorbisFile.h"
+				>
+			</File>
 			<Filter
 				Name="Fmod3Driver"
 				>
@@ -370,15 +374,11 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\null\NullSound.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\null\NullSoundChannel.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\null\NullSoundSample.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\null\NullSoundStream.h"
 					>
 				</File>
 			</Filter>

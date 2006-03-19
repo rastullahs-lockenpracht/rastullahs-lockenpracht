@@ -325,6 +325,8 @@ namespace rl
 		 **/
 		Weapon* removeWeapon(int weaponId);
 
+		void switchToWeapon(int weaponId);
+
         /** 
 		*  @brief Durchfuehren einer Talentprobe.
 		*   Intern ruft sie doAlternativeTalentprobe mit den
@@ -451,6 +453,7 @@ namespace rl
 		int mCurrentAe;
 		int mCurrentAu;		
 
+		Weapon* mActiveWeapon;
         EigenschaftMap mEigenschaften;
         TalentMap mTalente;
         KampftechnikMap mKampftechniken;

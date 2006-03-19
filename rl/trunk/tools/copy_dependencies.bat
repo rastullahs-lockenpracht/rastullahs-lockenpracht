@@ -59,9 +59,15 @@ REM
 copy "%RL_ROOT%\dependencies\fmod\api\fmod.dll" "%RL_DIST%"
 
 copy "%RL_ROOT%\Dependencies\NewtonSDK\sdk\dll\Newton.dll" "%RL_DIST%"
-copy "%RL_ROOT%\Dependencies\OgreNewt\lib\debug_dll\OgreNewt_Main_d.dll" "%RL_DIST%"
-copy "%RL_ROOT%\Dependencies\OgreNewt\lib\release_dll\OgreNewt_Main.dll" "%RL_DIST%"
+copy "%RL_ROOT%\Dependencies\OgreNewt\lib\debug\OgreNewt_d.dll" "%RL_DIST%"
+copy "%RL_ROOT%\Dependencies\OgreNewt\lib\release\OgreNewt.dll" "%RL_DIST%"
 
 copy "%RL_ROOT%\Dependencies\cegui_mk2\bin\*.dll" "%RL_DIST%"
 copy "%RL_ROOT%\Dependencies\xerces\bin\*.dll" "%RL_DIST%"
 copy "%RL_ROOT%\Dependencies\TheoraVideo\bin\%BUILD%\Plugin_TheoraVideoSystem.dll" "%RL_DIST%"
+copy "%RL_ROOT%\Dependencies\vorbis\bin\ogg.dll" "%RL_DIST%"
+copy "%RL_ROOT%\Dependencies\vorbis\bin\ogg_d.dll" "%RL_DIST%"
+copy "%RL_ROOT%\Dependencies\vorbis\bin\vorbis.dll" "%RL_DIST%"
+copy "%RL_ROOT%\Dependencies\vorbis\bin\vorbis_d.dll" "%RL_DIST%"
+copy "%RL_ROOT%\Dependencies\vorbis\bin\vorbisfile.dll" "%RL_DIST%"
+copy "%RL_ROOT%\Dependencies\vorbis\bin\vorbisfile_d.dll" "%RL_DIST%"

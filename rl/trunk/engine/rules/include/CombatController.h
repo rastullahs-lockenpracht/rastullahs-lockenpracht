@@ -21,15 +21,29 @@
 
 namespace rl {
 
+	class Creature;
+	class Combat;
+
 	class _RlRulesExport CombatController 
 	{
 	public:
-		CombatController(int group);
+		CombatController(Combat* combat, int group);
 
 		int getGroup();
+
+		void setActionOption(int option);
+		void setAttackTarget(Creature* creature);
+		void setPareeTarget(Creature* creature);
+
+		Creature* getCurrentCreature();
+
+	protected:
+		Combat* mCombat;
+		void setCurrentCreature(Creature* creature);
+
 	private:
-		
 		int mGroup;
+		Creature* mCurrentCreature;
 	};
 
 }

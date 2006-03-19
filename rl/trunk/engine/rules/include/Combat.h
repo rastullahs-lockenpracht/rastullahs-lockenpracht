@@ -33,6 +33,12 @@ namespace rl {
 	class _RlRulesExport Combat
 	{
 	public:
+		enum ActionOption {
+			ACTION_ATTACK = 1,
+			ACTION_MOVE = 2,
+			ACTION_NONE = 3
+		};
+
 		Combat();
 		~Combat();
 
@@ -60,7 +66,11 @@ namespace rl {
 		void addController(CombatController* controller);
 
 		void start();
+		void tick();
 
+		void setActionOption(CombatController* controller, Creature* actor, int option);
+		void setAttackTarget(CombatController* controller, Creature* actor, Creature* target);
+		void setPareeTarget(CombatController* controller, Creature* actor, Creature* target);
 
 	private:
 		class CreatureData
@@ -71,6 +81,7 @@ namespace rl {
 			int group;
 
 			int initiative;
+			ActionOption nextAction;
 		};
 		typedef std::map<Creature*, CreatureData*> CreatureDataMap;
 

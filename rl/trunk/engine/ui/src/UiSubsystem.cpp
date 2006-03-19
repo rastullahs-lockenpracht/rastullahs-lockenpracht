@@ -28,6 +28,7 @@
 #include "Console.h"
 #include "DebugWindow.h"
 #include "CharacterController.h"
+#include "MovementCharacterController.h"
 #include "InputManager.h"
 #include "CommandMapper.h"
 #include "CommandMapperWindow.h"
@@ -208,7 +209,7 @@ namespace rl {
             ScriptWrapper::getSingleton().owned( person );
             mCharacter = person;
             Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
-            mCharacterController = new CharacterController(camera, person->getActor());
+            mCharacterController = new MovementCharacterController(camera, person->getActor());
 		    Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "CharacterController created.");
 			GameLoopManager::getSingleton().addSynchronizedTask(mCharacterController, FRAME_STARTED );
             Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "CharacterController task added.");

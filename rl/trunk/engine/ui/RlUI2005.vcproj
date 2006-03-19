@@ -79,12 +79,12 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlCore.lib RlRules.lib RlMultimedia.lib RlUiComponents.lib msvcrt-ruby18.lib OgreMain_d.lib OgreGuiRenderer_d.lib CEGUIBase_d.lib xerces-c_2D.lib OgreNewt_Main_d.lib Newton.lib"
+				AdditionalDependencies="RlCore.lib RlRules.lib RlMultimedia.lib RlUiComponents.lib msvcrt-ruby18.lib OgreMain_d.lib OgreGuiRenderer_d.lib CEGUIBase_d.lib xerces-c_2D.lib OgreNewt_d.lib Newton.lib"
 				ShowProgress="0"
 				OutputFile="$(OutDir)/RlUI.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\multimedia\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\uicomponents\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\ogg\win32;..\..\dependencies\xerces\lib;..\..\dependencies\OgreNewt\lib\debug_dll;..\..\dependencies\NewtonSDK\sdk\dll"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\multimedia\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\uicomponents\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\ogg\win32;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\OgreNewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
@@ -187,11 +187,11 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlCore.lib RlRules.lib RlMultimedia.lib RlUiComponents.lib msvcrt-ruby18.lib OgreMain.lib OgreGuiRenderer.lib CEGUIBase.lib xerces-c_2.lib OgreNewt_Main.lib Newton.lib"
+				AdditionalDependencies="RlCore.lib RlRules.lib RlMultimedia.lib RlUiComponents.lib msvcrt-ruby18.lib OgreMain.lib OgreGuiRenderer.lib CEGUIBase.lib xerces-c_2.lib OgreNewt.lib Newton.lib"
 				OutputFile="$(OutDir)/RlUI.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\multimedia\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\uicomponents\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\ogg\win32;..\..\dependencies\xerces\lib;..\..\dependencies\OgreNewt\lib\release_dll;..\..\dependencies\NewtonSDK\sdk\dll"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\multimedia\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\uicomponents\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\ogg\win32;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\OgreNewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll"
 				ProgramDatabaseFile=""
 				SubSystem="2"
 			/>
@@ -232,35 +232,7 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath=".\include\AboutWindow.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\ActionChoiceWindow.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\CeGuiWindow.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\CharacterController.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\CharacterSheetWindow.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\CharacterStateWindow.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\CloseConfirmationWindow.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\CombatWindow.h"
 				>
 			</File>
 			<File
@@ -272,35 +244,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\CommandMapperWindow.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\Console.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\ContainerContentWindow.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\DataLoadingProgressWindow.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\DebugWindow.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\DialogWindow.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\GameLoggerWindow.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\InGameMenuWindow.h"
 				>
 			</File>
 			<File
@@ -308,35 +252,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\InventoryWindow.h"
+				RelativePath=".\include\MovementCharacterController.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\JournalWindow.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\LogWindow.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\MainMenuEngineWindow.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\MainMenuWindow.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\MessageWindow.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\PlaylistWindow.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\TargetSelectionWindow.h"
+				RelativePath=".\include\SoundConfig.h"
 				>
 			</File>
 			<File
@@ -348,48 +268,112 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\VideoWindow.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\WindowManager.h"
 				>
 			</File>
+			<Filter
+				Name="windows"
+				>
+				<File
+					RelativePath=".\include\AboutWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\ActionChoiceWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\CeGuiWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\CharacterSheetWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\CharacterStateWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\CloseConfirmationWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\CombatWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\CommandMapperWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\ContainerContentWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\DataLoadingProgressWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\DebugWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\DialogWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\GameLoggerWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\InGameMenuWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\InventoryWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\JournalWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\LogWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\MainMenuEngineWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\MainMenuWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\MessageWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\PlaylistWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\TargetSelectionWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\VideoWindow.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath=".\src\AboutWindow.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ActionChoiceWindow.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\CeGuiWindow.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\CharacterController.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\CharacterSheetWindow.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\CharacterStateWindow.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\CloseConfirmationWindow.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\CombatWindow.cpp"
 				>
 			</File>
 			<File
@@ -401,35 +385,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\CommandMapperWindow.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\Console.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ContainerContentWindow.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\DataLoadingProgressWindow.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\DebugWindow.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\DialogWindow.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\GameLoggerWindow.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\InGameMenuWindow.cpp"
 				>
 			</File>
 			<File
@@ -437,39 +393,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\InventoryWindow.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\JournalWindow.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\LogWindow.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\MainMenuEngineWindow.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\MainMenuWindow.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\MessageWindow.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\PlaylistWindow.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\SoundConfig.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\TargetSelectionWindow.cpp"
+				RelativePath=".\src\MovementCharacterController.cpp"
 				>
 			</File>
 			<File
@@ -477,13 +401,109 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\VideoWindow.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\WindowManager.cpp"
 				>
 			</File>
+			<Filter
+				Name="windows"
+				>
+				<File
+					RelativePath=".\src\AboutWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ActionChoiceWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\CeGuiWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\CharacterSheetWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\CharacterStateWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\CloseConfirmationWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\CombatWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\CommandMapperWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ContainerContentWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\DataLoadingProgressWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\DebugWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\DialogWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\GameLoggerWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\InGameMenuWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\InventoryWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\JournalWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\LogWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\MainMenuEngineWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\MainMenuWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\MessageWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\PlaylistWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\SoundConfig.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\TargetSelectionWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\VideoWindow.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"

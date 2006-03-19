@@ -25,7 +25,9 @@
 namespace rl
 {
     Creature::Creature(const CeGuiString& name, const CeGuiString& description)
-        : GameObject(name, description), mCurrentLe(0)
+        : GameObject(name, description), 
+		mCurrentLe(NULL),
+		mActiveWeapon(NULL)
     {
 		setWert(WERT_MOD_AE, 0);
 		setWert(WERT_MOD_LE, 0);
@@ -565,6 +567,34 @@ namespace rl
 		Weapon* rval = (*it).second;
 		mWeapons.erase(it);
 		return rval;
+	}
+
+	void Creature::switchToWeapon(int weaponId)
+	{
+		using namespace Ogre;
+
+		WeaponMap::iterator it = mWeapons.find(weaponId);
+		if (it == mWeapons.end())
+		{
+			Throw(InvalidArgumentException, "weaponId nicht in mWeapons gefunden.");
+		}
+		
+		Weapon* weapon = (*it).second;
+		
+		if (mActiveWeapon != NULL)
+		{
+			getActor()->detach(mActiveWeapon->getActor());
+		}
+		
+		//FIXME
+		getActor()->attachToSlot(
+			weapon->getActor(), 
+			"Bone13",
+			"SLOT_HANDLE",
+			Vector3::ZERO,
+			Quaternion(Degree(-90), Vector3::UNIT_Z)* Quaternion(Degree(90), Vector3::UNIT_X)); 
+
+		 mActiveWeapon = weapon;
 	}
 
 	int Creature::doAttacke(const CeGuiString& kampftechnikName, int modifier)

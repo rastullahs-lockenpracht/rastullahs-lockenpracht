@@ -51,6 +51,7 @@ namespace rl {
 		CEGUI::MenuBase* getMenu(const char* name);
 		CEGUI::MenuItem* getMenuItem(const char* name);
 		CEGUI::PushButton* getPushButton(const char* name);
+		CEGUI::Combobox* getCombobox(const char* name);
 
 		static CEGUI::Window* getRoot();
 

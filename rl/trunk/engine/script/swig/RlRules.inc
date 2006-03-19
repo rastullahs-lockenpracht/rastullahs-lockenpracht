@@ -321,10 +321,11 @@ namespace rl {
     class Weapon : public Item 
     {
     public:
+		enum Distanzklasse { DK_H=0, DK_N, DK_S, DK_P };
+
         Weapon(const rl::CeGuiString& name, const rl::CeGuiString& description);
         virtual ~Weapon(void);
-        
-        
+                
 		void setTp(int d6, int d20, int mod);
 		const Tripel<int>& getTp() const;
 		void setTpKk(int base, int step);
@@ -379,6 +380,7 @@ namespace rl {
 		void addWeapon(Weapon* weapon);
 		Weapon* getWeapon(int weaponId) const;
 		Weapon* removeWeapon(int waponId);
+		void switchToWeapon(int weaponId);
 
         virtual void modifyEigenschaft(const rl::CeGuiString& eigenschaftName, int mod);
         virtual void modifyTalent(const rl::CeGuiString& talentName, int mod);

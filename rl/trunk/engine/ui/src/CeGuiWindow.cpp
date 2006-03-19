@@ -241,6 +241,12 @@ PushButton* CeGuiWindow::getPushButton(const char* name)
 	return static_cast<PushButton*>(getWindow(name, "PushButton"));
 }
 
+Combobox* CeGuiWindow::getCombobox(const char* name)
+{
+	return static_cast<Combobox*>(getWindow(name, "Combobox"));
+}
+
+
 const CeGuiString& CeGuiWindow::getName() const
 {
 	return mName;

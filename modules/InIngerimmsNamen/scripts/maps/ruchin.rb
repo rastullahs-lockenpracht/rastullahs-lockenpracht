@@ -1,6 +1,6 @@
 require 'globals.rb'
 require 'player.rb'
-require 'hero_scaled.rb'
+require 'hero.rb'
 
 $PM.setEnabled(true)
 
@@ -44,13 +44,12 @@ $SCRIPT.log("Held vorbereitet.");
 $UI.setActiveCharacter(hero);
 $SCRIPT.log("Held als aktiver Charakter gesetzt.");
 
-load "waldspinne.rb"
-#waldspinne = Waldspinne.new
-#waldspinne.getActor().placeIntoScene([-15.0, -1.35, 10.20], [1.0, 0.0, 0.0, 0.0]);	
-#waldspinne.getActor().setScale(0.05, 0.05, 0.05)
-#$GameEveMgr.addSphereAreaListener( waldspinne.getActor(), 500.0, CombatTrigger.new(), Actor::QGF_PLAYER )
-
 sound = $AM.createSoundSampleActor("Feuer", "feuer_knisternd_01.ogg")
 sound.getControlledObject().setLooping(true)
 sound.placeIntoScene([-15.0, -1.35, 10.200])
 sound.getControlledObject().play()
+
+load "kampf.rb"
+schwester = Schwester.new
+schwester.getActor().placeIntoScene([-15.0, -1.35, 10.20], [1.0, 0.0, 0.0, 0.0]);	
+$GameEveMgr.addSphereAreaListener( schwester.getActor(), 5.0, CombatTrigger.new(), Actor::QGF_PLAYER )
