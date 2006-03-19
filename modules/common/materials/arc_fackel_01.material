@@ -1,0 +1,15 @@
+material arc_fackel_01
+{
+    technique
+    {
+        pass
+        {
+		alpha_rejection greater 215
+            texture_unit
+            {
+                texture arc_Sense_Waschbrett_Fackel_Besen.png
+            }
+        }
+    }
+}
+

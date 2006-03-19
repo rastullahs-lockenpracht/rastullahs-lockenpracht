@@ -1,0 +1,30 @@
+material ALPHA/TEX/gras_planes.png/TWOSIDE
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+            alpha_rejection greater 120
+
+			texture_unit
+			{
+				texture gras_planes.png
+			}
+		}
+	}
+}
+material SOLID/TEX/gras_02.png
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture gras_02.png
+			}
+		}
+	}
+}

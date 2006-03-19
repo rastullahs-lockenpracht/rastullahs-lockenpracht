@@ -1,0 +1,41 @@
+
+
+material nat_baum_01/stamm
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0.1 0.1 0.1 1 0
+
+			texture_unit
+			{
+				texture nat_baum_01.png
+				filtering point point point
+			}
+		}
+	}
+}
+
+material nat_baum_01/blaetter
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+			specular 0.1 0.1 0.1 1 0
+			//depth_write off
+				alpha_rejection greater 190
+			texture_unit
+			{
+				texture nat_baum_01.png
+				filtering point point point
+
+			}
+		}
+	}
+}
