@@ -1,0 +1,20 @@
+material fichte
+{ 
+   technique 
+   { 
+      pass 
+      { 
+                         // Rendert beidseitig 
+         cull_hardware none 
+         cull_software none 
+
+         texture_unit 
+         { 
+            texture fichte.png 
+            filtering anisotropic anisotropic anisotropic 
+                                // Simple Transparenz 
+            alpha_rejection greater 215 
+         } 
+      } 
+   } 
+} 

@@ -1,0 +1,18 @@
+
+
+material eiche/SOLID/nat_baumpilz_grau.png
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.421036 0.396592 0.298817 1
+
+			texture_unit
+			{
+				texture nat_baumpilz_grau.png
+				filtering anisotropic anisotropic anisotropic
+			}
+		}
+	}
+}

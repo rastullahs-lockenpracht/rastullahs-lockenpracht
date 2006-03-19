@@ -1,0 +1,18 @@
+
+
+material Mapobject_fackel_angebrannt
+{
+	technique
+	{
+		pass
+		{
+			
+
+			texture_unit
+			{
+				texture fackel.jpg
+				filtering point point point
+			}
+		}
+	}
+}

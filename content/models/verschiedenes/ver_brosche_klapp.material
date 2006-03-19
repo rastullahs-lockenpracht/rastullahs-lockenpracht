@@ -1,0 +1,39 @@
+material klappbrosche/ALPHA/ver_brosche_klapp.png
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 0.500000 0.500000 0.500000
+			diffuse 0.800000 0.800000 0.800000
+			specular 0.300000 0.300000 0.300000 50.000000
+
+			texture_unit
+			{
+				texture ver_brosche_klapp.png
+				alpha_rejection greater 120
+			}
+		}
+	}
+}
+
+material klappbrosche/SOLID/ver_brosche_klapp.png
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 0.500000 0.500000 0.500000
+			diffuse 0.800000 0.800000 0.800000
+			specular 0.300000 0.300000 0.300000 50.000000
+
+			texture_unit
+			{
+				texture ver_brosche_klapp.png
+			}
+		}
+	}
+}
+

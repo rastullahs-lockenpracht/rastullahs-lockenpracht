@@ -1,0 +1,20 @@
+material busch2
+{ 
+   technique 
+   { 
+      pass 
+      { 
+                         // Rendert beidseitig 
+         cull_hardware none 
+         cull_software none 
+
+         texture_unit 
+         { 
+            texture busch2.png 
+            filtering anisotropic anisotropic anisotropic 
+                                // Simple Transparenz 
+            alpha_rejection greater 215 
+         } 
+      } 
+   } 
+} 

@@ -1,0 +1,14 @@
+material nat_busch_01
+{
+    technique
+    {
+        pass
+        {
+            alpha_rejection greater 215 
+            texture_unit
+            {
+                texture nat_busch_01.png 
+            }
+        }
+    }
+}

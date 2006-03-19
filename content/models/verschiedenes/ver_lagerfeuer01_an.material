@@ -1,0 +1,20 @@
+material ver_lagerfeuer01_an
+{ 
+   technique 
+   { 
+      pass 
+      { 
+                         // Rendert beidseitig 
+         cull_hardware none 
+         cull_software none 
+
+         texture_unit 
+         { 
+            texture ver_lagerfeuer01_an.png 
+            filtering anisotropic anisotropic anisotropic 
+                                // Simple Transparenz 
+            alpha_rejection greater 215 
+         } 
+      } 
+   } 
+} 

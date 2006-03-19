@@ -1,0 +1,15 @@
+material arc_schrank_01
+{
+    technique
+    {
+        pass
+        {
+            alpha_rejection greater 215 
+            
+            texture_unit
+            {
+                texture arc_schrank_01.png 
+            }
+        }
+    }
+}
