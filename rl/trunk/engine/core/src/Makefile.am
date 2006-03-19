@@ -6,9 +6,10 @@ libRlCore_la_SOURCES = \
 	Actor.cpp \
 	ActorControlledObject.cpp \
 	ActorManager.cpp \
-	Animation.cpp \
+	AnimationFader.cpp \
 	AnimationListener.cpp \
 	AnimationManager.cpp \
+	BaseAnimation.cpp \
 	CameraObject.cpp \
 	ConfigurationManager.cpp \
 	ConfigurationManagerLinux.cpp \
@@ -27,6 +28,7 @@ libRlCore_la_SOURCES = \
 	GameLoop.cpp \
 	LightObject.cpp \
 	ListenerObject.cpp \
+	MeshAnimation.cpp \
 	MeshObject.cpp \
 	ParticleSystemObject.cpp \
 	PhysicsContactListener.cpp \

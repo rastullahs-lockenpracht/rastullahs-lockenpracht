@@ -77,7 +77,7 @@ MultimediaSubsystem::MultimediaSubsystem():
     } else {
         delete driver;
     }
-    setActiveDriver(nullDriver);
+    setActiveDriver(driver);
 #else
     // Nulltreiber als aktiven Treiber setzen.
     setActiveDriver(nullDriver);

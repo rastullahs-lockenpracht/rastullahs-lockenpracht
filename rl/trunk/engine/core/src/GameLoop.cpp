@@ -107,6 +107,7 @@ using namespace Ogre;
 
 	void GameLoopManager::quitGame()
 	{
+        mAsynchronousGameLoop->setPaused(true);
 		mSynchronizedFrameEndedGameLoop->quitGame();
 	}
 

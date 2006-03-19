@@ -2,9 +2,10 @@
 	Actor.h \
 	ActorControlledObject.h \
 	ActorManager.h \
-	Animation.h \
+	AnimationFader.h \
 	AnimationListener.h \
 	AnimationManager.h \
+	BaseAnimation.h \
 	CameraObject.h \
 	ContentModule.h \
 	CoreEvents.h \
@@ -20,6 +21,7 @@
 	GameLoop.h \
 	LightObject.h \
 	ListenerObject.h \
+	MeshAnimation.h \
 	MeshObject.h \
 	ParticleSystemObject.h \
 	PhysicsContactListener.h \

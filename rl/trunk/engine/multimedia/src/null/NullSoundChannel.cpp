@@ -48,7 +48,6 @@ void NullSoundChannel::play() throw (RuntimeException)
     {
         getSound()->load();
     }
-    // TODO setChannel(getSound()->createChannel());
     setGain(255);
     setPosition(Vector3(0.0, 0.0, 0.0));
     setDirection(Vector3(0.0, 0.0, 0.0));
@@ -195,7 +194,8 @@ void NullSoundChannel::setGain(const int gain) throw (RuntimeException)
  */
 void NullSoundChannel::pause(bool pausing) throw (RuntimeException)
 {
-    mIsPlaying = !pausing;
+    //mIsPlaying = !pausing;
+    mIsPlaying = false;
 }
 
 /**

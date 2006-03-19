@@ -40,7 +40,7 @@ VorbisFile::VorbisFile(const SoundResourcePtr &res):
     mVorbisInfo = *ov_info(&mOggStream, -1);
     double time = ov_time_total(&mOggStream, -1);
     mTotalTime.sec = (long long int)time;
-    mTotalTime.nsec = (int)(time - mTotalTime.sec) * pow(10.0, 9.0);
+    mTotalTime.nsec = (int)(time - (double)mTotalTime.sec) * pow(10.0, 9.0);
 }
 
 VorbisFile::~VorbisFile()

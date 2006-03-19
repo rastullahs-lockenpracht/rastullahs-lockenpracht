@@ -76,6 +76,7 @@ void NullSound::load() throw (RuntimeException)
     getSoundResource()->load();
     VorbisFile file(getSoundResource());
     mTotalTime = file.getTotalTime();
+    getSoundResource()->unload();
 }
 
 /**
@@ -84,7 +85,10 @@ void NullSound::load() throw (RuntimeException)
  */
 void NullSound::unload() throw (RuntimeException)
 {
-    getSoundResource()->unload(); // TODO Ist das wirklich nötig?
+    if (getSoundResource()->isLoaded())
+    {
+        getSoundResource()->unload();
+    }
 }
 
 /**
