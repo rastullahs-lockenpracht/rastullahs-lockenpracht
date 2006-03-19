@@ -34,6 +34,11 @@ float4 main_ps (
     float3 LightDir   : TEXCOORD1,
     float3 HalfVector : TEXCOORD2,
     float3 Normal     : TEXCOORD3,
+    uniform float4 lightDiffuse,
+    uniform float4 ambientLight,
+    uniform float4 materialDiffuse,
+    uniform float4 materialAmbient,
+    uniform float4 materialSpecular,
 	uniform sampler2D diffuseMap,
     uniform sampler2D specMap) : COLOR
 {
@@ -41,7 +46,7 @@ float4 main_ps (
     float specularLevel = tex2D(specMap, UV).r;
 
     // The ambient term will always be present
-    float4 color = float4(0.2, 0.2, 0.2, 1.0)*texColour;
+    float4 color = ambientLight*materialAmbient*texColour;
 
     // a fragment shader can't write a varying variable, hence we need
     // a new variable to store the normalized interpolated normal
@@ -52,10 +57,10 @@ float4 main_ps (
 
     if (NdotL > 0.0)
     {
-        color += texColour * float4(0.7, 0.7, 0.7, 1.0) * NdotL;
+        color += (texColour * lightDiffuse * materialDiffuse) * NdotL;
         float3 halfV = normalize(HalfVector);
         float NdotHV = max(dot(n,halfV),0.0);
-        color += float4(0.9, 0.9, 0.9, 1.0)*specularLevel*pow(NdotHV, 42.0);
+        color += materialSpecular*specularLevel*pow(NdotHV, 42.0);
     }
 
     return color;

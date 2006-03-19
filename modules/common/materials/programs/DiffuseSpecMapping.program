@@ -35,9 +35,6 @@ material DiffuseSpecMapping
 
             vertex_program_ref DiffuseSpecMappingVP_GLSL
             {
-                param_named_auto lightPosition light_position_object_space 0
-                param_named_auto eyePosition camera_position_object_space
-                param_named textureScale float 1.0
             }
 
             fragment_program_ref DiffuseSpecMappingFP_GLSL
@@ -72,6 +69,12 @@ material DiffuseSpecMapping
 
             fragment_program_ref DiffuseSpecMappingPS_HLSL
             {
+                param_named_auto lightDiffuse light_diffuse_colour 0
+                param_named_auto ambientLight ambient_light_colour
+
+                param_named materialAmbient float4 0.5 0.5 0.5 1.0
+                param_named materialDiffuse float4 0.7 0.7 0.7 1.0
+                param_named materialSpecular float4 0.8 0.8 0.8 1.0
             }
 
             // Base diffuse texture map
