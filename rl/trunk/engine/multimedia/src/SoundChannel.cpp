@@ -143,6 +143,11 @@ void SoundChannel::load() throw (RuntimeException)
 	mSound->load();
 }
 
+void SoundChannel::unload() throw (RuntimeException)
+{
+    mSound->unload();
+}
+
 bool SoundChannel::is3d() const
 {
 	return mSound->is3d();

@@ -57,7 +57,6 @@ using namespace Ogre;
 
 	GameLoopManager::~GameLoopManager()
 	{
-		//mAsynchronousGameLoop->cancel();
 		delete mAsynchronousGameLoop;
 
 		Ogre::Root::getSingleton().removeFrameListener(mSynchronizedFrameStartedGameLoop);
@@ -107,8 +106,8 @@ using namespace Ogre;
 
 	void GameLoopManager::quitGame()
 	{
-        mAsynchronousGameLoop->setPaused(true);
 		mSynchronizedFrameEndedGameLoop->quitGame();
+        mAsynchronousGameLoop->setPaused(true);
 	}
 
 	GameLoop::GameLoop() 
@@ -194,6 +193,11 @@ using namespace Ogre;
 		mTimer->reset();		
 		mThread = new boost::thread(&AsynchronousGameLoop::runStatic);
 	}
+    
+    AsynchronousGameLoop::~AsynchronousGameLoop()
+    {
+        delete mThread;
+    }
 
 	void AsynchronousGameLoop::run()
 	{

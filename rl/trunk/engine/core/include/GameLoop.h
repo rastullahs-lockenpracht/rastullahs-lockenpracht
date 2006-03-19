@@ -19,7 +19,6 @@
 
 #include <list>
 #include <OgreSingleton.h>
-//#include <OpenThreads/Thread>
 #include <boost/thread.hpp>
 
 #include "CorePrerequisites.h"
@@ -100,6 +99,7 @@ class AsynchronousGameLoop
 {
 public:
 	AsynchronousGameLoop(unsigned long timeTickInMillis);
+    ~AsynchronousGameLoop();
 	void run();
 	static void runStatic();
 

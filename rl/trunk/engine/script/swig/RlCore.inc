@@ -391,6 +391,7 @@ public:
 	rl::SoundChannel* getSoundChannel() const;
 
 	void load();
+	void unload();
 	bool is3d() const;
 	void set3d( bool is3d );
 

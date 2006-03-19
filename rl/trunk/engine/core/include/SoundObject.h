@@ -72,6 +72,8 @@ namespace rl {
 
 		/// Lädt den Ton
 		void load();
+        /// Entlädt den Sound.
+        void unload();
 
 		virtual bool isMeshObject();
     };

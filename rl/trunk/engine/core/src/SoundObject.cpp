@@ -158,6 +158,11 @@ void SoundObject::load()
 	getSoundChannel()->load();
 }
 
+void SoundObject::unload()
+{
+    getSoundChannel()->unload();
+}
+
 /**
  * @param Der bewegbare Sound
  * @author JoSch
