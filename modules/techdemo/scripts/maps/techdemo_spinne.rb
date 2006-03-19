@@ -55,8 +55,8 @@ class Waldspinne < Creature
 	# Aktion entfernen
 	removeAction(@mScareAction)
 	# Todesanimation starten
-	getActor().getControlledObject().startAnimation("ko", 0.33, 1)
-	getActor().getControlledObject().getAnimation("ko").addAnimationListener(animListener)
+	getActor().getControlledObject().startAnimation("death", 0.33, 1)
+	getActor().getControlledObject().getAnimation("death").addAnimationListener(animListener)
   end
 	
   def die(player)
