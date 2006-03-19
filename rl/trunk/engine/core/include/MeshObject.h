@@ -42,7 +42,7 @@ namespace rl {
         Ogre::Real getRadius();
         Ogre::Real getHeight();
         
-		MeshAnimation* getAnimation(const Ogre::String& animName) const;
+		MeshAnimation* getAnimation(const Ogre::String& animName);
 		MeshAnimation* startAnimation(const Ogre::String& animName, 
 		    Ogre::Real speed=1.0, unsigned int timesToPlay=0);
 		MeshAnimation* replaceAnimation(const Ogre::String& oldAnimName, const Ogre::String& newAnimName, 
@@ -54,6 +54,10 @@ namespace rl {
         bool getCastShadows (void) const;
 
 		virtual bool isMeshObject();
+
+        /// Per Skeleton-Blend-Setting
+        bool getBlendCumulative(void) const;
+        void setBlendCumulative(bool cumulative);
 
         void setHighlighted( bool highlight );
         

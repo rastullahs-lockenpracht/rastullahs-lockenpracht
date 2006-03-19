@@ -17,19 +17,25 @@
 #include "Exception.h"
 #include "AnimationManager.h"
 #include "ActorManager.h"
+#include "MeshObject.h"
 #include "ScriptWrapper.h"
 
+#include "OgreAnimation.h"
+#include "OgreSkeleton.h"
 #include "MeshAnimation.h"
-
 
 namespace rl {
 
 MeshAnimation::MeshAnimation( Ogre::AnimationState* animState, MeshObject* mesh,
                      Ogre::Real speed, unsigned int timesToPlay, bool paused ) :
-    mMeshObject( mesh ),
-    BaseAnimation( animState->getLength(), speed, timesToPlay, paused ) 
+    BaseAnimation( animState->getLength(), speed, timesToPlay, paused ),
+    mMeshObject( mesh )     
 {
 	setAnimationState(animState);
+    
+    mAnimation = 
+        static_cast<Entity*>(mMeshObject->getMovableObject())->getSkeleton()
+        ->getAnimation(animState->getAnimationName());
 }
 
 MeshAnimation::~MeshAnimation()
@@ -91,6 +97,11 @@ Ogre::Real MeshAnimation::getWeight(void) const
 void MeshAnimation::setWeight(Ogre::Real weight)
 {
 	mAnimState->setWeight( weight );
+
+    if( weight > 0.0 && !mAnimState->getEnabled() )
+        mAnimState->setEnabled(true);
+    else if( weight <= 0.00001 && mAnimState->getEnabled() )
+        mAnimState->setEnabled(false);
 }
 
 void MeshAnimation::doAddTime(Ogre::Real timePassed)

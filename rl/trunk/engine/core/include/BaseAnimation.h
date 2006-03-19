@@ -130,6 +130,8 @@ class _RlCoreExport BaseAnimation : public virtual EventSource
 		virtual void removeAnimationFrameListener( AnimationFrameListener *listener );
 		/// Entfernt einen AnimationListener an einem bestimmtem Zeitindex
 		virtual void removeAnimationFrameListener( AnimationFrameListener *listener, Ogre::Real frameNumber );
+
+        virtual Ogre::Real getLength() const;
     protected:
 		/// Ein Delay vor dem ersten Abspielen
 		Ogre::Real mDelay;

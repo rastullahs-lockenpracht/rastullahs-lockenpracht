@@ -18,6 +18,7 @@
 #define __AnimationManager_H__
 
 #include <map>
+#include <set>
 #include <OgreSingleton.h>
 
 #include "GameTask.h"
@@ -29,8 +30,9 @@ class Actor;
 class BaseAnimation;
 class MeshAnimation;
 class TrackAnimation;
+class FadeAnimation;
 class MeshObject;
-class AnimationFader;
+
 
 /** 
 	Diese Klasse verwaltet sämtliche Animationen und kümmert sich um das Starten und Stoppen dieser
@@ -80,6 +82,7 @@ public:
 	/// Entfernt eine Animation
 	void removeAnimation(TrackAnimation* anim);
     void removeAnimation(MeshAnimation* anim);
+    void removeAnimation(FadeAnimation* anim);
     /// Ersetzt eine alte Animation durch eine Neue
     MeshAnimation* replaceAnimation(MeshAnimation* oldAnim,  
 	Ogre::AnimationState* newAnimState, Ogre::Real speed=1.0, unsigned int timesToPlay=0  );
@@ -88,6 +91,16 @@ public:
 	/// Entfernt alle TrackAnimations dieses Actors
 	void removeAllTrackAnimations( Actor* act );
 	
+
+    /// Blendet von Animation 'from' zu 'to' über
+    FadeAnimation* fadeAnimation( MeshAnimation* from, 
+        MeshAnimation* to, Ogre::Real time );
+    /** Blendet Animationen von nach über, wenn loopDuration nicht
+      * größer 0 ist, wird hier die Dauer der Animation genommen 
+      *  @todo Rückwärts anschauen, Geschwindigkeit */
+    FadeAnimation* fadeAnimation( MeshAnimation* fromLoop, 
+        MeshAnimation* blendAnim, MeshAnimation* toLoop, Ogre::Real loopDuration = 0.0 );
+
 
 	/** Globale Beschleunigung, für SlowMotion oder andere sinnige Effekte
 		@param speed Der Beschleunigungsfaktor. 
@@ -118,9 +131,11 @@ public:
 private:
     static void stopAnimation( BaseAnimation* anim );
 
-    typedef std::map<Ogre::AnimationState*,BaseAnimation*> MeshAnimMap;
-    /// Alle auszuführenden Animationen
-    MeshAnimMap mMeshAnimationMap;
+    typedef std::set<FadeAnimation*> FadeAnimSet;
+    FadeAnimSet mFadeAnimSet;
+
+    typedef std::map<Ogre::AnimationState*,BaseAnimation*> StateAnimMap;
+    StateAnimMap mStateAnimationMap;
 
 	/// Die globale Beschleunigung
 	Ogre::Real mGlobalAnimationSpeed;

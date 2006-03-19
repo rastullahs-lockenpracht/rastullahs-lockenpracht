@@ -275,6 +275,11 @@ private:
 	BaseAnimation(  );
 };
 
+class FadeAnimation : public BaseAnimation {
+private:
+	FadeAnimation(  ); 
+};
+
 class MeshAnimation : public BaseAnimation {
 public:
     rl::MeshObject* getMeshObject( );
@@ -317,11 +322,16 @@ public:
 	rl::TrackAnimation* createTrackAnimation(rl::Actor* actor, const Ogre::String& name, Ogre::Real length );
 	void removeAnimation( rl::MeshAnimation* anim );
     void removeAnimation( rl::TrackAnimation* anim );
+    void removeAnimation( rl::FadeAnimation* anim );
 	void removeTrackAnimation( rl::Actor* act, const Ogre::String& name );
 	void removeAllTrackAnimations( rl::Actor* act );
 	
 	void setGlobalAnimationSpeed( Ogre::Real speed );
 	Ogre::Real getGlobalAnimationSpeed( ) const;
+
+    rl::FadeAnimation* fadeAnimation( rl::MeshAnimation* from, rl::MeshAnimation* to, Ogre::Real time );
+    rl::FadeAnimation* fadeAnimation( rl::MeshAnimation* fromLoop, rl::MeshAnimation* blendAnim, 
+        rl::MeshAnimation* toLoop, Ogre::Real loopDuration = 0.0);
 	
 	void setDefaultInterpolationMode( rl::AnimationManager::InterpolationMode im );
 	rl::AnimationManager::InterpolationMode getDefaultInterpolationMode() const;
@@ -354,7 +364,7 @@ public:
     Ogre::Real getRadius();
     Ogre::Real getHeight();
     
-	rl::BaseAnimation* getAnimation(const Ogre::String& animName) const;
+	rl::BaseAnimation* getAnimation(const Ogre::String& animName);
 	rl::BaseAnimation* replaceAnimation(const Ogre::String& oldAnimName, 
 	    const Ogre::String& newAnimName, float speed=1.0, unsigned int timesToPlay=0);
 	rl::BaseAnimation* startAnimation(const Ogre::String& animName, 

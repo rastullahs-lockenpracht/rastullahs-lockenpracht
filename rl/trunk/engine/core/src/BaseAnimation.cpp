@@ -21,7 +21,6 @@
 
 #include "BaseAnimation.h"
 
-
 namespace rl {
 
 BaseAnimation::BaseAnimation( Ogre::Real length, Ogre::Real speed, 
@@ -43,6 +42,11 @@ BaseAnimation::BaseAnimation( Ogre::Real length, Ogre::Real speed,
 BaseAnimation::~BaseAnimation()
 {
     removeAllListeners();
+}
+
+Ogre::Real BaseAnimation::getLength() const
+{
+    return mLength;
 }
 
 bool BaseAnimation::isPaused() const

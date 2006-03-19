@@ -82,19 +82,24 @@ namespace rl {
 
 	/// @todo Exception Handling
 
-	MeshAnimation* MeshObject::getAnimation(const String& animName) const
+	MeshAnimation* MeshObject::getAnimation(const String& animName)
 	{
+        MeshAnimation* anim = NULL;
+
 		try
 		{
 			AnimationState* animState = getEntity()->getAnimationState(animName);
-			return dynamic_cast<MeshAnimation*>
+			anim = dynamic_cast<MeshAnimation*>
                 (AnimationManager::getSingleton().getAnimation(animState));
+            if( anim == NULL )
+                anim = dynamic_cast<MeshAnimation*>(
+                AnimationManager::getSingleton().addMeshAnimation(animState,this,1.0,0,true));
 		}
 		catch(Ogre::Exception&) 
 		{
 		}
 
-		return 0;
+		return anim;
 	}
 
 
@@ -149,6 +154,33 @@ namespace rl {
     String MeshObject::getObjectType()
     {
         return "MeshObject";
+    }
+
+    bool MeshObject::getBlendCumulative(void) const
+    {
+        if( getEntity()->hasSkeleton() )
+        {
+            if( getEntity()->getSkeleton()->getBlendMode() 
+                == ANIMBLEND_CUMULATIVE  )
+                return true;
+            else
+                return false;
+        }
+
+        return false;
+    }
+    
+    void MeshObject::setBlendCumulative(bool cumulative)
+    {
+        if( getEntity()->hasSkeleton() )
+        {
+            if( cumulative )
+                getEntity()->getSkeleton()->
+                setBlendMode(ANIMBLEND_CUMULATIVE);
+            else
+                getEntity()->getSkeleton()->
+                setBlendMode(ANIMBLEND_AVERAGE);
+        }
     }
     
     void MeshObject::calculateSize()

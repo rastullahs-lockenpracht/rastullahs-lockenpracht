@@ -40,6 +40,7 @@
 #include "AnimationListener.h"
 #include "BaseAnimation.h"
 #include "MeshAnimation.h"
+#include "FadeAnimation.h"
 #include "TrackAnimation.h"
 #include "GameLoop.h"
 #include "World.h"

@@ -23,6 +23,7 @@
 #include <map>
 #include "BaseAnimation.h"
 
+class Ogre::Animation;
 
 namespace rl {
 
@@ -58,7 +59,7 @@ class _RlCoreExport MeshAnimation : public BaseAnimation
 
         virtual Ogre::Real getWeight(void) const;
         virtual void setWeight(Ogre::Real weight);
-
+        
         virtual void resetTimesPlayed();
         virtual void setSpeed( Ogre::Real speed );
         
@@ -70,6 +71,7 @@ class _RlCoreExport MeshAnimation : public BaseAnimation
         /// Der AnimationState
 		Ogre::AnimationState* mAnimState;
    private:		
+        Ogre::Animation* mAnimation;
         /// Das MeshObject
         MeshObject* mMeshObject;
 
