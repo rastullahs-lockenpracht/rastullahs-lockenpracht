@@ -26,7 +26,7 @@ public class Vertex {
                     + "\" v=\"" + mTexCoordV + "\" />\n");
         }
         if (mColorDiffuse != null) {
-        	buf.append("                        <color_diffuse value=\"" + mColorDiffuse+"\" />");
+        	buf.append("                        <colour_diffuse value=\"" + mColorDiffuse+"\" />");
         }
         buf.append("                    </vertex>");
         return buf.toString();

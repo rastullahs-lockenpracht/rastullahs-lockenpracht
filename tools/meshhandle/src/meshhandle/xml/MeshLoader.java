@@ -120,7 +120,7 @@ public class MeshLoader extends XMLLoader {
         }
         
         Element colorDiffuseElem = (Element) vertElem.getElementsByTagName(
-        "texcoord").item(0);
+        	"colour_diffuse").item(0);
 		if (colorDiffuseElem != null) {
 		    vert.setColorDiffuse(colorDiffuseElem.getAttribute("value"));
 		}
