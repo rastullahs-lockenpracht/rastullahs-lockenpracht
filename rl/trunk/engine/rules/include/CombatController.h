@@ -19,10 +19,11 @@
 
 #include "RulesPrerequisites.h"
 
+#include "Combat.h"
+
 namespace rl {
 
-	class Creature;
-	class Combat;
+	class Creature;	
 
 	class _RlRulesExport CombatController 
 	{
@@ -31,11 +32,13 @@ namespace rl {
 
 		int getGroup();
 
-		void setActionOption(int option);
+		void setActionOption(Combat::ActionOption option);
 		void setAttackTarget(Creature* creature);
 		void setPareeTarget(Creature* creature);
 
 		Creature* getCurrentCreature();
+
+		virtual void notifyActionStart() = 0;
 
 	protected:
 		Combat* mCombat;

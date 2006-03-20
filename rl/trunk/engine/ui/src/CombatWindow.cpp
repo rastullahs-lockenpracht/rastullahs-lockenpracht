@@ -30,14 +30,15 @@ namespace rl {
 		CombatController(combat, group)
 	{
 		mCombat->addController(this);
-		mActionOptions = getCombobox("CombatWindow/ActionOptions");
-		mAttackTargets = getCombobox("CombatWindow/AttackTargets");
-		mPareeTargets = getCombobox("CombatWindow/PareeTargets");
-		getWindow("CombatWindow/Execute")->subscribeEvent(
+		mActionOptions = getListbox("CombatWindow/ActionOptions");
+		mAttackTargets = getListbox("CombatWindow/AttackTargets");
+		mPareeTargets = getListbox("CombatWindow/PareeTargets");
+
+		getWindow("CombatWindow/Confirm")->subscribeEvent(
 			Window::EventMouseClick,
 			boost::bind(&CombatWindow::handleExecute, this));
-
-		update();
+		
+		initialize();
 	}
 
 	void CombatWindow::setVisible(bool visible)
@@ -46,27 +47,51 @@ namespace rl {
 		//TODO: Change CharacterController
 	}
 
+	void CombatWindow::initialize()
+	{
+		mActionOptions->addItem(
+			new ListboxTextItem("Abwarten", 
+			Combat::ACTION_NONE));
+		mActionOptions->addItem(
+			new ListboxTextItem("Attackieren", 
+			Combat::ACTION_ATTACK));
+		mActionOptions->addItem(
+			new ListboxTextItem("Bewegen", 
+			Combat::ACTION_MOVE));
+
+		update();
+	}
+
 	void CombatWindow::update()
 	{
 		/// FIXME
 		std::vector<Creature*> opponents = mCombat->getGroupMembers(2);
+		int idx = 1;
 		for (std::vector<Creature*>::iterator it = opponents.begin(); 
 			it != opponents.end(); it++)
 		{
 			Creature* cr = *it;
-			ListboxItem* item = new ListboxTextItem(cr->getName(), 0, cr);
-			mAttackTargets->addItem(item);
+
+			ListboxItem* itemAt = new ListboxTextItem("Bla", idx++, cr);
+			mAttackTargets->addItem(itemAt);
+
+			ListboxItem* itemPa = new ListboxTextItem("Bla", idx++, cr);
+			mPareeTargets->addItem(itemPa);
 		}
 	}
 
 	bool CombatWindow::handleExecute()
 	{
-		setActionOption(mActionOptions->getSelectedItem()->getID());
+		setActionOption(static_cast<Combat::ActionOption>(mActionOptions->getFirstSelectedItem()->getID()));
 		setAttackTarget(
-			static_cast<Creature*>(mAttackTargets->getSelectedItem()->getUserData()));
+			static_cast<Creature*>(mAttackTargets->getFirstSelectedItem()->getUserData()));
 		setPareeTarget(
-			static_cast<Creature*>(mPareeTargets->getSelectedItem()->getUserData()));
+			static_cast<Creature*>(mPareeTargets->getFirstSelectedItem()->getUserData()));
 		mCombat->tick();
 		return true;
+	}
+
+	void CombatWindow::notifyActionStart()
+	{
 	}
 }

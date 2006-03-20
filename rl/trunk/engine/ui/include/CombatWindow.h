@@ -32,14 +32,17 @@ namespace rl {
 	public:
 		CombatWindow(Combat* combat, int group);
 		void setVisible(bool visible);
+
+		void notifyActionStart();
+
 	private:
 		bool handleExecute();
+		void initialize();
 		void update();
 
-		Combat* mCombat;
-		CEGUI::Combobox* mActionOptions;
-		CEGUI::Combobox* mAttackTargets;
-		CEGUI::Combobox* mPareeTargets;
+		CEGUI::Listbox* mActionOptions;
+		CEGUI::Listbox* mAttackTargets;
+		CEGUI::Listbox* mPareeTargets;
 	};
 
 }

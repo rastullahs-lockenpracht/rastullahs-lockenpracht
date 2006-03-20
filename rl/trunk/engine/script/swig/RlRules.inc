@@ -450,15 +450,45 @@ namespace rl {
 		rl::TimerEventSource* getSource() const;
 	};
 	
+	
+	class Combat;	
+	class CombatController 
+	{
+	public:
+		CombatController(Combat* combat, int group);
+
+		int getGroup();
+
+		void setActionOption(Combat::ActionOption option);
+		void setAttackTarget(Creature* creature);
+		void setPareeTarget(Creature* creature);
+
+		Creature* getCurrentCreature();
+		
+		virtual void notifyActionStart() = 0;
+
+	protected:
+		void setCurrentCreature(Creature* creature);
+	};
+	
 	class Combat
 	{
 	public:
+	
+		enum ActionOption {
+			ACTION_ATTACK = 1,
+			ACTION_MOVE = 2,
+			ACTION_NONE = 3
+		};
+		
 		Combat();
 
 		void add(rl::Creature* creature, int group);
 		std::vector<rl::Creature*> getGroupMembers(int group);
 		void start();
-	};
+		
+		void addController(CombatController* controller);
+	};	
 	
     class RulesSubsystem 
     {

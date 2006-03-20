@@ -15,7 +15,6 @@
 */
 
 #include "CombatController.h"
-#include "Combat.h"
 
 namespace rl {
 
@@ -29,7 +28,7 @@ namespace rl {
 		return mGroup;
 	}
 
-	void CombatController::setActionOption(int option)
+	void CombatController::setActionOption(Combat::ActionOption option)
 	{
 		mCombat->setActionOption(this, getCurrentCreature(), option);
 	}

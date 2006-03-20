@@ -15,8 +15,13 @@
 */
 
 #include "Combat.h"
+
+#include "MeshObject.h"
+
+#include "CombatController.h"
 #include "Creature.h"
 #include "Exception.h"
+#include "MeshAnimation.h"
 
 using namespace std;
 
@@ -93,22 +98,97 @@ namespace rl {
 
 	void Combat::start()
 	{
+		//tick();
 	}
 
 	void Combat::tick()
 	{
+		CreatureData* next = getNextActor();
+
+		switch (next->nextAction)
+		{
+		case Combat::ACTION_ATTACK:
+			CreatureData* targetData = getData(next->nextAttackTarget);
+			
+			int at = next->creature->doAttacke(
+				next->creature->getActiveWeapon()->getKampftechnik(), 
+				0);
+
+			bool pareeActivated = 
+				(targetData->nextPareeTarget == NULL) 
+				|| (targetData->nextPareeTarget == next->creature);
+			int pa = 
+				targetData->creature->doParade(
+					targetData->creature->getActiveWeapon()->getKampftechnik(), 
+					0, 
+					at == RESULT_GLUECKLICH);
+
+			MeshObject* actorObj = 
+				dynamic_cast<MeshObject*>(
+					next->creature->getActor()->getControlledObject());
+			MeshObject* targetObj = 
+				dynamic_cast<MeshObject*>(
+					targetData->creature->getActor()->getControlledObject());
+			if (pareeActivated && pa > 0)
+			{
+				actorObj->startAnimation("Attack1");
+				BaseAnimation* paradeAnim = targetObj->startAnimation("Parade");
+				paradeAnim->setDelay(0.5);
+			}
+			else
+			{
+				actorObj->startAnimation("Attack1");
+				BaseAnimation* paradeAnim = targetObj->startAnimation("Treffer");
+				paradeAnim->setDelay(0.5);
+				//targetData->creature->;
+			}
+		}
+
+		mInitiative = next->initiative;
 	}
 
-	void Combat::setActionOption(CombatController* controller, Creature* actor, int option)
+	void Combat::setActionOption(CombatController* controller, Creature* actor, ActionOption option)
 	{
+		CreatureData* cd = getData(actor);
+		if (cd->group != controller->getGroup())
+		{
+			Throw(InvalidArgumentException, "This Controller must not control other group");
+		}
+
+		cd->nextAction = option;
 	}
 
 	void Combat::setAttackTarget(CombatController* controller, Creature* actor, Creature* target)
 	{
+		CreatureData* cd = getData(actor);
+		if (cd->group != controller->getGroup())
+		{
+			Throw(InvalidArgumentException, "This Controller must not control other group");
+		}
+
+		cd->nextAttackTarget = target;	
 	}
 
 	void Combat::setPareeTarget(CombatController* controller, Creature* actor, Creature* target)
 	{
+		CreatureData* cd = getData(actor);
+		if (cd->group != controller->getGroup())
+		{
+			Throw(InvalidArgumentException, "This Controller must not control other group");
+		}
+
+		cd->nextPareeTarget = target;	
 	}
 
+	Combat::CreatureData* Combat::getNextActor()
+	{
+		for (CreatureDataMap::iterator it = mCreatureData.begin(); it != mCreatureData.end(); ++it)
+		{
+			CreatureData* cur = (*it).second;
+			if (cur->initiative < mInitiative)
+				return cur;
+		}
+
+		return NULL;
+	}
 }

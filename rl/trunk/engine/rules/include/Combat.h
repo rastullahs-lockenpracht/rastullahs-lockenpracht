@@ -68,7 +68,7 @@ namespace rl {
 		void start();
 		void tick();
 
-		void setActionOption(CombatController* controller, Creature* actor, int option);
+		void setActionOption(CombatController* controller, Creature* actor, ActionOption option);
 		void setAttackTarget(CombatController* controller, Creature* actor, Creature* target);
 		void setPareeTarget(CombatController* controller, Creature* actor, Creature* target);
 
@@ -82,16 +82,20 @@ namespace rl {
 
 			int initiative;
 			ActionOption nextAction;
+			Creature* nextAttackTarget;
+			Creature* nextPareeTarget;
 		};
 		typedef std::map<Creature*, CreatureData*> CreatureDataMap;
 
 		void initialize(CreatureData* part);
 		CreatureData* getData(Creature* creature);
+		CreatureData* getNextActor();
 
 		CreatureDataMap mCreatureData;
 		std::vector<CombatController*> mControllers;
 
 		static const int NO_INI = -99999;
+		int mInitiative;
 	};
 }
 

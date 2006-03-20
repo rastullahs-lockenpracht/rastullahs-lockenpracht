@@ -597,6 +597,11 @@ namespace rl
 		 mActiveWeapon = weapon;
 	}
 
+	Weapon* Creature::getActiveWeapon()
+	{
+		return mActiveWeapon;
+	}
+
 	int Creature::doAttacke(const CeGuiString& kampftechnikName, int modifier)
 	{
 		KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikName);

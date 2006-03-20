@@ -326,6 +326,7 @@ namespace rl
 		Weapon* removeWeapon(int weaponId);
 
 		void switchToWeapon(int weaponId);
+		Weapon* getActiveWeapon();
 
         /** 
 		*  @brief Durchfuehren einer Talentprobe.

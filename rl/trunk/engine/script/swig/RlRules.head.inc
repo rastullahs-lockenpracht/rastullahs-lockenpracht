@@ -22,6 +22,7 @@
 #include "Action.h"
 #include "ActionManager.h"
 #include "Combat.h"
+#include "CombatController.h"
 #include "Container.h"
 #include "Creature.h"
 #include "Date.h"
