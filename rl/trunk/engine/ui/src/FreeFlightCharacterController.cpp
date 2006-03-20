@@ -23,6 +23,7 @@
 #include "CameraObject.h"
 #include "InputManager.h"
 #include "CommandMapper.h"
+#include "MeshObject.h"
 
 #include <OgreSceneManager.h>
 
@@ -32,9 +33,9 @@ namespace rl {
 
 	FreeFlightCharacterController::FreeFlightCharacterController(Actor* camera, Actor* character)
 		: CharacterController(camera, character),
-		mMovementSpeed(1.0f),
-		mSpeedRange(0.05f, 4.0f),
-		mSpeedIncrement(0.0005f),
+		mMovementSpeed(30.0f),
+		mSpeedRange(0.03f, 90.0f),
+		mSpeedIncrement(0.02f),
 		mRotationSpeed(4.0f),
 		mOgreCam(0)
 	{
@@ -46,6 +47,10 @@ namespace rl {
 		mOgreCam->setPosition(mCamera->_getSceneNode()->_getDerivedPosition());
 		mOgreCam->setOrientation(Quaternion::IDENTITY);
 		mOgreCam->setFixedYawAxis(true);
+
+		MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacter->getControlledObject());
+		mesh->stopAllAnimations();
+		mesh->startAnimation("Idle");
 	}
 
 	FreeFlightCharacterController::~FreeFlightCharacterController()
@@ -93,7 +98,7 @@ namespace rl {
 
 		mOgreCam->yaw(yaw);
 		mOgreCam->pitch(pitch);
-		mOgreCam->moveRelative(translation);
+		mOgreCam->moveRelative(translation*elapsedTime);
 
 		if (!InputManager::getSingleton().isCeguiActive())
 		{

@@ -62,12 +62,12 @@ namespace rl {
 		: CharacterController(camera, character),
 		mCharacterState(),
 		mDesiredDistance(2.00),
-		mDistanceRange(1.50, 5.00),
+		mDistanceRange(0.60, 7.00),
 		mYaw(0),
 		mPitch(20),
 		mPitchRange(Degree(-75), Degree(85)),
 		mLookAtOffset(),
-		mMovementSpeed(3.600f),
+		mMovementSpeed(100.0f),
 		mRotationSpeed(4.0f),
 		mSpeedModifier(1.0f),
 		mViewMode(VM_THIRD_PERSON),
@@ -97,7 +97,7 @@ namespace rl {
 
 		MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacter->getControlledObject());
 		mesh->stopAllAnimations();
-		mesh->startAnimation("Idle", 2.0, 0);
+		mesh->startAnimation("Idle");
 	}
 
 	//------------------------------------------------------------------------
@@ -137,13 +137,16 @@ namespace rl {
 			mCharacterState.mStartJump = true;
 
 		if (movement & TURN_LEFT)
-			mYaw += Degree(mRotationSpeed * 40.0 * elapsedTime);
+			mYaw += Degree(mRotationSpeed * 30.0 * elapsedTime);
 
 		if (movement & TURN_RIGHT)
-			mYaw -= Degree(mRotationSpeed * 40.0 * elapsedTime);
+			mYaw -= Degree(mRotationSpeed * 30.0 * elapsedTime);
 
 		if (movement & MOVE_RUN)
 			mCharacterState.mDesiredVel *= 4.0;
+
+		// FIXME: Movement speed sollte framerate unabhängig sein. Ist sie aber nicht.
+		mCharacterState.mDesiredVel *= elapsedTime;
 
 		mDesiredDistance -= im->getMouseRelativeZ() * 0.002;
 		if (mDesiredDistance < mDistanceRange.first)
@@ -155,11 +158,11 @@ namespace rl {
 			mDesiredDistance = mDistanceRange.second;
 		}
 
-		mPitch += Degree(im->getMouseRelativeY() * 30.0 * elapsedTime);
+		mPitch += Degree(im->getMouseRelativeY() * 25.0 * elapsedTime);
 		if (mPitch < mPitchRange.first) mPitch = mPitchRange.first;
 		if (mPitch > mPitchRange.second) mPitch = mPitchRange.second;
 
-		mYaw -= Degree(im->getMouseRelativeX() * 30.0 * elapsedTime);
+		mYaw -= Degree(im->getMouseRelativeX() * 25.0 * elapsedTime);
 
 		SceneNode* cameraNode = mCamera->_getSceneNode();
 		cameraNode->lookAt(mCharacter->getWorldPosition()
@@ -232,7 +235,7 @@ namespace rl {
 			// Meaning the contact normal has an angle to UNIT_Y of 20° or less.
 			Degree angle = Math::ACos(normal.dotProduct(Vector3::UNIT_Y));
 
-			if (angle <= Degree(20.0f))
+			if (angle <= Degree(30.0f))
 			{
 				mCharacterState.mIsAirBorne = false;
 
@@ -244,13 +247,13 @@ namespace rl {
 				// align the tangent at the contact point with the
 				// tangent velocity vector of the char
 				rotateTangentDirections(tangentVel);
-
-				// we do want bound back we hitting the floor
-				setContactElasticity(0.1f); // was 0.3f
 			}
 
-			setContactFrictionState(0, 0);
-			setContactFrictionState(0, 1);
+			setContactElasticity(0.2f); // was 0.3f
+			setContactSoftness(0.01f);
+
+			setContactFrictionState(1.0, 0);
+			setContactFrictionState(1.0, 1);
 		}
 
 		// return one to tell Newton we want to accept this contact
@@ -363,16 +366,16 @@ namespace rl {
 			Radian yaw = src.getRotationTo(dst).getYaw();
 
 			// Calculate omega in order to go this rotation in mMaxDelay seconds.
-			Real newOmega = yaw.valueRadians() / (mMaxDelay*0.25);
+			Real newOmega = yaw.valueRadians() / mMaxDelay;
 			body->setOmega(Vector3(0, newOmega, 0));
 
-			//std::stringstream ss;
+			//std::ostringstream ss;
 			//ss << "orientation: " << orientation.getYaw().valueDegrees()
 			//    << " mYaw: " << mYaw.valueDegrees()
 			//    << " yaw: " << yaw.valueDegrees()
 			//    << " no: " << newOmega;
 
-			//Logger::getSingleton().log(Ogre::LML_TRIVIAL, "Ui", ss.str());
+			//Logger::getSingleton().log("RlUi", Ogre::LML_TRIVIAL, ss.str());
 
 			// Assume we are air borne.
 			// Might be set to false in the collision callback
@@ -421,49 +424,49 @@ namespace rl {
 			{
 				if (mCharacterState.mCurrentMovementState & MOVE_FORWARD)
 				{
-					mesh->startAnimation("hocke walk", 2.0, 0);
+					mesh->startAnimation("hocke walk");
 				}
 				else
 				{
-					mesh->startAnimation("idle hocke", 2.0, 0);
+					mesh->startAnimation("idle hocke");
 				}
 			}
 			else if ((mCharacterState.mCurrentMovementState & MOVE_RUN) &&
 				(mCharacterState.mCurrentMovementState != MOVE_RUN))
 			{
-				mesh->startAnimation("Run", 2.0, 0);
+				mesh->startAnimation("Run");
 			}
 			else if (mCharacterState.mCurrentMovementState == MOVE_NONE ||
 				mCharacterState.mCurrentMovementState == MOVE_RUN)
 			{
-				mesh->startAnimation("Idle", 2.0, 0);
+				mesh->startAnimation("Idle");
 			}
 			else
 			{
 				// standard walk in any direction
 				if (mCharacterState.mCurrentMovementState & MOVE_FORWARD)
 				{
-					mesh->startAnimation("walk", 2.0, 0);
+					mesh->startAnimation("walk");
 				}
 				else if (mCharacterState.mCurrentMovementState & MOVE_BACKWARD)
 				{
-					mesh->startAnimation("Rueckwaerts", 2.0, 0);
+					mesh->startAnimation("Rueckwaerts");
 				}
 				else if (mCharacterState.mCurrentMovementState & MOVE_LEFT)
 				{
-					mesh->startAnimation("sidestep2", 2.0, 0);
+					mesh->startAnimation("sidestep2");
 				}
 				else if (mCharacterState.mCurrentMovementState & MOVE_RIGHT)
 				{
-					mesh->startAnimation("Sidestep1", 2.0, 0);
+					mesh->startAnimation("Sidestep1");
 				}
 				else if (mCharacterState.mCurrentMovementState & TURN_LEFT)
 				{
-					mesh->startAnimation("TurnLeft", 2.0, 0);
+					mesh->startAnimation("TurnLeft");
 				}
 				else if (mCharacterState.mCurrentMovementState & TURN_RIGHT)
 				{
-					mesh->startAnimation("TurnRight", 2.0, 0);
+					mesh->startAnimation("TurnRight");
 				}
 			}
 			mCharacterState.mLastMovementState = mCharacterState.mCurrentMovementState;
