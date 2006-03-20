@@ -106,7 +106,7 @@ namespace rl
     		while(getline(file, line))
     		{
     			if(line.length() > 0)
-    			{http://www.userfriendly.org/
+    			{
     				file.close();
     				return line;
     			}
