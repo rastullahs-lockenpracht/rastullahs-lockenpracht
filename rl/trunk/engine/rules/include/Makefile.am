@@ -1,14 +1,18 @@
 noinst_HEADERS = \
 	Action.h \
 	ActionManager.h \
+	AtomarEffect.h \
 	Combat.h \
     CombatController.h \
+        CompositeEffect.h \
 	Container.h \
 	Creature.h \
 	Date.h \
 	DsaDataLoader.h \
 	DsaManager.h \
+	Effect.h \
 	Eigenschaft.h \
+	EigenschaftenStateSet.h \
 	GameObject.h \
 	Item.h \
 	Kampftechnik.h \
@@ -22,12 +26,17 @@ noinst_HEADERS = \
 	QuestChangeListener.h \
 	RulesPrerequisites.h \
 	RulesSubsystem.h \
+	SonderfertigkeitenStateSet.h \
+	StateSet.h \
 	Talent.h \
 	Talentgruppe.h \
 	TalentInputIterator.h \
+	TalentStateSet.h \
 	TimerEvent.h \
 	TimerEventSource.h \
 	TimerListener.h \
 	TimerManager.h \
-	Weapon.h
-	
+	Weapon.h \
+	ZauberStateSet.h
+
+
