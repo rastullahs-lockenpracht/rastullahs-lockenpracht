@@ -86,6 +86,9 @@ namespace rl
 
     void PhysicsManager::run(Real elapsedTime)
     {
+		Logger::getSingleton().log("RlCore", LML_TRIVIAL,
+			"PhysicsManager - time since last call: " + StringConverter::toString(elapsedTime));
+
         // do nothing, if not enabled
         if (!mEnabled) return;
 
@@ -299,8 +302,8 @@ namespace rl
         AxisAlignedBox entityAABB = levelEntity->getWorldBoundingBox(true);
         minV.makeFloor(entityAABB.getMinimum());
         maxV.makeCeil(entityAABB.getMaximum());
-        mWorldAABB.setMinimum(minV);
-        mWorldAABB.setMaximum(maxV);
+        mWorldAABB.setMinimum(minV - Vector3(50, 50, 50));
+        mWorldAABB.setMaximum(maxV + Vector3(50, 50, 50));
 
         mWorld->setWorldSize(mWorldAABB);
     }
