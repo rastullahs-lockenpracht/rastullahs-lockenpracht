@@ -232,7 +232,7 @@
       <position x="-0.371072" y="-4.750709" z="-56.986526"/>
       <rotation qx="-0.000000" qy="0.854572" qz="0.000000" qw="0.519333"/>
       <scale x="0.012467" y="0.012467" z="0.012467"/>
-      <entity name="nat_baum_01.011" meshFile="nat_baum_01.002.mesh"/>
+      <entity name="nat_baum_01.011" meshFile="nat_baum_01.mesh"/>
     </node>
     <node name="nat_baum_01">
       <position x="-12.768536" y="-10.182927" z="-52.373829"/>
