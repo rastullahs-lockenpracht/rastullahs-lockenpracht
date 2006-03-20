@@ -38,13 +38,13 @@ public class VertexBufferData {
 			buf.append(" normals=\"" + mNormals + "\"");
 		
 		if (mTexCoordDims0 != null && mTexCoordDims0.length() > 0)
-			buf.append(" texture_coord_dimensions_0=\"" + getTexCoordDims0()
+			buf.append(" texture_coord_dimensions_0=\"" + mTexCoordDims0
 					+ "\"");
 		if (mTexCoordDims1 != null && mTexCoordDims1.length() > 0)
-			buf.append(" texture_coord_dimensions_1=\"" + getTexCoordDims1()
+			buf.append(" texture_coord_dimensions_1=\"" + mTexCoordDims1
 					+ "\"");
 		if (mTexCoordDims2 != null && mTexCoordDims2.length() > 0)
-			buf.append(" texture_coord_dimensions_2=\"" + getTexCoordDims2()
+			buf.append(" texture_coord_dimensions_2=\"" + mTexCoordDims2
 					+ "\"");
 		
 		if (mTexCoords != null && mTexCoords.length() > 0)
