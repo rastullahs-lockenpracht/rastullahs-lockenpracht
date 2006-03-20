@@ -159,8 +159,7 @@ using namespace Ogre;
 	{
 		if (mSyncTime == FRAME_STARTED)
 		{
-			Real timeSinceLastFrame = evt.timeSinceLastEvent;
-			loop(timeSinceLastFrame);
+			loop(evt.timeSinceLastFrame);
 		}
 
 		return true;
@@ -170,8 +169,7 @@ using namespace Ogre;
 	{
 		if (mSyncTime == FRAME_ENDED)
 		{
-			Real timeSinceLastFrame = evt.timeSinceLastEvent;
-			loop(timeSinceLastFrame);
+			loop(evt.timeSinceLastFrame);
 		}
 
 		return mRunning;
