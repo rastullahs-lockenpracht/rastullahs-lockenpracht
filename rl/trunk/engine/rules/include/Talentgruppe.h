@@ -22,4 +22,4 @@ namespace rl
         std::string getDescription() const;
     };
 }
-#endif
+#endif //__TALENTGRUPPE_H__

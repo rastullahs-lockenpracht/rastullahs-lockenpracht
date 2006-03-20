@@ -63,4 +63,4 @@ namespace rl
 	};
 }
 
-#endif
+#endif //__WEAPON_H__

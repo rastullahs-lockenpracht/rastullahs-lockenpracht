@@ -32,12 +32,14 @@ namespace rl
         const EigenschaftTripel mEigenschaften;
         const int mEbe;
 		const int mTalentGruppe;
+		const CeGuiString mArt;
     public:
         Talent(const CeGuiString& name,
                const CeGuiString& description,
                const EigenschaftTripel& eigenschaften,
                int ebe,
-			   int gruppe);
+			   int gruppe,
+			   const CeGuiString& art);
 
         bool operator==(const Talent& rhs) const;
         bool operator<(const Talent& rhs) const;
@@ -48,6 +50,7 @@ namespace rl
         /// Berechnet effektive Behinderung bei gegebener Behinderung;
         int calculateEbe(int be) const;
         EigenschaftTripel getEigenschaften() const;
+		CeGuiString getArt() const;
     };
 }
-#endif
+#endif //__TALENT_H__

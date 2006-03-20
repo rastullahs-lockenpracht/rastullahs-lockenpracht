@@ -203,11 +203,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\AtomarEffect.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Combat.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\src\CombatController.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\CompositeEffect.cpp"
 				>
 			</File>
 			<File
@@ -231,7 +239,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Effect.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Eigenschaft.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\EigenschaftenStateSet.cpp"
 				>
 			</File>
 			<File
@@ -283,11 +299,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\SonderfertigkeitenStateSet.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\StateSet.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Talent.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\src\Talentgruppe.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\TalentStateSet.cpp"
 				>
 			</File>
 			<File
@@ -310,6 +338,10 @@
 				RelativePath=".\src\Weapon.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\src\ZauberStateSet.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Headerdateien"
@@ -325,11 +357,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\AtomarEffect.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\Combat.h"
 				>
 			</File>
 			<File
 				RelativePath=".\include\CombatController.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\CompositeEffect.h"
 				>
 			</File>
 			<File
@@ -353,7 +393,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\Effect.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\Eigenschaft.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\EigenschaftenStateSet.h"
 				>
 			</File>
 			<File
@@ -409,6 +457,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\SonderfertigkeitenStateSet.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\StateSet.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\Talent.h"
 				>
 			</File>
@@ -418,6 +474,10 @@
 			</File>
 			<File
 				RelativePath=".\include\TalentInputIterator.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\TalentStateSet.h"
 				>
 			</File>
 			<File
@@ -438,6 +498,10 @@
 			</File>
 			<File
 				RelativePath=".\include\Weapon.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ZauberStateSet.h"
 				>
 			</File>
 		</Filter>

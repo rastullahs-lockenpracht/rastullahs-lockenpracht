@@ -23,12 +23,14 @@ namespace rl
                    const CeGuiString& description,
                    const EigenschaftTripel& eigenschaften,
                    int ebe,
-				   int gruppe)
+				   int gruppe,
+				   const CeGuiString& art)
                                        : mName(name),
                                          mDescription(description),
                                          mEigenschaften(eigenschaften),
                                          mEbe(ebe),
-										 mTalentGruppe(gruppe)
+										 mTalentGruppe(gruppe),
+										 mArt(art)
     {
     }
 
@@ -70,5 +72,10 @@ namespace rl
 	int Talent::getEbe() const
 	{
 		return mEbe;
+	}
+
+	CeGuiString Talent::getArt() const
+	{
+		return mArt;
 	}
 }

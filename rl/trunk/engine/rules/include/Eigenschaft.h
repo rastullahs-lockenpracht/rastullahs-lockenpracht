@@ -56,4 +56,4 @@ namespace rl
     };
 }
 
-#endif
+#endif //__EIGENSCHAFT_H__

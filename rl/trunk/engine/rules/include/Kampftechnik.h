@@ -43,4 +43,4 @@ namespace rl
         int calculateEbe(int be) const;
     };
 }
-#endif
+#endif //__KAMPFTECHNIK_H__

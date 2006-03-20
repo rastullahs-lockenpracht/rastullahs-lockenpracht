@@ -25,21 +25,29 @@
 #include "Eigenschaft.h"
 #include "Container.h"
 #include "Weapon.h"
+#include "EigenschaftenStateSet.h"
+#include "TalentStateSet.h"
+#include "ZauberStateSet.h"
+#include "SonderfertigkeitenStateSet.h"
+
+#include "CompositeEffect.h"
 
 using namespace std;
 
 namespace rl
 {
 
-	static const int WERT_MOD_AE = 1;
-	static const int WERT_MOD_LE = 2;
-	static const int WERT_MOD_AT = 3;
-	static const int WERT_MOD_PA = 4;
-	static const int WERT_MOD_FK = 5;
-	static const int WERT_MOD_AU = 6;
-	static const int WERT_MOD_MR = 7;
-	static const int WERT_MOD_INI = 8;
-	static const int WERT_SOZIALSTATUS = 9;
+	static const int WERT_MOD_AE = 1; // Astralenergie
+	static const int WERT_MOD_LE = 2; // Lebensenergie
+	static const int WERT_MOD_AT = 3; // Attacke
+	static const int WERT_MOD_PA = 4; // Parade
+	static const int WERT_MOD_FK = 5; // Fernkampf
+	static const int WERT_MOD_AU = 6; // Ausdauer
+	static const int WERT_MOD_MR = 7; // Magieresistenz
+	static const int WERT_MOD_INI = 8; // Initiative
+	static const int WERT_GS = 10; // Geschwindigkeit
+	static const int WERT_SOZIALSTATUS = 9; // Sozialstatus
+	static const int WERT_BE = 11; // Behinderung
 
 	static const int RESULT_AUTOERFOLG = 100;
 	static const int RESULT_SPEKT_AUTOERFOLG = 1000;
@@ -56,6 +64,14 @@ namespace rl
 	static const int SF_OK = 1;
 	static const int SF_PREREQ_NOT_MET = 2; /// @todo Wird das ueberhaupt gebraucht?
 
+	/// @todo Passenderen Ort suchen
+	static const CeGuiString TALENT_ART_BASIS = "Basis";
+	static const CeGuiString TALENT_ART_SPEZIAL = "Spezial";
+	static const CeGuiString TALENT_ART_BERUF = "Beruf";
+	static int TALENT_MIN_TAW_FOR_SPEZIAL = 0;
+	static int TALENT_MIN_TAW_FOR_BERUF = 0;
+	static int TALENT_MIN_TAW_FOR_BASIS = 0;
+
     /**
     * @brief Basisklasse aller spielrelevanten Objekte in RL.
     *
@@ -69,32 +85,29 @@ namespace rl
     {
 
     protected:
-		/** @brief Liefert den Basiswert id zurueck.
-		 *  @param id Bezeichnet welcher Wert zurueckgeliefert werden soll.
-		 *  @return Der Wert des Basiswerts.
-		 *  @exception InvalidArgumentException id konnte in mWerte nicht
-		 *    gefunden werden.
-		 */
-        virtual int getWert(int id) const;
+        virtual int getEigenschaftForBasiswertCalculation(const CeGuiString& eigenschaftName) const;
 		virtual int getMrBasis() const;
         virtual int getLeBasis() const;
 		virtual int getAuBasis() const;
 		virtual int getAeBasis() const;
 
     public:
-		typedef map<int, int> WertMap;
+///////////////////////////////////////////////////////////////////////////////
+// Typedefs
+
+		typedef map<int, StateSet*> WertMap;
 		/**
 		 *  @brief Liste der guten Eigenschaften.
 		 *  Besteht aus dem Abkuerzung der Eigenschaft (z.B. MU, KL) als 
 		 *  Schluessel und ihrem Wert.
 		 **/
-		typedef map<CeGuiString, int> EigenschaftMap;
+		typedef map<CeGuiString, EigenschaftenStateSet*> EigenschaftMap;
 		/**
 		 *  @brief Liste der Talente.
 		 *  Besteht aus den Namen der Talente (z.B. Athletik) als
 		 *  Schluessel und ihrem Wert.
 		 **/
-		typedef map<CeGuiString, int> TalentMap;
+		typedef map<CeGuiString, TalentStateSet*> TalentMap;
 		/**
 		 *  @brief Liste der Kampftechniken und ihrer AT/PA Werte.\n
 		 *  Eine Kampftechnik in diesem Sinne ist so was wie Hiebwaffen
@@ -113,7 +126,7 @@ namespace rl
 		 *	SF_OK \n
 		 *	SF_PREREQ_NOT_MET \n
 		 */
-		typedef map<CeGuiString ,int> SonderfertigkeitMap;
+		typedef map<CeGuiString ,SonderfertigkeitenStateSet*> SonderfertigkeitMap;
 		/** @brief Die Container einer Kreatur.
 		*  Diese Container sollen dann alles beinhalten, was direkt am Körper 
 		*  getragen wird (Kleidung, Rucksäcke, Ringe etc.), sowie angeborene Waffen
@@ -133,9 +146,51 @@ namespace rl
 		        
         virtual ~Creature();
 
+///////////////////////////////////////////////////////////////////////////////
+// Werte
+
+        virtual void modifyLe(int mod, bool ignoreMax = false);
+        virtual int getLe();
+        virtual int getLeMax();
+
+		virtual void modifyAe(int mod,  bool ignoreMax = false);
+        virtual int getAe();
+        virtual int getAeMax();
+		virtual bool isMagic();
+
+		virtual void modifyAu(int mod,  bool ignoreMax = false);
+        virtual int getAu();
+        virtual int getAuMax();
+
+		virtual int getAttackeBasis() const;
+	    virtual int getParadeBasis() const;
+		virtual int getFernkampfBasis() const;
+		virtual int getInitiativeBasis() const;
+
+		/**
+		 *  @brief Liefert die derzeitge BE der Kreatur zurueck.
+		 *    Eventuelle Ruestungsgewoehnung schon beruecksichtigt
+		 **/
+		//virtual int getCurrentBe();
+
+		virtual void setWert(int wertId, int wert);
+		/** @brief Liefert den Basiswert id zurueck.
+		 *  @param id Bezeichnet welcher Wert zurueckgeliefert werden soll.
+		 *  @return Der Wert des Basiswerts.
+		 *  @exception InvalidArgumentException id konnte in mWerte nicht
+		 *    gefunden werden.
+		 **/
+
+		virtual int getWert(int wertId, bool getUnmodified = false) const;
+
+///////////////////////////////////////////////////////////////////////////////
+// Eigenschaften
+
 		/**
 		 *  @brief Liefert den Wert der Eigenschaft eigenschaftName zurueck.
 		 *  @param eigenschaftName Der Name al Abkuerzung (z.B. MU, FF, etc.).
+		 *  @param forCalculation muß true sein, wenn der Eigenschaftswert zur 
+		 *  Berechnung von Basiswerten (z.B. AT-Basis etc) verwendet wird.
 		 *  @return Der Wert der Eigenschaft.
 		 *  @exception InvalidArgumentException Die Eigenschaft konnte nicht
 		 *  gefunden werden (Name ausgeschrieben statt abgekuerzt? 
@@ -160,29 +215,8 @@ namespace rl
 		 **/
         virtual void modifyEigenschaft(const CeGuiString& eigenschaftName, int mod);
 
-		/**
-		 *  @brief Fuegt eine neue Kampftechnik zu mKampftechniken hinzu
-		 *  @param kampftechnikName Bezeichnet die Kampftechnik
-		 *  @param value Initialisiert die Kampftechnik mit value. Standard ist
-		 *  (0,0).
-		 *  @exception InvalidArgumentExeption Die Kampftechnik ist unbekannt.
-		 */
-		void addKampftechnik(const CeGuiString& kampftechnikName, const pair<int,int>& value = make_pair(0,0));
-		/** @brief liefert die AT und PA Werte in einer bestimmten Kampftechnik
-		 *  zurueck.
-		 *  @param kampfTechnikId Beszeichnet die Kampftechnik.
-		 *  @return Ein pair<AT, PA>
-		 *  @exception InvalidArgumentException kampftechnikId konnte nicht in 
-		 *    mKampftechniken gefunden werden.
-		 */
-        virtual pair<int, int> getKampftechnik(const CeGuiString& kampftechnikName) const;
-		/** @brief Setzt die AT und PA Werte in einer bestimmten Kampftechnik.
-		 *  @param kampftechnikId Bestimmt die zu setzende Kampftechnik.
-		 *  @param value Die neuen AT/PA Werte.
-		 *  @exception InvalidArgumentException Die Kampftechnik kampftechnikId
-		 *    konnte nicht in mKampftechniken gefunden werden.
-		 */
-        virtual void setKampftechnik(const CeGuiString& kampftechnikName, const pair<int, int>& value);
+///////////////////////////////////////////////////////////////////////////////
+// Talente
 
 		/** @brief Fuegt das Talent talentName zu mTalente hinzu.
 		 *  Das neue Talent wird mit TaW 0 initialisiert
@@ -220,6 +254,36 @@ namespace rl
 		 */
 		virtual void addSe(const CeGuiString& talentName);
 
+///////////////////////////////////////////////////////////////////////////////
+// Kampftechniken
+
+		/**
+		 *  @brief Fuegt eine neue Kampftechnik zu mKampftechniken hinzu
+		 *  @param kampftechnikName Bezeichnet die Kampftechnik
+		 *  @param value Initialisiert die Kampftechnik mit value. Standard ist
+		 *  (0,0).
+		 *  @exception InvalidArgumentExeption Die Kampftechnik ist unbekannt.
+		 */
+		void addKampftechnik(const CeGuiString& kampftechnikName, const pair<int,int>& value = make_pair(0,0));
+		/** @brief liefert die AT und PA Werte in einer bestimmten Kampftechnik
+		 *  zurueck.
+		 *  @param kampfTechnikId Beszeichnet die Kampftechnik.
+		 *  @return Ein pair<AT, PA>
+		 *  @exception InvalidArgumentException kampftechnikId konnte nicht in 
+		 *    mKampftechniken gefunden werden.
+		 */
+        virtual pair<int, int> getKampftechnik(const CeGuiString& kampftechnikName) const;
+		/** @brief Setzt die AT und PA Werte in einer bestimmten Kampftechnik.
+		 *  @param kampftechnikId Bestimmt die zu setzende Kampftechnik.
+		 *  @param value Die neuen AT/PA Werte.
+		 *  @exception InvalidArgumentException Die Kampftechnik kampftechnikId
+		 *    konnte nicht in mKampftechniken gefunden werden.
+		 */
+        virtual void setKampftechnik(const CeGuiString& kampftechnikName, const pair<int, int>& value);
+
+///////////////////////////////////////////////////////////////////////////////
+// Sonderfertigkeiten
+
 		/** @brief Fuegt der Kreatur eine Sonderfertigkeit(SF) hinzu.
 		 *  Der Wert wird auf 0 gesetzt (nicht gelernt, in Ausbildung).
 		 *  @param sfId Bezeichnet die SF.
@@ -247,30 +311,8 @@ namespace rl
 		 */
 		virtual void setSf(const CeGuiString& sfName, int value);
 
-        virtual void modifyLe(int mod, bool ignoreMax = false);
-        virtual int getLe();
-        virtual int getLeMax();
-
-		virtual void modifyAe(int mod,  bool ignoreMax = false);
-        virtual int getAe();
-        virtual int getAeMax();
-		virtual bool isMagic();
-
-		virtual void modifyAu(int mod,  bool ignoreMax = false);
-        virtual int getAu();
-        virtual int getAuMax();
-
-		/**
-		 *  @brief Liefert die derzeitge BE der Kreatur zurueck.
-		 *    Eventuelle Ruestungsgewoehnung schon beruecksichtigt
-		 **/
-		virtual int getCurrentBe();
-		virtual void setCurrentBe(int newBe);
-
-		virtual int getCurrentInitiativeModifier();
-		virtual void setCurrentInitiativeModifier(int newIniMod);
-
-		void setWert(int wertId, int wert);
+///////////////////////////////////////////////////////////////////////////////
+// Inventory
 
 		/**
 		 *  @brief Heftet Container an die Kreatur.
@@ -327,6 +369,9 @@ namespace rl
 
 		void switchToWeapon(int weaponId);
 		Weapon* getActiveWeapon();
+
+///////////////////////////////////////////////////////////////////////////////
+// Aktionen
 
         /** 
 		*  @brief Durchfuehren einer Talentprobe.
@@ -444,11 +489,6 @@ namespace rl
 		 **/
 		void applyDamage(int sp, Weapon* weapon);
 
-		virtual int getAttackeBasis() const;
-	    virtual int getParadeBasis() const;
-		virtual int getFernkampfBasis() const;
-		virtual int getInitiativeBasis() const;
-
 	private:
         int mCurrentLe;
 		int mCurrentAe;
@@ -462,8 +502,6 @@ namespace rl
 		WertMap mWerte;
 		ContainerMap mContainer;
 		WeaponMap mWeapons;
-		int mCurrentBe;
-		int mCurrentInitiativeModifier;
     };
 }
-#endif
+#endif //__CREATURE_H__

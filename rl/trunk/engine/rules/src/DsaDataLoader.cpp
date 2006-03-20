@@ -118,7 +118,8 @@ namespace rl {
             desc,
             eigenschaften,
             ebe,
-            gruppe);
+            gruppe,
+			art);
 
         return t;
     }

@@ -21,6 +21,7 @@
 #include "Talent.h"
 #include "Eigenschaft.h"
 #include "Kampftechnik.h"
+#include "StateSet.h"
 
 namespace rl
 {
@@ -37,141 +38,124 @@ namespace rl
 		setWert(WERT_MOD_AU, 0);
 		setWert(WERT_MOD_MR, 0);
 		setWert(WERT_MOD_INI, 0);
-		mEigenschaften[E_MUT] = 0;
-		mEigenschaften[E_KLUGHEIT] = 0;
-		mEigenschaften[E_INTUITION] = 0;
-		mEigenschaften[E_CHARISMA] = 0;
-		mEigenschaften[E_FINGERFERTIGKEIT] = 0;
-		mEigenschaften[E_GEWANDTHEIT] = 0;
-		mEigenschaften[E_KONSTITUTION] = 0;
-		mEigenschaften[E_KOERPERKRAFT] = 0;
-		mCurrentBe = 0;
-		mCurrentInitiativeModifier = 0;
+		setWert(WERT_SOZIALSTATUS, 0);
+		setWert(WERT_GS, 0);
+		setWert(WERT_BE, 0);
+		mEigenschaften[E_MUT] = new EigenschaftenStateSet();
+		mEigenschaften[E_KLUGHEIT] = new EigenschaftenStateSet();
+		mEigenschaften[E_INTUITION] = new EigenschaftenStateSet();
+		mEigenschaften[E_CHARISMA] = new EigenschaftenStateSet();
+		mEigenschaften[E_FINGERFERTIGKEIT] = new EigenschaftenStateSet();
+		mEigenschaften[E_GEWANDTHEIT] = new EigenschaftenStateSet();
+		mEigenschaften[E_KONSTITUTION] = new EigenschaftenStateSet();
+		mEigenschaften[E_KOERPERKRAFT] = new EigenschaftenStateSet();
     }
 
 	Creature::~Creature()
     {
     }
 
-    int Creature::getEigenschaft(const CeGuiString& eigenschaftName) const
+    int Creature::getAttackeBasis() const
     {
-		EigenschaftMap::const_iterator it = mEigenschaften.find(eigenschaftName);
-		if (it == mEigenschaften.end())
+        double es = getEigenschaftForBasiswertCalculation(E_MUT) +
+            getEigenschaftForBasiswertCalculation(E_GEWANDTHEIT) +
+            getEigenschaftForBasiswertCalculation(E_KOERPERKRAFT);
+
+        return static_cast<int>(es / 5.0 + 0.5);
+    }
+
+    int Creature::getParadeBasis() const
+    {
+        double es = getEigenschaftForBasiswertCalculation(E_INTUITION) +
+            getEigenschaftForBasiswertCalculation(E_GEWANDTHEIT) +
+            getEigenschaftForBasiswertCalculation(E_KOERPERKRAFT);
+
+        return static_cast<int>(es / 5.0 + 0.5);
+    }
+
+    int Creature::getFernkampfBasis() const
+    {
+        double es = getEigenschaftForBasiswertCalculation(E_INTUITION) +
+            getEigenschaftForBasiswertCalculation(E_FINGERFERTIGKEIT) +
+            getEigenschaftForBasiswertCalculation(E_KOERPERKRAFT);
+
+        return static_cast<int>(es / 5.0 + 0.5);
+    }
+
+    int Creature::getInitiativeBasis() const
+    {
+        int es = 2 * getEigenschaftForBasiswertCalculation(E_MUT) +
+            getEigenschaftForBasiswertCalculation(E_INTUITION) +
+            getEigenschaftForBasiswertCalculation(E_GEWANDTHEIT);
+
+        return static_cast<int>(es / 5.0 + 0.5);
+    }
+
+    int Creature::getMrBasis() const
+    {
+        int es = getEigenschaftForBasiswertCalculation(E_MUT) +
+            getEigenschaftForBasiswertCalculation(E_KLUGHEIT) +
+            getEigenschaftForBasiswertCalculation(E_KONSTITUTION);
+
+        return static_cast<int>(es / 5.0 + 0.5);
+    }
+
+    int Creature::getLeBasis() const
+    {
+        int es =  2 * getEigenschaftForBasiswertCalculation(E_KONSTITUTION) +
+            getEigenschaftForBasiswertCalculation(E_KOERPERKRAFT);
+
+        return static_cast<int>(es / 2.0 + 0.5);
+    }
+
+    int Creature::getAuBasis() const
+    {
+        int es = getEigenschaftForBasiswertCalculation(E_MUT) +
+            getEigenschaftForBasiswertCalculation(E_KONSTITUTION) +
+            getEigenschaftForBasiswertCalculation(E_GEWANDTHEIT);
+
+        return static_cast<int>(es / 2.0 + 0.5);
+    }
+
+	int Creature::getAeBasis() const
+	{
+        int es = getEigenschaftForBasiswertCalculation(E_MUT) +
+			getEigenschaftForBasiswertCalculation(E_INTUITION) +
+            getEigenschaftForBasiswertCalculation(E_CHARISMA);
+
+        return static_cast<int>(es / 2.0 + 0.5);
+    }
+
+	int Creature::getWert(int wertId, bool getUnmodified) const
+	{
+		WertMap::const_iterator it = mWerte.find(wertId);
+        if (it == mWerte.end())
+        {
+            Throw(InvalidArgumentException, "Wert nicht gefunden.");
+        }
+		return it->second->getValue(getUnmodified);
+	}
+
+	/*int Creature::getCurrentBe()
+	{
+		///@todo Aus dem Inventar berechenen... Ruestungsgewoehnung beachten
+		return 0; 
+	}*/
+
+	void Creature::setWert(int wertId, int wert)
+	{
+		WertMap::iterator it = mWerte.find(wertId);
+        if (it == mWerte.end())
+        {
+			StateSet* newWert = new StateSet();
+			newWert->setOriginalValue(wert);
+			mWerte.insert(make_pair(wertId, newWert));
+        }
+		else
 		{
-			Throw(InvalidArgumentException, "Eigenschaft nicht gefunden.");
+			it->second->setOriginalValue(wert);
 		}
-        return (*it).second;
-    }
-
-    void Creature::setEigenschaft(const CeGuiString& eigenschaftName, int value)
-    {
-        EigenschaftMap::iterator it = mEigenschaften.find(eigenschaftName);
-        if (it == mEigenschaften.end())
-        {
-            Throw(InvalidArgumentException, "Eigenschaft nicht gefunden.");
-        }
-        (*it).second = value;
-		fireObjectStateChangeEvent();
-    }
-
-    int Creature::getTalent(const CeGuiString& talentName) const
-    {
-        TalentMap::const_iterator it = mTalente.find(talentName);
-        if (it == mTalente.end())
-        {
-            Throw(InvalidArgumentException, "Talent nicht gefunden.");
-        }
-        return (*it).second;
-    }
-
-	void Creature::addTalent(const CeGuiString& talentName, int value)
-	{
-		TalentMap::const_iterator it = mTalente.find(talentName);
-        if (it != mTalente.end())
-        {
-			Throw(InvalidArgumentException, "Talent schon in mTalente enthalten.");
-        }
-	    DsaManager::getSingleton().getTalent(talentName); //ueberpruefe ob es das Talent ueberhaupt gibt
-		mTalente[talentName] = value;
-		fireObjectStateChangeEvent();
 	}
-
-	const Creature::TalentMap& Creature::getAllTalents() const
-	{
-		return mTalente;
-	}
-
-    void Creature::setTalent(const CeGuiString& talentName, int value)
-    {
-        TalentMap::iterator it = mTalente.find(talentName);
-        if (it == mTalente.end())
-        {
-            Throw(InvalidArgumentException, "Talent nicht gefunden.");
-        }
-        (*it).second = value;
-		fireObjectStateChangeEvent();
-    }
-
-	void Creature::addSe(const CeGuiString& talentName)
-	{
-		///@todo Mit Code fuellen
-	}
-
-    int Creature::getSf(const CeGuiString& sfName) const
-    {
-        SonderfertigkeitMap::const_iterator it = mSonderfertigkeiten.find(sfName);
-        if (it == mSonderfertigkeiten.end())
-        {
-            Throw(InvalidArgumentException, "Sonderfertigkeit nicht gefunden.");
-        }
-        return (*it).second;
-    }
-
-	void Creature::addSf(const CeGuiString& sfName, int value)
-	{
-		SonderfertigkeitMap::const_iterator it = mSonderfertigkeiten.find(sfName);
-		if (it != mSonderfertigkeiten.end())
-		{
-			Throw(InvalidArgumentException, "Sonderfertigkeit schon in mSonderfertigkeiten enthalten.");
-		}
-		//ueberpruefe ob es die Sonderfertigkeit ueberhaupt gib
-		DsaManager::getSingleton().getTalent(sfName);
-		mSonderfertigkeiten[sfName] = value;
-		fireObjectStateChangeEvent();
-	}
-
-    void Creature::setSf(const CeGuiString& sfName, int value)
-    {
-		if (value < SF_MIN_VALUE || value > SF_MAX_VALUE)
-		{
-			Throw(OutOfRangeException, "Der Sonderfertigkeit soll ein" 
-				"unzulässiger Wert zugewiesen werden");
-		}
-        SonderfertigkeitMap::iterator it = mSonderfertigkeiten.find(sfName);
-        if (it == mSonderfertigkeiten.end())
-        {
-            Throw(InvalidArgumentException, "Sonderfertigkeit nicht gefunden.");
-        }
-        (*it).second = value;
-		fireObjectStateChangeEvent();
-    }
-
-    void Creature::modifyEigenschaft(const CeGuiString& eigenschaftName, int mod)
-    {
-        mEigenschaften[eigenschaftName] = mEigenschaften[eigenschaftName] + mod;
-		fireObjectStateChangeEvent();
-    }
-
-    void Creature::modifyTalent(const CeGuiString& talentName, int mod)
-    {
-        TalentMap::iterator it = mTalente.find(talentName);
-        if (it == mTalente.end())
-        {
-            Throw(InvalidArgumentException, "Talent nicht gefunden.");
-        }
-        (*it).second += mod;
-		fireObjectStateChangeEvent();
-    }
 
     void Creature::modifyLe(int mod, bool ignoreMax)
     {
@@ -232,25 +216,199 @@ namespace rl
 		return getAuBasis() + getWert(WERT_MOD_AU);
     }
 
+    int Creature::getEigenschaft(const CeGuiString& eigenschaftName) const
+    {
+		EigenschaftMap::const_iterator it = mEigenschaften.find(eigenschaftName);
+		if (it == mEigenschaften.end())
+		{
+			Throw(InvalidArgumentException, "Eigenschaft nicht gefunden.");
+		}
+		return it->second->getValue();
+    }
+
+    int Creature::getEigenschaftForBasiswertCalculation(const CeGuiString& eigenschaftName) const
+    {
+		EigenschaftMap::const_iterator it = mEigenschaften.find(eigenschaftName);
+		if (it == mEigenschaften.end())
+		{
+			Throw(InvalidArgumentException, "Eigenschaft nicht gefunden.");
+		}
+		return it->second->getValueForBasiswertCalculation();
+    }
+
+    void Creature::setEigenschaft(const CeGuiString& eigenschaftName, int value)
+    {
+        EigenschaftMap::iterator it = mEigenschaften.find(eigenschaftName);
+        if (it == mEigenschaften.end())
+        {
+            Throw(InvalidArgumentException, "Eigenschaft nicht gefunden.");
+        }
+		it->second->setOriginalValue( value );
+		fireObjectStateChangeEvent();
+    }
+
+    void Creature::modifyEigenschaft(const CeGuiString& eigenschaftName, int mod)
+    {
+		mEigenschaften[eigenschaftName]->setOriginalValue( mEigenschaften[eigenschaftName]->getOriginalValue() + mod );
+		fireObjectStateChangeEvent();
+    }
+
+    int Creature::getTalent(const CeGuiString& talentName) const
+    {
+        TalentMap::const_iterator it = mTalente.find(talentName);
+        if (it == mTalente.end())
+        {
+            Throw(InvalidArgumentException, "Talent nicht gefunden.");
+        }
+		return it->second->getValue();
+    }
+
+	void Creature::addTalent(const CeGuiString& talentName, int value)
+	{
+		TalentMap::const_iterator it = mTalente.find(talentName);
+        if (it != mTalente.end())
+        {
+			Throw(InvalidArgumentException, "Talent schon in mTalente enthalten.");
+        }
+	    DsaManager::getSingleton().getTalent(talentName); //ueberpruefe ob es das Talent ueberhaupt gibt
+		mTalente[talentName] = new TalentStateSet();
+		mTalente[talentName]->setOriginalValue(value);
+		fireObjectStateChangeEvent();
+	}
+
+    void Creature::modifyTalent(const CeGuiString& talentName, int mod)
+    {
+        TalentMap::iterator it = mTalente.find(talentName);
+        if (it == mTalente.end())
+        {
+            Throw(InvalidArgumentException, "Talent nicht gefunden.");
+        }
+		it->second->setOriginalValue( it->second->getOriginalValue() + mod );
+		fireObjectStateChangeEvent();
+    }
+
+	const Creature::TalentMap& Creature::getAllTalents() const
+	{
+		return mTalente;
+	}
+
+    void Creature::setTalent(const CeGuiString& talentName, int value)
+    {
+        TalentMap::iterator it = mTalente.find(talentName);
+        if (it == mTalente.end())
+        {
+            Throw(InvalidArgumentException, "Talent nicht gefunden.");
+        }
+		it->second->setOriginalValue( value );
+		fireObjectStateChangeEvent();
+    }
+
+	void Creature::addSe(const CeGuiString& talentName)
+	{
+		///@todo Mit Code fuellen
+        TalentMap::iterator it = mTalente.find(talentName);
+        if (it == mTalente.end())
+        {
+            Throw(InvalidArgumentException, "Talent nicht gefunden.");
+        }
+		it->second->setSe( true );
+	}
+
+	void Creature::addKampftechnik(const CeGuiString& kampftechnikName, const pair<int,int>& value)
+	{
+		KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikName);
+		if (it != mKampftechniken.end())
+		{
+			Throw(InvalidArgumentException, 
+				"Kampftechnik schon in mKampftechniken enthalten.");
+		}
+		//ueberpruefe ob es die Kampftechnik ueberhaupt gibt
+		DsaManager::getSingleton().getKampftechnik(kampftechnikName); 
+		mKampftechniken[kampftechnikName] = value;
+		fireObjectStateChangeEvent();
+	}
+
+    pair<int, int> Creature::getKampftechnik(const CeGuiString& kampftechnikName) const
+    {
+        KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikName);
+        if (it == mKampftechniken.end())
+        {
+            Throw(InvalidArgumentException, "Kampftechnik nicht gefunden.");
+        }
+        return (*it).second;
+    }
+
+    void Creature::setKampftechnik(const CeGuiString& kampftechnikName, const pair<int, int>& value)
+    {
+        KampftechnikMap::iterator it = mKampftechniken.find(kampftechnikName);
+        if (it == mKampftechniken.end())
+        {
+            Throw(InvalidArgumentException, "Kampftechnik nicht gefunden.");
+        }
+        (*it).second = value;
+		fireObjectStateChangeEvent();
+    }
+
+    int Creature::getSf(const CeGuiString& sfName) const
+    {
+        SonderfertigkeitMap::const_iterator it = mSonderfertigkeiten.find(sfName);
+        if (it == mSonderfertigkeiten.end())
+        {
+            Throw(InvalidArgumentException, "Sonderfertigkeit nicht gefunden.");
+        }
+		return it->second->getValue();
+    }
+
+	void Creature::addSf(const CeGuiString& sfName, int value)
+	{
+		SonderfertigkeitMap::const_iterator it = mSonderfertigkeiten.find(sfName);
+		if (it != mSonderfertigkeiten.end())
+		{
+			Throw(InvalidArgumentException, "Sonderfertigkeit schon in mSonderfertigkeiten enthalten.");
+		}
+		//ueberpruefe ob es die Sonderfertigkeit ueberhaupt gib
+		DsaManager::getSingleton().getTalent(sfName);
+		mSonderfertigkeiten[sfName] = new SonderfertigkeitenStateSet();
+		mSonderfertigkeiten[sfName]->setOriginalValue( value );
+		fireObjectStateChangeEvent();
+	}
+
+    void Creature::setSf(const CeGuiString& sfName, int value)
+    {
+		if (value < SF_MIN_VALUE || value > SF_MAX_VALUE)
+		{
+			Throw(OutOfRangeException, "Der Sonderfertigkeit soll ein" 
+				"unzulässiger Wert zugewiesen werden");
+		}
+        SonderfertigkeitMap::iterator it = mSonderfertigkeiten.find(sfName);
+        if (it == mSonderfertigkeiten.end())
+        {
+            Throw(InvalidArgumentException, "Sonderfertigkeit nicht gefunden.");
+        }
+		it->second->setOriginalValue( value );
+		fireObjectStateChangeEvent();
+    }
+
     int Creature::doAlternativeTalentprobe(const CeGuiString& talentName, int spezialisierungId,
 		int modifier, CeGuiString eigenschaft1Name, CeGuiString eigenschaft2Name, CeGuiString eigenschaft3Name)
     {
         Talent* talent = DsaManager::getSingleton().getTalent(talentName);
+		if (((talent->getArt() == TALENT_ART_BASIS) && (getTalent(talentName) < TALENT_MIN_TAW_FOR_BASIS)) || 
+			((talent->getArt() == TALENT_ART_SPEZIAL) && (getTalent(talentName) < TALENT_MIN_TAW_FOR_SPEZIAL)) || 
+			((talent->getArt() == TALENT_ART_BERUF) && (getTalent(talentName) < TALENT_MIN_TAW_FOR_BERUF)))
+		{
+			Throw(OutOfRangeException, "TaW zu niedrig");
+		}
         EigenschaftTripel et(eigenschaft1Name, eigenschaft2Name, eigenschaft3Name);
 
         // Der Probenwurf
         Tripel<int> probe(DsaManager::getSingleton().roll3D20());
 
-		/**
-		 * @warning Ich dachte ich haette irgendwo mal gelesen das bei einer
-		 *          Dreifach-1 der Talentwert *sofort* um 1 angehoben wird,
-		 *			bei einer Dreifach-20 sofort gesenkt. Weiss jemand was
-		 *			darueber?
-		 */
 		// Glueckliche
 		if ( (probe.first == 1) && (probe.second == 1) && (probe.third == 1) ) 
 		{
-			addSe(talentName);
+			// BasisBoxS. 72 Der Wert wird sofort um 1 angehoben
+			modifyTalent(talentName, +1); 
 			return RESULT_SPEKT_AUTOERFOLG;
 		}
 		if ( ((probe.first == 1) && (probe.second == 1)) || 
@@ -277,7 +435,7 @@ namespace rl
 
         // Vor dem Vergleich hat man den Talentwert übrig.
 		int taW = 0;
-		int eBe = DsaManager::getSingleton().getTalent(talentName)->calculateEbe(mCurrentBe);
+		int eBe = DsaManager::getSingleton().getTalent(talentName)->calculateEbe(getWert(WERT_BE));
 		try 
 		{
 			//if (1 == getSf(sfName)) taW = 2; //Spezialisiereung?
@@ -350,154 +508,6 @@ namespace rl
         }
         return rval;
     }
-
-	void Creature::addKampftechnik(const CeGuiString& kampftechnikName, const pair<int,int>& value)
-	{
-		KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikName);
-		if (it != mKampftechniken.end())
-		{
-			Throw(InvalidArgumentException, 
-				"Kampftechnik schon in mKampftechniken enthalten.");
-		}
-		//ueberpruefe ob es die Kampftechnik ueberhaupt gibt
-		DsaManager::getSingleton().getKampftechnik(kampftechnikName); 
-		mKampftechniken[kampftechnikName] = value;
-		fireObjectStateChangeEvent();
-	}
-
-    pair<int, int> Creature::getKampftechnik(const CeGuiString& kampftechnikName) const
-    {
-        KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikName);
-        if (it == mKampftechniken.end())
-        {
-            Throw(InvalidArgumentException, "Kampftechnik nicht gefunden.");
-        }
-        return (*it).second;
-    }
-
-    void Creature::setKampftechnik(const CeGuiString& kampftechnikName, const pair<int, int>& value)
-    {
-        KampftechnikMap::iterator it = mKampftechniken.find(kampftechnikName);
-        if (it == mKampftechniken.end())
-        {
-            Throw(InvalidArgumentException, "Kampftechnik nicht gefunden.");
-        }
-        (*it).second = value;
-    }
-
-    int Creature::getAttackeBasis() const
-    {
-        double es = getEigenschaft(E_MUT) +
-            getEigenschaft(E_GEWANDTHEIT) +
-            getEigenschaft(E_KOERPERKRAFT);
-
-        return static_cast<int>(es / 5.0 + 0.5);
-    }
-
-    int Creature::getParadeBasis() const
-    {
-        double es = getEigenschaft(E_INTUITION) +
-            getEigenschaft(E_GEWANDTHEIT) +
-            getEigenschaft(E_KOERPERKRAFT);
-
-        return static_cast<int>(es / 5.0 + 0.5);
-    }
-
-    int Creature::getFernkampfBasis() const
-    {
-        double es = getEigenschaft(E_INTUITION) +
-            getEigenschaft(E_FINGERFERTIGKEIT) +
-            getEigenschaft(E_KOERPERKRAFT);
-
-        return static_cast<int>(es / 5.0 + 0.5);
-    }
-
-    int Creature::getInitiativeBasis() const
-    {
-        int es = 2 * getEigenschaft(E_MUT) +
-            getEigenschaft(E_INTUITION) +
-            getEigenschaft(E_GEWANDTHEIT);
-
-        return static_cast<int>(es / 5.0 + 0.5);
-    }
-
-    int Creature::getMrBasis() const
-    {
-        int es = getEigenschaft(E_MUT) +
-            getEigenschaft(E_KLUGHEIT) +
-            getEigenschaft(E_KONSTITUTION);
-
-        return static_cast<int>(es / 5.0 + 0.5);
-    }
-
-    int Creature::getLeBasis() const
-    {
-        int es =  2 * getEigenschaft(E_KONSTITUTION) +
-            getEigenschaft(E_KOERPERKRAFT);
-
-        return static_cast<int>(es / 2.0 + 0.5);
-    }
-
-    int Creature::getAuBasis() const
-    {
-        int es = getEigenschaft(E_MUT) +
-            getEigenschaft(E_KONSTITUTION) +
-            getEigenschaft(E_GEWANDTHEIT);
-
-        return static_cast<int>(es / 2.0 + 0.5);
-    }
-
-	int Creature::getAeBasis() const
-	{
-        int es = getEigenschaft(E_MUT) +
-			getEigenschaft(E_INTUITION) +
-            getEigenschaft(E_CHARISMA);
-
-        return static_cast<int>(es / 2.0 + 0.5);
-    }
-
-	int Creature::getWert(int wertId) const
-	{
-		WertMap::const_iterator it = mWerte.find(wertId);
-        if (it == mWerte.end())
-        {
-            Throw(InvalidArgumentException, "Wert nicht gefunden.");
-        }
-        return (*it).second;
-	}
-
-	int Creature::getCurrentBe()
-	{
-		return mCurrentBe; /// @todo - Ruestungsgewoehnung
-	}
-
-	void Creature::setCurrentBe(int newBe)
-	{
-		mCurrentBe = newBe;
-	}
-
-	int Creature::getCurrentInitiativeModifier()
-	{
-		return mCurrentInitiativeModifier;
-	}
-
-	void Creature::setCurrentInitiativeModifier(int newIniMod)
-	{
-		mCurrentInitiativeModifier = newIniMod;
-	}
-
-	void Creature::setWert(int wertId, int wert)
-	{
-		WertMap::iterator it = mWerte.find(wertId);
-        if (it == mWerte.end())
-        {
-            mWerte.insert(make_pair(wertId, wert));
-        }
-		else
-		{
-	        (*it).second = wert;
-		}
-	}
 
 	void Creature::addContainer(Container* container)
 	{
@@ -610,7 +620,7 @@ namespace rl
 			Throw(InvalidArgumentException, "kampftechnikName nicht in mKampftechniken gefunden");
 		}
 		int rval;
-		int eBe = floor(float(DsaManager::getSingleton().getKampftechnik(kampftechnikName)->calculateEbe(getCurrentBe())) / 2.0);
+		int eBe = floor(float(DsaManager::getSingleton().getKampftechnik(kampftechnikName)->calculateEbe(getWert(WERT_BE))) / 2.0);
 
 		int probe = DsaManager::getSingleton().rollD20();
 		if (probe == 1) // TODO: Bestätigen
@@ -639,7 +649,7 @@ namespace rl
 			Throw(InvalidArgumentException, "kampftechnikName nicht in mKampftechniken gefunden");
 		}
 		int rval;
-		int eBe = ceil(float(DsaManager::getSingleton().getKampftechnik(kampftechnikName)->calculateEbe(getCurrentBe())) / 2.0);
+		int eBe = ceil(float(DsaManager::getSingleton().getKampftechnik(kampftechnikName)->calculateEbe(getWert(WERT_BE))) / 2.0);
 
 		int probe = DsaManager::getSingleton().rollD20();
 		if (probe == 1) // TODO: Bestätigen
@@ -664,8 +674,8 @@ namespace rl
 	int Creature::doInitiativeWurf(bool getMaxInitiave)
 	{
 		int rval = getInitiativeBasis();
-		rval += getCurrentInitiativeModifier();
-		rval -= getCurrentBe();
+		rval += getWert(WERT_MOD_INI);
+		rval -= getWert(WERT_BE);
 		if (getMaxInitiave) rval += 6;
 		else rval += DsaManager::getSingleton().rollD6();
 		return rval;

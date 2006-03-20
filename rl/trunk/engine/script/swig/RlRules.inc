@@ -167,7 +167,8 @@ namespace rl {
                const rl::CeGuiString& description,
                const Tripel<rl::CeGuiString>& eigenschaften,
                int ebe,
-			   int gruppe);
+			   int gruppe,
+			   const rl::CeGuiString& art);
 
         bool operator==(const Talent& rhs) const;
         bool operator<(const Talent& rhs) const;
