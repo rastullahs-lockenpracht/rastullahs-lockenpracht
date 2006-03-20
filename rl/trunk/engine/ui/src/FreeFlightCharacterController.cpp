@@ -34,7 +34,7 @@ namespace rl {
 		: CharacterController(camera, character),
 		mMovementSpeed(1.0f),
 		mSpeedRange(0.05f, 4.0f),
-		mSpeedIncrement(0.002),
+		mSpeedIncrement(0.0005f),
 		mRotationSpeed(4.0f),
 		mOgreCam(0)
 	{
