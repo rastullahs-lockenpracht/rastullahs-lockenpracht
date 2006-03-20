@@ -87,6 +87,10 @@ public class MeshLoader extends XMLLoader {
         vertexbuffer.setPositions(vertexBufferElem.getAttribute("positions"));
         vertexbuffer.setTexCoordDims0(vertexBufferElem
                 .getAttribute("texture_coord_dimensions_0"));
+        vertexbuffer.setTexCoordDims1(vertexBufferElem
+                .getAttribute("texture_coord_dimensions_1"));
+        vertexbuffer.setTexCoordDims2(vertexBufferElem
+                .getAttribute("texture_coord_dimensions_2"));
         vertexbuffer.setTexCoords(vertexBufferElem
                 .getAttribute("texture_coords"));
         vertexbuffer.setColorsDiffuse(vertexBufferElem
