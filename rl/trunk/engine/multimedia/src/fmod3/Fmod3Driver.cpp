@@ -60,7 +60,7 @@ Fmod3Driver::~Fmod3Driver()
 bool Fmod3Driver::isDriverAvailable()
 {
     try {
-        FSOUND_SetOutput(FSOUND_OUTPUT_ALSA);
+        FSOUND_SetOutput(FSOUND_OUTPUT_ESD);
         FSOUND_SetMixer(FSOUND_MIXER_AUTODETECT);
         bool success = FSOUND_Init(44100, 32, 0);
         if (success)
@@ -92,7 +92,7 @@ void Fmod3Driver::init()
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 	FSOUND_SetOutput(FSOUND_OUTPUT_DSOUND);
 #else
-    FSOUND_SetOutput(FSOUND_OUTPUT_ALSA);
+    FSOUND_SetOutput(FSOUND_OUTPUT_ESD);
 #endif
 
 
@@ -167,7 +167,7 @@ void Fmod3Driver::init()
 		String("fmod initialisiert, Fehler: ")
 		+ FMOD_ErrorString(FSOUND_GetError()));
    
-    FSOUND_3D_SetRolloffFactor(0.5);
+    FSOUND_3D_SetRolloffFactor(1.0);
     FSOUND_SetSFXMasterVolume(255);
 
     // Wir initialisieren den Listener

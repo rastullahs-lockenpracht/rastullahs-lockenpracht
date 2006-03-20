@@ -23,6 +23,7 @@
 #include "SoundChannel.h"
 #include "SoundDriver.h"
 #include "MultimediaSubsystem.h"
+#include "Logger.h"
 
 using namespace Ogre;
 
@@ -88,14 +89,15 @@ void SoundObject::_update()
     {
         return;
     }
-    channel->setPosition(actor->getPosition());
-    Vector3 *temp1 = new Vector3();
-    Vector3 *temp2 = new Vector3(actor->getPosition());
-    Real length = temp2->normalise();
-    actor->getOrientation().ToAxes(temp1);
-    *temp1 += *temp2;
-    *temp1 *= length;
-    channel->setDirection(*temp1); 
+    if (isAttached())
+    {
+        channel->setPosition(actor->getWorldPosition());
+// TODO        channel->setDirection(actor->getWorldOrientation()); 
+       Logger::getSingleton().log("Core", LML_TRIVIAL, "Pos: "
+        + StringConverter::toString(actor->getWorldPosition().x)
+        + StringConverter::toString(actor->getWorldPosition().y)
+        + StringConverter::toString(actor->getWorldPosition().z));
+    }
 }
 
 void SoundObject::play( )

@@ -20,6 +20,10 @@
 #include "CorePrerequisites.h"
 #include <OgreUserDefinedObject.h>
 
+namespace Ogre {
+    class Bone;
+}
+
 namespace rl {
 
     class PhysicalThing;
@@ -268,6 +272,8 @@ namespace rl {
         bool mHighlighted;
         /// Ist der Aktor an einem Bone angehangen?
         bool mAttachedToBone;
+        /// Der Bone, an dem wir vielleicht hängen.
+        Ogre::Bone *mBone;
 
         void doPlaceIntoScene(
             Ogre::SceneNode* parent,

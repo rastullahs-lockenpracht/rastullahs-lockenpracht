@@ -23,6 +23,7 @@ libRlUi_la_SOURCES = \
 	DataLoadingProgressWindow.cpp \
 	DebugWindow.cpp \
 	DialogWindow.cpp \
+	FreeFlightCharacterController.cpp \
 	GameLoggerWindow.cpp \
 	InGameMenuWindow.cpp \
 	InputManager.cpp \
@@ -32,6 +33,7 @@ libRlUi_la_SOURCES = \
 	MainMenuWindow.cpp \
 	MainMenuEngineWindow.cpp \
 	MessageWindow.cpp \
+	MovementCharacterController.cpp \
 	PlaylistWindow.cpp \
 	SoundConfig.cpp \
 	TargetSelectionWindow.cpp \

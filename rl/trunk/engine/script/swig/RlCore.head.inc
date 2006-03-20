@@ -46,5 +46,6 @@
 #include "World.h"
 #include "SoundPlaylist.h"
 #include "ContentModule.h"
+#include "ListenerObject.h"
 %}
 

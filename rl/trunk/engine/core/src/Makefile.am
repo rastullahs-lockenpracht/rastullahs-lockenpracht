@@ -6,7 +6,6 @@ libRlCore_la_SOURCES = \
 	Actor.cpp \
 	ActorControlledObject.cpp \
 	ActorManager.cpp \
-	AnimationFader.cpp \
 	AnimationListener.cpp \
 	AnimationManager.cpp \
 	BaseAnimation.cpp \
@@ -20,6 +19,7 @@ libRlCore_la_SOURCES = \
 	CoreSubsystem.cpp \
 	DotSceneLoader.cpp \
 	DotSceneOctreeWorld.cpp \
+	FadeAnimation.cpp \
 	GameAreaEvent.cpp \
 	GameAreaEventSource.cpp \
 	GameAreaListener.cpp \

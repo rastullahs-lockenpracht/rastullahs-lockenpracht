@@ -2,7 +2,6 @@
 	Actor.h \
 	ActorControlledObject.h \
 	ActorManager.h \
-	AnimationFader.h \
 	AnimationListener.h \
 	AnimationManager.h \
 	BaseAnimation.h \
@@ -13,6 +12,7 @@
 	CoreSubsystem.h \
 	DotSceneLoader.h \
 	DotSceneOctreeWorld.h \
+	FadeAnimation.h \
 	GameAreaEvent.h \
 	GameAreaEventSource.h \
 	GameAreaListener.h \

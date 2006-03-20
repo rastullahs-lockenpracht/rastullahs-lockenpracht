@@ -62,4 +62,7 @@ namespace rl {
 
 		mCamera->_getSceneNode()->setFixedYawAxis(true);
 	}
+    
+    CharacterController::~CharacterController()
+    {}
 }

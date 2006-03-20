@@ -16,6 +16,7 @@
 
 #include "ActorControlledObject.h"
 #include "Actor.h"
+#include "MultimediaSubsystem.h"    
 
 using namespace Ogre;
 
@@ -31,13 +32,20 @@ namespace rl {
     
     void ActorControlledObject::_setActor(Actor* actor)
     {
-        mMovableObject->setUserObject(actor);
+        if (mMovableObject != 0)
+        {
+            mMovableObject->setUserObject(actor);
+        }
     }
     
     Actor* ActorControlledObject::getActor()
     {
-        UserDefinedObject* m = mMovableObject->getUserObject();
-        return m != 0 ? reinterpret_cast<Actor*>(m) : 0;
+        if (mMovableObject != 0)
+        {
+            UserDefinedObject* m = mMovableObject->getUserObject();
+            return m != 0 ? reinterpret_cast<Actor*>(m) : 0;
+        }
+        return 0;
     }
     
     MovableObject* ActorControlledObject::getMovableObject()
@@ -47,18 +55,27 @@ namespace rl {
     
     void ActorControlledObject::_attachSceneNode(Ogre::SceneNode* node)
     {
-        node->attachObject(mMovableObject);
+        if (mMovableObject != 0)
+        {
+            node->attachObject(mMovableObject);
+        }
     }
     
     void ActorControlledObject::_detachSceneNode(Ogre::SceneNode* node)
     {
-        node->detachObject(mMovableObject);    
-        
+        if (mMovableObject != 0)
+        {
+            node->detachObject(mMovableObject);    
+        }        
     }
 
     bool ActorControlledObject::isAttached() const
     {
-        return mMovableObject->isAttached();
+        if (mMovableObject != 0)
+        {
+            return mMovableObject->isAttached();
+        }
+        return false;
     }
 
     bool ActorControlledObject::isAttachedToNode(Ogre::SceneNode* node) const
@@ -75,7 +92,7 @@ namespace rl {
 	{
 		return false;
 	}
-	
+
 	void ActorControlledObject::_update()
 	{
 	}

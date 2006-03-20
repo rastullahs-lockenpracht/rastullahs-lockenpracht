@@ -69,13 +69,7 @@ void ListenerObject::_update()
         return;
     }
     listener->setPosition(actor->getPosition());
-    Vector3 *temp1 = new Vector3();
-    Vector3 *temp2 = new Vector3(actor->getPosition());
-    Real length = temp2->normalise();
-    actor->getOrientation().ToAxes(temp1);
-    *temp1 += *temp2;
-    *temp1 *= length;
-    listener->setOrientation(*temp1, *temp1);
+//    listener->setOrientation(*temp1, *temp1);
     // TODO Orientation korrigieren
 }
 
@@ -84,7 +78,7 @@ void ListenerObject::_update()
  * @author JoSch
  * @date 03-16-2005
  */   
-ListenerMovable* ListenerObject::getListener()
+ListenerMovable* ListenerObject::getListener() const
 {
     return reinterpret_cast<ListenerMovable*>(mMovableObject);
 }
@@ -97,6 +91,11 @@ ListenerMovable* ListenerObject::getListener()
 String ListenerObject::getObjectType()
 {
     return "ListenerObject";
+}
+
+void ListenerObject::setActive()
+{
+    getListener()->setActive();
 }
 
 

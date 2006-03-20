@@ -84,6 +84,11 @@ static swig_type_info *ActorControlledObject_dynamic_cast(void **ptr)
         *ptr=reinterpret_cast<void*>(pSoundObject);
         return SWIGTYPE_p_rl__SoundObject;
     }
+    rl::ListenerObject *pListenerObject=dynamic_cast<rl::ListenerObject*>(*ppActorControlledObject);
+    if (pListenerObject) {
+        *ptr=reinterpret_cast<void*>(pListenerObject);
+        return SWIGTYPE_p_rl__ListenerObject;
+    }
     return 0;
 }
 %}
@@ -393,6 +398,13 @@ public:
     void setCastShadows( bool cast );
 };
 
+
+class ListenerObject : public ActorControlledObject
+{
+public:
+	rl::ListenerMovable* getListener();
+	void setActive();
+};
 
 class SoundObject : public ActorControlledObject
 {

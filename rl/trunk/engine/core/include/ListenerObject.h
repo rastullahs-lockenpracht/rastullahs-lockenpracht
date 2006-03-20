@@ -49,11 +49,13 @@ namespace rl {
         
         /// Wie ActorControlledObject::getMovableObject()
         /// Nur schon gebrauchsfertig gecastet.
-        ListenerMovable* getListener();
+        ListenerMovable* getListener() const;
         
         virtual Ogre::String getObjectType();
 
 		virtual bool isMeshObject();
+        
+        void setActive();
         
     };
 }

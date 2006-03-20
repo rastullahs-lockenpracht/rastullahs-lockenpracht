@@ -74,10 +74,11 @@ MultimediaSubsystem::MultimediaSubsystem():
     if (driver->isDriverAvailable())
     {
         mDriverList.push_back(driver);
+        setActiveDriver(driver);
     } else {
         delete driver;
+        setActiveDriver(nullDriver);
     }
-    setActiveDriver(driver);
 #else
     // Nulltreiber als aktiven Treiber setzen.
     setActiveDriver(nullDriver);
@@ -217,14 +218,14 @@ void MultimediaSubsystem::setActiveDriver(SoundDriver *driver)
 {
     if (mActiveDriver != 0 && driver != 0)
     {
-        MultimediaSubsystem::log(LML_TRIVIAL, (CeGuiString("Soundtreiber wird gewechselt von ")
+        MultimediaSubsystem::log(LML_NORMAL, (CeGuiString("Soundtreiber wird gewechselt von ")
             + mActiveDriver->getName() + CeGuiString(" zu ") + driver->getName()).c_str());
     } else if (mActiveDriver != 0)
     {
-        MultimediaSubsystem::log(LML_TRIVIAL, (CeGuiString("Soundtreiber wird gewechselt von ")
+        MultimediaSubsystem::log(LML_NORMAL, (CeGuiString("Soundtreiber wird gewechselt von ")
             + mActiveDriver->getName()).c_str());
     } else {
-        MultimediaSubsystem::log(LML_TRIVIAL, (CeGuiString("Soundtreiber wird gewechselt zu ")
+        MultimediaSubsystem::log(LML_NORMAL, (CeGuiString("Soundtreiber wird gewechselt zu ")
              + driver->getName()).c_str());
     }
     mActiveDriver = driver;

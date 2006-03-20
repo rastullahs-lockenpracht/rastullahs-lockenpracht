@@ -35,7 +35,7 @@ namespace rl {
          *  @throw InvalidArgumentException if character is not placed in the scene.
          */
         CharacterController(Actor* camera, Actor* character);
-		virtual ~CharacterController()= 0 {};
+		virtual ~CharacterController()= 0;
 
 		virtual void toggleViewMode() = 0;
 		virtual void resetCamera() = 0;

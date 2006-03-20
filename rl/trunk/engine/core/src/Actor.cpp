@@ -43,7 +43,8 @@ namespace rl {
         mChilds(),
         mSceneNode(0),
 		mHighlighted(false),
-        mAttachedToBone(false)
+        mAttachedToBone(false),
+        mBone(0)
 	{
         if( mActorControlledObject != NULL )
             mActorControlledObject->_setActor(this);
@@ -117,7 +118,7 @@ namespace rl {
 
 	void Actor::setRenderingDistance( Ogre::Real dist )
 	{
-		if( mActorControlledObject != NULL )
+		if( mActorControlledObject != NULL && mActorControlledObject->getMovableObject() != NULL )
 		{
 			mActorControlledObject->getMovableObject()->setRenderingDistance(dist);
 		}
@@ -154,7 +155,7 @@ namespace rl {
 
     void Actor::setQueryMask( unsigned long mask )
     {
-        if( mActorControlledObject )
+        if( mActorControlledObject && mActorControlledObject->getMovableObject())
             mActorControlledObject->getMovableObject()->setQueryFlags( mask );
     }
 
@@ -277,6 +278,10 @@ namespace rl {
         {
             return mSceneNode->getPosition();
         }
+        else if (mAttachedToBone)
+        {
+            return mBone->getPosition();
+        }
         else
         {
             Throw(IllegalStateException, 
@@ -289,6 +294,10 @@ namespace rl {
         if (mSceneNode)
         {
             return mSceneNode->getOrientation();
+        }
+        else if (mAttachedToBone)
+        {
+            return mBone->getOrientation();
         }
         else
         {
@@ -303,6 +312,10 @@ namespace rl {
         {
             return mSceneNode->getWorldPosition();
         }
+        else if (mAttachedToBone)
+        {
+            return mBone->getWorldPosition();
+        }
         else
         {
             Throw(IllegalStateException, 
@@ -315,6 +328,10 @@ namespace rl {
         if (mSceneNode)
         {
             return mSceneNode->getWorldOrientation();
+        }
+        else if (mAttachedToBone)
+        {
+            return mBone->getWorldOrientation();
         }
         else
         {
@@ -377,7 +394,7 @@ namespace rl {
             Throw(IllegalStateException,
             "Aktor "+mName+": Der Aktor ist nicht in der Szene befestigt.");
 
-        if( mActorControlledObject && mSceneNode )
+        if( mActorControlledObject && mSceneNode && mActorControlledObject->getMovableObject())
         {
             mSceneNode->detachObject(
                 mActorControlledObject->getMovableObject());
@@ -540,6 +557,8 @@ namespace rl {
 			ent->attachObjectToBone( slot, movObj, offsetOrientationMod, offsetPositionMod );
             // Der Aktor wurde an einem Bone befestigt
             actor->mAttachedToBone = true;
+            actor->mBone = ent->getSkeleton()->getBone( slot );
+            
 			return;
 		}
         // Wenn hier kein MeshObjekt dran ist, trotzdem irgendwie zusammenfügen
@@ -549,6 +568,7 @@ namespace rl {
 
             // Der Aktor wurde nicht an einem Bone befestigt
             actor->mAttachedToBone = false;
+            actor->mBone = 0;
 			return;      
 		}
 
