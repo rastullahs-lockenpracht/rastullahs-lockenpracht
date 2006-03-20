@@ -15,6 +15,24 @@ class Kurzschwert < Weapon
   end
 end
 
+class SchwesterSteuerung < CombatController
+  def initialize(combat, group, opponent)
+    super(combat, group);
+    @mMe = me;
+    @mOpponent = opponent;
+  end
+
+  def config()
+    setActionOption(Combat::ATTACK);
+    setAttackTarget(opponent);
+    setPareeTarget(opponent);
+  end
+
+  def notifyActionStart()
+    mCombat.tick();
+  end
+end
+
 class CombatTrigger < GameAreaListener
   def areaLeft(event)
   end
@@ -32,8 +50,10 @@ class CombatTrigger < GameAreaListener
     combat = Combat.new()
     combat.add(schwester, 2)
     combat.add(held, 1)
+    
+ #   combat.addController(SchwesterSteuerung.new(combat, 2, held))
 
-    $UI.startCombat(combat)
+#    $UI.startCombat(combat)
   end
 end
 

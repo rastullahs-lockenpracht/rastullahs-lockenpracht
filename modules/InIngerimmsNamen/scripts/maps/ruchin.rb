@@ -50,6 +50,6 @@ sound.placeIntoScene([-15.0, -1.35, 10.200])
 sound.getControlledObject().play()
 
 load "kampf.rb"
-schwester = Schwester.new
-schwester.getActor().placeIntoScene([-15.0, -1.35, 10.20], [1.0, 0.0, 0.0, 0.0]);	
-$GameEveMgr.addSphereAreaListener( schwester.getActor(), 5.0, CombatTrigger.new(), Actor::QGF_PLAYER )
+$schwester = Schwester.new
+$schwester.getActor().placeIntoScene([-15.0, -1.35, 10.20], [1.0, 0.0, 0.0, 0.0]);	
+$GameEveMgr.addSphereAreaListener( $schwester.getActor(), 5.0, CombatTrigger.new(), Actor::QGF_PLAYER )

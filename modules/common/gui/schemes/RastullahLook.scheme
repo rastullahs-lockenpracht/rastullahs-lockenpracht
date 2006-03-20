@@ -20,7 +20,7 @@
 	<FalagardMapping WindowType="RastullahLook/CloseButton" TargetType="Falagard/SystemButton" LookNFeel="RastullahLook/CloseButton" />
 	<FalagardMapping WindowType="RastullahLook/Combobox" TargetType="Falagard/Combobox" LookNFeel="RastullahLook/Combobox" />
 	<FalagardMapping WindowType="RastullahLook/ComboDropList" TargetType="Falagard/ComboDropList" LookNFeel="RastullahLook/ComboDropList" />
-	<FalagardMapping WindowType="RastullahLook/ComboEditbox" TargetType="Falagard/ComboEditbox" LookNFeel="RastullahLook/ComboEditbox" />
+	<FalagardMapping WindowType="RastullahLook/ComboEditbox" TargetType="Falagard/Editbox" LookNFeel="RastullahLook/ComboEditbox" />
 	<FalagardMapping WindowType="RastullahLook/Editbox" TargetType="Falagard/Editbox" LookNFeel="RastullahLook/Editbox" />
 	<FalagardMapping WindowType="RastullahLook/FrameWindow" TargetType="Falagard/FrameWindow" LookNFeel="RastullahLook/FrameWindow" />
 	<FalagardMapping WindowType="RastullahLook/LargeVerticalScrollbar" TargetType="Falagard/LargeVerticalScrollbar" LookNFeel="RastullahLook/LargeVerticalScrollbar" />

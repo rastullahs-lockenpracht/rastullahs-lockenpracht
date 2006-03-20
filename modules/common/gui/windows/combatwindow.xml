@@ -5,33 +5,36 @@
         <Property Name="RelativeWidth" Value="1.0"/>
         <Property Name="RelativeHeight" Value="1.0"/>
 
-		<Window Type="RastullahLook/Combobox" Name="CombatWindow/ActionOptions">
+		<Window Type="RastullahLook/Listbox" Name="CombatWindow/ActionOptions">
 			<Property Name="AbsoluteXPosition" Value="50"/>
 			<Property Name="AbsoluteYPosition" Value="100"/>
 			<Property Name="AbsoluteWidth" Value="200"/>
-			<Property Name="AbsoluteHeight" Value="30"/>
+			<Property Name="AbsoluteHeight" Value="100"/>
 		</Window>
 
-		<Window Type="RastullahLook/Combobox" Name="CombatWindow/AttackTargets">
+		<Window Type="RastullahLook/Listbox" Name="CombatWindow/AttackTargets">
 			<Property Name="AbsoluteXPosition" Value="50"/>
 			<Property Name="AbsoluteYPosition" Value="150"/>
 			<Property Name="AbsoluteWidth" Value="200"/>
-			<Property Name="AbsoluteHeight" Value="30"/>
+			<Property Name="AbsoluteHeight" Value="100"/>
+			<Property Name="NormalTextColour" Value="FF000000" />
 		</Window>
 
-		<Window Type="RastullahLook/Combobox" Name="CombatWindow/PareeTargets">
+		<Window Type="RastullahLook/Listbox" Name="CombatWindow/PareeTargets">
 			<Property Name="AbsoluteXPosition" Value="50"/>
 			<Property Name="AbsoluteYPosition" Value="200"/>
 			<Property Name="AbsoluteWidth" Value="200"/>
-			<Property Name="AbsoluteHeight" Value="30"/>
+			<Property Name="AbsoluteHeight" Value="100"/>
+			<Property Name="NormalTextColour" Value="FF000000" />
 		</Window>
 
 		<Window Type="RastullahLook/Button" Name="CombatWindow/Confirm">
 			<Property Name="Text" Value="Ausführen"/>
 			<Property Name="AbsoluteXPosition" Value="50"/>
-			<Property Name="AbsoluteYPosition" Value="200"/>
+			<Property Name="AbsoluteYPosition" Value="250"/>
 			<Property Name="AbsoluteWidth" Value="150"/>
 			<Property Name="AbsoluteHeight" Value="30"/>
+			<Property Name="NormalTextColour" Value="FF000000" />
 		</Window>
 
 		<Window Type="RastullahLook/StaticText" Name="CombatWindow/DebugMessage">

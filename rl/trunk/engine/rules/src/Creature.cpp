@@ -590,9 +590,9 @@ namespace rl
 		getActor()->attachToSlot(
 			weapon->getActor(), 
 			"Bone13",
-			"SLOT_HANDLE",
+			"SLOT_HANDLE"/*,
 			Vector3::ZERO,
-			Quaternion(Degree(-90), Vector3::UNIT_Z)* Quaternion(Degree(90), Vector3::UNIT_X)); 
+			Quaternion(Degree(-90), Vector3::UNIT_Z)* Quaternion(Degree(90), Vector3::UNIT_X)*/); 
 
 		 mActiveWeapon = weapon;
 	}
