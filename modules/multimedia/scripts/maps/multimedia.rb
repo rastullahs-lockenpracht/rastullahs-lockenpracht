@@ -1,3 +1,25 @@
+
+require 'torch.rb'
+require 'hero.rb'
+
+$World = $CORE.getWorld()
+$World.setSkyBox(true, "rl/dsa07", 100.0)
+$SCRIPT.log("skybox set");
+
+$SCRIPT.log("Tageslicht erstellen..");
+sunlight = $AM.createLightActor("sunlight", LightObject::LT_DIRECTIONAL);
+sunlight.getControlledObject().setDirection(-0.8, -2.0, 3.0);
+sunlight.getControlledObject().setCastShadows(false);
+sunlight.getControlledObject().setDiffuseColour(0.8,0.8,0.7);
+$SCRIPT.log("Tageslicht erstellt.");
+
+camera = $AM.getActor("DefaultCamera");
+camera.placeIntoScene([-2.0, 1.0, 1.0]);
+camera.yaw(75.0);
+camera.pitch(-10.0);
+camera.attach($CORE.getSoundListener());
+$CORE.getSoundListener().getControlledObject().setActive();
+
 # Nur eingebettet starten
 load( "embed.rb" );
 
@@ -20,12 +42,23 @@ partikeldings.placeIntoScene( [-300.0, 0.0, 100.0] );
 partikeldings.setScale( 4.54, 4.54, 4.54 );
 $SCRIPT.log("Partikeldings erstellt.");
 
-
 held = $AM.createMeshActor("KreisLaufHeld", "held.mesh" );
 # , PhysicsManager::GT_CAPSULE);
-held.placeIntoScene([0.0, 0.0, 0.0]);
+held.placeIntoScene( [0.0, 0.0, 0.0] );
 held.attachToSlotAxisRot( torch.getActor(), "Bone15", "SLOT_HANDLE", [0.0, 0.0, 0.0], [ 1.0, 0.0, 0.0 ], 90.0 );
 $SCRIPT.log("Fackel plaziert.");
+
+$SCRIPT.log("Fackelsound erstellen.");
+fackelsound = $AM.createSoundSampleActor("fackelsound", "feuer_knisternd_01.ogg");
+fackelsound.getControlledObject().set3d(true);
+$SCRIPT.log(" Loopen");
+fackelsound.getControlledObject().setLooping( true );
+$SCRIPT.log("Sound an die Fackel haengen");
+held.attach(fackelsound);
+$SCRIPT.log(" Abspielen");
+fackelsound.getControlledObject().play();
+$SCRIPT.log("Fackelsound fertig");
+
 
 # torch.getActor().setScale( 1.0, 1.0, 1.0 );
 
@@ -88,5 +121,6 @@ trackAnim.setKeyFrameRotationQuaternion( 16.0, -0.998850047588348, 0.0, 0.047890
 
 trackAnim.setInterpolationMode( AnimationManager::IM_SPLINE );
 
-
 trackAnim.setPaused( false );
+
+$SCRIPT.log("Init fertig");
