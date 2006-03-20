@@ -12,7 +12,6 @@ material boronsrad/SOLID/arc_boronsrad.png
 			texture_unit
 			{
 				texture arc_boronsrad.png
-				filtering anisotropic anisotropic anisotropic
 			}
 		}
 	}

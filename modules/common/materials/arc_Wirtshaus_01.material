@@ -6,8 +6,6 @@ material arc_Wirtshaus_01/Dach
 	{
 		pass
 		{
-
-
 			texture_unit
 			{
 				texture arc_Dach01.png
@@ -107,13 +105,10 @@ material arc_Wirtshaus_01/Gelaender
 	{
 		pass
 		{
-
-		alpha_rejection greater 215
-
+      		alpha_rejection greater 215
 			texture_unit
 			{
 				texture arc_gelaender_01.png
-
 			}
 		}
 	}

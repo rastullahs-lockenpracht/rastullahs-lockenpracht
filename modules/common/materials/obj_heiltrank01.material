@@ -28,7 +28,6 @@ material obj_heiltrank01
             texture_unit
             {
                 texture obj_heiltrank01.jpg
-				filtering anisotropic anisotropic anisotropic
             }
         }
     }

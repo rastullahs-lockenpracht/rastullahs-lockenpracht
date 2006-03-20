@@ -13,7 +13,6 @@ material nat_baum_03/stamm
 			texture_unit
 			{
 				texture nat_baum_03.png
-				filtering point point point
 			}
 		}
 	}
@@ -35,8 +34,6 @@ alpha_rejection greater 190
 			texture_unit
 			{
 				texture nat_baum_03.png
-				filtering point point point
-
 			}
 		}
 	}

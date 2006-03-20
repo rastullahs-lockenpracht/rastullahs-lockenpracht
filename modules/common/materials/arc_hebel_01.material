@@ -30,7 +30,6 @@ material hebel_01/SOLID/TEX/hebel.png
             texture_unit
             {
 				texture arc_hebel_01.png
-				filtering anisotropic anisotropic anisotropic
             }
         }
     }
@@ -43,7 +42,6 @@ material hebel_01/SOLID/TEX/hebel.png
 			texture_unit
 			{
 				texture arc_hebel_01.png
-				filtering anisotropic anisotropic anisotropic
 			}
 		}
 	}

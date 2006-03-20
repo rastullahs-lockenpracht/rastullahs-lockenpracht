@@ -28,7 +28,6 @@ material fackel.bmp/SOLID/TEX/ins_fackel_01.png
             texture_unit
             {
 				texture ins_fackel_01.png
-				filtering anisotropic anisotropic anisotropic
             }
         }
     }
@@ -44,7 +43,6 @@ material fackel.bmp/SOLID/TEX/ins_fackel_01.png
 			texture_unit
 			{
 				texture ins_fackel_01.png
-				filtering anisotropic anisotropic anisotropic
 			}
 		}
 	}

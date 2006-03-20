@@ -28,7 +28,6 @@ material SOLID/TEX/door01.png
             texture_unit
             {
 				texture arc_tuer_01.png
-				filtering anisotropic anisotropic anisotropic
             }
         }
     }
