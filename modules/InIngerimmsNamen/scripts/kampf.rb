@@ -18,7 +18,6 @@ end
 class SchwesterSteuerung < CombatController
   def initialize(combat, group, opponent)
     super(combat, group);
-    @mMe = me;
     @mOpponent = opponent;
   end
 
@@ -35,7 +34,9 @@ end
 
 class CombatTrigger < GameAreaListener
   def areaLeft(event)
+
   end
+
   def areaEntered(event)
     held = event.getProvokingActor().getGameObject()
     schwertH = Kurzschwert.new()
@@ -51,9 +52,9 @@ class CombatTrigger < GameAreaListener
     combat.add(schwester, 2)
     combat.add(held, 1)
     
- #   combat.addController(SchwesterSteuerung.new(combat, 2, held))
+    combat.addController(SchwesterSteuerung.new(combat, 2, held))
 
-#    $UI.startCombat(combat)
+    $UI.startCombat(combat)
   end
 end
 
