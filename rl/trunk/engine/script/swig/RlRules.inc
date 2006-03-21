@@ -453,10 +453,12 @@ namespace rl {
 	
 	
 	class Combat;	
+	%feature("director") CombatController;
 	class CombatController 
 	{
 	public:
 		CombatController(Combat* combat, int group);
+		virtual ~CombatController();
 
 		int getGroup();
 

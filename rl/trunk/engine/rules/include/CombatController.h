@@ -29,6 +29,7 @@ namespace rl {
 	{
 	public:
 		CombatController(Combat* combat, int group);
+		virtual ~CombatController();
 
 		int getGroup();
 

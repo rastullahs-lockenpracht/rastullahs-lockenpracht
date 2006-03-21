@@ -23,6 +23,10 @@ namespace rl {
 	{
 	}
 
+	CombatController::~CombatController()
+	{
+	}
+
 	int CombatController::getGroup()
 	{
 		return mGroup;
