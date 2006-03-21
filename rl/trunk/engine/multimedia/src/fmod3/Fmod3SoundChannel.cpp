@@ -173,7 +173,6 @@ void Fmod3SoundChannel::setPosition(const Vector3& position) throw (RuntimeExcep
             + StringConverter::toString(position.y)
             + StringConverter::toString(position.z));
         FSOUND_3D_SetAttributes(getChannel(), pos, 0);
-        FSOUND_Update();
     }
 }
 

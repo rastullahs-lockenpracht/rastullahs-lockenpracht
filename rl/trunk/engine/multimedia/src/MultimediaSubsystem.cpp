@@ -134,11 +134,9 @@ void MultimediaSubsystem::log(Ogre::LogMessageLevel level, const Ogre::String& m
 void MultimediaSubsystem::update(Real elapsedTime)
 {
     setElapsedTime(elapsedTime);
-    // TODO FSOUND_Update();
-    for(VideoList::iterator i = mVideoList.begin(); // TODO: The STL way
-        i != mVideoList.end(); i++)
+    if (mActiveDriver != 0)
     {
-        (*i)->update();
+        mActiveDriver->update();
     }
 }
 

@@ -3,8 +3,8 @@ noinst_HEADERS = \
 	ActionManager.h \
 	AtomarEffect.h \
 	Combat.h \
-    CombatController.h \
-        CompositeEffect.h \
+	CombatController.h \
+	CompositeEffect.h \
 	Container.h \
 	Creature.h \
 	Date.h \
@@ -26,8 +26,8 @@ noinst_HEADERS = \
 	QuestChangeListener.h \
 	RulesPrerequisites.h \
 	RulesSubsystem.h \
-	SonderfertigkeitenStateSet.h \
 	StateSet.h \
+	SonderfertigkeitenStateSet.h \
 	Talent.h \
 	Talentgruppe.h \
 	TalentInputIterator.h \
@@ -38,5 +38,3 @@ noinst_HEADERS = \
 	TimerManager.h \
 	Weapon.h \
 	ZauberStateSet.h
-
-

@@ -326,6 +326,10 @@ int Fmod3Driver::tell(void *handle)
  */
  void Fmod3Driver::update()
  {
+    if (MultimediaSubsystem::getSingleton().getActiveDriver() != 0)
+    {
+        MultimediaSubsystem::log(Ogre::LML_TRIVIAL, "Updaten von Fmod3");
+    }
  	FSOUND_Update();
  }
  

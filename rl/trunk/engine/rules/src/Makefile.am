@@ -7,8 +7,8 @@ libRlRules_la_SOURCES = \
 	ActionManager.cpp \
 	AtomarEffect.cpp \
 	Combat.cpp \
-    CombatController.cpp \
-        CompositeEffect.cpp \
+	CombatController.cpp \
+	CompositeEffect.cpp \
 	Container.cpp \
 	Creature.cpp \
 	Date.cpp \
@@ -29,6 +29,7 @@ libRlRules_la_SOURCES = \
 	QuestChangeEvent.cpp \
 	QuestChangeListener.cpp \
 	RulesSubsystem.cpp \
+	StateSet.cpp \
 	SonderfertigkeitenStateSet.cpp \
 	Talent.cpp \
 	Talentgruppe.cpp \
@@ -39,4 +40,3 @@ libRlRules_la_SOURCES = \
 	TimerManager.cpp  \
 	Weapon.cpp \
 	ZauberStateSet.cpp
-
