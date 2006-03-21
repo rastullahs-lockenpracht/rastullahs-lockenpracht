@@ -42,10 +42,10 @@ partikeldings.placeIntoScene( [-300.0, 0.0, 100.0] );
 partikeldings.setScale( 4.54, 4.54, 4.54 );
 $SCRIPT.log("Partikeldings erstellt.");
 
-held = $AM.createMeshActor("KreisLaufHeld", "held.mesh" );
+held = Hero.new;
 # , PhysicsManager::GT_CAPSULE);
-held.placeIntoScene( [0.0, 0.0, 0.0] );
-held.attachToSlotAxisRot( torch.getActor(), "Bone15", "SLOT_HANDLE", [0.0, 0.0, 0.0], [ 1.0, 0.0, 0.0 ], 90.0 );
+held.getActor().placeIntoScene( [0.0, 0.0, 0.0] );
+held.getActor().attachToSlotAxisRot( torch.getActor(), "Bone15", "SLOT_HANDLE", [0.0, 0.0, 0.0], [ 1.0, 0.0, 0.0 ], 90.0 );
 $SCRIPT.log("Fackel plaziert.");
 
 $SCRIPT.log("Fackelsound erstellen.");
@@ -54,7 +54,7 @@ fackelsound.getControlledObject().set3d(true);
 $SCRIPT.log(" Loopen");
 fackelsound.getControlledObject().setLooping( true );
 $SCRIPT.log("Sound an die Fackel haengen");
-held.attach(fackelsound);
+held.getActor().attach(fackelsound);
 $SCRIPT.log(" Abspielen");
 fackelsound.getControlledObject().play();
 $SCRIPT.log("Fackelsound fertig");
@@ -62,9 +62,9 @@ $SCRIPT.log("Fackelsound fertig");
 
 # torch.getActor().setScale( 1.0, 1.0, 1.0 );
 
-held.getControlledObject().startAnimation( "gehloop" );
+held.getActor().getControlledObject().startAnimation( "walk" );
 
-trackAnim = $AnimMgr.createTrackAnimation(  held, "kreisLaufAnimation", 16.0 );
+trackAnim = $AnimMgr.createTrackAnimation(  held.getActor(), "kreisLaufAnimation", 16.0 );
 
 trackAnim.addKeyFrame( 0.0 );
 trackAnim.setKeyFrameTranslation( 0.0, -4.02735565185547, -1.28517913818359, 0.259572200775146)
