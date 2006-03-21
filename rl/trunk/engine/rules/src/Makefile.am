@@ -33,7 +33,7 @@ libRlRules_la_SOURCES = \
 	SonderfertigkeitenStateSet.cpp \
 	Talent.cpp \
 	Talentgruppe.cpp \
-	TalentStatSet.cpp \
+	TalentStateSet.cpp \
 	TimerEvent.cpp \
 	TimerEventSource.cpp \
 	TimerListener.cpp \
