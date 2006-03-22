@@ -159,7 +159,7 @@ void analyzeParameters(int argc, char** argv, bool& developerMode, Ogre::String&
 		if (strncmp(argv[argIdx], "--dev", 5) == 0)
 			developerMode = true;
 		else if (strncmp(argv[argIdx], "--module", 8) == 0
-				&& argc > argIdx + 1) // N�chster Parameter existiert
+				&& argc > argIdx + 1) // Nächster Parameter existiert
 			startModule = argv[argIdx + 1];
 	}
 }

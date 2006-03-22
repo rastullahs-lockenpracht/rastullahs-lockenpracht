@@ -74,18 +74,30 @@ namespace Swig {
   try {
     $action
   }
-  catch (Ogre::Exception& oe) {
-    static VALUE ogreException = rb_define_class("OgreException", rb_eStandardError);
-    rb_raise(ogreException, oe.getFullDescription().c_str());
-  }
   catch (rl::Exception& re ) {
     static VALUE rlException = rb_define_class("RlException", rb_eStandardError);
     rb_raise(rlException, re.toString().c_str());
   }
+  catch (CEGUI::Exception& ce) {
+    static VALUE ceguiException = rb_define_class("CeguiException", rb_eStandardError);
+    rb_raise(ceguiException, ce.getMessage().c_str());
+  }
+  catch (Ogre::Exception& oe) {
+    static VALUE ogreException = rb_define_class("OgreException", rb_eStandardError);
+    rb_raise(ogreException, oe.getFullDescription().c_str());
+  }
   catch (Swig::DirectorException&) {
-    static VALUE rlException = rb_define_class("DirectorException", rb_eStandardError);
-    rb_raise(rlException, "Eine Director Exception ist aufgetreten");
+    static VALUE directorException = rb_define_class("DirectorException", rb_eStandardError);
+    rb_raise(directorException, "Eine Director Exception ist aufgetreten");
   } 
+  catch (std::exception& se) {
+    static VALUE stdException = rb_define_class("StdException", rb_eStandardError);
+    rb_raise(stdException, se.what());
+  }
+  catch (...) {
+    static VALUE unknownException = rb_define_class("UnknownException", rb_eStandardError);
+    rb_raise(unknownException,"Unbekannte Exception");
+  }
 }
 
 %{
@@ -115,8 +127,6 @@ namespace Swig {
 			$input = val;
 	}
 } 
-
-
     
 // Actor* getActor oder andere OUTPUT Parameter
 %typemap(out) SWIGTYPE*
@@ -131,7 +141,6 @@ namespace Swig {
 	else	
 		$result = val;
 } 
-
 
 // Animation* getActor oder andere OUTPUT Parameter für DYNAMICs
 %typemap(out) SWIGTYPE* DYNAMIC, SWIGTYPE& DYNAMIC
