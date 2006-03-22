@@ -6,7 +6,7 @@ class ShowActionMenuAction < Action
   end
 
   def doAction(object, actor, target)
-    $UI.showCharacterActionChoice
+    WindowManager.getSingleton().showCharacterActionChoice
   end
 end
 
@@ -16,7 +16,7 @@ class QuitGameAction < Action
   end
 
   def doAction(object, actor, target)
-    $UI.requestExit()
+    WindowManager.getSingleton().requestExit()
   end
 end
 
@@ -26,7 +26,7 @@ class ToggleConsoleAction < Action
   end
   
   def doAction(object, actor, target)
-    $UI.toggleConsole()
+    WindowManager.getSingleton().toggleConsole()
   end
 end
 
@@ -36,7 +36,7 @@ class ToggleDebugWindowAction < Action
   end
 
   def doAction(object, actor, target)
-    $UI.toggleDebugWindow()
+    WindowManager.getSingleton().toggleDebugWindow()
   end
 end
 
@@ -46,7 +46,7 @@ class ToggleGameLogWindowAction < Action
     end
 
     def doAction(object, actor, target)
-        $UI.toggleGameLogWindow()
+        WindowManager.getSingleton().toggleGameLogWindow()
     end
 end
 
@@ -67,7 +67,7 @@ class ToggleInGameGlobalMenuAction < Action
   end
 
   def doAction(object, actor, target)
-    $UI.toggleInGameGlobalMenu()
+    WindowManager.getSingleton().toggleInGameGlobalMenu()
   end
 end
 
@@ -108,7 +108,7 @@ class ToggleCharacterStateWindowAction < Action
     end
 
     def doAction(object, actor, target)
-        $UI.toggleCharacterStateWindow()
+        WindowManager.getSingleton().toggleCharacterStateWindow()
     end
 end
 
@@ -118,7 +118,7 @@ class ShowObjectActionsAction < Action
   end
 
   def doAction(object, actor, target)
-    $UI.showPickedObjectActions()
+    WindowManager.getSingleton().showPickedObjectActions()
   end
 end
 
@@ -128,7 +128,7 @@ class ShowCharacterSheetAction < Action
   end
 
   def doAction(object, actor, target)
-    $UI.showCharacterSheet()
+    WindowManager.getSingleton().showCharacterSheet()
   end
 end
 
@@ -138,7 +138,7 @@ class ShowTargetWindowAction < Action
   end
 
   def doAction(object, actor, target)
-    $UI.showTargetWindow()
+    WindowManager.getSingleton().showTargetWindow()
   end
 end
 
@@ -148,7 +148,7 @@ class ShowJournalWindowAction < Action
   end
 
   def doAction(object, actor, target)
-    $UI.showJournalWindow()
+    WindowManager.getSingleton().showJournalWindow()
   end
 end
 
@@ -168,7 +168,7 @@ class ShowObjectDescriptionWindow < Action
   end
   
   def doAction(object, actor, target)
-    $UI.showDescriptionWindow(object)
+    WindowManager.getSingleton().showDescriptionWindow(object)
   end
 end
 
@@ -188,7 +188,7 @@ class ShowAboutWindowAction < Action
   end
   
   def doAction(object, actor, target)
-    $UI.showAboutWindow()
+    WindowManager.getSingleton().showAboutWindow()
   end
 end
 
@@ -198,7 +198,7 @@ class CloseCurrentWindowAction < Action
   end
   
   def doAction(object, actor, target)
-    $UI.closeCurrentWindow()
+    WindowManager.getSingleton().closeTopWindow()
   end
 end
 

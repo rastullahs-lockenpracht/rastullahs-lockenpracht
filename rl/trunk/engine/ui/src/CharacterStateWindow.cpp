@@ -17,7 +17,7 @@
 #include "UiPrerequisites.h"
 
 #include "DsaManager.h"
-#include "Person.h"
+#include "Creature.h"
 #include "InputManager.h"
 #include "Talent.h"
 
@@ -43,7 +43,7 @@ CharacterStateWindow::~CharacterStateWindow()
 {
 }
 
-void CharacterStateWindow::setCharacter(Person* person)
+void CharacterStateWindow::setCharacter(Creature* person)
 {
 	if (mCharacter != NULL)
 		mCharacter->removeObjectStateChangeListener(this);

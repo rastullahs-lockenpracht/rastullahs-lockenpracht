@@ -25,7 +25,7 @@
 
 namespace rl {
 
-	class Person;
+	class Creature;
 
 	class _RlUiExport CharacterStateWindow : public CeGuiWindow, public ObjectStateChangeListener
 	{
@@ -33,14 +33,14 @@ namespace rl {
 		CharacterStateWindow();
 		~CharacterStateWindow();
 
-		void setCharacter(Person* character);
+		void setCharacter(Creature* character);
 		void update();
 		void setVisible(bool visible);
 
 		void objectStateChanged(ObjectStateChangeEvent* evt);
 
 	private:
-		Person* mCharacter;
+		Creature* mCharacter;
 
 		CEGUI::ProgressBar* mLP;
 		CEGUI::ProgressBar* mAP;

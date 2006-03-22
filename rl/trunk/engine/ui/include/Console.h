@@ -32,17 +32,12 @@ namespace rl {
 
 	/** This is a Console System
 	 */
-	class _RlUiExport Console
-	  : public Ogre::Singleton<Console>, public CeGuiWindow
+	class _RlUiExport Console : public CeGuiWindow
 	{
 		public:
 			Console();
 			
-			static Console& getSingleton();
-			static Console* getSingletonPtr();
-
 			void setRubyInterpreter(RubyInterpreter* interpreter);
-
 			void write(const CeGuiString& output);
 				
 		protected:

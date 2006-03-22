@@ -23,23 +23,12 @@
 
 using namespace Ogre;
 
-template<> rl::Console* Singleton<rl::Console>::ms_Singleton = 0;
-
 using CEGUI::WindowManager; using CEGUI::utf8; using CEGUI::ListboxTextItem;
 using CEGUI::KeyEventArgs; using CEGUI::Key; using CEGUI::colour;
 using CEGUI::ListboxWrappedTextItem; using CEGUI::TextFormatting;
 
 namespace rl 
 {
-	Console& Console::getSingleton()
-    {
-        return Singleton<Console>::getSingleton();
-    }
-	Console* Console::getSingletonPtr()
-    {
-        return Singleton<Console>::getSingletonPtr();
-    }
-
 	Console::Console() : 
 		CeGuiWindow("console.xml", WND_KEYBOARD_INPUT)
 	{

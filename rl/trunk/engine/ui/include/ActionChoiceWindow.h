@@ -22,10 +22,10 @@
 #include "CeGuiWindow.h"
 #include <set>
 #include <vector>
+#include "Action.h"
 
 namespace rl {
 
-	class Action;
 	class GameObject;
 	class Person;
 	class ActionGroup;

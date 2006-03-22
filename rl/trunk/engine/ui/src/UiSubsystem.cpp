@@ -21,32 +21,13 @@
 #include <OgreCEGUIRenderer.h>
 #include <OgreCEGUIResourceProvider.h>
 
-#include "RubyInterpreter.h"
 #include "CoreSubsystem.h"
 #include "Logger.h"
-#include "DialogCharacter.h"
-#include "Console.h"
-#include "DebugWindow.h"
 #include "CharacterController.h"
 #include "MovementCharacterController.h"
 #include "FreeFlightCharacterController.h"
 #include "InputManager.h"
 #include "CommandMapper.h"
-#include "CommandMapperWindow.h"
-#include "MessageWindow.h"
-#include "MainMenuWindow.h"
-#include "MainMenuEngineWindow.h"
-#include "GameLoggerWindow.h"
-#include "TargetSelectionWindow.h"
-#include "CharacterStateWindow.h"
-#include "ContainerContentWindow.h"
-#include "InGameMenuWindow.h"
-#include "CombatWindow.h"
-#include "AboutWindow.h"
-#include "CloseConfirmationWindow.h"
-#include "JournalWindow.h"
-#include "RulesSubsystem.h"
-#include "QuestBook.h"
 #include "WindowManager.h"
 
 #include "Combat.h"
@@ -58,17 +39,12 @@
 #include "ScriptWrapper.h"
 
 #include "Person.h"
-#include "CharacterSheetWindow.h"
 #include "GameObject.h"
 #include "Action.h"
-#include "ActionChoiceWindow.h"
 #include "ActionManager.h"
 #include "DsaManager.h"
-#include "DialogWindow.h"
-#include "PlaylistWindow.h"
 #include "Primitive.h"
-#include "DataLoadingProgressWindow.h"
-#include "LogWindow.h"
+#include "Creature.h"
 
 template<> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
 
@@ -98,12 +74,13 @@ namespace rl {
 
     UiSubsystem::~UiSubsystem() 
     {  
-		delete Console::getSingletonPtr();
-        delete InputManager::getSingletonPtr();
+		delete mWindowManager;
 
         GameLoopManager::getSingleton().removeSynchronizedTask(mCharacterController);
 		delete mCharacterController;
-    }
+
+		delete InputManager::getSingletonPtr();
+	}
 	
     void UiSubsystem::initializeUiSubsystem( void )
     {
@@ -150,43 +127,8 @@ namespace rl {
 		InputManager::getSingleton().loadKeyMapping("keymap-german.xml");
 		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Keymap geladen", "UiSubsystem::initializeUiSubsystem");
 
-		new WindowManager();
-		new Console();
-		new DebugWindow();
-		CoreSubsystem::getSingleton().getRubyInterpreter()->setOutputFunction( (VALUE(*)(...))&UiSubsystem::consoleWrite );
-
-		new TargetSelectionWindow();
-			      
-		mGameLogger = new GameLoggerWindow();
-		mCharacterStateWindow = new CharacterStateWindow();
-		mInGameMenuWindow = new InGameMenuWindow();
-		mCharacterSheet = new CharacterSheetWindow();
-		mJournalWindow = new JournalWindow();
-		RulesSubsystem::getSingleton().getQuestBook()->addQuestChangeListener(mJournalWindow);
-		CoreSubsystem::getSingleton().addCoreEventListener(new DataLoadingProgressWindow());
-
-		mLogWindow = new LogWindow();
+		mWindowManager = new WindowManager();
     }
-
-    void UiSubsystem::requestExit()
-    {
-		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Start", "UiSubsystem::requestExit");
-		(new CloseConfirmationWindow())->setVisible(true);
-	}
-    
-    void UiSubsystem::writeToConsole(Ogre::String text)
-	{
-		Console::getSingleton().write(text);
-	}
-
-	VALUE UiSubsystem::consoleWrite(VALUE self, VALUE str)
-	{
-        if (Console::getSingletonPtr())
-        {
-            Console::getSingleton().write(RubyInterpreter::val2ceguistr(str) + " \n");
-        }
-		return Qnil;
-	}
 
 	Person* UiSubsystem::getActiveCharacter()
 	{
@@ -218,23 +160,13 @@ namespace rl {
             World* world = CoreSubsystem::getSingletonPtr()->getWorld();
             world->setActiveActor(person->getActor());
 		    
-			mCharacterStateWindow->setCharacter(person);
-		    mCharacterStateWindow->update();
-			Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "CharacterStateWindow updated");
+			mWindowManager->setActiveCharacter(person);
 
 			mCharacter->getActor()->attach(CoreSubsystem::getSingleton().getSoundListener());
 			Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "SoundListener attached.");
             
             Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Actor set");
         }
-	}
-
-	void UiSubsystem::showActionChoice(GameObject* obj)
-	{
-		ActionChoiceWindow* w = new ActionChoiceWindow(UiSubsystem::getSingleton().getActiveCharacter());
-		int numActions = w->showActionsOfObject(obj);
-		if (numActions > 0)
-			w->setVisible(true);
 	}
 
 	void UiSubsystem::useDefaultAction(GameObject* obj, Creature* actor)
@@ -250,145 +182,15 @@ namespace rl {
 			useDefaultAction(pickedObject, getActiveCharacter());
 	}
 
-	void UiSubsystem::closeCurrentWindow()
-	{
-		rl::WindowManager::getSingleton().closeTopWindow();
-	}
-
-	void UiSubsystem::showCharacterActionChoice()
-	{
-		showActionChoice(getActiveCharacter());
-	}
-
-	void UiSubsystem::showPickedObjectActions()
-	{
-		GameObject* pickedObject = InputManager::getSingleton().getPickedObject();
-
-		if (pickedObject != NULL)
-			showActionChoice(pickedObject);
-	}
-
-	void UiSubsystem::showContainerContent(Container* container)
-	{
-		ContainerContentWindow* wnd = new ContainerContentWindow(container);
-		wnd->setVisible(true);
-	}
-
-	bool UiSubsystem::showInputOptionsMenu(Creature* actionHolder)
-	{
-		CommandMapperWindow* wnd = new CommandMapperWindow(actionHolder, InputManager::getSingleton().getCommandMapper());
-		wnd->setVisible(true);
-
-		return true;
-	}
-
-	void UiSubsystem::showMessageWindow(const CeGuiString& message)
-	{
-		MessageWindow* w = new MessageWindow();
-		w->setText(message);
-		w->setVisible(true);
-	}
-
-	void UiSubsystem::showMainMenu()
-	{
-		(new MainMenuWindow(new MainMenuEngineWindow()))->setVisible(true);
-	}
-
-	void UiSubsystem::showTargetWindow()
-	{
-		TargetSelectionWindow::getSingleton().setAction(NULL);
-		TargetSelectionWindow::getSingleton().setVisible(true);
-	}
-
-	void UiSubsystem::showDialog(DialogCharacter* bot)
-	{
-		if (bot->getDialogCharacter() == NULL)
-			bot->setDialogCharacter(getActiveCharacter());
-		(new DialogWindow(bot, mGameLogger))->setVisible(true);
-	}
-
-	void UiSubsystem::toggleConsole()
-	{
-		Console* cons = Console::getSingletonPtr();
-		cons->setVisible(!cons->isVisible());
-	}
-
-	void UiSubsystem::toggleDebugWindow()
-	{
-		DebugWindow* dbgwnd = DebugWindow::getSingletonPtr();
-		dbgwnd->setVisible(!dbgwnd->isVisible());
-	}
-
-	void UiSubsystem::toggleGameLogWindow()
-	{
-		mGameLogger->setVisible(!mGameLogger->isVisible());
-	}
-
 	void UiSubsystem::toggleObjectPicking()
 	{
 		InputManager::getSingleton().setObjectPickingActive(true);
 	}
 
-	void UiSubsystem::showCharacterSheet()
-	{
-		if (mCharacterSheet->isVisible())
-		{
-			mCharacterSheet->setCharacter(NULL);
-			mCharacterSheet->setVisible(false);
-		}
-		else
-		{
-			mCharacterSheet->setCharacter(getActiveCharacter());
-			mCharacterSheet->setVisible(true);
-		}
-	}
-
-	void UiSubsystem::showJournalWindow()
-	{
-		if (mJournalWindow->isVisible())
-		{
-			mJournalWindow->setVisible(false);
-		}
-		else
-		{
-			mJournalWindow->setVisible(true);
-		}
-	}
-
-	void UiSubsystem::showAboutWindow()
-	{
-		(new AboutWindow())->setVisible(true);
-	}
-
-	void UiSubsystem::showCharacterSheet(Person* chara)
-	{
-		CharacterSheetWindow* wnd = new CharacterSheetWindow();
-		wnd->setCharacter(chara);
-		wnd->setVisible(true);
-	}
-
-	void UiSubsystem::showDescriptionWindow(GameObject* obj)
-	{
-		MessageWindow* wnd = new MessageWindow();
-		wnd->setText(obj->getDescription());
-		wnd->setVisible(true);
-	}
-
-	void UiSubsystem::toggleCharacterStateWindow()
-	{
-		mCharacterStateWindow->setVisible(!mCharacterStateWindow->isVisible());
-	}
-
-	void UiSubsystem::toggleInGameGlobalMenu()
-	{
-		mInGameMenuWindow->setVisible(!mInGameMenuWindow->isVisible());
-	}
-
 	void UiSubsystem::startCombat(Combat* combat)
 	{
 		setCombatMode(true);
-		int group = combat->getGroupOf(getActiveCharacter());
-		(new CombatWindow(combat, group))->setVisible(true);
+		mWindowManager->showCombatWindow(combat, getActiveCharacter());
 	}
 
 	void UiSubsystem::setCombatMode(bool inCombat)
@@ -402,37 +204,8 @@ namespace rl {
 		return mInCombat;
 	}
 
-	void UiSubsystem::runTest()
-	{
-	}
-
-	void UiSubsystem::update()
-	{
-		mInGameMenuWindow->update();
-	}
-	
     CharacterController* UiSubsystem::getCharacterController()
     {
         return mCharacterController;
     }
-
-	GameLoggerWindow* UiSubsystem::getGameLogger()
-	{
-		return mGameLogger;
-	}
-
-    void UiSubsystem::showPlaylist()
-    {
-        PlaylistWindow* wnd = new PlaylistWindow();
-        wnd->setVisible(true);
-    }
-	
-	void UiSubsystem::checkForErrors()
-	{
-		if (Logger::getSingleton().isErrorPresent())
-		{
-			mLogWindow->setVisible(true);
-			Logger::getSingleton().resetErrorState();
-		}
-	}
 }

@@ -244,10 +244,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\Console.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\FreeFlightCharacterController.h"
 				>
 			</File>
@@ -257,10 +253,6 @@
 			</File>
 			<File
 				RelativePath=".\include\MovementCharacterController.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\SoundConfig.h"
 				>
 			</File>
 			<File
@@ -308,6 +300,10 @@
 				</File>
 				<File
 					RelativePath=".\include\CommandMapperWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\Console.h"
 					>
 				</File>
 				<File
@@ -363,6 +359,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\SoundConfig.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\TargetSelectionWindow.h"
 					>
 				</File>
@@ -386,10 +386,6 @@
 			</File>
 			<File
 				RelativePath=".\src\CommandMapper.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Console.cpp"
 				>
 			</File>
 			<File
@@ -445,6 +441,10 @@
 				</File>
 				<File
 					RelativePath=".\src\CommandMapperWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Console.cpp"
 					>
 				</File>
 				<File

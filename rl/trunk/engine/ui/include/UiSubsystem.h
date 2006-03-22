@@ -22,13 +22,6 @@
 #include <OgreSingleton.h>
 #include <string>
 
-#include <OgreNoMemoryMacros.h>
-#include "FixRubyHeaders.h"		// die Makros sind hier vor Ruby schon definiert
-#include <ruby.h>
-#include "FixRubyHeaders.h"
-#include <OgreMemoryMacros.h>
-#undef min
-
 namespace rl {
 
     class Interpreter;
@@ -36,16 +29,9 @@ namespace rl {
     class GameActor;
 	class GameObject;
 	class Person;
-	class GameLoggerWindow;
-	class CharacterStateWindow;
-	class CharacterSheetWindow;
-	class Container;
-	class InGameMenuWindow;
-	class Creature;
-	class DialogCharacter;
 	class Combat;
-	class JournalWindow;
-	class LogWindow;
+	class Creature;
+	class WindowManager;
 
     class _RlUiExport UiSubsystem : protected Ogre::Singleton<UiSubsystem>
     {
@@ -59,47 +45,13 @@ namespace rl {
         static UiSubsystem & getSingleton(void);
         static UiSubsystem * getSingletonPtr(void);
 
-        /** Requests the application's exit */
-        void requestExit();
-
-		void closeCurrentWindow();
-
-		/** Writes Text into the Console or other output media */
-		void writeToConsole(std::string text);
-		static VALUE consoleWrite(VALUE self, VALUE str);
-		void toggleConsole();
-		void toggleDebugWindow();
-		void toggleGameLogWindow();
-		void toggleObjectPicking();
-		void toggleCharacterStateWindow();
-		void toggleInGameGlobalMenu();
-
 		void useDefaultAction(GameObject* obj, Creature* actor);
 		void usePickedObjectDefaultActions();
-
-		void showCharacterActionChoice();
-		void showPickedObjectActions();
-		void showActionChoice(GameObject* obj);
-		void showDescriptionWindow(GameObject* obj);
-		void showTargetWindow();
-		void showContainerContent(Container* container);
-
-		void showMessageWindow(const CeGuiString& message);
-		void showMainMenu();
-		void showCharacterSheet();
-		void showCharacterSheet(Person* chara);
-		bool showInputOptionsMenu(Creature* actionHolder);
-		void showDialog(DialogCharacter* bot);
-        void showPlaylist();
-		void showAboutWindow();
-		void showJournalWindow();
-		
-		void checkForErrors();
+		void toggleObjectPicking();
 
 		Person* getActiveCharacter();
 		void setActiveCharacter(Person* person);
         CharacterController* getCharacterController();
-		GameLoggerWindow* getGameLogger();
 
 		void setCombatMode(bool inCombat);
 		bool isInCombatMode();
@@ -117,12 +69,7 @@ namespace rl {
         GameActor* mHero;
         Person* mCharacter;
         bool mInCombat;
-		GameLoggerWindow* mGameLogger;
-		CharacterStateWindow* mCharacterStateWindow;
-		InGameMenuWindow* mInGameMenuWindow;
-		CharacterSheetWindow* mCharacterSheet;
-		JournalWindow* mJournalWindow;
-		LogWindow* mLogWindow;
+		WindowManager* mWindowManager;
     };
 }
 
