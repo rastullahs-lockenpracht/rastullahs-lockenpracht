@@ -9,15 +9,14 @@ $SCRIPT.log("Fackellicht erstellen..");
 fackellicht = $AM.createLightActor("Das Licht der Fackel", LightObject::LT_POINT );
 fackellicht.getControlledObject().setCastShadows(false);
 fackellicht.getControlledObject().setDiffuseColour(1.0,0.8,0.0);
-fackellicht.getControlledObject().setAttenuation(500.0, 1.0,  0.005, 0.0 );
+fackellicht.getControlledObject().setAttenuation(5.0, 1.0,  0.005, 0.0 );
 torch.getActor().attachToSlot( fackellicht, "SLOT_FAR_END" );
 $SCRIPT.log("Fackellicht erstellt.");
 
 $SCRIPT.log("Partikeldings erstellen..");
-partikeldings = $AM.createParticleSystemActor("Das fitzelnde Leuchten", "PEExamples/ignifaxius" );
-partikeldings.placeIntoScene( [-300.0, 0.0, 100.0] );
+partikeldings = $AM.createParticleSystemActor("Das fitzelnde Leuchten", "Minidemo/Dampfplosion" );
+partikeldings.placeIntoScene( [-3.0, 0.0, 1.0] );
 # torch.getActor().attachToSlot(partikeldings, "SLOT_FAR_END" );
-partikeldings.setScale( 4.54, 4.54, 4.54 );
 $SCRIPT.log("Partikeldings erstellt.");
 
 

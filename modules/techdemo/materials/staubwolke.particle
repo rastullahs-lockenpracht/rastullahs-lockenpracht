@@ -1,9 +1,9 @@
-RL/Staubwolke
+Techdemo/Steinstaubwolke
 {
 	quota	200
 	material	RL/Staubwolke
-	particle_width	150
-	particle_height	150
+	particle_width	1.50
+	particle_height	1.50
 	cull_each	false
 	renderer	billboard
 	billboard_type	point
@@ -17,20 +17,29 @@ RL/Staubwolke
 		direction	0 1 0
 		emission_rate	35
 		position	0 0 0
-		velocity	50
-		velocity_min	50
-		velocity_max	75
+		velocity	0.5
+		velocity_min	0.5
+		velocity_max	0.75
 		time_to_live	6
 		time_to_live_min	6
 		time_to_live_max	15
 		duration	5
 		duration_min	5
 		duration_max	5
-		width	800
-		height	400
-		depth	0
+		repeat_delay	10
+		repeat_delay_min	10
+		repeat_delay_max	10
+		width	4
+		height	4
+		depth	0.1
 	}
 		
+	affector DirectionRandomiser
+	{
+		randomness 0.1
+		scope 0.5
+		keep_velocity true
+	}
 
 	affector Rotator
 	{
@@ -42,14 +51,16 @@ RL/Staubwolke
 	
 	affector ColourFader
 	{
-		red	-0.1
-		green	-0.1
-		blue	-0.1
-		alpha	-0.1
+		red	-0.15
+		green	-0.15
+		blue	-0.15
+		alpha	-0.15
 	}
 
 	affector Scaler
 	{
-		rate	8
+		rate	0.5
 	}
 }
+
+

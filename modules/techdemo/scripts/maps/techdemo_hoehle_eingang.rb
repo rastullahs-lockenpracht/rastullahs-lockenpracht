@@ -13,7 +13,7 @@ class Rock < GameObject
 
   def spawn
     if ( ! @mSpawned )
-      rockActor = $AM.createMeshActor(getName(), @mModel, PhysicsManager::GT_ELLIPSOID, 3000.0)
+      rockActor = $AM.createMeshActor( getName(), @mModel, PhysicsManager::GT_ELLIPSOID, 3000.0)
       rockActor.getPhysicalThing().setGravityOverride(true)
       setActor(rockActor)
 
@@ -47,11 +47,8 @@ class ZusammenfallListener < AnimationListener
 
 	def animationFinished(anEvent)
 		@mDustCloud.getControlledObject().setActive(false)
+		$AM.destroyActor( @mDustCloud );
 		@mRockPile.getPhysicalThing().updateCollisionHull();
-#		pt = @mRockPile.getPhysicalThing();
-#		@mRockPile.setPhysicalThing(nil)
-#		$PM.removeAndDestroyPhysicalThing(pt)
-
 	end
 	
 	def animationPaused(anEvent)
@@ -72,21 +69,21 @@ class RockPile < GameObject
     @mRockPile.placeIntoScene(positionPile, orientation)
 
     @mPositionPart = positionParticles;
-    @mSteinSchlagActor = $AM.createSoundSampleActor("SteinSchlagSound","steinschlag_wenig_zu_vielen.ogg");
-    @mSteinSchlagActor.getControlledObject().load();
-    @mSteinSchlagActor.placeIntoScene( 	positionParticles[0], positionParticles[1], positionParticles[2], 1.0, 0.0, 0.0, 0.0 );
+    @mSteinSchlagSound = $AM.createSoundSampleActor("SteinSchlagSound","steinschlag_wenig_zu_vielen.ogg");
+    @mSteinSchlagSound.getControlledObject().load();
+    @mSteinSchlagSound.placeIntoScene( 	positionParticles[0], positionParticles[1], positionParticles[2], 1.0, 0.0, 0.0, 0.0 );
 
     setActor(@mRockPile)
     setHighlightingEnabled(false)
   end
 
   def collapse()
-    fallAnim = getActor().getControlledObject().startAnimation("Zusammenfallen", 1.0, 1)
-    
-    @mDustCloud = $AM.createParticleSystemActor("Steinstaubwolke", "RL/Staubwolke")
-    @mSteinSchlagActor.getControlledObject().play();
+    @mDustCloud = $AM.createParticleSystemActor("Steinstaubwolke", "Techdemo/Steinstaubwolke")
+    @mSteinSchlagSound.getControlledObject().play();
     @mDustCloud.placeIntoScene(@mPositionPart);
     @mDustCloud.getControlledObject().setActive(true)
+
+    fallAnim = getActor().getControlledObject().startAnimation("Zusammenfallen", 0.5, 1);  
     fallAnim.addAnimationListener( ZusammenfallListener.new(@mRockPile,@mDustCloud) );
 
     RulesSubsystem.getSingleton().getQuestBook().getQuest("hoehleEingang").setState(Quest::COMPLETED)
