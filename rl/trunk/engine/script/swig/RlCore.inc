@@ -631,6 +631,9 @@ public:
 		
 	virtual const Ogre::StringVector& getDependencies() const = 0;
 	virtual const Ogre::StringVector& getTextureLocations() const = 0;
+	virtual const Ogre::StringVector getSoundLocations() const;
+	virtual const Ogre::StringVector getModelLocations() const;
+
 	virtual void start() = 0;
 };
 

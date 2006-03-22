@@ -106,8 +106,24 @@ namespace rl {
 		{
 			ContentModule* mod = getModule(mDefaultActiveModule);
 			if (mod == NULL)
+			{
 				Throw(rl::RuntimeException, "Module "+mDefaultActiveModule+" not found");
-			startAdventureModule(mod);
+			}
+			else if (mod->getMinimumEngineVersion() > ConfigurationManager::getSingleton().getEngineBuildNumber())
+			{
+				Throw(
+					rl::RuntimeException, 
+					"Module "
+					+ Ogre::String(mod->getName().c_str())
+					+ " needs engine >"
+					+ StringConverter::toString(mod->getMinimumEngineVersion())
+					+ " but engine is "
+					+ StringConverter::toString(ConfigurationManager::getSingleton().getEngineBuildNumber()));
+			}
+			else
+			{
+				startAdventureModule(mod);
+			}
 		}
 
         Root::getSingleton().startRendering();

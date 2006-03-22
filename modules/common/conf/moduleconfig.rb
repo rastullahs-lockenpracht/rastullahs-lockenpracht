@@ -13,6 +13,10 @@ class CommonModule < ContentModule
 	return ["alpha", "env", "model", "programs", "templates", "tiled", "particle"]
     end
 
+    def getSoundLocations()
+        return ["mensch", "metall", "natur", "ost", "sonst", "wesen"]
+    end
+
     def start()
     end
 end

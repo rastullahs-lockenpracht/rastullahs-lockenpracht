@@ -13,6 +13,10 @@ class TechdemoModule < ContentModule
 	return ["alpha", "env", "model", "tiled"];
     end
 
+    def getSoundLocations()
+	return ["ost"];
+    end
+
     def start()
         $CORE.loadMap("Octree", "techdemo_terrain.scene", "techdemo", "techdemo.rb");
         $World = $CORE.getWorld();

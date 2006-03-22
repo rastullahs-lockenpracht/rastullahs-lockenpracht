@@ -77,6 +77,16 @@ namespace rl
 		return mCommon;
 	}
 
+	const Ogre::StringVector ContentModule::getSoundLocations() const
+	{
+		return Ogre::StringVector();
+	}
+
+	const Ogre::StringVector ContentModule::getModelLocations() const
+	{
+		return Ogre::StringVector();
+	}
+
     void ContentModule::initializeTextures() const
     {
         
@@ -115,17 +125,20 @@ namespace rl
         addSearchPath(moduleDir + "/dsa", resourceGroup);
         addSearchPath(moduleDir + "/maps", resourceGroup);
         addSearchPath(moduleDir + "/models", resourceGroup);
-        addSearchPath(moduleDir + "/sound", resourceGroup); //@todo ueber Verzeichnisnamen nachdenken
-		addSearchPath(moduleDir + "/sound/holz", resourceGroup);
-		addSearchPath(moduleDir + "/sound/metall", resourceGroup);
-		addSearchPath(moduleDir + "/sound/natur", resourceGroup);
-		addSearchPath(moduleDir + "/sound/ost", resourceGroup);
-		addSearchPath(moduleDir + "/sound/sonst", resourceGroup);
-		addSearchPath(moduleDir + "/sound/waffen", resourceGroup);
-		addSearchPath(moduleDir + "/sound/wesen", resourceGroup);
-		addSearchPath(moduleDir + "/sound/zauber", resourceGroup);
-		addSearchPath(moduleDir + "/sound/mensch", resourceGroup);
-        addSearchPath(moduleDir + "/gui", resourceGroup);
+   		StringVector modelLoc = getModelLocations();
+		for (StringVector::iterator it = modelLoc.begin(); it != modelLoc.end(); ++it)
+		{
+			addSearchPath(moduleDir + "/models/"+*it, resourceGroup);
+		}
+
+		addSearchPath(moduleDir + "/sound", resourceGroup); //@todo ueber Verzeichnisnamen nachdenken
+		StringVector soundLoc = getSoundLocations();
+		for (StringVector::iterator it = soundLoc.begin(); it != soundLoc.end(); ++it)
+		{
+			addSearchPath(moduleDir + "/sound/"+*it, resourceGroup);
+		}
+
+		addSearchPath(moduleDir + "/gui", resourceGroup);
         addSearchPath(moduleDir + "/gui/fonts", resourceGroup);
         addSearchPath(moduleDir + "/gui/imagesets", resourceGroup);
         addSearchPath(moduleDir + "/gui/schemes", resourceGroup);
