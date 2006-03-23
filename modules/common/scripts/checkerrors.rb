@@ -1,3 +1,3 @@
 if (CoreSubsystem.getSingleton().isInitialized())
-	UiSubsystem.getSingleton().checkForErrors();
+	WindowManager.getSingleton().checkForErrors();
 end
