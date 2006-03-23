@@ -27,6 +27,10 @@
 #include <OgreMemoryMacros.h>
 #undef min
 
+#include <CEGUIVector.h>
+#include <vector>
+#include "GameTask.h"
+
 namespace rl {
 
 	class CeGuiWindow;
@@ -43,7 +47,7 @@ namespace rl {
 	class JournalWindow;
 	class LogWindow;
 	class Person;
-	
+	class WindowUpdater;
 
 	class _RlUiExport WindowManager : public Ogre::Singleton<WindowManager>
 	{
@@ -108,8 +112,47 @@ namespace rl {
 		JournalWindow* mJournalWindow;
 		LogWindow* mLogWindow;
 		Console* mConsole;
+
+		WindowUpdater* mWindowUpdater;
 	};
 
+	class WindowUpdateTask {
+	public:
+		WindowUpdateTask(CeGuiWindow* window, Ogre::Real time, 
+			int targetX, int targetY, Ogre::Real targetAlpha = -1);
+		WindowUpdateTask(CeGuiWindow* window, Ogre::Real time, 
+			Ogre::Real targetAlpha);
+
+		void run(Ogre::Real elapsedTime);
+		const CEGUI::Point& getCurrentPosition();
+		const Ogre::Real& getCurrentAlpha();
+		const Ogre::Real& getTimeLeft();
+		CeGuiWindow* getWindow();
+
+	private:
+		void initialize();
+
+		CeGuiWindow* mWindow;
+		Ogre::Real mTime; 
+		CEGUI::Point mTargetPoint;
+		CEGUI::Point mRatePoint;
+		CEGUI::Point mCurrentPoint;
+		Ogre::Real mTargetAlpha;
+		Ogre::Real mRateAlpha;
+		Ogre::Real mCurrentAlpha;
+		bool mCalculatePoint;
+		bool mCalculateAlpha;
+	};
+
+	class WindowUpdater : public GameTask
+	{
+	public:
+		void run( Ogre::Real elapsedTime );
+		void fadeOut(CeGuiWindow* window, Ogre::Real time);
+		void moveOutLeft(CeGuiWindow* window, Ogre::Real time);
+	private:
+		std::vector<WindowUpdateTask*> mTasks;
+	};
 }
 
 #endif

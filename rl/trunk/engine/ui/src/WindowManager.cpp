@@ -33,7 +33,9 @@
 #include "DebugWindow.h"
 #include "DialogCharacter.h"
 #include "DialogWindow.h"
+#include "Exception.h"
 #include "GameLoggerWindow.h"
+#include "GameLoop.h"
 #include "GameObject.h"
 #include "InGameMenuWindow.h"
 #include "InputManager.h"
@@ -58,6 +60,10 @@ namespace rl {
 
 	WindowManager::WindowManager()
 	{
+		mWindowUpdater = new WindowUpdater();
+		GameLoopManager::getSingleton().addSynchronizedTask(mWindowUpdater, FRAME_STARTED);
+		//mWindowUpdater->setPaused(true);
+
 		mConsole = new Console();
 		new DebugWindow();
 		CoreSubsystem::getSingleton().getRubyInterpreter()->
@@ -86,6 +92,7 @@ namespace rl {
 		delete mInGameMenuWindow;
 		delete mCharacterStateWindow;
 		delete mConsole;
+		delete mWindowUpdater;
 
 		delete DebugWindow::getSingletonPtr();
 	}
@@ -113,6 +120,8 @@ namespace rl {
 			if (cur->isVisible() && cur->isClosingOnEscape())
 			{
 				cur->setVisible(false);
+				//mWindowUpdater->fadeOut(cur, 0.3);
+				//mWindowUpdater->moveOutLeft(cur, 0.5);
 				break;
 			}
 		}
@@ -343,5 +352,120 @@ namespace rl {
 	}
 
 
+	WindowUpdateTask::WindowUpdateTask(
+		CeGuiWindow* window, Ogre::Real time, 
+		int targetX, int targetY, Ogre::Real targetAlpha)
+	:	mWindow(window),
+		mTime(time), 
+		mTargetPoint(targetX, targetY), 
+		mTargetAlpha(targetAlpha)
+	{
+		initialize();
+	}
+
+	WindowUpdateTask::WindowUpdateTask(
+		CeGuiWindow* window, Ogre::Real ftime, 
+		Ogre::Real targetAlpha)
+	:	mWindow(window),
+		mTime(ftime), 
+		mTargetPoint(-9999999, -9999999), 
+		mTargetAlpha(targetAlpha)
+	{
+		initialize();
+	}
+
+	void WindowUpdateTask::initialize()
+	{
+		mCalculatePoint =(mTargetPoint.d_x != -9999999);
+		mCalculateAlpha =(mTargetAlpha != -1);
+			
+		CEGUI::Point delta = mTargetPoint - mWindow->getWindow()->getAbsolutePosition();
+		mRatePoint = CEGUI::Point(delta.d_x / mTime, delta.d_y / mTime);
+		mRateAlpha = 
+			(mTargetAlpha - mWindow->getWindow()->getAlpha()) / mTime;
+		mCurrentPoint = mWindow->getWindow()->getAbsolutePosition();
+		mCurrentAlpha = mWindow->getWindow()->getAlpha();
+	}
+
+	void WindowUpdateTask::run(Ogre::Real elapsedTime)
+	{
+		if (mTime > 0)
+		{
+			if (mCalculatePoint)
+			{
+				mCurrentPoint += CEGUI::Point(mRatePoint.d_x * elapsedTime, mRatePoint.d_y * elapsedTime);
+			}
+			if (mCalculateAlpha)
+			{
+				mCurrentAlpha += mRateAlpha * elapsedTime;
+			}
+			mTime -= elapsedTime;
+		}
+	}
+
+	const CEGUI::Point& WindowUpdateTask::getCurrentPosition()
+	{
+		return mCurrentPoint;
+	}
+
+	const Ogre::Real& WindowUpdateTask::getCurrentAlpha()
+	{
+		return mCurrentAlpha;
+	}
+
+	const Ogre::Real& WindowUpdateTask::getTimeLeft()
+	{
+		return mTime;
+	}
+
+	CeGuiWindow* WindowUpdateTask::getWindow()
+	{
+		return mWindow;
+	}
+
+	void WindowUpdater::run( Ogre::Real elapsedTime )
+	{
+		if (mTasks.empty())
+			return;
+
+		for (std::vector<WindowUpdateTask*>::iterator it = mTasks.begin(); it != mTasks.end();)
+		{
+			WindowUpdateTask* task = *it;
+			task->run(elapsedTime);
+			task->getWindow()->getWindow()->setPosition(CEGUI::Absolute, task->getCurrentPosition());
+			task->getWindow()->getWindow()->setAlpha(task->getCurrentAlpha());
+			if (task->getTimeLeft() <= 0)
+			{
+				it = mTasks.erase(it);
+				//delete task;
+			}
+			else
+			{
+				++it;
+			}
+		}
+	}
+
+	void WindowUpdater::fadeOut(CeGuiWindow* window, Ogre::Real time)
+	{
+		if (window == NULL)
+			Throw(InvalidArgumentException, "NULL argument");
+
+		mTasks.push_back(new WindowUpdateTask(window, time, 0.0));
+	}
+
+	void WindowUpdater::moveOutLeft(CeGuiWindow* window, Ogre::Real time)
+	{
+		if (window == NULL)
+			Throw(InvalidArgumentException, "NULL argument");
+
+		CEGUI::Window* wnd = window->getWindow();
+		mTasks.push_back(
+			new WindowUpdateTask(
+				window, 
+				time, 
+				-wnd->getAbsoluteWidth(), 
+				wnd->getAbsoluteYPosition()));
+	}
 
 }
