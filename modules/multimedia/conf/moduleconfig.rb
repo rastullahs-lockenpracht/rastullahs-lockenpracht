@@ -10,7 +10,15 @@ class MultimediaModule < ContentModule
     end
 
     def getTextureLocations()
-	return []
+	    return []
+    end
+
+    def getSoundLocations()
+        return []
+    end
+
+    def getModelLocations()
+	    return []
     end
 
     def start()

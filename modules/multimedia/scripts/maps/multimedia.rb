@@ -1,5 +1,8 @@
+# Nur eingebettet starten
+load( "embed.rb" );
 
 require 'torch.rb'
+require 'player.rb'
 require 'hero.rb'
 
 $World = $CORE.getWorld()
@@ -10,23 +13,25 @@ $SCRIPT.log("Tageslicht erstellen..");
 sunlight = $AM.createLightActor("sunlight", LightObject::LT_DIRECTIONAL);
 sunlight.getControlledObject().setDirection(-0.8, -2.0, 3.0);
 sunlight.getControlledObject().setCastShadows(false);
-sunlight.getControlledObject().setDiffuseColour(0.8,0.8,0.7);
+sunlight.getControlledObject().setDiffuseColour(1.0,1.0,1.0);
 $SCRIPT.log("Tageslicht erstellt.");
 
-camera = $AM.getActor("DefaultCamera");
-camera.placeIntoScene([-2.0, 1.0, 1.0]);
-camera.yaw(75.0);
-camera.pitch(-10.0);
-camera.attach($CORE.getSoundListener());
-$CORE.getSoundListener().getControlledObject().setActive();
+$SCRIPT.log("Held erstellen");
+held1 = Hero.new;
+held1.getActor().placeIntoScene([-2.0, 1.0, 1.0], [[0.0, 1.0, 0.0], 0.0]);
+#PlayerSettings.preparePlayer($held1);
+$UI.setActiveCharacter(held1);
+$SCRIPT.log("Held fertig");
 
-# Nur eingebettet starten
-load( "embed.rb" );
-
+#camera = $AM.getActor("DefaultCamera"); 
+#camera.placeIntoScene([-5.0, 1.0, 1.0]); 
+#camera.yaw(-90.0); 
+#camera.pitch(-10.0); 
+#
 $SCRIPT.log("Fackel erstellen...");
 torch = Torch.new("Fackel des Grauens");
 $SCRIPT.log("Fackel erstellt.");
-
+#
 $SCRIPT.log("Fackellicht erstellen..");
 fackellicht = $AM.createLightActor("Das Licht der Fackel", LightObject::LT_POINT );
 fackellicht.getControlledObject().setCastShadows(false);
@@ -37,39 +42,39 @@ $SCRIPT.log("Fackellicht erstellt.");
 
 $SCRIPT.log("Partikeldings erstellen..");
 partikeldings = $AM.createParticleSystemActor("Das fitzelnde Leuchten", "PEExamples/ignifaxius" );
-partikeldings.placeIntoScene( [-300.0, 0.0, 100.0] );
-# torch.getActor().attachToSlot(partikeldings, "SLOT_FAR_END" );
+#partikeldings.placeIntoScene( [-300.0, 0.0, 100.0] );
+torch.getActor().attachToSlot(partikeldings, "SLOT_FAR_END" );
 partikeldings.setScale( 4.54, 4.54, 4.54 );
 $SCRIPT.log("Partikeldings erstellt.");
-
-held = Hero.new;
+#
+held2 = $AM.createMeshActor("KreisLaufHeld", "held.mesh" );
 # , PhysicsManager::GT_CAPSULE);
-held.getActor().placeIntoScene( [0.0, 0.0, 0.0] );
-held.getActor().attachToSlotAxisRot( torch.getActor(), "Bone15", "SLOT_HANDLE", [0.0, 0.0, 0.0], [ 1.0, 0.0, 0.0 ], 90.0 );
+held2.placeIntoScene( [0.0, 0.0, 0.0] );
+held2.attachToSlotAxisRot( torch.getActor(), "Bone15", "SLOT_HANDLE", [0.0, 0.0, 0.0], [ 1.0, 0.0, 0.0 ], 90.0 );
 $SCRIPT.log("Fackel plaziert.");
-
+#
 $SCRIPT.log("Fackelsound erstellen.");
 fackelsound = $AM.createSoundSampleActor("fackelsound", "feuer_knisternd_01.ogg");
 fackelsound.getControlledObject().set3d(true);
 $SCRIPT.log(" Loopen");
 fackelsound.getControlledObject().setLooping( true );
 $SCRIPT.log("Sound an die Fackel haengen");
-held.getActor().attach(fackelsound);
+held2.attach(fackelsound);
 $SCRIPT.log(" Abspielen");
 fackelsound.getControlledObject().play();
 $SCRIPT.log("Fackelsound fertig");
-
-
+#
+#
 # torch.getActor().setScale( 1.0, 1.0, 1.0 );
-
-held.getActor().getControlledObject().startAnimation( "walk" );
-
-trackAnim = $AnimMgr.createTrackAnimation(  held.getActor(), "kreisLaufAnimation", 16.0 );
-
+#
+held2.getControlledObject().startAnimation( "walk" );
+#
+trackAnim = $AnimMgr.createTrackAnimation(  held2, "kreisLaufAnimation", 16.0 );
+#
 trackAnim.addKeyFrame( 0.0 );
 trackAnim.setKeyFrameTranslation( 0.0, -4.02735565185547, -1.28517913818359, 0.259572200775146)
 # Erstes Frame keine ROTATION einfügen - Drehung sonst zuviel
-#trackAnim.setKeyFrameRotationQuaternion( 0.0, -0.998850047588348, 0.0, 0.0478907190263271, 0.0)
+trackAnim.setKeyFrameRotationQuaternion( 0.0, -0.998850047588348, 0.0, 0.0478907190263271, 0.0)
 trackAnim.addKeyFrame( 1.0 );
 trackAnim.setKeyFrameTranslation( 1.0, -4.03404174804688, -1.28617431640625, -1.04758270263672)
 trackAnim.setKeyFrameRotationQuaternion( 1.0, 0.989310145378113, 0.0, 0.145824044942856, 0.0)
