@@ -37,8 +37,8 @@ namespace rl
 			
 		virtual const Ogre::StringVector& getDependencies() const = 0;
 		virtual const Ogre::StringVector& getTextureLocations() const = 0;
-		virtual const Ogre::StringVector getSoundLocations() const;
-		virtual const Ogre::StringVector getModelLocations() const;
+		virtual const Ogre::StringVector& getSoundLocations() const = 0;
+		virtual const Ogre::StringVector& getModelLocations() const = 0;
 		virtual void start() = 0;
 
 		static const Ogre::String getInitFile(const Ogre::String& moduleId);

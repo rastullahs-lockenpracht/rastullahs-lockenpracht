@@ -17,6 +17,10 @@ class CommonModule < ContentModule
         return ["mensch", "metall", "natur", "ost", "sonst", "wesen"]
     end
 
+    def getModelLocations()
+	return []
+    end
+
     def start()
     end
 end

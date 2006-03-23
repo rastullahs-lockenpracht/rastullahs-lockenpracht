@@ -13,6 +13,14 @@ class InIngerimmsNamenModule < ContentModule
 	return ["textures"];
     end
 
+    def getModelLocations()
+	return []
+    end
+
+    def getSoundLocations()
+	return []
+    end
+
     def start()
         $CORE.loadMap("Octree", "testlevel2.scene", "InIngerimmsNamen", "ruchin.rb");
         $World = $CORE.getWorld();

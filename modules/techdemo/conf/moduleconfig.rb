@@ -17,6 +17,10 @@ class TechdemoModule < ContentModule
 	return ["ost"];
     end
 
+    def getModelLocations()
+	return []
+    end
+
     def start()
         $CORE.loadMap("Octree", "techdemo_terrain.scene", "techdemo", "techdemo.rb");
         $World = $CORE.getWorld();

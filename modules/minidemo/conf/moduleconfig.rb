@@ -13,6 +13,14 @@ class MinidemoModule < ContentModule
 	return []
     end
 
+    def getModelLocations()
+	return []
+    end
+
+    def getSoundLocations()
+	return []
+    end
+
     def start()
         $CORE.loadMap("Octree", "minidemo.scene", "minidemo", "minidemo.rb");
         $World = $CORE.getWorld();

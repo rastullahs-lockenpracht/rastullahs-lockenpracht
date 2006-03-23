@@ -28,7 +28,6 @@ using namespace Ogre;
 
 namespace rl
 {
-
 	ContentModule::ContentModule(const String& id, const CeGuiString& name, bool common, long minimumEngineVersion)
 	:	mId(id),
 		mName(name),
@@ -75,16 +74,6 @@ namespace rl
 	bool ContentModule::isCommon() const
 	{
 		return mCommon;
-	}
-
-	const Ogre::StringVector ContentModule::getSoundLocations() const
-	{
-		return Ogre::StringVector();
-	}
-
-	const Ogre::StringVector ContentModule::getModelLocations() const
-	{
-		return Ogre::StringVector();
 	}
 
     void ContentModule::initializeTextures() const
