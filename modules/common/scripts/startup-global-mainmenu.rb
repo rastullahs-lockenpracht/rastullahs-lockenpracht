@@ -5,5 +5,5 @@ $CORE.loadMap("Octree", "intro.scene", "General", "intro.rb");
 $SCRIPT.log("done")
 
 $SCRIPT.log("showMainMenu()..")
-$UI.showMainMenu()
+WindowManager::getSingleton().showMainMenu()
 $SCRIPT.log("done.")
