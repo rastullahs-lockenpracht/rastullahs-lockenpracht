@@ -3,7 +3,7 @@ VS.NET
 Um Rastullahs Lockenpracht bauen zu können werden folgende zusätzliche
 Bibliotheken benötigt:
 
-ogrenew/ - Ogre 3D - CVS HEAD - Dagon
+ogrenew/ - Ogre 3D - CVS 1-2-0 - Dagon
 http://www.ogre3d.org
 
 ruby/ - Ruby - 1.8
@@ -14,9 +14,15 @@ http://www.swig.org
 
 fmod/ -  FMOD 3.74 Programmers API
 http://www.fmod.org/
+ und/oder 
+OpenAL
+ und
+Ogg/Vorbis
+
+TheoraPlugin für Ogre
 
 OgreNewt/ OgreNewt - unsere modifizierte Version
-http://download.berlios.de/dsa-hl/OgreNewt.zip
+http://prdownload.berlios.de/dsa-hl/OgreNewt_src.zip
 
 NewtonSDK/ - 1.32
 http://www.physicsengine.com/
@@ -35,13 +41,11 @@ Diese Verzeichnisse sind alle unterhalb von rl/trunk/dependencies anzulegen.
 Die Projekte müssen alle in diesen Verzeichnissen angelegt werden.
 Die Verzeichnisstruktur sollte jeweils erhalten bleiben.
 Die Versionsnummern sind wichtig.
-Man muss die Bibliotheken CeGUI und Ogre und dann OgreNewt noch erstellen.
+Reihenfolge des Bauens ist bisweilen wichtig Cegui > Ogre > OgreNewt, TheoraPlugin > RastullahsLockenpracht
 
-VS.Net-2003-Nutzer können sich alternativ von der Projektseite auch die 
+VS.Net-2005-Nutzer können sich alternativ von der Projektseite auch die 
 Dependencies runterladen und ins rl-Verzeichnis entpacken. Diese sind jedoch 
-nicht immer aktuell. 
-( zum Beispiel muß zur Zeit der Verfassung dieses Textes swig erneuert werden. )
-
+nicht immer aktuell, näheres am Besten erfragen.
 
 Das Projekt kann man dann einfach kompilieren.
 
