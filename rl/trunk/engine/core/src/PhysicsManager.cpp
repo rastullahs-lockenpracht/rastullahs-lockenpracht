@@ -86,8 +86,8 @@ namespace rl
 
     void PhysicsManager::run(Real elapsedTime)
     {
-		Logger::getSingleton().log("RlCore", LML_TRIVIAL,
-			"PhysicsManager - time since last call: " + StringConverter::toString(elapsedTime));
+		//Logger::getSingleton().log("RlCore", LML_TRIVIAL,
+		//	"PhysicsManager - time since last call: " + StringConverter::toString(elapsedTime));
 
         // do nothing, if not enabled
         if (!mEnabled) return;

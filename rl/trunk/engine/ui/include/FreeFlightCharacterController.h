@@ -41,10 +41,7 @@ namespace rl {
 		void toggleViewMode();
 		void resetCamera();
 
-	protected:
-		OgreNewt::Body* mCamBody;
-		OgreNewt::Body* mCharBody;
-
+	private:		
 		Ogre::Real mMovementSpeed;
 		std::pair<Ogre::Real, Ogre::Real> mSpeedRange;
 		Ogre::Real mSpeedIncrement;

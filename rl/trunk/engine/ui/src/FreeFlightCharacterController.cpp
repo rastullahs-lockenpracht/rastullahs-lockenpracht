@@ -56,6 +56,7 @@ namespace rl {
 	FreeFlightCharacterController::~FreeFlightCharacterController()
 	{
 		mCamera->getPhysicalThing()->unfreeze();
+		mCharacter->getPhysicalThing()->unfreeze();
 	}
 
 	void FreeFlightCharacterController::run(Real elapsedTime)

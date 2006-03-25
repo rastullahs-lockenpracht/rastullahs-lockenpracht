@@ -36,6 +36,15 @@ namespace rl {
     class _RlUiExport UiSubsystem : protected Ogre::Singleton<UiSubsystem>
     {
     public:
+
+		enum ControllerType 
+		{
+			CTRL_FREEFLIGHT = 1,
+			CTRL_MOVEMENT,
+			CTRL_DIALOG,
+			CTRL_COMBAT
+		};
+
         /** Default Constructor */
         UiSubsystem();
         /** Default Deconstructor */
@@ -52,11 +61,12 @@ namespace rl {
 		Person* getActiveCharacter();
 		void setActiveCharacter(Person* person);
         CharacterController* getCharacterController();
+		void setCharacterController(ControllerType type);
 
 		void setCombatMode(bool inCombat);
 		bool isInCombatMode();
 		void startCombat(Combat* combat);
-
+	
 		void update();
 
 		static const char* CEGUI_ROOT;

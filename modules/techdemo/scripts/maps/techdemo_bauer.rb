@@ -5,17 +5,17 @@ class TalkAction < Action
   end
 
   def doAction(object, actor, target)
-    $UI.showDialog($DS.loadBot(@mDialog))
+    bot = $DS.loadBot(@mDialog)
+    bot.setDialogCharacter(actor)
+    bot.setDialogPartner(object)
+    WindowManager.getSingleton().showDialog(bot)
   end
 end
 
 class BauerArnolfGrossschaedel < Person
   def initialize
     super("ArnolfGrossschaedel", "Ein Bauer")
-#TODO: Mesh-Objekte aus Modulen laden, dann
     setActor($AM.createMeshActor("ArnolfGrossschaedel", "men_wirt_posed.mesh", 4, 0.0))
-#    setActor($AM.createMeshActor("ArnolfGrossschaedel", "held.mesh"))
-    
     addAction(TalkAction.new("bauer.xml"))
   end
 end

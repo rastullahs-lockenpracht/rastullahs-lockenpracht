@@ -23,7 +23,7 @@
 
 #include "CoreSubsystem.h"
 #include "Logger.h"
-#include "CharacterController.h"
+#include "DialogCharacterController.h"
 #include "MovementCharacterController.h"
 #include "FreeFlightCharacterController.h"
 #include "InputManager.h"
@@ -143,20 +143,11 @@ namespace rl {
             if( mCharacter != NULL )
 			{
                 ScriptWrapper::getSingleton().disowned( mCharacter );
-				GameLoopManager::getSingleton().removeSynchronizedTask(mCharacterController);
-				delete mCharacterController;
 				mCharacter->getActor()->detach(CoreSubsystem::getSingleton().getSoundListener());
 			}
 
-
             ScriptWrapper::getSingleton().owned( person );
             mCharacter = person;
-            Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
-            mCharacterController = new MovementCharacterController(camera, person->getActor());
-			//mCharacterController = new FreeFlightCharacterController(camera, person->getActor());
-		    Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "CharacterController created.");
-			GameLoopManager::getSingleton().addSynchronizedTask(mCharacterController, FRAME_STARTED );
-            Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "CharacterController task added.");
             World* world = CoreSubsystem::getSingletonPtr()->getWorld();
             world->setActiveActor(person->getActor());
 		    
@@ -166,7 +157,40 @@ namespace rl {
 			Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "SoundListener attached.");
             
             Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Actor set");
+
+			setCharacterController(UiSubsystem::CTRL_MOVEMENT);
         }
+	}
+
+	void UiSubsystem::setCharacterController(ControllerType type)
+	{
+		if (mCharacterController != NULL)
+		{
+			GameLoopManager::getSingleton().removeSynchronizedTask(mCharacterController);
+			delete mCharacterController;
+			Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Old CharacterController deleted.");
+		}
+
+        Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
+		switch(type)
+		{
+		case CTRL_MOVEMENT:
+			mCharacterController = new MovementCharacterController(camera, CoreSubsystem::getSingleton().getWorld()->getActiveActor());
+			if (!PhysicsManager::getSingleton().isEnabled())
+			{
+				PhysicsManager::getSingleton().setEnabled(true);
+			}
+			break;
+		case CTRL_FREEFLIGHT:
+			mCharacterController = new FreeFlightCharacterController(camera, CoreSubsystem::getSingleton().getWorld()->getActiveActor());
+			break;
+		case CTRL_DIALOG:
+			mCharacterController = new DialogCharacterController(camera, CoreSubsystem::getSingleton().getWorld()->getActiveActor());
+			break;
+		}
+	    Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "CharacterController created.");
+		GameLoopManager::getSingleton().addSynchronizedTask(mCharacterController, FRAME_STARTED );
+        Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "CharacterController task added.");
 	}
 
 	void UiSubsystem::useDefaultAction(GameObject* obj, Creature* actor)
@@ -186,6 +210,7 @@ namespace rl {
 	{
 		InputManager::getSingleton().setObjectPickingActive(true);
 	}
+
 
 	void UiSubsystem::startCombat(Combat* combat)
 	{

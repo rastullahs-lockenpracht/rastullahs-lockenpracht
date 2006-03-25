@@ -175,7 +175,7 @@ void ListenerMovable::setPosition(const Vector3& position) throw (RuntimeExcepti
     mPosition = position;
     if (isActive())
     {
-        float fx, fy, fz, tx, ty, tz;
+//        float fx, fy, fz, tx, ty, tz;
 /* TODO        FSOUND_3D_Listener_GetAttributes(0, 0,
             &fx, &fy, &fz, &tx, &ty, &tz);
         float newpos[] = {position[0], position[1], position[2]};
@@ -204,7 +204,7 @@ void ListenerMovable::setVelocity(const Vector3& velocity) throw (RuntimeExcepti
     mVelocity = velocity;
     if (isActive())
     {
-        float fx, fy, fz, tx, ty, tz;
+//        float fx, fy, fz, tx, ty, tz;
 /* TODO        FSOUND_3D_Listener_GetAttributes(0, 0,
             &fx, &fy, &fz, &tx, &ty, &tz);
         float newvel[] = {velocity[0], velocity[1], velocity[2]};

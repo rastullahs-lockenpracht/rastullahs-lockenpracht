@@ -28,14 +28,14 @@
 
 namespace rl {
 
-
 	class DialogCharacter;
+	class DialogCharacterController;
 	class GameLoggerWindow;
 
 	class _RlUiExport DialogWindow : public CeGuiWindow
 	{
 	public:
-		DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger);
+		DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger, DialogCharacterController* controller);
 		~DialogWindow();
 
 		void initialize();
@@ -51,13 +51,14 @@ namespace rl {
 		std::map<std::string, std::string> mVariableValues;
 		std::vector<std::string> mTextLines;
 		NaturalLanguageProcessor::Responses mResponses;
-		NaturalLanguageProcessor* mNlp;
+		DialogCharacter* mBot;
 		DialogResponse* mCurrentResponse;
 		CEGUI::Listbox* mDialogOptions;
 		CEGUI::StaticImage* mImage;
 		CEGUI::Listbox* mQuestion;
 		CEGUI::StaticText* mName;
 		GameLoggerWindow* mGameLogger;
+		DialogCharacterController* mController;
 				
 		bool handleSelectOption();	
 		bool handleClose();

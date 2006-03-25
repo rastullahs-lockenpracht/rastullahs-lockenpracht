@@ -32,6 +32,7 @@
 #include "DataLoadingProgressWindow.h"
 #include "DebugWindow.h"
 #include "DialogCharacter.h"
+#include "DialogCharacterController.h"
 #include "DialogWindow.h"
 #include "Exception.h"
 #include "GameLoggerWindow.h"
@@ -199,13 +200,6 @@ namespace rl {
 	{
 		TargetSelectionWindow::getSingleton().setAction(NULL);
 		TargetSelectionWindow::getSingleton().setVisible(true);
-	}
-
-	void WindowManager::showDialog(DialogCharacter* bot)
-	{
-		if (bot->getDialogCharacter() == NULL)
-			bot->setDialogCharacter(UiSubsystem::getSingleton().getActiveCharacter());
-		(new DialogWindow(bot, mGameLogger))->setVisible(true);
 	}
 
 	void WindowManager::toggleConsole()
@@ -468,4 +462,17 @@ namespace rl {
 				wnd->getAbsoluteYPosition()));
 	}
 
+	void WindowManager::showDialog(DialogCharacter* bot)
+	{
+		if (bot->getDialogCharacter() == NULL)
+		{
+			bot->setDialogCharacter(UiSubsystem::getSingleton().getActiveCharacter());
+		}
+
+		UiSubsystem::getSingleton().setCharacterController(UiSubsystem::CTRL_DIALOG);
+		DialogCharacterController* controller = 
+			dynamic_cast<DialogCharacterController*>(
+				UiSubsystem::getSingleton().getCharacterController());
+		(new DialogWindow(bot, mGameLogger, controller))->setVisible(true);
+	}
 }

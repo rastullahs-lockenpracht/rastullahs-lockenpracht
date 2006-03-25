@@ -16,14 +16,16 @@
 #include <boost/bind.hpp>
 
 #include "DialogWindow.h"
+
+#include "Creature.h"
+#include "DebugWindow.h"
 #include "DialogCharacter.h"
 #include "DialogResponse.h"
-
-#include "InputManager.h"
-#include "DebugWindow.h"
+#include "DialogCharacterController.h"
 #include "GameLoggerWindow.h"
+#include "InputManager.h"
 #include "ListboxWrappedTextItem.h"
-
+#include "UiSubsystem.h"
 
 
 namespace rl {
@@ -37,18 +39,19 @@ const CEGUI::colour DialogWindow::COLOR_NON_PLAYER_CHARACTER(0xFFFFFF7F);
 const CeGuiString DialogWindow::DIALOG_START = "1";
 const CeGuiString DialogWindow::DIALOG_END = "DIALOG BEENDET";
 
-DialogWindow::DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger)
+DialogWindow::DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger, DialogCharacterController* controller)
   : CeGuiWindow("dialogwindow.xml", WND_MOUSE_INPUT),
-	mNlp(bot), 
+	mBot(bot), 
 	mCurrentResponse(NULL),
-	mGameLogger(gamelogger)
+	mGameLogger(gamelogger),
+	mController(controller)
 {
 	initialize();
 }
 
 DialogWindow::~DialogWindow()
 {
-	if(mCurrentResponse) delete mCurrentResponse;
+	delete mCurrentResponse;
 	mCurrentResponse = NULL;
 }
 
@@ -81,13 +84,13 @@ void DialogWindow::initialize()
 		boost::bind(&DialogWindow::handleClose, this)); //TODO: als Abbrechen werten 
 
     getResponse(DIALOG_START);
-	mName->setText(mNlp->getName());
+	mName->setText(mBot->getName());
 }
 
 void DialogWindow::getResponse(const CeGuiString& msg)
 {
-	if(mCurrentResponse) delete mCurrentResponse;
-	mCurrentResponse = mNlp->createResponse(msg);
+	delete mCurrentResponse;
+	mCurrentResponse = mBot->createResponse(msg);
 	
 	ListboxWrappedTextItem* item = NULL;
 
@@ -99,12 +102,13 @@ void DialogWindow::getResponse(const CeGuiString& msg)
 		return;
 	}
 	CeGuiString responseText = mCurrentResponse->getResponse();
-	
+	mController->response(mBot->getDialogPartner()->getActor(), responseText, "");
+
 	mQuestion->getListboxItemFromIndex(1)->
-		setText(mNlp->getName() + ": " + responseText);
+		setText(mBot->getName() + ": " + responseText);
 	mQuestion->handleUpdatedItemData();
 
-	mGameLogger->logDialogEvent(mNlp->getName(), responseText);
+	mGameLogger->logDialogEvent(mBot->getName(), responseText);
 	
 	mResponses = mCurrentResponse->getOptions();
 	
@@ -124,7 +128,7 @@ void DialogWindow::getResponse(const CeGuiString& msg)
 	{			
 		if(i < mDialogOptions->getItemCount())
 		{
-			item = reinterpret_cast<ListboxWrappedTextItem*>(mDialogOptions->getListboxItemFromIndex(i));
+			item = static_cast <ListboxWrappedTextItem*>(mDialogOptions->getListboxItemFromIndex(i));
 			currentResponse = itr->second;
 			Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, currentResponse.c_str());
 			item->setText(currentResponse);
@@ -139,8 +143,6 @@ void DialogWindow::getResponse(const CeGuiString& msg)
 			mDialogOptions->addItem(item);
 		}
 		item->setID(itr->first);
-
-		
 
 		++i;
 	}
@@ -169,8 +171,9 @@ int DialogWindow::getSelectedOption()
 
 bool DialogWindow::handleSelectOption()
 {
-	DebugWindow::getSingleton().setText("Pnk "+StringConverter::toString(getSelectedOption()));
-	ListboxWrappedTextItem* item = reinterpret_cast<ListboxWrappedTextItem*>(mDialogOptions->getFirstSelectedItem());
+	DebugWindow::getSingleton().setText(StringConverter::toString(getSelectedOption()));
+	ListboxWrappedTextItem* item = 
+		reinterpret_cast<ListboxWrappedTextItem*>(mDialogOptions->getFirstSelectedItem());
 	int id = item->getID();
 	std::pair<int, CeGuiString> selectedOption 
 		= mCurrentResponse->getSelectedOption(id);
@@ -181,6 +184,7 @@ bool DialogWindow::handleSelectOption()
 		{
 			mGameLogger->logDialogEvent("Held", selectedOption.second);
 			mQuestion->getListboxItemFromIndex(0)->setText("Held: " + selectedOption.second);	
+			mController->response(mBot->getDialogCharacter()->getActor(), selectedOption.second, "");
 		}
 	}
 	getResponse(StringConverter::toString(id));	
@@ -191,6 +195,7 @@ bool DialogWindow::handleSelectOption()
 bool DialogWindow::handleClose()
 {
 	setVisible(false);
+	UiSubsystem::getSingleton().setCharacterController(UiSubsystem::CTRL_MOVEMENT);
 	return true;
 }
 

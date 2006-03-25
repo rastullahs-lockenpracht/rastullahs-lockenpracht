@@ -33,12 +33,21 @@ public:
 class UiSubsystem 
 {
 public:
+	enum ControllerType 
+	{
+		CTRL_FREEFLIGHT = 1,
+		CTRL_MOVEMENT,
+		CTRL_DIALOG,
+		CTRL_COMBAT
+	};
+
     static UiSubsystem& getSingleton(void);
     
 	rl::Person* getActiveCharacter();
 	void setActiveCharacter(rl::Person* person);
 
 	rl::CharacterController* getCharacterController();
+	void setCharacterController(rl::UiSubsystem::ControllerType type);
 	
 	void useDefaultAction(rl::GameObject* obj, rl::Creature* actor);
 	void usePickedObjectDefaultActions();
@@ -81,10 +90,10 @@ public:
 	void showMessageWindow(const rl::CeGuiString& message);
 	void showCharacterSheet();
 	void showCharacterSheet(rl::Person* chara);
+	void showDialog(rl::DialogCharacter* bot);
     void showPlaylist();
 	void showTargetWindow();
 	void showContainerContent(rl::Container* container);
-	void showDialog(rl::DialogCharacter* bot);
 	void showAboutWindow();
 	void showJournalWindow();
 
