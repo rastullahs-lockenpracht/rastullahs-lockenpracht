@@ -52,7 +52,7 @@ namespace rl {
 		mDialogPartner = partner;
 
 		resetCamera();
-		mOgreCam->setPosition(mCamera->_getSceneNode()->_getDerivedPosition());
+		mOgreCam->setPosition(Vector3::ZERO);
 		mOgreCam->setOrientation(Quaternion::IDENTITY);
 		mOgreCam->setFixedYawAxis(true);
 
@@ -83,8 +83,11 @@ namespace rl {
 	{
 		// Position camera at position between char and dialog partner
 		Vector3 camPosition = (mCharacter->getWorldPosition() + mDialogPartner->getWorldPosition()) / 2;
-		camPosition.y += 1;
-		mCamera->_getSceneNode()->setPosition(camPosition);
+		camPosition.y += 1.7;
+		Vector3 camRelPos = 
+			mCamera->_getSceneNode()->getParentSceneNode()->getWorldOrientation().Inverse() * 
+				(camPosition - mCamera->_getSceneNode()->getParentSceneNode()->getWorldPosition());
+		mCamera->_getSceneNode()->setPosition(camRelPos);
 		mCamera->_getSceneNode()->setOrientation(Quaternion::IDENTITY);
 	}
 
