@@ -43,7 +43,6 @@ namespace rl
 
     PhysicsManager::PhysicsManager( )
         :   mEnabled(false),
-        mWorld(),
         mNewtonDebugger(),
         mPhysicalThings(),
         mControlledThings(),
@@ -51,7 +50,7 @@ namespace rl
         mGravity(0, -9.81, 0),
         mWorldAABB(Vector3(-100, -100, -100), Vector3(100, 100, 100)),
         mElapsed(0.0f),
-        mUpdate(1.0f/120.0f),
+        mUpdate(1.0f/60.0f),
         mLevelID(),
         mCharacterID(),
         mCharLevelPair(),
@@ -88,27 +87,24 @@ namespace rl
     {
 		//Logger::getSingleton().log("RlCore", LML_TRIVIAL,
 		//	"PhysicsManager - time since last call: " + StringConverter::toString(elapsedTime));
-
+		RL_LONGLONG start = CoreSubsystem::getSingleton().getClock();
         // do nothing, if not enabled
-        if (!mEnabled) return;
+        if (!mEnabled) 
+			return;
 
         mElapsed += elapsedTime;
-        int count = 0;
-
-        if ((mElapsed > mUpdate) && (mElapsed < (1.0f)) )
+        while (mElapsed >= mUpdate)
         {
-            while (mElapsed > mUpdate)
-            {
-                mWorld->update(mUpdate);
-                mElapsed -= mUpdate;
-                count++;
-            }
+	 		mWorld->update(mUpdate);
+            mElapsed -= mUpdate;
         }
-        else if (mElapsed >= mUpdate)
-        {
-            mWorld->update(mElapsed);
-            count++;
-        }
+    
+		Logger::getSingleton().log(
+			Logger::CORE, 
+			Ogre::LML_NORMAL, 
+			"    PM end "
+			 + Ogre::StringConverter::toString(
+					Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));
     }
 
     void PhysicsManager::setGravity( Real x, Real y, Real z )
