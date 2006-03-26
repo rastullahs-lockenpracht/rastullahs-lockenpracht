@@ -56,6 +56,9 @@
 				AdditionalDependencies="RlCommon.lib OgreMain_d.lib ceguibase_d.lib fmodvc.lib Plugin_TheoraVideoSystem.lib OgreGUIRenderer_d.lib vorbisfile_d.lib"
 				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;..\..\dependencies\boost\lib;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\fmod\api\lib;&quot;..\..\dependencies\TheoraVideo\bin\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\lib;..\..\dependencies\vorbis\lib"
 				GenerateDebugInformation="true"
+				AssemblyDebug="1"
+				GenerateMapFile="true"
+				MapExports="true"
 			/>
 			<Tool
 				Name="VCALinkTool"
