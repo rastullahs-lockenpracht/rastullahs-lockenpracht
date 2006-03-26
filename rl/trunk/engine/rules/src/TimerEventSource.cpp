@@ -22,6 +22,7 @@
 #include "GameObject.h"
 #include "DsaManager.h"
 #include "CoreSubsystem.h"
+#include "ScriptWrapper.h"
 
 using Ogre::Real;
 
@@ -57,6 +58,18 @@ namespace rl {
 
     TimerEventSource::~TimerEventSource() 
     {
+		// Alle TimerListener
+		EventCaster<TimerEvent>::EventSet evSet 
+			= mTimerEventCaster.getEventSet();
+		EventCaster<TimerEvent>::EventSet::iterator citer 
+			= evSet.begin();
+		for (citer; citer != evSet.end(); ) 
+		{
+			EventListener<TimerEvent>* ev = *citer; 
+			TimerListener* al = dynamic_cast<TimerListener*>( ev );
+			ScriptWrapper::getSingleton().disowned( al );
+			citer++;
+		}
         mTimerEventCaster.removeEventListeners();
     }
 
@@ -82,12 +95,20 @@ namespace rl {
 
     void TimerEventSource::addTimerListener( TimerListener*  list )
     {
-        mTimerEventCaster.addEventListener( list );
+		if( !mTimerEventCaster.containsListener( list ) )
+		{
+			mTimerEventCaster.addEventListener( list );
+			ScriptWrapper::getSingleton().owned(list);
+		}
     }
 
     void TimerEventSource::removeTimerListener( TimerListener* list )
     {
-        mTimerEventCaster.removeEventListener( list );
+		if( mTimerEventCaster.containsListener( list ) )
+		{
+			mTimerEventCaster.removeEventListener( list );
+			ScriptWrapper::getSingleton().disowned(list);
+		}
     }
 
     bool TimerEventSource::hasListeners( ) const

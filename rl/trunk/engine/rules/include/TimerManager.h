@@ -48,7 +48,7 @@ protected:
 	virtual void run( Ogre::Real elapsedTime );
 
 private:
-	std::list<TimerEventSource*> mTimers;
+	std::set<TimerEventSource*> mTimers;
 };
 
 }

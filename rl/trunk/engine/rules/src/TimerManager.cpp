@@ -20,6 +20,8 @@
 #include "CoreSubsystem.h"
 #include "DsaManager.h"
 #include "TimerEventSource.h"
+#include "ScriptWrapper.h"
+
 
 using Ogre::Singleton;
 using Ogre::StringConverter;
@@ -38,14 +40,21 @@ namespace rl {
 		return Singleton<TimerManager>::getSingletonPtr();
 	}
 
-	TimerManager::TimerManager()
+	TimerManager::TimerManager() :
+		mTimers()
 	{
-		mTimers.clear();
 		GameLoopManager::getSingleton().addSynchronizedTask(this, FRAME_STARTED);
 	}
 
 	TimerManager::~TimerManager()
 	{
+		for (std::set<TimerEventSource*>::iterator timerIter = mTimers.begin(); 
+			timerIter != mTimers.end();timerIter++)
+		{
+			TimerEventSource* currTimer = *timerIter;
+			ScriptWrapper::getSingleton().disowned( currTimer );
+		}
+		mTimers.clear();
 		GameLoopManager::getSingleton().removeSynchronizedTask(this);
 	}
 
@@ -54,26 +63,31 @@ namespace rl {
 		RL_LONGLONG nowDsa = DsaManager::getSingleton().getTimestamp();
 		RL_LONGLONG now = CoreSubsystem::getSingleton().getClock();
 
-		std::list<TimerEventSource*> deletionList;
-
-		for (std::list<TimerEventSource*>::iterator timerIter = mTimers.begin(); timerIter != mTimers.end(); timerIter++)
+		for (std::set<TimerEventSource*>::iterator timerIter = mTimers.begin(); 
+			timerIter != mTimers.end();)
 		{
 			TimerEventSource* currTimer = *timerIter;
 			bool toDelete = currTimer->injectTimePulse(now, nowDsa);
+
 			if (toDelete)
-				deletionList.push_back(currTimer);
+			{
+				mTimers.erase( timerIter++ );
+				ScriptWrapper::getSingleton().disowned( currTimer );
+			}
+			else
+				++timerIter;
 		}
 
-		for(std::list<TimerEventSource*>::iterator deleteIter = deletionList.begin(); 
-			deleteIter != deletionList.end(); deleteIter++)
-		{
-			mTimers.remove(*deleteIter);
-		}
 	}
 
 	void TimerManager::registerTimerEventSource(TimerEventSource* source)
-	{
-		mTimers.push_back(source);
+	{	
+		// Noch nicht eingefügt
+		if( mTimers.find( source ) != mTimers.end() )
+		{
+			mTimers.insert(source);
+			ScriptWrapper::getSingleton().owned( source );
+		}
 	}
 
 }

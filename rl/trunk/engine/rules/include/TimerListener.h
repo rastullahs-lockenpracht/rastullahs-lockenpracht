@@ -38,7 +38,7 @@ public:
      /// Kümmert sich um das Aufrufen benannter Methoden aus Reasons
 	virtual bool eventRaised(TimerEvent *anEvent);
 
-    /** Diese Methode wird aufgerufen, wenn sich der Status des Objectes geändert hat
+    /** Diese Methode wird aufgerufen, wenn der Timer ausgelöst wurde
       * @param anEvent Der auslösende Event
       */  
 	virtual void timerFired(TimerEvent* anEvent) = 0;
