@@ -473,6 +473,7 @@ namespace rl {
 		DialogCharacterController* controller = 
 			dynamic_cast<DialogCharacterController*>(
 				UiSubsystem::getSingleton().getCharacterController());
+		controller->setDialogPartner(bot->getDialogPartner()->getActor());
 		(new DialogWindow(bot, mGameLogger, controller))->setVisible(true);
 	}
 }

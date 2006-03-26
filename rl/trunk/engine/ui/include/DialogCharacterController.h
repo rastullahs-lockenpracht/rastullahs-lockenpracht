@@ -26,6 +26,7 @@
 namespace rl {
 
 	class Actor;
+	class DialogCharacter;
 
 	/**
 	* This class provides a no-clip free fly controller.
