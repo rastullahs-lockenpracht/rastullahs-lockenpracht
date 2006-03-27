@@ -42,7 +42,7 @@ namespace rl
     }
 
     PhysicsManager::PhysicsManager( )
-        :   mEnabled(false),
+        : mEnabled(false),
         mNewtonDebugger(),
         mPhysicalThings(),
         mControlledThings(),
@@ -56,9 +56,10 @@ namespace rl
         mCharLevelPair(),
         mCharCharPair()
     {
-        mWorld = new OgreNewt::World();
-        mWorld->setSolverModel(0);
-        mWorld->setFrictionModel(0);
+		mWorld = new OgreNewt::World();
+        mWorld->setFrictionModel(OgreNewt::World::FM_ADAPTIVE);
+		mWorld->setSolverModel(OgreNewt::World::SM_ADAPTIVE);
+		//mWorld->setSolverModel(4);
 
         // setup materials: default<->default
         const OgreNewt::MaterialID* defaultID = mWorld->getDefaultMaterialID();
