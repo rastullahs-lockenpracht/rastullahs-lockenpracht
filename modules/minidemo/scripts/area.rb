@@ -15,7 +15,7 @@ class DunkleEckenLachListener < GameAreaListener
 	def areaEntered(anEvent)
 		print( "Rein - " + anEvent.getProvokingActor().getName() );
 		anEvent.getSource().getActor().getControlledObject().play();
-		$UI.showMessageWindow( "Das ist die dunkle Ecke" );
+		$WM.showMessageWindow( "Das ist die dunkle Ecke" );
 	end
 end
 
@@ -26,13 +26,13 @@ $SCRIPT.log("Kugel-Zentrum Actor erstellen");
 # kugelDings = $AM.createEmptyActor( "Kugel-Zentrum" );
 kugelDings = $AM.createSoundSampleActor( "Kugel-Zentrum", "lachen.ogg" );
 $SCRIPT.log("Kugel-Zentrum Actor in die Szene einfügen");
-kugelDings.placeIntoScene( [415.0, 5.0, -300.0] );
+kugelDings.placeIntoScene( [4.150, 0.5, -3.00] );
 
 $SCRIPT.log("DunkleEckenLachListener erstellen");
 areaListener = DunkleEckenLachListener.new();
 
 $SCRIPT.log("DunkleEckenLachListener hinzufügen");
-$GameEveMgr.addSphereAreaListener( kugelDings, 50.0, areaListener, Actor::QGF_PLAYER );
+$GameEveMgr.addSphereAreaListener( kugelDings, 0.5, areaListener, Actor::QGF_PLAYER );
 
 
 

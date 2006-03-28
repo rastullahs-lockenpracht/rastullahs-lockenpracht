@@ -10,17 +10,17 @@ class DialogListener < GameAreaListener
 		# Load a bot from a bot definition xml file
 		$dialogChar = $DS.loadBot( "Alrik.xml" );
 		# Set the game objects for the dialogcharacter and its dialog partner
-		$dialogChar.setCharacter( anEvent.getSource().getActor.getGameObject() );
+		$dialogChar.setDialogCharacter( anEvent.getSource().getActor.getGameObject() );
 		$dialogChar.setDialogPartner( anEvent.getProvokingActor().getGameObject() );
 		print( anEvent.getProvokingActor().getName() + " moechte mit " + anEvent.getSource().getActor().getName() + " reden" );
-		$UI.showDialog( $dialogChar );
+		$WM.showDialog( $dialogChar );
 	end
 	def areaLeft(anEvent)
 		print( "Dialogpartner ist außerhalb der Reichweite" );
 	end
 end
 
-$CORE.log("Binde DialogListener an KreislaufHeld");
-$GameEveMgr.addSphereAreaListener( $AM.getActor( "KreisLaufHeld" ), 50.0, DialogListener.new, Actor::QGF_PLAYER );
+$SCRIPT.log("Binde DialogListener an KreislaufHeld");
+$GameEveMgr.addSphereAreaListener( $AM.getActor( "KreisLaufHeld" ), 0.5, DialogListener.new, Actor::QGF_PLAYER );
 
 print( "DialogDemo fertig geladen" );

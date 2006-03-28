@@ -14,6 +14,7 @@ $GL = GameLoopManager.getSingleton();
 $UI = UiSubsystem.getSingleton();
 $DM = DsaManager.getSingleton();
 $DS = DialogSubsystem.getSingleton();
+$WM = WindowManager.getSingleton();
 $SCRIPT = ScriptSubsystem.getSingleton();
 
 $GameEveMgr = GameEventManager.getSingleton();
