@@ -374,7 +374,7 @@ namespace rl {
         void addTalent(const rl::CeGuiString& talentName, int value=0);
         virtual int getTalent(const rl::CeGuiString& talentName) const;
         virtual void setTalent(const rl::CeGuiString& talentName, int value);
-        void addKampftechnik(const rl::CeGuiString& kampftechnikName, pair<int,int> value = make_pair(0,0));
+        void addKampftechnik(const rl::CeGuiString& kampftechnikName, std::pair<int,int> value = make_pair(0,0));
 		void addContainer(Container* container);
 		Container* getContainer(const rl::CeGuiString& containterName) const;
 		Container* removeContainer(rl::CeGuiString& containerName);

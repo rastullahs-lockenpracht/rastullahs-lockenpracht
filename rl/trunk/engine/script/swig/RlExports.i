@@ -51,6 +51,7 @@ VALUE RL_RubyInstanceFor(void* ptr)
 %include "TypeMaps.i"
 %include "stl.i"
 %include "std_string.i"
+%include "std_pair.i"
 
 // Kopie. Falls das nochmal irgendwohin kopiert werden muss,
 // In separate Datei auslagen.
