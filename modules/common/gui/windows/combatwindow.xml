@@ -10,6 +10,7 @@
 			<Property Name="AbsoluteYPosition" Value="100"/>
 			<Property Name="AbsoluteWidth" Value="200"/>
 			<Property Name="AbsoluteHeight" Value="100"/>
+			<Property Name="DefaultSelectionColour" Value="00E4D243" />
 		</Window>
 
 		<Window Type="RastullahLook/Listbox" Name="CombatWindow/AttackTargets">
@@ -18,6 +19,7 @@
 			<Property Name="AbsoluteWidth" Value="200"/>
 			<Property Name="AbsoluteHeight" Value="100"/>
 			<Property Name="NormalTextColour" Value="FF000000" />
+			<Property Name="DefaultSelectionColour" Value="00E4D243" />
 		</Window>
 
 		<Window Type="RastullahLook/Listbox" Name="CombatWindow/PareeTargets">
@@ -26,6 +28,7 @@
 			<Property Name="AbsoluteWidth" Value="200"/>
 			<Property Name="AbsoluteHeight" Value="100"/>
 			<Property Name="NormalTextColour" Value="FF000000" />
+			<Property Name="DefaultSelectionColour" Value="00E4D243" />
 		</Window>
 
 		<Window Type="RastullahLook/Button" Name="CombatWindow/Confirm">

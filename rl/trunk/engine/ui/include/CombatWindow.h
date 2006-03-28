@@ -40,6 +40,8 @@ namespace rl {
 		void initialize();
 		void update();
 
+		std::vector<Creature*> mOwnGroup;
+
 		CEGUI::Listbox* mActionOptions;
 		CEGUI::Listbox* mAttackTargets;
 		CEGUI::Listbox* mPareeTargets;

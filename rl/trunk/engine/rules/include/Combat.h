@@ -95,6 +95,7 @@ namespace rl {
 		std::vector<CombatController*> mControllers;
 
 		static const int NO_INI = -99999;
+		static const int INI_START = 99999;
 		int mInitiative;
 	};
 }

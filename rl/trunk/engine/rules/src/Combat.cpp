@@ -104,10 +104,14 @@ namespace rl {
 	void Combat::tick()
 	{
 		CreatureData* next = getNextActor();
-
-		switch (next->nextAction)
+		if (next == NULL)
 		{
-		case Combat::ACTION_ATTACK:
+			mInitiative = INI_START;
+			next = getNextActor();
+		}
+
+		if (next->nextAction == Combat::ACTION_ATTACK)
+		{
 			CreatureData* targetData = getData(next->nextAttackTarget);
 			
 			int at = next->creature->doAttacke(
@@ -142,6 +146,7 @@ namespace rl {
 				paradeAnim->setDelay(0.5);
 				//targetData->creature->;
 			}
+			
 		}
 
 		mInitiative = next->initiative;

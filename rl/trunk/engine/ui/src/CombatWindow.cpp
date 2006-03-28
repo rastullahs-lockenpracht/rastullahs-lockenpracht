@@ -16,6 +16,7 @@
 
 #include "CombatWindow.h"
 #include <boost/bind.hpp>
+#include <CEGUIPropertyHelper.h>
 #include <elements/CEGUIListboxTextItem.h>
 
 #include "Combat.h"
@@ -33,6 +34,7 @@ namespace rl {
 		mActionOptions = getListbox("CombatWindow/ActionOptions");
 		mAttackTargets = getListbox("CombatWindow/AttackTargets");
 		mPareeTargets = getListbox("CombatWindow/PareeTargets");
+		mOwnGroup = mCombat->getGroupMembers(getGroup());
 
 		getWindow("CombatWindow/Confirm")->subscribeEvent(
 			Window::EventMouseClick,
@@ -49,21 +51,30 @@ namespace rl {
 
 	void CombatWindow::initialize()
 	{
-		mActionOptions->addItem(
-			new ListboxTextItem("Abwarten", 
-			Combat::ACTION_NONE));
-		mActionOptions->addItem(
-			new ListboxTextItem("Attackieren", 
-			Combat::ACTION_ATTACK));
-		mActionOptions->addItem(
-			new ListboxTextItem("Bewegen", 
-			Combat::ACTION_MOVE));
+		ColourRect acColors(PropertyHelper::stringToColour(mActionOptions->getProperty("DefaultSelectionColour")));
+		
+		ListboxTextItem* item = new ListboxTextItem("Abwarten", Combat::ACTION_NONE);
+		item->setSelectionColours(acColors);
+		mActionOptions->addItem(item);
+
+		item = new ListboxTextItem("Attackieren", Combat::ACTION_ATTACK);
+		item->setSelectionColours(acColors);
+		mActionOptions->addItem(item);
+
+		item = new ListboxTextItem("Bewegen", Combat::ACTION_MOVE);
+		item->setSelectionColours(acColors);
+		mActionOptions->addItem(item);
+
+		setCurrentCreature(*mOwnGroup.begin());
 
 		update();
 	}
 
 	void CombatWindow::update()
 	{
+		colour atColor = PropertyHelper::stringToColour(mAttackTargets->getProperty("DefaultSelectionColour"));
+		colour paColor = PropertyHelper::stringToColour(mPareeTargets->getProperty("DefaultSelectionColour"));
+
 		/// FIXME
 		std::vector<Creature*> opponents = mCombat->getGroupMembers(2);
 		int idx = 1;
@@ -73,9 +84,11 @@ namespace rl {
 			Creature* cr = *it;
 
 			ListboxItem* itemAt = new ListboxTextItem("Bla", idx++, cr);
+			itemAt->setSelectionColours(atColor);
 			mAttackTargets->addItem(itemAt);
 
 			ListboxItem* itemPa = new ListboxTextItem("Bla", idx++, cr);
+			itemPa->setSelectionColours(paColor);
 			mPareeTargets->addItem(itemPa);
 		}
 	}

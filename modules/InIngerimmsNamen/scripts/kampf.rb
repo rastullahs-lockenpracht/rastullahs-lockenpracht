@@ -61,7 +61,10 @@ end
 class Schwester < Person
   def initialize
 	super("Deine Schwester", "Deine äußerst passiv-aggressive Zwillingsschwester")
+
 	actor = $AM.createMeshActor("Schwester", "men_alrike.mesh" )
 	setActor(actor)
+
+	addKampftechnik("Schwerter", [3, 2]);
   end
 end
