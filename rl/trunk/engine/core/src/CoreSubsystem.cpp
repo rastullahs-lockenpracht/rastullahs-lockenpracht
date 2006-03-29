@@ -314,6 +314,8 @@ namespace rl {
 
 	void CoreSubsystem::updateDefaultScheme()
 	{
+		String tuScheme = ConfigurationManager::getSingleton().getTextureUnitScheme();
+
 		for (ResourceManager::ResourceMapIterator itMat = 
 			MaterialManager::getSingleton().getResourceIterator();
 			itMat.hasMoreElements();)
@@ -324,7 +326,7 @@ namespace rl {
 				itTech.hasMoreElements();)
 			{
 				Technique* tech = itTech.getNext();
-				if (tech->getSchemeName() == ConfigurationManager::getSingleton().getTextureUnitScheme())
+				if (tech->getSchemeName() == tuScheme)
 				{
 					tech->setSchemeName(MaterialManager::DEFAULT_SCHEME_NAME);
 					mDefaultTechniques.push_back(tech);

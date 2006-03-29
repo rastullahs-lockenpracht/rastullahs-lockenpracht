@@ -16,6 +16,7 @@
 
 #include "GameEventManager.h"
 #include "GameAreaTypes.h"
+#include "CoreSubsystem.h"
 
 template<> rl::GameEventManager* Ogre::Singleton<rl::GameEventManager>::ms_Singleton = 0;
 
@@ -123,6 +124,7 @@ namespace rl {
 
     void GameEventManager::run( Ogre::Real elapsedTime )
     {
+				RL_LONGLONG start = CoreSubsystem::getSingleton().getClock();
 		removeQueuedDeletionSources();
 
         GameAreaEventSourceList::iterator it;
@@ -131,5 +133,12 @@ namespace rl {
             GameAreaEventSource* gam = *it;
             gam->performQuery( elapsedTime );
         }
+
+		Logger::getSingleton().log(
+	Logger::CORE, 
+	Ogre::LML_NORMAL, 
+	"    GEM end "
+	 + Ogre::StringConverter::toString(
+			Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));
     }
 }
