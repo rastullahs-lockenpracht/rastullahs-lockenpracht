@@ -96,10 +96,25 @@ namespace rl {
 	bool CombatWindow::handleExecute()
 	{
 		setActionOption(static_cast<Combat::ActionOption>(mActionOptions->getFirstSelectedItem()->getID()));
-		setAttackTarget(
-			static_cast<Creature*>(mAttackTargets->getFirstSelectedItem()->getUserData()));
-		setPareeTarget(
-			static_cast<Creature*>(mPareeTargets->getFirstSelectedItem()->getUserData()));
+		if (mAttackTargets->getFirstSelectedItem() != NULL)
+		{
+			setAttackTarget(
+				static_cast<Creature*>(mAttackTargets->getFirstSelectedItem()->getUserData()));
+		}
+		else
+		{
+			setAttackTarget(NULL);
+		}
+		
+		if (mPareeTargets->getFirstSelectedItem() != NULL)
+		{
+			setPareeTarget(
+				static_cast<Creature*>(mPareeTargets->getFirstSelectedItem()->getUserData()));
+		}
+		else
+		{
+			setPareeTarget(NULL);
+		}
 		mCombat->tick();
 		return true;
 	}

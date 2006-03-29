@@ -149,12 +149,19 @@ namespace rl
 		int numTu = Ogre::Root::getSingleton().getRenderSystem()
 			->getCapabilities()->getNumTextureUnits();
 
+		Ogre::String scheme;
+
 		if (numTu >= 6)
-			return "tu6";
+			scheme = "tu6";
 		else if (numTu >= 2)
-			return "tu2";
+			scheme = "tu2";
 		else 
-			return "tu1";
+			scheme = "tu1";
+
+		Logger::getSingleton().log(Logger::CORE, Ogre::LML_NORMAL, 
+			"Found "+Ogre::StringConverter::toString(numTu) + " Texture Units, using "+
+			"alphablending scheme "+scheme);
+		return scheme;
 	}
 
 	Ogre::LoggingLevel ConfigurationManager::getLogLevel() 
