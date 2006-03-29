@@ -46,7 +46,6 @@ namespace rl {
 
         OgreNewt::Body* mCamBody;
         OgreNewt::Body* mCharBody;
-
     };
 }
 #endif

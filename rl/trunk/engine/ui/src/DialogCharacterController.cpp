@@ -1,4 +1,5 @@
-/* This source file is part of Rastullahs Lockenpracht.
+/*
+* This source file is part of Rastullahs Lockenpracht.
 * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
 * 
 *  This program is free software; you can redistribute it and/or modify
@@ -26,6 +27,7 @@
 #include "MeshObject.h"
 
 #include <OgreSceneManager.h>
+#include <OgreNewt_Body.h>
 
 using namespace Ogre;
 
@@ -33,12 +35,19 @@ namespace rl {
 
 	DialogCharacterController::DialogCharacterController(Actor* camera, Actor* character)
 		: CharacterController(camera, character),
-		mOgreCam(0),
-		mText("")
+		mTargetCameraPosition(Vector3::ZERO),
+		mTargetCameraOrientation(Quaternion::IDENTITY),
+		mText(""),
+		mFadeTextTime(0),
+		mCutHard(false)
 	{
 		mCamera->getPhysicalThing()->freeze();
-		mCharacter->getPhysicalThing()->freeze();
-		mOgreCam = static_cast<Camera*>(mCamera->_getMovableObject());
+		mCharacter->getPhysicalThing()->freeze();		
+		Camera* ogreCam = static_cast<Camera*>(mCamera->_getMovableObject());
+		ogreCam->setFixedYawAxis(true);
+		ogreCam->setPosition(Vector3::ZERO);	
+		ogreCam->setOrientation(Quaternion::IDENTITY);
+		mCamera->_getSceneNode()->setFixedYawAxis(true);
 	}
 
 	DialogCharacterController::~DialogCharacterController()
@@ -52,9 +61,6 @@ namespace rl {
 		mDialogPartner = partner;
 
 		resetCamera();
-		mOgreCam->setPosition(Vector3::ZERO);
-		mOgreCam->setOrientation(Quaternion::IDENTITY);
-		mOgreCam->setFixedYawAxis(true);
 
 		MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacter->getControlledObject());
 		mesh->stopAllAnimations();
@@ -63,12 +69,28 @@ namespace rl {
 
 	void DialogCharacterController::run(Real elapsedTime)
 	{
-		if (mTime > 0)
+		if( elapsedTime <= 0.0 )
+			return;
+
+		// Aktuellen Abstand zur gewünschten Position berechnen
+		Vector3 posDistance = (mTargetCameraPosition - mCamera->_getSceneNode()->getPosition());
+		// Ist eine Anpassung nötig?
+		if( posDistance != Vector3::ZERO )
 		{
-			mTime -= elapsedTime;
-			if (mTime <= 0)
+			// Die Kameraanpassgeschwindigkeit
+			Real speed = 1/elapsedTime;
+			
+			mCamera->setPosition(mTargetCameraPosition);		
+			mCamera->setOrientation(mTargetCameraOrientation);
+		}
+
+		// Textanzeigedauer
+		if (mFadeTextTime > 0)
+		{
+			mFadeTextTime -= elapsedTime;
+			if (mFadeTextTime <= 0)
 			{
-				mTime = 0;
+				mFadeTextTime = 0;
 				//mDialogWindow->timeOver();
 			}
 		}
@@ -76,26 +98,34 @@ namespace rl {
 
 	void DialogCharacterController::toggleViewMode()
 	{
-		// Gibbet keine.
+		/// @todo Krasser Gesichts zoom? Halbtotale... usw?
 	}
 
 	void DialogCharacterController::resetCamera()
 	{
 		// Position camera at position between char and dialog partner
-		Vector3 camPosition = (mCharacter->getWorldPosition() + mDialogPartner->getWorldPosition()) / 2;
-		camPosition.y += 1.7;
-		Vector3 camRelPos = 
-			mCamera->_getSceneNode()->getParentSceneNode()->getWorldOrientation().Inverse() * 
-				(camPosition - mCamera->_getSceneNode()->getParentSceneNode()->getWorldPosition());
-		mCamera->_getSceneNode()->setPosition(camRelPos);
-		mCamera->_getSceneNode()->setOrientation(Quaternion::IDENTITY);
+		Vector3 globalCameraPosition = (mCharacter->getWorldPosition() + mDialogPartner->getWorldPosition()) / 2;
+		globalCameraPosition.y += 4;
+		
+		// Weltkoordinaten in lokale umwandeln
+		mTargetCameraPosition = 
+			-1*(mCamera->_getSceneNode()->getParentSceneNode()->getWorldOrientation().Inverse()*
+			(mCamera->_getSceneNode()->getParentSceneNode()->getWorldPosition() - globalCameraPosition));
+
+		// Drehung zu ZielRichtung  @todo reparieren
+		mTargetCameraOrientation = 
+			Vector3::UNIT_Z.getRotationTo(
+			mTargetCameraPosition - mDialogPartner->getWorldPosition() );	
 	}
 
 	void DialogCharacterController::response(
 		Actor* actor, const CeGuiString& text, const Ogre::String& soundFile)
 	{
-		mOgreCam->lookAt(actor->getWorldPosition());
+		// Drehung zu ZielRichtung  @todo reparieren
+		mTargetCameraOrientation = 
+			Vector3::UNIT_Z.getRotationTo(
+			mTargetCameraPosition - mDialogPartner->getWorldPosition() );		
 		mText = text;
-		mTime = text.length() * 0.1;
+		mFadeTextTime = text.length() * 0.1;
 	}
 }

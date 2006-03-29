@@ -94,7 +94,6 @@ namespace rl {
 
     const Ogre::Vector3& GameSphereAreaType::getQueryPosition() const
     {
-        
         return mSphereQuery->getSphere().getCenter( );
     }
 

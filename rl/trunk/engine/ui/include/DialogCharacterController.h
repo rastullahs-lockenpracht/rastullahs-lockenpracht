@@ -20,17 +20,15 @@
 #include "UiPrerequisites.h"
 #include "CharacterController.h"
 
-#include <OgreNewt_Body.h>
 #include <OgreCamera.h>
 
 namespace rl {
 
 	class Actor;
-	class DialogCharacter;
 
-	/**
-	* This class provides a no-clip free fly controller.
-	*/
+	/** Diese Klasse 
+	  *  
+	  */
 	class _RlUiExport DialogCharacterController : public CharacterController
 	{
 	public:
@@ -39,25 +37,40 @@ namespace rl {
 		*  @throw InvalidArgumentException if character is not placed in the scene.
 		*/
 		DialogCharacterController(Actor* camera, Actor* character);
+		/// Dtor 
 		virtual ~DialogCharacterController();
 
-		void run(Ogre::Real elapsedTime);
+		/// @override
+		virtual void run(Ogre::Real elapsedTime);
 
-		void toggleViewMode();
-		void resetCamera();
+		/// @override
+		virtual void toggleViewMode();
+		/// @override 
+		virtual void resetCamera();
 
+		/// Setzt den Dialogpartner (Diealogführenden Spieler-Actor)
 		void setDialogPartner(Actor* partner);
 
+		/// Antwort eines der Dialogführenden
 		void response(
 			Actor* actor, const CeGuiString& text, const Ogre::String& soundFile);
-
 	private:
-		Ogre::Real mTime;
+		/// Die Zielkameraposition in lokalen Koordinaten
+		Ogre::Vector3 mTargetCameraPosition;
+		/// Die benötigte lokale Drehung der Kamera
+		Ogre::Quaternion mTargetCameraOrientation;
+		/// Harter Schnitt zur nächsten Kameraposition
+		bool mCutHard;
+
+
+		/// Die Zeit bis der Text ausgeblendet wird
+		Ogre::Real mFadeTextTime;
+		/// Der Untertitel Text
 		CeGuiString mText;
 
-		Ogre::Camera* mOgreCam;
-
+		/// Der Spieler der redet
 		Actor* mDialogPartner;
+		/// Der Besitzer des Dialoges (Der Bauer mit dem der Spieler redet)
 		Actor* mCurrentActor;
 	};
 }

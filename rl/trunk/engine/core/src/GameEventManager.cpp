@@ -16,7 +16,9 @@
 
 #include "GameEventManager.h"
 #include "GameAreaTypes.h"
+#include "ScriptWrapper.h"
 #include "CoreSubsystem.h"
+
 
 template<> rl::GameEventManager* Ogre::Singleton<rl::GameEventManager>::ms_Singleton = 0;
 
@@ -45,6 +47,7 @@ namespace rl {
         for( it = mAreaEventSources.begin(); it != mAreaEventSources.end();++it) 
         {
             GameAreaEventSource* gam = *it;
+			ScriptWrapper::getSingleton().deleted( gam );
 			delete gam->getGameAreaType();
             delete gam;
         }
@@ -62,6 +65,7 @@ namespace rl {
         GameAreaEventSource* gam = new GameAreaEventSource( at, actor );
         // In die Menge einfügen
         mAreaEventSources.insert( gam );
+		ScriptWrapper::getSingleton().owned( gam );
         // Und Listener anhängen
         gam->addAreaListener( list );        
     }
@@ -112,6 +116,7 @@ namespace rl {
 			GameAreaEventSource* gam = *mQueuedDeletionSources.begin();
 
 			mAreaEventSources.erase(mAreaEventSources.find(gam));
+			ScriptWrapper::getSingleton().deleted( gam );
 			mQueuedDeletionSources.erase(mQueuedDeletionSources.begin());
 
 			// Die Area-Art löschen
@@ -124,7 +129,7 @@ namespace rl {
 
     void GameEventManager::run( Ogre::Real elapsedTime )
     {
-				RL_LONGLONG start = CoreSubsystem::getSingleton().getClock();
+		RL_LONGLONG start = CoreSubsystem::getSingleton().getClock();
 		removeQueuedDeletionSources();
 
         GameAreaEventSourceList::iterator it;
@@ -135,10 +140,8 @@ namespace rl {
         }
 
 		Logger::getSingleton().log(
-	Logger::CORE, 
-	Ogre::LML_NORMAL, 
-	"    GEM end "
-	 + Ogre::StringConverter::toString(
+			Logger::CORE, Ogre::LML_NORMAL, 
+			"    GEM end "+ Ogre::StringConverter::toString(
 			Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));
     }
 }

@@ -47,6 +47,7 @@ namespace rl {
             Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL, sife.toString() );
         }
 
+
         // consumed or not ;)
         return false;
     }
