@@ -651,6 +651,7 @@ public:
     RL_LONGLONG getClock();
     Actor* getSoundListener();
     bool isInitialized() const;
+    void setScheme(const Ogre::String& schemeName);
 };
 
 enum GameLoopSyncTime {

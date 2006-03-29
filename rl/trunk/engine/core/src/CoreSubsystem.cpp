@@ -166,7 +166,7 @@ namespace rl {
         	ConfigurationManager::getSingleton().getOgreLogPath()
         );
 
-        Root::getSingleton().setFrameSmoothingPeriod(0.5f);
+        //Root::getSingleton().setFrameSmoothingPeriod(0.5f);
 
         // Muss vor dem Laden der Ressourcen geschehen,
         // weil es sonst sofort angewandt wird.
@@ -312,6 +312,46 @@ namespace rl {
 		mModules[module->getId()] = module;
 	}
 
+	void CoreSubsystem::updateDefaultScheme()
+	{
+		for (ResourceManager::ResourceMapIterator itMat = 
+			MaterialManager::getSingleton().getResourceIterator();
+			itMat.hasMoreElements();)
+		{
+			MaterialPtr mat = itMat.getNext();
+			for (Material::TechniqueIterator itTech = 
+				mat->getTechniqueIterator();
+				itTech.hasMoreElements();)
+			{
+				Technique* tech = itTech.getNext();
+				if (tech->getSchemeName() == ConfigurationManager::getSingleton().getTextureUnitScheme())
+				{
+					tech->setSchemeName(MaterialManager::DEFAULT_SCHEME_NAME);
+					mDefaultTechniques.push_back(tech);
+				}
+				else if (tech->getSchemeName() == MaterialManager::DEFAULT_SCHEME_NAME)
+				{
+					mDefaultTechniques.push_back(tech);
+				}
+			}
+		}
+	}
+
+	void CoreSubsystem::setScheme(const Ogre::String& schemeName)
+	{
+		if (schemeName != MaterialManager::getSingleton().getActiveScheme())
+		{
+			/*for (std::vector<Technique*>::iterator iter = mDefaultTechniques.begin();
+				iter != mDefaultTechniques.end(); ++iter)
+			{
+				Technique* cur = *iter;
+				cur->setSchemeName(schemeName);
+			}*/
+
+			MaterialManager::getSingleton().setActiveScheme(schemeName);
+		}
+	}
+
     void CoreSubsystem::startAdventureModule(ContentModule* module)
     {
 		if (mActiveAdventureModule != NULL)
@@ -321,6 +361,8 @@ namespace rl {
 
         module->initializeTextures();
         module->initialize();
+
+		updateDefaultScheme();
 
 		mCoreEventCaster.dispatchEvent(new DataLoadedEvent(0.0));
 		

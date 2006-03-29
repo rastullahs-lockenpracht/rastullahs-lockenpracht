@@ -144,6 +144,19 @@ namespace rl
         
     }
 
+	Ogre::String ConfigurationManager::getTextureUnitScheme()
+	{
+		int numTu = Ogre::Root::getSingleton().getRenderSystem()
+			->getCapabilities()->getNumTextureUnits();
+
+		if (numTu >= 6)
+			return "tu6";
+		else if (numTu >= 2)
+			return "tu2";
+		else 
+			return "tu1";
+	}
+
 	Ogre::LoggingLevel ConfigurationManager::getLogLevel() 
 	{
 		int loglevel = Ogre::StringConverter::parseInt(getSystemConfig()->getSetting("log_level"));

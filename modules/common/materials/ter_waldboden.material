@@ -7,6 +7,72 @@ material Material/SOLID/erdboden.jpg
 	technique
 	{
 		lod_index 0
+		scheme tu6
+
+		// Basis Pass
+		pass
+		{
+			// Licht
+			ambient 0.7 0.7 0.7 1
+			diffuse 0.6 0.65 0.6 
+
+			texture_unit
+			{
+				// Die Erde ist unsere Basistextur, auf sie soll das Gras und Laub gelegt werden
+				texture erdboden02.jpg
+				// Skalieren, je nach Textur und Terraingröße anpassen
+				scale 0.13 0.13
+				// Es wird nur die Farbe eingeblendet
+				//colour_op_ex source1 src_texture src_texture
+			}
+
+					// Die AlphaMap
+			texture_unit
+			{
+				// Die Textur
+				texture waldboden_alpha_laub.png
+				// Wir benutzen das komplette Alpha dieser Textur
+				alpha_op_ex source1 src_texture src_texture
+				// Und die Farben des Basispasses
+				colour_op_ex source2 src_current src_current
+			}
+
+			// Die zweite Textur
+			texture_unit
+			{
+				texture laub01.jpg
+				scale 0.25 0.25
+				// Wir blenden anhand des AlphaKanals die Textur dazu
+				colour_op_ex blend_current_alpha src_texture src_current
+			}
+
+			// Die AlphaMap
+			texture_unit
+			{
+				// Die Textur
+				texture waldboden_alpha_gras.png
+				// Wir benutzen das komplette Alpha dieser Textur
+				alpha_op_ex source1 src_texture src_texture
+				// Und die Farben des Basispasses
+				colour_op_ex source2 src_current src_current
+			}
+
+			// Die zweite Textur
+			texture_unit
+			{
+				texture gras_01.png
+				scale 0.15 0.15
+				// Wir blenden anhand des AlphaKanals die Textur dazu
+				colour_op_ex blend_current_alpha src_texture src_current
+			}
+		}
+	}
+
+	// Alpha Blend
+	technique
+	{
+		lod_index 0
+		scheme tu2
 
 		// Basis Pass
 		pass
@@ -102,5 +168,4 @@ material Material/SOLID/erdboden.jpg
 			scene_blend zero src_colour
 		}
 	}
-
 }

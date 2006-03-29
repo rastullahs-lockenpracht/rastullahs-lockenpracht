@@ -83,7 +83,8 @@ public:
     /** Gibt die abgelaufene Spielzeit zurück*/
 	RL_LONGLONG getClock();
 
-	/** Setzt die abgelaufene Spielzeit wieder auf Null, die DSA-Zeit wird 
+	/** 
+	*   Setzt die abgelaufene Spielzeit wieder auf Null, die DSA-Zeit wird 
 	*   aus der Basiszeit + abgelaufener Spielzeit berechnet
 	*
 	* @see DsaManager
@@ -91,6 +92,8 @@ public:
 	void resetClock();
 
 	void addCoreEventListener(CoreEventListener* listener);
+
+	void setScheme(const Ogre::String& schemeName);
 
 	Actor* getSoundListener();
 
@@ -110,6 +113,12 @@ private:
      */
     void precreateTextures();
 
+	/**
+	 * Sammelt alle Default-Techniques, um sie später bei jedem aktivierten Scheme 
+	 * benutzen zu können
+	 */
+	void updateDefaultScheme();
+
 	/** Opens a configuration dialog */
 	bool setupConfiguration();
 
@@ -126,6 +135,7 @@ private:
 	bool mDeveloperMode;
 	bool mInitialized;
 	EventCaster<CoreEvent> mCoreEventCaster;
+	std::vector<Ogre::Technique*> mDefaultTechniques;
 
 	Actor* mSoundListenerActor;
 };

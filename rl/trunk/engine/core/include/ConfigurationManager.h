@@ -54,31 +54,25 @@ namespace rl
 			static ConfigurationManager& getSingleton();
 			
 			Ogre::String getOgreLogPath();
-			
 			Ogre::String getRastullahCfgPath();
-			
 			Ogre::String getPluginCfgPath();
-			
 			Ogre::String getRastullahLogPath();
-			
 			Ogre::String getModulesCfgPath();
-			
 			Ogre::String getModuleconfigCfgPath(const Ogre::String& module);
-			
 			Ogre::String getModulesRootDirectory();
-
             Ogre::String getRastullahSystemCfgPath();
             
             Ogre::ConfigFile* getSystemConfig();
-
-            bool shouldUseStaticGeometry( );
-			Ogre::LoggingLevel getLogLevel();
+            Ogre::LoggingLevel getLogLevel();
 
 			Ogre::String getEngineVersionString() const;
 			Ogre::String getEngineVersionName() const;
 			long         getEngineBuildNumber() const;
 			const rl::CeGuiString&  getAboutText() const;
-			
+
+			bool shouldUseStaticGeometry( );
+			Ogre::String getTextureUnitScheme();
+						
 		protected:
 		
 			Ogre::String mOgreLogPath;
