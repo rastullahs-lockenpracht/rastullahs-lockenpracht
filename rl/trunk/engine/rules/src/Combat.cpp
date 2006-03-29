@@ -104,12 +104,7 @@ namespace rl {
 	void Combat::tick()
 	{
 		CreatureData* next = getNextActor();
-		if (next == NULL)
-		{
-			mInitiative = INI_START;
-			next = getNextActor();
-		}
-
+		
 		if (next->nextAction == Combat::ACTION_ATTACK)
 		{
 			CreatureData* targetData = getData(next->nextAttackTarget);
@@ -135,21 +130,46 @@ namespace rl {
 					targetData->creature->getActor()->getControlledObject());
 			if (pareeActivated && pa > 0)
 			{
-				actorObj->startAnimation("Attack1");
-				BaseAnimation* paradeAnim = targetObj->startAnimation("Parade");
+				BaseAnimation* attackAnim = actorObj->startAnimation("Attack1", 1.0, 1);
+				BaseAnimation* paradeAnim = targetObj->startAnimation("Parade", 1.0, 1);
 				paradeAnim->setDelay(0.5);
 			}
 			else
 			{
-				actorObj->startAnimation("Attack1");
-				BaseAnimation* paradeAnim = targetObj->startAnimation("Treffer");
+				actorObj->startAnimation("Attack1", 1.0, 1);
+				BaseAnimation* paradeAnim = targetObj->startAnimation("Treffer", 1.0, 1);
 				paradeAnim->setDelay(0.5);
 				//targetData->creature->;
-			}
-			
+			}			
 		}
 
 		mInitiative = next->initiative;
+		notifyNextActor();
+	}
+
+	void Combat::notifyNextActor()
+	{
+		CreatureData* next = getNextActor();
+		getController(next->group)->notifyActionStart();
+	}
+
+	CombatController* Combat::getController(int group)
+	{
+		for (vector<CombatController*>::iterator it = mControllers.begin();
+			it != mControllers.end(); it++)
+		{
+			CombatController* cur = *it;
+			if (cur->getGroup() == group)
+			{
+				return cur;
+			}
+		}
+
+		Throw(
+			rl::InvalidArgumentException, 
+			"No controller for group"
+			+ Ogre::StringConverter::toString(group));
+		return NULL;
 	}
 
 	void Combat::setActionOption(CombatController* controller, Creature* actor, ActionOption option)
@@ -165,24 +185,30 @@ namespace rl {
 
 	void Combat::setAttackTarget(CombatController* controller, Creature* actor, Creature* target)
 	{
-		CreatureData* cd = getData(actor);
-		if (cd->group != controller->getGroup())
+		if (actor != NULL)
 		{
-			Throw(InvalidArgumentException, "This Controller must not control other group");
-		}
+			CreatureData* cd = getData(actor);
+			if (cd->group != controller->getGroup())
+			{
+				Throw(InvalidArgumentException, "This Controller must not control other group");
+			}
 
-		cd->nextAttackTarget = target;	
+			cd->nextAttackTarget = target;	
+		}
 	}
 
 	void Combat::setPareeTarget(CombatController* controller, Creature* actor, Creature* target)
 	{
-		CreatureData* cd = getData(actor);
-		if (cd->group != controller->getGroup())
+		if (actor != NULL)
 		{
-			Throw(InvalidArgumentException, "This Controller must not control other group");
-		}
+			CreatureData* cd = getData(actor);
+			if (cd->group != controller->getGroup())
+			{
+				Throw(InvalidArgumentException, "This Controller must not control other group");
+			}
 
-		cd->nextPareeTarget = target;	
+			cd->nextPareeTarget = target;	
+		}
 	}
 
 	Combat::CreatureData* Combat::getNextActor()
@@ -193,6 +219,15 @@ namespace rl {
 			if (cur->initiative < mInitiative)
 				return cur;
 		}
+
+		mInitiative = INI_START;
+		for (CreatureDataMap::iterator it = mCreatureData.begin(); it != mCreatureData.end(); ++it)
+		{
+			CreatureData* cur = (*it).second;
+			if (cur->initiative < mInitiative)
+				return cur;
+		}
+
 
 		return NULL;
 	}

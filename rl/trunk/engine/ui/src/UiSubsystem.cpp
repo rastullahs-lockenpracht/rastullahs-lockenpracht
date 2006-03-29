@@ -175,7 +175,7 @@ namespace rl {
 		switch(type)
 		{
 		case CTRL_MOVEMENT:
-			mCharacterController = new MovementCharacterController(camera, CoreSubsystem::getSingleton().getWorld()->getActiveActor());
+			mCharacterController = new MovementCharacterController(camera, mCharacter);
 			if (!PhysicsManager::getSingleton().isEnabled())
 			{
 				PhysicsManager::getSingleton().setEnabled(true);

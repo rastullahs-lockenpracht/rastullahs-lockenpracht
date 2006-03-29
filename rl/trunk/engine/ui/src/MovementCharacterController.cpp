@@ -30,6 +30,7 @@
 #include "CameraObject.h"
 #include "CommandMapper.h"
 #include "CoreSubsystem.h"
+#include "Creature.h"
 #include "DebugWindow.h"
 #include "Exception.h"
 #include "InputManager.h"
@@ -58,8 +59,8 @@ namespace rl {
 
 	}
 
-	MovementCharacterController::MovementCharacterController(Actor* camera, Actor* character)
-		: CharacterController(camera, character),
+	MovementCharacterController::MovementCharacterController(Actor* camera, Creature* character)
+		: CharacterController(camera, character->getActor()),
 		mCharacterState(),
 		mDesiredDistance(2.00),
 		mDistanceRange(0.60, 7.00),
@@ -67,7 +68,6 @@ namespace rl {
 		mPitch(20),
 		mPitchRange(Degree(-75), Degree(85)),
 		mLookAtOffset(),
-		mMovementSpeed(100.0f),
 		mRotationSpeed(4.0f),
 		mSpeedModifier(1.0f),
 		mViewMode(VM_THIRD_PERSON),
@@ -79,6 +79,10 @@ namespace rl {
 		mRaycast(new PhysicsMaterialRaycast()),
 		mGravitation(Vector3(0.0f, -9.81f, 0.0f))
 	{
+		mMovementSpeed = 
+			(float)character->getWert(WERT_GS) / 
+			(float)Date::ONE_KAMPFRUNDE 
+			* 1000.0f;	
 
 		// Offset for the look at point,
 		// so the cam does look at the characters head instead of the feet.
@@ -113,6 +117,7 @@ namespace rl {
 	//------------------------------------------------------------------------
 	void MovementCharacterController::run(Real elapsedTime)
 	{
+		RL_LONGLONG start = CoreSubsystem::getSingleton().getClock();
 		InputManager* im = InputManager::getSingletonPtr();
 
 		// Fetch current movement state
@@ -122,17 +127,20 @@ namespace rl {
 
 		// Determine character's control state based on user input
 		if (movement & MOVE_FORWARD)
-			mCharacterState.mDesiredVel.z = -mMovementSpeed;
+			mCharacterState.mDesiredVel.z = -1;
 
 		if (movement & MOVE_BACKWARD)
-			mCharacterState.mDesiredVel.z = mMovementSpeed;
+			mCharacterState.mDesiredVel.z = 1;
 
 		if (movement & MOVE_RIGHT)
-			mCharacterState.mDesiredVel.x = mMovementSpeed;
+			mCharacterState.mDesiredVel.x = 1;
 
 		if (movement & MOVE_LEFT)
-			mCharacterState.mDesiredVel.x = -mMovementSpeed;
-
+			mCharacterState.mDesiredVel.x = -1;
+		
+		mCharacterState.mDesiredVel.normalise();
+		mCharacterState.mDesiredVel *= mMovementSpeed;
+		
 		if (movement & MOVE_JUMP)
 			mCharacterState.mStartJump = true;
 
@@ -143,10 +151,7 @@ namespace rl {
 			mYaw -= Degree(mRotationSpeed * 30.0 * elapsedTime);
 
 		if (movement & MOVE_RUN)
-			mCharacterState.mDesiredVel *= 4.0;
-
-		// FIXME: Movement speed sollte framerate unabhängig sein. Ist sie aber nicht.
-		mCharacterState.mDesiredVel *= elapsedTime;
+			mCharacterState.mDesiredVel *= 3.0;
 
 		mDesiredDistance -= im->getMouseRelativeZ() * 0.002;
 		if (mDesiredDistance < mDistanceRange.first)
@@ -215,6 +220,12 @@ namespace rl {
 			updatePickedObject();
 		}
 		updateAnimationState();
+			Logger::getSingleton().log(
+	Logger::CORE, 
+	Ogre::LML_NORMAL, 
+	"    MCC end "
+	 + Ogre::StringConverter::toString(
+			Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));
 	}
 
 	int MovementCharacterController::userProcess()

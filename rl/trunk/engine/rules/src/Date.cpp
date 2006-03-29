@@ -70,7 +70,7 @@ namespace rl
     // Und GCC will unbedingt ULL
     const unsigned RL_LONGLONG Date::ONE_YEAR = 31536000000ULL;
 #endif
-    const unsigned RL_LONGLONG Date::ONE_KAMPFRUNDE = 2 * Date::ONE_SECOND;
+    const unsigned RL_LONGLONG Date::ONE_KAMPFRUNDE = 3 * Date::ONE_SECOND;
     const unsigned RL_LONGLONG Date::ONE_SPIELRUNDE = 5 * Date::ONE_MINUTE;
 
     Date::Date()

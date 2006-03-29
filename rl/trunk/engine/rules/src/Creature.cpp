@@ -39,7 +39,7 @@ namespace rl
 		setWert(WERT_MOD_MR, 0);
 		setWert(WERT_MOD_INI, 0);
 		setWert(WERT_SOZIALSTATUS, 0);
-		setWert(WERT_GS, 0);
+		setWert(WERT_GS, 8);
 		setWert(WERT_BE, 0);
 		mEigenschaften[E_MUT] = new EigenschaftenStateSet();
 		mEigenschaften[E_KLUGHEIT] = new EigenschaftenStateSet();

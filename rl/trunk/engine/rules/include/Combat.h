@@ -90,6 +90,8 @@ namespace rl {
 		void initialize(CreatureData* part);
 		CreatureData* getData(Creature* creature);
 		CreatureData* getNextActor();
+		void notifyNextActor();
+		CombatController* getController(int group);
 
 		CreatureDataMap mCreatureData;
 		std::vector<CombatController*> mControllers;

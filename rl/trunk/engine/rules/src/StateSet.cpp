@@ -19,9 +19,10 @@
 namespace rl
 {
 	StateSet::StateSet()
+		: mOriginalValue(0),
+		mModifier(0),
+		mMultiplier(1)
 	{
-		mOriginalValue = 0;
-		mModifier = 0;
 	}
 
 	StateSet::~StateSet()

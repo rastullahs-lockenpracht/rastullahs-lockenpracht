@@ -29,6 +29,7 @@
 namespace rl {
 
     class Actor;
+	class Creature;
     class MeshObject;
 	class PhysicsMaterialRaycast;
 
@@ -45,7 +46,7 @@ namespace rl {
          *  @throw NullPointerException if camera or character is NULL.
          *  @throw InvalidArgumentException if character is not placed in the scene.
          */
-        MovementCharacterController(Actor* camera, Actor* character);
+        MovementCharacterController(Actor* camera, Creature* character);
         virtual ~MovementCharacterController();
 
         void run(Ogre::Real elapsedTime);
