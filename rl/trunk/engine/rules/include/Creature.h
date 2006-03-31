@@ -29,6 +29,7 @@
 #include "TalentStateSet.h"
 #include "ZauberStateSet.h"
 #include "SonderfertigkeitenStateSet.h"
+#include "EffectManager.h"
 
 #include "CompositeEffect.h"
 
@@ -489,11 +490,18 @@ namespace rl
 		 **/
 		void applyDamage(int sp, Weapon* weapon);
 
+		/**
+		 * @brief Lässt einen Effekt auf der Kreatur wirken
+		 * @param effect Zeiger auf den Effekt
+		 **/
+		void addEffect(Effect* effect);
+
 	private:
         int mCurrentLe;
 		int mCurrentAe;
 		int mCurrentAu;		
 
+		EffectManager mEffectManager;
 		Weapon* mActiveWeapon;
         EigenschaftMap mEigenschaften;
         TalentMap mTalente;

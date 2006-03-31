@@ -684,4 +684,10 @@ namespace rl
 	{
 		modifyLe(-sp);
 	}
+
+	void Creature::addEffect(Effect* effect)
+	{
+		mEffectManager.addEffect(effect);
+	}
+
 }

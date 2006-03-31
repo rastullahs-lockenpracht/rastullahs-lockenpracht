@@ -246,6 +246,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\EffectManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Eigenschaft.cpp"
 				>
 			</File>
@@ -397,6 +401,10 @@
 			</File>
 			<File
 				RelativePath=".\include\Effect.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\EffectManager.h"
 				>
 			</File>
 			<File

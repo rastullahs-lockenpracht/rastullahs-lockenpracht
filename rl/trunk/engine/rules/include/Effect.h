@@ -29,10 +29,10 @@ namespace rl
 	{
 	public:
 
-		static const int EFFECT_UNIQUE = 0;
-		static const int EFFECT_UNIQUE_BUT_PROLONGABLE = 1;
-		static const int EFFECT_UNIQUE_BUT_CUMULATIVE = 2;
-		static const int EFFECT_MULTIPLE = 3;
+		static const int EFFECT_MULTIPLE = 0;
+		static const int EFFECT_UNIQUE = 1;
+		static const int EFFECT_UNIQUE_BUT_PROLONGABLE = 2;
+		static const int EFFECT_UNIQUE_BUT_CUMULATIVE = 3;
 
 		Effect();
 		virtual ~Effect();
@@ -43,6 +43,7 @@ namespace rl
         virtual void setDescription(CeGuiString& description);
 		virtual int getDuration();
 		virtual void setDuration(int newDuration);
+		virtual int getQuantifier();
 		virtual void setQuantifier(int quantifier);
 		//** @brief Adds a tag to the Effect. Tags are describing the type of
 		//*  an Effect, so other Effects can identify it. An example would be

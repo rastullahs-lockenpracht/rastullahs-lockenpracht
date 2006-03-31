@@ -27,6 +27,7 @@ namespace rl
 
 	Effect::~Effect()
 	{
+		disable();
 	}
 
 	const CeGuiString& Effect::getName() const
@@ -57,6 +58,11 @@ namespace rl
 	void Effect::setDuration(int newDuration)
 	{
 		mDuration = newDuration;
+	}
+
+	int Effect::getQuantifier()
+	{
+		return mQuantifier;
 	}
 
 	void Effect::setQuantifier(int quantifier)
