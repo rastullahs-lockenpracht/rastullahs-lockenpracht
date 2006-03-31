@@ -23,6 +23,7 @@ libRlUi_la_SOURCES = \
 	DataLoadingProgressWindow.cpp \
 	DebugWindow.cpp \
 	DialogWindow.cpp \
+	DialogCharacterController.cpp \
 	FreeFlightCharacterController.cpp \
 	GameLoggerWindow.cpp \
 	InGameMenuWindow.cpp \

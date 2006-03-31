@@ -15,6 +15,7 @@ libRlRules_la_SOURCES = \
 	DsaDataLoader.cpp \
 	DsaManager.cpp \
 	Effect.cpp \
+	EffectManager.cpp \
 	Eigenschaft.cpp \
 	EigenschaftenStateSet.cpp \
 	GameObject.cpp \

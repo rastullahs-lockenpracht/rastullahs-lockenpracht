@@ -15,6 +15,7 @@ noinst_HEADERS = \
 	DataLoadingProgressWindow.h \
 	DebugWindow.h \
 	DialogWindow.h \
+	DialogCharacterController.h \
 	FreeFlightCharacterController.h \
 	GameLoggerWindow.h \
 	InGameMenuWindow.h \

@@ -11,6 +11,7 @@ noinst_HEADERS = \
 	DsaDataLoader.h \
 	DsaManager.h \
 	Effect.h \
+	EffectManager.h \
 	Eigenschaft.h \
 	EigenschaftenStateSet.h \
 	GameObject.h \
