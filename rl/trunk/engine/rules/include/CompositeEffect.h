@@ -30,15 +30,16 @@ namespace rl
 		virtual ~CompositeEffect();
 
 		/// Fügt einen Effekt zur Liste hinzu.
-		virtual void addEffect(Effect* effect);
+		void addEffect(Effect* effect);
 		/// Überprüft die Lebendigkeit des Effekts.
 		virtual bool isAlive();
 	protected:
 		/// Bringt die Aenderungen ein.
-		virtual void apply();
+		void apply();
 		/// Entfernt die Aenderungen.
-		virtual void remove();
-		std::vector<Effect*> Effects;
+		void remove();
+		typedef std::set<Effect*> Effects;
+		Effects mEffects;
 	};
 }
 

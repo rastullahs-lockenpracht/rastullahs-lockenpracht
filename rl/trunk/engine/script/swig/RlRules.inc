@@ -406,6 +406,69 @@ namespace rl {
                  const rl::CeGuiString& description);
 	};
 	
+	class StateSet
+	{
+	public:
+		StateSet();
+		virtual ~StateSet();
+
+		virtual int getValue(bool getUnmodfiedValue = false) const;
+		virtual int getOriginalValue() const;
+		virtual void setOriginalValue(int newValue);
+		virtual int getModifier() const;
+		virtual void setModifier(int newModifier);
+		virtual int getMultiplier() const;
+		virtual void setMultiplier(int newMultiplier);
+	};
+	
+	
+	%feature("director") Effect;
+	class Effect
+	{
+	public:
+
+		static const int EFFECT_UNIQUE = 0;
+		static const int EFFECT_UNIQUE_BUT_PROLONGABLE = 1;
+		static const int EFFECT_UNIQUE_BUT_CUMULATIVE = 2;
+		static const int EFFECT_MULTIPLE = 3;
+
+		Effect();
+		virtual ~Effect();
+
+        virtual const rl::CeGuiString& getName() const;
+        virtual void setName(rl::CeGuiString& name);
+        virtual const rl::CeGuiString& getDescription() const;
+        virtual void setDescription(rl::CeGuiString& description);
+		virtual int getDuration();
+		virtual void setDuration(int newDuration);
+		virtual void setQuantifier(int quantifier);
+		virtual void addTag(int tagId);
+		virtual void removeTag(int tagId);
+		virtual bool queryTag(int tagId);
+		virtual void enable();
+		virtual void disable();
+		virtual bool isAlive() = 0;
+
+	protected:
+		virtual void apply() = 0;
+		virtual void remove() = 0;
+		virtual RL_LONGLONG getTimePassed();
+	};
+
+	%feature("director") CompositeEffect;	
+	class CompositeEffect
+	{
+	public:
+		CompositeEffect();
+		virtual ~CompositeEffect();
+
+		void addEffect(Effect* effect);
+		virtual bool isAlive();
+	protected:
+		void apply();
+		void remove();
+	};
+
 	%feature("director") ActionMananger;
     class ActionManager
     {

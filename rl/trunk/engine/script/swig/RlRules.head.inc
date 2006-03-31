@@ -36,6 +36,7 @@
 #include "Quest.h"
 #include "QuestBook.h"
 #include "RulesSubsystem.h"
+#include "StateSet.h"
 #include "Talent.h"
 #include "TimerEventSource.h"
 #include "TimerEvent.h"

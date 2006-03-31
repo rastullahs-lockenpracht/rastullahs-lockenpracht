@@ -24,22 +24,41 @@ namespace rl
 
 	CompositeEffect::~CompositeEffect()
 	{
+		disable();
+		for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
+		{
+			delete (*it);
+		}
 	}
 
 	void CompositeEffect::addEffect(rl::Effect *effect)
 	{
+		mEffects.insert(effect);
 	}
 
 	bool CompositeEffect::isAlive()
 	{
-		return true;
+		bool alive = false;
+		for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
+		{
+			if ((*it)->isAlive()) alive = true;
+		}
+		return alive;
 	}
 
 	void CompositeEffect::apply()
 	{
+		for (Effects::const_iterator it = mEffects.begin(); it != mEffects.end(); it++)
+		{
+			(*it)->enable();
+		}
 	}
 
 	void CompositeEffect::remove()
 	{
+		for (Effects::const_iterator it = mEffects.begin(); it != mEffects.end(); it++)
+		{
+			(*it)->disable();
+		}
 	}
 }
