@@ -18,6 +18,8 @@ class Hero < Person
         modifyAu(1000); # Au = voll
         # modifyLe(-20); # 10 LeP abziehen
 
+	addTalent("Athletik", 3);
+	#addTalent("Körperbeherrschung", 3);
 
         $SCRIPT.log("Heldenaktor erstellen...");
         $heldaktor = $AM.createMeshActor("Held","men_alrike.mesh", PhysicsManager::GT_ELLIPSOID, 75.0);
