@@ -48,6 +48,7 @@ namespace rl
 				if ((*it)->getQuantifier() == Effect::EFFECT_UNIQUE_BUT_PROLONGABLE)
 				{
 					//TODO
+					//Vielleicht alten durch neuen ersetzen?
 				}
 				if ((*it)->getQuantifier() == Effect::EFFECT_UNIQUE_BUT_CUMULATIVE)
 				{
@@ -57,6 +58,7 @@ namespace rl
 		}
 		
 		mEffects.insert(effect);
+		effect->enable();
 	}
 }
 

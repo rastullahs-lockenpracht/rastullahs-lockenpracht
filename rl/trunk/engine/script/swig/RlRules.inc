@@ -361,7 +361,104 @@ namespace rl {
         
         virtual void close() = 0;
 	};
+	
+	class StateSet
+	{
+	public:
+		StateSet();
+		virtual ~StateSet();
+
+		virtual int getValue(bool getUnmodfiedValue = false) const;
+		virtual int getOriginalValue() const;
+		virtual void setOriginalValue(int newValue);
+		virtual int getModifier() const;
+		virtual void setModifier(int newModifier);
+		virtual int getProbenModifier() const;
+		virtual void setProbenModifier(int newProbenModifier);
+		virtual int getMultiplier() const;
+		virtual void setMultiplier(int newMultiplier);
+	};
+
+	class EigenschaftenStateSet : public StateSet
+	{
+	public:
+		EigenschaftenStateSet();
+		~EigenschaftenStateSet();
+
+		int getStartValue();
+		void setStartValue( int newStartValue );
+		int getPermanentModifier();
+		void setPermanentModifier( int newPermanentModifier );
+		int getModifierWithoutRecalculation();
+		void setModifierWithoutRecalculation( int newModifierWithoutRecalculation );
+
+		int getValue( bool getUnmodifiedValue = false );
+		int getValueForBasiswertCalculation();
+	};
+	
+	class SonderfertigkeitenStateSet : public StateSet
+	{
+	public:
+		SonderfertigkeitenStateSet();
+		~SonderfertigkeitenStateSet();
+
+		void setModifier( int newModifier );
+		int getLehrmeisterZeiteinheiten();
+		void setLehrmeisterZeiteinheiten( int newLehrmeisterZeiteinheiten );
+	};
+	
+	class TalentStateSet : public StateSet
+	{
+	public:
+		TalentStateSet();
+		~TalentStateSet();
+
+		bool getSe();
+		void setSe(bool newSe);
+		int getLehrmeisterZeiteinheiten();
+		void setLehrmeisterZeiteinheiten( int newLehrmeisterZeiteinheiten );
+		int getSelbststudiumZeiteinheiten();
+		void setSelbststudiumZeiteinheiten( int newSelbststudiumZeiteinheiten );
+	};
+	
+	class Creature;
     
+	%feature("director") Effect;
+	class Effect
+	{
+	public:
+
+		static const int EFFECT_UNIQUE = 0;
+		static const int EFFECT_UNIQUE_BUT_PROLONGABLE = 1;
+		static const int EFFECT_UNIQUE_BUT_CUMULATIVE = 2;
+		static const int EFFECT_MULTIPLE = 3;
+
+		Effect();
+		virtual ~Effect();
+
+        const rl::CeGuiString& getName() const;
+        void setName(rl::CeGuiString& name);
+        const rl::CeGuiString& getDescription() const;
+        void setDescription(rl::CeGuiString& description);
+		Creature* getOwner() const;
+		void setOwner(Creature* owner);
+		virtual int getDuration();
+		virtual void setDuration(int newDuration);
+		int getQuantifier();
+		void setQuantifier(int quantifier);
+		virtual void addTag(int tagId);
+		virtual void removeTag(int tagId);
+		virtual bool queryTag(int tagId);
+		virtual void enable();
+		virtual void disable();
+		virtual bool isAlive() = 0;
+
+	protected:
+		virtual void apply() = 0;
+		virtual void remove() = 0;
+		virtual RL_LONGLONG getTimePassed();
+	};
+
     %feature("director") Creature;
     class Creature : public GameObject {
     public:
@@ -373,6 +470,7 @@ namespace rl {
         virtual void setEigenschaft(const rl::CeGuiString& eigenschaftName, int value);
         void addTalent(const rl::CeGuiString& talentName, int value=0);
         virtual int getTalent(const rl::CeGuiString& talentName) const;
+		virtual TalentStateSet* getTalentStateSet(const rl::CeGuiString& talentName);
         virtual void setTalent(const rl::CeGuiString& talentName, int value);
         void addKampftechnik(const rl::CeGuiString& kampftechnikName, std::pair<int,int> value = make_pair(0,0));
 		void addContainer(Container* container);
@@ -382,6 +480,7 @@ namespace rl {
 		Weapon* getWeapon(int weaponId) const;
 		Weapon* removeWeapon(int waponId);
 		void switchToWeapon(int weaponId);
+		void addEffect(Effect* effect);
 
         virtual void modifyEigenschaft(const rl::CeGuiString& eigenschaftName, int mod);
         virtual void modifyTalent(const rl::CeGuiString& talentName, int mod);
@@ -405,58 +504,9 @@ namespace rl {
 	    Person(  const rl::CeGuiString& name,
                  const rl::CeGuiString& description);
 	};
-	
-	class StateSet
-	{
-	public:
-		StateSet();
-		virtual ~StateSet();
-
-		virtual int getValue(bool getUnmodfiedValue = false) const;
-		virtual int getOriginalValue() const;
-		virtual void setOriginalValue(int newValue);
-		virtual int getModifier() const;
-		virtual void setModifier(int newModifier);
-		virtual int getMultiplier() const;
-		virtual void setMultiplier(int newMultiplier);
-	};
-	
-	
-	%feature("director") Effect;
-	class Effect
-	{
-	public:
-
-		static const int EFFECT_UNIQUE = 0;
-		static const int EFFECT_UNIQUE_BUT_PROLONGABLE = 1;
-		static const int EFFECT_UNIQUE_BUT_CUMULATIVE = 2;
-		static const int EFFECT_MULTIPLE = 3;
-
-		Effect();
-		virtual ~Effect();
-
-        virtual const rl::CeGuiString& getName() const;
-        virtual void setName(rl::CeGuiString& name);
-        virtual const rl::CeGuiString& getDescription() const;
-        virtual void setDescription(rl::CeGuiString& description);
-		virtual int getDuration();
-		virtual void setDuration(int newDuration);
-		virtual void setQuantifier(int quantifier);
-		virtual void addTag(int tagId);
-		virtual void removeTag(int tagId);
-		virtual bool queryTag(int tagId);
-		virtual void enable();
-		virtual void disable();
-		virtual bool isAlive() = 0;
-
-	protected:
-		virtual void apply() = 0;
-		virtual void remove() = 0;
-		virtual RL_LONGLONG getTimePassed();
-	};
-
+		
 	%feature("director") CompositeEffect;	
-	class CompositeEffect
+	class CompositeEffect : public Effect
 	{
 	public:
 		CompositeEffect();

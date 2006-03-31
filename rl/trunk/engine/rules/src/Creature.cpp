@@ -314,6 +314,16 @@ namespace rl
 		it->second->setSe( true );
 	}
 
+	TalentStateSet* Creature::getTalentStateSet(const CeGuiString& talentName)
+	{
+        TalentMap::const_iterator it = mTalente.find(talentName);
+        if (it == mTalente.end())
+        {
+            Throw(InvalidArgumentException, "Talent nicht gefunden.");
+        }
+		return it->second;
+	}
+
 	void Creature::addKampftechnik(const CeGuiString& kampftechnikName, const pair<int,int>& value)
 	{
 		KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikName);
@@ -687,6 +697,7 @@ namespace rl
 
 	void Creature::addEffect(Effect* effect)
 	{
+		effect->setOwner(this);
 		mEffectManager.addEffect(effect);
 	}
 

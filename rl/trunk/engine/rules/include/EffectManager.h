@@ -38,7 +38,7 @@ namespace rl
 	private:
 		typedef std::set<Effect*> Effects;
 		Effects mEffects;
-		typedef std::map<int, Effects> Watchlist;
+		typedef std::map<int, Effects*> Watchlist;
 		Watchlist mWatchlist;
 	};
 }

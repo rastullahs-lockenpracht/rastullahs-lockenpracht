@@ -56,6 +56,16 @@ namespace rl
 		mModifier = newModifier;
 	}
 
+	int StateSet::getProbenModifier() const
+	{
+		return mProbenModifier;
+	}
+
+	void StateSet::setProbenModifier(int newProbenModifier)
+	{
+		mProbenModifier = newProbenModifier;
+	}
+
 	int StateSet::getMultiplier() const
 	{
 		return mMultiplier;

@@ -32,6 +32,8 @@ namespace rl
 		virtual void setOriginalValue(int newValue);
 		virtual int getModifier() const;
 		virtual void setModifier(int newModifier);
+		virtual int getProbenModifier() const;
+		virtual void setProbenModifier(int newProbenModifier);
 		virtual int getMultiplier() const;
 		virtual void setMultiplier(int newMultiplier);
 
@@ -39,6 +41,7 @@ namespace rl
 		/// Der unmodifizierte Wert
 		int mOriginalValue;
 		int mModifier;
+		int mProbenModifier;
 		/// Dieser Faktor wird nach dem modifizieren auf den Wert draufmultipliziert.
 		int mMultiplier;
 	};

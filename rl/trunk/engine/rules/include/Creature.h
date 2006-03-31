@@ -31,12 +31,13 @@
 #include "SonderfertigkeitenStateSet.h"
 #include "EffectManager.h"
 
-#include "CompositeEffect.h"
+//#include "CompositeEffect.h"
 
 using namespace std;
 
 namespace rl
 {
+	class Effect;
 
 	static const int WERT_MOD_AE = 1; // Astralenergie
 	static const int WERT_MOD_LE = 2; // Lebensenergie
@@ -254,6 +255,7 @@ namespace rl
 		 * @param talentName Bezeichnet das Talent in dem die SE erhalten wurde
 		 */
 		virtual void addSe(const CeGuiString& talentName);
+		virtual TalentStateSet* getTalentStateSet(const CeGuiString& talentName);
 
 ///////////////////////////////////////////////////////////////////////////////
 // Kampftechniken

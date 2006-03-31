@@ -16,6 +16,7 @@
 
 #include "Effect.h"
 #include "CoreSubsystem.h"
+#include "Creature.h"
 
 namespace rl
 {
@@ -48,6 +49,16 @@ namespace rl
 	void Effect::setDescription(CeGuiString& description)
 	{
 		mDescription = description;
+	}
+
+	Creature* Effect::getOwner() const
+	{
+		return mOwner;
+	}
+
+	void Effect::setOwner(Creature* owner)
+	{
+		mOwner = owner;
 	}
 
 	int Effect::getDuration()

@@ -24,6 +24,7 @@
 
 namespace rl
 {
+	class Creature;
 
 	class _RlRulesExport Effect
 	{
@@ -37,14 +38,16 @@ namespace rl
 		Effect();
 		virtual ~Effect();
 
-        virtual const CeGuiString& getName() const;
-        virtual void setName(CeGuiString& name);
-        virtual const CeGuiString& getDescription() const;
-        virtual void setDescription(CeGuiString& description);
+        const CeGuiString& getName() const;
+        void setName(CeGuiString& name);
+        const CeGuiString& getDescription() const;
+        void setDescription(CeGuiString& description);
+		Creature* getOwner() const;
+		void setOwner(Creature* owner);
 		virtual int getDuration();
 		virtual void setDuration(int newDuration);
-		virtual int getQuantifier();
-		virtual void setQuantifier(int quantifier);
+		int getQuantifier();
+		void setQuantifier(int quantifier);
 		//** @brief Adds a tag to the Effect. Tags are describing the type of
 		//*  an Effect, so other Effects can identify it. An example would be
 		//** 'Poison', as well as 'mineralic poison'.
@@ -80,6 +83,8 @@ namespace rl
 
 		typedef std::set<int> Tags;
 		Tags mTags;
+
+		Creature* mOwner;
 	};
 }
 
