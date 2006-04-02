@@ -23,6 +23,7 @@
 #include "Person.h"
 #include "Actor.h"
 #include "ActorManager.h"
+#include "CoreSubsystem.h"
 
 using namespace CEGUI;
 using namespace Ogre;
@@ -60,7 +61,16 @@ namespace rl
     
 	void DebugWindow::run(Ogre::Real elapsedTime)
 	{
+		RL_LONGLONG start = CoreSubsystem::getSingleton().getClock();
+
 		updateFps();
+
+		Logger::getSingleton().log(
+			Logger::CORE, 
+			Ogre::LML_TRIVIAL, 
+			"    DW time "
+			 + Ogre::StringConverter::toString(
+					Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));
 	}
 
 	void DebugWindow::updateFps()
@@ -107,13 +117,12 @@ namespace rl
 		textStats->setText(textSt);
 	}
 
-	void DebugWindow::setVisible(bool visible)
+	void DebugWindow::setVisible(bool visible, bool destroyAfterHide)
 	{
+		CeGuiWindow::setVisible(visible, destroyAfterHide);
 		if (visible)
 			GameLoopManager::getSingleton().addSynchronizedTask(this, FRAME_ENDED);
 		else
 			GameLoopManager::getSingleton().removeSynchronizedTask(this);
-		CeGuiWindow::setVisible(visible);
 	}
-
 }

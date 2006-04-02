@@ -13,7 +13,6 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-
 #include "CeGuiWindow.h"
 #include "WindowManager.h"
 #include <CEGUIWindowManager.h>
@@ -52,6 +51,8 @@
 #include "RulesSubsystem.h"
 #include "TargetSelectionWindow.h"
 #include "UiSubsystem.h"
+
+#undef max
 
 template<> rl::WindowManager* Ogre::Singleton<rl::WindowManager>::ms_Singleton = 0;
 
@@ -105,12 +106,17 @@ namespace rl {
 
 	bool WindowManager::destroyWindow(CeGuiWindow* window)
 	{
+		mWindowUpdater->fadeOut(window, 0.25, true);
+		return true;
+	}
+
+	void WindowManager::_doDestroyWindow(CeGuiWindow* window)
+	{
 		mWindowList.remove(window);
 		CeGuiWindow::getRoot()->removeChildWindow(window->getWindow());
 		window->setVisible(false);
 		CEGUI::WindowManager::getSingleton().destroyWindow(window->getWindow());
-		delete window;
-		return true;
+		delete window;		
 	}
 
 	void WindowManager::closeTopWindow()
@@ -120,9 +126,6 @@ namespace rl {
 			CeGuiWindow* cur = *it;
 			if (cur->isVisible() && cur->isClosingOnEscape())
 			{
-				cur->setVisible(false);
-				//mWindowUpdater->fadeOut(cur, 0.3);
-				//mWindowUpdater->moveOutLeft(cur, 0.5);
 				break;
 			}
 		}
@@ -293,6 +296,22 @@ namespace rl {
 		}
 	}
 
+	void WindowManager::_fadeIn(CeGuiWindow* window, Ogre::Real time, float targetAlpha)
+	{
+		mWindowUpdater->fadeIn(window, time, targetAlpha);
+	}
+
+	void WindowManager::_fadeOut(CeGuiWindow* window, Ogre::Real time, bool destroy)
+	{
+		mWindowUpdater->fadeOut(window, time, destroy);
+	}
+
+	void WindowManager::_moveOutLeft(CeGuiWindow* window, Ogre::Real time, bool destroy)
+	{
+		mWindowUpdater->moveOutLeft(window, time, destroy);
+	}
+
+
 	void WindowManager::update()
 	{
 		mInGameMenuWindow->update();
@@ -348,22 +367,26 @@ namespace rl {
 
 	WindowUpdateTask::WindowUpdateTask(
 		CeGuiWindow* window, Ogre::Real time, 
+		WindowUpdateTask::WindowUpdateAction action,
 		int targetX, int targetY, Ogre::Real targetAlpha)
 	:	mWindow(window),
 		mTime(time), 
 		mTargetPoint(targetX, targetY), 
-		mTargetAlpha(targetAlpha)
+		mTargetAlpha(targetAlpha),
+		mAction(action)
 	{
 		initialize();
 	}
 
 	WindowUpdateTask::WindowUpdateTask(
 		CeGuiWindow* window, Ogre::Real ftime, 
+		WindowUpdateTask::WindowUpdateAction action,
 		Ogre::Real targetAlpha)
 	:	mWindow(window),
 		mTime(ftime), 
 		mTargetPoint(-9999999, -9999999), 
-		mTargetAlpha(targetAlpha)
+		mTargetAlpha(targetAlpha),
+		mAction(action)
 	{
 		initialize();
 	}
@@ -379,10 +402,27 @@ namespace rl {
 			(mTargetAlpha - mWindow->getWindow()->getAlpha()) / mTime;
 		mCurrentPoint = mWindow->getWindow()->getAbsolutePosition();
 		mCurrentAlpha = mWindow->getWindow()->getAlpha();
+
+		if (mCalculateAlpha)
+		{
+			mNormalAlpha = std::max(
+				mWindow->getWindow()->getAlpha(),
+				mTargetAlpha);
+		}
+		else
+		{
+			mNormalAlpha = mWindow->getWindow()->getAlpha();
+		}
 	}
 
 	void WindowUpdateTask::run(Ogre::Real elapsedTime)
 	{
+		mTime -= elapsedTime;
+		if (mTime < 0)
+		{
+			mTime = 0;
+		}
+
 		if (mTime > 0)
 		{
 			if (mCalculatePoint)
@@ -392,24 +432,44 @@ namespace rl {
 			if (mCalculateAlpha)
 			{
 				mCurrentAlpha += mRateAlpha * elapsedTime;
+			}			
+		}
+		else if (mTime == 0)
+		{
+			if (mCalculatePoint)
+			{
+				mCurrentPoint = mTargetPoint;
 			}
-			mTime -= elapsedTime;
+			if (mCalculateAlpha)
+			{
+				mCurrentAlpha = mTargetAlpha;
+			}
 		}
 	}
 
-	const CEGUI::Point& WindowUpdateTask::getCurrentPosition()
+	const CEGUI::Point& WindowUpdateTask::getCurrentPosition() const
 	{
 		return mCurrentPoint;
 	}
 
-	const Ogre::Real& WindowUpdateTask::getCurrentAlpha()
+	const Ogre::Real& WindowUpdateTask::getCurrentAlpha() const
 	{
 		return mCurrentAlpha;
 	}
 
-	const Ogre::Real& WindowUpdateTask::getTimeLeft()
+	const Ogre::Real& WindowUpdateTask::getNormalAlpha() const
+	{
+		return mNormalAlpha;
+	}
+
+	const Ogre::Real& WindowUpdateTask::getTimeLeft() const
 	{
 		return mTime;
+	}
+
+	WindowUpdateTask::WindowUpdateAction WindowUpdateTask::getAction() const
+	{
+		return mAction;
 	}
 
 	CeGuiWindow* WindowUpdateTask::getWindow()
@@ -419,6 +479,8 @@ namespace rl {
 
 	void WindowUpdater::run( Ogre::Real elapsedTime )
 	{
+		RL_LONGLONG start = CoreSubsystem::getSingleton().getClock();
+
 		if (mTasks.empty())
 			return;
 
@@ -430,25 +492,60 @@ namespace rl {
 			task->getWindow()->getWindow()->setAlpha(task->getCurrentAlpha());
 			if (task->getTimeLeft() <= 0)
 			{
+				switch (task->getAction())
+				{
+				case WindowUpdateTask::WND_DESTROY:
+					WindowManager::getSingleton().destroyWindow(task->getWindow());
+					break;
+				case WindowUpdateTask::WND_HIDE:
+					task->getWindow()->getWindow()->hide();
+					task->getWindow()->getWindow()->setAlpha(task->getNormalAlpha());
+					break;
+				}
+				delete task;
+				*it = NULL;
 				it = mTasks.erase(it);
-				//delete task;
 			}
 			else
 			{
 				++it;
 			}
 		}
+		Logger::getSingleton().log(
+			Logger::CORE, 
+			Ogre::LML_TRIVIAL, 
+			"    WU time "
+			 + Ogre::StringConverter::toString(
+					Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));
 	}
 
-	void WindowUpdater::fadeOut(CeGuiWindow* window, Ogre::Real time)
+	void WindowUpdater::fadeIn(CeGuiWindow* window, Ogre::Real time, Ogre::Real targetAlpha)
 	{
 		if (window == NULL)
 			Throw(InvalidArgumentException, "NULL argument");
 
-		mTasks.push_back(new WindowUpdateTask(window, time, 0.0));
+		mTasks.push_back(
+			new WindowUpdateTask(
+				window, 
+				time, 
+				WindowUpdateTask::WND_SHOW, 
+				targetAlpha));
 	}
 
-	void WindowUpdater::moveOutLeft(CeGuiWindow* window, Ogre::Real time)
+	void WindowUpdater::fadeOut(CeGuiWindow* window, Ogre::Real time, bool destroy)
+	{
+		if (window == NULL)
+			Throw(InvalidArgumentException, "NULL argument");
+
+		mTasks.push_back(
+			new WindowUpdateTask(
+				window, 
+				time, 
+				destroy ? WindowUpdateTask::WND_DESTROY : WindowUpdateTask::WND_HIDE, 
+				0.0));
+	}
+
+	void WindowUpdater::moveOutLeft(CeGuiWindow* window, Ogre::Real time, bool destroy)
 	{
 		if (window == NULL)
 			Throw(InvalidArgumentException, "NULL argument");
@@ -457,7 +554,8 @@ namespace rl {
 		mTasks.push_back(
 			new WindowUpdateTask(
 				window, 
-				time, 
+				time,
+				destroy ? WindowUpdateTask::WND_DESTROY : WindowUpdateTask::WND_HIDE, 
 				-wnd->getAbsoluteWidth(), 
 				wnd->getAbsoluteYPosition()));
 	}

@@ -43,9 +43,9 @@ namespace rl {
 		initialize();
 	}
 
-	void CombatWindow::setVisible(bool visible)
+	void CombatWindow::setVisible(bool visible, bool destroyAfterHide)
 	{
-		CeGuiWindow::setVisible(visible);
+		CeGuiWindow::setVisible(visible, destroyAfterHide);
 		//TODO: Change CharacterController
 	}
 

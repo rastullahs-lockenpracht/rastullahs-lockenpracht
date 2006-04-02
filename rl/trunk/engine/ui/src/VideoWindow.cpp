@@ -68,7 +68,7 @@ void VideoWindow::show(Texture *texture, CeGuiString name)
         mImage->setImage(temp, mName);
     } 
 
-	CeGuiWindow::show();
+	CeGuiWindow::setVisible(true);
 }
 
 /// Reaktion auf Videoevents.
@@ -76,8 +76,7 @@ bool VideoWindow::eventRaised(VideoPlayEvent *event)
 {
     if (event->getReason() == VideoPlayEvent::ENDOFSTREAM)
     {
-		hide();
-        destroyWindow();
+		setVisible(false, true);
     }
 	return true;
 }

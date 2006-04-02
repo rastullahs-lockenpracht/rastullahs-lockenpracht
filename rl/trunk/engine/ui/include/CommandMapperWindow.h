@@ -31,7 +31,7 @@ namespace rl {
 	public:
 		CommandMapperInputWindow();
 
-		void setVisible(bool visible);
+		void setVisible(bool visible, bool destroyAfterHide = false);
 	};
 
 	class _RlUiExport CommandMapperWindow :

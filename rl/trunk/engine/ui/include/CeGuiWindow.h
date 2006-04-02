@@ -58,7 +58,7 @@ namespace rl {
 		WindowType getWindowType();
 
         virtual bool isVisible();
-        virtual void setVisible(bool visible);
+        virtual void setVisible(bool visible, bool destroyAfterHide = false);
 
 		bool isModal();
 		bool isClosingOnEscape();
@@ -76,12 +76,6 @@ namespace rl {
 
 		const CeGuiString& getNamePrefix() const;
 		
-		void show();
-		void hide();
-
-		virtual bool beforeShow();
-		virtual bool beforeHide();
-	
 		void centerWindow();
 		bool destroyWindow();
 

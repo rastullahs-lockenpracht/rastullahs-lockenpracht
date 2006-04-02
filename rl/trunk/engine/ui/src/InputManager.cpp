@@ -111,6 +111,7 @@ namespace rl {
 
 	void InputManager::run(Real elapsedTime)
 	{
+				RL_LONGLONG start = CoreSubsystem::getSingleton().getClock();
 		CEGUI::System::getSingleton().injectTimePulse(elapsedTime);
 
 		if (mScheduledInputSwitch == SWITCH_TO_BUFFERED)
@@ -153,6 +154,12 @@ namespace rl {
 			if (pressedButtonMask != 0)
 				mCommandMapper->injectMouseDown(pressedButtonMask);
 		}		
+		Logger::getSingleton().log(
+			Logger::CORE, 
+			Ogre::LML_NORMAL, 
+			"    IM end "
+			 + Ogre::StringConverter::toString(
+					Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));
 	}
 
 	void InputManager::checkMouseButton(

@@ -27,7 +27,7 @@ namespace rl
 		LogWindow();
 		virtual ~LogWindow();
 	
-		void setVisible(bool visible);
+		void setVisible(bool visible, bool destroyAfterHide = false);
 		bool update();
 
 	private:

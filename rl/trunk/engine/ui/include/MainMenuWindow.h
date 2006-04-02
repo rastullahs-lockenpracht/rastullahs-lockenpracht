@@ -31,7 +31,7 @@ namespace rl {
 		MainMenuWindow(MainMenuEngineWindow* enginewindow);
 
 		void setActiveModule(const CeGuiString& module);
-		void setVisible(bool visible);
+		void setVisible(bool visible, bool destroyAfterHide = false);
 
 	private:
 		bool handleChooseModule(CEGUI::MenuItem* it, ContentModule* module);

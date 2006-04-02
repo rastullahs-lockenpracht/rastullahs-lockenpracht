@@ -36,7 +36,7 @@ namespace rl {
         static TargetSelectionWindow& getSingleton();
         static TargetSelectionWindow* getSingletonPtr();
 
-		void setVisible(bool visible);
+		void setVisible(bool visible, bool destroyAfterHide = false);
 		void setAction(Action* action);
 		bool showObjectDescription(const CEGUI::EventArgs& e);
 		bool showObjectActionsWindow(const CEGUI::EventArgs& e);

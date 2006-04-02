@@ -31,7 +31,7 @@ namespace rl {
 	{
 	public:
 		CombatWindow(Combat* combat, int group);
-		void setVisible(bool visible);
+		void setVisible(bool visible, bool destroyAfterHide = false);
 
 		void notifyActionStart();
 

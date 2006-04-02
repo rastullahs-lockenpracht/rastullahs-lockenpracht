@@ -220,12 +220,13 @@ namespace rl {
 			updatePickedObject();
 		}
 		updateAnimationState();
-			Logger::getSingleton().log(
-	Logger::CORE, 
-	Ogre::LML_NORMAL, 
-	"    MCC end "
-	 + Ogre::StringConverter::toString(
-			Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));
+
+		Logger::getSingleton().log(
+			Logger::CORE, 
+			Ogre::LML_TRIVIAL, 
+			"    MCC time "
+			 + Ogre::StringConverter::toString(
+					Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));
 	}
 
 	int MovementCharacterController::userProcess()

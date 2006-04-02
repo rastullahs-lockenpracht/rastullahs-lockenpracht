@@ -34,7 +34,7 @@ namespace rl {
         static DebugWindow& getSingleton(void);
         static DebugWindow* getSingletonPtr(void);
 
-		void setVisible(bool visible);
+		void setVisible(bool visible, bool destroyAfterHide = false);
         void setText(const Ogre::String& output);
 		void run(Ogre::Real elapsedTime);
 

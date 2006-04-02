@@ -18,7 +18,6 @@
 #define __MULTIMEDIASUBSYSTEM_H__
 
 #include "MultimediaPrerequisites.h"
-#include <OgreLogManager.h>
 #include <list>
 
 namespace rl {

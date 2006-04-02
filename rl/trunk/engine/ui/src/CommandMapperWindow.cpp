@@ -183,9 +183,9 @@ CommandMapperInputWindow::CommandMapperInputWindow() :
 	centerWindow();
 }
 
-void CommandMapperInputWindow::setVisible(bool visible)
+void CommandMapperInputWindow::setVisible(bool visible, bool destroyAfterHide)
 {
-	CeGuiWindow::setVisible(visible);
+	CeGuiWindow::setVisible(visible, destroyAfterHide);
 	if (visible)
 		mWindow->moveToFront();
 }

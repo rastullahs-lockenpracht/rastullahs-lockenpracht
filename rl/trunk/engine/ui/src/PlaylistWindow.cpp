@@ -62,15 +62,13 @@ void PlaylistWindow::update()
 
 bool PlaylistWindow::handleQuit()
 {
-    hide();
-    delete this;
-    return true;
+    setVisible(false, true);
+	return true;
 }
 
 bool PlaylistWindow::handlePlay()
 {
-
-    return true;
+	return true;
 }
 
 }

@@ -99,14 +99,27 @@ bool CeGuiWindow::isVisible()
     return mVisible;
 }
 
-void CeGuiWindow::setVisible(bool visible)
+void CeGuiWindow::setVisible(bool visible, bool destroy)
 {
     if(mVisible != visible)
     {
         if (visible)
-            show();
+		{
+			InputManager::getSingleton().registerCeGuiWindow(this);
+
+			float alpha = mWindow->getAlpha();
+			mWindow->setAlpha(0.0);
+			mWindow->show();
+			WindowManager::getSingleton()._fadeIn(this, 0.25, alpha);
+			mVisible = true;
+		}
         else
-            hide();
+		{
+			InputManager::getSingleton().unregisterCeGuiWindow(this);
+
+			WindowManager::getSingleton()._fadeOut(this, 0.25, destroy);
+			mVisible = false;
+		}
     }
 }
 
@@ -120,48 +133,9 @@ bool CeGuiWindow::isClosingOnEscape()
 	return mCloseOnEscape;
 }
 
-void CeGuiWindow::show()
-{
-	if (!mVisible)
-	{
-		if (!beforeShow())
-			return;
-
-		InputManager::getSingleton().registerCeGuiWindow(this);
-
-		mWindow->show();
-        mVisible = true;
-    }
-}
-
-void CeGuiWindow::hide()
-{
-	if (mVisible)
-	{
-		if (!beforeHide())
-			return;
-	
-		mWindow->hide();
-		
-		InputManager::getSingleton().unregisterCeGuiWindow(this);
-
-		mVisible = false;
-	}
-}
-
 CeGuiWindow::WindowType CeGuiWindow::getWindowType()
 {
 	return mWindowType;
-}
-
-bool CeGuiWindow::beforeHide()
-{
-	return true;
-}
-
-bool CeGuiWindow::beforeShow()
-{
-	return true;
 }
 
 CEGUI::Window* CeGuiWindow::getRoot()
@@ -274,8 +248,7 @@ void CeGuiWindow::bindCloseToCloseButton()
 
 bool CeGuiWindow::destroyWindow()
 {
-	setVisible(false);
-	CEGUI::WindowManager::getSingleton().destroyWindow(mWindow);
+	setVisible(false, true);
 	return true;
 }
 

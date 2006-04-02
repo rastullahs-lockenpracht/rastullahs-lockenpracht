@@ -128,10 +128,10 @@ namespace rl {
 		return true;
 	}
 
-	void MainMenuWindow::setVisible(bool visible)
+	void MainMenuWindow::setVisible(bool visible, bool destroyAfterHide)
 	{
-		CeGuiWindow::setVisible(visible);
-		mEngineWindow->setVisible(visible);
+		CeGuiWindow::setVisible(visible, destroyAfterHide);
+		mEngineWindow->setVisible(visible, destroyAfterHide);
 	}
 	
 	bool MainMenuWindow::handleSoundOptions()

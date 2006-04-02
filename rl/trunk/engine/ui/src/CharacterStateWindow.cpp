@@ -100,10 +100,11 @@ void CharacterStateWindow::objectStateChanged(ObjectStateChangeEvent* evt)
 	update();
 }
 
-void CharacterStateWindow::setVisible(bool visible)
+void CharacterStateWindow::setVisible(bool visible, bool destroyAfterHide)
 {
-	CeGuiWindow::setVisible(visible);
-	if (visible) {
+	CeGuiWindow::setVisible(visible, destroyAfterHide);
+	if (visible) 
+	{
 		update();
 	}
 }

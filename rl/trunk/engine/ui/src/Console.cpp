@@ -53,10 +53,14 @@ namespace rl
         setVisible(false);
 	}
 
-	bool Console::beforeShow()
+	void Console::setVisible(bool visible, bool destroy)
 	{
-		mCommandLine->activate();
-		return true;
+		if (visible)
+		{
+			mCommandLine->activate();
+		}
+		
+		CeGuiWindow::setVisible(visible, destroy);
 	}
 
 	bool Console::handleKeyDown(const CEGUI::EventArgs& e)

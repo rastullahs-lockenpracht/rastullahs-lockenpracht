@@ -65,10 +65,10 @@ namespace rl
 	{		
     }
 
-	void TargetSelectionWindow::setVisible(bool visible)
+	void TargetSelectionWindow::setVisible(bool visible, bool destroyAfterHide)
 	{
-		mWindow->setMutedState(!visible);
-		CeGuiWindow::setVisible(visible);
+		CeGuiWindow::setVisible(visible, destroyAfterHide);
+		mWindow->setMutedState(!visible);		
 	}
 
 	GameObject* TargetSelectionWindow::getTargetedObject(float x, float y)

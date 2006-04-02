@@ -52,14 +52,14 @@ namespace rl
 		return true;
 	}
 	
-	void LogWindow::setVisible(bool visible)
+	void LogWindow::setVisible(bool visible, bool destroyAfterHide)
 	{
+		CeGuiWindow::setVisible(visible, destroyAfterHide);
+
 		if (visible)
 		{
 			update();
 		}
-		
-		CeGuiWindow::setVisible(visible);
 	}
 	
 	

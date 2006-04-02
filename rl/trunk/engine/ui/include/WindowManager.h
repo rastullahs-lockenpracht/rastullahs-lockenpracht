@@ -60,6 +60,7 @@ namespace rl {
 
 		void registerWindow(CeGuiWindow* window);
 		bool destroyWindow(CeGuiWindow* window);
+		void _doDestroyWindow(CeGuiWindow* window);
 		void closeTopWindow();
 		bool handleMovedToFront(CeGuiWindow* window);
 		bool handleMovedToBack(CeGuiWindow* window);
@@ -102,6 +103,10 @@ namespace rl {
         /** Requests the application's exit */
         void requestExit();
 
+		void _fadeIn(CeGuiWindow* window, Ogre::Real time, float targetAlpha = 1.0);
+		void _fadeOut(CeGuiWindow* window, Ogre::Real time, bool destroy);
+		void _moveOutLeft(CeGuiWindow* window, Ogre::Real time, bool destroy);
+
 	private:
 		std::list<CeGuiWindow*> mWindowList;
 
@@ -118,16 +123,25 @@ namespace rl {
 
 	class WindowUpdateTask {
 	public:
-		WindowUpdateTask(CeGuiWindow* window, Ogre::Real time, 
+		enum WindowUpdateAction
+		{
+			WND_SHOW = 1,
+			WND_HIDE,
+			WND_DESTROY
+		};
+		
+		WindowUpdateTask(CeGuiWindow* window, Ogre::Real time, WindowUpdateAction action,
 			int targetX, int targetY, Ogre::Real targetAlpha = -1);
-		WindowUpdateTask(CeGuiWindow* window, Ogre::Real time, 
+		WindowUpdateTask(CeGuiWindow* window, Ogre::Real time, WindowUpdateAction action, 
 			Ogre::Real targetAlpha);
 
 		void run(Ogre::Real elapsedTime);
-		const CEGUI::Point& getCurrentPosition();
-		const Ogre::Real& getCurrentAlpha();
-		const Ogre::Real& getTimeLeft();
+		const CEGUI::Point& getCurrentPosition() const;
+		const Ogre::Real& getCurrentAlpha() const;
+		const Ogre::Real& getNormalAlpha() const;
+		const Ogre::Real& getTimeLeft() const;
 		CeGuiWindow* getWindow();
+		WindowUpdateAction getAction() const;
 
 	private:
 		void initialize();
@@ -140,19 +154,24 @@ namespace rl {
 		Ogre::Real mTargetAlpha;
 		Ogre::Real mRateAlpha;
 		Ogre::Real mCurrentAlpha;
+		Ogre::Real mNormalAlpha;
 		bool mCalculatePoint;
 		bool mCalculateAlpha;
+		WindowUpdateAction mAction;
 	};
 
 	class WindowUpdater : public GameTask
 	{
 	public:
 		void run( Ogre::Real elapsedTime );
-		void fadeOut(CeGuiWindow* window, Ogre::Real time);
-		void moveOutLeft(CeGuiWindow* window, Ogre::Real time);
+		void fadeIn(CeGuiWindow* window, Ogre::Real time, float targetAlpha = 1.0);
+		void fadeOut(CeGuiWindow* window, Ogre::Real time, bool destroy);
+		void moveOutLeft(CeGuiWindow* window, Ogre::Real time, bool destroy);
 	private:
 		std::vector<WindowUpdateTask*> mTasks;
 	};
+
+
 }
 
 #endif

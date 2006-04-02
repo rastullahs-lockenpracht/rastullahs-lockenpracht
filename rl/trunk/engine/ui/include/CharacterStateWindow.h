@@ -35,7 +35,7 @@ namespace rl {
 
 		void setCharacter(Creature* character);
 		void update();
-		void setVisible(bool visible);
+		void setVisible(bool visible, bool destroyAfterHide = false);
 
 		void objectStateChanged(ObjectStateChangeEvent* evt);
 

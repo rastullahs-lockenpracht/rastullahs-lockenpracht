@@ -40,8 +40,7 @@ namespace rl {
 			void setRubyInterpreter(RubyInterpreter* interpreter);
 			void write(const CeGuiString& output);
 				
-		protected:
-			bool beforeShow();
+			void setVisible(bool visible, bool destroyAfterHide = false);
 
 		private:
 			CEGUI::Editbox* mCommandLine;
