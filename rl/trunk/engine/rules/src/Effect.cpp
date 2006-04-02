@@ -20,8 +20,9 @@
 
 namespace rl
 {
-	Effect::Effect()
+	Effect::Effect( int stufe)
 	{
+		mStufe = stufe;
 		mStartTime = CoreSubsystem::getSingleton().getClock();
 		mQuantifier = 0;
 	}
@@ -110,12 +111,28 @@ namespace rl
 		return false;
 	}
 
+	const int Effect::getStufe()
+	{
+		return mStufe;
+	}
+
+	void Effect::increaseStufe()
+	{
+		apply();
+	}
+
+	void Effect::decreaseStufe()
+	{
+		remove();
+	}
+
 	void Effect::enable()
 	{
 		if (!mEnabled)
 		{
 			mEnabled = true;
-			apply();
+			for (int i = 0; i < mStufe; i++)
+				apply();
 		}
 	}
 
@@ -124,12 +141,13 @@ namespace rl
 		if (mEnabled)
 		{
 			mEnabled = false;
-			remove();
+			for (int i = 0; i < mStufe; i++)
+				remove();
 		}
 	}
 
 	RL_LONGLONG Effect::getTimePassed()
-	{
-		return 0;
+	{		
+		return (CoreSubsystem::getSingleton().getClock() - mStartTime);
 	}
 }

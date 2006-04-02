@@ -39,6 +39,8 @@ namespace rl
 {
 	class Effect;
 
+	/// WICHTIG: Bei WERT_MOD_* gibt getValue() Unsinn zurück, da der Multiplikator dann auf 0 + modifier multipliziert wird.
+	/// Stattdessen einzeln auf die Modifikatoren zugreifen!
 	static const int WERT_MOD_AE = 1; // Astralenergie
 	static const int WERT_MOD_LE = 2; // Lebensenergie
 	static const int WERT_MOD_AT = 3; // Attacke
@@ -47,6 +49,11 @@ namespace rl
 	static const int WERT_MOD_AU = 6; // Ausdauer
 	static const int WERT_MOD_MR = 7; // Magieresistenz
 	static const int WERT_MOD_INI = 8; // Initiative
+	static const int WERT_MOD_REGENERATION_LE = 12; // Naechtliche Regeneration. modifier modifiziert den W6, ProbenModifier modifiziert die KO-Probe.
+	static const int WERT_MOD_REGENERATION_AE = 13; // Astrale Regeneration. modifier modifiziert den W6, ProbenModifier modifiziert die IN-Probe.
+	static const int WERT_MOD_ESCHOEPFUNGSSCHWELLE = 14; // Die Modifkitoren von KO bezueglich der Erschoepfungsschwelle.
+	static const int WERT_MOD_ALL_EIGENSCHAFTSPROBEN = 15; // Modifiziert alle Proben, die mit 1W20 gewuerfelt werden.
+	static const int WERT_MOD_ALL_TALENTPROBEN = 16; // Modifiziert alle Proben, die mit 3W20 gewuerfelt werden.
 	static const int WERT_GS = 10; // Geschwindigkeit
 	static const int WERT_SOZIALSTATUS = 9; // Sozialstatus
 	static const int WERT_BE = 11; // Behinderung
@@ -87,11 +94,15 @@ namespace rl
     {
 
     protected:
-        virtual int getEigenschaftForBasiswertCalculation(const CeGuiString& eigenschaftName) const;
-		virtual int getMrBasis() const;
-        virtual int getLeBasis() const;
-		virtual int getAuBasis() const;
-		virtual int getAeBasis() const;
+        virtual int getEigenschaftForBasiswertCalculation(const CeGuiString& eigenschaftName);
+		virtual int getMrBasis();
+        virtual int getLeBasis();
+		virtual int getAuBasis();
+		virtual int getAeBasis();
+		/**
+		 * @brief Ueberprueft die wirkenden Effekte auf Lebendigkeit
+		 **/
+		void checkEffects();
 
     public:
 ///////////////////////////////////////////////////////////////////////////////
@@ -164,10 +175,10 @@ namespace rl
         virtual int getAu();
         virtual int getAuMax();
 
-		virtual int getAttackeBasis() const;
-	    virtual int getParadeBasis() const;
-		virtual int getFernkampfBasis() const;
-		virtual int getInitiativeBasis() const;
+		virtual int getAttackeBasis();
+	    virtual int getParadeBasis();
+		virtual int getFernkampfBasis();
+		virtual int getInitiativeBasis();
 
 		/**
 		 *  @brief Liefert die derzeitge BE der Kreatur zurueck.
@@ -183,7 +194,9 @@ namespace rl
 		 *    gefunden werden.
 		 **/
 
-		virtual int getWert(int wertId, bool getUnmodified = false) const;
+		virtual int getWert(int wertId, bool getUnmodified = false);
+		virtual StateSet* getWertStateSet(int wertId);
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // Eigenschaften
@@ -198,7 +211,7 @@ namespace rl
 		 *  gefunden werden (Name ausgeschrieben statt abgekuerzt? 
 		 *  Groß/Kleinschreibung beachtet?).
 		 **/
-        virtual int getEigenschaft(const CeGuiString& eigenschaftName) const;
+        virtual int getEigenschaft(const CeGuiString& eigenschaftName);
 		/**
 		 *  @brief Setzt den Wert der Eigenschaft eigenschaftName auf value.
 		 *  @param eigenschaftName Der Name al Abkuerzung (z.B. MU, FF, etc.).
@@ -217,6 +230,8 @@ namespace rl
 		 **/
         virtual void modifyEigenschaft(const CeGuiString& eigenschaftName, int mod);
 
+		virtual EigenschaftenStateSet* getEigenschaftenStateSet(const CeGuiString& eigenschaftName);
+
 ///////////////////////////////////////////////////////////////////////////////
 // Talente
 
@@ -234,7 +249,7 @@ namespace rl
 		 *  @exception InvalidArgumentException Das Talent konnte in mTalente
 		 *    nicht gefunden werden.
 		 */
-		virtual int getTalent(const CeGuiString& talentName) const;
+		virtual int getTalent(const CeGuiString& talentName);
 		/** @brief Setzt den Wert des Talents talentName.
 		 *  @param talentName Bezeichnet das zu veraendernde Talent.
 		 *  @param value Der neue TaW.
@@ -300,7 +315,7 @@ namespace rl
 		 *  @exception InvalidArgumentException sfName kann nicht in 
 		 *    mSonderfertigkeiten gefunden werden.
 		 */
-		virtual int getSf(const CeGuiString& sfName) const;
+		virtual int getSf(const CeGuiString& sfName);
 		/** @brief Setzt den Wert der SF.
 		 *  @sa SonderfertigkeitMap
 		 *  @param sfId Bezeichnet die Sonderfertigkeit deren Wert gesetzt
@@ -313,6 +328,8 @@ namespace rl
 		 *    mSonderfertigkeiten gefunden werden.
 		 */
 		virtual void setSf(const CeGuiString& sfName, int value);
+
+		virtual SonderfertigkeitenStateSet* getSonderfertigkeitenStateSet(const CeGuiString& sfName);
 
 ///////////////////////////////////////////////////////////////////////////////
 // Inventory

@@ -46,6 +46,11 @@ namespace rl
 		mOriginalValue = newValue;
 	}
 
+	void StateSet::modifyOriginalValue(int modifier)
+	{
+		mOriginalValue += modifier;
+	}
+
 	int StateSet::getModifier() const
 	{
 		return mModifier;
@@ -56,6 +61,11 @@ namespace rl
 		mModifier = newModifier;
 	}
 
+	void StateSet::modifyModifier(int modifier)
+	{
+		mModifier += modifier;
+	}
+	
 	int StateSet::getProbenModifier() const
 	{
 		return mProbenModifier;
@@ -66,6 +76,11 @@ namespace rl
 		mProbenModifier = newProbenModifier;
 	}
 
+	void StateSet::modifyProbenModifier(int modifier)
+	{
+		mProbenModifier += modifier;
+	}
+	
 	int StateSet::getMultiplier() const
 	{
 		return mMultiplier;

@@ -35,7 +35,7 @@ namespace rl
 		static const int EFFECT_UNIQUE_BUT_PROLONGABLE = 2;
 		static const int EFFECT_UNIQUE_BUT_CUMULATIVE = 3;
 
-		Effect();
+		Effect(int stufe = 1);
 		virtual ~Effect();
 
         const CeGuiString& getName() const;
@@ -54,6 +54,9 @@ namespace rl
 		virtual void addTag(int tagId);
 		virtual void removeTag(int tagId);
 		virtual bool queryTag(int tagId);
+		virtual const int getStufe();
+		virtual void increaseStufe();
+		virtual void decreaseStufe();
 		/// Macht den Effekt wirksam.
 		virtual void enable();
 		/// Macht den Effekt unwirksam.
@@ -73,6 +76,7 @@ namespace rl
 		CeGuiString mName;
 		CeGuiString mDescription;
 		/// Dauer desEffekts in Aktionen.
+		int mStufe;
 		RL_LONGLONG mDuration;
 		/// Zeitpunkt des Beginns des Effekts.
 		RL_LONGLONG mStartTime;

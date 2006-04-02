@@ -30,10 +30,13 @@ namespace rl
 		virtual int getValue(bool getUnmodfiedValue = false) const;
 		virtual int getOriginalValue() const;
 		virtual void setOriginalValue(int newValue);
+		virtual void modifyOriginalValue(int modifier);
 		virtual int getModifier() const;
 		virtual void setModifier(int newModifier);
+		virtual void modifyModifier(int modifier);
 		virtual int getProbenModifier() const;
 		virtual void setProbenModifier(int newProbenModifier);
+		virtual void modifyProbenModifier(int modifier);
 		virtual int getMultiplier() const;
 		virtual void setMultiplier(int newMultiplier);
 

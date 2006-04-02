@@ -55,7 +55,7 @@ namespace rl
     {
     }
 
-    int Creature::getAttackeBasis() const
+    int Creature::getAttackeBasis()
     {
         double es = getEigenschaftForBasiswertCalculation(E_MUT) +
             getEigenschaftForBasiswertCalculation(E_GEWANDTHEIT) +
@@ -64,7 +64,7 @@ namespace rl
         return static_cast<int>(es / 5.0 + 0.5);
     }
 
-    int Creature::getParadeBasis() const
+    int Creature::getParadeBasis()
     {
         double es = getEigenschaftForBasiswertCalculation(E_INTUITION) +
             getEigenschaftForBasiswertCalculation(E_GEWANDTHEIT) +
@@ -73,7 +73,7 @@ namespace rl
         return static_cast<int>(es / 5.0 + 0.5);
     }
 
-    int Creature::getFernkampfBasis() const
+    int Creature::getFernkampfBasis()
     {
         double es = getEigenschaftForBasiswertCalculation(E_INTUITION) +
             getEigenschaftForBasiswertCalculation(E_FINGERFERTIGKEIT) +
@@ -82,7 +82,7 @@ namespace rl
         return static_cast<int>(es / 5.0 + 0.5);
     }
 
-    int Creature::getInitiativeBasis() const
+    int Creature::getInitiativeBasis()
     {
         int es = 2 * getEigenschaftForBasiswertCalculation(E_MUT) +
             getEigenschaftForBasiswertCalculation(E_INTUITION) +
@@ -91,7 +91,7 @@ namespace rl
         return static_cast<int>(es / 5.0 + 0.5);
     }
 
-    int Creature::getMrBasis() const
+    int Creature::getMrBasis()
     {
         int es = getEigenschaftForBasiswertCalculation(E_MUT) +
             getEigenschaftForBasiswertCalculation(E_KLUGHEIT) +
@@ -100,7 +100,7 @@ namespace rl
         return static_cast<int>(es / 5.0 + 0.5);
     }
 
-    int Creature::getLeBasis() const
+    int Creature::getLeBasis()
     {
         int es =  2 * getEigenschaftForBasiswertCalculation(E_KONSTITUTION) +
             getEigenschaftForBasiswertCalculation(E_KOERPERKRAFT);
@@ -108,7 +108,7 @@ namespace rl
         return static_cast<int>(es / 2.0 + 0.5);
     }
 
-    int Creature::getAuBasis() const
+    int Creature::getAuBasis()
     {
         int es = getEigenschaftForBasiswertCalculation(E_MUT) +
             getEigenschaftForBasiswertCalculation(E_KONSTITUTION) +
@@ -117,7 +117,7 @@ namespace rl
         return static_cast<int>(es / 2.0 + 0.5);
     }
 
-	int Creature::getAeBasis() const
+	int Creature::getAeBasis()
 	{
         int es = getEigenschaftForBasiswertCalculation(E_MUT) +
 			getEigenschaftForBasiswertCalculation(E_INTUITION) +
@@ -126,8 +126,9 @@ namespace rl
         return static_cast<int>(es / 2.0 + 0.5);
     }
 
-	int Creature::getWert(int wertId, bool getUnmodified) const
+	int Creature::getWert(int wertId, bool getUnmodified)
 	{
+		checkEffects();
 		WertMap::const_iterator it = mWerte.find(wertId);
         if (it == mWerte.end())
         {
@@ -157,7 +158,18 @@ namespace rl
 		}
 	}
 
-    void Creature::modifyLe(int mod, bool ignoreMax)
+	StateSet* Creature::getWertStateSet(int wertId)
+	{
+		checkEffects();
+        WertMap::const_iterator it = mWerte.find(wertId);
+        if (it == mWerte.end())
+        {
+            Throw(InvalidArgumentException, "Wert nicht gefunden.");
+        }
+		return it->second;
+	}
+
+   void Creature::modifyLe(int mod, bool ignoreMax)
     {
         mCurrentLe += mod;
 		if (!ignoreMax)
@@ -216,8 +228,9 @@ namespace rl
 		return getAuBasis() + getWert(WERT_MOD_AU);
     }
 
-    int Creature::getEigenschaft(const CeGuiString& eigenschaftName) const
+    int Creature::getEigenschaft(const CeGuiString& eigenschaftName)
     {
+		checkEffects();
 		EigenschaftMap::const_iterator it = mEigenschaften.find(eigenschaftName);
 		if (it == mEigenschaften.end())
 		{
@@ -226,8 +239,9 @@ namespace rl
 		return it->second->getValue();
     }
 
-    int Creature::getEigenschaftForBasiswertCalculation(const CeGuiString& eigenschaftName) const
+    int Creature::getEigenschaftForBasiswertCalculation(const CeGuiString& eigenschaftName)
     {
+		checkEffects();
 		EigenschaftMap::const_iterator it = mEigenschaften.find(eigenschaftName);
 		if (it == mEigenschaften.end())
 		{
@@ -253,8 +267,20 @@ namespace rl
 		fireObjectStateChangeEvent();
     }
 
-    int Creature::getTalent(const CeGuiString& talentName) const
+	EigenschaftenStateSet* Creature::getEigenschaftenStateSet(const CeGuiString& eigenschaftName)
+	{
+		checkEffects();
+        EigenschaftMap::const_iterator it = mEigenschaften.find(eigenschaftName);
+        if (it == mEigenschaften.end())
+        {
+            Throw(InvalidArgumentException, "Eigenschaft nicht gefunden.");
+        }
+		return it->second;
+	}
+
+    int Creature::getTalent(const CeGuiString& talentName)
     {
+		checkEffects();
         TalentMap::const_iterator it = mTalente.find(talentName);
         if (it == mTalente.end())
         {
@@ -305,7 +331,6 @@ namespace rl
 
 	void Creature::addSe(const CeGuiString& talentName)
 	{
-		///@todo Mit Code fuellen
         TalentMap::iterator it = mTalente.find(talentName);
         if (it == mTalente.end())
         {
@@ -316,6 +341,7 @@ namespace rl
 
 	TalentStateSet* Creature::getTalentStateSet(const CeGuiString& talentName)
 	{
+		checkEffects();
         TalentMap::const_iterator it = mTalente.find(talentName);
         if (it == mTalente.end())
         {
@@ -359,8 +385,9 @@ namespace rl
 		fireObjectStateChangeEvent();
     }
 
-    int Creature::getSf(const CeGuiString& sfName) const
+    int Creature::getSf(const CeGuiString& sfName)
     {
+		checkEffects();
         SonderfertigkeitMap::const_iterator it = mSonderfertigkeiten.find(sfName);
         if (it == mSonderfertigkeiten.end())
         {
@@ -398,6 +425,17 @@ namespace rl
 		it->second->setOriginalValue( value );
 		fireObjectStateChangeEvent();
     }
+
+	SonderfertigkeitenStateSet* Creature::getSonderfertigkeitenStateSet(const CeGuiString& sfName)
+	{
+		checkEffects();
+        SonderfertigkeitMap::const_iterator it = mSonderfertigkeiten.find(sfName);
+        if (it == mSonderfertigkeiten.end())
+        {
+            Throw(InvalidArgumentException, "Sonderfertigkeit nicht gefunden.");
+        }
+		return it->second;
+	}
 
     int Creature::doAlternativeTalentprobe(const CeGuiString& talentName, int spezialisierungId,
 		int modifier, CeGuiString eigenschaft1Name, CeGuiString eigenschaft2Name, CeGuiString eigenschaft3Name)
@@ -452,7 +490,8 @@ namespace rl
 		}
 		catch(InvalidArgumentException){};
 		taW += getTalent(talentName);
-        int rval = taW - modifier - eBe;
+		int rval = taW - modifier - getTalentStateSet(talentName)->getProbenModifier()
+			- getWertStateSet(WERT_MOD_ALL_TALENTPROBEN)->getProbenModifier() - eBe;
 		// Bei negativen TaP*
 		int handicap = 0;
 		if (rval < 0)
@@ -514,7 +553,9 @@ namespace rl
         }
         else
         {
-            rval = getEigenschaft(eigenschaftName) - (probe + modifier);
+			rval = getEigenschaft(eigenschaftName) - 
+				(probe + modifier + getEigenschaftenStateSet(eigenschaftName)->getProbenModifier() 
+				+ getWertStateSet(WERT_MOD_ALL_EIGENSCHAFTSPROBEN)->getProbenModifier());
         }
         return rval;
     }
@@ -701,4 +742,10 @@ namespace rl
 		mEffectManager.addEffect(effect);
 	}
 
+	void Creature::checkEffects()
+	{
+		//TODO
+		// Nur einmal pro Aktion ausfuehren
+		mEffectManager.checkEffects();
+	}
 }

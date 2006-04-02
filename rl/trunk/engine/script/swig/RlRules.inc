@@ -449,6 +449,9 @@ namespace rl {
 		virtual void addTag(int tagId);
 		virtual void removeTag(int tagId);
 		virtual bool queryTag(int tagId);
+		virtual const int getStufe();
+		virtual void increaseStufe();
+		virtual void decreaseStufe();
 		virtual void enable();
 		virtual void disable();
 		virtual bool isAlive() = 0;
@@ -466,10 +469,12 @@ namespace rl {
         //Creature(const rl::CeGuiString& data);
         virtual ~Creature();
 
-        virtual int getEigenschaft(const rl::CeGuiString& eigenschaftName) const;
+		virtual StateSet* getWertStateSet(int wertId);
+        virtual int getEigenschaft(const rl::CeGuiString& eigenschaftName);
         virtual void setEigenschaft(const rl::CeGuiString& eigenschaftName, int value);
+		virtual EigenschaftenStateSet* getEigenschaftenStateSet(const rl::CeGuiString& eigenschaftName);
         void addTalent(const rl::CeGuiString& talentName, int value=0);
-        virtual int getTalent(const rl::CeGuiString& talentName) const;
+        virtual int getTalent(const rl::CeGuiString& talentName);
 		virtual TalentStateSet* getTalentStateSet(const rl::CeGuiString& talentName);
         virtual void setTalent(const rl::CeGuiString& talentName, int value);
         void addKampftechnik(const rl::CeGuiString& kampftechnikName, std::pair<int,int> value = make_pair(0,0));
@@ -481,6 +486,7 @@ namespace rl {
 		Weapon* removeWeapon(int waponId);
 		void switchToWeapon(int weaponId);
 		void addEffect(Effect* effect);
+		virtual SonderfertigkeitenStateSet* getSonderfertigkeitenStateSet(const rl::CeGuiString& sfName);
 
         virtual void modifyEigenschaft(const rl::CeGuiString& eigenschaftName, int mod);
         virtual void modifyTalent(const rl::CeGuiString& talentName, int mod);
