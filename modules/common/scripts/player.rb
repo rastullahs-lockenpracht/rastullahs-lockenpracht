@@ -6,7 +6,7 @@ class CampAction < Action
   end
 
   def doAction(object, actor, target)
-    $UI.showMessageWindow("Hier kannst du nicht schlafen")
+    $WM.showMessageWindow("Hier kannst du nicht schlafen")
   end
 end
 

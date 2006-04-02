@@ -70,7 +70,7 @@ class Chest < Container
     knarzActor = chestActor.getChildByName(chestActor.getName()+"_knarzen");
     knarzActor.getControlledObject().play();
     setOpen( true);
-    $UI.showContainerContent(self);
+    $WM.showContainerContent(self);
   end
 
   def close()
