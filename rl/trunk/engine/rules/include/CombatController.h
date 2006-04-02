@@ -41,13 +41,13 @@ namespace rl {
 
 		virtual void notifyActionStart() = 0;
 
-	protected:
-		Combat* mCombat;
 		void setCurrentCreature(Creature* creature);
+		Combat* getCombat();
 
 	private:
 		int mGroup;
 		Creature* mCurrentCreature;
+		Combat* mCombat;
 	};
 
 }

@@ -538,6 +538,7 @@ namespace rl {
         static rl::ActionManager& getSingleton();
 	};
 	
+	class TimerEvent;
 	%feature("director") TimerListener;
 	class TimerListener
 	{
@@ -589,8 +590,8 @@ namespace rl {
 		
 		virtual void notifyActionStart() = 0;
 
-	protected:
 		void setCurrentCreature(Creature* creature);
+		Combat* getCombat();
 	};
 	
 	class Combat
@@ -610,6 +611,7 @@ namespace rl {
 		void start();
 		
 		void addController(CombatController* controller);
+		void tick();
 	};	
 	
     class RulesSubsystem 

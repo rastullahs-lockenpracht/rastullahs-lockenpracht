@@ -30,11 +30,11 @@ namespace rl {
 		: CeGuiWindow("combatwindow.xml", WND_MOUSE_INPUT, false, false),
 		CombatController(combat, group)
 	{
-		mCombat->addController(this);
+		combat->addController(this);
 		mActionOptions = getListbox("CombatWindow/ActionOptions");
 		mAttackTargets = getListbox("CombatWindow/AttackTargets");
 		mPareeTargets = getListbox("CombatWindow/PareeTargets");
-		mOwnGroup = mCombat->getGroupMembers(getGroup());
+		mOwnGroup = combat->getGroupMembers(getGroup());
 
 		getWindow("CombatWindow/Confirm")->subscribeEvent(
 			Window::EventMouseClick,
@@ -76,7 +76,7 @@ namespace rl {
 		colour paColor = PropertyHelper::stringToColour(mPareeTargets->getProperty("DefaultSelectionColour"));
 
 		/// FIXME
-		std::vector<Creature*> opponents = mCombat->getGroupMembers(2);
+		std::vector<Creature*> opponents = getCombat()->getGroupMembers(2);
 		int idx = 1;
 		for (std::vector<Creature*>::iterator it = opponents.begin(); 
 			it != opponents.end(); it++)
@@ -115,7 +115,7 @@ namespace rl {
 		{
 			setPareeTarget(NULL);
 		}
-		mCombat->tick();
+		getCombat()->tick();
 		return true;
 	}
 

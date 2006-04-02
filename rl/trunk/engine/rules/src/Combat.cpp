@@ -19,8 +19,10 @@
 #include "MeshObject.h"
 
 #include "CombatController.h"
+#include "CombatLogger.h"
 #include "Creature.h"
 #include "Exception.h"
+#include "Logger.h"
 #include "MeshAnimation.h"
 
 using namespace std;
@@ -34,6 +36,11 @@ namespace rl {
 
 	Combat::~Combat()
 	{
+	}
+
+	void Combat::setLogger(CombatLogger* logger)
+	{
+		mLogger = logger;
 	}
 
 	void Combat::add(Creature* creature, int group)
@@ -104,6 +111,17 @@ namespace rl {
 	void Combat::tick()
 	{
 		CreatureData* next = getNextActor();
+
+		Logger::getSingleton().log(
+			Logger::RULES,
+			Ogre::LML_NORMAL,
+			"Aktion von "+next->creature->getName());
+
+		Logger::getSingleton().log(
+			Logger::RULES,
+			Ogre::LML_NORMAL,
+			"Nächste Aktion: "+Ogre::StringConverter::toString(next->nextAction),
+			"Combat");
 		
 		if (next->nextAction == Combat::ACTION_ATTACK)
 		{
@@ -133,13 +151,16 @@ namespace rl {
 				BaseAnimation* attackAnim = actorObj->startAnimation("Attack1", 1.0, 1);
 				BaseAnimation* paradeAnim = targetObj->startAnimation("Parade", 1.0, 1);
 				paradeAnim->setDelay(0.5);
+				mLogger->logParee(next->creature, targetData->creature);
 			}
 			else
 			{
 				actorObj->startAnimation("Attack1", 1.0, 1);
 				BaseAnimation* paradeAnim = targetObj->startAnimation("Treffer", 1.0, 1);
 				paradeAnim->setDelay(0.5);
-				//targetData->creature->;
+				int tp = 3; //FIXME: Schaden erwürfeln
+				targetData->creature->applyDamage(tp, next->creature->getActiveWeapon());
+				mLogger->logHit(next->creature, targetData->creature, tp);
 			}			
 		}
 

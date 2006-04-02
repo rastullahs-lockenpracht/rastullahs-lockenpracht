@@ -26,6 +26,7 @@ namespace rl {
 
 	class Creature;
 	class CombatController;
+	class CombatLogger;
 
 	/**
 	 * Verwaltungsklasse fuer einen Kampf
@@ -62,7 +63,6 @@ namespace rl {
 		 */
 		int getGroupOf(Creature* creature);
 
-
 		void addController(CombatController* controller);
 
 		void start();
@@ -72,7 +72,12 @@ namespace rl {
 		void setAttackTarget(CombatController* controller, Creature* actor, Creature* target);
 		void setPareeTarget(CombatController* controller, Creature* actor, Creature* target);
 
+		void setLogger(CombatLogger* logger);
+
 	private:
+		static const int NO_INI = -99999;
+		static const int INI_START = 99999;
+
 		class CreatureData
 		{
 		public:
@@ -93,11 +98,10 @@ namespace rl {
 		void notifyNextActor();
 		CombatController* getController(int group);
 
+
+		CombatLogger* mLogger;
 		CreatureDataMap mCreatureData;
 		std::vector<CombatController*> mControllers;
-
-		static const int NO_INI = -99999;
-		static const int INI_START = 99999;
 		int mInitiative;
 	};
 }

@@ -15,6 +15,7 @@
  */
 #include "UiPrerequisites.h"
 
+#include "Creature.h"
 #include "GameLoggerWindow.h"
 #include "ListboxWrappedTextItem.h"
 
@@ -59,6 +60,20 @@ void GameLoggerWindow::logMiscEvent(const CeGuiString& text)
 	logEvent(text, COLOR_MISC);
 }
 
+void GameLoggerWindow::logHit(rl::Creature *attacker, rl::Creature *defender, int sp)
+{
+	logFightEvent(
+		attacker->getName()
+		+ " trifft " + defender->getName() + " für "
+		+ Ogre::StringConverter::toString(sp) + " TP");
+}
+
+void GameLoggerWindow::logParee(rl::Creature *attacker, rl::Creature *defender)
+{
+	logFightEvent(
+		defender->getName() + " pariert "
+		+ attacker->getName() + "'s Angriff.");
+}
 
 
 

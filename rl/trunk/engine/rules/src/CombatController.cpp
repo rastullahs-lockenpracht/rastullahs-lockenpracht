@@ -32,6 +32,11 @@ namespace rl {
 		return mGroup;
 	}
 
+	Combat* CombatController::getCombat()
+	{
+		return mCombat;
+	}
+
 	void CombatController::setActionOption(Combat::ActionOption option)
 	{
 		mCombat->setActionOption(this, getCurrentCreature(), option);

@@ -16,19 +16,21 @@ class Kurzschwert < Weapon
 end
 
 class SchwesterSteuerung < CombatController
-  def initialize(combat, group, opponent)
+  def initialize(combat, group, own, opponent)
     super(combat, group);
     @mOpponent = opponent;
+    @mOwn = own;
   end
 
   def config()
-    setActionOption(Combat::ATTACK);
-    setAttackTarget(opponent);
-    setPareeTarget(opponent);
+    setCurrentCreature(@mOwn);
+    setActionOption(Combat::ACTION_ATTACK);
+    setAttackTarget(@mOpponent);
+    setPareeTarget(@mOpponent);
   end
 
   def notifyActionStart()
-    mCombat.tick();
+    getCombat().tick();
   end
 end
 
@@ -52,7 +54,9 @@ class CombatTrigger < GameAreaListener
     combat.add(schwester, 2)
     combat.add(held, 1)
     
-    combat.addController(SchwesterSteuerung.new(combat, 2, held))
+    steuerung = SchwesterSteuerung.new(combat, 2, schwester, held)
+    steuerung.config()
+    combat.addController(steuerung)
 
     $UI.startCombat(combat)
   end
