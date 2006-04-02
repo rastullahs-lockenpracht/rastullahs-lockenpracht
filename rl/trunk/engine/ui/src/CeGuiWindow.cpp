@@ -101,7 +101,9 @@ bool CeGuiWindow::isVisible()
 
 void CeGuiWindow::setVisible(bool visible, bool destroy)
 {
-    if(mVisible != visible)
+	static float FADE_TIME = 0.2f;
+
+    if(mVisible != visible && !mFading)
     {
         if (visible)
 		{
@@ -110,14 +112,14 @@ void CeGuiWindow::setVisible(bool visible, bool destroy)
 			float alpha = mWindow->getAlpha();
 			mWindow->setAlpha(0.0);
 			mWindow->show();
-			WindowManager::getSingleton()._fadeIn(this, 0.25, alpha);
+			WindowManager::getSingleton()._fadeIn(this, FADE_TIME, alpha);
 			mVisible = true;
 		}
         else
 		{
 			InputManager::getSingleton().unregisterCeGuiWindow(this);
 
-			WindowManager::getSingleton()._fadeOut(this, 0.25, destroy);
+			WindowManager::getSingleton()._fadeOut(this, FADE_TIME, destroy);
 			mVisible = false;
 		}
     }
@@ -131,6 +133,16 @@ bool CeGuiWindow::isModal()
 bool CeGuiWindow::isClosingOnEscape()
 {
 	return mCloseOnEscape;
+}
+
+bool CeGuiWindow::isFading()
+{
+	return mFading;
+}
+
+void CeGuiWindow::setFading(bool fading)
+{
+	mFading = fading;
 }
 
 CeGuiWindow::WindowType CeGuiWindow::getWindowType()

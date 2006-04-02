@@ -361,7 +361,9 @@ namespace rl {
 
 	void WindowManager::showCombatWindow(Combat* combat, Creature* activeCreature)
 	{
-		(new CombatWindow(combat, combat->getGroupOf(activeCreature)))->setVisible(true);
+		CombatWindow* wnd = new CombatWindow(combat, combat->getGroupOf(activeCreature));
+		combat->setLogger(mGameLogger);
+		wnd->setVisible(true);
 	}
 
 
@@ -444,6 +446,7 @@ namespace rl {
 			{
 				mCurrentAlpha = mTargetAlpha;
 			}
+			mWindow->setFading(false);
 		}
 	}
 
@@ -530,6 +533,7 @@ namespace rl {
 				time, 
 				WindowUpdateTask::WND_SHOW, 
 				targetAlpha));
+		window->setFading(true);
 	}
 
 	void WindowUpdater::fadeOut(CeGuiWindow* window, Ogre::Real time, bool destroy)
@@ -543,6 +547,7 @@ namespace rl {
 				time, 
 				destroy ? WindowUpdateTask::WND_DESTROY : WindowUpdateTask::WND_HIDE, 
 				0.0));
+		window->setFading(true);
 	}
 
 	void WindowUpdater::moveOutLeft(CeGuiWindow* window, Ogre::Real time, bool destroy)
@@ -558,6 +563,7 @@ namespace rl {
 				destroy ? WindowUpdateTask::WND_DESTROY : WindowUpdateTask::WND_HIDE, 
 				-wnd->getAbsoluteWidth(), 
 				wnd->getAbsoluteYPosition()));
+		window->setFading(true);
 	}
 
 	void WindowManager::showDialog(DialogCharacter* bot)

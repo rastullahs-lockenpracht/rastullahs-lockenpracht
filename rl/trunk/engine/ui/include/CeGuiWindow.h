@@ -62,6 +62,8 @@ namespace rl {
 
 		bool isModal();
 		bool isClosingOnEscape();
+		bool isFading();
+		void setFading(bool fading);
 
 		const CeGuiString& getName() const;
 
@@ -95,6 +97,7 @@ namespace rl {
 		CeGuiString mName;
 		bool mModal;
 		bool mCloseOnEscape;
+		bool mFading;
 
 		static int sNumCeGuiWindows;
 
