@@ -34,26 +34,6 @@ SoundResource::SoundResource(ResourceManager* creator, const String& name, Resou
 
 /**
  * @author JoSch
- * @date 08-24-2005
- */
-SoundResource::SoundResource(const SoundResource &res)
-    : Resource(res),
-      mDataStream(res.getDataStream())
-{
-}
-
-/**
- * @author JoSch
- * @date 08-24-2005
- */
-SoundResource::SoundResource(const Resource &res)
-    : Resource(res),
-      mDataStream(0)
-{
-}
-
-/**
- * @author JoSch
  * @date 07-24-2004
  */
 SoundResource::~SoundResource()

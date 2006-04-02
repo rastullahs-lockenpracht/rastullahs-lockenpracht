@@ -18,7 +18,7 @@
 #define SOUNDRESOURCE_H
 
 #include "MultimediaPrerequisites.h"
-#include <Ogre.h>
+#include <OgreResource.h>
 #include <OgreDataStream.h>
 
 namespace rl {
@@ -44,10 +44,6 @@ class _RlMultimediaExport SoundResource: public Ogre::Resource
         SoundResource(Ogre::ResourceManager* creator, const Ogre::String& name, 
             Ogre::ResourceHandle handle, const Ogre::String& group, bool isManual, 
             Ogre::ManualResourceLoader* loader);
-        /// Copy-Konstruktor
-        SoundResource(const SoundResource &res);
-        /// Konverterkonstruktor
-        SoundResource(const Resource &res);
         /// Der Destruktor
         virtual ~SoundResource();
         /// Den Datenstrom zurückgeben
