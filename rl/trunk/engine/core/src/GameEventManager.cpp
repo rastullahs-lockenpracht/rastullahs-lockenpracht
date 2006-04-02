@@ -140,8 +140,10 @@ namespace rl {
         }
 
 		Logger::getSingleton().log(
-			Logger::CORE, Ogre::LML_NORMAL, 
-			"    GEM end "+ Ogre::StringConverter::toString(
-			Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));
-    }
+			Logger::CORE, 
+			Ogre::LML_TRIVIAL, 
+			"    GEM time "
+			 + Ogre::StringConverter::toString(
+					Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));
+			}
 }

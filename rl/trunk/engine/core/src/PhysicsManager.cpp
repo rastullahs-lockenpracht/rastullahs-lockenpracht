@@ -102,8 +102,8 @@ namespace rl
     
 		Logger::getSingleton().log(
 			Logger::CORE, 
-			Ogre::LML_NORMAL, 
-			"    PM end "
+			Ogre::LML_TRIVIAL, 
+			"    PM time "
 			 + Ogre::StringConverter::toString(
 					Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));
     }

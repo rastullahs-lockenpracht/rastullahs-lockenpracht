@@ -22,7 +22,7 @@
 #include "TrackAnimation.h"
 #include "FadeAnimation.h"
 #include "ScriptWrapper.h"
-
+#include "CoreSubsystem.h"
 
 template<> rl::AnimationManager* Ogre::Singleton<rl::AnimationManager>::ms_Singleton = 0;
 
@@ -290,6 +290,7 @@ void AnimationManager::removeAnimation(TrackAnimation* anim)
 
 void AnimationManager::run(Ogre::Real timePassed)
 {
+			RL_LONGLONG start = CoreSubsystem::getSingleton().getClock();
     // Zuerst faden (Weights modifizieren)
     for (FadeAnimSet::iterator it = mFadeAnimSet.begin(); 
 			it != mFadeAnimSet.end(); )
@@ -315,6 +316,13 @@ void AnimationManager::run(Ogre::Real timePassed)
 	{
 		it->second->addTime(timePassed*mGlobalAnimationSpeed);
 	}
+
+	Logger::getSingleton().log(
+	Logger::CORE, 
+	Ogre::LML_TRIVIAL, 
+	"    AM time "
+	 + Ogre::StringConverter::toString(
+			Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));
 }
 
 AnimationManager& AnimationManager::getSingleton(void)

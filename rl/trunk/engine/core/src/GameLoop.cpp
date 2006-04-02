@@ -46,7 +46,6 @@ using namespace Ogre;
 	{
 		AsynchronousGameLoop::sTimeTickInMillis = timePerAsyncTick;
 		mAsynchronousGameLoop = new AsynchronousGameLoop(timePerAsyncTick);	
-		//mAsynchronousGameLoop->setSchedulePriority(OpenThreads::Thread::PRIORITY_LOW);
 		
 		mSynchronizedFrameStartedGameLoop = new SynchronizedGameLoop(FRAME_STARTED);
 		mSynchronizedFrameEndedGameLoop = new SynchronizedGameLoop(FRAME_ENDED);
@@ -159,7 +158,9 @@ using namespace Ogre;
 	{
 		if (mSyncTime == FRAME_STARTED)
 		{
+			Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, "Sync frame-start start "+Ogre::StringConverter::toString(Ogre::Real((double)CoreSubsystem::getSingleton().getClock())));
 			loop(evt.timeSinceLastFrame);
+			Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, "Sync frame-start end "+Ogre::StringConverter::toString(Ogre::Real((double)CoreSubsystem::getSingleton().getClock())));
 		}
 
 		return true;
@@ -169,7 +170,9 @@ using namespace Ogre;
 	{
 		if (mSyncTime == FRAME_ENDED)
 		{
+			Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, "Sync frame-end start "+Ogre::StringConverter::toString(Ogre::Real((double)CoreSubsystem::getSingleton().getClock())));
 			loop(evt.timeSinceLastFrame);
+			Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, "Sync frame-end end "+Ogre::StringConverter::toString(Ogre::Real((double)CoreSubsystem::getSingleton().getClock())));
 		}
 
 		return mRunning;
