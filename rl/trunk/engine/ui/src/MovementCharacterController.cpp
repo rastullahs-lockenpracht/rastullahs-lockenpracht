@@ -264,8 +264,8 @@ namespace rl {
 			setContactElasticity(0.2f); // was 0.3f
 			setContactSoftness(0.01f);
 
-			setContactFrictionState(1.0, 0);
-			setContactFrictionState(1.0, 1);
+			setContactFrictionState(1, 0);
+			setContactFrictionState(1, 1);
 		}
 
 		// return one to tell Newton we want to accept this contact
