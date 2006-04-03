@@ -13,6 +13,7 @@ material nat_baum_03/stamm
 			texture_unit
 			{
 				texture nat_baum_03.png
+				filtering point point point
 			}
 		}
 	}
@@ -29,11 +30,13 @@ material nat_baum_03/blaetter
 			specular 0.9 0.9 0.9 1 0
 			//scene_blend alpha_blend
 			//depth_write off
+			alpha_rejection greater 190
 			
-alpha_rejection greater 190
 			texture_unit
 			{
 				texture nat_baum_03.png
+				filtering point point point
+
 			}
 		}
 	}

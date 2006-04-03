@@ -13,6 +13,7 @@ material nat_baum_01/stamm
 			texture_unit
 			{
 				texture nat_baum_01.png
+				filtering point point point
 			}
 		}
 	}
@@ -28,10 +29,13 @@ material nat_baum_01/blaetter
 			diffuse 0.588235 0.588235 0.588235 1
 			specular 0.1 0.1 0.1 1 0
 			//depth_write off
-				alpha_rejection greater 190
+			alpha_rejection greater 190
+			
 			texture_unit
 			{
 				texture nat_baum_01.png
+				filtering point point point
+
 			}
 		}
 	}
