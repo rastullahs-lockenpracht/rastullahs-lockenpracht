@@ -13,7 +13,7 @@ material SOLID/TEX/alphamap.jpg
 			texture_unit
 			{
 			 	
-				texture boden_01.jpg
+				texture boden_03.jpg
 				// Skalieren, je nach Textur und Terraingröße anpassen
 				scale 0.02 0.02
 			}
@@ -78,7 +78,7 @@ material SOLID/TEX/alphamap.jpg
 			texture_unit
 			{
 			    
-				texture erdboden02.jpg
+				texture boden_02.jpg
 				scale 0.05 0.05
 				// Wir blenden anhand des AlphaKanals die Textur dazu
 				colour_op_ex blend_diffuse_alpha src_texture src_current
