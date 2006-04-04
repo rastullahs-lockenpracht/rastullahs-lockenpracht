@@ -156,7 +156,7 @@ namespace rl {
 		}		
 		Logger::getSingleton().log(
 			Logger::CORE, 
-			Ogre::LML_NORMAL, 
+			Ogre::LML_TRIVIAL, 
 			"    IM end "
 			 + Ogre::StringConverter::toString(
 					Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));

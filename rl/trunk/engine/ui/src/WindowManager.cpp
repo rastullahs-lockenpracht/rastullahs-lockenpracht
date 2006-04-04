@@ -113,8 +113,8 @@ namespace rl {
 	void WindowManager::_doDestroyWindow(CeGuiWindow* window)
 	{
 		mWindowList.remove(window);
+		window->getWindow()->hide();
 		CeGuiWindow::getRoot()->removeChildWindow(window->getWindow());
-		window->setVisible(false);
 		CEGUI::WindowManager::getSingleton().destroyWindow(window->getWindow());
 		delete window;		
 	}
@@ -126,12 +126,11 @@ namespace rl {
 			CeGuiWindow* cur = *it;
 			if (cur->isVisible() && cur->isClosingOnEscape())
 			{
+				cur->setVisible(false);
 				break;
 			}
 		}
 	}
-
-
 
 	bool WindowManager::handleMovedToFront(CeGuiWindow* window)
 	{
@@ -487,7 +486,9 @@ namespace rl {
 		if (mTasks.empty())
 			return;
 
-		for (std::vector<WindowUpdateTask*>::iterator it = mTasks.begin(); it != mTasks.end();)
+		vector<CeGuiWindow*> deleteWindows;
+
+		for (std::set<WindowUpdateTask*>::iterator it = mTasks.begin(); it != mTasks.end();)
 		{
 			WindowUpdateTask* task = *it;
 			task->run(elapsedTime);
@@ -495,10 +496,11 @@ namespace rl {
 			task->getWindow()->getWindow()->setAlpha(task->getCurrentAlpha());
 			if (task->getTimeLeft() <= 0)
 			{
+				it = mTasks.erase(it);
 				switch (task->getAction())
 				{
 				case WindowUpdateTask::WND_DESTROY:
-					WindowManager::getSingleton().destroyWindow(task->getWindow());
+					WindowManager::getSingleton()._doDestroyWindow(task->getWindow());
 					break;
 				case WindowUpdateTask::WND_HIDE:
 					task->getWindow()->getWindow()->hide();
@@ -506,14 +508,13 @@ namespace rl {
 					break;
 				}
 				delete task;
-				*it = NULL;
-				it = mTasks.erase(it);
 			}
 			else
 			{
 				++it;
 			}
 		}
+
 		Logger::getSingleton().log(
 			Logger::CORE, 
 			Ogre::LML_TRIVIAL, 
@@ -527,7 +528,7 @@ namespace rl {
 		if (window == NULL)
 			Throw(InvalidArgumentException, "NULL argument");
 
-		mTasks.push_back(
+		mTasks.insert(
 			new WindowUpdateTask(
 				window, 
 				time, 
@@ -541,7 +542,7 @@ namespace rl {
 		if (window == NULL)
 			Throw(InvalidArgumentException, "NULL argument");
 
-		mTasks.push_back(
+		mTasks.insert(
 			new WindowUpdateTask(
 				window, 
 				time, 
@@ -556,7 +557,7 @@ namespace rl {
 			Throw(InvalidArgumentException, "NULL argument");
 
 		CEGUI::Window* wnd = window->getWindow();
-		mTasks.push_back(
+		mTasks.insert(
 			new WindowUpdateTask(
 				window, 
 				time,

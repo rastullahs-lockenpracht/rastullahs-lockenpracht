@@ -28,7 +28,6 @@
 #undef min
 
 #include <CEGUIVector.h>
-#include <vector>
 #include "GameTask.h"
 
 namespace rl {
@@ -168,7 +167,7 @@ namespace rl {
 		void fadeOut(CeGuiWindow* window, Ogre::Real time, bool destroy);
 		void moveOutLeft(CeGuiWindow* window, Ogre::Real time, bool destroy);
 	private:
-		std::vector<WindowUpdateTask*> mTasks;
+		std::set<WindowUpdateTask*> mTasks;
 	};
 
 
