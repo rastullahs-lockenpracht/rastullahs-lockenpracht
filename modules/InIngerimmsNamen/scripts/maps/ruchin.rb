@@ -44,11 +44,13 @@ $SCRIPT.log("Held vorbereitet.");
 $UI.setActiveCharacter(hero);
 $SCRIPT.log("Held als aktiver Charakter gesetzt.");
 hero.addKampftechnik("Schwerter", [5, 2]);
+$CORE.getSoundListener().setListenerOf($CORE.getSoundListener()._getSceneNode());
+$CORE.getSoundListener().getControlledObject().setActive();
 
 sound = $AM.createSoundSampleActor("Feuer", "feuer_knisternd_01.ogg")
 sound.getControlledObject().setLooping(true)
 sound.getControlledObject().set3d(true)
-sound.placeIntoScene([-15.0, -1.35, 10.200])
+sound.placeIntoScene([-2.9, -0.6, -3.3])
 sound.getControlledObject().play()
 
 load "kampf.rb"

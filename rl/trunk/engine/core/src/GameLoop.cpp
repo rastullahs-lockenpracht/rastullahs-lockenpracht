@@ -28,7 +28,7 @@ using Ogre::Real;
 
 template<> rl::GameLoopManager* Singleton<rl::GameLoopManager>::ms_Singleton = 0;
 template<> rl::AsynchronousGameLoop* Singleton<rl::AsynchronousGameLoop>::ms_Singleton = 0;
-unsigned long rl::AsynchronousGameLoop::sTimeTickInMillis = 999;
+unsigned long rl::AsynchronousGameLoop::sTimeTickInMillis = 75;
 
 namespace rl {
 

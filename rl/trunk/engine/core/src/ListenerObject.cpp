@@ -67,9 +67,11 @@ void ListenerObject::_update()
     Actor *actor = getActor();
     if (!listener || !actor) // Einer ist Null
     {
+		Logger::getSingleton().log("Core", LML_TRIVIAL, "Pos Listener: NULL!");
         return;
     }
     listener->setPosition(actor->getWorldPosition());
+	listener->setOrientation(actor->getWorldOrientation());
     Logger::getSingleton().log("Core", LML_TRIVIAL, "Pos Listener: "
         + StringConverter::toString(actor->getWorldPosition().x) + " "
         + StringConverter::toString(actor->getWorldPosition().y) + " "

@@ -71,9 +71,11 @@ void Fmod3Listener::setOrientation(const Quaternion &orientation)
     ListenerMovable::setOrientation(orientation);
     if (isActive())
     {
-/* TODO         FSOUND_3D_Listener_SetAttributes(0, 0,
+		Vector3 at = orientation * Vector3::NEGATIVE_UNIT_Z;
+		Vector3 up = orientation * Vector3::UNIT_Y;
+        FSOUND_3D_Listener_SetAttributes(0, 0,
             at[0], at[1], at[2],
-            up[0], up[1], up[2]); */
+            up[0], up[1], up[2]);
     }
 }
 
