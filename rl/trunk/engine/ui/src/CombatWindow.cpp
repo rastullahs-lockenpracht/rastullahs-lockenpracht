@@ -122,4 +122,9 @@ namespace rl {
 	void CombatWindow::notifyActionStart()
 	{
 	}
+
+	void CombatWindow::notifyCombatEnd()
+	{
+		destroyWindow();
+	}
 }

@@ -589,6 +589,7 @@ namespace rl {
 		Creature* getCurrentCreature();
 		
 		virtual void notifyActionStart() = 0;
+		virtual void notifyCombatEnd() = 0;
 
 		void setCurrentCreature(Creature* creature);
 		Combat* getCombat();

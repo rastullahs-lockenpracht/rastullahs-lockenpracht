@@ -97,6 +97,7 @@ namespace rl {
 		CreatureData* getNextActor();
 		void notifyNextActor();
 		CombatController* getController(int group);
+		bool isOver();
 
 
 		CombatLogger* mLogger;

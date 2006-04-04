@@ -110,62 +110,98 @@ namespace rl {
 
 	void Combat::tick()
 	{
-		CreatureData* next = getNextActor();
-
-		Logger::getSingleton().log(
-			Logger::RULES,
-			Ogre::LML_NORMAL,
-			"Aktion von "+next->creature->getName());
-
-		Logger::getSingleton().log(
-			Logger::RULES,
-			Ogre::LML_NORMAL,
-			"Nächste Aktion: "+Ogre::StringConverter::toString(next->nextAction),
-			"Combat");
-		
-		if (next->nextAction == Combat::ACTION_ATTACK)
+		if (isOver())
 		{
-			CreatureData* targetData = getData(next->nextAttackTarget);
-			
-			int at = next->creature->doAttacke(
-				next->creature->getActiveWeapon()->getKampftechnik(), 
-				0);
-
-			bool pareeActivated = 
-				(targetData->nextPareeTarget == NULL) 
-				|| (targetData->nextPareeTarget == next->creature);
-			int pa = 
-				targetData->creature->doParade(
-					targetData->creature->getActiveWeapon()->getKampftechnik(), 
-					0, 
-					at == RESULT_GLUECKLICH);
-
-			MeshObject* actorObj = 
-				dynamic_cast<MeshObject*>(
-					next->creature->getActor()->getControlledObject());
-			MeshObject* targetObj = 
-				dynamic_cast<MeshObject*>(
-					targetData->creature->getActor()->getControlledObject());
-			if (pareeActivated && pa > 0)
+			for (std::vector<CombatController*>::iterator 
+				it = mControllers.begin();
+				it != mControllers.end();
+				it++)
 			{
-				BaseAnimation* attackAnim = actorObj->startAnimation("Attack1", 1.0, 1);
-				BaseAnimation* paradeAnim = targetObj->startAnimation("Parade", 1.0, 1);
-				paradeAnim->setDelay(0.5);
-				mLogger->logParee(next->creature, targetData->creature);
+				(*it)->notifyCombatEnd();
 			}
-			else
+		}
+		else
+		{
+			CreatureData* next = getNextActor();
+
+			Logger::getSingleton().log(
+				Logger::RULES,
+				Ogre::LML_NORMAL,
+				"Aktion von "+next->creature->getName());
+
+			Logger::getSingleton().log(
+				Logger::RULES,
+				Ogre::LML_NORMAL,
+				"Nächste Aktion: "+Ogre::StringConverter::toString(next->nextAction),
+				"Combat");
+			
+			if (next->nextAction == Combat::ACTION_ATTACK)
 			{
-				actorObj->startAnimation("Attack1", 1.0, 1);
-				BaseAnimation* paradeAnim = targetObj->startAnimation("Treffer", 1.0, 1);
-				paradeAnim->setDelay(0.5);
-				int tp = 3; //FIXME: Schaden erwürfeln
-				targetData->creature->applyDamage(tp, next->creature->getActiveWeapon());
-				mLogger->logHit(next->creature, targetData->creature, tp);
-			}			
+				CreatureData* targetData = getData(next->nextAttackTarget);
+				
+				int at = next->creature->doAttacke(
+					next->creature->getActiveWeapon()->getKampftechnik(), 
+					0);
+
+				bool pareeActivated = 
+					(targetData->nextPareeTarget == NULL) 
+					|| (targetData->nextPareeTarget == next->creature);
+				int pa = 
+					targetData->creature->doParade(
+						targetData->creature->getActiveWeapon()->getKampftechnik(), 
+						0, 
+						at == RESULT_GLUECKLICH);
+
+				MeshObject* actorObj = 
+					dynamic_cast<MeshObject*>(
+						next->creature->getActor()->getControlledObject());
+				MeshObject* targetObj = 
+					dynamic_cast<MeshObject*>(
+						targetData->creature->getActor()->getControlledObject());
+				if (pareeActivated && pa > 0)
+				{
+					BaseAnimation* attackAnim = actorObj->startAnimation("Attack1", 1.0, 1);
+					BaseAnimation* paradeAnim = targetObj->startAnimation("Parade", 1.0, 1);
+					paradeAnim->setDelay(0.5);
+					mLogger->logParee(next->creature, targetData->creature);
+				}
+				else
+				{
+					actorObj->startAnimation("Attack1", 1.0, 1);
+					BaseAnimation* paradeAnim = targetObj->startAnimation("Treffer", 1.0, 1);
+					paradeAnim->setDelay(0.5);
+					int tp = 3; //FIXME: Schaden erwürfeln
+					targetData->creature->applyDamage(tp, next->creature->getActiveWeapon());
+					mLogger->logHit(next->creature, targetData->creature, tp);
+				}			
+			}
+
+			mInitiative = next->initiative;
+			notifyNextActor();
+		}
+	}
+
+	bool Combat::isOver()
+	{
+		//FIXME: Mehr Gruppen
+		for (int group = 1; group <= 2; group++)
+		{
+			bool over = true;
+			vector<Creature*> members = getGroupMembers(group);
+			for (vector<Creature*>::iterator it = members.begin(); it != members.end(); it++)
+			{
+				Creature* cur = *it;
+				if (cur->getLe() > 0)
+				{
+					over = false;
+				}
+			}
+
+			if (over) //FIXME: Geht nur fuer 2 Gruppen
+				return true;
 		}
 
-		mInitiative = next->initiative;
-		notifyNextActor();
+		return false;
 	}
 
 	void Combat::notifyNextActor()

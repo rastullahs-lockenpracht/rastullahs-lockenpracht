@@ -34,6 +34,7 @@ namespace rl {
 		void setVisible(bool visible, bool destroyAfterHide = false);
 
 		void notifyActionStart();
+		void notifyCombatEnd();
 
 	private:
 		bool handleExecute();

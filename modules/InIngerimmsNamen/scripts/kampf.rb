@@ -32,6 +32,9 @@ class SchwesterSteuerung < CombatController
   def notifyActionStart()
     getCombat().tick();
   end
+
+  def notifyCombatEnd()
+  end
 end
 
 class CombatTrigger < GameAreaListener
@@ -69,6 +72,20 @@ class Schwester < Person
 	actor = $AM.createMeshActor("Schwester", "men_alrike.mesh" )
 	setActor(actor)
 
+	setEigenschaft("MU", 10);
+        setEigenschaft("KL", 6);
+        setEigenschaft("IN", 7);
+        setEigenschaft("CH", 16);
+        setEigenschaft("FF", 9);
+        setEigenschaft("GE", 10);
+        setEigenschaft("KO", 11); 
+        setEigenschaft("KK", 12); 
+        setWert(2, 10); # LE-Mod
+	modifyLe(1000);
+	modifyAu(1000);
+
 	addKampftechnik("Schwerter", [3, 2]);
+
+
   end
 end

@@ -16,12 +16,13 @@
 
 
 #include "Creature.h"
-#include "Exception.h"
 #include "DsaManager.h"
-#include "Talent.h"
 #include "Eigenschaft.h"
+#include "Exception.h"
 #include "Kampftechnik.h"
+#include "MeshObject.h"
 #include "StateSet.h"
+#include "Talent.h"
 
 namespace rl
 {
@@ -174,6 +175,12 @@ namespace rl
         mCurrentLe += mod;
 		if (!ignoreMax)
 			mCurrentLe = min(mCurrentLe, getLeMax());
+		if (mCurrentLe <= 0)
+		{
+			MeshObject* mo = dynamic_cast<MeshObject*>(getActor()->getControlledObject());
+			mo->stopAllAnimations();
+			mo->startAnimation("Niederschlag/Sturz", 1.0f, 1);
+		}
 		fireObjectStateChangeEvent();
     }
 
