@@ -24,6 +24,7 @@ extern "C" {
 #include "OalSoundSample.h"
 #include "OalSoundStream.h"
 #include "OalSoundChannel.h"
+#include "OalListener.h"
 
 namespace rl
 {
@@ -175,7 +176,7 @@ Sound *OalDriver::createSample(const SoundResourcePtr &res)
  * Einen Sound-Channel erzeugen
  * @return Das erzeugte Sample
  * @param sound Der Sound, der kapselt wird.
- * @param name Der names des Channels.
+ * @param name Der Name des Channels.
  * @author JoSch
  * @date 03-06-2006
  */
@@ -183,6 +184,19 @@ SoundChannel *OalDriver::createChannel(Sound *sound, const Ogre::String &name)
 {
  	SoundChannel *channel = new OalSoundChannel(sound, name);
  	return channel;
+}
+
+/**
+ * Einen Soundlistener erzeugen
+ * @return Der erzeugte Listener
+ * @param name Der Name des Channels.
+ * @author JoSch
+ * @date 04-04-2006
+ */
+ListenerMovable *OalDriver::createListener(const Ogre::String &name)
+{
+    ListenerMovable *listener = new OalListener(name);
+    return listener;
 }
 
 /**

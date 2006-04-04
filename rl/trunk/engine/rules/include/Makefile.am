@@ -4,6 +4,7 @@ noinst_HEADERS = \
 	AtomarEffect.h \
 	Combat.h \
 	CombatController.h \
+	CombatLogger.h \
 	CompositeEffect.h \
 	Container.h \
 	Creature.h \

@@ -61,6 +61,8 @@ public:
     virtual Sound *createSample(const SoundResourcePtr &res);
     /// Einen SoundChannel erzeugen
     virtual SoundChannel *createChannel(Sound *channel, const Ogre::String &name);
+    /// Einen Soundlistener erzeugen
+    virtual ListenerMovable *createListener(const Ogre::String &name);
 
 protected:
     /// Informationen über den Treiber ausgeben

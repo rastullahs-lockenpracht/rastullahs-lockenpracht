@@ -243,5 +243,25 @@ SoundDriver* MultimediaSubsystem::getActiveDriver() const
     return mActiveDriver;
 }
 
+/**
+ * @param Der neue Treiber.
+ * @author JoSch
+ * @date 12-23-2005
+ */
+void MultimediaSubsystem::setActiveListener(ListenerMovable *listener)
+{
+    mActiveListener = listener;
+}
+
+/**
+ * @return Der aktive Listener.
+ * @author JoSch
+ * @date 04-04-2006
+ */
+ListenerMovable* MultimediaSubsystem::getActiveListener() const
+{
+    return mActiveListener;
+}
+
 
 }

@@ -8,5 +8,6 @@ libRlFmod3_la_SOURCES = \
 	Fmod3SoundChannel.cpp \
 	Fmod3Driver.cpp \
 	Fmod3SoundSample.cpp \
-	Fmod3SoundStream.cpp
+	Fmod3SoundStream.cpp \
+	Fmod3Listener.cpp
 endif

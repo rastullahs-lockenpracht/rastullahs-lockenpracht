@@ -51,8 +51,8 @@ public:
         Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Starte Test #4");
         Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Using Driver " + driver->getName());
 
-        ListenerMovable listener("Listener");
-        listener.setActive();
+        ListenerMovable *listener = MultimediaSubsystem::getSingleton().getActiveDriver()->createListener("Listener");
+        MultimediaSubsystem::getSingleton().setActiveListener(listener);
         
         // Der Stereosound wird auf Mono gezwungen (hoffentlich!)
         Sound *sound = driver->createSample("feuer_knisternd_01.ogg");
@@ -69,7 +69,7 @@ public:
             {
                 float x = 10 * sinf(d);
                 float y = 20 * cosf(d);
-                listener.setPosition(Vector3(x, y, 0.0f));
+                listener->setPosition(Vector3(x, y, 0.0f));
                 driver->update();
                 
                 xtime xt;

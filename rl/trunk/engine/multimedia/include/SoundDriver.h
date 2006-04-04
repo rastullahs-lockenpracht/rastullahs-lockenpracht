@@ -23,6 +23,7 @@ namespace rl
     class Sound;
     class SoundChannel;
     class SoundResourcePtr;
+    class ListenerMovable;
 
 /**
  * Diese Klasse dient zur Definition einer Schnittstelle
@@ -57,6 +58,8 @@ public:
     virtual Sound *createSample(const SoundResourcePtr &res) = 0;
     /// Einen SoundChannel erzeugen
     virtual SoundChannel *createChannel(Sound *channel, const Ogre::String &name) = 0;
+    /// Einen Soundlistener erzeugen
+    virtual ListenerMovable *createListener(const Ogre::String &name) = 0;
     
 protected:
     /// Informationen über den Treiber ausgeben

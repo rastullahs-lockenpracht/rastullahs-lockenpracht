@@ -26,6 +26,7 @@ class Video;
 typedef std::list<Video*> VideoList;
 class SoundDriver;
 typedef std::list<SoundDriver*> DriverList;
+class ListenerMovable;
 
 /** Diese Klasse dient der Initialisierung und Steuerung des
  * Sound-Subsystems.
@@ -70,6 +71,12 @@ public:
     SoundDriver* getActiveDriver() const;
     /// Den aktiven Treiber setzen.
     void setActiveDriver(SoundDriver *driver);
+    
+    /// Den aktiven Listener zurückgeben.
+    ListenerMovable* getActiveListener() const;
+    /// Den aktiven Listener setzen.
+    void setActiveListener(ListenerMovable *listener);
+    
 
 private:
     /// Zeit mitschreiben
@@ -80,6 +87,8 @@ private:
     DriverList mDriverList;  
     /// Der aktuell bentutzte Soundtreiber
     SoundDriver *mActiveDriver;
+    /// Der aktive Soundlistener
+    ListenerMovable *mActiveListener;
 };
 
 }

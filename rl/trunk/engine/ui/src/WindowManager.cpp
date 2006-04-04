@@ -80,7 +80,7 @@ namespace rl {
 		mCharacterSheet = new CharacterSheetWindow();
 		mJournalWindow = new JournalWindow();
 		RulesSubsystem::getSingleton().getQuestBook()->addQuestChangeListener(mJournalWindow);
-		CoreSubsystem::getSingleton().addCoreEventListener(new DataLoadingProgressWindow());
+		//CoreSubsystem::getSingleton().addCoreEventListener(new DataLoadingProgressWindow());
 
 		mLogWindow = new LogWindow();
 	}
@@ -496,7 +496,7 @@ namespace rl {
 			task->getWindow()->getWindow()->setAlpha(task->getCurrentAlpha());
 			if (task->getTimeLeft() <= 0)
 			{
-				it = mTasks.erase(it);
+				mTasks.erase(it++);
 				switch (task->getAction())
 				{
 				case WindowUpdateTask::WND_DESTROY:

@@ -43,7 +43,6 @@ namespace rl {
         mChilds(),
         mSceneNode(0),
 		mHighlighted(false),
-        mAttachedToBone(false),
         mBone(0)
 	{
         if( mActorControlledObject != NULL )
@@ -278,7 +277,7 @@ namespace rl {
         {
             return mSceneNode->getPosition();
         }
-        else if (mAttachedToBone)
+        else if (mBone)
         {
             return mBone->getPosition();
         }
@@ -295,7 +294,7 @@ namespace rl {
         {
             return mSceneNode->getOrientation();
         }
-        else if (mAttachedToBone)
+        else if (mBone)
         {
             return mBone->getOrientation();
         }
@@ -312,7 +311,7 @@ namespace rl {
         {
             return mSceneNode->getWorldPosition();
         }
-        else if (mAttachedToBone)
+        else if (mBone)
         {
             return mBone->getWorldPosition();
         }
@@ -329,7 +328,7 @@ namespace rl {
         {
             return mSceneNode->getWorldOrientation();
         }
-        else if (mAttachedToBone)
+        else if (mBone)
         {
             return mBone->getWorldOrientation();
         }
@@ -412,7 +411,7 @@ namespace rl {
             {
                 Actor* actor = *iter;
 
-                if( !actor->mAttachedToBone )
+                if( !actor->mBone )
                 {
                     childsInNode = true;
                     break;
@@ -556,7 +555,6 @@ namespace rl {
             // Am Bone befestigen
 			ent->attachObjectToBone( slot, movObj, offsetOrientationMod, offsetPositionMod );
             // Der Aktor wurde an einem Bone befestigt
-            actor->mAttachedToBone = true;
             actor->mBone = ent->getSkeleton()->getBone( slot );
             
 			return;
@@ -567,11 +565,9 @@ namespace rl {
             actor->placeIntoNode( mSceneNode,  offsetPositionMod, offsetOrientationMod );
 
             // Der Aktor wurde nicht an einem Bone befestigt
-            actor->mAttachedToBone = false;
             actor->mBone = 0;
 			return;      
 		}
-
     }         
 
     void Actor::detach(Actor* actor)
@@ -588,18 +584,18 @@ namespace rl {
             "Aktor "+mName+": Der Aktor ist kein Kind dieses Aktors");
 
         // Ist es an einem Bone angefügt
-		if( actor->mAttachedToBone && mActorControlledObject && mActorControlledObject->isMeshObject()   )
+		if( actor->mBone && mActorControlledObject && mActorControlledObject->isMeshObject()   )
 		{
 			MovableObject* movObj = actor->getControlledObject()->getMovableObject();
 			dynamic_cast<MeshObject*>(getControlledObject())->getEntity()->detachObjectFromBone(movObj);
-            actor->mAttachedToBone = false;
+            actor->mBone = 0;
 			return;
 		}
         // Ganz normal über SceneNodes verknüpft
         else
         {
             mSceneNode->removeChild( actor->_getSceneNode() );
-            actor->mAttachedToBone = false;
+            actor->mBone = 0;
             return;
         }
 	}
@@ -639,7 +635,7 @@ namespace rl {
         if( parent == NULL )
             Throw(NullPointerException, 
             "Aktor "+mName+": Kann nicht an einen leeren parentNode angehängt werden.");
-        if( mAttachedToBone )
+        if( mBone )
             Throw(InvalidArgumentException, 
             "Aktor "+mName+": Der Aktor ist bereits an einen Bone angehängt.");
         if( mSceneNode && mSceneNode->isInSceneGraph() )
@@ -761,4 +757,34 @@ namespace rl {
 	{
 		return getControlledObject()->getMovableObject()->isVisible();
 	}
+    
+    void Actor::nodeUpdated (const Node *node)
+    {
+        _update();   
+    }
+    
+    void Actor::nodeDestroyed (const Node *node)
+    {
+    }
+    
+    void Actor::nodeAttached (const Node *node)
+    {
+    }
+    
+    void Actor::nodeDetached (const Node *node)
+    {
+    }
+
+    void Actor::setListenerOf(SceneNode *node)
+    {
+        if (node != 0)
+        {
+            node->setListener(this);
+        }
+    }
+    
+    Bone *Actor::_getBone() const
+    {
+        return mBone;
+    }
 }

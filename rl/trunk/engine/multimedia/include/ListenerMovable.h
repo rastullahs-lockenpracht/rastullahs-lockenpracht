@@ -18,14 +18,14 @@
 #define __ListenerMovable_H__
 
 #include "MultimediaPrerequisites.h"
-#include "Exception.h"
 #include <OgreMovableObject.h>
 #include <OgreVector3.h>
+#include <OgreQuaternion.h>
 
 
 namespace rl {
     
-   /** Diese Klasse dient der Interkation mit Ogre3d und
+   /** Diese Klasse dient der Interaktion mit Ogre3d und
     * kapselt den Hörer.
     * @author Josch
     * @date 06-29-2005
@@ -35,8 +35,6 @@ namespace rl {
     class _RlMultimediaExport ListenerMovable : public Ogre::MovableObject
     {
     private:
-        /// Der aktive Listener
-        static ListenerMovable *gActiveListener;
         /// Der Name des ListenerMovable
         Ogre::String mName;
         
@@ -50,7 +48,7 @@ namespace rl {
         /// Geschwindigkeit
         Ogre::Vector3 mVelocity;
         /// Orientierung
-        Ogre::Vector3 mAt, mUp;
+        Ogre::Quaternion mOrientation;
         /// Hauptlautstärke
         int mGain;
 
@@ -58,7 +56,7 @@ namespace rl {
         /// Konstruktor
         ListenerMovable(const Ogre::String& name);
         /// Destruktor
-        virtual ~ListenerMovable();
+        virtual ~ListenerMovable() = 0;
         /// Name zurückgeben
         virtual const Ogre::String& getName() const;
         /// Moveable-Typ
@@ -73,40 +71,24 @@ namespace rl {
         virtual void _updateRenderQueue(Ogre::RenderQueue *queue);
     
         /// Gibt die Hauptlautstaerke zurueck
-        const int getGain() const throw (RuntimeException);
+        virtual const int getGain() const;
         /// Setzt die Hauptlautstaerke.
-        void setGain(const int direction) throw (RuntimeException);
+        virtual void setGain(const int direction);
         /// Gibt die eingestellte Position der Soundquelle zurueck
-        const Ogre::Vector3 getPosition() const throw (RuntimeException);
+        virtual const Ogre::Vector3 getPosition() const;
         /// Setzt die Position der Soundquelle.
-        void setPosition(const Ogre::Vector3& direction) throw (RuntimeException);
+        virtual void setPosition(const Ogre::Vector3& direction);
         /// Gibt die Richtung der Soundquelle zurueck.
-        const Ogre::Vector3 getOrientationAt() const throw (RuntimeException);
-        /// Gibt die Richtung der Soundquelle zurueck.
-        const Ogre::Vector3 getOrientationUp() const throw (RuntimeException);
+        virtual const Ogre::Quaternion getOrientation() const;
         /// Gibt die Geschwindigkeit der Soundquelle zurueck.
-        const Ogre::Vector3 getVelocity() const throw (RuntimeException);
+        virtual const Ogre::Vector3 getVelocity() const;
         /// Setzt die Richtung der Soundquelle.
-        void setOrientation(const Ogre::Vector3 &at, const Ogre::Vector3 &up) throw (RuntimeException);
+        virtual void setOrientation(const Ogre::Quaternion &orientation);
         /// Setzt die Geschwindigkeit der Soundquelle.
-        void setVelocity(const Ogre::Vector3&) throw (RuntimeException);
-        /// Ueberpruefen, ob der aktive Listener.
+        virtual void setVelocity(const Ogre::Vector3&);
+        
+        /// Ist dies der aktuelle Listener
         bool isActive() const;
-        /// Den Listener als aktuellen setzen.
-        void setActive() throw (RuntimeException);
-        /// Den Listener als aktuellen setzen.
-        static ListenerMovable* getActiveListener();
-    };
-
-    class _RlMultimediaExport ListenerMovablePtr :
-        public Ogre::SharedPtr<ListenerMovable>
-    {
-    public:
-        ListenerMovablePtr() : Ogre::SharedPtr<ListenerMovable>() {}
-        explicit ListenerMovablePtr(ListenerMovable* rep) : Ogre::SharedPtr<ListenerMovable>(rep) {}
-        ListenerMovablePtr(const ListenerMovablePtr& res) : Ogre::SharedPtr<ListenerMovable>(res) {}
-    protected:
-		void destroy() { /** @todo: implement*/ }
     };
 
 }

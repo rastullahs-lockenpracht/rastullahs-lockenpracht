@@ -14,17 +14,9 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 #include "ListenerMovable.h"
-#include <OgreVector3.h>
 #include "MultimediaSubsystem.h"
-extern "C" {
-    #include <fmod.h>
-    #include <fmod_errors.h>
-}
-
 
 using namespace Ogre;
-
-rl::ListenerMovable* rl::ListenerMovable::gActiveListener = 0;
 
 
 namespace rl {
@@ -45,8 +37,7 @@ ListenerMovable::ListenerMovable(const String &name):
     /// Ein paar Standardwerte setzen
     setPosition(Vector3(0.0, 0.0, 0.0));
     setVelocity(Vector3(0.0, 0.0, 0.0));
-    setOrientation(Vector3(0.0, 0.0, 1.0),
-        Vector3(0.0, 1.0, 0.0));
+    setOrientation(Quaternion(0.0, 0.0, 1.0));
 }
  
 /**
@@ -111,7 +102,7 @@ Real ListenerMovable::getBoundingRadius (void) const
  */
 void ListenerMovable::_updateRenderQueue(RenderQueue *queue)
 {
-    // Brauchen wir nicht
+    // BListenerrauchen wir nicht
 }
 
 /**
@@ -119,20 +110,11 @@ void ListenerMovable::_updateRenderQueue(RenderQueue *queue)
  * @author JoSch
  * @date 03-16-2005
  */
-const Vector3 ListenerMovable::getOrientationAt() const throw (RuntimeException)
+const Quaternion ListenerMovable::getOrientation() const
 {
-    return mAt;
+    return mOrientation;
 }
 
-/**
- * @return Die aktuelle Richtung der Soundquelle (up-Vektor)
- * @author JoSch
- * @date 03-16-2005
- */
-const Vector3 ListenerMovable::getOrientationUp() const throw (RuntimeException)
-{
-    return mUp;
-}
 
 /**
  * @param at Die neue Richtung der Soundquelle.
@@ -140,19 +122,9 @@ const Vector3 ListenerMovable::getOrientationUp() const throw (RuntimeException)
  * @author JoSch
  * @date 03-16-2005
  */
-void ListenerMovable::setOrientation(const Vector3 &at,
-        const Vector3 &up) throw (RuntimeException)
+void ListenerMovable::setOrientation(const Quaternion &orientation)
 {
-    mUp = up;
-    mAt = at;
-    if (isActive())
-    {
-        float v[] = {at[0], at[1], at[2]},
-            w[] =  {up[0], up[1], up[2]};
-/* TODO         FSOUND_3D_Listener_SetAttributes(0, 0,
-            at[0], at[1], at[2],
-            up[0], up[1], up[2]); */
-    }
+    mOrientation = orientation;
 }
 
 /**
@@ -160,7 +132,7 @@ void ListenerMovable::setOrientation(const Vector3 &at,
  * @author JoSch
  * @date 03-16-2005
  */
-const Vector3 ListenerMovable::getPosition() const throw (RuntimeException)
+const Vector3 ListenerMovable::getPosition() const
 {
     return mPosition;
 }
@@ -170,18 +142,9 @@ const Vector3 ListenerMovable::getPosition() const throw (RuntimeException)
  * @author JoSch
  * @date 03-16-2005
  */
-void ListenerMovable::setPosition(const Vector3& position) throw (RuntimeException)
+void ListenerMovable::setPosition(const Vector3& position)
 {
     mPosition = position;
-    if (isActive())
-    {
-//        float fx, fy, fz, tx, ty, tz;
-/* TODO        FSOUND_3D_Listener_GetAttributes(0, 0,
-            &fx, &fy, &fz, &tx, &ty, &tz);
-        float newpos[] = {position[0], position[1], position[2]};
-        FSOUND_3D_Listener_SetAttributes(newpos,
-            0, fx, fy, fz, tx, ty, tz); */
-    }
 }
 
 /**
@@ -189,7 +152,7 @@ void ListenerMovable::setPosition(const Vector3& position) throw (RuntimeExcepti
  * @author JoSch
  * @date 03-16-2005
  */
-const Vector3 ListenerMovable::getVelocity() const throw (RuntimeException)
+const Vector3 ListenerMovable::getVelocity() const
 {
     return mVelocity;
 }
@@ -199,18 +162,9 @@ const Vector3 ListenerMovable::getVelocity() const throw (RuntimeException)
  * @author JoSch
  * @date 03-16-2005
  */
-void ListenerMovable::setVelocity(const Vector3& velocity) throw (RuntimeException)
+void ListenerMovable::setVelocity(const Vector3& velocity)
 {
     mVelocity = velocity;
-    if (isActive())
-    {
-//        float fx, fy, fz, tx, ty, tz;
-/* TODO        FSOUND_3D_Listener_GetAttributes(0, 0,
-            &fx, &fy, &fz, &tx, &ty, &tz);
-        float newvel[] = {velocity[0], velocity[1], velocity[2]};
-        FSOUND_3D_Listener_SetAttributes(0, &newvel[0],
-            fx, fy, fz, tx, ty, tz); */
-    }
 }
 
 /**
@@ -218,7 +172,7 @@ void ListenerMovable::setVelocity(const Vector3& velocity) throw (RuntimeExcepti
  * @author JoSch
  * @date 03-16-2005
  */
-const int ListenerMovable::getGain() const throw (RuntimeException)
+const int ListenerMovable::getGain() const
 {
     return mGain;
 }
@@ -228,13 +182,9 @@ const int ListenerMovable::getGain() const throw (RuntimeException)
  * @author JoSch
  * @date 03-16-2005
  */
-void ListenerMovable::setGain(const int gain) throw (RuntimeException)
+void ListenerMovable::setGain(const int gain)
 {
     mGain = gain;
-    if (isActive())
-    {
-        // TODO FSOUND_SetSFXMasterVolume(gain);
-    }
 }
 
 /**
@@ -244,30 +194,7 @@ void ListenerMovable::setGain(const int gain) throw (RuntimeException)
  */
 bool ListenerMovable::isActive() const
 {
-    return (this == ListenerMovable::gActiveListener);
-}
-
-/**
- * @return Aktiven Listener
- * @author JoSch
- * @date 03-16-2005
- */
-ListenerMovable* ListenerMovable::getActiveListener()
-{
-    return gActiveListener;
-}
-
-/**
- * @author JoSch
- * @date 03-16-2005
- */
-void ListenerMovable::setActive() throw (RuntimeException)
-{
-    gActiveListener = this;
-    setPosition(getPosition());
-    setGain(getGain());
-    setVelocity(getVelocity());
-    setOrientation(getOrientationAt(), getOrientationUp());
+    return (this == MultimediaSubsystem::getSingleton().getActiveListener());
 }
 
 }

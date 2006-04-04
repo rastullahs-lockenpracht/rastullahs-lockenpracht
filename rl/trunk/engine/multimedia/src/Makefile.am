@@ -23,7 +23,8 @@ libRlMultimedia_la_SOURCES = \
 	VorbisFile.cpp \
 	null/NullSoundChannel.cpp \
 	null/NullSound.cpp \
-	null/NullDriver.cpp
+	null/NullDriver.cpp \
+	null/NullListener.cpp
 
 if with_fmod3
 SUBDIRS += fmod3
@@ -39,5 +40,6 @@ libRlMultimedia_la_SOURCES += \
 	openal/OalSoundChannel.cpp \
 	openal/OalDriver.cpp \
 	openal/OalSoundSample.cpp \
-	openal/OalSoundStream.cpp
+	openal/OalSoundStream.cpp \
+	openal/OalListener.cpp
 endif

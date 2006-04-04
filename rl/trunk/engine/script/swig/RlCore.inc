@@ -525,6 +525,10 @@ public:
     void setQueryMask( unsigned long mask = 0xFFFFFFFF );
     void addQueryFlag( unsigned long flag  );
     void removeQueryFlag( unsigned long flag );
+    void setListenerOf (Ogre::SceneNode *node);
+    Ogre::Bone *_getBone() const;
+    Ogre::SceneNode* _getSceneNode() const;
+    
 };
 
 %feature("director") PhysicsContactListener; 

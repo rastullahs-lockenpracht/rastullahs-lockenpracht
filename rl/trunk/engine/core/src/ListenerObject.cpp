@@ -18,6 +18,7 @@
 #include "Actor.h"
 #include <Ogre.h>
 #include "ListenerMovable.h"
+#include "MultimediaSubsystem.h"
 
 using namespace Ogre;
 
@@ -68,7 +69,11 @@ void ListenerObject::_update()
     {
         return;
     }
-    listener->setPosition(actor->getPosition());
+    listener->setPosition(actor->getWorldPosition());
+    Logger::getSingleton().log("Core", LML_TRIVIAL, "Pos Listener: "
+        + StringConverter::toString(actor->getWorldPosition().x) + " "
+        + StringConverter::toString(actor->getWorldPosition().y) + " "
+        + StringConverter::toString(actor->getWorldPosition().z));
 //    listener->setOrientation(*temp1, *temp1);
     // TODO Orientation korrigieren
 }
@@ -95,7 +100,7 @@ String ListenerObject::getObjectType()
 
 void ListenerObject::setActive()
 {
-    getListener()->setActive();
+    MultimediaSubsystem::getSingleton().setActiveListener(getListener());
 }
 
 

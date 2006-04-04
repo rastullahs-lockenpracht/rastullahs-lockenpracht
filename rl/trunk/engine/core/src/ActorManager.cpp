@@ -221,7 +221,7 @@ namespace rl {
         Actor* actor = 0;
         try
         {
-            ListenerMovable* lm = new ListenerMovable(name);
+            ListenerMovable* lm = MultimediaSubsystem::getSingleton().getActiveDriver()->createListener(name);
             ListenerObject* lo = new ListenerObject(lm);
 
             actor = new Actor(uniquename, lo);

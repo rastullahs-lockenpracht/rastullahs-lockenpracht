@@ -53,9 +53,9 @@ public:
 
         // Den Listener etwas vom Mittelpunkt des Kreises weg, sonst ist die Distanz 
         // immer gleich und im Softwaremodus von fmod hört man keine Unterschiede.
-        ListenerMovable listener("Listener");
-        listener.setActive();
-        listener.setPosition(Vector3(1, 1, 0));
+        ListenerMovable *listener = MultimediaSubsystem::getSingleton().getActiveDriver()->createListener("Listener");
+        MultimediaSubsystem::getSingleton().setActiveListener(listener);
+        listener->setPosition(Vector3(1, 1, 0));
         
         // Der Stereosound wird auf Mono gezwungen (hoffentlich!)
         Sound *sound = driver->createSample("feuer_knisternd_01.ogg");

@@ -93,9 +93,9 @@ void SoundObject::_update()
     {
         channel->setPosition(actor->getWorldPosition());
 // TODO        channel->setDirection(actor->getWorldOrientation()); 
-       Logger::getSingleton().log("Core", LML_TRIVIAL, "Pos: "
-        + StringConverter::toString(actor->getWorldPosition().x)
-        + StringConverter::toString(actor->getWorldPosition().y)
+       Logger::getSingleton().log("Core", LML_TRIVIAL, "Pos SoundObject: "
+        + StringConverter::toString(actor->getWorldPosition().x) + " "
+        + StringConverter::toString(actor->getWorldPosition().y) + " "
         + StringConverter::toString(actor->getWorldPosition().z));
     }
 }

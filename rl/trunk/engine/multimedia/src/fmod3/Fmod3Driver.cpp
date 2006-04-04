@@ -21,6 +21,7 @@
 #include "Fmod3SoundSample.h"
 #include "Fmod3SoundStream.h"
 #include "Fmod3SoundChannel.h"
+#include "Fmod3Listener.h"
 
 extern "C" {
     #include <fmod.h>
@@ -385,7 +386,7 @@ Sound *Fmod3Driver::createSample(const SoundResourcePtr &res)
  * Einen Sound-Channel erzeugen
  * @return Das erzeugte Sample
  * @param sound Der Sound, der kapselt wird.
- * @param name Der names des Channels.
+ * @param name Der Name des Channels.
  * @author JoSch
  * @date 03-06-2006
  */
@@ -393,6 +394,19 @@ SoundChannel *Fmod3Driver::createChannel(Sound *sound, const Ogre::String &name)
 {
  	SoundChannel *channel = new Fmod3SoundChannel(sound, name);
  	return channel;
+}
+
+/**
+ * Einen Soundlistener erzeugen
+ * @return Der erzeugte Listener
+ * @param name Der Name des Channels.
+ * @author JoSch
+ * @date 04-04-2006
+ */
+ListenerMovable *Fmod3Driver::createListener(const Ogre::String &name)
+{
+    ListenerMovable *listener = new Fmod3Listener(name);
+    return listener;
 }
 
 /**
@@ -450,6 +464,9 @@ void Fmod3Driver::printData()
 		+ StringConverter::toString(total);
     MultimediaSubsystem::log(Ogre::LML_TRIVIAL, line);
 }
+
+
+
 
 }
 #endif // WITH_FMOD

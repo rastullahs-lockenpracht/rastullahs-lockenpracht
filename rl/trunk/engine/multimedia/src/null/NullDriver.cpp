@@ -16,6 +16,7 @@
 #include "NullDriver.h"
 #include "NullSound.h"
 #include "NullSoundChannel.h"
+#include "NullListener.h"
 
 namespace rl
 {
@@ -144,7 +145,7 @@ Sound *NullDriver::createSample(const SoundResourcePtr &res)
  * Einen Sound-Channel erzeugen
  * @return Das erzeugte Sample
  * @param sound Der Sound, der kapselt wird.
- * @param name Der names des Channels.
+ * @param name Der Name des Channels.
  * @author JoSch
  * @date 03-06-2006
  */
@@ -153,6 +154,20 @@ SoundChannel *NullDriver::createChannel(Sound *sound, const Ogre::String &name)
  	SoundChannel *channel = new NullSoundChannel(sound, name);
  	return channel;
 }
+
+/**
+ * Einen Soundlistener erzeugen
+ * @return Der erzeugte Listener
+ * @param name Der Name des Channels.
+ * @author JoSch
+ * @date 04-04-2006
+ */
+ListenerMovable *NullDriver::createListener(const Ogre::String &name)
+{
+    ListenerMovable *listener = new NullListener(name);
+    return listener;
+}
+
 
 /**
  * Ausdruck einiger Werte des Soundsystems.

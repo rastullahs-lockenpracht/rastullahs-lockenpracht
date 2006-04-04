@@ -19,6 +19,7 @@
 
 #include "CorePrerequisites.h"
 #include <OgreUserDefinedObject.h>
+#include <OgreNode.h>
 
 namespace Ogre {
     class Bone;
@@ -29,7 +30,7 @@ namespace rl {
     class PhysicalThing;
     class ActorControlledObject;
 
-    class _RlCoreExport Actor : public Ogre::UserDefinedObject
+    class _RlCoreExport Actor : public Ogre::UserDefinedObject, public Ogre::Node::Listener
     {
     public:
         static const Ogre::String DEFAULT_SLOT_NAME;
@@ -251,6 +252,17 @@ namespace rl {
 
         /// Entfernt alle Kinder vom Node
         void detachAllChildren( );
+                
+       // Die Methoden die Node::Listener definiert.
+       virtual void nodeUpdated (const Ogre::Node *node);
+       virtual void nodeDestroyed (const Ogre::Node *node);
+       virtual void nodeAttached (const Ogre::Node *node);
+       virtual void nodeDetached (const Ogre::Node *node);
+       /// Setze den Listener des Nodes
+       void setListenerOf(Ogre::SceneNode *node);
+       /// Gebe das Bone zurück
+       Ogre::Bone *_getBone() const;
+
     private:
         typedef std::set<Actor*> ChildSet;
 
@@ -271,7 +283,7 @@ namespace rl {
         /// Speichert ob der Aktor zur Zeit leuchtet
         bool mHighlighted;
         /// Ist der Aktor an einem Bone angehangen?
-        bool mAttachedToBone;
+        //bool mAttachedToBone;
         /// Der Bone, an dem wir vielleicht hängen.
         Ogre::Bone *mBone;
 
