@@ -28,6 +28,7 @@
 #include "FreeFlightCharacterController.h"
 #include "InputManager.h"
 #include "CommandMapper.h"
+#include "WindowFactory.h"
 #include "WindowManager.h"
 
 #include "Combat.h"
@@ -74,6 +75,7 @@ namespace rl {
 
     UiSubsystem::~UiSubsystem() 
     {  
+		delete mWindowFactory;
 		delete mWindowManager;
 
         GameLoopManager::getSingleton().removeSynchronizedTask(mCharacterController);
@@ -119,6 +121,8 @@ namespace rl {
 		System::getSingleton().setTooltip("RastullahLook/Tooltip");
         Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "CEGUI geladen", "UiSubsystem::initializeUiSubsystem");
 
+		mWindowManager = new WindowManager();
+
 		//Initializing InputManager
         new InputManager();
         new CommandMapper();
@@ -127,7 +131,7 @@ namespace rl {
 		InputManager::getSingleton().loadKeyMapping("keymap-german.xml");
 		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Keymap geladen", "UiSubsystem::initializeUiSubsystem");
 
-		mWindowManager = new WindowManager();
+		mWindowFactory = new WindowFactory();
     }
 
 	Person* UiSubsystem::getActiveCharacter()
@@ -151,7 +155,7 @@ namespace rl {
             World* world = CoreSubsystem::getSingletonPtr()->getWorld();
             world->setActiveActor(person->getActor());
 		    
-			mWindowManager->setActiveCharacter(person);
+			mWindowFactory->setActiveCharacter(person);
 
 			mCharacter->getActor()->attach(CoreSubsystem::getSingleton().getSoundListener());
 			Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "SoundListener attached.");
@@ -215,7 +219,7 @@ namespace rl {
 	void UiSubsystem::startCombat(Combat* combat)
 	{
 		setCombatMode(true);
-		mWindowManager->showCombatWindow(combat, getActiveCharacter());
+		mWindowFactory->showCombatWindow(combat, getActiveCharacter());
 	}
 
 	void UiSubsystem::setCombatMode(bool inCombat)

@@ -15,9 +15,10 @@
  */
 #include <boost/bind.hpp>
 #include "UiPrerequisites.h"
-
-#include "WindowManager.h"
 #include "TargetSelectionWindow.h"
+
+#include "WindowFactory.h"
+#include "WindowManager.h"
 #include "InputManager.h"
 #include "GameLoop.h"
 
@@ -110,7 +111,7 @@ namespace rl
 			GameObject* object = getTargetedObject(me.position.d_x, me.position.d_y);
 			if (object != NULL)
 			{
-				WindowManager::getSingleton().showActionChoice(object);
+				WindowFactory::getSingleton().showActionChoice(object);
 		        setVisible(false);
 			}
 		}

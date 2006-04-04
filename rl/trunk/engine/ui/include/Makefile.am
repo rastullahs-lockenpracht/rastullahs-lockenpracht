@@ -34,4 +34,5 @@ noinst_HEADERS = \
 	UiPrerequisites.h \
 	UiSubsystem.h \
 	VideoWindow.h \
+	WindowFactory.h \
 	WindowManager.h 

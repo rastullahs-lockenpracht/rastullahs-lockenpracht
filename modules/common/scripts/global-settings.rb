@@ -49,7 +49,5 @@ class GlobalSettings
 
       actionManager.registerInGameGlobalAction($act19, $grpHelp)
       actionManager.registerInGameGlobalAction($act18, $grpActions)
-
-
   end
 end

@@ -17,7 +17,7 @@
 
 #include "UiPrerequisites.h"
 
-#include "WindowManager.h"
+#include "WindowFactory.h"
 #include "CoreSubsystem.h"
 #include "ConfigurationManager.h"
 #include "ContentModule.h"
@@ -119,7 +119,7 @@ namespace rl {
 
 	bool MainMenuWindow::handleQuit()
 	{
-		WindowManager::getSingleton().requestExit();
+		WindowFactory::getSingleton().showExitConfirmation();
 		return true;
 	}
 

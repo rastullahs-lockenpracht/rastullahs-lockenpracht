@@ -40,4 +40,5 @@ libRlUi_la_SOURCES = \
 	TargetSelectionWindow.cpp \
 	UiSubsystem.cpp \
 	VideoWindow.cpp \
+	WindowFactory.cpp \
 	WindowManager.cpp 

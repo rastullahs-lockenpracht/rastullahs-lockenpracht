@@ -33,19 +33,6 @@
 namespace rl {
 
 	class CeGuiWindow;
-	class CharacterStateWindow;
-	class CharacterSheetWindow;
-	class Combat;
-	class Console;
-	class Container;
-	class Creature;
-	class DialogCharacter;
-	class GameLoggerWindow;
-	class GameObject;
-	class InGameMenuWindow;
-	class JournalWindow;
-	class LogWindow;
-	class Person;
 	class WindowUpdater;
 
 	class _RlUiExport WindowManager : public Ogre::Singleton<WindowManager>
@@ -64,59 +51,12 @@ namespace rl {
 		bool handleMovedToFront(CeGuiWindow* window);
 		bool handleMovedToBack(CeGuiWindow* window);
 
-		void setActiveCharacter(Creature* character);
-
-		void showCharacterActionChoice();
-		void showPickedObjectActions();
-		void showActionChoice(GameObject* obj);
-		void showDescriptionWindow(GameObject* obj);
-		void showTargetWindow();
-		void showContainerContent(Container* container);
-
-		void showMessageWindow(const CeGuiString& message);
-		void showMainMenu();
-		void showCharacterSheet();
-		void showCharacterSheet(Person* chara);
-		bool showInputOptionsMenu(Creature* actionHolder);
-		void showDialog(DialogCharacter* bot);
-        void showPlaylist();
-		void showAboutWindow();
-		void showJournalWindow();
-		void showCombatWindow(Combat* combat, Creature* activeCreature);
-
-		void toggleConsole();
-		void toggleDebugWindow();
-		void toggleGameLogWindow();
-		void toggleCharacterStateWindow();
-		void toggleInGameGlobalMenu();
-		
-		void checkForErrors();
-		GameLoggerWindow* getGameLogger();
-
-		void update();
-
-		/** Writes Text into the Console or other output media */
-		void writeToConsole(std::string text);
-		static VALUE consoleWrite(VALUE self, VALUE str);
-
-        /** Requests the application's exit */
-        void requestExit();
-
 		void _fadeIn(CeGuiWindow* window, Ogre::Real time, float targetAlpha = 1.0);
 		void _fadeOut(CeGuiWindow* window, Ogre::Real time, bool destroy);
 		void _moveOutLeft(CeGuiWindow* window, Ogre::Real time, bool destroy);
 
 	private:
 		std::list<CeGuiWindow*> mWindowList;
-
-		GameLoggerWindow* mGameLogger;
-		CharacterStateWindow* mCharacterStateWindow;
-		InGameMenuWindow* mInGameMenuWindow;
-		CharacterSheetWindow* mCharacterSheet;
-		JournalWindow* mJournalWindow;
-		LogWindow* mLogWindow;
-		Console* mConsole;
-
 		WindowUpdater* mWindowUpdater;
 	};
 

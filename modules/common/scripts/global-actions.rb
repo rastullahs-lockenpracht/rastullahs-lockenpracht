@@ -6,7 +6,7 @@ class ShowActionMenuAction < Action
   end
 
   def doAction(object, actor, target)
-    WindowManager.getSingleton().showCharacterActionChoice
+    $WF.showCharacterActionChoice()
   end
 end
 
@@ -16,7 +16,7 @@ class QuitGameAction < Action
   end
 
   def doAction(object, actor, target)
-    WindowManager.getSingleton().requestExit()
+    $WF.showExitConfirmation()
   end
 end
 
@@ -26,7 +26,7 @@ class ToggleConsoleAction < Action
   end
   
   def doAction(object, actor, target)
-    WindowManager.getSingleton().toggleConsole()
+    $WF.toggleConsole()
   end
 end
 
@@ -36,7 +36,7 @@ class ToggleDebugWindowAction < Action
   end
 
   def doAction(object, actor, target)
-    WindowManager.getSingleton().toggleDebugWindow()
+    $WF.toggleDebugWindow()
   end
 end
 
@@ -46,7 +46,7 @@ class ToggleGameLogWindowAction < Action
     end
 
     def doAction(object, actor, target)
-        WindowManager.getSingleton().toggleGameLogWindow()
+        $WF.toggleGameLogWindow()
     end
 end
 
@@ -67,7 +67,7 @@ class ToggleInGameGlobalMenuAction < Action
   end
 
   def doAction(object, actor, target)
-    WindowManager.getSingleton().toggleInGameGlobalMenu()
+    $WF.toggleInGameGlobalMenu()
   end
 end
 
@@ -108,7 +108,7 @@ class ToggleCharacterStateWindowAction < Action
     end
 
     def doAction(object, actor, target)
-        WindowManager.getSingleton().toggleCharacterStateWindow()
+        $WF.toggleCharacterStateWindow()
     end
 end
 
@@ -118,7 +118,7 @@ class ShowObjectActionsAction < Action
   end
 
   def doAction(object, actor, target)
-    WindowManager.getSingleton().showPickedObjectActions()
+    $WF.showPickedObjectActions()
   end
 end
 
@@ -128,7 +128,7 @@ class ShowCharacterSheetAction < Action
   end
 
   def doAction(object, actor, target)
-    WindowManager.getSingleton().showCharacterSheet()
+    $WF.showCharacterSheet()
   end
 end
 
@@ -138,7 +138,7 @@ class ShowTargetWindowAction < Action
   end
 
   def doAction(object, actor, target)
-    WindowManager.getSingleton().showTargetWindow()
+    $WF.showTargetWindow()
   end
 end
 
@@ -148,7 +148,7 @@ class ShowJournalWindowAction < Action
   end
 
   def doAction(object, actor, target)
-    WindowManager.getSingleton().showJournalWindow()
+    $WF.showJournalWindow()
   end
 end
 
@@ -168,7 +168,7 @@ class ShowObjectDescriptionWindow < Action
   end
   
   def doAction(object, actor, target)
-    WindowManager.getSingleton().showDescriptionWindow(object)
+    $WF.showDescriptionWindow(object)
   end
 end
 
@@ -188,7 +188,7 @@ class ShowAboutWindowAction < Action
   end
   
   def doAction(object, actor, target)
-    WindowManager.getSingleton().showAboutWindow()
+    $WF.showAboutWindow()
   end
 end
 

@@ -74,30 +74,29 @@ public:
 	void logMiscEvent(const rl::CeGuiString& text);
 };
 
-class WindowManager
+class WindowFactory
 {
 public:
-
-	static rl::WindowManager& getSingleton();
+	static rl::WindowFactory& getSingleton();
 
 	void update();
-	void requestExit();
 
-	void showCharacterActionChoice();
-	void showPickedObjectActions();
+	void showAboutWindow();
 	void showActionChoice(rl::GameObject* obj);
-	void showDescriptionWindow(rl::GameObject* obj);
-	void showMessageWindow(const rl::CeGuiString& message);
+	void showCharacterActionChoice();
 	void showCharacterSheet();
 	void showCharacterSheet(rl::Person* chara);
+	void showContainerContent(rl::Container* container);
+	void showDescriptionWindow(rl::GameObject* obj);
+	void showExitConfirmation();
+	void showJournalWindow();
+	void showMainMenu();
+	void showMessageWindow(const rl::CeGuiString& message);
 	void showDialog(rl::DialogCharacter* bot);
+	void showPickedObjectActions();
     void showPlaylist();
 	void showTargetWindow();
-	void showContainerContent(rl::Container* container);
-	void showAboutWindow();
-	void showJournalWindow();
 
-	void showMainMenu();
 	void toggleConsole();
 	void toggleDebugWindow();
 	void toggleGameLogWindow();
@@ -106,6 +105,12 @@ public:
 
 	void checkForErrors();
 	rl::GameLoggerWindow* getGameLogger();
+};
+
+class WindowManager
+{
+public:
+	static rl::WindowManager& getSingleton();
 	void closeTopWindow();
 };
 

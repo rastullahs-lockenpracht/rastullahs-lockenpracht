@@ -65,38 +65,12 @@ namespace rl {
 		mWindowUpdater = new WindowUpdater();
 		GameLoopManager::getSingleton().addSynchronizedTask(mWindowUpdater, FRAME_STARTED);
 		//mWindowUpdater->setPaused(true);
-
-		mConsole = new Console();
-		new DebugWindow();
-		CoreSubsystem::getSingleton().getRubyInterpreter()->
-			setOutputFunction( 
-				(VALUE(*)(...))&WindowManager::consoleWrite );
-
-		new TargetSelectionWindow();
-			      
-		mGameLogger = new GameLoggerWindow();
-		mCharacterStateWindow = new CharacterStateWindow();
-		mInGameMenuWindow = new InGameMenuWindow();
-		mCharacterSheet = new CharacterSheetWindow();
-		mJournalWindow = new JournalWindow();
-		RulesSubsystem::getSingleton().getQuestBook()->addQuestChangeListener(mJournalWindow);
-		//CoreSubsystem::getSingleton().addCoreEventListener(new DataLoadingProgressWindow());
-
-		mLogWindow = new LogWindow();
 	}
 
 	WindowManager::~WindowManager()
 	{
-		delete mLogWindow;
-		delete mJournalWindow;
-		delete mGameLogger;
-		delete mCharacterSheet;
-		delete mInGameMenuWindow;
-		delete mCharacterStateWindow;
-		delete mConsole;
+		GameLoopManager::getSingleton().removeSynchronizedTask(mWindowUpdater);
 		delete mWindowUpdater;
-
-		delete DebugWindow::getSingletonPtr();
 	}
 	
 	void WindowManager::registerWindow(CeGuiWindow* window)
@@ -156,145 +130,6 @@ namespace rl {
 		return Ogre::Singleton<WindowManager>::getSingletonPtr();
 	}
 
-	void WindowManager::showCharacterActionChoice()
-	{
-		showActionChoice(UiSubsystem::getSingleton().getActiveCharacter());
-	}
-
-	void WindowManager::showPickedObjectActions()
-	{
-		GameObject* pickedObject = InputManager::getSingleton().getPickedObject();
-
-		if (pickedObject != NULL)
-			showActionChoice(pickedObject);
-	}
-
-	void WindowManager::showContainerContent(Container* container)
-	{
-		ContainerContentWindow* wnd = new ContainerContentWindow(container);
-		wnd->setVisible(true);
-	}
-
-	bool WindowManager::showInputOptionsMenu(Creature* actionHolder)
-	{
-		CommandMapperWindow* wnd = 
-			new CommandMapperWindow(
-				actionHolder, 
-				InputManager::getSingleton().getCommandMapper());
-		wnd->setVisible(true);
-
-		return true;
-	}
-
-	void WindowManager::showMessageWindow(const CeGuiString& message)
-	{
-		MessageWindow* w = new MessageWindow();
-		w->setText(message);
-		w->setVisible(true);
-	}
-
-	void WindowManager::showMainMenu()
-	{
-		(new MainMenuWindow(new MainMenuEngineWindow()))->setVisible(true);
-	}
-
-	void WindowManager::showTargetWindow()
-	{
-		TargetSelectionWindow::getSingleton().setAction(NULL);
-		TargetSelectionWindow::getSingleton().setVisible(true);
-	}
-
-	void WindowManager::toggleConsole()
-	{
-		mConsole->setVisible(!mConsole->isVisible());
-	}
-
-	void WindowManager::toggleDebugWindow()
-	{
-		DebugWindow* dbgwnd = DebugWindow::getSingletonPtr();
-		dbgwnd->setVisible(!dbgwnd->isVisible());
-	}
-
-	void WindowManager::toggleGameLogWindow()
-	{
-		mGameLogger->setVisible(!mGameLogger->isVisible());
-	}
-
-	void WindowManager::showCharacterSheet()
-	{
-		if (mCharacterSheet->isVisible())
-		{
-			mCharacterSheet->setCharacter(NULL);
-			mCharacterSheet->setVisible(false);
-		}
-		else
-		{
-			mCharacterSheet->setCharacter(UiSubsystem::getSingleton().getActiveCharacter());
-			mCharacterSheet->setVisible(true);
-		}
-	}
-
-	void WindowManager::showJournalWindow()
-	{
-		if (mJournalWindow->isVisible())
-		{
-			mJournalWindow->setVisible(false);
-		}
-		else
-		{
-			mJournalWindow->setVisible(true);
-		}
-	}
-
-	void WindowManager::showAboutWindow()
-	{
-		(new AboutWindow())->setVisible(true);
-	}
-
-	void WindowManager::showCharacterSheet(Person* chara)
-	{
-		CharacterSheetWindow* wnd = new CharacterSheetWindow();
-		wnd->setCharacter(chara);
-		wnd->setVisible(true);
-	}
-
-	void WindowManager::showDescriptionWindow(GameObject* obj)
-	{
-		MessageWindow* wnd = new MessageWindow();
-		wnd->setText(obj->getDescription());
-		wnd->setVisible(true);
-	}
-
-	void WindowManager::toggleCharacterStateWindow()
-	{
-		mCharacterStateWindow->setVisible(!mCharacterStateWindow->isVisible());
-	}
-
-	void WindowManager::toggleInGameGlobalMenu()
-	{
-		mInGameMenuWindow->setVisible(!mInGameMenuWindow->isVisible());
-	}
-
-	GameLoggerWindow* WindowManager::getGameLogger()
-	{
-		return mGameLogger;
-	}
-
-    void WindowManager::showPlaylist()
-    {
-        PlaylistWindow* wnd = new PlaylistWindow();
-        wnd->setVisible(true);
-    }
-	
-	void WindowManager::checkForErrors()
-	{
-		if (Logger::getSingleton().isErrorPresent())
-		{
-			mLogWindow->setVisible(true);
-			Logger::getSingleton().resetErrorState();
-		}
-	}
-
 	void WindowManager::_fadeIn(CeGuiWindow* window, Ogre::Real time, float targetAlpha)
 	{
 		mWindowUpdater->fadeIn(window, time, targetAlpha);
@@ -309,62 +144,6 @@ namespace rl {
 	{
 		mWindowUpdater->moveOutLeft(window, time, destroy);
 	}
-
-
-	void WindowManager::update()
-	{
-		mInGameMenuWindow->update();
-	}
-
-    void WindowManager::requestExit()
-    {
-		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Start", "UiSubsystem::requestExit");
-		(new CloseConfirmationWindow())->setVisible(true);
-	}
-
-	void WindowManager::writeToConsole(Ogre::String text)
-	{
-		mConsole->write(text);
-	}
-
-	VALUE WindowManager::consoleWrite(VALUE self, VALUE str)
-	{
-		if (WindowManager::getSingleton().mConsole != NULL)
-        {
-            WindowManager::getSingleton().mConsole->
-				write(RubyInterpreter::val2ceguistr(str) + " \n");
-        }
-		return Qnil;
-	}
-
-	void WindowManager::setActiveCharacter(Creature* character)
-	{
-		mCharacterStateWindow->setCharacter(character);
-		mCharacterStateWindow->update();
-		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "CharacterStateWindow updated");
-	}
-
-	void WindowManager::showActionChoice(GameObject* obj)
-	{
-		ActionChoiceWindow* w = new ActionChoiceWindow(UiSubsystem::getSingleton().getActiveCharacter());
-		int numActions = w->showActionsOfObject(obj);
-		if (numActions > 0)
-		{
-			w->setVisible(true);
-		}
-		else
-		{
-			destroyWindow(w);
-		}
-	}
-
-	void WindowManager::showCombatWindow(Combat* combat, Creature* activeCreature)
-	{
-		CombatWindow* wnd = new CombatWindow(combat, combat->getGroupOf(activeCreature));
-		combat->setLogger(mGameLogger);
-		wnd->setVisible(true);
-	}
-
 
 	WindowUpdateTask::WindowUpdateTask(
 		CeGuiWindow* window, Ogre::Real time, 
@@ -565,20 +344,5 @@ namespace rl {
 				-wnd->getAbsoluteWidth(), 
 				wnd->getAbsoluteYPosition()));
 		window->setFading(true);
-	}
-
-	void WindowManager::showDialog(DialogCharacter* bot)
-	{
-		if (bot->getDialogCharacter() == NULL)
-		{
-			bot->setDialogCharacter(UiSubsystem::getSingleton().getActiveCharacter());
-		}
-
-		UiSubsystem::getSingleton().setCharacterController(UiSubsystem::CTRL_DIALOG);
-		DialogCharacterController* controller = 
-			dynamic_cast<DialogCharacterController*>(
-				UiSubsystem::getSingleton().getCharacterController());
-		controller->setDialogPartner(bot->getDialogPartner()->getActor());
-		(new DialogWindow(bot, mGameLogger, controller))->setVisible(true);
 	}
 }

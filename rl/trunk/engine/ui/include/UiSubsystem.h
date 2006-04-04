@@ -31,6 +31,7 @@ namespace rl {
 	class Person;
 	class Combat;
 	class Creature;
+	class WindowFactory;
 	class WindowManager;
 
     class _RlUiExport UiSubsystem : protected Ogre::Singleton<UiSubsystem>
@@ -79,6 +80,7 @@ namespace rl {
         GameActor* mHero;
         Person* mCharacter;
         bool mInCombat;
+		WindowFactory* mWindowFactory;
 		WindowManager* mWindowManager;
     };
 }

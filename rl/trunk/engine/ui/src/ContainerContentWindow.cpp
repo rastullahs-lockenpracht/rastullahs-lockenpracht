@@ -21,7 +21,7 @@
 #include "ContainerContentWindow.h"
 #include "Container.h"
 #include "ListboxImageItem.h"
-#include "WindowManager.h"
+#include "WindowFactory.h"
 
 #include "Item.h"
 
@@ -69,7 +69,7 @@ namespace rl {
 		if (mItemList->getFirstSelectedItem() != NULL)
 		{
 			Item* currentItem = static_cast<Item*>(mItemList->getFirstSelectedItem()->getUserData());
-			WindowManager::getSingleton().showActionChoice(currentItem);
+			WindowFactory::getSingleton().showActionChoice(currentItem);
 		}
 		return true;
 	}
