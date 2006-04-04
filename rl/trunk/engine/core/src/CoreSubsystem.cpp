@@ -366,13 +366,13 @@ namespace rl {
 
 		updateDefaultScheme();
 
-		mCoreEventCaster.dispatchEvent(new DataLoadedEvent(0.0));
+		//mCoreEventCaster.dispatchEvent(new DataLoadedEvent(0.0));
 		
 		ResourceGroupManager::getSingleton().initialiseResourceGroup(module->getId());
         module->precreateMeshes();
         mActiveAdventureModule = module;
 
-		mCoreEventCaster.dispatchEvent(new DataLoadedEvent(100.0));
+		//mCoreEventCaster.dispatchEvent(new DataLoadedEvent(100.0));
 
         module->start();
     }

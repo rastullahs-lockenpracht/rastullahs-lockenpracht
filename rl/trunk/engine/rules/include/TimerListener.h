@@ -36,7 +36,7 @@ public:
     virtual ~TimerListener();
 
      /// Kümmert sich um das Aufrufen benannter Methoden aus Reasons
-	virtual bool eventRaised(TimerEvent *anEvent);
+	bool eventRaised(TimerEvent *anEvent);
 
     /** Diese Methode wird aufgerufen, wenn der Timer ausgelöst wurde
       * @param anEvent Der auslösende Event

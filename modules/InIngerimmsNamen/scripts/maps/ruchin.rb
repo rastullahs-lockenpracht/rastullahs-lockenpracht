@@ -47,6 +47,7 @@ hero.addKampftechnik("Schwerter", [5, 2]);
 
 sound = $AM.createSoundSampleActor("Feuer", "feuer_knisternd_01.ogg")
 sound.getControlledObject().setLooping(true)
+sound.getControlledObject().set3d(true)
 sound.placeIntoScene([-15.0, -1.35, 10.200])
 sound.getControlledObject().play()
 

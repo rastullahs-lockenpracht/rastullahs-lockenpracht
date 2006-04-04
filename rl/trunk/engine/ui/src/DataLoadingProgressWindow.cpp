@@ -19,7 +19,7 @@
 namespace rl {
 
 DataLoadingProgressWindow::DataLoadingProgressWindow()
-: CeGuiWindow("dataloadingprogresswindow.xml", CeGuiWindow::WND_ALL_INPUT, true)
+: CeGuiWindow("dataloadingprogresswindow.xml", CeGuiWindow::WND_SHOW, false)
 {
 	mProgressBar = getProgressBar("DataLoadingProgressWindow/ProgressBar");
 	centerWindow();
@@ -35,10 +35,9 @@ bool DataLoadingProgressWindow::dataLoadedEventRaised(rl::DataLoadedEvent *anEve
 
 	mProgressBar->setProgress(percent/100.0);
 
-	if (percent == 100.0
-		&& isVisible())
+	if (percent == 100.0)
 	{
-		setVisible(false);
+		destroyWindow();
 	}
 	else if (percent != 100.0
 		&& !isVisible())

@@ -220,6 +220,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\fmod3\Fmod3Listener.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\fmod3\Fmod3SoundChannel.cpp"
 					>
 				</File>
@@ -240,6 +244,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\openal\OalListener.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\openal\OalSoundChannel.cpp"
 					>
 				</File>
@@ -257,6 +265,10 @@
 				>
 				<File
 					RelativePath=".\src\null\NullDriver.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\null\NullListener.cpp"
 					>
 				</File>
 				<File
@@ -334,6 +346,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\fmod3\Fmod3Listener.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\fmod3\Fmod3Sound.h"
 					>
 				</File>
@@ -358,6 +374,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\openal\OalListener.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\openal\OalSoundChannel.h"
 					>
 				</File>
@@ -375,6 +395,10 @@
 				>
 				<File
 					RelativePath=".\include\null\NullDriver.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\null\NullListener.h"
 					>
 				</File>
 				<File
