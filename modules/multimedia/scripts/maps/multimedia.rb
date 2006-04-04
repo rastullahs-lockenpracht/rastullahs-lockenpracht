@@ -5,6 +5,9 @@ require 'torch.rb'
 require 'player.rb'
 require 'hero.rb'
 
+# Physik aktivieren
+$PM.setEnabled(true);
+
 $World = $CORE.getWorld()
 $World.setSkyBox(true, "rl/dsa07", 100.0)
 $SCRIPT.log("skybox set");
@@ -21,6 +24,8 @@ held1 = Hero.new;
 held1.getActor().placeIntoScene([-2.0, 1.0, 1.0], [[0.0, 1.0, 0.0], 0.0]);
 #PlayerSettings.preparePlayer($held1);
 $UI.setActiveCharacter(held1);
+$CORE.getSoundListener().setListenerOf($CORE.getSoundListener()._getSceneNode());
+$CORE.getSoundListener().getControlledObject().setActive();
 $SCRIPT.log("Held fertig");
 
 #camera = $AM.getActor("DefaultCamera"); 
@@ -50,7 +55,7 @@ $SCRIPT.log("Partikeldings erstellt.");
 held2 = $AM.createMeshActor("KreisLaufHeld", "held.mesh" );
 # , PhysicsManager::GT_CAPSULE);
 held2.placeIntoScene( [0.0, 0.0, 0.0] );
-held2.attachToSlotAxisRot( torch.getActor(), "Bone15", "SLOT_HANDLE", [0.0, 0.0, 0.0], [ 1.0, 0.0, 0.0 ], 90.0 );
+held2.attachToSlotAxisRot(torch.getActor(), "Bone15", "SLOT_HANDLE", [0.0, 0.0, 0.0], [ 1.0, 0.0, 0.0 ], 90.0  );
 $SCRIPT.log("Fackel plaziert.");
 #
 $SCRIPT.log("Fackelsound erstellen.");
@@ -67,7 +72,7 @@ $SCRIPT.log("Fackelsound fertig");
 #
 # torch.getActor().setScale( 1.0, 1.0, 1.0 );
 #
-held2.getControlledObject().startAnimation( "walk" );
+held2.getControlledObject().startAnimation( "gehloop" );
 #
 trackAnim = $AnimMgr.createTrackAnimation(  held2, "kreisLaufAnimation", 16.0 );
 #
