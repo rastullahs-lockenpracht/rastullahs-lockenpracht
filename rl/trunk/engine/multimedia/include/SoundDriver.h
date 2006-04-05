@@ -17,11 +17,11 @@
 #define SOUNDDRIVER_H_
 
 #include "MultimediaPrerequisites.h"
+#include "SoundChannel.h"
 
 namespace rl
 {
     class Sound;
-    class SoundChannel;
     class SoundResourcePtr;
     class ListenerMovable;
 
@@ -61,9 +61,29 @@ public:
     /// Einen Soundlistener erzeugen
     virtual ListenerMovable *createListener(const Ogre::String &name) = 0;
     
+    /// Die Standardlautstärke für Musik einstellen
+    void setDefaultMusicVol(unsigned int vol);
+    /// Die Standardlautstärke für Musik zurückgeben.
+    unsigned int getDefaultMusicVol() const;
+    /// Die Standardlautstärke für Musik einstellen
+    void setDefaultSoundVol(unsigned int vol);
+    /// Die Standardlautstärke für Musik zurückgeben.
+    unsigned int getDefaultSoundVol() const;
+    /// Einen Sound aus den Listen entfernen
+    void removeFromLists(SoundChannel *channel);
+    
+    
 protected:
     /// Informationen über den Treiber ausgeben
     virtual void printData() = 0;
+    /// Liste der Musikstücke
+    SoundChannelSet mMusicSet;
+    /// Liste der Sounds
+    SoundChannelSet mSoundSet;
+    /// Standardeinstellung für Musik
+    unsigned int mDefaultMusicVol;
+    /// Standardeinstellung für Sounds
+    unsigned int mDefaultSoundVol;
     
 };
 

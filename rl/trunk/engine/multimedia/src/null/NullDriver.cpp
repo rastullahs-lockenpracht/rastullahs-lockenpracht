@@ -152,6 +152,15 @@ Sound *NullDriver::createSample(const SoundResourcePtr &res)
 SoundChannel *NullDriver::createChannel(Sound *sound, const Ogre::String &name)
 {
  	SoundChannel *channel = new NullSoundChannel(sound, name);
+    if (sound->is3d())
+    {
+        channel->setVolume(mDefaultSoundVol);
+        mSoundSet.insert(channel);
+    } else
+    {
+        channel->setVolume(mDefaultMusicVol);
+        mMusicSet.insert(channel);
+    }
  	return channel;
 }
 

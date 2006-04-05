@@ -42,14 +42,14 @@ OalSoundChannel::~OalSoundChannel()
  * @author JoSch
  * @date 07-23-2005
  */
-void OalSoundChannel::play() throw (RuntimeException)
+void OalSoundChannel::play()
 {
     if (!getSound()->isValid())
     {
         getSound()->load();
     }
     // TODO setChannel(getSound()->createChannel());
-    setGain(255);
+    setVolume(100);
     setPosition(Vector3(0.0, 0.0, 0.0));
     setDirection(Vector3(0.0, 0.0, 0.0));
     setVelocity(Vector3(0.0, 0.0, 0.0)); 
@@ -92,7 +92,7 @@ const String& OalSoundChannel::getMovableType() const
  * @author JoSch
  * @date 07-23-2004
  */
-const Vector3 OalSoundChannel::getDirection() const throw (RuntimeException)
+const Vector3 OalSoundChannel::getDirection() const
 {
     return mDirection;
 }
@@ -102,7 +102,7 @@ const Vector3 OalSoundChannel::getDirection() const throw (RuntimeException)
  * @author JoSch
  * @date 07-23-2004
  */
-void OalSoundChannel::setDirection (const Vector3& direction) throw (RuntimeException)
+void OalSoundChannel::setDirection (const Vector3& direction)
 {
     mDirection = direction;
 }
@@ -112,7 +112,7 @@ void OalSoundChannel::setDirection (const Vector3& direction) throw (RuntimeExce
  * @author JoSch
  * @date 08-05-2005
  */
-bool OalSoundChannel::isValid() const throw (RuntimeException)
+bool OalSoundChannel::isValid() const
 {
     return true;
 }
@@ -133,7 +133,7 @@ const bool OalSoundChannel::isPlaying() const
  * @author JoSch
  * @date 07-04-2005
  */
-const Vector3 OalSoundChannel::getPosition() const throw (RuntimeException)
+const Vector3 OalSoundChannel::getPosition() const
 {
     return mPosition;
 }
@@ -143,7 +143,7 @@ const Vector3 OalSoundChannel::getPosition() const throw (RuntimeException)
  * @author JoSch
  * @date 07-04-2005
  */
-void OalSoundChannel::setPosition(const Vector3& position) throw (RuntimeException)
+void OalSoundChannel::setPosition(const Vector3& position)
 {
     mPosition = position;
 }
@@ -153,7 +153,7 @@ void OalSoundChannel::setPosition(const Vector3& position) throw (RuntimeExcepti
  * @author JoSch
  * @date 07-04-2005
  */
-const Vector3 OalSoundChannel::getVelocity() const throw (RuntimeException)
+const Vector3 OalSoundChannel::getVelocity() const
 {
     return mVelocity;
 }
@@ -163,7 +163,7 @@ const Vector3 OalSoundChannel::getVelocity() const throw (RuntimeException)
  * @author JoSch
  * @date 07-04-2005
  */
-void OalSoundChannel::setVelocity(const Vector3& velocity) throw (RuntimeException)
+void OalSoundChannel::setVelocity(const Vector3& velocity)
 {
     mVelocity = velocity;
 }
@@ -173,7 +173,7 @@ void OalSoundChannel::setVelocity(const Vector3& velocity) throw (RuntimeExcepti
  * @author JoSch
  * @date 07-04-2005
  */
-const int OalSoundChannel::getGain() const throw (RuntimeException)
+const unsigned int OalSoundChannel::getVolume() const
 {
     return mGain;
 }
@@ -183,7 +183,7 @@ const int OalSoundChannel::getGain() const throw (RuntimeException)
  * @author JoSch
  * @date 07-04-2005
  */
-void OalSoundChannel::setGain(const int gain) throw (RuntimeException)
+void OalSoundChannel::setVolume(const unsigned int gain)
 {
     mGain = gain;
 }
@@ -193,7 +193,7 @@ void OalSoundChannel::setGain(const int gain) throw (RuntimeException)
  * @author JoSch
  * @date 07-04-2005
  */
-void OalSoundChannel::pause(bool pausing) throw (RuntimeException)
+void OalSoundChannel::pause(bool pausing)
 {
     mIsPlaying = !pausing;
 }
@@ -202,7 +202,7 @@ void OalSoundChannel::pause(bool pausing) throw (RuntimeException)
  * @author JoSch
  * @date 07-23-2004
  */
-void OalSoundChannel::stop() throw (RuntimeException)
+void OalSoundChannel::stop()
 {
     mIsPlaying = false;
 }
@@ -212,7 +212,7 @@ void OalSoundChannel::stop() throw (RuntimeException)
  * @author JoSch
  * @date 07-04-2005
  */
-bool OalSoundChannel::isPaused() throw (RuntimeException)
+bool OalSoundChannel::isPaused()
 {
     return !mIsPlaying;
 }

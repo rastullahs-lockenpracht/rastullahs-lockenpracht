@@ -19,6 +19,7 @@
 
 #include "MultimediaPrerequisites.h"
 #include "Exception.h"
+#include <set>
 
 namespace Ogre {
     class MovableObject;
@@ -57,39 +58,39 @@ public:
 
 
     /// Gibt die eingestellte Position der Soundquelle zurueck
-    virtual const Ogre::Vector3 getPosition() const throw (RuntimeException) = 0;
+    virtual const Ogre::Vector3 getPosition() const = 0;
     /// Setzt die Position der Soundquelle.
-    virtual void setPosition(const Ogre::Vector3& direction) throw (RuntimeException) = 0;
-    /// Gibt die eingestellte relative Lautstaerke der Soundquelle zurueck
-    virtual const int getGain() const throw (RuntimeException) = 0; 
-    /// Setzt die relative Lautstaerke der Soundquelle.
-    virtual void setGain(const int gain) throw (RuntimeException) = 0;
+    virtual void setPosition(const Ogre::Vector3& direction) = 0;
+    /// Gibt die eingestellte relative Lautstaerke der Soundquelle zurueck (0..100)
+    virtual const unsigned int getVolume() const = 0; 
+    /// Setzt die relative Lautstaerke der Soundquelle (0..100).
+    virtual void setVolume(const unsigned int gain) = 0;
     /// Gibt die Richtung der Soundquelle zurueck.
-    virtual const Ogre::Vector3 getDirection() const throw (RuntimeException) = 0;
+    virtual const Ogre::Vector3 getDirection() const = 0;
     /// Gibt die Geschwindigkeit der Soundquelle zurueck.
-    virtual const Ogre::Vector3 getVelocity() const throw (RuntimeException) = 0;
+    virtual const Ogre::Vector3 getVelocity() const = 0;
     /// Setzt die Richtung der Soundquelle.
-    virtual void setDirection(const Ogre::Vector3&) throw (RuntimeException) = 0;
+    virtual void setDirection(const Ogre::Vector3&) = 0;
     /// Setzt die Geschwindigkeit der Soundquelle.
-    virtual void setVelocity(const Ogre::Vector3&) throw (RuntimeException) = 0;
+    virtual void setVelocity(const Ogre::Vector3&) = 0;
 
     /// Spielt den Sound ab.
-    virtual void play() throw (RuntimeException) = 0;
+    virtual void play() = 0;
     /// Pausiert den Sound.
-    virtual void pause(bool pausing) throw (RuntimeException) = 0;
+    virtual void pause(bool pausing) = 0;
     /// Ist der Sound pausiert?
-    virtual bool isPaused() throw (RuntimeException) = 0;
+    virtual bool isPaused() = 0;
     /// Stoppt den Sound.
-    virtual void stop() throw (RuntimeException) = 0;
+    virtual void stop() = 0;
     /// Zurueck auf Anfang.
 //        virtual void rewind() throw (RuntimeException) = 0;
     /// Laeuft der Sound noch
     virtual const bool isPlaying() const = 0;
 
 	/// Laedt den Sound.
-    virtual void load() throw (RuntimeException);
+    virtual void load();
     /// Entlaedt den Sound.
-    virtual void unload() throw (RuntimeException);
+    virtual void unload();
 
     /// Gibt zurück ob der Sound geloopt werden soll 
     bool isLooping() const;
@@ -101,12 +102,14 @@ public:
 	void set3d( bool is3d );
     
     // Sind wir gueltig
-    virtual bool isValid() const throw (RuntimeException);
+    virtual bool isValid() const;
 
     /// Hole den zugehoerigen Sound
     Sound *getSound() const;
 
 };
+
+typedef std::set<SoundChannel*> SoundChannelSet;
 
 };
 

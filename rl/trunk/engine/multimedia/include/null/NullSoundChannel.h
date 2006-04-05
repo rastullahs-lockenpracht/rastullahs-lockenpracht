@@ -58,37 +58,37 @@ public:
     void setChannel(signed int channel);  
 
     /// Gibt die eingestellte Position der Soundquelle zurueck
-    virtual const Ogre::Vector3 getPosition() const throw (RuntimeException);
+    virtual const Ogre::Vector3 getPosition() const;
     /// Setzt die Position der Soundquelle.
-    virtual void setPosition(const Ogre::Vector3& direction) throw (RuntimeException);
+    virtual void setPosition(const Ogre::Vector3& direction);
     /// Gibt die eingestellte relative Lautstaerke der Soundquelle zurueck
-    virtual const int getGain() const throw (RuntimeException); 
+    virtual const unsigned int getVolume() const; 
     /// Setzt die relative Lautstaerke der Soundquelle.
-    virtual void setGain(const int gain) throw (RuntimeException);
+    virtual void setVolume(const unsigned int gain);
     /// Gibt die Richtung der Soundquelle zurueck.
-    virtual const Ogre::Vector3 getDirection() const throw (RuntimeException);
+    virtual const Ogre::Vector3 getDirection() const;
     /// Gibt die Geschwindigkeit der Soundquelle zurueck.
-    virtual const Ogre::Vector3 getVelocity() const throw (RuntimeException);
+    virtual const Ogre::Vector3 getVelocity() const;
     /// Setzt die Richtung der Soundquelle.
-    virtual void setDirection(const Ogre::Vector3&) throw (RuntimeException);
+    virtual void setDirection(const Ogre::Vector3&);
     /// Setzt die Geschwindigkeit der Soundquelle.
-    virtual void setVelocity(const Ogre::Vector3&) throw (RuntimeException);
+    virtual void setVelocity(const Ogre::Vector3&);
 
     /// Spielt den Sound ab.
-    virtual void play() throw (RuntimeException);
+    virtual void play();
     /// Pausiert den Sound.
-    virtual void pause(bool pausing) throw (RuntimeException);
+    virtual void pause(bool pausing);
     /// Ist der Sound pausiert?
-    virtual bool isPaused() throw (RuntimeException);
+    virtual bool isPaused();
     /// Stoppt den Sound.
-    virtual void stop() throw (RuntimeException);
+    virtual void stop();
     /// Zurueck auf Anfang.
 //        virtual void rewind() throw (RuntimeException);
     /// Laeuft der Sound noch
     virtual const bool isPlaying() const;
     
     // Sind wir gueltig
-    bool isValid() const throw (RuntimeException);
+    bool isValid() const;
 };
 
 };

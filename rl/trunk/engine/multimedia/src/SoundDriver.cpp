@@ -18,12 +18,55 @@
 namespace rl
 {
 
-SoundDriver::SoundDriver()
+SoundDriver::SoundDriver():
+    mDefaultMusicVol(0),
+    mDefaultSoundVol(100)
 {
 }
 
 SoundDriver::~SoundDriver()
 {
+}
+
+/// Die Standardlautstärke für Musik einstellen
+void SoundDriver::setDefaultMusicVol(unsigned int vol)
+{
+    mDefaultMusicVol = vol;
+    SoundChannelSet::iterator it;
+    for(it = mMusicSet.begin(); it != mMusicSet.end(); it++)
+    {
+        (*it)->setVolume(vol);
+    }
+}
+
+/// Die Standardlautstärke für Musik zurückgeben.
+unsigned int SoundDriver::getDefaultMusicVol() const
+{
+    return mDefaultMusicVol;
+}
+
+/// Die Standardlautstärke für Musik einstellen
+void SoundDriver::setDefaultSoundVol(unsigned int vol)
+{
+    mDefaultSoundVol = vol;
+    SoundChannelSet::iterator it;
+    for(it = mSoundSet.begin(); it != mSoundSet.end(); it++)
+    {
+        (*it)->setVolume(vol);
+    }
+}
+
+/// Die Standardlautstärke für Musik zurückgeben.
+unsigned int SoundDriver::getDefaultSoundVol() const
+{
+    return mDefaultSoundVol;
+}
+
+/// Aus einer Liste entfernen.
+void SoundDriver::removeFromLists(SoundChannel *channel)
+{
+    mMusicSet.erase(channel);
+    mSoundSet.erase(channel);
 }
 
 }

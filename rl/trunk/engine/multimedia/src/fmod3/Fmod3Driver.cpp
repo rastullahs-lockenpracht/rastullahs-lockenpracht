@@ -39,7 +39,8 @@ namespace rl
  * @author JoSch
  * @date 12-23-2005
  */
-Fmod3Driver::Fmod3Driver()
+Fmod3Driver::Fmod3Driver():
+    SoundDriver()
 {
 }
 
@@ -393,6 +394,15 @@ Sound *Fmod3Driver::createSample(const SoundResourcePtr &res)
 SoundChannel *Fmod3Driver::createChannel(Sound *sound, const Ogre::String &name)
 {
  	SoundChannel *channel = new Fmod3SoundChannel(sound, name);
+    if (sound->is3d())
+    {
+        channel->setVolume(mDefaultSoundVol);
+        mSoundSet.insert(channel);
+    } else
+    {
+        channel->setVolume(mDefaultMusicVol);
+        mMusicSet.insert(channel);
+    }
  	return channel;
 }
 

@@ -48,14 +48,14 @@ Fmod3SoundChannel::~Fmod3SoundChannel()
  * @author JoSch
  * @date 07-23-2005
  */
-void Fmod3SoundChannel::play() throw (RuntimeException)
+void Fmod3SoundChannel::play()
 {
     if (!getSound()->isValid())
     {
         getSound()->load();
     }
     setChannel(dynamic_cast<Fmod3Sound*>(getSound())->createChannel());
-    setGain(255);
+    setVolume(100);
     setPosition(Vector3(0.0, 0.0, 0.0));
     setDirection(Vector3(0.0, 0.0, 0.0));
     setVelocity(Vector3(0.0, 0.0, 0.0)); 
@@ -99,7 +99,7 @@ const String& Fmod3SoundChannel::getMovableType() const
  * @author JoSch
  * @date 07-23-2004
  */
-const Vector3 Fmod3SoundChannel::getDirection() const throw (RuntimeException)
+const Vector3 Fmod3SoundChannel::getDirection() const
 {
     Vector3 result;
     return result;
@@ -110,7 +110,7 @@ const Vector3 Fmod3SoundChannel::getDirection() const throw (RuntimeException)
  * @author JoSch
  * @date 07-23-2004
  */
-void Fmod3SoundChannel::setDirection (const Vector3& direction) throw (RuntimeException)
+void Fmod3SoundChannel::setDirection (const Vector3& direction)
 {
     // TODO
 }
@@ -120,7 +120,7 @@ void Fmod3SoundChannel::setDirection (const Vector3& direction) throw (RuntimeEx
  * @author JoSch
  * @date 08-05-2005
  */
-bool Fmod3SoundChannel::isValid() const throw (RuntimeException)
+bool Fmod3SoundChannel::isValid() const
 {
     return SoundChannel::isValid() && (mChannel > 0);
 }
@@ -146,7 +146,7 @@ const bool Fmod3SoundChannel::isPlaying() const
  * @author JoSch
  * @date 07-04-2005
  */
-const Vector3 Fmod3SoundChannel::getPosition() const throw (RuntimeException)
+const Vector3 Fmod3SoundChannel::getPosition() const
 {
     float pos[3];
     if (isValid())
@@ -163,7 +163,7 @@ class FmodSoundSample;
  * @author JoSch
  * @date 07-04-2005
  */
-void Fmod3SoundChannel::setPosition(const Vector3& position) throw (RuntimeException)
+void Fmod3SoundChannel::setPosition(const Vector3& position)
 {
     if (isValid())
     {
@@ -181,7 +181,7 @@ void Fmod3SoundChannel::setPosition(const Vector3& position) throw (RuntimeExcep
  * @author JoSch
  * @date 07-04-2005
  */
-const Vector3 Fmod3SoundChannel::getVelocity() const throw (RuntimeException)
+const Vector3 Fmod3SoundChannel::getVelocity() const
 {
     float vel[3];
     if (isValid())
@@ -197,7 +197,7 @@ const Vector3 Fmod3SoundChannel::getVelocity() const throw (RuntimeException)
  * @author JoSch
  * @date 07-04-2005
  */
-void Fmod3SoundChannel::setVelocity(const Vector3& velocity) throw (RuntimeException)
+void Fmod3SoundChannel::setVelocity(const Vector3& velocity)
 {
     if (isValid())
     {
@@ -211,11 +211,11 @@ void Fmod3SoundChannel::setVelocity(const Vector3& velocity) throw (RuntimeExcep
  * @author JoSch
  * @date 07-04-2005
  */
-const int Fmod3SoundChannel::getGain() const throw (RuntimeException)
+const unsigned int Fmod3SoundChannel::getVolume() const
 {
     if (isValid())
     {
-        return FSOUND_GetVolume(getChannel());
+        return int(FSOUND_GetVolume(getChannel()) / 2.55);
     }
     return 0;
 }
@@ -225,20 +225,20 @@ const int Fmod3SoundChannel::getGain() const throw (RuntimeException)
  * @author JoSch
  * @date 07-04-2005
  */
-void Fmod3SoundChannel::setGain(const int gain) throw (RuntimeException)
+void Fmod3SoundChannel::setVolume(const unsigned int gain)
 {
     if (isValid())
     {
-        FSOUND_SetVolume(getChannel(), gain);
+        FSOUND_SetVolume(getChannel(), int(gain * 2.55));
     }
 }
 
 /**
- * @param pausing TRUE l�sst den Sound unterbrechen.
+ * @param pausing TRUE laesst den Sound unterbrechen.
  * @author JoSch
  * @date 07-04-2005
  */
-void Fmod3SoundChannel::pause(bool pausing) throw (RuntimeException)
+void Fmod3SoundChannel::pause(bool pausing)
 {
     if (isValid())
     {
@@ -250,7 +250,7 @@ void Fmod3SoundChannel::pause(bool pausing) throw (RuntimeException)
  * @author JoSch
  * @date 07-23-2004
  */
-void Fmod3SoundChannel::stop() throw (RuntimeException)
+void Fmod3SoundChannel::stop()
 {
     if (isValid())
     {
@@ -263,7 +263,7 @@ void Fmod3SoundChannel::stop() throw (RuntimeException)
  * @author JoSch
  * @date 07-04-2005
  */
-bool Fmod3SoundChannel::isPaused() throw (RuntimeException)
+bool Fmod3SoundChannel::isPaused()
 {
     if (isValid())
     {

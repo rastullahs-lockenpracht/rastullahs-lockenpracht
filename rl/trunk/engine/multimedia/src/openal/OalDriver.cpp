@@ -183,6 +183,15 @@ Sound *OalDriver::createSample(const SoundResourcePtr &res)
 SoundChannel *OalDriver::createChannel(Sound *sound, const Ogre::String &name)
 {
  	SoundChannel *channel = new OalSoundChannel(sound, name);
+    if (sound->is3d())
+    {
+        channel->setVolume(mDefaultSoundVol);
+        mSoundSet.insert(channel);
+    } else
+    {
+        channel->setVolume(mDefaultMusicVol);
+        mMusicSet.insert(channel);
+    }
  	return channel;
 }
 

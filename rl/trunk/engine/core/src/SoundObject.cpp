@@ -142,7 +142,7 @@ void SoundObject::setVolume(float volume)
 	else if (volume < 0.0)
 		volume = 0.0;
 
-	getSoundChannel()->setGain(volume * 255.0);
+	getSoundChannel()->setVolume(int (volume * 100.0));
 }
 
 bool SoundObject::is3d() const

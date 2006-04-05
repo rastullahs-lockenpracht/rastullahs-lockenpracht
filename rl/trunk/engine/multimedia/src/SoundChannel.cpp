@@ -20,6 +20,7 @@
 #include <OgreVector3.h>
 #include "Sound.h"
 #include "MultimediaSubsystem.h"
+#include "SoundDriver.h"
 extern "C" {
     #include <fmod.h>
 }
@@ -45,19 +46,20 @@ SoundChannel::~SoundChannel()
     {
         delete mSound;
     }
+    MultimediaSubsystem::getSingleton().getActiveDriver()->removeFromLists(this);
 }
 
 /**
  * @author JoSch
  * @date 07-23-2005
  */
-void SoundChannel::play() throw (RuntimeException)
+void SoundChannel::play()
 {
     if (!mSound->isValid())
     {
         mSound->load();
     }
-    setGain(255);
+    setVolume(100);
     setPosition(Vector3(0.0, 0.0, 0.0));
     setDirection(Vector3(0.0, 0.0, 0.0));
     setVelocity(Vector3(0.0, 0.0, 0.0)); 
@@ -117,7 +119,7 @@ void SoundChannel::_updateRenderQueue(RenderQueue *queue)
  * @author JoSch
  * @date 08-05-2005
  */
-bool SoundChannel::isValid() const throw (RuntimeException)
+bool SoundChannel::isValid() const
 {
     return mSound->isValid();
 }
@@ -138,12 +140,12 @@ Sound *SoundChannel::getSound() const
     return mSound;
 }
 
-void SoundChannel::load() throw (RuntimeException)
+void SoundChannel::load()
 {
 	mSound->load();
 }
 
-void SoundChannel::unload() throw (RuntimeException)
+void SoundChannel::unload()
 {
     mSound->unload();
 }
