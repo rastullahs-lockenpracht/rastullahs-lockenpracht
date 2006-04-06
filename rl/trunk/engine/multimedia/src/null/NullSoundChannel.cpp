@@ -30,10 +30,7 @@ namespace rl
 
 NullSoundChannel::NullSoundChannel(Sound *sound, const Ogre::String &name)
  : SoundChannel(sound, name),
-   mChannel(NO_CHANNEL),
-   mPosition(Vector3(0.0, 0.0, 0.0)),
-   mDirection(Vector3(0.0, 0.0, 0.0)),
-   mVelocity(Vector3(0.0, 0.0, 0.0))
+   mChannel(NO_CHANNEL)
 {   
 }
 
@@ -90,7 +87,7 @@ const String& NullSoundChannel::getMovableType() const
  * @author JoSch
  * @date 07-23-2004
  */
-const Vector3 NullSoundChannel::getDirection() const
+const Quaternion NullSoundChannel::getDirection() const
 {
     return mDirection;
 }
@@ -100,7 +97,7 @@ const Vector3 NullSoundChannel::getDirection() const
  * @author JoSch
  * @date 07-23-2004
  */
-void NullSoundChannel::setDirection (const Vector3& direction)
+void NullSoundChannel::setDirection (const Quaternion& direction)
 {
     mDirection = direction;
 }

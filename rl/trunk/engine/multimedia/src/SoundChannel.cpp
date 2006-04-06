@@ -62,7 +62,7 @@ void SoundChannel::play()
     }
     setVolume(100);
     setPosition(Vector3(0.0, 0.0, 0.0));
-    setDirection(Vector3(0.0, 0.0, 0.0));
+    setDirection(Quaternion(0.0, 0.0, 0.0));
     setVelocity(Vector3(0.0, 0.0, 0.0)); 
     pause(false);
 }

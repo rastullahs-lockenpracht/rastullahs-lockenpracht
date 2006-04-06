@@ -78,16 +78,6 @@ namespace rl {
         void setLooping(bool looping);
     }; 
 
-    class _RlMultimediaExport SoundPtr :
-        public Ogre::SharedPtr<Sound>
-    {
-    public:
-        SoundPtr() : Ogre::SharedPtr<Sound>() {}
-        explicit SoundPtr(Sound* rep) : Ogre::SharedPtr<Sound>(rep) {}
-        SoundPtr(const SoundPtr& res) : Ogre::SharedPtr<Sound>(res) {}
-    protected:
-        void destroy();
-    };
 
 
 }

@@ -39,12 +39,8 @@ private:
     static Ogre::String msMovableType;
     /// Fmod-Channel 
     signed int mChannel;
-    /// Position, Richtung, Geschwindigkeit
-    Ogre::Vector3 mPosition, mDirection, mVelocity;
     /// Ob der Sound spielt
     bool mIsPlaying;
-    /// Lautstärke
-    int mGain;
     
 public:
 	OalSoundChannel(Sound *sound, const Ogre::String &name);
@@ -66,11 +62,11 @@ public:
     /// Setzt die relative Lautstaerke der Soundquelle.
     virtual void setVolume(const unsigned int gain);
     /// Gibt die Richtung der Soundquelle zurueck.
-    virtual const Ogre::Vector3 getDirection() const;
+    virtual const Ogre::Quaternion getDirection() const;
     /// Gibt die Geschwindigkeit der Soundquelle zurueck.
     virtual const Ogre::Vector3 getVelocity() const;
     /// Setzt die Richtung der Soundquelle.
-    virtual void setDirection(const Ogre::Vector3&);
+    virtual void setDirection(const Ogre::Quaternion&);
     /// Setzt die Geschwindigkeit der Soundquelle.
     virtual void setVelocity(const Ogre::Vector3&);
 

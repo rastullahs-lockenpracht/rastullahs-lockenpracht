@@ -60,11 +60,11 @@ public:
     /// Setzt die relative Lautstaerke der Soundquelle (0.100)
     virtual void setVolume(const unsigned int gain);
     /// Gibt die Richtung der Soundquelle zurueck.
-    virtual const Ogre::Vector3 getDirection() const;
+    virtual const Ogre::Quaternion getDirection() const;
     /// Gibt die Geschwindigkeit der Soundquelle zurueck.
     virtual const Ogre::Vector3 getVelocity() const;
     /// Setzt die Richtung der Soundquelle.
-    virtual void setDirection(const Ogre::Vector3&);
+    virtual void setDirection(const Ogre::Quaternion&);
     /// Setzt die Geschwindigkeit der Soundquelle.
     virtual void setVelocity(const Ogre::Vector3&);
 

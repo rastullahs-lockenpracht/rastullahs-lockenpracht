@@ -20,10 +20,11 @@
 #include "MultimediaPrerequisites.h"
 #include "Exception.h"
 #include <set>
+#include <OgreVector3.h>
+#include <OgreQuaternion.h>
 
 namespace Ogre {
     class MovableObject;
-    class Vector3;
 }
 
 namespace rl
@@ -41,9 +42,15 @@ private:
     /// Der Name des Soundchannels
     Ogre::String mName;
     
-public:
+protected:
     /// Die Lautstärke
     unsigned int mVolume;
+    /// Die Position
+    Ogre::Vector3 mPosition;
+    /// Die Richtung
+    Ogre::Quaternion mDirection;
+    /// Die Geschwindigkeit
+    Ogre::Vector3 mVelocity;
     
 public:
 	SoundChannel(Sound *sound, const Ogre::String &name);
@@ -70,11 +77,11 @@ public:
     /// Setzt die relative Lautstaerke der Soundquelle (0..100).
     virtual void setVolume(const unsigned int gain) = 0;
     /// Gibt die Richtung der Soundquelle zurueck.
-    virtual const Ogre::Vector3 getDirection() const = 0;
+    virtual const Ogre::Quaternion getDirection() const = 0;
     /// Gibt die Geschwindigkeit der Soundquelle zurueck.
     virtual const Ogre::Vector3 getVelocity() const = 0;
     /// Setzt die Richtung der Soundquelle.
-    virtual void setDirection(const Ogre::Vector3&) = 0;
+    virtual void setDirection(const Ogre::Quaternion&) = 0;
     /// Setzt die Geschwindigkeit der Soundquelle.
     virtual void setVelocity(const Ogre::Vector3&) = 0;
 

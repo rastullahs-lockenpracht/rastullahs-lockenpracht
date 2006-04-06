@@ -57,7 +57,7 @@ void Fmod3SoundChannel::play()
     setChannel(dynamic_cast<Fmod3Sound*>(getSound())->createChannel());
     setVolume(mVolume);
     setPosition(Vector3(0.0, 0.0, 0.0));
-    setDirection(Vector3(0.0, 0.0, 0.0));
+    setDirection(Quaternion(0.0, 0.0, 0.0));
     setVelocity(Vector3(0.0, 0.0, 0.0)); 
     FSOUND_3D_SetMinMaxDistance(mChannel, 1.0, 9999999.0);
     pause(false);
@@ -99,10 +99,9 @@ const String& Fmod3SoundChannel::getMovableType() const
  * @author JoSch
  * @date 07-23-2004
  */
-const Vector3 Fmod3SoundChannel::getDirection() const
+const Quaternion Fmod3SoundChannel::getDirection() const
 {
-    Vector3 result;
-    return result;
+    return mDirection;
 }
 
 /**
@@ -110,9 +109,9 @@ const Vector3 Fmod3SoundChannel::getDirection() const
  * @author JoSch
  * @date 07-23-2004
  */
-void Fmod3SoundChannel::setDirection (const Vector3& direction)
+void Fmod3SoundChannel::setDirection (const Quaternion& direction)
 {
-    // TODO
+    mDirection = direction;
 }
 
 /**
@@ -148,13 +147,14 @@ const bool Fmod3SoundChannel::isPlaying() const
  */
 const Vector3 Fmod3SoundChannel::getPosition() const
 {
-    float pos[3];
     if (isValid())
     {
+        float pos[3];
         FSOUND_3D_GetAttributes(getChannel(), pos, 0);
+        Vector3 result(pos);
+        return result;
     }
-    Vector3 result(pos);
-    return result;
+    return mPosition;
 }
 
 class FmodSoundSample;
@@ -174,6 +174,7 @@ void Fmod3SoundChannel::setPosition(const Vector3& position)
             + StringConverter::toString(position.z));
         FSOUND_3D_SetAttributes(getChannel(), pos, 0);
     }
+    mPosition = position;
 }
 
 /**
@@ -183,13 +184,14 @@ void Fmod3SoundChannel::setPosition(const Vector3& position)
  */
 const Vector3 Fmod3SoundChannel::getVelocity() const
 {
-    float vel[3];
     if (isValid())
     {
+        float vel[3];
         FSOUND_3D_GetAttributes(getChannel(), 0, vel);
+        Vector3 result(vel);
+        return result;
     }
-    Vector3 result(vel);
-    return result;
+    return mVelocity;
 }
 
 /**
@@ -204,6 +206,7 @@ void Fmod3SoundChannel::setVelocity(const Vector3& velocity)
         float vel[] = {velocity[0], velocity[1], velocity[2]};
         FSOUND_3D_SetAttributes(getChannel(), 0, vel);
     }
+    mVelocity = velocity;
 }
 
 /**

@@ -115,13 +115,5 @@ const SoundResourcePtr &Sound::getSoundResource() const
     return mSoundResource;
 }
 
-/**
- * @FIXME: destroy sound pointer
- */
-void SoundPtr::destroy()
-{
-    SharedPtr<Sound>::destroy();
-}
-
 
 };

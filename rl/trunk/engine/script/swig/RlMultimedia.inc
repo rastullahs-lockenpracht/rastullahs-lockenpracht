@@ -62,7 +62,7 @@ public:
 	SoundChannel(Sound *sound, const Ogre::String &name);
 	virtual ~SoundChannel();
     
-    /// Name zurÃ¼ckgeben
+    /// Name zurückgeben
     const Ogre::String& getName() const;
     /// Kamera informieren
     virtual void _notifyCurrentCamera(Ogre::Camera *cam);
@@ -83,11 +83,11 @@ public:
     /// Setzt die relative Lautstaerke der Soundquelle.
     virtual void setVolume(const unsigned int gain) = 0;
     /// Gibt die Richtung der Soundquelle zurueck.
-    virtual const Ogre::Vector3 getDirection() const = 0;
+    virtual const Ogre::Quaternion getDirection() const = 0;
     /// Gibt die Geschwindigkeit der Soundquelle zurueck.
     virtual const Ogre::Vector3 getVelocity() const = 0;
     /// Setzt die Richtung der Soundquelle.
-    virtual void setDirection(const Ogre::Vector3&) = 0;
+    virtual void setDirection(const Ogre::Quaternion&) = 0;
     /// Setzt die Geschwindigkeit der Soundquelle.
     virtual void setVelocity(const Ogre::Vector3&) = 0;
 
@@ -104,7 +104,7 @@ public:
     /// Laeuft der Sound noch
     virtual const bool isPlaying() const = 0;
 
-    /// Gibt zurÃ¼ck ob der Sound geloopt werden soll 
+    /// Gibt zurück ob der Sound geloopt werden soll 
     bool isLooping() const;
     /// Setzt ob der Sound geloopt werden soll 
     void setLooping( bool looping );

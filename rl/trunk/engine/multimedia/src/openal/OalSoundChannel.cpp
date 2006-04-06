@@ -51,7 +51,7 @@ void OalSoundChannel::play()
     // TODO setChannel(getSound()->createChannel());
     setVolume(100);
     setPosition(Vector3(0.0, 0.0, 0.0));
-    setDirection(Vector3(0.0, 0.0, 0.0));
+    setDirection(Quaternion(0.0, 0.0, 0.0));
     setVelocity(Vector3(0.0, 0.0, 0.0)); 
     pause(false);
 }
@@ -92,7 +92,7 @@ const String& OalSoundChannel::getMovableType() const
  * @author JoSch
  * @date 07-23-2004
  */
-const Vector3 OalSoundChannel::getDirection() const
+const Quaternion OalSoundChannel::getDirection() const
 {
     return mDirection;
 }
@@ -102,7 +102,7 @@ const Vector3 OalSoundChannel::getDirection() const
  * @author JoSch
  * @date 07-23-2004
  */
-void OalSoundChannel::setDirection (const Vector3& direction)
+void OalSoundChannel::setDirection (const Quaternion& direction)
 {
     mDirection = direction;
 }
@@ -175,7 +175,7 @@ void OalSoundChannel::setVelocity(const Vector3& velocity)
  */
 const unsigned int OalSoundChannel::getVolume() const
 {
-    return mGain;
+    return mVolume;
 }
 
 /**
@@ -185,7 +185,7 @@ const unsigned int OalSoundChannel::getVolume() const
  */
 void OalSoundChannel::setVolume(const unsigned int gain)
 {
-    mGain = gain;
+    mVolume = gain;
 }
 
 /**

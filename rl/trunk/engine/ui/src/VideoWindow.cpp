@@ -62,6 +62,7 @@ void VideoWindow::show(Texture *texture, CeGuiString name)
     if(mTexture)
     {
         CeGuiString temp = "MyImages";
+
         Imageset *img = ImagesetManager::getSingleton().createImageset( 
                 temp, mTexture );
         img->defineImage( mName, Point(0.0f,0.0f), mImage->getAbsoluteSize(), Point(0.0f,0.0f));
