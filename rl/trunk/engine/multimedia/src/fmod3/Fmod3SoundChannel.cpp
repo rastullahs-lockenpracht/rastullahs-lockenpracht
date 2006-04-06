@@ -56,7 +56,6 @@ void Fmod3SoundChannel::play()
     }
     setChannel(dynamic_cast<Fmod3Sound*>(getSound())->createChannel());
     setVolume(mVolume);
-    printf("Fmod vol %d\n", mVolume);
     setPosition(Vector3(0.0, 0.0, 0.0));
     setDirection(Vector3(0.0, 0.0, 0.0));
     setVelocity(Vector3(0.0, 0.0, 0.0)); 
