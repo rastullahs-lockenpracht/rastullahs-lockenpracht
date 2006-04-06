@@ -19,7 +19,7 @@ namespace rl
 {
 
 SoundDriver::SoundDriver():
-    mDefaultMusicVol(0),
+    mDefaultMusicVol(100),
     mDefaultSoundVol(100)
 {
 }

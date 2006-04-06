@@ -43,8 +43,6 @@ private:
     Ogre::Vector3 mPosition, mDirection, mVelocity;
     /// Ob der Sound spielt
     bool mIsPlaying;
-    /// Lautstärke
-    int mGain;
     
 public:
 	NullSoundChannel(Sound *sound, const Ogre::String &name);

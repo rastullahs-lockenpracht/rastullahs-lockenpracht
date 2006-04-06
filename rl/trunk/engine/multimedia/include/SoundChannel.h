@@ -42,6 +42,10 @@ private:
     Ogre::String mName;
     
 public:
+    /// Die Lautstärke
+    unsigned int mVolume;
+    
+public:
 	SoundChannel(Sound *sound, const Ogre::String &name);
 	virtual ~SoundChannel();
     

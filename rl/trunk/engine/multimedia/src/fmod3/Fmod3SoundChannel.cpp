@@ -55,7 +55,8 @@ void Fmod3SoundChannel::play()
         getSound()->load();
     }
     setChannel(dynamic_cast<Fmod3Sound*>(getSound())->createChannel());
-    setVolume(100);
+    setVolume(mVolume);
+    printf("Fmod vol %d\n", mVolume);
     setPosition(Vector3(0.0, 0.0, 0.0));
     setDirection(Vector3(0.0, 0.0, 0.0));
     setVelocity(Vector3(0.0, 0.0, 0.0)); 
@@ -217,7 +218,7 @@ const unsigned int Fmod3SoundChannel::getVolume() const
     {
         return int(FSOUND_GetVolume(getChannel()) / 2.55);
     }
-    return 0;
+    return mVolume;
 }
 
 /**
@@ -227,6 +228,7 @@ const unsigned int Fmod3SoundChannel::getVolume() const
  */
 void Fmod3SoundChannel::setVolume(const unsigned int gain)
 {
+    mVolume = gain;
     if (isValid())
     {
         FSOUND_SetVolume(getChannel(), int(gain * 2.55));

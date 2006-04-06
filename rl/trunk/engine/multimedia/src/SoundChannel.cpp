@@ -35,7 +35,8 @@ namespace rl
 SoundChannel::SoundChannel(Sound *sound, const Ogre::String &name)
  : MovableObject(),
    mSound(sound),
-   mName(name)
+   mName(name),
+   mVolume(100)
 {
     
 }

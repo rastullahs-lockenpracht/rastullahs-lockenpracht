@@ -30,7 +30,10 @@ namespace rl
 
 NullSoundChannel::NullSoundChannel(Sound *sound, const Ogre::String &name)
  : SoundChannel(sound, name),
-   mChannel(NO_CHANNEL)
+   mChannel(NO_CHANNEL),
+   mPosition(Vector3(0.0, 0.0, 0.0)),
+   mDirection(Vector3(0.0, 0.0, 0.0)),
+   mVelocity(Vector3(0.0, 0.0, 0.0))
 {   
 }
 
@@ -48,10 +51,6 @@ void NullSoundChannel::play()
     {
         getSound()->load();
     }
-    setVolume(100);
-    setPosition(Vector3(0.0, 0.0, 0.0));
-    setDirection(Vector3(0.0, 0.0, 0.0));
-    setVelocity(Vector3(0.0, 0.0, 0.0)); 
     pause(false);
 }
 
@@ -174,7 +173,7 @@ void NullSoundChannel::setVelocity(const Vector3& velocity)
  */
 const unsigned int NullSoundChannel::getVolume() const
 {
-    return mGain;
+    return mVolume;
 }
 
 /**
@@ -184,7 +183,7 @@ const unsigned int NullSoundChannel::getVolume() const
  */
 void NullSoundChannel::setVolume(const unsigned int gain)
 {
-    mGain = gain;
+    mVolume = gain;
 }
 
 /**
