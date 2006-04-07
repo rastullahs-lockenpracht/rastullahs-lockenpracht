@@ -20,6 +20,7 @@
 #include "MultimediaPrerequisites.h"
 #include "MultimediaSubsystem.h"
 #include "Sound.h"
+#include "SoundEvents.h"
 #undef message
 #undef send
 #include "VideoEvents.h"

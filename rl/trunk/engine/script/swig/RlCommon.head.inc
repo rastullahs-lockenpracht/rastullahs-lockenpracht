@@ -19,4 +19,7 @@
 #include "FixRubyHeaders.h"
 #include "CommonPrerequisites.h"
 #include "GameTask.h"
+#include <set>
+#include "EventListener.h"
+#include "EventCaster.h"
 %}

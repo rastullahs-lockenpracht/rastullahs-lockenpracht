@@ -56,7 +56,8 @@ public:
     bool hasListeners() const;
 };
 
-class SoundChannel
+%template(SoundEventCaster) rl::EventCaster<rl::SoundEvent>;
+class SoundChannel : public rl::EventCaster<rl::SoundEvent>
 {
 public:
 	SoundChannel(Sound *sound, const Ogre::String &name);

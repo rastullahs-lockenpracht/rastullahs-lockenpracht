@@ -27,12 +27,14 @@ class _RlMultimediaExport SoundEvent : public EventObject
 
 public:
 	SoundEvent(EventSource *source);
+    SoundEvent(EventSource *source, const unsigned int reason);
 	virtual ~SoundEvent();
 };
 
 class _RlMultimediaExport SoundFadeEvent : public SoundEvent {
 public:
     SoundFadeEvent(EventSource *source);
+    SoundFadeEvent(EventSource *source, const unsigned int reason );
     virtual ~SoundFadeEvent();
 
     static const unsigned int STARTEVENT = 12;
@@ -43,10 +45,12 @@ class _RlMultimediaExport SoundPlayEvent : public SoundEvent {
 public:
 
     SoundPlayEvent(EventSource *source);
+    SoundPlayEvent(EventSource *source, const unsigned int reason );
     virtual ~SoundPlayEvent();
     
     static const unsigned int STARTEVENT = 10;
     static const unsigned int STOPEVENT = 11;
+    static const unsigned int PAUSEEVENT = 15;
 };
 
 class _RlMultimediaExport  SoundTimingEvent : public SoundEvent {
@@ -55,6 +59,7 @@ public:
     double mTime;
 
     SoundTimingEvent(EventSource *source);
+    SoundTimingEvent(EventSource *source, const unsigned int reason );
     virtual ~SoundTimingEvent();
     
     static const unsigned int TIMEEVENT = 14;

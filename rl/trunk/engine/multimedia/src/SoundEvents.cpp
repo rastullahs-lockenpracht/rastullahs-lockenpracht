@@ -22,11 +22,21 @@ SoundEvent::SoundEvent(EventSource *source) :
     EventObject(source)
 {}
 
+SoundEvent::SoundEvent(EventSource *source, const unsigned int reason):
+    EventObject(source, reason)
+{
+}
+
 SoundEvent::~SoundEvent()
 {}
 
 SoundFadeEvent::SoundFadeEvent(EventSource *source):
     SoundEvent(source)
+{
+}
+
+SoundFadeEvent::SoundFadeEvent(EventSource *source, const unsigned int reason):
+    SoundEvent(source, reason)
 {
 }
 
@@ -39,6 +49,11 @@ SoundPlayEvent::SoundPlayEvent(EventSource *source) :
 {
 }
 
+SoundPlayEvent::SoundPlayEvent(EventSource *source, const unsigned int reason):
+    SoundEvent(source, reason)
+{
+}
+
 SoundPlayEvent::~SoundPlayEvent()
 {
 }
@@ -48,6 +63,11 @@ SoundTimingEvent::SoundTimingEvent(EventSource *source) :
     mTime(0.0)
 {
     setReason(TIMEEVENT);
+}
+
+SoundTimingEvent::SoundTimingEvent(EventSource *source, const unsigned int reason):
+    SoundEvent(source, reason)
+{
 }
 
 SoundTimingEvent::~SoundTimingEvent()

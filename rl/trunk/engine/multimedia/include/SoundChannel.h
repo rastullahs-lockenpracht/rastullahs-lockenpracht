@@ -22,6 +22,8 @@
 #include <set>
 #include <OgreVector3.h>
 #include <OgreQuaternion.h>
+#include "SoundEvents.h"
+#include "EventCaster.h"
 
 namespace Ogre {
     class MovableObject;
@@ -32,7 +34,8 @@ namespace rl
     
     class Sound;
 
-class _RlMultimediaExport SoundChannel  : public Ogre::MovableObject
+class _RlMultimediaExport SoundChannel  : public Ogre::MovableObject, 
+    public EventCaster<SoundEvent>, public EventSource
 {
 private:
     rl::Sound *mSound;

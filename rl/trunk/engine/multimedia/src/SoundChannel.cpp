@@ -34,6 +34,8 @@ namespace rl
 
 SoundChannel::SoundChannel(Sound *sound, const Ogre::String &name)
  : MovableObject(),
+   EventSource(),
+   EventCaster<SoundEvent>(),
    mSound(sound),
    mName(name),
    mVolume(100)
@@ -48,23 +50,6 @@ SoundChannel::~SoundChannel()
         delete mSound;
     }
     MultimediaSubsystem::getSingleton().getActiveDriver()->removeFromLists(this);
-}
-
-/**
- * @author JoSch
- * @date 07-23-2005
- */
-void SoundChannel::play()
-{
-    if (!mSound->isValid())
-    {
-        mSound->load();
-    }
-    setVolume(100);
-    setPosition(Vector3(0.0, 0.0, 0.0));
-    setDirection(Quaternion(0.0, 0.0, 0.0));
-    setVelocity(Vector3(0.0, 0.0, 0.0)); 
-    pause(false);
 }
 
 /**
