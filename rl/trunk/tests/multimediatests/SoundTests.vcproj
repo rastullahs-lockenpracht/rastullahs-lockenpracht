@@ -53,8 +53,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain_d.lib cppunitd_dll.lib fmodvc.lib"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogrenew\ogremain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\cppunit\lib;..\..\dependencies\fmod\api\lib"
+				AdditionalDependencies="OgreMain_d.lib cppunitd_dll.lib fmodvc.lib ceguibase_d.lib rlcommon.lib rlmultimedia.lib"
+				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogrenew\ogremain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\cppunit\lib;..\..\dependencies\fmod\api\lib;&quot;..\..\engine\multimedia\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\common\lib\$(ConfigurationName)&quot;"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -120,8 +120,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib cppunit_dll.lib fmodvc.lib"
-				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogrenew\ogremain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\cppunit\lib;..\..\dependencies\fmod\api\lib"
+				AdditionalDependencies="OgreMain.lib cppunit_dll.lib fmodvc.lib ceguibase.lib rlcommon.lib rlmultimedia.lib"
+				AdditionalLibraryDirectories="&quot;..\..\dependencies\ogrenew\ogremain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\cppunit\lib;..\..\dependencies\fmod\api\lib;&quot;..\..\engine\multimedia\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\common\lib\$(ConfigurationName)&quot;"
 			/>
 			<Tool
 				Name="VCALinkTool"

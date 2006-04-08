@@ -36,7 +36,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\engine\script\include;..\..\engine\ui\include;..\..\engine\uicomponents\include;..\..\engine\dialog\include;..\..\engine\sound\include;..\..\engine\common\include;..\..\engine\core\include;..\..\engine\rules\include;..\..\dependencies\cppunit\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogrenewt\inc;..\..\dependencies\xerces\include;..\..\dependencies\newtonsdk\sdk"
+				AdditionalIncludeDirectories="..\..\engine\script\include;..\..\engine\ui\include;..\..\engine\uicomponents\include;..\..\engine\dialog\include;..\..\engine\multimedia\include;..\..\engine\common\include;..\..\engine\core\include;..\..\engine\rules\include;..\..\dependencies\cppunit\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogrenewt\inc;..\..\dependencies\xerces\include;..\..\dependencies\newtonsdk\sdk"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -49,8 +49,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="CEGUIBase_d.lib OgreMain_d.lib cppunitd_dll.lib user32.lib  RlUi.lib RlCore.lib"
-				AdditionalLibraryDirectories="&quot;..\..\engine\ui\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\core\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\ogremain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\cppunit\lib;..\..\dependencies\fmod\api\lib"
+				AdditionalDependencies="CEGUIBase_d.lib OgreMain_d.lib cppunitd_dll.lib user32.lib RlUi.lib RlCore.lib RlMultimedia.lib"
+				AdditionalLibraryDirectories="&quot;..\..\engine\ui\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\core\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\multimedia\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\ogremain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\cppunit\lib;..\..\dependencies\fmod\api\lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -79,6 +79,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			>
@@ -99,7 +100,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\engine\script\include;..\..\engine\ui\include;..\..\engine\uicomponents\include;..\..\engine\dialog\include;..\..\engine\sound\include;..\..\engine\common\include;..\..\engine\core\include;..\..\engine\rules\include;..\..\dependencies\cppunit\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogrenewt\inc;..\..\dependencies\xerces\include;..\..\dependencies\newtonsdk\sdk"
+				AdditionalIncludeDirectories="..\..\engine\script\include;..\..\engine\ui\include;..\..\engine\uicomponents\include;..\..\engine\dialog\include;..\..\engine\multimedia\include;..\..\engine\common\include;..\..\engine\core\include;..\..\engine\rules\include;..\..\dependencies\cppunit\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogrenewt\inc;..\..\dependencies\xerces\include;..\..\dependencies\newtonsdk\sdk"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -112,8 +113,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="CEGUIBase.lib OgreMain.lib cppunit_dll.lib user32.lib"
-				AdditionalLibraryDirectories="&quot;..\..\engine\ui\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\core\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\ogremain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\cppunit\lib;..\..\dependencies\fmod\api\lib"
+				AdditionalDependencies="CEGUIBase.lib OgreMain.lib cppunit_dll.lib user32.lib RlMultimedia.lib RlCore.lib RlUi.lib"
+				AdditionalLibraryDirectories="&quot;..\..\engine\ui\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\core\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\multimedia\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\ogremain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\cppunit\lib;..\..\dependencies\fmod\api\lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

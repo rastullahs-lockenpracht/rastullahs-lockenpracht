@@ -49,8 +49,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="CEGUIBase_d.lib OgreMain_d.lib cppunitd_dll.lib user32.lib RlUi.lib RlCore.lib"
-				AdditionalLibraryDirectories="&quot;..\..\engine\ui\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\core\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\ogremain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\cppunit\lib;..\..\dependencies\fmod\api\lib"
+				AdditionalDependencies="CEGUIBase_d.lib OgreMain_d.lib cppunitd_dll.lib user32.lib RlUi.lib RlCore.lib RlMultimedia.lib"
+				AdditionalLibraryDirectories="&quot;..\..\engine\ui\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\core\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\multimedia\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\ogremain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\cppunit\lib;..\..\dependencies\fmod\api\lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -115,8 +115,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="CEGUIBase.lib OgreMain.lib cppunit_dll.lib  user32.lib  RlUi.lib RlCore.lib"
-				AdditionalLibraryDirectories="&quot;..\..\engine\ui\lib\$(ConfigurationName)&quot;; &quot;..\..\engine\core\lib\$(ConfigurationName)&quot;; &quot;..\..\dependencies\ogrenew\ogremain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\cppunit\lib;..\..\dependencies\fmod\api\lib"
+				AdditionalDependencies="CEGUIBase.lib OgreMain.lib cppunit_dll.lib user32.lib RlUi.lib RlCore.lib RlMultimedia.lib"
+				AdditionalLibraryDirectories="&quot;..\..\engine\ui\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\core\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\multimedia\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\ogremain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\cppunit\lib;..\..\dependencies\fmod\api\lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
