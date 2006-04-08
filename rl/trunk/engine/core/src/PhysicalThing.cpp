@@ -130,6 +130,7 @@ namespace rl
     {
         mBody->setPositionOrientation(mActor->_getSceneNode()->getWorldPosition() + mOffset,
             mOrientationBias.Inverse() * mActor->_getSceneNode()->getWorldOrientation());
+		mActor->_update(Actor::UF_ALL & ~Actor::UF_PHYSICAL_THING);
     }
 
     void PhysicalThing::_setActor(Actor* actor)

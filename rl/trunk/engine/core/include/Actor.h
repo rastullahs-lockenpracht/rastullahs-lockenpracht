@@ -43,6 +43,16 @@ namespace rl {
             QGF_ALL = 0xFFFFFFFF
         };
 
+		enum UpdateFlags
+		{
+			UF_NONE = 0,
+			UF_PHYSICAL_THING = 1,
+			UF_CHILDREN = 2,
+			UF_SCENE_NODE = 4,
+			UF_CONTROLLED = 8,
+			UF_ALL = 0xFFFFFFFF
+		};
+
         Actor(const Ogre::String& name,
             ActorControlledObject* aco = NULL,
             PhysicalThing* pt = NULL,
@@ -233,7 +243,7 @@ namespace rl {
         
         Ogre::SceneNode* _getSceneNode() const;
         Ogre::MovableObject* _getMovableObject() const;
-        void _update();
+        void _update(unsigned long flags = UF_ALL);
 
         /// Setzt diesem Aktor ein Highlight
 		void setHighlighted(bool highlight);

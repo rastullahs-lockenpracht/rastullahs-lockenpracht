@@ -22,43 +22,88 @@
 namespace rl
 {
 
-SoundPlaylist::SoundPlaylist()
+SoundPlaylist::SoundPlaylist() :
+	mLooping(false)
 {
 }
 
 SoundPlaylist::~SoundPlaylist()
 {
+	stop();
+	for(mItem = mQueue.begin(); mItem != mQueue.end();)
+	{
+		remove(*mItem);
+	}
 }
 
-void SoundPlaylist::run( Ogre::Real elapsedTime )
-{
-    bool destroy = false;
-    if (!mQueue.empty())
-    {
-        if (mQueue.front()->getSoundChannel()->isPaused())
-        {
-            delete mQueue.front();
-            mQueue.pop();
-            if (!mQueue.empty())
-            {
-                mQueue.front()->play();
-            } else {
-                destroy = true;
-            }
-        }
-    } else {
-        destroy = true;
-    }
-    if (destroy)
-    {
-        GameLoopManager::getSingleton().removeAsynchronousTask(this);
-        delete this;
-    }
-}
 
 void SoundPlaylist::add(SoundObject *object)
 {
-    mQueue.push(object);
+	if (object)
+	{
+		mQueue.push_back(object);
+		object->load();
+		object->getSoundChannel()->addEventListener(this);
+	}
+}
+
+void SoundPlaylist::remove(SoundObject *object)
+{
+	if (object)
+	{
+		object->getSoundChannel()->removeEventListener(this);
+		object->unload();
+		if (*mItem == object)
+		{
+			mItem++;
+		}
+		mQueue.remove(object);
+	}
+}
+
+void SoundPlaylist::start()
+{
+	stop();
+	mItem = mQueue.begin();
+	(*mItem)->play();
+}
+
+void SoundPlaylist::stop()
+{
+	SoundObjectList::iterator it;
+	for(it = mQueue.begin(); it != mQueue.end(); it++)
+	{
+		(*it)->stop();
+	}
+}
+
+bool SoundPlaylist::eventRaised(SoundEvent *anEvent)
+{
+	(*mItem)->stop();
+	if (mItem != mQueue.end())
+	{
+		mItem++;
+	} else {
+		if (mLooping)
+		{
+			mItem = mQueue.begin();
+		}
+	}
+	if (mItem != mQueue.end())
+	{
+		(*mItem)->play();
+	}
+	return true;
+}
+
+void SoundPlaylist::setLooping(bool looping)
+{
+	mLooping = looping;
+}
+
+bool SoundPlaylist::isLooping() const
+{
+	return mLooping;
 }
 
 }

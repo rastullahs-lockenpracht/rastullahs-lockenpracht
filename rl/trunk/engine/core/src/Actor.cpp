@@ -611,21 +611,24 @@ namespace rl {
             mActorControlledObject->getMovableObject() : 0;
     }
     
-    void Actor::_update()
+    void Actor::_update(unsigned long flags)
     {
-        if (mSceneNode)
+        if (mSceneNode && (flags & UF_SCENE_NODE))
             mSceneNode->_update(true,false);
 
-		if (mPhysicalThing)
+		if (mPhysicalThing && (flags & UF_PHYSICAL_THING))
 			mPhysicalThing->_update();
 			
-		if (mActorControlledObject)
+		if (mActorControlledObject && (flags & UF_CONTROLLED))
 		    mActorControlledObject->_update();
 
-		for( ChildSet::const_iterator iter = mChilds.begin(); iter != mChilds.end(); ++iter )
+		if (flags & UF_CHILDREN)
 		{
-			Actor* child = *iter;
-			child->_update();
+			for( ChildSet::const_iterator iter = mChilds.begin(); iter != mChilds.end(); ++iter )
+			{
+				Actor* child = *iter;
+				child->_update();
+			}
 		}        
     }
     

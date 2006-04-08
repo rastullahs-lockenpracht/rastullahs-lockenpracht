@@ -17,26 +17,34 @@
 #ifndef SOUNDPLAYLIST_H_
 #define SOUNDPLAYLIST_H_
 
-#include <queue>
 #include "CorePrerequisites.h"
-#include "GameTask.h"
+#include "EventListener.h"
+#include "SoundEvents.h"
+#include <list>
 
 namespace rl
 {
 
 class SoundObject;
-typedef std::queue<SoundObject*> SoundObjectPtrQueue;
+typedef std::list<SoundObject*> SoundObjectList;
 
-class _RlCoreExport SoundPlaylist : public GameTask
+class _RlCoreExport SoundPlaylist : public EventListener<SoundEvent>
 {
 private:
-    SoundObjectPtrQueue mQueue;
+    SoundObjectList mQueue;
+	SoundObjectList::iterator mItem;
+	bool mLooping;
     
 public:
 	SoundPlaylist();
 	virtual ~SoundPlaylist();
     void add(SoundObject *object);
-    virtual void run( Ogre::Real elapsedTime );    
+	void remove(SoundObject *object);
+    void stop();
+	void start();
+	virtual bool eventRaised(SoundEvent *anEvent);
+	void setLooping(bool looping);
+	bool isLooping() const;
 };
 
 }
