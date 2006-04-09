@@ -478,7 +478,7 @@ void Fmod3Driver::printData()
 void Fmod3Driver::setMasterVolume(unsigned int vol)
 {
 	SoundDriver::setMasterVolume(vol);
-	FSOUND_SetSFXMasterVolume(vol * 2.55);
+	FSOUND_SetSFXMasterVolume(int(vol * 2.55));
 }
 
 
