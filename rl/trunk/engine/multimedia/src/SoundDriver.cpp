@@ -19,8 +19,9 @@ namespace rl
 {
 
 SoundDriver::SoundDriver():
-    mDefaultMusicVol(10),
-    mDefaultSoundVol(100)
+    mDefaultMusicVolume(0),
+    mDefaultSoundVolume(100),
+	mMasterVolume(100)
 {
 }
 
@@ -29,9 +30,9 @@ SoundDriver::~SoundDriver()
 }
 
 /// Die Standardlautstärke für Musik einstellen
-void SoundDriver::setDefaultMusicVol(unsigned int vol)
+void SoundDriver::setDefaultMusicVolume(unsigned int vol)
 {
-    mDefaultMusicVol = vol;
+    mDefaultMusicVolume = vol;
     SoundChannelSet::iterator it;
     for(it = mMusicSet.begin(); it != mMusicSet.end(); it++)
     {
@@ -40,15 +41,15 @@ void SoundDriver::setDefaultMusicVol(unsigned int vol)
 }
 
 /// Die Standardlautstärke für Musik zurückgeben.
-unsigned int SoundDriver::getDefaultMusicVol() const
+unsigned int SoundDriver::getDefaultMusicVolume() const
 {
-    return mDefaultMusicVol;
+    return mDefaultMusicVolume;
 }
 
 /// Die Standardlautstärke für Musik einstellen
-void SoundDriver::setDefaultSoundVol(unsigned int vol)
+void SoundDriver::setDefaultSoundVolume(unsigned int vol)
 {
-    mDefaultSoundVol = vol;
+    mDefaultSoundVolume = vol;
     SoundChannelSet::iterator it;
     for(it = mSoundSet.begin(); it != mSoundSet.end(); it++)
     {
@@ -57,9 +58,19 @@ void SoundDriver::setDefaultSoundVol(unsigned int vol)
 }
 
 /// Die Standardlautstärke für Musik zurückgeben.
-unsigned int SoundDriver::getDefaultSoundVol() const
+unsigned int SoundDriver::getDefaultSoundVolume() const
 {
-    return mDefaultSoundVol;
+    return mDefaultSoundVolume;
+}
+
+void SoundDriver::setMasterVolume(unsigned int vol)
+{
+    mMasterVolume = vol;
+}
+
+unsigned int SoundDriver::getMasterVolume() const
+{
+    return mMasterVolume;
 }
 
 /// Aus einer Liste entfernen.

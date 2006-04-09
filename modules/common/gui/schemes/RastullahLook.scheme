@@ -38,7 +38,7 @@
 	<FalagardMapping WindowType="RastullahLook/ProgressBar" TargetType="Falagard/ProgressBar" LookNFeel="RastullahLook/ProgressBar" />
 	<FalagardMapping WindowType="RastullahLook/RadioButton" TargetType="Falagard/RadioButton" LookNFeel="RastullahLook/RadioButton" />
 	<FalagardMapping WindowType="RastullahLook/Slider" TargetType="Falagard/Slider" LookNFeel="RastullahLook/Slider" />
-	<FalagardMapping WindowType="RastullahLook/SliderThumb" TargetType="Falagard/SliderThumb" LookNFeel="RastullahLook/SliderThumb" />
+	<FalagardMapping WindowType="RastullahLook/SliderThumb" TargetType="Falagard/Thumb" LookNFeel="RastullahLook/SliderThumb" />
 	<FalagardMapping WindowType="RastullahLook/StaticImage" TargetType="Falagard/StaticImage" LookNFeel="RastullahLook/StaticImage" />
 	<FalagardMapping WindowType="RastullahLook/StaticText" TargetType="Falagard/StaticText" LookNFeel="RastullahLook/StaticText" />
 	<FalagardMapping WindowType="RastullahLook/SystemButton" TargetType="Falagard/SystemButton" LookNFeel="RastullahLook/Button" />

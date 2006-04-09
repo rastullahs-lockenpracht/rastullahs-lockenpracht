@@ -47,6 +47,7 @@
 #include "QuestBook.h"
 #include "RubyInterpreter.h"
 #include "RulesSubsystem.h"
+#include "SoundConfig.h"
 #include "TargetSelectionWindow.h"
 #include "UiSubsystem.h"
 #include "WindowManager.h"
@@ -309,5 +310,15 @@ namespace rl {
 				UiSubsystem::getSingleton().getCharacterController());
 		controller->setDialogPartner(bot->getDialogPartner()->getActor());
 		(new DialogWindow(bot, mGameLogger, controller))->setVisible(true);
+	}
+
+	void WindowFactory::showLogfiles()
+	{
+		(new LogWindow())->setVisible(true);
+	}
+
+	void WindowFactory::showSoundConfig()
+	{
+		(new SoundConfig())->setVisible(true);
 	}
 }

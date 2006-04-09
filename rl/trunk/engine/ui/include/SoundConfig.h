@@ -26,9 +26,15 @@ class SoundConfig : public rl::CeGuiWindow
 {
 private:
     bool handleOK();
-    
+	bool handleVolumeMusicChanged();
+	bool handleVolumeSoundChanged();
+    bool handleVolumeMasterChanged();
+	
     // Die Combobox, aus der gewählt wird.
-    CEGUI::Listbox *mBox;
+    CEGUI::Listbox*	mBox;
+	CEGUI::Slider*	mVolumeSound;
+	CEGUI::Slider*	mVolumeMusic;
+	CEGUI::Slider*	mVolumeMaster;
 
 public:
 	SoundConfig();

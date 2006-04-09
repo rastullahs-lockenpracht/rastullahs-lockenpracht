@@ -232,6 +232,10 @@ Combobox* CeGuiWindow::getCombobox(const char* name)
 	return static_cast<Combobox*>(getWindow(name, "Combobox"));
 }
 
+Slider* CeGuiWindow::getSlider(const char* name)
+{
+	return static_cast<Slider*>(getWindow(name, "Slider"));
+}
 
 const CeGuiString& CeGuiWindow::getName() const
 {

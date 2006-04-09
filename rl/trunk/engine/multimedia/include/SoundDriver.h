@@ -62,13 +62,17 @@ public:
     virtual ListenerMovable *createListener(const Ogre::String &name) = 0;
     
     /// Die Standardlautstärke für Musik einstellen
-    void setDefaultMusicVol(unsigned int vol);
+    void setDefaultMusicVolume(unsigned int vol);
     /// Die Standardlautstärke für Musik zurückgeben.
-    unsigned int getDefaultMusicVol() const;
+    unsigned int getDefaultMusicVolume() const;
     /// Die Standardlautstärke für Musik einstellen
-    void setDefaultSoundVol(unsigned int vol);
+    void setDefaultSoundVolume(unsigned int vol);
     /// Die Standardlautstärke für Musik zurückgeben.
-    unsigned int getDefaultSoundVol() const;
+    unsigned int getDefaultSoundVolume() const;
+    /// Die Lautstärke aller Sounds
+    virtual void setMasterVolume(unsigned int vol);
+    /// Die Standardlautstärke für Musik zurückgeben.
+    unsigned int getMasterVolume() const;
     /// Einen Sound aus den Listen entfernen
     void removeFromLists(SoundChannel *channel);
     
@@ -81,9 +85,11 @@ protected:
     /// Liste der Sounds
     SoundChannelSet mSoundSet;
     /// Standardeinstellung für Musik
-    unsigned int mDefaultMusicVol;
+    unsigned int mDefaultMusicVolume;
     /// Standardeinstellung für Sounds
-    unsigned int mDefaultSoundVol;
+    unsigned int mDefaultSoundVolume;
+
+	unsigned int mMasterVolume;
     
 };
 

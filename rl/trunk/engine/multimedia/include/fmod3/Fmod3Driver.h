@@ -64,6 +64,8 @@ public:
     /// Einen Soundlistener erzeugen
     virtual ListenerMovable *createListener(const Ogre::String &name);
 
+	void setMasterVolume(unsigned int vol);
+
 protected:
     /// Informationen über den Treiber ausgeben
     virtual void printData();

@@ -328,7 +328,7 @@ int Fmod3Driver::tell(void *handle)
  */
  void Fmod3Driver::update()
  {
-    if (MultimediaSubsystem::getSingleton().getActiveDriver() != 0)
+    if (MultimediaSubsystem::getSingleton().getActiveDriver() != NULL)
     {
         MultimediaSubsystem::log(Ogre::LML_TRIVIAL, "Updaten von Fmod3");
     }
@@ -396,11 +396,11 @@ SoundChannel *Fmod3Driver::createChannel(Sound *sound, const Ogre::String &name)
  	SoundChannel *channel = new Fmod3SoundChannel(sound, name);
     if (sound->is3d())
     {
-        channel->setVolume(mDefaultSoundVol);
+        channel->setVolume(mDefaultSoundVolume);
         mSoundSet.insert(channel);
     } else
     {
-        channel->setVolume(mDefaultMusicVol);
+        channel->setVolume(mDefaultMusicVolume);
         mMusicSet.insert(channel);
     }
  	return channel;
@@ -475,7 +475,11 @@ void Fmod3Driver::printData()
     MultimediaSubsystem::log(Ogre::LML_TRIVIAL, line);
 }
 
-
+void Fmod3Driver::setMasterVolume(unsigned int vol)
+{
+	SoundDriver::setMasterVolume(vol);
+	FSOUND_SetSFXMasterVolume(vol * 2.55);
+}
 
 
 }

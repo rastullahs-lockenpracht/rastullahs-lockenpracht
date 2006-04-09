@@ -780,7 +780,7 @@ namespace rl {
 
     void Actor::setListenerOf(SceneNode *node)
     {
-        if (node != 0)
+        if (node != NULL)
         {
             node->setListener(this);
         }

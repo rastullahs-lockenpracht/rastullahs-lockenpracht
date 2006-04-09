@@ -21,6 +21,7 @@
 #include <OgreVector3.h>
 #include "Fmod3Sound.h"
 #include "MultimediaSubsystem.h"
+#include "SoundDriver.h"
 #include "SoundEvents.h"
 
 extern "C" {
@@ -57,7 +58,18 @@ void Fmod3SoundChannel::play()
         getSound()->load();
     }
     setChannel(dynamic_cast<Fmod3Sound*>(getSound())->createChannel());
-    setVolume(mVolume);
+
+	int vol;
+	if (is3d())
+	{
+		vol = MultimediaSubsystem::getSingleton().getActiveDriver()->getDefaultSoundVolume();
+	}
+	else
+	{
+		vol = MultimediaSubsystem::getSingleton().getActiveDriver()->getDefaultMusicVolume();
+	}
+	setVolume(vol);
+
     setPosition(Vector3(0.0, 0.0, 0.0));
     setDirection(Quaternion(0.0, 0.0, 0.0));
     setVelocity(Vector3(0.0, 0.0, 0.0)); 

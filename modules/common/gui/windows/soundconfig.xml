@@ -32,6 +32,30 @@
         	<Property Name="Font" Value="Vera Serif-14"/>
 		</Window>
 
+		<Window Type="RastullahLook/Slider" Name="SoundConfig/VolumeMusic">
+			<Property Name="Text" Value="Music"/>
+        	<Property Name="RelativeXPosition" Value="0.05"/>
+        	<Property Name="RelativeYPosition" Value="0.5"/>
+        	<Property Name="RelativeWidth" Value="0.1"/>
+        	<Property Name="AbsoluteHeight" Value="100"/>
+		</Window>
+
+		<Window Type="RastullahLook/Slider" Name="SoundConfig/VolumeSound">
+			<Property Name="Text" Value="Sound"/>
+        	<Property Name="RelativeXPosition" Value="0.2"/>
+        	<Property Name="RelativeYPosition" Value="0.5"/>
+        	<Property Name="RelativeWidth" Value="0.1"/>
+        	<Property Name="AbsoluteHeight" Value="100"/>
+		</Window>
+
+		<Window Type="RastullahLook/Slider" Name="SoundConfig/VolumeMaster">
+			<Property Name="Text" Value="Master"/>
+        	<Property Name="RelativeXPosition" Value="0.35"/>
+        	<Property Name="RelativeYPosition" Value="0.5"/>
+        	<Property Name="RelativeWidth" Value="0.1"/>
+        	<Property Name="AbsoluteHeight" Value="100"/>
+		</Window>
+
 		<Window Type="RastullahLook/Button" Name="SoundConfig/OK">
 			<Property Name="Text" Value="OK"/>
         	<Property Name="RelativeXPosition" Value="0.05"/>

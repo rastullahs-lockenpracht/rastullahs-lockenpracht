@@ -192,6 +192,26 @@ class ShowAboutWindowAction < Action
   end
 end
 
+class ShowSoundConfigAction < Action
+  def initialize
+    super("showsoundconfig", "Soundeinstellungen")
+  end
+
+  def doAction(object, actor, target)
+    $WF.showSoundConfig()
+  end
+end
+
+class ShowLogfilesAction < Action
+  def initialize
+    super("showlogfiles", "Logfiles anzeigen")
+  end
+
+  def doAction(object, actor, target)
+    $WF.showLogfiles()
+  end
+end
+
 class CloseCurrentWindowAction < Action
   def initialize
     super("closecurrentwindow", "Oberstes Fenster schliessen")

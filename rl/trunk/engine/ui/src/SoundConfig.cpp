@@ -30,7 +30,7 @@ namespace rl
 
 SoundConfig::SoundConfig()
     : CeGuiWindow("soundconfig.xml", WND_ALL_INPUT, true),
-      mBox(0)
+      mBox(NULL)
 {
     bindCloseToCloseButton();
     bindClickToCloseWindow(getPushButton("SoundConfig/Cancel"));
@@ -39,11 +39,37 @@ SoundConfig::SoundConfig()
             Window::EventMouseClick, 
             boost::bind(&SoundConfig::handleOK, this));
 
-    mBox = (Listbox*)getWindow("SoundConfig/Table");
-    if (mBox == 0)
-    {
-        Throw(NullPointerException, "Couldn't find the listbox");
-    }
+	mVolumeSound = getSlider("SoundConfig/VolumeSound");
+	mVolumeSound->setMaxValue(100);
+	mVolumeSound->setCurrentValue(	
+		MultimediaSubsystem::getSingleton()
+			.getActiveDriver()
+				->getDefaultSoundVolume());
+	mVolumeSound->subscribeEvent(
+		Slider::EventValueChanged,
+		boost::bind(&SoundConfig::handleVolumeSoundChanged, this));
+
+	mVolumeMusic = getSlider("SoundConfig/VolumeMusic");
+	mVolumeMusic->setMaxValue(100);
+	mVolumeMusic->setCurrentValue(	
+		MultimediaSubsystem::getSingleton()
+			.getActiveDriver()
+				->getDefaultMusicVolume());
+	mVolumeMusic->subscribeEvent(
+		Slider::EventValueChanged,
+		boost::bind(&SoundConfig::handleVolumeMusicChanged, this));
+	
+	mVolumeMaster = getSlider("SoundConfig/VolumeMaster");
+	mVolumeMaster->setMaxValue(100);
+	mVolumeMaster->setCurrentValue(	
+		MultimediaSubsystem::getSingleton()
+			.getActiveDriver()
+				->getMasterVolume());
+	mVolumeMaster->subscribeEvent(
+		Slider::EventValueChanged,
+		boost::bind(&SoundConfig::handleVolumeMasterChanged, this));
+	
+	mBox = getListbox("SoundConfig/Table");
     DriverList list = 
         MultimediaSubsystem::getSingleton().getSoundDriverList();
     DriverList::const_iterator it;
@@ -91,6 +117,30 @@ bool SoundConfig::handleOK()
     setVisible(false);
     destroyWindow();
     return true;
+}
+
+bool SoundConfig::handleVolumeMusicChanged()
+{
+	MultimediaSubsystem::getSingleton()
+		.getActiveDriver()
+			->setDefaultMusicVolume(mVolumeMusic->getCurrentValue());
+	return true;
+}
+
+bool SoundConfig::handleVolumeSoundChanged()
+{
+	MultimediaSubsystem::getSingleton()
+		.getActiveDriver()
+			->setDefaultSoundVolume(mVolumeSound->getCurrentValue());
+	return true;
+}
+
+bool SoundConfig::handleVolumeMasterChanged()
+{
+	MultimediaSubsystem::getSingleton()
+		.getActiveDriver()
+			->setMasterVolume(mVolumeMaster->getCurrentValue());
+	return true;
 }
 
 }

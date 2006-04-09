@@ -136,7 +136,7 @@ namespace rl {
 	
 	bool MainMenuWindow::handleSoundOptions()
 	{
-        (new SoundConfig())->setVisible(true);
+		WindowFactory::getSingleton().showSoundConfig();
 		return true;
 	}
 

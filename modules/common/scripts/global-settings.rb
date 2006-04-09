@@ -8,25 +8,27 @@ class GlobalSettings
       $grpHelp = ActionGroup.new("Hilfe")
       $grpOptions = ActionGroup.new("Optionen")
 
-      $act1 = ShowActionMenuAction.new
-      $act3 = ShowObjectActionsAction.new
-      $act4 = ToggleConsoleAction.new
-      $act5 = ToggleDebugWindowAction.new
-      $act6 = ToggleGameLogWindowAction.new
-      $act7 = ToggleCollisionDebugAction.new
-      $act9 = ToggleViewModeAction.new
-      $act10 = ResetCameraAction.new
-      $act11 = ShowCharacterSheetAction.new
-      $act12 = QuitGameAction.new
-      $act13 = MakeScreenshotAction.new
-      $act14 = ToggleCharacterStateWindowAction.new
-      $act15 = ShowTargetWindowAction.new
-      $act16 = ToggleInGameGlobalMenuAction.new
-      $act17 = ShowTestVideoWindow.new
-      $act18 = UseGameObjectDefaultAction.new
-      $act19 = ShowAboutWindowAction.new
-      $act20 = ShowJournalWindowAction.new
-      $act21 = CloseCurrentWindowAction.new
+      $act1 = ShowActionMenuAction.new()
+      $act3 = ShowObjectActionsAction.new()
+      $act4 = ToggleConsoleAction.new()
+      $act5 = ToggleDebugWindowAction.new()
+      $act6 = ToggleGameLogWindowAction.new()
+      $act7 = ToggleCollisionDebugAction.new()
+      $act9 = ToggleViewModeAction.new()
+      $act10 = ResetCameraAction.new()
+      $act11 = ShowCharacterSheetAction.new()
+      $act12 = QuitGameAction.new()
+      $act13 = MakeScreenshotAction.new()
+      $act14 = ToggleCharacterStateWindowAction.new()
+      $act15 = ShowTargetWindowAction.new()
+      $act16 = ToggleInGameGlobalMenuAction.new()
+      $act17 = ShowTestVideoWindow.new()
+      $act18 = UseGameObjectDefaultAction.new()
+      $act19 = ShowAboutWindowAction.new()
+      $act20 = ShowJournalWindowAction.new()
+      $act21 = CloseCurrentWindowAction.new()
+      $act22 = ShowSoundConfigAction.new()
+      $act23 = ShowLogfilesAction.new()
 
       actionManager.registerInGameGlobalAction($act1, $grpView)
       actionManager.registerInGameGlobalAction($act3, $grpView)
@@ -46,6 +48,8 @@ class GlobalSettings
 
       actionManager.registerInGameGlobalAction($act12, $grpOptions)
       actionManager.registerInGameGlobalAction($act13, $grpOptions)
+      actionManager.registerInGameGlobalAction($act22, $grpOptions)
+      actionManager.registerInGameGlobalAction($act23, $grpOptions)
 
       actionManager.registerInGameGlobalAction($act19, $grpHelp)
       actionManager.registerInGameGlobalAction($act18, $grpActions)

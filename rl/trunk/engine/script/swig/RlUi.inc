@@ -88,13 +88,15 @@ public:
 	void showCharacterSheet(rl::Person* chara);
 	void showContainerContent(rl::Container* container);
 	void showDescriptionWindow(rl::GameObject* obj);
+	void showDialog(rl::DialogCharacter* bot);
 	void showExitConfirmation();
 	void showJournalWindow();
+	void showLogfiles();
 	void showMainMenu();
 	void showMessageWindow(const rl::CeGuiString& message);
-	void showDialog(rl::DialogCharacter* bot);
 	void showPickedObjectActions();
     void showPlaylist();
+    void showSoundConfig();
 	void showTargetWindow();
 
 	void toggleConsole();

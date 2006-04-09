@@ -71,10 +71,12 @@ namespace rl {
         void showExitConfirmation();
 		bool showInputOptionsMenu(Creature* actionHolder);
 		void showJournalWindow();
+		void showLogfiles();
 		void showMessageWindow(const CeGuiString& message);
 		void showMainMenu();
 		void showPickedObjectActions();
         void showPlaylist();
+		void showSoundConfig();
 		void showTargetWindow();
 
 		void toggleConsole();
