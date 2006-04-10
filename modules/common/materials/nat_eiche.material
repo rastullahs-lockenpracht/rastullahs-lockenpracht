@@ -9,11 +9,11 @@ material eiche/ALPHA/nat_eichenast_gruen.png
 			cull_software none
 			ambient 0.8 0.8 0.8
 			diffuse 0.3 0.3 0.3
+			alpha_rejection greater 190
 
 			texture_unit
 			{
 				texture nat_eichenast_gruen.png
-				alpha_rejection greater 120
 			}
 		}
 	}
@@ -30,11 +30,11 @@ material eiche/ALPHA/nat_eichenast_kahl.png
 			cull_software none
 			ambient 0.8 0.8 0.8
 			diffuse 0.3 0.3 0.3
+			alpha_rejection greater 190
 
 			texture_unit
 			{
 				texture nat_eichenast_kahl.png
-				alpha_rejection greater 120
 			}
 		}
 	}
@@ -68,11 +68,11 @@ material eiche/ALPHA/nat_eichenast_gelb.png
 			cull_software none
 			ambient 0.8 0.8 0.8
 			diffuse 0.3 0.3 0.3
+			alpha_rejection greater 190
 
 			texture_unit
 			{
 				texture nat_eichenast_gelb.png
-				alpha_rejection greater 120
 			}
 		}
 	}
