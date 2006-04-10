@@ -13,6 +13,14 @@ class Alassion < ContentModule
 	return ["model","tiled","alpha"];
     end
 
+    def getModelLocations()
+        return [];
+    end
+
+    def getSoundLocations()
+        return ["ost"];
+    end
+
     def start()
         $CORE.loadMap("Octree", "alassion.scene", "Alassion", "Alassion.rb");
         $World = $CORE.getWorld();

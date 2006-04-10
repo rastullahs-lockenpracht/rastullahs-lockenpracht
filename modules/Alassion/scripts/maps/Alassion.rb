@@ -41,4 +41,4 @@ $SCRIPT.log("Held als aktiver Charakter gesetzt.");
 $World.setFog( World::FOG_EXP, [0.8,0.8,1.0,0.5], 0.00003, 0.4, 1.0);
 
 $SCRIPT.log("map 'Alassion' initialisiert.");
-$UI.toggleCharacterStateWindow()
+$WF.toggleCharacterStateWindow()
