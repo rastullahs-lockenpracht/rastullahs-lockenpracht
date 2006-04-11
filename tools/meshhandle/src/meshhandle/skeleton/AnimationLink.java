@@ -22,7 +22,7 @@ public class AnimationLink {
 		result.append(mSkeletonName);
 		result.append("\" scale=\"");
 		result.append(mScale);
-		result.append("\" />");
+		result.append("\"/>");
 		return result.toString();
 	}
 }

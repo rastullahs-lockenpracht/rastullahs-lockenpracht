@@ -20,6 +20,6 @@ public class BoneParentRelation {
 
     public String toXML() {
         return "        <boneparent bone=\"" + mBone + "\" parent=\"" + mParent
-                + "\" />";
+                + "\"/>";
     }
 }

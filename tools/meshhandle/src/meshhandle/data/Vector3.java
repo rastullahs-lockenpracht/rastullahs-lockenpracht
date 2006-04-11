@@ -52,7 +52,7 @@ public class Vector3 {
 
     public String toXML(String nodeName) {
         return "<" + nodeName + " x=\"" + round(mX) + "\"" + " y=\""
-                + round(mY) + "\"" + " z=\"" + round(mZ) + "\" />";
+                + round(mY) + "\"" + " z=\"" + round(mZ) + "\"/>";
     }
 
     private float round(float y) {

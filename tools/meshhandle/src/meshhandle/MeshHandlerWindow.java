@@ -172,8 +172,7 @@ public class MeshHandlerWindow extends JFrame implements ActionListener,
 		modelList.setModel(new DefaultListModel());
 		modelList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		modelList.addListSelectionListener(this);
-		modelList.setPreferredSize(new Dimension(300, 400));
-
+		
 		JScrollPane modelListPanel = new JScrollPane(modelList);
 		modelListPanel.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createTitledBorder("Models"), BorderFactory

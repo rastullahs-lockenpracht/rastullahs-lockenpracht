@@ -35,7 +35,7 @@ public class Mesh {
 
 		if (mSkeletonLink != null && !mSkeletonLink.equals("")) {
 			buf.append("    <skeletonlink name=\"").append(mSkeletonLink)
-					.append("\" />\n");
+					.append("\"/>\n");
 		}
 		
 		buf.append("</mesh>");

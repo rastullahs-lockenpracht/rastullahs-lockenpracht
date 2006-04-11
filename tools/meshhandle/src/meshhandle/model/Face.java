@@ -15,6 +15,6 @@ public class Face {
 
     public String toXML() {
         return "<face v1=\"" + mVertex1 + "\" v2=\"" + mVertex2 + "\" v3=\""
-                + mVertex3 + "\" />";
+                + mVertex3 + "\"/>";
     }
 }

@@ -55,7 +55,7 @@ public class Quaternion {
     public String toXML(String nodeName) {
         return "<" + nodeName + " qw=\"" + round(mW) + "\"" + " qx=\""
                 + round(mX) + "\"" + " qy=\"" + round(mY) + "\"" + " qz=\""
-                + round(mZ) + "\" />";
+                + round(mZ) + "\"/>";
     }
 
     private float round(float y) {

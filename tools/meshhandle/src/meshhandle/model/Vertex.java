@@ -23,10 +23,10 @@ public class Vertex {
         }
         if (mTexCoordU != null) {
             buf.append("                        <texcoord u=\"" + mTexCoordU
-                    + "\" v=\"" + mTexCoordV + "\" />\n");
+                    + "\" v=\"" + mTexCoordV + "\"/>\n");
         }
         if (mColorDiffuse != null) {
-        	buf.append("                        <colour_diffuse value=\"" + mColorDiffuse+"\" />\n");
+        	buf.append("                        <colour_diffuse value=\"" + mColorDiffuse+"\"/>\n");
         }
         buf.append("                    </vertex>");
         return buf.toString();
