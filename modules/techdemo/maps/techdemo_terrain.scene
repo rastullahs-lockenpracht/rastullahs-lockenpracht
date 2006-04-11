@@ -1,5 +1,59 @@
 <scene formatVersion="0.2.0">
     <nodes>
+	<node>
+            <position x="-89.87079" y="0.538506" z="-66.6146" />
+            <rotation qw="0.69607" qx="0.0" qy="0.717973" qz="0.0" />
+            <scale x="0.897268" y="0.897268" z="0.897268" />
+            <entity meshFile="nat_baum_03.mesh"/>
+        </node>
+	<node>
+            <position x="87.38792" y="0.25360948" z="-33.050743" />
+            <rotation qw="0.181851" qx="0.0" qy="-0.983326" qz="0.0" />
+            <scale x="0.414776" y="0.414776" z="0.414776" />
+            <entity meshFile="nat_baum_03.mesh"/>
+        </node>
+        <node>
+            <position x="-48.492275" y="1.2175728" z="15.835173" />
+            <rotation qw="0.07321" qx="0.0" qy="-0.997317" qz="0.0" />
+            <scale x="1.0" y="1.0" z="1.0" />
+            <entity meshFile="nat_baum_03.mesh"/>
+        </node>
+        <node>
+            <position x="-43.824936" y="4.488339" z="-92.07452" />
+            <rotation qw="0.041434" qx="0.0" qy="0.999141" qz="0.0" />
+            <scale x="1.458292" y="1.458292" z="1.458292" />
+            <entity meshFile="nat_baum_03.mesh"/>
+        </node>
+        <node>
+            <position x="21.027853" y="-0.65781873" z="31.253702" />
+            <rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0" />
+            <scale x="2.0" y="2.0" z="2.0" />
+            <entity meshFile="nat_baum_03.mesh"/>
+        </node>
+        <node>
+            <position x="60.248066" y="2.8278701" z="-46.249866" />
+            <rotation qw="0.273155" qx="0.0" qy="-0.96197" qz="0.0" />
+            <scale x="0.891379" y="0.891379" z="0.891379" />
+            <entity meshFile="nat_baum_03.mesh"/>
+        </node>
+        <node>
+            <position x="-85.26564" y="1.7966774" z="-26.387775" />
+            <rotation qw="0.998003" qx="0.0" qy="0.06317" qz="0.0" />
+            <scale x="0.602567" y="0.602567" z="0.602567" />
+            <entity meshFile="nat_baum_03.mesh"/>
+        </node>
+        <node>
+            <position x="-2.3654006" y="1.6339011" z="74.88238" />
+            <rotation qw="0.409889" qx="0.0" qy="0.912135" qz="0.0" />
+            <scale x="1.411821" y="1.411821" z="1.411821" />
+            <entity meshFile="nat_baum_03.mesh"/>
+        </node>
+        <node>
+            <position x="50.187454" y="1.09842" z="-62.665535" />
+            <rotation qw="0.992513" qx="0.0" qy="-0.12214" qz="0.0" />
+            <scale x="0.505886" y="0.505886" z="0.505886" />
+            <entity meshFile="nat_baum_03.mesh"/>
+        </node>
         <node>
             <position x="-0.9754447" y="1.2711345" z="7.486857" />
             <rotation qw="0.221611" qx="0.0" qy="-0.975135" qz="0.0" />
@@ -4713,12 +4767,6 @@
             </userdata>
         </node>
         <node>
-            <position x="-2.3654006" y="1.6339011" z="74.88238" />
-            <rotation qw="0.409889" qx="0.0" qy="0.912135" qz="0.0" />
-            <scale x="1.411821" y="1.411821" z="1.411821" />
-            <entity meshFile="nat_baum_03.mesh"/>
-        </node>
-        <node>
             <position x="-14.863409" y="0.3850342" z="-5.3031883" />
             <rotation qw="0.718982" qx="0.0" qy="-0.695029" qz="0.0" />
             <scale x="79.69888" y="79.69888" z="79.69888" />
@@ -4769,12 +4817,6 @@
             </userdata>
         </node>
         <node>
-            <position x="-85.26564" y="1.7966774" z="-26.387775" />
-            <rotation qw="0.998003" qx="0.0" qy="0.06317" qz="0.0" />
-            <scale x="0.602567" y="0.602567" z="0.602567" />
-            <entity meshFile="nat_baum_03.mesh"/>
-        </node>
-        <node>
             <position x="-5.626417" y="2.1457198" z="22.07776" />
             <rotation qw="0.412447" qx="0.0" qy="0.910982" qz="0.0" />
             <scale x="79.69887" y="79.69888" z="79.69887" />
@@ -4783,12 +4825,6 @@
                 <property type="INT" name="staticgeom_group" data="0"/>
                 <property type="STRING" name="physical_body" data="none"/>
             </userdata>
-        </node>
-        <node>
-            <position x="60.248066" y="2.8278701" z="-46.249866" />
-            <rotation qw="0.273155" qx="0.0" qy="-0.96197" qz="0.0" />
-            <scale x="0.891379" y="0.891379" z="0.891379" />
-            <entity meshFile="nat_baum_03.mesh"/>
         </node>
         <node>
             <position x="-42.0012" y="0.6183008" z="0.2516119" />
@@ -10577,12 +10613,6 @@
                 <property type="INT" name="staticgeom_group" data="0"/>
                 <property type="STRING" name="physical_body" data="none"/>
             </userdata>
-        </node>
-        <node name="nat_baum_03">
-            <position x="21.027853" y="-0.65781873" z="31.253702" />
-            <rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0" />
-            <scale x="2.0" y="2.0" z="2.0" />
-            <entity name="nat_baum_03" meshFile="nat_baum_03.mesh"/>
         </node>
         <node>
             <position x="-37.938126" y="1.3869" z="15.2924595" />
@@ -30228,18 +30258,6 @@
             </userdata>
         </node>
         <node>
-            <position x="-43.824936" y="4.488339" z="-92.07452" />
-            <rotation qw="0.041434" qx="0.0" qy="0.999141" qz="0.0" />
-            <scale x="1.458292" y="1.458292" z="1.458292" />
-            <entity meshFile="nat_baum_03.mesh"/>
-        </node>
-        <node>
-            <position x="50.187454" y="1.09842" z="-62.665535" />
-            <rotation qw="0.992513" qx="0.0" qy="-0.12214" qz="0.0" />
-            <scale x="0.505886" y="0.505886" z="0.505886" />
-            <entity meshFile="nat_baum_03.mesh"/>
-        </node>
-        <node>
             <position x="-16.167109" y="1.0695426" z="8.57941" />
             <rotation qw="0.766995" qx="0.011513" qy="-0.641441" qz="-0.011834" />
             <scale x="79.69889" y="79.6989" z="79.698875" />
@@ -33715,11 +33733,11 @@
                 <property type="STRING" name="physical_body" data="none"/>
             </userdata>
         </node>
-        <node name="arch_bruecke_01">
+        <node name="arc_bruecke_01">
             <position x="-73.75186" y="1.8554634" z="-42.775703" />
             <rotation qw="0.783746" qx="-0.005651" qy="0.62105" qz="-0.002807" />
             <scale x="1.11145" y="1.000016" z="1.001322" />
-            <entity name="arch_bruecke_01" meshFile="arch_bruecke_01.mesh"/>
+            <entity name="arch_bruecke_01" meshFile="arc_bruecke_01.mesh"/>
         </node>
         <node>
             <position x="1.2270935" y="0.90930486" z="3.2261798" />
@@ -38859,12 +38877,6 @@
             </userdata>
         </node>
         <node>
-            <position x="-48.492275" y="1.2175728" z="15.835173" />
-            <rotation qw="0.07321" qx="0.0" qy="-0.997317" qz="0.0" />
-            <scale x="1.0" y="1.0" z="1.0" />
-            <entity meshFile="nat_baum_03.mesh"/>
-        </node>
-        <node>
             <position x="-18.243134" y="1.5266302" z="16.321655" />
             <rotation qw="0.847176" qx="0.0" qy="0.531312" qz="0.0" />
             <scale x="79.69889" y="79.69888" z="79.69889" />
@@ -40900,12 +40912,6 @@
             </userdata>
         </node>
         <node>
-            <position x="87.38792" y="0.25360948" z="-33.050743" />
-            <rotation qw="0.181851" qx="0.0" qy="-0.983326" qz="0.0" />
-            <scale x="0.414776" y="0.414776" z="0.414776" />
-            <entity meshFile="nat_baum_03.mesh"/>
-        </node>
-        <node>
             <position x="-33.681255" y="0.6949251" z="5.4287753" />
             <rotation qw="0.383184" qx="0.007857" qy="0.923524" qz="0.014521" />
             <scale x="79.69888" y="79.6989" z="79.69889" />
@@ -42082,12 +42088,6 @@
                 <property type="INT" name="staticgeom_group" data="0"/>
                 <property type="STRING" name="physical_body" data="none"/>
             </userdata>
-        </node>
-        <node>
-            <position x="-89.87079" y="0.538506" z="-66.6146" />
-            <rotation qw="0.69607" qx="0.0" qy="0.717973" qz="0.0" />
-            <scale x="0.897268" y="0.897268" z="0.897268" />
-            <entity meshFile="nat_baum_03.mesh"/>
         </node>
         <node>
             <position x="-1.7269424" y="0.8731985" z="0.56287193" />
