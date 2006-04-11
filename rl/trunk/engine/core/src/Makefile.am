@@ -39,7 +39,7 @@ libRlCore_la_SOURCES = \
 	Primitive.cpp \
 	RubyInterpreter.cpp \
 	SoundObject.cpp \
-	SoundPlaylist.cpp \
+	Playlist.cpp \
 	TrackAnimation.cpp \
 	World.cpp 		 
 

@@ -9,6 +9,7 @@ noinst_HEADERS =
 	FixRubyHeaders.h \
 	GameTask.h \
 	Logger.h \
+	PlaylistObject.h \
     RastullahPrerequisites.h \
     ScriptWrapper.h \
 	Sleep.h \

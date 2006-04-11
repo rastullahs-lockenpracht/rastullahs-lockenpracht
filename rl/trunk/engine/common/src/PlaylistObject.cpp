@@ -14,14 +14,26 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-%{
-//----------- Includes - Common -----------
-#include "FixRubyHeaders.h"
-#include "CommonPrerequisites.h"
-#include "GameTask.h"
-#include <set>
-#include "EventListener.h"
-#include "EventObject.h"
-#include "EventCaster.h"
 #include "PlaylistObject.h"
-%}
+
+namespace rl {
+/**
+ * @author JoSch
+ * @date 12-04-2006
+ * @version 1.0
+ */
+PlaylistObject::PlaylistObject(): EventCaster<EventObject>()
+{
+}
+
+/**
+ * @author JoSch
+ * @date 12-04-2006
+ * @version 1.0
+ */
+PlaylistObject::~PlaylistObject()
+{
+}
+
+
+}

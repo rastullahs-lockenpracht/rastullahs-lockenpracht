@@ -5,14 +5,14 @@
  *    include rl/engine/sound/src/OalppSoundInterfaceTest.mk
  * Build the rl/engine/sound/src/OalppSoundInterfaceTest target from the Make Target view
  */
-
+#include <cppunit/extensions/HelperMacros.h>
+#include <OgreNoMemoryMacros.h>
 #include "MultimediaPrerequisites.h"
+#include <OgreIteratorWrappers.h>
 #ifdef  _MSC_VER
 #define _USE_MATH_DEFINES
 #endif
 #include <math.h>
-#include <OgreIteratorWrappers.h>
-#include <cppunit/extensions/HelperMacros.h>
 #include <boost/thread.hpp>
 #include "MultimediaSubsystem.h"
 #include "SoundManager.h"
@@ -54,7 +54,7 @@ public:
         xtime xt;
         Sound *sound1 = driver->createSample("lachen.ogg");
         SoundChannel *channel1 = driver->createChannel(sound1, "sample");
-        Sound *sound2 = driver->createStream("lachen.ogg");
+        Sound *sound2 = driver->createSample("lachen.ogg");
         SoundChannel *channel2 = driver->createChannel(sound2, "stream");
         
         Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Starte ersten Sound");

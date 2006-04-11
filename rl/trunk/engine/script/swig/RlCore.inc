@@ -675,19 +675,19 @@ public:
 	void addAsynchronousTask(GameTask* newTask);
 };
 
-%template(SoundEventListener) rl::EventListener<rl::SoundEvent>;
-class SoundPlaylist : public rl::EventListener<rl::SoundEvent>
+%template(EventObjectEventListener) rl::EventListener<rl::EventObject>;
+class Playlist : public rl::EventListener<rl::EventObject>
 {
 public:
-	SoundPlaylist();
-	virtual ~SoundPlaylist();
-    void add(rl::SoundObject *object);
-    void remove(rl::SoundObject *object);
+	Playlist();
+	virtual ~Playlist();
+    void add(rl::PlaylistObject *object);
+    void remove(rl::PlaylistObject *object);
     void start();
     void stop();
     void setLooping(bool looping);
     bool isLooping() const;
-    virtual bool eventRaised(rl::SoundEvent *eventRaised);
+    virtual bool eventRaised(rl::EventObject *eventRaised);
 };
 
 

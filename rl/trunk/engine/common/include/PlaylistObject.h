@@ -14,39 +14,34 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
-#ifndef SOUNDPLAYLIST_H_
-#define SOUNDPLAYLIST_H_
+#ifndef _PLAYLISTOBJECT_H_
+#define _PLAYLISTOBJECT_H_
 
-#include "CorePrerequisites.h"
-#include "EventListener.h"
-#include "SoundEvents.h"
-#include <list>
+#include "CommonPrerequisites.h"
+#include "EventCaster.h"
+#include "EventObject.h"
 
-namespace rl
+namespace rl {
+
+class _RlCommonExport PlaylistObject : public EventCaster<EventObject>
 {
-
-class SoundObject;
-typedef std::list<SoundObject*> SoundObjectList;
-
-class _RlCoreExport SoundPlaylist : public EventListener<SoundEvent>
-{
-private:
-    SoundObjectList mQueue;
-	SoundObjectList::iterator mItem;
-	bool mLooping;
-    
 public:
-	SoundPlaylist();
-	virtual ~SoundPlaylist();
-    void add(SoundObject *object);
-	void remove(SoundObject *object);
-    void stop();
-	void start();
-	virtual bool eventRaised(SoundEvent *anEvent);
-	void setLooping(bool looping);
-	bool isLooping() const;
+	/// Konstruktor
+	PlaylistObject();
+	/// Destruktor
+	~PlaylistObject();
+	/// Objekt laden, einrichten etc.
+	virtual void load() = 0;
+	/// Objekt entladen, abbauen etc.
+	virtual void unload() = 0;
+	/// Objektaktion starten
+	virtual void start() = 0;
+	/// Objectaktion stoppen
+	virtual void stop() = 0;
+	/// Objektaktion pausieren
+	virtual void pause() = 0;
 };
 
 }
 
-#endif /*SOUNDPLAYLIST_H_*/
+#endif

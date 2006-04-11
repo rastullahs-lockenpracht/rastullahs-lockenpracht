@@ -34,7 +34,7 @@
 	Primitive.h \
 	RubyInterpreter.h \
 	SoundObject.h \
-	SoundPlaylist.h \
+	Playlist.h \
 	TrackAnimation.h \
 	World.h 
 	

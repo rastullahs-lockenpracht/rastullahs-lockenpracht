@@ -80,6 +80,43 @@ public:
 
 };
 
+class EventObject {
+public:
+    /// Der Konstruktor.
+	EventObject(rl::EventSource *source);
+	/// Der Konstruktor.
+	EventObject(rl::EventSource *source, const unsigned int reason );
+    /// Der Destruktor.
+	virtual ~EventObject();
+   
+   /// Die Ereignisquelle zurueckgeben
+   rl::EventSource *getSource() const;
+   /// Die ID des Grundes für den Event.
+   const unsigned int getReason() const;
+   /// Die ID setzen
+   void setReason(const unsigned int reason);
+};
+
+%template(EventObjectEventCaster) EventCaster<rl::EventObject>;
+class PlaylistObject : public rl::EventCaster<rl::EventObject>
+{
+public:
+	/// Konstruktor
+	PlaylistObject();
+	/// Destruktor
+	~PlaylistObject();
+	/// Objekt laden, einrichten etc.
+	virtual void load() = 0;
+	/// Objekt entladen, abbauen etc.
+	virtual void unload() = 0;
+	/// Objektaktion starten
+	virtual void start() = 0;
+	/// Objectaktion stoppen
+	virtual void stop() = 0;
+	/// Objektaktion pausieren
+	virtual void pause() = 0;
+};
+
 
 }
 
