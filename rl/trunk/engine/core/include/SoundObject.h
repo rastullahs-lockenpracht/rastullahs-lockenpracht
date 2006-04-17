@@ -19,6 +19,9 @@
 
 #include "CorePrerequisites.h"
 #include "ActorControlledObject.h"
+#include "PlaylistObject.h"
+#include "SoundEvents.h"
+#include "EventListener.h"
 
 /// @TODO SharedPtr
 namespace rl {
@@ -31,7 +34,8 @@ namespace rl {
      *  heften kann. Zwischen Actor und ActorControlledObject
      *  besteht eine 1:1-Beziehung.
      */
-    class _RlCoreExport SoundObject : public ActorControlledObject
+    class _RlCoreExport SoundObject : public ActorControlledObject, public PlaylistObject,
+        public EventListener<SoundEvent>
     {
     public:
         SoundObject(Sound *sound, const Ogre::String &name);
@@ -66,14 +70,22 @@ namespace rl {
         /// Ist der Sound pausiert?
         bool isPaused();
         /// Stoppt den Sound.
-        void stop();
+        virtual void stop();
 		/// Setzt die Lautstaerke (1.0 = volle Lautstärke)
 		void setVolume(float volume = 1.0);
 
 		/// Lädt den Ton
-		void load();
+		virtual void load();
         /// Entlädt den Sound.
-        void unload();
+        virtual void unload();
+        
+        /// Starte den Sound
+        virtual void start();
+        /// Pausieren den Sound
+        virtual void pause();
+        
+        /// Ein SoundEreignis ist passiert.
+        virtual bool eventRaised(SoundEvent *event);
 
 		virtual bool isMeshObject();
     };

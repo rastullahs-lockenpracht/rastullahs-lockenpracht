@@ -22,6 +22,8 @@
 #include "ListenerMovable.h"
 #include "Logger.h"
 #include "SoundDriver.h"
+#include "Playlist.h"
+#include "SoundObject.h"
 
 using namespace rl;
 using namespace boost;
@@ -50,6 +52,20 @@ public:
 		
         Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Starte Test #6");
         Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Using Driver " + driver->getName());
+
+        Playlist playlist;
+        
+        Sound *sound1 = driver->createSample("lachen.ogg");
+        SoundObject *so1 = new SoundObject(sound1, "lachen");
+        Sound *sound2 = driver->createSample("schlucken.ogg");
+        SoundObject *so2 = new SoundObject(sound2, "schlucken");
+        Sound *sound3 = driver->createSample("doorcreak.ogg");
+        SoundObject *so3 = new SoundObject(sound2, "tuer");
+        
+        playlist.add(so1);
+        playlist.add(so2);
+        playlist.add(so3);
+        playlist.start();
 
         Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Beende Test #6");
         CPPUNIT_ASSERT(true);

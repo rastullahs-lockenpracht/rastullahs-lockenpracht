@@ -22,6 +22,7 @@
 #include <set>
 #include <map>
 #include "AnimationListener.h"
+#include "PlaylistObject.h"
 
 
 namespace rl {
@@ -32,7 +33,7 @@ namespace rl {
 	@remarks Instanzen werden über den AnimationManager erzeugt
 	@see AnimationManager
 */
-class _RlCoreExport BaseAnimation : public virtual EventSource
+class _RlCoreExport BaseAnimation : public virtual EventSource, public virtual PlaylistObject
 {
     public:
 		/**
@@ -130,6 +131,17 @@ class _RlCoreExport BaseAnimation : public virtual EventSource
 		virtual void removeAnimationFrameListener( AnimationFrameListener *listener );
 		/// Entfernt einen AnimationListener an einem bestimmtem Zeitindex
 		virtual void removeAnimationFrameListener( AnimationFrameListener *listener, Ogre::Real frameNumber );
+        
+        /// Lade die Animation
+        virtual void load();
+        /// Entlade die Animation
+        virtual void unload();
+        /// Starte die Animation
+        virtual void start();
+        /// Stoppe die Animation
+        virtual void stop();
+        /// Pausiere die Animation
+        virtual void pause();
 
         virtual Ogre::Real getLength() const;
     protected:

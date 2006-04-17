@@ -54,7 +54,7 @@ public:
         xtime xt;
         Sound *sound1 = driver->createSample("lachen.ogg");
         SoundChannel *channel1 = driver->createChannel(sound1, "sample");
-        Sound *sound2 = driver->createSample("lachen.ogg");
+        Sound *sound2 = driver->createStream("lachen.ogg");
         SoundChannel *channel2 = driver->createChannel(sound2, "stream");
         
         Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Starte ersten Sound");

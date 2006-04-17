@@ -422,4 +422,27 @@ void BaseAnimation::checkAnimationFrameListeners( Ogre::Real timePassed )
 	delete animEve;
 }
 
+void BaseAnimation::start()
+{
+    setPaused(false);
+}
+
+void BaseAnimation::stop()
+{
+    setPaused(true);
+}
+
+void BaseAnimation::pause()
+{
+    setPaused(true);
+}
+
+void BaseAnimation::load()
+{
+}
+
+void BaseAnimation::unload()
+{
+}
+
 }

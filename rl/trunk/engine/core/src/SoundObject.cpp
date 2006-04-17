@@ -41,6 +41,7 @@ SoundObject::SoundObject(Sound *sound, const Ogre::String &name)
 	if (driver != 0)
 	{
     	SoundChannel *sc = driver->createChannel(sound, name);
+        sc->addEventListener(this);
     	mMovableObject = dynamic_cast<MovableObject*>(sc);
 	}
 }
@@ -57,6 +58,7 @@ SoundObject::~SoundObject()
         if (sc)
         {
             sc->stop();
+            sc->removeEventListener(this);
         }
         delete mMovableObject;
     }
@@ -183,6 +185,22 @@ SoundChannel* SoundObject::getSoundChannel() const
 String SoundObject::getObjectType()
 {
     return "SoundObject";
+}
+
+bool SoundObject::eventRaised(SoundEvent *event)
+{
+    dispatchEvent(event);
+    return true;
+}
+
+void SoundObject::pause()
+{
+    pause(true);
+}
+
+void SoundObject::start()
+{
+    pause(false);
 }
 
 }
