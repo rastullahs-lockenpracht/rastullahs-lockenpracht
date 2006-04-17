@@ -13,7 +13,7 @@ material nat_baum_mittel_02
 	    alpha_rejection greater 215
             texture_unit
             {
-                texture nat_baum_mitel_02.png 
+                texture nat_baum_mittel_02.png 
             }
         }
     }
