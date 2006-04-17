@@ -13,7 +13,6 @@ material nat_baum_01/stamm
 			texture_unit
 			{
 				texture nat_baum_01.png
-				filtering point point point
 			}
 		}
 	}
@@ -34,7 +33,6 @@ material nat_baum_01/blaetter
 			texture_unit
 			{
 				texture nat_baum_01.png
-				filtering point point point
 
 			}
 		}
