@@ -484,7 +484,7 @@
       <position x="-5.885580" y="-5.945640" z="-95.891693"/>
       <rotation qx="0.005760" qy="-0.954927" qz="0.009923" qw="0.296620"/>
       <scale x="1.000000" y="1.000000" z="1.000000"/>
-      <entity name="arc_UnbHaus_04.003" meshFile="arc_UnbHaus_04.001.mesh"/>
+      <entity name="arc_UnbHaus_04.003" meshFile="arc_UnbHaus_04.mesh"/>
     </node>
     <node name="nat_baum_03.020">
       <position x="-30.490377" y="-7.802772" z="-82.946983"/>
