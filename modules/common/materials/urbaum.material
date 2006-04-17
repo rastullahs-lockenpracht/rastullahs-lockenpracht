@@ -1,20 +1,18 @@
 material urbaum
 { 
-   technique 
-   { 
-      pass 
-      { 
-                         // Rendert beidseitig 
-         cull_hardware none 
-         cull_software none 
-
-         texture_unit 
-         { 
-            texture urbaum.png 
-            filtering anisotropic anisotropic anisotropic 
-                                // Simple Transparenz 
+    technique 
+    { 
+        pass 
+        { 
+            // Rendert beidseitig 
+            cull_hardware none 
+            cull_software none 
             alpha_rejection greater 215 
-         } 
-      } 
-   } 
+
+            texture_unit 
+            { 
+                texture urbaum.png 
+            } 
+        } 
+    } 
 } 
