@@ -38,9 +38,8 @@ vertex_program alphaBlendPhongVP_hlsl hlsl
   default_params
   {
     param_named g_detailScale float 20.0
-    param_named_auto g_World world_matrix
     param_named_auto g_WorldViewProjection worldviewproj_matrix
-    param_named_auto g_LightPos light_position
+    param_named_auto g_LightPos light_position 0
   }
 }
 
