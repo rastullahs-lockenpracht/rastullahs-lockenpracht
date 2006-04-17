@@ -93,55 +93,55 @@
     <node name="nat_baum_mittel_0.009">
       <position x="6.266215" y="-4.283492" z="-33.029629"/>
       <rotation qx="0.003545" qy="0.157059" qz="0.030321" qw="0.987117"/>
-      <scale x="87.486961" y="87.486961" z="87.486954"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="nat_baum_mittel_0.009" meshFile="nat_baum_mittel_02.mesh"/>
     </node>
     <node name="nat_baum_mittel_0.008">
       <position x="-23.765316" y="-9.762624" z="-68.034111"/>
       <rotation qx="0.054348" qy="-0.129232" qz="0.004769" qw="0.990112"/>
-      <scale x="119.904984" y="119.904984" z="119.904976"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="nat_baum_mittel_0.008" meshFile="nat_baum_mittel_02.mesh"/>
     </node>
     <node name="nat_baum_mittel_0.003">
       <position x="6.605806" y="-5.021633" z="20.481308"/>
       <rotation qx="0.003545" qy="0.157059" qz="0.030321" qw="0.987117"/>
-      <scale x="87.486961" y="87.486961" z="87.486954"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="nat_baum_mittel_0.003" meshFile="nat_baum_mittel_02.mesh"/>
     </node>
     <node name="nat_baum_mittel_0.002">
       <position x="0.747124" y="-5.458553" z="34.654282"/>
       <rotation qx="-0.128578" qy="-0.009565" qz="0.028713" qw="0.991238"/>
-      <scale x="119.904999" y="119.904999" z="119.904991"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="nat_baum_mittel_0.002" meshFile="nat_baum_mittel_02.mesh"/>
     </node>
     <node name="nat_baum_mittel_0.001">
       <position x="1.338749" y="-5.173139" z="40.751255"/>
       <rotation qx="-0.003814" qy="-0.083746" qz="0.030288" qw="0.996019"/>
-      <scale x="86.815521" y="86.815514" z="86.815514"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="nat_baum_mittel_0.001" meshFile="nat_baum_mittel_02.mesh"/>
     </node>
     <node name="nat_baum_mittel_0.007">
       <position x="-6.604154" y="-8.594043" z="-80.168060"/>
       <rotation qx="-0.029349" qy="-0.086345" qz="0.073879" qw="0.993089"/>
-      <scale x="119.904991" y="119.904984" z="119.904991"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="nat_baum_mittel_0.007" meshFile="nat_baum_mittel_02.mesh"/>
     </node>
     <node name="nat_baum_mittel_0.006">
       <position x="-3.933575" y="-6.598794" z="-89.702789"/>
       <rotation qx="-0.033156" qy="-0.301445" qz="0.025222" qw="0.952573"/>
-      <scale x="86.815529" y="86.815521" z="86.815521"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="nat_baum_mittel_0.006" meshFile="nat_baum_mittel_02.mesh"/>
     </node>
     <node name="nat_baum_mittel_0.005">
       <position x="-25.111547" y="-6.206846" z="27.601656"/>
       <rotation qx="-0.124211" qy="-0.045277" qz="0.026327" qw="0.990873"/>
-      <scale x="119.904984" y="119.904984" z="119.904976"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="nat_baum_mittel_0.005" meshFile="nat_baum_mittel_02.mesh"/>
     </node>
     <node name="nat_baum_mittel_0.004">
       <position x="-9.445229" y="-5.497615" z="25.742031"/>
       <rotation qx="-0.003767" qy="-0.082189" qz="0.030294" qw="0.996149"/>
-      <scale x="91.432167" y="91.432182" z="91.432175"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="nat_baum_mittel_0.004" meshFile="nat_baum_mittel_02.mesh"/>
     </node>
     <node name="nat_baum_03.046">
@@ -177,7 +177,7 @@
     <node name="nat_baum_mittel_0.010">
       <position x="6.590194" y="-2.165803" z="-15.620619"/>
       <rotation qx="-0.028811" qy="0.168867" qz="0.044274" qw="0.984222"/>
-      <scale x="86.860527" y="86.860519" z="86.860527"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="nat_baum_mittel_0.010" meshFile="nat_baum_mittel_02.mesh"/>
     </node>
     <node name="nat_baum_03.040">
@@ -303,7 +303,7 @@
     <node name="nat_baum_mittel_0.014">
       <position x="38.017643" y="-1.243985" z="-44.142998"/>
       <rotation qx="-0.051533" qy="-0.863933" qz="-0.011603" qw="0.500830"/>
-      <scale x="86.860527" y="86.860519" z="86.860527"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="nat_baum_mittel_0.014" meshFile="nat_baum_mittel_02.mesh"/>
     </node>
     <node name="nat_baum_03.021">
@@ -333,7 +333,7 @@
     <node name="nat_baum_mittel_0.011">
       <position x="61.232399" y="-1.757025" z="-59.158100"/>
       <rotation qx="-0.051533" qy="-0.863933" qz="-0.011603" qw="0.500830"/>
-      <scale x="86.860527" y="86.860519" z="86.860527"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="nat_baum_mittel_0.011" meshFile="nat_baum_mittel_02.mesh"/>
     </node>
     <node name="nat_baum_03.026">
@@ -495,7 +495,7 @@
     <node name="nat_baum_mittel_0.015">
       <position x="34.846642" y="-0.902462" z="-67.372498"/>
       <rotation qx="-0.050403" qy="0.393041" qz="0.049908" qw="0.916781"/>
-      <scale x="86.860527" y="86.860512" z="86.860519"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="nat_baum_mittel_0.015" meshFile="nat_baum_mittel_02.mesh"/>
     </node>
     <node name="arc_zaun_01.001">
@@ -585,7 +585,7 @@
     <node name="nat_baum_mittel_0.012">
       <position x="73.003914" y="-2.660838" z="-46.533485"/>
       <rotation qx="-0.027192" qy="-0.870756" qz="0.013876" qw="0.490767"/>
-      <scale x="87.486961" y="87.486961" z="87.486961"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="nat_baum_mittel_0.012" meshFile="nat_baum_mittel_02.mesh"/>
     </node>
     <node name="arc_zaun_01.018">
@@ -597,7 +597,7 @@
     <node name="nat_baum_mittel_0.013">
       <position x="52.931271" y="-1.645721" z="-70.206680"/>
       <rotation qx="0.050592" qy="-0.957026" qz="-0.010456" qw="0.285363"/>
-      <scale x="119.904984" y="119.904999" z="119.904991"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="nat_baum_mittel_0.013" meshFile="nat_baum_mittel_02.mesh"/>
     </node>
     <node name="nat_baum_03.025">
@@ -609,7 +609,7 @@
     <node name="nat_baum_mittel_0">
       <position x="8.301744" y="-3.102492" z="5.199960"/>
       <rotation qx="0.019303" qy="-0.272045" qz="-0.079726" qw="0.958782"/>
-      <scale x="86.815521" y="86.815521" z="86.815521"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="nat_baum_mittel_0" meshFile="nat_baum_mittel_02.mesh"/>
     </node>
     <node name="urbaum">
@@ -633,7 +633,7 @@
     <node name="nat_baum_mittel_02">
       <position x="5.527940" y="-2.574647" z="-1.940997"/>
       <rotation qx="-0.039254" qy="-0.084587" qz="0.118010" qw="0.988624"/>
-      <scale x="119.904991" y="119.904999" z="119.904991"/>
+      <scale x="1.000000" y="1.000000" z="1.000000"/>
       <entity name="nat_baum_mittel_02" meshFile="nat_baum_mittel_02.mesh"/>
     </node>
   </nodes>
