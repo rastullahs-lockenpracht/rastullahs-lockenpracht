@@ -141,6 +141,6 @@ namespace rl {
 			test->data = NULL;
 			
         }
-        catch( InvalidArgumentException& ) {}
+        catch (IllegalArgumentException& ) {}
     }
 }

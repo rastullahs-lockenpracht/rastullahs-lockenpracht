@@ -194,7 +194,7 @@ Quest::State Quest::getStateFromName(const CeGuiString& stateName)
 		return Quest::HEARD_OF;
 
 	const char* msg = (stateName + " is no valid quest state.").c_str();
-	Throw(InvalidArgumentException, msg);
+	Throw(IllegalArgumentException, msg);
 	return Quest::UNKNOWN;
 }
 

@@ -77,7 +77,7 @@ namespace rl {
         }
         else
         {
-            Throw(InvalidArgumentException, "Item nicht in Container.");
+            Throw(IllegalArgumentException, "Item nicht in Container.");
         }
         return rval;
     }
@@ -97,7 +97,7 @@ namespace rl {
 		}
 		else
 		{
-			Throw(InvalidArgumentException, "Item nicht in Container.");
+			Throw(IllegalArgumentException, "Item nicht in Container.");
 		}
 	}
 }

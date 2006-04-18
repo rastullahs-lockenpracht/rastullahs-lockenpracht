@@ -168,7 +168,7 @@ void Video::play()
     if (!mClip)
     {
         std::string text = "Clip "+ std::string(mMovieName.c_str()) + " not found while trying to play";
-        Throw(InvalidArgumentException, text);
+        Throw(IllegalArgumentException, text);
     }
 
     mClip->registerMessageHandler(this);

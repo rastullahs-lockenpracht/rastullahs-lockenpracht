@@ -59,9 +59,10 @@ namespace rl {
 		void usePickedObjectDefaultActions();
 		void toggleObjectPicking();
 
-		Person* getActiveCharacter();
+		Person* getActiveCharacter() const;
 		void setActiveCharacter(Person* person);
-        CharacterController* getCharacterController();
+        CharacterController* getCharacterController() const;
+		ControllerType getCharacterControllerType() const;
 		void setCharacterController(ControllerType type);
 
 		void setCombatMode(bool inCombat);
@@ -77,6 +78,7 @@ namespace rl {
         void runTest();
         
         CharacterController* mCharacterController;
+		ControllerType mCharacterControllerType;
         GameActor* mHero;
         Person* mCharacter;
         bool mInCombat;

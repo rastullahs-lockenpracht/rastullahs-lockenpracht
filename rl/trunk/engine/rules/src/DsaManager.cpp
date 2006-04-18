@@ -168,7 +168,7 @@ namespace rl
         }
         else
         {
-            Throw(InvalidArgumentException, "Talent nicht gefunden.");
+            Throw(IllegalArgumentException, "Talent nicht gefunden.");
         }
     }
 
@@ -181,7 +181,7 @@ namespace rl
         }
         else
         {
-            Throw(InvalidArgumentException, "Kampftechnik nicht gefunden.");
+            Throw(IllegalArgumentException, "Kampftechnik nicht gefunden.");
         }
     }
 
@@ -194,7 +194,7 @@ namespace rl
 		}
 		else
 		{
-			Throw(InvalidArgumentException, "Eigenschaft nicht gefunden.");
+			Throw(IllegalArgumentException, "Eigenschaft nicht gefunden.");
 		}
     }
 
@@ -268,7 +268,7 @@ namespace rl
 	int DsaManager::getSteigerKosten(int column, int from) const
 	{
 		if (column < 0 || column >= SKT_COLUMNS)
-			Throw(InvalidArgumentException, "Spalte in SKT nicht gefunden.");
+			Throw(IllegalArgumentException, "Spalte in SKT nicht gefunden.");
 		if (from < 0)
 			return 0;
 		else if (from < SKT_ROWS)
@@ -296,7 +296,7 @@ namespace rl
         }
         else
         {
-            Throw(InvalidArgumentException, "Person nicht gefunden.");
+            Throw(IllegalArgumentException, "Person nicht gefunden.");
         }
 	}
 

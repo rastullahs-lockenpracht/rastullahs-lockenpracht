@@ -503,7 +503,7 @@ namespace rl {
 
             // Braucht ein Skelett
             if( !ent->hasSkeleton() )
-                Throw(InvalidArgumentException, 
+                Throw(IllegalArgumentException, 
                     "Aktor "+mName+": Das kontrollierte MeshObject des ChildAktor hat kein Skeleton." );
 
             // Der Slot muss existieren
@@ -519,7 +519,7 @@ namespace rl {
                 offsetPositionMod = ( offsetOrientationMod * (-vec) ) + offsetPosition;
             }
             catch (Ogre::Exception) {
-                Throw(InvalidArgumentException, 
+                Throw(IllegalArgumentException, 
                     "Aktor "+mName+": Der geforderte Slot '"+childSlot+"' am ChildAktor existiert nicht." );
             }
         }
@@ -531,7 +531,7 @@ namespace rl {
             getControlledObject()->isMeshObject() )
 		{
             if( actor->getControlledObject() == NULL )
-                Throw(InvalidArgumentException, 
+                Throw(IllegalArgumentException, 
                     "Aktor "+mName+": Der zu befestigende Aktor darf bei SLOTs nicht leer sein." );
 
 			MovableObject* movObj = actor->getControlledObject()->getMovableObject();
@@ -539,7 +539,7 @@ namespace rl {
 
             // Braucht ein Skelett
             if( !ent->hasSkeleton() )
-                Throw(InvalidArgumentException, 
+                Throw(IllegalArgumentException, 
                 "Aktor "+mName+": Das kontrollierte MeshObject hat kein Skeleton." );
 
             // Der Slot muss existieren
@@ -548,7 +548,7 @@ namespace rl {
                 ent->getSkeleton()->getBone( slot );
             }
             catch (Ogre::Exception) {
-                Throw(InvalidArgumentException, 
+                Throw(IllegalArgumentException, 
                     "Aktor "+mName+": Der geforderte Slot '"+slot+"' existiert nicht." );
             }
                 
@@ -580,7 +580,7 @@ namespace rl {
     void Actor::doDetach(Actor* actor)
     {
         if( mChilds.find(actor) == mChilds.end() )
-            Throw(InvalidArgumentException,
+            Throw(IllegalArgumentException,
             "Aktor "+mName+": Der Aktor ist kein Kind dieses Aktors");
 
         // Ist es an einem Bone angefügt
@@ -639,10 +639,10 @@ namespace rl {
             Throw(NullPointerException, 
             "Aktor "+mName+": Kann nicht an einen leeren parentNode angehängt werden.");
         if( mBone )
-            Throw(InvalidArgumentException, 
+            Throw(IllegalArgumentException, 
             "Aktor "+mName+": Der Aktor ist bereits an einen Bone angehängt.");
         if( mSceneNode && mSceneNode->isInSceneGraph() )
-            Throw(InvalidArgumentException, 
+            Throw(IllegalArgumentException, 
             "Aktor "+mName+": Der Aktor ist bereits in die Szene angehängt.");
 
         // SceneNode erzeugen, falls nicht schon einer vorhanden
@@ -675,7 +675,7 @@ namespace rl {
 
                 // Braucht ein Skelett
                 if( !ent->hasSkeleton() )
-                    Throw(InvalidArgumentException, 
+                    Throw(IllegalArgumentException, 
                     "Aktor "+mName+": Das kontrollierte MeshObject hat kein Skeleton." );
 
                 // Der Slot muss existieren
@@ -684,7 +684,7 @@ namespace rl {
                     ent->getSkeleton()->getBone( physicsBone );
                 }
                 catch (Ogre::Exception) {
-                    Throw(InvalidArgumentException, 
+                    Throw(IllegalArgumentException, 
                         "Aktor "+mName+": Der geforderte PhysicsBone '"+physicsBone+"' existiert nicht." );
                 }
 

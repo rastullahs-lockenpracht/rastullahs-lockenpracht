@@ -46,7 +46,8 @@ public:
 	rl::Person* getActiveCharacter();
 	void setActiveCharacter(rl::Person* person);
 
-	rl::CharacterController* getCharacterController();
+	rl::CharacterController* getCharacterController() const;
+	rl::UiSubsystem::ControllerType getCharacterControllerType() const;
 	void setCharacterController(rl::UiSubsystem::ControllerType type);
 	
 	void useDefaultAction(rl::GameObject* obj, rl::Creature* actor);

@@ -130,7 +130,7 @@ namespace rl {
 			return EBE_KEINE_BE;
 
 		if (!(eBeString.substr(0, 2).compare("BE")) == 0)
-			Throw(InvalidArgumentException, "Ungueltige EBE-Angabe.");
+			Throw(IllegalArgumentException, "Ungueltige EBE-Angabe.");
 
 		string ebe = eBeString.substr(2);
 		if (ebe.compare("x2") == 0)

@@ -42,7 +42,7 @@ namespace rl {
 
 		if (!mCharacter->_getSceneNode())
 		{
-			Throw(InvalidArgumentException,
+			Throw(IllegalArgumentException,
 				"character has to be placed in the scene beforehand");
 		}
 

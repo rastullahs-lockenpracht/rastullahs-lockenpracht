@@ -305,7 +305,7 @@ namespace rl {
 	void WindowUpdater::fadeIn(CeGuiWindow* window, Ogre::Real time, Ogre::Real targetAlpha)
 	{
 		if (window == NULL)
-			Throw(InvalidArgumentException, "NULL argument");
+			Throw(NullPointerException, "window  argument is NULL");
 
 		mTasks.insert(
 			new WindowUpdateTask(
@@ -319,7 +319,7 @@ namespace rl {
 	void WindowUpdater::fadeOut(CeGuiWindow* window, Ogre::Real time, bool destroy)
 	{
 		if (window == NULL)
-			Throw(InvalidArgumentException, "NULL argument");
+			Throw(NullPointerException, "window  argument is NULL");
 
 		mTasks.insert(
 			new WindowUpdateTask(
@@ -333,7 +333,7 @@ namespace rl {
 	void WindowUpdater::moveOutLeft(CeGuiWindow* window, Ogre::Real time, bool destroy)
 	{
 		if (window == NULL)
-			Throw(InvalidArgumentException, "NULL argument");
+			Throw(NullPointerException, "window  argument is NULL");
 
 		CEGUI::Window* wnd = window->getWindow();
 		mTasks.insert(

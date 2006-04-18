@@ -90,7 +90,7 @@ namespace rl {
 				return part;
 		}
 
-		Throw(InvalidArgumentException, (creature->getName()+" nimmt nicht am Kampf teil.").c_str());
+		Throw(IllegalArgumentException, (creature->getName()+" nimmt nicht am Kampf teil.").c_str());
 	}
 
 	int Combat::getGroupOf(Creature* creature)
@@ -223,7 +223,7 @@ namespace rl {
 		}
 
 		Throw(
-			rl::InvalidArgumentException, 
+			rl::IllegalArgumentException, 
 			"No controller for group"
 			+ Ogre::StringConverter::toString(group));
 		return NULL;
@@ -234,7 +234,7 @@ namespace rl {
 		CreatureData* cd = getData(actor);
 		if (cd->group != controller->getGroup())
 		{
-			Throw(InvalidArgumentException, "This Controller must not control other group");
+			Throw(IllegalArgumentException, "This Controller must not control other group");
 		}
 
 		cd->nextAction = option;
@@ -247,7 +247,7 @@ namespace rl {
 			CreatureData* cd = getData(actor);
 			if (cd->group != controller->getGroup())
 			{
-				Throw(InvalidArgumentException, "This Controller must not control other group");
+				Throw(IllegalArgumentException, "This Controller must not control other group");
 			}
 
 			cd->nextAttackTarget = target;	
@@ -261,7 +261,7 @@ namespace rl {
 			CreatureData* cd = getData(actor);
 			if (cd->group != controller->getGroup())
 			{
-				Throw(InvalidArgumentException, "This Controller must not control other group");
+				Throw(IllegalArgumentException, "This Controller must not control other group");
 			}
 
 			cd->nextPareeTarget = target;	
@@ -284,7 +284,6 @@ namespace rl {
 			if (cur->initiative < mInitiative)
 				return cur;
 		}
-
 
 		return NULL;
 	}

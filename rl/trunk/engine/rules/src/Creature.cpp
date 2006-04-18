@@ -133,7 +133,7 @@ namespace rl
 		WertMap::const_iterator it = mWerte.find(wertId);
         if (it == mWerte.end())
         {
-            Throw(InvalidArgumentException, "Wert nicht gefunden.");
+            Throw(IllegalArgumentException, "Wert nicht gefunden.");
         }
 		return it->second->getValue(getUnmodified);
 	}
@@ -165,7 +165,7 @@ namespace rl
         WertMap::const_iterator it = mWerte.find(wertId);
         if (it == mWerte.end())
         {
-            Throw(InvalidArgumentException, "Wert nicht gefunden.");
+            Throw(IllegalArgumentException, "Wert nicht gefunden.");
         }
 		return it->second;
 	}
@@ -241,7 +241,7 @@ namespace rl
 		EigenschaftMap::const_iterator it = mEigenschaften.find(eigenschaftName);
 		if (it == mEigenschaften.end())
 		{
-			Throw(InvalidArgumentException, "Eigenschaft nicht gefunden.");
+			Throw(IllegalArgumentException, "Eigenschaft nicht gefunden.");
 		}
 		return it->second->getValue();
     }
@@ -252,7 +252,7 @@ namespace rl
 		EigenschaftMap::const_iterator it = mEigenschaften.find(eigenschaftName);
 		if (it == mEigenschaften.end())
 		{
-			Throw(InvalidArgumentException, "Eigenschaft nicht gefunden.");
+			Throw(IllegalArgumentException, "Eigenschaft nicht gefunden.");
 		}
 		return it->second->getValueForBasiswertCalculation();
     }
@@ -262,7 +262,7 @@ namespace rl
         EigenschaftMap::iterator it = mEigenschaften.find(eigenschaftName);
         if (it == mEigenschaften.end())
         {
-            Throw(InvalidArgumentException, "Eigenschaft nicht gefunden.");
+            Throw(IllegalArgumentException, "Eigenschaft nicht gefunden.");
         }
 		it->second->setOriginalValue( value );
 		fireObjectStateChangeEvent();
@@ -280,7 +280,7 @@ namespace rl
         EigenschaftMap::const_iterator it = mEigenschaften.find(eigenschaftName);
         if (it == mEigenschaften.end())
         {
-            Throw(InvalidArgumentException, "Eigenschaft nicht gefunden.");
+            Throw(IllegalArgumentException, "Eigenschaft nicht gefunden.");
         }
 		return it->second;
 	}
@@ -291,7 +291,7 @@ namespace rl
         TalentMap::const_iterator it = mTalente.find(talentName);
         if (it == mTalente.end())
         {
-            Throw(InvalidArgumentException, "Talent nicht gefunden.");
+            Throw(IllegalArgumentException, "Talent nicht gefunden.");
         }
 		return it->second->getValue();
     }
@@ -301,7 +301,7 @@ namespace rl
 		TalentMap::const_iterator it = mTalente.find(talentName);
         if (it != mTalente.end())
         {
-			Throw(InvalidArgumentException, "Talent schon in mTalente enthalten.");
+			Throw(IllegalArgumentException, "Talent schon in mTalente enthalten.");
         }
 	    DsaManager::getSingleton().getTalent(talentName); //ueberpruefe ob es das Talent ueberhaupt gibt
 		mTalente[talentName] = new TalentStateSet();
@@ -314,7 +314,7 @@ namespace rl
         TalentMap::iterator it = mTalente.find(talentName);
         if (it == mTalente.end())
         {
-            Throw(InvalidArgumentException, "Talent nicht gefunden.");
+            Throw(IllegalArgumentException, "Talent nicht gefunden.");
         }
 		it->second->setOriginalValue( it->second->getOriginalValue() + mod );
 		fireObjectStateChangeEvent();
@@ -330,7 +330,7 @@ namespace rl
         TalentMap::iterator it = mTalente.find(talentName);
         if (it == mTalente.end())
         {
-            Throw(InvalidArgumentException, "Talent nicht gefunden.");
+            Throw(IllegalArgumentException, "Talent nicht gefunden.");
         }
 		it->second->setOriginalValue( value );
 		fireObjectStateChangeEvent();
@@ -341,7 +341,7 @@ namespace rl
         TalentMap::iterator it = mTalente.find(talentName);
         if (it == mTalente.end())
         {
-            Throw(InvalidArgumentException, "Talent nicht gefunden.");
+            Throw(IllegalArgumentException, "Talent nicht gefunden.");
         }
 		it->second->setSe( true );
 	}
@@ -352,7 +352,7 @@ namespace rl
         TalentMap::const_iterator it = mTalente.find(talentName);
         if (it == mTalente.end())
         {
-            Throw(InvalidArgumentException, "Talent nicht gefunden.");
+            Throw(IllegalArgumentException, "Talent nicht gefunden.");
         }
 		return it->second;
 	}
@@ -362,7 +362,7 @@ namespace rl
 		KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikName);
 		if (it != mKampftechniken.end())
 		{
-			Throw(InvalidArgumentException, 
+			Throw(IllegalArgumentException, 
 				"Kampftechnik schon in mKampftechniken enthalten.");
 		}
 		//ueberpruefe ob es die Kampftechnik ueberhaupt gibt
@@ -376,7 +376,7 @@ namespace rl
         KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikName);
         if (it == mKampftechniken.end())
         {
-            Throw(InvalidArgumentException, "Kampftechnik nicht gefunden.");
+            Throw(IllegalArgumentException, "Kampftechnik nicht gefunden.");
         }
         return (*it).second;
     }
@@ -386,7 +386,7 @@ namespace rl
         KampftechnikMap::iterator it = mKampftechniken.find(kampftechnikName);
         if (it == mKampftechniken.end())
         {
-            Throw(InvalidArgumentException, "Kampftechnik nicht gefunden.");
+            Throw(IllegalArgumentException, "Kampftechnik nicht gefunden.");
         }
         (*it).second = value;
 		fireObjectStateChangeEvent();
@@ -398,7 +398,7 @@ namespace rl
         SonderfertigkeitMap::const_iterator it = mSonderfertigkeiten.find(sfName);
         if (it == mSonderfertigkeiten.end())
         {
-            Throw(InvalidArgumentException, "Sonderfertigkeit nicht gefunden.");
+            Throw(IllegalArgumentException, "Sonderfertigkeit nicht gefunden.");
         }
 		return it->second->getValue();
     }
@@ -408,7 +408,7 @@ namespace rl
 		SonderfertigkeitMap::const_iterator it = mSonderfertigkeiten.find(sfName);
 		if (it != mSonderfertigkeiten.end())
 		{
-			Throw(InvalidArgumentException, "Sonderfertigkeit schon in mSonderfertigkeiten enthalten.");
+			Throw(IllegalArgumentException, "Sonderfertigkeit schon in mSonderfertigkeiten enthalten.");
 		}
 		//ueberpruefe ob es die Sonderfertigkeit ueberhaupt gib
 		DsaManager::getSingleton().getTalent(sfName);
@@ -427,7 +427,7 @@ namespace rl
         SonderfertigkeitMap::iterator it = mSonderfertigkeiten.find(sfName);
         if (it == mSonderfertigkeiten.end())
         {
-            Throw(InvalidArgumentException, "Sonderfertigkeit nicht gefunden.");
+            Throw(IllegalArgumentException, "Sonderfertigkeit nicht gefunden.");
         }
 		it->second->setOriginalValue( value );
 		fireObjectStateChangeEvent();
@@ -439,7 +439,7 @@ namespace rl
         SonderfertigkeitMap::const_iterator it = mSonderfertigkeiten.find(sfName);
         if (it == mSonderfertigkeiten.end())
         {
-            Throw(InvalidArgumentException, "Sonderfertigkeit nicht gefunden.");
+            Throw(IllegalArgumentException, "Sonderfertigkeit nicht gefunden.");
         }
 		return it->second;
 	}
@@ -495,7 +495,7 @@ namespace rl
 		{
 			//if (1 == getSf(sfName)) taW = 2; //Spezialisiereung?
 		}
-		catch(InvalidArgumentException){};
+		catch(IllegalArgumentException){};
 		taW += getTalent(talentName);
 		int rval = taW - modifier - getTalentStateSet(talentName)->getProbenModifier()
 			- getWertStateSet(WERT_MOD_ALL_TALENTPROBEN)->getProbenModifier() - eBe;
@@ -570,11 +570,11 @@ namespace rl
 	void Creature::addContainer(Container* container)
 	{
 		if (container == NULL)
-			Throw(InvalidArgumentException, "Nullpointer uebergeben");
+			Throw(IllegalArgumentException, "Nullpointer uebergeben");
 		ContainerMap::const_iterator it = mContainer.find(container->getName());
 		if (it != mContainer.end())
 		{
-			Throw(InvalidArgumentException, 
+			Throw(IllegalArgumentException, 
 				"Container bereits in mContainer enthalten.");
 		}
 		mContainer.insert(make_pair(container->getName(), container));
@@ -585,7 +585,7 @@ namespace rl
 		ContainerMap::const_iterator it = mContainer.find(containerName);
 		if (it == mContainer.end())
 		{
-			Throw(InvalidArgumentException, "Container nicht in mContainer gefunden.");
+			Throw(IllegalArgumentException, "Container nicht in mContainer gefunden.");
 		}
 		return (*it).second;	
 	}
@@ -595,7 +595,7 @@ namespace rl
 		ContainerMap::iterator it = mContainer.find(containerName);
 		if (it == mContainer.end())
 		{
-			Throw(InvalidArgumentException, "Container nicht in mContainer gefunden.");
+			Throw(IllegalArgumentException, "Container nicht in mContainer gefunden.");
 		}
 		Container* rval = (*it).second;
 		mContainer.erase(it);
@@ -605,11 +605,11 @@ namespace rl
 	void Creature::addWeapon(Weapon* weapon)
 	{
 		if (weapon == NULL)
-			Throw(InvalidArgumentException, "Nullpointer uebergeben");
+			Throw(IllegalArgumentException, "Nullpointer uebergeben");
 		WeaponMap::const_iterator it = mWeapons.find(weapon->getId());
 		if (it != mWeapons.end())
 		{
-			Throw(InvalidArgumentException, 
+			Throw(IllegalArgumentException, 
 				"weaponId bereits in mWeapons enthalten.");
 		}
 		mWeapons.insert(make_pair(weapon->getId(), weapon));
@@ -620,7 +620,7 @@ namespace rl
 		WeaponMap::const_iterator it = mWeapons.find(weaponId);
 		if (it == mWeapons.end())
 		{
-			Throw(InvalidArgumentException, "weaponId nicht in mWeapons gefunden.");
+			Throw(IllegalArgumentException, "weaponId nicht in mWeapons gefunden.");
 		}
 		return (*it).second;	
 	}
@@ -630,7 +630,7 @@ namespace rl
 		WeaponMap::iterator it = mWeapons.find(weaponId);
 		if (it == mWeapons.end())
 		{
-			Throw(InvalidArgumentException, "weaponId nicht in mWeapons gefunden.");
+			Throw(IllegalArgumentException, "weaponId nicht in mWeapons gefunden.");
 		}
 		Weapon* rval = (*it).second;
 		mWeapons.erase(it);
@@ -644,7 +644,7 @@ namespace rl
 		WeaponMap::iterator it = mWeapons.find(weaponId);
 		if (it == mWeapons.end())
 		{
-			Throw(InvalidArgumentException, "weaponId nicht in mWeapons gefunden.");
+			Throw(IllegalArgumentException, "weaponId nicht in mWeapons gefunden.");
 		}
 		
 		Weapon* weapon = (*it).second;
@@ -673,7 +673,7 @@ namespace rl
 		KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikName);
 		if (it == mKampftechniken.end())
 		{
-			Throw(InvalidArgumentException, "kampftechnikName nicht in mKampftechniken gefunden");
+			Throw(IllegalArgumentException, "kampftechnikName nicht in mKampftechniken gefunden");
 		}
 		int rval;
 		int eBe = floor(float(DsaManager::getSingleton().getKampftechnik(kampftechnikName)->calculateEbe(getWert(WERT_BE))) / 2.0);
@@ -702,7 +702,7 @@ namespace rl
 		KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikName);
 		if (it == mKampftechniken.end())
 		{
-			Throw(InvalidArgumentException, "kampftechnikName nicht in mKampftechniken gefunden");
+			Throw(IllegalArgumentException, "kampftechnikName nicht in mKampftechniken gefunden");
 		}
 		int rval;
 		int eBe = ceil(float(DsaManager::getSingleton().getKampftechnik(kampftechnikName)->calculateEbe(getWert(WERT_BE))) / 2.0);

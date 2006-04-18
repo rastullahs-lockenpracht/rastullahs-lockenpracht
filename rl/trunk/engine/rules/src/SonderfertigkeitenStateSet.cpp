@@ -32,7 +32,8 @@ namespace rl
 
 	void SonderfertigkeitenStateSet::setModifier( int newModifier )
 	{
-		Throw(InvalidArgumentException, "SonderfertigkeitenStateSet::setModifier: Sonderfertigkeiten können nicht modifiziert werden");
+		Throw(IllegalArgumentException,
+			"SonderfertigkeitenStateSet::setModifier: Sonderfertigkeiten können nicht modifiziert werden");
 	}
 
 	int SonderfertigkeitenStateSet::getLehrmeisterZeiteinheiten()

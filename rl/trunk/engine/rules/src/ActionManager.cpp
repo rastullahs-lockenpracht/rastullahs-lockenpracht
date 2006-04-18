@@ -72,7 +72,7 @@ namespace rl
 		if (mActions.find(action->getName()) != mActions.end())
 		{
 			Throw(
-				InvalidArgumentException, 
+				IllegalArgumentException, 
 				("Action "+action->getName()+" bereits registriert").c_str());
 		}
 
@@ -87,7 +87,7 @@ namespace rl
 	{
 		ActionMap::iterator iter = mActions.find(actionName);
 		if (iter == mActions.end())
-			Throw(InvalidArgumentException, "Aktion nicht gefunden");
+			Throw(IllegalArgumentException, "Aktion nicht gefunden");
 
 		ScriptWrapper::getSingleton().disowned((*iter).second);
 		mActions.erase(iter);

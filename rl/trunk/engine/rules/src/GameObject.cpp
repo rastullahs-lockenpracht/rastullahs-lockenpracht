@@ -129,7 +129,7 @@ namespace rl
         {
             std::stringstream strstr;
 			strstr << "'" << actionName.c_str() << "' ist eine dem Objekt unbekannte Aktion.";
-            Throw(InvalidArgumentException, strstr.str());
+            Throw(IllegalArgumentException, strstr.str());
         }
         
 		doAction((*it).first, actor, target);
@@ -187,7 +187,7 @@ namespace rl
 	void GameObject::setActor(Actor* actor)
 	{
 		if (NULL == actor)
-			Throw(InvalidArgumentException, "Actor must not be NULL");
+			Throw(IllegalArgumentException, "Actor must not be NULL");
 
 		mActor = actor;
 		mActor->setGameObject(this);

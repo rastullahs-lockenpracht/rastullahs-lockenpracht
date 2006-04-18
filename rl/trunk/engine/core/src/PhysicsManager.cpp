@@ -209,20 +209,6 @@ namespace rl
 		return rval;
     }
 
-    //PhysicalThing* PhysicsManager::createConvexHullPhysicalThing(Entity* entity, Real mass,
-    //    const Vector3& inertiaCoefficients)
-    //{
-    //    OgreNewt::Collision* coll = new OgreNewt::CollisionPrimitives::ConvexHull(mWorld, entity);
-    //    OgreNewt::Body* body = new OgreNewt::Body(mWorld, coll);
-    //    PhysicalThing* rval = new PhysicalThing(body);
-    //    if (mass > 0.0)
-    //    {
-    //        body->setMassMatrix(mass, mass*inertiaCoefficients);
-    //    }
-    //    mPhysicalThings.push_back(rval);
-    //    return rval;
-    //}
-
     void PhysicsManager::removeAndDestroyPhysicalThing(PhysicalThing* thing)
     {
         vector<PhysicalThing*>::iterator it = find(mPhysicalThings.begin(),

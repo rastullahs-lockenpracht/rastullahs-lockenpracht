@@ -184,16 +184,16 @@ trat folgende Ausnahme vom Typ %s auf\n\
 
    };
 
-   class InvalidArgumentException : public RuntimeException {
+   class IllegalArgumentException : public RuntimeException {
    public:
-      InvalidArgumentException(const std::string& message,
+      IllegalArgumentException(const std::string& message,
          const std::string& file, const std::string& function, int line)
          : RuntimeException(message, file, function, line) {}
 
-      InvalidArgumentException(const InvalidArgumentException& rhs)
+      IllegalArgumentException(const IllegalArgumentException& rhs)
          : RuntimeException(rhs) {}
 
-      virtual std::string getType() { return "InvalidArgumentException"; }
+      virtual std::string getType() { return "IllegalArgumentException"; }
 
    };
 
