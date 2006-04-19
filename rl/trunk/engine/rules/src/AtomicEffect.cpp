@@ -14,28 +14,28 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#include "AtomarEffect.h"
+#include "AtomicEffect.h"
 
 namespace rl
 {
-	AtomarEffect::AtomarEffect() : Effect()
+	AtomicEffect::AtomicEffect() : Effect()
 	{
 	}
 
-	AtomarEffect::~AtomarEffect()
+	AtomicEffect::~AtomicEffect()
 	{
 	}
 
-	bool AtomarEffect::isAlive()
+	bool AtomicEffect::isAlive()
 	{
 		return true;
 	}
 
-	void AtomarEffect::apply()
+	void AtomicEffect::apply()
 	{
 	}
 
-	void AtomarEffect::remove()
+	void AtomicEffect::remove()
 	{
 	}
 }

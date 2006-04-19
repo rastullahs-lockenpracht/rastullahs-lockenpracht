@@ -14,19 +14,19 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
-#ifndef __ATOMAREFFECT_H__
-#define __ATOMATEFFECT_H__
+#ifndef __AtomicEffect_H__
+#define __AtomicEffect_H__
 
 #include "Effect.h"
 
 namespace rl
 {
 
-	class _RlRulesExport AtomarEffect : public Effect
+	class _RlRulesExport AtomicEffect : public Effect
 	{
 	public:
-		AtomarEffect();
-		virtual ~AtomarEffect();
+		AtomicEffect();
+		virtual ~AtomicEffect();
 
 		virtual bool isAlive();
 	protected:
@@ -37,4 +37,4 @@ namespace rl
 	};
 }
 
-#endif //__ATOMAREFFECT_H__
+#endif //__AtomicEffect_H__
