@@ -67,6 +67,7 @@ namespace rl {
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_V, "showtestvideowindow");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_O, "togglecharacterstatewindow");
 		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_F10, "toggleingameglobalmenu");
+		setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_M, "togglecharactercontroller");
 	}
 
 	CommandMapper::~CommandMapper()

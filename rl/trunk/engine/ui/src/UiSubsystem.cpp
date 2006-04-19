@@ -21,6 +21,8 @@
 #include <OgreCEGUIRenderer.h>
 #include <OgreCEGUIResourceProvider.h>
 
+#include "Exception.h"
+
 #include "CoreSubsystem.h"
 #include "Logger.h"
 #include "DialogCharacterController.h"
@@ -134,7 +136,7 @@ namespace rl {
 		mWindowFactory = new WindowFactory();
     }
 
-	Person* UiSubsystem::getActiveCharacter()
+	Person* UiSubsystem::getActiveCharacter() const
 	{
 		return mCharacter;
 	}
@@ -168,6 +170,8 @@ namespace rl {
 
 	void UiSubsystem::setCharacterController(ControllerType type)
 	{
+		mCharacterControllerType = type;
+
 		if (mCharacterController != NULL)
 		{
 			GameLoopManager::getSingleton().removeSynchronizedTask(mCharacterController);
@@ -191,6 +195,8 @@ namespace rl {
 		case CTRL_DIALOG:
 			mCharacterController = new DialogCharacterController(camera, CoreSubsystem::getSingleton().getWorld()->getActiveActor());
 			break;
+		default:
+			Throw(IllegalArgumentException, "Unknown CharacterControllerType.");
 		}
 	    Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "CharacterController created.");
 		GameLoopManager::getSingleton().addSynchronizedTask(mCharacterController, FRAME_STARTED );
@@ -215,7 +221,6 @@ namespace rl {
 		InputManager::getSingleton().setObjectPickingActive(true);
 	}
 
-
 	void UiSubsystem::startCombat(Combat* combat)
 	{
 		setCombatMode(true);
@@ -233,8 +238,13 @@ namespace rl {
 		return mInCombat;
 	}
 
-    CharacterController* UiSubsystem::getCharacterController()
+    CharacterController* UiSubsystem::getCharacterController() const
     {
         return mCharacterController;
     }
+
+	UiSubsystem::ControllerType UiSubsystem::getCharacterControllerType() const
+	{
+		return mCharacterControllerType;
+	}
 }
