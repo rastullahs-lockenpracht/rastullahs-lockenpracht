@@ -1,12 +1,12 @@
 @SET RL_ROOT="%1"
 @SET RL_DIST="%3"
-@SET BUILD="%2"
+@SET BUILD=%2
 
-@SET OGREHOME="%RL_ROOT%\Dependencies\ogrenew"
-@SET OGREDEPS="%OGREHOME%\Dependencies"
-@SET OGREPLUGINS="%OGREHOME%\PlugIns"
-@SET OGRERENDERERS="%OGREHOME%\RenderSystems"
-@SET OGREPLATFORMS="%OGREHOME%\PlatformManagers"
+@SET OGREHOME="%1\Dependencies\ogrenew"
+@SET OGREDEPS="%1\Dependencies\ogrenew\Dependencies"
+@SET OGREPLUGINS="%1\Dependencies\ogrenew\PlugIns"
+@SET OGRERENDERERS="%1\Dependencies\ogrenew\RenderSystems"
+@SET OGREPLATFORMS="%1\Dependencies\ogrenew\PlatformManagers"
 
 REM Verzeichnisse erzeugen
 REM ----------------------
