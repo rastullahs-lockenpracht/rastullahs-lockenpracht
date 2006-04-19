@@ -442,10 +442,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\Playlist.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\Primitive.h"
 				>
 			</File>
@@ -604,10 +600,6 @@
 			</File>
 			<File
 				RelativePath=".\src\PhysicsMaterialRaycast.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Playlist.cpp"
 				>
 			</File>
 			<File

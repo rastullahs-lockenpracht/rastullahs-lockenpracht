@@ -24,4 +24,7 @@
 #include "EventObject.h"
 #include "EventCaster.h"
 #include "PlaylistObject.h"
+#include "Playlist.h"
+#include "PlaylistEvent.h"
+#include "SimplePlaylist.h"
 %}

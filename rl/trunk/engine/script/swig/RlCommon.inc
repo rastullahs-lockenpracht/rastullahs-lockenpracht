@@ -117,6 +117,35 @@ public:
 	virtual void pause() = 0;
 };
 
+class PlaylistEvent : public rl::EventObject
+{
+};
+
+%template(EventObjectEventListener) EventListener<rl::PlaylistEvent>;
+class Playlist : public rl::EventListener<rl::PlaylistEvent>
+{
+public:
+	Playlist();
+	virtual ~Playlist();
+    virtual void add(rl::PlaylistObject *object) = 0;
+    virtual void remove(rl::PlaylistObject *object) = 0;
+    virtual void start() = 0;
+    virtual void stop() = 0;
+};
+
+class SimplePlaylist : public rl::Playlist
+{
+public:
+	SimplePlaylist();
+	virtual ~SimplePlaylist();
+    virtual void add(rl::PlaylistObject *object);
+    virtual void remove(rl::PlaylistObject *object);
+    virtual void start();
+    virtual void stop();
+    void setLooping(bool looping);
+    bool isLooping() const;
+    virtual bool eventRaised(rl::PlaylistEvent *eventRaised);
+};
 
 }
 

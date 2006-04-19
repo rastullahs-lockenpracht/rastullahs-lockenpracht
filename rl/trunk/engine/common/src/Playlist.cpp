@@ -14,34 +14,19 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
-#ifndef _PLAYLISTOBJECT_H_
-#define _PLAYLISTOBJECT_H_
+#include "Playlist.h"
+#include "PlaylistObject.h"
 
-#include "CommonPrerequisites.h"
-#include "EventCaster.h"
-#include "PlaylistEvent.h"
-
-namespace rl {
-
-class _RlCommonExport PlaylistObject : public EventCaster<PlaylistEvent>
+namespace rl
 {
-public:
-	/// Konstruktor
-	PlaylistObject();
-	/// Destruktor
-	~PlaylistObject();
-	/// Objekt laden, einrichten etc.
-	virtual void load() = 0;
-	/// Objekt entladen, abbauen etc.
-	virtual void unload() = 0;
-	/// Objektaktion starten
-	virtual void start() = 0;
-	/// Objectaktion stoppen
-	virtual void stop() = 0;
-	/// Objektaktion pausieren
-	virtual void pause() = 0;
-};
 
+Playlist::Playlist() : EventListener<PlaylistEvent>()
+{
 }
 
-#endif
+Playlist::~Playlist()
+{
+}
+
+
+}

@@ -30,11 +30,10 @@
 	PhysicsGenericContactCallback.h \
 	PhysicsController.h \
 	PhysicsManager.h \
-    PhysicsMaterialRaycast.h \
+	PhysicsMaterialRaycast.h \
 	Primitive.h \
 	RubyInterpreter.h \
 	SoundObject.h \
-	Playlist.h \
 	TrackAnimation.h \
 	World.h 
 	

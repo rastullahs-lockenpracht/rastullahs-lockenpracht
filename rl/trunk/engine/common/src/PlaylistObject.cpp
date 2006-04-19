@@ -22,7 +22,7 @@ namespace rl {
  * @date 12-04-2006
  * @version 1.0
  */
-PlaylistObject::PlaylistObject(): EventCaster<EventObject>()
+PlaylistObject::PlaylistObject(): EventCaster<PlaylistEvent>()
 {
 }
 

@@ -189,7 +189,23 @@ String SoundObject::getObjectType()
 
 bool SoundObject::eventRaised(SoundEvent *event)
 {
-    dispatchEvent(event);
+	int newReason = PlaylistEvent::NOPEVENT;
+	switch(event->getReason())
+	{
+		case SoundPlayEvent::PAUSEEVENT:
+			newReason = PlaylistEvent::PAUSEEVENT;
+			break;
+		case SoundPlayEvent::STARTEVENT:
+			newReason = PlaylistEvent::STARTEVENT;
+			break;
+		case SoundPlayEvent::STOPEVENT:
+			newReason = PlaylistEvent::STOPEVENT;
+			break;
+		default:
+			break;
+	}
+	PlaylistEvent *newEvent = new PlaylistEvent(event->getSource(), newReason);
+    dispatchEvent(newEvent);
     return true;
 }
 

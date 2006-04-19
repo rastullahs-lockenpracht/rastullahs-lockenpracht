@@ -14,22 +14,20 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
-#ifndef _PLAYLIST_H_
-#define _PLAYLIST_H_
+#ifndef _SIMPLEPLAYLIST_H_
+#define _SIMPLEPLAYLIST_H_
 
-#include "CorePrerequisites.h"
+#include "CommonPrerequisites.h"
 #include "EventListener.h"
-#include "PlaylistObject.h"
-#include "SoundEvents.h"
+#include "Playlist.h"
 #include <list>
 
 namespace rl
 {
-//class PlaylistObject;
 
 typedef std::list<PlaylistObject*> ObjectList;
 
-class _RlCoreExport Playlist : public EventListener<EventObject>
+class _RlCommonExport SimplePlaylist : public Playlist
 {
 private:
     ObjectList mQueue;
@@ -37,17 +35,17 @@ private:
 	bool mLooping;
     
 public:
-	Playlist();
-	virtual ~Playlist();
+	SimplePlaylist();
+	virtual ~SimplePlaylist();
     void add(PlaylistObject *object);
 	void remove(PlaylistObject *object);
-    void stop();
-	void start();
-	virtual bool eventRaised(EventObject *anEvent);
+    virtual void stop();
+	virtual void start();
+	virtual bool eventRaised(PlaylistEvent *anEvent);
 	void setLooping(bool looping);
 	bool isLooping() const;
 };
 
 }
 
-#endif /*Playlist_H_*/
+#endif /* SimplePlaylist_H_*/

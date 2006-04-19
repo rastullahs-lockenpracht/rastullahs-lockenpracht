@@ -44,7 +44,6 @@
 #include "TrackAnimation.h"
 #include "GameLoop.h"
 #include "World.h"
-#include "Playlist.h"
 #include "ContentModule.h"
 #include "ListenerObject.h"
 %}

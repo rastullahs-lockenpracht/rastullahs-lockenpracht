@@ -14,21 +14,17 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
-#include "Playlist.h"
-#include "SoundObject.h"
-#include "SoundChannel.h"
-#include "GameLoop.h"
-#include "PlaylistObject.h"
+#include "SimplePlaylist.h"
 
 namespace rl
 {
 
-Playlist::Playlist() : EventListener<EventObject>(),
+SimplePlaylist::SimplePlaylist() : Playlist(),
 	mLooping(false)
 {
 }
 
-Playlist::~Playlist()
+SimplePlaylist::~SimplePlaylist()
 {
 	stop();
 	for(mItem = mQueue.begin(); mItem != mQueue.end();)
@@ -38,7 +34,7 @@ Playlist::~Playlist()
 }
 
 
-void Playlist::add(PlaylistObject *object)
+void SimplePlaylist::add(PlaylistObject *object)
 {
 	if (object)
 	{
@@ -48,7 +44,7 @@ void Playlist::add(PlaylistObject *object)
 	}
 }
 
-void Playlist::remove(PlaylistObject *object)
+void SimplePlaylist::remove(PlaylistObject *object)
 {
 	if (object)
 	{
@@ -62,14 +58,14 @@ void Playlist::remove(PlaylistObject *object)
 	}
 }
 
-void Playlist::start()
+void SimplePlaylist::start()
 {
 	stop();
 	mItem = mQueue.begin();
 	(*mItem)->start();
 }
 
-void Playlist::stop()
+void SimplePlaylist::stop()
 {
 	ObjectList::iterator it;
 	for(it = mQueue.begin(); it != mQueue.end(); it++)
@@ -78,7 +74,7 @@ void Playlist::stop()
 	}
 }
 
-bool Playlist::eventRaised(EventObject *anEvent)
+bool SimplePlaylist::eventRaised(PlaylistEvent *anEvent)
 {
 	(*mItem)->stop();
 	if (mItem != mQueue.end())
@@ -97,12 +93,12 @@ bool Playlist::eventRaised(EventObject *anEvent)
 	return true;
 }
 
-void Playlist::setLooping(bool looping)
+void SimplePlaylist::setLooping(bool looping)
 {
 	mLooping = looping;
 }
 
-bool Playlist::isLooping() const
+bool SimplePlaylist::isLooping() const
 {
 	return mLooping;
 }
