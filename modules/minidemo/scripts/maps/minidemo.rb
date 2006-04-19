@@ -67,9 +67,9 @@ chest.getActor().yaw(-90.0);
 $SCRIPT.log("Truhe fertig");
 
 $SCRIPT.log("Traenke reinsetzen")
-trank = Heiltrank.new( "Trank", "Eine Flasche mit einer geheimnisvollen Fluessigkeit", "obj_heiltrank01.mesh", "A" );
+trank = Heiltrank.new( "Trank1", "Eine Flasche mit einer geheimnisvollen Fluessigkeit", "obj_heiltrank01.mesh", "A" );
 chest.addItem(trank);
-trank = Heiltrank.new( "Trank", "Eine andere Flasche mit einer anderen geheimnisvollen Fluessigkeit", "obj_heiltrank01.mesh", "B" );
+trank = Heiltrank.new( "Trank2", "Eine andere Flasche mit einer anderen geheimnisvollen Fluessigkeit", "obj_heiltrank01.mesh", "B" );
 chest.addItem(trank);
 $SCRIPT.log("Traenke fertig");
 
