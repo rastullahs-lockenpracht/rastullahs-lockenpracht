@@ -222,5 +222,21 @@ class CloseCurrentWindowAction < Action
   end
 end
 
+class ToggleCharacterControllerAction < Action
+  def initialize
+    super("togglecharactercontroller",
+        "Freeflight- / Movement-Controller umschalten")
+  end
+
+  def doAction(object, actor, target)
+    cctype = $UI.getCharacterControllerType();
+    if (cctype == UiSubsystem::CTRL_FREEFLIGHT)
+        $UI.setCharacterController(UiSubsystem::CTRL_MOVEMENT);
+    elsif (cctype == UiSubsystem::CTRL_MOVEMENT)
+        $UI.setCharacterController(UiSubsystem::CTRL_FREEFLIGHT);
+    end
+  end
+end
+
 act = ShowObjectDescriptionWindow.new()
 ActionManager.getSingleton().registerAction(act)
