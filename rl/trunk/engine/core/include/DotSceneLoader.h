@@ -40,6 +40,9 @@ namespace rl {
 		/// Standard Destruktor
 		~DotSceneLoader();
 
+		/// Laden der Szene
+		void initializeScene(Ogre::SceneManager* sceneManager);
+		
 	private:
         struct NodeUserData
         {
@@ -53,20 +56,21 @@ namespace rl {
 		
 
 
-		/// Laden der Szene
-		void initializeScene();
 		/// Öffnen der XML-Ressource
 		XERCES_CPP_NAMESPACE::DOMDocument* openSceneFile();
 
 		/// Geht alle Nodes in der .scene durch
 		void processNodes(XERCES_CPP_NAMESPACE::DOMElement* rootNodesXml, 
+			Ogre::SceneManager* sceneManager,
 			Ogre::SceneNode* parentNode );
 		/// Node und alle Unterelemente
 		void processNode(XERCES_CPP_NAMESPACE::DOMElement* rootNodeXml, 
+			Ogre::SceneManager* sceneManager,
 			Ogre::SceneNode* parentNode, NodeUserData* parentUserData );
 		/// Eine Entity+Attribute
 		void processEntity( XERCES_CPP_NAMESPACE::DOMElement* rootEntityXml, 
-			Ogre::SceneNode* parentNode, bool createMeshPhysicalBody,  Ogre::Real renderingDistance);
+			Ogre::SceneManager* sceneManager, Ogre::SceneNode* parentNode, 
+			bool createMeshPhysicalBody,  Ogre::Real renderingDistance);
         /// Ein benutzerdefinierter Bereich im Node
         void processNodeUserData( XERCES_CPP_NAMESPACE::DOMElement* rootUserDataXml, 
 			NodeUserData* userData );
@@ -102,8 +106,6 @@ namespace rl {
 		const std::string mSceneName;
         /// ResourceGroup der dotscene-Resource
         const std::string mResourceGroup;
-		/// Der SceneManager
-		Ogre::SceneManager* const mSceneManager;
 	};
 
 }

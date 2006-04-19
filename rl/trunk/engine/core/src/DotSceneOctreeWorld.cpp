@@ -87,6 +87,7 @@ namespace rl {
 		mSceneMgr->setAmbientLight(ColourValue(0.55, 0.55, 0.55));
 
 		DotSceneLoader* dot = new DotSceneLoader(levelName, module);
+		dot->initializeScene(mSceneMgr);
 		delete dot;
 		mSceneFile = levelName;
 		

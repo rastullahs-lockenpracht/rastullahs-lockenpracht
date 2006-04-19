@@ -45,14 +45,11 @@ namespace rl {
     DotSceneLoader::DotSceneLoader(const string& filename, const string& resourceGroup)
         : mSceneName(filename),
           mResourceGroup(resourceGroup),
-          mSceneManager(CoreSubsystem::getSingleton().getWorld()->getSceneManager()),
 		  mStaticNodes(),
 		  mRenderingDistance( ActorManager::getSingleton().getDefaultActorRenderingDistance() ),
 		  mStaticgeomRenderingDistances()
 	{
         srand(static_cast<unsigned int>(time(NULL)));
-
-		initializeScene();
 	}
 
 	DotSceneLoader::~DotSceneLoader()
@@ -60,7 +57,7 @@ namespace rl {
         XmlResourceManager::getSingleton().unload(mSceneName);
 	}
 
-	void DotSceneLoader::initializeScene()
+	void DotSceneLoader::initializeScene(SceneManager* sceneManager)
 	{
 		XMLPlatformUtils::Initialize();
 		XmlHelper::initializeTranscoder();
@@ -89,8 +86,8 @@ namespace rl {
 		DOMElement* nodes = XmlHelper::getChildNamed(doc->getDocumentElement(), "nodes");
 
 		// Eine .scene wird in einem SceneNode mit dem Namen der .scene befestigt
-		mSceneNode = mSceneManager->getRootSceneNode()->createChildSceneNode(mSceneName);
-		processNodes( nodes, mSceneNode );
+		mSceneNode = sceneManager->getRootSceneNode()->createChildSceneNode(mSceneName);
+		processNodes( nodes, sceneManager, mSceneNode );
 
 
         if( ConfigurationManager::getSingleton().shouldUseStaticGeometry() )
@@ -105,7 +102,7 @@ namespace rl {
 				if( mStaticgeomRenderingDistances.find( it->first ) != mStaticgeomRenderingDistances.end() )
 					renderDist = mStaticgeomRenderingDistances[it->first];
 
-				StaticGeometry* staticGeom = mSceneManager->createStaticGeometry( mSceneName + staticName  );
+				StaticGeometry* staticGeom = sceneManager->createStaticGeometry( mSceneName + staticName  );
 				
 				staticGeom->setRenderingDistance( renderDist );
 				staticGeom->addSceneNode( staticNode );
@@ -115,7 +112,7 @@ namespace rl {
 				// Nicht mehr den Original-Knoten rendern, da dieser noch erhalten ist.			
 				staticNode->setVisible( false );
 				staticNode->removeAndDestroyAllChildren();
-				mSceneManager->destroySceneNode( staticNode->getName() );				
+				sceneManager->destroySceneNode( staticNode->getName() );				
 				staticNode = NULL;
 				Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, " Statische Geometrie "+staticName+" erstellt" );
 				++it;
@@ -145,7 +142,7 @@ namespace rl {
 	}
 
 	// Iteriert durch die einzelnen Nodes
-	void DotSceneLoader::processNodes(DOMElement* rootNodesXml, 
+	void DotSceneLoader::processNodes(DOMElement* rootNodesXml, SceneManager* sceneManager, 
 		Ogre::SceneNode* parentNode )
 	{
 		if ( rootNodesXml == NULL )
@@ -163,7 +160,7 @@ namespace rl {
 			XMLCh* nodeTag = XMLString::transcode("node");
 			if( XMLString::compareIString(child->getNodeName(), nodeTag) == 0  )
 			{
-				processNode( reinterpret_cast<DOMElement*>(child) , parentNode, NULL );
+				processNode( reinterpret_cast<DOMElement*>(child), sceneManager, parentNode, NULL );
 			}
 			XMLString::release(&nodeTag);
 			child = child->getNextSibling();
@@ -171,7 +168,7 @@ namespace rl {
 	}
 
 	// Befasst sich mit einem Node
-	void DotSceneLoader::processNode(DOMElement* rootNodeXml, Ogre::SceneNode* parentNode, NodeUserData* parentUserData)
+	void DotSceneLoader::processNode(DOMElement* rootNodeXml, SceneManager* sceneManager, Ogre::SceneNode* parentNode, NodeUserData* parentUserData)
 	{
 		if ( rootNodeXml == NULL )
 			return;
@@ -241,7 +238,10 @@ namespace rl {
             // Ein selbstdefinierter Bereich
             if( XMLString::compareIString(child->getNodeName(), 
                 XMLString::transcode("userData") ) == 0 )
+			{
                 processNodeUserData( reinterpret_cast<DOMElement*>(child) , &userData );
+				break;
+			}
 
             child = child->getNextSibling();
         } 
@@ -254,7 +254,7 @@ namespace rl {
 			if( mStaticNodes.find( userData.staticgeom_group ) == mStaticNodes.end() )
 			{
 				mStaticNodes[userData.staticgeom_group] = 
-					mSceneManager->getRootSceneNode()->createChildSceneNode(
+					sceneManager->getRootSceneNode()->createChildSceneNode(
 						mSceneName+"_static_"+Ogre::StringConverter::toString(userData.staticgeom_group ) );
 			}
 
@@ -271,7 +271,7 @@ namespace rl {
 			// Ein Node
 			if( XMLString::compareIString(child->getNodeName(), 
 				XMLString::transcode("node") ) == 0 )
-				processNode( reinterpret_cast<DOMElement*>(child) , newNode, &userData );
+				processNode( reinterpret_cast<DOMElement*>(child), sceneManager, newNode, &userData );
 			// Position des Nodes
 			else if( XMLString::compareIString(child->getNodeName(), 
 				XMLString::transcode("position") ) == 0  )
@@ -297,7 +297,9 @@ namespace rl {
 			// Eine Entity
 			else if( XMLString::compareIString(child->getNodeName(), 
 				XMLString::transcode("entity") ) == 0  )                
-				processEntity( reinterpret_cast<DOMElement*>(child), newNode, 
+				processEntity( reinterpret_cast<DOMElement*>(child), 
+					sceneManager,
+					newNode,
 					createMeshPhysicalBody, userData.renderingdistance );
 
 			child = child->getNextSibling();
@@ -391,7 +393,8 @@ namespace rl {
 
 	// Eine Entity
 	void DotSceneLoader::processEntity( DOMElement* rootEntityXml,
-		Ogre::SceneNode* parentNode, bool createMeshPhysicalBody, Ogre::Real renderingDistance )
+		SceneManager* sceneManager, Ogre::SceneNode* parentNode, 
+		bool createMeshPhysicalBody, Ogre::Real renderingDistance )
 	{
 		string entName = XmlHelper::getAttributeValueAsStdString( 
 			rootEntityXml, "name" );
@@ -419,7 +422,7 @@ namespace rl {
                     MeshManager::getSingleton().load(meshName, mResourceGroup);
                 }
                 // if not, it is now loaded implicitly from the default group
-                newEnt = mSceneManager->createEntity(entName, meshName);
+                newEnt = sceneManager->createEntity(entName, meshName);
 				if( parentNode->getScale() != Vector3::UNIT_SCALE )
 					newEnt->setNormaliseNormals( true );
 
