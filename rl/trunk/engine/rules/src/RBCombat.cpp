@@ -14,56 +14,64 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
-#include "Combat.h"
+#include "RBCombat.h"
 
 #include "MeshObject.h"
 
-#include "CombatController.h"
+#include "RBCombatController.h"
 #include "CombatLogger.h"
 #include "Creature.h"
 #include "Exception.h"
 #include "Logger.h"
 #include "MeshAnimation.h"
+#include "ScriptWrapper.h"
 
 using namespace std;
 
 
 namespace rl {
 
-	Combat::Combat()
+	RBCombat::RBCombat()
+		: mLogger(NULL)
+	{
+		mCreatureData.clear();
+		mControllers.clear();
+	}
+
+	RBCombat::~RBCombat()
 	{
 	}
 
-	Combat::~Combat()
-	{
-	}
-
-	void Combat::setLogger(CombatLogger* logger)
+	void RBCombat::setLogger(CombatLogger* logger)
 	{
 		mLogger = logger;
 	}
 
-	void Combat::add(Creature* creature, int group)
+	void RBCombat::add(Creature* creature, int group)
 	{
+		ScriptWrapper::getSingleton().owned(creature);
 		CreatureData* part = new CreatureData(creature, group);
 		initialize(part);
 		mCreatureData.insert(make_pair(creature, part));
 	}
 
-	void Combat::initialize(CreatureData* part)
+	void RBCombat::initialize(CreatureData* part)
 	{
 		//TODO: Aktuelle Waffe, INI wuerfeln
 		part->initiative = part->creature->doInitiativeWurf();
 	}
 
-	Combat::CreatureData::CreatureData(Creature* creature, int group)
+	RBCombat::CreatureData::CreatureData(Creature* creature, int group)
+		: nextAttackTarget(NULL),
+		nextPareeTarget(NULL),
+		nextAction(RBCombat::ACTION_NONE)
 	{
 		this->creature = creature;
 		this->group = group;
 		this->initiative = NO_INI;
 	}
 
-	vector<Creature*> Combat::getGroupMembers(int group)
+	vector<Creature*> RBCombat::getGroupMembers(int group)
 	{
 		vector<Creature*> members;
 
@@ -78,7 +86,7 @@ namespace rl {
 		return members;
 	}
 
-	Combat::CreatureData* Combat::getData(Creature* creature)
+	RBCombat::CreatureData* RBCombat::getData(Creature* creature)
 	{
 		vector<Creature*> members;
 
@@ -93,26 +101,27 @@ namespace rl {
 		Throw(IllegalArgumentException, (creature->getName()+" nimmt nicht am Kampf teil.").c_str());
 	}
 
-	int Combat::getGroupOf(Creature* creature)
+	int RBCombat::getGroupOf(Creature* creature)
 	{
 		return getData(creature)->group;
 	}
 
-	void Combat::addController(rl::CombatController *controller)
+	void RBCombat::addController(RBCombatController *controller)
 	{
+		ScriptWrapper::getSingleton().owned(controller);
 		mControllers.push_back(controller);
 	}
 
-	void Combat::start()
+	void RBCombat::start()
 	{
 		//tick();
 	}
 
-	void Combat::tick()
+	void RBCombat::tick()
 	{
 		if (isOver())
 		{
-			for (std::vector<CombatController*>::iterator 
+			for (std::vector<RBCombatController*>::iterator 
 				it = mControllers.begin();
 				it != mControllers.end();
 				it++)
@@ -133,9 +142,9 @@ namespace rl {
 				Logger::RULES,
 				Ogre::LML_NORMAL,
 				"Nächste Aktion: "+Ogre::StringConverter::toString(next->nextAction),
-				"Combat");
+				"RBCombat");
 			
-			if (next->nextAction == Combat::ACTION_ATTACK)
+			if (next->nextAction == RBCombat::ACTION_ATTACK)
 			{
 				CreatureData* targetData = getData(next->nextAttackTarget);
 				
@@ -181,7 +190,7 @@ namespace rl {
 		}
 	}
 
-	bool Combat::isOver()
+	bool RBCombat::isOver()
 	{
 		//FIXME: Mehr Gruppen
 		for (int group = 1; group <= 2; group++)
@@ -204,18 +213,18 @@ namespace rl {
 		return false;
 	}
 
-	void Combat::notifyNextActor()
+	void RBCombat::notifyNextActor()
 	{
 		CreatureData* next = getNextActor();
 		getController(next->group)->notifyActionStart();
 	}
 
-	CombatController* Combat::getController(int group)
+	RBCombatController* RBCombat::getController(int group)
 	{
-		for (vector<CombatController*>::iterator it = mControllers.begin();
+		for (vector<RBCombatController*>::iterator it = mControllers.begin();
 			it != mControllers.end(); it++)
 		{
-			CombatController* cur = *it;
+			RBCombatController* cur = *it;
 			if (cur->getGroup() == group)
 			{
 				return cur;
@@ -229,7 +238,7 @@ namespace rl {
 		return NULL;
 	}
 
-	void Combat::setActionOption(CombatController* controller, Creature* actor, ActionOption option)
+	void RBCombat::setActionOption(RBCombatController* controller, Creature* actor, ActionOption option)
 	{
 		CreatureData* cd = getData(actor);
 		if (cd->group != controller->getGroup())
@@ -240,7 +249,7 @@ namespace rl {
 		cd->nextAction = option;
 	}
 
-	void Combat::setAttackTarget(CombatController* controller, Creature* actor, Creature* target)
+	void RBCombat::setAttackTarget(RBCombatController* controller, Creature* actor, Creature* target)
 	{
 		if (actor != NULL)
 		{
@@ -254,7 +263,7 @@ namespace rl {
 		}
 	}
 
-	void Combat::setPareeTarget(CombatController* controller, Creature* actor, Creature* target)
+	void RBCombat::setPareeTarget(RBCombatController* controller, Creature* actor, Creature* target)
 	{
 		if (actor != NULL)
 		{
@@ -268,7 +277,7 @@ namespace rl {
 		}
 	}
 
-	Combat::CreatureData* Combat::getNextActor()
+	RBCombat::CreatureData* RBCombat::getNextActor()
 	{
 		for (CreatureDataMap::iterator it = mCreatureData.begin(); it != mCreatureData.end(); ++it)
 		{
@@ -284,6 +293,7 @@ namespace rl {
 			if (cur->initiative < mInitiative)
 				return cur;
 		}
+
 
 		return NULL;
 	}

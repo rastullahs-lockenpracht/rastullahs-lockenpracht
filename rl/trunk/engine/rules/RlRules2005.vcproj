@@ -266,15 +266,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\AtomarEffect.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Combat.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\CombatController.cpp"
+				RelativePath=".\src\AtomicEffect.cpp"
 				>
 			</File>
 			<File
@@ -362,6 +354,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\RBCombat.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\RBCombatController.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\RTCombat.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\RulesSubsystem.cpp"
 				>
 			</File>
@@ -424,15 +428,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\AtomarEffect.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\Combat.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\CombatController.h"
+				RelativePath=".\include\AtomicEffect.h"
 				>
 			</File>
 			<File
@@ -521,6 +517,18 @@
 			</File>
 			<File
 				RelativePath=".\include\QuestChangeListener.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\RBCombat.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\RBCombatController.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\RTCombat.h"
 				>
 			</File>
 			<File

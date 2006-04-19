@@ -13,27 +13,27 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#ifndef __CombatController_H__
-#define __CombatController_H__
+#ifndef __RBCombatController_H__
+#define __RBCombatController_H__
 
 
 #include "RulesPrerequisites.h"
 
-#include "Combat.h"
+#include "RBCombat.h"
 
 namespace rl {
 
 	class Creature;	
 
-	class _RlRulesExport CombatController 
+	class _RlRulesExport RBCombatController 
 	{
 	public:
-		CombatController(Combat* combat, int group);
-		virtual ~CombatController();
+		RBCombatController(RBCombat* combat, int group);
+		virtual ~RBCombatController();
 
 		int getGroup();
 
-		void setActionOption(Combat::ActionOption option);
+		void setActionOption(RBCombat::ActionOption option);
 		void setAttackTarget(Creature* creature);
 		void setPareeTarget(Creature* creature);
 
@@ -43,14 +43,14 @@ namespace rl {
 		virtual void notifyCombatEnd() = 0;
 
 		void setCurrentCreature(Creature* creature);
-		Combat* getCombat();
+		RBCombat* getCombat();
 
 	private:
 		int mGroup;
 		Creature* mCurrentCreature;
-		Combat* mCombat;
+		RBCombat* mCombat;
 	};
 
 }
 
-#endif //__CombatController_H__
+#endif //__RBCombatController_H__

@@ -14,8 +14,8 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
-#ifndef __Combat_H__
-#define __Combat_H__
+#ifndef __RBCombat_H__
+#define __RBCombat_H__
 
 #include "RulesPrerequisites.h"
 
@@ -25,13 +25,13 @@
 namespace rl {
 
 	class Creature;
-	class CombatController;
+	class RBCombatController;
 	class CombatLogger;
 
 	/**
 	 * Verwaltungsklasse fuer einen Kampf
 	 */
-	class _RlRulesExport Combat
+	class _RlRulesExport RBCombat
 	{
 	public:
 		enum ActionOption {
@@ -40,8 +40,8 @@ namespace rl {
 			ACTION_NONE = 3
 		};
 
-		Combat();
-		~Combat();
+		RBCombat();
+		~RBCombat();
 
 		/**
 		 * Laesst eine Creature am Kampf teilnehmen
@@ -63,14 +63,14 @@ namespace rl {
 		 */
 		int getGroupOf(Creature* creature);
 
-		void addController(CombatController* controller);
+		void addController(RBCombatController* controller);
 
 		void start();
 		void tick();
 
-		void setActionOption(CombatController* controller, Creature* actor, ActionOption option);
-		void setAttackTarget(CombatController* controller, Creature* actor, Creature* target);
-		void setPareeTarget(CombatController* controller, Creature* actor, Creature* target);
+		void setActionOption(RBCombatController* controller, Creature* actor, ActionOption option);
+		void setAttackTarget(RBCombatController* controller, Creature* actor, Creature* target);
+		void setPareeTarget(RBCombatController* controller, Creature* actor, Creature* target);
 
 		void setLogger(CombatLogger* logger);
 
@@ -96,13 +96,13 @@ namespace rl {
 		CreatureData* getData(Creature* creature);
 		CreatureData* getNextActor();
 		void notifyNextActor();
-		CombatController* getController(int group);
+		RBCombatController* getController(int group);
 		bool isOver();
 
 
 		CombatLogger* mLogger;
 		CreatureDataMap mCreatureData;
-		std::vector<CombatController*> mControllers;
+		std::vector<RBCombatController*> mControllers;
 		int mInitiative;
 	};
 }

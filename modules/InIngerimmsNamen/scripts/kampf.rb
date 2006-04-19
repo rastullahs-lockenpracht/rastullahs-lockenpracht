@@ -15,7 +15,7 @@ class Kurzschwert < Weapon
   end
 end
 
-class SchwesterSteuerung < CombatController
+class SchwesterSteuerung < RBCombatController
   def initialize(combat, group, own, opponent)
     super(combat, group);
     @mOpponent = opponent;
@@ -43,6 +43,8 @@ class CombatTrigger < GameAreaListener
   end
 
   def areaEntered(event)
+    $GameEveMgr.removeAreaListener(self)
+
     held = event.getProvokingActor().getGameObject()
     schwertH = Kurzschwert.new()
     held.addWeapon(schwertH)
@@ -53,7 +55,7 @@ class CombatTrigger < GameAreaListener
     schwester.addWeapon(schwertS)
     schwester.switchToWeapon(schwertS.getId())
 
-    combat = Combat.new()
+    combat = RBCombat.new()
     combat.add(schwester, 2)
     combat.add(held, 1)
     

@@ -14,50 +14,50 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
-#include "CombatController.h"
+#include "RBCombatController.h"
 
 namespace rl {
 
-	CombatController::CombatController(Combat* combat, int group)
+	RBCombatController::RBCombatController(RBCombat* combat, int group)
 		: mGroup(group), mCombat(combat), mCurrentCreature(NULL)
 	{
 	}
 
-	CombatController::~CombatController()
+	RBCombatController::~RBCombatController()
 	{
 	}
 
-	int CombatController::getGroup()
+	int RBCombatController::getGroup()
 	{
 		return mGroup;
 	}
 
-	Combat* CombatController::getCombat()
+	RBCombat* RBCombatController::getCombat()
 	{
 		return mCombat;
 	}
 
-	void CombatController::setActionOption(Combat::ActionOption option)
+	void RBCombatController::setActionOption(RBCombat::ActionOption option)
 	{
 		mCombat->setActionOption(this, getCurrentCreature(), option);
 	}
 
-	void CombatController::setAttackTarget(Creature* creature)
+	void RBCombatController::setAttackTarget(Creature* creature)
 	{
 		mCombat->setAttackTarget(this, getCurrentCreature(), creature);
 	}
 
-	void CombatController::setPareeTarget(Creature* creature)
+	void RBCombatController::setPareeTarget(Creature* creature)
 	{
 		mCombat->setPareeTarget(this, getCurrentCreature(), creature);
 	}
 
-	Creature* CombatController::getCurrentCreature()
+	Creature* RBCombatController::getCurrentCreature()
 	{
 		return mCurrentCreature;
 	}
 
-	void CombatController::setCurrentCreature(Creature* creature)
+	void RBCombatController::setCurrentCreature(Creature* creature)
 	{
 		mCurrentCreature = creature;
 	}

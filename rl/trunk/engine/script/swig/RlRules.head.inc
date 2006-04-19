@@ -21,8 +21,6 @@
 
 #include "Action.h"
 #include "ActionManager.h"
-#include "Combat.h"
-#include "CombatController.h"
 #include "CompositeEffect.h"
 #include "Container.h"
 #include "Creature.h"
@@ -38,6 +36,8 @@
 #include "Person.h"
 #include "Quest.h"
 #include "QuestBook.h"
+#include "RBCombat.h"
+#include "RBCombatController.h"
 #include "RulesSubsystem.h"
 #include "SonderfertigkeitenStateSet.h"
 #include "StateSet.h"

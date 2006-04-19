@@ -572,17 +572,17 @@ namespace rl {
 	};
 	
 	
-	class Combat;	
-	%feature("director") CombatController;
-	class CombatController 
+	class RBCombat;	
+	%feature("director") RBCombatController;
+	class RBCombatController 
 	{
 	public:
-		CombatController(Combat* combat, int group);
-		virtual ~CombatController();
+		RBCombatController(RBCombat* combat, int group);
+		virtual ~RBCombatController();
 
 		int getGroup();
 
-		void setActionOption(Combat::ActionOption option);
+		void setActionOption(RBCombat::ActionOption option);
 		void setAttackTarget(Creature* creature);
 		void setPareeTarget(Creature* creature);
 
@@ -592,10 +592,10 @@ namespace rl {
 		virtual void notifyCombatEnd() = 0;
 
 		void setCurrentCreature(Creature* creature);
-		Combat* getCombat();
+		RBCombat* getCombat();
 	};
 	
-	class Combat
+	class RBCombat
 	{
 	public:
 	
@@ -605,13 +605,13 @@ namespace rl {
 			ACTION_NONE = 3
 		};
 		
-		Combat();
+		RBCombat();
 
 		void add(rl::Creature* creature, int group);
 		std::vector<rl::Creature*> getGroupMembers(int group);
 		void start();
 		
-		void addController(CombatController* controller);
+		void addController(RBCombatController* controller);
 		void tick();
 	};	
 	
