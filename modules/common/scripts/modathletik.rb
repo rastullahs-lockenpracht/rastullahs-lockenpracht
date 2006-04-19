@@ -5,8 +5,7 @@ class ModAthletik < Effect
   end
 
   def isAlive()
-	if (getTimePassed > 1000) return false;
-	return true;
+	return getTimePassed <= 1000;
   end
 
   def apply()
