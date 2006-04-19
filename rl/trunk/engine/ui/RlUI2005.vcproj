@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="RlUI"
 	ProjectGUID="{53FE20F3-E726-44FE-BBEC-D29CAE210D25}"
+	RootNamespace="RlUI"
 	>
 	<Platforms>
 		<Platform
@@ -291,11 +292,11 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath=".\include\CharacterController.h"
+				RelativePath=".\include\CeGuiWindow.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\CommandExecutor.h"
+				RelativePath=".\include\CharacterController.h"
 				>
 			</File>
 			<File
@@ -343,10 +344,6 @@
 				</File>
 				<File
 					RelativePath=".\include\ActionChoiceWindow.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\CeGuiWindow.h"
 					>
 				</File>
 				<File
@@ -444,11 +441,11 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath=".\src\CharacterController.cpp"
+				RelativePath=".\src\CeGuiWindow.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\CommandExecutor.cpp"
+				RelativePath=".\src\CharacterController.cpp"
 				>
 			</File>
 			<File
@@ -492,10 +489,6 @@
 				</File>
 				<File
 					RelativePath=".\src\ActionChoiceWindow.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\CeGuiWindow.cpp"
 					>
 				</File>
 				<File

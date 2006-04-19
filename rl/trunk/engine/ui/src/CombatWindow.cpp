@@ -19,16 +19,16 @@
 #include <CEGUIPropertyHelper.h>
 #include <elements/CEGUIListboxTextItem.h>
 
-#include "Combat.h"
+#include "RBCombat.h"
 #include "Creature.h"
 
 using namespace CEGUI;
 
 namespace rl {
 
-	CombatWindow::CombatWindow(Combat* combat, int group)
+	CombatWindow::CombatWindow(RBCombat* combat, int group)
 		: CeGuiWindow("combatwindow.xml", WND_MOUSE_INPUT, false, false),
-		CombatController(combat, group)
+		RBCombatController(combat, group)
 	{
 		combat->addController(this);
 		mActionOptions = getListbox("CombatWindow/ActionOptions");
@@ -53,15 +53,15 @@ namespace rl {
 	{
 		ColourRect acColors(PropertyHelper::stringToColour(mActionOptions->getProperty("DefaultSelectionColour")));
 		
-		ListboxTextItem* item = new ListboxTextItem("Abwarten", Combat::ACTION_NONE);
+		ListboxTextItem* item = new ListboxTextItem("Abwarten", RBCombat::ACTION_NONE);
 		item->setSelectionColours(acColors);
 		mActionOptions->addItem(item);
 
-		item = new ListboxTextItem("Attackieren", Combat::ACTION_ATTACK);
+		item = new ListboxTextItem("Attackieren", RBCombat::ACTION_ATTACK);
 		item->setSelectionColours(acColors);
 		mActionOptions->addItem(item);
 
-		item = new ListboxTextItem("Bewegen", Combat::ACTION_MOVE);
+		item = new ListboxTextItem("Bewegen", RBCombat::ACTION_MOVE);
 		item->setSelectionColours(acColors);
 		mActionOptions->addItem(item);
 
@@ -95,7 +95,7 @@ namespace rl {
 
 	bool CombatWindow::handleExecute()
 	{
-		setActionOption(static_cast<Combat::ActionOption>(mActionOptions->getFirstSelectedItem()->getID()));
+		setActionOption(static_cast<RBCombat::ActionOption>(mActionOptions->getFirstSelectedItem()->getID()));
 		if (mAttackTargets->getFirstSelectedItem() != NULL)
 		{
 			setAttackTarget(

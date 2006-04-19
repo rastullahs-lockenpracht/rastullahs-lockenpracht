@@ -41,7 +41,13 @@ namespace rl {
 		void toggleViewMode();
 		void resetCamera();
 
+		bool injectKeyClicked(int keycode);		
+		bool injectKeyDown(int keycode);
+		bool injectKeyUp(int keycode);		
+
 	private:		
+		int mCurrentMovementState;
+
 		Ogre::Real mMovementSpeed;
 		std::pair<Ogre::Real, Ogre::Real> mSpeedRange;
 		Ogre::Real mSpeedIncrement;

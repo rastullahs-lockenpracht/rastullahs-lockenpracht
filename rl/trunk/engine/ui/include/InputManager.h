@@ -39,7 +39,7 @@ namespace rl {
 
 	class CeGuiWindow;
 	class GameObject;
-	class CommandMapper;
+	class CharacterController;
 
 	class _RlUiExport InputManager
 		:	public GameTask, 
@@ -100,7 +100,7 @@ namespace rl {
 			typedef std::map<int, CEGUI::utf8> KeyCharMap;
 			typedef std::map<int, CeGuiString> KeyNameMap;
 
-			CommandMapper* getCommandMapper();
+			void setCharacterController(CharacterController* controller);
 
 		private:
             enum { NUM_MOUSE_BUTTON=4, NUM_KEYS=256 };
@@ -133,6 +133,8 @@ namespace rl {
 			int mNumActiveWindowsMouseInput;
 			int mNumActiveWindowsKeyboardInput;
 			int mNumActiveWindowsAllInput;
+
+			CharacterController* mCharacterController;
 			
             CEGUI::MouseButton convertOgreButtonToCegui(int ogre_button_id);
 
@@ -145,10 +147,7 @@ namespace rl {
 				const int button, const int buttonMask, int& pressedButtonMask, int& releasedButtonMask);
 
             CEGUI::utf32 getKeyChar(Ogre::KeyEvent* ke);
-
-			CommandMapper* mCommandMapper;
 	};
-
 }
 
 #endif

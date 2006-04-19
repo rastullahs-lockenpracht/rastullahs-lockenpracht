@@ -21,7 +21,6 @@
 #include "CharacterSheetWindow.h"
 #include "CharacterStateWindow.h"
 #include "CloseConfirmationWindow.h"
-#include "Combat.h"
 #include "CombatWindow.h"
 #include "CommandMapperWindow.h"
 #include "Console.h"
@@ -45,6 +44,7 @@
 #include "Person.h"
 #include "PlaylistWindow.h"
 #include "QuestBook.h"
+#include "RBCombat.h"
 #include "RubyInterpreter.h"
 #include "RulesSubsystem.h"
 #include "SoundConfig.h"
@@ -128,7 +128,7 @@ namespace rl {
 		CommandMapperWindow* wnd = 
 			new CommandMapperWindow(
 				actionHolder, 
-				InputManager::getSingleton().getCommandMapper());
+				NULL);
 		wnd->setVisible(true);
 
 		return true;
@@ -290,7 +290,7 @@ namespace rl {
 		}
 	}
 
-	void WindowFactory::showCombatWindow(Combat* combat, Creature* activeCreature)
+	void WindowFactory::showCombatWindow(RBCombat* combat, Creature* activeCreature)
 	{
 		CombatWindow* wnd = new CombatWindow(combat, combat->getGroupOf(activeCreature));
 		combat->setLogger(mGameLogger);

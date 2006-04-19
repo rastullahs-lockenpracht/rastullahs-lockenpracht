@@ -24,6 +24,9 @@
 namespace rl {
 
     class Actor;
+	class CommandMapper;
+	class Creature;
+
     /**
      * This class handles character control via user input.
      */
@@ -37,15 +40,28 @@ namespace rl {
         CharacterController(Actor* camera, Actor* character);
 		virtual ~CharacterController()= 0;
 
+		void setCommandMapper(CommandMapper* mapper);
+
 		virtual void toggleViewMode() = 0;
 		virtual void resetCamera() = 0;
 
+		virtual bool injectMouseClicked(int mouseButtonMask) { return false; }
+		virtual bool injectMouseDown(int mouseButtonMask) { return false; }
+		virtual bool injectMouseUp(int mouseButtonMask) { return false; }
+		virtual bool injectKeyClicked(int keycode) { return false; }
+		virtual bool injectKeyDown(int keycode) { return false; }
+		virtual bool injectKeyUp(int keycode) { return false; }	
+
 	protected:
+		static bool startAction(const CeGuiString& actionName, Creature* character = NULL);
+
         Actor* mCamera;
-        Actor* mCharacter;
+        Actor* mCharacterActor;
 
         OgreNewt::Body* mCamBody;
         OgreNewt::Body* mCharBody;
+
+		CommandMapper* mCommandMapper;
     };
 }
 #endif

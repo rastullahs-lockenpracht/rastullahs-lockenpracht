@@ -24,13 +24,15 @@
 
 namespace rl {
 
-    class Interpreter;
-    class CharacterController;
+	class CharacterController;
+    class CommandMapper;
+    class Creature;
     class GameActor;
 	class GameObject;
+	class InputManager;
 	class Person;
-	class Combat;
-	class Creature;
+	class RBCombat;
+	class RTCombat;
 	class WindowFactory;
 	class WindowManager;
 
@@ -67,7 +69,8 @@ namespace rl {
 
 		void setCombatMode(bool inCombat);
 		bool isInCombatMode();
-		void startCombat(Combat* combat);
+		void startRBCombat(RBCombat* combat);
+		void startRTCombat(RTCombat* combat);
 	
 		void update();
 
@@ -81,9 +84,11 @@ namespace rl {
 		ControllerType mCharacterControllerType;
         GameActor* mHero;
         Person* mCharacter;
+		InputManager* mInputManager;
         bool mInCombat;
 		WindowFactory* mWindowFactory;
 		WindowManager* mWindowManager;
+		CommandMapper* mCommandMapper;
     };
 }
 

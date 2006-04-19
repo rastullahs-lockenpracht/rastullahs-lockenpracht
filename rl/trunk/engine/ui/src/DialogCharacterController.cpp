@@ -42,7 +42,7 @@ namespace rl {
 		mCutHard(false)
 	{
 		mCamera->getPhysicalThing()->freeze();
-		mCharacter->getPhysicalThing()->freeze();		
+		mCharacterActor->getPhysicalThing()->freeze();		
 		Camera* ogreCam = static_cast<Camera*>(mCamera->_getMovableObject());
 		ogreCam->setFixedYawAxis(true);
 		ogreCam->setPosition(Vector3::ZERO);	
@@ -53,7 +53,7 @@ namespace rl {
 	DialogCharacterController::~DialogCharacterController()
 	{
 		mCamera->getPhysicalThing()->unfreeze();
-		mCharacter->getPhysicalThing()->unfreeze();
+		mCharacterActor->getPhysicalThing()->unfreeze();
 	}
 
 	void DialogCharacterController::setDialogPartner(Actor* partner)
@@ -62,7 +62,7 @@ namespace rl {
 
 		resetCamera();
 
-		MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacter->getControlledObject());
+		MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
 		mesh->stopAllAnimations();
 		mesh->startAnimation("Idle");
 	}
@@ -104,7 +104,7 @@ namespace rl {
 	void DialogCharacterController::resetCamera()
 	{
 		// Position camera at position between char and dialog partner
-		Vector3 globalCameraPosition = (mCharacter->getWorldPosition() + mDialogPartner->getWorldPosition()) / 2;
+		Vector3 globalCameraPosition = (mCharacterActor->getWorldPosition() + mDialogPartner->getWorldPosition()) / 2;
 		globalCameraPosition.y += 4;
 		
 		// Weltkoordinaten in lokale umwandeln

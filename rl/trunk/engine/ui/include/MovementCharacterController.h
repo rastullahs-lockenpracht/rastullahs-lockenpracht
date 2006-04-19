@@ -68,7 +68,15 @@ namespace rl {
         */
         void resetCamera();
 
+		bool injectMouseClicked(int mouseButtonMask);
+		bool injectMouseDown(int mouseButtonMask);
+		bool injectMouseUp(int mouseButtonMask);
+		bool injectKeyClicked(int keycode);		
+		bool injectKeyDown(int keycode);
+		bool injectKeyUp(int keycode);		
+
     private:
+
 		/// private struct for holding state info of the controller
 		struct CharacterState
 		{
@@ -85,6 +93,7 @@ namespace rl {
 		};
 
 		CharacterState mCharacterState;
+		Creature* mCharacter;
 
         // camera control params
         /// optimal distance to the character

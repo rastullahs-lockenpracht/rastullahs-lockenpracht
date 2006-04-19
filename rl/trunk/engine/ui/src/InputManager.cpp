@@ -14,7 +14,6 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-
 #include <xercesc/parsers/XercesDOMParser.hpp>
 #include <xercesc/dom/DOM.hpp>
 #include <xercesc/util/XMLString.hpp>
@@ -23,27 +22,23 @@
 #include <OgreKeyEvent.h>
 #include <OgreRoot.h>
 
-#include "UiSubsystem.h"
-
-
-#include "Console.h"
-#include "DebugWindow.h"
-#include "DialogWindow.h"
-#include "CommandMapper.h"
 #include "Actor.h"
 #include "ActorManager.h"
-
 #include "CeGuiWindow.h"
-#include "GameLoop.h"
+#include "CharacterController.h"
+#include "CommandMapper.h"
+#include "Console.h"
 #include "CoreSubsystem.h"
-
+#include "DebugWindow.h"
+#include "DialogWindow.h"
+#include "GameLoop.h"
 #include "GameObject.h"
-
+#include "InputManager.h"
+#include "UiSubsystem.h"
 #include "XmlHelper.h"
 #include "XmlResource.h"
 #include "XmlResourceManager.h"
 
-#include "InputManager.h"
 
 template<> rl::InputManager* Singleton<rl::InputManager>::ms_Singleton = 0;
 using namespace Ogre;
@@ -77,7 +72,6 @@ namespace rl {
 		for(int i=0; i<NUM_MOUSE_BUTTON; i++)
 			mMouseButtonDown[i] = false;
 
-		mCommandMapper = new CommandMapper();
 		mEventQueue = new EventQueue();
 		mEventProcessor = new EventProcessor();
 		switchMouseToUnbuffered();
@@ -95,7 +89,6 @@ namespace rl {
 		mInputReader->useBufferedInput(NULL, false, false);
 		mInputReader->setBufferedInput(false, false);
 
-		delete mCommandMapper;
 //		delete mEventProcessor;
 	}
 
@@ -107,6 +100,11 @@ namespace rl {
 	void InputManager::removeKeyListener(KeyListener *l)
 	{
 		mKeyListeners.erase(l);
+	}
+
+	void InputManager::setCharacterController(CharacterController* controller)
+	{
+		mCharacterController = controller;
 	}
 
 	void InputManager::run(Real elapsedTime)
@@ -149,10 +147,10 @@ namespace rl {
 			checkMouseButton(3, MouseEvent::BUTTON3_MASK, pressedButtonMask, releasedButtonMask);
 
 			if (releasedButtonMask != 0)
-				mCommandMapper->injectMouseUp(releasedButtonMask);
+				mCharacterController->injectMouseUp(releasedButtonMask);
 
 			if (pressedButtonMask != 0)
-				mCommandMapper->injectMouseDown(pressedButtonMask);
+				mCharacterController->injectMouseDown(pressedButtonMask);
 		}		
 		Logger::getSingleton().log(
 			Logger::CORE, 
@@ -186,7 +184,7 @@ namespace rl {
 		if ( ! (isCeguiActive() && mBuffered) )
 		{
 			e->consume();
-			mCommandMapper->injectMouseClicked(e->getButtonID());
+			mCharacterController->injectMouseClicked(e->getButtonID());
 		}
 	}
 
@@ -203,7 +201,7 @@ namespace rl {
 		}
 		else
 		{
-			mCommandMapper->injectMouseDown(e->getButtonID());
+			mCharacterController->injectMouseDown(e->getButtonID());
 		}
 			
 	}
@@ -275,7 +273,7 @@ namespace rl {
 		}
 
 		mKeyDown[e->getKey()]=true;
-		mCommandMapper->injectKeyDown(e->getKey());
+		mCharacterController->injectKeyDown(e->getKey());
         std::set<KeyListener*>::iterator i;
         for(i=mKeyListeners.begin(); i!=mKeyListeners.end(); i++)
 			(*i)->keyPressed(e);
@@ -294,7 +292,7 @@ namespace rl {
 		}
 
 		mKeyDown[e->getKey()]=false;
-		mCommandMapper->injectKeyUp(e->getKey());
+		mCharacterController->injectKeyUp(e->getKey());
 		std::set<KeyListener*>::iterator i;
 		for(i=mKeyListeners.begin(); i!=mKeyListeners.end(); i++)
 			(*i)->keyReleased(e);
@@ -306,7 +304,7 @@ namespace rl {
 		if (sendKeyToCeGui(e)) 
 			return;
 		
-		mCommandMapper->injectKeyClicked(CommandMapper::encodeKey(e->getKey(), e->getModifiers()));
+		mCharacterController->injectKeyClicked(CommandMapper::encodeKey(e->getKey(), e->getModifiers()));
 	}
 
 	void InputManager::mouseDragged(MouseEvent* e)
@@ -423,11 +421,11 @@ namespace rl {
         {
             if( mKeyDown[i] && up )
             {
-                mCommandMapper->injectKeyUp( i );
+                mCharacterController->injectKeyUp( i );
                 mKeyDown[i] = false;
             }
             else if( mKeyDown[i] && !up ) 
-                mCommandMapper->injectKeyDown( i );
+                mCharacterController->injectKeyDown( i );
         }
     }
 
@@ -674,11 +672,5 @@ namespace rl {
 			return mInputReader->getMouseRelativeZ(); 
 
 		return 0;
-	}
-
-
-	CommandMapper* InputManager::getCommandMapper()
-	{
-		return mCommandMapper;
 	}
 }

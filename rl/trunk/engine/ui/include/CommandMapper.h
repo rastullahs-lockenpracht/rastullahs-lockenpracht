@@ -58,16 +58,6 @@ namespace rl {
 
 		void loadCommandMap(const char* mapfile);
 
-		int getActiveMovement();
-		bool isMovementActive(MovementState movmt);
-
-		bool injectMouseClicked(int mouseButtonMask);
-		bool injectMouseDown(int mouseButtonMask);
-		bool injectMouseUp(int mouseButtonMask);
-		bool injectKeyClicked(int keycode);		
-		bool injectKeyDown(int keycode);
-		bool injectKeyUp(int keycode);		
-
 		void setMapping(
 			MapType map, 
 			int code, 
@@ -82,6 +72,12 @@ namespace rl {
 		static int encodeKey(int scancode, int syskeys);
 		static void decodeKey(int combinedKeyCode, int* scancode, int* syskeys);
 
+		const MovementState getMovement(int keycode) const;
+
+		// Finde die der Taste oder dem Mausbutton zugeordneten Aktion in der 
+		// angegebenen CommandMap
+		const CeGuiString& getAction(int keyCodeOrMouseButton, MapType mapType);
+
 	private:
 
 		// KeyCode -> (Rubyklasse, Name)
@@ -95,12 +91,6 @@ namespace rl {
 		KeyAndMouseCommandMap mMouseCommandsOffCombat;
 
 		std::map<CeGuiString, MovementState> mMovement;
-
-		int mActiveMovement;		
-
-		// Finde die der Taste oder dem Mausbutton zugeordneten Aktion in der 
-		// angegebenen CommandMap und führe sie aus
-		bool startAction(int keyCodeOrMouseButton, MapType mapType);
 
 		KeyAndMouseCommandMap* getCommandMap(MapType mapType);
 	};

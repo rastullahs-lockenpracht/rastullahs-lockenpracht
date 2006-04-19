@@ -36,6 +36,7 @@
 #include "InputManager.h"
 #include "Logger.h"
 #include "MeshObject.h"
+#include "MovementCharacterController.h"
 #include "PhysicsManager.h"
 #include "PhysicsMaterialRaycast.h"
 #include "PhysicalThing.h"
@@ -62,6 +63,7 @@ namespace rl {
 	MovementCharacterController::MovementCharacterController(Actor* camera, Creature* character)
 		: CharacterController(camera, character->getActor()),
 		mCharacterState(),
+		mCharacter(character),
 		mDesiredDistance(2.00),
 		mDistanceRange(0.60, 7.00),
 		mYaw(0),
@@ -87,19 +89,19 @@ namespace rl {
 		// Offset for the look at point,
 		// so the cam does look at the characters head instead of the feet.
 		MeshObject* charMesh = dynamic_cast<MeshObject*>(
-			mCharacter->getControlledObject());
+			mCharacterActor->getControlledObject());
 		mLookAtOffset = Vector3(0, charMesh->getHeight() * 0.45, 0);
 
 		// The actor should be controlled manually,
 		// so let the PM prepare it accordingly
 		PhysicsManager::getSingleton().setPhysicsController(
-			mCharacter->getPhysicalThing(), this);
+			mCharacterActor->getPhysicalThing(), this);
 		PhysicsManager::getSingleton().setPhysicsController(
 			mCamera->getPhysicalThing(), this);
 
 		resetCamera();
 
-		MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacter->getControlledObject());
+		MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
 		mesh->stopAllAnimations();
 		mesh->startAnimation("Idle");
 	}
@@ -109,7 +111,7 @@ namespace rl {
 	{
 		// actors aren't controlled anymore
 		PhysicsManager::getSingleton().setPhysicsController(
-			mCharacter->getPhysicalThing(), 0);
+			mCharacterActor->getPhysicalThing(), 0);
 		PhysicsManager::getSingleton().setPhysicsController(
 			mCamera->getPhysicalThing(), 0);
 	}
@@ -122,8 +124,7 @@ namespace rl {
 
 		// Fetch current movement state
 		mCharacterState.mDesiredVel = Vector3::ZERO;
-		int movement = im->getCommandMapper()->getActiveMovement();
-		mCharacterState.mCurrentMovementState = movement;
+		int movement = mCharacterState.mCurrentMovementState;
 
 		// Determine character's control state based on user input
 		if (movement & MOVE_FORWARD)
@@ -170,7 +171,7 @@ namespace rl {
 		mYaw -= Degree(im->getMouseRelativeX() * 25.0 * elapsedTime);
 
 		SceneNode* cameraNode = mCamera->_getSceneNode();
-		cameraNode->lookAt(mCharacter->getWorldPosition()
+		cameraNode->lookAt(mCharacterActor->getWorldPosition()
 			+ mLookAtOffset*2.0, Node::TS_WORLD);
 
 		while (mYaw.valueDegrees() > 360.0f) mYaw -= Degree(360.0f);
@@ -197,7 +198,7 @@ namespace rl {
 		// if we have more than 250ms and at least five frames with camera distance higher
 		// than desired distance, reset camera
 		if ((mCamera->getWorldPosition()
-			- (mCharacter->getWorldPosition() + mLookAtOffset*2.0)).length() 
+			- (mCharacterActor->getWorldPosition() + mLookAtOffset*2.0)).length() 
 			> 2.0f * mDesiredDistance)
 		{
 			mCameraJammedTime += elapsedTime;
@@ -412,7 +413,7 @@ namespace rl {
 		{
 			RaycastInfo info = mRaycast->execute(world, levelId,
 				mCamera->getWorldPosition(),
-				mCharacter->getWorldPosition() + Vector3(xs[i], ys[i], 0.0f));
+				mCharacterActor->getWorldPosition() + Vector3(xs[i], ys[i], 0.0f));
 			rval = rval && info.mBody;
 			if (!rval) break;
 		}
@@ -427,7 +428,7 @@ namespace rl {
 
 	void MovementCharacterController::updateAnimationState()
 	{
-		MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacter->getControlledObject());
+		MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
 
 		if (mCharacterState.mCurrentMovementState != mCharacterState.mLastMovementState)
 		{
@@ -490,13 +491,13 @@ namespace rl {
 		mViewMode = mode;
 		if (mode == VM_FIRST_PERSON)
 		{
-			mCharacter->_getSceneNode()->setVisible(false);
+			mCharacterActor->_getSceneNode()->setVisible(false);
 			mDesiredDistance = 0.0;
-			mCamera->getPhysicalThing()->setPosition(mCharacter->getPhysicalThing()->getPosition());
+			mCamera->getPhysicalThing()->setPosition(mCharacterActor->getPhysicalThing()->getPosition());
 		}
 		else
 		{
-			mCharacter->_getSceneNode()->setVisible(true);
+			mCharacterActor->_getSceneNode()->setVisible(true);
 			mDesiredDistance = 150.0;
 			resetCamera();
 		}
@@ -518,10 +519,55 @@ namespace rl {
 	void MovementCharacterController::resetCamera()
 	{
 		// Position camera at char position
-		mCamera->getPhysicalThing()->setPosition(mCharacter->getPhysicalThing()->getPosition());
+		mCamera->getPhysicalThing()->setPosition(mCharacterActor->getPhysicalThing()->getPosition());
 		if (mViewMode == VM_THIRD_PERSON)
 		{
 			mPitch = Degree(30.0);
 		}
+	}
+
+	bool MovementCharacterController::injectMouseClicked(int mouseButtonMask)
+	{
+		return startAction(mCommandMapper->getAction(mouseButtonMask, CMDMAP_MOUSEMAP_OFF_COMBAT));		
+	}
+
+	bool MovementCharacterController::injectKeyClicked(int keycode)
+	{
+		return startAction(mCommandMapper->getAction(keycode, CMDMAP_KEYMAP_OFF_COMBAT));		
+	}
+
+	bool MovementCharacterController::injectKeyDown(int keycode)
+	{
+		int movement = mCommandMapper->getMovement(keycode);
+
+		if (movement != MOVE_NONE)
+		{
+			mCharacterState.mCurrentMovementState |= movement;
+			return true;
+		}
+		return false;
+	}
+
+	bool MovementCharacterController::injectKeyUp(int keycode)
+	{
+		int movement = mCommandMapper->getMovement(keycode);
+
+		if (movement != MOVE_NONE)
+		{
+			mCharacterState.mCurrentMovementState &= ~movement;
+			return true;
+		}
+			
+		return false;
+	}
+
+	bool MovementCharacterController::injectMouseDown(int mouseButtonMask)
+	{
+		return false;
+	}
+
+	bool MovementCharacterController::injectMouseUp(int mouseButtonMask)
+	{
+		return startAction(mCommandMapper->getAction(mouseButtonMask, CMDMAP_MOUSEMAP_OFF_COMBAT));		
 	}
 }

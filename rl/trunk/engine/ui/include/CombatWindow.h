@@ -20,17 +20,17 @@
 #include "UiPrerequisites.h"
 
 #include "CeGuiWindow.h"
-#include "CombatController.h"
+#include "RBCombatController.h"
 
 namespace rl {
 
 	class Combat;
 	class Creature;
 
-	class _RlUiExport CombatWindow : public CeGuiWindow, public CombatController
+	class _RlUiExport CombatWindow : public CeGuiWindow, public RBCombatController
 	{
 	public:
-		CombatWindow(Combat* combat, int group);
+		CombatWindow(RBCombat* combat, int group);
 		void setVisible(bool visible, bool destroyAfterHide = false);
 
 		void notifyActionStart();

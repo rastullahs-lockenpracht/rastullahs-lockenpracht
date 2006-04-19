@@ -40,7 +40,7 @@ namespace rl {
 		mOgreCam(0)
 	{
 		mCamera->getPhysicalThing()->freeze();
-		mCharacter->getPhysicalThing()->freeze();
+		mCharacterActor->getPhysicalThing()->freeze();
 
 		resetCamera();
 		mOgreCam = static_cast<Camera*>(mCamera->_getMovableObject());
@@ -48,7 +48,7 @@ namespace rl {
 		mOgreCam->setOrientation(Quaternion::IDENTITY);
 		mOgreCam->setFixedYawAxis(true);
 
-		MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacter->getControlledObject());
+		MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
 		mesh->stopAllAnimations();
 		mesh->startAnimation("Idle");
 	}
@@ -56,7 +56,7 @@ namespace rl {
 	FreeFlightCharacterController::~FreeFlightCharacterController()
 	{
 		mCamera->getPhysicalThing()->unfreeze();
-		mCharacter->getPhysicalThing()->unfreeze();
+		mCharacterActor->getPhysicalThing()->unfreeze();
 	}
 
 	void FreeFlightCharacterController::run(Real elapsedTime)
@@ -66,7 +66,7 @@ namespace rl {
 		// Fetch current movement state
 		Vector3 translation = Vector3::ZERO;
 
-		int movement = im->getCommandMapper()->getActiveMovement();
+		int movement = mCurrentMovementState;
 
 		// Determine character's control state based on user input
 		if (movement & MOVE_FORWARD)
@@ -115,7 +115,37 @@ namespace rl {
 	void FreeFlightCharacterController::resetCamera()
 	{
 		// Position camera at char position
-		mCamera->_getSceneNode()->setPosition(mCharacter->getPhysicalThing()->getPosition());
+		mCamera->_getSceneNode()->setPosition(mCharacterActor->getPhysicalThing()->getPosition());
 		mCamera->_getSceneNode()->setOrientation(Quaternion::IDENTITY);
+	}
+
+	bool FreeFlightCharacterController::injectKeyClicked(int keycode)
+	{
+		return startAction(mCommandMapper->getAction(keycode, CMDMAP_KEYMAP_OFF_COMBAT));		
+	}
+
+	bool FreeFlightCharacterController::injectKeyDown(int keycode)
+	{
+		int movement = mCommandMapper->getMovement(keycode);
+
+		if (movement != MOVE_NONE)
+		{
+			mCurrentMovementState |= movement;
+			return true;
+		}
+		return false;
+	}
+
+	bool FreeFlightCharacterController::injectKeyUp(int keycode)
+	{
+		int movement = mCommandMapper->getMovement(keycode);
+
+		if (movement != MOVE_NONE)
+		{
+			mCurrentMovementState &= ~movement;
+			return true;
+		}
+			
+		return false;
 	}
 }

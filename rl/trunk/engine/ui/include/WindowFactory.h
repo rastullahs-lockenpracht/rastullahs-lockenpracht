@@ -35,7 +35,6 @@ namespace rl {
 	class CeGuiWindow;
 	class CharacterStateWindow;
 	class CharacterSheetWindow;
-	class Combat;
 	class Console;
 	class Container;
 	class Creature;
@@ -46,6 +45,7 @@ namespace rl {
 	class JournalWindow;
 	class LogWindow;
 	class Person;
+	class RBCombat;
 	class WindowUpdater;
 
 	class _RlUiExport WindowFactory : public Ogre::Singleton<WindowFactory>
@@ -64,7 +64,7 @@ namespace rl {
 		void showCharacterActionChoice();
 		void showCharacterSheet();
 		void showCharacterSheet(Person* chara);
-		void showCombatWindow(Combat* combat, Creature* activeCreature);
+		void showCombatWindow(RBCombat* combat, Creature* activeCreature);
 		void showContainerContent(Container* container);
 		void showDescriptionWindow(GameObject* obj);
 		void showDialog(DialogCharacter* bot);

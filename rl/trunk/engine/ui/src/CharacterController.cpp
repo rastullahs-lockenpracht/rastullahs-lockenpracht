@@ -13,16 +13,19 @@
 *  along with this program; if not you can get it here
 *  http://www.perldoc.com/perl5.6/Artistic.html.
 */
-
 #include "CharacterController.h"
-#include "CoreSubsystem.h"
-#include "Exception.h"
-#include "Actor.h"
-#include "PhysicalThing.h"
-#include "World.h"
-#include "CameraObject.h"
 
 #include <OgreSceneManager.h>
+
+#include "Action.h"
+#include "ActionManager.h"
+#include "Actor.h"
+#include "CameraObject.h"
+#include "CoreSubsystem.h"
+#include "Creature.h"
+#include "Exception.h"
+#include "PhysicalThing.h"
+#include "World.h"
 
 using namespace Ogre;
 
@@ -31,22 +34,22 @@ namespace rl {
 	CharacterController::CharacterController(Actor* camera, Actor* character)
 		: GameTask(),
 		mCamera(camera),
-		mCharacter(character),
+		mCharacterActor(character),
 		mCamBody(0),
 		mCharBody(0)
 	{
-		if (mCamera == 0 || mCharacter == 0)
+		if (mCamera == 0 || mCharacterActor == 0)
 		{
 			Throw(NullPointerException, "Character and Camera must not be NULL.");
 		}
 
-		if (!mCharacter->_getSceneNode())
+		if (!mCharacterActor->_getSceneNode())
 		{
 			Throw(IllegalArgumentException,
 				"character has to be placed in the scene beforehand");
 		}
 
-		mCharBody = mCharacter->getPhysicalThing()->_getBody();
+		mCharBody = mCharacterActor->getPhysicalThing()->_getBody();
 		mCamBody = mCamera->getPhysicalThing()->_getBody();
 
 		if (!mCamera->_getSceneNode())
@@ -65,4 +68,38 @@ namespace rl {
     
     CharacterController::~CharacterController()
     {}
+
+	void CharacterController::setCommandMapper(CommandMapper* commandMapper)
+	{
+		mCommandMapper = commandMapper;
+	}
+
+	bool CharacterController::startAction(const CeGuiString& actionName, Creature* character)
+	{
+		if (actionName.length() == 0)
+		{
+			return false;
+		}
+
+		try
+		{
+			Action* action = ActionManager::getSingleton().getInGameGlobalAction(actionName);
+			if (action != NULL)
+			{
+				action->doAction(NULL, NULL, NULL); //TODO: Eigene Klasse für globale Aktionen? doAction hat keine Parameter(?)
+			}
+			else if (character != NULL)
+			{
+				character->doAction(actionName, character, character);
+			}
+			return true;
+		}
+		catch( ScriptInvocationFailedException& sife )
+		{
+			Logger::getSingleton().log(Logger::UI, Ogre::LML_CRITICAL, sife.toString() );
+		}
+
+		return false;
+	}
+
 }

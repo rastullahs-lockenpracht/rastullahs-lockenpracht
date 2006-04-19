@@ -33,7 +33,8 @@
 #include "WindowFactory.h"
 #include "WindowManager.h"
 
-#include "Combat.h"
+#include "RBCombat.h"
+#include "RTCombat.h"
 #include "GameLoop.h"
 #include "ActorManager.h"
 #include "Actor.h"
@@ -82,8 +83,9 @@ namespace rl {
 
         GameLoopManager::getSingleton().removeSynchronizedTask(mCharacterController);
 		delete mCharacterController;
+		delete mCommandMapper;
 
-		delete InputManager::getSingletonPtr();
+		delete mInputManager;
 	}
 	
     void UiSubsystem::initializeUiSubsystem( void )
@@ -126,11 +128,11 @@ namespace rl {
 		mWindowManager = new WindowManager();
 
 		//Initializing InputManager
-        new InputManager();
-        new CommandMapper();
+        mInputManager = new InputManager();
+        mCommandMapper = new CommandMapper();
 		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "UI-Manager geladen", "UiSubsystem::initializeUiSubsystem");
 
-		InputManager::getSingleton().loadKeyMapping("keymap-german.xml");
+		mInputManager->loadKeyMapping("keymap-german.xml");
 		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Keymap geladen", "UiSubsystem::initializeUiSubsystem");
 
 		mWindowFactory = new WindowFactory();
@@ -198,6 +200,10 @@ namespace rl {
 		default:
 			Throw(IllegalArgumentException, "Unknown CharacterControllerType.");
 		}
+		
+		mCharacterController->setCommandMapper(mCommandMapper);
+		mInputManager->setCharacterController(mCharacterController);
+
 	    Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "CharacterController created.");
 		GameLoopManager::getSingleton().addSynchronizedTask(mCharacterController, FRAME_STARTED );
         Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "CharacterController task added.");
@@ -210,7 +216,7 @@ namespace rl {
 
 	void UiSubsystem::usePickedObjectDefaultActions()
 	{
-		GameObject* pickedObject = InputManager::getSingleton().getPickedObject();
+		GameObject* pickedObject = mInputManager->getPickedObject();
 
 		if (pickedObject != NULL)
 			useDefaultAction(pickedObject, getActiveCharacter());
@@ -218,13 +224,17 @@ namespace rl {
 
 	void UiSubsystem::toggleObjectPicking()
 	{
-		InputManager::getSingleton().setObjectPickingActive(true);
+		mInputManager->setObjectPickingActive(true);
 	}
 
-	void UiSubsystem::startCombat(Combat* combat)
+	void UiSubsystem::startRBCombat(RBCombat* combat)
 	{
 		setCombatMode(true);
 		mWindowFactory->showCombatWindow(combat, getActiveCharacter());
+	}
+
+	void UiSubsystem::startRTCombat(RTCombat* combat)
+	{
 	}
 
 	void UiSubsystem::setCombatMode(bool inCombat)

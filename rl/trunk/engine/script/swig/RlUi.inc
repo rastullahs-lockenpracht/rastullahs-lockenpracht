@@ -56,7 +56,8 @@ public:
 	
 	void setCombatMode(bool inCombat);
 	bool isInCombatMode();
-	void startCombat(rl::Combat* combat);
+	void startRBCombat(rl::RBCombat* combat);
+	void startRTCombat(rl::RTCombat* combat);
 };
 
 class VideoWindow

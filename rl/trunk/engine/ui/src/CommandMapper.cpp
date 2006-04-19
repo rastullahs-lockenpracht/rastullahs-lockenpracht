@@ -26,8 +26,6 @@
 using namespace Ogre;
 using namespace std;
 
-template <> rl::CommandMapper* Singleton<rl::CommandMapper>::ms_Singleton = 0;
-
 namespace rl {
 
 	CommandMapper::CommandMapper()
@@ -35,8 +33,7 @@ namespace rl {
 		  mKeyCommandsInCombat(),
 		  mKeyCommandsOffCombat(),
 		  mMouseCommandsInCombat(),
-		  mMouseCommandsOffCombat(),
-		  mActiveMovement(MOVE_NONE)		 
+		  mMouseCommandsOffCombat()
 	{
         mMovementCommands.insert(make_pair(KC_Q, TURN_LEFT));
 		mMovementCommands.insert(make_pair(KC_E, TURN_RIGHT));
@@ -74,7 +71,7 @@ namespace rl {
 	{
 	}
 
-	bool CommandMapper::startAction(int keyCodeOrMouseButton, MapType mapType)
+	const CeGuiString& CommandMapper::getAction(int keyCodeOrMouseButton, MapType mapType)
 	{
 		KeyAndMouseCommandMap* commandMap = getCommandMap(mapType);
 
@@ -82,88 +79,13 @@ namespace rl {
 
 		if (command != commandMap->end())
 		{
-			Person* chara = UiSubsystem::getSingleton().getActiveCharacter();
-
-			try
-			{
-				Action* action = ActionManager::getSingleton().getInGameGlobalAction((*command).second);
-				if (action != NULL)
-					action->doAction(NULL, NULL, NULL); //TODO: Eigene Klasse für globale Aktionen? doAction hat keine Parameter(?)
-				else
-					chara->doAction((*command).second, chara, chara);
-				return true;
-			}
-			catch( ScriptInvocationFailedException& sife )
-			{
-				Logger::getSingleton().log(Logger::UI, Ogre::LML_CRITICAL, sife.toString() );
-			}
+			return (*command).second;
 		}
 
-		return false;
+		static CeGuiString NO_ACTION = "";
+		return NO_ACTION;
 	}
 
-	bool CommandMapper::injectMouseClicked(int mouseButtonMask)
-	{
-		if (UiSubsystem::getSingleton().isInCombatMode())
-			return startAction(mouseButtonMask, CMDMAP_MOUSEMAP_IN_COMBAT);
-		else
-			return startAction(mouseButtonMask, CMDMAP_MOUSEMAP_OFF_COMBAT);		
-	}
-
-	bool CommandMapper::injectKeyClicked(int keycode)
-	{
-		if (UiSubsystem::getSingleton().isInCombatMode())
-			return startAction(keycode, CMDMAP_KEYMAP_IN_COMBAT);
-		else
-			return startAction(keycode, CMDMAP_KEYMAP_OFF_COMBAT);		
-	}
-
-	bool CommandMapper::injectKeyDown(int keycode)
-	{
-		MovementCommandMap::const_iterator mvcmd = mMovementCommands.find(keycode);
-
-		if (mvcmd != mMovementCommands.end())
-		{
-			mActiveMovement |= (*mvcmd).second;
-			return true;
-		}
-		return false;
-	}
-
-	bool CommandMapper::injectKeyUp(int keycode)
-	{
-		MovementCommandMap::const_iterator mvcmd = mMovementCommands.find(keycode);
-
-		if (mvcmd != mMovementCommands.end())
-		{
-			mActiveMovement &= ~(*mvcmd).second;
-			return true;
-		}
-		return false;
-	}
-
-	bool CommandMapper::injectMouseDown(int mouseButtonMask)
-	{
-		return false;
-	}
-
-	bool CommandMapper::injectMouseUp(int mouseButtonMask)
-	{
-		if (UiSubsystem::getSingleton().isInCombatMode())
-			return startAction(mouseButtonMask, CMDMAP_MOUSEMAP_IN_COMBAT);
-		else
-			return startAction(mouseButtonMask, CMDMAP_MOUSEMAP_OFF_COMBAT);		
-	}
-
-	int CommandMapper::getActiveMovement()
-	{
-		return mActiveMovement;
-	}
-
-	bool CommandMapper::isMovementActive(MovementState movmt)
-	{
-		return (mActiveMovement & movmt) == movmt;
-	}
 
 	void CommandMapper::setMapping(
 			MapType mapType, 
@@ -223,6 +145,19 @@ namespace rl {
 		*syskeys = combinedKeyCode >> 16;
 		*scancode = combinedKeyCode & ~(*syskeys << 16);
 	}
-    
+  
+	const MovementState CommandMapper::getMovement(int keycode) const
+	{
+		MovementCommandMap::const_iterator mvcmd = mMovementCommands.find(keycode);
+
+		if (mvcmd == mMovementCommands.end())
+		{
+			return MOVE_NONE;
+		}
+		else
+		{
+			return (*mvcmd).second;
+		}
+	}
 }
 
