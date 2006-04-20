@@ -1,9 +1,7 @@
 noinst_HEADERS = \
 	Action.h \
 	ActionManager.h \
-	AtomarEffect.h \
-	Combat.h \
-	CombatController.h \
+	AtomicEffect.h \
 	CombatLogger.h \
 	CompositeEffect.h \
 	Container.h \
@@ -26,6 +24,9 @@ noinst_HEADERS = \
 	QuestBook.h \
 	QuestChangeEvent.h \
 	QuestChangeListener.h \
+	RBCombat.h \
+	RBCombatController.h \
+	RTCombat.h \
 	RulesPrerequisites.h \
 	RulesSubsystem.h \
 	StateSet.h \

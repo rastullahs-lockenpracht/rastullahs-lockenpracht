@@ -22,7 +22,7 @@
 #include "ListenerMovable.h"
 #include "Logger.h"
 #include "SoundDriver.h"
-#include "Playlist.h"
+#include "SimplePlaylist.h"
 #include "SoundObject.h"
 
 using namespace rl;
@@ -53,7 +53,7 @@ public:
         Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Starte Test #6");
         Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Using Driver " + driver->getName());
 
-        Playlist playlist;
+        SimplePlaylist playlist;
         
         Sound *sound1 = driver->createSample("lachen.ogg");
         SoundObject *so1 = new SoundObject(sound1, "lachen");

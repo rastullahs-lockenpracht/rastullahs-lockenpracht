@@ -5,9 +5,7 @@ libRlRules_la_LDFLAGS = $(RUBY_LIBS) $(OGRE_LIBS) $(CEGUI_LIBS) $(LIBS)
 libRlRules_la_SOURCES = \
 	Action.cpp \
 	ActionManager.cpp \
-	AtomarEffect.cpp \
-	Combat.cpp \
-	CombatController.cpp \
+	AtomicEffect.cpp \
 	CompositeEffect.cpp \
 	Container.cpp \
 	Creature.cpp \
@@ -29,6 +27,9 @@ libRlRules_la_SOURCES = \
 	QuestBook.cpp \
 	QuestChangeEvent.cpp \
 	QuestChangeListener.cpp \
+	RBCombat.cpp \
+	RBCombatController.cpp \
+	RTCombat.cpp \
 	RulesSubsystem.cpp \
 	StateSet.cpp \
 	SonderfertigkeitenStateSet.cpp \
