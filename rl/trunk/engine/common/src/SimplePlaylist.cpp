@@ -27,10 +27,10 @@ SimplePlaylist::SimplePlaylist() : Playlist(),
 SimplePlaylist::~SimplePlaylist()
 {
 	stop();
-	for(mItem = mQueue.begin(); mItem != mQueue.end();)
+/*	for(mItem = mQueue.begin(); mItem != mQueue.end(); mItem++)
 	{
 		remove(*mItem);
-	}
+	} */
 }
 
 

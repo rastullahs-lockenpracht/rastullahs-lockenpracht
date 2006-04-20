@@ -31,8 +31,6 @@ class _RlCommonExport Playlist : public EventListener<PlaylistEvent>
 public:
 	Playlist();
 	virtual ~Playlist();
-    virtual void add(PlaylistObject *object) = 0;
-	virtual void remove(PlaylistObject *object) = 0;
     virtual void stop() = 0;
 	virtual void start() = 0;
 };

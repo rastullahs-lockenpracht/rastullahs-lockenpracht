@@ -27,4 +27,5 @@
 #include "Playlist.h"
 #include "PlaylistEvent.h"
 #include "SimplePlaylist.h"
+#include "LinkedPlaylist.h"
 %}

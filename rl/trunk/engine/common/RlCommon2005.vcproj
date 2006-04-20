@@ -273,6 +273,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\LinkedPlaylist.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Logger.cpp"
 				>
 			</File>
@@ -350,6 +354,10 @@
 			</File>
 			<File
 				RelativePath=".\include\GameTask.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\LinkedPlaylist.h"
 				>
 			</File>
 			<File

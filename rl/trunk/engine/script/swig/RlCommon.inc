@@ -127,8 +127,6 @@ class Playlist : public rl::EventListener<rl::PlaylistEvent>
 public:
 	Playlist();
 	virtual ~Playlist();
-    virtual void add(rl::PlaylistObject *object) = 0;
-    virtual void remove(rl::PlaylistObject *object) = 0;
     virtual void start() = 0;
     virtual void stop() = 0;
 };
@@ -145,6 +143,33 @@ public:
     void setLooping(bool looping);
     bool isLooping() const;
     virtual bool eventRaised(rl::PlaylistEvent *eventRaised);
+};
+
+class rl::LinkItem;
+typedef std::list<rl::LinkItem*> LinkedList;
+class LinkItem {
+public:
+	LinkItem(rl::PlaylistObject *item);
+	virtual ~LinkItem();
+	rl::PlaylistObject* getItem() const;
+	void start();
+	void stop();
+	void add(rl::PlaylistObject *child);
+	void remove(rl::PlaylistObject *child);
+};
+
+
+class LinkedPlaylist : public rl::Playlist
+{
+public:
+	LinkedPlaylist();
+	virtual ~LinkedPlaylist();
+    void add(rl::PlaylistObject *object, LinkItem *parent);
+	void remove(rl::PlaylistObject *object, LinkItem *parent);
+    virtual void stop();
+	virtual void start();
+	virtual bool eventRaised(rl::PlaylistEvent *anEvent);
+	LinkItem* getList() const;
 };
 
 }
