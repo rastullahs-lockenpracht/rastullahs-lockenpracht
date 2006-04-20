@@ -228,6 +228,11 @@ namespace rl {
 		return mWindow;
 	}
 
+	void WindowUpdateTask::setTargetAlpha(const Ogre::Real& alpha)
+	{
+		mTargetAlpha = alpha;
+	}
+
 	void WindowUpdater::run( Ogre::Real elapsedTime )
 	{
 		RL_LONGLONG start = CoreSubsystem::getSingleton().getClock();
@@ -256,6 +261,7 @@ namespace rl {
 					task->getWindow()->getWindow()->setAlpha(task->getNormalAlpha());
 					break;
 				}
+				task->getWindow()->_setUpdateTask(NULL);
 				delete task;
 			}
 			else
@@ -277,13 +283,14 @@ namespace rl {
 		if (window == NULL)
 			Throw(NullPointerException, "window  argument is NULL");
 
-		mTasks.insert(
-			new WindowUpdateTask(
+		WindowUpdateTask* task = new WindowUpdateTask(
 				window, 
 				time, 
 				WindowUpdateTask::WND_SHOW, 
-				targetAlpha));
+				targetAlpha);
+		mTasks.insert(task);
 		window->setFading(true);
+		window->_setUpdateTask(task);
 	}
 
 	void WindowUpdater::fadeOut(CeGuiWindow* window, Ogre::Real time, bool destroy)
@@ -291,13 +298,14 @@ namespace rl {
 		if (window == NULL)
 			Throw(NullPointerException, "window  argument is NULL");
 
-		mTasks.insert(
-			new WindowUpdateTask(
+		WindowUpdateTask* task = new WindowUpdateTask(
 				window, 
 				time, 
 				destroy ? WindowUpdateTask::WND_DESTROY : WindowUpdateTask::WND_HIDE, 
-				0.0));
+				0.0);
+		mTasks.insert(task);
 		window->setFading(true);
+		window->_setUpdateTask(task);
 	}
 
 	void WindowUpdater::moveOutLeft(CeGuiWindow* window, Ogre::Real time, bool destroy)
@@ -306,13 +314,14 @@ namespace rl {
 			Throw(NullPointerException, "window  argument is NULL");
 
 		CEGUI::Window* wnd = window->getWindow();
-		mTasks.insert(
-			new WindowUpdateTask(
+		WindowUpdateTask* task = new WindowUpdateTask(
 				window, 
 				time,
 				destroy ? WindowUpdateTask::WND_DESTROY : WindowUpdateTask::WND_HIDE, 
 				-wnd->getAbsoluteWidth(), 
-				wnd->getAbsoluteYPosition()));
+				wnd->getAbsoluteYPosition());
+		mTasks.insert(task);
 		window->setFading(true);
+		window->_setUpdateTask(task);
 	}
 }

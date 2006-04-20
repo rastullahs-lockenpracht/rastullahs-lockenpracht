@@ -25,6 +25,8 @@
 
 namespace rl {
 
+	class WindowUpdateTask;
+
 	class _RlUiExport CeGuiWindow
 	{
 	public:
@@ -36,6 +38,7 @@ namespace rl {
 			WND_KEYBOARD_INPUT,
 			WND_ALL_INPUT,
 		};
+		virtual ~CeGuiWindow();	
 
 		CEGUI::Window* getWindow();
 
@@ -68,7 +71,7 @@ namespace rl {
 
 		const CeGuiString& getName() const;
 
-		virtual ~CeGuiWindow();	
+		void _setUpdateTask(WindowUpdateTask* updateTask);
 
 	protected:
 		CeGuiWindow(
@@ -99,6 +102,8 @@ namespace rl {
 		bool mModal;
 		bool mCloseOnEscape;
 		bool mFading;
+		WindowUpdateTask* mUpdateTask;
+		Ogre::Real mNormalAlpha;
 
 		static int sNumCeGuiWindows;
 

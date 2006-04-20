@@ -79,11 +79,12 @@ namespace rl {
 		const Ogre::Real& getCurrentAlpha() const;
 		const Ogre::Real& getNormalAlpha() const;
 		const Ogre::Real& getTimeLeft() const;
+		void setTargetAlpha(const Ogre::Real& alpha);
 		CeGuiWindow* getWindow();
 		WindowUpdateAction getAction() const;
+		void initialize();
 
 	private:
-		void initialize();
 
 		CeGuiWindow* mWindow;
 		Ogre::Real mTime; 
@@ -103,6 +104,7 @@ namespace rl {
 	{
 	public:
 		void run( Ogre::Real elapsedTime );
+
 		void fadeIn(CeGuiWindow* window, Ogre::Real time, float targetAlpha = 1.0);
 		void fadeOut(CeGuiWindow* window, Ogre::Real time, bool destroy);
 		void moveOutLeft(CeGuiWindow* window, Ogre::Real time, bool destroy);
