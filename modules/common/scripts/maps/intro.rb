@@ -10,6 +10,7 @@ sunlight.getControlledObject().setDirection(0.7, -2.0, 0.8);
 sunlight.getControlledObject().setDiffuseColour(1.0,1.0,0.9);
 $SCRIPT.log("Tageslicht erstellt.");
 
+$UI.setCharacterController(UiSubsystem::CTRL_CUTSCENE);
 
 $World.setFog( World::FOG_EXP, [0.7,0.6,0.5,0.5], 0.00009, 0.5, 1.0);
 

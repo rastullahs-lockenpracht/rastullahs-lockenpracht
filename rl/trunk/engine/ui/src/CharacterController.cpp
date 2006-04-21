@@ -38,18 +38,22 @@ namespace rl {
 		mCamBody(0),
 		mCharBody(0)
 	{
-		if (mCamera == 0 || mCharacterActor == 0)
+		if (mCamera == 0)
 		{
-			Throw(NullPointerException, "Character and Camera must not be NULL.");
+			Throw(NullPointerException, "Camera must not be NULL.");
 		}
 
-		if (!mCharacterActor->_getSceneNode())
+		if (mCharacterActor != NULL)
 		{
-			Throw(IllegalArgumentException,
-				"character has to be placed in the scene beforehand");
+			if (!mCharacterActor->_getSceneNode())
+			{
+				Throw(IllegalArgumentException,
+					"character has to be placed in the scene beforehand");
+			}
+
+			mCharBody = mCharacterActor->getPhysicalThing()->_getBody();
 		}
 
-		mCharBody = mCharacterActor->getPhysicalThing()->_getBody();
 		mCamBody = mCamera->getPhysicalThing()->_getBody();
 
 		if (!mCamera->_getSceneNode())

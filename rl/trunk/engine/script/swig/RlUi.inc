@@ -38,7 +38,8 @@ public:
 		CTRL_FREEFLIGHT = 1,
 		CTRL_MOVEMENT,
 		CTRL_DIALOG,
-		CTRL_COMBAT
+		CTRL_COMBAT,
+		CTRL_CUTSCENE
 	};
 
     static UiSubsystem& getSingleton(void);

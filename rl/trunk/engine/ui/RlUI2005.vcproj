@@ -226,6 +226,7 @@
 		</Configuration>
 		<Configuration
 			Name="Profile|Win32"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			>
 			<Tool
@@ -301,6 +302,10 @@
 			</File>
 			<File
 				RelativePath=".\include\CommandMapper.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\CutsceneCharacterController.h"
 				>
 			</File>
 			<File
@@ -450,6 +455,10 @@
 			</File>
 			<File
 				RelativePath=".\src\CommandMapper.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\CutsceneCharacterController.cpp"
 				>
 			</File>
 			<File

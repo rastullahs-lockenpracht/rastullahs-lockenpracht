@@ -25,6 +25,7 @@
 
 #include "CoreSubsystem.h"
 #include "Logger.h"
+#include "CutsceneCharacterController.h"
 #include "DialogCharacterController.h"
 #include "MovementCharacterController.h"
 #include "FreeFlightCharacterController.h"
@@ -196,6 +197,9 @@ namespace rl {
 			break;
 		case CTRL_DIALOG:
 			mCharacterController = new DialogCharacterController(camera, CoreSubsystem::getSingleton().getWorld()->getActiveActor());
+			break;
+		case CTRL_CUTSCENE:
+			mCharacterController = new CutsceneCharacterController(camera);
 			break;
 		default:
 			Throw(IllegalArgumentException, "Unknown CharacterControllerType.");
