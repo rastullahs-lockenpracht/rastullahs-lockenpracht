@@ -230,6 +230,9 @@ namespace rl {
 					Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));
 	}
 
+    // adopted from the chararcter demo in the newton sdk
+    // copyright 2000-2004
+    // By Julio Jerez
 	int MovementCharacterController::userProcess()
 	{
 		if (m_body0 == mCamBody || m_body1 == mCamBody)
@@ -273,6 +276,9 @@ namespace rl {
 		return 1;
 	}
 
+    // adopted from the chararcter demo in the newton sdk
+    // copyright 2000-2004
+    // By Julio Jerez
 	void MovementCharacterController::OnApplyForceAndTorque(PhysicalThing* thing)
 	{
 		OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
