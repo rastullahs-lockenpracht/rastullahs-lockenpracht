@@ -54,6 +54,7 @@ namespace rl
 			mWindow->setModalState(true);
 		}
 
+		mNormalAlpha = mWindow->getAlpha();
 		mName = mWindow->getName();
 		getRoot()->addChildWindow(mWindow);
 		WindowManager::getSingleton().registerWindow(this);
@@ -110,7 +111,6 @@ namespace rl
 			{
 				InputManager::getSingleton().registerCeGuiWindow(this);
 
-				mNormalAlpha = mWindow->getAlpha();
 				mWindow->setAlpha(0.0);
 				mWindow->show();
 				if (mUpdateTask == NULL)
