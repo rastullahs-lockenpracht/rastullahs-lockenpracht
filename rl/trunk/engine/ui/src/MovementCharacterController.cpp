@@ -29,6 +29,7 @@
 #include "ActorManager.h"
 #include "CameraObject.h"
 #include "CommandMapper.h"
+#include "ConfigurationManager.h"
 #include "CoreSubsystem.h"
 #include "Creature.h"
 #include "DebugWindow.h"
@@ -84,7 +85,10 @@ namespace rl {
 		mMovementSpeed = 
 			(float)character->getWert(WERT_GS) / 
 			(float)Date::ONE_KAMPFRUNDE 
-			* 1000.0f;	
+			* 1000.0f;
+
+		int rot = ConfigurationManager::getSingleton().getIntSetting("mouse_sensitivity", 4);
+		mRotationSpeed = rot;
 
 		// Offset for the look at point,
 		// so the cam does look at the characters head instead of the feet.
@@ -164,11 +168,11 @@ namespace rl {
 			mDesiredDistance = mDistanceRange.second;
 		}
 
-		mPitch += Degree(im->getMouseRelativeY() * 25.0 * elapsedTime);
+		mPitch += Degree(mRotationSpeed * im->getMouseRelativeY() * 2.0 * elapsedTime);
 		if (mPitch < mPitchRange.first) mPitch = mPitchRange.first;
 		if (mPitch > mPitchRange.second) mPitch = mPitchRange.second;
 
-		mYaw -= Degree(im->getMouseRelativeX() * 25.0 * elapsedTime);
+		mYaw -= Degree(mRotationSpeed * im->getMouseRelativeX() * 2.0 * elapsedTime);
 
 		SceneNode* cameraNode = mCamera->_getSceneNode();
 		cameraNode->lookAt(mCharacterActor->getWorldPosition()
