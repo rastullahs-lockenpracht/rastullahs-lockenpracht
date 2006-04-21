@@ -75,7 +75,12 @@ void ListenerObject::_update()
     Logger::getSingleton().log("Core", LML_TRIVIAL, "Pos Listener: "
         + StringConverter::toString(actor->getWorldPosition().x) + " "
         + StringConverter::toString(actor->getWorldPosition().y) + " "
-        + StringConverter::toString(actor->getWorldPosition().z));
+        + StringConverter::toString(actor->getWorldPosition().z) + ", "
+		+ "Orient Listener: "
+        + StringConverter::toString(actor->getWorldOrientation().w) + " "
+        + StringConverter::toString(actor->getWorldOrientation().x) + " "
+        + StringConverter::toString(actor->getWorldOrientation().y) + ", "
+        + StringConverter::toString(actor->getWorldOrientation().z));
 //    listener->setOrientation(*temp1, *temp1);
     // TODO Orientation korrigieren
 }

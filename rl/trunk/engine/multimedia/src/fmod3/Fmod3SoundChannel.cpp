@@ -183,7 +183,9 @@ void Fmod3SoundChannel::setPosition(const Vector3& position)
 {
     if (isValid())
     {
-        float pos[] = {position[0], position[1], position[2]};
+		// Bei Fmod ist +z "nach vorn", im Gegensatz zu -z bei Ogre
+        float pos[] = {position.x, position.y, -position.z}; 
+
         MultimediaSubsystem::log(LML_TRIVIAL, "Pos: "
             + StringConverter::toString(position.x)
             + StringConverter::toString(position.y)
@@ -219,7 +221,7 @@ void Fmod3SoundChannel::setVelocity(const Vector3& velocity)
 {
     if (isValid())
     {
-        float vel[] = {velocity[0], velocity[1], velocity[2]};
+        float vel[] = {velocity.x, velocity.y, -velocity.z};
         FSOUND_3D_SetAttributes(getChannel(), 0, vel);
     }
     mVelocity = velocity;

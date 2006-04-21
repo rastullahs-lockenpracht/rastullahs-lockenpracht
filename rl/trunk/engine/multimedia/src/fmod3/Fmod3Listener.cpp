@@ -74,8 +74,8 @@ void Fmod3Listener::setOrientation(const Quaternion &orientation)
 		Vector3 at = orientation * Vector3::NEGATIVE_UNIT_Z;
 		Vector3 up = orientation * Vector3::UNIT_Y;
         FSOUND_3D_Listener_SetAttributes(0, 0,
-            at[0], at[1], at[2],
-            up[0], up[1], up[2]);
+            at.x, at.y, -at.z,
+            up.x, up.y, -up.z);
     }
 }
 
@@ -93,7 +93,7 @@ void Fmod3Listener::setPosition(const Vector3& position)
         float fx, fy, fz, tx, ty, tz;
         FSOUND_3D_Listener_GetAttributes(0, 0,
             &fx, &fy, &fz, &tx, &ty, &tz);
-        float newpos[] = {position[0], position[1], position[2]};
+        float newpos[] = {position.x, position.y, -position.z};
         FSOUND_3D_Listener_SetAttributes(newpos,
             0, fx, fy, fz, tx, ty, tz); 
     }
@@ -112,8 +112,8 @@ void Fmod3Listener::setVelocity(const Vector3& velocity)
         float fx, fy, fz, tx, ty, tz;
         FSOUND_3D_Listener_GetAttributes(0, 0,
             &fx, &fy, &fz, &tx, &ty, &tz);
-        float newvel[] = {velocity[0], velocity[1], velocity[2]};
-        FSOUND_3D_Listener_SetAttributes(0, &newvel[0],
+        float newvel[] = {velocity.x, velocity.y, -velocity.z};
+        FSOUND_3D_Listener_SetAttributes(0, newvel,
             fx, fy, fz, tx, ty, tz);
     }
 }
