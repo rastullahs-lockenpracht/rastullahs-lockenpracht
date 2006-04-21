@@ -533,7 +533,7 @@ namespace rl {
 
 	bool MovementCharacterController::injectKeyClicked(int keycode)
 	{
-		return startAction(mCommandMapper->getAction(keycode, CMDMAP_KEYMAP_OFF_COMBAT));		
+		return startAction(mCommandMapper->getAction(keycode, CMDMAP_KEYMAP_OFF_COMBAT), mCharacter);		
 	}
 
 	bool MovementCharacterController::injectKeyDown(int keycode)
@@ -568,6 +568,6 @@ namespace rl {
 
 	bool MovementCharacterController::injectMouseUp(int mouseButtonMask)
 	{
-		return startAction(mCommandMapper->getAction(mouseButtonMask, CMDMAP_MOUSEMAP_OFF_COMBAT));		
+		return startAction(mCommandMapper->getAction(mouseButtonMask, CMDMAP_MOUSEMAP_OFF_COMBAT), mCharacter);		
 	}
 }
