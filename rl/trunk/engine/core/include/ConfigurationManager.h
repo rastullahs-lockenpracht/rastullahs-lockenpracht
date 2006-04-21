@@ -62,7 +62,11 @@ namespace rl
 			Ogre::String getModulesRootDirectory();
             Ogre::String getRastullahSystemCfgPath();
             
-            Ogre::ConfigFile* getSystemConfig();
+			Ogre::String getStringSetting(const Ogre::String& name, const Ogre::String& default = Ogre::StringUtil::BLANK);
+			Ogre::Real getRealSetting(const Ogre::String& name, Ogre::Real default = 0.0f);
+			int getIntSetting(const Ogre::String& name, int default = 0);
+			bool getBoolSetting(const Ogre::String& name, bool default = false);
+
             Ogre::LoggingLevel getLogLevel();
 
 			Ogre::String getEngineVersionString() const;
@@ -74,7 +78,6 @@ namespace rl
 			Ogre::String getTextureUnitScheme();
 						
 		protected:
-		
 			Ogre::String mOgreLogPath;
 			Ogre::String mRastullahCfgPath;
 			Ogre::String mPluginCfgPath;
@@ -84,6 +87,9 @@ namespace rl
 			Ogre::String mModulesRootDirectory;
             Ogre::String mRastullahSystemCfgPath;
 
+			Ogre::ConfigFile* getSystemConfig();
+
+		private:
             Ogre::ConfigFile* mSystemConfig;
 	};
 }

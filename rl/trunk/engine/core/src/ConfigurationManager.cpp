@@ -24,6 +24,7 @@
 
 #include "CoreSubsystem.h"
 
+using namespace Ogre;
 
 namespace rl
 {
@@ -216,5 +217,33 @@ namespace rl
 		static CeGuiString aboutText = 
 			"Rastullahs Lockenpracht\n\nCopyright 2003-2005 Team Pantheon\n\nBenutzte Bibliotheken: Ogre, fmod, Newton, boost, ...";
 		return aboutText;
+	}
+
+	String ConfigurationManager::getStringSetting(const String& name, const String& defaultv)
+	{
+		String rval = getSystemConfig()->getSetting(name);
+		if (rval == StringUtil::BLANK) rval = defaultv;
+		return rval;
+	}
+
+	Real ConfigurationManager::getRealSetting(const String& name, Real defaultv)
+	{
+		String val = getStringSetting(name);
+		if (val == StringUtil::BLANK) return defaultv;
+		else return StringConverter::parseReal(val);
+	}
+
+	int ConfigurationManager::getIntSetting(const String& name, int defaultv)
+	{
+		String val = getStringSetting(name);
+		if (val == StringUtil::BLANK) return defaultv;
+		else return StringConverter::parseInt(val);
+	}
+
+	bool ConfigurationManager::getBoolSetting(const String& name, bool defaultv)
+	{
+		String val = getStringSetting(name);
+		if (val == StringUtil::BLANK) return defaultv;
+		else return StringConverter::parseBool(val);
 	}
 }
