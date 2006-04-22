@@ -10,6 +10,7 @@ noinst_HEADERS =
 	GameTask.h \
 	Logger.h \
 	LinkedPlaylist.h \
+	PauseObject.h \
 	Playlist.h \
 	SimplePlaylist.h \
 	PlaylistEvent.h \
