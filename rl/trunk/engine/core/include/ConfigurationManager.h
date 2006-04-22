@@ -62,10 +62,10 @@ namespace rl
 			Ogre::String getModulesRootDirectory();
             Ogre::String getRastullahSystemCfgPath();
             
-			Ogre::String getStringSetting(const Ogre::String& name, const Ogre::String& default = Ogre::StringUtil::BLANK);
-			Ogre::Real getRealSetting(const Ogre::String& name, Ogre::Real default = 0.0f);
-			int getIntSetting(const Ogre::String& name, int default = 0);
-			bool getBoolSetting(const Ogre::String& name, bool default = false);
+			Ogre::String getStringSetting(const Ogre::String& name, const Ogre::String& _default = Ogre::StringUtil::BLANK);
+			Ogre::Real getRealSetting(const Ogre::String& name, Ogre::Real _default = 0.0f);
+			int getIntSetting(const Ogre::String& name, int _default = 0);
+			bool getBoolSetting(const Ogre::String& name, bool _default = false);
 
             Ogre::LoggingLevel getLogLevel();
 
