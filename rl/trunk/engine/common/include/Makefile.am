@@ -9,6 +9,7 @@ noinst_HEADERS =
 	FixRubyHeaders.h \
 	GameTask.h \
 	Logger.h \
+	LinkedPlaylist.h \
 	Playlist.h \
 	SimplePlaylist.h \
 	PlaylistEvent.h \

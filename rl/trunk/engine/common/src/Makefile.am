@@ -7,6 +7,7 @@ libRlCommon_la_SOURCES = \
   EventSource.cpp \
   GameTask.cpp \
   Logger.cpp \
+  LinkedPlaylist.cpp \
   Playlist.cpp \
   PlaylistEvent.cpp \
   PlaylistObject.cpp \
