@@ -168,9 +168,21 @@ public:
 	void remove(rl::PlaylistObject *object, LinkItem *parent);
     virtual void stop();
 	virtual void start();
-	virtual bool eventRaised(rl::PlaylistEvent *anEvent);
 	LinkItem* getList() const;
 };
+
+class PauseObject : public rl::PlaylistObject {
+	public:
+		PauseObject(long unsigned int nsec);
+		~PauseObject();
+		const long unsigned int getPause() const;
+		virtual void start();
+		virtual void stop();
+		virtual void pause();
+		virtual void load();
+		virtual void unload();
+};
+
 
 }
 

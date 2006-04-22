@@ -22,7 +22,7 @@ namespace rl {
  * @date 12-04-2006
  * @version 1.0
  */
-PlaylistObject::PlaylistObject(): EventCaster<PlaylistEvent>()
+PlaylistObject::PlaylistObject(): EventCaster<PlaylistEvent>(), EventSource()
 {
 }
 
@@ -35,5 +35,34 @@ PlaylistObject::~PlaylistObject()
 {
 }
 
+void PlaylistObject::start()
+{
+	PlaylistEvent *event = new PlaylistEvent(this, PlaylistEvent::STARTEVENT);
+	dispatchEvent(event);
+}
+
+void PlaylistObject::stop()
+{
+	PlaylistEvent *event = new PlaylistEvent(this, PlaylistEvent::STOPEVENT);
+	dispatchEvent(event);
+}
+
+void PlaylistObject::pause()
+{
+	PlaylistEvent *event = new PlaylistEvent(this, PlaylistEvent::PAUSEEVENT);
+	dispatchEvent(event);
+}
+
+void PlaylistObject::load()
+{
+	PlaylistEvent *event = new PlaylistEvent(this, PlaylistEvent::LOADEVENT);
+	dispatchEvent(event);
+}
+
+void PlaylistObject::unload()
+{
+	PlaylistEvent *event = new PlaylistEvent(this, PlaylistEvent::UNLOADEVENT);
+	dispatchEvent(event);
+}
 
 }

@@ -34,6 +34,8 @@ public:
 	static const unsigned int STARTEVENT = 1;
     static const unsigned int STOPEVENT = 2;
     static const unsigned int PAUSEEVENT = 3;
+	static const unsigned int LOADEVENT = 4;
+	static const unsigned int UNLOADEVENT = 5;
 };
 
 }

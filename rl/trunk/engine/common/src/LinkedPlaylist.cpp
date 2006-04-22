@@ -22,16 +22,19 @@ namespace rl
 LinkItem::LinkItem(PlaylistObject *object)
 	: mItem(object)
 {
+	mItem->addEventListener(this);
 }
 
 LinkItem::~LinkItem()
 {
 	mItem->stop();
+	mItem->removeEventListener(this);
+
 	LinkedList::iterator it;
 	for(it = mChildren.begin(); it != mChildren.end();)
 	{
-		delete mItem++;
-	}
+		delete *(it++);
+	} 
 }
 
 void LinkItem::add(PlaylistObject *child)
@@ -41,6 +44,31 @@ void LinkItem::add(PlaylistObject *child)
 		LinkItem *item = new LinkItem(child);
 		mChildren.push_back(item);
 	}
+}
+
+bool LinkItem::eventRaised(PlaylistEvent *anEvent)
+{
+	switch(anEvent->getReason())
+	{
+/*	case PlaylistEvent::STARTEVENT:
+		break;
+	case PlaylistEvent::NOPEVENT:
+		break;
+	case PlaylistEvent::PAUSEEVENT:
+		break; */
+	case PlaylistEvent::STOPEVENT:
+		{
+			LinkedList::iterator it;
+			for(it = mChildren.begin(); it != mChildren.end();it++)
+			{
+				(*it)->start();
+			}
+		}
+		break;
+	default:
+		break;
+	}
+	return true;
 }
 
 PlaylistObject *LinkItem::getItem() const
@@ -64,6 +92,8 @@ void LinkItem::remove(PlaylistObject *child)
 
 void LinkItem::start()
 {
+
+	mItem->start();
 }
 
 void LinkItem::stop()

@@ -20,10 +20,12 @@
 #include "CommonPrerequisites.h"
 #include "EventCaster.h"
 #include "PlaylistEvent.h"
+#include "EventSource.h"
 
 namespace rl {
 
-class _RlCommonExport PlaylistObject : public EventCaster<PlaylistEvent>
+class _RlCommonExport PlaylistObject : 
+			public EventCaster<PlaylistEvent>, public virtual EventSource
 {
 public:
 	/// Konstruktor
@@ -31,15 +33,15 @@ public:
 	/// Destruktor
 	~PlaylistObject();
 	/// Objekt laden, einrichten etc.
-	virtual void load() = 0;
+	virtual void load();
 	/// Objekt entladen, abbauen etc.
-	virtual void unload() = 0;
+	virtual void unload();
 	/// Objektaktion starten
-	virtual void start() = 0;
+	virtual void start();
 	/// Objectaktion stoppen
-	virtual void stop() = 0;
+	virtual void stop();
 	/// Objektaktion pausieren
-	virtual void pause() = 0;
+	virtual void pause();
 };
 
 }

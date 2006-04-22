@@ -28,4 +28,5 @@
 #include "PlaylistEvent.h"
 #include "SimplePlaylist.h"
 #include "LinkedPlaylist.h"
+#include "PauseObject.h"
 %}

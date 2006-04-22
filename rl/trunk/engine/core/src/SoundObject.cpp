@@ -35,7 +35,9 @@ namespace rl {
  * @date 03-11-2005
  */   
 SoundObject::SoundObject(Sound *sound, const Ogre::String &name)
-    : ActorControlledObject()
+    : ActorControlledObject(),
+	PlaylistObject(),
+	EventListener<SoundEvent>()
 {
 	SoundDriver *driver = MultimediaSubsystem::getSingleton().getActiveDriver();
 	if (driver != 0)
@@ -123,6 +125,7 @@ bool SoundObject::isPaused()
 
 void SoundObject::stop()
 {
+	PlaylistObject::stop();
     getSoundChannel()->stop();
 }
 
@@ -159,11 +162,13 @@ void SoundObject::set3d( bool is3d )
 
 void SoundObject::load()
 {
+	PlaylistObject::load();
 	getSoundChannel()->load();
 }
 
 void SoundObject::unload()
 {
+	PlaylistObject::unload();
     getSoundChannel()->unload();
 }
 
@@ -211,11 +216,13 @@ bool SoundObject::eventRaised(SoundEvent *event)
 
 void SoundObject::pause()
 {
+	PlaylistObject::pause();
     pause(true);
 }
 
 void SoundObject::start()
 {
+	PlaylistObject::start();
     pause(false);
 }
 

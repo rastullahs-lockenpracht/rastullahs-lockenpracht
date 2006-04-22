@@ -454,10 +454,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\SoundPlaylist.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\TrackAnimation.h"
 				>
 			</File>

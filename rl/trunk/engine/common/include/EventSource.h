@@ -34,5 +34,5 @@ public:
    virtual ~EventSource();
 };
 
-}
+} 
 #endif // EVENTSOURCE_H

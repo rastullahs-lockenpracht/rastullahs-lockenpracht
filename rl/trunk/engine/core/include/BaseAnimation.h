@@ -33,7 +33,7 @@ namespace rl {
 	@remarks Instanzen werden über den AnimationManager erzeugt
 	@see AnimationManager
 */
-class _RlCoreExport BaseAnimation : public virtual EventSource, public virtual PlaylistObject
+class _RlCoreExport BaseAnimation : public virtual PlaylistObject
 {
     public:
 		/**
@@ -132,10 +132,6 @@ class _RlCoreExport BaseAnimation : public virtual EventSource, public virtual P
 		/// Entfernt einen AnimationListener an einem bestimmtem Zeitindex
 		virtual void removeAnimationFrameListener( AnimationFrameListener *listener, Ogre::Real frameNumber );
         
-        /// Lade die Animation
-        virtual void load();
-        /// Entlade die Animation
-        virtual void unload();
         /// Starte die Animation
         virtual void start();
         /// Stoppe die Animation

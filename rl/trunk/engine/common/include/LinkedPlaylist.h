@@ -27,7 +27,8 @@ namespace rl
 class PlaylistObject;
 class LinkItem;
 typedef std::list<LinkItem*> LinkedList;
-class _RlCommonExport LinkItem {
+class _RlCommonExport LinkItem : public EventListener<PlaylistEvent>
+{
 private:
 	LinkedList mChildren;
 	PlaylistObject *mItem;
@@ -40,6 +41,7 @@ public:
 	void stop();
 	void add(PlaylistObject *child);
 	void remove(PlaylistObject *child);
+	virtual bool eventRaised(PlaylistEvent *anEvent);
 };
 
 
