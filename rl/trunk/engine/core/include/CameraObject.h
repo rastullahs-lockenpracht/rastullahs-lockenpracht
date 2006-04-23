@@ -28,12 +28,17 @@ namespace rl {
     {
     public:
         CameraObject(const Ogre::String& name);
+        ~CameraObject();
 
         /// Wie ActorControlledObject::getMovableObject()
         /// Nur schon gebrauchsfertig gecastet.
-        Ogre::Camera* getCamera();
+        Ogre::Camera* getCamera() const;
 
-		Ogre::Vector3 getSize();
+		Ogre::Vector3 getDefaultSize() const;
+
+		/// Not implemented for Camera
+		Ogre::Vector3 getPoseSize(const Ogre::String& animationName);
+
 		Ogre::Entity* getEntity() const;
 
         virtual Ogre::String getObjectType();

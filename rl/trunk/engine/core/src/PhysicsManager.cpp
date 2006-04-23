@@ -118,12 +118,18 @@ namespace rl
         return mGravity;
     }
 
+	OgreNewt::Collision* PhysicsManager::_createCollision(
+		GeometryTypes geomType, Vector3 size) const
+	{
+		return 0;
+	}
+
 	void PhysicsManager::createPhysicsProxy(PhysicalThing* pt,
 		SceneNode* node)
 	{
 		if (pt != NULL && pt->_getBody() == NULL) 
 		{
-			const Vector3& size = pt->_getPhysicalObject()->getSize();
+			const Vector3& size = pt->_getPhysicalObject()->getDefaultSize();
 			GeometryTypes geomType = pt->_getGeometryType();
 
             OgreNewt::Collision* coll = NULL;

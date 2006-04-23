@@ -26,7 +26,8 @@ namespace rl {
 	class _RlCoreExport PhysicalObject : public ActorControlledObject
     {
     public:
-		virtual Ogre::Vector3 getSize() = 0;
+		virtual Ogre::Vector3 getDefaultSize() const = 0;
+		virtual Ogre::Vector3 getPoseSize(const Ogre::String& animationName) = 0;
 		virtual Ogre::Entity* getEntity() const = 0;
     };
 }

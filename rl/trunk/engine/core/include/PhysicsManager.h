@@ -127,6 +127,8 @@ namespace rl {
 
         OgreNewt::World* _getNewtonWorld() const;
         OgreNewt::MaterialID* _getLevelMaterialID() const;
+		OgreNewt::Collision* _createCollision(GeometryTypes geomType,
+			Ogre::Vector3 size) const;
 
     private:
         typedef std::map<PhysicalThing*, PhysicsController*> ControllerMap;

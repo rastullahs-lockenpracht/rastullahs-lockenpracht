@@ -20,9 +20,18 @@
 #include "CorePrerequisites.h"
 #include <OgreSceneManager.h>
 
+#include <set>
+
 namespace rl {
 
     class Actor;
+
+    class _RlCoreExport SceneChangeListener
+    {
+    public:
+        virtual void onAfterSceneLoaded() {};
+        virtual void onBeforeClearScene() {};
+    };
 
     class _RlCoreExport World
     {
@@ -87,16 +96,26 @@ namespace rl {
 
 		virtual void setCastShadows(bool enabled);
 
-        void setShowBoundingBoxes( bool dis );
+        void setShowBoundingBoxes(bool dis);
+
+        void addSceneChangeListener(SceneChangeListener*);
+        void removeSceneChangeListener(SceneChangeListener*);
     protected:
-        World(Ogre::SceneType sceneType);
-
-        virtual void initializeDefaultCamera(void) = 0;	
-
         Ogre::SceneManager* mSceneMgr;
         Ogre::Camera* mCamera;
 
+		std::string mSceneFile;
+
         Actor* mActiveActor;
+
+        typedef std::set<SceneChangeListener*> SceneChangeListenerSet;
+        SceneChangeListenerSet mSceneChangeListeners;
+
+        World(Ogre::SceneType sceneType);
+        virtual void initializeDefaultCamera(void) = 0;
+
+        void fireAfterSceneLoaded();
+        void fireBeforeClearScene();
     };
 
 }

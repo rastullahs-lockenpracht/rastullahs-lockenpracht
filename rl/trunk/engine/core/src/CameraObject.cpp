@@ -25,16 +25,21 @@ using namespace Ogre;
 namespace rl {
     CameraObject::CameraObject(const String& name)
     {
-		Camera* camera = CoreSubsystem::getSingleton().getWorld()->
-			getSceneManager()->createCamera(name);
-		
-		camera->setNearClipDistance(0.1);
-		camera->setFarClipDistance(10000);
+        Camera* camera = CoreSubsystem::getSingleton().getWorld()->
+            getSceneManager()->createCamera(name);
 
-		mMovableObject = camera;
+        camera->setNearClipDistance(0.1);
+        camera->setFarClipDistance(10000);
+
+        mMovableObject = camera;
     }
 
-    Camera* CameraObject::getCamera()
+    CameraObject::~CameraObject()
+    {
+        CoreSubsystem::getSingleton().getWorld()->getSceneManager()->destroyCamera(getCamera());
+    }
+
+    Camera* CameraObject::getCamera() const
     {
         return static_cast<Camera*>(mMovableObject);
     }
@@ -44,14 +49,19 @@ namespace rl {
         return "CameraObject";
     }
 
-	Vector3 CameraObject::getSize()
-	{
-		return Vector3(getCamera()->getNearClipDistance() * 3.0f, 0, 0);
-	}
+    Vector3 CameraObject::getDefaultSize() const
+    {
+        return Vector3(getCamera()->getNearClipDistance() * 3.0f, 0, 0);
+    }
 
-	Entity* CameraObject::getEntity() const
-	{
-		Throw(rl::IllegalStateException, "CameraObject has no Entity");
-		return NULL;
-	}
+    Entity* CameraObject::getEntity() const
+    {
+        Throw(rl::OperationNotSupportedException, "CameraObject::getEntity not implemented.");
+    }
+
+    Vector3 CameraObject::getPoseSize(const String&)
+    {
+        Throw(OperationNotSupportedException,
+            "CameraObject::calculateSizeFromPose not implemented.");
+    }
 }

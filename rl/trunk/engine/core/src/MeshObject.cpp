@@ -14,6 +14,7 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
+#include "Exception.h"
 #include "MeshObject.h"
 #include "Actor.h"
 #include "CoreSubsystem.h"
@@ -23,10 +24,12 @@
 #include "AnimationManager.h"
 
 #include <OgreMeshManager.h>
+#include <OgreAnimationState.h>
+
 using namespace Ogre;
 
 namespace rl {
-    MeshObject::MeshObject(const String& name, const String& meshname)
+	MeshObject::MeshObject(const String& name, const String& meshname) : mSize(), mPoseSizes()
     {
 		if (meshname.length() > 0)
 		{
@@ -41,7 +44,7 @@ namespace rl {
                 }
             }
             mMovableObject = entity;
-			calculateSize();
+			mSize = calculateSize();
 		}
     }
 
@@ -59,7 +62,7 @@ namespace rl {
 
     ///@todo Sehr, sehr viel Optmimierungsspielraum :)
     ///@todo Padding aus MeshManager::getBoundsPaddingFactor() benutzen
-    Vector3 MeshObject::getSize()
+    Vector3 MeshObject::getDefaultSize() const
     {
         return mSize;
     }
@@ -71,17 +74,32 @@ namespace rl {
 
     Real MeshObject::getRadius()
     {
-        Vector3 extent = getSize();
+        Vector3 extent = getDefaultSize();
         return std::max(extent.x, extent.z) / 2.0;
     }
 
     Real MeshObject::getHeight()
     {
-        return getSize().y;
+        return getDefaultSize().y;
     }
 
-	/// @todo Exception Handling
+	Vector3 MeshObject::getPoseSize(const String& animationName)
+	{
+		PoseMap::iterator it = mPoseSizes.find(animationName);
+		if (it == mPoseSizes.end())
+		{
+			// Not yet calculated. Do so now and save.
+			Vector3 rval = calculateSizeFromPose(animationName);
+			mPoseSizes.insert(make_pair(animationName, rval));
+			return rval;
+		}
+		else
+		{
+			return it->second;
+		}
+	}
 
+	/// @todo Exception Handling
 	MeshAnimation* MeshObject::getAnimation(const String& animName)
 	{
         MeshAnimation* anim = NULL;
@@ -103,12 +121,14 @@ namespace rl {
 	}
 
 
-	MeshAnimation* MeshObject::startAnimation(const String& animName, Real speed, unsigned int timesToPlay )
+	MeshAnimation* MeshObject::startAnimation(const String& animName,
+		Real speed, unsigned int timesToPlay )
 	{
 		try
 		{
 			AnimationState* animState = getEntity()->getAnimationState(animName);
-			return AnimationManager::getSingleton().addMeshAnimation(animState,this,speed,timesToPlay);
+			return AnimationManager::getSingleton().addMeshAnimation(
+				animState, this, speed, timesToPlay);
 		}
 		catch(Ogre::Exception&) 
 		{
@@ -117,13 +137,14 @@ namespace rl {
 		return 0;
 	}
 
-	MeshAnimation* MeshObject::replaceAnimation(const Ogre::String& oldAnimName, const Ogre::String& newAnimName, Real speed, unsigned int timesToPlay )
+	MeshAnimation* MeshObject::replaceAnimation(const String& oldAnimName,
+		const String& newAnimName, Real speed, unsigned int timesToPlay )
 	{
         stopAnimation(oldAnimName);
         return startAnimation( newAnimName, speed, timesToPlay );
 	}
 
-	void MeshObject::stopAnimation(const Ogre::String& animName)
+	void MeshObject::stopAnimation(const String& animName)
 	{
 		try
 		{
@@ -183,7 +204,7 @@ namespace rl {
         }
     }
     
-    void MeshObject::calculateSize()
+    Vector3 MeshObject::calculateSize()
     {
         Vector3 size = Vector3::ZERO;
 
@@ -193,7 +214,74 @@ namespace rl {
         Vector3 scaler = (x - n) * MeshManager::getSingleton().
             getBoundsPaddingFactor();
         size = ((x - scaler) - (n + scaler));
-        mSize = size;
+        return size;
+    }
+
+	Vector3 MeshObject::calculateSizeFromPose(const String& animationName)
+	{
+		Entity* entity = getEntity();
+		AnimationStateSet* ass = entity->getAllAnimationStates();
+
+		// Test if wanted anim is available for the entity
+		if (ass->hasAnimationState(animationName))
+		{
+			Throw(IllegalArgumentException, String("No animation " + animationName +
+				" for entity " + entity->getName()));
+		}
+
+		// Save current animation state set. We don't want to interfere with the visible anim.
+		AnimationStateSet* saveAss = new AnimationStateSet(*ass);
+
+		// Deactivate all anims, save the wanted one.
+		AnimationStateIterator it = ass->getAnimationStateIterator();
+		while (it.hasMoreElements())
+		{
+			AnimationState* as = it.peekNextValue();
+			as->setEnabled(as->getAnimationName() == animationName);
+			it.moveNext();
+		}
+
+		// Issue a software skinning request,
+		// update the animation and then remove the software request
+		// Actually this doesn't work, if animation has been updated already in this frame,
+		// but this restriction can't be circumvented easily.
+		entity->addSoftwareAnimationRequest(false);
+		entity->_updateAnimation();
+
+		AxisAlignedBox aabb;
+		aabb.merge(getAabbFromVertexData(entity->_getSkelAnimVertexData()));
+		for (unsigned int i = 0; i < entity->getNumSubEntities(); ++i)
+		{
+			SubEntity* se = entity->getSubEntity(i);
+			aabb.merge(getAabbFromVertexData(se->_getSkelAnimVertexData()));
+		}
+
+		entity->removeSoftwareAnimationRequest(false);
+
+		return aabb.getMaximum() - aabb.getMinimum();
+	}
+
+	AxisAlignedBox MeshObject::getAabbFromVertexData(VertexData* vd)
+	{
+		AxisAlignedBox rval;
+
+		const VertexElement* ve = vd->vertexDeclaration->findElementBySemantic(VES_POSITION);
+		HardwareVertexBufferSharedPtr vb = vd->vertexBufferBinding->getBuffer(ve->getSource());
+
+		unsigned char* data = static_cast<unsigned char*>(
+			vb->lock(Ogre::HardwareBuffer::HBL_READ_ONLY));
+		
+		for (size_t i = 0; i < vd->vertexCount; ++i)
+		{
+			data += vb->getVertexSize();
+
+			float* v;
+			ve->baseVertexPointerToElement(data, &v);
+			rval.merge(Vector3(v[0], v[1], v[2]));
+		}
+		vb->unlock();
+
+		return rval;
     }
     
     void MeshObject::setCastShadows (bool enabled)

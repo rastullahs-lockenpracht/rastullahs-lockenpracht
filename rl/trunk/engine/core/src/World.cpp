@@ -26,6 +26,7 @@ namespace rl {
 	World::World(SceneType sceneType)
 		:   mSceneMgr(0),
             mCamera(0),
+            mSceneFile(),
 	        mActiveActor(0)
 	{
         mSceneMgr = Root::getSingleton()
@@ -128,5 +129,41 @@ namespace rl {
     void World::setShowBoundingBoxes( bool dis ) 
     {
         mSceneMgr->showBoundingBoxes( dis );
+    }
+
+    void World::addSceneChangeListener(SceneChangeListener* listener)
+    {
+        SceneChangeListenerSet::iterator it = mSceneChangeListeners.find(listener);
+        if (it == mSceneChangeListeners.end())
+            mSceneChangeListeners.insert(listener);
+        else
+            Throw(IllegalArgumentException, "Listener is already registered.");
+    }
+
+    void World::removeSceneChangeListener(SceneChangeListener* listener)
+    {
+        SceneChangeListenerSet::iterator it = mSceneChangeListeners.find(listener);
+        if (it != mSceneChangeListeners.end())
+            mSceneChangeListeners.erase(listener);
+        else
+            Throw(IllegalArgumentException, "Listener is not registered.");
+    }
+
+    void World::fireAfterSceneLoaded()
+    {
+        for (SceneChangeListenerSet::iterator it = mSceneChangeListeners.begin();
+            it != mSceneChangeListeners.end(); ++it)
+        {
+            (*it)->onAfterSceneLoaded();
+        }
+    }
+
+    void World::fireBeforeClearScene()
+    {
+        for (SceneChangeListenerSet::iterator it = mSceneChangeListeners.begin();
+            it != mSceneChangeListeners.end(); ++it)
+        {
+            (*it)->onBeforeClearScene();
+        }
     }
 }

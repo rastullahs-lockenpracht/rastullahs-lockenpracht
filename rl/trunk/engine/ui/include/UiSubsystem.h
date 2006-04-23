@@ -18,6 +18,7 @@
 #define __UiSubsystem_H__
 
 #include "UiPrerequisites.h"
+#include "World.h"
 
 #include <OgreSingleton.h>
 #include <string>
@@ -36,7 +37,8 @@ namespace rl {
 	class WindowFactory;
 	class WindowManager;
 
-    class _RlUiExport UiSubsystem : protected Ogre::Singleton<UiSubsystem>
+    class _RlUiExport UiSubsystem : public SceneChangeListener,
+        protected Ogre::Singleton<UiSubsystem>
     {
     public:
 
@@ -74,6 +76,9 @@ namespace rl {
 		void startRTCombat(RTCombat* combat);
 	
 		void update();
+
+        /// from SceneChangeListener
+        void onBeforeClearScene();
 
 		static const char* CEGUI_ROOT;
 

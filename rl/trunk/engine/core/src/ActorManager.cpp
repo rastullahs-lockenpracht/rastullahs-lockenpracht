@@ -130,19 +130,11 @@ namespace rl {
     
     void ActorManager::destroyAllActors()
 	{
-        for (ActorPtrMap::iterator it = mActors.begin();
-            it != mActors.end();) 
+        for (ActorPtrMap::iterator it = mActors.begin(); it != mActors.end();) 
         {
             Actor* actor = it->second;
-            // Kameras spezieller betrachten...
-            if( (!actor->getControlledObject()) || 
-                (actor->getControlledObject()->getObjectType().compare( "CameraObject" ) != 0 ) )
-            {
-                mActors.erase( it++ );  
-                doDestroyActor( actor );
-            } else {
-                ++it;
-            }
+            mActors.erase(it++);  
+            doDestroyActor(actor);
         }
 	}
 

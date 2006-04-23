@@ -1,24 +1,23 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
- * 
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the Clarified Artistic License.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  Clarified Artistic License for more details.
- *
- *  You should have received a copy of the Clarified Artistic License
- *  along with this program; if not you can get it here
- *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
- */
+* Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
+* 
+*  This program is free software; you can redistribute it and/or modify
+*  it under the terms of the Clarified Artistic License.
+*
+*  This program is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*  Clarified Artistic License for more details.
+*
+*  You should have received a copy of the Clarified Artistic License
+*  along with this program; if not you can get it here
+*  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+*/
 
 // Xerces geht vor allen Ogre includes...
 #include "XmlResourceManager.h"
 
 #include "DotSceneOctreeWorld.h"
-
 
 #include <OgreTextureManager.h>
 #include <OgreRoot.h>
@@ -28,21 +27,18 @@
 #include "PhysicsManager.h"
 #include "DotSceneLoader.h"
 
-
-
-
 namespace rl {
 
     DotSceneOctreeWorld::DotSceneOctreeWorld( )
         :   World(ST_GENERIC)
     {
-		 mSceneFile = "";
+        mSceneFile = "";
     }
 
     DotSceneOctreeWorld::~DotSceneOctreeWorld()
     {
-		if( mSceneFile.length() != 0 )
-			clearScene();
+        if( mSceneFile.length() != 0 )
+            clearScene();
     }
 
     void DotSceneOctreeWorld::initializeDefaultCamera(void)
@@ -64,50 +60,57 @@ namespace rl {
         Viewport* newVp = Ogre::Root::getSingletonPtr()->
             getAutoCreatedWindow()->addViewport(mCamera, 1);
 
-		// Schwarzer Hintergrund
+        // Schwarzer Hintergrund
         newVp->setBackgroundColour(ColourValue(0,0,0));
     }
 
     void DotSceneOctreeWorld::loadScene(const String& levelName, const String& module)
     {
-		mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_MODULATIVE);
-		mSceneMgr->setShadowTextureSize(1024);
-		mSceneMgr->setShadowColour(ColourValue(0.7, 0.7, 0.7));
-		mSceneMgr->setShadowFarDistance(8.0f);
-		mSceneMgr->setShadowDirLightTextureOffset(0.8f);
+        mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_MODULATIVE);
+        mSceneMgr->setShadowTextureSize(1024);
+        mSceneMgr->setShadowColour(ColourValue(0.7, 0.7, 0.7));
+        mSceneMgr->setShadowFarDistance(8.0f);
+        mSceneMgr->setShadowDirLightTextureOffset(0.8f);
 
         if( mSceneFile.length() != 0 )
             clearScene();
 
-		// Leerer String, keine Map laden
-		if( levelName.length() == 0 )
-			return;
+        // Leerer String, keine Map laden
+        if( levelName.length() == 0 )
+            return;
 
-		/// TODO - In den Sky-Sonnenpart verschieben
-		mSceneMgr->setAmbientLight(ColourValue(0.55, 0.55, 0.55));
+        /// TODO - In den Sky-Sonnenpart verschieben
+        mSceneMgr->setAmbientLight(ColourValue(0.55, 0.55, 0.55));
 
-		DotSceneLoader* dot = new DotSceneLoader(levelName, module);
-		dot->initializeScene(mSceneMgr);
-		delete dot;
-		mSceneFile = levelName;
-		
+        DotSceneLoader* dot = new DotSceneLoader(levelName, module);
+        dot->initializeScene(mSceneMgr);
+        delete dot;
+        mSceneFile = levelName;
+
         initializeDefaultCamera();
+
+        fireAfterSceneLoaded();
     }
 
     void DotSceneOctreeWorld::clearScene()
     {
+        fireBeforeClearScene();
+
+        // This is necessary to destroy cameras too.
+        Ogre::Root::getSingleton().getAutoCreatedWindow()->removeAllViewports();
+
         ActorManager::getSingleton().destroyAllActors();
+
         mSceneMgr->clearScene();
-        Ogre::Root::getSingleton().getAutoCreatedWindow()->removeAllViewports(); 
-		
-		PhysicsManager::getSingleton().clearLevelGeometry();
 
-        //mSceneMgr = Root::getSingleton().createSceneManager(ST_GENERIC, "world_sm");
-		mSceneFile = "";
+
+        PhysicsManager::getSingleton().clearLevelGeometry();
+        mSceneFile = "";
+        mCamera = 0;
     }
-    
-	void DotSceneOctreeWorld::setCastShadows(bool enabled)
-	{
 
-	}
+    void DotSceneOctreeWorld::setCastShadows(bool enabled)
+    {
+        mSceneMgr->setShadowTechnique(enabled ? SHADOWTYPE_TEXTURE_MODULATIVE : SHADOWTYPE_NONE);
+    }
 }

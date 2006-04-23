@@ -364,7 +364,9 @@ private:
 public:
     
     /// Groesse der Boundingbox
-    Ogre::Vector3 getSize();
+    Ogre::Vector3 getDefaultSize() const;
+    Ogre::Vector3 getPoseSize(const Ogre::String& animationName);
+    
     Ogre::Vector3 getCenter();
     Ogre::Real getRadius();
     Ogre::Real getHeight();

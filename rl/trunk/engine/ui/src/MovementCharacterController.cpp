@@ -439,6 +439,7 @@ namespace rl {
 	void MovementCharacterController::updateAnimationState()
 	{
 		MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
+		PhysicalThing* pt = mCharacterActor->getPhysicalThing();
 
 		if (mCharacterState.mCurrentMovementState != mCharacterState.mLastMovementState)
 		{

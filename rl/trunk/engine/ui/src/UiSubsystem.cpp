@@ -79,6 +79,8 @@ namespace rl {
 
     UiSubsystem::~UiSubsystem() 
     {  
+        CoreSubsystem::getSingletonPtr()->getWorld()->removeSceneChangeListener(this);
+
 		delete mWindowFactory;
 		delete mWindowManager;
 
@@ -137,6 +139,8 @@ namespace rl {
 		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Keymap geladen", "UiSubsystem::initializeUiSubsystem");
 
 		mWindowFactory = new WindowFactory();
+
+        CoreSubsystem::getSingletonPtr()->getWorld()->addSceneChangeListener(this);
     }
 
 	Person* UiSubsystem::getActiveCharacter() const
@@ -261,4 +265,15 @@ namespace rl {
 	{
 		return mCharacterControllerType;
 	}
+
+    void UiSubsystem::onBeforeClearScene()
+    {
+		if (mCharacterController != NULL)
+		{
+			GameLoopManager::getSingleton().removeSynchronizedTask(mCharacterController);
+			delete mCharacterController;
+			Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Old CharacterController deleted.");
+            mCharacterController = NULL;
+		}
+    }
 }
