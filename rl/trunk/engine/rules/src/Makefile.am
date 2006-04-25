@@ -30,6 +30,7 @@ libRlRules_la_SOURCES = \
 	RBCombat.cpp \
 	RBCombatController.cpp \
 	RTCombat.cpp \
+	RTCombatController.cpp \
 	RulesSubsystem.cpp \
 	StateSet.cpp \
 	SonderfertigkeitenStateSet.cpp \

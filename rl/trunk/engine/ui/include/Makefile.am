@@ -30,6 +30,7 @@ noinst_HEADERS = \
 	MovementCharacterController.h \
 	LogWindow.h \
 	PlaylistWindow.h \
+	RTCombatCharacterController.h \
 	SoundConfig.h \
 	TargetSelectionWindow.h \
 	UiPrerequisites.h \

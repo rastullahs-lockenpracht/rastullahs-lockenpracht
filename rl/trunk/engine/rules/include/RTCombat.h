@@ -18,10 +18,66 @@
 
 #include "RulesPrerequisites.h"
 
+#include <map>
+#include <vector>
+
+#include "GameTask.h"
+
 namespace rl {
 
-	class _RlRulesExport RTCombat 
+	class CombatLogger;
+	class Creature;
+	class RTCombatController;
+
+	class _RlRulesExport RTCombat : public GameTask
 	{
+	public:
+		RTCombat();
+
+		void run(Ogre::Real elapsedTime);
+		void start();
+
+		void add(Creature* participant, int group);
+		void addController(RTCombatController* controller);
+		void setLogger(CombatLogger* logger);
+		
+		void attack(RTCombatController* controller, Creature* attacker, Creature* target);
+		void paree(RTCombatController* controller, Creature* defender, Creature* target);
+
+	private:
+		class CreatureData
+		{
+		public:
+			CreatureData(Creature* creature, int group);
+			Creature* creature;
+			int group;
+
+			int numParees;
+			Time nextAttackTime;
+			Creature* nextPareeTarget;
+			bool convertAt;
+			bool convertPa;
+		};
+		typedef std::map<Creature*, CreatureData*> CreatureDataMap;
+		CreatureDataMap mCreatureData;
+
+		std::vector<RTCombatController*> mControllers;
+
+		CreatureData* getData(Creature* participant);
+		RTCombatController* getController(int group);
+		void initKR();
+		void release();
+
+		void displayAtPa(Creature* attacker, Creature* defender);
+		void displayAtHit(Creature* attacker, Creature* defender);
+
+		bool isAttackPossible(CreatureData* attacker, CreatureData* defender);
+		bool isPareeActivated(CreatureData* attacker, CreatureData* defender);
+
+		const Time getCurrentTime() const;
+
+		Ogre::Real mTimeKR;
+		CombatLogger* mLogger;
 	};
 }
 

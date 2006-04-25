@@ -325,6 +325,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\RTCombatCharacterController.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\UiPrerequisites.h"
 				>
 			</File>
@@ -475,6 +479,10 @@
 			</File>
 			<File
 				RelativePath=".\src\MovementCharacterController.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\RTCombatCharacterController.cpp"
 				>
 			</File>
 			<File

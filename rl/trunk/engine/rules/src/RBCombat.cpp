@@ -121,12 +121,21 @@ namespace rl {
 	{
 		if (isOver())
 		{
+			for (CreatureDataMap::iterator iter = mCreatureData.begin();
+				iter != mCreatureData.end();
+				iter++)
+			{
+				ScriptWrapper::getSingleton().disowned((*iter).first);
+			}
+
 			for (std::vector<RBCombatController*>::iterator 
 				it = mControllers.begin();
 				it != mControllers.end();
 				it++)
 			{
-				(*it)->notifyCombatEnd();
+				RBCombatController* cur = *it;
+				cur->notifyCombatEnd();
+				ScriptWrapper::getSingleton().disowned(cur);
 			}
 		}
 		else
@@ -167,7 +176,7 @@ namespace rl {
 				MeshObject* targetObj = 
 					dynamic_cast<MeshObject*>(
 						targetData->creature->getActor()->getControlledObject());
-				if (pareeActivated && pa > 0)
+				if ((pareeActivated && pa >= 0) || at < 0)
 				{
 					BaseAnimation* attackAnim = actorObj->startAnimation("Attack1", 1.0, 1);
 					BaseAnimation* paradeAnim = targetObj->startAnimation("Parade", 1.0, 1);

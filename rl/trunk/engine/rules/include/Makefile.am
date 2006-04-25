@@ -27,6 +27,7 @@ noinst_HEADERS = \
 	RBCombat.h \
 	RBCombatController.h \
 	RTCombat.h \
+	RTCombatController.h \
 	RulesPrerequisites.h \
 	RulesSubsystem.h \
 	StateSet.h \

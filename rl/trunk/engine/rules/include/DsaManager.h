@@ -17,15 +17,13 @@
 #ifndef __DSAMANAGER_H__
 #define __DSAMANAGER_H__
 
+#include <map>
 #include <OgreSingleton.h>
 #include "RulesPrerequisites.h"
 
 #include "Eigenschaft.h"
 #include "Tripel.h"
-
-#include <map>
-
-using Ogre::Singleton;
+#include "Weapon.h"
 
 namespace rl
 {
@@ -44,7 +42,7 @@ namespace rl
     *  Namentlich sind das Eigenschaften, Talente, Kampftechniken und
     *  Probenwuerfe.
     */
-	class _RlRulesExport DsaManager : public Singleton<DsaManager>
+	class _RlRulesExport DsaManager : public Ogre::Singleton<DsaManager>
     {
     public:
         static DsaManager& getSingleton(void);
@@ -86,6 +84,7 @@ namespace rl
 		
 		int getSteigerKosten(int column, int from, int to) const;
 		int getSteigerKosten(int column, int from) const;
+		bool isDkDistance(const Weapon::Distanzklasse& dk, const Ogre::Real& distance) const;
 
 		void loadDsaDataFile(const std::string& filename);	
 

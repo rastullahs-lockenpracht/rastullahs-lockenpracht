@@ -191,6 +191,7 @@
 		</Configuration>
 		<Configuration
 			Name="Profile|Win32"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			>
 			<Tool
@@ -366,6 +367,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\RTCombatController.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\RulesSubsystem.cpp"
 				>
 			</File>
@@ -529,6 +534,10 @@
 			</File>
 			<File
 				RelativePath=".\include\RTCombat.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\RTCombatController.h"
 				>
 			</File>
 			<File

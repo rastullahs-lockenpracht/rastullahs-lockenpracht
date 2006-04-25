@@ -28,7 +28,7 @@
 #include "CoreSubsystem.h"
 
 template <>
-rl::DsaManager* Singleton<rl::DsaManager> ::ms_Singleton = 0;
+	rl::DsaManager* Ogre::Singleton<rl::DsaManager> ::ms_Singleton = 0;
 
 using namespace std;
 using CEGUI::utf8;
@@ -37,12 +37,12 @@ namespace rl
 {
     DsaManager& DsaManager::getSingleton(void)
     {
-        return Singleton<DsaManager>::getSingleton();
+        return Ogre::Singleton<DsaManager>::getSingleton();
     }
 
     DsaManager* DsaManager::getSingletonPtr(void)
     {
-        return Singleton<DsaManager>::getSingletonPtr();
+        return Ogre::Singleton<DsaManager>::getSingletonPtr();
     }
 
     DsaManager::DsaManager() : mTalente(), mEigenschaften()
@@ -197,6 +197,24 @@ namespace rl
 			Throw(IllegalArgumentException, "Eigenschaft nicht gefunden.");
 		}
     }
+
+	bool DsaManager::isDkDistance(const Weapon::Distanzklasse& dk, const Ogre::Real& distance) const
+	{
+		switch (dk)
+		{
+		case Weapon::DK_H:
+			return distance < 1;
+		case Weapon::DK_N:
+			return 1 <= distance && distance < 2;
+		case Weapon::DK_S:
+			return 2 <= distance && distance < 3;
+		case Weapon::DK_P:
+			return 1 < distance;
+		default:
+			Throw(IllegalArgumentException, "Distanzklasse unbekannt");
+		}
+	}
+
 
 /*	int DsaManager::getEigenschaftIdFromLongString(const CeGuiString& str) const
 	{

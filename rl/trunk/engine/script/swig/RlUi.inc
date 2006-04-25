@@ -28,28 +28,30 @@ public:
        */
     void toggleViewMode();
     void resetCamera();
+    
+	enum ControllerType 
+	{
+		CTRL_NONE = 1,
+		CTRL_FREEFLIGHT,
+		CTRL_MOVEMENT,
+		CTRL_DIALOG,
+		CTRL_CUTSCENE,
+		CTRL_COMBAT,
+		CTRL_RTCOMBAT,
+	};
 };
 
 class UiSubsystem 
 {
 public:
-	enum ControllerType 
-	{
-		CTRL_FREEFLIGHT = 1,
-		CTRL_MOVEMENT,
-		CTRL_DIALOG,
-		CTRL_COMBAT,
-		CTRL_CUTSCENE
-	};
-
     static UiSubsystem& getSingleton(void);
     
 	rl::Person* getActiveCharacter();
 	void setActiveCharacter(rl::Person* person);
 
 	rl::CharacterController* getCharacterController() const;
-	rl::UiSubsystem::ControllerType getCharacterControllerType() const;
-	void setCharacterController(rl::UiSubsystem::ControllerType type);
+	rl::CharacterController::ControllerType getCharacterControllerType() const;
+	void setCharacterController(rl::CharacterController::ControllerType type);
 	
 	void useDefaultAction(rl::GameObject* obj, rl::Creature* actor);
 	void usePickedObjectDefaultActions();
