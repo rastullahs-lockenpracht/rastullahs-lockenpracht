@@ -32,7 +32,19 @@ namespace rl {
      */
 	class _RlUiExport CharacterController : public GameTask
     {
-    public:
+	public:
+
+		enum ControllerType 
+		{
+			CTRL_NONE = 1,
+			CTRL_FREEFLIGHT,
+			CTRL_MOVEMENT,
+			CTRL_DIALOG,
+			CTRL_CUTSCENE,
+			CTRL_COMBAT,
+			CTRL_RTCOMBAT,
+		};
+
         /**
          *  @throw NullPointerException if camera or character is NULL.
          *  @throw InvalidArgumentException if character is not placed in the scene.
@@ -41,6 +53,8 @@ namespace rl {
 		virtual ~CharacterController()= 0;
 
 		void setCommandMapper(CommandMapper* mapper);
+
+		virtual ControllerType getType() const = 0;
 
 		virtual void toggleViewMode() = 0;
 		virtual void resetCamera() = 0;

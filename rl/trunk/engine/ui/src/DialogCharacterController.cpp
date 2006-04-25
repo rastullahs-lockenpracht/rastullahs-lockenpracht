@@ -56,6 +56,11 @@ namespace rl {
 		mCharacterActor->getPhysicalThing()->unfreeze();
 	}
 
+	CharacterController::ControllerType DialogCharacterController::getType() const
+	{
+		return CTRL_DIALOG;
+	}
+
 	void DialogCharacterController::setDialogPartner(Actor* partner)
 	{
 		mDialogPartner = partner;

@@ -230,10 +230,10 @@ class ToggleCharacterControllerAction < Action
 
   def doAction(object, actor, target)
     cctype = $UI.getCharacterControllerType();
-    if (cctype == UiSubsystem::CTRL_FREEFLIGHT)
-        $UI.setCharacterController(UiSubsystem::CTRL_MOVEMENT);
-    elsif (cctype == UiSubsystem::CTRL_MOVEMENT)
-        $UI.setCharacterController(UiSubsystem::CTRL_FREEFLIGHT);
+    if (cctype == CharacterController::CTRL_FREEFLIGHT)
+        $UI.setCharacterController(CharacterController::CTRL_MOVEMENT);
+    elsif (cctype == CharacterController::CTRL_MOVEMENT)
+        $UI.setCharacterController(CharacterController::CTRL_FREEFLIGHT);
     end
   end
 end

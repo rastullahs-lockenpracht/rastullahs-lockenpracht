@@ -59,6 +59,11 @@ namespace rl {
 		mCharacterActor->getPhysicalThing()->unfreeze();
 	}
 
+	CharacterController::ControllerType FreeFlightCharacterController::getType() const
+	{
+		return CTRL_FREEFLIGHT;
+	}
+
 	void FreeFlightCharacterController::run(Real elapsedTime)
 	{
 		InputManager* im = InputManager::getSingletonPtr();

@@ -36,6 +36,8 @@ namespace rl {
 		CutsceneCharacterController(Actor* camera);
 		virtual ~CutsceneCharacterController();
 
+		virtual ControllerType getType() const;
+
 		void run(Real elapsedTime);
 
 		bool injectKeyClicked(int keycode);

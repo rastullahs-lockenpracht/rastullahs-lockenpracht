@@ -21,11 +21,11 @@
 #include "World.h"
 
 #include <OgreSingleton.h>
-#include <string>
+
+#include "CharacterController.h"
 
 namespace rl {
 
-	class CharacterController;
     class CommandMapper;
     class Creature;
     class GameActor;
@@ -41,15 +41,6 @@ namespace rl {
         protected Ogre::Singleton<UiSubsystem>
     {
     public:
-
-		enum ControllerType 
-		{
-			CTRL_FREEFLIGHT = 1,
-			CTRL_MOVEMENT,
-			CTRL_DIALOG,
-			CTRL_COMBAT,
-			CTRL_CUTSCENE
-		};
 
         /** Default Constructor */
         UiSubsystem();
@@ -67,8 +58,8 @@ namespace rl {
 		Person* getActiveCharacter() const;
 		void setActiveCharacter(Person* person);
         CharacterController* getCharacterController() const;
-		ControllerType getCharacterControllerType() const;
-		void setCharacterController(ControllerType type);
+		CharacterController::ControllerType getCharacterControllerType() const;
+		void setCharacterController(CharacterController::ControllerType type);
 
 		void setCombatMode(bool inCombat);
 		bool isInCombatMode();
@@ -87,7 +78,6 @@ namespace rl {
         void runTest();
         
         CharacterController* mCharacterController;
-		ControllerType mCharacterControllerType;
         GameActor* mHero;
         Person* mCharacter;
 		InputManager* mInputManager;

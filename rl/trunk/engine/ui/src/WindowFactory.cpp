@@ -304,7 +304,7 @@ namespace rl {
 			bot->setDialogCharacter(UiSubsystem::getSingleton().getActiveCharacter());
 		}
 
-		UiSubsystem::getSingleton().setCharacterController(UiSubsystem::CTRL_DIALOG);
+		UiSubsystem::getSingleton().setCharacterController(CharacterController::CTRL_DIALOG);
 		DialogCharacterController* controller = 
 			dynamic_cast<DialogCharacterController*>(
 				UiSubsystem::getSingleton().getCharacterController());

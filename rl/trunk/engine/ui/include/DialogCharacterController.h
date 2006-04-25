@@ -39,6 +39,7 @@ namespace rl {
 		DialogCharacterController(Actor* camera, Actor* character);
 		/// Dtor 
 		virtual ~DialogCharacterController();
+		virtual ControllerType getType() const;
 
 		/// @override
 		virtual void run(Ogre::Real elapsedTime);

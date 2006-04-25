@@ -120,6 +120,11 @@ namespace rl {
 			mCamera->getPhysicalThing(), 0);
 	}
 
+	CharacterController::ControllerType MovementCharacterController::getType() const
+	{
+		return CTRL_MOVEMENT;
+	}
+
 	//------------------------------------------------------------------------
 	void MovementCharacterController::run(Real elapsedTime)
 	{

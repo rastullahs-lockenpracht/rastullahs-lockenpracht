@@ -48,6 +48,7 @@ namespace rl {
          */
         MovementCharacterController(Actor* camera, Creature* character);
         virtual ~MovementCharacterController();
+		virtual ControllerType getType() const;
 
         void run(Ogre::Real elapsedTime);
 
@@ -68,12 +69,12 @@ namespace rl {
         */
         void resetCamera();
 
-		bool injectMouseClicked(int mouseButtonMask);
-		bool injectMouseDown(int mouseButtonMask);
-		bool injectMouseUp(int mouseButtonMask);
-		bool injectKeyClicked(int keycode);		
-		bool injectKeyDown(int keycode);
-		bool injectKeyUp(int keycode);		
+		virtual bool injectMouseClicked(int mouseButtonMask);
+		virtual bool injectMouseDown(int mouseButtonMask);
+		virtual bool injectMouseUp(int mouseButtonMask);
+		virtual bool injectKeyClicked(int keycode);		
+		virtual bool injectKeyDown(int keycode);
+		virtual bool injectKeyUp(int keycode);		
 
     private:
 

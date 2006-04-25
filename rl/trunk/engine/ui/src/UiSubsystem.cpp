@@ -29,6 +29,7 @@
 #include "DialogCharacterController.h"
 #include "MovementCharacterController.h"
 #include "FreeFlightCharacterController.h"
+#include "RTCombatCharacterController.h"
 #include "InputManager.h"
 #include "CommandMapper.h"
 #include "WindowFactory.h"
@@ -171,16 +172,17 @@ namespace rl {
             
             Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Actor set");
 
-			setCharacterController(UiSubsystem::CTRL_MOVEMENT);
+			setCharacterController(CharacterController::CTRL_MOVEMENT);
         }
 	}
 
-	void UiSubsystem::setCharacterController(ControllerType type)
+	void UiSubsystem::setCharacterController(CharacterController::ControllerType type)
 	{
-		mCharacterControllerType = type;
-
 		if (mCharacterController != NULL)
 		{
+			if (mCharacterController->getType() == type)
+				return;
+
 			GameLoopManager::getSingleton().removeSynchronizedTask(mCharacterController);
 			delete mCharacterController;
 			Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Old CharacterController deleted.");
@@ -189,21 +191,24 @@ namespace rl {
         Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
 		switch(type)
 		{
-		case CTRL_MOVEMENT:
+		case CharacterController::CTRL_MOVEMENT:
 			mCharacterController = new MovementCharacterController(camera, mCharacter);
 			if (!PhysicsManager::getSingleton().isEnabled())
 			{
 				PhysicsManager::getSingleton().setEnabled(true);
 			}
 			break;
-		case CTRL_FREEFLIGHT:
+		case CharacterController::CTRL_FREEFLIGHT:
 			mCharacterController = new FreeFlightCharacterController(camera, CoreSubsystem::getSingleton().getWorld()->getActiveActor());
 			break;
-		case CTRL_DIALOG:
+		case CharacterController::CTRL_DIALOG:
 			mCharacterController = new DialogCharacterController(camera, CoreSubsystem::getSingleton().getWorld()->getActiveActor());
 			break;
-		case CTRL_CUTSCENE:
+		case CharacterController::CTRL_CUTSCENE:
 			mCharacterController = new CutsceneCharacterController(camera);
+			break;
+		case CharacterController::CTRL_RTCOMBAT:
+			mCharacterController = new RTCombatCharacterController(camera, mCharacter);
 			break;
 		default:
 			Throw(IllegalArgumentException, "Unknown CharacterControllerType.");
@@ -243,6 +248,7 @@ namespace rl {
 
 	void UiSubsystem::startRTCombat(RTCombat* combat)
 	{
+		setCharacterController(CharacterController::CTRL_RTCOMBAT);
 	}
 
 	void UiSubsystem::setCombatMode(bool inCombat)
@@ -261,9 +267,12 @@ namespace rl {
         return mCharacterController;
     }
 
-	UiSubsystem::ControllerType UiSubsystem::getCharacterControllerType() const
+	CharacterController::ControllerType UiSubsystem::getCharacterControllerType() const
 	{
-		return mCharacterControllerType;
+		if (mCharacterController == NULL)
+			return CharacterController::CTRL_NONE;
+
+		return mCharacterController->getType();
 	}
 
     void UiSubsystem::onBeforeClearScene()

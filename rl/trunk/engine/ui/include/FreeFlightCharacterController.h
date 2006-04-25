@@ -35,6 +35,7 @@ namespace rl {
 		*/
 		FreeFlightCharacterController(Actor* camera, Actor* character);
 		virtual ~FreeFlightCharacterController();
+		virtual ControllerType getType() const;
 
 		void run(Ogre::Real elapsedTime);
 

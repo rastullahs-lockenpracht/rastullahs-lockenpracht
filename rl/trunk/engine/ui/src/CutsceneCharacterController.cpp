@@ -57,4 +57,9 @@ namespace rl {
 	{
 	}
 
+	CharacterController::ControllerType CutsceneCharacterController::getType() const
+	{
+		return CTRL_CUTSCENE;
+	}
+
 }

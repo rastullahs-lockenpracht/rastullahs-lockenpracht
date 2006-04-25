@@ -195,7 +195,7 @@ bool DialogWindow::handleSelectOption()
 bool DialogWindow::handleClose()
 {
 	setVisible(false);
-	UiSubsystem::getSingleton().setCharacterController(UiSubsystem::CTRL_MOVEMENT);
+	UiSubsystem::getSingleton().setCharacterController(CharacterController::CTRL_MOVEMENT);
 	return true;
 }
 
