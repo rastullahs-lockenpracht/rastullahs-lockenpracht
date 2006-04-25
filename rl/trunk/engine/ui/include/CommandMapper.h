@@ -56,7 +56,8 @@ namespace rl {
 		CommandMapper();
 		~CommandMapper();
 
-		void loadCommandMap(const char* mapfile);
+		void loadCommandMap(const Ogre::String& mapfile);
+		void saveCommandMap(const Ogre::String& mapfile) const;
 
 		void setMapping(
 			MapType map, 
@@ -80,8 +81,8 @@ namespace rl {
 
 	private:
 
-		// KeyCode -> (Rubyklasse, Name)
-		typedef std::map<int, const CeGuiString > KeyAndMouseCommandMap;
+		// KeyCode -> Name
+		typedef std::map<int, CeGuiString > KeyAndMouseCommandMap;
 		typedef std::map<int, MovementState> MovementCommandMap;
 
 		MovementCommandMap mMovementCommands;
@@ -93,6 +94,10 @@ namespace rl {
 		std::map<CeGuiString, MovementState> mMovement;
 
 		KeyAndMouseCommandMap* getCommandMap(MapType mapType);
+		int getKeyCode(const Ogre::String& keyDescription);
+		int getMouseButtonCode(int buttonNum);
+		int getMouseButtonCode(const Ogre::String& buttonDescription);
+		MovementState getMovement(const Ogre::String& movementDescription);
 	};
 
 }

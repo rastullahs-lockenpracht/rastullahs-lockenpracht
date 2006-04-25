@@ -27,6 +27,8 @@
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #  include <Windows.h>
+#  undef min
+#  undef max
 #endif
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32

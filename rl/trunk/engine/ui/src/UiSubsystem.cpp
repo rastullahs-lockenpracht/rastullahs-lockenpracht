@@ -34,6 +34,7 @@
 #include "CommandMapper.h"
 #include "WindowFactory.h"
 #include "WindowManager.h"
+#include "ConfigurationManager.h"
 
 #include "RBCombat.h"
 #include "RTCombat.h"
@@ -133,11 +134,12 @@ namespace rl {
 
 		//Initializing InputManager
         mInputManager = new InputManager();
-        mCommandMapper = new CommandMapper();
-		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "UI-Manager geladen", "UiSubsystem::initializeUiSubsystem");
-
-		mInputManager->loadKeyMapping("keymap-german.xml");
+		mInputManager->loadKeyMapping(ConfigurationManager::getSingleton().getKeymap());
 		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Keymap geladen", "UiSubsystem::initializeUiSubsystem");
+
+		mCommandMapper = new CommandMapper();
+		mCommandMapper->loadCommandMap(ConfigurationManager::getSingleton().getInputConfigPath());
+		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "UI-Manager geladen", "UiSubsystem::initializeUiSubsystem");
 
 		mWindowFactory = new WindowFactory();
 

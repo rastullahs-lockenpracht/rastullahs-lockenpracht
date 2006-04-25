@@ -61,6 +61,8 @@ namespace rl
 			Ogre::String getModuleconfigCfgPath(const Ogre::String& module);
 			Ogre::String getModulesRootDirectory();
             Ogre::String getRastullahSystemCfgPath();
+			Ogre::String getKeymap();
+			Ogre::String getInputConfigPath();
             
 			Ogre::String getStringSetting(const Ogre::String& name, const Ogre::String& _default = Ogre::StringUtil::BLANK);
 			Ogre::Real getRealSetting(const Ogre::String& name, Ogre::Real _default = 0.0f);

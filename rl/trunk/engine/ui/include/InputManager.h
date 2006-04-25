@@ -96,6 +96,8 @@ namespace rl {
 
 			CeGuiString getKeyName(int scancode, int syskeys);
 			CeGuiString getKeyName(int combinedKeyCode);
+			int getScanCode(const CeGuiString& name);
+			int getSystemCode(const CeGuiString& name);
 			void loadKeyMapping(const Ogre::String& filename);
 			typedef std::map<int, CEGUI::utf8> KeyCharMap;
 			typedef std::map<int, CeGuiString> KeyNameMap;

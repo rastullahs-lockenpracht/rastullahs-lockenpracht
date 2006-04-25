@@ -13,11 +13,16 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-
 #include <xercesc/parsers/XercesDOMParser.hpp>
 #include <xercesc/dom/DOM.hpp>
 #include <xercesc/util/XMLString.hpp>
 #include <xercesc/util/PlatformUtils.hpp>
+
+#include "Exception.h"
+
+#include "XmlHelper.h"
+#include "XmlResource.h"
+#include "XmlResourceManager.h"
 
 #include <OgreKeyEvent.h>
 #include <OgreRoot.h>
@@ -35,9 +40,8 @@
 #include "GameObject.h"
 #include "InputManager.h"
 #include "UiSubsystem.h"
-#include "XmlHelper.h"
-#include "XmlResource.h"
-#include "XmlResourceManager.h"
+
+
 
 
 template<> rl::InputManager* Singleton<rl::InputManager>::ms_Singleton = 0;
@@ -325,12 +329,42 @@ namespace rl {
 
 		CeGuiString name = mKeyNames.find(scancode)->second;
 		if (syskeys & InputEvent::ALT_MASK)
-			name = "Alt-"+name;
+			name = "Alt+"+name;
 		if (syskeys & InputEvent::CTRL_MASK)
-			name = "Ctrl-"+name;
+			name = "Ctrl+"+name;
 		if (syskeys & InputEvent::SHIFT_MASK)
-			name = "Shift-"+name;
+			name = "Shift+"+name;
+		if (syskeys & InputEvent::META_MASK)
+			name = "Meta+"+name;
 		return name;
+	}
+
+	int InputManager::getScanCode(const CeGuiString& name)
+	{
+		for(KeyNameMap::iterator it = mKeyNames.begin(); it != mKeyNames.end(); it++)
+		{
+			if ((*it).second == name)
+				return (*it).first;
+		}
+
+		Ogre::String msg = Ogre::String("Key ")+ name.c_str()+" not found.";
+		Throw(IllegalArgumentException, msg);
+	}
+
+	int InputManager::getSystemCode(const CeGuiString& name)
+	{
+		using namespace Ogre; 
+
+		if (name == "Alt")
+			return InputEvent::ALT_MASK;
+		else if (name == "Ctrl")
+			return InputEvent::CTRL_MASK;
+		else if (name == "Shift")
+			return InputEvent::SHIFT_MASK;
+		else if (name == "Meta")
+			return InputEvent::META_MASK;
+
+		return 0;
 	}
 
 	CEGUI::MouseButton InputManager::convertOgreButtonToCegui(int ogre_button_id)

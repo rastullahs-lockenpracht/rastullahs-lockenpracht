@@ -215,7 +215,7 @@ namespace rl
 	const CeGuiString& ConfigurationManager::getAboutText() const
 	{
 		static CeGuiString aboutText = 
-			"Rastullahs Lockenpracht\n\nCopyright 2003-2005 Team Pantheon\n\nBenutzte Bibliotheken: Ogre, fmod, Newton, boost, ...";
+			"Rastullahs Lockenpracht\n\nCopyright 2003-2006 Team Pantheon\n\nBenutzte Bibliotheken: Ogre, fmod, Newton, boost, ...";
 		return aboutText;
 	}
 
@@ -245,5 +245,15 @@ namespace rl
 		String val = getStringSetting(name);
 		if (val == StringUtil::BLANK) return defaultv;
 		else return StringConverter::parseBool(val);
+	}
+
+	String ConfigurationManager::getInputConfigPath()
+	{
+		return mModulesRootDirectory+"/common/conf/rastullah_input.cfg";
+	}
+
+	String ConfigurationManager::getKeymap()
+	{
+		return getStringSetting("Keymap", "keymap-german.xml");
 	}
 }
