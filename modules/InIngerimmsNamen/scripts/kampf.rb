@@ -24,7 +24,7 @@ class SchwesterSteuerung < RBCombatController
 
   def config()
     setCurrentCreature(@mOwn);
-    setActionOption(Combat::ACTION_ATTACK);
+    setActionOption(RBCombat::ACTION_ATTACK);
     setAttackTarget(@mOpponent);
     setPareeTarget(@mOpponent);
   end
