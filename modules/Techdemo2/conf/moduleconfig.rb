@@ -22,7 +22,7 @@ class Techdemo2 < ContentModule
     end
 
     def start()
-        $CORE.loadMap("Octree", "Techdemo2.scene", "Techdemo2", "Techdemo2.rb");
+        $CORE.loadMap("Octree", "techdemo2map1_02.scene", "Techdemo2", "Techdemo2.rb");
         $World = $CORE.getWorld();
     end
 end

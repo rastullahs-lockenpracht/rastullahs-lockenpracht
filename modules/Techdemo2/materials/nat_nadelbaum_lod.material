@@ -1,0 +1,17 @@
+
+material nat_nadelbaum_lod
+{
+	technique
+	{
+		pass
+		{
+		
+			alpha_rejection greater 128
+
+			texture_unit
+			{
+				texture nat_nadelbaum_lod.dds
+			}
+		}
+	}
+}

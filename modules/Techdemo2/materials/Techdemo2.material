@@ -1,17 +1,74 @@
 
-material 03_-_Default
+material 15_-_Default
 {
 	technique
 	{
 		pass
 		{
-			ambient 0.533333 0.533333 0.533333 1
-			diffuse 0.513726 0.513726 0.513726 1
-			specular 0.9 0.9 0.9 1 20
+			lighting off
 
 			texture_unit
 			{
-				texture grey.png
+				texture gras_01.png
+				tex_coord_set 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			shading flat
+
+			texture_unit
+			{
+				texture felsen2.jpg
+				tex_coord_set 1
+				scale 5 5
+			}
+
+			texture_unit
+			{
+				texture felsdetailmap.png
+				tex_coord_set 2
+				scale 0.01 0.01
+			}
+
+			texture_unit
+			{
+				texture TechdemoMap1_Fels.png
+				tex_coord_set 2
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			shading flat
+
+			texture_unit
+			{
+				texture steingrund01.jpg
+				tex_coord_set 1
+			}
+
+			texture_unit
+			{
+				texture TechdemoMap1_Dreck.png
+				tex_coord_set 2
+			}
+		}
+		pass
+		{
+			ambient 0.282353 0.282353 0.282353 1
+			diffuse 0.788235 0.788235 0.788235 1
+			specular 0 0 0 1 20
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture Techdemo2LightingMap.png
+				colour_op_ex add src_texture src_current
+				colour_op_multipass_fallback one one
 			}
 		}
 	}
