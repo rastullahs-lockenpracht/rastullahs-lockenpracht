@@ -63,7 +63,34 @@ class CombatTrigger < GameAreaListener
     steuerung.config()
     combat.addController(steuerung)
 
-    $UI.startCombat(combat)
+    $UI.startRBCombat(combat)
+  end
+end
+
+class RTCombatTrigger < GameAreaListener
+  def areaLeft(event)
+
+  end
+
+  def areaEntered(event)
+    $GameEveMgr.removeAreaListener(self)
+
+    held = event.getProvokingActor().getGameObject()
+    schwertH = Kurzschwert.new()
+    held.addWeapon(schwertH)
+    held.switchToWeapon(schwertH.getId())
+    
+    schwester = event.getSource().getActor().getGameObject()
+    schwertS = Kurzschwert.new()
+    schwester.addWeapon(schwertS)
+    schwester.switchToWeapon(schwertS.getId())
+
+    combat = RTCombat.new()
+    combat.add(schwester, 2)
+    combat.add(held, 1)
+    
+    $UI.startRTCombat(combat)
+    $UI.getCharacterController().setCurrentCreature(held)
   end
 end
 

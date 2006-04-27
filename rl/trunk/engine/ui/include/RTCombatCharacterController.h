@@ -41,9 +41,11 @@ namespace rl {
 		virtual void run(Ogre::Real elapsedTime);
 
 		virtual bool injectMouseClicked(int mouseButtonMask);
+		virtual bool injectMouseDown(int mouseButtonMask);
+		virtual bool injectMouseUp(int mouseButtonMask);
 		virtual bool injectKeyClicked(int keycode);		
 		virtual bool injectKeyDown(int keycode);
-		virtual bool injectKeyUp(int keycode);	
+		virtual bool injectKeyUp(int keycode);		
 
 		void attack();
 		void block();

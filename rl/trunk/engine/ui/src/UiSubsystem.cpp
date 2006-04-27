@@ -251,6 +251,7 @@ namespace rl {
 	void UiSubsystem::startRTCombat(RTCombat* combat)
 	{
 		setCharacterController(CharacterController::CTRL_RTCOMBAT);
+		dynamic_cast<RTCombatCharacterController*>(mCharacterController)->setCombat(combat);
 	}
 
 	void UiSubsystem::setCombatMode(bool inCombat)

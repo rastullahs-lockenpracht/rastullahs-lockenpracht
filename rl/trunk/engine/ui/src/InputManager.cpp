@@ -113,18 +113,20 @@ namespace rl {
 
 	void InputManager::run(Real elapsedTime)
 	{
-				RL_LONGLONG start = CoreSubsystem::getSingleton().getClock();
+		RL_LONGLONG start = CoreSubsystem::getSingleton().getClock();
 		CEGUI::System::getSingleton().injectTimePulse(elapsedTime);
 
 		if (mScheduledInputSwitch == SWITCH_TO_BUFFERED)
 		{
 			switchMouseToBuffered();
 			mScheduledInputSwitch = SWITCH_NO_SWITCH;
+			return;
 		}
 		else if (mScheduledInputSwitch == SWITCH_TO_UNBUFFERED)
 		{
 			switchMouseToUnbuffered();
 			mScheduledInputSwitch = SWITCH_NO_SWITCH;
+			return;
 		}
 
 		if (mNumActiveWindowsKeyboardInput == 0)
@@ -188,7 +190,7 @@ namespace rl {
 		if ( ! (isCeguiActive() && mBuffered) )
 		{
 			e->consume();
-			mCharacterController->injectMouseClicked(e->getButtonID());
+			mCharacterController->injectMouseClicked(CommandMapper::encodeKey(e->getButtonID(), e->getModifiers()));
 		}
 	}
 
@@ -205,7 +207,7 @@ namespace rl {
 		}
 		else
 		{
-			mCharacterController->injectMouseDown(e->getButtonID());
+			mCharacterController->injectMouseDown(CommandMapper::encodeKey(e->getButtonID(), e->getModifiers()));
 		}
 			
 	}
@@ -218,6 +220,10 @@ namespace rl {
 			System::getSingleton().injectMouseButtonUp(
 				convertOgreButtonToCegui(e->getButtonID()));
 		}	
+		else
+		{
+			mCharacterController->injectMouseUp(CommandMapper::encodeKey(e->getButtonID(), e->getModifiers()));
+		}
 	}
 
     void InputManager::mouseMoved(MouseEvent* e)

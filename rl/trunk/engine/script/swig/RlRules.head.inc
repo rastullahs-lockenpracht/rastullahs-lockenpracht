@@ -38,6 +38,7 @@
 #include "QuestBook.h"
 #include "RBCombat.h"
 #include "RBCombatController.h"
+#include "RTCombat.h"
 #include "RulesSubsystem.h"
 #include "SonderfertigkeitenStateSet.h"
 #include "StateSet.h"

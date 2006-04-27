@@ -57,3 +57,7 @@ load "kampf.rb"
 $schwester = Schwester.new
 $schwester.getActor().placeIntoScene([-15.0, -1.35, 10.20], [1.0, 0.0, 0.0, 0.0]);	
 $GameEveMgr.addSphereAreaListener( $schwester.getActor(), 5.0, CombatTrigger.new(), Actor::QGF_PLAYER )
+
+$schwesterRT = Schwester.new
+$schwesterRT.getActor().placeIntoScene([-2.6, -5.1, 15.0], [1.0, 0.0, 0.0, 0.0]);	
+$GameEveMgr.addSphereAreaListener( $schwesterRT.getActor(), 5.0, RTCombatTrigger.new(), Actor::QGF_PLAYER )

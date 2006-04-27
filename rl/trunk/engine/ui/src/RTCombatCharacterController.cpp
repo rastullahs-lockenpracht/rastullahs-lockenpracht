@@ -54,6 +54,7 @@ namespace rl {
 
 	void RTCombatCharacterController::run(Ogre::Real timeElapsed)
 	{
+		MovementCharacterController::run(timeElapsed);
 	}
 
 	bool RTCombatCharacterController::injectMouseClicked(int mouseButtonMask)
@@ -61,6 +62,18 @@ namespace rl {
 		return startAction(
 			mCommandMapper->getAction(mouseButtonMask, CMDMAP_MOUSEMAP_IN_COMBAT), 
 			getCurrentCreature());
+	}
+
+	bool RTCombatCharacterController::injectMouseDown(int mouseButtonMask)
+	{
+		return false;
+	}
+
+	bool RTCombatCharacterController::injectMouseUp(int mouseButtonMask)
+	{
+		return startAction(
+			mCommandMapper->getAction(mouseButtonMask, CMDMAP_MOUSEMAP_IN_COMBAT), 
+			getCurrentCreature());		
 	}
 
 	bool RTCombatCharacterController::injectKeyClicked(int keycode)

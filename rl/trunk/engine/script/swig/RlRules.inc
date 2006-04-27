@@ -615,6 +615,14 @@ namespace rl {
 		void tick();
 	};	
 	
+	class RTCombat
+	{
+	public:
+		RTCombat();
+
+		void add(rl::Creature* participant, int group);
+	};
+		
     class RulesSubsystem 
     {
     public:
