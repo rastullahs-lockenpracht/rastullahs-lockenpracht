@@ -1,6 +1,7 @@
 
 material arc_UnbHaus
 {
+	receive_shadows off
 	technique
 	{
 		pass

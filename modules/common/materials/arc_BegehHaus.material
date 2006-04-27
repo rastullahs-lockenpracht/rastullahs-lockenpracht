@@ -1,6 +1,7 @@
 
 material arc_BegehHaus/Main
 {
+	receive_shadows off
 	technique
 	{
 		pass
@@ -15,6 +16,7 @@ material arc_BegehHaus/Main
 }
 material arc_BegehHaus/Glas
 {
+	receive_shadows off
 	technique
 	{
 		pass

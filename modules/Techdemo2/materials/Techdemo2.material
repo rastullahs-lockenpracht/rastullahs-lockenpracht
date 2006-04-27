@@ -1,5 +1,5 @@
 
-material 15_-_Default
+material 08_-_Default/15_-_Default
 {
 	technique
 	{
@@ -55,6 +55,42 @@ material 15_-_Default
 			{
 				texture TechdemoMap1_Dreck.png
 				tex_coord_set 2
+			}
+		}
+		pass
+		{
+			ambient 0.282353 0.282353 0.282353 1
+			diffuse 0.788235 0.788235 0.788235 1
+			specular 0 0 0 1 20
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture Techdemo2LightingMap.png
+				colour_op_ex add src_texture src_current
+				colour_op_multipass_fallback one one
+			}
+		}
+	}
+}
+material 08_-_Default/Material_#63
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+
+			texture_unit
+			{
+				texture terrain_lod.png
+				tex_coord_set 1
+			}
+
+			texture_unit
+			{
+				texture felsdetailmap.png
+				scale 0.1 0.1
 			}
 		}
 		pass
