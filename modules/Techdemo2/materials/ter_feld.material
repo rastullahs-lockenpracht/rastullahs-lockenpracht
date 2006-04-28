@@ -1,0 +1,45 @@
+
+material ter_feld
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.282353 0.282353 0.282353 1
+			diffuse 0.788235 0.788235 0.788235 1
+			specular 0 0 0 1 20
+			scene_blend alpha_blend
+
+			texture_unit
+			{
+				texture ter_feldalpha.png
+				tex_coord_set 2
+				
+				
+			}
+
+			texture_unit
+			{
+				texture erdboden01.jpg
+				tex_coord_set 1
+				colour_op_ex source1 src_texture src_current
+		
+			}
+		}
+		pass
+		{
+			ambient 0.282353 0.282353 0.282353 1
+			diffuse 0.788235 0.788235 0.788235 1
+			specular 0 0 0 1 20
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture Techdemo2LightingMap.png
+				colour_op_ex add src_texture src_current
+
+			}
+
+		}
+	}
+}
