@@ -19,8 +19,8 @@
 
 #include "MultimediaPrerequisites.h"
 
-#include <TheoraMovieClip.h>
-#include <TheoraVideoController.h>
+//#include <TheoraMovieClip.h>
+//#include <TheoraVideoController.h>
 #include "EventSource.h"
 #include "EventCaster.h"
 #include "EventListener.h"
@@ -31,10 +31,10 @@ namespace CEGUI
     class OgreCEGUIRenderer;
 }
 
-namespace Ogre
+/*namespace Ogre
 {
     class TheoraVideoController;
-}
+} */
 
 namespace rl
 {
@@ -48,12 +48,12 @@ typedef EventListener<VideoEvent> VideoEventListener;
  * @date 08-27-2005
  * @version 1.0
  */
-class _RlMultimediaExport Video : protected Ogre::TheoraMovieMessage,
+class _RlMultimediaExport Video : /*protected Ogre::TheoraMovieMessage, */
                              public EventSource
 {
 private:
-    Ogre::TheoraVideoController *mVideoControl;
-    Ogre::TheoraMovieClip* mClip;
+//    Ogre::TheoraVideoController *mVideoControl;
+//    Ogre::TheoraMovieClip* mClip;
 
     CEGUI::OgreCEGUIRenderer* mGUIRenderer;
     CEGUI::Texture *mTexture;
@@ -106,14 +106,14 @@ public:
     
 protected:
     /// Botschaften aus dem VideoPlugin
-    virtual int messageEvent(PLUGIN_theora_message message);
+/*    virtual int messageEvent(PLUGIN_theora_message message);
     /// Setzt die Laenge des Films
     virtual void discoveredMovieTime(float discoveredTime);
     /// Anzeige des Frames
     virtual void displayedFrame( float vTime, 
                                  float aTime,
                                  unsigned int frameNumber,
-                                 unsigned int framesDropped);
+                                 unsigned int framesDropped); */
 private:
     /// Der Ereignisverteiler
     EventCaster<VideoEvent> mEventCaster;

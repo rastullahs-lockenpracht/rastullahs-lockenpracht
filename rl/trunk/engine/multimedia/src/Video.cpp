@@ -39,21 +39,21 @@ namespace rl
  * @date 08-27-2005
  */
 Video::Video(CeGuiString textureName, CeGuiString movieName)
-  : TheoraMovieMessage(),
+  : /*TheoraMovieMessage(), */
     mTextureName(textureName),
     mMovieName(movieName),
     mTexture(0),
-    mGUIRenderer(0),
+    mGUIRenderer(0) /*,
     mVideoControl(0),
-    mClip(0)
+    mClip(0) */
 {
     RlAssert(System::getSingleton().getRenderer() != 0, "No renderer yet");
-    mVideoControl = static_cast<TheoraVideoController*>
+/*    mVideoControl = static_cast<TheoraVideoController*>
         (ExternalTextureSourceManager::getSingleton().getExternalTextureSource("ogg_video"));
     if (!mVideoControl)
     {
         Throw(RuntimeException, "Can't get VideoController");
-    }
+    } */
     mGUIRenderer = static_cast<OgreCEGUIRenderer*>(System::getSingleton().getRenderer());
     if (!mGUIRenderer)
     {
@@ -79,7 +79,7 @@ Video::~Video()
  */
 unsigned int Video::getWidth() const
 {
-    return mClip->getVideoDriver()->getWidth();
+    return 0; //mClip->getVideoDriver()->getWidth();
 }
 
 /**
@@ -90,7 +90,7 @@ unsigned int Video::getWidth() const
  */
 unsigned int Video::getHeight() const
 {
-    return mClip->getVideoDriver()->getHeight();
+    return 0; //mClip->getVideoDriver()->getHeight();
 }
 
 /**
@@ -100,10 +100,10 @@ unsigned int Video::getHeight() const
  */
 void Video::update()
 {
-    if(mClip)
+/*    if(mClip)
     {
         mClip->blitFrameCheck();
-    }
+    } */
 }
 
 /**
@@ -113,7 +113,7 @@ void Video::update()
  */
 void Video::play()
 {
-    if( mClip )
+/*    if( mClip )
     {
         destroyCETexture();
         mClip->changePlayMode(TextureEffectPause);
@@ -179,7 +179,7 @@ void Video::play()
     {
         MultimediaSubsystem::getSingleton().addVideo(this);
     }
-    mPlaying = true;
+    mPlaying = true; */
 }
 
 /**
@@ -189,10 +189,10 @@ void Video::play()
  */
 void Video::createCETexture()
 {
-    if (mClip)
+/*    if (mClip)
     {
         mTexture = mGUIRenderer->createTexture(mClip->getVideoDriver()->getTexture());
-    }
+    } */
 }
 
 /**
@@ -202,10 +202,10 @@ void Video::createCETexture()
  */
 void Video::destroyCETexture()
 {
-    if (mTexture)
+/*    if (mTexture)
     {
         mGUIRenderer->destroyTexture(mTexture);
-    }
+    } */
     mTexture = 0;
 }
 
@@ -217,11 +217,11 @@ void Video::destroyCETexture()
 void Video::stop()
 {
     mPlaying = false;
-    if( mClip )
+/*    if( mClip )
     {
         mClip->changePlayMode(TextureEffectPause);
         mVideoControl->destroyAdvancedTexture(mTextureName.c_str());
-    }
+    } */
     MultimediaSubsystem::getSingleton().removeVideo(this);
     // TODO Audio behandenln
 }
@@ -235,7 +235,7 @@ void Video::stop()
 void Video::pause(bool bPause)
 {
     mPlaying = !bPause;
-    if(mClip)
+/*    if(mClip)
     {
         if(bPause == false)
         {
@@ -243,7 +243,7 @@ void Video::pause(bool bPause)
         } else {
             mClip->changePlayMode(TextureEffectPlay_ASAP);
         }
-    }
+    } */
 }
 
 /**
@@ -252,10 +252,10 @@ void Video::pause(bool bPause)
  * @author JoSch
  * @date 08-27-2005
  */
-void Video::discoveredMovieTime(float discoveredTime)
+/*void Video::discoveredMovieTime(float discoveredTime)
 { 
     mMaxTime = discoveredTime;
-}
+} */
 
 /**
  * Das Video an einer bestimmten Stelle weiterspielen lassen
@@ -263,14 +263,14 @@ void Video::discoveredMovieTime(float discoveredTime)
  * @author JoSch
  * @date 08-27-2005
  */
-void Video::seek(float percentage)
+/* void Video::seek(float percentage)
 {
     if( mClip )
     {
         mClip->seekToTime(percentage * mMaxTime);
     }
     
-}
+} */
 
 /**
  * Textur zur�ckgeben
@@ -312,7 +312,7 @@ float Video::getMaxTime() const
  * @author JoSch
  * @date 08-27-2005
  */
-int Video::messageEvent(PLUGIN_theora_message message)
+/*int Video::messageEvent(PLUGIN_theora_message message)
 {
     if (hasListeners())
     {
@@ -321,7 +321,7 @@ int Video::messageEvent(PLUGIN_theora_message message)
         mEventCaster.dispatchEvent(event);
     }
     return 0;
-}
+}*/
 
 /**
  * Vom Plugin Nachrichten empfangen
@@ -330,7 +330,7 @@ int Video::messageEvent(PLUGIN_theora_message message)
  * @author JoSch
  * @date 09-02-2005
  */
-void Video::displayedFrame(float vTime, 
+/*void Video::displayedFrame(float vTime, 
                            float aTime,
                            unsigned int frameNumber,
                            unsigned int framesDropped)
@@ -344,7 +344,7 @@ void Video::displayedFrame(float vTime,
         event->mFramesDropped = framesDropped;
         mEventCaster.dispatchEvent(event);
     }
-}
+}*/
 
 /**
  * Listener einf�gen

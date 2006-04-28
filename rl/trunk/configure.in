@@ -106,12 +106,12 @@ LIBS="$OLDLIBS"
 PKG_CHECK_MODULES(OGRE, OGRE >= 1.1.0)
 AC_ARG_WITH(ogre-plugins,[  --with-ogre-plugins=path        Set location of Ogre plugins],[ OGRE_PLUGINDIR="$withval"], [OGRE_PLUGINDIR=/usr/local/lib/OGRE])
 AC_SUBST(OGRE_PLUGINDIR)
-PKG_CHECK_MODULES(Plugin_TheoraVideoSystem, Plugin_TheoraVideoSystem >= 0.5.0)
+#PKG_CHECK_MODULES(Plugin_TheoraVideoSystem, Plugin_TheoraVideoSystem >= 0.5.0)
 
-AC_LANG([C])
-AC_CHECK_LIB(theora,theora_clear , [], AC_MSG_ERROR([Can't find libtheora]))
-AC_LANG([C++])
-AC_CHECK_HEADERS([theora/theora.h], [], AC_MSG_ERROR([Can't find the theora  headers]))
+#AC_LANG([C])
+#AC_CHECK_LIB(theora,theora_clear , [], AC_MSG_ERROR([Can't find libtheora]))
+#AC_LANG([C++])
+#AC_CHECK_HEADERS([theora/theora.h], [], AC_MSG_ERROR([Can't find the theora  headers]))
 
 # CEGUI
 PKG_CHECK_MODULES(CEGUI, CEGUI)
