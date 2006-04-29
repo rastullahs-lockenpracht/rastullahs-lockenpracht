@@ -407,4 +407,9 @@ bool Video::isPlaying( ) const
     return mPlaying;
 }
 
+void Video::seek(float percentage)
+{
+    Throw(OperationNotSupportedException, "Not yet implemented");
+}
+
 }
