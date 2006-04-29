@@ -1,0 +1,52 @@
+
+material nat_nadelbaum_02/trunk
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.658824 0.658824 0.658824 1
+			diffuse 0.7 0.7 0.7 1
+			specular 0 0 0 1 20
+
+			texture_unit
+			{
+				texture nat_rinde_eiche.png
+			}
+		}
+		pass
+		{
+			ambient 0.7 0.7 0.7 1
+			diffuse 0.7 0.7 0.7 1
+			specular 0 0 0 1 20
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture nat_nadelbaum_02_detail.png
+				tex_coord_set 1
+				colour_op_ex source1 src_texture src_current
+				colour_op_multipass_fallback one zero
+			}
+		}
+	}
+}
+material nat_nadelbaum_02/leaves
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			ambient 0.309804 0.309804 0.309804 1
+			diffuse 0.631373 0.631373 0.631373 1
+			specular 0 0 0 1 10
+			alpha_rejection greater_equal 173
+
+			texture_unit
+			{
+				texture nat_nadelbaum_02.png
+			}
+		}
+	}
+}
