@@ -90,7 +90,7 @@ public:
     CEGUI::Texture* getTexture() const;
     /// Texturname zurueckgeben.
     const CeGuiString getTextureName() const;
-    /// Die Videol�nge zurueckgeben
+    /// Die Videolänge zurueckgeben
     float getMaxTime() const;
 
     /// Fuegt einen EventListener hinzu, der zukuenftig bei Events benachrichtigt wird 
