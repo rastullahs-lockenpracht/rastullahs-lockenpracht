@@ -1,0 +1,31 @@
+material nat_baum_shadix_01/baumblatt
+{
+receive_shadows off
+    technique
+    {
+        pass
+        {
+            alpha_rejection greater 215
+            texture_unit
+            {
+                texture blattwerk2.dds 
+            }
+        }
+    }
+}
+
+material nat_baum_shadix_01/baumrinde
+{
+    technique
+    {
+        pass
+        {
+            
+            texture_unit
+            {
+                texture rinde.png 
+            }
+        }
+    }
+}
+

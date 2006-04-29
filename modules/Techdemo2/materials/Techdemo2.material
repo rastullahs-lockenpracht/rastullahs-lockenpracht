@@ -1,5 +1,5 @@
 
-material 08_-_Default/15_-_Default
+material Techdemo2map1/basis
 {
 	technique
 	{
@@ -73,7 +73,7 @@ material 08_-_Default/15_-_Default
 		}
 	}
 }
-material 08_-_Default/Material_#63
+material Techdemo2map1/lod
 {
 	technique
 	{
