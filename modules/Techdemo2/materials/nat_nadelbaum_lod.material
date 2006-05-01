@@ -1,6 +1,7 @@
 
 material nat_nadelbaum_lod
 {
+receive_shadows off
 	technique
 	{
 		pass

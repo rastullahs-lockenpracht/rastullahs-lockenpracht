@@ -20895,7 +20895,7 @@
 		<node name="nat_baum_shadix_01" id="2785" >
 			<position x="-8.54275" y="-3.26651" z="87.5111" />
 			<rotation qx="-0.0245436" qy="-0.385977" qz="0.00333097" qw="0.922176" />
-			<scale x="2.4904" y="2.4904" z="2.4904" />
+			<scale x="1.78309" y="1.78309" z="1.78309" />
 			<entity
 				name="nat_baum_shadix_01"
 				id="2786"
@@ -20910,7 +20910,7 @@
 		<node name="nat_baum_shadix_01" id="2787" >
 			<position x="9.05149" y="7.34188" z="116.77" />
 			<rotation qx="-0.0152473" qy="0.367436" qz="0.0195192" qw="0.929719" />
-			<scale x="2.4904" y="2.4904" z="2.4904" />
+			<scale x="2.08663" y="2.08663" z="2.08663" />
 			<entity
 				name="nat_baum_shadix_01"
 				id="2788"
@@ -20925,7 +20925,7 @@
 		<node name="nat_baum_shadix_01" id="2789" >
 			<position x="52.574" y="8.40452" z="110.775" />
 			<rotation qx="-0.0226022" qy="-0.814701" qz="-0.0101303" qw="0.579352" />
-			<scale x="2.4904" y="2.4904" z="2.4904" />
+			<scale x="2.27071" y="2.27071" z="2.27071" />
 			<entity
 				name="nat_baum_shadix_01"
 				id="2790"
@@ -23605,6 +23605,247 @@
 			/>
 
  <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_busch_shadix_01" id="3147" >
+			<position x="0.0387764" y="-7.01008" z="4.1721" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.279985" y="0.279985" z="0.279985" />
+			<entity
+				name="nat_busch_shadix_01"
+				id="3148"
+				meshFile ="nat_busch_shadix_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_busch_shadix_01" id="3149" >
+			<position x="-39.1697" y="-6.91107" z="29.3492" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.279985" y="0.279985" z="0.279985" />
+			<entity
+				name="nat_busch_shadix_01"
+				id="3150"
+				meshFile ="nat_busch_shadix_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_busch_shadix_01" id="3151" >
+			<position x="-39.0167" y="-6.91107" z="31.8332" />
+			<rotation qx="0.0" qy="0.385872" qz="0.0" qw="0.922552" />
+			<scale x="0.279985" y="0.279985" z="0.279985" />
+			<entity
+				name="nat_busch_shadix_01"
+				id="3152"
+				meshFile ="nat_busch_shadix_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_busch_shadix_01" id="3153" >
+			<position x="29.1822" y="-6.27136" z="8.09494" />
+			<rotation qx="0.0" qy="0.385872" qz="0.0" qw="0.922552" />
+			<scale x="0.279985" y="0.279985" z="0.279985" />
+			<entity
+				name="nat_busch_shadix_01"
+				id="3154"
+				meshFile ="nat_busch_shadix_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_busch_shadix_01" id="3155" >
+			<position x="29.8391" y="-6.91613" z="15.0496" />
+			<rotation qx="0.0" qy="0.385872" qz="0.0" qw="0.922552" />
+			<scale x="0.279985" y="0.279985" z="0.279985" />
+			<entity
+				name="nat_busch_shadix_01"
+				id="3156"
+				meshFile ="nat_busch_shadix_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_busch_shadix_01" id="3157" >
+			<position x="-43.8737" y="-1.74551" z="82.6555" />
+			<rotation qx="0.0" qy="0.385872" qz="0.0" qw="0.922552" />
+			<scale x="0.279985" y="0.279985" z="0.279985" />
+			<entity
+				name="nat_busch_shadix_01"
+				id="3158"
+				meshFile ="nat_busch_shadix_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_busch_shadix_01" id="3159" >
+			<position x="-42.3161" y="-0.356142" z="88.0547" />
+			<rotation qx="-0.0646407" qy="0.388322" qz="-0.121471" qw="0.911193" />
+			<scale x="0.466896" y="0.466896" z="0.466896" />
+			<entity
+				name="nat_busch_shadix_01"
+				id="3160"
+				meshFile ="nat_busch_shadix_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_busch_shadix_01" id="3161" >
+			<position x="-16.6078" y="-1.92578" z="91.43" />
+			<rotation qx="-0.0646407" qy="0.388322" qz="-0.121471" qw="0.911193" />
+			<scale x="0.466896" y="0.466896" z="0.466896" />
+			<entity
+				name="nat_busch_shadix_01"
+				id="3162"
+				meshFile ="nat_busch_shadix_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_busch_shadix_01" id="3163" >
+			<position x="57.5197" y="-6.70308" z="41.3076" />
+			<rotation qx="0.156677" qy="0.380267" qz="0.0655324" qw="0.909151" />
+			<scale x="0.279985" y="0.279985" z="0.279985" />
+			<entity
+				name="nat_busch_shadix_01"
+				id="3164"
+				meshFile ="nat_busch_shadix_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_busch_shadix_01" id="3165" >
+			<position x="59.8246" y="-5.97054" z="40.6226" />
+			<rotation qx="0.156677" qy="0.380267" qz="0.0655324" qw="0.909151" />
+			<scale x="0.396466" y="0.396466" z="0.396466" />
+			<entity
+				name="nat_busch_shadix_01"
+				id="3166"
+				meshFile ="nat_busch_shadix_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="ins_schaufel_01" id="3167" >
+			<position x="-35.1772" y="-6.26181" z="33.6133" />
+			<rotation qx="0.171713" qy="-0.269685" qz="0.0489388" qw="0.94625" />
+			<scale x="0.625059" y="0.625059" z="0.625059" />
+			<entity
+				name="ins_schaufel_01"
+				id="3168"
+				meshFile ="ins_schaufel_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="arc_bett_01" id="3169" >
+			<position x="-34.766" y="-2.72043" z="16.4908" />
+			<rotation qx="0.0" qy="0.478407" qz="0.0" qw="0.878138" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="arc_bett_01"
+				id="3170"
+				meshFile ="arc_bett_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nachtkasten" id="3171" >
+			<position x="-35.2687" y="-2.94276" z="15.0798" />
+			<rotation qx="0.0" qy="-0.887011" qz="0.0" qw="0.461749" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nachtkasten"
+				id="3172"
+				meshFile ="nachtkasten.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="arc_stuhl_01" id="3173" >
+			<position x="-32.7806" y="-3.3004" z="18.0404" />
+			<rotation qx="0.0" qy="0.5" qz="0.0" qw="0.866025" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="arc_stuhl_01"
+				id="3174"
+				meshFile ="arc_stuhl_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+
+		<node name="arc_stuhl_01" id="3177" >
+			<position x="-37.5767" y="-6.25103" z="19.5335" />
+			<rotation qx="0.0" qy="-0.939693" qz="0.0" qw="0.34202" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="arc_stuhl_01"
+				id="3178"
+				meshFile ="arc_stuhl_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="arc_stuhl_01" id="3179" >
+			<position x="-37.0523" y="-6.25103" z="18.7321" />
+			<rotation qx="0.0" qy="-0.819152" qz="0.0" qw="0.573576" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="arc_stuhl_01"
+				id="3180"
+				meshFile ="arc_stuhl_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
 
 		</node>
 	</nodes>

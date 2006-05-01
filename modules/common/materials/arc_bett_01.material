@@ -1,18 +1,19 @@
-material 2_-_Default__(_Standard_)
+
+material arc_bett_01
 {
-    technique
-    {
-        pass
-        {
-            alpha_rejection greater 215 
-            ambient 0.588235 0.588235 0.588235
-            diffuse 0.588235 0.588235 0.588235
-            specular 0.0 0.0 0.0 7000.0
-            emissive 0.0 0.0 0.0
-            texture_unit
-            {
-                texture bauernbett.png 
-            }
-        }
-    }
+	technique
+	{
+		pass
+		{
+			ambient 0.435294 0.435294 0.435294 1
+			diffuse 0.486275 0.486275 0.486275 1
+			specular 0 0 0 1 90
+			alpha_rejection greater 56
+
+			texture_unit
+			{
+				texture bauernbett.png
+			}
+		}
+	}
 }

@@ -38,5 +38,43 @@ $SCRIPT.log("Held als aktiver Charakter gesetzt.");
 
 $World.setFog( World::FOG_EXP, [0.8,0.8,1.0,0.5], 0.00103, 0.4, 1.0);
 
+#******** mapchange **********
+$SCRIPT.log("Mapchange: Kugel-Zentrum Actor erstellen");
+kugelDings = $AM.createEmptyActor( "Kugel-Zentrum" );
+$SCRIPT.log("Mapchange: Kugel-Zentrum Actor in die Szene einfügen");
+kugelDings.placeIntoScene( [-56.2, -1.1, -75.0] );
+
+
+
+class LevelwechselListener < GameAreaListener
+	def initialize( targetscene, targetrbfile )
+		super()
+		@targetScene = targetscene
+		@targetRbFile = targetrbfile 
+	end
+ 
+	def areaLeft(anEvent)
+	end
+ 
+	# Zone betreten
+	def areaEntered(anEvent)
+		$CORE.loadMap("Octree", @targetScene, @targetRbFile, @targetRbFile); 
+	end
+end
+ 
+#Erstellen mit 
+MapchangeListener = LevelwechselListener .new("minidemo.scene", "minidemo.rb" ); 
+
+$SCRIPT.log("Mapchange: MapchangeListener hinzufügen");
+$GameEveMgr.addSphereAreaListener( kugelDings, 4.000, MapchangeListener, Actor::QGF_PLAYER );
+
+
+
+
+
+
+
+
+
 $SCRIPT.log("map 'Techdemo2' initialisiert.");
 $WF.toggleCharacterStateWindow()
