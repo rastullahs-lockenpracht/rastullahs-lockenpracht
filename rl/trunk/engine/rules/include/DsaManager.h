@@ -45,6 +45,13 @@ namespace rl
 	class _RlRulesExport DsaManager : public Ogre::Singleton<DsaManager>
     {
     public:
+		
+		enum Rule
+		{
+			DISTANZKLASSEN
+		};
+
+
         static DsaManager& getSingleton(void);
         static DsaManager* getSingletonPtr(void);
 
@@ -85,6 +92,7 @@ namespace rl
 		int getSteigerKosten(int column, int from, int to) const;
 		int getSteigerKosten(int column, int from) const;
 		bool isDkDistance(const Weapon::Distanzklasse& dk, const Ogre::Real& distance) const;
+		bool isRuleActive(Rule rule) const;
 
 		void loadDsaDataFile(const std::string& filename);	
 

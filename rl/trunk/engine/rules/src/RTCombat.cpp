@@ -37,11 +37,23 @@ namespace rl {
 
 	void RTCombat::run(Ogre::Real elapsedTime)
 	{
-		 mTimeKR += elapsedTime;
-		 if (mTimeKR > Date::ONE_KAMPFRUNDE)
+		 if (isOver())
 		 {
-			 initKR();
-			 mTimeKR -= Date::ONE_KAMPFRUNDE;
+			for(vector<RTCombatController*>::iterator it = mControllers.begin();
+				it != mControllers.end(); it++)
+			{
+				(*it)->notifyCombatEnd();
+			}
+		    //FIXME: remove me, delete me
+		 }
+		 else
+		 {
+			 mTimeKR += elapsedTime;
+			 if (mTimeKR > Date::ONE_KAMPFRUNDE)
+			 {
+				 initKR();
+				 mTimeKR -= Date::ONE_KAMPFRUNDE;
+			 }
 		 }
 	}
 
@@ -190,17 +202,33 @@ namespace rl {
 			return false;
 		}
 
-		Weapon::Distanzklasse dk = atWeapon->getDk();
-		Ogre::Real distance = 
-			(attacker->creature->getActor()->getPosition()
-			- defender->creature->getActor()->getPosition()).length();
-
-		if (DsaManager::getSingleton().isDkDistance(dk, distance))
+		bool correctDistance = false;
+		//FIXME: Korrigieren, man kann auch auf +/- 1 DK angreifen, siehe MBK 22
+		if (DsaManager::getSingleton().isRuleActive(DsaManager::DISTANZKLASSEN))
 		{
-			return true;
+			Weapon::Distanzklasse dk = atWeapon->getDk();
+			Ogre::Real distance = 
+				(attacker->creature->getActor()->getPosition()
+				- defender->creature->getActor()->getPosition()).length();
+
+			if (DsaManager::getSingleton().isDkDistance(dk, distance))
+			{
+				correctDistance = true;
+			}
+		}
+		else
+		{
+			//FIXME: Korrigieren, für Treffer überhaupt möglich eventuell auch die DK-Regeln benutzen, 
+			//zumindest für die Reichweite?
+			correctDistance = true;
 		}
 
-		return false;
+		if (!correctDistance)
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	bool RTCombat::isPareeActivated(RTCombat::CreatureData *defender, RTCombat::CreatureData *attacker)
@@ -271,6 +299,44 @@ namespace rl {
 		}
 
 		Throw(IllegalArgumentException, (creature->getName()+" nimmt nicht am Kampf teil.").c_str());
+	}
+
+	bool RTCombat::isOver()
+	{
+		//FIXME: Mehr Gruppen
+		for (int group = 1; group <= 2; group++)
+		{
+			bool over = true;
+			vector<CreatureData*> members = getGroupMembers(group);
+			for (vector<CreatureData*>::iterator it = members.begin(); it != members.end(); it++)
+			{
+				CreatureData* cur = *it;
+				if (cur->creature->getLe() > 0)
+				{
+					over = false;
+				}
+			}
+
+			if (over) //FIXME: Geht nur fuer 2 Gruppen
+				return true;
+		}
+
+		return false;
+	}
+
+	vector<RTCombat::CreatureData*> RTCombat::getGroupMembers(int group)
+	{
+		vector<RTCombat::CreatureData*> members;
+
+		for (CreatureDataMap::iterator partIter = mCreatureData.begin();
+			partIter != mCreatureData.end(); partIter++)
+		{
+			CreatureData* part = (*partIter).second;
+			if (part->group == group)
+				members.push_back(part);
+		}
+
+		return members;
 	}
 
 }

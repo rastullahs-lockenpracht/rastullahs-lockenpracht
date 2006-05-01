@@ -15,43 +15,38 @@
  */
 
 #include "UiPrerequisites.h"
-
 #include "UiSubsystem.h"
 
 #include <OgreCEGUIRenderer.h>
 #include <OgreCEGUIResourceProvider.h>
 
-#include "Exception.h"
-
-#include "CoreSubsystem.h"
-#include "Logger.h"
-#include "CutsceneCharacterController.h"
-#include "DialogCharacterController.h"
-#include "MovementCharacterController.h"
-#include "FreeFlightCharacterController.h"
-#include "RTCombatCharacterController.h"
-#include "InputManager.h"
-#include "CommandMapper.h"
-#include "WindowFactory.h"
-#include "WindowManager.h"
-#include "ConfigurationManager.h"
-
-#include "RBCombat.h"
-#include "RTCombat.h"
-#include "GameLoop.h"
-#include "ActorManager.h"
-#include "Actor.h"
-#include "World.h"
-
-#include "ScriptWrapper.h"
-
-#include "Person.h"
-#include "GameObject.h"
 #include "Action.h"
 #include "ActionManager.h"
-#include "DsaManager.h"
-#include "Primitive.h"
+#include "Actor.h"
+#include "ActorManager.h"
+#include "CommandMapper.h"
+#include "ConfigurationManager.h"
+#include "CoreSubsystem.h"
 #include "Creature.h"
+#include "CutsceneCharacterController.h"
+#include "DialogCharacterController.h"
+#include "DsaManager.h"
+#include "Exception.h"
+#include "FreeFlightCharacterController.h"
+#include "GameObject.h"
+#include "GameLoggerWindow.h"
+#include "GameLoop.h"
+#include "InputManager.h"
+#include "Logger.h"
+#include "MovementCharacterController.h"
+#include "Person.h"
+#include "RBCombat.h"
+#include "RTCombat.h"
+#include "RTCombatCharacterController.h"
+#include "ScriptWrapper.h"
+#include "WindowFactory.h"
+#include "WindowManager.h"
+#include "World.h"
 
 template<> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
 
@@ -250,7 +245,9 @@ namespace rl {
 
 	void UiSubsystem::startRTCombat(RTCombat* combat)
 	{
+		combat->setLogger(mWindowFactory->getGameLogger());
 		setCharacterController(CharacterController::CTRL_RTCOMBAT);
+		GameLoopManager::getSingleton().addAsynchronousTask(combat);
 		dynamic_cast<RTCombatCharacterController*>(mCharacterController)->setCombat(combat);
 	}
 

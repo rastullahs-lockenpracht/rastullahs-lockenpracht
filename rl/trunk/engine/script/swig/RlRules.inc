@@ -421,8 +421,6 @@ namespace rl {
 		void setSelbststudiumZeiteinheiten( int newSelbststudiumZeiteinheiten );
 	};
 	
-	class Creature;
-    
 	%feature("director") Effect;
 	class Effect
 	{
@@ -440,8 +438,8 @@ namespace rl {
         void setName(rl::CeGuiString& name);
         const rl::CeGuiString& getDescription() const;
         void setDescription(rl::CeGuiString& description);
-		Creature* getOwner() const;
-		void setOwner(Creature* owner);
+		rl::Creature* getOwner() const;
+		void setOwner(rl::Creature* owner);
 		virtual int getDuration();
 		virtual void setDuration(int newDuration);
 		int getQuantifier();
@@ -478,9 +476,9 @@ namespace rl {
 		virtual TalentStateSet* getTalentStateSet(const rl::CeGuiString& talentName);
         virtual void setTalent(const rl::CeGuiString& talentName, int value);
         void addKampftechnik(const rl::CeGuiString& kampftechnikName, std::pair<int,int> value = make_pair(0,0));
-		void addContainer(Container* container);
-		Container* getContainer(const rl::CeGuiString& containterName) const;
-		Container* removeContainer(rl::CeGuiString& containerName);
+		void addContainer(rl::Container* container);
+		rl::Container* getContainer(const rl::CeGuiString& containterName) const;
+		rl::Container* removeContainer(rl::CeGuiString& containerName);
 		void addWeapon(Weapon* weapon);
 		Weapon* getWeapon(int weaponId) const;
 		Weapon* removeWeapon(int waponId);
@@ -496,7 +494,6 @@ namespace rl {
         virtual void modifyAu(int mod);
         virtual int getLe();
         
-
         virtual int doTalentprobe(const rl::CeGuiString& talentName, int modifier);
         virtual int doEigenschaftsprobe(const rl::CeGuiString& eigenschaftName, int modifier);
         
@@ -538,7 +535,6 @@ namespace rl {
         static rl::ActionManager& getSingleton();
 	};
 	
-	class TimerEvent;
 	%feature("director") TimerListener;
 	class TimerListener
 	{
@@ -572,27 +568,26 @@ namespace rl {
 	};
 	
 	
-	class RBCombat;	
 	%feature("director") RBCombatController;
 	class RBCombatController 
 	{
 	public:
-		RBCombatController(RBCombat* combat, int group);
+		RBCombatController(rl::RBCombat* combat, int group);
 		virtual ~RBCombatController();
 
 		int getGroup();
 
-		void setActionOption(RBCombat::ActionOption option);
-		void setAttackTarget(Creature* creature);
-		void setPareeTarget(Creature* creature);
+		void setActionOption(rl::RBCombat::ActionOption option);
+		void setAttackTarget(rl::Creature* creature);
+		void setPareeTarget(rl::Creature* creature);
 
-		Creature* getCurrentCreature();
+		rl::Creature* getCurrentCreature();
 		
 		virtual void notifyActionStart() = 0;
 		virtual void notifyCombatEnd() = 0;
 
-		void setCurrentCreature(Creature* creature);
-		RBCombat* getCombat();
+		void setCurrentCreature(rl::Creature* creature);
+		rl::RBCombat* getCombat();
 	};
 	
 	class RBCombat

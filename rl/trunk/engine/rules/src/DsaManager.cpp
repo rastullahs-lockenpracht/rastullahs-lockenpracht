@@ -109,6 +109,11 @@ namespace rl
 		mKampftechniken.clear();
     }
 
+	bool DsaManager::isRuleActive(DsaManager::Rule rule) const
+	{
+		return false;
+	}
+
     RL_LONGLONG DsaManager::getTimestamp()
     {
 		return mBaseTime + CoreSubsystem::getSingleton().getClock();
@@ -209,7 +214,7 @@ namespace rl
 		case Weapon::DK_S:
 			return 2 <= distance && distance < 3;
 		case Weapon::DK_P:
-			return 1 < distance;
+			return 2.5 <= distance && distance < 4;
 		default:
 			Throw(IllegalArgumentException, "Distanzklasse unbekannt");
 		}

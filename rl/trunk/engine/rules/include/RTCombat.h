@@ -61,11 +61,19 @@ namespace rl {
 		typedef std::map<Creature*, CreatureData*> CreatureDataMap;
 		CreatureDataMap mCreatureData;
 
+		/**
+		 * Gibt alle Mitglieder einer Kampfpartei zurueck
+		 * @param group die Partei
+		 * @param eine Vector mit allen Mitgliedern der Partei
+		 */
+		std::vector<CreatureData*> getGroupMembers(int group);
+
 		std::vector<RTCombatController*> mControllers;
 
 		CreatureData* getData(Creature* participant);
 		RTCombatController* getController(int group);
 		void initKR();
+		bool isOver();
 		void release();
 
 		void displayAtPa(Creature* attacker, Creature* defender);

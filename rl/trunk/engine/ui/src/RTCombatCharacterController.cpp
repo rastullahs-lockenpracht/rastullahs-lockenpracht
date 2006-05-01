@@ -20,6 +20,7 @@
 #include "Creature.h"
 #include "GameObject.h"
 #include "InputManager.h"
+#include "UiSubsystem.h"
 
 namespace rl {
 
@@ -50,6 +51,7 @@ namespace rl {
 
 	void RTCombatCharacterController::notifyCombatEnd()
 	{
+		UiSubsystem::getSingleton().setCharacterController(CharacterController::CTRL_MOVEMENT);
 	}
 
 	void RTCombatCharacterController::run(Ogre::Real timeElapsed)

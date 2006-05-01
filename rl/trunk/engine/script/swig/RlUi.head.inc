@@ -21,6 +21,7 @@
 #include "CommandMapper.h"
 #include "CharacterController.h"
 #include "GameLoggerWindow.h"
+#include "RTCombatCharacterController.h"
 #include "UiPrerequisites.h"
 #include "UiSubsystem.h"
 #include "VideoWindow.h"

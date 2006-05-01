@@ -16,19 +16,14 @@
 
 namespace rl {
 
+%apply SWIGTYPE *DYNAMIC { rl::CharacterController * };
+
+%feature("director") CharacterController;
 class CharacterController
 {
 private:
 	CharacterController(rl::Actor* camera, rl::Actor* character);
-	
 public:
-     /**
-       *  @throw NullPointerException if camera or character is NULL.
-       *  @throw InvalidArgumentException if character is not placed in the scene.
-       */
-    void toggleViewMode();
-    void resetCamera();
-    
 	enum ControllerType 
 	{
 		CTRL_NONE = 1,
@@ -39,6 +34,26 @@ public:
 		CTRL_COMBAT,
 		CTRL_RTCOMBAT,
 	};
+	
+	rl::CharacterController::ControllerType getType();
+
+     /**
+       *  @throw NullPointerException if camera or character is NULL.
+       *  @throw InvalidArgumentException if character is not placed in the scene.
+       */
+    void toggleViewMode();
+    void resetCamera();
+        
+};
+
+%feature("director") RTCombatCharacterController;
+class RTCombatCharacterController : public rl::CharacterController
+{
+public:
+	void setCurrentCreature(Creature* creature);
+
+	void attack();
+	void block();
 };
 
 class UiSubsystem 
@@ -122,3 +137,19 @@ public:
 };
 
 }
+
+%{
+static swig_type_info *CharacterController_dynamic_cast(void **ptr)
+{
+    rl::CharacterController **ppCharacterController = reinterpret_cast<rl::CharacterController**>(ptr);
+
+    rl::RTCombatCharacterController *pRTCombatCharacterController
+		= dynamic_cast<rl::RTCombatCharacterController*>(*ppCharacterController);
+    if (pRTCombatCharacterController) {
+        *ptr=reinterpret_cast<void*>(pRTCombatCharacterController);
+        return SWIGTYPE_p_rl__RTCombatCharacterController;
+    }
+    return 0;
+}
+%}
+DYNAMIC_CAST(SWIGTYPE_p_rl__CharacterController, CharacterController_dynamic_cast);
