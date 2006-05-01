@@ -23608,7 +23608,7 @@
 
 		</node>
 		<node name="nat_busch_shadix_01" id="3147" >
-			<position x="0.0387764" y="-7.01008" z="4.1721" />
+			<position x="0.0387764" y="-7.46807" z="4.1721" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.279985" y="0.279985" z="0.279985" />
 			<entity
@@ -23805,7 +23805,7 @@
 		<node name="arc_stuhl_01" id="3173" >
 			<position x="-32.7806" y="-3.3004" z="18.0404" />
 			<rotation qx="0.0" qy="0.5" qz="0.0" qw="0.866025" />
-			<scale x="1.0" y="1.0" z="1.0" />
+			<scale x="1.1" y="1.1" z="1.1" />
 			<entity
 				name="arc_stuhl_01"
 				id="3174"
@@ -23821,7 +23821,7 @@
 		<node name="arc_stuhl_01" id="3177" >
 			<position x="-37.5767" y="-6.25103" z="19.5335" />
 			<rotation qx="0.0" qy="-0.939693" qz="0.0" qw="0.34202" />
-			<scale x="1.0" y="1.0" z="1.0" />
+			<scale x="1.1" y="1.1" z="1.1" />
 			<entity
 				name="arc_stuhl_01"
 				id="3178"
@@ -23836,11 +23836,86 @@
 		<node name="arc_stuhl_01" id="3179" >
 			<position x="-37.0523" y="-6.25103" z="18.7321" />
 			<rotation qx="0.0" qy="-0.819152" qz="0.0" qw="0.573576" />
-			<scale x="1.0" y="1.0" z="1.0" />
+			<scale x="1.1" y="1.1" z="1.1" />
 			<entity
 				name="arc_stuhl_01"
 				id="3180"
 				meshFile ="arc_stuhl_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_salat_01" id="3181" >
+			<position x="-34.6906" y="-6.45313" z="26.003" />
+			<rotation qx="0.0" qy="0.130526" qz="0.0" qw="0.991445" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_salat_01"
+				id="3182"
+				meshFile ="nat_salat_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_salat_01" id="3183" >
+			<position x="-33.6408" y="-6.45313" z="26.368" />
+			<rotation qx="0.0" qy="-0.642788" qz="0.0" qw="0.766044" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_salat_01"
+				id="3184"
+				meshFile ="nat_salat_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_salat_01" id="3185" >
+			<position x="-34.6881" y="-6.45313" z="27.7835" />
+			<rotation qx="0.0" qy="-0.258819" qz="0.0" qw="0.965926" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_salat_01"
+				id="3186"
+				meshFile ="nat_salat_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_salat_01" id="3187" >
+			<position x="-36.2634" y="-6.45313" z="28.0137" />
+			<rotation qx="0.0" qy="-0.965926" qz="0.0" qw="-0.258819" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_salat_01"
+				id="3188"
+				meshFile ="nat_salat_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_salat_01" id="3189" >
+			<position x="-35.9071" y="-6.47816" z="26.6163" />
+			<rotation qx="0.0" qy="-0.984808" qz="0.0" qw="0.173648" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_salat_01"
+				id="3190"
+				meshFile ="nat_salat_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
 			/>
