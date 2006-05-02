@@ -51,7 +51,7 @@ namespace rl {
     {
 		static const int RADIUS = 20, LENGTH = 300;
         mWorld = CoreSubsystem::getSingleton().getWorld();
-		m_ActorRenderingDistance = 10000; 
+		m_ActorRenderingDistance = 100; 
     }
 
     ActorManager::~ActorManager()

@@ -47,7 +47,8 @@ namespace rl {
           mResourceGroup(resourceGroup),
 		  mStaticNodes(),
 		  mRenderingDistance( ActorManager::getSingleton().getDefaultActorRenderingDistance() ),
-		  mStaticgeomRenderingDistances()
+		  mStaticgeomRenderingDistances(),
+		  mStaticgeomBatchSizes()
 	{
         srand(static_cast<unsigned int>(time(NULL)));
 	}
@@ -62,13 +63,11 @@ namespace rl {
 		XMLPlatformUtils::Initialize();
 		XmlHelper::initializeTranscoder();
 
-		Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, "Lade Szenenbeschreibung aus " + mSceneName );
+		Logger::getSingleton().log(Logger::CORE, Ogre::LML_NORMAL, "Lade Szenenbeschreibung aus " + mSceneName );
 		DOMDocument* doc = openSceneFile();
 
 		// Durch alle Unterelemente iterieren
 		DOMNode* child = doc->getDocumentElement()->getFirstChild();
-
-		
 
 		while( child != NULL )
 		{
@@ -98,15 +97,18 @@ namespace rl {
 				Ogre::SceneNode* staticNode = it->second;
 				string staticName = Ogre::StringConverter::toString(it->first);
 				Ogre::Real renderDist = mRenderingDistance;
+				Ogre::Real batchSize = 25.0;
 
 				if( mStaticgeomRenderingDistances.find( it->first ) != mStaticgeomRenderingDistances.end() )
 					renderDist = mStaticgeomRenderingDistances[it->first];
+				if( mStaticgeomBatchSizes.find( it->first ) != mStaticgeomBatchSizes.end() )
+					batchSize = mStaticgeomBatchSizes[it->first];
 
 				StaticGeometry* staticGeom = sceneManager->createStaticGeometry( mSceneName + staticName  );
 				
 				staticGeom->setRenderingDistance( renderDist );
 				staticGeom->addSceneNode( staticNode );
-				staticGeom->setRegionDimensions( 1000 * Vector3::UNIT_SCALE );
+				staticGeom->setRegionDimensions( batchSize * Vector3::UNIT_SCALE );
 				// Statische Geometrie bauen
 				staticGeom->build();
 				// Nicht mehr den Original-Knoten rendern, da dieser noch erhalten ist.			
@@ -193,7 +195,7 @@ namespace rl {
                 if (e.getNumber() == Ogre::Exception::ERR_DUPLICATE_ITEM)
                 {
                     newNode = parentNode->createChildSceneNode();
-                    Logger::getSingleton().log(Logger::CORE, Ogre::LML_NORMAL, 
+                    Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, 
                         " NodeName '"+nodeName+"' war schon vergeben! Es wurde der Name '"+newNode->getName()+"' benutzt." );
                 }
                 else
@@ -334,6 +336,13 @@ namespace rl {
 						mStaticgeomRenderingDistances[groupId] = XmlHelper::getAttributeValueAsReal( 
                             propertyXml, "data" );
 					}
+					else if( Ogre::StringUtil::startsWith(propertyName,"staticgeom_batchsize_") )
+					{
+						int groupId = Ogre::StringConverter::parseInt( propertyName.substr( 21 ) );
+						
+						mStaticgeomBatchSizes[groupId] = XmlHelper::getAttributeValueAsReal( 
+                            propertyXml, "data" );
+					}
                 }
                 catch(...)
                 {
@@ -342,7 +351,60 @@ namespace rl {
                 }
 
             }
+			// Manuell definiertes LOD
+			else if( XMLString::compareIString(child->getNodeName(), 
+					 XMLString::transcode("manualLOD") ) == 0 )
+            {
+				DOMElement* lodXml = reinterpret_cast<DOMElement*>(child);
+                string meshName = XmlHelper::getAttributeValueAsStdString( lodXml, 
+			        "mesh" );
+				
+                try
+                {
+					Ogre::MeshPtr mesh = Ogre::MeshManager::getSingleton().getByName( meshName );
 
+					DOMNode* lodchild = child->getFirstChild();
+					Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, " LOD-Bereich für "+meshName+" gefunden");
+					Ogre::Real loddist = 10.0;
+					string lodmeshName = "";
+
+					// Durch alle Unterelemente iterieren, um die LODs zu finden
+					while( lodchild != NULL )
+					{						
+						if( XMLString::compareIString(lodchild->getNodeName(), 
+							XMLString::transcode("LOD") ) == 0 )
+						{
+							loddist = 0.0;
+							lodmeshName = "";
+
+							try
+							{
+								lodXml = reinterpret_cast<DOMElement*>(lodchild);
+								loddist = XmlHelper::getAttributeValueAsReal( lodXml, 
+									"distance" );
+								lodmeshName = XmlHelper::getAttributeValueAsStdString( lodXml, 
+									"mesh" );
+
+								if( lodmeshName.length() > 0 && loddist > 0 )
+								{
+									mesh->createManualLodLevel(loddist, lodmeshName );
+									Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, 
+										" LOD für bei '"+Ogre::StringConverter::toString(loddist)+
+										"' als '"+lodmeshName+"' gesetzt!");
+								}
+							}
+							catch(...) { }
+						}
+
+						lodchild = lodchild->getNextSibling();
+					}
+				}
+				catch(...)
+                {
+					Logger::getSingleton().log(Logger::CORE, Ogre::LML_NORMAL, 
+                        " > Parse Error beim Setzen der LOD für '"+meshName+"'!");
+                }
+			}
             child = child->getNextSibling();
         } 
 	}
@@ -381,7 +443,7 @@ namespace rl {
                 }
                 catch(...)
                 {
-                    Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, 
+                    Logger::getSingleton().log(Logger::CORE, Ogre::LML_NORMAL, 
                         " > Parse Error beim Übernehmen der Property '"+propertyName+"'!");
                 }
 
@@ -485,7 +547,7 @@ namespace rl {
 		}
 		catch(...) { }
          
-		Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, " > Parse Error beim Übernehmen der Position! ");
+		Logger::getSingleton().log(Logger::CORE, Ogre::LML_NORMAL, " > Parse Error beim Übernehmen der Position! ");
 
 		return Ogre::Vector3::ZERO;
 	}
@@ -509,7 +571,7 @@ namespace rl {
 		}
         catch(...) { }
 
-		Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, " > Parse Error beim Übernehmen der Skalierung! ");
+		Logger::getSingleton().log(Logger::CORE, Ogre::LML_NORMAL, " > Parse Error beim Übernehmen der Skalierung! ");
 
 		return Ogre::Vector3::UNIT_SCALE;
 	}
@@ -564,7 +626,7 @@ namespace rl {
 		}
 		catch(...) {}
 
-        Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, " > Parse Error beim Übernehmen der Rotation! ");
+        Logger::getSingleton().log(Logger::CORE, Ogre::LML_NORMAL, " > Parse Error beim Übernehmen der Rotation! ");
 
 		return Ogre::Quaternion::IDENTITY;
 	}

@@ -101,6 +101,7 @@ namespace rl {
 
 		Ogre::Real mRenderingDistance;
 		std::map<int,Ogre::Real> mStaticgeomRenderingDistances;
+		std::map<int,Ogre::Real> mStaticgeomBatchSizes;
 		
 		/// Der Name der Scene
 		const std::string mSceneName;

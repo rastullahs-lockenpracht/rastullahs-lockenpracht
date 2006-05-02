@@ -36,7 +36,7 @@ public:
     /// Video abspielen
     void play();
     /// Video an bestimmter Stelle weiterspielen
-    void seek(float percentage);
+    // void seek(float percentage);
     /// Erzeuge Textur
     CEGUI::Texture* getTexture() const;
     /// Texturname zurueckgeben.
