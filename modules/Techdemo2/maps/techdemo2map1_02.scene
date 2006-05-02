@@ -23924,4 +23924,10 @@
 
 		</node>
 	</nodes>
+    <userdata>
+        <property type="FLOAT" name="default_renderingdistance" data="100.0"/>
+        <manualLOD mesh="nat_nadelbaum_02.mesh">
+            <LOD distance="50.0" mesh="nat_nadelbaum_lod.mesh" />
+        </manualLOD>
+    </userdata>
 </scene>
