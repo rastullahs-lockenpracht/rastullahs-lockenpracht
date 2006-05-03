@@ -37,11 +37,8 @@ namespace rl {
         Ogre::Entity* getEntity() const;
         
         /// Groesse der Boundingbox
-        Ogre::Vector3 getDefaultSize() const;
-		Ogre::Vector3 getPoseSize(const Ogre::String& animationName);
-        Ogre::Vector3 getCenter();
-        Ogre::Real getRadius();
-        Ogre::Real getHeight();
+        Ogre::AxisAlignedBox getDefaultSize() const;
+        Ogre::AxisAlignedBox getPoseSize(const Ogre::String& animationName);
         
 		MeshAnimation* getAnimation(const Ogre::String& animName);
 		MeshAnimation* startAnimation(const Ogre::String& animName, 
@@ -64,12 +61,12 @@ namespace rl {
         
         virtual Ogre::String getObjectType();
     private:
-        Ogre::Vector3 mSize;
-		typedef std::map<Ogre::String, Ogre::Vector3> PoseMap;
+        Ogre::AxisAlignedBox mSize;
+        typedef std::map<Ogre::String, Ogre::AxisAlignedBox> PoseMap;
 		PoseMap mPoseSizes;
 
-		Ogre::Vector3 calculateSize();
-		Ogre::Vector3 calculateSizeFromPose(const Ogre::String& animationName);
+		Ogre::AxisAlignedBox calculateSize();
+        Ogre::AxisAlignedBox calculateSizeFromPose(const Ogre::String& animationName);
 		Ogre::AxisAlignedBox getAabbFromVertexData(Ogre::VertexData*);
     };
 }

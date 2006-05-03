@@ -26,6 +26,7 @@
 #include "PhysicsController.h"
 
 using namespace std;
+using namespace OgreNewt;
 
 template<> rl::PhysicsManager* Singleton<rl::PhysicsManager>::ms_Singleton = 0;
 
@@ -118,39 +119,77 @@ namespace rl
         return mGravity;
     }
 
-	OgreNewt::Collision* PhysicsManager::_createCollision(
-		GeometryTypes geomType, Vector3 size) const
-	{
-		return 0;
-	}
+    OgreNewt::CollisionPtr PhysicsManager::_createCollision(PhysicalThing* pt,
+        const AxisAlignedBox& aabb) const
+    {
+        GeometryTypes geomType = pt->_getGeometryType();
+        CollisionPtr rval;
+        Vector3 size = aabb.getMaximum() - aabb.getMinimum();
+        if (geomType == GT_BOX)
+        {
+            rval = CollisionPtr(new CollisionPrimitives::Box(mWorld, size));
+        }
+        else if (geomType == GT_SPHERE)
+        {
+            double radius = max(size.x, max(size.y, size.z)) / 2.0;
+            rval = CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(mWorld,
+                Vector3(radius, radius, radius)));
+        }
+        else if (geomType == GT_ELLIPSOID)
+        {
+            // set the size x/z values to the maximum
+            Vector3 s(size/2.0);
+            s.x = max(s.x, s.z);
+            s.z = s.x;
+            rval = CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(mWorld, s));
+        }
+        else if (geomType == GT_CONVEXHULL)
+        {
+            rval = CollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(mWorld,
+                pt->_getPhysicalObject()->getEntity(), true));
+        }
+        else if (geomType == GT_MESH)
+        {
+            rval = CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision(mWorld,
+                pt->_getPhysicalObject()->getEntity(), false, true));
+        }
+        else
+        {
+            Throw(IllegalArgumentException, "unknown geometry type.");
+        }
+        return rval;
+    }
 
 	void PhysicsManager::createPhysicsProxy(PhysicalThing* pt,
 		SceneNode* node)
 	{
 		if (pt != NULL && pt->_getBody() == NULL) 
 		{
-			const Vector3& size = pt->_getPhysicalObject()->getDefaultSize();
+            const AxisAlignedBox& aabb = pt->_getPhysicalObject()->getDefaultSize();
+            const Vector3 size = aabb.getMaximum() - aabb.getMinimum();
+            Vector3 offset = aabb.getCenter();
 			GeometryTypes geomType = pt->_getGeometryType();
 
-            OgreNewt::Collision* coll = NULL;
+            OgreNewt::CollisionPtr coll;
 
-            Vector3 offset(Vector3::ZERO);
             Quaternion orientationBias(Quaternion::IDENTITY);
             Vector3 inertiaCoefficients(Vector3(1.0, 1.0, 1.0));
 
             if (geomType == GT_BOX)
             {
-                coll = new OgreNewt::CollisionPrimitives::Box(mWorld, size);
-                inertiaCoefficients = Vector3(size.x*size.x/6.0f, size.y*size.y/6.0f, size.z*size.z/6.0f);
+                coll = CollisionPtr(new CollisionPrimitives::Box(mWorld, size));
+                inertiaCoefficients = Vector3(size.x*size.x/6.0f,
+                    size.y*size.y/6.0f,
+                    size.z*size.z/6.0f);
             }
             else if (geomType == GT_SPHERE)
             {
                 double radius = max(size.x, max(size.y, size.z)) / 2.0;
-                coll = new OgreNewt::CollisionPrimitives::Ellipsoid(mWorld,
-                    Vector3(radius, radius, radius));
+                coll = CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(mWorld,
+                    Vector3(radius, radius, radius)));
                 if (pt->getHullModifier())
                 {
-                    coll = new OgreNewt::CollisionPrimitives::HullModifier(mWorld, coll);
+                    coll = CollisionPtr(new CollisionPrimitives::HullModifier(mWorld, coll));
                 }
 
                 inertiaCoefficients = Vector3(radius*radius, radius*radius, radius*radius);
@@ -158,28 +197,36 @@ namespace rl
             else if (geomType == GT_CAPSULE)
             {
                 double radius = max(size.x, size.z) / 2.0;
+                double sradius = radius*radius;
                 orientationBias = Quaternion(Degree(90), Vector3::NEGATIVE_UNIT_Z);
-                coll = new OgreNewt::CollisionPrimitives::Capsule(mWorld, radius, size.y);
+                coll = CollisionPtr(new CollisionPrimitives::Capsule(mWorld, radius, size.y));
+                inertiaCoefficients = Vector3(sradius, size.y*size.y, sradius);
             }
             else if (geomType == GT_ELLIPSOID)
             {
-                // set the size x/z values to the maximum of each for testing
+                // set the size x/z values to the maximum
                 Vector3 s(size/2.0);
                 s.x = max(s.x, s.z);
                 s.z = s.x;
-                coll = new OgreNewt::CollisionPrimitives::Ellipsoid(mWorld, s);
+                coll = CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(mWorld, s));
                 inertiaCoefficients = Vector3(s.x*s.x, s.y*s.y, s.z*s.z);
             }
 			else if (geomType == GT_CONVEXHULL)
 			{
-				coll = new OgreNewt::CollisionPrimitives::ConvexHull(
-					mWorld, pt->_getPhysicalObject()->getEntity());
+				coll = CollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(
+					mWorld, pt->_getPhysicalObject()->getEntity()));
+                offset = Vector3::ZERO;
 			}
 			else if (geomType == GT_MESH)
 			{
-				coll = new OgreNewt::CollisionPrimitives::TreeCollision(
-					mWorld, pt->_getPhysicalObject()->getEntity(), false);
+				coll = CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision(
+					mWorld, pt->_getPhysicalObject()->getEntity(), false));
+                offset = Vector3::ZERO;
 			}
+            else
+            {
+                Throw(IllegalArgumentException, "unknown geometry type.");
+            }
 
             OgreNewt::Body* body = new OgreNewt::Body(mWorld, coll);
 
@@ -191,25 +238,20 @@ namespace rl
 
             body->setCustomForceAndTorqueCallback(genericForceCallback);
 
-            if (pt->_getOffsetMode() == OM_BOTTOMCENTERED)
-            {
-                offset = Vector3(0.0, size.y / 2.0, 0.0);
-            }
-
             pt->_setBody(body);
-			pt->_setOffset(offset);
+            pt->_setOffset(offset);
 			pt->_setOrientationBias(orientationBias);
-            mPhysicalThings.push_back(pt);        
+            mPhysicalThings.push_back(pt);
         }
 	}
 
     PhysicalThing* PhysicsManager::createPhysicalThing(GeometryTypes geomType,
-        PhysicalObject* po, Real mass, OffsetMode offsetMode, bool hullModifier)
+        PhysicalObject* po, Real mass, bool hullModifier)
     {
 		PhysicalThing* rval = NULL;
 		if (geomType != GT_NONE)
 		{
-			rval = new PhysicalThing(geomType, po, mass, offsetMode, hullModifier);
+			rval = new PhysicalThing(geomType, po, mass, hullModifier);
 		}
 
 		return rval;
@@ -275,7 +317,7 @@ namespace rl
 
         OgreNewt::Collision* collision =
             new OgreNewt::CollisionPrimitives::TreeCollision(mWorld, levelEntity, false);
-        OgreNewt::Body* body = new OgreNewt::Body(mWorld, collision);
+        OgreNewt::Body* body = new OgreNewt::Body(mWorld, CollisionPtr(collision));
 
         body->attachToNode(node);
         body->setPositionOrientation(node->getWorldPosition(),

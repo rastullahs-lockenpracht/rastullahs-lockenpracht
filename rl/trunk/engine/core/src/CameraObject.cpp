@@ -29,7 +29,7 @@ namespace rl {
             getSceneManager()->createCamera(name);
 
         camera->setNearClipDistance(0.1);
-        camera->setFarClipDistance(10000);
+        camera->setFarClipDistance(5000);
 
         mMovableObject = camera;
     }
@@ -49,9 +49,10 @@ namespace rl {
         return "CameraObject";
     }
 
-    Vector3 CameraObject::getDefaultSize() const
+    AxisAlignedBox CameraObject::getDefaultSize() const
     {
-        return Vector3(getCamera()->getNearClipDistance() * 3.0f, 0, 0);
+        Real r = getCamera()->getNearClipDistance();
+        return AxisAlignedBox(2.0*Vector3(-r, -r, -r), 2.0*Vector3(r, r, r));
     }
 
     Entity* CameraObject::getEntity() const
@@ -59,7 +60,7 @@ namespace rl {
         Throw(rl::OperationNotSupportedException, "CameraObject::getEntity not implemented.");
     }
 
-    Vector3 CameraObject::getPoseSize(const String&)
+    AxisAlignedBox CameraObject::getPoseSize(const String&)
     {
         Throw(OperationNotSupportedException,
             "CameraObject::calculateSizeFromPose not implemented.");

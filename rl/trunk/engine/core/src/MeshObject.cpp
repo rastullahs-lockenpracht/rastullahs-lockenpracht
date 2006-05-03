@@ -60,36 +60,18 @@ namespace rl {
         return reinterpret_cast<Entity*>(mMovableObject);
     }
 
-    ///@todo Sehr, sehr viel Optmimierungsspielraum :)
-    ///@todo Padding aus MeshManager::getBoundsPaddingFactor() benutzen
-    Vector3 MeshObject::getDefaultSize() const
+    AxisAlignedBox MeshObject::getDefaultSize() const
     {
         return mSize;
     }
     
-    Vector3 MeshObject::getCenter()
-    {
-        return Vector3(0, 0, getHeight() / 2.0);
-    }
-
-    Real MeshObject::getRadius()
-    {
-        Vector3 extent = getDefaultSize();
-        return std::max(extent.x, extent.z) / 2.0;
-    }
-
-    Real MeshObject::getHeight()
-    {
-        return getDefaultSize().y;
-    }
-
-	Vector3 MeshObject::getPoseSize(const String& animationName)
+    AxisAlignedBox MeshObject::getPoseSize(const String& animationName)
 	{
 		PoseMap::iterator it = mPoseSizes.find(animationName);
 		if (it == mPoseSizes.end())
 		{
 			// Not yet calculated. Do so now and save.
-			Vector3 rval = calculateSizeFromPose(animationName);
+            AxisAlignedBox rval = calculateSizeFromPose(animationName);
 			mPoseSizes.insert(make_pair(animationName, rval));
 			return rval;
 		}
@@ -204,26 +186,23 @@ namespace rl {
         }
     }
     
-    Vector3 MeshObject::calculateSize()
+    AxisAlignedBox MeshObject::calculateSize()
     {
-        Vector3 size = Vector3::ZERO;
-
-        const AxisAlignedBox& aab = getEntity()->getBoundingBox();
-        Vector3 x = aab.getMaximum();
-        Vector3 n = aab.getMinimum();
-        Vector3 scaler = (x - n) * MeshManager::getSingleton().
-            getBoundsPaddingFactor();
-        size = ((x - scaler) - (n + scaler));
-        return size;
+        const AxisAlignedBox& aabb = getEntity()->getBoundingBox();
+        Vector3 x = aabb.getMaximum();
+        Vector3 n = aabb.getMinimum();
+        Vector3 scaler = (x - n) * MeshManager::getSingleton().getBoundsPaddingFactor();
+        AxisAlignedBox rval = AxisAlignedBox(n + scaler, x - scaler);
+        return rval;
     }
 
-	Vector3 MeshObject::calculateSizeFromPose(const String& animationName)
+    AxisAlignedBox MeshObject::calculateSizeFromPose(const String& animationName)
 	{
 		Entity* entity = getEntity();
 		AnimationStateSet* ass = entity->getAllAnimationStates();
 
 		// Test if wanted anim is available for the entity
-		if (ass->hasAnimationState(animationName))
+		if (!ass->hasAnimationState(animationName))
 		{
 			Throw(IllegalArgumentException, String("No animation " + animationName +
 				" for entity " + entity->getName()));
@@ -248,22 +227,28 @@ namespace rl {
 		entity->addSoftwareAnimationRequest(false);
 		entity->_updateAnimation();
 
-		AxisAlignedBox aabb;
-		aabb.merge(getAabbFromVertexData(entity->_getSkelAnimVertexData()));
+        AxisAlignedBox aabb = AxisAlignedBox(Vector3::ZERO, Vector3::ZERO);
+        if (entity->getMesh()->sharedVertexData)
+        {
+		    aabb.merge(getAabbFromVertexData(entity->_getSkelAnimVertexData()));
+        }
 		for (unsigned int i = 0; i < entity->getNumSubEntities(); ++i)
 		{
 			SubEntity* se = entity->getSubEntity(i);
-			aabb.merge(getAabbFromVertexData(se->_getSkelAnimVertexData()));
+            if (se->getSubMesh()->vertexData)
+            {
+			    aabb.merge(getAabbFromVertexData(se->_getSkelAnimVertexData()));
+            }
 		}
 
 		entity->removeSoftwareAnimationRequest(false);
 
-		return aabb.getMaximum() - aabb.getMinimum();
+		return aabb;
 	}
 
 	AxisAlignedBox MeshObject::getAabbFromVertexData(VertexData* vd)
 	{
-		AxisAlignedBox rval;
+        AxisAlignedBox aabb = AxisAlignedBox(Vector3::ZERO, Vector3::ZERO);
 
 		const VertexElement* ve = vd->vertexDeclaration->findElementBySemantic(VES_POSITION);
 		HardwareVertexBufferSharedPtr vb = vd->vertexBufferBinding->getBuffer(ve->getSource());
@@ -273,15 +258,15 @@ namespace rl {
 		
 		for (size_t i = 0; i < vd->vertexCount; ++i)
 		{
-			data += vb->getVertexSize();
-
 			float* v;
 			ve->baseVertexPointerToElement(data, &v);
-			rval.merge(Vector3(v[0], v[1], v[2]));
+			aabb.merge(Vector3(v[0], v[1], v[2]));
+
+			data += vb->getVertexSize();
 		}
 		vb->unlock();
 
-		return rval;
+		return aabb;
     }
     
     void MeshObject::setCastShadows (bool enabled)

@@ -27,8 +27,7 @@ using namespace OgreNewt::CollisionPrimitives;
 namespace rl
 {
 	PhysicalThing::PhysicalThing(
-		PhysicsManager::GeometryTypes geomType, PhysicalObject* po, Real mass, 
-		PhysicsManager::OffsetMode offsetMode, bool hullModifier) 
+		PhysicsManager::GeometryTypes geomType, PhysicalObject* po, Real mass, bool hullModifier) 
 		:
 		mActor(NULL),
         mBody(NULL),
@@ -39,10 +38,10 @@ namespace rl
         mOverrideGravity(false),
         mGravity(Vector3::ZERO),
         mContactListener(NULL),
+        mPoseCollisions(),
 		mGeometryType(geomType),
 		mPhysicalObject(po),
 		mMass(mass),
-		mOffsetMode(offsetMode),
 		mHullModifier(hullModifier)
 	{
 	}
@@ -103,6 +102,7 @@ namespace rl
 	void PhysicalThing::_setOffset(const Vector3& offset)
 	{
 		mOffset = offset;
+        mBody->setOffset(offset);
 	}
 
 	PhysicalObject* PhysicalThing::_getPhysicalObject() const
@@ -128,7 +128,7 @@ namespace rl
 
     void PhysicalThing::_update()
     {
-        mBody->setPositionOrientation(mActor->_getSceneNode()->getWorldPosition() + mOffset,
+        mBody->setPositionOrientation(mActor->_getSceneNode()->getWorldPosition() + mBody->getOffset(),
             mOrientationBias.Inverse() * mActor->_getSceneNode()->getWorldOrientation());
 		mActor->_update(Actor::UF_ALL & ~Actor::UF_PHYSICAL_THING);
     }
@@ -214,11 +214,6 @@ namespace rl
 		return mHullModifier;
 	}
 
-	PhysicsManager::OffsetMode PhysicalThing::_getOffsetMode() const
-	{
-		return mOffsetMode;
-	}
-
     void PhysicalThing::setGravityOverride(bool override, const Vector3& gravity)
     {
         mOverrideGravity = override;
@@ -294,14 +289,14 @@ namespace rl
 					vbuffer->unlock();
 				}
 			}
-	        ConvexHull* collision = new ConvexHull(PhysicsManager::getSingleton()._getNewtonWorld(),
-			    &vertices[0], vertices.size());
+	        CollisionPtr collision(new ConvexHull(PhysicsManager::getSingleton()._getNewtonWorld(),
+			    &vertices[0], vertices.size()));
 		    mBody->setCollision(collision);
 		}
 		else if (mGeometryType == PhysicsManager::GT_MESH)
 		{
-	        TreeCollision* collision = new TreeCollision(
-				PhysicsManager::getSingleton()._getNewtonWorld(), entity, false);
+	        CollisionPtr collision(new TreeCollision(
+				PhysicsManager::getSingleton()._getNewtonWorld(), entity, false));
 		    mBody->setCollision(collision);
 		}
 
@@ -328,7 +323,41 @@ namespace rl
         return mContactListener;
     }
 
+    void PhysicalThing::fitToPose(const Ogre::String& name)
+    {
+        // Do we already have a collision for the wanted pose?
+        CollisionMap::iterator it = mPoseCollisions.find(name);
 
+        AxisAlignedBox size = mPhysicalObject->getPoseSize(name);
 
+        CollisionPtr coll;
+        if (it == mPoseCollisions.end())
+        {
+            // No, so create it and put it into the map
+            coll = PhysicsManager::getSingleton()._createCollision(this, size);
+            if (getHullModifier())
+            {
+                coll = CollisionPtr(new CollisionPrimitives::HullModifier(
+                    PhysicsManager::getSingleton()._getNewtonWorld(), coll));
+            }
+            mPoseCollisions.insert(make_pair(name, coll));
+        }
+        else
+        {
+            // Yes
+            coll = it->second;
+        }
+
+        mBody->setCollision(coll);
+
+        // Align bottoms of new and old collisions
+        Real yoffset = size.getCenter().y - mOffset.y;
+        Quaternion orientation;
+        Vector3 pos;
+        mBody->getPositionOrientation(pos, orientation);
+        mBody->setPositionOrientation(pos + Vector3(0, yoffset, 0), orientation);
+
+        // Adjust the node offset to fit the new form.
+        _setOffset(size.getCenter());
+    }
 }
-

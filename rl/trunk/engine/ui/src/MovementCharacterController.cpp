@@ -94,7 +94,8 @@ namespace rl {
 		// so the cam does look at the characters head instead of the feet.
 		MeshObject* charMesh = dynamic_cast<MeshObject*>(
 			mCharacterActor->getControlledObject());
-		mLookAtOffset = Vector3(0, charMesh->getHeight() * 0.45, 0);
+        AxisAlignedBox aabb = charMesh->getDefaultSize();
+        mLookAtOffset = Vector3(0, (aabb.getMaximum() - aabb.getMinimum()).y * 0.45, 0);
 
 		// The actor should be controlled manually,
 		// so let the PM prepare it accordingly
@@ -103,7 +104,10 @@ namespace rl {
 		PhysicsManager::getSingleton().setPhysicsController(
 			mCamera->getPhysicalThing(), this);
 
-		resetCamera();
+		// Fit Collision proxy to idle anim
+        mCharacterActor->getPhysicalThing()->fitToPose("Idle");
+
+        resetCamera();
 
 		MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
 		mesh->stopAllAnimations();
@@ -336,9 +340,11 @@ namespace rl {
 			Vector3 vel = diff / mMaxDelay;
 
 			// adjust scale of camera collision according to the velocity vector
+            // Use the pointer directly here. This is save, since we don't store
+            // a copy of it.
 			OgreNewt::CollisionPrimitives::HullModifier* hc =
 				static_cast<OgreNewt::CollisionPrimitives::HullModifier*>(
-				mCamBody->getCollision());
+                mCamBody->getCollision().getPointer());
 			Matrix4 mat = Matrix4::getScale(
 				Vector3(1.0f, 1.0f, 1.0f) + 3.0f * vel / vel.length());
 			hc->setMatrix(mat);
@@ -397,13 +403,15 @@ namespace rl {
 			Real newOmega = yaw.valueRadians() / mMaxDelay;
 			body->setOmega(Vector3(0, newOmega, 0));
 
-			//std::ostringstream ss;
-			//ss << "orientation: " << orientation.getYaw().valueDegrees()
-			//    << " mYaw: " << mYaw.valueDegrees()
-			//    << " yaw: " << yaw.valueDegrees()
-			//    << " no: " << newOmega;
+            SceneNode* node = mCharacterActor->_getSceneNode();
+			std::ostringstream ss;
+            ss << endl
+                << "scene node: " << node->getPosition() << endl
+                << "body      : " << position << endl
+                << "offset    : " << body->getOffset() << endl
+			    << "difference: " << node->getPosition() - position;
 
-			//Logger::getSingleton().log("RlUi", Ogre::LML_TRIVIAL, ss.str());
+			Logger::getSingleton().log("RlUi", Ogre::LML_TRIVIAL, ss.str());
 
 			// Assume we are air borne.
 			// Might be set to false in the collision callback
@@ -448,7 +456,22 @@ namespace rl {
 
 		if (mCharacterState.mCurrentMovementState != mCharacterState.mLastMovementState)
 		{
-			mesh->stopAllAnimations();
+            // Do we need to update coliision proxy?
+            if (mCharacterState.mCurrentMovementState & MOVE_SNEAK
+                && mCharacterState.mPose != CharacterState::Crouch)
+            {
+                pt->fitToPose("idle hocke");
+                mCharacterState.mPose = CharacterState::Crouch;
+            }
+            else if (!(mCharacterState.mCurrentMovementState & MOVE_SNEAK)
+                && mCharacterState.mPose == CharacterState::Crouch)
+            {
+                pt->fitToPose("Idle");
+                mCharacterState.mPose = CharacterState::Stand;
+            }
+
+			// Update animation state
+            mesh->stopAllAnimations();
 			if (mCharacterState.mCurrentMovementState & MOVE_SNEAK)
 			{
 				if (mCharacterState.mCurrentMovementState & MOVE_FORWARD)

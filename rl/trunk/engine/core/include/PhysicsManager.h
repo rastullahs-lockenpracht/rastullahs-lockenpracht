@@ -50,14 +50,6 @@ namespace rl {
             GT_CONVEXHULL = 5
         };
         
-        /// Typ bestimmt, wo der Usrprung (0/0/0) des Objektes liegt.
-        enum OffsetMode {
-            /// Ursprung in Objektmitte
-            OM_CENTERED = 0,
-            /// Ursprung Unten-Mitte
-            OM_BOTTOMCENTERED
-        };
-        
         PhysicsManager();
         virtual ~PhysicsManager();
 
@@ -77,7 +69,7 @@ namespace rl {
         /*PhysicalThing* createPhysicalThing(const int geomType, PhysicalObject* po,
             Ogre::Real mass, OffsetMode offsetMode = OM_BOTTOMCENTERED, bool hullModifier = false);*/
 		PhysicalThing* createPhysicalThing(GeometryTypes geomType, PhysicalObject* po,
-            Ogre::Real mass, OffsetMode offsetMode = OM_BOTTOMCENTERED, bool hullModifier = false);
+            Ogre::Real mass, bool hullModifier = false);
 
 		/**
 		 * Erschafft den entgültigen Physikproxy
@@ -127,8 +119,8 @@ namespace rl {
 
         OgreNewt::World* _getNewtonWorld() const;
         OgreNewt::MaterialID* _getLevelMaterialID() const;
-		OgreNewt::Collision* _createCollision(GeometryTypes geomType,
-			Ogre::Vector3 size) const;
+		OgreNewt::CollisionPtr _createCollision(PhysicalThing* pt,
+            const Ogre::AxisAlignedBox& size) const;
 
     private:
         typedef std::map<PhysicalThing*, PhysicsController*> ControllerMap;

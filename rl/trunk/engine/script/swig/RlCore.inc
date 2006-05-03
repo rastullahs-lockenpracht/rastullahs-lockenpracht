@@ -101,7 +101,6 @@ private:
 public:
 	static ActorManager& getSingleton(void);
 
-
 	rl::Actor* createParticleSystemActor(const Ogre::String& name, const Ogre::String& soundfile);
     rl::Actor* createListenerActor(const Ogre::String& name);
     rl::Actor* createSoundStreamActor(const Ogre::String& name, const Ogre::String& soundfile);
@@ -110,7 +109,7 @@ public:
     rl::Actor* createLightActor(const Ogre::String& name, rl::LightObject::LightTypes type );
 	rl::Actor* createMeshActor(const Ogre::String& name, const Ogre::String& meshname,
 		    rl::PhysicsManager::GeometryTypes geom = rl::PhysicsManager::GT_NONE,
-		    Ogre::Real density=1.0, rl::PhysicsManager::OffsetMode offsetMode = rl::PhysicsManager::OM_BOTTOMCENTERED);
+		    Ogre::Real density=1.0);
 		    
 	//void createDebugActors();
 	    
@@ -364,13 +363,8 @@ private:
 public:
     
     /// Groesse der Boundingbox
-    Ogre::Vector3 getDefaultSize() const;
-    Ogre::Vector3 getPoseSize(const Ogre::String& animationName);
-    
-    Ogre::Vector3 getCenter();
-    Ogre::Real getRadius();
-    Ogre::Real getHeight();
-    
+    Ogre::AxisAlignedBox getDefaultSize() const;
+        
 	rl::BaseAnimation* getAnimation(const Ogre::String& animName);
 	rl::BaseAnimation* replaceAnimation(const Ogre::String& oldAnimName, 
 	    const Ogre::String& newAnimName, float speed=1.0, unsigned int timesToPlay=0);
@@ -546,13 +540,10 @@ public:
 class PhysicalThing
 {
 public:
-//    PhysicalThing(OgreNewt::Body* body, const Ogre::Vector3& offset = Ogre::Vector3::ZERO,
-//        const Ogre::Quaternion& orientationBias = Ogre::Quaternion::IDENTITY);
     PhysicalThing(
 			rl::PhysicsManager::GeometryTypes geomType,
 			rl::PhysicalObject* po, 
 			Ogre::Real mass, 
-			rl::PhysicsManager::OffsetMode offsetMode, 
 			bool hullModifier = false);
 
     void setPosition(Ogre::Real x, Ogre::Real y, Ogre::Real z);
@@ -580,6 +571,8 @@ public:
     void setContactListener(rl::PhysicsContactListener* listener);
     rl::PhysicsContactListener* getContactListener() const;
 
+    void fitToPose(const Ogre::String& name);
+
 };
 
 class PhysicsManager
@@ -596,19 +589,11 @@ public:
         GT_CONVEXHULL = 5
     };
     
-    /// Typ bestimmt, wo der Usrprung (0/0/0) des Objektes liegt.
-    enum OffsetMode {
-        /// Ursprung in Objektmitte
-        OM_CENTERED = 0,
-        /// Ursprung Unten-Mitte
-        OM_BOTTOMCENTERED
-    };
-    
     PhysicsManager();
 	static PhysicsManager& getSingleton(void);
     
     rl::PhysicalThing* createPhysicalThing(rl::PhysicsManager::GeometryTypes geomType, rl::PhysicalObject* po,
-		Ogre::Real mass, rl::PhysicsManager::OffsetMode offsetMode = rl::PhysicsManager::OM_BOTTOMCENTERED );
+		Ogre::Real mass);
 
     void removeAndDestroyPhysicalThing(PhysicalThing* thing);
 

@@ -248,7 +248,7 @@ namespace rl {
             CameraObject* co = new CameraObject(uniquename);
             PhysicalThing* pt = PhysicsManager::getSingleton()
                 .createPhysicalThing(PhysicsManager::GT_SPHERE, co, 
-                    100.0f, PhysicsManager::OM_CENTERED, true);
+                    100.0f, true);
 			PhysicsManager::getSingleton().createPhysicsProxy(pt, NULL);
             actor = new Actor(uniquename, co, pt);
 
@@ -266,7 +266,7 @@ namespace rl {
     }
 
 	Actor* ActorManager::createMeshActor(const String& name,const String& meshname,
-		PhysicsManager::GeometryTypes geomType, Ogre::Real mass, PhysicsManager::OffsetMode offsetMode )
+		PhysicsManager::GeometryTypes geomType, Ogre::Real mass)
 	{
 		const String&  uniquename = nextUniqueName(name);
 		
@@ -275,7 +275,7 @@ namespace rl {
         {
             PhysicalThing* pt = 0;
 		    MeshObject* mo = new MeshObject(uniquename, meshname);
-            pt = PhysicsManager::getSingleton().createPhysicalThing( geomType, mo, mass, offsetMode );
+            pt = PhysicsManager::getSingleton().createPhysicalThing( geomType, mo, mass);
 
 		    actor = new Actor(uniquename, mo, pt);
 		    mActors.insert(ActorPtrPair(uniquename,actor)); 

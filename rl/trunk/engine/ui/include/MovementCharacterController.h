@@ -81,7 +81,9 @@ namespace rl {
 		/// private struct for holding state info of the controller
 		struct CharacterState
 		{
+            typedef enum {Stand, Crouch} Pose;
 			CharacterState();
+            Pose mPose;
 			bool mIsAirBorne;
 			bool mStartJump;
 

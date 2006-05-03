@@ -31,13 +31,10 @@ namespace rl {
     class _RlCoreExport PhysicalThing
     {
     public:
-        /*PhysicalThing(OgreNewt::Body* body, const Ogre::Vector3& offset = Ogre::Vector3::ZERO,
-            const Ogre::Quaternion& orientationBias = Ogre::Quaternion::IDENTITY);*/
 		PhysicalThing(
 			PhysicsManager::GeometryTypes geomType,
 			PhysicalObject* po, 
 			Real mass, 
-			PhysicsManager::OffsetMode offsetMode, 
 			bool hullModifier = false);
 
         /// Klasse Polymorph machen, damit SWIG glücklich ist.
@@ -73,7 +70,6 @@ namespace rl {
 
 		PhysicsManager::GeometryTypes _getGeometryType() const;
 		bool  getHullModifier() const;
-		PhysicsManager::OffsetMode _getOffsetMode() const;
 
         OgreNewt::Body* _getBody() const;
 		void _setBody(OgreNewt::Body* body);
@@ -94,6 +90,11 @@ namespace rl {
          */
         void updateCollisionHull();
 
+        /** Called to update the collision of the physical thing, in order to adapt
+         *  to a new animation state.
+         */
+        void fitToPose(const Ogre::String& name);
+
         void setContactListener(PhysicsContactListener* listener);
         PhysicsContactListener* getContactListener() const;
 
@@ -108,9 +109,11 @@ namespace rl {
         Ogre::Vector3 mGravity;
         PhysicsContactListener* mContactListener;
 
+        typedef std::map<Ogre::String, OgreNewt::CollisionPtr> CollisionMap;
+        CollisionMap mPoseCollisions;
+
 		Ogre::Real mMass;
 		PhysicsManager::GeometryTypes mGeometryType;
-		PhysicsManager::OffsetMode mOffsetMode;
 		PhysicalObject* mPhysicalObject;
 		bool mHullModifier;
     };
