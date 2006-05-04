@@ -64,7 +64,7 @@ class RockPile < GameObject
   def initialize(positionPile, orientation, positionParticles)
     super("Steinhaufen", "Ein großer Steinhaufen")
 
-    @mRockPile = $AM.createMeshActor("Steinhaufen", "Steinhaufen.mesh", PhysicsManager::GT_CONVEXHULL, 0.0,  PhysicsManager::OM_CENTERED )
+    @mRockPile = $AM.createMeshActor("Steinhaufen", "Steinhaufen.mesh", PhysicsManager::GT_CONVEXHULL, 0.0)
     @mRockPile.getPhysicalThing().setGravityOverride(true, 0.0, 0.0, 0.0)
     @mRockPile.placeIntoScene(positionPile, orientation)
 
