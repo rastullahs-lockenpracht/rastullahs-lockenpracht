@@ -281,6 +281,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\MathUtil.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\PauseObject.cpp"
 				>
 			</File>
@@ -366,6 +370,10 @@
 			</File>
 			<File
 				RelativePath=".\include\Logger.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\MathUtil.h"
 				>
 			</File>
 			<File
