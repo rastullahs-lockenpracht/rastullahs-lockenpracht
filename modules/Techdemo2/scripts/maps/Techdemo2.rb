@@ -47,10 +47,11 @@ kugelDings.placeIntoScene( [-56.2, -1.1, -75.0] );
 
 
 class LevelwechselListener < GameAreaListener
-	def initialize( targetscene, targetrbfile )
+	def initialize( targetscene, resourcegrp, targetrbfile )
 		super()
 		@targetScene = targetscene
-		@targetRbFile = targetrbfile 
+		@targetRbFile = targetrbfile
+		@resourcegrp = resourcegrp 
 	end
  
 	def areaLeft(anEvent)
@@ -58,12 +59,12 @@ class LevelwechselListener < GameAreaListener
  
 	# Zone betreten
 	def areaEntered(anEvent)
-		$CORE.loadMap("Octree", @targetScene, @targetRbFile, @targetRbFile); 
+		$CORE.loadMap("Octree", @targetScene, @resourcegrp, @targetRbFile); 
 	end
 end
  
 #Erstellen mit 
-MapchangeListener = LevelwechselListener .new("minidemo.scene", "minidemo.rb" ); 
+MapchangeListener = LevelwechselListener .new("techdemo2map2_01.scene", "Techdemo2", "Techdemo2.rb"); 
 
 $SCRIPT.log("Mapchange: MapchangeListener hinzufügen");
 $GameEveMgr.addSphereAreaListener( kugelDings, 4.000, MapchangeListener, Actor::QGF_PLAYER );

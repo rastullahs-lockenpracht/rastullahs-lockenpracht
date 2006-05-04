@@ -1,0 +1,13 @@
+
+material Techdemo2_map2
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.0784314 0.0784314 0.0784314 1
+			diffuse 0.603922 0.603922 0.603922 1
+			specular 0 0 0 1 10.3
+		}
+	}
+}
