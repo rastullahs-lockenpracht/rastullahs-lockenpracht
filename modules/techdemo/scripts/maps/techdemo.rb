@@ -40,9 +40,6 @@ PlayerSettings.preparePlayer($hero);
 $SCRIPT.log("Held vorbereitet.");
 $UI.setActiveCharacter($hero);
 $SCRIPT.log("Held als aktiver Charakter gesetzt.");
-$UI.setCharacterController(UiSubsystem::CTRL_MOVEMENT);
-$SCRIPT.log("CharacterController erstellt.");
-
 
 $World.setFog( World::FOG_EXP, [0.8,0.8,1.0,0.5], 0.00003, 0.4, 1.0);
 
