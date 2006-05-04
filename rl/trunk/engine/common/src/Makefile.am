@@ -8,6 +8,7 @@ libRlCommon_la_SOURCES = \
   GameTask.cpp \
   Logger.cpp \
   LinkedPlaylist.cpp \
+  MathUtil.cpp \
   PauseObject.cpp \
   Playlist.cpp \
   PlaylistEvent.cpp \

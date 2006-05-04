@@ -19,6 +19,7 @@ noinst_HEADERS = \
 	DialogCharacterController.h \
 	FreeFlightCharacterController.h \
 	GameLoggerWindow.h \
+	InfoPopup.h \
 	InGameMenuWindow.h \
 	InputManager.h \
 	InventoryWindow.h \
@@ -37,4 +38,5 @@ noinst_HEADERS = \
 	UiSubsystem.h \
 	VideoWindow.h \
 	WindowFactory.h \
-	WindowManager.h 
+	WindowManager.h \
+	WindowUpdater.h

@@ -10,13 +10,14 @@ noinst_HEADERS =
 	GameTask.h \
 	Logger.h \
 	LinkedPlaylist.h \
+	MathUtil.h \
 	PauseObject.h \
 	Playlist.h \
 	SimplePlaylist.h \
 	PlaylistEvent.h \
 	PlaylistObject.h \
-      RastullahPrerequisites.h \
-      ScriptWrapper.h \
+    RastullahPrerequisites.h \
+    ScriptWrapper.h \
 	Sleep.h \
 	Tripel.h \
 	XHelper.h \
