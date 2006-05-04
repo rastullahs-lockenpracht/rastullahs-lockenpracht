@@ -36,7 +36,7 @@ namespace rl
         Ogre::Radian& azimuth, Ogre::Radian& altitude)
     {
         r = Math::Sqrt(Math::Sqr(cartesian.x)*Math::Sqr(cartesian.y)*Math::Sqr(cartesian.z));
-        azimuth = Math::ATan(cartesian.x/cartesian.z);
+        azimuth = Math::ATan2(cartesian.x, cartesian.z);
         altitude = Math::ACos(cartesian.y/r) - Radian(Math::HALF_PI);
     }
 }
