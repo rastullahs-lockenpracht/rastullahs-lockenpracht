@@ -34,6 +34,7 @@
 #include "Exception.h"
 #include "GameLoggerWindow.h"
 #include "GameObject.h"
+#include "InfoPopup.h"
 #include "InGameMenuWindow.h"
 #include "InputManager.h"
 #include "JournalWindow.h"
@@ -75,7 +76,9 @@ namespace rl {
 		mInGameMenuWindow = new InGameMenuWindow();
 		mCharacterSheet = new CharacterSheetWindow();
 		mJournalWindow = new JournalWindow();
+		mInfoPopup = new InfoPopup();
 		RulesSubsystem::getSingleton().getQuestBook()->addQuestChangeListener(mJournalWindow);
+		RulesSubsystem::getSingleton().getQuestBook()->addQuestChangeListener(mInfoPopup);
 		CoreSubsystem::getSingleton().addCoreEventListener(new DataLoadingProgressWindow());
 
 		mLogWindow = new LogWindow();
@@ -90,6 +93,7 @@ namespace rl {
 		delete mInGameMenuWindow;
 		delete mCharacterStateWindow;
 		delete mConsole;
+		delete mInfoPopup;
 
 		delete DebugWindow::getSingletonPtr();
 	}
@@ -320,5 +324,18 @@ namespace rl {
 	void WindowFactory::showSoundConfig()
 	{
 		(new SoundConfig())->setVisible(true);
+	}
+
+	void WindowFactory::showPopupMessage(int popupTypes)
+	{
+		if (popupTypes & WindowFactory::ICON_ERROR)
+		{
+			mInfoPopup->showError();
+		}
+
+		if (popupTypes & WindowFactory::ICON_QUEST)
+		{
+			mInfoPopup->showQuestChange();
+		}
 	}
 }

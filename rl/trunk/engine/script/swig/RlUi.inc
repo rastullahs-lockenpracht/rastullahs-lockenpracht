@@ -97,6 +97,12 @@ public:
 class WindowFactory
 {
 public:
+	enum PopupType
+	{
+		ICON_ERROR = 1,
+		ICON_QUEST
+	};
+
 	static rl::WindowFactory& getSingleton();
 
 	void update();
@@ -116,6 +122,7 @@ public:
 	void showMessageWindow(const rl::CeGuiString& message);
 	void showPickedObjectActions();
     void showPlaylist();
+	void showPopupMessage(int popupTypes);
     void showSoundConfig();
 	void showTargetWindow();
 

@@ -43,4 +43,5 @@ libRlUi_la_SOURCES = \
 	UiSubsystem.cpp \
 	VideoWindow.cpp \
 	WindowFactory.cpp \
-	WindowManager.cpp 
+	WindowManager.cpp \
+	WindowUpdater.cpp

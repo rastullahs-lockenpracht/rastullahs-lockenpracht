@@ -1,7 +1,8 @@
 <?xml version="1.0" ?>
 <GUIScheme Name="RastullahLook">
-	<Imageset Name="RastullahLook-Images" Filename="RastullahLook.imageset" />
+    <Imageset Name="RastullahLook-Images" Filename="RastullahLook.imageset" />
     <Imageset Name="RastullahButtons" Filename="RastullahButtons.imageset" />
+    <Imageset Name="RastullahIcons" Filename="RastullahIcons.imageset" />
     <Imageset Name="ModelThumbnails" Filename="ModelThumbnails.imageset" />
     <Imageset Name="DialogFaces" Filename="DialogFaces.imageset" />
 

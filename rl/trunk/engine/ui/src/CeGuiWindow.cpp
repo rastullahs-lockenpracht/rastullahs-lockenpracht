@@ -22,6 +22,7 @@
 #include "CeGuiWindow.h"
 #include "InputManager.h"
 #include "WindowManager.h"
+#include "WindowUpdater.h"
 
 using namespace std;
 using namespace CEGUI;
@@ -298,6 +299,10 @@ namespace rl
 	void CeGuiWindow::_setUpdateTask(WindowUpdateTask* task)
 	{
 		mUpdateTask = task;
+	}
+
+	void CeGuiWindow::windowHid()
+	{
 	}
 
 }

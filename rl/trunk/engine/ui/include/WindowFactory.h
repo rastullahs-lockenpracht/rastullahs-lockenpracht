@@ -41,6 +41,7 @@ namespace rl {
 	class DialogCharacter;
 	class GameLoggerWindow;
 	class GameObject;
+	class InfoPopup;
 	class InGameMenuWindow;
 	class JournalWindow;
 	class LogWindow;
@@ -51,6 +52,12 @@ namespace rl {
 	class _RlUiExport WindowFactory : public Ogre::Singleton<WindowFactory>
 	{
 	public:
+		enum PopupIcon
+		{
+			ICON_ERROR = 1,
+			ICON_QUEST
+		};
+
 		WindowFactory();
 		~WindowFactory();
 
@@ -75,7 +82,8 @@ namespace rl {
 		void showMessageWindow(const CeGuiString& message);
 		void showMainMenu();
 		void showPickedObjectActions();
-        void showPlaylist();
+		void showPlaylist();
+		void showPopupMessage(int popupTypes);
 		void showSoundConfig();
 		void showTargetWindow();
 
@@ -103,6 +111,7 @@ namespace rl {
 		JournalWindow* mJournalWindow;
 		LogWindow* mLogWindow;
 		Console* mConsole;
+		InfoPopup* mInfoPopup;
 	};
 }
 

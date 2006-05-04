@@ -71,6 +71,8 @@ namespace rl {
 
 		const CeGuiString& getName() const;
 
+		virtual void windowHid();
+
 		void _setUpdateTask(WindowUpdateTask* updateTask);
 
 	protected:

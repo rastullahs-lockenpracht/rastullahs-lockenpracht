@@ -344,6 +344,10 @@
 				RelativePath=".\include\WindowManager.h"
 				>
 			</File>
+			<File
+				RelativePath=".\include\WindowUpdater.h"
+				>
+			</File>
 			<Filter
 				Name="windows"
 				>
@@ -397,6 +401,10 @@
 				</File>
 				<File
 					RelativePath=".\include\GameLoggerWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\InfoPopup.h"
 					>
 				</File>
 				<File
@@ -497,6 +505,10 @@
 				RelativePath=".\src\WindowManager.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\src\WindowUpdater.cpp"
+				>
+			</File>
 			<Filter
 				Name="windows"
 				>
@@ -550,6 +562,10 @@
 				</File>
 				<File
 					RelativePath=".\src\GameLoggerWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\InfoPopup.cpp"
 					>
 				</File>
 				<File

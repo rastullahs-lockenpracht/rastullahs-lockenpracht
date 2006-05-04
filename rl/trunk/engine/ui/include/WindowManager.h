@@ -53,66 +53,17 @@ namespace rl {
 
 		void _fadeIn(CeGuiWindow* window, Ogre::Real time, float targetAlpha = 1.0);
 		void _fadeOut(CeGuiWindow* window, Ogre::Real time, bool destroy);
+		void _fadeInOut(
+			CeGuiWindow* window, 
+			Ogre::Real timeFade, 
+			Ogre::Real timeHold, 
+			bool destroy = false);
 		void _moveOutLeft(CeGuiWindow* window, Ogre::Real time, bool destroy);
 
 	private:
 		std::list<CeGuiWindow*> mWindowList;
 		WindowUpdater* mWindowUpdater;
 	};
-
-	class WindowUpdateTask {
-	public:
-		enum WindowUpdateAction
-		{
-			WND_SHOW = 1,
-			WND_HIDE,
-			WND_DESTROY
-		};
-		
-		WindowUpdateTask(CeGuiWindow* window, Ogre::Real time, WindowUpdateAction action,
-			int targetX, int targetY, Ogre::Real targetAlpha = -1);
-		WindowUpdateTask(CeGuiWindow* window, Ogre::Real time, WindowUpdateAction action, 
-			Ogre::Real targetAlpha);
-
-		void run(Ogre::Real elapsedTime);
-		const CEGUI::Point& getCurrentPosition() const;
-		const Ogre::Real& getCurrentAlpha() const;
-		const Ogre::Real& getNormalAlpha() const;
-		const Ogre::Real& getTimeLeft() const;
-		void setTargetAlpha(const Ogre::Real& alpha);
-		CeGuiWindow* getWindow();
-		WindowUpdateAction getAction() const;
-		void initialize();
-
-	private:
-
-		CeGuiWindow* mWindow;
-		Ogre::Real mTime; 
-		CEGUI::Point mTargetPoint;
-		CEGUI::Point mRatePoint;
-		CEGUI::Point mCurrentPoint;
-		Ogre::Real mTargetAlpha;
-		Ogre::Real mRateAlpha;
-		Ogre::Real mCurrentAlpha;
-		Ogre::Real mNormalAlpha;
-		bool mCalculatePoint;
-		bool mCalculateAlpha;
-		WindowUpdateAction mAction;
-	};
-
-	class WindowUpdater : public GameTask
-	{
-	public:
-		void run( Ogre::Real elapsedTime );
-
-		void fadeIn(CeGuiWindow* window, Ogre::Real time, float targetAlpha = 1.0);
-		void fadeOut(CeGuiWindow* window, Ogre::Real time, bool destroy);
-		void moveOutLeft(CeGuiWindow* window, Ogre::Real time, bool destroy);
-	private:
-		std::set<WindowUpdateTask*> mTasks;
-	};
-
-
 }
 
 #endif

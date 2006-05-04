@@ -1,0 +1,25 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+    <Window Type="DefaultWindow" Name="InfoPopup">
+        <Property Name="AbsoluteXPosition" Value="0.0"/>
+        <Property Name="AbsoluteYPosition" Value="500.0"/>
+        <Property Name="AbsoluteWidth" Value="50.0"/>
+        <Property Name="AbsoluteHeight" Value="50.0"/>
+
+		<Window Type="RastullahLook/StaticImage" Name="InfoPopup/ErrorIcon">
+			<Property Name="AbsoluteXPosition" Value="50"/>
+			<Property Name="AbsoluteYPosition" Value="100"/>
+			<Property Name="AbsoluteWidth" Value="45"/>
+			<Property Name="AbsoluteHeight" Value="45"/>
+			<Property Name="Image" Value="set:RastullahIcons image:Icons/Error" />
+		</Window>
+
+		<Window Type="RastullahLook/StaticImage" Name="InfoPopup/QuestIcon">
+			<Property Name="AbsoluteXPosition" Value="50"/>
+			<Property Name="AbsoluteYPosition" Value="100"/>
+			<Property Name="AbsoluteWidth" Value="45"/>
+			<Property Name="AbsoluteHeight" Value="45"/>
+			<Property Name="Image" Value="set:RastullahIcons image:Icons/Quest" />
+		</Window>
+
+    </Window>
+</GUILayout>
