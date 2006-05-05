@@ -1,0 +1,30 @@
+
+material nat_baum_shadix_03/baumblatt3
+{
+	technique
+	{
+		pass
+		{
+			alpha_rejection greater 128
+
+			texture_unit
+			{
+				texture nat_baum_shadix_03.dds
+			}
+		}
+	}
+}
+material nat_baum_shadix_03/baumrinde3
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture nat_baum_shadix_03.png
+			}
+		}
+	}
+}

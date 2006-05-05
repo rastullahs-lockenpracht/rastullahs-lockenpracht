@@ -1,13 +1,72 @@
 
-material Techdemo2_map2
+material orig_Techdemo2_map2
 {
 	technique
 	{
 		pass
 		{
-			ambient 0.0784314 0.0784314 0.0784314 1
-			diffuse 0.603922 0.603922 0.603922 1
-			specular 0 0 0 1 10.3
+			lighting off
+
+			texture_unit
+			{
+				texture gras_01.png
+				tex_coord_set 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			shading flat
+
+			texture_unit
+			{
+				texture felsen2.jpg
+				tex_coord_set 1
+				scale 5 5
+			}
+
+			texture_unit
+			{
+				texture felsdetailmap.png
+				scale 0.01 0.01
+			}
+
+			texture_unit
+			{
+				texture TechdemoMap2_Fels.png
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			shading flat
+
+			texture_unit
+			{
+				texture steingrund01.jpg
+				tex_coord_set 1
+			}
+
+			texture_unit
+			{
+				texture TechdemoMap2_Dreck.png
+			}
+		}
+		pass
+		{
+			ambient 0.282353 0.282353 0.282353 1
+			diffuse 0.788235 0.788235 0.788235 1
+			specular 0 0 0 1 20
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture Techdemo2LightingMap2.png
+				colour_op_ex add src_texture src_current
+				colour_op_multipass_fallback one one
+			}
 		}
 	}
 }

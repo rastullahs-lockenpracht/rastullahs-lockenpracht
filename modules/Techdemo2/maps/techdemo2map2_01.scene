@@ -15,5 +15,82 @@
   
 
 		</node>
+		<node name="arc_Laden" id="3" >
+			<position x="2.35411" y="-37.3614" z="-11.6238" />
+			<rotation qx="0.0" qy="-0.953503" qz="0.0" qw="-0.301384" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="arc_Laden"
+				id="4"
+				meshFile ="arc_Laden.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="Omni01" id="5" >
+			<position x="26.124" y="388.629" z="-517.108" />
+			<rotation qx="0.0" qy="-0.587082" qz="0.0" qw="0.809527" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<light
+				name="Omni01"
+				id="6"
+				type="point"
+				visible="true" >
+				castShadows="false" >
+				<position x="0.0" y="0.0" z="0.0" />
+				<colourDiffuse r="1.0" g="1.0" b="1.0" />
+				<colourSpecular r="1.0" g="1.0" b="1.0" />
+				<lightAttenuation
+					range="200.0"
+					constant="1.0"
+					linear="0.0"
+					quadratic="0.0"
+				/>
+			</light>
+		</node>
+		<node name="Plane01" id="7" >
+			<position x="22.1192" y="-77.2818" z="-141.041" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.741088" y="0.804937" z="1.0" />
+			<entity
+				name="Plane01"
+				id="8"
+				meshFile ="Plane01.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="towerplaceholder" id="9" >
+			<position x="18.155" y="-49.0049" z="-260.04" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="towerplaceholder"
+				id="10"
+				meshFile ="towerplaceholder.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
 	</nodes>
+	
+		<userData>
+		<property type="FLOAT" name="staticgeom_renderingdistance_0" data="200"/>
+        <property type="FLOAT" name="staticgeom_batchsize_0" data="25"/>
+
+	<property type="FLOAT" name="default_renderingdistance" data="10000"/>
+
+       <manualLOD mesh="nat_nadelbaum_02.mesh">
+            <LOD distance="150.0" mesh="nat_nadelbaum_02_lod.mesh" />
+        </manualLOD>
+	</userData>
 </scene>
