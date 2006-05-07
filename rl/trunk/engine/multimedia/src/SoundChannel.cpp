@@ -21,9 +21,6 @@
 #include "Sound.h"
 #include "MultimediaSubsystem.h"
 #include "SoundDriver.h"
-extern "C" {
-    #include <fmod.h>
-}
 
 Ogre::AxisAlignedBox rl::SoundChannel::msAABox = Ogre::AxisAlignedBox(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5);
 

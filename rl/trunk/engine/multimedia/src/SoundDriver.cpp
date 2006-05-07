@@ -80,4 +80,24 @@ void SoundDriver::removeFromLists(SoundChannel *channel)
     mSoundSet.erase(channel);
 }
 
+/*
+ * Die Konfiguration in Datei schreiben.
+ * @author JoSch
+ * @date 05-07-2006
+ * @param conf Die Konfigurationdatei zum Schreiben.
+ */
+void SoundDriver::writeConf(ConfigFile &conf)
+{
+}
+
+/*
+ * Die Konfiguration lesen
+ * @author JoSch
+ * @date 05-07-2006
+ * @param conf Die Konfigurationdatei, aus der gelesen werden soll
+ */
+void SoundDriver::loadConf(ConfigFile &conf)
+{
+}
+
 }

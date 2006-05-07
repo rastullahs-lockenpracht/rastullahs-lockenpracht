@@ -20,10 +20,6 @@
 #include <OgreVector3.h>
 #include "SoundManager.h"
 #include "MultimediaSubsystem.h"
-extern "C" {
-    #include <fmod.h>
-}
-
 
 using namespace Ogre; 
 
