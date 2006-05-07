@@ -1,13 +1,13 @@
 <scene formatVersion="0.0" >
 	<nodes>
-		<node name="Techdemo2_map2" id="1" >
-			<position x="1.34154" y="-37.1625" z="-19.7702" />
+		<node name="ter_TD2_map2_part_05" id="1" >
+			<position x="-86.3419" y="-27.1376" z="42.6488" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
-				name="Techdemo2_map2"
+				name="ter_TD2_map2_part_05"
 				id="2"
-				meshFile ="Techdemo2_map2.mesh"
+				meshFile ="ter_TD2_map2_part_05.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
@@ -15,14 +15,14 @@
   
 
 		</node>
-		<node name="arc_Laden" id="3" >
-			<position x="2.35411" y="-37.3614" z="-11.6238" />
-			<rotation qx="0.0" qy="-0.953503" qz="0.0" qw="-0.301384" />
+		<node name="ter_TD2_map2_part_06" id="3" >
+			<position x="-165.371" y="-26.8071" z="-221.13" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
-				name="arc_Laden"
+				name="ter_TD2_map2_part_06"
 				id="4"
-				meshFile ="arc_Laden.mesh"
+				meshFile ="ter_TD2_map2_part_06.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
@@ -30,35 +30,14 @@
   
 
 		</node>
-		<node name="Omni01" id="5" >
-			<position x="26.124" y="388.629" z="-517.108" />
-			<rotation qx="0.0" qy="-0.587082" qz="0.0" qw="0.809527" />
+		<node name="ter_TD2_map2_part_03" id="5" >
+			<position x="-4.19746" y="-49.1362" z="-174.159" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
-			<light
-				name="Omni01"
+			<entity
+				name="ter_TD2_map2_part_03"
 				id="6"
-				type="point"
-				visible="true" >
-				castShadows="false" >
-				<position x="0.0" y="0.0" z="0.0" />
-				<colourDiffuse r="1.0" g="1.0" b="1.0" />
-				<colourSpecular r="1.0" g="1.0" b="1.0" />
-				<lightAttenuation
-					range="200.0"
-					constant="1.0"
-					linear="0.0"
-					quadratic="0.0"
-				/>
-			</light>
-		</node>
-		<node name="Plane01" id="7" >
-			<position x="22.1192" y="-77.2818" z="-141.041" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.741088" y="0.804937" z="1.0" />
-			<entity
-				name="Plane01"
-				id="8"
-				meshFile ="Plane01.mesh"
+				meshFile ="ter_TD2_map2_part_03.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
@@ -66,14 +45,89 @@
   
 
 		</node>
-		<node name="towerplaceholder" id="9" >
-			<position x="18.155" y="-49.0049" z="-260.04" />
+		<node name="ter_TD2_map2_part_07" id="7" >
+			<position x="23.1077" y="2.11635" z="-363.401" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
-				name="towerplaceholder"
+				name="ter_TD2_map2_part_07"
+				id="8"
+				meshFile ="ter_TD2_map2_part_07.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ter_TD2_map2_part_08" id="9" >
+			<position x="171.233" y="-0.61879" z="-226.518" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ter_TD2_map2_part_08"
 				id="10"
-				meshFile ="towerplaceholder.mesh"
+				meshFile ="ter_TD2_map2_part_08.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ter_TD2_map2_part_09" id="11" >
+			<position x="150.608" y="-17.579" z="-43.7197" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ter_TD2_map2_part_09"
+				id="12"
+				meshFile ="ter_TD2_map2_part_09.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ter_TD2_map2_part_04" id="13" >
+			<position x="12.2216" y="-25.4801" z="-257.76" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ter_TD2_map2_part_04"
+				id="14"
+				meshFile ="ter_TD2_map2_part_04.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ter_TD2_map2_part_02" id="15" >
+			<position x="2.43713" y="-38.0107" z="-82.0208" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ter_TD2_map2_part_02"
+				id="16"
+				meshFile ="ter_TD2_map2_part_02.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ter_TD2_map2_part_01" id="17" >
+			<position x="25.5951" y="-21.9377" z="6.48893" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ter_TD2_map2_part_01"
+				id="18"
+				meshFile ="ter_TD2_map2_part_01.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
@@ -83,7 +137,7 @@
 		</node>
 	</nodes>
 	
-		<userData>
+			<userData>
 		<property type="FLOAT" name="staticgeom_renderingdistance_0" data="200"/>
         <property type="FLOAT" name="staticgeom_batchsize_0" data="25"/>
 
@@ -92,5 +146,20 @@
        <manualLOD mesh="nat_nadelbaum_02.mesh">
             <LOD distance="150.0" mesh="nat_nadelbaum_02_lod.mesh" />
         </manualLOD>
+        
+        <manualLOD mesh="ter_TD2_map2_part_01.mesh">
+            <LOD distance="150.0" mesh="ter_TD2_map2_part_01_lod.mesh" />
+        </manualLOD>
+        <manualLOD mesh="ter_TD2_map2_part_02.mesh">
+            <LOD distance="150.0" mesh="ter_TD2_map2_part_02_lod.mesh" />
+        </manualLOD>
+        <manualLOD mesh="ter_TD2_map2_part_03.mesh">
+            <LOD distance="150.0" mesh="ter_TD2_map2_part_03_lod.mesh" />
+        </manualLOD>
+        <manualLOD mesh="ter_TD2_map2_part_04.mesh">
+            <LOD distance="150.0" mesh="ter_TD2_map2_part_04_lod.mesh" />
+        </manualLOD>
+        
 	</userData>
+	
 </scene>
