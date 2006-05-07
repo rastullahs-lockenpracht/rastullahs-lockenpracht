@@ -217,5 +217,37 @@ void OalDriver::printData()
 {
 }
 
+/*
+ * Die Konfiguration in Datei schreiben.
+ * @author JoSch
+ * @date 05-07-2006
+ * @param conf Die Konfigurationdatei zum Schreiben.
+ */
+void OalDriver::writeConf(ConfigFile &conf)
+{
+    // DO NOTHING
+}
+
+/*
+ * Die Konfiguration lesen
+ * @author JoSch
+ * @date 05-07-2006
+ * @param conf Die Konfigurationdatei, aus der gelesen werden soll
+ */
+void OalDriver::loadConf(ConfigFile &conf)
+{
+    // DO NOTHING
+}
+
+/*
+ * Den Konfigurationsdialog aufrufen
+ * @author JoSch
+ * @date 05-07-2006
+ */
+void OalDriver::doConfig()
+{
+    // DO NOTHING
+}
+
 }
 #endif // WITH_OAL

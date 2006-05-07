@@ -66,6 +66,13 @@ public:
 
 	void setMasterVolume(unsigned int vol);
 
+    /// Den  Konfigurationsdialog für Treiber aufrufen
+    virtual void doConfig();
+    /// Die Einstellungen in Datei schreiben
+    virtual void writeConf(rl::ConfigFile &conf);
+    /// Die Einstellungen laden
+    virtual void loadConf(rl::ConfigFile &conf);
+
 protected:
     /// Informationen über den Treiber ausgeben
     virtual void printData();

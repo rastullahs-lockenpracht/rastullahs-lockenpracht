@@ -55,6 +55,13 @@ public:
     virtual SoundChannel *createChannel(Sound *channel, const Ogre::String &name);
     /// Einen Soundlistener erzeugen
     virtual ListenerMovable *createListener(const Ogre::String &name);
+
+    /// Den  Konfigurationsdialog für Treiber aufrufen
+    virtual void doConfig();
+    /// Die Einstellungen in Datei schreiben
+    virtual void writeConf(rl::ConfigFile &conf);
+    /// Die Einstellungen laden
+    virtual void loadConf(rl::ConfigFile &conf);
     
 protected:
     /// Informationen über den Treiber ausgeben

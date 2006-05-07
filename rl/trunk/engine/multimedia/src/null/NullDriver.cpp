@@ -187,4 +187,36 @@ void NullDriver::printData()
 {
 }
 
+/*
+ * Die Konfiguration in Datei schreiben.
+ * @author JoSch
+ * @date 05-07-2006
+ * @param conf Die Konfigurationdatei zum Schreiben.
+ */
+void NullDriver::writeConf(ConfigFile &conf)
+{
+    // DO NOTHING
+}
+
+/*
+ * Die Konfiguration lesen
+ * @author JoSch
+ * @date 05-07-2006
+ * @param conf Die Konfigurationdatei, aus der gelesen werden soll
+ */
+void NullDriver::loadConf(ConfigFile &conf)
+{
+    // DO NOTHING
+}
+
+/*
+ * Den Konfigurationsdialog aufrufen
+ * @author JoSch
+ * @date 05-07-2006
+ */
+void NullDriver::doConfig()
+{
+    // DO NOTHING
+}
+
 }

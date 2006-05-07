@@ -24,6 +24,7 @@ namespace rl
     class Sound;
     class SoundResourcePtr;
     class ListenerMovable;
+    class ConfigFile;
 
 /**
  * Diese Klasse dient zur Definition einer Schnittstelle
@@ -75,6 +76,13 @@ public:
     unsigned int getMasterVolume() const;
     /// Einen Sound aus den Listen entfernen
     void removeFromLists(SoundChannel *channel);
+    
+    /// Den  Konfigurationsdialog für Treiber aufrufen
+    virtual void doConfig() = 0;
+    /// Die Einstellungen in Datei schreiben
+    virtual void writeConf(rl::ConfigFile &conf);
+    /// Die Einstellungen laden
+    virtual void loadConf(rl::ConfigFile &conf);
     
     
 protected:

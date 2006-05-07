@@ -481,6 +481,36 @@ void Fmod3Driver::setMasterVolume(unsigned int vol)
 	FSOUND_SetSFXMasterVolume(int(vol * 2.55));
 }
 
+/*
+ * Die Konfiguration in Datei schreiben.
+ * @author JoSch
+ * @date 05-07-2006
+ * @param conf Die Konfigurationdatei zum Schreiben.
+ */
+void Fmod3Driver::writeConf(ConfigFile &conf)
+{
+}
+
+/*
+ * Die Konfiguration lesen
+ * @author JoSch
+ * @date 05-07-2006
+ * @param conf Die Konfigurationdatei, aus der gelesen werden soll
+ */
+void Fmod3Driver::loadConf(ConfigFile &conf)
+{
+}
+
+/*
+ * Den Konfigurationsdialog aufrufen
+ * @author JoSch
+ * @date 05-07-2006
+ */
+void Fmod3Driver::doConfig()
+{
+    // DO NOTHING FOR NOW
+}
+
 
 }
 #endif // WITH_FMOD

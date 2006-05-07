@@ -1,5 +1,6 @@
 noinst_HEADERS =
 	CommonPrerequisites.h \
+	ConfigFile.h \
 	config.h \
 	EventCaster.h \
 	EventListener.h \
