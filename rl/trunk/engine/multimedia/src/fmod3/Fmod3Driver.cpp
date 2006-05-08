@@ -487,8 +487,9 @@ void Fmod3Driver::setMasterVolume(unsigned int vol)
  * @date 05-07-2006
  * @param conf Die Konfigurationdatei zum Schreiben.
  */
-void Fmod3Driver::writeConf(ConfigFile &conf)
+void Fmod3Driver::saveConf(ConfigFile &conf) const
 {
+	SoundDriver::saveConf(conf);
 }
 
 /*
@@ -499,6 +500,7 @@ void Fmod3Driver::writeConf(ConfigFile &conf)
  */
 void Fmod3Driver::loadConf(ConfigFile &conf)
 {
+	SoundDriver::loadConf(conf);
 }
 
 /*

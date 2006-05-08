@@ -14,12 +14,16 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 #include "SoundDriver.h"
+#include "ConfigFile.h"
+#include "OgreStringConverter.h"
+
+using namespace Ogre;
 
 namespace rl
 {
 
 SoundDriver::SoundDriver():
-    mDefaultMusicVolume(0),
+    mDefaultMusicVolume(40),
     mDefaultSoundVolume(100),
 	mMasterVolume(100)
 {
@@ -86,8 +90,11 @@ void SoundDriver::removeFromLists(SoundChannel *channel)
  * @date 05-07-2006
  * @param conf Die Konfigurationdatei zum Schreiben.
  */
-void SoundDriver::writeConf(ConfigFile &conf)
+void SoundDriver::saveConf(ConfigFile &conf) const
 {
+	conf.setSetting("MasterVolume", StringConverter::toString(getMasterVolume()), "General");
+	conf.setSetting("DefaultMusicVolume", StringConverter::toString(getDefaultMusicVolume()), "General");
+	conf.setSetting("DefaultSoundVolume", StringConverter::toString(getDefaultSoundVolume()), "General");
 }
 
 /*
@@ -98,6 +105,9 @@ void SoundDriver::writeConf(ConfigFile &conf)
  */
 void SoundDriver::loadConf(ConfigFile &conf)
 {
+	setMasterVolume(StringConverter::parseInt(conf.getSetting("MasterVolume", "General")));
+	setDefaultMusicVolume(StringConverter::parseInt(conf.getSetting("DefaultMusicVolume", "General")));
+	setDefaultSoundVolume(StringConverter::parseInt(conf.getSetting("DefaultSoundVolume", "General")));
 }
 
 }

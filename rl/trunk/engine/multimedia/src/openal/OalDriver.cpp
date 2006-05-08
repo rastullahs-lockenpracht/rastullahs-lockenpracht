@@ -223,8 +223,9 @@ void OalDriver::printData()
  * @date 05-07-2006
  * @param conf Die Konfigurationdatei zum Schreiben.
  */
-void OalDriver::writeConf(ConfigFile &conf)
+void OalDriver::saveConf(ConfigFile &conf) const
 {
+	SoundDriver::saveConf(conf);
     // DO NOTHING
 }
 
@@ -236,6 +237,7 @@ void OalDriver::writeConf(ConfigFile &conf)
  */
 void OalDriver::loadConf(ConfigFile &conf)
 {
+	SoundDriver::loadConf(conf);
     // DO NOTHING
 }
 

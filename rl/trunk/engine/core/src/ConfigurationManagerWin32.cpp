@@ -46,6 +46,7 @@ namespace rl
 		mPluginCfgPath = "./" + confdir + "plugins-win.cfg";
 		mRastullahCfgPath = confdir + "rastullah_ogre.cfg";
         mRastullahSystemCfgPath = confdir + "rastullah_system.cfg";
+		mSoundCfgPath = confdir + "sound.cfg";
 		mOgreLogPath = "logs/ogre.log";
 		mRastullahLogPath = "logs/rastullah.log";
 		mModulesCfgPath = "./modules/modules.cfg";

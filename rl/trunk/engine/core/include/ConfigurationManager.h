@@ -61,6 +61,7 @@ namespace rl
 			Ogre::String getModuleconfigCfgPath(const Ogre::String& module);
 			Ogre::String getModulesRootDirectory();
             Ogre::String getRastullahSystemCfgPath();
+			Ogre::String getSoundCfgPath();
 			Ogre::String getKeymap();
 			Ogre::String getInputConfigPath();
             
@@ -88,6 +89,7 @@ namespace rl
 			Ogre::String mModuleconfigCfgPath;
 			Ogre::String mModulesRootDirectory;
             Ogre::String mRastullahSystemCfgPath;
+			Ogre::String mSoundCfgPath;
 
 			Ogre::ConfigFile* getSystemConfig();
 

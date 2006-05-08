@@ -1,12 +1,5 @@
- /** 
- * Generated CppUnit test driver template.
- * To build it, add the following line at the end of
- * your existing Makefile:
- *    include rl/engine/sound/src/OalppSoundInterfaceTest.mk
- * Build the rl/engine/sound/src/OalppSoundInterfaceTest target from the Make Target view
- */
-#include <cppunit/extensions/HelperMacros.h>
 #include <OgreNoMemoryMacros.h>
+#include <cppunit/extensions/HelperMacros.h>
 #include "MultimediaPrerequisites.h"
 #include <OgreIteratorWrappers.h>
 #ifdef  _MSC_VER
@@ -26,7 +19,7 @@
 
 using namespace rl;
 using namespace boost;
-using namespace Ogre;
+using namespace Ogre; 
 
 class SoundTest1 : public CppUnit::TestFixture {
 private:
@@ -54,7 +47,7 @@ public:
         xtime xt;
         Sound *sound1 = driver->createSample("lachen.ogg");
         SoundChannel *channel1 = driver->createChannel(sound1, "sample");
-        Sound *sound2 = driver->createStream("lachen.ogg");
+        Sound *sound2 = driver->createSample("lachen.ogg");
         SoundChannel *channel2 = driver->createChannel(sound2, "stream");
         
         Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Starte ersten Sound");
@@ -87,7 +80,7 @@ public:
         channel2->stop();
         delete channel2;
  
-        Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Beende Test #1");
+        Logger::getSingleton().log("SoundTest", Ogre::LML_NORMAL, "Beende Test #1"); 
 	    CPPUNIT_ASSERT(true);
 	}
  

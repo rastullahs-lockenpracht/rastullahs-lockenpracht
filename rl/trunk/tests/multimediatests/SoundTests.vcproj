@@ -174,34 +174,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SoundTest2.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SoundTest3.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SoundTest4.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SoundTest5.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SoundTest6.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SoundTest7.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SoundTest8.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\TestStartup.cpp"
 				>
 			</File>

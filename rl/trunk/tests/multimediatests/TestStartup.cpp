@@ -1,6 +1,6 @@
+#include <OgreNoMemoryMacros.h>
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/ui/text/TestRunner.h>
-#include <OgreNoMemoryMacros.h>
 #include "SoundManager.h"
 #include <Ogre.h>
 #include <signal.h>
@@ -9,6 +9,7 @@
 #include "Logger.h"
 #include "CoreSubsystem.h"
 #include "SoundManager.h"
+
 
 int main( int argc, char **argv)
 {

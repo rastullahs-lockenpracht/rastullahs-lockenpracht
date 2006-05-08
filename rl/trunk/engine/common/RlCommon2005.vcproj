@@ -261,6 +261,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\src\ConfigFile.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\EventObject.cpp"
 				>
 			</File>
@@ -334,6 +338,10 @@
 			>
 			<File
 				RelativePath=".\include\CommonPrerequisites.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ConfigFile.h"
 				>
 			</File>
 			<File

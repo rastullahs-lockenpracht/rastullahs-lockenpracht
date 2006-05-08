@@ -84,6 +84,9 @@ void startupRl(bool developerMode, Ogre::String module)
 		script = new rl::ScriptSubsystem();
 		log(Ogre::LML_NORMAL, "ScriptSubsystem gestartet");
 
+		sound->loadConf(rl::ConfigurationManager::getSingleton().getSoundCfgPath());
+		log(Ogre::LML_NORMAL, "Soundkonfiguration geladen");
+
 		log(Ogre::LML_NORMAL, "Starte...");
 		if (module != "")
 			core->setDefaultActiveModule(module);
@@ -124,6 +127,9 @@ void startupRl(bool developerMode, Ogre::String module)
 		delete dialog;
 		delete rules;
 		delete core;
+		sound->saveConf(rl::ConfigurationManager::getSingleton().getSoundCfgPath());
+		log(Ogre::LML_NORMAL, "Soundkonfiguration gespeichert");
+
 		delete sound;
 #ifndef _DEBUG
 	}

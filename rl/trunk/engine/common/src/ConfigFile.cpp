@@ -72,34 +72,33 @@ void ConfigFile::saveToResourceSystem(const String& filename,
 void ConfigFile::save(ofstream& stream, const String& separators, 
     bool trimWhitespace)
 {
-    String currentSection = StringUtil::BLANK;
-    SettingsMultiMap* currentSettings = new SettingsMultiMap();
-    mSettings[currentSection] = currentSettings;
-
-
+	SettingsBySection::const_iterator section;
+	for(section = mSettings.begin(); section != mSettings.end(); section++)
+	{
+		if (section->first != StringUtil::BLANK)
+		{
+			stream << "[" << section->first << "]" << endl;
+		} else {
+			/// Keine Sektion
+		}
+		SettingsMultiMap::const_iterator setting;
+		SettingsMultiMap *settings = section->second;
+		for(setting = settings->begin(); setting != settings->end(); setting++)
+		{
+			stream << setting->first << "=" << setting->second << endl;
+		}
+	}
 }
 
 //-----------------------------------------------------------------------
-String ConfigFile::setSetting(const String& key, const String& section) const
+void ConfigFile::setSetting(const String& key, const String &value, const String& section)
 {
-    
-    SettingsBySection::const_iterator seci = mSettings.find(section);
-    if (seci == mSettings.end())
-    {
-        return StringUtil::BLANK;
-    }
-    else
-    {
-        SettingsMultiMap::const_iterator i = seci->second->find(key);
-        if (i == seci->second->end())
-        {
-            return StringUtil::BLANK;
-        }
-        else
-        {
-            return i->second;
-        }
-    }
+	if (mSettings[section] == 0)
+	{
+		// Neue Sektion anlegen
+		mSettings[section] = new SettingsMultiMap();
+	}
+	mSettings[section]->insert( multimap<String, String>::value_type(key, value));
 }
 
 

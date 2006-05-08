@@ -49,9 +49,11 @@ public:
 
     /** Sets a setting to the file with the named key. 
     @param key The name of the setting
+	@param value The value of the setting
     @param section The name of the section it must be in (if any)
     */
-    Ogre::String setSetting(const Ogre::String& key, const Ogre::String& section = Ogre::StringUtil::BLANK) const;
+	void setSetting(const Ogre::String& key, const Ogre::String &value, 
+		const Ogre::String& section = Ogre::StringUtil::BLANK);
     
 };
 

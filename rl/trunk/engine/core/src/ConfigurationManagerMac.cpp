@@ -49,6 +49,7 @@ namespace rl
 		mOgreLogPath = "logs/ogre.log";
 		mRastullahLogPath = "logs/rastullah.log";
 		mModulesCfgPath = "./modules/modules.cfg";
+		mSoundCfgPath = confdir + "sound.cfg";
 		mModuleconfigCfgPath = "/conf/moduleconfig.cfg";
 		mModulesRootDirectory = ".";
 	}

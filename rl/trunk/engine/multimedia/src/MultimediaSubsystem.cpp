@@ -27,6 +27,8 @@
 #ifdef WITH_OAL
 #include "OalDriver.h"
 #endif
+#include "ConfigFile.h"
+
 
 using namespace Ogre;
 
@@ -93,7 +95,6 @@ MultimediaSubsystem::MultimediaSubsystem():
         delete driver;
     }
 #endif
-     
   	//Singletons erzeugen 
    	new SoundManager();
     
@@ -261,6 +262,35 @@ void MultimediaSubsystem::setActiveListener(ListenerMovable *listener)
 ListenerMovable* MultimediaSubsystem::getActiveListener() const
 {
     return mActiveListener;
+}
+
+/**
+ * Hole die Soundkonfiguration
+ * 
+ * @author JoSch
+ * @date 05-08-2006
+ */
+void MultimediaSubsystem::loadConf(const Ogre::String &filename)
+{
+	RlAssert(getActiveDriver() != 0, "Kein aktiver Soundtreiber");
+	ConfigFile conf;
+	conf.load(filename);
+	getActiveDriver()->loadConf(conf);
+}
+
+/**
+ * Schreibe die Soundkonfiguration
+ * @author JoSch
+ * @date 05-08-2006
+ * @param filename Der Dateiname der Konfiguration
+ */
+void MultimediaSubsystem::saveConf(const Ogre::String &filename) const
+{
+	RlAssert(getActiveDriver() != 0, "Kein aktiver Soundtreiber");
+	ConfigFile conf;
+	conf.setSetting("ActiveDriver", String(getActiveDriver()->getName().c_str()), "General");
+	getActiveDriver()->saveConf(conf);
+	conf.save(filename);
 }
 
 

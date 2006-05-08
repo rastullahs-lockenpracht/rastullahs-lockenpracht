@@ -80,7 +80,7 @@ public:
     /// Den  Konfigurationsdialog für Treiber aufrufen
     virtual void doConfig() = 0;
     /// Die Einstellungen in Datei schreiben
-    virtual void writeConf(rl::ConfigFile &conf);
+    virtual void saveConf(rl::ConfigFile &conf) const;
     /// Die Einstellungen laden
     virtual void loadConf(rl::ConfigFile &conf);
     

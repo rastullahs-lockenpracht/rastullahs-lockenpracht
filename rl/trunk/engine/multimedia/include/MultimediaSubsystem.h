@@ -76,7 +76,11 @@ public:
     ListenerMovable* getActiveListener() const;
     /// Den aktiven Listener setzen.
     void setActiveListener(ListenerMovable *listener);
-    
+
+	/// Hole die Soundkonfiguration
+	void loadConf(const Ogre::String &filename);
+	/// Schreibe die Soundkonfiguration
+	void saveConf(const Ogre::String &filename) const;
 
 private:
     /// Zeit mitschreiben

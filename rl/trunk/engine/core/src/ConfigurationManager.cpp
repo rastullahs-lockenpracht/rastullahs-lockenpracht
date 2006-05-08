@@ -100,7 +100,12 @@ namespace rl
         return mRastullahSystemCfgPath;
     }
 
-    Ogre::ConfigFile* ConfigurationManager::getSystemConfig()
+    Ogre::String ConfigurationManager::getSoundCfgPath()
+    {
+        return mSoundCfgPath;
+    }
+
+	Ogre::ConfigFile* ConfigurationManager::getSystemConfig()
     {
         if( mSystemConfig == NULL )
         {

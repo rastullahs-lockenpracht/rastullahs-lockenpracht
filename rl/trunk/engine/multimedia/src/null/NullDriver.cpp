@@ -193,8 +193,9 @@ void NullDriver::printData()
  * @date 05-07-2006
  * @param conf Die Konfigurationdatei zum Schreiben.
  */
-void NullDriver::writeConf(ConfigFile &conf)
+void NullDriver::saveConf(ConfigFile &conf) const
 {
+	SoundDriver::saveConf(conf);
     // DO NOTHING
 }
 
@@ -206,6 +207,7 @@ void NullDriver::writeConf(ConfigFile &conf)
  */
 void NullDriver::loadConf(ConfigFile &conf)
 {
+	SoundDriver::loadConf(conf);
     // DO NOTHING
 }
 
