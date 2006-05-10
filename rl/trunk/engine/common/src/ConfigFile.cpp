@@ -90,16 +90,94 @@ void ConfigFile::save(ofstream& stream, const String& separators,
 	}
 }
 
-//-----------------------------------------------------------------------
-void ConfigFile::setSetting(const String& key, const String &value, const String& section)
+// Spezialisierung für Ogre::String
+template<>
+void ConfigFile::setValue(const String &value, const String &name, const String &section)
 {
 	if (mSettings[section] == 0)
 	{
 		// Neue Sektion anlegen
 		mSettings[section] = new SettingsMultiMap();
 	}
-	mSettings[section]->insert( multimap<String, String>::value_type(key, value));
+	mSettings[section]->insert( multimap<String, String>::value_type(name, value));
 }
 
+int ConfigFile::getValue(const int _default, const Ogre::String &name, 
+		const Ogre::String &section)
+{
+	Ogre::String v = getSetting(name, section);
+	if (v == Ogre::StringUtil::BLANK)
+	{
+		return _default;
+	} else {
+		return Ogre::StringConverter::parseInt(v);
+	}
+}
+
+String ConfigFile::getValue(const String &_default, const Ogre::String &name, 
+		const Ogre::String &section)
+{
+	return getSetting(name, section);
+}
+
+Real ConfigFile::getValue(const Real &_default, const Ogre::String &name, 
+		const Ogre::String &section)
+{
+	Ogre::String v = getSetting(name, section);
+	if (v == Ogre::StringUtil::BLANK)
+	{
+		return _default;
+	} else {
+		return Ogre::StringConverter::parseReal(v);
+	}
+}
+
+bool ConfigFile::getValue(const bool _default, const Ogre::String &name, 
+		const Ogre::String &section)
+{
+	Ogre::String v = getSetting(name, section);
+	if (v == Ogre::StringUtil::BLANK)
+	{
+		return _default;
+	} else {
+		return Ogre::StringConverter::parseBool(v);
+	}
+}
+
+long int ConfigFile::getValue(const long int _default, const Ogre::String &name, 
+		const Ogre::String &section)
+{
+	Ogre::String v = getSetting(name, section);
+	if (v == Ogre::StringUtil::BLANK)
+	{
+		return _default;
+	} else {
+		return Ogre::StringConverter::parseLong(v);
+	}
+}
+
+unsigned int ConfigFile::getValue(const unsigned int _default, const Ogre::String &name, 
+		const Ogre::String &section)
+{
+	Ogre::String v = getSetting(name, section);
+	if (v == Ogre::StringUtil::BLANK)
+	{
+		return _default;
+	} else {
+		return Ogre::StringConverter::parseUnsignedInt(v);
+	}
+}
+
+unsigned long int ConfigFile::getValue(const unsigned long int _default, const Ogre::String &name, 
+		const Ogre::String &section)
+{
+	Ogre::String v = getSetting(name, section);
+	if (v == Ogre::StringUtil::BLANK)
+	{
+		return _default;
+	} else {
+		return Ogre::StringConverter::parseUnsignedLong(v);
+	}
+}
 
 }

@@ -47,14 +47,116 @@ public:
     /// save to a filename (using resource group locations)
     void saveToResourceSystem(const Ogre::String& filename, const Ogre::String& resourceGroup, const Ogre::String& separators = "\t:=", bool trimWhitespace = true);
 
-    /** Sets a setting to the file with the named key. 
-    @param key The name of the setting
-	@param value The value of the setting
-    @param section The name of the section it must be in (if any)
+
+    /**
+	 * Setzt die Einstellung mit Namen und Abschnitt
+     * @param name Der Name der Einstellung
+	 * @param value Der Wert der Einstellung
+     * @param section Der Name des Abschnitts
+	 * @author JoSch
+	 * @date 05-10-2006
     */
-	void setSetting(const Ogre::String& key, const Ogre::String &value, 
-		const Ogre::String& section = Ogre::StringUtil::BLANK);
-    
+	template <class T>
+	void setValue(const T &value, const Ogre::String &name,
+		const Ogre::String &section = Ogre::StringUtil::BLANK)
+	{
+		if (mSettings[section] == 0)
+		{
+			// Neue Sektion anlegen
+			mSettings[section] = new SettingsMultiMap();
+		}
+		String _value = StringConverter::toString(value);
+		mSettings[section]->insert( multimap<String, String>::value_type(name, _value));
+	}
+
+	template<>
+	void setValue(const Ogre::String &value, const Ogre::String &name,
+		const Ogre::String &section);
+
+	/**
+	 * Holt eine Einstellung mit Namen und Abschnitt
+	 * @param name Der Name der Einstellung
+	 * @param section Der Name des Abschnitts
+	 * @param __default Ein Standardwert, falls die Einstellung nicht
+	 * gespeichert wurde
+	 * @author JoSch
+	 * @date 05-10-2006
+	 */
+	int getValue(const int _default, const Ogre::String &name, 
+		const Ogre::String &section = Ogre::StringUtil::BLANK);
+
+	/**
+	 * Holt eine Einstellung mit Namen und Abschnitt
+	 * @param name Der Name der Einstellung
+	 * @param section Der Name des Abschnitts
+	 * @param __default Ein Standardwert, falls die Einstellung nicht
+	 * gespeichert wurde
+	 * @author JoSch
+	 * @date 05-10-2006
+	 */
+	Ogre::String ConfigFile::getValue(const Ogre::String &_default, const Ogre::String &name, 
+		const Ogre::String &section = Ogre::StringUtil::BLANK);
+
+	/**
+	 * Holt eine Einstellung mit Namen und Abschnitt
+	 * @param name Der Name der Einstellung
+	 * @param section Der Name des Abschnitts
+	 * @param __default Ein Standardwert, falls die Einstellung nicht
+	 * gespeichert wurde
+	 * @author JoSch
+	 * @date 05-10-2006
+	 */
+	Ogre::Real ConfigFile::getValue(const Ogre::Real &_default, const Ogre::String &name, 
+		const Ogre::String &section = Ogre::StringUtil::BLANK);
+
+	/**
+	 * Holt eine Einstellung mit Namen und Abschnitt
+	 * @param name Der Name der Einstellung
+	 * @param section Der Name des Abschnitts
+	 * @param __default Ein Standardwert, falls die Einstellung nicht
+	 * gespeichert wurde
+	 * @author JoSch
+	 * @date 05-10-2006
+	 */
+	bool ConfigFile::getValue(const bool _default, const Ogre::String &name, 
+		const Ogre::String &section = Ogre::StringUtil::BLANK);
+
+	/**
+	 * Holt eine Einstellung mit Namen und Abschnitt
+	 * @param name Der Name der Einstellung
+	 * @param section Der Name des Abschnitts
+	 * @param __default Ein Standardwert, falls die Einstellung nicht
+	 * gespeichert wurde
+	 * @author JoSch
+	 * @date 05-10-2006
+	 */
+	long int ConfigFile::getValue(const long int _default, const Ogre::String &name, 
+		const Ogre::String &section = Ogre::StringUtil::BLANK);
+
+	/**
+	 * Holt eine Einstellung mit Namen und Abschnitt
+	 * @param name Der Name der Einstellung
+	 * @param section Der Name des Abschnitts
+	 * @param __default Ein Standardwert, falls die Einstellung nicht
+	 * gespeichert wurde
+	 * @author JoSch
+	 * @date 05-10-2006
+	 */
+	unsigned int ConfigFile::getValue(const unsigned int _default, const Ogre::String &name, 
+		const Ogre::String &section = Ogre::StringUtil::BLANK);
+
+	/**
+	 * Holt eine Einstellung mit Namen und Abschnitt
+	 * @param name Der Name der Einstellung
+	 * @param section Der Name des Abschnitts
+	 * @param __default Ein Standardwert, falls die Einstellung nicht
+	 * gespeichert wurde
+	 * @author JoSch
+	 * @date 05-10-2006
+	 */
+	unsigned long int ConfigFile::getValue(const unsigned long int _default, const Ogre::String &name, 
+		const Ogre::String &section = Ogre::StringUtil::BLANK);
+
 };
 
 }

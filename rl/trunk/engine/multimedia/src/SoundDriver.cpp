@@ -92,9 +92,9 @@ void SoundDriver::removeFromLists(SoundChannel *channel)
  */
 void SoundDriver::saveConf(ConfigFile &conf) const
 {
-	conf.setSetting("MasterVolume", StringConverter::toString(getMasterVolume()), "General");
-	conf.setSetting("DefaultMusicVolume", StringConverter::toString(getDefaultMusicVolume()), "General");
-	conf.setSetting("DefaultSoundVolume", StringConverter::toString(getDefaultSoundVolume()), "General");
+	conf.setValue(getMasterVolume(), "MasterVolume", "General");
+	conf.setValue(getDefaultMusicVolume(), "DefaultMusicVolume", "General");
+	conf.setValue(getDefaultSoundVolume(), "DefaultSoundVolume", "General");
 }
 
 /*
@@ -105,9 +105,9 @@ void SoundDriver::saveConf(ConfigFile &conf) const
  */
 void SoundDriver::loadConf(ConfigFile &conf)
 {
-	setMasterVolume(StringConverter::parseInt(conf.getSetting("MasterVolume", "General")));
-	setDefaultMusicVolume(StringConverter::parseInt(conf.getSetting("DefaultMusicVolume", "General")));
-	setDefaultSoundVolume(StringConverter::parseInt(conf.getSetting("DefaultSoundVolume", "General")));
+	setMasterVolume(conf.getValue(100, "MasterVolume", "General"));
+	setDefaultMusicVolume(conf.getValue(30, "DefaultMusicVolume", "General"));
+	setDefaultSoundVolume(conf.getValue(100, "DefaultSoundVolume", "General"));
 }
 
 }

@@ -264,6 +264,26 @@ ListenerMovable* MultimediaSubsystem::getActiveListener() const
     return mActiveListener;
 }
 
+/** 
+ * Hole einen Treiber durch Angabe seines Namens
+ * @param name Der name des gesuchten Treibers.
+ * @return Der gesuchte Treiber
+ * @author JoSch
+ * @date 05-10-2006
+ */
+SoundDriver *MultimediaSubsystem::getDriverByName(const String  &name)
+{
+	DriverList::const_iterator it;
+	for(it = mDriverList.begin(); it != mDriverList.end(); it++)
+	{
+		if ((*it)->getName() == name)
+		{
+			return *it;
+		}
+	}
+	return 0;
+}
+
 /**
  * Hole die Soundkonfiguration
  * 
@@ -272,9 +292,12 @@ ListenerMovable* MultimediaSubsystem::getActiveListener() const
  */
 void MultimediaSubsystem::loadConf(const Ogre::String &filename)
 {
-	RlAssert(getActiveDriver() != 0, "Kein aktiver Soundtreiber");
 	ConfigFile conf;
 	conf.load(filename);
+	String drivername = conf.getValue(String("Nulltreiber"), "ActiveDriver", "General");
+	SoundDriver *driver = getDriverByName(drivername);
+	RlAssert(driver != 0, "Beim Laden des Treibers ist ein Fehler aufgetreten");
+	setActiveDriver(driver);
 	getActiveDriver()->loadConf(conf);
 }
 
@@ -288,7 +311,7 @@ void MultimediaSubsystem::saveConf(const Ogre::String &filename) const
 {
 	RlAssert(getActiveDriver() != 0, "Kein aktiver Soundtreiber");
 	ConfigFile conf;
-	conf.setSetting("ActiveDriver", String(getActiveDriver()->getName().c_str()), "General");
+	conf.setValue(String(getActiveDriver()->getName().c_str()), "ActiveDriver", "General");
 	getActiveDriver()->saveConf(conf);
 	conf.save(filename);
 }
