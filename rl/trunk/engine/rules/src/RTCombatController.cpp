@@ -55,6 +55,7 @@ namespace rl {
 	void RTCombatController::setCombat(RTCombat* combat)
 	{
 		mCombat = combat;
+		mCombat->addController(this);
 	}
 
 	void RTCombatController::attack(Creature* target)
