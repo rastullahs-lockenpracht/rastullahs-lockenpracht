@@ -59,7 +59,9 @@ namespace rl {
 		window->getWindow()->hide();
 		CeGuiWindow::getRoot()->removeChildWindow(window->getWindow());
 		CEGUI::WindowManager::getSingleton().destroyWindow(window->getWindow());
-		delete window;		
+
+		//FIXME: memory leak, aber destroyWindow macht sonst Probleme (heap corruption)
+		//delete window;		
 	}
 
 	void WindowManager::closeTopWindow()
