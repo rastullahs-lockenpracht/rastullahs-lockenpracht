@@ -44,6 +44,9 @@ namespace rl {
 		void attack(RTCombatController* controller, Creature* attacker, Creature* target);
 		void paree(RTCombatController* controller, Creature* defender, Creature* target);
 
+		void move(RTCombatController* controller, Creature* creature, Ogre::Vector3 movement);
+		void turn(RTCombatController* controller, Creature* creature, Ogre::Degree angle);
+
 	private:
 		class CreatureData
 		{

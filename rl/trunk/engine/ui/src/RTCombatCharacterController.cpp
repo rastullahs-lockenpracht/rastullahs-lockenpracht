@@ -57,6 +57,7 @@ namespace rl {
 	void RTCombatCharacterController::run(Ogre::Real timeElapsed)
 	{
 		MovementCharacterController::run(timeElapsed);
+		
 	}
 
 	bool RTCombatCharacterController::injectMouseClicked(int mouseButtonMask)

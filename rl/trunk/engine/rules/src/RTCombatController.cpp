@@ -72,14 +72,26 @@ namespace rl {
 		}
 	}
 
+	void RTCombatController::move(Ogre::Vector3 movement)
+	{
+		mCombat->move(this, mCurrentCreature, movement);
+	}
+
+	void RTCombatController::turn(Ogre::Degree angle)
+	{
+		mCombat->turn(this, mCurrentCreature, angle);
+	}
+
 	void RTCombatController::block(Creature* target)
 	{
 		mCombat->paree(this, mCurrentCreature, target);
+		//FIXME: Schildsymbol über Gegner, der pariert wird
 	}
 
 	bool RTCombatController::isInAtRange(Creature* target)
 	{
 		Weapon* weapon = mCurrentCreature->getActiveWeapon();
+
 		return true;
 	}
 

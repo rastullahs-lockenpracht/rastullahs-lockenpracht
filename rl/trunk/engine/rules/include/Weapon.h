@@ -52,6 +52,11 @@ namespace rl
 		void setKampftechnik(const CeGuiString& newKampftechnik);
 		const CeGuiString& getKampftechnik() const;
 
+		/// Ermittelt, wie weit die Entfernung von der optimalen Distanzklasse entfernt ist
+		/// @param distance die Entfernung von Angreifer und Verteidiger
+		/// @return Anzahl der Distanzklassen, die von der optimalen DK trennen (positiv = zu weit entfernt)
+		const int getDkDistanceToOptimum(Ogre::Real distance) const;
+
 	private:
 		Tripel<int> mTp;
 		pair<int, int> mTpKk;

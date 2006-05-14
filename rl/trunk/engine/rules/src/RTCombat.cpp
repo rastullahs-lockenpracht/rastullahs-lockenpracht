@@ -95,7 +95,7 @@ namespace rl {
 					0);
 				int pa;
 
-				cdPa->nextAttackTime = getCurrentTime() + Date::ONE_KAMPFRUNDE;
+				cdAt->nextAttackTime = getCurrentTime() + Date::ONE_KAMPFRUNDE;
 
 				bool paree = false;
 				if (isPareeActivated(cdPa, cdAt))
@@ -202,33 +202,26 @@ namespace rl {
 			return false;
 		}
 
-		bool correctDistance = false;
-		//FIXME: Korrigieren, man kann auch auf +/- 1 DK angreifen, siehe MBK 22
-		if (DsaManager::getSingleton().isRuleActive(DsaManager::DISTANZKLASSEN))
-		{
-			Weapon::Distanzklasse dk = atWeapon->getDk();
-			Ogre::Real distance = 
-				(attacker->creature->getActor()->getPosition()
-				- defender->creature->getActor()->getPosition()).length();
+		Ogre::Real distance = 
+			(attacker->creature->getActor()->getWorldPosition() 
+			- defender->creature->getActor()->getWorldPosition()).length();
 
-			if (DsaManager::getSingleton().isDkDistance(dk, distance))
-			{
-				correctDistance = true;
-			}
-		}
-		else
-		{
-			//FIXME: Korrigieren, für Treffer überhaupt möglich eventuell auch die DK-Regeln benutzen, 
-			//zumindest für die Reichweite?
-			correctDistance = true;
-		}
+		int dkDiff = atWeapon->getDkDistanceToOptimum(distance);
 
-		if (!correctDistance)
+		if (dkDiff < -1 || dkDiff > +1) // DK +1/-1 kann noch getroffen werden
 		{
 			return false;
 		}
 
 		return true;
+	}
+
+	void RTCombat::move(RTCombatController* controller, Creature* creature, Ogre::Vector3 movement)
+	{
+	}
+
+	void RTCombat::turn(RTCombatController* controller, Creature* creature, Ogre::Degree angle)
+	{
 	}
 
 	bool RTCombat::isPareeActivated(RTCombat::CreatureData *defender, RTCombat::CreatureData *attacker)
@@ -242,7 +235,8 @@ namespace rl {
 			&& defender->nextPareeTarget != attacker->creature)
 		{
 			//TODO: Mehrere Paraden
-			//TODO: Wenn Paradeziel in dieser KR nicht mehr angreifen kann, dann auch parieren
+			//TODO: Wenn urspruengliches Paradeziel in dieser KR 
+			//      nicht mehr angreifen kann, dann auch parieren
 			return false;
 		}
 

@@ -43,8 +43,11 @@ namespace rl {
 		virtual void notifyReactionEnabled(bool enabled) = 0;
 		virtual void notifyCombatEnd() = 0;
 
-		void attack(Creature* target);
-		void block(Creature* target);
+		virtual void attack(Creature* target);
+		virtual void block(Creature* target);
+
+		void move(Ogre::Vector3 movement);
+		void turn(Ogre::Degree angle);
 
 	private:
 		bool isInAtRange(Creature* target);

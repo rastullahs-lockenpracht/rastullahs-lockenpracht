@@ -216,70 +216,11 @@ namespace rl
 		case Weapon::DK_P:
 			return 2.5 <= distance && distance < 4;
 		default:
-			Throw(IllegalArgumentException, "Distanzklasse unbekannt");
+			return false;
 		}
 	}
 
 
-/*	int DsaManager::getEigenschaftIdFromLongString(const CeGuiString& str) const
-	{
-		Logger::getSingleton().log(Logger::RULES, Ogre::LML_TRIVIAL, "DsaManager sucht "+str);
-		for (int idx = 0; idx < EIGENSCHAFT_COUNT; idx++)
-		{
-			Logger::getSingleton().log(Logger::RULES, Ogre::LML_TRIVIAL, "DsaManager findet "+mEigenschaften[idx]->getName());
-			if (mEigenschaften[idx]->getName().compare(str) == 0)
-				return idx;
-		}
-
-		Throw(InvalidArgumentException, "Ungueltige Eigenschaft");
-	}
-
-	int DsaManager::getEigenschaftIdFromString(const CeGuiString& str) const
-    {
-        if (str.size() != 2)
-        {
-            Throw(InvalidArgumentException, "String hat ungueltiges Format.");
-        }
-        int rval;
-        switch (str[0]) {
-            case 'M':
-                rval = E_MUT;
-                break;
-            case 'I':
-                rval = E_INTUITION;
-                break;
-            case 'C':
-                rval = E_CHARISMA;
-                break;
-            case 'F':
-                rval = E_FINGERFERTIGKEIT;
-                break;
-            case 'G':
-                rval = E_GEWANDTHEIT;
-                break;
-            case 'K':
-                switch (str[1]) {
-                    case 'L':
-                        rval = E_KLUGHEIT;
-                        break;
-                    case 'O':
-                        rval = E_KONSTITUTION;
-                        break;
-                    case 'K':
-                        rval = E_KOERPERKRAFT;
-                        break;
-                    default:
-                        Throw(InvalidArgumentException,
-                            "String hat ungueltiges Format.");
-                }
-                break;
-            default:
-                Throw(InvalidArgumentException,
-                    "String hat ungueltiges Format.");
-        }
-        return rval;
-    }
-*/
 	/**
 	 * @todo SKT laden/erzeugen
 	 */

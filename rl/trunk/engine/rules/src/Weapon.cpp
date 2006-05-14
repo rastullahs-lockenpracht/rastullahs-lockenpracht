@@ -14,6 +14,7 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
+#include "DsaManager.h"
 #include "Weapon.h"
 
 using namespace std;
@@ -100,6 +101,55 @@ namespace rl
 	const CeGuiString& Weapon::getKampftechnik() const
 	{
 		return mKampftechnik;
+	}
+
+	const int Weapon::getDkDistanceToOptimum(Ogre::Real distance) const
+	{
+		if (DsaManager::getSingleton().isRuleActive(DsaManager::DISTANZKLASSEN))
+		{
+			//Man kann auch auf +/- 1 DK angreifen, siehe MBK 22
+			if (DsaManager::getSingleton().isDkDistance(mDk, distance))
+				return 0;
+
+			if (DsaManager::getSingleton().isDkDistance(
+						static_cast<Weapon::Distanzklasse>(mDk + 1), distance))
+				return +1;
+
+			if (DsaManager::getSingleton().isDkDistance(
+						static_cast<Weapon::Distanzklasse>(mDk - 1), distance))
+				return -1;
+
+			if (DsaManager::getSingleton().isDkDistance(
+						static_cast<Weapon::Distanzklasse>(mDk + 2), distance))
+				return -2;
+
+			if (DsaManager::getSingleton().isDkDistance(
+						static_cast<Weapon::Distanzklasse>(mDk - 2), distance))
+				return -2;
+
+			if (DsaManager::getSingleton().isDkDistance(
+						static_cast<Weapon::Distanzklasse>(mDk - 3), distance))
+				return -3;
+
+			return +3;
+		}
+		else
+		{
+			// Ohne DK-Regel
+			// DK der Waffe >= Entfernung
+			if (DsaManager::getSingleton().isDkDistance(mDk, distance)
+				|| DsaManager::getSingleton().isDkDistance(
+					static_cast<Weapon::Distanzklasse>(mDk - 1), distance)
+				|| DsaManager::getSingleton().isDkDistance(
+					static_cast<Weapon::Distanzklasse>(mDk - 2), distance)
+				|| DsaManager::getSingleton().isDkDistance(
+					static_cast<Weapon::Distanzklasse>(mDk - 3), distance))
+			{
+				return 0;
+			}
+
+			return +3;
+		}
 	}
 }
 
