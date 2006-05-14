@@ -20,6 +20,7 @@
 #include "CommonPrerequisites.h"
 #include <OgreConfigFile.h>
 #include <OgreDataStream.h>
+#include <OgreStringConverter.h>
 
 namespace Ogre 
 {
@@ -65,19 +66,15 @@ public:
 			// Neue Sektion anlegen
 			mSettings[section] = new SettingsMultiMap();
 		}
-		String _value = StringConverter::toString(value);
-		mSettings[section]->insert( multimap<String, String>::value_type(name, _value));
+		Ogre::String _value = Ogre::StringConverter::toString(value);
+		mSettings[section]->insert( std::multimap<Ogre::String, Ogre::String>::value_type(name, _value));
 	}
-
-	template<>
-	void setValue(const Ogre::String &value, const Ogre::String &name,
-		const Ogre::String &section);
 
 	/**
 	 * Holt eine Einstellung mit Namen und Abschnitt
 	 * @param name Der Name der Einstellung
 	 * @param section Der Name des Abschnitts
-	 * @param __default Ein Standardwert, falls die Einstellung nicht
+	 * @param _default Ein Standardwert, falls die Einstellung nicht
 	 * gespeichert wurde
 	 * @author JoSch
 	 * @date 05-10-2006
@@ -158,6 +155,18 @@ public:
 		const Ogre::String &section = Ogre::StringUtil::BLANK);
 
 };
+
+template<> inline
+void ConfigFile::setValue<Ogre::String>(const Ogre::String &value, const Ogre::String &name,
+        const Ogre::String &section)
+{
+        if (mSettings[section] == 0)
+    {
+        // Neue Sektion anlegen
+        mSettings[section] = new SettingsMultiMap();
+    }
+    mSettings[section]->insert( std::multimap<Ogre::String, Ogre::String>::value_type(name, value));   
+}
 
 }
 

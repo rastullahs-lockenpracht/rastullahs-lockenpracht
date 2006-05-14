@@ -90,18 +90,6 @@ void ConfigFile::save(ofstream& stream, const String& separators,
 	}
 }
 
-// Spezialisierung für Ogre::String
-template<>
-void ConfigFile::setValue(const String &value, const String &name, const String &section)
-{
-	if (mSettings[section] == 0)
-	{
-		// Neue Sektion anlegen
-		mSettings[section] = new SettingsMultiMap();
-	}
-	mSettings[section]->insert( multimap<String, String>::value_type(name, value));
-}
-
 int ConfigFile::getValue(const int _default, const Ogre::String &name, 
 		const Ogre::String &section)
 {
