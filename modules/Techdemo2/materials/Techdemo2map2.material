@@ -64,8 +64,8 @@ material Techdemo2_map2
 			texture_unit
 			{
 				texture Techdemo2LightingMap2.png
-				colour_op_ex add src_texture src_current
-				colour_op_multipass_fallback one one
+				colour_op_ex blend_texture_alpha src_texture src_current
+				colour_op_multipass_fallback src_alpha one_minus_src_alpha
 			}
 		}
 	}
