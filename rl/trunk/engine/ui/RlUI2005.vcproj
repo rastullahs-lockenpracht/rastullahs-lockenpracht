@@ -437,6 +437,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\ObjectDescriptionWindow.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\PlaylistWindow.h"
 					>
 				</File>
@@ -595,6 +599,10 @@
 				</File>
 				<File
 					RelativePath=".\src\MessageWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ObjectDescriptionWindow.cpp"
 					>
 				</File>
 				<File

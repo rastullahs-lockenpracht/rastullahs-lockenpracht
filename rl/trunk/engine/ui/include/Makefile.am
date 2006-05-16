@@ -30,6 +30,7 @@ noinst_HEADERS = \
 	MessageWindow.h \
 	MovementCharacterController.h \
 	LogWindow.h \
+	ObjectDescriptionWindow.h \
 	PlaylistWindow.h \
 	RTCombatCharacterController.h \
 	SoundConfig.h \

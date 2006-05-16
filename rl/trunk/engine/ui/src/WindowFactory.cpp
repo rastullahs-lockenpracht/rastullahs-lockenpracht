@@ -18,6 +18,7 @@
 
 #include "AboutWindow.h"
 #include "ActionChoiceWindow.h"
+#include "ActorManager.h"
 #include "CharacterSheetWindow.h"
 #include "CharacterStateWindow.h"
 #include "CloseConfirmationWindow.h"
@@ -42,6 +43,8 @@
 #include "MessageWindow.h"
 #include "MainMenuWindow.h"
 #include "MainMenuEngineWindow.h"
+#include "MovableText.h"
+#include "ObjectDescriptionWindow.h"
 #include "Person.h"
 #include "PlaylistWindow.h"
 #include "QuestBook.h"
@@ -62,6 +65,8 @@ using namespace CEGUI;
 namespace rl {
 
 	WindowFactory::WindowFactory()
+		: mShownObject(NULL),
+		  mObjectNameText(NULL)
 	{
 		mConsole = new Console();
 		new DebugWindow();
@@ -80,6 +85,7 @@ namespace rl {
 		RulesSubsystem::getSingleton().getQuestBook()->addQuestChangeListener(mJournalWindow);
 		RulesSubsystem::getSingleton().getQuestBook()->addQuestChangeListener(mInfoPopup);
 		CoreSubsystem::getSingleton().addCoreEventListener(new DataLoadingProgressWindow());
+		mObjectDescriptionWindow = new ObjectDescriptionWindow();
 
 		mLogWindow = new LogWindow();
 	}
@@ -93,6 +99,7 @@ namespace rl {
 		delete mInGameMenuWindow;
 		delete mCharacterStateWindow;
 		delete mConsole;
+		delete mObjectDescriptionWindow;
 		delete mInfoPopup;
 
 		delete DebugWindow::getSingletonPtr();
@@ -337,5 +344,41 @@ namespace rl {
 		{
 			mInfoPopup->showQuestChange();
 		}
+	}
+
+	void WindowFactory::showObjectName(GameObject* object)
+	{
+		//static Ogre::String NODENAME = "ObjectDescription";
+
+		//if (object == NULL)
+		//{
+		//	if (mObjectNameText != NULL)
+		//	{
+		//		ActorManager::getSingleton().destroyActor(mObjectNameText);
+		//		mObjectNameText = NULL;
+		//	}
+		//}
+		//else
+		//{
+		//	if (object != mShownObject)
+		//	{
+		//		if (mObjectNameText == NULL)
+		//		{
+		//			mObjectNameText = ActorManager::getSingleton().createTextActor(NODENAME, object->getName());
+		//		}
+		//		else
+		//		{
+		//			dynamic_cast<MovableText*>(mObjectNameText->getControlledObject())
+		//				->setCaption(object->getName().c_str());
+		//			mObjectNameText->removeFromScene();
+		//		}
+		//		object->getActor()->attach(mObjectNameText);
+		//	}
+		//}
+	}
+
+	void WindowFactory::showObjectDescription(GameObject* object)
+	{
+		mObjectDescriptionWindow->show(object);
 	}
 }

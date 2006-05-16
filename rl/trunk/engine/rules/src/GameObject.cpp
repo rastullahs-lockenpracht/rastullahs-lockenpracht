@@ -32,7 +32,8 @@ namespace rl
                            const CeGuiString& description)
 		:   mId(GameObject::sNextGameObjectId++),
             mName(name),
-            mDescription(description)
+            mDescription(description),
+			mHighlightingEnabled(true)
     {
         // Standardactions registrieren
 		Action* defaultAction = ActionManager::getSingleton().getAction(DEFAULT_VIEW_OBJECT_ACTION);

@@ -40,7 +40,7 @@
 #include "GameObject.h"
 #include "InputManager.h"
 #include "UiSubsystem.h"
-
+#include "WindowFactory.h"
 
 
 
@@ -656,16 +656,39 @@ namespace rl {
 				mTargetedObject->getActor()->setHighlighted(false);
 
             // Nur ein Highlight wenn es auch ein dazugehöriges GameObject gibt
-            if( actor->getGameObject() != NULL )
+			if( actor->getGameObject() != NULL)
             {
-			    actor->setHighlighted(true);
-                mTargetedObject = static_cast<GameObject*>(actor->getGameObject());
+				GameObject* targetedObject = static_cast<GameObject*>(actor->getGameObject());
+				if (targetedObject->isHighlightingEnabled())
+				{
+					if (targetedObject != mTargetedObject)
+					{
+					    actor->setHighlighted(true);
+						mTargetedObject = targetedObject;
+						mTargetedObjectTime = CoreSubsystem::getSingleton().getClock();
+						WindowFactory::getSingleton().showObjectName(targetedObject);
+					}
+					else
+					{
+						if (CoreSubsystem::getSingleton().getClock()
+							- mTargetedObjectTime 
+							> TIME_SHOW_DESCRIPTION)
+						{
+							WindowFactory::getSingleton().showObjectDescription(mTargetedObject);
+						}
+					}
+				}
             }
 		}
 		else
 		{
 			if (mTargetedObject != NULL && mTargetedObject->getActor() != NULL ) 
+			{
 				mTargetedObject->getActor()->setHighlighted(false);
+				mTargetedObjectTime = 0;
+				WindowFactory::getSingleton().showObjectName(NULL);
+				WindowFactory::getSingleton().showObjectDescription(NULL);
+			}
 
 			mTargetedObject = NULL;
 		}

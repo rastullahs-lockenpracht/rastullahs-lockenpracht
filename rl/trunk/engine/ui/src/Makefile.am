@@ -37,6 +37,7 @@ libRlUi_la_SOURCES = \
 	MainMenuEngineWindow.cpp \
 	MessageWindow.cpp \
 	MovementCharacterController.cpp \
+	ObjectDescriptionWindow.cpp \
 	PlaylistWindow.cpp \
 	RTCombatCharacterController.cpp \
 	SoundConfig.cpp \

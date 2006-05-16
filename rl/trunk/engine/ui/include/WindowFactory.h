@@ -32,6 +32,7 @@
 
 namespace rl {
 
+	class Actor;
 	class CeGuiWindow;
 	class CharacterStateWindow;
 	class CharacterSheetWindow;
@@ -45,6 +46,7 @@ namespace rl {
 	class InGameMenuWindow;
 	class JournalWindow;
 	class LogWindow;
+	class ObjectDescriptionWindow;
 	class Person;
 	class RBCombat;
 	class WindowUpdater;
@@ -81,6 +83,8 @@ namespace rl {
 		void showLogfiles();
 		void showMessageWindow(const CeGuiString& message);
 		void showMainMenu();
+		void showObjectDescription(GameObject* object);
+		void showObjectName(GameObject* object);
 		void showPickedObjectActions();
 		void showPlaylist();
 		void showPopupMessage(int popupTypes);
@@ -112,6 +116,9 @@ namespace rl {
 		LogWindow* mLogWindow;
 		Console* mConsole;
 		InfoPopup* mInfoPopup;
+		Actor* mObjectNameText;
+		GameObject* mShownObject;
+		ObjectDescriptionWindow* mObjectDescriptionWindow;
 	};
 }
 
