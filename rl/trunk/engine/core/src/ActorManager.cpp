@@ -19,18 +19,19 @@
 #include "CoreSubsystem.h"
 
 #include "Actor.h"
-#include "World.h"
-#include "MeshObject.h"
 #include "CameraObject.h"
 #include "LightObject.h"
-#include "SoundObject.h"
-#include "Sound.h"
 #include "ListenerMovable.h"
 #include "ListenerObject.h"
+#include "MeshObject.h"
+#include "MovableText.h"
+#include "MultimediaSubsystem.h"
 #include "PhysicalThing.h"
 #include "ScriptWrapper.h"
-#include "MultimediaSubsystem.h"
+#include "Sound.h"
 #include "SoundDriver.h"
+#include "SoundObject.h"
+#include "World.h"
 
 template<> rl::ActorManager* Singleton<rl::ActorManager>::ms_Singleton = 0;
 
@@ -161,7 +162,29 @@ namespace rl {
         return actor;
 	}
 
-    Actor* ActorManager::createSoundSampleActor(const String& name, const String& soundfile)
+    Actor* ActorManager::createTextActor(const String& name, const CeGuiString& text )
+	{
+        const String&  uniquename = nextUniqueName(name);
+
+        Actor* actor = 0;
+        try
+        {
+            MovableText* mt = new MovableText(uniquename, text.c_str());
+
+            actor = new Actor(uniquename, mt);
+            mActors.insert(ActorPtrPair(uniquename,actor)); 
+        }
+        catch( Ogre::Exception& e)
+        {
+            Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL, "ActorManager - Der Text '"
+                + uniquename + "' konnte nicht erstellt werden. Grund: "
+                + e.getFullDescription());
+        }
+
+        return actor;
+	}
+
+	Actor* ActorManager::createSoundSampleActor(const String& name, const String& soundfile)
     {
         const String&  uniquename = nextUniqueName(name);
 

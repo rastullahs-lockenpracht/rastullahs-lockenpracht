@@ -42,6 +42,7 @@ class _RlCoreExport ActorManager : protected Ogre::Singleton<ActorManager>
         Actor* getActor(const Ogre::String& name);
 
         Actor* createLightActor(const Ogre::String& name, rl::LightObject::LightTypes type );
+		Actor* createTextActor(const Ogre::String& name, const CeGuiString& text );
         Actor* createSoundSampleActor(const Ogre::String& name, const Ogre::String& soundfile );
         Actor* createSoundStreamActor(const Ogre::String& name, const Ogre::String& soundfile );
         Actor* createListenerActor(const Ogre::String& name);

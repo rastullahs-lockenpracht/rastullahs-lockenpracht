@@ -23,6 +23,7 @@
 	ListenerObject.h \
 	MeshAnimation.h \
 	MeshObject.h \
+	MovableText.h \
 	ParticleSystemObject.h \
 	PhysicsContactListener.h \
 	PhysicalObject.h \

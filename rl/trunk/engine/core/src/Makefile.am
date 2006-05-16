@@ -30,6 +30,7 @@ libRlCore_la_SOURCES = \
 	ListenerObject.cpp \
 	MeshAnimation.cpp \
 	MeshObject.cpp \
+	MovableText.cpp \
 	ParticleSystemObject.cpp \
 	PhysicsContactListener.cpp \
 	PhysicalThing.cpp \

@@ -411,6 +411,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\MovableText.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\ParticleSystemObject.h"
 				>
 			</File>
@@ -573,6 +577,10 @@
 			</File>
 			<File
 				RelativePath=".\src\MeshObject.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\MovableText.cpp"
 				>
 			</File>
 			<File
