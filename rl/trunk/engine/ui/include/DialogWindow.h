@@ -47,6 +47,8 @@ namespace rl {
 		void setImage(std::string imageset, std::string image);
 		int getSelectedOption();
 
+		void showNextText();
+
 	private:
 		std::map<std::string, std::string> mVariableValues;
 		std::vector<std::string> mTextLines;

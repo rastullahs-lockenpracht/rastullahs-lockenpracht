@@ -52,6 +52,7 @@
 #include "RubyInterpreter.h"
 #include "RulesSubsystem.h"
 #include "SoundConfig.h"
+#include "SubtitleWindow.h"
 #include "TargetSelectionWindow.h"
 #include "UiSubsystem.h"
 #include "WindowManager.h"
@@ -319,8 +320,14 @@ namespace rl {
 		DialogCharacterController* controller = 
 			dynamic_cast<DialogCharacterController*>(
 				UiSubsystem::getSingleton().getCharacterController());
+
+		SubtitleWindow* subtitleWnd = new SubtitleWindow();
+		controller->setSubtitleWindow(subtitleWnd);
 		controller->setDialogPartner(bot->getDialogPartner()->getActor());
-		(new DialogWindow(bot, mGameLogger, controller))->setVisible(true);
+		
+		DialogWindow* dialogWnd = new DialogWindow(bot, mGameLogger, controller);
+		controller->setDialogWindow(dialogWnd);
+		dialogWnd->setVisible(true);
 	}
 
 	void WindowFactory::showLogfiles()

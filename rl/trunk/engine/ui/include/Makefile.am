@@ -34,6 +34,7 @@ noinst_HEADERS = \
 	PlaylistWindow.h \
 	RTCombatCharacterController.h \
 	SoundConfig.h \
+	SubtitleWindow.h \
 	TargetSelectionWindow.h \
 	UiPrerequisites.h \
 	UiSubsystem.h \

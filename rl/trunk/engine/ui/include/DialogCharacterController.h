@@ -25,6 +25,8 @@
 namespace rl {
 
 	class Actor;
+	class DialogWindow;
+	class SubtitleWindow;
 
 	/** Diese Klasse 
 	  *  
@@ -54,7 +56,11 @@ namespace rl {
 
 		/// Antwort eines der Dialogführenden
 		void response(
-			Actor* actor, const CeGuiString& text, const Ogre::String& soundFile);
+			Actor* actor, const CeGuiString& text, const Ogre::String& soundFile = "");
+
+		void setDialogWindow(DialogWindow* dialog);
+		void setSubtitleWindow(SubtitleWindow* subtitles);
+	
 	private:
 		/// Die Zielkameraposition in lokalen Koordinaten
 		Ogre::Vector3 mTargetCameraPosition;
@@ -73,6 +79,10 @@ namespace rl {
 		Actor* mDialogPartner;
 		/// Der Besitzer des Dialoges (Der Bauer mit dem der Spieler redet)
 		Actor* mCurrentActor;
+
+		DialogWindow* mDialogWindow;
+		SubtitleWindow* mSubtitleWindow;
+	
 	};
 }
 #endif

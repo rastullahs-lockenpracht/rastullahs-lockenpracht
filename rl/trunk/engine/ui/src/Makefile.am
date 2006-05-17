@@ -41,6 +41,7 @@ libRlUi_la_SOURCES = \
 	PlaylistWindow.cpp \
 	RTCombatCharacterController.cpp \
 	SoundConfig.cpp \
+	SubtitleWindow.cpp \
 	TargetSelectionWindow.cpp \
 	UiSubsystem.cpp \
 	VideoWindow.cpp \

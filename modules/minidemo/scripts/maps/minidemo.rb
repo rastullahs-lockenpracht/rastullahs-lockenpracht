@@ -75,8 +75,14 @@ $SCRIPT.log("Traenke fertig");
 
 $World.setFog( World::FOG_EXP, [0.8,0.8,1.0,0.5], 0.00009, 0.2, 1.0);
 
+
+dialogHeld = Creature.new("DialogHeld", "DialogHeld");
+dialogHeld.setActor($AM.createMeshActor("DialogHeld", "held.mesh" ));
+dialogHeld.getActor().placeIntoScene([-1.7, 0.0, -5.3]);
+
 load "kreislauf.rb"
 load "timer.rb"
 load "area.rb"
+load "dialogdemo.rb"
 
 $SCRIPT.log("map 'minidemo' initialisiert.");

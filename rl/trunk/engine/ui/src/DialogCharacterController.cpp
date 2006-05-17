@@ -16,15 +16,20 @@
 */
 
 #include "DialogCharacterController.h"
-#include "CoreSubsystem.h"
 #include "Exception.h"
+
 #include "Actor.h"
-#include "PhysicalThing.h"
-#include "World.h"
 #include "CameraObject.h"
-#include "InputManager.h"
 #include "CommandMapper.h"
+#include "CoreSubsystem.h"
+#include "DialogWindow.h"
+#include "InputManager.h"
 #include "MeshObject.h"
+#include "PhysicalThing.h"
+#include "SubtitleWindow.h"
+#include "WindowManager.h"
+#include "World.h"
+
 
 #include <OgreSceneManager.h>
 #include <OgreNewt_Body.h>
@@ -39,7 +44,9 @@ namespace rl {
 		mTargetCameraOrientation(Quaternion::IDENTITY),
 		mText(""),
 		mFadeTextTime(0),
-		mCutHard(false)
+		mCutHard(false),
+		mDialogWindow(NULL),
+		mSubtitleWindow(NULL)
 	{
 		mCamera->getPhysicalThing()->freeze();
 		mCharacterActor->getPhysicalThing()->freeze();		
@@ -54,6 +61,16 @@ namespace rl {
 	{
 		mCamera->getPhysicalThing()->unfreeze();
 		mCharacterActor->getPhysicalThing()->unfreeze();
+		if (mDialogWindow != NULL)
+		{
+			WindowManager::getSingleton().destroyWindow(mDialogWindow);
+			mDialogWindow = NULL;
+		}
+		if (mSubtitleWindow != NULL)
+		{
+			WindowManager::getSingleton().destroyWindow(mSubtitleWindow);
+			mSubtitleWindow = NULL;
+		}
 	}
 
 	CharacterController::ControllerType DialogCharacterController::getType() const
@@ -96,14 +113,25 @@ namespace rl {
 			if (mFadeTextTime <= 0)
 			{
 				mFadeTextTime = 0;
-				//mDialogWindow->timeOver();
+				mDialogWindow->showNextText();
+				mSubtitleWindow->setVisible(false);
 			}
 		}
 	}
 
+	void DialogCharacterController::setDialogWindow(DialogWindow* dialog)
+	{
+		mDialogWindow = dialog;
+	}
+
+	void DialogCharacterController::setSubtitleWindow(SubtitleWindow* subtitles)
+	{
+		mSubtitleWindow = subtitles;
+	}
+
 	void DialogCharacterController::toggleViewMode()
 	{
-		/// @todo Krasser Gesichts zoom? Halbtotale... usw?
+		/// @todo Krasser Gesichtszoom? Halbtotale... usw?
 	}
 
 	void DialogCharacterController::resetCamera()
@@ -131,6 +159,11 @@ namespace rl {
 			Vector3::UNIT_Z.getRotationTo(
 			mTargetCameraPosition - mDialogPartner->getWorldPosition() );		
 		mText = text;
-		mFadeTextTime = text.length() * 0.1;
+
+		if (soundFile.length() == 0)
+			mFadeTextTime = text.length() * 0.1;
+
+		if (mSubtitleWindow != NULL)
+			mSubtitleWindow->show(text);
 	}
 }

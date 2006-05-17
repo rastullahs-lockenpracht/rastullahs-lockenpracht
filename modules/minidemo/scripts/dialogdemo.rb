@@ -17,7 +17,7 @@ class DialogListener < GameAreaListener
 		# Set the game objects for the dialogcharacter and its dialog partner
 		@dialogChar.setDialogCharacter( anEvent.getProvokingActor().getGameObject() );
 		print( anEvent.getProvokingActor().getName() + " moechte mit " + anEvent.getSource().getActor().getName() + " reden" );
-		$WM.showDialog( @dialogChar );
+		$WF.showDialog( @dialogChar );
 	end
 
 	def areaLeft(anEvent)
@@ -26,7 +26,7 @@ class DialogListener < GameAreaListener
 end
 
 $SCRIPT.log("Binde DialogListener an KreislaufHeld");
-kreislauf = $AM.getActor( "KreisLaufHeld" );
-$GameEveMgr.addSphereAreaListener( kreislauf, 2.0, DialogListener.new(kreislauf), Actor::QGF_PLAYER );
+dialogActor = $AM.getActor( "DialogHeld" );
+$GameEveMgr.addSphereAreaListener( dialogActor, 1.0, DialogListener.new(dialogActor), Actor::QGF_PLAYER );
 
 print( "DialogDemo fertig geladen" );

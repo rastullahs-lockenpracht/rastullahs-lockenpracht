@@ -449,6 +449,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\SubtitleWindow.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\TargetSelectionWindow.h"
 					>
 				</File>
@@ -611,6 +615,10 @@
 				</File>
 				<File
 					RelativePath=".\src\SoundConfig.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\SubtitleWindow.cpp"
 					>
 				</File>
 				<File

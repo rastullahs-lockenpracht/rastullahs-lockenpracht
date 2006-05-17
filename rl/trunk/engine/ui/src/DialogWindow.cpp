@@ -169,6 +169,11 @@ int DialogWindow::getSelectedOption()
 	return 0;
 }
 
+void DialogWindow::showNextText()
+{
+	//TODO: Umschalten zwischen Antwort und Optionen hier her
+}
+
 bool DialogWindow::handleSelectOption()
 {
 	DebugWindow::getSingleton().setText(StringConverter::toString(getSelectedOption()));
