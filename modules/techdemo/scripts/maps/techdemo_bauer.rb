@@ -8,7 +8,7 @@ class TalkAction < Action
     bot = $DS.loadBot(@mDialog)
     bot.setDialogCharacter(actor)
     bot.setDialogPartner(object)
-    WindowManager.getSingleton().showDialog(bot)
+    WindowFactory.getSingleton().showDialog(bot)
   end
 end
 
