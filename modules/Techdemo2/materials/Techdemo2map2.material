@@ -56,8 +56,9 @@ material Techdemo2_map2
 		}
 		pass
 		{
-			ambient 0.282353 0.282353 0.282353 1
-			diffuse 0.788235 0.788235 0.788235 1
+		fog_override true exp 1 1 1 0.002 100 10000
+			ambient 1.0 0.282353 0.282353 1
+			diffuse 1.0 0.788235 0.788235 1
 			specular 0 0 0 1 20
 			scene_blend modulate
 

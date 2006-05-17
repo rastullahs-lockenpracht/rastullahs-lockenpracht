@@ -5,6 +5,9 @@ material nat_baum_shadix_03/baumblatt3
 	{
 		pass
 		{
+				ambient 0.609804 0.609804 0.609804 1
+			diffuse 0.631373 0.631373 0.631373 1
+			specular 0 0 0 1 10
 			alpha_rejection greater 128
 
 			texture_unit
@@ -20,6 +23,9 @@ material nat_baum_shadix_03/baumrinde3
 	{
 		pass
 		{
+		ambient 0.609804 0.609804 0.609804 1
+			diffuse 0.631373 0.631373 0.631373 1
+			specular 0 0 0 1 10
 
 			texture_unit
 			{

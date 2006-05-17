@@ -6,7 +6,7 @@ material nat_nadelbaum_02/trunk
 		pass
 		{
 			ambient 0.658824 0.658824 0.658824 1
-			diffuse 0.7 0.7 0.7 1
+			diffuse 0.6 0.6 0.6 1
 			specular 0 0 0 1 20
 
 			texture_unit
@@ -16,6 +16,7 @@ material nat_nadelbaum_02/trunk
 		}
 		pass
 		{
+		fog_override true exp 1 1 1 0.002 100 10000
 			ambient 0.7 0.7 0.7 1
 			diffuse 0.7 0.7 0.7 1
 			specular 0 0 0 1 20
@@ -29,7 +30,7 @@ material nat_nadelbaum_02/trunk
 				colour_op_multipass_fallback one zero
 			}
 		}
-	}
+	 }
 }
 material nat_nadelbaum_02/leaves
 {
@@ -38,7 +39,7 @@ material nat_nadelbaum_02/leaves
 	{
 		pass
 		{
-			ambient 0.309804 0.309804 0.309804 1
+			ambient 0.609804 0.609804 0.609804 1
 			diffuse 0.631373 0.631373 0.631373 1
 			specular 0 0 0 1 10
 			alpha_rejection greater_equal 173
