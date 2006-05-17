@@ -305,18 +305,6 @@ namespace rl {
 		return true;
 	}
 
-	float ActionChoiceWindow::normalizeAngle(float angle)
-	{
-		float ang = angle;
-
-		while (ang < 0)
-			ang += 360;
-		while (ang > 360)
-			ang -= 360;
-
-		return ang;
-	}
-	
 	CEGUI::Point ActionChoiceWindow::getPositionOnCircle(
 		const CEGUI::Point& center, float radius, float angle)
 	{

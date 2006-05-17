@@ -39,4 +39,16 @@ namespace rl
         azimuth = Math::ATan2(cartesian.x, cartesian.z);
         altitude = Math::ACos(cartesian.y/r) - Radian(Math::HALF_PI);
     }
+
+    Ogre::Real MathUtil::normaliseAngle(Ogre::Real angle)
+	{
+        Ogre::Real ang = angle;
+
+		while (ang < 0)
+			ang += 360;
+		while (ang > 360)
+			ang -= 360;
+
+		return ang;
+	}	
 }

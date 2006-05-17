@@ -84,7 +84,6 @@ namespace rl {
 		void setButtonActions(ActionNode* actions, ActionNode* treeRoot);
 		bool setButtonVisible(CEGUI::PushButton* button, bool visible);
 		bool activateAction(Action* action);
-		static float normalizeAngle(float angle);
 		
 		GameObject* mObject;
 		std::vector<CEGUI::PushButton*> mButtons;

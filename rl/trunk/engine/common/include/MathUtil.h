@@ -29,6 +29,7 @@ class _RlCommonExport MathUtil
 
         static void cartesianToSpherical(Ogre::Vector3 cartesian, Ogre::Real& r,
             Ogre::Radian& azimuth, Ogre::Radian& altitude);
+        static Ogre::Real normaliseAngle(Ogre::Real angle);
 };
 
 }
