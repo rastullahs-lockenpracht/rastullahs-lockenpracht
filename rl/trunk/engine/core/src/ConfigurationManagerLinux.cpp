@@ -48,7 +48,7 @@ namespace rl
 		mPluginCfgPath = mModulesRootDirectory + 
 			"/modules/common/conf/plugins-linux.cfg";
 		mSoundCfgPath = mModulesRootDirectory +
-			"modules/common/conf/sound.cfg";
+			"/modules/common/conf/sound.cfg";
 		mRastullahCfgPath = findRastullahConf( "rastullah_ogre.cfg" );
 		mRastullahSystemCfgPath = findRastullahConf( "rastullah_system.cfg" );
         if (!checkForFile(mRastullahSystemCfgPath))

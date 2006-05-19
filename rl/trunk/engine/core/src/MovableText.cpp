@@ -98,7 +98,7 @@ void MovableText::showOnTop(bool show)
 
 
 /***************************************************************************************************/
-void MovableText::setSpaceWidth(uint width)
+void MovableText::setSpaceWidth(Ogre::uint width)
    {
    if (width != mSpaceWidth)
       {
@@ -131,7 +131,7 @@ void MovableText::setColor(const ColourValue &color)
 
 
 /***************************************************************************************************/
-void MovableText::setCharacterHeight(uint height)
+void MovableText::setCharacterHeight(Ogre::uint height)
    {
    if (height != mCharHeight)
       {
@@ -169,7 +169,7 @@ void MovableText::_setupGeometry()
    assert(mpFont);
    assert(!mpMaterial.isNull());
 
-   uint vertexCount = mCaption.size() * 6;
+   Ogre::uint vertexCount = mCaption.size() * 6;
 
    if (mRenderOp.vertexData)
       {
@@ -410,7 +410,7 @@ void MovableText::_setupGeometry()
       Root::getSingleton().convertColourValue(mColor, &color);
       HardwareVertexBufferSharedPtr vbuf = mRenderOp.vertexData->vertexBufferBinding->getBuffer(COLOUR_BINDING);
       RGBA *pDest = static_cast<RGBA*>(vbuf->lock(HardwareBuffer::HBL_DISCARD));
-      for (uint i = 0; i < mRenderOp.vertexData->vertexCount; ++i)
+      for (Ogre::uint i = 0; i < mRenderOp.vertexData->vertexCount; ++i)
          *pDest++ = color;
       vbuf->unlock();
       mUpdateColors = false;
