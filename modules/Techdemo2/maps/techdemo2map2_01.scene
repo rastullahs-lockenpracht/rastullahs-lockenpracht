@@ -30,13 +30,55 @@
   
 
 		</node>
-		<node name="ter_TD2_map2_part_01" id="5" >
+		<node name="Omni01" id="5" >
+			<position x="442.397" y="642.305" z="-1044.16" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<light
+				name="Omni01"
+				id="6"
+				type="point"
+				visible="true" >
+				castShadows="true" >
+				<position x="0.0" y="0.0" z="0.0" />
+				<colourDiffuse r="0.8" g="0.8" b="0.8" />
+				<colourSpecular r="0.8" g="0.8" b="0.8" />
+				<lightAttenuation
+					range="200.0"
+					constant="1.0"
+					linear="0.0"
+					quadratic="0.0"
+				/>
+			</light>
+		</node>
+		<node name="Omni02" id="7" >
+			<position x="-729.215" y="-335.223" z="2094.07" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<light
+				name="Omni02"
+				id="8"
+				type="point"
+				visible="true" >
+				castShadows="false" >
+				<position x="0.0" y="0.0" z="0.0" />
+				<colourDiffuse r="0.3" g="0.3" b="0.3" />
+				<colourSpecular r="0.3" g="0.3" b="0.3" />
+				<lightAttenuation
+					range="200.0"
+					constant="1.0"
+					linear="0.0"
+					quadratic="0.0"
+				/>
+			</light>
+		</node>
+		<node name="ter_TD2_map2_part_01" id="9" >
 			<position x="25.5951" y="-21.9377" z="6.48893" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ter_TD2_map2_part_01"
-				id="6"
+				id="10"
 				meshFile ="ter_TD2_map2_part_01.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
@@ -45,13 +87,13 @@
   
 
 		</node>
-		<node name="ter_TD2_map2_part_02" id="7" >
+		<node name="ter_TD2_map2_part_02" id="11" >
 			<position x="2.43713" y="-38.0107" z="-82.0208" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ter_TD2_map2_part_02"
-				id="8"
+				id="12"
 				meshFile ="ter_TD2_map2_part_02.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
@@ -60,13 +102,13 @@
   
 
 		</node>
-		<node name="ter_TD2_map2_part_03" id="9" >
+		<node name="ter_TD2_map2_part_03" id="13" >
 			<position x="-4.19746" y="-49.1362" z="-174.159" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ter_TD2_map2_part_03"
-				id="10"
+				id="14"
 				meshFile ="ter_TD2_map2_part_03.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
@@ -75,13 +117,13 @@
   
 
 		</node>
-		<node name="ter_TD2_map2_part_04" id="11" >
+		<node name="ter_TD2_map2_part_04" id="15" >
 			<position x="12.2216" y="-25.4801" z="-257.76" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ter_TD2_map2_part_04"
-				id="12"
+				id="16"
 				meshFile ="ter_TD2_map2_part_04.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
@@ -90,13 +132,13 @@
   
 
 		</node>
-		<node name="ter_TD2_map2_part_05" id="13" >
+		<node name="ter_TD2_map2_part_05" id="17" >
 			<position x="-86.3419" y="-27.1376" z="42.6488" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ter_TD2_map2_part_05"
-				id="14"
+				id="18"
 				meshFile ="ter_TD2_map2_part_05.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
@@ -105,13 +147,13 @@
   
 
 		</node>
-		<node name="ter_TD2_map2_part_06" id="15" >
+		<node name="ter_TD2_map2_part_06" id="19" >
 			<position x="-165.371" y="-26.8071" z="-221.13" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ter_TD2_map2_part_06"
-				id="16"
+				id="20"
 				meshFile ="ter_TD2_map2_part_06.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
@@ -120,13 +162,13 @@
   
 
 		</node>
-		<node name="ter_TD2_map2_part_07" id="17" >
+		<node name="ter_TD2_map2_part_07" id="21" >
 			<position x="23.1077" y="2.11635" z="-363.401" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ter_TD2_map2_part_07"
-				id="18"
+				id="22"
 				meshFile ="ter_TD2_map2_part_07.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
@@ -135,13 +177,13 @@
   
 
 		</node>
-		<node name="ter_TD2_map2_part_08" id="19" >
+		<node name="ter_TD2_map2_part_08" id="23" >
 			<position x="171.233" y="-0.61879" z="-226.518" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ter_TD2_map2_part_08"
-				id="20"
+				id="24"
 				meshFile ="ter_TD2_map2_part_08.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
@@ -150,55 +192,25 @@
   
 
 		</node>
-		<node name="nat_nadelbaum_02" id="21" >
+		<node name="nat_nadelbaum_02" id="25" >
 			<position x="22.6089" y="-24.875" z="-12.3638" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_nadelbaum_02"
-				id="22"
-				meshFile ="nat_nadelbaum_02.mesh"
-				materialFile="techdemo2map2_01.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
-
-		</node>
-		<node name="nat_nadelbaum_02" id="23" >
-			<position x="35.8977" y="-22.6926" z="-26.4431" />
-			<rotation qx="0.0" qy="-0.67559" qz="0.0" qw="0.737277" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="nat_nadelbaum_02"
-				id="24"
-				meshFile ="nat_nadelbaum_02.mesh"
-				materialFile="techdemo2map2_01.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
-
-		</node>
-		<node name="nat_farn_01" id="25" >
-			<position x="-10.1138" y="-40.857" z="-31.932" />
-			<rotation qx="-0.131922" qy="0.0561903" qz="0.0308466" qw="0.989185" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="nat_farn_01"
 				id="26"
-				meshFile ="nat_farn_01.mesh"
+				meshFile ="nat_nadelbaum_02.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
 
- <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="100"/></userData> 
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
 		<node name="nat_nadelbaum_02" id="27" >
-			<position x="10.7854" y="-48.3831" z="-51.5084" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.628659" y="0.628659" z="0.628659" />
+			<position x="35.8977" y="-22.6926" z="-26.4431" />
+			<rotation qx="0.0" qy="-0.67559" qz="0.0" qw="0.737277" />
+			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_nadelbaum_02"
 				id="28"
@@ -210,25 +222,25 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_nadelbaum_02" id="29" >
-			<position x="2.93402" y="-51.3139" z="-56.9204" />
-			<rotation qx="0.0" qy="-0.5" qz="0.0" qw="0.866025" />
-			<scale x="0.722324" y="0.722324" z="0.722324" />
+		<node name="nat_farn_01" id="29" >
+			<position x="-10.1138" y="-40.857" z="-31.932" />
+			<rotation qx="-0.131922" qy="0.0561903" qz="0.0308466" qw="0.989185" />
+			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
-				name="nat_nadelbaum_02"
+				name="nat_farn_01"
 				id="30"
-				meshFile ="nat_nadelbaum_02.mesh"
+				meshFile ="nat_farn_01.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
 
- <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="100"/></userData> 
 
 		</node>
 		<node name="nat_nadelbaum_02" id="31" >
-			<position x="9.32408" y="-49.6616" z="-57.9474" />
-			<rotation qx="0.0" qy="-0.5" qz="0.0" qw="0.866025" />
-			<scale x="0.841128" y="0.841128" z="0.841128" />
+			<position x="10.7854" y="-48.3831" z="-51.5084" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.628659" y="0.628659" z="0.628659" />
 			<entity
 				name="nat_nadelbaum_02"
 				id="32"
@@ -241,9 +253,9 @@
 
 		</node>
 		<node name="nat_nadelbaum_02" id="33" >
-			<position x="-8.07866" y="-39.8786" z="-29.9862" />
+			<position x="2.93402" y="-51.3139" z="-56.9204" />
 			<rotation qx="0.0" qy="-0.5" qz="0.0" qw="0.866025" />
-			<scale x="0.580626" y="0.580626" z="0.580626" />
+			<scale x="0.722324" y="0.722324" z="0.722324" />
 			<entity
 				name="nat_nadelbaum_02"
 				id="34"
@@ -256,9 +268,9 @@
 
 		</node>
 		<node name="nat_nadelbaum_02" id="35" >
-			<position x="-11.1614" y="-43.1221" z="-41.1954" />
-			<rotation qx="0.0" qy="0.130526" qz="0.0" qw="0.991445" />
-			<scale x="0.77998" y="0.77998" z="0.77998" />
+			<position x="9.32408" y="-49.6616" z="-57.9474" />
+			<rotation qx="0.0" qy="-0.5" qz="0.0" qw="0.866025" />
+			<scale x="0.841128" y="0.841128" z="0.841128" />
 			<entity
 				name="nat_nadelbaum_02"
 				id="36"
@@ -270,14 +282,14 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_nadelbaum_03" id="37" >
-			<position x="-11.8859" y="-47.3305" z="-48.6656" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
+		<node name="nat_nadelbaum_02" id="37" >
+			<position x="-8.07866" y="-39.8786" z="-29.9862" />
+			<rotation qx="0.0" qy="-0.5" qz="0.0" qw="0.866025" />
+			<scale x="0.580626" y="0.580626" z="0.580626" />
 			<entity
-				name="nat_nadelbaum_03"
+				name="nat_nadelbaum_02"
 				id="38"
-				meshFile ="nat_nadelbaum_03.mesh"
+				meshFile ="nat_nadelbaum_02.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
@@ -285,14 +297,14 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_nadelbaum_03" id="39" >
-			<position x="-0.708112" y="-54.7358" z="-64.1352" />
-			<rotation qx="0.0" qy="-0.573576" qz="0.0" qw="0.819152" />
-			<scale x="1.20317" y="1.20317" z="1.20317" />
+		<node name="nat_nadelbaum_02" id="39" >
+			<position x="-11.1614" y="-43.1221" z="-41.1954" />
+			<rotation qx="0.0" qy="0.130526" qz="0.0" qw="0.991445" />
+			<scale x="0.77998" y="0.77998" z="0.77998" />
 			<entity
-				name="nat_nadelbaum_03"
+				name="nat_nadelbaum_02"
 				id="40"
-				meshFile ="nat_nadelbaum_03.mesh"
+				meshFile ="nat_nadelbaum_02.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
@@ -301,9 +313,9 @@
 
 		</node>
 		<node name="nat_nadelbaum_03" id="41" >
-			<position x="-21.5635" y="-60.5478" z="-76.2855" />
-			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
-			<scale x="1.20317" y="1.20317" z="1.20317" />
+			<position x="-11.8859" y="-47.3305" z="-48.6656" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_nadelbaum_03"
 				id="42"
@@ -316,9 +328,9 @@
 
 		</node>
 		<node name="nat_nadelbaum_03" id="43" >
-			<position x="1.28259" y="-64.8465" z="-87.8428" />
-			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
-			<scale x="1.01635" y="1.01635" z="1.01635" />
+			<position x="-0.708112" y="-54.7358" z="-64.1352" />
+			<rotation qx="0.0" qy="-0.573576" qz="0.0" qw="0.819152" />
+			<scale x="1.20317" y="1.20317" z="1.20317" />
 			<entity
 				name="nat_nadelbaum_03"
 				id="44"
@@ -330,13 +342,43 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_nadelbaum_02" id="45" >
+		<node name="nat_nadelbaum_03" id="45" >
+			<position x="-21.5635" y="-60.5478" z="-76.2855" />
+			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
+			<scale x="1.20317" y="1.20317" z="1.20317" />
+			<entity
+				name="nat_nadelbaum_03"
+				id="46"
+				meshFile ="nat_nadelbaum_03.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_nadelbaum_03" id="47" >
+			<position x="1.28259" y="-64.8465" z="-87.8428" />
+			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
+			<scale x="1.01635" y="1.01635" z="1.01635" />
+			<entity
+				name="nat_nadelbaum_03"
+				id="48"
+				meshFile ="nat_nadelbaum_03.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_nadelbaum_02" id="49" >
 			<position x="-4.77767" y="-42.4029" z="-37.3019" />
 			<rotation qx="0.0" qy="-0.5" qz="0.0" qw="0.866025" />
 			<scale x="0.580626" y="0.580626" z="0.580626" />
 			<entity
 				name="nat_nadelbaum_02"
-				id="46"
+				id="50"
 				meshFile ="nat_nadelbaum_02.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
@@ -345,13 +387,13 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_baum_shadix_03" id="47" >
+		<node name="nat_baum_shadix_03" id="51" >
 			<position x="35.9495" y="-49.7479" z="-237.201" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_baum_shadix_03"
-				id="48"
+				id="52"
 				meshFile ="nat_baum_shadix_03.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
@@ -360,44 +402,14 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_baum_shadix_03" id="49" >
+		<node name="nat_baum_shadix_03" id="53" >
 			<position x="16.0503" y="-75.5649" z="-121.168" />
 			<rotation qx="-0.00380119" qy="-0.920946" qz="0.0870595" qw="-0.379822" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_baum_shadix_03"
-				id="50"
-				meshFile ="nat_baum_shadix_03.mesh"
-				materialFile="techdemo2map2_01.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
-
-		</node>
-		<node name="nat_baum_shadix_01" id="51" >
-			<position x="7.81078" y="-76.593" z="-144.386" />
-			<rotation qx="-0.0245436" qy="-0.385977" qz="0.00333097" qw="0.922176" />
-			<scale x="1.78309" y="1.78309" z="1.78309" />
-			<entity
-				name="nat_baum_shadix_01"
-				id="52"
-				meshFile ="nat_baum_shadix_01.mesh"
-				materialFile="techdemo2map2_01.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
-
-		</node>
-		<node name="nat_baum_shadix_01" id="53" >
-			<position x="25.1375" y="-76.9225" z="-157.579" />
-			<rotation qx="0.0157046" qy="-0.385755" qz="-0.0135083" qw="0.922369" />
-			<scale x="2.00736" y="2.00736" z="2.00736" />
-			<entity
-				name="nat_baum_shadix_01"
 				id="54"
-				meshFile ="nat_baum_shadix_01.mesh"
+				meshFile ="nat_baum_shadix_03.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
@@ -406,7 +418,7 @@
 
 		</node>
 		<node name="nat_baum_shadix_01" id="55" >
-			<position x="-22.4225" y="-74.1663" z="-168.714" />
+			<position x="7.81078" y="-76.593" z="-144.386" />
 			<rotation qx="-0.0245436" qy="-0.385977" qz="0.00333097" qw="0.922176" />
 			<scale x="1.78309" y="1.78309" z="1.78309" />
 			<entity
@@ -420,14 +432,14 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_nadelbaum_02" id="57" >
-			<position x="-18.8321" y="-60.2723" z="-222.268" />
-			<rotation qx="0.0" qy="-0.5" qz="0.0" qw="0.866025" />
-			<scale x="0.841128" y="0.841128" z="0.841128" />
+		<node name="nat_baum_shadix_01" id="57" >
+			<position x="25.1375" y="-76.9225" z="-157.579" />
+			<rotation qx="0.0157046" qy="-0.385755" qz="-0.0135083" qw="0.922369" />
+			<scale x="2.00736" y="2.00736" z="2.00736" />
 			<entity
-				name="nat_nadelbaum_02"
+				name="nat_baum_shadix_01"
 				id="58"
-				meshFile ="nat_nadelbaum_02.mesh"
+				meshFile ="nat_baum_shadix_01.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
@@ -435,14 +447,14 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_nadelbaum_02" id="59" >
-			<position x="-14.2596" y="-62.9273" z="-216.335" />
-			<rotation qx="0.0" qy="0.0436194" qz="0.0" qw="0.999048" />
-			<scale x="0.658604" y="0.658604" z="0.658604" />
+		<node name="nat_baum_shadix_01" id="59" >
+			<position x="-15.8601" y="-73.8626" z="-176.327" />
+			<rotation qx="-0.0245436" qy="-0.385977" qz="0.00333097" qw="0.922176" />
+			<scale x="1.78309" y="1.78309" z="1.78309" />
 			<entity
-				name="nat_nadelbaum_02"
+				name="nat_baum_shadix_01"
 				id="60"
-				meshFile ="nat_nadelbaum_02.mesh"
+				meshFile ="nat_baum_shadix_01.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
@@ -451,9 +463,9 @@
 
 		</node>
 		<node name="nat_nadelbaum_02" id="61" >
-			<position x="-22.4691" y="-67.3968" z="-205.067" />
-			<rotation qx="0.0" qy="0.0436194" qz="0.0" qw="0.999048" />
-			<scale x="0.658604" y="0.658604" z="0.658604" />
+			<position x="-18.8321" y="-60.2723" z="-222.268" />
+			<rotation qx="0.0" qy="-0.5" qz="0.0" qw="0.866025" />
+			<scale x="0.841128" y="0.841128" z="0.841128" />
 			<entity
 				name="nat_nadelbaum_02"
 				id="62"
@@ -465,13 +477,43 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_nadelbaum_03" id="63" >
+		<node name="nat_nadelbaum_02" id="63" >
+			<position x="-14.2596" y="-62.9273" z="-216.335" />
+			<rotation qx="0.0" qy="0.0436194" qz="0.0" qw="0.999048" />
+			<scale x="0.658604" y="0.658604" z="0.658604" />
+			<entity
+				name="nat_nadelbaum_02"
+				id="64"
+				meshFile ="nat_nadelbaum_02.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_nadelbaum_02" id="65" >
+			<position x="-22.4691" y="-67.3968" z="-205.067" />
+			<rotation qx="0.0" qy="0.0436194" qz="0.0" qw="0.999048" />
+			<scale x="0.658604" y="0.658604" z="0.658604" />
+			<entity
+				name="nat_nadelbaum_02"
+				id="66"
+				meshFile ="nat_nadelbaum_02.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_nadelbaum_03" id="67" >
 			<position x="-14.2929" y="-57.8924" z="-70.1777" />
 			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
 			<scale x="1.20317" y="1.20317" z="1.20317" />
 			<entity
 				name="nat_nadelbaum_03"
-				id="64"
+				id="68"
 				meshFile ="nat_nadelbaum_03.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
@@ -480,44 +522,14 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_nadelbaum_03" id="65" >
+		<node name="nat_nadelbaum_03" id="69" >
 			<position x="-14.2283" y="-60.7004" z="-77.5755" />
 			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
 			<scale x="1.05069" y="1.05069" z="1.05069" />
 			<entity
 				name="nat_nadelbaum_03"
-				id="66"
-				meshFile ="nat_nadelbaum_03.mesh"
-				materialFile="techdemo2map2_01.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
-
-		</node>
-		<node name="nat_nadelbaum_02" id="67" >
-			<position x="-6.51896" y="-44.7631" z="-43.9099" />
-			<rotation qx="0.0" qy="-0.5" qz="0.0" qw="0.866025" />
-			<scale x="0.841128" y="0.841128" z="0.841128" />
-			<entity
-				name="nat_nadelbaum_02"
-				id="68"
-				meshFile ="nat_nadelbaum_02.mesh"
-				materialFile="techdemo2map2_01.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
-
-		</node>
-		<node name="nat_nadelbaum_02" id="69" >
-			<position x="-18.6283" y="-50.8782" z="-52.7334" />
-			<rotation qx="0.0" qy="-0.5" qz="0.0" qw="0.866025" />
-			<scale x="0.841128" y="0.841128" z="0.841128" />
-			<entity
-				name="nat_nadelbaum_02"
 				id="70"
-				meshFile ="nat_nadelbaum_02.mesh"
+				meshFile ="nat_nadelbaum_03.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
@@ -526,9 +538,9 @@
 
 		</node>
 		<node name="nat_nadelbaum_02" id="71" >
-			<position x="7.58839" y="-45.1202" z="-41.2493" />
+			<position x="-6.51896" y="-44.7631" z="-43.9099" />
 			<rotation qx="0.0" qy="-0.5" qz="0.0" qw="0.866025" />
-			<scale x="0.722324" y="0.722324" z="0.722324" />
+			<scale x="0.841128" y="0.841128" z="0.841128" />
 			<entity
 				name="nat_nadelbaum_02"
 				id="72"
@@ -540,14 +552,14 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_baum_shadix_01" id="73" >
-			<position x="38.2414" y="-47.9336" z="-266.643" />
-			<rotation qx="-0.0245436" qy="-0.385977" qz="0.00333097" qw="0.922176" />
-			<scale x="1.78309" y="1.78309" z="1.78309" />
+		<node name="nat_nadelbaum_02" id="73" >
+			<position x="-18.6283" y="-50.8782" z="-52.7334" />
+			<rotation qx="0.0" qy="-0.5" qz="0.0" qw="0.866025" />
+			<scale x="0.841128" y="0.841128" z="0.841128" />
 			<entity
-				name="nat_baum_shadix_01"
+				name="nat_nadelbaum_02"
 				id="74"
-				meshFile ="nat_baum_shadix_01.mesh"
+				meshFile ="nat_nadelbaum_02.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
@@ -555,14 +567,14 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_baum_shadix_01" id="75" >
-			<position x="46.7113" y="-47.0599" z="-249.835" />
-			<rotation qx="-0.0245436" qy="-0.385977" qz="0.00333097" qw="0.922176" />
-			<scale x="2.00736" y="2.00736" z="2.00736" />
+		<node name="nat_nadelbaum_02" id="75" >
+			<position x="7.58839" y="-45.1202" z="-41.2493" />
+			<rotation qx="0.0" qy="-0.5" qz="0.0" qw="0.866025" />
+			<scale x="0.722324" y="0.722324" z="0.722324" />
 			<entity
-				name="nat_baum_shadix_01"
+				name="nat_nadelbaum_02"
 				id="76"
-				meshFile ="nat_baum_shadix_01.mesh"
+				meshFile ="nat_nadelbaum_02.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
@@ -571,9 +583,9 @@
 
 		</node>
 		<node name="nat_baum_shadix_01" id="77" >
-			<position x="-6.11874" y="-50.0622" z="-254.818" />
+			<position x="38.2414" y="-47.9336" z="-266.643" />
 			<rotation qx="-0.0245436" qy="-0.385977" qz="0.00333097" qw="0.922176" />
-			<scale x="2.00736" y="2.00736" z="2.00736" />
+			<scale x="1.78309" y="1.78309" z="1.78309" />
 			<entity
 				name="nat_baum_shadix_01"
 				id="78"
@@ -585,39 +597,39 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_farn_01" id="79" >
-			<position x="-8.73204" y="-39.041" z="-26.5223" />
-			<rotation qx="-0.0418418" qy="0.189938" qz="-0.170789" qw="0.965921" />
-			<scale x="1.0" y="1.0" z="1.0" />
+		<node name="nat_baum_shadix_01" id="79" >
+			<position x="46.7113" y="-47.0599" z="-249.835" />
+			<rotation qx="-0.0245436" qy="-0.385977" qz="0.00333097" qw="0.922176" />
+			<scale x="2.00736" y="2.00736" z="2.00736" />
 			<entity
-				name="nat_farn_01"
+				name="nat_baum_shadix_01"
 				id="80"
-				meshFile ="nat_farn_01.mesh"
+				meshFile ="nat_baum_shadix_01.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
 
- <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="100"/></userData> 
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_farn_01" id="81" >
-			<position x="-7.96882" y="-40.2227" z="-31.1779" />
-			<rotation qx="-0.141438" qy="0.0233505" qz="0.0309606" qw="0.989187" />
-			<scale x="1.0" y="1.0" z="1.0" />
+		<node name="nat_baum_shadix_01" id="81" >
+			<position x="-6.11874" y="-50.0622" z="-254.818" />
+			<rotation qx="-0.0245436" qy="-0.385977" qz="0.00333097" qw="0.922176" />
+			<scale x="2.00736" y="2.00736" z="2.00736" />
 			<entity
-				name="nat_farn_01"
+				name="nat_baum_shadix_01"
 				id="82"
-				meshFile ="nat_farn_01.mesh"
+				meshFile ="nat_baum_shadix_01.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
 
- <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="100"/></userData> 
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
 		<node name="nat_farn_01" id="83" >
-			<position x="-6.86961" y="-41.1971" z="-34.532" />
-			<rotation qx="-0.124828" qy="0.485539" qz="-0.0502139" qw="0.863799" />
+			<position x="-8.73204" y="-39.041" z="-26.5223" />
+			<rotation qx="-0.0418418" qy="0.189938" qz="-0.170789" qw="0.965921" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_farn_01"
@@ -631,8 +643,8 @@
 
 		</node>
 		<node name="nat_farn_01" id="85" >
-			<position x="-6.4396" y="-42.4286" z="-37.9909" />
-			<rotation qx="-0.121887" qy="0.0414138" qz="-0.080033" qw="0.988445" />
+			<position x="-7.96882" y="-40.2227" z="-31.1779" />
+			<rotation qx="-0.141438" qy="0.0233505" qz="0.0309606" qw="0.989187" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_farn_01"
@@ -645,40 +657,40 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="100"/></userData> 
 
 		</node>
-		<node name="nat_nadelbaum_03" id="87" >
-			<position x="-8.07792" y="-52.1215" z="-55.5685" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+		<node name="nat_farn_01" id="87" >
+			<position x="-6.86961" y="-41.1971" z="-34.532" />
+			<rotation qx="-0.124828" qy="0.485539" qz="-0.0502139" qw="0.863799" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
-				name="nat_nadelbaum_03"
+				name="nat_farn_01"
 				id="88"
-				meshFile ="nat_nadelbaum_03.mesh"
+				meshFile ="nat_farn_01.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
 
- <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="100"/></userData> 
 
 		</node>
-		<node name="nat_nadelbaum_03" id="89" >
-			<position x="-13.1851" y="-50.8594" z="-53.4935" />
-			<rotation qx="0.0" qy="0.21644" qz="0.0" qw="0.976296" />
-			<scale x="0.763592" y="0.763592" z="0.763592" />
+		<node name="nat_farn_01" id="89" >
+			<position x="-6.4396" y="-42.4286" z="-37.9909" />
+			<rotation qx="-0.121887" qy="0.0414138" qz="-0.080033" qw="0.988445" />
+			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
-				name="nat_nadelbaum_03"
+				name="nat_farn_01"
 				id="90"
-				meshFile ="nat_nadelbaum_03.mesh"
+				meshFile ="nat_farn_01.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
 
- <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="100"/></userData> 
 
 		</node>
 		<node name="nat_nadelbaum_03" id="91" >
-			<position x="3.75174" y="-49.6078" z="-51.5363" />
+			<position x="-8.07792" y="-52.1215" z="-55.5685" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.752474" y="0.752474" z="0.752474" />
+			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_nadelbaum_03"
 				id="92"
@@ -690,39 +702,39 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_farn_01" id="93" >
-			<position x="-3.44539" y="-42.99" z="-38.6245" />
-			<rotation qx="-0.139309" qy="0.387349" qz="-0.262158" qw="0.872827" />
-			<scale x="1.0" y="1.0" z="1.0" />
+		<node name="nat_nadelbaum_03" id="93" >
+			<position x="-13.1851" y="-50.8594" z="-53.4935" />
+			<rotation qx="0.0" qy="0.21644" qz="0.0" qw="0.976296" />
+			<scale x="0.763592" y="0.763592" z="0.763592" />
 			<entity
-				name="nat_farn_01"
+				name="nat_nadelbaum_03"
 				id="94"
-				meshFile ="nat_farn_01.mesh"
+				meshFile ="nat_nadelbaum_03.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
 
- <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="100"/></userData> 
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_farn_01" id="95" >
-			<position x="-6.90766" y="-43.4859" z="-40.9595" />
-			<rotation qx="-0.0768093" qy="-0.957152" qz="0.157536" qw="-0.230528" />
-			<scale x="1.0" y="1.0" z="1.0" />
+		<node name="nat_nadelbaum_03" id="95" >
+			<position x="3.75174" y="-49.6078" z="-51.5363" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.752474" y="0.752474" z="0.752474" />
 			<entity
-				name="nat_farn_01"
+				name="nat_nadelbaum_03"
 				id="96"
-				meshFile ="nat_farn_01.mesh"
+				meshFile ="nat_nadelbaum_03.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
 
- <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="100"/></userData> 
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
 		<node name="nat_farn_01" id="97" >
-			<position x="-10.2752" y="-43.148" z="-41.2175" />
-			<rotation qx="-0.106172" qy="-0.961483" qz="0.159311" qw="0.197226" />
+			<position x="-3.44539" y="-42.99" z="-38.6245" />
+			<rotation qx="-0.139309" qy="0.387349" qz="-0.262158" qw="0.872827" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_farn_01"
@@ -736,8 +748,8 @@
 
 		</node>
 		<node name="nat_farn_01" id="99" >
-			<position x="-8.45234" y="-44.6103" z="-44.7571" />
-			<rotation qx="-0.0739743" qy="-0.905684" qz="0.179443" qw="0.376914" />
+			<position x="-6.90766" y="-43.4859" z="-40.9595" />
+			<rotation qx="-0.0768093" qy="-0.957152" qz="0.157536" qw="-0.230528" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_farn_01"
@@ -751,8 +763,8 @@
 
 		</node>
 		<node name="nat_farn_01" id="101" >
-			<position x="-8.53403" y="-48.3522" z="-50.1042" />
-			<rotation qx="0.0660776" qy="-0.919785" qz="-0.117205" qw="0.368636" />
+			<position x="-10.2752" y="-43.148" z="-41.2175" />
+			<rotation qx="-0.106172" qy="-0.961483" qz="0.159311" qw="0.197226" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_farn_01"
@@ -766,8 +778,8 @@
 
 		</node>
 		<node name="nat_farn_01" id="103" >
-			<position x="2.09461" y="-49.846" z="-51.8142" />
-			<rotation qx="-0.046762" qy="-0.843665" qz="0.0538205" qw="0.532115" />
+			<position x="-8.45234" y="-44.6103" z="-44.7571" />
+			<rotation qx="-0.0739743" qy="-0.905684" qz="0.179443" qw="0.376914" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_farn_01"
@@ -781,8 +793,8 @@
 
 		</node>
 		<node name="nat_farn_01" id="105" >
-			<position x="4.06043" y="-48.6285" z="-48.3388" />
-			<rotation qx="0.0222692" qy="-0.980847" qz="0.189719" qw="0.0380841" />
+			<position x="-8.53403" y="-48.3522" z="-50.1042" />
+			<rotation qx="-0.166269" qy="-0.739852" qz="0.223637" qw="0.61234" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_farn_01"
@@ -796,8 +808,8 @@
 
 		</node>
 		<node name="nat_farn_01" id="107" >
-			<position x="8.80416" y="-48.3568" z="-48.7624" />
-			<rotation qx="-0.159104" qy="0.254851" qz="0.0465507" qw="0.952665" />
+			<position x="2.09461" y="-49.846" z="-51.8142" />
+			<rotation qx="-0.046762" qy="-0.843665" qz="0.0538205" qw="0.532115" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_farn_01"
@@ -811,8 +823,8 @@
 
 		</node>
 		<node name="nat_farn_01" id="109" >
-			<position x="10.6862" y="-45.1324" z="-42.2754" />
-			<rotation qx="-0.25229" qy="0.0484093" qz="0.0593539" qw="0.964616" />
+			<position x="4.06043" y="-48.6285" z="-48.3388" />
+			<rotation qx="0.0222692" qy="-0.980847" qz="0.189719" qw="0.0380841" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_farn_01"
@@ -826,8 +838,8 @@
 
 		</node>
 		<node name="nat_farn_01" id="111" >
-			<position x="6.5176" y="-50.7011" z="-56.9611" />
-			<rotation qx="-0.143683" qy="0.00709278" qz="0.118632" qw="0.982462" />
+			<position x="8.80416" y="-48.3568" z="-48.7624" />
+			<rotation qx="-0.159104" qy="0.254851" qz="0.0465507" qw="0.952665" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_farn_01"
@@ -841,8 +853,8 @@
 
 		</node>
 		<node name="nat_farn_01" id="113" >
-			<position x="-3.51715" y="-53.6645" z="-60.317" />
-			<rotation qx="-0.205788" qy="-0.112948" qz="0.0640311" qw="0.969945" />
+			<position x="10.6862" y="-45.1324" z="-42.2754" />
+			<rotation qx="-0.25229" qy="0.0484093" qz="0.0593539" qw="0.964616" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_farn_01"
@@ -856,8 +868,8 @@
 
 		</node>
 		<node name="nat_farn_01" id="115" >
-			<position x="13.2433" y="-39.3088" z="-34.1228" />
-			<rotation qx="-0.211077" qy="0.0182689" qz="0.017294" qw="0.977146" />
+			<position x="6.5176" y="-50.7011" z="-56.9611" />
+			<rotation qx="-0.143683" qy="0.00709278" qz="0.118632" qw="0.982462" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_farn_01"
@@ -871,8 +883,8 @@
 
 		</node>
 		<node name="nat_farn_01" id="117" >
-			<position x="9.16803" y="-46.3853" z="-44.0698" />
-			<rotation qx="-0.25622" qy="-0.00878667" qz="0.0745844" qw="0.963697" />
+			<position x="-3.51715" y="-53.6645" z="-60.317" />
+			<rotation qx="-0.205788" qy="-0.112948" qz="0.0640311" qw="0.969945" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_farn_01"
@@ -886,8 +898,8 @@
 
 		</node>
 		<node name="nat_farn_01" id="119" >
-			<position x="12.7897" y="-47.346" z="-48.3849" />
-			<rotation qx="-0.0734512" qy="-0.0977251" qz="-0.112731" qw="0.986076" />
+			<position x="13.2433" y="-39.3088" z="-34.1228" />
+			<rotation qx="-0.211077" qy="0.0182689" qz="0.017294" qw="0.977146" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_farn_01"
@@ -900,40 +912,40 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="100"/></userData> 
 
 		</node>
-		<node name="nat_nadelbaum_03" id="121" >
-			<position x="-23.357" y="-63.1323" z="-85.4438" />
-			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
-			<scale x="1.20317" y="1.20317" z="1.20317" />
+		<node name="nat_farn_01" id="121" >
+			<position x="9.16803" y="-46.3853" z="-44.0698" />
+			<rotation qx="-0.25622" qy="-0.00878667" qz="0.0745844" qw="0.963697" />
+			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
-				name="nat_nadelbaum_03"
+				name="nat_farn_01"
 				id="122"
-				meshFile ="nat_nadelbaum_03.mesh"
+				meshFile ="nat_farn_01.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
 
- <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="100"/></userData> 
 
 		</node>
-		<node name="nat_nadelbaum_03" id="123" >
-			<position x="-18.1582" y="-61.9567" z="-81.5738" />
-			<rotation qx="0.0" qy="0.766044" qz="0.0" qw="0.642788" />
-			<scale x="1.20317" y="1.20317" z="1.20317" />
+		<node name="nat_farn_01" id="123" >
+			<position x="12.7897" y="-47.346" z="-48.3849" />
+			<rotation qx="-0.0734512" qy="-0.0977251" qz="-0.112731" qw="0.986076" />
+			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
-				name="nat_nadelbaum_03"
+				name="nat_farn_01"
 				id="124"
-				meshFile ="nat_nadelbaum_03.mesh"
+				meshFile ="nat_farn_01.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
 
- <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="100"/></userData> 
 
 		</node>
 		<node name="nat_nadelbaum_03" id="125" >
-			<position x="-11.8281" y="-54.3919" z="-59.5744" />
-			<rotation qx="0.0" qy="-0.422618" qz="0.0" qw="0.906308" />
-			<scale x="1.0" y="1.0" z="1.0" />
+			<position x="-23.357" y="-63.1323" z="-85.4438" />
+			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
+			<scale x="1.20317" y="1.20317" z="1.20317" />
 			<entity
 				name="nat_nadelbaum_03"
 				id="126"
@@ -946,9 +958,9 @@
 
 		</node>
 		<node name="nat_nadelbaum_03" id="127" >
-			<position x="0.695761" y="-58.3519" z="-70.802" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0387" y="1.0387" z="1.0387" />
+			<position x="-18.1582" y="-61.9567" z="-81.5738" />
+			<rotation qx="0.0" qy="0.766044" qz="0.0" qw="0.642788" />
+			<scale x="1.20317" y="1.20317" z="1.20317" />
 			<entity
 				name="nat_nadelbaum_03"
 				id="128"
@@ -961,9 +973,9 @@
 
 		</node>
 		<node name="nat_nadelbaum_03" id="129" >
-			<position x="-4.2497" y="-58.7754" z="-71.9227" />
-			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
-			<scale x="1.20317" y="1.20317" z="1.20317" />
+			<position x="-11.8281" y="-54.3919" z="-59.5744" />
+			<rotation qx="0.0" qy="-0.422618" qz="0.0" qw="0.906308" />
+			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_nadelbaum_03"
 				id="130"
@@ -976,9 +988,9 @@
 
 		</node>
 		<node name="nat_nadelbaum_03" id="131" >
-			<position x="2.54857" y="-60.2039" z="-75.5512" />
-			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
-			<scale x="1.20317" y="1.20317" z="1.20317" />
+			<position x="0.695761" y="-58.3519" z="-70.802" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0387" y="1.0387" z="1.0387" />
 			<entity
 				name="nat_nadelbaum_03"
 				id="132"
@@ -990,40 +1002,40 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="baumstammcoli" id="133" >
-			<position x="-4.78765" y="-42.4031" z="-37.3104" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.464292" y="0.464292" z="0.827366" />
+		<node name="nat_nadelbaum_03" id="133" >
+			<position x="-4.2497" y="-58.7754" z="-71.9227" />
+			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
+			<scale x="1.20317" y="1.20317" z="1.20317" />
 			<entity
-				name="baumstammcoli"
+				name="nat_nadelbaum_03"
 				id="134"
-				meshFile ="baumstammcoli.mesh"
+				meshFile ="nat_nadelbaum_03.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
 
-  
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="baumstammcoli" id="135" >
-			<position x="-8.0864" y="-40.0568" z="-29.974" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.464292" y="0.464292" z="0.827366" />
+		<node name="nat_nadelbaum_03" id="135" >
+			<position x="2.54857" y="-60.2039" z="-75.5512" />
+			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
+			<scale x="1.20317" y="1.20317" z="1.20317" />
 			<entity
-				name="baumstammcoli"
+				name="nat_nadelbaum_03"
 				id="136"
-				meshFile ="baumstammcoli.mesh"
+				meshFile ="nat_nadelbaum_03.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
 
-  
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
 		<node name="baumstammcoli" id="137" >
-			<position x="-11.1662" y="-42.9384" z="-41.2032" />
+			<position x="-4.78765" y="-42.4031" z="-37.3104" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.565652" y="0.565652" z="0.827366" />
+			<scale x="0.464292" y="0.464292" z="0.827366" />
 			<entity
 				name="baumstammcoli"
 				id="138"
@@ -1036,9 +1048,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="139" >
-			<position x="-6.51174" y="-44.5691" z="-43.9134" />
+			<position x="-8.0864" y="-40.0568" z="-29.974" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.565652" y="0.565652" z="0.827366" />
+			<scale x="0.464292" y="0.464292" z="0.827366" />
 			<entity
 				name="baumstammcoli"
 				id="140"
@@ -1051,9 +1063,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="141" >
-			<position x="-11.8691" y="-47.4092" z="-48.6456" />
+			<position x="-11.1662" y="-42.9384" z="-41.2032" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.707941" y="0.707941" z="1.03549" />
+			<scale x="0.565652" y="0.565652" z="0.827366" />
 			<entity
 				name="baumstammcoli"
 				id="142"
@@ -1066,9 +1078,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="143" >
-			<position x="-8.08651" y="-51.9616" z="-55.5837" />
+			<position x="-6.51174" y="-44.5691" z="-43.9134" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.707941" y="0.707941" z="1.03549" />
+			<scale x="0.565652" y="0.565652" z="0.827366" />
 			<entity
 				name="baumstammcoli"
 				id="144"
@@ -1081,9 +1093,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="145" >
-			<position x="-13.1651" y="-51.9616" z="-53.5173" />
+			<position x="-11.8691" y="-47.4092" z="-48.6456" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.575718" y="0.575718" z="1.03549" />
+			<scale x="0.707941" y="0.707941" z="1.03549" />
 			<entity
 				name="baumstammcoli"
 				id="146"
@@ -1096,9 +1108,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="147" >
-			<position x="-18.6435" y="-50.8877" z="-52.7137" />
+			<position x="-8.08651" y="-51.9616" z="-55.5837" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.6666" y="0.6666" z="1.03549" />
+			<scale x="0.707941" y="0.707941" z="1.03549" />
 			<entity
 				name="baumstammcoli"
 				id="148"
@@ -1111,9 +1123,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="149" >
-			<position x="-11.7995" y="-54.312" z="-59.5899" />
+			<position x="-13.1651" y="-51.9616" z="-53.5173" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.6666" y="0.6666" z="1.03549" />
+			<scale x="0.575718" y="0.575718" z="1.03549" />
 			<entity
 				name="baumstammcoli"
 				id="150"
@@ -1126,9 +1138,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="151" >
-			<position x="7.56621" y="-45.217" z="-41.2299" />
+			<position x="-18.6435" y="-50.8877" z="-52.7137" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.567751" y="0.567751" z="1.03549" />
+			<scale x="0.6666" y="0.6666" z="1.03549" />
 			<entity
 				name="baumstammcoli"
 				id="152"
@@ -1141,9 +1153,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="153" >
-			<position x="10.7413" y="-48.4455" z="-51.4824" />
+			<position x="-11.7995" y="-54.312" z="-59.5899" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.450158" y="0.450158" z="0.82102" />
+			<scale x="0.6666" y="0.6666" z="1.03549" />
 			<entity
 				name="baumstammcoli"
 				id="154"
@@ -1156,9 +1168,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="155" >
-			<position x="3.71824" y="-49.8045" z="-51.4984" />
+			<position x="7.56621" y="-45.217" z="-41.2299" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.450158" y="0.450158" z="0.82102" />
+			<scale x="0.567751" y="0.567751" z="1.03549" />
 			<entity
 				name="baumstammcoli"
 				id="156"
@@ -1171,9 +1183,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="157" >
-			<position x="2.92071" y="-51.3776" z="-56.942" />
+			<position x="10.7413" y="-48.4455" z="-51.4824" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.640556" y="0.640556" z="1.16828" />
+			<scale x="0.450158" y="0.450158" z="0.82102" />
 			<entity
 				name="baumstammcoli"
 				id="158"
@@ -1186,9 +1198,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="159" >
-			<position x="9.31995" y="-49.548" z="-57.9715" />
+			<position x="3.71824" y="-49.8045" z="-51.4984" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.745911" y="0.745911" z="1.36043" />
+			<scale x="0.450158" y="0.450158" z="0.82102" />
 			<entity
 				name="baumstammcoli"
 				id="160"
@@ -1201,9 +1213,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="161" >
-			<position x="-0.710203" y="-54.7751" z="-64.1642" />
+			<position x="2.92071" y="-51.3776" z="-56.942" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.03458" y="1.03458" z="1.88691" />
+			<scale x="0.640556" y="0.640556" z="1.16828" />
 			<entity
 				name="baumstammcoli"
 				id="162"
@@ -1216,9 +1228,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="163" >
-			<position x="-4.17503" y="-58.3461" z="-71.9591" />
+			<position x="9.31995" y="-49.548" z="-57.9715" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.911162" y="0.911162" z="1.66182" />
+			<scale x="0.745911" y="0.745911" z="1.36043" />
 			<entity
 				name="baumstammcoli"
 				id="164"
@@ -1231,9 +1243,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="165" >
-			<position x="0.706122" y="-58.5167" z="-70.8784" />
+			<position x="-0.710203" y="-54.7751" z="-64.1642" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.911162" y="0.911162" z="1.66182" />
+			<scale x="1.03458" y="1.03458" z="1.88691" />
 			<entity
 				name="baumstammcoli"
 				id="166"
@@ -1246,7 +1258,7 @@
 
 		</node>
 		<node name="baumstammcoli" id="167" >
-			<position x="2.55929" y="-59.9671" z="-75.5357" />
+			<position x="-4.17503" y="-58.3461" z="-71.9591" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.911162" y="0.911162" z="1.66182" />
 			<entity
@@ -1261,9 +1273,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="169" >
-			<position x="1.27912" y="-64.689" z="-87.8275" />
+			<position x="0.706122" y="-58.5167" z="-70.8784" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.816381" y="0.816381" z="1.48895" />
+			<scale x="0.911162" y="0.911162" z="1.66182" />
 			<entity
 				name="baumstammcoli"
 				id="170"
@@ -1276,9 +1288,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="171" >
-			<position x="-14.1958" y="-60.6857" z="-77.5784" />
+			<position x="2.55929" y="-59.9671" z="-75.5357" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.816381" y="0.816381" z="1.48895" />
+			<scale x="0.911162" y="0.911162" z="1.66182" />
 			<entity
 				name="baumstammcoli"
 				id="172"
@@ -1291,9 +1303,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="173" >
-			<position x="-14.2734" y="-58.3808" z="-70.2103" />
+			<position x="1.27912" y="-64.689" z="-87.8275" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.911162" y="0.911162" z="1.66182" />
+			<scale x="0.816381" y="0.816381" z="1.48895" />
 			<entity
 				name="baumstammcoli"
 				id="174"
@@ -1306,9 +1318,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="175" >
-			<position x="-21.5693" y="-60.314" z="-76.3193" />
+			<position x="-14.1958" y="-60.6857" z="-77.5784" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.911162" y="0.911162" z="1.66182" />
+			<scale x="0.816381" y="0.816381" z="1.48895" />
 			<entity
 				name="baumstammcoli"
 				id="176"
@@ -1321,7 +1333,7 @@
 
 		</node>
 		<node name="baumstammcoli" id="177" >
-			<position x="-23.3579" y="-63.123" z="-85.4316" />
+			<position x="-14.2734" y="-58.3808" z="-70.2103" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.911162" y="0.911162" z="1.66182" />
 			<entity
@@ -1336,7 +1348,7 @@
 
 		</node>
 		<node name="baumstammcoli" id="179" >
-			<position x="-18.1268" y="-63.123" z="-81.6372" />
+			<position x="-21.5693" y="-60.314" z="-76.3193" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.911162" y="0.911162" z="1.66182" />
 			<entity
@@ -1351,9 +1363,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="181" >
-			<position x="16.0172" y="-75.3125" z="-121.412" />
-			<rotation qx="-0.0755595" qy="0.0443757" qz="-0.0247243" qw="0.995847" />
-			<scale x="2.22231" y="2.22231" z="4.05315" />
+			<position x="-23.3579" y="-63.123" z="-85.4316" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.911162" y="0.911162" z="1.66182" />
 			<entity
 				name="baumstammcoli"
 				id="182"
@@ -1366,9 +1378,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="183" >
-			<position x="13.6179" y="-76.0429" z="-120.281" />
-			<rotation qx="-0.125755" qy="0.175764" qz="-0.435766" qw="0.873728" />
-			<scale x="1.41243" y="1.41243" z="0.495002" />
+			<position x="-18.1268" y="-63.123" z="-81.6372" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.911162" y="0.911162" z="1.66182" />
 			<entity
 				name="baumstammcoli"
 				id="184"
@@ -1381,9 +1393,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="185" >
-			<position x="7.83513" y="-77.4387" z="-144.503" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.816381" y="0.816381" z="1.48895" />
+			<position x="16.0172" y="-75.3125" z="-121.412" />
+			<rotation qx="-0.0755595" qy="0.0443757" qz="-0.0247243" qw="0.995847" />
+			<scale x="2.22231" y="2.22231" z="4.05315" />
 			<entity
 				name="baumstammcoli"
 				id="186"
@@ -1396,9 +1408,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="187" >
-			<position x="25.1774" y="-77.4387" z="-157.442" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.816381" y="0.816381" z="1.48895" />
+			<position x="13.6179" y="-76.0429" z="-120.281" />
+			<rotation qx="-0.125755" qy="0.175764" qz="-0.435766" qw="0.873728" />
+			<scale x="1.41243" y="1.41243" z="0.495002" />
 			<entity
 				name="baumstammcoli"
 				id="188"
@@ -1411,7 +1423,7 @@
 
 		</node>
 		<node name="baumstammcoli" id="189" >
-			<position x="-22.4159" y="-73.9724" z="-168.801" />
+			<position x="7.83513" y="-77.4387" z="-144.503" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.816381" y="0.816381" z="1.48895" />
 			<entity
@@ -1426,9 +1438,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="191" >
-			<position x="-22.466" y="-67.4337" z="-205.118" />
+			<position x="25.1774" y="-77.4387" z="-157.442" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.626177" y="0.626177" z="1.56451" />
+			<scale x="0.816381" y="0.816381" z="1.48895" />
 			<entity
 				name="baumstammcoli"
 				id="192"
@@ -1441,9 +1453,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="193" >
-			<position x="-14.315" y="-62.9265" z="-216.319" />
+			<position x="-15.8536" y="-73.6687" z="-176.414" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.626177" y="0.626177" z="1.56451" />
+			<scale x="0.816381" y="0.816381" z="1.48895" />
 			<entity
 				name="baumstammcoli"
 				id="194"
@@ -1456,9 +1468,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="195" >
-			<position x="-18.8083" y="-60.5264" z="-222.239" />
+			<position x="-22.466" y="-67.4337" z="-205.118" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.751859" y="0.751859" z="1.56451" />
+			<scale x="0.626177" y="0.626177" z="1.56451" />
 			<entity
 				name="baumstammcoli"
 				id="196"
@@ -1471,9 +1483,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="197" >
-			<position x="-6.06148" y="-49.9891" z="-254.83" />
+			<position x="-14.315" y="-62.9265" z="-216.319" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.953318" y="0.953318" z="1.56451" />
+			<scale x="0.626177" y="0.626177" z="1.56451" />
 			<entity
 				name="baumstammcoli"
 				id="198"
@@ -1486,9 +1498,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="199" >
-			<position x="38.1939" y="-47.941" z="-266.701" />
+			<position x="-18.8083" y="-60.5264" z="-222.239" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.826958" y="0.826958" z="1.56451" />
+			<scale x="0.751859" y="0.751859" z="1.56451" />
 			<entity
 				name="baumstammcoli"
 				id="200"
@@ -1501,9 +1513,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="201" >
-			<position x="46.7123" y="-47.941" z="-249.902" />
+			<position x="-6.06148" y="-49.9891" z="-254.83" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.826958" y="0.826958" z="1.56451" />
+			<scale x="0.953318" y="0.953318" z="1.56451" />
 			<entity
 				name="baumstammcoli"
 				id="202"
@@ -1516,9 +1528,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="203" >
-			<position x="34.0012" y="-50.7853" z="-234.433" />
-			<rotation qx="-0.311883" qy="0.265915" qz="-0.387394" qw="0.825799" />
-			<scale x="1.41243" y="1.41243" z="0.495002" />
+			<position x="38.1939" y="-47.941" z="-266.701" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.826958" y="0.826958" z="1.56451" />
 			<entity
 				name="baumstammcoli"
 				id="204"
@@ -1531,9 +1543,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="205" >
-			<position x="35.8724" y="-50.0549" z="-237.392" />
-			<rotation qx="0.055071" qy="0.0407689" qz="-0.030305" qw="0.997189" />
-			<scale x="2.20743" y="2.20743" z="4.05315" />
+			<position x="46.7123" y="-47.941" z="-249.902" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.826958" y="0.826958" z="1.56451" />
 			<entity
 				name="baumstammcoli"
 				id="206"
@@ -1546,8 +1558,8 @@
 
 		</node>
 		<node name="baumstammcoli" id="207" >
-			<position x="38.146" y="-50.7853" z="-234.044" />
-			<rotation qx="-0.47768" qy="0.691484" qz="-0.138446" qw="0.523932" />
+			<position x="34.0012" y="-50.7853" z="-234.433" />
+			<rotation qx="-0.311883" qy="0.265915" qz="-0.387394" qw="0.825799" />
 			<scale x="1.41243" y="1.41243" z="0.495002" />
 			<entity
 				name="baumstammcoli"
@@ -1561,9 +1573,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="209" >
-			<position x="37.4101" y="-50.3739" z="-240.31" />
-			<rotation qx="0.373421" qy="-0.813414" qz="-0.328484" qw="0.301683" />
-			<scale x="1.41243" y="1.41243" z="0.495002" />
+			<position x="35.8724" y="-50.0549" z="-237.392" />
+			<rotation qx="0.055071" qy="0.0407689" qz="-0.030305" qw="0.997189" />
+			<scale x="2.20743" y="2.20743" z="4.05315" />
 			<entity
 				name="baumstammcoli"
 				id="210"
@@ -1576,9 +1588,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="211" >
-			<position x="-2.29819" y="-62.2965" z="-81.4549" />
-			<rotation qx="0.0" qy="0.258819" qz="0.0" qw="0.965926" />
-			<scale x="0.816381" y="0.816381" z="1.48895" />
+			<position x="38.146" y="-50.7853" z="-234.044" />
+			<rotation qx="-0.47768" qy="0.691484" qz="-0.138446" qw="0.523932" />
+			<scale x="1.41243" y="1.41243" z="0.495002" />
 			<entity
 				name="baumstammcoli"
 				id="212"
@@ -1590,13 +1602,43 @@
   
 
 		</node>
-		<node name="nat_nadelbaum_03" id="213" >
+		<node name="baumstammcoli" id="213" >
+			<position x="37.4101" y="-50.3739" z="-240.31" />
+			<rotation qx="0.373421" qy="-0.813414" qz="-0.328484" qw="0.301683" />
+			<scale x="1.41243" y="1.41243" z="0.495002" />
+			<entity
+				name="baumstammcoli"
+				id="214"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="215" >
+			<position x="-2.29819" y="-62.2965" z="-81.4549" />
+			<rotation qx="0.0" qy="0.258819" qz="0.0" qw="0.965926" />
+			<scale x="0.816381" y="0.816381" z="1.48895" />
+			<entity
+				name="baumstammcoli"
+				id="216"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_03" id="217" >
 			<position x="-2.30286" y="-62.4539" z="-81.47" />
 			<rotation qx="0.0" qy="-0.887011" qz="0.0" qw="0.461749" />
 			<scale x="1.01635" y="1.01635" z="1.01635" />
 			<entity
 				name="nat_nadelbaum_03"
-				id="214"
+				id="218"
 				meshFile ="nat_nadelbaum_03.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
@@ -1605,13 +1647,13 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_nadelbaum_03" id="215" >
+		<node name="nat_nadelbaum_03" id="219" >
 			<position x="-12.3314" y="-63.5326" z="-84.4187" />
 			<rotation qx="0.0" qy="-0.766044" qz="0.0" qw="0.642788" />
 			<scale x="1.20317" y="1.20317" z="1.20317" />
 			<entity
 				name="nat_nadelbaum_03"
-				id="216"
+				id="220"
 				meshFile ="nat_nadelbaum_03.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
@@ -1620,13 +1662,13 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="baumstammcoli" id="217" >
+		<node name="baumstammcoli" id="221" >
 			<position x="-13.6009" y="-67.5273" z="-96.6951" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.816381" y="0.816381" z="1.48895" />
 			<entity
 				name="baumstammcoli"
-				id="218"
+				id="222"
 				meshFile ="baumstammcoli.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
@@ -1635,13 +1677,13 @@
   
 
 		</node>
-		<node name="baumstammcoli" id="219" >
+		<node name="baumstammcoli" id="223" >
 			<position x="-17.1782" y="-64.7415" z="-90.3225" />
 			<rotation qx="0.0" qy="0.258819" qz="0.0" qw="0.965926" />
 			<scale x="0.816381" y="0.816381" z="1.48895" />
 			<entity
 				name="baumstammcoli"
-				id="220"
+				id="224"
 				meshFile ="baumstammcoli.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
@@ -1650,13 +1692,13 @@
   
 
 		</node>
-		<node name="nat_nadelbaum_03" id="221" >
+		<node name="nat_nadelbaum_03" id="225" >
 			<position x="-17.1829" y="-65.0857" z="-90.3375" />
 			<rotation qx="0.0" qy="-0.67559" qz="0.0" qw="0.737277" />
 			<scale x="1.01635" y="1.01635" z="1.01635" />
 			<entity
 				name="nat_nadelbaum_03"
-				id="222"
+				id="226"
 				meshFile ="nat_nadelbaum_03.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
@@ -1665,13 +1707,13 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_nadelbaum_03" id="223" >
+		<node name="nat_nadelbaum_03" id="227" >
 			<position x="-13.5974" y="-67.9016" z="-96.7104" />
 			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
 			<scale x="1.01635" y="1.01635" z="1.01635" />
 			<entity
 				name="nat_nadelbaum_03"
-				id="224"
+				id="228"
 				meshFile ="nat_nadelbaum_03.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
@@ -1680,38 +1722,8 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="baumstammcoli" id="225" >
-			<position x="-12.3207" y="-63.1743" z="-84.4033" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.911162" y="0.911162" z="1.66182" />
-			<entity
-				name="baumstammcoli"
-				id="226"
-				meshFile ="baumstammcoli.mesh"
-				materialFile="techdemo2map2_01.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="baumstammcoli" id="227" >
-			<position x="-27.5324" y="-64.7121" z="-97.3878" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.911162" y="0.911162" z="1.66182" />
-			<entity
-				name="baumstammcoli"
-				id="228"
-				meshFile ="baumstammcoli.mesh"
-				materialFile="techdemo2map2_01.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
 		<node name="baumstammcoli" id="229" >
-			<position x="-29.321" y="-65.4664" z="-106.5" />
+			<position x="-12.3207" y="-63.1743" z="-84.4033" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.911162" y="0.911162" z="1.66182" />
 			<entity
@@ -1726,9 +1738,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="231" >
-			<position x="-20.1589" y="-67.2382" z="-98.6469" />
+			<position x="-27.5324" y="-64.7121" z="-97.3878" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.816381" y="0.816381" z="1.48895" />
+			<scale x="0.911162" y="0.911162" z="1.66182" />
 			<entity
 				name="baumstammcoli"
 				id="232"
@@ -1741,7 +1753,7 @@
 
 		</node>
 		<node name="baumstammcoli" id="233" >
-			<position x="-24.09" y="-67.8713" z="-102.706" />
+			<position x="-29.321" y="-65.4664" z="-106.5" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.911162" y="0.911162" z="1.66182" />
 			<entity
@@ -1755,40 +1767,40 @@
   
 
 		</node>
-		<node name="nat_nadelbaum_03" id="235" >
-			<position x="-20.1915" y="-67.3341" z="-98.644" />
-			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
-			<scale x="1.05069" y="1.05069" z="1.05069" />
+		<node name="baumstammcoli" id="235" >
+			<position x="-20.1589" y="-67.2382" z="-98.6469" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.816381" y="0.816381" z="1.48895" />
 			<entity
-				name="nat_nadelbaum_03"
+				name="baumstammcoli"
 				id="236"
-				meshFile ="nat_nadelbaum_03.mesh"
+				meshFile ="baumstammcoli.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
 
- <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+  
 
 		</node>
-		<node name="nat_nadelbaum_03" id="237" >
-			<position x="-27.5266" y="-64.7032" z="-97.354" />
-			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
-			<scale x="1.20317" y="1.20317" z="1.20317" />
+		<node name="baumstammcoli" id="237" >
+			<position x="-24.09" y="-67.8713" z="-102.706" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.911162" y="0.911162" z="1.66182" />
 			<entity
-				name="nat_nadelbaum_03"
+				name="baumstammcoli"
 				id="238"
-				meshFile ="nat_nadelbaum_03.mesh"
+				meshFile ="baumstammcoli.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
 
- <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+  
 
 		</node>
 		<node name="nat_nadelbaum_03" id="239" >
-			<position x="-24.1213" y="-67.8466" z="-102.642" />
-			<rotation qx="0.0" qy="0.766044" qz="0.0" qw="0.642788" />
-			<scale x="1.20317" y="1.20317" z="1.20317" />
+			<position x="-20.1915" y="-67.3341" z="-98.644" />
+			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
+			<scale x="1.05069" y="1.05069" z="1.05069" />
 			<entity
 				name="nat_nadelbaum_03"
 				id="240"
@@ -1801,7 +1813,7 @@
 
 		</node>
 		<node name="nat_nadelbaum_03" id="241" >
-			<position x="-29.3201" y="-66.567" z="-106.512" />
+			<position x="-27.5266" y="-64.7032" z="-97.354" />
 			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
 			<scale x="1.20317" y="1.20317" z="1.20317" />
 			<entity
@@ -1816,8 +1828,8 @@
 
 		</node>
 		<node name="nat_nadelbaum_03" id="243" >
-			<position x="-18.2946" y="-69.9681" z="-105.487" />
-			<rotation qx="0.0" qy="-0.766044" qz="0.0" qw="0.642788" />
+			<position x="-24.1213" y="-67.8466" z="-102.642" />
+			<rotation qx="0.0" qy="0.766044" qz="0.0" qw="0.642788" />
 			<scale x="1.20317" y="1.20317" z="1.20317" />
 			<entity
 				name="nat_nadelbaum_03"
@@ -1830,25 +1842,25 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="baumstammcoli" id="245" >
-			<position x="-23.1414" y="-70.3281" z="-111.391" />
-			<rotation qx="0.0" qy="0.258819" qz="0.0" qw="0.965926" />
-			<scale x="0.816381" y="0.816381" z="1.48895" />
+		<node name="nat_nadelbaum_03" id="245" >
+			<position x="-29.3201" y="-66.567" z="-106.512" />
+			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
+			<scale x="1.20317" y="1.20317" z="1.20317" />
 			<entity
-				name="baumstammcoli"
+				name="nat_nadelbaum_03"
 				id="246"
-				meshFile ="baumstammcoli.mesh"
+				meshFile ="nat_nadelbaum_03.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
 
-  
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
 		<node name="nat_nadelbaum_03" id="247" >
-			<position x="-23.146" y="-70.3299" z="-111.406" />
-			<rotation qx="0.0" qy="-0.300706" qz="0.0" qw="0.953717" />
-			<scale x="1.01635" y="1.01635" z="1.01635" />
+			<position x="-18.2946" y="-69.9681" z="-105.487" />
+			<rotation qx="0.0" qy="-0.766044" qz="0.0" qw="0.642788" />
+			<scale x="1.20317" y="1.20317" z="1.20317" />
 			<entity
 				name="nat_nadelbaum_03"
 				id="248"
@@ -1861,9 +1873,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="249" >
-			<position x="-18.2839" y="-69.7744" z="-105.472" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.911162" y="0.911162" z="1.66182" />
+			<position x="-23.1414" y="-70.3281" z="-111.391" />
+			<rotation qx="0.0" qy="0.258819" qz="0.0" qw="0.965926" />
+			<scale x="0.816381" y="0.816381" z="1.48895" />
 			<entity
 				name="baumstammcoli"
 				id="250"
@@ -1875,13 +1887,43 @@
   
 
 		</node>
-		<node name="baumstammcoli" id="251" >
+		<node name="nat_nadelbaum_03" id="251" >
+			<position x="-23.146" y="-70.3299" z="-111.406" />
+			<rotation qx="0.0" qy="-0.300706" qz="0.0" qw="0.953717" />
+			<scale x="1.01635" y="1.01635" z="1.01635" />
+			<entity
+				name="nat_nadelbaum_03"
+				id="252"
+				meshFile ="nat_nadelbaum_03.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="baumstammcoli" id="253" >
+			<position x="-18.2839" y="-69.7744" z="-105.472" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.911162" y="0.911162" z="1.66182" />
+			<entity
+				name="baumstammcoli"
+				id="254"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="255" >
 			<position x="-5.17949" y="-72.9107" z="-108.464" />
 			<rotation qx="0.0" qy="-0.258819" qz="0.0" qw="0.965926" />
 			<scale x="0.911162" y="0.911162" z="1.66182" />
 			<entity
 				name="baumstammcoli"
-				id="252"
+				id="256"
 				meshFile ="baumstammcoli.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
@@ -1890,55 +1932,25 @@
   
 
 		</node>
-		<node name="nat_nadelbaum_03" id="253" >
+		<node name="nat_nadelbaum_03" id="257" >
 			<position x="-11.6496" y="-72.0061" z="-108.932" />
 			<rotation qx="0.0" qy="0.573576" qz="0.0" qw="0.819152" />
 			<scale x="1.20317" y="1.20317" z="1.20317" />
 			<entity
 				name="nat_nadelbaum_03"
-				id="254"
-				meshFile ="nat_nadelbaum_03.mesh"
-				materialFile="techdemo2map2_01.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
-
-		</node>
-		<node name="nat_nadelbaum_03" id="255" >
-			<position x="-5.18105" y="-73.1044" z="-108.483" />
-			<rotation qx="0.0" qy="-0.906308" qz="0.0" qw="0.422618" />
-			<scale x="1.20317" y="1.20317" z="1.20317" />
-			<entity
-				name="nat_nadelbaum_03"
-				id="256"
-				meshFile ="nat_nadelbaum_03.mesh"
-				materialFile="techdemo2map2_01.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
-
-		</node>
-		<node name="baumstammcoli" id="257" >
-			<position x="-6.42657" y="-74.9103" z="-116.019" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.816381" y="0.816381" z="1.48895" />
-			<entity
-				name="baumstammcoli"
 				id="258"
-				meshFile ="baumstammcoli.mesh"
+				meshFile ="nat_nadelbaum_03.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
 
-  
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
 		<node name="nat_nadelbaum_03" id="259" >
-			<position x="-6.4231" y="-74.9121" z="-116.034" />
-			<rotation qx="0.0" qy="-0.5373" qz="0.0" qw="0.843391" />
-			<scale x="1.01635" y="1.01635" z="1.01635" />
+			<position x="-5.18105" y="-73.1044" z="-108.483" />
+			<rotation qx="0.0" qy="-0.906308" qz="0.0" qw="0.422618" />
+			<scale x="1.20317" y="1.20317" z="1.20317" />
 			<entity
 				name="nat_nadelbaum_03"
 				id="260"
@@ -1950,13 +1962,43 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_nadelbaum_03" id="261" >
+		<node name="baumstammcoli" id="261" >
+			<position x="-6.42657" y="-74.9103" z="-116.019" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.816381" y="0.816381" z="1.48895" />
+			<entity
+				name="baumstammcoli"
+				id="262"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_03" id="263" >
+			<position x="-6.4231" y="-74.9121" z="-116.034" />
+			<rotation qx="0.0" qy="-0.5373" qz="0.0" qw="0.843391" />
+			<scale x="1.01635" y="1.01635" z="1.01635" />
+			<entity
+				name="nat_nadelbaum_03"
+				id="264"
+				meshFile ="nat_nadelbaum_03.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_nadelbaum_03" id="265" >
 			<position x="-10.2454" y="-70.558" z="-103.505" />
 			<rotation qx="0.0" qy="-0.999048" qz="0.0" qw="-0.0436193" />
 			<scale x="1.05069" y="1.05069" z="1.05069" />
 			<entity
 				name="nat_nadelbaum_03"
-				id="262"
+				id="266"
 				meshFile ="nat_nadelbaum_03.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
@@ -1965,55 +2007,25 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="baumstammcoli" id="263" >
+		<node name="baumstammcoli" id="267" >
 			<position x="-10.2158" y="-70.4621" z="-103.491" />
 			<rotation qx="0.0" qy="-0.258819" qz="0.0" qw="0.965926" />
 			<scale x="0.816381" y="0.816381" z="1.48895" />
 			<entity
 				name="baumstammcoli"
-				id="264"
-				meshFile ="baumstammcoli.mesh"
-				materialFile="techdemo2map2_01.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="baumstammcoli" id="265" >
-			<position x="-11.5908" y="-72.0308" z="-108.971" />
-			<rotation qx="0.0" qy="-0.258819" qz="0.0" qw="0.965926" />
-			<scale x="0.911162" y="0.911162" z="1.66182" />
-			<entity
-				name="baumstammcoli"
-				id="266"
-				meshFile ="baumstammcoli.mesh"
-				materialFile="techdemo2map2_01.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="nat_nadelbaum_03" id="267" >
-			<position x="6.11512" y="-66.6721" z="-92.4575" />
-			<rotation qx="0.0" qy="-0.906308" qz="0.0" qw="0.422618" />
-			<scale x="1.20317" y="1.20317" z="1.20317" />
-			<entity
-				name="nat_nadelbaum_03"
 				id="268"
-				meshFile ="nat_nadelbaum_03.mesh"
+				meshFile ="baumstammcoli.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
 
- <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+  
 
 		</node>
 		<node name="baumstammcoli" id="269" >
-			<position x="4.8696" y="-69.6194" z="-99.9937" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.816381" y="0.816381" z="1.48895" />
+			<position x="-11.5908" y="-72.0308" z="-108.971" />
+			<rotation qx="0.0" qy="-0.258819" qz="0.0" qw="0.965926" />
+			<scale x="0.911162" y="0.911162" z="1.66182" />
 			<entity
 				name="baumstammcoli"
 				id="270"
@@ -2026,9 +2038,9 @@
 
 		</node>
 		<node name="nat_nadelbaum_03" id="271" >
-			<position x="4.87307" y="-69.6212" z="-100.009" />
-			<rotation qx="0.0" qy="-0.5373" qz="0.0" qw="0.843391" />
-			<scale x="1.01635" y="1.01635" z="1.01635" />
+			<position x="6.11512" y="-66.6721" z="-92.4575" />
+			<rotation qx="0.0" qy="-0.906308" qz="0.0" qw="0.422618" />
+			<scale x="1.20317" y="1.20317" z="1.20317" />
 			<entity
 				name="nat_nadelbaum_03"
 				id="272"
@@ -2041,9 +2053,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="273" >
-			<position x="6.11669" y="-66.4783" z="-92.4388" />
-			<rotation qx="0.0" qy="-0.258819" qz="0.0" qw="0.965926" />
-			<scale x="0.911162" y="0.911162" z="1.66182" />
+			<position x="4.8696" y="-69.6194" z="-99.9937" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.816381" y="0.816381" z="1.48895" />
 			<entity
 				name="baumstammcoli"
 				id="274"
@@ -2055,13 +2067,43 @@
   
 
 		</node>
-		<node name="baumstammcoli" id="275" >
+		<node name="nat_nadelbaum_03" id="275" >
+			<position x="4.87307" y="-69.6212" z="-100.009" />
+			<rotation qx="0.0" qy="-0.5373" qz="0.0" qw="0.843391" />
+			<scale x="1.01635" y="1.01635" z="1.01635" />
+			<entity
+				name="nat_nadelbaum_03"
+				id="276"
+				meshFile ="nat_nadelbaum_03.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="baumstammcoli" id="277" >
+			<position x="6.11669" y="-66.4783" z="-92.4388" />
+			<rotation qx="0.0" qy="-0.258819" qz="0.0" qw="0.965926" />
+			<scale x="0.911162" y="0.911162" z="1.66182" />
+			<entity
+				name="baumstammcoli"
+				id="278"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="279" >
 			<position x="-8.51296" y="-66.3884" z="-92.6396" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.816381" y="0.816381" z="1.48895" />
 			<entity
 				name="baumstammcoli"
-				id="276"
+				id="280"
 				meshFile ="baumstammcoli.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
@@ -2070,13 +2112,13 @@
   
 
 		</node>
-		<node name="nat_nadelbaum_03" id="277" >
+		<node name="nat_nadelbaum_03" id="281" >
 			<position x="-3.67696" y="-68.8857" z="-97.2696" />
 			<rotation qx="0.0" qy="-0.906308" qz="0.0" qw="0.422618" />
 			<scale x="1.20317" y="1.20317" z="1.20317" />
 			<entity
 				name="nat_nadelbaum_03"
-				id="278"
+				id="282"
 				meshFile ="nat_nadelbaum_03.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
@@ -2085,13 +2127,13 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_nadelbaum_03" id="279" >
+		<node name="nat_nadelbaum_03" id="283" >
 			<position x="-8.50949" y="-66.5458" z="-92.6549" />
 			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
 			<scale x="1.01635" y="1.01635" z="1.01635" />
 			<entity
 				name="nat_nadelbaum_03"
-				id="280"
+				id="284"
 				meshFile ="nat_nadelbaum_03.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
@@ -2100,39 +2142,9 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="baumstammcoli" id="281" >
+		<node name="baumstammcoli" id="285" >
 			<position x="-3.67539" y="-68.692" z="-97.2509" />
 			<rotation qx="0.0" qy="-0.258819" qz="0.0" qw="0.965926" />
-			<scale x="0.911162" y="0.911162" z="1.66182" />
-			<entity
-				name="baumstammcoli"
-				id="282"
-				meshFile ="baumstammcoli.mesh"
-				materialFile="techdemo2map2_01.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="baumstammcoli" id="283" >
-			<position x="-13.8121" y="-73.6334" z="-130.358" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.911162" y="0.911162" z="1.66182" />
-			<entity
-				name="baumstammcoli"
-				id="284"
-				meshFile ="baumstammcoli.mesh"
-				materialFile="techdemo2map2_01.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="baumstammcoli" id="285" >
-			<position x="-8.58103" y="-75.2392" z="-126.563" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.911162" y="0.911162" z="1.66182" />
 			<entity
 				name="baumstammcoli"
@@ -2146,9 +2158,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="287" >
-			<position x="-4.64997" y="-75.577" z="-122.505" />
+			<position x="-13.8121" y="-73.6334" z="-130.358" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.816381" y="0.816381" z="1.48895" />
+			<scale x="0.911162" y="0.911162" z="1.66182" />
 			<entity
 				name="baumstammcoli"
 				id="288"
@@ -2161,7 +2173,7 @@
 
 		</node>
 		<node name="baumstammcoli" id="289" >
-			<position x="-12.0235" y="-74.2774" z="-121.246" />
+			<position x="-8.58103" y="-75.2392" z="-126.563" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.911162" y="0.911162" z="1.66182" />
 			<entity
@@ -2175,40 +2187,40 @@
   
 
 		</node>
-		<node name="nat_nadelbaum_03" id="291" >
-			<position x="-4.68253" y="-75.6729" z="-122.502" />
-			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
-			<scale x="1.05069" y="1.05069" z="1.05069" />
+		<node name="baumstammcoli" id="291" >
+			<position x="-4.64997" y="-75.577" z="-122.505" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.816381" y="0.816381" z="1.48895" />
 			<entity
-				name="nat_nadelbaum_03"
+				name="baumstammcoli"
 				id="292"
-				meshFile ="nat_nadelbaum_03.mesh"
+				meshFile ="baumstammcoli.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
 
- <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+  
 
 		</node>
-		<node name="nat_nadelbaum_03" id="293" >
-			<position x="-12.0177" y="-74.2685" z="-121.212" />
-			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
-			<scale x="1.20317" y="1.20317" z="1.20317" />
+		<node name="baumstammcoli" id="293" >
+			<position x="-12.0235" y="-74.2774" z="-121.246" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.911162" y="0.911162" z="1.66182" />
 			<entity
-				name="nat_nadelbaum_03"
+				name="baumstammcoli"
 				id="294"
-				meshFile ="nat_nadelbaum_03.mesh"
+				meshFile ="baumstammcoli.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
 
- <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+  
 
 		</node>
 		<node name="nat_nadelbaum_03" id="295" >
-			<position x="-8.61236" y="-75.2144" z="-126.5" />
-			<rotation qx="0.0" qy="0.766044" qz="0.0" qw="0.642788" />
-			<scale x="1.20317" y="1.20317" z="1.20317" />
+			<position x="-4.68253" y="-75.6729" z="-122.502" />
+			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
+			<scale x="1.05069" y="1.05069" z="1.05069" />
 			<entity
 				name="nat_nadelbaum_03"
 				id="296"
@@ -2221,7 +2233,7 @@
 
 		</node>
 		<node name="nat_nadelbaum_03" id="297" >
-			<position x="-13.8112" y="-74.734" z="-130.37" />
+			<position x="-12.0177" y="-74.2685" z="-121.212" />
 			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
 			<scale x="1.20317" y="1.20317" z="1.20317" />
 			<entity
@@ -2236,8 +2248,8 @@
 
 		</node>
 		<node name="nat_nadelbaum_03" id="299" >
-			<position x="-2.78564" y="-76.1892" z="-129.345" />
-			<rotation qx="0.0" qy="-0.766044" qz="0.0" qw="0.642788" />
+			<position x="-8.61236" y="-75.2144" z="-126.5" />
+			<rotation qx="0.0" qy="0.766044" qz="0.0" qw="0.642788" />
 			<scale x="1.20317" y="1.20317" z="1.20317" />
 			<entity
 				name="nat_nadelbaum_03"
@@ -2250,25 +2262,25 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="baumstammcoli" id="301" >
-			<position x="-7.63239" y="-75.6447" z="-135.249" />
-			<rotation qx="0.0" qy="0.258819" qz="0.0" qw="0.965926" />
-			<scale x="0.816381" y="0.816381" z="1.48895" />
+		<node name="nat_nadelbaum_03" id="301" >
+			<position x="-13.8112" y="-74.734" z="-130.37" />
+			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
+			<scale x="1.20317" y="1.20317" z="1.20317" />
 			<entity
-				name="baumstammcoli"
+				name="nat_nadelbaum_03"
 				id="302"
-				meshFile ="baumstammcoli.mesh"
+				meshFile ="nat_nadelbaum_03.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
 
-  
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
 		<node name="nat_nadelbaum_03" id="303" >
-			<position x="-7.63706" y="-75.6465" z="-135.264" />
-			<rotation qx="0.0" qy="-0.300706" qz="0.0" qw="0.953717" />
-			<scale x="1.01635" y="1.01635" z="1.01635" />
+			<position x="-2.78564" y="-76.1892" z="-129.345" />
+			<rotation qx="0.0" qy="-0.766044" qz="0.0" qw="0.642788" />
+			<scale x="1.20317" y="1.20317" z="1.20317" />
 			<entity
 				name="nat_nadelbaum_03"
 				id="304"
@@ -2281,9 +2293,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="305" >
-			<position x="-2.77492" y="-75.9954" z="-129.33" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.911162" y="0.911162" z="1.66182" />
+			<position x="-7.63239" y="-75.6447" z="-135.249" />
+			<rotation qx="0.0" qy="0.258819" qz="0.0" qw="0.965926" />
+			<scale x="0.816381" y="0.816381" z="1.48895" />
 			<entity
 				name="baumstammcoli"
 				id="306"
@@ -2296,9 +2308,9 @@
 
 		</node>
 		<node name="nat_nadelbaum_03" id="307" >
-			<position x="-20.4426" y="-72.1793" z="-118.731" />
-			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
-			<scale x="1.20317" y="1.20317" z="1.20317" />
+			<position x="-7.63706" y="-75.6465" z="-135.264" />
+			<rotation qx="0.0" qy="-0.300706" qz="0.0" qw="0.953717" />
+			<scale x="1.01635" y="1.01635" z="1.01635" />
 			<entity
 				name="nat_nadelbaum_03"
 				id="308"
@@ -2311,7 +2323,7 @@
 
 		</node>
 		<node name="baumstammcoli" id="309" >
-			<position x="-20.4435" y="-71.0788" z="-118.718" />
+			<position x="-2.77492" y="-75.9954" z="-129.33" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.911162" y="0.911162" z="1.66182" />
 			<entity
@@ -2325,13 +2337,28 @@
   
 
 		</node>
-		<node name="baumstammcoli" id="311" >
-			<position x="1.7745" y="-72.4467" z="-107.265" />
+		<node name="nat_nadelbaum_03" id="311" >
+			<position x="-20.4426" y="-72.1793" z="-118.731" />
+			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
+			<scale x="1.20317" y="1.20317" z="1.20317" />
+			<entity
+				name="nat_nadelbaum_03"
+				id="312"
+				meshFile ="nat_nadelbaum_03.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="baumstammcoli" id="313" >
+			<position x="-20.4435" y="-71.0788" z="-118.718" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.828502" y="0.828502" z="1.51106" />
+			<scale x="0.911162" y="0.911162" z="1.66182" />
 			<entity
 				name="baumstammcoli"
-				id="312"
+				id="314"
 				meshFile ="baumstammcoli.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
@@ -2340,23 +2367,8 @@
   
 
 		</node>
-		<node name="nat_nadelbaum_02" id="313" >
-			<position x="1.79668" y="-72.3499" z="-107.285" />
-			<rotation qx="0.0" qy="-0.5" qz="0.0" qw="0.866025" />
-			<scale x="1.05407" y="1.05407" z="1.05407" />
-			<entity
-				name="nat_nadelbaum_02"
-				id="314"
-				meshFile ="nat_nadelbaum_02.mesh"
-				materialFile="techdemo2map2_01.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
-
-		</node>
 		<node name="baumstammcoli" id="315" >
-			<position x="6.58648" y="-75.6892" z="-132.551" />
+			<position x="1.7745" y="-72.4467" z="-107.265" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.828502" y="0.828502" z="1.51106" />
 			<entity
@@ -2371,7 +2383,7 @@
 
 		</node>
 		<node name="nat_nadelbaum_02" id="317" >
-			<position x="6.60866" y="-75.5924" z="-132.57" />
+			<position x="1.79668" y="-72.3499" z="-107.285" />
 			<rotation qx="0.0" qy="-0.5" qz="0.0" qw="0.866025" />
 			<scale x="1.05407" y="1.05407" z="1.05407" />
 			<entity
@@ -2386,9 +2398,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="319" >
-			<position x="-2.0858" y="-76.5541" z="-134.587" />
+			<position x="6.58648" y="-75.6892" z="-132.551" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.60153" y="0.60153" z="1.0971" />
+			<scale x="0.828502" y="0.828502" z="1.51106" />
 			<entity
 				name="baumstammcoli"
 				id="320"
@@ -2401,9 +2413,9 @@
 
 		</node>
 		<node name="nat_nadelbaum_02" id="321" >
-			<position x="-2.06362" y="-76.4574" z="-134.607" />
+			<position x="6.60866" y="-75.5924" z="-132.57" />
 			<rotation qx="0.0" qy="-0.5" qz="0.0" qw="0.866025" />
-			<scale x="0.765299" y="0.765299" z="0.765299" />
+			<scale x="1.05407" y="1.05407" z="1.05407" />
 			<entity
 				name="nat_nadelbaum_02"
 				id="322"
@@ -2416,9 +2428,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="323" >
-			<position x="-15.0444" y="-73.9943" z="-113.323" />
-			<rotation qx="0.0" qy="-0.258819" qz="0.0" qw="0.965926" />
-			<scale x="0.739706" y="0.739706" z="1.66182" />
+			<position x="-2.0858" y="-76.5541" z="-134.587" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.60153" y="0.60153" z="1.0971" />
 			<entity
 				name="baumstammcoli"
 				id="324"
@@ -2430,14 +2442,14 @@
   
 
 		</node>
-		<node name="nat_nadelbaum_03" id="325" >
-			<position x="-15.1032" y="-76.5348" z="-113.284" />
-			<rotation qx="0.0" qy="0.573576" qz="0.0" qw="0.819152" />
-			<scale x="1.20317" y="1.20317" z="1.20317" />
+		<node name="nat_nadelbaum_02" id="325" >
+			<position x="-2.06362" y="-76.4574" z="-134.607" />
+			<rotation qx="0.0" qy="-0.5" qz="0.0" qw="0.866025" />
+			<scale x="0.765299" y="0.765299" z="0.765299" />
 			<entity
-				name="nat_nadelbaum_03"
+				name="nat_nadelbaum_02"
 				id="326"
-				meshFile ="nat_nadelbaum_03.mesh"
+				meshFile ="nat_nadelbaum_02.mesh"
 				materialFile="techdemo2map2_01.material"
 				castsShadow="false"
 			/>
@@ -2446,9 +2458,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="327" >
-			<position x="-22.1585" y="-64.7415" z="-92.5156" />
-			<rotation qx="0.0" qy="0.642788" qz="0.0" qw="0.766044" />
-			<scale x="0.816381" y="0.816381" z="1.48895" />
+			<position x="-15.0444" y="-73.9943" z="-113.323" />
+			<rotation qx="0.0" qy="-0.258819" qz="0.0" qw="0.965926" />
+			<scale x="0.739706" y="0.739706" z="1.66182" />
 			<entity
 				name="baumstammcoli"
 				id="328"
@@ -2461,9 +2473,9 @@
 
 		</node>
 		<node name="nat_nadelbaum_03" id="329" >
-			<position x="-22.173" y="-68.9294" z="-92.5217" />
-			<rotation qx="0.0" qy="-0.300706" qz="0.0" qw="0.953717" />
-			<scale x="1.01635" y="1.01635" z="1.01635" />
+			<position x="-15.1032" y="-76.5348" z="-113.284" />
+			<rotation qx="0.0" qy="0.573576" qz="0.0" qw="0.819152" />
+			<scale x="1.20317" y="1.20317" z="1.20317" />
 			<entity
 				name="nat_nadelbaum_03"
 				id="330"
@@ -2476,9 +2488,9 @@
 
 		</node>
 		<node name="baumstammcoli" id="331" >
-			<position x="-27.934" y="-73.6334" z="-134.898" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.911162" y="0.911162" z="1.66182" />
+			<position x="-22.1585" y="-64.7415" z="-92.5156" />
+			<rotation qx="0.0" qy="0.642788" qz="0.0" qw="0.766044" />
+			<scale x="0.816381" y="0.816381" z="1.48895" />
 			<entity
 				name="baumstammcoli"
 				id="332"
@@ -2491,9 +2503,9 @@
 
 		</node>
 		<node name="nat_nadelbaum_03" id="333" >
-			<position x="-27.9331" y="-74.734" z="-134.91" />
-			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
-			<scale x="1.20317" y="1.20317" z="1.20317" />
+			<position x="-22.173" y="-68.9294" z="-92.5217" />
+			<rotation qx="0.0" qy="-0.300706" qz="0.0" qw="0.953717" />
+			<scale x="1.01635" y="1.01635" z="1.01635" />
 			<entity
 				name="nat_nadelbaum_03"
 				id="334"
@@ -2505,9 +2517,428 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
+		<node name="baumstammcoli" id="335" >
+			<position x="-27.934" y="-73.6334" z="-134.898" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.911162" y="0.911162" z="1.66182" />
+			<entity
+				name="baumstammcoli"
+				id="336"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_03" id="337" >
+			<position x="-27.9331" y="-74.734" z="-134.91" />
+			<rotation qx="0.0" qy="-0.976296" qz="0.0" qw="0.21644" />
+			<scale x="1.20317" y="1.20317" z="1.20317" />
+			<entity
+				name="nat_nadelbaum_03"
+				id="338"
+				meshFile ="nat_nadelbaum_03.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="baumstammcoli" id="339" >
+			<position x="-15.8233" y="-72.6954" z="-101.539" />
+			<rotation qx="0.0" qy="-0.258819" qz="0.0" qw="0.965926" />
+			<scale x="0.739706" y="0.739706" z="1.66182" />
+			<entity
+				name="baumstammcoli"
+				id="340"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_03" id="341" >
+			<position x="-15.8822" y="-75.2359" z="-101.5" />
+			<rotation qx="0.0" qy="0.573576" qz="0.0" qw="0.819152" />
+			<scale x="1.20317" y="1.20317" z="1.20317" />
+			<entity
+				name="nat_nadelbaum_03"
+				id="342"
+				meshFile ="nat_nadelbaum_03.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="baumstammcoli" id="343" >
+			<position x="-5.27246" y="-65.1585" z="-87.3292" />
+			<rotation qx="0.0" qy="-0.258819" qz="0.0" qw="0.965926" />
+			<scale x="0.739706" y="0.739706" z="1.66182" />
+			<entity
+				name="baumstammcoli"
+				id="344"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_03" id="345" >
+			<position x="-5.3313" y="-67.699" z="-87.29" />
+			<rotation qx="0.0" qy="0.573576" qz="0.0" qw="0.819152" />
+			<scale x="1.20317" y="1.20317" z="1.20317" />
+			<entity
+				name="nat_nadelbaum_03"
+				id="346"
+				meshFile ="nat_nadelbaum_03.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="baumstammcoli" id="347" >
+			<position x="-18.0625" y="-58.1956" z="-63.0479" />
+			<rotation qx="0.0" qy="-0.258819" qz="0.0" qw="0.965926" />
+			<scale x="0.739706" y="0.739706" z="1.66182" />
+			<entity
+				name="baumstammcoli"
+				id="348"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_03" id="349" >
+			<position x="-18.1213" y="-60.7362" z="-63.0087" />
+			<rotation qx="0.0" qy="0.573576" qz="0.0" qw="0.819152" />
+			<scale x="1.20317" y="1.20317" z="1.20317" />
+			<entity
+				name="nat_nadelbaum_03"
+				id="350"
+				meshFile ="nat_nadelbaum_03.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="arc_ruin_01" id="351" >
+			<position x="-19.6532" y="-74.6387" z="-161.295" />
+			<rotation qx="0.0" qy="-0.965926" qz="0.0" qw="-0.258819" />
+			<scale x="0.0854167" y="0.0854167" z="0.0854167" />
+			<entity
+				name="arc_ruin_01"
+				id="352"
+				meshFile ="arc_ruin_01.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="arc_ruin_02" id="353" >
+			<position x="-23.7361" y="-74.3096" z="-153.835" />
+			<rotation qx="0.0" qy="-0.965926" qz="0.0" qw="-0.258819" />
+			<scale x="0.0854167" y="0.0854167" z="0.0854167" />
+			<entity
+				name="arc_ruin_02"
+				id="354"
+				meshFile ="arc_ruin_02.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="arc_ruin_03" id="355" >
+			<position x="-27.6742" y="-73.4776" z="-165.816" />
+			<rotation qx="-0.0342378" qy="-0.965319" qz="-0.00917398" qw="-0.258656" />
+			<scale x="0.0854167" y="0.0854167" z="0.0854167" />
+			<entity
+				name="arc_ruin_03"
+				id="356"
+				meshFile ="arc_ruin_03.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="arc_ruin_04" id="357" >
+			<position x="-33.4013" y="-73.5258" z="-159.567" />
+			<rotation qx="0.0" qy="0.5" qz="0.0" qw="0.866025" />
+			<scale x="0.0854167" y="0.0854167" z="0.0854167" />
+			<entity
+				name="arc_ruin_04"
+				id="358"
+				meshFile ="arc_ruin_04.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="arc_ruin_04" id="359" >
+			<position x="-24.9712" y="-73.4776" z="-168.386" />
+			<rotation qx="0.0" qy="-0.846538" qz="0.0" qw="0.532329" />
+			<scale x="0.0854167" y="0.0854167" z="0.0854167" />
+			<entity
+				name="arc_ruin_04"
+				id="360"
+				meshFile ="arc_ruin_04.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="arc_ruin_01" id="361" >
+			<position x="-27.3537" y="-72.6621" z="-176.734" />
+			<rotation qx="0.0" qy="-0.866025" qz="0.0" qw="0.5" />
+			<scale x="0.0854167" y="0.0854167" z="0.0854167" />
+			<entity
+				name="arc_ruin_01"
+				id="362"
+				meshFile ="arc_ruin_01.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="arc_ruin_03" id="363" >
+			<position x="-7.61583" y="-76.8994" z="-153.837" />
+			<rotation qx="0.0327475" qy="0.608379" qz="-0.0135643" qw="0.792855" />
+			<scale x="0.0854167" y="0.0854167" z="0.0854167" />
+			<entity
+				name="arc_ruin_03"
+				id="364"
+				meshFile ="arc_ruin_03.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="arc_ruin_01" id="365" >
+			<position x="-9.31007" y="-76.4216" z="-145.675" />
+			<rotation qx="0.0" qy="-0.130526" qz="0.0" qw="0.991445" />
+			<scale x="0.0854167" y="0.0854167" z="0.0854167" />
+			<entity
+				name="arc_ruin_01"
+				id="366"
+				meshFile ="arc_ruin_01.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_baum_shadix_01" id="367" >
+			<position x="-31.4779" y="-73.2295" z="-153.648" />
+			<rotation qx="-0.0245436" qy="-0.385977" qz="0.00333097" qw="0.922176" />
+			<scale x="1.65499" y="1.65499" z="1.65499" />
+			<entity
+				name="nat_baum_shadix_01"
+				id="368"
+				meshFile ="nat_baum_shadix_01.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_baum_shadix_03" id="369" >
+			<position x="-33.5861" y="-73.8303" z="-166.435" />
+			<rotation qx="-0.00380119" qy="-0.920946" qz="0.0870595" qw="-0.379822" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_baum_shadix_03"
+				id="370"
+				meshFile ="nat_baum_shadix_03.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_nadelbaum_02" id="371" >
+			<position x="-27.4145" y="-72.0549" z="-142.666" />
+			<rotation qx="0.0" qy="-0.5" qz="0.0" qw="0.866025" />
+			<scale x="1.05407" y="1.05407" z="1.05407" />
+			<entity
+				name="nat_nadelbaum_02"
+				id="372"
+				meshFile ="nat_nadelbaum_02.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_nadelbaum_02" id="373" >
+			<position x="-21.1975" y="-73.6231" z="-133.625" />
+			<rotation qx="0.0" qy="-0.5" qz="0.0" qw="0.866025" />
+			<scale x="1.05407" y="1.05407" z="1.05407" />
+			<entity
+				name="nat_nadelbaum_02"
+				id="374"
+				meshFile ="nat_nadelbaum_02.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_nadelbaum_02" id="375" >
+			<position x="-31.9309" y="-70.4782" z="-182.233" />
+			<rotation qx="0.0" qy="-0.5" qz="0.0" qw="0.866025" />
+			<scale x="1.05407" y="1.05407" z="1.05407" />
+			<entity
+				name="nat_nadelbaum_02"
+				id="376"
+				meshFile ="nat_nadelbaum_02.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_baum_shadix_03" id="377" >
+			<position x="19.5305" y="-72.0966" z="-178.903" />
+			<rotation qx="0.062212" qy="-0.922072" qz="-0.0741837" qw="-0.374712" />
+			<scale x="0.817979" y="0.817979" z="0.817979" />
+			<entity
+				name="nat_baum_shadix_03"
+				id="378"
+				meshFile ="nat_baum_shadix_03.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_baum_shadix_01" id="379" >
+			<position x="20.1477" y="-67.9416" z="-190.728" />
+			<rotation qx="0.0156749" qy="-0.669091" qz="0.0116433" qw="0.742924" />
+			<scale x="1.57948" y="1.57948" z="1.57948" />
+			<entity
+				name="nat_baum_shadix_01"
+				id="380"
+				meshFile ="nat_baum_shadix_01.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_nadelbaum_02" id="381" >
+			<position x="27.5495" y="-72.8668" z="-171.943" />
+			<rotation qx="0.0" qy="-0.5" qz="0.0" qw="0.866025" />
+			<scale x="1.05407" y="1.05407" z="1.05407" />
+			<entity
+				name="nat_nadelbaum_02"
+				id="382"
+				meshFile ="nat_nadelbaum_02.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_nadelbaum_02" id="383" >
+			<position x="26.5605" y="-69.1364" z="-186.639" />
+			<rotation qx="0.0" qy="-0.5" qz="0.0" qw="0.866025" />
+			<scale x="1.05407" y="1.05407" z="1.05407" />
+			<entity
+				name="nat_nadelbaum_02"
+				id="384"
+				meshFile ="nat_nadelbaum_02.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_nadelbaum_02" id="385" >
+			<position x="-2.13458" y="-67.6462" z="-203.68" />
+			<rotation qx="0.0" qy="-0.5" qz="0.0" qw="0.866025" />
+			<scale x="1.05407" y="1.05407" z="1.05407" />
+			<entity
+				name="nat_nadelbaum_02"
+				id="386"
+				meshFile ="nat_nadelbaum_02.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_baum_shadix_01" id="387" >
+			<position x="-9.29268" y="-69.3623" z="-199.048" />
+			<rotation qx="-0.0245436" qy="-0.385977" qz="0.00333097" qw="0.922176" />
+			<scale x="1.78309" y="1.78309" z="1.78309" />
+			<entity
+				name="nat_baum_shadix_01"
+				id="388"
+				meshFile ="nat_baum_shadix_01.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_baum_shadix_03" id="389" >
+			<position x="-1.08499" y="-77.511" z="-158.304" />
+			<rotation qx="-0.0307704" qy="-0.869233" qz="-0.018862" qw="0.493084" />
+			<scale x="0.817979" y="0.817979" z="0.817979" />
+			<entity
+				name="nat_baum_shadix_03"
+				id="390"
+				meshFile ="nat_baum_shadix_03.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
 	</nodes>
-	
-		<userData>
+			<userData>
 		<property type="FLOAT" name="staticgeom_renderingdistance_0" data="200"/>
         <property type="FLOAT" name="staticgeom_batchsize_0" data="25"/>
 
@@ -2520,7 +2951,8 @@
         <manualLOD mesh="nat_nadelbaum_03.mesh">
             <LOD distance="150.0" mesh="nat_nadelbaum_03_lod.mesh" />
         </manualLOD>
-        
-        
+
 	</userData>
+	
+	
 </scene>

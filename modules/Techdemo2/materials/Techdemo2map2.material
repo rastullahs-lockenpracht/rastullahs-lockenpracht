@@ -9,7 +9,7 @@ material Techdemo2_map2
 
 			texture_unit
 			{
-				texture gras_01.png
+				texture gras.jpg
 				tex_coord_set 1
 			}
 		}
