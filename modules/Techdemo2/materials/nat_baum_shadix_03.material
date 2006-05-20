@@ -1,6 +1,7 @@
 
 material nat_baum_shadix_03/baumblatt3
 {
+receive_shadows off
 	technique
 	{
 		pass
