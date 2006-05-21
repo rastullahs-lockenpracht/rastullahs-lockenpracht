@@ -11,6 +11,7 @@ $World = $CORE.getWorld()
 $World.setSkyBox(true, "rl/desert07", 100.0)
 $SCRIPT.log("skybox set");
 
+
 $SCRIPT.log("Tageslicht erstellen..");
 sunlight = $AM.createLightActor("sunlight", LightObject::LT_DIRECTIONAL);
 sunlight.getControlledObject().setDirection(-0.17101, -0.873647, 0.969846);
@@ -24,6 +25,14 @@ $SCRIPT.log("Tageslicht erstellt.");
 #shadowlight.getControlledObject().setCastShadows(true);
 #shadowlight.getControlledObject().setDiffuseColour(0.0,0.0,0.0);
 
+$SCRIPT.log("Druidenwald-Thema laden");
+techdemoDruidenWald = $AM.createSoundSampleActor( "techdemoDruidenWald", "techdemo002.ogg" ); 
+techdemoDruidenWald.getControlledObject().set3d(false);
+$SCRIPT.log(" Loopen");
+techdemoDruidenWald.getControlledObject().setLooping( true );
+$SCRIPT.log(" Abspielen");
+techdemoDruidenWald.getControlledObject().play();
+$SCRIPT.log("Druidenwald-Thema fertig");
 
 $SCRIPT.log("Held erstellen");
 $hero = Hero.new;
