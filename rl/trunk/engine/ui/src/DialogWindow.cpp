@@ -51,12 +51,16 @@ DialogWindow::DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger, D
 
 DialogWindow::~DialogWindow()
 {
+    DebugWindow::getSingleton().unregisterPage("DialogWindow");
+
 	delete mCurrentResponse;
 	mCurrentResponse = NULL;
 }
 
 void DialogWindow::initialize()
 {
+    DebugWindow::getSingleton().registerPage("DialogWindow");
+
 	mImage = getStaticImage("DialogWindow/Image");
 	mName = getStaticText("DialogWindow/Name");
 	mQuestion = getListbox("DialogWindow/Question");
@@ -176,7 +180,8 @@ void DialogWindow::showNextText()
 
 bool DialogWindow::handleSelectOption()
 {
-	DebugWindow::getSingleton().setText(StringConverter::toString(getSelectedOption()));
+	DebugWindow::getSingleton().setPageText("DialogWindow",
+        StringConverter::toString(getSelectedOption()));
 	ListboxWrappedTextItem* item = 
 		reinterpret_cast<ListboxWrappedTextItem*>(mDialogOptions->getFirstSelectedItem());
 	int id = item->getID();

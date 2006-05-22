@@ -70,7 +70,7 @@ namespace rl {
 		  mObjectNameText(NULL)
 	{
 		mConsole = new Console();
-		new DebugWindow();
+		mDebugWindow = new DebugWindow();
 		CoreSubsystem::getSingleton().getRubyInterpreter()->
 			setOutputFunction( 
 				(VALUE(*)(...))&WindowFactory::consoleWrite );
@@ -102,8 +102,7 @@ namespace rl {
 		delete mConsole;
 		delete mObjectDescriptionWindow;
 		delete mInfoPopup;
-
-		delete DebugWindow::getSingletonPtr();
+		delete mDebugWindow;
 	}
 
 	WindowFactory& WindowFactory::getSingleton()
@@ -171,8 +170,7 @@ namespace rl {
 
 	void WindowFactory::toggleDebugWindow()
 	{
-		DebugWindow* dbgwnd = DebugWindow::getSingletonPtr();
-		dbgwnd->setVisible(!dbgwnd->isVisible());
+		mDebugWindow->setVisible(!mDebugWindow->isVisible());
 	}
 
 	void WindowFactory::toggleGameLogWindow()
@@ -388,4 +386,9 @@ namespace rl {
 	{
 		mObjectDescriptionWindow->show(object);
 	}
+
+    void WindowFactory::showNextDebugWindowPage()
+    {
+        mDebugWindow->showNextPage();
+    }
 }

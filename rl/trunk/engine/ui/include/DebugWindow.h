@@ -23,6 +23,8 @@
 #include "CeGuiWindow.h"
 #include "GameTask.h"
 
+#include <map>
+
 namespace rl {
 
     class _RlUiExport DebugWindow
@@ -35,12 +37,22 @@ namespace rl {
         static DebugWindow* getSingletonPtr(void);
 
 		void setVisible(bool visible, bool destroyAfterHide = false);
-        void setText(const Ogre::String& output);
+        void registerPage(const Ogre::String& page);
+        void unregisterPage(const Ogre::String& page);
+
+        void setPageText(const Ogre::String& page, const Ogre::String& text);
 		void run(Ogre::Real elapsedTime);
 
+        void showNextPage();
+
     private:
+        CEGUI::StaticText* mText;
+        typedef std::map<Ogre::String, Ogre::String> PageTextMap;
+        PageTextMap mPageTexts;
+        Ogre::String mCurrentPage;        
+
 		void updateFps();
-        CEGUI::StaticText* mText;		
+        void updatePageText();
     };
 }
 

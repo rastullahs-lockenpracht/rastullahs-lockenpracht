@@ -50,6 +50,7 @@ namespace rl {
 	class Person;
 	class RBCombat;
 	class WindowUpdater;
+    class DebugWindow;
 
 	class _RlUiExport WindowFactory : public Ogre::Singleton<WindowFactory>
 	{
@@ -102,10 +103,12 @@ namespace rl {
 
 		void update();
 
-		/** Writes Text into the Console or other output media */
+		/// Writes Text into the Console or other output media
 		void writeToConsole(std::string text);
 		static VALUE consoleWrite(VALUE self, VALUE str);
 
+        /// Change shown DebugWindow page
+        void showNextDebugWindowPage();
 
 	private:
 		GameLoggerWindow* mGameLogger;
@@ -114,6 +117,7 @@ namespace rl {
 		CharacterSheetWindow* mCharacterSheet;
 		JournalWindow* mJournalWindow;
 		LogWindow* mLogWindow;
+		DebugWindow* mDebugWindow;
 		Console* mConsole;
 		InfoPopup* mInfoPopup;
 		Actor* mObjectNameText;

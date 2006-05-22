@@ -24,6 +24,7 @@
 #include "Actor.h"
 #include "ActorManager.h"
 #include "CoreSubsystem.h"
+#include "Exception.h"
 
 using namespace CEGUI;
 using namespace Ogre;
@@ -41,7 +42,10 @@ namespace rl
         return Ogre::Singleton<DebugWindow>::getSingletonPtr();
     }
 
-	DebugWindow::DebugWindow() : CeGuiWindow("debugwindow.xml", WND_SHOW)
+	DebugWindow::DebugWindow() : CeGuiWindow("debugwindow.xml", WND_SHOW),
+          mText(),
+          mPageTexts(),
+          mCurrentPage(StringUtil::BLANK)
 	{
 		mText = getStaticText("DebugWindow/Text");
 		mText->moveToFront();
@@ -53,12 +57,80 @@ namespace rl
 	{		
     }
 
-    void DebugWindow::setText(const Ogre::String& text)
+    void DebugWindow::registerPage(const Ogre::String& page)
     {
-        CeGuiString o(text.c_str());
-        mText->setText(o);
+        if (mPageTexts.find(page) != mPageTexts.end())
+        {
+            Throw(IllegalArgumentException, page + " already registered as a page.");
+        }
+        mPageTexts.insert(make_pair(page, StringUtil::BLANK));
+
+        // If this is the first page, activate it
+        if (mCurrentPage == StringUtil::BLANK)
+        {
+            mCurrentPage = page;
+        }
+    }
+
+    void DebugWindow::unregisterPage(const Ogre::String& page)
+    {
+        PageTextMap::iterator it = mPageTexts.find(page);
+        if (it != mPageTexts.end())
+        {
+            mPageTexts.erase(it);
+        }
+        else
+        {
+            Throw(IllegalArgumentException, page + " is not registered as a page.");
+        }
+
+        // If this is the current page, switch over to the next
+        // or clear text, if no other page is left.
+        if (mCurrentPage == page && !mPageTexts.empty())
+        {
+            mCurrentPage = page;
+        }
+        else if (mCurrentPage == page)
+        {
+            mCurrentPage = StringUtil::BLANK;
+        }
+        updatePageText();
+    }
+
+    void DebugWindow::setPageText(const Ogre::String& page, const Ogre::String& text)
+    {
+        PageTextMap::iterator it = mPageTexts.find(page);
+        if (it == mPageTexts.end())
+        {
+            Throw(IllegalArgumentException, page + " is not registered as a page.");
+        }
+        it->second = text;
+
+        if (mCurrentPage == page)
+        {
+            updatePageText();
+        }
     }
     
+    void DebugWindow::showNextPage()
+    {
+        PageTextMap::iterator it = mPageTexts.find(mCurrentPage);        
+        if (it != mPageTexts.end())
+        {
+            ++it;
+            if (it == mPageTexts.end())
+            {
+                it = mPageTexts.begin();
+            }
+            mCurrentPage = it->first;
+            updatePageText();
+        }
+        else
+        {
+            RlAssert1(mPageTexts.empty());
+        }
+    }
+
 	void DebugWindow::run(Ogre::Real elapsedTime)
 	{
 		RL_LONGLONG start = CoreSubsystem::getSingleton().getClock();
@@ -72,6 +144,15 @@ namespace rl
 			 + Ogre::StringConverter::toString(
 					Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));
 	}
+
+    void DebugWindow::updatePageText()
+    {
+        Ogre::String text = mCurrentPage == StringUtil::BLANK ?
+            StringUtil::BLANK : mPageTexts[mCurrentPage];
+
+        CeGuiString o(text.c_str());
+        mText->setText(o);
+    }
 
 	void DebugWindow::updateFps()
 	{

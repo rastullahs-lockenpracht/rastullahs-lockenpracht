@@ -134,6 +134,8 @@ public:
 
 	void checkForErrors();
 	rl::GameLoggerWindow* getGameLogger();
+	
+    void showNextDebugWindowPage();
 };
 
 class WindowManager
