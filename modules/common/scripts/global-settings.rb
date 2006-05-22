@@ -30,6 +30,7 @@ class GlobalSettings
       $act22 = ShowSoundConfigAction.new()
       $act23 = ShowLogfilesAction.new()
       $act24 = ToggleCharacterControllerAction.new()
+      $act25 = ShowNextDebugWindowPageAction.new()
 
       actionManager.registerInGameGlobalAction($act1, $grpView)
       actionManager.registerInGameGlobalAction($act3, $grpView)
@@ -47,6 +48,7 @@ class GlobalSettings
       actionManager.registerInGameGlobalAction($act20, $grpView)
       actionManager.registerInGameGlobalAction($act21, $grpView)
       actionManager.registerInGameGlobalAction($act24, $grpView)
+      actionManager.registerInGameGlobalAction($act25, $grpView)
 
       actionManager.registerInGameGlobalAction($act12, $grpOptions)
       actionManager.registerInGameGlobalAction($act13, $grpOptions)

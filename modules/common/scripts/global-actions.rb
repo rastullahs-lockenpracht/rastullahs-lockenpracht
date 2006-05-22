@@ -212,6 +212,16 @@ class ShowLogfilesAction < Action
   end
 end
 
+class ShowNextDebugWindowPageAction < Action
+  def initialize
+    super("shownextdebugwindowpage", "Zur nächsten Info-Seite wechseln")
+  end
+
+  def doAction(object, actor, target)
+    $WF.showNextDebugWindowPage()
+  end
+end
+
 class CloseCurrentWindowAction < Action
   def initialize
     super("closecurrentwindow", "Oberstes Fenster schliessen")
