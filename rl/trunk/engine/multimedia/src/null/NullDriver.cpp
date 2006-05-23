@@ -18,6 +18,8 @@
 #include "NullSoundChannel.h"
 #include "NullListener.h"
 
+rl::CeGuiString rl::NullDriver::NAME = "Nulltreiber";
+
 namespace rl
 {
 
@@ -76,7 +78,7 @@ void NullDriver::deInit()
  */
 CeGuiString NullDriver::getName() const
 {
-    return "Nulltreiber";
+    return NAME;
 }
 
 /**

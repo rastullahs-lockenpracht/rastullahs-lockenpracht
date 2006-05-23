@@ -29,6 +29,8 @@ namespace rl
 class _RlMultimediaExport OalDriver : public rl::SoundDriver
 {
 public:
+	/// Der Treibername
+	static CeGuiString NAME;
     /// Der Konstruktor
 	OalDriver();
     /// Der Destruktor

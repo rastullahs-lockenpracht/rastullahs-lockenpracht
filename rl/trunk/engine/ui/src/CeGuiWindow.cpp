@@ -249,6 +249,11 @@ namespace rl
 	{
 		return static_cast<Combobox*>(getWindow(name, "Combobox"));
 	}
+	
+	ComboDropList* CeGuiWindow::getComboDropList(const char* name)
+	{
+		return static_cast<ComboDropList*>(getWindow(name, "ComboDropList"));
+	}
 
 	Slider* CeGuiWindow::getSlider(const char* name)
 	{

@@ -28,6 +28,8 @@ namespace rl
 class _RlMultimediaExport NullDriver : public rl::SoundDriver
 {
 public:
+	/// Der Treibername
+	static CeGuiString NAME;
     /// Der Konstruktor
 	NullDriver();
     /// Der Destruktor

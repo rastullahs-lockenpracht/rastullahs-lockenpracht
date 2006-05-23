@@ -30,6 +30,7 @@ extern "C" {
 
 using namespace Ogre;
 
+rl::CeGuiString rl::Fmod3Driver::NAME = "FMOD3";
 
 namespace rl
 {
@@ -201,7 +202,7 @@ void Fmod3Driver::deInit()
  */
 CeGuiString Fmod3Driver::getName() const
 {
-    return "FMOD3";
+    return NAME;
 }
 
 /**

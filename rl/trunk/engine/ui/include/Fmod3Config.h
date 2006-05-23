@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2006 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
@@ -13,35 +13,32 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-
-#ifndef SOUNDCONFIG_H_
-#define SOUNDCONFIG_H_
+#ifdef WITH_FMOD3
+#ifndef FMOD3CONFIG_H_
+#define FMOD3CONFIG_H_
 
 #include "CeGuiWindow.h"
 
 namespace rl
 {
 
-class SoundConfig : public rl::CeGuiWindow
+class Fmod3Config : public rl::CeGuiWindow
 {
 private:
     bool handleOK();
-	bool handleVolumeMusicChanged();
-	bool handleVolumeSoundChanged();
-    bool handleVolumeMasterChanged();
-	bool handleConfig();
+	bool handleDriverChanged();
+	bool handleDeviceChanged();
 	
     // Die Combobox, aus der gewählt wird.
-    CEGUI::Listbox*	mBox;
-	CEGUI::Slider*	mVolumeSound;
-	CEGUI::Slider*	mVolumeMusic;
-	CEGUI::Slider*	mVolumeMaster;
+    CEGUI::ComboDropList*	mDriver;
+	CEGUI::ComboDropList*    mDevice;
 
 public:
-	SoundConfig();
-	virtual ~SoundConfig();
+	Fmod3Config();
+	virtual ~Fmod3Config();
 };
 
 }
 
-#endif /*SOUNDCONFIG_H_*/
+#endif /* FMOD3CONFIG_H_*/
+#endif

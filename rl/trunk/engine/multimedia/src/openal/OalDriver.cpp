@@ -26,6 +26,8 @@ extern "C" {
 #include "OalSoundChannel.h"
 #include "OalListener.h"
 
+rl::CeGuiString rl::OalDriver::NAME = "OpenAL";
+
 namespace rl
 {
 
@@ -111,7 +113,7 @@ void OalDriver::deInit()
  */
 CeGuiString OalDriver::getName() const
 {
-    return "OpenAL";
+    return NAME;
 }
 
 /**

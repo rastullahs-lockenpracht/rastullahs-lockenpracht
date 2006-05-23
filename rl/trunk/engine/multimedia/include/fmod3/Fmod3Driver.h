@@ -37,6 +37,8 @@ private:
     static int tell(void *handle);
 
 public:
+	/// Der Treibername
+	static CeGuiString NAME;
     /// Der Konstruktor
 	Fmod3Driver();
     /// Der Destruktor
