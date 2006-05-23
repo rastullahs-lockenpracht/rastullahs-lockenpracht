@@ -71,6 +71,16 @@ class ToggleInGameGlobalMenuAction < Action
   end
 end
 
+class ToggleInventoryAction < Action
+	def initialize
+		super("toggleinventorywindow", "Das Inventar des aktiven Helden anzeigen")
+	end
+	
+	def doAction(object, actor, target)
+		$WF.toggleInventoryWindow()
+	end
+end
+
 class ResetCameraAction < Action
   def initialize
     super("resetcamera", "Kamera zurücksetzen")
