@@ -178,6 +178,20 @@ namespace rl {
 		mGameLogger->setVisible(!mGameLogger->isVisible());
 	}
 
+		void WindowFactory::toggleInventoryWindow()
+	{
+		if (mInventoryWindow->isVisible())
+		{
+			mInventoryWindow->setCharacter(NULL);
+			mInventoryWindow->setVisible(false);
+		}
+		else
+		{
+			mInventoryWindow->setCharacter(UiSubsystem::getSingleton().getActiveCharacter());
+			mInventoryWindow->setVisible(true);
+		}
+	}
+	
 	void WindowFactory::showCharacterSheet()
 	{
 		if (mCharacterSheet->isVisible())

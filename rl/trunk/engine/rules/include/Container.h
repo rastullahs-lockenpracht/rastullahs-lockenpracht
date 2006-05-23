@@ -19,13 +19,12 @@
 
 #include "RulesPrerequisites.h"
 
-#include "GameObject.h"
 #include "Item.h"
 
 namespace rl
 {
     /// Behaelter für Items.
-    class _RlRulesExport Container : public GameObject
+    class _RlRulesExport Container : public Item
     {
     public:
         Container(const CeGuiString& name, const CeGuiString& description);
@@ -36,6 +35,11 @@ namespace rl
 
         /// Fassungsvermoegen in Unzen
         void setCapacity(int capacity);
+
+		// Volumen in x (breite) * y (hoehe)
+		void setVolume(int x, int y);
+
+		pair<int,int> getVolume();
 
         /// Liefert Gesamtgewicht des Inhalts.
         int getContentWeight() const;
@@ -53,6 +57,12 @@ namespace rl
 
     private:
         int mCapacity;
+		pair<int,int> mVolume;
+		
+		// Speichert, wo die Items sich im Container befinden.
+		// Speichert also die IDs der Objekte in die einzelnen Volumenfelder
+		int objIDMap [1][1];
+
         ItemSet mItems;
     };
 }

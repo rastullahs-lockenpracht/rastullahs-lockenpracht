@@ -18,7 +18,8 @@
 #define __InventoryWindow_H__
 
 #include "UiPrerequisites.h"
-#include <CEGUI.h>
+#include "CeGuiWindow.h"
+#include "Inventory.h"
 
 namespace rl {
 
@@ -28,14 +29,14 @@ namespace rl {
 	{
 	public:
 		InventoryWindow();
+		~InventoryWindow();
 
-		setCharacter(Creature* character);
-		update();
+		void setCharacter(Creature* character);
+		void update();
 
 	private:
         Creature* mCharacter;
-	}
-
+		Inventory* mInventory;
+	};
 }
-
 #endif

@@ -16,6 +16,7 @@
 
 #include "Container.h"
 #include "Exception.h"
+#include "Item.h"
 #include <algorithm>
 
 using namespace std;
@@ -23,8 +24,9 @@ using namespace std;
 namespace rl {
 
     Container::Container(const CeGuiString& name, const CeGuiString& description)
-        : GameObject(name, description), mCapacity(1000)
+        : Item(name, description)
     {
+
     }
 
     Container::~Container()

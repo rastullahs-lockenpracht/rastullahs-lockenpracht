@@ -23,6 +23,7 @@
 
 #include "GameObject.h"
 #include "Eigenschaft.h"
+#include "Inventory.h"
 #include "Container.h"
 #include "Weapon.h"
 #include "EigenschaftenStateSet.h"
@@ -529,6 +530,7 @@ namespace rl
 		WertMap mWerte;
 		ContainerMap mContainer;
 		WeaponMap mWeapons;
+		Inventory mInventory;
     };
 }
 #endif //__CREATURE_H__

@@ -131,6 +131,7 @@ public:
 	void toggleGameLogWindow();
 	void toggleCharacterStateWindow();
 	void toggleInGameGlobalMenu();
+	void toggleInventoryWindow();	
 
 	void checkForErrors();
 	rl::GameLoggerWindow* getGameLogger();

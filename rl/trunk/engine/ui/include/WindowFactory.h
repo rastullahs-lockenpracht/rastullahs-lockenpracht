@@ -97,6 +97,7 @@ namespace rl {
 		void toggleGameLogWindow();
 		void toggleCharacterStateWindow();
 		void toggleInGameGlobalMenu();
+		void toggleInventoryWindow();
 		
 		void checkForErrors();
 		GameLoggerWindow* getGameLogger();

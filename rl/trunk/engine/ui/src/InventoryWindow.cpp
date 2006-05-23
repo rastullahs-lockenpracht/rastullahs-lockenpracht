@@ -14,3 +14,32 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
+
+#include <boost/bind.hpp>
+
+#include "InventoryWindow.h"
+#include "RulesSubsystem.h"
+#include "Inventory.h"
+
+#include <CEGUIPropertyHelper.h>
+
+using namespace CEGUI;
+
+namespace rl {
+
+	InventoryWindow::InventoryWindow()
+		: CeGuiWindow("inventorywindow.xml", WND_MOUSE_INPUT)
+	{
+	}
+	
+	InventoryWindow::~InventoryWindow()
+	{
+	}
+
+
+	void InventoryWindow::setCharacter(Creature* character)
+	{
+		mCharacter = character;
+	}
+
+}

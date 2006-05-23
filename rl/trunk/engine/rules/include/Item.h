@@ -18,7 +18,9 @@
 #define __ITEM_H__
 
 #include "GameObject.h"
-#include <set>
+//#include <set>
+
+using namespace std;
 
 namespace rl
 {
@@ -29,12 +31,33 @@ namespace rl
         Item(const CeGuiString& name, const CeGuiString& description);
         virtual ~Item(void);
 
-		enum ItemType{ITEMTYPE_WAFFE = 0};
+		enum ItemType{
+			ITEMTYPE_WEAPON = 0,
+			ITEMTYPE_SHIELD,
+			ITEMTYPE_RING,
+			ITEMTYPE_GLOVE,
+			ITEMTYPE_BRACELET,
+			ITEMTYPE_ARMOR,
+			ITEMTYPE_BACKPACK,
+			ITEMTYPE_ARMORFRONT,
+			ITEMTYPE_BELT,
+			ITEMTYPE_NECKLACE,
+			ITEMTYPE_HELMET,
+			ITEMTYPE_CROTCH, // Lendenschurz
+			ITEMTYPE_TROUSERS,
+			ITEMTYPE_SHINBONE,
+			ITEMTYPE_BOOTS,
+			ITEMTYPE_OTHER
+		};
 
         void setWeight(int weight);
         int getWeight() const;
+
 		void setItemType(ItemType itemType);
 		ItemType getItemType() const;
+
+		void setCapacity(int width, int height);
+		pair<int,int> getCapacity();
 
     private:
         /// Masse in Unzen.
