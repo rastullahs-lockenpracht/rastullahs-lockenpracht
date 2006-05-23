@@ -42,7 +42,6 @@ VideoWindow::VideoWindow()
 	bindCloseToCloseButton();
 	
     setVisible(false);
-    DebugWindow::getSingleton().registerPage("VideoWindow");
 }
 
 VideoWindow::~VideoWindow()
@@ -51,7 +50,6 @@ VideoWindow::~VideoWindow()
     {
         delete mTexture;
     }
-    DebugWindow::getSingleton().unregisterPage("VideoWindow");
 }
 
 void VideoWindow::show(Texture *texture, CeGuiString name)
@@ -86,8 +84,8 @@ bool VideoWindow::eventRaised(VideoPlayEvent *event)
 
 bool VideoWindow::eventRaised(VideoTimingEvent* event)
 {
-	DebugWindow::getSingleton().setPageText("VideoWindow",
-		"Frame: "+Ogre::StringConverter::toString(event->mFrameNumber)+
+	DebugWindow::getSingleton().setMessageText(
+        "Frame: "+Ogre::StringConverter::toString(event->mFrameNumber)+
 		"   Dropped: "+Ogre::StringConverter::toString(event->mFramesDropped));
 	return true;
 }

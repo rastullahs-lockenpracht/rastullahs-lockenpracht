@@ -43,18 +43,28 @@ namespace rl
     }
 
 	DebugWindow::DebugWindow() : CeGuiWindow("debugwindow.xml", WND_SHOW),
-          mText(),
+          mMessageText(),
+          mPageCaption(),
+          mPageText(),
           mPageTexts(),
-          mCurrentPage(StringUtil::BLANK)
+          mCurrentPage(StringUtil::BLANK),
+          mDebugPageName("General Informations")
 	{
-		mText = getStaticText("DebugWindow/Text");
-		mText->moveToFront();
-		
+		mPageCaption = getStaticText("DebugWindow/PageCaption");
+		mPageCaption->moveToFront();
+
+		mPageText = getMultiLineEditbox("DebugWindow/PageText");
+
+		mMessageText = getStaticText("DebugWindow/MessageText");
+		mMessageText->moveToFront();
+
 		bindCloseToCloseButton();
+        registerPage("General Informations");
 	}
 
 	DebugWindow::~DebugWindow()
-	{		
+    {
+        unregisterPage("General Informations");
     }
 
     void DebugWindow::registerPage(const Ogre::String& page)
@@ -112,6 +122,12 @@ namespace rl
         }
     }
     
+    void DebugWindow::setMessageText(const Ogre::String& text)
+    {
+        CeGuiString o(text.c_str());
+        mMessageText->setText(o);
+    }
+
     void DebugWindow::showNextPage()
     {
         PageTextMap::iterator it = mPageTexts.find(mCurrentPage);        
@@ -149,15 +165,13 @@ namespace rl
     {
         Ogre::String text = mCurrentPage == StringUtil::BLANK ?
             StringUtil::BLANK : mPageTexts[mCurrentPage];
-
-        CeGuiString o(text.c_str());
-        mText->setText(o);
+        mPageCaption->setText(mCurrentPage);
+        mPageText->setText(text);
     }
 
 	void DebugWindow::updateFps()
 	{
 		const RenderTarget::FrameStats& stats = Root::getSingleton().getAutoCreatedWindow()->getStatistics();
-		Window *textStats = getWindow("DebugWindow/Statistics");
 
 		Ogre::String textSt = "Current FPS: " + 
 			StringConverter::toString(stats.lastFPS)+
@@ -178,7 +192,7 @@ namespace rl
 				getActiveCharacter()->getActor()->
 				_getSceneNode()->getWorldPosition();
 
-			textSt += "\nPlayer Position [ "	
+			textSt += "\nPlayer Position [ "
 				+ StringConverter::toString(pos.x,1,0,32,std::ios_base::fixed)+", "
 				+ StringConverter::toString(pos.y,1,0,32,std::ios_base::fixed)+", "
 				+ StringConverter::toString(pos.z,1,0,32,std::ios_base::fixed)+" ]";
@@ -189,13 +203,13 @@ namespace rl
 		{
             Ogre::Vector3 pos = camActor->_getSceneNode()->getWorldPosition();
 
-			textSt += "\nCamera Position [ "	
+			textSt += "\nCamera Position [ "
 				+ StringConverter::toString(pos.x,1,0,32,std::ios_base::fixed)+", "
 				+ StringConverter::toString(pos.y,1,0,32,std::ios_base::fixed)+", "
 				+ StringConverter::toString(pos.z,1,0,32,std::ios_base::fixed)+" ]";
 		}
 
-		textStats->setText(textSt);
+        setPageText(mDebugPageName, textSt);
 	}
 
 	void DebugWindow::setVisible(bool visible, bool destroyAfterHide)

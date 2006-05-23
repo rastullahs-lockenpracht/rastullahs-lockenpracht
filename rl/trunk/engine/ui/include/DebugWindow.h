@@ -41,15 +41,20 @@ namespace rl {
         void unregisterPage(const Ogre::String& page);
 
         void setPageText(const Ogre::String& page, const Ogre::String& text);
+        void setMessageText(const Ogre::String& text);
 		void run(Ogre::Real elapsedTime);
 
         void showNextPage();
 
     private:
-        CEGUI::StaticText* mText;
+        CEGUI::StaticText* mMessageText;
+        CEGUI::StaticText* mPageCaption;
+        CEGUI::MultiLineEditbox* mPageText;
         typedef std::map<Ogre::String, Ogre::String> PageTextMap;
         PageTextMap mPageTexts;
-        Ogre::String mCurrentPage;        
+        Ogre::String mCurrentPage;
+        /// Name of the default debug page with FPS statistics
+        Ogre::String mDebugPageName;
 
 		void updateFps();
         void updatePageText();
