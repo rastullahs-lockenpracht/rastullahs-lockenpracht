@@ -1,0 +1,36 @@
+<GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
+	<Window Type="RastullahLook/FrameWindow" Name="Fmod3Config" >
+		<Property Name="MetricsMode" Value="Absolute"/>
+		<Property Name="Position" Value="x:0.0 y:0.0"/>
+		<Property Name="Width" Value="600"/>
+		<Property Name="Height" Value="450"/>
+		<Property Name="SizingEnabled" Value="true"/>
+		<Property Name="Text" Value="Fmod 3 Konfiguration" />
+		<Property Name="TitlebarEnabled" Value="True" />
+		<Property Name="TitlebarFont" Value="Commonwealth-10" />
+		
+		<Window Type="RastullahLook/ComboDropList" Name="Fmod3Config/Driver" >
+			<Property Name="Visible" Value="True" />
+		</Window>
+		<Window Type="RastullahLook/ComboDropList" Name="Fmod3Config/Device" >
+			<Property Name="Visible" Value="True" />
+		</Window>
+		<Window Type="RastullahLook/Button" Name="Fmod3Config/OK">
+			<Property Name="Text" Value="OK"/>
+			<Property Name="RelativeXPosition" Value="0.05"/>
+			<Property Name="RelativeYPosition" Value="0.9"/>
+			<Property Name="RelativeWidth" Value="0.1"/>
+			<Property Name="AbsoluteHeight" Value="35"/>
+			<Property Name="Font" Value="Vera Serif-14"/>
+		</Window>
+
+		<Window Type="RastullahLook/Button" Name="Fmod3Config/Cancel">
+			<Property Name="Text" Value="Abbruch"/>
+			<Property Name="RelativeXPosition" Value="0.80"/>
+			<Property Name="RelativeYPosition" Value="0.9"/>
+			<Property Name="RelativeWidth" Value="0.15"/>
+			<Property Name="AbsoluteHeight" Value="35"/>
+			<Property Name="Font" Value="Vera Serif-14"/>
+		</Window>
+	</Window>
+</GUILayout>
