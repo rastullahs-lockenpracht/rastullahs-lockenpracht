@@ -7,6 +7,7 @@
     <Imageset Name="DialogFaces" Filename="DialogFaces.imageset" />
 
 	<Font Name="Vera Serif-8" Filename="vera_serif-8.font" />
+	<Font Name="Vera Serif-10" Filename="vera_serif-10.font" />
     <Font Name="Vera Serif Bold-8" Filename="vera_serif_bold-8.font" />
     <Font Name="Vera Serif Bold-18" Filename="vera_serif_bold-18.font" />
     <Font Name="Vera Mono-8" Filename="vera_mono-8.font" />

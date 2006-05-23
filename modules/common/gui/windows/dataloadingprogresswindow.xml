@@ -20,7 +20,6 @@
 			<Property Name="AbsoluteWidth" Value="370"/>
 			<Property Name="AbsoluteYPosition" Value="100"/>
 			<Property Name="AbsoluteHeight" Value="50"/>
-			<Property Name="FrameEnabled" Value="False"/>
 		</Window>
 
     </Window>

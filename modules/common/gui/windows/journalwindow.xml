@@ -21,7 +21,6 @@
 					<Property Name="AbsolutePosition" Value="x:15 y:30"/>
 					<Property Name="AbsoluteWidth" Value="240"/>
 					<Property Name="AbsoluteHeight" Value="400"/>
-					<Property Name="FrameEnabled" Value="True"/>
 				</Window>
 
 				<Window Type="RastullahLook/StaticText" Name="JournalWindow/Quests/QuestTitle">
@@ -42,7 +41,6 @@
 					<Property Name="AbsolutePosition" Value="x:270 y:90"/>
 					<Property Name="AbsoluteWidth" Value="315"/>
 					<Property Name="AbsoluteHeight" Value="340"/>
-					<Property Name="FrameEnabled" Value="False"/>
 				</Window>
 			</Window>
 

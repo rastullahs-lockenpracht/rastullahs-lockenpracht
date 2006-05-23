@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<Font 
+    Name="Vera Serif-10" 
+    Filename="VeraSe.ttf" 
+    Type="Dynamic" 
+    Size="10" 
+    NativeHorzRes="800" 
+    NativeVertRes="600" 
+    FirstCodepoint="32" 
+    LastCodepoint="300" 
+    AutoScaled="false"
+/>
+
