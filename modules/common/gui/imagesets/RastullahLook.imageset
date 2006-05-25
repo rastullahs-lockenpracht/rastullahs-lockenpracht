@@ -26,6 +26,8 @@
     <Image Name="EditBoxRight" XPos="108" YPos="331" Width="5" Height="16" />
     <Image Name="EditBoxCarat" XPos="117" YPos="331" Width="3" Height="16" />
 
+	<!-- Rastullah/Container -->
+	<Image Name="ContainerFree" XPos="290" YPos="260" Width="30" Height="30" />
 
     <!-- Rastullah/StatusBar -->
     <Image Name="StatusBarLeft" XPos="147" YPos="320" Width="4" Height="13" />

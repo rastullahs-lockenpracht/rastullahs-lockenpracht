@@ -603,6 +603,51 @@
         </StateImagery>
     </WidgetLook>
 
+	<!-- RastullahLook/Container -->
+	<WidgetLook name="RastullahLook/Container">
+		<Property name="AbsoluteMinSize" value="w:30 h:30" />
+		<Property name="NormalTextColour" value="FF594925" />
+		
+		<ImagerySection name="frame">
+	        <ImageryComponent>
+                <Area>
+				    <Dim type="LeftEdge"> <AbsoluteDim value="0" /> </Dim>
+                    <Dim type="TopEdge"> <AbsoluteDim value="0" /> </Dim>
+					<Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+					<Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+				</Area>
+
+                <Image imageset="RastullahLook-Images" image="ContainerFree" />
+                <HorzFormat type="Tiled" />
+            </ImageryComponent>
+    	
+		</ImagerySection>	
+		
+		<StateImagery name="Enabled">
+            <Layer>
+                <Section section="frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="frame">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="EnabledProgress">
+            <Layer>
+                <Section section="progress_lights" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledProgress">
+            <Layer>
+                <Section section="progress_lights">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+	</WidgetLook>
 
 
     <!-- RastullahLook/Button -->
