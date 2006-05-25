@@ -38,6 +38,7 @@
 #include "InfoPopup.h"
 #include "InGameMenuWindow.h"
 #include "InputManager.h"
+#include "InventoryWindow.h"
 #include "JournalWindow.h"
 #include "LogWindow.h"
 #include "MessageWindow.h"
@@ -80,6 +81,7 @@ namespace rl {
 		mGameLogger = new GameLoggerWindow();
 		mCharacterStateWindow = new CharacterStateWindow();
 		mInGameMenuWindow = new InGameMenuWindow();
+		mInventoryWindow = new InventoryWindow();
 		mCharacterSheet = new CharacterSheetWindow();
 		mJournalWindow = new JournalWindow();
 		mInfoPopup = new InfoPopup();
@@ -98,6 +100,7 @@ namespace rl {
 		delete mGameLogger;
 		delete mCharacterSheet;
 		delete mInGameMenuWindow;
+		delete mInventoryWindow;
 		delete mCharacterStateWindow;
 		delete mConsole;
 		delete mObjectDescriptionWindow;

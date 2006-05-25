@@ -316,6 +316,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Inventory.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Item.cpp"
 				>
 			</File>
@@ -483,6 +487,10 @@
 			</File>
 			<File
 				RelativePath=".\include\GameObject.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\Inventory.h"
 				>
 			</File>
 			<File

@@ -20,6 +20,7 @@
 #include "InventoryWindow.h"
 #include "RulesSubsystem.h"
 #include "Inventory.h"
+#include "Creature.h"
 
 #include <CEGUIPropertyHelper.h>
 

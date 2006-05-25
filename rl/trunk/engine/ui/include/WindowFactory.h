@@ -44,6 +44,7 @@ namespace rl {
 	class GameObject;
 	class InfoPopup;
 	class InGameMenuWindow;
+	class InventoryWindow;
 	class JournalWindow;
 	class LogWindow;
 	class ObjectDescriptionWindow;
@@ -117,6 +118,7 @@ namespace rl {
 		InGameMenuWindow* mInGameMenuWindow;
 		CharacterSheetWindow* mCharacterSheet;
 		JournalWindow* mJournalWindow;
+		InventoryWindow* mInventoryWindow;
 		LogWindow* mLogWindow;
 		DebugWindow* mDebugWindow;
 		Console* mConsole;
