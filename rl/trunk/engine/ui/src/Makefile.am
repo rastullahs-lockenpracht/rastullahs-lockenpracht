@@ -1,11 +1,14 @@
 INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(CEGUIOGRE_CFLAGS) \
 	$(STLPORT_CFLAGS) -I../include -I../../common/include  -I../../core/include \
 	-I../../rules/include -I../components/include -I../../dialog/include \
-	-I../../startup/include -I../../multimedia/include -I../../uicomponents/include 
+	-I../../startup/include -I../../multimedia/include -I../../uicomponents/include \
+	-I../../multimedia/include -I../../multimedia/include/fmod3 \
+	-I../../multimedia/include/null -I../../multimedia/include/openal 
 
 lib_LTLIBRARIES = libRlUi.la
-libRlUi_la_LDFLAGS = $(RUBY_LIBS) $(LIBS) \
-	$(CEGUI_LIBS) $(OGRE_LIBS) $(CEGUIOGRE_LIBS) -lRlUiComponents -L../../uicomponents/src 
+libRlUi_la_LIBADD = -lRlUiComponents $(RUBY_LIBS) $(LIBS) \
+	$(CEGUI_LIBS) $(OGRE_LIBS) $(CEGUIOGRE_LIBS) -lRlMultimedia
+libRlUi_la_LDFLAGS = -L../../uicomponents/src  -L../../multimedia/src
 libRlUi_la_SOURCES = \
 	AboutWindow.cpp \
 	ActionChoiceWindow.cpp \
@@ -26,6 +29,7 @@ libRlUi_la_SOURCES = \
 	DialogCharacterController.cpp \
 	DialogWindow.cpp \
 	FreeFlightCharacterController.cpp \
+	Fmod3Config.cpp \
 	GameLoggerWindow.cpp \
 	InfoPopup.cpp \
 	InGameMenuWindow.cpp \
@@ -48,3 +52,14 @@ libRlUi_la_SOURCES = \
 	WindowFactory.cpp \
 	WindowManager.cpp \
 	WindowUpdater.cpp
+
+if with_fmod3
+libRlUi_la_LIBADD += -lRlFmod3
+libRlUi_la_LDFLAGS += -L../../multimedia/src/fmod3
+INCLUDES += -I../../multimedia/include/fmod3 -DWITH_FMOD3
+endif
+	
+if with_oal
+INCLUDES += $(OPENAL_CFLAGS) -I../../multimedia/include/openal -DWITH_OAL
+libRlUi_la_LIBADD += $(OPENAL_LIBS)
+endif

@@ -18,6 +18,7 @@ libRlRules_la_SOURCES = \
 	EigenschaftenStateSet.cpp \
 	GameObject.cpp \
 	Item.cpp \
+	Inventory.cpp \
 	Kampftechnik.cpp \
 	ObjectStateChangeEvent.cpp \
 	ObjectStateChangeEventSource.cpp \

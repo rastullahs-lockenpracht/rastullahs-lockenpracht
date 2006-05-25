@@ -17,13 +17,6 @@
 
 <item id="org.eclipse.cdt.make.core.buildtargets">
 <buildTargets>
-<target name="all" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="engine/common">
-<buildCommand>make</buildCommand>
-<buildArguments/>
-<buildTarget>all</buildTarget>
-<stopOnError>false</stopOnError>
-<useDefaultCommand>true</useDefaultCommand>
-</target>
 <target name="clean" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="engine/script">
 <buildCommand>make</buildCommand>
 <buildArguments/>
@@ -43,6 +36,20 @@
 <buildArguments/>
 <buildTarget>all</buildTarget>
 <stopOnError>true</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+</target>
+<target name="all" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="engine/common">
+<buildCommand>make</buildCommand>
+<buildArguments/>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+</target>
+<target name="clean" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="engine/rules">
+<buildCommand>make</buildCommand>
+<buildArguments/>
+<buildTarget>clean</buildTarget>
+<stopOnError>false</stopOnError>
 <useDefaultCommand>true</useDefaultCommand>
 </target>
 <target name="bootstrap" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="">
@@ -78,13 +85,6 @@
 <buildArguments>bootstrap --enable-fmod3 --enable-tests --enable-profiling PKG_CONFIG_PATH=/usr/local/lib/pkgconfig CFLAGS=-march=athlon-xp CXXFLAGS=-march=athlon-xp</buildArguments>
 <stopOnError>false</stopOnError>
 <useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="clean" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="engine/rules">
-<buildCommand>make</buildCommand>
-<buildArguments/>
-<buildTarget>clean</buildTarget>
-<stopOnError>false</stopOnError>
-<useDefaultCommand>true</useDefaultCommand>
 </target>
 <target name="clean" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="engine/ui">
 <buildCommand>make</buildCommand>

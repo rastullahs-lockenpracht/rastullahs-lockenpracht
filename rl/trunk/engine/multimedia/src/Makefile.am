@@ -28,7 +28,7 @@ libRlMultimedia_la_SOURCES = \
 
 if with_fmod3
 SUBDIRS += fmod3
-libRlMultimedia_la_LIBADD += -lRlFmod3#
+libRlMultimedia_la_LIBADD += -lRlFmod3
 libRlMultimedia_la_LDFLAGS += -Lfmod3
 INCLUDES += -I../include/fmod3 -DWITH_FMOD3
 endif

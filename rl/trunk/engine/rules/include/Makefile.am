@@ -15,6 +15,7 @@ noinst_HEADERS = \
 	EigenschaftenStateSet.h \
 	GameObject.h \
 	Item.h \
+	Inventory.h \
 	Kampftechnik.h \
 	ObjectStateChangeEvent.h \
 	ObjectStateChangeEventSource.h \

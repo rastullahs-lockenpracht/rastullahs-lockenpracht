@@ -45,6 +45,7 @@ namespace rl
 		getWindow("SoundConfig/OK")->subscribeEvent(
 			Window::EventMouseClick, 
 			boost::bind(&SoundConfig::handleOK, this));
+            
 		getWindow("SoundConfig/ConfigDriver")->subscribeEvent(
 			Window::EventMouseClick,
 			boost::bind(&SoundConfig::handleConfig, this));	
@@ -176,8 +177,8 @@ namespace rl
 #ifdef WITH_OAL
 			if (item->getText() == OalDriver::NAME)
 			{
-				OalConfig *config = new OalConfig();
-				config->setVisible(true);
+				//OalConfig *config = new OalConfig();
+				//config->setVisible(true);
 				return true;
 			}
 #endif
