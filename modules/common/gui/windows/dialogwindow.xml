@@ -1,6 +1,7 @@
 <GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
 	<Window Type="RastullahLook/FrameWindow" Name="DialogWindow">
-		<Property Name="UnifiedPosition" Value="{{0.5,-200},{0.5,-225}}" />	
+		<!--<Property Name="UnifiedPosition" Value="{{0.5,-200},{0.5,-225}}" />	-->
+		<Property Name="UnifiedPosition" Value="{{0.0,0},{0.0,0}}" />	
 		<Property Name="UnifiedSize" Value="{{0,400},{0,450}}" />
         <Property Name="AbsoluteMinSize" Value="w:300 h:300" />
         <Property Name="Text" Value="Dialog Fenster" /> 

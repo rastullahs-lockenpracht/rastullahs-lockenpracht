@@ -46,6 +46,14 @@ DialogWindow::DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger, D
 	mGameLogger(gamelogger),
 	mController(controller)
 {
+	mImage = getStaticImage("DialogWindow/Image");
+	mName = getStaticText("DialogWindow/Name");
+	mQuestion = getListbox("DialogWindow/Question");
+	mDialogOptions = getListbox("DialogWindow/OptionList");
+
+	mWindow->subscribeEvent(FrameWindow::EventCloseClicked, // Verstecken, falls Close geklickt wird
+		boost::bind(&DialogWindow::handleClose, this)); //TODO: als Abbrechen werten 
+
 	initialize();
 }
 
@@ -57,11 +65,6 @@ DialogWindow::~DialogWindow()
 
 void DialogWindow::initialize()
 {
-	mImage = getStaticImage("DialogWindow/Image");
-	mName = getStaticText("DialogWindow/Name");
-	mQuestion = getListbox("DialogWindow/Question");
-	mDialogOptions = getListbox("DialogWindow/OptionList");
-
 	mDialogOptions->subscribeEvent(
 		Listbox::EventSelectionChanged, 
 		boost::bind(&DialogWindow::handleSelectOption, this));
@@ -79,12 +82,11 @@ void DialogWindow::initialize()
 	item->setTextColours(COLOR_NON_PLAYER_CHARACTER);
 	mQuestion->addItem(item);
 	item = NULL;
-
-	mWindow->subscribeEvent(FrameWindow::EventCloseClicked, // Verstecken, falls Close geklickt wird
-		boost::bind(&DialogWindow::handleClose, this)); //TODO: als Abbrechen werten 
-
-    getResponse(DIALOG_START);
 	mName->setText(mBot->getName());
+
+	mCurrentResponse = mBot->createResponse(DIALOG_START);
+    getOptions(DIALOG_START);
+	mState = CHOOSING_OPTION;
 }
 
 void DialogWindow::getResponse(const CeGuiString& msg)
@@ -92,24 +94,47 @@ void DialogWindow::getResponse(const CeGuiString& msg)
 	delete mCurrentResponse;
 	mCurrentResponse = mBot->createResponse(msg);
 	
-	ListboxWrappedTextItem* item = NULL;
-
 	if(mCurrentResponse == NULL)
 	{
 		mQuestion->getListboxItemFromIndex(0)->setText(DIALOG_END);
 		mQuestion->getListboxItemFromIndex(1)->setText("");
-//		handleClose();
+		mState = CLOSING_DIALOG;
 		return;
 	}
 	CeGuiString responseText = mCurrentResponse->getResponse();
-	mController->response(mBot->getDialogPartner()->getActor(), responseText, "");
 
 	mQuestion->getListboxItemFromIndex(1)->
 		setText(mBot->getName() + ": " + responseText);
 	mQuestion->handleUpdatedItemData();
 
 	mGameLogger->logDialogEvent(mBot->getName(), responseText);
-	
+
+	mController->response(mBot->getDialogPartner()->getActor(), responseText, "lachen.ogg"); //TODO: Sounddatei
+	setVisible(false);
+	mState = TALKING_PARTNER_CHARACTER;
+	mCurrentResponseText = msg;
+}
+
+void DialogWindow::textFinished()
+{
+	if (mState == TALKING_PARTNER_CHARACTER)
+	{
+		getOptions(mCurrentResponseText);
+		setVisible(true);
+		mState = CHOOSING_OPTION;
+	}
+	else if (mState == TALKING_PLAYER_CHARACTER)
+	{
+		getResponse(mCurrentResponseText);
+	}
+	else if (mState == CLOSING_DIALOG)
+	{
+		handleClose();
+	}
+}
+
+void DialogWindow::getOptions(const CeGuiString& question)
+{
 	mResponses = mCurrentResponse->getOptions();
 	
 	if(mResponses.empty())
@@ -128,7 +153,9 @@ void DialogWindow::getResponse(const CeGuiString& msg)
 	{			
 		if(i < mDialogOptions->getItemCount())
 		{
-			item = static_cast <ListboxWrappedTextItem*>(mDialogOptions->getListboxItemFromIndex(i));
+			ListboxWrappedTextItem* item = 
+				static_cast <ListboxWrappedTextItem*>(mDialogOptions->getListboxItemFromIndex(i));
+			item->setID(itr->first);
 			currentResponse = itr->second;
 			Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, currentResponse.c_str());
 			item->setText(currentResponse);
@@ -138,11 +165,12 @@ void DialogWindow::getResponse(const CeGuiString& msg)
 		else
 		{
 			currentResponse = itr->second;
-			item = new ListboxWrappedTextItem(currentResponse);
+			ListboxWrappedTextItem* item = 
+				new ListboxWrappedTextItem(currentResponse);
+			item->setID(itr->first);
 			item->setTextFormatting(CEGUI::WordWrapLeftAligned);
 			mDialogOptions->addItem(item);
 		}
-		item->setID(itr->first);
 
 		++i;
 	}
@@ -169,11 +197,6 @@ int DialogWindow::getSelectedOption()
 	return 0;
 }
 
-void DialogWindow::showNextText()
-{
-	//TODO: Umschalten zwischen Antwort und Optionen hier her
-}
-
 bool DialogWindow::handleSelectOption()
 {
 	DebugWindow::getSingleton().setMessageText(StringConverter::toString(getSelectedOption()));
@@ -189,18 +212,23 @@ bool DialogWindow::handleSelectOption()
 		{
 			mGameLogger->logDialogEvent("Held", selectedOption.second);
 			mQuestion->getListboxItemFromIndex(0)->setText("Held: " + selectedOption.second);	
-			mController->response(mBot->getDialogCharacter()->getActor(), selectedOption.second, "");
+			mController->response(
+				mBot->getDialogCharacter()->getActor(), 
+				selectedOption.second, 
+				"lachen.ogg"); //TODO: Sounddatei
+			mState = TALKING_PLAYER_CHARACTER;
+			setVisible(false);
 		}
 	}
-	getResponse(StringConverter::toString(id));	
+	mCurrentResponseText = StringConverter::toString(id);
 	
 	return true;
 }
 
 bool DialogWindow::handleClose()
 {
-	setVisible(false);
-	UiSubsystem::getSingleton().setCharacterController(CharacterController::CTRL_MOVEMENT);
+	UiSubsystem::getSingleton().requestCharacterControllerSwitch(CharacterController::CTRL_MOVEMENT);
+	destroyWindow();
 	return true;
 }
 

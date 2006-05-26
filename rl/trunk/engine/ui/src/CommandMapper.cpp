@@ -36,36 +36,6 @@ namespace rl {
 		  mMouseCommandsInCombat(),
 		  mMouseCommandsOffCombat()
 	{
-        //mMovementCommands.insert(make_pair(KC_Q, TURN_LEFT));
-		//mMovementCommands.insert(make_pair(KC_E, TURN_RIGHT));
-		//mMovementCommands.insert(make_pair(KC_W, MOVE_FORWARD));
-		//mMovementCommands.insert(make_pair(KC_S, MOVE_BACKWARD));
-		//mMovementCommands.insert(make_pair(KC_A, MOVE_LEFT));
-		//mMovementCommands.insert(make_pair(KC_D, MOVE_RIGHT));
-		//mMovementCommands.insert(make_pair(KC_LSHIFT, MOVE_RUN));
-  //      mMovementCommands.insert(make_pair(KC_LCONTROL, MOVE_SNEAK));
-		//mMovementCommands.insert(make_pair(KC_SPACE, MOVE_JUMP));
-
-		//setMapping(CMDMAP_MOUSEMAP_OFF_COMBAT, MouseEvent::BUTTON0_MASK, "usecurrentobjectdefaultaction");
-		//setMapping(CMDMAP_MOUSEMAP_OFF_COMBAT, MouseEvent::BUTTON1_MASK, "showobjectactions");
-		//setMapping(CMDMAP_KEYMAP_OFF_COMBAT, CommandMapper::encodeKey(KC_X, InputEvent::CTRL_MASK), "quitgame");
-		//setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_ESCAPE, "closecurrentwindow");
-		//setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_TAB, "toggleconsole");
-		//setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_F2, "toggledebugwindow");
-		//setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_F3, "togglegamelogwindow");
-		//setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_F, "toggleviewmode");
-		//setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_NUMPAD0, "resetcamera");
-		//setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_P, "makescreenshot");
-		//setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_L, "togglecollisiondebug");
-		//setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_R, "usecurrentobjectdefaultaction");													
-		//setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_U, "showobjectactions");
-		//setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_J, "showjournalwindow");
-		//setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_C, "showcharactersheet");
-		//setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_T, "showtargetwindow");
-		//setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_V, "showtestvideowindow");
-		//setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_O, "togglecharacterstatewindow");
-		//setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_F10, "toggleingameglobalmenu");
-		//setMapping(CMDMAP_KEYMAP_OFF_COMBAT, KC_M, "togglecharactercontroller");
 	}
 
 	CommandMapper::~CommandMapper()
@@ -153,6 +123,8 @@ namespace rl {
 
 		if (mvcmd == mMovementCommands.end())
 		{
+			Logger::getSingleton().log(Logger::UI, LML_TRIVIAL, 
+				StringConverter::toString(keycode)+" pressed, no movement assigned");
 			return MOVE_NONE;
 		}
 		else
@@ -301,7 +273,11 @@ namespace rl {
 		else if (movementDescription == "jump")
 		{
 			return MOVE_JUMP;
-		};
+		}
+		else if (movementDescription == "run_lock")
+		{
+			return MOVE_RUN_LOCK;
+		}
 
 		return MOVE_NONE;
 	}

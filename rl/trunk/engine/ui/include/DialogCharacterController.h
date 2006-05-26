@@ -26,6 +26,7 @@ namespace rl {
 
 	class Actor;
 	class DialogWindow;
+	class SoundObject;
 	class SubtitleWindow;
 
 	/** Diese Klasse 
@@ -82,6 +83,7 @@ namespace rl {
 
 		DialogWindow* mDialogWindow;
 		SubtitleWindow* mSubtitleWindow;
+		SoundObject* mSoundObject;
 	
 	};
 }

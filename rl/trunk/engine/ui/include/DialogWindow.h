@@ -47,9 +47,17 @@ namespace rl {
 		void setImage(std::string imageset, std::string image);
 		int getSelectedOption();
 
-		void showNextText();
+		void textFinished();
 
 	private:
+		enum DialogState
+		{
+			CHOOSING_OPTION = 1,
+			TALKING_PARTNER_CHARACTER,
+			TALKING_PLAYER_CHARACTER,
+			CLOSING_DIALOG
+		};
+
 		std::map<std::string, std::string> mVariableValues;
 		std::vector<std::string> mTextLines;
 		NaturalLanguageProcessor::Responses mResponses;
@@ -61,9 +69,12 @@ namespace rl {
 		CEGUI::StaticText* mName;
 		GameLoggerWindow* mGameLogger;
 		DialogCharacterController* mController;
+		DialogState mState;
+		CeGuiString mCurrentResponseText;
 				
 		bool handleSelectOption();	
 		bool handleClose();
+		void getOptions(const CeGuiString& question);
 
 		static const CEGUI::colour COLOR_PLAYER_CHARACTER;
 		static const CEGUI::colour COLOR_NON_PLAYER_CHARACTER;
