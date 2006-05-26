@@ -86,7 +86,7 @@ class _RlCoreExport ActorManager : protected Ogre::Singleton<ActorManager>
         ActorPtrMap mActors;
 		World* mWorld;
 
-		Ogre::Real m_ActorRenderingDistance;
+		Ogre::Real mActorRenderingDistance;
 };
 
 }

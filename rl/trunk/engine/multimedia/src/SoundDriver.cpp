@@ -23,6 +23,8 @@ namespace rl
 {
 
 SoundDriver::SoundDriver():
+    mMusicSet(),
+    mSoundSet(),
     mDefaultMusicVolume(40),
     mDefaultSoundVolume(100),
 	mMasterVolume(100)
