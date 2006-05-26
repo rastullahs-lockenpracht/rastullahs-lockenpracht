@@ -65,6 +65,7 @@ namespace rl {
 
 	UiSubsystem::UiSubsystem() :
         mCharacterController(0),
+		mCharacterControllerType(CharacterController::CTRL_NONE),
         mHero(0),
         mCharacter(0),
 		mInCombat(false)
@@ -139,6 +140,7 @@ namespace rl {
 		mWindowFactory = new WindowFactory();
 
         CoreSubsystem::getSingletonPtr()->getWorld()->addSceneChangeListener(this);
+		GameLoopManager::getSingleton().addSynchronizedTask(this, FRAME_ENDED);
     }
 
 	Person* UiSubsystem::getActiveCharacter() const
@@ -171,6 +173,11 @@ namespace rl {
 
 			setCharacterController(CharacterController::CTRL_MOVEMENT);
         }
+	}
+
+	void UiSubsystem::requestCharacterControllerSwitch(CharacterController::ControllerType type)
+	{
+		mCharacterControllerType = type;
 	}
 
 	void UiSubsystem::setCharacterController(CharacterController::ControllerType type)
@@ -207,9 +214,13 @@ namespace rl {
 		case CharacterController::CTRL_RTCOMBAT:
 			mCharacterController = new RTCombatCharacterController(camera, mCharacter);
 			break;
+		case CharacterController::CTRL_NONE:
+			mCharacterController = NULL;
+			return;
 		default:
 			Throw(IllegalArgumentException, "Unknown CharacterControllerType.");
 		}
+		mCharacterControllerType = type;
 		
 		mCharacterController->setCommandMapper(mCommandMapper);
 		mInputManager->setCharacterController(mCharacterController);
@@ -217,6 +228,11 @@ namespace rl {
 	    Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "CharacterController created.");
 		GameLoopManager::getSingleton().addSynchronizedTask(mCharacterController, FRAME_STARTED );
         Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "CharacterController task added.");
+	}
+
+	void UiSubsystem::run(Ogre::Real timeElapsed)
+	{
+		setCharacterController(mCharacterControllerType);
 	}
 
 	void UiSubsystem::useDefaultAction(GameObject* obj, Creature* actor)

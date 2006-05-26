@@ -23,6 +23,7 @@
 #include <OgreSingleton.h>
 
 #include "CharacterController.h"
+#include "GameTask.h"
 
 namespace rl {
 
@@ -38,7 +39,7 @@ namespace rl {
 	class WindowManager;
 
     class _RlUiExport UiSubsystem : public SceneChangeListener,
-        protected Ogre::Singleton<UiSubsystem>
+        protected Ogre::Singleton<UiSubsystem>, protected GameTask
     {
     public:
 
@@ -59,7 +60,18 @@ namespace rl {
 		void setActiveCharacter(Person* person);
         CharacterController* getCharacterController() const;
 		CharacterController::ControllerType getCharacterControllerType() const;
+		
+		/**
+		 * Aendert den CharacterController, wird sofort durchgefuehrt
+		 * kann Probleme bei Ausfuehrung innerhalb eines Controllers geben,
+		 * dann ist @see requestCharacterControllerSwitch empfohlen
+		*/
 		void setCharacterController(CharacterController::ControllerType type);
+		
+		/**
+		 * Aendert den CharacterController nach dem naechsten Frame
+		*/
+		void requestCharacterControllerSwitch(CharacterController::ControllerType type);
 
 		void setCombatMode(bool inCombat);
 		bool isInCombatMode();
@@ -71,6 +83,8 @@ namespace rl {
         /// from SceneChangeListener
         void onBeforeClearScene();
 
+		void run(Ogre::Real elapsedTime);
+
 		static const char* CEGUI_ROOT;
 
     private:
@@ -78,6 +92,7 @@ namespace rl {
         void runTest();
         
         CharacterController* mCharacterController;
+		CharacterController::ControllerType mCharacterControllerType;
         GameActor* mHero;
         Person* mCharacter;
 		InputManager* mInputManager;
