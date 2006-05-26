@@ -113,7 +113,9 @@ namespace rl {
 			if (mFadeTextTime <= 0)
 			{
 				mFadeTextTime = 0;
-				mDialogWindow->showNextText();
+                ///\todo irgendwas sollte hier gemacht werden, nur was?
+                /// Die aufgerufene Funktion gibt es nicht.
+				//mDialogWindow->showNextText();
 				mSubtitleWindow->setVisible(false);
 			}
 		}
