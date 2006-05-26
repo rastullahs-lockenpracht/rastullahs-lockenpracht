@@ -31,55 +31,62 @@ using namespace Ogre;
 
 namespace rl {
 
-    Actor::Actor(const String& name,
-        ActorControlledObject* aco,
-        PhysicalThing* pt,
-        UserDefinedObject* go)
-        :   mName(name),
-        mPhysicalThing(pt),
-        mGameObject(go),
-        mActorControlledObject(aco),
-        mParent(0),
-        mChilds(),
-        mSceneNode(0),
-		mHighlighted(false),
-        mBone(0)
+    const Ogre::String Actor::DEFAULT_SLOT_NAME = "SLOT_DEFAULT";
+
+    Actor::Actor(const String& name, ActorControlledObject* aco,
+        PhysicalThing* pt, UserDefinedObject* go)
+        : mName(name),
+          mPhysicalThing(pt),
+          mGameObject(go),
+          mActorControlledObject(aco),
+          mParent(0),
+          mChilds(),
+          mSceneNode(0),
+		  mHighlighted(false),
+          mBone(0)
 	{
-        if( mActorControlledObject != NULL )
+        if (mActorControlledObject != NULL)
+        {
             mActorControlledObject->_setActor(this);
+        }
 
 		setRenderingDistance( ActorManager::getSingleton().getDefaultActorRenderingDistance() );
 
-		if( mPhysicalThing != NULL )
+		if (mPhysicalThing != NULL)
+        {
 			mPhysicalThing->_setActor(this);
-
+        }
         setQueryMask( QGF_DEFAULT );
     }
-
-    const Ogre::String Actor::DEFAULT_SLOT_NAME = "SLOT_DEFAULT";
 
     Actor::~Actor()
     {
         // Alle möglichen Area-Verknüpfungen entfernen
-        GameEventManager::getSingleton().removeAllAreas( this );
+        GameEventManager::getSingleton().removeAllAreas(this);
 		// Alle TrackAnimations entfernen
-		AnimationManager::getSingleton().removeAllTrackAnimations( this );
+		AnimationManager::getSingleton().removeAllTrackAnimations(this);
 
         detachAllChildren();
 
-        if( mParent == NULL )
-            removeFromScene();
-        else
-            mParent->detach( this );  
-
-        if (mActorControlledObject)
+        if (mParent == NULL)
         {
-            mActorControlledObject->_setActor(0);
+            removeFromScene();
+        }
+        else
+        {
+            mParent->detach( this );  
         }
 
-        if (mPhysicalThing)
+        if (mActorControlledObject != NULL)
+        {
+            mActorControlledObject->_setActor(0);
+            mActorControlledObject = NULL;
+        }
+
+        if (mPhysicalThing != NULL)
         {
             mPhysicalThing->_setActor(0);
+            mPhysicalThing = NULL;
         }
         /// @todo Highlightmaterial entfernen
     }
