@@ -5,6 +5,7 @@
     <Imageset Name="RastullahIcons" Filename="RastullahIcons.imageset" />
     <Imageset Name="ModelThumbnails" Filename="ModelThumbnails.imageset" />
     <Imageset Name="DialogFaces" Filename="DialogFaces.imageset" />
+	<Imageset Name="Inventory" Filename="Inventory.imageset" />
 
 	<Font Name="Vera Serif-8" Filename="vera_serif-8.font" />
 	<Font Name="Vera Serif-10" Filename="vera_serif-10.font" />
@@ -26,6 +27,8 @@
 	<FalagardMapping WindowType="RastullahLook/Container" TargetType="Falagard/StaticImage" LookNFeel="RastullahLook/Container" />
 	<FalagardMapping WindowType="RastullahLook/Editbox" TargetType="Falagard/Editbox" LookNFeel="RastullahLook/Editbox" />
 	<FalagardMapping WindowType="RastullahLook/FrameWindow" TargetType="Falagard/FrameWindow" LookNFeel="RastullahLook/FrameWindow" />
+	<FalagardMapping WindowType="RastullahLook/InventoryBackground" TargetType="Falagard/StaticImage" LookNFeel="RastullahLook/InventoryBackground" />
+	<FalagardMapping WindowType="RastullahLook/Item" TargetType="Falagard/StaticImage" LookNFeel="RastullahLook/Item" />
 	<FalagardMapping WindowType="RastullahLook/LargeVerticalScrollbar" TargetType="Falagard/LargeVerticalScrollbar" LookNFeel="RastullahLook/LargeVerticalScrollbar" />
 	<FalagardMapping WindowType="RastullahLook/LargeVerticalScrollbarThumb" TargetType="Falagard/LargeVerticalScrollbarThumb" LookNFeel="RastullahLook/LargeVerticalScrollbarThumb" />
 	<FalagardMapping WindowType="RastullahLook/Listbox" TargetType="Falagard/Listbox" LookNFeel="RastullahLook/Listbox" />

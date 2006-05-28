@@ -1,5 +1,6 @@
 <?xml version="1.0" ?>
-<Imageset Name="ModelThumbnails" Imagefile="ModelThumbnails.png" AutoScaled="false" >
-    <Image Name="Trank" XPos="1" YPos="1" Width="32" Height="32" />
-    <Image Name="Fackel" XPos="1" YPos="1" Width="32" Height="32" />
+<Imageset Name="ModelThumbnails" Imagefile="ModelThumbnails.png" NativeHorzRes="256" NativeVertRes="256" AutoScaled="false" >
+    <Image Name="Trank" XPos="1" YPos="1" Width="30" Height="30" />
+	<Image Name="Handschuhe" XPos="26" YPos="1" Width="60" Height="60" />
+    <Image Name="Fackel" XPos="1" YPos="1" Width="30" Height="30" />
 </Imageset>

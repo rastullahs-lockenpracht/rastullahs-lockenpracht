@@ -605,8 +605,11 @@
 
 	<!-- RastullahLook/Container -->
 	<WidgetLook name="RastullahLook/Container">
+		<PropertyDefinition	name="ContainerColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+
 		<Property name="AbsoluteMinSize" value="w:30 h:30" />
-		<Property name="NormalTextColour" value="FF594925" />
+		<Property name="Alpha" value="0.7" />
+		
 		
 		<ImagerySection name="frame">
 	        <ImageryComponent>
@@ -617,10 +620,118 @@
 					<Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
 				</Area>
 
-                <Image imageset="RastullahLook-Images" image="ContainerFree" />
+                <Image imageset="RastullahLook-Images" image="Container" />
+				<VertFormat type="Tiled" />
                 <HorzFormat type="Tiled" />
             </ImageryComponent>
     	
+		</ImagerySection>
+		
+		<StateImagery name="Enabled">
+            <Layer>
+                <Section section="frame">
+					<ColourProperty name="ContainerColour" />
+				</Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="frame">
+					<ColourProperty name="ContainerColour" />
+                </Section>
+            </Layer>
+        </StateImagery>
+		<StateImagery name="EnabledFrame">
+            <Layer>
+                <Section section="frame">
+					<ColourProperty name="ContainerColour" />
+				</Section>
+            </Layer>
+        </StateImagery>
+		<StateImagery name="DisabledFrame">
+            <Layer>
+                <Section section="frame">
+					<ColourProperty name="ContainerColour" />
+				</Section>
+            </Layer>
+        </StateImagery>	
+	</WidgetLook>
+
+	<!-- RastullahLook/Item -->
+	<WidgetLook name="RastullahLook/Item">
+		<Property name="AbsoluteMinSize" value="w:30 h:30" />
+		<Property name="FrameEnabled" value="True" />
+		
+		<ImagerySection name="frame">
+			<FrameComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="RightEdge">
+						<UnifiedDim scale="1" offset="0" type="RightEdge" />
+					</Dim>
+					<Dim type="BottomEdge">
+						<UnifiedDim scale="1" offset="0" type="BottomEdge" />
+					</Dim>
+				</Area>
+				<Image type="TopLeftCorner"     imageset="RastullahLook-Images" image="ItemBackgroundTL" />
+				<Image type="TopEdge"           imageset="RastullahLook-Images" image="ItemBackgroundT" />
+				<Image type="TopRightCorner"    imageset="RastullahLook-Images" image="ItemBackgroundTR" />
+				<Image type="RightEdge"         imageset="RastullahLook-Images" image="ItemBackgroundR" />
+				<Image type="BottomRightCorner" imageset="RastullahLook-Images" image="ItemBackgroundBR" />
+				<Image type="BottomEdge"        imageset="RastullahLook-Images" image="ItemBackgroundB" />
+				<Image type="BottomLeftCorner"  imageset="RastullahLook-Images" image="ItemBackgroundBL" />
+				<Image type="LeftEdge"          imageset="RastullahLook-Images" image="ItemBackgroundL" />
+				<Image type="Background"        imageset="RastullahLook-Images" image="ItemBackgroundBG" />
+				<VertFormat type="Stretched" />
+				<HorzFormat type="Stretched" />
+			</FrameComponent>
+		</ImagerySection>
+	
+		<StateImagery name="Enabled">
+            <Layer>
+                <Section section="frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="frame">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+		<StateImagery name="EnabledFrame">
+            <Layer>
+                <Section section="frame" />
+            </Layer>
+        </StateImagery>
+		<StateImagery name="DisabledFrame">
+            <Layer>
+                <Section section="frame" />
+            </Layer>
+        </StateImagery>
+	</WidgetLook>
+	
+	<!-- RastullahLook/InventoryBackground -->
+	<WidgetLook name="RastullahLook/InventoryBackground">
+		<Property name="AbsoluteMinSize" value="w:450 h:450" />
+		
+		<ImagerySection name="frame">
+	        <ImageryComponent>
+                <Area>
+					<Dim type="LeftEdge"> <AbsoluteDim value="0" /> </Dim>
+                    <Dim type="TopEdge"> <AbsoluteDim value="0" /> </Dim>
+					<Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+					<Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+				</Area>
+                <Image imageset="Inventory" image="Inventory/Background" />
+				<VertFormat type="TopAligned" />
+                <HorzFormat type="LeftAligned" />
+            </ImageryComponent>
 		</ImagerySection>	
 		
 		<StateImagery name="Enabled">
@@ -635,20 +746,7 @@
                 </Section>
             </Layer>
         </StateImagery>
-        <StateImagery name="EnabledProgress">
-            <Layer>
-                <Section section="progress_lights" />
-            </Layer>
-        </StateImagery>
-        <StateImagery name="DisabledProgress">
-            <Layer>
-                <Section section="progress_lights">
-                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
-                </Section>
-            </Layer>
-        </StateImagery>
 	</WidgetLook>
-
 
     <!-- RastullahLook/Button -->
     <WidgetLook name="RastullahLook/Button">
