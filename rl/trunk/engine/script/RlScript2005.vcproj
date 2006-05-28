@@ -44,6 +44,7 @@
 				PreprocessorDefinitions="WITH_FMOD3;WIN32;_DEBUG;_WINDOWS;_USRDLL;RLSCRIPT_EXPORTS;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
+				SmallerTypeCheck="true"
 				RuntimeLibrary="3"
 				BufferSecurityCheck="false"
 				RuntimeTypeInfo="true"

@@ -44,6 +44,7 @@
 				PreprocessorDefinitions="WITH_FMOD3;WIN32;_DEBUG;_WINDOWS;RLRULES_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
+				SmallerTypeCheck="true"
 				RuntimeLibrary="3"
 				BufferSecurityCheck="false"
 				RuntimeTypeInfo="true"
