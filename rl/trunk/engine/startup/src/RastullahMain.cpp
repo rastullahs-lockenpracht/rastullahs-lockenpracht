@@ -189,6 +189,10 @@ INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT )
 	Ogre::String module;
 	analyzeParameters(argc, argv, developer, module);
 
+	for (int argIdx = 0; argIdx < argc; argIdx++)
+	{
+		delete[] argv[argIdx];
+	}
 	delete[] argv;
 	LocalFree(argList);
 	
