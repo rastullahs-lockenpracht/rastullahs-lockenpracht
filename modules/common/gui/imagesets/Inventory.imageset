@@ -1,0 +1,4 @@
+<?xml version="1.0" ?>
+<Imageset Name="Inventory" Imagefile="inventory.png" AutoScaled="false" >
+    <Image Name="Inventory/Background" XPos="0" YPos="0" Width="512" Height="512" />
+</Imageset>
