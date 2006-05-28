@@ -25,7 +25,11 @@
 #include "DialogWindow.h"
 #include "InputManager.h"
 #include "MeshObject.h"
+#include "MultimediaSubsystem.h"
 #include "PhysicalThing.h"
+#include "Sound.h"
+#include "SoundDriver.h"
+#include "SoundObject.h"
 #include "SubtitleWindow.h"
 #include "WindowManager.h"
 #include "World.h"
@@ -46,7 +50,8 @@ namespace rl {
 		mFadeTextTime(0),
 		mCutHard(false),
 		mDialogWindow(NULL),
-		mSubtitleWindow(NULL)
+		mSubtitleWindow(NULL),
+		mSoundObject(NULL)
 	{
 		mCamera->getPhysicalThing()->freeze();
 		mCharacterActor->getPhysicalThing()->freeze();		
@@ -71,6 +76,7 @@ namespace rl {
 			WindowManager::getSingleton().destroyWindow(mSubtitleWindow);
 			mSubtitleWindow = NULL;
 		}
+		delete mSoundObject;
 	}
 
 	CharacterController::ControllerType DialogCharacterController::getType() const
@@ -107,17 +113,16 @@ namespace rl {
 		}
 
 		// Textanzeigedauer
-		if (mFadeTextTime > 0)
+		if (mFadeTextTime >= 0)
 		{
 			mFadeTextTime -= elapsedTime;
-			if (mFadeTextTime <= 0)
-			{
-				mFadeTextTime = 0;
-                ///\todo irgendwas sollte hier gemacht werden, nur was?
-                /// Die aufgerufene Funktion gibt es nicht.
-				//mDialogWindow->showNextText();
-				mSubtitleWindow->setVisible(false);
-			}
+		}
+
+		if (mFadeTextTime <= 0)
+		{
+			mFadeTextTime = 0;
+			mSubtitleWindow->setVisible(false);
+			mDialogWindow->textFinished();
 		}
 	}
 
@@ -156,16 +161,39 @@ namespace rl {
 	void DialogCharacterController::response(
 		Actor* actor, const CeGuiString& text, const Ogre::String& soundFile)
 	{
+		Logger::getSingleton().log(
+			Logger::UI, 
+			LML_NORMAL, 
+			"Response: "
+				+ actor->getName()
+				+ " File: "
+				+ soundFile 
+				+ " (" + text + ")");
 		// Drehung zu ZielRichtung  @todo reparieren
 		mTargetCameraOrientation = 
 			Vector3::UNIT_Z.getRotationTo(
-			mTargetCameraPosition - mDialogPartner->getWorldPosition() );		
+			mTargetCameraPosition - actor->getWorldPosition() );		
 		mText = text;
 
 		if (soundFile.length() == 0)
-			mFadeTextTime = text.length() * 0.1;
+		{
+			mFadeTextTime = text.length() * 0.04;
+		}
+		else
+		{
+			mFadeTextTime = text.length() * 0.04;
+			delete mSoundObject;
+			mSoundObject = 
+				new SoundObject(
+					MultimediaSubsystem::getSingleton().getActiveDriver()->
+						createSample(soundFile),
+					soundFile);
+			mSoundObject->play();
+		}
 
 		if (mSubtitleWindow != NULL)
+		{
 			mSubtitleWindow->show(text);
+		}
 	}
 }
