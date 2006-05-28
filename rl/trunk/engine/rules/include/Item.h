@@ -38,12 +38,11 @@ namespace rl
 			ITEMTYPE_GLOVE,
 			ITEMTYPE_BRACELET,
 			ITEMTYPE_ARMOR,
+			ITEMTYPE_BRACER,
 			ITEMTYPE_BACKPACK,
-			ITEMTYPE_ARMORFRONT,
 			ITEMTYPE_BELT,
 			ITEMTYPE_NECKLACE,
 			ITEMTYPE_HELMET,
-			ITEMTYPE_CROTCH, // Lendenschurz
 			ITEMTYPE_TROUSERS,
 			ITEMTYPE_SHINBONE,
 			ITEMTYPE_BOOTS,
@@ -55,6 +54,8 @@ namespace rl
 
 		void setItemType(ItemType itemType);
 		ItemType getItemType() const;
+
+		static CEGUI::String getItemTypeString(ItemType type);
 
 		void setCapacity(int width, int height);
 		pair<int,int> getCapacity();

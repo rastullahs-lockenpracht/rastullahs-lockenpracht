@@ -100,6 +100,8 @@ namespace rl {
 		void toggleInGameGlobalMenu();
 		void toggleInventoryWindow();
 		
+		InventoryWindow* getInventoryWindow();
+		
 		void checkForErrors();
 		GameLoggerWindow* getGameLogger();
 

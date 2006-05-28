@@ -48,4 +48,55 @@ namespace rl
 	{
 		return mItemType;
 	}
+
+	CEGUI::String Item::getItemTypeString(ItemType type){
+		switch(type){
+			case ITEMTYPE_WEAPON:
+				return CEGUI::String("Weapon");
+				break;
+			case ITEMTYPE_SHIELD:
+				return CEGUI::String("Shield");
+				break;
+			case ITEMTYPE_RING:
+				return CEGUI::String("Ring");
+				break;
+			case ITEMTYPE_GLOVE:
+				return CEGUI::String("Glove");
+				break;
+			case ITEMTYPE_BRACELET:
+				return CEGUI::String("Bracelet");
+				break;
+			case ITEMTYPE_ARMOR:
+				return CEGUI::String("Armor");
+				break;
+			case ITEMTYPE_BRACER:
+				return CEGUI::String("Bracer");
+				break;
+			case ITEMTYPE_BACKPACK:
+				return CEGUI::String("Backpack");
+				break;
+			case ITEMTYPE_BELT:
+				return CEGUI::String("Belt");
+				break;
+			case ITEMTYPE_NECKLACE:
+				return CEGUI::String("Necklace");
+				break;
+			case ITEMTYPE_HELMET:
+				return CEGUI::String("Helmet");
+				break;
+			case ITEMTYPE_TROUSERS:
+				return CEGUI::String("Trousers");
+				break;
+			case ITEMTYPE_SHINBONE:
+				return CEGUI::String("Shinbone");
+				break;
+			case ITEMTYPE_BOOTS:
+				return CEGUI::String("Boots");
+				break;
+			case ITEMTYPE_OTHER:
+				return CEGUI::String("Other");
+				break;
+		}
+		return CEGUI::String("undefined");
+	}
 }

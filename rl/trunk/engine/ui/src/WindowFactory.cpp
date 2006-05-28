@@ -181,7 +181,7 @@ namespace rl {
 		mGameLogger->setVisible(!mGameLogger->isVisible());
 	}
 
-		void WindowFactory::toggleInventoryWindow()
+	void WindowFactory::toggleInventoryWindow()
 	{
 		if (mInventoryWindow->isVisible())
 		{
@@ -194,6 +194,11 @@ namespace rl {
 			mInventoryWindow->setVisible(true);
 		}
 	}
+
+	InventoryWindow* WindowFactory::getInventoryWindow(){
+		return mInventoryWindow;
+	}
+
 	
 	void WindowFactory::showCharacterSheet()
 	{

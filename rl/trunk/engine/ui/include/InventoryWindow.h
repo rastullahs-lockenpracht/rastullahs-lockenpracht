@@ -32,11 +32,66 @@ namespace rl {
 		~InventoryWindow();
 
 		void setCharacter(Creature* character);
+		
+		CEGUI::DragContainer* createItem(CEGUI::String name,Item::ItemType type,pair<int,int> dimension, CEGUI::String imgName);
+
 		void update();
+		void updateItemPosition();
+
+		CEGUI::Point* posBeforeDrag;
+		CEGUI::Point* posDraggedTo;
+		CEGUI::DragContainer* droppedItem;
+		CEGUI::Window* containerDraggedTo;
+
+		CEGUI::String colorAccept;
+		CEGUI::String colorReject;
+		CEGUI::String colorNormal;
+
 
 	private:
         Creature* mCharacter;
 		Inventory* mInventory;
+
+		// Das Fenster, in das der Rucksackcontainer soll
+		CEGUI::Window* mBackpackWindow;
+		// Der Rucksackslot (besonders, da alle Arten von Items akzeptiert)
+		CEGUI::Window* mBackpackContent;
+
+		// Alle verschiedenen Inventoryslots
+		CEGUI::StaticImage* mRingLeft;
+		CEGUI::StaticImage* mRingRight;
+		CEGUI::StaticImage* mHandLeft;
+		CEGUI::StaticImage* mHandRight;
+		CEGUI::StaticImage* mGloves;
+		CEGUI::StaticImage* mBraceletLeft;
+		CEGUI::StaticImage* mBraceletRight;
+		CEGUI::StaticImage* mArmor;
+		CEGUI::StaticImage* mBracerRight;
+		CEGUI::StaticImage* mBracerLeft;
+		CEGUI::StaticImage* mBackpack;
+		CEGUI::StaticImage* mBelt;
+		CEGUI::StaticImage* mNecklace;
+		CEGUI::StaticImage* mHelmet;
+		CEGUI::StaticImage* mTrousers;
+		CEGUI::StaticImage* mShinboneLeft;
+		CEGUI::StaticImage* mShinboneRight;
+		CEGUI::StaticImage* mBoots;
+
+		/**
+		* Initiiert die Slots des Inventars
+		*/
+		void initSlots();
+
+		/** 
+		* Gibt dem Slot die Fähigkeit Dragcontainer zu akzeptieren
+		*/
+		void addDropListener(CEGUI::Window* slot);
+
+		/*!
+		* fügt dem Inventar den Container für den Rucksack zu,
+		* gibt ihm die nötige Funktionalität für drag&drop
+		*/
+		void initBackpack(pair<int,int> dim);
 	};
 }
 #endif
