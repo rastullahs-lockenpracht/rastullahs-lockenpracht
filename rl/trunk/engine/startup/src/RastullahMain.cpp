@@ -57,7 +57,7 @@ void startupRl(bool developerMode, Ogre::String module)
 #ifndef _DEBUG
 	try {
 #endif // #ifndef _DEBUG
-		new rl::Logger(
+		rl::Logger* logger = new rl::Logger(
 			rl::ConfigurationManager::getSingleton().getRastullahLogPath(),
 			rl::ConfigurationManager::getSingleton().getOgreLogPath());
         // @todo in ConfigDatei auslagern/ oder auch Parameter
@@ -131,6 +131,8 @@ void startupRl(bool developerMode, Ogre::String module)
 		delete rules;
 		delete core;
 		delete sound;
+
+        delete logger;
 #ifndef _DEBUG
 	}
 	catch(Ogre::Exception& oe) {

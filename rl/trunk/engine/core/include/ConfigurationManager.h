@@ -31,7 +31,7 @@ namespace rl
 	{
 		public:
             ConfigurationManager();
-			~ConfigurationManager();
+			virtual ~ConfigurationManager();
 			
 			/**
  			 * Die Methode gibt einen Pointer auf ein spezialisiertes, von 

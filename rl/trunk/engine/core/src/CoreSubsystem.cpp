@@ -82,7 +82,8 @@ namespace rl {
         mGameLoopManager(NULL),
         mAnimationManager(NULL),
         mActorManager(NULL),
-        mGameEventManager(NULL)
+        mGameEventManager(NULL),
+        mConfigurationManager(NULL)
     {
         resetClock();
         initializeCoreSubsystem();        
@@ -102,6 +103,7 @@ namespace rl {
         delete mXmlResourceManager;
         delete mScriptWrapper;
         MultimediaSubsystem::getSingleton().shutdown();
+        delete mConfigurationManager;
         delete mOgreRoot;
     }
 
@@ -173,10 +175,11 @@ namespace rl {
 
     bool CoreSubsystem::initializeCoreSubsystem()
     {
+        mConfigurationManager = ConfigurationManager::getSingletonPtr();
         mOgreRoot = new Root(
-        	ConfigurationManager::getSingleton().getPluginCfgPath(), 
-        	ConfigurationManager::getSingleton().getRastullahCfgPath(), 
-        	ConfigurationManager::getSingleton().getOgreLogPath()
+        	mConfigurationManager->getPluginCfgPath(), 
+        	mConfigurationManager->getRastullahCfgPath(), 
+        	mConfigurationManager->getOgreLogPath()
         );
 
         //Root::getSingleton().setFrameSmoothingPeriod(0.5f);
@@ -237,7 +240,7 @@ namespace rl {
 
         // Laden mittels eines Configfiles
         ConfigFile cf;
-        cf.load(ConfigurationManager::getSingleton().getModulesCfgPath());
+        cf.load(mConfigurationManager->getModulesCfgPath());
 
         // Durchgehen der einzelnen Settings
         ConfigFile::SettingsIterator i = cf.getSettingsIterator();
@@ -328,7 +331,7 @@ namespace rl {
 
 	void CoreSubsystem::updateDefaultScheme()
 	{
-		String tuScheme = ConfigurationManager::getSingleton().getTextureUnitScheme();
+		String tuScheme = mConfigurationManager->getTextureUnitScheme();
 
 		for (ResourceManager::ResourceMapIterator itMat = 
 			MaterialManager::getSingleton().getResourceIterator();

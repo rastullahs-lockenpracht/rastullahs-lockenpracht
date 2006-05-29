@@ -42,6 +42,7 @@ class AnimationManager;
 class ActorManager;
 class GameEventManager;
 class XmlResourceManager;
+class ConfigurationManager;
 
 typedef _RlCoreExport std::map<Ogre::String, ContentModule*> ModuleMap;
 
@@ -132,6 +133,7 @@ private:
     AnimationManager* mAnimationManager;
     ActorManager* mActorManager;
     GameEventManager* mGameEventManager;
+    ConfigurationManager* mConfigurationManager;
 
     /** Runs the setup methods  */
 	bool initializeCoreSubsystem();
