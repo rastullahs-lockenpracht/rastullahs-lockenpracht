@@ -30,9 +30,18 @@ namespace rl {
 		static const char* CORE;
 		static const char* DIALOG;
 		static const char* UI;
-		static const char* SOUND;
+		static const char* MULTIMEDIA;
 		static const char* MAIN;
 		static const char* SCRIPT;
+
+		enum LogLevel
+		{
+			LL_TRIVIAL = 1,
+			LL_MESSAGE,
+			LL_NORMAL,
+			LL_ERROR,
+			LL_CRITICAL
+		};
 
 		Logger(const Ogre::String& logPath, const Ogre::String& ogreLogPath);
 		virtual ~Logger();
@@ -43,33 +52,33 @@ namespace rl {
 
 		void log(
 			const Ogre::String& component, 
-			const Ogre::LogMessageLevel level, 
+			const LogLevel level, 
 			const char* message, 
 			const Ogre::String& ident = "");
 
 		void log(
 			const Ogre::String& component, 
-			const Ogre::LogMessageLevel level, 
+			const LogLevel level, 
 			const Ogre::String& message, 
 			const Ogre::String& ident = "");
 
 		void log(
 			const Ogre::String& component, 
-			const Ogre::LogMessageLevel level, 			
+			const LogLevel level, 			
 			const CeGuiString& msg, 
 			const Ogre::String& ident = "");
 	
-		void setLogDetail(const Ogre::LoggingLevel level);
+		void setLogDetail(const LogLevel level);
 		const CEGUI::LoggingLevel getCeGuiLogDetail() const;
 
 		bool isErrorPresent() const;
 		void resetErrorState();
 		const Ogre::String& getErrorLog() const;
 	private:
-		void log(const Ogre::LogMessageLevel level, const Ogre::String& msg );
-
+		void log(const LogLevel level, const Ogre::String& msg );
+		
 		Ogre::Log* mLog;
-		Ogre::LoggingLevel mLogLevel;
+		LogLevel mLogLevel;
 		Ogre::String mErrorBuffer;
 		bool mErrorPresent;
 	};

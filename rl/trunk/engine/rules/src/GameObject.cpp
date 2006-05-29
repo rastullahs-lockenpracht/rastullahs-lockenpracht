@@ -82,7 +82,7 @@ namespace rl
 
 		mActions.push_back(make_pair(action, option));	
 		Logger::getSingleton().log(Logger::RULES,
-			Ogre::LML_TRIVIAL, 
+			Logger::LL_MESSAGE, 
 			"Bei GameObject #"+Ogre::StringConverter::toString(mId)+
 			" ("+getName()+") wurde Aktion "+action->getName().c_str()+" hinzugefügt.");
     }
@@ -108,7 +108,7 @@ namespace rl
 		ActionVector actions;
 		for (ActionOptionVector::const_iterator it = mActions.begin(); it != mActions.end(); ++it)
 		{
-			Logger::getSingleton().log(Logger::RULES, Ogre::LML_TRIVIAL, "Untersuche Aktion "+(*it).first->getName());
+			Logger::getSingleton().log(Logger::RULES, Logger::LL_MESSAGE, "Untersuche Aktion "+(*it).first->getName());
 			if ((*it).second == Action::ACT_DISABLED)
 				continue;
 			//if ((*it).second > ACT_NEEDS_TALENT)
@@ -250,7 +250,7 @@ namespace rl
 			str.append("','");
 			str.append((*iter).second);
 			str.append("']");
-			Logger::getSingleton().log(Logger::RULES, Ogre::LML_TRIVIAL, str);
+			Logger::getSingleton().log(Logger::RULES, Logger::LL_MESSAGE, str);
 		}
 		iter = mAttributesString.find(key);
 

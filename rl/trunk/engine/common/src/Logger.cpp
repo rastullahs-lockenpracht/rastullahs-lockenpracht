@@ -27,7 +27,7 @@ const char* rl::Logger::RULES = "Rules";
 const char* rl::Logger::CORE = "Core";
 const char* rl::Logger::DIALOG = "Dialog";
 const char* rl::Logger::UI = "Ui";
-const char* rl::Logger::SOUND = "Sound";
+const char* rl::Logger::MULTIMEDIA = "Multimedia";
 const char* rl::Logger::MAIN = "Main";
 const char* rl::Logger::SCRIPT = "Script";
 
@@ -62,9 +62,12 @@ Logger::Logger(const Ogre::String& logPath, const Ogre::String& ogreLogPath)
 
 Logger::~Logger()
 {
+	delete mLog;
+	delete LogManager::getSingleton().getDefaultLog();
+	delete LogManager::getSingletonPtr();
 }
 
-void Logger::log(const Ogre::String& component, const Ogre::LogMessageLevel level, 
+void Logger::log(const Ogre::String& component, const Logger::LogLevel level, 
 			const Ogre::String& message, const Ogre::String& ident)
 {
 	if (ident.length() == 0)
@@ -73,7 +76,7 @@ void Logger::log(const Ogre::String& component, const Ogre::LogMessageLevel leve
 		log(level, "[" + component + "] (" + ident + ") " + message);
 }
 
-void Logger::log(const Ogre::String& component, const Ogre::LogMessageLevel level, 
+void Logger::log(const Ogre::String& component, const Logger::LogLevel level, 
 			const CeGuiString& message, const Ogre::String& ident)
 {
 	if (ident.length() == 0)
@@ -82,7 +85,7 @@ void Logger::log(const Ogre::String& component, const Ogre::LogMessageLevel leve
 		log(level, "[" + component + "] (" + ident + ") " + message.c_str());
 }
 
-void Logger::log(const Ogre::String& component, const Ogre::LogMessageLevel level, 
+void Logger::log(const Ogre::String& component, const Logger::LogLevel level, 
 			const char* message, const Ogre::String& ident)
 {
 	if (ident.length() == 0)
@@ -91,31 +94,34 @@ void Logger::log(const Ogre::String& component, const Ogre::LogMessageLevel leve
 		log(level, "[" + component + "] (" + ident + ") " + message);
 }
 
-void Logger::log(const Ogre::LogMessageLevel level, const Ogre::String& msg )
+void Logger::log(const Logger::LogLevel level, const Ogre::String& msg )
 {
-	mLog->logMessage(msg, level);
-	
-	if (level == Ogre::LML_CRITICAL) // Fehler
+	if (level >= mLogLevel)
 	{
-		mErrorBuffer.append("\n");
-		mErrorBuffer.append(msg);
-		mErrorPresent = true;
+		mLog->logMessage(msg, Ogre::LML_TRIVIAL);
+	
+		if (level >= Logger::LL_ERROR) // Fehler
+		{
+			mErrorBuffer.append("\n");
+			mErrorBuffer.append(msg);
+			mErrorPresent = true;
+		}
 	}
 }
 
-void Logger::setLogDetail(const Ogre::LoggingLevel level)
+void Logger::setLogDetail(const Logger::LogLevel level)
 {
 	mLogLevel = level;	
-	mLog->setLogDetail(level);
+	mLog->setLogDetail(Ogre::LL_BOREME);
 }
 
 const CEGUI::LoggingLevel Logger::getCeGuiLogDetail() const
 {
-	if (mLogLevel == Ogre::LL_LOW)
+	if (mLogLevel > Logger::LL_ERROR)
 		return CEGUI::Errors;
-	else if (mLogLevel == Ogre::LL_NORMAL)
+	else if (mLogLevel > Logger::LL_NORMAL)
 		return CEGUI::Standard;
-	else if (mLogLevel == Ogre::LL_BOREME)
+	else
 		return CEGUI::Insane;
 
 	return CEGUI::Errors;

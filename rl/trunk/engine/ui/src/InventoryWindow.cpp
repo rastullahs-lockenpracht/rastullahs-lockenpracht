@@ -36,7 +36,7 @@ namespace rl {
 
 		// Ein Item wurde gedroppt...
 		if (invWin->droppedItem){
-			Logger::getSingletonPtr()->log("InventoryWindow",Ogre::LML_CRITICAL,String("Item dropped"));
+			Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_ERROR,String("Item dropped"));
 			invWin->updateItemPosition();	
 		}
 	}
@@ -124,7 +124,7 @@ namespace rl {
 
 		//pointInBackPack = absMouse-scrnPt;
 
-		//Logger::getSingletonPtr()->log("InventoryWindow",Ogre::LML_CRITICAL,String("Point: x:").append(itoa(int(inWindow.d_x),buf,10)));
+		//Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_ERROR,String("Point: x:").append(itoa(int(inWindow.d_x),buf,10)));
 
 		return true;
 	}
@@ -173,7 +173,7 @@ namespace rl {
 	void InventoryWindow::updateItemPosition(){
 		droppedItem->setPosition(*posDraggedTo);
 		droppedItem = NULL;
-		Logger::getSingletonPtr()->log("InventoryWindow",Ogre::LML_CRITICAL,String("Item placed"));
+		Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_ERROR,String("Item placed"));
 	}
 
 	void InventoryWindow::initSlots(){

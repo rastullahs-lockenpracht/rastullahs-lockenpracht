@@ -117,7 +117,7 @@ namespace rl
             }           
             catch ( Ogre::Exception  ) 
             {
-                Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL, 
+                Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, 
                     "Konnte Rastullah-System-Konfiguration aus '" + mRastullahSystemCfgPath + 
                     "' nicht laden! Defaulteinstellungen werden benutzt.","Configuration");
             }
@@ -164,16 +164,16 @@ namespace rl
 		else 
 			scheme = "tu1";
 
-		Logger::getSingleton().log(Logger::CORE, Ogre::LML_NORMAL, 
+		Logger::getSingleton().log(Logger::CORE, Logger::LL_NORMAL, 
 			"Found "+Ogre::StringConverter::toString(numTu) + " Texture Units, using "+
 			"alphablending scheme "+scheme);
 		return scheme;
 	}
 
-	Ogre::LoggingLevel ConfigurationManager::getLogLevel() 
+	Logger::LogLevel ConfigurationManager::getLogLevel() 
 	{
 		int loglevel = Ogre::StringConverter::parseInt(getSystemConfig()->getSetting("log_level"));
-		return static_cast<Ogre::LoggingLevel>(loglevel);
+		return static_cast<Logger::LogLevel>(loglevel);
 	}
 
 	Ogre::String ConfigurationManager::getEngineVersionString() const

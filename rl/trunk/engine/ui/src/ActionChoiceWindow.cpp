@@ -74,7 +74,7 @@ namespace rl {
 	
 	int ActionChoiceWindow::showActionsOfObject(GameObject* object)
 	{
-		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, 
+		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, 
 			"Start", "ActionChoiceWindow::showActionsOfObject");
 		mObject = object;
 		
@@ -84,7 +84,7 @@ namespace rl {
 			CEGUI::WindowManager::getSingleton().destroyWindow(mButtons[i]);
 		}
 		mButtons.clear();
-		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, 
+		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, 
 			"Buttons gelöscht", "ActionChoiceWindow::showActionsOfObject");
 
 		CEGUI::Point center = mWindow->relativeToAbsolute(CEGUI::Point(0.5, 0.5));
@@ -93,11 +93,11 @@ namespace rl {
 		ActionVector actions = object->getValidActions(mActor);
 		if (actions.size() != 0)
 		{
-			Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, 
+			Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, 
 				"Aktionen ermittelt", "ActionChoiceWindow::showActionsOfObject");
 
 			ActionNode* actionTree = ActionNode::createActionTree(actions);
-			Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, 
+			Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, 
 				"Baum erzeugt", "ActionChoiceWindow::showActionsOfObject");
 			createButtons(actionTree, center, RADIUS, 0, 360);
 
@@ -105,10 +105,10 @@ namespace rl {
 			bindClickToCloseWindow(mButtonCancel);
 			mWindow->addChildWindow(mButtonCancel);
 			
-			Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, 
+			Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, 
 				"Buttons erzeugt", "ActionChoiceWindow::showActionsOfObject");
 			setButtonActions(actionTree, actionTree);
-			Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, 
+			Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, 
 				"Ende", "ActionChoiceWindow::showActionsOfObject");
 		}
 		return actions.size();
@@ -155,7 +155,7 @@ namespace rl {
 			{
 				const NodeSet nodesToHide = 
 					ActionNode::getAllNodesNotBelow(treeRoot, actions);
-				Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, 
+				Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, 
 					StringConverter::toString(nodesToHide.size())+" nodes to hide",
 					"ActionChoiceWindow::setButtonActions");
 					
@@ -192,9 +192,9 @@ namespace rl {
 	
 	bool ActionChoiceWindow::activateAction(Action* action)
 	{
-		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, 
+		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, 
 			"Start", "ActionChoiceWindow::activateAction");
-		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, 
+		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, 
 			action->getName().c_str(), "ActionChoiceWindow::activateAction");
 			
 		
@@ -205,10 +205,10 @@ namespace rl {
         }
         catch( ScriptInvocationFailedException& sife )
         {
-            Logger::getSingleton().log(Logger::UI, Ogre::LML_CRITICAL,  sife.toString() );
+            Logger::getSingleton().log(Logger::UI, Logger::LL_ERROR,  sife.toString() );
         }
 		
-		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, 
+		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, 
 			"Ende", "ActionChoiceWindow::activateAction");
 
 		destroyWindow();
@@ -262,7 +262,7 @@ namespace rl {
 		CEGUI::Size size = button->getAbsoluteSize();
 		button->setPosition(
 			Absolute, pos - CEGUI::Point(size.d_width/2, size.d_height/2));
-		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, 
+		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, 
 			(button->getText()+" "+
 			StringConverter::toString(button->getAbsoluteXPosition()) + ", " + 
 			StringConverter::toString(button->getAbsoluteYPosition())).c_str(), 
@@ -282,14 +282,14 @@ namespace rl {
 		
 		if (button == NULL)
 		{
-			Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, 
+			Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, 
 				showHide + "NULL", "ActionChoiceWindow::setButtonVisible");
 			return true;
 		}
 		
-		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, (showHide+button->getName()).c_str());
+		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, (showHide+button->getName()).c_str());
 		CEGUI::Point p = button->getRelativePosition();
-		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, 
+		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, 
 			"("+StringConverter::toString(p.d_x)+", "+StringConverter::toString(p.d_y)+")");
 			
 		if (visible)
@@ -308,7 +308,7 @@ namespace rl {
 	CEGUI::Point ActionChoiceWindow::getPositionOnCircle(
 		const CEGUI::Point& center, float radius, float angle)
 	{
-		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, 
+		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, 
 			"center="+StringConverter::toString(center.d_x)+","+StringConverter::toString(center.d_y)+
 			" radius="+StringConverter::toString(radius)+
 			" angle="+StringConverter::toString(angle)
@@ -318,7 +318,7 @@ namespace rl {
 		float relX = radius * sin(PI * angle/180);
 		float relY = radius * cos(PI * angle/180);
 
-		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, 
+		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, 
 			"diff="+StringConverter::toString(relX)+","+StringConverter::toString(relY));
 			
 

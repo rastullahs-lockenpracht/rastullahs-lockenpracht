@@ -33,7 +33,7 @@ namespace rl {
         }
 		catch( ScriptInvocationFailedException& sife )
         {
-			Logger::getSingleton().log( Logger::CORE, Ogre::LML_CRITICAL, sife.toString() );
+			Logger::getSingleton().log( Logger::CORE, Logger::LL_ERROR, sife.toString() );
         }
 
         // consumed or not

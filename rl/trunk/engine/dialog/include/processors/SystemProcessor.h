@@ -41,15 +41,15 @@ namespace rl
 		CeGuiString process(DOMNode* node,Match* m, const CeGuiString& str, NaturalLanguageProcessor* nlp)
 		{
 			CeGuiString cmd = XmlHelper::getAttributeValueAsString( (DOMElement*)node, "command" );
-		//	Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "SYSTEM");
-		//	Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, cmd);
+		//	Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "SYSTEM");
+		//	Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, cmd);
 			if( cmd == "exit" )
 			{
 				nlp->mExit=true;
 			}
 			if( cmd == "reload" )
 			{
-			//	Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "RELOOOAAAD");
+			//	Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "RELOOOAAAD");
 			//	nlp->processOption("load","*.aiml");
 			}
 			return "";

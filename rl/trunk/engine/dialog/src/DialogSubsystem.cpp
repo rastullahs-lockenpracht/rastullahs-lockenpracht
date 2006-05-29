@@ -63,7 +63,7 @@ namespace rl
 			char* excmsg = XMLString::transcode(exc.getMessage());
 			std::string excs="Exception while initializing Xerces: ";
 			excs+=excmsg;
-			Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, excs);
+			Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, excs);
             XMLString::release(&excmsg);
         }
 	}

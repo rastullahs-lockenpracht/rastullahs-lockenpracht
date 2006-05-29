@@ -100,7 +100,7 @@ namespace rl {
 		}
 		catch( ScriptInvocationFailedException& sife )
 		{
-			Logger::getSingleton().log(Logger::UI, Ogre::LML_CRITICAL, sife.toString() );
+			Logger::getSingleton().log(Logger::UI, Logger::LL_ERROR, sife.toString() );
 		}
 
 		return false;

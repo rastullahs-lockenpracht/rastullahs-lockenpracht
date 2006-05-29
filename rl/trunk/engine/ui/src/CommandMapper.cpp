@@ -123,8 +123,6 @@ namespace rl {
 
 		if (mvcmd == mMovementCommands.end())
 		{
-			Logger::getSingleton().log(Logger::UI, LML_TRIVIAL, 
-				StringConverter::toString(keycode)+" pressed, no movement assigned");
 			return MOVE_NONE;
 		}
 		else
@@ -146,7 +144,7 @@ namespace rl {
 			String setting = it.getNext();
 
 			mMovementCommands[InputManager::getSingleton().getScanCode(key)] = getMovement(setting);
-			Logger::getSingleton().log(Logger::UI, LML_TRIVIAL,
+			Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE,
 				Ogre::String("Key ") + key	+ " (" 
 				+ StringConverter::toString(InputManager::getSingleton().getScanCode(key))
 				+ ") is assigned to movement "	+ setting+" ("
@@ -160,7 +158,7 @@ namespace rl {
 			String setting = it.getNext();
 
 			mKeyCommandsOffCombat[getKeyCode(key)] = CeGuiString(setting);
-			Logger::getSingleton().log(Logger::UI, LML_TRIVIAL,
+			Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE,
 				Ogre::String("Key ") + key	+ " (" + StringConverter::toString(getKeyCode(key))
 				+ ") is assigned to command " + setting+" while not in combat");
 		}
@@ -172,7 +170,7 @@ namespace rl {
 			String setting = it.getNext();
 
 			mKeyCommandsInCombat[getKeyCode(key)] = CeGuiString(setting);
-			Logger::getSingleton().log(Logger::UI, LML_TRIVIAL,
+			Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE,
 				Ogre::String("Key ") + key	+ " (" + StringConverter::toString(getKeyCode(key))
 				+ ") is assigned to command " + setting+" while in combat");
 		}
@@ -184,7 +182,7 @@ namespace rl {
 			String setting = it.getNext();
 
 			mMouseCommandsOffCombat[getMouseButtonCode(key)] = CeGuiString(setting);
-			Logger::getSingleton().log(Logger::UI, LML_TRIVIAL,
+			Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE,
 				Ogre::String("Mouse Button ") + key	+ " (" + StringConverter::toString(getMouseButtonCode(key))
 				+ ") is assigned to command " + setting+" while not in combat");
 		}
@@ -196,7 +194,7 @@ namespace rl {
 			String setting = it.getNext();
 
 			mMouseCommandsInCombat[getMouseButtonCode(key)] = CeGuiString(setting);
-			Logger::getSingleton().log(Logger::UI, LML_TRIVIAL,
+			Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE,
 				Ogre::String("Mouse Button ") + key	+ " (" + StringConverter::toString(getMouseButtonCode(key))
 				+ ") is assigned to command " + setting+" while in combat");
 		}

@@ -54,8 +54,6 @@ public:
     static MultimediaSubsystem& getSingleton(void);
     /// Gibt Singleton-Zeiger zurueck.
     static MultimediaSubsystem* getSingletonPtr(void);
-    /// Eine Log-Nachricht ausgeben.
-   	static void log(const Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident = "");
     /// fmod weiterlaufen lassen.
     void update(Ogre::Real elapsedTime);
 

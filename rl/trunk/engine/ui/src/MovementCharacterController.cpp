@@ -164,7 +164,7 @@ namespace rl {
 		if (movement & TURN_RIGHT)
 			mYaw -= Degree(mRotationSpeed * 30.0 * elapsedTime);
 
-		if (movement & MOVE_RUN)
+		if (isRunMovement(movement))
 			mCharacterState.mDesiredVel *= 3.0;
 
 		mDesiredDistance -= im->getMouseRelativeZ() * 0.002;
@@ -237,10 +237,17 @@ namespace rl {
 
 		Logger::getSingleton().log(
 			Logger::CORE, 
-			Ogre::LML_TRIVIAL, 
+			Logger::LL_TRIVIAL, 
 			"    MCC time "
 			 + Ogre::StringConverter::toString(
 					Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));
+	}
+
+	bool MovementCharacterController::isRunMovement(int movement)
+	{
+		return 
+			((movement & MOVE_RUN) && !(movement & MOVE_RUN_LOCK)) 
+			|| (!(movement & MOVE_RUN) && (movement & MOVE_RUN_LOCK));
 	}
 
     // adopted from the chararcter demo in the newton sdk
@@ -411,7 +418,7 @@ namespace rl {
                 << "offset    : " << body->getOffset() << endl
 			    << "difference: " << node->getPosition() - position;
 
-			Logger::getSingleton().log("RlUi", Ogre::LML_TRIVIAL, ss.str());
+			Logger::getSingleton().log("RlUi", Logger::LL_TRIVIAL, ss.str());
 
 			// Assume we are air borne.
 			// Might be set to false in the collision callback
@@ -483,8 +490,9 @@ namespace rl {
 					mesh->startAnimation("idle hocke");
 				}
 			}
-			else if ((mCharacterState.mCurrentMovementState & MOVE_RUN) &&
-				(mCharacterState.mCurrentMovementState != MOVE_RUN))
+			else if (isRunMovement(mCharacterState.mCurrentMovementState) 
+				&& (mCharacterState.mCurrentMovementState != MOVE_RUN) 
+				&& (mCharacterState.mCurrentMovementState != MOVE_RUN_LOCK))
 			{
 				mesh->startAnimation("Run");
 			}

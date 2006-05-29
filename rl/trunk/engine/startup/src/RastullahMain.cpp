@@ -35,7 +35,7 @@
 #include "ConfigurationManager.h"
 #include <CEGUIExceptions.h>
 
-void log(Ogre::LogMessageLevel level, const Ogre::String& msg, Ogre::String ident = Ogre::String(""))
+void log(rl::Logger::LogLevel level, const Ogre::String& msg, Ogre::String ident = Ogre::String(""))
 {
 	rl::Logger::getSingleton().log(rl::Logger::MAIN, level, msg, ident);
 }
@@ -66,28 +66,28 @@ void startupRl(bool developerMode, Ogre::String module)
 			rl::ConfigurationManager::getSingleton().getLogLevel());
 
 		sound = new rl::MultimediaSubsystem();
-		log(Ogre::LML_NORMAL, "MultimediaSubsystem gestartet");
+		log(rl::Logger::LL_NORMAL, "MultimediaSubsystem gestartet");
 
 		core = new rl::CoreSubsystem();
 		core->setDeveloperMode(developerMode);
-		log(Ogre::LML_NORMAL, "CoreSubsystem gestartet");
+		log(rl::Logger::LL_NORMAL, "CoreSubsystem gestartet");
 
 		rules = new rl::RulesSubsystem();
-		log(Ogre::LML_NORMAL, "RulesSubsystem gestartet");
+		log(rl::Logger::LL_NORMAL, "RulesSubsystem gestartet");
 
 		dialog = new rl::DialogSubsystem();
-		log(Ogre::LML_NORMAL, "DialogSubsystem gestartet");
+		log(rl::Logger::LL_NORMAL, "DialogSubsystem gestartet");
 
 		ui = new rl::UiSubsystem();
-		log(Ogre::LML_NORMAL, "UiSubsystem gestartet");
+		log(rl::Logger::LL_NORMAL, "UiSubsystem gestartet");
 
 		script = new rl::ScriptSubsystem();
-		log(Ogre::LML_NORMAL, "ScriptSubsystem gestartet");
+		log(rl::Logger::LL_NORMAL, "ScriptSubsystem gestartet");
 
 		sound->loadConf(rl::ConfigurationManager::getSingleton().getSoundCfgPath());
-		log(Ogre::LML_NORMAL, "Soundkonfiguration geladen");
+		log(rl::Logger::LL_NORMAL, "Soundkonfiguration geladen");
 
-		log(Ogre::LML_NORMAL, "Starte...");
+		log(rl::Logger::LL_NORMAL, "Starte...");
 		if (module != "")
 			core->setDefaultActiveModule(module);
 
@@ -123,7 +123,7 @@ void startupRl(bool developerMode, Ogre::String module)
     {
 #endif // #ifndef _DEBUG
 		sound->saveConf(rl::ConfigurationManager::getSingleton().getSoundCfgPath());
-		log(Ogre::LML_NORMAL, "Soundkonfiguration gespeichert");
+		log(rl::Logger::LL_NORMAL, "Soundkonfiguration gespeichert");
 
 		delete script;
 		delete ui;

@@ -144,12 +144,12 @@ namespace rl {
 
 			Logger::getSingleton().log(
 				Logger::RULES,
-				Ogre::LML_NORMAL,
+				Logger::LL_NORMAL,
 				"Aktion von "+next->creature->getName());
 
 			Logger::getSingleton().log(
 				Logger::RULES,
-				Ogre::LML_NORMAL,
+				Logger::LL_NORMAL,
 				"Nächste Aktion: "+Ogre::StringConverter::toString(next->nextAction),
 				"RBCombat");
 			

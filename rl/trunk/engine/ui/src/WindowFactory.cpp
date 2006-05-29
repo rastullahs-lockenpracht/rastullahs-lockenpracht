@@ -282,7 +282,7 @@ namespace rl {
 
 	void WindowFactory::showExitConfirmation()
     {
-		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Start", "UiSubsystem::requestExit");
+		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "Start", "UiSubsystem::requestExit");
 		(new CloseConfirmationWindow())->setVisible(true);
 	}
 
@@ -305,7 +305,7 @@ namespace rl {
 	{
 		mCharacterStateWindow->setCharacter(character);
 		mCharacterStateWindow->update();
-		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "CharacterStateWindow updated");
+		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "CharacterStateWindow updated");
 	}
 
 	void WindowFactory::showActionChoice(GameObject* obj)

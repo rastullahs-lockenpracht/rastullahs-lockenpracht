@@ -40,9 +40,9 @@ namespace rl
 
 	Graphmaster::~Graphmaster() 
 	{
-//		Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "Delete all graphmaster nodes");
+//		Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "Delete all graphmaster nodes");
 		mRoot->deleteAllNodes();
-//		Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "Delete root");
+//		Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "Delete root");
 		delete mRoot;
 	}
 

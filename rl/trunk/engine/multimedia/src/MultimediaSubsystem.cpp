@@ -130,18 +130,6 @@ void MultimediaSubsystem::shutdown()
 }
 
 /**
- * @author Blakharaz
- * @date 10-14-2004
- */
-void MultimediaSubsystem::log(Ogre::LogMessageLevel level, const Ogre::String& msg, const Ogre::String& ident )
-{
-    if (Logger::getSingletonPtr() != NULL)
-    {
-        Logger::getSingleton().log("Multimedia", level, msg, ident);
-    }
-}
-
-/**
  * @author JoSch
  * @date 07-03-2005
  */
@@ -230,14 +218,17 @@ void MultimediaSubsystem::setActiveDriver(SoundDriver *driver)
 {
     if (mActiveDriver != NULL && driver != NULL)
     {
-        MultimediaSubsystem::log(LML_NORMAL, (CeGuiString("Soundtreiber wird gewechselt von ")
+		Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_NORMAL, (CeGuiString("Soundtreiber wird gewechselt von ")
             + mActiveDriver->getName() + CeGuiString(" zu ") + driver->getName()).c_str());
-    } else if (mActiveDriver != NULL)
+    } 
+	else if (mActiveDriver != NULL)
     {
-        MultimediaSubsystem::log(LML_NORMAL, (CeGuiString("Soundtreiber wird gewechselt von ")
+        Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_NORMAL, (CeGuiString("Soundtreiber wird gewechselt von ")
             + mActiveDriver->getName()).c_str());
-    } else {
-        MultimediaSubsystem::log(LML_NORMAL, (CeGuiString("Soundtreiber wird gewechselt zu ")
+    } 
+	else 
+	{
+		Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_NORMAL, (CeGuiString("Soundtreiber wird gewechselt zu ")
              + driver->getName()).c_str());
     }
     mActiveDriver = driver;

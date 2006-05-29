@@ -70,7 +70,7 @@ namespace rl
 			int getIntSetting(const Ogre::String& name, int _default = 0);
 			bool getBoolSetting(const Ogre::String& name, bool _default = false);
 
-            Ogre::LoggingLevel getLogLevel();
+            Logger::LogLevel getLogLevel();
 
 			Ogre::String getEngineVersionString() const;
 			Ogre::String getEngineVersionName() const;

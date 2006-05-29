@@ -108,8 +108,8 @@ void RubyInterpreter::logRubyErrors(const std::string& intro, int errorcode)
 		VALUE info = rb_inspect(ruby_errinfo);
 		rb_backtrace();
 		if (intro.length() > 0)
-			Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL, intro);
-		Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL, STR2CSTR(info));
+			Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, intro);
+		Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, STR2CSTR(info));
 	}
 }
 
@@ -117,7 +117,7 @@ bool RubyInterpreter::execute(const String& command)
 {
 	int status = -1;
 
-	Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, command, "RubyInterpreter::execute" );
+	Logger::getSingleton().log(Logger::CORE, Logger::LL_MESSAGE, command, "RubyInterpreter::execute" );
 	rb_eval_string_protect(command.c_str(), &status);
 
 	logRubyErrors("", status);

@@ -163,7 +163,7 @@ namespace rl {
 	{
 		Logger::getSingleton().log(
 			Logger::UI, 
-			LML_NORMAL, 
+			Logger::LL_NORMAL, 
 			"Response: "
 				+ actor->getName()
 				+ " File: "

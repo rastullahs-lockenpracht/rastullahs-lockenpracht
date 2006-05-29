@@ -165,13 +165,13 @@ namespace rl {
         }
         catch (Ogre::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL, "ActorManager - Das Licht '"
+            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, "ActorManager - Das Licht '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getFullDescription());
         }
         catch (rl::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL, "ActorManager - Das Licht '"
+            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, "ActorManager - Das Licht '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getMessage());
         }
@@ -193,13 +193,13 @@ namespace rl {
         }
         catch (Ogre::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL, "ActorManager - Der Text '"
+            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, "ActorManager - Der Text '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getFullDescription());
         }
         catch (rl::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL, "ActorManager - Der Text '"
+            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, "ActorManager - Der Text '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getMessage());
         }
@@ -222,13 +222,13 @@ namespace rl {
         }
         catch (Ogre::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL, "ActorManager - Der Sound '"
+            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, "ActorManager - Der Sound '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getFullDescription());
         }
         catch (rl::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL, "ActorManager - Der Sound '"
+            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, "ActorManager - Der Sound '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getMessage());
         }
@@ -252,13 +252,13 @@ namespace rl {
         }
         catch (Ogre::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL, "ActorManager - Der Sound '"
+            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, "ActorManager - Der Sound '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getFullDescription());
         }
         catch (rl::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL, "ActorManager - Der Sound '"
+            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, "ActorManager - Der Sound '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getMessage());
         }
@@ -282,14 +282,14 @@ namespace rl {
         }
         catch (Ogre::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL,
+            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR,
                 "ActorManager - Der Listener '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getFullDescription());
         }
         catch (rl::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL,
+            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR,
                 "ActorManager - Der Listener '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getMessage());
@@ -325,7 +325,7 @@ namespace rl {
         }
         catch (Ogre::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL,
+            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR,
                 "ActorManager - Die Kamera '"
                 + name + "' für den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
@@ -333,7 +333,7 @@ namespace rl {
         }
         catch (rl::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL,
+            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR,
                 "ActorManager - Die Kamera '"
                 + name + "' für den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
@@ -360,14 +360,14 @@ namespace rl {
         }
         catch (Ogre::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL, "ActorManager - Das Mesh '"
+            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, "ActorManager - Das Mesh '"
                 + meshname + "' für den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getFullDescription());
         }
         catch (rl::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL, "ActorManager - Das Mesh '"
+            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, "ActorManager - Das Mesh '"
                 + meshname + "' für den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getMessage());
@@ -389,7 +389,7 @@ namespace rl {
         }
         catch (Ogre::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL,
+            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR,
                 "ActorManager - Das Partikelsystem '"
                 + partname + "' für den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
@@ -397,7 +397,7 @@ namespace rl {
         }
         catch (rl::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL,
+            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR,
                 "ActorManager - Das Partikelsystem '"
                 + partname + "' für den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
@@ -419,7 +419,7 @@ namespace rl {
         }
 
         if( basename != newname )
-            Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL, "ActorManager - Warnung! '"
+            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, "ActorManager - Warnung! '"
             + basename
             + "' war schon vergeben! Neuer Name ist '" + newname + "'.");
 

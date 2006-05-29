@@ -109,7 +109,10 @@ void DialogWindow::getResponse(const CeGuiString& msg)
 
 	mGameLogger->logDialogEvent(mBot->getName(), responseText);
 
-	mController->response(mBot->getDialogPartner()->getActor(), responseText, "lachen.ogg"); //TODO: Sounddatei
+	mController->response(
+		mBot->getDialogPartner()->getActor(), 
+		responseText, 
+		"lachen.ogg"); //TODO: Sounddatei
 	setVisible(false);
 	mState = TALKING_PARTNER_CHARACTER;
 	mCurrentResponseText = msg;
@@ -157,7 +160,7 @@ void DialogWindow::getOptions(const CeGuiString& question)
 				static_cast <ListboxWrappedTextItem*>(mDialogOptions->getListboxItemFromIndex(i));
 			item->setID(itr->first);
 			currentResponse = itr->second;
-			Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, currentResponse.c_str());
+			Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, currentResponse.c_str());
 			item->setText(currentResponse);
 			item->setTextFormatting(CEGUI::WordWrapLeftAligned);
 			mDialogOptions->handleUpdatedItemData();

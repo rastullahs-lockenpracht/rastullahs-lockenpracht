@@ -31,27 +31,27 @@ namespace rl
 
 	CeGuiString SraiProcessor::process(DOMNode* node,Match* match, const CeGuiString& str, NaturalLanguageProcessor* nlp)
 	{
-		Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "Srai");
+		Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "Srai");
 		Match* newMatch = nlp->match( "*", XmlHelper::transcodeToString(
 											node->getFirstChild()->
 											getNodeValue()),
 									  "*", "*");
 		if(newMatch)
 		{
-			Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "found new match");
+			Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "found new match");
 			//  get the <template> tag as DOMDocument node
 			DOMDocument* doc=(DOMDocument *)newMatch->getNode()->getTemplateNode();
-			Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "getTemplateNode");
+			Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "getTemplateNode");
 			//  get the content of DOMDocument
 			DOMNode* newNode=doc->getDocumentElement();
-			Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "getDocumentElement");
+			Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "getDocumentElement");
 			
 			CeGuiString result= nlp->process(newNode,newMatch,str);
-			Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "Processed");
+			Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "Processed");
 			doc->release();
-			Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "doc release");
+			Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "doc release");
 			delete newMatch;
-			Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "match delete");
+			Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "match delete");
 			return result;
 		}
 		return "";

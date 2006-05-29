@@ -160,8 +160,8 @@ namespace rl {
 		}		
 		Logger::getSingleton().log(
 			Logger::CORE, 
-			Ogre::LML_TRIVIAL, 
-			"    IM end "
+			Logger::LL_TRIVIAL, 
+			"    IM time "
 			 + Ogre::StringConverter::toString(
 					Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));
 	}
@@ -492,7 +492,7 @@ namespace rl {
 		mEventProcessor->addKeyListener(this);
 		mEventProcessor->addMouseListener(this);
 		mEventProcessor->addMouseMotionListener(this);
-		Logger::getSingleton().log(Logger::UI, LML_TRIVIAL, "Start processing events");
+		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "Start processing events");
 		mEventProcessor->startProcessingEvents();
 
 		mEventInitialized = true; 
@@ -506,7 +506,7 @@ namespace rl {
 		if (mEventInitialized) {
 			// Stop buffering events
 
-			Logger::getSingleton().log(Logger::UI, LML_TRIVIAL, "Stop processing events");
+			Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "Stop processing events");
 			mEventProcessor->stopProcessingEvents();
 			mEventInitialized = false;
 		}

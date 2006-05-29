@@ -127,6 +127,8 @@ namespace rl {
         /// the smaller, the tighter the feel.
         Ogre::Real mMaxDelay;
 
+		bool isRunMovement(int movement);
+
         void updatePickedObject() const;
         void updateAnimationState();
 

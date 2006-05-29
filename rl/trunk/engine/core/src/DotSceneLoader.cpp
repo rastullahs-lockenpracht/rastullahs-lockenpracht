@@ -62,7 +62,7 @@ namespace rl {
 		XMLPlatformUtils::Initialize();
 		XmlHelper::initializeTranscoder();
 
-		Logger::getSingleton().log(Logger::CORE, Ogre::LML_NORMAL, "Lade Szenenbeschreibung aus " + mSceneName );
+		Logger::getSingleton().log(Logger::CORE, Logger::LL_NORMAL, "Lade Szenenbeschreibung aus " + mSceneName );
 		DOMDocument* doc = openSceneFile();
 
 		// Durch alle Unterelemente iterieren
@@ -80,7 +80,7 @@ namespace rl {
 			child = child->getNextSibling();
 		} 
 
-		Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, " Beginne parsen der Unterelemente" );
+		Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, " Beginne parsen der Unterelemente" );
 		DOMElement* nodes = XmlHelper::getChildNamed(doc->getDocumentElement(), "nodes");
 
 		// Eine .scene wird in einem SceneNode mit dem Namen der .scene befestigt
@@ -115,16 +115,16 @@ namespace rl {
 				staticNode->removeAndDestroyAllChildren();
 				sceneManager->destroySceneNode( staticNode->getName() );				
 				staticNode = NULL;
-				Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, " Statische Geometrie "+staticName+" erstellt" );
+				Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, " Statische Geometrie "+staticName+" erstellt" );
 				++it;
 			}
         }
         else
-            Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, " Keine statischen Geometrien erstellt" );
+            Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, " Keine statischen Geometrien erstellt" );
 
 		doc->release();
 		XMLPlatformUtils::Terminate();		
-		Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, "Szenenbeschreibung aus " + mSceneName +" fertig geparst" );
+		Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, "Szenenbeschreibung aus " + mSceneName +" fertig geparst" );
 	}
 
 	DOMDocument* DotSceneLoader::openSceneFile( )
@@ -194,7 +194,7 @@ namespace rl {
                 if (e.getNumber() == Ogre::Exception::ERR_DUPLICATE_ITEM)
                 {
                     newNode = parentNode->createChildSceneNode();
-                    Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, 
+                    Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, 
                         " NodeName '"+nodeName+"' war schon vergeben! Es wurde der Name '"+newNode->getName()+"' benutzt." );
                 }
                 else
@@ -209,7 +209,7 @@ namespace rl {
             newNode = parentNode->createChildSceneNode();
         }	
 
-		Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, 
+		Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, 
             " Node '"+newNode->getName()+"' als Unterknoten von '"+parentNode->getName()+"' erstellt." );		
 		
         DOMNode* child = rootNodeXml->getFirstChild();
@@ -310,7 +310,7 @@ namespace rl {
 	void DotSceneLoader::processSceneUserData( XERCES_CPP_NAMESPACE::DOMElement* rootUserDataXml )
 	{
 		DOMNode* child = rootUserDataXml->getFirstChild();
-        Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, " SceneUserData gefunden");
+        Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, " SceneUserData gefunden");
 
         // Durch alle Unterelemente iterieren, um die properties zu finden
         while( child != NULL )
@@ -345,7 +345,7 @@ namespace rl {
                 }
                 catch(...)
                 {
-                    Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, 
+                    Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, 
                         " > Parse Error beim Übernehmen der Property '"+propertyName+"'!");
                 }
 
@@ -363,7 +363,7 @@ namespace rl {
 					Ogre::MeshPtr mesh = Ogre::MeshManager::getSingleton().getByName( meshName );
 
 					DOMNode* lodchild = child->getFirstChild();
-					Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, " LOD-Bereich für "+meshName+" gefunden");
+					Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, " LOD-Bereich für "+meshName+" gefunden");
 					Ogre::Real loddist = 10.0;
 					string lodmeshName = "";
 
@@ -387,7 +387,7 @@ namespace rl {
 								if( lodmeshName.length() > 0 && loddist > 0 )
 								{
 									mesh->createManualLodLevel(loddist, lodmeshName );
-									Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, 
+									Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, 
 										" LOD für bei '"+Ogre::StringConverter::toString(loddist)+
 										"' als '"+lodmeshName+"' gesetzt!");
 								}
@@ -400,7 +400,7 @@ namespace rl {
 				}
 				catch(...)
                 {
-					Logger::getSingleton().log(Logger::CORE, Ogre::LML_NORMAL, 
+					Logger::getSingleton().log(Logger::CORE, Logger::LL_NORMAL, 
                         " > Parse Error beim Setzen der LOD für '"+meshName+"'!");
                 }
 			}
@@ -412,7 +412,7 @@ namespace rl {
         NodeUserData* userData )
     {
         DOMNode* child = rootUserDataXml->getFirstChild();
-        Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, " NodeUserData gefunden");
+        Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, " NodeUserData gefunden");
 
         // Durch alle Unterelemente iterieren, um die properties zu finden
         while( child != NULL )
@@ -442,7 +442,7 @@ namespace rl {
                 }
                 catch(...)
                 {
-                    Logger::getSingleton().log(Logger::CORE, Ogre::LML_NORMAL, 
+                    Logger::getSingleton().log(Logger::CORE, Logger::LL_NORMAL, 
                         " > Parse Error beim Übernehmen der Property '"+propertyName+"'!");
                 }
 
@@ -490,13 +490,13 @@ namespace rl {
                 parentNode->attachObject( newEnt );
                 isEntityCreated = true;
 
-                Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, " Entity '"+meshName+"' mit dem Namen '"+entName+"' in den Knoten '"+parentNode->getName()+"' eingefügt." );
+                Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, " Entity '"+meshName+"' mit dem Namen '"+entName+"' in den Knoten '"+parentNode->getName()+"' eingefügt." );
 
                 // Zur Physik des Levels hinzufügen
                 if( createMeshPhysicalBody )
                 {                
                     PhysicsManager::getSingleton().addLevelGeometry( newEnt );
-                    Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, " Entity '"+entName+"' als TriMesh in levelGeometry geladen");
+                    Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, " Entity '"+entName+"' als TriMesh in levelGeometry geladen");
                 }
 
 				newEnt->setRenderingDistance( renderingDistance );
@@ -511,7 +511,7 @@ namespace rl {
                 }
                 else
                 {
-                    Logger::getSingleton().log(Logger::CORE, Ogre::LML_CRITICAL, 
+                    Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, 
                         " Laden der Entity '"+meshName+"' gescheitert!" );
                     // Nicht weiter versuchen
                     break;
@@ -530,7 +530,7 @@ namespace rl {
 
 	Ogre::Vector3 DotSceneLoader::processPosition( DOMElement* rootPositionXml )
 	{
-		Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, " Position gefunden");
+		Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, " Position gefunden");
 
 		try
 		{
@@ -546,7 +546,7 @@ namespace rl {
 		}
 		catch(...) { }
          
-		Logger::getSingleton().log(Logger::CORE, Ogre::LML_NORMAL, " > Parse Error beim Übernehmen der Position! ");
+		Logger::getSingleton().log(Logger::CORE, Logger::LL_NORMAL, " > Parse Error beim Übernehmen der Position! ");
 
 		return Ogre::Vector3::ZERO;
 	}
@@ -554,7 +554,7 @@ namespace rl {
 
 	Ogre::Vector3 DotSceneLoader::processScale( DOMElement* rootScaleXml )
 	{
-		Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, " Skalierung gefunden");
+		Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, " Skalierung gefunden");
 
 		try
 		{
@@ -570,7 +570,7 @@ namespace rl {
 		}
         catch(...) { }
 
-		Logger::getSingleton().log(Logger::CORE, Ogre::LML_NORMAL, " > Parse Error beim Übernehmen der Skalierung! ");
+		Logger::getSingleton().log(Logger::CORE, Logger::LL_NORMAL, " > Parse Error beim Übernehmen der Skalierung! ");
 
 		return Ogre::Vector3::UNIT_SCALE;
 	}
@@ -578,7 +578,7 @@ namespace rl {
 	/// @TODO Sollten drei Möglichkeiten sein...
 	Ogre::Quaternion DotSceneLoader::processRotation( DOMElement* rootQuatXml )
 	{
-		Logger::getSingleton().log(Logger::CORE, Ogre::LML_TRIVIAL, " Rotation gefunden");
+		Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, " Rotation gefunden");
 
 		try
 		{
@@ -625,7 +625,7 @@ namespace rl {
 		}
 		catch(...) {}
 
-        Logger::getSingleton().log(Logger::CORE, Ogre::LML_NORMAL, " > Parse Error beim Übernehmen der Rotation! ");
+        Logger::getSingleton().log(Logger::CORE, Logger::LL_NORMAL, " > Parse Error beim Übernehmen der Rotation! ");
 
 		return Ogre::Quaternion::IDENTITY;
 	}

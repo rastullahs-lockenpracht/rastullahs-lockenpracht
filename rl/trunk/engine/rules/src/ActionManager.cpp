@@ -80,7 +80,7 @@ namespace rl
 
 		mActions.insert(std::make_pair(action->getName(), action));
 		Logger::getSingleton().log(Logger::RULES,
-			Ogre::LML_TRIVIAL, "Action "+action->getName()+" beim ActionManager registriert");
+			Logger::LL_MESSAGE, "Action "+action->getName()+" beim ActionManager registriert");
     }
 
 	void ActionManager::unregisterAction(const CeGuiString& actionName)
@@ -93,13 +93,13 @@ namespace rl
 		mActions.erase(iter);
 
 		Logger::getSingleton().log(Logger::RULES,
-			Ogre::LML_TRIVIAL, "Action "+actionName+" beim ActionManager gelöscht");
+			Logger::LL_MESSAGE, "Action "+actionName+" beim ActionManager gelöscht");
 	}
 
 	Action* ActionManager::getAction(const CeGuiString& actionName) const
 	{
 		Logger::getSingleton().log(Logger::RULES,
-			Ogre::LML_TRIVIAL, "Suche Action " + actionName);
+			Logger::LL_MESSAGE, "Suche Action " + actionName);
 		ActionMap::const_iterator iter = mActions.find(actionName);
 		if (iter == mActions.end())
 			return NULL;
@@ -109,7 +109,7 @@ namespace rl
 	void ActionManager::registerInGameGlobalAction(Action* action, ActionGroup* group)
 	{
 		Logger::getSingleton().log(Logger::RULES,
-			Ogre::LML_TRIVIAL, "Globale Aktion " + action->getName() + " hinzugefuegt.");
+			Logger::LL_MESSAGE, "Globale Aktion " + action->getName() + " hinzugefuegt.");
 		mInGameGlobalActions.push_back(action);
 		action->setGroup(group);
 	}

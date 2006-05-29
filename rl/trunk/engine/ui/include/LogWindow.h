@@ -13,6 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#ifndef __LogWindow_H__
+#define __LogWindow_H__
 
 #include "UiPrerequisites.h"
 
@@ -37,3 +39,5 @@ namespace rl
 	};
 
 } // namespace rl
+
+#endif
