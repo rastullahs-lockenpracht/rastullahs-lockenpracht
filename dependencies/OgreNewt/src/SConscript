@@ -1,0 +1,21 @@
+import commands
+
+list = Split("""
+    	OgreNewt_BasicJoints.cpp
+	OgreNewt_Body.cpp
+	OgreNewt_Collision.cpp
+	OgreNewt_CollisionPrimitives.cpp
+	OgreNewt_ContactCallback.cpp
+	OgreNewt_Debugger.cpp
+	OgreNewt_Joint.cpp
+	OgreNewt_MaterialID.cpp
+	OgreNewt_MaterialPair.cpp
+	OgreNewt_RayCast.cpp
+	OgreNewt_Tools.cpp
+	OgreNewt_TreeCollisionSerializer.cpp
+	OgreNewt_Vehicle.cpp
+	OgreNewt_World.cpp
+	""")
+OgreFlags = commands.getoutput("pkg-config --cflags OGRE")
+
+StaticLibrary(target = 'OgreNewt', source = list, CCFLAGS='-O3 -march=pentium3 -I/usr/local/include -fomit-frame-pointer -ffast-math -Iinc ' + OgreFlags)
