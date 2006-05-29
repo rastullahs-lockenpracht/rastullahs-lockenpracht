@@ -24,17 +24,6 @@
 #   undef PACKAGE_STRING
 #   undef PACKAGE_TARNAME
 #   undef PACKAGE_VERSION
-#   include "ruby.h"
-#   include "FixRubyHeaders.h"
-#endif
-
-#ifdef HAVE_CONFIG_H
-#   undef PACKAGE_NAME
-#   undef PACKAGE
-#   undef PACKAGE_BUGREPORT
-#   undef PACKAGE_STRING
-#   undef PACKAGE_TARNAME
-#   undef PACKAGE_VERSION
 #endif
 
 #include <Ogre.h>
