@@ -48,6 +48,7 @@ namespace rl
 		void initBot();
 		void loadDialogScriptObject(const CeGuiString& src, const CeGuiString& className);
 		void learnAiml(const CeGuiString& fileName);
+		void setVoiceFile(const CeGuiString& fileName);
 
 		virtual void  warning (const XERCES_CPP_NAMESPACE::SAXParseException &exc);
 		virtual void  error (const XERCES_CPP_NAMESPACE::SAXParseException &exc);

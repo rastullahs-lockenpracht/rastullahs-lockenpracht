@@ -18,10 +18,7 @@
 #define __Rl_DialogAimlProcessor_H__
 
 #include <xercesc/dom/DOM.hpp>
-#include "NaturalLanguageProcessor.h"
-#include "Match.h"
 #include "DialogPrerequisites.h"
-#include "XmlHelper.h"
 
 #include <string>
 
@@ -29,6 +26,9 @@ using namespace std;
 XERCES_CPP_NAMESPACE_USE
 namespace rl
 {
+	class NaturalLanguageProcessor;
+	class Match;
+
 	class _RlDialogExport AimlProcessor
 	{
 	public:

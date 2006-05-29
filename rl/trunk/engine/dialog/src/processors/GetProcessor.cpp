@@ -2,6 +2,7 @@
 #include "RulesSubsystem.h"
 #include "QuestBook.h"
 #include "Quest.h"
+#include "XmlHelper.h"
 
 namespace rl
 {

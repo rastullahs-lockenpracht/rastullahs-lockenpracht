@@ -61,7 +61,7 @@ namespace rl
 			XmlPtr res = DialogSubsystem::getSingleton().getXmlResource(xmlFile);
 			res->parseBy(parser);
 			
-			if(parser)
+			if (parser)
 			{
 				delete parser;
 			}
@@ -74,7 +74,7 @@ namespace rl
 			std::string excs = "Exception while Parsing: ";
 			excs += excmsg;
 			// cleanup
-			if(parser)
+			if (parser)
 			{
 				delete parser;
 			}
@@ -93,7 +93,7 @@ namespace rl
 	{
 		CeGuiString tagName = XmlHelper::transcodeToString(localname);
 
-		if(tagName == "dialog-startup")
+		if (tagName == "dialog-startup")
 		{
 			mCurrentState = TAG_START;
 		}
@@ -102,12 +102,12 @@ namespace rl
 		{
 		case TAG_START:
 			{
-				if(tagName == "bot")
+				if (tagName == "bot")
 				{
 					CeGuiString botName = 
 						XmlHelper::getAttributeValueAsString(attrs, "name");
 
-					if(mBotName.empty() || mBotName == botName)
+					if (mBotName.empty() || mBotName == botName)
 					{
 						mBotName = botName;
 						initBot();
@@ -126,7 +126,7 @@ namespace rl
 					{
 						CeGuiString src;
 						CeGuiString value;
-						if(tagName == "script")
+						if (tagName == "script")
 						{
 							// Get Attributes and so on...
 							mSubState = SUBTAG_SCRIPT;
@@ -135,9 +135,13 @@ namespace rl
 								XmlHelper::getAttributeValueAsString(attrs,"src"),
 								XmlHelper::getAttributeValueAsString(attrs,"class"));
 						}
-						else if(tagName == "learn")
+						else if (tagName == "learn")
 						{
 							learnAiml(XmlHelper::getAttributeValueAsString(attrs,"src"));
+						}
+						else if (tagName == "voice")
+						{
+							setVoiceFile(XmlHelper::getAttributeValueAsString(attrs,"src"));
 						}
 					}
 					break;
@@ -164,7 +168,7 @@ namespace rl
 		{
 		case TAG_BOT:
 			{
-				if(tagName == "bot" || tagName == "level")
+				if (tagName == "bot" || tagName == "level")
 				{
 					mCurrentState = TAG_START;
 					mSubState = SUBTAG_NONE;
@@ -219,7 +223,7 @@ namespace rl
 
 	void BotParser::initBot()
 	{
-		if(mBot == NULL)
+		if (mBot == NULL)
 		{
 			mBot = new DialogCharacter(mBotName);
 		}
@@ -231,7 +235,7 @@ namespace rl
 		
 	void BotParser::loadDialogScriptObject(const CeGuiString& src, const CeGuiString& className)
 	{
-		if(src.find("?") && className.find("?"))
+		if (src.find("?") && className.find("?"))
 		{
 			// load the ruby scriptfile into the interpreter 
 			CoreSubsystem::getSingleton().getRubyInterpreter()->execute(("load \"" + src + "\"").c_str());
@@ -252,7 +256,7 @@ namespace rl
 
 	void BotParser::learnAiml(const CeGuiString& fileName)
 	{
-		if(fileName.find("?"))
+		if (fileName.find("?"))
 		{
             std::set<Ogre::String> files;
 
@@ -271,9 +275,9 @@ namespace rl
 			{
 				// check if loading of the aimlfile succeeded
 				// if so, a GraphMaster for the given aimlfile is created
-				if(DialogSubsystem::getSingletonPtr()->loadAimlFile((*it).c_str()))
+				if (DialogSubsystem::getSingletonPtr()->loadAimlFile((*it).c_str()))
 				{
-					if(mBot)
+					if (mBot)
 					{
 						// add the GraphMaster of the aimlfile to the bot
 						mBot->addGraphMaster(
@@ -282,6 +286,14 @@ namespace rl
 					}
 				}
 			} // end for(...
-		} // end if(fileName.find...
+		} // end if (fileName.find...
+	}
+
+	void BotParser::setVoiceFile(const CeGuiString& fileName)
+	{
+		if (mBot)
+		{
+			mBot->setVoiceFile(fileName);
+		}
 	}
 }

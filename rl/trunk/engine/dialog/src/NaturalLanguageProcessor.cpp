@@ -240,8 +240,12 @@ namespace rl
 
 		if(parser)delete parser;
 		Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "Return response");
-		return new DialogResponse(input, retResponse, mCurrentResponses, 
-			selectableOptions, this);
+		return new DialogResponse(
+			input, 
+			retResponse, 
+			mCurrentResponses, 
+			selectableOptions, 
+			this);
 	//	return mCurrentResponses;
 	}
 

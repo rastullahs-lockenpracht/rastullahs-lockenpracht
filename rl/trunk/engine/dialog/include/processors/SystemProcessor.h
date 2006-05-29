@@ -17,11 +17,13 @@
 #ifndef SYSTEM_PROCESSOR_H
 #define SYSTEM_PROCESSOR_H
 
+#include "XmlHelper.h"
 #include "DialogPrerequisites.h"
 #include "../AimlProcessor.h"
 #include "../NaturalLanguageProcessor.h"
 #include "../AimlParser.h"
 #include "../DialogSubsystem.h"
+
 
 namespace rl
 {

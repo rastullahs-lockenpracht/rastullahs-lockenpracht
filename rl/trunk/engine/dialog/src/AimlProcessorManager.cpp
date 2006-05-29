@@ -14,6 +14,7 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
+#include <xercesc/util/XMemory.hpp>
 #include "AimlProcessorManager.h"
 #include "processors/BrProcessor.h"
 #include "processors/ConditionProcessor.h"

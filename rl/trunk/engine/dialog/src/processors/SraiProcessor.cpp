@@ -17,6 +17,7 @@
 #include "AimlParser.h"
 #include "DialogSubsystem.h"
 #include "Nodemaster.h"
+#include "XmlHelper.h"
 
 namespace rl
 {

@@ -65,7 +65,7 @@ namespace rl
 			XmlPtr res = DialogSubsystem::getSingleton().getXmlResource(fileName);
 			res->parseBy(parser);
 			
-			if(parser)
+			if (parser)
 			{
 				delete parser;
 			}
@@ -79,7 +79,7 @@ namespace rl
 			excs+=excmsg;
 			Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, excs);
 			// cleanup
-			if(parser)delete parser;
+			if (parser)delete parser;
 			throw (exc);
 		}
 		return false;
@@ -119,7 +119,7 @@ namespace rl
 	/////////////////////////////////////////
 	// Abfrage für Startup-File
 	////////////////////////////////////////
-		if(!tmp.compare("predicate"))
+		if (!tmp.compare("predicate"))
 		{	// Predicates haben name, value und return-Wert
 			name = XmlHelper::getAttributeValueAsString(attrs,"name");
 			value = XmlHelper::getAttributeValueAsString(attrs,"value");
@@ -135,7 +135,7 @@ namespace rl
 				//	Predicates::specializePredicate(name.c_str(), s.c_str(), b); // XXX PREDICATES
 				}
 			}
-		} else if(!tmp.compare("property"))	{	
+		} else if (!tmp.compare("property"))	{	
 			// Properties have name & value
 			name = XmlHelper::getAttributeValueAsString(attrs,"name");
 			value = XmlHelper::getAttributeValueAsString(attrs,"value");
@@ -145,29 +145,29 @@ namespace rl
 			//	(const char*)name; // ?
 //				Predicates::setProperty(name.c_str(), value.c_str()); // XXX PREDICATES
 			}
-		} else if(!tmp.compare("option")) {	
+		} else if (!tmp.compare("option")) {	
 			// Options haben name & value
 			name = XmlHelper::getAttributeValueAsString(attrs,"name");
 			value = XmlHelper::getAttributeValueAsString(attrs,"value");
 			if ( !name.empty() && !value.empty() )
 			{
-				if(mNlp)
+				if (mNlp)
 				{
 //					mNlp->processOption(name, value);
 				}
 			}
-		} else if(!tmp.compare("bot")) {
+		} else if (!tmp.compare("bot")) {
 		//	Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "Bot");
-			if(mNlp)
+			if (mNlp)
 			{
 				mNlp->setName(XmlHelper::getAttributeValueAsString(attrs,"name"));
 			}
-		} else if(!tmp.compare("learn")) {
+		} else if (!tmp.compare("learn")) {
 		//	Logger::getSingleton().log(Logger::DIALOG, Ogre::LML_TRIVIAL, "Learning");
 			name = XmlHelper::getAttributeValueAsString(attrs,"src");
 			if ( !name.empty())
 			{
-				if(mNlp)
+				if (mNlp)
 				{
 //					mNlp->processOption("load", name);
 				}
@@ -178,30 +178,30 @@ namespace rl
 	/////////////////////////////////////////
 	// Abfrage für AIML-File
 	////////////////////////////////////////
-		if(compareTagName(tagName, "aiml"))
+		if (compareTagName(tagName, "aiml"))
 		{
 			mCurState = PARSER_AIML;
 		}
-/*		if(!tmp.compare("aiml") && mCurState==PARSER_START)
+/*		if (!tmp.compare("aiml") && mCurState==PARSER_START)
 		{		
 			mCurState = PARSER_AIML;
 		}
 */		switch( mCurState )
 		{
 		case PARSER_AIML:
-			if(compareTagName(tagName, "category"))
+			if (compareTagName(tagName, "category"))
 			{
 				mCurState = PARSER_CATEGORY;
 				startCategory();
-			} else if(compareTagName(tagName, "topic")) {
+			} else if (compareTagName(tagName, "topic")) {
 				name = XmlHelper::getAttributeValueAsString(attrs,"name");
-				if(!name.empty())
+				if (!name.empty())
 					mTopicName = name;
 
 				mCurState = PARSER_TOPIC;
-			} else if(compareTagName(tagName, "context")) {
+			} else if (compareTagName(tagName, "context")) {
 				name = XmlHelper::getAttributeValueAsString(attrs,"name");
-				if(!name.empty())
+				if (!name.empty())
 					mContextName = name;
 
 				mCurState = PARSER_CONTEXT;
@@ -211,13 +211,13 @@ namespace rl
 			mPrevStates.push(PARSER_AIML);
 			break;
 		case PARSER_CONTEXT:
-			if(compareTagName(tagName, "category"))
+			if (compareTagName(tagName, "category"))
 			{
 				mCurState = PARSER_CATEGORY;
 				startCategory();
-			} else if(compareTagName(tagName, "topic")) {
+			} else if (compareTagName(tagName, "topic")) {
 				name = XmlHelper::getAttributeValueAsString(attrs,"name");
-				if(!name.empty())
+				if (!name.empty())
 					mTopicName = name;
 
 				mCurState = PARSER_TOPIC;
@@ -227,13 +227,13 @@ namespace rl
 			mPrevStates.push(PARSER_CONTEXT);
 			break;
 		case PARSER_TOPIC:
-			if(compareTagName(tagName, "category"))
+			if (compareTagName(tagName, "category"))
 			{
 				mCurState = PARSER_CATEGORY;
 				startCategory();
-			} else if(compareTagName(tagName, "context")) {
+			} else if (compareTagName(tagName, "context")) {
 				name = XmlHelper::getAttributeValueAsString(attrs,"name");
-				if(!name.empty())
+				if (!name.empty())
 					mContextName = name;
 
 				mCurState = PARSER_CONTEXT;
@@ -452,11 +452,11 @@ namespace rl
 				//--	an error
 				break;
 			}
-		} else if(mCurState==PARSER_SCRIPT) {
+		} else if (mCurState==PARSER_SCRIPT) {
 			mCurState=PARSER_START;
 			CeGuiString script="class ";
 			// If tag has no attribute, XmlChar::transcode returns "????"
-			if(!mTemplateValue.find("?"))
+			if (!mTemplateValue.find("?"))
 				mTemplateValue="DialogClass";
 			
 			script += mTemplateValue+"\n";
@@ -532,7 +532,7 @@ namespace rl
 		if ( mSubState != CAT_FINISH ) {
 			//--	an error
 		}/*
-		if(mNlp)
+		if (mNlp)
 		{
 			Nodemaster* node = mNlp->getGM()->add(
 				mContextName,
@@ -542,9 +542,9 @@ namespace rl
 				mTemplateValue
 				);
 		}*/
-		if(mAimlCore)
+		if (mAimlCore)
 		{
-			if(Graphmaster* gm = mAimlCore->getGraphMaster(mFileName))
+			if (Graphmaster* gm = mAimlCore->getGraphMaster(mFileName))
 			{
 				Nodemaster* node = gm->add(
 									mContextName,
@@ -589,7 +589,7 @@ namespace rl
 			XMLCh* attr_name = XMLString::transcode(attributeName);
 			const XMLCh* val_str = attrs.getValue(attr_name);
 			XMLString::release(&attr_name);
-			if(val_str!=NULL){
+			if (val_str!=NULL){
 				return val_str;}
 			return (XMLCh*)"";
 	}
@@ -597,7 +597,7 @@ namespace rl
 /*	int AimlParserImplXerces::getAttributeValueAsInteger(DOMNamedNodeMap* node,const char* const nodeName)
 	{
 			const XMLCh* val_str = node->getNamedItem(XMLString::transcode(nodeName))->getNodeValue();
-			if(val_str!=NULL)
+			if (val_str!=NULL)
 				return XMLString::parseInt(val_str);
 			return 0;
 	}

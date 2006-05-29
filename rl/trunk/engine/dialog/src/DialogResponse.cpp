@@ -21,6 +21,7 @@
 
 #include "XmlHelper.h"
 #include "AimlProcessorManager.h"
+#include "AimlProcessor.h"
 #include "DialogResponse.h"
 
 namespace rl
@@ -30,8 +31,11 @@ namespace rl
 									const Options& currentOptions,
 									const Options& selectableOptions,
 									NaturalLanguageProcessor* nlp)
-		: mInput(input), mResponse(response), mCurrentOptions(currentOptions),
-		  mSelectableOptions(selectableOptions), mNlp(nlp)
+		:	mInput(input), 
+			mResponse(response), 
+			mCurrentOptions(currentOptions),
+			mSelectableOptions(selectableOptions), 
+			mNlp(nlp)
 	{
 	}
 
@@ -41,6 +45,8 @@ namespace rl
 
 	std::pair<int, CeGuiString> DialogResponse::getSelectedOption(int id)
 	{
+		XERCES_CPP_NAMESPACE_USE
+
 		if(mSelectableOptions.find(id) != mSelectableOptions.end())
 		{
 			XercesDOMParser* parser = new XercesDOMParser();

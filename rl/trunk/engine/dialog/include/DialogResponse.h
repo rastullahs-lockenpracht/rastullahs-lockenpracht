@@ -35,12 +35,9 @@ namespace rl
 						NaturalLanguageProcessor* nlp);
 		virtual ~DialogResponse(void);
 
-
 		const Options& getOptions() { return mCurrentOptions; }
 		const CeGuiString& getResponse() { return mResponse;}
 		std::pair<int, CeGuiString> getSelectedOption(int id);
-
-
 
 	private:
 		CeGuiString mInput;

@@ -18,7 +18,6 @@
 #define __Rl_DialogProcessorManager_H__
 
 //--	AimlProcessorManager.h
-#include "AimlProcessor.h"
 #include "DialogPrerequisites.h"
 
 
@@ -29,6 +28,9 @@ using namespace std;
 
 namespace rl
 {
+	class AimlProcessor;
+	class Graphmaster;
+
 	class _RlDialogExport AimlProcessorManager //: public Singleton<AimlProcessorManager>
 	{
 	public:

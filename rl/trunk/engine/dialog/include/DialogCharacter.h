@@ -41,12 +41,15 @@ namespace rl
 
 		DialogScriptObject* getScriptObject() const;
 		void setScriptObject(DialogScriptObject* scriptObject);
+
+		CeGuiString getVoiceFile() const;
+		void setVoiceFile(const CeGuiString& filename);
 		
 	private:
 		DialogScriptObject* mScriptObject;
 		Creature* mCharacter;
 		Creature* mDialogPartner;
-
+		CeGuiString mVoiceFile;
 	};
 
 	inline Creature* DialogCharacter::getDialogCharacter() const

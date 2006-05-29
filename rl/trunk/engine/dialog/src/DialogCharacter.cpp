@@ -41,4 +41,14 @@ namespace rl
 		mScriptObject = scriptObject;
 		scriptObject->setParent(this);
 	}
+
+	void DialogCharacter::setVoiceFile(const CeGuiString& filename)
+	{
+		mVoiceFile = filename;
+	}
+
+	CeGuiString DialogCharacter::getVoiceFile() const
+	{
+		return mVoiceFile;
+	}
 }
