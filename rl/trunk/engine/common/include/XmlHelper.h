@@ -144,17 +144,6 @@ public:
 	static void initializeTranscoder();
 
 	/**
-	 * Konvertiert ein Xerces-XMLCh* in einen UTF-8-String
-	 * Vor Benutzung muss initializeTranscoder() aufgerufen werden
-	 *
-	 * @param string16 Der zu konvertierende Xerces-XMLCh*
-	 * @return Konvertierter Text als utf8* (muss selbst gelöscht werden)
-	 * @see initializeTranscoder()
-	 */
-
-	static utf8* transcodeToUtf8(const XMLCh* const string16);
-
-	/**
 	 * Konvertiert einen Xerces-XMLCh* in eine CeGuiString
 	 * Intern wird eine Konvertierung in utf8* vorgenommen,
 	 * wobei man sich hier um das nachträgliche aufräumen 
@@ -172,6 +161,102 @@ private:
 	static XMLTranscoder* sTranscoder;
 	static XMLTransService::Codes sFailCode;
 
+	/**
+	 * Konvertiert ein Xerces-XMLCh* in einen UTF-8-String
+	 * Vor Benutzung muss initializeTranscoder() aufgerufen werden
+	 *
+	 * @param string16 Der zu konvertierende Xerces-XMLCh*
+	 * @return Konvertierter Text als utf8* (muss selbst gelöscht werden)
+	 * @see initializeTranscoder()
+	 */
+	static utf8* transcodeToUtf8(const XMLCh* const string16);
+};
+
+class _RlCommonExport AutoXMLCh
+{
+public:
+    AutoXMLCh() : mData(0) { }
+
+    AutoXMLCh(const char* rhs) : mData(0)
+    {
+        mData = XERCES_CPP_NAMESPACE::XMLString::transcode(rhs);
+    }
+
+    AutoXMLCh(const AutoXMLCh& rhs) : mData(0)
+    {
+        mData = XERCES_CPP_NAMESPACE::XMLString::replicate(rhs.mData);
+    }
+
+    ~AutoXMLCh()
+    {
+        XERCES_CPP_NAMESPACE::XMLString::release(&mData);
+    }
+
+    const AutoXMLCh& operator=(const AutoXMLCh& rhs)
+    {
+        if (mData != NULL)
+        {
+            XERCES_CPP_NAMESPACE::XMLString::release(&mData);
+        }
+        mData = XERCES_CPP_NAMESPACE::XMLString::replicate(rhs.mData);
+        return *this;
+    }
+
+    const AutoXMLCh& operator=(const char* rhs)
+    {
+        if (mData != NULL)
+        {
+            XERCES_CPP_NAMESPACE::XMLString::release(&mData);
+        }
+        mData = XERCES_CPP_NAMESPACE::XMLString::transcode(rhs);
+        return *this;
+    }
+
+    XMLCh* data() const { return mData; }
+private:
+    XMLCh* mData;
+};
+
+class _RlCommonExport AutoChar
+{
+public:
+    AutoChar() : mData(0) { }
+
+    AutoChar(const XMLCh* str) : mData(0)
+    {
+        mData = XERCES_CPP_NAMESPACE::XMLString::transcode(str);
+    }
+
+    AutoChar(const AutoChar& rhs) : mData(0)
+    {
+        mData = XERCES_CPP_NAMESPACE::XMLString::replicate(rhs.mData);
+    }
+
+    ~AutoChar()
+    {
+        XERCES_CPP_NAMESPACE::XMLString::release(&mData);
+    }
+
+    const AutoChar& operator=(const AutoChar& rhs)
+    {
+        XERCES_CPP_NAMESPACE::XMLString::release(&mData);
+        mData = XERCES_CPP_NAMESPACE::XMLString::replicate(rhs.mData);
+        return *this;
+    }
+
+    const AutoChar& operator=(XMLCh* rhs)
+    {
+        if (mData != NULL)
+        {
+            XERCES_CPP_NAMESPACE::XMLString::release(&mData);
+        }
+        mData = XERCES_CPP_NAMESPACE::XMLString::transcode(rhs);
+        return *this;
+    }
+
+    char* data() const { return mData; }
+private:
+    char* mData;
 };
 
 }
