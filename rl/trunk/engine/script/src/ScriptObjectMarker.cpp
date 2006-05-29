@@ -47,7 +47,7 @@ namespace rl {
         rb_define_variable("$UsedRubyInstances", &mRubyArray);
 
         // Beim ActorManager registrieren
-        ScriptWrapper::getSingleton().setScriptWrapperInstance( this );
+        ScriptWrapper::getSingleton().setScriptWrapperInstance(this);
     }
 
     ScriptObjectMarker::~ScriptObjectMarker()
@@ -55,6 +55,9 @@ namespace rl {
         // @todo array leeren
         rb_gc_unregister_address(&mRubyArray);
 		m_RubyRefCountMap.clear();
+
+        // Beim ActorManager abmelden
+        ScriptWrapper::getSingleton().setScriptWrapperInstance(0);
     }
 
     void ScriptObjectMarker::owned( void* ptr )

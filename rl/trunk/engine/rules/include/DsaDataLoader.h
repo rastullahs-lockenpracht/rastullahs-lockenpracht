@@ -34,8 +34,6 @@ namespace rl {
 		static void loadData(std::string filename);
 
 	private:
-		static XERCES_CPP_NAMESPACE::DOMDocument* loadDataFile(std::string filename);
-		
 		static int getEBeFromString(const std::string& eBeString);
 
 		static void initializeTalente(XERCES_CPP_NAMESPACE::DOMElement* rootTalente);

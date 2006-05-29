@@ -587,7 +587,7 @@ namespace rl {
 			XmlResourceManager::getSingleton().create(
 			filename, 
 			ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-		res.getPointer()->parseBy(parser);
+		res->parseBy(parser);
 		DOMDocument* doc = parser->getDocument();
 		DOMElement* dataDocumentContent = doc->getDocumentElement();
 
@@ -633,6 +633,9 @@ namespace rl {
 
 		doc->release();
 		XMLPlatformUtils::Terminate();
+
+        //XmlResourceManager::getSingleton().remove(filename);
+        //res.setNull();
 	}
 
 	void InputManager::setObjectPickingActive(bool active)

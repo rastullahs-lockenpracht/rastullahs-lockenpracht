@@ -24,29 +24,29 @@ template<> rl::ScriptSubsystem* Singleton<rl::ScriptSubsystem>::ms_Singleton = 0
 
 namespace rl {
 
-	ScriptSubsystem& ScriptSubsystem::getSingleton()
-	{
-		return Singleton<ScriptSubsystem>::getSingleton();
-	}
+    ScriptSubsystem& ScriptSubsystem::getSingleton()
+    {
+        return Singleton<ScriptSubsystem>::getSingleton();
+    }
 
-	ScriptSubsystem* ScriptSubsystem::getSingletonPtr()
-	{
-		return Singleton<ScriptSubsystem>::getSingletonPtr();
-	}
+    ScriptSubsystem* ScriptSubsystem::getSingletonPtr()
+    {
+        return Singleton<ScriptSubsystem>::getSingletonPtr();
+    }
 
-	ScriptSubsystem::ScriptSubsystem()
-	{
-		new ScriptObjectMarker();	
-	}
+    ScriptSubsystem::ScriptSubsystem() : mScriptObjectMarker(0)
+    {
+        mScriptObjectMarker = new ScriptObjectMarker();	
+    }
 
-	ScriptSubsystem::~ScriptSubsystem()
-	{
-		
-	}
+    ScriptSubsystem::~ScriptSubsystem()
+    {
+        delete mScriptObjectMarker;
+    }
 
-	void ScriptSubsystem::log(const rl::CeGuiString &message)
-	{
-		Logger::getSingleton().log(Logger::SCRIPT, Ogre::LML_NORMAL, message);
-	}
+    void ScriptSubsystem::log(const rl::CeGuiString &message)
+    {
+        Logger::getSingleton().log(Logger::SCRIPT, Ogre::LML_NORMAL, message);
+    }
 
 }

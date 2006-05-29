@@ -122,14 +122,14 @@ void startupRl(bool developerMode, Ogre::String module)
 	try 
     {
 #endif // #ifndef _DEBUG
+		sound->saveConf(rl::ConfigurationManager::getSingleton().getSoundCfgPath());
+		log(Ogre::LML_NORMAL, "Soundkonfiguration gespeichert");
+
 		delete script;
 		delete ui;
 		delete dialog;
 		delete rules;
 		delete core;
-		sound->saveConf(rl::ConfigurationManager::getSingleton().getSoundCfgPath());
-		log(Ogre::LML_NORMAL, "Soundkonfiguration gespeichert");
-
 		delete sound;
 #ifndef _DEBUG
 	}

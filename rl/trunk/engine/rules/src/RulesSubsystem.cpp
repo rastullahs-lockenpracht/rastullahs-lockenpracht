@@ -37,18 +37,21 @@ namespace rl
     }
 
     RulesSubsystem::RulesSubsystem()
-		: mQuestBook(NULL)
+		: mQuestBook(NULL),
+        mActionManager(NULL),
+        mDsaManager(NULL),
+        mTimerManager(NULL)
     {
 		Logger::getSingleton().log(Logger::RULES, Ogre::LML_TRIVIAL, "Start");
         //Zufallsgenerator initialisieren
         srand(static_cast<unsigned int>(time(NULL)));
 
         //Singletons erzeugen
-        new ActionManager(); 
+        mActionManager = new ActionManager(); 
 		Logger::getSingleton().log(Logger::RULES, Ogre::LML_TRIVIAL, "ActionManager erzeugt");
-        new DsaManager();
+        mDsaManager = new DsaManager();
 		Logger::getSingleton().log(Logger::RULES, Ogre::LML_TRIVIAL, "DsaManager erzeugt");
-		new TimerManager(); 
+		mTimerManager = new TimerManager(); 
 		Logger::getSingleton().log(Logger::RULES, Ogre::LML_TRIVIAL, "TimerManager erzeugt");
 		resetQuestBook();
 		Logger::getSingleton().log(Logger::RULES, Ogre::LML_TRIVIAL, "Questverwaltung erzeugt");
@@ -62,7 +65,10 @@ namespace rl
 	
 	RulesSubsystem::~RulesSubsystem()
     {
-        delete DsaManager::getSingletonPtr();
+        delete mQuestBook;
+        delete mTimerManager;
+        delete mDsaManager;
+        delete mActionManager;
     }
 
 	QuestBook* RulesSubsystem::getQuestBook()

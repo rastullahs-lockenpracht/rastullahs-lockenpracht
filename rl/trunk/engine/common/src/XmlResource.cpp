@@ -47,15 +47,14 @@ void XmlResource::loadImpl()
 
 	mXmlBuffer = new MemBufInputSource(reinterpret_cast<XMLByte*>(mCharBuffer),
 	    static_cast<const unsigned int>(mSize), "rl::XmlResourceManager");
-	mIsLoaded = true;
-	touch();	
 }
 
 void XmlResource::unloadImpl()
 {
 	delete mXmlBuffer;
+    mXmlBuffer = 0;
 	delete[] mCharBuffer;
-	mIsLoaded = false;
+    mCharBuffer = 0;
 }
 
 
@@ -69,7 +68,6 @@ void XmlResource::parseBy(XERCES_CPP_NAMESPACE::XercesDOMParser* parser)
 	if (!mIsLoaded)
 		load();
 	parser->parse(*mXmlBuffer);
-	touch();
 }
 
 void XmlResource::parseBy(XERCES_CPP_NAMESPACE::SAX2XMLReader* parser)
@@ -77,7 +75,6 @@ void XmlResource::parseBy(XERCES_CPP_NAMESPACE::SAX2XMLReader* parser)
 	if (!mIsLoaded)
 		load();
 	parser->parse(*mXmlBuffer);
-	touch();
 }
 
 XmlPtr::XmlPtr(const ResourcePtr& res) : SharedPtr<XmlResource>()

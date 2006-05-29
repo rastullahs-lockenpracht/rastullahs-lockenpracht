@@ -15,7 +15,6 @@
  */
 
 #include <xercesc/framework/LocalFileInputSource.hpp>
-#include <xercesc/parsers/XercesDOMParser.hpp>
 #include <xercesc/dom/DOM.hpp>
 #include <xercesc/util/XMLString.hpp>
 #include <xercesc/util/PlatformUtils.hpp>
@@ -45,35 +44,29 @@ namespace rl {
 		XMLPlatformUtils::Initialize();
 
 		XmlHelper::initializeTranscoder();
+		XercesDOMParser* parser = new XercesDOMParser();
 
-		DOMDocument* doc = loadDataFile(filename);
-		DOMElement* dataDocumentContent = XmlHelper::getChildNamed(doc->getDocumentElement(), "Inhalt");
+        parser->setValidationScheme(XercesDOMParser::Val_Always);    // optional.
+        parser->setDoNamespaces(true);    // optional
+		
+		XmlPtr res = XmlResourceManager::getSingleton().create(filename, 
+			Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+		res->parseBy(parser);
+
+		DOMDocument* doc = parser->getDocument();
+		DOMElement* dataDocumentContent = XmlHelper::getChildNamed(
+            doc->getDocumentElement(), "Inhalt");
 
 		initializeTalente(XmlHelper::getChildNamed(dataDocumentContent, "Talente"));
 		initializeKampftechniken(XmlHelper::getChildNamed(dataDocumentContent, "Kampftechniken"));
 		initializePersonen(XmlHelper::getChildNamed(dataDocumentContent, "Personen"));
 		
 		doc->release();
+
+        res.setNull();
+        XmlResourceManager::getSingleton().remove(filename);
+
 		XMLPlatformUtils::Terminate();
-		
-	}
-
-	DOMDocument* DsaDataLoader::loadDataFile(string filename)
-	{
-
-		XercesDOMParser* parser = new XercesDOMParser();
-        parser->setValidationScheme(XercesDOMParser::Val_Always);    // optional.
-        parser->setDoNamespaces(true);    // optional
-
-/*        ErrorHandler* errHandler = (ErrorHandler*) new HandlerBase();
-        parser->setErrorHandler(errHandler);*/
-		
-		XmlPtr res = 
-			XmlResourceManager::getSingleton().create(
-			filename, 
-			Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-		res.getPointer()->parseBy(parser);
-		return parser->getDocument();
 	}
 
     void DsaDataLoader::initializeTalente(DOMElement* rootTalente)

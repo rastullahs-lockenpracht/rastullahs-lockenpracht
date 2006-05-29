@@ -188,7 +188,7 @@ using namespace Ogre;
 	{
 	}
 
-	AsynchronousGameLoop::AsynchronousGameLoop(unsigned long timeTickInMillis)
+    AsynchronousGameLoop::AsynchronousGameLoop(unsigned long timeTickInMillis) : mIsDeleted(false)
 	{
 		mTimer = PlatformManager::getSingleton().createTimer();
 		mTimer->reset();		
@@ -197,6 +197,7 @@ using namespace Ogre;
     
     AsynchronousGameLoop::~AsynchronousGameLoop()
     {
+        mIsDeleted = true;
         delete mThread;
     }
 
@@ -204,7 +205,7 @@ using namespace Ogre;
 	{
 		boost::xtime timeToSleep;
 
-		while(true)
+		while(!mIsDeleted)
 		{
 			unsigned long timeSinceLastCall = mTimer->getMilliseconds();
 			if (timeSinceLastCall >= sTimeTickInMillis)

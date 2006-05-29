@@ -25,6 +25,14 @@
 #include "CharacterController.h"
 #include "GameTask.h"
 
+// Gar nicht schön, aber ansonsten gibt es unnötige Abhängigkeiten,
+// wenn man die Header hier inkludiert.
+namespace CEGUI {
+    class OgreCEGUIRenderer;
+    class OgreCEGUIResourceProvider;
+    class System;
+}
+
 namespace rl {
 
     class CommandMapper;
@@ -42,6 +50,7 @@ namespace rl {
         protected Ogre::Singleton<UiSubsystem>, protected GameTask
     {
     public:
+		static const char* CEGUI_ROOT;
 
         /** Default Constructor */
         UiSubsystem();
@@ -85,21 +94,25 @@ namespace rl {
 
 		void run(Ogre::Real elapsedTime);
 
-		static const char* CEGUI_ROOT;
-
     private:
-        void initializeUiSubsystem( void );
-        void runTest();
-        
         CharacterController* mCharacterController;
 		CharacterController::ControllerType mCharacterControllerType;
         GameActor* mHero;
         Person* mCharacter;
-		InputManager* mInputManager;
         bool mInCombat;
+
+        // Singletons
+		InputManager* mInputManager;
 		WindowFactory* mWindowFactory;
 		WindowManager* mWindowManager;
 		CommandMapper* mCommandMapper;
+
+        CEGUI::OgreCEGUIRenderer* mGuiRenderer;
+        CEGUI::OgreCEGUIResourceProvider* mGuiResourceProvider;
+        CEGUI::System* mGuiSystem;
+
+        void initializeUiSubsystem();
+        void runTest();
     };
 }
 

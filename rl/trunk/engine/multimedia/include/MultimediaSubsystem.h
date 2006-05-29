@@ -27,6 +27,8 @@ typedef std::list<Video*> VideoList;
 class SoundDriver;
 typedef std::list<SoundDriver*> DriverList;
 class ListenerMovable;
+class SoundManager;
+class SoundUpdateTask;
 
 /** Diese Klasse dient der Initialisierung und Steuerung des
  * Sound-Subsystems.
@@ -43,6 +45,10 @@ public:
 	MultimediaSubsystem();
 	/// Der Destruktor
     ~MultimediaSubsystem();
+
+    /// Hässlicher Quickfix, damit Core Multimedia runterfahren kann, bevor Ogre zerstört wird.
+    /// Im Endeffekt muss Über Multimedia-Core-Aufgabenverteilung neu nachgedacht werden.
+    void shutdown();
 
 	/// Gibt Singleton-Objekt zurueck.
     static MultimediaSubsystem& getSingleton(void);
@@ -96,6 +102,9 @@ private:
     SoundDriver *mActiveDriver;
     /// Der aktive Soundlistener
     ListenerMovable *mActiveListener;
+
+    SoundManager* mSoundManager;
+    SoundUpdateTask* mSoundUpdateTask;
 };
 
 }

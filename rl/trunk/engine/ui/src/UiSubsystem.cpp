@@ -17,9 +17,6 @@
 #include "UiPrerequisites.h"
 #include "UiSubsystem.h"
 
-#include <OgreCEGUIRenderer.h>
-#include <OgreCEGUIResourceProvider.h>
-
 #include "Action.h"
 #include "ActionManager.h"
 #include "Actor.h"
@@ -48,6 +45,10 @@
 #include "WindowManager.h"
 #include "World.h"
 
+#include <OgreCEGUIRenderer.h>
+#include <CEGUISystem.h>
+#include <OgreCEGUIResourceProvider.h>
+
 template<> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
 
 namespace rl {
@@ -68,7 +69,14 @@ namespace rl {
 		mCharacterControllerType(CharacterController::CTRL_NONE),
         mHero(0),
         mCharacter(0),
-		mInCombat(false)
+		mInCombat(false),
+		mInputManager(0),
+		mWindowFactory(0),
+		mWindowManager(0),
+		mCommandMapper(0),
+        mGuiRenderer(0),
+        mGuiResourceProvider(0),
+        mGuiSystem(0)
 	{
 		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Init Start");
 		initializeUiSubsystem();
@@ -87,36 +95,46 @@ namespace rl {
 		delete mCommandMapper;
 
 		delete mInputManager;
+
+        delete mGuiSystem;
+        delete mGuiResourceProvider;
+        delete mGuiRenderer;
 	}
 	
     void UiSubsystem::initializeUiSubsystem( void )
     {
 		using namespace CEGUI;
 
-        Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Initialisiere UI", "UiSubsystem::initializeUiSubsystem");
+        Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL,
+            "Initialisiere UI", "UiSubsystem::initializeUiSubsystem");
         World* world = CoreSubsystem::getSingleton().getWorld();
         SceneManager* sceneMgr = world->getSceneManager();
 		
 		Ogre::RenderWindow* window = Ogre::Root::getSingleton().getAutoCreatedWindow();
-		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Initialisiere CEGUI-Renderer", "UiSubsystem::initializeUiSubsystem");
-		OgreCEGUIRenderer* rend = 
-			new OgreCEGUIRenderer(window, 
-								Ogre::RENDER_QUEUE_OVERLAY, 
-								false, 
-								3000,
-								sceneMgr);
+		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL,
+            "Initialisiere CEGUI-Renderer", "UiSubsystem::initializeUiSubsystem");
+		mGuiRenderer = new OgreCEGUIRenderer(window,
+            Ogre::RENDER_QUEUE_OVERLAY, false, 3000, sceneMgr);
 
-		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Initialisiere CEGUI-System", "UiSubsystem::initializeUiSubsystem");
-		new System(rend, NULL, new OgreCEGUIResourceProvider(), (utf8*)"cegui.config");
-		CEGUI::Logger::getSingleton().setLoggingLevel(rl::Logger::getSingleton().getCeGuiLogDetail());
-		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "CEGUI-System initialisiert", "UiSubsystem::initializeUiSubsystem");
+		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL,
+            "Initialisiere CEGUI-System", "UiSubsystem::initializeUiSubsystem");
+        mGuiResourceProvider = new OgreCEGUIResourceProvider();
+		mGuiSystem = new System(mGuiRenderer, NULL, mGuiResourceProvider, (utf8*)"cegui.config");
+		CEGUI::Logger::getSingleton().setLoggingLevel(
+            rl::Logger::getSingleton().getCeGuiLogDetail());
+		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL,
+            "CEGUI-System initialisiert", "UiSubsystem::initializeUiSubsystem");
         
 		// load scheme and set up defaults
 		///@todo Hier sollte was Lookunabhängiges rein!!! FIXME TODO BUG!
-		System::getSingleton().setDefaultMouseCursor((utf8*)"RastullahLook-Images", (utf8*)"MouseArrow");
-		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Mauszeiger", "UiSubsystem::initializeUiSubsystem");
-		Window* sheet = CEGUI::WindowManager::getSingleton().createWindow((utf8*)"DefaultGUISheet", (utf8*)CEGUI_ROOT);
-		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Rootfenster", "UiSubsystem::initializeUiSubsystem");
+		System::getSingleton().setDefaultMouseCursor((utf8*)"RastullahLook-Images",
+            (utf8*)"MouseArrow");
+		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Mauszeiger",
+            "UiSubsystem::initializeUiSubsystem");
+		Window* sheet = CEGUI::WindowManager::getSingleton().createWindow((utf8*)"DefaultGUISheet",
+            (utf8*)CEGUI_ROOT);
+		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Rootfenster",
+            "UiSubsystem::initializeUiSubsystem");
 		sheet->setSize(
 			Absolute, 
 			CEGUI::Size(Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth(), 
@@ -124,18 +142,21 @@ namespace rl {
 		sheet->setPosition(Absolute, CEGUI::Point(0, 0));
 		System::getSingleton().setGUISheet(sheet);
 		System::getSingleton().setTooltip("RastullahLook/Tooltip");
-        Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "CEGUI geladen", "UiSubsystem::initializeUiSubsystem");
+        Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "CEGUI geladen",
+            "UiSubsystem::initializeUiSubsystem");
 
 		mWindowManager = new WindowManager();
 
 		//Initializing InputManager
         mInputManager = new InputManager();
 		mInputManager->loadKeyMapping(ConfigurationManager::getSingleton().getKeymap());
-		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Keymap geladen", "UiSubsystem::initializeUiSubsystem");
+		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Keymap geladen",
+            "UiSubsystem::initializeUiSubsystem");
 
 		mCommandMapper = new CommandMapper();
 		mCommandMapper->loadCommandMap(ConfigurationManager::getSingleton().getInputConfigPath());
-		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "UI-Manager geladen", "UiSubsystem::initializeUiSubsystem");
+		Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "UI-Manager geladen",
+            "UiSubsystem::initializeUiSubsystem");
 
 		mWindowFactory = new WindowFactory();
 
@@ -189,7 +210,8 @@ namespace rl {
 
 			GameLoopManager::getSingleton().removeSynchronizedTask(mCharacterController);
 			delete mCharacterController;
-			Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Old CharacterController deleted.");
+			Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL,
+                "Old CharacterController deleted.");
 		}
 
         Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
@@ -203,10 +225,12 @@ namespace rl {
 			}
 			break;
 		case CharacterController::CTRL_FREEFLIGHT:
-			mCharacterController = new FreeFlightCharacterController(camera, CoreSubsystem::getSingleton().getWorld()->getActiveActor());
+			mCharacterController = new FreeFlightCharacterController(camera,
+                CoreSubsystem::getSingleton().getWorld()->getActiveActor());
 			break;
 		case CharacterController::CTRL_DIALOG:
-			mCharacterController = new DialogCharacterController(camera, CoreSubsystem::getSingleton().getWorld()->getActiveActor());
+			mCharacterController = new DialogCharacterController(camera,
+                CoreSubsystem::getSingleton().getWorld()->getActiveActor());
 			break;
 		case CharacterController::CTRL_CUTSCENE:
 			mCharacterController = new CutsceneCharacterController(camera);
@@ -297,7 +321,8 @@ namespace rl {
 		{
 			GameLoopManager::getSingleton().removeSynchronizedTask(mCharacterController);
 			delete mCharacterController;
-			Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL, "Old CharacterController deleted.");
+			Logger::getSingleton().log(Logger::UI, Ogre::LML_TRIVIAL,
+                "Old CharacterController deleted.");
             mCharacterController = NULL;
 		}
     }

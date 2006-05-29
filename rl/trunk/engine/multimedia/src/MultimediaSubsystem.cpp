@@ -61,8 +61,13 @@ MultimediaSubsystem* MultimediaSubsystem::getSingletonPtr(void)
  * @date 05-26-2004
  */
 MultimediaSubsystem::MultimediaSubsystem():
-	mActiveDriver(NULL),
-	mElapsedTime(0)
+	mElapsedTime(0),
+    mVideoList(),
+    mDriverList(),
+	mActiveDriver(0),
+    mActiveListener(0),
+    mSoundManager(0),
+    mSoundUpdateTask(0)
 {   
     SoundDriver *driver = NULL;
     // Die Treiberliste ermitteln.
@@ -96,10 +101,10 @@ MultimediaSubsystem::MultimediaSubsystem():
     }
 #endif
   	//Singletons erzeugen 
-   	new SoundManager();
+   	mSoundManager = new SoundManager();
     
     // SoundUpdates anschmeissen.	
-    new SoundUpdateTask();
+    mSoundUpdateTask = new SoundUpdateTask();
 }
 
 /**
@@ -108,11 +113,19 @@ MultimediaSubsystem::MultimediaSubsystem():
  */
 MultimediaSubsystem::~MultimediaSubsystem()
 {
-    delete SoundManager::getSingletonPtr();
-    delete SoundUpdateTask::getSingletonPtr();
-    if (getActiveDriver() != NULL)
+    shutdown();
+}
+
+void MultimediaSubsystem::shutdown()
+{
+    delete mSoundManager;
+    mSoundManager = 0;
+    delete mSoundUpdateTask;
+    mSoundUpdateTask = 0;
+    if (mActiveDriver != 0)
     {
-        getActiveDriver()->deInit();
+        mActiveDriver->deInit();
+        mActiveDriver = 0;
     }
 }
 

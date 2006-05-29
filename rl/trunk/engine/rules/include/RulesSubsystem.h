@@ -23,7 +23,10 @@
 
 namespace rl
 {
-	class _RlRulesExport QuestBook;
+	class QuestBook;
+    class ActionManager;
+    class DsaManager;
+    class TimerManager;
 
 	class _RlRulesExport RulesSubsystem : public Ogre::Singleton<RulesSubsystem>
     {
@@ -39,7 +42,9 @@ namespace rl
 
 	private:
 		QuestBook* mQuestBook;
-
+        ActionManager* mActionManager;
+        DsaManager* mDsaManager;
+        TimerManager* mTimerManager;
     };
 }
 

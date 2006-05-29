@@ -45,7 +45,12 @@ namespace rl
         return Ogre::Singleton<DsaManager>::getSingletonPtr();
     }
 
-    DsaManager::DsaManager() : mTalente(), mEigenschaften()
+    DsaManager::DsaManager()
+        : mBaseTime(0),
+        mEigenschaften(),
+        mTalente(),
+        mKampftechniken(),
+        mPersonen()
     {
         //Zufallsgenerator initialisieren
         srand(static_cast<unsigned int>(time(NULL)));
@@ -59,8 +64,24 @@ namespace rl
 
     DsaManager::~DsaManager()
     {
+        for(PersonMap::iterator it = mPersonen.begin(); it != mPersonen.end(); ++it)
+        {
+            delete it->second;
+        }
+        for(KampftechnikMap::iterator it = mKampftechniken.begin();
+            it != mKampftechniken.end(); ++it)
+        {
+            delete it->second;
+        }
+        for(TalentMap::iterator it = mTalente.begin(); it != mTalente.end(); ++it)
+        {
+            delete it->second;
+        }
+        for(EigenschaftMap::iterator it = mEigenschaften.begin(); it != mEigenschaften.end(); ++it)
+        {
+            delete it->second;
+        }
     }
-
 
     void DsaManager::initializeEigenschaften()
     {

@@ -110,6 +110,7 @@ public:
 
 private: 
 	Ogre::Timer* mTimer;
+    bool mIsDeleted;
 	
 	boost::thread* mThread;
 };

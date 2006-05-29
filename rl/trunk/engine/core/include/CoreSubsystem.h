@@ -20,6 +20,7 @@
 
 #include <OgreSingleton.h>
 #include <OgreString.h>
+#include <OgreRoot.h>
 #include <map>
 
 #include "EventSource.h"
@@ -34,6 +35,13 @@ class CoreEvent;
 class CoreEventListener;
 class Actor;
 class ContentModule;
+class ScriptWrapper;
+class PhysicsManager;
+class GameLoopManager;
+class AnimationManager;
+class ActorManager;
+class GameEventManager;
+class XmlResourceManager;
 
 typedef _RlCoreExport std::map<Ogre::String, ContentModule*> ModuleMap;
 
@@ -99,7 +107,32 @@ public:
 
 	bool isInitialized() const;
 
-private:  
+private:
+	World* mWorld;
+	RubyInterpreter* mRubyInterpreter;
+	ModuleMap mModules;
+	ContentModule* mActiveAdventureModule;
+	Ogre::String mDefaultActiveModule;
+
+	RL_LONGLONG mClockStartTime;
+
+	bool mDeveloperMode;
+	bool mInitialized;
+	EventCaster<CoreEvent> mCoreEventCaster;
+	std::vector<Ogre::Technique*> mDefaultTechniques;
+
+	Actor* mSoundListenerActor;
+
+    // The singletons of this subsystem
+    Ogre::Root* mOgreRoot;
+    ScriptWrapper* mScriptWrapper;
+    XmlResourceManager* mXmlResourceManager;
+    PhysicsManager* mPhysicsManager;
+    GameLoopManager* mGameLoopManager;
+    AnimationManager* mAnimationManager;
+    ActorManager* mActorManager;
+    GameEventManager* mGameEventManager;
+
     /** Runs the setup methods  */
 	bool initializeCoreSubsystem();
 
@@ -123,21 +156,6 @@ private:
 	bool setupConfiguration();
 
 	RL_LONGLONG getCurrentTime();
-
-	World* mWorld;
-	RubyInterpreter* mRubyInterpreter;
-	ModuleMap mModules;
-	ContentModule* mActiveAdventureModule;
-	Ogre::String mDefaultActiveModule;
-
-	RL_LONGLONG mClockStartTime;
-
-	bool mDeveloperMode;
-	bool mInitialized;
-	EventCaster<CoreEvent> mCoreEventCaster;
-	std::vector<Ogre::Technique*> mDefaultTechniques;
-
-	Actor* mSoundListenerActor;
 };
 
 }

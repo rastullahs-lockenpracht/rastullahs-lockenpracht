@@ -21,19 +21,22 @@
 #include "OgreSingleton.h"
 
 namespace rl {
-	class _RlScriptExport ScriptSubsystem : public Ogre::Singleton<ScriptSubsystem>
-	{
-	public:
-		ScriptSubsystem();
-		virtual ~ScriptSubsystem();
+    class ScriptObjectMarker;
 
-		static ScriptSubsystem& getSingleton();
-		static ScriptSubsystem* getSingletonPtr();
+    class _RlScriptExport ScriptSubsystem : public Ogre::Singleton<ScriptSubsystem>
+    {
+    public:
+        ScriptSubsystem();
+        virtual ~ScriptSubsystem();
 
-		void log(const CeGuiString& message);
+        static ScriptSubsystem& getSingleton();
+        static ScriptSubsystem* getSingletonPtr();
 
-	private:
-		void initializeScriptSubsystem();
-	};
+        void log(const CeGuiString& message);
+
+    private:
+        ScriptObjectMarker* mScriptObjectMarker;
+        void initializeScriptSubsystem();
+    };
 }
 #endif

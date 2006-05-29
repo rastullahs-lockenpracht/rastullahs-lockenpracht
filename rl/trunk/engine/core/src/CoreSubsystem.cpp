@@ -71,9 +71,18 @@ namespace rl {
         mDefaultActiveModule(""),
         mClockStartTime(),
         mDeveloperMode(false),
+		mInitialized(false),
         mCoreEventCaster(),
+        mDefaultTechniques(),
         mSoundListenerActor(NULL),
-		mInitialized(false)
+        mOgreRoot(NULL),
+        mScriptWrapper(NULL),
+        mXmlResourceManager(NULL),
+        mPhysicsManager(NULL),
+        mGameLoopManager(NULL),
+        mAnimationManager(NULL),
+        mActorManager(NULL),
+        mGameEventManager(NULL)
     {
         resetClock();
         initializeCoreSubsystem();        
@@ -84,12 +93,16 @@ namespace rl {
     {  
 		mCoreEventCaster.removeEventListeners();
 
-        if(mWorld != 0)
-            delete mWorld;
-        
-        delete ScriptWrapper::getSingletonPtr();
-
-//		ActorManager::getSingleton().destroyActor(mSoundListenerActor);
+        delete mWorld;        
+        delete mGameEventManager;
+        delete mActorManager;
+        delete mAnimationManager;
+        delete mGameLoopManager;
+        delete mPhysicsManager;
+        delete mXmlResourceManager;
+        delete mScriptWrapper;
+        MultimediaSubsystem::getSingleton().shutdown();
+        delete mOgreRoot;
     }
 
     void CoreSubsystem::startCore()
@@ -160,7 +173,7 @@ namespace rl {
 
     bool CoreSubsystem::initializeCoreSubsystem()
     {
-        new Root(
+        mOgreRoot = new Root(
         	ConfigurationManager::getSingleton().getPluginCfgPath(), 
         	ConfigurationManager::getSingleton().getRastullahCfgPath(), 
         	ConfigurationManager::getSingleton().getOgreLogPath()
@@ -178,7 +191,7 @@ namespace rl {
         if (!carryOn) 
             return false;
 
-		new ScriptWrapper();
+		mScriptWrapper = new ScriptWrapper();
 		mRubyInterpreter = new RubyInterpreter();
 		mRubyInterpreter->initializeInterpreter();
 		
@@ -192,16 +205,16 @@ namespace rl {
         
         
         mWorld = new DotSceneOctreeWorld();
-		new PhysicsManager();
+		mPhysicsManager = new PhysicsManager();
         
-        new GameLoopManager(100); //TODO: In Config-Datei verlagern
+        mGameLoopManager = new GameLoopManager(100); //TODO: In Config-Datei verlagern
         GameLoopManager::getSingleton().addSynchronizedTask(
             PhysicsManager::getSingletonPtr(), FRAME_STARTED);
-        new AnimationManager();
+        mAnimationManager = new AnimationManager();
         GameLoopManager::getSingleton().addSynchronizedTask(
             AnimationManager::getSingletonPtr(), FRAME_STARTED);
-        new ActorManager();
-        new GameEventManager();
+        mActorManager = new ActorManager();
+        mGameEventManager = new GameEventManager();
         GameLoopManager::getSingleton().addSynchronizedTask(
             GameEventManager::getSingletonPtr(), FRAME_STARTED);
         GameLoopManager::getSingleton().addAsynchronousTask(
@@ -212,9 +225,10 @@ namespace rl {
 
     void CoreSubsystem::initializeResources()
     {
-        new XmlResourceManager();
+        mXmlResourceManager = new XmlResourceManager();
 
-		// Fuer Configs die keinem Typ zugeordnet sind, und die per kompletten Verezeichnis erfragt werden
+		// Fuer Configs die keinem Typ zugeordnet sind,
+        // und die per kompletten Verezeichnis erfragt werden
 		ResourceGroupManager::getSingleton().addResourceLocation(
 			ConfigurationManager::getSingleton().
 				getModulesRootDirectory(), 
