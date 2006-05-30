@@ -53,11 +53,12 @@ void startupRl(bool developerMode, Ogre::String module)
 	rl::DialogSubsystem* dialog = NULL;
 	rl::UiSubsystem* ui =  NULL;
 	rl::ScriptSubsystem* script =  NULL;
-
+	rl::Logger* logger = NULL;
+	
 #ifndef _DEBUG
 	try {
 #endif // #ifndef _DEBUG
-		rl::Logger* logger = new rl::Logger(
+		logger = new rl::Logger(
 			rl::ConfigurationManager::getSingleton().getRastullahLogPath(),
 			rl::ConfigurationManager::getSingleton().getOgreLogPath());
         // @todo in ConfigDatei auslagern/ oder auch Parameter
