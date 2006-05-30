@@ -45,12 +45,14 @@ Logger* Logger::getSingletonPtr(void)
 }
 
 Logger::Logger(const Ogre::String& logPath, const Ogre::String& ogreLogPath)
-	: mErrorBuffer(""),
+    : mLog(0),
+      mLogLevel(LL_ERROR),
+      mErrorBuffer(""),
 	  mErrorPresent(false)
 {
     if (LogManager::getSingletonPtr() == 0)
     {
-	   new LogManager();
+	    new LogManager();
     }
 
 	//Log für Ogre
@@ -62,8 +64,6 @@ Logger::Logger(const Ogre::String& logPath, const Ogre::String& ogreLogPath)
 
 Logger::~Logger()
 {
-	delete mLog;
-	delete LogManager::getSingleton().getDefaultLog();
 	delete LogManager::getSingletonPtr();
 }
 
