@@ -43,7 +43,7 @@ namespace rl {
 	{
 		static InventoryWindow* invWin = WindowFactory::getSingletonPtr()->getInventoryWindow();
 		if (invWin->droppedItem){
-			Logger::getSingletonPtr()->log("InventoryWindow",Ogre::LML_CRITICAL,String("Item placed"));
+			Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_ERROR,String("Item placed"));
 			invWin->updateItemPosition();
 		}
 	}
@@ -141,7 +141,7 @@ namespace rl {
 			relMouse.d_x = 15;
 		}
 
-		Logger::getSingletonPtr()->log("InventoryWindow",Ogre::LML_CRITICAL,
+		Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_MESSAGE,
 			String("relMouse: Point x:").append(itoa(int(relMouse.d_x),buf1,10))
 			.append(", Point y:")
 			.append(itoa(int(relMouse.d_y),buf2,10)));
@@ -185,7 +185,7 @@ namespace rl {
 			invWin->droppedItem = ddea.dragDropItem;
 			invWin->containerDraggedTo = ddea.window;
 
-			Logger::getSingletonPtr()->log("InventoryWindow",Ogre::LML_CRITICAL,
+			Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_MESSAGE,
 				String("Point in Backpack: Point x:").append(itoa(int(pointInBackpack.d_x),buf1,10))
 				.append(", Point y:")
 				.append(itoa(int(pointInBackpack.d_y),buf2,10)));
@@ -261,12 +261,12 @@ namespace rl {
 		// Loggen
 		char buf1[5];
 		char buf2[5];
-		Logger::getSingletonPtr()->log("InventoryWindow",Ogre::LML_CRITICAL,
+		Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_MESSAGE,
 			String("Position set to: Point x:").append(itoa(int(posDraggedTo.d_x),buf1,10))
 			.append(", Point y:")
 			.append(itoa(int(posDraggedTo.d_y),buf2,10)));
 
-		Logger::getSingletonPtr()->log("InventoryWindow",Ogre::LML_CRITICAL,String("updateItemPosition finished"));
+		Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_MESSAGE,String("updateItemPosition finished"));
 	}
 
 	void InventoryWindow::initSlots(){
