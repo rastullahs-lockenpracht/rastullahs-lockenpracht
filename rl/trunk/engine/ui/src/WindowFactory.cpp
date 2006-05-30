@@ -183,7 +183,7 @@ namespace rl {
 
 	void WindowFactory::toggleInventoryWindow()
 	{
-		if (mInventoryWindow->isVisible())
+/*		if (mInventoryWindow->isVisible())
 		{
 			mInventoryWindow->setCharacter(NULL);
 			mInventoryWindow->setVisible(false);
@@ -192,7 +192,7 @@ namespace rl {
 		{
 			mInventoryWindow->setCharacter(UiSubsystem::getSingleton().getActiveCharacter());
 			mInventoryWindow->setVisible(true);
-		}
+		}  */
 	}
 
 	InventoryWindow* WindowFactory::getInventoryWindow(){

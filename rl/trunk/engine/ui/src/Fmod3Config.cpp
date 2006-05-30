@@ -22,6 +22,9 @@
 #include "Fmod3Config.h"
 #include "MultimediaSubsystem.h"
 #include "SoundDriver.h"
+#include "Fmod3Driver.h"
+#include "NullDriver.h"
+#include <fmod.h>
 
 using namespace CEGUI;
 using namespace Ogre;
@@ -32,7 +35,9 @@ namespace rl
 Fmod3Config::Fmod3Config()
     : CeGuiWindow("fmod3.xml", WND_ALL_INPUT, true),
       mDriver(0),
-	  mDevice(0)
+	  mDevice(0),
+	  mWasActive(false),
+	  mFmod3Driver(0)
 {
     bindCloseToCloseButton();
     bindClickToCloseWindow(getPushButton("Fmod3Config/Cancel"));
@@ -41,21 +46,50 @@ Fmod3Config::Fmod3Config()
             Window::EventMouseClick, 
             boost::bind(&Fmod3Config::handleOK, this));
 
-	mDriver = getComboDropList("Fmod3Config/Driver");
+	mDriver = getCombobox("Fmod3Config/Driver");
 	mDriver->subscribeEvent(
 		Combobox::EventTextChanged,
 		boost::bind(&Fmod3Config::handleDriverChanged, this));
 
-	mDevice = getComboDropList("Fmod3Config/Device");
+	mDevice = getCombobox("Fmod3Config/Device");
 	mDevice->subscribeEvent(
 		Combobox::EventTextChanged,
 		boost::bind(&Fmod3Config::handleDeviceChanged, this));
 	
+	mSpeaker = getCombobox("Fmod3Config/Speaker");
+	mSpeaker->subscribeEvent(
+		Combobox::EventTextChanged,
+		boost::bind(&Fmod3Config::handleSpeakerChanged, this));
+
+	mFmod3Driver = dynamic_cast<Fmod3Driver*>(
+		MultimediaSubsystem::getSingleton().getDriverByName(Ogre::String(Fmod3Driver::NAME.c_str()))
+	);
+	RlAssert(mFmod3Driver != 0, "Fmod3 Treiber nicht vorhanden");
+	if (mFmod3Driver == MultimediaSubsystem::getSingleton().getActiveDriver())
+	{
+		MultimediaSubsystem::getSingleton().setActiveDriver(
+			MultimediaSubsystem::getSingleton().getDriverByName(Ogre::String(NullDriver::NAME.c_str()))
+		);
+		mWasActive = true;
+	}
+	for (int i = 0; i < FSOUND_GetNumDrivers(); i++)
+	{
+		ListboxTextItem *item = new ListboxTextItem(
+			Ogre::String(FSOUND_GetDriverName(i))
+		);
+		mDriver->addItem(item);
+	}
+
+
     centerWindow();
 }
 
 Fmod3Config::~Fmod3Config()
 {
+	if (mWasActive)
+	{
+		MultimediaSubsystem::getSingleton().setActiveDriver(mFmod3Driver);
+	}
 }
 
 bool Fmod3Config::handleOK()
@@ -71,6 +105,11 @@ bool Fmod3Config::handleDriverChanged()
 }
 
 bool Fmod3Config::handleDeviceChanged()
+{
+	return true;
+}
+
+bool Fmod3Config::handleSpeakerChanged()
 {
 	return true;
 }
