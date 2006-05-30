@@ -38,12 +38,12 @@
 				<Property Name="UnifiedSize" Value="{{0,60},{0,60}}" />
 			</Window>
 			
-			<Window Type="RastullahLook/Container" Name="InventoryWindow/ShinboneLeft">
+			<Window Type="RastullahLook/Container" Name="InventoryWindow/ShinboneRight">
 				<Property Name="UnifiedPosition" Value="{{0,135},{0,380}}" />
 				<Property Name="UnifiedSize" Value="{{0,30},{0,60}}" />
 			</Window>
 			
-			<Window Type="RastullahLook/Container" Name="InventoryWindow/ShinboneRight">
+			<Window Type="RastullahLook/Container" Name="InventoryWindow/ShinboneLeft">
 				<Property Name="UnifiedPosition" Value="{{0,195},{0,380}}" />
 				<Property Name="UnifiedSize" Value="{{0,30},{0,60}}" />
 			</Window>
@@ -53,22 +53,22 @@
 				<Property Name="UnifiedSize" Value="{{0,30},{0,30}}" />
 			</Window>
 			
-			<Window Type="RastullahLook/Container" Name="InventoryWindow/RingLeft">
+			<Window Type="RastullahLook/Container" Name="InventoryWindow/RingRight">
 				<Property Name="UnifiedPosition" Value="{{0,30},{0,250}}" />
 				<Property Name="UnifiedSize" Value="{{0,30},{0,30}}" />
 			</Window>
 
-			<Window Type="RastullahLook/Container" Name="InventoryWindow/RingRight">
+			<Window Type="RastullahLook/Container" Name="InventoryWindow/RingLeft">
 				<Property Name="UnifiedPosition" Value="{{0,300},{0,250}}" />
 				<Property Name="UnifiedSize" Value="{{0,30},{0,30}}" />
 			</Window>				
 			
-			<Window Type="RastullahLook/Container" Name="InventoryWindow/BraceletLeft">
+			<Window Type="RastullahLook/Container" Name="InventoryWindow/BraceletRight">
 				<Property Name="UnifiedPosition" Value="{{0,70},{0,250}}" />
 				<Property Name="UnifiedSize" Value="{{0,30},{0,30}}" />
 			</Window>
 		
-			<Window Type="RastullahLook/Container" Name="InventoryWindow/BraceletRight">
+			<Window Type="RastullahLook/Container" Name="InventoryWindow/BraceletLeft">
 				<Property Name="UnifiedPosition" Value="{{0,260},{0,250}}" />
 				<Property Name="UnifiedSize" Value="{{0,30},{0,30}}" />
 			</Window>
@@ -78,22 +78,22 @@
 				<Property Name="UnifiedSize" Value="{{0,60},{0,60}}" />
 			</Window>
 			
-			<Window Type="RastullahLook/Container" Name="InventoryWindow/BracerLeft">
+			<Window Type="RastullahLook/Container" Name="InventoryWindow/BracerRight">
 				<Property Name="UnifiedPosition" Value="{{0,105},{0,150}}" />
 				<Property Name="UnifiedSize" Value="{{0,30},{0,60}}" />
 			</Window>
 			
-			<Window Type="RastullahLook/Container" Name="InventoryWindow/BracerRight">
+			<Window Type="RastullahLook/Container" Name="InventoryWindow/BracerLeft">
 				<Property Name="UnifiedPosition" Value="{{0,225},{0,150}}" />
 				<Property Name="UnifiedSize" Value="{{0,30},{0,60}}" />
 			</Window>
 			
-			<Window Type="RastullahLook/Container" Name="InventoryWindow/HandLeft">
+			<Window Type="RastullahLook/Container" Name="InventoryWindow/HandRight">
 				<Property Name="UnifiedPosition" Value="{{0,30},{0,80}}" />
 				<Property Name="UnifiedSize" Value="{{0,60},{0,150}}" />
 			</Window>
 			
-			<Window Type="RastullahLook/Container" Name="InventoryWindow/HandRight">
+			<Window Type="RastullahLook/Container" Name="InventoryWindow/HandLeft">
 				<Property Name="UnifiedPosition" Value="{{0,270},{0,80}}" />
 				<Property Name="UnifiedSize" Value="{{0,60},{0,150}}" />
 			</Window>
@@ -116,10 +116,16 @@
 				<Property Name="UnifiedAreaRect" Value="{{0,370},{0.45,0},{1,-10},{0.9,-20}}" />
 	
 				<Window Type="DefaultGUISheet" Name="InventoryWindow/Tabs/Backpack">
-					<Property Name="Text" Value="Backpack"/>
+					<Property Name="Text" Value="Rucksack"/>
 					<Property Name="UnifiedPosition" Value="{{0.0,0},{0.0,0}}" />
 					<Property Name="UnifiedSize" Value="{{1,0},{1,0}}" />
 					
+				</Window>
+				
+				<Window Type="DefaultGUISheet" Name="InventoryWindow/Tabs/Ground">
+					<Property Name="Text" Value="Boden"/>
+					<Property Name="UnifiedPosition" Value="{{0.0,0},{0.0,0}}" />
+					<Property Name="UnifiedSize" Value="{{1,0},{1,0}}" />
 				</Window>
 			</Window>
 			
