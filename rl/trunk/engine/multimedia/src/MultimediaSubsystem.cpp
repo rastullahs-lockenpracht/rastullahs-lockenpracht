@@ -127,6 +127,11 @@ void MultimediaSubsystem::shutdown()
         mActiveDriver->deInit();
         mActiveDriver = 0;
     }
+    while (!mDriverList.empty())
+    {
+        delete *mDriverList.begin();
+        mDriverList.erase(mDriverList.begin());
+    }
 }
 
 /**
