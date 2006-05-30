@@ -76,6 +76,7 @@ namespace rl
 		{
 			delete iter->second;
 		}
+		AimlProcessorManager::shutdown();
     }
 
 	DialogCharacter* DialogSubsystem::getCurrentBot()

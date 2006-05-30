@@ -25,17 +25,7 @@
 
 namespace rl
 {
-	map<CeGuiString, AimlProcessor *> AimlProcessorManager::mProcessors;
-
-	AimlProcessorManager::~AimlProcessorManager()
-	{
-		map<CeGuiString,AimlProcessor*>::const_iterator itr = mProcessors.begin();
-		for(itr++;itr!=mProcessors.end();itr++)
-		{
-			delete itr->second;
-		}
-		mProcessors.clear();
-	}
+	map<CeGuiString, AimlProcessor *> AimlProcessorManager::msProcessors;
 
 	void AimlProcessorManager::init()
 	{
@@ -85,32 +75,49 @@ namespace rl
 
 	void AimlProcessorManager::addProcessor(const CeGuiString &name,AimlProcessor* proc)
 	{
-		mProcessors[name]=proc;
+		msProcessors[name]=proc;
 	}
+
+    void AimlProcessorManager::shutdown()
+    {
+        set<void*> deleted;
+		map<CeGuiString,AimlProcessor*>::const_iterator itr = msProcessors.begin();
+		for(; itr!=msProcessors.end(); ++itr)
+		{
+            // Da gleiche Prozessoren mit verschiedenen Schlüsseln gespeichert sind,
+            // prüfen, ob Prozessor nicht bereits gelöscht.
+            if (deleted.find(itr->second) == deleted.end())
+            {
+			    delete itr->second;
+                deleted.insert(itr->second);
+            }
+		}
+		msProcessors.clear();
+    }
 
 	void AimlProcessorManager::addStandardProcessors()
 	{
 		ConditionProcessor* cp = new ConditionProcessor();
-		mProcessors["br"] = new BrProcessor();
-		mProcessors["selection"] = cp;
-		mProcessors["condition"] = cp;
-		mProcessors["option"] = cp;
-		mProcessors["if"] = cp;
-		mProcessors["srai"] = new SraiProcessor();
-		mProcessors["system"] = new SystemProcessor();
-		mProcessors["set"] = new SetProcessor();
-		mProcessors["get"] = new GetProcessor();
+		msProcessors["br"] = new BrProcessor();
+		msProcessors["selection"] = cp;
+		msProcessors["condition"] = cp;
+		msProcessors["option"] = cp;
+		msProcessors["if"] = cp;
+		msProcessors["srai"] = new SraiProcessor();
+		msProcessors["system"] = new SystemProcessor();
+		msProcessors["set"] = new SetProcessor();
+		msProcessors["get"] = new GetProcessor();
 	}
 
 	AimlProcessor* AimlProcessorManager::getProcessor(const CeGuiString &name)
 	{
-		map<CeGuiString, AimlProcessor *>::const_iterator itr = mProcessors.find(name);
-		if(itr != mProcessors.end())
+		map<CeGuiString, AimlProcessor *>::const_iterator itr = msProcessors.find(name);
+		if(itr != msProcessors.end())
 			return itr->second;
 		else return NULL;
 	}
 
 	bool AimlProcessorManager::hasProcessor(const CeGuiString &name) {
-		return mProcessors.find(name) != mProcessors.end();
+		return msProcessors.find(name) != msProcessors.end();
 	}
 }

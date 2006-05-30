@@ -35,15 +35,17 @@ namespace rl
 	{
 	public:
 		AimlProcessorManager(){}
-		virtual ~AimlProcessorManager();
+        virtual ~AimlProcessorManager() {};
 		static void init();
+		static void shutdown();
 		static void addProcessor(const CeGuiString &name,AimlProcessor* proc);
 		static void addStandardProcessors();
 		static AimlProcessor* getProcessor(const CeGuiString &name);
 		static bool hasProcessor(const CeGuiString &name);
 		
-		static map<CeGuiString, AimlProcessor *> mProcessors;
-		static map<CeGuiString, Graphmaster*> mGraphMasters;
+		static map<CeGuiString, AimlProcessor *> msProcessors;
+		static map<CeGuiString, Graphmaster*> msGraphMasters;
+    private:
 	};
 }
 #endif
