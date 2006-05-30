@@ -185,7 +185,7 @@ namespace rl
 		 *  @brief Liefert die derzeitge BE der Kreatur zurueck.
 		 *    Eventuelle Ruestungsgewoehnung schon beruecksichtigt
 		 **/
-		//virtual int getCurrentBe();
+		virtual int getCurrentBe();
 
 		virtual void setWert(int wertId, int wert);
 		/** @brief Liefert den Basiswert id zurueck.
@@ -335,6 +335,36 @@ namespace rl
 ///////////////////////////////////////////////////////////////////////////////
 // Inventory
 
+
+		/**
+		 *@brief Gibt das Inventar der Kreatur zurück.
+		 *@return Liefert das Inventar der Kreatur
+		 **/
+		Inventory* getInventory();
+
+
+		/**
+		 *@brief gibt der Kreatur ein Item
+		 *@param item Dieses Item wird der Kreatur gegeben
+		 *@return bool Ob die Kreatur noch Platz für das Item gehabt hat
+		 **/
+		bool addItem(Item* item);
+
+		/**
+		 *@brief Gibt der Spielfigur eine Waffe in die Hand
+		 * Wird gesteuert durch das Inventar
+		 *@param Waffe, die in die Hand soll
+		 */
+		void attachWeapon(Weapon* weapon);
+
+		/**
+		 *@brief entfernt der Kreatur die Waffe aus der Hand
+		 *
+		 **/
+		void detachWeapon();
+
+// Das Inventar der Kreatur wird durch das Inventarobjekt verwaltet.
+		
 		/**
 		 *  @brief Heftet Container an die Kreatur.
 		 *  @param id ID des Containers
@@ -368,6 +398,8 @@ namespace rl
 		 *  @param Weapon* newWeapon Ein Zeiger auf die hinzuzufuegende Waffe.
 		 *  @exception InvalidArgumentException newWeapon darf nicht NULL sein.
 		 **/
+
+
 		void addWeapon(Weapon* weapon);
 		/**
 		 *  @brief Liefert einen Zeiger auf eine Waffe aus der Liste der derzeit
@@ -530,7 +562,8 @@ namespace rl
 		WertMap mWerte;
 		ContainerMap mContainer;
 		WeaponMap mWeapons;
-		Inventory mInventory;
+
+		Inventory* mInventory;
     };
 }
 #endif //__CREATURE_H__

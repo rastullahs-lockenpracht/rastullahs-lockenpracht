@@ -23,6 +23,7 @@
 #include "MeshObject.h"
 #include "StateSet.h"
 #include "Talent.h"
+#include "Inventory.h"
 
 namespace rl
 {
@@ -138,11 +139,10 @@ namespace rl
 		return it->second->getValue(getUnmodified);
 	}
 
-	/*int Creature::getCurrentBe()
+	int Creature::getCurrentBe()
 	{
-		///@todo Aus dem Inventar berechenen... Ruestungsgewoehnung beachten
-		return 0; 
-	}*/
+		return mInventory->getCurrentBe();
+	}
 
 	void Creature::setWert(int wertId, int wert)
 	{
@@ -567,6 +567,7 @@ namespace rl
         return rval;
     }
 
+	
 	void Creature::addContainer(Container* container)
 	{
 		if (container == NULL)
@@ -601,33 +602,50 @@ namespace rl
 		mContainer.erase(it);
 		return rval;
 	}
+	
 
+	Inventory* Creature::getInventory()
+	{
+		return mInventory;
+	}
+	bool Creature::addItem(Item* item) 
+	{
+		return mInventory->addItem(item);
+	}
+	
 	void Creature::addWeapon(Weapon* weapon)
 	{
 		if (weapon == NULL)
 			Throw(IllegalArgumentException, "Nullpointer uebergeben");
-		WeaponMap::const_iterator it = mWeapons.find(weapon->getId());
+		mInventory->addWeapon(weapon);
+
+		/*WeaponMap::const_iterator it = mWeapons.find(weapon->getId());
 		if (it != mWeapons.end())
 		{
 			Throw(IllegalArgumentException, 
 				"weaponId bereits in mWeapons enthalten.");
 		}
 		mWeapons.insert(make_pair(weapon->getId(), weapon));
+		*/
 	}
 
 	Weapon* Creature::getWeapon(int weaponId) const
 	{
-		WeaponMap::const_iterator it = mWeapons.find(weaponId);
+		return mInventory->getWeapon(weaponId);
+
+		/*WeaponMap::const_iterator it = mWeapons.find(weaponId);
 		if (it == mWeapons.end())
 		{
 			Throw(IllegalArgumentException, "weaponId nicht in mWeapons gefunden.");
 		}
 		return (*it).second;	
+		*/
 	}
 
 	Weapon* Creature::removeWeapon(int weaponId)
 	{
-		WeaponMap::iterator it = mWeapons.find(weaponId);
+		return mInventory->removeWeapon(weaponId);
+		/*WeaponMap::iterator it = mWeapons.find(weaponId);
 		if (it == mWeapons.end())
 		{
 			Throw(IllegalArgumentException, "weaponId nicht in mWeapons gefunden.");
@@ -635,12 +653,15 @@ namespace rl
 		Weapon* rval = (*it).second;
 		mWeapons.erase(it);
 		return rval;
+		*/
 	}
 
 	void Creature::switchToWeapon(int weaponId)
 	{
 		using namespace Ogre;
 
+		mInventory->switchToWeapon(weaponId);
+		/*
 		WeaponMap::iterator it = mWeapons.find(weaponId);
 		if (it == mWeapons.end())
 		{
@@ -648,19 +669,25 @@ namespace rl
 		}
 		
 		Weapon* weapon = (*it).second;
-		
-		if (mActiveWeapon != NULL)
-		{
-			getActor()->detach(mActiveWeapon->getActor());
-		}
-		
-		//FIXME
+		*/
+	}
+
+	void Creature::attachWeapon(Weapon* weapon)
+	{
+		// FIXME: Waffenknochen immer 13?
 		getActor()->attachToSlot(
 			weapon->getActor(), 
 			"Bone13",
 			"SLOT_HANDLE"); 
-
 		 mActiveWeapon = weapon;
+	}
+
+	void Creature::detachWeapon(){
+		if (mActiveWeapon != NULL)
+		{
+			getActor()->detach(mActiveWeapon->getActor());
+			mActiveWeapon = NULL;
+		}
 	}
 
 	Weapon* Creature::getActiveWeapon()

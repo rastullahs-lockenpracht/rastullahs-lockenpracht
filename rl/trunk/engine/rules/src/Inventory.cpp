@@ -25,6 +25,7 @@ namespace rl
 
 	Inventory::Inventory() 
 	{
+		mBackpackLayout = vector< vector<Item*> >(1);
 	}
 
 	Inventory::~Inventory() 
@@ -40,6 +41,65 @@ namespace rl
 		is[0] = mRingLeft;
 		return is;
 	}
+
+
+	// TODO: Anordnung der Items
+	set<Item*> Inventory::getAllItemsInBackpack()
+	{
+		set<Item*> items;
+		
+		for (int x = 0; x < mBackpackDimension.first; x++){
+			for(int y = 0; y < mBackpackDimension.second; y++){
+				items.insert(mBackpackLayout[x][y]);
+			}
+		}
+		return items;
+	}
+	
+	// FIXME:
+	bool Inventory::isFreeInBackpack(pair<int,int> posKaestchen, pair<int,int> dimKaestchen)
+	{
+		return true;
+	}
+
+	// TODO: Be berechnen
+	int Inventory::getCurrentBe()
+	{
+		return 0;
+	}
+
+	vector< vector<Item*> > Inventory::getBackpackLayout(){
+		return mBackpackLayout;
+	}
+
+	// TODO: Item hinzufügen, nachdem Platz gesichert ist
+	bool Inventory::addItem(Item* item){
+		return false;
+	}
+
+	// TODO
+	void Inventory::addWeapon(Weapon* weapon)
+	{
+		
+	}
+
+	// TODO
+	Weapon* Inventory::getWeapon(int weaponId)
+	{
+		return NULL;
+	}
+
+	// TODO
+	Weapon* Inventory::removeWeapon(int weaponId)
+	{
+		return NULL;
+	}
+
+	// TODO
+	void Inventory::switchToWeapon(int weaponId){
+
+	}
+
 
 	Item* Inventory::getRingLeft()
 	{
@@ -80,16 +140,26 @@ namespace rl
 	{
 		return mArmor;
 	}
+
+	Item* Inventory::getBracerLeft()
+	{
+		return mBracerLeft;
+	}
+	Item* Inventory::getBracerRight()
+	{
+		return mBracerRight;
+	}
 	
 	Item* Inventory::getBackpack()
 	{
 		return mBackpack;
 	}
 	
-	Item* Inventory::getArmorFront()
+	/*Item* Inventory::getArmorFront()
 	{
 		return mArmorFront;
 	}
+	*/
 
 	Item* Inventory::getBelt()
 	{
@@ -106,10 +176,11 @@ namespace rl
 		return mHelmet;
 	}
 	
-	Item* Inventory::getCrotch()
+	/*Item* Inventory::getCrotch()
 	{
 		return mCrotch;
 	}
+	*/
 	
 	Item* Inventory::getTrousers()
 	{
@@ -163,12 +234,19 @@ namespace rl
 	Item* Inventory::removeArmor(){
 		return NULL;
 	}
+	Item* Inventory::removeBracerLeft(){
+		return NULL;
+	}
+	Item* Inventory::removeBracerRight(){
+		return NULL;
+	}
 	Item* Inventory::removeBackpack(){
 		return NULL;
 	}
-	Item* Inventory::removeArmorFront(){
+	/*Item* Inventory::removeArmorFront(){
 		return NULL;
 	}
+	*/
 	Item* Inventory::removeBelt(){
 		return NULL;
 	}
@@ -178,9 +256,10 @@ namespace rl
 	Item* Inventory::removeHelmet(){
 		return NULL;
 	}
-	Item* Inventory::removeCrotch(){
+	/*Item* Inventory::removeCrotch(){
 		return NULL;
 	}
+	*/
 	Item* Inventory::removeTrousers(){
 		return NULL;
 	}
@@ -226,14 +305,22 @@ namespace rl
 	{
 		mArmor = item;
 	}
+	void Inventory::setBracerLeft(Item* item)
+	{
+		mBracerLeft = item;
+	}
+	void Inventory::setBracerRight(Item* item)
+	{
+		mBracerRight = item;
+	}
 	void Inventory::setBackpack(Item* item)
 	{
 		mBackpack = item;
 	}
-	void Inventory::setArmorFront(Item* item)
+	/*void Inventory::setArmorFront(Item* item)
 	{
 		mArmorFront = item;
-	}
+	}*/
 	void Inventory::setBelt(Item* item)
 	{
 		mBelt = item;
@@ -246,10 +333,10 @@ namespace rl
 	{
 		mHelmet = item;
 	}
-	void Inventory::setCrotch(Item* item)
+	/*void Inventory::setCrotch(Item* item)
 	{
 		mCrotch = item;
-	}
+	}*/
 	void Inventory::setTrousers(Item* item)
 	{
 		mTrousers = item;

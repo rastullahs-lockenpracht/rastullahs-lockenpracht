@@ -20,10 +20,20 @@
 #include "UiPrerequisites.h"
 #include "CeGuiWindow.h"
 #include "Inventory.h"
+#include "GameTask.h"
 
 namespace rl {
 
 	class Creature;
+
+	class _RlUiExport InventoryArrangeTask : public GameTask
+	{
+	public:
+		InventoryArrangeTask();
+		~InventoryArrangeTask();
+		
+		void run(Ogre::Real elapsedTime);
+	};
 
 	class _RlUiExport InventoryWindow : public CeGuiWindow
 	{
@@ -38,14 +48,16 @@ namespace rl {
 		void update();
 		void updateItemPosition();
 
-		CEGUI::Point* posBeforeDrag;
-		CEGUI::Point* posDraggedTo;
+		CEGUI::Point posBeforeDrag;
+		CEGUI::Point posDraggedTo;
 		CEGUI::DragContainer* droppedItem;
 		CEGUI::Window* containerDraggedTo;
 
 		CEGUI::String colorAccept;
 		CEGUI::String colorReject;
 		CEGUI::String colorNormal;
+
+		Inventory* getInventory();
 
 
 	private:

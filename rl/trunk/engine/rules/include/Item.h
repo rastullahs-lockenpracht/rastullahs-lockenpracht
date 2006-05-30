@@ -58,12 +58,28 @@ namespace rl
 		static CEGUI::String getItemTypeString(ItemType type);
 
 		void setCapacity(int width, int height);
+		
+		/**
+		 * @return ob es sich um ein Item handelt,
+		 * in dem andere gespeichert werden können
+		 */
+		bool isContainer();
+		void setContainer(bool isContainer, pair<int,int> dim = pair<int,int>(0,0));
+
 		pair<int,int> getCapacity();
+		
+		pair<int,int> getVolume();
 
     private:
         /// Masse in Unzen.
         int mWeight;
 		ItemType mItemType;
+
+		bool boolContainer;
+		pair<int,int> mCapacity;
+		pair<int,int> mVolume;
+
+
     };
 
     class ItemByIdOrdering : public std::binary_function<Item*, Item*, bool> {

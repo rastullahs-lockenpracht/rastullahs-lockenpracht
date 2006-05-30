@@ -23,6 +23,7 @@ namespace rl
     Item::Item(const CeGuiString& name, const CeGuiString& description)
         : GameObject(name, description)
     {
+		mVolume = pair<int,int> (1,1);
     }
 
     Item::~Item(void)
@@ -98,5 +99,25 @@ namespace rl
 				break;
 		}
 		return CEGUI::String("undefined");
+	}
+
+
+	bool Item::isContainer()
+	{
+		return boolContainer;
+	}
+	void Item::setContainer(bool isContainer, pair<int,int> dim)
+	{
+		boolContainer = isContainer;
+		mCapacity = dim;
+	}
+	pair<int,int> Item::getCapacity()
+	{
+		return mCapacity;
+	}
+
+	pair<int,int> Item::getVolume()
+	{
+		return mVolume;
 	}
 }
