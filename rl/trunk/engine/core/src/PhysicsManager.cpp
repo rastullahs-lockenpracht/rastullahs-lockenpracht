@@ -54,8 +54,10 @@ namespace rl
         mUpdate(1.0f/60.0f),
         mLevelID(),
         mCharacterID(),
+        mDefaultPair(),
         mCharLevelPair(),
-        mCharCharPair()
+        mCharCharPair(),
+        mGenericCallback()
     {
 		mWorld = new OgreNewt::World();
         mWorld->setFrictionModel(OgreNewt::World::FM_ADAPTIVE);
@@ -64,10 +66,11 @@ namespace rl
 
         // setup materials: default<->default
         const OgreNewt::MaterialID* defaultID = mWorld->getDefaultMaterialID();
-        OgreNewt::MaterialPair* defaultPair =
-            new OgreNewt::MaterialPair(mWorld, defaultID, defaultID);
-        defaultPair->setContactCallback(new PhysicsGenericContactCallback());
-        defaultPair->setDefaultFriction(0.85f, 0.80f);
+        mDefaultPair = new OgreNewt::MaterialPair(
+            mWorld, defaultID, defaultID);
+        mGenericCallback = new PhysicsGenericContactCallback();
+        mDefaultPair->setContactCallback(mGenericCallback);
+        mDefaultPair->setDefaultFriction(0.85f, 0.80f);
 
         // setup materials: character/cam<->level
         mLevelID = new OgreNewt::MaterialID(mWorld);
@@ -82,6 +85,12 @@ namespace rl
 
     PhysicsManager::~PhysicsManager()
     {
+        delete mGenericCallback;
+        delete mCharCharPair;
+        delete mCharLevelPair;
+        delete mCharacterID;
+        delete mLevelID;
+        delete mDefaultPair;
         delete mWorld;
     }
 

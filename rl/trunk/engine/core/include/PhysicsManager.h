@@ -24,7 +24,7 @@
 #include <OgreNewt.h>
 
 #include "CorePrerequisites.h"
-
+#include "PhysicsGenericContactCallback.h"
 
 namespace rl {
 
@@ -139,8 +139,10 @@ namespace rl {
 
         OgreNewt::MaterialID* mLevelID;
         OgreNewt::MaterialID* mCharacterID;
+        OgreNewt::MaterialPair* mDefaultPair;
         OgreNewt::MaterialPair* mCharLevelPair;
         OgreNewt::MaterialPair* mCharCharPair;
+        PhysicsGenericContactCallback* mGenericCallback;
 
         /// internal method, that prepares physical thing to be controlled
         void prepareUserControl(PhysicalThing* thing, OgreNewt::ContactCallback* cb) const;
