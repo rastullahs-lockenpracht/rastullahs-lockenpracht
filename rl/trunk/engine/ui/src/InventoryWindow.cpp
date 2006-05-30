@@ -22,6 +22,7 @@
 #include "Inventory.h"
 #include "Creature.h"
 #include "WindowFactory.h"
+#include "GameLoop.h"
 
 
 #include <CEGUIPropertyHelper.h>
@@ -30,17 +31,22 @@ using namespace CEGUI;
 
 namespace rl {
 
-	/** Update des Windows */
-	void updateInventory() {
-		InventoryWindow* invWin = WindowFactory::getSingletonPtr()->getInventoryWindow();
-
-		// Ein Item wurde gedroppt...
-		if (invWin->droppedItem){
-			Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_ERROR,String("Item dropped"));
-			invWin->updateItemPosition();	
-		}
+	// @FIXME Wenn CeGUI Bug beseitigt hat:
+	InventoryArrangeTask::InventoryArrangeTask() : GameTask()
+	{
+	}
+	InventoryArrangeTask::~InventoryArrangeTask()
+	{
 	}
 
+	void InventoryArrangeTask::run(Ogre::Real elapsedTime)
+	{
+		static InventoryWindow* invWin = WindowFactory::getSingletonPtr()->getInventoryWindow();
+		if (invWin->droppedItem){
+			Logger::getSingletonPtr()->log("InventoryWindow",Ogre::LML_CRITICAL,String("Item placed"));
+			invWin->updateItemPosition();
+		}
+	}
 
 	/*!
 	*		Überprüft, ob das Item von dem Slot akzeptiert wird
@@ -87,11 +93,14 @@ namespace rl {
 		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
 		ddea.window->setProperty("ContainerColour", invWin->colorNormal);
 
+
+		Point relMouse = ddea.dragDropItem->windowToScreen( Point(0,0) );
+
 		// Nur wenn das Item in den Slot passt, soll es auch dort gedroppt werden können
 		if (checkTypeAccepted(ddea.window, ddea.dragDropItem)){
 			ddea.window->addChildWindow(ddea.dragDropItem);
 
-			invWin->posDraggedTo=new CEGUI::Point(0.0,0.0);
+			invWin->posDraggedTo=CEGUI::Point(0.0,0.0);
 			invWin->droppedItem = ddea.dragDropItem;
 			invWin->containerDraggedTo = ddea.window;
 			return true;
@@ -113,20 +122,79 @@ namespace rl {
 	bool handleDragDroppedBackpack(const CEGUI::EventArgs& args)
 	{
 		using namespace CEGUI;
-		
+		InventoryWindow* invWin = WindowFactory::getSingletonPtr()->getInventoryWindow();
+
+		char buf1[5];
+		char buf2[5];
+
 		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
-		ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->colorNormal);
-		ddea.window->addChildWindow(ddea.dragDropItem);
+		ddea.window->setProperty("ContainerColour", invWin->colorNormal);
+		
+		
 		
 		Point absMouse = MouseCursor::getSingleton().getPosition();
+		Point scrnPt = ddea.window->windowToScreen( Point(0,0) ); 
+		Point relMouse = absMouse- ddea.dragDropItem->windowToScreen( Point(0,0) );
 
-		Point scrnPt = ddea.window->windowToScreen( Point( 0, 0 ) ); 
+		//Bug in CeGUI (1. rel Mouse koordinate spinnt
+		if (relMouse.d_x < 0) {
+			relMouse.d_x = 15;
+		}
 
-		//pointInBackPack = absMouse-scrnPt;
+		Logger::getSingletonPtr()->log("InventoryWindow",Ogre::LML_CRITICAL,
+			String("relMouse: Point x:").append(itoa(int(relMouse.d_x),buf1,10))
+			.append(", Point y:")
+			.append(itoa(int(relMouse.d_y),buf2,10)));
 
-		//Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_ERROR,String("Point: x:").append(itoa(int(inWindow.d_x),buf,10)));
+		Point pointInBackpack = absMouse-scrnPt;
+		pointInBackpack -= relMouse;
 
-		return true;
+		// Position des nächsten Kästchens bestimmen		
+		if (pointInBackpack.d_x < 0){
+			pointInBackpack.d_x = 0;
+		}
+		if (pointInBackpack.d_y < 0) {
+			pointInBackpack.d_y = 0;
+		}
+
+		if (pointInBackpack.d_x > 16){
+			pointInBackpack.d_x = (int(pointInBackpack.d_x) + 14) - ((int(pointInBackpack.d_x) + 14) % 30);
+		} else {
+			pointInBackpack.d_x = 0;
+		}
+		if (pointInBackpack.d_y > 16){
+			pointInBackpack.d_y = (int(pointInBackpack.d_y) + 14 ) - ((int(pointInBackpack.d_y) + 14) % 30);
+		} else {
+			pointInBackpack.d_y = 0;
+		}
+
+		int xKaestchen = pointInBackpack.d_x / 30;
+		int yKaestchen = pointInBackpack.d_y / 30;
+
+		int width = ddea.dragDropItem->getAbsoluteWidth();
+		int height = ddea.dragDropItem->getAbsoluteHeight();
+
+		width = width / 30;
+		height = height / 30;
+
+		if (invWin->getInventory()->isFreeInBackpack(pair<int,int>(xKaestchen,yKaestchen),pair<int,int>(width,height) ))
+		{
+			ddea.window->addChildWindow(ddea.dragDropItem);
+
+			invWin->posDraggedTo=pointInBackpack;
+			invWin->droppedItem = ddea.dragDropItem;
+			invWin->containerDraggedTo = ddea.window;
+
+			Logger::getSingletonPtr()->log("InventoryWindow",Ogre::LML_CRITICAL,
+				String("Point in Backpack: Point x:").append(itoa(int(pointInBackpack.d_x),buf1,10))
+				.append(", Point y:")
+				.append(itoa(int(pointInBackpack.d_y),buf2,10)));
+			return true;
+		} 
+		else 
+		{
+			return false;
+		}
 	}
 
 
@@ -148,6 +216,11 @@ namespace rl {
 		DragContainer* item2 = createItem("trankName",Item::ITEMTYPE_GLOVE,pair<int,int>(2,2),"Handschuhe");
 		item2->setWindowPosition(UVector2(cegui_absdim(30), cegui_absdim(0)));
 
+		droppedItem = NULL;
+		containerDraggedTo = NULL;
+
+
+		GameLoopManager::getSingletonPtr()->addSynchronizedTask(new InventoryArrangeTask(), FRAME_ENDED);
 	}
 	
 	InventoryWindow::~InventoryWindow()
@@ -163,17 +236,37 @@ namespace rl {
 	void InventoryWindow::setCharacter(Creature* character)
 	{
 		mCharacter = character;
+		if (character){
+			mInventory = mCharacter->getInventory();
+		} else {
+			mInventory = NULL;
+		}
 	}
 
 	void update()
 	{
 
 	}
+
+	Inventory* InventoryWindow::getInventory(){
+		return mInventory;
+	}
 	
 	void InventoryWindow::updateItemPosition(){
-		droppedItem->setPosition(*posDraggedTo);
+		
+		// Positionieren
+		droppedItem->setPosition(CEGUI::Absolute, posDraggedTo);
 		droppedItem = NULL;
-		Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_ERROR,String("Item placed"));
+
+		// Loggen
+		char buf1[5];
+		char buf2[5];
+		Logger::getSingletonPtr()->log("InventoryWindow",Ogre::LML_CRITICAL,
+			String("Position set to: Point x:").append(itoa(int(posDraggedTo.d_x),buf1,10))
+			.append(", Point y:")
+			.append(itoa(int(posDraggedTo.d_y),buf2,10)));
+
+		Logger::getSingletonPtr()->log("InventoryWindow",Ogre::LML_CRITICAL,String("updateItemPosition finished"));
 	}
 
 	void InventoryWindow::initSlots(){
