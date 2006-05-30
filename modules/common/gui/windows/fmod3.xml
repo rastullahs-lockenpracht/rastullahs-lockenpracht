@@ -8,13 +8,60 @@
 		<Property Name="Text" Value="Fmod 3 Konfiguration" />
 		<Property Name="TitlebarEnabled" Value="True" />
 		<Property Name="TitlebarFont" Value="Commonwealth-10" />
+
+		<Window Type="RastullahLook/StaticText" Name="Fmod3Config/DriverLabel">
+			<Property Name="RelativeXPosition" Value="0.05" />
+			<Property Name="RelativeYPosition" Value="0.05" />
+			<Property Name="RelativeWidth" Value="0.3" />
+			<Property Name="AbsoluteHeight" Value="30" />
+			<Property Name="Font" Value="Vera Serif-14"/>
+			<Property Name="FrameEnabled" Value="False"/>
+			<Property Name="Text" Value="Treiber auswählen" />
+		</Window>
+		<Window Type="RastullahLook/Combobox" Name="Fmod3Config/Driver" >
+			<Property Name="RelativeXPosition" Value="0.4" />
+			<Property Name="RelativeYPosition" Value="0.05" />
+			<Property Name="RelativeWidth" Value="0.4" />
+			<Property Name="AbsoluteHeight" Value="35" />
+			<Property Name="Visible" Value="True" />
+			<Property Name="Font" Value="Vera Serif-14"/>
+		</Window>
+		<Window Type="RastullahLook/StaticText" Name="Fmod3Config/DeviceLabel">
+			<Property Name="RelativeXPosition" Value="0.05" />
+			<Property Name="RelativeYPosition" Value="0.15" />
+			<Property Name="RelativeWidth" Value="0.3" />
+			<Property Name="AbsoluteHeight" Value="30" />
+			<Property Name="Font" Value="Vera Serif-14"/>
+			<Property Name="FrameEnabled" Value="False"/>
+			<Property Name="Text" Value="Treiber auswählen" />
+		</Window>
+		<Window Type="RastullahLook/Combobox" Name="Fmod3Config/Device" >
+			<Property Name="RelativeXPosition" Value="0.4" />
+			<Property Name="RelativeYPosition" Value="0.15" />
+			<Property Name="RelativeWidth" Value="0.4" />
+			<Property Name="AbsoluteHeight" Value="35" />
+			<Property Name="Visible" Value="True" />
+			<Property Name="Font" Value="Vera Serif-14"/>
+		</Window>
 		
-		<Window Type="RastullahLook/ComboDropList" Name="Fmod3Config/Driver" >
-			<Property Name="Visible" Value="True" />
+		<Window Type="RastullahLook/StaticText" Name="Fmod3Config/SpeakerLabel">
+			<Property Name="RelativeXPosition" Value="0.05" />
+			<Property Name="RelativeYPosition" Value="0.25" />
+			<Property Name="RelativeWidth" Value="0.3" />
+			<Property Name="AbsoluteHeight" Value="30" />
+			<Property Name="Font" Value="Vera Serif-14"/>
+			<Property Name="FrameEnabled" Value="False"/>
+			<Property Name="Text" Value="Lautsprechermodus" />
 		</Window>
-		<Window Type="RastullahLook/ComboDropList" Name="Fmod3Config/Device" >
+		<Window Type="RastullahLook/Combobox" Name="Fmod3Config/Speaker" >
+			<Property Name="RelativeXPosition" Value="0.4" />
+			<Property Name="RelativeYPosition" Value="0.25" />
+			<Property Name="RelativeWidth" Value="0.4" />
+			<Property Name="AbsoluteHeight" Value="35" />
 			<Property Name="Visible" Value="True" />
+			<Property Name="Font" Value="Vera Serif-14"/>
 		</Window>
+
 		<Window Type="RastullahLook/Button" Name="Fmod3Config/OK">
 			<Property Name="Text" Value="OK"/>
 			<Property Name="RelativeXPosition" Value="0.05"/>
