@@ -273,10 +273,6 @@ namespace rl {
             }
         }
 
-		// Partikelsystem initialisieren
-        ParticleSystemManager::getSingleton().addRendererFactory( 
-            new BillboardParticleRendererFactory() );
-
         ResourceGroupManager::getSingleton()
             .initialiseResourceGroup(ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
