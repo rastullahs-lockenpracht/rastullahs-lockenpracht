@@ -195,6 +195,7 @@ namespace rl {
             return false;
 
 		mScriptWrapper = new ScriptWrapper();
+        // TODO: muss löschbar werden.
 		mRubyInterpreter = new RubyInterpreter();
 		mRubyInterpreter->initializeInterpreter();
 		
