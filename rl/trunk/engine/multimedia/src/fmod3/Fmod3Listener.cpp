@@ -16,7 +16,6 @@
 #ifdef WITH_FMOD3
 
 #include "Fmod3Listener.h"
-#include "MultimediaSubsystem.h"
 extern "C" {
     #include <fmod.h>
     #include <fmod_errors.h>

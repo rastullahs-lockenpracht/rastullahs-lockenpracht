@@ -34,7 +34,9 @@
 	PhysicsMaterialRaycast.h \
 	Primitive.h \
 	RubyInterpreter.h \
+	SoundManager.h \
 	SoundObject.h \
+	SoundUpdateTask.h \
 	TrackAnimation.h \
 	World.h 
 	

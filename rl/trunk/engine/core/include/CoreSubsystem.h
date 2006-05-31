@@ -43,6 +43,7 @@ class ActorManager;
 class GameEventManager;
 class XmlResourceManager;
 class ConfigurationManager;
+class SoundManager;
 
 typedef _RlCoreExport std::map<Ogre::String, ContentModule*> ModuleMap;
 
@@ -104,8 +105,6 @@ public:
 
 	void setScheme(const Ogre::String& schemeName);
 
-	Actor* getSoundListener();
-
 	bool isInitialized() const;
 
 private:
@@ -122,8 +121,6 @@ private:
 	EventCaster<CoreEvent> mCoreEventCaster;
 	std::vector<Ogre::Technique*> mDefaultTechniques;
 
-	Actor* mSoundListenerActor;
-
     // The singletons of this subsystem
     Ogre::Root* mOgreRoot;
     ScriptWrapper* mScriptWrapper;
@@ -134,6 +131,7 @@ private:
     ActorManager* mActorManager;
     GameEventManager* mGameEventManager;
     ConfigurationManager* mConfigurationManager;
+	SoundManager* mSoundManager;
 
     /** Runs the setup methods  */
 	bool initializeCoreSubsystem();

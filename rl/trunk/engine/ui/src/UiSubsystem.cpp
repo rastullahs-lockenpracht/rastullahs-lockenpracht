@@ -34,6 +34,7 @@
 #include "GameLoggerWindow.h"
 #include "GameLoop.h"
 #include "InputManager.h"
+#include "ListenerMovable.h"
 #include "Logger.h"
 #include "MovementCharacterController.h"
 #include "Person.h"
@@ -41,6 +42,7 @@
 #include "RTCombat.h"
 #include "RTCombatCharacterController.h"
 #include "ScriptWrapper.h"
+#include "SoundManager.h"
 #include "WindowFactory.h"
 #include "WindowManager.h"
 #include "World.h"
@@ -177,7 +179,7 @@ namespace rl {
             if( mCharacter != NULL )
 			{
                 ScriptWrapper::getSingleton().disowned( mCharacter );
-				mCharacter->getActor()->detach(CoreSubsystem::getSingleton().getSoundListener());
+				mCharacter->getActor()->detach(SoundManager::getSingleton().getListenerActor());
 			}
 
             ScriptWrapper::getSingleton().owned( person );
@@ -187,7 +189,7 @@ namespace rl {
 		    
 			mWindowFactory->setActiveCharacter(person);
 
-			mCharacter->getActor()->attach(CoreSubsystem::getSingleton().getSoundListener());
+			mCharacter->getActor()->attach(SoundManager::getSingleton().getListenerActor());
 			Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "SoundListener attached.");
             
             Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "Actor set");

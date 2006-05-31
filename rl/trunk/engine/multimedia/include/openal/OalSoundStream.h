@@ -41,8 +41,6 @@ namespace rl {
         
     public:
         /// Konstruktor
-        OalSoundStream(const Ogre::String& name);
-        /// Konstruktor
         OalSoundStream(const SoundResourcePtr &soundres);
         /// Destruktor
         virtual ~OalSoundStream();

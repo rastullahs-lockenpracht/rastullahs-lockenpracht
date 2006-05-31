@@ -19,7 +19,6 @@
 #include <OgreAxisAlignedBox.h>
 #include <OgreVector3.h>
 #include "Sound.h"
-#include "MultimediaSubsystem.h"
 #include "SoundDriver.h"
 
 Ogre::AxisAlignedBox rl::SoundChannel::msAABox = Ogre::AxisAlignedBox(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5);
@@ -29,15 +28,15 @@ using namespace Ogre;
 namespace rl
 {
 
-SoundChannel::SoundChannel(Sound *sound, const Ogre::String &name)
+SoundChannel::SoundChannel(SoundDriver* driver, Sound *sound, const Ogre::String &name)
  : MovableObject(),
    EventSource(),
    EventCaster<SoundEvent>(),
+   mDriver(driver),
    mSound(sound),
    mName(name),
    mVolume(100)
 {
-    
 }
 
 SoundChannel::~SoundChannel()
@@ -46,7 +45,6 @@ SoundChannel::~SoundChannel()
     {
         delete mSound;
     }
-    MultimediaSubsystem::getSingleton().getActiveDriver()->removeFromLists(this);
 }
 
 /**
@@ -143,6 +141,9 @@ void SoundChannel::set3d( bool is3d )
 	mSound->set3d(is3d);
 }
 
-
+SoundDriver* SoundChannel::getDriver() const
+{
+	return mDriver;
+}
 
 };

@@ -14,13 +14,17 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 #include "SoundUpdateTask.h"
-#include "MultimediaSubsystem.h"
 
-template<> rl::SoundUpdateTask* Ogre::Singleton<rl::SoundUpdateTask>::ms_Singleton = 0;
+#include "SoundManager.h"
 
 using namespace Ogre;
 
 namespace rl {
+
+	SoundUpdateTask::SoundUpdateTask(rl::SoundManager *manager)
+		: mSoundManager(manager)
+	{
+	}
     
     /** 
      * @param
@@ -29,30 +33,8 @@ namespace rl {
      */
     void SoundUpdateTask::run(Real elapsedTime)
     {
-        if (MultimediaSubsystem::getSingletonPtr())
-        {
-            MultimediaSubsystem::getSingleton().update(elapsedTime);
-        }
+        mSoundManager->update();
     }
 
-	/**
-	* @return Das Singleton-Objekt
-	* @author JoSch
-	* @date 05-26-2004
-	*/
-	SoundUpdateTask& SoundUpdateTask::getSingleton(void)
-	{
-		return Singleton<SoundUpdateTask>::getSingleton();
-	}
-
-	/**
-	* @return Das Singleton-Zeiger
-	* @author JoSch
-	* @date 05-26-2004
-	*/
-	SoundUpdateTask* SoundUpdateTask::getSingletonPtr(void)
-	{
-		return Singleton<SoundUpdateTask>::getSingletonPtr();
-	}
     
 } // End of namespace rl

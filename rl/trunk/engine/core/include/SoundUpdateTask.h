@@ -18,10 +18,13 @@
 #ifndef _SOUNDUPDATETASK_H_
 #define _SOUNDUPDATETASK_H_
 
-#include "MultimediaPrerequisites.h"
+#include "CorePrerequisites.h"
 #include "GameTask.h"
 
 namespace rl {
+
+	class SoundManager;
+
     /**
      * Diese Klasse wird in GameLoop registriert
      * und erlaubt es damit regelmässig die FMOD-
@@ -30,17 +33,15 @@ namespace rl {
      * @date 07-24-05
      * @version 1.0
      */
-    class _RlMultimediaExport SoundUpdateTask: public GameTask,
-        protected Ogre::Singleton<SoundUpdateTask>
+    class _RlCoreExport SoundUpdateTask: public GameTask
     {
         public:
-            /// Singleton
-            static SoundUpdateTask & getSingleton(void);
-            /// Singleton
-            static SoundUpdateTask * getSingletonPtr(void);
+			SoundUpdateTask(SoundManager* manager);
             /// Die eigentliche Aktion
             virtual void run( Ogre::Real elapsedTime );
-            
+
+		private:
+			SoundManager* mSoundManager;
     };
 
 } // End of namespace rl

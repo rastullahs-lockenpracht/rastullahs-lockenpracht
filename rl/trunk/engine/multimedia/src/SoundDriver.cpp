@@ -15,20 +15,23 @@
  */
 #include "SoundDriver.h"
 #include "ConfigFile.h"
-#include "OgreStringConverter.h"
+#include <OgreStringConverter.h>
 
 using namespace Ogre;
 
 namespace rl
 {
 
-SoundDriver::SoundDriver():
-    mMusicSet(),
+Ogre::ResourceManager* SoundDriver::sSoundResourceManager = NULL;
+
+SoundDriver::SoundDriver(ResourceManager* soundResourceManager)
+ :  mMusicSet(),
     mSoundSet(),
     mDefaultMusicVolume(40),
     mDefaultSoundVolume(100),
-	mMasterVolume(100)
+	mMasterVolume(100)	
 {
+	sSoundResourceManager = soundResourceManager;
 }
 
 SoundDriver::~SoundDriver()

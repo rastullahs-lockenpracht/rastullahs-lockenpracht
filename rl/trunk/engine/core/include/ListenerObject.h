@@ -53,10 +53,7 @@ namespace rl {
         
         virtual Ogre::String getObjectType();
 
-		virtual bool isMeshObject();
-        
-        void setActive();
-        
+		virtual bool isMeshObject();        
     };
 }
 #endif

@@ -31,6 +31,7 @@ namespace rl
     const int NO_CHANNEL = -1234;
     
     class Sound;
+	class SoundDriver;
 
 class _RlMultimediaExport Fmod3SoundChannel  : public SoundChannel
 {
@@ -41,7 +42,7 @@ private:
     signed int mChannel;
     
 public:
-	Fmod3SoundChannel(Sound *sound, const Ogre::String &name);
+	Fmod3SoundChannel(SoundDriver* driver, Sound *sound, const Ogre::String &name);
 	virtual ~Fmod3SoundChannel();
     
     /// Moveable-Typ

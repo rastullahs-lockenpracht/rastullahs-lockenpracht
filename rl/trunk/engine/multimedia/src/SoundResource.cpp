@@ -15,7 +15,6 @@
 */
 
 #include "SoundResource.h"
-#include "MultimediaSubsystem.h"
 
 using namespace Ogre;
 

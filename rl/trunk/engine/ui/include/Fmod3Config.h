@@ -23,28 +23,28 @@ namespace rl
 {
 	class Fmod3Driver;
 
-class Fmod3Config : public rl::CeGuiWindow
-{
-private:
-    bool handleOK();
-	bool handleDriverChanged();
-	bool handleDeviceChanged();
-	bool handleSpeakerChanged();
-	
-    // Die Combobox, aus der gewählt wird.
-	CEGUI::Combobox*	mDriver;
-	CEGUI::Combobox* mDevice;
-	CEGUI::Combobox* mSpeaker;
+	class Fmod3Config : public rl::CeGuiWindow
+	{
+	private:
+		bool handleOK();
+		bool handleDriverChanged();
+		bool handleDeviceChanged();
+		bool handleSpeakerChanged();
+		
+		// Die Combobox, aus der gewählt wird.
+		CEGUI::Combobox* mDriver;
+		CEGUI::Combobox* mDevice;
+		CEGUI::Combobox* mSpeaker;
 
-	// Der Fmod3-Driver
-	Fmod3Driver *mFmod3Driver;
-	// War der Treiber vorher aktiv.
-	bool mWasActive;
+		// Der Fmod3-Driver
+		Fmod3Driver *mFmod3Driver;
+		// War der Treiber vorher aktiv.
+		bool mWasActive;
 
-public:
-	Fmod3Config();
-	virtual ~Fmod3Config();
-};
+	public:
+		Fmod3Config();
+		virtual ~Fmod3Config();
+	};
 
 }
 

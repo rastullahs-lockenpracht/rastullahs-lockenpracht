@@ -22,7 +22,7 @@
 #include "Sound.h"
 #include "SoundChannel.h"
 #include "SoundDriver.h"
-#include "MultimediaSubsystem.h"
+#include "SoundManager.h"
 #include "Logger.h"
 
 using namespace Ogre;
@@ -39,7 +39,7 @@ SoundObject::SoundObject(Sound *sound, const Ogre::String &name)
 	PlaylistObject(),
 	EventListener<SoundEvent>()
 {
-	SoundDriver *driver = MultimediaSubsystem::getSingleton().getActiveDriver();
+	SoundDriver *driver = SoundManager::getSingleton().getActiveDriver();
 	if (driver != 0)
 	{
     	SoundChannel *sc = driver->createChannel(sound, name);
@@ -61,6 +61,7 @@ SoundObject::~SoundObject()
         {
             sc->stop();
             sc->removeEventListener(this);
+			SoundManager::getSingleton().getActiveDriver()->removeFromLists(sc);
         }
         delete mMovableObject;
     }

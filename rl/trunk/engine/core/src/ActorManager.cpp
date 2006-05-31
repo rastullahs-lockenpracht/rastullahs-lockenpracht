@@ -25,11 +25,11 @@
 #include "ListenerObject.h"
 #include "MeshObject.h"
 #include "MovableText.h"
-#include "MultimediaSubsystem.h"
 #include "PhysicalThing.h"
 #include "ScriptWrapper.h"
 #include "Sound.h"
 #include "SoundDriver.h"
+#include "SoundManager.h"
 #include "SoundObject.h"
 #include "World.h"
 
@@ -126,6 +126,11 @@ namespace rl {
         ActorControlledObject* actObj = actor->getControlledObject();
         PhysicalThing* physThing = actor->getPhysicalThing();
 
+		if (actor == SoundManager::getSingleton().getListenerActor())
+		{
+			SoundManager::getSingleton()._clearListenerActor();
+		}
+
         ScriptWrapper::getSingleton().deleted(actor);
         delete actor;
 
@@ -147,7 +152,7 @@ namespace rl {
             Actor* actor = it->second;
             mActors.erase(it++);  
             doDestroyActor(actor);
-        }
+        }		
     }
 
     Actor* ActorManager::createLightActor(const String& name, rl::LightObject::LightTypes type )
@@ -214,8 +219,8 @@ namespace rl {
         Actor* actor = 0;
         try
         {
-            Sound* sm = MultimediaSubsystem::getSingleton().
-                getActiveDriver()->createSample(soundfile);
+            Sound* sm = SoundManager::getSingleton().
+				getActiveDriver()->createSample(SoundManager::getSingleton().getByName(soundfile));
             SoundObject* so = new SoundObject(sm, soundfile);
             actor = new Actor(uniquename, so);
             mActors.insert(ActorPtrPair(uniquename,actor));  
@@ -243,8 +248,8 @@ namespace rl {
         Actor* actor = 0;
         try
         {
-            Sound* sm = MultimediaSubsystem::getSingleton().
-                getActiveDriver()->createStream(soundfile);
+            Sound* sm = SoundManager::getSingleton().
+                getActiveDriver()->createStream(SoundManager::getSingleton().getByName(soundfile));
             SoundObject* so = new SoundObject(sm, soundfile);
 
             actor = new Actor(uniquename, so);
@@ -273,7 +278,7 @@ namespace rl {
         Actor* actor = 0;
         try
         {
-            ListenerMovable* lm = MultimediaSubsystem::getSingleton().
+            ListenerMovable* lm = SoundManager::getSingleton().
                 getActiveDriver()->createListener(name);
             ListenerObject* lo = new ListenerObject(lm);
 
@@ -428,7 +433,8 @@ namespace rl {
 
     Actor* ActorManager::getActorAt(Real x, Real y, Real width, Real length, bool infinite)
     {      
-        if (getWorld()->getActiveCamera() == NULL ||
+        if (getWorld() == NULL ||
+			getWorld()->getActiveCamera() == NULL ||
             getWorld()->getActiveActor() == NULL)
             return NULL;
 

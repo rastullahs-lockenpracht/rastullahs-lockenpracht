@@ -15,19 +15,19 @@
  */
 #ifdef WITH_FMOD3
 #include "Fmod3Driver.h"
-#include "MultimediaSubsystem.h"
-#include "SoundResource.h"
-#include "SoundManager.h"
-#include "Fmod3SoundSample.h"
-#include "Fmod3SoundStream.h"
-#include "Fmod3SoundChannel.h"
-#include "Fmod3Listener.h"
-#include "Logger.h"
 
 extern "C" {
     #include <fmod.h>
     #include <fmod_errors.h>
 }
+
+#include "Fmod3SoundSample.h"
+#include "Fmod3SoundStream.h"
+#include "Fmod3SoundChannel.h"
+#include "Fmod3Listener.h"
+#include "Logger.h"
+#include "SoundResource.h"
+
 
 using namespace Ogre;
 
@@ -41,8 +41,8 @@ namespace rl
  * @author JoSch
  * @date 12-23-2005
  */
-Fmod3Driver::Fmod3Driver():
-    SoundDriver()
+Fmod3Driver::Fmod3Driver(Ogre::ResourceManager* soundResourceManager):
+    SoundDriver(soundResourceManager)
 {
 }
 
@@ -236,9 +236,12 @@ void Fmod3Driver::close(void *handle)
  */
 void *Fmod3Driver::open(const char *name)
 {
-    SoundResourcePtr *res = new SoundResourcePtr(SoundManager::getSingleton().getByName(name));
+	SoundResourcePtr *res = new SoundResourcePtr(sSoundResourceManager->getByName(name));
     (*res)->load();
-    Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, "Opened stream " + String((*res)->getOrigin()));
+    Logger::getSingleton().log(
+		Logger::MULTIMEDIA, 
+		Logger::LL_MESSAGE, 
+		"Opened stream " + String((*res)->getOrigin()));
     return res;
 }
 
@@ -330,23 +333,8 @@ int Fmod3Driver::tell(void *handle)
  */
  void Fmod3Driver::update()
  {
-    if (MultimediaSubsystem::getSingleton().getActiveDriver() != NULL)
-    {
-        Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_TRIVIAL, "Updaten von Fmod3");
-    }
+    Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_TRIVIAL, "Updaten von Fmod3");
  	FSOUND_Update();
- }
- 
- /**
-  * Einen Sound-Stream mit Name erzeugen
-  * @return Der erzeugte Stream
-  * @author JoSch
-  * @date 03-06-2006
-  */
- Sound *Fmod3Driver::createStream(const Ogre::String &name)
- {
- 	Sound *sound = new Fmod3SoundStream(name);
- 	return sound;
  }
  
  /**
@@ -359,18 +347,6 @@ Sound *Fmod3Driver::createStream(const SoundResourcePtr &res)
 {
  	Sound *sound = new Fmod3SoundStream(res);
  	return sound;
-}
-
-/**
- * Einen Sound-Sample mit Name erzeugen
- * @return Das erzeugte Sample
- * @author JoSch
- * @date 03-06-2006
- */
-Sound *Fmod3Driver::createSample(const Ogre::String &name)
-{
- 	Sound *sound = new Fmod3SoundSample(name);
- 	return sound;	
 }
 
 /**
@@ -395,7 +371,7 @@ Sound *Fmod3Driver::createSample(const SoundResourcePtr &res)
  */
 SoundChannel *Fmod3Driver::createChannel(Sound *sound, const Ogre::String &name)
 {
- 	SoundChannel *channel = new Fmod3SoundChannel(sound, name);
+ 	SoundChannel *channel = new Fmod3SoundChannel(this, sound, name);
     if (sound->is3d())
     {
         channel->setVolume(mDefaultSoundVolume);

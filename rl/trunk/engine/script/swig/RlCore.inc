@@ -84,11 +84,6 @@ static swig_type_info *ActorControlledObject_dynamic_cast(void **ptr)
         *ptr=reinterpret_cast<void*>(pSoundObject);
         return SWIGTYPE_p_rl__SoundObject;
     }
-    rl::ListenerObject *pListenerObject=dynamic_cast<rl::ListenerObject*>(*ppActorControlledObject);
-    if (pListenerObject) {
-        *ptr=reinterpret_cast<void*>(pListenerObject);
-        return SWIGTYPE_p_rl__ListenerObject;
-    }
     return 0;
 }
 %}
@@ -102,7 +97,6 @@ public:
 	static ActorManager& getSingleton(void);
 
 	rl::Actor* createParticleSystemActor(const Ogre::String& name, const Ogre::String& soundfile);
-    rl::Actor* createListenerActor(const Ogre::String& name);
     rl::Actor* createSoundStreamActor(const Ogre::String& name, const Ogre::String& soundfile);
     rl::Actor* createSoundSampleActor(const Ogre::String& name, const Ogre::String& soundfile);
     rl::Actor* createEmptyActor(const Ogre::String& name);
@@ -395,13 +389,6 @@ public:
 };
 
 
-class ListenerObject : public ActorControlledObject
-{
-public:
-	rl::ListenerMovable* getListener();
-	void setActive();
-};
-
 class SoundObject : public ActorControlledObject
 {
 public:
@@ -640,7 +627,6 @@ public:
     World* getWorld();
     void makeScreenshot(const Ogre::String& sName);
     RL_LONGLONG getClock();
-    Actor* getSoundListener();
     bool isInitialized() const;
     void setScheme(const Ogre::String& schemeName);
 };
@@ -662,9 +648,4 @@ public:
 	void addAsynchronousTask(GameTask* newTask);
 };
 
-
-
 }
-
-
-

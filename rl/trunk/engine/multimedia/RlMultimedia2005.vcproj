@@ -236,10 +236,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\MultimediaSubsystem.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\Sound.cpp"
 				>
 			</File>
@@ -256,15 +252,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\SoundManager.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\SoundResource.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\SoundUpdateTask.cpp"
 				>
 			</File>
 			<File
@@ -273,6 +261,10 @@
 			</File>
 			<File
 				RelativePath=".\src\VideoEvents.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\VideoManager.cpp"
 				>
 			</File>
 			<File
@@ -362,10 +354,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\MultimediaSubsystem.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\Sound.h"
 				>
 			</File>
@@ -382,15 +370,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\SoundManager.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\SoundResource.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\SoundUpdateTask.h"
 				>
 			</File>
 			<File
@@ -399,6 +379,10 @@
 			</File>
 			<File
 				RelativePath=".\include\VideoEvents.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\VideoManager.h"
 				>
 			</File>
 			<File

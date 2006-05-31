@@ -19,7 +19,6 @@
 #include <OgreAxisAlignedBox.h>
 #include <OgreVector3.h>
 #include "Sound.h"
-#include "MultimediaSubsystem.h"
 
 Ogre::String rl::OalSoundChannel::msMovableType = "OalSoundChannel";
 
@@ -28,8 +27,8 @@ using namespace Ogre;
 namespace rl
 {
 
-OalSoundChannel::OalSoundChannel(Sound *sound, const Ogre::String &name)
- : SoundChannel(sound, name),
+OalSoundChannel::OalSoundChannel(SoundDriver* driver, Sound *sound, const Ogre::String &name)
+ : SoundChannel(driver, sound, name),
    mChannel(NO_CHANNEL)
 {   
 }

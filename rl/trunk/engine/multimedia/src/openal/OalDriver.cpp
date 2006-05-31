@@ -36,7 +36,8 @@ namespace rl
  * @author JoSch
  * @date 12-23-2005
  */
-OalDriver::OalDriver()
+OalDriver::OalDriver(Ogre::ResourceManager* soundResourceManager)
+: SoundDriver(soundResourceManager)
 {
 }
 

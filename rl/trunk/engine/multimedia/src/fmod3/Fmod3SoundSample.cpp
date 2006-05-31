@@ -31,17 +31,6 @@ String Fmod3SoundSample::msMovableType = "Fmod3SoundSample";
  * @author JoSch
  * @date 07-04-2005
  */
-Fmod3SoundSample::Fmod3SoundSample(const String &name):
-    Fmod3Sound(name),
-    mSample(0)
-{
-}
- 
-/**
- * @param name Der Name des Sounds.
- * @author JoSch
- * @date 07-04-2005
- */
 Fmod3SoundSample::Fmod3SoundSample(const SoundResourcePtr &soundres):
     Fmod3Sound(soundres),
     mSample(0)

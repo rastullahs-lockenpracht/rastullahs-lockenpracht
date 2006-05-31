@@ -25,10 +25,10 @@
 #include "DialogWindow.h"
 #include "InputManager.h"
 #include "MeshObject.h"
-#include "MultimediaSubsystem.h"
 #include "PhysicalThing.h"
 #include "Sound.h"
 #include "SoundDriver.h"
+#include "SoundManager.h"
 #include "SoundObject.h"
 #include "SubtitleWindow.h"
 #include "WindowManager.h"
@@ -185,8 +185,9 @@ namespace rl {
 			delete mSoundObject;
 			mSoundObject = 
 				new SoundObject(
-					MultimediaSubsystem::getSingleton().getActiveDriver()->
-						createSample(soundFile),
+					SoundManager::getSingleton().getActiveDriver()->
+						createSample(
+							SoundManager::getSingleton().getByName(soundFile)),
 					soundFile);
 			mSoundObject->play();
 		}

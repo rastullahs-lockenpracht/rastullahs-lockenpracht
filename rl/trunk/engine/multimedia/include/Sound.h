@@ -50,8 +50,6 @@ namespace rl {
         
     public:
         /// Konstruktor
-        Sound(const Ogre::String& name);
-        /// Konstruktor
         Sound(const SoundResourcePtr &soundres);
         /// Destruktor
         virtual ~Sound();

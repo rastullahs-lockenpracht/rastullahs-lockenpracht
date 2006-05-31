@@ -47,7 +47,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\multimedia\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\OgreNewt\inc;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Dependencies\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\multimedia\include;..\multimedia\include\fmod3;..\multimedia\include\null;..\multimedia\include\openal;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\OgreNewt\inc;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Dependencies\include"
 				PreprocessorDefinitions="WITH_FMOD3;_WINDOWS,_DEBUG,WIN32,RLCORE_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -159,7 +159,7 @@
 				Optimization="3"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\multimedia\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\OgreNewt\inc;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Dependencies\include"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\multimedia\include;..\multimedia\include\fmod3;..\multimedia\include\null;..\multimedia\include\openal;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\OgreNewt\inc;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Dependencies\include"
 				PreprocessorDefinitions="WITH_FMOD3;NDEBUG,_WINDOWS,WIN32,RLCORE_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="false"
 				ExceptionHandling="1"
@@ -253,6 +253,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\multimedia\include;..\multimedia\include\fmod3;..\multimedia\include\null;..\multimedia\include\openal;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\OgreNewt\inc;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\ogrenew\Dependencies\include"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -456,7 +457,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\SoundManager.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\SoundObject.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SoundUpdateTask.h"
 				>
 			</File>
 			<File
@@ -617,7 +626,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\SoundManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\SoundObject.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SoundUpdateTask.cpp"
 				>
 			</File>
 			<File

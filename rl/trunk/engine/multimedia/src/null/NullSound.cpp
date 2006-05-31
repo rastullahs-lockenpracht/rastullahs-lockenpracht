@@ -31,17 +31,6 @@ String NullSound::msMovableType = "NullSound";
  * @author JoSch
  * @date 07-04-2005
  */
-NullSound::NullSound(const String &name):
-    Sound(name)
-{
-    mTotalTime.sec = mTotalTime.nsec = 0;
-}
- 
-/**
- * @param name Der Name des Sounds.
- * @author JoSch
- * @date 07-04-2005
- */
 NullSound::NullSound(const SoundResourcePtr &soundres):
     Sound(soundres)
 {
@@ -99,17 +88,6 @@ void NullSound::unload() throw (RuntimeException)
 bool NullSound::isValid() const throw (RuntimeException)
 {
     return getSoundResource()->isLoaded();
-}
-
-/**
- * @return Der erzeugte Channel
- * @author JoSch
- * @date 08-08-2005
- */
-SoundChannel *NullSound::createChannel() throw (RuntimeException)
-{
-    NullSoundChannel *nullchannel = new NullSoundChannel(this, getName());
-    return nullchannel; 
 }
 
 /**

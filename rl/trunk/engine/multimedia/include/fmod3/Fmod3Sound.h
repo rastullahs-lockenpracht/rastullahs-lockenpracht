@@ -19,8 +19,6 @@ class SoundChannel;
 class Fmod3Sound : public Sound
 {
 	public:
-		/// Konstruktor
-        Fmod3Sound(const Ogre::String& name) : Sound(name) {}
         /// Konstruktor
         Fmod3Sound(const SoundResourcePtr &soundres) : Sound(soundres) {};
 		/// Erzeuge einen Kanal mit Fmod.

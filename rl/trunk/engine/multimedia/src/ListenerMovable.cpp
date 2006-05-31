@@ -14,7 +14,6 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 #include "ListenerMovable.h"
-#include "MultimediaSubsystem.h"
 
 using namespace Ogre;
 
@@ -194,7 +193,12 @@ void ListenerMovable::setGain(const int gain)
  */
 bool ListenerMovable::isActive() const
 {
-    return (this == MultimediaSubsystem::getSingleton().getActiveListener());
+    return mActive;
+}
+
+void ListenerMovable::setActive(bool active)
+{
+	mActive = active;
 }
 
 }

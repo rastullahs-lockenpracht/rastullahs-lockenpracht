@@ -13,18 +13,16 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#include "SoundConfig.h"
 
 #include <boost/bind.hpp>
-#include "UiPrerequisites.h"
 #include "Exception.h"
-#include "CEGUI.h"
-#include "SoundConfig.h"
-#include "MultimediaSubsystem.h"
-#include "SoundDriver.h"
 #include "Fmod3Config.h"
-#include "NullDriver.h"
 #include "Fmod3Driver.h"
+#include "NullDriver.h"
 #include "OalDriver.h"
+#include "SoundDriver.h"
+#include "SoundManager.h"
 
 using namespace CEGUI;
 using namespace Ogre;
@@ -53,7 +51,7 @@ namespace rl
 		mVolumeSound = getSlider("SoundConfig/VolumeSound");
 		mVolumeSound->setMaxValue(100);
 		mVolumeSound->setCurrentValue(	
-			MultimediaSubsystem::getSingleton()
+			SoundManager::getSingleton()
 			.getActiveDriver()
 			->getDefaultSoundVolume());
 		mVolumeSound->subscribeEvent(
@@ -63,7 +61,7 @@ namespace rl
 		mVolumeMusic = getSlider("SoundConfig/VolumeMusic");
 		mVolumeMusic->setMaxValue(100);
 		mVolumeMusic->setCurrentValue(	
-			MultimediaSubsystem::getSingleton()
+			SoundManager::getSingleton()
 			.getActiveDriver()
 			->getDefaultMusicVolume());
 		mVolumeMusic->subscribeEvent(
@@ -73,7 +71,7 @@ namespace rl
 		mVolumeMaster = getSlider("SoundConfig/VolumeMaster");
 		mVolumeMaster->setMaxValue(100);
 		mVolumeMaster->setCurrentValue(	
-			MultimediaSubsystem::getSingleton()
+			SoundManager::getSingleton()
 			.getActiveDriver()
 			->getMasterVolume());
 		mVolumeMaster->subscribeEvent(
@@ -82,7 +80,7 @@ namespace rl
 
 		mBox = getListbox("SoundConfig/Table");
 		DriverList list = 
-			MultimediaSubsystem::getSingleton().getSoundDriverList();
+			SoundManager::getSingleton().getSoundDriverList();
 		DriverList::const_iterator it;
 		for (it = list.begin(); it != list.end(); it++)
 		{
@@ -103,11 +101,11 @@ namespace rl
 			dynamic_cast<ListboxTextItem*>(mBox->getFirstSelectedItem());
 		if (item != 0)
 		{
-			SoundDriver *activeDriver = MultimediaSubsystem::getSingleton().getActiveDriver();        
+			SoundDriver *activeDriver = SoundManager::getSingleton().getActiveDriver();        
 			if (item->getText() != activeDriver->getName())
 			{
 				// Nicht der aktive Treiber, also ändern.
-				DriverList list = MultimediaSubsystem::getSingleton().getSoundDriverList();
+				DriverList list = SoundManager::getSingleton().getSoundDriverList();
 				DriverList::const_iterator it;
 				SoundDriver *searched = NULL;
 				for (it = list.begin(); it != list.end(); it++)
@@ -122,7 +120,7 @@ namespace rl
 				{
 					activeDriver->deInit();
 					searched->deInit();
-					MultimediaSubsystem::getSingleton().setActiveDriver(searched);
+					SoundManager::getSingleton().setActiveDriver(searched);
 				}
 			}
 		}
@@ -133,7 +131,7 @@ namespace rl
 
 	bool SoundConfig::handleVolumeMusicChanged()
 	{
-		MultimediaSubsystem::getSingleton()
+		SoundManager::getSingleton()
 			.getActiveDriver()
 			->setDefaultMusicVolume(mVolumeMusic->getCurrentValue());
 		return true;
@@ -141,7 +139,7 @@ namespace rl
 
 	bool SoundConfig::handleVolumeSoundChanged()
 	{
-		MultimediaSubsystem::getSingleton()
+		SoundManager::getSingleton()
 			.getActiveDriver()
 			->setDefaultSoundVolume(mVolumeSound->getCurrentValue());
 		return true;
@@ -149,7 +147,7 @@ namespace rl
 
 	bool SoundConfig::handleVolumeMasterChanged()
 	{
-		MultimediaSubsystem::getSingleton()
+		SoundManager::getSingleton()
 			.getActiveDriver()
 			->setMasterVolume(mVolumeMaster->getCurrentValue());
 		return true;

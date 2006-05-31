@@ -10,16 +10,14 @@ libRlMultimedia_la_LDFLAGS = -L../../common/src
 
 libRlMultimedia_la_SOURCES = \
 	ListenerMovable.cpp \
-	MultimediaSubsystem.cpp \
-	SoundManager.cpp \
 	Sound.cpp \
 	SoundChannel.cpp \
 	SoundDriver.cpp \
-	SoundResource.cpp \
 	SoundEvents.cpp \
-	SoundUpdateTask.cpp \
+	SoundResource.cpp \
 	Video.cpp \
 	VideoEvents.cpp \
+	VideoManager.cpp \
 	VorbisFile.cpp \
 	null/NullSoundChannel.cpp \
 	null/NullSound.cpp \

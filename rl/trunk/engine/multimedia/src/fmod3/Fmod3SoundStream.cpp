@@ -33,17 +33,6 @@ namespace rl {
  * @author JoSch
  * @date 07-04-2005
  */
-Fmod3SoundStream::Fmod3SoundStream(const String &name):
-    Fmod3Sound(name),
-    mStream(0)
-{
-}
- 
-/**
- * @param name Der Name des Sounds.
- * @author JoSch
- * @date 07-04-2005
- */
 Fmod3SoundStream::Fmod3SoundStream(const SoundResourcePtr &soundres):
     Fmod3Sound(soundres),
     mStream(0)
@@ -70,13 +59,17 @@ void Fmod3SoundStream::load() throw (RuntimeException)
     if (is3d())
     {
         mode |= FSOUND_HW3D | FSOUND_FORCEMONO;
-    } else {
+    } 
+	else 
+	{
         mode |= FSOUND_HW2D;
     } 
     if (isLooping())
     {
         mode |= FSOUND_LOOP_NORMAL;
-    } else {
+    } 
+	else 
+	{
         mode |= FSOUND_LOOP_OFF;
     }
     mStream = FSOUND_Stream_Open(getName().c_str(), mode, 0, 0);

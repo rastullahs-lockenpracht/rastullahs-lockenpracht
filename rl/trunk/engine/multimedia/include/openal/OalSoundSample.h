@@ -39,8 +39,6 @@ namespace rl {
 
     public:
         /// Konstruktor
-        OalSoundSample(const Ogre::String& name);
-        /// Konstruktor
         OalSoundSample(const SoundResourcePtr &soundres);
         /// Destruktor
         virtual ~OalSoundSample();

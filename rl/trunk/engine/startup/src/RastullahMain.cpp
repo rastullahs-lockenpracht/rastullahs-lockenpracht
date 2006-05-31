@@ -23,7 +23,6 @@
 
 #include "CoreSubsystem.h"
 #include "GameLoop.h"
-#include "MultimediaSubsystem.h"
 #include "SoundUpdateTask.h"
 #include "RulesSubsystem.h"
 #include "DialogSubsystem.h"
@@ -48,7 +47,6 @@ void log(rl::Logger::LogLevel level, const Ogre::String& msg, Ogre::String ident
 void startupRl(bool developerMode, Ogre::String module)
 {
 	rl::CoreSubsystem* core = NULL;
-	rl::MultimediaSubsystem* sound = NULL;
 	rl::RulesSubsystem* rules = NULL;
 	rl::DialogSubsystem* dialog = NULL;
 	rl::UiSubsystem* ui =  NULL;
@@ -66,9 +64,6 @@ void startupRl(bool developerMode, Ogre::String module)
 		rl::Logger::getSingleton().setLogDetail(
 			rl::ConfigurationManager::getSingleton().getLogLevel());
 
-		sound = new rl::MultimediaSubsystem();
-		log(rl::Logger::LL_NORMAL, "MultimediaSubsystem gestartet");
-
 		core = new rl::CoreSubsystem();
 		core->setDeveloperMode(developerMode);
 		log(rl::Logger::LL_NORMAL, "CoreSubsystem gestartet");
@@ -85,8 +80,6 @@ void startupRl(bool developerMode, Ogre::String module)
 		script = new rl::ScriptSubsystem();
 		log(rl::Logger::LL_NORMAL, "ScriptSubsystem gestartet");
 
-		sound->loadConf(rl::ConfigurationManager::getSingleton().getSoundCfgPath());
-		log(rl::Logger::LL_NORMAL, "Soundkonfiguration geladen");
 
 		log(rl::Logger::LL_NORMAL, "Starte...");
 		if (module != "")
@@ -123,7 +116,6 @@ void startupRl(bool developerMode, Ogre::String module)
 	try 
     {
 #endif // #ifndef _DEBUG
-		sound->saveConf(rl::ConfigurationManager::getSingleton().getSoundCfgPath());
 		log(rl::Logger::LL_NORMAL, "Soundkonfiguration gespeichert");
 
 		delete script;
@@ -131,7 +123,6 @@ void startupRl(bool developerMode, Ogre::String module)
 		delete dialog;
 		delete rules;
 		delete core;
-		delete sound;
 
         delete logger;
 #ifndef _DEBUG

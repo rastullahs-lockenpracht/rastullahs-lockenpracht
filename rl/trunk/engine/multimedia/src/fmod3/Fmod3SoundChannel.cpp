@@ -16,11 +16,9 @@
 
 #ifdef WITH_FMOD3
 #include "Fmod3SoundChannel.h"
+
 #include <OgreMovableObject.h>
-#include <OgreAxisAlignedBox.h>
-#include <OgreVector3.h>
 #include "Fmod3Sound.h"
-#include "MultimediaSubsystem.h"
 #include "SoundDriver.h"
 #include "SoundEvents.h"
 
@@ -35,8 +33,8 @@ using namespace Ogre;
 namespace rl
 {
 
-Fmod3SoundChannel::Fmod3SoundChannel(Sound *sound, const Ogre::String &name)
- : SoundChannel(sound, name),
+Fmod3SoundChannel::Fmod3SoundChannel(SoundDriver* driver, Sound *sound, const Ogre::String &name)
+ : SoundChannel(driver, sound, name),
    mChannel(NO_CHANNEL)
 {
     
@@ -62,11 +60,11 @@ void Fmod3SoundChannel::play()
 	int vol;
 	if (is3d())
 	{
-		vol = MultimediaSubsystem::getSingleton().getActiveDriver()->getDefaultSoundVolume();
+		vol = getDriver()->getDefaultSoundVolume();
 	}
 	else
 	{
-		vol = MultimediaSubsystem::getSingleton().getActiveDriver()->getDefaultMusicVolume();
+		vol = getDriver()->getDefaultMusicVolume();
 	}
 	setVolume(vol);
 

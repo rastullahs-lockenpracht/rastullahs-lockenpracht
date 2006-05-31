@@ -16,7 +16,6 @@
 #ifdef WITH_OAL
 
 #include "OalListener.h"
-#include "MultimediaSubsystem.h"
 
 using namespace Ogre;
 

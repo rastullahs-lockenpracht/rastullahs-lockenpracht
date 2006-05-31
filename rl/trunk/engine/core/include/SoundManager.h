@@ -22,14 +22,24 @@
 #include <OgreResourceGroupManager.h>
 #include <list>
 #include <boost/thread/mutex.hpp>
-#include "MultimediaPrerequisites.h"
-#include "MultimediaSubsystem.h"
+#include "CorePrerequisites.h"
+#include "CoreSubsystem.h"
 
 namespace rl {
 
+class Actor;
+class ListenerObject;
+class SoundDriver;
+class SoundManager;
+class SoundUpdateTask;
+class Video;
+
+typedef std::list<Video*> VideoList;
+typedef std::list<SoundDriver*> DriverList;
 
 /**
- * Der SoundManager verwaltet die Sounds, die das Spiel benutzt.
+ * Der SoundManager verwaltet den benutzten Treiber sowie
+ * die Sounds, die das Spiel benutzt.
  * Die Sounds werden geladen und entladen, je nachdem, ob die
  * Speichergrenze ueberschritten wurde.
  * @author JoSch
@@ -38,8 +48,9 @@ namespace rl {
  * @version 2.0
  * @date 06-29-2005
  */ 
-class _RlMultimediaExport SoundManager: public Ogre::ResourceManager,
-        public Ogre::Singleton<SoundManager> {
+class _RlCoreExport SoundManager : public Ogre::ResourceManager,
+        public Ogre::Singleton<SoundManager> 
+{
     public:
         /// Gibt das Singleton zurueck.
         static SoundManager& getSingleton();
@@ -48,6 +59,7 @@ class _RlMultimediaExport SoundManager: public Ogre::ResourceManager,
         /// Eine Resource erzeugen
         /// Konstruktor
         SoundManager();
+		~SoundManager();
         /// Alle Sounds in die Resourcenliste eintragen.
 		virtual void addSounds(const Ogre::String& groupName = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
         /// erzeugt einen Sound und fügt ihn hinzufuegen (Mit Mutex mittelbar)
@@ -60,6 +72,28 @@ class _RlMultimediaExport SoundManager: public Ogre::ResourceManager,
             bool isManual = false, Ogre::ManualResourceLoader* loader = 0, 
             const Ogre::NameValuePairList* createParams = 0);
 
+	    /// Den aktiven Listener zurückgeben.
+		ListenerObject* getListener() const;
+		Actor* getListenerActor();
+		void _clearListenerActor();		
+
+		/// Hole den Treiber mit dem Namen
+		SoundDriver* getDriverByName(const Ogre::String &name);
+
+		/// Hole die Soundkonfiguration
+		void loadConf(const Ogre::String &filename);
+		/// Schreibe die Soundkonfiguration
+		void saveConf(const Ogre::String &filename) const;
+
+		/// fmod weiterlaufen lassen.
+		void update();
+		/// Liste der Soundtreiber.
+		const DriverList& getSoundDriverList() const;
+		/// Den aktiven Treiber zurückgeben.
+		SoundDriver* getActiveDriver() const;
+		/// Den aktiven Treiber setzen.
+		void setActiveDriver(SoundDriver *driver);
+    
 	protected:
 		virtual Ogre::Resource* createImpl(const Ogre::String& name, Ogre::ResourceHandle handle, 
 			const Ogre::String& group, bool isManual, Ogre::ManualResourceLoader* loader, 
@@ -70,6 +104,17 @@ class _RlMultimediaExport SoundManager: public Ogre::ResourceManager,
 		boost::mutex mResListMutex;
 		/// Welche Dateiendung soll verwendet werden.
 		virtual StringList getExtension();
+
+
+	    /// die Liste der bekannten und funktionierenden Treiber
+		DriverList mDriverList;  
+		/// Der aktuell bentutzte Soundtreiber
+		SoundDriver *mActiveDriver;
+		/// Der aktive Soundlistener
+		ListenerObject *mActiveListener;
+		Actor* mListenerActor;
+
+		SoundUpdateTask* mSoundUpdateTask;
 };
 
 }

@@ -31,7 +31,7 @@ public:
 	/// Der Treibername
 	static CeGuiString NAME;
     /// Der Konstruktor
-	NullDriver();
+	NullDriver(Ogre::ResourceManager* soundResourceManager);
     /// Der Destruktor
 	virtual ~NullDriver();
     /// Ist der Treiber angeschaltet?
@@ -44,12 +44,8 @@ public:
     virtual CeGuiString getName() const;
     /// Update-Aufgaben erledigen
     virtual void update();
-    /// Einen Sound-Stream mit Name erzeugen
-    virtual Sound *createStream(const Ogre::String &name);
     /// Einen Sound-Stream mit Resource erzeugen
     virtual Sound *createStream(const SoundResourcePtr &res);
-    /// Einen Sound-Sample mit Name erzeugen
-    virtual Sound *createSample(const Ogre::String &name);
     /// Einen Sound-Sample mit Resource erzeugen
     virtual Sound *createSample(const SoundResourcePtr &res);
     /// Einen SoundChannel erzeugen

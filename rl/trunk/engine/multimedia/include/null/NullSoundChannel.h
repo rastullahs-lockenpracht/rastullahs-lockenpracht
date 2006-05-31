@@ -31,6 +31,7 @@ namespace rl
     const int NO_CHANNEL = -1234;
     
     class Sound;
+	class SoundDriver;
 
 class _RlMultimediaExport NullSoundChannel  : public SoundChannel
 {
@@ -43,7 +44,7 @@ private:
     bool mIsPlaying;
     
 public:
-	NullSoundChannel(Sound *sound, const Ogre::String &name);
+	NullSoundChannel(SoundDriver* driver, Sound *sound, const Ogre::String &name);
 	virtual ~NullSoundChannel();
     
     /// Moveable-Typ

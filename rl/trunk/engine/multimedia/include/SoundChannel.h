@@ -33,12 +33,14 @@ namespace rl
 {
     
     class Sound;
+	class SoundDriver;
 
 class _RlMultimediaExport SoundChannel  : public Ogre::MovableObject, 
     public EventCaster<SoundEvent>, public EventSource
 {
 private:
     rl::Sound *mSound;
+	SoundDriver* mDriver;
 
     /// Shared class-level name for Movable type
     static Ogre::AxisAlignedBox msAABox;
@@ -56,7 +58,7 @@ protected:
     Ogre::Vector3 mVelocity;
     
 public:
-	SoundChannel(Sound *sound, const Ogre::String &name);
+	SoundChannel(SoundDriver* driver, Sound *sound, const Ogre::String &name);
 	virtual ~SoundChannel();
     
     /// Name zurückgeben
@@ -121,6 +123,7 @@ public:
     /// Hole den zugehoerigen Sound
     Sound *getSound() const;
 
+	SoundDriver* getDriver() const;
 };
 
 typedef std::set<SoundChannel*> SoundChannelSet;

@@ -17,14 +17,15 @@
 #define SOUNDDRIVER_H_
 
 #include "MultimediaPrerequisites.h"
+#include <OgreResourceManager.h>
 #include "SoundChannel.h"
 
 namespace rl
 {
-    class Sound;
-    class SoundResourcePtr;
-    class ListenerMovable;
     class ConfigFile;
+    class ListenerMovable;
+	class Sound;
+    class SoundResourcePtr;
 
 /**
  * Diese Klasse dient zur Definition einer Schnittstelle
@@ -36,7 +37,7 @@ class _RlMultimediaExport SoundDriver
 {
 public:
     /// Der Konstruktor
-	SoundDriver();
+	SoundDriver(Ogre::ResourceManager* soundResourceManager);
     /// Der Destruktor
 	virtual ~SoundDriver();
     /// Zeigt an, ob der Treiber funktionsfähig ist.
@@ -49,12 +50,8 @@ public:
     virtual CeGuiString getName() const = 0;
     /// Update-Aufgaben erledigen
     virtual void update() = 0;
-    /// Einen Sound-Stream mit Name erzeugen
-    virtual Sound *createStream(const Ogre::String &name) = 0;
     /// Einen Sound-Stream mit Resource erzeugen
     virtual Sound *createStream(const SoundResourcePtr &res) = 0;
-    /// Einen Sound-Sample mit Name erzeugen
-    virtual Sound *createSample(const Ogre::String &name) = 0;
     /// Einen Sound-Sample mit Resource erzeugen
     virtual Sound *createSample(const SoundResourcePtr &res) = 0;
     /// Einen SoundChannel erzeugen
@@ -98,6 +95,8 @@ protected:
     unsigned int mDefaultSoundVolume;
 
 	unsigned int mMasterVolume;
+
+	static Ogre::ResourceManager* sSoundResourceManager;
     
 };
 

@@ -18,7 +18,7 @@
 #include "NullSoundChannel.h"
 #include "NullListener.h"
 
-rl::CeGuiString rl::NullDriver::NAME = "Nulltreiber";
+rl::CeGuiString rl::NullDriver::NAME = "NullDriver";
 
 namespace rl
 {
@@ -28,7 +28,8 @@ namespace rl
  * @author JoSch
  * @date 12-23-2005
  */
-NullDriver::NullDriver()
+NullDriver::NullDriver(Ogre::ResourceManager* soundResourceManager)
+ : SoundDriver(soundResourceManager)
 {
 }
 
@@ -92,19 +93,6 @@ CeGuiString NullDriver::getName() const
  }
  
  /**
-  * Einen Sound-Stream mit Name erzeugen
-  * @return Der erzeugte Stream
-  * @param name Der Name des Stücks zur Erzeugung des Sounds
-  * @author JoSch
-  * @date 03-06-2006
-  */
- Sound *NullDriver::createStream(const Ogre::String &name)
- {
- 	Sound *sound = new NullSound(name);
- 	return sound;
- }
- 
- /**
   * Einen Sound-Stream mit Resource erzeugen
   * @return Der erzeugte Stream
   * @param res Die Resource zur Erzeugung des Sounds
@@ -115,19 +103,6 @@ Sound *NullDriver::createStream(const SoundResourcePtr &res)
 {
  	Sound *sound = new NullSound(res);
  	return sound;
-}
-
-/**
- * Einen Sound-Sample mit Name erzeugen
- * @return Das erzeugte Sample
- * @param name Der Name des Stücks zur Erzeugung des Sounds
- * @author JoSch
- * @date 03-06-2006
- */
-Sound *NullDriver::createSample(const Ogre::String &name)
-{
- 	Sound *sound = new NullSound(name);
- 	return sound;	
 }
 
 /**
@@ -153,7 +128,7 @@ Sound *NullDriver::createSample(const SoundResourcePtr &res)
  */
 SoundChannel *NullDriver::createChannel(Sound *sound, const Ogre::String &name)
 {
- 	SoundChannel *channel = new NullSoundChannel(sound, name);
+ 	SoundChannel *channel = new NullSoundChannel(this, sound, name);
     if (sound->is3d())
     {
         channel->setVolume(mDefaultSoundVolume);

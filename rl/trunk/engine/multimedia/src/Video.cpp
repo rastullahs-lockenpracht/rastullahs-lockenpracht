@@ -23,7 +23,7 @@
 #include <OgreCEGUIRenderer.h>
 
 #include "VideoEvents.h"
-#include "MultimediaSubsystem.h"
+#include "VideoManager.h"
 
 using namespace CEGUI;
 using namespace Ogre;
@@ -222,7 +222,7 @@ void Video::stop()
         mClip->changePlayMode(TextureEffectPause);
         mVideoControl->destroyAdvancedTexture(mTextureName.c_str());
     } */
-    MultimediaSubsystem::getSingleton().removeVideo(this);
+    VideoManager::getSingleton().removeVideo(this);
     // TODO Audio behandenln
 }
 
@@ -295,8 +295,8 @@ const CeGuiString Video::getTextureName() const
 }
 
 /**
- * Die Videol�nge zur�ckgeben
- * @return Der L�nge des Videos.
+ * Die Videolaenge zurueckgeben
+ * @return Der Laenge des Videos.
  * @author JoSch
  * @date 02-09-2005
  */

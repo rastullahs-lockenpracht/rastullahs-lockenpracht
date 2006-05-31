@@ -16,9 +16,9 @@
 
 #include "ListenerObject.h"
 #include "Actor.h"
-#include <Ogre.h>
+#include <OgreMovableObject.h>
 #include "ListenerMovable.h"
-#include "MultimediaSubsystem.h"
+#include "SoundManager.h"
 
 using namespace Ogre;
 
@@ -92,7 +92,7 @@ void ListenerObject::_update()
  */   
 ListenerMovable* ListenerObject::getListener() const
 {
-    return reinterpret_cast<ListenerMovable*>(mMovableObject);
+    return static_cast<ListenerMovable*>(mMovableObject);
 }
 
 /**
@@ -104,11 +104,5 @@ String ListenerObject::getObjectType()
 {
     return "ListenerObject";
 }
-
-void ListenerObject::setActive()
-{
-    MultimediaSubsystem::getSingleton().setActiveListener(getListener());
-}
-
 
 }

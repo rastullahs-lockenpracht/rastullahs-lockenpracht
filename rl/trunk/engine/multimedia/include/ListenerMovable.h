@@ -34,24 +34,6 @@ namespace rl {
     */
     class _RlMultimediaExport ListenerMovable : public Ogre::MovableObject
     {
-    private:
-        /// Der Name des ListenerMovable
-        Ogre::String mName;
-        
-    protected:
-         /// Shared class-level name for Movable type
-        static Ogre::String msMovableType;
-        /// Alignment-Box: gebraucht von MovableObject.
-        static Ogre::AxisAlignedBox msAABox;
-        /// Position
-        Ogre::Vector3 mPosition;
-        /// Geschwindigkeit
-        Ogre::Vector3 mVelocity;
-        /// Orientierung
-        Ogre::Quaternion mOrientation;
-        /// Hauptlautstärke
-        int mGain;
-
     public:
         /// Konstruktor
         ListenerMovable(const Ogre::String& name);
@@ -89,6 +71,26 @@ namespace rl {
         
         /// Ist dies der aktuelle Listener
         bool isActive() const;
+		void setActive(bool active);
+        
+    protected:
+         /// Shared class-level name for Movable type
+        static Ogre::String msMovableType;
+        /// Alignment-Box: gebraucht von MovableObject.
+        static Ogre::AxisAlignedBox msAABox;
+        /// Position
+        Ogre::Vector3 mPosition;
+        /// Geschwindigkeit
+        Ogre::Vector3 mVelocity;
+        /// Orientierung
+        Ogre::Quaternion mOrientation;
+        /// Hauptlautstärke
+        int mGain;
+
+    private:
+        /// Der Name des ListenerMovable
+        Ogre::String mName;
+		bool mActive;
     };
 
 }

@@ -39,7 +39,9 @@ libRlCore_la_SOURCES = \
 	PhysicsMaterialRaycast.cpp \
 	Primitive.cpp \
 	RubyInterpreter.cpp \
+	SoundManager.cpp \
 	SoundObject.cpp \
+	SoundUpdateTask.cpp \
 	TrackAnimation.cpp \
 	World.cpp 		 
 

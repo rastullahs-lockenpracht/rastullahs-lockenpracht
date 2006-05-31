@@ -16,7 +16,6 @@
 
 #include "ActorControlledObject.h"
 #include "Actor.h"
-#include "MultimediaSubsystem.h"    
 
 using namespace Ogre;
 

@@ -24,20 +24,20 @@
 #include <OgreMeshManager.h>
 #include <OgreBillboardParticleRenderer.h>
 
-#include "ContentModule.h"
-#include "DotSceneOctreeWorld.h"
-#include "PhysicsManager.h"
 #include "ActorManager.h"
-#include "ScriptWrapper.h"
 #include "AnimationManager.h"
-#include "GameEventManager.h"
-#include "SoundManager.h"
-#include "GameLoop.h"
-#include "RubyInterpreter.h"
-#include "Exception.h"
+#include "ContentModule.h"
 #include "ConfigurationManager.h"
-#include "Logger.h"
 #include "CoreEvents.h"
+#include "DotSceneOctreeWorld.h"
+#include "Exception.h"
+#include "GameEventManager.h"
+#include "GameLoop.h"
+#include "Logger.h"
+#include "PhysicsManager.h"
+#include "RubyInterpreter.h"
+#include "ScriptWrapper.h"
+#include "SoundManager.h"
 #include "SoundUpdateTask.h"
 
 #include <ctime>
@@ -74,7 +74,6 @@ namespace rl {
 		mInitialized(false),
         mCoreEventCaster(),
         mDefaultTechniques(),
-        mSoundListenerActor(NULL),
         mOgreRoot(NULL),
         mScriptWrapper(NULL),
         mXmlResourceManager(NULL),
@@ -93,16 +92,17 @@ namespace rl {
     CoreSubsystem::~CoreSubsystem() 
     {  
 		mCoreEventCaster.removeEventListeners();
+		mSoundManager->saveConf(rl::ConfigurationManager::getSingleton().getSoundCfgPath());
 
         delete mWorld;        
-        delete mGameEventManager;
         delete mActorManager;
+        delete mGameEventManager;
         delete mAnimationManager;
         delete mGameLoopManager;
         delete mPhysicsManager;
         delete mXmlResourceManager;
         delete mScriptWrapper;
-        MultimediaSubsystem::getSingleton().shutdown();
+		delete mSoundManager;
         delete mConfigurationManager;
         delete mOgreRoot;
     }
@@ -182,7 +182,7 @@ namespace rl {
         	mConfigurationManager->getOgreLogPath()
         );
 
-        //Root::getSingleton().setFrameSmoothingPeriod(0.5f);
+		//Root::getSingleton().setFrameSmoothingPeriod(0.5f);
 
         // Muss vor dem Laden der Ressourcen geschehen,
         // weil es sonst sofort angewandt wird.
@@ -194,11 +194,19 @@ namespace rl {
         if (!carryOn) 
             return false;
 
+		mGameLoopManager = new GameLoopManager(100); //TODO: In Config-Datei verlagern
+        
 		mScriptWrapper = new ScriptWrapper();
         // TODO: muss löschbar werden.
 		mRubyInterpreter = new RubyInterpreter();
 		mRubyInterpreter->initializeInterpreter();
 		
+        mActorManager = new ActorManager();
+
+		mSoundManager = new SoundManager();
+		mSoundManager->loadConf(rl::ConfigurationManager::getSingleton().getSoundCfgPath());
+		Logger::getSingleton().log(Logger::CORE, Logger::LL_NORMAL, "Soundkonfiguration geladen");
+
 		initializeResources();
 
         // Set default mipmap level (NB some APIs ignore this)
@@ -209,20 +217,19 @@ namespace rl {
         
         
         mWorld = new DotSceneOctreeWorld();
+		mActorManager->setWorld(mWorld);
+
 		mPhysicsManager = new PhysicsManager();
         
-        mGameLoopManager = new GameLoopManager(100); //TODO: In Config-Datei verlagern
         GameLoopManager::getSingleton().addSynchronizedTask(
             PhysicsManager::getSingletonPtr(), FRAME_STARTED);
         mAnimationManager = new AnimationManager();
         GameLoopManager::getSingleton().addSynchronizedTask(
             AnimationManager::getSingletonPtr(), FRAME_STARTED);
-        mActorManager = new ActorManager();
         mGameEventManager = new GameEventManager();
         GameLoopManager::getSingleton().addSynchronizedTask(
             GameEventManager::getSingletonPtr(), FRAME_STARTED);
-        GameLoopManager::getSingleton().addAsynchronousTask(
-            SoundUpdateTask::getSingletonPtr()); 
+        
 
 		return true;
     }
@@ -463,12 +470,5 @@ namespace rl {
 	void CoreSubsystem::addCoreEventListener(rl::CoreEventListener *listener)
 	{
 		mCoreEventCaster.addEventListener(listener);
-	}
-
-	Actor* CoreSubsystem::getSoundListener()
-	{
-		if (mSoundListenerActor == NULL)
-			mSoundListenerActor = ActorManager::getSingleton().createListenerActor("SoundListenerObject");
-		return mSoundListenerActor;
 	}
 }

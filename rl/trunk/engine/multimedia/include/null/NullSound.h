@@ -41,8 +41,6 @@ namespace rl {
 
     public:
         /// Konstruktor
-        NullSound(const Ogre::String& name);
-        /// Konstruktor
         NullSound(const SoundResourcePtr &soundres);
         /// Destruktor
         virtual ~NullSound();
@@ -54,9 +52,6 @@ namespace rl {
         /// Entlaedt den Sound.
         virtual void unload() throw (RuntimeException);
  
-        // Wir erzeugen einen Channel für SoundChannel
-        virtual SoundChannel* createChannel() throw (RuntimeException);
-        
         // Wir geben zurück, wie lange der Sound ist.
         const boost::xtime& getTotalTime() const;
     

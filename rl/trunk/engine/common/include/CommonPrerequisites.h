@@ -39,6 +39,7 @@
 
 namespace rl
 {
+	typedef std::list<Ogre::String> StringList;
 	typedef CEGUI::String CeGuiString;
     typedef std::vector<CeGuiString> CeGuiStringVector;
 	typedef RL_LONGLONG Time; 

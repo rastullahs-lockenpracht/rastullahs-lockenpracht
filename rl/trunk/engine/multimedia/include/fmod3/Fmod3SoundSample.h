@@ -46,8 +46,6 @@ namespace rl {
 
     public:
         /// Konstruktor
-        Fmod3SoundSample(const Ogre::String& name);
-        /// Konstruktor
         Fmod3SoundSample(const SoundResourcePtr &soundres);
         /// Destruktor
         virtual ~Fmod3SoundSample();
