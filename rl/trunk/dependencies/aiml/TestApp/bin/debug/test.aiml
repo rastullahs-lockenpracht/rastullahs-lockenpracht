@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<aiml version="1.01">
+	<category>
+		<pattern>555 ä</pattern>
+		<!--<that>WHAT CAN I CALL YOU</that>-->
+		<template>
+				1767 Text blablablbal ÄÖÜßß??
+		</template>
+	</category>
+</aiml>

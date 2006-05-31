@@ -50,5 +50,6 @@ namespace rl
 		static DialogSubsystem& getSingleton(void);
 		rl::DialogCharacter* getCurrentBot();
 		rl::DialogCharacter* loadBot(const rl::CeGuiString& fileName, const rl::CeGuiString& botName = "");
+		void testNewDialogSystem();
 	};
 }

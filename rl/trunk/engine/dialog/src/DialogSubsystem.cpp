@@ -31,8 +31,11 @@
 #include "DialogCharacter.h"
 #include "BotParser.h"
 #include "DialogSubsystem.h"
-
+//new includes
+#include "AimlCore.h"
+#include "AimlParserImplRl.h"
 using namespace Ogre;
+using namespace MadaBot;
 
 template<> rl::DialogSubsystem* Singleton<rl::DialogSubsystem>::ms_Singleton = 0;
 
@@ -49,8 +52,9 @@ namespace rl
 	}
 
 	DialogSubsystem::DialogSubsystem()
-		: mCurrentBot(NULL)
+		: mCore(new AimlCore()), mCurrentBot(NULL)
 	{
+		mCore->setParser(new AimlParserImplRl());
 		AimlProcessorManager::addStandardProcessors();
 	//  Initialize Xerces if this wasn't done already
 		try 
@@ -70,6 +74,7 @@ namespace rl
 
     DialogSubsystem::~DialogSubsystem() 
     {  
+		delete mCore;
 		for(BotMap::iterator iter = mBots.begin();
 			iter != mBots.end();
 			++iter)
@@ -127,5 +132,12 @@ namespace rl
         }
         return res;
     }
+
+	void DialogSubsystem::testNewDialogSystem()
+	{
+		AimlBot<CeGuiString>* bot = mCore->loadBot("Alrike", "startup_test.xml");
+		bot->createResponse("1");
+		delete bot;
+	}
 
 }

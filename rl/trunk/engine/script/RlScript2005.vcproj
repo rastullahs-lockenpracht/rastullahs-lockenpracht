@@ -209,6 +209,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\dialog\include;..\rules\include;..\multimedia\include;..\ui\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\boost\include;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\OgreNewt\inc;..\..\dependencies\NewtonSDK\sdk\;..\..\dependencies\TheoraVideo\include;..\..\dependencies\theora\include;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include;&quot;..\..\dependencies\ptypes-1.8.3\include&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include;..\..\dependencies\ogrenew\dependencies\include"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

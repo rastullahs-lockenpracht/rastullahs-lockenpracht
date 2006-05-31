@@ -23,9 +23,14 @@
 #include "DialogPrerequisites.h"
 #include "AimlCoreComponent.h"
 
+namespace MadaBot
+{
+	template <class S> class AimlCore;
+}
 namespace rl
 {
 	class DialogCharacter;
+
 	/// Initialises and manages everything for using dialogs in Rl
 	class _RlDialogExport DialogSubsystem : 
 		public AimlCoreComponent,
@@ -59,10 +64,12 @@ namespace rl
          */
         Ogre::ResourcePtr getXmlResource(const Ogre::String& filename);
 
+		void testNewDialogSystem();
 	private:
 		typedef std::map<CeGuiString, DialogCharacter*> BotMap;
+		typedef MadaBot::AimlCore<CeGuiString> AimlCore; 
 		BotMap mBots;
-
+		AimlCore* mCore;
 		DialogCharacter* mCurrentBot;
 	};
 }

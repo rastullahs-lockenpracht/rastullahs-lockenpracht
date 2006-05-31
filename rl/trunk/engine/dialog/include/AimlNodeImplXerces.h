@@ -18,7 +18,7 @@
 #define __Rl_AimlNodeImplXerces_H__
 
 #include "DialogPrerequisites.h"
-#include "AimlNode.h"
+#include "AimlNodeOld.h"
 
 namespace rl
 {
