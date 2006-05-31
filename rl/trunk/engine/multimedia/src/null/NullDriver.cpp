@@ -160,7 +160,7 @@ ListenerMovable *NullDriver::createListener(const Ogre::String &name)
  * @author JoSch
  * @date 01-20-2006
  */
-void NullDriver::printData()
+void NullDriver::printData() const
 {
 }
 

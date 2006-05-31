@@ -84,7 +84,7 @@ public:
     
 protected:
     /// Informationen über den Treiber ausgeben
-    virtual void printData() = 0;
+    virtual void printData() const = 0;
     /// Liste der Musikstücke
     SoundChannelSet mMusicSet;
     /// Liste der Sounds

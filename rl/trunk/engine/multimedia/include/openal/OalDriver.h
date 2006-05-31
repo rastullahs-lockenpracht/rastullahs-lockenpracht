@@ -63,7 +63,7 @@ public:
     
 protected:
     /// Informationen über den Treiber ausgeben
-    virtual void printData();
+    virtual void printData() const;
 };
 
 }

@@ -216,7 +216,7 @@ ListenerMovable *OalDriver::createListener(const Ogre::String &name)
  * @author JoSch
  * @date 01-20-2006
  */
-void OalDriver::printData()
+void OalDriver::printData() const
 {
 }
 

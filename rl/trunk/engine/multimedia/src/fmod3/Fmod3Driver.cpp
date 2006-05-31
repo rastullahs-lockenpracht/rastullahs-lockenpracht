@@ -64,8 +64,13 @@ Fmod3Driver::~Fmod3Driver()
 bool Fmod3Driver::isDriverAvailable()
 {
     try {
+		// TODO Anhand der Konfiguration
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+		FSOUND_SetOutput(FSOUND_OUTPUT_DSOUND);
+#else
         FSOUND_SetOutput(FSOUND_OUTPUT_ESD);
-        FSOUND_SetMixer(FSOUND_MIXER_AUTODETECT);
+#endif
+        FSOUND_SetMixer(FSOUND_MIXER_QUALITY_AUTODETECT);
         bool success = FSOUND_Init(44100, 32, 0);
         if (success)
         {
@@ -92,16 +97,18 @@ void Fmod3Driver::init()
 			String("Error : You are using the wrong DLL version!  You should be using FMOD ")
 			+ StringConverter::toString(FMOD_VERSION));
     }
+	// Daten sammeln
+	collectData();
+
     // fmod initialisieren und Fehler zuruecksetzen.
+	// TODO Initialisieren wie in Config steht.
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 	FSOUND_SetOutput(FSOUND_OUTPUT_DSOUND);
 #else
     FSOUND_SetOutput(FSOUND_OUTPUT_ESD);
 #endif
 
-
-	FSOUND_SetMixer(FSOUND_MIXER_AUTODETECT);
-
+	FSOUND_SetMixer(FSOUND_MIXER_QUALITY_AUTODETECT);
 
 	switch (FSOUND_GetOutput())
     {
@@ -402,7 +409,7 @@ ListenerMovable *Fmod3Driver::createListener(const Ogre::String &name)
  * @author JoSch
  * @date 01-20-2006
  */
-void Fmod3Driver::printData()
+void Fmod3Driver::printData() const
 {
 	int numDrivers = FSOUND_GetNumDrivers();
 	int activeDriver = FSOUND_GetDriver();
@@ -491,6 +498,56 @@ void Fmod3Driver::doConfig()
     // DO NOTHING FOR NOW
 }
 
+/*
+ * Die gesammelten Daten zurückgeben
+ * @return Die gesammelten Daten
+ * @author JoSch
+ * @date 05-31-2006
+ */
+const DriverMap &Fmod3Driver::getDriverData() const
+{
+	return mDriverData;
+}
+
+/*
+ * Die Treiberdaten für einen Output sammeln
+ * @param output Die Fmod-Konstante, für die wir die Treiberdaten sammeln.
+ * @author JoSch
+ * @date 05-31-2006
+ */
+const StringList Fmod3Driver::getDriversForOutput(int output) const
+{
+	StringList retVal;
+	FSOUND_SetOutput(output);
+	int numDrivers = FSOUND_GetNumDrivers();
+	for(int driver = 0; driver < numDrivers; driver++)
+	{
+		String drivername = String(FSOUND_GetDriverName(driver));
+		retVal.push_back(drivername);
+	}
+	return retVal;
+}
+
+/*
+ * Die Treiberdaten sammeln
+ * @author JoSch
+ * @date 05-31-2006
+ */
+
+void Fmod3Driver::collectData()
+{
+	mDriverData.clear();
+	mDriverData["NOSOUND"] = getDriversForOutput(FSOUND_OUTPUT_NOSOUND);
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+	mDriverData["WINMM"] = getDriversForOutput(FSOUND_OUTPUT_WINMM);
+	mDriverData["DSOUND"] = getDriversForOutput(FSOUND_OUTPUT_DSOUND);
+	mDriverData["A3D"] = getDriversForOutput(FSOUND_OUTPUT_A3D);
+#else
+	mDriverData["ESD"] = getDriversForOutput(FSOUND_OUTPUT_ESD);
+	mDriverData["ALSA"] = getDriversForOutput(FSOUND_OUTPUT_ALSA);
+	mDriverData["OSS"] = getDriversForOutput(FSOUND_OUTPUT_OSS);
+#endif
+}
 
 }
 #endif // WITH_FMOD

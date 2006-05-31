@@ -23,6 +23,8 @@
 namespace rl
 {
 
+typedef map<Ogre::String, StringList> DriverMap;
+
 /** Diese Klasse ist der Treiber, der OpenAL zur
  * Ausgabe benutzt.
  */
@@ -35,6 +37,14 @@ private:
     static int read(void *buffer, int size, void *handle);
     static int seek(void *handle, int pos, signed char mode);
     static int tell(void *handle);
+
+	// Wir merken uns die Konfiguration von Fmod3
+	DriverMap mDriverData;
+
+	// Die Daten für einen Output holen
+	const StringList getDriversForOutput(int output) const;
+	/// Informationen über den Treiber sammeln
+	virtual void collectData();
 
 public:
 	/// Der Treibername
@@ -71,9 +81,12 @@ public:
     /// Die Einstellungen laden
     virtual void loadConf(rl::ConfigFile &conf);
 
+	/// Datensammlung zurückgeben
+	const DriverMap& getDriverData() const;
+
 protected:
     /// Informationen über den Treiber ausgeben
-    virtual void printData();
+    virtual void printData() const;
 };
 
 }
