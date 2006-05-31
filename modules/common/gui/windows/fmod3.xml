@@ -9,16 +9,16 @@
 		<Property Name="TitlebarEnabled" Value="True" />
 		<Property Name="TitlebarFont" Value="Commonwealth-10" />
 
-		<Window Type="RastullahLook/StaticText" Name="Fmod3Config/DriverLabel">
+		<Window Type="RastullahLook/StaticText" Name="Fmod3Config/OutputLabel">
 			<Property Name="RelativeXPosition" Value="0.05" />
 			<Property Name="RelativeYPosition" Value="0.05" />
 			<Property Name="RelativeWidth" Value="0.3" />
 			<Property Name="AbsoluteHeight" Value="30" />
 			<Property Name="Font" Value="Vera Serif-14"/>
 			<Property Name="FrameEnabled" Value="False"/>
-			<Property Name="Text" Value="Treiber auswählen" />
+			<Property Name="Text" Value="Ausgabe auswählen" />
 		</Window>
-		<Window Type="RastullahLook/Combobox" Name="Fmod3Config/Driver" >
+		<Window Type="RastullahLook/Combobox" Name="Fmod3Config/Output" >
 			<Property Name="RelativeXPosition" Value="0.4" />
 			<Property Name="RelativeYPosition" Value="0.05" />
 			<Property Name="RelativeWidth" Value="0.4" />
@@ -26,7 +26,7 @@
 			<Property Name="Visible" Value="True" />
 			<Property Name="Font" Value="Vera Serif-14"/>
 		</Window>
-		<Window Type="RastullahLook/StaticText" Name="Fmod3Config/DeviceLabel">
+		<Window Type="RastullahLook/StaticText" Name="Fmod3Config/DriverLabel">
 			<Property Name="RelativeXPosition" Value="0.05" />
 			<Property Name="RelativeYPosition" Value="0.15" />
 			<Property Name="RelativeWidth" Value="0.3" />
@@ -35,7 +35,7 @@
 			<Property Name="FrameEnabled" Value="False"/>
 			<Property Name="Text" Value="Treiber auswählen" />
 		</Window>
-		<Window Type="RastullahLook/Combobox" Name="Fmod3Config/Device" >
+		<Window Type="RastullahLook/Combobox" Name="Fmod3Config/Driver" >
 			<Property Name="RelativeXPosition" Value="0.4" />
 			<Property Name="RelativeYPosition" Value="0.15" />
 			<Property Name="RelativeWidth" Value="0.4" />
