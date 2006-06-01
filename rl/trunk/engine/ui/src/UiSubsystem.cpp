@@ -190,10 +190,10 @@ namespace rl {
 			mWindowFactory->setActiveCharacter(person);
 
 			mCharacter->getActor()->attach(SoundManager::getSingleton().getListenerActor());
+			SoundManager::getSingleton().getListenerActor()->setListenerOf(mCharacter->getActor()->_getSceneNode());
 			Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "SoundListener attached.");
             
             Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "Actor set");
-
 			setCharacterController(CharacterController::CTRL_MOVEMENT);
         }
 	}

@@ -24,8 +24,6 @@ held1 = Hero.new;
 held1.getActor().placeIntoScene([-2.0, 1.0, 1.0], [[0.0, 1.0, 0.0], 0.0]);
 #PlayerSettings.preparePlayer($held1);
 $UI.setActiveCharacter(held1);
-$CORE.getSoundListener().setListenerOf($CORE.getSoundListener()._getSceneNode());
-$CORE.getSoundListener().getControlledObject().setActive();
 $SCRIPT.log("Held fertig");
 
 #camera = $AM.getActor("DefaultCamera"); 
