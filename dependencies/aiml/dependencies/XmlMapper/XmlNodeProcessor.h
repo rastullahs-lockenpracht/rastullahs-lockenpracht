@@ -111,12 +111,14 @@ namespace XmlMapper
 		}
 	}
 
-	template<template <class> class R, template <class> class T, class S, bool hasPolymorphicReturnType> XmlProcessor<R, T, S, hasPolymorphicReturnType>* XmlNodeProcessor<R, T, S, hasPolymorphicReturnType>::getProcessor(const S& pName)
+	template<template <class> class R, template <class> class T, class S, bool hasPolymorphicReturnType> 
+	XmlProcessor<R, T, S, hasPolymorphicReturnType>* XmlNodeProcessor<R, T, S, hasPolymorphicReturnType>::getProcessor(const S& pName)
 	{
 		return mInterpreter->getProcessor(pName);
 	}
 
-	template<template <class> class R, template <class> class T, class S, bool hasPolymorphicReturnType> bool XmlNodeProcessor<R, T, S, hasPolymorphicReturnType>::isProcessable(XmlNode<S>* pNode)
+	template<template <class> class R, template <class> class T, class S, bool hasPolymorphicReturnType> 
+	bool XmlNodeProcessor<R, T, S, hasPolymorphicReturnType>::isProcessable(XmlNode<S>* pNode)
 	{
 		if(mInterpreter == NULL)
 		{
@@ -140,7 +142,9 @@ namespace XmlMapper
 		return false;
 	}
 
-	template<template <class> class R, template <class> class T, class S, bool hasPolymorphicReturnType> typename XmlProcessor<R, T, S, hasPolymorphicReturnType>::ReturnType XmlNodeProcessor<R, T, S, hasPolymorphicReturnType>::process(XmlNode<S>* pNode, T<S>* pProcessHelper)
+	template<template <class> class R, template <class> class T, class S, bool hasPolymorphicReturnType> 
+	typename XmlProcessor<R, T, S, hasPolymorphicReturnType>::ReturnType 
+		XmlNodeProcessor<R, T, S, hasPolymorphicReturnType>::process(XmlNode<S>* pNode, T<S>* pProcessHelper)
 	{
 //		mCurrentReturnValue = NULL;
 		mCurrentHelper = pProcessHelper;

@@ -51,9 +51,21 @@ namespace MadaBot
 			mResponse.clear();
 			mChildNodes.clear();
 		}
+		bool empty() const
+		{
+			return (mRespone.empty() && mChildNodes.empty());
+		}
+		bool hasGossip() const
+		{
+			return !mChildNodes.empty();
+		}
 		S getResponse() const
 		{
 			return mResponse;
+		}
+		const GossipData& getGossip() const
+		{
+			return mChildNodes;
 		}
 		Response& operator+=(const S& pData)
 		{
@@ -75,7 +87,7 @@ namespace MadaBot
 			}
 			return *this;
 		}
-	protected:
+	private:
 		S mResponse;
 		GossipData mChildNodes;
 	};

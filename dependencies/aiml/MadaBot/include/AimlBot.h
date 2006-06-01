@@ -70,7 +70,7 @@ namespace MadaBot
 		 * @param  pInput input string that should be responded to,
 		 * @return a response, should be a pointer because it should habe polymorphical behaviour
 		 */
-		Response<S>* createResponse(const S& pInput);
+		Response<S> respond(const S& pInput);
 		
 		/** 
 		 * @param  pType type of the predicates
@@ -120,8 +120,9 @@ namespace MadaBot
 		return false;
 	}
 
-	template <class S> Response<S>* AimlBot<S>::createResponse(const S& pInput)
+	template <class S> Response<S> AimlBot<S>::respond(const S& pInput)
 	{
+		Response<S> response;
 		GraphPath<S> path;
 		mCurrentMatch = NULL;
 		// vorher noch SentenceSplittern
@@ -139,9 +140,12 @@ namespace MadaBot
 		}
 		if(mCurrentMatch!= NULL)
 		{
+		//  TODO: interpreter shouldn't be created for every response. 
+		//  Instead, create an instance in AimlCore und use that
+		//  proceed in the same way with the other interpreters
 			AimlInterpreter<S> interpreter;
 			
-			Response<S> response = interpreter.process(mCurrentMatch->getNode(), this);
+			response = interpreter.process(mCurrentMatch->getNode(), this);
 			//debug
 			S resStr = response.getResponse();
 			resStr.c_str();
@@ -150,7 +154,7 @@ namespace MadaBot
 		{
 			// no match
 		}
-		return NULL;
+		return response;
 	}
 }
 #endif;

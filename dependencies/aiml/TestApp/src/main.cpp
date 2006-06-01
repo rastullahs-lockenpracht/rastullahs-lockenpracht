@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
 
 	if(bot)
 	{
-		Response<XercesString>* response = bot->createResponse("555 Ä");
+		Response<XercesString> response = bot->respond("555 Ä");
 		delete bot;
 	}
 	XMLPlatformUtils::Terminate();

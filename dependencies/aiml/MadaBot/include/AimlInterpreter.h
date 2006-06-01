@@ -24,10 +24,12 @@
 #define AIML_INTERPRETER_H
 
 #include "XmlMapper/XmlInterpreter.h"
-
+#include "XmlMapper/XmlDocument.h"
+#include "XmlMapper/XmlNode.h"
 #include "aimlProcessors/TextProcessor.h"
 #include "aimlProcessors/GossipProcessor.h"
 #include "aimlProcessors/ConditionProcessor.h"
+#include "aimlProcessors/LiProcessor.h"
 
 using namespace XmlMapper;
 
@@ -46,17 +48,22 @@ namespace MadaBot
 		/**
 		 * Constructor
 		 */
-		AimlInterpreter() : XmlInterpreter<Response, AimlBot, S, false>("aiml")
+		AimlInterpreter(const S& pName="aiml") : XmlInterpreter<Response, AimlBot, S, false>(pName)
 		{
 			initialize();
 		} 
+		
+		/**
+		 * Destructor
+		 */
+		virtual ~AimlInterpreter(){}
 
 		/**
 		 * Process the different AIML elements
 		 * @param  pNode node wich contains an AIML element with its attributes and its values
 		 * @param  pProcessHelper For special processing abilities, an AimlGraphMaster serves as helper object
 		 */
-		Response<S> process(XmlNode<S>* pNode, AimlBot<S>* pProcessHelper=NULL);
+		virtual Response<S> process(XmlNode<S>* pNode, AimlBot<S>* pProcessHelper=NULL);
 		
 		/**
 		 * Interpret an AIML document
@@ -73,11 +80,12 @@ namespace MadaBot
 		/**
 		 * Initialize the Interpreter. This method should be called from the constructor.
 		 */
-		void initialize()
+		virtual void initialize()
 		{
 			addProcessor(new TextProcessor<S>());
 			addProcessor(new GossipProcessor<S>());
 			addProcessor(new ConditionProcessor<S>());
+			addProcessor(new LiProcessor<S>());
 		}
 	};
 

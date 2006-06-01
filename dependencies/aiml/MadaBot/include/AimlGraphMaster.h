@@ -145,6 +145,7 @@ namespace MadaBot
 		//  traverse the graph for the given search path
 		//  go one step further in the path
 			S word = pPath.front();
+			word.c_str();
 			pPath.pop();
 
 		//  check if the current step represents a PathState (pattern/that/topic)

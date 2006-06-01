@@ -20,8 +20,8 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef TEXT_PROCESSOR_H
-#define TEXT_PRCOESSOR_H
+#ifndef LI_PROCESSOR_H
+#define LI_PRCOESSOR_H
 
 #include "XmlMapper/XmlNodeProcessor.h"
 #include "Response.h"
@@ -35,22 +35,25 @@ namespace MadaBot
 	/**
 	 *
 	 */
-	template <class S> class TextProcessor
+	template <class S> class LiProcessor
 		: public XmlNodeProcessor<Response, AimlBot, S, false>
 	{
 	public:
 		/**
 		 * Constructor
 		 */
-		TextProcessor()
+		LiProcessor()
 			: XmlNodeProcessor<Response, AimlBot, S, false>("#text")
 		{}
 
 		void preprocessStep()
 		{
-			mCurrentReturnValue += mCurrentNode->getNodeValue();
+		//	mCurrentReturnValue += mCurrentNode->getNodeValue();
 		}
-		void processChildStep(XmlNode<S>* pChild){}
+		void processChildStep(XmlNode<S>* pChild)
+		{
+			mCurrentReturnValue += getProcessor(pChild->getNodeName())->process(pChild, mCurrentHelper);
+		}
 		void postprocessStep(){}
 	protected:
 		void initialize(){}
