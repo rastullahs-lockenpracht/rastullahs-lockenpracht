@@ -210,8 +210,8 @@ bool SoundObject::eventRaised(SoundEvent *event)
 		default:
 			break;
 	}
-	PlaylistEvent *newEvent = new PlaylistEvent(event->getSource(), newReason);
-    dispatchEvent(newEvent);
+	PlaylistEvent newEvent = PlaylistEvent(event->getSource(), newReason);
+    dispatchEvent(&newEvent);
     return true;
 }
 
