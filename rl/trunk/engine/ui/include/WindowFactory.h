@@ -50,8 +50,10 @@ namespace rl {
 	class ObjectDescriptionWindow;
 	class Person;
 	class RBCombat;
+    class TargetSelectionWindow;
 	class WindowUpdater;
     class DebugWindow;
+    class DataLoadingProgressWindow;
 
 	class _RlUiExport WindowFactory : public Ogre::Singleton<WindowFactory>
 	{
@@ -128,6 +130,8 @@ namespace rl {
 		Actor* mObjectNameText;
 		GameObject* mShownObject;
 		ObjectDescriptionWindow* mObjectDescriptionWindow;
+        TargetSelectionWindow* mTargetSelectionWindow;
+        DataLoadingProgressWindow* mDataLoadingProgressWindow;
 	};
 }
 

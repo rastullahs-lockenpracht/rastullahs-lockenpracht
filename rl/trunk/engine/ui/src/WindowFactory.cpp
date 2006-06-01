@@ -76,7 +76,7 @@ namespace rl {
 			setOutputFunction( 
 				(VALUE(*)(...))&WindowFactory::consoleWrite );
 
-		new TargetSelectionWindow();
+		mTargetSelectionWindow = new TargetSelectionWindow();
 			      
 		mGameLogger = new GameLoggerWindow();
 		mCharacterStateWindow = new CharacterStateWindow();
@@ -87,7 +87,8 @@ namespace rl {
 		mInfoPopup = new InfoPopup();
 		RulesSubsystem::getSingleton().getQuestBook()->addQuestChangeListener(mJournalWindow);
 		RulesSubsystem::getSingleton().getQuestBook()->addQuestChangeListener(mInfoPopup);
-		CoreSubsystem::getSingleton().addCoreEventListener(new DataLoadingProgressWindow());
+        mDataLoadingProgressWindow = new DataLoadingProgressWindow();
+		CoreSubsystem::getSingleton().addCoreEventListener(mDataLoadingProgressWindow);
 		mObjectDescriptionWindow = new ObjectDescriptionWindow();
 
 		mLogWindow = new LogWindow();
@@ -96,16 +97,21 @@ namespace rl {
 	WindowFactory::~WindowFactory()
 	{
 		delete mLogWindow;
+		delete mObjectDescriptionWindow;
+
+        CoreSubsystem::getSingleton().removeCoreEventListener(mDataLoadingProgressWindow);
+        delete mDataLoadingProgressWindow;
+
 		delete mJournalWindow;
 		delete mGameLogger;
 		delete mCharacterSheet;
 		delete mInGameMenuWindow;
 		delete mInventoryWindow;
 		delete mCharacterStateWindow;
-		delete mConsole;
-		delete mObjectDescriptionWindow;
 		delete mInfoPopup;
+        delete mTargetSelectionWindow;
 		delete mDebugWindow;
+		delete mConsole;
 	}
 
 	WindowFactory& WindowFactory::getSingleton()

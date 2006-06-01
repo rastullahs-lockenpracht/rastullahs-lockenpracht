@@ -93,7 +93,8 @@ namespace rl {
 		mInputReader->useBufferedInput(NULL, false, false);
 		mInputReader->setBufferedInput(false, false);
 
-//		delete mEventProcessor;
+		delete mEventProcessor;
+        delete mEventQueue;
 	}
 
 	void InputManager::addKeyListener(KeyListener *l)

@@ -102,6 +102,7 @@ public:
 	void resetClock();
 
 	void addCoreEventListener(CoreEventListener* listener);
+	void removeCoreEventListener(CoreEventListener* listener);
 
 	void setScheme(const Ogre::String& schemeName);
 

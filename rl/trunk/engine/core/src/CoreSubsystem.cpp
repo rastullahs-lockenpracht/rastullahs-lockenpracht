@@ -471,4 +471,9 @@ namespace rl {
 	{
 		mCoreEventCaster.addEventListener(listener);
 	}
+
+	void CoreSubsystem::removeCoreEventListener(CoreEventListener* listener)
+    {
+		mCoreEventCaster.removeEventListener(listener);
+    }
 }
