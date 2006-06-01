@@ -303,7 +303,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ContextInterpreter.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\DialogCharacter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\DialogOption.cpp"
 				>
 			</File>
 			<File
@@ -421,7 +429,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\ContextInterpreter.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\DialogCharacter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\DialogOption.h"
 				>
 			</File>
 			<File

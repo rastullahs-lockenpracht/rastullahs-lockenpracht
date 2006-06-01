@@ -107,6 +107,7 @@ void DialogWindow::getResponse(const CeGuiString& msg)
 		setText(mBot->getName() + ": " + responseText);
 	mQuestion->handleUpdatedItemData();
 
+
 	mGameLogger->logDialogEvent(mBot->getName(), responseText);
 
 	mController->response(
@@ -159,6 +160,7 @@ void DialogWindow::getOptions(const CeGuiString& question)
 			ListboxWrappedTextItem* item = 
 				static_cast <ListboxWrappedTextItem*>(mDialogOptions->getListboxItemFromIndex(i));
 			item->setID(itr->first);
+		//	item->setUserData(dialogOption);
 			currentResponse = itr->second;
 			Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, currentResponse.c_str());
 			item->setText(currentResponse);
@@ -206,6 +208,10 @@ bool DialogWindow::handleSelectOption()
 	ListboxWrappedTextItem* item = 
 		reinterpret_cast<ListboxWrappedTextItem*>(mDialogOptions->getFirstSelectedItem());
 	int id = item->getID();
+/*	DialogOption* option = reinterpret_cast<DialogOption*>(item->getUserData());
+	DialogResponse::Responses = option->processSelection();
+	mCurrentResponseText = option->getPattern();
+*/
 	std::pair<int, CeGuiString> selectedOption 
 		= mCurrentResponse->getSelectedOption(id);
 	if(selectedOption.first != 0 && selectedOption.first != 666)

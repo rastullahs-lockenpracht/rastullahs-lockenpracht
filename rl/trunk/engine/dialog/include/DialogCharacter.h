@@ -1,17 +1,17 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2006 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the Clarified Artistic License.
+ *  it under the terms of the Perl Artistic License.
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  Clarified Artistic License for more details.
+ *  Perl Artistic License for more details.
  *
- *  You should have received a copy of the Clarified Artistic License
+ *  You should have received a copy of the Perl Artistic License
  *  along with this program; if not you can get it here
- *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+ *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 #ifndef __Rl_DialogCharacter_H__
 #define __Rl_DialogCharacter_H__
@@ -44,6 +44,15 @@ namespace rl
 
 		CeGuiString getVoiceFile() const;
 		void setVoiceFile(const CeGuiString& filename);
+
+		/**
+		 * DialogScriptObject will be deprecated soon, 
+		 * DialogCharacter is responsible for the calculations now
+		 * TODO: make those methods abstract again
+		 */
+		virtual int calcOptionValue(const CeGuiString& optionName){return 0;};
+		virtual int calcResponseValue(const CeGuiString& responseName){return 0;}
+		virtual int calcSelectionValue(const CeGuiString& selectionName){return 0;};
 		
 	private:
 		DialogScriptObject* mScriptObject;

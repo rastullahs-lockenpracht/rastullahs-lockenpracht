@@ -13,25 +13,49 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
-#ifndef __Rl_AimlParserImplRl_H__
-#define __Rl_AimlParserImplRl_H__
+#ifndef __Rl_DialogOption_H__
+#define __Rl_DialogOption_H__
 
 #include "DialogPrerequisites.h"
-#include "XmlMapper/XmlParser.h"
+#include "Response.h"
 
-using namespace XmlMapper;
-
+using namespace MadaBot;
 namespace rl
 {
-	class AimlParserImplRl : public XmlParser<CeGuiString>
+	class DialogOption
 	{
 	public:
-		virtual ~AimlParserImplRl();
-		
-		virtual XmlDocument<CeGuiString>* parse(const CeGuiString& fileName);
+		DialogOption(void);
+		~DialogOption(void);
 
+		inline const CeGuiString& getId() const
+		{
+			return mId;
+		}
+		inline const CeGuiString& getPattern() const
+		{
+			return mPatternId;
+		}
+		const CeGuiString& getText() const;
+
+		inline void setId(const CeGuiString& id)
+		{
+			mId = id;
+		}
+
+		inline void setPattern(const CeGuiString& pattern)
+		{
+			mPatternId = pattern;
+		}
+
+		inline void setData(const Response<CeGuiString>& data)
+		{
+			mData = data;
+		}
 	private:
-		Ogre::ResourcePtr getXmlResource(const CeGuiString& fileName);
+		CeGuiString mId;
+		CeGuiString mPatternId;
+		Response<CeGuiString> mData;
 	};
 }
 #endif

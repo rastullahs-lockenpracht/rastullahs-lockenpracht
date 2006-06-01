@@ -13,26 +13,19 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
-#ifndef __DialogPrerequisites_H__
-#define __DialogPrerequisites_H__
+#include "DialogOption.h"
 
-// Common is only needed for the CeGuiString typedef
-#include "CommonPrerequisites.h"
+using namespace rl;
 
-#include "RastullahPrerequisites.h"
+DialogOption::DialogOption(void)
+{
+}
 
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-// Export control
-#   if defined( RLDIALOG_EXPORTS )
-#       define _RlDialogExport __declspec( dllexport )
-#   else
-#       define _RlDialogExport __declspec( dllimport )
-#   endif
-#else // Linux / Mac OSX etc
-#   define _RlDialogExport
-#endif
+DialogOption::~DialogOption(void)
+{
+}
 
-#pragma warning (disable : 4251)
-
-#endif
-
+const CeGuiString& DialogOption::getText() const
+{
+	return mData.getResponse();
+}
