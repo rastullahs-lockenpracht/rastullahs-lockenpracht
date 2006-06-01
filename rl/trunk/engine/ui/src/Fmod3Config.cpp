@@ -50,7 +50,7 @@ namespace rl
 		mOutput = getCombobox("Fmod3Config/Output");
 		mOutput->subscribeEvent(
 			Combobox::EventTextChanged,
-			boost::bind(&Fmod3Config::handleDeviceChanged, this));
+			boost::bind(&Fmod3Config::handleOutputChanged, this));
 
 		mSpeaker = getCombobox("Fmod3Config/Speaker");
 		mSpeaker->subscribeEvent(
@@ -59,7 +59,7 @@ namespace rl
 
 		mFmod3Driver = dynamic_cast<Fmod3Driver*>(
 			SoundManager::getSingleton().getDriverByName(
-			Ogre::String(Fmod3Driver::NAME.c_str()))
+			Ogre::String(Fmod3Driver::NAME.c_str())));
 
 			RlAssert(mFmod3Driver != NULL, "Fmod3 Treiber nicht vorhanden");
 		/*		if (mFmod3Driver == SoundManager::getSingleton().getActiveDriver())
