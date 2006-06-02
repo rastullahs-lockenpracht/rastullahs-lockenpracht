@@ -38,15 +38,15 @@
 				<Property Name="UnifiedSize" Value="{{0,60},{0,60}}" />
 			</Window>
 			
-			<Window Type="RastullahLook/Container" Name="InventoryWindow/ShinboneRight">
-				<Property Name="UnifiedPosition" Value="{{0,135},{0,380}}" />
-				<Property Name="UnifiedSize" Value="{{0,30},{0,60}}" />
+			<Window Type="RastullahLook/Container" Name="InventoryWindow/Shinbone">
+				<Property Name="UnifiedPosition" Value="{{0,150},{0,380}}" />
+				<Property Name="UnifiedSize" Value="{{0,60},{0,60}}" />
 			</Window>
 			
-			<Window Type="RastullahLook/Container" Name="InventoryWindow/ShinboneLeft">
+			<!--<Window Type="RastullahLook/Container" Name="InventoryWindow/ShinboneLeft">
 				<Property Name="UnifiedPosition" Value="{{0,195},{0,380}}" />
 				<Property Name="UnifiedSize" Value="{{0,30},{0,60}}" />
-			</Window>
+			</Window>-->
 			
 			<Window Type="RastullahLook/Container" Name="InventoryWindow/Necklace">
 				<Property Name="UnifiedPosition" Value="{{0,165},{0,95}}" />
@@ -74,19 +74,24 @@
 			</Window>
 			
 			<Window Type="RastullahLook/Container" Name="InventoryWindow/Gloves">
+				<Property Name="UnifiedPosition" Value="{{0,30},{0,360}}" />
+				<Property Name="UnifiedSize" Value="{{0,60},{0,60}}" />
+			</Window>
+			
+			<Window Type="RastullahLook/Container" Name="InventoryWindow/Bracers">
 				<Property Name="UnifiedPosition" Value="{{0,30},{0,290}}" />
 				<Property Name="UnifiedSize" Value="{{0,60},{0,60}}" />
 			</Window>
 			
-			<Window Type="RastullahLook/Container" Name="InventoryWindow/BracerRight">
-				<Property Name="UnifiedPosition" Value="{{0,105},{0,150}}" />
-				<Property Name="UnifiedSize" Value="{{0,30},{0,60}}" />
+			<Window Type="RastullahLook/Container" Name="InventoryWindow/Cape">
+				<Property Name="UnifiedPosition" Value="{{0,270},{0,290}}" />
+				<Property Name="UnifiedSize" Value="{{0,60},{0,120}}" />
 			</Window>
 			
-			<Window Type="RastullahLook/Container" Name="InventoryWindow/BracerLeft">
+			<!--<Window Type="RastullahLook/Container" Name="InventoryWindow/BracerLeft">
 				<Property Name="UnifiedPosition" Value="{{0,225},{0,150}}" />
 				<Property Name="UnifiedSize" Value="{{0,30},{0,60}}" />
-			</Window>
+			</Window>-->
 			
 			<Window Type="RastullahLook/Container" Name="InventoryWindow/HandRight">
 				<Property Name="UnifiedPosition" Value="{{0,30},{0,80}}" />
