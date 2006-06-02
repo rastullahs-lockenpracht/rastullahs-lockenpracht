@@ -27,6 +27,9 @@
 namespace rl {
 class _RlRulesExport Inventory;
 
+typedef vector<Item*> ContainerColumn;
+typedef vector<ContainerColumn> ContainerLayout;
+
 /**
  * @brief Verwaltet das Inventar des Charakters
  */
@@ -40,7 +43,7 @@ public:
 
 	set<Item*> getAllItemsInBackpack();
 
-	vector<vector<Item*> > getBackpackLayout();
+	vector< vector<Item*> > getBackpackLayout();
 
 	/**
 	 * @return Die errechnete Behinderung
@@ -54,13 +57,23 @@ public:
 	 **/
 	bool addItem(Item* item);
 
-	bool isFreeInBackpack(pair<int,int> posKaestchen, pair<int,int> dimKaestchen);
+	void addItemToBackpack(Item* item);
+
+	void removeItemFromBackpack(Item* item);
+
+	bool isFreeInBackpack(Item* item, pair<int,int> posKaestchen);
 
 	void addWeapon(Weapon* weapon);
 
 	Weapon* getWeapon(int weaponId);
 	Weapon* removeWeapon(int weaponId);
 	void switchToWeapon(int weaponId);
+
+	void setItemBackpackPosition(Item* item, int xPosDraggedTo, int yPosDraggedTo);
+
+	void removeItemFromSlots(Item* item);
+
+	Item* createItem(const CeGuiString& name, const CeGuiString& description, const CeGuiString& imageName, Item::ItemType type, pair<int,int> size);
 
 	//Ring links
 	Item* getRingLeft();
@@ -78,35 +91,22 @@ public:
 	Item* getBraceletRight();
 	//Oberkoerper Ruestung
 	Item* getArmor();
-	
-	//Armschiene links
-	Item* getBracerLeft();
-	//Armschiene rechts
-	Item* getBracerRight();
-	
-
+	//Umhang
+	Item* getCape();
+	//Armschienen
+	Item* getBracers();
 	//Oberkoerper Ruecken (Rucksack, Schwertscheiden)
 	Item* getBackpack();
-	
-	//Oberkoerper Front (MesserGuertelquer, Seil)
-	//Item* getArmorFront();
-	
 	//Guertel  (+Slots fuer Guerteltaschen+Scheiden)
 	Item* getBelt();
 	//Halskette
 	Item* getNecklace();
 	//Stirnband, Helm, Diadem
 	Item* getHelmet();
-	
-	//Schritt (Prinz Albert, Unterleibsschutz)
-	//Item* getCrotch();
-	
 	//Hose
 	Item* getTrousers();
-	//Schienbein links
-	Item* getShinboneLeft();
-	//Schienbein rechts
-	Item* getShinboneRight();
+	//Beinschienen
+	Item* getShinbone();
 	//Stiefel
 	Item* getBoots();
 
@@ -118,17 +118,14 @@ public:
 	Item* removeBraceletLeft();
 	Item* removeBraceletRight();
 	Item* removeArmor();
-	Item* removeBracerLeft();
-	Item* removeBracerRight();
+	Item* removeCape();
+	Item* removeBracers();
 	Item* removeBackpack();
-	//Item* removeArmorFront();
 	Item* removeBelt();
 	Item* removeNecklace();
 	Item* removeHelmet();
-	//Item* removeCrotch();
 	Item* removeTrousers();
-	Item* removeShinboneLeft();
-	Item* removeShinboneRight();
+	Item* removeShinbone();
 	Item* removeBoots();
 
 	void setRingLeft(Item* item);
@@ -138,21 +135,31 @@ public:
 	void setGloves(Item* item);
 	void setBraceletLeft(Item* item);
 	void setBraceletRight(Item* item);
-	void setBracerLeft(Item* item);
-	void setBracerRight(Item* item);
+	void setBracers(Item* item);
 	void setArmor(Item* item);
+	void setCape(Item* item);
 	void setBackpack(Item* item);
-//	void setArmorFront(Item* item);
 	void setBelt(Item* item);
 	void setNecklace(Item* item);
 	void setHelmet(Item* item);
-//	void setCrotch(Item* item);
 	void setTrousers(Item* item);
-	void setShinboneLeft(Item* item);
-	void setShinboneRight(Item* item);
+	void setShinbone(Item* item);
 	void setBoots(Item* item);
 
 private:
+
+	/** @brief Liefert die nächste freie Position für den Gegenstand zurueck.
+	 *  @param space Die Ausmaße des Gegenstandes.
+	 *  @return Die Anfangsposition des Platzesm an den das Item gesetzt werden kann.
+	 *  @exception IllegalStateException Es gibt nicht genug Platz für das Item.
+	 **/
+	pair<int,int> findPositionWithEnoughSpace(pair<int,int> space);
+
+	/**
+	* Überprüft die Stelle im Inventar auf genug Platz für ein Item der Größe space
+	*/
+	bool checkSpace(int xStart, int yStart, pair<int,int> space);
+
 	Item* mRingLeft;
 	Item* mRingRight;
 	Item* mHandLeft;
@@ -161,21 +168,21 @@ private:
 	Item* mBraceletLeft;
 	Item* mBraceletRight;
 	Item* mArmor;
-	Item* mBracerLeft;
-	Item* mBracerRight;
+	Item* mCape;
+	Item* mBracers;
 	Item* mBackpack;
-//	Item* mArmorFront;
 	Item* mBelt;
 	Item* mNecklace;
 	Item* mHelmet;
-//	Item* mCrotch;
 	Item* mTrousers;
-	Item* mShinboneLeft;
-	Item* mShinboneRight;
+	Item* mShinbone;
 	Item* mBoots;
 
-	vector< vector<Item*> > mBackpackLayout;
+	ContainerLayout mBackpackLayout;
 	pair<int,int> mBackpackDimension;
+
+	// Befüllt die Slots mit Nullpointern
+	void initSlots();
 };
 
 }

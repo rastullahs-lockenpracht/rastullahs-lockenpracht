@@ -191,12 +191,12 @@ namespace rl {
 	{
 /*		if (mInventoryWindow->isVisible())
 		{
-			mInventoryWindow->setCharacter(NULL);
+			mInventoryWindow->setInventory(NULL);
 			mInventoryWindow->setVisible(false);
 		}
 		else
 		{
-			mInventoryWindow->setCharacter(UiSubsystem::getSingleton().getActiveCharacter());
+			mInventoryWindow->setInventory(UiSubsystem::getSingleton().getActiveCharacter()->getInventory());
 			mInventoryWindow->setVisible(true);
 		}  */
 	}

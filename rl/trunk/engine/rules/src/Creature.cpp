@@ -51,10 +51,15 @@ namespace rl
 		mEigenschaften[E_GEWANDTHEIT] = new EigenschaftenStateSet();
 		mEigenschaften[E_KONSTITUTION] = new EigenschaftenStateSet();
 		mEigenschaften[E_KOERPERKRAFT] = new EigenschaftenStateSet();
+
+		mInventory = new Inventory();
     }
 
 	Creature::~Creature()
     {
+		if (mInventory){
+			delete mInventory;
+		}
     }
 
     int Creature::getAttackeBasis()
@@ -607,10 +612,6 @@ namespace rl
 	Inventory* Creature::getInventory()
 	{
 		return mInventory;
-	}
-	bool Creature::addItem(Item* item) 
-	{
-		return mInventory->addItem(item);
 	}
 	
 	void Creature::addWeapon(Weapon* weapon)

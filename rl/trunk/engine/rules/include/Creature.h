@@ -344,13 +344,6 @@ namespace rl
 
 
 		/**
-		 *@brief gibt der Kreatur ein Item
-		 *@param item Dieses Item wird der Kreatur gegeben
-		 *@return bool Ob die Kreatur noch Platz für das Item gehabt hat
-		 **/
-		bool addItem(Item* item);
-
-		/**
 		 *@brief Gibt der Spielfigur eine Waffe in die Hand
 		 * Wird gesteuert durch das Inventar
 		 *@param Waffe, die in die Hand soll

@@ -17,6 +17,7 @@
 
 #include "Item.h"
 #include "Inventory.h"
+#include "Exception.h"
 
 using namespace std;
 
@@ -25,16 +26,78 @@ namespace rl
 
 	Inventory::Inventory() 
 	{
-		mBackpackLayout = vector< vector<Item*> >(1);
+		initSlots();
+		mBackpackLayout = ContainerLayout(12);
+
+		for (unsigned z = 0; z< mBackpackLayout.size(); z++){
+			ContainerColumn temp = ContainerColumn(7);
+			mBackpackLayout[z] = temp;
+		}
+		
+		for (unsigned int x = 0; x < mBackpackLayout.size(); x++){
+			for (unsigned int y = 0; y < mBackpackLayout[0].size(); y++){
+				mBackpackLayout[x][y] = NULL;
+			}
+		}
+		
+
+		Item* meineRuestung = new Item("Kroetenhaut", "Gefertigt aus Rindsleder bietet diese zusaetzlich durch Nieten verstaerkte Ruestung guten Schutz fuer den Abenteurer");
+		meineRuestung->setImageName("Kroetenhaut");
+		meineRuestung->setItemType(Item::ITEMTYPE_ARMOR);
+		meineRuestung->setSize(2,3);
+
+		
+		Item* meinTrank = new Item("meinTrank", "Erhöht die Vitalität");
+		meinTrank->setImageName("Trank");
+		meinTrank->setItemType(Item::ITEMTYPE_OTHER);
+		meinTrank->setSize(1,1);
+
+		Item* meineHandschuhe = new Item("meineHandschuhe", "Wärmen im Winter");
+		meineHandschuhe->setImageName("Handschuhe");
+		meineHandschuhe->setItemType(Item::ITEMTYPE_GLOVES);
+		meineHandschuhe->setSize(2,2);
+
+		Item* meinArmreif = new Item("meinArmreif", "Verzaubert vom Shamanen Murgul");
+		meinArmreif->setImageName("Armreif");
+		meinArmreif->setItemType(Item::ITEMTYPE_BRACELET);
+		meinArmreif->setSize(1,1);
+
+		Item* meineStiefel = new Item("meineStiefel", "Einfache Lederstiefel");
+		meineStiefel->setImageName("Stiefel");
+		meineStiefel->setItemType(Item::ITEMTYPE_BOOTS);
+		meineStiefel->setSize(2,2);
+
+		Item* meinUmhang = new Item("meinUmhang", "Fellumhang von den Nivesen geklaut");
+		meinUmhang->setImageName("Fellumhang");
+		meinUmhang->setItemType(Item::ITEMTYPE_CAPE);
+		meinUmhang->setSize(2,4);
+
+		Item* meinRing = createItem("meinRing","Schön gearbeiteter Ring","Rubinring",Item::ITEMTYPE_RING,pair<int,int>(1,1));
+
+		addItemToBackpack(meinTrank);
+		addItemToBackpack(meineHandschuhe);
+		addItemToBackpack(meinArmreif);
+		addItemToBackpack(meineStiefel);
+		addItemToBackpack(meinUmhang);
+
+
+		mRingLeft = meinRing;
+		mArmor = meineRuestung;
 	}
 
 	Inventory::~Inventory() 
 	{
-		if (mBackpack){
-			delete mBackpack;
+		// Lösche Alle Objekte aus dem Rucksack
+		for (unsigned int x = 0; x < mBackpackLayout.size(); x++){
+			for (unsigned int y = 0; y < mBackpackLayout[0].size(); y++){
+				if (mBackpackLayout[x][y] != NULL){
+					delete mBackpackLayout[x][y];
+				}
+			}
 		}
 	}
 
+	
 	vector<Item*> Inventory::getAllItems()
 	{
 		vector<Item*> is(1);
@@ -42,6 +105,15 @@ namespace rl
 		return is;
 	}
 
+	Item* Inventory::createItem(const CeGuiString& name, const CeGuiString& description, const CeGuiString& imageName, Item::ItemType type, pair<int,int> size)
+	{
+		Item* item = new Item(name, description);
+		item->setImageName(imageName);
+		item->setItemType(type);
+		item->setSize(size.first,size.second);
+
+		return item;
+	}
 
 	// TODO: Anordnung der Items
 	set<Item*> Inventory::getAllItemsInBackpack()
@@ -56,10 +128,203 @@ namespace rl
 		return items;
 	}
 	
-	// FIXME:
-	bool Inventory::isFreeInBackpack(pair<int,int> posKaestchen, pair<int,int> dimKaestchen)
+
+	bool Inventory::isFreeInBackpack(Item* item, pair<int,int> posKaestchen)
 	{
-		return true;
+		char buf1[5], buf2[5];
+
+		int xSize = item->getSize().first;
+		int ySize = item->getSize().second;
+
+		bool free = true;
+		for (int x = posKaestchen.first; x < (posKaestchen.first + xSize); x++){
+			for (int y = posKaestchen.second; y < (posKaestchen.second + ySize); y++){
+				
+				Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_MESSAGE,
+					CEGUI::String("Checking Point in Backpack: Point x:").append(itoa(x,buf1,10))
+				.append(", Point y:")
+				.append(itoa(y,buf2,10)));
+				if (x >= int(mBackpackLayout.size()) || y >= int(mBackpackLayout[0].size())){
+					// Es wird versucht, das Item außerhalb des Containers zu platzieren
+					free = false;
+				} else if (mBackpackLayout[x][y] == item) {
+					// kein Problem, item wird nur ein bisschen verschoben
+				} else {
+					// Siehe nach, ob ein anderes Item im Weg ist
+					free = free && (!mBackpackLayout[x][y]);
+				}
+			}
+		}
+		Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_MESSAGE,
+			CEGUI::String("returning:").append(itoa(free,buf1,10)));
+		
+		return free;
+	}
+
+	void Inventory::setItemBackpackPosition(Item* item, int xPos, int yPos)
+	{
+		int xSize = item->getSize().first;
+		int ySize = item->getSize().second;
+		
+		// Itempointer auf neuer Position eintragen
+		for (int x = 0; x < xSize; x++){
+			for (int y = 0; y < ySize; y++) {
+				mBackpackLayout[xPos+x][yPos+y] = item;
+			}
+		}
+	}
+
+	void Inventory::removeItemFromSlots(Item* item){
+
+		switch (item->getItemType()) {
+			case Item::ITEMTYPE_WEAPON:
+				if (getHandRight() == item){
+					removeHandRight();
+				}
+				break;
+			case Item::ITEMTYPE_SHIELD:
+				if (getHandLeft() == item){
+					removeHandLeft();
+				}
+				break;
+			case Item::ITEMTYPE_RING:
+				if (getRingLeft() == item){
+					removeRingLeft();
+				} else if (getRingRight() == item){
+					removeRingRight();
+				}
+				break;
+			case Item::ITEMTYPE_GLOVES:
+
+				Logger::getSingletonPtr()->log("Inventory",Logger::LL_MESSAGE,"Checking Gloves..");
+				if (getGloves() == item){
+					Logger::getSingletonPtr()->log("Inventory",Logger::LL_MESSAGE,"Gloves exist. trying to remove them..");
+					removeGloves();
+				}
+				break;
+			case Item::ITEMTYPE_BRACELET:
+				if (getBraceletLeft() == item){
+					removeBraceletLeft();
+				} else if (getBraceletRight() == item){
+					removeBraceletRight();
+				}
+				break;
+			case Item::ITEMTYPE_ARMOR:
+				if (getArmor() == item){
+					removeArmor();
+				}
+				break;
+
+			case Item::ITEMTYPE_CAPE:
+				if (getCape() == item){
+					removeCape();
+				}
+				
+			case Item::ITEMTYPE_BRACERS:
+				if (getBracers() == item){
+					removeBracers();
+				}
+				break;
+			case Item::ITEMTYPE_BACKPACK:
+				if (getBackpack() == item){
+					removeBackpack();
+				}
+				break;
+			case Item::ITEMTYPE_BELT:
+				if (getBelt() == item){
+					removeBelt();
+				}
+				break;
+			case Item::ITEMTYPE_NECKLACE:
+				if (getNecklace() == item){
+					removeNecklace();
+				}
+				break;
+			case Item::ITEMTYPE_HELMET:
+				if (getHelmet() == item){
+					removeHelmet();
+				}
+				break;
+			case Item::ITEMTYPE_TROUSERS:
+				if (getTrousers() == item){
+					removeTrousers();
+				}
+				break;
+			case Item::ITEMTYPE_SHINBONE:
+				if (getShinbone() == item){
+					removeShinbone();
+				} 
+				break;
+			case Item::ITEMTYPE_BOOTS:
+				if (getBoots() == item){
+					removeBoots();
+				}
+				break;
+			case Item::ITEMTYPE_OTHER:
+				// Kann nicht in Slots sein
+				break;
+		}
+	}
+	
+
+
+	void Inventory::removeItemFromBackpack(Item* item)
+	{
+		for (unsigned int x = 0; x < mBackpackLayout.size(); x++){
+			for (unsigned int y = 0; y < mBackpackLayout[0].size(); y++){
+				if (mBackpackLayout[x][y] == item){
+					mBackpackLayout[x][y] = NULL;
+				}
+			}
+		}
+	}
+
+	void Inventory::addItemToBackpack(Item* item) {
+		// Platz suchen
+		try {
+			if (item->getItemType() == Item::ITEMTYPE_BACKPACK) {
+				// Ein Rucksack soll auch auf den Boden, wenn Platz ist
+				Throw(IllegalStateException, "Ein Rucksack kann nicht in den Rucksack gepackt werden!");
+			}
+			pair<int,int> pos = findPositionWithEnoughSpace(item->getSize());
+			// Platz gefunden, platziere Item:
+			for (int x = pos.first; x < pos.first+item->getSize().first; x++){
+				for (int y = pos.second; y < pos.second+item->getSize().second; y++){
+					mBackpackLayout[x][y] = item;
+				}
+			}
+		} catch (IllegalStateException ie){
+			// Kein Platz mehr im Rucksack... 
+			// TODO: Auf den Boden legen
+		}
+	}
+
+
+	pair<int,int> Inventory::findPositionWithEnoughSpace(pair<int,int> space){
+		pair<int,int> pos;
+		for (unsigned int x = 0; x < mBackpackLayout.size(); x++){
+			for (unsigned int y = 0; y < mBackpackLayout[0].size(); y++){
+				if (mBackpackLayout[x][y] == NULL && checkSpace(x,y,space)){
+					pos = pair<int,int>(x,y);
+					return pos;
+				}
+			}
+		}
+		Throw(IllegalStateException, "Rucksack hat keinen Platz für das Item");
+	}
+
+	bool Inventory::checkSpace(int xStart, int yStart, pair<int,int> space){
+		bool free = true;
+		for (int x = 0; x < space.first; x++){
+			for (int y = 0; y < space.second; y++){
+				// Falls Kästchen nicht mehr im Rucksack, ist auch kein Platz mehr :)
+				if ((xStart+x) >= mBackpackLayout.size() || (yStart+y) >= mBackpackLayout[0].size()){
+					return false;
+				}
+				free = free && (mBackpackLayout[xStart+x][yStart+y] == NULL);
+			}
+		}
+		return free;
 	}
 
 	// TODO: Be berechnen
@@ -140,14 +405,15 @@ namespace rl
 	{
 		return mArmor;
 	}
-
-	Item* Inventory::getBracerLeft()
+	
+	Item* Inventory::getCape()
 	{
-		return mBracerLeft;
+		return mCape;
 	}
-	Item* Inventory::getBracerRight()
+
+	Item* Inventory::getBracers()
 	{
-		return mBracerRight;
+		return mBracers;
 	}
 	
 	Item* Inventory::getBackpack()
@@ -155,12 +421,6 @@ namespace rl
 		return mBackpack;
 	}
 	
-	/*Item* Inventory::getArmorFront()
-	{
-		return mArmorFront;
-	}
-	*/
-
 	Item* Inventory::getBelt()
 	{
 		return mBelt;
@@ -176,25 +436,14 @@ namespace rl
 		return mHelmet;
 	}
 	
-	/*Item* Inventory::getCrotch()
-	{
-		return mCrotch;
-	}
-	*/
-	
 	Item* Inventory::getTrousers()
 	{
 		return mTrousers;
 	}
 
-	Item* Inventory::getShinboneLeft()
+	Item* Inventory::getShinbone()
 	{
-		return mShinboneLeft;
-	}
-	
-	Item* Inventory::getShinboneRight()
-	{
-		return mShinboneRight;
+		return mShinbone;
 	}
 	
 	Item* Inventory::getBoots()
@@ -217,60 +466,80 @@ namespace rl
 	}
 
 	Item* Inventory::removeHandLeft(){
-		return NULL;
+		Item* temp = mHandLeft;
+		mHandLeft = NULL;
+		return temp;
 	}
 	Item* Inventory::removeHandRight(){
-		return NULL;
+		Item* temp = mHandRight;
+		mHandRight = NULL;
+		return temp;
 	}
 	Item* Inventory::removeGloves(){
-		return NULL;
+		Item* temp = mGloves;
+		mGloves = NULL;
+		return temp;
 	}
 	Item* Inventory::removeBraceletLeft(){
-		return NULL;
+		Item* temp = mBraceletLeft;
+		mBraceletLeft = NULL;
+		return temp;
 	}
 	Item* Inventory::removeBraceletRight(){
-		return NULL;
+		Item* temp = mBraceletRight;
+		mBraceletRight = NULL;
+		return temp;
 	}
 	Item* Inventory::removeArmor(){
-		return NULL;
+		Item* temp = mArmor;
+		mArmor = NULL;
+		return temp;
 	}
-	Item* Inventory::removeBracerLeft(){
-		return NULL;
+	Item* Inventory::removeCape(){
+		Item* temp = mCape;
+		mCape = NULL;
+		return temp;
 	}
-	Item* Inventory::removeBracerRight(){
-		return NULL;
+	Item* Inventory::removeBracers(){
+		Item* temp = mBracers;
+		mBracers = NULL;
+		return temp;
 	}
 	Item* Inventory::removeBackpack(){
-		return NULL;
+		Item* temp = mBackpack;
+		mBackpack = NULL;
+		return temp;
 	}
-	/*Item* Inventory::removeArmorFront(){
-		return NULL;
-	}
-	*/
 	Item* Inventory::removeBelt(){
-		return NULL;
+		Item* temp = mBelt;
+		mBelt = NULL;
+		return temp;
 	}
 	Item* Inventory::removeNecklace(){
-		return NULL;
+		Item* temp = mNecklace;
+		mNecklace = NULL;
+		return temp;
 	}
 	Item* Inventory::removeHelmet(){
-		return NULL;
+		Item* temp = mHelmet;
+		mHelmet = NULL;
+		return temp;
 	}
-	/*Item* Inventory::removeCrotch(){
-		return NULL;
-	}
-	*/
+
 	Item* Inventory::removeTrousers(){
-		return NULL;
+		Item* temp = mTrousers;
+		mTrousers = NULL;
+		return temp;
 	}
-	Item* Inventory::removeShinboneLeft(){
-		return NULL;
-	}
-	Item* Inventory::removeShinboneRight(){
-		return NULL;
+	Item* Inventory::removeShinbone(){
+		Item* temp = mShinbone;
+		mShinbone = NULL;
+		return temp;
 	}
 	Item* Inventory::removeBoots(){
-		return NULL;
+		Item* temp = mBoots;
+		mBoots = NULL;
+		return temp;
 	}
 
 	void Inventory::setRingLeft(Item* item)
@@ -305,22 +574,18 @@ namespace rl
 	{
 		mArmor = item;
 	}
-	void Inventory::setBracerLeft(Item* item)
+	void Inventory::setCape(Item* item)
 	{
-		mBracerLeft = item;
+		mCape = item;
 	}
-	void Inventory::setBracerRight(Item* item)
+	void Inventory::setBracers(Item* item)
 	{
-		mBracerRight = item;
+		mBracers = item;
 	}
 	void Inventory::setBackpack(Item* item)
 	{
 		mBackpack = item;
 	}
-	/*void Inventory::setArmorFront(Item* item)
-	{
-		mArmorFront = item;
-	}*/
 	void Inventory::setBelt(Item* item)
 	{
 		mBelt = item;
@@ -333,24 +598,36 @@ namespace rl
 	{
 		mHelmet = item;
 	}
-	/*void Inventory::setCrotch(Item* item)
-	{
-		mCrotch = item;
-	}*/
 	void Inventory::setTrousers(Item* item)
 	{
 		mTrousers = item;
 	}
-	void Inventory::setShinboneLeft(Item* item)
+	void Inventory::setShinbone(Item* item)
 	{
-		mShinboneLeft = item;
-	}
-	void Inventory::setShinboneRight(Item* item)
-	{
-		mShinboneRight = item;
+		mShinbone = item;
 	}
 	void Inventory::setBoots(Item* item)
 	{
 		mBoots = item;
+	}
+
+	void Inventory::initSlots(){
+		mRingLeft = NULL;
+		mRingRight = NULL;
+		mHandLeft = NULL;
+		mHandRight = NULL;
+		mGloves = NULL;
+		mBraceletLeft = NULL;
+		mBraceletRight = NULL;
+		mArmor = NULL;
+		mCape = NULL;
+		mBracers = NULL;
+		mBackpack = NULL;
+		mBelt = NULL;
+		mNecklace = NULL;
+		mHelmet = NULL;
+		mTrousers = NULL;
+		mShinbone = NULL;
+		mBoots = NULL;
 	}
 }

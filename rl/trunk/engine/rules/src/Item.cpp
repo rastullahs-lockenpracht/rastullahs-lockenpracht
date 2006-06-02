@@ -23,9 +23,21 @@ namespace rl
     Item::Item(const CeGuiString& name, const CeGuiString& description)
         : GameObject(name, description)
     {
-		mVolume = pair<int,int> (1,1);
+		mCapacity = pair<int,int> (1,1);
+		boolContainer = false;
     }
 
+/*	Item::Item(const CeGuiString& name, const CeGuiString& description, CEGUI::String imageName, ItemType type, pair<int,int> size)
+		: GameObject(name, description)
+	{
+		mCapacity = pair<int,int> (1,1);
+		boolContainer = false;
+
+		mItemType = type;
+		mImageName = imageName;
+		mSize = size;
+	}
+*/
     Item::~Item(void)
     {
     }
@@ -50,6 +62,17 @@ namespace rl
 		return mItemType;
 	}
 
+	void Item::setImageName(CEGUI::String name)
+	{
+		mImageName = name;
+	}
+
+	CEGUI::String Item::getImageName()
+	{
+		return mImageName;
+	}
+
+
 	CEGUI::String Item::getItemTypeString(ItemType type){
 		switch(type){
 			case ITEMTYPE_WEAPON:
@@ -61,7 +84,7 @@ namespace rl
 			case ITEMTYPE_RING:
 				return CEGUI::String("Ring");
 				break;
-			case ITEMTYPE_GLOVE:
+			case ITEMTYPE_GLOVES:
 				return CEGUI::String("Glove");
 				break;
 			case ITEMTYPE_BRACELET:
@@ -70,7 +93,10 @@ namespace rl
 			case ITEMTYPE_ARMOR:
 				return CEGUI::String("Armor");
 				break;
-			case ITEMTYPE_BRACER:
+			case ITEMTYPE_CAPE:
+				return CEGUI::String("Cape");
+				break;
+			case ITEMTYPE_BRACERS:
 				return CEGUI::String("Bracer");
 				break;
 			case ITEMTYPE_BACKPACK:
@@ -116,8 +142,18 @@ namespace rl
 		return mCapacity;
 	}
 
-	pair<int,int> Item::getVolume()
+	void Item::setCapacity(int widthCapacity,int heightCapacity)
 	{
-		return mVolume;
+		mCapacity = pair<int,int> (widthCapacity,heightCapacity);
+	}
+
+	pair<int,int> Item::getSize()
+	{
+		return mSize;
+	}
+
+	void Item::setSize(int widthSize,int heightSize)
+	{
+		mSize = pair<int,int>(widthSize,heightSize);
 	}
 }

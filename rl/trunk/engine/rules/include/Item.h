@@ -28,17 +28,21 @@ namespace rl
     class _RlRulesExport Item : public GameObject
     {
     public:
-        Item(const CeGuiString& name, const CeGuiString& description);
+		Item(const CeGuiString& name, const CeGuiString& description);
+
+		//Item(const CeGuiString& name, const CeGuiString& description, CEGUI::String imageName, ItemType type, pair<int,int> size);
+
         virtual ~Item(void);
 
 		enum ItemType{
 			ITEMTYPE_WEAPON = 0,
 			ITEMTYPE_SHIELD,
 			ITEMTYPE_RING,
-			ITEMTYPE_GLOVE,
+			ITEMTYPE_GLOVES,
 			ITEMTYPE_BRACELET,
 			ITEMTYPE_ARMOR,
-			ITEMTYPE_BRACER,
+			ITEMTYPE_CAPE,
+			ITEMTYPE_BRACERS,
 			ITEMTYPE_BACKPACK,
 			ITEMTYPE_BELT,
 			ITEMTYPE_NECKLACE,
@@ -56,29 +60,38 @@ namespace rl
 		ItemType getItemType() const;
 
 		static CEGUI::String getItemTypeString(ItemType type);
+ 
+		CEGUI::String getImageName();
 
-		void setCapacity(int width, int height);
+		void setImageName(CEGUI::String name);
+		
 		
 		/**
 		 * @return ob es sich um ein Item handelt,
 		 * in dem andere gespeichert werden können
 		 */
 		bool isContainer();
+		
 		void setContainer(bool isContainer, pair<int,int> dim = pair<int,int>(0,0));
 
 		pair<int,int> getCapacity();
-		
-		pair<int,int> getVolume();
+		void setCapacity(int width, int height);
 
+		pair<int,int> getSize();
+		void setSize(int width, int height);
+
+		
     private:
         /// Masse in Unzen.
         int mWeight;
 		ItemType mItemType;
 
+		CEGUI::String mImageName;
+
 		bool boolContainer;
 		pair<int,int> mCapacity;
-		pair<int,int> mVolume;
 
+		pair<int,int> mSize;
 
     };
 

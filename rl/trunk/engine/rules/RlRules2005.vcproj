@@ -321,10 +321,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\Item.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\Kampftechnik.cpp"
 				>
 			</File>
@@ -417,13 +413,21 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\Weapon.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\ZauberStateSet.cpp"
 				>
 			</File>
+			<Filter
+				Name="items"
+				>
+				<File
+					RelativePath=".\src\Item.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Weapon.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Headerdateien"
@@ -492,10 +496,6 @@
 			</File>
 			<File
 				RelativePath=".\include\Inventory.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\Item.h"
 				>
 			</File>
 			<File
@@ -599,13 +599,21 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\Weapon.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\ZauberStateSet.h"
 				>
 			</File>
+			<Filter
+				Name="items"
+				>
+				<File
+					RelativePath=".\include\Item.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\Weapon.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Ressourcendateien"

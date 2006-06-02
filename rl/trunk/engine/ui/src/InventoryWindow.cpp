@@ -98,11 +98,15 @@ namespace rl {
 
 		// Nur wenn das Item in den Slot passt, soll es auch dort gedroppt werden können
 		if (checkTypeAccepted(ddea.window, ddea.dragDropItem)){
+			
+
 			ddea.window->addChildWindow(ddea.dragDropItem);
 
 			invWin->posDraggedTo=CEGUI::Point(0.0,0.0);
 			invWin->droppedItem = ddea.dragDropItem;
 			invWin->containerDraggedTo = ddea.window;
+
+			invWin->updateInventory();
 			return true;
 		} else {
 			return false;
@@ -130,8 +134,12 @@ namespace rl {
 		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
 		ddea.window->setProperty("ContainerColour", invWin->colorNormal);
 		
+		// Den Rucksack darf man nicht in den Rucksack droppen...
+		if (!(ddea.dragDropItem->getUserString("ItemType").compare(Item::getItemTypeString(Item::ITEMTYPE_BACKPACK)))){
+			return false;
+		}
 		
-		
+		// Errechnung der Koordinaten, in welchem Kästchen denn nun gedroppt wird
 		Point absMouse = MouseCursor::getSingleton().getPosition();
 		Point scrnPt = ddea.window->windowToScreen( Point(0,0) ); 
 		Point relMouse = absMouse- ddea.dragDropItem->windowToScreen( Point(0,0) );
@@ -171,13 +179,8 @@ namespace rl {
 		int xKaestchen = pointInBackpack.d_x / 30;
 		int yKaestchen = pointInBackpack.d_y / 30;
 
-		int width = ddea.dragDropItem->getAbsoluteWidth();
-		int height = ddea.dragDropItem->getAbsoluteHeight();
-
-		width = width / 30;
-		height = height / 30;
-
-		if (invWin->getInventory()->isFreeInBackpack(pair<int,int>(xKaestchen,yKaestchen),pair<int,int>(width,height) ))
+		if (invWin->isFreeInBackpack(
+			static_cast<Item*>(ddea.dragDropItem->getUserData()),pair<int,int>(xKaestchen,yKaestchen)))
 		{
 			ddea.window->addChildWindow(ddea.dragDropItem);
 
@@ -185,6 +188,7 @@ namespace rl {
 			invWin->droppedItem = ddea.dragDropItem;
 			invWin->containerDraggedTo = ddea.window;
 
+			invWin->updateInventory();
 			Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_MESSAGE,
 				String("Point in Backpack: Point x:").append(itoa(int(pointInBackpack.d_x),buf1,10))
 				.append(", Point y:")
@@ -209,13 +213,6 @@ namespace rl {
 		colorReject = CEGUI::String("FFFF2222");
 		colorNormal = CEGUI::String("FFFFFFFF");
 
-
-		DragContainer* item1 = createItem("meinTrank",Item::ITEMTYPE_OTHER,pair<int,int>(1,1),"Trank");
-		item1->setWindowPosition(UVector2(cegui_reldim(0.0f), cegui_reldim(0.0f)));
-
-		DragContainer* item2 = createItem("trankName",Item::ITEMTYPE_GLOVE,pair<int,int>(2,2),"Handschuhe");
-		item2->setWindowPosition(UVector2(cegui_absdim(30), cegui_absdim(0)));
-
 		droppedItem = NULL;
 		containerDraggedTo = NULL;
 
@@ -233,13 +230,14 @@ namespace rl {
 
 	/** Methoden */
 
-	void InventoryWindow::setCharacter(Creature* character)
+	void InventoryWindow::setInventory(Inventory* inventory)
 	{
-		mCharacter = character;
-		if (character){
-			mInventory = mCharacter->getInventory();
-		} else {
-			mInventory = NULL;
+		emptySlots();
+
+		mInventory = inventory;
+		if (mInventory)
+		{
+			fillSlots();
 		}
 	}
 
@@ -248,10 +246,6 @@ namespace rl {
 
 	}
 
-	Inventory* InventoryWindow::getInventory(){
-		return mInventory;
-	}
-	
 	void InventoryWindow::updateItemPosition(){
 		
 		// Positionieren
@@ -267,6 +261,145 @@ namespace rl {
 			.append(itoa(int(posDraggedTo.d_y),buf2,10)));
 
 		Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_MESSAGE,String("updateItemPosition finished"));
+	}
+
+	void InventoryWindow::updateInventory(){
+		Item* item = static_cast<Item*>(droppedItem->getUserData());
+		
+		// Gegenstand aus dem Rucksack entfernen
+		mInventory->removeItemFromBackpack(item);
+		// Gegenstand aus den Slots entfernen
+		mInventory->removeItemFromSlots(item);
+
+		if (containerDraggedTo == mBackpackContent)
+			mInventory->setItemBackpackPosition(item, posDraggedTo.d_x/30, posDraggedTo.d_y/30);
+		else {
+			// Gegenstand in Slot setzen / Schon dagewesenen Gegenstand zurück in den Rucksack setzen
+			if (containerDraggedTo == mArmor){
+				if (mInventory->getArmor() != NULL){
+					//Pack die alte Rüstung ins Inventar
+					mInventory->addItemToBackpack(mInventory->getArmor());
+				}
+				mInventory->setArmor(item);
+			}
+			if (containerDraggedTo == mCape){
+				if (mInventory->getCape() != NULL){
+					//Pack die alte Rüstung ins Inventar
+					mInventory->addItemToBackpack(mInventory->getCape());
+				}
+				mInventory->setArmor(item);
+			}
+			if (containerDraggedTo == mBackpack) {
+				if (mInventory->getBackpack() != NULL){
+					//Pack den alten Rucksack auf den Boden
+					mInventory->addItemToBackpack(mInventory->getBackpack());
+				}
+				mInventory->setBackpack(item);
+			}
+			if (containerDraggedTo == mBelt) {
+				if (mInventory->getBelt() != NULL){
+					//Pack den alten Gürtel ins Inventar
+					mInventory->addItemToBackpack(mInventory->getBelt());
+				}
+				mInventory->setBelt(item);
+			}
+			if (containerDraggedTo == mBoots) {
+				if (mInventory->getBoots() != NULL){
+					//pack die alten Stiefel ins Inventar
+					mInventory->addItemToBackpack(mInventory->getBoots());
+				}
+				mInventory->setBoots(item);
+			}
+			if (containerDraggedTo == mBraceletLeft) {
+				if (mInventory->getBraceletLeft() != NULL){
+					//pack den alten Armreif ins Inventar
+					mInventory->addItemToBackpack(mInventory->getBraceletLeft());
+				}
+				mInventory->setBraceletLeft(item);
+			}
+			if (containerDraggedTo == mBraceletRight) {
+				if (mInventory->getBraceletRight() != NULL){
+					//pack den alten Armreif ins Inventar
+					mInventory->addItemToBackpack(mInventory->getBraceletRight());
+				}
+				mInventory->setBraceletRight(item);
+			}
+			if (containerDraggedTo == mRingLeft) {
+				if (mInventory->getRingLeft() != NULL){
+					//pack den alten Ring ins Inventar
+					mInventory->addItemToBackpack(mInventory->getRingLeft());
+				}
+				mInventory->setRingLeft(item);
+			}
+			if (containerDraggedTo == mRingRight) {
+				if (mInventory->getRingRight() != NULL){
+					//pack den alten Ring ins Inventar
+					mInventory->addItemToBackpack(mInventory->getRingRight());
+				}
+				mInventory->setRingRight(item);
+			}
+			if (containerDraggedTo == mHelmet) {
+				if (mInventory->getHelmet() != NULL){
+					//pack den alten Helm ins Inventar
+					mInventory->addItemToBackpack(mInventory->getHelmet());
+				}
+				mInventory->setHelmet(item);
+			}
+			if (containerDraggedTo == mBracers) {
+				if (mInventory->getBracers() != NULL){
+					//pack die alte Armschienen ins Inventar
+					mInventory->addItemToBackpack(mInventory->getBracers());
+				}
+				mInventory->setBracers(item);
+			}
+			if (containerDraggedTo == mNecklace) {
+				if (mInventory->getNecklace() != NULL){
+					//pack das alte Amulett ins Inventar
+					mInventory->addItemToBackpack(mInventory->getNecklace());
+				}
+				mInventory->setNecklace(item);
+			}
+			if (containerDraggedTo == mGloves) {
+				if (mInventory->getGloves() != NULL){
+					//pack die alten Handschuhe ins Inventar
+					mInventory->addItemToBackpack(mInventory->getGloves());
+				}
+				mInventory->setGloves(item);
+			}
+			if (containerDraggedTo == mTrousers) {
+				if (mInventory->getTrousers() != NULL){
+					//pack die alte Hose ins Inventar
+					mInventory->addItemToBackpack(mInventory->getTrousers());
+				}
+				mInventory->setTrousers(item);
+			}
+			if (containerDraggedTo == mShinbone) {
+				if (mInventory->getShinbone() != NULL){
+					//pack die alte Hose ins Inventar
+					mInventory->addItemToBackpack(mInventory->getShinbone());
+				}
+				mInventory->setShinbone(item);
+			}
+			if (containerDraggedTo == mHandLeft) {
+				if (mInventory->getHandLeft() != NULL){
+					//pack das alte Schild ins Inventar
+					mInventory->addItemToBackpack(mInventory->getHandLeft());
+				}
+				mInventory->setHandLeft(item);
+			}
+			if (containerDraggedTo == mHandRight) {
+				if (mInventory->getHandRight() != NULL){
+					//pack die alte Waffe ins Inventar
+					mInventory->addItemToBackpack(mInventory->getHandRight());
+				}
+				mInventory->setHandRight(item);
+			}
+		}
+	}
+
+	bool InventoryWindow::isFreeInBackpack(Item* item, pair<int,int> kaestchenPos)
+	{
+		return mInventory->isFreeInBackpack(item, kaestchenPos);
 	}
 
 	void InventoryWindow::initSlots(){
@@ -290,7 +423,7 @@ namespace rl {
 		mHandRight->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_SHIELD));
 
 		mGloves = getStaticImage("InventoryWindow/Gloves");
-		mGloves->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_GLOVE));
+		mGloves->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_GLOVES));
 
 		mBraceletLeft = getStaticImage("InventoryWindow/BraceletLeft");
 		mBraceletLeft->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_BRACELET));
@@ -301,11 +434,11 @@ namespace rl {
 		mArmor = getStaticImage("InventoryWindow/Armor");
 		mArmor->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_ARMOR));
 
-		mBracerRight = getStaticImage("InventoryWindow/BracerRight");
-		mBracerRight->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_BRACER));
+		mCape = getStaticImage("InventoryWindow/Cape");
+		mCape->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_CAPE));
 
-		mBracerLeft = getStaticImage("InventoryWindow/BracerLeft");
-		mBracerLeft->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_BRACER));
+		mBracers = getStaticImage("InventoryWindow/Bracers");
+		mBracers->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_BRACERS));
 
 		mBackpack = getStaticImage("InventoryWindow/Backpack");
 		mBackpack->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_BACKPACK));
@@ -319,11 +452,8 @@ namespace rl {
 		mTrousers = getStaticImage("InventoryWindow/Trousers");
 		mTrousers->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_TROUSERS));
 
-		mShinboneLeft = getStaticImage("InventoryWindow/ShinboneLeft");
-		mShinboneLeft->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_SHINBONE));
-
-		mShinboneRight = getStaticImage("InventoryWindow/ShinboneRight");
-		mShinboneRight->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_SHINBONE));
+		mShinbone = getStaticImage("InventoryWindow/Shinbone");
+		mShinbone->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_SHINBONE));
 
 		mBoots = getStaticImage("InventoryWindow/Boots");
 		mBoots->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_BOOTS));
@@ -338,15 +468,81 @@ namespace rl {
 		addDropListener(mBraceletLeft);
 		addDropListener(mBraceletRight);
 		addDropListener(mArmor);
-		addDropListener(mBracerRight);
-		addDropListener(mBracerLeft);
+		addDropListener(mCape);
+		addDropListener(mBracers);
 		addDropListener(mBackpack);
 		addDropListener(mBelt);
 		addDropListener(mNecklace);
 		addDropListener(mTrousers);
-		addDropListener(mShinboneLeft);
-		addDropListener(mShinboneRight);
+		addDropListener(mShinbone);
 		addDropListener(mBoots);
+	}
+
+	void InventoryWindow::fillSlots()
+	{
+		createItem(mInventory->getRingLeft(), mRingLeft);
+		createItem(mInventory->getRingRight(), mRingRight);
+		createItem(mInventory->getHandLeft(), mHandLeft);
+		createItem(mInventory->getHandRight(), mHandRight);
+		createItem(mInventory->getGloves(), mGloves);
+		createItem(mInventory->getBraceletLeft(), mBraceletLeft);
+		createItem(mInventory->getBraceletRight(), mBraceletRight);
+		createItem(mInventory->getArmor(), mArmor);
+		createItem(mInventory->getCape(), mCape);
+		createItem(mInventory->getBracers(), mBracers);
+		createItem(mInventory->getBackpack(), mBackpack);
+		createItem(mInventory->getBelt(), mBelt);
+		createItem(mInventory->getNecklace(), mNecklace);
+		createItem(mInventory->getHelmet(), mHelmet);
+		createItem(mInventory->getTrousers(), mTrousers);
+		createItem(mInventory->getShinbone(), mShinbone);
+		createItem(mInventory->getBoots(), mBoots);
+
+		// Items im Rucksack erstellen
+		set<Item*> itemsInBackpack;
+
+		vector< vector<Item*> > temp = mInventory->getBackpackLayout();
+		for (unsigned x = 0; x < temp.size(); x++){
+			for (unsigned y = 0; y < temp[0].size(); y++) {
+				if (temp[x][y] != NULL && (itemsInBackpack.find(temp[x][y]) == itemsInBackpack.end())){
+					DragContainer* itemhandler = createItem(temp[x][y],mBackpackContent);
+					itemhandler->setPosition(CEGUI::Absolute,CEGUI::Point(x*30,y*30));
+					itemsInBackpack.insert(temp[x][y]);
+					Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_MESSAGE,String("erzeuge Bild im Backpack: ").append(temp[x][y]->getName()));
+				}
+			}
+		}
+	}
+
+	void InventoryWindow::emptySlots()
+	{
+		emptySlot(mHelmet);
+		emptySlot(mRingLeft);
+		emptySlot(mRingRight);
+		emptySlot(mHandLeft);
+		emptySlot(mHandRight);
+		emptySlot(mGloves);
+		emptySlot(mBraceletLeft);
+		emptySlot(mBraceletRight);
+		emptySlot(mArmor);
+		emptySlot(mCape);
+		emptySlot(mBracers);
+		emptySlot(mBackpack);
+		emptySlot(mBelt);
+		emptySlot(mNecklace);
+		emptySlot(mTrousers);
+		emptySlot(mShinbone);
+		emptySlot(mBoots);
+		emptySlot(mBackpackContent);
+	}
+
+	void InventoryWindow::emptySlot(CEGUI::Window* slot)
+	{
+		while(slot->getChildCount() > 0){
+			CEGUI::String name = slot->getChildAtIdx(0)->getName();
+			slot->removeChildWindow(slot->getChildAtIdx(0));
+			WindowManager::getSingletonPtr()->destroyWindow(name);
+		}
 	}
 
 	void InventoryWindow::addDropListener(CEGUI::Window* slot){
@@ -358,34 +554,50 @@ namespace rl {
 		slot->subscribeEvent(Window::EventDragDropItemDropped, &handleDragDropped); 
 	}
 
-	DragContainer* InventoryWindow::createItem(CEGUI::String name,Item::ItemType type,pair<int,int> dim, CEGUI::String imgName)
+	DragContainer* InventoryWindow::createItem(Item* item, Window* parent, UVector2 position)
 	{
+		// Prüfe, ob ein Item da ist
+		if (item != NULL) {
 
-		DragContainer* itemhandler = static_cast<DragContainer*>(
-		CEGUI::WindowManager::getSingletonPtr()->createWindow("DragContainer", name));
-		itemhandler->setWindowPosition(UVector2(cegui_reldim(0.0f), cegui_reldim(0.0f)));
-		itemhandler->setWindowSize(UVector2(cegui_absdim(dim.first*30), cegui_absdim(dim.second*30))); 
-		itemhandler->setUserString("ItemType",Item::getItemTypeString(type));
-		
-		mBackpackContent->addChildWindow(itemhandler);
+			// Erzeuge einen Handler für Drag and Drop
+			DragContainer* itemhandler = static_cast<DragContainer*>(
+				CEGUI::WindowManager::getSingletonPtr()->createWindow("DragContainer", item->getName()));
+			itemhandler->setWindowPosition(position);
+			itemhandler->setWindowSize(UVector2(cegui_absdim(item->getSize().first*30), cegui_absdim(item->getSize().second*30))); 
+			itemhandler->setUserString("ItemType",Item::getItemTypeString(item->getItemType()));
+			itemhandler->setUserData(item);
+			
+			parent->addChildWindow(itemhandler);
 
-		Window* item = CEGUI::WindowManager::getSingletonPtr()->createWindow("RastullahLook/Item", name.append(CEGUI::String("Item")));
+			CEGUI::String tempName = item->getName();
 
-		item->setWindowPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
-		item->setWindowSize(UVector2(cegui_absdim(dim.first*30), cegui_absdim(dim.second*30)));
-		item->disable(); 
-		itemhandler->addChildWindow(item);
+			// Erzeuge das Hintergrundfenster des Items
+			Window* itemWindow = CEGUI::WindowManager::getSingletonPtr()->createWindow("RastullahLook/Item", tempName.append(CEGUI::String("Item")));
 
+			itemWindow->setWindowPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
+			itemWindow->setWindowSize(UVector2(cegui_absdim(item->getSize().first*30), cegui_absdim(item->getSize().second*30)));
+			itemWindow->disable(); 
 
-		Window* itemIcon = CEGUI::WindowManager::getSingletonPtr()->createWindow("RastullahLook/StaticImage", name.append(CEGUI::String("Bild")));
-		item->addChildWindow(itemIcon);
-		itemIcon->setWindowPosition(UVector2(cegui_reldim(0.0), cegui_reldim(0.0)));
-		itemIcon->setWindowSize(UVector2(cegui_reldim(1), cegui_reldim(1)));
-		itemIcon->setProperty("Image", CEGUI::String("set:ModelThumbnails image:").append(imgName));
-		// disable to allow inputs to pass through.
-		itemIcon->disable();
+			itemhandler->addChildWindow(itemWindow);
 
-		return itemhandler;
+			// Gib dem Item noch ein Bild...
+			Window* itemIcon = CEGUI::WindowManager::getSingletonPtr()->createWindow("RastullahLook/StaticImage", tempName.append(CEGUI::String("Icon")));
+
+			itemIcon->setWindowPosition(UVector2(cegui_reldim(0.0), cegui_reldim(0.0)));
+			itemIcon->setWindowSize(UVector2(cegui_reldim(1), cegui_reldim(1)));
+			itemIcon->setProperty("Image", CEGUI::String("set:ModelThumbnails image:").append(item->getImageName()));
+			// disable to allow inputs to pass through.
+			itemIcon->disable();
+
+			itemWindow->addChildWindow(itemIcon);
+
+			return itemhandler;
+		}
+		else
+		{
+			// Kein Item da...
+			return NULL;
+		}
 	}
 
 	void InventoryWindow::initBackpack(pair<int,int> dim)
@@ -398,7 +610,7 @@ namespace rl {
 		mBackpackContent->setWindowSize(UVector2(cegui_absdim(dim.first*30), cegui_absdim(dim.second*30)));
 		mBackpackWindow->addChildWindow(mBackpackContent);
 
-		// Der Rucksack soll ale Itemtypen akzeptieren
+		// Der Rucksack soll alle Itemtypen akzeptieren (Bis auf den Rucksack selbst)
 		mBackpackContent->subscribeEvent(Window::EventDragDropItemEnters, &handleDragEnterBackpack);
 		mBackpackContent->subscribeEvent(Window::EventDragDropItemLeaves, &handleDragLeave);
 		mBackpackContent->subscribeEvent(Window::EventDragDropItemDropped, &handleDragDroppedBackpack); 

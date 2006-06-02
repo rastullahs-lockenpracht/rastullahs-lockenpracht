@@ -41,12 +41,33 @@ namespace rl {
 		InventoryWindow();
 		~InventoryWindow();
 
-		void setCharacter(Creature* character);
+		/**
+		* Gibt dem Fenster das anzuzeigende Inventar
+		*/
+		void setInventory(Inventory* inventory);
 		
-		CEGUI::DragContainer* createItem(CEGUI::String name,Item::ItemType type,pair<int,int> dimension, CEGUI::String imgName);
-
+		/**
+		* 
+		*/
 		void update();
+
+		/**
+		* Übergibt änderungen ans Inventar
+		*/
+		void updateInventory();
+
+		/**
+		* Passt die Position eines gedroppten Items an, da CEGUI Bug, braucht man 
+		* dafür ne externe Methode
+		*/
 		void updateItemPosition();
+
+		// FIXME, wenn BUG im CEGUI behoben ist: entfernen
+
+		/**
+		* Schaut nach, ob das Item an der Position gedroppt werden kann.
+		*/
+		bool isFreeInBackpack(Item* item, pair<int,int> kaestechenPos);
 
 		CEGUI::Point posBeforeDrag;
 		CEGUI::Point posDraggedTo;
@@ -57,12 +78,12 @@ namespace rl {
 		CEGUI::String colorReject;
 		CEGUI::String colorNormal;
 
-		Inventory* getInventory();
-
-
 	private:
-        Creature* mCharacter;
 		Inventory* mInventory;
+
+		// Erzeugt eine Itemrepräsentation im Inventarfenster
+		CEGUI::DragContainer* createItem(Item* item, CEGUI::Window* parent, CEGUI::UVector2 position = CEGUI::UVector2(CEGUI::cegui_reldim(0.0f), CEGUI::cegui_reldim(0.0f)));
+
 
 		// Das Fenster, in das der Rucksackcontainer soll
 		CEGUI::Window* mBackpackWindow;
@@ -78,15 +99,14 @@ namespace rl {
 		CEGUI::StaticImage* mBraceletLeft;
 		CEGUI::StaticImage* mBraceletRight;
 		CEGUI::StaticImage* mArmor;
-		CEGUI::StaticImage* mBracerRight;
-		CEGUI::StaticImage* mBracerLeft;
+		CEGUI::StaticImage* mCape;
+		CEGUI::StaticImage* mBracers;
 		CEGUI::StaticImage* mBackpack;
 		CEGUI::StaticImage* mBelt;
 		CEGUI::StaticImage* mNecklace;
 		CEGUI::StaticImage* mHelmet;
 		CEGUI::StaticImage* mTrousers;
-		CEGUI::StaticImage* mShinboneLeft;
-		CEGUI::StaticImage* mShinboneRight;
+		CEGUI::StaticImage* mShinbone;
 		CEGUI::StaticImage* mBoots;
 
 		/**
@@ -94,6 +114,21 @@ namespace rl {
 		*/
 		void initSlots();
 
+		/**
+		* Füllt die Slots im InventarFenster mit den Items aus dem Inventar
+		*/
+		void fillSlots();
+
+		/**
+		* Entleert die Slots im InventarFenster wieder
+		*/
+		void emptySlots();
+
+		/**
+		*
+		* Entfernt alle Unterfenster
+		*/
+		void emptySlot(CEGUI::Window* slot);
 		/** 
 		* Gibt dem Slot die Fähigkeit Dragcontainer zu akzeptieren
 		*/
