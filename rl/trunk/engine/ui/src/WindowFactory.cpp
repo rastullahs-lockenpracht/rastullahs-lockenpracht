@@ -189,16 +189,15 @@ namespace rl {
 
 	void WindowFactory::toggleInventoryWindow()
 	{
-/*		if (mInventoryWindow->isVisible())
+		if (mInventoryWindow->isVisible())
 		{
 			mInventoryWindow->setInventory(NULL);
 			mInventoryWindow->setVisible(false);
 		}
-		else
-		{
+		else if (UiSubsystem::getSingleton().getActiveCharacter() != NULL){
 			mInventoryWindow->setInventory(UiSubsystem::getSingleton().getActiveCharacter()->getInventory());
 			mInventoryWindow->setVisible(true);
-		}  */
+		}
 	}
 
 	InventoryWindow* WindowFactory::getInventoryWindow(){

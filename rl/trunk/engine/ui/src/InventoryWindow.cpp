@@ -287,7 +287,7 @@ namespace rl {
 					//Pack die alte Rüstung ins Inventar
 					mInventory->addItemToBackpack(mInventory->getCape());
 				}
-				mInventory->setArmor(item);
+				mInventory->setCape(item);
 			}
 			if (containerDraggedTo == mBackpack) {
 				if (mInventory->getBackpack() != NULL){
