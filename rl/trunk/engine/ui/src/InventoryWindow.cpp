@@ -232,11 +232,9 @@ namespace rl {
 
 	void InventoryWindow::setInventory(Inventory* inventory)
 	{
-		emptySlots();
-
-		mInventory = inventory;
-		if (mInventory)
-		{
+		if (inventory != NULL && mInventory != inventory){
+			emptySlots();
+			mInventory = inventory;
 			fillSlots();
 		}
 	}

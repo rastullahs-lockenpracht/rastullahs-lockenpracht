@@ -41,44 +41,28 @@ namespace rl
 		}
 		
 
-		Item* meineRuestung = new Item("Kroetenhaut", "Gefertigt aus Rindsleder bietet diese zusaetzlich durch Nieten verstaerkte Ruestung guten Schutz fuer den Abenteurer");
-		meineRuestung->setImageName("Kroetenhaut");
-		meineRuestung->setItemType(Item::ITEMTYPE_ARMOR);
-		meineRuestung->setSize(2,3);
-
+		Item* meineRuestung = createItem("Kroetenhaut", "Gefertigt aus Rindsleder bietet diese zusaetzlich durch Nieten verstaerkte Ruestung guten Schutz fuer den Abenteurer","Kroetenhaut",Item::ITEMTYPE_ARMOR,pair<int,int>(3,4));
 		
-		Item* meinTrank = new Item("meinTrank", "Erhöht die Vitalität");
-		meinTrank->setImageName("Trank");
-		meinTrank->setItemType(Item::ITEMTYPE_OTHER);
-		meinTrank->setSize(1,1);
+		Item* meinTrank = createItem("meinTrank", "Erhöht die Vitalität","Trank", Item::ITEMTYPE_OTHER, pair<int,int>(1,1));
 
-		Item* meineHandschuhe = new Item("meineHandschuhe", "Wärmen im Winter");
-		meineHandschuhe->setImageName("Handschuhe");
-		meineHandschuhe->setItemType(Item::ITEMTYPE_GLOVES);
-		meineHandschuhe->setSize(2,2);
+		Item* meineHandschuhe = createItem("meineHandschuhe", "Wärmen im Winter","Handschuhe",Item::ITEMTYPE_GLOVES,pair<int,int>(2,2));
 
-		Item* meinArmreif = new Item("meinArmreif", "Verzaubert vom Shamanen Murgul");
-		meinArmreif->setImageName("Armreif");
-		meinArmreif->setItemType(Item::ITEMTYPE_BRACELET);
-		meinArmreif->setSize(1,1);
+		Item* meinArmreif = createItem("meinArmreif", "Verzaubert vom Shamanen Murgul","Armreif",Item::ITEMTYPE_BRACELET, pair<int,int>(1,1));
 
-		Item* meineStiefel = new Item("meineStiefel", "Einfache Lederstiefel");
-		meineStiefel->setImageName("Stiefel");
-		meineStiefel->setItemType(Item::ITEMTYPE_BOOTS);
-		meineStiefel->setSize(2,2);
-
-		Item* meinUmhang = new Item("meinUmhang", "Fellumhang von den Nivesen geklaut");
-		meinUmhang->setImageName("Fellumhang");
-		meinUmhang->setItemType(Item::ITEMTYPE_CAPE);
-		meinUmhang->setSize(2,4);
-
+		Item* meineStiefel = createItem("meineStiefel", "Einfache Lederstiefel","Stiefel",Item::ITEMTYPE_BOOTS,pair<int,int>(2,2));
+		
+		Item* meinUmhang = createItem("meinUmhang", "Fellumhang von den Nivesen geklaut","Fellumhang",Item::ITEMTYPE_CAPE,pair<int,int>(2,4));
+		
 		Item* meinRing = createItem("meinRing","Schön gearbeiteter Ring","Rubinring",Item::ITEMTYPE_RING,pair<int,int>(1,1));
+
+		Item* meinRing2 = createItem("meinRing2","Schön gearbeiteter Ring","Rubinring",Item::ITEMTYPE_RING,pair<int,int>(1,1));
 
 		addItemToBackpack(meinTrank);
 		addItemToBackpack(meineHandschuhe);
 		addItemToBackpack(meinArmreif);
 		addItemToBackpack(meineStiefel);
 		addItemToBackpack(meinUmhang);
+		addItemToBackpack(meinRing2);
 
 
 		mRingLeft = meinRing;

@@ -191,7 +191,6 @@ namespace rl {
 	{
 		if (mInventoryWindow->isVisible())
 		{
-			mInventoryWindow->setInventory(NULL);
 			mInventoryWindow->setVisible(false);
 		}
 		else if (UiSubsystem::getSingleton().getActiveCharacter() != NULL){
