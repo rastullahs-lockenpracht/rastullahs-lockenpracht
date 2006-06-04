@@ -69,14 +69,13 @@ namespace rl {
 		*/
 		bool isFreeInBackpack(Item* item, pair<int,int> kaestechenPos);
 
-		CEGUI::Point posBeforeDrag;
-		CEGUI::Point posDraggedTo;
-		CEGUI::DragContainer* droppedItem;
-		CEGUI::Window* containerDraggedTo;
+		CEGUI::Point mPosDraggedTo;
+		CEGUI::DragContainer* mDroppedItem;
+		CEGUI::Window* mContainerDraggedTo;
 
-		CEGUI::String colorAccept;
-		CEGUI::String colorReject;
-		CEGUI::String colorNormal;
+		const CeGuiString mColorAccept;
+		const CeGuiString mColorReject;
+		const CeGuiString mColorNormal;
 
 	private:
 		Inventory* mInventory;

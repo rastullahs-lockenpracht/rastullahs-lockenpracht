@@ -21,13 +21,16 @@ using namespace std;
 namespace rl
 {
     Item::Item(const CeGuiString& name, const CeGuiString& description)
-        : GameObject(name, description)
+        : GameObject(name, description),
+		mWeight(0),
+		mItemType(ITEMTYPE_OTHER),
+		mImageName(""),
+		mCapacity(pair<int,int>(1,1)),
+		mSize(pair<int,int>(1,1))
     {
-		mCapacity = pair<int,int> (1,1);
-		boolContainer = false;
     }
 
-/*	Item::Item(const CeGuiString& name, const CeGuiString& description, CEGUI::String imageName, ItemType type, pair<int,int> size)
+	/*Item::Item(const CeGuiString& name, const CeGuiString& description, CEGUI::String imageName, ItemType type, pair<int,int> size)
 		: GameObject(name, description)
 	{
 		mCapacity = pair<int,int> (1,1);
@@ -36,8 +39,8 @@ namespace rl
 		mItemType = type;
 		mImageName = imageName;
 		mSize = size;
-	}
-*/
+	}*/
+
     Item::~Item(void)
     {
     }
@@ -62,79 +65,79 @@ namespace rl
 		return mItemType;
 	}
 
-	void Item::setImageName(CEGUI::String name)
+	void Item::setImageName(const CeGuiString& name)
 	{
 		mImageName = name;
 	}
 
-	CEGUI::String Item::getImageName()
+	const CeGuiString& Item::getImageName()
 	{
 		return mImageName;
 	}
 
 
-	CEGUI::String Item::getItemTypeString(ItemType type){
+	const CeGuiString Item::getItemTypeString(ItemType type){
 		switch(type){
 			case ITEMTYPE_WEAPON:
-				return CEGUI::String("Weapon");
+				return CeGuiString("Weapon");
 				break;
 			case ITEMTYPE_SHIELD:
-				return CEGUI::String("Shield");
+				return CeGuiString("Shield");
 				break;
 			case ITEMTYPE_RING:
-				return CEGUI::String("Ring");
+				return CeGuiString("Ring");
 				break;
 			case ITEMTYPE_GLOVES:
-				return CEGUI::String("Glove");
+				return CeGuiString("Glove");
 				break;
 			case ITEMTYPE_BRACELET:
-				return CEGUI::String("Bracelet");
+				return CeGuiString("Bracelet");
 				break;
 			case ITEMTYPE_ARMOR:
-				return CEGUI::String("Armor");
+				return CeGuiString("Armor");
 				break;
 			case ITEMTYPE_CAPE:
-				return CEGUI::String("Cape");
+				return CeGuiString("Cape");
 				break;
 			case ITEMTYPE_BRACERS:
-				return CEGUI::String("Bracer");
+				return CeGuiString("Bracer");
 				break;
 			case ITEMTYPE_BACKPACK:
-				return CEGUI::String("Backpack");
+				return CeGuiString("Backpack");
 				break;
 			case ITEMTYPE_BELT:
-				return CEGUI::String("Belt");
+				return CeGuiString("Belt");
 				break;
 			case ITEMTYPE_NECKLACE:
-				return CEGUI::String("Necklace");
+				return CeGuiString("Necklace");
 				break;
 			case ITEMTYPE_HELMET:
-				return CEGUI::String("Helmet");
+				return CeGuiString("Helmet");
 				break;
 			case ITEMTYPE_TROUSERS:
-				return CEGUI::String("Trousers");
+				return CeGuiString("Trousers");
 				break;
 			case ITEMTYPE_SHINBONE:
-				return CEGUI::String("Shinbone");
+				return CeGuiString("Shinbone");
 				break;
 			case ITEMTYPE_BOOTS:
-				return CEGUI::String("Boots");
+				return CeGuiString("Boots");
 				break;
 			case ITEMTYPE_OTHER:
-				return CEGUI::String("Other");
+				return CeGuiString("Other");
 				break;
 		}
-		return CEGUI::String("undefined");
+		return CeGuiString("undefined");
 	}
 
 
 	bool Item::isContainer()
 	{
-		return boolContainer;
+		return mIsContainer;
 	}
 	void Item::setContainer(bool isContainer, pair<int,int> dim)
 	{
-		boolContainer = isContainer;
+		mIsContainer = isContainer;
 		mCapacity = dim;
 	}
 	pair<int,int> Item::getCapacity()

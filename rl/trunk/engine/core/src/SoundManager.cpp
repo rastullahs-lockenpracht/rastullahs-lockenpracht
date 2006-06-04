@@ -72,20 +72,25 @@ SoundManager* SoundManager::getSingletonPtr()
  */
 SoundManager::SoundManager() 
 : ResourceManager(),
-  mSoundUpdateTask(NULL),
+  mDriverList(),
+  mActiveDriver(NULL),
   mListenerActor(NULL),
-  mActiveListener(NULL)
+  mActiveListener(NULL),
+  mSoundUpdateTask(NULL)
 {
+	Logger::getSingleton().log("SoundManager",Logger::LL_MESSAGE,"erzeuge Soundmanager...");
 	SoundDriver *driver = NULL;
     // Die Treiberliste ermitteln.
     mDriverList.clear();
+	Logger::getSingleton().log("SoundManager",Logger::LL_MESSAGE,"Treiberliste clear() erfolgreich...");
     // Immer Nulltreiber
     SoundDriver *nullDriver = new NullDriver(this);
     mDriverList.push_back(nullDriver);
 #ifdef WITH_FMOD3
     // Fmod testen.
     driver = new Fmod3Driver(this);
-    if (driver->isDriverAvailable())
+	Logger::getSingleton().log("SoundManager",Logger::LL_MESSAGE,"Fmod3Driver erzeugt...");
+    if (driver != NULL && driver->isDriverAvailable())
     {
         mDriverList.push_back(driver);
         setActiveDriver(driver);
@@ -93,6 +98,7 @@ SoundManager::SoundManager()
         delete driver;
         setActiveDriver(nullDriver);
     }
+	Logger::getSingleton().log("SoundManager",Logger::LL_MESSAGE,"if-else erfolgreich...");
 #elif WITH_OAL
     // OpenAL testen.
     driver = new OalDriver(this);

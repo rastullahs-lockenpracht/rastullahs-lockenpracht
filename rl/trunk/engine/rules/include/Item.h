@@ -20,8 +20,6 @@
 #include "GameObject.h"
 //#include <set>
 
-using namespace std;
-
 namespace rl
 {
     /// Aufnehmbare Objekte in der Spielwelt.
@@ -59,11 +57,11 @@ namespace rl
 		void setItemType(ItemType itemType);
 		ItemType getItemType() const;
 
-		static CEGUI::String getItemTypeString(ItemType type);
+		static const CeGuiString getItemTypeString(ItemType type);
  
-		CEGUI::String getImageName();
+		const CeGuiString& getImageName();
 
-		void setImageName(CEGUI::String name);
+		void setImageName(const CeGuiString& name);
 		
 		
 		/**
@@ -86,9 +84,9 @@ namespace rl
         int mWeight;
 		ItemType mItemType;
 
-		CEGUI::String mImageName;
+		CeGuiString mImageName;
 
-		bool boolContainer;
+		bool mIsContainer;
 		pair<int,int> mCapacity;
 
 		pair<int,int> mSize;

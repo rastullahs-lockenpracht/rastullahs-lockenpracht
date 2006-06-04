@@ -24,7 +24,24 @@ using namespace std;
 namespace rl
 {
 
-	Inventory::Inventory() 
+	Inventory::Inventory() :
+		mRingLeft(NULL),
+		mRingRight(NULL),
+		mHandLeft(NULL),
+		mHandRight(NULL),
+		mGloves(NULL),
+		mBraceletLeft(NULL),
+		mBraceletRight(NULL),
+		mArmor(NULL),
+		mCape(NULL),
+		mBracers(NULL),
+		mBackpack(NULL),
+		mBelt(NULL),
+		mNecklace(NULL),
+		mHelmet(NULL),
+		mTrousers(NULL),
+		mShinbone(NULL),
+		mBoots(NULL)
 	{
 		initSlots();
 		mBackpackLayout = ContainerLayout(12);
@@ -596,22 +613,6 @@ namespace rl
 	}
 
 	void Inventory::initSlots(){
-		mRingLeft = NULL;
-		mRingRight = NULL;
-		mHandLeft = NULL;
-		mHandRight = NULL;
-		mGloves = NULL;
-		mBraceletLeft = NULL;
-		mBraceletRight = NULL;
-		mArmor = NULL;
-		mCape = NULL;
-		mBracers = NULL;
-		mBackpack = NULL;
-		mBelt = NULL;
-		mNecklace = NULL;
-		mHelmet = NULL;
-		mTrousers = NULL;
-		mShinbone = NULL;
-		mBoots = NULL;
+
 	}
 }

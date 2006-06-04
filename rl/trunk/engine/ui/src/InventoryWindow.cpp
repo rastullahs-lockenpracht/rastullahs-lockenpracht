@@ -42,7 +42,7 @@ namespace rl {
 	void InventoryArrangeTask::run(Ogre::Real elapsedTime)
 	{
 		static InventoryWindow* invWin = WindowFactory::getSingletonPtr()->getInventoryWindow();
-		if (invWin->droppedItem){
+		if (invWin->mDroppedItem){
 			Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_ERROR,String("Item placed"));
 			invWin->updateItemPosition();
 		}
@@ -70,9 +70,9 @@ namespace rl {
 		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
 
 		if (checkTypeAccepted(ddea.window, ddea.dragDropItem)){
-			ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->colorAccept);
+			ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorAccept);
 		} else {
-			ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->colorReject);
+			ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorReject);
 			return false;
 		}
 		return true;
@@ -82,7 +82,7 @@ namespace rl {
 		using namespace CEGUI;
 
 		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
-		ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->colorNormal);
+		ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorNormal);
 		return true;
 	} 
 	bool handleDragDropped(const CEGUI::EventArgs& args)
@@ -91,7 +91,7 @@ namespace rl {
 
 		InventoryWindow* invWin = WindowFactory::getSingletonPtr()->getInventoryWindow();
 		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
-		ddea.window->setProperty("ContainerColour", invWin->colorNormal);
+		ddea.window->setProperty("ContainerColour", invWin->mColorNormal);
 
 
 		Point relMouse = ddea.dragDropItem->windowToScreen( Point(0,0) );
@@ -102,9 +102,9 @@ namespace rl {
 
 			ddea.window->addChildWindow(ddea.dragDropItem);
 
-			invWin->posDraggedTo=CEGUI::Point(0.0,0.0);
-			invWin->droppedItem = ddea.dragDropItem;
-			invWin->containerDraggedTo = ddea.window;
+			invWin->mPosDraggedTo=CEGUI::Point(0.0,0.0);
+			invWin->mDroppedItem = ddea.dragDropItem;
+			invWin->mContainerDraggedTo = ddea.window;
 
 			invWin->updateInventory();
 			return true;
@@ -118,7 +118,7 @@ namespace rl {
 		using namespace CEGUI;
 
 		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
-		ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->colorAccept);
+		ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorAccept);
 		
 		return true;
 
@@ -132,7 +132,7 @@ namespace rl {
 		char buf2[5];
 
 		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
-		ddea.window->setProperty("ContainerColour", invWin->colorNormal);
+		ddea.window->setProperty("ContainerColour", invWin->mColorNormal);
 		
 		// Den Rucksack darf man nicht in den Rucksack droppen...
 		if (!(ddea.dragDropItem->getUserString("ItemType").compare(Item::getItemTypeString(Item::ITEMTYPE_BACKPACK)))){
@@ -184,9 +184,9 @@ namespace rl {
 		{
 			ddea.window->addChildWindow(ddea.dragDropItem);
 
-			invWin->posDraggedTo=pointInBackpack;
-			invWin->droppedItem = ddea.dragDropItem;
-			invWin->containerDraggedTo = ddea.window;
+			invWin->mPosDraggedTo=pointInBackpack;
+			invWin->mDroppedItem = ddea.dragDropItem;
+			invWin->mContainerDraggedTo = ddea.window;
 
 			invWin->updateInventory();
 			Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_MESSAGE,
@@ -204,19 +204,34 @@ namespace rl {
 
 	/* Konstruktor */
 	InventoryWindow::InventoryWindow()
-		: CeGuiWindow("inventorywindow.xml", WND_MOUSE_INPUT)
+		: CeGuiWindow("inventorywindow.xml", WND_MOUSE_INPUT),
+		mPosDraggedTo(),
+		mContainerDraggedTo(NULL),
+		mDroppedItem(NULL),
+		mBackpackWindow(NULL),
+		mBackpackContent(NULL),
+		mColorAccept("FF22FF22"),
+		mColorReject("FFFF2222"),
+		mColorNormal("FFFFFFFF"),
+		mRingLeft(NULL),
+		mRingRight(NULL),
+		mHandLeft(NULL),
+		mHandRight(NULL),
+		mGloves(NULL),
+		mBraceletLeft(NULL),
+		mBraceletRight(NULL),
+		mArmor(NULL),
+		mCape(NULL),
+		mBracers(NULL),
+		mBackpack(NULL),
+		mBelt(NULL),
+		mNecklace(NULL),
+		mHelmet(NULL),
+		mTrousers(NULL),
+		mShinbone(NULL),
+		mBoots(NULL)
 	{
 		initSlots();
-
-		// Farbschema für Containerkästchen initiieren 
-		colorAccept = CEGUI::String("FF22FF22");
-		colorReject = CEGUI::String("FFFF2222");
-		colorNormal = CEGUI::String("FFFFFFFF");
-
-		droppedItem = NULL;
-		containerDraggedTo = NULL;
-
-
 		GameLoopManager::getSingletonPtr()->addSynchronizedTask(new InventoryArrangeTask(), FRAME_ENDED);
 	}
 	
@@ -247,145 +262,145 @@ namespace rl {
 	void InventoryWindow::updateItemPosition(){
 		
 		// Positionieren
-		droppedItem->setPosition(CEGUI::Absolute, posDraggedTo);
-		droppedItem = NULL;
+		mDroppedItem->setPosition(CEGUI::Absolute, mPosDraggedTo);
+		mDroppedItem = NULL;
 
 		// Loggen
 		char buf1[5];
 		char buf2[5];
 		Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_MESSAGE,
-			String("Position set to: Point x:").append(itoa(int(posDraggedTo.d_x),buf1,10))
+			String("Position set to: Point x:").append(itoa(int(mPosDraggedTo.d_x),buf1,10))
 			.append(", Point y:")
-			.append(itoa(int(posDraggedTo.d_y),buf2,10)));
+			.append(itoa(int(mPosDraggedTo.d_y),buf2,10)));
 
 		Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_MESSAGE,String("updateItemPosition finished"));
 	}
 
 	void InventoryWindow::updateInventory(){
-		Item* item = static_cast<Item*>(droppedItem->getUserData());
+		Item* item = static_cast<Item*>(mDroppedItem->getUserData());
 		
 		// Gegenstand aus dem Rucksack entfernen
 		mInventory->removeItemFromBackpack(item);
 		// Gegenstand aus den Slots entfernen
 		mInventory->removeItemFromSlots(item);
 
-		if (containerDraggedTo == mBackpackContent)
-			mInventory->setItemBackpackPosition(item, posDraggedTo.d_x/30, posDraggedTo.d_y/30);
+		if (mContainerDraggedTo == mBackpackContent)
+			mInventory->setItemBackpackPosition(item, mPosDraggedTo.d_x/30, mPosDraggedTo.d_y/30);
 		else {
 			// Gegenstand in Slot setzen / Schon dagewesenen Gegenstand zurück in den Rucksack setzen
-			if (containerDraggedTo == mArmor){
+			if (mContainerDraggedTo == mArmor){
 				if (mInventory->getArmor() != NULL){
 					//Pack die alte Rüstung ins Inventar
 					mInventory->addItemToBackpack(mInventory->getArmor());
 				}
 				mInventory->setArmor(item);
 			}
-			if (containerDraggedTo == mCape){
+			if (mContainerDraggedTo == mCape){
 				if (mInventory->getCape() != NULL){
 					//Pack die alte Rüstung ins Inventar
 					mInventory->addItemToBackpack(mInventory->getCape());
 				}
 				mInventory->setCape(item);
 			}
-			if (containerDraggedTo == mBackpack) {
+			if (mContainerDraggedTo == mBackpack) {
 				if (mInventory->getBackpack() != NULL){
 					//Pack den alten Rucksack auf den Boden
 					mInventory->addItemToBackpack(mInventory->getBackpack());
 				}
 				mInventory->setBackpack(item);
 			}
-			if (containerDraggedTo == mBelt) {
+			if (mContainerDraggedTo == mBelt) {
 				if (mInventory->getBelt() != NULL){
 					//Pack den alten Gürtel ins Inventar
 					mInventory->addItemToBackpack(mInventory->getBelt());
 				}
 				mInventory->setBelt(item);
 			}
-			if (containerDraggedTo == mBoots) {
+			if (mContainerDraggedTo == mBoots) {
 				if (mInventory->getBoots() != NULL){
 					//pack die alten Stiefel ins Inventar
 					mInventory->addItemToBackpack(mInventory->getBoots());
 				}
 				mInventory->setBoots(item);
 			}
-			if (containerDraggedTo == mBraceletLeft) {
+			if (mContainerDraggedTo == mBraceletLeft) {
 				if (mInventory->getBraceletLeft() != NULL){
 					//pack den alten Armreif ins Inventar
 					mInventory->addItemToBackpack(mInventory->getBraceletLeft());
 				}
 				mInventory->setBraceletLeft(item);
 			}
-			if (containerDraggedTo == mBraceletRight) {
+			if (mContainerDraggedTo == mBraceletRight) {
 				if (mInventory->getBraceletRight() != NULL){
 					//pack den alten Armreif ins Inventar
 					mInventory->addItemToBackpack(mInventory->getBraceletRight());
 				}
 				mInventory->setBraceletRight(item);
 			}
-			if (containerDraggedTo == mRingLeft) {
+			if (mContainerDraggedTo == mRingLeft) {
 				if (mInventory->getRingLeft() != NULL){
 					//pack den alten Ring ins Inventar
 					mInventory->addItemToBackpack(mInventory->getRingLeft());
 				}
 				mInventory->setRingLeft(item);
 			}
-			if (containerDraggedTo == mRingRight) {
+			if (mContainerDraggedTo == mRingRight) {
 				if (mInventory->getRingRight() != NULL){
 					//pack den alten Ring ins Inventar
 					mInventory->addItemToBackpack(mInventory->getRingRight());
 				}
 				mInventory->setRingRight(item);
 			}
-			if (containerDraggedTo == mHelmet) {
+			if (mContainerDraggedTo == mHelmet) {
 				if (mInventory->getHelmet() != NULL){
 					//pack den alten Helm ins Inventar
 					mInventory->addItemToBackpack(mInventory->getHelmet());
 				}
 				mInventory->setHelmet(item);
 			}
-			if (containerDraggedTo == mBracers) {
+			if (mContainerDraggedTo == mBracers) {
 				if (mInventory->getBracers() != NULL){
 					//pack die alte Armschienen ins Inventar
 					mInventory->addItemToBackpack(mInventory->getBracers());
 				}
 				mInventory->setBracers(item);
 			}
-			if (containerDraggedTo == mNecklace) {
+			if (mContainerDraggedTo == mNecklace) {
 				if (mInventory->getNecklace() != NULL){
 					//pack das alte Amulett ins Inventar
 					mInventory->addItemToBackpack(mInventory->getNecklace());
 				}
 				mInventory->setNecklace(item);
 			}
-			if (containerDraggedTo == mGloves) {
+			if (mContainerDraggedTo == mGloves) {
 				if (mInventory->getGloves() != NULL){
 					//pack die alten Handschuhe ins Inventar
 					mInventory->addItemToBackpack(mInventory->getGloves());
 				}
 				mInventory->setGloves(item);
 			}
-			if (containerDraggedTo == mTrousers) {
+			if (mContainerDraggedTo == mTrousers) {
 				if (mInventory->getTrousers() != NULL){
 					//pack die alte Hose ins Inventar
 					mInventory->addItemToBackpack(mInventory->getTrousers());
 				}
 				mInventory->setTrousers(item);
 			}
-			if (containerDraggedTo == mShinbone) {
+			if (mContainerDraggedTo == mShinbone) {
 				if (mInventory->getShinbone() != NULL){
 					//pack die alte Hose ins Inventar
 					mInventory->addItemToBackpack(mInventory->getShinbone());
 				}
 				mInventory->setShinbone(item);
 			}
-			if (containerDraggedTo == mHandLeft) {
+			if (mContainerDraggedTo == mHandLeft) {
 				if (mInventory->getHandLeft() != NULL){
 					//pack das alte Schild ins Inventar
 					mInventory->addItemToBackpack(mInventory->getHandLeft());
 				}
 				mInventory->setHandLeft(item);
 			}
-			if (containerDraggedTo == mHandRight) {
+			if (mContainerDraggedTo == mHandRight) {
 				if (mInventory->getHandRight() != NULL){
 					//pack die alte Waffe ins Inventar
 					mInventory->addItemToBackpack(mInventory->getHandRight());

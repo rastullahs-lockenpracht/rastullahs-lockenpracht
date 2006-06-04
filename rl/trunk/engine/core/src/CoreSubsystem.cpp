@@ -82,7 +82,8 @@ namespace rl {
         mAnimationManager(NULL),
         mActorManager(NULL),
         mGameEventManager(NULL),
-        mConfigurationManager(NULL)
+        mConfigurationManager(NULL),
+		mSoundManager(NULL)
     {
         resetClock();
         initializeCoreSubsystem();        
@@ -188,6 +189,8 @@ namespace rl {
         // weil es sonst sofort angewandt wird.
         MeshManager::getSingleton().setBoundsPaddingFactor(0.0);
 
+		// EDIT:
+		Logger::getSingleton().log("CoreSubsystem",Logger::LL_MESSAGE,"init");
         
         bool carryOn = setupConfiguration();
 
@@ -195,15 +198,21 @@ namespace rl {
             return false;
 
 		mGameLoopManager = new GameLoopManager(100); //TODO: In Config-Datei verlagern
-        
+        Logger::getSingleton().log("CoreSubsystem",Logger::LL_MESSAGE,"GameLoopmanager erzeugt");
+
 		mScriptWrapper = new ScriptWrapper();
+		Logger::getSingleton().log("CoreSubsystem",Logger::LL_MESSAGE,"Skriptwrapper erzeugt");
         // TODO: muss löschbar werden.
 		mRubyInterpreter = new RubyInterpreter();
+		Logger::getSingleton().log("CoreSubsystem",Logger::LL_MESSAGE,"RubyInterpreter erzeugt");
 		mRubyInterpreter->initializeInterpreter();
+		Logger::getSingleton().log("CoreSubsystem",Logger::LL_MESSAGE,"RubyInterpreter initialisiert");
 		
         mActorManager = new ActorManager();
+		Logger::getSingleton().log("CoreSubsystem",Logger::LL_MESSAGE,"Aktormanager erzeugt");
 
 		mSoundManager = new SoundManager();
+		Logger::getSingleton().log("CoreSubsystem",Logger::LL_MESSAGE,"SoundManager erzeugt");
 		mSoundManager->loadConf(rl::ConfigurationManager::getSingleton().getSoundCfgPath());
 		Logger::getSingleton().log(Logger::CORE, Logger::LL_NORMAL, "Soundkonfiguration geladen");
 
