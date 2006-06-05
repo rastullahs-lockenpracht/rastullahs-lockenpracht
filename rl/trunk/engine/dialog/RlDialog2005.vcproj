@@ -347,6 +347,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ScriptProcessor.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\StringTokenizer.cpp"
 				>
 			</File>
@@ -474,6 +478,10 @@
 			</File>
 			<File
 				RelativePath=".\include\Predicates.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ScriptProcessor.h"
 				>
 			</File>
 			<File

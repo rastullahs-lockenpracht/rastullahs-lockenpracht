@@ -15,27 +15,59 @@
  */
 #include "DialogCharacter.h"
 #include "DialogScriptObject.h"
+#include "ContextInterpreter.h"
+#include "AimlBot.h"
+#include "Response.h"
+
 
 namespace rl
 {
 	DialogCharacter::DialogCharacter()
-		: mScriptObject(NULL), mCharacter(NULL), mDialogPartner(NULL)
+		: mBot(NULL), 
+		  mInterpreter(new ContextInterpreter()),
+		  mScriptObject(NULL), 
+		  mNonPlayerCharacter(NULL),
+		  mPlayerCharacter(NULL)
 	{
 	}
 
 	DialogCharacter::DialogCharacter(const CeGuiString& name)
+		: mBot(NULL), 
+		  mScriptObject(NULL), 
+		  mNonPlayerCharacter(NULL),
+		  mPlayerCharacter(NULL)
 	{
 		mName = name;
 	}
 
 	DialogCharacter::~DialogCharacter(void)
 	{
+		if(mBot)
+		{
+			delete mBot;
+		}
+		if(mInterpreter)
+		{
+			delete mInterpreter;
+		}
+
+		// deprecated
 		if(mScriptObject)
 		{
 			delete mScriptObject;
 		}
 	}
-	
+
+	DialogResponse* DialogCharacter::respond(const CeGuiString& input)
+	{
+		DialogResponse* dialogResponse = NULL;
+		Response<CeGuiString> response = mBot->respond(input);
+		if(response.hasGossip() && mInterpreter != NULL)
+		{
+			dialogResponse = mInterpreter->interpret(response.getGossip(), mBot);
+		}
+		return dialogResponse;
+	}
 	void DialogCharacter::setScriptObject(DialogScriptObject* scriptObject)
 	{
 		mScriptObject = scriptObject;

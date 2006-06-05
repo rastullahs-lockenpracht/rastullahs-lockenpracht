@@ -35,6 +35,7 @@
 #include "AimlCore.h"
 #include "AimlParserImplRl.h"
 #include "ContextInterpreter.h"
+#include "ScriptProcessor.h"
 using namespace Ogre;
 using namespace MadaBot;
 
@@ -56,6 +57,7 @@ namespace rl
 		: mCore(new AimlCore()), mCurrentBot(NULL)
 	{
 		mCore->setParser(new AimlParserImplRl());
+		mCore->getBotInterpreter().addProcessor(new ScriptProcessor());
 		AimlProcessorManager::addStandardProcessors();
 	//  Initialize Xerces if this wasn't done already
 		try 
@@ -92,6 +94,17 @@ namespace rl
 
 	DialogCharacter* DialogSubsystem::loadBot(const CeGuiString& fileName, const CeGuiString& botName)
 	{
+		mCurrentBot = NULL;
+		AimlBot<CeGuiString>* bot = mCore->loadBot(botName.c_str(), fileName.c_str());
+		// while processing the bot definition, a DialogCharacter should have been created 
+		// through a ruby script and stored in mCurrentBot
+		if(mCurrentBot != NULL && bot != NULL)
+		{
+			mCurrentBot->setBot(bot);
+		}
+		return mCurrentBot;
+		
+/*
 		mCurrentBot = new DialogCharacter();
 		setAimlParser(new AimlParserImplXerces(this));
 		BotParser parser(botName);
@@ -114,6 +127,7 @@ namespace rl
 			mCurrentBot = NULL;
 		}
 		return mCurrentBot;
+*/
 	}
 
     ResourcePtr DialogSubsystem::getXmlResource(const Ogre::String& filename)
@@ -134,14 +148,25 @@ namespace rl
         return res;
     }
 
+	void DialogSubsystem::setCurrentDialogCharacter(DialogCharacter* bot)
+	{
+		mCurrentBot = bot;
+	}
+
 	void DialogSubsystem::testNewDialogSystem()
 	{
 		AimlBot<CeGuiString>* bot = mCore->loadBot("Alrike", "startup_test.xml");
+		// while processing the bot definition, a DialogCharacter should been created 
+		// through a ruby script and stored in mCurrentBot
+		if(mCurrentBot != NULL)
+		{
+			mCurrentBot->setBot(bot);
+		}
 		Response<CeGuiString> response = bot->respond("1");
 		if(response.hasGossip())
 		{
 			ContextInterpreter interpreter;
-			interpreter.interpret(response.getGossip());
+			interpreter.interpret(response.getGossip(), bot);
 		}
 		delete bot;
 	}

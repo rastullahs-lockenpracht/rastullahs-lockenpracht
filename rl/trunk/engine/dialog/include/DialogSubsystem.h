@@ -63,6 +63,11 @@ namespace rl
          */
         Ogre::ResourcePtr getXmlResource(const Ogre::String& filename);
 
+		/**
+		 * Set the DialogCharacter loaded from ruby
+		 */
+		void setCurrentDialogCharacter(DialogCharacter* bot);
+
 		void testNewDialogSystem();
 	private:
 		typedef std::map<CeGuiString, DialogCharacter*> BotMap;

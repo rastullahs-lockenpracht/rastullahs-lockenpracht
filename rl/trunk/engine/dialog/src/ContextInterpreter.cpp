@@ -16,6 +16,7 @@
 #include "ContextInterpreter.h"
 #include "DialogResponse.h"
 #include "DialogOption.h"
+#include "AimlBot.h"
 
 using namespace rl;
 using namespace std;
@@ -72,9 +73,11 @@ DialogResponse* ContextInterpreter::interpret(const Response<CeGuiString>::Gossi
 	Response<CeGuiString>::GossipData::const_iterator itr = pData.begin();
 	for(; itr != pData.end(); ++itr)
 	{
-		mCurrentType = (*itr)->getAttribute("rl:type");
+		mCurrentType = (*itr)->getAttribute("rldialog:type");
+		pProcessHelper->getPredicates("default")->setPredicate("contextType", mCurrentType);
 		process( (*itr), pProcessHelper);
 	}
+	pProcessHelper->getPredicates("default")->setPredicate("contextType", "");
 	return new DialogResponse(mResponses, mOptions, pProcessHelper);
 }
 

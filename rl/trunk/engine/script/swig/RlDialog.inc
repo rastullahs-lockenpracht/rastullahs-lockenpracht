@@ -31,17 +31,23 @@ namespace rl
 		rl::Creature* getDialogPartner() const;
 	};
 	
+	%feature("director") DialogCharacter;
 	class DialogCharacter
 	{
 	public:
 		DialogCharacter(const std::string& name);
+		// deprecated
 		void setScriptObject(rl::DialogScriptObject* scriptObject);
-		
 		rl::Creature* getDialogCharacter() const;
 		void setDialogCharacter(rl::Creature* dialogCharacter);
-		
 		rl::Creature* getDialogPartner() const;
 		void setDialogPartner(rl::Creature* dialogPartner);
+		
+		rl::Creature* getNonPlayerCharacter()const;
+		void setNonPlayerCharacter(rl::Creature* npc);
+		
+		rl::Creature* getPlayerCharacter()const;
+		void setPlayerCharacter(rl::Creature* pc);
 	};
 
 	class DialogSubsystem 

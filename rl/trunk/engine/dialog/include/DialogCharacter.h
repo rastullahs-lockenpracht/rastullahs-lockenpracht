@@ -18,29 +18,42 @@
 
 #include "NaturalLanguageProcessor.h"
 
+namespace MadaBot
+{
+	template <class S> class AimlBot;
+}
+using namespace MadaBot;
+
 namespace rl
 {
-
 	class Creature;
-
+	class ContextInterpreter;
+	// deprecated
 	class DialogScriptObject;
 
 	class _RlDialogExport DialogCharacter :
-		public NaturalLanguageProcessor
+		public NaturalLanguageProcessor // deprecated
 	{
 	public:
 		DialogCharacter();
 		DialogCharacter(const CeGuiString& name);
 		virtual ~DialogCharacter(void);
 
+		// deprecated
 		Creature* getDialogCharacter() const;
 		void setDialogCharacter(Creature* dialogCharacter);
-
 		Creature* getDialogPartner() const;
 		void setDialogPartner(Creature* dialogPartner);
-
 		DialogScriptObject* getScriptObject() const;
 		void setScriptObject(DialogScriptObject* scriptObject);
+
+		void setBot(AimlBot<CeGuiString>* bot);
+
+		Creature* getNonPlayerCharacter() const;
+		void setNonPlayerCharacter(Creature* npc);
+
+		Creature* getPlayerCharacter() const;
+		void setPlayerCharacter(Creature* pc);
 
 		CeGuiString getVoiceFile() const;
 		void setVoiceFile(const CeGuiString& filename);
@@ -53,32 +66,64 @@ namespace rl
 		virtual int calcOptionValue(const CeGuiString& optionName){return 0;};
 		virtual int calcResponseValue(const CeGuiString& responseName){return 0;}
 		virtual int calcSelectionValue(const CeGuiString& selectionName){return 0;};
+
+		DialogResponse* respond(const CeGuiString& input);
 		
 	private:
+		AimlBot<CeGuiString>* mBot;
+		ContextInterpreter* mInterpreter;
+		//deprecated
 		DialogScriptObject* mScriptObject;
-		Creature* mCharacter;
-		Creature* mDialogPartner;
+		
+		Creature* mNonPlayerCharacter;
+		Creature* mPlayerCharacter;
 		CeGuiString mVoiceFile;
+
 	};
+
+	inline void DialogCharacter::setBot(AimlBot<CeGuiString>* bot)
+	{
+		mBot = bot;
+	}
 
 	inline Creature* DialogCharacter::getDialogCharacter() const
 	{
-		return mCharacter;
+		return mPlayerCharacter;
 	}
 	
 	inline void DialogCharacter::setDialogCharacter(Creature* dialogCharacter)
 	{
-		mCharacter = dialogCharacter;
+		mPlayerCharacter = dialogCharacter;
+	}
+
+	inline Creature* DialogCharacter::getPlayerCharacter() const
+	{
+		return mPlayerCharacter;
+	}
+	
+	inline void DialogCharacter::setPlayerCharacter(Creature* pc)
+	{
+		mPlayerCharacter = pc;
 	}
 
 	inline Creature* DialogCharacter::getDialogPartner() const
 	{
-		return mDialogPartner;
+		return mNonPlayerCharacter;
 	}
 
 	inline void DialogCharacter::setDialogPartner(Creature* dialogPartner)
 	{
-		mDialogPartner = dialogPartner;
+		mNonPlayerCharacter = dialogPartner;
+	}
+
+	inline Creature* DialogCharacter::getNonPlayerCharacter() const
+	{
+		return mNonPlayerCharacter;
+	}
+
+	inline void DialogCharacter::setNonPlayerCharacter(Creature* npc)
+	{
+		mNonPlayerCharacter = npc;
 	}
 
 	inline DialogScriptObject* DialogCharacter::getScriptObject() const

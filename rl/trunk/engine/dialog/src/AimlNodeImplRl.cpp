@@ -25,6 +25,8 @@ using namespace rl;
 
 AimlNodeImplRl::AimlNodeImplRl(DOMNode* pNode)
 {
+	mNodeName  = XmlHelper::transcodeToString(pNode->getNodeName());
+	mNodeName.c_str();
 	mNodeName  = XmlHelper::transcodeToString(pNode->getLocalName());
 	// #text or #comment have no local name, use NodeName for them
 	if(mNodeName.empty())
@@ -32,6 +34,7 @@ AimlNodeImplRl::AimlNodeImplRl(DOMNode* pNode)
 		mNodeName  = XmlHelper::transcodeToString(pNode->getNodeName());
 	}
 	mNodeName.c_str();
+
 	// remove whitespaces from textnodes
 	if(mNodeName == "#text")
 	{
