@@ -56,8 +56,9 @@ namespace MadaBot
 
 		/**
 		 * Destructor
+		 * Deletes the predicates of the bot
 		 */
-		virtual ~AimlBot(){}
+		virtual ~AimlBot();
 		/**
 		 * Adds a pointer to an existent GraphMaster to the bot. 
 		 * All AIML dialog definitions in this GraphMaster are available for the bot
@@ -66,17 +67,23 @@ namespace MadaBot
 		bool addGraphMaster(AimlGraphMaster<S>* pGraph);
 
 		/**
+		 * Add a Predicates holder to the bot
+		 * @param  pPredicates pointer to the predicates holder
+		 */
+		void addPredicates(Predicates<S>* pPredicates);
+
+		/** 
+		 * @param  pType type of the predicates
+		 * @return the predicates access class for the given type
+		 */
+		Predicates<S>* getPredicates(const S& pType);
+
+		/**
 		 * Respond to a user defined Message
 		 * @param  pInput input string that should be responded to,
 		 * @return a response, should be a pointer because it should habe polymorphical behaviour
 		 */
 		Response<S> respond(const S& pInput);
-		
-		/** 
-		 * @param  pType type of the predicates
-		 * @return the predicates access class for the given type
-		 */
-		Predicates<S>* getPredicates(const S& pType) { return NULL; }
 
 		/**
 		 * Set an folder or archive name that contains the soundfiles for voice response
@@ -101,6 +108,15 @@ namespace MadaBot
 		AimlCore<S>* mParent;
 	};
 
+	template <class S> AimlBot<S>::~AimlBot<S>()
+	{
+		PredicatesMap::iterator itr = mPredicates.begin();
+		for(; itr != mPredicates.end(); ++itr)
+		{
+			delete (itr->second);
+		}
+	}
+
 	template <class S> bool AimlBot<S>::addGraphMaster(AimlGraphMaster<S>* pGraph)
 	{
 		if(pGraph)
@@ -118,6 +134,22 @@ namespace MadaBot
 			return true;
 		}
 		return false;
+	}
+
+	template <class S> void AimlBot<S>::addPredicates(Predicates<S>* pPredicates)
+	{
+		mPredicates.insert(PredicatesMap::value_type(pPredicates->getType(), pPredicates));
+	}
+
+	template <class S> Predicates<S>* AimlBot<S>::getPredicates(const S& pType)
+	{
+		PredicatesMap::const_iterator itr = mPredicates.find(pType);
+		if(itr != mPredicates.end())
+		{
+			return itr->second;
+		}
+		//throw exception
+		return NULL;
 	}
 
 	template <class S> Response<S> AimlBot<S>::respond(const S& pInput)
@@ -146,9 +178,6 @@ namespace MadaBot
 			AimlInterpreter<S> interpreter;
 			
 			response = interpreter.process(mCurrentMatch->getNode(), this);
-			//debug
-			S resStr = response.getResponse();
-			resStr.c_str();
 		}
 		else
 		{
@@ -157,4 +186,4 @@ namespace MadaBot
 		return response;
 	}
 }
-#endif;
+#endif

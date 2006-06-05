@@ -30,13 +30,16 @@ namespace MadaBot
 	 */
 	template <class S> class Predicates
 	{
+	public:
 		/**
 		 * Getter, should be templatized, but then it couldn't be virtual
-		 * maybe return string and use lexical cast from boot in ConditionProcessor
+		 * maybe return string and use lexical cast from boost in ConditionProcessor
 		 */
-		S getPredicate(const S& pName);
+		virtual S getPredicate(const S& pName) const=0;
 
-		void setPredicate(const S& pName, const S& pValue);
+		virtual void setPredicate(const S& pName, const S& pValue)=0;
+
+		virtual S getType() const=0;
 	};
 }
 #endif

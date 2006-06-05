@@ -4,6 +4,8 @@
 #include "XercesString.h"
 #include "XmlParserImplXerces.h"
 #include "AimlCore.h"
+#include "AimlBot.h"
+#include "Response.h"
 
 
 XERCES_CPP_NAMESPACE_USE 
@@ -33,6 +35,7 @@ int main(int argc, char* argv[])
 		Response<XercesString> response = bot->respond("555 Ä");
 		delete bot;
 	}
+
 	XMLPlatformUtils::Terminate();
 	return 0;
 }

@@ -26,6 +26,8 @@
 #include "XmlMapper/XmlNodeProcessor.h"
 using namespace XmlMapper;
 
+#include "Predicates.h"
+
 namespace MadaBot
 {
 	/**
@@ -42,14 +44,46 @@ namespace MadaBot
 			: XmlNodeProcessor<Response, AimlBot, S, false>("condition")
 		{}
 
-		void preprocessStep()
-		{
-		//	mCurrentHelper->evaluatePredicate(type, name, value);
-		}
-		void processChildStep(XmlNode<S>* pChild){}
+		void preprocessStep();
+		void processChildStep(XmlNode<S>* pChild);
 		void postprocessStep(){}
 	protected:
 		void initialize(){}
+		S mPredicateValue;
+		S mNodeValue;
 	};
+
+	template <class S> void ConditionProcessor<S>::preprocessStep()
+	{
+		mPredicateValue.clear();
+		mNodeValue.clear();
+		try
+		{
+			mPredicateValue = mCurrentHelper
+				->getPredicates(mAttributes["type"])
+				->getPredicate(mAttributes["name"]);
+			if(!mAttributes["value"].empty())
+			{
+				mNodeValue = mAttributes["value"];
+			}
+		}
+		catch(...)
+		{
+		}
+	}
+
+	template <class S> void ConditionProcessor<S>::processChildStep(XmlNode<S>* pChild)
+	{
+		if(mNodeValue.empty())
+		{
+			mNodeValue = pChild->getAttribute("value");
+		}
+		if(mPredicateValue == mNodeValue)
+		{
+			mCurrentReturnValue = getProcessor(pChild->getNodeName())->process(pChild);
+		//  standard aiml returns only one li-element	
+			mProcessChildren = false;
+		}
+	}
 }
 #endif

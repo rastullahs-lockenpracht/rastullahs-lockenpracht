@@ -211,6 +211,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\StandardPredicates.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\StringTokenizer.h"
 				>
 			</File>

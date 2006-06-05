@@ -171,4 +171,4 @@ namespace MadaBot
 		return NULL;
 	}
 }
-#endif;
+#endif

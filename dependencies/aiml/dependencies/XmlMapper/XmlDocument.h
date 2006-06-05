@@ -51,5 +51,4 @@ namespace XmlMapper
 		//std::vector<XmlNode<S>*> mChildren;
 	};
 }
-
 #endif

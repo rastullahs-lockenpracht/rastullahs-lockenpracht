@@ -74,6 +74,7 @@ namespace XmlMapper
 		virtual void processChildStep(XmlNode<S>* pChild)=0;
 		virtual void postprocessStep()=0;
 		
+		bool mProcessChildren;
 		typedef std::map<S, S> XmlAttributes;
 		XmlAttributes mAttributes;
 		std::vector<S> mSubProcessors;
@@ -85,7 +86,11 @@ namespace XmlMapper
 	};
 
 	template<template <class> class R, template <class> class T, class S, bool hasPolymorphicReturnType> XmlNodeProcessor<R, T, S, hasPolymorphicReturnType>::XmlNodeProcessor(const S& pName)
-		: XmlProcessor<R, T, S, hasPolymorphicReturnType>(pName), mInterpreter(NULL), mCurrentNode(NULL), mCurrentHelper(NULL)
+		: XmlProcessor<R, T, S, hasPolymorphicReturnType>(pName),
+		  mProcessChildren(true),
+		  mInterpreter(NULL), 
+		  mCurrentNode(NULL), 
+		  mCurrentHelper(NULL)
 	{
 	}
 
@@ -154,7 +159,7 @@ namespace XmlMapper
 		XmlNode<S>* child = mCurrentNode->getFirstChild();
 		for(; child != NULL; child = child->getNextSibling())
 		{
-			if(isProcessable(child))
+			if(isProcessable(child) && mProcessChildren)
 			{
 				processChildStep(child);
 			}
