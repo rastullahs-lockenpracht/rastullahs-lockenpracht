@@ -8,6 +8,14 @@ vertex_program OrientBillboardVS_HLSL hlsl
     {
         param_named_auto worldViewProj_matrix worldviewproj_matrix
         param_named_auto camPos camera_position_object_space
+
+        param_named_auto lightPosition light_position_object_space 0
+
+        param_named_auto lightDiffuse light_diffuse_colour 0
+        param_named_auto ambientLight ambient_light_colour
+
+        param_named materialAmbient float4 0.7 0.7 0.7 1.0
+        param_named materialDiffuse float4 0.7 0.7 0.7 1.0
     }
 
 }
