@@ -1,24 +1,43 @@
 
 material Techdemo2_map2
 {
+	lod_distance 15
+	
 	technique
 	{
+		lod_index 0
 		pass
 		{
 			lighting off
-
 			texture_unit
 			{
-				texture gras.jpg
+				texture grasdetail.dds
+			
 				tex_coord_set 1
+				scale 0.5 0.5
+				
 			}
+			texture_unit
+			{
+				texture grasbase.png
+				tex_coord_set 1
+				scale 10.0 10.0
+			}
+			
+			
 		}
+		
 		pass
 		{
 			lighting off
 			scene_blend alpha_blend
 			shading flat
-
+			texture_unit
+			{
+				texture felsdetailmap.png
+				scale 0.01 0.01
+			}
+			
 			texture_unit
 			{
 				texture felsen2.jpg
@@ -26,11 +45,7 @@ material Techdemo2_map2
 				scale 5 5
 			}
 
-			texture_unit
-			{
-				texture felsdetailmap.png
-				scale 0.01 0.01
-			}
+			
 
 			texture_unit
 			{
@@ -47,6 +62,82 @@ material Techdemo2_map2
 			{
 				texture steingrund01.jpg
 				tex_coord_set 1
+				scale 0.5 0.5
+			}
+
+			texture_unit
+			{
+				texture TechdemoMap2_Dreck.png
+			}
+		}
+		pass
+		{
+		fog_override true exp 1 1 1 0.002 100 10000
+			ambient 1.0 0.282353 0.282353 1
+			diffuse 1.0 0.788235 0.788235 1
+			specular 0 0 0 1 20
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture Techdemo2LightingMap2.png
+				colour_op_ex blend_texture_alpha src_texture src_current
+				colour_op_multipass_fallback src_alpha one_minus_src_alpha
+			}
+		}
+	}
+	
+	
+	technique 
+	{
+		lod_index 1
+		
+		pass
+		{
+			lighting off
+
+			texture_unit
+			{
+				texture grasbase.png
+				tex_coord_set 1
+				scale 10.0 10.0
+			}
+			
+			
+		}
+		
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			shading flat
+
+			
+			texture_unit
+			{
+				texture felsen2.jpg
+				tex_coord_set 1
+				scale 5 5
+			}
+
+			
+
+			texture_unit
+			{
+				texture TechdemoMap2_Fels.png
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			shading flat
+
+			texture_unit
+			{
+				texture steingrund01.jpg
+				tex_coord_set 1
+				scale 0.5 0.5
 			}
 
 			texture_unit

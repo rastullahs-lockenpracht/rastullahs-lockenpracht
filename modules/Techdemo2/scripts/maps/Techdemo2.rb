@@ -16,7 +16,7 @@ $SCRIPT.log("Tageslicht erstellen..");
 sunlight = $AM.createLightActor("sunlight", LightObject::LT_DIRECTIONAL);
 sunlight.getControlledObject().setDirection(-0.17101, -0.873647, 0.969846);
 sunlight.getControlledObject().setCastShadows(true);
-sunlight.getControlledObject().setDiffuseColour(1.0,0.7,0.7);
+sunlight.getControlledObject().setDiffuseColour(1.1,0.8,0.8);
 $SCRIPT.log("Tageslicht erstellt.");
 
 #shadowlight = $AM.createLightActor("shadowlight", LightObject::LT_SPOTLIGHT);
@@ -77,13 +77,6 @@ MapchangeListener = LevelwechselListener .new("techdemo2map2_01.scene", "Techdem
 
 $SCRIPT.log("Mapchange: MapchangeListener hinzufügen");
 $GameEveMgr.addSphereAreaListener( kugelDings, 4.000, MapchangeListener, Actor::QGF_PLAYER );
-
-
-
-
-
-
-
 
 
 $SCRIPT.log("map 'Techdemo2' initialisiert.");
