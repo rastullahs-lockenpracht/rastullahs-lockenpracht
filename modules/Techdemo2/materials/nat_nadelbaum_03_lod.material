@@ -1,20 +1,29 @@
-
-material nat_nadelbaum_03_lod
+material nat_nadelbaum_03_lod : billboard_lod
 {
-	technique
-	{
-		pass
-		{
-			ambient 0.7 0.7 0.7 1
-			diffuse 0.7 0.7 0.7 1
-			specular 0 0 0 1 20
-			
-			alpha_rejection greater 128
-			
-			texture_unit
-			{
-				texture nat_nadelbaum_03_lod.png
-			}
-		}
-	}
+    technique hlsl
+    {
+        pass
+        {
+            texture_unit diffuse_map
+            {
+                texture nat_nadelbaum_03_lod.png
+            }
+        }
+    }
+
+    technique fixed_function
+    {
+        pass
+        {
+            ambient 0.7 0.7 0.7 1
+            diffuse 0.7 0.7 0.7 1
+            specular 0 0 0 1 20
+        
+            texture_unit diffuse_map
+            {
+                texture nat_nadelbaum_03_lod.png
+            }
+        }
+    }
 }
+
