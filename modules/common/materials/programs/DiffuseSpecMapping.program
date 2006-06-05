@@ -64,7 +64,7 @@ material DiffuseSpecMapping
             {
                 param_named_auto worldViewProj_matrix worldviewproj_matrix
                 param_named_auto lightPosition light_position_object_space 0
-                param_named_auto eyePosition camera_position_object_space 0
+                param_named_auto eyePosition camera_position_object_space
             }
 
             fragment_program_ref DiffuseSpecMappingPS_HLSL
