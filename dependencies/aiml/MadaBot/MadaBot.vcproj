@@ -187,6 +187,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\DefaultPredicates.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\GraphInterpreter.h"
 				>
 			</File>
@@ -208,10 +212,6 @@
 			</File>
 			<File
 				RelativePath=".\include\Response.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\StandardPredicates.h"
 				>
 			</File>
 			<File
