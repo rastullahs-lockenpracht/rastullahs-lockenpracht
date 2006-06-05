@@ -32,6 +32,14 @@ namespace MadaBot
 	{
 	public:
 		/**
+		 * Constructor
+		 * @param  pParent The bot that owns this predicates object
+		 */
+		Predicates(AimlBot<S>* pParent) : mParent(pParent) {}
+		
+		virtual ~Predicates(){};
+
+		/**
 		 * Getter, should be templatized, but then it couldn't be virtual
 		 * maybe return string and use lexical cast from boost in ConditionProcessor
 		 */
@@ -40,6 +48,8 @@ namespace MadaBot
 		virtual void setPredicate(const S& pName, const S& pValue)=0;
 
 		virtual S getType() const=0;
+	protected:
+		AimlBot<S>* mParent;
 	};
 }
 #endif

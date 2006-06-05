@@ -30,6 +30,7 @@ using namespace XmlMapper;
 
 namespace MadaBot
 {
+	template <class S> class AimlBot;
 	template <class S> class AimlCore;
 
 	/**

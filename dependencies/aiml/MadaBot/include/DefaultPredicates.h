@@ -33,6 +33,8 @@ namespace MadaBot
 	template <class S> class DefaultPredicates : public Predicates<S>
 	{
 	public:
+		DefaultPredicates(AimlBot<S>* pParent) : Predicates(pParent){}
+		~DefaultPredicates(){}
 		/**
 		 * Getter, should be templatized, but then it couldn't be virtual
 		 * maybe return string and use lexical cast from boot in ConditionProcessor
@@ -46,23 +48,23 @@ namespace MadaBot
 		std::map<S,S> mValues;
 	};
 
-	template <class S> S DefaultPredicates::getPredicate(const S& pName) const
+	template <class S> S DefaultPredicates<S>::getPredicate(const S& pName) const
 	{
 		std::map<S,S>::const_iterator itr = mValues.find(pName);
 		if(itr != mValues.end())
 		{
-			return itr.second;
+			return itr->second;
 		}
 		//throw exception
 		return "";
 	}
 
-	template <class S> void DefaultPredicates::setPredicate(const S& pName, const S& pValue)
+	template <class S> void DefaultPredicates<S>::setPredicate(const S& pName, const S& pValue)
 	{
 		mValues[pName] = pValue;
 	}
 
-	template <class S> S DefaultPredicates::getType() const
+	template <class S> S DefaultPredicates<S>::getType() const
 	{
 		return "default";
 	}

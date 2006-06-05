@@ -26,7 +26,9 @@
 #include "XmlMapper/XmlNodeProcessor.h"
 using namespace XmlMapper;
 
+#include "AimlBot.h"
 #include "Predicates.h"
+
 
 namespace MadaBot
 {

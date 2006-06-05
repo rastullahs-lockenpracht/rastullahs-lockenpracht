@@ -24,17 +24,20 @@
 #define AIML_BOT_H
 
 #include <list>
+#include "AimlCore.h"
 #include "AimlUtility.h"
 #include "Match.h"
 #include "AimlNode.h"
 #include "Response.h"
+#include "GraphPath.h"
 #include "AimlInterpreter.h"
+#include "AimlGraphMaster.h"
+#include "DefaultPredicates.h"
 
 namespace MadaBot
 {
+	//template <class S> class Predicates;
 	template <class S> class AimlCore;
-	template <class S> class AimlGraphMaster;
-	template <class S> class Predicates;
 
 	/**
 	 * This class represents a dialog enabled bot
@@ -52,7 +55,10 @@ namespace MadaBot
 		 * @param  pName name of the bot
 		 * @param  pParent pointer to the parent object
 		 */
-		AimlBot(const S& pName, AimlCore<S>* pParent) : mName(pName), mParent(pParent){}
+		AimlBot(const S& pName, AimlCore<S>* pParent) : mName(pName), mParent(pParent)
+		{
+			addPredicates(new DefaultPredicates<S>(this));
+		}
 
 		/**
 		 * Destructor
@@ -108,7 +114,7 @@ namespace MadaBot
 		AimlCore<S>* mParent;
 	};
 
-	template <class S> AimlBot<S>::~AimlBot<S>()
+	template <class S> AimlBot<S>::~AimlBot()
 	{
 		PredicatesMap::iterator itr = mPredicates.begin();
 		for(; itr != mPredicates.end(); ++itr)
@@ -175,9 +181,7 @@ namespace MadaBot
 		//  TODO: interpreter shouldn't be created for every response. 
 		//  Instead, create an instance in AimlCore und use that
 		//  proceed in the same way with the other interpreters
-			AimlInterpreter<S> interpreter;
-			
-			response = interpreter.process(mCurrentMatch->getNode(), this);
+			response = mParent->getAimlInterpreter().process(mCurrentMatch->getNode(), this);
 		}
 		else
 		{

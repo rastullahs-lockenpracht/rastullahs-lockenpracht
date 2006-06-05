@@ -33,6 +33,7 @@
 namespace MadaBot
 {
 	template <class S> class AimlBot;
+	template <class S> class AimlInterpreter;
 
 	/**
 	 * Core component of the AimlInterpeter that allows loading of configuration files, bots
@@ -45,9 +46,22 @@ namespace MadaBot
 		 * Constructor 
 		 */
 		AimlCore() 
-			: mBotDefintion("dialog-startup.xml"), mParser(NULL), mCurrentBot(NULL){}
+			: mBotDefintion("dialog-startup.xml"), 
+			  mParser(NULL), 
+			  mCurrentBot(NULL)
+		{}
 
 		virtual ~AimlCore() { if(mParser)delete mParser; }
+		
+		AimlInterpreter<S>& getAimlInterpreter()
+		{
+			return mAimlInterpreter;
+		}
+
+		BotInterpreter<S>& getBotInterpreter()
+		{
+			return mBotInterpreter;
+		}
 		
 		/**
 		 * Get the GraphMaster with the given name. 
@@ -93,7 +107,10 @@ namespace MadaBot
 		typedef std::map<S, AimlGraphMaster<S>*> GraphList;
 		GraphList mGraphList;
 		XmlParser<S>* mParser;
+		AimlInterpreter<S> mAimlInterpreter;
+		BotInterpreter<S> mBotInterpreter;
 		AimlBot<S>* mCurrentBot;
+
 	};
 
 	template <class S> AimlGraphMaster<S>* AimlCore<S>::loadAiml(const S& pFileName)
@@ -131,36 +148,35 @@ namespace MadaBot
 		return NULL;
 	}
 
-	template <class S> AimlBot<S>* AimlCore<S>::loadBot(const char* botName, const char* fileName)
+	template <class S> AimlBot<S>* AimlCore<S>::loadBot(const char* pBotName, const char* pFileName)
 	{
-		// check if standard bot definition shpuld be used or the parameter value
+		S botName = pBotName;
+		// check if standard bot definition should be used or the parameter value
 		S botDef = mBotDefintion;
-		if(fileName != NULL)
+		if(pFileName != NULL)
 		{
-			botDef = fileName;
+			botDef = pFileName;
 		}
-		
 		XmlDocument<S>* doc = NULL;
 		try
 		{
-			doc = mParser->parse(fileName);
+			doc = mParser->parse(pFileName);
 			if(doc == NULL)
 			{
 				//throw exception
 			}
 			XmlNode<S>* botNode = doc->getRootNode()->getFirstChild();
-			if(botNode->getAttribute("name") == botName)
+			for(; botNode != NULL; botNode = botNode->getNextSibling())
 			{
-			//  this shouldn't be parsed by a DOM parser (too much overhead), but a SAX parser
-				BotInterpreter<S> interpreter;
-				AimlBot<S>* rVal = interpreter.process(botNode, this);
-				delete doc;
-				return rVal;
+				if(botNode->getAttribute("name") == botName || botName.empty() )
+				{
+				//  this shouldn't be parsed by a DOM parser (too much overhead), but a SAX parser
+					AimlBot<S>* rVal = mBotInterpreter.process(botNode, this);
+					delete doc;
+					return rVal;
+				}
 			}
-			else
-			{
-			//  TODO: exception or log message
-			}
+			//  TODO: exception or log message, because no bot was found
 		}
 		catch(...)
 		{
