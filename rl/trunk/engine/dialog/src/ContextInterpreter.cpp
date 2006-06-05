@@ -54,6 +54,7 @@ void ContextInterpreter::processOption()
 			DialogOption* option = new DialogOption();
 			option->setId((*itr)->getAttribute("id"));
 			option->setPattern((*itr)->getAttribute("patternRef"));
+		//  TODO: li-processor or this interpreter should check for (T) and (E)
 			option->setData(getProcessor("li")->process(*itr));
 			mOptions.push_back(option);
 		}
