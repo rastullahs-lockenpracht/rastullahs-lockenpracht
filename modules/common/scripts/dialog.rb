@@ -19,21 +19,26 @@ class GameActorScriptOne
 	end
 end
 
-class DialogScriptObjectTest < DialogScriptObject
+
+
+class DialogCharTest < DialogCharacter
 	def initialize()
 		super()
-		@name = "AlrikTest"
-		print(@name + " entschließt sich dazu, redselig zu werden") 
+		print("DialogCharacter nach neuem DialogSystem erzeugt")
 	end
 
-	def calcOptionValue( optionName )
-		print("Calc Option Values")
+	def calcOptionValue( optioName )
+		print("Calc Option Value")
 		return 4
 	end
 
 	def calcResponseValue( responseName )
 		print("Calc Response Value")
 		return 4
-	end		
-end
+	end
 
+	def calcSelectionValue( selectionName )
+		print("Calc Selection Value")
+		return 4
+	end
+end
