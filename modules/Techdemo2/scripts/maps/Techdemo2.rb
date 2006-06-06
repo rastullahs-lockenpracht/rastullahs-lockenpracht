@@ -11,6 +11,10 @@ $World = $CORE.getWorld()
 $World.setSkyBox(true, "rl/desert07", 100.0)
 $SCRIPT.log("skybox set");
 
+$SCRIPT.log("Weiler erstellen..");
+weiler = $AM.createMeshActor("weiler", "nat_wasser_techdemo2.mesh", PhysicsManager::GT_NONE, 0.0);
+weiler.placeIntoScene([25.0, -79.0, -138.0]);
+$SCRIPT.log("Weiler erstellt");
 
 $SCRIPT.log("Tageslicht erstellen..");
 sunlight = $AM.createLightActor("sunlight", LightObject::LT_DIRECTIONAL);
@@ -38,7 +42,7 @@ $SCRIPT.log("Held erstellen");
 $hero = Hero.new;
 $SCRIPT.log("Held erstellt");
 $SCRIPT.log("Held in die Szene einfuegen.");
-$hero.getActor().placeIntoScene(0.0, 0.0, 13.0, 1.0, 0.0, 0.0, 0.0);
+$hero.getActor().placeIntoScene(9.0, -77.0, -147.0, 1.0, 0.0, 0.0, 0.0);
 $SCRIPT.log("Held eingefügt.");
 PlayerSettings.preparePlayer($hero);
 $SCRIPT.log("Held vorbereitet.");
