@@ -23,6 +23,8 @@
 #include "AimlProcessorManager.h"
 #include "AimlProcessor.h"
 #include "DialogResponse.h"
+#include "DialogOption.h"
+
 
 namespace rl
 {

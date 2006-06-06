@@ -53,7 +53,7 @@ namespace rl
 		/**
 		 * @return all options with thier pattern-id
 		 */
-		const Options& getDialogOptions();
+		const DialogOptions& getDialogOptions() { return mOptions;}
 		/**
 		 * @return all responses with their sound id
 		 */

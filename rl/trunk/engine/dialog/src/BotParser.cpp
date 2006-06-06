@@ -223,7 +223,7 @@ namespace rl
 
 	void BotParser::initBot()
 	{
-		if (mBot == NULL)
+/*deprecated		if (mBot == NULL)
 		{
 			mBot = new DialogCharacter(mBotName);
 		}
@@ -231,6 +231,7 @@ namespace rl
 		{
 			mBot->setName(mBotName);
 		}
+		*/
 	}
 		
 	void BotParser::loadDialogScriptObject(const CeGuiString& src, const CeGuiString& className)
@@ -280,9 +281,10 @@ namespace rl
 					if (mBot)
 					{
 						// add the GraphMaster of the aimlfile to the bot
-						mBot->addGraphMaster(
+/* deprecated			mBot->addGraphMaster(
 							DialogSubsystem::getSingletonPtr()->
 								getGraphMaster(*it));
+*/
 					}
 				}
 			} // end for(...

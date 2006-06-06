@@ -13,29 +13,27 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
-#ifndef __Rl_ScriptProcessor_H__
-#define __Rl_ScriptProcessor_H__
+#ifndef __Rl_QuestPredicates_H__
+#define __Rl_QuestPredicates_H__
 
-#include "XmlMapper/XmlNodeProcessor.h"
 #include "DialogPrerequisites.h"
-#include "AimlBot.h"
-
-using namespace XmlMapper;
+#include "Predicates.h"
 using namespace MadaBot;
 
 namespace rl
 {
-	class ScriptProcessor
-			: public XmlNodeProcessor<AimlBot, AimlCore, CeGuiString>
+	class QuestPredicates :
+		public Predicates<CeGuiString>
 	{
 	public:
-		ScriptProcessor();
-		~ScriptProcessor();
-		void preprocessStep();
-		void processChildStep(XmlNode<CeGuiString>* pChild){}
-		void postprocessStep(){}
-	protected:
-		void initialize();
+		QuestPredicates();
+		~QuestPredicates(void);
+		
+		CeGuiString getPredicate(const CeGuiString& pName) const;
+
+		void setPredicate(const CeGuiString& pName, const CeGuiString& pValue);
+
+		CeGuiString getType() const;
 	};
 }
 #endif

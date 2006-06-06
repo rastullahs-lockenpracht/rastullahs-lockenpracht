@@ -14,18 +14,46 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 #include "DialogOption.h"
+#include "DialogResponse.h"
+#include "DialogSubsystem.h"
+#include "ContextInterpreter.h"
+#include "Response.h"
 
 using namespace rl;
 
-DialogOption::DialogOption(void)
+DialogOption::DialogOption(const Response<CeGuiString>& pData, AimlBot<CeGuiString>* pBot)
+	: mBot(pBot), mData(new Response<CeGuiString>(pData))
 {
 }
 
 DialogOption::~DialogOption(void)
 {
+	if(mData)
+	{
+		delete mData;
+	}
 }
 
 const CeGuiString& DialogOption::getText() const
 {
-	return mData.getResponse();
+	return mData->getResponse();
+}
+
+void DialogOption::processSelection()
+{
+	DialogResponse* response = NULL;
+	ContextInterpreter* interpreter = DialogSubsystem::getSingleton().getContextInterpreter();
+	if(interpreter != NULL)
+	{
+		response = interpreter->interpret(mData->getGossip(), mBot);
+		if(response != NULL && !response->getDialogOptions().empty())
+		{
+			DialogOption* option = (*response->getDialogOptions().begin());
+			mData->clear();
+			(*mData) += option->getText();
+			mId = option->getId();
+			mPatternId = option->getPattern();
+			delete response;
+		}
+	}
 }

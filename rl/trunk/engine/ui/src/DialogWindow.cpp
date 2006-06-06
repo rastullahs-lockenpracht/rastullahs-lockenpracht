@@ -21,6 +21,7 @@
 #include "DebugWindow.h"
 #include "DialogCharacter.h"
 #include "DialogResponse.h"
+#include "DialogOption.h"
 #include "DialogCharacterController.h"
 #include "GameLoggerWindow.h"
 #include "InputManager.h"
@@ -85,7 +86,7 @@ void DialogWindow::initialize()
 	mName->setText(mBot->getName());
 
 	mCurrentResponse = mBot->createResponse(DIALOG_START);
-    getOptions(DIALOG_START);
+	getOptions(DIALOG_START);
 	mState = CHOOSING_OPTION;
 }
 
@@ -101,22 +102,27 @@ void DialogWindow::getResponse(const CeGuiString& msg)
 		mState = CLOSING_DIALOG;
 		return;
 	}
-	CeGuiString responseText = mCurrentResponse->getResponse();
+	//CeGuiString responseText = mCurrentResponse->getResponse();
+	DialogResponse::Responses responses = mCurrentResponse->getResponses();
+	CeGuiString responseText = responses.begin()->second;
 
-	mQuestion->getListboxItemFromIndex(1)->
-		setText(mBot->getName() + ": " + responseText);
-	mQuestion->handleUpdatedItemData();
+	if(!responseText.empty())
+	{
+		mQuestion->getListboxItemFromIndex(1)->
+			setText(mBot->getName() + ": " + responseText);
+		mQuestion->handleUpdatedItemData();
 
+		mGameLogger->logDialogEvent(mBot->getName(), responseText);
 
-	mGameLogger->logDialogEvent(mBot->getName(), responseText);
-
-	mController->response(
-		mBot->getDialogPartner()->getActor(), 
-		responseText, 
-		"lachen.ogg"); //TODO: Sounddatei
+		mController->response(
+			mBot->getDialogPartner()->getActor(), 
+			responseText, 
+			responses.begin()->first.c_str());
+	}
 	setVisible(false);
 	mState = TALKING_PARTNER_CHARACTER;
 	mCurrentResponseText = msg;
+
 }
 
 void DialogWindow::textFinished()
@@ -139,9 +145,17 @@ void DialogWindow::textFinished()
 
 void DialogWindow::getOptions(const CeGuiString& question)
 {
-	mResponses = mCurrentResponse->getOptions();
+	if(mCurrentResponse == NULL)
+	{
+		// TODO: throw an exception
+		return;
+	}
 	
-	if(mResponses.empty())
+	DialogResponse::DialogOptions options = mCurrentResponse->getDialogOptions();
+	
+	//mResponses = mCurrentResponse->getOptions();
+	//if(mResponses.empty())
+	if(options.empty())
 	{
 		mQuestion->getListboxItemFromIndex(0)->setText(DIALOG_END);
 		mQuestion->getListboxItemFromIndex(1)->setText("");
@@ -149,30 +163,32 @@ void DialogWindow::getOptions(const CeGuiString& question)
 		return;
 	}
 	
-	NaturalLanguageProcessor::Responses::iterator itr = mResponses.begin();
-
+	//NaturalLanguageProcessor::Responses::iterator itr = mResponses.begin();
+	DialogResponse::DialogOptions::const_iterator itr = options.begin();
 	unsigned int i = 0;
 	CeGuiString currentResponse;
-	for(; itr != mResponses.end(); ++itr)
-	{			
+//	for(; itr != mResponses.end(); ++itr)
+	for(; itr != options.end(); ++itr)
+	{	
+		currentResponse = (*itr)->getText();
+		Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, currentResponse.c_str());
 		if(i < mDialogOptions->getItemCount())
 		{
 			ListboxWrappedTextItem* item = 
 				static_cast <ListboxWrappedTextItem*>(mDialogOptions->getListboxItemFromIndex(i));
-			item->setID(itr->first);
-		//	item->setUserData(dialogOption);
-			currentResponse = itr->second;
-			Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, currentResponse.c_str());
+		//	item->setID(itr->first);
+			item->setUserData(*itr);
 			item->setText(currentResponse);
 			item->setTextFormatting(CEGUI::WordWrapLeftAligned);
 			mDialogOptions->handleUpdatedItemData();
 		}
 		else
 		{
-			currentResponse = itr->second;
+		//	currentResponse = itr->second;
 			ListboxWrappedTextItem* item = 
-				new ListboxWrappedTextItem(currentResponse);
-			item->setID(itr->first);
+				new ListboxWrappedTextItem((*itr)->getText());
+		//	item->setID(itr->first);
+			item->setUserData(*itr);
 			item->setTextFormatting(CEGUI::WordWrapLeftAligned);
 			mDialogOptions->addItem(item);
 		}
@@ -208,28 +224,32 @@ bool DialogWindow::handleSelectOption()
 	ListboxWrappedTextItem* item = 
 		reinterpret_cast<ListboxWrappedTextItem*>(mDialogOptions->getFirstSelectedItem());
 	int id = item->getID();
-/*	DialogOption* option = reinterpret_cast<DialogOption*>(item->getUserData());
-	DialogResponse::Responses = option->processSelection();
+	DialogOption* option = reinterpret_cast<DialogOption*>(item->getUserData());
+	option->processSelection();
 	mCurrentResponseText = option->getPattern();
-*/
-	std::pair<int, CeGuiString> selectedOption 
+	CeGuiString selectedOption = option->getText();
+/*	std::pair<int, CeGuiString> selectedOption 
 		= mCurrentResponse->getSelectedOption(id);
 	if(selectedOption.first != 0 && selectedOption.first != 666)
+	*/  
+	if(mCurrentResponseText != "0" && mCurrentResponseText != "666")
 	{
-		id = selectedOption.first;
-		if(!selectedOption.second.empty())
+	//	id = selectedOption.first;
+	//	if(!selectedOption.second.empty())
+		if(!selectedOption.empty())
 		{
-			mGameLogger->logDialogEvent("Held", selectedOption.second);
-			mQuestion->getListboxItemFromIndex(0)->setText("Held: " + selectedOption.second);	
+		//	mGameLogger->logDialogEvent("Held", selectedOption.second);
+			mGameLogger->logDialogEvent("Held", selectedOption);
+			mQuestion->getListboxItemFromIndex(0)->setText("Held: " + selectedOption);	
 			mController->response(
 				mBot->getDialogCharacter()->getActor(), 
-				selectedOption.second, 
-				"lachen.ogg"); //TODO: Sounddatei
+				selectedOption, 
+				option->getId().c_str());
 			mState = TALKING_PLAYER_CHARACTER;
 			setVisible(false);
 		}
 	}
-	mCurrentResponseText = StringConverter::toString(id);
+//	mCurrentResponseText = StringConverter::toString(id);
 	
 	return true;
 }

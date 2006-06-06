@@ -25,8 +25,6 @@ using namespace rl;
 
 AimlNodeImplRl::AimlNodeImplRl(DOMNode* pNode)
 {
-	mNodeName  = XmlHelper::transcodeToString(pNode->getNodeName());
-	mNodeName.c_str();
 	mNodeName  = XmlHelper::transcodeToString(pNode->getLocalName());
 	// #text or #comment have no local name, use NodeName for them
 	if(mNodeName.empty())
@@ -59,9 +57,13 @@ AimlNodeImplRl::AimlNodeImplRl(DOMNode* pNode)
 			CeGuiString attributeValue =
 				XmlHelper::transcodeToString(attributes->item(i)->getNodeValue());
 			mAttributes.insert(Attributes::value_type(attributeName, attributeValue));
-			attributeName.c_str();
-			attributeValue.c_str();
 		}
+	}
+	//debug
+	for(Attributes::iterator itr = mAttributes.begin(); itr != mAttributes.end() ;++itr)
+	{
+		itr->first.c_str();
+		itr->second.c_str();
 	}
 	// map children
 	DOMNode* child = pNode->getFirstChild();

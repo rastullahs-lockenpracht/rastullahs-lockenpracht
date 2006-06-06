@@ -29,6 +29,7 @@ namespace MadaBot
 namespace rl
 {
 	class DialogCharacter;
+	class ContextInterpreter;
 
 	/// Initialises and manages everything for using dialogs in Rl
 	class _RlDialogExport DialogSubsystem : 
@@ -47,6 +48,8 @@ namespace rl
 		 */
 		DialogCharacter* getCurrentBot();
 
+		ContextInterpreter* getContextInterpreter();
+
 		/**
 		 * Load a DialogCharacter from a xml file
 		 * If no name is given, the first available bot in the xml file is loaded
@@ -54,7 +57,7 @@ namespace rl
 		 * @param botName name of the bot to load
 		 * @return will return a DialogCharacter...
 		 */
-		DialogCharacter* loadBot(const CeGuiString& fileName, const CeGuiString& botName = "");
+		DialogCharacter* loadBot(const CeGuiString& botName, const CeGuiString& fileName = "");
 	
         /**
          * Helper function, that retrieves an xml resource from its file name
@@ -68,13 +71,24 @@ namespace rl
 		 */
 		void setCurrentDialogCharacter(DialogCharacter* bot);
 
-		void testNewDialogSystem();
+	//	void testNewDialogSystem();
 	private:
 		typedef std::map<CeGuiString, DialogCharacter*> BotMap;
 		typedef MadaBot::AimlCore<CeGuiString> AimlCore; 
 		BotMap mBots;
 		AimlCore* mCore;
+		ContextInterpreter* mContextInterpreter;
 		DialogCharacter* mCurrentBot;
 	};
+
+	inline DialogCharacter* DialogSubsystem::getCurrentBot()
+	{
+		return mCurrentBot;
+	}
+
+	inline ContextInterpreter* DialogSubsystem::getContextInterpreter()
+	{
+		return mContextInterpreter;
+	}
 }
 #endif

@@ -29,7 +29,7 @@
 #include "AimlProcessorManager.h"
 
 #include "DialogCharacter.h"
-#include "BotParser.h"
+//#include "BotParser.h"
 #include "DialogSubsystem.h"
 //new includes
 #include "AimlCore.h"
@@ -54,7 +54,9 @@ namespace rl
 	}
 
 	DialogSubsystem::DialogSubsystem()
-		: mCore(new AimlCore()), mCurrentBot(NULL)
+		: mCore(new AimlCore()),
+		  mContextInterpreter(new ContextInterpreter()),
+		  mCurrentBot(NULL)
 	{
 		mCore->setParser(new AimlParserImplRl());
 		mCore->getBotInterpreter().addProcessor(new ScriptProcessor());
@@ -78,6 +80,8 @@ namespace rl
     DialogSubsystem::~DialogSubsystem() 
     {  
 		delete mCore;
+		delete mContextInterpreter;
+
 		for(BotMap::iterator iter = mBots.begin();
 			iter != mBots.end();
 			++iter)
@@ -87,21 +91,20 @@ namespace rl
 		AimlProcessorManager::shutdown();
     }
 
-	DialogCharacter* DialogSubsystem::getCurrentBot()
-	{
-		return mCurrentBot;
-	}
 
-	DialogCharacter* DialogSubsystem::loadBot(const CeGuiString& fileName, const CeGuiString& botName)
+	DialogCharacter* DialogSubsystem::loadBot(const CeGuiString& botName, const CeGuiString& fileName)
 	{
 		mCurrentBot = NULL;
 		AimlBot<CeGuiString>* bot = mCore->loadBot(botName.c_str(), fileName.c_str());
+//		AimlBot<CeGuiString>* bot = mCore->loadBot("Alrike", "startup_test.xml");
 		// while processing the bot definition, a DialogCharacter should have been created 
 		// through a ruby script and stored in mCurrentBot
 		if(mCurrentBot != NULL && bot != NULL)
 		{
 			mCurrentBot->setBot(bot);
+			mCurrentBot->initialize();
 		}
+		mBots.insert(BotMap::value_type("botName", mCurrentBot));
 		return mCurrentBot;
 		
 /*
@@ -152,7 +155,7 @@ namespace rl
 	{
 		mCurrentBot = bot;
 	}
-
+/*
 	void DialogSubsystem::testNewDialogSystem()
 	{
 		AimlBot<CeGuiString>* bot = mCore->loadBot("Alrike", "startup_test.xml");
@@ -170,5 +173,5 @@ namespace rl
 		}
 		delete bot;
 	}
-
+*/
 }

@@ -13,29 +13,28 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
-#ifndef __Rl_ScriptProcessor_H__
-#define __Rl_ScriptProcessor_H__
+#ifndef __Rl_ContextConditionProcessor_H__
+#define __Rl_ContextConditionProcessor_H__
 
-#include "XmlMapper/XmlNodeProcessor.h"
 #include "DialogPrerequisites.h"
-#include "AimlBot.h"
+#include "aimlProcessors/ConditionProcessor.h"
 
-using namespace XmlMapper;
 using namespace MadaBot;
 
 namespace rl
 {
-	class ScriptProcessor
-			: public XmlNodeProcessor<AimlBot, AimlCore, CeGuiString>
+	class ContextConditionProcessor : public ConditionProcessor<CeGuiString>
 	{
 	public:
-		ScriptProcessor();
-		~ScriptProcessor();
-		void preprocessStep();
-		void processChildStep(XmlNode<CeGuiString>* pChild){}
-		void postprocessStep(){}
+		ContextConditionProcessor(void); 
+		~ContextConditionProcessor(void);
+		
+		virtual void preprocessStep();
+		virtual void processChildStep(XmlNode<CeGuiString>* pChild);
+	//	virtual void postprocessStep();
 	protected:
-		void initialize();
+		virtual void initialize();
+
 	};
 }
 #endif

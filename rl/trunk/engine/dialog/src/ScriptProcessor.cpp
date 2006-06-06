@@ -21,10 +21,18 @@ using namespace rl;
 
 ScriptProcessor::ScriptProcessor()
 	: XmlNodeProcessor<AimlBot, AimlCore, CeGuiString>("script")
-{}
+{
+	initialize();
+}
 
 ScriptProcessor::~ScriptProcessor()
 {
+}
+
+void ScriptProcessor::initialize()
+{
+	addAttribute("src");
+	addAttribute("class");
 }
 
 void ScriptProcessor::preprocessStep()

@@ -40,12 +40,31 @@ namespace rl
 		
 		void processResponse();
 		void processOption();
+		void processSelection();
 	protected:
-		void initialize();
-
+		virtual void initialize();
+		AimlBot<CeGuiString>* mBot;
 		CeGuiString mCurrentType;
 		DialogResponse::Responses mResponses;
 		DialogResponse::DialogOptions mOptions;
+
+		static CeGuiString INTERPRETER_NAME;
+		static CeGuiString RL_TYPE;
+		static CeGuiString RL_LI_ID;
+		static CeGuiString RL_PATTERN_REF;
+		static CeGuiString RL_E_PROBE;
+		static CeGuiString RL_E_MODIFIER;
+		static CeGuiString RL_T_PROBE;
+		static CeGuiString RL_T_MODIFIER;
+		static CeGuiString RL_RESPONSE;
+		static CeGuiString RL_OPTION;
+		static CeGuiString RL_SELECTION;
+		static CeGuiString AIML_CONDITION;
+		static CeGuiString AIML_TYPE;
+		static CeGuiString AIML_GOSSIP;
+		static CeGuiString AIML_LI;
+
+		
 	};
 }
 #endif

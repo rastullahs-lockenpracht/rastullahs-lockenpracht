@@ -14,6 +14,7 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 #include "ContextInterpreter.h"
+#include "ContextConditionProcessor.h"
 #include "DialogResponse.h"
 #include "DialogOption.h"
 #include "AimlBot.h"
@@ -21,9 +22,26 @@
 using namespace rl;
 using namespace std;
 
+CeGuiString ContextInterpreter::INTERPRETER_NAME = "contextInterpreter";
+CeGuiString ContextInterpreter::RL_TYPE = "rldialog:type";
+CeGuiString ContextInterpreter::RL_LI_ID = "rldialog:id";
+CeGuiString ContextInterpreter::RL_PATTERN_REF = "rldialog:patternRef";
+CeGuiString ContextInterpreter::RL_E_PROBE = "eigenschaftsprobe";
+CeGuiString ContextInterpreter::RL_E_MODIFIER = " (E) ";
+CeGuiString ContextInterpreter::RL_T_PROBE = "talentprobe";
+CeGuiString ContextInterpreter::RL_T_MODIFIER = " (T) ";
+CeGuiString ContextInterpreter::RL_RESPONSE = "response";
+CeGuiString ContextInterpreter::RL_OPTION = "option";
+CeGuiString ContextInterpreter::RL_SELECTION = "selection";
+CeGuiString ContextInterpreter::AIML_CONDITION = "condition";
+CeGuiString ContextInterpreter::AIML_TYPE = "type";
+CeGuiString ContextInterpreter::AIML_GOSSIP = "gossip";
+CeGuiString ContextInterpreter::AIML_LI = "li";
+
 ContextInterpreter::ContextInterpreter(void)
-	: AimlInterpreter("contextInterpreter")
+	: AimlInterpreter(INTERPRETER_NAME), mBot(NULL)
 {
+	initialize();
 }
 
 ContextInterpreter::~ContextInterpreter(void)
@@ -37,9 +55,14 @@ void ContextInterpreter::processResponse()
 	Response<CeGuiString>::GossipData::const_iterator itr = gossip.begin();
 	for(; itr != gossip.end(); ++itr)
 	{
-		CeGuiString id = (*itr)->getAttribute("id");
-		CeGuiString text = process(*itr).getResponse();
-		mResponses.push_back(make_pair<CeGuiString, CeGuiString>(id, text));
+		if((*itr)->getNodeName() == AIML_LI)
+		{
+			CeGuiString id = (*itr)->getAttribute(RL_LI_ID);
+			id.c_str();
+			CeGuiString text = getProcessor(AIML_LI)->process(*itr).getResponse();
+			text.c_str();
+			mResponses.push_back(make_pair<CeGuiString, CeGuiString>(id, text));
+		}
 	}
 }
 
@@ -49,13 +72,29 @@ void ContextInterpreter::processOption()
 	Response<CeGuiString>::GossipData::const_iterator itr = gossip.begin();
 	for(; itr != gossip.end(); ++itr)
 	{
-		if((*itr)->getNodeName() == "li")
+		if((*itr)->getNodeName() == AIML_LI)
 		{
-			DialogOption* option = new DialogOption();
-			option->setId((*itr)->getAttribute("id"));
-			option->setPattern((*itr)->getAttribute("patternRef"));
-		//  TODO: li-processor or this interpreter should check for (T) and (E)
-			option->setData(getProcessor("li")->process(*itr));
+			Response<CeGuiString> response = getProcessor(AIML_LI)->process(*itr);
+		//  check if this option is influenced by a condition check
+			XmlNode<CeGuiString>* pChild = (*itr)->getFirstChild();
+			for(; pChild != NULL; pChild = pChild->getNextSibling())
+			{
+				if(pChild->getNodeName() == AIML_CONDITION)
+				{
+					CeGuiString type = pChild->getAttribute(AIML_TYPE);
+					if(type == RL_E_PROBE)
+					{
+						response += RL_E_MODIFIER;
+					}
+					else if(type == RL_T_PROBE)
+					{
+						response += RL_T_MODIFIER;
+					}
+				}
+			}
+			DialogOption* option = new DialogOption(response, mBot);
+			option->setId((*itr)->getAttribute(RL_LI_ID));
+			option->setPattern((*itr)->getAttribute(RL_PATTERN_REF));
 			mOptions.push_back(option);
 		}
 		else
@@ -65,16 +104,32 @@ void ContextInterpreter::processOption()
 	}
 }
 
+void ContextInterpreter::processSelection()
+{
+	Response<CeGuiString>::GossipData gossip = mReturnValue.getGossip();
+	Response<CeGuiString>::GossipData::const_iterator itr = gossip.begin();
+	for(; itr != gossip.end(); ++itr)
+	{
+		if((*itr)->getNodeName() == AIML_LI)
+		{
+			DialogOption* option = new DialogOption(getProcessor(AIML_LI)->process(*itr));
+			option->setId((*itr)->getAttribute(RL_LI_ID));
+			option->setPattern((*itr)->getAttribute(RL_PATTERN_REF));
+			mOptions.push_back(option);
+		}
+	}
+}
+
 DialogResponse* ContextInterpreter::interpret(const Response<CeGuiString>::GossipData& pData, AimlBot<CeGuiString>* pProcessHelper)
 {
-//  we don't use mReturnValue aus return value in this method!
-	mReturnValue.clear();
-//	Response dialogOption;
+	mOptions.clear();	
+	mBot = pProcessHelper;
 	CeGuiString type;
 	Response<CeGuiString>::GossipData::const_iterator itr = pData.begin();
 	for(; itr != pData.end(); ++itr)
 	{
-		mCurrentType = (*itr)->getAttribute("rldialog:type");
+		mCurrentType = (*itr)->getAttribute(RL_TYPE);
+		mCurrentType.c_str();
 		pProcessHelper->getPredicates("default")->setPredicate("contextType", mCurrentType);
 		process( (*itr), pProcessHelper);
 	}
@@ -86,37 +141,39 @@ Response<CeGuiString> ContextInterpreter
 			::process(XmlNode<CeGuiString>* pNode, AimlBot<CeGuiString>* pProcessHelper)
 {
 //  pNode == gossip
+	Response<CeGuiString> response;
 	XmlNode<CeGuiString>* child = pNode->getFirstChild();
-	for(; child != NULL; child = child->getNextSibling())
+	for(; child != NULL; child = child->getNextSibling(), mReturnValue.clear())
 	{
-		if(child->getNodeName() == "li")
+		if(child->getNodeName() == AIML_LI)
 		{
-			// add the li-node to the responses gossip data
+		//	add the li-node to the responses gossip data
 			mReturnValue += child;
 		}
-		else if(pNode->getNodeName() == "condition")
+		else if(child->getNodeName() == AIML_CONDITION)
 		{
-		// add a list of valid li-nodes to the gossip data of the repsonse
-		/*  TODO: implement conditionprocessor
-			mReturnValue += getProcessor("gossipCondition")
-					->process(pNode, NULL);
-		*/
+		//	add a list of valid li-nodes to the gossip data of the repsonse
+			mReturnValue += getProcessor("contextCondition")
+					->process(child, pProcessHelper);
 		}
-		// maybe allow some other processors, too
-		if(mCurrentType == "response")
+	//	process the returnValue for the specific context
+		if(mCurrentType == RL_RESPONSE && pNode->getNodeName() == AIML_GOSSIP)
 		{
 			processResponse();
 		}
-		else if(mCurrentType == "option")
+		else if(mCurrentType == RL_OPTION && pNode->getNodeName() == AIML_GOSSIP)
 		{
 			processOption();
 		}
+		else if(mCurrentType == RL_SELECTION && pNode->getNodeName() == AIML_GOSSIP)
+		{
+			processSelection();
+		}
 	}
-	return Response<CeGuiString>();
+	return response;
 }
 
 void ContextInterpreter::initialize()
 {
-	AimlInterpreter::initialize();
-	//addProcessor(new ConditionContextProcessor());
+	addProcessor(new ContextConditionProcessor());
 }

@@ -14,23 +14,32 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 #include "DialogCharacter.h"
-#include "DialogScriptObject.h"
+#include "DialogSubsystem.h"
 #include "ContextInterpreter.h"
 #include "AimlBot.h"
 #include "Response.h"
 
+#include "Predicates.h"
+#include "EigenschaftsProbePredicates.h"
+#include "EigenschaftsWertPredicates.h"
+#include "QuestPredicates.h"
+#include "ScriptPredicates.h"
+#include "TalentProbePredicates.h"
+#include "TalentWertPredicates.h"
+
+//deprecated
+#include "DialogScriptObject.h"
 
 namespace rl
 {
 	DialogCharacter::DialogCharacter()
 		: mBot(NULL), 
-		  mInterpreter(new ContextInterpreter()),
 		  mScriptObject(NULL), 
 		  mNonPlayerCharacter(NULL),
 		  mPlayerCharacter(NULL)
 	{
 	}
-
+/*
 	DialogCharacter::DialogCharacter(const CeGuiString& name)
 		: mBot(NULL), 
 		  mScriptObject(NULL), 
@@ -39,16 +48,12 @@ namespace rl
 	{
 		mName = name;
 	}
-
+*/
 	DialogCharacter::~DialogCharacter(void)
 	{
 		if(mBot)
 		{
 			delete mBot;
-		}
-		if(mInterpreter)
-		{
-			delete mInterpreter;
 		}
 
 		// deprecated
@@ -58,13 +63,41 @@ namespace rl
 		}
 	}
 
-	DialogResponse* DialogCharacter::respond(const CeGuiString& input)
+	void DialogCharacter::initialize()
+	{
+	//  add additional predicates
+		if(mBot != NULL)
+		{
+			mBot->addPredicates(new EigenschaftsProbePredicates(mPlayerCharacter));
+			mBot->addPredicates(new EigenschaftsWertPredicates(mPlayerCharacter));
+			mBot->addPredicates(new QuestPredicates());
+			mBot->addPredicates(new ScriptPredicates(this));
+			mBot->addPredicates(new TalentProbePredicates(mPlayerCharacter));
+			mBot->addPredicates(new TalentWertPredicates(mPlayerCharacter));
+		}
+	}
+
+	const CeGuiString& DialogCharacter::getName() const
+	{
+		return mBot->getName();
+	}
+
+	Predicates<CeGuiString>* DialogCharacter::getPredicates(const CeGuiString& pType)
+	{
+		return mBot->getPredicates(pType);
+	}
+
+	DialogResponse* DialogCharacter::createResponse(const CeGuiString& input)
 	{
 		DialogResponse* dialogResponse = NULL;
 		Response<CeGuiString> response = mBot->respond(input);
-		if(response.hasGossip() && mInterpreter != NULL)
+		if(response.hasGossip())
 		{
-			dialogResponse = mInterpreter->interpret(response.getGossip(), mBot);
+			ContextInterpreter* interpreter = DialogSubsystem::getSingleton().getContextInterpreter();
+			if(interpreter!= NULL)
+			{
+				dialogResponse = interpreter->interpret(response.getGossip(), mBot);
+			}
 		}
 		return dialogResponse;
 	}
@@ -76,11 +109,11 @@ namespace rl
 
 	void DialogCharacter::setVoiceFile(const CeGuiString& filename)
 	{
-		mVoiceFile = filename;
+		mBot->setVoice(filename);
 	}
 
-	CeGuiString DialogCharacter::getVoiceFile() const
+	const CeGuiString& DialogCharacter::getVoiceFile() const
 	{
-		return mVoiceFile;
+		return mBot->getVoice();
 	}
 }

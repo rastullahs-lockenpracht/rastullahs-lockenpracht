@@ -97,12 +97,12 @@ namespace rl
 
 	void AimlProcessorManager::addStandardProcessors()
 	{
-		ConditionProcessor* cp = new ConditionProcessor();
+	//	ConditionProcessor* cp = new ConditionProcessor();
 		msProcessors["br"] = new BrProcessor();
-		msProcessors["selection"] = cp;
-		msProcessors["condition"] = cp;
-		msProcessors["option"] = cp;
-		msProcessors["if"] = cp;
+	//	msProcessors["selection"] = cp;
+	//	msProcessors["condition"] = cp;
+	//	msProcessors["option"] = cp;
+	//	msProcessors["if"] = cp;
 		msProcessors["srai"] = new SraiProcessor();
 		msProcessors["system"] = new SystemProcessor();
 		msProcessors["set"] = new SetProcessor();

@@ -14,7 +14,7 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#include "Predicates.h"
+#include "PredicatesOld.h"
 
 #include <fstream>
 #include <iostream>
@@ -41,15 +41,15 @@ using namespace std;
 namespace rl 
 {
 	const static CeGuiString emptyString = "";
-	Predicates::Predicates()
+	PredicatesOld::PredicatesOld()
 	{
 	}
 
-	Predicates::~Predicates()
+	PredicatesOld::~PredicatesOld()
 	{
 	}
 
-	void Predicates::addPredicate(const CeGuiString& name, const CeGuiString& type, const CeGuiString& value)
+	void PredicatesOld::addPredicate(const CeGuiString& name, const CeGuiString& type, const CeGuiString& value)
 	{
 		if(mPredicates.find(name) == mPredicates.end())
 		{
@@ -58,7 +58,7 @@ namespace rl
 	}
 
 
-	void Predicates::clearPredicate(const CeGuiString& name, const CeGuiString& type)
+	void PredicatesOld::clearPredicate(const CeGuiString& name, const CeGuiString& type)
 	{
 		std::map<CeGuiString, CeGuiString>::iterator itr
 			= mPredicates.find(name);
@@ -68,7 +68,7 @@ namespace rl
 		}
 	}
 	
-	const CeGuiString& Predicates::getPredicate(const CeGuiString& name, const CeGuiString& type)
+	const CeGuiString& PredicatesOld::getPredicate(const CeGuiString& name, const CeGuiString& type)
 	{
 		if(mPredicates.find(name) != mPredicates.end())
 		{
@@ -78,7 +78,7 @@ namespace rl
 	}
 
 
-	void Predicates::setPredicate(const CeGuiString& name, const CeGuiString& type, const CeGuiString& value)
+	void PredicatesOld::setPredicate(const CeGuiString& name, const CeGuiString& type, const CeGuiString& value)
 	{
 	//	if(mPredicates.find(name) != mPredicates.end())
 	//	{

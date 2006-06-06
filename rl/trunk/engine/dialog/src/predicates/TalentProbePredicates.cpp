@@ -13,29 +13,34 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
-#ifndef __Rl_ScriptProcessor_H__
-#define __Rl_ScriptProcessor_H__
+#include "TalentProbePredicates.h"
+#include "Creature.h"
 
-#include "XmlMapper/XmlNodeProcessor.h"
-#include "DialogPrerequisites.h"
-#include "AimlBot.h"
+using namespace rl;
 
-using namespace XmlMapper;
-using namespace MadaBot;
-
-namespace rl
+TalentProbePredicates::TalentProbePredicates(Creature* pCharacter)
+	: CreaturePredicates(pCharacter)
 {
-	class ScriptProcessor
-			: public XmlNodeProcessor<AimlBot, AimlCore, CeGuiString>
-	{
-	public:
-		ScriptProcessor();
-		~ScriptProcessor();
-		void preprocessStep();
-		void processChildStep(XmlNode<CeGuiString>* pChild){}
-		void postprocessStep(){}
-	protected:
-		void initialize();
-	};
 }
-#endif
+
+TalentProbePredicates::~TalentProbePredicates(void)
+{
+}
+
+CeGuiString TalentProbePredicates::getPredicate(const CeGuiString& pName) const
+{
+	try
+	{
+		return Ogre::StringConverter::toString(mCharacter->doTalentprobe(pName, mModifier));
+	}
+	catch(...)
+	{
+	//  TODO: exception handling
+	}
+	return "";
+}
+
+CeGuiString TalentProbePredicates::getType() const
+{
+	return "talentprobe";
+}

@@ -35,7 +35,7 @@ namespace rl
 	class DialogCharacter
 	{
 	public:
-		DialogCharacter(const std::string& name);
+		DialogCharacter();
 		// deprecated
 		void setScriptObject(rl::DialogScriptObject* scriptObject);
 		rl::Creature* getDialogCharacter() const;
@@ -48,6 +48,10 @@ namespace rl
 		
 		rl::Creature* getPlayerCharacter()const;
 		void setPlayerCharacter(rl::Creature* pc);
+		
+		virtual int calcOptionValue(const rl::CeGuiString& optionName)=0;	
+		virtual int calcResponseValue(const rl::CeGuiString& responseName)=0;
+		virtual int calcSelectionValue(const rl::CeGuiString& selectionName)=0;
 	};
 
 	class DialogSubsystem 
@@ -56,6 +60,6 @@ namespace rl
 		static DialogSubsystem& getSingleton(void);
 		rl::DialogCharacter* getCurrentBot();
 		rl::DialogCharacter* loadBot(const rl::CeGuiString& fileName, const rl::CeGuiString& botName = "");
-		void testNewDialogSystem();
+		void setCurrentDialogCharacter(rl::DialogCharacter* bot);
 	};
 }

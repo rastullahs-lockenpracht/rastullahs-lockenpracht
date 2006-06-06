@@ -17,25 +17,38 @@
 #define __Rl_DialogOption_H__
 
 #include "DialogPrerequisites.h"
-#include "Response.h"
 
+namespace MadaBot
+{
+	template <class S> class AimlBot;
+	template <class S> class Response;
+}
 using namespace MadaBot;
 namespace rl
 {
-	class DialogOption
+	class _RlDialogExport DialogOption
 	{
 	public:
-		DialogOption(void);
+		DialogOption(const Response<CeGuiString>& pData, AimlBot<CeGuiString>* pBot = NULL);
 		~DialogOption(void);
+
+		/**
+		 * Process through the data of the selection and modify it by possible
+		 * conditions that occure 
+		 * TextData, SoundId and PatternId can be altered after the execution of this method
+		 */
+		void processSelection();
 
 		inline const CeGuiString& getId() const
 		{
 			return mId;
 		}
+
 		inline const CeGuiString& getPattern() const
 		{
 			return mPatternId;
 		}
+
 		const CeGuiString& getText() const;
 
 		inline void setId(const CeGuiString& id)
@@ -47,15 +60,13 @@ namespace rl
 		{
 			mPatternId = pattern;
 		}
-
-		inline void setData(const Response<CeGuiString>& data)
-		{
-			mData = data;
-		}
+		
 	private:
+		AimlBot<CeGuiString>* mBot;
+		Response<CeGuiString>* mData;
 		CeGuiString mId;
 		CeGuiString mPatternId;
-		Response<CeGuiString> mData;
+		
 	};
 }
 #endif

@@ -21,7 +21,7 @@
 #include "CommonPrerequisites.h"
 
 #include "Graphmaster.h"
-#include "Predicates.h"
+#include "PredicatesOld.h"
 //#include "Substituter.h"
 
 
@@ -62,7 +62,7 @@ namespace rl
 		void setName(const CeGuiString& name);
 		const CeGuiString& getName() const;
 
-		Predicates& getPredicates();
+		PredicatesOld& getPredicates();
 
 		bool mExit;
 
@@ -76,7 +76,7 @@ namespace rl
 
 		Responses mCurrentResponses;
 		std::vector<Graphmaster*> mGraphList;
-		Predicates mPredicates;
+		PredicatesOld mPredicates;
 		
 	//	Graphmaster *mGm;	// this should be a list with multiple Graphmasters.
 							// every Graphmaster contains one aiml-file
@@ -89,7 +89,7 @@ namespace rl
 		//Substituter *sb;
 	};
 
-	inline Predicates& NaturalLanguageProcessor::getPredicates()
+	inline PredicatesOld& NaturalLanguageProcessor::getPredicates()
 	{
 		return mPredicates;
 	}

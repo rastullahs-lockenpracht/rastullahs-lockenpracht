@@ -39,7 +39,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\xerces\include;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\boost\include;..\..\dependencies\aiml\MadaBot\include;..\..\dependencies\aiml\dependencies"
+				AdditionalIncludeDirectories=".\include;.\include\predicates;..\common\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\xerces\include;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\boost\include;..\..\dependencies\aiml\MadaBot\include;..\..\dependencies\aiml\dependencies"
 				PreprocessorDefinitions="WITH_FMOD3;_WINDOWS,_DEBUG,WIN32,RLDIALOG_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -133,7 +133,10 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\xerces\include;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\boost\include;..\..\dependencies\aiml\MadaBot\include;..\..\dependencies\aiml\dependencies"
+				Optimization="3"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				AdditionalIncludeDirectories=".\include;.\include\predicates;..\common\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\xerces\include;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\boost\include;..\..\dependencies\aiml\MadaBot\include;..\..\dependencies\aiml\dependencies"
 				PreprocessorDefinitions="WITH_FMOD3;WIN32;NDEBUG;_WINDOWS;_USRDLL;RLDIALOG_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -213,7 +216,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\xerces\include;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\boost\include;..\..\dependencies\aiml\MadaBot\include;..\..\dependencies\aiml\dependencies"
+				AdditionalIncludeDirectories=".\include;.\include\predicates;..\common\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\xerces\include;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\boost\include;..\..\dependencies\aiml\MadaBot\include;..\..\dependencies\aiml\dependencies"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -303,6 +306,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ContextConditionProcessor.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\ContextInterpreter.cpp"
 				>
 			</File>
@@ -343,7 +350,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\Predicates.cpp"
+				RelativePath=".\src\PredicatesOld.cpp"
 				>
 			</File>
 			<File
@@ -362,10 +369,6 @@
 				Name="AimlProcessors"
 				>
 				<File
-					RelativePath=".\src\processors\ConditionProcessor.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\processors\GetProcessor.cpp"
 					>
 				</File>
@@ -376,6 +379,119 @@
 				<File
 					RelativePath=".\src\processors\SraiProcessor.cpp"
 					>
+				</File>
+			</Filter>
+			<Filter
+				Name="predicates"
+				>
+				<File
+					RelativePath=".\src\predicates\CreaturePredicates.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\predicates\EigenschaftsProbePredicates.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\predicates\EigenschaftsWertPredicates.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Profile|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\src\predicates\QuestPredicates.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Profile|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\src\predicates\ScriptPredicates.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\predicates\TalentProbePredicates.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\predicates\TalentWertPredicates.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Profile|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 		</Filter>
@@ -433,6 +549,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\ContextConditionProcessor.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\ContextInterpreter.h"
 				>
 			</File>
@@ -477,7 +597,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\Predicates.h"
+				RelativePath=".\include\PredicatesOld.h"
 				>
 			</File>
 			<File
@@ -517,6 +637,38 @@
 				</File>
 				<File
 					RelativePath=".\include\processors\SystemProcessor.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="predicates"
+				>
+				<File
+					RelativePath=".\include\predicates\CreaturePredicates.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\predicates\EigenschaftsProbePredicates.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\predicates\EigenschaftsWertPredicates.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\predicates\QuestPredicates.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\predicates\ScriptPredicates.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\predicates\TalentProbePredicates.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\predicates\TalentWertPredicates.h"
 					>
 				</File>
 			</Filter>

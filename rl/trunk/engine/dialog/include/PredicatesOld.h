@@ -52,11 +52,11 @@ namespace rl
 	 *
 	 * @author	Philipp Walser
 	 */
-	class _RlDialogExport Predicates
+	class _RlDialogExport PredicatesOld
 	{
 	public:
-		Predicates();
-		virtual ~Predicates();
+		PredicatesOld();
+		virtual ~PredicatesOld();
 
 		void addPredicate(const CeGuiString& name, const CeGuiString& type, const CeGuiString& value);
 		void clearPredicate(const CeGuiString& name, const CeGuiString& type);
