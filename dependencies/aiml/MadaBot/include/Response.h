@@ -43,6 +43,7 @@ namespace MadaBot
 		Response(const Response& pData)
 		{
 			mResponse = pData.mResponse;
+			mResponse.c_str();
 			mChildNodes = pData.mChildNodes;
 		}
 
@@ -59,7 +60,7 @@ namespace MadaBot
 		{
 			return !mChildNodes.empty();
 		}
-		S getResponse() const
+		const S& getResponse() const
 		{
 			return mResponse;
 		}
@@ -67,9 +68,16 @@ namespace MadaBot
 		{
 			return mChildNodes;
 		}
+		Response& operator=(const S& pData)
+		{
+			mResponse = pData;
+			mChildNodes.clear();
+			return *this;
+		}
 		Response& operator+=(const S& pData)
 		{
 			mResponse += pData;
+			mResponse.c_str();
 			return *this;
 		}
 		Response& operator+=(XmlNode<S>* pData)
@@ -80,6 +88,7 @@ namespace MadaBot
 		Response& operator+=(const Response& pData)
 		{
 			mResponse += pData.getResponse();
+			mResponse.c_str();
 			GossipData::const_iterator itr = pData.mChildNodes.begin();
 			for(; itr != pData.mChildNodes.end(); ++itr)
 			{

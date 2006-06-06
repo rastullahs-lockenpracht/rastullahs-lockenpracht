@@ -20,38 +20,71 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef GOSSIP_PROCESSOR_H
-#define GOSSIP_PRCOESSOR_H
+#ifndef SET_PROCESSOR_H
+#define SET_PRCOESSOR_H
 
 #include "XmlMapper/XmlNodeProcessor.h"
+#include "AimlBot.h"
+#include "Predicates.h"
+
 using namespace XmlMapper;
 
 namespace MadaBot
 {
-	/**
-	 * Stores a pointer to the data of the gossip element in the response,
-	 * for allowing client specific processing of gossip
-	 */
-	template <class S> class GossipProcessor
-		: public XmlNodeProcessor<Response, AimlBot, S, false>
+	template <class S> class SetProcessor 
+		: public XmlNodeProcessor<Response, AimlBot, S, false> 
 	{
 	public:
 		/**
 		 * Constructor
 		 */
-		GossipProcessor()
-			: XmlNodeProcessor<Response, AimlBot, S, false>("gossip")
+		SetProcessor()
+			: XmlNodeProcessor<Response, AimlBot, S, false>("set")
 		{}
 
 		void preprocessStep()
 		{
-			mCurrentReturnValue.clear();
-			mCurrentReturnValue += mCurrentNode;
+		//	don't process children if the value to set is given by attribute
+			if(mAttributes["value"].empty())
+			{
+				mProcessChildren = true;
+			}
+			else
+			{
+				mProcessChildren = false;
+			}
 		}
-		void processChildStep(XmlNode<S>* pChild){}
-		void postprocessStep(){}
+
+		void processChildStep(XmlNode<S>* pChild)
+		{
+			mCurrentReturnValue += getProcessor(pChild->getNodeName())->process(pChild);
+		}
+
+		void postprocessStep()
+		{
+			S value;
+			if(mAttributes["value"].empty())
+			{
+				value = mCurrentReturnValue.getResponse();
+			}
+			else
+			{
+				value = mAttributes["value"];
+			}
+			mCurrentHelper->getPredicates(mAttributes["type"])
+				->setPredicate(mAttributes["name"], value);
+		//  don't return anything
+			mCurrentReturnValue.clear();
+		}
 	protected:
-		void initialize(){}
+		void initialize()
+		{
+			addAttribute("type");
+			addAttribute("name");
+			addAttribute("value");
+		//  allow any nodeType as child
+			mRestrictSubProcessors = false;
+		}
 	};
 }
 #endif

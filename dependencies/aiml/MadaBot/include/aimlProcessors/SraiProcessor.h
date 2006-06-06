@@ -20,38 +20,49 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef GOSSIP_PROCESSOR_H
-#define GOSSIP_PRCOESSOR_H
+#ifndef SRAI_PROCESSOR_H
+#define SRAI_PRCOESSOR_H
 
 #include "XmlMapper/XmlNodeProcessor.h"
+#include "AimlBot.h"
+
 using namespace XmlMapper;
 
 namespace MadaBot
 {
-	/**
-	 * Stores a pointer to the data of the gossip element in the response,
-	 * for allowing client specific processing of gossip
-	 */
-	template <class S> class GossipProcessor
-		: public XmlNodeProcessor<Response, AimlBot, S, false>
+	template <class S> class SraiProcessor 
+		: public XmlNodeProcessor<Response, AimlBot, S, false> 
 	{
 	public:
 		/**
 		 * Constructor
 		 */
-		GossipProcessor()
-			: XmlNodeProcessor<Response, AimlBot, S, false>("gossip")
-		{}
+		SraiProcessor()
+			: XmlNodeProcessor<Response, AimlBot, S, false>("srai")
+		{
+			initialize();
+		}
 
 		void preprocessStep()
 		{
 			mCurrentReturnValue.clear();
-			mCurrentReturnValue += mCurrentNode;
 		}
-		void processChildStep(XmlNode<S>* pChild){}
-		void postprocessStep(){}
+
+		void processChildStep(XmlNode<S>* pChild)
+		{
+			mCurrentReturnValue += getProcessor(pChild->getNodeName())->process(pChild);
+		}
+
+		void postprocessStep()
+		{
+			mCurrentReturnValue = mCurrentHelper->respond(mCurrentReturnValue.getResponse());
+		}
 	protected:
-		void initialize(){}
+		void initialize()
+		{
+		//  allow any nodeType as child
+			mRestrictSubProcessors = false;
+		}
 	};
 }
 #endif

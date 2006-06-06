@@ -75,6 +75,7 @@ namespace XmlMapper
 		virtual void postprocessStep()=0;
 		
 		bool mProcessChildren;
+		bool mRestrictSubProcessors;
 		typedef std::map<S, S> XmlAttributes;
 		XmlAttributes mAttributes;
 		std::vector<S> mSubProcessors;
@@ -88,6 +89,7 @@ namespace XmlMapper
 	template<template <class> class R, template <class> class T, class S, bool hasPolymorphicReturnType> XmlNodeProcessor<R, T, S, hasPolymorphicReturnType>::XmlNodeProcessor(const S& pName)
 		: XmlProcessor<R, T, S, hasPolymorphicReturnType>(pName),
 		  mProcessChildren(true),
+		  mRestrictSubProcessors(true),
 		  mInterpreter(NULL), 
 		  mCurrentNode(NULL), 
 		  mCurrentHelper(NULL)
@@ -111,7 +113,9 @@ namespace XmlMapper
 			XmlAttributes::iterator itr = mAttributes.begin();
 			for(; itr != mAttributes.end(); ++itr)
 			{
+				itr->first.c_str();
 				itr->second = mCurrentNode->getAttribute(itr->first);
+				itr->second.c_str(); //debug
 			}
 		}
 	}
@@ -135,16 +139,19 @@ namespace XmlMapper
 			return false;
 		}
 		*/
-//		const char* debug = pNode->getNodeName();//.ascii();
-		std::vector<S>::iterator itr = mSubProcessors.begin();
-		for(; itr != mSubProcessors.end(); ++itr)
+		if(mRestrictSubProcessors)
 		{
-			if( (*itr) == pNode->getNodeName())
+			std::vector<S>::iterator itr = mSubProcessors.begin();
+			for(; itr != mSubProcessors.end(); ++itr)
 			{
-				return true;
+				if( (*itr) == pNode->getNodeName())
+				{
+					return true;
+				}
 			}
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	template<template <class> class R, template <class> class T, class S, bool hasPolymorphicReturnType> 

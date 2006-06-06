@@ -222,6 +222,10 @@
 				Name="aimlProcessors"
 				>
 				<File
+					RelativePath=".\include\aimlProcessors\BrProcessor.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\aimlProcessors\CategoryProcessor.h"
 					>
 				</File>
@@ -230,11 +234,23 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\aimlProcessors\GetProcessor.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\aimlProcessors\GossipProcessor.h"
 					>
 				</File>
 				<File
 					RelativePath=".\include\aimlProcessors\LiProcessor.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\aimlProcessors\SetProcessor.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\aimlProcessors\SraiProcessor.h"
 					>
 				</File>
 				<File

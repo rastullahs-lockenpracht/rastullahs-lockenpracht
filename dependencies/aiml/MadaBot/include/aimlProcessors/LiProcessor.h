@@ -43,12 +43,12 @@ namespace MadaBot
 		 * Constructor
 		 */
 		LiProcessor()
-			: XmlNodeProcessor<Response, AimlBot, S, false>("#text")
-		{}
+			: XmlNodeProcessor<Response, AimlBot, S, false>("li")
+		{ initialize(); }
 
 		void preprocessStep()
 		{
-		//	mCurrentReturnValue += mCurrentNode->getNodeValue();
+			mCurrentReturnValue.clear();
 		}
 		void processChildStep(XmlNode<S>* pChild)
 		{
@@ -56,7 +56,11 @@ namespace MadaBot
 		}
 		void postprocessStep(){}
 	protected:
-		void initialize(){}
+		void initialize()
+		{
+		//  allow any nodeType as child
+			mRestrictSubProcessors = false;
+		}
 	};
 }
 #endif

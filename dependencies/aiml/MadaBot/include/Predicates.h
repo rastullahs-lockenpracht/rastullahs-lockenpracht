@@ -25,6 +25,7 @@
 
 namespace MadaBot
 {
+	template <class S> class AimlBot;
 	/**
 	 * Attributes/Properties/Abilities and other variables of a bot
 	 */
@@ -35,7 +36,7 @@ namespace MadaBot
 		 * Constructor
 		 * @param  pParent The bot that owns this predicates object
 		 */
-		Predicates(AimlBot<S>* pParent) : mParent(pParent) {}
+		Predicates(){}
 		
 		virtual ~Predicates(){};
 
@@ -48,8 +49,6 @@ namespace MadaBot
 		virtual void setPredicate(const S& pName, const S& pValue)=0;
 
 		virtual S getType() const=0;
-	protected:
-		AimlBot<S>* mParent;
 	};
 }
 #endif

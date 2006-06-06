@@ -30,6 +30,10 @@
 #include "aimlProcessors/GossipProcessor.h"
 #include "aimlProcessors/ConditionProcessor.h"
 #include "aimlProcessors/LiProcessor.h"
+#include "aimlProcessors/BrProcessor.h"
+#include "aimlProcessors/GetProcessor.h"
+#include "aimlProcessors/SetProcessor.h"
+#include "aimlProcessors/SraiProcessor.h"
 
 using namespace XmlMapper;
 
@@ -86,6 +90,10 @@ namespace MadaBot
 			addProcessor(new GossipProcessor<S>());
 			addProcessor(new ConditionProcessor<S>());
 			addProcessor(new LiProcessor<S>());
+			addProcessor(new BrProcessor<S>());
+			addProcessor(new GetProcessor<S>());
+			addProcessor(new SetProcessor<S>());
+			addProcessor(new SraiProcessor<S>());
 		}
 	};
 

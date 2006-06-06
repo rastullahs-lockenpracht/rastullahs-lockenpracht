@@ -33,7 +33,7 @@ namespace MadaBot
 	template <class S> class DefaultPredicates : public Predicates<S>
 	{
 	public:
-		DefaultPredicates(AimlBot<S>* pParent) : Predicates(pParent){}
+		DefaultPredicates() {}
 		~DefaultPredicates(){}
 		/**
 		 * Getter, should be templatized, but then it couldn't be virtual

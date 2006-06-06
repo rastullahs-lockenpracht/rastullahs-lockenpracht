@@ -21,14 +21,13 @@
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 #ifndef CONDITION_PROCESSOR_H
-#define CONDITION_PRCOESSOR_H
+#define CONDITION_PROCESSOR_H
 
 #include "XmlMapper/XmlNodeProcessor.h"
-using namespace XmlMapper;
-
 #include "AimlBot.h"
 #include "Predicates.h"
 
+using namespace XmlMapper;
 
 namespace MadaBot
 {
@@ -42,21 +41,33 @@ namespace MadaBot
 		/**
 		 * Constructor
 		 */
-		ConditionProcessor()
-			: XmlNodeProcessor<Response, AimlBot, S, false>("condition")
-		{}
+		ConditionProcessor(const S& pName ="condition")
+			: XmlNodeProcessor<Response, AimlBot, S, false>(pName)
+		{ 
+			initialize(); 
+		}
+		
+		virtual ~ConditionProcessor(){}
 
-		void preprocessStep();
-		void processChildStep(XmlNode<S>* pChild);
-		void postprocessStep(){}
+		virtual void preprocessStep();
+		virtual void processChildStep(XmlNode<S>* pChild);
+		virtual void postprocessStep(){}
 	protected:
-		void initialize(){}
+		virtual void initialize();
 		S mPredicateValue;
 		S mNodeValue;
 	};
 
+	template <class S> void ConditionProcessor<S>::initialize()
+	{
+		addAllowedSubProcessor("li");
+		addAttribute("type");
+		addAttribute("name");
+		addAttribute("value");
+	}
 	template <class S> void ConditionProcessor<S>::preprocessStep()
 	{
+		mProcessChildren = true;
 		mPredicateValue.clear();
 		mNodeValue.clear();
 		try

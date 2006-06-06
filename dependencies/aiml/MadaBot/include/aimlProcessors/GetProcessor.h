@@ -20,38 +20,44 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef GOSSIP_PROCESSOR_H
-#define GOSSIP_PRCOESSOR_H
+#ifndef GET_PROCESSOR_H
+#define GET_PRCOESSOR_H
 
 #include "XmlMapper/XmlNodeProcessor.h"
+#include "AimlBot.h"
+#include "Predicates.h"
+
 using namespace XmlMapper;
 
 namespace MadaBot
 {
-	/**
-	 * Stores a pointer to the data of the gossip element in the response,
-	 * for allowing client specific processing of gossip
-	 */
-	template <class S> class GossipProcessor
-		: public XmlNodeProcessor<Response, AimlBot, S, false>
+	template <class S> class GetProcessor 
+		: public XmlNodeProcessor<Response, AimlBot, S, false> 
 	{
 	public:
 		/**
 		 * Constructor
 		 */
-		GossipProcessor()
-			: XmlNodeProcessor<Response, AimlBot, S, false>("gossip")
-		{}
+		GetProcessor()
+			: XmlNodeProcessor<Response, AimlBot, S, false>("get")
+		{
+			initialize();
+		}
 
 		void preprocessStep()
 		{
-			mCurrentReturnValue.clear();
-			mCurrentReturnValue += mCurrentNode;
+			S result = mCurrentHelper->getPredicates(mAttributes["type"])
+				->getPredicate(mAttributes["name"]);
+			mCurrentReturnValue = result;
 		}
 		void processChildStep(XmlNode<S>* pChild){}
 		void postprocessStep(){}
 	protected:
-		void initialize(){}
+		void initialize()
+		{
+			addAttribute("type");
+			addAttribute("name");
+		}
 	};
 }
 #endif

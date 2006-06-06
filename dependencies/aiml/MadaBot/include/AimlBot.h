@@ -57,7 +57,7 @@ namespace MadaBot
 		 */
 		AimlBot(const S& pName, AimlCore<S>* pParent) : mName(pName), mParent(pParent)
 		{
-			addPredicates(new DefaultPredicates<S>(this));
+			addPredicates(new DefaultPredicates<S>());
 		}
 
 		/**
@@ -78,6 +78,21 @@ namespace MadaBot
 		 */
 		void addPredicates(Predicates<S>* pPredicates);
 
+		/**
+		 *
+		 */
+		const S& getName() const
+		{
+			return mName;
+		}
+
+		/**
+		 *
+		 */
+		const S& getVoice() const
+		{
+			return mVoice;
+		}
 		/** 
 		 * @param  pType type of the predicates
 		 * @return the predicates access class for the given type
