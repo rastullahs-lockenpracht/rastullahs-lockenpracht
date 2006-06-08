@@ -28,8 +28,8 @@ namespace rl
 	const CeGuiString GameObject::DEFAULT_VIEW_OBJECT_ACTION = "viewobject";
 	int GameObject::sNextGameObjectId = 1;
 
-    GameObject::GameObject(const CeGuiString& name,
-                           const CeGuiString& description)
+    GameObject::GameObject(const CeGuiString name,
+                           const CeGuiString description)
 		:   mId(GameObject::sNextGameObjectId++),
             mName(name),
             mDescription(description),
@@ -53,22 +53,22 @@ namespace rl
         return mId;
     }
 
-    const CeGuiString& GameObject::getName() const
+    const CeGuiString GameObject::getName() const
     {
         return mName;
     }
 
-    void GameObject::setName(CeGuiString& name)
+    void GameObject::setName(CeGuiString name)
     {
         mName = name;
     }
 
-    const CeGuiString& GameObject::getDescription() const
+    const CeGuiString GameObject::getDescription() const
     {
         return mDescription;
     }
 
-    void GameObject::setDescription(CeGuiString& description)
+    void GameObject::setDescription(CeGuiString description)
     {
         mDescription = description;
     }
@@ -120,7 +120,7 @@ namespace rl
         return actions;
     }
 
-    void GameObject::doAction( const CeGuiString& actionName,
+    void GameObject::doAction( const CeGuiString actionName,
                               Creature* actor,
                               GameObject* target)
     {
@@ -136,7 +136,7 @@ namespace rl
 		doAction((*it).first, actor, target);
     }
 
-	void GameObject::doAction(const CeGuiString& actionName)
+	void GameObject::doAction(const CeGuiString actionName)
 	{
 		doAction(actionName, NULL, NULL);
 	}
@@ -160,7 +160,7 @@ namespace rl
 		GameObject::findAction(
 			GameObject::ActionOptionVector::iterator begin, 
 			GameObject::ActionOptionVector::iterator end, 
-			const CeGuiString& actionName)
+			const CeGuiString actionName)
 	{
 		for (ActionOptionVector::iterator iter = begin; iter != end; ++iter)
 		{

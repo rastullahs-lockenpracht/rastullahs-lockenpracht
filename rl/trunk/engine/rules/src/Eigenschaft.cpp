@@ -18,9 +18,9 @@
 
 namespace rl
 {
-    Eigenschaft::Eigenschaft(const CeGuiString& name,
-							 const CeGuiString& nameAbbrev,
-                             const CeGuiString& description) : mName(name),
+    Eigenschaft::Eigenschaft(const CeGuiString name,
+							 const CeGuiString nameAbbrev,
+                             const CeGuiString description) : mName(name),
 															   mNameAbbreviation(nameAbbrev),
                                                                mDescription(description)
     {
@@ -36,17 +36,17 @@ namespace rl
         return mNameAbbreviation < rhs.mNameAbbreviation;
     }
 
-    const CeGuiString& Eigenschaft::getName() const
+    const CeGuiString Eigenschaft::getName() const
     {
         return mName;
     }
 
-    const CeGuiString& Eigenschaft::getNameAbbreviation() const
+    const CeGuiString Eigenschaft::getNameAbbreviation() const
     {
         return mNameAbbreviation;
     }
 
-    const CeGuiString& Eigenschaft::getDescription() const
+    const CeGuiString Eigenschaft::getDescription() const
     {
         return mDescription;
     }

@@ -80,14 +80,14 @@ namespace rl
 
 		int roll(int d6, int d20);
 
-        Talent* getTalent(const CeGuiString& talentName) const;
-		//Talent* getTalent(const CeGuiString& name) const;
-        Kampftechnik* getKampftechnik(const CeGuiString& kampftechnikName) const;
-        Eigenschaft* getEigenschaft(const CeGuiString& eigenschaftName) const;
+        Talent* getTalent(const CeGuiString talentName) const;
+		//Talent* getTalent(const CeGuiString name) const;
+        Kampftechnik* getKampftechnik(const CeGuiString kampftechnikName) const;
+        Eigenschaft* getEigenschaft(const CeGuiString eigenschaftName) const;
 		Person* getPerson(int id) const;        
 		
-		//int getEigenschaftIdFromString(const CeGuiString& str) const;
-		//int getEigenschaftIdFromLongString(const CeGuiString& str) const;
+		//int getEigenschaftIdFromString(const CeGuiString str) const;
+		//int getEigenschaftIdFromLongString(const CeGuiString str) const;
 		
 		int getSteigerKosten(int column, int from, int to) const;
 		int getSteigerKosten(int column, int from) const;

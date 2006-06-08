@@ -26,9 +26,9 @@ namespace rl
     class _RlRulesExport Item : public GameObject
     {
     public:
-		Item(const CeGuiString& name, const CeGuiString& description);
+		Item(const CeGuiString name, const CeGuiString description);
 
-		//Item(const CeGuiString& name, const CeGuiString& description, CEGUI::String imageName, ItemType type, pair<int,int> size);
+		//Item(const CeGuiString name, const CeGuiString description, CEGUI::String imageName, ItemType type, pair<int,int> size);
 
         virtual ~Item(void);
 
@@ -59,9 +59,9 @@ namespace rl
 
 		static const CeGuiString getItemTypeString(ItemType type);
  
-		const CeGuiString& getImageName();
+		const CeGuiString getImageName();
 
-		void setImageName(const CeGuiString& name);
+		void setImageName(const CeGuiString name);
 		
 		
 		/**

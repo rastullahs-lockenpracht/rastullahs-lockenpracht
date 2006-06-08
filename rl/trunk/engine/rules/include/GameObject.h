@@ -39,17 +39,17 @@ namespace rl
     class _RlRulesExport GameObject : public Ogre::UserDefinedObject, public ObjectStateChangeEventSource
     {
     public:
-        GameObject(const CeGuiString& name,
-                   const CeGuiString& description);
+        GameObject(const CeGuiString name,
+                   const CeGuiString description);
         virtual ~GameObject(void);
 
         virtual int getId() const;
 
-        virtual const CeGuiString& getName() const;
-        virtual void setName(CeGuiString& name);
+        virtual const CeGuiString getName() const;
+        virtual void setName(CeGuiString name);
 
-        virtual const CeGuiString& getDescription() const;
-        virtual void setDescription(CeGuiString& description);
+        virtual const CeGuiString getDescription() const;
+        virtual void setDescription(CeGuiString description);
 
 		void addAction(Action* action, int option = Action::ACT_NORMAL);
         void addActionInGroup(Action* action, ActionGroup* group, int option = Action::ACT_NORMAL);
@@ -70,11 +70,11 @@ namespace rl
          *         getriggert wurde.
          *  @param target Ziel, auf das die Aktion gewirkt wird.
          */
-        void doAction(const CeGuiString& actionName,
+        void doAction(const CeGuiString actionName,
                       Creature* actor,
                       GameObject* target);
 
-		void doAction(const CeGuiString& actionName);
+		void doAction(const CeGuiString actionName);
 
 		void doAction(Action* action,
                       Creature* actor,
@@ -104,7 +104,7 @@ namespace rl
 
 	private:
         ActionOptionVector mActions;
-		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const CeGuiString& actionName);
+		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const CeGuiString actionName);
 		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const Action* action);
 	
 		Actor* mActor;

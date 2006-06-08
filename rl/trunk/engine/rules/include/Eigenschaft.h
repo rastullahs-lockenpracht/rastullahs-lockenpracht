@@ -43,16 +43,16 @@ namespace rl
 		const CeGuiString mNameAbbreviation;
         const CeGuiString mDescription;
     public:
-        Eigenschaft(const CeGuiString& name,
-					const CeGuiString& nameAbbrev,
-                    const CeGuiString& description);
+        Eigenschaft(const CeGuiString name,
+					const CeGuiString nameAbbrev,
+                    const CeGuiString description);
 
         bool operator==(const Eigenschaft& rhs) const;
         bool operator<(const Eigenschaft& rhs) const;
 
-        const CeGuiString& getName() const;
-        const CeGuiString& getNameAbbreviation() const;
-        const CeGuiString& getDescription() const;
+        const CeGuiString getName() const;
+        const CeGuiString getNameAbbreviation() const;
+        const CeGuiString getDescription() const;
     };
 }
 

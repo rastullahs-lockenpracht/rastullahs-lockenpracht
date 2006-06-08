@@ -21,7 +21,7 @@ using namespace std;
 
 namespace rl
 {
-	Weapon::Weapon(const CeGuiString& weaponName, const CeGuiString& description)
+	Weapon::Weapon(const CeGuiString weaponName, const CeGuiString description)
 		: Item(weaponName, description)
 	{
 	}
@@ -93,12 +93,12 @@ namespace rl
 		return mDk;
 	}
 
-	void Weapon::setKampftechnik(const CeGuiString& newKampftechnik)
+	void Weapon::setKampftechnik(const CeGuiString newKampftechnik)
 	{
 		mKampftechnik = newKampftechnik;
 	}
 
-	const CeGuiString& Weapon::getKampftechnik() const
+	const CeGuiString Weapon::getKampftechnik() const
 	{
 		return mKampftechnik;
 	}

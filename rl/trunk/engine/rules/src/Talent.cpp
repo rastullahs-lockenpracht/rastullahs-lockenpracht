@@ -19,12 +19,12 @@
 
 namespace rl
 {
-    Talent::Talent(const CeGuiString& name,
-                   const CeGuiString& description,
+    Talent::Talent(const CeGuiString name,
+                   const CeGuiString description,
                    const EigenschaftTripel& eigenschaften,
                    int ebe,
 				   int gruppe,
-				   const CeGuiString& art)
+				   const CeGuiString art)
                                        : mName(name),
                                          mDescription(description),
                                          mEigenschaften(eigenschaften),

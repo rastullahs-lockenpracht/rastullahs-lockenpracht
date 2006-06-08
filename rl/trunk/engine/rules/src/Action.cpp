@@ -19,7 +19,7 @@
 
 namespace rl
 {
-    Action::Action(const CeGuiString& name, const CeGuiString& description) 
+    Action::Action(const CeGuiString name, const CeGuiString description) 
 		: mName(name),
           mDescription(description),
 		  mGroup(NULL)
@@ -30,18 +30,18 @@ namespace rl
     {
     }
 
-    const CeGuiString& Action::getName() const
+    const CeGuiString Action::getName() const
     {
         return mName;
     }
 
-	/*const CeGuiString& Action::getClassName() const
+	/*const CeGuiString Action::getClassName() const
 	{
 		static CeGuiString className = (CEGUI::utf8*)"Action";
 		return className;
 	}*/
 
-    const CeGuiString& Action::getDescription() const
+    const CeGuiString Action::getDescription() const
     {
         return mDescription;
     }
@@ -92,7 +92,7 @@ namespace rl
 			(*it)->removeParent();
 	}
 	
-	const CeGuiString& ActionGroup::getName() const
+	const CeGuiString ActionGroup::getName() const
 	{
 		return mName;
 	}

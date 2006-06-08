@@ -19,8 +19,8 @@
 
 namespace rl
 {
-    Kampftechnik::Kampftechnik(const CeGuiString& name,
-                   const CeGuiString& description,
+    Kampftechnik::Kampftechnik(const CeGuiString name,
+                   const CeGuiString description,
                    int ebe)
                                        : mName(name),
                                          mDescription(description),

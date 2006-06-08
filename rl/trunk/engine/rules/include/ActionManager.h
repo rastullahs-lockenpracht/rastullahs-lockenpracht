@@ -52,11 +52,11 @@ namespace rl
         ~ActionManager();
 
         void registerAction(Action* action);
-        void unregisterAction(const CeGuiString& actionName);
-        Action* getAction(const CeGuiString& actionName) const;
+        void unregisterAction(const CeGuiString actionName);
+        Action* getAction(const CeGuiString actionName) const;
 
 		void registerInGameGlobalAction(Action* action, ActionGroup* group);
-		Action* getInGameGlobalAction(const CeGuiString& actionName) const;
+		Action* getInGameGlobalAction(const CeGuiString actionName) const;
 		const ActionVector& ActionManager::getInGameGlobalActions();
 	
         static ActionManager& getSingleton(void);

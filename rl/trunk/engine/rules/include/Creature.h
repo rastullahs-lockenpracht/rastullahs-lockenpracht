@@ -95,7 +95,7 @@ namespace rl
     {
 
     protected:
-        virtual int getEigenschaftForBasiswertCalculation(const CeGuiString& eigenschaftName);
+        virtual int getEigenschaftForBasiswertCalculation(const CeGuiString eigenschaftName);
 		virtual int getMrBasis();
         virtual int getLeBasis();
 		virtual int getAuBasis();
@@ -155,8 +155,8 @@ namespace rl
 
 
 		///@warning Nur zu Testzwecken da. Wird spaeter entfernt.
-        Creature(const CeGuiString& name,
-                 const CeGuiString& description);
+        Creature(const CeGuiString name,
+                 const CeGuiString description);
 		        
         virtual ~Creature();
 
@@ -212,7 +212,7 @@ namespace rl
 		 *  gefunden werden (Name ausgeschrieben statt abgekuerzt? 
 		 *  Groß/Kleinschreibung beachtet?).
 		 **/
-        virtual int getEigenschaft(const CeGuiString& eigenschaftName);
+        virtual int getEigenschaft(const CeGuiString eigenschaftName);
 		/**
 		 *  @brief Setzt den Wert der Eigenschaft eigenschaftName auf value.
 		 *  @param eigenschaftName Der Name al Abkuerzung (z.B. MU, FF, etc.).
@@ -221,7 +221,7 @@ namespace rl
 		 *  gefunden werden (Name ausgeschrieben statt abgekuerzt? 
 		 *  Groß/Kleinschreibung beachtet?).
 		 **/
-        virtual void setEigenschaft(const CeGuiString& eigenschaftName, int value);
+        virtual void setEigenschaft(const CeGuiString eigenschaftName, int value);
 		/** @brief Addiert mod auf den Wert der Eigenschaft eigenschaftName.
 		 *  @param eigenschaftName Der Name al Abkuerzung (z.B. MU, FF, etc.).
 		 *  @param mod Wird auf den Wert addiert (kann auch negativ sein).
@@ -229,9 +229,9 @@ namespace rl
 		 *  gefunden werden (Name ausgeschrieben statt abgekuerzt? 
 		 *  Groß/Kleinschreibung beachtet?).
 		 **/
-        virtual void modifyEigenschaft(const CeGuiString& eigenschaftName, int mod);
+        virtual void modifyEigenschaft(const CeGuiString eigenschaftName, int mod);
 
-		virtual EigenschaftenStateSet* getEigenschaftenStateSet(const CeGuiString& eigenschaftName);
+		virtual EigenschaftenStateSet* getEigenschaftenStateSet(const CeGuiString eigenschaftName);
 
 ///////////////////////////////////////////////////////////////////////////////
 // Talente
@@ -242,7 +242,7 @@ namespace rl
 		 *  @exception InvalidArgumentException Das Talent konnte nicht
 		 *    gefunden werden.
 		 */
-        void addTalent(const CeGuiString& talentName, int value = 0);
+        void addTalent(const CeGuiString talentName, int value = 0);
 		/** @brief Liefert den Wert des Talents talentName zurueck.
 		 *  @param talentName Bezeichnet das Talent.
 		 *  @param value Startwert des Talents
@@ -250,28 +250,28 @@ namespace rl
 		 *  @exception InvalidArgumentException Das Talent konnte in mTalente
 		 *    nicht gefunden werden.
 		 */
-		virtual int getTalent(const CeGuiString& talentName);
+		virtual int getTalent(const CeGuiString talentName);
 		/** @brief Setzt den Wert des Talents talentName.
 		 *  @param talentName Bezeichnet das zu veraendernde Talent.
 		 *  @param value Der neue TaW.
 		 *  @exception InvalidArgumentException Das Talent konnte in mTalente
 		 *    nicht gefunden werden.
 		 */
-        virtual void setTalent(const CeGuiString& talentName, int value);
+        virtual void setTalent(const CeGuiString talentName, int value);
 		/** @brief Erhoeht das Talent talentName um mod.
 		 *  @param talentName Bezeichnet das zu steigernde Talent.
 		 *  @param mod Der Wert um den das Talent gesteigert werden soll.
 		 *  @exception InvalidArgumentException Das Talent konnte in mTalente
 		 *    nicht gefunden werden.
 		 */
-        virtual void modifyTalent(const CeGuiString& talentName, int mod);
+        virtual void modifyTalent(const CeGuiString talentName, int mod);
 		virtual const Creature::TalentMap& getAllTalents() const;
 		/** @brief Markiert ein Talent mit einer Speziellen Erfahrung (SE).
 		 * Siehe Spezielle Erfahrungen, MFF 47
 		 * @param talentName Bezeichnet das Talent in dem die SE erhalten wurde
 		 */
-		virtual void addSe(const CeGuiString& talentName);
-		virtual TalentStateSet* getTalentStateSet(const CeGuiString& talentName);
+		virtual void addSe(const CeGuiString talentName);
+		virtual TalentStateSet* getTalentStateSet(const CeGuiString talentName);
 
 ///////////////////////////////////////////////////////////////////////////////
 // Kampftechniken
@@ -283,7 +283,7 @@ namespace rl
 		 *  (0,0).
 		 *  @exception InvalidArgumentExeption Die Kampftechnik ist unbekannt.
 		 */
-		void addKampftechnik(const CeGuiString& kampftechnikName, const pair<int,int>& value = make_pair(0,0));
+		void addKampftechnik(const CeGuiString kampftechnikName, const pair<int,int>& value = make_pair(0,0));
 		/** @brief liefert die AT und PA Werte in einer bestimmten Kampftechnik
 		 *  zurueck.
 		 *  @param kampfTechnikId Beszeichnet die Kampftechnik.
@@ -291,14 +291,14 @@ namespace rl
 		 *  @exception InvalidArgumentException kampftechnikId konnte nicht in 
 		 *    mKampftechniken gefunden werden.
 		 */
-        virtual pair<int, int> getKampftechnik(const CeGuiString& kampftechnikName) const;
+        virtual pair<int, int> getKampftechnik(const CeGuiString kampftechnikName) const;
 		/** @brief Setzt die AT und PA Werte in einer bestimmten Kampftechnik.
 		 *  @param kampftechnikId Bestimmt die zu setzende Kampftechnik.
 		 *  @param value Die neuen AT/PA Werte.
 		 *  @exception InvalidArgumentException Die Kampftechnik kampftechnikId
 		 *    konnte nicht in mKampftechniken gefunden werden.
 		 */
-        virtual void setKampftechnik(const CeGuiString& kampftechnikName, const pair<int, int>& value);
+        virtual void setKampftechnik(const CeGuiString kampftechnikName, const pair<int, int>& value);
 
 ///////////////////////////////////////////////////////////////////////////////
 // Sonderfertigkeiten
@@ -309,14 +309,14 @@ namespace rl
 		 *  @exception InvalidArgumentException sfName kann nicht gefunden
 		 *    werden.
 		 */
-		virtual void addSf(const CeGuiString& sfName, int value = SF_IN_TRAINING);
+		virtual void addSf(const CeGuiString sfName, int value = SF_IN_TRAINING);
 		/** @brief Liefert den Wert der Sonderfertigkeit(SF) zurueck.
 		 *  @sa SonderfertigkeitMap
 		 *  @param sfId Bezeichnet die SF
 		 *  @exception InvalidArgumentException sfName kann nicht in 
 		 *    mSonderfertigkeiten gefunden werden.
 		 */
-		virtual int getSf(const CeGuiString& sfName);
+		virtual int getSf(const CeGuiString sfName);
 		/** @brief Setzt den Wert der SF.
 		 *  @sa SonderfertigkeitMap
 		 *  @param sfId Bezeichnet die Sonderfertigkeit deren Wert gesetzt
@@ -328,9 +328,9 @@ namespace rl
 		 *  @exception InvalidArgumentException sfName kann nicht in 
 		 *    mSonderfertigkeiten gefunden werden.
 		 */
-		virtual void setSf(const CeGuiString& sfName, int value);
+		virtual void setSf(const CeGuiString sfName, int value);
 
-		virtual SonderfertigkeitenStateSet* getSonderfertigkeitenStateSet(const CeGuiString& sfName);
+		virtual SonderfertigkeitenStateSet* getSonderfertigkeitenStateSet(const CeGuiString sfName);
 
 ///////////////////////////////////////////////////////////////////////////////
 // Inventory
@@ -375,7 +375,7 @@ namespace rl
 		 *  @exception InvalidArgumentException Der Container wurde nicht
 		 *  in mContainer gefunden.
 		 **/
-		Container* getContainer(const CeGuiString& containterName) const;
+		Container* getContainer(const CeGuiString containterName) const;
 		/**
 		 *  @brief Entfernt den Container containerName.
 		 *   Der Container wird aus mContainer geloescht und ein Zeiger darauf
@@ -384,7 +384,7 @@ namespace rl
 		 *  @exception InvalidArgumentException Container nicht in
 		 *  mContainer gefunden.
 		 **/
-		Container* removeContainer(const CeGuiString& containerName);
+		Container* removeContainer(const CeGuiString containerName);
 		/**
 		 *  @brief Fuegt eine Waffer der Liste der derzeit einsetzbaren Waffen
 		 *   hinzu
@@ -427,7 +427,7 @@ namespace rl
 		*  @see doAlternativeTalentprobe(CeGuiString* talentName, int spezialisierungId, int modifier, int eigenschaft1Id, int eigenschaft2Id, int eigenschaft3Id) 
 		*   fuer Parameter und Rueckgabewerte
         */
-        virtual int doTalentprobe(const CeGuiString& talentName, int modifier);
+        virtual int doTalentprobe(const CeGuiString talentName, int modifier);
 
         /** @brief Durchfuehren einer Talentprobe.
 		*  Intern ruft sie doAlternativeTalentprobe mit den
@@ -437,7 +437,7 @@ namespace rl
 		*  @see doAlternativeTalentprobe(CeGuiString* talentName, int spezialisierungId, int modifier, int eigenschaft1Id, int eigenschaft2Id, int eigenschaft3Id) 
 		*  fuer Parameter und Rueckgabewerte
 		*/
-        virtual int doTalentprobe(const CeGuiString& talentName, int spezialisierungId,
+        virtual int doTalentprobe(const CeGuiString talentName, int spezialisierungId,
 			int modifier);
 
         /** @brief Durchfuehren einer Talentprobe mit alternativen Eigenschaften.
@@ -446,7 +446,7 @@ namespace rl
 		*  @see doAlternativeTalentprobe(CeGuiString* talentName, int spezialisierungId, int modifier, int eigenschaft1Id, int eigenschaft2Id, int eigenschaft3Id) 
 		*  fuer Parameter und Rueckgabewerte
         */
-        virtual int doAlternativeTalentprobe(const CeGuiString& talentName, int modifier, 
+        virtual int doAlternativeTalentprobe(const CeGuiString talentName, int modifier, 
 			CeGuiString eigenschaft1Name, CeGuiString eigenschaft2Name, CeGuiString eigenschaft3Name);
 
         /** @brief Durchfuehren einer Talentprobe mit alternativen Eigenschaften.
@@ -470,7 +470,7 @@ namespace rl
         *  @retval   RESULT_AUTOMISSERFOLG bedeutet 2*20 gewuerfelt.
         *  @retval   RESULT_SPEKT_AUTOMISSERFOLG bedeutet 3*20 gewuerfelt.
         */
-        virtual int doAlternativeTalentprobe(const CeGuiString& talentName, int spezialisierungId, 
+        virtual int doAlternativeTalentprobe(const CeGuiString talentName, int spezialisierungId, 
 			int modifier, CeGuiString eigenschaft1Name, CeGuiString eigenschaft2Name, 
 			CeGuiString eigenschaft3Name);
 
@@ -485,7 +485,7 @@ namespace rl
         *  @retval RESULT_GLUECKLICH bedeutet 1 gewuerfelt.
         *  @retval RESULT_PATZER bedeutet 20 gewuerfelt.
         */
-        virtual int doEigenschaftsprobe(const CeGuiString& eigenschaftName, int modifier);
+        virtual int doEigenschaftsprobe(const CeGuiString eigenschaftName, int modifier);
 
 		/** 
 		*  @brief Fuehrt eine Attacke aus.
@@ -501,7 +501,7 @@ namespace rl
 		*  @exception InvalidArgumentException Kampftechnik nicht in 
 		*   mKampftechniken gefunden.
 		**/
-		int doAttacke(const CeGuiString& kampftechnikName, int modifier);
+		int doAttacke(const CeGuiString kampftechnikName, int modifier);
 		/** 
 		*  @brief Fuehrt eine Parade aus.
 		*   Die Funktion wird von einem Parademanoever aufgerufen.
@@ -517,7 +517,7 @@ namespace rl
 		*  @exception InvalidArgumentException Kampftechnik nicht in 
 		*   mKampftechniken gefunden.
 		**/
-		int doParade(const CeGuiString& kampftechnikName, int modifier, bool guteParade = false);
+		int doParade(const CeGuiString kampftechnikName, int modifier, bool guteParade = false);
 
 		/**
 		 *  @brief Fuehrt einen Initiativewurf durch.

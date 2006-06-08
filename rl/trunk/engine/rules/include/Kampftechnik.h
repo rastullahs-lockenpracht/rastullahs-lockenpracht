@@ -30,8 +30,8 @@ namespace rl
         const CeGuiString mDescription;
         const int mEbe;
     public:
-        Kampftechnik(const CeGuiString& name,
-                     const CeGuiString& description,
+        Kampftechnik(const CeGuiString name,
+                     const CeGuiString description,
                      int ebe);
 
         bool operator==(const Kampftechnik& rhs) const;

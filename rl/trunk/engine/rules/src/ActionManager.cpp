@@ -26,7 +26,7 @@ rl::ActionManager* Singleton<rl::ActionManager> ::ms_Singleton = 0;
 namespace rl
 {
 
-	ActionVector::iterator findAction(ActionVector::iterator begin, ActionVector::iterator end, const CeGuiString& actionName)
+	ActionVector::iterator findAction(ActionVector::iterator begin, ActionVector::iterator end, const CeGuiString actionName)
 	{
 		for (ActionVector::iterator it = begin; it != end; it++)
 			if ((*it)->getName().compare(actionName) == 0)
@@ -35,7 +35,7 @@ namespace rl
 		return end;
 	}
 
-	ActionVector::const_iterator findActionConst(ActionVector::const_iterator begin, ActionVector::const_iterator end, const CeGuiString& actionName)
+	ActionVector::const_iterator findActionConst(ActionVector::const_iterator begin, ActionVector::const_iterator end, const CeGuiString actionName)
 	{
 		for (ActionVector::const_iterator it = begin; it != end; it++)
 			if ((*it)->getName().compare(actionName) == 0)
@@ -83,7 +83,7 @@ namespace rl
 			Logger::LL_MESSAGE, "Action "+action->getName()+" beim ActionManager registriert");
     }
 
-	void ActionManager::unregisterAction(const CeGuiString& actionName)
+	void ActionManager::unregisterAction(const CeGuiString actionName)
 	{
 		ActionMap::iterator iter = mActions.find(actionName);
 		if (iter == mActions.end())
@@ -96,7 +96,7 @@ namespace rl
 			Logger::LL_MESSAGE, "Action "+actionName+" beim ActionManager gelöscht");
 	}
 
-	Action* ActionManager::getAction(const CeGuiString& actionName) const
+	Action* ActionManager::getAction(const CeGuiString actionName) const
 	{
 		Logger::getSingleton().log(Logger::RULES,
 			Logger::LL_MESSAGE, "Suche Action " + actionName);
@@ -114,7 +114,7 @@ namespace rl
 		action->setGroup(group);
 	}
 
-	Action* ActionManager::getInGameGlobalAction(const CeGuiString& actionName) const
+	Action* ActionManager::getInGameGlobalAction(const CeGuiString actionName) const
 	{
 		ActionVector::const_iterator iter = 
 			findActionConst(

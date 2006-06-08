@@ -73,7 +73,7 @@ public:
 
 	void removeItemFromSlots(Item* item);
 
-	Item* createItem(const CeGuiString& name, const CeGuiString& description, const CeGuiString& imageName, Item::ItemType type, pair<int,int> size);
+	Item* createItem(const CeGuiString name, const CeGuiString description, const CeGuiString imageName, Item::ItemType type, pair<int,int> size);
 
 	//Ring links
 	Item* getRingLeft();

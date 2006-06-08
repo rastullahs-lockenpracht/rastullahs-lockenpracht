@@ -27,7 +27,7 @@ namespace rl
     class _RlRulesExport Container : public Item
     {
     public:
-        Container(const CeGuiString& name, const CeGuiString& description);
+        Container(const CeGuiString name, const CeGuiString description);
         virtual ~Container(void);
 
         /// Fassungsvermoegen in Unzen

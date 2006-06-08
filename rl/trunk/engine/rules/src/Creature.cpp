@@ -27,7 +27,7 @@
 
 namespace rl
 {
-    Creature::Creature(const CeGuiString& name, const CeGuiString& description)
+    Creature::Creature(const CeGuiString name, const CeGuiString description)
         : GameObject(name, description), 
 		mCurrentLe(NULL),
 		mActiveWeapon(NULL)
@@ -240,7 +240,7 @@ namespace rl
 		return getAuBasis() + getWert(WERT_MOD_AU);
     }
 
-    int Creature::getEigenschaft(const CeGuiString& eigenschaftName)
+    int Creature::getEigenschaft(const CeGuiString eigenschaftName)
     {
 		checkEffects();
 		EigenschaftMap::const_iterator it = mEigenschaften.find(eigenschaftName);
@@ -251,7 +251,7 @@ namespace rl
 		return it->second->getValue();
     }
 
-    int Creature::getEigenschaftForBasiswertCalculation(const CeGuiString& eigenschaftName)
+    int Creature::getEigenschaftForBasiswertCalculation(const CeGuiString eigenschaftName)
     {
 		checkEffects();
 		EigenschaftMap::const_iterator it = mEigenschaften.find(eigenschaftName);
@@ -262,7 +262,7 @@ namespace rl
 		return it->second->getValueForBasiswertCalculation();
     }
 
-    void Creature::setEigenschaft(const CeGuiString& eigenschaftName, int value)
+    void Creature::setEigenschaft(const CeGuiString eigenschaftName, int value)
     {
         EigenschaftMap::iterator it = mEigenschaften.find(eigenschaftName);
         if (it == mEigenschaften.end())
@@ -273,13 +273,13 @@ namespace rl
 		fireObjectStateChangeEvent();
     }
 
-    void Creature::modifyEigenschaft(const CeGuiString& eigenschaftName, int mod)
+    void Creature::modifyEigenschaft(const CeGuiString eigenschaftName, int mod)
     {
 		mEigenschaften[eigenschaftName]->setOriginalValue( mEigenschaften[eigenschaftName]->getOriginalValue() + mod );
 		fireObjectStateChangeEvent();
     }
 
-	EigenschaftenStateSet* Creature::getEigenschaftenStateSet(const CeGuiString& eigenschaftName)
+	EigenschaftenStateSet* Creature::getEigenschaftenStateSet(const CeGuiString eigenschaftName)
 	{
 		checkEffects();
         EigenschaftMap::const_iterator it = mEigenschaften.find(eigenschaftName);
@@ -290,7 +290,7 @@ namespace rl
 		return it->second;
 	}
 
-    int Creature::getTalent(const CeGuiString& talentName)
+    int Creature::getTalent(const CeGuiString talentName)
     {
 		checkEffects();
         TalentMap::const_iterator it = mTalente.find(talentName);
@@ -301,7 +301,7 @@ namespace rl
 		return it->second->getValue();
     }
 
-	void Creature::addTalent(const CeGuiString& talentName, int value)
+	void Creature::addTalent(const CeGuiString talentName, int value)
 	{
 		TalentMap::const_iterator it = mTalente.find(talentName);
         if (it != mTalente.end())
@@ -314,7 +314,7 @@ namespace rl
 		fireObjectStateChangeEvent();
 	}
 
-    void Creature::modifyTalent(const CeGuiString& talentName, int mod)
+    void Creature::modifyTalent(const CeGuiString talentName, int mod)
     {
         TalentMap::iterator it = mTalente.find(talentName);
         if (it == mTalente.end())
@@ -330,7 +330,7 @@ namespace rl
 		return mTalente;
 	}
 
-    void Creature::setTalent(const CeGuiString& talentName, int value)
+    void Creature::setTalent(const CeGuiString talentName, int value)
     {
         TalentMap::iterator it = mTalente.find(talentName);
         if (it == mTalente.end())
@@ -341,7 +341,7 @@ namespace rl
 		fireObjectStateChangeEvent();
     }
 
-	void Creature::addSe(const CeGuiString& talentName)
+	void Creature::addSe(const CeGuiString talentName)
 	{
         TalentMap::iterator it = mTalente.find(talentName);
         if (it == mTalente.end())
@@ -351,7 +351,7 @@ namespace rl
 		it->second->setSe( true );
 	}
 
-	TalentStateSet* Creature::getTalentStateSet(const CeGuiString& talentName)
+	TalentStateSet* Creature::getTalentStateSet(const CeGuiString talentName)
 	{
 		checkEffects();
         TalentMap::const_iterator it = mTalente.find(talentName);
@@ -362,7 +362,7 @@ namespace rl
 		return it->second;
 	}
 
-	void Creature::addKampftechnik(const CeGuiString& kampftechnikName, const pair<int,int>& value)
+	void Creature::addKampftechnik(const CeGuiString kampftechnikName, const pair<int,int>& value)
 	{
 		KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikName);
 		if (it != mKampftechniken.end())
@@ -376,7 +376,7 @@ namespace rl
 		fireObjectStateChangeEvent();
 	}
 
-    pair<int, int> Creature::getKampftechnik(const CeGuiString& kampftechnikName) const
+    pair<int, int> Creature::getKampftechnik(const CeGuiString kampftechnikName) const
     {
         KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikName);
         if (it == mKampftechniken.end())
@@ -386,7 +386,7 @@ namespace rl
         return (*it).second;
     }
 
-    void Creature::setKampftechnik(const CeGuiString& kampftechnikName, const pair<int, int>& value)
+    void Creature::setKampftechnik(const CeGuiString kampftechnikName, const pair<int, int>& value)
     {
         KampftechnikMap::iterator it = mKampftechniken.find(kampftechnikName);
         if (it == mKampftechniken.end())
@@ -397,7 +397,7 @@ namespace rl
 		fireObjectStateChangeEvent();
     }
 
-    int Creature::getSf(const CeGuiString& sfName)
+    int Creature::getSf(const CeGuiString sfName)
     {
 		checkEffects();
         SonderfertigkeitMap::const_iterator it = mSonderfertigkeiten.find(sfName);
@@ -408,7 +408,7 @@ namespace rl
 		return it->second->getValue();
     }
 
-	void Creature::addSf(const CeGuiString& sfName, int value)
+	void Creature::addSf(const CeGuiString sfName, int value)
 	{
 		SonderfertigkeitMap::const_iterator it = mSonderfertigkeiten.find(sfName);
 		if (it != mSonderfertigkeiten.end())
@@ -422,7 +422,7 @@ namespace rl
 		fireObjectStateChangeEvent();
 	}
 
-    void Creature::setSf(const CeGuiString& sfName, int value)
+    void Creature::setSf(const CeGuiString sfName, int value)
     {
 		if (value < SF_MIN_VALUE || value > SF_MAX_VALUE)
 		{
@@ -438,7 +438,7 @@ namespace rl
 		fireObjectStateChangeEvent();
     }
 
-	SonderfertigkeitenStateSet* Creature::getSonderfertigkeitenStateSet(const CeGuiString& sfName)
+	SonderfertigkeitenStateSet* Creature::getSonderfertigkeitenStateSet(const CeGuiString sfName)
 	{
 		checkEffects();
         SonderfertigkeitMap::const_iterator it = mSonderfertigkeiten.find(sfName);
@@ -449,7 +449,7 @@ namespace rl
 		return it->second;
 	}
 
-    int Creature::doAlternativeTalentprobe(const CeGuiString& talentName, int spezialisierungId,
+    int Creature::doAlternativeTalentprobe(const CeGuiString talentName, int spezialisierungId,
 		int modifier, CeGuiString eigenschaft1Name, CeGuiString eigenschaft2Name, CeGuiString eigenschaft3Name)
     {
         Talent* talent = DsaManager::getSingleton().getTalent(talentName);
@@ -527,14 +527,14 @@ namespace rl
         return rval;
     }
 
-    int Creature::doAlternativeTalentprobe(const CeGuiString& talentName, int modifier, 
+    int Creature::doAlternativeTalentprobe(const CeGuiString talentName, int modifier, 
 		CeGuiString eigenschaft1Name, CeGuiString eigenschaft2Name, CeGuiString eigenschaft3Name)
     {
 		return doAlternativeTalentprobe(talentName, -1, modifier, eigenschaft1Name,
 			eigenschaft2Name, eigenschaft3Name);
 	}
 
-    int Creature::doTalentprobe(const CeGuiString& talentName, int spezialisierungId, int modifier)
+    int Creature::doTalentprobe(const CeGuiString talentName, int spezialisierungId, int modifier)
     {
         Talent* talent = DsaManager::getSingleton().getTalent(talentName);
         EigenschaftTripel et(talent->getEigenschaften());
@@ -542,7 +542,7 @@ namespace rl
 			et.first, et. second, et.third);
 	}
 
-    int Creature::doTalentprobe(const CeGuiString& talentName, int modifier)
+    int Creature::doTalentprobe(const CeGuiString talentName, int modifier)
     {
         Talent* talent = DsaManager::getSingleton().getTalent(talentName);
         EigenschaftTripel et(talent->getEigenschaften());
@@ -550,7 +550,7 @@ namespace rl
 			et. second, et.third);
 	}
 
-    int Creature::doEigenschaftsprobe(const CeGuiString& eigenschaftName, int modifier)
+    int Creature::doEigenschaftsprobe(const CeGuiString eigenschaftName, int modifier)
     {
         int rval;
 
@@ -586,7 +586,7 @@ namespace rl
 		mContainer.insert(make_pair(container->getName(), container));
 	}
 
-	Container* Creature::getContainer(const CeGuiString& containerName) const
+	Container* Creature::getContainer(const CeGuiString containerName) const
 	{
 		ContainerMap::const_iterator it = mContainer.find(containerName);
 		if (it == mContainer.end())
@@ -596,7 +596,7 @@ namespace rl
 		return (*it).second;	
 	}
 
-	Container* Creature::removeContainer(const CeGuiString& containerName)
+	Container* Creature::removeContainer(const CeGuiString containerName)
 	{
 		ContainerMap::iterator it = mContainer.find(containerName);
 		if (it == mContainer.end())
@@ -696,7 +696,7 @@ namespace rl
 		return mActiveWeapon;
 	}
 
-	int Creature::doAttacke(const CeGuiString& kampftechnikName, int modifier)
+	int Creature::doAttacke(const CeGuiString kampftechnikName, int modifier)
 	{
 		KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikName);
 		if (it == mKampftechniken.end())
@@ -725,7 +725,7 @@ namespace rl
 			return RESULT_ERFOLG;
 	}
 
-	int Creature::doParade(const CeGuiString& kampftechnikName, int modifier, bool guteParade)
+	int Creature::doParade(const CeGuiString kampftechnikName, int modifier, bool guteParade)
 	{
 		KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikName);
 		if (it == mKampftechniken.end())

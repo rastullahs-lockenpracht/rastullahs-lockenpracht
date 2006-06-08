@@ -27,8 +27,8 @@ namespace rl {
 	{
 	public:
 		///@warning Nur zu Testzwecken da. Wird spaeter entfernt.
-        Person(  const CeGuiString& name,
-                 const CeGuiString& description);
+        Person(  const CeGuiString name,
+                 const CeGuiString description);
 	};	
 }
 

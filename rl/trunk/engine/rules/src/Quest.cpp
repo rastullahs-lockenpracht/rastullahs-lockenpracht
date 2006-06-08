@@ -27,7 +27,7 @@ namespace rl {
 
 CeGuiString	Quest::STATE_NAMES[6] = {"UNKNOWN", "OPEN", "FAILED", "COMPLETED", "CLOSED", "HEARDOF"};
 
-Quest::Quest(const CeGuiString& id, const CeGuiString& name, const CeGuiString& description)
+Quest::Quest(const CeGuiString id, const CeGuiString name, const CeGuiString description)
 :	mId(id),
 	mName(name),
 	mDescription(description),
@@ -44,17 +44,17 @@ Quest::~Quest()
 {
 }
 
-const CeGuiString& Quest::getId()
+const CeGuiString Quest::getId()
 {
 	return mId;
 }
 
-const CeGuiString& Quest::getName()
+const CeGuiString Quest::getName()
 {
 	return mName;
 }
 
-const CeGuiString& Quest::getDescription()
+const CeGuiString Quest::getDescription()
 {
 	return mDescription;
 }
@@ -101,7 +101,7 @@ Quest::State Quest::getState()
 	return mState;
 }
 
-const CeGuiString& Quest::getStateName()
+const CeGuiString Quest::getStateName()
 {
 	return Quest::STATE_NAMES[mState];
 }
@@ -178,7 +178,7 @@ void Quest::setQuestBook(QuestBook* questBook)
 	mQuestBook = questBook;
 }
 
-Quest::State Quest::getStateFromName(const CeGuiString& stateName)
+Quest::State Quest::getStateFromName(const CeGuiString stateName)
 {
 	if (stateName == Quest::STATE_NAMES[Quest::UNKNOWN]) 
 		return Quest::UNKNOWN;

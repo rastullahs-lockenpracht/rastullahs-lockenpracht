@@ -38,10 +38,10 @@ namespace rl
 		Effect(int stufe = 1);
 		virtual ~Effect();
 
-        const CeGuiString& getName() const;
-        void setName(CeGuiString& name);
-        const CeGuiString& getDescription() const;
-        void setDescription(CeGuiString& description);
+        const CeGuiString getName() const;
+        void setName(CeGuiString name);
+        const CeGuiString getDescription() const;
+        void setDescription(CeGuiString description);
 		Creature* getOwner() const;
 		void setOwner(Creature* owner);
 		virtual int getDuration();

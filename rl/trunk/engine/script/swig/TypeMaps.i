@@ -24,20 +24,20 @@
 
 %typemap(in) Ogre::String, const Ogre::String {
     Check_Type($input, T_STRING);
-    $1 = Ogre::String(STR2CSTR($input));
+    $1 = Ogre::String(StringValuePtr($input));
 }
 %typemap(out) Ogre::String, const Ogre::String {
-     $result = rb_str_new2($1.c_str());
+     $result = rb_str_buf_new2($1.c_str());
 }
 %typemap(in) Ogre::String*, Ogre::String&, const Ogre::String*, const Ogre::String& {
     Check_Type($input, T_STRING);
-    $1 = new Ogre::String(STR2CSTR($input));
+    $1 = new Ogre::String(StringValuePtr($input));
 }
 %typemap(out) Ogre::String*, Ogre::String&, const Ogre::String*, const Ogre::String& {
-     $result = rb_str_new2($1->c_str());
+     $result = rb_str_buf_new2($1->c_str());
 }
 %typemap(varout) Ogre::String, const Ogre::String {
-     $result = rb_str_new2($1.c_str());
+     $result = rb_str_buf_new2($1.c_str());
 }
 
 
@@ -46,39 +46,40 @@
 */
 %typemap(typecheck) rl::CeGuiString, const rl::CeGuiString, rl::CeGuiString*, rl::CeGuiString&, const rl::CeGuiString*, const rl::CeGuiString& = char *;
 
-%typemap(in) rl::CeGuiString, const rl::CeGuiString {
-    Check_Type($input, T_STRING);
-    $1 = rl::CeGuiString((CEGUI::utf8*)STR2CSTR($input));
-}
-%typemap(out) rl::CeGuiString, const rl::CeGuiString {
-     $result = rb_str_new2($1.c_str());
-}
-%typemap(in) rl::CeGuiString*, rl::CeGuiString&, const rl::CeGuiString*, const rl::CeGuiString& {
-    Check_Type($input, T_STRING);
-    $1 = new rl::CeGuiString((CEGUI::utf8*)STR2CSTR($input));
-}
-%typemap(out) rl::CeGuiString*, rl::CeGuiString&,  const rl::CeGuiString*, const rl::CeGuiString& {
-     $result = rb_str_new2($1->c_str());
-}
-%typemap(varout) rl::CeGuiString, const rl::CeGuiString {
-     $result = rb_str_new2($1.c_str());
-}
+%typemap(in) rl::CeGuiString, const rl::CeGuiString 
+	"Check_Type($input, T_STRING);
+    $1 = rl::CeGuiString(
+		reinterpret_cast<CEGUI::utf8*>(StringValuePtr($input)));"
 
+%typemap(out) rl::CeGuiString, const rl::CeGuiString 
+     "$result = rb_str_buf_new2($1.c_str());"
+
+
+%typemap(in) rl::CeGuiString*, rl::CeGuiString&, const rl::CeGuiString*, const rl::CeGuiString& 
+    "Check_Type($input, T_STRING);
+    $1 = new rl::CeGuiString(
+		reinterpret_cast<CEGUI::utf8*>(StringValuePtr($input)));"
+    
+%typemap(out) rl::CeGuiString*, rl::CeGuiString&,  const rl::CeGuiString*, const rl::CeGuiString& 
+     "$result = rb_str_buf_new2($1->c_str());"
+
+%typemap(varout) rl::CeGuiString, const rl::CeGuiString 
+     "$result = rb_str_buf_new2($1.c_str());"
 
 %typemap(directorin) rl::CeGuiString, const rl::CeGuiString &, rl::CeGuiString & 
-	"$input = rb_str_new2($1.c_str());"
+	"$input = rb_str_buf_new2($1.c_str());"
 
 %typemap(directorin) rl::CeGuiString *, const rl::CeGuiString * 
-	"$input = rb_str_new2($1->c_str());"
+	"$input = rb_str_buf_new2($1->c_str());"
 
-%typemap(directorout) rl::CeGuiString, const rl::CeGuiString {
-    $result = rl::CeGuiString((CEGUI::utf8*)STR2CSTR($input));
-}
+%typemap(directorout) rl::CeGuiString, const rl::CeGuiString 
+    "$result = rl::CeGuiString(
+		reinterpret_cast<CEGUI::utf8*>(StringValuePtr($input)));"
 
-%typemap(directorout) const rl::CeGuiString &, rl::CeGuiString&  {
-	$result = new rl::CeGuiString();
-    $result->assign(rl::CeGuiString((CEGUI::utf8*)STR2CSTR($input)));
-}
+%typemap(directorout) const rl::CeGuiString &, rl::CeGuiString&  
+    "$result = new rl::CeGuiString();
+     $result->append( 
+		reinterpret_cast<CEGUI::utf8*>(StringValuePtr($input)) );"
 
 
 /* Radian / Degree all Ruby Values are interpreted as DEGREE! */

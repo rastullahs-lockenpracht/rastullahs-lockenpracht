@@ -106,7 +106,7 @@ namespace rl
 		return is;
 	}
 
-	Item* Inventory::createItem(const CeGuiString& name, const CeGuiString& description, const CeGuiString& imageName, Item::ItemType type, pair<int,int> size)
+	Item* Inventory::createItem(const CeGuiString name, const CeGuiString description, const CeGuiString imageName, Item::ItemType type, pair<int,int> size)
 	{
 		Item* item = new Item(name, description);
 		item->setImageName(imageName);
@@ -316,8 +316,8 @@ namespace rl
 
 	bool Inventory::checkSpace(int xStart, int yStart, pair<int,int> space){
 		bool free = true;
-		for (int x = 0; x < space.first; x++){
-			for (int y = 0; y < space.second; y++){
+		for (unsigned int x = 0; x < space.first; x++){
+			for (unsigned int y = 0; y < space.second; y++){
 				// Falls Kästchen nicht mehr im Rucksack, ist auch kein Platz mehr :)
 				if ((xStart+x) >= mBackpackLayout.size() || (yStart+y) >= mBackpackLayout[0].size()){
 					return false;

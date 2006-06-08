@@ -34,12 +34,12 @@ namespace rl
 		const int mTalentGruppe;
 		const CeGuiString mArt;
     public:
-        Talent(const CeGuiString& name,
-               const CeGuiString& description,
+        Talent(const CeGuiString name,
+               const CeGuiString description,
                const EigenschaftTripel& eigenschaften,
                int ebe,
 			   int gruppe,
-			   const CeGuiString& art);
+			   const CeGuiString art);
 
         bool operator==(const Talent& rhs) const;
         bool operator<(const Talent& rhs) const;

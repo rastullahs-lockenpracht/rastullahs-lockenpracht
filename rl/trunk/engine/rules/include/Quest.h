@@ -51,23 +51,23 @@ public:
 	 * @param name Titel des Quests
 	 * @param description Lange Beschreibung, die im Tagebuch angezeigt wird
 	 */
-	Quest(const CeGuiString& id, const CeGuiString& name, const CeGuiString& description);
+	Quest(const CeGuiString id, const CeGuiString name, const CeGuiString description);
 	virtual ~Quest();
 
 	/**
 	 * @return die Quest-ID
 	 */
-	const CeGuiString& getId();
+	const CeGuiString getId();
 
 	/**
 	 * @return der Titel des Quests
 	 */
-	const CeGuiString& getName();
+	const CeGuiString getName();
 
 	/**
 	 * @return die Questbeschreibung
 	 */
-	const CeGuiString& getDescription();
+	const CeGuiString getDescription();
 
 	/**
 	 * @param partsToDo Anzahl der zu erledigenden Teile des Quests
@@ -100,7 +100,7 @@ public:
 	/**
 	 * @return Status des Quests (als String)
 	 */
-	const CeGuiString& getStateName();
+	const CeGuiString getStateName();
 
 	/**
 	 * @param Status des Quests
@@ -125,7 +125,7 @@ public:
 	
 	void setQuestBook(QuestBook* questBook);
 
-	static Quest::State getStateFromName(const CeGuiString& stateName);
+	static Quest::State getStateFromName(const CeGuiString stateName);
 private:
 	QuestVector mSubquests;
 	CeGuiString mId;

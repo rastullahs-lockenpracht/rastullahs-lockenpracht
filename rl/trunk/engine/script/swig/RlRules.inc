@@ -94,7 +94,7 @@ namespace rl {
         int roll(int d6, int d20);
       
 	    static DsaManager& getSingleton(void);
-	    rl::Talent* getTalent(const rl::CeGuiString& name) const;
+	    rl::Talent* getTalent(const rl::CeGuiString name) const;
 	    rl::Person* getPerson(const int id) const;
 
         void loadDsaDataFile(const std::string& filename);	
@@ -125,12 +125,12 @@ namespace rl {
 			HEARD_OF
 		};
 
-		Quest(const rl::CeGuiString& id, const rl::CeGuiString& name, const rl::CeGuiString& description);
+		Quest(const rl::CeGuiString id, const rl::CeGuiString name, const rl::CeGuiString description);
 		virtual ~Quest();
 
-		const rl::CeGuiString& getId();
-		const rl::CeGuiString& getName();
-		const rl::CeGuiString& getDescription();
+		const rl::CeGuiString getId();
+		const rl::CeGuiString getName();
+		const rl::CeGuiString getDescription();
 		int getPartsToDo();
 		void setPartsToDo(int partsToDo);
 		int getPartsDone();
@@ -153,7 +153,7 @@ namespace rl {
 	class QuestBook
 	{
 	public:
-		rl::Quest* getQuest(const rl::CeGuiString& id);
+		rl::Quest* getQuest(const rl::CeGuiString id);
 		void addQuest(rl::Quest* quest);
 		
 		void addQuestChangeListener( rl::QuestChangeListener* listener );
@@ -163,12 +163,12 @@ namespace rl {
     class Talent
     {
     public:
-        Talent(const rl::CeGuiString& name,
-               const rl::CeGuiString& description,
+        Talent(const rl::CeGuiString name,
+               const rl::CeGuiString description,
                const Tripel<rl::CeGuiString>& eigenschaften,
                int ebe,
 			   int gruppe,
-			   const rl::CeGuiString& art);
+			   const rl::CeGuiString art);
 
         bool operator==(const Talent& rhs) const;
         bool operator<(const Talent& rhs) const;
@@ -187,7 +187,7 @@ namespace rl {
 		ActionGroup(rl::CeGuiString name, ActionGroup* parent = NULL);
 		~ActionGroup();
 	
-		const rl::CeGuiString& getName() const;
+		const rl::CeGuiString getName() const;
 	};
 	
 	// Vor Action stehen!
@@ -210,12 +210,12 @@ namespace rl {
 		static const int TC_RADIUS = 5;
 		static const int TC_POINT_AND_RADIUS = 6;
     
-        Action(const rl::CeGuiString& name, const rl::CeGuiString& description);
+        Action(const rl::CeGuiString name, const rl::CeGuiString description);
         virtual ~Action();
 
-        virtual const rl::CeGuiString& getName() const;
-        //virtual const rl::CeGuiString& getClassName() const;
-        virtual const rl::CeGuiString& getDescription() const;
+        virtual const rl::CeGuiString getName() const;
+        //virtual const rl::CeGuiString getClassName() const;
+        virtual const rl::CeGuiString getDescription() const;
         virtual int getTargetClass() const;
         virtual void doAction(rl::GameObject *object, rl::Creature *actor,
             rl::GameObject *target);
@@ -260,16 +260,16 @@ namespace rl {
     class GameObject: public ObjectStateChangeEventSource
     {
     public:
-        GameObject(const rl::CeGuiString& name, const rl::CeGuiString& description);
+        GameObject(const rl::CeGuiString name, const rl::CeGuiString description);
         virtual ~GameObject(void);
 
         virtual int getId();
 
-        virtual const rl::CeGuiString& getName() const;
-        virtual void setName(rl::CeGuiString& name);
+        virtual const rl::CeGuiString getName() const;
+        virtual void setName(rl::CeGuiString name);
 
-        const rl::CeGuiString& getDescription() const;
-        virtual void setDescription(rl::CeGuiString& description);   
+        const rl::CeGuiString getDescription() const;
+        virtual void setDescription(rl::CeGuiString description);   
         
         void setActor(rl::Actor* actor);
 		rl::Actor* getActor();
@@ -283,11 +283,11 @@ namespace rl {
         virtual Action* getDefaultAction(rl::Creature* actor) const;
         
         void doAction(
-			const rl::CeGuiString& actionName, 
+			const rl::CeGuiString actionName, 
 			rl::Creature* actor,
             rl::GameObject* target);
         void doAction(
-			const rl::CeGuiString& actionName);
+			const rl::CeGuiString actionName);
         void doAction(rl::Action* action, rl::Creature* actor,
             rl::GameObject* target);
             
@@ -310,7 +310,7 @@ namespace rl {
     %feature("director") Item;
     class Item : public GameObject {
     public:
-        Item(const rl::CeGuiString& name, const rl::CeGuiString& description);
+        Item(const rl::CeGuiString name, const rl::CeGuiString description);
         virtual ~Item(void);
         
         enum ItemType;
@@ -324,7 +324,7 @@ namespace rl {
     public:
 		enum Distanzklasse { DK_H=0, DK_N, DK_S, DK_P };
 
-        Weapon(const rl::CeGuiString& name, const rl::CeGuiString& description);
+        Weapon(const rl::CeGuiString name, const rl::CeGuiString description);
         virtual ~Weapon(void);
                 
 		void setTp(int d6, int d20, int mod);
@@ -339,15 +339,15 @@ namespace rl {
 		const pair<int,int>& getWm() const;
 		void setDk(Weapon::Distanzklasse newDk);
 		Weapon::Distanzklasse getDk();
-		void setKampftechnik(const rl::CeGuiString& newKampftechnik);
-		const rl::CeGuiString& getKampftechnik() const;
+		void setKampftechnik(const rl::CeGuiString newKampftechnik);
+		const rl::CeGuiString getKampftechnik() const;
      };
     
     %feature("director") Container;
     class Container : public GameObject
     {
     public:
-        Container(const rl::CeGuiString& name, const rl::CeGuiString& description);
+        Container(const rl::CeGuiString name, const rl::CeGuiString description);
         virtual ~Container(void);
 
         int getCapacity() const;
@@ -434,10 +434,10 @@ namespace rl {
 		Effect();
 		virtual ~Effect();
 
-        const rl::CeGuiString& getName() const;
-        void setName(rl::CeGuiString& name);
-        const rl::CeGuiString& getDescription() const;
-        void setDescription(rl::CeGuiString& description);
+        const rl::CeGuiString getName() const;
+        void setName(rl::CeGuiString name);
+        const rl::CeGuiString getDescription() const;
+        void setDescription(rl::CeGuiString description);
 		rl::Creature* getOwner() const;
 		void setOwner(rl::Creature* owner);
 		virtual int getDuration();
@@ -463,39 +463,39 @@ namespace rl {
     %feature("director") Creature;
     class Creature : public GameObject {
     public:
-        Creature(const rl::CeGuiString& name, const rl::CeGuiString& description);
-        //Creature(const rl::CeGuiString& data);
+        Creature(const rl::CeGuiString name, const rl::CeGuiString description);
+        //Creature(const rl::CeGuiString data);
         virtual ~Creature();
 
 		virtual StateSet* getWertStateSet(int wertId);
-        virtual int getEigenschaft(const rl::CeGuiString& eigenschaftName);
-        virtual void setEigenschaft(const rl::CeGuiString& eigenschaftName, int value);
-		virtual EigenschaftenStateSet* getEigenschaftenStateSet(const rl::CeGuiString& eigenschaftName);
-        void addTalent(const rl::CeGuiString& talentName, int value=0);
-        virtual int getTalent(const rl::CeGuiString& talentName);
-		virtual TalentStateSet* getTalentStateSet(const rl::CeGuiString& talentName);
-        virtual void setTalent(const rl::CeGuiString& talentName, int value);
-        void addKampftechnik(const rl::CeGuiString& kampftechnikName, std::pair<int,int> value = make_pair(0,0));
+        virtual int getEigenschaft(const rl::CeGuiString eigenschaftName);
+        virtual void setEigenschaft(const rl::CeGuiString eigenschaftName, int value);
+		virtual EigenschaftenStateSet* getEigenschaftenStateSet(const rl::CeGuiString eigenschaftName);
+        void addTalent(const rl::CeGuiString talentName, int value=0);
+        virtual int getTalent(const rl::CeGuiString talentName);
+		virtual TalentStateSet* getTalentStateSet(const rl::CeGuiString talentName);
+        virtual void setTalent(const rl::CeGuiString talentName, int value);
+        void addKampftechnik(const rl::CeGuiString kampftechnikName, std::pair<int,int> value = make_pair(0,0));
 		void addContainer(rl::Container* container);
-		rl::Container* getContainer(const rl::CeGuiString& containterName) const;
-		rl::Container* removeContainer(rl::CeGuiString& containerName);
+		rl::Container* getContainer(const rl::CeGuiString containterName) const;
+		rl::Container* removeContainer(rl::CeGuiString containerName);
 		void addWeapon(Weapon* weapon);
 		Weapon* getWeapon(int weaponId) const;
 		Weapon* removeWeapon(int waponId);
 		void switchToWeapon(int weaponId);
 		void addEffect(Effect* effect);
-		virtual SonderfertigkeitenStateSet* getSonderfertigkeitenStateSet(const rl::CeGuiString& sfName);
+		virtual SonderfertigkeitenStateSet* getSonderfertigkeitenStateSet(const rl::CeGuiString sfName);
 
-        virtual void modifyEigenschaft(const rl::CeGuiString& eigenschaftName, int mod);
-        virtual void modifyTalent(const rl::CeGuiString& talentName, int mod);
+        virtual void modifyEigenschaft(const rl::CeGuiString eigenschaftName, int mod);
+        virtual void modifyTalent(const rl::CeGuiString talentName, int mod);
 
         virtual void modifyLe(int mod);
         virtual void modifyAe(int mod);
         virtual void modifyAu(int mod);
         virtual int getLe();
         
-        virtual int doTalentprobe(const rl::CeGuiString& talentName, int modifier);
-        virtual int doEigenschaftsprobe(const rl::CeGuiString& eigenschaftName, int modifier);
+        virtual int doTalentprobe(const rl::CeGuiString talentName, int modifier);
+        virtual int doEigenschaftsprobe(const rl::CeGuiString eigenschaftName, int modifier);
         
         void setWert(int id, int value);
    };
@@ -504,8 +504,8 @@ namespace rl {
    class Person : public Creature
    {
    public:
-	    Person(  const rl::CeGuiString& name,
-                 const rl::CeGuiString& description);
+	    Person(  const rl::CeGuiString name,
+                 const rl::CeGuiString description);
 	};
 		
 	%feature("director") CompositeEffect;	
@@ -527,8 +527,8 @@ namespace rl {
     {
     public:
         void registerAction(rl::Action* action);
-        void unregisterAction(const rl::CeGuiString& actionName);
-		rl::Action* getAction(const rl::CeGuiString& actionName) const;
+        void unregisterAction(const rl::CeGuiString actionName);
+		rl::Action* getAction(const rl::CeGuiString actionName) const;
 
 		void registerInGameGlobalAction(rl::Action* action, rl::ActionGroup* group);
 	

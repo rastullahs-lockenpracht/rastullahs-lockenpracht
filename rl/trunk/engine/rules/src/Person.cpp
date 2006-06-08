@@ -18,8 +18,8 @@
 
 namespace rl {
 
-	Person::Person(const CeGuiString& name,
-                   const CeGuiString& description)
+	Person::Person(const CeGuiString name,
+                   const CeGuiString description)
     	: Creature(name, description)
     {
 		setWert(WERT_SOZIALSTATUS, 0);

@@ -185,7 +185,7 @@ namespace rl
 		return sum;
 	}
 
-    Talent* DsaManager::getTalent(const CeGuiString& talentName) const
+    Talent* DsaManager::getTalent(const CeGuiString talentName) const
     {
         TalentMap::const_iterator it = mTalente.find(talentName);
         if (it != mTalente.end())
@@ -198,7 +198,7 @@ namespace rl
         }
     }
 
-    Kampftechnik* DsaManager::getKampftechnik(const CeGuiString& kampftechnikName) const
+    Kampftechnik* DsaManager::getKampftechnik(const CeGuiString kampftechnikName) const
     {
         KampftechnikMap::const_iterator it = mKampftechniken.find(kampftechnikName);
         if (it != mKampftechniken.end())
@@ -211,7 +211,7 @@ namespace rl
         }
     }
 
-    Eigenschaft* DsaManager::getEigenschaft(const CeGuiString& eigenschaftName) const
+    Eigenschaft* DsaManager::getEigenschaft(const CeGuiString eigenschaftName) const
     {
 		EigenschaftMap::const_iterator it = mEigenschaften.find(eigenschaftName);
 		if (it != mEigenschaften.end())

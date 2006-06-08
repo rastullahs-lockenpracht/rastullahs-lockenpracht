@@ -20,7 +20,7 @@ using namespace std;
 
 namespace rl
 {
-    Item::Item(const CeGuiString& name, const CeGuiString& description)
+    Item::Item(const CeGuiString name, const CeGuiString description)
         : GameObject(name, description),
 		mWeight(0),
 		mItemType(ITEMTYPE_OTHER),
@@ -30,7 +30,7 @@ namespace rl
     {
     }
 
-	/*Item::Item(const CeGuiString& name, const CeGuiString& description, CEGUI::String imageName, ItemType type, pair<int,int> size)
+	/*Item::Item(const CeGuiString name, const CeGuiString description, CEGUI::String imageName, ItemType type, pair<int,int> size)
 		: GameObject(name, description)
 	{
 		mCapacity = pair<int,int> (1,1);
@@ -65,12 +65,12 @@ namespace rl
 		return mItemType;
 	}
 
-	void Item::setImageName(const CeGuiString& name)
+	void Item::setImageName(const CeGuiString name)
 	{
 		mImageName = name;
 	}
 
-	const CeGuiString& Item::getImageName()
+	const CeGuiString Item::getImageName()
 	{
 		return mImageName;
 	}

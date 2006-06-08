@@ -34,7 +34,7 @@ namespace rl
 			DK_P
 		};
 
-		Weapon (const CeGuiString& weaponName, const CeGuiString& description);
+		Weapon (const CeGuiString weaponName, const CeGuiString description);
 		virtual ~Weapon(void);
 
 		void setTp(int d6, int d20, int mod);
@@ -49,8 +49,8 @@ namespace rl
 		const pair<int,int>& getWm() const;
 		void setDk(Distanzklasse newDk);
 		Distanzklasse getDk();
-		void setKampftechnik(const CeGuiString& newKampftechnik);
-		const CeGuiString& getKampftechnik() const;
+		void setKampftechnik(const CeGuiString newKampftechnik);
+		const CeGuiString getKampftechnik() const;
 
 		/// Ermittelt, wie weit die Entfernung von der optimalen Distanzklasse entfernt ist
 		/// @param distance die Entfernung von Angreifer und Verteidiger

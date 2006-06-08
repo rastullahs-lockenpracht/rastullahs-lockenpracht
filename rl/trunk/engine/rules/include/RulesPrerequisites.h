@@ -50,6 +50,6 @@ namespace rl
 
 	typedef std::vector<Action*> ActionVector;
 	
-	ActionVector::iterator findAction(ActionVector::iterator& begin, ActionVector::iterator& end, const CeGuiString& actionName);
+	ActionVector::iterator findAction(ActionVector::iterator& begin, ActionVector::iterator& end, const CeGuiString actionName);
 }
 #endif

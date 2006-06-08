@@ -32,22 +32,22 @@ namespace rl
 		disable();
 	}
 
-	const CeGuiString& Effect::getName() const
+	const CeGuiString Effect::getName() const
 	{
 		return mName;
 	}
 
-	void Effect::setName(CeGuiString& name)
+	void Effect::setName(CeGuiString name)
 	{
 		mName = name;
 	}
 
-	const CeGuiString& Effect::getDescription() const
+	const CeGuiString Effect::getDescription() const
 	{
 		return mDescription;
 	}
 
-	void Effect::setDescription(CeGuiString& description)
+	void Effect::setDescription(CeGuiString description)
 	{
 		mDescription = description;
 	}

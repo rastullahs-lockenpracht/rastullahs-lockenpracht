@@ -62,18 +62,18 @@ namespace rl
         *             Die gleiche, die intern verwendet wird.
         * @param descritpion Eine naehere Beschreibung.
         */
-        Action(const CeGuiString& name, const CeGuiString& description);
+        Action(const CeGuiString name, const CeGuiString description);
         virtual ~Action();
 
-        const CeGuiString& getName() const;
-        const CeGuiString& getDescription() const;
+        const CeGuiString getName() const;
+        const CeGuiString getDescription() const;
 
 		/**
 		 * Gibt den Klassennamen der (Ruby-)Klasse zurück, muss in Ruby überschrieben werden
 		 *
 		 * @return Name der Ruby-Klasse
 		 */
-		//virtual const CeGuiString& getClassName() const;
+		//virtual const CeGuiString getClassName() const;
 
         /**
          * @return Die Art des auszuwaehlenden Zieles für die Aktion.
@@ -116,7 +116,7 @@ namespace rl
 		ActionGroup(CeGuiString name, ActionGroup* parent = NULL);
 		~ActionGroup();
 	
-		const CeGuiString& getName() const;
+		const CeGuiString getName() const;
 		const ActionGroup* const getParent() const;
 	
 		typedef std::set<ActionGroup*> ChildrenList;

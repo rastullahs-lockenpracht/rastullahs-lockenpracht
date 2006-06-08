@@ -34,12 +34,12 @@ QuestBook::~QuestBook()
 	delete mRootQuest;
 }
 
-Quest* QuestBook::getQuest(const CeGuiString& id)
+Quest* QuestBook::getQuest(const CeGuiString id)
 {
 	return getQuest(mRootQuest, id);
 }
 
-Quest* QuestBook::getQuest(Quest* parent, const CeGuiString& id)
+Quest* QuestBook::getQuest(Quest* parent, const CeGuiString id)
 {
 	if (parent->getId().compare(id) == 0)
 		return parent;

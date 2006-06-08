@@ -40,7 +40,7 @@ public:
 	 * Sucht einen Quest anhand einer ID
 	 * @return der Quest
 	 */
-	Quest* getQuest(const CeGuiString& id);
+	Quest* getQuest(const CeGuiString id);
 
 	QuestVector getTopLevelQuests();
 
@@ -60,7 +60,7 @@ public:
 	void removeQuestChangeListener(QuestChangeListener* listener);
 
 private:
-	Quest* getQuest(Quest* parent, const CeGuiString& id);
+	Quest* getQuest(Quest* parent, const CeGuiString id);
 	Quest* mRootQuest;
 	EventCaster<QuestChangeEvent> mEventCaster;
 };
