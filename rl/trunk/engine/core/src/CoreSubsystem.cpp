@@ -103,13 +103,15 @@ namespace rl {
         delete mPhysicsManager;
         delete mXmlResourceManager;
         delete mScriptWrapper;
-		delete mSoundManager;
         delete mConfigurationManager;
         delete mOgreRoot;
-    }
+		delete mSoundManager;
+	}
 
     void CoreSubsystem::startCore()
     {
+		initializeSoundDriver();
+
 		mRubyInterpreter->executeFile("globals.rb");
 		mRubyInterpreter->executeFile("startup-global.rb");
 		mInitialized = true;
@@ -213,8 +215,6 @@ namespace rl {
 
 		mSoundManager = new SoundManager();
 		Logger::getSingleton().log("CoreSubsystem",Logger::LL_MESSAGE,"SoundManager erzeugt");
-		mSoundManager->loadConf(rl::ConfigurationManager::getSingleton().getSoundCfgPath());
-		Logger::getSingleton().log(Logger::CORE, Logger::LL_NORMAL, "Soundkonfiguration geladen");
 
 		initializeResources();
 
@@ -322,6 +322,12 @@ namespace rl {
             }
         }
     }
+
+	void CoreSubsystem::initializeSoundDriver()
+	{
+		mSoundManager->loadConf(rl::ConfigurationManager::getSingleton().getSoundCfgPath());
+		Logger::getSingleton().log(Logger::CORE, Logger::LL_NORMAL, "Soundkonfiguration geladen");
+	}
 
 	ContentModule* CoreSubsystem::getModule(const String& moduleId) const
 	{

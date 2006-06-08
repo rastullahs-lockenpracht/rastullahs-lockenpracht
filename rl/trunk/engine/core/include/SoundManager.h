@@ -85,7 +85,7 @@ class _RlCoreExport SoundManager : public Ogre::ResourceManager,
 		/// Schreibe die Soundkonfiguration
 		void saveConf(const Ogre::String &filename) const;
 
-		/// fmod weiterlaufen lassen.
+		/// 3D-Sound aktualisieren.
 		void update();
 		/// Liste der Soundtreiber.
 		const DriverList& getSoundDriverList() const;
@@ -93,6 +93,9 @@ class _RlCoreExport SoundManager : public Ogre::ResourceManager,
 		SoundDriver* getActiveDriver() const;
 		/// Den aktiven Treiber setzen.
 		void setActiveDriver(SoundDriver *driver);
+
+		void registerDriver(SoundDriver* driver);
+		void unregisterDriver(SoundDriver* driver);
     
 	protected:
 		virtual Ogre::Resource* createImpl(const Ogre::String& name, Ogre::ResourceHandle handle, 
@@ -115,6 +118,8 @@ class _RlCoreExport SoundManager : public Ogre::ResourceManager,
 		Actor* mListenerActor;
 
 		SoundUpdateTask* mSoundUpdateTask;
+
+		Ogre::StringVector mDrivers;
 };
 
 }

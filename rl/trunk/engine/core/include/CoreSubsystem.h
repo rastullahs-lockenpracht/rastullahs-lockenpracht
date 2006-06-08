@@ -140,6 +140,8 @@ private:
 	/** Loads all needed ressources */
 	void initializeResources();
 
+	void initializeSoundDriver();
+
     /**
      * Texturen werden nicht gefunden, wenn sie erst bei Materialnutzung erzeugt werden
      * und nicht in der Gruppe des Materials sind. Deshalb hier vorerstellen.

@@ -27,12 +27,6 @@
 #include "SoundUpdateTask.h"
 
 #include "NullDriver.h"
-#ifdef WITH_FMOD3
-	#include "Fmod3Driver.h"
-#endif
-#ifdef WITH_OAL
-	#include "OalDriver.h"
-#endif
 
 using namespace std;
 using namespace Ogre;
@@ -80,40 +74,10 @@ SoundManager::SoundManager()
 {
 	Logger::getSingleton().log("SoundManager",Logger::LL_MESSAGE,"erzeuge Soundmanager...");
 	SoundDriver *driver = NULL;
-    // Die Treiberliste ermitteln.
     mDriverList.clear();
-	Logger::getSingleton().log("SoundManager",Logger::LL_MESSAGE,"Treiberliste clear() erfolgreich...");
-    // Immer Nulltreiber
-    SoundDriver *nullDriver = new NullDriver(this);
-    mDriverList.push_back(nullDriver);
-#ifdef WITH_FMOD3
-    // Fmod testen.
-    driver = new Fmod3Driver(this);
-	Logger::getSingleton().log("SoundManager",Logger::LL_MESSAGE,"Fmod3Driver erzeugt...");
-    if (driver != NULL && driver->isDriverAvailable())
-    {
-        mDriverList.push_back(driver);
-        setActiveDriver(driver);
-    } else {
-        delete driver;
-        setActiveDriver(nullDriver);
-    }
-	Logger::getSingleton().log("SoundManager",Logger::LL_MESSAGE,"if-else erfolgreich...");
-#elif WITH_OAL
-    // OpenAL testen.
-    driver = new OalDriver(this);
-    if (driver->isDriverAvailable())
-    {
-        mDriverList.push_back(driver);
-    } 
-	else 
-	{
-        delete driver;
-    }
-#else
-    // Nulltreiber als aktiven Treiber setzen.
+	NullDriver* nullDriver = new NullDriver(this);
+    registerDriver(nullDriver);
     setActiveDriver(nullDriver);
-#endif
 }
 
 SoundManager::~SoundManager()
@@ -127,12 +91,7 @@ SoundManager::~SoundManager()
         mActiveDriver = NULL;
     }
 
-    while (!mDriverList.empty())
-    {
-        delete *mDriverList.begin();
-        mDriverList.erase(mDriverList.begin());
-    }
-
+	mDriverList.clear();
 }
 
 /**
@@ -337,6 +296,16 @@ SoundDriver *SoundManager::getDriverByName(const String  &name)
 	return 0;
 }
 
+void SoundManager::registerDriver(rl::SoundDriver *driver)
+{
+	mDriverList.push_back(driver);
+}
+
+void SoundManager::unregisterDriver(rl::SoundDriver *driver)
+{
+	mDriverList.remove(driver);
+}
+
 /**
  * Hole die Soundkonfiguration
  * 
@@ -347,6 +316,14 @@ void SoundManager::loadConf(const Ogre::String &filename)
 {
 	ConfigFile conf;
 	conf.load(filename);
+	
+	mDrivers = conf.getValues("Driver", "Drivers");
+	for (StringVector::const_iterator it = mDrivers.begin(); 
+		it != mDrivers.end(); it++)
+	{
+		Ogre::Root::getSingleton().loadPlugin(*it);
+	}
+
 	String drivername = conf.getValue(String("Nulltreiber"), "ActiveDriver", "General");
 	SoundDriver *driver = getDriverByName(drivername);
 	RlAssert(driver != NULL, "Beim Laden des Treibers ist ein Fehler aufgetreten");
@@ -364,6 +341,7 @@ void SoundManager::saveConf(const Ogre::String &filename) const
 {
 	RlAssert(getActiveDriver() != NULL, "Kein aktiver Soundtreiber");
 	ConfigFile conf;
+	conf.setValues(mDrivers, "Driver", "Drivers");
 	conf.setValue(String(getActiveDriver()->getName().c_str()), "ActiveDriver", "General");
 	getActiveDriver()->saveConf(conf);
 	conf.save(filename);
@@ -380,5 +358,7 @@ void SoundManager::update()
         mActiveDriver->update();
     }
 }
+
+
 
 }
