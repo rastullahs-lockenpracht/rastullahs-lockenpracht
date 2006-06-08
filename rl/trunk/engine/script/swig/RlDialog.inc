@@ -36,6 +36,8 @@ namespace rl
 	{
 	public:
 		DialogCharacter();
+		virtual ~DialogCharacter();
+		
 		// deprecated
 		void setScriptObject(rl::DialogScriptObject* scriptObject);
 		rl::Creature* getDialogCharacter() const;
