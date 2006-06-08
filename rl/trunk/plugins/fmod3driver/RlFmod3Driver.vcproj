@@ -93,9 +93,9 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
+			OutputDirectory="./lib/$(ConfigurationName)"
+			IntermediateDirectory="./obj/$(ConfigurationName)"
+			ConfigurationType="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
