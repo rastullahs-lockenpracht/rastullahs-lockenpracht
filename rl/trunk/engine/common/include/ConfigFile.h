@@ -71,6 +71,29 @@ public:
 	}
 
 	/**
+	 * Setzt die Einstellung mit Namen und Abschnitt
+     * @param name Der Name der Einstellung
+	 * @param value Der Wert der Einstellung
+     * @param section Der Name des Abschnitts
+	 * @author JoSch
+	 * @date 05-10-2006
+    */
+	void setValues(const Ogre::StringVector values, const Ogre::String &name,
+		const Ogre::String &section = Ogre::StringUtil::BLANK)
+	{
+		if (mSettings[section] == 0)
+		{
+			// Neue Sektion anlegen
+			mSettings[section] = new SettingsMultiMap();
+		}
+		for (Ogre::StringVector::const_iterator it = values.begin();
+			it != values.end(); it++)
+		{
+			mSettings[section]->insert( std::multimap<Ogre::String, Ogre::String>::value_type(name, *it));
+		}
+	}
+
+	/**
 	 * Holt eine Einstellung mit Namen und Abschnitt
 	 * @param name Der Name der Einstellung
 	 * @param section Der Name des Abschnitts
@@ -93,6 +116,17 @@ public:
 	 */
 	Ogre::String ConfigFile::getValue(const Ogre::String &_default, const Ogre::String &name, 
 		const Ogre::String &section = Ogre::StringUtil::BLANK);
+
+	/**
+	 * Holt alle Einstellungen mit selbem Namen und Abschnitt
+	 * @param name Der Name der Einstellung
+	 * @param section Der Name des Abschnitts
+	 * @author JoSch
+	 * @date 05-10-2006
+	 */
+	Ogre::StringVector ConfigFile::getValues(const Ogre::String &name, 
+		const Ogre::String &section = Ogre::StringUtil::BLANK);
+
 
 	/**
 	 * Holt eine Einstellung mit Namen und Abschnitt

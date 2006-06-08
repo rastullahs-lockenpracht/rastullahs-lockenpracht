@@ -108,6 +108,12 @@ String ConfigFile::getValue(const String &_default, const Ogre::String &name,
 	return getSetting(name, section);
 }
 
+StringVector ConfigFile::getValues(const Ogre::String &name, 
+		const Ogre::String &section)
+{
+	return getMultiSetting(name, section);
+}
+
 Real ConfigFile::getValue(const Real &_default, const Ogre::String &name, 
 		const Ogre::String &section)
 {
