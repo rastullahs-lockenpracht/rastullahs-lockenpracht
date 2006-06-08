@@ -15,6 +15,7 @@
  */
 #include "WindowFactory.h"
 
+#include "Fmod3Config.h"
 #include "Fmod3Driver.h"
 #include "SoundManager.h"
 
@@ -34,7 +35,8 @@ namespace Ogre
 		// Register driver
 		SoundManager::getSingleton().registerDriver(fmod3driver);
 
-		WindowFactory::getSingleton();
+		// Register config window
+		WindowFactory::getSingleton().registerSoundConfigWindow(new Fmod3Config(fmod3driver));
 	}
 
 	//Called when unloading plugins
