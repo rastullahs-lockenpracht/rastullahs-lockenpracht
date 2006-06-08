@@ -13,40 +13,40 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-#ifdef WITH_FMOD3
 #ifndef FMOD3CONFIG_H_
 #define FMOD3CONFIG_H_
 
-#include "CeGuiWindow.h"
+#include "SoundDriverConfigWindow.h"
+#include "Fmod3Driver.h"
 
 namespace rl
 {
-class Fmod3Driver;
+	class Fmod3Config : public SoundDriverConfigWindow
+	{
+	public:
+		Fmod3Config(Fmod3Driver* driver);
+		virtual ~Fmod3Config();
 
-class Fmod3Config : public rl::CeGuiWindow
-{
-private:
-    bool handleOK();
-	bool handleDriverChanged();
-	bool handleOutputChanged();
-	bool handleSpeakerChanged();
-	
-    // Die Combobox, aus der gewählt wird.
-	CEGUI::Combobox* mOutput;
-	CEGUI::Combobox* mDriver;
-	CEGUI::Combobox* mSpeaker;
+	protected:
+		Fmod3Driver* getDriver();
 
-	// Der Fmod3-Driver
-	Fmod3Driver *mFmod3Driver;
-	// War der Treiber vorher aktiv.
-	bool mWasActive;
+	private:
+		bool handleOK();
+		bool handleDriverChanged();
+		bool handleOutputChanged();
+		bool handleSpeakerChanged();
+		
+		// Die Combobox, aus der gewählt wird.
+		CEGUI::Combobox* mOutput;
+		CEGUI::Combobox* mDriver;
+		CEGUI::Combobox* mSpeaker;
 
-public:
-	Fmod3Config();
-	virtual ~Fmod3Config();
-};
+		// War der Treiber vorher aktiv.
+		bool mWasActive;
+
+		Fmod3Driver* mFmod3Driver;
+	};
 
 }
 
 #endif /* FMOD3CONFIG_H_*/
-#endif

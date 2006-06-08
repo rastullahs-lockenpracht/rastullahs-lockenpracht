@@ -39,7 +39,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\rules\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\cegui_mk2\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\xerces\include;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\TheoraVideo\include;.\include\fmod3;.\include\null;.\include\openal;..\..\dependencies\theora\include;..\..\dependencies\boost\include;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include;&quot;..\..\dependencies\ptypes-1.8.3\include&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include"
-				PreprocessorDefinitions="WITH_FMOD3;WIN32;_DEBUG;_WINDOWS;_USRDLL;RLMULTIMEDIA_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;RLMULTIMEDIA_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				SmallerTypeCheck="true"
@@ -117,7 +117,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".\include;..\common\include;..\core\include;..\rules\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\cegui_mk2\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\xerces\include;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\TheoraVideo\include;.\include\fmod3;.\include\null;.\include\openal;..\..\dependencies\theora\include;..\..\dependencies\boost\include;..\..\dependencies\ogg\include;..\..\dependencies\vorbis\include;&quot;..\..\dependencies\ptypes-1.8.3\include&quot;;..\..\dependencies\ogrenew\Samples\Common\CEGUIRenderer\include"
-				PreprocessorDefinitions="WITH_FMOD3;WIN32;NDEBUG;_WINDOWS;_USRDLL;RLMULTIMEDIA_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;RLMULTIMEDIA_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="2"
 			/>
 			<Tool
@@ -272,54 +272,6 @@
 				>
 			</File>
 			<Filter
-				Name="Fmod3Driver"
-				>
-				<File
-					RelativePath=".\src\fmod3\Fmod3Driver.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\fmod3\Fmod3Listener.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\fmod3\Fmod3SoundChannel.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\fmod3\Fmod3SoundSample.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\fmod3\Fmod3SoundStream.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="OpenALDriver"
-				>
-				<File
-					RelativePath=".\src\openal\OalDriver.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\openal\OalListener.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\openal\OalSoundChannel.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\openal\OalSoundSample.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\openal\OalSoundStream.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="NullDriver"
 				>
 				<File
@@ -389,58 +341,6 @@
 				RelativePath=".\include\VorbisFile.h"
 				>
 			</File>
-			<Filter
-				Name="Fmod3Driver"
-				>
-				<File
-					RelativePath=".\include\fmod3\Fmod3Driver.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\fmod3\Fmod3Listener.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\fmod3\Fmod3Sound.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\fmod3\Fmod3SoundChannel.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\fmod3\Fmod3SoundSample.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\fmod3\Fmod3SoundStream.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="OpenALDriver"
-				>
-				<File
-					RelativePath=".\include\openal\OalDriver.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\openal\OalListener.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\openal\OalSoundChannel.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\openal\OalSoundSample.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\openal\OalSoundStream.h"
-					>
-				</File>
-			</Filter>
 			<Filter
 				Name="NullDriver"
 				>

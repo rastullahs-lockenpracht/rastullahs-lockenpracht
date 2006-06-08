@@ -13,7 +13,6 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-#include "CeGuiWindow.h"
 #include "WindowFactory.h"
 
 #include "AboutWindow.h"
@@ -77,6 +76,7 @@ namespace rl {
 				(VALUE(*)(...))&WindowFactory::consoleWrite );
 
 		mTargetSelectionWindow = new TargetSelectionWindow();
+		mLogWindow = new LogWindow();
 			      
 		mGameLogger = new GameLoggerWindow();
 		mCharacterStateWindow = new CharacterStateWindow();
@@ -85,13 +85,13 @@ namespace rl {
 		mCharacterSheet = new CharacterSheetWindow();
 		mJournalWindow = new JournalWindow();
 		mInfoPopup = new InfoPopup();
+		mObjectDescriptionWindow = new ObjectDescriptionWindow();
+		mSoundConfig = new SoundConfig();
+
 		RulesSubsystem::getSingleton().getQuestBook()->addQuestChangeListener(mJournalWindow);
 		RulesSubsystem::getSingleton().getQuestBook()->addQuestChangeListener(mInfoPopup);
         mDataLoadingProgressWindow = new DataLoadingProgressWindow();
 		CoreSubsystem::getSingleton().addCoreEventListener(mDataLoadingProgressWindow);
-		mObjectDescriptionWindow = new ObjectDescriptionWindow();
-
-		mLogWindow = new LogWindow();
 	}
 
 	WindowFactory::~WindowFactory()
@@ -417,4 +417,9 @@ namespace rl {
     {
         mDebugWindow->showNextPage();
     }
+
+	void WindowFactory::registerSoundConfigWindow(SoundDriverConfigWindow* wnd)
+	{
+		mSoundConfig->registerSoundDriverConfigWindow(wnd);
+	}
 }

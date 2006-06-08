@@ -403,10 +403,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\Fmod3Config.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\GameLoggerWindow.h"
 					>
 				</File>
@@ -452,6 +448,10 @@
 				</File>
 				<File
 					RelativePath=".\include\SoundConfig.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\SoundDriverConfigWindow.h"
 					>
 				</File>
 				<File
@@ -576,10 +576,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\Fmod3Config.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\GameLoggerWindow.cpp"
 					>
 				</File>
@@ -625,6 +621,10 @@
 				</File>
 				<File
 					RelativePath=".\src\SoundConfig.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\SoundDriverConfigWindow.cpp"
 					>
 				</File>
 				<File

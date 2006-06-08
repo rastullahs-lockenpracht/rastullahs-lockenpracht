@@ -14,42 +14,28 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#ifndef SOUNDCONFIG_H_
-#define SOUNDCONFIG_H_
+#ifndef _SoundDriverConfigWindow_H_
+#define _SoundDriverConfigWindow_H_
+
+#include "UiPrerequisites.h"
 
 #include "CeGuiWindow.h"
 
-namespace rl
-{
+namespace rl {
 
-	class SoundDriverConfigWindow;
+	class SoundDriver;
 
-	class SoundConfig : public rl::CeGuiWindow
+	class _RlUiExport SoundDriverConfigWindow : public CeGuiWindow
 	{
 	public:
-		SoundConfig();
-		virtual ~SoundConfig();
+		SoundDriverConfigWindow(const CeGuiString& xmlfile);
+		virtual ~SoundDriverConfigWindow() = 0 {};
 
-		void registerSoundDriverConfigWindow(SoundDriverConfigWindow* wnd);
-		
-	private:
-		bool handleOK();
-		bool handleVolumeMusicChanged();
-		bool handleVolumeSoundChanged();
-		bool handleVolumeMasterChanged();
-		bool handleConfig();
-		
-		// Die Combobox, aus der gewählt wird.
-		CEGUI::Listbox*	mDriverBox;
-		CEGUI::Slider*	mVolumeSound;
-		CEGUI::Slider*	mVolumeMusic;
-		CEGUI::Slider*	mVolumeMaster;
-		
-		SoundDriverConfigWindow* mCurrentConfig;
+		const CeGuiString getDriverName();
 
-		std::list<SoundDriverConfigWindow*> mDriverConfigs;
+	protected:
+		virtual SoundDriver* getDriver() = 0;
 	};
-
 }
 
-#endif /*SOUNDCONFIG_H_*/
+#endif // _SoundDriverConfigWindow_H_

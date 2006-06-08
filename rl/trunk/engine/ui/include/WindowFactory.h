@@ -39,7 +39,9 @@ namespace rl {
 	class Console;
 	class Container;
 	class Creature;
-	class DialogCharacter;
+	class DataLoadingProgressWindow;
+	class DebugWindow;
+    class DialogCharacter;
 	class GameLoggerWindow;
 	class GameObject;
 	class InfoPopup;
@@ -50,10 +52,11 @@ namespace rl {
 	class ObjectDescriptionWindow;
 	class Person;
 	class RBCombat;
+	class SoundConfig;
+	class SoundDriverConfigWindow;
     class TargetSelectionWindow;
 	class WindowUpdater;
-    class DebugWindow;
-    class DataLoadingProgressWindow;
+    
 
 	class _RlUiExport WindowFactory : public Ogre::Singleton<WindowFactory>
 	{
@@ -116,6 +119,8 @@ namespace rl {
         /// Change shown DebugWindow page
         void showNextDebugWindowPage();
 
+		void registerSoundConfigWindow(SoundDriverConfigWindow* wnd);
+
 	private:
 		GameLoggerWindow* mGameLogger;
 		CharacterStateWindow* mCharacterStateWindow;
@@ -132,6 +137,7 @@ namespace rl {
 		ObjectDescriptionWindow* mObjectDescriptionWindow;
         TargetSelectionWindow* mTargetSelectionWindow;
         DataLoadingProgressWindow* mDataLoadingProgressWindow;
+		SoundConfig* mSoundConfig;
 	};
 }
 

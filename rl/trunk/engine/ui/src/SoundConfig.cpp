@@ -17,11 +17,8 @@
 
 #include <boost/bind.hpp>
 #include "Exception.h"
-#include "Fmod3Config.h"
-#include "Fmod3Driver.h"
-#include "NullDriver.h"
-#include "OalDriver.h"
 #include "SoundDriver.h"
+#include "SoundDriverConfigWindow.h"
 #include "SoundManager.h"
 
 using namespace CEGUI;
@@ -32,10 +29,11 @@ namespace rl
 
 	SoundConfig::SoundConfig()
 		: CeGuiWindow("soundconfig.xml", WND_ALL_INPUT, true),
-		mBox(0),
+		mDriverBox(NULL),
 		mVolumeSound(0),
 		mVolumeMusic(0),
-		mVolumeMaster(0)
+		mVolumeMaster(0),
+		mCurrentConfig(NULL)
 	{
 		bindCloseToCloseButton();
 		bindClickToCloseWindow(getPushButton("SoundConfig/Cancel"));
@@ -78,14 +76,14 @@ namespace rl
 			Slider::EventValueChanged,
 			boost::bind(&SoundConfig::handleVolumeMasterChanged, this));
 
-		mBox = getListbox("SoundConfig/Table");
+		mDriverBox = getListbox("SoundConfig/Table");
 		DriverList list = 
 			SoundManager::getSingleton().getSoundDriverList();
 		DriverList::const_iterator it;
 		for (it = list.begin(); it != list.end(); it++)
 		{
 			CeGuiString name = (*it)->getName();
-			mBox->addItem(new ListboxTextItem(name));
+			mDriverBox->addItem(new ListboxTextItem(name));
 		}
 
 		centerWindow();
@@ -98,7 +96,7 @@ namespace rl
 	bool SoundConfig::handleOK()
 	{
 		ListboxTextItem *item = 
-			dynamic_cast<ListboxTextItem*>(mBox->getFirstSelectedItem());
+			dynamic_cast<ListboxTextItem*>(mDriverBox->getFirstSelectedItem());
 		if (item != 0)
 		{
 			SoundDriver *activeDriver = SoundManager::getSingleton().getActiveDriver();        
@@ -156,33 +154,29 @@ namespace rl
 	bool SoundConfig::handleConfig()
 	{
 		ListboxTextItem *item = 
-			dynamic_cast<ListboxTextItem*>(mBox->getFirstSelectedItem());
+			dynamic_cast<ListboxTextItem*>(mDriverBox->getFirstSelectedItem());
 		if (item != 0)
 		{
-			if (item->getText() == NullDriver::NAME)
+			for (list<SoundDriverConfigWindow*>::iterator it = mDriverConfigs.begin();
+				it != mDriverConfigs.end(); it++)
 			{
-				//showMessage("Hier gibt es noch nichts zu konfigurieren");
-				return true;
+				SoundDriverConfigWindow* curr = *it;
+				if (item->getText() == curr->getDriverName()
+					&& mCurrentConfig != curr)
+				{
+					mWindow->removeChildWindow(mCurrentConfig->getWindow());
+					mWindow->addChildWindow(curr->getWindow());
+					mCurrentConfig = curr;
+					return true;
+				}
 			}
-#ifdef WITH_FMOD3
-			if (item->getText() == Fmod3Driver::NAME)
-			{
-				Fmod3Config *config = new Fmod3Config();
-				config->setVisible(true);
-				return true;
-			}
-#endif
-#ifdef WITH_OAL
-			if (item->getText() == OalDriver::NAME)
-			{
-				//OalConfig *config = new OalConfig();
-				//config->setVisible(true);
-				return true;
-			}
-#endif
-			return true;
 		}
-		return true;
+		return false;
+	}
+
+	void SoundConfig::registerSoundDriverConfigWindow(SoundDriverConfigWindow* wnd)
+	{
+		mDriverConfigs.push_back(wnd);
 	}
 
 }

@@ -13,9 +13,6 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-
-#ifdef WITH_FMOD3
-
 #include "Fmod3Config.h"
 
 #include <boost/bind.hpp>
@@ -23,7 +20,6 @@
 
 #include "Exception.h"
 #include "Fmod3Driver.h"
-#include "NullDriver.h"
 #include "SoundDriver.h"
 #include "SoundManager.h"
 
@@ -33,12 +29,12 @@ using namespace Ogre;
 namespace rl
 {
 
-	Fmod3Config::Fmod3Config()
-		: CeGuiWindow("fmod3.xml", WND_ALL_INPUT, true),
-		mDriver(0),
-		mOutput(0),
+	Fmod3Config::Fmod3Config(Fmod3Driver* driver)
+		: SoundDriverConfigWindow("fmod3.xml"),
+		mOutput(NULL),
+		mDriver(NULL),
 		mWasActive(false),
-		mFmod3Driver(0)
+		mFmod3Driver(driver)
 	{
 		bindCloseToCloseButton();
 		bindClickToCloseWindow(getPushButton("Fmod3Config/Cancel"));
@@ -57,19 +53,6 @@ namespace rl
 			Combobox::EventTextChanged,
 			boost::bind(&Fmod3Config::handleSpeakerChanged, this));
 
-		mFmod3Driver = dynamic_cast<Fmod3Driver*>(
-			SoundManager::getSingleton().getDriverByName(
-			Ogre::String(Fmod3Driver::NAME.c_str())));
-
-			RlAssert(mFmod3Driver != NULL, "Fmod3 Treiber nicht vorhanden");
-		/*		if (mFmod3Driver == SoundManager::getSingleton().getActiveDriver())
-		{
-		SoundManager::getSingleton().setActiveDriver(
-		SoundManager::getSingleton().getDriverByName(
-		Ogre::String(NullDriver::NAME.c_str()))
-		);
-		mWasActive = true;
-		} */
 		for (int i = 0; i < FSOUND_GetNumDrivers(); i++)
 		{
 			ListboxTextItem *item = new ListboxTextItem(
@@ -133,6 +116,9 @@ namespace rl
 		return true;
 	}
 
-}
+	Fmod3Driver* Fmod3Config::getDriver()
+	{
+		return mFmod3Driver;
+	}
 
-#endif
+}
