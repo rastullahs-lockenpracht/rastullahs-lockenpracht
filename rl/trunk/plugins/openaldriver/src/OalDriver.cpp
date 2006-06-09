@@ -13,14 +13,24 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-#ifdef WITH_OAL
 #include "OalDriver.h"
-extern "C" {
-    #include "AL/al.h"
-    #include "AL/altypes.h"
-    #include "AL/alc.h"
-    #include "AL/alctypes.h"
-}
+
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+    // OpenAL 1.1 unter Windows
+	extern "C" {
+		#include "al.h"
+		#include "alc.h"
+	}
+#else
+    // OpenAL 1.0 unter Linux
+	extern "C" {
+		#include "AL/al.h"
+		#include "AL/altypes.h"
+		#include "AL/alc.h"
+		#include "AL/alctypes.h"
+	}
+#endif
+
 #include "OalSoundSample.h"
 #include "OalSoundStream.h"
 #include "OalSoundChannel.h"
@@ -128,18 +138,6 @@ CeGuiString OalDriver::getName() const
  }
  
  /**
-  * Einen Sound-Stream mit Name erzeugen
-  * @return Der erzeugte Stream
-  * @author JoSch
-  * @date 03-06-2006
-  */
- Sound *OalDriver::createStream(const Ogre::String &name)
- {
- 	Sound *sound = new OalSoundStream(name);
- 	return sound;
- }
- 
- /**
   * Einen Sound-Stream mit Resource erzeugen
   * @return Der erzeugte Stream
   * @author JoSch
@@ -147,20 +145,8 @@ CeGuiString OalDriver::getName() const
   */
 Sound *OalDriver::createStream(const SoundResourcePtr &res)
 {
- 	Sound *sound = new OalSoundStream(res);
+ 	Sound *sound = new OalSoundStream(this, res);
  	return sound;
-}
-
-/**
- * Einen Sound-Sample mit Name erzeugen
- * @return Das erzeugte Sample
- * @author JoSch
- * @date 03-06-2006
- */
-Sound *OalDriver::createSample(const Ogre::String &name)
-{
- 	Sound *sound = new OalSoundSample(name);
- 	return sound;	
 }
 
 /**
@@ -171,7 +157,7 @@ Sound *OalDriver::createSample(const Ogre::String &name)
  */
 Sound *OalDriver::createSample(const SoundResourcePtr &res)
 {
- 	Sound *sound = new OalSoundSample(res);
+ 	Sound *sound = new OalSoundSample(this, res);
  	return sound;
 }
 
@@ -185,7 +171,7 @@ Sound *OalDriver::createSample(const SoundResourcePtr &res)
  */
 SoundChannel *OalDriver::createChannel(Sound *sound, const Ogre::String &name)
 {
- 	SoundChannel *channel = new OalSoundChannel(sound, name);
+ 	SoundChannel *channel = new OalSoundChannel(this, sound, name);
     if (sound->is3d())
     {
         channel->setVolume(mDefaultSoundVolume);
@@ -255,4 +241,3 @@ void OalDriver::doConfig()
 }
 
 }
-#endif // WITH_OAL

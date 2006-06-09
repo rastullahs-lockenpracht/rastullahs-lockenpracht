@@ -13,11 +13,10 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#ifdef WITH_OAL
 #ifndef __OalSoundStream_H__
 #define __OalSoundStream_H__
 
-#include "MultimediaPrerequisites.h"
+#include "OpenALDriverPrerequisites.h"
 #include "SoundResource.h"
 #include "Sound.h"
 
@@ -28,20 +27,18 @@ namespace Ogre {
 
 namespace rl {
 
+	class OalDriver;
+
    /** Diese Klasse dient der Interaktion mit Ogre3D
     * @author Josch
     * @date 07-03-2005
     * @version 1.0
     */
-    class _RlMultimediaExport OalSoundStream : public Sound
+    class _RlOpenALDriverExport OalSoundStream : public Sound
     {
-    private:
-        /// Loop?
-        bool mLooping;
-        
     public:
         /// Konstruktor
-        OalSoundStream(const SoundResourcePtr &soundres);
+        OalSoundStream(OalDriver* driver, const SoundResourcePtr &soundres);
         /// Destruktor
         virtual ~OalSoundStream();
 
@@ -53,13 +50,17 @@ namespace rl {
         // Wir erzeugen einen Channel für SoundChannel
         virtual SoundChannel *createChannel() throw (RuntimeException);
 
-protected:
+	protected:
         // Sind wir gueltig?
         virtual bool isValid() const throw (RuntimeException);
-        
+   
+    private:
+        /// Loop?
+        bool mLooping;
+		OalDriver* mDriver;
     }; 
 
-    class _RlMultimediaExport OalSoundStreamPtr :
+    class _RlOpenALDriverExport OalSoundStreamPtr :
         public Ogre::SharedPtr<OalSoundStream>
     {
     public:
@@ -72,4 +73,3 @@ protected:
 
 }
 #endif
-#endif // WITH_OAL

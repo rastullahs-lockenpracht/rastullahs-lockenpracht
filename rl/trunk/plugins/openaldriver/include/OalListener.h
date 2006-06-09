@@ -13,11 +13,10 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#ifdef WITH_OAL
 #ifndef __OalListener_H__
 #define __OalListener_H__
 
-#include "MultimediaPrerequisites.h"
+#include "OpenALDriverPrerequisites.h"
 #include "ListenerMovable.h"
 
 
@@ -30,7 +29,7 @@ namespace rl {
     * @version 1.0
     * @version 2.0
     */
-    class _RlMultimediaExport OalListener : public ListenerMovable
+    class _RlOpenALDriverExport OalListener : public ListenerMovable
     {
     private:
         /// Der Name des ListenerMovable
@@ -59,5 +58,4 @@ namespace rl {
     };
 
 }
-#endif
 #endif

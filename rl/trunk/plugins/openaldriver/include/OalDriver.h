@@ -13,11 +13,10 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-#ifdef WITH_OAL
 #ifndef OALDRIVER_H_
 #define OALDRIVER_H_
 
-#include "MultimediaPrerequisites.h"
+#include "OpenALDriverPrerequisites.h"
 #include "SoundDriver.h"
 
 namespace rl
@@ -26,7 +25,7 @@ namespace rl
 /** Diese Klasse ist der Treiber, der OpenAL zur
  * Ausgabe benutzt.
  */
-class _RlMultimediaExport OalDriver : public rl::SoundDriver
+class _RlOpenALDriverExport OalDriver : public rl::SoundDriver
 {
 public:
 	/// Der Treibername
@@ -69,4 +68,3 @@ protected:
 }
 
 #endif /*OALDRIVER_H_*/
-#endif // WITH_OAL

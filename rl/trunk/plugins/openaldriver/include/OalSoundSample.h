@@ -13,33 +13,27 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#ifdef WITH_OAL
 #ifndef __OalSoundSample_H__
 #define __OalSoundSample_H__
 
-#include "MultimediaPrerequisites.h"
+#include "OpenALDriverPrerequisites.h"
 #include "SoundResource.h"
 #include "Sound.h"
 
-namespace Ogre {
-    class MovableObject;
-    class Vector3;
-}
-
 namespace rl {
+
+	class OalDriver;
 
    /** Diese Klasse dient der Interaktion mit Ogre3D
     * @author Josch
     * @date 07-03-2005
     * @version 1.0
     */
-    class _RlMultimediaExport OalSoundSample : public Sound
+    class _RlOpenALDriverExport OalSoundSample : public Sound
     {
-    private:
-
     public:
         /// Konstruktor
-        OalSoundSample(const SoundResourcePtr &soundres);
+        OalSoundSample(OalDriver* driver, const SoundResourcePtr &soundres);
         /// Destruktor
         virtual ~OalSoundSample();
         /// Moveable-Typ
@@ -53,14 +47,17 @@ namespace rl {
         // Wir erzeugen einen Channel für SoundChannel
         virtual SoundChannel* createChannel() throw (RuntimeException);
     
-protected:
+	protected:
         /// Shared class-level name for Movable type
         static Ogre::String msMovableType;
         // Sind wir gueltig?
         virtual bool isValid() const throw (RuntimeException);
+    
+	private:
+		OalDriver* mDriver;
     }; 
 
-    class _RlMultimediaExport OalSoundSamplePtr :
+    class _RlOpenALDriverExport OalSoundSamplePtr :
         public Ogre::SharedPtr<OalSoundSample>
     {
     public:
@@ -73,4 +70,3 @@ protected:
 
 }
 #endif
-#endif // WITH_OAL

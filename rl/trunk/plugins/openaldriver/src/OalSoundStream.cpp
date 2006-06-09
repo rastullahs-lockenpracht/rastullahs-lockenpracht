@@ -13,8 +13,9 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#ifdef WITH_OAL
 #include "OalSoundStream.h"
+
+#include "OalDriver.h"
 #include "OalSoundChannel.h"
 #include "SoundManager.h"
 
@@ -30,18 +31,9 @@ namespace rl {
  * @author JoSch
  * @date 07-04-2005
  */
-OalSoundStream::OalSoundStream(const String &name):
-    Sound(name)
-{
-}
- 
-/**
- * @param name Der Name des Sounds.
- * @author JoSch
- * @date 07-04-2005
- */
-OalSoundStream::OalSoundStream(const SoundResourcePtr &soundres):
-    Sound(soundres)
+OalSoundStream::OalSoundStream(OalDriver* driver, const SoundResourcePtr &soundres):
+    Sound(soundres),
+	mDriver(driver)
 {
 }
 
@@ -92,7 +84,7 @@ bool OalSoundStream::isValid() const throw (RuntimeException)
  */
 SoundChannel *OalSoundStream::createChannel() throw (RuntimeException)
 {
-    OalSoundChannel *nullchannel = new OalSoundChannel(this, getName());
+    OalSoundChannel *nullchannel = new OalSoundChannel(mDriver, this, getName());
     return nullchannel; 
 }
 
@@ -103,4 +95,3 @@ void OalSoundStreamPtr::destroy()
 }
 
 } // Namespace
-#endif // WITH_OAL

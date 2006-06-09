@@ -13,11 +13,10 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#ifdef WITH_OAL
 #ifndef _OALSOUNDCHANNEL_H_
 #define _OALSOUNDCHANNEL_H_
 
-#include "MultimediaPrerequisites.h"
+#include "OpenALDriverPrerequisites.h"
 #include "SoundChannel.h"
 #include "Exception.h"
 
@@ -33,7 +32,7 @@ namespace rl
     class Sound;
 	class SoundDriver;
 
-class _RlMultimediaExport OalSoundChannel  : public SoundChannel
+class _RlOpenALDriverExport OalSoundChannel  : public SoundChannel
 {
 private:
     /// Shared class-level name for Movable type
@@ -91,4 +90,3 @@ public:
 };
 
 #endif //_OALSOUNDCHANNEL_H_
-#endif // WITH_OAL

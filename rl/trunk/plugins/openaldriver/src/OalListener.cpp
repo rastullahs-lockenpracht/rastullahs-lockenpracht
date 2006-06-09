@@ -13,8 +13,6 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#ifdef WITH_OAL
-
 #include "OalListener.h"
 
 using namespace Ogre;
@@ -109,4 +107,3 @@ void OalListener::setGain(const int gain)
 }
 
 }
-#endif

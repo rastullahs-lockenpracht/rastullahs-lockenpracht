@@ -13,10 +13,8 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#ifdef WITH_OAL
 #include "OalSoundChannel.h"
 #include <OgreMovableObject.h>
-#include <OgreAxisAlignedBox.h>
 #include <OgreVector3.h>
 #include "Sound.h"
 
@@ -217,4 +215,3 @@ bool OalSoundChannel::isPaused()
 }
 
 };
-#endif // WITH_OAL

@@ -13,8 +13,9 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#ifdef WITH_OAL
 #include "OalSoundSample.h"
+
+#include "OalDriver.h"
 #include "OalSoundChannel.h"
 #include "SoundManager.h"
 #include "SoundResource.h"
@@ -31,18 +32,9 @@ String OalSoundSample::msMovableType = "OalSoundSample";
  * @author JoSch
  * @date 07-04-2005
  */
-OalSoundSample::OalSoundSample(const String &name):
-    Sound(name)
-{
-}
- 
-/**
- * @param name Der Name des Sounds.
- * @author JoSch
- * @date 07-04-2005
- */
-OalSoundSample::OalSoundSample(const SoundResourcePtr &soundres):
-    Sound(soundres)
+OalSoundSample::OalSoundSample(OalDriver* driver, const SoundResourcePtr &soundres):
+    Sound(soundres),
+	mDriver(driver)
 {
 }
 
@@ -101,7 +93,7 @@ bool OalSoundSample::isValid() const throw (RuntimeException)
  */
 SoundChannel *OalSoundSample::createChannel() throw (RuntimeException)
 {
-    OalSoundChannel *nullchannel = new OalSoundChannel(this, getName());
+    OalSoundChannel *nullchannel = new OalSoundChannel(mDriver, this, getName());
     return nullchannel; 
 }
 
@@ -113,4 +105,3 @@ void OalSoundSamplePtr::destroy()
 }
 
 } // Namespace
-#endif // WITH_OAL
