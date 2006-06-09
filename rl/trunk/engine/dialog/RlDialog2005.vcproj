@@ -266,43 +266,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\src\AimlCoreComponent.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\AimlDocumentImplXerces.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\AimlNodeImplRl.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\AimlNodeImplXerces.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\AimlNodeOld.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\AimlParser.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\AimlParserImplRl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\AimlParserImplXerces.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\AimlProcessorManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\BotParser.cpp"
 				>
 			</File>
 			<File
@@ -326,61 +294,13 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\DialogScriptObject.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\DialogSubsystem.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Graphmaster.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Match.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\NaturalLanguageProcessor.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Nodemaster.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\PredicatesOld.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\src\ScriptProcessor.cpp"
 				>
 			</File>
-			<File
-				RelativePath=".\src\StringTokenizer.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Utils.cpp"
-				>
-			</File>
-			<Filter
-				Name="AimlProcessors"
-				>
-				<File
-					RelativePath=".\src\processors\GetProcessor.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\processors\SetProcessor.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\processors\SraiProcessor.cpp"
-					>
-				</File>
-			</Filter>
 			<Filter
 				Name="predicates"
 				>
@@ -501,51 +421,11 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\include\AimlCoreComponent.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\AimlDocument.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\AimlDocumentImplXerces.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\AimlNodeImplRl.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\AimlNodeImplXerces.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\AimlNodeOld.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\AimlParser.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\AimlParserImplRl.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\AimlParserImplXerces.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\AimlProcessor.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\AimlProcessorManager.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\BotParser.h"
 				>
 			</File>
 			<File
@@ -573,73 +453,13 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\DialogScriptObject.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\DialogSubsystem.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\Graphmaster.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\Match.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\NaturalLanguageProcessor.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\Nodemaster.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\PredicatesOld.h"
 				>
 			</File>
 			<File
 				RelativePath=".\include\ScriptProcessor.h"
 				>
 			</File>
-			<File
-				RelativePath=".\include\StringTokenizer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\Utils.h"
-				>
-			</File>
-			<Filter
-				Name="AimlProcessors"
-				>
-				<File
-					RelativePath=".\include\processors\BrProcessor.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\processors\ConditionProcessor.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\processors\GetProcessor.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\processors\SetProcessor.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\processors\SraiProcessor.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\processors\SystemProcessor.h"
-					>
-				</File>
-			</Filter>
 			<Filter
 				Name="predicates"
 				>

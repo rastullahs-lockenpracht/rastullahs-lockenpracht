@@ -20,5 +20,4 @@
 #include "DialogPrerequisites.h"
 #include "DialogSubsystem.h"
 #include "DialogCharacter.h"
-#include "DialogScriptObject.h"
 %}

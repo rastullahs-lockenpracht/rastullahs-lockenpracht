@@ -28,13 +28,13 @@
 #include "TalentWertPredicates.h"
 
 //deprecated
-#include "DialogScriptObject.h"
+//#include "DialogScriptObject.h"
 
 namespace rl
 {
 	DialogCharacter::DialogCharacter()
 		: mBot(NULL), 
-		  mScriptObject(NULL), 
+	//	  mScriptObject(NULL), 
 		  mNonPlayerCharacter(NULL),
 		  mPlayerCharacter(NULL)
 	{
@@ -57,10 +57,11 @@ namespace rl
 		}
 
 		// deprecated
-		if(mScriptObject)
+/*		if(mScriptObject)
 		{
 			delete mScriptObject;
 		}
+*/
 	}
 
 	void DialogCharacter::initialize()
@@ -101,12 +102,12 @@ namespace rl
 		}
 		return dialogResponse;
 	}
-	void DialogCharacter::setScriptObject(DialogScriptObject* scriptObject)
+/*	void DialogCharacter::setScriptObject(DialogScriptObject* scriptObject)
 	{
 		mScriptObject = scriptObject;
 		scriptObject->setParent(this);
 	}
-
+*/
 	void DialogCharacter::setVoiceFile(const CeGuiString& filename)
 	{
 		mBot->setVoice(filename);

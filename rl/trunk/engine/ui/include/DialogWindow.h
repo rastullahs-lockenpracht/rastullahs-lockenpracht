@@ -24,11 +24,10 @@
 
 #include "CeGuiWindow.h"
 
-#include "NaturalLanguageProcessor.h"
-
 namespace rl {
 
 	class DialogCharacter;
+	class DialogResponse;
 	class DialogCharacterController;
 	class GameLoggerWindow;
 
@@ -60,7 +59,7 @@ namespace rl {
 
 		std::map<std::string, std::string> mVariableValues;
 		std::vector<std::string> mTextLines;
-		NaturalLanguageProcessor::Responses mResponses;
+//		NaturalLanguageProcessor::Responses mResponses;
 		DialogCharacter* mBot;
 		DialogResponse* mCurrentResponse;
 		CEGUI::Listbox* mDialogOptions;

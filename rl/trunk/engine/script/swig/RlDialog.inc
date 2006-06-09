@@ -16,30 +16,13 @@
 
 namespace rl 
 {
-
-	%feature("director") DialogScriptObject; 
-	class DialogScriptObject
-	{
-	public:
-		DialogScriptObject();
-		virtual ~DialogScriptObject();
-		virtual int calcOptionValue(const rl::CeGuiString& optionName)=0;	
-		virtual int calcResponseValue(const rl::CeGuiString& responseName)=0;
-		virtual int calcSelectionValue(const rl::CeGuiString& selectionName)=0;
-		
-		rl::Creature* getDialogCharacter() const;
-		rl::Creature* getDialogPartner() const;
-	};
-	
 	%feature("director") DialogCharacter;
 	class DialogCharacter
 	{
 	public:
 		DialogCharacter();
 		virtual ~DialogCharacter();
-		
-		// deprecated
-		void setScriptObject(rl::DialogScriptObject* scriptObject);
+
 		rl::Creature* getDialogCharacter() const;
 		void setDialogCharacter(rl::Creature* dialogCharacter);
 		rl::Creature* getDialogPartner() const;

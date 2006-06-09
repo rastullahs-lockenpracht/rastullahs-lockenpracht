@@ -199,7 +199,7 @@ void DialogWindow::getOptions(const CeGuiString& question)
 	{
 		mDialogOptions->removeItem(mDialogOptions->getListboxItemFromIndex(i));
 	}
-	mResponses.clear();
+//	mResponses.clear();
 }
 
 unsigned int DialogWindow::count()

@@ -20,8 +20,8 @@
 #include <CEGUIPropertyHelper.h>
 
 #include "XmlHelper.h"
-#include "AimlProcessorManager.h"
-#include "AimlProcessor.h"
+//#include "AimlProcessorManager.h"
+//#include "AimlProcessor.h"
 #include "DialogResponse.h"
 #include "DialogOption.h"
 
@@ -57,7 +57,7 @@ namespace rl
 			delete (*itr);
 		}
 	}
-
+/*
 	std::pair<int, CeGuiString> DialogResponse::getSelectedOption(int id)
 	{
 		XERCES_CPP_NAMESPACE_USE
@@ -93,4 +93,5 @@ namespace rl
 			return std::pair<int, CeGuiString>(id, mCurrentOptions[id]);
 		}
 	}
+*/
 }

@@ -20,7 +20,7 @@
 
 #include "CommonPrerequisites.h"
 #include "DialogPrerequisites.h"
-#include "AimlCoreComponent.h"
+//#include "AimlCoreComponent.h"
 
 namespace MadaBot
 {
@@ -33,7 +33,7 @@ namespace rl
 
 	/// Initialises and manages everything for using dialogs in Rl
 	class _RlDialogExport DialogSubsystem : 
-		public AimlCoreComponent,
+	//	public AimlCoreComponent,
 		public Ogre::Singleton<DialogSubsystem>
 	{
 	public:

@@ -49,7 +49,7 @@ namespace rl
 
 		const Options& getOptions() { return mCurrentOptions; }
 		const CeGuiString& getResponse() { return mResponse;}
-		std::pair<int, CeGuiString> getSelectedOption(int id);
+		//std::pair<int, CeGuiString> getSelectedOption(int id);
 		/**
 		 * @return all options with thier pattern-id
 		 */

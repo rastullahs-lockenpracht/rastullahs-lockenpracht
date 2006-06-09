@@ -13,31 +13,24 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
-#include <xercesc/sax2/SAX2XMLReader.hpp>
-#include <xercesc/sax2/DefaultHandler.hpp>
-#include <xercesc/sax2/XMLReaderFactory.hpp>
-#include <xercesc/dom/DOM.hpp>
+#include <xercesc/util/PlatformUtils.hpp>
 
 #include "XmlHelper.h"
 #include "XmlResourceManager.h"
 #include "Logger.h"
-
 #include "CoreSubsystem.h"
 #include "ContentModule.h"
 
-#include "AimlParserImplXerces.h"
-#include "AimlProcessorManager.h"
-
-#include "DialogCharacter.h"
-//#include "BotParser.h"
 #include "DialogSubsystem.h"
-//new includes
 #include "AimlCore.h"
 #include "AimlParserImplRl.h"
-#include "ContextInterpreter.h"
+#include "DialogCharacter.h"
 #include "ScriptProcessor.h"
+#include "ContextInterpreter.h"
+
 using namespace Ogre;
 using namespace MadaBot;
+using namespace XERCES_CPP_NAMESPACE;
 
 template<> rl::DialogSubsystem* Singleton<rl::DialogSubsystem>::ms_Singleton = 0;
 
@@ -60,7 +53,7 @@ namespace rl
 	{
 		mCore->setParser(new AimlParserImplRl());
 		mCore->getBotInterpreter().addProcessor(new ScriptProcessor());
-		AimlProcessorManager::addStandardProcessors();
+	//	AimlProcessorManager::addStandardProcessors();
 	//  Initialize Xerces if this wasn't done already
 		try 
 		{
@@ -88,7 +81,7 @@ namespace rl
 		{
 			delete iter->second;
 		}
-		AimlProcessorManager::shutdown();
+//		AimlProcessorManager::shutdown();
     }
 
 

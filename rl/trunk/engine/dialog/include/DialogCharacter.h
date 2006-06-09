@@ -16,7 +16,7 @@
 #ifndef __Rl_DialogCharacter_H__
 #define __Rl_DialogCharacter_H__
 
-#include "NaturalLanguageProcessor.h"
+#include "DialogPrerequisites.h"
 
 namespace MadaBot
 {
@@ -28,8 +28,9 @@ using namespace MadaBot;
 namespace rl
 {
 	class Creature;
+	class DialogResponse;
 	// deprecated
-	class DialogScriptObject;
+	//class DialogScriptObject;
 
 	class _RlDialogExport DialogCharacter 
 	//	: public NaturalLanguageProcessor // deprecated
@@ -48,8 +49,8 @@ namespace rl
 		void setDialogCharacter(Creature* dialogCharacter);
 		Creature* getDialogPartner() const;
 		void setDialogPartner(Creature* dialogPartner);
-		DialogScriptObject* getScriptObject() const;
-		void setScriptObject(DialogScriptObject* scriptObject);
+//		DialogScriptObject* getScriptObject() const;
+//		void setScriptObject(DialogScriptObject* scriptObject);
 
 		void initialize();
 		void setBot(AimlBot<CeGuiString>* bot);
@@ -76,7 +77,7 @@ namespace rl
 	private:
 		AimlBot<CeGuiString>* mBot;
 		//deprecated
-		DialogScriptObject* mScriptObject;
+		//DialogScriptObject* mScriptObject;
 		
 		Creature* mNonPlayerCharacter;
 		Creature* mPlayerCharacter;
@@ -129,10 +130,11 @@ namespace rl
 		mNonPlayerCharacter = npc;
 	}
 
-	inline DialogScriptObject* DialogCharacter::getScriptObject() const
+/*	inline DialogScriptObject* DialogCharacter::getScriptObject() const
 	{
 		return mScriptObject;
 	}
+*/
 }
 
 #endif
