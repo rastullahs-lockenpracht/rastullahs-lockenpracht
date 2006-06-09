@@ -9,11 +9,15 @@ http://www.ogre3d.org
 ruby/ - Ruby - 1.8
 http://ruby-lang.org
 
-swig/ - SWIG - 1.3.28 
+swig/ - SWIG - 1.3.29 
 http://www.swig.org
 patched with
 http://sourceforge.net/tracker/index.php?func=detail&aid=1458247&group_id=1645&atid=301645
+or taken from
+http://prdownload.berlios.de/dsa-hl/swig_1.3.29.rar
 
+Iblis aiml Implementation
+svn://svn.berlios.de/dsa-hl/dependencies/aiml
 
 fmod/ -  FMOD 3.74 Programmers API
 http://www.fmod.org/
@@ -25,7 +29,7 @@ Ogg/Vorbis
 TheoraPlugin für Ogre
 
 OgreNewt/ OgreNewt - unsere modifizierte Version
-http://prdownload.berlios.de/dsa-hl/OgreNewt_src.zip
+svn://svn.berlios.de/dsa-hl/dependencies/OgreNewt
 
 NewtonSDK/ - 1.32
 http://www.physicsengine.com/
@@ -38,6 +42,8 @@ http://xml.apache.org/xerces-c/download.cgi
 
 boost/ - Boost Threads und Boost Bind - mindestens 1.3.1
 http://www.boost.org
+
+
 
 
 Diese Verzeichnisse sind alle unterhalb von rl/trunk/dependencies anzulegen.
