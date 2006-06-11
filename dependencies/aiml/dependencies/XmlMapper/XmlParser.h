@@ -31,6 +31,7 @@
 #ifndef XML_PARSER_H
 #define XML_PARSER_H
 
+
 namespace XmlMapper
 {
 	template<class S> class XmlDocument;
@@ -38,7 +39,7 @@ namespace XmlMapper
 	template<class S> class XmlParser
 	{
 	public:
-		typedef typename XmlDocument<S>* XmlDocumentPtr;
+		typedef XmlDocument<S>* XmlDocumentPtr;
 		virtual ~XmlParser(){};
 		virtual XmlDocumentPtr parse(const S& pFileName)=0;
 

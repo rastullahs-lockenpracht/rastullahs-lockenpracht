@@ -51,8 +51,8 @@ namespace XmlMapper
 	{
 	public:
 	//	typedefs are needed for gcc 3.5.5, reason unknown
-		typedef typename XmlProcessor<R, T, S,hasPolymorphicReturnType>* XmlProcessorPtr;
-		typedef typename XmlNode<S>* XmlNodePtr;
+		typedef XmlProcessor<R, T, S,hasPolymorphicReturnType>* XmlProcessorPtr;
+		typedef XmlNode<S>* XmlNodePtr;
 
 		XmlNodeProcessor(const S& pName);
 
