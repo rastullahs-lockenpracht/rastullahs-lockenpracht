@@ -37,6 +37,7 @@ void ContextConditionProcessor::preprocessStep()
 {
 	mPredicateValue.clear();
 	mNodeValue.clear();
+	mCurrentReturnValue.clear();
 	try
 	{
 		mCurrentHelper->getPredicates(mAttributes["type"])->setPredicate("mod", mAttributes["mod"]);

@@ -217,6 +217,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".\include;.\include\predicates;..\common\include;..\core\include;..\rules\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;..\..\dependencies\xerces\include;..\..\dependencies\ogrenew\dependencies\include;..\..\dependencies\boost\include;..\..\dependencies\aiml\MadaBot\include;..\..\dependencies\aiml\dependencies"
+				WarningLevel="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
