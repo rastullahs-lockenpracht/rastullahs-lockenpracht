@@ -131,7 +131,7 @@ namespace MadaBot
 
 	template <class S> AimlBot<S>::~AimlBot()
 	{
-		PredicatesMap::iterator itr = mPredicates.begin();
+		typename PredicatesMap::iterator itr = mPredicates.begin();
 		for(; itr != mPredicates.end(); ++itr)
 		{
 			delete (itr->second);
@@ -142,7 +142,7 @@ namespace MadaBot
 	{
 		if(pGraph)
 		{
-			GraphList::iterator itr = mGraphList.begin();
+			typename GraphList::iterator itr = mGraphList.begin();
 			for(; itr != mGraphList.end(); ++itr)
 			{
 				if((*itr) == pGraph)
@@ -164,7 +164,7 @@ namespace MadaBot
 
 	template <class S> Predicates<S>* AimlBot<S>::getPredicates(const S& pType)
 	{
-		PredicatesMap::const_iterator itr = mPredicates.find(pType);
+		typename PredicatesMap::const_iterator itr = mPredicates.find(pType);
 		if(itr != mPredicates.end())
 		{
 			return itr->second;
@@ -182,7 +182,7 @@ namespace MadaBot
 		path.setPattern(pInput);
 		// have to set <that>, this is what the bot said before (or is it?)
 		path.setThat(AimlUtility::ASTERISK);
-		GraphList::iterator itr = mGraphList.begin();
+		typename GraphList::iterator itr = mGraphList.begin();
 		for(; itr != mGraphList.end(); ++itr)
 		{
 			mCurrentMatch = (*itr)->match(path);

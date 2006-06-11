@@ -36,7 +36,7 @@ namespace XmlMapper
 
 		S getAttribute(const S& pName)
 		{
-			Attributes::const_iterator itr = mAttributes.find(pName);
+			typename Attributes::const_iterator itr = mAttributes.find(pName);
 			if(itr != mAttributes.end())
 			{
 				return itr->second;

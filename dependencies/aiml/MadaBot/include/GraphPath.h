@@ -102,7 +102,7 @@ namespace MadaBot
 
 		// tokenizer stuff for boost
 		typedef boost::char_separator<typename S::value_type> Seperator;
-		typedef boost::tokenizer<Seperator, typename S::const_iterator, S > Tokenizer;
+		typedef typename boost::tokenizer<Seperator, typename S::const_iterator, S > Tokenizer;
 		Seperator mSeperator;
 
 		AimlNode<S>* mTemplate;
@@ -135,7 +135,7 @@ namespace MadaBot
 		std::queue<S> returnValue;
 #ifdef _USE_BOOST
 		Tokenizer tokens(pData, mSeperator);
-		for (Tokenizer::iterator itr = tokens.begin();
+		for (typename Tokenizer::iterator itr = tokens.begin();
 				itr != tokens.end(); ++itr)
 		{
 			returnValue.push( *itr );

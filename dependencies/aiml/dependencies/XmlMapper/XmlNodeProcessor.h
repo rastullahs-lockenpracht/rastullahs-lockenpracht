@@ -57,10 +57,10 @@ namespace XmlMapper
 		void addAttribute(const S& pAttributeName);
 		void addAllowedSubProcessor(const S& pName);
 
-		XmlProcessor* getProcessor(const S& pName);
+		typename XmlProcessor<R, T, S, hasPolymorphicReturnType>* getProcessor(const S& pName);
 		
-		virtual ReturnType process(XmlNode<S>* pNode, T<S>* pProcessHelper = NULL);
-		void setParent(XmlProcessor* pProcessor) { mInterpreter = pProcessor; }
+		virtual typename XmlProcessor<R, T, S, hasPolymorphicReturnType>::ReturnType process(XmlNode<S>* pNode, T<S>* pProcessHelper = NULL);
+		void setParent(typename XmlProcessor<R, T, S, hasPolymorphicReturnType>* pProcessor) { mInterpreter = pProcessor; }
 
 	private:
 		void createAttributeMapping();
@@ -80,9 +80,9 @@ namespace XmlMapper
 		XmlAttributes mAttributes;
 		std::vector<S> mSubProcessors;
 
-		XmlProcessor* mInterpreter;
+		typename XmlProcessor<R, T, S, hasPolymorphicReturnType>* mInterpreter;
 		XmlNode<S>* mCurrentNode;
-		ReturnType mCurrentReturnValue;
+		typename XmlProcessor<R, T, S, hasPolymorphicReturnType>::ReturnType mCurrentReturnValue;
 		T<S>* mCurrentHelper;
 	};
 
@@ -110,7 +110,7 @@ namespace XmlMapper
 	{
 		if(mCurrentNode->hasAttributes())
 		{
-			XmlAttributes::iterator itr = mAttributes.begin();
+			typename XmlAttributes::iterator itr = mAttributes.begin();
 			for(; itr != mAttributes.end(); ++itr)
 			{
 				itr->first.c_str();
@@ -141,7 +141,7 @@ namespace XmlMapper
 		*/
 		if(mRestrictSubProcessors)
 		{
-			std::vector<S>::iterator itr = mSubProcessors.begin();
+			typename std::vector<S>::iterator itr = mSubProcessors.begin();
 			for(; itr != mSubProcessors.end(); ++itr)
 			{
 				if( (*itr) == pNode->getNodeName())

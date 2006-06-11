@@ -89,7 +89,7 @@ namespace MadaBot
 		{
 			mResponse += pData.getResponse();
 			mResponse.c_str();
-			GossipData::const_iterator itr = pData.mChildNodes.begin();
+			typename GossipData::const_iterator itr = pData.mChildNodes.begin();
 			for(; itr != pData.mChildNodes.end(); ++itr)
 			{
 				mChildNodes.push_back(*itr);

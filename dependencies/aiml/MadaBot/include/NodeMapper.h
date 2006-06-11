@@ -43,7 +43,7 @@ namespace MadaBot
 
 		~NodeMapper()
 		{
-			NodeList::iterator itr = mChildren.begin();
+			typename NodeList::iterator itr = mChildren.begin();
 			for(; itr != mChildren.end(); ++itr)
 			{
 				delete (*itr);
@@ -60,7 +60,7 @@ namespace MadaBot
 			}
 			else
 			{
-				NodeList::iterator itr = mChildren.end();
+				typename NodeList::iterator itr = mChildren.end();
 				--itr;
 				mChildren.insert(itr, pNode);
 			}
@@ -69,7 +69,7 @@ namespace MadaBot
 		NodeMapper* getChildNode(const S& pKey )
 		{
 			if ( pKey.empty() ) return NULL; // return cached;
-			NodeList::iterator itr = mChildren.begin();
+			typename NodeList::iterator itr = mChildren.begin();
 			for(; itr != mChildren.end(); ++itr)
 			{
 				if(pKey == (*itr)->getKey() )

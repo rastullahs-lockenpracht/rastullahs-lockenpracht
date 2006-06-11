@@ -46,7 +46,7 @@ namespace MadaBot
 			S& getStar(unsigned int index, AimlUtility::PathSeperators pState) const
 			{
 			//  only need to check index > size (due to unsigned int)
-				vector<S>& tmp = mStars[pState];
+				std::vector<S>& tmp = mStars[pState];
 				size_t size = tmp.size();
 			//  ++index accounts for default first item (why is it there?)
 				if ( ++index > size ) 
@@ -62,6 +62,7 @@ namespace MadaBot
 			{
 				mNode = pNode;
 			}
+            
 			AimlNode<S>* getNode()
 			{
 				return mNode;

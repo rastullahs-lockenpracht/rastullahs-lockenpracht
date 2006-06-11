@@ -66,7 +66,7 @@ namespace XmlMapper
 
 	template<class S> XmlNode<S>::~XmlNode()
 	{
-		std::vector<XmlNode<S>*>::iterator itr = mChildren.begin();
+		typename std::vector<XmlNode<S>*>::iterator itr = mChildren.begin();
 		for(; itr != mChildren.end(); ++itr)
 		{
 			delete (*itr);
@@ -80,7 +80,7 @@ namespace XmlMapper
 
 	template<class S> bool XmlNode<S>::removeChild(XmlNode<S>* pChild)
 	{
-		std::vector<XmlNode<S>*>::iterator itr = mChildren.begin();
+		typename std::vector<XmlNode<S>*>::iterator itr = mChildren.begin();
 		for(; itr != mChildren.end(); ++itr)
 		{
 			if( (*itr) == pChild )

@@ -68,7 +68,7 @@ namespace XmlMapper
 		
 	protected:
 		virtual void initialize()=0;
-		virtual bool isProcessable(XmlNode<S>* pNode)=0;
+		virtual bool isProcessable(typename XmlNode<S>* pNode)=0;
 
 		S mName;
 	};

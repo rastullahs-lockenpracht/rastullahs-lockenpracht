@@ -116,7 +116,7 @@ namespace MadaBot
 	template <class S> AimlGraphMaster<S>* AimlCore<S>::loadAiml(const S& pFileName)
 	{
 		// if the GraphMaster for the given fileName already exists, return it
-		GraphList::iterator itr = mGraphList.find(pFileName);
+		typename GraphList::iterator itr = mGraphList.find(pFileName);
 
 		if(itr != mGraphList.end())
 		{

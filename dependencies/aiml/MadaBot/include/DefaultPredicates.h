@@ -50,7 +50,7 @@ namespace MadaBot
 
 	template <class S> S DefaultPredicates<S>::getPredicate(const S& pName) const
 	{
-		std::map<S,S>::const_iterator itr = mValues.find(pName);
+		typename std::map<S,S>::const_iterator itr = mValues.find(pName);
 		if(itr != mValues.end())
 		{
 			return itr->second;

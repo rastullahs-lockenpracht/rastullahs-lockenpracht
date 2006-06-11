@@ -151,7 +151,7 @@ namespace MadaBot
 		//  check if the current step represents a PathState (pattern/that/topic)
 			S searchStr = " ";
 			searchStr += word + " ";// + " ");
-			AimlUtility::PathSeperatorMap::iterator itr = 
+			typename AimlUtility::PathSeperatorMap::iterator itr = 
 				AimlUtility::sPathSeperators.begin();
 			for(; itr != AimlUtility::sPathSeperators.end(); ++itr)
 			{
