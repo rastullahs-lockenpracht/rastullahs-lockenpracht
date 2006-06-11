@@ -128,6 +128,16 @@ void Fmod3SoundStream::setStream(FSOUND_STREAM *stream)
     mStream = stream;
 }
 
+float Fmod3SoundStream::getLength() const
+{
+	if (mStream == NULL)
+	{
+		return 0;
+	}
+	
+	return (float)FSOUND_Stream_GetLengthMs(mStream) / 1000.0;
+}
+
 /**
  * @return Der erzeugte Channel
  * @author JoSch
@@ -135,8 +145,11 @@ void Fmod3SoundStream::setStream(FSOUND_STREAM *stream)
  */
 int Fmod3SoundStream::createChannel() throw (RuntimeException)
 {
-    int channel = FSOUND_Stream_PlayEx(FSOUND_FREE, getStream(), 0, true);
-    return channel; 
+	if (mChannel == NO_CHANNEL)
+	{
+		mChannel = FSOUND_Stream_PlayEx(FSOUND_FREE, getStream(), 0, true);
+	}
+    return mChannel; 
 }
 
 /**

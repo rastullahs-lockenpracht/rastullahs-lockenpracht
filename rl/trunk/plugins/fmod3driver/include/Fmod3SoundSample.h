@@ -59,7 +59,9 @@ namespace rl {
         FSOUND_SAMPLE *getSample() const;
         // Wir erzeugen einen Channel für SoundChannel
         virtual int createChannel() throw (RuntimeException);
- 
+         // Wir geben zurück, wie lange der Sound ist.
+		float getLength() const;
+
 	protected:
         /// Shared class-level name for Movable type
         static Ogre::String msMovableType;

@@ -41,8 +41,6 @@ namespace rl {
 
         // Damit die Timings alle 0.5 sek. abgeschickt werden.
         int mTicks;
-        /// Die komplette Zeit des Stücks in Sekunden.
-        double mTime;
         // Ob dieser Sound 3D sein soll.
         bool mIs3d;
         // Ob dieser Sound loopen soll.
@@ -74,6 +72,8 @@ namespace rl {
         bool isLooping() const;
         // Setzen des Loop-Flags.
         void setLooping(bool looping);
+
+		virtual float getLength() const = 0;
     }; 
 
 

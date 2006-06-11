@@ -65,6 +65,8 @@ namespace rl {
         virtual void unload() throw (RuntimeException);        
         // Wir erzeugen einen Channel für SoundChannel
         virtual int createChannel() throw (RuntimeException);
+        // Wir geben zurück, wie lange der Sound ist.
+		float getLength() const;
 
 protected:
         // Sind wir gueltig?

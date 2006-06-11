@@ -53,7 +53,7 @@ namespace rl {
         virtual void unload() throw (RuntimeException);
  
         // Wir geben zurück, wie lange der Sound ist.
-        const boost::xtime& getTotalTime() const;
+		float getLength() const;
     
 protected:
         /// Shared class-level name for Movable type

@@ -95,9 +95,9 @@ bool NullSound::isValid() const throw (RuntimeException)
  * @author JoSch
  * @date 03-18-2005
  */
-const boost::xtime &NullSound::getTotalTime() const
+float NullSound::getLength() const
 {
-    return mTotalTime;
+    return 0.0;
 }
 
 void NullSoundPtr::destroy()

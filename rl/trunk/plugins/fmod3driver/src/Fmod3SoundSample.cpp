@@ -130,6 +130,18 @@ void Fmod3SoundSample::setSample(FSOUND_SAMPLE *sample)
     mSample = sample;
 }
 
+float Fmod3SoundSample::getLength() const
+{
+	if (mSample == NULL)
+	{
+		return 0;
+	}
+	float samples = FSOUND_Sample_GetLength(mSample);
+	float frequency = mChannel == NO_CHANNEL ? 44100 : FSOUND_GetFrequency(mChannel);
+
+	return samples / frequency;
+}
+
 /**
  * @return Der erzeugte Channel
  * @author JoSch
@@ -137,8 +149,11 @@ void Fmod3SoundSample::setSample(FSOUND_SAMPLE *sample)
  */
 int Fmod3SoundSample::createChannel() throw (RuntimeException)
 {
-    int channel = FSOUND_PlaySoundEx(FSOUND_FREE, getSample(), 0, true);
-    return channel; 
+	if (mChannel == NO_CHANNEL)
+	{
+	    mChannel = FSOUND_PlaySoundEx(FSOUND_FREE, getSample(), 0, true);
+	}
+	return mChannel; 
 }
 
 void Fmod3SoundSamplePtr::destroy()

@@ -13,11 +13,7 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-
 #include "Sound.h"
-#include <OgreMovableObject.h>
-#include <OgreAxisAlignedBox.h>
-#include <OgreVector3.h>
 
 using namespace Ogre; 
 
@@ -28,7 +24,6 @@ Sound::Sound(const SoundResourcePtr &soundres)
  : mSoundResource(soundres),
    mIsLooping(false),
    mIs3d(false),
-   mTime(0.0),
    mTicks(0),
    mName(soundres->getName()) 
 {

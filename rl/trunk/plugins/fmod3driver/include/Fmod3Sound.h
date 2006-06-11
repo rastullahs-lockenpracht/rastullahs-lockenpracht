@@ -33,9 +33,14 @@ class Fmod3Sound : public Sound
 {
 	public:
         /// Konstruktor
-        Fmod3Sound(const SoundResourcePtr &soundres) : Sound(soundres) {};
+        Fmod3Sound(const SoundResourcePtr &soundres) : Sound(soundres), mChannel(NO_CHANNEL) {};
 		/// Erzeuge einen Kanal mit Fmod.
 		virtual int createChannel() throw (RuntimeException) = 0;
+
+	protected:
+		int mChannel;
+
+		static const int NO_CHANNEL = -999999;
 };
 
 }
