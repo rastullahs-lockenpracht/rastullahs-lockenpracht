@@ -38,9 +38,9 @@ namespace XmlMapper
 	template<class S> class XmlParser
 	{
 	public:
-		typedef typename XmlDocument<S> XmlDocumentType;
+		typedef typename XmlDocument<S>* XmlDocumentPtr;
 		virtual ~XmlParser(){};
-		virtual XmlDocumentType* parse(const S& pFileName)=0;
+		virtual XmlDocumentPtr parse(const S& pFileName)=0;
 
 	protected:
 	};

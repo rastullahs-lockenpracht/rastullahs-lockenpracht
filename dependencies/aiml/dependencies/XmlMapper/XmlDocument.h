@@ -41,16 +41,16 @@ namespace XmlMapper
 	{
 	public:
 	//	typedefs are needed for gcc 3.5.5, reason unknown
-		typedef typename XmlNode<S> XmlNodeType;
-		XmlDocument(XmlNodeType* pRootNode) : mRootNode(pRootNode) {}
+		typedef typename XmlNode<S>* XmlNodePtr;
+		XmlDocument(XmlNodePtr pRootNode) : mRootNode(pRootNode) {}
 		virtual ~XmlDocument(){ delete mRootNode; }
 
-		virtual XmlNodeType* getRootNode() { return mRootNode; }
-		virtual XmlNodeType* getDocumentElement(){return mRootNode; }
+		virtual XmlNodePtr getRootNode() { return mRootNode; }
+		virtual XmlNodePtr getDocumentElement(){return mRootNode; }
 
 	protected:
 		
-		XmlNodeType* mRootNode;
+		XmlNodePtr mRootNode;
 	};
 }
 #endif
