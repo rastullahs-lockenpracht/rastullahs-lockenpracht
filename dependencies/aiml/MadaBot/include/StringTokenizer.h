@@ -54,7 +54,7 @@ namespace MadaBot
 
 	template <class S> S StringTokenizer<S>::getNextToken()
 	{
-		S::size_type pos = mData.find_first_of(mSeperator);
+		typename S::size_type pos = mData.find_first_of(mSeperator);
 		
 		if (pos == S::npos)
 		{
