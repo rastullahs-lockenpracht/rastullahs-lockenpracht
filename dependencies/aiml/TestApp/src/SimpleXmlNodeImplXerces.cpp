@@ -55,8 +55,8 @@ SimpleXmlNodeImplXerces::SimpleXmlNodeImplXerces(DOMNode* pNode)
 	}
 	if(!mChildren.empty())
 	{
-		typename std::vector<XmlNode<XercesString>*>::iterator itr = mChildren.begin();
-		typename std::vector<XmlNode<XercesString>*>::iterator itrnext;
+		std::vector<typename XmlNode<XercesString>*>::iterator itr = mChildren.begin();
+		std::vector<typename XmlNode<XercesString>*>::iterator itrnext;
 		for(; itr != mChildren.end()-1; ++itr)
 		{
 			itrnext= itr+1;
