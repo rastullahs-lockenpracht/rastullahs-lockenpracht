@@ -18,7 +18,6 @@ noinst_HEADERS = \
 	DialogWindow.h \
 	DialogCharacterController.h \
 	FreeFlightCharacterController.h \
-	Fmod3Config.h \
 	GameLoggerWindow.h \
 	InfoPopup.h \
 	InGameMenuWindow.h \
@@ -35,6 +34,7 @@ noinst_HEADERS = \
 	PlaylistWindow.h \
 	RTCombatCharacterController.h \
 	SoundConfig.h \
+	SoundDriverConfigWindow.h \
 	SubtitleWindow.h \
 	TargetSelectionWindow.h \
 	UiPrerequisites.h \

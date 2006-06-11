@@ -21,7 +21,6 @@ noinst_HEADERS =
     ScriptWrapper.h \
 	Sleep.h \
 	Tripel.h \
-	XHelper.h \
 	XmlHelper.h \
 	XmlResource.h \
 	XmlResourceManager.h

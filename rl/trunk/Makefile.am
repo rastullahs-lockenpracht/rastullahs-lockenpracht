@@ -1,4 +1,4 @@
-SUBDIRS =  engine tools docs
+SUBDIRS =  plugins engine tools docs
 if with_tests 
   SUBDIRS += tests
 endif

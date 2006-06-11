@@ -6,6 +6,10 @@
 	AnimationManager.h \
 	BaseAnimation.h \
 	CameraObject.h \
+	ConfigurationManager.h \
+	ConfigurationManagerLinux.h \
+	ConfigurationManagerMac.h \
+	ConfigurationManagerWin32.h \
 	ContentModule.h \
 	CoreEvents.h \
 	CorePrerequisites.h \

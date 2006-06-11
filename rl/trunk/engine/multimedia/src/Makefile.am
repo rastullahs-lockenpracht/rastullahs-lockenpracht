@@ -23,21 +23,3 @@ libRlMultimedia_la_SOURCES = \
 	null/NullSound.cpp \
 	null/NullDriver.cpp \
 	null/NullListener.cpp
-
-if with_fmod3
-SUBDIRS += fmod3
-libRlMultimedia_la_LIBADD += -lRlFmod3
-libRlMultimedia_la_LDFLAGS += -Lfmod3
-INCLUDES += -I../include/fmod3 -DWITH_FMOD3
-endif
-	
-if with_oal
-INCLUDES += $(OPENAL_CFLAGS) -I../include/openal -DWITH_OAL
-libRlMultimedia_la_LIBADD += $(OPENAL_LIBS)
-libRlMultimedia_la_SOURCES += \
-	openal/OalSoundChannel.cpp \
-	openal/OalDriver.cpp \
-	openal/OalSoundSample.cpp \
-	openal/OalSoundStream.cpp \
-	openal/OalListener.cpp
-endif

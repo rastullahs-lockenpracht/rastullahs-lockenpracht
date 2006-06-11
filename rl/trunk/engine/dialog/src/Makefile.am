@@ -3,26 +3,20 @@ INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(STLPORT_CFLAGS) -I../
 lib_LTLIBRARIES = libRlDialog.la
 libRlDialog_la_LDFLAGS = $(RUBY_LIBS) $(OGRE_LIBS) $(LIBS) $(CEGUI_LIBS) 
 libRlDialog_la_SOURCES = \
-	AimlCoreComponent.cpp \
-	AimlDocumentImplXerces.cpp \
-	AimlNode.cpp \
-	AimlNodeImplXerces.cpp \
-	AimlParser.cpp \
-    AimlParserImplXerces.cpp \
-	AimlProcessorManager.cpp \
-	BotParser.cpp \
+	AimlNodeImplRl.cpp \
+    AimlParserImplRl.cpp \
+    ContextConditionProcessor.cpp \
+    ContextInterpreter.cpp \
 	DialogCharacter.cpp \
+	DialogOption.cpp \
 	DialogResponse.cpp \
-	DialogScriptObject.cpp \
 	DialogSubsystem.cpp \
-	Graphmaster.cpp \
-	Match.cpp \
-	NaturalLanguageProcessor.cpp \
-	Nodemaster.cpp \
-	Predicates.cpp \
-	StringTokenizer.cpp \
-	Utils.cpp \
-	processors/ConditionProcessor.cpp \
-	processors/GetProcessor.cpp \
-	processors/SetProcessor.cpp \
-	processors/SraiProcessor.cpp
+	ScriptProcessor.cpp \
+	predicates/CreaturePredicates.cpp \
+	predicates/EigenschaftsProbePredicates.cpp \
+	predicates/EigenschaftsWertPredicates.cpp \
+	predicates/QuestPredicates.cpp \
+	predicates/ScriptPredicates.cpp \
+	predicates/TalentProbePredicates.cpp \
+	predicates/TalentWertPredicates.cpp
+	

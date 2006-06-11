@@ -1,30 +1,17 @@
 noinst_HEADERS = \
-	AimlCoreComponent.h \
-	AimlDocument.h \
-	AimlDocumentImplXerces.h \
-	AimlNode.h \
-	AimlNodeImplXerces.h \
-	AimlParser.h \
-	AimlParserImplXerces.h \
-	AimlProcessor.h \
-	AimlProcessorManager.h \
-	BotParser.h \
+	AimlNodeImplRl.h \
+	AimlParserImplRl.h \
+	ContextConditionProcessor.h \
+	ContextInterpreter.h \
 	DialogCharacter.h \
+	DialogOption.h \
 	DialogPrerequisites.h \
 	DialogResponse.h \
-	DialogScriptObject.h \
 	DialogSubsystem.h \
-	Graphmaster.h \
-	Match.h \
-	NaturalLanguageProcessor.h \
-	Nodemaster.h \
-	Predicates.h \
-	StringTokenizer.h \
-	Utils.h \
-	processors/BrProcessor.h \
-	processors/ConditionProcessor.h \
-	processors/GetProcessor.h \
-	processors/SetProcessor.h \
-	processors/SystemProcessor.h \
-	processors/SraiProcessor.h
-	
+	ScriptProcessor.h \
+	predicates/CreaturePredicates.h \
+	predicates/EigenschaftsProbePredicates.h \
+	predicates/QuestPredicates.h \
+	predicates/ScriptPredicates.h \
+	predicates/TalentProbePredicates.h \
+	predicates/TalentWertPredicates.h	

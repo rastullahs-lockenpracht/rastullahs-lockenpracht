@@ -29,7 +29,6 @@ libRlUi_la_SOURCES = \
 	DialogCharacterController.cpp \
 	DialogWindow.cpp \
 	FreeFlightCharacterController.cpp \
-	Fmod3Config.cpp \
 	GameLoggerWindow.cpp \
 	InfoPopup.cpp \
 	InGameMenuWindow.cpp \
@@ -45,6 +44,7 @@ libRlUi_la_SOURCES = \
 	PlaylistWindow.cpp \
 	RTCombatCharacterController.cpp \
 	SoundConfig.cpp \
+	SoundDriverConfigWindow.cpp \
 	SubtitleWindow.cpp \
 	TargetSelectionWindow.cpp \
 	UiSubsystem.cpp \
@@ -52,14 +52,3 @@ libRlUi_la_SOURCES = \
 	WindowFactory.cpp \
 	WindowManager.cpp \
 	WindowUpdater.cpp
-
-if with_fmod3
-libRlUi_la_LIBADD += -lRlFmod3
-libRlUi_la_LDFLAGS += -L../../multimedia/src/fmod3
-INCLUDES += -I../../multimedia/include/fmod3 -DWITH_FMOD3
-endif
-	
-if with_oal
-INCLUDES += $(OPENAL_CFLAGS) -I../../multimedia/include/openal -DWITH_OAL
-libRlUi_la_LIBADD += $(OPENAL_LIBS)
-endif
