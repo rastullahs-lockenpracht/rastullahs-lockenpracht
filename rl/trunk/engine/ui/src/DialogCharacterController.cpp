@@ -177,11 +177,10 @@ namespace rl {
 
 		if (soundFile.length() == 0)
 		{
-			mFadeTextTime = text.length() * 0.04;
+			mFadeTextTime = 0.04f * text.length() ;
 		}
 		else
 		{
-			mFadeTextTime = text.length() * 0.04;
 			delete mSoundObject;
 			mSoundObject = 
 				new SoundObject(
@@ -190,6 +189,7 @@ namespace rl {
 							SoundManager::getSingleton().getByName(soundFile)),
 					soundFile);
 			mSoundObject->play();
+			mFadeTextTime = std::max(0.04f * text.length(), mSoundObject->getLength());
 		}
 
 		if (mSubtitleWindow != NULL)
