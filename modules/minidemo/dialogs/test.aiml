@@ -12,12 +12,12 @@
 			<li rldialog:id="spinne_todesschrei_01.ogg">Pustekuchen!</li>
 		</gossip>
 		<gossip rldialog:type="option">
-			<li rldialog:id="erschrecken_buh_01.ogg" rldialog:patternRef ="5">Ich red so vor mich hin</li>
-			<li rldialog:id="erschrecken_psst_buh_01.ogg" rldialog:patternRef ="5">Das mache ich vor allem weils mir Spaß macht</li>
-			<li rldialog:id="schmerz_schrei_au_01.ogg" rldialog:patternRef ="5">Und ich lasse es mir von niemandem verderben</li>
+			<li rldialog:id="alles.ogg" rldialog:patternRef ="5">Über Sieben</li>
+			<li rldialog:id="funf.ogg" rldialog:patternRef ="5">Fünf!</li>
+			<li rldialog:id="drei.ogg" rldialog:patternRef ="5">Drei</li>
 			<condition type="script">
-				<li rldialog:id="schmerz_schrei_au_01.ogg" rldialog:patternRef ="5" value="4">
-					Eine Bedingung
+				<li rldialog:id="eins.ogg" rldialog:patternRef ="5" value="4">
+					Eins, Bedingung.
 				</li>
 			</condition>
 		</gossip>
