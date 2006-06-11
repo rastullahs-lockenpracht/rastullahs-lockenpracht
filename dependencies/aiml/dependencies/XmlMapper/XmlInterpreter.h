@@ -57,7 +57,7 @@ namespace XmlMapper
 		XmlProcessorPtr getProcessor(const S& pName);
 		void removeProcessor(const S& pName);
 	
-		virtual const S& getName() { return mName; }
+		// virtual const S& getName() { return mName; }
 		virtual typename XmlProcessor<R, T, S, hasPolymorphicReturnType>::ReturnType getCurrentReturnValue() { return mReturnValue; }
 		virtual typename XmlProcessor<R, T, S, hasPolymorphicReturnType>::ReturnType interpret(XmlDocument<S>* pDocument, T<S>* pProcessHelper = NULL);
 		

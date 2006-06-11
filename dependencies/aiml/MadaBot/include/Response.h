@@ -54,7 +54,7 @@ namespace MadaBot
 		}
 		bool empty() const
 		{
-			return (mRespone.empty() && mChildNodes.empty());
+			return (mResponse.empty() && mChildNodes.empty());
 		}
 		bool hasGossip() const
 		{

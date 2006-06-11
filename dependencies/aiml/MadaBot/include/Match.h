@@ -55,7 +55,7 @@ namespace MadaBot
 					return "";
 				}
 			//  account for reversed order (see addStar)
-				return vs[size - index];
+				return tmp[size - index];
 			}
 		
 			void setNode(AimlNode<S>* pNode)
