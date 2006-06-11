@@ -1,16 +1,5 @@
-class TalkAction < Action
-  def initialize(dialog)
-    super("talk", "Reden")
-    @mDialog = dialog
-  end
-
-  def doAction(object, actor, target)
-    bot = $DS.loadBot(@mDialog)
-    bot.setDialogCharacter(actor)
-    bot.setDialogPartner(object)
-    WindowFactory.getSingleton().showDialog(bot)
-  end
-end
+load( "embed.rb" );
+load( "npc.rb" );
 
 class BauerArnolfGrossschaedel < Person
   def initialize
