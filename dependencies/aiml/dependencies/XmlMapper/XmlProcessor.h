@@ -55,20 +55,23 @@ namespace XmlMapper
 	{
 	public:
 		typedef typename Select<hasPolymorphicReturnType, R<S>*, R<S> >::Result ReturnType;
+	//	typedefs are needed for gcc 3.5.5, reason unknown
+		typedef typename XmlProcessor<R, T, S,hasPolymorphicReturnType>* XmlProcessorPtr;
+		typedef typename XmlNode<S>* XmlNodePtr;
 
 		XmlProcessor(const S& pName) : mName(pName) { }
 		virtual ~XmlProcessor(){};
 		
 		virtual const S& getName() { return mName; }
-		virtual XmlProcessor* getProcessor(const S& pName)=0;
+		virtual XmlProcessorPtr getProcessor(const S& pName)=0;
 
-		virtual ReturnType process(XmlNode<S>* pNode, T<S>* pProcessHelper=NULL)=0;
+		virtual ReturnType process(XmlNodePtr pNode, T<S>* pProcessHelper=NULL)=0;
 		
-		virtual void setParent(XmlProcessor* pProcessor)=0;
+		virtual void setParent(XmlProcessorPtr pProcessor)=0;
 		
 	protected:
 		virtual void initialize()=0;
-		virtual bool isProcessable(typename XmlNode<S>* pNode)=0;
+		virtual bool isProcessable(XmlNodePtr pNode)=0;
 
 		S mName;
 	};

@@ -50,6 +50,10 @@ namespace XmlMapper
 	class XmlNodeProcessor : public XmlProcessor<R, T, S, hasPolymorphicReturnType>
 	{
 	public:
+	//	typedefs are needed for gcc 3.5.5, reason unknown
+		typedef typename XmlProcessor<R, T, S,hasPolymorphicReturnType>* XmlProcessorPtr;
+		typedef typename XmlNode<S>* XmlNodePtr;
+
 		XmlNodeProcessor(const S& pName);
 
 		virtual ~XmlNodeProcessor(){};
@@ -57,10 +61,10 @@ namespace XmlMapper
 		void addAttribute(const S& pAttributeName);
 		void addAllowedSubProcessor(const S& pName);
 
-		typename XmlProcessor<R, T, S, hasPolymorphicReturnType>* getProcessor(const S& pName);
+		XmlProcessorPtr getProcessor(const S& pName);
 		
-		virtual typename XmlProcessor<R, T, S, hasPolymorphicReturnType>::ReturnType process(XmlNode<S>* pNode, T<S>* pProcessHelper = NULL);
-		void setParent(typename XmlProcessor<R, T, S, hasPolymorphicReturnType>* pProcessor) { mInterpreter = pProcessor; }
+		virtual typename XmlProcessor<R, T, S, hasPolymorphicReturnType>::ReturnType process(XmlNodePtr pNode, T<S>* pProcessHelper = NULL);
+		void setParent(XmlProcessorPtr pProcessor) { mInterpreter = pProcessor; }
 
 	private:
 		void createAttributeMapping();
@@ -68,7 +72,7 @@ namespace XmlMapper
 	protected:
 		virtual void initialize()=0;
 
-		bool isProcessable(XmlNode<S>* pNode);
+		bool isProcessable(XmlNodePtr pNode);
 
 		virtual void preprocessStep()=0;
 		virtual void processChildStep(XmlNode<S>* pChild)=0;
@@ -77,11 +81,12 @@ namespace XmlMapper
 		bool mProcessChildren;
 		bool mRestrictSubProcessors;
 		typedef std::map<S, S> XmlAttributes;
+
 		XmlAttributes mAttributes;
 		std::vector<S> mSubProcessors;
-
-		typename XmlProcessor<R, T, S, hasPolymorphicReturnType>* mInterpreter;
-		XmlNode<S>* mCurrentNode;
+		
+		XmlProcessorPtr mInterpreter;
+		XmlNodePtr mCurrentNode;
 		typename XmlProcessor<R, T, S, hasPolymorphicReturnType>::ReturnType mCurrentReturnValue;
 		T<S>* mCurrentHelper;
 	};

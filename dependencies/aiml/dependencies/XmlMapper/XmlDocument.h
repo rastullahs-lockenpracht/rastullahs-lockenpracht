@@ -40,15 +40,17 @@ namespace XmlMapper
 	template<class S> class XmlDocument
 	{
 	public:
-		XmlDocument(XmlNode<S>* pRootNode) : mRootNode(pRootNode) {}
+	//	typedefs are needed for gcc 3.5.5, reason unknown
+		typedef typename XmlNode<S> XmlNodeType;
+		XmlDocument(XmlNodeType* pRootNode) : mRootNode(pRootNode) {}
 		virtual ~XmlDocument(){ delete mRootNode; }
 
-		virtual XmlNode<S>* getRootNode() { return mRootNode; }
-		virtual XmlNode<S>* getDocumentElement(){return mRootNode; }
+		virtual XmlNodeType* getRootNode() { return mRootNode; }
+		virtual XmlNodeType* getDocumentElement(){return mRootNode; }
 
 	protected:
-		XmlNode<S>* mRootNode;
-		//std::vector<XmlNode<S>*> mChildren;
+		
+		XmlNodeType* mRootNode;
 	};
 }
 #endif

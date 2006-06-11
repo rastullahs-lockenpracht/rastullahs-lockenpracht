@@ -34,7 +34,7 @@
 
 namespace XmlMapper
 {
-	template<class S> class XmlNode
+	template <class S> class XmlNode
 	{
 	public:
 		XmlNode() : mNextSibling(NULL) {}

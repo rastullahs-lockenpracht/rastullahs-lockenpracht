@@ -45,25 +45,30 @@ namespace XmlMapper
 	class XmlInterpreter : public XmlProcessor<R, T, S, hasPolymorphicReturnType>
 	{
 	public:
+	//	typedefs are needed for gcc 3.5.5, reason unknown
+		typedef typename XmlProcessor<R, T, S,hasPolymorphicReturnType> XmlProcessorType;
+		typedef typename XmlProcessor<R, T, S,hasPolymorphicReturnType>* XmlProcessorPtr;
+		typedef typename XmlNode<S>* XmlNodePtr;
+
 		XmlInterpreter(const S& pName) : 
 		  XmlProcessor<R, T, S, hasPolymorphicReturnType>(pName) {}
 		virtual ~XmlInterpreter();
 
-		void addProcessor(XmlProcessor<R, T, S, hasPolymorphicReturnType>* pProcessor);
-		XmlProcessor<R, T, S, hasPolymorphicReturnType>* getProcessor(const S& pName);
+		void addProcessor(XmlProcessorPtr pProcessor);
+		XmlProcessorPtr getProcessor(const S& pName);
 		void removeProcessor(const S& pName);
 	
 		virtual const S& getName() { return mName; }
 		virtual typename XmlProcessor<R, T, S, hasPolymorphicReturnType>::ReturnType getCurrentReturnValue() { return mReturnValue; }
 		virtual typename XmlProcessor<R, T, S, hasPolymorphicReturnType>::ReturnType interpret(XmlDocument<S>* pDocument, T<S>* pProcessHelper = NULL);
 		
-		void setParent(XmlProcessor<R, T, S, hasPolymorphicReturnType>* pProcessor) {}
+		void setParent(XmlProcessorPtr pProcessor) {}
 
 	protected:
 		virtual void initialize()=0;
-		bool isProcessable(XmlNode<S>* pNode);
+		bool isProcessable(XmlNodePtr pNode);
 
-		typedef std::map<S, XmlProcessor<R, T, S, hasPolymorphicReturnType>*> ProcessorMap;
+		typedef std::map<S, XmlProcessorPtr> ProcessorMap;
 		typename XmlInterpreter<R, T, S, hasPolymorphicReturnType>::ProcessorMap mProcessors;
 		typename XmlProcessor<R, T, S, hasPolymorphicReturnType>::ReturnType mReturnValue;
 	};
