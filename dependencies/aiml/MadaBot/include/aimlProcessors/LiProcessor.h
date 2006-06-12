@@ -48,18 +48,18 @@ namespace MadaBot
 
 		void preprocessStep()
 		{
-			mCurrentReturnValue.clear();
+			this->mCurrentReturnValue.clear();
 		}
 		void processChildStep(XmlNode<S>* pChild)
 		{
-			mCurrentReturnValue += getProcessor(pChild->getNodeName())->process(pChild, mCurrentHelper);
+			this->mCurrentReturnValue += getProcessor(pChild->getNodeName())->process(pChild, this->mCurrentHelper);
 		}
 		void postprocessStep(){}
 	protected:
 		void initialize()
 		{
 		//  allow any nodeType as child
-			mRestrictSubProcessors = false;
+			this->mRestrictSubProcessors = false;
 		}
 	};
 }

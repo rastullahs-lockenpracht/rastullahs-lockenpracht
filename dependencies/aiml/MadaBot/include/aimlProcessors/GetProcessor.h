@@ -46,17 +46,17 @@ namespace MadaBot
 
 		void preprocessStep()
 		{
-			S result = mCurrentHelper->getPredicates(mAttributes["type"])
-				->getPredicate(mAttributes["name"]);
-			mCurrentReturnValue = result;
+			S result = this->mCurrentHelper->getPredicates(this->mAttributes["type"])
+				->getPredicate(this->mAttributes["name"]);
+			this->mCurrentReturnValue = result;
 		}
 		void processChildStep(XmlNode<S>* pChild){}
 		void postprocessStep(){}
 	protected:
 		void initialize()
 		{
-			addAttribute("type");
-			addAttribute("name");
+			this->addAttribute("type");
+			this->addAttribute("name");
 		}
 	};
 }

@@ -104,7 +104,7 @@ namespace MadaBot
 
 	private:
 		S mBotDefintion;
-		typedef std::map<S, AimlGraphMaster<S>*> GraphList;
+		typedef typename std::map<S, AimlGraphMaster<S>*> GraphList;
 		GraphList mGraphList;
 		XmlParser<S>* mParser;
 		AimlInterpreter<S> mAimlInterpreter;

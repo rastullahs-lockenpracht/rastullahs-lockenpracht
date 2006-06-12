@@ -57,11 +57,11 @@ namespace MadaBot
 	template <class S> AimlBot<S>* BotInterpreter<S>::process(XmlNode<S>* pNode, AimlCore<S>* pProcessHelper)
 	{
 	//	XmlInterpreter<void*, AimlBot, S> botloader;
-		mReturnValue = NULL;
+		this->mReturnValue = NULL;
 		if(pNode->getNodeName() == "bot")
 		{
-			mReturnValue = new AimlBot<S>(pNode->getAttribute("name"), pProcessHelper);
-			mReturnValue->setVoice(pNode->getAttribute("voice"));
+			this->mReturnValue = new AimlBot<S>(pNode->getAttribute("name"), pProcessHelper);
+			this->mReturnValue->setVoice(pNode->getAttribute("voice"));
 
 			XmlNode<S>* child = pNode->getFirstChild();
 			for(; child != NULL; child = child->getNextSibling())
@@ -77,7 +77,7 @@ namespace MadaBot
 					AimlGraphMaster<S>* gm = pProcessHelper->loadAiml(child->getAttribute("src"));
 					if(gm != NULL)
 					{
-						mReturnValue->addGraphMaster(gm);
+						this->mReturnValue->addGraphMaster(gm);
 					}
 				}
 			//  this is ugly from switching, but nice for handling values for the bot
@@ -93,7 +93,7 @@ namespace MadaBot
 				}
 			}
 		}
-		return mReturnValue;
+		return this->mReturnValue;
 	}
 
 	template <class S> AimlBot<S>* BotInterpreter<S>::interpret(XmlDocument<S>* pDocument, AimlCore<S>* pProcessHelper)

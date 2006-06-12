@@ -60,10 +60,10 @@ namespace MadaBot
 
 	template <class S> void ConditionProcessor<S>::initialize()
 	{
-		addAllowedSubProcessor("li");
-		addAttribute("type");
-		addAttribute("name");
-		addAttribute("value");
+		this->addAllowedSubProcessor("li");
+		this->addAttribute("type");
+		this->addAttribute("name");
+		this->addAttribute("value");
 	}
 	template <class S> void ConditionProcessor<S>::preprocessStep()
 	{
@@ -72,12 +72,12 @@ namespace MadaBot
 		mNodeValue.clear();
 		try
 		{
-			mPredicateValue = mCurrentHelper
-				->getPredicates(mAttributes["type"])
-				->getPredicate(mAttributes["name"]);
+			mPredicateValue = this->mCurrentHelper
+				->getPredicates(this->mAttributes["type"])
+				->getPredicate(this->mAttributes["name"]);
 			if(!mAttributes["value"].empty())
 			{
-				mNodeValue = mAttributes["value"];
+				mNodeValue = this->mAttributes["value"];
 			}
 		}
 		catch(...)
@@ -93,9 +93,9 @@ namespace MadaBot
 		}
 		if(mPredicateValue == mNodeValue)
 		{
-			mCurrentReturnValue = getProcessor(pChild->getNodeName())->process(pChild);
+			this->mCurrentReturnValue = getProcessor(pChild->getNodeName())->process(pChild);
 		//  standard aiml returns only one li-element	
-			mProcessChildren = false;
+			this->mProcessChildren = false;
 		}
 	}
 }

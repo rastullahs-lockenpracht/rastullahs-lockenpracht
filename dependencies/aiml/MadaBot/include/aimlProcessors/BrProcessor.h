@@ -42,7 +42,7 @@ namespace MadaBot
 
 		void preprocessStep()
 		{
-			mCurrentReturnValue = "\n";
+			this->mCurrentReturnValue = "\n";
 		}
 		void processChildStep(XmlNode<S>* pChild){}
 		void postprocessStep(){}

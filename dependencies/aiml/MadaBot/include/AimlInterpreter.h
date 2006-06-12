@@ -76,8 +76,8 @@ namespace MadaBot
 		 */
 		Response<S> interpret(XmlDocument<S>* pDocument, AimlBot<S>* pProcessHelper=NULL)
 		{
-			mReturnValue.clear();
-			return mReturnValue;
+			this->mReturnValue.clear();
+			return this->mReturnValue;
 		}	
 			
 	protected:
@@ -98,20 +98,20 @@ namespace MadaBot
 	};
 
 
-	template <class S> Response<S> AimlInterpreter<S>::process(XmlNode<S>* pNode, AimlBot<S>* pProcessHelper=NULL)
+	template <class S> Response<S> AimlInterpreter<S>::process(XmlNode<S>* pNode, AimlBot<S>* pProcessHelper)
 	{
-		mReturnValue.clear();
+		this->mReturnValue.clear();
 	//  for every child node of "template", add its processed value to the response
 		pNode = pNode->getFirstChild();
 		for(; pNode != NULL; pNode = pNode->getNextSibling())
 		{
 			if(isProcessable(pNode))
 			{
-				mReturnValue += getProcessor(pNode->getNodeName())
+				this->mReturnValue += getProcessor(pNode->getNodeName())
 					->process(pNode, pProcessHelper);
 			}
 		}
-		return mReturnValue;
+		return this->mReturnValue;
 	}
 }
 

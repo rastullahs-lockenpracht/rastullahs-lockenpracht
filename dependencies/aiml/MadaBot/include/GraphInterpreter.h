@@ -49,7 +49,7 @@ namespace MadaBot
 			: XmlInterpreter<GraphPath, AimlGraphMaster, S>(pName)
 		{
 		//  TODO: returnType does not need to be polymorph
-			mReturnValue = NULL;
+			this->mReturnValue = NULL;
 			initialize();
 		}
 		
@@ -66,11 +66,11 @@ namespace MadaBot
 
 	template <class S> void GraphInterpreter<S>::initialize()
 	{
-		addProcessor(new TopicProcessor<S>());
-		addProcessor(new CategoryProcessor<S>());
+		this->addProcessor(new TopicProcessor<S>());
+		this->addProcessor(new CategoryProcessor<S>());
 	}
 
-	template <class S> GraphPath<S>* GraphInterpreter<S>::interpret(XmlDocument<S>* pDocument, AimlGraphMaster<S>* pProcessHelper = NULL)
+	template <class S> GraphPath<S>* GraphInterpreter<S>::interpret(XmlDocument<S>* pDocument, AimlGraphMaster<S>* pProcessHelper)
 	{
 		if(pDocument != NULL)
 		{
@@ -88,13 +88,13 @@ namespace MadaBot
 		{
 			if(isProcessable(pNode))
 			{
-				mReturnValue =  getProcessor(pNode->getNodeName())
+				this->mReturnValue =  getProcessor(pNode->getNodeName())
 					->process(pNode, pProcessHelper);
 			//  TODO: if pProcessHelper==NULL throw exception!
 				pProcessHelper->add(*mReturnValue);
-				mReturnValue->reset();
-				delete mReturnValue;
-				mReturnValue = NULL;
+				this->mReturnValue->reset();
+				delete (this->mReturnValue);
+				this->mReturnValue = NULL;
 			}
 		}
 		return NULL;

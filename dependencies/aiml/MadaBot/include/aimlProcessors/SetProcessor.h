@@ -47,43 +47,43 @@ namespace MadaBot
 		//	don't process children if the value to set is given by attribute
 			if(mAttributes["value"].empty())
 			{
-				mProcessChildren = true;
+				this->mProcessChildren = true;
 			}
 			else
 			{
-				mProcessChildren = false;
+				this->mProcessChildren = false;
 			}
 		}
 
 		void processChildStep(XmlNode<S>* pChild)
 		{
-			mCurrentReturnValue += getProcessor(pChild->getNodeName())->process(pChild);
+			this->mCurrentReturnValue += getProcessor(pChild->getNodeName())->process(pChild);
 		}
 
 		void postprocessStep()
 		{
 			S value;
-			if(mAttributes["value"].empty())
+			if(this->mAttributes["value"].empty())
 			{
-				value = mCurrentReturnValue.getResponse();
+				value = this->mCurrentReturnValue.getResponse();
 			}
 			else
 			{
-				value = mAttributes["value"];
+				value = this->mAttributes["value"];
 			}
-			mCurrentHelper->getPredicates(mAttributes["type"])
+			this->mCurrentHelper->getPredicates(this->mAttributes["type"])
 				->setPredicate(mAttributes["name"], value);
 		//  don't return anything
-			mCurrentReturnValue.clear();
+			this->mCurrentReturnValue.clear();
 		}
 	protected:
 		void initialize()
 		{
-			addAttribute("type");
-			addAttribute("name");
-			addAttribute("value");
+			this->addAttribute("type");
+			this->addAttribute("name");
+			this->addAttribute("value");
 		//  allow any nodeType as child
-			mRestrictSubProcessors = false;
+			this->mRestrictSubProcessors = false;
 		}
 	};
 }

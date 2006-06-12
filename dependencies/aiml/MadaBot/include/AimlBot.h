@@ -121,9 +121,9 @@ namespace MadaBot
 	private:
 		S mName;
 		S mVoice;
-		typedef std::map<S, Predicates<S>*> PredicatesMap;
+		typedef typename std::map<S, Predicates<S>*> PredicatesMap;
 		PredicatesMap mPredicates;
-		typedef std::list<AimlGraphMaster<S>*> GraphList;
+		typedef typename std::list<AimlGraphMaster<S>*> GraphList;
 		GraphList mGraphList;
 		Match<S>* mCurrentMatch;
 		AimlCore<S>* mParent;

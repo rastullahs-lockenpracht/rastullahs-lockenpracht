@@ -45,13 +45,13 @@ namespace MadaBot
 		CategoryProcessor()
 			: XmlNodeProcessor<GraphPath, AimlGraphMaster, S>("category")
 		{
-			mCurrentReturnValue = NULL;
+			this->mCurrentReturnValue = NULL;
 			initialize();
 		}
 
 		void preprocessStep()
 		{
-			mCurrentReturnValue = new GraphPath<S>();
+			this->mCurrentReturnValue = new GraphPath<S>();
 		}
 		
 		void processChildStep(XmlNode<S>* pChild)
@@ -62,18 +62,18 @@ namespace MadaBot
 			XmlNode<S>* subChild = pChild->getFirstChild();
 			if(pChild->getNodeName() == "pattern" && subChild->getNodeName() == "#text")
 			{
-				mCurrentReturnValue->setPattern(subChild->getNodeValue());
+				this->mCurrentReturnValue->setPattern(subChild->getNodeValue());
 			}
 			else if(pChild->getNodeName() == "that" && subChild->getNodeName() == "#text")
 			{
-				mCurrentReturnValue->setThat(subChild->getNodeValue());
+				this->mCurrentReturnValue->setThat(subChild->getNodeValue());
 			
 			//  what was this for? i guess it is deprecated
 			//  mCurrentReturnValue->setPathStep(pChild->getNodeName(), subChild->getNodeValue());
 			}
 			else if(pChild->getNodeName() == "template")
 			{
-				mCurrentReturnValue->setTemplateValue(static_cast<AimlNode<S>*>(pChild));
+				this->mCurrentReturnValue->setTemplateValue(static_cast<AimlNode<S>*>(pChild));
 			//  remove template-child from the document, 
 			//  because it is now used by the GraphMaster
 				mCurrentNode->removeChild(pChild);
@@ -83,9 +83,9 @@ namespace MadaBot
 	protected:
 		void initialize()
 		{
-			mSubProcessors.push_back("pattern");
-			mSubProcessors.push_back("that");
-			mSubProcessors.push_back("template");
+			this->mSubProcessors.push_back("pattern");
+			this->mSubProcessors.push_back("that");
+			this->mSubProcessors.push_back("template");
 		}
 	};
 }

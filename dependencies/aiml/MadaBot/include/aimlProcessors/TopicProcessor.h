@@ -48,7 +48,7 @@ namespace MadaBot
 
 		void preprocessStep()
 		{
-			mCurrentReturnValue = NULL;
+			this->mCurrentReturnValue = NULL;
 		}
 		void processChildStep(XmlNode<S>* pChild)
 		{
@@ -56,17 +56,16 @@ namespace MadaBot
 					= getProcessor(pChild->getNodeName());
 			if(processor!=NULL)
 			{
-				mCurrentReturnValue = processor->process(pChild, mCurrentHelper);
+				this->mCurrentReturnValue = processor->process(pChild, this->mCurrentHelper);
 				// TODO: if mCurrentReturnValue == NULL throw exception, or
 				// don't use pointers here
-				mCurrentReturnValue->setTopic(mCurrentNode->getAttribute("name"));
+				this->mCurrentReturnValue->setTopic(this->mCurrentNode->getAttribute("name"));
 			}
 		}
 		void postprocessStep(){}
 	protected:
 		void initialize(){}
 
-		GraphPath<S> mPath;
 	};
 }
 #endif
