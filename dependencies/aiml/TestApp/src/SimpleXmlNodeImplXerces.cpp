@@ -9,7 +9,7 @@
 XERCES_CPP_NAMESPACE_USE
 
 SimpleXmlNodeImplXerces::SimpleXmlNodeImplXerces(DOMNode* pNode)
-	: SimpleXmlNode(pNode->getNodeName(), pNode->getNodeValue())
+	: SimpleXmlNode<XercesString>(pNode->getNodeName(), pNode->getNodeValue())
 {
 	// remove whitespaces from textnodes
 	if(mNodeName == "#text")
@@ -55,8 +55,8 @@ SimpleXmlNodeImplXerces::SimpleXmlNodeImplXerces(DOMNode* pNode)
 	}
 	if(!mChildren.empty())
 	{
-		std::vector<typename XmlNode<XercesString>*>::iterator itr = mChildren.begin();
-		std::vector<typename XmlNode<XercesString>*>::iterator itrnext;
+		std::vector<XmlNode<XercesString>*>::iterator itr = mChildren.begin();
+		std::vector<XmlNode<XercesString>*>::iterator itrnext;
 		for(; itr != mChildren.end()-1; ++itr)
 		{
 			itrnext= itr+1;

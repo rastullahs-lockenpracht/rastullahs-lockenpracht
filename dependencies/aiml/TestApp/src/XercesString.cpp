@@ -1,4 +1,7 @@
 #include "XercesString.h"
+
+using namespace std;
+
 /*
 XercesString& operator=(XercesString& v1, const char* value)
 {
@@ -9,13 +12,13 @@ XercesString& operator=(XercesString& v1, const char* value)
 }*/
 
 XercesString::XercesString(void)
-	: basic_string()
+	: basic_string<XMLCh>()
 {
 //	basic_string(
 }
 
 XercesString::XercesString(IteratorType pBegin, IteratorType pEnd)
-	: basic_string(pBegin, pEnd)
+	: basic_string<XMLCh>(pBegin, pEnd)
 {
 }
 
@@ -24,19 +27,19 @@ XercesString::XercesString(const XMLCh* value)
 {
 	if(value != NULL)
 	{
-		basic_string::operator +=(value);
+		basic_string<XMLCh>::operator +=(value);
 	}
 }
 /*
 XercesString::XercesString(const XercesString& value)
-	: basic_string(value)
+	: basic_string<XMLCh>(value)
 {
 }
 */
 XercesString::XercesString(const char* value)
-	: basic_string(transcode(value))
+	: basic_string<XMLCh>(transcode(value))
 {
-//	static_cast<basic_string>(this);
+//	static_cast<basic_string<XMLCh>>(this);
 }
 
 
@@ -67,7 +70,7 @@ bool XercesString::operator==(const char* pData) const
 
 XercesString  XercesString::operator+ (const char* const pData) const
 {
-	basic_string::operator +=(XMLString::transcode(pData));
+	basic_string<XMLCh>::operator +=(XMLString::transcode(pData));
 }
 */
 /*
@@ -90,3 +93,4 @@ XercesString XercesString::transcode(const char* const value)
 	// something to set the data to the transcoded value
 	//XMLString::relese(tmp);
 }
+
