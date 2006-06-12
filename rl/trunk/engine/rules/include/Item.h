@@ -70,12 +70,12 @@ namespace rl
 		 */
 		bool isContainer();
 		
-		void setContainer(bool isContainer, pair<int,int> dim = pair<int,int>(0,0));
+		void setContainer(bool isContainer, std::pair<int,int> dim = std::make_pair(0,0) );
 
-		pair<int,int> getCapacity();
+		std::pair<int,int> getCapacity();
 		void setCapacity(int width, int height);
 
-		pair<int,int> getSize();
+		std::pair<int,int> getSize();
 		void setSize(int width, int height);
 
 		
@@ -87,9 +87,9 @@ namespace rl
 		CeGuiString mImageName;
 
 		bool mIsContainer;
-		pair<int,int> mCapacity;
+		std::pair<int,int> mCapacity;
 
-		pair<int,int> mSize;
+		std::pair<int,int> mSize;
 
     };
 

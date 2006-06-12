@@ -39,7 +39,7 @@ CeGuiString ContextInterpreter::AIML_GOSSIP = "gossip";
 CeGuiString ContextInterpreter::AIML_LI = "li";
 
 ContextInterpreter::ContextInterpreter(void)
-	: AimlInterpreter(INTERPRETER_NAME), mBot(NULL)
+	: AimlInterpreter<CeGuiString>(INTERPRETER_NAME), mBot(NULL)
 {
 	initialize();
 }
