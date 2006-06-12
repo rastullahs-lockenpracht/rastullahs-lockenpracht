@@ -19,7 +19,7 @@
 using namespace rl;
 
 ContextConditionProcessor::ContextConditionProcessor(void)
-	: ConditionProcessor("contextCondition")
+	: XmlNodeProcessor<Response, AimlBot, CeGuiString, false>("contextCondition")
 {
 	initialize();
 }
@@ -30,7 +30,11 @@ ContextConditionProcessor::~ContextConditionProcessor(void)
 
 void ContextConditionProcessor::initialize()
 {
+	addAllowedSubProcessor("li");
 	addAttribute("mod");
+	addAttribute("type");
+	addAttribute("name");
+	addAttribute("value");
 }
 
 void ContextConditionProcessor::preprocessStep()
@@ -65,4 +69,8 @@ void ContextConditionProcessor::processChildStep(XmlNode<CeGuiString>* pChild)
 	{
 		mCurrentReturnValue += pChild;
 	}
+}
+
+void ContextConditionProcessor::postprocessStep()
+{
 }

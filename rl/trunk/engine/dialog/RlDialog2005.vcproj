@@ -345,6 +345,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath=".\src\predicates\GrundWertPredicates.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\predicates\QuestPredicates.cpp"
 					>
 					<FileConfiguration
@@ -474,6 +478,10 @@
 				</File>
 				<File
 					RelativePath=".\include\predicates\EigenschaftsWertPredicates.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\predicates\GrundWertPredicates.h"
 					>
 				</File>
 				<File

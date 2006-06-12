@@ -26,6 +26,7 @@
 #include "ScriptPredicates.h"
 #include "TalentProbePredicates.h"
 #include "TalentWertPredicates.h"
+#include "GrundWertPredicates.h"
 
 //deprecated
 //#include "DialogScriptObject.h"
@@ -75,6 +76,7 @@ namespace rl
 			mBot->addPredicates(new ScriptPredicates(this));
 			mBot->addPredicates(new TalentProbePredicates(mPlayerCharacter));
 			mBot->addPredicates(new TalentWertPredicates(mPlayerCharacter));
+			mBot->addPredicates(new GrundWertPredicates(mPlayerCharacter));
 		}
 	}
 

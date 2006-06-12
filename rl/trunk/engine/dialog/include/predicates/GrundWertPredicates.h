@@ -13,32 +13,27 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
-#ifndef __Rl_ContextConditionProcessor_H__
-#define __Rl_ContextConditionProcessor_H__
+#ifndef __Rl_GrundWertPredicates_H__
+#define __Rl_GrundWertPredicates_H__
 
-#include "XmlMapper/XmlNodeProcessor.h"
-#include "DialogPrerequisites.h"
-#include "AimlBot.h"
+#include "CreaturePredicates.h"
 
-using namespace XmlMapper;
 using namespace MadaBot;
 
 namespace rl
 {
-	class ContextConditionProcessor 
-		: public XmlNodeProcessor<Response, AimlBot, CeGuiString, false>
+	class GrundWertPredicates :
+		public CreaturePredicates
 	{
 	public:
-		ContextConditionProcessor(void); 
-		~ContextConditionProcessor(void);
-		
-		virtual void preprocessStep();
-		virtual void processChildStep(XmlNode<CeGuiString>* pChild);
-		virtual void postprocessStep();
-	protected:
-		virtual void initialize();
-		CeGuiString mPredicateValue;
-		CeGuiString mNodeValue;
+		GrundWertPredicates(Creature* pCharacter);
+		virtual ~GrundWertPredicates(void);
+				
+		CeGuiString getPredicate(const CeGuiString& pName) const;
+
+		void setPredicate(const CeGuiString& pName, const CeGuiString& pValue);
+
+		CeGuiString getType() const;
 	};
 }
 #endif
