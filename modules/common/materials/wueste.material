@@ -1,9 +1,101 @@
-material wuesten_alphamap
+material wuesten_alphamap : Splatting5NoDetail
 {
 	receive_shadows on
 
-	// Erste Technik
-	technique
+	technique hlsl
+	{
+		pass
+		{
+			fragment_program_ref dxSplatting5NoDetail_PS
+			{
+				//Shader Constant: scaleBase
+				param_named scaleBase  float 25.00
+				//Shader Constant: scaleBaseR
+				param_named scaleBaseR float 33.33
+				//Shader Constant: scaleBaseG
+				param_named scaleBaseG float 20.00
+			}
+
+			// The Texture containing the Splatting information in its channels
+			texture_unit SplattingMap
+			{
+				texture wueste_compose.png
+			}
+			// Texture containing the LightingMap
+			texture_unit LightingMap
+			{
+				texture neutral_lightmap.png
+			}
+			// Texture containing the groundlayer and its detailmap (inside the alpha channel)
+			texture_unit BaseLayer
+			{
+				texture sand_sandig.png
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
+			texture_unit RedLayer
+			{
+				texture sand_wellen.png
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
+			texture_unit GreenLayer
+			{
+				texture felsen_gelblich.png
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
+			texture_unit BlueLayer
+			{
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
+			texture_unit AlphaLayer
+			{
+			}
+
+		}
+	}
+
+	technique glsl
+	{
+		pass
+		{
+			// The Texture containing the Splatting information in its channels
+			texture_unit SplattingMap
+			{
+				texture wueste_compose.png
+			}
+			// Texture containing the LightingMap
+			texture_unit LightingMap
+			{
+				neutral_lightmap.png
+			}
+			// Texture containing the groundlayer and its detailmap (inside the alpha channel)
+			texture_unit BaseLayer
+			{
+				texture sand_sandig.png
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
+			texture_unit RedLayer
+			{
+				texture sand_wellen.png
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
+			texture_unit GreenLayer
+			{
+				texture felsen_gelblich.png
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
+			texture_unit BlueLayer
+			{
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
+			texture_unit AlphaLayer
+			{
+			}
+
+		}
+	}
+
+	// Fixed Function
+	technique fixed_function
 	{
 		// Basis Pass
 		pass
@@ -19,7 +111,7 @@ material wuesten_alphamap
 			}
 		}
 
-        pass
+		pass
 		{
 			// Kein Licht
 			lighting off
@@ -27,7 +119,7 @@ material wuesten_alphamap
 			// Dieser Pass wird über den ersten gelegt
 			scene_blend alpha_blend
 			// Dabei werden nur Pixel überschrieben, die an der selben Position liegen
-		    depth_func equal
+			depth_func equal
 			alpha_rejection greater 2
 			
 			// Die AlphaMap
@@ -60,7 +152,7 @@ material wuesten_alphamap
 			// Dieser Pass wird über den ersten gelegt
 			scene_blend alpha_blend
 			// Dabei werden nur Pixel überschrieben, die an der selben Position liegen
-		    depth_func equal
+			depth_func equal
 			alpha_rejection greater 2
 			
 			// Die AlphaMap

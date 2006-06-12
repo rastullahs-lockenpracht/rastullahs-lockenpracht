@@ -1,0 +1,135 @@
+// Base Texture with 4 blended Textures and included Detailmap
+fragment_program glSplatting5_FP glsl
+{
+  source Splatting5.frag
+}
+
+vertex_program glSplatting5_VP glsl
+{
+  source Splatting5.vert
+}
+
+fragment_program dxSplatting5_PS hlsl
+{
+  source Splatting5.hlsl
+  entry_point ps_main
+  target ps_2_0
+}
+
+vertex_program dxSplatting5_VS hlsl
+{
+  source Splatting5.hlsl
+  entry_point vs_main
+  target vs_1_1
+}
+
+material Splatting5
+{
+	technique hlsl
+	{
+		pass
+		{
+			// HLSL Fragment Shader
+			fragment_program_ref dxSplatting5_PS
+			{
+				//Shader Constant: fvAmbient
+				param_named fvAmbient float4 0.500000 0.500000 0.500000 1.000000
+				//Shader Constant: fvDiffuse
+				param_named fvDiffuse float4 0.500000 0.500000 0.500000 1.000000
+
+				//Shader Constant: scaleBase
+				param_named scaleBase  float 1.000000
+				//Shader Constant: scaleBaseR
+				param_named scaleBaseR float 1.000000
+				//Shader Constant: scaleBaseG
+				param_named scaleBaseG float 1.000000
+				//Shader Constant: scaleBaseB
+				param_named scaleBaseB float 1.000000
+				//Shader Constant: scaleBaseA
+				param_named scaleBaseA float 1.000000
+
+				//Shader Constant: scaleDetail
+				param_named scaleDetail  float 1.000000
+				//Shader Constant: scaleDetailR
+				param_named scaleDetailR float 1.000000
+				//Shader Constant: scaleDetailG
+				param_named scaleDetailG float 1.000000
+				//Shader Constant: scaleDetailB
+				param_named scaleDetailB float 1.000000
+				//Shader Constant: scaleDetailA
+				param_named scaleDetailA float 1.000000
+			}
+			// HLSL Vertex Shader
+			vertex_program_ref dxSplatting5_VS
+			{
+				//Shader Constant: matWorldViewProjection
+				param_named_auto matWorldViewProjection worldviewproj_matrix
+			}
+			// The Texture containing the Splatting information in its channels
+			texture_unit SplattingMap
+			{
+			}
+			// Texture containing the LightingMap
+			texture_unit LightingMap
+			{
+			}
+			// Texture containing the groundlayer and its detailmap (inside the alpha channel)
+			texture_unit BaseLayer
+			{
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
+			texture_unit RedLayer
+			{
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
+			texture_unit GreenLayer
+			{
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
+			texture_unit BlueLayer
+			{
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
+			texture_unit AlphaLayer
+			{
+			}
+			
+		}
+	}
+
+	technique glsl
+	{
+			// The Texture containing the Splatting information in its channels
+			texture_unit SplattingMap
+			{
+			}
+			// Texture containing the LightingMap
+			texture_unit LightingMap
+			{
+			}
+			// Texture containing the groundlayer and its detailmap (inside the alpha channel)
+			texture_unit BaseLayer
+			{
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
+			texture_unit RedLayer
+			{
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
+			texture_unit GreenLayer
+			{
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
+			texture_unit BlueLayer
+			{
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
+			texture_unit AlphaLayer
+			{
+			}
+	}
+
+	technique fixed_function
+	{
+	}
+}
