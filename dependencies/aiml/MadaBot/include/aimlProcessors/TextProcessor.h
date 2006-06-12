@@ -48,7 +48,7 @@ namespace MadaBot
 
 		void preprocessStep()
 		{
-			this->mCurrentReturnValue = mCurrentNode->getNodeValue();
+			this->mCurrentReturnValue = this->mCurrentNode->getNodeValue();
 		}
 		void processChildStep(XmlNode<S>* pChild){}
 		void postprocessStep(){}
