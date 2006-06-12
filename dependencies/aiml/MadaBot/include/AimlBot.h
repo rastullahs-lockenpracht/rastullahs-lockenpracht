@@ -159,7 +159,7 @@ namespace MadaBot
 
 	template <class S> void AimlBot<S>::addPredicates(Predicates<S>* pPredicates)
 	{
-		mPredicates.insert(PredicatesMap::value_type(pPredicates->getType(), pPredicates));
+		mPredicates.insert(typename PredicatesMap::value_type(pPredicates->getType(), pPredicates));
 	}
 
 	template <class S> Predicates<S>* AimlBot<S>::getPredicates(const S& pType)

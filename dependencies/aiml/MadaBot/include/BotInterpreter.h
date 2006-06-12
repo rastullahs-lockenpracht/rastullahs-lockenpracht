@@ -43,7 +43,7 @@ namespace MadaBot
 		BotInterpreter() 
 			: XmlInterpreter<AimlBot, AimlCore, S>("bot")
 		{ 
-			mReturnValue = NULL; 
+			this->mReturnValue = NULL; 
 		}
 		
 		AimlBot<S>* process(XmlNode<S>* pNode, AimlCore<S>* pProcessHelper = NULL);

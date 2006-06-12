@@ -67,7 +67,7 @@ namespace MadaBot
 	}
 	template <class S> void ConditionProcessor<S>::preprocessStep()
 	{
-		mProcessChildren = true;
+		this->mProcessChildren = true;
 		mPredicateValue.clear();
 		mNodeValue.clear();
 		try
@@ -75,7 +75,7 @@ namespace MadaBot
 			mPredicateValue = this->mCurrentHelper
 				->getPredicates(this->mAttributes["type"])
 				->getPredicate(this->mAttributes["name"]);
-			if(!mAttributes["value"].empty())
+			if(!this->mAttributes["value"].empty())
 			{
 				mNodeValue = this->mAttributes["value"];
 			}

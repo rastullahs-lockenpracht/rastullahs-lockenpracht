@@ -133,7 +133,7 @@ namespace MadaBot
 			AimlGraphMaster<S>* graph = new AimlGraphMaster<S>(pFileName);
 			GraphInterpreter<S>("GraphInterpreter").interpret(doc, graph);
 			itr = mGraphList.insert(
-				GraphList::value_type(pFileName, graph)).first;
+				typename GraphList::value_type(pFileName, graph)).first;
 
 			if(doc)
 				delete doc;

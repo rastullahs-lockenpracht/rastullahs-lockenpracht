@@ -76,7 +76,7 @@ namespace MadaBot
 				this->mCurrentReturnValue->setTemplateValue(static_cast<AimlNode<S>*>(pChild));
 			//  remove template-child from the document, 
 			//  because it is now used by the GraphMaster
-				mCurrentNode->removeChild(pChild);
+				this->mCurrentNode->removeChild(pChild);
 			}
 		}
 		void postprocessStep(){}

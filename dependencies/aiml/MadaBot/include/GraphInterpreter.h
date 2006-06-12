@@ -91,7 +91,7 @@ namespace MadaBot
 				this->mReturnValue =  getProcessor(pNode->getNodeName())
 					->process(pNode, pProcessHelper);
 			//  TODO: if pProcessHelper==NULL throw exception!
-				pProcessHelper->add(*mReturnValue);
+				pProcessHelper->add( *(this->mReturnValue));
 				this->mReturnValue->reset();
 				delete (this->mReturnValue);
 				this->mReturnValue = NULL;

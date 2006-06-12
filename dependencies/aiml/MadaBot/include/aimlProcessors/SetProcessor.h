@@ -45,7 +45,7 @@ namespace MadaBot
 		void preprocessStep()
 		{
 		//	don't process children if the value to set is given by attribute
-			if(mAttributes["value"].empty())
+			if(this->mAttributes["value"].empty())
 			{
 				this->mProcessChildren = true;
 			}
@@ -72,7 +72,7 @@ namespace MadaBot
 				value = this->mAttributes["value"];
 			}
 			this->mCurrentHelper->getPredicates(this->mAttributes["type"])
-				->setPredicate(mAttributes["name"], value);
+				->setPredicate(this->mAttributes["name"], value);
 		//  don't return anything
 			this->mCurrentReturnValue.clear();
 		}
