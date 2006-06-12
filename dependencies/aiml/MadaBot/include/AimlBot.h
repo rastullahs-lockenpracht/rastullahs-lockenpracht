@@ -26,12 +26,12 @@
 #include <list>
 #include "AimlCore.h"
 #include "AimlUtility.h"
-#include "Match.h"
 #include "AimlNode.h"
 #include "Response.h"
 #include "GraphPath.h"
 #include "AimlInterpreter.h"
 #include "AimlGraphMaster.h"
+#include "Match.h"
 #include "DefaultPredicates.h"
 
 namespace MadaBot
@@ -196,7 +196,7 @@ namespace MadaBot
 		//  TODO: interpreter shouldn't be created for every response. 
 		//  Instead, create an instance in AimlCore und use that
 		//  proceed in the same way with the other interpreters
-			response = mParent->getAimlInterpreter().process(mCurrentMatch->getNode(), this);
+			response = this->mParent->getAimlInterpreter().process(mCurrentMatch->getNode(), this);
 		}
 		else
 		{
