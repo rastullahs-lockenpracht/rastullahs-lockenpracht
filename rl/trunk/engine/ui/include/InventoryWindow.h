@@ -137,7 +137,7 @@ namespace rl {
 		* fügt dem Inventar den Container für den Rucksack zu,
 		* gibt ihm die nötige Funktionalität für drag&drop
 		*/
-		void initBackpack(pair<int,int> dim);
+		void initBackpack(std::pair<int,int> dim);
 	};
 }
 #endif

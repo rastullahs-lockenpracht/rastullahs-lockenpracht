@@ -29,7 +29,7 @@ namespace rl {
 	{
 	public:
 		SoundDriverConfigWindow(const CeGuiString& xmlfile);
-		virtual ~SoundDriverConfigWindow() = 0 {};
+		virtual ~SoundDriverConfigWindow() {};
 
 		const CeGuiString getDriverName();
 

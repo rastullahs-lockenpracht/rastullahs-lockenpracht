@@ -28,6 +28,7 @@
 #include <CEGUIPropertyHelper.h>
 
 using namespace CEGUI;
+using namespace Ogre;
 
 namespace rl {
 
@@ -42,8 +43,9 @@ namespace rl {
 	void InventoryArrangeTask::run(Ogre::Real elapsedTime)
 	{
 		static InventoryWindow* invWin = WindowFactory::getSingletonPtr()->getInventoryWindow();
-		if (invWin->mDroppedItem){
-			Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_ERROR,String("Item placed"));
+		if (invWin->mDroppedItem)
+		{
+			Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_ERROR, "Item placed");
 			invWin->updateItemPosition();
 		}
 	}
@@ -52,10 +54,13 @@ namespace rl {
 	*		Überprüft, ob das Item von dem Slot akzeptiert wird
 	*/
 	bool checkTypeAccepted(CEGUI::Window* window, CEGUI::DragContainer* draggedItem){
-		if (window->getUserString("ItemType").compare(draggedItem->getUserString("ItemType"))){
-			return false;
-		} else {
+		if (window->getUserString("ItemType").compare(draggedItem->getUserString("ItemType")) == 0)
+		{
 			return true;
+		} 
+		else 
+		{
+			return false;
 		}
 	}
 
@@ -69,14 +74,18 @@ namespace rl {
 		// Event zu einem DragDropEvent machen
 		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
 
-		if (checkTypeAccepted(ddea.window, ddea.dragDropItem)){
+		if (checkTypeAccepted(ddea.window, ddea.dragDropItem))
+		{
 			ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorAccept);
-		} else {
+			return true;
+		} 
+		else 
+		{
 			ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorReject);
 			return false;
 		}
-		return true;
 	} 
+
 	bool handleDragLeave(const CEGUI::EventArgs& args)
 	{
 		using namespace CEGUI;
@@ -85,6 +94,7 @@ namespace rl {
 		ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorNormal);
 		return true;
 	} 
+
 	bool handleDragDropped(const CEGUI::EventArgs& args)
 	{
 		using namespace CEGUI;
@@ -123,19 +133,18 @@ namespace rl {
 		return true;
 
 	} 
+
 	bool handleDragDroppedBackpack(const CEGUI::EventArgs& args)
 	{
 		using namespace CEGUI;
 		InventoryWindow* invWin = WindowFactory::getSingletonPtr()->getInventoryWindow();
 
-		char buf1[5];
-		char buf2[5];
-
 		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
 		ddea.window->setProperty("ContainerColour", invWin->mColorNormal);
 		
 		// Den Rucksack darf man nicht in den Rucksack droppen...
-		if (!(ddea.dragDropItem->getUserString("ItemType").compare(Item::getItemTypeString(Item::ITEMTYPE_BACKPACK)))){
+		if (!(ddea.dragDropItem->getUserString("ItemType").compare(Item::getItemTypeString(Item::ITEMTYPE_BACKPACK))))
+		{
 			return false;
 		}
 		
@@ -149,10 +158,13 @@ namespace rl {
 			relMouse.d_x = 15;
 		}
 
-		Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_MESSAGE,
-			String("relMouse: Point x:").append(itoa(int(relMouse.d_x),buf1,10))
-			.append(", Point y:")
-			.append(itoa(int(relMouse.d_y),buf2,10)));
+		Logger::getSingletonPtr()->log(
+			"InventoryWindow",
+			Logger::LL_MESSAGE,
+			Ogre::String("relMouse: Point x:")
+			+ StringConverter::toString(relMouse.d_x)
+			+ ", Point y:"
+			+ StringConverter::toString(relMouse.d_y));
 
 		Point pointInBackpack = absMouse-scrnPt;
 		pointInBackpack -= relMouse;
@@ -176,11 +188,12 @@ namespace rl {
 			pointInBackpack.d_y = 0;
 		}
 
-		int xKaestchen = pointInBackpack.d_x / 30;
-		int yKaestchen = pointInBackpack.d_y / 30;
+		int xKaestchen = (int) (pointInBackpack.d_x / 30);
+		int yKaestchen = (int) (pointInBackpack.d_y / 30);
 
 		if (invWin->isFreeInBackpack(
-			static_cast<Item*>(ddea.dragDropItem->getUserData()),pair<int,int>(xKaestchen,yKaestchen)))
+			static_cast<Item*>(ddea.dragDropItem->getUserData()),
+			pair<int,int>(xKaestchen,yKaestchen)))
 		{
 			ddea.window->addChildWindow(ddea.dragDropItem);
 
@@ -189,10 +202,13 @@ namespace rl {
 			invWin->mContainerDraggedTo = ddea.window;
 
 			invWin->updateInventory();
-			Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_MESSAGE,
-				String("Point in Backpack: Point x:").append(itoa(int(pointInBackpack.d_x),buf1,10))
-				.append(", Point y:")
-				.append(itoa(int(pointInBackpack.d_y),buf2,10)));
+			Logger::getSingletonPtr()->log(
+				"InventoryWindow",
+				Logger::LL_MESSAGE,
+				Ogre::String("Point in Backpack: Point x:")
+				+ StringConverter::toString(pointInBackpack.d_x)
+				+ ", Point y:"
+				+ StringConverter::toString(pointInBackpack.d_y));
 			return true;
 		} 
 		else 
@@ -266,14 +282,15 @@ namespace rl {
 		mDroppedItem = NULL;
 
 		// Loggen
-		char buf1[5];
-		char buf2[5];
-		Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_MESSAGE,
-			String("Position set to: Point x:").append(itoa(int(mPosDraggedTo.d_x),buf1,10))
-			.append(", Point y:")
-			.append(itoa(int(mPosDraggedTo.d_y),buf2,10)));
+		Logger::getSingletonPtr()->log(
+			"InventoryWindow",
+			Logger::LL_MESSAGE,
+			Ogre::String("Position set to: Point x:")
+			+ StringConverter::toString(mPosDraggedTo.d_x)
+			+ ", Point y:"
+			+ StringConverter::toString(mPosDraggedTo.d_y));
 
-		Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_MESSAGE,String("updateItemPosition finished"));
+		Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_MESSAGE,Ogre::String("updateItemPosition finished"));
 	}
 
 	void InventoryWindow::updateInventory(){
@@ -285,8 +302,14 @@ namespace rl {
 		mInventory->removeItemFromSlots(item);
 
 		if (mContainerDraggedTo == mBackpackContent)
-			mInventory->setItemBackpackPosition(item, mPosDraggedTo.d_x/30, mPosDraggedTo.d_y/30);
-		else {
+		{
+			mInventory->setItemBackpackPosition(
+				item, 
+				(int)(mPosDraggedTo.d_x/30), 
+				(int)(mPosDraggedTo.d_y/30));
+		}
+		else 
+		{
 			// Gegenstand in Slot setzen / Schon dagewesenen Gegenstand zurück in den Rucksack setzen
 			if (mContainerDraggedTo == mArmor){
 				if (mInventory->getArmor() != NULL){
@@ -417,7 +440,7 @@ namespace rl {
 
 	void InventoryWindow::initSlots(){
 
-		initBackpack(pair<int,int>(12,7));
+		initBackpack(make_pair(12,7));
 
 		// Hole die einzelnen Slots aus dem XML-File
 		mHelmet = getStaticImage("InventoryWindow/Helmet");
@@ -521,7 +544,10 @@ namespace rl {
 					DragContainer* itemhandler = createItem(temp[x][y],mBackpackContent);
 					itemhandler->setPosition(CEGUI::Absolute,CEGUI::Point(x*30,y*30));
 					itemsInBackpack.insert(temp[x][y]);
-					Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_MESSAGE,String("erzeuge Bild im Backpack: ").append(temp[x][y]->getName()));
+					Logger::getSingletonPtr()->log(
+						"InventoryWindow",
+						Logger::LL_MESSAGE,
+						Ogre::String("erzeuge Bild im Backpack: ") + temp[x][y]->getName());
 				}
 			}
 		}
@@ -552,7 +578,7 @@ namespace rl {
 	void InventoryWindow::emptySlot(CEGUI::Window* slot)
 	{
 		while(slot->getChildCount() > 0){
-			CEGUI::String name = slot->getChildAtIdx(0)->getName();
+			CeGuiString name = slot->getChildAtIdx(0)->getName();
 			slot->removeChildWindow(slot->getChildAtIdx(0));
 			WindowManager::getSingletonPtr()->destroyWindow(name);
 		}
@@ -582,10 +608,13 @@ namespace rl {
 			
 			parent->addChildWindow(itemhandler);
 
-			CEGUI::String tempName = item->getName();
+			CeGuiString tempName = item->getName();
 
 			// Erzeuge das Hintergrundfenster des Items
-			Window* itemWindow = CEGUI::WindowManager::getSingletonPtr()->createWindow("RastullahLook/Item", tempName.append(CEGUI::String("Item")));
+			Window* itemWindow = 
+				CEGUI::WindowManager::getSingletonPtr()->createWindow(
+					"RastullahLook/Item", 
+					tempName + "Item");
 
 			itemWindow->setWindowPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
 			itemWindow->setWindowSize(UVector2(cegui_absdim(item->getSize().first*30), cegui_absdim(item->getSize().second*30)));
@@ -594,11 +623,14 @@ namespace rl {
 			itemhandler->addChildWindow(itemWindow);
 
 			// Gib dem Item noch ein Bild...
-			Window* itemIcon = CEGUI::WindowManager::getSingletonPtr()->createWindow("RastullahLook/StaticImage", tempName.append(CEGUI::String("Icon")));
+			Window* itemIcon = 
+				CEGUI::WindowManager::getSingletonPtr()->createWindow(
+					"RastullahLook/StaticImage", 
+					tempName + "Icon");
 
 			itemIcon->setWindowPosition(UVector2(cegui_reldim(0.0), cegui_reldim(0.0)));
 			itemIcon->setWindowSize(UVector2(cegui_reldim(1), cegui_reldim(1)));
-			itemIcon->setProperty("Image", CEGUI::String("set:ModelThumbnails image:").append(item->getImageName()));
+			itemIcon->setProperty("Image", CeGuiString("set:ModelThumbnails image:") + item->getImageName());
 			// disable to allow inputs to pass through.
 			itemIcon->disable();
 
