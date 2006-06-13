@@ -9,14 +9,14 @@ vertex_program glSplatting5_VP glsl
   source Splatting5.vert
 }
 
-fragment_program dxSplatting5_PS hlsl
+fragment_program dxSplatting5_FP hlsl
 {
   source Splatting5.hlsl
   entry_point ps_main
   target ps_2_0
 }
 
-vertex_program dxSplatting5_VS hlsl
+vertex_program dxSplatting5_VP hlsl
 {
   source Splatting5.hlsl
   entry_point vs_main
@@ -30,12 +30,12 @@ material Splatting5
 		pass
 		{
 			// HLSL Fragment Shader
-			fragment_program_ref dxSplatting5_PS
+			fragment_program_ref dxSplatting5_FP
 			{
-				//Shader Constant: fvAmbient
-				param_named fvAmbient float4 0.500000 0.500000 0.500000 1.000000
-				//Shader Constant: fvDiffuse
-				param_named fvDiffuse float4 0.500000 0.500000 0.500000 1.000000
+				//Shader Constant: materialAmbient
+				param_named materialAmbient float4 0.500000 0.500000 0.500000 1.000000
+				//Shader Constant: materialDiffuse
+				param_named materialDiffuse float4 0.500000 0.500000 0.500000 1.000000
 
 				//Shader Constant: scaleBase
 				param_named scaleBase  float 1.000000
@@ -60,7 +60,7 @@ material Splatting5
 				param_named scaleDetailA float 1.000000
 			}
 			// HLSL Vertex Shader
-			vertex_program_ref dxSplatting5_VS
+			vertex_program_ref dxSplatting5_VP
 			{
 				//Shader Constant: matWorldViewProjection
 				param_named_auto matWorldViewProjection worldviewproj_matrix
@@ -99,6 +99,48 @@ material Splatting5
 
 	technique glsl
 	{
+		pass
+		{
+			ambient 0.2 0.2 0.2
+			diffuse 0.7 0.7 0.7
+
+			vertex_program_ref glSplatting5_VP
+			{
+			}
+
+			fragment_program_ref glSplatting5_FP
+			{
+				param_named splattingMap int 0
+				param_named lightingMap int 1
+				param_named base int 2
+				param_named baseR int 3
+				param_named baseG int 4
+				param_named baseB int 5
+				param_named baseA int 6
+
+				//Shader Constant: scaleBase
+				param_named scaleBase  float 1.000000
+				//Shader Constant: scaleBaseR
+				param_named scaleBaseR float 1.000000
+				//Shader Constant: scaleBaseG
+				param_named scaleBaseG float 1.000000
+				//Shader Constant: scaleBaseB
+				param_named scaleBaseB float 1.000000
+				//Shader Constant: scaleBaseA
+				param_named scaleBaseA float 1.000000
+
+				//Shader Constant: scaleDetail
+				param_named scaleDetail  float 1.000000
+				//Shader Constant: scaleDetailR
+				param_named scaleDetailR float 1.000000
+				//Shader Constant: scaleDetailG
+				param_named scaleDetailG float 1.000000
+				//Shader Constant: scaleDetailB
+				param_named scaleDetailB float 1.000000
+				//Shader Constant: scaleDetailA
+				param_named scaleDetailA float 1.000000
+			}
+
 			// The Texture containing the Splatting information in its channels
 			texture_unit SplattingMap
 			{
@@ -127,6 +169,7 @@ material Splatting5
 			texture_unit AlphaLayer
 			{
 			}
+		}
 	}
 
 	technique fixed_function

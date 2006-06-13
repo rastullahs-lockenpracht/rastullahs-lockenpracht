@@ -29,8 +29,8 @@ VS_OUTPUT vs_main( VS_INPUT Input )
 
 
 
-float4 fvAmbient;
-float4 fvDiffuse;
+float4 materialAmbient;
+float4 materialDiffuse;
 
 float scaleBase;
 float scaleBaseR;
@@ -59,26 +59,26 @@ float4 ps_main( PS_INPUT Input ) : COLOR0
     float4 fvSplattingColor = tex2D( splattingMap, Input.Texcoord );
     float4 fvLightColor     = ( tex2D( lightingMap, Input.Texcoord ) - 0.5 ) * 2.0;
    
-    float4 fvBaseColor      = tex2D( base, Input.Texcoord * scaleBase );
+    float4 fvBaseColor      = tex2D( base, Input.Texcoord / scaleBase );
 
     fvBaseColor            *= 1.0-fvSplattingColor[0]; 
-    fvBaseColor            += ( tex2D(baseR, Input.Texcoord * scaleBaseR ) )
+    fvBaseColor            += ( tex2D(baseR, Input.Texcoord / scaleBaseR ) )
                               * fvSplattingColor[0];
                               
     fvBaseColor            *= 1.0-fvSplattingColor[1]; 
-    fvBaseColor            += ( tex2D(baseG, Input.Texcoord * scaleBaseG ) )
+    fvBaseColor            += ( tex2D(baseG, Input.Texcoord / scaleBaseG ) )
                               * fvSplattingColor[1];
                               
     fvBaseColor            *= 1.0-fvSplattingColor[2]; 
-    fvBaseColor            += ( tex2D(baseB, Input.Texcoord * scaleBaseB ) )
+    fvBaseColor            += ( tex2D(baseB, Input.Texcoord / scaleBaseB ) )
                               * fvSplattingColor[2];
                               
     fvBaseColor            *= 1.0-fvSplattingColor[3]; 
-    fvBaseColor            += ( tex2D(baseA, Input.Texcoord * scaleBaseA ) )
+    fvBaseColor            += ( tex2D(baseA, Input.Texcoord / scaleBaseA ) )
                               * fvSplattingColor[3];   
                                                          
-    float4 fvTotalAmbient   = (fvAmbient + fvLightColor ) *  fvBaseColor; 
-    float4 fvTotalDiffuse   = fvDiffuse * fvBaseColor; 
+    float4 fvTotalAmbient   = (materialAmbient + fvLightColor ) *  fvBaseColor; 
+    float4 fvTotalDiffuse   = materialDiffuse * fvBaseColor; 
    
     return( saturate( fvTotalAmbient + fvTotalDiffuse  ) );      
 }

@@ -1,9 +1,11 @@
-varying vec2 Texcoord;
-   
+varying vec4 diffuse,ambient;
+
 void main( void )
 {
-   gl_Position = ftransform();
-   Texcoord    = gl_MultiTexCoord0.xy;
-    
-   vec4 fvObjectPosition = gl_ModelViewMatrix * gl_Vertex;   
+    gl_Position = ftransform();
+    gl_TexCoord[0] = gl_MultiTexCoord0;
+
+    // Compute the diffuse, ambient and globalAmbient terms
+    diffuse = gl_FrontMaterial.diffuse;
+	ambient = gl_FrontMaterial.ambient;
 }

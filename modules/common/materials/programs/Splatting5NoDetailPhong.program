@@ -1,42 +1,47 @@
 // Base Texture with 4 blended Textures and included Detailmap
-fragment_program glSplatting5NoDetail_FP glsl
+fragment_program glSplatting5NoDetailPhong_FP glsl
 {
-  source Splatting5NoDetail.frag
+  source Splatting5NoDetailPhong.frag
 }
 
-vertex_program glSplatting5NoDetail_VP glsl
+vertex_program glSplatting5NoDetailPhong_VP glsl
 {
-  source Splatting5NoDetail.vert
+  source Splatting5NoDetailPhong.vert
 }
 
-fragment_program dxSplatting5NoDetail_FP hlsl
+fragment_program dxSplatting5NoDetailPhong_FP hlsl
 {
-  source Splatting5NoDetail.hlsl
+  source Splatting5NoDetailPhong.hlsl
   entry_point ps_main
   target ps_2_0
 }
 
-vertex_program dxSplatting5NoDetail_VP hlsl
+vertex_program dxSplatting5NoDetailPhong_VP hlsl
 {
-  source Splatting5NoDetail.hlsl
+  source Splatting5NoDetailPhong.hlsl
   entry_point vs_main
   target vs_1_1
 }
 
-material Splatting5NoDetail
+material Splatting5NoDetailPhong
 {
 	technique hlsl
 	{
 		pass
 		{
 			// HLSL Fragment Shader
-			fragment_program_ref dxSplatting5NoDetail_FP
+			fragment_program_ref dxSplatting5NoDetailPhong_FP
 			{
 				//Shader Constant: materialAmbient
-				param_named materialAmbient float4 0.500000 0.500000 0.500000 1.000000
+				param_named materialAmbient float4 0.2 0.2 0.2 1.0
 				//Shader Constant: materialDiffuse
-				param_named materialDiffuse float4 0.500000 0.500000 0.500000 1.000000
+				param_named materialDiffuse float4 0.7 0.7 0.7 1.0
 
+				//Shader Constant: lightDiffuse
+				param_named_auto lightDiffuse light_diffuse_colour 0
+				//Shader Constant: ambientLight
+				param_named_auto ambientLight ambient_light_colour
+				
 				//Shader Constant: scaleBase
 				param_named scaleBase  float 1.000000
 				//Shader Constant: scaleBaseR
@@ -47,19 +52,18 @@ material Splatting5NoDetail
 				param_named scaleBaseB float 1.000000
 				//Shader Constant: scaleBaseA
 				param_named scaleBaseA float 1.000000
+				
 			}
 			// HLSL Vertex Shader
-			vertex_program_ref dxSplatting5NoDetail_VP
+			vertex_program_ref dxSplatting5NoDetailPhong_VP
 			{
 				//Shader Constant: matWorldViewProjection
 				param_named_auto matWorldViewProjection worldviewproj_matrix
+				//Shader Constant: fvLightPosition
+				param_named_auto fvLightPosition light_position_object_space 0
 			}
 			// The Texture containing the Splatting information in its channels
 			texture_unit SplattingMap
-			{
-			}
-			// Texture containing the LightingMap
-			texture_unit LightingMap
 			{
 			}
 			// Texture containing the groundlayer and its detailmap (inside the alpha channel)
@@ -92,19 +96,18 @@ material Splatting5NoDetail
 			ambient 0.2 0.2 0.2
 			diffuse 0.7 0.7 0.7
 
-			vertex_program_ref glSplatting5NoDetail_VP
+			vertex_program_ref glSplatting5NoDetailPhong_VP
 			{
 			}
 
-			fragment_program_ref glSplatting5NoDetail_FP
+			fragment_program_ref glSplatting5NoDetailPhong_FP
 			{
 				param_named splattingMap int 0
-				param_named lightingMap int 1
-				param_named base int 2
-				param_named baseR int 3
-				param_named baseG int 4
-				param_named baseB int 5
-				param_named baseA int 6
+				param_named base int 1
+				param_named baseR int 2
+				param_named baseG int 3
+				param_named baseB int 4
+				param_named baseA int 5
 
 				//Shader Constant: scaleBase
 				param_named scaleBase  float 1.000000
@@ -120,10 +123,6 @@ material Splatting5NoDetail
 
 			// The Texture containing the Splatting information in its channels
 			texture_unit SplattingMap
-			{
-			}
-			// Texture containing the LightingMap
-			texture_unit LightingMap
 			{
 			}
 			// Texture containing the groundlayer and its detailmap (inside the alpha channel)

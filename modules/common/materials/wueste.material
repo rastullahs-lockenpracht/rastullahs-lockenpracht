@@ -1,4 +1,4 @@
-material wuesten_alphamap : Splatting5NoDetail
+material wuesten_alphamap : Splatting5NoDetailPhong
 {
 	receive_shadows on
 
@@ -6,25 +6,20 @@ material wuesten_alphamap : Splatting5NoDetail
 	{
 		pass
 		{
-			fragment_program_ref dxSplatting5NoDetail_PS
+			fragment_program_ref dxSplatting5NoDetailPhong_FP
 			{
 				//Shader Constant: scaleBase
-				param_named scaleBase  float 25.00
+				param_named scaleBase  float 0.04
 				//Shader Constant: scaleBaseR
-				param_named scaleBaseR float 33.33
+				param_named scaleBaseR float 0.03
 				//Shader Constant: scaleBaseG
-				param_named scaleBaseG float 20.00
+				param_named scaleBaseG float 0.05
 			}
 
 			// The Texture containing the Splatting information in its channels
 			texture_unit SplattingMap
 			{
 				texture wueste_compose.png
-			}
-			// Texture containing the LightingMap
-			texture_unit LightingMap
-			{
-				texture neutral_lightmap.png
 			}
 			// Texture containing the groundlayer and its detailmap (inside the alpha channel)
 			texture_unit BaseLayer
@@ -57,15 +52,20 @@ material wuesten_alphamap : Splatting5NoDetail
 	{
 		pass
 		{
+			fragment_program_ref glSplatting5NoDetailPhong_FP
+			{
+				//Shader Constant: scaleBase
+				param_named scaleBase  float 0.04
+				//Shader Constant: scaleBaseR
+				param_named scaleBaseR float 0.03
+				//Shader Constant: scaleBaseG
+				param_named scaleBaseG float 0.05
+			}
+
 			// The Texture containing the Splatting information in its channels
 			texture_unit SplattingMap
 			{
 				texture wueste_compose.png
-			}
-			// Texture containing the LightingMap
-			texture_unit LightingMap
-			{
-				neutral_lightmap.png
 			}
 			// Texture containing the groundlayer and its detailmap (inside the alpha channel)
 			texture_unit BaseLayer
