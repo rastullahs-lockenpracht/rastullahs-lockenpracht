@@ -62,26 +62,26 @@ float4 ps_main( PS_INPUT Input ) : COLOR0
     float4 fvLightColor     = ( tex2D( lightingMap, Input.Texcoord ) - 0.5 ) * 2.0;
    
     float4 fvBaseColor      = tex2D( base, Input.Texcoord / scaleBase ) + 
-                               ((tex2D(base, Input.Texcoord / scaleDetail )[3] - 0.5) * 2.0);
+                               (tex2D(base, Input.Texcoord / scaleDetail )[3] - 0.5);
 
     fvBaseColor            *= 1.0-fvSplattingColor[0]; 
     fvBaseColor            += ( tex2D(baseR, Input.Texcoord / scaleBaseR ) + 
-                               ((tex2D(baseR, Input.Texcoord / scaleDetailR )[3] - 0.5) * 2.0) )
+                               (tex2D(baseR, Input.Texcoord / scaleDetailR )[3] - 0.5) )
                               * fvSplattingColor[0];
                               
     fvBaseColor            *= 1.0-fvSplattingColor[1]; 
     fvBaseColor            += ( tex2D(baseG, Input.Texcoord / scaleBaseG ) + 
-                               ((tex2D(baseG, Input.Texcoord / scaleDetailG )[3] - 0.5) * 2.0) )
+                               (tex2D(baseG, Input.Texcoord / scaleDetailG )[3] - 0.5) )
                               * fvSplattingColor[1];
                               
     fvBaseColor            *= 1.0-fvSplattingColor[2]; 
     fvBaseColor            += ( tex2D(baseB, Input.Texcoord / scaleBaseB ) + 
-                               ((tex2D(baseB, Input.Texcoord / scaleDetailB )[3] - 0.5) * 2.0) )
+                               (tex2D(baseB, Input.Texcoord / scaleDetailB )[3] - 0.5) )
                               * fvSplattingColor[2];
                               
     fvBaseColor            *= 1.0-fvSplattingColor[3]; 
     fvBaseColor            += ( tex2D(baseA, Input.Texcoord / scaleBaseA ) + 
-                               ((tex2D(baseA, Input.Texcoord / scaleDetailA )[3] - 0.5) * 2.0) )
+                               (tex2D(baseA, Input.Texcoord / scaleDetailA )[3] - 0.5) )
                               * fvSplattingColor[3];   
                                                          
     float4 fvTotalAmbient   = (materialAmbient + fvLightColor ) *  fvBaseColor; 
