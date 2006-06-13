@@ -62,7 +62,7 @@ float4 ps_main( PS_INPUT Input ) : COLOR0
     float4 fvLightColor     = ( tex2D( lightingMap, Input.Texcoord ) - 0.5 ) * 2.0;
    
     float4 fvBaseColor      = tex2D( base, Input.Texcoord / scaleBase ) + 
-                               ((tex2D(baseR, Input.Texcoord / scaleDetail )[3] - 0.5) * 2.0);
+                               ((tex2D(base, Input.Texcoord / scaleDetail )[3] - 0.5) * 2.0);
 
     fvBaseColor            *= 1.0-fvSplattingColor[0]; 
     fvBaseColor            += ( tex2D(baseR, Input.Texcoord / scaleBaseR ) + 
