@@ -345,6 +345,7 @@ namespace rl {
 			// how fast has the camera to be,
 			// in order to get there in mMaxDelay seconds?
 			Vector3 vel = diff / mMaxDelay;
+			Ogre::Real speed = vel.length();
 
 			// adjust scale of camera collision according to the velocity vector
             // Use the pointer directly here. This is save, since we don't store
@@ -353,7 +354,8 @@ namespace rl {
 				static_cast<OgreNewt::CollisionPrimitives::HullModifier*>(
                 mCamBody->getCollision().getPointer());
 			Matrix4 mat = Matrix4::getScale(
-				Vector3(1.0f, 1.0f, 1.0f) + 3.0f * vel / vel.length());
+				Vector3(1.0f, 1.0f, 1.0f) 
+				+ (speed == 0 ? Vector3::ZERO : 3.0f * vel / vel.length()));
 			hc->setMatrix(mat);
 
 			// calcuate force and apply it
