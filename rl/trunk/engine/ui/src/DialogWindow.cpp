@@ -88,13 +88,17 @@ void DialogWindow::initialize()
 	mName->setText(mBot->getName());
 
 	mCurrentResponse = mBot->createResponse(DIALOG_START);
+	getResponse(DIALOG_START);
 	getOptions(DIALOG_START);
 	mState = CHOOSING_OPTION;
 }
 
 void DialogWindow::getResponse(const CeGuiString& msg)
 {
-	delete mCurrentResponse;
+	if(mCurrentResponse != NULL)
+	{
+		delete mCurrentResponse;
+	}
 	mCurrentResponse = mBot->createResponse(msg);
 	
 	if(mCurrentResponse == NULL)
@@ -107,6 +111,7 @@ void DialogWindow::getResponse(const CeGuiString& msg)
 
 	DialogResponse::Responses responses = mCurrentResponse->getResponses();
 	CeGuiString responseText = responses.begin()->second;
+	responseText.c_str();
 
 	if(!responseText.empty())
 	{

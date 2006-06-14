@@ -123,6 +123,7 @@ void ContextInterpreter::processSelection()
 DialogResponse* ContextInterpreter::interpret(const Response<CeGuiString>::GossipData& pData, AimlBot<CeGuiString>* pProcessHelper)
 {
 	mOptions.clear();	
+	mResponses.clear();
 	mBot = pProcessHelper;
 	CeGuiString type;
 	Response<CeGuiString>::GossipData::const_iterator itr = pData.begin();
