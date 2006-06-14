@@ -46,7 +46,6 @@ namespace rl {
 		: CharacterController(camera, character),
 		mTargetCameraPosition(Vector3::ZERO),
 		mTargetCameraOrientation(Quaternion::IDENTITY),
-		mText(""),
 		mFadeTextTime(0),
 		mCutHard(false),
 		mDialogWindow(NULL),
@@ -118,12 +117,23 @@ namespace rl {
 			mFadeTextTime -= elapsedTime;
 		}
 
-		if (mFadeTextTime <= 0)
+		if (mTextShown && mFadeTextTime <= 0)
 		{
 			mFadeTextTime = 0;
+			mTextShown = false;
 			mSubtitleWindow->setVisible(false);
 			mDialogWindow->textFinished();
 		}
+
+		Logger::getSingleton().log(
+				Logger::UI, 
+				Logger::LL_TRIVIAL, 
+				StringConverter::toString(mSubtitleWindow->getWindow()->getEffectiveAlpha())
+				+ ": "
+				+ mSubtitleWindow->getText()
+				+ CeGuiString(mSubtitleWindow->getWindow()->isVisible() ? "vis" : "unvis")
+				+ ", Time: "
+				+ StringConverter::toString(mFadeTextTime));
 	}
 
 	void DialogCharacterController::setDialogWindow(DialogWindow* dialog)
@@ -158,26 +168,23 @@ namespace rl {
 			mTargetCameraPosition - mDialogPartner->getWorldPosition() );	
 	}
 
+	float DialogCharacterController::getShowTextLength(const CeGuiString& text)
+	{
+		return 0.1f * text.length() // FIXME: Zeit fürs Textlesen festlegen
+			 + 0.25f; // Fade in
+	}
+
 	void DialogCharacterController::response(
 		Actor* actor, const CeGuiString& text, const Ogre::String& soundFile)
 	{
-		Logger::getSingleton().log(
-			Logger::UI, 
-			Logger::LL_NORMAL, 
-			"Response: "
-				+ actor->getName()
-				+ " File: "
-				+ soundFile 
-				+ " (" + text + ")");
 		// Drehung zu ZielRichtung  @todo reparieren
 		mTargetCameraOrientation = 
 			Vector3::UNIT_Z.getRotationTo(
 			mTargetCameraPosition - actor->getWorldPosition() );		
-		mText = text;
 
 		if (soundFile.length() == 0)
 		{
-			mFadeTextTime = 0.04f * text.length() ;
+			mFadeTextTime = getShowTextLength(text);
 		}
 		else
 		{
@@ -188,9 +195,26 @@ namespace rl {
 						createSample(
 							SoundManager::getSingleton().getByName(soundFile)),
 					soundFile);
+			
 			mSoundObject->play();
-			mFadeTextTime = std::max(0.04f * text.length(), mSoundObject->getLength());
+
+			mFadeTextTime = 
+				std::max(
+					getShowTextLength(text), 
+					mSoundObject->getLength());
+
+			Logger::getSingleton().log(
+				Logger::UI, 
+				Logger::LL_NORMAL, 
+				"Response: "
+					+ actor->getName()
+					+ " File: "
+					+ soundFile 
+					+ " (" + text + "), Time: "
+					+ StringConverter::toString(mFadeTextTime));
 		}
+
+		mTextShown = true;
 
 		if (mSubtitleWindow != NULL)
 		{

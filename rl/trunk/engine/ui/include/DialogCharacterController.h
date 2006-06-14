@@ -75,6 +75,8 @@ namespace rl {
 		Ogre::Real mFadeTextTime;
 		/// Der Untertitel Text
 		CeGuiString mText;
+		/// Es wird gerade Text angezeigt
+		bool mTextShown;
 
 		/// Der Spieler der redet
 		Actor* mDialogPartner;
@@ -85,6 +87,7 @@ namespace rl {
 		SubtitleWindow* mSubtitleWindow;
 		SoundObject* mSoundObject;
 	
+		float getShowTextLength(const CeGuiString& text);
 	};
 }
 #endif

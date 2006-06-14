@@ -34,6 +34,15 @@ namespace rl
 	{
 		mSubtitle->setText(text);
 		setVisible(true);
+		Logger::getSingleton().log(
+			Logger::UI,
+			Logger::LL_TRIVIAL,
+			"Subtitle: " + text);
+	}
+
+	const CeGuiString& SubtitleWindow::getText() const
+	{
+		return mSubtitle->getText();
 	}
 	
 } // namespace rl

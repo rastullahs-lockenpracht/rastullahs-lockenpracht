@@ -31,6 +31,7 @@ namespace rl
 		virtual ~SubtitleWindow();
 	
 		void show(const CeGuiString& text);
+		const CeGuiString& getText() const;
 
 	private:
 		CEGUI::MultiLineEditbox* mSubtitle;	

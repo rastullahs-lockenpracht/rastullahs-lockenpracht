@@ -17,6 +17,7 @@
 
 #include "DialogWindow.h"
 
+#include "Exception.h"
 #include "Creature.h"
 #include "DebugWindow.h"
 #include "DialogCharacter.h"
@@ -52,7 +53,8 @@ DialogWindow::DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger, D
 	mQuestion = getListbox("DialogWindow/Question");
 	mDialogOptions = getListbox("DialogWindow/OptionList");
 
-	mWindow->subscribeEvent(FrameWindow::EventCloseClicked, // Verstecken, falls Close geklickt wird
+	mWindow->subscribeEvent(
+		FrameWindow::EventCloseClicked, // Verstecken, falls Close geklickt wird
 		boost::bind(&DialogWindow::handleClose, this)); //TODO: als Abbrechen werten 
 
 	initialize();
@@ -102,7 +104,7 @@ void DialogWindow::getResponse(const CeGuiString& msg)
 		mState = CLOSING_DIALOG;
 		return;
 	}
-	//CeGuiString responseText = mCurrentResponse->getResponse();
+
 	DialogResponse::Responses responses = mCurrentResponse->getResponses();
 	CeGuiString responseText = responses.begin()->second;
 
@@ -133,11 +135,13 @@ void DialogWindow::textFinished()
 		setVisible(true);
 		mState = CHOOSING_OPTION;
 	}
-	else if (mState == TALKING_PLAYER_CHARACTER)
+	
+	if (mState == TALKING_PLAYER_CHARACTER)
 	{
 		getResponse(mCurrentResponseText);
 	}
-	else if (mState == CLOSING_DIALOG)
+	
+	if (mState == CLOSING_DIALOG)
 	{
 		handleClose();
 	}
@@ -147,14 +151,12 @@ void DialogWindow::getOptions(const CeGuiString& question)
 {
 	if(mCurrentResponse == NULL)
 	{
-		// TODO: throw an exception
+		Throw(rl::IllegalStateException, "mCurrentResponse must not be NULL.");
 		return;
 	}
 	
 	DialogResponse::DialogOptions options = mCurrentResponse->getDialogOptions();
 	
-	//mResponses = mCurrentResponse->getOptions();
-	//if(mResponses.empty())
 	if(options.empty())
 	{
 		mQuestion->getListboxItemFromIndex(0)->setText(DIALOG_END);
@@ -163,20 +165,20 @@ void DialogWindow::getOptions(const CeGuiString& question)
 		return;
 	}
 	
-	//NaturalLanguageProcessor::Responses::iterator itr = mResponses.begin();
-	DialogResponse::DialogOptions::const_iterator itr = options.begin();
+	
 	unsigned int i = 0;
-	CeGuiString currentResponse;
-//	for(; itr != mResponses.end(); ++itr)
-	for(; itr != options.end(); ++itr)
+	for(DialogResponse::DialogOptions::const_iterator itr = options.begin(); 
+		itr != options.end(); ++itr)
 	{	
-		currentResponse = (*itr)->getText();
-		Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, currentResponse.c_str());
+		CeGuiString currentResponse = (*itr)->getText();
+		Logger::getSingleton().log(
+			Logger::DIALOG, 
+			Logger::LL_MESSAGE, 
+			currentResponse);
 		if(i < mDialogOptions->getItemCount())
 		{
 			ListboxWrappedTextItem* item = 
 				static_cast <ListboxWrappedTextItem*>(mDialogOptions->getListboxItemFromIndex(i));
-		//	item->setID(itr->first);
 			item->setUserData(*itr);
 			item->setText(currentResponse);
 			item->setTextFormatting(CEGUI::WordWrapLeftAligned);
@@ -184,10 +186,8 @@ void DialogWindow::getOptions(const CeGuiString& question)
 		}
 		else
 		{
-		//	currentResponse = itr->second;
 			ListboxWrappedTextItem* item = 
 				new ListboxWrappedTextItem((*itr)->getText());
-		//	item->setID(itr->first);
 			item->setUserData(*itr);
 			item->setTextFormatting(CEGUI::WordWrapLeftAligned);
 			mDialogOptions->addItem(item);
@@ -199,7 +199,6 @@ void DialogWindow::getOptions(const CeGuiString& question)
 	{
 		mDialogOptions->removeItem(mDialogOptions->getListboxItemFromIndex(i));
 	}
-//	mResponses.clear();
 }
 
 unsigned int DialogWindow::count()
@@ -222,34 +221,26 @@ bool DialogWindow::handleSelectOption()
 {
 	DebugWindow::getSingleton().setMessageText(StringConverter::toString(getSelectedOption()));
 	ListboxWrappedTextItem* item = 
-		reinterpret_cast<ListboxWrappedTextItem*>(mDialogOptions->getFirstSelectedItem());
+		static_cast<ListboxWrappedTextItem*>(mDialogOptions->getFirstSelectedItem());
 	int id = item->getID();
-	DialogOption* option = reinterpret_cast<DialogOption*>(item->getUserData());
+	DialogOption* option = static_cast<DialogOption*>(item->getUserData());
 	option->processSelection();
 	mCurrentResponseText = option->getPattern();
 	CeGuiString selectedOption = option->getText();
-/*	std::pair<int, CeGuiString> selectedOption 
-		= mCurrentResponse->getSelectedOption(id);
-	if(selectedOption.first != 0 && selectedOption.first != 666)
-	*/  
 	if(mCurrentResponseText != "0" && mCurrentResponseText != "666")
 	{
-	//	id = selectedOption.first;
-	//	if(!selectedOption.second.empty())
 		if(!selectedOption.empty())
 		{
-		//	mGameLogger->logDialogEvent("Held", selectedOption.second);
+			mState = TALKING_PLAYER_CHARACTER;
 			mGameLogger->logDialogEvent("Held", selectedOption);
 			mQuestion->getListboxItemFromIndex(0)->setText("Held: " + selectedOption);	
 			mController->response(
 				mBot->getDialogCharacter()->getActor(), 
 				selectedOption, 
-				option->getId().c_str());
-			mState = TALKING_PLAYER_CHARACTER;
+				option->getId().c_str());			
 			setVisible(false);
 		}
 	}
-//	mCurrentResponseText = StringConverter::toString(id);
 	
 	return true;
 }
