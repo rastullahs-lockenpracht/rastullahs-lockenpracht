@@ -104,8 +104,8 @@ namespace rl {
         delete mXmlResourceManager;
         delete mScriptWrapper;
         delete mConfigurationManager;
-        delete mOgreRoot;
 		delete mSoundManager;
+        delete mOgreRoot;		
 	}
 
     void CoreSubsystem::startCore()

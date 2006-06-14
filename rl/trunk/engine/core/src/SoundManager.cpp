@@ -91,6 +91,27 @@ SoundManager::~SoundManager()
         mActiveDriver = NULL;
     }
 
+	for(StringVector::iterator it = mDrivers.begin();
+		it != mDrivers.end(); it++)
+	{
+		Ogre::String driverPlugin = *it;
+
+		Logger::getSingleton().log(
+			Logger::CORE,
+			Logger::LL_NORMAL,
+			"Unloading sound driver DLL "
+			+ driverPlugin);
+
+		Ogre::Root::getSingleton().unloadPlugin(driverPlugin);
+
+		Logger::getSingleton().log(
+			Logger::CORE,
+			Logger::LL_NORMAL,
+			"Sound driver DLL "
+			+ driverPlugin
+			+ " successfully unloaded.");
+	}
+
 	mDriverList.clear();
 }
 
@@ -203,18 +224,29 @@ void SoundManager::setActiveDriver(SoundDriver *driver)
 {
     if (mActiveDriver != NULL && driver != NULL)
     {
-		Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_NORMAL, (CeGuiString("Soundtreiber wird gewechselt von ")
-            + mActiveDriver->getName() + CeGuiString(" zu ") + driver->getName()).c_str());
+		Logger::getSingleton().log(
+			Logger::CORE, 
+			Logger::LL_NORMAL, 
+			CeGuiString("Soundtreiber wird gewechselt von ")
+            + mActiveDriver->getName()
+			+ CeGuiString(" zu ") + 
+			driver->getName());
     } 
 	else if (mActiveDriver != NULL)
     {
-        Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_NORMAL, (CeGuiString("Soundtreiber wird gewechselt von ")
-            + mActiveDriver->getName()).c_str());
+        Logger::getSingleton().log(
+			Logger::CORE, 
+			Logger::LL_NORMAL, 
+			CeGuiString("Soundtreiber wird gewechselt von ")
+            + mActiveDriver->getName());
     } 
 	else 
 	{
-		Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_NORMAL, (CeGuiString("Soundtreiber wird gewechselt zu ")
-             + driver->getName()).c_str());
+		Logger::getSingleton().log(
+			Logger::CORE, 
+			Logger::LL_NORMAL, 
+			CeGuiString("Soundtreiber wird gewechselt zu ")
+             + driver->getName());
     }
     mActiveDriver = driver;
     if (mActiveDriver != NULL)
