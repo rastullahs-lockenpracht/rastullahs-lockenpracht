@@ -23,6 +23,8 @@ sunlight.getControlledObject().setCastShadows(true);
 sunlight.getControlledObject().setDiffuseColour(1.1,0.8,0.8);
 $SCRIPT.log("Tageslicht erstellt.");
 
+
+
 #shadowlight = $AM.createLightActor("shadowlight", LightObject::LT_SPOTLIGHT);
 #shadowlight.setPosition(0.0, 1000.0, 0.0);
 #shadowlight.getControlledObject().setDirection(-0.17101, -0.873647, 0.969846);
@@ -49,7 +51,7 @@ $SCRIPT.log("Held vorbereitet.");
 $UI.setActiveCharacter($hero);
 $SCRIPT.log("Held als aktiver Charakter gesetzt.");
 
-$World.setFog( World::FOG_EXP, [0.15,0.1,0.1,0.5], 0.00503, 0.4, 1.0);
+$World.setFog( World::FOG_EXP, [0.1,0.1,0.1,0.1], 0.00503, 0.4, 1.0);
 
 #******** mapchange **********
 $SCRIPT.log("Mapchange: Kugel-Zentrum Actor erstellen");

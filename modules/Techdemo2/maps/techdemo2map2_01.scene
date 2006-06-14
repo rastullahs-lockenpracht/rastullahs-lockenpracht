@@ -7962,6 +7962,1806 @@
  <userData><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="150"/></userData> 
 
 		</node>
+		<node name="nat_nadelbaum_02_lod" id="1061" >
+			<position x="-111.772" y="-20.6619" z="-63.1039" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1062"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1063" >
+			<position x="-125.389" y="-20.7949" z="-79.8274" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1064"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1065" >
+			<position x="-134.201" y="-27.8792" z="-50.2531" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1066"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1067" >
+			<position x="-115.465" y="-26.0174" z="-33.5296" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1068"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1069" >
+			<position x="-125.389" y="-22.0164" z="-71.8137" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1070"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1071" >
+			<position x="-151.759" y="-33.3628" z="-42.2393" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="1.32183" y="1.32183" z="1.32183" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1072"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1073" >
+			<position x="-120.584" y="-28.5995" z="-25.5158" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1074"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1075" >
+			<position x="-117.418" y="-23.8813" z="-55.0902" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="0.866031" y="0.866031" z="0.866031" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1076"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1077" >
+			<position x="-147.779" y="-30.9821" z="-108.573" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1078"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1079" >
+			<position x="-156.592" y="-27.412" z="-78.9989" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1080"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1081" >
+			<position x="-136.577" y="-25.8992" z="-62.2754" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1082"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1083" >
+			<position x="-153.138" y="-29.3869" z="-100.56" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1084"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1085" >
+			<position x="-147.404" y="-25.4687" z="-70.9852" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="1.32183" y="1.32183" z="1.32183" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1086"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1087" >
+			<position x="-142.975" y="-28.6803" z="-54.2617" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1088"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1089" >
+			<position x="-140.461" y="-24.1391" z="-83.836" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="0.866031" y="0.866031" z="0.866031" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1090"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1091" >
+			<position x="-134.162" y="-22.974" z="-91.8497" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1092"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1093" >
+			<position x="-135.803" y="-29.3208" z="-202.703" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1094"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1095" >
+			<position x="-144.615" y="-32.9509" z="-173.128" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1096"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1097" >
+			<position x="-130.998" y="-37.2298" z="-156.405" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1098"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1099" >
+			<position x="-141.637" y="-28.8763" z="-194.689" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1100"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1101" >
+			<position x="-152.645" y="-35.1193" z="-165.114" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="1.32183" y="1.32183" z="1.32183" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1102"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1103" >
+			<position x="-124.753" y="-38.7628" z="-148.391" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1104"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1105" >
+			<position x="-122.186" y="-33.7106" z="-177.965" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="0.866031" y="0.866031" z="0.866031" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1106"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1107" >
+			<position x="-122.186" y="-31.89" z="-185.979" />
+			<rotation qx="0.0" qy="-0.707107" qz="0.0" qw="0.707107" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1108"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1109" >
+			<position x="-12.7396" y="-29.7062" z="72.8548" />
+			<rotation qx="0.0" qy="-0.353941" qz="0.0" qw="0.935268" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1110"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1111" >
+			<position x="-34.2881" y="-31.8961" z="71.9879" />
+			<rotation qx="0.0" qy="-0.353941" qz="0.0" qw="0.935268" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1112"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1113" >
+			<position x="-17.9579" y="-18.7619" z="98.1724" />
+			<rotation qx="0.0" qy="-0.353941" qz="0.0" qw="0.935268" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1114"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1115" >
+			<position x="6.98009" y="-20.7705" z="95.2023" />
+			<rotation qx="0.0" qy="-0.353941" qz="0.0" qw="0.935268" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1116"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1117" >
+			<position x="-28.2822" y="-28.9851" z="77.2935" />
+			<rotation qx="0.0" qy="-0.353941" qz="0.0" qw="0.935268" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1118"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1119" >
+			<position x="-23.5762" y="-14.1585" z="116.637" />
+			<rotation qx="0.0" qy="-0.353941" qz="0.0" qw="0.935268" />
+			<scale x="1.32183" y="1.32183" z="1.32183" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1120"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1121" >
+			<position x="9.59651" y="-17.301" z="104.345" />
+			<rotation qx="0.0" qy="-0.353941" qz="0.0" qw="0.935268" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1122"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1123" >
+			<position x="-10.4719" y="-25.5644" z="82.392" />
+			<rotation qx="0.0" qy="-0.353941" qz="0.0" qw="0.935268" />
+			<scale x="0.866031" y="0.866031" z="0.866031" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1124"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1125" >
+			<position x="-70.6557" y="-29.161" z="69.7372" />
+			<rotation qx="0.0" qy="-0.353941" qz="0.0" qw="0.935268" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1126"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1127" >
+			<position x="-54.3255" y="-26.3932" z="95.9216" />
+			<rotation qx="0.0" qy="-0.353941" qz="0.0" qw="0.935268" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1128"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1129" >
+			<position x="-28.5414" y="-23.0272" z="91.9939" />
+			<rotation qx="0.0" qy="-0.353941" qz="0.0" qw="0.935268" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1130"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1131" >
+			<position x="-68.1977" y="-28.8367" z="79.059" />
+			<rotation qx="0.0" qy="-0.353941" qz="0.0" qw="0.935268" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1132"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1133" >
+			<position x="-42.2365" y="-24.3198" z="94.3412" />
+			<rotation qx="0.0" qy="-0.353941" qz="0.0" qw="0.935268" />
+			<scale x="1.32183" y="1.32183" z="1.32183" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1134"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1135" >
+			<position x="-26.771" y="-18.8063" z="102.094" />
+			<rotation qx="0.0" qy="-0.353941" qz="0.0" qw="0.935268" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1136"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1137" >
+			<position x="-47.2714" y="-28.1025" z="80.6302" />
+			<rotation qx="0.0" qy="-0.353941" qz="0.0" qw="0.935268" />
+			<scale x="0.866031" y="0.866031" z="0.866031" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1138"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1139" >
+			<position x="-49.1071" y="-31.5473" z="70.604" />
+			<rotation qx="0.0" qy="-0.353941" qz="0.0" qw="0.935268" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1140"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1141" >
+			<position x="84.1219" y="-12.8445" z="-274.854" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1142"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1143" >
+			<position x="104.88" y="-8.21922" z="-269.005" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1144"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1145" >
+			<position x="95.0783" y="-6.43909" z="-298.267" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1146"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1147" >
+			<position x="70.1325" y="-10.5224" z="-301.171" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1148"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1149" >
+			<position x="100.27" y="-8.34236" z="-275.561" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1150"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1151" >
+			<position x="104.832" y="-2.7087" z="-314.921" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.32183" y="1.32183" z="1.32183" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1152"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1153" >
+			<position x="69.7113" y="-9.51186" z="-310.671" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1154"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1155" >
+			<position x="84.1315" y="-10.6999" z="-284.657" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="0.866031" y="0.866031" z="0.866031" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1156"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1157" >
+			<position x="139.73" y="1.32248" z="-258.369" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1158"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1159" >
+			<position x="129.928" y="-1.14513" z="-287.63" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1160"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1161" >
+			<position x="103.937" y="-5.6946" z="-289.799" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1162"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1163" >
+			<position x="139.504" y="2.05787" z="-268.007" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1164"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1165" >
+			<position x="117.803" y="-3.18994" z="-288.901" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.32183" y="1.32183" z="1.32183" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1166"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1167" >
+			<position x="104.561" y="-4.40361" z="-300.034" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1168"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1169" >
+			<position x="119.515" y="-4.65685" z="-274.396" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="0.866031" y="0.866031" z="0.866031" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1170"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1171" >
+			<position x="118.972" y="-5.79845" z="-264.217" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1172"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1173" >
+			<position x="11.7055" y="-3.22872" z="-340.417" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1174"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1175" >
+			<position x="32.4633" y="-10.2176" z="-334.568" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1176"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1177" >
+			<position x="22.6619" y="-8.57222" z="-363.83" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1178"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1179" >
+			<position x="-2.28395" y="-7.59618" z="-366.734" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1180"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1181" >
+			<position x="27.854" y="-10.0776" z="-341.124" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1182"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1183" >
+			<position x="32.4153" y="-3.83975" z="-380.484" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.32183" y="1.32183" z="1.32183" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1184"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1185" >
+			<position x="-2.7052" y="-8.87145" z="-376.234" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1186"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1187" >
+			<position x="11.7151" y="-6.47263" z="-350.22" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="0.866031" y="0.866031" z="0.866031" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1188"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1189" >
+			<position x="67.3133" y="-9.92104" z="-323.932" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1190"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1191" >
+			<position x="57.5119" y="-11.1828" z="-353.193" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1192"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1193" >
+			<position x="31.5208" y="-9.59941" z="-355.362" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1194"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1195" >
+			<position x="67.0878" y="-10.7251" z="-333.569" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1196"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1197" >
+			<position x="45.3865" y="-16.1947" z="-354.464" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.32183" y="1.32183" z="1.32183" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1198"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1199" >
+			<position x="32.1448" y="-8.49083" z="-365.597" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1200"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1201" >
+			<position x="47.0989" y="-13.9486" z="-339.958" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="0.866031" y="0.866031" z="0.866031" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1202"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1203" >
+			<position x="46.5555" y="-12.9165" z="-329.78" />
+			<rotation qx="0.0" qy="-0.88746" qz="0.0" qw="-0.460885" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1204"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1205" >
+			<position x="-122.84" y="-20.5076" z="-264.299" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1206"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1207" >
+			<position x="-101.874" y="-23.4513" z="-269.349" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1208"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1209" >
+			<position x="-124.734" y="-14.5569" z="-290.079" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1210"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1211" >
+			<position x="-147.913" y="-13.165" z="-280.413" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1212"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1213" >
+			<position x="-109.1" y="-21.7428" z="-272.813" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1214"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1215" >
+			<position x="-124.371" y="-15.2168" z="-309.376" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.32183" y="1.32183" z="1.32183" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1216"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1217" >
+			<position x="-152.926" y="-13.6844" z="-288.493" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1218"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1219" >
+			<position x="-127.626" y="-16.8025" z="-272.855" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="0.866031" y="0.866031" z="0.866031" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1220"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1221" >
+			<position x="-66.274" y="-12.5596" z="-277.115" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1222"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1223" >
+			<position x="-89.1335" y="-20.7088" z="-297.845" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1224"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1225" >
+			<position x="-112.865" y="-17.4897" z="-287.026" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1226"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1227" >
+			<position x="-71.184" y="-11.2872" z="-285.411" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1228"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1229" >
+			<position x="-100.331" y="-19.4374" z="-293.023" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.32183" y="1.32183" z="1.32183" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1230"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1231" >
+			<position x="-117.326" y="-15.7112" z="-296.259" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1232"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1233" >
+			<position x="-91.7441" y="-18.2762" z="-281.208" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="0.866031" y="0.866031" z="0.866031" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1234"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1235" >
+			<position x="-87.2404" y="-21.3589" z="-272.064" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1236"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1237" >
+			<position x="-156.366" y="-19.9433" z="-215.069" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1238"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1239" >
+			<position x="-135.399" y="-26.2096" z="-220.119" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1240"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1241" >
+			<position x="-158.259" y="-16.3641" z="-240.849" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1242"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1243" >
+			<position x="-181.438" y="-8.86293" z="-231.183" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1244"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1245" >
+			<position x="-142.626" y="-23.8776" z="-223.583" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1246"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1247" >
+			<position x="-157.896" y="-14.6895" z="-260.146" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.32183" y="1.32183" z="1.32183" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1248"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1249" >
+			<position x="-186.451" y="-6.46866" z="-239.263" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1250"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1251" >
+			<position x="-161.151" y="-16.856" z="-223.625" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="0.866031" y="0.866031" z="0.866031" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1252"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1253" >
+			<position x="-99.7992" y="-26.3312" z="-227.885" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1254"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1255" >
+			<position x="-122.659" y="-24.7852" z="-248.615" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1256"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1257" >
+			<position x="-146.39" y="-20.9664" z="-237.796" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1258"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1259" >
+			<position x="-104.709" y="-28.0409" z="-236.181" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1260"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1261" >
+			<position x="-133.857" y="-23.0978" z="-243.793" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.32183" y="1.32183" z="1.32183" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1262"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1263" >
+			<position x="-150.851" y="-18.2826" z="-247.029" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1264"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1265" >
+			<position x="-125.269" y="-27.5579" z="-231.978" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="0.866031" y="0.866031" z="0.866031" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1266"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1267" >
+			<position x="-120.766" y="-29.1832" z="-222.834" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1268"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1269" >
+			<position x="-193.34" y="-37.0158" z="-116.689" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1270"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1271" >
+			<position x="-172.373" y="-34.2183" z="-121.739" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1272"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1273" >
+			<position x="-195.233" y="-34.2308" z="-142.47" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1274"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1275" >
+			<position x="-218.412" y="-40.5354" z="-132.803" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1276"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1277" >
+			<position x="-179.6" y="-34.0342" z="-125.203" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1278"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1279" >
+			<position x="-194.87" y="-25.0186" z="-161.766" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.32183" y="1.32183" z="1.32183" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1280"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1281" >
+			<position x="-223.425" y="-40.8724" z="-140.883" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1282"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1283" >
+			<position x="-198.125" y="-37.2105" z="-125.245" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="0.866031" y="0.866031" z="0.866031" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1284"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1285" >
+			<position x="-136.773" y="-36.8748" z="-129.505" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1286"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1287" >
+			<position x="-159.633" y="-37.2744" z="-150.235" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1288"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1289" >
+			<position x="-183.364" y="-35.7378" z="-139.416" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1290"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1291" >
+			<position x="-141.683" y="-39.1116" z="-137.801" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1292"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1293" >
+			<position x="-170.831" y="-36.5919" z="-145.413" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.32183" y="1.32183" z="1.32183" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1294"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1295" >
+			<position x="-187.825" y="-31.8575" z="-148.649" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.12577" y="1.12577" z="1.12577" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1296"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1297" >
+			<position x="-162.243" y="-37.8895" z="-133.598" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="0.866031" y="0.866031" z="0.866031" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1298"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_nadelbaum_02_lod" id="1299" >
+			<position x="-157.74" y="-35.9413" z="-124.454" />
+			<rotation qx="0.0" qy="-0.975129" qz="0.0" qw="-0.221639" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_nadelbaum_02_lod"
+				id="1300"
+				meshFile ="nat_nadelbaum_02_lod.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
 	</nodes>
 			<userData>
 		<property type="FLOAT" name="staticgeom_renderingdistance_0" data="200"/>
@@ -7978,6 +9778,4 @@
         </manualLOD>
 
 	</userData>
-	
-	
 </scene>
