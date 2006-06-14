@@ -256,6 +256,174 @@
         </StateImagery>
     </WidgetLook>
 
+    <!-- RastullahLook/MultiLineEditbox  -->
+    <WidgetLook name="RastullahLook/TransparentMultiLineEditbox">
+        <Property name="MouseCursorImage" value="set:RastullahLook-Images image:MouseTextBar" />
+        <Property name="SelectionBrushImage" value="set:RastullahLook-Images image:MultiLineEditboxSelectionBrush" />
+
+        <Property name="NormalTextColour" value="FFFFFFFF" />
+        <Property name="SelectedTextColour" value="FF000055" />
+        <Property name="ActiveSelectionColour" value="FFE4D243" />
+        <Property name="InactiveSelectionColour" value="FFC4B223" />
+
+        <Property name="Font" value="Vera Serif-8" />
+
+        <NamedArea name="TextArea">
+            <Area>
+                <Dim type="LeftEdge" ><ImageDim imageset="RastullahLook-Images" image="TransparentMultiLineEditboxLeft" dimension="Width" /></Dim>
+                <Dim type="TopEdge" ><ImageDim imageset="RastullahLook-Images" image="TransparentMultiLineEditboxTop" dimension="Height" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="RastullahLook-Images" image="TransparentMultiLineEditboxRight" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="RastullahLook-Images" image="TransparentMultiLineEditboxBottom" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="TextAreaHScroll">
+            <Area>
+                <Dim type="LeftEdge" ><ImageDim imageset="RastullahLook-Images" image="TransparentMultiLineEditboxLeft" dimension="Width" /></Dim>
+                <Dim type="TopEdge" ><ImageDim imageset="RastullahLook-Images" image="TransparentMultiLineEditboxTop" dimension="Height" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="RastullahLook-Images" image="TransparentMultiLineEditboxRight" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="TextAreaVScroll">
+            <Area>
+                <Dim type="LeftEdge" ><ImageDim imageset="RastullahLook-Images" image="TransparentMultiLineEditboxLeft" dimension="Width" /></Dim>
+                <Dim type="TopEdge" ><ImageDim imageset="RastullahLook-Images" image="TransparentMultiLineEditboxTop" dimension="Height" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="RastullahLook-Images" image="TransparentMultiLineEditboxBottom" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="TextAreaHVScroll">
+            <Area>
+                <Dim type="LeftEdge" ><ImageDim imageset="RastullahLook-Images" image="TransparentMultiLineEditboxLeft" dimension="Width" /></Dim>
+                <Dim type="TopEdge" ><ImageDim imageset="RastullahLook-Images" image="TransparentMultiLineEditboxTop" dimension="Height" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>
+        </NamedArea>
+
+
+        <Child  type="RastullahLook/HorizontalScrollbar" nameSuffix="__auto_hscrollbar__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-12" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="12" /></Dim>
+            </Area>
+            <VertAlignment type="BottomAligned" />
+        </Child>
+        <Child  type="RastullahLook/VerticalScrollbar" nameSuffix="__auto_vscrollbar__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="12" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" offset="-12" type="Height" /></Dim>
+            </Area>
+            <HorzAlignment type="RightAligned" />
+        </Child>
+
+
+        <ImagerySection name="main">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="RastullahLook-Images" image="TransparentMultiLineEditboxTopLeft" />
+                <Image type="TopRightCorner" imageset="RastullahLook-Images" image="TransparentMultiLineEditboxTopRight" />
+                <Image type="BottomLeftCorner" imageset="RastullahLook-Images" image="TransparentMultiLineEditboxBottomLeft" />
+                <Image type="BottomRightCorner" imageset="RastullahLook-Images" image="TransparentMultiLineEditboxBottomRight" />
+                <Image type="LeftEdge" imageset="RastullahLook-Images" image="TransparentMultiLineEditboxLeft" />
+                <Image type="RightEdge" imageset="RastullahLook-Images" image="TransparentMultiLineEditboxRight" />
+                <Image type="TopEdge" imageset="RastullahLook-Images" image="TransparentMultiLineEditboxTop" />
+                <Image type="BottomEdge" imageset="RastullahLook-Images" image="TransparentMultiLineEditboxBottom" />
+                <Image type="Background" imageset="RastullahLook-Images" image="TransparentMultiLineEditboxBackdrop" />
+                <VertFormat type="Tiled" />
+                <HorzFormat type="Tiled" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="Carat">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><ImageDim imageset="RastullahLook-Images" image="EditBoxCarat" dimension="Width" /></Dim>
+                    <Dim type="BottomEdge" ><UnifiedDim scale="1.0" type="BottomEdge" /></Dim>
+                </Area>
+                <Image imageset="RastullahLook-Images" image="EditBoxCarat" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+
+
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="main" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="ReadOnly">
+            <Layer>
+                <Section section="main" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="main">
+                    <Colours topLeft="EEEEEEEE" topRight="EEEEEEEE" bottomLeft="DDDDDDDD" bottomRight="DDDDDDDD" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
 
      <!-- RastullahLook/Editbox -->
     <WidgetLook name="RastullahLook/Editbox">

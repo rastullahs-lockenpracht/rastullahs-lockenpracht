@@ -40,6 +40,7 @@
 	<FalagardMapping WindowType="RastullahLook/MenuItem" TargetType="Falagard/MenuItem" LookNFeel="RastullahLook/MenuItem" />
 	<FalagardMapping WindowType="RastullahLook/MultiColumnList" TargetType="Falagard/MultiColumnList" LookNFeel="RastullahLook/MultiColumnList" />
 	<FalagardMapping WindowType="RastullahLook/MultiLineEditbox" TargetType="Falagard/MultiLineEditbox" LookNFeel="RastullahLook/MultiLineEditbox" />
+	<FalagardMapping WindowType="RastullahLook/TransparentMultiLineEditbox" TargetType="Falagard/MultiLineEditbox" LookNFeel="RastullahLook/TransparentMultiLineEditbox" />
 	<FalagardMapping WindowType="RastullahLook/PopupMenu" TargetType="Falagard/PopupMenu" LookNFeel="RastullahLook/PopupMenu" />
 	<FalagardMapping WindowType="RastullahLook/ProgressBar" TargetType="Falagard/ProgressBar" LookNFeel="RastullahLook/ProgressBar" />
 	<FalagardMapping WindowType="RastullahLook/RadioButton" TargetType="Falagard/RadioButton" LookNFeel="RastullahLook/RadioButton" />

@@ -121,11 +121,6 @@
     <Image Name="HorzScrollRightHover" XPos="164" YPos="259" Width="13" Height="11" />
 
 
-
-
-
-
-
     <Image Name="ListboxLeft" XPos="106" YPos="263" Width="4" Height="2" />
     <Image Name="ListboxRight" XPos="116" YPos="263" Width="4" Height="2"  />
     <Image Name="ListboxTop" XPos="112" YPos="257" Width="2" Height="4" />
@@ -152,6 +147,17 @@
     <Image Name="MultiLineEditboxBottomRight" XPos="278" YPos="273" Width="5" Height="5" />
     <Image Name="MultiLineEditboxBackdrop" XPos="1" YPos="1" Width="254" Height="254" />
     <Image Name="MultiLineEditboxSelectionBrush" XPos="40" YPos="350" Width="16" Height="16" />
+
+    <Image Name="TransparentMultiLineEditboxLeft" XPos="51" YPos="296" Width="2" Height="2" />
+    <Image Name="TransparentMultiLineEditboxRight" XPos="51" YPos="296" Width="2" Height="2" />
+    <Image Name="TransparentMultiLineEditboxTop" XPos="51" YPos="296" Width="2" Height="2" />
+    <Image Name="TransparentMultiLineEditboxBottom" XPos="51" YPos="296" Width="2" Height="2" />
+    <Image Name="TransparentMultiLineEditboxTopLeft" XPos="51" YPos="296" Width="2" Height="2" />
+    <Image Name="TransparentMultiLineEditboxTopRight" XPos="51" YPos="296" Width="2" Height="2" />
+    <Image Name="TransparentMultiLineEditboxBottomLeft" XPos="51" YPos="296" Width="2" Height="2" />
+    <Image Name="TransparentMultiLineEditboxBottomRight" XPos="51" YPos="296" Width="2" Height="2" />
+    <Image Name="TransparentMultiLineEditboxBackdrop" XPos="51" YPos="296" Width="2" Height="2" />
+    <Image Name="TransparentMultiLineEditboxSelectionBrush" XPos="51" YPos="296" Width="2" Height="2" />
     
     <Image Name="MouseTarget" XPos="1" YPos="283" Width="15" Height="20" />
     <Image Name="MouseArrow" XPos="1" YPos="283" Width="15" Height="20" />
