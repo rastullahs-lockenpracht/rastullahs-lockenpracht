@@ -105,7 +105,7 @@ namespace rl {
 			void setCharacterController(CharacterController* controller);
 
 		private:
-			static const int TIME_SHOW_DESCRIPTION = 2000;
+			static const int TIME_SHOW_DESCRIPTION = 4000;
 
             enum { NUM_MOUSE_BUTTON=4, NUM_KEYS=256 };
 			enum InputSwitch { SWITCH_NO_SWITCH, SWITCH_TO_BUFFERED, SWITCH_TO_UNBUFFERED };

@@ -422,6 +422,7 @@ namespace rl {
 		
 		if (!active && isCeguiActive()) // war nicht aktiv, sollte jetzt aktiv sein -> anschalten
 		{
+			setObjectPickingActive(false);
             CEGUI::MouseCursor::getSingleton().show();
             resetPressedKeys( true );
 			if (mScheduledInputSwitch == SWITCH_TO_UNBUFFERED)
@@ -448,6 +449,7 @@ namespace rl {
 		if (active && !isCeguiActive()) // war aktiv, sollte nicht mehr aktiv sein -> ausschalten
 		{
 			CEGUI::MouseCursor::getSingleton().hide();
+            setObjectPickingActive(true);
             resetPressedKeys( false );
 			if (mScheduledInputSwitch == SWITCH_TO_BUFFERED)
 				mScheduledInputSwitch = SWITCH_NO_SWITCH;
@@ -643,16 +645,15 @@ namespace rl {
 	{
 		mPickObjects = active;
 		if (!mPickObjects)
+		{
 			mTargetedObject = NULL;
+			WindowFactory::getSingleton().showObjectDescription(NULL);
+		}
 	}
 
     void InputManager::updatePickedObject(float mouseRelX, float mouseRelY)
     {
         Actor* actor = ActorManager::getSingleton().getActorAt(mouseRelX, mouseRelY, 30, 7);
-        /*DebugWindow::getSingleton().setText(
-            "X="+StringConverter::toString(mouseRelX)+
-            "   Y="+StringConverter::toString(mouseRelY)+
-            "   - Object("+(a==NULL?"null":a->getName())+")");*/
 
 		if (actor != NULL)
 		{
