@@ -64,6 +64,7 @@ DialogWindow::DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger, D
 	mDialogOptions->setClippedByParent(true);
 	mDialogOptions->setShowHorzScrollbar(false);
 	mDialogOptions->setShowVertScrollbar(false);
+	mDialogOptions->setMultiselectEnabled(false);
 }
 
 DialogWindow::~DialogWindow()
@@ -167,7 +168,8 @@ void DialogWindow::getOptions(const CeGuiString& question)
 		return;
 	}
 	
-	
+	//mDialogOptions->clearAllSelections();
+
 	unsigned int i = 0;
 	for(DialogResponse::DialogOptions::const_iterator itr = options.begin(); 
 		itr != options.end(); ++itr)
@@ -200,7 +202,7 @@ void DialogWindow::getOptions(const CeGuiString& question)
 	while(i < mDialogOptions->getItemCount())
 	{
 		mDialogOptions->removeItem(mDialogOptions->getListboxItemFromIndex(i));
-	}
+	}	
 }
 
 unsigned int DialogWindow::count()
