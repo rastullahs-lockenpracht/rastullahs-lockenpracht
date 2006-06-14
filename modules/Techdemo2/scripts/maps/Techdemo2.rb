@@ -51,7 +51,7 @@ $SCRIPT.log("Held vorbereitet.");
 $UI.setActiveCharacter($hero);
 $SCRIPT.log("Held als aktiver Charakter gesetzt.");
 
-$World.setFog( World::FOG_EXP, [0.1,0.1,0.1,0.1], 0.00503, 0.4, 1.0);
+$World.setFog( World::FOG_EXP, [0.1,0.08,0.04,0.1], 0.00803, 0.4, 1.0);
 
 #******** mapchange **********
 $SCRIPT.log("Mapchange: Kugel-Zentrum Actor erstellen");
