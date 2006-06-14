@@ -57,7 +57,13 @@ DialogWindow::DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger, D
 		FrameWindow::EventCloseClicked, // Verstecken, falls Close geklickt wird
 		boost::bind(&DialogWindow::handleClose, this)); //TODO: als Abbrechen werten 
 
-	initialize();
+	mDialogOptions->subscribeEvent(
+		Listbox::EventSelectionChanged, 
+		boost::bind(&DialogWindow::handleSelectOption, this));
+	mDialogOptions->moveToFront();
+	mDialogOptions->setClippedByParent(true);
+	mDialogOptions->setShowHorzScrollbar(false);
+	mDialogOptions->setShowVertScrollbar(false);
 }
 
 DialogWindow::~DialogWindow()
@@ -68,13 +74,6 @@ DialogWindow::~DialogWindow()
 
 void DialogWindow::initialize()
 {
-	mDialogOptions->subscribeEvent(
-		Listbox::EventSelectionChanged, 
-		boost::bind(&DialogWindow::handleSelectOption, this));
-	mDialogOptions->moveToFront();
-	mDialogOptions->setClippedByParent(true);
-	mDialogOptions->setShowHorzScrollbar(false);
-	mDialogOptions->setShowVertScrollbar(false);
 	
 	// Add 2 ListboxItems, one for the nsc responses, 
 	// one for the player selections
@@ -85,20 +84,18 @@ void DialogWindow::initialize()
 	item->setTextColours(COLOR_NON_PLAYER_CHARACTER);
 	mQuestion->addItem(item);
 	item = NULL;
-	mName->setText(mBot->getName());
+}
 
-	mCurrentResponse = mBot->createResponse(DIALOG_START);
+void DialogWindow::start()
+{
+	initialize();
+	mName->setText(mBot->getName());
 	getResponse(DIALOG_START);
-	getOptions(DIALOG_START);
-	mState = CHOOSING_OPTION;
 }
 
 void DialogWindow::getResponse(const CeGuiString& msg)
 {
-	if(mCurrentResponse != NULL)
-	{
-		delete mCurrentResponse;
-	}
+	delete mCurrentResponse;
 	mCurrentResponse = mBot->createResponse(msg);
 	
 	if(mCurrentResponse == NULL)
@@ -252,7 +249,8 @@ bool DialogWindow::handleSelectOption()
 
 bool DialogWindow::handleClose()
 {
-	UiSubsystem::getSingleton().requestCharacterControllerSwitch(CharacterController::CTRL_MOVEMENT);
+	UiSubsystem::getSingleton().requestCharacterControllerSwitch(
+		CharacterController::CTRL_MOVEMENT);
 	destroyWindow();
 	return true;
 }

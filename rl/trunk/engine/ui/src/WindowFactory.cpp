@@ -351,7 +351,7 @@ namespace rl {
 		
 		DialogWindow* dialogWnd = new DialogWindow(bot, mGameLogger, controller);
 		controller->setDialogWindow(dialogWnd);
-		dialogWnd->setVisible(true);
+		dialogWnd->start();
 	}
 
 	void WindowFactory::showLogfiles()

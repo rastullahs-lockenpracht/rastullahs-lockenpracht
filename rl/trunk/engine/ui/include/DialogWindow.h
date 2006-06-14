@@ -48,6 +48,8 @@ namespace rl {
 
 		void textFinished();
 
+		void start();
+
 	private:
 		enum DialogState
 		{
