@@ -49,7 +49,7 @@ namespace rl {
 
 	bool WindowManager::destroyWindow(CeGuiWindow* window)
 	{
-		mWindowUpdater->fadeOut(window, 0.25, true);
+		mWindowUpdater->fadeOut(window, true);
 		return true;
 	}
 
@@ -101,14 +101,14 @@ namespace rl {
 		return Ogre::Singleton<WindowManager>::getSingletonPtr();
 	}
 
-	void WindowManager::_fadeIn(CeGuiWindow* window, Ogre::Real time, float targetAlpha)
+	void WindowManager::_fadeIn(CeGuiWindow* window, float targetAlpha)
 	{
-		mWindowUpdater->fadeIn(window, time, targetAlpha);
+		mWindowUpdater->fadeIn(window, targetAlpha);
 	}
 
-	void WindowManager::_fadeOut(CeGuiWindow* window, Ogre::Real time, bool destroy)
+	void WindowManager::_fadeOut(CeGuiWindow* window, bool destroy)
 	{
-		mWindowUpdater->fadeOut(window, time, destroy);
+		mWindowUpdater->fadeOut(window, destroy);
 	}
 
 	void WindowManager::_fadeInOut(CeGuiWindow* window, Ogre::Real timeFade, 

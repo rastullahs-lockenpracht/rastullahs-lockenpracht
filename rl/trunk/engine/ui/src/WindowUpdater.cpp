@@ -22,13 +22,14 @@
 
 using namespace CEGUI;
 
+const float rl::WindowFadeTask::DEFAULT_RATE = 1.0f / 0.25f; // fade time 250ms
+
 namespace rl {
 
 	WindowUpdateTask::WindowUpdateTask(
-		CeGuiWindow* window, Ogre::Real time, 
+		CeGuiWindow* window, 
 		WindowUpdateTask::WindowUpdateAction action)
 	:	mWindow(window),
-		mTime(time), 
 		mAction(action)
 	{
 		mCurrentPoint = mWindow->getWindow()->getAbsolutePosition();
@@ -39,73 +40,85 @@ namespace rl {
 		CeGuiWindow* window, Ogre::Real time, 
 		WindowUpdateTask::WindowUpdateAction action, 
 		int targetX, int targetY)
-	:	WindowUpdateTask(window, time, action),
+	:	WindowUpdateTask(window, action),
 		mTargetPoint(targetX, targetY)
-	{
-		initialize();
-	}
-
-	void WindowMoveTask::initialize()
 	{
 		CEGUI::Point delta = mTargetPoint - mWindow->getWindow()->getAbsolutePosition();
 		mRatePoint = CEGUI::Point(delta.d_x / mTime, delta.d_y / mTime);
-		mNormalAlpha = mWindow->getWindow()->getAlpha();
 	}
 
 	void WindowMoveTask::run(Ogre::Real elapsedTime)
 	{
 		mTime -= elapsedTime;
-		if (mTime < 0)
-		{
-			mTime = 0;
-		}
 
 		if (mTime > 0)
 		{
 			mCurrentPoint += CEGUI::Point(mRatePoint.d_x * elapsedTime, mRatePoint.d_y * elapsedTime);
 		}
-		else if (mTime == 0)
+		else if (mTime <= 0)
 		{
+			mTime = 0;
 			mCurrentPoint = mTargetPoint;
 			mWindow->setFading(false);
 		}
 	}
 
-	WindowFadeTask::WindowFadeTask(CeGuiWindow* window, Ogre::Real time, 
+	bool WindowMoveTask::isFinished() const
+	{
+		return mTime <= 0;
+	}
+
+	WindowFadeTask::WindowFadeTask(CeGuiWindow* window,
 		WindowUpdateAction action, Ogre::Real targetAlpha)
-	:	WindowUpdateTask(window, time, action),
-		mTargetAlpha(targetAlpha)
+	:	WindowUpdateTask(window, action),
+		mTargetAlpha(targetAlpha),
+		mRate(DEFAULT_RATE)
 	{
-		initialize();
 	}
-
-	void WindowFadeTask::initialize()
-	{
-		mRateAlpha = 
-			(mTargetAlpha - mWindow->getWindow()->getAlpha()) / mTime;
-		mNormalAlpha = std::max(
-			mWindow->getWindow()->getAlpha(),
-			mTargetAlpha);
-	}
-
 
 	void WindowFadeTask::run(Ogre::Real elapsedTime)
 	{
-		mTime -= elapsedTime;
-		if (mTime < 0)
+		if (getAction() == WND_SHOW)
 		{
-			mTime = 0;
+			if (mCurrentAlpha < mTargetAlpha)
+			{
+				mCurrentAlpha += mRate * elapsedTime;
+			}
+
+			if (mCurrentAlpha >= mTargetAlpha)
+			{
+				mCurrentAlpha = mTargetAlpha;
+				mWindow->setFading(false);
+			}
+		}
+		else if (getAction() == WND_HIDE || getAction() == WND_DESTROY)
+		{
+			if (mCurrentAlpha > mTargetAlpha)
+			{
+				mCurrentAlpha -= mRate * elapsedTime;
+			}
+			
+			if (mCurrentAlpha <= mTargetAlpha)
+			{
+				mCurrentAlpha = mTargetAlpha;
+				mWindow->setFading(false);
+			}
 		}
 
-		if (mTime > 0)
-		{
-			mCurrentAlpha += mRateAlpha * elapsedTime;
-		}
-		else if (mTime == 0)
-		{
-			mCurrentAlpha = mTargetAlpha;
-			mWindow->setFading(false);
-		}
+		Logger::getSingleton().log(
+			Logger::CORE, 
+			Logger::LL_TRIVIAL, 
+			mWindow->getName()
+			+ " Curr: "
+			+ Ogre::StringConverter::toString(mCurrentAlpha)
+			+ " Target: "
+			+ Ogre::StringConverter::toString(mTargetAlpha));
+
+	}
+
+	bool WindowFadeTask::isFinished() const
+	{
+		return mCurrentAlpha == mTargetAlpha;
 	}
 
 	const CEGUI::Point& WindowUpdateTask::getCurrentPosition() const
@@ -118,19 +131,14 @@ namespace rl {
 		return mCurrentAlpha;
 	}
 
-	const Ogre::Real& WindowUpdateTask::getNormalAlpha() const
-	{
-		return mNormalAlpha;
-	}
-
-	const Ogre::Real& WindowUpdateTask::getTimeLeft() const
-	{
-		return mTime;
-	}
-
 	WindowUpdateTask::WindowUpdateAction WindowUpdateTask::getAction() const
 	{
 		return mAction;
+	}
+
+	void WindowUpdateTask::setAction(WindowUpdateTask::WindowUpdateAction action)
+	{
+		mAction = action;
 	}
 
 	CeGuiWindow* WindowUpdateTask::getWindow()
@@ -150,26 +158,17 @@ namespace rl {
 	WindowFadeInOutTask::WindowFadeInOutTask(
 		CeGuiWindow* window, Ogre::Real timeFade, Ogre::Real timeHold, 
 		WindowUpdateAction action)
-	:	WindowUpdateTask(window, 2*timeFade + timeHold, action),
+	:	WindowUpdateTask(window, action),
 		mTimeFade(timeFade),
-		mTimeHold(timeHold)
+		mTimeHold(timeHold),
+		mTime(2*timeFade + timeHold)
 	{
-		initialize();
-	}
-
-	void WindowFadeInOutTask::initialize()
-	{
-		mNormalAlpha = mWindow->getWindow()->getAlpha();
-		mRateAlpha = mNormalAlpha / mTimeFade;
+		mRateAlpha = window->getNormalAlpha() / mTimeFade;
 	}
 
 	void WindowFadeInOutTask::run(Ogre::Real elapsedTime)
 	{
 		mTime -= elapsedTime;
-		if (mTime < 0)
-		{
-			mTime = 0;
-		}
 
 		if (mTime > mTimeFade + mTimeHold)
 		{
@@ -177,17 +176,23 @@ namespace rl {
 		}
 		else if (mTime > mTimeHold)
 		{
-			mCurrentAlpha = mNormalAlpha;
+			mCurrentAlpha = mWindow->getNormalAlpha();
 		}
 		else if (mTime > 0)
 		{
 			mCurrentAlpha -= mRateAlpha * elapsedTime;
 		}
-		else if (mTime == 0)
+		else if (mTime <= 0)
 		{
-			mCurrentAlpha = mNormalAlpha;
+			mTime = 0;
+			mCurrentAlpha = 0.0;
 			mWindow->setFading(false);
 		}
+	}
+
+	bool WindowFadeInOutTask::isFinished() const
+	{
+		return mTime <= 0;
 	}
 
 	void WindowUpdater::run(Ogre::Real elapsedTime)
@@ -203,23 +208,24 @@ namespace rl {
 		{
 			WindowUpdateTask* task = *it;
 			task->run(elapsedTime);
-			task->getWindow()->getWindow()->setPosition(CEGUI::Absolute, task->getCurrentPosition());
-			task->getWindow()->getWindow()->setAlpha(task->getCurrentAlpha());
-			if (task->getTimeLeft() <= 0)
+			CeGuiWindow* wnd = task->getWindow();
+			wnd->getWindow()->setPosition(CEGUI::Absolute, task->getCurrentPosition());
+			wnd->getWindow()->setAlpha(task->getCurrentAlpha());
+			if (task->isFinished())
 			{
 				mTasks.erase(it++);
 				switch (task->getAction())
 				{
 				case WindowUpdateTask::WND_DESTROY:
-					WindowManager::getSingleton()._doDestroyWindow(task->getWindow());
+					WindowManager::getSingleton()._doDestroyWindow(wnd);
 					break;
 				case WindowUpdateTask::WND_HIDE:
-					task->getWindow()->windowHid();
-					task->getWindow()->getWindow()->hide();
-					task->getWindow()->getWindow()->setAlpha(task->getNormalAlpha());
+					wnd->windowHid();
+					wnd->getWindow()->hide();
+					wnd->getWindow()->setAlpha(wnd->getNormalAlpha());
 					break;
 				}
-				task->getWindow()->_setUpdateTask(NULL);
+				wnd->_setUpdateTask(NULL);
 				delete task;
 			}
 			else
@@ -236,34 +242,57 @@ namespace rl {
 					Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));
 	}
 
-	void WindowUpdater::fadeIn(CeGuiWindow* window, Ogre::Real time, Ogre::Real targetAlpha)
+	void WindowUpdater::fadeIn(CeGuiWindow* window, Ogre::Real targetAlpha)
 	{
 		if (window == NULL)
 			Throw(NullPointerException, "window  argument is NULL");
 
-		WindowUpdateTask* task = new WindowFadeTask(
-				window, 
-				time, 
-				WindowUpdateTask::WND_SHOW, 
-				targetAlpha);
-		mTasks.insert(task);
+		if (window->_getUpdateTask() == NULL)
+		{
+			WindowUpdateTask* task = new WindowFadeTask(
+					window, 
+					WindowUpdateTask::WND_SHOW, 
+					targetAlpha);
+			mTasks.insert(task);
+			window->_setUpdateTask(task);
+		}
+		else
+		{
+			WindowUpdateTask* task  = window->_getUpdateTask();
+			task->setTargetAlpha(targetAlpha);
+			task->setAction(WindowUpdateTask::WND_SHOW);			
+		}
+
+		window->getWindow()->setVisible(true);
+		window->getWindow()->setAlpha(0.0);
 		window->setFading(true);
-		window->_setUpdateTask(task);
 	}
 
-	void WindowUpdater::fadeOut(CeGuiWindow* window, Ogre::Real time, bool destroy)
+	void WindowUpdater::fadeOut(CeGuiWindow* window, bool destroy)
 	{
 		if (window == NULL)
 			Throw(NullPointerException, "window  argument is NULL");
 
-		WindowUpdateTask* task = new WindowFadeTask(
-				window, 
-				time, 
-				destroy ? WindowUpdateTask::WND_DESTROY : WindowUpdateTask::WND_HIDE, 
-				0.0);
-		mTasks.insert(task);
+		if (window->_getUpdateTask() == NULL)
+		{
+			WindowUpdateTask* task = new WindowFadeTask(
+					window, 
+					destroy 
+						? WindowUpdateTask::WND_DESTROY 
+						: WindowUpdateTask::WND_HIDE, 
+					0.0);
+			mTasks.insert(task);
+			window->_setUpdateTask(task);
+		}
+		else
+		{
+			WindowUpdateTask* task  = window->_getUpdateTask();
+			task->setTargetAlpha(0.0);
+			task->setAction(
+				destroy ? WindowUpdateTask::WND_DESTROY 
+						: WindowUpdateTask::WND_HIDE);
+		}
 		window->setFading(true);
-		window->_setUpdateTask(task);
 	}
 
 	void WindowUpdater::fadeInOut(rl::CeGuiWindow *window, Ogre::Real timeFade, 

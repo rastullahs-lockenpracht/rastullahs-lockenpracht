@@ -51,8 +51,8 @@ namespace rl {
 		bool handleMovedToFront(CeGuiWindow* window);
 		bool handleMovedToBack(CeGuiWindow* window);
 
-		void _fadeIn(CeGuiWindow* window, Ogre::Real time, float targetAlpha = 1.0);
-		void _fadeOut(CeGuiWindow* window, Ogre::Real time, bool destroy);
+		void _fadeIn(CeGuiWindow* window, float targetAlpha = 1.0);
+		void _fadeOut(CeGuiWindow* window, bool destroy);
 		void _fadeInOut(
 			CeGuiWindow* window, 
 			Ogre::Real timeFade, 

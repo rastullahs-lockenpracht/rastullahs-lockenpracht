@@ -113,36 +113,21 @@ namespace rl
 			if (visible)
 			{
 				InputManager::getSingleton().registerCeGuiWindow(this);
-
-				mWindow->setAlpha(0.0);
-				mWindow->show();
-				if (mUpdateTask == NULL)
-				{
-					WindowManager::getSingleton()._fadeIn(this, FADE_TIME, mNormalAlpha);
-				}
-				else
-				{
-					mUpdateTask->setTargetAlpha(mNormalAlpha);
-					mUpdateTask->initialize();
-				}
+				WindowManager::getSingleton()._fadeIn(this, mNormalAlpha);
 				mVisible = true;
 			}
 			else
 			{
 				InputManager::getSingleton().unregisterCeGuiWindow(this);
-
-				if (mUpdateTask == NULL)
-				{
-					WindowManager::getSingleton()._fadeOut(this, FADE_TIME, destroy);
-				}
-				else
-				{
-					mUpdateTask->setTargetAlpha(0.0);
-					mUpdateTask->initialize();
-				}
+				WindowManager::getSingleton()._fadeOut(this, destroy);
 				mVisible = false;
 			}
 		}
+	}
+
+	const Ogre::Real& CeGuiWindow::getNormalAlpha() const
+	{
+		return mNormalAlpha;
 	}
 
 	bool CeGuiWindow::isModal()
@@ -172,22 +157,30 @@ namespace rl
 
 	CEGUI::Window* CeGuiWindow::getRoot()
 	{
-		return CEGUI::WindowManager::getSingleton().getWindow((utf8*)UiSubsystem::CEGUI_ROOT);
+		return CEGUI::WindowManager::getSingleton().getWindow(
+			(utf8*)UiSubsystem::CEGUI_ROOT);
 	}
 
 	Window* CeGuiWindow::getWindow(const char* name, const char* requiredClass)
 	{
-		CEGUI::Window* wnd = CEGUI::WindowManager::getSingleton().getWindow(mNamePrefix + (utf8*)name);
+		CEGUI::Window* wnd = 
+			CEGUI::WindowManager::getSingleton().getWindow(
+				mNamePrefix + (utf8*)name);
 		
 		if (wnd == NULL)
 			Throw(
 				rl::NullPointerException, 
-				"Window "+Ogre::String(name)+" is NULL");
+				"Window " 
+				+ Ogre::String(name) 
+				+ " is NULL");
 
 		if (requiredClass != NULL && !wnd->testClassName(requiredClass))
 			Throw(
 				rl::NullPointerException, 
-				"Window "+Ogre::String(name)+" has not the required class " + Ogre::String(requiredClass));
+				"Window "
+				+ Ogre::String(name) 
+				+ " has not the required class " 
+				+ Ogre::String(requiredClass));
 
 		return wnd;
 	}
@@ -306,6 +299,11 @@ namespace rl
 	void CeGuiWindow::_setUpdateTask(WindowUpdateTask* task)
 	{
 		mUpdateTask = task;
+	}
+
+	WindowUpdateTask* CeGuiWindow::_getUpdateTask()
+	{
+		return mUpdateTask;
 	}
 
 	void CeGuiWindow::windowHid()

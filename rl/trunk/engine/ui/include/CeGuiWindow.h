@@ -71,10 +71,12 @@ namespace rl {
 		void setFading(bool fading);
 
 		const CeGuiString& getName() const;
+		const Ogre::Real& getNormalAlpha() const;
 
-		virtual void windowHid();
+		virtual void windowHid();		
 
 		void _setUpdateTask(WindowUpdateTask* updateTask);
+		WindowUpdateTask* _getUpdateTask();
 
 	protected:
 		CeGuiWindow(

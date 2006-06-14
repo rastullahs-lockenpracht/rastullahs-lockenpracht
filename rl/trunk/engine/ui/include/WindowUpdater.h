@@ -36,22 +36,22 @@ namespace rl {
 		};
 		
 		virtual void run(Ogre::Real elapsedTime) = 0;
-		virtual void initialize() = 0;
 
 		const CEGUI::Point& getCurrentPosition() const;
 		const Ogre::Real& getCurrentAlpha() const;
-		const Ogre::Real& getNormalAlpha() const;
 		const Ogre::Real& getTimeLeft() const;
-		virtual void setTargetAlpha(const Ogre::Real& alpha);
 		CeGuiWindow* getWindow();
 		WindowUpdateAction getAction() const;
 
+		virtual bool isFinished() const = 0;
+		
+		void setAction(WindowUpdateAction action);
+		virtual void setTargetAlpha(const Ogre::Real& alpha);
+		
 	protected:
-		WindowUpdateTask(CeGuiWindow* window, Ogre::Real time, WindowUpdateAction action);
+		WindowUpdateTask(CeGuiWindow* window, WindowUpdateAction action);
 
 		CeGuiWindow* mWindow;
-		Ogre::Real mTime; 
-		Ogre::Real mNormalAlpha;
 		CEGUI::Point mCurrentPoint;
 		Ogre::Real mCurrentAlpha;
 
@@ -66,9 +66,10 @@ namespace rl {
 			int targetX, int targetY);
 
 		void run(Ogre::Real elapsedTime);
-		void initialize();
+		bool isFinished() const;
 
 	private:
+		Ogre::Real mTime; 
 		CEGUI::Point mTargetPoint;
 		CEGUI::Point mRatePoint;
 	};
@@ -76,16 +77,18 @@ namespace rl {
 	class WindowFadeTask : public WindowUpdateTask
 	{
 	public:
-		WindowFadeTask(CeGuiWindow* window, Ogre::Real time, WindowUpdateAction action, 
+		WindowFadeTask(CeGuiWindow* window, WindowUpdateAction action, 
 			Ogre::Real targetAlpha);
 
-		void initialize();
 		void run(Ogre::Real elapsedTime);
 		void setTargetAlpha(const Ogre::Real& alpha);
+		bool isFinished() const;
 
 	private:
+		static const float DEFAULT_RATE;
+
 		Ogre::Real mTargetAlpha;
-		Ogre::Real mRateAlpha;
+		Ogre::Real mRate;
 	};
 
 	class WindowFadeInOutTask : public WindowUpdateTask
@@ -94,9 +97,11 @@ namespace rl {
 		WindowFadeInOutTask(CeGuiWindow* window, Ogre::Real timeFade, Ogre::Real timeHold, 
 			WindowUpdateAction action);
 
-		void initialize();
 		void run(Ogre::Real elapsedTime);
+		bool isFinished() const;
+
 	private:
+		Ogre::Real mTime; 
 		Ogre::Real mTimeFade;
 		Ogre::Real mTimeHold;
 		Ogre::Real mRateAlpha;
@@ -109,12 +114,10 @@ namespace rl {
 
 		void fadeIn(
 			CeGuiWindow* window, 
-			Ogre::Real time, 
 			float targetAlpha = 1.0);
 
 		void fadeOut(
 			CeGuiWindow* window, 
-			Ogre::Real time, 
 			bool destroy);
 
 		void fadeInOut(
