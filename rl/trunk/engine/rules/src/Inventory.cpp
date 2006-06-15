@@ -58,21 +58,21 @@ namespace rl
 		Item* meineRuestung = createItem("Kroetenhaut", "Gefertigt aus Rindsleder bietet diese zusaetzlich durch Nieten verstaerkte Ruestung guten Schutz fuer den Abenteurer","Kroetenhaut",Item::ITEMTYPE_ARMOR,pair<int,int>(3,4));
 		meineRuestung->setContainer(true, std::make_pair<int,int>(2,4));
 
-		Item* meinTrank = createItem("meinTrank", "Erhöht die Vitalität","Trank", Item::ITEMTYPE_OTHER, pair<int,int>(1,1));
+		Item* meinTrank = createItem("Heiltrank", "Erhöht die Vitalität","Trank", Item::ITEMTYPE_OTHER, pair<int,int>(1,1));
 
-		Item* meineHandschuhe = createItem("meineHandschuhe", "Wärmen im Winter","Handschuhe",Item::ITEMTYPE_GLOVES,pair<int,int>(2,2));
+		Item* meineHandschuhe = createItem("einfache Handschuhe", "Wärmen im Winter","Handschuhe",Item::ITEMTYPE_GLOVES,pair<int,int>(2,2));
 
-		Item* meinArmreif = createItem("meinArmreif", "Verzaubert vom Shamanen Murgul","Armreif",Item::ITEMTYPE_BRACELET, pair<int,int>(1,1));
+		Item* meinArmreif = createItem("Schmuckreif", "Verzaubert vom Shamanen Murgul","Armreif",Item::ITEMTYPE_BRACELET, pair<int,int>(1,1));
 
-		Item* meineStiefel = createItem("meineStiefel", "Einfache Lederstiefel","Stiefel",Item::ITEMTYPE_BOOTS,pair<int,int>(2,2));
+		Item* meineStiefel = createItem("Lederstiefel", "Einfache Lederstiefel","Stiefel",Item::ITEMTYPE_BOOTS,pair<int,int>(2,2));
 		
-		Item* meinUmhang = createItem("meinUmhang", "Fellumhang von den Nivesen geklaut","Fellumhang",Item::ITEMTYPE_CAPE,pair<int,int>(2,4));
+		Item* meinUmhang = createItem("Fellumhang", "Fellumhang von den Nivesen geklaut","Fellumhang",Item::ITEMTYPE_CAPE,pair<int,int>(2,4));
 		
-		Item* meinRing = createItem("meinRing","Schön gearbeiteter Ring","Rubinring",Item::ITEMTYPE_RING,pair<int,int>(1,1));
+		Item* meinRing = createItem("Goldring","Schön gearbeiteter Ring","Rubinring",Item::ITEMTYPE_RING,pair<int,int>(1,1));
 
-		Item* meinRing2 = createItem("meinRing2","Schön gearbeiteter Ring","Rubinring",Item::ITEMTYPE_RING,pair<int,int>(1,1));
+		Item* meinRing2 = createItem("Feiner Goldring","Schön gearbeiteter Ring","Rubinring",Item::ITEMTYPE_RING,pair<int,int>(1,1));
 
-		Weapon* kurzschwert = new Weapon("kurzschwert", "Dies ist ein normales Kurzschwert");
+		Weapon* kurzschwert = new Weapon("Kurzschwert", "Dies ist ein normales Kurzschwert");
 		kurzschwert->setImageName("Kurzschwert");
 		kurzschwert->setItemType(Item::ITEMTYPE_WEAPON);
 		kurzschwert->setSize(1,3);

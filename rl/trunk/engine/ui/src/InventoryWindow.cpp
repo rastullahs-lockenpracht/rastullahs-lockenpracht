@@ -883,6 +883,7 @@ namespace rl {
 			itemhandler->setWindowSize(UVector2(cegui_absdim(item->getSize().first*30), cegui_absdim(item->getSize().second*30))); 
 			itemhandler->setUserString("ItemType",Item::getItemTypeString(item->getItemType()));
 			itemhandler->setUserData(item);
+			itemhandler->setTooltipText(item->getName());
 			
 			parent->addChildWindow(itemhandler);
 
