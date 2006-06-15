@@ -147,11 +147,6 @@ namespace rl
 		*  (Fäuste, Klauen, Zähne...).
 		**/
 		typedef map<CeGuiString, Container*> ContainerMap;
-		/** @brief Eine Map mit Zeigern auf alle Waffen, die die Kreatur zur
-		*   Zeit einsetzen kann.
-		**/
-		typedef map<int, Weapon*> WeaponMap;
-
 
 
 		///@warning Nur zu Testzwecken da. Wird spaeter entfernt.
@@ -554,7 +549,6 @@ namespace rl
 		SonderfertigkeitMap mSonderfertigkeiten;
 		WertMap mWerte;
 		ContainerMap mContainer;
-		WeaponMap mWeapons;
 
 		Inventory* mInventory;
     };

@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="RlRules"
 	ProjectGUID="{1D1D45B2-A9C3-4D10-93EC-22AE4AA5C070}"
+	RootNamespace="RlRules"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -40,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\core\include;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui_mk2\include;..\..\dependencies\xerces\include;..\..\dependencies\boost\include;..\..\dependencies\ogrenew\Dependencies\include"
+				AdditionalIncludeDirectories=".\include;..\core\include;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui_mk2\include;..\..\dependencies\xerces\include;..\..\dependencies\boost\include;..\..\dependencies\ogrenew\Dependencies\include;..\..\dependencies\OgreNewt\inc;..\..\dependencies\NewtonSDK\sdk"
 				PreprocessorDefinitions="WITH_FMOD3;WIN32;_DEBUG;_WINDOWS;RLRULES_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -66,10 +67,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msvcrt-ruby18.lib xerces-c_2D.lib OgreMain_d.lib CEGUIBase_d.lib RlCore.lib"
+				AdditionalDependencies="msvcrt-ruby18.lib xerces-c_2D.lib OgreMain_d.lib CEGUIBase_d.lib RlCore.lib OgreNewt_d.lib Newton.lib"
 				OutputFile="$(OutDir)/RlRules.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\NewtonSDK\sdk\dll;&quot;..\..\dependencies\OgreNewt\lib\$(ConfigurationName)&quot;"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				ProgramDatabaseFile="$(OutDir)/RlRules.pdb"
@@ -130,7 +131,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".\include;..\core\include;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui_mk2\include;..\..\dependencies\xerces\include;..\..\dependencies\boost\include;..\..\dependencies\ogrenew\Dependencies\include"
+				AdditionalIncludeDirectories=".\include;..\core\include;..\common\include;..\..\dependencies\ogrenew\OgreMain\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\cegui_mk2\include;..\..\dependencies\xerces\include;..\..\dependencies\boost\include;..\..\dependencies\ogrenew\Dependencies\include;..\..\dependencies\OgreNewt\inc;..\..\dependencies\NewtonSDK\sdk"
 				PreprocessorDefinitions="WITH_FMOD3;WIN32;NDEBUG;_WINDOWS;RLRULES_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="true"
@@ -152,10 +153,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msvcrt-ruby18.lib OgreMain.lib xerces-c_2.lib CEGUIBase.lib RlCore.lib"
+				AdditionalDependencies="msvcrt-ruby18.lib OgreMain.lib xerces-c_2.lib CEGUIBase.lib RlCore.lib OgreNewt.lib Newton.lib"
 				OutputFile="$(OutDir)/RlRules.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\ruby\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;&quot;..\..\dependencies\OgreNewt\lib\$(ConfigurationName)&quot;;..\..\dependencies\NewtonSDK\sdk\dll"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"

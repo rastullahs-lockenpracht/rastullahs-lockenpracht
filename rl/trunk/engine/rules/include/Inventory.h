@@ -26,6 +26,7 @@
 
 namespace rl {
 class _RlRulesExport Inventory;
+class _RlRulesExport Creature;
 
 /**
  * @brief Verwaltet das Inventar des Charakters
@@ -33,8 +34,24 @@ class _RlRulesExport Inventory;
 class _RlRulesExport Inventory
 {
 public:
-	Inventory();
+///////////////////////////////////////////////////////////////////////////////
+// Typedefs
+
+	/** @brief Eine Map mit Zeigern auf alle Waffen, die die Kreatur zur
+	*   Zeit einsetzen kann.
+	**/
+	typedef map<int, Weapon*> WeaponMap;
+
+	/** 
+	* @brief Eine Liste mit Zeigern auf Items
+	**/
+	typedef std::list<Item*> ItemList;
+
+	Inventory(Creature* owner);
 	virtual ~Inventory();
+
+///////////////////////////////////////////////////////////////////////////////
+// Werte
 
 	/**
 	* Liefert alle Items im Inventar inm einer Liste
@@ -42,7 +59,7 @@ public:
 	* NUR die erste Hierarchieebene der Items wird zurückgegeben
 	* Was in den Items drinnen ist, ist vernachlaessigt
 	*/
-	std::list<Item*> getAllItems();
+	ItemList getAllItems();
 
 	/**
 	 * @return Die errechnete Behinderung
@@ -56,7 +73,7 @@ public:
 	 **/
 	bool addItem(Item* item);
 
-	void addItemToContainer(Item* item, Item* container);
+	bool addItemToContainer(Item* item, Item* container);
 
 	/**
 	* Durchsucht alle Container und entfernt das Item daraus 
@@ -177,6 +194,10 @@ private:
 	*/
 	Item* createItem(const CeGuiString name, const CeGuiString description, const CeGuiString imageName, Item::ItemType type, pair<int,int> size);
 
+	WeaponMap mWeapons;
+
+	Creature* mOwner;
+
 	Item* mRingLeft;
 	Item* mRingRight;
 	Item* mHandLeft;
@@ -194,6 +215,7 @@ private:
 	Item* mTrousers;
 	Item* mShinbone;
 	Item* mBoots;
+
 };
 
 }

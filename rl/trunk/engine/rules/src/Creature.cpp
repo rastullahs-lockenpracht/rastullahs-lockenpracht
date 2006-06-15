@@ -30,7 +30,8 @@ namespace rl
     Creature::Creature(const CeGuiString name, const CeGuiString description)
         : GameObject(name, description), 
 		mCurrentLe(NULL),
-		mActiveWeapon(NULL)
+		mActiveWeapon(NULL),
+		mInventory(NULL)
     {
 		setWert(WERT_MOD_AE, 0);
 		setWert(WERT_MOD_LE, 0);
@@ -52,7 +53,7 @@ namespace rl
 		mEigenschaften[E_KONSTITUTION] = new EigenschaftenStateSet();
 		mEigenschaften[E_KOERPERKRAFT] = new EigenschaftenStateSet();
 
-		mInventory = new Inventory();
+		mInventory = new Inventory(this);
     }
 
 	Creature::~Creature()
@@ -619,58 +620,21 @@ namespace rl
 		if (weapon == NULL)
 			Throw(IllegalArgumentException, "Nullpointer uebergeben");
 		mInventory->addWeapon(weapon);
-
-		/*WeaponMap::const_iterator it = mWeapons.find(weapon->getId());
-		if (it != mWeapons.end())
-		{
-			Throw(IllegalArgumentException, 
-				"weaponId bereits in mWeapons enthalten.");
-		}
-		mWeapons.insert(make_pair(weapon->getId(), weapon));
-		*/
 	}
 
 	Weapon* Creature::getWeapon(int weaponId) const
 	{
 		return mInventory->getWeapon(weaponId);
-
-		/*WeaponMap::const_iterator it = mWeapons.find(weaponId);
-		if (it == mWeapons.end())
-		{
-			Throw(IllegalArgumentException, "weaponId nicht in mWeapons gefunden.");
-		}
-		return (*it).second;	
-		*/
 	}
 
 	Weapon* Creature::removeWeapon(int weaponId)
 	{
 		return mInventory->removeWeapon(weaponId);
-		/*WeaponMap::iterator it = mWeapons.find(weaponId);
-		if (it == mWeapons.end())
-		{
-			Throw(IllegalArgumentException, "weaponId nicht in mWeapons gefunden.");
-		}
-		Weapon* rval = (*it).second;
-		mWeapons.erase(it);
-		return rval;
-		*/
 	}
 
 	void Creature::switchToWeapon(int weaponId)
 	{
-		using namespace Ogre;
-
 		mInventory->switchToWeapon(weaponId);
-		/*
-		WeaponMap::iterator it = mWeapons.find(weaponId);
-		if (it == mWeapons.end())
-		{
-			Throw(IllegalArgumentException, "weaponId nicht in mWeapons gefunden.");
-		}
-		
-		Weapon* weapon = (*it).second;
-		*/
 	}
 
 	void Creature::attachWeapon(Weapon* weapon)
@@ -682,6 +646,7 @@ namespace rl
 			"SLOT_HANDLE"); 
 		 mActiveWeapon = weapon;
 	}
+	
 
 	void Creature::detachWeapon(){
 		if (mActiveWeapon != NULL)

@@ -18,13 +18,16 @@
 #include "Item.h"
 #include "Inventory.h"
 #include "Exception.h"
+#include "ActorManager.h"
+#include "Creature.h"
 
 using namespace std;
 
 namespace rl
 {
 
-	Inventory::Inventory() :
+	Inventory::Inventory(Creature* owner) :
+		mOwner(NULL),
 		mRingLeft(NULL),
 		mRingRight(NULL),
 		mHandLeft(NULL),
@@ -41,9 +44,11 @@ namespace rl
 		mHelmet(NULL),
 		mTrousers(NULL),
 		mShinbone(NULL),
-		mBoots(NULL)
+		mBoots(NULL),
+		mWeapons()
 	{
 
+		mOwner = owner;
 		Item* backpack = createItem("Rucksack", "Dieser Rucksack ist praktisch, da er viel Platz auf dem Ruecken eines jeden Helden bietet.", "Rucksack", Item::ITEMTYPE_BACKPACK, pair<int,int>(2,2));
 		backpack->setContainer(true, pair<int,int>(12,7));
 
@@ -67,17 +72,29 @@ namespace rl
 
 		Item* meinRing2 = createItem("meinRing2","Schön gearbeiteter Ring","Rubinring",Item::ITEMTYPE_RING,pair<int,int>(1,1));
 
-		addItemToContainer(meinTrank, backpack);
-		addItemToContainer(meineHandschuhe, backpack);
-		addItemToContainer(meinArmreif, backpack);
-		addItemToContainer(meineStiefel, backpack);
-		addItemToContainer(meinUmhang, backpack);
-		addItemToContainer(meinRing2, backpack);
+		Weapon* kurzschwert = new Weapon("kurzschwert", "Dies ist ein normales Kurzschwert");
+		kurzschwert->setImageName("Kurzschwert");
+		kurzschwert->setItemType(Item::ITEMTYPE_WEAPON);
+		kurzschwert->setSize(1,3);
+		kurzschwert->setTp(1, 0, 2);
+		kurzschwert->setTpKk(11, 4);
+		kurzschwert->setBf(3);
+		kurzschwert->setIni(-1);
+		kurzschwert->setDk(Weapon::DK_N);
+		kurzschwert->setKampftechnik("Schwerter");
+		kurzschwert->setActor(ActorManager::getSingleton().createMeshActor("kurzschwert", "waf_kurzschwert_01.mesh"));
 
+		addItem(kurzschwert);
 
-		mRingLeft = meinRing;
-		mArmor = meineRuestung;
-		
+		addItem(meinTrank);
+		addItem(meineHandschuhe);
+		addItem(meinArmreif);
+		addItem(meineStiefel);
+		addItem(meinUmhang);
+		addItem(meinRing2);
+
+		addItem(meinRing);
+		addItem(meineRuestung);
 	}
 
 	Inventory::~Inventory() 
@@ -96,7 +113,7 @@ namespace rl
 	
 	std::list<Item*> Inventory::getAllItems()
 	{
-		std::list<Item*> items(0);
+		ItemList items(0);
 		if (mBackpack)
 			items.push_back(mBackpack);
 		if (mRingLeft)
@@ -223,10 +240,7 @@ namespace rl
 				}
 				break;
 			case Item::ITEMTYPE_GLOVES:
-
-				Logger::getSingletonPtr()->log("Inventory",Logger::LL_MESSAGE,"Checking Gloves..");
 				if (getGloves() == item){
-					Logger::getSingletonPtr()->log("Inventory",Logger::LL_MESSAGE,"Gloves exist. trying to remove them..");
 					removeGloves();
 				}
 				break;
@@ -292,17 +306,15 @@ namespace rl
 				// Kann nicht in Slots sein
 				break;
 		}
-		
-		
 		// Gehe die Container durch und entferne das Item
 		removeItemFromContainers(item);
 	}
 
 	void Inventory::removeItemFromContainers(Item* item)
 	{
-		std::list<Item*> allItems = getAllItems();
+		ItemList allItems = getAllItems();
 		
-		std::list<Item*>::iterator itemIterator = allItems.begin();
+		ItemList::iterator itemIterator = allItems.begin();
 		
 		while (itemIterator != allItems.end()){
 			Item* currentItem = *itemIterator++;
@@ -312,8 +324,6 @@ namespace rl
 			}
 		}
 	}
-	
-
 
 	void Inventory::removeItemFromContainer(Item* item, Item* container)
 	{
@@ -326,7 +336,7 @@ namespace rl
 		}
 	}
 
-	void Inventory::addItemToContainer(Item* item, Item* container) {
+	bool Inventory::addItemToContainer(Item* item, Item* container) {
 		// Platz suchen
 		try {
 			if (item->getItemType() == Item::ITEMTYPE_BACKPACK) {
@@ -340,10 +350,12 @@ namespace rl
 					container->getContainerLayout()[x][y] = item;
 				}
 			}
+			return true;
 		} catch (IllegalStateException ie){
 			// Kein Platz mehr im Container... 
 			// TODO: Auf den Boden legen
 			Logger::getSingleton().log("Inventory",Logger::LL_ERROR, "addItemToContainer fehgeschlagen.");
+			return false;
 		}
 	}
 
@@ -381,31 +393,87 @@ namespace rl
 		return 0;
 	}
 
-	// TODO: Item hinzufügen, nachdem Platz gesichert ist
+	
 	bool Inventory::addItem(Item* item){
+
+		ItemList allItems = getAllItems();
+		
+		ItemList::iterator itemIterator = allItems.begin();
+		// Durchlaufe alle Container, und schau, ob Platz für das Item ist.
+		// TODO: Fix Itemtypen
+		while (itemIterator != allItems.end()){
+			Item* currentItem = *itemIterator++;
+			if (currentItem->isContainer() && addItemToContainer(item, currentItem))
+				return true;	
+		}
 		return false;
 	}
 
 	// TODO
 	void Inventory::addWeapon(Weapon* weapon)
 	{
+		WeaponMap::const_iterator it = mWeapons.find(weapon->getId());
+		if (it != mWeapons.end())
+		{
+			Throw(IllegalArgumentException, 
+				"weaponId bereits in mWeapons enthalten.");
+		}
+		mWeapons.insert(make_pair(weapon->getId(), weapon));
 		
+		
+		// Ueberpruefe ob in der Waffenhand etwas ist
+		if (mHandRight) {
+			// Lege die Waffe in den Rucksack
+			addItem(weapon);
+		}
+		else 
+		{
+			setHandRight(weapon);
+		}
 	}
 
 	// TODO
 	Weapon* Inventory::getWeapon(int weaponId)
 	{
-		return NULL;
+		WeaponMap::const_iterator it = mWeapons.find(weaponId);
+		if (it == mWeapons.end())
+		{
+			Throw(IllegalArgumentException, "weaponId nicht in mWeapons gefunden.");
+		}
+		return (*it).second;	
 	}
 
 	// TODO
 	Weapon* Inventory::removeWeapon(int weaponId)
 	{
-		return NULL;
+		WeaponMap::iterator it = mWeapons.find(weaponId);
+		if (it == mWeapons.end())
+		{
+			Throw(IllegalArgumentException, "weaponId nicht in mWeapons gefunden.");
+		}
+		Weapon* rval = (*it).second;
+		mWeapons.erase(it);
+		return rval;
 	}
 
 	// TODO
 	void Inventory::switchToWeapon(int weaponId){
+
+		WeaponMap::iterator it = mWeapons.find(weaponId);
+		if (it == mWeapons.end())
+		{
+			Throw(IllegalArgumentException, "weaponId nicht in mWeapons gefunden.");
+		}
+		
+		Weapon* weapon = (*it).second;
+
+		if (mHandRight && mHandRight != weapon){
+			// Alte Waffe wegnehmen
+			Item* oldWeapon = removeHandRight();
+			setHandRight(weapon);
+			addItem(oldWeapon);
+
+		}
 
 	}
 
@@ -515,6 +583,10 @@ namespace rl
 		return temp;
 	}
 	Item* Inventory::removeHandRight(){
+		if (mHandRight && mHandRight->getActor())
+		{
+			mOwner->detachWeapon();
+		}
 		Item* temp = mHandRight;
 		mHandRight = NULL;
 		return temp;
@@ -600,6 +672,9 @@ namespace rl
 	}
 	void Inventory::setHandRight(Item* item)
 	{
+		if (item && item->getActor() && (dynamic_cast<Weapon*>(item) != 0)){
+			mOwner->attachWeapon(dynamic_cast<Weapon*>(item));
+		}
 		mHandRight = item;
 	}
 	void Inventory::setGloves(Item* item)

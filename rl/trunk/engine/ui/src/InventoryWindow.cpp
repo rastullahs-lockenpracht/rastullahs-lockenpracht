@@ -236,7 +236,16 @@ namespace rl {
 
 				ddea.window->addChildWindow(ddea.dragDropItem);
 
-				invWin->mPosDraggedTo=CEGUI::Point(0.0,0.0);
+				if ((!ddea.window->getUserString("ItemType").compare(Item::getItemTypeString(Item::ITEMTYPE_WEAPON)) || 
+					(!ddea.window->getUserString("ItemType").compare(Item::getItemTypeString(Item::ITEMTYPE_SHIELD)))) && 
+					(ddea.dragDropItem->getUserData()))
+				{
+					Item* item = static_cast<Item*>(ddea.dragDropItem->getUserData());
+					invWin->mPosDraggedTo= CEGUI::Point(30-(item->getSize().first * 15),75-(item->getSize().second *15));
+				} 
+				else {
+					invWin->mPosDraggedTo=CEGUI::Point(0.0,0.0);
+				}
 				invWin->mDroppedItem = ddea.dragDropItem;
 				invWin->mContainerDraggedTo = ddea.window;
 
@@ -563,10 +572,10 @@ namespace rl {
 		mRingRight->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_RING));
 		
 		mHandLeft = getStaticImage("InventoryWindow/HandLeft");
-		mHandLeft->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_WEAPON));
+		mHandLeft->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_SHIELD));
 
 		mHandRight = getStaticImage("InventoryWindow/HandRight");
-		mHandRight->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_SHIELD));
+		mHandRight->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_WEAPON));
 
 		mGloves = getStaticImage("InventoryWindow/Gloves");
 		mGloves->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_GLOVES));
@@ -859,6 +868,13 @@ namespace rl {
 	{
 		// Prüfe, ob ein Item da ist
 		if (item != NULL) {
+
+			// TODO: Ausnahmen sind Waffe und Schild (wenn parent mHand* ist, soll Hintergrund gefüllt werden)
+			// Waffe:
+			if (parent == mHandRight || parent == mHandLeft) 
+			{
+				position = UVector2(cegui_absdim(30-(item->getSize().first * 15)), cegui_absdim(75-(item->getSize().second *15)));
+			}
 
 			// Erzeuge einen Handler für Drag and Drop
 			DragContainer* itemhandler = static_cast<DragContainer*>(
