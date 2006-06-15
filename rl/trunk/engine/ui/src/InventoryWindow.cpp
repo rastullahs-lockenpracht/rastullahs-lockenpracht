@@ -299,14 +299,14 @@ namespace rl {
 
 	void InventoryWindow::setInventory(Inventory* inventory)
 	{
-		//if (inventory != NULL && mInventory != inventory){
+		if (inventory != NULL && mInventory != inventory){
 			// Entleere Slots zur Sicherheit (falls anderes Inventar zuvor gezeigt wurde)
 			emptySlots();
 			// Speichere das neue Inventar
 			mInventory = inventory;
 			// Fuelle das Fenster entsprechend dem neuen Inventar, das angezeigt werden soll
 			fillSlots();
-		//}
+		}
 	}
 
 	void update()
@@ -358,6 +358,7 @@ namespace rl {
 			if (item->isContainer())
 			{
 				removeContainerAndContent(item);
+				refreshTabs();
 			}
 
 			return;
@@ -382,6 +383,7 @@ namespace rl {
 		{
 			// ContainerTab hinzufügen, wenn nicht schon vorhanden
 			createAndFillContainer(item);
+			refreshTabs();
 
 		}
 		
@@ -508,6 +510,24 @@ namespace rl {
 		}
 	}
 
+
+	void InventoryWindow::refreshTabs()
+	{
+		std::list<CEGUI::Window*>::iterator it = mContainers.begin();
+
+		// entferne alle Unterfenster
+		while(mContainerTabs->getTabCount() > 0)
+		{
+			mContainerTabs->removeTab(mContainerTabs->getTabContents(0)->getName());
+		}
+
+		// füge sie in richtiger Reihenfolge wieder hinzu
+		while (it != mContainers.end())
+		{
+			mContainerTabs->addTab(*it++);
+		}
+	}
+
 	bool InventoryWindow::isFreeInContainer(Item* item, pair<int,int> kaestchenPos, Item* container)
 	{
 		return mInventory->isFreeInContainer(item, kaestchenPos, container);
@@ -530,7 +550,7 @@ namespace rl {
 		mGroundItem->setContainer(true, std::make_pair<int,int>(mGroundDimension.first,mGroundDimension.second));
 
 
-		mContainerTabs = getWindow("InventoryWindow/Tabs");
+		mContainerTabs = getTabControl("InventoryWindow/Tabs");
 		
 		// Hole die einzelnen Slots aus dem XML-File
 		mHelmet = getStaticImage("InventoryWindow/Helmet");
@@ -675,10 +695,7 @@ namespace rl {
 			containerWindow->setText(container->getName());
 
 
-			mContainerTabs->addChildWindow(containerWindow);
-
-			// Tab in die Liste einfuegen
-			mContainers.push_back(containerWindow);
+			mContainerTabs->addTab(containerWindow);
 
 			CEGUI::StaticImage* containerSpace = static_cast<CEGUI::StaticImage*>(CEGUI::WindowManager::getSingletonPtr()->createWindow("RastullahLook/Container", "InventoryWindow/Tabs/"+container->getName()+"/Content"));
 			
@@ -688,10 +705,34 @@ namespace rl {
 			containerSpace->setUserData(container);
 			containerWindow->addChildWindow(containerSpace);
 
-			// Inhalt in die Liste Einfügen
-			mContainerContents.push_back(containerSpace);
 
-			// Der Rucksack soll alle Itemtypen akzeptieren (Bis auf den Rucksack selbst)
+			// Inhalt in die Liste Einfügen
+						// Boden an das Ende der Liste einfügen
+			if (container == mGroundItem)
+			{
+				mContainers.push_back(containerWindow);
+				mContainerContents.push_back(containerSpace);
+			}
+			// Rucksack vorne in die Liste einfuegen
+			else if (container->getItemType() == Item::ITEMTYPE_BACKPACK)
+			{
+				mContainers.push_front(containerWindow);
+				mContainerContents.push_front(containerSpace);
+			}
+			// den Rest dazwischen
+			else 
+			{
+				if (mContainers.size() > 1)
+				{
+					mContainers.insert(++(mContainers.begin()),containerWindow);
+					mContainerContents.insert(++(mContainerContents.begin()),containerSpace);
+				} else {
+					mContainers.push_front(containerWindow);
+					mContainerContents.push_front(containerSpace);
+				}
+			}
+			
+
 			addDropListener(containerSpace);
 
 			// Items im Container erstellen
@@ -740,15 +781,14 @@ namespace rl {
 		if (found)
 		{
 			// Entferne die Elemente aus den Listen
-			mContainerContents.remove(windowToEmpty);
-			mContainers.remove(parentTabWindow);
+			mContainerContents.erase(it);
+			mContainers.erase(itParent);
 
 
 			emptySlot(windowToEmpty);
-			parentTabWindow->removeChildWindow(windowToEmpty);
-			WindowManager::getSingletonPtr()->destroyWindow(windowToEmpty);
+			emptySlot(parentTabWindow);
 
-			mContainerTabs->removeChildWindow(parentTabWindow);
+			mContainerTabs->removeTab(parentTabWindow->getName());
 
 			WindowManager::getSingletonPtr()->destroyWindow(parentTabWindow);
 		}
@@ -789,7 +829,7 @@ namespace rl {
 		while (it != mContainers.end())
 		{
 			emptySlot(*it);
-			mContainerTabs->removeChildWindow(*it);
+			mContainerTabs->removeTab((*it)->getName());
 			WindowManager::getSingletonPtr()->destroyWindow(*it);
 			it++;
 		} // alle ContainerTabs wurden entleert

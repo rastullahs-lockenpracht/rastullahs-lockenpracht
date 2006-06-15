@@ -195,6 +195,11 @@ namespace rl
 		return static_cast<TabPane*>(getWindow(name, "TabPane"));
 	}
 
+	TabControl* CeGuiWindow::getTabControl(const char* name)
+	{
+		return static_cast<TabControl*>(getWindow(name, "TabControl"));
+	}
+
 	Listbox* CeGuiWindow::getListbox(const char* name)
 	{
 		return static_cast<Listbox*>(getWindow(name, "Listbox"));

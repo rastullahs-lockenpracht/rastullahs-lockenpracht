@@ -50,6 +50,7 @@ namespace rl {
 		CEGUI::MultiColumnList* getMultiColumnList(const char* name);
 		CEGUI::MultiLineEditbox* getMultiLineEditbox(const char* name);
 		CEGUI::TabPane* getTabPane(const char* name);
+		CEGUI::TabControl* getTabControl(const char* name);
 		CEGUI::ProgressBar* getProgressBar(const char* name);
 		CEGUI::MenuBase* getMenu(const char* name);
 		CEGUI::MenuItem* getMenuItem(const char* name);

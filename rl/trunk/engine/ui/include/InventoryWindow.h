@@ -91,7 +91,7 @@ namespace rl {
 
 
 		// Das Fenster, in das der Rucksackcontainer soll
-		CEGUI::Window* mContainerTabs;
+		CEGUI::TabControl* mContainerTabs;
 
 		// Die Containerslots (besonders, da alle Arten von Items akzeptiert)
 		std::list<CEGUI::Window*> mContainerContents;
@@ -146,6 +146,8 @@ namespace rl {
 		* Entleert die Slots im InventarFenster wieder
 		*/
 		void emptySlots();
+
+		void refreshTabs();
 
 		/**
 		*
