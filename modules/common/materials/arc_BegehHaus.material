@@ -4,6 +4,9 @@ material arc_BegehHaus/Main
 	receive_shadows off
 	technique
 	{
+	ambient 0.435294 0.435294 0.435294 1
+			diffuse 0.486275 0.486275 0.486275 1
+			specular 0 0 0 1 90
 		pass
 		{
 
@@ -19,6 +22,9 @@ material arc_BegehHaus/Glas
 	receive_shadows off
 	technique
 	{
+	ambient 0.435294 0.435294 0.435294 1
+			diffuse 0.486275 0.486275 0.486275 1
+			specular 0 0 0 1 90
 		pass
 		{
 			scene_blend alpha_blend 
