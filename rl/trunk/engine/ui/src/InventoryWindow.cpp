@@ -64,90 +64,11 @@ namespace rl {
 		}
 	}
 
-	/*!
-	* Behandlung für Mouse-over mit Item in der Maus
-	* Überprüft, ob das Item passt, und färbt dementsprechend den Behälter ein
+	/**
+	* Berechnet aus relativen und Absoluten Mousekoordinaten die neue Position im Container
 	*/
-	bool handleDragEnter(const CEGUI::EventArgs& args)
+	std::pair<int,int> calculateNewPosition(const DragDropEventArgs& ddea)
 	{
-		using namespace CEGUI;
-		// Event zu einem DragDropEvent machen
-		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
-
-		if (checkTypeAccepted(ddea.window, ddea.dragDropItem))
-		{
-			ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorAccept);
-			return true;
-		} 
-		else 
-		{
-			ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorReject);
-			return false;
-		}
-	} 
-
-	bool handleDragLeave(const CEGUI::EventArgs& args)
-	{
-		using namespace CEGUI;
-
-		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
-		ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorNormal);
-		return true;
-	} 
-
-	bool handleDragDropped(const CEGUI::EventArgs& args)
-	{
-		using namespace CEGUI;
-
-		InventoryWindow* invWin = WindowFactory::getSingletonPtr()->getInventoryWindow();
-		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
-		ddea.window->setProperty("ContainerColour", invWin->mColorNormal);
-
-
-		Point relMouse = ddea.dragDropItem->windowToScreen( Point(0,0) );
-
-		// Nur wenn das Item in den Slot passt, soll es auch dort gedroppt werden können
-		if (checkTypeAccepted(ddea.window, ddea.dragDropItem)){
-			
-
-			ddea.window->addChildWindow(ddea.dragDropItem);
-
-			invWin->mPosDraggedTo=CEGUI::Point(0.0,0.0);
-			invWin->mDroppedItem = ddea.dragDropItem;
-			invWin->mContainerDraggedTo = ddea.window;
-
-			invWin->updateInventory();
-			return true;
-		} else {
-			return false;
-		}
-	} 
-
-	bool handleDragEnterBackpack(const CEGUI::EventArgs& args)
-	{
-		using namespace CEGUI;
-
-		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
-		ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorAccept);
-		
-		return true;
-
-	} 
-
-	bool handleDragDroppedBackpack(const CEGUI::EventArgs& args)
-	{
-		using namespace CEGUI;
-		InventoryWindow* invWin = WindowFactory::getSingletonPtr()->getInventoryWindow();
-
-		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
-		ddea.window->setProperty("ContainerColour", invWin->mColorNormal);
-		
-		// Den Rucksack darf man nicht in den Rucksack droppen...
-		if (!(ddea.dragDropItem->getUserString("ItemType").compare(Item::getItemTypeString(Item::ITEMTYPE_BACKPACK))))
-		{
-			return false;
-		}
-		
 		// Errechnung der Koordinaten, in welchem Kästchen denn nun gedroppt wird
 		Point absMouse = MouseCursor::getSingleton().getPosition();
 		Point scrnPt = ddea.window->windowToScreen( Point(0,0) ); 
@@ -191,31 +112,142 @@ namespace rl {
 		int xKaestchen = (int) (pointInBackpack.d_x / 30);
 		int yKaestchen = (int) (pointInBackpack.d_y / 30);
 
-		if (invWin->isFreeInBackpack(
-			static_cast<Item*>(ddea.dragDropItem->getUserData()),
-			pair<int,int>(xKaestchen,yKaestchen)))
+		std::pair<int,int> result = std::make_pair<int,int>(xKaestchen, yKaestchen);
+		return result;
+	}
+
+	/*!
+	* Behandlung für Mouse-over mit Item in der Maus
+	* Überprüft, ob das Item passt, und färbt dementsprechend den Behälter ein
+	*/
+	bool handleDragEnter(const CEGUI::EventArgs& args)
+	{
+		using namespace CEGUI;
+		// Event zu einem DragDropEvent machen
+		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
+		InventoryWindow* invWin = WindowFactory::getSingletonPtr()->getInventoryWindow();
+
+		if (ddea.window->getUserData()){
+			// Es handelt sich um einen Container
+			Item* container = static_cast<Item*>(ddea.window->getUserData());
+			if (container == invWin->getGroundItem())
+			{
+				// Boden (nimmt alles)
+				ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorAccept);
+				return true;
+			} 
+			else if (container && container->getItemType() == Item::ITEMTYPE_BACKPACK)
+			{
+				// Ein Container kann keinen Rucksack aufnehmen
+				if (!(ddea.dragDropItem->getUserString("ItemType").compare(Item::getItemTypeString(Item::ITEMTYPE_BACKPACK))))
+				{
+					ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorReject);
+					return false;
+				}
+				else 
+				{
+					ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorAccept);
+					return true;
+				}
+			}
+			else {
+				// Beliebiger anderer Container am Körper
+				// TODO: Beschränkung auf Itemtypen... 
+
+				ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorAccept);
+				return true;
+			}
+		}
+		else if (checkTypeAccepted(ddea.window, ddea.dragDropItem))
 		{
-			ddea.window->addChildWindow(ddea.dragDropItem);
-
-			invWin->mPosDraggedTo=pointInBackpack;
-			invWin->mDroppedItem = ddea.dragDropItem;
-			invWin->mContainerDraggedTo = ddea.window;
-
-			invWin->updateInventory();
-			Logger::getSingletonPtr()->log(
-				"InventoryWindow",
-				Logger::LL_MESSAGE,
-				Ogre::String("Point in Backpack: Point x:")
-				+ StringConverter::toString(pointInBackpack.d_x)
-				+ ", Point y:"
-				+ StringConverter::toString(pointInBackpack.d_y));
+			ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorAccept);
 			return true;
 		} 
 		else 
 		{
+			ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorReject);
 			return false;
 		}
-	}
+	} 
+
+	bool handleDragLeave(const CEGUI::EventArgs& args)
+	{
+		using namespace CEGUI;
+
+		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
+		ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorNormal);
+		return true;
+	} 
+
+	bool handleDragDropped(const CEGUI::EventArgs& args)
+	{
+		using namespace CEGUI;
+
+		InventoryWindow* invWin = WindowFactory::getSingletonPtr()->getInventoryWindow();
+		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
+		ddea.window->setProperty("ContainerColour", invWin->mColorNormal);
+
+
+		if (ddea.window->getUserData()){
+			// Es handelt sich um einen Container
+			Item* container = static_cast<Item*>(ddea.window->getUserData());
+			if (container == invWin->getGroundItem())
+			{
+				// Boden (nimmt alles)
+			} 
+			else if (container && container->getItemType() == Item::ITEMTYPE_BACKPACK)
+			{
+				// Rucksack (nimmt alles außer dem Rucksack selbst)
+				if (!(ddea.dragDropItem->getUserString("ItemType").compare(Item::getItemTypeString(Item::ITEMTYPE_BACKPACK))))
+				{
+					return false;
+				}
+			}
+			else {
+				// Beliebiger anderer Container am Körper
+				// TODO: Beschränkung auf Itemtypen... 
+			}
+
+			std::pair<int,int> newPos =  calculateNewPosition(ddea);
+
+			if (invWin->isFreeInContainer(
+				static_cast<Item*>(ddea.dragDropItem->getUserData()),
+				newPos, static_cast<Item*>(ddea.window->getUserData())))
+			{
+				ddea.window->addChildWindow(ddea.dragDropItem);
+
+				invWin->mPosDraggedTo=CEGUI::Point(newPos.first*30,newPos.second*30);
+				invWin->mDroppedItem = ddea.dragDropItem;
+				invWin->mContainerDraggedTo = ddea.window;
+
+				invWin->updateInventory();
+				return true;
+			} 
+			else 
+			{
+				return false;
+			}
+
+
+		} else {
+			// Es handelt sich um einen Slot am Körper
+			if (checkTypeAccepted(ddea.window, ddea.dragDropItem)){
+				// Nur wenn das Item in den Slot passt, soll es auch dort gedroppt werden können				
+
+				ddea.window->addChildWindow(ddea.dragDropItem);
+
+				invWin->mPosDraggedTo=CEGUI::Point(0.0,0.0);
+				invWin->mDroppedItem = ddea.dragDropItem;
+				invWin->mContainerDraggedTo = ddea.window;
+
+				invWin->updateInventory();
+				return true;
+			} else {
+				// Item passt nicht zum Slot
+				return false;
+			}
+		}
+	} 
 
 
 	/* Konstruktor */
@@ -224,8 +256,11 @@ namespace rl {
 		mPosDraggedTo(),
 		mContainerDraggedTo(NULL),
 		mDroppedItem(NULL),
-		mBackpackWindow(NULL),
-		mBackpackContent(NULL),
+		mContainerTabs(NULL),
+		mContainerContents(NULL),
+		mGroundTab(NULL),
+		mGroundItem(NULL),
+		mGroundContainer(NULL),
 		mColorAccept("FF22FF22"),
 		mColorReject("FFFF2222"),
 		mColorNormal("FFFFFFFF"),
@@ -245,7 +280,8 @@ namespace rl {
 		mHelmet(NULL),
 		mTrousers(NULL),
 		mShinbone(NULL),
-		mBoots(NULL)
+		mBoots(NULL),
+		mGroundDimension(make_pair<int,int>(12,15))
 	{
 		initSlots();
 		GameLoopManager::getSingletonPtr()->addSynchronizedTask(new InventoryArrangeTask(), FRAME_ENDED);
@@ -253,9 +289,9 @@ namespace rl {
 	
 	InventoryWindow::~InventoryWindow()
 	{
-		if(mBackpackContent){
+		/*if(mBackpackContent){
 			mBackpackContent->destroy();
-		}
+		}*/
 	}
 
 
@@ -263,11 +299,14 @@ namespace rl {
 
 	void InventoryWindow::setInventory(Inventory* inventory)
 	{
-		if (inventory != NULL && mInventory != inventory){
+		//if (inventory != NULL && mInventory != inventory){
+			// Entleere Slots zur Sicherheit (falls anderes Inventar zuvor gezeigt wurde)
 			emptySlots();
+			// Speichere das neue Inventar
 			mInventory = inventory;
+			// Fuelle das Fenster entsprechend dem neuen Inventar, das angezeigt werden soll
 			fillSlots();
-		}
+		//}
 	}
 
 	void update()
@@ -294,154 +333,205 @@ namespace rl {
 	}
 
 	void InventoryWindow::updateInventory(){
+		// Nach Drop
 		Item* item = static_cast<Item*>(mDroppedItem->getUserData());
-		
-		// Gegenstand aus dem Rucksack entfernen
-		mInventory->removeItemFromBackpack(item);
-		// Gegenstand aus den Slots entfernen
-		mInventory->removeItemFromSlots(item);
 
-		if (mContainerDraggedTo == mBackpackContent)
+		// Gegenstand von alter Position entfernen
+		mInventory->removeItem(item);
+
+		// Gegenstand vom Boden entfernen
+		mInventory->removeItemFromContainer(item, mGroundItem);
+
+		// Welchem Item wird das Item hinzugefügt? -> speichere das in die Variable container
+		Item* container = static_cast<Item*>(mContainerDraggedTo->getUserData());
+
+		// Extra Behandlung, falls Item auf den Boden gelegt wird
+		if (container == mGroundItem)
 		{
-			mInventory->setItemBackpackPosition(
-				item, 
+			mInventory->setItemContainerPosition(
+				item,
 				(int)(mPosDraggedTo.d_x/30), 
-				(int)(mPosDraggedTo.d_y/30));
-		}
-		else 
+				(int)(mPosDraggedTo.d_y/30),
+				container);
+
+			// Zusätzlich wenn Item Container war, muss Tab entfernt werden (einfach Inventar neu aufbauen)
+			if (item->isContainer())
+			{
+				removeContainerAndContent(item);
+			}
+
+			return;
+		} 
+				
+		// Item im Container platzieren
+		std::list<CEGUI::Window*>::iterator it = mContainerContents.begin();
+
+		while (it != mContainerContents.end())
 		{
-			// Gegenstand in Slot setzen / Schon dagewesenen Gegenstand zurück in den Rucksack setzen
-			if (mContainerDraggedTo == mArmor){
-				if (mInventory->getArmor() != NULL){
-					//Pack die alte Rüstung ins Inventar
-					mInventory->addItemToBackpack(mInventory->getArmor());
-				}
-				mInventory->setArmor(item);
+			if (mContainerDraggedTo == *it++){
+				mInventory->setItemContainerPosition(
+					item,
+					(int)(mPosDraggedTo.d_x/30), 
+					(int)(mPosDraggedTo.d_y/30),
+					container);
+				break;
 			}
-			if (mContainerDraggedTo == mCape){
-				if (mInventory->getCape() != NULL){
-					//Pack die alte Rüstung ins Inventar
-					mInventory->addItemToBackpack(mInventory->getCape());
-				}
-				mInventory->setCape(item);
+		}
+
+		if (item->isContainer())
+		{
+			// ContainerTab hinzufügen, wenn nicht schon vorhanden
+			createAndFillContainer(item);
+
+		}
+		
+
+		// Gegenstand in Slot setzen / Schon dagewesenen Gegenstand zurück in den Rucksack setzen
+		if (mContainerDraggedTo == mArmor){
+			if (mInventory->getArmor() != NULL){
+				//Pack die alte Rüstung ins Inventar
+				mInventory->addItemToContainer(mInventory->getArmor(), mInventory->getBackpack());
 			}
-			if (mContainerDraggedTo == mBackpack) {
-				if (mInventory->getBackpack() != NULL){
-					//Pack den alten Rucksack auf den Boden
-					mInventory->addItemToBackpack(mInventory->getBackpack());
-				}
-				mInventory->setBackpack(item);
+			mInventory->setArmor(item);
+		}
+		if (mContainerDraggedTo == mCape){
+			if (mInventory->getCape() != NULL){
+				//Pack die alte Rüstung ins Inventar
+				mInventory->addItemToContainer(mInventory->getCape(), mInventory->getBackpack());
 			}
-			if (mContainerDraggedTo == mBelt) {
-				if (mInventory->getBelt() != NULL){
-					//Pack den alten Gürtel ins Inventar
-					mInventory->addItemToBackpack(mInventory->getBelt());
-				}
-				mInventory->setBelt(item);
+			mInventory->setCape(item);
+		}
+		if (mContainerDraggedTo == mBackpack) {
+			if (mInventory->getBackpack() != NULL){
+				//Pack den alten Rucksack auf den Boden
+				mInventory->addItemToContainer(mInventory->getBackpack(), mInventory->getBackpack());
 			}
-			if (mContainerDraggedTo == mBoots) {
-				if (mInventory->getBoots() != NULL){
-					//pack die alten Stiefel ins Inventar
-					mInventory->addItemToBackpack(mInventory->getBoots());
-				}
-				mInventory->setBoots(item);
+			mInventory->setBackpack(item);
+		}
+		if (mContainerDraggedTo == mBelt) {
+			if (mInventory->getBelt() != NULL){
+				//Pack den alten Gürtel ins Inventar
+				mInventory->addItemToContainer(mInventory->getBelt(), mInventory->getBackpack());
 			}
-			if (mContainerDraggedTo == mBraceletLeft) {
-				if (mInventory->getBraceletLeft() != NULL){
-					//pack den alten Armreif ins Inventar
-					mInventory->addItemToBackpack(mInventory->getBraceletLeft());
-				}
-				mInventory->setBraceletLeft(item);
+			mInventory->setBelt(item);
+		}
+		if (mContainerDraggedTo == mBoots) {
+			if (mInventory->getBoots() != NULL){
+				//pack die alten Stiefel ins Inventar
+				mInventory->addItemToContainer(mInventory->getBoots(), mInventory->getBackpack());
 			}
-			if (mContainerDraggedTo == mBraceletRight) {
-				if (mInventory->getBraceletRight() != NULL){
-					//pack den alten Armreif ins Inventar
-					mInventory->addItemToBackpack(mInventory->getBraceletRight());
-				}
-				mInventory->setBraceletRight(item);
+			mInventory->setBoots(item);
+		}
+		if (mContainerDraggedTo == mBraceletLeft) {
+			if (mInventory->getBraceletLeft() != NULL){
+				//pack den alten Armreif ins Inventar
+				mInventory->addItemToContainer(mInventory->getBraceletLeft(), mInventory->getBackpack());
 			}
-			if (mContainerDraggedTo == mRingLeft) {
-				if (mInventory->getRingLeft() != NULL){
-					//pack den alten Ring ins Inventar
-					mInventory->addItemToBackpack(mInventory->getRingLeft());
-				}
-				mInventory->setRingLeft(item);
+			mInventory->setBraceletLeft(item);
+		}
+		if (mContainerDraggedTo == mBraceletRight) {
+			if (mInventory->getBraceletRight() != NULL){
+				//pack den alten Armreif ins Inventar
+				mInventory->addItemToContainer(mInventory->getBraceletRight(), mInventory->getBackpack());
 			}
-			if (mContainerDraggedTo == mRingRight) {
-				if (mInventory->getRingRight() != NULL){
-					//pack den alten Ring ins Inventar
-					mInventory->addItemToBackpack(mInventory->getRingRight());
-				}
-				mInventory->setRingRight(item);
+			mInventory->setBraceletRight(item);
+		}
+		if (mContainerDraggedTo == mRingLeft) {
+			if (mInventory->getRingLeft() != NULL){
+				//pack den alten Ring ins Inventar
+				mInventory->addItemToContainer(mInventory->getRingLeft(), mInventory->getBackpack());
 			}
-			if (mContainerDraggedTo == mHelmet) {
-				if (mInventory->getHelmet() != NULL){
-					//pack den alten Helm ins Inventar
-					mInventory->addItemToBackpack(mInventory->getHelmet());
-				}
-				mInventory->setHelmet(item);
+			mInventory->setRingLeft(item);
+		}
+		if (mContainerDraggedTo == mRingRight) {
+			if (mInventory->getRingRight() != NULL){
+				//pack den alten Ring ins Inventar
+				mInventory->addItemToContainer(mInventory->getRingRight(), mInventory->getBackpack());
 			}
-			if (mContainerDraggedTo == mBracers) {
-				if (mInventory->getBracers() != NULL){
-					//pack die alte Armschienen ins Inventar
-					mInventory->addItemToBackpack(mInventory->getBracers());
-				}
-				mInventory->setBracers(item);
+			mInventory->setRingRight(item);
+		}
+		if (mContainerDraggedTo == mHelmet) {
+			if (mInventory->getHelmet() != NULL){
+				//pack den alten Helm ins Inventar
+				mInventory->addItemToContainer(mInventory->getHelmet(), mInventory->getBackpack());
 			}
-			if (mContainerDraggedTo == mNecklace) {
-				if (mInventory->getNecklace() != NULL){
-					//pack das alte Amulett ins Inventar
-					mInventory->addItemToBackpack(mInventory->getNecklace());
-				}
-				mInventory->setNecklace(item);
+			mInventory->setHelmet(item);
+		}
+		if (mContainerDraggedTo == mBracers) {
+			if (mInventory->getBracers() != NULL){
+				//pack die alte Armschienen ins Inventar
+				mInventory->addItemToContainer(mInventory->getBracers(), mInventory->getBackpack());
 			}
-			if (mContainerDraggedTo == mGloves) {
-				if (mInventory->getGloves() != NULL){
-					//pack die alten Handschuhe ins Inventar
-					mInventory->addItemToBackpack(mInventory->getGloves());
-				}
-				mInventory->setGloves(item);
+			mInventory->setBracers(item);
+		}
+		if (mContainerDraggedTo == mNecklace) {
+			if (mInventory->getNecklace() != NULL){
+				//pack das alte Amulett ins Inventar
+				mInventory->addItemToContainer(mInventory->getNecklace(), mInventory->getBackpack());
 			}
-			if (mContainerDraggedTo == mTrousers) {
-				if (mInventory->getTrousers() != NULL){
-					//pack die alte Hose ins Inventar
-					mInventory->addItemToBackpack(mInventory->getTrousers());
-				}
-				mInventory->setTrousers(item);
+			mInventory->setNecklace(item);
+		}
+		if (mContainerDraggedTo == mGloves) {
+			if (mInventory->getGloves() != NULL){
+				//pack die alten Handschuhe ins Inventar
+				mInventory->addItemToContainer(mInventory->getGloves(), mInventory->getBackpack());
 			}
-			if (mContainerDraggedTo == mShinbone) {
-				if (mInventory->getShinbone() != NULL){
-					//pack die alte Hose ins Inventar
-					mInventory->addItemToBackpack(mInventory->getShinbone());
-				}
-				mInventory->setShinbone(item);
+			mInventory->setGloves(item);
+		}
+		if (mContainerDraggedTo == mTrousers) {
+			if (mInventory->getTrousers() != NULL){
+				//pack die alte Hose ins Inventar
+				mInventory->addItemToContainer(mInventory->getTrousers(), mInventory->getBackpack());
 			}
-			if (mContainerDraggedTo == mHandLeft) {
-				if (mInventory->getHandLeft() != NULL){
-					//pack das alte Schild ins Inventar
-					mInventory->addItemToBackpack(mInventory->getHandLeft());
-				}
-				mInventory->setHandLeft(item);
+			mInventory->setTrousers(item);
+		}
+		if (mContainerDraggedTo == mShinbone) {
+			if (mInventory->getShinbone() != NULL){
+				//pack die alte Hose ins Inventar
+				mInventory->addItemToContainer(mInventory->getShinbone(), mInventory->getBackpack());
 			}
-			if (mContainerDraggedTo == mHandRight) {
-				if (mInventory->getHandRight() != NULL){
-					//pack die alte Waffe ins Inventar
-					mInventory->addItemToBackpack(mInventory->getHandRight());
-				}
-				mInventory->setHandRight(item);
+			mInventory->setShinbone(item);
+		}
+		if (mContainerDraggedTo == mHandLeft) {
+			if (mInventory->getHandLeft() != NULL){
+				//pack das alte Schild ins Inventar
+				mInventory->addItemToContainer(mInventory->getHandLeft(), mInventory->getBackpack());
 			}
+			mInventory->setHandLeft(item);
+		}
+		if (mContainerDraggedTo == mHandRight) {
+			if (mInventory->getHandRight() != NULL){
+				//pack die alte Waffe ins Inventar
+				mInventory->addItemToContainer(mInventory->getHandRight(), mInventory->getBackpack());
+			}
+			mInventory->setHandRight(item);
 		}
 	}
 
-	bool InventoryWindow::isFreeInBackpack(Item* item, pair<int,int> kaestchenPos)
+	bool InventoryWindow::isFreeInContainer(Item* item, pair<int,int> kaestchenPos, Item* container)
 	{
-		return mInventory->isFreeInBackpack(item, kaestchenPos);
+		return mInventory->isFreeInContainer(item, kaestchenPos, container);
 	}
 
-	void InventoryWindow::initSlots(){
 
-		initBackpack(make_pair(12,7));
+	Item* InventoryWindow::getGroundItem()
+	{
+		return mGroundItem;
+	}
 
+	void InventoryWindow::initSlots()
+	{
+
+		// Das "BodenItem" initiieren
+		mGroundItem = new Item("Boden", "Dieses Item repräsentiert den Boden");
+		mGroundItem->setImageName("Trank");
+		mGroundItem->setItemType(Item::ITEMTYPE_OTHER);
+		mGroundItem->setSize(1,1);
+		mGroundItem->setContainer(true, std::make_pair<int,int>(mGroundDimension.first,mGroundDimension.second));
+
+
+		mContainerTabs = getWindow("InventoryWindow/Tabs");
+		
 		// Hole die einzelnen Slots aus dem XML-File
 		mHelmet = getStaticImage("InventoryWindow/Helmet");
 		mHelmet->setUserString("ItemType",Item::getItemTypeString(Item::ITEMTYPE_HELMET));
@@ -534,22 +624,133 @@ namespace rl {
 		createItem(mInventory->getShinbone(), mShinbone);
 		createItem(mInventory->getBoots(), mBoots);
 
-		// Items im Rucksack erstellen
-		set<Item*> itemsInBackpack;
 
-		vector< vector<Item*> > temp = mInventory->getBackpackLayout();
-		for (unsigned x = 0; x < temp.size(); x++){
-			for (unsigned y = 0; y < temp[0].size(); y++) {
-				if (temp[x][y] != NULL && (itemsInBackpack.find(temp[x][y]) == itemsInBackpack.end())){
-					DragContainer* itemhandler = createItem(temp[x][y],mBackpackContent);
-					itemhandler->setPosition(CEGUI::Absolute,CEGUI::Point(x*30,y*30));
-					itemsInBackpack.insert(temp[x][y]);
-					Logger::getSingletonPtr()->log(
-						"InventoryWindow",
-						Logger::LL_MESSAGE,
-						Ogre::String("erzeuge Bild im Backpack: ") + temp[x][y]->getName());
+		// Fenster für ContainerItems erstellen
+		createContainerWindows();
+	}
+
+
+	void InventoryWindow::createContainerWindows() {
+		
+
+		std::list<Item*> allItems = mInventory->getAllItems();
+
+		std::list<Item*>::iterator itemIterator = allItems.begin();
+		
+		while (itemIterator != allItems.end()){
+			Item* currentItem = *itemIterator++;
+
+			if (currentItem->isContainer()){
+				// Tab für Item erzeugen, da es als Container funktioniert
+				createAndFillContainer(currentItem);
+			}
+		}
+		// Den Boden hinzufuegen
+		createAndFillContainer(mGroundItem);
+	}
+
+	void InventoryWindow::createAndFillContainer(Item* container){
+		assert(mContainerContents.size() == mContainers.size());
+
+		std::list<CEGUI::Window*>::iterator it = mContainerContents.begin();
+		bool found = false;
+		// überprüfe, ob schon vorhanden
+		while (it != mContainerContents.end())
+		{
+			if (container == static_cast<Item*>((*it)->getUserData()))
+			{
+				found = true;
+				break;
+			}
+			it++;
+		}
+		
+		// Nur wenn noch nicht vorhanden, soll Containertab erzeugt werden
+		if (!found)
+		{
+
+			// Erzeuge Tab im Inventar für den Container
+			CEGUI::Window* containerWindow = CEGUI::WindowManager::getSingleton().createWindow("DefaultGUISheet", "InventoryWindow/Tabs/"+container->getName());
+			// Name für das Tab
+			containerWindow->setText(container->getName());
+
+
+			mContainerTabs->addChildWindow(containerWindow);
+
+			// Tab in die Liste einfuegen
+			mContainers.push_back(containerWindow);
+
+			CEGUI::StaticImage* containerSpace = static_cast<CEGUI::StaticImage*>(CEGUI::WindowManager::getSingletonPtr()->createWindow("RastullahLook/Container", "InventoryWindow/Tabs/"+container->getName()+"/Content"));
+			
+			containerSpace->setVerticalAlignment(CEGUI::VA_CENTRE);
+			containerSpace->setHorizontalAlignment(CEGUI::HA_CENTRE);
+			containerSpace->setWindowSize(UVector2(cegui_absdim(container->getCapacity().first*30), cegui_absdim(container->getCapacity().second*30)));
+			containerSpace->setUserData(container);
+			containerWindow->addChildWindow(containerSpace);
+
+			// Inhalt in die Liste Einfügen
+			mContainerContents.push_back(containerSpace);
+
+			// Der Rucksack soll alle Itemtypen akzeptieren (Bis auf den Rucksack selbst)
+			addDropListener(containerSpace);
+
+			// Items im Container erstellen
+			std::set<Item*> itemsInContainer;
+
+			ContainerLayout temp = container->getContainerLayout();
+			for (unsigned x = 0; x < temp.size(); x++){
+				for (unsigned y = 0; y < temp[0].size(); y++) {
+					if (temp[x][y] != NULL && (itemsInContainer.find(temp[x][y]) == itemsInContainer.end())){
+						DragContainer* itemhandler = createItem(temp[x][y],containerSpace);
+						itemhandler->setPosition(CEGUI::Absolute,CEGUI::Point(x*30,y*30));
+						itemsInContainer.insert(temp[x][y]);
+						Logger::getSingletonPtr()->log(
+							"InventoryWindow",
+							Logger::LL_MESSAGE,
+							Ogre::String("erzeuge Bild im Container: ") + temp[x][y]->getName());
+					}
 				}
 			}
+		}
+	}
+
+
+	void InventoryWindow::removeContainerAndContent(Item* container)
+	{
+		assert(mContainerContents.size() == mContainers.size());
+		std::list<CEGUI::Window*>::iterator it = mContainerContents.begin();
+		std::list<CEGUI::Window*>::iterator itParent = mContainers.begin();
+		CEGUI::Window* windowToEmpty = NULL;
+		CEGUI::Window* parentTabWindow = NULL;
+
+		bool found = false;
+		while (it != mContainerContents.end())
+		{
+			if (container == static_cast<Item*>((*it)->getUserData()))
+			{
+				// Aus Liste entfernen
+				windowToEmpty = *it;
+				parentTabWindow = *itParent;
+				found = true;
+				break;
+			}
+			it++;
+			itParent++;
+		}
+		if (found)
+		{
+			// Entferne die Elemente aus den Listen
+			mContainerContents.remove(windowToEmpty);
+			mContainers.remove(parentTabWindow);
+
+
+			emptySlot(windowToEmpty);
+			parentTabWindow->removeChildWindow(windowToEmpty);
+			WindowManager::getSingletonPtr()->destroyWindow(windowToEmpty);
+
+			mContainerTabs->removeChildWindow(parentTabWindow);
+
+			WindowManager::getSingletonPtr()->destroyWindow(parentTabWindow);
 		}
 	}
 
@@ -572,15 +773,36 @@ namespace rl {
 		emptySlot(mTrousers);
 		emptySlot(mShinbone);
 		emptySlot(mBoots);
-		emptySlot(mBackpackContent);
+
+		// Zusätzlich alle Container durchgehen und entleeren
+		
+		std::list<CEGUI::Window*>::iterator it = mContainerContents.begin();
+		
+		while (it != mContainerContents.end())
+		{
+			emptySlot(*it);
+			WindowManager::getSingletonPtr()->destroyWindow(*it);
+			it++;
+		} // alle Container wurden entleert
+
+		it = mContainers.begin();
+		while (it != mContainers.end())
+		{
+			emptySlot(*it);
+			mContainerTabs->removeChildWindow(*it);
+			WindowManager::getSingletonPtr()->destroyWindow(*it);
+			it++;
+		} // alle ContainerTabs wurden entleert
+		mContainerContents.clear();
+		mContainers.clear();
 	}
 
 	void InventoryWindow::emptySlot(CEGUI::Window* slot)
 	{
 		while(slot->getChildCount() > 0){
-			CeGuiString name = slot->getChildAtIdx(0)->getName();
-			slot->removeChildWindow(slot->getChildAtIdx(0));
-			WindowManager::getSingletonPtr()->destroyWindow(name);
+			CEGUI::Window* windowToDestroy = slot->getChildAtIdx(0);
+			WindowManager::getSingletonPtr()->destroyWindow(windowToDestroy);
+			slot->removeChildWindow(windowToDestroy);
 		}
 	}
 
@@ -647,17 +869,6 @@ namespace rl {
 
 	void InventoryWindow::initBackpack(pair<int,int> dim)
 	{
-		// Initiiere den Rucksack-Container für das Inventar
-		mBackpackWindow = getWindow("InventoryWindow/Tabs/Backpack");
-		mBackpackContent = CEGUI::WindowManager::getSingletonPtr()->createWindow("RastullahLook/Container", "InventoryWindow/Tabs/Backpack/Content");
-		mBackpackContent->setVerticalAlignment(CEGUI::VA_CENTRE);
-		mBackpackContent->setHorizontalAlignment(CEGUI::HA_CENTRE);
-		mBackpackContent->setWindowSize(UVector2(cegui_absdim(dim.first*30), cegui_absdim(dim.second*30)));
-		mBackpackWindow->addChildWindow(mBackpackContent);
 
-		// Der Rucksack soll alle Itemtypen akzeptieren (Bis auf den Rucksack selbst)
-		mBackpackContent->subscribeEvent(Window::EventDragDropItemEnters, &handleDragEnterBackpack);
-		mBackpackContent->subscribeEvent(Window::EventDragDropItemLeaves, &handleDragLeave);
-		mBackpackContent->subscribeEvent(Window::EventDragDropItemDropped, &handleDragDroppedBackpack); 
 	}
 }

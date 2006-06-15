@@ -18,10 +18,14 @@
 #define __ITEM_H__
 
 #include "GameObject.h"
-//#include <set>
 
 namespace rl
 {
+	class _RlRulesExport Item;
+	typedef vector<Item*> ContainerColumn;
+	typedef vector<ContainerColumn> ContainerLayout;
+
+
     /// Aufnehmbare Objekte in der Spielwelt.
     class _RlRulesExport Item : public GameObject
     {
@@ -72,9 +76,9 @@ namespace rl
 		
 		void setContainer(bool isContainer, std::pair<int,int> dim = std::make_pair(0,0) );
 
+		ContainerLayout &getContainerLayout();
 		std::pair<int,int> getCapacity();
-		void setCapacity(int width, int height);
-
+		
 		std::pair<int,int> getSize();
 		void setSize(int width, int height);
 
@@ -87,10 +91,16 @@ namespace rl
 		CeGuiString mImageName;
 
 		bool mIsContainer;
+		ContainerLayout mContainerLayout;
 		std::pair<int,int> mCapacity;
 
 		std::pair<int,int> mSize;
 
+		/**
+		* initiiert einen Container mit null-pointern
+		* gemaess der Kapazitaet des Items
+		*/
+		void initContainer();
     };
 
     class ItemByIdOrdering : public std::binary_function<Item*, Item*, bool> {

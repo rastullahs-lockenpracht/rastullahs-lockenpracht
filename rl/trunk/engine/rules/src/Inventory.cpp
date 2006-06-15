@@ -43,23 +43,16 @@ namespace rl
 		mShinbone(NULL),
 		mBoots(NULL)
 	{
-		initSlots();
-		mBackpackLayout = ContainerLayout(12);
 
-		for (unsigned z = 0; z< mBackpackLayout.size(); z++){
-			ContainerColumn temp = ContainerColumn(7);
-			mBackpackLayout[z] = temp;
-		}
-		
-		for (unsigned int x = 0; x < mBackpackLayout.size(); x++){
-			for (unsigned int y = 0; y < mBackpackLayout[0].size(); y++){
-				mBackpackLayout[x][y] = NULL;
-			}
-		}
-		
+		Item* backpack = createItem("Rucksack", "Dieser Rucksack ist praktisch, da er viel Platz auf dem Ruecken eines jeden Helden bietet.", "Rucksack", Item::ITEMTYPE_BACKPACK, pair<int,int>(2,2));
+		backpack->setContainer(true, pair<int,int>(12,7));
+
+		mBackpack = backpack;
+
 
 		Item* meineRuestung = createItem("Kroetenhaut", "Gefertigt aus Rindsleder bietet diese zusaetzlich durch Nieten verstaerkte Ruestung guten Schutz fuer den Abenteurer","Kroetenhaut",Item::ITEMTYPE_ARMOR,pair<int,int>(3,4));
-		
+		meineRuestung->setContainer(true, std::make_pair<int,int>(2,4));
+
 		Item* meinTrank = createItem("meinTrank", "Erhöht die Vitalität","Trank", Item::ITEMTYPE_OTHER, pair<int,int>(1,1));
 
 		Item* meineHandschuhe = createItem("meineHandschuhe", "Wärmen im Winter","Handschuhe",Item::ITEMTYPE_GLOVES,pair<int,int>(2,2));
@@ -74,36 +67,69 @@ namespace rl
 
 		Item* meinRing2 = createItem("meinRing2","Schön gearbeiteter Ring","Rubinring",Item::ITEMTYPE_RING,pair<int,int>(1,1));
 
-		addItemToBackpack(meinTrank);
-		addItemToBackpack(meineHandschuhe);
-		addItemToBackpack(meinArmreif);
-		addItemToBackpack(meineStiefel);
-		addItemToBackpack(meinUmhang);
-		addItemToBackpack(meinRing2);
+		addItemToContainer(meinTrank, backpack);
+		addItemToContainer(meineHandschuhe, backpack);
+		addItemToContainer(meinArmreif, backpack);
+		addItemToContainer(meineStiefel, backpack);
+		addItemToContainer(meinUmhang, backpack);
+		addItemToContainer(meinRing2, backpack);
 
 
 		mRingLeft = meinRing;
 		mArmor = meineRuestung;
+		
 	}
 
 	Inventory::~Inventory() 
 	{
 		// Lösche Alle Objekte aus dem Rucksack
-		for (unsigned int x = 0; x < mBackpackLayout.size(); x++){
+		/*for (unsigned int x = 0; x < mBackpackLayout.size(); x++){
 			for (unsigned int y = 0; y < mBackpackLayout[0].size(); y++){
 				if (mBackpackLayout[x][y] != NULL){
 					delete mBackpackLayout[x][y];
 				}
 			}
 		}
+		*/
 	}
 
 	
-	vector<Item*> Inventory::getAllItems()
+	std::list<Item*> Inventory::getAllItems()
 	{
-		vector<Item*> is(1);
-		is[0] = mRingLeft;
-		return is;
+		std::list<Item*> items(0);
+		if (mBackpack)
+			items.push_back(mBackpack);
+		if (mRingLeft)
+			items.push_back(mRingLeft);
+		if (mRingRight)
+			items.push_back(mRingRight);
+		if (mHandLeft)
+			items.push_back(mHandLeft);
+		if (mGloves)
+			items.push_back(mGloves);
+		if (mBraceletLeft)
+			items.push_back(mBraceletLeft);
+		if (mBraceletRight)
+			items.push_back(mBraceletRight);
+		if (mArmor)
+			items.push_back(mArmor);
+		if (mCape)
+			items.push_back(mCape);
+		if (mBracers)
+			items.push_back(mBracers);
+		if (mBelt)
+			items.push_back(mBelt);
+		if (mNecklace)
+			items.push_back(mNecklace);
+		if (mHelmet)
+			items.push_back(mHelmet);
+		if (mTrousers)
+			items.push_back(mTrousers);
+		if (mShinbone)
+			items.push_back(mShinbone);
+		if (mBoots)
+			items.push_back(mBoots);
+		return items;
 	}
 
 	Item* Inventory::createItem(const CeGuiString name, const CeGuiString description, const CeGuiString imageName, Item::ItemType type, pair<int,int> size)
@@ -117,7 +143,7 @@ namespace rl
 	}
 
 	// TODO: Anordnung der Items
-	set<Item*> Inventory::getAllItemsInBackpack()
+	/*set<Item*> Inventory::getAllItemsInContainer()
 	{
 		set<Item*> items;
 		
@@ -127,10 +153,10 @@ namespace rl
 			}
 		}
 		return items;
-	}
+	}*/
 	
 
-	bool Inventory::isFreeInBackpack(Item* item, pair<int,int> posKaestchen)
+	bool Inventory::isFreeInContainer(Item* item, pair<int,int> posKaestchen, Item* container)
 	{
 		char buf1[5], buf2[5];
 
@@ -145,14 +171,15 @@ namespace rl
 					CEGUI::String("Checking Point in Backpack: Point x:").append(itoa(x,buf1,10))
 				.append(", Point y:")
 				.append(itoa(y,buf2,10)));
-				if (x >= int(mBackpackLayout.size()) || y >= int(mBackpackLayout[0].size())){
+				
+				if (x >= int(container->getContainerLayout().size()) || y >= int(container->getContainerLayout()[0].size())){
 					// Es wird versucht, das Item außerhalb des Containers zu platzieren
 					free = false;
-				} else if (mBackpackLayout[x][y] == item) {
+				} else if (container->getContainerLayout()[x][y] == item) {
 					// kein Problem, item wird nur ein bisschen verschoben
 				} else {
 					// Siehe nach, ob ein anderes Item im Weg ist
-					free = free && (!mBackpackLayout[x][y]);
+					free = free && (!container->getContainerLayout()[x][y]);
 				}
 			}
 		}
@@ -162,7 +189,7 @@ namespace rl
 		return free;
 	}
 
-	void Inventory::setItemBackpackPosition(Item* item, int xPos, int yPos)
+	void Inventory::setItemContainerPosition(Item* item, int xPos, int yPos, Item* container)
 	{
 		int xSize = item->getSize().first;
 		int ySize = item->getSize().second;
@@ -170,12 +197,12 @@ namespace rl
 		// Itempointer auf neuer Position eintragen
 		for (int x = 0; x < xSize; x++){
 			for (int y = 0; y < ySize; y++) {
-				mBackpackLayout[xPos+x][yPos+y] = item;
+				container->getContainerLayout()[xPos+x][yPos+y] = item;
 			}
 		}
 	}
 
-	void Inventory::removeItemFromSlots(Item* item){
+	void Inventory::removeItem(Item* item){
 
 		switch (item->getItemType()) {
 			case Item::ITEMTYPE_WEAPON:
@@ -265,47 +292,67 @@ namespace rl
 				// Kann nicht in Slots sein
 				break;
 		}
+		
+		
+		// Gehe die Container durch und entferne das Item
+		removeItemFromContainers(item);
+	}
+
+	void Inventory::removeItemFromContainers(Item* item)
+	{
+		std::list<Item*> allItems = getAllItems();
+		
+		std::list<Item*>::iterator itemIterator = allItems.begin();
+		
+		while (itemIterator != allItems.end()){
+			Item* currentItem = *itemIterator++;
+			if (currentItem->isContainer())
+			{
+				removeItemFromContainer(item, currentItem);
+			}
+		}
 	}
 	
 
 
-	void Inventory::removeItemFromBackpack(Item* item)
+	void Inventory::removeItemFromContainer(Item* item, Item* container)
 	{
-		for (unsigned int x = 0; x < mBackpackLayout.size(); x++){
-			for (unsigned int y = 0; y < mBackpackLayout[0].size(); y++){
-				if (mBackpackLayout[x][y] == item){
-					mBackpackLayout[x][y] = NULL;
+		for (unsigned int x = 0; x < container->getContainerLayout().size(); x++){
+			for (unsigned int y = 0; y < container->getContainerLayout()[0].size(); y++){
+				if (container->getContainerLayout()[x][y] == item){
+					container->getContainerLayout()[x][y] = NULL;
 				}
 			}
 		}
 	}
 
-	void Inventory::addItemToBackpack(Item* item) {
+	void Inventory::addItemToContainer(Item* item, Item* container) {
 		// Platz suchen
 		try {
 			if (item->getItemType() == Item::ITEMTYPE_BACKPACK) {
-				// Ein Rucksack soll auch auf den Boden, wenn Platz ist
+				// Ein Rucksack soll auf den Boden, wenn Platz ist
 				Throw(IllegalStateException, "Ein Rucksack kann nicht in den Rucksack gepackt werden!");
 			}
-			pair<int,int> pos = findPositionWithEnoughSpace(item->getSize());
+			pair<int,int> pos = findPositionWithEnoughSpace(item->getSize(), container->getContainerLayout());
 			// Platz gefunden, platziere Item:
 			for (int x = pos.first; x < pos.first+item->getSize().first; x++){
 				for (int y = pos.second; y < pos.second+item->getSize().second; y++){
-					mBackpackLayout[x][y] = item;
+					container->getContainerLayout()[x][y] = item;
 				}
 			}
 		} catch (IllegalStateException ie){
-			// Kein Platz mehr im Rucksack... 
+			// Kein Platz mehr im Container... 
 			// TODO: Auf den Boden legen
+			Logger::getSingleton().log("Inventory",Logger::LL_ERROR, "addItemToContainer fehgeschlagen.");
 		}
 	}
 
 
-	pair<int,int> Inventory::findPositionWithEnoughSpace(pair<int,int> space){
+	pair<int,int> Inventory::findPositionWithEnoughSpace(pair<int,int> space, ContainerLayout containerLayout){
 		pair<int,int> pos;
-		for (unsigned int x = 0; x < mBackpackLayout.size(); x++){
-			for (unsigned int y = 0; y < mBackpackLayout[0].size(); y++){
-				if (mBackpackLayout[x][y] == NULL && checkSpace(x,y,space)){
+		for (unsigned int x = 0; x < containerLayout.size(); x++){
+			for (unsigned int y = 0; y < containerLayout[0].size(); y++){
+				if (containerLayout[x][y] == NULL && checkSpace(x,y,space, containerLayout)){
 					pos = pair<int,int>(x,y);
 					return pos;
 				}
@@ -314,15 +361,15 @@ namespace rl
 		Throw(IllegalStateException, "Rucksack hat keinen Platz für das Item");
 	}
 
-	bool Inventory::checkSpace(int xStart, int yStart, pair<int,int> space){
+	bool Inventory::checkSpace(int xStart, int yStart, pair<int,int> space, ContainerLayout containerLayout){
 		bool free = true;
 		for (unsigned int x = 0; x < space.first; x++){
 			for (unsigned int y = 0; y < space.second; y++){
 				// Falls Kästchen nicht mehr im Rucksack, ist auch kein Platz mehr :)
-				if ((xStart+x) >= mBackpackLayout.size() || (yStart+y) >= mBackpackLayout[0].size()){
+				if ((xStart+x) >= containerLayout.size() || (yStart+y) >= containerLayout[0].size()){
 					return false;
 				}
-				free = free && (mBackpackLayout[xStart+x][yStart+y] == NULL);
+				free = free && (containerLayout[xStart+x][yStart+y] == NULL);
 			}
 		}
 		return free;
@@ -332,10 +379,6 @@ namespace rl
 	int Inventory::getCurrentBe()
 	{
 		return 0;
-	}
-
-	vector< vector<Item*> > Inventory::getBackpackLayout(){
-		return mBackpackLayout;
 	}
 
 	// TODO: Item hinzufügen, nachdem Platz gesichert ist
@@ -610,9 +653,5 @@ namespace rl
 	void Inventory::setBoots(Item* item)
 	{
 		mBoots = item;
-	}
-
-	void Inventory::initSlots(){
-
 	}
 }

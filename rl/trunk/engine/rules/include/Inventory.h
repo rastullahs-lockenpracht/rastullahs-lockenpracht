@@ -27,9 +27,6 @@
 namespace rl {
 class _RlRulesExport Inventory;
 
-typedef vector<Item*> ContainerColumn;
-typedef vector<ContainerColumn> ContainerLayout;
-
 /**
  * @brief Verwaltet das Inventar des Charakters
  */
@@ -39,11 +36,13 @@ public:
 	Inventory();
 	virtual ~Inventory();
 
-	vector<Item*> getAllItems();
-
-	set<Item*> getAllItemsInBackpack();
-
-	vector< vector<Item*> > getBackpackLayout();
+	/**
+	* Liefert alle Items im Inventar inm einer Liste
+	* Wichtig:
+	* NUR die erste Hierarchieebene der Items wird zurückgegeben
+	* Was in den Items drinnen ist, ist vernachlaessigt
+	*/
+	std::list<Item*> getAllItems();
 
 	/**
 	 * @return Die errechnete Behinderung
@@ -57,11 +56,19 @@ public:
 	 **/
 	bool addItem(Item* item);
 
-	void addItemToBackpack(Item* item);
+	void addItemToContainer(Item* item, Item* container);
 
-	void removeItemFromBackpack(Item* item);
+	/**
+	* Durchsucht alle Container und entfernt das Item daraus 
+	*/
+	void removeItemFromContainers(Item* item);
 
-	bool isFreeInBackpack(Item* item, pair<int,int> posKaestchen);
+	/**
+	* Durchsucht einen Container und entfernt das Item daraus
+	*/
+	void removeItemFromContainer(Item* item, Item* container);
+
+	bool isFreeInContainer(Item* item, pair<int,int> posKaestchen, Item* container);
 
 	void addWeapon(Weapon* weapon);
 
@@ -69,11 +76,9 @@ public:
 	Weapon* removeWeapon(int weaponId);
 	void switchToWeapon(int weaponId);
 
-	void setItemBackpackPosition(Item* item, int xPosDraggedTo, int yPosDraggedTo);
+	void setItemContainerPosition(Item* item, int xPosDraggedTo, int yPosDraggedTo, Item* container);
 
-	void removeItemFromSlots(Item* item);
-
-	Item* createItem(const CeGuiString name, const CeGuiString description, const CeGuiString imageName, Item::ItemType type, pair<int,int> size);
+	void removeItem(Item* item);
 
 	//Ring links
 	Item* getRingLeft();
@@ -153,12 +158,24 @@ private:
 	 *  @return Die Anfangsposition des Platzesm an den das Item gesetzt werden kann.
 	 *  @exception IllegalStateException Es gibt nicht genug Platz für das Item.
 	 **/
-	pair<int,int> findPositionWithEnoughSpace(pair<int,int> space);
+	pair<int,int> findPositionWithEnoughSpace(pair<int,int> space, ContainerLayout containerLayout);
 
 	/**
 	* Überprüft die Stelle im Inventar auf genug Platz für ein Item der Größe space
 	*/
-	bool checkSpace(int xStart, int yStart, pair<int,int> space);
+	bool checkSpace(int xStart, int yStart, pair<int,int> space, ContainerLayout container);
+
+	/**
+	* Erzeugt ein Item mit den angegebenen Parametern
+	* @param: name Der Name des Items
+	* @param: description Die Beschreibung des Gegenstandes
+	* @param: imageName Der Name des Bildes, das dem Item zugeordnet werden soll
+	* @param: type Der Itemtyp
+	* @param: size die Groesse des Gegenstandes im Inventar
+	*
+	* @return: Item* der Zeiger auf das neue Item
+	*/
+	Item* createItem(const CeGuiString name, const CeGuiString description, const CeGuiString imageName, Item::ItemType type, pair<int,int> size);
 
 	Item* mRingLeft;
 	Item* mRingRight;
@@ -177,12 +194,6 @@ private:
 	Item* mTrousers;
 	Item* mShinbone;
 	Item* mBoots;
-
-	ContainerLayout mBackpackLayout;
-	pair<int,int> mBackpackDimension;
-
-	// Befüllt die Slots mit Nullpointern
-	void initSlots();
 };
 
 }

@@ -67,7 +67,7 @@ namespace rl {
 		/**
 		* Schaut nach, ob das Item an der Position gedroppt werden kann.
 		*/
-		bool isFreeInBackpack(Item* item, pair<int,int> kaestechenPos);
+		bool isFreeInContainer(Item* item, pair<int,int> kaestechenPos, Item* container);
 
 		CEGUI::Point mPosDraggedTo;
 		CEGUI::DragContainer* mDroppedItem;
@@ -77,17 +77,31 @@ namespace rl {
 		const CeGuiString mColorReject;
 		const CeGuiString mColorNormal;
 
+		Item* getGroundItem();
+
 	private:
 		Inventory* mInventory;
+
+
+		// TODO : Ersetze durch etwas dynamisches
+		Item* mGroundItem;
 
 		// Erzeugt eine Itemrepräsentation im Inventarfenster
 		CEGUI::DragContainer* createItem(Item* item, CEGUI::Window* parent, CEGUI::UVector2 position = CEGUI::UVector2(CEGUI::cegui_reldim(0.0f), CEGUI::cegui_reldim(0.0f)));
 
 
 		// Das Fenster, in das der Rucksackcontainer soll
-		CEGUI::Window* mBackpackWindow;
-		// Der Rucksackslot (besonders, da alle Arten von Items akzeptiert)
-		CEGUI::Window* mBackpackContent;
+		CEGUI::Window* mContainerTabs;
+
+		// Die Containerslots (besonders, da alle Arten von Items akzeptiert)
+		std::list<CEGUI::Window*> mContainerContents;
+
+		std::list<CEGUI::Window*> mContainers;
+
+		CEGUI::Window* mGroundTab;
+		CEGUI::Window* mGroundContainer;
+
+		const std::pair<int,int> mGroundDimension;
 
 		// Alle verschiedenen Inventoryslots
 		CEGUI::StaticImage* mRingLeft;
@@ -119,6 +133,16 @@ namespace rl {
 		void fillSlots();
 
 		/**
+		* Erzeugt ein Tab für den Container, und befuellt ihn nach Inhalt des container - Items
+		*/
+		void createAndFillContainer(Item* container);
+
+		/**
+		* entfernt ein ContainerTab mitsamt Inhalt aus dem Inventar
+		*/
+		void removeContainerAndContent(Item* container);
+
+		/**
 		* Entleert die Slots im InventarFenster wieder
 		*/
 		void emptySlots();
@@ -138,6 +162,13 @@ namespace rl {
 		* gibt ihm die nötige Funktionalität für drag&drop
 		*/
 		void initBackpack(std::pair<int,int> dim);
+
+
+		/**
+		* erzeugt für alle Items im Inventar, die Containerfunktionaltiaet haben, ein Containertab
+		* im Inventar
+		*/
+		void createContainerWindows();
 	};
 }
 #endif

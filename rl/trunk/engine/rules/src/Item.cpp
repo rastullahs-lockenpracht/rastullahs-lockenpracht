@@ -25,6 +25,8 @@ namespace rl
 		mWeight(0),
 		mItemType(ITEMTYPE_OTHER),
 		mImageName(""),
+		mIsContainer(false),
+		mContainerLayout(),
 		mCapacity(pair<int,int>(1,1)),
 		mSize(pair<int,int>(1,1))
     {
@@ -139,15 +141,31 @@ namespace rl
 	{
 		mIsContainer = isContainer;
 		mCapacity = dim;
+		if (isContainer) {
+			initContainer();
+		}
 	}
+
 	pair<int,int> Item::getCapacity()
 	{
 		return mCapacity;
 	}
 
-	void Item::setCapacity(int widthCapacity,int heightCapacity)
+	void Item::initContainer()
 	{
-		mCapacity = pair<int,int> (widthCapacity,heightCapacity);
+		mContainerLayout = ContainerLayout(mCapacity.first);
+
+		for (unsigned z = 0; z< mContainerLayout.size(); z++){
+			ContainerColumn temp = ContainerColumn(mCapacity.second);
+			mContainerLayout[z] = temp;
+		}
+		
+		for (unsigned int x = 0; x < mContainerLayout.size(); x++){
+			for (unsigned int y = 0; y < mContainerLayout[0].size(); y++){
+				mContainerLayout[x][y] = NULL;
+			}
+		}
+
 	}
 
 	pair<int,int> Item::getSize()
@@ -158,5 +176,10 @@ namespace rl
 	void Item::setSize(int widthSize,int heightSize)
 	{
 		mSize = pair<int,int>(widthSize,heightSize);
+	}
+
+	ContainerLayout &Item::getContainerLayout()
+	{
+		return mContainerLayout;
 	}
 }
