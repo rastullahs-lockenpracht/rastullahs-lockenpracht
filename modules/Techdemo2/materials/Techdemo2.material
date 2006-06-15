@@ -1,111 +1,142 @@
-
-material Techdemo2map1/basis
+material Techdemo2map1 : Splatting5
 {
-	technique
+	technique hlsl
 	{
 		pass
 		{
-			lighting off
-
-			texture_unit
+			// HLSL Fragment Shader
+			fragment_program_ref dxSplatting5_FP
 			{
-				texture gras_01.png
-				tex_coord_set 1
+				//Shader Constant: scaleBase
+				param_named scaleBase  float 0.0500000
+				//Shader Constant: scaleBaseR
+				param_named scaleBaseR float 0.0500000
+				//Shader Constant: scaleBaseG
+				param_named scaleBaseG float 0.010000
+				//Shader Constant: scaleBaseB
+				param_named scaleBaseB float 0.010000
+				//Shader Constant: scaleBaseA
+				param_named scaleBaseA float 1.000000
+ 
+				//Shader Constant: scaleDetail
+				param_named scaleDetail  float 0.0080000
+				//Shader Constant: scaleDetailR
+				param_named scaleDetailR float 0.008000
+				//Shader Constant: scaleDetailG
+				param_named scaleDetailG float 1.000000
+				//Shader Constant: scaleDetailB
+				param_named scaleDetailB float 1.000000
+				//Shader Constant: scaleDetailA
+				param_named scaleDetailA float 1.000000
 			}
+			// The Texture containing the Splatting information in its channels
+			texture_unit SplattingMap
+			{	
+				texture map1alpha.dds
+			}
+			// Texture containing the LightingMap
+			texture_unit LightingMap
+			{
+				texture Techdemo2LightingMap1.png
+				
+			}
+			// Texture containing the groundlayer and its detailmap (inside the alpha channel)
+			texture_unit BaseLayer
+			{
+				texture nat_gras_01.dds
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
+			texture_unit RedLayer
+			{
+				texture nat_felsen_01.dds
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
+			texture_unit GreenLayer
+			{
+				texture nat_steingrund_01.dds
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
+			texture_unit BlueLayer
+			{
+				texture nat_erdboden_01.dds
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
+			texture_unit AlphaLayer
+			{
+			}
+ 
 		}
+	}
+ 
+	technique glsl
+	{
 		pass
 		{
-			lighting off
-			scene_blend alpha_blend
-			shading flat
-
-			texture_unit
+ 
+			fragment_program_ref glSplatting5_FP
 			{
-				texture felsen2.jpg
-				tex_coord_set 1
-				scale 5 5
+				//Shader Constant: scaleBase
+				param_named scaleBase  float 1.000000
+				//Shader Constant: scaleBaseR
+				param_named scaleBaseR float 1.000000
+				//Shader Constant: scaleBaseG
+				param_named scaleBaseG float 1.000000
+				//Shader Constant: scaleBaseB
+				param_named scaleBaseB float 1.000000
+				//Shader Constant: scaleBaseA
+				param_named scaleBaseA float 1.000000
+ 
+				//Shader Constant: scaleDetail
+				param_named scaleDetail  float 1.000000
+				//Shader Constant: scaleDetailR
+				param_named scaleDetailR float 1.000000
+				//Shader Constant: scaleDetailG
+				param_named scaleDetailG float 1.000000
+				//Shader Constant: scaleDetailB
+				param_named scaleDetailB float 1.000000
+				//Shader Constant: scaleDetailA
+				param_named scaleDetailA float 1.000000
 			}
-
-			texture_unit
-			{
-				texture felsdetailmap.png
-				tex_coord_set 2
-				scale 0.01 0.01
+ 
+			// The Texture containing the Splatting information in its channels
+			texture_unit SplattingMap
+			{	
+				texture map1alpha.dds
 			}
-
-			texture_unit
+			// Texture containing the LightingMap
+			texture_unit LightingMap
 			{
-				texture TechdemoMap1_Fels.png
-				tex_coord_set 2
+				texture Techdemo2LightingMap1.png
+				
 			}
-		}
-		pass
-		{
-			lighting off
-			scene_blend alpha_blend
-			shading flat
-
-			texture_unit
+			// Texture containing the groundlayer and its detailmap (inside the alpha channel)
+			texture_unit BaseLayer
 			{
-				texture steingrund01.jpg
-				tex_coord_set 1
+				texture nat_gras_01.dds
 			}
-
-			texture_unit
+			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
+			texture_unit RedLayer
 			{
-				texture TechdemoMap1_Dreck.png
-				tex_coord_set 2
+				texture nat_felsen_01.dds
 			}
-		}
-		pass
-		{
-			ambient 0.282353 0.282353 0.282353 1
-			diffuse 0.788235 0.788235 0.788235 1
-			specular 0 0 0 1 20
-			scene_blend modulate
-
-			texture_unit
+			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
+			texture_unit GreenLayer
 			{
-				texture Techdemo2LightingMap.png
-				colour_op_ex add src_texture src_current
-				colour_op_multipass_fallback one one
+				texture nat_steingrund_01.dds
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
+			texture_unit BlueLayer
+			{
+				texture nat_erdboden_01.dds
+			}
+			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
+			texture_unit AlphaLayer
+			{
 			}
 		}
 	}
-}
-material Techdemo2map1/lod
-{
-	technique
+ 
+	technique fixed_function
 	{
-		pass
-		{
-			lighting off
-
-			texture_unit
-			{
-				texture terrain_lod.png
-				tex_coord_set 1
-			}
-
-			texture_unit
-			{
-				texture felsdetailmap.png
-				scale 0.1 0.1
-			}
-		}
-		pass
-		{
-			ambient 0.282353 0.282353 0.282353 1
-			diffuse 0.788235 0.788235 0.788235 1
-			specular 0 0 0 1 20
-			scene_blend modulate
-
-			texture_unit
-			{
-				texture Techdemo2LightingMap.png
-				colour_op_ex add src_texture src_current
-				colour_op_multipass_fallback one one
-			}
-		}
 	}
 }

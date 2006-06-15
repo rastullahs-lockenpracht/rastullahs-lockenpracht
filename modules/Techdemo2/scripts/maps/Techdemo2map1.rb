@@ -11,16 +11,12 @@ $World = $CORE.getWorld()
 $World.setSkyBox(true, "rl/desert07", 100.0)
 $SCRIPT.log("skybox set");
 
-$SCRIPT.log("Weiler erstellen..");
-weiler = $AM.createMeshActor("weiler", "nat_wasser_techdemo2.mesh", PhysicsManager::GT_NONE, 0.0);
-weiler.placeIntoScene([25.0, -79.0, -138.0]);
-$SCRIPT.log("Weiler erstellt");
 
 $SCRIPT.log("Tageslicht erstellen..");
 sunlight = $AM.createLightActor("sunlight", LightObject::LT_DIRECTIONAL);
 sunlight.getControlledObject().setDirection(-0.17101, -0.873647, 0.969846);
 sunlight.getControlledObject().setCastShadows(true);
-sunlight.getControlledObject().setDiffuseColour(1.1,0.8,0.8);
+sunlight.getControlledObject().setDiffuseColour(0.8,0.8,0.8);
 $SCRIPT.log("Tageslicht erstellt.");
 
 
@@ -43,15 +39,15 @@ $SCRIPT.log("Druidenwald-Thema fertig");
 $SCRIPT.log("Held erstellen");
 $hero = Hero.new;
 $SCRIPT.log("Held erstellt");
-$SCRIPT.log("Held in die Szene einfuegen.");
-$hero.getActor().placeIntoScene(9.0, -77.0, -147.0, 1.0, 0.0, 0.0, 0.0);
+$SCRIPT.log("Held in die Szene einfuegen.");#-22.0130577087402, -6.70670890808105, 25.1438484191895
+$hero.getActor().placeIntoScene(-22.0130577087402, -6.70670890808105, 25.1438484191895, 1.0, 0.0, 0.0, 0.0);
 $SCRIPT.log("Held eingefügt.");
 PlayerSettings.preparePlayer($hero);
 $SCRIPT.log("Held vorbereitet.");
 $UI.setActiveCharacter($hero);
 $SCRIPT.log("Held als aktiver Charakter gesetzt.");
 
-$World.setFog( World::FOG_EXP, [0.1,0.08,0.04,0.1], 0.00803, 0.4, 1.0);
+$World.setFog( World::FOG_EXP, [0.1,0.08,0.01,0.1], 0.00503, 10.0, 100.0);
 
 #******** mapchange **********
 $SCRIPT.log("Mapchange: Kugel-Zentrum Actor erstellen");
