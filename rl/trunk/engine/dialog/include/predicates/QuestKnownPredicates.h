@@ -13,25 +13,24 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
-#ifndef __Rl_QuestPredicates_H__
-#define __Rl_QuestPredicates_H__
+#ifndef __Rl_QuestKnownPredicates_H__
+#define __Rl_QuestKnownPredicates_H__
 
 #include "DialogPrerequisites.h"
 #include "Predicates.h"
-using namespace MadaBot;
 
 namespace rl
 {
-	class QuestPredicates :
-		public Predicates<CeGuiString>
+	class QuestKnownPredicates :
+		public MadaBot::Predicates<CeGuiString>
 	{
 	public:
-		QuestPredicates();
-		~QuestPredicates(void);
+		QuestKnownPredicates();
+		~QuestKnownPredicates(void);
 		
-		CeGuiString getPredicate(const CeGuiString& pName) const;
+		CeGuiString getPredicate(const CeGuiString& name) const;
 
-		void setPredicate(const CeGuiString& pName, const CeGuiString& pValue);
+		void setPredicate(const CeGuiString& name, const CeGuiString& value);
 
 		CeGuiString getType() const;
 	};

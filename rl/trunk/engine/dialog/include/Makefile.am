@@ -11,7 +11,8 @@ noinst_HEADERS = \
 	ScriptProcessor.h \
 	predicates/CreaturePredicates.h \
 	predicates/EigenschaftsProbePredicates.h \
-	predicates/QuestPredicates.h \
+	predicates/QuestKnownPredicates.h \
+	predicates/QuestStatePredicates.h \
 	predicates/ScriptPredicates.h \
 	predicates/TalentProbePredicates.h \
 	predicates/TalentWertPredicates.h	

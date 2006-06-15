@@ -117,12 +117,10 @@ namespace rl {
 	public:
 		enum State
 		{
-			UNKNOWN = 0,
+			CLOSED = 0,
 			OPEN,
 			FAILED,
-			COMPLETED,
-			CLOSED,
-			HEARD_OF
+			COMPLETED
 		};
 
 		Quest(const rl::CeGuiString id, const rl::CeGuiString name, const rl::CeGuiString description);
@@ -137,6 +135,8 @@ namespace rl {
 		void setPartsDone(int partsDone);
 		rl::Quest::State getState();
 		void setState(rl::Quest::State state);
+		bool isKnown();
+		void setKnown(bool known);
 
 		// QuestVector getSubquests();
 		void addSubquest(rl::Quest* quest); 

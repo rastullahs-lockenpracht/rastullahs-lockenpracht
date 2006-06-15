@@ -22,7 +22,8 @@
 #include "Predicates.h"
 #include "EigenschaftsProbePredicates.h"
 #include "EigenschaftsWertPredicates.h"
-#include "QuestPredicates.h"
+#include "QuestKnownPredicates.h"
+#include "QuestStatePredicates.h"
 #include "ScriptPredicates.h"
 #include "TalentProbePredicates.h"
 #include "TalentWertPredicates.h"
@@ -72,7 +73,8 @@ namespace rl
 		{
 			mBot->addPredicates(new EigenschaftsProbePredicates(mPlayerCharacter));
 			mBot->addPredicates(new EigenschaftsWertPredicates(mPlayerCharacter));
-			mBot->addPredicates(new QuestPredicates());
+			mBot->addPredicates(new QuestKnownPredicates());
+			mBot->addPredicates(new QuestStatePredicates());
 			mBot->addPredicates(new ScriptPredicates(this));
 			mBot->addPredicates(new TalentProbePredicates(mPlayerCharacter));
 			mBot->addPredicates(new TalentWertPredicates(mPlayerCharacter));

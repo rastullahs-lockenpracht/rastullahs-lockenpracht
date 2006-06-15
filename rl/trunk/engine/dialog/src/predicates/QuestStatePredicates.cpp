@@ -13,36 +13,36 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
-#include "QuestPredicates.h"
+#include "QuestStatePredicates.h"
 #include "QuestBook.h"
 #include "Quest.h"
 #include "RulesSubsystem.h"
 
 using namespace rl;
 
-QuestPredicates::QuestPredicates()
+QuestStatePredicates::QuestStatePredicates()
 {
 }
 
-QuestPredicates::~QuestPredicates(void)
+QuestStatePredicates::~QuestStatePredicates(void)
 {
 }
 
-CeGuiString QuestPredicates::getPredicate(const CeGuiString& pName) const
+CeGuiString QuestStatePredicates::getPredicate(const CeGuiString& name) const
 {
 	Quest* quest = RulesSubsystem::getSingletonPtr()->getQuestBook()
-		->getQuest(pName);
+		->getQuest(name);
 	return quest->getStateName();
 }
 
-void QuestPredicates::setPredicate(const CeGuiString& pName, const CeGuiString& pValue)
+void QuestStatePredicates::setPredicate(const CeGuiString& name, const CeGuiString& value)
 {
 	Quest* quest = RulesSubsystem::getSingletonPtr()->getQuestBook()
-		->getQuest(pName);
-	quest->setState(quest->getStateFromName(pValue));
+		->getQuest(name);
+	quest->setState(quest->getStateFromName(value));
 }
 
-CeGuiString QuestPredicates::getType() const
+CeGuiString QuestStatePredicates::getType() const
 {
-	return "quest";
+	return "queststate";
 }

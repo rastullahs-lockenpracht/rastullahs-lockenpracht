@@ -36,15 +36,14 @@ class _RlRulesExport Quest
 public:
 	enum State
 	{
-		UNKNOWN = 0,
+		CLOSED = 0,
 		OPEN,
 		FAILED,
-		COMPLETED,
-		CLOSED,
-		HEARD_OF
+		COMPLETED
 	};
 
-	static CeGuiString STATE_NAMES[6];
+	static CeGuiString STATE_NAMES[4];
+	static CeGuiString KNOWN_NAMES[2];
 
 	/**
 	 * @param id eine einzigartige ID, um den Quest wiederzufinden
@@ -101,6 +100,7 @@ public:
 	 * @return Status des Quests (als String)
 	 */
 	const CeGuiString getStateName();
+	const CeGuiString getKnownName();
 
 	/**
 	 * @param Status des Quests
@@ -126,7 +126,12 @@ public:
 	void setQuestBook(QuestBook* questBook);
 
 	static Quest::State getStateFromName(const CeGuiString stateName);
+	static bool getKnownFromName(const CeGuiString knownName);
 private:
+
+	static const int KNOWN = 1;
+	static const int UNKNOWN = 0;
+
 	QuestVector mSubquests;
 	CeGuiString mId;
 	CeGuiString mName;

@@ -108,7 +108,7 @@ namespace rl {
 	{
 		static CeGuiString INDENT = "   ";
 
-		if (quest->getState() == Quest::UNKNOWN)
+		if (!quest->isKnown())
 			return;
 
 		CeGuiString questName = "";

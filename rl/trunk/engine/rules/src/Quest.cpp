@@ -25,7 +25,10 @@
 
 namespace rl {
 
-CeGuiString	Quest::STATE_NAMES[6] = {"UNKNOWN", "OPEN", "FAILED", "COMPLETED", "CLOSED", "HEARDOF"};
+CeGuiString	Quest::STATE_NAMES[4] = 
+		{	"CLOSED",	"OPEN",		"FAILED",	"COMPLETED"};
+CeGuiString	Quest::KNOWN_NAMES[2] = 
+		{	"UNKNOWN",	"KNOWN"};
 
 Quest::Quest(const CeGuiString id, const CeGuiString name, const CeGuiString description)
 :	mId(id),
@@ -33,10 +36,10 @@ Quest::Quest(const CeGuiString id, const CeGuiString name, const CeGuiString des
 	mDescription(description),
 	mPartsToDo(1),
 	mPartsDone(0),
-	mState(Quest::UNKNOWN),
+	mState(Quest::CLOSED),
+	mKnown(false),
 	mParent(NULL),
-	mQuestBook(NULL),
-	mKnown(false)
+	mQuestBook(NULL)	
 {
 }
 
@@ -104,6 +107,18 @@ Quest::State Quest::getState()
 const CeGuiString Quest::getStateName()
 {
 	return Quest::STATE_NAMES[mState];
+}
+
+const CeGuiString Quest::getKnownName()
+{
+	if (mKnown)
+	{
+		return Quest::KNOWN_NAMES[Quest::KNOWN];
+	}
+	else
+	{
+		return Quest::KNOWN_NAMES[Quest::UNKNOWN];
+	}
 }
 
 void Quest::setState(Quest::State state)
@@ -180,8 +195,6 @@ void Quest::setQuestBook(QuestBook* questBook)
 
 Quest::State Quest::getStateFromName(const CeGuiString stateName)
 {
-	if (stateName == Quest::STATE_NAMES[Quest::UNKNOWN]) 
-		return Quest::UNKNOWN;
 	if (stateName == Quest::STATE_NAMES[Quest::OPEN]) 
 		return Quest::OPEN;
 	if (stateName == Quest::STATE_NAMES[Quest::FAILED]) 
@@ -190,12 +203,21 @@ Quest::State Quest::getStateFromName(const CeGuiString stateName)
 		return Quest::COMPLETED;
 	if (stateName == Quest::STATE_NAMES[Quest::CLOSED]) 
 		return Quest::CLOSED;
-	if (stateName == Quest::STATE_NAMES[Quest::HEARD_OF]) 
-		return Quest::HEARD_OF;
 
 	const char* msg = (stateName + " is no valid quest state.").c_str();
 	Throw(IllegalArgumentException, msg);
-	return Quest::UNKNOWN;
+}
+
+bool Quest::getKnownFromName(const CeGuiString knownName)
+{
+	if (knownName == Quest::KNOWN_NAMES[Quest::UNKNOWN])
+		return false;
+	else if (knownName == Quest::KNOWN_NAMES[Quest::KNOWN])
+		return true;
+
+	Throw(
+		IllegalArgumentException, 
+		(knownName + " is no valid quest known state.").c_str());
 }
 
 bool Quest::isKnown()
