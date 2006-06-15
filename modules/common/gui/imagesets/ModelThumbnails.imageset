@@ -2,6 +2,7 @@
 <Imageset Name="ModelThumbnails" Imagefile="ModelThumbnails.png" NativeHorzRes="256" NativeVertRes="256" AutoScaled="false" >
     <Image Name="Trank" XPos="1" YPos="1" Width="30" Height="30" />
 	<Image Name="Handschuhe" XPos="26" YPos="1" Width="60" Height="60" />
+	<Image Name="Rucksack" XPos="94" YPos="1" Width="60" Height="60" />
 	<Image Name="Kroetenhaut" XPos="69" YPos="131" Width="90" Height="120" />
 	<Image Name="Armreif" XPos="1" YPos="55" Width="30" Height="30" />
 	<Image Name="Stiefel" XPos="30" YPos="62" Width="60" Height="60" />
