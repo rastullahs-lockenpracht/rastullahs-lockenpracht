@@ -12,18 +12,13 @@ class OpenDoorAction < Action
   end
   
   def doAction(door, user, target)    
-    $SCRIPT.log("doAction");
-    print "doAction";
     doorActor = door.getActor(); 
     doorActor.getControlledObject().replaceAnimation("zu", "auf", 1.0, 1);
     animListener = ActorUpdateAnimationListener.new();
-    print animListener;    
     anim = doorActor.getControlledObject().getAnimation("auf");
-    print anim;
     anim.addAnimationListener(animListener);
-    print anim;
-    print animListener;
-    knarzActor = doorActor.getChildByName(doorActor.getName()+"_knarzen");
+
+    knarzActor = door.getSoundActor();
     knarzActor.getControlledObject().play();
     door.setOpen(true);
   end
@@ -46,7 +41,7 @@ class CloseDoorAction < Action
     anim = doorActor.getControlledObject().getAnimation("zu");
     anim.addAnimationListener(animListener);
 
-    knarzActor = doorActor.getChildByName(doorActor.getName()+"_knarzen");
+    knarzActor = door.getSoundActor();
     knarzActor.getControlledObject().play();
 
     door.setOpen(false);
@@ -54,16 +49,14 @@ class CloseDoorAction < Action
 end
 
 class Door < GameObject
-  def initialize(name, description, isOpen, canBeOpened)
+  
+  def initialize(name, description, isOpen, canBeOpened, mesh = "arc_tuer_01.mesh", sound = "doorcreak.ogg")
     super(name, description);
 
-    doorActor = $AM.createMeshActor( name, "arc_tuer_01.mesh",  PhysicsManager::GT_CONVEXHULL, 0.0 ); #PhysicsManager::GT_BOX , 6.0);
-    $SCRIPT.log("door.rb - Aktor erstellt.");
+    doorActor = $AM.createMeshActor(name, mesh, PhysicsManager::GT_BOX , 0.0);
     setActor(doorActor);
-    $SCRIPT.log("door.rb - Aktor gesetzt");
-    soundActor = $AM.createSoundSampleActor(name+"_knarzen","doorcreak.ogg");
-    doorActor.attachToSlot(soundActor,"Bone01");
-    $SCRIPT.log("door.rb - Sound hinzugefuegt");
+    @mSoundActor = $AM.createSoundSampleActor(name+"_knarzen", sound);
+    doorActor.attachToSlot(@mSoundActor,"Bone01");
 
     @mOpen = isOpen
     @mOpenAction = OpenDoorAction.new()
@@ -74,11 +67,9 @@ class Door < GameObject
     if (canBeOpened)
     	addAction(@mOpenAction);
     	addAction(@mCloseAction);
-    	$SCRIPT.log("door.rb - Aktionen hinzugefuegt.");
     else
     	addAction(@mOpenAction, Action::ACT_DISABLED);
     	addAction(@mCloseAction, Action::ACT_DISABLED);
-    	$SCRIPT.log("door.rb - Aktionen versteckt hinzugefuegt.");
     end
 
     @mDoor.doAction("opendoor") unless not @mOpen
@@ -103,6 +94,10 @@ class Door < GameObject
          @mOpenAction
        end
      end
+  end
+
+  def getSoundActor()
+     return @mSoundActor
   end
 
 end
