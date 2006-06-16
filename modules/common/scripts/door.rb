@@ -50,14 +50,18 @@ end
 
 class Door < GameObject
   
-  def initialize(name, description, isOpen, canBeOpened, mesh = "arc_tuer_01.mesh", sound = "doorcreak.ogg")
+  def initialize(name, description, position, orientation, mesh = "arc_tuer_01.mesh", sound = "doorcreak.ogg")
     super(name, description);
 
     doorActor = $AM.createMeshActor(name, mesh, PhysicsManager::GT_BOX , 0.0);
     setActor(doorActor);
-    @mSoundActor = $AM.createSoundSampleActor(name+"_knarzen", sound);
-    doorActor.attachToSlot(@mSoundActor,"Bone01");
+    doorActor.placeIntoScene(position, orientation);
 
+    @mSoundActor = $AM.createSoundSampleActor(name+"_knarzen", sound);
+    doorActor.attach(@mSoundActor);
+  end
+
+  def addActions(isOpen = false, canBeOpened = true)
     @mOpen = isOpen
     @mOpenAction = OpenDoorAction.new()
     @mCloseAction = CloseDoorAction.new()
@@ -73,7 +77,7 @@ class Door < GameObject
     end
 
     @mDoor.doAction("opendoor") unless not @mOpen
-  end
+   end
   
   def setOpen(isOpen)
     @mOpen = isOpen
