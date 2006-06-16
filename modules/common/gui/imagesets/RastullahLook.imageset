@@ -30,15 +30,15 @@
 	<Image Name="Container" XPos="290" YPos="260" Width="30" Height="30" />
 	
 	<!-- Rastullah/ItemBackground -->
-	<Image Name="ItemBackgroundTL" XPos="290" YPos="294" Width="8" Height="8" />
-	<Image Name="ItemBackgroundT" XPos="299" YPos="294" Width="15" Height="8" />
-	<Image Name="ItemBackgroundTR" XPos="315" YPos="294" Width="8" Height="8" />
-	<Image Name="ItemBackgroundR" XPos="315" YPos="303" Width="8" Height="15" />
-	<Image Name="ItemBackgroundBR" XPos="315" YPos="319" Width="8" Height="8" />
-	<Image Name="ItemBackgroundB" XPos="299" YPos="319" Width="15" Height="8" />
-	<Image Name="ItemBackgroundBL" XPos="290" YPos="319" Width="8" Height="8" />
+	<Image Name="ItemBackgroundTL" XPos="290" YPos="295" Width="8" Height="8" />
+	<Image Name="ItemBackgroundT" XPos="298" YPos="295" Width="15" Height="8" />
+	<Image Name="ItemBackgroundTR" XPos="313" YPos="295" Width="8" Height="8" />
+	<Image Name="ItemBackgroundR" XPos="313" YPos="303" Width="8" Height="15" />
+	<Image Name="ItemBackgroundBR" XPos="313" YPos="317" Width="8" Height="8" />
+	<Image Name="ItemBackgroundB" XPos="298" YPos="317" Width="15" Height="8" />
+	<Image Name="ItemBackgroundBL" XPos="290" YPos="317" Width="8" Height="8" />
 	<Image Name="ItemBackgroundL" XPos="290" YPos="303" Width="8" Height="15" />
-	<Image Name="ItemBackgroundBG" XPos="299" YPos="303" Width="15" Height="15" />
+	<Image Name="ItemBackgroundBG" XPos="298" YPos="303" Width="15" Height="15" />
 
     <!-- Rastullah/StatusBar -->
     <Image Name="StatusBarLeft" XPos="147" YPos="320" Width="4" Height="13" />

@@ -104,9 +104,16 @@
 			</Window>
 			
 			<!-- Rechte Seite --> 
-			<Window Type="RastullahLook/Listbox" Name="InventoryWindow/Description">
+			
+			<!-- Itembild -->
+			<Window Type="RastullahLook/StaticImage" Name="InventoryWindow/ItemPicture">
+				<Property Name="Text" Value="Itempicture"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,370},{0,20},{0,498},{0,148}}" />
+			</Window>
+			
+			<Window Type="RastullahLook/StaticText" Name="InventoryWindow/Description">
 				<Property Name="Text" Value="Itemdescription"/>
-				<Property Name="UnifiedAreaRect" Value="{{0,370},{0,20},{1,-10},{0.3,-10}}" />
+				<Property Name="UnifiedAreaRect" Value="{{0,508},{0,20},{1,-25},{0,148}}" />
 			</Window>
 	
 			<Window Type="RastullahLook/MultiLineEditbox" Name="InventoryWindow/Infos">
@@ -114,16 +121,16 @@
 				<Property Name="FrameEnabled" Value="false" />
 				<Property Name="Text" Value="BE: 0, AT: 5, Traglast: 0 Stein, Max: 50 Stein, Guthaben: 5 Dukaten, Ausdauer: 25"/>
 				
-				<Property Name="UnifiedAreaRect" Value="{{0,370},{0.3,0},{1,-10},{0.45,-10}}" />
+				<Property Name="UnifiedAreaRect" Value="{{0,370},{0,158},{1,-25},{0,200}}" />
 			</Window>
 				
 			<Window Type="RastullahLook/TabControl" Name="InventoryWindow/Tabs">
-				<Property Name="UnifiedAreaRect" Value="{{0,370},{0.45,0},{1,-10},{0.9,-20}}" />
+				<Property Name="UnifiedAreaRect" Value="{{0,370},{0,210},{1,-25},{0.9,-20}}" />
 			</Window>
 			
 			<Window Type="RastullahLook/Listbox" Name="InventoryWindow/Heroes">
 				<Property Name="Text" Value="Heroes"/>
-				<Property Name="UnifiedAreaRect" Value="{{0,370},{0.9,0},{1,-20},{1,-5}}" />
+				<Property Name="UnifiedAreaRect" Value="{{0,370},{0.9,0},{1,-25},{1,-15}}" />
 			</Window>
 		</Window>
 	</Window>

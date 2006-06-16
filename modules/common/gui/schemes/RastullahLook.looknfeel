@@ -827,6 +827,8 @@
 
 	<!-- RastullahLook/Item -->
 	<WidgetLook name="RastullahLook/Item">
+		<PropertyDefinition	name="BackgroundColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+		
 		<Property name="AbsoluteMinSize" value="w:30 h:30" />
 		<Property name="FrameEnabled" value="True" />
 		
@@ -862,24 +864,30 @@
 	
 		<StateImagery name="Enabled">
             <Layer>
-                <Section section="frame" />
+                <Section section="frame">
+					<ColourProperty name="BackgroundColour" />
+				</Section>
             </Layer>
         </StateImagery>
         <StateImagery name="Disabled">
             <Layer>
                 <Section section="frame">
-                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                    <ColourProperty name="BackgroundColour" />
                 </Section>
             </Layer>
         </StateImagery>
 		<StateImagery name="EnabledFrame">
             <Layer>
-                <Section section="frame" />
+                <Section section="frame">
+					<ColourProperty name="BackgroundColour" />
+				</Section>
             </Layer>
         </StateImagery>
 		<StateImagery name="DisabledFrame">
             <Layer>
-                <Section section="frame" />
+				<Section section="frame">
+					<ColourProperty name="BackgroundColour" />
+				</Section>
             </Layer>
         </StateImagery>
 	</WidgetLook>
