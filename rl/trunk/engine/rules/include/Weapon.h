@@ -37,6 +37,8 @@ namespace rl
 		Weapon (const CeGuiString weaponName, const CeGuiString description);
 		virtual ~Weapon(void);
 
+		const CeGuiString getDescription() const;
+
 		void setTp(int d6, int d20, int mod);
 		const Tripel<int>& getTp() const;
 		void setTpKk(int base, int step);

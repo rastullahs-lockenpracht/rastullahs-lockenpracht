@@ -55,6 +55,9 @@ namespace rl
 			ITEMTYPE_OTHER
 		};
 
+
+		const CeGuiString getDescription() const;
+
         void setWeight(int weight);
         int getWeight() const;
 
@@ -66,8 +69,7 @@ namespace rl
 		const CeGuiString getImageName();
 
 		void setImageName(const CeGuiString name);
-		
-		
+
 		/**
 		 * @return ob es sich um ein Item handelt,
 		 * in dem andere gespeichert werden können

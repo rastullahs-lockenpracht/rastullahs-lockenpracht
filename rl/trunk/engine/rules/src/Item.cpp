@@ -46,6 +46,11 @@ namespace rl
     Item::~Item(void)
     {
     }
+	
+	const CeGuiString Item::getDescription() const
+	{
+		return mDescription;
+	}
 
     void Item::setWeight(int weight)
     {

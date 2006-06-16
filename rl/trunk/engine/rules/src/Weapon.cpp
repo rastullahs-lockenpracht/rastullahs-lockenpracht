@@ -30,6 +30,13 @@ namespace rl
 	{
 	}
 
+	const CeGuiString Weapon::getDescription() const
+	{
+		return mDescription + 
+			"\r\nW6: " + Ogre::StringConverter::toString(mTp.first) +
+			"\r\nW20: " + Ogre::StringConverter::toString(mTp.second);
+	}
+
 	void Weapon::setTp(int d6, int d20, int mod)
 	{
 		mTp.first = d6;

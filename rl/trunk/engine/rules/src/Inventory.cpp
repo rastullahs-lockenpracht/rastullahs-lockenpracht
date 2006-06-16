@@ -175,8 +175,6 @@ namespace rl
 
 	bool Inventory::isFreeInContainer(Item* item, pair<int,int> posKaestchen, Item* container)
 	{
-		char buf1[5], buf2[5];
-
 		int xSize = item->getSize().first;
 		int ySize = item->getSize().second;
 
@@ -185,9 +183,10 @@ namespace rl
 			for (int y = posKaestchen.second; y < (posKaestchen.second + ySize); y++){
 				
 				Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_MESSAGE,
-					CEGUI::String("Checking Point in Backpack: Point x:").append(itoa(x,buf1,10))
-				.append(", Point y:")
-				.append(itoa(y,buf2,10)));
+					CEGUI::String("Checking Point in Backpack: Point x:")
+					+ StringConverter::toString(x) 
+					+ ", Point y:"
+					+ StringConverter::toString(y));
 				
 				if (x >= int(container->getContainerLayout().size()) || y >= int(container->getContainerLayout()[0].size())){
 					// Es wird versucht, das Item außerhalb des Containers zu platzieren
@@ -200,8 +199,6 @@ namespace rl
 				}
 			}
 		}
-		Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_MESSAGE,
-			CEGUI::String("returning:").append(itoa(free,buf1,10)));
 		
 		return free;
 	}
