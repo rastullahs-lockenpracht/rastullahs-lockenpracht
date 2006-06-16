@@ -176,25 +176,33 @@ namespace rl {
         // Nur wenn es sich verändert hat
         if( person != mCharacter )
         {
-            if( mCharacter != NULL )
+			if( mCharacter != NULL )
 			{
-                ScriptWrapper::getSingleton().disowned( mCharacter );
+				ScriptWrapper::getSingleton().disowned( mCharacter );
 				mCharacter->getActor()->detach(SoundManager::getSingleton().getListenerActor());
 			}
 
-            ScriptWrapper::getSingleton().owned( person );
-            mCharacter = person;
-            World* world = CoreSubsystem::getSingletonPtr()->getWorld();
-            world->setActiveActor(person->getActor());
-		    
-			mWindowFactory->setActiveCharacter(person);
+			if (person == NULL)
+			{
+				mCharacter = NULL;
+			}
+			else
+			{
+				ScriptWrapper::getSingleton().owned( person );
+				mCharacter = person;
+				World* world = CoreSubsystem::getSingletonPtr()->getWorld();
+				world->setActiveActor(person->getActor());
+			    
+				mWindowFactory->setActiveCharacter(person);
 
-			mCharacter->getActor()->attach(SoundManager::getSingleton().getListenerActor());
-			SoundManager::getSingleton().getListenerActor()->setListenerOf(mCharacter->getActor()->_getSceneNode());
-			Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "SoundListener attached.");
-            
-            Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "Actor set");
-			setCharacterController(CharacterController::CTRL_MOVEMENT);
+				mCharacter->getActor()->attach(SoundManager::getSingleton().getListenerActor());
+				SoundManager::getSingleton().getListenerActor()
+					->setListenerOf(mCharacter->getActor()->_getSceneNode());
+				Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "SoundListener attached.");
+	            
+				Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "Actor set");
+				setCharacterController(CharacterController::CTRL_MOVEMENT);
+			}
         }
 	}
 
@@ -326,6 +334,7 @@ namespace rl {
 			Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE,
                 "Old CharacterController deleted.");
             mCharacterController = NULL;
+			setActiveCharacter(NULL);
 		}
     }
 }
