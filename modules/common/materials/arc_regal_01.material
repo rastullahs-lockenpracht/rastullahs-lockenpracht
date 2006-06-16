@@ -1,0 +1,16 @@
+
+material arc_regal_essen
+{
+	technique
+	{
+		pass
+		{
+			alpha_rejection greater 128
+
+			texture_unit
+			{
+				texture arc_regal_essen.png
+			}
+		}
+	}
+}

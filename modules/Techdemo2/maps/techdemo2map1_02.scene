@@ -19632,14 +19632,14 @@
   
 
 		</node>
-		<node name="men_alrike" id="2617" >
+		<node name="men_alrike_ladMichNich" id="2617" >
 			<position x="-34.8337" y="-6.22226" z="18.4585" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
-				name="men_alrike"
+				name="men_alrike_ladMichNich"
 				id="2618"
-				meshFile ="men_alrike.mesh"
+				meshFile ="men_alrike_ladMichNich.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
 			/>
@@ -20115,7 +20115,7 @@
 		<node name="arc_schrank_01" id="2681" >
 			<position x="-33.2278" y="-3.29452" z="20.2881" />
 			<rotation qx="0.0" qy="-0.965926" qz="0.0" qw="-0.258819" />
-			<scale x="1.0" y="1.0" z="1.0" />
+			<scale x="1.18383" y="1.18383" z="1.18383" />
 			<entity
 				name="arc_schrank_01"
 				id="2682"
@@ -20165,6 +20165,156 @@
 				name="arc_nachtkasten_01"
 				id="2688"
 				meshFile ="arc_nachtkasten_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="arc_schrank_01" id="2689" >
+			<position x="-7.87085" y="-6.91304" z="12.1703" />
+			<rotation qx="0.0" qy="-0.887011" qz="0.0" qw="0.461749" />
+			<scale x="1.18383" y="1.18383" z="1.18383" />
+			<entity
+				name="arc_schrank_01"
+				id="2690"
+				meshFile ="arc_schrank_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_salat_01" id="2691" >
+			<position x="-35.6551" y="-6.45313" z="31.4588" />
+			<rotation qx="0.0" qy="-0.258819" qz="0.0" qw="0.965926" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_salat_01"
+				id="2692"
+				meshFile ="nat_salat_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_salat_01" id="2693" >
+			<position x="-33.1335" y="-6.45313" z="31.8578" />
+			<rotation qx="0.0" qy="-0.258819" qz="0.0" qw="0.965926" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_salat_01"
+				id="2694"
+				meshFile ="nat_salat_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="door" id="2695" >
+			<position x="-12.9124" y="-6.86492" z="13.7133" />
+			<rotation qx="0.0" qy="-0.300706" qz="0.0" qw="0.953717" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="door"
+				id="2696"
+				meshFile ="door.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="arc_door_02_lad_mich_nich" id="2697" >
+			<position x="-34.6458" y="-6.2058" z="14.9355" />
+			<rotation qx="0.0" qy="-0.288855" qz="0.0" qw="0.957373" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="arc_door_02_lad_mich_nich"
+				id="2698"
+				meshFile ="arc_door_02_lad_mich_nich.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_schmuckkasten_01" id="2699" >
+			<position x="-10.4659" y="-5.94829" z="11.0606" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_schmuckkasten_01"
+				id="2700"
+				meshFile ="ver_schmuckkasten_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_schmuckkasten_01" id="2701" >
+			<position x="-35.379" y="-2.53372" z="15.1093" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_schmuckkasten_01"
+				id="2702"
+				meshFile ="ver_schmuckkasten_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="arc_regal_01" id="2703" >
+			<position x="-37.3135" y="-6.22377" z="21.9168" />
+			<rotation qx="0.0" qy="-0.953717" qz="0.0" qw="-0.300706" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="arc_regal_01"
+				id="2704"
+				meshFile ="arc_regal_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="arc_kommode_01" id="2705" >
+			<position x="-38.5371" y="-6.26581" z="21.0946" />
+			<rotation qx="0.0" qy="-0.953717" qz="0.0" qw="-0.300706" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="arc_kommode_01"
+				id="2706"
+				meshFile ="arc_kommode_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="arc_UnbHaus_04" id="2707" >
+			<position x="-38.7719" y="-6.40238" z="-0.855989" />
+			<rotation qx="0.0" qy="-0.382683" qz="0.0" qw="0.92388" />
+			<scale x="1.1161" y="1.1161" z="1.1161" />
+			<entity
+				name="arc_UnbHaus_04"
+				id="2708"
+				meshFile ="arc_UnbHaus_04.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
 			/>

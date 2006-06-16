@@ -2,6 +2,7 @@ load "embed.rb"
 
 require 'player.rb'
 require 'hero.rb'
+require 'door.rb'
 
 # Physik aktivieren
 $PM.setEnabled(true);
@@ -20,6 +21,12 @@ sunlight.getControlledObject().setDiffuseColour(0.8,0.8,0.8);
 $SCRIPT.log("Tageslicht erstellt.");
 
 
+$SCRIPT.log("Türen einsetzen")
+#door1 = Door.new("Eine Tür links", "Eine Holztür", [-12.9124, -6.86492, 13.7133], [0, -120, 0], "arc_door_02.mesh");
+#door1.addActions(false, true)
+#door2 = Door.new("Eine Tür links", "Eine Holztür", [-34.6458, -6.2058, 14.9355], [0, -212.5, 0], "arc_door_02.mesh");
+#door2.addActions(false, true)
+$SCRIPT.log("Türen gesetzt")
 
 #shadowlight = $AM.createLightActor("shadowlight", LightObject::LT_SPOTLIGHT);
 #shadowlight.setPosition(0.0, 1000.0, 0.0);

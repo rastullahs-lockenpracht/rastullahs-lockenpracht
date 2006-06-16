@@ -3,6 +3,7 @@ load "embed.rb"
 require 'player.rb'
 require 'hero.rb'
 
+
 # Physik aktivieren
 $PM.setEnabled(true);
 
@@ -22,6 +23,7 @@ sunlight.getControlledObject().setDirection(-0.17101, -0.873647, 0.969846);
 sunlight.getControlledObject().setCastShadows(true);
 sunlight.getControlledObject().setDiffuseColour(0.8,0.8,0.8);
 $SCRIPT.log("Tageslicht erstellt.");
+
 
 
 
