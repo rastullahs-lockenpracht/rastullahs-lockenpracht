@@ -65,6 +65,7 @@ namespace rl {
 		void usePickedObjectDefaultActions();
 		void toggleObjectPicking();
 
+		CEGUI::OgreCEGUIRenderer* getGUIRenderer();
 		Person* getActiveCharacter() const;
 		void setActiveCharacter(Person* person);
         CharacterController* getCharacterController() const;

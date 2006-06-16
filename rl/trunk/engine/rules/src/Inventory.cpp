@@ -49,13 +49,13 @@ namespace rl
 	{
 
 		mOwner = owner;
-		Item* backpack = createItem("Rucksack", "Dieser Rucksack ist praktisch, da er viel Platz auf dem Ruecken eines jeden Helden bietet.", "Rucksack", Item::ITEMTYPE_BACKPACK, pair<int,int>(2,2));
+		Item* backpack = createItem("Rucksack", "Dieser Rucksack ist praktisch, da er viel Platz \r\nauf dem Ruecken eines jeden Helden bietet.", "Rucksack", Item::ITEMTYPE_BACKPACK, pair<int,int>(2,2));
 		backpack->setContainer(true, pair<int,int>(12,7));
 
 		mBackpack = backpack;
 
 
-		Item* meineRuestung = createItem("Kroetenhaut", "Gefertigt aus Rindsleder bietet diese zusaetzlich durch Nieten verstaerkte Ruestung guten Schutz fuer den Abenteurer","Kroetenhaut",Item::ITEMTYPE_ARMOR,pair<int,int>(3,4));
+		Item* meineRuestung = createItem("Kroetenhaut", "Gefertigt aus Rindsleder bietet diese zusaetzlich \r\ndurch Nieten verstaerkte Ruestung guten Schutz fuer den Abenteurer","Kroetenhaut",Item::ITEMTYPE_ARMOR,pair<int,int>(3,4));
 		meineRuestung->setContainer(true, std::make_pair<int,int>(2,4));
 
 		Item* meinTrank = createItem("Heiltrank", "Erhöht die Vitalität","Trank", Item::ITEMTYPE_OTHER, pair<int,int>(1,1));
@@ -68,11 +68,11 @@ namespace rl
 		
 		Item* meinUmhang = createItem("Fellumhang", "Fellumhang von den Nivesen geklaut","Fellumhang",Item::ITEMTYPE_CAPE,pair<int,int>(2,4));
 		
-		Item* meinRing = createItem("Goldring","Schön gearbeiteter Ring","Rubinring",Item::ITEMTYPE_RING,pair<int,int>(1,1));
+		Item* meinRing = createItem("Goldring","Normaler Goldring","Rubinring",Item::ITEMTYPE_RING,pair<int,int>(1,1));
 
 		Item* meinRing2 = createItem("Feiner Goldring","Schön gearbeiteter Ring","Rubinring",Item::ITEMTYPE_RING,pair<int,int>(1,1));
 
-		Weapon* kurzschwert = new Weapon("Kurzschwert", "Dies ist ein normales Kurzschwert");
+		Weapon* kurzschwert = new Weapon("Kurzschwert", "Dies ist ein ganz normales Kurzschwert");
 		kurzschwert->setImageName("Kurzschwert");
 		kurzschwert->setItemType(Item::ITEMTYPE_WEAPON);
 		kurzschwert->setSize(1,3);

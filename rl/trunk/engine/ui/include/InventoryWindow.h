@@ -22,6 +22,12 @@
 #include "Inventory.h"
 #include "GameTask.h"
 
+/*namespace Ogre {
+	class Entity;
+	class RenderTexture;
+	class Viewport;
+}*/
+
 namespace rl {
 
 	class Creature;
@@ -45,7 +51,23 @@ namespace rl {
 		* Gibt dem Fenster das anzuzeigende Inventar
 		*/
 		void setInventory(Inventory* inventory);
+
+
+		/**
+		* Methode für das OnMouseOver Event
+		*/
+		bool handleMouseEnters(const CEGUI::EventArgs &args);
 		
+		/**
+		* Methode für das OnMouseLeaves Event
+		*/
+		bool handleMouseLeaves(const CEGUI::EventArgs &args);
+
+		/**
+		* Methode für das OnMouseClick Event
+		*/
+		bool handleMouseClicked(const CEGUI::EventArgs &args);
+
 		/**
 		* 
 		*/
@@ -76,6 +98,8 @@ namespace rl {
 		const CeGuiString mColorAccept;
 		const CeGuiString mColorReject;
 		const CeGuiString mColorNormal;
+		const CeGuiString mColorItemNormal;
+		const CeGuiString mColorItemSelected;
 
 		Item* getGroundItem();
 
@@ -89,6 +113,32 @@ namespace rl {
 		// Erzeugt eine Itemrepräsentation im Inventarfenster
 		CEGUI::DragContainer* createItem(Item* item, CEGUI::Window* parent, CEGUI::UVector2 position = CEGUI::UVector2(CEGUI::cegui_reldim(0.0f), CEGUI::cegui_reldim(0.0f)));
 
+		
+		void initRenderToTexture();
+		/**
+		* Rendert das Item in das Vorschaufenster im Inventar
+		*/
+		void renderItem(Item* item);
+
+
+		// Entity des jeweils zu rendernden Items
+		rl::Actor* mItemActor;
+		// 128*128 Textur für das Item-view Fenster
+		Ogre::RenderTexture* mRenderTexture;
+		// Viewport des RenderToTexture Features
+		Ogre::Viewport* mRenderViewport;
+
+		CEGUI::Texture* mTexture;
+		CEGUI::Imageset* mImageSet;
+
+		// Das Item-Renderfenster
+		CEGUI::StaticImage* mItemRenderImage;
+
+		// Das Item-Beschreibungsfenster
+		CEGUI::StaticText* mDescription;
+
+		// Das jeweils aktive Fenster, das im Beschreibungsfenster angewählt ist
+		CEGUI::Window* mActiveItemWindow;
 
 		// Das Fenster, in das der Rucksackcontainer soll
 		CEGUI::TabControl* mContainerTabs;

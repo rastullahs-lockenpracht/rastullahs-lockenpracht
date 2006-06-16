@@ -51,6 +51,9 @@ namespace rl {
         void setCastShadows (bool enabled);
         bool getCastShadows (void) const;
 
+
+		const Ogre::String &getMeshName();
+
 		virtual bool isMeshObject();
 
         /// Per Skeleton-Blend-Setting
@@ -61,6 +64,7 @@ namespace rl {
         
         virtual Ogre::String getObjectType();
     private:
+		Ogre::String mMeshName;
         Ogre::AxisAlignedBox mSize;
         typedef std::map<Ogre::String, Ogre::AxisAlignedBox> PoseMap;
 		PoseMap mPoseSizes;

@@ -49,7 +49,7 @@ namespace rl
 	
 	const CeGuiString Item::getDescription() const
 	{
-		return mDescription;
+		return mName + "\r\n\r\n" + mDescription;
 	}
 
     void Item::setWeight(int weight)

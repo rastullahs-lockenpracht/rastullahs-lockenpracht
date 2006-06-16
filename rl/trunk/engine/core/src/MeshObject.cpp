@@ -29,10 +29,11 @@
 using namespace Ogre;
 
 namespace rl {
-	MeshObject::MeshObject(const String& name, const String& meshname) : mSize(), mPoseSizes()
+	MeshObject::MeshObject(const String& name, const String& meshname) : mMeshName(), mSize(), mPoseSizes()
     {
 		if (meshname.length() > 0)
 		{
+			mMeshName = meshname;
 			Entity* entity = CoreSubsystem::getSingletonPtr()->getWorld()
 				->getSceneManager()->createEntity(name, meshname);
             if (entity->isHardwareAnimationEnabled())
@@ -79,6 +80,11 @@ namespace rl {
 		{
 			return it->second;
 		}
+	}
+
+	const Ogre::String &MeshObject::getMeshName()
+	{
+		return mMeshName;
 	}
 
 	/// @todo Exception Handling

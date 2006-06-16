@@ -23,9 +23,16 @@
 #include "Creature.h"
 #include "WindowFactory.h"
 #include "GameLoop.h"
-
+#include "ActorManager.h"
+#include "CoreSubsystem.h"
+#include "UiSubsystem.h"
+#include "World.h"
+#include "CameraObject.h"
+#include "MeshObject.h"
+#include "PhysicalThing.h"
 
 #include <CEGUIPropertyHelper.h>
+#include <OgreCEGUIRenderer.h>
 
 using namespace CEGUI;
 using namespace Ogre;
@@ -258,10 +265,17 @@ namespace rl {
 		}
 	} 
 
-
 	/* Konstruktor */
 	InventoryWindow::InventoryWindow()
 		: CeGuiWindow("inventorywindow.xml", WND_MOUSE_INPUT),
+		mDescription(NULL),
+		mItemActor(NULL),
+		mRenderTexture(NULL),
+		mRenderViewport(NULL),
+		mItemRenderImage(NULL),
+		mTexture(NULL),
+		mImageSet(NULL),
+		mActiveItemWindow(NULL),
 		mPosDraggedTo(),
 		mContainerDraggedTo(NULL),
 		mDroppedItem(NULL),
@@ -273,6 +287,8 @@ namespace rl {
 		mColorAccept("FF22FF22"),
 		mColorReject("FFFF2222"),
 		mColorNormal("FFFFFFFF"),
+		mColorItemNormal("FF999955"),
+		mColorItemSelected("FFDDDD99"),
 		mRingLeft(NULL),
 		mRingRight(NULL),
 		mHandLeft(NULL),
@@ -293,6 +309,7 @@ namespace rl {
 		mGroundDimension(make_pair<int,int>(12,15))
 	{
 		initSlots();
+		initRenderToTexture();
 		GameLoopManager::getSingletonPtr()->addSynchronizedTask(new InventoryArrangeTask(), FRAME_ENDED);
 	}
 	
@@ -551,6 +568,10 @@ namespace rl {
 	void InventoryWindow::initSlots()
 	{
 
+
+		// Das Item-Beschreibungsfeld holen
+		mDescription = getStaticText("InventoryWindow/Description");
+
 		// Das "BodenItem" initiieren
 		mGroundItem = new Item("Boden", "Dieses Item repräsentiert den Boden");
 		mGroundItem->setImageName("Trank");
@@ -799,7 +820,7 @@ namespace rl {
 
 			mContainerTabs->removeTab(parentTabWindow->getName());
 
-			WindowManager::getSingletonPtr()->destroyWindow(parentTabWindow);
+			CEGUI::WindowManager::getSingletonPtr()->destroyWindow(parentTabWindow);
 		}
 	}
 
@@ -830,7 +851,7 @@ namespace rl {
 		while (it != mContainerContents.end())
 		{
 			emptySlot(*it);
-			WindowManager::getSingletonPtr()->destroyWindow(*it);
+			CEGUI::WindowManager::getSingletonPtr()->destroyWindow(*it);
 			it++;
 		} // alle Container wurden entleert
 
@@ -839,7 +860,7 @@ namespace rl {
 		{
 			emptySlot(*it);
 			mContainerTabs->removeTab((*it)->getName());
-			WindowManager::getSingletonPtr()->destroyWindow(*it);
+			CEGUI::WindowManager::getSingletonPtr()->destroyWindow(*it);
 			it++;
 		} // alle ContainerTabs wurden entleert
 		mContainerContents.clear();
@@ -850,7 +871,7 @@ namespace rl {
 	{
 		while(slot->getChildCount() > 0){
 			CEGUI::Window* windowToDestroy = slot->getChildAtIdx(0);
-			WindowManager::getSingletonPtr()->destroyWindow(windowToDestroy);
+			CEGUI::WindowManager::getSingletonPtr()->destroyWindow(windowToDestroy);
 			slot->removeChildWindow(windowToDestroy);
 		}
 	}
@@ -884,6 +905,8 @@ namespace rl {
 			itemhandler->setUserString("ItemType",Item::getItemTypeString(item->getItemType()));
 			itemhandler->setUserData(item);
 			itemhandler->setTooltipText(item->getName());
+			itemhandler->subscribeEvent(CEGUI::Window::EventMouseClick,
+				Event::Subscriber(&InventoryWindow::handleMouseClicked,this));
 			
 			parent->addChildWindow(itemhandler);
 
@@ -897,6 +920,8 @@ namespace rl {
 
 			itemWindow->setWindowPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
 			itemWindow->setWindowSize(UVector2(cegui_absdim(item->getSize().first*30), cegui_absdim(item->getSize().second*30)));
+			itemWindow->setProperty("FrameEnabled", "false");
+			itemWindow->setProperty("BackgroundColour", mColorItemNormal);
 			itemWindow->disable(); 
 
 			itemhandler->addChildWindow(itemWindow);
@@ -924,8 +949,141 @@ namespace rl {
 		}
 	}
 
-	void InventoryWindow::initBackpack(pair<int,int> dim)
+	bool InventoryWindow::handleMouseEnters(const EventArgs &args) 
+	{
+		return true;
+	}
+
+	bool InventoryWindow::handleMouseLeaves(const EventArgs &args) 
+	{
+		return true;
+	}
+
+
+	bool InventoryWindow::handleMouseClicked(const EventArgs &args) 
+	{
+		// Hole das ausgewählte Item
+		const CEGUI::MouseEventArgs& mea = static_cast<const MouseEventArgs&>(args);
+
+		// Nur, wenn es sich uim einen Itemhandler handelt, soll was geschehen...
+		if (mea.window->getUserData() != NULL)
+		{
+			Item* item = NULL;
+			item = static_cast<Item*>(mea.window->getUserData());
+	
+			// deaktiviere das letzte aktive Item, falls es eins gab
+			if (mActiveItemWindow){
+				mActiveItemWindow->setProperty("BackgroundColour", mColorItemNormal);
+				mActiveItemWindow->setProperty("FrameEnabled", "False");
+			}
+			
+			assert(mea.window->getChildCount() > 0);
+			
+			// aktiviere das angewählte Item...
+			mActiveItemWindow = mea.window->getChildAtIdx(0);
+			mActiveItemWindow->setProperty("BackgroundColour", mColorItemSelected);
+			mActiveItemWindow->setProperty("FrameEnabled", "True");
+			
+			// Schreibe Iteminfos in Description Fenster
+			if (item) 
+			{
+				mDescription->setText(item->getDescription());
+				renderItem(item);
+			}
+			else
+			{
+				mDescription->setText("");
+			}
+		}
+		return true;
+	}
+
+	void InventoryWindow::initRenderToTexture()
 	{
 
+			    // setup GUI system
+        //mGUIRenderer = new CEGUI::OgreCEGUIRenderer(mWindow, 
+         //   Ogre::RENDER_QUEUE_OVERLAY, false, 3000, mSceneMgr);
+
+        //mGUISystem = new CEGUI::System(mGUIRenderer);
+
+        //CEGUI::Logger::getSingleton().setLoggingLevel(CEGUI::Informative);
+
+		mItemRenderImage = getStaticImage("InventoryWindow/ItemPicture");
+
+		SceneManager* tempManager = CoreSubsystem::getSingleton().
+				getWorld()->getSceneManager();
+
+
+		
+
+		//mItemActor->getPhysicalThing()->freeze();
+ 
+		
+
+		// Setup Render To Texture for preview window
+		mRenderTexture = Root::getSingleton().getRenderSystem()->createRenderTexture( "RttTex", 128, 128, TEX_TYPE_2D, PF_R8G8B8 );
+        {
+			Actor* mCameraActor = ActorManager::getSingleton().createCameraActor("RttCam");
+			mCameraActor->placeIntoScene(Ogre::Vector3(0,-101054.6,0));
+			mCameraActor->pitch(-90);
+			mCameraActor->getPhysicalThing()->freeze();
+			
+
+            mRenderViewport = mRenderTexture->addViewport( (static_cast<CameraObject*>(mCameraActor->getControlledObject()))->getCamera());
+            mRenderViewport->setOverlaysEnabled(false);
+            mRenderViewport->setClearEveryFrame( true );
+            mRenderViewport->setBackgroundColour( ColourValue::Black );
+        }
+
+        // Retrieve CEGUI texture for the RTT
+		mTexture = UiSubsystem::getSingleton().getGUIRenderer()->createTexture((CEGUI::utf8*)"RttTex");
+
+        mImageSet = CEGUI::ImagesetManager::getSingleton().createImageset(
+                    (CEGUI::utf8*)"RttImageset", mTexture);
+
+        mImageSet->defineImage((CEGUI::utf8*)"RttImage", 
+                CEGUI::Point(0.0f, 0.0f),
+                CEGUI::Size(mTexture->getWidth(), mTexture->getHeight()),
+                CEGUI::Point(0.0f,0.0f));
+		
+		mItemRenderImage->setImage(&mImageSet->getImage((CEGUI::utf8*)"RttImage"));
+	}
+
+	void InventoryWindow::renderItem(Item* item)
+	{
+		// TODO Item tauschen...
+
+		if (mItemActor) {
+			// alten Actor entfernen
+			mItemActor->removeFromScene();
+			ActorManager::getSingleton().destroyActor(mItemActor);
+			mItemActor = NULL;
+		}
+		if (item->getActor())
+		{
+			// Das Item hat einen Actor
+			mItemActor = ActorManager::getSingleton().createMeshActor("inventoryRenderedItem",(static_cast<MeshObject*>(item->getActor()->getControlledObject()))->getMeshName());
+			mItemActor->placeIntoScene(Ogre::Vector3(0,-101055.3,-0.2));
+			mItemRenderImage->setSize(CEGUI::Absolute,CEGUI::Size(128,128));
+			mItemRenderImage->setImage(&mImageSet->getImage((CEGUI::utf8*)"RttImage"));
+			
+		} else if (item->getImageName() != "") {
+			mItemRenderImage->setImage("ModelThumbnails", item->getImageName());
+
+			float div = item->getSize().first / float(item->getSize().second);
+
+			if (div < 1) 
+			{
+				//schmales Item
+				mItemRenderImage->setSize(CEGUI::Absolute,CEGUI::Size(128*div, 128));
+			}
+			else 
+			{
+				// breites oder quadratisches Item
+				mItemRenderImage->setSize(CEGUI::Absolute,CEGUI::Size(128, 128/div));
+			}
+		}
+		// mItemActor = ActorManager::getSingleton().createMeshActor("inventoryRenderedItem", "waf_kurzschwert_01.mesh",PhysicsManager::GT_NONE, 0.0);
 	}
 }

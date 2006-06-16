@@ -166,6 +166,12 @@ namespace rl {
 		GameLoopManager::getSingleton().addSynchronizedTask(this, FRAME_ENDED);
     }
 
+
+	CEGUI::OgreCEGUIRenderer* UiSubsystem::getGUIRenderer()
+	{
+		return mGuiRenderer;
+	}
+
 	Person* UiSubsystem::getActiveCharacter() const
 	{
 		return mCharacter;

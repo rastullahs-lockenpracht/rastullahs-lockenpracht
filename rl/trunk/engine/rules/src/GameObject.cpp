@@ -33,7 +33,8 @@ namespace rl
 		:   mId(GameObject::sNextGameObjectId++),
             mName(name),
             mDescription(description),
-			mHighlightingEnabled(true)
+			mHighlightingEnabled(true),
+			mActor(NULL)
     {
         // Standardactions registrieren
 		Action* defaultAction = ActionManager::getSingleton().getAction(DEFAULT_VIEW_OBJECT_ACTION);
