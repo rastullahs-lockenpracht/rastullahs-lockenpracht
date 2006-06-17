@@ -34,14 +34,16 @@ $SCRIPT.log("Türen gesetzt")
 #shadowlight.getControlledObject().setCastShadows(true);
 #shadowlight.getControlledObject().setDiffuseColour(0.0,0.0,0.0);
 
-$SCRIPT.log("Druidenwald-Thema laden");
-techdemoDruidenWald = $AM.createSoundSampleActor( "techdemoDruidenWald", "techdemo002.ogg" ); 
-techdemoDruidenWald.getControlledObject().set3d(false);
-$SCRIPT.log(" Loopen");
-techdemoDruidenWald.getControlledObject().setLooping( true );
-$SCRIPT.log(" Abspielen");
-techdemoDruidenWald.getControlledObject().play();
-$SCRIPT.log("Druidenwald-Thema fertig");
+#Nerviges Zeug... -Steele
+$SCRIPT.log("Musik vom Komponisten deaktiviert. Bei Bedarf reaktivieren.");
+#$SCRIPT.log("Dorf-Thema laden");
+#techdemoDruidenWald = $AM.createSoundSampleActor( "techdemoWelt", "techdemo001.ogg" ); 
+#techdemoDruidenWald.getControlledObject().set3d(false);
+#$SCRIPT.log(" Loopen");
+#techdemoDruidenWald.getControlledObject().setLooping( true );
+#$SCRIPT.log(" Abspielen");
+#techdemoDruidenWald.getControlledObject().play();
+#$SCRIPT.log("Dorf-Themafertig");
 
 $SCRIPT.log("Held erstellen");
 $hero = Hero.new;
