@@ -34,16 +34,14 @@ $SCRIPT.log("Türen gesetzt")
 #shadowlight.getControlledObject().setCastShadows(true);
 #shadowlight.getControlledObject().setDiffuseColour(0.0,0.0,0.0);
 
-#Nerviges Zeug... -Steele
-$SCRIPT.log("Musik vom Komponisten deaktiviert. Bei Bedarf reaktivieren.");
-#$SCRIPT.log("Dorf-Thema laden");
-#techdemoDruidenWald = $AM.createSoundSampleActor( "techdemoWelt", "techdemo001.ogg" ); 
-#techdemoDruidenWald.getControlledObject().set3d(false);
-#$SCRIPT.log(" Loopen");
-#techdemoDruidenWald.getControlledObject().setLooping( true );
-#$SCRIPT.log(" Abspielen");
-#techdemoDruidenWald.getControlledObject().play();
-#$SCRIPT.log("Dorf-Themafertig");
+$SCRIPT.log("Dorf-Thema laden");
+techdemoDorf = $AM.createSoundSampleActor( "techdemoDorf", "techdemo001.ogg" ); 
+techdemoDorf.getControlledObject().set3d(false);
+$SCRIPT.log(" Loopen");
+techdemoDorf.getControlledObject().setLooping( true );
+$SCRIPT.log(" Abspielen");
+techdemoDorf.getControlledObject().play();
+$SCRIPT.log("Dorf-Thema fertig");
 
 $SCRIPT.log("Held erstellen");
 $hero = Hero.new;
@@ -57,6 +55,17 @@ $UI.setActiveCharacter($hero);
 $SCRIPT.log("Held als aktiver Charakter gesetzt.");
 
 $World.setFog( World::FOG_EXP, [0.1,0.08,0.01,0.1], 0.00503, 10.0, 100.0);
+
+$SCRIPT.log("Quests laden");
+load( "techdemo2_quests.rb" );
+$SCRIPT.log("Quests geladen");
+
+$SCRIPT.log("NSCs laden");
+#load( "sonja.rb" );
+load( "jarn.rb" );
+#load( "tsafried.rb" );
+#load( "wolfram.rb" );
+$SCRIPT.log("NSCs geladen");
 
 #******** mapchange **********
 $SCRIPT.log("Mapchange: Kugel-Zentrum Actor erstellen");

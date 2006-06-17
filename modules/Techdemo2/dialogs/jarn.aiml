@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- !DOCTYPE aiml SYSTEM "includes.dtd" -->
+
+<aiml  version="1.0.1"
+            xmlns="http://alicebot.org/2001/AIML"
+			xmlns:rldialog="http://team-pantheon.de/projekt/rl/dialog">
+	<category>
+	<pattern>1</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="0.5SekStille.ogg"></li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:id="alrike001.ogg" rldialog:patternRef ="11">Ingerimm zum Gruße</li>
+		</gossip>
+	</template>
+	</category>
+
+		<category>
+	<pattern>11</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="jarn001.ogg">Ja, möge sein Segen auf den Schuhen liegen. Aber momentan komme ich einfach zu Nichts! Und jetzt auch noch die Geschichte mit dem Huhn!</li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:id="alrike002.ogg" rldialog:patternRef ="2">Wo wir gerade bei Huhn sind. Wegen der Vorkommnisse; Was haltet ihr davon? Habt ihr irgend etwas gesehen oder wisst ihr etwas, das mir helfen könnte?</li>
+			<li rldialog:id="alrike003.ogg" rldialog:patternRef ="3">Ihr kommt zu nichts? Wo drückt der Schuh?!</li>
+			<li rldialog:id="alrike004.ogg">Ich komme später wieder.!</li>				
+		</gossip>
+	</template>
+	</category>
+
+
+
+	<category>
+	<pattern>2</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="jarn002.ogg">Und wie ich das habe! Die Sache ist eindeutig: Der Mann aus dem Wald benutzt dunkle Magie um uns von hier zu verjagen und hetzt seine Wölfe auf uns. Er kam manchmal hier her und tauschte ein wenig von seinem Gestrüpp und ein paar Kräutern, die er sammelt gegen die Arbeiten von Sonja und mir. Um es kurz zu machen: Er wollte uns beim letzten mal zu wenig geben. Da habe ich das Leder, auf seine Bezahlung, nunja, angepasst. Ich sage es ja! Er war immer schon neidisch, dass wir in Häusern leben, die er sich nicht bauen kann und nun will er uns hier weg haben. </li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:id="alrike005.ogg" rldialog:patternRef ="22">Sonst habt ihr keinen Ärger mit ihm?</li>
+		</gossip>
+	</template>
+	</category>
+
+		<category>
+		<pattern>22</pattern>
+		<template>
+			<gossip rldialog:type="response">
+				<li rldialog:id="jarn003.ogg">Nein, wir lassen den Wald weitgehend in Ruhe und erwarten das gleiche von ihm. Aber jetzt?! Soll er sich doch zum Beschützer der Bäume aufschwingen, wir haben ihm jedenfalls keinen Grund dafür gegeben, dass er die Wölfe auf uns hetzt. Er ist eine Gefahr für uns, wenn er so überreagiert.</li>
+			</gossip>
+			<gossip rldialog:type="option">
+				<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11">*klick zum Anfang*-Automatisierung einbauen!</li>
+			</gossip>
+		</template>	
+		</category>
+
+	
+	<category>
+	<pattern>3</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="jarn004.ogg">Alles wächst mir über den Kopf. Ich komme nicht einmal dazu dieses Paket zu Wolfram zu bringen. </li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:id="alrike006.ogg" rldialog:patternRef ="33">Ah, in jedem Dorf das gleiche. Gut, ich bringe es hin. Was ist denn drinnen?</li>
+		</gossip>
+	</template>
+	</category>
+
+		<category>
+		<pattern>33</pattern>
+		<template>
+			<gossip rldialog:type="response">
+				<li rldialog:id="jarn005.ogg">Das kann ich nicht erzählen. Strenges Dichtergeheimnis. Aber er möchte etwas in seinem Keller ausprobieren, "für zukünftige Besucher auf der Durchreise", sagt er.</li>
+			</gossip>
+			<gossip rldialog:type="option">
+				<li rldialog:id="alrike007.ogg" rldialog:patternRef ="333">Also gut, ich bringe es ihm.</li>
+			</gossip>
+		</template>
+		</category>
+
+			<category>
+			<pattern>333</pattern>
+			<template>
+				<gossip rldialog:type="response">
+					<li rldialog:id="jarn006.ogg">Er wohnt in dem Haus dort drüben. Er wird so tun, als ob er nicht zuhause sei. Aber sprecht nur von dem Paket, er wird euch schon hören.</li>
+				</gossip>
+				<gossip rldialog:type="option">
+					<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11">*klick zum Anfang*-Automatisierung einbauen!</li>
+				</gossip>
+			</template>
+			</category>
+
+</aiml>
