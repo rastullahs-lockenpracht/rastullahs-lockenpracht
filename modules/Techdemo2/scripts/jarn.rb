@@ -6,9 +6,9 @@ print( "Jarn Bot wird geladen" );
 
 print( "Definiere Listener" );
 
-dialogHeld = Creature.new("Jarn", "Jarn");
-dialogHeld.setActor($AM.createMeshActor("Jarn", "held.mesh" ));
-dialogHeld.getActor().placeIntoScene([-18.0, -6.8, 15.2]);
-dialogHeld.addAction(TalkAction.new("Jarn", "jarn.xml"))
+jarn = Creature.new("Jarn", "Jarn");
+jarn.setActor($AM.createMeshActor("Jarn", "held.mesh" ));
+jarn.getActor().placeIntoScene([-18.0, -6.8, 15.2]);
+jarn.addAction(TalkAction.new("Jarn", "jarn.xml"))
 
 print( "Jarn Bot fertig geladen" );

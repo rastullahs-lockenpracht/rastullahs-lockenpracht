@@ -57,14 +57,14 @@ $SCRIPT.log("Held als aktiver Charakter gesetzt.");
 $World.setFog( World::FOG_EXP, [0.1,0.08,0.01,0.1], 0.00503, 10.0, 100.0);
 
 $SCRIPT.log("Quests laden");
-load( "techdemo2_quests.rb" );
+load( "Techdemo2_quests.rb" );
 $SCRIPT.log("Quests geladen");
 
 $SCRIPT.log("NSCs laden");
-#load( "sonja.rb" );
+load( "sonja.rb" );
 load( "jarn.rb" );
-#load( "tsafried.rb" );
-#load( "wolfram.rb" );
+load( "tsafried.rb" );
+load( "wolfram.rb" );
 $SCRIPT.log("NSCs geladen");
 
 #******** mapchange **********

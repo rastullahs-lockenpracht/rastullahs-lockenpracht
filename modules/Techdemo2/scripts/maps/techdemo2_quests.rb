@@ -4,15 +4,20 @@ hauptQuest =
 	Quest.new(
 		"hauptquest",
 		"Probleme",
-		"äöüÄÖÜFindet heraus was im Wald vor sich geht und die Dorfbewohner beunruhigt und löse das Problem.")
+		"Findet heraus was im Wald vor sich geht und die Dorfbewohner beunruhigt und löse das Problem.")
 questBook.addQuest(hauptQuest)
-RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest").setState(Quest::OPEN)
+RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest").setKnown(true)
+RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest").setState(Quest::ASSIGNED)
+
 
 hauptQuest.addSubquest(
 	Quest.new(
 		"hauptquest1",
 		"Die Dorfbewohner",
 		"Sucht Sonja, die Dorferste, und holt mehr Informationen ein."))
+quest = questBook.getQuest("hauptquest1")
+RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest1").setKnown(true)
+RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest1").setState(Quest::ASSIGNED)
 
 hauptQuest.addSubquest(
 	Quest.new(
@@ -21,7 +26,8 @@ hauptQuest.addSubquest(
 		"Sprecht mit Jarn, Wolfram und Tsafried um mehr über das Problem der Dorfbewohner herauszufinden"))
 
 quest = questBook.getQuest("hauptquest2")
-quest.setPartsDone(quest.getPartsDone() + 3)
+RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest2").setPartsToDo(3)
+
 
 hauptQuest.addSubquest(
 	Quest.new(
@@ -60,24 +66,20 @@ hauptQuest.addSubquest(
 		"Kehre ins Dorf zurück und berichte Sonja von deinen Erfolgen"))	
 
 
-
-hauptQuest = 
+wolframQuest = 
 	Quest.new(
 		"wolfram",
 		"Wolfram öffnet die Tür nicht",
 		"Bringt Wolfram dazu, die Tür zu öffnen, damit Ihr mit ihm sprechen könnt.")
 
-hauptQuest = 
+paketQuest = 
 	Quest.new(
 		"paket",
 		"Ein seltsames Paket",
 		"Bringt Jarns Paket zu Wolfram, aber geht vorsichtig damit um!")
 
-hauptQuest = 
+aufenthaltsortQuest = 
 	Quest.new(
 		"aufenthaltsort",
 		"Aufenhaltsort des alten Mannes aus dem Wald",
 		"Findet den Aufenthaltsort des alten Mannes aus dem Wald.")
-
-
-
