@@ -38,12 +38,14 @@ namespace rl
 		bool handleVolumeSoundChanged();
 		bool handleVolumeMasterChanged();
 		bool handleConfig();
+		bool handleClose();
 		
 		// Die Combobox, aus der gewählt wird.
-		CEGUI::Listbox*	mDriverBox;
-		CEGUI::Slider*	mVolumeSound;
-		CEGUI::Slider*	mVolumeMusic;
-		CEGUI::Slider*	mVolumeMaster;
+		CEGUI::Combobox*	mDriverBox;
+		CEGUI::Slider*		mVolumeSound;
+		CEGUI::Slider*		mVolumeMusic;
+		CEGUI::Slider*		mVolumeMaster;
+		CEGUI::Window*		mDriverConfig;
 		
 		SoundDriverConfigWindow* mCurrentConfig;
 

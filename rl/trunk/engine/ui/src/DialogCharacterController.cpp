@@ -198,21 +198,19 @@ namespace rl {
 			
 			mSoundObject->play();
 
-			mFadeTextTime = 
-				std::max(
-					getShowTextLength(text), 
-					mSoundObject->getLength());
-
-			Logger::getSingleton().log(
-				Logger::UI, 
-				Logger::LL_NORMAL, 
-				"Response: "
-					+ actor->getName()
-					+ " File: "
-					+ soundFile 
-					+ " (" + text + "), Time: "
-					+ StringConverter::toString(mFadeTextTime));
+			mFadeTextTime = mSoundObject->getLength();
 		}
+
+		Logger::getSingleton().log(
+			Logger::UI, 
+			Logger::LL_MESSAGE, 
+			"Response: "
+				+ actor->getName()
+				+ " File: '"
+				+ soundFile 
+				+ "', Text: '" + text + "', Time: "
+				+ StringConverter::toString(mFadeTextTime));
+
 
 		mTextShown = true;
 

@@ -35,17 +35,17 @@ namespace rl
 		mVolumeMaster(0),
 		mCurrentConfig(NULL)
 	{
-		bindCloseToCloseButton();
-		bindClickToCloseWindow(getPushButton("SoundConfig/Cancel"));
+		getWindow()->subscribeEvent(
+			FrameWindow::EventCloseClicked,
+			boost::bind(&SoundConfig::handleClose, this));
+		getPushButton("SoundConfig/Cancel")->subscribeEvent(
+			PushButton::EventMouseClick,
+			boost::bind(&SoundConfig::handleClose, this));
 
 		getWindow("SoundConfig/OK")->subscribeEvent(
 			Window::EventMouseClick, 
 			boost::bind(&SoundConfig::handleOK, this));
             
-		getWindow("SoundConfig/ConfigDriver")->subscribeEvent(
-			Window::EventMouseClick,
-			boost::bind(&SoundConfig::handleConfig, this));	
-
 		mVolumeSound = getSlider("SoundConfig/VolumeSound");
 		mVolumeSound->setMaxValue(100);
 		mVolumeSound->setCurrentValue(	
@@ -76,7 +76,7 @@ namespace rl
 			Slider::EventValueChanged,
 			boost::bind(&SoundConfig::handleVolumeMasterChanged, this));
 
-		mDriverBox = getListbox("SoundConfig/Table");
+		mDriverBox = getCombobox("SoundConfig/Table");
 		DriverList list = 
 			SoundManager::getSingleton().getSoundDriverList();
 		DriverList::const_iterator it;
@@ -85,6 +85,11 @@ namespace rl
 			CeGuiString name = (*it)->getName();
 			mDriverBox->addItem(new ListboxTextItem(name));
 		}
+		mDriverBox->subscribeEvent(
+			Combobox::EventListSelectionAccepted,
+			boost::bind(&SoundConfig::handleConfig, this));
+
+		mDriverConfig = getWindow("SoundConfig/DriverSettings");
 
 		centerWindow();
 	}
@@ -96,7 +101,7 @@ namespace rl
 	bool SoundConfig::handleOK()
 	{
 		ListboxTextItem *item = 
-			dynamic_cast<ListboxTextItem*>(mDriverBox->getFirstSelectedItem());
+			dynamic_cast<ListboxTextItem*>(mDriverBox->getSelectedItem());
 		if (item != 0)
 		{
 			SoundDriver *activeDriver = SoundManager::getSingleton().getActiveDriver();        
@@ -154,7 +159,7 @@ namespace rl
 	bool SoundConfig::handleConfig()
 	{
 		ListboxTextItem *item = 
-			dynamic_cast<ListboxTextItem*>(mDriverBox->getFirstSelectedItem());
+			dynamic_cast<ListboxTextItem*>(mDriverBox->getSelectedItem());
 		if (item != 0)
 		{
 			for (list<SoundDriverConfigWindow*>::iterator it = mDriverConfigs.begin();
@@ -164,8 +169,13 @@ namespace rl
 				if (item->getText() == curr->getDriverName()
 					&& mCurrentConfig != curr)
 				{
-					mWindow->removeChildWindow(mCurrentConfig->getWindow());
-					mWindow->addChildWindow(curr->getWindow());
+					if (mCurrentConfig != NULL)
+					{
+						mCurrentConfig->getWindow()->setVisible(false);
+						mDriverConfig->removeChildWindow(mCurrentConfig->getWindow());
+					}
+					mDriverConfig->addChildWindow(curr->getWindow());
+					curr->getWindow()->setVisible(false);
 					mCurrentConfig = curr;
 					return true;
 				}
@@ -177,6 +187,12 @@ namespace rl
 	void SoundConfig::registerSoundDriverConfigWindow(SoundDriverConfigWindow* wnd)
 	{
 		mDriverConfigs.push_back(wnd);
+	}
+
+	bool SoundConfig::handleClose()
+	{
+		setVisible(false);
+		return true;
 	}
 
 }

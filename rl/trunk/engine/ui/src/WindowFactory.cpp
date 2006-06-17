@@ -361,7 +361,7 @@ namespace rl {
 
 	void WindowFactory::showSoundConfig()
 	{
-		(new SoundConfig())->setVisible(true);
+		mSoundConfig->setVisible(true);
 	}
 
 	void WindowFactory::showPopupMessage(int popupTypes)
