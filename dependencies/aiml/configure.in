@@ -63,7 +63,7 @@ AC_CHECK_LIB(xerces-c,main,,
 
 dnl Create the makefiles
 AC_CONFIG_FILES([Makefile \
-		dependencies/Makefile dependencies/XmlMapper/Makefile \
+		dependencies/Makefile  \
 		MadaBot/Makefile MadaBot/include/Makefile MadaBot/src/Makefile \
 		TestApp/Makefile TestApp/include/Makefile TestApp/src/Makefile
     ])

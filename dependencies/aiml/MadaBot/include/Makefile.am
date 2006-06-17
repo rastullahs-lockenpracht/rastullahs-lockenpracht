@@ -1,4 +1,4 @@
-noinst_HEADERS = \
+include_HEADERS = \
 	AimlBot.h \
 	AimlCore.h \
 	AimlGraphMaster.h \
