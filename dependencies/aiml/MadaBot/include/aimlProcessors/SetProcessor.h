@@ -40,7 +40,7 @@ namespace MadaBot
 		 */
 		SetProcessor()
 			: XmlNodeProcessor<Response, AimlBot, S, false>("set")
-		{}
+		{ initialize();}
 
 		void preprocessStep()
 		{
