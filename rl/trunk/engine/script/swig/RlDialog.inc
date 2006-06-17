@@ -23,6 +23,7 @@ namespace rl
 		DialogCharacter();
 		virtual ~DialogCharacter();
 
+		const rl::CeGuiString getName() const;
 		rl::Creature* getDialogCharacter() const;
 		void setDialogCharacter(rl::Creature* dialogCharacter);
 		rl::Creature* getDialogPartner() const;

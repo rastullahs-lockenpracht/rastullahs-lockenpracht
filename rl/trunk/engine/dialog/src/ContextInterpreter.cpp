@@ -74,7 +74,7 @@ void ContextInterpreter::processOption()
 	{
 		if((*itr)->getNodeName() == AIML_LI)
 		{
-			Response<CeGuiString> response = getProcessor(AIML_LI)->process(*itr);
+			Response<CeGuiString> response = getProcessor(AIML_LI)->process(*itr, mBot);
 		//  check if this option is influenced by a condition check
 			XmlNode<CeGuiString>* pChild = (*itr)->getFirstChild();
 			for(; pChild != NULL; pChild = pChild->getNextSibling())

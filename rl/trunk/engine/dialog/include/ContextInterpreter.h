@@ -44,6 +44,7 @@ namespace rl
 	protected:
 		virtual void initialize();
 		AimlBot<CeGuiString>* mBot;
+
 		CeGuiString mCurrentType;
 		DialogResponse::Responses mResponses;
 		DialogResponse::DialogOptions mOptions;

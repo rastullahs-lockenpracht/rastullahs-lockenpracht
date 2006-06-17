@@ -82,7 +82,7 @@ namespace rl
 		}
 	}
 
-	const CeGuiString& DialogCharacter::getName() const
+	const CeGuiString DialogCharacter::getName() const
 	{
 		return mBot->getName();
 	}

@@ -40,7 +40,7 @@ namespace rl
 	//	DialogCharacter(const CeGuiString& name);
 		virtual ~DialogCharacter(void);
 
-		const CeGuiString& getName() const;
+		const CeGuiString getName() const;
 
 		Predicates<CeGuiString>* getPredicates(const CeGuiString& pType);
 
