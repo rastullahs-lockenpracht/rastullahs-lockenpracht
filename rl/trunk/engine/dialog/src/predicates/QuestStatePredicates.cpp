@@ -14,6 +14,8 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 #include "QuestStatePredicates.h"
+
+#include "Exception.h"
 #include "QuestBook.h"
 #include "Quest.h"
 #include "RulesSubsystem.h"
@@ -32,6 +34,16 @@ CeGuiString QuestStatePredicates::getPredicate(const CeGuiString& name) const
 {
 	Quest* quest = RulesSubsystem::getSingletonPtr()->getQuestBook()
 		->getQuest(name);
+
+	if (quest == NULL)
+	{
+		Throw(
+			IllegalArgumentException,
+			("Quest '"
+			+ name
+			+ "' not found").c_str());
+	}
+
 	return quest->getStateName();
 }
 
@@ -39,6 +51,16 @@ void QuestStatePredicates::setPredicate(const CeGuiString& name, const CeGuiStri
 {
 	Quest* quest = RulesSubsystem::getSingletonPtr()->getQuestBook()
 		->getQuest(name);
+
+	if (quest == NULL)
+	{
+		Throw(
+			IllegalArgumentException,
+			("Quest '"
+			+ name
+			+ "' not found").c_str());
+	}
+
 	quest->setState(quest->getStateFromName(value));
 }
 

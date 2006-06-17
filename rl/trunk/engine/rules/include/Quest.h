@@ -28,6 +28,7 @@ class _RlRulesExport QuestBook;
 
 typedef std::vector<Quest*> QuestVector;
 
+#undef SUCCEEDED
 /**
  * @brief Verwaltet einen Quest oder Subquest
  */
@@ -36,13 +37,14 @@ class _RlRulesExport Quest
 public:
 	enum State
 	{
-		CLOSED = 0,
-		OPEN,
+		OPEN = 0,
+		ASSIGNED,
 		FAILED,
+		SUCCEEDED,
 		COMPLETED
 	};
 
-	static CeGuiString STATE_NAMES[4];
+	static CeGuiString STATE_NAMES[5];
 	static CeGuiString KNOWN_NAMES[2];
 
 	/**

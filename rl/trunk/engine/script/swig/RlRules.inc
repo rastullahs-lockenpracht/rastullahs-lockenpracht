@@ -117,9 +117,10 @@ namespace rl {
 	public:
 		enum State
 		{
-			CLOSED = 0,
-			OPEN,
+			OPEN = 0,
+			ASSIGNED,
 			FAILED,
+			SUCCEEDED,
 			COMPLETED
 		};
 

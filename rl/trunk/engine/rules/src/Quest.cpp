@@ -25,8 +25,8 @@
 
 namespace rl {
 
-CeGuiString	Quest::STATE_NAMES[4] = 
-		{	"CLOSED",	"OPEN",		"FAILED",	"COMPLETED"};
+CeGuiString	Quest::STATE_NAMES[5] = 
+		{	"OPEN",		"ASSIGNED",	"FAILED", "SUCCEEDED", "COMPLETED"};
 CeGuiString	Quest::KNOWN_NAMES[2] = 
 		{	"UNKNOWN",	"KNOWN"};
 
@@ -36,7 +36,7 @@ Quest::Quest(const CeGuiString id, const CeGuiString name, const CeGuiString des
 	mDescription(description),
 	mPartsToDo(1),
 	mPartsDone(0),
-	mState(Quest::CLOSED),
+	mState(Quest::OPEN),
 	mKnown(false),
 	mParent(NULL),
 	mQuestBook(NULL)	
@@ -80,10 +80,12 @@ int Quest::getPartsDone()
 		return mPartsDone;
 
 	int done = 0;
-	for(QuestVector::iterator it = mSubquests.begin(); it != mSubquests.end(); it++)
+	for(QuestVector::iterator it = mSubquests.begin(); 
+		it != mSubquests.end(); it++)
 	{
 		Quest* cur = (*it);
-		if (cur->getState() == Quest::COMPLETED || cur->getState() == Quest::CLOSED)
+		if (cur->getState() == Quest::COMPLETED 
+			|| cur->getState() == Quest::SUCCEEDED)
 			done++;
 	}
 	return done;
@@ -135,7 +137,7 @@ void Quest::setState(Quest::State state)
 			mParent->setState(Quest::OPEN);
 		}
 
-		if( mState == Quest::COMPLETED || mState == Quest::CLOSED)
+		if( mState == Quest::COMPLETED || mState == Quest::SUCCEEDED)
 			mParent->checkDone();
 		else
 			checkDone();
@@ -172,9 +174,9 @@ void Quest::checkDone()
 {
 	if (getPartsDone() == getPartsToDo()
 		&& mState != Quest::COMPLETED
-		&& mState != Quest::CLOSED)
+		&& mState != Quest::SUCCEEDED)
 	{
-		mState = Quest::COMPLETED;
+		mState = Quest::SUCCEEDED;
 		notify(QuestChangeEvent::QUEST_STATE);
 	}
 
@@ -197,12 +199,14 @@ Quest::State Quest::getStateFromName(const CeGuiString stateName)
 {
 	if (stateName == Quest::STATE_NAMES[Quest::OPEN]) 
 		return Quest::OPEN;
-	if (stateName == Quest::STATE_NAMES[Quest::FAILED]) 
+	else if (stateName == Quest::STATE_NAMES[Quest::FAILED]) 
 		return Quest::FAILED;
-	if (stateName == Quest::STATE_NAMES[Quest::COMPLETED]) 
+	else if (stateName == Quest::STATE_NAMES[Quest::COMPLETED]) 
 		return Quest::COMPLETED;
-	if (stateName == Quest::STATE_NAMES[Quest::CLOSED]) 
-		return Quest::CLOSED;
+	else if (stateName == Quest::STATE_NAMES[Quest::SUCCEEDED]) 
+		return Quest::SUCCEEDED;
+	else if (stateName == Quest::STATE_NAMES[Quest::ASSIGNED]) 
+		return Quest::ASSIGNED;
 
 	const char* msg = (stateName + " is no valid quest state.").c_str();
 	Throw(IllegalArgumentException, msg);

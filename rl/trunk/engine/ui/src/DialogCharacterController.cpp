@@ -195,7 +195,9 @@ namespace rl {
 						createSample(
 							SoundManager::getSingleton().getByName(soundFile)),
 					soundFile);
-			
+
+			//TODO: An Sprecher hängen?
+			mSoundObject->set3d(false);
 			mSoundObject->play();
 
 			mFadeTextTime = mSoundObject->getLength();
