@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <aiml-startup version='1.0'>
-	<bot name='Tsafried' voice='TsafriedVoice'>
+	<bot name='Tsafried' voice=''>
 		<learn src='tsafried.aiml'/>
 		<script src='dialog.rb' class='DialogCharTest'/>
 	</bot>
