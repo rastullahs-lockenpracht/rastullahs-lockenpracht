@@ -113,7 +113,7 @@ namespace MadaBot
 					->process(pNode, pProcessHelper);
 			}
 		}
-		Response<S> response = mReturnValue;
+		Response<S> response = this->mReturnValue;
 		this->mReturnValue.clear();
 		return response;
 	}

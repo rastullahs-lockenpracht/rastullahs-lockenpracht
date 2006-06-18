@@ -57,7 +57,7 @@
 <buildTargets>
 <target name="bootstrap" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="">
 <buildCommand>sh</buildCommand>
-<buildArguments>bootstrap --enable-tests CFLAGS= CXXFLAGS=</buildArguments>
+<buildArguments>bootstrap CFLAGS= CXXFLAGS=</buildArguments>
 <buildTarget/>
 <stopOnError>false</stopOnError>
 <useDefaultCommand>false</useDefaultCommand>

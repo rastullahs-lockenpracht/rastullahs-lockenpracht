@@ -13,7 +13,9 @@ include_HEADERS = \
 	NodeMapper.h \
 	Predicates.h \
 	Response.h \
-	StringTokenizer.h \
+	StringTokenizer.h 
+	
+nobase_include_HEADERS = \
 	aimlProcessors/BrProcessor.h \
 	aimlProcessors/CategoryProcessor.h \
 	aimlProcessors/ConditionProcessor.h \
@@ -22,6 +24,7 @@ include_HEADERS = \
 	aimlProcessors/LiProcessor.h \
 	aimlProcessors/SetProcessor.h \
 	aimlProcessors/SraiProcessor.h \
+	aimlProcessors/SystemProcessor.h \
 	aimlProcessors/TextProcessor.h \
 	aimlProcessors/TopicProcessor.h \
 	botProcessors/LearnProcessor.h

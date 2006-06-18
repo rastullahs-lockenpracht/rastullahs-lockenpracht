@@ -62,7 +62,7 @@ namespace MadaBot
 	protected:
 		void initialize()
 		{
-			addAttribute("cmd");
+			this->addAttribute("cmd");
 		//  allow any nodeType as child
 			this->mRestrictSubProcessors = false;
 		//  don't allow any children

@@ -32,6 +32,7 @@ namespace MadaBot
 {
 	template <class S> class AimlBot;
 	template <class S> class AimlCore;
+    template <class S> class AimlGraphMaster;
 
 	/**
 	 * Interprets a bot definition file and loads a bot in to memory
