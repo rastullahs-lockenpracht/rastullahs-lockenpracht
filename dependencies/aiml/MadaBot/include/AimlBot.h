@@ -55,7 +55,11 @@ namespace MadaBot
 		 * @param  pName name of the bot
 		 * @param  pParent pointer to the parent object
 		 */
-		AimlBot(const S& pName, AimlCore<S>* pParent) : mName(pName), mParent(pParent)
+		AimlBot(const S& pName, AimlCore<S>* pParent) 
+			: mName(pName), 
+			  mRequestExit(false),
+			  mCurrentMatch(NULL),
+			  mParent(pParent)
 		{
 			addPredicates(new DefaultPredicates<S>());
 		}
@@ -93,6 +97,12 @@ namespace MadaBot
 		{
 			return mVoice;
 		}
+
+		void requestExit()
+		{
+			mRequestExit = true;
+		}
+
 		/** 
 		 * @param  pType type of the predicates
 		 * @return the predicates access class for the given type
@@ -121,6 +131,7 @@ namespace MadaBot
 	private:
 		S mName;
 		S mVoice;
+		bool mRequestExit;
 		typedef typename std::map<S, Predicates<S>*> PredicatesMap;
 		PredicatesMap mPredicates;
 		typedef typename std::list<AimlGraphMaster<S>*> GraphList;
@@ -201,6 +212,10 @@ namespace MadaBot
 		else
 		{
 			// no match
+		}
+		if(mRequestExit)
+		{
+			response.clear();
 		}
 		return response;
 	}

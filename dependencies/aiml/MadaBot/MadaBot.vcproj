@@ -254,6 +254,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\aimlProcessors\SystemProcessor.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\aimlProcessors\TextProcessor.h"
 					>
 				</File>

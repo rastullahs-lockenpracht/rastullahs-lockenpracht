@@ -34,6 +34,7 @@
 #include "aimlProcessors/GetProcessor.h"
 #include "aimlProcessors/SetProcessor.h"
 #include "aimlProcessors/SraiProcessor.h"
+#include "aimlProcessors/SystemProcessor.h"
 
 using namespace XmlMapper;
 
@@ -94,6 +95,7 @@ namespace MadaBot
 			addProcessor(new GetProcessor<S>());
 			addProcessor(new SetProcessor<S>());
 			addProcessor(new SraiProcessor<S>());
+			addProcessor(new SystemProcessor<S>());
 		}
 	};
 
