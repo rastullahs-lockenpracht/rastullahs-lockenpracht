@@ -102,7 +102,7 @@ namespace MadaBot
 
 	template <class S> Response<S> AimlInterpreter<S>::process(XmlNode<S>* pNode, AimlBot<S>* pProcessHelper)
 	{
-		this->mReturnValue.clear();
+
 	//  for every child node of "template", add its processed value to the response
 		pNode = pNode->getFirstChild();
 		for(; pNode != NULL; pNode = pNode->getNextSibling())
@@ -113,7 +113,9 @@ namespace MadaBot
 					->process(pNode, pProcessHelper);
 			}
 		}
-		return this->mReturnValue;
+		Response<S> response = mReturnValue;
+		this->mReturnValue.clear();
+		return response;
 	}
 }
 
