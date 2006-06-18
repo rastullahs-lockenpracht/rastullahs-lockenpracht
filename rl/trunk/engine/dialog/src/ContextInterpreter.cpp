@@ -59,7 +59,7 @@ void ContextInterpreter::processResponse()
 		{
 			CeGuiString id = (*itr)->getAttribute(RL_LI_ID);
 			id.c_str();
-			CeGuiString text = getProcessor(AIML_LI)->process(*itr).getResponse();
+			CeGuiString text = getProcessor(AIML_LI)->process(*itr, mBot).getResponse();
 			text.c_str();
 			mResponses.push_back(make_pair<CeGuiString, CeGuiString>(id, text));
 		}
