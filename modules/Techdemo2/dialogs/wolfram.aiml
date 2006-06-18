@@ -54,6 +54,7 @@
 	</template>
 	</category>
 
+		<category>
 		<pattern>33</pattern>
 		<template>
 			<gossip rldialog:type="response">
@@ -66,6 +67,7 @@
 		</template>
 		</category>
 
+			<category>
 			<pattern>333</pattern>
 			<template>
 				<gossip rldialog:type="response">
@@ -77,6 +79,7 @@
 			</template>
 			</category>
 
+				<category>
 				<pattern>3333</pattern>
 				<template>
 					<gossip rldialog:type="response">
@@ -88,6 +91,7 @@
 				</template>
 				</category>
 
+					<category>
 					<pattern>33333</pattern>
 					<template>
 						<gossip rldialog:type="response">
@@ -100,6 +104,7 @@
 					</template>
 					</category>
 	
+						<category>
 						<pattern>333333</pattern>
 						<template>
 							<gossip rldialog:type="response">
@@ -111,6 +116,7 @@
 						</template>
 						</category>
 
+							<category>
 							<pattern>3333333</pattern>
 							<template>
 								<gossip rldialog:type="response">
@@ -121,9 +127,5 @@
 								</gossip>
 							</template>
 							</category>
-
-
-	
-
 
 </aiml>
