@@ -18,6 +18,7 @@
 #include "DialogWindow.h"
 
 #include "Exception.h"
+#include "ConfigurationManager.h"
 #include "Creature.h"
 #include "DebugWindow.h"
 #include "DialogCharacter.h"
@@ -72,6 +73,9 @@ DialogWindow::~DialogWindow()
 {
 	delete mCurrentResponse;
 	mCurrentResponse = NULL;
+
+	Ogre::String voiceFile = mBot->getVoiceFile().c_str();
+	ResourceGroupManager::getSingleton().removeResourceLocation(voiceFile, voiceFile);
 }
 
 void DialogWindow::initialize()
@@ -86,6 +90,22 @@ void DialogWindow::initialize()
 	item->setTextColours(COLOR_NON_PLAYER_CHARACTER);
 	mQuestion->addItem(item);
 	item = NULL;
+
+	
+	Ogre::String voiceFile = mBot->getVoiceFile().c_str();
+	if (voiceFile != "")
+	{
+		if (voiceFile.find(".zip") != Ogre::String::npos)
+		{
+			ResourceGroupManager::getSingleton().addResourceLocation(
+				voiceFile, "Zip", voiceFile);
+		}
+		else
+		{
+			ResourceGroupManager::getSingleton().addResourceLocation(
+           		voiceFile, "FileSystem", voiceFile);
+		}
+	}
 }
 
 void DialogWindow::start()

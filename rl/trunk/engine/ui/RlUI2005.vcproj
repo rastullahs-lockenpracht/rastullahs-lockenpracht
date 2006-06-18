@@ -296,10 +296,6 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath=".\include\CeGuiWindow.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\CharacterController.h"
 				>
 			</File>
@@ -360,6 +356,10 @@
 				</File>
 				<File
 					RelativePath=".\include\ActionChoiceWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\CeGuiWindow.h"
 					>
 				</File>
 				<File
