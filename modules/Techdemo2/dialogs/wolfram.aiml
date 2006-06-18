@@ -7,35 +7,123 @@
 	<category>
 	<pattern>1</pattern>
 	<template>
-		Hundekuchen ist lecker!
 		<gossip rldialog:type="response">
-			<li rldialog:id="alrike001.ogg">Pustekuchen!</li>
+			<li rldialog:id="0.5SekStille.ogg">Die Tür ist geschlossen. Aber es dringen leise Geräusche aus dem Inneren; eine Art Kratzen und Rascheln.</li>
 		</gossip>
 		<gossip rldialog:type="option">
-			<li rldialog:id="alles.ogg" rldialog:patternRef ="5">Über Sieben</li>
-			<li rldialog:id="funf.ogg" rldialog:patternRef ="5">Fünf!</li>
-			<li rldialog:id="drei.ogg" rldialog:patternRef ="5">Drei</li>
-			<condition type="script">
-				<li rldialog:id="eins.ogg" rldialog:patternRef ="5" value="4">
-					Eins, Bedingung.
-				</li>
-			</condition>
+			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11">Hallo? Ist da wer?</li>
 		</gossip>
 	</template>
 	</category>
 
 	<category>
-		<pattern>5</pattern>
+		<pattern>11</pattern>
 		<template>
 			<gossip rldialog:type="response">
-				<li rldialog:id="erschrecken_buh_01.ogg">Na das ist aber mal ne krasse Sache!</li>
+				<li rldialog:id="0.5SekStille.ogg">Keine Antwort. Die Geräusche sind verstummt.</li>
 			</gossip>
 			<gossip rldialog:type="option">
-				<li rldialog:id="erschrecken_psst_buh_01.ogg">Gell?</li>
-				<li rldialog:id="schmerz_schrei_au_01.ogg">Schleim nicht!</li>
-				
+				<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="2">[Wenn teilquest reden noch nicht erfüllt]Macht auf! Hier ist die Stadtwache aus Wandleth, ich möchte euch nur ein paar Fragen stellen.</li>
+				<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="3">[mit Paket dabei]Ich habe hier ein Paket von Jarn für euch!</li> <!-- Die beiden gehören zum gleichen Quest!-->
+				<li rldialog:id="0.5SekStille.ogg">Ich... gehe dann mal wieder.</li>
 			</gossip>
 		</template>
 	</category>
+
+	<category>
+	<pattern>2</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="0.5SekStille.ogg">[Keine Antwort. Offenbar will da jemand nicht bei seiner Arbeit gestört werden]</li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11">*klick zum Anfang*-Automatisierung einbauen!</li>
+		</gossip>
+	</template>
+	</category>
+
+	<category>
+	<pattern>3</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="0.5SekStille.ogg">[Die Tür geht auf oder durch die Tür, je nach Script-Stand] Ah! Der Stoff, aus dem Abenteuer sind. Ich wollte immer schon erfahren, ob das wirklich so eine Plage ist, für die man richtige Helden braucht. Danke, ... na wer seid ihr überhaupt?</li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="33">Ich bin Alrike, aus Wandleth, und hier um euch zu beschützen! Aber dafür müßt ihr mir auch sagen wovor überhaupt!!</li>
+		</gossip>
+	</template>
+	</category>
+
+		<pattern>33</pattern>
+		<template>
+			<gossip rldialog:type="response">
+				<li rldialog:id="0.5SekStille.ogg">Oh, Alrike. Ein nobles Ansinnen, aber gegen dieses Übel helfen keine Schwerter und kein Mut.</li>
+			</gossip>
+			<gossip rldialog:type="option">
+				<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="333">Äh.. wie bitte?</li>
+				<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="333">Aber, genau dafür bin ich hier, ich denke schon, dass...</li>
+			</gossip>
+		</template>
+		</category>
+
+			<pattern>333</pattern>
+			<template>
+				<gossip rldialog:type="response">
+					<li rldialog:id="0.5SekStille.ogg">Doch verzagt nicht, ich kämpfe auf eurer Seite. Wort und Lied wird durch die Lande getragen werden, um...</li>
+				</gossip>
+				<gossip rldialog:type="option">
+					<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="3333">Moment einmal! Ich rede von den Tieren! Ihr wisst schon, die euch nachts beißen, wenn ihr austreten geht.</li>
+				</gossip>
+			</template>
+			</category>
+
+				<pattern>3333</pattern>
+				<template>
+					<gossip rldialog:type="response">
+						<li rldialog:id="0.5SekStille.ogg">Oh, ach.. achso. Stimmt. Ich hatte es schon beinahe wieder vergessen. Gut, dass wir darüber geredet haben. Ich danke Euch, Alrike, auch für das Paket. Mögen...</li>
+					</gossip>
+					<gossip rldialog:type="option">
+						<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="33333">Halt! Was habt ihr vergessen? Ihr müsst es mir erst erzählen.</li>
+					</gossip>
+				</template>
+				</category>
+
+					<pattern>33333</pattern>
+					<template>
+						<gossip rldialog:type="response">
+							<li rldialog:id="0.5SekStille.ogg">Wovon redet... oh ja! Also seit der Waldmann das Dorf nicht mehr besucht streunen hier die Wölfe Nachts herum. Ich habe manchmal mit ihm gesprochen, wenn er hier war. Mal im Vertrauen... er ist ein bischen wirr im Kopf. Sehr anstrengend sich mit ihm zu unterhalten, kann nicht bei der Sache bleiben.</li>
+						</gossip>
+						<gossip rldialog:type="option">
+							<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="333333">Und meint ihr, er ist schuld daran? An den Wölfen im Dorf.</li>
+							<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="333333">Wie kann das zusammen hängen? Nach euch scheint er niemand zu sein, der so etwas macht.</li>
+						</gossip>
+					</template>
+					</category>
 	
+						<pattern>333333</pattern>
+						<template>
+							<gossip rldialog:type="response">
+								<li rldialog:id="0.5SekStille.ogg">[egal was man nimmt]. Versteht mich nicht falsch. Ich weiß nicht, ob er es mit Absicht macht oder ob, im Gegenteil, sein Verschwinden die Wölfe hierher gebracht hat. Ich weiß nur, dass beides zusammenhängt. [Questbeitrag "Rede mit Dorfbewohnern" erfüllt]</li>
+							</gossip>
+							<gossip rldialog:type="option">
+								<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="3333333">Danke für eure Antworten. Sie haben mir geholfen.</li>
+							</gossip>
+						</template>
+						</category>
+
+							<pattern>3333333</pattern>
+							<template>
+								<gossip rldialog:type="response">
+									<li rldialog:id="0.5SekStille.ogg">Ich werde jetzt weiterarbeiten. Jaja.. so sind wir, wir Weltverbesserer...</li>
+								</gossip>
+								<gossip rldialog:type="option">
+									<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11">*klick zum Anfang*-Automatisierung einbauen!</li>
+								</gossip>
+							</template>
+							</category>
+
+
+	
+
+
 </aiml>
