@@ -112,8 +112,16 @@ void DialogWindow::getResponse(const CeGuiString& msg)
 	}
 
 	DialogResponse::Responses responses = mCurrentResponse->getResponses();
-	CeGuiString responseText = responses.begin()->second;
-	responseText.c_str();
+	CeGuiString responseText;
+	if(!responses.empty())
+	{
+		responseText = responses.begin()->second;
+		responseText.c_str();
+		mController->response(
+			mBot->getDialogPartner()->getActor(), 
+			responseText, 
+			responses.begin()->first.c_str());
+	}
 
 	if(!responseText.empty())
 	{
@@ -123,10 +131,7 @@ void DialogWindow::getResponse(const CeGuiString& msg)
 
 		mGameLogger->logDialogEvent(mBot->getName(), responseText);
 	}
-	mController->response(
-			mBot->getDialogPartner()->getActor(), 
-			responseText, 
-			responses.begin()->first.c_str());
+
 
 	setVisible(false);
 	mState = TALKING_PARTNER_CHARACTER;

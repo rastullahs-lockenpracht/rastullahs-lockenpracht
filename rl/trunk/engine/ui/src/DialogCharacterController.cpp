@@ -216,7 +216,7 @@ namespace rl {
 
 		mTextShown = true;
 
-		if (mSubtitleWindow != NULL)
+		if (mSubtitleWindow != NULL && !text.empty())
 		{
 			mSubtitleWindow->show(text);
 		}

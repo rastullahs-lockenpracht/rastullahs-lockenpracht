@@ -61,11 +61,15 @@ void ContextConditionProcessor::preprocessStep()
 
 void ContextConditionProcessor::processChildStep(XmlNode<CeGuiString>* pChild)
 {
-	if(mNodeValue.empty())
+	mNodeValue.c_str();
+	mPredicateValue.c_str();
+	CeGuiString value = mNodeValue;
+	if(value.empty())
 	{
-		mNodeValue = pChild->getAttribute("value");
+		value = pChild->getAttribute("value");
 	}
-	if(mPredicateValue == mNodeValue)
+	value.c_str();
+	if(mPredicateValue == value)
 	{
 		mCurrentReturnValue += pChild;
 	}
