@@ -36,13 +36,6 @@ namespace rl
 		mWasActive(false),
 		mFmod3Driver(driver)
 	{
-		bindCloseToCloseButton();
-		bindClickToCloseWindow(getPushButton("Fmod3Config/Cancel"));
-
-		getWindow("Fmod3Config/OK")->subscribeEvent(
-			Window::EventMouseClick, 
-			boost::bind(&Fmod3Config::handleOK, this));
-
 		mOutput = getCombobox("Fmod3Config/Output");
 		mOutput->subscribeEvent(
 			Combobox::EventTextChanged,
@@ -82,7 +75,8 @@ namespace rl
 		item = new ListboxTextItem("Surround");
 		mSpeaker->addItem(item);
 #endif
-		centerWindow();
+		mWindow->setVisible(false);
+		getRoot()->removeChildWindow(mWindow);
 	}
 
 	bool Fmod3Config::handleOK()
