@@ -93,11 +93,17 @@ bool OalSoundSample::isValid() const throw (RuntimeException)
  */
 SoundChannel *OalSoundSample::createChannel() throw (RuntimeException)
 {
-    OalSoundChannel *nullchannel = new OalSoundChannel(mDriver, this, getName());
-    return nullchannel; 
+	if (mChannel == NULL)
+	{
+		mChannel = new OalSoundChannel(mDriver, this, getName());
+	}
+    return mChannel; 
 }
 
-
+float OalSoundSample::getLength() const
+{
+	return mChannel->getLength();
+}
 
 void OalSoundSamplePtr::destroy()
 {

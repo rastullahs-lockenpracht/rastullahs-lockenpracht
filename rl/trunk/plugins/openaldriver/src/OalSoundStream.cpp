@@ -33,7 +33,8 @@ namespace rl {
  */
 OalSoundStream::OalSoundStream(OalDriver* driver, const SoundResourcePtr &soundres):
     Sound(soundres),
-	mDriver(driver)
+	mDriver(driver),
+	mChannel(NULL)
 {
 }
 
@@ -84,8 +85,16 @@ bool OalSoundStream::isValid() const throw (RuntimeException)
  */
 SoundChannel *OalSoundStream::createChannel() throw (RuntimeException)
 {
-    OalSoundChannel *nullchannel = new OalSoundChannel(mDriver, this, getName());
-    return nullchannel; 
+	if (mChannel == NULL)
+	{
+		mChannel = new OalSoundChannel(mDriver, this, getName());
+	}
+    return mChannel; 
+}
+
+float OalSoundStream::getLength() const
+{
+	return mChannel->getLength();
 }
 
 

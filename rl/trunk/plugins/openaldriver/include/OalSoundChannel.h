@@ -53,6 +53,8 @@ public:
     /// Den Soundkanal setzen.
     void setChannel(signed int channel);  
 
+	float getLength() const;
+
     /// Gibt die eingestellte Position der Soundquelle zurueck
     virtual const Ogre::Vector3 getPosition() const;
     /// Setzt die Position der Soundquelle.

@@ -20,14 +20,10 @@
 #include "SoundResource.h"
 #include "Sound.h"
 
-namespace Ogre {
-    class MovableObject;
-    class Vector3;
-}
-
 namespace rl {
 
 	class OalDriver;
+	class OalSoundChannel;
 
    /** Diese Klasse dient der Interaktion mit Ogre3D
     * @author Josch
@@ -50,6 +46,8 @@ namespace rl {
         // Wir erzeugen einen Channel für SoundChannel
         virtual SoundChannel *createChannel() throw (RuntimeException);
 
+		float getLength() const;
+
 	protected:
         // Sind wir gueltig?
         virtual bool isValid() const throw (RuntimeException);
@@ -58,6 +56,7 @@ namespace rl {
         /// Loop?
         bool mLooping;
 		OalDriver* mDriver;
+		OalSoundChannel* mChannel;
     }; 
 
     class _RlOpenALDriverExport OalSoundStreamPtr :

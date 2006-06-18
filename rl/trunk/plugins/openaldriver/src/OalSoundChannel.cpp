@@ -14,8 +14,6 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 #include "OalSoundChannel.h"
-#include <OgreMovableObject.h>
-#include <OgreVector3.h>
 #include "Sound.h"
 
 Ogre::String rl::OalSoundChannel::msMovableType = "OalSoundChannel";
