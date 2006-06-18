@@ -1,4 +1,4 @@
-INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(STLPORT_CFLAGS) -I../include -I../../common/include -I../../multimedia/include
+INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(STLPORT_CFLAGS) -I../include -I../../common/include -I../../multimedia/include -I../../multimedia/include/null
 
 lib_LTLIBRARIES = libRlCore.la
 libRlCore_la_LDFLAGS = -L../../multimedia/src -lRlMultimedia $(OGRE_LIBS) $(CEGUI_LIBS) $(RUBY_LIBS) $(LIBS)
