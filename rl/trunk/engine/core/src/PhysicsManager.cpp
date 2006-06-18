@@ -140,7 +140,7 @@ namespace rl
         }
         else if (geomType == GT_SPHERE)
         {
-            double radius = max(size.x, max(size.y, size.z)) / 2.0;
+            double radius = std::max(size.x, std::max(size.y, size.z)) / 2.0;
             rval = CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(mWorld,
                 Vector3(radius, radius, radius)));
         }
@@ -148,10 +148,27 @@ namespace rl
         {
             // set the size x/z values to the maximum
             Vector3 s(size/2.0);
-            s.x = max(s.x, s.z);
+            s.x = std::max(s.x, s.z);
             s.z = s.x;
             rval = CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(mWorld, s));
         }
+		else if (geomType == GT_CAPSULE)
+		{
+			double radius = std::max(size.x, size.z) / 2.0;
+			double height = size.y;
+			
+			Quaternion orient;
+			orient.FromAngleAxis(Degree(90), Vector3::UNIT_Z);
+
+			Vector3 offset(-size.y/2, 0, 0);
+
+			rval = CollisionPtr(new OgreNewt::CollisionPrimitives::Capsule(
+						mWorld, 
+						radius, 
+						height,
+						orient,
+						offset));
+		}
         else if (geomType == GT_CONVEXHULL)
         {
             rval = CollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(mWorld,
