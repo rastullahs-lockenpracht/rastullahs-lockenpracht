@@ -75,11 +75,13 @@ namespace rl {
 				
 		bool handleSelectOption();	
 		bool handleClose();
+		bool requestClose();
 		void getOptions(const CeGuiString& question);
 
 		static const CEGUI::colour COLOR_PLAYER_CHARACTER;
 		static const CEGUI::colour COLOR_NON_PLAYER_CHARACTER;
 		static const CeGuiString DIALOG_START;
+		static const CeGuiString DIALOG_EXIT;
 		static const CeGuiString DIALOG_END;
 	};
 

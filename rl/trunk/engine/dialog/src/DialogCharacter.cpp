@@ -96,6 +96,10 @@ namespace rl
 	{
 		DialogResponse* dialogResponse = NULL;
 		Response<CeGuiString> response = mBot->respond(input);
+		if(response.empty())
+		{
+			return NULL;
+		}
 		if(response.hasGossip())
 		{
 			ContextInterpreter* interpreter = DialogSubsystem::getSingleton().getContextInterpreter();

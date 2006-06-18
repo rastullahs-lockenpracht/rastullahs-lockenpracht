@@ -31,7 +31,14 @@ CeGuiString EigenschaftsProbePredicates::getPredicate(const CeGuiString& pName) 
 {
 	try
 	{
-		return Ogre::StringConverter::toString(mCharacter->doEigenschaftsprobe(pName, mModifier));
+		if(pName == "MR")
+		{
+			// doMagieresistenzProbe?
+		}
+		else
+		{
+			return Ogre::StringConverter::toString(mCharacter->doEigenschaftsprobe(pName, mModifier));
+		}
 	}
 	catch(...)
 	{

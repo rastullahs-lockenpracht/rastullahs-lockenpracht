@@ -40,6 +40,7 @@ const CEGUI::colour DialogWindow::COLOR_NON_PLAYER_CHARACTER(0xFFFFFF7F);
 
 const CeGuiString DialogWindow::DIALOG_START = "1";
 const CeGuiString DialogWindow::DIALOG_END = "DIALOG BEENDET";
+const CeGuiString DialogWindow::DIALOG_EXIT = "EXIT";
 
 DialogWindow::DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger, DialogCharacterController* controller)
   : CeGuiWindow("dialogwindow.xml", WND_MOUSE_INPUT),
@@ -55,7 +56,7 @@ DialogWindow::DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger, D
 
 	mWindow->subscribeEvent(
 		FrameWindow::EventCloseClicked, // Verstecken, falls Close geklickt wird
-		boost::bind(&DialogWindow::handleClose, this)); //TODO: als Abbrechen werten 
+		boost::bind(&DialogWindow::requestClose, this)); //TODO: als Abbrechen werten 
 
 	mDialogOptions->subscribeEvent(
 		Listbox::EventSelectionChanged, 
@@ -104,6 +105,9 @@ void DialogWindow::getResponse(const CeGuiString& msg)
 		mQuestion->getListboxItemFromIndex(0)->setText(DIALOG_END);
 		mQuestion->getListboxItemFromIndex(1)->setText("");
 		mState = CLOSING_DIALOG;
+	//	übergangslösung, wenn gerade kein sprecher aktiv ist wird 
+	//	nicht nicht textFinished aufgerufen
+		handleClose();
 		return;
 	}
 
@@ -118,12 +122,12 @@ void DialogWindow::getResponse(const CeGuiString& msg)
 		mQuestion->handleUpdatedItemData();
 
 		mGameLogger->logDialogEvent(mBot->getName(), responseText);
-
-		mController->response(
+	}
+	mController->response(
 			mBot->getDialogPartner()->getActor(), 
 			responseText, 
 			responses.begin()->first.c_str());
-	}
+
 	setVisible(false);
 	mState = TALKING_PARTNER_CHARACTER;
 	mCurrentResponseText = msg;
@@ -254,6 +258,13 @@ bool DialogWindow::handleClose()
 	UiSubsystem::getSingleton().requestCharacterControllerSwitch(
 		CharacterController::CTRL_MOVEMENT);
 	destroyWindow();
+	return true;
+}
+
+bool DialogWindow::requestClose()
+{
+//	handleClose is called automatically 
+	getResponse(DIALOG_EXIT);
 	return true;
 }
 
