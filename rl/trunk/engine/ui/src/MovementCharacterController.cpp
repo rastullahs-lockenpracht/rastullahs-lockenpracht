@@ -105,13 +105,13 @@ namespace rl {
 			mCamera->getPhysicalThing(), this);
 
 		// Fit Collision proxy to idle anim
-        mCharacterActor->getPhysicalThing()->fitToPose("Idle");
+        mCharacterActor->getPhysicalThing()->fitToPose("idle");
 
         resetCamera();
 
 		MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
 		mesh->stopAllAnimations();
-		mesh->startAnimation("Idle");
+		mesh->startAnimation("idle");
 	}
 
 	//------------------------------------------------------------------------
@@ -469,13 +469,13 @@ namespace rl {
             if (mCharacterState.mCurrentMovementState & MOVE_SNEAK
                 && mCharacterState.mPose != CharacterState::Crouch)
             {
-                pt->fitToPose("idle hocke");
+                pt->fitToPose("hocke_idle");
                 mCharacterState.mPose = CharacterState::Crouch;
             }
             else if (!(mCharacterState.mCurrentMovementState & MOVE_SNEAK)
                 && mCharacterState.mPose == CharacterState::Crouch)
             {
-                pt->fitToPose("Idle");
+                pt->fitToPose("idle");
                 mCharacterState.mPose = CharacterState::Stand;
             }
 
@@ -485,50 +485,50 @@ namespace rl {
 			{
 				if (mCharacterState.mCurrentMovementState & MOVE_FORWARD)
 				{
-					mesh->startAnimation("hocke walk");
+					mesh->startAnimation("hocke_gehen");
 				}
 				else
 				{
-					mesh->startAnimation("idle hocke");
+					mesh->startAnimation("hocke_idle");
 				}
 			}
 			else if (isRunMovement(mCharacterState.mCurrentMovementState) 
 				&& (mCharacterState.mCurrentMovementState != MOVE_RUN) 
 				&& (mCharacterState.mCurrentMovementState != MOVE_RUN_LOCK))
 			{
-				mesh->startAnimation("Run");
+				mesh->startAnimation("rennen");
 			}
 			else if (mCharacterState.mCurrentMovementState == MOVE_NONE ||
 				mCharacterState.mCurrentMovementState == MOVE_RUN)
 			{
-				mesh->startAnimation("Idle");
+				mesh->startAnimation("idle");
 			}
 			else
 			{
 				// standard walk in any direction
 				if (mCharacterState.mCurrentMovementState & MOVE_FORWARD)
 				{
-					mesh->startAnimation("walk");
+					mesh->startAnimation("gehen");
 				}
 				else if (mCharacterState.mCurrentMovementState & MOVE_BACKWARD)
 				{
-					mesh->startAnimation("Rueckwaerts");
+					mesh->startAnimation("gehen_rueckwaerts");
 				}
 				else if (mCharacterState.mCurrentMovementState & MOVE_LEFT)
 				{
-					mesh->startAnimation("sidestep2");
+					mesh->startAnimation("seitwerts_links");
 				}
 				else if (mCharacterState.mCurrentMovementState & MOVE_RIGHT)
 				{
-					mesh->startAnimation("Sidestep1");
+					mesh->startAnimation("seitwerts_rechts");
 				}
 				else if (mCharacterState.mCurrentMovementState & TURN_LEFT)
 				{
-					mesh->startAnimation("TurnLeft");
+					mesh->startAnimation("drehen_links");
 				}
 				else if (mCharacterState.mCurrentMovementState & TURN_RIGHT)
 				{
-					mesh->startAnimation("TurnRight");
+					mesh->startAnimation("drehen_rechts");
 				}
 			}
 			mCharacterState.mLastMovementState = mCharacterState.mCurrentMovementState;
