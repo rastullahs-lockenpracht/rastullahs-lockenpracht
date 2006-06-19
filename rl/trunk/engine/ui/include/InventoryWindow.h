@@ -62,7 +62,6 @@ namespace rl {
 		*/
 		void setInventory(Inventory* inventory);
 
-
 		/**
 		* Methode für das OnMouseOver Event
 		*/
@@ -114,7 +113,12 @@ namespace rl {
 		// Erzeugt eine Itemrepräsentation im Inventarfenster
 		CEGUI::DragContainer* createItem(Item* item, CEGUI::Window* parent, CEGUI::UVector2 position = CEGUI::UVector2(CEGUI::cegui_reldim(0.0f), CEGUI::cegui_reldim(0.0f)));
 
-		
+
+		/**
+		* Schliesst das Fenster bei Klick auf X
+		*/
+		bool handleClose();
+
 		void initRenderToTexture();
 		/**
 		* Rendert das Item in das Vorschaufenster im Inventar
@@ -134,6 +138,17 @@ namespace rl {
 
 		// Das Item-Renderfenster
 		CEGUI::StaticImage* mItemRenderImage;
+
+
+		// Das Rüstungs- und Behinderungswert Fenster
+		CEGUI::StaticImage* mArmorValueWindow;
+		CEGUI::StaticText* mArmorValue;
+		CEGUI::StaticText* mHandicapValue;
+
+		// Das Gewichtsfenster
+		CEGUI::StaticImage* mWeightWindow;
+		CEGUI::StaticText* mTotalWeight;
+		
 
 		// Das Item-Beschreibungsfenster
 		CEGUI::StaticText* mDescription;

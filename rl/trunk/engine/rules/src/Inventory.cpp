@@ -20,6 +20,7 @@
 #include "Exception.h"
 #include "ActorManager.h"
 #include "Creature.h"
+#include "ItemManager.h"
 
 using namespace std;
 
@@ -49,45 +50,20 @@ namespace rl
 	{
 
 		mOwner = owner;
+
 		Item* backpack = createItem("Rucksack", "Dieser Rucksack ist praktisch, da er viel Platz \r\nauf dem Ruecken eines jeden Helden bietet.", "Rucksack", Item::ITEMTYPE_BACKPACK, pair<int,int>(2,2));
 		backpack->setContainer(true, pair<int,int>(12,7));
-
 		mBackpack = backpack;
 
+		//Item* trank = ItemManager::getSingleton().createItem("Heiltrank");
 
-		Item* meineRuestung = createItem("Kroetenhaut", "Gefertigt aus Rindsleder bietet diese zusaetzlich \r\ndurch Nieten verstaerkte Ruestung guten Schutz fuer den Abenteurer","Kroetenhaut",Item::ITEMTYPE_ARMOR,pair<int,int>(3,4));
-		meineRuestung->setContainer(true, std::make_pair<int,int>(2,4));
-
-		Item* meinTrank = createItem("Heiltrank", "Erhöht die Vitalität","Trank", Item::ITEMTYPE_OTHER, pair<int,int>(1,1));
-
-		Item* meineHandschuhe = createItem("einfache Handschuhe", "Wärmen im Winter","Handschuhe",Item::ITEMTYPE_GLOVES,pair<int,int>(2,2));
-
-		Item* meinArmreif = createItem("Schmuckreif", "Verzaubert vom Shamanen Murgul","Armreif",Item::ITEMTYPE_BRACELET, pair<int,int>(1,1));
-
-		Item* meineStiefel = createItem("Lederstiefel", "Einfache Lederstiefel","Stiefel",Item::ITEMTYPE_BOOTS,pair<int,int>(2,2));
 		
-		Item* meinUmhang = createItem("Fellumhang", "Fellumhang von den Nivesen geklaut","Fellumhang",Item::ITEMTYPE_CAPE,pair<int,int>(2,4));
-		
-		Item* meinRing = createItem("Goldring","Normaler Goldring","Rubinring",Item::ITEMTYPE_RING,pair<int,int>(1,1));
-
-		Item* meinRing2 = createItem("Feiner Goldring","Schön gearbeiteter Ring","Rubinring",Item::ITEMTYPE_RING,pair<int,int>(1,1));
-
-		Weapon* kurzschwert = new Weapon("Kurzschwert", "Dies ist ein ganz normales Kurzschwert");
-		kurzschwert->setImageName("Kurzschwert");
-		kurzschwert->setItemType(Item::ITEMTYPE_WEAPON);
-		kurzschwert->setSize(1,3);
-		kurzschwert->setTp(1, 0, 2);
-		kurzschwert->setTpKk(11, 4);
-		kurzschwert->setBf(3);
-		kurzschwert->setIni(-1);
-		kurzschwert->setDk(Weapon::DK_N);
-		kurzschwert->setKampftechnik("Schwerter");
-		kurzschwert->setActor(ActorManager::getSingleton().createMeshActor("kurzschwert", "waf_kurzschwert_01.mesh"));
-
+		Item* kurzschwert = ItemManager::getSingleton().createItem("Kurzschwert");
 		addItem(kurzschwert);
 
-		addItem(meinTrank);
-		addItem(meineHandschuhe);
+		//addItem(trank);
+		
+		/*addItem(meineHandschuhe);
 		addItem(meinArmreif);
 		addItem(meineStiefel);
 		addItem(meinUmhang);
@@ -95,6 +71,7 @@ namespace rl
 
 		addItem(meinRing);
 		addItem(meineRuestung);
+		*/
 	}
 
 	Inventory::~Inventory() 
@@ -113,40 +90,100 @@ namespace rl
 	
 	std::list<Item*> Inventory::getAllItems()
 	{
-		ItemList items(0);
+		ItemList wornItems(0);
+		ItemList allItems(0);
 		if (mBackpack)
-			items.push_back(mBackpack);
+			wornItems.push_back(mBackpack);
 		if (mRingLeft)
-			items.push_back(mRingLeft);
+			wornItems.push_back(mRingLeft);
 		if (mRingRight)
-			items.push_back(mRingRight);
+			wornItems.push_back(mRingRight);
 		if (mHandLeft)
-			items.push_back(mHandLeft);
+			wornItems.push_back(mHandLeft);
+		if (mHandRight)
+			wornItems.push_back(mHandRight);
 		if (mGloves)
-			items.push_back(mGloves);
+			wornItems.push_back(mGloves);
 		if (mBraceletLeft)
-			items.push_back(mBraceletLeft);
+			wornItems.push_back(mBraceletLeft);
 		if (mBraceletRight)
-			items.push_back(mBraceletRight);
+			wornItems.push_back(mBraceletRight);
 		if (mArmor)
-			items.push_back(mArmor);
+			wornItems.push_back(mArmor);
 		if (mCape)
-			items.push_back(mCape);
+			wornItems.push_back(mCape);
 		if (mBracers)
-			items.push_back(mBracers);
+			wornItems.push_back(mBracers);
 		if (mBelt)
-			items.push_back(mBelt);
+			wornItems.push_back(mBelt);
 		if (mNecklace)
-			items.push_back(mNecklace);
+			wornItems.push_back(mNecklace);
 		if (mHelmet)
-			items.push_back(mHelmet);
+			wornItems.push_back(mHelmet);
 		if (mTrousers)
-			items.push_back(mTrousers);
+			wornItems.push_back(mTrousers);
 		if (mShinbone)
-			items.push_back(mShinbone);
+			wornItems.push_back(mShinbone);
 		if (mBoots)
-			items.push_back(mBoots);
-		return items;
+			wornItems.push_back(mBoots);
+
+		// Container durchgehen
+		ItemList::iterator it = wornItems.begin();
+
+		while (it != wornItems.end())
+		{
+			allItems.push_back(*it);
+			if ((*it)->isContainer())
+			{
+				addContainerItemsToList(*(*it), allItems);
+			}
+			it++;
+		}
+		return allItems;
+	}
+
+	void Inventory::addContainerItemsToList(Item &container, ItemList &itemList)
+	{
+		assert( container.isContainer());
+		for (unsigned int x = 0; x < container.getContainerLayout().size(); x++){
+			for (unsigned int y = 0; y < container.getContainerLayout()[0].size(); y++){
+				if (container.getContainerLayout()[x][y] != NULL){
+			
+					// Item im Container -> überprüfe ob schon zur Liste hinzugefügt
+					ItemList::iterator it = itemList.begin();
+					bool found = false;
+
+					while (it != itemList.end())
+					{
+						if ((*it) == container.getContainerLayout()[x][y])
+						{
+							found = true;
+							break;
+						}
+						it++;
+					}
+					if (!found) {
+						itemList.push_back(container.getContainerLayout()[x][y]);
+					}
+				}
+			}
+		}
+	}
+
+	unsigned int Inventory::getOverallWeight()
+	{
+		ItemList items = getAllItems();
+		ItemList::iterator it = items.begin();
+
+		unsigned int totalWeight = 0;
+
+		while (it != items.end())
+		{
+			totalWeight += (*it)->getWeight();
+
+			it++;
+		}
+		return totalWeight;
 	}
 
 	Item* Inventory::createItem(const CeGuiString name, const CeGuiString description, const CeGuiString imageName, Item::ItemType type, pair<int,int> size)

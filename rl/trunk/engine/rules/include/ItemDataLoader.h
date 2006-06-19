@@ -14,40 +14,39 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#ifndef __RULESSUBSYSTEM_H__
-#define __RULESSUBSYSTEM_H__
 
-#include "RulesPrerequisites.h"
+#ifndef __ItemDataLoader_H__
+#define __ItemDataLoader_H__
+
+#include <xercesc/dom/DOMDocument.hpp>
+#include <xercesc/dom/DOMElement.hpp>
+
 
 #include <string>
 
-namespace rl
-{
-	class QuestBook;
-    class ActionManager;
-    class DsaManager;
-    class TimerManager;
-	class ItemManager;
+namespace rl {
 
-	class _RlRulesExport RulesSubsystem : public Ogre::Singleton<RulesSubsystem>
-    {
-    public:
-        RulesSubsystem();
-        ~RulesSubsystem();
-	
-        static RulesSubsystem& getSingleton(void);
-        static RulesSubsystem* getSingletonPtr(void);
+	class Weapon;
+	class Armor;
 
-		QuestBook* getQuestBook();
-		void resetQuestBook();
+	class ItemDataLoader
+	{
+	public:
+		static void loadData(std::string filename);
 
 	private:
-		QuestBook* mQuestBook;
-        ActionManager* mActionManager;
-        DsaManager* mDsaManager;
-        TimerManager* mTimerManager;
-		ItemManager* mItemManager;
-    };
+		static void initializeWeapons(XERCES_CPP_NAMESPACE::DOMElement* rootWeapons);
+		static Weapon* processWeapon(int gruppe, XERCES_CPP_NAMESPACE::DOMElement* weaponXml);
+
+		static void initializeArmor(XERCES_CPP_NAMESPACE::DOMElement* rootArmors);
+		static Armor* processArmor(XERCES_CPP_NAMESPACE::DOMElement* armorXml);
+
+		static int getDKFromString(const std::string& eBeString);
+			
+		ItemDataLoader();
+	};
+
 }
 
 #endif
+

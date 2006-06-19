@@ -26,8 +26,31 @@ namespace rl
 	{
 	}
 
+	Weapon::Weapon(const CeGuiString weaponName, const CeGuiString description, 
+			const CeGuiString imageName, const CeGuiString meshName,
+			Item::ItemType type, std::pair<int,int> size)
+			: Item(weaponName, description, imageName, meshName, type, size)
+	{
+	}
+
 	Weapon::~Weapon(void)
 	{
+	}
+
+
+	Weapon* Weapon::clone()
+	{
+		Weapon* weapon = new Weapon(mName, mDescription, 
+			mImageName, mMeshName, mItemType, mSize);
+		weapon->setTp(mTp.first,mTp.second,mTp.third);
+		weapon->setTpKk(mTpKk.first,mTpKk.second);
+		weapon->setBf(mBf);
+		weapon->setIni(mIni);
+		weapon->setWm(mWm);
+		weapon->setDk(mDk);
+		weapon->setKampftechnik(mKampftechnik);
+
+		return weapon;
 	}
 
 	const CeGuiString Weapon::getDescription() const

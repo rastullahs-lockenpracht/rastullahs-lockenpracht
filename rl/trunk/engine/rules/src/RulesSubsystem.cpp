@@ -20,6 +20,8 @@
 #include "DsaDataLoader.h"
 #include "Logger.h"
 #include "TimerManager.h"
+#include "ItemManager.h"
+#include "ItemDataLoader.h"
 #include "QuestBook.h"
 
 template <>
@@ -40,7 +42,8 @@ namespace rl
 		: mQuestBook(NULL),
         mActionManager(NULL),
         mDsaManager(NULL),
-        mTimerManager(NULL)
+        mTimerManager(NULL),
+		mItemManager(NULL)
     {
 		Logger::getSingleton().log(Logger::RULES, Logger::LL_MESSAGE, "Start");
         //Zufallsgenerator initialisieren
@@ -55,10 +58,14 @@ namespace rl
 		Logger::getSingleton().log(Logger::RULES, Logger::LL_MESSAGE, "TimerManager erzeugt");
 		resetQuestBook();
 		Logger::getSingleton().log(Logger::RULES, Logger::LL_MESSAGE, "Questverwaltung erzeugt");
+		mItemManager = new ItemManager();
+		Logger::getSingleton().log(Logger::RULES, Logger::LL_MESSAGE, "ItemManager erzeugt");
 
 		//Daten laden
 		DsaDataLoader::loadData("basis.xdi");
 		Logger::getSingleton().log(Logger::RULES, Logger::LL_MESSAGE, "Basisdaten geladen");
+
+		ItemDataLoader::loadData("items.xdi");
 		
 		Logger::getSingleton().log(Logger::RULES, Logger::LL_MESSAGE, "Erzeugen abgeschlossen");		
     }

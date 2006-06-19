@@ -421,7 +421,19 @@
 				Name="items"
 				>
 				<File
+					RelativePath=".\src\Armor.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\Item.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ItemDataLoader.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ItemManager.cpp"
 					>
 				</File>
 				<File
@@ -607,7 +619,19 @@
 				Name="items"
 				>
 				<File
+					RelativePath=".\include\Armor.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\Item.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\ItemDataLoader.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\ItemManager.h"
 					>
 				</File>
 				<File

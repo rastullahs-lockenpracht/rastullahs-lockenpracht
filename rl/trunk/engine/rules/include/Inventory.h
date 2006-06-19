@@ -51,7 +51,7 @@ public:
 	virtual ~Inventory();
 
 ///////////////////////////////////////////////////////////////////////////////
-// Werte
+// Methoden
 
 	/**
 	* Liefert alle Items im Inventar inm einer Liste
@@ -60,6 +60,12 @@ public:
 	* Was in den Items drinnen ist, ist vernachlaessigt
 	*/
 	ItemList getAllItems();
+
+
+	/**
+	* Liefert die gesamte Last des Inventars in Unzen
+	*/
+	unsigned int getOverallWeight();
 
 	/**
 	 * @return Die errechnete Behinderung
@@ -181,6 +187,9 @@ private:
 	* Überprüft die Stelle im Inventar auf genug Platz für ein Item der Größe space
 	*/
 	bool checkSpace(int xStart, int yStart, pair<int,int> space, ContainerLayout container);
+
+
+	void addContainerItemsToList(Item &container, ItemList &itemList);
 
 	/**
 	* Erzeugt ein Item mit den angegebenen Parametern

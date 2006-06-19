@@ -15,6 +15,7 @@
  */
 
 #include "Item.h"
+#include "Exception.h"
 
 using namespace std;
 
@@ -25,63 +26,38 @@ namespace rl
 		mWeight(0),
 		mItemType(ITEMTYPE_OTHER),
 		mImageName(""),
+		mMeshName(""),
 		mIsContainer(false),
 		mContainerLayout(),
-		mCapacity(pair<int,int>(1,1)),
+		mCapacity(make_pair<int,int>(0,0)),
 		mSize(pair<int,int>(1,1))
     {
     }
 
-	/*Item::Item(const CeGuiString name, const CeGuiString description, CEGUI::String imageName, ItemType type, pair<int,int> size)
-		: GameObject(name, description)
+	Item::Item(const CeGuiString name, const CeGuiString description, const CeGuiString imageName, const CeGuiString meshName, Item::ItemType type, std::pair<int,int> size)
+		: GameObject(name, description),
+		mWeight(0),
+		mItemType(type),
+		mImageName(imageName),
+		mMeshName(meshName),
+		mIsContainer(false),
+		mContainerLayout(),
+		mCapacity(make_pair<int,int>(0,0)),
+		mSize(size)
 	{
-		mCapacity = pair<int,int> (1,1);
-		boolContainer = false;
-
-		mItemType = type;
-		mImageName = imageName;
-		mSize = size;
-	}*/
+	}
 
     Item::~Item(void)
     {
     }
 	
-	const CeGuiString Item::getDescription() const
+	Item* Item::clone()
 	{
-		return mName + "\r\n\r\n" + mDescription;
+		Item* item = new Item(mName, mDescription, mImageName, mMeshName, mItemType, mSize);
+		item->setWeight(mWeight);
+		item->setContainer(mIsContainer,mCapacity);
+		return item;
 	}
-
-    void Item::setWeight(int weight)
-    {
-        mWeight = weight;
-    }
-
-    int Item::getWeight() const
-    {
-        return mWeight;
-    }
-
-	void Item::setItemType(ItemType itemType)
-	{
-		mItemType = itemType;
-	}
-
-	Item::ItemType Item::getItemType() const
-	{
-		return mItemType;
-	}
-
-	void Item::setImageName(const CeGuiString name)
-	{
-		mImageName = name;
-	}
-
-	const CeGuiString Item::getImageName()
-	{
-		return mImageName;
-	}
-
 
 	const CeGuiString Item::getItemTypeString(ItemType type){
 		switch(type){
@@ -136,6 +112,51 @@ namespace rl
 		}
 		return CeGuiString("undefined");
 	}
+
+	const CeGuiString Item::getDescription() const
+	{
+		return mName + "\r\n\r\n" + mDescription;
+	}
+
+    void Item::setWeight(int weight)
+    {
+        mWeight = weight;
+    }
+
+    int Item::getWeight() const
+    {
+        return mWeight;
+    }
+
+	void Item::setItemType(ItemType itemType)
+	{
+		mItemType = itemType;
+	}
+
+	Item::ItemType Item::getItemType() const
+	{
+		return mItemType;
+	}
+
+	void Item::setImageName(const CeGuiString name)
+	{
+		mImageName = name;
+	}
+	void Item::setMeshName(const CeGuiString name)
+	{
+		mMeshName = name;
+	}
+
+	const CeGuiString Item::getImageName()
+	{
+		return mImageName;
+	}
+	const CeGuiString Item::getMeshName()
+	{
+		return mMeshName;
+	}
+
+
 
 
 	bool Item::isContainer()

@@ -642,7 +642,7 @@ namespace rl
 		// FIXME: Waffenknochen immer 13?
 		getActor()->attachToSlot(
 			weapon->getActor(), 
-			"Bone13",
+			"r_hand",
 			"SLOT_HANDLE"); 
 		 mActiveWeapon = weapon;
 	}

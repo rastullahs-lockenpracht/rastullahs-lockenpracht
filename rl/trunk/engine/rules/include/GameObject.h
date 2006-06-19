@@ -43,6 +43,8 @@ namespace rl
                    const CeGuiString description);
         virtual ~GameObject(void);
 
+		virtual GameObject* clone();
+
         virtual int getId() const;
 
         virtual const CeGuiString getName() const;

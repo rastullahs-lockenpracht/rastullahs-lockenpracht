@@ -35,7 +35,13 @@ namespace rl
 		};
 
 		Weapon (const CeGuiString weaponName, const CeGuiString description);
+		Weapon(const CeGuiString name, const CeGuiString description, 
+			const CeGuiString imageName, const CeGuiString meshName,
+			Item::ItemType type, std::pair<int,int> size);
+
 		virtual ~Weapon(void);
+
+		Weapon* clone();
 
 		const CeGuiString getDescription() const;
 

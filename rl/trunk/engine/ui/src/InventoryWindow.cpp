@@ -170,13 +170,13 @@ namespace rl {
 		{
 			ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorAccept);
 			return true;
-		} 
-		else 
+		}
+		else
 		{
 			ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorReject);
 			return false;
 		}
-	} 
+	}
 
 	bool handleDragLeave(const CEGUI::EventArgs& args)
 	{
@@ -185,7 +185,7 @@ namespace rl {
 		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
 		ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorNormal);
 		return true;
-	} 
+	}
 
 	bool handleDragDropped(const CEGUI::EventArgs& args)
 	{
@@ -230,7 +230,7 @@ namespace rl {
 
 				invWin->updateInventory();
 				return true;
-			} 
+			}
 			else 
 			{
 				return false;
@@ -240,17 +240,17 @@ namespace rl {
 		} else {
 			// Es handelt sich um einen Slot am Körper
 			if (checkTypeAccepted(ddea.window, ddea.dragDropItem)){
-				// Nur wenn das Item in den Slot passt, soll es auch dort gedroppt werden können				
+				// Nur wenn das Item in den Slot passt, soll es auch dort gedroppt werden können
 
 				ddea.window->addChildWindow(ddea.dragDropItem);
 
-				if ((!ddea.window->getUserString("ItemType").compare(Item::getItemTypeString(Item::ITEMTYPE_WEAPON)) || 
-					(!ddea.window->getUserString("ItemType").compare(Item::getItemTypeString(Item::ITEMTYPE_SHIELD)))) && 
+				if ((!ddea.window->getUserString("ItemType").compare(Item::getItemTypeString(Item::ITEMTYPE_WEAPON)) ||
+					(!ddea.window->getUserString("ItemType").compare(Item::getItemTypeString(Item::ITEMTYPE_SHIELD)))) &&
 					(ddea.dragDropItem->getUserData()))
 				{
 					Item* item = static_cast<Item*>(ddea.dragDropItem->getUserData());
 					invWin->mPosDraggedTo= CEGUI::Point(30-(item->getSize().first * 15),75-(item->getSize().second *15));
-				} 
+				}
 				else {
 					invWin->mPosDraggedTo=CEGUI::Point(0.0,0.0);
 				}
@@ -264,7 +264,7 @@ namespace rl {
 				return false;
 			}
 		}
-	} 
+	}
 
 	/* Konstruktor */
 	InventoryWindow::InventoryWindow()
@@ -277,6 +277,11 @@ namespace rl {
 		mTexture(NULL),
 		mImageSet(NULL),
 		mActiveItemWindow(NULL),
+		mArmorValueWindow(NULL),
+		mArmorValue(NULL),
+		mHandicapValue(NULL),
+		mWeightWindow(NULL),
+		mTotalWeight(NULL),
 		mPosDraggedTo(),
 		mContainerDraggedTo(NULL),
 		mDroppedItem(NULL),
@@ -311,6 +316,10 @@ namespace rl {
 	{
 		initSlots();
 		initRenderToTexture();
+
+		mWindow->subscribeEvent(FrameWindow::EventCloseClicked,
+			boost::bind(&InventoryWindow::handleClose, this));
+
 		GameLoopManager::getSingletonPtr()->addSynchronizedTask(new InventoryArrangeTask(), FRAME_ENDED);
 	}
 	
@@ -333,11 +342,27 @@ namespace rl {
 			mInventory = inventory;
 			// Fuelle das Fenster entsprechend dem neuen Inventar, das angezeigt werden soll
 			fillSlots();
+			update();
 		}
 	}
 
-	void update()
+	bool InventoryWindow::handleClose()
 	{
+		if (isVisible())
+		{
+			setVisible(false);
+		}
+		return true;
+	}
+
+	void InventoryWindow::update()
+	{
+		// Aktualisiere Werte
+
+		// Gewicht in Unzen
+		int weight = mInventory->getOverallWeight() / 40;
+		// TODO: runden
+		mTotalWeight->setText(Ogre::StringConverter::toString(weight));
 
 	}
 
@@ -387,7 +412,7 @@ namespace rl {
 				removeContainerAndContent(item);
 				refreshTabs();
 			}
-
+			update();
 			return;
 		} 
 				
@@ -535,6 +560,10 @@ namespace rl {
 			}
 			mInventory->setHandRight(item);
 		}
+
+
+		// Update am Inventar durchgeführt, jetzt sollen noch die Werte aktualisiert werden
+		update();
 	}
 
 
@@ -568,7 +597,29 @@ namespace rl {
 
 	void InventoryWindow::initSlots()
 	{
+		mArmorValueWindow = getStaticImage("InventoryWindow/ArmorValueWindow");
+		mArmorValueWindow->setBackgroundImage("InventorySymbols","Shield");
+		mArmorValueWindow->setTooltipText("Rüstung / Behinderung");
+		//TODO: An Tooltip anhängen: woraus setzt sich die Rüstung zusammen?
+		mArmorValue = getStaticText("InventoryWindow/ArmorValue");
+		mArmorValue->setText(" 3");
+		mArmorValue->setTextColours(CEGUI::colour(0.0,0.4,0.0));
+		mArmorValue->disable();
+		mHandicapValue = getStaticText("InventoryWindow/HandicapValue");
+		mHandicapValue-> setText("2");
+		mHandicapValue->setTextColours(CEGUI::colour(0.4,0.0,0.0));
+		mHandicapValue->disable();
 
+		mWeightWindow = getStaticImage("InventoryWindow/WeightWindow");
+		mWeightWindow->setBackgroundImage("InventorySymbols", "Weight");
+		mWeightWindow->setTooltipText("Getragenes Gewicht\r\nin Stein");
+
+		mTotalWeight = getStaticText("InventoryWindow/TotalWeight");
+		mTotalWeight->setText("");
+		// Schwarzer Text (wird rot, wenn überladen)
+		mTotalWeight->setTextColours(CEGUI::colour(0.0,0.0,0.0));
+		mTotalWeight->disable();
+				
 
 		// Das Item-Beschreibungsfeld holen
 		mDescription = getStaticText("InventoryWindow/Description");
@@ -898,9 +949,12 @@ namespace rl {
 				position = UVector2(cegui_absdim(30-(item->getSize().first * 15)), cegui_absdim(75-(item->getSize().second *15)));
 			}
 
+			static int itemCnt = 0;
+			itemCnt++;
+
 			// Erzeuge einen Handler für Drag and Drop
 			DragContainer* itemhandler = static_cast<DragContainer*>(
-				CEGUI::WindowManager::getSingletonPtr()->createWindow("DragContainer", item->getName()));
+				CEGUI::WindowManager::getSingletonPtr()->createWindow("DragContainer", Ogre::StringConverter::toString(itemCnt) + item->getName()));
 			itemhandler->setWindowPosition(position);
 			itemhandler->setWindowSize(UVector2(cegui_absdim(item->getSize().first*30), cegui_absdim(item->getSize().second*30))); 
 			itemhandler->setUserString("ItemType",Item::getItemTypeString(item->getItemType()));
@@ -923,23 +977,11 @@ namespace rl {
 			itemWindow->setWindowSize(UVector2(cegui_absdim(item->getSize().first*30), cegui_absdim(item->getSize().second*30)));
 			itemWindow->setProperty("FrameEnabled", "false");
 			itemWindow->setProperty("BackgroundColour", mColorItemNormal);
+			// Gib dem Item noch ein Bild...
+			itemWindow->setProperty("Image", CeGuiString("set:ModelThumbnails image:") + item->getImageName());
 			itemWindow->disable(); 
 
 			itemhandler->addChildWindow(itemWindow);
-
-			// Gib dem Item noch ein Bild...
-			Window* itemIcon = 
-				CEGUI::WindowManager::getSingletonPtr()->createWindow(
-					"RastullahLook/StaticImage", 
-					tempName + "Icon");
-
-			itemIcon->setWindowPosition(UVector2(cegui_reldim(0.0), cegui_reldim(0.0)));
-			itemIcon->setWindowSize(UVector2(cegui_reldim(1), cegui_reldim(1)));
-			itemIcon->setProperty("Image", CeGuiString("set:ModelThumbnails image:") + item->getImageName());
-			// disable to allow inputs to pass through.
-			itemIcon->disable();
-
-			itemWindow->addChildWindow(itemIcon);
 
 			return itemhandler;
 		}
@@ -1049,7 +1091,7 @@ namespace rl {
                 CEGUI::Size(mTexture->getWidth(), mTexture->getHeight()),
                 CEGUI::Point(0.0f,0.0f));
 		
-		mItemRenderImage->setImage(&mImageSet->getImage((CEGUI::utf8*)"RttImage"));
+		mItemRenderImage->setBackgroundImage(&mImageSet->getImage((CEGUI::utf8*)"RttImage"));
 	}
 
 	void InventoryWindow::renderItem(Item* item)
@@ -1068,19 +1110,19 @@ namespace rl {
 			mItemActor = ActorManager::getSingleton().createMeshActor("inventoryRenderedItem",(static_cast<MeshObject*>(item->getActor()->getControlledObject()))->getMeshName());
 			mItemActor->placeIntoScene(Ogre::Vector3(0,-101055.3,-0.2));
 			mItemRenderImage->setSize(CEGUI::Absolute,CEGUI::Size(128,128));
-			mItemRenderImage->setImage(&mImageSet->getImage((CEGUI::utf8*)"RttImage"));
-			
+			mItemRenderImage->setBackgroundImage(&mImageSet->getImage((CEGUI::utf8*)"RttImage"));
+
 		} else if (item->getImageName() != "") {
-			mItemRenderImage->setImage("ModelThumbnails", item->getImageName());
+			mItemRenderImage->setBackgroundImage("ModelThumbnails", item->getImageName());
 
 			float div = item->getSize().first / float(item->getSize().second);
 
-			if (div < 1) 
+			if (div < 1)
 			{
 				//schmales Item
 				mItemRenderImage->setSize(CEGUI::Absolute,CEGUI::Size(128*div, 128));
 			}
-			else 
+			else
 			{
 				// breites oder quadratisches Item
 				mItemRenderImage->setSize(CEGUI::Absolute,CEGUI::Size(128, 128/div));

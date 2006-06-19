@@ -22,6 +22,7 @@
 namespace rl
 {
 	class _RlRulesExport Item;
+
 	typedef vector<Item*> ContainerColumn;
 	typedef vector<ContainerColumn> ContainerLayout;
 
@@ -30,12 +31,6 @@ namespace rl
     class _RlRulesExport Item : public GameObject
     {
     public:
-		Item(const CeGuiString name, const CeGuiString description);
-
-		//Item(const CeGuiString name, const CeGuiString description, CEGUI::String imageName, ItemType type, pair<int,int> size);
-
-        virtual ~Item(void);
-
 		enum ItemType{
 			ITEMTYPE_WEAPON = 0,
 			ITEMTYPE_SHIELD,
@@ -55,6 +50,19 @@ namespace rl
 			ITEMTYPE_OTHER
 		};
 
+		Item(const CeGuiString name, const CeGuiString description);
+
+		Item(const CeGuiString name, const CeGuiString description, 
+			const CeGuiString imageName, const CeGuiString meshName,
+			Item::ItemType type, std::pair<int,int> size);
+
+		// Copy Konstruktor
+		Item(Item* item);
+
+        virtual ~Item(void);
+
+		Item* clone();
+
 
 		const CeGuiString getDescription() const;
 
@@ -67,8 +75,10 @@ namespace rl
 		static const CeGuiString getItemTypeString(ItemType type);
  
 		const CeGuiString getImageName();
+		const CeGuiString getMeshName();
 
 		void setImageName(const CeGuiString name);
+		void setMeshName(const CeGuiString name);
 
 		/**
 		 * @return ob es sich um ein Item handelt,
@@ -85,18 +95,21 @@ namespace rl
 		void setSize(int width, int height);
 
 		
-    private:
+    protected:
         /// Masse in Unzen.
         int mWeight;
 		ItemType mItemType;
 
 		CeGuiString mImageName;
+		CeGuiString mMeshName;
 
 		bool mIsContainer;
 		ContainerLayout mContainerLayout;
 		std::pair<int,int> mCapacity;
 
 		std::pair<int,int> mSize;
+
+	private:
 
 		/**
 		* initiiert einen Container mit null-pointern

@@ -49,6 +49,11 @@ namespace rl
     {
 	}
 
+	GameObject* GameObject::clone()
+	{
+		return new GameObject(mName,mDescription);
+	}
+
     int GameObject::getId() const
     {
         return mId;
