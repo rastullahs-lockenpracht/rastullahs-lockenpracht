@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<XDIML lang="de" version="1.01">
+  <Inhalt>
+	<Waffen>
+	  <Waffengruppe ID="Werkzeuge und Gebrauchswaffen">
+	  
+	  </Waffengruppe>
+	  <Waffengruppe ID="Jagdwaffen">
+	  
+	  </Waffengruppe>
+	  <Waffengruppe ID="Waffen des leichten Fußvolkes">
+		<Waffe ID="Kurzschwert" Name="Kurzschwert" Beschreibung="Dieses Schwert ist etwas kürzer, als ein herkömmliches Schwert und liegt dafür etwas leichter in der Hand.">
+		  <Bildname>Kurzschwert</Bildname>
+		  <Größe X="1" Y="3" />
+		  <TP W6="1" W20="0" Boni="2" />
+		  <TpKk Tp="11" Kk="4" />
+		  <Bf>3</Bf>
+		  <Ini>-1</Ini>
+		  <Dk>DK_N</Dk>
+		  <Talent>Schwerter</Talent>
+		  <Mesh>waf_kurzschwert_01.mesh</Mesh>
+		  <Gewicht>40</Gewicht>
+		  <Länge>50</Länge>
+		  <WM Attacke = "0" Parade="-1" />
+		</Waffe>
+	  </Waffengruppe>
+	
+	</Waffen>
+	<Rüstungen>
+	</Rüstungen>
+	<Gebrauchsgegenstände>
+	</Gebrauchsgegenstände>
+  </Inhalt>
+</XDIML>

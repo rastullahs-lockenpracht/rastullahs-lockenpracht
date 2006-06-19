@@ -6,6 +6,7 @@
     <Imageset Name="ModelThumbnails" Filename="ModelThumbnails.imageset" />
     <Imageset Name="DialogFaces" Filename="DialogFaces.imageset" />
 	<Imageset Name="Inventory" Filename="Inventory.imageset" />
+	<Imageset Name="InventorySymbols" Filename="InventorySymbols.imageset" />
 
 	<Font Name="Vera Serif-8" Filename="vera_serif-8.font" />
 	<Font Name="Vera Serif-10" Filename="vera_serif-10.font" />
@@ -46,6 +47,8 @@
 	<FalagardMapping WindowType="RastullahLook/RadioButton" TargetType="Falagard/RadioButton" LookNFeel="RastullahLook/RadioButton" />
 	<FalagardMapping WindowType="RastullahLook/Slider" TargetType="Falagard/Slider" LookNFeel="RastullahLook/Slider" />
 	<FalagardMapping WindowType="RastullahLook/SliderThumb" TargetType="Falagard/Thumb" LookNFeel="RastullahLook/SliderThumb" />
+	<FalagardMapping WindowType="RastullahLook/TransparentStaticImage" TargetType="Falagard/StaticImage" LookNFeel="RastullahLook/TransparentStaticImage" />
+	<FalagardMapping WindowType="RastullahLook/TransparentStaticText" TargetType="Falagard/StaticText" LookNFeel="RastullahLook/TransparentStaticText" />
 	<FalagardMapping WindowType="RastullahLook/StaticImage" TargetType="Falagard/StaticImage" LookNFeel="RastullahLook/StaticImage" />
 	<FalagardMapping WindowType="RastullahLook/StaticText" TargetType="Falagard/StaticText" LookNFeel="RastullahLook/StaticText" />
 	<FalagardMapping WindowType="RastullahLook/SystemButton" TargetType="Falagard/SystemButton" LookNFeel="RastullahLook/Button" />

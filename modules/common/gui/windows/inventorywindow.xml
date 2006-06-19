@@ -2,8 +2,9 @@
     <Window Type="RastullahLook/FrameWindow" Name="InventoryWindow">
 		<Property Name="VerticalAlignment" Value="Centre" />
 		<Property Name="HorizontalAlignment" Value="Centre" />
-		<Property Name="UnifiedSize" Value="{{0,830},{0,550}}" />
-
+		<Property Name="UnifiedSize" Value="{{0,830},{0,560}}" />
+		<Property Name="Text" Value="Inventar" />
+		
 		<Window Type="RastullahLook/InventoryBackground" Name="InventoryWindow/InventoryBackground">
 			<Property Name="UnifiedPosition" Value="{{0,5},{0,5}}" />
 			<Property Name="UnifiedSize" Value="{{0,820},{0,540}}" />
@@ -42,11 +43,6 @@
 				<Property Name="UnifiedPosition" Value="{{0,150},{0,380}}" />
 				<Property Name="UnifiedSize" Value="{{0,60},{0,60}}" />
 			</Window>
-			
-			<!--<Window Type="RastullahLook/Container" Name="InventoryWindow/ShinboneLeft">
-				<Property Name="UnifiedPosition" Value="{{0,195},{0,380}}" />
-				<Property Name="UnifiedSize" Value="{{0,30},{0,60}}" />
-			</Window>-->
 			
 			<Window Type="RastullahLook/Container" Name="InventoryWindow/Necklace">
 				<Property Name="UnifiedPosition" Value="{{0,225},{0,70}}" />
@@ -88,11 +84,7 @@
 				<Property Name="UnifiedSize" Value="{{0,60},{0,120}}" />
 			</Window>
 			
-			<!--<Window Type="RastullahLook/Container" Name="InventoryWindow/BracerLeft">
-				<Property Name="UnifiedPosition" Value="{{0,225},{0,150}}" />
-				<Property Name="UnifiedSize" Value="{{0,30},{0,60}}" />
-			</Window>-->
-			
+						
 			<Window Type="RastullahLook/Container" Name="InventoryWindow/HandRight">
 				<Property Name="UnifiedPosition" Value="{{0,30},{0,80}}" />
 				<Property Name="UnifiedSize" Value="{{0,60},{0,150}}" />
@@ -103,6 +95,15 @@
 				<Property Name="UnifiedSize" Value="{{0,60},{0,150}}" />
 			</Window>
 			
+			
+			<!--
+			*** Helden wechsel ***
+			
+			<Window Type="RastullahLook/Listbox" Name="InventoryWindow/Heroes">
+				<Property Name="Text" Value="Heroes"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,30},{0,475},{0,330},{0,525}}" />
+			</Window>
+			-->
 			<!-- Rechte Seite --> 
 			
 			<!-- Itembild -->
@@ -121,17 +122,39 @@
 				<Property Name="FrameEnabled" Value="false" />
 				<Property Name="Text" Value="BE: 0, AT: 5, Traglast: 0 Stein, Max: 50 Stein, Guthaben: 5 Dukaten, Ausdauer: 25"/>
 				
-				<Property Name="UnifiedAreaRect" Value="{{0,370},{0,158},{1,-25},{0,200}}" />
+				<Property Name="UnifiedAreaRect" Value="{{0,370},{0,158},{1,-25},{0,210}}" />
 			</Window>
 				
 			<Window Type="RastullahLook/TabControl" Name="InventoryWindow/Tabs">
-				<Property Name="UnifiedAreaRect" Value="{{0,370},{0,210},{1,-25},{0.9,-20}}" />
+				<Property Name="UnifiedAreaRect" Value="{{0,370},{0,220},{1,-25},{0.9,-20}}" />
 			</Window>
 			
-			<Window Type="RastullahLook/Listbox" Name="InventoryWindow/Heroes">
-				<Property Name="Text" Value="Heroes"/>
-				<Property Name="UnifiedAreaRect" Value="{{0,370},{0.9,0},{1,-25},{1,-15}}" />
+			<!-- Das Ruestungsfenster -->
+			<Window Type="RastullahLook/TransparentStaticImage" Name="InventoryWindow/ArmorValueWindow">
+				<Property Name="UnifiedPosition" Value="{{0,370},{0,475}}" />
+				<Property Name="UnifiedSize" Value="{{0,50},{0,50}}" />
+				
+				<Window Type="RastullahLook/TransparentStaticText" Name="InventoryWindow/ArmorValue">
+					<Property Name="UnifiedPosition" Value="{{0,6},{0,0}}" />
+					<Property Name="UnifiedSize" Value="{{1,0},{0.67,0}}" />
+				</Window>
+				
+				<Window Type="RastullahLook/TransparentStaticText" Name="InventoryWindow/HandicapValue">
+					<Property Name="UnifiedPosition" Value="{{0,24},{0,0}}" />
+					<Property Name="UnifiedSize" Value="{{1,0},{0.67,0}}" />
+				</Window>
 			</Window>
+			<!-- Das Gewichtsfenster -->
+			<Window Type="RastullahLook/TransparentStaticImage" Name="InventoryWindow/WeightWindow">
+				<Property Name="UnifiedPosition" Value="{{0,430},{0,475}}" />
+				<Property Name="UnifiedSize" Value="{{0,45},{0,50}}" />
+
+				<Window Type="RastullahLook/TransparentStaticText" Name="InventoryWindow/TotalWeight">
+					<Property Name="UnifiedPosition" Value="{{0,6},{0,4}}" />
+					<Property Name="UnifiedSize" Value="{{1,0},{1,-4}}" />
+				</Window>
+			</Window>
+			
 		</Window>
 	</Window>
 </GUILayout>
