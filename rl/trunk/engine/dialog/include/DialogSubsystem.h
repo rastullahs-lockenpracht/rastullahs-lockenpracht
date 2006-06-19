@@ -44,9 +44,10 @@ namespace rl
 		virtual ~DialogSubsystem();
 		
 		/**
-		 *
+		 * Get the bot with the given name
+		 * @return the bot or NULL if the bot does not exist
 		 */
-		DialogCharacter* getCurrentBot();
+		DialogCharacter* getBot(const CeGuiString& botName);
 
 		ContextInterpreter* getContextInterpreter();
 
@@ -81,11 +82,11 @@ namespace rl
 		DialogCharacter* mCurrentBot;
 	};
 
-	inline DialogCharacter* DialogSubsystem::getCurrentBot()
+/*	inline DialogCharacter* DialogSubsystem::getCurrentBot()
 	{
 		return mCurrentBot;
 	}
-
+*/
 	inline ContextInterpreter* DialogSubsystem::getContextInterpreter()
 	{
 		return mContextInterpreter;

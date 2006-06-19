@@ -84,6 +84,16 @@ namespace rl
 //		AimlProcessorManager::shutdown();
     }
 
+	DialogCharacter* DialogSubsystem::getBot(const CeGuiString& botName)
+	{
+		BotMap::iterator itr = mBots.find(botName);
+		if(itr != mBots.end())
+		{
+			return itr->second;
+		}
+		return NULL;
+	}
+
 
 	DialogCharacter* DialogSubsystem::loadBot(const CeGuiString& botName, const CeGuiString& fileName)
 	{
@@ -97,7 +107,7 @@ namespace rl
 			mCurrentBot->setBot(bot);
 			mCurrentBot->initialize();
 		}
-		mBots.insert(BotMap::value_type("botName", mCurrentBot));
+		mBots.insert(BotMap::value_type(mCurrentBot->getName(), mCurrentBot));
 		return mCurrentBot;
 		
 /*

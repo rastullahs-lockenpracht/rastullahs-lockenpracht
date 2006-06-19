@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2006 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
@@ -44,7 +44,7 @@ namespace rl
 	{
 	public:
 		static DialogSubsystem& getSingleton(void);
-		rl::DialogCharacter* getCurrentBot();
+		rl::DialogCharacter* getBot(const rl::CeGuiString& botName);
 		rl::DialogCharacter* loadBot(const rl::CeGuiString& fileName, const rl::CeGuiString& botName = "");
 		void setCurrentDialogCharacter(rl::DialogCharacter* bot);
 	};
