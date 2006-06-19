@@ -132,16 +132,19 @@ void DialogWindow::getResponse(const CeGuiString& msg)
 	}
 
 	DialogResponse::Responses responses = mCurrentResponse->getResponses();
+	CeGuiString responseSound = "silence.ogg";
 	CeGuiString responseText;
 	if(!responses.empty())
 	{
+		responseSound = responses.begin()->first;
 		responseText = responses.begin()->second;
 		responseText.c_str();
-		mController->response(
-			mBot->getDialogPartner()->getActor(), 
-			responseText, 
-			responses.begin()->first.c_str());
+		responseSound.c_str();	
 	}
+
+	mController->response(
+			mBot->getDialogPartner()->getActor(), 
+			responseText, responseSound.c_str());
 
 	if(!responseText.empty())
 	{
@@ -151,7 +154,6 @@ void DialogWindow::getResponse(const CeGuiString& msg)
 
 		mGameLogger->logDialogEvent(mBot->getName(), responseText);
 	}
-
 
 	setVisible(false);
 	mState = TALKING_PARTNER_CHARACTER;
@@ -255,23 +257,25 @@ bool DialogWindow::handleSelectOption()
 	DebugWindow::getSingleton().setMessageText(StringConverter::toString(getSelectedOption()));
 	ListboxWrappedTextItem* item = 
 		static_cast<ListboxWrappedTextItem*>(mDialogOptions->getFirstSelectedItem());
-	int id = item->getID();
-	DialogOption* option = static_cast<DialogOption*>(item->getUserData());
-	option->processSelection();
-	mCurrentResponseText = option->getPattern();
-	CeGuiString selectedOption = option->getText();
-	if(mCurrentResponseText != "0" && mCurrentResponseText != "666")
+	if(item != NULL)
 	{
-		if(!selectedOption.empty())
+		DialogOption* option = static_cast<DialogOption*>(item->getUserData());
+		option->processSelection();
+		mCurrentResponseText = option->getPattern();
+		CeGuiString selectedOption = option->getText();
+		if(mCurrentResponseText != "0" && mCurrentResponseText != "666")
 		{
-			mState = TALKING_PLAYER_CHARACTER;
-			mGameLogger->logDialogEvent("Held", selectedOption);
-			mQuestion->getListboxItemFromIndex(0)->setText("Held: " + selectedOption);	
-			mController->response(
-				mBot->getDialogCharacter()->getActor(), 
-				selectedOption, 
-				option->getId().c_str());			
-			setVisible(false);
+			if(!selectedOption.empty())
+			{
+				mState = TALKING_PLAYER_CHARACTER;
+				mGameLogger->logDialogEvent("Held", selectedOption);
+				mQuestion->getListboxItemFromIndex(0)->setText("Held: " + selectedOption);	
+				mController->response(
+					mBot->getDialogCharacter()->getActor(), 
+					selectedOption, 
+					option->getId().c_str());			
+				setVisible(false);
+			}
 		}
 	}
 	

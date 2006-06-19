@@ -44,7 +44,10 @@ void ContextConditionProcessor::preprocessStep()
 	mCurrentReturnValue.clear();
 	try
 	{
-		mCurrentHelper->getPredicates(mAttributes["type"])->setPredicate("mod", mAttributes["mod"]);
+		if(mAttributes["type"].find("probe") != CeGuiString::npos)
+		{
+			mCurrentHelper->getPredicates(mAttributes["type"])->setPredicate("mod", mAttributes["mod"]);
+		}
 		mPredicateValue = mCurrentHelper
 				->getPredicates(mAttributes["type"])
 				->getPredicate(mAttributes["name"]);

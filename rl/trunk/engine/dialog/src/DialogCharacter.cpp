@@ -94,6 +94,7 @@ namespace rl
 
 	DialogResponse* DialogCharacter::createResponse(const CeGuiString& input)
 	{
+		input.c_str();
 		DialogResponse* dialogResponse = NULL;
 		Response<CeGuiString> response = mBot->respond(input);
 		if(response.empty())
