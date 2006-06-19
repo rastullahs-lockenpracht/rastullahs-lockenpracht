@@ -12,11 +12,11 @@
 		</gossip>
 		<gossip rldialog:type="option">
 			<li rldialog:id="alrike001.ogg" rldialog:patternRef ="11">Ingerimm zum Gruße</li>
-		</gossip>
+		</gossip>		
 	</template>
 	</category>
 
-		<category>
+	<category>
 	<pattern>11</pattern>
 	<template>
 		<gossip rldialog:type="response">
@@ -24,7 +24,7 @@
 		</gossip>
 		<gossip rldialog:type="option">
 			<li rldialog:id="alrike002.ogg" rldialog:patternRef ="2">Wo wir gerade bei Huhn sind. Wegen der Vorkommnisse; Was haltet ihr davon? Habt ihr irgend etwas gesehen oder wisst ihr etwas, das mir helfen könnte?</li>
-			<li rldialog:id="alrike003.ogg" rldialog:patternRef ="3">Ihr kommt zu nichts? Wo drückt der Schuh?!</li>
+			<li rldialog:id="alrike003.ogg" rldialog:patternRef ="3">Ihr kommt zu nichts? Wo drückt der Schuh?!</li> 
 			<li rldialog:id="alrike004.ogg">Ich komme später wieder.!</li>				
 		</gossip>
 	</template>

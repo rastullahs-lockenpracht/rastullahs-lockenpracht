@@ -28,12 +28,11 @@ hauptQuest.addSubquest(
 quest = questBook.getQuest("hauptquest2")
 RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest2").setPartsToDo(3)
 
-
 hauptQuest.addSubquest(
 	Quest.new(
 		"hauptquest3",
 		"Die Dorfbewohner",
-		"Sprecht nun mit Sonja und berichtet ihr von Euren Ermittelungen."))
+		"Sprecht nun mit Sonja und berichtet ihr von Euren Ermittelungen. Dies ist ein Unsinnsquest. Könnte eigentlich gelöscht werden."))
 
 hauptQuest.addSubquest(
 	Quest.new(
@@ -83,3 +82,6 @@ aufenthaltsortQuest =
 		"aufenthaltsort",
 		"Aufenhaltsort des alten Mannes aus dem Wald",
 		"Findet den Aufenthaltsort des alten Mannes aus dem Wald.")
+questBook.addQuest(aufenthaltsortQuest)
+RulesSubsystem.getSingleton().getQuestBook().getQuest("aufenthaltsort").setKnown(false)
+RulesSubsystem.getSingleton().getQuestBook().getQuest("aufenthaltsort").setState(Quest::ASSIGNED)

@@ -8,7 +8,7 @@
 	<pattern>1</pattern>
 	<template>
 		<gossip rldialog:type="response">
-			<li rldialog:id="0.5SekStille.ogg">Ein Glück, dass ihr da seid! Er braucht eure Hilfe!</li>			
+			<li rldialog:id="0.5SekStille.ogg">Ein Glück, dass ihr da seid! Er braucht eure Hilfe!
 		</gossip>
 		<gossip rldialog:type="option">
 			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11">Nun mal langsam, eigentlich wollte ich ja die Fragen stellen, aber was ist denn los?</li>
