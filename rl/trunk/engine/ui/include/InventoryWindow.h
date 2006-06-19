@@ -44,6 +44,16 @@ namespace rl {
 	class _RlUiExport InventoryWindow : public CeGuiWindow
 	{
 	public:
+		CEGUI::Point mPosDraggedTo;
+		CEGUI::DragContainer* mDroppedItem;
+		CEGUI::Window* mContainerDraggedTo;
+
+		const CeGuiString mColorAccept;
+		const CeGuiString mColorReject;
+		const CeGuiString mColorNormal;
+		const CeGuiString mColorItemNormal;
+		const CeGuiString mColorItemSelected;
+
 		InventoryWindow();
 		~InventoryWindow();
 
@@ -91,15 +101,6 @@ namespace rl {
 		*/
 		bool isFreeInContainer(Item* item, pair<int,int> kaestechenPos, Item* container);
 
-		CEGUI::Point mPosDraggedTo;
-		CEGUI::DragContainer* mDroppedItem;
-		CEGUI::Window* mContainerDraggedTo;
-
-		const CeGuiString mColorAccept;
-		const CeGuiString mColorReject;
-		const CeGuiString mColorNormal;
-		const CeGuiString mColorItemNormal;
-		const CeGuiString mColorItemSelected;
 
 		Item* getGroundItem();
 

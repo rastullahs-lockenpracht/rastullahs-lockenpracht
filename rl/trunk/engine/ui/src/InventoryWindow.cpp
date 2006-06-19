@@ -43,6 +43,7 @@ namespace rl {
 	InventoryArrangeTask::InventoryArrangeTask() : GameTask()
 	{
 	}
+
 	InventoryArrangeTask::~InventoryArrangeTask()
 	{
 	}
@@ -1030,9 +1031,10 @@ namespace rl {
 			mCameraActor->getPhysicalThing()->freeze();
 			
 
+            mRenderTexture->setAutoUpdated(false);
             mRenderViewport = mRenderTexture->addViewport( (static_cast<CameraObject*>(mCameraActor->getControlledObject()))->getCamera());
             mRenderViewport->setOverlaysEnabled(false);
-            mRenderViewport->setClearEveryFrame( true );
+            mRenderViewport->setClearEveryFrame(true);
             mRenderViewport->setBackgroundColour( ColourValue::Black );
         }
 
