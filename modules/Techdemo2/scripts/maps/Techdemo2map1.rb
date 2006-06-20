@@ -60,6 +60,9 @@ $SCRIPT.log("Quests laden");
 load( "Techdemo2_quests.rb" );
 $SCRIPT.log("Quests geladen");
 
+$SCRIPT.log("SteeringBehaviours laden");
+load("steering.rb");
+
 $SCRIPT.log("NSCs laden");
 load( "sonja.rb" );
 load( "jarn.rb" );

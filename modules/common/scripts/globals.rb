@@ -15,6 +15,7 @@ $UI = UiSubsystem.getSingleton();
 $DM = DsaManager.getSingleton();
 $DS = DialogSubsystem.getSingleton();
 $WF = WindowFactory.getSingleton();
+$AI = AgentManager.getSingleton();
 $SCRIPT = ScriptSubsystem.getSingleton();
 
 $GameEveMgr = GameEventManager.getSingleton();
