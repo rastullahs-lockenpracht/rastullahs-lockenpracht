@@ -1,5 +1,5 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
+ * Copyright (C) 2003-2006 Team Pantheon. http://www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
@@ -44,6 +44,7 @@ VALUE RL_RubyInstanceFor(void* ptr)
 %include "RlCore.head.inc"
 %include "RlRules.head.inc"
 %include "RlDialog.head.inc"
+%include "RlAi.head.inc"
 %include "RlScript.head.inc"
 
 
@@ -192,5 +193,6 @@ namespace Swig {
 %include "RlRules.inc"
 %include "RlDialog.inc"
 %include "RlUi.inc"
+%include "RlAi.inc"
 %include "RlScript.inc"
 

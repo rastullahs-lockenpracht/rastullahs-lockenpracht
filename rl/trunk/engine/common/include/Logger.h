@@ -29,6 +29,7 @@ namespace rl {
 		static const char* RULES;
 		static const char* CORE;
 		static const char* DIALOG;
+		static const char* AI;
 		static const char* UI;
 		static const char* MULTIMEDIA;
 		static const char* MAIN;

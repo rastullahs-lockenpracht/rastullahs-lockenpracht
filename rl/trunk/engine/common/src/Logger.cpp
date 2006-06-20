@@ -26,6 +26,7 @@ template<> rl::Logger* Singleton<rl::Logger>::ms_Singleton = 0;
 const char* rl::Logger::RULES = "Rules";
 const char* rl::Logger::CORE = "Core";
 const char* rl::Logger::DIALOG = "Dialog";
+const char* rl::Logger::AI = "Ai";
 const char* rl::Logger::UI = "Ui";
 const char* rl::Logger::MULTIMEDIA = "Multimedia";
 const char* rl::Logger::MAIN = "Main";

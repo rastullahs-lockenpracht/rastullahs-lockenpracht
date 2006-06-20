@@ -26,6 +26,7 @@
 #include "SoundUpdateTask.h"
 #include "RulesSubsystem.h"
 #include "DialogSubsystem.h"
+#include "AiSubsystem.h"
 #include "UiSubsystem.h"
 #include "ScriptSubsystem.h"
 
@@ -49,6 +50,7 @@ void startupRl(bool developerMode, Ogre::String module)
 	rl::CoreSubsystem* core = NULL;
 	rl::RulesSubsystem* rules = NULL;
 	rl::DialogSubsystem* dialog = NULL;
+	rl::AiSubsystem* ai = NULL;
 	rl::UiSubsystem* ui =  NULL;
 	rl::ScriptSubsystem* script =  NULL;
 	rl::Logger* logger = NULL;
@@ -73,6 +75,9 @@ void startupRl(bool developerMode, Ogre::String module)
 
 		dialog = new rl::DialogSubsystem();
 		log(rl::Logger::LL_NORMAL, "DialogSubsystem gestartet");
+	
+		ai = new rl::AiSubsystem();
+		log(rl::Logger::LL_NORMAL, "AiSubsystem gestartet");
 
 		ui = new rl::UiSubsystem();
 		log(rl::Logger::LL_NORMAL, "UiSubsystem gestartet");
@@ -120,6 +125,7 @@ void startupRl(bool developerMode, Ogre::String module)
 
 		delete script;
 		delete ui;
+		delete ai;
 		delete dialog;
 		delete rules;
 		delete core;

@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\core\include;..\dialog\include;..\rules\include;..\ui\include;..\multimedia\include;..\common\include;..\script\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\boost\include;..\..\dependencies\OgreNewt\inc;..\..\dependencies\NewtonSDK\sdk;..\..\dependencies\ogrenew\dependencies\include"
+				AdditionalIncludeDirectories=".\include;..\core\include;..\dialog\include;..\rules\include;..\ai\include;..\ui\include;..\multimedia\include;..\common\include;..\script\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\boost\include;..\..\dependencies\OgreNewt\inc;..\..\dependencies\NewtonSDK\sdk;..\..\dependencies\ogrenew\dependencies\include"
 				PreprocessorDefinitions="WITH_FMOD3;WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -65,10 +65,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain_d.lib RlCommon.lib RlCore.lib RlUi.lib RlScript.lib RlMultimedia.lib CEGUIBase_d.lib Shell32.lib"
+				AdditionalDependencies="OgreMain_d.lib RlCommon.lib RlCore.lib RlAi.lib RlUi.lib RlScript.lib RlMultimedia.lib CEGUIBase_d.lib Shell32.lib"
 				OutputFile="$(OutDir)/Rastullah.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\multimedia\lib\$(ConfigurationName)&quot;;&quot;..\script\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\xerces\lib;..\..\dependencies\boost\lib"
+				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\multimedia\lib\$(ConfigurationName)&quot;;&quot;..\script\lib\$(ConfigurationName)&quot;;&quot;..\ai\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\xerces\lib;..\..\dependencies\boost\lib"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				ProgramDatabaseFile="$(OutDir)/Rastullah.pdb"
@@ -131,7 +131,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				OmitFramePointers="true"
-				AdditionalIncludeDirectories=".\include;..\core\include;..\dialog\include;..\rules\include;..\ui\include;..\multimedia\include;..\common\include;..\script\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\boost\include;..\..\dependencies\OgreNewt\inc;..\..\dependencies\NewtonSDK\sdk;..\..\dependencies\ogrenew\dependencies\include"
+				AdditionalIncludeDirectories=".\include;..\core\include;..\dialog\include;..\rules\include;..\ai\include;..\ui\include;..\multimedia\include;..\common\include;..\script\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\boost\include;..\..\dependencies\OgreNewt\inc;..\..\dependencies\NewtonSDK\sdk;..\..\dependencies\ogrenew\dependencies\include"
 				PreprocessorDefinitions="WITH_FMOD3;WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -153,10 +153,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib RlCommon.lib RlCore.lib RlUi.lib RlScript.lib RlMultimedia.lib CEGUIBase.lib Shell32.lib user32.lib"
+				AdditionalDependencies="OgreMain.lib RlCommon.lib RlCore.lib RlAi.lib RlUi.lib RlScript.lib RlMultimedia.lib CEGUIBase.lib Shell32.lib user32.lib"
 				OutputFile="$(OutDir)/Rastullah.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\multimedia\lib\$(ConfigurationName)&quot;;&quot;..\script\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\xerces\lib;..\..\dependencies\boost\lib"
+				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\multimedia\lib\$(ConfigurationName)&quot;;&quot;..\script\lib\$(ConfigurationName)&quot;;&quot;..\ai\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\xerces\lib;..\..\dependencies\boost\lib"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -212,7 +212,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".\include;..\core\include;..\dialog\include;..\rules\include;..\ui\include;..\multimedia\include;..\common\include;..\script\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\boost\include;..\..\dependencies\OgreNewt\inc;..\..\dependencies\NewtonSDK\sdk;..\..\dependencies\ogrenew\dependencies\include"
+				AdditionalIncludeDirectories=".\include;..\core\include;..\dialog\include;..\rules\include;..\ai\include;..\ui\include;..\multimedia\include;..\common\include;..\script\include;..\..\dependencies\ogrenew\OgreMain\include;..\..\dependencies\cegui_mk2\include;&quot;..\..\dependencies\ruby\lib\ruby\1.8\i386-mswin32&quot;;..\..\dependencies\xerces\include;..\..\dependencies\fmod\api\inc;..\..\dependencies\boost\include;..\..\dependencies\OgreNewt\inc;..\..\dependencies\NewtonSDK\sdk;..\..\dependencies\ogrenew\dependencies\include"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -225,6 +225,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\multimedia\lib\$(ConfigurationName)&quot;;&quot;..\script\lib\$(ConfigurationName)&quot;;&quot;..\ai\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\xerces\lib;..\..\dependencies\boost\lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
