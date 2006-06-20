@@ -48,6 +48,7 @@ namespace rl
 		weapon->setIni(mIni);
 		weapon->setWm(mWm);
 		weapon->setDk(mDk);
+		weapon->setWeight(mWeight);
 		weapon->setKampftechnik(mKampftechnik);
 
 		return weapon;
@@ -56,7 +57,7 @@ namespace rl
 	const CeGuiString Weapon::getDescription() const
 	{
 		CeGuiString returnString = mName+ "\r\n\r\n" +
-			mDescription + "\r\nSchaden: ";
+			getFormattedText(mDescription) + "\r\nSchaden: ";
 		// Schadensberechnung
 		if (mTp.first > 0) 
 		{

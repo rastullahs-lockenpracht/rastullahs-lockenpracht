@@ -69,9 +69,11 @@ namespace rl {
 
 		try
 		{
-			newItem->setActor(ActorManager::getSingleton().createMeshActor(
-				Ogre::StringConverter::toString(newItem->getId())+Ogre::String(newItem->getName().c_str()), 
-				Ogre::String(newItem->getMeshName().c_str())));
+			if (newItem->getMeshName().length() > 0){
+				newItem->setActor(ActorManager::getSingleton().createMeshActor(
+					Ogre::StringConverter::toString(newItem->getId())+Ogre::String(newItem->getName().c_str()), 
+					Ogre::String(newItem->getMeshName().c_str())));
+			}
 		}
 		catch (...)
 		{

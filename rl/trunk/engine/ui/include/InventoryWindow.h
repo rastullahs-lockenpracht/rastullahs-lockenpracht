@@ -22,12 +22,6 @@
 #include "Inventory.h"
 #include "GameTask.h"
 
-/*namespace Ogre {
-	class Entity;
-	class RenderTexture;
-	class Viewport;
-}*/
-
 namespace rl {
 
 	class Creature;
@@ -47,12 +41,6 @@ namespace rl {
 		CEGUI::Point mPosDraggedTo;
 		CEGUI::DragContainer* mDroppedItem;
 		CEGUI::Window* mContainerDraggedTo;
-
-		const CeGuiString mColorAccept;
-		const CeGuiString mColorReject;
-		const CeGuiString mColorNormal;
-		const CeGuiString mColorItemNormal;
-		const CeGuiString mColorItemSelected;
 
 		InventoryWindow();
 		~InventoryWindow();
@@ -106,6 +94,12 @@ namespace rl {
 	private:
 		Inventory* mInventory;
 
+		// Farbschema für die Fenster und Itemhintergründe
+		const CeGuiString mColorAccept;
+		const CeGuiString mColorReject;
+		const CeGuiString mColorNormal;
+		const CeGuiString mColorItemNormal;
+		const CeGuiString mColorItemSelected;
 
 		// TODO : Ersetze durch etwas dynamisches
 		Item* mGroundItem;
@@ -237,6 +231,23 @@ namespace rl {
 		* im Inventar
 		*/
 		void createContainerWindows();
+
+		/**
+		* Überprüft, ob das gedroppte Item vom Slot akzeptiert wird oder nicht
+		* @return true: Item wird akzeptiert
+		*         false: Item wird nicht akzeptiert
+		*/ 
+		bool checkTypeAccepted(CEGUI::Window* window, CEGUI::DragContainer* draggedItem);
+
+
+		/**
+		* Errechnet die Kästchenposition, an der das Item im Container gedroppt wurde
+		*/
+		std::pair<int,int> calculateNewPosition(const CEGUI::DragDropEventArgs& ddea);
+
+		bool handleDragEnter(const CEGUI::EventArgs& args);
+		bool handleDragLeave(const CEGUI::EventArgs& args);
+		bool handleDragDropped(const CEGUI::EventArgs& args);
 	};
 }
 #endif

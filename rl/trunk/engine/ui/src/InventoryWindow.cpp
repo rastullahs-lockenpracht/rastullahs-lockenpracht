@@ -57,216 +57,9 @@ namespace rl {
 			invWin->updateItemPosition();
 		}
 	}
-
-	/*!
-	*		Überprüft, ob das Item von dem Slot akzeptiert wird
-	*/
-	bool checkTypeAccepted(CEGUI::Window* window, CEGUI::DragContainer* draggedItem){
-		if (window->getUserString("ItemType").compare(draggedItem->getUserString("ItemType")) == 0)
-		{
-			return true;
-		} 
-		else 
-		{
-			return false;
-		}
-	}
-
-	/**
-	* Berechnet aus relativen und Absoluten Mousekoordinaten die neue Position im Container
-	*/
-	std::pair<int,int> calculateNewPosition(const DragDropEventArgs& ddea)
-	{
-		// Errechnung der Koordinaten, in welchem Kästchen denn nun gedroppt wird
-		Point absMouse = MouseCursor::getSingleton().getPosition();
-		Point scrnPt = ddea.window->windowToScreen( Point(0,0) ); 
-		Point relMouse = absMouse- ddea.dragDropItem->windowToScreen( Point(0,0) );
-
-		//Bug in CeGUI (1. rel Mouse koordinate spinnt
-		if (relMouse.d_x < 0) {
-			relMouse.d_x = 15;
-		}
-
-		Logger::getSingletonPtr()->log(
-			"InventoryWindow",
-			Logger::LL_MESSAGE,
-			Ogre::String("relMouse: Point x:")
-			+ StringConverter::toString(relMouse.d_x)
-			+ ", Point y:"
-			+ StringConverter::toString(relMouse.d_y));
-
-		Point pointInBackpack = absMouse-scrnPt;
-		pointInBackpack -= relMouse;
-
-		// Position des nächsten Kästchens bestimmen		
-		if (pointInBackpack.d_x < 0){
-			pointInBackpack.d_x = 0;
-		}
-		if (pointInBackpack.d_y < 0) {
-			pointInBackpack.d_y = 0;
-		}
-
-		if (pointInBackpack.d_x > 16){
-			pointInBackpack.d_x = (int(pointInBackpack.d_x) + 14) - ((int(pointInBackpack.d_x) + 14) % 30);
-		} else {
-			pointInBackpack.d_x = 0;
-		}
-		if (pointInBackpack.d_y > 16){
-			pointInBackpack.d_y = (int(pointInBackpack.d_y) + 14 ) - ((int(pointInBackpack.d_y) + 14) % 30);
-		} else {
-			pointInBackpack.d_y = 0;
-		}
-
-		int xKaestchen = (int) (pointInBackpack.d_x / 30);
-		int yKaestchen = (int) (pointInBackpack.d_y / 30);
-
-		std::pair<int,int> result = std::make_pair<int,int>(xKaestchen, yKaestchen);
-		return result;
-	}
-
-	/*!
-	* Behandlung für Mouse-over mit Item in der Maus
-	* Überprüft, ob das Item passt, und färbt dementsprechend den Behälter ein
-	*/
-	bool handleDragEnter(const CEGUI::EventArgs& args)
-	{
-		using namespace CEGUI;
-		// Event zu einem DragDropEvent machen
-		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
-		InventoryWindow* invWin = WindowFactory::getSingletonPtr()->getInventoryWindow();
-
-		if (ddea.window->getUserData()){
-			// Es handelt sich um einen Container
-			Item* container = static_cast<Item*>(ddea.window->getUserData());
-			if (container == invWin->getGroundItem())
-			{
-				// Boden (nimmt alles)
-				ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorAccept);
-				return true;
-			} 
-			else if (container && container->getItemType() == Item::ITEMTYPE_BACKPACK)
-			{
-				// Ein Container kann keinen Rucksack aufnehmen
-				if (!(ddea.dragDropItem->getUserString("ItemType").compare(Item::getItemTypeString(Item::ITEMTYPE_BACKPACK))))
-				{
-					ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorReject);
-					return false;
-				}
-				else 
-				{
-					ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorAccept);
-					return true;
-				}
-			}
-			else {
-				// Beliebiger anderer Container am Körper
-				// TODO: Beschränkung auf Itemtypen... 
-
-				ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorAccept);
-				return true;
-			}
-		}
-		else if (checkTypeAccepted(ddea.window, ddea.dragDropItem))
-		{
-			ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorAccept);
-			return true;
-		}
-		else
-		{
-			ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorReject);
-			return false;
-		}
-	}
-
-	bool handleDragLeave(const CEGUI::EventArgs& args)
-	{
-		using namespace CEGUI;
-
-		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
-		ddea.window->setProperty("ContainerColour", WindowFactory::getSingletonPtr()->getInventoryWindow()->mColorNormal);
-		return true;
-	}
-
-	bool handleDragDropped(const CEGUI::EventArgs& args)
-	{
-		using namespace CEGUI;
-
-		InventoryWindow* invWin = WindowFactory::getSingletonPtr()->getInventoryWindow();
-		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
-		ddea.window->setProperty("ContainerColour", invWin->mColorNormal);
-
-
-		if (ddea.window->getUserData()){
-			// Es handelt sich um einen Container
-			Item* container = static_cast<Item*>(ddea.window->getUserData());
-			if (container == invWin->getGroundItem())
-			{
-				// Boden (nimmt alles)
-			} 
-			else if (container && container->getItemType() == Item::ITEMTYPE_BACKPACK)
-			{
-				// Rucksack (nimmt alles außer dem Rucksack selbst)
-				if (!(ddea.dragDropItem->getUserString("ItemType").compare(Item::getItemTypeString(Item::ITEMTYPE_BACKPACK))))
-				{
-					return false;
-				}
-			}
-			else {
-				// Beliebiger anderer Container am Körper
-				// TODO: Beschränkung auf Itemtypen... 
-			}
-
-			std::pair<int,int> newPos =  calculateNewPosition(ddea);
-
-			if (invWin->isFreeInContainer(
-				static_cast<Item*>(ddea.dragDropItem->getUserData()),
-				newPos, static_cast<Item*>(ddea.window->getUserData())))
-			{
-				ddea.window->addChildWindow(ddea.dragDropItem);
-
-				invWin->mPosDraggedTo=CEGUI::Point(newPos.first*30,newPos.second*30);
-				invWin->mDroppedItem = ddea.dragDropItem;
-				invWin->mContainerDraggedTo = ddea.window;
-
-				invWin->updateInventory();
-				return true;
-			}
-			else 
-			{
-				return false;
-			}
-
-
-		} else {
-			// Es handelt sich um einen Slot am Körper
-			if (checkTypeAccepted(ddea.window, ddea.dragDropItem)){
-				// Nur wenn das Item in den Slot passt, soll es auch dort gedroppt werden können
-
-				ddea.window->addChildWindow(ddea.dragDropItem);
-
-				if ((!ddea.window->getUserString("ItemType").compare(Item::getItemTypeString(Item::ITEMTYPE_WEAPON)) ||
-					(!ddea.window->getUserString("ItemType").compare(Item::getItemTypeString(Item::ITEMTYPE_SHIELD)))) &&
-					(ddea.dragDropItem->getUserData()))
-				{
-					Item* item = static_cast<Item*>(ddea.dragDropItem->getUserData());
-					invWin->mPosDraggedTo= CEGUI::Point(30-(item->getSize().first * 15),75-(item->getSize().second *15));
-				}
-				else {
-					invWin->mPosDraggedTo=CEGUI::Point(0.0,0.0);
-				}
-				invWin->mDroppedItem = ddea.dragDropItem;
-				invWin->mContainerDraggedTo = ddea.window;
-
-				invWin->updateInventory();
-				return true;
-			} else {
-				// Item passt nicht zum Slot
-				return false;
-			}
-		}
-	}
-
-	/* Konstruktor */
+	// ***************************************************************
+	// ***************** Konstruktor *********************************
+	// ***************************************************************
 	InventoryWindow::InventoryWindow()
 		: CeGuiWindow("inventorywindow.xml", WND_MOUSE_INPUT),
 		mDescription(NULL),
@@ -363,7 +156,6 @@ namespace rl {
 		int weight = mInventory->getOverallWeight() / 40;
 		// TODO: runden
 		mTotalWeight->setText(Ogre::StringConverter::toString(weight));
-
 	}
 
 	void InventoryWindow::updateItemPosition(){
@@ -930,11 +722,11 @@ namespace rl {
 
 	void InventoryWindow::addDropListener(CEGUI::Window* slot){
 		// onMouseOver (beim Drag)
-		slot->subscribeEvent(Window::EventDragDropItemEnters, &handleDragEnter);
+		slot->subscribeEvent(Window::EventDragDropItemEnters, boost::bind(&InventoryWindow::handleDragEnter,this,_1));
 		// onMouseOut (beim Drag)
-		slot->subscribeEvent(Window::EventDragDropItemLeaves, &handleDragLeave);
+		slot->subscribeEvent(Window::EventDragDropItemLeaves, boost::bind(&InventoryWindow::handleDragLeave,this,_1));
 		// onItemDropped
-		slot->subscribeEvent(Window::EventDragDropItemDropped, &handleDragDropped); 
+		slot->subscribeEvent(Window::EventDragDropItemDropped, boost::bind(&InventoryWindow::handleDragDropped,this,_1)); 
 	}
 
 	DragContainer* InventoryWindow::createItem(Item* item, Window* parent, UVector2 position)
@@ -1043,31 +835,17 @@ namespace rl {
 
 	void InventoryWindow::initRenderToTexture()
 	{
-
-			    // setup GUI system
-        //mGUIRenderer = new CEGUI::OgreCEGUIRenderer(mWindow, 
-         //   Ogre::RENDER_QUEUE_OVERLAY, false, 3000, mSceneMgr);
-
-        //mGUISystem = new CEGUI::System(mGUIRenderer);
-
-        //CEGUI::Logger::getSingleton().setLoggingLevel(CEGUI::Informative);
-
+		// Das Feld, in das gerendert werden soll (TransparentStaticImage)
 		mItemRenderImage = getStaticImage("InventoryWindow/ItemPicture");
 
 		SceneManager* tempManager = CoreSubsystem::getSingleton().
 				getWorld()->getSceneManager();
-
-
-		
-
-		//mItemActor->getPhysicalThing()->freeze();
- 
-		
+	
 
 		// Setup Render To Texture for preview window
-		mRenderTexture = Root::getSingleton().getRenderSystem()->createRenderTexture( "RttTex", 128, 128, TEX_TYPE_2D, PF_R8G8B8 );
+		mRenderTexture = Root::getSingleton().getRenderSystem()->createRenderTexture( "InventoryItemRttTex", 128, 128, TEX_TYPE_2D, PF_R8G8B8 );
         {
-			Actor* mCameraActor = ActorManager::getSingleton().createCameraActor("RttCam");
+			Actor* mCameraActor = ActorManager::getSingleton().createCameraActor("InventoryItemRttCam");
 			mCameraActor->placeIntoScene(Ogre::Vector3(0,-101054.6,0));
 			mCameraActor->pitch(-90);
 			mCameraActor->getPhysicalThing()->freeze();
@@ -1081,23 +859,21 @@ namespace rl {
         }
 
         // Retrieve CEGUI texture for the RTT
-		mTexture = UiSubsystem::getSingleton().getGUIRenderer()->createTexture((CEGUI::utf8*)"RttTex");
+		mTexture = UiSubsystem::getSingleton().getGUIRenderer()->createTexture((CEGUI::utf8*)"InventoryItemRttTex");
 
         mImageSet = CEGUI::ImagesetManager::getSingleton().createImageset(
-                    (CEGUI::utf8*)"RttImageset", mTexture);
+                    (CEGUI::utf8*)"InventoryItemRttImageset", mTexture);
 
-        mImageSet->defineImage((CEGUI::utf8*)"RttImage", 
+        mImageSet->defineImage((CEGUI::utf8*)"InventoryItemRttImage", 
                 CEGUI::Point(0.0f, 0.0f),
                 CEGUI::Size(mTexture->getWidth(), mTexture->getHeight()),
                 CEGUI::Point(0.0f,0.0f));
 		
-		mItemRenderImage->setBackgroundImage(&mImageSet->getImage((CEGUI::utf8*)"RttImage"));
+		mItemRenderImage->setBackgroundImage(&mImageSet->getImage((CEGUI::utf8*)"InventoryItemRttImage"));
 	}
 
 	void InventoryWindow::renderItem(Item* item)
 	{
-		// TODO Item tauschen...
-
 		if (mItemActor) {
 			// alten Actor entfernen
 			mItemActor->removeFromScene();
@@ -1110,7 +886,8 @@ namespace rl {
 			mItemActor = ActorManager::getSingleton().createMeshActor("inventoryRenderedItem",(static_cast<MeshObject*>(item->getActor()->getControlledObject()))->getMeshName());
 			mItemActor->placeIntoScene(Ogre::Vector3(0,-101055.3,-0.2));
 			mItemRenderImage->setSize(CEGUI::Absolute,CEGUI::Size(128,128));
-			mItemRenderImage->setBackgroundImage(&mImageSet->getImage((CEGUI::utf8*)"RttImage"));
+			mItemRenderImage->setBackgroundImage(&mImageSet->getImage((CEGUI::utf8*)"InventoryItemRttImage"));
+			mRenderTexture->update();
 
 		} else if (item->getImageName() != "") {
 			mItemRenderImage->setBackgroundImage("ModelThumbnails", item->getImageName());
@@ -1127,7 +904,216 @@ namespace rl {
 				// breites oder quadratisches Item
 				mItemRenderImage->setSize(CEGUI::Absolute,CEGUI::Size(128, 128/div));
 			}
+			mRenderTexture->update();
 		}
-		// mItemActor = ActorManager::getSingleton().createMeshActor("inventoryRenderedItem", "waf_kurzschwert_01.mesh",PhysicsManager::GT_NONE, 0.0);
+	}
+
+
+	/*!
+	*		Überprüft, ob das Item von dem Slot akzeptiert wird
+	*/
+	bool InventoryWindow::checkTypeAccepted(CEGUI::Window* window, CEGUI::DragContainer* draggedItem)
+	{
+		if (window->getUserString("ItemType").compare(draggedItem->getUserString("ItemType")) == 0)
+		{
+			return true;
+		} 
+		else 
+		{
+			return false;
+		}
+	}
+
+	/**
+	* Berechnet aus relativen und Absoluten Mousekoordinaten die neue Position im Container
+	*/
+	std::pair<int,int> InventoryWindow::calculateNewPosition(const DragDropEventArgs& ddea)
+	{
+		// Errechnung der Koordinaten, in welchem Kästchen denn nun gedroppt wird
+		Point absMouse = MouseCursor::getSingleton().getPosition();
+		Point scrnPt = ddea.window->windowToScreen( Point(0,0) ); 
+		Point relMouse = absMouse- ddea.dragDropItem->windowToScreen( Point(0,0) );
+
+		//Bug in CeGUI (1. rel Mouse koordinate spinnt
+		if (relMouse.d_x < 0) {
+			relMouse.d_x = 15;
+		}
+
+		Logger::getSingletonPtr()->log(
+			"InventoryWindow",
+			Logger::LL_MESSAGE,
+			Ogre::String("relMouse: Point x:")
+			+ StringConverter::toString(relMouse.d_x)
+			+ ", Point y:"
+			+ StringConverter::toString(relMouse.d_y));
+
+		Point pointInBackpack = absMouse-scrnPt;
+		pointInBackpack -= relMouse;
+
+		// Position des nächsten Kästchens bestimmen		
+		if (pointInBackpack.d_x < 0){
+			pointInBackpack.d_x = 0;
+		}
+		if (pointInBackpack.d_y < 0) {
+			pointInBackpack.d_y = 0;
+		}
+
+		if (pointInBackpack.d_x > 16){
+			pointInBackpack.d_x = (int(pointInBackpack.d_x) + 14) - ((int(pointInBackpack.d_x) + 14) % 30);
+		} else {
+			pointInBackpack.d_x = 0;
+		}
+		if (pointInBackpack.d_y > 16){
+			pointInBackpack.d_y = (int(pointInBackpack.d_y) + 14 ) - ((int(pointInBackpack.d_y) + 14) % 30);
+		} else {
+			pointInBackpack.d_y = 0;
+		}
+
+		int xKaestchen = (int) (pointInBackpack.d_x / 30);
+		int yKaestchen = (int) (pointInBackpack.d_y / 30);
+
+		std::pair<int,int> result = std::make_pair<int,int>(xKaestchen, yKaestchen);
+		return result;
+	}
+
+
+	/*!
+	* Behandlung für Mouse-over mit Item in der Maus
+	* Überprüft, ob das Item passt, und färbt dementsprechend den Behälter ein
+	*/
+	bool InventoryWindow::handleDragEnter(const CEGUI::EventArgs& args)
+	{
+		// Event zu einem DragDropEvent machen
+		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
+		
+		if (ddea.window->getUserData()){
+			// Es handelt sich um einen Container
+			Item* container = static_cast<Item*>(ddea.window->getUserData());
+			if (container == getGroundItem())
+			{
+				// Boden (nimmt alles)
+				ddea.window->setProperty("ContainerColour", mColorAccept);
+				return true;
+			} 
+			else if (container && container->getItemType() == Item::ITEMTYPE_BACKPACK)
+			{
+				// Ein Container kann keinen Rucksack aufnehmen
+				if (!(ddea.dragDropItem->getUserString("ItemType").compare(Item::getItemTypeString(Item::ITEMTYPE_BACKPACK))))
+				{
+					ddea.window->setProperty("ContainerColour", mColorReject);
+					return false;
+				}
+				else 
+				{
+					ddea.window->setProperty("ContainerColour", mColorAccept);
+					return true;
+				}
+			}
+			else {
+				// Beliebiger anderer Container am Körper
+				// TODO: Beschränkung auf Itemtypen... 
+
+				ddea.window->setProperty("ContainerColour", mColorAccept);
+				return true;
+			}
+		}
+		else if (checkTypeAccepted(ddea.window, ddea.dragDropItem))
+		{
+			ddea.window->setProperty("ContainerColour", mColorAccept);
+			return true;
+		}
+		else
+		{
+			ddea.window->setProperty("ContainerColour", mColorReject);
+			return false;
+		}
+	}
+
+	bool InventoryWindow::handleDragLeave(const CEGUI::EventArgs& args)
+	{
+		// Event zu einem DragDropEvent machen
+		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
+		ddea.window->setProperty("ContainerColour", mColorNormal);
+		return true;
+	}
+
+	bool InventoryWindow::handleDragDropped(const CEGUI::EventArgs& args)
+	{
+		// Event zu einem DragDropEvent machen
+		const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
+		// Farbe zurücksetzen
+		ddea.window->setProperty("ContainerColour", mColorNormal);
+
+
+		if (ddea.window->getUserData()){
+			// Es handelt sich um einen Container
+			Item* container = static_cast<Item*>(ddea.window->getUserData());
+			if (container == mGroundItem)
+			{
+				// Boden (nimmt alles)
+			} 
+			else if (container && container->getItemType() == Item::ITEMTYPE_BACKPACK)
+			{
+				// Rucksack (nimmt alles außer dem Rucksack selbst)
+				if (!(ddea.dragDropItem->getUserString("ItemType").compare(Item::getItemTypeString(Item::ITEMTYPE_BACKPACK))))
+				{
+					return false;
+				}
+			}
+			else {
+				// Beliebiger anderer Container am Körper
+				// TODO: Beschränkung auf Itemtypen... 
+			}
+
+			std::pair<int,int> newPos = calculateNewPosition(ddea);
+
+			if (isFreeInContainer(
+				static_cast<Item*>(ddea.dragDropItem->getUserData()),
+				newPos, static_cast<Item*>(ddea.window->getUserData())))
+			{
+				ddea.window->addChildWindow(ddea.dragDropItem);
+
+				mPosDraggedTo=CEGUI::Point(newPos.first*30,newPos.second*30);
+				mDroppedItem = ddea.dragDropItem;
+				mContainerDraggedTo = ddea.window;
+
+				updateInventory();
+				return true;
+			}
+			else 
+			{
+				return false;
+			}
+
+
+		} else {
+			// Es handelt sich um einen Slot am Körper
+			if (checkTypeAccepted(ddea.window, ddea.dragDropItem)){
+				// Nur wenn das Item in den Slot passt, soll es auch dort gedroppt werden können
+
+				ddea.window->addChildWindow(ddea.dragDropItem);
+
+				// Waffe und Schild sollen mittig positioniert werden
+				if ((!ddea.window->getUserString("ItemType").compare(Item::getItemTypeString(Item::ITEMTYPE_WEAPON)) ||
+					(!ddea.window->getUserString("ItemType").compare(Item::getItemTypeString(Item::ITEMTYPE_SHIELD)))) &&
+					(ddea.dragDropItem->getUserData()))
+				{
+					Item* item = static_cast<Item*>(ddea.dragDropItem->getUserData());
+					mPosDraggedTo= CEGUI::Point(30-(item->getSize().first * 15),75-(item->getSize().second *15));
+				}
+				// Rest kommt in die linke obere Ecke (weil ausfüllend)
+				else {
+					mPosDraggedTo=CEGUI::Point(0.0,0.0);
+				}
+				mDroppedItem = ddea.dragDropItem;
+				mContainerDraggedTo = ddea.window;
+
+				updateInventory();
+				return true;
+			} else {
+				// Item passt nicht zum Slot
+				return false;
+			}
+		}
 	}
 }

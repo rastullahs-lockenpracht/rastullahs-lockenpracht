@@ -59,55 +59,83 @@ namespace rl
 		return item;
 	}
 
+
+	CeGuiString Item::getFormattedText(const CeGuiString &unformattedText)
+	{
+		// Anzahl der Zeichen pro Zeile hässlich, soll später durch Konstante ersetzt werden...
+		unsigned maxChars = 40;
+
+		if (unformattedText.length() <= maxChars)
+			return unformattedText;
+		
+		
+		int lastPosWithSpace = 0;
+
+		while (unformattedText.find(" ", lastPosWithSpace+1) < 40)
+		{
+			lastPosWithSpace = unformattedText.find(" ", lastPosWithSpace+1);
+		}
+		if (lastPosWithSpace > 0) {
+			// Es gibt ein gültiges letztes Leerzeichen
+			return (unformattedText.substr(0,lastPosWithSpace) + "\r\n" + 
+				getFormattedText(unformattedText.substr(lastPosWithSpace+1)));
+		}
+		else {
+			// String an nicht-Leerzeichen zerschneiden
+			return (unformattedText.substr(0,maxChars) + "-\r\n" + 
+				getFormattedText(unformattedText.substr(maxChars+1)));
+		}
+	}
+
 	const CeGuiString Item::getItemTypeString(ItemType type){
 		switch(type){
 			case ITEMTYPE_WEAPON:
-				return CeGuiString("Weapon");
+				return CeGuiString("Waffe");
 				break;
 			case ITEMTYPE_SHIELD:
-				return CeGuiString("Shield");
+				return CeGuiString("Schild");
 				break;
 			case ITEMTYPE_RING:
 				return CeGuiString("Ring");
 				break;
 			case ITEMTYPE_GLOVES:
-				return CeGuiString("Glove");
+				return CeGuiString("Handschuhe");
 				break;
 			case ITEMTYPE_BRACELET:
-				return CeGuiString("Bracelet");
+				return CeGuiString("Armreif");
 				break;
 			case ITEMTYPE_ARMOR:
-				return CeGuiString("Armor");
+				return CeGuiString("Rüstung");
 				break;
 			case ITEMTYPE_CAPE:
-				return CeGuiString("Cape");
+				return CeGuiString("Umhang");
 				break;
 			case ITEMTYPE_BRACERS:
-				return CeGuiString("Bracer");
+				return CeGuiString("Armschienen");
 				break;
 			case ITEMTYPE_BACKPACK:
-				return CeGuiString("Backpack");
+				return CeGuiString("Rucksack");
 				break;
 			case ITEMTYPE_BELT:
-				return CeGuiString("Belt");
+				return CeGuiString("Gürtel");
 				break;
 			case ITEMTYPE_NECKLACE:
-				return CeGuiString("Necklace");
+				return CeGuiString("Amulett");
 				break;
 			case ITEMTYPE_HELMET:
-				return CeGuiString("Helmet");
+				return CeGuiString("Helm");
 				break;
 			case ITEMTYPE_TROUSERS:
-				return CeGuiString("Trousers");
+				return CeGuiString("Hose");
 				break;
 			case ITEMTYPE_SHINBONE:
-				return CeGuiString("Shinbone");
+				return CeGuiString("Beinschienen");
 				break;
 			case ITEMTYPE_BOOTS:
-				return CeGuiString("Boots");
+				return CeGuiString("Stiefel");
 				break;
 			case ITEMTYPE_OTHER:
-				return CeGuiString("Other");
+				return CeGuiString("Anderes");
 				break;
 		}
 		return CeGuiString("undefined");
@@ -115,7 +143,8 @@ namespace rl
 
 	const CeGuiString Item::getDescription() const
 	{
-		return mName + "\r\n\r\n" + mDescription;
+		return mName + "\r\n\r\n" + 
+			getFormattedText(mDescription);
 	}
 
     void Item::setWeight(int weight)
@@ -156,7 +185,15 @@ namespace rl
 		return mMeshName;
 	}
 
-
+	void Item::setPrice(int price)
+	{
+		mPrice = price;
+	}
+	
+	int Item::getPrice()
+	{
+		return mPrice;
+	}
 
 
 	bool Item::isContainer()

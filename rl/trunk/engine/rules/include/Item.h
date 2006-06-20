@@ -72,6 +72,9 @@ namespace rl
 		void setItemType(ItemType itemType);
 		ItemType getItemType() const;
 
+		void setPrice(int price);
+		int getPrice();
+
 		static const CeGuiString getItemTypeString(ItemType type);
  
 		const CeGuiString getImageName();
@@ -100,6 +103,9 @@ namespace rl
         int mWeight;
 		ItemType mItemType;
 
+		// Der Standard-Preis (kann variiert werden) in Silbertalern
+		unsigned int mPrice;
+
 		CeGuiString mImageName;
 		CeGuiString mMeshName;
 
@@ -108,6 +114,14 @@ namespace rl
 		std::pair<int,int> mCapacity;
 
 		std::pair<int,int> mSize;
+
+
+		/**
+		* Generiert einen Text mit Zeilenumbrüchen, aus dem String.
+		* @param unformattedText Der zu formatierende Text
+		* @return CeGuiString der Text mit eingefügten Enter-symbolen
+		*/
+		static CeGuiString getFormattedText(const CeGuiString &unformattedText);
 
 	private:
 

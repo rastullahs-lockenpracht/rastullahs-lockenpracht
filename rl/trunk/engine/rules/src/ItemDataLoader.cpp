@@ -19,6 +19,8 @@
 #include <xercesc/util/XMLString.hpp>
 #include <xercesc/util/PlatformUtils.hpp>
 
+#include <CEGUIString.h>
+
 #include "ItemDataLoader.h"
 
 #include "XmlHelper.h"
@@ -57,7 +59,7 @@ namespace rl {
             doc->getDocumentElement(), "Inhalt");
 
 		initializeWeapons(XmlHelper::getChildNamed(dataDocumentContent, "Waffen"));
-		//initializeKampftechniken(XmlHelper::getChildNamed(dataDocumentContent, "Kampftechniken"));
+		initializeArmors(XmlHelper::getChildNamed(dataDocumentContent, "Rüstungen"));
 		//initializePersonen(XmlHelper::getChildNamed(dataDocumentContent, "Personen"));
 		
 		doc->release();
@@ -132,10 +134,12 @@ namespace rl {
 		CeGuiString mesh = XmlHelper::getValueAsString(XmlHelper::getChildNamed(weaponXml, "Mesh"));
 
 		int length = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(weaponXml, "Länge"));
+		int weight = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(weaponXml, "Gewicht"));
 
 		int attackMod = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(weaponXml, "WM"), "Attacke");
 		int paradeMod = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(weaponXml, "WM"), "Parade");
 
+		// Neuen Waffenprototyp erzeugen und zurückgeben
 		Weapon* w = new Weapon(
 			name,
 			desc
@@ -148,6 +152,7 @@ namespace rl {
 		w->setTpKk(tp, kk);
 		w->setBf(bf);
 		w->setIni(ini);
+		w->setWeight(weight);
 		w->setDk(static_cast<Weapon::Distanzklasse>(dK));
 		w->setKampftechnik(talent);
         return w;
@@ -170,51 +175,139 @@ namespace rl {
 		Throw(IllegalArgumentException, "Ungueltige Distanzklassenangabe");
 	}
 
-/*    void DsaDataLoader::initializeKampftechniken(DOMElement* rootKampftechniken)
+    void ItemDataLoader::initializeArmors(DOMElement* rootArmors)
     {
-		if (rootKampftechniken == NULL)
+		if (rootArmors == NULL)
 			return;
 
-		DOMNodeList* kampfarten =
-            rootKampftechniken->getElementsByTagName(AutoXMLCh("Kampfart").data());
-		for (unsigned int art = 0; art < kampfarten->getLength(); art++)
+		DOMNodeList* armorGroups =
+            rootArmors->getElementsByTagName(AutoXMLCh("Rüstungsgruppe").data());
+		for (unsigned int group = 0; group < armorGroups->getLength(); group++)
 		{
-			DOMElement* artData = reinterpret_cast<DOMElement*>(kampfarten->item(art));
-			DOMNodeList* kampftechnikenXml =
-                artData->getElementsByTagName(AutoXMLCh("Kampftechnik").data());
-			int numKampftechnik = 0;
-			for (unsigned int kampftechnikIdx = 0; kampftechnikIdx < kampftechnikenXml->getLength(); kampftechnikIdx++)
+			DOMElement* groupData = reinterpret_cast<DOMElement*>(armorGroups->item(group));
+			DOMNodeList* armorsXml =
+                groupData->getElementsByTagName(AutoXMLCh("Rüstung").data());
+			//int numKampftechnik = 0;
+			for (unsigned int armorIdx = 0; armorIdx < armorsXml->getLength(); armorIdx++)
 			{
-				Kampftechnik* k = processKampftechnik(reinterpret_cast<DOMElement*>(kampftechnikenXml->item(kampftechnikIdx)));
-				numKampftechnik++;
-				DsaManager::getSingleton()._addKampftechnik(k);
+				Armor* a = processArmor(reinterpret_cast<DOMElement*>(armorsXml->item(armorIdx)));
+				//numKampftechnik++;
+				ItemManager::getSingleton()._addItem(a);
 			}
 		}
-
 	}
 
-	Kampftechnik* DsaDataLoader::processKampftechnik(DOMElement* kampftechnikXml)
+	Armor* ItemDataLoader::processArmor(DOMElement* armorXml)
 	{
-		CeGuiString desc = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(kampftechnikXml, "Beschreibung"));
-		CeGuiString art = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(kampftechnikXml, "Art"));
-		DOMElement* eBeNode = XmlHelper::getChildNamed(kampftechnikXml, "eBE");
-		int ebe = EBE_KEINE_BE;
-		if (eBeNode != NULL)
-			ebe = getEBeFromString(AutoChar(eBeNode->getFirstChild()->getNodeValue()).data());
+		// Itemname
+		CeGuiString name = XmlHelper::getAttributeValueAsString(armorXml,"Name");
+		// Beschreibung
+		CeGuiString desc = XmlHelper::getAttributeValueAsString(armorXml,"Beschreibung");
+		// Eindeutiger Zuordner
+		CeGuiString id = XmlHelper::getAttributeValueAsString(armorXml,"ID");
 
-		CeGuiString name = XmlHelper::transcodeToString(
-            kampftechnikXml->getAttribute(AutoXMLCh("ID").data()));
+		// Image fürs Inventar
+		CeGuiString imageName = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(armorXml, "Bildname"));
+		// Mesh für das Spiel
+		DOMElement* meshNode = XmlHelper::getChildNamed(armorXml, "Mesh");
+		CeGuiString mesh = "";
+		if (meshNode->hasChildNodes())
+		{
+			mesh = XmlHelper::getValueAsString(meshNode);
+		}
+		CeGuiString typeString = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(armorXml, "Klasse"));
+		Item::ItemType type = static_cast<Item::ItemType>(getItemTypeFromString(typeString));
 
-		Kampftechnik* k = new Kampftechnik(
+		// Größe im Inventar
+		int size_x = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(armorXml, "Größe"),"X");
+		int size_y = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(armorXml, "Größe"),"Y");
+
+		// Rüstungsschutz für bestimmte Zonen
+		int ko = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(armorXml, "Ko"));
+		int br = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(armorXml, "Br"));
+		int rue = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(armorXml, "Rü"));
+		int ba = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(armorXml, "Ba"));
+		int la = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(armorXml, "LA"));
+		int ra = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(armorXml, "RA"));
+		int lb = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(armorXml, "LB"));
+		int rb = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(armorXml, "RB"));
+		int ges = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(armorXml, "Ges."));
+		int grs = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(armorXml, "gRs"));
+		int gbe = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(armorXml, "gBe"));
+
+		int gewicht = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(armorXml, "Gewicht"));
+
+		int preis = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(armorXml, "Preis"));
+
+		// Neuen Rüstungsprototyp erzeugen und zurückgeben
+		Armor* a = new Armor(
 			name,
-			desc,
-			ebe);
+			desc
+			);
+		a->setImageName(imageName);
+		a->setMeshName(mesh);
+		a->setItemType(type);
+		a->setSize(size_x,size_y);
+		a->setKo(ko);
+		a->setBr(br);
+		a->setRue(rue);
+		a->setBa(ba);
+		a->setLA(la);
+		a->setRA(ra);
+		a->setLB(lb);
+		a->setRB(rb);
+		a->setGes(ges);
+		a->setGRS(grs);
+		a->setGBE(gbe);
+		// Umrechnung Stein->Unzen = Mal 40
+		a->setWeight(gewicht * 40);
+		a->setPrice(preis);
+        return a;
+    }
 
-		return k;
 
+	int ItemDataLoader::getItemTypeFromString(const CeGuiString& typeString)
+	{
+		if (typeString.length() == 0)
+			return Item::ITEMTYPE_OTHER;
+
+		if (typeString.compare("Rüstung") == 0)
+			return Item::ITEMTYPE_ARMOR;
+		if (typeString.compare("Waffe") == 0)
+			return Item::ITEMTYPE_WEAPON;
+		if (typeString.compare("Schild") == 0)
+			return Item::ITEMTYPE_SHIELD;
+		if (typeString.compare("Ring") == 0)
+			return Item::ITEMTYPE_RING;
+		if (typeString.compare("Handschuhe") == 0)
+			return Item::ITEMTYPE_GLOVES;
+		if (typeString.compare("Armreif") == 0)
+			return Item::ITEMTYPE_BRACELET;
+		if (typeString.compare("Umhang") == 0)
+			return Item::ITEMTYPE_CAPE;
+		if (typeString.compare("Armschienen") == 0)
+			return Item::ITEMTYPE_BRACERS;
+		if (typeString.compare("Rucksack") == 0)
+			return Item::ITEMTYPE_BACKPACK;
+		if (typeString.compare("Gürtel") == 0)
+			return Item::ITEMTYPE_BELT;
+		if (typeString.compare("Amulett") == 0)
+			return Item::ITEMTYPE_NECKLACE;
+		if (typeString.compare("Helm") == 0)
+			return Item::ITEMTYPE_HELMET;
+		if (typeString.compare("Hose") == 0)
+			return Item::ITEMTYPE_TROUSERS;
+		if (typeString.compare("Beinschienen") == 0)
+			return Item::ITEMTYPE_SHINBONE;
+		if (typeString.compare("Stiefel") == 0)
+			return Item::ITEMTYPE_BOOTS;
+		if (typeString.compare("Anderes") == 0)
+			return Item::ITEMTYPE_OTHER;
+		
+		Throw(IllegalArgumentException, "Ungueltige ItemTypangabe: "+string(typeString.c_str()));
 	}
 
-
+/*
 	void DsaDataLoader::initializePersonen(DOMElement* rootPersons)
 	{
 		if (rootPersons == NULL)

@@ -30,15 +30,64 @@ namespace rl
 		Armor (const CeGuiString armorName, const CeGuiString description);
 		virtual ~Armor(void);
 		 
+
 		/**
 		* @override
 		*/
+
+		Armor* clone();
 		const CeGuiString getDescription() const;
 
+		// Getter 
+		int getKo();
+		int getBr();
+		int getRue();
+		int getBa();
+		int getLA();
+		int getRA();
+		int getLB();
+		int getRB();
+		int getGes();
+		int getGRS();
+		int getGBE();
+		// und Setter
+		void setKo(int ko);
+		void setBr(int br);
+		void setRue(int rue);
+		void setBa(int ba);
+		void setLA(int la);
+		void setRA(int ra);
+		void setLB(int lb);
+		void setRB(int rb);
+		void setGes(int ges);
+		void setGRS(int grs);
+		void setGBE(int gbe);
+
 	private:
+		// Rüstungsschutz
+		// Kopf
+		int mKo;
+		// Brust
+		int mBr;
+		// Rücken
+		int mRue;
+		// Bauch und Unterleib
+		int mBa;
+		// Linker Arm
+		int mLA;
+		// Rechter Arm
+		int mRA;
+		// Linkes Bein
+		int mLB;
+		// Rechtes Bein
+		int mRB;
+		// Gesamt nach Zonenmodell
+		int mGes;
 
-
-
+		// Gesamtrüstung nach einfachem Modell
+		int mGRS;
+		// Gesamtbehinderung nach einfachem Modell
+		int mGBE;
 	};
 }
 #endif //__ARMOR_H__

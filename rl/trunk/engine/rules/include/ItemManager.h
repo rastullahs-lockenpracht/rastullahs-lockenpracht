@@ -34,13 +34,26 @@ namespace rl {
 		ItemManager();
 		~ItemManager();
 
+		/**
+		* @brief Erzeugt ein Item mit der ID uniqueName, die in items.xdi 
+		* spezifiziert ist
+		*/
 		Item* createItem(const CeGuiString &uniqueName);
 
+		/**
+		* Löscht das Item mit der ID id
+		*/
 		void deleteItem(int id);
 
+		/**
+		* Soll nur vom ItemDataLoader aufgerufen werden
+		*/
 		void _addItem(Item* item);
 
 
+		/**
+		* Lädt die Definitionen aus einem XML-File
+		*/
 		void ItemManager::loadItemDataFile(const std::string& filename);
 
 

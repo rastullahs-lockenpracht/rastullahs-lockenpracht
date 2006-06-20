@@ -21,8 +21,7 @@
 #include <xercesc/dom/DOMDocument.hpp>
 #include <xercesc/dom/DOMElement.hpp>
 
-
-#include <string>
+#include "RulesPrerequisites.h"
 
 namespace rl {
 
@@ -38,10 +37,12 @@ namespace rl {
 		static void initializeWeapons(XERCES_CPP_NAMESPACE::DOMElement* rootWeapons);
 		static Weapon* processWeapon(int gruppe, XERCES_CPP_NAMESPACE::DOMElement* weaponXml);
 
-		static void initializeArmor(XERCES_CPP_NAMESPACE::DOMElement* rootArmors);
+		static void initializeArmors(XERCES_CPP_NAMESPACE::DOMElement* rootArmors);
 		static Armor* processArmor(XERCES_CPP_NAMESPACE::DOMElement* armorXml);
 
 		static int getDKFromString(const std::string& eBeString);
+
+		static int getItemTypeFromString(const CeGuiString& typeString);
 			
 		ItemDataLoader();
 	};

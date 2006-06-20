@@ -63,14 +63,24 @@ namespace rl
 
 		//addItem(trank);
 		
-		/*addItem(meineHandschuhe);
-		addItem(meinArmreif);
-		addItem(meineStiefel);
+		Item* meinUmhang = ItemManager::getSingleton().createItem("Fellumhang");
 		addItem(meinUmhang);
+
+		Item* meineRuestung = ItemManager::getSingleton().createItem("Krötenhaut");
+		mArmor = meineRuestung;
+
+		Item* meineStiefel = ItemManager::getSingleton().createItem("Lederstiefel");
+		addItem(meineStiefel);
+
+		Item* meineHandschuhe = ItemManager::getSingleton().createItem("Lederhandschuhe");
+		addItem(meineHandschuhe);
+		/*addItem(meinArmreif);
+		
+		
 		addItem(meinRing2);
 
 		addItem(meinRing);
-		addItem(meineRuestung);
+		
 		*/
 	}
 
