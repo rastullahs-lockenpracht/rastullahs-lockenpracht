@@ -25,7 +25,7 @@ void main( void )
    vec4  fvLightColor     = ( texture2D( lightingMap, gl_TexCoord[0].st ) - 0.5 ) * 2.0;
    
    vec4  fvBaseColor      = texture2D( base, gl_TexCoord[0].st / scaleBase ) +
-                             ( texture2D( base, gl_TexCoord[0].st / scaleDetail )[3] - 0.5 ) );
+                             ( texture2D( base, gl_TexCoord[0].st / scaleDetail )[3] - 0.5 );
    
    fvBaseColor            *= 1.0-fvSplattingColor[0]; 
    fvBaseColor            += ( texture2D(baseR, gl_TexCoord[0].st / scaleBaseR ) + 
