@@ -9,7 +9,7 @@
 	  
 	  </Waffengruppe>
 	  <Waffengruppe ID="Waffen des leichten Fußvolkes">
-		<Waffe ID="Kurzschwert" Name="Kurzschwert" Beschreibung="Dieses Schwert ist etwas kürzer, als ein herkömmliches Schwert und liegt dafür etwas leichter in der Hand.">
+		<Waffe ID="Kurzschwert" Name="Kurzschwert" Beschreibung="Dieses Schwert ist etwas kürzer, als ein herkömmliches Schwert und liegt dafür leichter in der Hand. Dieses einfache Schwert ist weit verbreitet in Aventurien.">
 		  <Bildname>Kurzschwert</Bildname>
 		  <Größe X="1" Y="3" />
 		  <TP W6="1" W20="0" Boni="2" />
@@ -27,7 +27,97 @@
 	
 	</Waffen>
 	<Rüstungen>
+	  <Rüstungsgruppe ID="Kleidung">
+   	    <Rüstung ID="Fellumhang" Name="Fellumhang" Beschreibung="Dieser Fellumhang wurde aus dem Fell eines weißen Wolfes gefertigt und ist nicht nur warm und schützt den Rücken vor dumpfen Schlägen, sondern hat auch den markanten Geruch eines toten Wolfes an sich. Die Nivesen tragen diese Fellumhänge besonders gerne.">
+		  <Bildname>Fellumhang</Bildname>
+		  <Mesh></Mesh>
+		  <Klasse>Umhang</Klasse>
+		  <Größe X="2" Y="4" />
+		  <Ko>0</Ko>
+		  <Br>1</Br>
+		  <Rü>2</Rü>
+		  <Ba>0</Ba>
+		  <LA>1</LA>
+		  <RA>1</RA>
+		  <LB>1</LB>
+		  <RB>1</RB>
+		  <Ges.>1</Ges.>
+		  <gRs>1</gRs>
+		  <gBe>0</gBe>
+		  <Gewicht>3</Gewicht>
+		  <Preis>35</Preis>
+		</Rüstung>
+	  </Rüstungsgruppe>
+	  <Rüstungsgruppe ID="Tuch, Filz und Fellrüstungen">
+	  </Rüstungsgruppe>
+	  <Rüstungsgruppe ID="Lederrüstungen">
+	    <Rüstung ID="Krötenhaut" Name="Krötenhaut" Beschreibung="Die Krötenhaut ist eine grobe Lederweste, die dicht mit Nieten bedeckt ist und ihre Verbreitung vor allem in Thorwal findet. Die Nordleute neigen außerdem dazu, die Krötenhaut auf dem Rücken mit Bildern von Drachenschiffen, abgehackten Köpfen und anderen Bildern zu schmücken.">
+		  <Bildname>Kroetenhaut</Bildname>
+		  <Mesh></Mesh>
+		  <Größe X="3" Y="4" />
+		  <Klasse>Rüstung</Klasse>
+		  <Ko>0</Ko>
+		  <Br>3</Br>
+		  <Rü>2</Rü>
+		  <Ba>2</Ba>
+		  <LA>1</LA>
+		  <RA>1</RA>
+		  <LB>1</LB>
+		  <RB>1</RB>
+		  <Ges.>2</Ges.>
+		  <gRs>3</gRs>
+		  <gBe>2</gBe>
+		  <Gewicht>4</Gewicht>
+		  <Preis>60</Preis>
+		</Rüstung>
+		
+		<Rüstung ID="Lederstiefel" Name="Lederstiefel" Beschreibung="Dieses Paar Stiefel ist aus echtem maraskanischem Büffelleder gefertig worden. Maraskanische Büffel sind über ganz Aventurien für ihr geschmeidiges Leder bekannt. Selbstverständlich sind diese Stiefel vollkommen wasserdicht.">
+		  <Bildname>Stiefel</Bildname>
+		  <Mesh></Mesh>
+		  <Größe X="2" Y="2" />
+		  <Klasse>Stiefel</Klasse>
+		  <Ko>0</Ko>
+		  <Br>0</Br>
+		  <Rü>0</Rü>
+		  <Ba>0</Ba>
+		  <LA>0</LA>
+		  <RA>0</RA>
+		  <LB>2</LB>
+		  <RB>2</RB>
+		  <Ges.>0</Ges.>
+		  <gRs>0</gRs>
+		  <gBe>0</gBe>
+		  <Gewicht>1</Gewicht>
+		  <Preis>30</Preis>
+		</Rüstung>
+		
+		<Rüstung ID="Lederhandschuhe" Name="Lederhandschuhe" Beschreibung="Dieses Paar Handschuhe ist aus echtem maraskanischem Büffelleder gefertig worden. Maraskanische Büffel sind über ganz Aventurien für ihr geschmeidiges Leder bekannt. Eine selbstbewusste Heldin würde zu diesen Handschuhen nur die passenden Stiefel tragen.">
+		  <Bildname>Handschuhe</Bildname>
+		  <Mesh></Mesh>
+		  <Größe X="2" Y="2" />
+		  <Klasse>Handschuhe</Klasse>
+		  <Ko>0</Ko>
+		  <Br>0</Br>
+		  <Rü>0</Rü>
+		  <Ba>0</Ba>
+		  <LA>1</LA>
+		  <RA>1</RA>
+		  <LB>0</LB>
+		  <RB>0</RB>
+		  <Ges.>0</Ges.>
+		  <gRs>0</gRs>
+		  <gBe>0</gBe>
+		  <Gewicht>1</Gewicht>
+		  <Preis>30</Preis>
+		</Rüstung>
+	  </Rüstungsgruppe>
+	  <Rüstungsgruppe ID="Exotische">
+	  </Rüstungsgruppe>
+	  <Rüstungsgruppe ID="Ketten und Schuppenrüstungen">
+	  </Rüstungsgruppe>
+	
 	</Rüstungen>
+	
 	<Gebrauchsgegenstände>
 	</Gebrauchsgegenstände>
   </Inhalt>
