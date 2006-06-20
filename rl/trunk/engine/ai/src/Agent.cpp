@@ -40,7 +40,7 @@ Agent::Agent(Creature* character)
 	Logger::getSingleton().log(
 		Logger::AI, 
 		Logger::LL_NORMAL, 
-		"added Agend to PhysicsManager as PhysicsController");
+		"added Agent to PhysicsManager as PhysicsController");
 //	 TODO: if creature == NULL throw exception
 }
 

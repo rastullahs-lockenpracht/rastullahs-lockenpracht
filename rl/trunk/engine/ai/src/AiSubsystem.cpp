@@ -36,8 +36,9 @@ AiSubsystem* AiSubsystem::getSingletonPtr(void)
 AiSubsystem::AiSubsystem(void)
 	: mAgentManager(new AgentManager())
 {
-	GameLoopManager::getSingleton().addSynchronizedTask(AgentManager::getSingletonPtr(),
+/*	GameLoopManager::getSingleton().addSynchronizedTask(AgentManager::getSingletonPtr(),
 		FRAME_STARTED);
+	*/
 }
 
 AiSubsystem::~AiSubsystem(void)

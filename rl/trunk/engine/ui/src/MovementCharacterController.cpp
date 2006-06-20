@@ -516,11 +516,11 @@ namespace rl {
 				}
 				else if (mCharacterState.mCurrentMovementState & MOVE_LEFT)
 				{
-					mesh->startAnimation("seitwerts_links");
+					mesh->startAnimation("seitwaerts_links");
 				}
 				else if (mCharacterState.mCurrentMovementState & MOVE_RIGHT)
 				{
-					mesh->startAnimation("seitwerts_rechts");
+					mesh->startAnimation("seitwaerts_rechts");
 				}
 				else if (mCharacterState.mCurrentMovementState & TURN_LEFT)
 				{
