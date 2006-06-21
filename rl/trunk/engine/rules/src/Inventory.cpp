@@ -74,14 +74,13 @@ namespace rl
 
 		Item* meineHandschuhe = ItemManager::getSingleton().createItem("Lederhandschuhe");
 		addItem(meineHandschuhe);
-		/*addItem(meinArmreif);
-		
-		
-		addItem(meinRing2);
 
+		Item* meinRing = ItemManager::getSingleton().createItem("Rubinring");
 		addItem(meinRing);
 		
-		*/
+		Item* meinArmreif = ItemManager::getSingleton().createItem("Perlenarmreif");
+		mBraceletLeft = meinArmreif;
+
 	}
 
 	Inventory::~Inventory() 

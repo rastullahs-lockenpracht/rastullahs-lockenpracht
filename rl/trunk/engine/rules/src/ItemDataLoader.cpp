@@ -60,7 +60,7 @@ namespace rl {
 
 		initializeWeapons(XmlHelper::getChildNamed(dataDocumentContent, "Waffen"));
 		initializeArmors(XmlHelper::getChildNamed(dataDocumentContent, "Rüstungen"));
-		//initializePersonen(XmlHelper::getChildNamed(dataDocumentContent, "Personen"));
+		initializeItems(XmlHelper::getChildNamed(dataDocumentContent, "Gegenstände"));
 		
 		doc->release();
 
@@ -265,6 +265,71 @@ namespace rl {
         return a;
     }
 
+
+	void ItemDataLoader::initializeItems(DOMElement* rootItems)
+    {
+		if (rootItems == NULL)
+			return;
+
+		DOMNodeList* itemGroups =
+            rootItems->getElementsByTagName(AutoXMLCh("Gegenstandsgruppe").data());
+		for (unsigned int group = 0; group < itemGroups->getLength(); group++)
+		{
+			DOMElement* groupData = reinterpret_cast<DOMElement*>(itemGroups->item(group));
+			DOMNodeList* itemsXml =
+                groupData->getElementsByTagName(AutoXMLCh("Gegenstand").data());
+			//int numKampftechnik = 0;
+			for (unsigned int itemIdx = 0; itemIdx < itemsXml->getLength(); itemIdx++)
+			{
+				Item* i = processItem(reinterpret_cast<DOMElement*>(itemsXml->item(itemIdx)));
+				ItemManager::getSingleton()._addItem(i);
+			}
+		}
+	}
+
+	Item* ItemDataLoader::processItem(DOMElement* itemXml)
+	{
+		// Itemname
+		CeGuiString name = XmlHelper::getAttributeValueAsString(itemXml,"Name");
+		// Beschreibung
+		CeGuiString desc = XmlHelper::getAttributeValueAsString(itemXml,"Beschreibung");
+		// Eindeutiger Zuordner
+		CeGuiString id = XmlHelper::getAttributeValueAsString(itemXml,"ID");
+
+		// Image fürs Inventar
+		CeGuiString imageName = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(itemXml, "Bildname"));
+		// Mesh für das Spiel
+		DOMElement* meshNode = XmlHelper::getChildNamed(itemXml, "Mesh");
+		CeGuiString mesh = "";
+		if (meshNode->hasChildNodes())
+		{
+			mesh = XmlHelper::getValueAsString(meshNode);
+		}
+		CeGuiString typeString = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(itemXml, "Klasse"));
+		Item::ItemType type = static_cast<Item::ItemType>(getItemTypeFromString(typeString));
+
+		// Größe im Inventar
+		int size_x = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(itemXml, "Größe"),"X");
+		int size_y = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(itemXml, "Größe"),"Y");
+
+		int gewicht = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(itemXml, "Gewicht"));
+
+		int preis = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(itemXml, "Preis"));
+
+		// Neuen Itemprototyp erzeugen und zurückgeben
+		Item* i = new Item(
+			name,
+			desc
+			);
+		i->setImageName(imageName);
+		i->setMeshName(mesh);
+		i->setItemType(type);
+		i->setSize(size_x,size_y);
+		// Umrechnung Stein->Unzen = Mal 40
+		i->setWeight(gewicht);
+		i->setPrice(preis);
+        return i;
+    }
 
 	int ItemDataLoader::getItemTypeFromString(const CeGuiString& typeString)
 	{

@@ -27,6 +27,7 @@ namespace rl {
 
 	class Weapon;
 	class Armor;
+	class Item;
 
 	class ItemDataLoader
 	{
@@ -39,6 +40,9 @@ namespace rl {
 
 		static void initializeArmors(XERCES_CPP_NAMESPACE::DOMElement* rootArmors);
 		static Armor* processArmor(XERCES_CPP_NAMESPACE::DOMElement* armorXml);
+
+		static void initializeItems(XERCES_CPP_NAMESPACE::DOMElement* rootItems);
+		static Item* processItem(XERCES_CPP_NAMESPACE::DOMElement* itemXml);
 
 		static int getDKFromString(const std::string& eBeString);
 
