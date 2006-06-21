@@ -12,6 +12,7 @@ noinst_HEADERS = \
 	predicates/CreaturePredicates.h \
 	predicates/EigenschaftsProbePredicates.h \
 	predicates/QuestKnownPredicates.h \
+	predicates/QuestPartsPredicates.h \
 	predicates/QuestStatePredicates.h \
 	predicates/ScriptPredicates.h \
 	predicates/TalentProbePredicates.h \

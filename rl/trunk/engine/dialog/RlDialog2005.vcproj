@@ -353,6 +353,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\predicates\QuestPartsPredicates.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\predicates\QuestStatePredicates.cpp"
 					>
 				</File>
@@ -463,6 +467,10 @@
 				</File>
 				<File
 					RelativePath=".\include\predicates\QuestKnownPredicates.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\predicates\QuestPartsPredicates.h"
 					>
 				</File>
 				<File

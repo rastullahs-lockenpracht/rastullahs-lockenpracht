@@ -92,6 +92,20 @@ public:
 	 */
 	int getPartsDone();
 
+	/**
+	 * Erhoeht die geschafften gleichen Teile eines Quests
+	 * 
+	 * @parts wieviele Teile wurden erledigt (default 1)
+	 */
+	void increasePartsDone(int parts = 1);
+
+	/**
+	 * Verringert die geschafften gleichen Teile eines Quests
+	 * 
+	 * @parts wieviele weniger Teile wurden erledigt (default 1)
+	 */
+	void decreasePartsDone(int parts = 1);
+
 
 	/**
 	 * @return Status des Quests
@@ -111,6 +125,13 @@ public:
 
 	void setKnown(bool known);
 	bool isKnown();
+
+	/**
+	 * @return <code>true</code>, wenn dieser Quest Subquests hat
+	 *		   <code>false</code>, wenn dieser Quest atomar ist oder aus gleichen Teilen 
+	 *         (getPartsTodo() > 1) besteht
+	 */
+	bool hasSubquests();
 
 	/**
 	 * @return die Subquests dieses Quests

@@ -134,6 +134,9 @@ namespace rl {
 		void setPartsToDo(int partsToDo);
 		int getPartsDone();
 		void setPartsDone(int partsDone);
+		void increasePartsDone(int parts = 1);
+		void decreasePartsDone(int parts = 1);
+
 		rl::Quest::State getState();
 		void setState(rl::Quest::State state);
 		bool isKnown();

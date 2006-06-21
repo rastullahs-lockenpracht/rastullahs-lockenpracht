@@ -76,7 +76,7 @@ void Quest::setPartsToDo(int partsToDo)
 
 int Quest::getPartsDone()
 {
-	if (mSubquests.size() == 0)
+	if (!hasSubquests())
 		return mPartsDone;
 
 	int done = 0;
@@ -93,6 +93,9 @@ int Quest::getPartsDone()
 
 void Quest::setPartsDone(int partsDone)
 {
+	if (hasSubquests())
+		return;
+
 	if( partsDone != mPartsDone )
 	{
 		mPartsDone = partsDone;
@@ -100,6 +103,25 @@ void Quest::setPartsDone(int partsDone)
 		checkDone();
 	}
 }
+
+void Quest::increasePartsDone(int parts)
+{
+	if (hasSubquests())
+		return;
+
+	if (parts != 0)
+	{
+		mPartsDone += parts;
+		notify(QuestChangeEvent::QUEST_PARTSDONE);
+		checkDone();
+	}
+}
+
+void Quest::decreasePartsDone(int parts)
+{
+	increasePartsDone(-parts);
+}
+
 
 Quest::State Quest::getState()
 {
@@ -160,6 +182,11 @@ void Quest::addSubquest(Quest* quest)
 	notify(QuestChangeEvent::QUEST_SUBQUEST);
 }
 
+bool Quest::hasSubquests()
+{
+	return mSubquests.size() > 0;
+}
+
 void Quest::setParent(Quest* quest)
 {
 	mParent = quest;
@@ -172,7 +199,7 @@ Quest* Quest::getParent()
 
 void Quest::checkDone()
 {
-	if (getPartsDone() == getPartsToDo()
+	if (getPartsDone() >= getPartsToDo()
 		&& mState != Quest::COMPLETED
 		&& mState != Quest::SUCCEEDED)
 	{

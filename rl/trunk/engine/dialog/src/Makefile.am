@@ -17,6 +17,7 @@ libRlDialog_la_SOURCES = \
 	predicates/EigenschaftsWertPredicates.cpp \
 	predicates/GrundWertPredicates.cpp \
 	predicates/QuestKnownPredicates.cpp \
+	predicates/QuestPartsPredicates.cpp \
 	predicates/QuestStatePredicates.cpp \
 	predicates/ScriptPredicates.cpp \
 	predicates/TalentProbePredicates.cpp \
