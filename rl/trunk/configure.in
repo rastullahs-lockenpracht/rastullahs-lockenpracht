@@ -117,6 +117,10 @@ AC_SUBST(OGRE_PLUGINDIR)
 PKG_CHECK_MODULES(CEGUI, CEGUI)
 PKG_CHECK_MODULES(CEGUIOGRE, CEGUI-OGRE)
 
+# OpenSteer
+AC_CHECK_HEADERS(OpenSteer/SteerLibrary.h, , AC_MSG_ERROR([Can't find OpenSteer headers]))
+AC_CHECK_LIB(OpenSteer, main, [OPENSTEER_LIBS="-lOpenSteer"], AC_MSG_ERROR([Can't find libOpenSteer]))
+
 dnl Other stuff we need
 #AC_CHECK_LIB([log4cxx], [main], AC_DEFINE(HAVE_LOG4CXX,[], [Log4cxx is installed]))
 AC_CHECK_LIB(m, pow)
@@ -182,6 +186,7 @@ dnl Create the makefiles
 AC_CONFIG_FILES([Makefile \
 		docs/Makefile docs/src/Makefile \
 		engine/Makefile \
+		engine/ai/Makefile engine/ai/src/Makefile engine/ai/include/Makefile\
 		engine/common/Makefile engine/common/src/Makefile engine/common/include/Makefile \
 		engine/core/Makefile engine/core/src/Makefile engine/core/include/Makefile \
 		engine/dialog/Makefile engine/dialog/src/Makefile engine/dialog/include/Makefile \
