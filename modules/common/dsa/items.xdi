@@ -118,7 +118,25 @@
 	
 	</Rüstungen>
 	
-	<Gebrauchsgegenstände>
-	</Gebrauchsgegenstände>
+	<Gegenstände>
+	  <Gegenstandsgruppe ID="Schmuck">
+	    <Gegenstand ID="Rubinring" Name="Rubinring" Beschreibung="Dieser Ring ist ganz fein ziseliert und trägt einen besonders edlen facettenreichen Rubin. Dieser schimmert blutrot.">
+		  <Bildname>Rubinring</Bildname>
+		  <Mesh></Mesh>
+		  <Größe X="1" Y="1" />
+		  <Klasse>Ring</Klasse>
+		  <Gewicht>5</Gewicht>
+		  <Preis>130</Preis>
+		</Gegenstand>
+		<Gegenstand ID="Perlenarmreif" Name="Perlenarmreif" Beschreibung="Es gibt wenige Menschen auf Aventurien, die einen solch kostbaren Armreif besitzen. Die Perlen stammen aus dem Perlenmeer und sind an Reinheit kaum zu übertreffen. Man sagt dieser Art von Armreifen nach, dass sie den Träger besonders anziehend machen.">
+		  <Bildname>Armreif</Bildname>
+		  <Mesh></Mesh>
+		  <Größe X="1" Y="1" />
+		  <Klasse>Armreif</Klasse>
+		  <Gewicht>10</Gewicht>
+		  <Preis>210</Preis>
+		</Gegenstand>
+	  </Gegenstandsgruppe>
+	</Gegenstände>
   </Inhalt>
 </XDIML>
