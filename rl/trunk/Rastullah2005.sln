@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual C++ Express 2005
+# Visual Studio 2005
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RlCommon", "engine\common\RlCommon2005.vcproj", "{D3185FC6-9384-431A-A237-80284F859B21}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RlCore", "engine\core\RlCore2005.vcproj", "{0935F495-4540-40E3-AC8F-AA54C85DC5B2}"
@@ -70,6 +70,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RlOpenALDriver", "plugins\openaldriver\RlOpenALDriver.vcproj", "{173A345C-D7B1-46F9-974F-53661D7C8AF6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RlAI", "engine\ai\RlAI2005.vcproj", "{C3E78B89-587B-499A-BE7D-4FE8564F0CD7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D3185FC6-9384-431A-A237-80284F859B21} = {D3185FC6-9384-431A-A237-80284F859B21}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
