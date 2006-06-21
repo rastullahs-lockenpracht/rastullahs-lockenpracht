@@ -4,11 +4,16 @@
 <aiml  version="1.0.1"
             xmlns="http://alicebot.org/2001/AIML"
 			xmlns:rldialog="http://team-pantheon.de/projekt/rl/dialog">
+<!-- ================Begrüßung ================ -->
+
 	<category>
 	<pattern>1</pattern>
 	<template>
 		<gossip rldialog:type="response">
-			<li rldialog:id="0.5SekStille.ogg">Ein Glück, dass ihr da seid! Er braucht eure Hilfe!
+			<condition type="default" name="tsafried_1">
+				<li rldialog:id="0.5SekStille.ogg" value="">Ein Glück, dass ihr da seid! Er braucht eure Hilfe!</li>
+				<li rldialog:id="0.5SekStille.ogg" value="1">[Schon gehört! Automatisch Weiter!]</li>
+			</condition>
 		</gossip>
 		<gossip rldialog:type="option">
 			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11">Nun mal langsam, eigentlich wollte ich ja die Fragen stellen, aber was ist denn los?</li>
@@ -16,20 +21,27 @@
 	</template>
 	</category>
 
+<!-- ================Hauptmenü ================ -->	
 	<category>
 		<pattern>11</pattern>
 		<template>
 			<gossip rldialog:type="response">
-				<li rldialog:id="0.5SekStille.ogg">Mein Mentor, ich habe ihn seit Tagen nicht gesehen.</li>
+				<condition type="default" name="tsafried_1"><li rldialog:id="0.5SekStille.ogg" value="">Mein Mentor, ich habe ihn seit Tagen nicht gesehen!</li><li value="1" rldialog:id="0.5SekStille.ogg"></li></condition> 
 			</gossip>
 			<gossip rldialog:type="option">
-				<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="2">Ich welchem Haus wohnt er denn?</li>
-				<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="3">Wo ist er denn hin?</li>
-				<li rldialog:id="0.5SekStille.ogg">Ich komme später wieder</li>
+				<condition type="default" name="tsafried_2">
+					<li rldialog:id="0.5SekStille.ogg" value="" rldialog:patternRef ="2">In welchem Haus wohnt er denn?</li>
+					<li rldialog:id="0.5SekStille.ogg" value="2" rldialog:patternRef ="23">Um noch einmal darauf zurückzukommen. Wo im Wald wohnt Euer Mentor genau?</li>
+				</condition>
+				<condition type="default" name="tsafried_3"><li rldialog:id="0.5SekStille.ogg" value="" rldialog:patternRef ="3">Wo ist er denn hin?</li></condition>
+				<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="EXIT"><set type="default" name="tsafried_1" value="1"/>Ich komme später wieder.</li>
 			</gossip>
 		</template>
 	</category>
 	
+
+<!-- ================Aufenthaltsort-Quest succeeden ================ -->	
+
 	<category>
 	<pattern>2</pattern>
 	<template>
@@ -38,7 +50,7 @@
 		</gossip>
 		<gossip rldialog:type="option">
 			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="22">Das ist ja interessant. Wann ist er dort hingezogen?</li>
-			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="23">Und wo genau?</li>
+			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="23">Und wo dort?</li>
 		</gossip>
 	</template>
 	</category>
@@ -51,7 +63,7 @@
 				<li rldialog:id="0.5SekStille.ogg">Er wohnt schon immer dort. Es ist im Wald aufgewachsen, spricht mit ihm und lebt mit ihm. Er meinte wenn ich auch einmal die Stimme des Waldes hören kann, könnte ich vielleicht auch dort leben.</li>			
 			</gossip>
 			<gossip rldialog:type="option">
-				<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11">*klick zum Anfang*-Automatisierung einbauen!</li>
+				<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11"><set type="default" name="tsafried_2" value="2"/>*klick zum Anfang*-Automatisierung einbauen!</li>
 			</gossip>
 		</template>
 		</category>
@@ -72,13 +84,17 @@
 			<pattern>23</pattern>
 			<template>
 				<gossip rldialog:type="response">
-					<li rldialog:id="0.5SekStille.ogg">Das ist schwer zu sagen. Er lebt mal hier, mal dort. Das letzte mal hab ich ihn in der Nähe vom verlassenen Turm gesehen.</li>			
+					<li rldialog:id="0.5SekStille.ogg">Ich bin immer direkt in den Wald gegangen, dort kenne ich mich aus. Aber ich glaube es gibt einen alten Pfad, der dort hinführt. Der Weg ist ein klein wenig länger, aber viel einfacher zu finden. Fragt am besten Sonja danach.</li>			
 				</gossip>
 				<gossip rldialog:type="option">
-					<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11">*klick zum Anfang*-Automatisierung einbauen!</li>
+					<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11"><set type="default" name="tsafried_2" value="1"/><set type="queststate" name="aufenthaltsort" value="SUCCEEDED"/>*klick zum Anfang*-Automatisierung einbauen!</li>
 				</gossip>
 			</template>
 			</category>
+
+
+
+<!-- ================RedeMitDorfbewohnern Teil - Tsafrieds Meinung über den Alten Mann ================ -->	
 
 	<category>
 	<pattern>3</pattern>
@@ -133,15 +149,21 @@
 					<pattern>333333</pattern>
 					<template>
 						<gossip rldialog:type="response">
-							<li rldialog:id="0.5SekStille.ogg">Egal was es ist. Schaut nach und seht, ob es ihm gut geht. Alles weitere könnt Ihr danach entscheiden. Ich glaube nicht, dass er etwas gegen das Dorf hat. Er mag im Einklang mit der Natur leben, aber er mag auch die Menschen hier.[Questbeitrag "Rede mit Dorfbewohnern" erfüllt]</li>
+							<li rldialog:id="0.5SekStille.ogg">Egal was es ist. Schaut nach und seht, ob es ihm gut geht. Alles weitere könnt Ihr danach entscheiden. Ich glaube nicht, dass er etwas gegen das Dorf hat. Er mag im Einklang mit der Natur leben, aber er mag auch die Menschen hier.</li>
 						</gossip>
 						<gossip rldialog:type="option">
-							<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11">*klick zum Anfang*-Automatisierung einbauen!</li>
+							<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11"><set type="default" name="tsafried_3" value="1"/><set type="questparts" name="hauptquest2" value="increase"/>*klick zum Anfang*-Automatisierung einbauen!</li>
 						</gossip>
 					</template>
 					</category>
 
+
+<!-- ================Standardoptionen ================ -->
+	<category>
+	<pattern>EXIT</pattern> 
+	<template>
+		<!-- <system cmd="exit"/>  -->	</template>
+	</category>	
+
+
 </aiml>
-
-
-

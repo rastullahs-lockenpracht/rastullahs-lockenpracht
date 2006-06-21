@@ -68,6 +68,7 @@ load( "sonja.rb" );
 load( "jarn.rb" );
 load( "tsafried.rb" );
 load( "wolfram.rb" );
+load( "wolframstuer.rb" );
 $SCRIPT.log("NSCs geladen");
 
 #******** mapchange **********

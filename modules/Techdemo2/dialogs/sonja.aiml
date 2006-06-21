@@ -4,34 +4,39 @@
 <aiml  version="1.0.1"
             xmlns="http://alicebot.org/2001/AIML"
 			xmlns:rldialog="http://team-pantheon.de/projekt/rl/dialog">
+
+<!-- ================Begrüßung ================ -->
+
 	<category>
 	<pattern>1</pattern>
 	<template>
 		<gossip rldialog:type="response">
-			<condition type="default" name="sonja_1"><li rldialog:id="0.5SekStille.ogg" value="">Travia zum Gruße, was führt euch in unser abgelegenes Dorf?</li>
-					  			<li rldialog:id="0.5SekStille.ogg" value="1">Schon gehört! Weiter!</li></condition>
+			<condition type="default" name="sonja_1">
+				<li rldialog:id="0.5SekStille.ogg" value="">Travia zum Gruße, was führt euch in unser abgelegenes Dorf?</li>
+				<li rldialog:id="0.5SekStille.ogg" value="1">[Schon gehört! Automatisch Weiter!]</li>
+			</condition>
 		</gossip>
 		<gossip rldialog:type="option">
-			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11"><set type="queststate" name="hauptquest3" value="SUCCEEDED"/><set type="questknown" name="hauptquest3" value="KNOWN"/>Ich bin aus Wandleth hergeschickt worden um nach dem Rechten zu sehen. Man sagte mir, es gäbe Probleme mit Raubtieren?</li>
+			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11">Ich bin aus Wandleth hergeschickt worden um nach dem Rechten zu sehen. Man sagte mir, es gäbe Probleme mit Raubtieren?</li>
 		</gossip>
 	</template>
 	</category>
 
-	
+
+<!-- ================Hauptmenü ================ -->	
 
 	<category>
 		<pattern>11</pattern>
 		<template>
 			<gossip rldialog:type="response">
-				<condition type="default" name="sonja_1"><li rldialog:id="0.5SekStille.ogg" value=""><set type="default" name="sonja_1" value="1"/>So seltsam das auch ist, ja. Es hat vor gut einer Woche angefangen, dass wir Nachts die ersten Geräusche hörten, und gestern ist eins meiner Hühner gerissen worden! Mehr ist zum Glück noch passiert. Um ehrlich zu sein, ich bin verzweifelt. Ich weiß garnicht wie ich mit so einer Situation umgehen soll. Das gab es hier noch nie!</li><li value="1" rldialog:id="0.5SekStille.ogg"></li></condition> 
+				<condition type="default" name="sonja_1"><li rldialog:id="0.5SekStille.ogg" value="">So seltsam das auch ist, ja. Es hat vor gut einer Woche angefangen, dass wir Nachts die ersten Geräusche hörten, und gestern ist eins meiner Hühner gerissen worden! Mehr ist zum Glück noch passiert. Um ehrlich zu sein, ich bin verzweifelt. Ich weiß garnicht wie ich mit so einer Situation umgehen soll. Das gab es hier noch nie!</li><li value="1" rldialog:id="0.5SekStille.ogg"></li></condition> 
 			</gossip>
 			<gossip rldialog:type="option">
 				<condition type="default" name="sonja_2"><li rldialog:id="0.5SekStille.ogg" value="" rldialog:patternRef ="2">Und warum ruft ihr deswegen die Wache und nicht einen Jäger?</li></condition>		
 				<condition type="default" name="sonja_3"><li rldialog:id="0.5SekStille.ogg" value="" rldialog:patternRef ="3">Was für ein Tier war es?</li></condition>		
-				<condition type="default" name="sonja_5"><li rldialog:id="0.5SekStille.ogg" value="" rldialog:patternRef ="5">Was schlagt ihr nun vor, was ich tun soll? Ich kann ja wohl schlecht in den Wald gehen und alle Tiere jagen, die eure Hühner reißen könnten.</li></condition> 
-	   			<condition type="queststate" name="hauptquest3"><li rldialog:id="0.5SekStille.ogg" value="SUCCEEDED" rldialog:patternRef ="4">Ich habe mit Allen geredet. Sie haben recht gegenteilige Meinungen, aber Einiges ist überzeugender als Anderes.</li></condition>				
-				<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="1"><set type="default" name="sonja_1" value="1"/>Begrüßung erneut abspielen. Zum Testen.</li>
-				<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="EXIT">Ich komme später wieder.</li>				
+				<condition type="queststate" name="hauptquest2"><li rldialog:id="0.5SekStille.ogg" value="OPEN" rldialog:patternRef ="5">Was schlagt ihr nun vor, was ich tun soll? Ich kann ja wohl schlecht in den Wald gehen und alle Tiere jagen, die eure Hühner reißen könnten.</li></condition> 
+	   			<condition type="queststate" name="hauptquest2"><li rldialog:id="0.5SekStille.ogg" value="SUCCEEDED" rldialog:patternRef ="4">Ich habe mit Allen geredet. Sie haben recht gegenteilige Meinungen, aber Einiges ist überzeugender als Anderes.</li></condition>
+				<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="EXIT"><set type="default" name="sonja_1" value="1"/>Ich komme später wieder.</li>				
 			</gossip>
 		</template>
 	</category>
@@ -42,10 +47,10 @@
 	<pattern>2</pattern>
 	<template>
 		<gossip rldialog:type="response">
-			<li rldialog:id="0.5SekStille.ogg"><set type="default" name="sonja_2" value="1"/>Wißt ihr, so seltsam es klingen mag, aber wir hatten noch nie Ärger mit Raubtieren aus dem Wald, seit ich lebe und meine Eltern erzählten mir es ebenso. Es muß mehr dahinter stecken.</li>
+			<li rldialog:id="0.5SekStille.ogg">Wißt ihr, so seltsam es klingen mag, aber wir hatten noch nie Ärger mit Raubtieren aus dem Wald, seit ich lebe und meine Eltern erzählten mir es ebenso. Es muß mehr dahinter stecken.</li>
 		</gossip>
 		<gossip rldialog:type="option">
-			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11">Eigentlich wieder zurück in die Options von 11 ohne den Einleitungssatz</li>
+			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11"><set type="default" name="sonja_2" value="1"/>Eigentlich wieder zurück in die Options von 11 ohne den Einleitungssatz</li>
 		</gossip>
 	</template>
 	</category>
@@ -62,8 +67,9 @@
 	</template>
 	</category>
 
+
 <!-- ================Hauptquestentscheidung, Map2 freischalten================ -->
-<!--
+
 	<category>
 	<pattern>4</pattern>
 	<template>
@@ -71,8 +77,8 @@
 			<li rldialog:id="0.5SekStille.ogg">Ich verlasse mich auf euer Urteil. Was denkt ihr, was hinter der Geschichte steckt?</li>
 		</gossip>
 		<gossip rldialog:type="option">
-			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="41">Ich glaube, dass der alte Mann aus dem Wald schuld ist. Ich hörte von eurem kleinen unfairen "Geschäft". Was ihr macht soll mir egal sein, aber er ist wahrscheinlich auf Rache aus. Vielleicht hat er Einfluß auf Tiere und hetzt sie nun gegen das Dorf, etwas, dass das Gesetz des Reiches auf keinen Fall duldet! Ich werde ihn aufsuchen und festsetzen, notfalls mit Gewalt. [Questzeig "Vernichte den Druiden" aktivieren]</li>
-			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="42">Ich glaube, dass das Verschwinden des alten Mannes aus dem Wald etwas damit zu tun hat. Seit er hier nicht mehr auftaucht, habt Ihr eure Probleme. Ihr habt, ihm meiner Meinung nach, eure jahrelange Ruhe mit den Tieren zu verdanken, wie auch immer er es anstellt. Ich denke ich sollte ihn suchen und nach dem rechten sehen, vielleicht ist ihm etwas zugestoßen. [Questzeig "Rette den Druiden" aktivieren]</li>
+			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="41">Ich glaube, dass der alte Mann aus dem Wald schuld ist. Ich hörte von eurem kleinen unfairen "Geschäft". Was ihr macht soll mir egal sein, aber er ist wahrscheinlich auf Rache aus. Vielleicht hat er Einfluß auf Tiere und hetzt sie nun gegen das Dorf, etwas, dass das Gesetz des Reiches auf keinen Fall duldet! Ich werde ihn aufsuchen und festsetzen, notfalls mit Gewalt.</li>
+			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="42">Ich glaube, dass das Verschwinden des alten Mannes aus dem Wald etwas damit zu tun hat. Seit er hier nicht mehr auftaucht, habt Ihr eure Probleme. Ihr habt, ihm meiner Meinung nach, eure jahrelange Ruhe mit den Tieren zu verdanken, wie auch immer er es anstellt. Ich denke ich sollte ihn suchen und nach dem rechten sehen, vielleicht ist ihm etwas zugestoßen.</li>
 		</gossip>
 	</template>
 	</category>
@@ -87,12 +93,11 @@
 		<gossip rldialog:type="option">
 			<condition type="queststate" name="aufenthaltsort">
 				<li value="SUCCEEDED" rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="431" >Ja, Tsafried sagte, es gäbe einen alten Pfad, der zu einem verlassenen Turm führt. Kennt ihr ihn?</li>
-				<li value="SUCCEEDED" rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="432" >Nein. Ja wisst ihr es denn nicht?</li>
+				<li value="ASSIGNED" rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="432" >Nein. Ja wisst ihr es denn nicht?</li>
 			</condition>				
 		</gossip>
 	</template>
 	</category>
-
 
 
 	<category>
@@ -104,7 +109,7 @@
 		<gossip rldialog:type="option">
 			<condition type="queststate" name="aufenthaltsort">
 				<li value="SUCCEEDED" rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="431" >Ja, Tsafried sagte, es gäbe einen alten Pfad, der zu einem verlassenen Turm führt. Kennt ihr ihn?</li>
-				<li value="SUCCEEDED" rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="432" >Nein. Ja wisst ihr es denn nicht?</li>
+				<li value="ASSIGNED" rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="432" >Nein. Ja wisst ihr es denn nicht?</li>
 			</condition>				
 		</gossip>
 	</template>
@@ -136,7 +141,7 @@
 	</template>
 	</category>
 
--->
+
 
 <!-- ================Hauptquestentscheidung, Auftrag mit den Leuten zu reden ================ -->
 
@@ -183,8 +188,7 @@
 	<category>
 	<pattern>EXIT</pattern> 
 	<template>
-		<system cmd="exit"/> 
-	</template>
+		<!-- <system cmd="exit"/>  -->	</template>
 	</category>	
 
 

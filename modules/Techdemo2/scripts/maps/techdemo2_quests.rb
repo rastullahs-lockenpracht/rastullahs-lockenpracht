@@ -70,18 +70,21 @@ wolframQuest =
 		"wolfram",
 		"Wolfram öffnet die Tür nicht",
 		"Bringt Wolfram dazu, die Tür zu öffnen, damit Ihr mit ihm sprechen könnt.")
+questBook.addQuest(wolframQuest)
 
 paketQuest = 
 	Quest.new(
 		"paket",
 		"Ein seltsames Paket",
 		"Bringt Jarns Paket zu Wolfram, aber geht vorsichtig damit um!")
+questBook.addQuest(paketQuest)
+
 
 aufenthaltsortQuest = 
 	Quest.new(
 		"aufenthaltsort",
 		"Aufenhaltsort des alten Mannes aus dem Wald",
-		"Findet den Aufenthaltsort des alten Mannes aus dem Wald.")
+		"Bringt den genauen Aufenthaltsort des Alten Mannes im Wald in Erfahrung.")
 questBook.addQuest(aufenthaltsortQuest)
 RulesSubsystem.getSingleton().getQuestBook().getQuest("aufenthaltsort").setKnown(false)
 RulesSubsystem.getSingleton().getQuestBook().getQuest("aufenthaltsort").setState(Quest::ASSIGNED)

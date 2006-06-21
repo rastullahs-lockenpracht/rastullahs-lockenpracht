@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- !DOCTYPE aiml SYSTEM "includes.dtd" -->
+
+<aiml  version="1.0.1"
+            xmlns="http://alicebot.org/2001/AIML"
+			xmlns:rldialog="http://team-pantheon.de/projekt/rl/dialog">
+<!-- ================Begrüßung ================ -->
+	<category>
+	<pattern>1</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<condition type="default" name="wolframstuer_1">
+				<li rldialog:id="0.5SekStille.ogg">Die Tür ist geschlossen. Aber es dringen leise Geräusche aus dem Inneren; eine Art Kratzen und Rascheln.</li>
+				<li rldialog:id="0.5SekStille.ogg" value="1">[Schon gehört! Automatisch Weiter!]</li>
+			</condition>
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11">Hallo? Ist da wer?</li>
+		</gossip>
+	</template>
+	</category>
+
+<!-- ================Hauptmenü ================ -->
+	<category>
+		<pattern>11</pattern>
+		<template>
+			<gossip rldialog:type="response">
+				<condition type="default" name="wolframstuer_1">
+					<li rldialog:id="0.5SekStille.ogg">Keine Antwort. Aber die Geräusche verstummen plötzlich.</li>
+					<li rldialog:id="0.5SekStille.ogg" value="1"></li>
+				</condition>
+			</gossip>
+			<gossip rldialog:type="option">
+				<!--Hier könnte noch eine verknüpfte UND Condition mit hauptquest2=ASSIGNED laufen, damit man das nur bekommt, wenn man weiß, dass man dort klopfen soll. Ist das logisch sinnvoll?  -->
+				<condition type="queststate" name="paket"><li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="2" value="OPEN">Macht auf! Hier ist die Stadtwache aus Wandleth, ich möchte euch nur ein paar Fragen stellen.</li></condition>
+				<condition type="queststate" name="paket"><li rldialog:id="0.5SekStille.ogg" value="ASSIGNED" rldialog:patternRef ="3">Ich habe hier ein Paket von Jarn für euch!</li></condition> 
+				<li rldialog:id="0.5SekStille.ogg"><set type="default" name="wolframstuer_1" value="1"/>Ich... gehe dann mal wieder.</li>
+			</gossip>
+		</template>
+	</category>
+
+<!-- ================Die Tür will nicht reden ================ -->
+
+	<category>
+	<pattern>2</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="0.5SekStille.ogg">Keine Antwort. Offenbar will da jemand nicht bei seiner Arbeit gestört werden</li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11"><set type="questknown" name="wolfram" value="KNOWN"/><set type="queststate" name="wolfram" value="ASSIGNED"/>*klick zum Anfang*-Automatisierung einbauen!</li>
+		</gossip>
+	</template>
+	</category>
+
+<!-- ================Tür öffnen, Wolfram heraus treten lassen, Tür als Dialogpartner deaktivieren. ================ -->
+	<category>
+	<pattern>3</pattern>
+	<template>
+		<gossip rldialog:type="response">
+			<li rldialog:id="0.5SekStille.ogg">Es sind Schritte zu hören, die sich auf die Tür zu bewegen. Ein Schloß wird geöffnet.</li>
+		</gossip>
+		<gossip rldialog:type="option">
+			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="EXIT"><set type="queststate" name="wolfram" value="SUCCEEDED"/><set type="questknown" name="wolfram" value="KNOWN"/>Zustände setten, Scripte ausführen, Dialog beenden.</li>
+		</gossip>
+	</template>
+	</category>
+
+<!-- ================Standardoptionen ================ -->
+	<category>
+	<pattern>EXIT</pattern> 
+	<template>
+		<!-- <system cmd="exit"/>  -->	</template>
+	</category>	
+</aiml>
