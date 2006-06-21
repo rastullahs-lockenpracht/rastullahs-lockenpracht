@@ -823,6 +823,15 @@ namespace rl {
 			if (item) 
 			{
 				mDescription->setText(item->getDescription());
+				if (item->getDescription().length() > 200)
+				{
+					// Scrollbalken aktivieren
+					mDescription->setVerticalScrollbarEnabled(true);
+				}
+				else 
+				{
+
+				}
 				renderItem(item);
 			}
 			else
@@ -868,8 +877,6 @@ namespace rl {
                 CEGUI::Point(0.0f, 0.0f),
                 CEGUI::Size(mTexture->getWidth(), mTexture->getHeight()),
                 CEGUI::Point(0.0f,0.0f));
-		
-		mItemRenderImage->setBackgroundImage(&mImageSet->getImage((CEGUI::utf8*)"InventoryItemRttImage"));
 	}
 
 	void InventoryWindow::renderItem(Item* item)
