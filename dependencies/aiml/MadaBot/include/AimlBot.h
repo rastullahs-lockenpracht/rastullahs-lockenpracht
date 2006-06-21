@@ -186,6 +186,7 @@ namespace MadaBot
 
 	template <class S> Response<S> AimlBot<S>::respond(const S& pInput)
 	{
+		mRequestExit = false;
 		Response<S> response;
 		GraphPath<S> path;
 		mCurrentMatch = NULL;
