@@ -71,7 +71,7 @@ load( "wolfram.rb" );
 load( "wolframstuer.rb" );
 $SCRIPT.log("NSCs geladen");
 
-#******** mapchange **********
+#******** mapchange - abhängig vom Questzustand **********
 $SCRIPT.log("Mapchange: Kugel-Zentrum Actor erstellen");
 kugelDings = $AM.createEmptyActor( "Kugel-Zentrum" );
 $SCRIPT.log("Mapchange: Kugel-Zentrum Actor in die Szene einfügen");
@@ -92,7 +92,12 @@ class LevelwechselListener < GameAreaListener
  
 	# Zone betreten
 	def areaEntered(anEvent)
-		$CORE.loadMap("Octree", @targetScene, @resourcegrp, @targetRbFile); 
+		if (RulesSubsystem.getSingleton().getQuestBook().getQuest("aufenthaltsort").getState() == Quest::SUCCEEDED) &&  ( (RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest42").getState() == Quest::SUCCEEDED)  || (RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest41").getState() == Quest::SUCCEEDED) )
+			$CORE.loadMap("Octree", @targetScene, @resourcegrp, @targetRbFile); 
+		else
+			$WF.showMessageWindow( "Ihr wisst noch nicht wohin ihr wollt - und was ihr an diesem Ort suchen wollt. Findet es erst heraus!" );
+	
+		end
 	end
 end
  
@@ -100,7 +105,7 @@ end
 MapchangeListener = LevelwechselListener .new("techdemo2map2_01.scene", "Techdemo2", "Techdemo2map2.rb"); 
 
 $SCRIPT.log("Mapchange: MapchangeListener hinzufügen");
-$GameEveMgr.addSphereAreaListener( kugelDings, 4.000, MapchangeListener, Actor::QGF_PLAYER );
+$GameEveMgr.addSphereAreaListener( kugelDings, 10.000, MapchangeListener, Actor::QGF_PLAYER );
 
 
 $SCRIPT.log("map 'Techdemo2' initialisiert.");

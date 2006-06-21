@@ -77,7 +77,12 @@ class LevelwechselListener < GameAreaListener
  
 	# Zone betreten
 	def areaEntered(anEvent)
-		$CORE.loadMap("Octree", @targetScene, @resourcegrp, @targetRbFile); 
+		if (RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest6").getState() == Quest::SUCCEEDED)
+			#Irgendwo muß noch eingestellt werden, dass es automatisch zum Abspann springt auf Map1.
+			$CORE.loadMap("Octree", @targetScene, @resourcegrp, @targetRbFile); 
+		else
+			$WF.showMessageWindow( "Ihr müsst euren Auftrag erst beenden, bevor Ihr das Gebiet verlassen könnt." );
+		end
 	end
 end
  
@@ -85,8 +90,7 @@ end
 MapchangeListener = LevelwechselListener .new("techdemo2map2_01.scene", "Techdemo2", "Techdemo2.rb"); 
 
 $SCRIPT.log("Mapchange: MapchangeListener hinzufügen");
-$GameEveMgr.addSphereAreaListener( kugelDings, 4.000, MapchangeListener, Actor::QGF_PLAYER );
-
+$GameEveMgr.addSphereAreaListener( kugelDings, 10.000, MapchangeListener, Actor::QGF_PLAYER );
 
 $SCRIPT.log("map 'Techdemo2' initialisiert.");
 $WF.toggleCharacterStateWindow()
