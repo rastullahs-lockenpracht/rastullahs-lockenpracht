@@ -24,6 +24,7 @@
 #include "CoreSubsystem.h"
 #include "DialogWindow.h"
 #include "InputManager.h"
+#include "MeshAnimation.h"
 #include "MeshObject.h"
 #include "PhysicalThing.h"
 #include "Sound.h"
@@ -123,6 +124,12 @@ namespace rl {
 			mTextShown = false;
 			mSubtitleWindow->setVisible(false);
 			mDialogWindow->textFinished();
+
+			if (mTalkAnimation != NULL)
+			{
+				mTalkAnimation->stop();
+				mTalkAnimation = NULL;
+			}
 		}
 
 		Logger::getSingleton().log(
@@ -201,6 +208,16 @@ namespace rl {
 			mSoundObject->play();
 
 			mFadeTextTime = mSoundObject->getLength();
+		}
+
+		MeshObject* mesh = dynamic_cast<MeshObject*>(actor->getControlledObject());
+		if (mesh != NULL)
+		{
+			if (mesh->hasAnimation("reden"))
+			{
+				mesh->stopAllAnimations();
+				mTalkAnimation = mesh->startAnimation("reden");
+			}
 		}
 
 		Logger::getSingleton().log(

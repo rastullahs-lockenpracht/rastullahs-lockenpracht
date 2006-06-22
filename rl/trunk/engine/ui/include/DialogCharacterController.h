@@ -26,6 +26,7 @@ namespace rl {
 
 	class Actor;
 	class DialogWindow;
+	class MeshAnimation;
 	class SoundObject;
 	class SubtitleWindow;
 
@@ -82,6 +83,8 @@ namespace rl {
 		Actor* mDialogPartner;
 		/// Der Besitzer des Dialoges (Der Bauer mit dem der Spieler redet)
 		Actor* mCurrentActor;
+
+		MeshAnimation* mTalkAnimation;
 
 		DialogWindow* mDialogWindow;
 		SubtitleWindow* mSubtitleWindow;
