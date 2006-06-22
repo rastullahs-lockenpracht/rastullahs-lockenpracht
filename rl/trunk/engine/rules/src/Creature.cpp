@@ -147,7 +147,8 @@ namespace rl
 
 	int Creature::getCurrentBe()
 	{
-		return mInventory->getCurrentBe();
+		pair<int,int> be = mInventory->getOverallBe();
+		return be.first+be.second;
 	}
 
 	void Creature::setWert(int wertId, int wert)

@@ -16,10 +16,13 @@
 
 
 #include "Item.h"
+#include "Armor.h"
+#include "Weapon.h"
 #include "Inventory.h"
 #include "Exception.h"
 #include "ActorManager.h"
 #include "Creature.h"
+#include "Eigenschaft.h"
 #include "ItemManager.h"
 
 using namespace std;
@@ -46,11 +49,20 @@ namespace rl
 		mTrousers(NULL),
 		mShinbone(NULL),
 		mBoots(NULL),
-		mWeapons()
+		mWeapons(),
+		mCurrentWeight(0),
+		mCurrentBeByWeight(0),
+		mCurrentBe(0),
+		mCurrentRs(0),
+		mValuesUpToDate(false)
 	{
 
 		mOwner = owner;
 
+
+		// *****************
+		// TODO: Entfernen, wenn der ItemManager in Skripte eingebunden ist...
+		// *****************
 		Item* backpack = createItem("Rucksack", "Dieser Rucksack ist praktisch, da er viel Platz \r\nauf dem Ruecken eines jeden Helden bietet.", "Rucksack", Item::ITEMTYPE_BACKPACK, pair<int,int>(2,2));
 		backpack->setContainer(true, pair<int,int>(12,7));
 		mBackpack = backpack;
@@ -97,44 +109,15 @@ namespace rl
 	}
 
 	
-	std::list<Item*> Inventory::getAllItems()
+	void Inventory::markDirty()
 	{
-		ItemList wornItems(0);
+		mValuesUpToDate = false;
+	}
+
+	Inventory::ItemList Inventory::getAllItems()
+	{
 		ItemList allItems(0);
-		if (mBackpack)
-			wornItems.push_back(mBackpack);
-		if (mRingLeft)
-			wornItems.push_back(mRingLeft);
-		if (mRingRight)
-			wornItems.push_back(mRingRight);
-		if (mHandLeft)
-			wornItems.push_back(mHandLeft);
-		if (mHandRight)
-			wornItems.push_back(mHandRight);
-		if (mGloves)
-			wornItems.push_back(mGloves);
-		if (mBraceletLeft)
-			wornItems.push_back(mBraceletLeft);
-		if (mBraceletRight)
-			wornItems.push_back(mBraceletRight);
-		if (mArmor)
-			wornItems.push_back(mArmor);
-		if (mCape)
-			wornItems.push_back(mCape);
-		if (mBracers)
-			wornItems.push_back(mBracers);
-		if (mBelt)
-			wornItems.push_back(mBelt);
-		if (mNecklace)
-			wornItems.push_back(mNecklace);
-		if (mHelmet)
-			wornItems.push_back(mHelmet);
-		if (mTrousers)
-			wornItems.push_back(mTrousers);
-		if (mShinbone)
-			wornItems.push_back(mShinbone);
-		if (mBoots)
-			wornItems.push_back(mBoots);
+		ItemList wornItems = getWornItems();
 
 		// Container durchgehen
 		ItemList::iterator it = wornItems.begin();
@@ -179,9 +162,80 @@ namespace rl
 		}
 	}
 
-	unsigned int Inventory::getOverallWeight()
+	int Inventory::getOverallWeight()
 	{
-		ItemList items = getAllItems();
+		if (!mValuesUpToDate)
+			updateStats();
+		return mCurrentWeight;
+	}
+
+	pair<int,int> Inventory::getOverallBe()
+	{
+		if (!mValuesUpToDate)
+			updateStats();
+		return make_pair<int,int>(mCurrentBe, mCurrentBeByWeight);
+	}
+
+	int Inventory::getOverallRs()
+	{
+		if (!mValuesUpToDate)
+			updateStats();
+		return mCurrentRs;
+	}
+
+	Inventory::ItemList Inventory::getWornItems()
+	{
+		ItemList wornItems(0);
+		if (mBackpack)
+			wornItems.push_back(mBackpack);
+		if (mRingLeft)
+			wornItems.push_back(mRingLeft);
+		if (mRingRight)
+			wornItems.push_back(mRingRight);
+		if (mHandLeft)
+			wornItems.push_back(mHandLeft);
+		if (mHandRight)
+			wornItems.push_back(mHandRight);
+		if (mGloves)
+			wornItems.push_back(mGloves);
+		if (mBraceletLeft)
+			wornItems.push_back(mBraceletLeft);
+		if (mBraceletRight)
+			wornItems.push_back(mBraceletRight);
+		if (mArmor)
+			wornItems.push_back(mArmor);
+		if (mCape)
+			wornItems.push_back(mCape);
+		if (mBracers)
+			wornItems.push_back(mBracers);
+		if (mBelt)
+			wornItems.push_back(mBelt);
+		if (mNecklace)
+			wornItems.push_back(mNecklace);
+		if (mHelmet)
+			wornItems.push_back(mHelmet);
+		if (mTrousers)
+			wornItems.push_back(mTrousers);
+		if (mShinbone)
+			wornItems.push_back(mShinbone);
+		if (mBoots)
+			wornItems.push_back(mBoots);
+
+		return wornItems;
+	}
+
+	
+	void Inventory::updateStats()
+	{
+		calculateWeight(getAllItems());
+		calculateRsAndBe();
+		// flag setzen: Werte sind up to Date
+		mValuesUpToDate = true;
+	}
+
+	// Berechnungsmethoden
+	void Inventory::calculateWeight(ItemList items)
+	{
 		ItemList::iterator it = items.begin();
 
 		unsigned int totalWeight = 0;
@@ -192,7 +246,32 @@ namespace rl
 
 			it++;
 		}
-		return totalWeight;
+		mCurrentWeight = totalWeight;
+	}
+
+	void Inventory::calculateRsAndBe()
+	{
+		mCurrentBe = 0;
+		mCurrentRs = 0;
+
+		// Behinderung durch Traglast ist 1 Punkt pro KK * 40 Unzen / 2 ab KK Stein gewicht
+		mCurrentBeByWeight = (mCurrentWeight > mOwner->getEigenschaft(E_KOERPERKRAFT) * 40)?
+			mCurrentWeight / mOwner->getEigenschaft(E_KOERPERKRAFT) * 40 :
+			0;
+
+		ItemList wornItems = getWornItems();
+
+		ItemList::iterator it = wornItems.begin();
+		while (it != wornItems.end())
+		{
+			// Beachte nur Rüstungen
+			if (dynamic_cast<Armor*>(*it) != 0)
+			{
+				mCurrentRs += (dynamic_cast<Armor*>(*it))->getGRS();
+				mCurrentBe += (dynamic_cast<Armor*>(*it))->getGBE();
+			}
+			it++;
+		}
 	}
 
 	Item* Inventory::createItem(const CeGuiString name, const CeGuiString description, const CeGuiString imageName, Item::ItemType type, pair<int,int> size)
@@ -351,6 +430,8 @@ namespace rl
 		}
 		// Gehe die Container durch und entferne das Item
 		removeItemFromContainers(item);
+
+		markDirty();
 	}
 
 	void Inventory::removeItemFromContainers(Item* item)
@@ -428,12 +509,6 @@ namespace rl
 			}
 		}
 		return free;
-	}
-
-	// TODO: Be berechnen
-	int Inventory::getCurrentBe()
-	{
-		return 0;
 	}
 
 	

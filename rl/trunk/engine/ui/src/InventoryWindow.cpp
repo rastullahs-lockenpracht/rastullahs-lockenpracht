@@ -63,10 +63,12 @@ namespace rl {
 	InventoryWindow::InventoryWindow()
 		: CeGuiWindow("inventorywindow.xml", WND_MOUSE_INPUT),
 		mDescription(NULL),
-		mItemActor(NULL),
+		mRenderItemEntity(NULL),
 		mRenderTexture(NULL),
 		mRenderViewport(NULL),
 		mItemRenderImage(NULL),
+		mCameraActor(NULL),
+		mInventoryItemNode(NULL),
 		mTexture(NULL),
 		mImageSet(NULL),
 		mActiveItemWindow(NULL),
@@ -151,6 +153,21 @@ namespace rl {
 	void InventoryWindow::update()
 	{
 		// Aktualisiere Werte
+
+		// Rüstung
+		mArmorValue->setText(Ogre::StringConverter::toString(mInventory->getOverallRs()));
+
+		// Behinderung
+		pair<int,int> behinderung = mInventory->getOverallBe();
+		mHandicapValue->setText(Ogre::StringConverter::toString(behinderung.first+behinderung.second));
+		if (behinderung.second > 0)
+		{
+			mArmorValueWindow->setTooltipText("Rüstung / Behinderung\r\n           / +"+Ogre::StringConverter::toString(behinderung.second)+" überladen");
+		} 
+		else
+		{
+			mArmorValueWindow->setTooltipText("Rüstung / Behinderung");
+		}
 
 		// Gewicht in Unzen
 		int weight = mInventory->getOverallWeight() / 40;
@@ -854,17 +871,28 @@ namespace rl {
 		// Setup Render To Texture for preview window
 		mRenderTexture = Root::getSingleton().getRenderSystem()->createRenderTexture( "InventoryItemRttTex", 128, 128, TEX_TYPE_2D, PF_R8G8B8 );
         {
-			Actor* mCameraActor = ActorManager::getSingleton().createCameraActor("InventoryItemRttCam");
-			mCameraActor->placeIntoScene(Ogre::Vector3(0,-101054.6,0));
-			mCameraActor->pitch(-90);
-			mCameraActor->getPhysicalThing()->freeze();
 			
+			/*Ogre::Camera* itemRenderCam = tempManager->createCamera("InventoryItemRenderCamera");
+			
+            SceneNode* itemCamNode = 
+				tempManager->getRootSceneNode()->createChildSceneNode(Ogre::Vector3(0,-1000,0));
+			
+			itemCamNode->attachObject(itemRenderCam);
+			itemRenderCam->pitch(Ogre::Radian(90));
 
+            mRenderViewport = mRenderTexture->addViewport( itemRenderCam );
             mRenderTexture->setAutoUpdated(false);
-            mRenderViewport = mRenderTexture->addViewport( (static_cast<CameraObject*>(mCameraActor->getControlledObject()))->getCamera());
-            mRenderViewport->setOverlaysEnabled(false);
-            mRenderViewport->setClearEveryFrame(true);
+			mRenderViewport->setOverlaysEnabled(false);
+            mRenderViewport->setClearEveryFrame( true );
+			//mRenderViewport->setClearEveryFrame(false);
             mRenderViewport->setBackgroundColour( ColourValue::Black );
+			*/
+			
+			//loadCamera();
+
+            
+			
+			
         }
 
         // Retrieve CEGUI texture for the RTT
@@ -881,17 +909,35 @@ namespace rl {
 
 	void InventoryWindow::renderItem(Item* item)
 	{
-		if (mItemActor) {
-			// alten Actor entfernen
-			mItemActor->removeFromScene();
-			ActorManager::getSingleton().destroyActor(mItemActor);
-			mItemActor = NULL;
+		SceneManager* tempManager = CoreSubsystem::getSingleton().
+					getWorld()->getSceneManager();
+
+		// Für einen Aufhängeknoten Sorgen
+		if (mInventoryItemNode == NULL){
+			mInventoryItemNode = tempManager->getRootSceneNode()->createChildSceneNode(Ogre::Vector3(0,-999999.6,-0.2));
+			//mInventoryItemNode->setPosition(0,-100,-0.2);
+		}
+		
+		if (mRenderItemEntity) {
+			// Vom Knoten entfernen
+			mInventoryItemNode->detachAllObjects();
+			// alte Entity entfernen
+			tempManager->destroyEntity(mRenderItemEntity);
+			mRenderItemEntity = NULL;
 		}
 		if (item->getActor())
 		{
+			// Camera update erforderlich, da Mapchange da was kaputt gemacht haben könnte
+			unloadCamera();
+			loadCamera();
+
+			// Item setzen und Schnappschuss machen
+			mRenderItemEntity = tempManager->createEntity("inventoryRenderedItem", (static_cast<MeshObject*>(item->getActor()->getControlledObject()))->getMeshName());
+			mInventoryItemNode->attachObject(mRenderItemEntity);
+		
 			// Das Item hat einen Actor
-			mItemActor = ActorManager::getSingleton().createMeshActor("inventoryRenderedItem",(static_cast<MeshObject*>(item->getActor()->getControlledObject()))->getMeshName());
-			mItemActor->placeIntoScene(Ogre::Vector3(0,-101055.3,-0.2));
+			//mItemActor = ActorManager::getSingleton().createMeshActor("inventoryRenderedItem",(static_cast<MeshObject*>(item->getActor()->getControlledObject()))->getMeshName());
+			//mItemActor->placeIntoScene(Ogre::Vector3(0,-101055.3,-0.2));
 			mItemRenderImage->setSize(CEGUI::Absolute,CEGUI::Size(128,128));
 			mItemRenderImage->setBackgroundImage(&mImageSet->getImage((CEGUI::utf8*)"InventoryItemRttImage"));
 			mRenderTexture->update();
@@ -911,10 +957,33 @@ namespace rl {
 				// breites oder quadratisches Item
 				mItemRenderImage->setSize(CEGUI::Absolute,CEGUI::Size(128, 128/div));
 			}
-			mRenderTexture->update();
 		}
 	}
 
+
+	void InventoryWindow::loadCamera()
+	{
+		mCameraActor = ActorManager::getSingleton().createCameraActor("InventoryItemRttCam");
+		mCameraActor->placeIntoScene(Ogre::Vector3(0,-999999,0));
+		mCameraActor->pitch(-90);
+		mCameraActor->getPhysicalThing()->freeze();
+
+		mRenderTexture->setAutoUpdated(false);
+        mRenderViewport = mRenderTexture->addViewport( (static_cast<CameraObject*>(mCameraActor->getControlledObject()))->getCamera());
+        mRenderViewport->setOverlaysEnabled(false);
+        mRenderViewport->setClearEveryFrame(true);
+        mRenderViewport->setBackgroundColour( ColourValue::Black );
+	}
+
+	void InventoryWindow::unloadCamera()
+	{
+		// wenn loadCamera schon mal geladen wurde, soll die Camera zerstört werden
+		if (mRenderViewport)
+		{
+			mRenderTexture->removeViewport(0);
+			ActorManager::getSingleton().destroyActor(mCameraActor);
+		}
+	}
 
 	/*!
 	*		Überprüft, ob das Item von dem Slot akzeptiert wird

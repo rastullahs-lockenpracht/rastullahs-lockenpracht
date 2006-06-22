@@ -107,25 +107,16 @@ namespace rl {
 		// Erzeugt eine Itemrepräsentation im Inventarfenster
 		CEGUI::DragContainer* createItem(Item* item, CEGUI::Window* parent, CEGUI::UVector2 position = CEGUI::UVector2(CEGUI::cegui_reldim(0.0f), CEGUI::cegui_reldim(0.0f)));
 
-
-		/**
-		* Schliesst das Fenster bei Klick auf X
-		*/
-		bool handleClose();
-
-		void initRenderToTexture();
-		/**
-		* Rendert das Item in das Vorschaufenster im Inventar
-		*/
-		void renderItem(Item* item);
-
-
+		// Der Knoten an dem das zu redernde Item angebracht wird;
+		Ogre::SceneNode* mInventoryItemNode;
 		// Entity des jeweils zu rendernden Items
-		rl::Actor* mItemActor;
+		Ogre::Entity* mRenderItemEntity;
 		// 128*128 Textur für das Item-view Fenster
 		Ogre::RenderTexture* mRenderTexture;
 		// Viewport des RenderToTexture Features
 		Ogre::Viewport* mRenderViewport;
+		// Die Camera, die das Item filmt
+		Actor* mCameraActor;
 
 		CEGUI::Texture* mTexture;
 		CEGUI::Imageset* mImageSet;
@@ -182,6 +173,26 @@ namespace rl {
 		CEGUI::StaticImage* mShinbone;
 		CEGUI::StaticImage* mBoots;
 
+
+
+		/**
+		* Schliesst das Fenster bei Klick auf X
+		*/
+		bool handleClose();
+
+		void initRenderToTexture();
+
+		/**
+		* Lädt die Rtt-Camera
+		*/
+		void loadCamera();
+		void unloadCamera();
+
+		/**
+		* Rendert das Item in das Vorschaufenster im Inventar
+		*/
+		void renderItem(Item* item);
+
 		/**
 		* Initiiert die Slots des Inventars
 		*/
@@ -206,6 +217,7 @@ namespace rl {
 		* Entleert die Slots im InventarFenster wieder
 		*/
 		void emptySlots();
+
 
 		void refreshTabs();
 

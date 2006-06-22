@@ -65,12 +65,17 @@ public:
 	/**
 	* Liefert die gesamte Last des Inventars in Unzen
 	*/
-	unsigned int getOverallWeight();
+	int getOverallWeight();
 
 	/**
 	 * @return Die errechnete Behinderung
 	 **/
-	int getCurrentBe();
+	pair<int,int> getOverallBe();
+
+	/**
+	* @return die gesamte Rüstung des Chars
+	*/
+	int getOverallRs();
 
 	/**
 	 * @brief fügt das Item dem Inventar hinzu, wenn Platz ist,
@@ -175,6 +180,39 @@ public:
 	void setBoots(Item* item);
 
 private:
+	bool mValuesUpToDate;
+	int mCurrentWeight;
+	int mCurrentBeByWeight;
+	int mCurrentBe;
+	int mCurrentRs;
+
+	WeaponMap mWeapons;
+
+	Creature* mOwner;
+
+	Item* mRingLeft;
+	Item* mRingRight;
+	Item* mHandLeft;
+	Item* mHandRight;
+	Item* mGloves;
+	Item* mBraceletLeft;
+	Item* mBraceletRight;
+	Item* mArmor;
+	Item* mCape;
+	Item* mBracers;
+	Item* mBackpack;
+	Item* mBelt;
+	Item* mNecklace;
+	Item* mHelmet;
+	Item* mTrousers;
+	Item* mShinbone;
+	Item* mBoots;
+
+
+	/**
+	* Setzt Flag, dass die Werte neu berechnet werden müssen
+	*/
+	void markDirty();
 
 	/** @brief Liefert die nächste freie Position für den Gegenstand zurueck.
 	 *  @param space Die Ausmaße des Gegenstandes.
@@ -203,27 +241,25 @@ private:
 	*/
 	Item* createItem(const CeGuiString name, const CeGuiString description, const CeGuiString imageName, Item::ItemType type, pair<int,int> size);
 
-	WeaponMap mWeapons;
+	ItemList getWornItems();
 
-	Creature* mOwner;
+	/**
+	* Update der Werte für Gewicht, Rs und Behinderung
+	*/
+	void updateStats();
 
-	Item* mRingLeft;
-	Item* mRingRight;
-	Item* mHandLeft;
-	Item* mHandRight;
-	Item* mGloves;
-	Item* mBraceletLeft;
-	Item* mBraceletRight;
-	Item* mArmor;
-	Item* mCape;
-	Item* mBracers;
-	Item* mBackpack;
-	Item* mBelt;
-	Item* mNecklace;
-	Item* mHelmet;
-	Item* mTrousers;
-	Item* mShinbone;
-	Item* mBoots;
+	/**
+	* Berechnet das Gewicht und aktualisiert mCurrentWeight
+	*/
+	void calculateWeight(ItemList allItems);
+	
+	/**
+	* @pre: calculateWeight() wurde zuvor aufgerufen
+	* @post: berechnet die Behinderung (mCurrentRs und mCurrentBe werden aktualisiert)
+	*/
+	void calculateRsAndBe();
+
+
 
 };
 
