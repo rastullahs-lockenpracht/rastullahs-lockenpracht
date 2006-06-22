@@ -88,6 +88,22 @@ namespace rl {
 	}
 
 	/// @todo Exception Handling
+	bool MeshObject::hasAnimation(const String& animName)
+	{
+		AnimationState* animState = NULL;
+
+		try
+		{
+			animState = getEntity()->getAnimationState(animName);
+		}
+		catch(Ogre::Exception&) 
+		{
+		}
+
+		return animState != NULL;
+	}
+
+	/// @todo Exception Handling
 	MeshAnimation* MeshObject::getAnimation(const String& animName)
 	{
         MeshAnimation* anim = NULL;

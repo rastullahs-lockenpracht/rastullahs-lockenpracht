@@ -40,6 +40,7 @@ namespace rl {
         Ogre::AxisAlignedBox getDefaultSize() const;
         Ogre::AxisAlignedBox getPoseSize(const Ogre::String& animationName);
         
+		bool hasAnimation(const Ogre::String& animName);
 		MeshAnimation* getAnimation(const Ogre::String& animName);
 		MeshAnimation* startAnimation(const Ogre::String& animName, 
 		    Ogre::Real speed=1.0, unsigned int timesToPlay=0);
