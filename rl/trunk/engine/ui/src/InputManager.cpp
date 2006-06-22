@@ -657,8 +657,12 @@ namespace rl {
 
 		if (actor != NULL)
 		{
-			if (mTargetedObject != NULL && mTargetedObject->getActor() != NULL && actor != mTargetedObject->getActor())
+			if (mTargetedObject != NULL &&
+                mTargetedObject->getActor() != NULL &&
+                actor != mTargetedObject->getActor())
+            {
 				mTargetedObject->getActor()->setHighlighted(false);
+            }
 
             // Nur ein Highlight wenn es auch ein dazugehöriges GameObject gibt
 			if( actor->getGameObject() != NULL)
@@ -670,18 +674,18 @@ namespace rl {
 					{
 					    actor->setHighlighted(true);
 						mTargetedObject = targetedObject;
-						mTargetedObjectTime = CoreSubsystem::getSingleton().getClock();
-						WindowFactory::getSingleton().showObjectName(targetedObject);
+						// mTargetedObjectTime = CoreSubsystem::getSingleton().getClock();
+						// WindowFactory::getSingleton().showObjectName(targetedObject);
 					}
-					else
-					{
-						if (CoreSubsystem::getSingleton().getClock()
-							- mTargetedObjectTime 
-							> TIME_SHOW_DESCRIPTION)
-						{
-							WindowFactory::getSingleton().showObjectDescription(mTargetedObject);
-						}
-					}
+					//else
+					//{
+					//	if (CoreSubsystem::getSingleton().getClock()
+					//		- mTargetedObjectTime 
+					//		> TIME_SHOW_DESCRIPTION)
+					//	{
+					//		WindowFactory::getSingleton().showObjectDescription(mTargetedObject);
+					//	}
+					//}
 				}
             }
 		}
@@ -690,9 +694,9 @@ namespace rl {
 			if (mTargetedObject != NULL && mTargetedObject->getActor() != NULL ) 
 			{
 				mTargetedObject->getActor()->setHighlighted(false);
-				mTargetedObjectTime = 0;
-				WindowFactory::getSingleton().showObjectName(NULL);
-				WindowFactory::getSingleton().showObjectDescription(NULL);
+				//mTargetedObjectTime = 0;
+				//WindowFactory::getSingleton().showObjectName(NULL);
+				//WindowFactory::getSingleton().showObjectDescription(NULL);
 			}
 
 			mTargetedObject = NULL;

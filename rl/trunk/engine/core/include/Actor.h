@@ -29,6 +29,7 @@ namespace rl {
 
     class PhysicalThing;
     class ActorControlledObject;
+    class MovableText;
 
     class _RlCoreExport Actor : public Ogre::UserDefinedObject, public Ogre::Node::Listener
     {
@@ -43,15 +44,15 @@ namespace rl {
             QGF_ALL = 0xFFFFFFFF
         };
 
-		enum UpdateFlags
-		{
-			UF_NONE = 0,
-			UF_PHYSICAL_THING = 1,
-			UF_CHILDREN = 2,
-			UF_SCENE_NODE = 4,
-			UF_CONTROLLED = 8,
-			UF_ALL = 0xFFFFFFFF
-		};
+        enum UpdateFlags
+        {
+            UF_NONE = 0,
+            UF_PHYSICAL_THING = 1,
+            UF_CHILDREN = 2,
+            UF_SCENE_NODE = 4,
+            UF_CONTROLLED = 8,
+            UF_ALL = 0xFFFFFFFF
+        };
 
         Actor(const Ogre::String& name,
             ActorControlledObject* aco = NULL,
@@ -59,19 +60,19 @@ namespace rl {
             Ogre::UserDefinedObject* go = NULL);
 
         /** Dekonstruktor
-          * @remark Nicht direkt aufrufen,
-          * sondern ActorManager::destroyActor() benutzen.
-          */
+        * @remark Nicht direkt aufrufen,
+        * sondern ActorManager::destroyActor() benutzen.
+        */
         ~Actor();
 
         /// Gibt den eindeutigen Namen des Aktors zurück
         const Ogre::String& getName() const;
-        
+
         /// Gibt das UserdefinedObject der nächsten Schicht zurück
         Ogre::UserDefinedObject* getGameObject() const;
         /// Setzt das UserdefinedObject der nächsten Schicht
         void setGameObject(Ogre::UserDefinedObject* uo);
-        
+
         /// Gibt die Physikalische Repräsentation zurück
         PhysicalThing* getPhysicalThing() const;
         /// Setzt die Physikalische Repräsentation
@@ -81,30 +82,30 @@ namespace rl {
         ActorControlledObject* getControlledObject() const;
         /// Setzt das kontrollierte Objekt
         void setControlledObject( ActorControlledObject* act );
-        
+
 
         /** Fügt diesen Aktor in einen SzenenKnoten ein.
-          * 
-          * @param parent Der SzenenKnoten in den der Aktor eingefügt werden soll
-          * @param offsetPosition Die Verschiebung
-          * @param offsetOrientation Die Drehung
-          * @param physicsBone Der Knochen an den die 
-          *        Physikalische Verknüpfung gebunden werden soll
-          *	
-          */
+        * 
+        * @param parent Der SzenenKnoten in den der Aktor eingefügt werden soll
+        * @param offsetPosition Die Verschiebung
+        * @param offsetOrientation Die Drehung
+        * @param physicsBone Der Knochen an den die 
+        *        Physikalische Verknüpfung gebunden werden soll
+        *	
+        */
         void placeIntoNode( 
             Ogre::SceneNode* parent,
             const Ogre::Vector3& offsetPosition = Ogre::Vector3::ZERO,
             const Ogre::Quaternion& offsetOrientation = Ogre::Quaternion::IDENTITY,
             const Ogre::String& physicsBone = "");
         /** Fügt diesen Aktor in die Szene (der RootNode) ein.
-         * 
-         * @param offsetPosition Die Verschiebung
-         * @param offsetOrientation Die Drehung
-         * @param physicsBone Der Knochen an den die 
-         *        Physikalische Verknüpfung gebunden werden soll
-         *	
-         */
+        * 
+        * @param offsetPosition Die Verschiebung
+        * @param offsetOrientation Die Drehung
+        * @param physicsBone Der Knochen an den die 
+        *        Physikalische Verknüpfung gebunden werden soll
+        *	
+        */
         void placeIntoScene(
             const Ogre::Vector3& position = Ogre::Vector3::ZERO,
             const Ogre::Quaternion& orientation = Ogre::Quaternion::IDENTITY,
@@ -112,9 +113,9 @@ namespace rl {
         /// Fügt diesen Aktor in die Szene (der RootNode) ein.
         void placeIntoScene(
             Ogre::Real px, Ogre::Real py, Ogre::Real pz,
-			Ogre::Real ow, Ogre::Real ox, Ogre::Real oy, Ogre::Real oz,
+            Ogre::Real ow, Ogre::Real ox, Ogre::Real oy, Ogre::Real oz,
             const Ogre::String& physicsBone = "");
-            
+
         /// Entfernt den Aktor aus der Szene
         void removeFromScene();
 
@@ -164,17 +165,17 @@ namespace rl {
 
         /// Dreht den Aktor
         void rotate(const Ogre::Quaternion& q, Ogre::Node::TransformSpace ts);
-      
+
 
         /**
-         *	Befestigt einen anderen Aktor über einen UnterNode an diesem Aktors.
-         *
-         * @param actor Der Aktor
-         * @param childSlot Der Slot an dem zu befestigenden Aktor, wenn DEFAULT_SLOT_NAME ignoriert
-         *                  verursacht zusätzliche Offset/Drehung
-         * @param offsetPosition Die zusätzliche Verschiebung
-         * @param offsetOrientation Die zusätzliche Drehung
-         */
+        *	Befestigt einen anderen Aktor über einen UnterNode an diesem Aktors.
+        *
+        * @param actor Der Aktor
+        * @param childSlot Der Slot an dem zu befestigenden Aktor, wenn DEFAULT_SLOT_NAME ignoriert
+        *                  verursacht zusätzliche Offset/Drehung
+        * @param offsetPosition Die zusätzliche Verschiebung
+        * @param offsetOrientation Die zusätzliche Drehung
+        */
         void attach( 
             Actor* actor,
             const Ogre::String& childSlot = "SLOT_DEFAULT",
@@ -183,15 +184,15 @@ namespace rl {
             );
 
         /**
-         *	Befestigt einen anderen Aktor über einen UnterNode an diesem Aktors.
-         *
-         * @param actor Der Aktor
-         * @param childSlot Der Slot an dem zu befestigenden Aktor, wenn DEFAULT_SLOT_NAME ignoriert,
-         *                  verursacht zusätzliche Offset/Drehung
-         * @param offsetPosition Die zusätzliche Verschiebung
-         * @param offsetAxis Die Achse der zusätzlichen Drehung
-         * @param offsetRotation Die zusätzliche Drehung
-         */
+        *	Befestigt einen anderen Aktor über einen UnterNode an diesem Aktors.
+        *
+        * @param actor Der Aktor
+        * @param childSlot Der Slot an dem zu befestigenden Aktor, wenn DEFAULT_SLOT_NAME ignoriert,
+        *                  verursacht zusätzliche Offset/Drehung
+        * @param offsetPosition Die zusätzliche Verschiebung
+        * @param offsetAxis Die Achse der zusätzlichen Drehung
+        * @param offsetRotation Die zusätzliche Drehung
+        */
         void attachAxisRot( 
             Actor* actor,
             const Ogre::String& childSlot = "SLOT_DEFAULT",            
@@ -200,78 +201,78 @@ namespace rl {
             const Ogre::Radian& offsetRotation=Ogre::Radian(0) );
 
         /**
-          *	Befestigt einen anderen Aktor an einem SLOT dieses Aktors.
-          *
-          * @param actor Der Aktor
-          * @param slot Der Slot an diesem Aktor, wenn DEFAULT_SLOT_NAME ignoriert
-          * @param childSlot Der Slot an dem zu befestigenden Aktor, wenn DEFAULT_SLOT_NAME ignoriert,
-          *                  verursacht zusätzliche Offset/Drehung
-          * @param offsetPosition Die zusätzliche Verschiebung
-          * @param offsetOrientation Die zusätzliche Drehung
-          */
+        *	Befestigt einen anderen Aktor an einem SLOT dieses Aktors.
+        *
+        * @param actor Der Aktor
+        * @param slot Der Slot an diesem Aktor, wenn DEFAULT_SLOT_NAME ignoriert
+        * @param childSlot Der Slot an dem zu befestigenden Aktor, wenn DEFAULT_SLOT_NAME ignoriert,
+        *                  verursacht zusätzliche Offset/Drehung
+        * @param offsetPosition Die zusätzliche Verschiebung
+        * @param offsetOrientation Die zusätzliche Drehung
+        */
         void attachToSlot( 
             Actor* actor,
             const Ogre::String& slot,
             const Ogre::String& childSlot = "SLOT_DEFAULT",
             const Ogre::Vector3& offsetPosition=Ogre::Vector3::ZERO,
-			const Ogre::Quaternion& offsetOrientation=Ogre::Quaternion::IDENTITY
-			);
+            const Ogre::Quaternion& offsetOrientation=Ogre::Quaternion::IDENTITY
+            );
 
         /**
-         *	Befestigt einen anderen Aktor an einem SLOT dieses Aktors.
-         *
-         * @param actor Der Aktor
-         * @param slot Der Slot an diesem Aktor, wenn DEFAULT_SLOT_NAME ignoriert
-         * @param childSlot Der Slot an dem zu befestigenden Aktor, wenn DEFAULT_SLOT_NAME ignoriert, 
-         *                  verursacht zusätzliche Offset/Drehung
-         * @param offsetPosition Die zusätzliche Verschiebung
-         * @param offsetAxis Die Achse der zusätzlichen Drehung
-         * @param offsetRotation Die zusätzliche Drehung
-         */
+        *	Befestigt einen anderen Aktor an einem SLOT dieses Aktors.
+        *
+        * @param actor Der Aktor
+        * @param slot Der Slot an diesem Aktor, wenn DEFAULT_SLOT_NAME ignoriert
+        * @param childSlot Der Slot an dem zu befestigenden Aktor, wenn DEFAULT_SLOT_NAME ignoriert, 
+        *                  verursacht zusätzliche Offset/Drehung
+        * @param offsetPosition Die zusätzliche Verschiebung
+        * @param offsetAxis Die Achse der zusätzlichen Drehung
+        * @param offsetRotation Die zusätzliche Drehung
+        */
         void attachToSlotAxisRot( 
             Actor* actor,
             const Ogre::String& slot,
             const Ogre::String& childSlot = "SLOT_DEFAULT",            
-			const Ogre::Vector3& offsetPosition=Ogre::Vector3::ZERO,
+            const Ogre::Vector3& offsetPosition=Ogre::Vector3::ZERO,
             const Ogre::Vector3& offsetAxis=Ogre::Vector3::UNIT_X,
             const Ogre::Radian& offsetRotation=Ogre::Radian(0) );
 
         /** Entfernt einen zuvor befestigten Aktor.
-         *  @param actor Der zu entfernende Aktor
-         */
+        *  @param actor Der zu entfernende Aktor
+        */
         void detach(Actor* actor);
-        
+
         Ogre::SceneNode* _getSceneNode() const;
         Ogre::MovableObject* _getMovableObject() const;
         void _update(unsigned long flags = UF_ALL);
 
         /// Setzt diesem Aktor ein Highlight
-		void setHighlighted(bool highlight);
+        void setHighlighted(bool highlight);
         /// Gibt zurück ob der Aktor gehighlighted ist
         bool isHighlighted() const;
-        
+
         ///@todo mehr Query-Methoden für Childs
         Actor* getChildByName(const Ogre::String& name ) const;
         /// Sets the Visibility
-		void setVisible( bool vis, bool cascade = true );
-		bool isVisible() const;
+        void setVisible( bool vis, bool cascade = true );
+        bool isVisible() const;
 
-		/// Set Rendering Distance
-		Ogre::Real getRenderingDistance() const;
-		void setRenderingDistance( Ogre::Real dist );
+        /// Set Rendering Distance
+        Ogre::Real getRenderingDistance() const;
+        void setRenderingDistance( Ogre::Real dist );
 
         /// Entfernt alle Kinder vom Node
         void detachAllChildren( );
-                
-       // Die Methoden die Node::Listener definiert.
-       virtual void nodeUpdated (const Ogre::Node *node);
-       virtual void nodeDestroyed (const Ogre::Node *node);
-       virtual void nodeAttached (const Ogre::Node *node);
-       virtual void nodeDetached (const Ogre::Node *node);
-       /// Setze den Listener des Nodes
-       void setListenerOf(Ogre::SceneNode *node);
-       /// Gebe das Bone zurück
-       Ogre::Bone *_getBone() const;
+
+        // Die Methoden die Node::Listener definiert.
+        virtual void nodeUpdated (const Ogre::Node *node);
+        virtual void nodeDestroyed (const Ogre::Node *node);
+        virtual void nodeAttached (const Ogre::Node *node);
+        virtual void nodeDetached (const Ogre::Node *node);
+        /// Setze den Listener des Nodes
+        void setListenerOf(Ogre::SceneNode *node);
+        /// Gebe das Bone zurück
+        Ogre::Bone *_getBone() const;
 
     private:
         typedef std::set<Actor*> ChildSet;
@@ -290,6 +291,8 @@ namespace rl {
         ChildSet mChilds;
         /// Der SceneNode des Aktors
         Ogre::SceneNode* mSceneNode;
+        /// MovableText mit der Objektbeschreibung
+        MovableText* mDescription;
         /// Speichert ob der Aktor zur Zeit leuchtet
         bool mHighlighted;
         /// Ist der Aktor an einem Bone angehangen?
@@ -304,25 +307,25 @@ namespace rl {
             const Ogre::String& physicsBone = "" );   
 
         /**
-         *	Kümmert sich um das Durchführen des Befestigens
-         *
-         * @param actor Der Aktor
-         * @param slot Der Slot an diesem Aktor, wenn DEFAULT_SLOT_NAME ignoriert
-         * @param childSlot Der Slot an dem zu befestigenden Aktor, wenn DEFAULT_SLOT_NAME ignoriert
-         *                  verursacht zusätzliche Offset/Drehung
-         * @param offsetPosition Die zusätzliche Verschiebung
-         * @param offsetOrientation Die zusätzliche Drehung
-         */
+        *	Kümmert sich um das Durchführen des Befestigens
+        *
+        * @param actor Der Aktor
+        * @param slot Der Slot an diesem Aktor, wenn DEFAULT_SLOT_NAME ignoriert
+        * @param childSlot Der Slot an dem zu befestigenden Aktor, wenn DEFAULT_SLOT_NAME ignoriert
+        *                  verursacht zusätzliche Offset/Drehung
+        * @param offsetPosition Die zusätzliche Verschiebung
+        * @param offsetOrientation Die zusätzliche Drehung
+        */
         void doAttach(
             Actor* actor,
             const Ogre::String& slot, 
             const Ogre::String& childSlot, 
             const Ogre::Vector3& offsetPosition,
-			const Ogre::Quaternion& offsetOrientation);
+            const Ogre::Quaternion& offsetOrientation);
 
         /**
-         *	Kümmert sich um das Durchführen des Abnehmens
-         */
+        *	Kümmert sich um das Durchführen des Abnehmens
+        */
         void doDetach(Actor* actor);
 
     };

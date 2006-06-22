@@ -26,6 +26,7 @@
 #include "MeshObject.h"
 #include "AnimationManager.h"
 #include "ActorManager.h"
+#include "MovableText.h"
 
 using namespace Ogre;
 
@@ -36,25 +37,26 @@ namespace rl {
     Actor::Actor(const String& name, ActorControlledObject* aco,
         PhysicalThing* pt, UserDefinedObject* go)
         : mName(name),
-          mPhysicalThing(pt),
-          mGameObject(go),
-          mActorControlledObject(aco),
-          mParent(0),
-          mChilds(),
-          mSceneNode(0),
-		  mHighlighted(false),
-          mBone(0)
-	{
+        mPhysicalThing(pt),
+        mGameObject(go),
+        mActorControlledObject(aco),
+        mParent(0),
+        mChilds(),
+        mSceneNode(0),
+        mDescription(0),
+        mHighlighted(false),
+        mBone(0)
+    {
         if (mActorControlledObject != NULL)
         {
             mActorControlledObject->_setActor(this);
         }
 
-		setRenderingDistance( ActorManager::getSingleton().getDefaultActorRenderingDistance() );
+        setRenderingDistance( ActorManager::getSingleton().getDefaultActorRenderingDistance() );
 
-		if (mPhysicalThing != NULL)
+        if (mPhysicalThing != NULL)
         {
-			mPhysicalThing->_setActor(this);
+            mPhysicalThing->_setActor(this);
         }
         setQueryMask( QGF_DEFAULT );
     }
@@ -63,8 +65,8 @@ namespace rl {
     {
         // Alle möglichen Area-Verknüpfungen entfernen
         GameEventManager::getSingleton().removeAllAreas(this);
-		// Alle TrackAnimations entfernen
-		AnimationManager::getSingleton().removeAllTrackAnimations(this);
+        // Alle TrackAnimations entfernen
+        AnimationManager::getSingleton().removeAllTrackAnimations(this);
 
         detachAllChildren();
 
@@ -96,10 +98,10 @@ namespace rl {
         mGameObject = uo;
     }
 
-	Ogre::UserDefinedObject* Actor::getGameObject() const
-	{
-		return mGameObject;
-	}
+    Ogre::UserDefinedObject* Actor::getGameObject() const
+    {
+        return mGameObject;
+    }
 
     PhysicalThing* Actor::getPhysicalThing() const
     {
@@ -108,27 +110,27 @@ namespace rl {
 
     void Actor::setPhysicalThing( PhysicalThing* pt ) 
     {
-	   /// @todo ?
-       mPhysicalThing = pt;
+        /// @todo ?
+        mPhysicalThing = pt;
     }
 
-	Ogre::Real Actor::getRenderingDistance() const
-	{
-		if( mActorControlledObject != NULL )
-		{
-			return mActorControlledObject->getMovableObject()->getRenderingDistance();
-		}
+    Ogre::Real Actor::getRenderingDistance() const
+    {
+        if( mActorControlledObject != NULL )
+        {
+            return mActorControlledObject->getMovableObject()->getRenderingDistance();
+        }
 
-		return ActorManager::getSingleton().getDefaultActorRenderingDistance();
-	}
+        return ActorManager::getSingleton().getDefaultActorRenderingDistance();
+    }
 
-	void Actor::setRenderingDistance( Ogre::Real dist )
-	{
-		if( mActorControlledObject != NULL && mActorControlledObject->getMovableObject() != NULL )
-		{
-			mActorControlledObject->getMovableObject()->setRenderingDistance(dist);
-		}
-	}
+    void Actor::setRenderingDistance( Ogre::Real dist )
+    {
+        if( mActorControlledObject != NULL && mActorControlledObject->getMovableObject() != NULL )
+        {
+            mActorControlledObject->getMovableObject()->setRenderingDistance(dist);
+        }
+    }
 
 
     ActorControlledObject* Actor::getControlledObject() const
@@ -138,14 +140,14 @@ namespace rl {
 
     void Actor::setControlledObject( ActorControlledObject* act ) 
     {
-       if( act->getActor() != NULL )
-           Throw(IllegalStateException, 
-           "Aktor "+mName+": Das anzufügende Objekt ist bereits an einem Aktor befestigt.");
-       if( this->getControlledObject() != NULL )
-           Throw(IllegalStateException, 
-           "Aktor "+mName+": Es ist bereits ein Objekt an diesem Aktor befestigt.");
+        if( act->getActor() != NULL )
+            Throw(IllegalStateException, 
+            "Aktor "+mName+": Das anzufügende Objekt ist bereits an einem Aktor befestigt.");
+        if( this->getControlledObject() != NULL )
+            Throw(IllegalStateException, 
+            "Aktor "+mName+": Es ist bereits ein Objekt an diesem Aktor befestigt.");
 
-       mActorControlledObject = act;
+        mActorControlledObject = act;
     }
 
     const String& Actor::getName() const
@@ -202,7 +204,7 @@ namespace rl {
         }
         _update();
     }
-    
+
     void Actor::setPosition(Ogre::Real x, Ogre::Real y, Ogre::Real z)
     {
         setPosition(Vector3(x, y, z));
@@ -393,7 +395,7 @@ namespace rl {
         doPlaceIntoScene(parent,position,orientation, physicsBone);		
     }
 
-    
+
     void Actor::removeFromScene()
     {
         if( mParent != NULL )
@@ -410,7 +412,7 @@ namespace rl {
         {
             if( mSceneNode->getParentSceneNode() != NULL )
                 mSceneNode->getParentSceneNode()->removeChild( mSceneNode );
-        
+
             // Überprüfen ob Childs am Node fest sind
             bool childsInNode = false;
             ChildSet::const_iterator iter =  mChilds.begin();
@@ -511,16 +513,16 @@ namespace rl {
             // Braucht ein Skelett
             if( !ent->hasSkeleton() )
                 Throw(IllegalArgumentException, 
-                    "Aktor "+mName+": Das kontrollierte MeshObject des ChildAktor hat kein Skeleton." );
+                "Aktor "+mName+": Das kontrollierte MeshObject des ChildAktor hat kein Skeleton." );
 
             // Der Slot muss existieren
             try
             {
                 Bone* bone = ent->getSkeleton()->getBone( childSlot );
-                
+
                 Vector3 vec = bone->_getDerivedPosition();
                 Quaternion quat = bone->_getDerivedOrientation();
-                
+
                 // Durch den Bone ExtraOffset hinzufügen
                 offsetOrientationMod = offsetOrientation *  quat;
                 offsetPositionMod = ( offsetOrientationMod * (-vec) ) + offsetPosition;
@@ -533,15 +535,15 @@ namespace rl {
 
         // Das wirkliche Anfügen
         // Ist es ein nicht Standard-Slot && Kontrolliert der Aktor ein Objekt && Ist dieses ein Mesh
-		if( slot.compare(DEFAULT_SLOT_NAME) != 0 && 
+        if( slot.compare(DEFAULT_SLOT_NAME) != 0 && 
             getControlledObject() != NULL && 
             getControlledObject()->isMeshObject() )
-		{
+        {
             if( actor->getControlledObject() == NULL )
                 Throw(IllegalArgumentException, 
-                    "Aktor "+mName+": Der zu befestigende Aktor darf bei SLOTs nicht leer sein." );
+                "Aktor "+mName+": Der zu befestigende Aktor darf bei SLOTs nicht leer sein." );
 
-			MovableObject* movObj = actor->getControlledObject()->getMovableObject();
+            MovableObject* movObj = actor->getControlledObject()->getMovableObject();
             Entity* ent = dynamic_cast<MeshObject*>(getControlledObject())->getEntity();
 
             // Braucht ein Skelett
@@ -558,23 +560,23 @@ namespace rl {
                 Throw(IllegalArgumentException, 
                     "Aktor "+mName+": Der geforderte Slot '"+slot+"' existiert nicht." );
             }
-                
+
             // Am Bone befestigen
-			ent->attachObjectToBone( slot, movObj, offsetOrientationMod, offsetPositionMod );
+            ent->attachObjectToBone( slot, movObj, offsetOrientationMod, offsetPositionMod );
             // Der Aktor wurde an einem Bone befestigt
             actor->mBone = ent->getSkeleton()->getBone( slot );
-            
-			return;
-		}
+
+            return;
+        }
         // Wenn hier kein MeshObjekt dran ist, trotzdem irgendwie zusammenfügen
         else
-		{
+        {
             actor->placeIntoNode( mSceneNode,  offsetPositionMod, offsetOrientationMod );
 
             // Der Aktor wurde nicht an einem Bone befestigt
             actor->mBone = 0;
-			return;      
-		}
+            return;      
+        }
     }         
 
     void Actor::detach(Actor* actor)
@@ -591,13 +593,13 @@ namespace rl {
             "Aktor "+mName+": Der Aktor ist kein Kind dieses Aktors");
 
         // Ist es an einem Bone angefügt
-		if( actor->mBone && mActorControlledObject && mActorControlledObject->isMeshObject()   )
-		{
-			MovableObject* movObj = actor->getControlledObject()->getMovableObject();
-			dynamic_cast<MeshObject*>(getControlledObject())->getEntity()->detachObjectFromBone(movObj);
+        if( actor->mBone && mActorControlledObject && mActorControlledObject->isMeshObject()   )
+        {
+            MovableObject* movObj = actor->getControlledObject()->getMovableObject();
+            dynamic_cast<MeshObject*>(getControlledObject())->getEntity()->detachObjectFromBone(movObj);
             actor->mBone = 0;
-			return;
-		}
+            return;
+        }
         // Ganz normal über SceneNodes verknüpft
         else
         {
@@ -605,8 +607,8 @@ namespace rl {
             actor->mBone = 0;
             return;
         }
-	}
-            
+    }
+
     SceneNode* Actor::_getSceneNode() const
     {
         return mSceneNode;
@@ -617,30 +619,30 @@ namespace rl {
         return mActorControlledObject ? 
             mActorControlledObject->getMovableObject() : 0;
     }
-    
+
     void Actor::_update(unsigned long flags)
     {
         if (mSceneNode && (flags & UF_SCENE_NODE))
             mSceneNode->_update(true,false);
 
-		if (mPhysicalThing && (flags & UF_PHYSICAL_THING))
-			mPhysicalThing->_update();
-			
-		if (mActorControlledObject && (flags & UF_CONTROLLED))
-		    mActorControlledObject->_update();
+        if (mPhysicalThing && (flags & UF_PHYSICAL_THING))
+            mPhysicalThing->_update();
 
-		if (flags & UF_CHILDREN)
-		{
-			for( ChildSet::const_iterator iter = mChilds.begin(); iter != mChilds.end(); ++iter )
-			{
-				Actor* child = *iter;
-				child->_update();
-			}
-		}        
+        if (mActorControlledObject && (flags & UF_CONTROLLED))
+            mActorControlledObject->_update();
+
+        if (flags & UF_CHILDREN)
+        {
+            for( ChildSet::const_iterator iter = mChilds.begin(); iter != mChilds.end(); ++iter )
+            {
+                Actor* child = *iter;
+                child->_update();
+            }
+        }        
     }
-    
+
     void Actor::doPlaceIntoScene(SceneNode* parent, const Vector3& position,
-		const Quaternion& orientation, const Ogre::String& physicsBone)
+        const Quaternion& orientation, const Ogre::String& physicsBone)
     {
         if( parent == NULL )
             Throw(NullPointerException, 
@@ -656,12 +658,12 @@ namespace rl {
         if( !mSceneNode )
             mSceneNode = parent->createChildSceneNode( mName, position, orientation );
         // Ansonsten am Parent befestigen
-		else
-		{
-			parent->addChild( mSceneNode );
-			mSceneNode->setPosition(position);
-			mSceneNode->setOrientation(orientation);
-		}
+        else
+        {
+            parent->addChild( mSceneNode );
+            mSceneNode->setPosition(position);
+            mSceneNode->setOrientation(orientation);
+        }
 
         // Falls ein noch nicht befestigtes MovableObject vorhanden, dieses attachen
         if( mActorControlledObject != NULL && !mActorControlledObject->isAttached() )
@@ -672,10 +674,10 @@ namespace rl {
         // Physikverknüpfung anpassen
         if( mPhysicalThing != NULL && mActorControlledObject != NULL )
         {
-			PhysicsManager::getSingleton().createPhysicsProxy(mPhysicalThing, mSceneNode);
+            PhysicsManager::getSingleton().createPhysicsProxy(mPhysicalThing, mSceneNode);
 
             // Knochen angegeben und handelt sich um ein Mesh
-			if( physicsBone.length() > 0 && mActorControlledObject->isMeshObject())
+            if( physicsBone.length() > 0 && mActorControlledObject->isMeshObject())
             {
                 MeshObject* meshObj = dynamic_cast<MeshObject*>(mActorControlledObject);
                 Entity* ent = meshObj->getEntity();
@@ -698,7 +700,7 @@ namespace rl {
                 mPhysicalThing->_attachToBone( meshObj, physicsBone );
             }
             // Dann an einem SceneNode befestigen
-			else
+            else
             {      
                 mPhysicalThing->_attachToSceneNode(mSceneNode);
             }
@@ -707,16 +709,33 @@ namespace rl {
         _update();
     }
 
-	void Actor::setHighlighted(bool highlight)
-	{
-		if (highlight == mHighlighted)
-			return;
+    void Actor::setHighlighted(bool highlight)
+    {
+        if (highlight != mHighlighted)
+        {
+            getControlledObject()->setHighlighted(highlight);
+            mHighlighted = highlight;
+        }
+        if (mHighlighted && mDescription == 0)
+        {
+            mDescription = new MovableText(mName + "_desc", mName);
+            mDescription->showOnTop(true);
+            mDescription->setAlignment(MovableText::ALIGN_CENTER);
+            if (mActorControlledObject && mActorControlledObject->isMeshObject())
+            {
+                MeshObject* mo = static_cast<MeshObject*>(mActorControlledObject);
+                AxisAlignedBox aabb = mo->getDefaultSize();
+                mDescription->setPositionOffset(Vector3(0, aabb.getMaximum().y * 1.1, 0));
+            }
 
-        getControlledObject()->setHighlighted( highlight );		
+            mSceneNode->attachObject(mDescription);
+        }
+        else if (mDescription)
+        {
+            mDescription->setVisible(highlight);
+        }
+    }
 
-		mHighlighted = highlight;
-	}
-	
     bool Actor::isHighlighted()const
     {
         return mHighlighted;
@@ -728,7 +747,7 @@ namespace rl {
         for( iter; iter != mChilds.end(); ++iter )
         {
             Actor* actor = *iter;
-            
+
             if( actor->getName().compare( name ) == 0 )
                 return actor;
             if( ( actor = actor->getChildByName(name) ) != NULL )
@@ -751,36 +770,36 @@ namespace rl {
         } 
     }
 
-	void Actor::setVisible( bool vis, bool cascade )
-	{
-		if (mSceneNode != NULL)
-		{
-			mSceneNode->setVisible( vis, cascade );
-		}
-		else
-		{
-			getControlledObject()->getMovableObject()->setVisible(vis);
-		}
-	}
+    void Actor::setVisible( bool vis, bool cascade )
+    {
+        if (mSceneNode != NULL)
+        {
+            mSceneNode->setVisible( vis, cascade );
+        }
+        else
+        {
+            getControlledObject()->getMovableObject()->setVisible(vis);
+        }
+    }
 
-	bool Actor::isVisible(  ) const
-	{
-		return getControlledObject()->getMovableObject()->isVisible();
-	}
-    
+    bool Actor::isVisible(  ) const
+    {
+        return getControlledObject()->getMovableObject()->isVisible();
+    }
+
     void Actor::nodeUpdated (const Node *node)
     {
         _update();   
     }
-    
+
     void Actor::nodeDestroyed (const Node *node)
     {
     }
-    
+
     void Actor::nodeAttached (const Node *node)
     {
     }
-    
+
     void Actor::nodeDetached (const Node *node)
     {
     }
@@ -792,7 +811,7 @@ namespace rl {
             node->setListener(this);
         }
     }
-    
+
     Bone *Actor::_getBone() const
     {
         return mBone;

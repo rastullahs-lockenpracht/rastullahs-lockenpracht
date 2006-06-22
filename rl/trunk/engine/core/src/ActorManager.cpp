@@ -184,34 +184,6 @@ namespace rl {
         return actor;
     }
 
-    Actor* ActorManager::createTextActor(const String& name, const CeGuiString& text )
-    {
-        const String&  uniquename = nextUniqueName(name);
-
-        Actor* actor = 0;
-        try
-        {
-            MovableText* mt = new MovableText(uniquename, text.c_str());
-
-            actor = new Actor(uniquename, mt);
-            mActors.insert(ActorPtrPair(uniquename,actor)); 
-        }
-        catch (Ogre::Exception& e)
-        {
-            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, "ActorManager - Der Text '"
-                + uniquename + "' konnte nicht erstellt werden. Grund: "
-                + e.getFullDescription());
-        }
-        catch (rl::Exception& e)
-        {
-            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, "ActorManager - Der Text '"
-                + uniquename + "' konnte nicht erstellt werden. Grund: "
-                + e.getMessage());
-        }
-
-        return actor;
-    }
-
     Actor* ActorManager::createSoundSampleActor(const String& name, const String& soundfile)
     {
         const String&  uniquename = nextUniqueName(name);
