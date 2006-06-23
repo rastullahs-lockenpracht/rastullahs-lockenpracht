@@ -21,6 +21,7 @@ namespace rl
 	StateSet::StateSet()
 		: mOriginalValue(0),
 		mModifier(0),
+		mProbenModifier(0),
 		mMultiplier(1)
 	{
 	}

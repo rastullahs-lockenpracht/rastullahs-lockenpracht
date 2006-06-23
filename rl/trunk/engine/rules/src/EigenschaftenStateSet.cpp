@@ -19,11 +19,11 @@
 namespace rl
 {
 
-	EigenschaftenStateSet::EigenschaftenStateSet() : StateSet()
+	EigenschaftenStateSet::EigenschaftenStateSet() : StateSet(),
+		mStartValue(0),
+		mPermanentModifier(0),
+		mModifierWithoutRecalculation(0)
 	{
-		int startValue = 0;
-		int permanentModificator = 0;
-		int modifierWithoutRecalculation = 0;
 	}
 
 	EigenschaftenStateSet::~EigenschaftenStateSet()

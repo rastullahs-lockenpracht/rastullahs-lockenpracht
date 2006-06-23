@@ -31,7 +31,10 @@ namespace rl
         : GameObject(name, description), 
 		mCurrentLe(NULL),
 		mActiveWeapon(NULL),
-		mInventory(NULL)
+		mInventory(NULL),
+		mEigenschaften(),
+		mWerte(),
+		mTalente()
     {
 		setWert(WERT_MOD_AE, 0);
 		setWert(WERT_MOD_LE, 0);
