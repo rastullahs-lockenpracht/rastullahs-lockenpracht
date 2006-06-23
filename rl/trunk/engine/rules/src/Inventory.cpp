@@ -94,6 +94,8 @@ namespace rl
 		Item* meinArmreif = ItemManager::getSingleton().createItem("Perlenarmreif");
 		mBraceletLeft = meinArmreif;
 
+		Item* meinAmboss = ItemManager::getSingleton().createItem("Amboss");
+		addItem(meinAmboss);
 	}
 
 	Inventory::~Inventory() 
@@ -314,7 +316,7 @@ namespace rl
 
 		// Behinderung durch Traglast ist 1 Punkt pro KK * 40 Unzen / 2 ab KK Stein gewicht
 		mCurrentBeByWeight = (mCurrentWeight > mOwner->getEigenschaft(E_KOERPERKRAFT) * 40)?
-			mCurrentWeight / mOwner->getEigenschaft(E_KOERPERKRAFT) * 40 :
+			(mCurrentWeight / (mOwner->getEigenschaft(E_KOERPERKRAFT) * 20) - 1) :
 			0;
 
 		ItemList wornItems = getWornItems();

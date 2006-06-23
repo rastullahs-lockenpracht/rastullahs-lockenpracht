@@ -352,7 +352,6 @@ namespace rl {
 		{
 			i->setContainer(true,make_pair<int,int>(place_x,place_y));
 		}
-		// Umrechnung Stein->Unzen = Mal 40
 		i->setWeight(gewicht);
 		i->setPrice(preis);
         return i;

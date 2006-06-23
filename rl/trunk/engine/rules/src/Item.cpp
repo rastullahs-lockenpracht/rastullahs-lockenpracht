@@ -143,8 +143,20 @@ namespace rl
 
 	const CeGuiString Item::getDescription() const
 	{
-		return mName + "\r\n\r\n" + 
-			getFormattedText(mDescription);
+		CeGuiString desc = mName + "\r\n\r\n" + 
+			getFormattedText(mDescription)+
+			"\r\n\r\n"+
+			"Gewicht: ";
+		if (mWeight >= 40)
+		{
+			desc += Ogre::StringConverter::toString(mWeight / 40)+ " Stein";
+		}
+		else
+		{
+			desc += Ogre::StringConverter::toString(mWeight)+ " Unzen";
+		}
+		return desc;
+
 	}
 
     void Item::setWeight(int weight)
