@@ -2,13 +2,13 @@
 load( "embed.rb" );
 load( "npc.rb" );
 
-print( "DialogDemo wird geladen" );
+print( "DialogHeld Bot wird geladen" );
 
 print( "Definiere Listener" );
 
-dialogHeld = Creature.new("DialogHeld", "DialogHeld");
-dialogHeld.setActor($AM.createMeshActor("DialogHeld", "held.mesh" ));
-dialogHeld.getActor().placeIntoScene([-1.7, 0.0, -5.3]);
-dialogHeld.addAction(TalkAction.new("Alrike", "startup_test.xml"))
+DialogHeld = Creature.new("DialogHeld", "Sonja");
+DialogHeld.setActor($AM.createMeshActor("DialogHeld", "held.mesh" ));
+DialogHeld.getActor().placeIntoScene([-1.7, 0.0, -5.3]);
+DialogHeld.addAction(TalkAction.new("DialogHeld", "dialogheld.xml"))
 
-print( "DialogDemo fertig geladen" );
+print( "DialogHeld Bot fertig geladen" );

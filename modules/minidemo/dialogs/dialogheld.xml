@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<aiml-startup version='1.0'>
+	<bot name='DialogHeld' voice=''>
+		<learn src='test.aiml'/>
+		<script src='dialog.rb' class='DialogCharTest'/>
+	</bot>
+	<!--<script name="dialog.rb" class="GameActorScriptOne"/>-->
+	<!-- <script class="GameActorTest">blablabla</script> -->
+	<!--<script></script>-->
+<!--
+	<options>
+		<option name='load' value='*.aiml'/>
+	</options>-->
+</aiml-startup>
