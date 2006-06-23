@@ -10,4 +10,5 @@
 	<Image Name="Rubinring" XPos="217" YPos="1" Width="30" Height="30" />
 	<Image Name="Kurzschwert" XPos="170" YPos="130" Width="30" Height="120" />
     <Image Name="Fackel" XPos="218" YPos="31" Width="30" Height="90" />
+	<Image Name="Amboss" XPos="0" YPos="256" Width="120" Height="60" />
 </Imageset>

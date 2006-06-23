@@ -164,6 +164,8 @@
 		  <Gewicht>10</Gewicht>
 		  <Preis>210</Preis>
 		</Gegenstand>
+	  </Gegenstandsgruppe>
+	  <Gegenstandsgruppe ID="Ausrüstung">
 		<Gegenstand ID="Rucksack" Name="Rucksack" Beschreibung="Dieser Rucksack ist mit vielen praktischen Taschen und Schlaufen versehen, daher bietet er die Möglichkeit auch sperrigere Gegenstände zu transportieren, in dem diese einfach angeschnallt werden. Ein Rucksack gehört zu der Grundausrüstung eines Abenteurers. Legenden erzählen aber auch von besonders mutigen Abenteurern, die allein mit einfachen Werkzeugen wie Messer und Handbeil ausgerüstet, der Wildnis und den Gefahren Aventuriens getrotzt haben.">
 		  <Bildname>Rucksack</Bildname>
 		  <Mesh></Mesh>
@@ -173,7 +175,8 @@
 		  <Gewicht>20</Gewicht>
 		  <Preis>50</Preis>
 		</Gegenstand>
-		
+	  </Gegenstandsgruppe>
+	  <Gegenstandsgruppe ID="Tränke">
 		<Gegenstand ID="Heiltrank" Name="Heiltrank" Beschreibung="In diesem Fläschchen ist eine auffallend grüne, trübe Flüssigkeit. Als Ihr daran gerochen habt, hat Euch der beißende Duft von Kräutern fast die Tränen in die Augen getrieben. 'Wer gesund werden will, muss leiden', heißt ein Sprichwort in Aventurien.">
 		  <Bildname>Trank</Bildname>
 		  <Mesh></Mesh>
@@ -182,6 +185,17 @@
 		  <Klasse>Anderes</Klasse>
 		  <Gewicht>5</Gewicht>
 		  <Preis>20</Preis>
+		</Gegenstand>
+	  </Gegenstandsgruppe>
+	  <Gegenstandsgruppe ID="Werkzeug">
+		<Gegenstand ID="Amboss" Name="Amboss" Beschreibung="Dieser aus Eisenerz in einem Stück gegossener Amboss ist ziemlich schwer.">
+		  <Bildname>Amboss</Bildname>
+		  <Mesh></Mesh>
+		  <Größe X="4" Y="2" />
+		  <Platz X="0" Y="0" />
+		  <Klasse>Anderes</Klasse>
+		  <Gewicht>1100</Gewicht>
+		  <Preis>120</Preis>
 		</Gegenstand>
 	  </Gegenstandsgruppe>
 	</Gegenstände>
