@@ -38,6 +38,7 @@ namespace rl
 		a->setMeshName(mMeshName);
 		a->setItemType(mItemType);
 		a->setSize(mSize.first,mSize.second);
+		a->setContainer(mIsContainer,mCapacity);
 		a->setKo(mKo);
 		a->setBr(mBr);
 		a->setRue(mRue);

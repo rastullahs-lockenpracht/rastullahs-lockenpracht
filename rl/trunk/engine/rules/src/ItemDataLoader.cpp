@@ -108,6 +108,10 @@ namespace rl {
 		int size_x = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(weaponXml, "Größe"),"X");
 		int size_y = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(weaponXml, "Größe"),"Y");
 
+		// Containerplatz für andere Gegenstände, die dieser aufnahmen kann
+		int place_x = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(weaponXml, "Platz"),"X");
+		int place_y = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(weaponXml, "Platz"),"Y");
+
 		// Schaden der Waffe in Anzahl W6, W20 und Modifikator
 		DOMElement* tpNode = XmlHelper::getChildNamed(weaponXml, "TP");
 		int w6 = XmlHelper::getAttributeValueAsInteger(tpNode, "W6");
@@ -139,6 +143,8 @@ namespace rl {
 		int attackMod = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(weaponXml, "WM"), "Attacke");
 		int paradeMod = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(weaponXml, "WM"), "Parade");
 
+		int preis = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(weaponXml, "Preis"));
+
 		// Neuen Waffenprototyp erzeugen und zurückgeben
 		Weapon* w = new Weapon(
 			name,
@@ -148,6 +154,10 @@ namespace rl {
 		w->setMeshName(mesh);
 		w->setItemType(Item::ITEMTYPE_WEAPON);
 		w->setSize(size_x,size_y);
+		if (place_x > 0 && place_y > 0)
+		{
+			w->setContainer(true,make_pair<int,int>(place_x,place_y));
+		}
 		w->setTp(w6, w20, boni);
 		w->setTpKk(tp, kk);
 		w->setBf(bf);
@@ -155,6 +165,7 @@ namespace rl {
 		w->setWeight(weight);
 		w->setDk(static_cast<Weapon::Distanzklasse>(dK));
 		w->setKampftechnik(talent);
+		w->setPrice(preis);
         return w;
     }
 
@@ -221,6 +232,10 @@ namespace rl {
 		// Größe im Inventar
 		int size_x = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(armorXml, "Größe"),"X");
 		int size_y = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(armorXml, "Größe"),"Y");
+		
+		// Containerplatz für andere Gegenstände, die dieser aufnahmen kann
+		int place_x = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(armorXml, "Platz"),"X");
+		int place_y = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(armorXml, "Platz"),"Y");
 
 		// Rüstungsschutz für bestimmte Zonen
 		int ko = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(armorXml, "Ko"));
@@ -248,6 +263,10 @@ namespace rl {
 		a->setMeshName(mesh);
 		a->setItemType(type);
 		a->setSize(size_x,size_y);
+		if (place_x > 0 && place_y > 0)
+		{
+			a->setContainer(true,make_pair<int,int>(place_x,place_y));
+		}
 		a->setKo(ko);
 		a->setBr(br);
 		a->setRue(rue);
@@ -311,6 +330,10 @@ namespace rl {
 		// Größe im Inventar
 		int size_x = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(itemXml, "Größe"),"X");
 		int size_y = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(itemXml, "Größe"),"Y");
+		
+		// Containerplatz für andere Gegenstände, die dieser aufnahmen kann
+		int place_x = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(itemXml, "Platz"),"X");
+		int place_y = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(itemXml, "Platz"),"Y");
 
 		int gewicht = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(itemXml, "Gewicht"));
 
@@ -325,6 +348,10 @@ namespace rl {
 		i->setMeshName(mesh);
 		i->setItemType(type);
 		i->setSize(size_x,size_y);
+		if (place_x > 0 && place_y > 0)
+		{
+			i->setContainer(true,make_pair<int,int>(place_x,place_y));
+		}
 		// Umrechnung Stein->Unzen = Mal 40
 		i->setWeight(gewicht);
 		i->setPrice(preis);

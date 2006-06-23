@@ -38,12 +38,11 @@ namespace rl {
 	class _RlUiExport InventoryWindow : public CeGuiWindow
 	{
 	public:
-		CEGUI::Point mPosDraggedTo;
-		CEGUI::DragContainer* mDroppedItem;
-		CEGUI::Window* mContainerDraggedTo;
-
 		InventoryWindow();
 		~InventoryWindow();
+
+		// Flag für den ArrangeTask - FIXME nach private umziehen, wenn 
+		CEGUI::DragContainer* mDroppedItem;
 
 		/**
 		* Gibt dem Fenster das anzuzeigende Inventar
@@ -103,9 +102,6 @@ namespace rl {
 
 		// TODO : Ersetze durch etwas dynamisches
 		Item* mGroundItem;
-
-		// Erzeugt eine Itemrepräsentation im Inventarfenster
-		CEGUI::DragContainer* createItem(Item* item, CEGUI::Window* parent, CEGUI::UVector2 position = CEGUI::UVector2(CEGUI::cegui_reldim(0.0f), CEGUI::cegui_reldim(0.0f)));
 
 		// Der Knoten an dem das zu redernde Item angebracht wird;
 		Ogre::SceneNode* mInventoryItemNode;
@@ -173,7 +169,14 @@ namespace rl {
 		CEGUI::StaticImage* mShinbone;
 		CEGUI::StaticImage* mBoots;
 
+		CEGUI::Point mPosDraggedTo;
+		CEGUI::Window* mContainerDraggedTo;
+		CEGUI::DragContainer* mOldItemInSlot;
 
+		/** 
+		* Erzeugt eine Itemrepräsentation im Inventarfenster
+		*/
+		CEGUI::DragContainer* createItem(Item* item, CEGUI::Window* parent, CEGUI::UVector2 position = CEGUI::UVector2(CEGUI::cegui_reldim(0.0f), CEGUI::cegui_reldim(0.0f)));
 
 		/**
 		* Schliesst das Fenster bei Klick auf X
@@ -220,6 +223,11 @@ namespace rl {
 
 
 		void refreshTabs();
+
+		/**
+		* Sucht unter den Containern dasjenige, das zum gesuchten Container gehört
+		*/
+		CEGUI::Window* findContainer(Item* container);
 
 		/**
 		*

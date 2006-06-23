@@ -619,7 +619,7 @@ namespace rl
 	void Creature::addWeapon(Weapon* weapon)
 	{
 		if (weapon == NULL)
-			Throw(IllegalArgumentException, "Nullpointer uebergeben");
+			Throw(IllegalArgumentException, "Creature::addWeapon : Nullpointer uebergeben!");
 		mInventory->addWeapon(weapon);
 	}
 

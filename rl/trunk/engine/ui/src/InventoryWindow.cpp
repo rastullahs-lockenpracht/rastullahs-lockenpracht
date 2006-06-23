@@ -30,6 +30,7 @@
 #include "CameraObject.h"
 #include "MeshObject.h"
 #include "PhysicalThing.h"
+#include "Exception.h"
 
 #include <CEGUIPropertyHelper.h>
 #include <OgreCEGUIRenderer.h>
@@ -80,6 +81,7 @@ namespace rl {
 		mPosDraggedTo(),
 		mContainerDraggedTo(NULL),
 		mDroppedItem(NULL),
+		mOldItemInSlot(NULL),
 		mContainerTabs(NULL),
 		mContainerContents(NULL),
 		mGroundTab(NULL),
@@ -249,125 +251,163 @@ namespace rl {
 		}
 		
 
+		bool itemSwitched = false;
 		// Gegenstand in Slot setzen / Schon dagewesenen Gegenstand zurück in den Rucksack setzen
 		if (mContainerDraggedTo == mArmor){
 			if (mInventory->getArmor() != NULL){
 				//Pack die alte Rüstung ins Inventar
-				mInventory->addItemToContainer(mInventory->getArmor(), mInventory->getBackpack());
+				mInventory->addItemToContainer(mInventory->removeArmor(), mInventory->getBackpack());
+				itemSwitched = true;
 			}
 			mInventory->setArmor(item);
 		}
 		if (mContainerDraggedTo == mCape){
 			if (mInventory->getCape() != NULL){
 				//Pack die alte Rüstung ins Inventar
-				mInventory->addItemToContainer(mInventory->getCape(), mInventory->getBackpack());
+				mInventory->addItemToContainer(mInventory->removeCape(), mInventory->getBackpack());
+				itemSwitched = true;
 			}
 			mInventory->setCape(item);
 		}
 		if (mContainerDraggedTo == mBackpack) {
 			if (mInventory->getBackpack() != NULL){
 				//Pack den alten Rucksack auf den Boden
-				mInventory->addItemToContainer(mInventory->getBackpack(), mInventory->getBackpack());
+				mInventory->addItemToContainer(mInventory->removeBackpack(), mInventory->getBackpack());
+				itemSwitched = true;
 			}
 			mInventory->setBackpack(item);
 		}
 		if (mContainerDraggedTo == mBelt) {
 			if (mInventory->getBelt() != NULL){
 				//Pack den alten Gürtel ins Inventar
-				mInventory->addItemToContainer(mInventory->getBelt(), mInventory->getBackpack());
+				mInventory->addItemToContainer(mInventory->removeBelt(), mInventory->getBackpack());
+				itemSwitched = true;
 			}
 			mInventory->setBelt(item);
 		}
 		if (mContainerDraggedTo == mBoots) {
 			if (mInventory->getBoots() != NULL){
 				//pack die alten Stiefel ins Inventar
-				mInventory->addItemToContainer(mInventory->getBoots(), mInventory->getBackpack());
+				mInventory->addItemToContainer(mInventory->removeBoots(), mInventory->getBackpack());
+				itemSwitched = true;
 			}
 			mInventory->setBoots(item);
 		}
 		if (mContainerDraggedTo == mBraceletLeft) {
 			if (mInventory->getBraceletLeft() != NULL){
 				//pack den alten Armreif ins Inventar
-				mInventory->addItemToContainer(mInventory->getBraceletLeft(), mInventory->getBackpack());
+				mInventory->addItemToContainer(mInventory->removeBraceletLeft(), mInventory->getBackpack());
+				itemSwitched = true;
 			}
 			mInventory->setBraceletLeft(item);
 		}
 		if (mContainerDraggedTo == mBraceletRight) {
 			if (mInventory->getBraceletRight() != NULL){
 				//pack den alten Armreif ins Inventar
-				mInventory->addItemToContainer(mInventory->getBraceletRight(), mInventory->getBackpack());
+				mInventory->addItemToContainer(mInventory->removeBraceletRight(), mInventory->getBackpack());
+				itemSwitched = true;
 			}
 			mInventory->setBraceletRight(item);
 		}
 		if (mContainerDraggedTo == mRingLeft) {
 			if (mInventory->getRingLeft() != NULL){
 				//pack den alten Ring ins Inventar
-				mInventory->addItemToContainer(mInventory->getRingLeft(), mInventory->getBackpack());
+				mInventory->addItemToContainer(mInventory->removeRingLeft(), mInventory->getBackpack());
+				itemSwitched = true;
 			}
 			mInventory->setRingLeft(item);
 		}
 		if (mContainerDraggedTo == mRingRight) {
 			if (mInventory->getRingRight() != NULL){
 				//pack den alten Ring ins Inventar
-				mInventory->addItemToContainer(mInventory->getRingRight(), mInventory->getBackpack());
+				mInventory->addItemToContainer(mInventory->removeRingRight(), mInventory->getBackpack());
+				itemSwitched = true;
 			}
 			mInventory->setRingRight(item);
 		}
 		if (mContainerDraggedTo == mHelmet) {
 			if (mInventory->getHelmet() != NULL){
 				//pack den alten Helm ins Inventar
-				mInventory->addItemToContainer(mInventory->getHelmet(), mInventory->getBackpack());
+				mInventory->addItemToContainer(mInventory->removeHelmet(), mInventory->getBackpack());
+				itemSwitched = true;
 			}
 			mInventory->setHelmet(item);
 		}
 		if (mContainerDraggedTo == mBracers) {
 			if (mInventory->getBracers() != NULL){
 				//pack die alte Armschienen ins Inventar
-				mInventory->addItemToContainer(mInventory->getBracers(), mInventory->getBackpack());
+				mInventory->addItemToContainer(mInventory->removeBracers(), mInventory->getBackpack());
+				itemSwitched = true;
 			}
 			mInventory->setBracers(item);
 		}
 		if (mContainerDraggedTo == mNecklace) {
 			if (mInventory->getNecklace() != NULL){
 				//pack das alte Amulett ins Inventar
-				mInventory->addItemToContainer(mInventory->getNecklace(), mInventory->getBackpack());
+				mInventory->addItemToContainer(mInventory->removeNecklace(), mInventory->getBackpack());
+				itemSwitched = true;
 			}
 			mInventory->setNecklace(item);
 		}
 		if (mContainerDraggedTo == mGloves) {
 			if (mInventory->getGloves() != NULL){
 				//pack die alten Handschuhe ins Inventar
-				mInventory->addItemToContainer(mInventory->getGloves(), mInventory->getBackpack());
+				mInventory->addItemToContainer(mInventory->removeGloves(), mInventory->getBackpack());
+				itemSwitched = true;
 			}
 			mInventory->setGloves(item);
 		}
 		if (mContainerDraggedTo == mTrousers) {
 			if (mInventory->getTrousers() != NULL){
 				//pack die alte Hose ins Inventar
-				mInventory->addItemToContainer(mInventory->getTrousers(), mInventory->getBackpack());
+				mInventory->addItemToContainer(mInventory->removeTrousers(), mInventory->getBackpack());
+				itemSwitched = true;
 			}
 			mInventory->setTrousers(item);
 		}
 		if (mContainerDraggedTo == mShinbone) {
 			if (mInventory->getShinbone() != NULL){
 				//pack die alte Hose ins Inventar
-				mInventory->addItemToContainer(mInventory->getShinbone(), mInventory->getBackpack());
+				mInventory->addItemToContainer(mInventory->removeShinbone(), mInventory->getBackpack());
+				itemSwitched = true;
 			}
 			mInventory->setShinbone(item);
 		}
 		if (mContainerDraggedTo == mHandLeft) {
 			if (mInventory->getHandLeft() != NULL){
 				//pack das alte Schild ins Inventar
-				mInventory->addItemToContainer(mInventory->getHandLeft(), mInventory->getBackpack());
+				mInventory->addItemToContainer(mInventory->removeHandLeft(), mInventory->getBackpack());
+				itemSwitched = true;
 			}
 			mInventory->setHandLeft(item);
 		}
 		if (mContainerDraggedTo == mHandRight) {
 			if (mInventory->getHandRight() != NULL){
 				//pack die alte Waffe ins Inventar
-				mInventory->addItemToContainer(mInventory->getHandRight(), mInventory->getBackpack());
+				mInventory->addItemToContainer(mInventory->removeHandRight(), mInventory->getBackpack());
+				itemSwitched = true;
 			}
 			mInventory->setHandRight(item);
+		}
+		if (itemSwitched)
+		{
+			try {
+				//Bild muss im Inventarfenster an die neue Position gelegt werden
+				pair<pair<int,int>,Item*> posInContainer = mInventory->getItemPositionInContainer(static_cast<Item*>(mOldItemInSlot->getUserData()));
+
+				// Container Fenster suchen
+				CEGUI::Window* win = findContainer(posInContainer.second);
+				// Dem Fenster hinzufügen
+				win->addChildWindow(mOldItemInSlot);
+				// Positionieren		
+				mOldItemInSlot->setPosition( CEGUI::Absolute,
+					CEGUI::Point(posInContainer.first.first * 30, posInContainer.first.second * 30));
+
+			}
+			catch (IllegalArgumentException iae)
+			{
+				// TODO: Item am Boden suchen
+			}
 		}
 
 
@@ -744,6 +784,18 @@ namespace rl {
 		slot->subscribeEvent(Window::EventDragDropItemLeaves, boost::bind(&InventoryWindow::handleDragLeave,this,_1));
 		// onItemDropped
 		slot->subscribeEvent(Window::EventDragDropItemDropped, boost::bind(&InventoryWindow::handleDragDropped,this,_1)); 
+	}
+
+	CEGUI::Window* InventoryWindow::findContainer(Item* container)
+	{
+		std::list<CEGUI::Window*>::iterator it = mContainerContents.begin();
+		while (it != mContainerContents.end())
+		{
+			if (static_cast<Item*>((*it)->getUserData()) == container)
+				return (*it);
+			it++;
+		}
+		Throw(IllegalArgumentException, "Es gibt kein Containerfenster zu dem gesuchten Item");
 	}
 
 	DragContainer* InventoryWindow::createItem(Item* item, Window* parent, UVector2 position)
@@ -1128,7 +1180,7 @@ namespace rl {
 			{
 				// Boden (nimmt alles)
 			} 
-			else if (container && container->getItemType() == Item::ITEMTYPE_BACKPACK)
+			else if (container->getItemType() == Item::ITEMTYPE_BACKPACK)
 			{
 				// Rucksack (nimmt alles außer dem Rucksack selbst)
 				if (!(ddea.dragDropItem->getUserString("ItemType").compare(Item::getItemTypeString(Item::ITEMTYPE_BACKPACK))))
@@ -1166,6 +1218,17 @@ namespace rl {
 			// Es handelt sich um einen Slot am Körper
 			if (checkTypeAccepted(ddea.window, ddea.dragDropItem)){
 				// Nur wenn das Item in den Slot passt, soll es auch dort gedroppt werden können
+
+				if (ddea.window->getChildCount() > 0)
+				{
+					// Slot hat schon einen anderen Gegenstand getragen
+					mOldItemInSlot = static_cast<CEGUI::DragContainer*>(ddea.window->getChildAtIdx(0));
+					ddea.window->removeChildWindow(mOldItemInSlot);
+				}
+				else
+				{
+					mOldItemInSlot = NULL;
+				}
 
 				ddea.window->addChildWindow(ddea.dragDropItem);
 

@@ -98,6 +98,11 @@ public:
 
 	bool isFreeInContainer(Item* item, pair<int,int> posKaestchen, Item* container);
 
+	/**
+	* Liefert die Position und das Containeritem, das den Gegenstand trägt/beinhaltet
+	*/
+	pair<pair<int,int>, Item*> getItemPositionInContainer(Item* item);
+
 	void addWeapon(Weapon* weapon);
 
 	Weapon* getWeapon(int weaponId);
@@ -226,22 +231,26 @@ private:
 	*/
 	bool checkSpace(int xStart, int yStart, pair<int,int> space, ContainerLayout container);
 
-
+	/**
+	* Fügt alle Items in einem Container rekursiv der Liste hinzu
+	*/
 	void addContainerItemsToList(Item &container, ItemList &itemList);
 
 	/**
-	* Erzeugt ein Item mit den angegebenen Parametern
-	* @param: name Der Name des Items
-	* @param: description Die Beschreibung des Gegenstandes
-	* @param: imageName Der Name des Bildes, das dem Item zugeordnet werden soll
-	* @param: type Der Itemtyp
-	* @param: size die Groesse des Gegenstandes im Inventar
-	*
-	* @return: Item* der Zeiger auf das neue Item
+	* Erzeugt eine Liste aus Items, die am Körper getragen werden
 	*/
-	Item* createItem(const CeGuiString name, const CeGuiString description, const CeGuiString imageName, Item::ItemType type, pair<int,int> size);
-
 	ItemList getWornItems();
+
+	/**
+	* Erzeugt eine Liste aus Containern, die der Character mit sich trägt
+	*/
+	ItemList getAllContainers();
+
+
+	/**
+	* Fügt alle Container in den Items rekursiv zur Liste hinzu
+	*/
+	void addContainersToList(Item &container, ItemList &itemList);
 
 	/**
 	* Update der Werte für Gewicht, Rs und Behinderung

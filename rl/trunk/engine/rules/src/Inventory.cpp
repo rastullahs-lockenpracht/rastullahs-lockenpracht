@@ -63,17 +63,18 @@ namespace rl
 		// *****************
 		// TODO: Entfernen, wenn der ItemManager in Skripte eingebunden ist...
 		// *****************
-		Item* backpack = createItem("Rucksack", "Dieser Rucksack ist praktisch, da er viel Platz \r\nauf dem Ruecken eines jeden Helden bietet.", "Rucksack", Item::ITEMTYPE_BACKPACK, pair<int,int>(2,2));
-		backpack->setContainer(true, pair<int,int>(12,7));
+		Item* backpack = ItemManager::getSingleton().createItem("Rucksack");
 		mBackpack = backpack;
 
-		//Item* trank = ItemManager::getSingleton().createItem("Heiltrank");
+		Item* trank = ItemManager::getSingleton().createItem("Heiltrank");
+		addItem(trank);
 
 		
 		Item* kurzschwert = ItemManager::getSingleton().createItem("Kurzschwert");
 		addItem(kurzschwert);
 
-		//addItem(trank);
+		Item* fackel = ItemManager::getSingleton().createItem("Fackel");
+		addItem(fackel);
 		
 		Item* meinUmhang = ItemManager::getSingleton().createItem("Fellumhang");
 		addItem(meinUmhang);
@@ -145,6 +146,7 @@ namespace rl
 					ItemList::iterator it = itemList.begin();
 					bool found = false;
 
+					// Durchsuche, ob schon in Liste
 					while (it != itemList.end())
 					{
 						if ((*it) == container.getContainerLayout()[x][y])
@@ -154,8 +156,64 @@ namespace rl
 						}
 						it++;
 					}
-					if (!found) {
+					if (!found) { // Nur wenn noch nicht in Liste, soll das Item zur Liste hinzugefügt werden
 						itemList.push_back(container.getContainerLayout()[x][y]);
+						
+						// rekursiv aufrufen, falls es sich um ein Container handelt
+						if (container.getContainerLayout()[x][y]->isContainer())
+							addContainerItemsToList(*(container.getContainerLayout()[x][y]), itemList);
+					}
+				}
+			}
+		}
+	}
+
+	Inventory::ItemList Inventory::getAllContainers()
+	{
+		ItemList allContainers(0);
+		ItemList wornItems = getWornItems();
+
+		// Alle Items durchsuchen
+		ItemList::iterator it = wornItems.begin();
+		
+		while (it != wornItems.end())
+		{
+			if ((*it)->isContainer())
+			{
+				allContainers.push_back(*it);
+				addContainersToList(*(*it), allContainers);
+			}
+			it++;
+		}
+		return allContainers;
+	}
+
+	void Inventory::addContainersToList(Item &container, ItemList &itemList)
+	{
+		assert( container.isContainer());
+		for (unsigned int x = 0; x < container.getContainerLayout().size(); x++){
+			for (unsigned int y = 0; y < container.getContainerLayout()[0].size(); y++){
+				if (container.getContainerLayout()[x][y] != NULL && container.getContainerLayout()[x][y]->isContainer()){
+			
+					// Item im Container -> überprüfe ob schon zur Liste hinzugefügt
+					ItemList::iterator it = itemList.begin();
+					bool found = false;
+
+					// Durchsuche, ob schon in Liste
+					while (it != itemList.end())
+					{
+						if ((*it) == container.getContainerLayout()[x][y])
+						{
+							found = true;
+							break;
+						}
+						it++;
+					}
+					if (!found) { // Nur wenn noch nicht in Liste, soll das Item zur Liste hinzugefügt werden
+						itemList.push_back(container.getContainerLayout()[x][y]);
+						
+						// rekursiv aufrufen
+						addContainersToList(*(container.getContainerLayout()[x][y]), itemList);
 					}
 				}
 			}
@@ -274,7 +332,7 @@ namespace rl
 		}
 	}
 
-	Item* Inventory::createItem(const CeGuiString name, const CeGuiString description, const CeGuiString imageName, Item::ItemType type, pair<int,int> size)
+	/*Item* Inventory::createItem(const CeGuiString name, const CeGuiString description, const CeGuiString imageName, Item::ItemType type, pair<int,int> size)
 	{
 		Item* item = new Item(name, description);
 		item->setImageName(imageName);
@@ -283,7 +341,7 @@ namespace rl
 
 		return item;
 	}
-
+*/
 	// TODO: Anordnung der Items
 	/*set<Item*> Inventory::getAllItemsInContainer()
 	{
@@ -482,7 +540,28 @@ namespace rl
 			return false;
 		}
 	}
+	
+	pair<pair<int,int>, Item*> Inventory::getItemPositionInContainer(Item* item)
+	{
+		// Durchsuche Alle Container
+		ItemList containers = getAllContainers();
 
+		ItemList::iterator it = containers.begin();
+		while (it != containers.end())
+		{
+			// Container absuchen
+			for (unsigned int x = 0; x < (*it)->getContainerLayout().size(); x++){
+				for (unsigned int y = 0; y < (*it)->getContainerLayout()[0].size(); y++){
+					if ((*it)->getContainerLayout()[x][y] == item)
+						return make_pair<pair<int,int>,Item*>(make_pair<int,int>(x,y), (*it));
+				}
+			}
+			it++;
+		}
+
+		// Nicht gefunden
+		Throw(IllegalArgumentException,"Item konnte nicht in den Containern im Inventar gefunden werden");
+	}
 
 	pair<int,int> Inventory::findPositionWithEnoughSpace(pair<int,int> space, ContainerLayout containerLayout){
 		pair<int,int> pos;

@@ -42,6 +42,7 @@ namespace rl
 	{
 		Weapon* weapon = new Weapon(mName, mDescription, 
 			mImageName, mMeshName, mItemType, mSize);
+		weapon->setContainer(mIsContainer,mCapacity);
 		weapon->setTp(mTp.first,mTp.second,mTp.third);
 		weapon->setTpKk(mTpKk.first,mTpKk.second);
 		weapon->setBf(mBf);
@@ -50,6 +51,7 @@ namespace rl
 		weapon->setDk(mDk);
 		weapon->setWeight(mWeight);
 		weapon->setKampftechnik(mKampftechnik);
+		weapon->setPrice(mPrice);
 
 		return weapon;
 	}
