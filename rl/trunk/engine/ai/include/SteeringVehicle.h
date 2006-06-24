@@ -18,32 +18,6 @@
 
 #include "AiPrerequisites.h"
 #include "OgreVector3.h"
-
-// debuging of steerForPursuit...should be ommited
-#include "OpenSteer/Vec3.h"
-const OpenSteer::Vec3 gBlack   (0, 0, 0);
-const OpenSteer::Vec3 gWhite   (1, 1, 1);
-
-const OpenSteer::Vec3 gRed     (1, 0, 0);
-const OpenSteer::Vec3 gYellow  (1, 1, 0);
-const OpenSteer::Vec3 gGreen   (0, 1, 0);
-const OpenSteer::Vec3 gCyan    (0, 1, 1);
-const OpenSteer::Vec3 gBlue    (0, 0, 1);
-const OpenSteer::Vec3 gMagenta (1, 0, 1);
-
-const OpenSteer::Vec3 gOrange (1, 0.5f, 0);
-
-inline OpenSteer::Vec3 grayColor (const float g) {return OpenSteer::Vec3 (g, g, g);}
-
-const OpenSteer::Vec3 gGray10 = grayColor (0.1f);
-const OpenSteer::Vec3 gGray20 = grayColor (0.2f);
-const OpenSteer::Vec3 gGray30 = grayColor (0.3f);
-const OpenSteer::Vec3 gGray40 = grayColor (0.4f);
-const OpenSteer::Vec3 gGray50 = grayColor (0.5f);
-const OpenSteer::Vec3 gGray60 = grayColor (0.6f);
-const OpenSteer::Vec3 gGray70 = grayColor (0.7f);
-const OpenSteer::Vec3 gGray80 = grayColor (0.8f);
-const OpenSteer::Vec3 gGray90 = grayColor (0.9f);
 #include "OpenSteer/SteerLibrary.h"
 
 
@@ -150,6 +124,7 @@ namespace rl
 
 		// inherited from AbstractVehicle
 
+		void update(const float currentTime, const float elapsedTime);
 		/**
 		 * predict position of this vehicle at some time in the future
 		 * (assumes velocity remains constant)

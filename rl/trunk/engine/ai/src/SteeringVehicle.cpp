@@ -95,10 +95,11 @@ void SteeringVehicle::applySteeringForce(PhysicalThing* thing, const float elaps
 	// prevent adding a counter force against gravity
 	if (mCurrentVelocity.y < 0.0f) mCurrentVelocity.y = 0.0f;
 
-	force += mMass*(orientation * mCurrentForce - mCurrentVelocity) / elapsedTime;
-
+	if(elapsedTime > 0.0f)
+	{
+		force += mMass*(orientation * mCurrentForce - mCurrentVelocity) / elapsedTime;
+	}
 	body->setForce(force);
-	
 	// Calculate angular velocity
 	mYaw += Degree(mCurrentForce.x * 60.0 * elapsedTime);
 	// We first need the yaw rotation from actual yaw to desired yaw
@@ -113,6 +114,10 @@ void SteeringVehicle::applySteeringForce(PhysicalThing* thing, const float elaps
 	body->setOmega(Vector3(0, newOmega, 0));
 	
 	mCurrentForce = Ogre::Vector3::ZERO;
+}
+
+void SteeringVehicle::update(const float currentTime, const float elapsedTime)
+{
 }
 
 Vector3 SteeringVehicle::calcWander(const float elapsedTime)
