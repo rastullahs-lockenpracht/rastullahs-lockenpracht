@@ -409,23 +409,19 @@ namespace rl
         }
     }
 
-    void PhysicsManager::prepareUserControl(PhysicalThing* thing, OgreNewt::ContactCallback* cb) const
+    void PhysicsManager::prepareUserControl(PhysicalThing* thing) const
     {
         OgreNewt::Body* body = thing->_getBody();
         body->setMaterialGroupID(mCharacterID);
         body->setAutoFreeze(0);
         body->unFreeze();
         body->setLinearDamping(0.0f);
-        Vector3 v(0, 0, 0); // Sonst mag GCC nicht.
-        body->setAngularDamping(v);
+        body->setAngularDamping(Vector3::ZERO);
 
         body->setCustomForceAndTorqueCallback(controlledForceCallback);
 
         // Set up-vector, so force application doesn't let the char fall over
         thing->setUpConstraint(Vector3::UNIT_Y);
-
-        ///\todo alles andere als sauber.
-        mCharLevelPair->setContactCallback(cb);
     }
 
     void PhysicsManager::unprepareUserControl(PhysicalThing* thing) const
@@ -467,7 +463,19 @@ namespace rl
         {
             // add it to the map and prepare it for control
             mControlledThings[thing] = controller;
-            prepareUserControl(thing, controller);
+            prepareUserControl(thing);
+        }
+    }
+
+    void PhysicsManager::setCharLevelContactCallback(PhysicsGenericContactCallback* callback)
+    {
+        if (callback != 0)
+        {
+            mCharLevelPair->setContactCallback(callback);
+        }
+        else
+        {
+            mCharLevelPair->setContactCallback(mGenericCallback);
         }
     }
 

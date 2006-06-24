@@ -20,6 +20,7 @@
 #include "UiPrerequisites.h"
 #include "GameTask.h"
 #include "PhysicsController.h"
+#include "PhysicsGenericContactCallback.h"
 #include "CharacterController.h"
 
 #undef sleep
@@ -38,7 +39,8 @@ namespace rl {
      */
     class _RlUiExport MovementCharacterController
 	  : public CharacterController,
-		public PhysicsController
+		public PhysicsController,
+        public PhysicsGenericContactCallback
     {
     public:
         typedef enum {VM_THIRD_PERSON, VM_FIRST_PERSON} ViewMode;

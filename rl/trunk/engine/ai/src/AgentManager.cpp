@@ -24,12 +24,12 @@ using namespace rl;
 
 AgentManager& AgentManager::getSingleton(void)
 {
-	return Singleton<AgentManager>::getSingleton();
+    return Singleton<AgentManager>::getSingleton();
 }
 
 AgentManager* AgentManager::getSingletonPtr(void)
 {
-	return Singleton<AgentManager>::getSingletonPtr();
+    return Singleton<AgentManager>::getSingletonPtr();
 }
 
 AgentManager::AgentManager(void)
@@ -39,32 +39,34 @@ AgentManager::AgentManager(void)
 
 AgentManager::~AgentManager(void)
 {
-//	free all agents
-	for(AgentList::iterator itr = mAgents.begin(); itr != mAgents.end(); ++itr)
-	{
-		delete (*itr);
-	}
+    //	free all agents
+    for(AgentList::iterator itr = mAgents.begin(); itr != mAgents.end(); ++itr)
+    {
+        delete (*itr);
+    }
 }
 
 Agent* AgentManager::createAgent(Creature* character)
 {
-	Agent* agent = new Agent(character);
-	mAgents.push_back(agent);
-	Logger::getSingleton().log(
-		Logger::AI, 
-			Logger::LL_MESSAGE, 
-			"created AI Agent");
-	return agent;
+    Agent* agent = new Agent(character);
+    mAgents.push_back(agent);
+    Logger::getSingleton().log(
+        Logger::AI,
+        Logger::LL_MESSAGE,
+        "created AI Agent");
+    return agent;
 }
+
 void AgentManager::OnApplyForceAndTorque(PhysicalThing* thing)
 {
-//	steerToAvoidNeighbors (10.0, const AVGroup& others);
+    //	steerToAvoidNeighbors (10.0, const AVGroup& others);
 }
+
 void AgentManager::run( Ogre::Real elapsedTime ) 
 {
-//	update all agents
-	for(AgentList::iterator itr = mAgents.begin(); itr != mAgents.end(); ++itr)
-	{
-		(*itr)->update(elapsedTime);
-	}
+    //	update all agents
+    for(AgentList::iterator itr = mAgents.begin(); itr != mAgents.end(); ++itr)
+    {
+        (*itr)->update(elapsedTime);
+    }
 }

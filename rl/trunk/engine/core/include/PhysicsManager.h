@@ -108,6 +108,16 @@ namespace rl {
          */
         void setPhysicsController(PhysicalThing* thing, PhysicsController* controller);
 
+        /**
+         * Sets the special contact callback for character-level-interaction.
+         * This is handled specifically
+         * @todo If other special cases are identified, the interface for
+         * material handling has to be generalised.
+         * @ param callback, the new contact callback. Can be NULL, in this case the default
+         *   callback is set.
+         */
+        void setCharLevelContactCallback(PhysicsGenericContactCallback* callback);
+
         // Newton callbacks ...
         /// generic force callback. Gravity is applied and the force,
         /// applied via PhysicalThing interface.
@@ -145,7 +155,7 @@ namespace rl {
         PhysicsGenericContactCallback* mGenericCallback;
 
         /// internal method, that prepares physical thing to be controlled
-        void prepareUserControl(PhysicalThing* thing, OgreNewt::ContactCallback* cb) const;
+        void prepareUserControl(PhysicalThing* thing) const;
         void unprepareUserControl(PhysicalThing* thing) const;
     };
 }

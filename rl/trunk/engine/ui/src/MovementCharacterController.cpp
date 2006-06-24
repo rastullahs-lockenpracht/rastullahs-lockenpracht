@@ -103,7 +103,8 @@ namespace rl {
 			mCharacterActor->getPhysicalThing(), this);
 		PhysicsManager::getSingleton().setPhysicsController(
 			mCamera->getPhysicalThing(), this);
-
+        // We also handle char<->level collision from now on
+        PhysicsManager::getSingleton().setCharLevelContactCallback(this);
 		// Fit Collision proxy to idle anim
         mCharacterActor->getPhysicalThing()->fitToPose("idle");
 
@@ -122,8 +123,11 @@ namespace rl {
 			mCharacterActor->getPhysicalThing(), 0);
 		PhysicsManager::getSingleton().setPhysicsController(
 			mCamera->getPhysicalThing(), 0);
+        // Char<->Level collision back to default
+        PhysicsManager::getSingleton().setCharLevelContactCallback(0);
 	}
 
+	//------------------------------------------------------------------------
 	CharacterController::ControllerType MovementCharacterController::getType() const
 	{
 		return CTRL_MOVEMENT;

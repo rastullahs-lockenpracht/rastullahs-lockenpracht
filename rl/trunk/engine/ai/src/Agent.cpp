@@ -21,57 +21,55 @@
 using namespace rl;
 
 Agent::Agent(Creature* character)
-	: mVehicle(NULL), mBehaviour(NULL), mCreature(character)
+: mVehicle(NULL), mBehaviour(NULL), mCreature(character)
 {
-	mVehicle = new SteeringVehicle(mCreature->getActor());
-	Logger::getSingleton().log(
-		Logger::AI, 
-		Logger::LL_NORMAL, 
-		"created SteeringVehicle for Agent");
-	mBehaviour = new SteeringMachine(NULL, mVehicle);
-	Logger::getSingleton().log(
-		Logger::AI, 
-		Logger::LL_NORMAL, 
-		"created SteeringMachine for Agent");
-	// a perceptron should be the controller, and the perceptron calculates
-	// the steering force with the help of different steering behaviours
-	PhysicsManager::getSingleton().
-		setPhysicsController(mCreature->getActor()->getPhysicalThing(), this);
-	Logger::getSingleton().log(
-		Logger::AI, 
-		Logger::LL_NORMAL, 
-		"added Agent to PhysicsManager as PhysicsController");
-//	 TODO: if creature == NULL throw exception
+    mVehicle = new SteeringVehicle(mCreature->getActor());
+    Logger::getSingleton().log(
+        Logger::AI, 
+        Logger::LL_NORMAL, 
+        "created SteeringVehicle for Agent");
+    mBehaviour = new SteeringMachine(NULL, mVehicle);
+    Logger::getSingleton().log(
+        Logger::AI, 
+        Logger::LL_NORMAL, 
+        "created SteeringMachine for Agent");
+    // a perceptron should be the controller, and the perceptron calculates
+    // the steering force with the help of different steering behaviours
+    PhysicsManager::getSingleton().
+        setPhysicsController(mCreature->getActor()->getPhysicalThing(), this);
+    Logger::getSingleton().log(
+        Logger::AI, 
+        Logger::LL_NORMAL, 
+        "added Agent to PhysicsManager as PhysicsController");
+    //	 TODO: if creature == NULL throw exception
 }
 
 Agent::~Agent(void)
 {
-	if(mVehicle)
-		delete mVehicle;
-	if(mBehaviour)
-		delete mBehaviour;
+    delete mVehicle;
+    delete mBehaviour;
 }
 
 void Agent::addSteeringBehaviour(SteeringBehaviour* behaviour)
 {
-	behaviour->setParent(mBehaviour);
-	behaviour->setController(mVehicle);
-	mBehaviour->addState(behaviour);
-	Logger::getSingleton().log(
-		Logger::AI, 
-		Logger::LL_MESSAGE, 
-		"added SteeringBehaviour for Agent");
+    behaviour->setParent(mBehaviour);
+    behaviour->setController(mVehicle);
+    mBehaviour->addState(behaviour);
+    Logger::getSingleton().log(
+        Logger::AI, 
+        Logger::LL_MESSAGE, 
+        "added SteeringBehaviour for Agent");
 }
 
 void Agent::update(const float elapsedTime)
 {
-//	mBehaviour->update(elapsedTime);
+    //	mBehaviour->update(elapsedTime);
 }
 
 void Agent::OnApplyForceAndTorque(PhysicalThing* thing)
 {
-	OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
-	Real timestep = world->getTimeStep();
-	mBehaviour->update(timestep);
-	mVehicle->applySteeringForce(thing, timestep);
+    OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
+    Real timestep = world->getTimeStep();
+    mBehaviour->update(timestep);
+    mVehicle->applySteeringForce(thing, timestep);
 }
