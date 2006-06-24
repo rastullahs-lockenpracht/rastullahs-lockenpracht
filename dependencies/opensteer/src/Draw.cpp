@@ -3,7 +3,7 @@
 //
 // OpenSteer -- Steering Behaviors for Autonomous Characters
 //
-// Copyright (c) 2002-2003, Sony Computer Entertainment America
+// Copyright (c) 2002-2005, Sony Computer Entertainment America
 // Original author: Craig Reynolds <craig_reynolds@playstation.sony.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -47,729 +47,46 @@
 //
 // ----------------------------------------------------------------------------
 
+#include "OpenSteer/Draw.h"
 
 #include <iomanip>
 #include <sstream>
 
 
-// Include headers for OpenGL (gl.h), OpenGL Utility Library (glu.h) and
-// OpenGL Utility Toolkit (glut.h).
+// Include headers for OpenGL (gl.h), OpenGL Utility Library (glu.h)
 //
 // XXX In Mac OS X these headers are located in a different directory.
 // XXX Need to revisit conditionalization on operating system.
 #if __APPLE__ && __MACH__
-#include <GLUT/glut.h>   // for Mac OS X
+    #include <OpenGL/gl.h>   // for Mac OS X
+    #include <OpenGL/glu.h>   // for Mac OS X
+    #ifndef HAVE_NO_GLUT
+        #include <GLUT/glut.h>   // for Mac OS X
+    #endif
 #else
-#include <GL/glut.h>     // for Linux and Windows
+    #ifdef _MSC_VER
+        #include <windows.h>
+    #endif
+    #include <GL/gl.h>     // for Linux and Windows
+    #include <GL/glu.h>     // for Linux and Windows
+    #ifndef HAVE_NO_GLUT
+        #include <GL/glut.h>   // for Mac OS X
+    #endif
 #endif
 
 
-#include "OpenSteer/OpenSteerDemo.h"
+#include "OpenSteer/Vec3.h"
 
 // To include OpenSteer::round.
 #include "OpenSteer/Utilities.h"
 
 // ----------------------------------------------------------------------------
 
+// GL interface
+// Collected the available abstractions here as a first step
+// to swapping in different graphics libraries
 
 namespace {
-
-    char* appVersionName = "OpenSteerDemo 0.8.2";
-
-    // The number of our GLUT window
-    int windowID;
-
-    bool gMouseAdjustingCameraAngle = false;
-    bool gMouseAdjustingCameraRadius = false;
-    int gMouseAdjustingCameraLastX;
-    int gMouseAdjustingCameraLastY;
-
-
-
-
-    // ----------------------------------------------------------------------------
-    // initialize GL mode settings
-
-
-    void 
-    initGL (void)
-    {
-        // background = dark gray
-        glClearColor (0.3f, 0.3f, 0.3f, 0);
-
-        // enable depth buffer clears
-        glClearDepth (1.0f);
-
-        // select smooth shading
-        glShadeModel (GL_SMOOTH);
-
-        // enable  and select depth test
-        glDepthFunc (GL_LESS);
-        glEnable (GL_DEPTH_TEST);
-
-        // turn on backface culling
-        glEnable (GL_CULL_FACE);
-        glCullFace (GL_BACK);
-
-        // enable blending and set typical "blend into frame buffer" mode
-        glEnable (GL_BLEND);
-        glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-        // reset projection matrix
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-    }
-
-
-
-
-
-    // ----------------------------------------------------------------------------
-    // handler for window resizing
-
-
-    void 
-    reshapeFunc (int width, int height)
-    {
-        // set viewport to full window
-        glViewport(0, 0, width, height);
-
-        // set perspective transformation
-        glMatrixMode (GL_PROJECTION);
-        glLoadIdentity ();
-        const GLfloat w = width;
-        const GLfloat h = height;
-        const GLfloat aspectRatio = (height == 0) ? 1 : w/h;
-        const GLfloat fieldOfViewY = 45;
-        const GLfloat hither = 1;  // put this on Camera so PlugIns can frob it
-        const GLfloat yon = 400;   // put this on Camera so PlugIns can frob it
-        gluPerspective (fieldOfViewY, aspectRatio, hither, yon);
-
-        // leave in modelview mode
-        glMatrixMode(GL_MODELVIEW);
-    }
-
-
-    // ----------------------------------------------------------------------------
-    // This is called (by GLUT) each time a mouse button pressed or released.
-
-
-    void 
-    mouseButtonFunc (int button, int state, int x, int y)
-    {
-        // if the mouse button has just been released
-        if (state == GLUT_UP)
-        {
-            // end any ongoing mouse-adjusting-camera session
-            gMouseAdjustingCameraAngle = false;
-            gMouseAdjustingCameraRadius = false;
-        }
-
-        // if the mouse button has just been pushed down
-        if (state == GLUT_DOWN)
-        {
-            // names for relevant values of "button" and "state"
-            const int  mods       = glutGetModifiers ();
-            const bool modNone    = (mods == 0);
-            const bool modCtrl    = (mods == GLUT_ACTIVE_CTRL);
-            const bool modAlt     = (mods == GLUT_ACTIVE_ALT);
-            const bool modCtrlAlt = (mods == (GLUT_ACTIVE_CTRL | GLUT_ACTIVE_ALT));
-            const bool mouseL     = (button == GLUT_LEFT_BUTTON);
-            const bool mouseM     = (button == GLUT_MIDDLE_BUTTON);
-            const bool mouseR     = (button == GLUT_RIGHT_BUTTON);
-
-    #if __APPLE__ && __MACH__
-            const bool macosx = true;
-    #else
-            const bool macosx = false;
-    #endif
-
-            // mouse-left (with no modifiers): select vehicle
-            if (modNone && mouseL)
-            {
-                OpenSteer::OpenSteerDemo::selectVehicleNearestScreenPosition (x, y);
-            }
-
-            // control-mouse-left: begin adjusting camera angle (on Mac OS X
-            // control-mouse maps to mouse-right for "context menu", this makes
-            // OpenSteerDemo's control-mouse work work the same on OS X as on Linux
-            // and Windows, but it precludes using a mouseR context menu)
-            if ((modCtrl && mouseL) ||
-               (modNone && mouseR && macosx))
-            {
-                gMouseAdjustingCameraLastX = x;
-                gMouseAdjustingCameraLastY = y;
-                gMouseAdjustingCameraAngle = true;
-            }
-
-            // control-mouse-middle: begin adjusting camera radius
-            // (same for: control-alt-mouse-left and control-alt-mouse-middle,
-            // and on Mac OS X it is alt-mouse-right)
-            if ((modCtrl    && mouseM) ||
-                (modCtrlAlt && mouseL) ||
-                (modCtrlAlt && mouseM) ||
-                (modAlt     && mouseR && macosx))
-            {
-                gMouseAdjustingCameraLastX = x;
-                gMouseAdjustingCameraLastY = y;
-                gMouseAdjustingCameraRadius = true;
-            }
-        }
-    }
-
-
-    // ----------------------------------------------------------------------------
-    // called when mouse moves and any buttons are down
-
-
-    void 
-    mouseMotionFunc (int x, int y)
-    {
-        // are we currently in the process of mouse-adjusting the camera?
-        if (gMouseAdjustingCameraAngle || gMouseAdjustingCameraRadius)
-        {
-            // speed factors to map from mouse movement in pixels to 3d motion
-            const float dSpeed = 0.005f;
-            const float rSpeed = 0.01f;
-
-            // XY distance (in pixels) that mouse moved since last update
-            const float dx = x - gMouseAdjustingCameraLastX;
-            const float dy = y - gMouseAdjustingCameraLastY;
-            gMouseAdjustingCameraLastX = x;
-            gMouseAdjustingCameraLastY = y;
-
-            OpenSteer::Vec3 cameraAdjustment;
-
-            // set XY values according to mouse motion on screen space
-            if (gMouseAdjustingCameraAngle)
-            {
-                cameraAdjustment.x = dx * -dSpeed;
-                cameraAdjustment.y = dy * +dSpeed;
-            }
-
-            // set Z value according vertical to mouse motion
-            if (gMouseAdjustingCameraRadius)
-            {
-                cameraAdjustment.z = dy * rSpeed;
-            }
-
-            // pass adjustment vector to camera's mouse adjustment routine
-            OpenSteer::OpenSteerDemo::camera.mouseAdjustOffset (cameraAdjustment);
-        }
-    }
-
-
-    // ----------------------------------------------------------------------------
-    // called when mouse moves and no buttons are down
-
-
-    void 
-    mousePassiveMotionFunc (int x, int y)
-    {
-        OpenSteer::OpenSteerDemo::mouseX = x;
-        OpenSteer::OpenSteerDemo::mouseY = y;
-    }
-
-
-    // ----------------------------------------------------------------------------
-    // called when mouse enters or exits the window
-
-
-    void 
-    mouseEnterExitWindowFunc (int state)
-    {
-        if (state == GLUT_ENTERED) OpenSteer::OpenSteerDemo::mouseInWindow = true;
-        if (state == GLUT_LEFT)    OpenSteer::OpenSteerDemo::mouseInWindow = false;
-    }
-
-
-    // ----------------------------------------------------------------------------
-    // draw PlugI name in upper lefthand corner of screen
-
-
-    void 
-    drawDisplayPlugInName (void)
-    {
-        const float h = glutGet (GLUT_WINDOW_HEIGHT);
-        const OpenSteer::Vec3 screenLocation (10, h-20, 0);
-        draw2dTextAt2dLocation (*OpenSteer::OpenSteerDemo::nameOfSelectedPlugIn (),
-                                screenLocation,
-                                OpenSteer::gWhite);
-    }
-
-
-    // ----------------------------------------------------------------------------
-    // draw camera mode name in lower lefthand corner of screen
-
-
-    void 
-    drawDisplayCameraModeName (void)
-    {
-        std::ostringstream message;
-        message << "Camera: " << OpenSteer::OpenSteerDemo::camera.modeName () << std::ends;
-        const OpenSteer::Vec3 screenLocation (10, 10, 0);
-        OpenSteer::draw2dTextAt2dLocation (message, screenLocation, OpenSteer::gWhite);
-    }
-
-
-    // ----------------------------------------------------------------------------
-    // helper for drawDisplayFPS
-
-
-
-    void 
-    writePhaseTimerReportToStream (float phaseTimer,
-                                              std::ostringstream& stream)
-    {
-        // write the timer value in seconds in floating point
-        stream << std::setprecision (5) << std::setiosflags (std::ios::fixed);
-        stream << phaseTimer;
-
-        // restate value in another form
-        stream << std::setprecision (0) << std::setiosflags (std::ios::fixed);
-        stream << " (";
-
-        // different notation for variable and fixed frame rate
-        if (OpenSteer::OpenSteerDemo::clock.getVariableFrameRateMode())
-        {
-            // express as FPS (inverse of phase time)
-            stream << 1 / phaseTimer;
-            stream << " fps)\n";
-        }
-        else
-        {
-            // quantify time as a percentage of frame time
-            const int fps = OpenSteer::OpenSteerDemo::clock.getFixedFrameRate ();
-            stream << ((100 * phaseTimer) / (1.0f / fps));
-            stream << "% of 1/";
-            stream << fps;
-            stream << "sec)\n";
-        }
-    }
-
-
-
-
-
-
-        // ----------------------------------------------------------------------------
-        // draw text showing (smoothed, rounded) "frames per second" rate
-        // (and later a bunch of related stuff was dumped here, a reorg would be nice)
-        
-        float gSmoothedTimerDraw = 0;
-        float gSmoothedTimerUpdate = 0;
-        float gSmoothedTimerOverhead = 0;
-
-
-
-    void 
-    drawDisplayFPS (void)
-    {
-        // skip several frames to allow frame rate to settle
-        static int skipCount = 10;
-        if (skipCount > 0)
-        {
-            skipCount--;
-        }
-        else
-        {
-            // keep track of font metrics and start of next line
-            const int lh = 16; // xxx line height
-            const int cw = 9; // xxx character width
-            OpenSteer::Vec3 screenLocation (10, 10, 0);
-
-            // target and recent average frame rates
-            const int targetFPS = OpenSteer::OpenSteerDemo::clock.getFixedFrameRate ();
-            const float smoothedFPS = OpenSteer::OpenSteerDemo::clock.getSmoothedFPS ();
-
-            // describe clock mode and frame rate statistics
-            screenLocation.y += lh;
-            std::ostringstream fooStr;
-            fooStr << "Clock: ";
-            if (OpenSteer::OpenSteerDemo::clock.getAnimationMode ())
-            {
-                fooStr << "animation mode (";
-                fooStr << targetFPS << " fps,";
-                fooStr << " display "<< OpenSteer::round(smoothedFPS) << " fps, ";
-                const float ratio = smoothedFPS / targetFPS;
-                fooStr << (int) (100 * ratio) << "% of nominal speed)";
-            }
-            else
-            {
-                fooStr << "real-time mode, ";
-                if (OpenSteer::OpenSteerDemo::clock.getVariableFrameRateMode ())
-                {
-                    fooStr << "variable frame rate (";
-                    fooStr << OpenSteer::round(smoothedFPS) << " fps)";
-                }
-                else
-                {
-                    fooStr << "fixed frame rate (target: " << targetFPS;
-                    fooStr << " actual: " << OpenSteer::round(smoothedFPS) << ", ";
-
-                    OpenSteer::Vec3 sp;
-                    sp = screenLocation;
-                    sp.x += cw * (int) fooStr.tellp ();
-
-                    // create usage description character string
-                    std::ostringstream xxxStr;
-                    xxxStr << std::setprecision (0)
-                           << std::setiosflags (std::ios::fixed)
-                           << "usage: " << OpenSteer::OpenSteerDemo::clock.getSmoothedUsage ()
-                           << "%"
-                           << std::ends;
-
-                    const int usageLength = ((int) xxxStr.tellp ()) - 1;
-                    for (int i = 0; i < usageLength; i++) fooStr << " ";
-                    fooStr << ")";
-
-                    // display message in lower left corner of window
-                    // (draw in red if the instantaneous usage is 100% or more)
-                    const float usage = OpenSteer::OpenSteerDemo::clock.getUsage ();
-                    const OpenSteer::Vec3 color = (usage >= 100) ? OpenSteer::gRed : OpenSteer::gWhite;
-                    draw2dTextAt2dLocation (xxxStr, sp, color);
-                }
-            }
-            fooStr << std::ends;
-            draw2dTextAt2dLocation (fooStr, screenLocation, OpenSteer::gWhite);
-
-
-            // get smoothed phase timer information
-            const float ptd = OpenSteer::OpenSteerDemo::phaseTimerDraw();
-            const float ptu = OpenSteer::OpenSteerDemo::phaseTimerUpdate();
-            const float pto = OpenSteer::OpenSteerDemo::phaseTimerOverhead();
-            const float smoothRate = OpenSteer::OpenSteerDemo::clock.getSmoothingRate ();
-            OpenSteer::blendIntoAccumulator (smoothRate, ptd, gSmoothedTimerDraw);
-            OpenSteer::blendIntoAccumulator (smoothRate, ptu, gSmoothedTimerUpdate);
-            OpenSteer::blendIntoAccumulator (smoothRate, pto, gSmoothedTimerOverhead);
-
-            // display phase timer information
-            screenLocation.y += lh * 4;
-            std::ostringstream timerStr;
-            timerStr << "update: ";
-            writePhaseTimerReportToStream (gSmoothedTimerUpdate, timerStr);
-            timerStr << "draw:   ";
-            writePhaseTimerReportToStream (gSmoothedTimerDraw, timerStr);
-            timerStr << "other:  ";
-            writePhaseTimerReportToStream (gSmoothedTimerOverhead, timerStr);
-            timerStr << std::ends;
-            draw2dTextAt2dLocation (timerStr, screenLocation, OpenSteer::gGreen);
-        }
-    }
-
-
-    // ------------------------------------------------------------------------
-    // cycle through frame rate presets  (XXX move this to OpenSteerDemo)
-
-
-    void 
-    selectNextPresetFrameRate (void)
-    {
-        // note that the cases are listed in reverse order, and that 
-        // the default is case 0 which causes the index to wrap around
-        static int frameRatePresetIndex = 0;
-        switch (++frameRatePresetIndex)
-        {
-        case 3: 
-            // animation mode at 60 fps
-            OpenSteer::OpenSteerDemo::clock.setFixedFrameRate (60);
-            OpenSteer::OpenSteerDemo::clock.setAnimationMode (true);
-            OpenSteer::OpenSteerDemo::clock.setVariableFrameRateMode (false);
-            break;
-        case 2: 
-            // real-time fixed frame rate mode at 60 fps
-            OpenSteer::OpenSteerDemo::clock.setFixedFrameRate (60);
-            OpenSteer::OpenSteerDemo::clock.setAnimationMode (false);
-            OpenSteer::OpenSteerDemo::clock.setVariableFrameRateMode (false);
-            break;
-        case 1: 
-            // real-time fixed frame rate mode at 24 fps
-            OpenSteer::OpenSteerDemo::clock.setFixedFrameRate (24);
-            OpenSteer::OpenSteerDemo::clock.setAnimationMode (false);
-            OpenSteer::OpenSteerDemo::clock.setVariableFrameRateMode (false);
-            break;
-        case 0:
-        default:
-            // real-time variable frame rate mode ("as fast as possible")
-            frameRatePresetIndex = 0;
-            OpenSteer::OpenSteerDemo::clock.setFixedFrameRate (0);
-            OpenSteer::OpenSteerDemo::clock.setAnimationMode (false);
-            OpenSteer::OpenSteerDemo::clock.setVariableFrameRateMode (true);
-            break;
-        }
-    }
-
-
-    // ------------------------------------------------------------------------
-    // This function is called (by GLUT) each time a key is pressed.
-    //
-    // XXX the bulk of this should be moved to OpenSteerDemo
-    //
-    // parameter names commented out to prevent compiler warning from "-W"
-
-
-    void 
-    keyboardFunc (unsigned char key, int /*x*/, int /*y*/) 
-    {
-        std::ostringstream message;
-
-        // ascii codes
-        const int tab = 9;
-        const int space = 32;
-        const int esc = 27; // escape key
-
-        switch (key)
-        {
-        // reset selected PlugIn
-        case 'r':
-            OpenSteer::OpenSteerDemo::resetSelectedPlugIn ();
-            message << "reset PlugIn "
-                    << '"' << OpenSteer::OpenSteerDemo::nameOfSelectedPlugIn () << '"'
-                    << std::ends;
-            OpenSteer::OpenSteerDemo::printMessage (message);
-            break;
-
-        // cycle selection to next vehicle
-        case 's':
-            OpenSteer::OpenSteerDemo::printMessage ("select next vehicle/agent");
-            OpenSteer::OpenSteerDemo::selectNextVehicle ();
-            break;
-
-        // camera mode cycle
-        case 'c':
-            OpenSteer::OpenSteerDemo::camera.selectNextMode ();
-            message << "select camera mode "
-                    << '"' << OpenSteer::OpenSteerDemo::camera.modeName () << '"' << std::ends;
-            OpenSteer::OpenSteerDemo::printMessage (message);
-            break;
-
-        // select next PlugIn
-        case tab:
-            OpenSteer::OpenSteerDemo::selectNextPlugIn ();
-            message << "select next PlugIn: "
-                    << '"' << OpenSteer::OpenSteerDemo::nameOfSelectedPlugIn () << '"'
-                    << std::ends;
-            OpenSteer::OpenSteerDemo::printMessage (message);
-            break;
-
-        // toggle annotation state
-        case 'a':
-            OpenSteer::OpenSteerDemo::printMessage (OpenSteer::OpenSteerDemo::toggleAnnotationState () ?
-                                                    "annotation ON" : "annotation OFF");
-            break;
-
-        // toggle run/pause state
-        case space:
-            OpenSteer::OpenSteerDemo::printMessage (OpenSteer::OpenSteerDemo::clock.togglePausedState () ?
-                                                    "pause" : "run");
-            break;
-
-        // cycle through frame rate (clock mode) presets
-        case 'f':
-            selectNextPresetFrameRate ();
-            message << "set clock to ";
-            if (OpenSteer::OpenSteerDemo::clock.getAnimationMode ())
-                message << "animation mode, fixed frame rate ("
-                        << OpenSteer::OpenSteerDemo::clock.getFixedFrameRate () << " fps)";
-            else
-            {
-                message << "real-time mode, ";
-                if (OpenSteer::OpenSteerDemo::clock.getVariableFrameRateMode ())
-                    message << "variable frame rate";
-                else
-                    message << "fixed frame rate ("
-                            << OpenSteer::OpenSteerDemo::clock.getFixedFrameRate () << " fps)";
-            }
-            message << std::ends;
-            OpenSteer::OpenSteerDemo::printMessage (message);
-            break;
-
-        // print minimal help for single key commands
-        case '?':
-            OpenSteer::OpenSteerDemo::keyboardMiniHelp ();
-            break;
-
-        // exit application with normal status 
-        case esc:
-            glutDestroyWindow (windowID);
-            OpenSteer::OpenSteerDemo::printMessage ("exit.");
-            OpenSteer::OpenSteerDemo::exit (0);
-
-        default:
-            message << "unrecognized single key command: " << key;
-            message << " (" << (int)key << ")";//xxx perhaps only for debugging?
-            message << std::ends;
-            OpenSteer::OpenSteerDemo::printMessage ("");
-            OpenSteer::OpenSteerDemo::printMessage (message);
-            OpenSteer::OpenSteerDemo::keyboardMiniHelp ();
-        }
-    }
-
-
-    // ------------------------------------------------------------------------
-    // handles "special" keys,
-    // function keys are handled by the PlugIn
-    //
-    // parameter names commented out to prevent compiler warning from "-W"
-
-    void 
-    specialFunc (int key, int /*x*/, int /*y*/)
-    {
-        std::ostringstream message;
-
-        switch (key)
-        {
-        case GLUT_KEY_F1:  OpenSteer::OpenSteerDemo::functionKeyForPlugIn (1);  break;
-        case GLUT_KEY_F2:  OpenSteer::OpenSteerDemo::functionKeyForPlugIn (2);  break;
-        case GLUT_KEY_F3:  OpenSteer::OpenSteerDemo::functionKeyForPlugIn (3);  break;
-        case GLUT_KEY_F4:  OpenSteer::OpenSteerDemo::functionKeyForPlugIn (4);  break;
-        case GLUT_KEY_F5:  OpenSteer::OpenSteerDemo::functionKeyForPlugIn (5);  break;
-        case GLUT_KEY_F6:  OpenSteer::OpenSteerDemo::functionKeyForPlugIn (6);  break;
-        case GLUT_KEY_F7:  OpenSteer::OpenSteerDemo::functionKeyForPlugIn (7);  break;
-        case GLUT_KEY_F8:  OpenSteer::OpenSteerDemo::functionKeyForPlugIn (8);  break;
-        case GLUT_KEY_F9:  OpenSteer::OpenSteerDemo::functionKeyForPlugIn (9);  break;
-        case GLUT_KEY_F10: OpenSteer::OpenSteerDemo::functionKeyForPlugIn (10); break;
-        case GLUT_KEY_F11: OpenSteer::OpenSteerDemo::functionKeyForPlugIn (11); break;
-        case GLUT_KEY_F12: OpenSteer::OpenSteerDemo::functionKeyForPlugIn (12); break;
-
-        case GLUT_KEY_RIGHT:
-            OpenSteer::OpenSteerDemo::clock.setPausedState (true);
-            message << "single step forward (frame time: "
-                    << OpenSteer::OpenSteerDemo::clock.advanceSimulationTimeOneFrame ()
-                    << ")"
-                    << std::endl;
-            OpenSteer::OpenSteerDemo::printMessage (message);
-            break;
-        }
-    }
-
-
-    // ------------------------------------------------------------------------
-    // Main drawing function for OpenSteerDemo application,
-    // drives simulation as a side effect
-
-
-    void 
-    displayFunc (void)
-    {
-        // clear color and depth buffers
-        glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        // run simulation and draw associated graphics
-        OpenSteer::OpenSteerDemo::updateSimulationAndRedraw ();
-
-        // draw text showing (smoothed, rounded) "frames per second" rate
-        drawDisplayFPS ();
-
-        // draw the name of the selected PlugIn
-        drawDisplayPlugInName ();
-
-        // draw the name of the camera's current mode
-        drawDisplayCameraModeName ();
-
-        // draw crosshairs to indicate aimpoint (xxx for debugging only?)
-        // drawReticle ();
-
-        // check for errors in drawing module, if so report and exit
-        OpenSteer::checkForDrawError ("OpenSteerDemo::updateSimulationAndRedraw");
-
-        // double buffering, swap back and front buffers
-        glFlush ();
-        glutSwapBuffers();
-    }
-
-
-} // annonymous namespace
-
-
-// ----------------------------------------------------------------------------
-// draw string s right-justified in the upper righthand corner
-
-
-//     // XXX display the total number of AbstractVehicles created
-//     {
-//         std::ostringstream s;
-//         s << "vehicles: " << xxx::SerialNumberCounter << std::ends;
-
-//         // draw string s right-justified in the upper righthand corner
-//         const int h = glutGet (GLUT_WINDOW_HEIGHT);
-//         const int w = glutGet (GLUT_WINDOW_WIDTH);
-//         const int fontWidth = 9; // for GLUT_BITMAP_9_BY_15
-//         const int fontHeight = 15; // for GLUT_BITMAP_9_BY_15
-//         const int x = w - (fontWidth * s.pcount());
-//         const int y = h - (fontHeight + 5);
-//         const Vec3 screenLocation (x, y, 0);
-//         draw2dTextAt2dLocation (s, screenLocation, gWhite);
-//     }
-
-
-// ----------------------------------------------------------------------------
-// do all initialization related to graphics
-
-
-void 
-OpenSteer::initializeGraphics (int argc, char **argv)
-{
-    // initialize GLUT state based on command line arguments
-    glutInit (&argc, argv);  
-
-    // display modes: RGB+Z and double buffered
-    GLint mode = GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE;
-    glutInitDisplayMode (mode);
-
-    // create and initialize our window with GLUT tools
-    // (center window on screen with size equal to "ws" times screen size)
-    const int sw = glutGet (GLUT_SCREEN_WIDTH);
-    const int sh = glutGet (GLUT_SCREEN_HEIGHT);
-    const float ws = 0.8f; // window_size / screen_size
-    const int ww = (int) (sw * ws);
-    const int wh = (int) (sh * ws);
-    glutInitWindowPosition ((int) (sw * (1-ws)/2), (int) (sh * (1-ws)/2));
-    glutInitWindowSize (ww, wh);
-    windowID = glutCreateWindow (appVersionName);
-    reshapeFunc (ww, wh);
-    initGL ();
-
-    // register our display function, make it the idle handler too
-    glutDisplayFunc (&displayFunc);  
-    glutIdleFunc (&displayFunc);
-
-    // register handler for window reshaping
-    glutReshapeFunc (&reshapeFunc);
-
-    // register handler for keyboard events
-    glutKeyboardFunc (&keyboardFunc);
-    glutSpecialFunc (&specialFunc);
-
-    // register handler for mouse button events
-    glutMouseFunc (&mouseButtonFunc);
-
-    // register handler to track mouse motion when any button down
-    glutMotionFunc (mouseMotionFunc);
-
-    // register handler to track mouse motion when no buttons down
-    glutPassiveMotionFunc (mousePassiveMotionFunc);
-
-    // register handler for when mouse enters or exists the window
-    glutEntryFunc (mouseEnterExitWindowFunc);
-}
-
-
-// ----------------------------------------------------------------------------
-// run graphics event loop
-
-
-void 
-OpenSteer::runGraphics (void)
-{
-    glutMainLoop ();  
-}
-
-
-
-
-namespace {
-
     // ------------------------------------------------------------------------
     // emit an OpenGL vertex based on a Vec3
     
@@ -778,8 +95,147 @@ namespace {
         glVertex3f (v.x, v.y, v.z);
     }
 
+    // ------------------------------------------------------------------------
+    // OpenGL-specific routine for error check, report, and exit
 
-} // anonymous namespace
+    void 
+    checkForGLError (const char* locationDescription)
+    {
+        // normally (when no error) just return
+        const int lastGlError = glGetError();
+        if (lastGlError == GL_NO_ERROR) return;
+
+        // otherwise print vaguely descriptive error message, then exit
+        std::cerr << std::endl << "OpenSteerDemo: OpenGL error ";
+        switch (lastGlError)
+        {
+        case GL_INVALID_ENUM:      std::cerr << "GL_INVALID_ENUM";      break;
+        case GL_INVALID_VALUE:     std::cerr << "GL_INVALID_VALUE";     break;
+        case GL_INVALID_OPERATION: std::cerr << "GL_INVALID_OPERATION"; break;
+        case GL_STACK_OVERFLOW:    std::cerr << "GL_STACK_OVERFLOW";    break;
+        case GL_STACK_UNDERFLOW:   std::cerr << "GL_STACK_UNDERFLOW";   break;
+        case GL_OUT_OF_MEMORY:     std::cerr << "GL_OUT_OF_MEMORY";     break;
+    #ifndef _WIN32
+        case GL_TABLE_TOO_LARGE:   std::cerr << "GL_TABLE_TOO_LARGE";   break;
+    #endif
+        }
+        if (locationDescription) std::cerr << " in " << locationDescription;
+        std::cerr << std::endl << std::endl << std::flush;
+        /// @todo - a library should never bail, this is an application function
+        // throw an exception? Call a registered exit hook?
+        //OpenSteer::OpenSteerDemo::exit (1);
+    }
+
+    // ----------------------------------------------------------------------------
+    // draw 3d "graphical annotation" lines, used for debugging
+    
+    inline void iDrawLine (const OpenSteer::Vec3& startPoint,
+                           const OpenSteer::Vec3& endPoint,
+                           const OpenSteer::Color& color)
+    {
+        OpenSteer::warnIfInUpdatePhase ("iDrawLine");
+        glColor3f (color.r(), color.g(), color.b());
+        glBegin (GL_LINES);
+        glVertexVec3 (startPoint);
+        glVertexVec3 (endPoint);
+        glEnd ();
+    }
+
+    // ----------------------------------------------------------------------------
+    // Draw a single OpenGL triangle given three Vec3 vertices.
+    
+    inline void iDrawTriangle (const OpenSteer::Vec3& a,
+                               const OpenSteer::Vec3& b,
+                               const OpenSteer::Vec3& c,
+                               const OpenSteer::Color& color)
+    {
+        OpenSteer::warnIfInUpdatePhase ("iDrawTriangle");
+        glColor3f (color.r(), color.g(), color.b());
+        glBegin (GL_TRIANGLES);
+        {
+            OpenSteer::glVertexVec3 (a);
+            OpenSteer::glVertexVec3 (b);
+            OpenSteer::glVertexVec3 (c);
+        }
+        glEnd ();
+    }
+
+
+    // ------------------------------------------------------------------------
+    // Draw a single OpenGL quadrangle given four Vec3 vertices, and color.
+    
+    inline void iDrawQuadrangle (const OpenSteer::Vec3& a,
+                                 const OpenSteer::Vec3& b,
+                                 const OpenSteer::Vec3& c,
+                                 const OpenSteer::Vec3& d,
+                                 const OpenSteer::Color& color)
+    {
+        OpenSteer::warnIfInUpdatePhase ("iDrawQuadrangle");
+        glColor3f (color.r(), color.g(), color.b());
+        glBegin (GL_QUADS);
+        {
+            OpenSteer::glVertexVec3 (a);
+            OpenSteer::glVertexVec3 (b);
+            OpenSteer::glVertexVec3 (c);
+            OpenSteer::glVertexVec3 (d);
+        }
+        glEnd ();
+    }
+
+    // ------------------------------------------------------------------------
+    // Between matched sets of these two calls, assert that all polygons
+    // will be drawn "double sided", that is, without back-face culling
+    
+    inline void beginDoubleSidedDrawing (void)
+    {
+        glPushAttrib (GL_ENABLE_BIT);
+        glDisable (GL_CULL_FACE);
+    }
+
+
+    inline void endDoubleSidedDrawing (void)
+    {
+        glPopAttrib ();
+    }
+
+    inline GLint begin2dDrawing (float w, float h)
+    {
+        // store OpenGL matrix mode
+        GLint originalMatrixMode;
+        glGetIntegerv (GL_MATRIX_MODE, &originalMatrixMode);
+
+        // clear projection transform
+        glMatrixMode (GL_PROJECTION);
+        glPushMatrix ();
+        glLoadIdentity ();
+
+        // set up orthogonal projection onto window's screen space
+        glOrtho (0.0f, w, 0.0f, h, -1.0f, 1.0f);
+
+        // clear model transform
+        glMatrixMode (GL_MODELVIEW);
+        glPushMatrix ();
+        glLoadIdentity ();
+
+        // return original matrix mode for saving (stacking)
+        return originalMatrixMode;
+    }
+
+
+    inline void end2dDrawing (GLint originalMatrixMode)
+    {
+        // restore previous model/projection transformation state
+        glPopMatrix ();
+        glMatrixMode (GL_PROJECTION);
+        glPopMatrix ();
+
+        // restore OpenGL matrix mode
+        glMatrixMode (originalMatrixMode);
+    }
+
+}   // end anonymous namespace
+
+
 
 void 
 OpenSteer::glVertexVec3 (const Vec3& v)
@@ -802,35 +258,16 @@ OpenSteer::warnIfInUpdatePhase2 (const char* name)
     message << name;
     message << ")";
     message << std::ends;
-    OpenSteerDemo::printWarning (message);
+    std::cerr << message;       // send message to cerr, let host app worry about where to redirect it
 }
 
-
-namespace {
-
-    // ----------------------------------------------------------------------------
-    // draw 3d "graphical annotation" lines, used for debugging
-    
-    inline void iDrawLine (const OpenSteer::Vec3& startPoint,
-                           const OpenSteer::Vec3& endPoint,
-                           const OpenSteer::Vec3& color)
-    {
-        OpenSteer::warnIfInUpdatePhase ("iDrawLine");
-        glColor3f (color.x, color.y, color.z);
-        glBegin (GL_LINES);
-        glVertexVec3 (startPoint);
-        glVertexVec3 (endPoint);
-        glEnd ();
-    }
-
-} // anonymous namespace
 
 
 
 void 
 OpenSteer::drawLine (const Vec3& startPoint,
                      const Vec3& endPoint,
-                     const Vec3& color)
+                     const Color& color)
 {
     iDrawLine (startPoint, endPoint, color);
 }
@@ -847,11 +284,11 @@ OpenSteer::drawLine (const Vec3& startPoint,
 void 
 OpenSteer::drawLineAlpha (const Vec3& startPoint,
                           const Vec3& endPoint,
-                          const Vec3& color,
+                          const Color& color,
                           const float alpha)
 {
     warnIfInUpdatePhase ("drawLineAlpha");
-    glColor4f (color.x, color.y, color.z, alpha);
+    glColor4f (color.r(), color.g(), color.b(), alpha);
     glBegin (GL_LINES);
     OpenSteer::glVertexVec3 (startPoint);
     OpenSteer::glVertexVec3 (endPoint);
@@ -861,35 +298,12 @@ OpenSteer::drawLineAlpha (const Vec3& startPoint,
 
 
 
-namespace {
-
-    // ----------------------------------------------------------------------------
-    // Draw a single OpenGL triangle given three Vec3 vertices.
-    
-    inline void iDrawTriangle (const OpenSteer::Vec3& a,
-                               const OpenSteer::Vec3& b,
-                               const OpenSteer::Vec3& c,
-                               const OpenSteer::Vec3& color)
-    {
-        OpenSteer::warnIfInUpdatePhase ("iDrawTriangle");
-        glColor3f (color.x, color.y, color.z);
-        glBegin (GL_TRIANGLES);
-        {
-            OpenSteer::glVertexVec3 (a);
-            OpenSteer::glVertexVec3 (b);
-            OpenSteer::glVertexVec3 (c);
-        }
-        glEnd ();
-    }
-
-} // anonymous namespace
-
 
 void 
 OpenSteer::drawTriangle (const Vec3& a,
                          const Vec3& b,
                          const Vec3& c,
-                         const Vec3& color)
+                         const Color& color)
 {
     iDrawTriangle (a, b, c, color);
 }
@@ -897,31 +311,6 @@ OpenSteer::drawTriangle (const Vec3& a,
 
 
 
-
-namespace {
-
-    // ------------------------------------------------------------------------
-    // Draw a single OpenGL quadrangle given four Vec3 vertices, and color.
-    
-    inline void iDrawQuadrangle (const OpenSteer::Vec3& a,
-                                 const OpenSteer::Vec3& b,
-                                 const OpenSteer::Vec3& c,
-                                 const OpenSteer::Vec3& d,
-                                 const OpenSteer::Vec3& color)
-    {
-        OpenSteer::warnIfInUpdatePhase ("iDrawQuadrangle");
-        glColor3f (color.x, color.y, color.z);
-        glBegin (GL_QUADS);
-        {
-            OpenSteer::glVertexVec3 (a);
-            OpenSteer::glVertexVec3 (b);
-            OpenSteer::glVertexVec3 (c);
-            OpenSteer::glVertexVec3 (d);
-        }
-        glEnd ();
-    }
-
-} // anonymous namespace
     
     
 void 
@@ -929,7 +318,7 @@ OpenSteer::drawQuadrangle (const Vec3& a,
                            const Vec3& b,
                            const Vec3& c,
                            const Vec3& d,
-                           const Vec3& color)
+                           const Color& color)
 {
     iDrawQuadrangle (a, b, c, d, color);
 }
@@ -943,7 +332,7 @@ OpenSteer::drawQuadrangle (const Vec3& a,
 void 
 OpenSteer::drawXZWideLine (const Vec3& startPoint,
                            const Vec3& endPoint,
-                           const Vec3& color,
+                           const Color& color,
                            float width)
 {
     warnIfInUpdatePhase ("drawXZWideLine");
@@ -965,26 +354,6 @@ OpenSteer::drawXZWideLine (const Vec3& startPoint,
 
 
 
-namespace {
-
-    // ------------------------------------------------------------------------
-    // Between matched sets of these two calls, assert that all polygons
-    // will be drawn "double sided", that is, without back-face culling
-    
-    inline void beginDoubleSidedDrawing (void)
-    {
-        glPushAttrib (GL_ENABLE_BIT);
-        glDisable (GL_CULL_FACE);
-    }
-
-
-    inline void endDoubleSidedDrawing (void)
-    {
-        glPopAttrib ();
-    }
-
-} // anonymous namespace
-
 
 // ------------------------------------------------------------------------
 // General purpose circle/disk drawing routine.  Draws circles or disks (as
@@ -997,7 +366,7 @@ void
 OpenSteer::drawCircleOrDisk (const float radius,
                              const Vec3& axis,
                              const Vec3& center,
-                             const Vec3& color,
+                             const Color& color,
                              const int segments,
                              const bool filled,
                              const bool in3d)
@@ -1023,7 +392,7 @@ OpenSteer::drawCircleOrDisk (const float radius,
     const float step = (2 * OPENSTEER_M_PI) / segments;
 
     // set drawing color
-    glColor3f (color.x, color.y, color.z);
+    glColor3f (color.r(), color.g(), color.b());
 
     // begin drawing a triangle fan (for disk) or line loop (for circle)
     glBegin (filled ? GL_TRIANGLE_FAN : GL_LINE_LOOP);
@@ -1059,7 +428,7 @@ void
 OpenSteer::draw3dCircleOrDisk (const float radius,
                                const Vec3& center,
                                const Vec3& axis,
-                               const Vec3& color,
+                               const Color& color,
                                const int segments,
                                const bool filled)
 {
@@ -1075,7 +444,7 @@ OpenSteer::draw3dCircleOrDisk (const float radius,
 void 
 OpenSteer::drawXZCircleOrDisk (const float radius,
                                const Vec3& center,
-                               const Vec3& color,
+                               const Color& color,
                                const int segments,
                                const bool filled)
 {
@@ -1099,7 +468,7 @@ OpenSteer::drawXZArc (const Vec3& start,
                       const Vec3& center,
                       const float arcLength,
                       const int segments,
-                      const Vec3& color)
+                      const Color& color)
 {
     warnIfInUpdatePhase ("drawXZArc");
 
@@ -1115,7 +484,7 @@ OpenSteer::drawXZArc (const Vec3& start,
     const float step = arcAngle / segments;
 
     // set drawing color
-    glColor3f (color.x, color.y, color.z);
+    glColor3f (color.r(), color.g(), color.b());
 
     // begin drawing a series of connected line segments
     glBegin (GL_LINE_STRIP);
@@ -1142,7 +511,7 @@ OpenSteer::drawXZArc (const Vec3& start,
 
 void 
 OpenSteer::drawBasic2dCircularVehicle (const AbstractVehicle& vehicle,
-                                       const Vec3& color)
+                                       const Color& color)
 {
     // "aspect ratio" of body (as seen from above)
     const float x = 0.5f;
@@ -1177,7 +546,7 @@ OpenSteer::drawBasic2dCircularVehicle (const AbstractVehicle& vehicle,
 
 void 
 OpenSteer::drawBasic3dSphericalVehicle (const AbstractVehicle& vehicle,
-                                        const Vec3& color)
+                                        const Color& color)
 {
     // "aspect ratio" of body (as seen from above)
     const float x = 0.5f;
@@ -1203,11 +572,11 @@ OpenSteer::drawBasic3dSphericalVehicle (const AbstractVehicle& vehicle,
     // colors
     const float j = +0.05f;
     const float k = -0.05f;
-    const Vec3 color1 = color + Vec3 (j, j, k);
-    const Vec3 color2 = color + Vec3 (j, k, j);
-    const Vec3 color3 = color + Vec3 (k, j, j);
-    const Vec3 color4 = color + Vec3 (k, j, k);
-    const Vec3 color5 = color + Vec3 (k, k, j);
+    const Color color1 = color + Color(j, j, k);
+    const Color color2 = color + Color(j, k, j);
+    const Color color3 = color + Color(k, j, j);
+    const Color color4 = color + Color(k, j, k);
+    const Color color5 = color + Color(k, k, j);
 
     // draw body
     iDrawTriangle (nose,  side1,  top,    color1);  // top, side 1
@@ -1217,6 +586,55 @@ OpenSteer::drawBasic3dSphericalVehicle (const AbstractVehicle& vehicle,
     iDrawTriangle (side1, side2,  top,    color5);  // top back
     iDrawTriangle (side2, side1,  bottom, color5);  // bottom back
 }
+
+
+// drawBasic3dSphericalVehicle with a supplied draw routine
+// provided so non-OpenGL based apps can draw a boid
+
+void 
+OpenSteer::drawBasic3dSphericalVehicle (drawTriangleRoutine draw, const AbstractVehicle& vehicle,
+                                        const Color& color)
+{
+    // "aspect ratio" of body (as seen from above)
+    const float x = 0.5f;
+    const float y = sqrtXXX (1 - (x * x));
+
+    // radius and position of vehicle
+    const float r = vehicle.radius();
+    const Vec3& p = vehicle.position();
+
+    // body shape parameters
+    const Vec3 f = r * vehicle.forward();
+    const Vec3 s = r * vehicle.side() * x;
+    const Vec3 u = r * vehicle.up() * x * 0.5f;
+    const Vec3 b = r * vehicle.forward() * -y;
+
+    // vertex positions
+    const Vec3 nose   = p + f;
+    const Vec3 side1  = p + b - s;
+    const Vec3 side2  = p + b + s;
+    const Vec3 top    = p + b + u;
+    const Vec3 bottom = p + b - u;
+
+    // colors
+    const float j = +0.05f;
+    const float k = -0.05f;
+    const Color color1 = color + Color (j, j, k);
+    const Color color2 = color + Color (j, k, j);
+    const Color color3 = color + Color (k, j, j);
+    const Color color4 = color + Color (k, j, k);
+    const Color color5 = color + Color (k, k, j);
+
+    // draw body
+    draw (nose,  side1,  top,    color1);  // top, side 1
+    draw (nose,  top,    side2,  color2);  // top, side 2
+    draw (nose,  bottom, side1,  color3);  // bottom, side 1
+    draw (nose,  side2,  bottom, color4);  // bottom, side 2
+    draw (side1, side2,  top,    color5);  // top back
+    draw (side2, side1,  bottom, color5);  // bottom back
+}
+
+
 
 
 
@@ -1234,8 +652,8 @@ void
 OpenSteer::drawXZCheckerboardGrid (const float size,
                                    const int subsquares,
                                    const Vec3& center,
-                                   const Vec3& color1,
-                                   const Vec3& color2)
+                                   const Color& color1,
+                                   const Color& color2)
 {
     const float half = size/2;
     const float spacing = size / subsquares;
@@ -1282,7 +700,7 @@ void
 OpenSteer::drawXZLineGrid (const float size,
                            const int subsquares,
                            const Vec3& center,
-                           const Vec3& color)
+                           const Color& color)
 {
     warnIfInUpdatePhase ("drawXZLineGrid");
 
@@ -1290,7 +708,7 @@ OpenSteer::drawXZLineGrid (const float size,
     const float spacing = size / subsquares;
 
     // set grid drawing color
-    glColor3f (color.x, color.y, color.z);
+    glColor3f (color.r(), color.g(), color.b());
 
     // draw a square XZ grid with the given size and line count
     glBegin (GL_LINES);
@@ -1322,7 +740,7 @@ OpenSteer::drawXZLineGrid (const float size,
 void 
 OpenSteer::drawAxes  (const AbstractLocalSpace& ls,
                       const Vec3& size,
-                      const Vec3& color)
+                      const Color& color)
 {
     const Vec3 x (size.x / 2, 0, 0);
     const Vec3 y (0, size.y / 2, 0);
@@ -1346,7 +764,7 @@ OpenSteer::drawAxes  (const AbstractLocalSpace& ls,
 void 
 OpenSteer::drawBoxOutline  (const AbstractLocalSpace& localSpace,
                             const Vec3& size,
-                            const Vec3& color)
+                            const Color& color)
 {
     const Vec3 s = size / 2.0f;  // half of main diagonal
 
@@ -1399,7 +817,7 @@ namespace {
         const OpenSteer::Vec3 view = pointToLookAt - cameraPosition;
         const OpenSteer::Vec3 perp = view.perpendicularComponent (up);
         if (perp == OpenSteer::Vec3::zero)
-            OpenSteer::OpenSteerDemo::printWarning ("LookAt: degenerate camera");
+            std::cerr << "OpenSteer - LookAt: degenerate camera";
     }
 
 } // anonymous namespace
@@ -1429,34 +847,48 @@ OpenSteer::drawCameraLookAt (const Vec3& cameraPosition,
 }
 
 
+
+void 
+OpenSteer::draw2dLine (const Vec3& startPoint,
+                       const Vec3& endPoint,
+                       const Color& color, 
+                       float w, float h)
+{
+    const GLint originalMatrixMode = begin2dDrawing (w, h);
+
+    iDrawLine (startPoint, endPoint, color);
+
+    end2dDrawing (originalMatrixMode);
+}
+
 // ------------------------------------------------------------------------
 // draw a reticle at the center of the window.  Currently it is small
 // crosshair with a gap at the center, drawn in white with black borders
 
 
 void 
-OpenSteer::drawReticle (void)
+OpenSteer::drawReticle (float w, float h)
 {
     const int a = 10;
     const int b = 30;
-    const float w = glutGet (GLUT_WINDOW_WIDTH)  * 0.5f;
-    const float h = glutGet (GLUT_WINDOW_HEIGHT) * 0.5f;
 
-    draw2dLine (Vec3 (w+a, h,   0), Vec3 (w+b, h,   0), gWhite);
-    draw2dLine (Vec3 (w,   h+a, 0), Vec3 (w,   h+b, 0), gWhite);
-    draw2dLine (Vec3 (w-a, h,   0), Vec3 (w-b, h,   0), gWhite);
-    draw2dLine (Vec3 (w,   h-a, 0), Vec3 (w,   h-b, 0), gWhite);
+    draw2dLine (Vec3 (w+a, h,   0), Vec3 (w+b, h,   0), gWhite, w, h);
+    draw2dLine (Vec3 (w,   h+a, 0), Vec3 (w,   h+b, 0), gWhite, w, h);
+    draw2dLine (Vec3 (w-a, h,   0), Vec3 (w-b, h,   0), gWhite, w, h);
+    draw2dLine (Vec3 (w,   h-a, 0), Vec3 (w,   h-b, 0), gWhite, w, h);
 
     glLineWidth (3);
-    draw2dLine (Vec3 (w+a, h,   0), Vec3 (w+b, h,   0), gBlack);
-    draw2dLine (Vec3 (w,   h+a, 0), Vec3 (w,   h+b, 0), gBlack);
-    draw2dLine (Vec3 (w-a, h,   0), Vec3 (w-b, h,   0), gBlack);
-    draw2dLine (Vec3 (w,   h-a, 0), Vec3 (w,   h-b, 0), gBlack);
+    draw2dLine (Vec3 (w+a, h,   0), Vec3 (w+b, h,   0), gBlack, w, h);
+    draw2dLine (Vec3 (w,   h+a, 0), Vec3 (w,   h+b, 0), gBlack, w, h);
+    draw2dLine (Vec3 (w-a, h,   0), Vec3 (w-b, h,   0), gBlack, w, h);
+    draw2dLine (Vec3 (w,   h-a, 0), Vec3 (w,   h-b, 0), gBlack, w, h);
     glLineWidth (1);
 }
 
 
 // ------------------------------------------------------------------------
+
+
 // code (from main.cpp) used to draw "forward ruler" on vehicle
 
 //     // xxx --------------------------------------------------
@@ -1474,40 +906,6 @@ OpenSteer::drawReticle (void)
 
 
 // ------------------------------------------------------------------------
-// OpenGL-specific routine for error check, report, and exit
-
-namespace {
-
-    void 
-    checkForGLError (const char* locationDescription)
-    {
-        // normally (when no error) just return
-        const int lastGlError = glGetError();
-        if (lastGlError == GL_NO_ERROR) return;
-
-        // otherwise print vaguely descriptive error message, then exit
-        std::cerr << std::endl << "OpenSteerDemo: OpenGL error ";
-        switch (lastGlError)
-        {
-        case GL_INVALID_ENUM:      std::cerr << "GL_INVALID_ENUM";      break;
-        case GL_INVALID_VALUE:     std::cerr << "GL_INVALID_VALUE";     break;
-        case GL_INVALID_OPERATION: std::cerr << "GL_INVALID_OPERATION"; break;
-        case GL_STACK_OVERFLOW:    std::cerr << "GL_STACK_OVERFLOW";    break;
-        case GL_STACK_UNDERFLOW:   std::cerr << "GL_STACK_UNDERFLOW";   break;
-        case GL_OUT_OF_MEMORY:     std::cerr << "GL_OUT_OF_MEMORY";     break;
-    #ifndef _WIN32
-        case GL_TABLE_TOO_LARGE:   std::cerr << "GL_TABLE_TOO_LARGE";   break;
-    #endif
-        }
-        if (locationDescription) std::cerr << " in " << locationDescription;
-        std::cerr << std::endl << std::endl << std::flush;
-        OpenSteer::OpenSteerDemo::exit (1);
-    }
-
-} // anonymous namespace
-    
-    
-// ------------------------------------------------------------------------
 // check for errors during redraw, report any and then exit
 
 
@@ -1518,34 +916,13 @@ OpenSteer::checkForDrawError (const char * locationDescription)
 }
 
 
-
-
-
-// ----------------------------------------------------------------------------
-// accessors for GLUT's window dimensions
-
-
-float 
-OpenSteer::drawGetWindowHeight (void) 
-{
-    return glutGet (GLUT_WINDOW_HEIGHT);
-}
-
-
-float 
-OpenSteer::drawGetWindowWidth  (void) 
-{
-    return glutGet (GLUT_WINDOW_WIDTH);
-}
-
-    
 // ----------------------------------------------------------------------------
 // return a normalized direction vector pointing from the camera towards a
 // given point on the screen: the ray that would be traced for that pixel
 
 
 OpenSteer::Vec3 
-OpenSteer::directionFromCameraToScreenPosition (int x, int y)
+OpenSteer::directionFromCameraToScreenPosition (int x, int y, int h)
 {
     // Get window height, viewport, modelview and projection matrices
     GLint vp[4];
@@ -1554,7 +931,6 @@ OpenSteer::directionFromCameraToScreenPosition (int x, int y)
     glGetDoublev (GL_MODELVIEW_MATRIX, mMat);
     glGetDoublev (GL_PROJECTION_MATRIX, pMat);
     GLdouble un0x, un0y, un0z, un1x, un1y, un1z;
-    const float h = glutGet (GLUT_WINDOW_HEIGHT);
 
     // Unproject mouse position at near and far clipping planes
     gluUnProject (x, h-y, 0, mMat, pMat, vp, &un0x, &un0y, &un0z);
@@ -1575,8 +951,6 @@ namespace {
     //
     // For use during simulation phase.
     // Stores description of lines to be drawn later.
-    //
-    // XXX This should be rewritten using STL container classes
 
 
     class DeferredLine
@@ -1585,51 +959,45 @@ namespace {
 
         static void addToBuffer (const OpenSteer::Vec3& s,
                                  const OpenSteer::Vec3& e,
-                                 const OpenSteer::Vec3& c)
+                                 const OpenSteer::Color& c)
         {
-            if (index < size)
-            {
-                deferredLineArray[index].startPoint = s;
-                deferredLineArray[index].endPoint = e;
-                deferredLineArray[index].color = c;
-                index++;
-            }
-            else
-            {
-                OpenSteer::OpenSteerDemo::printWarning ("overflow in deferredDrawLine buffer");
-            }
+            DeferredLine dl;
+            dl.startPoint = s;
+            dl.endPoint = e;
+            dl.color = c;
+
+            lines.push_back (dl);
         }
 
         static void drawAll (void)
         {
-            // draw all lines in the buffer
-            for (int i = 0; i < index; i++)
+            // draw all deferred lines
+            for (DeferredLines::iterator i = lines.begin();
+                 i < lines.end();
+                 i++)
             {
-                DeferredLine& dl = deferredLineArray[i];
+                DeferredLine& dl = *i;
                 iDrawLine (dl.startPoint, dl.endPoint, dl.color);
             }
 
-            // reset buffer index
-            index = 0;
+            // clear list of deferred lines
+            lines.clear ();
         }
+
+        typedef std::vector<DeferredLine> DeferredLines;
 
     private:
 
         OpenSteer::Vec3 startPoint;
         OpenSteer::Vec3 endPoint;
-        OpenSteer::Vec3 color;
+        OpenSteer::Color color;
 
-        static int index;
-        static const int size;
-        static DeferredLine deferredLineArray [];
+        static DeferredLines lines;
     };
 
 
-    int DeferredLine::index = 0;
-    // const int DeferredLine::size = 1000;
-    // const int DeferredLine::size = 2000;
-    const int DeferredLine::size = 3000;
-    DeferredLine DeferredLine::deferredLineArray [DeferredLine::size];
+DeferredLine::DeferredLines DeferredLine::lines;
+
 
 } // anonymous namespace
 
@@ -1637,7 +1005,7 @@ namespace {
 void 
 OpenSteer::deferredDrawLine (const Vec3& startPoint,
                              const Vec3& endPoint,
-                             const Vec3& color)
+                             const Color& color)
 {
     DeferredLine::addToBuffer (startPoint, endPoint, color);
 }
@@ -1658,8 +1026,6 @@ namespace {
     //
     // For use during simulation phase.
     // Stores description of circles to be drawn later.
-    //
-    // XXX This should be rewritten using STL container classes
 
 
     class DeferredCircle
@@ -1669,61 +1035,56 @@ namespace {
         static void addToBuffer (const float radius,
                                  const OpenSteer::Vec3& axis,
                                  const OpenSteer::Vec3& center,
-                                 const OpenSteer::Vec3& color,
+                                 const OpenSteer::Color& color,
                                  const int segments,
                                  const bool filled,
                                  const bool in3d)
         {
-            if (index < size)
-            {
-                deferredCircleArray[index].radius   = radius;
-                deferredCircleArray[index].axis     = axis;
-                deferredCircleArray[index].center   = center;
-                deferredCircleArray[index].color    = color;
-                deferredCircleArray[index].segments = segments;
-                deferredCircleArray[index].filled   = filled;
-                deferredCircleArray[index].in3d     = in3d;
-                index++;
-            }
-            else
-            {
-                OpenSteer::OpenSteerDemo::printWarning ("overflow in deferredDrawCircle buffer");
-            }
+            DeferredCircle dc;
+            dc.radius   = radius;
+            dc.axis     = axis;
+            dc.center   = center;
+            dc.color    = color;
+            dc.segments = segments;
+            dc.filled   = filled;
+            dc.in3d     = in3d;
+            circles.push_back (dc);
         }
 
         static void drawAll (void)
         {
-            // draw all circles in the buffer
-            for (int i = 0; i < index; i++)
+            // draw all deferred circles
+            for (DeferredCircles::iterator i = circles.begin();
+                 i < circles.end();
+                 i++)
             {
-                DeferredCircle& dc = deferredCircleArray[i];
+                DeferredCircle& dc = *i;
                 drawCircleOrDisk (dc.radius, dc.axis, dc.center, dc.color,
                                   dc.segments, dc.filled, dc.in3d);
             }
 
-            // reset buffer index
-            index = 0;
+            // clear list of deferred circles
+            circles.clear ();
         }
+
+        typedef std::vector<DeferredCircle> DeferredCircles;
 
     private:
 
         float radius;
         OpenSteer::Vec3 axis;
         OpenSteer::Vec3 center;
-        OpenSteer::Vec3 color;
+        OpenSteer::Color color;
         int segments;
         bool filled;
         bool in3d;
 
-        static int index;
-        static const int size;
-        static DeferredCircle deferredCircleArray [];
+        static DeferredCircles circles;
     };
 
 
-    int DeferredCircle::index = 0;
-    const int DeferredCircle::size = 500;
-    DeferredCircle DeferredCircle::deferredCircleArray [DeferredCircle::size];
+DeferredCircle::DeferredCircles DeferredCircle::circles;
+
 
 } // anonymous namesopace
 
@@ -1732,7 +1093,7 @@ void
 OpenSteer::deferredDrawCircleOrDisk (const float radius,
                                      const Vec3& axis,
                                      const Vec3& center,
-                                     const Vec3& color,
+                                     const Color& color,
                                      const int segments,
                                      const bool filled,
                                      const bool in3d)
@@ -1767,13 +1128,38 @@ OpenSteer::drawAllDeferredCirclesOrDisks (void)
 // xxx  and for THAT matter, why not just use reference ("&") args instead?
 
 
+
+
+
+// ----------------------------------------------------------------------------
+// draw string s right-justified in the upper righthand corner
+
+
+//     // XXX display the total number of AbstractVehicles created
+//     {
+//         std::ostringstream s;
+//         s << "vehicles: " << xxx::SerialNumberCounter << std::ends;
+
+//         // draw string s right-justified in the upper righthand corner
+//         const int h = glutGet (GLUT_WINDOW_HEIGHT);
+//         const int w = glutGet (GLUT_WINDOW_WIDTH);
+//         const int fontWidth = 9; // for GLUT_BITMAP_9_BY_15
+//         const int fontHeight = 15; // for GLUT_BITMAP_9_BY_15
+//         const int x = w - (fontWidth * s.pcount());
+//         const int y = h - (fontHeight + 5);
+//         const Vec3 screenLocation (x, y, 0);
+//         draw2dTextAt2dLocation (s, screenLocation, gWhite);
+//     }
+
+
+
 // // void draw2dTextAt3dLocation (const char* s,
 // void draw2dTextAt3dLocation (const char* const s,
 //                              const Vec3 location,
 //                              const Vec3 color)
 // {
 //     // set text color and raster position
-//     glColor3f (color.x, color.y, color.z);
+//     glColor3f (color.r(), color.g(), color.b());
 //     glRasterPos3f (location.x, location.y, location.z);
 
 //     // loop over each character in string (until null terminator)
@@ -1887,7 +1273,7 @@ OpenSteer::drawAllDeferredCirclesOrDisks (void)
 //                              const Vec3 color)
 // {
 //     // set text color and raster position
-//     glColor3f (color.x, color.y, color.z);
+//     glColor3f (color.r(), color.g(), color.b());
 //     glRasterPos3f (location.x, location.y, location.z);
 
 //     // loop over each character in string (until null terminator)
@@ -2003,7 +1389,7 @@ OpenSteer::drawAllDeferredCirclesOrDisks (void)
 //                              const Vec3 color)
 // {
 //     // set text color and raster position
-//     glColor3f (color.x, color.y, color.z);
+//     glColor3f (color.r(), color.g(), color.b());
 //     glRasterPos3f (location.x, location.y, location.z);
 
 //     // switch into 2d screen space in case we need to handle a new-line
@@ -2054,53 +1440,13 @@ OpenSteer::drawAllDeferredCirclesOrDisks (void)
 // // xxx  matrix modes instead of just a global).
 // int gxxxsavedMatrixMode;
 
-namespace {
-
-    inline GLint begin2dDrawing (void)
-    {
-        // store OpenGL matrix mode
-        GLint originalMatrixMode;
-        glGetIntegerv (GL_MATRIX_MODE, &originalMatrixMode);
-
-        // clear projection transform
-        glMatrixMode (GL_PROJECTION);
-        glPushMatrix ();
-        glLoadIdentity ();
-
-        // set up orthogonal projection onto window's screen space
-        const float w = glutGet (GLUT_WINDOW_WIDTH);
-        const float h = glutGet (GLUT_WINDOW_HEIGHT);
-        glOrtho (0.0f, w, 0.0f, h, -1.0f, 1.0f);
-
-        // clear model transform
-        glMatrixMode (GL_MODELVIEW);
-        glPushMatrix ();
-        glLoadIdentity ();
-
-        // return original matrix mode for saving (stacking)
-        return originalMatrixMode;
-    }
-
-
-    inline void end2dDrawing (GLint originalMatrixMode)
-    {
-        // restore previous model/projection transformation state
-        glPopMatrix ();
-        glMatrixMode (GL_PROJECTION);
-        glPopMatrix ();
-
-        // restore OpenGL matrix mode
-        glMatrixMode (originalMatrixMode);
-    }
-
-} // anonymous namespace
 
 // void draw2dTextAt3dLocation (const char* const s,
 //                              const Vec3 location,
 //                              const Vec3 color)
 // {
 //     // set text color and raster position
-//     glColor3f (color.x, color.y, color.z);
+//     glColor3f (color.r(), color.g(), color.b());
 //     glRasterPos3f (location.x, location.y, location.z);
 
 //     // switch into 2d screen space in case we need to handle a new-line
@@ -2153,20 +1499,20 @@ namespace {
 void 
 OpenSteer::draw2dTextAt3dLocation (const char& text,
                                    const Vec3& location,
-                                   const Vec3& color)
+                                   const Color& color, float w, float h)
 {
     // XXX NOTE: "it would be nice if" this had a 2d screenspace offset for
     // the origin of the text relative to the screen space projection of
     // the 3d point.
 
     // set text color and raster position
-    glColor3f (color.x, color.y, color.z);
+    glColor3f (color.r(), color.g(), color.b());
     glRasterPos3f (location.x, location.y, location.z);
 
     // switch into 2d screen space in case we need to handle a new-line
     GLint rasterPosition[4];
     glGetIntegerv (GL_CURRENT_RASTER_POSITION, rasterPosition);
-    const GLint originalMatrixMode = begin2dDrawing ();
+    const GLint originalMatrixMode = begin2dDrawing (w, h);
 
     //xxx uncommenting this causes the "2d" version to print the wrong thing
     //xxx with it out the first line of a multi-line "3d" string jiggles
@@ -2187,7 +1533,11 @@ OpenSteer::draw2dTextAt3dLocation (const char& text,
         else
         {
             // otherwise draw character bitmap
-            glutBitmapCharacter (GLUT_BITMAP_9_BY_15, *p);
+            #ifndef HAVE_NO_GLUT
+                glutBitmapCharacter (GLUT_BITMAP_9_BY_15, *p);
+            #else
+                // no character drawing with GLUT presently
+            #endif
         }
     }
 
@@ -2198,22 +1548,22 @@ OpenSteer::draw2dTextAt3dLocation (const char& text,
 void 
 OpenSteer::draw2dTextAt3dLocation (const std::ostringstream& text,
                                    const Vec3& location,
-                                   const Vec3& color)
+                                   const Color& color, float w, float h)
 {
-    draw2dTextAt3dLocation (*text.str().c_str(), location, color);
+    draw2dTextAt3dLocation (*text.str().c_str(), location, color, w, h);
 }
 
 
 void 
 OpenSteer::draw2dTextAt2dLocation (const char& text,
                                    const Vec3 location,
-                                   const Vec3 color)
+                                   const Color& color, float w, float h)
 {
-    const GLint originalMatrixMode = begin2dDrawing ();
+    const GLint originalMatrixMode = begin2dDrawing (w, h);
 
     // draw text at specified location (which is now interpreted as
     // relative to screen space) and color
-    draw2dTextAt3dLocation (text, location, color);
+    draw2dTextAt3dLocation (text, location, color, w, h);
 
     end2dDrawing (originalMatrixMode);
 }
@@ -2222,28 +1572,274 @@ OpenSteer::draw2dTextAt2dLocation (const char& text,
 void 
 OpenSteer::draw2dTextAt2dLocation (const std::ostringstream& text,
                                    const Vec3 location,
-                                   const Vec3 color)
+                                   const Color& color, float w, float h)
 {
-    draw2dTextAt2dLocation (*text.str().c_str(), location, color);
+    draw2dTextAt2dLocation (*text.str().c_str(), location, color, w, h);
 }
 
 
-// ------------------------------------------------------------------------
-// draw 2d lines in screen space: x and y are the relevant coordinates
 
-
-void 
-OpenSteer::draw2dLine (const Vec3& startPoint,
-                       const Vec3& endPoint,
-                       const Vec3& color)
-{
-    const GLint originalMatrixMode = begin2dDrawing ();
-
-    iDrawLine (startPoint, endPoint, color);
-
-    end2dDrawing (originalMatrixMode);
-}
 
 
 // ----------------------------------------------------------------------------
-    
+
+
+namespace OpenSteer {
+
+    // This class provides methods to draw spheres.  The shape is represented
+    // as a "geodesic" mesh of triangles generated by subviding an icosahedron
+    // until an edge length criteria is met.  Supports wireframe and unshaded
+    // triangle drawing styles.  Provides front/back/both culling of faces.
+    //
+    // see drawSphere below
+    //
+    class DrawSphereHelper
+    {
+    public:
+        Vec3 center;
+        float radius;
+        float maxEdgeLength;
+        bool filled;
+        Color color;
+        bool drawFrontFacing;
+        bool drawBackFacing;
+        Vec3 viewpoint;
+
+        // default constructor (at origin, radius=1, white, wireframe, nocull)
+        DrawSphereHelper ()
+            : center (Vec3::zero),
+              radius (1.0f),
+              maxEdgeLength (1.0f),
+              filled (false),
+              color (gWhite),
+              drawFrontFacing (true),
+              drawBackFacing (true),
+              viewpoint (Vec3::zero)
+        {}
+
+
+        // "kitchen sink" constructor (allows specifying everything)
+        DrawSphereHelper (const Vec3 _center,
+                          const float _radius,
+                          const float _maxEdgeLength,
+                          const bool _filled,
+                          const Color& _color,
+                          const bool _drawFrontFacing,
+                          const bool _drawBackFacing,
+                          const Vec3& _viewpoint)
+            : center (_center),
+              radius (_radius),
+              maxEdgeLength (_maxEdgeLength),
+              filled (_filled),
+              color (_color),
+              drawFrontFacing (_drawFrontFacing),
+              drawBackFacing (_drawBackFacing),
+              viewpoint (_viewpoint)
+        {}
+
+
+        // draw as an icosahedral geodesic sphere
+        void draw (void) const
+        {
+            // Geometry based on Paul Bourke's excellent article:
+            //   Platonic Solids (Regular polytopes in 3D)
+            //   http://astronomy.swin.edu.au/~pbourke/polyhedra/platonic/
+            const float sqrt5 = sqrtXXX (5.0f);
+            const float phi = (1.0f + sqrt5) * 0.5f; // "golden ratio"
+            // ratio of edge length to radius
+            const float ratio = sqrtXXX (10.0f + (2.0f * sqrt5)) / (4.0f * phi);
+            const float a = (radius / ratio) * 0.5;
+            const float b = (radius / ratio) / (2.0f * phi);
+
+            // define the icosahedron's 12 vertices:
+            const Vec3 v1  = center + Vec3 ( 0,  b, -a);
+            const Vec3 v2  = center + Vec3 ( b,  a,  0);
+            const Vec3 v3  = center + Vec3 (-b,  a,  0);
+            const Vec3 v4  = center + Vec3 ( 0,  b,  a);
+            const Vec3 v5  = center + Vec3 ( 0, -b,  a);
+            const Vec3 v6  = center + Vec3 (-a,  0,  b);
+            const Vec3 v7  = center + Vec3 ( 0, -b, -a);
+            const Vec3 v8  = center + Vec3 ( a,  0, -b);
+            const Vec3 v9  = center + Vec3 ( a,  0,  b);
+            const Vec3 v10 = center + Vec3 (-a,  0, -b);
+            const Vec3 v11 = center + Vec3 ( b, -a,  0);
+            const Vec3 v12 = center + Vec3 (-b, -a,  0);
+
+            // draw the icosahedron's 20 triangular faces:
+            drawMeshedTriangleOnSphere (v1, v2, v3);
+            drawMeshedTriangleOnSphere (v4, v3, v2);
+            drawMeshedTriangleOnSphere (v4, v5, v6);
+            drawMeshedTriangleOnSphere (v4, v9, v5);
+            drawMeshedTriangleOnSphere (v1, v7, v8);
+            drawMeshedTriangleOnSphere (v1, v10, v7);
+            drawMeshedTriangleOnSphere (v5, v11, v12);
+            drawMeshedTriangleOnSphere (v7, v12, v11);
+            drawMeshedTriangleOnSphere (v3, v6, v10);
+            drawMeshedTriangleOnSphere (v12, v10, v6);
+            drawMeshedTriangleOnSphere (v2, v8, v9);
+            drawMeshedTriangleOnSphere (v11, v9, v8);
+            drawMeshedTriangleOnSphere (v4, v6, v3);
+            drawMeshedTriangleOnSphere (v4, v2, v9);
+            drawMeshedTriangleOnSphere (v1, v3, v10);
+            drawMeshedTriangleOnSphere (v1, v8, v2);
+            drawMeshedTriangleOnSphere (v7, v10, v12);
+            drawMeshedTriangleOnSphere (v7, v11, v8);
+            drawMeshedTriangleOnSphere (v5, v12, v6);
+            drawMeshedTriangleOnSphere (v5, v9, v11);
+        }
+
+
+        // given two points, take midpoint and project onto this sphere
+        inline Vec3 midpointOnSphere (const Vec3& a, const Vec3& b) const
+        {
+            const Vec3 midpoint = (a + b) * 0.5f;
+            const Vec3 unitRadial = (midpoint - center).normalize ();
+            return center + (unitRadial * radius);
+        }
+
+
+        // given three points on the surface of this sphere, if the triangle
+        // is "small enough" draw it, otherwise subdivide it into four smaller
+        // triangles and recursively draw each of them.
+        void drawMeshedTriangleOnSphere (const Vec3& a, 
+                                         const Vec3& b,
+                                         const Vec3& c) const
+        {
+            // if all edges are short enough
+            if ((((a - b).length ()) < maxEdgeLength) &&
+                (((b - c).length ()) < maxEdgeLength) &&
+                (((c - a).length ()) < maxEdgeLength))
+            {
+                // draw triangle
+                drawTriangleOnSphere (a, b, c);
+            }
+            else // otherwise subdivide and recurse
+            {
+                // find edge midpoints
+                const Vec3 ab = midpointOnSphere (a, b);
+                const Vec3 bc = midpointOnSphere (b, c);
+                const Vec3 ca = midpointOnSphere (c, a);
+
+                // recurse on four sub-triangles
+                drawMeshedTriangleOnSphere ( a, ab, ca);
+                drawMeshedTriangleOnSphere (ab,  b, bc);
+                drawMeshedTriangleOnSphere (ca, bc,  c);
+                drawMeshedTriangleOnSphere (ab, bc, ca);
+            }
+        }
+
+
+        // draw one mesh element for drawMeshedTriangleOnSphere
+        void drawTriangleOnSphere (const Vec3& a, 
+                                   const Vec3& b,
+                                   const Vec3& c) const
+        {
+            // draw triangle, subject to the camera orientation criteria
+            // (according to drawBackFacing and drawFrontFacing)
+            const Vec3 triCenter = (a + b + c) / 3.0f;
+            const Vec3 triNormal = triCenter - center; // not unit length
+            const Vec3 view = triCenter - viewpoint;
+            const float dot = view.dot (triNormal); // project normal on view
+            const bool seen = ((dot>0.0f) ? drawBackFacing : drawFrontFacing);
+            if (seen)
+            {
+                if (filled)
+                {
+                    // draw filled triangle
+                    if (drawFrontFacing)
+                        drawTriangle (c, b, a, color);
+                    else
+                        drawTriangle (a, b, c, color);
+                }
+                else
+                {
+                    // draw triangle edges (use trick to avoid drawing each
+                    // edge twice (for each adjacent triangle) unless we are
+                    // culling and this tri is near the sphere's silhouette)
+                    const float unitDot = view.dot (triNormal.normalize ());
+                    const float t = 0.05f; // near threshold
+                    const bool nearSilhouette = (unitDot<t) || (unitDot>-t);
+                    if (nearSilhouette && !(drawBackFacing&&drawFrontFacing))
+                    {
+                        drawLine (a, b, color);
+                        drawLine (b, c, color);
+                        drawLine (c, a, color);
+                    }
+                    else
+                    {
+                        drawMeshedTriangleLine (a, b, color);
+                        drawMeshedTriangleLine (b, c, color);
+                        drawMeshedTriangleLine (c, a, color);
+                    }
+                }
+            }
+        }
+
+
+        // Draws line from A to B but not from B to A: assumes each edge
+        // will be drawn in both directions, picks just one direction for
+        // drawing according to an arbitary but reproducable criterion.
+        void drawMeshedTriangleLine (const Vec3& a, 
+                                     const Vec3& b,
+                                     const Color& color) const
+        {
+            if (a.x != b.x)
+            {
+                if (a.x > b.x) drawLine (a, b, color);
+            }
+            else
+            {
+                if (a.y != b.y)
+                {
+                    if (a.y > b.y) drawLine (a, b, color); 
+                }
+                else
+                {
+                    if (a.z > b.z) drawLine (a, b, color); 
+                }
+            }
+        }
+
+    };
+
+
+    // draw a sphere (wireframe or opaque, with front/back/both culling)
+    void drawSphere (const Vec3 center,
+                     const float radius,
+                     const float maxEdgeLength,
+                     const bool filled,
+                     const Color& color,
+                     const bool drawFrontFacing,
+                     const bool drawBackFacing,
+                     const Vec3& viewpoint)
+    {
+        const DrawSphereHelper s (center, radius, maxEdgeLength, filled, color,
+                                  drawFrontFacing, drawBackFacing, viewpoint);
+        s.draw ();
+    }
+
+
+    // draw a SphereObstacle
+    void drawSphereObstacle (const SphereObstacle& so,
+                             const float maxEdgeLength,
+                             const bool filled,
+                             const Color& color,
+                             const Vec3& viewpoint)
+    {
+        bool front, back;
+        switch (so.seenFrom ())
+        {
+        default:
+        case Obstacle::both:    front = true;  back = true;  break;
+        case Obstacle::inside:  front = false; back = true;  break;
+        case Obstacle::outside: front = true;  back = false; break;
+        }
+        drawSphere (so.center, so.radius, maxEdgeLength,
+                    filled, color, front, back, viewpoint);
+    }
+
+
+} // namespace OpenSteer
+
+
+// ----------------------------------------------------------------------------

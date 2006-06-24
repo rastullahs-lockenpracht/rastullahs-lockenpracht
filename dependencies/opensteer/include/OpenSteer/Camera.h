@@ -3,7 +3,7 @@
 //
 // OpenSteer -- Steering Behaviors for Autonomous Characters
 //
-// Copyright (c) 2002-2003, Sony Computer Entertainment America
+// Copyright (c) 2002-2005, Sony Computer Entertainment America
 // Original author: Craig Reynolds <craig_reynolds@playstation.sony.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -44,8 +44,8 @@
 #define OPENSTEER_CAMERA_H
 
 
-#include "LocalSpace.h"
-#include "AbstractVehicle.h"
+#include "OpenSteer/LocalSpace.h"
+#include "OpenSteer/AbstractVehicle.h"
 
 
 // ----------------------------------------------------------------------------
@@ -59,6 +59,7 @@ namespace OpenSteer {
 
         // constructor
         Camera ();
+        virtual ~Camera() { /* Nothing to do? */ }
 
         // reset all camera state to default values
         void reset (void);

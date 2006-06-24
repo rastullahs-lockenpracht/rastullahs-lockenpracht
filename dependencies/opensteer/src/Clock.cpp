@@ -3,7 +3,7 @@
 //
 // OpenSteer -- Steering Behaviors for Autonomous Characters
 //
-// Copyright (c) 2002-2003, Sony Computer Entertainment America
+// Copyright (c) 2002-2005, Sony Computer Entertainment America
 // Original author: Craig Reynolds <craig_reynolds@playstation.sony.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -49,20 +49,22 @@
 
 
 #include "OpenSteer/Clock.h"
-#include "OpenSteer/OpenSteerDemo.h"
 
 
 // ----------------------------------------------------------------------------
 // XXX This is a bit ad hoc.  Need to revisit conditionalization on operating
 // XXX system.  As of 5-5-03, this module knows about Win32 (code thanks to
 // XXX Leaf Garland and Bruce Mitchener) and Linux/Unix (Craig's original
-// XXX version).  It tests for Win32 and assumes Linux/Unix otherwise.
+// XXX version).  It tests for Xbox and Win32 and assumes Linux/Unix 
+// XXX otherwise.
 
 
-#ifdef _WIN32
-#include <windows.h>
+#if defined (_XBOX)
+	#include <xtl.h>
+#elif defined (_WIN32)
+	#include <windows.h>
 #else
-#include <sys/time.h> 
+	#include <sys/time.h> 
 #endif
 
 
@@ -239,8 +241,10 @@ OpenSteer::Clock::advanceSimulationTimeOneFrame (void)
 void 
 OpenSteer::Clock::advanceSimulationTime (const float seconds)
 {
-    if (seconds < 0)
-        OpenSteerDemo::errorExit ("negative arg to advanceSimulationTime.");
+    if (seconds < 0) {
+        /// @todo - throw? how to handle error conditions? Not by crashing an app!
+        std::cerr << "negative arg to advanceSimulationTime - results will not be valid";
+    }
     else
         newAdvanceTime += seconds;
 }
@@ -259,7 +263,8 @@ namespace {
     float 
     clockErrorExit (void)
     {
-        OpenSteer::OpenSteerDemo::errorExit ("Problem reading system clock.\n");
+        /// @todo - throw? how to handle error conditions? Not by crashing an app!
+        std::cerr << "Problem reading system clock - results will not be valid";
         return 0.0f;
     }
 

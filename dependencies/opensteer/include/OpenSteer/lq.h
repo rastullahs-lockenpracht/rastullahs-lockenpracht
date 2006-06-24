@@ -4,7 +4,7 @@
 //
 // OpenSteer -- Steering Behaviors for Autonomous Characters
 //
-// Copyright (c) 2002-2003, Sony Computer Entertainment America
+// Copyright (c) 2002-2005, Sony Computer Entertainment America
 // Original author: Craig Reynolds <craig_reynolds@playstation.sony.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -293,6 +293,18 @@ void lqMapOverAllObjects (lqDB* lq,
 
 void lqRemoveAllObjects (lqDB* lq);
 
+
+/* ------------------------------------------------------------------ */
+/* Get statistics about bin populations: min, max and average of
+   non-empty bins. */
+
+
+#ifndef NO_LQ_BIN_STATS
+void lqGetBinPopulationStats (lqDB* lq,
+                              int* min,
+                              int* max,
+                              float* average);
+#endif /* NO_LQ_BIN_STATS */
 
 /* ------------------------------------------------------------------ */
 

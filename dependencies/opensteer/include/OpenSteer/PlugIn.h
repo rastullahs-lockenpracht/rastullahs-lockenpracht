@@ -3,7 +3,7 @@
 //
 // OpenSteer -- Steering Behaviors for Autonomous Characters
 //
-// Copyright (c) 2002-2003, Sony Computer Entertainment America
+// Copyright (c) 2002-2005, Sony Computer Entertainment America
 // Original author: Craig Reynolds <craig_reynolds@playstation.sony.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -73,7 +73,7 @@ FooPlugIn gFooPlugIn;
 #define OPENSTEER_PLUGIN_H
 
 #include <iostream>
-#include "AbstractVehicle.h"
+#include "OpenSteer/AbstractVehicle.h"
 
 
 // ----------------------------------------------------------------------------
@@ -84,6 +84,9 @@ namespace OpenSteer {
     class AbstractPlugIn
     {
     public:
+        
+        virtual ~AbstractPlugIn() { /* Nothing to do. */ }
+        
         // generic PlugIn actions: open, update, redraw, close and reset
         virtual void open (void) = 0;
         virtual void update (const float currentTime, const float elapsedTime) = 0;

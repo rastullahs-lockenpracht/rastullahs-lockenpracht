@@ -3,7 +3,7 @@
 //
 // OpenSteer -- Steering Behaviors for Autonomous Characters
 //
-// Copyright (c) 2002-2003, Sony Computer Entertainment America
+// Copyright (c) 2002-2005, Sony Computer Entertainment America
 // Original author: Craig Reynolds <craig_reynolds@playstation.sony.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -47,12 +47,13 @@
 #define OPENSTEER_STEERLIBRARY_H
 
 
-#include "AbstractVehicle.h"
-#include "Pathway.h"
-#include "Obstacle.h"
-#include "Utilities.h"
+#include "OpenSteer/AbstractVehicle.h"
+#include "OpenSteer/Pathway.h"
+#include "OpenSteer/Obstacle.h"
+#include "OpenSteer/Utilities.h"
 
-
+// Include OpenSteer::Color, OpenSteer::gBlack, ...
+#include "Color.h"
 
 namespace OpenSteer {
 
@@ -62,6 +63,18 @@ namespace OpenSteer {
     template <class Super>
     class SteerLibraryMixin : public Super
     {
+    public:
+        using Super::velocity;
+        using Super::maxSpeed;
+        using Super::speed;
+        using Super::radius;
+        using Super::maxForce;
+        using Super::forward;
+        using Super::position;
+        using Super::side;
+        using Super::up;
+        using Super::predictFuturePosition;
+        
     public:
 
         // Constructor: initializes state
@@ -141,12 +154,12 @@ namespace OpenSteer {
 
         // Given two vehicles, based on their current positions and velocities,
         // determine the time until nearest approach
-        float predictNearestApproachTime (AbstractVehicle& other);
+        float predictNearestApproachTime (AbstractVehicle& otherVehicle);
 
         // Given the time until nearest approach (predictNearestApproachTime)
         // determine position of each vehicle at that time, and the distance
         // between them
-        float computeNearestApproachPositions (AbstractVehicle& other,
+        float computeNearestApproachPositions (AbstractVehicle& otherVehicle,
                                                float time);
 
 
@@ -171,7 +184,7 @@ namespace OpenSteer {
         // used by boid behaviors
 
 
-        bool inBoidNeighborhood (const AbstractVehicle& other,
+        bool inBoidNeighborhood (const AbstractVehicle& otherVehicle,
                                  const float minDistance,
                                  const float maxDistance,
                                  const float cosMaxAngle);
@@ -260,20 +273,6 @@ namespace OpenSteer {
         };
 
 
-        // xxx cwr 9-6-02 temporary to support old code
-        typedef struct {
-            int intersect;
-            float distance;
-            Vec3 surfacePoint;
-            Vec3 surfaceNormal;
-            SphericalObstacle* obstacle;
-        } PathIntersection;
-
-        // xxx experiment cwr 9-6-02
-        void findNextIntersectionWithSphere (SphericalObstacle& obs,
-                                             PathIntersection& intersection);
-
-
         // ------------------------------------------------ graphical annotation
         // (parameter names commented out to prevent compiler warning from "-W")
 
@@ -322,7 +321,7 @@ OpenSteer::SteerLibraryMixin<Super>::
 steerForWander (float dt)
 {
     // random walk WanderSide and WanderUp between -1 and +1
-    const float speed = 12 * dt; // maybe this (12) should be an argument?
+    const float speed = 12.0f * dt; // maybe this (12) should be an argument?
     WanderSide = scalarRandomWalk (WanderSide, speed, -1, +1);
     WanderUp   = scalarRandomWalk (WanderUp,   speed, -1, +1);
 
@@ -354,7 +353,7 @@ OpenSteer::Vec3
 OpenSteer::SteerLibraryMixin<Super>::
 steerForFlee (const Vec3& target)
 {
-    const Vec3 desiredVelocity = (position() - target);
+    const Vec3 desiredVelocity = position() - target;
     return desiredVelocity - velocity();
 }
 
@@ -470,8 +469,8 @@ steerToFollowPath (const int direction,
         // otherwise we need to steer towards a target point obtained
         // by adding pathDistanceOffset to our current path position
 
-        float targetPathDistance = nowPathDistance + pathDistanceOffset;
-        Vec3 target = path.mapPathDistanceToPoint (targetPathDistance);
+        float const targetPathDistance = nowPathDistance + pathDistanceOffset;
+        Vec3 const target = path.mapPathDistanceToPoint (targetPathDistance);
 
         annotatePathFollowing (futurePosition, onPath, target, outside);
 
@@ -519,9 +518,6 @@ steerToAvoidObstacle (const float minTimeToCollision,
 
 
 // this version avoids all of the obstacles in an ObstacleGroup
-//
-// XXX 9-12-03: note this does NOT use the Obstacle::steerToAvoid protocol
-// XXX like the older steerToAvoidObstacle does/did.  It needs to be fixed
 
 template<class Super>
 OpenSteer::Vec3
@@ -529,44 +525,13 @@ OpenSteer::SteerLibraryMixin<Super>::
 steerToAvoidObstacles (const float minTimeToCollision,
                        const ObstacleGroup& obstacles)
 {
-    Vec3 avoidance;
-    PathIntersection nearest, next;
-    const float minDistanceToCollision = minTimeToCollision * speed();
+    const Vec3 avoidance = Obstacle::steerToAvoidObstacles (*this,
+                                                            minTimeToCollision,
+                                                            obstacles);
 
-    next.intersect = false;
-    nearest.intersect = false;
-
-    // test all obstacles for intersection with my forward axis,
-    // select the one whose point of intersection is nearest
-    for (ObstacleIterator o = obstacles.begin(); o != obstacles.end(); o++)
-    {
-        // xxx this should be a generic call on Obstacle, rather than
-        // xxx this code which presumes the obstacle is spherical
-        findNextIntersectionWithSphere ((SphericalObstacle&)**o, next);
-
-        if ((nearest.intersect == false) ||
-            ((next.intersect != false) &&
-             (next.distance < nearest.distance)))
-            nearest = next;
-    }
-
-    // when a nearest intersection was found
-    if ((nearest.intersect != false) &&
-        (nearest.distance < minDistanceToCollision))
-    {
-        // show the corridor that was checked for collisions
-        annotateAvoidObstacle (minDistanceToCollision);
-
-        // compute avoidance steering force: take offset from obstacle to me,
-        // take the component of that which is lateral (perpendicular to my
-        // forward direction), set length to maxForce, add a bit of forward
-        // component (in capture the flag, we never want to slow down)
-        const Vec3 offset = position() - nearest.obstacle->center;
-        avoidance = offset.perpendicularComponent (forward());
-        avoidance = avoidance.normalize ();
-        avoidance *= maxForce ();
-        avoidance += forward() * maxForce () * 0.75;
-    }
+    // XXX more annotation modularity problems (assumes spherical obstacle)
+    if (avoidance != Vec3::zero)
+        annotateAvoidObstacle (minTimeToCollision * speed());
 
     return avoidance;
 }
@@ -691,12 +656,12 @@ steerToAvoidNeighbors (const float minTimeToCollision,
 template<class Super>
 float
 OpenSteer::SteerLibraryMixin<Super>::
-predictNearestApproachTime (AbstractVehicle& other)
+predictNearestApproachTime (AbstractVehicle& otherVehicle)
 {
     // imagine we are at the origin with no velocity,
     // compute the relative velocity of the other vehicle
     const Vec3 myVelocity = velocity();
-    const Vec3 otherVelocity = other.velocity();
+    const Vec3 otherVelocity = otherVehicle.velocity();
     const Vec3 relVelocity = otherVelocity - myVelocity;
     const float relSpeed = relVelocity.length();
 
@@ -714,7 +679,7 @@ predictNearestApproachTime (AbstractVehicle& other)
 
     // find distance from its path to origin (compute offset from
     // other to us, find length of projection onto path)
-    const Vec3 relPosition = position() - other.position();
+    const Vec3 relPosition = position() - otherVehicle.position();
     const float projection = relTangent.dot(relPosition);
 
     return projection / relSpeed;
@@ -729,14 +694,14 @@ predictNearestApproachTime (AbstractVehicle& other)
 template<class Super>
 float
 OpenSteer::SteerLibraryMixin<Super>::
-computeNearestApproachPositions (AbstractVehicle& other,
+computeNearestApproachPositions (AbstractVehicle& otherVehicle,
                                  float time)
 {
     const Vec3    myTravel =       forward () *       speed () * time;
-    const Vec3 otherTravel = other.forward () * other.speed () * time;
+    const Vec3 otherTravel = otherVehicle.forward () * otherVehicle.speed () * time;
 
     const Vec3    myFinal =       position () +    myTravel;
-    const Vec3 otherFinal = other.position () + otherTravel;
+    const Vec3 otherFinal = otherVehicle.position () + otherTravel;
 
     // xxx for annotation
     ourPositionAtNearestApproach = myFinal;
@@ -792,18 +757,18 @@ steerToAvoidCloseNeighbors (const float minSeparationDistance,
 template<class Super>
 bool
 OpenSteer::SteerLibraryMixin<Super>::
-inBoidNeighborhood (const AbstractVehicle& other,
+inBoidNeighborhood (const AbstractVehicle& otherVehicle,
                     const float minDistance,
                     const float maxDistance,
                     const float cosMaxAngle)
 {
-    if (&other == this)
+    if (&otherVehicle == this)
     {
         return false;
     }
     else
     {
-        const Vec3 offset = other.position() - position();
+        const Vec3 offset = otherVehicle.position() - position();
         const float distanceSquared = offset.lengthSquared ();
 
         // definitely in neighborhood if inside minDistance sphere
@@ -846,25 +811,35 @@ steerForSeparation (const float maxDistance,
     int neighbors = 0;
 
     // for each of the other vehicles...
-    for (AVIterator other = flock.begin(); other != flock.end(); other++)
+    AVIterator flockEndIter = flock.end();
+    for (AVIterator otherVehicle = flock.begin(); otherVehicle != flockEndIter; ++otherVehicle )
     {
-        if (inBoidNeighborhood (**other, radius()*3, maxDistance, cosMaxAngle))
+        if (inBoidNeighborhood (**otherVehicle, radius()*3, maxDistance, cosMaxAngle))
         {
             // add in steering contribution
             // (opposite of the offset direction, divided once by distance
             // to normalize, divided another time to get 1/d falloff)
-            const Vec3 offset = (**other).position() - position();
+            const Vec3 offset = (**otherVehicle).position() - position();
             const float distanceSquared = offset.dot(offset);
             steering += (offset / -distanceSquared);
 
             // count neighbors
-            neighbors++;
+            ++neighbors;
         }
     }
 
     // divide by neighbors, then normalize to pure direction
-    if (neighbors > 0) steering = (steering / (float)neighbors).normalize();
-
+    // bk: Why dividing if you normalize afterwards?
+    //     As long as normilization tests for @c 0 we can just call normalize
+    //     and safe the branching if.
+    /*
+    if (neighbors > 0) {
+        steering /= neighbors;
+        steering = steering.normalize();
+    }
+    */
+    steering = steering.normalize();
+    
     return steering;
 }
 
@@ -885,12 +860,12 @@ steerForAlignment (const float maxDistance,
     int neighbors = 0;
 
     // for each of the other vehicles...
-    for (AVIterator other = flock.begin(); other != flock.end(); other++)
+    for (AVIterator otherVehicle = flock.begin(); otherVehicle != flock.end(); otherVehicle++)
     {
-        if (inBoidNeighborhood (**other, radius()*3, maxDistance, cosMaxAngle))
+        if (inBoidNeighborhood (**otherVehicle, radius()*3, maxDistance, cosMaxAngle))
         {
             // accumulate sum of neighbor's heading
-            steering += (**other).forward();
+            steering += (**otherVehicle).forward();
 
             // count neighbors
             neighbors++;
@@ -922,12 +897,12 @@ steerForCohesion (const float maxDistance,
     int neighbors = 0;
 
     // for each of the other vehicles...
-    for (AVIterator other = flock.begin(); other != flock.end(); other++)
+    for (AVIterator otherVehicle = flock.begin(); otherVehicle != flock.end(); otherVehicle++)
     {
-        if (inBoidNeighborhood (**other, radius()*3, maxDistance, cosMaxAngle))
+        if (inBoidNeighborhood (**otherVehicle, radius()*3, maxDistance, cosMaxAngle))
         {
             // accumulate sum of neighbor's positions
-            steering += (**other).position();
+            steering += (**otherVehicle).position();
 
             // count neighbors
             neighbors++;
@@ -979,7 +954,7 @@ steerForPursuit (const AbstractVehicle& quarry,
     const int p = intervalComparison (parallelness, -0.707f, 0.707f);
 
     float timeFactor = 0; // to be filled in below
-    Vec3 color;           // to be filled in below (xxx just for debugging)
+    Color color;           // to be filled in below (xxx just for debugging)
 
     // Break the pursuit into nine cases, the cross product of the
     // quarry being [ahead, aside, or behind] us and heading
@@ -1049,7 +1024,7 @@ steerForPursuit (const AbstractVehicle& quarry,
     const Vec3 target = quarry.predictFuturePosition (etl);
 
     // annotation
-   /* annotationLine (position(),
+/*    annotationLine (position(),
                     target,
                     gaudyPursuitAnnotation ? color : gGray40);
 */
@@ -1094,65 +1069,6 @@ steerForTargetSpeed (const float targetSpeed)
     const float mf = maxForce ();
     const float speedError = targetSpeed - speed ();
     return forward () * clip (speedError, -mf, +mf);
-}
-
-
-// ----------------------------------------------------------------------------
-// xxx experiment cwr 9-6-02
-
-
-template<class Super>
-void
-OpenSteer::SteerLibraryMixin<Super>::
-findNextIntersectionWithSphere (SphericalObstacle& obs,
-                                PathIntersection& intersection)
-{
-    // xxx"SphericalObstacle& obs" should be "const SphericalObstacle&
-    // obs" but then it won't let me store a pointer to in inside the
-    // PathIntersection
-
-    // This routine is based on the Paul Bourke's derivation in:
-    //   Intersection of a Line and a Sphere (or circle)
-    //   http://www.swin.edu.au/astronomy/pbourke/geometry/sphereline/
-
-    float b, c, d, p, q, s;
-    Vec3 lc;
-
-    // initialize pathIntersection object
-    intersection.intersect = false;
-    intersection.obstacle = &obs;
-
-    // find "local center" (lc) of sphere in boid's coordinate space
-    lc = localizePosition (obs.center);
-
-    // computer line-sphere intersection parameters
-    b = -2 * lc.z;
-    c = square (lc.x) + square (lc.y) + square (lc.z) - 
-        square (obs.radius + radius());
-    d = (b * b) - (4 * c);
-
-    // when the path does not intersect the sphere
-    if (d < 0) return;
-
-    // otherwise, the path intersects the sphere in two points with
-    // parametric coordinates of "p" and "q".
-    // (If "d" is zero the two points are coincident, the path is tangent)
-    s = sqrtXXX (d);
-    p = (-b + s) / 2;
-    q = (-b - s) / 2;
-
-    // both intersections are behind us, so no potential collisions
-    if ((p < 0) && (q < 0)) return; 
-
-    // at least one intersection is in front of us
-    intersection.intersect = true;
-    intersection.distance =
-        ((p > 0) && (q > 0)) ?
-        // both intersections are in front of us, find nearest one
-        ((p < q) ? p : q) :
-        // otherwise only one intersections is in front, select it
-        ((p > 0) ? p : q);
-    return;
 }
 
 

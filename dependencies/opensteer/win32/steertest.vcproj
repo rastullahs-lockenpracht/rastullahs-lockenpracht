@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8,00"
 	Name="OpenSteerDemo"
-	ProjectGUID="{1355AD4B-911E-42E7-B703-4847A40788EB}"
+	ProjectGUID="{3ED2CD63-14EF-45FB-8A78-3906B9806E0C}"
 	RootNamespace="opensteer"
 	Keyword="Win32Proj"
 	>
@@ -176,7 +176,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="mkdir $(ProjectDir)\bin&#x0D;&#x0A;copy $(TargetPath) $(ProjectDir)\bin&#x0D;&#x0A;"
+				CommandLine="mkdir &quot;$(ProjectDir)\bin&quot;&#x0D;&#x0A;copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)\bin&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>
@@ -193,6 +193,10 @@
 			</File>
 			<File
 				RelativePath="..\src\OpenSteerDemo.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\OpenSteer\OpenSteerDemo.h"
 				>
 			</File>
 		</Filter>

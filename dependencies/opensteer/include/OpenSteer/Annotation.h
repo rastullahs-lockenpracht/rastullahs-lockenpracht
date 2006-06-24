@@ -3,7 +3,7 @@
 //
 // OpenSteer -- Steering Behaviors for Autonomous Characters
 //
-// Copyright (c) 2002-2003, Sony Computer Entertainment America
+// Copyright (c) 2002-2005, Sony Computer Entertainment America
 // Original author: Craig Reynolds <craig_reynolds@playstation.sony.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -45,15 +45,25 @@
 #ifndef OPENSTEER_ANNOTATION_H
 #define OPENSTEER_ANNOTATION_H
 
-
-#include "OpenSteerDemo.h"
-
+#ifndef NOT_OPENSTEERDEMO  // only when building OpenSteerDemo
+#include "OpenSteer/Draw.h"
+#endif // NOT_OPENSTEERDEMO
+#include "OpenSteer/Vec3.h"
+#include "OpenSteer/Color.h"
 
 // ----------------------------------------------------------------------------
 
 
 namespace OpenSteer {
 
+    extern bool enableAnnotation;
+    extern bool drawPhaseActive;
+
+    // graphical annotation: master on/off switch
+    inline bool annotationIsOn (void) {return enableAnnotation;}
+    inline void setAnnotationOn (void) {enableAnnotation = true;}
+    inline void setAnnotationOff (void) {enableAnnotation = false;}
+    inline bool toggleAnnotationState (void) {return (enableAnnotation = !enableAnnotation);}
 
     template <class Super>
     class AnnotationMixin : public Super
@@ -75,11 +85,11 @@ namespace OpenSteer {
         // XXX Annotation would "has-a" one (or more))
 
         // record a position for the current time, called once per update
-        void recordTrailVertex (const float currentTime, const Vec3 position);
+        void recordTrailVertex (const float currentTime, const Vec3& position);
 
         // draw the trail as a dotted line, fading away with age
         void drawTrail (void) {drawTrail (grayColor (0.7f), gWhite);}
-        void drawTrail  (const Vec3& trailColor, const Vec3& tickColor);
+        void drawTrail  (const Color& trailColor, const Color& tickColor);
 
         // set trail parameters: the amount of time it represents and the
         // number of samples along its length.  re-allocates internal buffers.
@@ -103,13 +113,13 @@ namespace OpenSteer {
         // draw an opaque colored line segment between two locations in space
         void annotationLine (const Vec3& startPoint,
                              const Vec3& endPoint,
-                             const Vec3& color);
+                             const Color& color) const;
 
         // draw a circle on the XZ plane
         void annotationXZCircle (const float radius,
                                  const Vec3& center,
-                                 const Vec3& color,
-                                 const int segments)
+                                 const Color& color,
+                                 const int segments) const
         {
             annotationXZCircleOrDisk (radius, center, color, segments, false);
         }
@@ -118,8 +128,8 @@ namespace OpenSteer {
         // draw a disk on the XZ plane
         void annotationXZDisk (const float radius,
                                const Vec3& center,
-                               const Vec3& color,
-                               const int segments)
+                               const Color& color,
+                               const int segments) const
         {
             annotationXZCircleOrDisk (radius, center, color, segments, true);
         }
@@ -129,8 +139,8 @@ namespace OpenSteer {
         void annotation3dCircle (const float radius,
                                  const Vec3& center,
                                  const Vec3& axis,
-                                 const Vec3& color,
-                                 const int segments)
+                                 const Color& color,
+                                 const int segments) const
         {
             annotation3dCircleOrDisk (radius, center, axis, color, segments, false);
         }
@@ -140,8 +150,8 @@ namespace OpenSteer {
         void annotation3dDisk (const float radius,
                                const Vec3& center,
                                const Vec3& axis,
-                               const Vec3& color,
-                               const int segments)
+                               const Color& color,
+                               const int segments) const
         {
             annotation3dCircleOrDisk (radius, center, axis, color, segments, true);
         }
@@ -153,9 +163,9 @@ namespace OpenSteer {
 
         void annotationXZCircleOrDisk (const float radius,
                                        const Vec3& center,
-                                       const Vec3& color,
+                                       const Color& color,
                                        const int segments,
-                                       const bool filled)
+                                       const bool filled) const
         {
             annotationCircleOrDisk (radius,
                                     Vec3::zero,
@@ -170,9 +180,9 @@ namespace OpenSteer {
         void annotation3dCircleOrDisk (const float radius,
                                        const Vec3& center,
                                        const Vec3& axis,
-                                       const Vec3& color,
+                                       const Color& color,
                                        const int segments,
-                                       const bool filled)
+                                       const bool filled) const
         {
             annotationCircleOrDisk (radius,
                                     axis,
@@ -186,10 +196,10 @@ namespace OpenSteer {
         void annotationCircleOrDisk (const float radius,
                                      const Vec3& axis,
                                      const Vec3& center,
-                                     const Vec3& color,
+                                     const Color& color,
                                      const int segments,
                                      const bool filled,
-                                     const bool in3d);
+                                     const bool in3d) const;
 
         // ------------------------------------------------------------------------
     private:
@@ -293,7 +303,7 @@ OpenSteer::AnnotationMixin<Super>::clearTrailHistory (void)
 template<class Super>
 void 
 OpenSteer::AnnotationMixin<Super>::recordTrailVertex (const float currentTime,
-                                                      const Vec3 position)
+                                                      const Vec3& position)
 {
     const float timeSinceLastTrailSample = currentTime - trailLastSampleTime;
     if (timeSinceLastTrailSample > trailSampleInterval)
@@ -303,7 +313,7 @@ OpenSteer::AnnotationMixin<Super>::recordTrailVertex (const float currentTime,
         trailDottedPhase = (trailDottedPhase + 1) % 2;
         const int tick = (floorXXX (currentTime) >
                           floorXXX (trailLastSampleTime));
-        trailFlags [trailIndex] = trailDottedPhase | (tick ? 2 : 0);
+        trailFlags [trailIndex] = trailDottedPhase | (tick ? '\2' : '\0');
         trailLastSampleTime = currentTime;
     }
     curPosition = position;
@@ -316,10 +326,10 @@ OpenSteer::AnnotationMixin<Super>::recordTrailVertex (const float currentTime,
 
 template<class Super>
 void 
-OpenSteer::AnnotationMixin<Super>::drawTrail (const Vec3& trailColor,
-                                              const Vec3& tickColor)
+OpenSteer::AnnotationMixin<Super>::drawTrail (const Color& trailColor,
+                                              const Color& tickColor)
 {
-    if (OpenSteerDemo::annotationIsOn())
+    if (enableAnnotation)
     {
         int index = trailIndex;
         for (int j = 0; j < trailVertexCount; j++)
@@ -330,7 +340,7 @@ OpenSteer::AnnotationMixin<Super>::drawTrail (const Vec3& trailColor,
             // "tick mark": every second, draw a segment in a different color
             const int tick = ((trailFlags [index] & 2) ||
                               (trailFlags [next] & 2));
-            const Vec3 color = tick ? tickColor : trailColor;
+            const Color color = tick ? tickColor : trailColor;
 
             // draw every other segment
             if (trailFlags [index] & 1)
@@ -369,15 +379,16 @@ OpenSteer::AnnotationMixin<Super>::drawTrail (const Vec3& trailColor,
 // segment is queued to be drawn during OpenSteerDemo's redraw phase.
 
 
+#ifndef NOT_OPENSTEERDEMO  // only when building OpenSteerDemo
 template<class Super>
 void 
 OpenSteer::AnnotationMixin<Super>::annotationLine (const Vec3& startPoint,
                                                    const Vec3& endPoint,
-                                                   const Vec3& color)
+                                                   const Color& color) const
 {
-    if (OpenSteerDemo::annotationIsOn())
+    if (enableAnnotation)
     {
-        if (OpenSteerDemo::phaseIsDraw())
+        if (drawPhaseActive)
         {
             drawLine (startPoint, endPoint, color);
         }
@@ -387,6 +398,10 @@ OpenSteer::AnnotationMixin<Super>::annotationLine (const Vec3& startPoint,
         }
     }
 }
+#else
+template<class Super> void OpenSteer::AnnotationMixin<Super>::annotationLine
+ (const Vec3&, const Vec3&, const Vec3&) const {}
+#endif // NOT_OPENSTEERDEMO
 
 
 // ----------------------------------------------------------------------------
@@ -397,19 +412,20 @@ OpenSteer::AnnotationMixin<Super>::annotationLine (const Vec3& startPoint,
 // "circle or disk" is queued to be drawn during OpenSteerDemo's redraw phase.
 
 
+#ifndef NOT_OPENSTEERDEMO  // only when building OpenSteerDemo
 template<class Super>
 void 
 OpenSteer::AnnotationMixin<Super>::annotationCircleOrDisk (const float radius,
                                                            const Vec3& axis,
                                                            const Vec3& center,
-                                                           const Vec3& color,
+                                                           const Color& color,
                                                            const int segments,
                                                            const bool filled,
-                                                           const bool in3d)
+                                                           const bool in3d) const
 {
-    if (OpenSteerDemo::annotationIsOn())
+    if (enableAnnotation)
     {
-        if (OpenSteerDemo::phaseIsDraw())
+        if (drawPhaseActive)
         {
             drawCircleOrDisk (radius, axis, center, color,
                               segments, filled, in3d);
@@ -421,6 +437,12 @@ OpenSteer::AnnotationMixin<Super>::annotationCircleOrDisk (const float radius,
         }
     }
 }
+#else
+template<class Super>
+void OpenSteer::AnnotationMixin<Super>::annotationCircleOrDisk
+(const float, const Vec3&, const Vec3&, const Vec3&, const int,
+ const bool, const bool) const {}
+#endif // NOT_OPENSTEERDEMO
 
 
 // ----------------------------------------------------------------------------

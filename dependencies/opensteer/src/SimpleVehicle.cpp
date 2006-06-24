@@ -3,7 +3,7 @@
 //
 // OpenSteer -- Steering Behaviors for Autonomous Characters
 //
-// Copyright (c) 2002-2003, Sony Computer Entertainment America
+// Copyright (c) 2002-2005, Sony Computer Entertainment America
 // Original author: Craig Reynolds <craig_reynolds@playstation.sony.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -61,7 +61,6 @@
 
 
 #include "OpenSteer/SimpleVehicle.h"
-#include "OpenSteer/OpenSteerDemo.h"
 #include <algorithm>
 
 
@@ -303,8 +302,8 @@ OpenSteer::SimpleVehicle::annotationVelocityAcceleration (float maxLengthA,
     const float aScale = maxLengthA / maxForce ();
     const float vScale = maxLengthV / maxSpeed ();
     const Vec3& p = position();
-    const Vec3 aColor (desat, desat, 1); // bluish
-    const Vec3 vColor (    1, desat, 1); // pinkish
+    const Color aColor (desat, desat, 1); // bluish
+    const Color vColor (    1, desat, 1); // pinkish
 
     annotationLine (p, p + (velocity ()           * vScale), vColor);
     annotationLine (p, p + (_smoothedAcceleration * aScale), aColor);

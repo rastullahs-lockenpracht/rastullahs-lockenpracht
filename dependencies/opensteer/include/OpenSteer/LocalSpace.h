@@ -3,7 +3,7 @@
 //
 // OpenSteer -- Steering Behaviors for Autonomous Characters
 //
-// Copyright (c) 2002-2003, Sony Computer Entertainment America
+// Copyright (c) 2002-2005, Sony Computer Entertainment America
 // Original author: Craig Reynolds <craig_reynolds@playstation.sony.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -64,7 +64,7 @@
 #define OPENSTEER_LOCALSPACE_H
 
 
-#include "Vec3.h"
+#include "OpenSteer/Vec3.h"
 
 
 // ----------------------------------------------------------------------------
@@ -76,6 +76,8 @@ namespace OpenSteer {
     class AbstractLocalSpace
     {
     public:
+        virtual ~AbstractLocalSpace() { /* Nothing to do. */ }
+        
 
         // accessors (get and set) for side, up, forward and position
         virtual Vec3 side (void) const = 0;
@@ -182,24 +184,20 @@ namespace OpenSteer {
                          const Vec3& Up,
                          const Vec3& Forward,
                          const Vec3& Position)
-        {
-            _side = Side;
-            _up = Up;
-            _forward = Forward;
-            _position = Position;
-        };
+            : _side( Side ), _up( Up ), _forward( Forward ), _position( Position ) {}
 
 
         LocalSpaceMixin (const Vec3& Up,
                          const Vec3& Forward,
                          const Vec3& Position)
+            : _side(), _up( Up ), _forward( Forward ), _position( Position )
         {
-            _up = Up;
-            _forward = Forward;
-            _position = Position;
             setUnitSideFromForwardAndUp ();
-        };
+        }
 
+        
+        virtual ~LocalSpaceMixin() { /* Nothing to do. */ }
+        
 
         // ------------------------------------------------------------------------
         // reset transform: set local space to its identity state, equivalent to a

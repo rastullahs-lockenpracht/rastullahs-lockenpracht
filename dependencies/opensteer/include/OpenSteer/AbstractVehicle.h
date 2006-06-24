@@ -3,7 +3,7 @@
 //
 // OpenSteer -- Steering Behaviors for Autonomous Characters
 //
-// Copyright (c) 2002-2003, Sony Computer Entertainment America
+// Copyright (c) 2002-2005, Sony Computer Entertainment America
 // Original author: Craig Reynolds <craig_reynolds@playstation.sony.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -40,7 +40,7 @@
 #define OPENSTEER_ABSTRACTVEHICLE_H
 
 
-#include "LocalSpace.h"
+#include "OpenSteer/LocalSpace.h"
 
 
 // STL vector containers
@@ -51,11 +51,11 @@
 
 namespace OpenSteer {
 
-
     class AbstractVehicle : public AbstractLocalSpace 
     {
     public:
-
+        virtual ~AbstractVehicle() { /* Nothing to do. */ }
+        
         // mass (defaults to unity so acceleration=force)
         virtual float mass (void) const = 0;
         virtual float setMass (float) = 0;
@@ -90,6 +90,9 @@ namespace OpenSteer {
         // the maximum speed this vehicle is allowed to move
         virtual float maxSpeed (void) const = 0;
         virtual float setMaxSpeed (float) = 0;
+
+		// dp - added to support heterogeneous flocks
+		virtual void update(const float currentTime, const float elapsedTime) = 0;
     };
 
 

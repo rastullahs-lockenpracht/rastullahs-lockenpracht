@@ -3,7 +3,7 @@
 //
 // OpenSteer -- Steering Behaviors for Autonomous Characters
 //
-// Copyright (c) 2002-2003, Sony Computer Entertainment America
+// Copyright (c) 2002-2005, Sony Computer Entertainment America
 // Original author: Craig Reynolds <craig_reynolds@playstation.sony.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -36,8 +36,8 @@
 // ------------------------------------------------------------------------
 
 
-#include "OpenSteer/OpenSteerDemo.h"   // OpenSteerDemo application
-#include "OpenSteer/Draw.h"            // OpenSteerDemo graphics
+#include "OpenSteer/OpenSteerDemo.h"        // OpenSteerDemo application
+#include "OpenSteer/Draw.h"                 // OpenSteerDemo graphics
 
 // To include EXIT_SUCCESS
 #include <cstdlib>

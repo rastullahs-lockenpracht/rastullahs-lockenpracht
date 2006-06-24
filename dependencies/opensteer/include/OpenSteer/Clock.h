@@ -3,7 +3,7 @@
 //
 // OpenSteer -- Steering Behaviors for Autonomous Characters
 //
-// Copyright (c) 2002-2003, Sony Computer Entertainment America
+// Copyright (c) 2002-2005, Sony Computer Entertainment America
 // Original author: Craig Reynolds <craig_reynolds@playstation.sony.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -56,8 +56,10 @@
 
 #include "OpenSteer/Utilities.h"
 
-#ifdef _WIN32
-#include <windows.h>
+#if defined (_XBOX)
+	#include <xtl.h>
+#elif defined (_WIN32)
+	#include <windows.h>
 #endif
 
 

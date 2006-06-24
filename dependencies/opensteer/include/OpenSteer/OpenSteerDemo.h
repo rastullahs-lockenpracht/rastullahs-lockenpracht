@@ -1,9 +1,11 @@
+
+
 // ----------------------------------------------------------------------------
 //
 //
 // OpenSteer -- Steering Behaviors for Autonomous Characters
 //
-// Copyright (c) 2002-2003, Sony Computer Entertainment America
+// Copyright (c) 2002-2005, Sony Computer Entertainment America
 // Original author: Craig Reynolds <craig_reynolds@playstation.sony.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -45,7 +47,7 @@
 #define OPENSTEER_OPENSTEERDEMO_H
 
 
-#include "OpenSteer/Vec3.h"
+
 #include "OpenSteer/Clock.h"
 #include "OpenSteer/PlugIn.h"
 #include "OpenSteer/Camera.h"
@@ -54,6 +56,9 @@
 
 namespace OpenSteer {
 
+    class Color;
+    class Vec3;
+    
 
     class OpenSteerDemo
     {
@@ -220,21 +225,14 @@ namespace OpenSteer {
         // draw a box around a vehicle aligned with its local space
         // xxx not used as of 11-20-02
         static void drawBoxHighlightOnVehicle (const AbstractVehicle& v,
-                                               const Vec3 color);
+                                               const Color& color);
 
         // draws a colored circle (perpendicular to view axis) around the center
         // of a given vehicle.  The circle's radius is the vehicle's radius times
         // radiusMultiplier.
         static void drawCircleHighlightOnVehicle (const AbstractVehicle& v,
                                                   const float radiusMultiplier,
-                                                  const Vec3 color);
-
-        // graphical annotation: master on/off switch
-        static bool annotationIsOn (void) {return enableAnnotation;}
-        static void setAnnotationOn (void) {enableAnnotation = true;}
-        static void setAnnotationOff (void) {enableAnnotation = false;}
-        static bool toggleAnnotationState (void)
-            {return (enableAnnotation = !enableAnnotation);}
+                                                  const Color& color);
 
         // ----------------------------------------------------------- console text
 
@@ -252,8 +250,6 @@ namespace OpenSteer {
         // ---------------------------------------------------------------- private
 
     private:
-        static bool enableAnnotation;
-
         static int phase;
         static int phaseStack[];
         static int phaseStackIndex;
@@ -275,13 +271,34 @@ namespace OpenSteer {
         static const int overheadPhase;
     };
 
+    // ----------------------------------------------------------------------------
+    // do all initialization related to graphics
+
+
+    void initializeGraphics (int argc, char **argv);
+
+
+    // ----------------------------------------------------------------------------
+    // run graphics event loop
+
+
+    void runGraphics (void);
+
+
+    // ----------------------------------------------------------------------------
+    // accessors for GLUT's window dimensions
+
+
+    float drawGetWindowHeight (void);
+    float drawGetWindowWidth (void);
+
 } // namespace OpenSteer
     
     
 // ----------------------------------------------------------------------------
 
 
-#include "Draw.h"
+#include "OpenSteer/Draw.h"
 
 
 // ----------------------------------------------------------------------------

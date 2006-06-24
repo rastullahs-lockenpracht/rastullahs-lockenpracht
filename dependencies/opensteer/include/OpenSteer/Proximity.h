@@ -3,7 +3,7 @@
 //
 // OpenSteer -- Steering Behaviors for Autonomous Characters
 //
-// Copyright (c) 2002-2003, Sony Computer Entertainment America
+// Copyright (c) 2002-2005, Sony Computer Entertainment America
 // Original author: Craig Reynolds <craig_reynolds@playstation.sony.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -71,6 +71,11 @@ namespace OpenSteer {
                                     const float radius,
                                     std::vector<ContentType>& results) = 0;
 
+#ifndef NO_LQ_BIN_STATS
+        // only meaningful for LQProximityDatabase, provide dummy default
+        virtual void getBinPopulationStats (int& min, int& max, float& average)
+        {min=max=0; average=0.0;}
+#endif // NO_LQ_BIN_STATS
     };
 
 
@@ -86,6 +91,9 @@ namespace OpenSteer {
         // type for the "tokens" manipulated by this spatial database
         typedef AbstractTokenForProximityDatabase<ContentType> tokenType;
 
+        
+        virtual ~AbstractProximityDatabase() { /* Nothing to do? */ }
+        
         // allocate a token to represent a given client object in this database
         virtual tokenType* allocateToken (ContentType parentObject) = 0;
 
@@ -189,7 +197,7 @@ namespace OpenSteer {
         // return the number of tokens currently in the database
         int getPopulation (void)
         {
-            return group.size();
+            return (int) group.size();
         }
         
     private:
@@ -278,6 +286,15 @@ namespace OpenSteer {
                 results.push_back ((ContentType) clientObject);
             }
 
+#ifndef NO_LQ_BIN_STATS
+            // Get statistics about bin populations: min, max and
+            // average of non-empty bins.
+            void getBinPopulationStats (int& min, int& max, float& average)
+            {
+                lqGetBinPopulationStats (lq, &min, &max, &average);
+            }
+#endif // NO_LQ_BIN_STATS
+
         private:
             lqClientProxy proxy;
             lqDB* lq;
@@ -306,6 +323,7 @@ namespace OpenSteer {
             int& counter = *(int*)clientQueryState;
             counter++;
         }
+
 
     private:
         lqDB* lq;

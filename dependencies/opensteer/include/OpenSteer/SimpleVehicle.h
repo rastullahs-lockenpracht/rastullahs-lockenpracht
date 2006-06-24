@@ -3,7 +3,7 @@
 //
 // OpenSteer -- Steering Behaviors for Autonomous Characters
 //
-// Copyright (c) 2002-2003, Sony Computer Entertainment America
+// Copyright (c) 2002-2005, Sony Computer Entertainment America
 // Original author: Craig Reynolds <craig_reynolds@playstation.sony.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -64,9 +64,9 @@
 #define OPENSTEER_SIMPLEVEHICLE_H
 
 
-#include "AbstractVehicle.h"
-#include "SteerLibrary.h"
-#include "Annotation.h"
+#include "OpenSteer/AbstractVehicle.h"
+#include "OpenSteer/SteerLibrary.h"
+#include "OpenSteer/Annotation.h"
 
 
 namespace OpenSteer {
@@ -177,7 +177,7 @@ namespace OpenSteer {
         Vec3 predictFuturePosition (const float predictionTime) const;
 
         // get instantaneous curvature (since last update)
-        float curvature (void) {return _curvature;}
+        float curvature (void) const {return _curvature;}
 
         // get/reset smoothedCurvature, smoothedAcceleration and smoothedPosition
         float smoothedCurvature (void) {return _smoothedCurvature;}
