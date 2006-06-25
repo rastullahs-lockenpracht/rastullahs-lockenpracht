@@ -274,6 +274,17 @@ trat folgende Ausnahme vom Typ %s auf\n\
       virtual std::string getType() { return "DuplicateIdException"; }
    };
 
+   class FileNotFoundException : public RuntimeException {
+   public:
+      FileNotFoundException(const std::string& message,
+         const std::string& file, const std::string& function, int line)
+         : RuntimeException(message, file, function, line) {}
+
+      FileNotFoundException(const FileNotFoundException& rhs)
+         : RuntimeException(rhs) {}
+
+      virtual std::string getType() { return "FileNotFoundException"; }
+   };
 
    /**@brief Funktion zum ausgeben einer Nachricht an den Benutzer.
     *
