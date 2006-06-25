@@ -15,6 +15,8 @@
  */
  
 #include "ConfigFile.h"
+#include "Exception.h"
+
 #include <OgreString.h>
 #include <OgreDataStream.h>
 
@@ -48,8 +50,9 @@ void ConfigFile::saveDirect(const String& filename, const String& separators,
     ofstream fp;
     fp.open(filename.c_str());
     if(!fp)
-        OGRE_EXCEPT(
-        Exception::ERR_FILE_NOT_FOUND, "'" + filename + "' file not found!", "rl::ConfigFile::save" );
+    {
+        Throw(FileNotFoundException, "'" + filename + "' file not found!");
+    }
 
     save(fp, separators, trimWhitespace);
 
@@ -58,13 +61,13 @@ void ConfigFile::saveDirect(const String& filename, const String& separators,
 void ConfigFile::saveToResourceSystem(const String& filename, 
     const String& resourceGroup, const String& separators, bool trimWhitespace)
 {
-// TODO ResourceGroup zum Dateiname erstellen.
+    ///@todo ResourceGroup zum Dateiname erstellen.
     ofstream fp;
     fp.open(filename.c_str());
     if(!fp)
-        OGRE_EXCEPT(
-        Exception::ERR_FILE_NOT_FOUND, "'" + filename + "' file not found!", "rl::ConfigFile::save" );
-
+    {
+        Throw(FileNotFoundException, "'" + filename + "' file not found!");
+    }
 
     save(fp, separators, trimWhitespace);
 }
