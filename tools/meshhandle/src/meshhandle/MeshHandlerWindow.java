@@ -397,8 +397,8 @@ public class MeshHandlerWindow extends JFrame implements ActionListener,
 			oldname = model.getName();
 			nameChanged = true;
 			model.setName(modelNameEdit.getText());
-			if (!hasSkeleton)
-				model.setSkeletonLink(modelNameEdit + ".skeleton");
+			if (hasSkeleton)
+				model.setSkeletonLink(model.getName() + ".skeleton");
 		} else if (e.getActionCommand().equals("ScaleModel") && model != null) {
 			boolean hasSkeleton = !model.getSkeletonLink().equals("");
 			float factor = (float) (Double.parseDouble(factorField.getText()));
