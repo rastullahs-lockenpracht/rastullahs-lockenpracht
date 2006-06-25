@@ -1,80 +1,102 @@
 package meshhandle.model;
 
+import java.util.ArrayList;
+
 import meshhandle.data.Vector3;
 
 public class Vertex {
 
-    private Vector3 mPosition;
-    private Vector3 mNormal;
-    private Float mTexCoordU;
-    private Float mTexCoordV;
-	private String mColorDiffuse;
+	private String mColourDiffuseValue;
 
-    public String toXML() {
-        StringBuffer buf = new StringBuffer();
-        buf.append("                    <vertex>\n");
-        if (mPosition != null) {
-            buf.append("                        " + mPosition.toXML("position")
-                    + "\n");
-        }
-        if (mNormal != null) {
-            buf.append("                        " + mNormal.toXML("normal")
-                    + "\n");
-        }
-        if (mTexCoordU != null) {
-            buf.append("                        <texcoord u=\"" + mTexCoordU
-                    + "\" v=\"" + mTexCoordV + "\"/>\n");
-        }
-        if (mColorDiffuse != null) {
-        	buf.append("                        <colour_diffuse value=\"" + mColorDiffuse+"\"/>\n");
-        }
-        buf.append("                    </vertex>");
-        return buf.toString();
-    }
+	private String mColourSpecularValue;
 
-    public Vector3 getNormal() {
-        return mNormal;
-    }
+	private Vector3 mNormal;
 
-    public void setNormal(Vector3 normal) {
-        mNormal = normal;
-    }
+	private Vector3 mPosition;
 
-    public Vector3 getPosition() {
-        return mPosition;
-    }
+	private ArrayList<Float> mTexCoordU;
 
-    public void setPosition(Vector3 position) {
-        mPosition = position;
-    }
+	private ArrayList<Float> mTexCoordV;
 
-    public Float getTexCoordU() {
-        return mTexCoordU;
-    }
+	public Vertex() {
+		mTexCoordU = new ArrayList<Float>();
 
-    public void setTexCoordU(Float texCoordU) {
-        mTexCoordU = texCoordU;
-    }
-
-    public Float getTexCoordV() {
-        return mTexCoordV;
-    }
-
-    public void setTexCoordV(Float texCoordV) {
-        mTexCoordV = texCoordV;
-    }
-    
-    public String getColorDiffuse() {
-		return mColorDiffuse;
-	}
-    
-    public void setColorDiffuse(String colorDiffuse) {
-		mColorDiffuse = colorDiffuse;
+		mTexCoordV = new ArrayList<Float>();
 	}
 
-    public void scale(float factor) {
-        if (mPosition != null)
-            mPosition.scale(factor);
-    }
+	public void addTexCoordU(Float texCoordU) {
+		mTexCoordU.add(texCoordU);
+	}
+
+	public void addTexCoordV(Float texCoordV) {
+		mTexCoordV.add(texCoordV);
+	}
+
+	public String getColourDiffuse() {
+		return mColourDiffuseValue;
+	}
+
+	public String getColourSpecular() {
+		return mColourSpecularValue;
+	}
+
+	public Vector3 getNormal() {
+		return mNormal;
+	}
+
+	public Vector3 getPosition() {
+		return mPosition;
+	}
+
+	public void scale(float factor) {
+		if (mPosition != null)
+			mPosition.scale(factor);
+	}
+
+	public void setColourDiffuse(String colourDiffuse) {
+		mColourDiffuseValue = colourDiffuse;
+	}
+
+	public void setColourSpecular(String colourSpecularValue) {
+		mColourSpecularValue = colourSpecularValue;
+	}
+
+	public void setNormal(Vector3 normal) {
+		mNormal = normal;
+	}
+
+	public void setPosition(Vector3 position) {
+		mPosition = position;
+	}
+
+	public String toXML() {
+		StringBuffer buf = new StringBuffer();
+		buf.append("                    <vertex>\n");
+		if (mPosition != null) {
+			buf.append("                        " + mPosition.toXML("position")
+					+ "\n");
+		}
+		if (mNormal != null) {
+			buf.append("                        " + mNormal.toXML("normal")
+					+ "\n");
+		}
+		if (mColourDiffuseValue != null && mColourDiffuseValue.length() > 0) {
+			buf.append(("                        <colour_diffuse value=\""
+					+ mColourDiffuseValue + "\" /> \n"));
+		}
+		if (mColourSpecularValue != null && mColourSpecularValue.length() > 0) {
+			buf.append(("                        <colour_specular value=\""
+					+ mColourSpecularValue + "\" /> \n"));
+		}
+		if (mTexCoordU != null && !mTexCoordU.isEmpty()) {
+			for (int i = 0; i < mTexCoordU.size(); i++) {
+				buf.append("                        <texcoord u=\""
+						+ mTexCoordU.get(i) + "\" v=\"" + mTexCoordV.get(i)
+						+ "\" />\n");
+			}
+		}
+		buf.append("                    </vertex>");
+		return buf.toString();
+	}
 
 }
