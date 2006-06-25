@@ -29,13 +29,16 @@
 using namespace Ogre;
 
 namespace rl {
-	MeshObject::MeshObject(const String& name, const String& meshname) : mMeshName(), mSize(), mPoseSizes()
+    MeshObject::MeshObject(const String& name, const String& meshname)
+        : mMeshName(),
+          mSize(),
+          mPoseSizes()
     {
-		if (meshname.length() > 0)
-		{
-			mMeshName = meshname;
-			Entity* entity = CoreSubsystem::getSingletonPtr()->getWorld()
-				->getSceneManager()->createEntity(name, meshname);
+        if (meshname.length() > 0)
+        {
+            mMeshName = meshname;
+            Entity* entity = CoreSubsystem::getSingletonPtr()->getWorld()
+                ->getSceneManager()->createEntity(name, meshname);
             if (entity->isHardwareAnimationEnabled())
             {
                 for (unsigned int i = 0; i < entity->getNumSubEntities(); ++i)
@@ -45,16 +48,16 @@ namespace rl {
                 }
             }
             mMovableObject = entity;
-			mSize = calculateSize();
-		}
+            mSize = calculateSize();
+        }
     }
 
-	MeshObject::~MeshObject()
-	{
+    MeshObject::~MeshObject()
+    {
         stopAllAnimations();
-		CoreSubsystem::getSingletonPtr()->getWorld()
-			->getSceneManager()->destroyEntity( getEntity() );		
-	}
+        CoreSubsystem::getSingletonPtr()->getWorld()
+            ->getSceneManager()->destroyEntity( getEntity() );		
+    }
 
     Entity* MeshObject::getEntity() const
     {
@@ -87,10 +90,16 @@ namespace rl {
 		return mMeshName;
 	}
 
+    bool MeshObject::hasAnimation(const String& animName)
+    {
+        AnimationStateSet* animStates = getEntity()->getAllAnimationStates();
+        return animStates->hasAnimationState(animName);
+    }
+
 	/// @todo Exception Handling
-	bool MeshObject::hasAnimation(const String& animName)
+	MeshAnimation* MeshObject::getAnimation(const String& animName)
 	{
-		AnimationState* animState = NULL;
+        AnimationState* animState = 0;
 
 		try
 		{
@@ -98,48 +107,38 @@ namespace rl {
 		}
 		catch(Ogre::Exception&) 
 		{
+            Throw(IllegalArgumentException,
+                animName + " is not a valid AnimationState of " + mMeshName + ".");
 		}
 
-		return animState != NULL;
-	}
-
-	/// @todo Exception Handling
-	MeshAnimation* MeshObject::getAnimation(const String& animName)
-	{
         MeshAnimation* anim = NULL;
-
-		try
-		{
-			AnimationState* animState = getEntity()->getAnimationState(animName);
-			anim = dynamic_cast<MeshAnimation*>
-                (AnimationManager::getSingleton().getAnimation(animState));
-            if( anim == NULL )
-                anim = dynamic_cast<MeshAnimation*>(
-                AnimationManager::getSingleton().addMeshAnimation(animState,this,1.0,0,true));
-		}
-		catch(Ogre::Exception&) 
-		{
-		}
+		anim = dynamic_cast<MeshAnimation*>
+            (AnimationManager::getSingleton().getAnimation(animState));
+        if( anim == NULL )
+            anim = dynamic_cast<MeshAnimation*>(
+            AnimationManager::getSingleton().addMeshAnimation(animState,this,1.0,0,true));
 
 		return anim;
 	}
 
+    MeshAnimation* MeshObject::startAnimation(const String& animName,
+        Real speed, unsigned int timesToPlay )
+    {
+        AnimationState* animState = 0;
 
-	MeshAnimation* MeshObject::startAnimation(const String& animName,
-		Real speed, unsigned int timesToPlay )
-	{
-		try
-		{
-			AnimationState* animState = getEntity()->getAnimationState(animName);
-			return AnimationManager::getSingleton().addMeshAnimation(
-				animState, this, speed, timesToPlay);
-		}
-		catch(Ogre::Exception&) 
-		{
-		}
+        try
+        {
+            animState = getEntity()->getAnimationState(animName);
+        }
+        catch(Ogre::Exception&) 
+        {
+            Throw(IllegalArgumentException,
+                animName + " is not a valid AnimationState of " + mMeshName + ".");
+        }
 
-		return 0;
-	}
+        return AnimationManager::getSingleton().addMeshAnimation(
+            animState, this, speed, timesToPlay);
+    }
 
 	MeshAnimation* MeshObject::replaceAnimation(const String& oldAnimName,
 		const String& newAnimName, Real speed, unsigned int timesToPlay )
@@ -150,31 +149,33 @@ namespace rl {
 
 	void MeshObject::stopAnimation(const String& animName)
 	{
+        AnimationState* animState = 0;
 		try
 		{
-			AnimationState* animState = getEntity()->getAnimationState(animName);
-			AnimationManager::getSingleton().removeAnimation(animState);
+			animState = getEntity()->getAnimationState(animName);
 		}
 		catch(Ogre::Exception&) 
 		{ 
+            Throw(IllegalArgumentException,
+                animName + " is not a valid AnimationState of " + mMeshName + ".");
 		}
+		AnimationManager::getSingleton().removeAnimation(animState);
 	}
     
-	void MeshObject::stopAllAnimations( )
-	{
-			AnimationStateSet* animStates = getEntity()->getAllAnimationStates();
-			if (animStates != NULL)
-			{
-				AnimationStateIterator iter = animStates->getAnimationStateIterator();
+    void MeshObject::stopAllAnimations( )
+    {
+        AnimationStateSet* animStates = getEntity()->getAllAnimationStates();
+        if (animStates != NULL)
+        {
+            AnimationStateIterator iter = animStates->getAnimationStateIterator();
 
-				while(iter.hasMoreElements()) 
-				{
-					AnimationState* state = iter.getNext(); 
-					stopAnimation( state->getAnimationName() );
-				} 
-			}
-	}
-
+            while (iter.hasMoreElements()) 
+            {
+                AnimationState* state = iter.getNext(); 
+                stopAnimation( state->getAnimationName() );
+            } 
+        }
+    }
 
     String MeshObject::getObjectType()
     {
@@ -183,31 +184,21 @@ namespace rl {
 
     bool MeshObject::getBlendCumulative(void) const
     {
-        if( getEntity()->hasSkeleton() )
-        {
-            if( getEntity()->getSkeleton()->getBlendMode() 
-                == ANIMBLEND_CUMULATIVE  )
-                return true;
-            else
-                return false;
-        }
-
-        return false;
+        Entity* ent = getEntity();
+        return ent->hasSkeleton() && (ent->getSkeleton()->getBlendMode() == ANIMBLEND_CUMULATIVE);
     }
-    
+
     void MeshObject::setBlendCumulative(bool cumulative)
     {
-        if( getEntity()->hasSkeleton() )
+        if (getEntity()->hasSkeleton())
         {
-            if( cumulative )
-                getEntity()->getSkeleton()->
-                setBlendMode(ANIMBLEND_CUMULATIVE);
+            if (cumulative)
+                getEntity()->getSkeleton()->setBlendMode(ANIMBLEND_CUMULATIVE);
             else
-                getEntity()->getSkeleton()->
-                setBlendMode(ANIMBLEND_AVERAGE);
+                getEntity()->getSkeleton()->setBlendMode(ANIMBLEND_AVERAGE);
         }
     }
-    
+
     AxisAlignedBox MeshObject::calculateSize()
     {
         const AxisAlignedBox& aabb = getEntity()->getBoundingBox();
@@ -350,13 +341,11 @@ namespace rl {
                 matName = matName.erase(matName.length() - nameExtension.length(), nameExtension.length() );
                 subent->setMaterialName( matName );				
             }
-
-
         }
     }
 
-	bool MeshObject::isMeshObject()
-	{
-		return true;
-	}
+    bool MeshObject::isMeshObject()
+    {
+        return true;
+    }
 }

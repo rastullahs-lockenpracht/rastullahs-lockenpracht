@@ -40,13 +40,42 @@ namespace rl {
         Ogre::AxisAlignedBox getDefaultSize() const;
         Ogre::AxisAlignedBox getPoseSize(const Ogre::String& animationName);
         
-		bool hasAnimation(const Ogre::String& animName);
-		MeshAnimation* getAnimation(const Ogre::String& animName);
+		/// Returns whether a mesh has an animation called animName or not.
+        bool hasAnimation(const Ogre::String& animName);
+
+		/** Returns a MeshAnimation for the given animation name.
+         *  Either returns an already created MeshAnimation or creates it ad-hoc in a paused state.
+         *  @throw IllegalArgumentException, if animName is not an animation of the Mesh.
+         */
+        MeshAnimation* getAnimation(const Ogre::String& animName);
+
+		/** Creates and returns a MeshAnimation for the given animation name.
+         *  This animation is returned unpaused.
+         *  @param animName name of the animation to be started.
+         *  @param speed scale factor for animation speed. 1.0 is normal time as defined.
+         *  @param timesToPlay 0 means infinitly looped.
+         *
+         *  @throw IllegalArgumentException, if animName is not an animation of the Mesh.
+         */
 		MeshAnimation* startAnimation(const Ogre::String& animName, 
 		    Ogre::Real speed=1.0, unsigned int timesToPlay=0);
-		MeshAnimation* replaceAnimation(const Ogre::String& oldAnimName, const Ogre::String& newAnimName, 
+
+		/** First stops oldAnimName, then starts newAnimName
+         *  @see rl::MeshObject::startAnimation
+         *  @see rl::MeshObject::stopAnimation
+         *  @throw IllegalArgumentException, if either anim name is not an animation of the Mesh.
+         */
+		MeshAnimation* replaceAnimation(const Ogre::String& oldAnimName,
+            const Ogre::String& newAnimName, 
 		    Ogre::Real speed=1.0, unsigned int timesToPlay=0);
-        void stopAnimation(const Ogre::String&);
+
+		/** Stops an animation.
+         *  @param animName name of the animation to be stopped.
+         *
+         *  @throw IllegalArgumentException, if animName is not an animation of the Mesh.
+         */
+        void stopAnimation(const Ogre::String& animName);
+
         void stopAllAnimations( );
 
         void setCastShadows (bool enabled);
