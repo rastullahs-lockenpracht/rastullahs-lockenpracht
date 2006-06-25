@@ -17,9 +17,12 @@
 #ifndef __XmlResource_H__
 #define __XmlResource_H__
 
+#pragma warning (push)
+#pragma warning (disable : 4244)
 #include <xercesc/framework/MemBufInputSource.hpp>
 #include <xercesc/parsers/XercesDOMParser.hpp>
 #include <xercesc/sax2/SAX2XMLReader.hpp>
+#pragma warning (pop)
 
 #include "CommonPrerequisites.h"
 #include <OgreResource.h>
