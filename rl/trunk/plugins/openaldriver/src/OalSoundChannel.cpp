@@ -71,6 +71,11 @@ void OalSoundChannel::setChannel(signed int channel)
     mChannel = channel;
 }
 
+float OalSoundChannel::getLength() const
+{
+	return 0.0;
+}
+
 /**
  * @author JoSch
  * @date 03-11-2005
