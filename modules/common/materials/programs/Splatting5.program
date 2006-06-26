@@ -23,6 +23,13 @@ vertex_program dxSplatting5_VP hlsl
   target vs_1_1
 }
 
+vertex_program dxSplatting5_SR_VP hlsl
+{
+  source Splatting5ShadowReceiver.hlsl
+  entry_point vs_main
+  target vs_1_1
+}
+
 material Splatting5
 {
 	technique hlsl
@@ -64,6 +71,16 @@ material Splatting5
 			{
 				//Shader Constant: matWorldViewProjection
 				param_named_auto matWorldViewProjection worldviewproj_matrix
+			}
+			// HLSL Vertex Shader
+			shadow_receiver_vertex_program_ref dxSplatting5_SR_VP
+			{
+				//Shader Constant: matWorldViewProjection
+				param_named_auto matWorldViewProjection worldviewproj_matrix
+				//Shader Constant: matWorld
+				param_named_auto matWorld world_matrix
+				//Shader Constant: matTextureViewProjection
+				param_named_auto matTextureViewProjection texture_viewproj_matrix
 			}
 			// The Texture containing the Splatting information in its channels
 			texture_unit SplattingMap
