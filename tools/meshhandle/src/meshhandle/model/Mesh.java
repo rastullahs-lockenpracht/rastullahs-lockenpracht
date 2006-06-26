@@ -118,8 +118,6 @@ public class Mesh {
 
 	public void setName(String name) {
 		this.name = name;
-		if (this.getSkeletonLink() != "")
-			this.setSkeletonLink(name + ".skeleton");
 	}
 
 	public void setSkeletonLink(String skeletonLink) {
@@ -143,7 +141,7 @@ public class Mesh {
 			buf.append(submesh.toXML() + "\n");
 		}
 		buf.append("    </submeshes>\n");
-		if (mSkeletonLink != null && !mSkeletonLink.equals("")) {
+		if (mSkeletonLink != null && mSkeletonLink.length()>0) {
 			buf.append("    <skeletonlink name=\"").append(mSkeletonLink)
 					.append("\" />\n");
 		}

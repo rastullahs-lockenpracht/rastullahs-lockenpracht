@@ -1,88 +1,74 @@
 package meshhandle.skeleton;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Skeleton {
-    private List<Bone> mBones;
-    private List<BoneParentRelation> mBoneHierarchy;
-    private List<Animation> mAnimations;
-	private List<AnimationLink> mAnimationLinks;
+	private ArrayList<Bone> mBones;
 
-    public Skeleton() {
-        mBones = new ArrayList<Bone>();
-        mBoneHierarchy = new ArrayList<BoneParentRelation>();
-        mAnimations = new ArrayList<Animation>();
-        mAnimationLinks = new ArrayList<AnimationLink>();
-    }
+	private ArrayList<BoneParentRelation> mBoneHierarchy;
 
-    public void addBone(Bone bone) {
-        mBones.add(bone);
-    }
+	private ArrayList<Animation> mAnimations;
 
-    public void addBoneHierarchyRelation(String bone, String parent) {
-        mBoneHierarchy.add(new BoneParentRelation(bone, parent));
-    }
+	private ArrayList<String> mAnimationLinks;
 
-    public void addAnimation(Animation ani) {
-        mAnimations.add(ani);
-    }
-
-    public void addAnimationLink(AnimationLink link) {
-		mAnimationLinks.add(link);
+	public Skeleton() {
+		mBones = new ArrayList<Bone>();
+		mBoneHierarchy = new ArrayList<BoneParentRelation>();
+		mAnimations = new ArrayList<Animation>();
+		mAnimationLinks = new ArrayList<String>();
 	}
 
-    public void scale(float factor) {	
-        for (Bone bone : mBones) {
-            bone.scale(factor);
-        }
-        for (Animation ani : mAnimations) {
-            ani.scale(factor);
-        }
-    }
+	public void addBone(Bone bone) {
+		mBones.add(bone);
+	}
 
-    public String toXML() {
-        StringBuffer buf = new StringBuffer();
-        buf.append("<skeleton>\n");
+	public void addBoneHierarchyRelation(String bone, String parent) {
+		mBoneHierarchy.add(new BoneParentRelation(bone, parent));
+	}
 
-        if (!mBones.isEmpty())
-        {
-        	buf.append("    <bones>\n");
-        	for (Bone bone : mBones) {
-        		buf.append(bone.toXML() + "\n");
-        	}
-        	buf.append("    </bones>\n");
-        }
-        
-        if (!mBoneHierarchy.isEmpty())
-        {
-	        buf.append("    <bonehierarchy>\n");
-	        for (BoneParentRelation rel : mBoneHierarchy) {
-	            buf.append(rel.toXML() + "\n");
-	        }
-	        buf.append("    </bonehierarchy>\n");
-        }
-        
-        if (!mAnimations.isEmpty()) 
-        {
-        	buf.append("    <animations>\n");
-        	for (Animation anim : mAnimations) {
-        		buf.append(anim.toXML() + "\n");
-        	}
-        	buf.append("    </animations>\n"); 
-        }
-        
-        if (!mAnimationLinks.isEmpty()) 
-        {
-        	buf.append("    <animationlinks>\n");
-        	for (AnimationLink animlink : mAnimationLinks) {
-        		buf.append(animlink.toXML() + "\n");
-        	}
-        	buf.append("    </animationlinks>\n"); 
-        }
- 
-        buf.append("</skeleton>");
+	public void addAnimation(Animation ani) {
+		mAnimations.add(ani);
+	}
 
-        return buf.toString();
-    }
+	public void scale(float factor) {
+		for (Bone bone : mBones) {
+			bone.scale(factor);
+		}
+		for (Animation ani : mAnimations) {
+			ani.scale(factor);
+		}
+	}
+
+	public String toXML() {
+		StringBuffer buf = new StringBuffer();
+		buf.append("<skeleton>\n");
+		buf.append("    <bones>\n");
+		for (Bone bone : mBones) {
+			buf.append(bone.toXML() + "\n");
+		}
+		buf.append("    </bones>\n");
+		buf.append("    <bonehierarchy>\n");
+		for (BoneParentRelation rel : mBoneHierarchy) {
+			buf.append(rel.toXML() + "\n");
+		}
+		buf.append("    </bonehierarchy>\n");
+
+		if (!mAnimations.isEmpty()) {
+			buf.append("    <animations>\n");
+			for (Animation anim : mAnimations) {
+				buf.append(anim.toXML() + "\n");
+			}
+			buf.append("    </animations>\n");
+		}
+		if (!mAnimationLinks.isEmpty()) {
+			buf.append("    <animationlinks>\n");
+			for (String link : mAnimationLinks) {
+				buf.append("    	" + link + "\n");
+			}
+			buf.append("    </animationlinks>\n");
+		}
+		buf.append("</skeleton>");
+
+		return buf.toString();
+	}
 }

@@ -10,7 +10,9 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import meshhandle.model.Mesh;
+import meshhandle.skeleton.Skeleton;
 import meshhandle.xml.MeshLoader;
+import meshhandle.xml.SkeletonLoader;
 
 import org.xml.sax.SAXException;
 
@@ -59,7 +61,54 @@ public class ImExportTest {
 			}
 			// TODO An das eigene System anpassen.
 			FileWriter writer = new FileWriter(
-					"D:/Eigene Dateien/Java/meshhandle2/result.rtf");
+					"D:/Eigene Dateien/Java/meshhandle2/resultmesh.rtf");
+			writer.append(result);
+			writer.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			Skeleton testskel = SkeletonLoader
+					.readSkeleton("D:/Eigene Dateien/Java/meshhandle2/Mr_Cylinder_mesh.skeleton.xml");
+			FileWriter writer = new FileWriter(
+					"D:/Eigene Dateien/Java/meshhandle2/Mr_Cylinder2_mesh.skeleton.xml");
+			writer.append(testskel.toXML());
+			writer.close();
+		} catch (ParserConfigurationException e) {
+			// 
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		i = 0;
+		try {
+
+			// TODO An das eigene System anpassen.
+			FileReader fr1 = new FileReader(new File(
+					"D:/Eigene Dateien/Java/meshhandle2/Mr_Cylinder_mesh.skeleton.xml"));
+			FileReader fr2 = new FileReader(new File(
+					"D:/Eigene Dateien/Java/meshhandle2/Mr_Cylinder2_mesh.skeleton.xml"));
+			BufferedReader reader1 = new BufferedReader(fr1);
+			BufferedReader reader2 = new BufferedReader(fr2);
+			String line1;
+			String line2;
+			StringBuffer result = new StringBuffer();
+			while ((line1 = reader1.readLine()) != null
+					&& (line2 = reader2.readLine()) != null) {
+				i++;
+				if (!line2.trim().equals(line1.trim())) {
+					result.append(i + ":|" + line1 + "|\n");
+					result.append(i + ":|" + line2 + "|\n\n");
+
+				}
+			}
+			// TODO An das eigene System anpassen.
+			FileWriter writer = new FileWriter(
+					"D:/Eigene Dateien/Java/meshhandle2/resultskel.rtf");
 			writer.append(result);
 			writer.close();
 		} catch (FileNotFoundException e) {

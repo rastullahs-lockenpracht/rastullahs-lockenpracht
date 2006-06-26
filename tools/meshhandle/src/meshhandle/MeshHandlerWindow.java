@@ -28,8 +28,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SpringLayout;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.xml.parsers.ParserConfigurationException;
 
 import meshhandle.converter.ConverterUser;
@@ -41,8 +39,7 @@ import meshhandle.xml.SkeletonLoader;
 
 import org.xml.sax.SAXException;
 
-public class MeshHandlerWindow extends JFrame implements ActionListener,
-		ListSelectionListener {
+public class MeshHandlerWindow extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -55,8 +52,6 @@ public class MeshHandlerWindow extends JFrame implements ActionListener,
 
 	private boolean nameChanged;
 
-	private boolean scaled;
-
 	private String oldname;
 
 	// Fensterelemente
@@ -66,8 +61,6 @@ public class MeshHandlerWindow extends JFrame implements ActionListener,
 
 	private JList modelList;
 
-	private JScrollPane modelsPane;
-
 	private JTextField converterPathField;
 
 	private JTextField moduleDirField;
@@ -76,6 +69,7 @@ public class MeshHandlerWindow extends JFrame implements ActionListener,
 
 	private JTextField modelTriangleCountField;
 
+	private JPanel skeletonPanel;
 	private JTextField modelHasSkeletonField;
 
 	private JTextArea modelMeasures;
@@ -84,35 +78,10 @@ public class MeshHandlerWindow extends JFrame implements ActionListener,
 
 	private JTextArea modelMaterials;
 
-	private JButton saveBtn;
-
 	public MeshHandlerWindow() {
-		super("Der wunderbarer Meshhandler v0.8");
+		super("Der wunderbare Meshhandler v0.9");
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		// Setup form elements..
-
-		// config panel with module dir and path to the xml converter
-		// and controls to change both
-
-		JLabel moduleLbl = new JLabel("Modul-Verzeichnis: ", JLabel.TRAILING);
-		moduleDirField = new JTextField(Integer.MAX_VALUE);
-		moduleDirField.setEditable(false);
-		moduleLbl.setLabelFor(moduleDirField);
-
-		JButton changeModuleBtn = new JButton("Ändern..");
-		changeModuleBtn.setActionCommand("ChangeModuleDirectory");
-		changeModuleBtn.addActionListener(this);
-
-		JLabel converterLbl = new JLabel("OgreXmlConverter: ", JLabel.TRAILING);
-		converterPathField = new JTextField(Integer.MAX_VALUE);
-		converterPathField.setEditable(false);
-		converterLbl.setLabelFor(converterPathField);
-
-		JButton changeConverterBtn = new JButton("Ändern..");
-		changeConverterBtn.setActionCommand("ChangeConverterPath");
-		changeConverterBtn.addActionListener(this);
 
 		JPanel configPanel = new JPanel();
 		configPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
@@ -123,23 +92,32 @@ public class MeshHandlerWindow extends JFrame implements ActionListener,
 		SpringLayout layout = new SpringLayout();
 		configPanel.setLayout(layout);
 
+		JLabel converterLbl = new JLabel("OgreXmlConverter: ", JLabel.TRAILING);
+		converterPathField = new JTextField(Integer.MAX_VALUE);
+		converterPathField.setEditable(false);
+		converterLbl.setLabelFor(converterPathField);
+		JButton changeConverterBtn = new JButton("Ändern..");
 		configPanel.add(changeConverterBtn);
-		configPanel.add(changeModuleBtn);
-		configPanel.add(moduleLbl);
 		configPanel.add(converterLbl);
 		configPanel.add(converterPathField);
-		configPanel.add(moduleDirField);
 
+		JLabel moduleLbl = new JLabel("Modul-Unterverzeichnis: ",
+				JLabel.TRAILING);
+		moduleDirField = new JTextField(Integer.MAX_VALUE);
+		moduleDirField.setEditable(false);
+		moduleLbl.setLabelFor(moduleDirField);
+		JButton changeModuleBtn = new JButton("Ändern..");
+		configPanel.add(changeModuleBtn);
+		configPanel.add(moduleLbl);
+		configPanel.add(moduleDirField);
 		layout.putConstraint(SpringLayout.WEST, moduleLbl, 5,
 				SpringLayout.WEST, configPanel);
 		layout.putConstraint(SpringLayout.NORTH, moduleLbl, 5,
 				SpringLayout.NORTH, configPanel);
-
 		layout.putConstraint(SpringLayout.EAST, changeModuleBtn, -5,
 				SpringLayout.EAST, configPanel);
 		layout.putConstraint(SpringLayout.NORTH, changeModuleBtn, 5,
 				SpringLayout.NORTH, configPanel);
-
 		layout.putConstraint(SpringLayout.NORTH, moduleDirField, 5,
 				SpringLayout.NORTH, configPanel);
 		layout.putConstraint(SpringLayout.EAST, moduleDirField, -5,
@@ -164,112 +142,174 @@ public class MeshHandlerWindow extends JFrame implements ActionListener,
 		layout.putConstraint(SpringLayout.WEST, converterPathField, 5,
 				SpringLayout.EAST, converterLbl);
 
-		JButton loadMeshBtn = new JButton("Laden");
-		loadMeshBtn.setActionCommand("LoadMesh");
-		loadMeshBtn.addActionListener(this);
+		JPanel leftPanel = new JPanel();
+		layout = new SpringLayout();
+		leftPanel.setLayout(layout);
 
 		modelList = new JList();
 		modelList.setModel(new DefaultListModel());
 		modelList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		modelList.addListSelectionListener(this);
-		
 		JScrollPane modelListPanel = new JScrollPane(modelList);
 		modelListPanel.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createTitledBorder("Models"), BorderFactory
-						.createEmptyBorder(5, 5, 5, 5)));
-
-		modelListPanel.setPreferredSize(new Dimension(350, 250));
+						.createEmptyBorder(0, 5, 5, 0)));
+		modelListPanel.setPreferredSize(new Dimension(305, 360));
 		modelListPanel.setMinimumSize(new Dimension(200, 100));
+		leftPanel.setPreferredSize(new Dimension(325, 400));
+		leftPanel.setMinimumSize(new Dimension(200, 140));
+		layout.putConstraint(SpringLayout.NORTH, modelListPanel, 5,
+				SpringLayout.NORTH, leftPanel);
+		leftPanel.add(modelListPanel);
 
-		JPanel namePanel = new JPanel();
-		namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.X_AXIS));
-		JButton renameBtn = new JButton("Umbenennen");
-		renameBtn.setActionCommand("RenameModel");
-		renameBtn.addActionListener(this);
-
-		modelNameEdit = new JTextField("            ");
-		namePanel.add(loadMeshBtn);
-		namePanel.add(modelNameEdit);
-		namePanel.add(renameBtn);
-
-		JPanel polyPanel = new JPanel();
-		polyPanel.setLayout(new BoxLayout(polyPanel, BoxLayout.X_AXIS));
-		JLabel modelTriNumberLbl = new JLabel("Triangle count: ");
-		modelTriangleCountField = new JTextField(6);
-		//modelTriNumberLbl.setLabelFor(modelTriangleCountField);
-		polyPanel.add(modelTriNumberLbl);
-		polyPanel.add(modelTriangleCountField);
-
-		JPanel skeletonPanel = new JPanel();
-		skeletonPanel.setLayout(new BoxLayout(skeletonPanel, BoxLayout.X_AXIS));
-		JLabel modelSkeletonLbl = new JLabel("Skeleton: ");
-		modelHasSkeletonField = new JTextField("     ");
-		skeletonPanel.add(modelSkeletonLbl);
-		skeletonPanel.add(modelHasSkeletonField);
-
-		modelMeasures = new JTextArea("\n\n\n");
-		modelMaterials = new JTextArea("                  ");
-
-		JPanel materialsPanel = new JPanel();
-		materialsPanel.add(modelMaterials);
-
-		factorField = new JFormattedTextField(NumberFormat
-				.getNumberInstance(Locale.ENGLISH));
-		factorField.setValue(new Float(1));
-		factorField.setColumns(10);
-
-		JButton scaleBtn = new JButton("Skalieren");
-		scaleBtn.setActionCommand("ScaleModel");
-		scaleBtn.addActionListener(this);
-
-		JPanel factorPanel = new JPanel();
-		factorPanel.setLayout(new BoxLayout(factorPanel, BoxLayout.X_AXIS));
-		factorPanel.add(new JLabel("Skalieren um Faktor: "));
-		factorPanel.add(factorField);
-		factorPanel.add(scaleBtn);
+		JButton loadMeshBtn = new JButton("Laden");
+		layout.putConstraint(SpringLayout.NORTH, loadMeshBtn, 5,
+				SpringLayout.SOUTH, modelListPanel);
+		leftPanel.add(loadMeshBtn);
 
 		JPanel modelDetailsPanel = new JPanel();
 		layout = new SpringLayout();
 		modelDetailsPanel.setLayout(layout);
-		modelDetailsPanel.add(namePanel);
-		modelDetailsPanel.add(polyPanel);
-		modelDetailsPanel.add(skeletonPanel);
-		modelDetailsPanel.add(modelMeasures);
-		modelDetailsPanel.add(materialsPanel);
-		modelDetailsPanel.add(factorPanel);
+		modelDetailsPanel.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createTitledBorder("Details"), BorderFactory
+						.createEmptyBorder(5, 5, 5, 5)));
 
-		// layout.putConstraint(SpringLayout.NORTH, modelNameEdit, 5,
-		// SpringLayout.NORTH, modelDetailsPanel);
-		// layout.putConstraint(SpringLayout.WEST, modelNameEdit, 5,
-		// SpringLayout.WEST, modelDetailsPanel);
+		JPanel namePanel = new JPanel();
+		namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.X_AXIS));
+		JButton renameBtn = new JButton("Umbenennen");
+
+		modelNameEdit = new JTextField(20);
+		namePanel.add(modelNameEdit);
+		namePanel.add(renameBtn);
+		modelDetailsPanel.add(namePanel);
 		layout.putConstraint(SpringLayout.NORTH, namePanel, 5,
 				SpringLayout.NORTH, modelDetailsPanel);
+
+		JPanel polyPanel = new JPanel();
+		polyPanel.setLayout(new BoxLayout(polyPanel, BoxLayout.X_AXIS));
+
+		JLabel modelTriNumberLbl = new JLabel("Triangle count: ",
+				JLabel.TRAILING);
+		modelTriangleCountField = new JTextField(7);
+		modelTriangleCountField.setEditable(false);
+		modelTriNumberLbl.setLabelFor(modelTriangleCountField);
+		polyPanel.add(modelTriNumberLbl);
+		polyPanel.add(modelTriangleCountField);
+		modelDetailsPanel.add(polyPanel);
 		layout.putConstraint(SpringLayout.NORTH, polyPanel, 10,
 				SpringLayout.SOUTH, namePanel);
+
+		skeletonPanel = new JPanel();
+		skeletonPanel.setLayout(new BoxLayout(skeletonPanel, BoxLayout.X_AXIS));
+
+		JLabel modelSkeletonLbl = new JLabel("Skeleton-Link: ", JLabel.TRAILING);
+		modelHasSkeletonField = new JTextField(20);
+		modelHasSkeletonField.setEditable(false);
+		modelSkeletonLbl.setLabelFor(modelHasSkeletonField);
+		skeletonPanel.add(modelSkeletonLbl);
+		skeletonPanel.add(modelHasSkeletonField);
+		modelDetailsPanel.add(skeletonPanel);
+		JButton renameSkel = new JButton("Ändern");
+		skeletonPanel.add(renameSkel);
 		layout.putConstraint(SpringLayout.NORTH, skeletonPanel, 10,
 				SpringLayout.SOUTH, polyPanel);
-		layout.putConstraint(SpringLayout.NORTH, modelMeasures, 10,
+
+		modelMaterials = new JTextArea();
+		modelMaterials.setEditable(false);
+		modelMaterials.setPreferredSize(new Dimension(300, 70));
+		modelMaterials.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createTitledBorder("Verwendete Materials"),
+				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		modelDetailsPanel.add(modelMaterials);
+		layout.putConstraint(SpringLayout.NORTH, modelMaterials, 10,
 				SpringLayout.SOUTH, skeletonPanel);
-		layout.putConstraint(SpringLayout.NORTH, materialsPanel, 10,
-				SpringLayout.SOUTH, modelMeasures);
+
+		modelMeasures = new JTextArea();
+		modelMeasures.setEditable(false);
+		modelMeasures.setPreferredSize(new Dimension(300, 100));
+		modelMeasures.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createTitledBorder("Ausmaße"), BorderFactory
+						.createEmptyBorder(5, 5, 5, 5)));
+		modelDetailsPanel.add(modelMeasures);
+		layout.putConstraint(SpringLayout.NORTH, modelMeasures, 10,
+				SpringLayout.SOUTH, modelMaterials);
+
+		JPanel factorPanel = new JPanel();
+		factorPanel.setLayout(new BoxLayout(factorPanel, BoxLayout.X_AXIS));
+
+		JButton scaleBtn = new JButton("Skalieren");
+		JLabel factorLabel = new JLabel("Skalieren um: ", JLabel.TRAILING);
+		factorField = new JFormattedTextField(NumberFormat
+				.getNumberInstance(Locale.ENGLISH));
+		factorField.setColumns(10);
+		factorLabel.setLabelFor(factorField);
+		factorPanel.add(factorLabel);
+		factorPanel.add(factorField);
+		factorPanel.add(scaleBtn);
+		modelDetailsPanel.add(factorPanel);
 		layout.putConstraint(SpringLayout.NORTH, factorPanel, 10,
-				SpringLayout.SOUTH, materialsPanel);
+				SpringLayout.SOUTH, modelMeasures);
 
-		saveBtn = new JButton("Speichern");
-		saveBtn.setActionCommand("SaveModel");
-		saveBtn.addActionListener(this);
+		factorField.setEditable(false);
+		modelNameEdit.setEditable(false);
 
-		logField = new JTextArea("\n");
+		modelDetailsPanel.setPreferredSize(new Dimension(390, 370));
+		modelDetailsPanel.setMinimumSize(new Dimension(390, 370));
+
+		JPanel rightPanel = new JPanel();
+		layout = new SpringLayout();
+		rightPanel.setLayout(layout);
+		JButton saveBtn = new JButton("Speichern");
+		layout.putConstraint(SpringLayout.SOUTH, saveBtn, -5,
+				SpringLayout.SOUTH, rightPanel);
+		rightPanel.add(saveBtn);
+		rightPanel.setPreferredSize(new Dimension(95, 370));
+		rightPanel.setMinimumSize(new Dimension(95, 40));
+
+		logField = new JTextArea();
 		logField.setEditable(false);
-
 		logPane = new JScrollPane(logField);
+		logPane.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+				.createTitledBorder("Log"), BorderFactory.createEmptyBorder(5,
+				5, 5, 5)));
+		logPane.setPreferredSize(new Dimension(800, 100));
+		logPane.setMinimumSize(new Dimension(400, 100));
 
 		this.setLayout(new BorderLayout());
 		this.getContentPane().add(configPanel, BorderLayout.NORTH);
-		this.getContentPane().add(saveBtn, BorderLayout.EAST);
-		this.getContentPane().add(modelListPanel, BorderLayout.WEST);
-		this.getContentPane().add(modelDetailsPanel, BorderLayout.CENTER);
 		this.getContentPane().add(logPane, BorderLayout.SOUTH);
+		this.getContentPane().add(rightPanel, BorderLayout.EAST);
+		this.getContentPane().add(leftPanel, BorderLayout.WEST);
+		this.getContentPane().add(modelDetailsPanel, BorderLayout.CENTER);
+		this.pack();
+		this.setVisible(true);
+
+		// config panel with module dir and path to the xml converter
+		// and controls to change both
+		// Wovon ist hier die Rede.
+
+		// Den Buttons wird ihre Funktionalität zugewiesen.
+		changeModuleBtn.setActionCommand("ChangeModuleDirectory");
+		changeModuleBtn.addActionListener(this);
+
+		changeConverterBtn.setActionCommand("ChangeConverterPath");
+		changeConverterBtn.addActionListener(this);
+
+		loadMeshBtn.setActionCommand("LoadMesh");
+		loadMeshBtn.addActionListener(this);
+
+		renameBtn.setActionCommand("RenameModel");
+		renameBtn.addActionListener(this);
+
+		renameSkel.setActionCommand("RenameSkeleton");
+		renameSkel.addActionListener(this);
+
+		scaleBtn.setActionCommand("ScaleModel");
+		scaleBtn.addActionListener(this);
+
+		saveBtn.setActionCommand("SaveModel");
+		saveBtn.addActionListener(this);
+
+		loggen("Meshhandler gestartet.");
 
 		// Initialise propery manager and retrieve needed props
 		propertyManager = new PropertyManager();
@@ -280,33 +320,45 @@ public class MeshHandlerWindow extends JFrame implements ActionListener,
 		moduleDirField.setText(moduldir != null ? moduldir : "<nicht gesetzt>");
 
 		modelsLaden(moduldir, (DefaultListModel) modelList.getModel());
-		loggen("Meshhandler gestartet.");
 		loggen("OgreXMLConverter: " + ogrepath);
 		loggen("Modul: " + moduldir);
 
-		this.pack();
+		// TODO Es wäre noch viel spannender, wenn der PropertyManager bei einem
+		// close die derzeitigen Einstellung in das properties reinschreibt,
+		// bevor er beendet.
 	}
 
 	private void modelsLaden(String moduleDir, DefaultListModel listModel) {
 		listModel.clear();
-		File modelsdir = new File(moduleDir, "models");
+		File modelsdir;
+		if (new File(moduleDir, "models").exists()) {
+			modelsdir = new File(moduleDir, "models");
+		} else {
+			modelsdir = new File(moduleDir);
+		}
 		String[] meshNames = modelsdir.list(new FilenameFilter() {
 			public boolean accept(File f, String s) {
-				return s.endsWith(".mesh");
+				return s.endsWith(".mesh") || s.endsWith(".mesh.xml");
 			}
 		});
-		for (int i = 0; i < meshNames.length; ++i) {
-			listModel.addElement(meshNames[i]);
+		if (meshNames.length != 0) {
+			for (int i = 0; i < meshNames.length; ++i) {
+				listModel.addElement(meshNames[i]);
+			}
+			loggen("Modul: " + moduleDir);
+		} else {
+			JOptionPane.showMessageDialog(this,
+
+			"Das angegebene Verzeichnis scheint keine Models zu enthalten.",
+					"Keine Models gefunden", JOptionPane.ERROR_MESSAGE);
 		}
-		loggen("Modul: " + moduleDir);
 	}
 
 	private void paintMeasures() {
 		Vector3 measures = model.getMeasures();
 		modelMeasures.setEditable(true);
-		modelMeasures.setText("Maße: " + measures.getX() + " m lang,\n "
-				+ measures.getZ() + " m breit\n und " + measures.getY()
-				+ " m hoch.");
+		modelMeasures.setText(measures.getX() + " m lang,\n " + measures.getZ()
+				+ " m breit\n und " + measures.getY() + " m hoch.");
 		modelMeasures.setEditable(false);
 	}
 
@@ -320,42 +372,44 @@ public class MeshHandlerWindow extends JFrame implements ActionListener,
 			modelsLaden(propertyManager.getModule(),
 					(DefaultListModel) modelList.getModel());
 			moduleDirField.setText(propertyManager.getModule());
-			modelsPane.invalidate();
-			modelsPane.repaint();
 
 		} else if (e.getActionCommand().equals("LoadMesh")
 				&& modelList.getSelectedValue() != null) {
-			String moduleDir = propertyManager.getModule();
+			String modelPath = propertyManager.getModule() + "/"
+					+ modelList.getSelectedValue();
 			String converterPath = propertyManager.getOgreTools();
 
-			if (ConverterUser.fromMeshToXML(converterPath, moduleDir
-					+ "/models/" + modelList.getSelectedValue())) {
-				loggen(modelList.getSelectedValue() + " wird bearbeitet.");
-				loggen(" .mesh.xml erzeugt.");
-			} else {
-				loggen("Fehler beim Konvertieren des Mesh!");
+			if (!modelPath.endsWith(".xml")) {
+				if (ConverterUser.fromMeshToXML(converterPath, modelPath)) {
+					loggen(modelList.getSelectedValue() + " wird bearbeitet.");
+					loggen(" .mesh.xml erzeugt.");
+					modelPath = modelPath + ".xml";
+				} else {
+					loggen("Fehler beim Konvertieren des Mesh!");
+				}
 			}
 			nameChanged = false;
 			try {
-				model = MeshLoader.readMesh(moduleDir + "/models/"
-						+ modelList.getSelectedValue() + ".xml");
-
-				loggen(".mesh.xml eingelesen");
+				model = MeshLoader.readMesh(modelPath);
 			} catch (Exception e1) {
 				loggen("Fehler beim Einlesen der .mesh.xml. (Siehe Konsole)");
 				e1.printStackTrace();
 			}
+			loggen(".mesh.xml eingelesen");
 
-			boolean hasSkeleton = !model.getSkeletonLink().equals("");
+			boolean hasSkeleton = model.getSkeletonLink().length() > 0;
+
 			model.setName(((String) modelList.getSelectedValue()).substring(0,
-					((String) modelList.getSelectedValue()).length() - 5));
+					((String) modelList.getSelectedValue()).indexOf(".")));
 			if (hasSkeleton
-					&& ConverterUser.fromMeshToXML(converterPath, moduleDir
-							+ "/models/" + model.getSkeletonLink())) {
+					&& ConverterUser.fromMeshToXML(converterPath, modelPath
+							.substring(0, modelPath.lastIndexOf("/") + 1)
+							+ model.getSkeletonLink())) {
 				loggen(" .skeleton.xml erzeugt.");
 				try {
-					skeleton = SkeletonLoader.readSkeleton(moduleDir
-							+ "/models/" + model.getSkeletonLink() + ".xml");
+					skeleton = SkeletonLoader.readSkeleton(modelPath.substring(
+							0, modelPath.lastIndexOf("/") + 1)
+							+ model.getSkeletonLink() + ".xml");
 					loggen(".skeleton.xml eingelesen.");
 				} catch (SAXException e1) {
 					loggen("Fehler beim Einlesen der .skeleton.xml. (Siehe Konsole)");
@@ -373,19 +427,23 @@ public class MeshHandlerWindow extends JFrame implements ActionListener,
 			modelNameEdit.setSize(modelNameEdit.getPreferredSize());
 			modelTriangleCountField.setText(String
 					.valueOf(model.getPolycount()));
-			modelHasSkeletonField.setText(hasSkeleton ? "Animierbar"
-					: "Statisch");
+			modelHasSkeletonField.setText(model.getSkeletonLink());
+			modelHasSkeletonField.setEditable(true);
+			skeletonPanel.setVisible(hasSkeleton);
+		
 
-			scaled = false;
 			paintMeasures();
 
-			modelMaterials.setEditable(true);
 			modelMaterials.setText("");
 			ArrayList<String> materials = model.getMaterials();
 			for (String material : materials) {
-				modelMaterials.append("Material: " + material + "\n");
+				modelMaterials.append(material + "\n");
 			}
-			modelMaterials.setEditable(false);
+
+			factorField.setValue(new Float(1));
+			factorField.setEditable(true);
+			modelNameEdit.setEditable(true);
+
 			loggen(model.getName() + " geladen.");
 
 			this.setSize(800, 600);
@@ -393,12 +451,13 @@ public class MeshHandlerWindow extends JFrame implements ActionListener,
 			this.repaint();
 
 		} else if (e.getActionCommand().equals("RenameModel") && model != null) {
-			boolean hasSkeleton = !model.getSkeletonLink().equals("");
 			oldname = model.getName();
 			nameChanged = true;
 			model.setName(modelNameEdit.getText());
-			if (hasSkeleton)
-				model.setSkeletonLink(model.getName() + ".skeleton");
+		} else if (e.getActionCommand().equals("RenameSkeleton")
+				&& skeleton != null) {
+			oldname = model.getSkeletonLink();
+			model.setSkeletonLink(modelHasSkeletonField.getText());
 		} else if (e.getActionCommand().equals("ScaleModel") && model != null) {
 			boolean hasSkeleton = !model.getSkeletonLink().equals("");
 			float factor = (float) (Double.parseDouble(factorField.getText()));
@@ -406,7 +465,6 @@ public class MeshHandlerWindow extends JFrame implements ActionListener,
 			if (hasSkeleton) {
 				skeleton.scale(factor);
 			}
-			scaled = true;
 			paintMeasures();
 			factorField.setValue(new Float(1));
 
@@ -417,9 +475,7 @@ public class MeshHandlerWindow extends JFrame implements ActionListener,
 
 	public void loggen(String s) {
 		logPane.invalidate();
-		logField.setEditable(true);
 		logField.setText(logField.getText() + s + "\n");
-		logField.setEditable(false);
 		logPane.repaint();
 	}
 
@@ -428,24 +484,6 @@ public class MeshHandlerWindow extends JFrame implements ActionListener,
 		if (e.getID() == WindowEvent.WINDOW_CLOSING) {
 			propertyManager.setModule(propertyManager.getModule());
 			System.exit(0);
-		}
-	}
-
-	public void valueChanged(ListSelectionEvent e) {
-		if (modelList.getSelectedIndex() >= 0 && (scaled || nameChanged)) {
-			int returnVal = JOptionPane.showOptionDialog(this,
-					"Vor dem Fortfahren speichern?", "Änderungen speichern?",
-					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
-					null, null, null);
-			if (returnVal == JOptionPane.YES_OPTION) {
-				save();
-			}
-		}
-		if (modelList.getSelectedIndex() >= 0) {
-			modelNameEdit.setText((String) modelList.getSelectedValue());
-			modelTriangleCountField.setText("              ");
-			modelHasSkeletonField.setText("                  ");
-			modelMaterials.setText("\n\n\n");
 		}
 	}
 
