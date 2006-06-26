@@ -77,7 +77,9 @@
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
 			/>
-
+            <userData>
+                <property type="STRING" name="physical_body" data="none"/>
+            </userData> 
   
 
 		</node>
