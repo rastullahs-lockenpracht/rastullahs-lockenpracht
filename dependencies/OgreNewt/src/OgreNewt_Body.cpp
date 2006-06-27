@@ -329,6 +329,16 @@ void Body::setOffset(const Ogre::Vector3& offset)
     m_offset = offset;
 }
 
+Ogre::Quaternion Body::getOrientationBias() const
+{
+	return m_orientationbias;
+}
+
+void Body::setOrientationBias(const Ogre::Quaternion& orientationbias)
+{
+	m_orientationbias = orientationbias;
+}
+
 // --------------------------------------------------------------------------------------
 
 

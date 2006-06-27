@@ -373,6 +373,9 @@ public:
     Ogre::Vector3 getOffset() const;
     void setOffset(const Ogre::Vector3& offset);
 
+	Ogre::Quaternion getOrientationBias() const;
+	void setOrientationBias(const Ogre::Quaternion& orientationbias);
+
  protected:
 
 	NewtonBody*			m_body;
