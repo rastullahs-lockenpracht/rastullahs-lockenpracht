@@ -54,7 +54,13 @@ Agent* AgentManager::createAgent(Creature* character)
         Logger::AI,
         Logger::LL_MESSAGE,
         "created AI Agent");
+	mAllNeighbors.push_back(agent->getVehicle());
     return agent;
+}
+
+AgentManager::VehicleList AgentManager::getNeighbors(Agent* agent)
+{
+	return mAllNeighbors;
 }
 
 void AgentManager::OnApplyForceAndTorque(PhysicalThing* thing)

@@ -17,6 +17,7 @@
 #define __RlAI_SteeringVehicle_H__
 
 #include "AiPrerequisites.h"
+#include "AgentManager.h"
 #include "OgreVector3.h"
 #include "OpenSteer/SteerLibrary.h"
 
@@ -46,7 +47,7 @@ namespace rl
 	public:
 		SteeringVehicle(Actor* character);
 		virtual ~SteeringVehicle(void);
-		
+
 		/**
 		 * Add a force to the current force of the vehicle
 		 * @param  force value as force vector
@@ -95,12 +96,12 @@ namespace rl
 		Vector3 calcAvoidObstacles(const float minTimeToCollision);
 
 		/**
-		 * Causes the vehicle to turn away from neighbour vehicles.
+		 * Causes the vehicle to turn away from neighbor vehicles.
 		 * The vehicle will consider all close-by nieghbours automatically
 		 * @param  minTimeToCollision distance to the neighbour in time at the vehicle's current velocity
 		 * @return a steering force to avoid neighbours. 
 		 */
-		Vector3 calcAvoidNeighbours(const float minTimeToCollision);
+		Vector3 calcAvoidNeighbors(const float minTimeToCollision);
 			
 		/**
 		 * @returns a steering force to maintain a given target speed. 
@@ -217,6 +218,7 @@ namespace rl
 		}
 		*/
 	private:
+		AVGroup getNeighbors();
     //    float _mass;       // mass (defaults to unity so acceleration=force)
     //   float _radius;     // size of bounding sphere, for obstacle avoidance, etc.
     //    float _speed;      // speed along Forward direction.  Because local space

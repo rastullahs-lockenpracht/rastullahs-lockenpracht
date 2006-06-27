@@ -131,14 +131,14 @@ Vector3 SteeringVehicle::calcWander(const float elapsedTime)
 Vector3 SteeringVehicle::calcSeek(const Vector3& target)
 {
 	Vec3 rVal(mForwardVector.x, mForwardVector.y, mForwardVector.z);
-	rVal += steerForSeek(Vec3(target.x, target.y, target.z)).setYtoZero();
+	rVal += xxxsteerForSeek(Vec3(target.x, target.y, target.z)).setYtoZero();
 	rVal *= mSpeed;
 	return Vector3(rVal.x, rVal.y, rVal.z);
 }
 
 Vector3 SteeringVehicle::calcFlee(const Vector3& target)
 {
-	Vec3 rVal = steerForFlee(Vec3(target.x, target.y, target.z)).setYtoZero();
+	Vec3 rVal = xxxsteerForFlee(Vec3(target.x, target.y, target.z)).setYtoZero();
 	rVal *= mSpeed;
 	return Vector3(rVal.x, rVal.y, rVal.z);
 }
@@ -148,9 +148,11 @@ Vector3 SteeringVehicle::calcAvoidObstacles(const float minTimeToCollision)
 	return Vector3();
 }
 
-Vector3 SteeringVehicle::calcAvoidNeighbours(const float minTimeToCollision)
+Vector3 SteeringVehicle::calcAvoidNeighbors(const float minTimeToCollision)
 {
-	return Vector3();
+	Vec3 rVal = steerToAvoidNeighbors(minTimeToCollision, getNeighbors()).setYtoZero();
+	rVal *=mSpeed;
+	return Vector3(rVal.x, rVal.y, rVal.z);
 }
 		
 Vector3 SteeringVehicle::calcSteerTargetSpeed(const float targetSpeed)
@@ -163,6 +165,19 @@ void SteeringVehicle::setAnimation(const CeGuiString& name)
 	MeshObject* mesh = dynamic_cast<MeshObject*>(mActor->getControlledObject());
 	mesh->startAnimation(name.c_str());
 	mActor->getPhysicalThing()->fitToPose(name.c_str());
+}
+
+
+AVGroup SteeringVehicle::getNeighbors()
+{
+	AVGroup group;
+	AgentManager::VehicleList list = AgentManager::getSingleton().getNeighbors(NULL);
+	AgentManager::VehicleList::iterator itr = list.begin();
+	for(; itr != list.end(); ++itr)
+	{
+		group.push_back( (*itr) );
+	}
+	return group;
 }
 
 Vec3 SteeringVehicle::predictFuturePosition(const float predictionTime) const

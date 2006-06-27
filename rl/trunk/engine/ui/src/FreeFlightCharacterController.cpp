@@ -50,7 +50,7 @@ namespace rl {
 
 		MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
 		mesh->stopAllAnimations();
-		mesh->startAnimation("Idle");
+		mesh->startAnimation("idle");
 	}
 
 	FreeFlightCharacterController::~FreeFlightCharacterController()

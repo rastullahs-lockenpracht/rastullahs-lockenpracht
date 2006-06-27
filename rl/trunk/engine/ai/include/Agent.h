@@ -34,6 +34,8 @@ namespace rl
 
 		void update(const float elapsedTime);
 		void addSteeringBehaviour(SteeringBehaviour* behaviour);
+
+		SteeringVehicle* getVehicle();
 		
 		virtual void OnApplyForceAndTorque(PhysicalThing* thing);
 
@@ -44,5 +46,10 @@ namespace rl
 		Creature* mCreature;
 
 	};
+
+	inline SteeringVehicle* Agent::getVehicle()
+	{
+		return mVehicle;
+	}
 }
 #endif

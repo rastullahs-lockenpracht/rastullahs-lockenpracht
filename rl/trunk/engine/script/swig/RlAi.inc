@@ -31,7 +31,7 @@ namespace rl
 
 		Ogre::Vector3 calcAvoidObstacles(const float minTimeToCollision);
 
-		Ogre::Vector3 calcAvoidNeighbours(const float minTimeToCollision);
+		Ogre::Vector3 calcAvoidNeighbors(const float minTimeToCollision);
 		
 		Ogre::Vector3 calcSteerTargetSpeed(const float targetSpeed);
 		

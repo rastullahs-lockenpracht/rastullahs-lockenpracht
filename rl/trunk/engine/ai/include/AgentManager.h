@@ -25,6 +25,7 @@ namespace rl
 {
 	class Agent;
 	class Creature;
+	class SteeringVehicle;
 
 	class _RlAiExport AgentManager
 		: public GameTask,
@@ -34,6 +35,7 @@ namespace rl
 	public:
 		static AgentManager& getSingleton(void);
         static AgentManager* getSingletonPtr(void);
+		typedef std::vector<SteeringVehicle*> VehicleList;
 
 		AgentManager(void);
 		virtual ~AgentManager(void);
@@ -43,10 +45,13 @@ namespace rl
 		 */
 		Agent* createAgent(Creature* character);
 
+		VehicleList getNeighbors(Agent* agent);
 		void OnApplyForceAndTorque(PhysicalThing* thing);
 		void run( Ogre::Real elapsedTime );
 	private:
 		typedef std::list<Agent*> AgentList;
+		
+		VehicleList mAllNeighbors;
 		AgentList mAgents;
 	};
 }
