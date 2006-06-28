@@ -49,10 +49,26 @@
 				<Property Name="RelativePosition" Value="x:0.0 y:0.0"/>
 				<Property Name="RelativeWidth" Value="1.0"/>
 				<Property Name="RelativeHeight" Value="1.0"/>
+				<Window Type="RastullahLook/Listbox" Name="JournalWindow/Journal/JournalEntryList">
+					<Property Name="AbsolutePosition" Value="x:15 y:30"/>
+					<Property Name="AbsoluteWidth" Value="240"/>
+					<Property Name="AbsoluteHeight" Value="400"/>
+				</Window>
+
+				<Window Type="RastullahLook/StaticText" Name="JournalWindow/Journal/JournalEntryTitle">
+					<Property Name="AbsolutePosition" Value="x:270 y:30"/>
+					<Property Name="AbsoluteWidth" Value="315"/>
+					<Property Name="AbsoluteHeight" Value="30"/>
+					<Property Name="FrameEnabled" Value="False"/>
+				</Window>
+
+				<Window Type="RastullahLook/MultiLineEditbox" Name="JournalWindow/Journal/JournalEntryText">
+					<Property Name="AbsolutePosition" Value="x:270 y:60"/>
+					<Property Name="AbsoluteWidth" Value="315"/>
+					<Property Name="AbsoluteHeight" Value="370"/>
+				</Window>
 			</Window>
-
 		</Window>
-
 	</Window>
 </GUILayout>
 
