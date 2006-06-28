@@ -21,7 +21,7 @@ class DefaultWanderBehaviour < SteeringBehaviour
 	end
 		
 	def update(elapsedTime)
-		$SCRIPT.log("Update Wandering");
+		#$SCRIPT.log("Update Wandering");
 		getController().addForce(getController().calcWander(elapsedTime) * getActivationLevel());
 	#	getController().addForce(getController().calcFlee([-18.0, -6.8, 15.2]) * getActivationLevel());
 	end
