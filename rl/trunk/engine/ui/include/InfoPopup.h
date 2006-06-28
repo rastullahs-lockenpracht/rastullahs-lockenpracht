@@ -18,36 +18,37 @@
 #include <vector>
 
 #include "CeGuiWindow.h"
-#include "QuestChangeListener.h"
+#include "QuestBookChangeListener.h"
 
 namespace rl {
 
-	class _RlUiExport InfoPopup : public CeGuiWindow, public QuestChangeListener
-	{
-	public:
-		InfoPopup();
-		~InfoPopup();
+    class _RlUiExport InfoPopup : public CeGuiWindow, public QuestBookChangeListener
+    {
+    public:
+        InfoPopup();
+        ~InfoPopup();
 
-		void showError();
-		void showQuestChange();
+        void showError();
+        void showQuestBookChange();
 
-		void windowHid();
+        void windowHid();
 
-		void setVisible(bool visible, bool destroyAfterHide = false);
+        void setVisible(bool visible, bool destroyAfterHide = false);
 
-		void questStateChanged(QuestChangeEvent* anEvent);
-		void questPartsDoneChanged(QuestChangeEvent* anEvent);
-		void questKnownChanged(QuestChangeEvent* anEvent);
-		void questSubquestAdded(QuestChangeEvent* anEvent);
+        void questStateChanged(QuestBookChangeEvent* anEvent);
+        void questPartsDoneChanged(QuestBookChangeEvent* anEvent);
+        void questKnownChanged(QuestBookChangeEvent* anEvent);
+        void questSubquestAdded(QuestBookChangeEvent* anEvent);
 
-	private:
-		static const int ICON_SPACING = 5;
+        void journalEntryAdded(JournalEvent* anEvent);
+    private:
+        static const int ICON_SPACING = 5;
 
-		void showMessageIcon(CEGUI::StaticImage* image);
+        void showMessageIcon(CEGUI::StaticImage* image);
 
-		std::vector<CEGUI::StaticImage*> mActiveIcons;
-		CEGUI::StaticImage* mErrorIcon;
-		CEGUI::StaticImage* mQuestIcon;
-	};
+        std::vector<CEGUI::StaticImage*> mActiveIcons;
+        CEGUI::StaticImage* mErrorIcon;
+        CEGUI::StaticImage* mQuestIcon;
+    };
 
 }

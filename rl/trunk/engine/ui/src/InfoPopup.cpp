@@ -39,7 +39,7 @@ namespace rl {
 		showMessageIcon(mErrorIcon);
 	}
 
-	void InfoPopup::showQuestChange()
+	void InfoPopup::showQuestBookChange()
 	{
 		showMessageIcon(mQuestIcon);
 	}
@@ -84,24 +84,29 @@ namespace rl {
 		}
 	}
 
-	void InfoPopup::questStateChanged(QuestChangeEvent* anEvent)
+	void InfoPopup::questStateChanged(QuestBookChangeEvent* anEvent)
 	{
-		showQuestChange();
+		showQuestBookChange();
 	}
 	
-	void InfoPopup::questPartsDoneChanged(QuestChangeEvent* anEvent)
+	void InfoPopup::questPartsDoneChanged(QuestBookChangeEvent* anEvent)
 	{
-		showQuestChange();
+		showQuestBookChange();
 	}
 
-	void InfoPopup::questKnownChanged(QuestChangeEvent* anEvent)
+	void InfoPopup::questKnownChanged(QuestBookChangeEvent* anEvent)
 	{
-		showQuestChange();
+		showQuestBookChange();
 	}
 
-	void InfoPopup::questSubquestAdded(QuestChangeEvent* anEvent)
+	void InfoPopup::questSubquestAdded(QuestBookChangeEvent* anEvent)
 	{
-		showQuestChange();
+		showQuestBookChange();
 	}
+
+	void InfoPopup::journalEntryAdded(JournalEvent* anEvent)
+    {
+		showQuestBookChange();
+    }
 
 }

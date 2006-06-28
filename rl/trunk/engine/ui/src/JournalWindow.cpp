@@ -1,18 +1,18 @@
 /* This source file is part of Rastullahs Lockenpracht.
- * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
- * 
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the Clarified Artistic License.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  Clarified Artistic License for more details.
- *
- *  You should have received a copy of the Clarified Artistic License
- *  along with this program; if not you can get it here
- *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
- */
+* Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
+* 
+*  This program is free software; you can redistribute it and/or modify
+*  it under the terms of the Clarified Artistic License.
+*
+*  This program is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*  Clarified Artistic License for more details.
+*
+*  You should have received a copy of the Clarified Artistic License
+*  along with this program; if not you can get it here
+*  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+*/
 
 #include <boost/bind.hpp>
 
@@ -27,122 +27,202 @@ using namespace CEGUI;
 
 namespace rl {
 
-	JournalWindow::JournalWindow()
-		: CeGuiWindow("journalwindow.xml", WND_MOUSE_INPUT)
-	{
-		mQuests = getListbox("JournalWindow/Quests/QuestList");
-		mQuests->setMultiselectEnabled(false);
-		mQuests->subscribeEvent(
-			CEGUI::Listbox::EventSelectionChanged,
-			boost::bind(&JournalWindow::updateSelection, this));
+    JournalWindow::JournalWindow()
+        : CeGuiWindow("journalwindow.xml", WND_MOUSE_INPUT),
+        mQuests(0),
+        mQuestTitle(0),
+        mQuestState(0),
+        mQuestDescription(0),
+        mJournalEntries(0),
+        mJournalEntryTitle(0),
+        mJournalEntryText(0),
+        mSelectionBrush(),
+        mSelectionImageset(),
+        mSelectionColour()
+    {
+        mQuests = getListbox("JournalWindow/Quests/QuestList");
+        mQuests->setMultiselectEnabled(false);
+        mQuests->subscribeEvent(
+            CEGUI::Listbox::EventSelectionChanged,
+            boost::bind(&JournalWindow::updateQuestSelection, this));
 
-		mQuestSelectionColour = 
-			PropertyHelper::stringToColour(
-				mQuests->getProperty("DefaultSelectionColour"));
-		mQuestSelectionImageset = mQuests->getProperty("DefaultSelectionImageset");
-		mQuestSelectionBrush = mQuests->getProperty("DefaultSelectionBrush");
-			
-		mQuestTitle = getStaticText("JournalWindow/Quests/QuestTitle");
-		mQuestState = getStaticText("JournalWindow/Quests/QuestState");
-		mQuestDescription = getMultiLineEditbox("JournalWindow/Quests/QuestDescription");
-		mQuestDescription->setReadOnly(true);
+        mQuestTitle = getStaticText("JournalWindow/Quests/QuestTitle");
+        mQuestState = getStaticText("JournalWindow/Quests/QuestState");
+        mQuestDescription = getMultiLineEditbox("JournalWindow/Quests/QuestDescription");
+        mQuestDescription->setReadOnly(true);
 
-		updateQuests();
-	}
-	
-	JournalWindow::~JournalWindow()
-	{
-	}
+        mJournalEntries = getListbox("JournalWindow/Journal/JournalEntryList");
+        mJournalEntries->setMultiselectEnabled(false);
+        mJournalEntries->subscribeEvent(
+            CEGUI::Listbox::EventSelectionChanged,
+            boost::bind(&JournalWindow::updateJournalEntrySelection, this));
 
-	void JournalWindow::questStateChanged(QuestChangeEvent* anEvent)
-	{
-		updateQuests();
-	}
+        mJournalEntryTitle = getStaticText("JournalWindow/Journal/JournalEntryTitle");
+        mJournalEntryText = getMultiLineEditbox("JournalWindow/Journal/JournalEntryText");
+        mJournalEntryText->setReadOnly(true);
 
-	void JournalWindow::questPartsDoneChanged(QuestChangeEvent* anEvent)
-	{
-		updateQuests();
-	}
+        mSelectionColour = 
+            PropertyHelper::stringToColour(
+            mQuests->getProperty("DefaultSelectionColour"));
+        mSelectionImageset = mQuests->getProperty("DefaultSelectionImageset");
+        mSelectionBrush = mQuests->getProperty("DefaultSelectionBrush");
 
-	void JournalWindow::questKnownChanged(QuestChangeEvent* anEvent)
-	{
-		updateQuests();
-	}
+        updateQuests();
+        updateJournal();
+    }
 
-	void JournalWindow::questSubquestAdded(QuestChangeEvent* anEvent)
-	{
-		updateQuests();
-	}
+    JournalWindow::~JournalWindow()
+    {
+    }
 
+    void JournalWindow::questStateChanged(QuestBookChangeEvent* anEvent)
+    {
+        updateQuests();
+    }
 
-	void JournalWindow::updateQuests()
-	{
-		mQuests->clearAllSelections();
-		selectQuest(NULL);
+    void JournalWindow::questPartsDoneChanged(QuestBookChangeEvent* anEvent)
+    {
+        updateQuests();
+    }
 
-		while (mQuests->getItemCount() > 0)
-			mQuests->removeItem(mQuests->getListboxItemFromIndex(0));
+    void JournalWindow::questKnownChanged(QuestBookChangeEvent* anEvent)
+    {
+        updateQuests();
+    }
 
-		QuestBook* questBook = RulesSubsystem::getSingleton().getQuestBook();
-		QuestVector quests = questBook->getTopLevelQuests();
-		for (QuestVector::iterator it = quests.begin(); it != quests.end(); it++)
-		{
-			addQuest(*it);
-		}
+    void JournalWindow::questSubquestAdded(QuestBookChangeEvent* anEvent)
+    {
+        updateQuests();
+    }
 
-		if (mQuests->getItemCount() > 0)
-			mQuests->setItemSelectState( (size_t)0, true );
-	}
+    void JournalWindow::journalEntryAdded(JournalEvent* anEvent)
+    {
+        updateJournal();
+    }
 
-	bool JournalWindow::updateSelection()
-	{
-		if (mQuests->getItemCount() == 0)
-			selectQuest(NULL);
-		else
-			selectQuest(mQuests->getFirstSelectedItem());
+    void JournalWindow::updateJournal()
+    {
+        mJournalEntries->clearAllSelections();
+        selectJournalEntry(0);
 
-		return true;
-	}
+        while (mJournalEntries->getItemCount() > 0)
+            mJournalEntries->removeItem(mJournalEntries->getListboxItemFromIndex(0));
 
-	void JournalWindow::addQuest(Quest* quest, int level)
-	{
-		static CeGuiString INDENT = "   ";
+        QuestBook* questBook = RulesSubsystem::getSingleton().getQuestBook();
+        unsigned int count = questBook->getNumJournalEntries();
+        for (unsigned int i = 0; i < count; ++i)
+        {
+            addJournalEntry(questBook->getJournalEntry(i));
+        }
 
-		if (!quest->isKnown())
-			return;
+        if (mJournalEntries->getItemCount() > 0)
+        {
+            mJournalEntries->setItemSelectState(static_cast<size_t>(0), true );
+        }
+    }
 
-		CeGuiString questName = "";
-		for (int idx = 0; idx < level; idx++)
-			questName.append(INDENT);
-		questName.append(quest->getName());
+    void JournalWindow::updateQuests()
+    {
+        mQuests->clearAllSelections();
+        selectQuest(NULL);
 
-		ListboxTextItem* item = new ListboxTextItem(questName, 0, quest);
-		item->setSelectionBrushImage(
-			mQuestSelectionImageset,
-			mQuestSelectionBrush);
-		mQuests->addItem(item);
-		QuestVector quests = quest->getSubquests();
-		for (QuestVector::iterator it = quests.begin(); it != quests.end(); it++)
-		{
-			addQuest(*it, level+1);
-		}
-	}
+        while (mQuests->getItemCount() > 0)
+            mQuests->removeItem(mQuests->getListboxItemFromIndex(0));
 
-	void JournalWindow::selectQuest(CEGUI::ListboxItem* item)
-	{
-		if (item == NULL)
-		{
-			mQuestDescription->setText("");
-			mQuestState->setText("");
-			mQuestTitle->setText("");
-		}
-		else
-		{
-			Quest* quest = static_cast<Quest*>(item->getUserData());
+        QuestBook* questBook = RulesSubsystem::getSingleton().getQuestBook();
+        QuestVector quests = questBook->getTopLevelQuests();
+        for (QuestVector::iterator it = quests.begin(); it != quests.end(); it++)
+        {
+            addQuest(*it);
+        }
 
-			mQuestState->setText(quest->getStateName());
-			mQuestTitle->setText(quest->getName());
-			mQuestDescription->setText(quest->getDescription());
-		}
-	}
+        if (mQuests->getItemCount() > 0)
+            mQuests->setItemSelectState( (size_t)0, true );
+    }
+
+    bool JournalWindow::updateQuestSelection()
+    {
+        if (mQuests->getItemCount() == 0)
+            selectQuest(NULL);
+        else
+            selectQuest(mQuests->getFirstSelectedItem());
+
+        return true;
+    }
+
+    void JournalWindow::addQuest(Quest* quest, int level)
+    {
+        static CeGuiString INDENT = "   ";
+
+        if (!quest->isKnown())
+            return;
+
+        CeGuiString questName = "";
+        for (int idx = 0; idx < level; idx++)
+            questName.append(INDENT);
+        questName.append(quest->getName());
+
+        ListboxTextItem* item = new ListboxTextItem(questName, 0, quest);
+        item->setSelectionBrushImage(mSelectionImageset, mSelectionBrush);
+        mQuests->addItem(item);
+        QuestVector quests = quest->getSubquests();
+        for (QuestVector::iterator it = quests.begin(); it != quests.end(); it++)
+        {
+            addQuest(*it, level+1);
+        }
+    }
+
+    void JournalWindow::selectQuest(CEGUI::ListboxItem* item)
+    {
+        if (item == NULL)
+        {
+            mQuestDescription->setText("");
+            mQuestState->setText("");
+            mQuestTitle->setText("");
+        }
+        else
+        {
+            Quest* quest = static_cast<Quest*>(item->getUserData());
+
+            mQuestState->setText(quest->getStateName());
+            mQuestTitle->setText(quest->getName());
+            mQuestDescription->setText(quest->getDescription());
+        }
+    }
+
+    void JournalWindow::selectJournalEntry(CEGUI::ListboxItem* item)
+    {
+        if (item == NULL)
+        {
+            mJournalEntryText->setText("");
+            mJournalEntryTitle->setText("");
+        }
+        else
+        {
+            JournalEntry* entry = static_cast<JournalEntry*>(item->getUserData());
+
+            mJournalEntryTitle->setText(entry->getCaption());
+            mJournalEntryText->setText(entry->getText());
+        }
+    }
+
+    bool JournalWindow::updateJournalEntrySelection()
+    {
+        if (mJournalEntries->getItemCount() == 0)
+        {
+            selectJournalEntry(NULL);
+        }
+        else
+        {
+            selectJournalEntry(mJournalEntries->getFirstSelectedItem());
+        }
+        return true;
+    }
+
+    void JournalWindow::addJournalEntry(JournalEntry* entry)
+    {
+        ListboxTextItem* item = new ListboxTextItem(entry->getCaption(), 0, entry);
+        item->setSelectionBrushImage(mSelectionImageset, mSelectionBrush);
+        mJournalEntries->addItem(item);
+    }
 }

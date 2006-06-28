@@ -16,14 +16,16 @@
 
 #include "QuestBook.h"
 #include "Quest.h"
-
+#include "Exception.h"
 #include "ScriptWrapper.h"
 
 namespace rl {
 
 QuestBook::QuestBook()
 	: mRootQuest(new Quest("<root>", "<root>", "<root>")) ,
-	mEventCaster()
+    mJournalEntries(),
+	mQuestBookChangeEventCaster(),
+	mJournalEventCaster()
 {
 	mRootQuest->setQuestBook(this);
 	mRootQuest->setState(Quest::OPEN);
@@ -60,28 +62,46 @@ void QuestBook::addQuest(Quest* quest)
 	mRootQuest->addSubquest(quest);
 }
 
-void QuestBook::fireQuestChanged( Quest *quest, int reason )
+void QuestBook::_fireQuestBookChanged(Quest *quest, int reason )
 {
-	QuestChangeEvent* evt = new QuestChangeEvent( this, reason );
+	QuestBookChangeEvent* evt = new QuestBookChangeEvent( this, reason );
 	evt->setQuest(quest);
-	mEventCaster.dispatchEvent(evt);
+	mQuestBookChangeEventCaster.dispatchEvent(evt);
 	delete evt;
 }
 
-void QuestBook::addQuestChangeListener(QuestChangeListener* listener)
+void QuestBook::fireJournalChanged(JournalEntry* entry, int reason)
 {
-	if( !mEventCaster.containsListener(listener) )
+	JournalEvent evt = JournalEvent(this, reason, entry);
+	mJournalEventCaster.dispatchEvent(&evt);
+}
+
+void QuestBook::addQuestBookChangeListener(QuestBookChangeListener* listener)
+{
+	if (mQuestBookChangeEventCaster.containsListener(listener) !=
+        mJournalEventCaster.containsListener(listener))
+    {
+        Throw(AssertionFailedError, "listener registration inconsistent");
+    }
+	else if (!mJournalEventCaster.containsListener(listener))
     {    
-		mEventCaster.addEventListener(listener);
+		mJournalEventCaster.addEventListener(listener);
+		mQuestBookChangeEventCaster.addEventListener(listener);
         ScriptWrapper::getSingleton().owned( listener );
     }
 }
 
-void QuestBook::removeQuestChangeListener(QuestChangeListener* listener)
+void QuestBook::removeQuestBookChangeListener(QuestBookChangeListener* listener)
 {
-	if( mEventCaster.containsListener( listener ) ) 
+	if (mQuestBookChangeEventCaster.containsListener(listener) !=
+        mJournalEventCaster.containsListener(listener))
     {
-	    mEventCaster.removeEventListener(listener);
+        Throw(AssertionFailedError, "listener registration inconsistent");
+    }
+	else if (mJournalEventCaster.containsListener( listener )) 
+    {
+	    mJournalEventCaster.removeEventListener(listener);
+	    mQuestBookChangeEventCaster.removeEventListener(listener);
         ScriptWrapper::getSingleton().disowned( listener );
     }
 }
@@ -89,6 +109,37 @@ void QuestBook::removeQuestChangeListener(QuestChangeListener* listener)
 QuestVector QuestBook::getTopLevelQuests()
 {
 	return mRootQuest->getSubquests();
+}
+
+void QuestBook::addJournalEntry(JournalEntry* entry)
+{
+    mJournalEntries.push_back(entry);
+
+    Logger::getSingleton().log(
+        Logger::RULES,
+        Logger::LL_MESSAGE,
+        Ogre::String("Journal entry added: ") + entry->getCaption());
+
+    fireJournalChanged(entry, JournalEvent::JOURNAL_ENTRY_ADDED);
+}
+
+void QuestBook::addJournalEntry(CeGuiString caption, CeGuiString text)
+{
+    addJournalEntry(new JournalEntry(caption, text));
+}
+
+unsigned int QuestBook::getNumJournalEntries() const
+{
+    return mJournalEntries.size();
+}
+
+JournalEntry* QuestBook::getJournalEntry(unsigned int index) const
+{
+    if (mJournalEntries.size() <= index)
+    {
+        Throw(IllegalArgumentException, "No such JournalEntry.");
+    }
+    return mJournalEntries[index];
 }
 
 }

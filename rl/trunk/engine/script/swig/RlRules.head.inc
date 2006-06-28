@@ -51,6 +51,6 @@
 #include "Weapon.h"
 #include "Quest.h"
 #include "QuestBook.h"
-#include "QuestChangeListener.h"
-#include "QuestChangeEvent.h"
+#include "QuestBookChangeListener.h"
+#include "QuestBookChangeEvent.h"
 %}

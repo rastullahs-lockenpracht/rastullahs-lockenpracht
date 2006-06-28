@@ -22,13 +22,17 @@
 #include "EventSource.h"
 #include "EventCaster.h"
 
+#include "JournalEntry.h"
+
 #include "Quest.h"
-#include "QuestChangeEvent.h"
-#include "QuestChangeListener.h"
+#include "QuestBookChangeEvent.h"
+#include "QuestBookChangeListener.h"
+
+#include <vector>
 
 namespace rl {
 
-
+///@todo Rename this class to reflect scope changes.
 class _RlRulesExport QuestBook : public EventSource
 {
 public:
@@ -50,19 +54,29 @@ public:
 	 */
 	void addQuest(Quest* quest);
 
-	/**
-	 * Sendet das Ereignis, dass sich ein Quest geändert hat
-	 * @param quest der Quest, der verändert wurde
-	 */
-	void fireQuestChanged( Quest* quest, int reason );
+    /**
+     *  Adds a journal entry to the quest book.
+     */
+    void addJournalEntry(JournalEntry* entry);
+    void addJournalEntry(CeGuiString caption, CeGuiString text);
 
-	void addQuestChangeListener(QuestChangeListener* listener);
-	void removeQuestChangeListener(QuestChangeListener* listener);
+    unsigned int getNumJournalEntries() const;
+
+    JournalEntry* getJournalEntry(unsigned int index) const;
+
+	void addQuestBookChangeListener(QuestBookChangeListener* listener);
+	void removeQuestBookChangeListener(QuestBookChangeListener* listener);
+
+    void _fireQuestBookChanged(Quest* quest, int reason);
 
 private:
 	Quest* getQuest(Quest* parent, const CeGuiString id);
 	Quest* mRootQuest;
-	EventCaster<QuestChangeEvent> mEventCaster;
+    std::vector<JournalEntry*> mJournalEntries;
+	EventCaster<QuestBookChangeEvent> mQuestBookChangeEventCaster;
+	EventCaster<JournalEvent> mJournalEventCaster;
+
+    void fireJournalChanged(JournalEntry* entry, int reason);
 };
 
 }

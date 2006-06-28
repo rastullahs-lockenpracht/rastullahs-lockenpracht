@@ -13,28 +13,35 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#ifndef __QuestBookChangeEvent_H__
+#define __QuestBookChangeEvent_H__
 
-#include "QuestChangeEvent.h"
+#include "RulesPrerequisites.h"
 
-#include "Quest.h"
-#include "QuestBook.h"
+#include "EventObject.h"
 
 namespace rl {
 
-QuestChangeEvent::QuestChangeEvent( QuestBook* src, int reason )
-	: EventObject(src, reason)
+class _RlRulesExport Quest;
+class _RlRulesExport QuestBook;
+
+class _RlRulesExport QuestBookChangeEvent : public virtual EventObject 
 {
+public:
+	static const unsigned int QUEST_PARTSDONE = 360;
+	static const unsigned int QUEST_SUBQUEST = 361;
+	static const unsigned int QUEST_STATE = 362;
+	static const unsigned int QUEST_KNOWN = 363;
+
+	QuestBookChangeEvent( QuestBook* src, int reason );
+    virtual ~QuestBookChangeEvent() {};
+
+	void setQuest(Quest* quest);
+	Quest* getQuest();
+private:
+	Quest* mQuest;
+};
+
 }
 
-void QuestChangeEvent::setQuest(Quest* quest)
-{
-	mQuest = quest;
-}
-
-Quest* QuestChangeEvent::getQuest()
-{
-	return mQuest;
-}
-
-
-}
+#endif // __QuestBookChangeEvent_H__

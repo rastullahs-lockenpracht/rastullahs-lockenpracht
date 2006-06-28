@@ -88,8 +88,8 @@ namespace rl {
 		mObjectDescriptionWindow = new ObjectDescriptionWindow();
 		mSoundConfig = new SoundConfig();
 
-		RulesSubsystem::getSingleton().getQuestBook()->addQuestChangeListener(mJournalWindow);
-		RulesSubsystem::getSingleton().getQuestBook()->addQuestChangeListener(mInfoPopup);
+		RulesSubsystem::getSingleton().getQuestBook()->addQuestBookChangeListener(mJournalWindow);
+		RulesSubsystem::getSingleton().getQuestBook()->addQuestBookChangeListener(mInfoPopup);
         mDataLoadingProgressWindow = new DataLoadingProgressWindow();
 		CoreSubsystem::getSingleton().addCoreEventListener(mDataLoadingProgressWindow);
 	}
@@ -373,7 +373,7 @@ namespace rl {
 
 		if (popupTypes & WindowFactory::ICON_QUEST)
 		{
-			mInfoPopup->showQuestChange();
+			mInfoPopup->showQuestBookChange();
 		}
 	}
 
