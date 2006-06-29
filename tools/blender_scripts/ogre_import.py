@@ -145,11 +145,6 @@ class Mesh:
         self.normals = []
         self.uvs = []
         self.name = 0
-        self.matrix = Blender.Mathutils.Matrix( \
-             [1.0, 0.0, 0.0, 0.0], \
-             [0.0, 1.0, 0.0, 0.0], \
-             [0.0, 0.0, 1.0, 0.0], \
-             [0.0, 0.0, 0.0, 1.0])
     
 class Submesh:
     def __init__( self ):
@@ -201,7 +196,8 @@ class OgreMeshSaxHandler( xml.sax.handler.ContentHandler ):
         self.mesh = Mesh()
         
     def startElement( self, name, attrs ):
-        
+        dlog("Elementname: %s" % name)
+        dlog("Attribute: %s" % attrs)
         if name == 'sharedgeometry':
             self.submesh = self.mesh
 
@@ -390,16 +386,6 @@ def CreateBlenderMesh( name, mesh, materials ):
     # create the mesh
     object = Blender.Object.New( 'Mesh', name )
     object.link( bmesh )
-
-    # apply transformation matrix 
-    object.setMatrix(mesh.matrix)
-    bmesh.transform(mesh.matrix, 1)
-    object.setMatrix(Blender.Mathutils.Matrix( \
-             [1.0, 0.0, 0.0, 0.0], \
-             [0.0, 1.0, 0.0, 0.0], \
-             [0.0, 0.0, 1.0, 0.0], \
-             [0.0, 0.0, 0.0, 1.0]))
-
     
     return object
 

@@ -64,6 +64,7 @@ def dlog(msg):
 class Scene:  
     def __init__(self):
         self.nodes = []
+        self.matrices = []
 
 class DotSceneSaxHandler(xml.sax.handler.ContentHandler):
     global IMPORT_SCENE_SCALE_FACTOR
@@ -71,6 +72,11 @@ class DotSceneSaxHandler(xml.sax.handler.ContentHandler):
     def __init__(self):
         self.scene = 0
         self.mesh = 0
+        self.matrix = Blender.Mathutils.Matrix( \
+             [1.0, 0.0, 0.0, 0.0], \
+             [0.0, 1.0, 0.0, 0.0], \
+             [0.0, 0.0, 1.0, 0.0], \
+             [0.0, 0.0, 0.0, 1.0])
         
     def startDocument(self):
         self.scene = Scene()
@@ -101,15 +107,19 @@ class DotSceneSaxHandler(xml.sax.handler.ContentHandler):
     def startElement(self, name, attrs):
         if name == "node":
             self.mesh = ogre_import.Mesh()
+            self.matrix = Blender.Mathutils.Matrix( \
+                 [1.0, 0.0, 0.0, 0.0], \
+                 [0.0, 1.0, 0.0, 0.0], \
+                 [0.0, 0.0, 1.0, 0.0], \
+                 [0.0, 0.0, 0.0, 1.0])
             
         if name == "position":
             x = float(attrs.get('x', "0.0")) 
             y = -float(attrs.get('z', "0.0"))
             z = float(attrs.get('y', "0.0")) 
             dlog("Position:")
-            dlog(type(self.mesh.matrix))
-            self.mesh.matrix = \
-                self.translate(self.mesh.matrix, x, y, z) 
+            self.matrix = \
+                self.translate(self.matrix, x, y, z) 
             
         if name == "rotation":
             qx = float(attrs.get('qx', "0.0"))
@@ -117,8 +127,8 @@ class DotSceneSaxHandler(xml.sax.handler.ContentHandler):
             qz = float(attrs.get('qy', "0.0"))
             qw = float(attrs.get('qw', "0.0"))
             dlog("Rotation:")
-            self.mesh.matrix = \
-                self.rotate(self.mesh.matrix, \
+            self.matrix = \
+                self.rotate(self.matrix, \
                      qx, qy, qz, qw)
             
         if name == "scale":
@@ -126,13 +136,15 @@ class DotSceneSaxHandler(xml.sax.handler.ContentHandler):
             y = float(attrs.get('z', "0.0"))
             z = float(attrs.get('y', "0.0"))
             dlog("Scale: ")
-            self.mesh.matrix = \
-                self.scale(self.mesh.matrix, x, y, z)
+            self.matrix = \
+                self.scale(self.matrix, x, y, z)
             
         if name == "entity":
-            mat = attrs.get('materialFile', "")
-            if mat != "":
-                self.mesh.setMaterial( mat )
+# TODO Materialfile
+#            mat = attrs.get('materialFile', "")
+#            if mat != "":
+#                self.mesh.setMaterial( mat )
+
             meshfile = attrs.get('meshFile', "")
             # is this a mesh file instead of an xml file?
             if ( meshfile.lower().find( '.xml' ) == -1 ):
@@ -150,13 +162,17 @@ class DotSceneSaxHandler(xml.sax.handler.ContentHandler):
                 log( "    error parsing mesh %s " % \
                          ( meshfile ) )
                 log( "        exception: %s" % str( e ) )
+            self.mesh = meshhandler.mesh
             self.mesh.name = meshfile[0 : meshfile.lower().find( '.mesh.xml' )]
+
+
             # TODO: Castshadow, ID, userdata
             
         
     def endElement(self, name):
         if name == "node":
             self.scene.nodes.append(self.mesh)
+            self.scene.matrices.append(self.matrix)
             
       
 def fileselection_callback(filename):
@@ -175,12 +191,12 @@ def fileselection_callback(filename):
     parser.parse(open(filename))
  
     # Now we create a new scene
-#    name = basename[0:basename.lower().find('.scene')]
-#    log("Creating scene %s..." % name)
+    name = basename[0:basename.lower().find('.scene')]
+    log("Creating scene %s..." % name)
 #    camdata = Blender.Camera.New('ortho')           # create new camera data
 #    camdata.setName('newCam')
 #    camdata.setLens(16.0)
-#    scene = Blender.Scene.New(name)
+    scene = Blender.Scene.New(name)
 #    camobj = Blender.Object.New('Camera')
 #    camobj.link(camdata)         
 #    #scene.link(camobj)           
@@ -190,14 +206,19 @@ def fileselection_callback(filename):
 #    ob = Blender.Object.New('Lamp')         # create new lamp object
 #    ob.link(l)   
 #    #scene.link(ob)   
-#    scene.makeCurrent() 
+    scene.makeCurrent() 
         
     node_count = len(handler.scene.nodes) 
     for i in range(0, node_count):
         node = handler.scene.nodes[i]
         log("Importing mesh %s into scene" % node.name)
         mesh = ogre_import.CreateBlenderMesh(node.name, node, materials)
-        Blender.Scene.getCurrent().link(mesh)
+        # apply transformation matrix 
+        matrix = mesh.matrix
+        matrix.identity()
+        mesh.setMatrix(matrix)
+        mesh.getData().transform(handler.scene.matrices[i], 1)
+        scene.link(mesh)
         mesh.select(True)
 
     log ("Scene import done.")
