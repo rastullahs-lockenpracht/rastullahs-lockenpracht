@@ -194,6 +194,9 @@ class OgreMeshSaxHandler( xml.sax.handler.ContentHandler ):
 
     def startDocument( self ):
         self.mesh = Mesh()
+        self.submesh = 0
+        self.ignore_input = 0
+        self.load_next_texture_coords = 0
         
     def startElement( self, name, attrs ):
         dlog("Elementname: %s" % name)
@@ -256,8 +259,9 @@ class OgreMeshSaxHandler( xml.sax.handler.ContentHandler ):
             self.submesh = 0
 
 
-def CreateBlenderMesh( name, mesh, materials ):
+def CreateBlenderNMesh( name, mesh, materials ):
     bmesh = Blender.NMesh.GetRaw()
+    bmesh.name = name
 
     # dict matname:blender material
     bmaterials = {}
@@ -382,8 +386,13 @@ def CreateBlenderMesh( name, mesh, materials ):
     # bmesh.hasFaceUV(len(submesh.uvs))
     # ...have to hard set it.
     bmesh.hasFaceUV( 1 )
+    
+    return bmesh
 
-    # create the mesh
+
+def CreateBlenderMesh( name, mesh, materials ):
+    # create the mesh object
+    bmesh = CreateBlenderNMesh(name, mesh, materials)
     object = Blender.Object.New( 'Mesh', name )
     object.link( bmesh )
     
