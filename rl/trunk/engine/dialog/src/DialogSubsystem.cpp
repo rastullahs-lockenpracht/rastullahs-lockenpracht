@@ -109,31 +109,6 @@ namespace rl
 		}
 		mBots.insert(BotMap::value_type(mCurrentBot->getName(), mCurrentBot));
 		return mCurrentBot;
-		
-/*
-		mCurrentBot = new DialogCharacter();
-		setAimlParser(new AimlParserImplXerces(this));
-		BotParser parser(botName);
-		if(parser.parse(fileName, mCurrentBot))
-		{
-			BotMap::iterator iter = mBots.find(mCurrentBot->getName());
-			if(iter == mBots.end())
-			{
-				mBots[mCurrentBot->getName()] = mCurrentBot;
-			}
-			else
-			{
-				delete mCurrentBot;
-				mCurrentBot = iter->second;
-			}
-		}
-		else
-		{
-			delete mCurrentBot;
-			mCurrentBot = NULL;
-		}
-		return mCurrentBot;
-*/
 	}
 
     ResourcePtr DialogSubsystem::getXmlResource(const Ogre::String& filename)
@@ -158,23 +133,4 @@ namespace rl
 	{
 		mCurrentBot = bot;
 	}
-/*
-	void DialogSubsystem::testNewDialogSystem()
-	{
-		AimlBot<CeGuiString>* bot = mCore->loadBot("Alrike", "startup_test.xml");
-		// while processing the bot definition, a DialogCharacter should been created 
-		// through a ruby script and stored in mCurrentBot
-		if(mCurrentBot != NULL)
-		{
-			mCurrentBot->setBot(bot);
-		}
-		Response<CeGuiString> response = bot->respond("1");
-		if(response.hasGossip())
-		{
-			ContextInterpreter interpreter;
-			interpreter.interpret(response.getGossip(), bot);
-		}
-		delete bot;
-	}
-*/
 }

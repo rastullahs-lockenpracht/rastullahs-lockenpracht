@@ -17,6 +17,7 @@
 #define __Rl_DialogCharacter_H__
 
 #include "DialogPrerequisites.h"
+//#include "DialogListener.h"
 
 namespace MadaBot
 {
@@ -29,11 +30,8 @@ namespace rl
 {
 	class Creature;
 	class DialogResponse;
-	// deprecated
-	//class DialogScriptObject;
 
 	class _RlDialogExport DialogCharacter 
-	//	: public NaturalLanguageProcessor // deprecated
 	{
 	public:
 		DialogCharacter();
@@ -49,39 +47,48 @@ namespace rl
 		void setDialogCharacter(Creature* dialogCharacter);
 		Creature* getDialogPartner() const;
 		void setDialogPartner(Creature* dialogPartner);
-//		DialogScriptObject* getScriptObject() const;
-//		void setScriptObject(DialogScriptObject* scriptObject);
 
 		void initialize();
+		/**
+		 * SHOULD NOT BE CALLED IN PUBLIC
+		 * set the dialogbot, this is done in DialogSubsystem/AimlCore
+		 */
 		void setBot(AimlBot<CeGuiString>* bot);
 
+/*		void addDialogListener(DialogListener* listener);
+		void removeDialogListener(DialogListener* listener);
+		void updateDialogListeners(DialogListener::DialogEvent e);
+*/
 		Creature* getNonPlayerCharacter() const;
 		void setNonPlayerCharacter(Creature* npc);
 
 		Creature* getPlayerCharacter() const;
 		void setPlayerCharacter(Creature* pc);
 
+		// not used in script, thereby it can return a reference
 		const CeGuiString& getVoiceFile() const;
 		void setVoiceFile(const CeGuiString& filename);
 
 		/**
-		 * DialogScriptObject will be deprecated soon, 
-		 * DialogCharacter is responsible for the calculations now
+		 * calculation of special condition values
+		 * should have a second parameter "patternValue"
 		 */
 		virtual int calcOptionValue(const CeGuiString& optionName)=0;
 		virtual int calcResponseValue(const CeGuiString& responseName)=0;
 		virtual int calcSelectionValue(const CeGuiString& selectionName)=0;
 
 		DialogResponse* createResponse(const CeGuiString& input);
+		bool isActive(){ return mActive; }
 		
 	private:
+		bool mActive;
 		AimlBot<CeGuiString>* mBot;
-		//deprecated
-		//DialogScriptObject* mScriptObject;
-		
+
 		Creature* mNonPlayerCharacter;
 		Creature* mPlayerCharacter;
-		CeGuiString mVoiceFile;
+
+//		typedef std::list<DialogListener*> Listeners;
+//		Listeners mDialogListener;
 
 	};
 

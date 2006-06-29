@@ -36,8 +36,8 @@
 namespace rl
 {
 	DialogCharacter::DialogCharacter()
-		: mBot(NULL), 
-	//	  mScriptObject(NULL), 
+		: mActive(false), 
+		  mBot(NULL), 
 		  mNonPlayerCharacter(NULL),
 		  mPlayerCharacter(NULL)
 	{
@@ -84,6 +84,24 @@ namespace rl
 		}
 	}
 
+/*	void DialogCharacter::addDialogListener(DialogListener* listener)
+	{
+		mDialogListener.push_back(listener);
+	}
+
+	void DialogCharacter::removeDialogListener(DialogListener* listener)
+	{
+		mDialogListener.remove(listener);
+	}
+	void DialogCharacter::updateDialogListeners(DialogListener::DialogEvent e)
+	{
+		Listeners::iterator itr = mDialogListener.begin();
+		for(; itr != mDialogListener.end(); ++itr)
+		{
+			(*itr)->onDialogEvent(e);
+		}
+	}
+*/
 	const CeGuiString DialogCharacter::getName() const
 	{
 		return mBot->getName();
@@ -96,13 +114,15 @@ namespace rl
 
 	DialogResponse* DialogCharacter::createResponse(const CeGuiString& input)
 	{
+//		DialogListener::DialogEvent dialogEvent = DialogListener::DIALOG_RESPONSE;
+		if(!mActive)
+		{
+			mActive=true;
+//			dialogEvent = DialogListener::DIALOG_START;
+		}
 		input.c_str();
 		DialogResponse* dialogResponse = NULL;
 		Response<CeGuiString> response = mBot->respond(input);
-		if(response.empty())
-		{
-			return NULL;
-		}
 		if(response.hasGossip())
 		{
 			ContextInterpreter* interpreter = DialogSubsystem::getSingleton().getContextInterpreter();
@@ -111,6 +131,13 @@ namespace rl
 				dialogResponse = interpreter->interpret(response.getGossip(), mBot);
 			}
 		}
+		// why check for response.empty()???
+		if(response.empty() || dialogResponse == NULL)
+		{
+			mActive = false;
+//			dialogEvent = DialogListener::DIALOG_END;
+		}
+//		updateDialogListeners(dialogEvent);
 		return dialogResponse;
 	}
 /*	void DialogCharacter::setScriptObject(DialogScriptObject* scriptObject)

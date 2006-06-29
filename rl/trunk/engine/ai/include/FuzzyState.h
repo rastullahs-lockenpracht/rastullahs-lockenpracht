@@ -53,9 +53,6 @@ namespace rl
 
 		FuzzyState* getParent() { return mParent; }
 		void setParent(FuzzyState* parent) { mParent = parent; }
-
-		
-
 		
 	protected:
 		float mActivationLevel;

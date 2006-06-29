@@ -13,39 +13,42 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
-#include "AiSubsystem.h"
 #include "AiWorld.h"
-#include "AgentManager.h"
-//#include "GameLoop.h"
-
-using namespace Ogre;
-
-template<> rl::AiSubsystem* Singleton<rl::AiSubsystem>::ms_Singleton = 0;
 
 using namespace rl;
 
-AiSubsystem& AiSubsystem::getSingleton(void)
+AiWorld::AiWorld(void)
 {
-	return Singleton<AiSubsystem>::getSingleton();
+//  create an obstacle as bounding box of the walkarea for npcs
+//  this should be accessable through scripting, the Obstacles should have names
+//  for easier access
+	BoxObstacle* o = new BoxObstacle(50,50,50);
+	o->setSeenFrom(AbstractObstacle::inside);
+	o->setPosition(Vec3(-50.0f,-10.0f, -10.0f));
+	addObstacle(o);
 }
 
-AiSubsystem* AiSubsystem::getSingletonPtr(void)
+AiWorld::~AiWorld(void)
 {
-	return Singleton<AiSubsystem>::getSingletonPtr();
+	removeAllObstacles();
 }
 
-AiSubsystem::AiSubsystem(void)
-	: mAgentManager(new AgentManager()), mWorld(new AiWorld())
+void AiWorld::addObstacle(Obstacle* obstacle)
 {
-//  maybe the AgentManager need to be a GameTask someday...
-//  atm, it is only a PhysicsController
-//	GameLoopManager::getSingleton().addSynchronizedTask(AgentManager::getSingletonPtr(),
-//		FRAME_STARTED);
+	mObstacles.push_back(obstacle);	
 }
 
-AiSubsystem::~AiSubsystem(void)
+ObstacleGroup AiWorld::getSteeringObstacles()
 {
-	if(mAgentManager)
-		delete mAgentManager;
+	return mObstacles;
 }
 
+void AiWorld::removeAllObstacles()
+{
+	ObstacleIterator itr = mObstacles.begin();
+	for(; itr != mObstacles.end(); ++itr)
+	{
+		delete (*itr);
+	}
+	mObstacles.clear();
+}

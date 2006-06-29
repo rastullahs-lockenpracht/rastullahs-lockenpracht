@@ -33,7 +33,9 @@ namespace rl
 	typedef OpenSteer::SteerLibraryMixin<SimpleVehicle_1> SimpleVehicle_2;
 	
 	class Actor;
+	class Agent;
 	class PhysicalThing;
+//	class PerceptionPool;
 
 	/**
 	 * Realises steering for NPCs
@@ -45,10 +47,10 @@ namespace rl
 	class _RlAiExport SteeringVehicle : protected SimpleVehicle_2
 	{
 	public:
-		SteeringVehicle(Actor* character);
+		SteeringVehicle(Agent* parent, Actor* character);
 		virtual ~SteeringVehicle(void);
 
-		/**
+				/**
 		 * Add a force to the current force of the vehicle
 		 * @param  force value as force vector
 		 */
@@ -108,6 +110,9 @@ namespace rl
 		 */
 		Vector3 calcSteerTargetSpeed(const float targetSpeed);
 
+			
+		void setAnimation(const CeGuiString& name);
+	
 		/* TODO:
 		calcFollowPath
 		calcStayOnPath
@@ -118,13 +123,21 @@ namespace rl
 		Vector3 calcAlignment(AVGroup&);
 		Vector3 calcCohesion(AVGroup&);
 		*/
-	
-		void setAnimation(const CeGuiString& name);
-
 		void init();
+				
+//		PerceptionPool* getPerceptionPool();
+
+		bool isDialogActive();
+
+		float calcDistance(const Vector3& vec1, const Vector3& vec2);
+
+		Vector3 getPosition();
 
 		// inherited from AbstractVehicle
 
+		/**
+		 * update the steering of the vehicle
+		 */
 		void update(const float currentTime, const float elapsedTime);
 		/**
 		 * predict position of this vehicle at some time in the future
@@ -132,28 +145,30 @@ namespace rl
 		 */
 		Vec3 predictFuturePosition (const float predictionTime) const;
 
+		void resetLocalSpace();
 		// get/set mass
 		float mass (void) const {return mMass;}
-		float setMass (float m) {return mMass = m;}
+		float setMass (float m) {return 1;} // don't set mass here TODO: throw exception
 
 		// get velocity of vehicle
-		Vec3 velocity (void) const {return forward() * mSpeed;}
+		Vec3 velocity (void) const {return Vec3(mCurrentVelocity.x, mCurrentVelocity.y, mCurrentVelocity.z);}
 
 		// get/set speed of vehicle  (may be faster than taking mag of velocity)
 		float speed (void) const {return mSpeed;}
 		float setSpeed (float s) {return mSpeed = s;}
 
 		// size of bounding sphere, for obstacle avoidance, etc.
+		// TODO: this should be handled by size of NewtonBody
 		float radius (void) const {return mRadius;}
 		float setRadius (float m) {return mRadius = m;}
 
 		// get/set maxForce
-		float maxForce (void) const {return _maxForce;}
-		float setMaxForce (float mf) {return _maxForce = mf;}
+		float maxForce (void) const {return 10000.0f;} 
+		float setMaxForce (float mf) {return _maxForce = mf;}// TODO: should not be set here, throw excpetion or so
 
 		// get/set maxSpeed
-		float maxSpeed (void) const {return _maxSpeed;}
-		float setMaxSpeed (float ms) {return _maxSpeed = ms;}
+		float maxSpeed (void) const {return 100000; }
+		float setMaxSpeed (float ms) {return _maxSpeed = ms;} // TODO: should not be set here, throw excpetion or so
 
 
 		/**
@@ -161,9 +176,9 @@ namespace rl
          * allows a specific vehicle class to redefine this adjustment.
          * default is to disallow backward-facing steering at low speed.
 		 */
-	/*	virtual Vec3 adjustRawSteeringForce (const Vec3& force,
-                                             const float elapsedTime);
-*/
+		virtual Vec3 adjustRawSteeringForce (const Vec3& force);
+                                            // const float elapsedTime);
+
 		/**
 		 * apply a given steering force to our momentum,
 		 * adjusting our orientation to maintain velocity-alignment.
@@ -219,7 +234,8 @@ namespace rl
 		*/
 	private:
 		AVGroup getNeighbors();
-    //    float _mass;       // mass (defaults to unity so acceleration=force)
+		ObstacleGroup getObstacles();
+	//    float _mass;       // mass (defaults to unity so acceleration=force)
     //   float _radius;     // size of bounding sphere, for obstacle avoidance, etc.
     //    float _speed;      // speed along Forward direction.  Because local space
                            // is velocity-aligned, velocity = Forward * Speed
@@ -245,6 +261,7 @@ namespace rl
 		Ogre::Vector3 mForwardVector;
 		Ogre::Radian mYaw;
 
+		Agent* mParent;
 		Actor* mActor;
 
         // measure path curvature (1/turning-radius), maintain smoothed version

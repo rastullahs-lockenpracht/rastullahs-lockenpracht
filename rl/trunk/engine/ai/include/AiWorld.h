@@ -13,36 +13,28 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
-#ifndef __AiSubsystem_H__
-#define __AiSubsystem_H__
+#ifndef __RlAI_World_H__
+#define __RlAI_World_H__
 
-#include <OgreSingleton.h>
-#include "AiPrerequisites.h"
+#include "OpenSteer/Obstacle.h"
 
+using namespace OpenSteer;
 namespace rl
 {
-	class Agent;
-	class AgentManager;
-	class AiWorld;
-
-	class _RlAiExport AiSubsystem : public Ogre::Singleton<AiSubsystem>
+	/**
+	 * Representation of the GameWorld for Steering and Pathing
+	 */
+	class AiWorld
 	{
 	public:
-		static AiSubsystem & getSingleton(void);
-        static AiSubsystem * getSingletonPtr(void);
+		AiWorld(void);
+		~AiWorld(void);
 
-		AiSubsystem(void);
-		virtual ~AiSubsystem(void);
-
-		AiWorld* getWorld();
+		ObstacleGroup getSteeringObstacles();
+		void addObstacle(Obstacle* obstacle);
+		void removeAllObstacles();
 	private:
-		AgentManager* mAgentManager;
-		AiWorld* mWorld;
+		ObstacleGroup mObstacles;
 	};
-
-	inline AiWorld* AiSubsystem::getWorld()
-	{
-		return mWorld;
-	}
 }
 #endif

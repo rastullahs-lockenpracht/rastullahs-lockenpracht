@@ -23,33 +23,47 @@ namespace rl
 {
 	class SteeringVehicle;
 	typedef FuzzyState<SteeringVehicle> SteeringBehaviour;
-	class SteeringMachine;
-	class Creature;
 
-	class _RlAiExport Agent : public PhysicsController
+	class SteeringMachine;
+	class DialogCharacter;
+	class Creature;
+//	class PerceptionPool;
+
+	class _RlAiExport Agent 
+		: public PhysicsController
 	{
 	public:
 		Agent(Creature* character);
+		Agent(DialogCharacter* character);
 		virtual ~Agent(void);
+
+		void initialize();
 
 		void update(const float elapsedTime);
 		void addSteeringBehaviour(SteeringBehaviour* behaviour);
 
 		SteeringVehicle* getVehicle();
-		
+//		PerceptionPool* getPerceptionPool();
+		bool isDialogActive();
 		virtual void OnApplyForceAndTorque(PhysicalThing* thing);
 
 	protected:
-	//	this should be a FSM or something similar for different behaviours
-		SteeringVehicle* mVehicle;
 		SteeringMachine* mBehaviour;
+		SteeringVehicle* mVehicle;
+		DialogCharacter* mDialogBot;
 		Creature* mCreature;
-
+//		PerceptionPool* mPerceptionPool;
 	};
 
 	inline SteeringVehicle* Agent::getVehicle()
 	{
 		return mVehicle;
 	}
+
+/*	inline PerceptionPool* Agent::getPerceptionPool()
+	{
+		return mPerceptionPool;
+	}
+*/
 }
 #endif

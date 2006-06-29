@@ -49,24 +49,37 @@ AgentManager::~AgentManager(void)
 Agent* AgentManager::createAgent(Creature* character)
 {
     Agent* agent = new Agent(character);
-    mAgents.push_back(agent);
-    Logger::getSingleton().log(
+	addAgent(agent);
+    return agent;
+}
+
+Agent* AgentManager::createAgent(DialogCharacter* character)
+{
+	Agent* agent = new Agent(character);
+	addAgent(agent);
+	return agent;
+}
+
+void AgentManager::addAgent(Agent* agent)
+{
+	mAgents.push_back(agent);
+	Logger::getSingleton().log(
         Logger::AI,
         Logger::LL_MESSAGE,
         "created AI Agent");
 	mAllNeighbors.push_back(agent->getVehicle());
-    return agent;
 }
 
 AgentManager::VehicleList AgentManager::getNeighbors(Agent* agent)
 {
 	return mAllNeighbors;
 }
-
+/*
 void AgentManager::OnApplyForceAndTorque(PhysicalThing* thing)
 {
     //	steerToAvoidNeighbors (10.0, const AVGroup& others);
 }
+
 
 void AgentManager::run( Ogre::Real elapsedTime ) 
 {
@@ -75,4 +88,4 @@ void AgentManager::run( Ogre::Real elapsedTime )
     {
         (*itr)->update(elapsedTime);
     }
-}
+}*/

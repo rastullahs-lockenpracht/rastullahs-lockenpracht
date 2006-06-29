@@ -18,19 +18,21 @@
 
 #include <OgreSingleton.h>
 #include "AiPrerequisites.h"
-#include "PhysicsController.h"
-#include "GameTask.h"
+//#include "PhysicsController.h"
+//#include "GameTask.h"
 
 namespace rl
 {
 	class Agent;
 	class Creature;
 	class SteeringVehicle;
+	class DialogCharacter;
 
 	class _RlAiExport AgentManager
-		: public GameTask,
-		  public PhysicsController,
-		  protected Ogre::Singleton<AgentManager>
+		: protected Ogre::Singleton<AgentManager>
+	//	  public PhysicsController,
+	//	  public GameTask,
+		  
 	{
 	public:
 		static AgentManager& getSingleton(void);
@@ -44,11 +46,13 @@ namespace rl
 		 * AiSubsystems is responsible for memory management of the Agent
 		 */
 		Agent* createAgent(Creature* character);
+		Agent* createAgent(DialogCharacter* character);
 
 		VehicleList getNeighbors(Agent* agent);
-		void OnApplyForceAndTorque(PhysicalThing* thing);
-		void run( Ogre::Real elapsedTime );
+	//	void OnApplyForceAndTorque(PhysicalThing* thing);
+	//	void run( Ogre::Real elapsedTime );
 	private:
+		void addAgent(Agent* agent);
 		typedef std::list<Agent*> AgentList;
 		
 		VehicleList mAllNeighbors;

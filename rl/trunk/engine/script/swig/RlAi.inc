@@ -19,7 +19,7 @@ namespace rl
 	class SteeringVehicle
 	{
 	public:
-		SteeringVehicle(rl::Actor* character);
+		SteeringVehicle(rl::Agent* agent, rl::Actor* character);
 		
 		void addForce(const Ogre::Vector3& force);
 
@@ -34,6 +34,12 @@ namespace rl
 		Ogre::Vector3 calcAvoidNeighbors(const float minTimeToCollision);
 		
 		Ogre::Vector3 calcSteerTargetSpeed(const float targetSpeed);
+		
+		bool isDialogActive();
+		
+		float calcDistance(const Ogre::Vector3& vec1, const Ogre::Vector3& vec2);
+		
+		Ogre::Vector3 getPosition();
 		
 		void setAnimation(rl::CeGuiString& name);
 	};
@@ -65,6 +71,7 @@ namespace rl
 		Agent(rl::Creature* character);
 		virtual ~Agent();
 		void addSteeringBehaviour(SteeringBehaviour* behaviour);
+		bool isDialogActive();
 	};
 	class AiSubsystem 
 	{
@@ -77,5 +84,6 @@ namespace rl
 	public:
 		static AgentManager& getSingleton(void);
 		rl::Agent* createAgent(rl::Creature* character);
+		rl::Agent* createAgent(rl::DialogCharacter* character);
 	};
 }
