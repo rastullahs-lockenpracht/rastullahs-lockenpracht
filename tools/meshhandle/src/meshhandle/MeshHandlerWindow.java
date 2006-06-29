@@ -50,9 +50,7 @@ public class MeshHandlerWindow extends JFrame implements ActionListener {
 
 	private PropertyManager propertyManager;
 
-	private boolean nameChanged;
-
-	private String oldname;
+	private File oldModel;
 
 	// Fensterelemente
 	private JTextArea logField;
@@ -70,6 +68,7 @@ public class MeshHandlerWindow extends JFrame implements ActionListener {
 	private JTextField modelTriangleCountField;
 
 	private JPanel skeletonPanel;
+
 	private JTextField modelHasSkeletonField;
 
 	private JTextArea modelMeasures;
@@ -80,8 +79,6 @@ public class MeshHandlerWindow extends JFrame implements ActionListener {
 
 	public MeshHandlerWindow() {
 		super("Der wunderbare Meshhandler v0.9");
-
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel configPanel = new JPanel();
 		configPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
@@ -258,9 +255,13 @@ public class MeshHandlerWindow extends JFrame implements ActionListener {
 		JPanel rightPanel = new JPanel();
 		layout = new SpringLayout();
 		rightPanel.setLayout(layout);
-		JButton saveBtn = new JButton("Speichern");
-		layout.putConstraint(SpringLayout.SOUTH, saveBtn, -5,
+		JButton exportBtn = new JButton("zu mesh");
+		JButton saveBtn = new JButton("zu xml");
+		layout.putConstraint(SpringLayout.SOUTH, exportBtn, -5,
 				SpringLayout.SOUTH, rightPanel);
+		layout.putConstraint(SpringLayout.SOUTH, saveBtn, -5,
+				SpringLayout.NORTH, exportBtn);
+		rightPanel.add(exportBtn);
 		rightPanel.add(saveBtn);
 		rightPanel.setPreferredSize(new Dimension(95, 370));
 		rightPanel.setMinimumSize(new Dimension(95, 40));
@@ -309,6 +310,9 @@ public class MeshHandlerWindow extends JFrame implements ActionListener {
 		saveBtn.setActionCommand("SaveModel");
 		saveBtn.addActionListener(this);
 
+		saveBtn.setActionCommand("ExportModel");
+		saveBtn.addActionListener(this);
+
 		loggen("Meshhandler gestartet.");
 
 		// Initialise propery manager and retrieve needed props
@@ -323,9 +327,155 @@ public class MeshHandlerWindow extends JFrame implements ActionListener {
 		loggen("OgreXMLConverter: " + ogrepath);
 		loggen("Modul: " + moduldir);
 
-		// TODO Es wäre noch viel spannender, wenn der PropertyManager bei einem
-		// close die derzeitigen Einstellung in das properties reinschreibt,
-		// bevor er beendet.
+	}
+
+	public void loggen(String s) {
+		logPane.invalidate();
+		logField.setText(logField.getText() + s + "\n");
+		logPane.repaint();
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		if (e.getActionCommand().equals("ChangeConverterPath")) {
+			propertyManager.changeOgredir();
+			converterPathField.setText(propertyManager.getOgreTools());
+
+		} else if (e.getActionCommand().equals("ChangeModuleDirectory")) {
+			propertyManager.changeModuldir();
+			modelsLaden(propertyManager.getModule(),
+					(DefaultListModel) modelList.getModel());
+			moduleDirField.setText(propertyManager.getModule());
+
+		} else if (e.getActionCommand().equals("LoadMesh")
+				&& modelList.getSelectedValue() != null) {
+			oldModel = new File(propertyManager.getModule(), (String) modelList
+					.getSelectedValue());
+			String converterPath = propertyManager.getOgreTools();
+
+			if (!oldModel.getName().endsWith(".xml")) {
+				if (ConverterUser.fromMeshToXML(converterPath, oldModel
+						.getAbsolutePath())) {
+					loggen(modelList.getSelectedValue() + " wird bearbeitet.");
+					loggen(" .mesh.xml erzeugt.");
+					
+				} else {
+					loggen("Fehler beim Konvertieren des Mesh!");
+				}
+			}
+			try {
+				String modelPath = oldModel.getAbsolutePath() + ".xml";
+				model = MeshLoader.readMesh(modelPath);
+			} catch (Exception e1) {
+				loggen("Fehler beim Einlesen der .mesh.xml. (Siehe Konsole)");
+				e1.printStackTrace();
+			}
+			loggen(".mesh.xml eingelesen");
+
+			boolean hasSkeleton = model.getSkeletonLink().length() > 0;
+
+			model.setName(((String) modelList.getSelectedValue()).substring(0,
+					((String) modelList.getSelectedValue()).indexOf(".")));
+			if (hasSkeleton
+					&& ConverterUser.fromMeshToXML(converterPath,
+							oldModel.getAbsolutePath()
+									.substring(
+											0,
+											oldModel.getAbsolutePath()
+													.lastIndexOf(System.getProperty("file.separator")) + 1)
+									+ model.getSkeletonLink())) {
+				loggen(" .skeleton.xml erzeugt.");
+				try {
+					skeleton = SkeletonLoader
+							.readSkeleton(oldModel.getAbsolutePath()
+									.substring(
+											0,
+											oldModel.getAbsolutePath()
+													.lastIndexOf(System.getProperty("file.separator")) + 1)
+									+ model.getSkeletonLink() + ".xml");
+					loggen(".skeleton.xml eingelesen.");
+				} catch (SAXException e1) {
+					loggen("Fehler beim Einlesen der .skeleton.xml. (Siehe Konsole)");
+					e1.printStackTrace();
+				} catch (ParserConfigurationException e1) {
+					loggen("Fehler beim Einlesen der .skeleton.xml. (Siehe Konsole)");
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					loggen("Fehler beim Einlesen der .skeleton.xml. (Siehe Konsole)");
+					e1.printStackTrace();
+				}
+			}
+
+			modelNameEdit.setText(model.getName());
+			modelTriangleCountField.setText(String
+					.valueOf(model.getPolycount()));
+			modelHasSkeletonField.setText(model.getSkeletonLink());
+			modelHasSkeletonField.setEditable(true);
+			skeletonPanel.setVisible(hasSkeleton);
+
+			paintMeasures();
+
+			ArrayList<String> materials = model.getMaterials();
+			for (String material : materials) {
+				modelMaterials.append(material + "\n");
+			}
+
+			factorField.setValue(new Float(1));
+			factorField.setEditable(true);
+			modelNameEdit.setEditable(true);
+
+			loggen(model.getName() + " geladen.");
+
+			this.setSize(800, 600);
+			this.invalidate();
+			this.repaint();
+
+		} else if (e.getActionCommand().equals("RenameModel") && model != null) {
+			model.setName(modelNameEdit.getText());
+		} else if (e.getActionCommand().equals("RenameSkeleton")
+				&& model.getSkeletonLink().length() > 0) {
+			model.setSkeletonLink(modelHasSkeletonField.getText());
+		} else if (e.getActionCommand().equals("ScaleModel") && model != null) {
+			boolean hasSkeleton = model.getSkeletonLink().length() > 0;
+			float factor = (float) (Double.parseDouble(factorField.getText()));
+			model.scale(factor);
+			if (hasSkeleton) {
+				skeleton.scale(factor);
+			}
+			paintMeasures();
+			factorField.setValue(new Float(1));
+
+		} else if (e.getActionCommand().equals("SaveModel") && model != null) {
+			save();
+		} else if (e.getActionCommand().equals("ExportModel") && model != null) {
+			save();
+			convert();
+		}
+	}
+
+	private void convert() {
+		if (model.getSkeletonLink().length() > 0
+				&& ConverterUser.fromXMLToMesh(propertyManager.getOgreTools(),
+						propertyManager.getModule() + "/"
+								+ model.getSkeletonLink() + ".xml")) {
+			loggen(" skeleton geschrieben");
+			(new File(propertyManager.getModule(), model.getSkeletonLink()))
+					.delete();
+
+		}
+		if (ConverterUser.fromXMLToMesh(propertyManager.getOgreTools(),
+				propertyManager.getModule() + "/" + model.getName()
+						+ ".mesh.xml")) {
+			loggen(" mesh geschrieben");
+			oldModel.delete();
+		}
+
+	}
+
+	private void paintMeasures() {
+		Vector3 measures = model.getMeasures();
+		modelMeasures.setText(measures.getX() + " m lang,\n " + measures.getZ()
+				+ " m breit\n und " + measures.getY() + " m hoch.");
+
 	}
 
 	private void modelsLaden(String moduleDir, DefaultListModel listModel) {
@@ -354,131 +504,6 @@ public class MeshHandlerWindow extends JFrame implements ActionListener {
 		}
 	}
 
-	private void paintMeasures() {
-		Vector3 measures = model.getMeasures();
-		modelMeasures.setEditable(true);
-		modelMeasures.setText(measures.getX() + " m lang,\n " + measures.getZ()
-				+ " m breit\n und " + measures.getY() + " m hoch.");
-		modelMeasures.setEditable(false);
-	}
-
-	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("ChangeConverterPath")) {
-			propertyManager.changeOgredir();
-			converterPathField.setText(propertyManager.getOgreTools());
-
-		} else if (e.getActionCommand().equals("ChangeModuleDirectory")) {
-			propertyManager.changeModuldir();
-			modelsLaden(propertyManager.getModule(),
-					(DefaultListModel) modelList.getModel());
-			moduleDirField.setText(propertyManager.getModule());
-
-		} else if (e.getActionCommand().equals("LoadMesh")
-				&& modelList.getSelectedValue() != null) {
-			String modelPath = propertyManager.getModule() + "/"
-					+ modelList.getSelectedValue();
-			String converterPath = propertyManager.getOgreTools();
-
-			if (!modelPath.endsWith(".xml")) {
-				if (ConverterUser.fromMeshToXML(converterPath, modelPath)) {
-					loggen(modelList.getSelectedValue() + " wird bearbeitet.");
-					loggen(" .mesh.xml erzeugt.");
-					modelPath = modelPath + ".xml";
-				} else {
-					loggen("Fehler beim Konvertieren des Mesh!");
-				}
-			}
-			nameChanged = false;
-			try {
-				model = MeshLoader.readMesh(modelPath);
-			} catch (Exception e1) {
-				loggen("Fehler beim Einlesen der .mesh.xml. (Siehe Konsole)");
-				e1.printStackTrace();
-			}
-			loggen(".mesh.xml eingelesen");
-
-			boolean hasSkeleton = model.getSkeletonLink().length() > 0;
-
-			model.setName(((String) modelList.getSelectedValue()).substring(0,
-					((String) modelList.getSelectedValue()).indexOf(".")));
-			if (hasSkeleton
-					&& ConverterUser.fromMeshToXML(converterPath, modelPath
-							.substring(0, modelPath.lastIndexOf("/") + 1)
-							+ model.getSkeletonLink())) {
-				loggen(" .skeleton.xml erzeugt.");
-				try {
-					skeleton = SkeletonLoader.readSkeleton(modelPath.substring(
-							0, modelPath.lastIndexOf("/") + 1)
-							+ model.getSkeletonLink() + ".xml");
-					loggen(".skeleton.xml eingelesen.");
-				} catch (SAXException e1) {
-					loggen("Fehler beim Einlesen der .skeleton.xml. (Siehe Konsole)");
-					e1.printStackTrace();
-				} catch (ParserConfigurationException e1) {
-					loggen("Fehler beim Einlesen der .skeleton.xml. (Siehe Konsole)");
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					loggen("Fehler beim Einlesen der .skeleton.xml. (Siehe Konsole)");
-					e1.printStackTrace();
-				}
-			}
-
-			modelNameEdit.setText(model.getName());
-			modelNameEdit.setSize(modelNameEdit.getPreferredSize());
-			modelTriangleCountField.setText(String
-					.valueOf(model.getPolycount()));
-			modelHasSkeletonField.setText(model.getSkeletonLink());
-			modelHasSkeletonField.setEditable(true);
-			skeletonPanel.setVisible(hasSkeleton);
-		
-
-			paintMeasures();
-
-			modelMaterials.setText("");
-			ArrayList<String> materials = model.getMaterials();
-			for (String material : materials) {
-				modelMaterials.append(material + "\n");
-			}
-
-			factorField.setValue(new Float(1));
-			factorField.setEditable(true);
-			modelNameEdit.setEditable(true);
-
-			loggen(model.getName() + " geladen.");
-
-			this.setSize(800, 600);
-			this.invalidate();
-			this.repaint();
-
-		} else if (e.getActionCommand().equals("RenameModel") && model != null) {
-			oldname = model.getName();
-			nameChanged = true;
-			model.setName(modelNameEdit.getText());
-		} else if (e.getActionCommand().equals("RenameSkeleton")
-				&& skeleton != null) {
-			oldname = model.getSkeletonLink();
-			model.setSkeletonLink(modelHasSkeletonField.getText());
-		} else if (e.getActionCommand().equals("ScaleModel") && model != null) {
-			boolean hasSkeleton = !model.getSkeletonLink().equals("");
-			float factor = (float) (Double.parseDouble(factorField.getText()));
-			model.scale(factor);
-			if (hasSkeleton) {
-				skeleton.scale(factor);
-			}
-			paintMeasures();
-			factorField.setValue(new Float(1));
-
-		} else if (e.getActionCommand().equals("SaveModel") && model != null) {
-			save();
-		}
-	}
-
-	public void loggen(String s) {
-		logPane.invalidate();
-		logField.setText(logField.getText() + s + "\n");
-		logPane.repaint();
-	}
-
 	protected void processWindowEvent(WindowEvent e) {
 		super.processWindowEvent(e);
 		if (e.getID() == WindowEvent.WINDOW_CLOSING) {
@@ -488,15 +513,25 @@ public class MeshHandlerWindow extends JFrame implements ActionListener {
 	}
 
 	private void save() {
-		boolean hasSkeleton = !model.getSkeletonLink().equals("");
+		boolean hasSkeleton = model.getSkeletonLink().length() > 0;
 		String moduleDir = propertyManager.getModule();
-		String converterPath = propertyManager.getOgreTools();
 
-		File newXml = new File(moduleDir + "/models", model.getName()
-				+ ".mesh.xml");
-		File newSkelXml = new File(moduleDir + "/models", model
-				.getSkeletonLink()
+		File newXml = new File(moduleDir + "/", model.getName() + ".mesh.xml");
+		if (newXml.exists()
+				&& newXml.renameTo(new File(moduleDir + "/", model.getName()
+						+ "_old.mesh.xml"))) {
+			loggen("Vorheriges xml nach " + model.getName()
+					+ "_old.mesh.xml verschoben.");
+		}
+		File newSkelXml = new File(moduleDir + "/", model.getSkeletonLink()
 				+ ".xml");
+		if (newSkelXml.exists()
+				&& newSkelXml.renameTo(new File(moduleDir + "/_old", model
+						.getSkeletonLink()
+						+ ".xml"))) {
+			loggen("Vorheriges xml nach _old" + model.getSkeletonLink()
+					+ ".xml verschoben.");
+		}
 		try {
 			FileWriter xmlout = new FileWriter(newXml);
 			xmlout.write(model.toXML());
@@ -514,28 +549,7 @@ public class MeshHandlerWindow extends JFrame implements ActionListener {
 				System.out.println("Fehler beim Schreiben der .skeleton.xml");
 				e1.printStackTrace();
 			}
-			if (ConverterUser.fromXMLToMesh(converterPath, newSkelXml
-					.getAbsolutePath())) {
-				loggen(" skeleton geschrieben");
-			}
 		}
-		if (ConverterUser
-				.fromXMLToMesh(converterPath, newXml.getAbsolutePath())) {
-			loggen(" mesh geschrieben");
-		}
-		// TODO Anstelle des Abgleichs mit nameChanged kann man die
-		// Files vielleicht auch einzeln untereinander abgleichen und
-		// die abweichenden Löschen.
 
-		if (nameChanged) {
-			(new File(moduleDir + "/models", oldname + ".mesh")).delete();
-			(new File(moduleDir + "/models", oldname + ".mesh.xml")).delete();
-			if (hasSkeleton) {
-				(new File(moduleDir + "/models", oldname + ".skeleton"))
-						.delete();
-				(new File(moduleDir + "/models", oldname + ".skeleton.xml"))
-						.delete();
-			}
-		}
 	}
 }
