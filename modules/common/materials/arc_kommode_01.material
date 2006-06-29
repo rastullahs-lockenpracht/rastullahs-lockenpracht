@@ -5,9 +5,9 @@ material arc_kommode_01
 	{
 		pass
 		{
-		ambient 0.435294 0.435294 0.435294 1
-			diffuse 0.486275 0.486275 0.486275 1
-			specular 0 0 0 1 90
+			
+			alpha_rejection greater 128
+
 			texture_unit
 			{
 				texture arc_kommode_01.png
