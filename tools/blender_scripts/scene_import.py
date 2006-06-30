@@ -95,7 +95,7 @@ class DotSceneSaxHandler(xml.sax.handler.ContentHandler):
     def translate(self, m, x, y, z):
         m1 = TranslationMatrix(Vector([x, y, z]))
         m *= m1
-        dlog(m)
+        #dlog(m)
         return m
 
     def scale(self, m, x, y, z):
@@ -103,7 +103,7 @@ class DotSceneSaxHandler(xml.sax.handler.ContentHandler):
         m2 = ScaleMatrix(y, 4, Vector([0.0, 1.0, 0.0]))
         m3 = ScaleMatrix(z, 4, Vector([0.0, 0.0, 1.0]))
         m *= m1 * m2 * m3
-        dlog(m)
+        #dlog(m)
         return m
     
     def rotate(self, m, qx, qy, qz, qw):
@@ -111,46 +111,11 @@ class DotSceneSaxHandler(xml.sax.handler.ContentHandler):
         dlog(m)
         qm = q.toMatrix()
         qm.resize4x4()
-        dlog(qm)
+        #dlog(qm)
         m *= qm
         return m
     
-    def startElement(self, name, attrs):
-        if name == "node":
-            self.mesh = ogre_import.Mesh()
-            self.matrix = Blender.Mathutils.Matrix( \
-                 [1.0, 0.0, 0.0, 0.0], \
-                 [0.0, 1.0, 0.0, 0.0], \
-                 [0.0, 0.0, 1.0, 0.0], \
-                 [0.0, 0.0, 0.0, 1.0])
-            
-        if name == "position":
-            x = float(attrs.get('x', "0.0")) 
-            y = -float(attrs.get('z', "0.0"))
-            z = float(attrs.get('y', "0.0")) 
-            dlog("Position:")
-            self.matrix = \
-                self.translate(self.matrix, x, y, z) 
-            
-        if name == "rotation":
-            qx = float(attrs.get('qx', "0.0"))
-            qy = -float(attrs.get('qz', "0.0"))
-            qz = float(attrs.get('qy', "0.0"))
-            qw = float(attrs.get('qw', "0.0"))
-            dlog("Rotation:")
-            self.matrix = \
-                self.rotate(self.matrix, \
-                     qx, qy, qz, qw)
-            
-        if name == "scale":
-            x = float(attrs.get('x', "0.0"))
-            y = float(attrs.get('z', "0.0"))
-            z = float(attrs.get('y', "0.0"))
-            dlog("Scale: ")
-            self.matrix = \
-                self.scale(self.matrix, x, y, z)
-            
-        if name == "entity":
+    def handleEntity(self):
             self.materialFile = attrs.get('materialFile', "")
 
             meshfile = Blender.sys.join(self.dirname, attrs.get('meshFile', ""))
@@ -163,10 +128,13 @@ class DotSceneSaxHandler(xml.sax.handler.ContentHandler):
 
             if (self.scene.meshes.has_key(meshname) == False):
                 if ( meshfile.lower().find( '.xml' ) == -1 ):
-                    # No. Use the xml converter to fix this
-                    log( "No mesh.xml file. Trying to convert it from binary mesh format." )
-                    ogre_import.convert_meshfile( meshfile )
-                    meshfile += '.xml'
+                    xmlname = meshfile + '.xml'
+                    xml_files = glob.glob( Blender.sys.join(self.dirname, xmlname ))
+                    if (len(xml_files) == 0):
+                        # No. Use the xml converter to fix this
+                        log( "No mesh.xml file. Trying to convert it from binary mesh format." )
+                        ogre_import.convert_meshfile( meshfile )
+                        meshfile += '.xml'
                 
                 try:
                     dlog("Parsing mesh %s " % meshfile)
@@ -190,7 +158,43 @@ class DotSceneSaxHandler(xml.sax.handler.ContentHandler):
             self.nodename = attrs.get("name", "")
 
             # TODO: Castshadow, userdata
+    def startElement(self, name, attrs):
+        if name == "node":
+            self.mesh = ogre_import.Mesh()
+            self.matrix = Blender.Mathutils.Matrix( \
+                 [1.0, 0.0, 0.0, 0.0], \
+                 [0.0, 1.0, 0.0, 0.0], \
+                 [0.0, 0.0, 1.0, 0.0], \
+                 [0.0, 0.0, 0.0, 1.0])
             
+        if name == "position":
+            x = float(attrs.get('x', "0.0")) 
+            y = float(attrs.get('z', "0.0"))
+            z = float(attrs.get('y', "0.0")) 
+            dlog("Position:")
+            self.matrix = \
+                self.translate(self.matrix, x, y, z) 
+            
+        if name == "rotation":
+            qx = float(attrs.get('qx', "0.0"))
+            qy = float(attrs.get('qz', "0.0"))
+            qz = float(attrs.get('qy', "0.0"))
+            qw = float(attrs.get('qw', "0.0"))
+            dlog("Rotation:")
+            self.matrix = \
+                self.rotate(self.matrix, \
+                     qx, qy, qz, qw)
+            
+        if name == "scale":
+            x = float(attrs.get('x', "0.0"))
+            y = float(attrs.get('z', "0.0"))
+            z = float(attrs.get('y', "0.0"))
+            dlog("Scale: ")
+            self.matrix = \
+                self.scale(self.matrix, x, y, z)
+            
+        if name == "entity":
+            self.handleEntity(s)
         
     def endElement(self, name):
         if name == "node":
@@ -234,9 +238,14 @@ def fileselection_callback(filename):
     scene.makeCurrent() 
         
     for id, node in handler.scene.nodes.iteritems():
+        if (handler.scene.nodenames[id] == ""):
+            handler.scene.nodenames[id] = node.name
+
         log("Importing mesh %s (NMesh: %s) into scene" % (handler.scene.nodenames[id], node.name))
         bmesh = ogre_import.CreateBlenderNMesh(str(node.name), node, materials)
+        print bmesh
         
+            
         object = Blender.Object.New( 'Mesh', \
             handler.scene.nodenames[id] )
         object.link( bmesh )
