@@ -1,16 +1,16 @@
 #!BPY
 
 """ Registration info for Blender menus:
-Name: 'Test'
+Name: 'Rastullah Visualizer'
 Blender: 241
 Group: 'Misc'
-Tooltip: 'Test'
+Tooltip: 'Visualization of Rastullah Level Features, like PhysicProxies,...'
 """
 
 # --------------------------------------------------------------------------
 # ***** BEGIN GPL LICENSE BLOCK *****
 #
-# Copyright (C) 2006 Mariano Hidalgo
+# Copyright (C) 2006 Julius Schulz
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -29,17 +29,12 @@ Tooltip: 'Test'
 # ***** END GPL LICENCE BLOCK *****
 # --------------------------------------------------------------------------
 
-__author__ = "Mariano Hidalgo a.k.a. uselessdreamer"
-__url__ = ("http://uselessdreamer.byethost32.com")
-__version__ = "1.0"
-
+__author__ = ['Julius Schulz, Team Pantheon']
+__version__ = '0.1'
+__url__ = ['Rastullahs Lockenpracht website, http://www.rastullahs-lockenpracht.de/',
+	'Team Pantehon website, http://www.team-pantheon.de']
 __bpydoc__ = """\
-Displays extra information for lamps in the 3d View.
-
-Dot Color is Lamp color.
-Dot Size is Lamp energy.
-Square Size on floor is Lamp distance (scale 10:1).
-Black triangle on top if Cast Shadows is enabled.
+Visualization of Rastullah Level Features, like PhysicProxies,...
 """
 
 import Blender
@@ -59,35 +54,10 @@ def drawPrimitiveCube(object):
 		cube1.append(point*objectMatrix.rotationPart()+objectMatrix.translationPart())
 	cube = cube1
 
-	glColor4f(0,0,0.8,0.3)
+	glColor4f(0,0,0.5,0.3)
+	glLineWidth(2)
 
 	glBegin(GL_LINES)
-
-
-##	glBegin(GL_QUADS)
-##	#front polygon
-##	glVertex3f(cube[0].x,cube[0].y,cube[0].z)
-##	glVertex3f(cube[1].x,cube[1].y,cube[1].z)
-##	glVertex3f(cube[2].x,cube[2].y,cube[2].z)
-##	glVertex3f(cube[3].x,cube[3].y,cube[3].z)
-##
-##    #rear polygon
-##	glVertex3f(cube[4].x,cube[4][1],cube[4].z)
-##	glVertex3f(cube[5].x,cube[5][1],cube[5].z)
-##	glVertex3f(cube[6].x,cube[6][1],cube[6].z)
-##	glVertex3f(cube[7].x,cube[7][1],cube[7].z)
-##
-##    #top polygon
-##	glVertex3f(cube[3].x,cube[3].y,cube[3].z)
-##	glVertex3f(cube[2].x,cube[2].y,cube[2].z)
-##	glVertex3f(cube[6].x,cube[6].y,cube[6].z)
-##	glVertex3f(cube[7].x,cube[7].y,cube[7].z)
-##
-##    #bottom polygon
-##	glVertex3f(cube[0].x,cube[0].y,cube[0].z)
-##	glVertex3f(cube[1].x,cube[1].y,cube[1].z)
-##	glVertex3f(cube[5].x,cube[5].y,cube[5].z)
-##	glVertex3f(cube[4].x,cube[4].y,cube[4].z)
 
  	#top square
 	glVertex3f(cube[0].x,cube[0].y,cube[0].z)
@@ -120,6 +90,7 @@ def drawPrimitiveCube(object):
 	
 	glEnd()
 	
+	glLineWidth(1)
 	return
 
 def drawMesh(object):
@@ -172,9 +143,9 @@ for object in objects:
 		if show:
 			try:
 				if object.getProperty('SpecialType').getData() == 'PhysicProxy':
-					if object.getProperty('proxy_type').getData() == 'box':
+					if object.getProperty('proxy_type').getData() == 'Box':
 						drawPrimitiveCube(object)
-					elif object.getProperty('proxy_type').getData() == 'mesh':
+					elif object.getProperty('proxy_type').getData() == 'Mesh':
 						drawMesh(object)
 			except:
 				a=1 #for nothing,just a placeholder thingy
@@ -185,14 +156,14 @@ glDisable(GL_POINT_SMOOTH)
 """
 
 try:
-	txt = Text.Get("Test")
+	txt = Text.Get("Rastullah Visualizer")
 	Text.unlink(txt)
-	txt = Text.New("Test")
+	txt = Text.New("Rastullah Visualizer")
 	txt.write(script_text)
 except:
-	txt = Text.New("Test")
+	txt = Text.New("Rastullah Visualizer")
 	txt.write(script_text)
 
 scene = Scene.GetCurrent()
-scene.clearScriptLinks(['Test'])
-scene.addScriptLink('Test', 'Redraw')
+scene.clearScriptLinks(['Rastullah Visualizer'])
+scene.addScriptLink('Rastullah Visualizer', 'Redraw')

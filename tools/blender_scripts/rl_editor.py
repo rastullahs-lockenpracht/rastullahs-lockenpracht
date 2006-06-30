@@ -899,15 +899,29 @@ class Menu(Widget):
 		return
 
 	def getActiveElement(self):
+		if len(self.content)==0:
+			return -1
 		return self.activeElement
-	def setActiveElement(self, val):
+ 	def setActiveElement(self, val):
 		self.activeElement = val
+	def setActiveElementString(self, str):
+		i=0
+		for el in self.content:
+			if el == str:
+				print i
+				val = i
+			i = i+1
+		self.activeElement = val+1
 	def getActiveElementName(self):
+		if len(self.content)==0:
+			return -1
 		return self.content[self.activeElement - 1]
 	def changeData(self, content, activeElement):
+		self.content = []
 		self.contentString = self.name
 		i=0
-		for item in self.content:
+		for item in content:
+			self.content.append(item)
 			i = i+1
 			self.contentString = self.contentString + '|' + item + ' %x' + `i`
 			if item == activeElement:
@@ -2722,6 +2736,7 @@ class MeshObjectChangeView(Box):
 		global staticGeomGroups
 		vLayout = VerticalLayout()
 		self.wasnotnone = 1
+		self.wasnotproxy = 1
 		
 		hLayout1 = HorizontalLayout()
 		self.nameStringButton = StringButton(objectdata.name, MeshObjectChangeView.NameChangedAction(self), 'Name: ', [300, 20], 'object name')
@@ -2751,18 +2766,31 @@ class MeshObjectChangeView(Box):
 
 		self.hLayout3 = HorizontalLayout()
 		self.renderingDistanceButton = NumberView('Rendering Distance: ', objectdata.renderingDistance, [300, 20], [300, 20], tooltip='id of stativ mesh group')
-		self.staticMeshGroupMenu = Menu(MeshObjectChangeView.MenuChangedAction(self), 'Static Geom Group', staticGeomGroups, objectdata.staticGeomGroup, [230, 20])
+		self.staticMeshGroupMenu = Menu(MeshObjectChangeView.StaticMeshGroupMenuChangedAction(self), 'Static Geom Group', staticGeomGroups, objectdata.staticGeomGroup, [230, 20])
 		self.hLayout3.addWidget(Spacer([15, 0], [15, 0], [15, 0]), 'spacer0')
-		self.hLayout3.addWidget(self.staticMeshGroupMenu, 'menutest')
+		self.hLayout3.addWidget(self.staticMeshGroupMenu, 'staticMeshGroupMenu')
 		self.hLayout3.addWidget(Spacer([5, 0], [5, 0], [5, 0]), 'spacer1')
-		self.hLayout3.addWidget(Button(MeshObjectChangeView.MenuAddAction(self), 'Add', [30, 20], 'Add'), 'menuAddButton')
+		self.hLayout3.addWidget(Button(MeshObjectChangeView.StaticMeshGroupMenuAddAction(self), 'Add', [30, 20], 'Add'), 'menuAddButton')
 		self.hLayout3.addWidget(Spacer([5, 0], [5, 0], [5, 0]), 'spacer2')
-		self.hLayout3.addWidget(Button(MeshObjectChangeView.MenuDelAction(self), 'Del', [30, 20], 'Del'), 'menuDelButton')
+		self.hLayout3.addWidget(Button(MeshObjectChangeView.StaticMeshGroupMenuDelAction(self), 'Del', [30, 20], 'Del'), 'menuDelButton')
 		self.hLayout3.addWidget(Spacer([15, 0], [15, 0], [15, 0]), 'spacer3')
 		if objectdata.staticGeomGroup == 'none':
 			self.hLayout3.addWidget(self.renderingDistanceButton, 'renderingDistanceButton')
 			self.hLayout3.addWidget(Spacer([15, 0], [15, 0], [15, 0]), 'spacer4')
 			self.wasnotnone = 0
+			
+		self.hLayout4 = HorizontalLayout()
+		self.physicProxyMenu = Menu(MeshObjectChangeView.PhysicProxyMenuChangedAction(self), 'Physic Proxies', [], 'none', [265, 20])
+		self.physicProxyTypeMenu = Menu(MeshObjectChangeView.PhysicProxyTypeMenuChangedAction(self), 'Physic Proxy Type', ['Mesh', 'ConvexHull', 'Box', 'Ellipsoid', 'Cylinder', 'Capsule', 'Cone', 'Torus', 'Pyramide'], 'Mesh', [300, 20])
+		self.hLayout4.addWidget(Spacer([15, 0], [15, 0], [15, 0]), 'spacer0')
+		self.hLayout4.addWidget(self.physicProxyMenu, 'physicProxyMenu')
+		self.hLayout4.addWidget(Spacer([5, 0], [5, 0], [5, 0]), 'spacer1')
+		self.hLayout4.addWidget(Button(MeshObjectChangeView.PhysicProxyMenuAddAction(self), 'Add', [30, 20], 'Add'), 'PhysicProxyMenuAddButton')
+		if self.physicProxyMenu.getActiveElement() > -1:
+			self.hLayout4.addWidget(Spacer([15, 0], [15, 0], [15, 0]), 'spacer2')
+			self.hLayout4.addWidget(self.physicProxyTypeMenu, 'physicProxyTypeMenu')
+			self.wasnotproxy = 0
+		##self.hLayout4.addWidget(Spacer([15, 0], [15, 0], [15, 0]), 'spacer3')
 
 		vLayout.addWidget(Spacer([0, 15], [0, 15], [0, 15]), 'spacer0')
 		vLayout.addWidget(hLayout1, 'hLayout1')
@@ -2770,7 +2798,9 @@ class MeshObjectChangeView(Box):
 		vLayout.addWidget(hLayout2, 'hLayout2')
 		vLayout.addWidget(Spacer([0, 15], [0, 15], [0, 15]), 'spacer2')
 		vLayout.addWidget(self.hLayout3, 'hLayout3')
-		vLayout.addWidget(Spacer([0, 0.0], [0, 0.0], [0.0, Widget.INFINITY]), 'spacer3')
+		vLayout.addWidget(Spacer([0, 15], [0, 15], [0, 15]), 'spacer3')
+		vLayout.addWidget(self.hLayout4, 'hLayout4')
+		vLayout.addWidget(Spacer([0, 0.0], [0, 0.0], [0.0, Widget.INFINITY]), 'spacer4')
 
 		Box.__init__(self, vLayout, 'Objekteigenschaften (Mesh)')
 		
@@ -2783,6 +2813,17 @@ class MeshObjectChangeView(Box):
 		self.exportMeshCheckBox.checked = objectdata.noMeshExport
 		self.renderingDistanceButton.model = objectdata.renderingDistance
 		self.staticMeshGroupMenu.changeData(staticGeomGroups, objectdata.staticGeomGroup)
+		print "klhlkh---------"
+		print self.wasnotproxy
+		
+		if (self.physicProxyMenu.getActiveElement() == -1) and (self.wasnotproxy == 0):
+			self.hLayout4.removeWidget('spacer2')
+			self.hLayout4.removeWidget('physicProxyTypeMenu')
+			self.wasnotproxy = 1
+		if (self.physicProxyMenu.getActiveElement() > -1) and (self.wasnotproxy == 1):
+			self.hLayout4.addWidget(Spacer([15, 0], [15, 0], [15, 0]), 'spacer2')
+			self.hLayout4.addWidget(self.physicProxyTypeMenu, 'physicProxyTypeMenu')
+			self.wasnotproxy = 0
 		return
         
 	class NameChangedAction(Action):
@@ -2817,7 +2858,7 @@ class MeshObjectChangeView(Box):
 			global meshObjectData
 			meshObjectData.setNoMeshExport(self.view.exportMeshCheckBox.isChecked())
 			return
-	class MenuChangedAction(Action):
+	class StaticMeshGroupMenuChangedAction(Action):
 		def __init__(self, objectChangeView):
 			self.view = objectChangeView
 			return
@@ -2834,7 +2875,7 @@ class MeshObjectChangeView(Box):
 			Blender.Draw.Redraw(1)
 			meshObjectData.setStaticGeomGroup(self.view.staticMeshGroupMenu.getActiveElementName())
 			return
-	class MenuAddAction(Action):
+	class StaticMeshGroupMenuAddAction(Action):
 		def __init__(self, objectChangeView):
 			self.view = objectChangeView
 			return
@@ -2851,7 +2892,7 @@ class MeshObjectChangeView(Box):
 					self.view.wasnotnone = 1
 				Blender.Draw.Redraw(1)
 			return
-	class MenuDelAction(Action):
+	class StaticMeshGroupMenuDelAction(Action):
 		def __init__(self, objectChangeView):
 			self.view = objectChangeView
 			return
@@ -2866,6 +2907,49 @@ class MeshObjectChangeView(Box):
 				self.view.wasnotnone = 0
 			meshObjectData.setStaticGeomGroup(self.view.staticMeshGroupMenu.getActiveElementName())
 			Blender.Draw.Redraw(1)
+			return
+		
+	class PhysicProxyMenuChangedAction(Action):
+		def __init__(self, objectChangeView):
+			self.view = objectChangeView
+			return
+		def execute(self):
+			print self.view.physicProxyMenu.getActiveElementName()
+			self.view.physicProxyTypeMenu.setActiveElementString(Blender.Object.Get(self.view.physicProxyMenu.getActiveElementName()).getProperty('proxy_type').getData())
+			Blender.Draw.Redraw(1)
+			return
+	class PhysicProxyMenuAddAction(Action):
+		def __init__(self, objectChangeView):
+			self.view = objectChangeView
+			return
+		def execute(self):
+			global object
+			if self.view.wasnotproxy == 1:
+				self.view.hLayout4.addWidget(Spacer([15, 0], [15, 0], [15, 0]), 'spacer2')
+				self.view.hLayout4.addWidget(self.view.physicProxyTypeMenu, 'physicProxyTypeMenu')
+				self.wasnotproxy = 0
+			
+			proxyname = Blender.Draw.PupStrInput("Proxy Name:", "untitled", 100)
+			if proxyname:
+				obj = Blender.Object.New('Empty', proxyname)
+				obj.addProperty('SpecialType', 'PhysicProxy')
+				obj.addProperty('proxy_type', 'Mesh')
+				obj.setMatrix(object.getMatrix())
+				Blender.Scene.GetCurrent().link(obj)
+				object.makeParent([obj])
+
+				proxies = self.view.physicProxyMenu.content
+				proxies.append(obj.getName())
+				self.view.physicProxyMenu.changeData(proxies, obj.getName())
+				self.view.physicProxyTypeMenu.setActiveElementString('Mesh')
+				Blender.Draw.Redraw(1)
+			return
+	class PhysicProxyTypeMenuChangedAction(Action):
+		def __init__(self, objectChangeView):
+			self.view = objectChangeView
+			return
+		def execute(self):
+			Blender.Object.Get(self.view.physicProxyMenu.getActiveElementName()).getProperty('proxy_type').setData(self.view.physicProxyTypeMenu.getActiveElementName())
 			return
 ########################################################################################
 #TestCases
@@ -2942,7 +3026,15 @@ class RLEditorApplication:
 		self.exportSettings = ExportSettings()
 		self.activeWindow = 'Object'
 		self.formerWindow = 'Object'
-
+		
+		childName = ''
+		if object.getType() == 'Empty':
+			try:
+				if object.getProperty('SpecialType').getData()=='PhysicProxy':
+					childName = object.getName()
+					object = object.getParent()
+			except:
+				a=3
 		if object.getType() == 'Mesh':
 			noMeshExport = 0
 			try:
@@ -2962,6 +3054,20 @@ class RLEditorApplication:
 		self.meshObjectChangeView = MeshObjectChangeView(meshObjectData)
 		self.vMeshObjectLayout = VerticalLayout()
 		self.vMeshObjectLayout.addWidget(self.meshObjectChangeView, 'meshObjectChangeView')
+		
+		proxies = []
+		for obj in Blender.Scene.GetCurrent().getChildren():
+			if (obj.getParent() == object) and (obj.getType() == 'Empty'):
+				try:
+					if obj.getProperty('SpecialType').getData() == 'PhysicProxy':
+						proxies.append(obj.getName())
+						if childName == '':
+							childName = obj.getName()
+				except:
+					a=3
+		if len(proxies)>0:
+			self.meshObjectChangeView.physicProxyMenu.changeData(proxies, childName)
+			self.meshObjectChangeView.physicProxyTypeMenu.setActiveElementString(Blender.Object.Get(childName).getProperty('proxy_type').getData())
 
 		self.vLampObjectLayout = VerticalLayout()
 		self.vLampObjectLayout.addWidget(Label('das kommt später, gerade keinen Bock drauf'),'shit')
@@ -2970,11 +3076,12 @@ class RLEditorApplication:
 
 		if object.getType() == 'Mesh':
 			self.vObjectLayout.addWidget(self.vMeshObjectLayout,'vMeshObjectLayout')
+			self.meshObjectChangeView.changeData(meshObjectData)
 		if object.getType() == 'Lamp':
 			self.vObjectLayout.addWidget(self.vLampObjectLayout,'vLampObjectLayout')
 			
 		self.vMapLayout = VerticalLayout()
-		self.vMapLayout.addWidget(Label('und auch dies kommt später'), 'hmm')
+		self.vMapLayout.addWidget(Label('generelle Map-Eigenschaften - und auch dies kommt später'), 'hmm')
 		
 		self.vNoObjectSelectedLayout = VerticalLayout()
 		self.vNoObjectSelectedLayout.addWidget(Label('Es wurde kein Objekt ausgewählt!'), 'noObjectChosenLabel')
@@ -3077,7 +3184,7 @@ class RLEditorApplication:
 					except ValueError:
 						staticGeomGroups.append(obj.getProperty('staticgeom_group').getData())
 					except AttributeError:
-						print "Object has no staticgeom_group property"
+						a=3
 			
 			if len(objects)==0:
 				self.app.formerWindow = self.app.activeWindow
@@ -3102,6 +3209,30 @@ class RLEditorApplication:
 				self.app.activeWindow = self.app.formerWindow
 
 			object = objects[0]
+			
+			childName = ''
+			if object.getType() == 'Empty':
+				try:
+					if object.getProperty('SpecialType').getData()=='PhysicProxy':
+						childName = object.getName()
+						object = object.getParent()
+				except:
+					a=3
+
+			proxies = []
+			for obj in Blender.Scene.GetCurrent().getChildren():
+				if (obj.getParent() == object) and (obj.getType() == 'Empty'):
+					try:
+						if obj.getProperty('SpecialType').getData() == 'PhysicProxy':
+							proxies.append(obj.getName())
+							if childName == '':
+								childName = obj.getName()
+					except:
+						a=3
+
+			self.app.meshObjectChangeView.physicProxyMenu.changeData(proxies, childName)
+			if len(proxies)>0:
+				self.app.meshObjectChangeView.physicProxyTypeMenu.setActiveElementString(Blender.Object.Get(childName).getProperty('proxy_type').getData())
 			
 			self.app.sceneExporter.scene = Blender.Scene.getCurrent()
 			self.app.sceneExporter.tree = ObjectExporterTree(self.app.sceneExporter.scene, ObjectExporterTree.ENABLEALL)
