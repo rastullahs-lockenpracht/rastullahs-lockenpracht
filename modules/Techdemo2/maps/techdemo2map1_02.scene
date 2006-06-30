@@ -21103,7 +21103,7 @@
 
 		</node>
 		<node name="ver_becher_01" id="2813" >
-			<position x="0.0152284" y="0.0" z="0.0" />
+			<position x="-33.449" y="-5.27254" z="17.7693" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
@@ -21118,7 +21118,7 @@
 
 		</node>
 		<node name="ver_becher_01" id="2815" >
-			<position x="-33.449" y="-5.27254" z="17.7693" />
+			<position x="-33.7735" y="-5.27254" z="18.3364" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
@@ -21133,8 +21133,8 @@
 
 		</node>
 		<node name="ver_becher_01" id="2817" >
-			<position x="-33.7735" y="-5.27254" z="18.3364" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<position x="-32.8552" y="-5.24193" z="17.5047" />
+			<rotation qx="-0.228089" qy="0.016556" qz="0.625022" qw="0.746357" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_becher_01"
@@ -21148,8 +21148,8 @@
 
 		</node>
 		<node name="ver_becher_01" id="2819" >
-			<position x="-32.8552" y="-5.24193" z="17.5047" />
-			<rotation qx="-0.228089" qy="0.016556" qz="0.625022" qw="0.746357" />
+			<position x="-33.1512" y="-5.27254" z="18.2347" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_becher_01"
@@ -21162,28 +21162,13 @@
   
 
 		</node>
-		<node name="ver_becher_01" id="2821" >
-			<position x="-33.1512" y="-5.27254" z="18.2347" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="ver_becher_01"
-				id="2822"
-				meshFile ="ver_becher_01.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="ver_korb_01" id="2823" >
+		<node name="ver_korb_01" id="2821" >
 			<position x="-32.6286" y="-6.31194" z="22.624" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_korb_01"
-				id="2824"
+				id="2822"
 				meshFile ="ver_korb_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21192,13 +21177,13 @@
   
 
 		</node>
-		<node name="ver_symbol_travia_01" id="2825" >
+		<node name="ver_symbol_travia_01" id="2823" >
 			<position x="-32.5713" y="-4.79386" z="19.8891" />
 			<rotation qx="0.0" qy="-0.267197" qz="0.0" qw="0.963642" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_symbol_travia_01"
-				id="2826"
+				id="2824"
 				meshFile ="ver_symbol_travia_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21207,13 +21192,13 @@
   
 
 		</node>
-		<node name="ver_holzscheit_01" id="2827" >
+		<node name="ver_holzscheit_01" id="2825" >
 			<position x="-39.4508" y="-6.2323" z="20.7646" />
 			<rotation qx="0.0" qy="-0.884811" qz="0.0" qw="0.465951" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_holzscheit_01"
-				id="2828"
+				id="2826"
 				meshFile ="ver_holzscheit_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21222,13 +21207,13 @@
   
 
 		</node>
-		<node name="ver_brotzeit_01" id="2829" >
-			<position x="-0.108207" y="-0.168971" z="0.0961745" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+		<node name="ver_brotzeit_01" id="2827" >
+			<position x="-33.3989" y="-5.2737" z="17.448" />
+			<rotation qx="0.0" qy="0.526171" qz="0.0" qw="0.850379" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_brotzeit_01"
-				id="2830"
+				id="2828"
 				meshFile ="ver_brotzeit_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21237,14 +21222,44 @@
   
 
 		</node>
-		<node name="ver_brotzeit_01" id="2831" >
-			<position x="-33.3989" y="-5.2737" z="17.448" />
-			<rotation qx="0.0" qy="0.526171" qz="0.0" qw="0.850379" />
+		<node name="ver_vase_01" id="2829" >
+			<position x="-32.4278" y="-6.27657" z="24.2116" />
+			<rotation qx="0.0" qy="-0.675879" qz="0.0" qw="0.737012" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
-				name="ver_brotzeit_01"
+				name="ver_vase_01"
+				id="2830"
+				meshFile ="ver_vase_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_kerze_01" id="2831" >
+			<position x="-0.0150988" y="0.00243729" z="-0.0038291" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_kerze_01"
 				id="2832"
-				meshFile ="ver_brotzeit_01.mesh"
+				meshFile ="ver_kerze_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_kerze_01" id="2833" >
+			<position x="-32.3574" y="-2.33817" z="18.9859" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_kerze_01"
+				id="2834"
+				meshFile ="ver_kerze_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
 			/>
