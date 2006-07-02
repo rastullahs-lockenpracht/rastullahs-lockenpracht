@@ -908,7 +908,6 @@ class Menu(Widget):
 		i=0
 		for el in self.content:
 			if el == str:
-				print i
 				val = i
 			i = i+1
 		self.activeElement = val+1
@@ -1913,6 +1912,11 @@ class ObjectExporter(Model):
 		   @param indent indentation in the XML file.
 		   @param parentTransform transformations are exported in this coordinate system.
 		"""
+		try:
+			if self.object.getProperty('SpecialType').getData() == 'PhysicProxy':
+				return
+		except:
+			a=3
 		if self.isEnabled():
 			fileObject.write(self._indent(indent) + "<node name=\"%s\">\n" % self.object.getName())
 			# create transformation matrix relative to parent
@@ -1962,8 +1966,12 @@ class ObjectExporter(Model):
 	def writeUserData(self, sceneExporter, fileObject, indent=0):
 		"""Writes object propreties as userDataReference.
 		"""
+		##ud = 0
+		exproxy = 0
+		fileObject.write(self._indent(indent) + "<userData>\n")
 		if ((sceneExporter.settings.doProperties) and len(self.object.getAllProperties())):
-			fileObject.write(self._indent(indent) + "<userData>\n")
+			##fileObject.write(self._indent(indent) + "<userData>\n")
+			##ud = 1
 			for property in self.object.getAllProperties():
 				if (property and not(self.propertyFilter(property))):
 					if property.getName() == 'renderingDistanceDivByTen':
@@ -1976,7 +1984,51 @@ class ObjectExporter(Model):
 							"<property type=\"%s\" " % property.getType() +
 							"name=\"%s\" " % property.getName() +
 							"data=\"%s\"/>\n" % str(property.getData()))
-			fileObject.write(self._indent(indent) + "</userData>\n")
+			##fileObject.write(self._indent(indent) + "</userData>\n")
+
+		
+		for child in self.children:
+			try:
+				if child.object.getProperty('SpecialType').getData() == 'PhysicProxy':
+					exproxy = 1
+					##if ud==0:
+					##	fileObject.write(self._indent(indent) + "<userData>\n")
+					##	ud = 1
+					objectMatrix = child.object.getMatrix("worldspace")
+					inverseParentMatrix = Blender.Mathutils.Matrix(self.object.getMatrix("worldspace"))
+					inverseParentMatrix.invert()
+					matrix = objectMatrix*inverseParentMatrix
+					rot = matrix.toQuat()
+
+					fileObject.write(self._indent(indent + 1) + "<physicalProxy name=\"%s\">\n" % child.object.getName())
+				
+    				fileObject.write(self._indent(indent + 2) + "<property type=\"STRING\" "
+    					+ "name=\"proxy_type\" " + "data=\"%s\"/>\n" % child.object.getProperty('proxy_type').getData())
+    				fileObject.write(self._indent(indent + 2) + "<property type=\"STRING\" "
+						+ "name=\"original_name\" " + "data=\"%s\"/>\n" % self.object.getName())
+    				fileObject.write(self._indent(indent + 2) + "<property type=\"STRING\" "
+    					+ "name=\"proxy_offset\" " + "data=\"%.6f;%.6f;%.6f\"/>\n" % tuple(matrix.translationPart()))
+        			fileObject.write(self._indent(indent + 2) + "<property type=\"STRING\" "
+    					+ "name=\"proxy_rotation\" " + "data=\"%.6f;%.6f;%.6f;%6f\"/>\n" % (rot.x, rot.y, rot.z, rot.w))
+        			rot.inverse()
+        			inverseRotationMatrix = rot.toMatrix()
+        			inverseRotationMatrix.resize4x4()
+        			scale = matrix*inverseRotationMatrix
+        			fileObject.write(self._indent(indent + 2) + "<property type=\"STRING\" "
+    				+ "name=\"proxy_scale\" " + "data=\"%.6f;%.6f;%.6f\"/>\n" % (scale[0][0], scale[1][1], scale[2][2]))
+    				fileObject.write(self._indent(indent + 1) + "</physicalProxy>\n")
+			except:
+				a=3
+
+		if (self.object.getType()=='Mesh') and (exproxy==0):
+			fileObject.write(self._indent(indent + 1) + "<physicalProxy name=\"none\">\n")
+			fileObject.write(self._indent(indent + 2) + "<property type=\"STRING\" " + "name=\"proxy_type\" " + "data=\"none\"/>\n")
+			fileObject.write(self._indent(indent + 2) + "<property type=\"STRING\" "
+						+ "name=\"original_name\" " + "data=\"%s\"/>\n" % self.object.getName())
+			fileObject.write(self._indent(indent + 1) + "</physicalProxy>\n")
+
+		##if ud==1:
+		fileObject.write(self._indent(indent) + "</userData>\n")
 		return
 	# protected
 	def _indent(self, indent):
@@ -2013,7 +2065,7 @@ class MeshExporter(ObjectExporter):
 			if (property.getName() == 'renderingDistanceDivByTen') and (self.object.getProperty('staticgeom_group').getData() != 'none'):
 				filter = 1
 		except:
-			print "dem Objekt fehlt die Eigenschaft staticgeom_group"
+			a=3
 			
 		return filter
 
@@ -2673,7 +2725,7 @@ for obj in Blender.Scene.getCurrent().getChildren():
 		except ValueError:
 			staticGeomGroups.append(obj.getProperty('staticgeom_group').getData())
 		except AttributeError:
-			print "Object has no staticgeom_group property"
+			a=3
 
 class MeshObjectData(View):
 	def __init__(self):
@@ -2813,8 +2865,6 @@ class MeshObjectChangeView(Box):
 		self.exportMeshCheckBox.checked = objectdata.noMeshExport
 		self.renderingDistanceButton.model = objectdata.renderingDistance
 		self.staticMeshGroupMenu.changeData(staticGeomGroups, objectdata.staticGeomGroup)
-		print "klhlkh---------"
-		print self.wasnotproxy
 		
 		if (self.physicProxyMenu.getActiveElement() == -1) and (self.wasnotproxy == 0):
 			self.hLayout4.removeWidget('spacer2')
@@ -2914,7 +2964,6 @@ class MeshObjectChangeView(Box):
 			self.view = objectChangeView
 			return
 		def execute(self):
-			print self.view.physicProxyMenu.getActiveElementName()
 			self.view.physicProxyTypeMenu.setActiveElementString(Blender.Object.Get(self.view.physicProxyMenu.getActiveElementName()).getProperty('proxy_type').getData())
 			Blender.Draw.Redraw(1)
 			return
