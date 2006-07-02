@@ -21358,13 +21358,43 @@
 
 		</node>
 		<node name="ver_rinderfell_01" id="2847" >
-			<position x="-33.8755" y="-3.2264" z="17.0148" />
+			<position x="-33.8755" y="-3.28686" z="17.0148" />
 			<rotation qx="0.0" qy="-0.999969" qz="0.0" qw="-0.00787123" />
 			<scale x="1.3096" y="1.3096" z="1.3096" />
 			<entity
 				name="ver_rinderfell_01"
 				id="2848"
 				meshFile ="ver_rinderfell_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="arc_schaukelstuhl_01" id="2849" >
+			<position x="-0.0114578" y="0.00661314" z="0.03477" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="arc_schaukelstuhl_01"
+				id="2850"
+				meshFile ="arc_schaukelstuhl_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="arc_schaukelstuhl_01" id="2851" >
+			<position x="-37.9516" y="-6.23604" z="19.695" />
+			<rotation qx="0.00959892" qy="0.125333" qz="0.0757579" qw="0.989171" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="arc_schaukelstuhl_01"
+				id="2852"
+				meshFile ="arc_schaukelstuhl_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
 			/>
