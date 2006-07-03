@@ -35,8 +35,11 @@ AiSubsystem* AiSubsystem::getSingletonPtr(void)
 }
 
 AiSubsystem::AiSubsystem(void)
-	: mAgentManager(new AgentManager()), mWorld(new AiWorld())
+	: mAgentManager(NULL), 
+	  mWorld(NULL)
 {
+	mAgentManager = new AgentManager();
+	mWorld = new AiWorld();
 //  maybe the AgentManager need to be a GameTask someday...
 //  atm, it is only a PhysicsController
 //	GameLoopManager::getSingleton().addSynchronizedTask(AgentManager::getSingletonPtr(),
@@ -45,7 +48,7 @@ AiSubsystem::AiSubsystem(void)
 
 AiSubsystem::~AiSubsystem(void)
 {
-	if(mAgentManager)
-		delete mAgentManager;
+	delete mAgentManager;
+	delete mWorld;
 }
 
