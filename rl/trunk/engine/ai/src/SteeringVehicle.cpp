@@ -31,7 +31,7 @@ SteeringVehicle::SteeringVehicle(Agent* parent, Actor* character)
 	  mParent(parent),
 	  mActor(character)
 {
-	init();
+	initialize();
 }
 
 SteeringVehicle::~SteeringVehicle(void)
@@ -47,7 +47,7 @@ void SteeringVehicle::resetLocalSpace()
 	setPosition(Vec3(pos.x, pos.y, pos.z));
 }
 
-void SteeringVehicle::init(void)
+void SteeringVehicle::initialize(void)
 {
 //  reset LocalSpace state
 	resetLocalSpace();

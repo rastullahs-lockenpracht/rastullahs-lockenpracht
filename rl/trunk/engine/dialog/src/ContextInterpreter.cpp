@@ -50,7 +50,7 @@ ContextInterpreter::~ContextInterpreter(void)
 
 void ContextInterpreter::processResponse()
 {
-	// now we have one response with several <li>s. those <li>s should be processed
+//  now we have one response with several <li>s. those <li>s should be processed
 	Response<CeGuiString>::GossipData gossip = mReturnValue.getGossip();
 	Response<CeGuiString>::GossipData::const_iterator itr = gossip.begin();
 	for(; itr != gossip.end(); ++itr)
@@ -154,20 +154,24 @@ Response<CeGuiString> ContextInterpreter
 		else if(child->getNodeName() == AIML_CONDITION)
 		{
 		//	add a list of valid li-nodes to the gossip data of the repsonse
+			Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "process condition in context" + mCurrentType);
 			mReturnValue += getProcessor("contextCondition")
 					->process(child, pProcessHelper);
 		}
 	//	process the returnValue for the specific context
 		if(mCurrentType == RL_RESPONSE && pNode->getNodeName() == AIML_GOSSIP)
 		{
+			Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "process response");
 			processResponse();
 		}
 		else if(mCurrentType == RL_OPTION && pNode->getNodeName() == AIML_GOSSIP)
 		{
+			Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "process option");
 			processOption();
 		}
 		else if(mCurrentType == RL_SELECTION && pNode->getNodeName() == AIML_GOSSIP)
 		{
+			Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "process selection");
 			processSelection();
 		}
 	}

@@ -30,8 +30,6 @@
 #include "TalentWertPredicates.h"
 #include "GrundWertPredicates.h"
 
-//deprecated
-//#include "DialogScriptObject.h"
 
 namespace rl
 {
@@ -42,29 +40,13 @@ namespace rl
 		  mPlayerCharacter(NULL)
 	{
 	}
-/*
-	DialogCharacter::DialogCharacter(const CeGuiString& name)
-		: mBot(NULL), 
-		  mScriptObject(NULL), 
-		  mNonPlayerCharacter(NULL),
-		  mPlayerCharacter(NULL)
-	{
-		mName = name;
-	}
-*/
+
 	DialogCharacter::~DialogCharacter(void)
 	{
 		if(mBot)
 		{
 			delete mBot;
 		}
-
-		// deprecated
-/*		if(mScriptObject)
-		{
-			delete mScriptObject;
-		}
-*/
 	}
 
 	void DialogCharacter::initialize()
@@ -122,12 +104,14 @@ namespace rl
 		}
 		input.c_str();
 		DialogResponse* dialogResponse = NULL;
+		Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "Create AIML response");
 		Response<CeGuiString> response = mBot->respond(input);
 		if(response.hasGossip())
 		{
 			ContextInterpreter* interpreter = DialogSubsystem::getSingleton().getContextInterpreter();
 			if(interpreter!= NULL)
 			{
+				Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "Create DialogResponse");
 				dialogResponse = interpreter->interpret(response.getGossip(), mBot);
 			}
 		}
@@ -140,12 +124,7 @@ namespace rl
 //		updateDialogListeners(dialogEvent);
 		return dialogResponse;
 	}
-/*	void DialogCharacter::setScriptObject(DialogScriptObject* scriptObject)
-	{
-		mScriptObject = scriptObject;
-		scriptObject->setParent(this);
-	}
-*/
+
 	void DialogCharacter::setVoiceFile(const CeGuiString& filename)
 	{
 		mBot->setVoice(filename);

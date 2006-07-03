@@ -72,8 +72,8 @@ namespace rl
 		 */
 		void setCurrentDialogCharacter(DialogCharacter* bot);
 
-	//	void testNewDialogSystem();
 	private:
+		void initialize();
 		typedef std::map<CeGuiString, DialogCharacter*> BotMap;
 		typedef MadaBot::AimlCore<CeGuiString> AimlCore; 
 		BotMap mBots;

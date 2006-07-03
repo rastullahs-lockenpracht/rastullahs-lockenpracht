@@ -33,9 +33,10 @@ namespace rl
 
 		AiSubsystem(void);
 		virtual ~AiSubsystem(void);
-
+		
 		AiWorld* getWorld();
 	private:
+		void initialize();
 		AgentManager* mAgentManager;
 		AiWorld* mWorld;
 	};

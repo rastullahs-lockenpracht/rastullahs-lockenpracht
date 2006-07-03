@@ -16,6 +16,7 @@
 #include "AiSubsystem.h"
 #include "AiWorld.h"
 #include "AgentManager.h"
+#include "Logger.h"
 //#include "GameLoop.h"
 
 using namespace Ogre;
@@ -38,17 +39,24 @@ AiSubsystem::AiSubsystem(void)
 	: mAgentManager(NULL), 
 	  mWorld(NULL)
 {
-	mAgentManager = new AgentManager();
-	mWorld = new AiWorld();
-//  maybe the AgentManager need to be a GameTask someday...
-//  atm, it is only a PhysicsController
-//	GameLoopManager::getSingleton().addSynchronizedTask(AgentManager::getSingletonPtr(),
-//		FRAME_STARTED);
+	Logger::getSingleton().log(Logger::AI, Logger::LL_MESSAGE, "Init Start");
+	initialize();
+	Logger::getSingleton().log(Logger::AI, Logger::LL_MESSAGE, "Init Ende");
 }
 
 AiSubsystem::~AiSubsystem(void)
 {
 	delete mAgentManager;
 	delete mWorld;
+}
+
+void AiSubsystem::initialize()
+{
+	mAgentManager = new AgentManager();
+	mWorld = new AiWorld();
+//  maybe the AgentManager need to be a GameTask someday...
+//  atm, it is only a PhysicsController
+//	GameLoopManager::getSingleton().addSynchronizedTask(AgentManager::getSingletonPtr(),
+//		FRAME_STARTED);
 }
 

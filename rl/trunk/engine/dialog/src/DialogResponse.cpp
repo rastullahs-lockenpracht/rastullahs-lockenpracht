@@ -40,6 +40,7 @@ namespace rl
 			mNlp(nlp)
 	{
 	}
+
 	DialogResponse::DialogResponse( const Responses &responses, 
 									const DialogOptions &options,
 									AimlBot<CeGuiString>* bot)
@@ -57,41 +58,4 @@ namespace rl
 			delete (*itr);
 		}
 	}
-/*
-	std::pair<int, CeGuiString> DialogResponse::getSelectedOption(int id)
-	{
-		XERCES_CPP_NAMESPACE_USE
-
-		if(mSelectableOptions.find(id) != mSelectableOptions.end())
-		{
-			XercesDOMParser* parser = new XercesDOMParser();
-		// copy the response data into a memory buffer for postprocessing
-			MemBufInputSource memBuff((const XMLByte*)mSelectableOptions[id].data(),
-									mSelectableOptions[id].size(),"response",false);
-			parser->parse(memBuff);
-		//  get doc from parser and get first node
-			DOMDocument* doc = parser->getDocument();
-			DOMNode* node = doc->getDocumentElement();
-
-			CeGuiString result;
-			AimlProcessor* pt = AimlProcessorManager::getProcessor("condition");
-			if(pt)
-			{
-				result = pt->process(node, NULL, "0", mNlp);
-			}
-			if(parser) delete parser;
-			int endPos = result.find_first_of(" ");
-			
-			int rVal = CEGUI::PropertyHelper::stringToInt(result.substr(0, endPos));
-			result = result.substr(endPos + 1) + "\n";
-			
-			return std::pair<int, CeGuiString>(rVal,result);
-
-		}
-		else
-		{
-			return std::pair<int, CeGuiString>(id, mCurrentOptions[id]);
-		}
-	}
-*/
 }

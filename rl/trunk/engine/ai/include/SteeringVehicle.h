@@ -123,7 +123,6 @@ namespace rl
 		Vector3 calcAlignment(AVGroup&);
 		Vector3 calcCohesion(AVGroup&);
 		*/
-		void init();
 				
 //		PerceptionPool* getPerceptionPool();
 
@@ -233,6 +232,7 @@ namespace rl
 		}
 		*/
 	private:
+		void initialize();
 		AVGroup getNeighbors();
 		ObstacleGroup getObstacles();
 	//    float _mass;       // mass (defaults to unity so acceleration=force)

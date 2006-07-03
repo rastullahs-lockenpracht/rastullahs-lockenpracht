@@ -34,103 +34,107 @@ using namespace XERCES_CPP_NAMESPACE;
 
 template<> rl::DialogSubsystem* Singleton<rl::DialogSubsystem>::ms_Singleton = 0;
 
-namespace rl 
+using namespace rl;
+
+DialogSubsystem& DialogSubsystem::getSingleton(void)
 {
-	DialogSubsystem& DialogSubsystem::getSingleton(void)
+	return Singleton<DialogSubsystem>::getSingleton();
+}
+
+DialogSubsystem* DialogSubsystem::getSingletonPtr(void)
+{
+	return Singleton<DialogSubsystem>::getSingletonPtr();
+}
+
+DialogSubsystem::DialogSubsystem()
+	: mCore(new AimlCore()),
+	  mContextInterpreter(new ContextInterpreter()),
+	  mCurrentBot(NULL)
+{
+	Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "Init Start");
+	initialize();
+	Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "Init Ende");
+}
+
+DialogSubsystem::~DialogSubsystem() 
+{  
+	delete mCore;
+	delete mContextInterpreter;
+
+	for(BotMap::iterator iter = mBots.begin();
+		iter != mBots.end();
+		++iter)
 	{
-		return Singleton<DialogSubsystem>::getSingleton();
+		delete iter->second;
 	}
+}
 
-	DialogSubsystem* DialogSubsystem::getSingletonPtr(void)
+void DialogSubsystem::initialize()
+{
+	mCore->setParser(new AimlParserImplRl());
+	mCore->getBotInterpreter().addProcessor(new ScriptProcessor());
+//  Initialize Xerces if this wasn't done already
+	try 
 	{
-		return Singleton<DialogSubsystem>::getSingletonPtr();
-	}
-
-	DialogSubsystem::DialogSubsystem()
-		: mCore(new AimlCore()),
-		  mContextInterpreter(new ContextInterpreter()),
-		  mCurrentBot(NULL)
-	{
-		mCore->setParser(new AimlParserImplRl());
-		mCore->getBotInterpreter().addProcessor(new ScriptProcessor());
-	//	AimlProcessorManager::addStandardProcessors();
-	//  Initialize Xerces if this wasn't done already
-		try 
-		{
-            XMLPlatformUtils::Initialize();
-			XmlHelper::initializeTranscoder();
-        }
-        catch (const XMLException& exc) 
-		{
-			char* excmsg = XMLString::transcode(exc.getMessage());
-			std::string excs="Exception while initializing Xerces: ";
-			excs+=excmsg;
-			Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, excs);
-            XMLString::release(&excmsg);
-        }
-	}
-
-    DialogSubsystem::~DialogSubsystem() 
-    {  
-		delete mCore;
-		delete mContextInterpreter;
-
-		for(BotMap::iterator iter = mBots.begin();
-			iter != mBots.end();
-			++iter)
-		{
-			delete iter->second;
-		}
-//		AimlProcessorManager::shutdown();
+        XMLPlatformUtils::Initialize();
+		XmlHelper::initializeTranscoder();
     }
-
-	DialogCharacter* DialogSubsystem::getBot(const CeGuiString& botName)
+    catch (const XMLException& exc) 
 	{
-		BotMap::iterator itr = mBots.find(botName);
-		if(itr != mBots.end())
-		{
-			return itr->second;
-		}
-		return NULL;
-	}
+		char* excmsg = XMLString::transcode(exc.getMessage());
+		std::string excs="Exception while initializing Xerces: ";
+		excs+=excmsg;
+		Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, excs);
+        XMLString::release(&excmsg);
+    }
+}
 
-
-	DialogCharacter* DialogSubsystem::loadBot(const CeGuiString& botName, const CeGuiString& fileName)
+DialogCharacter* DialogSubsystem::getBot(const CeGuiString& botName)
+{
+	BotMap::iterator itr = mBots.find(botName);
+	if(itr != mBots.end())
 	{
-		mCurrentBot = NULL;
-		AimlBot<CeGuiString>* bot = mCore->loadBot(botName.c_str(), fileName.c_str());
-//		AimlBot<CeGuiString>* bot = mCore->loadBot("Alrike", "startup_test.xml");
-		// while processing the bot definition, a DialogCharacter should have been created 
-		// through a ruby script and stored in mCurrentBot
-		if(mCurrentBot != NULL && bot != NULL)
-		{
-			mCurrentBot->setBot(bot);
-			mCurrentBot->initialize();
-		}
-		mBots.insert(BotMap::value_type(mCurrentBot->getName(), mCurrentBot));
-		return mCurrentBot;
+		return itr->second;
 	}
+	return NULL;
+}
 
-    ResourcePtr DialogSubsystem::getXmlResource(const Ogre::String& filename)
+
+DialogCharacter* DialogSubsystem::loadBot(const CeGuiString& botName, const CeGuiString& fileName)
+{
+	mCurrentBot = NULL;
+	AimlBot<CeGuiString>* bot = mCore->loadBot(botName.c_str(), fileName.c_str());
+//  while processing the bot definition, a DialogCharacter should have been created 
+//  through a ruby script and stored in mCurrentBot
+	if(mCurrentBot != NULL && bot != NULL)
+	{
+		mCurrentBot->setBot(bot);
+		mCurrentBot->initialize();
+	}
+	Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE,"AimlBot " + botName + "loaded and initialized");
+	mBots.insert(BotMap::value_type(mCurrentBot->getName(), mCurrentBot));
+	return mCurrentBot;
+}
+
+ResourcePtr DialogSubsystem::getXmlResource(const Ogre::String& filename)
+{
+    ResourcePtr res = XmlResourceManager::getSingleton().getByName(filename);
+
+    if (res.isNull())
     {
-        ResourcePtr res = XmlResourceManager::getSingleton().getByName(filename);
-
-        if (res.isNull())
+        Ogre::String group = ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME;
+        if (ResourceGroupManager::getSingleton().resourceExists(
+			CoreSubsystem::getSingleton().getActiveAdventureModule()->getId(), filename))
         {
-            Ogre::String group = ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME;
-            if (ResourceGroupManager::getSingleton().resourceExists(
-				CoreSubsystem::getSingleton().getActiveAdventureModule()->getId(), filename))
-            {
-                group = CoreSubsystem::getSingleton().getActiveAdventureModule()->getId();
-            }
-            res = XmlResourceManager::getSingleton().create(filename, group);
-
+            group = CoreSubsystem::getSingleton().getActiveAdventureModule()->getId();
         }
-        return res;
-    }
+        res = XmlResourceManager::getSingleton().create(filename, group);
 
-	void DialogSubsystem::setCurrentDialogCharacter(DialogCharacter* bot)
-	{
-		mCurrentBot = bot;
-	}
+    }
+    return res;
+}
+
+void DialogSubsystem::setCurrentDialogCharacter(DialogCharacter* bot)
+{
+	mCurrentBot = bot;
 }

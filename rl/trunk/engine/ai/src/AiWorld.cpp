@@ -25,6 +25,7 @@ AiWorld::AiWorld(void)
 	BoxObstacle* o = new BoxObstacle(50,50,50);
 	o->setSeenFrom(AbstractObstacle::inside);
 	o->setPosition(Vec3(-50.0f,-10.0f, -10.0f));
+	o->setForward(0,0,-1);
 	addObstacle(o);
 }
 
