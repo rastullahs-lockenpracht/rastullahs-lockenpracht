@@ -131,7 +131,10 @@ namespace rl {
 				MeshObject* mo = mTalkAnimation->getMeshObject();
 				mTalkAnimation->stop();
 				mTalkAnimation = NULL;
-				mo->startAnimation("idle");
+				if (mo->hasAnimation("idle"))
+				{
+					mo->startAnimation("idle");
+				}
 			}
 		}
 
