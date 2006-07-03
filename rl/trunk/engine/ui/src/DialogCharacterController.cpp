@@ -51,7 +51,8 @@ namespace rl {
 		mCutHard(false),
 		mDialogWindow(NULL),
 		mSubtitleWindow(NULL),
-		mSoundObject(NULL)
+		mSoundObject(NULL),
+		mTalkAnimation(NULL)
 	{
 		mCamera->getPhysicalThing()->freeze();
 		mCharacterActor->getPhysicalThing()->freeze();		
@@ -127,8 +128,10 @@ namespace rl {
 
 			if (mTalkAnimation != NULL)
 			{
+				MeshObject* mo = mTalkAnimation->getMeshObject();
 				mTalkAnimation->stop();
 				mTalkAnimation = NULL;
+				mo->startAnimation("idle");
 			}
 		}
 
