@@ -24,7 +24,7 @@ namespace rl {
 QuestBook::QuestBook()
 	: mRootQuest(new Quest("<root>", "<root>", "<root>")) ,
     mJournalEntries(),
-	mQuestBookChangeEventCaster(),
+	mQuestEventCaster(),
 	mJournalEventCaster()
 {
 	mRootQuest->setQuestBook(this);
@@ -64,9 +64,9 @@ void QuestBook::addQuest(Quest* quest)
 
 void QuestBook::_fireQuestBookChanged(Quest *quest, int reason )
 {
-	QuestBookChangeEvent* evt = new QuestBookChangeEvent( this, reason );
+	QuestEvent* evt = new QuestEvent( this, reason );
 	evt->setQuest(quest);
-	mQuestBookChangeEventCaster.dispatchEvent(evt);
+	mQuestEventCaster.dispatchEvent(evt);
 	delete evt;
 }
 
@@ -76,9 +76,9 @@ void QuestBook::fireJournalChanged(JournalEntry* entry, int reason)
 	mJournalEventCaster.dispatchEvent(&evt);
 }
 
-void QuestBook::addQuestBookChangeListener(QuestBookChangeListener* listener)
+void QuestBook::addQuestListener(QuestListener* listener)
 {
-	if (mQuestBookChangeEventCaster.containsListener(listener) !=
+	if (mQuestEventCaster.containsListener(listener) !=
         mJournalEventCaster.containsListener(listener))
     {
         Throw(AssertionFailedError, "listener registration inconsistent");
@@ -86,14 +86,14 @@ void QuestBook::addQuestBookChangeListener(QuestBookChangeListener* listener)
 	else if (!mJournalEventCaster.containsListener(listener))
     {    
 		mJournalEventCaster.addEventListener(listener);
-		mQuestBookChangeEventCaster.addEventListener(listener);
+		mQuestEventCaster.addEventListener(listener);
         ScriptWrapper::getSingleton().owned( listener );
     }
 }
 
-void QuestBook::removeQuestBookChangeListener(QuestBookChangeListener* listener)
+void QuestBook::removeQuestListener(QuestListener* listener)
 {
-	if (mQuestBookChangeEventCaster.containsListener(listener) !=
+	if (mQuestEventCaster.containsListener(listener) !=
         mJournalEventCaster.containsListener(listener))
     {
         Throw(AssertionFailedError, "listener registration inconsistent");
@@ -101,7 +101,7 @@ void QuestBook::removeQuestBookChangeListener(QuestBookChangeListener* listener)
 	else if (mJournalEventCaster.containsListener( listener )) 
     {
 	    mJournalEventCaster.removeEventListener(listener);
-	    mQuestBookChangeEventCaster.removeEventListener(listener);
+	    mQuestEventCaster.removeEventListener(listener);
         ScriptWrapper::getSingleton().disowned( listener );
     }
 }

@@ -354,11 +354,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\QuestBookChangeEvent.cpp"
+				RelativePath=".\src\QuestEvent.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\QuestBookChangeListener.cpp"
+				RelativePath=".\src\QuestListener.cpp"
 				>
 			</File>
 			<File
@@ -548,11 +548,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\QuestBookChangeEvent.h"
+				RelativePath=".\include\QuestEvent.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\QuestBookChangeListener.h"
+				RelativePath=".\include\QuestListener.h"
 				>
 			</File>
 			<File

@@ -100,16 +100,16 @@ namespace rl {
         void loadDsaDataFile(const std::string& filename);	
     };
 
-	%feature("director") QuestBookChangeListener; 
-	class QuestBookChangeListener
+	%feature("director") QuestListener; 
+	class QuestListener
 	{
 	public:
-		virtual ~QuestBookChangeListener();
+		virtual ~QuestListener();
 		
-		virtual void questStateChanged(rl::QuestBookChangeEvent* anEvent) = 0;
-		virtual void questPartsDoneChanged(rl::QuestBookChangeEvent* anEvent) = 0;
-		virtual void questKnownChanged(rl::QuestBookChangeEvent* anEvent) = 0;
-		virtual void questSubquestAdded(rl::QuestBookChangeEvent* anEvent) = 0;
+		virtual void questStateChanged(rl::QuestEvent* anEvent) = 0;
+		virtual void questPartsDoneChanged(rl::QuestEvent* anEvent) = 0;
+		virtual void questKnownChanged(rl::QuestEvent* anEvent) = 0;
+		virtual void questSubquestAdded(rl::QuestEvent* anEvent) = 0;
 		virtual void journalEntryAdded(rl::JournalEvent* anEvent) = 0;
 	};
 
@@ -158,12 +158,12 @@ namespace rl {
 		void addSubquest(rl::Quest* quest); 
 	};   
 	
-	class QuestBookChangeEvent
+	class QuestEvent
 	{
 	public:
 		rl::Quest* getQuest();
 	private:
-		QuestBookChangeEvent( rl::QuestBook* src, int reason );
+		QuestEvent( rl::QuestBook* src, int reason );
 	};
 	
 	class QuestBook
@@ -175,8 +175,8 @@ namespace rl {
 		void addJournalEntry(rl::JournalEntry* entry);
 		void addJournalEntry(rl::CeGuiString caption, rl::CeGuiString text);
 		
-		void addQuestBookChangeListener(rl::QuestBookChangeListener* listener);
-		void removeQuestBookChangeListener(rl::QuestBookChangeListener* listener);
+		void addQuestListener(rl::QuestListener* listener);
+		void removeQuestListener(rl::QuestListener* listener);
 	};
 	
     class Talent

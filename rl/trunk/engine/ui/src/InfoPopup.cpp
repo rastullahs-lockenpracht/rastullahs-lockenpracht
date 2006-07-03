@@ -84,22 +84,22 @@ namespace rl {
 		}
 	}
 
-	void InfoPopup::questStateChanged(QuestBookChangeEvent* anEvent)
+	void InfoPopup::questStateChanged(QuestEvent* anEvent)
 	{
 		showQuestBookChange();
 	}
 	
-	void InfoPopup::questPartsDoneChanged(QuestBookChangeEvent* anEvent)
+	void InfoPopup::questPartsDoneChanged(QuestEvent* anEvent)
 	{
 		showQuestBookChange();
 	}
 
-	void InfoPopup::questKnownChanged(QuestBookChangeEvent* anEvent)
+	void InfoPopup::questKnownChanged(QuestEvent* anEvent)
 	{
 		showQuestBookChange();
 	}
 
-	void InfoPopup::questSubquestAdded(QuestBookChangeEvent* anEvent)
+	void InfoPopup::questSubquestAdded(QuestEvent* anEvent)
 	{
 		showQuestBookChange();
 	}

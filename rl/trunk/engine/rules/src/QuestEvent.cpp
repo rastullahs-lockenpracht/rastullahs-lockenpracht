@@ -14,24 +14,24 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#include "QuestBookChangeEvent.h"
+#include "QuestEvent.h"
 
 #include "Quest.h"
 #include "QuestBook.h"
 
 namespace rl {
 
-QuestBookChangeEvent::QuestBookChangeEvent( QuestBook* src, int reason )
+QuestEvent::QuestEvent( QuestBook* src, int reason )
 	: EventObject(src, reason)
 {
 }
 
-void QuestBookChangeEvent::setQuest(Quest* quest)
+void QuestEvent::setQuest(Quest* quest)
 {
 	mQuest = quest;
 }
 
-Quest* QuestBookChangeEvent::getQuest()
+Quest* QuestEvent::getQuest()
 {
 	return mQuest;
 }

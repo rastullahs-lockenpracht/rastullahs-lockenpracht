@@ -14,27 +14,27 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#include "QuestBookChangeListener.h"
+#include "QuestListener.h"
 
 #include "Exception.h"
 
 namespace rl {
 
-    QuestBookChangeListener::~QuestBookChangeListener()
+    QuestListener::~QuestListener()
     {
     }
 
-    bool QuestBookChangeListener::eventRaised(QuestBookChangeEvent* evt)
+    bool QuestListener::eventRaised(QuestEvent* evt)
     {
         try
         {
-            if( evt->getReason() == QuestBookChangeEvent::QUEST_STATE )
+            if( evt->getReason() == QuestEvent::QUEST_STATE )
                 questStateChanged(evt);
-            else if( evt->getReason() == QuestBookChangeEvent::QUEST_PARTSDONE )
+            else if( evt->getReason() == QuestEvent::QUEST_PARTSDONE )
                 questPartsDoneChanged(evt);
-            else if( evt->getReason() == QuestBookChangeEvent::QUEST_KNOWN )
+            else if( evt->getReason() == QuestEvent::QUEST_KNOWN )
                 questKnownChanged(evt);
-            else if( evt->getReason() == QuestBookChangeEvent::QUEST_SUBQUEST )
+            else if( evt->getReason() == QuestEvent::QUEST_SUBQUEST )
                 questSubquestAdded(evt);
         }
         catch( ScriptInvocationFailedException& sife )
@@ -46,7 +46,7 @@ namespace rl {
         return false;
     }
 
-    bool QuestBookChangeListener::eventRaised(JournalEvent* evt)
+    bool QuestListener::eventRaised(JournalEvent* evt)
     {
         try
         {

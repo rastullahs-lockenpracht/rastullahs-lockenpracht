@@ -13,41 +13,41 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-#ifndef __QuestBookChangeEventListener_H__
-#define __QuestBookChangeEventListener_H__
+#ifndef __QuestListener_H__
+#define __QuestListener_H__
 
 #include "RulesPrerequisites.h"
 #include "EventListener.h"
-#include "QuestBookChangeEvent.h"
+#include "QuestEvent.h"
 #include "JournalEntry.h"
 
 namespace rl {
 
 
-class _RlRulesExport QuestBookChangeListener
-    : public EventListener<QuestBookChangeEvent>,
+class _RlRulesExport QuestListener
+    : public EventListener<QuestEvent>,
       public EventListener<JournalEvent>
 {
 public:
     /// Destruktor
-	virtual ~QuestBookChangeListener();
+	virtual ~QuestListener();
 
     /// Kümmert sich um das Aufrufen benannter Methoden aus Reasons
-	virtual bool eventRaised(QuestBookChangeEvent *anEvent);
+	virtual bool eventRaised(QuestEvent *anEvent);
 
 	virtual bool eventRaised(JournalEvent *anEvent);
 
 	/** Diese Methode wird aufgerufen, wenn sich der Status des Quests geändert hat
       * @param anEvent Der auslösende Event
       */  
-	virtual void questStateChanged(QuestBookChangeEvent* anEvent) = 0;
-	virtual void questPartsDoneChanged(QuestBookChangeEvent* anEvent) = 0;
-	virtual void questKnownChanged(QuestBookChangeEvent* anEvent) = 0;
-	virtual void questSubquestAdded(QuestBookChangeEvent* anEvent) = 0;
+	virtual void questStateChanged(QuestEvent* anEvent) = 0;
+	virtual void questPartsDoneChanged(QuestEvent* anEvent) = 0;
+	virtual void questKnownChanged(QuestEvent* anEvent) = 0;
+	virtual void questSubquestAdded(QuestEvent* anEvent) = 0;
 
 	virtual void journalEntryAdded(JournalEvent* anEvent) = 0;
 };
 
 }
 
-#endif // __QuestBookChangeEventListener_H__
+#endif // __QuestEventListener_H__

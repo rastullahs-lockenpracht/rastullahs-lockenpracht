@@ -18,8 +18,8 @@
 
 #include "Quest.h"
 #include "QuestBook.h"
-#include "QuestBookChangeEvent.h"
-#include "QuestBookChangeListener.h"
+#include "QuestEvent.h"
+#include "QuestListener.h"
 
 #include "Exception.h"
 
@@ -99,7 +99,7 @@ void Quest::setPartsDone(int partsDone)
 	if( partsDone != mPartsDone )
 	{
 		mPartsDone = partsDone;
-		notify(QuestBookChangeEvent::QUEST_PARTSDONE);
+		notify(QuestEvent::QUEST_PARTSDONE);
 		checkDone();
 	}
 }
@@ -112,7 +112,7 @@ void Quest::increasePartsDone(int parts)
 	if (parts != 0)
 	{
 		mPartsDone += parts;
-		notify(QuestBookChangeEvent::QUEST_PARTSDONE);
+		notify(QuestEvent::QUEST_PARTSDONE);
 		checkDone();
 	}
 }
@@ -151,7 +151,7 @@ void Quest::setState(Quest::State state)
 	{
 		mState = state;
 
-		notify(QuestBookChangeEvent::QUEST_STATE);
+		notify(QuestEvent::QUEST_STATE);
 
 		if (state == Quest::OPEN && mParent != NULL
 			&& mParent->getState() == Quest::UNKNOWN)
@@ -179,7 +179,7 @@ void Quest::addSubquest(Quest* quest)
 	mSubquests.push_back(quest);
 	quest->setParent(this);
 	quest->setQuestBook(mQuestBook);
-	notify(QuestBookChangeEvent::QUEST_SUBQUEST);
+	notify(QuestEvent::QUEST_SUBQUEST);
 }
 
 bool Quest::hasSubquests()
@@ -204,7 +204,7 @@ void Quest::checkDone()
 		&& mState != Quest::SUCCEEDED)
 	{
 		mState = Quest::SUCCEEDED;
-		notify(QuestBookChangeEvent::QUEST_STATE);
+		notify(QuestEvent::QUEST_STATE);
 	}
 
 	if (mParent != NULL)
@@ -265,7 +265,7 @@ void Quest::setKnown(bool known)
 		if (known == true && mParent != NULL && !mParent->isKnown())
 			mParent->setKnown(true);
 
-		notify(QuestBookChangeEvent::QUEST_KNOWN);
+		notify(QuestEvent::QUEST_KNOWN);
 	}
 }
 

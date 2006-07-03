@@ -75,22 +75,22 @@ namespace rl {
     {
     }
 
-    void JournalWindow::questStateChanged(QuestBookChangeEvent* anEvent)
+    void JournalWindow::questStateChanged(QuestEvent* anEvent)
     {
         updateQuests();
     }
 
-    void JournalWindow::questPartsDoneChanged(QuestBookChangeEvent* anEvent)
+    void JournalWindow::questPartsDoneChanged(QuestEvent* anEvent)
     {
         updateQuests();
     }
 
-    void JournalWindow::questKnownChanged(QuestBookChangeEvent* anEvent)
+    void JournalWindow::questKnownChanged(QuestEvent* anEvent)
     {
         updateQuests();
     }
 
-    void JournalWindow::questSubquestAdded(QuestBookChangeEvent* anEvent)
+    void JournalWindow::questSubquestAdded(QuestEvent* anEvent)
     {
         updateQuests();
     }

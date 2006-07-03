@@ -20,19 +20,19 @@
 #include "UiPrerequisites.h"
 
 #include "CeGuiWindow.h"
-#include "QuestBookChangeListener.h"
+#include "QuestListener.h"
 
 namespace rl {
 
-    class JournalWindow : public CeGuiWindow, public QuestBookChangeListener {
+    class JournalWindow : public CeGuiWindow, public QuestListener {
     public:
         JournalWindow();
         virtual ~JournalWindow();
 
-        virtual void questStateChanged(QuestBookChangeEvent* anEvent);
-        virtual void questPartsDoneChanged(QuestBookChangeEvent* anEvent);
-        virtual void questKnownChanged(QuestBookChangeEvent* anEvent);
-        virtual void questSubquestAdded(QuestBookChangeEvent* anEvent);
+        virtual void questStateChanged(QuestEvent* anEvent);
+        virtual void questPartsDoneChanged(QuestEvent* anEvent);
+        virtual void questKnownChanged(QuestEvent* anEvent);
+        virtual void questSubquestAdded(QuestEvent* anEvent);
         virtual void journalEntryAdded(JournalEvent* anEvent);
 
     private:

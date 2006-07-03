@@ -25,8 +25,8 @@
 #include "JournalEntry.h"
 
 #include "Quest.h"
-#include "QuestBookChangeEvent.h"
-#include "QuestBookChangeListener.h"
+#include "QuestEvent.h"
+#include "QuestListener.h"
 
 #include <vector>
 
@@ -64,8 +64,8 @@ public:
 
     JournalEntry* getJournalEntry(unsigned int index) const;
 
-	void addQuestBookChangeListener(QuestBookChangeListener* listener);
-	void removeQuestBookChangeListener(QuestBookChangeListener* listener);
+	void addQuestListener(QuestListener* listener);
+	void removeQuestListener(QuestListener* listener);
 
     void _fireQuestBookChanged(Quest* quest, int reason);
 
@@ -73,7 +73,7 @@ private:
 	Quest* getQuest(Quest* parent, const CeGuiString id);
 	Quest* mRootQuest;
     std::vector<JournalEntry*> mJournalEntries;
-	EventCaster<QuestBookChangeEvent> mQuestBookChangeEventCaster;
+	EventCaster<QuestEvent> mQuestEventCaster;
 	EventCaster<JournalEvent> mJournalEventCaster;
 
     void fireJournalChanged(JournalEntry* entry, int reason);

@@ -88,8 +88,8 @@ namespace rl {
 		mObjectDescriptionWindow = new ObjectDescriptionWindow();
 		mSoundConfig = new SoundConfig();
 
-		RulesSubsystem::getSingleton().getQuestBook()->addQuestBookChangeListener(mJournalWindow);
-		RulesSubsystem::getSingleton().getQuestBook()->addQuestBookChangeListener(mInfoPopup);
+		RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mJournalWindow);
+		RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mInfoPopup);
         mDataLoadingProgressWindow = new DataLoadingProgressWindow();
 		CoreSubsystem::getSingleton().addCoreEventListener(mDataLoadingProgressWindow);
 	}

@@ -36,6 +36,8 @@
 #include "Person.h"
 #include "Quest.h"
 #include "QuestBook.h"
+#include "QuestEvent.h"
+#include "QuestListener.h"
 #include "RBCombat.h"
 #include "RBCombatController.h"
 #include "RTCombat.h"
@@ -49,8 +51,4 @@
 #include "TimerListener.h"
 #include "Tripel.h"
 #include "Weapon.h"
-#include "Quest.h"
-#include "QuestBook.h"
-#include "QuestBookChangeListener.h"
-#include "QuestBookChangeEvent.h"
 %}

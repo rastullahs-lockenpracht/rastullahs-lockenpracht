@@ -18,11 +18,11 @@
 #include <vector>
 
 #include "CeGuiWindow.h"
-#include "QuestBookChangeListener.h"
+#include "QuestListener.h"
 
 namespace rl {
 
-    class _RlUiExport InfoPopup : public CeGuiWindow, public QuestBookChangeListener
+    class _RlUiExport InfoPopup : public CeGuiWindow, public QuestListener
     {
     public:
         InfoPopup();
@@ -35,10 +35,10 @@ namespace rl {
 
         void setVisible(bool visible, bool destroyAfterHide = false);
 
-        void questStateChanged(QuestBookChangeEvent* anEvent);
-        void questPartsDoneChanged(QuestBookChangeEvent* anEvent);
-        void questKnownChanged(QuestBookChangeEvent* anEvent);
-        void questSubquestAdded(QuestBookChangeEvent* anEvent);
+        void questStateChanged(QuestEvent* anEvent);
+        void questPartsDoneChanged(QuestEvent* anEvent);
+        void questKnownChanged(QuestEvent* anEvent);
+        void questSubquestAdded(QuestEvent* anEvent);
 
         void journalEntryAdded(JournalEvent* anEvent);
     private:
