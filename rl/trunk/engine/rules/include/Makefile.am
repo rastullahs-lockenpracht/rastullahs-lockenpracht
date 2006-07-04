@@ -23,8 +23,8 @@ noinst_HEADERS = \
 	Person.h \
 	Quest.h \
 	QuestBook.h \
-	QuestChangeEvent.h \
-	QuestChangeListener.h \
+	QuestEvent.h \
+	QuestListener.h \
 	RBCombat.h \
 	RBCombatController.h \
 	RTCombat.h \

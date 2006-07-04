@@ -1,4 +1,7 @@
-INCLUDES = $(CEGUI_CFLAGS) $(Plugin_TheoraVideoSystem_CFLAGS) $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(STLPORT_CFLAGS) -I../include -I../../common/include -I../../core/include -I../../multimedia/include -I../../dialog/include -I../../rules/include -I../../ui/include
+INCLUDES = $(CEGUI_CFLAGS) $(Plugin_TheoraVideoSystem_CFLAGS) $(RUBY_CFLAGS) $(OGRE_CFLAGS) \
+	$(STLPORT_CFLAGS) -I../include -I../../common/include -I../../core/include \
+	-I../../multimedia/include -I../../dialog/include -I../../rules/include -I../../ui/include \
+	-I../../ai/include
 
 lib_LTLIBRARIES = libRlScript.la
 libRlScript_la_LDFLAGS = $(CEGUI_LIBS) $(OGRE_LIBS) $(RUBY_LIBS) $(LIBS)  \

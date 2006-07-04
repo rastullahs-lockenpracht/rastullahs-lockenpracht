@@ -107,7 +107,7 @@ namespace rl {
     }
 
     /************************************************************************/
-    void MovableText::setSpaceWidth(uint width)
+    void MovableText::setSpaceWidth(unsigned int width)
     {
         if (width != mSpaceWidth)
         {
@@ -137,7 +137,7 @@ namespace rl {
     }
 
     /************************************************************************/
-    void MovableText::setCharacterHeight(uint height)
+    void MovableText::setCharacterHeight(unsigned int height)
     {
         if (height != mCharHeight)
         {
@@ -152,7 +152,7 @@ namespace rl {
         RlAssert1(mFont);
         RlAssert1(!mMaterial.isNull());
 
-        uint vertexCount = mCaption.size() * 6;
+        unsigned int vertexCount = mCaption.size() * 6;
 
         if (mRenderOp.vertexData)
         {
@@ -410,7 +410,7 @@ namespace rl {
         HardwareVertexBufferSharedPtr vbuf =
             mRenderOp.vertexData->vertexBufferBinding->getBuffer(COLOUR_BINDING);
         RGBA *pDest = static_cast<RGBA*>(vbuf->lock(HardwareBuffer::HBL_DISCARD));
-        for (uint i = 0; i < mRenderOp.vertexData->vertexCount; ++i)
+        for (unsigned int i = 0; i < mRenderOp.vertexData->vertexCount; ++i)
             *pDest++ = colour;
         vbuf->unlock();
         mUpdateColours = false;

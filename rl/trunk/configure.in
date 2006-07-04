@@ -119,7 +119,7 @@ PKG_CHECK_MODULES(CEGUIOGRE, CEGUI-OGRE)
 
 # OpenSteer
 AC_CHECK_HEADERS(OpenSteer/SteerLibrary.h, , AC_MSG_ERROR([Can't find OpenSteer headers]))
-AC_CHECK_LIB(OpenSteer, main, [OPENSTEER_LIBS="-lOpenSteer"], AC_MSG_ERROR([Can't find libOpenSteer]))
+AC_CHECK_LIB(OpenSteer, main, , AC_MSG_ERROR([Can't find libOpenSteer]))
 
 dnl Other stuff we need
 #AC_CHECK_LIB([log4cxx], [main], AC_DEFINE(HAVE_LOG4CXX,[], [Log4cxx is installed]))

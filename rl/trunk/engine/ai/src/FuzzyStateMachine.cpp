@@ -1,4 +1,5 @@
-#include "..\include\FuzzyStateMachine.h"
+
+#include "FuzzyStateMachine.h"
 /*
 FuzzyStateMachine::FuzzyStateMachine(void)
 {

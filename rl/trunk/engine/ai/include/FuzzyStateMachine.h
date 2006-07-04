@@ -31,7 +31,7 @@ namespace rl
 
 		virtual ~FuzzyStateMachine(void)
 		{
-			StateList::iterator itr = mStates.begin();
+			typename StateList::iterator itr = mStates.begin();
 			for(; itr != mStates.begin(); ++itr)
 			{
 				delete itr->second;
@@ -62,7 +62,7 @@ namespace rl
 			if(mStates.empty())
 				return;
 
-			StateList::iterator itr = mStates.begin();
+			typename StateList::iterator itr = mStates.begin();
 			for(; itr != mStates.end(); ++itr)
 			{
 				bool isActive = (itr->second->calculateActivation() > 0);

@@ -1,4 +1,5 @@
-#include "..\include\FuzzyState.h"
+
+#include "FuzzyState.h"
 /*
 FuzzyState::FuzzyState(void)
 {

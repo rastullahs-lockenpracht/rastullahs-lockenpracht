@@ -5,6 +5,7 @@ libRlRules_la_LDFLAGS = $(RUBY_LIBS) $(OGRE_LIBS) $(CEGUI_LIBS) $(LIBS)
 libRlRules_la_SOURCES = \
 	Action.cpp \
 	ActionManager.cpp \
+	Armor.cpp \
 	AtomicEffect.cpp \
 	CompositeEffect.cpp \
 	Container.cpp \
@@ -18,7 +19,10 @@ libRlRules_la_SOURCES = \
 	EigenschaftenStateSet.cpp \
 	GameObject.cpp \
 	Item.cpp \
+	ItemDataLoader.cpp \
+	ItemManager.cpp \
 	Inventory.cpp \
+	JournalEntry.cpp \
 	Kampftechnik.cpp \
 	ObjectStateChangeEvent.cpp \
 	ObjectStateChangeEventSource.cpp \
@@ -26,8 +30,8 @@ libRlRules_la_SOURCES = \
 	Person.cpp \
 	Quest.cpp \
 	QuestBook.cpp \
-	QuestChangeEvent.cpp \
-	QuestChangeListener.cpp \
+	QuestEvent.cpp \
+	QuestListener.cpp \
 	RBCombat.cpp \
 	RBCombatController.cpp \
 	RTCombat.cpp \
