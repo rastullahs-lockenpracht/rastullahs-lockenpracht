@@ -1,5 +1,5 @@
 
-material arc_tisch_02
+material ver_buch_01
 {
 	technique
 	{
@@ -9,7 +9,7 @@ material arc_tisch_02
 
 			texture_unit
 			{
-				texture zeugs_02_schreibtisch01_tischkleinrund.png
+				texture ver_buch_01.png
 			}
 		}
 	}
