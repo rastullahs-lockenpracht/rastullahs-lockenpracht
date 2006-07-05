@@ -20833,7 +20833,7 @@
 
 		</node>
 		<node name="nat_brunnenwasser" id="2777" >
-			<position x="-31.2728" y="-7.8008" z="3.49231" />
+			<position x="-31.2728" y="-7.07033" z="3.49231" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.526378" y="0.526378" z="0.526378" />
 			<entity
@@ -21328,8 +21328,8 @@
 
 		</node>
 		<node name="ver_kaestchen_01" id="2843" >
-			<position x="0.0" y="0.965872" z="0.00238349" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<position x="-10.4251" y="-5.96635" z="10.9282" />
+			<rotation qx="0.0" qy="0.275379" qz="0.0" qw="0.961336" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_kaestchen_01"
@@ -21342,28 +21342,13 @@
   
 
 		</node>
-		<node name="ver_kaestchen_01" id="2845" >
-			<position x="-10.4251" y="-5.96635" z="10.9282" />
-			<rotation qx="0.0" qy="0.275379" qz="0.0" qw="0.961336" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="ver_kaestchen_01"
-				id="2846"
-				meshFile ="ver_kaestchen_01.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="arc_tisch_02" id="2847" >
+		<node name="arc_tisch_02" id="2845" >
 			<position x="0.00539064" y="0.000695854" z="0.0130402" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="arc_tisch_02"
-				id="2848"
+				id="2846"
 				meshFile ="arc_tisch_02.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21372,9 +21357,24 @@
   
 
 		</node>
-		<node name="arc_stuhl_01" id="2849" >
+		<node name="arc_stuhl_01" id="2847" >
 			<position x="-6.4087" y="-6.91346" z="15.1295" />
 			<rotation qx="0.0" qy="-0.925205" qz="0.0" qw="0.379467" />
+			<scale x="1.1" y="1.1" z="1.1" />
+			<entity
+				name="arc_stuhl_01"
+				id="2848"
+				meshFile ="arc_stuhl_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="arc_stuhl_01" id="2849" >
+			<position x="-7.20382" y="-6.91346" z="13.6638" />
+			<rotation qx="0.0" qy="0.148765" qz="0.0" qw="0.988872" />
 			<scale x="1.1" y="1.1" z="1.1" />
 			<entity
 				name="arc_stuhl_01"
@@ -21387,28 +21387,13 @@
   
 
 		</node>
-		<node name="arc_stuhl_01" id="2851" >
-			<position x="-7.20382" y="-6.91346" z="13.6638" />
-			<rotation qx="0.0" qy="0.148765" qz="0.0" qw="0.988872" />
-			<scale x="1.1" y="1.1" z="1.1" />
-			<entity
-				name="arc_stuhl_01"
-				id="2852"
-				meshFile ="arc_stuhl_01.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="arc_tisch_02" id="2853" >
+		<node name="arc_tisch_02" id="2851" >
 			<position x="-6.94873" y="-6.90641" z="14.4067" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="arc_tisch_02"
-				id="2854"
+				id="2852"
 				meshFile ="arc_tisch_02.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21417,8 +21402,23 @@
   
 
 		</node>
+		<node name="ver_karaffe_01" id="2853" >
+			<position x="-6.82255" y="-6.04413" z="14.356" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_karaffe_01"
+				id="2854"
+				meshFile ="ver_karaffe_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
 		<node name="ver_karaffe_01" id="2855" >
-			<position x="0.0429597" y="0.86217" z="-0.168265" />
+			<position x="-33.3945" y="-5.26864" z="18.1287" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
@@ -21432,43 +21432,13 @@
   
 
 		</node>
-		<node name="ver_karaffe_01" id="2857" >
-			<position x="-6.82255" y="-6.04413" z="14.356" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="ver_karaffe_01"
-				id="2858"
-				meshFile ="ver_karaffe_01.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="ver_karaffe_01" id="2859" >
-			<position x="-33.3945" y="-5.26864" z="18.1287" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="ver_karaffe_01"
-				id="2860"
-				meshFile ="ver_karaffe_01.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="ver_becher_01" id="2861" >
+		<node name="ver_becher_01" id="2857" >
 			<position x="-7.18202" y="-6.04129" z="14.2495" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_becher_01"
-				id="2862"
+				id="2858"
 				meshFile ="ver_becher_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21477,13 +21447,13 @@
   
 
 		</node>
-		<node name="ver_becher_01" id="2863" >
+		<node name="ver_becher_01" id="2859" >
 			<position x="-6.88644" y="-6.04129" z="14.6004" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_becher_01"
-				id="2864"
+				id="2860"
 				meshFile ="ver_becher_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21492,28 +21462,13 @@
   
 
 		</node>
-		<node name="ver_bild_01" id="2865" >
-			<position x="-0.00133438" y="1.26052" z="-0.00144348" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="ver_bild_01"
-				id="2866"
-				meshFile ="ver_bild_01.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="ver_bild_01" id="2867" >
+		<node name="ver_bild_01" id="2861" >
 			<position x="-5.38224" y="-5.18951" z="15.1877" />
 			<rotation qx="0.0" qy="-0.871466" qz="0.0" qw="0.490455" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_bild_01"
-				id="2868"
+				id="2862"
 				meshFile ="ver_bild_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21522,13 +21477,13 @@
   
 
 		</node>
-		<node name="ver_buch_01" id="2869" >
+		<node name="ver_buch_01" id="2863" >
 			<position x="-0.0278378" y="0.860695" z="0.075748" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_buch_01"
-				id="2870"
+				id="2864"
 				meshFile ="ver_buch_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21537,14 +21492,59 @@
   
 
 		</node>
-		<node name="ver_buch_01" id="2871" >
+		<node name="ver_buch_01" id="2865" >
 			<position x="-35.2145" y="-2.60469" z="15.1396" />
 			<rotation qx="0.0" qy="-0.939366" qz="0.0" qw="0.342915" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_buch_01"
-				id="2872"
+				id="2866"
 				meshFile ="ver_buch_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_buch_02" id="2867" >
+			<position x="0.0290079" y="0.864368" z="-0.214329" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_buch_02"
+				id="2868"
+				meshFile ="ver_buch_02.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_buch_02" id="2869" >
+			<position x="-10.8391" y="-5.95375" z="11.6377" />
+			<rotation qx="0.0" qy="-0.762021" qz="0.0" qw="0.647552" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_buch_02"
+				id="2870"
+				meshFile ="ver_buch_02.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_buch_02" id="2871" >
+			<position x="-32.2841" y="-2.31292" z="18.4875" />
+			<rotation qx="0.0" qy="0.396123" qz="0.0" qw="0.918198" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_buch_02"
+				id="2872"
+				meshFile ="ver_buch_02.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
 			/>
