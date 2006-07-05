@@ -31,33 +31,45 @@ material Techdemo2map1 : Splatting5
 			}
 			// The Texture containing the Splatting information in its channels
 			texture_unit SplattingMap
-			{	
+			{
+                max_anisotropy 8
+                filtering anisotropic
 				texture map1alpha.dds
 			}
 			// Texture containing the LightingMap
 			texture_unit LightingMap
 			{
+                max_anisotropy 8
+                filtering anisotropic
 				texture Techdemo2LightingMap1.png
 				
 			}
 			// Texture containing the groundlayer and its detailmap (inside the alpha channel)
 			texture_unit BaseLayer
 			{
+                max_anisotropy 8
+                filtering anisotropic
 				texture nat_gras_01.dds
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
 			texture_unit RedLayer
 			{
+                max_anisotropy 8
+                filtering anisotropic
 				texture nat_felsen_01.dds
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
 			texture_unit GreenLayer
 			{
+                max_anisotropy 8
+                filtering anisotropic
 				texture nat_steingrund_01.dds
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
 			texture_unit BlueLayer
 			{
+                max_anisotropy 8
+                filtering anisotropic
 				texture nat_erdboden_01.dds
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
