@@ -98,7 +98,7 @@ class LevelwechselListener < GameAreaListener
 	def areaLeft(anEvent)
 	end
  
-	 Zone betreten
+	#Zone betreten
 	def areaEntered(anEvent)
 	#	if (RulesSubsystem.getSingleton().getQuestBook().getQuest("aufenthaltsort").getState() == Quest::SUCCEEDED) &&  ( (RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest42").getState() == Quest::SUCCEEDED)  || (RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest41").getState() == Quest::SUCCEEDED) )
 			$CORE.loadMap("Octree", @targetScene, @resourcegrp, @targetRbFile); 
