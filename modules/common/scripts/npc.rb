@@ -8,13 +8,17 @@ class TalkAction < Action
   end
 
   def doAction(object, actor, target)
-	
-    bot = $DS.getBot(@mName)
-    if (bot == nil )
-		bot = $DS.loadBot(@mName, @mDialog)
+	if (@mBot == nil)
+		@mBot = $DS.getBot(@mName)
+		if (@mBot == nil )
+			@mBot = $DS.loadBot(@mName, @mDialog)
+		end
+
 	end
-    bot.setNonPlayerCharacter( object );
-    bot.setPlayerCharacter( actor );
-    WindowFactory.getSingleton().showDialog(bot)
+	if (@mBot != nil)
+		@mBot.setPlayerCharacter( actor );
+		@mBot.setNonPlayerCharacter( object );
+		WindowFactory.getSingleton().showDialog(@mBot);
+	end
   end
 end
