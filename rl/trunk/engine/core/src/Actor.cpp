@@ -713,7 +713,7 @@ namespace rl {
     {
         if (highlight != mHighlighted)
         {
-            getControlledObject()->setHighlighted(highlight);
+            //getControlledObject()->setHighlighted(highlight);
             mHighlighted = highlight;
         }
         if (mHighlighted && mDescription == 0)
