@@ -110,7 +110,7 @@ namespace rl
 		 */
 		Vector3 calcSteerTargetSpeed(const float targetSpeed);
 
-			
+		bool needAvoidance(const float minTimeToCollision);
 		void setAnimation(const CeGuiString& name);
 	
 		/* TODO:

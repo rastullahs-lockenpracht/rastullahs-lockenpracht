@@ -91,9 +91,9 @@ namespace rl {
 
 		resetCamera();
 
-		MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
-		mesh->stopAllAnimations();
-		mesh->startAnimation("idle");
+	//	MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
+	//	mesh->stopAllAnimations();
+	//	mesh->startAnimation("idle");
 	}
 
 	void DialogCharacterController::run(Real elapsedTime)
@@ -126,7 +126,7 @@ namespace rl {
 			mSubtitleWindow->setVisible(false);
 			mDialogWindow->textFinished();
 
-			if (mTalkAnimation != NULL)
+		/*	if (mTalkAnimation != NULL)
 			{
 				MeshObject* mo = mTalkAnimation->getMeshObject();
 				mTalkAnimation->stop();
@@ -136,6 +136,7 @@ namespace rl {
 					mo->startAnimation("idle");
 				}
 			}
+		*/
 		}
 
 		Logger::getSingleton().log(

@@ -41,6 +41,8 @@ namespace rl
 		
 		Ogre::Vector3 getPosition();
 		
+		bool needAvoidance(const float minTimeToCollision);
+		
 		void setAnimation(rl::CeGuiString& name);
 	};
 	

@@ -234,21 +234,39 @@ Vector3 SteeringVehicle::calcFlee(const Vector3& target)
 
 Vector3 SteeringVehicle::calcAvoidObstacles(const float minTimeToCollision)
 {
-	Vec3 rVal = steerToAvoidObstacles(minTimeToCollision, getObstacles());
-	rVal *= -0.1;
+	Vec3 rVal = steerToAvoidObstacles(minTimeToCollision, getObstacles()).setYtoZero();
+	if(rVal.x != 0.0f || rVal.z != 0.0f)
+	{
+		rVal = rVal;
+	}
+	rVal *= 0.0001;
 	return Vector3(rVal.x, rVal.y, rVal.z);
 }
 
 Vector3 SteeringVehicle::calcAvoidNeighbors(const float minTimeToCollision)
 {
 	Vec3 rVal = steerToAvoidNeighbors(minTimeToCollision, getNeighbors()).setYtoZero();
-	rVal *= -0.1;
+	if(rVal.x != 0.0f || rVal.z != 0.0f)
+	{
+		rVal = rVal;
+	}
+//	rVal *= -0.1;
 	return Vector3(rVal.x, rVal.y, rVal.z);
 }
 		
 Vector3 SteeringVehicle::calcSteerTargetSpeed(const float targetSpeed)
 {
 	return Vector3();
+}
+
+bool SteeringVehicle::needAvoidance(const float minTimeToCollision)
+{
+	Vector3 rVal = calcAvoidNeighbors(minTimeToCollision) + calcAvoidObstacles(minTimeToCollision);
+	if(rVal == Vector3::ZERO)
+	{
+		return false;
+	}
+	return true;
 }
 
 void SteeringVehicle::setAnimation(const CeGuiString& name)

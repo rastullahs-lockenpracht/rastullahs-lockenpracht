@@ -22,11 +22,18 @@ AiWorld::AiWorld(void)
 //  create an obstacle as bounding box of the walkarea for npcs
 //  this should be accessable through scripting, the Obstacles should have names
 //  for easier access
-	BoxObstacle* o = new BoxObstacle(50,50,50);
+	BoxObstacle* o = new BoxObstacle(25,50,25);
 	o->setSeenFrom(AbstractObstacle::inside);
-	o->setPosition(Vec3(-50.0f,-10.0f, -10.0f));
+	o->setPosition(Vec3(-40.0f,-10.0f, 0.0f));
 	o->setForward(0,0,-1);
 	addObstacle(o);
+
+	o = new BoxObstacle(2,50,2);
+	o->setSeenFrom(AbstractObstacle::outside);
+	o->setPosition(Vec3(-31.5f,-10.0f, -3.5f));
+	o->setForward(0,0,-1);
+	addObstacle(o);
+
 }
 
 AiWorld::~AiWorld(void)
