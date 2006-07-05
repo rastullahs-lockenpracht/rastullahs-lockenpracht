@@ -21,8 +21,12 @@ class DefaultWanderBehaviour < SteeringBehaviour
 	end
 		
 	def update(elapsedTime)
-		getController().addForce(getController().calcWander(elapsedTime) * getActivationLevel());
-	#	getController().addForce(getController().calcFlee([-18.0, -6.8, 15.2]) * getActivationLevel());
+		if(getController().needAvoidance(5.0))
+			getController().addForce(getController().calcAvoidNeighbors(5.0) * getActivationLevel());
+			getController().addForce(getController().calcAvoidObstacles(5.0) * getActivationLevel());
+		else
+			getController().addForce(getController().calcWander(elapsedTime) * getActivationLevel());
+		end	
 	end
 	
 	def deactivate()
@@ -30,9 +34,12 @@ class DefaultWanderBehaviour < SteeringBehaviour
 	
 	def calculateActivation()
 		if(getController().isDialogActive())
-			setActivationLevel(0.0);
+			setActivationLevel(getActivationLevel()*0.0);
 		else
 			setActivationLevel(1.0);
+		end
+		if(getController().needAvoidance(5.0))
+			setActivationLevel(getActivationLevel()*0.5);
 		end
 		return getActivationLevel();
 	end
@@ -64,7 +71,7 @@ class DialogBehaviour < SteeringBehaviour
 		
 	def update(elapsedTime)
 		if (getController().calcDistance(@mActor.getPosition(), getController().getPosition()) > 2.5)
-			getController().addForce(getController().calcSeek(@mActor.getPosition()) * getActivationLevel());
+			getController().addForce(getController().calcSeek(@mActor.getPosition()) * getActivationLevel() * 5.0);
 		else
 			if (@mTalk == false)
 				getController().setAnimation("reden");
@@ -107,8 +114,8 @@ class AvoidObstaclesBehaviour < SteeringBehaviour
 	end
 		
 	def update(elapsedTime)
-		getController().addForce(getController().calcAvoidNeighbors(1.0) * getActivationLevel());
-		getController().addForce(getController().calcAvoidObstacles(1.0) * getActivationLevel());
+		getController().addForce(getController().calcAvoidNeighbors(5.0) * getActivationLevel() * 2.0);
+		getController().addForce(getController().calcAvoidObstacles(5.0) * getActivationLevel() * 2.0);
 	end
 	
 	def deactivate()
