@@ -65,26 +65,38 @@ material Splatting5NoDetailPhong
 			// The Texture containing the Splatting information in its channels
 			texture_unit SplattingMap
 			{
+				filtering anisotropic
+				max_anisotropy 2
 			}
 			// Texture containing the groundlayer and its detailmap (inside the alpha channel)
 			texture_unit BaseLayer
 			{
+				filtering anisotropic
+				max_anisotropy 2
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer
 			texture_unit RedLayer
 			{
+				filtering anisotropic
+				max_anisotropy 2
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer
 			texture_unit GreenLayer
 			{
+				filtering anisotropic
+				max_anisotropy 2
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer
 			texture_unit BlueLayer
 			{
+				filtering anisotropic
+				max_anisotropy 2
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer
 			texture_unit AlphaLayer
 			{
+				filtering anisotropic
+				max_anisotropy 2
 			}
 		}
 	}
@@ -124,26 +136,38 @@ material Splatting5NoDetailPhong
 			// The Texture containing the Splatting information in its channels
 			texture_unit SplattingMap
 			{
+				filtering anisotropic
+				max_anisotropy 2
 			}
 			// Texture containing the groundlayer and its detailmap (inside the alpha channel)
 			texture_unit BaseLayer
 			{
+				filtering anisotropic
+				max_anisotropy 2
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer
 			texture_unit RedLayer
 			{
+				filtering anisotropic
+				max_anisotropy 2
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer
 			texture_unit GreenLayer
 			{
+				filtering anisotropic
+				max_anisotropy 2
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer
 			texture_unit BlueLayer
 			{
+				filtering anisotropic
+				max_anisotropy 2
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer
 			texture_unit AlphaLayer
 			{
+				filtering anisotropic
+				max_anisotropy 2
 			}
 		}
 	}
