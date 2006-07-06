@@ -24,10 +24,15 @@
 using namespace rl;
 
 SteeringVehicle::SteeringVehicle(Agent* parent, Actor* character)
-	: mSpeed(1.0f),
+	: _maxForce(1.0f),
+      _maxSpeed(1.0f),
+      mMass(),
+      mRadius(),
+      mSpeed(1.0f),
 	  mCurrentForce(Vector3::ZERO), 
 	  mCurrentVelocity(Vector3::ZERO),
 	  mForwardVector(Vector3::NEGATIVE_UNIT_Z),
+      mYaw(),
 	  mParent(parent),
 	  mActor(character)
 {
@@ -234,7 +239,8 @@ Vector3 SteeringVehicle::calcFlee(const Vector3& target)
 
 Vector3 SteeringVehicle::calcAvoidObstacles(const float minTimeToCollision)
 {
-	Vec3 rVal = steerToAvoidObstacles(minTimeToCollision, getObstacles()).setYtoZero();
+    ObstacleGroup obstacles = getObstacles();
+	Vec3 rVal = steerToAvoidObstacles(minTimeToCollision, obstacles).setYtoZero();
 	if(rVal.x != 0.0f || rVal.z != 0.0f)
 	{
 		rVal = rVal;

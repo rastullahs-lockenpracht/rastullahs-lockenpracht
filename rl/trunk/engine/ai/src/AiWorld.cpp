@@ -17,7 +17,7 @@
 
 using namespace rl;
 
-AiWorld::AiWorld(void)
+AiWorld::AiWorld(void) : mObstacles()
 {
 //  create an obstacle as bounding box of the walkarea for npcs
 //  this should be accessable through scripting, the Obstacles should have names

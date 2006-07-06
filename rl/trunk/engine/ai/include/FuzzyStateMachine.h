@@ -27,7 +27,7 @@ namespace rl
 	public:
 		typedef FuzzyState<Controller>* FuzzyStatePtr;
 		FuzzyStateMachine(FuzzyStatePtr parent, Controller* controller)
-			: FuzzyState<Controller>(parent, controller) {}
+			: FuzzyState<Controller>(parent, controller), mMaxActiveStates(), mStates() {}
 
 		virtual ~FuzzyStateMachine(void)
 		{

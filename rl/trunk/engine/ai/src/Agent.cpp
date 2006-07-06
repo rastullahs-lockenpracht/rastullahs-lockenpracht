@@ -33,9 +33,10 @@ Agent::Agent(Creature* character)
 
 Agent::Agent(DialogCharacter* character)
 	: mBehaviour(NULL), mVehicle(NULL), mDialogBot(character), 
-	  mCreature(character->getNonPlayerCharacter())
+	  mCreature(NULL)
 //	  mPerceptionPool(new PerceptionPool())
 {
+    mCreature = character->getNonPlayerCharacter();
 	initialize();
 }
 

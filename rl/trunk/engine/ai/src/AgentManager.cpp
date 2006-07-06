@@ -32,7 +32,7 @@ AgentManager* AgentManager::getSingletonPtr(void)
     return Singleton<AgentManager>::getSingletonPtr();
 }
 
-AgentManager::AgentManager(void)
+AgentManager::AgentManager(void) : mAllNeighbors(), mAgents()
 {
 
 }

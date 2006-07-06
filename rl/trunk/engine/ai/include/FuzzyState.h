@@ -24,10 +24,10 @@ namespace rl
 	{
 	public:
 		FuzzyState(void)
-			: mParent(NULL), mController(NULL) {}
+			: mActivationLevel(), mParent(NULL), mController(NULL) {}
 
 		FuzzyState<Controller>(FuzzyState* parent, Controller* controller)
-			: mParent(parent), mController(controller) {}
+			: mActivationLevel(), mParent(parent), mController(controller) {}
 
 		virtual ~FuzzyState(void){};
 
