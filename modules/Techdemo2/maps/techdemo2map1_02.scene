@@ -20833,7 +20833,7 @@
 
 		</node>
 		<node name="nat_brunnenwasser" id="2777" >
-			<position x="-31.2728" y="-7.07033" z="3.49231" />
+			<position x="-31.2728" y="-7.37972" z="3.49231" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.526378" y="0.526378" z="0.526378" />
 			<entity
@@ -21508,7 +21508,7 @@
 
 		</node>
 		<node name="ver_buch_02" id="2867" >
-			<position x="0.0290079" y="0.864368" z="-0.214329" />
+			<position x="0.0290079" y="0.864368" z="-0.332578" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
@@ -21545,6 +21545,186 @@
 				name="ver_buch_02"
 				id="2872"
 				meshFile ="ver_buch_02.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_schreibzeug_01" id="2873" >
+			<position x="-0.276858" y="0.873047" z="-0.138863" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_schreibzeug_01"
+				id="2874"
+				meshFile ="ver_schreibzeug_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_schreibzeug_01" id="2875" >
+			<position x="-11.1989" y="-5.94722" z="11.822" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_schreibzeug_01"
+				id="2876"
+				meshFile ="ver_schreibzeug_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_schreibzeug_01" id="2877" >
+			<position x="-31.8757" y="-2.30236" z="18.0609" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_schreibzeug_01"
+				id="2878"
+				meshFile ="ver_schreibzeug_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_pergament_01" id="2879" >
+			<position x="-0.0227629" y="0.0" z="0.0964755" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_pergament_01"
+				id="2880"
+				meshFile ="ver_pergament_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_pergament_01" id="2881" >
+			<position x="-10.4857" y="-5.95226" z="11.3095" />
+			<rotation qx="0.0" qy="0.232081" qz="0.0" qw="0.972697" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_pergament_01"
+				id="2882"
+				meshFile ="ver_pergament_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_pergament_01" id="2883" >
+			<position x="-10.3198" y="-5.94932" z="11.203" />
+			<rotation qx="0.0" qy="0.619137" qz="0.0" qw="0.785283" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_pergament_01"
+				id="2884"
+				meshFile ="ver_pergament_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_weinflasche_01" id="2885" >
+			<position x="0.165036" y="0.845013" z="0.0445019" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_weinflasche_01"
+				id="2886"
+				meshFile ="ver_weinflasche_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_becher_01" id="2887" >
+			<position x="-37.5569" y="-4.57858" z="21.7522" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_becher_01"
+				id="2888"
+				meshFile ="ver_becher_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_becher_01" id="2889" >
+			<position x="-37.5133" y="-4.57891" z="21.9531" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_becher_01"
+				id="2890"
+				meshFile ="ver_becher_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_weinflasche_01" id="2891" >
+			<position x="-10.6913" y="-5.95589" z="11.0865" />
+			<rotation qx="0.0" qy="-0.729136" qz="0.0" qw="0.684369" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_weinflasche_01"
+				id="2892"
+				meshFile ="ver_weinflasche_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_weinflasche_01" id="2893" >
+			<position x="-33.182" y="-5.27909" z="17.9253" />
+			<rotation qx="0.0" qy="0.319498" qz="0.0" qw="0.947587" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_weinflasche_01"
+				id="2894"
+				meshFile ="ver_weinflasche_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="arc_treppenhilfe_01" id="2895" >
+			<position x="-32.3408" y="-4.86221" z="23.6122" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="arc_treppenhilfe_01"
+				id="2896"
+				meshFile ="arc_treppenhilfe_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
 			/>
