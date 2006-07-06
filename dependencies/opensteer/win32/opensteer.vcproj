@@ -42,12 +42,16 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\include&quot;;&quot;$(ProjectDir)\..\include\Opensteer&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;_DLL"
+				PreprocessorDefinitions="WIN32;_DEBUG;_DLL;_MT"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
+				SmallerTypeCheck="true"
 				RuntimeLibrary="3"
+				BufferSecurityCheck="false"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough=""
+				ExpandAttributedSource="true"
+				AssemblerOutput="4"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
@@ -63,6 +67,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalOptions="/VERBOSE /NODEFAULTLIB:MSVCRT"
 				OutputFile="$(OutDir)/$(ProjectName)d.lib"
 			/>
 			<Tool
@@ -112,7 +117,7 @@
 				InlineFunctionExpansion="1"
 				OmitFramePointers="true"
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\include&quot;;&quot;$(ProjectDir)\..\include\Opensteer&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;_DLL"
+				PreprocessorDefinitions="WIN32;NDEBUG;_DLL;_MT"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
