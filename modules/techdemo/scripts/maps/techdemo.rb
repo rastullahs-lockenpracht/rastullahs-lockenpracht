@@ -55,8 +55,8 @@ load "techdemo_spinne.rb"
 $waldspinne = Waldspinne.new()
 
 load "techdemo_hoehle.rb"
-$hebeltuer = Door.new("Eine Tür", "Eine Tür, allerdings ist keine Klinke vorhanden", false, false)
-$hebeltuer.getActor().placeIntoScene([141.950, 7.200, 32.550], [[0, 1, 0], 30])
+$hebeltuer = Door.new("Eine Tür", "Eine Tür, allerdings ist keine Klinke vorhanden", [141.950, 7.200, 32.550], [[0, 1, 0], 30])
+$hebeltuer.addActions(false, false)
 $hebel = Switch.new("HoehlenHebel")
 $hebel.getActor().placeIntoScene([114.800, 10.700, 34.750], [[0, 1, 0], 280] )
 $hebel.getActor().roll(-90.0);
