@@ -137,6 +137,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalOptions="/VERBOSE /NODEFAULTLIB:MSVCRT"
+				OutputFile="$(OutDir)/$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

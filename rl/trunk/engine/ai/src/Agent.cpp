@@ -93,7 +93,8 @@ void Agent::update(const float elapsedTime)
 
 void Agent::OnApplyForceAndTorque(PhysicalThing* thing)
 {
-    OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
+
+	OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
 	Real elapsedTime = world->getTimeStep();
     mBehaviour->update(elapsedTime);
 	// currentTime not needed yet, only elapsedTime
@@ -102,5 +103,9 @@ void Agent::OnApplyForceAndTorque(PhysicalThing* thing)
 
 bool Agent::isDialogActive()
 {
+	if(mDialogBot == NULL)
+	{
+		Throw(NullPointerException, "No Dialogbot found");
+	}
 	return mDialogBot->isActive();
 }
