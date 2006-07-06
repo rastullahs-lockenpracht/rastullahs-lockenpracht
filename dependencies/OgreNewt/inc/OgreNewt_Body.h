@@ -267,7 +267,7 @@ public:
 	void setFreezeThreshold( Ogre::Real speed, Ogre::Real omega, int framecount ) { NewtonBodySetFreezeTreshold( m_body, (float)speed, (float)omega, framecount ); }
 
 	//! get a pointer to the OgreNewt::Collision for this body
-	CollisionPtr Body::getCollision() const;
+	CollisionPtr getCollision() const;
 
 	//! get a pointer to the Material assigned to this body.
 	const OgreNewt::MaterialID* getMaterialGroupID() const;
