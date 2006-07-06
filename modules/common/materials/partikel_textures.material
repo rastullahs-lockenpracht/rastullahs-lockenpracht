@@ -54,6 +54,7 @@ material RL/Sandsturm
 			texture_unit
 			{
 				texture sandsturm.png
+				filtering point point point
 			}
 		}
 	}

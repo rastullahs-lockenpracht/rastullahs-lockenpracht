@@ -47,6 +47,7 @@ material nat_nadelbaum_02/leaves
 			texture_unit
 			{
 				texture nat_nadelbaum_02.png
+				filtering linear linear linear 
 			}
 		}
 	}

@@ -12,6 +12,7 @@ receive_shadows off
             texture_unit
             {
                 texture blattwerk2.dds 
+		filtering linear linear linear 
             }
         }
     }

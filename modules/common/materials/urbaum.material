@@ -12,6 +12,7 @@ material urbaum
             texture_unit 
             { 
                 texture urbaum.png 
+		filtering linear linear linear 
             } 
         } 
     } 

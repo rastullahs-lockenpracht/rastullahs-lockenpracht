@@ -4,9 +4,11 @@ material arc_fackel_01
     {
         pass
         {
-		alpha_rejection greater 215
+	    alpha_rejection greater 215
+
             texture_unit
             {
+  		filtering linear linear linear 
                 texture arc_Sense_Waschbrett_Fackel_Besen.png
             }
         }

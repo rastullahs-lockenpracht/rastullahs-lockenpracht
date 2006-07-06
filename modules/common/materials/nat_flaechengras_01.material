@@ -13,6 +13,7 @@ material nat_flaechengras_01
             texture_unit
             {
                 texture nat_flaechengras_01.dds 
+		filtering linear linear linear 
             }
         }
     }

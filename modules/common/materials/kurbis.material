@@ -12,6 +12,7 @@ material kurbis2
 	    alpha_rejection greater 215
             texture_unit
             {
+		filtering linear linear linear 
                 texture kurbis.png 
 	     }
         }

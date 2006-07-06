@@ -15,6 +15,7 @@ material nat_baum_mittel_02
             texture_unit
             {
                 texture nat_baum_mittel_02.png 
+		filtering linear linear linear 
             }
         }
     }

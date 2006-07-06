@@ -6,9 +6,10 @@ material arc_bett_01
 		pass
 		{
 			alpha_rejection greater 56
-
+			
 			texture_unit
 			{
+				filtering linear linear linear 
 				texture bauernbett.png
 			}
 		}

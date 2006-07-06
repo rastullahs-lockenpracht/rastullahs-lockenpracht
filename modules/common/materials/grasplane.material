@@ -10,6 +10,7 @@ material ALPHA/TEX/gras_planes.png/TWOSIDE
 
 			texture_unit
 			{
+			filtering linear linear linear 
 				texture gras_planes.png
 			}
 		}
@@ -23,6 +24,7 @@ material SOLID/TEX/gras_02.png
 		{
 			texture_unit
 			{
+			filtering linear linear linear 
 				texture gras_02.png
 			}
 		}

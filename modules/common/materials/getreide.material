@@ -1,6 +1,7 @@
 material ALPHA/getreide.png
 {
   receive_shadows off
+
   technique
   {
     pass
@@ -8,8 +9,9 @@ material ALPHA/getreide.png
      
       alpha_rejection greater 215
 
-	  texture_unit
+      texture_unit
       {
+	filtering linear linear linear 
         texture nat_getreide_01.dds
       }
     }

@@ -10,6 +10,7 @@ material arc_kommode_01
 
 			texture_unit
 			{
+				filtering linear linear linear 
 				texture arc_kommode_01.png
 			}
 		}

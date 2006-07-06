@@ -10,13 +10,12 @@ material farn1
                          // Rendert beidseitig 
          cull_hardware none 
          cull_software none 
+	 alpha_rejection greater 215 
 
          texture_unit 
          { 
-            texture farn1.png 
-            filtering anisotropic anisotropic anisotropic 
-                                // Simple Transparenz 
-            alpha_rejection greater 215 
+            texture farn1.png             
+	    filtering linear linear linear 
          } 
       } 
    } 

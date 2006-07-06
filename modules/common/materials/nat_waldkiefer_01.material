@@ -30,7 +30,7 @@ material nat_waldkiefer_01/blattwerk
 			{
 				
 				texture nat_waldkiefer_01.dds
-			
+				filtering linear linear linear 
 			}
 		}
 	}

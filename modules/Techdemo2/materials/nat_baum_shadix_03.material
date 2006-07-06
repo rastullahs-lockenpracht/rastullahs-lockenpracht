@@ -14,6 +14,7 @@ receive_shadows off
 			texture_unit
 			{
 				texture nat_baum_shadix_03.dds
+				filtering linear linear linear 
 			}
 		}
 	}

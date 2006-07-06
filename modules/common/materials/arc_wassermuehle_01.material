@@ -112,6 +112,7 @@ material arc_wassermuehle/arc_wassermuehle_wasserrad_01
             alpha_rejection greater 215
             texture_unit
             {
+	        filtering linear linear linear 
                 texture arc_wasserrad_01.png 
             }
         }

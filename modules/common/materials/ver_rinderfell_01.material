@@ -14,6 +14,7 @@ material ver_rinderfell_01
 			texture_unit
 			{
 				texture ver_rinderfell_01.png
+				filtering linear linear linear 
 			}
 		}
 	}

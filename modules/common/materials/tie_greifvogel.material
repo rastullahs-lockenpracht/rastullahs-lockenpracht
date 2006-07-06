@@ -29,6 +29,7 @@ material tie_greifvogel
             texture_unit
             {
                 texture tie_greifvogel.png 
+		filtering linear linear linear 
             }
         }
     }
@@ -42,6 +43,7 @@ material tie_greifvogel
             texture_unit
             {
                 texture tie_greifvogel.png 
+		filtering linear linear linear 
             }
         }
     }

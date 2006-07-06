@@ -14,6 +14,7 @@ material eiche/ALPHA/nat_eichenast_gruen.png
 			texture_unit
 			{
 				texture nat_eichenast_gruen.png
+				filtering linear linear linear 
 			}
 		}
 	}
@@ -35,6 +36,7 @@ material eiche/ALPHA/nat_eichenast_kahl.png
 			texture_unit
 			{
 				texture nat_eichenast_kahl.png
+				filtering linear linear linear 
 			}
 		}
 	}
@@ -52,6 +54,7 @@ material eiche/SOLID/nat_eichenschnitt.png
 			texture_unit
 			{
 				texture nat_eichenschnitt.png
+
 			}
 		}
 	}
@@ -73,6 +76,7 @@ material eiche/ALPHA/nat_eichenast_gelb.png
 			texture_unit
 			{
 				texture nat_eichenast_gelb.png
+				filtering linear linear linear 
 			}
 		}
 	}

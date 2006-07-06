@@ -105,9 +105,10 @@ material arc_Wirtshaus_01/Gelaender
 	{
 		pass
 		{
-      		alpha_rejection greater 215
+      			alpha_rejection greater 215
 			texture_unit
 			{
+				filtering linear linear linear 
 				texture arc_gelaender_01.png
 			}
 		}

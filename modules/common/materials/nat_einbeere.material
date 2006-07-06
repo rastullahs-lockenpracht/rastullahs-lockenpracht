@@ -12,6 +12,7 @@ material einbeere
             texture_unit
             {
                 texture nat_einbeere.png	
+		filtering linear linear linear 
             }
         }
     }

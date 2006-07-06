@@ -13,7 +13,7 @@ material nat_farn_02
 			texture_unit
 			{
 				texture nat_farn_02.png
-				
+				filtering linear linear linear 
 			}
 		}
 	}

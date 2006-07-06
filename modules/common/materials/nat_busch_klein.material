@@ -13,6 +13,7 @@ material nat_busch_klein
             texture_unit
             {
                 texture nat_busch_klein.png 
+		filtering linear linear linear 
             }
         }
     }

@@ -13,6 +13,7 @@ material nat_farn_01_dark
 			texture_unit
 			{
 				texture farn1_dark.png
+				filtering linear linear linear 
 			}
 		}
 	}

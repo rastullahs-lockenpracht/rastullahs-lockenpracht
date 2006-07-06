@@ -11,7 +11,7 @@ material herkulesstaude
          texture_unit 
          { 
             texture herkules.png 
-            filtering anisotropic anisotropic anisotropic 
+            filtering linear linear linear  
          } 
       } 
    } 

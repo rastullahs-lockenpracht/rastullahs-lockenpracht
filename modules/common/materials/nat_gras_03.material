@@ -15,6 +15,7 @@ material nat_gras_03
             texture_unit
             {
                 texture nat_gras_03.png 
+		filtering linear linear linear 
             }
         }
     }

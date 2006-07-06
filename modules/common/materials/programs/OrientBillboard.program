@@ -35,6 +35,7 @@ material billboard_lod
 
             texture_unit diffuse_map
             {
+		filtering linear linear linear  
             }
         }
     }
@@ -47,6 +48,7 @@ material billboard_lod
 
             texture_unit diffuse_map
             {
+	    filtering linear linear linear 
             }
         }
     }

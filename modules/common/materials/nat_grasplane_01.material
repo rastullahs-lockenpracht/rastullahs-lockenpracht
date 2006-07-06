@@ -16,6 +16,7 @@ receive_shadows off
 			texture_unit
 			{
 				texture gras_planes.dds
+				filtering linear linear linear 
 			}
 		}
 	}
