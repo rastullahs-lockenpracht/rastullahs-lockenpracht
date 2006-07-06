@@ -29,8 +29,8 @@ sandsturm = $AM.createParticleSystemActor("sandsturm_1", "Rl/Sandsturm" );
 sandsturm.placeIntoScene( -1.25482821, 0.99060595, -24.69191551, 1.0, 0.0, 0.0, 0.0 );
 sandsturm = $AM.createParticleSystemActor("sandsturm_2", "Rl/Sandsturm" );
 sandsturm.placeIntoScene( 1.11617033, -0.87779894, -3.50628781, 1.0, 0.0, 0.0, 0.0 );
-held = $AM.createMeshActor("KreisLaufHeld", "men_alrike.mesh" );
-held.getControlledObject().startAnimation("Idle");
+held = $AM.createMeshActor("Alrike", "men_alrike.mesh" );
+held.getControlledObject().startAnimation("idle");
 held.placeIntoScene( -11.25412178, 7.42069721, -18.68909645, 0.976916, 0.061914, 0.204045, -0.012932 );
 
 greifvogel = $AM.createMeshActor("Greifvogel", "tie_greifvogel.mesh" );
