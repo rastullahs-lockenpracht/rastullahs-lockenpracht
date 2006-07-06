@@ -41,6 +41,7 @@ This script imports DotScenes into Blender.
 #
 import Blender
 import os
+import glob
 import re
 import math
 import xml.sax
@@ -64,144 +65,156 @@ def dlog(msg):
 class Scene:  
     def __init__(self):
         self.meshes = {}
-        self.nodes = {}
-        self.matrices = {}
-        self.nodenames = {}
+        self.nodes = []
+
+class Node:
+    def __init__(self):
+        self.name = "NoName"
+        self.matrix = Matrix()
+        self.matrix.resize4x4()
+        self.matrix.identity()
+        self.id = -1
+        self.mesh = 0
+        
+class NodeMesh(ogre_import.Mesh):
+    def __init__(self):
+        ogre_import.Mesh.__init__(self)
+        self.materialfile = 0
+        self.filename = 0
+        self.meshid = -1
 
 class DotSceneSaxHandler(xml.sax.handler.ContentHandler):
     global IMPORT_SCENE_SCALE_FACTOR
     
     def __init__(self, dirname):
-        self.scene = 0
-        self.mesh = 0
+        xml.sax.handler.ContentHandler.__init__(self)
+        self.scene = Scene()
+        self.node = Node()
         self.dirname = dirname
-        self.matrix = Blender.Mathutils.Matrix( \
-             [1.0, 0.0, 0.0, 0.0], \
-             [0.0, 1.0, 0.0, 0.0], \
-             [0.0, 0.0, 1.0, 0.0], \
-             [0.0, 0.0, 0.0, 1.0])
         self.meshparser = xml.sax.make_parser()   
         self.meshhandler = ogre_import.OgreMeshSaxHandler()
         self.meshparser.setContentHandler( self.meshhandler )
-        self.nodeid = -1
-        self.nodename = ""
-        self.materialFile = ""
         self.counter = 1
         
     def startDocument(self):
         self.scene = Scene()
+        self.mesh = NodeMesh()
+        self.node = Node()
         self.counter = 1
             
     def translate(self, m, x, y, z):
+        x *= ogre_import.IMPORT_SCALE_FACTOR
+        y *= ogre_import.IMPORT_SCALE_FACTOR
+        z *= ogre_import.IMPORT_SCALE_FACTOR
         m1 = TranslationMatrix(Vector([x, y, z]))
         m *= m1
-        #dlog(m)
         return m
 
     def scale(self, m, x, y, z):
+        x *= ogre_import.IMPORT_SCALE_FACTOR
+        y *= ogre_import.IMPORT_SCALE_FACTOR
+        z *= ogre_import.IMPORT_SCALE_FACTOR
         m1 = ScaleMatrix(x, 4, Vector([1.0, 0.0, 0.0]))
         m2 = ScaleMatrix(y, 4, Vector([0.0, 1.0, 0.0]))
         m3 = ScaleMatrix(z, 4, Vector([0.0, 0.0, 1.0]))
         m *= m1 * m2 * m3
-        #dlog(m)
         return m
     
     def rotate(self, m, qx, qy, qz, qw):
         q = Quaternion([qw, qx, qy, qz])
-        dlog(m)
         qm = q.toMatrix()
         qm.resize4x4()
-        #dlog(qm)
         m *= qm
         return m
     
-    def handleEntity(self):
-            self.materialFile = attrs.get('materialFile', "")
+    def handleEntity(self, attrs):
+        self.mesh.materialFile = attrs.get('materialFile', "")
 
-            meshfile = Blender.sys.join(self.dirname, attrs.get('meshFile', ""))
-            meshname = attrs.get('meshFile', "")
-            # is this a mesh file instead of an xml file?
-            if ( meshname.lower().find( '.xml' ) == -1 ):
-                meshname = meshname[0 : meshname.lower().find( '.mesh' )]
-            else:
-                meshname  = meshname[0 : meshname.lower().find( '.mesh.xml' )]
+        meshfilename = attrs.get('meshFile', "")
+        meshfile = Blender.sys.join(self.dirname, meshfilename)
+        # is this a mesh file instead of an xml file?
+        if ( meshfilename.lower().find( '.xml' ) == -1 ):
+            meshfilename = meshfilename[0 : meshfilename.lower().find( '.mesh' )]
+        else:
+            meshfilename  = meshfilename[0 : meshfilename.lower().find( '.mesh.xml' )]
 
-            if (self.scene.meshes.has_key(meshname) == False):
-                if ( meshfile.lower().find( '.xml' ) == -1 ):
-                    xmlname = meshfile + '.xml'
-                    xml_files = glob.glob( Blender.sys.join(self.dirname, xmlname ))
-                    if (len(xml_files) == 0):
-                        # No. Use the xml converter to fix this
-                        log( "No mesh.xml file. Trying to convert it from binary mesh format." )
-                        ogre_import.convert_meshfile( meshfile )
-                        meshfile += '.xml'
+        if (self.scene.meshes.has_key(meshfilename) == False):
+            if ( meshfile.lower().find( '.xml' ) == -1 ):
+                xmlname =  meshfile + '.xml'
+                xml_files = glob.glob(xmlname)
+                if (len(xml_files) == 0):
+                    # No. Use the xml converter to fix this
+                    log( "No mesh.xml file. Trying to convert it from binary mesh format." )
+                    ogre_import.convert_meshfile( meshfile )
+                else:
+                    log("%s already exists. No need for conversion." % xmlname)
+                meshfile = xmlname
                 
-                try:
-                    dlog("Parsing mesh %s " % meshfile)
-                    self.meshparser.parse( meshfile )
-                except Exception, e:
-                    log( "    error parsing mesh %s " % \
+            try:
+                dlog("Parsing mesh %s " % meshfile)
+                self.meshparser.parse( meshfile )
+            except Exception, e:
+                log( "    error parsing mesh %s " % \
                              ( meshfile ) )
-                    log( "        exception: %s" % str( e ) )
-                self.mesh = self.meshhandler.mesh
-                self.mesh.name = meshname
-            else:
-                dlog(self.scene.meshes.has_key(meshname))
-                dlog(self.scene.meshes)
-                self.mesh = self.scene.meshes[meshname]
+                log( "        exception: %s" % str( e ) )
+            self.mesh = self.meshhandler.mesh
+            self.mesh.name = attrs.get('name', meshfilename)
                 
-            self.nodeid = int(attrs.get("id", "-1"))
-            if (self.nodeid == -1):
-                self.nodeid = self.counter
-                self.counter += 1
+            dlog("Meshname %s" % self.mesh.name)
+            self.mesh.filename = meshfilename
+        else:
+            self.mesh = self.scene.meshes[meshfilename]
                 
-            self.nodename = attrs.get("name", "")
-
+        self.node.name = attrs.get('name', meshfilename)
+        self.node.id = int(attrs.get("id", "-1"))
+        if (self.node.id == -1):
+            self.node.id = self.counter
+            self.counter += 1   
+        else:
+            if self.counter < self.node.id:
+                self.counter = self.node.id + 1
+                         
             # TODO: Castshadow, userdata
+
     def startElement(self, name, attrs):
         if name == "node":
-            self.mesh = ogre_import.Mesh()
-            self.matrix = Blender.Mathutils.Matrix( \
-                 [1.0, 0.0, 0.0, 0.0], \
-                 [0.0, 1.0, 0.0, 0.0], \
-                 [0.0, 0.0, 1.0, 0.0], \
-                 [0.0, 0.0, 0.0, 1.0])
+            self.mesh = NodeMesh()
+            self.node = Node()
             
         if name == "position":
             x = float(attrs.get('x', "0.0")) 
             y = float(attrs.get('z', "0.0"))
             z = float(attrs.get('y', "0.0")) 
-            dlog("Position:")
-            self.matrix = \
-                self.translate(self.matrix, x, y, z) 
+            self.node.matrix = \
+                self.translate(self.node.matrix, x, y, z) 
             
         if name == "rotation":
             qx = float(attrs.get('qx', "0.0"))
             qy = float(attrs.get('qz', "0.0"))
             qz = float(attrs.get('qy', "0.0"))
             qw = float(attrs.get('qw', "0.0"))
-            dlog("Rotation:")
-            self.matrix = \
-                self.rotate(self.matrix, \
+            self.node.matrix = \
+                self.rotate(self.node.matrix, \
                      qx, qy, qz, qw)
             
         if name == "scale":
             x = float(attrs.get('x', "0.0"))
             y = float(attrs.get('z', "0.0"))
             z = float(attrs.get('y', "0.0"))
-            dlog("Scale: ")
-            self.matrix = \
-                self.scale(self.matrix, x, y, z)
+            self.node.matrix = \
+                self.scale(self.node.matrix, x, y, z)
             
         if name == "entity":
-            self.handleEntity(s)
+            self.handleEntity(attrs)
         
     def endElement(self, name):
         if name == "node":
-            dlog("Save Node ID %d" % self.nodeid)
-            self.scene.nodes[self.nodeid] = self.mesh
-            self.scene.nodenames[self.nodeid] = self.nodename
-            self.scene.matrices[self.nodeid] = self.matrix
+            dlog("Saving Node ID %d" % self.node.id)
+            self.node.mesh = self.mesh
+            self.scene.nodes.append(self.node)
+            if (self.mesh.name == None):
+                self.mesh.name = self.node.name
+            self.mesh.name = str(self.mesh.name)
             self.scene.meshes[self.mesh.name] = self.mesh
       
 def fileselection_callback(filename):
@@ -218,6 +231,9 @@ def fileselection_callback(filename):
     handler = DotSceneSaxHandler(dirname)
     parser.setContentHandler(handler)
     parser.parse(filename)
+ 
+    for k, v in handler.scene.meshes.iteritems():
+        dlog("Key %s (%s)" % (k, type(k)))
  
     # Now we create a new scene
     name = basename[0:basename.lower().find('.scene')]
@@ -237,23 +253,27 @@ def fileselection_callback(filename):
 #    #scene.link(ob)   
     scene.makeCurrent() 
         
-    for id, node in handler.scene.nodes.iteritems():
-        if (handler.scene.nodenames[id] == ""):
-            handler.scene.nodenames[id] = node.name
-
-        log("Importing mesh %s (NMesh: %s) into scene" % (handler.scene.nodenames[id], node.name))
-        bmesh = ogre_import.CreateBlenderNMesh(str(node.name), node, materials)
-        print bmesh
-        
-            
-        object = Blender.Object.New( 'Mesh', \
-            handler.scene.nodenames[id] )
-        object.link( bmesh )
-        
-        # apply transformation matrix 
-        object.setMatrix(handler.scene.matrices[id])
-        scene.link(object)
-        object.select(True)
+    nodescount = len(handler.scene.nodes)
+    for i in range(0, nodescount):
+        node = handler.scene.nodes[i]
+        mesh = node.mesh
+        if mesh != None:
+            dlog("Mesh name %s" % mesh.name)
+            bmesh = Blender.NMesh.GetRaw(mesh.name)
+            print(bmesh)
+            if bmesh != None:
+                log("Mesh is already registered")
+            else:
+                log("Importing mesh %s into scene" % (mesh.name))
+                bmesh = ogre_import.CreateBlenderNMesh(str(mesh.name), mesh, materials)
+                        
+            object = Blender.Object.New( 'Mesh', node.name)
+            object.link(bmesh)
+                  
+            # apply transformation matrix 
+            object.setMatrix(node.matrix)
+            scene.link(object)
+            object.select(True)
 
     log ("Scene import done.")
     Blender.Redraw() 

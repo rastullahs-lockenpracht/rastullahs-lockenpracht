@@ -258,6 +258,12 @@ class OgreMeshSaxHandler( xml.sax.handler.ContentHandler ):
             self.mesh.submeshes.append( self.submesh )
             self.submesh = 0
 
+def CreateBlenderMesh(name, mesh, materials):
+    bmesh = CreateBlenderNMesh(name, mesh, materials)
+    # create the mesh
+    object = Blender.Object.New( 'Mesh', name )
+    object.link( bmesh )
+    return object
 
 def CreateBlenderNMesh( name, mesh, materials ):
     bmesh = Blender.NMesh.GetRaw()
@@ -386,17 +392,8 @@ def CreateBlenderNMesh( name, mesh, materials ):
     # bmesh.hasFaceUV(len(submesh.uvs))
     # ...have to hard set it.
     bmesh.hasFaceUV( 1 )
-    
+
     return bmesh
-
-
-def CreateBlenderMesh( name, mesh, materials ):
-    # create the mesh object
-    bmesh = CreateBlenderNMesh(name, mesh, materials)
-    object = Blender.Object.New( 'Mesh', name )
-    object.link( bmesh )
-    
-    return object
 
 def convert_meshfile( filename ):
     if IMPORT_OGREXMLCONVERTER != '':
