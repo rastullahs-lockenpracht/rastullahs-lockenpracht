@@ -122,8 +122,8 @@ class DotSceneSaxHandler(xml.sax.handler.ContentHandler):
     
     def rotate(self, m, qx, qy, qz, qw):
         q = Quaternion([qw, qx, qy, qz])
-        qm = q.toMatrix()
-        qm.resize4x4()
+        qm = Blender.Mathutils.RotationMatrix( \
+           q.angle, 4, "r", q.axis)
         m *= qm
         return m
     
@@ -183,14 +183,14 @@ class DotSceneSaxHandler(xml.sax.handler.ContentHandler):
             
         if name == "position":
             x = float(attrs.get('x', "0.0")) 
-            y = float(attrs.get('z', "0.0"))
+            y = -float(attrs.get('z', "0.0"))
             z = float(attrs.get('y', "0.0")) 
             self.node.matrix = \
                 self.translate(self.node.matrix, x, y, z) 
             
         if name == "rotation":
             qx = float(attrs.get('qx', "0.0"))
-            qy = float(attrs.get('qz', "0.0"))
+            qy = -float(attrs.get('qz', "0.0"))
             qz = float(attrs.get('qy', "0.0"))
             qw = float(attrs.get('qw', "0.0"))
             self.node.matrix = \
