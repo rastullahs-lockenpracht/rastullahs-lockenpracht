@@ -114,7 +114,7 @@ public:
 	 * @author JoSch
 	 * @date 05-10-2006
 	 */
-	Ogre::String ConfigFile::getValue(const Ogre::String &_default, const Ogre::String &name, 
+	Ogre::String getValue(const Ogre::String &_default, const Ogre::String &name, 
 		const Ogre::String &section = Ogre::StringUtil::BLANK);
 
 	/**
@@ -124,7 +124,7 @@ public:
 	 * @author JoSch
 	 * @date 05-10-2006
 	 */
-	Ogre::StringVector ConfigFile::getValues(const Ogre::String &name, 
+	Ogre::StringVector getValues(const Ogre::String &name, 
 		const Ogre::String &section = Ogre::StringUtil::BLANK);
 
 
@@ -137,7 +137,7 @@ public:
 	 * @author JoSch
 	 * @date 05-10-2006
 	 */
-	Ogre::Real ConfigFile::getValue(const Ogre::Real &_default, const Ogre::String &name, 
+	Ogre::Real getValue(const Ogre::Real &_default, const Ogre::String &name, 
 		const Ogre::String &section = Ogre::StringUtil::BLANK);
 
 	/**
@@ -149,7 +149,7 @@ public:
 	 * @author JoSch
 	 * @date 05-10-2006
 	 */
-	bool ConfigFile::getValue(const bool _default, const Ogre::String &name, 
+	bool getValue(const bool _default, const Ogre::String &name, 
 		const Ogre::String &section = Ogre::StringUtil::BLANK);
 
 	/**
@@ -161,7 +161,7 @@ public:
 	 * @author JoSch
 	 * @date 05-10-2006
 	 */
-	long int ConfigFile::getValue(const long int _default, const Ogre::String &name, 
+	long int getValue(const long int _default, const Ogre::String &name, 
 		const Ogre::String &section = Ogre::StringUtil::BLANK);
 
 	/**
@@ -173,7 +173,7 @@ public:
 	 * @author JoSch
 	 * @date 05-10-2006
 	 */
-	unsigned int ConfigFile::getValue(const unsigned int _default, const Ogre::String &name, 
+	unsigned int getValue(const unsigned int _default, const Ogre::String &name, 
 		const Ogre::String &section = Ogre::StringUtil::BLANK);
 
 	/**
@@ -185,7 +185,7 @@ public:
 	 * @author JoSch
 	 * @date 05-10-2006
 	 */
-	unsigned long int ConfigFile::getValue(const unsigned long int _default, const Ogre::String &name, 
+	unsigned long int getValue(const unsigned long int _default, const Ogre::String &name, 
 		const Ogre::String &section = Ogre::StringUtil::BLANK);
 
 };

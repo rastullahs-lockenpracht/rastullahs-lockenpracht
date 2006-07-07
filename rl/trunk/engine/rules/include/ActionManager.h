@@ -57,7 +57,7 @@ namespace rl
 
 		void registerInGameGlobalAction(Action* action, ActionGroup* group);
 		Action* getInGameGlobalAction(const CeGuiString actionName) const;
-		const ActionVector& ActionManager::getInGameGlobalActions();
+		const ActionVector& getInGameGlobalActions();
 	
         static ActionManager& getSingleton(void);
         static ActionManager* getSingletonPtr(void);

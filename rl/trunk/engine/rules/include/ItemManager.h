@@ -54,7 +54,7 @@ namespace rl {
 		/**
 		* Lädt die Definitionen aus einem XML-File
 		*/
-		void ItemManager::loadItemDataFile(const std::string& filename);
+		void loadItemDataFile(const std::string& filename);
 
 
 	private:
@@ -83,3 +83,4 @@ namespace rl {
 	};
 }
 #endif //__ITEMMANAGER_H__
+
