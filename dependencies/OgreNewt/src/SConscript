@@ -18,4 +18,4 @@ list = Split("""
 	""")
 OgreFlags = commands.getoutput("pkg-config --cflags OGRE")
 
-StaticLibrary(target = 'OgreNewt', source = list, CCFLAGS='-O3 -march=athlon-xp -I/usr/local/include -fomit-frame-pointer -ffast-math -Iinc ' + OgreFlags)
+StaticLibrary(target = 'OgreNewt', source = list, CCFLAGS='-O3 -march=pentium3 -I/usr/local/include -fomit-frame-pointer -ffast-math -Iinc ' + OgreFlags)
