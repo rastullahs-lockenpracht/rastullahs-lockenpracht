@@ -50,6 +50,8 @@ using namespace Ogre;
 
 namespace rl {
 
+    String MovementCharacterController::msDebugWindowPageName = "MovementCharacterController";
+
 	MovementCharacterController::CharacterState::CharacterState()
 		: mIsAirBorne(false),
 		mStartJump(false),
@@ -82,6 +84,7 @@ namespace rl {
 		mRaycast(new PhysicsMaterialRaycast()),
 		mGravitation(Vector3(0.0f, -9.81f, 0.0f))
 	{
+        DebugWindow::getSingleton().registerPage(msDebugWindowPageName);
 		mMovementSpeed = 
 			(float)character->getWert(WERT_GS) / 
 			(float)Date::ONE_KAMPFRUNDE 
@@ -125,6 +128,11 @@ namespace rl {
 			mCamera->getPhysicalThing(), 0);
         // Char<->Level collision back to default
         PhysicsManager::getSingleton().setCharLevelContactCallback(0);
+
+        if (DebugWindow::getSingletonPtr())
+        {
+            DebugWindow::getSingletonPtr()->unregisterPage(msDebugWindowPageName);
+        }
 	}
 
 	//------------------------------------------------------------------------
@@ -259,12 +267,18 @@ namespace rl {
     // By Julio Jerez
 	int MovementCharacterController::userProcess()
 	{
-		if (m_body0 == mCamBody || m_body1 == mCamBody)
+        if ((m_body0 == mCamBody && m_body1 == mCharBody)
+            || (m_body0 == mCharBody && m_body1 == mCamBody))
+        {
+            // No collision between char and camera
+            return 0;
+        }
+		else if (m_body0 == mCamBody || m_body1 == mCamBody)
 		{
 			// this is camera collision
 			// empty so far
 		}
-		else
+		else if (m_body0 == mCharBody || m_body1 == mCharBody)
 		{
 			// this is character collision
 			Vector3 point;
@@ -419,12 +433,13 @@ namespace rl {
             SceneNode* node = mCharacterActor->_getSceneNode();
 			std::ostringstream ss;
             ss << endl
-                << "scene node: " << node->getPosition() << endl
-                << "body      : " << position << endl
-                << "offset    : " << body->getOffset() << endl
-			    << "difference: " << node->getPosition() - position;
+                << "scene node : " << node->getPosition() << endl
+                << "is airborne: " << (mCharacterState.mIsAirBorne ? "true" : "false") << endl
+                << "start jump : " << (mCharacterState.mStartJump ? "true" : "false")  << endl
+                << "jump timer : " << mCharacterState.mJumpTimer << endl;
 
 			Logger::getSingleton().log("RlUi", Logger::LL_TRIVIAL, ss.str());
+            DebugWindow::getSingleton().setPageText(msDebugWindowPageName, ss.str());
 
 			// Assume we are air borne.
 			// Might be set to false in the collision callback

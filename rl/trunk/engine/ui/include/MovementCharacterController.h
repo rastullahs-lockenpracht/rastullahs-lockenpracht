@@ -97,6 +97,8 @@ namespace rl {
 			int mLastMovementState;
 		};
 
+        static Ogre::String msDebugWindowPageName;
+
 		CharacterState mCharacterState;
 		Creature* mCharacter;
 
