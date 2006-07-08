@@ -51,8 +51,10 @@ public:
 	*/
 	ListboxWrappedTextItem(
 		const String& text, 
+        int padding = 0,
+        bool draw_bullet = false,
 		uint item_id = 0, 
-		void* item_data = NULL, 
+		void* item_data = NULL,
 		bool disabled = false, 
 		bool auto_delete = true);
 
@@ -200,8 +202,11 @@ protected:
 	/*************************************************************************
 		Implementation Data
 	*************************************************************************/
-	ColourRect		d_textCols;			//!< Colours used for rendering the text.
-	const Font*		d_font;				//!< Font used for rendering text.
+    static const String ds_bullet;
+	ColourRect       d_textCols;        //!< Colours used for rendering the text.
+	const Font*		 d_font;            //!< Font used for rendering text.
+    const int        d_padding;         //!< Padding in pixels to the bottom side of cliprect
+    const bool       d_draw_bullet;     //!< Start an item with a bullet sign.
 
 
 

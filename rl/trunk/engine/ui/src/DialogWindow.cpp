@@ -43,7 +43,8 @@ const CeGuiString DialogWindow::DIALOG_START = "1";
 const CeGuiString DialogWindow::DIALOG_END = "DIALOG BEENDET";
 const CeGuiString DialogWindow::DIALOG_EXIT = "EXIT";
 
-DialogWindow::DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger, DialogCharacterController* controller)
+DialogWindow::DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger,
+                           DialogCharacterController* controller)
   : CeGuiWindow("dialogwindow.xml", WND_MOUSE_INPUT),
 	mBot(bot), 
 	mCurrentResponse(NULL),
@@ -83,10 +84,10 @@ void DialogWindow::initialize()
 	
 	// Add 2 ListboxItems, one for the nsc responses, 
 	// one for the player selections
-	ListboxWrappedTextItem* item = new ListboxWrappedTextItem("");
+	ListboxWrappedTextItem* item = new ListboxWrappedTextItem("", 6);
 	item->setTextColours(COLOR_PLAYER_CHARACTER);
 	mQuestion->addItem(item);
-	item = new ListboxWrappedTextItem("");
+	item = new ListboxWrappedTextItem("", 0);
 	item->setTextColours(COLOR_NON_PLAYER_CHARACTER);
 	mQuestion->addItem(item);
 	item = NULL;
@@ -223,7 +224,7 @@ void DialogWindow::getOptions(const CeGuiString& question)
 		else
 		{
 			ListboxWrappedTextItem* item = 
-				new ListboxWrappedTextItem((*itr)->getText());
+				new ListboxWrappedTextItem((*itr)->getText(), 6, true);
 			item->setUserData(*itr);
 			item->setTextFormatting(CEGUI::WordWrapLeftAligned);
 			mDialogOptions->addItem(item);
@@ -270,7 +271,8 @@ bool DialogWindow::handleSelectOption()
 			{
 				mState = TALKING_PLAYER_CHARACTER;
 				mGameLogger->logDialogEvent("Held", selectedOption);
-				Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "Player says: " + selectedOption);
+				Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE,
+                    "Player says: " + selectedOption);
 				mQuestion->getListboxItemFromIndex(0)->setText("Held: " + selectedOption);	
 				mController->response(
 					mBot->getDialogCharacter()->getActor(), 
