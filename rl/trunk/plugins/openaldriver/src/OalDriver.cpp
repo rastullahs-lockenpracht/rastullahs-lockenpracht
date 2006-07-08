@@ -25,9 +25,7 @@
     // OpenAL 1.0 unter Linux
 	extern "C" {
 		#include "AL/al.h"
-		#include "AL/altypes.h"
 		#include "AL/alc.h"
-		#include "AL/alctypes.h"
 	}
 #endif
 

@@ -60,7 +60,7 @@ CPPUNIT_LIBS =
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -march=athlon-xp -O2 -pthread
+CXXFLAGS = -march=athlon-xp -g -O0 -pthread
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -80,7 +80,7 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = ${SHELL} $(install_sh) -c -s
 LDFLAGS = 
 LIBOBJS = 
-LIBS = -lxerces-c -lOgreNewt -lNewton -lMadaBot -lz -lm -lOpenSteer -lvorbis -logg 
+LIBS = -lxerces-c -lOgreNewt -lNewton -lMadaBot -lz -lm -lOpenSteer -lvorbis -logg -lopenal -lfmod 
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LN_S = ln -s
 LTLIBOBJS = 
@@ -160,10 +160,10 @@ target_alias =
 target_cpu = i686
 target_os = linux-gnu
 target_vendor = pc
-with_fmod3_FALSE = 
-with_fmod3_TRUE = #
-with_oal_FALSE = 
-with_oal_TRUE = #
+with_fmod3_FALSE = #
+with_fmod3_TRUE = 
+with_oal_FALSE = #
+with_oal_TRUE = 
 with_tests_FALSE = 
 with_tests_TRUE = #
 SUBDIRS = src include

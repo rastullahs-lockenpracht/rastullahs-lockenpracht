@@ -1,9 +1,8 @@
 noinst_HEADERS = \
-	OalConfig.h \
+	OpenALConfig.h \
 	OalDriver.h \
-	OalDriverPrerequites.h \
+	OpenALDriverPrerequisites.h \
 	OalListener.h \
-	OalSound.h \
 	OalSoundChannel.h \
 	OalSoundSample.h \
 	OalSoundStream.h 

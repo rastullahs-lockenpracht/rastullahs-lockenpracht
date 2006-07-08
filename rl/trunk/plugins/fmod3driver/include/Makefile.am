@@ -1,7 +1,7 @@
 noinst_HEADERS = \
 	Fmod3Config.h \
 	Fmod3Driver.h \
-	Fmod3DriverPrerequites.h \
+	Fmod3DriverPrerequisites.h \
 	Fmod3Listener.h \
 	Fmod3Sound.h \
 	Fmod3SoundChannel.h \

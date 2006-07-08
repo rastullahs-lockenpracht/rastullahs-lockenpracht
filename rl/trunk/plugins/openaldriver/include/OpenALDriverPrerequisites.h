@@ -27,7 +27,7 @@
 #       define _RlOpenALDriverExport __declspec( dllimport )
 #   endif
 #else // Linux / Mac OSX etc
-#   define _RlFmod3DriverExport
+#   define _RlOpenALDriverExport
 #endif
 
 #include <OgreNoMemoryMacros.h>
