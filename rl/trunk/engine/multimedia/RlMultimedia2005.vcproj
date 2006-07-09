@@ -45,6 +45,7 @@
 				SmallerTypeCheck="true"
 				RuntimeLibrary="3"
 				BufferSecurityCheck="false"
+				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
 			<Tool
