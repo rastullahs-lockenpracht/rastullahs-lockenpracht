@@ -44,6 +44,12 @@
 				SmallerTypeCheck="true"
 				RuntimeLibrary="3"
 				BufferSecurityCheck="false"
+				ExpandAttributedSource="true"
+				AssemblerOutput="4"
+				AssemblerListingLocation=".\obj\$(ConfigurationName)/"
+				ObjectFile=".\obj\$(ConfigurationName)/"
+				ProgramDataBaseFileName=".\obj\$(ConfigurationName)/"
+				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -63,8 +69,11 @@
 				ModuleDefinitionFile="Fmod3DriverDllExports.def"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
+				ProgramDatabaseFile="$(OutDir)$(TargetName).pdb"
 				GenerateMapFile="true"
 				MapExports="true"
+				SubSystem="2"
+				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -89,6 +98,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Kopiere DLL"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\rl_dist\&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -158,6 +169,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Kopiere DLL"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\..\rl_dist\&quot;"
 			/>
 		</Configuration>
 	</Configurations>
