@@ -44,7 +44,7 @@ SoundObject::SoundObject(Sound *sound, const Ogre::String &name)
 	{
     	SoundChannel *sc = driver->createChannel(sound, name);
         sc->addEventListener(this);
-    	mMovableObject = dynamic_cast<MovableObject*>(sc);
+    	mMovableObject = sc;
 	}
 }
 
@@ -56,7 +56,7 @@ SoundObject::~SoundObject()
 {
     if (mMovableObject)
     {
-        SoundChannel *sc = dynamic_cast<SoundChannel*>(mMovableObject);
+        SoundChannel *sc = static_cast<SoundChannel*>(mMovableObject);
         if (sc)
         {
             sc->stop();
@@ -180,7 +180,7 @@ void SoundObject::unload()
  */   
 SoundChannel* SoundObject::getSoundChannel() const
 {
-    return reinterpret_cast<SoundChannel*>(mMovableObject);
+    return static_cast<SoundChannel*>(mMovableObject);
 }
 
 /**
