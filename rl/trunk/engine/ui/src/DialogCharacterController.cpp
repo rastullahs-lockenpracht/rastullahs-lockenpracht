@@ -47,8 +47,10 @@ namespace rl {
 		: CharacterController(camera, character),
 		mTargetCameraPosition(Vector3::ZERO),
 		mTargetCameraOrientation(Quaternion::IDENTITY),
-		mFadeTextTime(0),
 		mCutHard(false),
+		mFadeTextTime(0),
+        mText(),
+        mTextShown(false),
 		mDialogWindow(NULL),
 		mSubtitleWindow(NULL),
 		mSoundObject(NULL),
@@ -123,6 +125,10 @@ namespace rl {
 		{
 			mFadeTextTime = 0;
 			mTextShown = false;
+   			if (mSoundObject)
+            {
+                mSoundObject->stop();
+            }
 			mSubtitleWindow->setVisible(false);
 			mDialogWindow->textFinished();
 
@@ -245,4 +251,17 @@ namespace rl {
 			mSubtitleWindow->show(text);
 		}
 	}
+
+    bool DialogCharacterController::injectMouseUp(int mouseButtonMask)
+    {
+        if (mTextShown)
+        {
+            mFadeTextTime = -1;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

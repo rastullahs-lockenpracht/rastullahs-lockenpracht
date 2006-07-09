@@ -636,6 +636,14 @@ namespace rl {
 
 	bool MovementCharacterController::injectMouseUp(int mouseButtonMask)
 	{
-		return startAction(mCommandMapper->getAction(mouseButtonMask, CMDMAP_MOUSEMAP_OFF_COMBAT), mCharacter);		
+        if (!InputManager::getSingleton().isCeguiActive())
+        {
+		    return startAction(mCommandMapper->getAction(mouseButtonMask,
+                CMDMAP_MOUSEMAP_OFF_COMBAT), mCharacter);		
+        }
+        else
+        {
+            return false;
+        }
 	}
 }

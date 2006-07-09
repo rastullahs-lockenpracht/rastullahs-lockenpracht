@@ -220,11 +220,13 @@ namespace rl {
 		{
 			System::getSingleton().injectMouseButtonUp(
 				convertOgreButtonToCegui(e->getButtonID()));
-		}	
-		else
-		{
-			mCharacterController->injectMouseUp(CommandMapper::encodeKey(e->getButtonID(), e->getModifiers()));
 		}
+        /// @todo Furchtbarer Hack. Das Ereignis wird durchgeschliffen, damit
+        /// der DialogCharacterController ne Möglichkeit hat den Text abzubrechen.
+        /// Verantwortlichkeit zwischen DialogWindow und Controller ist arg durcheinander
+        /// und die Tatsache, dass ich das als Kommentar in den InputManager schreibe zeigt,
+        /// dass da noch mehr durcheinander ist. ^^
+        mCharacterController->injectMouseUp(CommandMapper::encodeKey(e->getButtonID(), e->getModifiers()));
 	}
 
     void InputManager::mouseMoved(MouseEvent* e)
@@ -500,6 +502,16 @@ namespace rl {
 
 		mEventInitialized = true; 
 	}
+
+    void InputManager::addMouseListener(Ogre::MouseListener *l)
+    {
+		mEventProcessor->addMouseListener(l);
+    }
+
+    void InputManager::removeMouseListener(Ogre::MouseListener *l)
+    {
+		mEventProcessor->removeMouseListener(l);
+    }
 
 	void InputManager::switchMouseToUnbuffered()
 	{

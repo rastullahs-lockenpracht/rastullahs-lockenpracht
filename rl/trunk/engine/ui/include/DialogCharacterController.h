@@ -63,6 +63,7 @@ namespace rl {
 		void setDialogWindow(DialogWindow* dialog);
 		void setSubtitleWindow(SubtitleWindow* subtitles);
 	
+		bool injectMouseUp(int mouseButtonMask);
 	private:
 		/// Die Zielkameraposition in lokalen Koordinaten
 		Ogre::Vector3 mTargetCameraPosition;
