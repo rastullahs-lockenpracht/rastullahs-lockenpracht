@@ -7,7 +7,7 @@ print( "Sonja Bot wird geladen" );
 print( "Definiere Listener" );
 
 sonja = Creature.new("Sonja", "Sonja");
-sonja.setActor($AM.createMeshActor("Sonja", "men_Gennisch.mesh", PhysicsManager::GT_ELLIPSOID, 75.0));
+sonja.setActor($AM.createMeshActor("Sonja", "men_sonja.mesh", PhysicsManager::GT_ELLIPSOID, 75.0));
 sonja.getActor().placeIntoScene([-26.7, -6.6, 22.9]);
 
 bot = $DS.loadBot("Sonja", "sonja.xml");

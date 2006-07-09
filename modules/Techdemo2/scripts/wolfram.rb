@@ -15,7 +15,7 @@ print( "Wolfram Bot wird geladen" );
 print( "Definiere Listener" );
 
 wolfram = Creature.new("Wolfram", "Wolfram");
-wolfram.setActor($AM.createMeshActor("Wolfram", "held.mesh" ));
+wolfram.setActor($AM.createMeshActor("Wolfram", "men_grim.mesh" ));
 wolfram.getActor().placeIntoScene([-20.5, -6.7, 3.2]);
 wolfram.addAction(WolframTalkAction.new("Wolfram", "wolfram.xml"))
 print( "Wolfram Bot fertig geladen" );

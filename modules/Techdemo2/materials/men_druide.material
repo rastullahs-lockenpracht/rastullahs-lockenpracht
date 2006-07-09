@@ -1,0 +1,75 @@
+
+material men_druide/base : DiffuseSpecMapping
+{
+	technique glsl
+	{
+		pass 0
+		{
+			texture_unit diffuse_map
+			{
+				texture men_alrike.png
+			}
+
+            texture_unit spec_map
+            {
+				texture men_alrike_spec.png
+            }
+		}
+	}
+
+	technique hlsl
+	{
+		pass 0
+		{
+			texture_unit diffuse_map
+			{
+				texture men_Druide.png
+			}
+
+            texture_unit spec_map
+            {
+				texture men_Druide_spec.png
+            }
+		}
+	}
+
+    technique fixed_function
+    {
+		pass 0
+		{
+			texture_unit diffuse_map
+			{
+				texture men_Druide.png
+			}
+		}
+    }
+}
+material men_druide/alpha : men_druide/base
+{
+	technique glsl
+	{
+		pass 0
+		{
+			scene_blend alpha_blend
+			depth_write off
+		}
+	}
+
+	technique hlsl
+	{
+		pass 0
+		{
+			scene_blend alpha_blend
+			depth_write off
+		}
+	}
+
+    technique fixed_function
+    {
+		pass 0
+		{
+			scene_blend alpha_blend
+			depth_write off
+		}
+    }
+}
