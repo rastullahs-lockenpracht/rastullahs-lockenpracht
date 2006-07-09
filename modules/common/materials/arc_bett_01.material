@@ -1,12 +1,14 @@
 
 material arc_bett_01
 {
+receive_shadows off
 	technique
 	{
 		pass
 		{
-			alpha_rejection greater 56
-			
+
+			alpha_rejection greater 100
+
 			texture_unit
 			{
 				filtering linear linear linear 
@@ -15,3 +17,13 @@ material arc_bett_01
 		}
 	}
 }
+
+
+
+
+
+
+
+
+
+
