@@ -21,6 +21,7 @@
 #include "DsaManager.h"
 #include "TimerEventSource.h"
 #include "ScriptWrapper.h"
+#include "Exception.h"
 
 
 using Ogre::Singleton;
@@ -88,13 +89,22 @@ namespace rl {
 
 	void TimerManager::registerTimerEventSource(TimerEventSource* source)
 	{	
-		// Noch nicht eingefügt
-		if( mTimers.find( source ) != mTimers.end() )
+		if (mTimers.find(source) != mTimers.end())
 		{
-			mTimers.insert(source);
-			ScriptWrapper::getSingleton().owned( source );
-		}
+            Throw(IllegalArgumentException, "TimerEventSource already registered.");
+        }
+		mTimers.insert(source);
+		ScriptWrapper::getSingleton().owned( source );
 	}
 
+	void TimerManager::unregisterTimerEventSource(TimerEventSource* source)
+    {
+		if (mTimers.find(source) == mTimers.end())
+		{
+            Throw(IllegalArgumentException, "TimerEventSource not registered.");
+        }
+		mTimers.erase(source);
+		ScriptWrapper::getSingleton().disowned(source);
+    }
 }
 

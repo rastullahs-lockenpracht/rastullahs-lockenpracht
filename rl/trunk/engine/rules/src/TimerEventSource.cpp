@@ -58,6 +58,8 @@ namespace rl {
 
     TimerEventSource::~TimerEventSource() 
     {
+		TimerManager::getSingleton().unregisterTimerEventSource(this);
+
 		// Alle TimerListener
 		EventCaster<TimerEvent>::EventSet evSet 
 			= mTimerEventCaster.getEventSet();
