@@ -72,8 +72,8 @@ void Fmod3SoundChannel::play()
     setVelocity(Vector3(0.0, 0.0, 0.0)); 
     FSOUND_3D_SetMinMaxDistance(mChannel, 1.0, 9999999.0);
     pause(false);
-    SoundPlayEvent *event = new SoundPlayEvent(this, SoundPlayEvent::STARTEVENT);
-    dispatchEvent(event);
+    SoundPlayEvent event = SoundPlayEvent(this, SoundPlayEvent::STARTEVENT);
+    dispatchEvent(&event);
 }
 
 /**
@@ -264,8 +264,8 @@ void Fmod3SoundChannel::pause(bool pausing)
         FSOUND_SetPaused(getChannel(), pausing);
         if (pausing)
         {
-            SoundPlayEvent *event = new SoundPlayEvent(this, SoundPlayEvent::PAUSEEVENT);
-            dispatchEvent(event);
+            SoundPlayEvent event = SoundPlayEvent(this, SoundPlayEvent::PAUSEEVENT);
+            dispatchEvent(&event);
         }
     }
 }
@@ -280,8 +280,8 @@ void Fmod3SoundChannel::stop()
     {
         FSOUND_StopSound(getChannel());
     }
-    SoundPlayEvent *event = new SoundPlayEvent(this, SoundPlayEvent::STOPEVENT);
-    dispatchEvent(event);
+    SoundPlayEvent event = SoundPlayEvent(this, SoundPlayEvent::STOPEVENT);
+    dispatchEvent(&event);
 }
 
 /**
