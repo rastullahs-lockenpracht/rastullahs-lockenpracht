@@ -37,7 +37,8 @@ namespace rl {
 		mSpeedRange(0.03f, 90.0f),
 		mSpeedIncrement(0.02f),
 		mRotationSpeed(4.0f),
-		mOgreCam(0)
+		mOgreCam(0),
+		mCurrentMovementState(0)
 	{
 		mCamera->getPhysicalThing()->freeze();
 		mCharacterActor->getPhysicalThing()->freeze();
