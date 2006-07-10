@@ -328,6 +328,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\TargetSelection.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\UiPrerequisites.h"
 				>
 			</File>
@@ -506,6 +510,10 @@
 			</File>
 			<File
 				RelativePath=".\src\RTCombatCharacterController.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\TargetSelection.cpp"
 				>
 			</File>
 			<File
