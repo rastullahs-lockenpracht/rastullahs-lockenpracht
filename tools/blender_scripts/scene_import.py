@@ -45,7 +45,9 @@ import glob
 import re
 import math
 import xml.sax
-import xml.sax.handler
+#import xml.sax.handler
+import xml.dom
+#from xml.dom import *
 import xml.dom.minidom
 from xml.dom.minidom import *
 import ogre_import
@@ -65,31 +67,174 @@ def dlog(msg):
     if IMPORT_LOG_LEVEL >= 3: print msg
 
 class Scene:  
-    def __init__(self):
+    def __init__(self, dirname):
         self.meshes = {}
         self.nodes = []
+        self.externals = []
+        self.dirname = dirname
+        self.environment = None
+        self.counter = 0
+        self.meshparser = xml.sax.make_parser()   
+        self.meshhandler = ogre_import.OgreMeshSaxHandler()
+        self.meshparser.setContentHandler(self.meshhandler)
+        
+    def handleScene(self, root):
+        if root.hasChildNodes():
+            children = root.childNodes
+            for child in children:
+                if child.nodeType == xml.dom.Node.ELEMENT_NODE:
+                    if child.tagName == "nodes":
+                        self.nodes = Nodes().handleNodes(self, child)
+                    elif child.tagName == "externals":
+                        self.externals = Externals().handleExternals(self, child)
+                    elif child.tagName == "environment":
+                        self.environment = Environment().handleEnvironment(self, child)
+                    else:
+                        vlog ("Encountered unknown tag %s" % child.tagName)
 
-class Node:
+class Nodes(Node):
     def __init__(self):
-        self.name = "NoName"
+        self.nodes = []
+        
+    def handleNodes(self, scene, nodes):
+        dlog("Handling Nodes")
+        children = nodes.childNodes
+        for child in children:
+            if child.nodeType == xml.dom.Node.ELEMENT_NODE:
+                if child.tagName == "node":
+                    snode = SceneNode()
+                    snode.handleNode(scene, child)
+                    self.nodes.append(snode)
+                else:
+                    vlog("Encountered unknown tag %s" % child.tagName)
+
+        return self.nodes
+
+class Externals(Node):
+    def __init__(self):
+        self.externals = []
+           
+    def handleExternals(self, scene, externals):
+        dlog("Handling Externals. Not implemented yet.")
+
+class Environment(Node):
+    def __init__(self):
+        self.environment = None
+            
+    def handleEnvironment(self, scene, environment):
+        dlog("Handling Environment. Not implemented yet.")
+        
+class SceneNode:
+    def __init__(self):
+        self.name = "SC_NoName"
         self.id = -1
         self.matrix = Matrix()
         self.matrix.resize4x4()
         self.matrix.identity()
         self.object = 0
         
+    def translate(self, m, node):
+        x = float(node.getAttribute('x')) * ogre_import.IMPORT_SCALE_FACTOR
+        y = float(node.getAttribute('y')) * ogre_import.IMPORT_SCALE_FACTOR
+        z = float(node.getAttribute('z')) * ogre_import.IMPORT_SCALE_FACTOR 
+        m1 = TranslationMatrix(Vector([x, y, z]))
+        m *= m1
+        return m
+
+    def scale(self, m, node):
+        x = float(node.getAttribute('x')) * ogre_import.IMPORT_SCALE_FACTOR
+        y = float(node.getAttribute('y')) * ogre_import.IMPORT_SCALE_FACTOR
+        z = float(node.getAttribute('z')) * ogre_import.IMPORT_SCALE_FACTOR 
+        m1 = ScaleMatrix(x, 4, Vector([1.0, 0.0, 0.0]))
+        m2 = ScaleMatrix(y, 4, Vector([0.0, 1.0, 0.0]))
+        m3 = ScaleMatrix(z, 4, Vector([0.0, 0.0, 1.0]))
+        m *= m1 * m2 * m3
+        return m
+    
+    def rotate(self, m, node):
+        qx = float(node.getAttribute('qx'))
+        qy = float(node.getAttribute('qy'))
+        qz = float(node.getAttribute('qz'))
+        qw = float(node.getAttribute('qw'))
+        q = Quaternion([qw, qx, qy, qz])
+        qm = Blender.Mathutils.RotationMatrix( \
+           q.angle, 4, "r", q.axis)
+        m *= qm
+        return m
+
+    def handleNode(self, scene, node):
+        dlog("Node name %s" % node.getAttribute("name"))
+        
+        # Handle own attributes
+        self.name = node.getAttribute('name')
+            
+        if node.getAttribute('id') == "":
+            self.id = -1
+        else:
+            self.id = int(node.getAttribute("id"))
+            
+        if (self.id == -1):
+            self.id = scene.counter
+            scene.counter += 1   
+        else:
+            if scene.counter < self.id:
+                scene.counter = self.id + 1
+
+        # Handle child nodes
+        for child in node.childNodes:
+            if child.nodeType == xml.dom.Node.ELEMENT_NODE:
+                if child.tagName == "position":
+                    dlog("position")
+                    self.matrix = self.translate(self.matrix, child)
+                    
+                elif child.tagName == "rotation":
+                    dlog("rotation")
+                    self.matrix = self.rotate(self.matrix, child)
+                    
+                elif child.tagName == "scale":
+                    dlog("scale")
+                    self.matrix = self.scale(self.matrix, child)
+                    
+                elif child.tagName == "entity":
+                    dlog("entity")
+                    self.object = NodeMesh()
+                    self.object.handleEntity(scene, child)
+                    
+                elif child.tagName == "light":
+                    dlog("light")
+                    self.object = NodeLight()
+                    self.object.handleLight(scene, child)
+
+                elif child.tagName == "camera":
+                    dlog("camera")
+                    self.object = NodeCamera()
+                    self.object.handleCamera(scene, child)
+                    
+                elif child.tagName == "userdata":
+                    dlog("userdata")
+                else:
+                    vlog("Encountered unknown tag %s" % child.tagName)
+        
 class NodeObject:
     def __init__(self):
-        self.name = "NoName"
+        self.name = "NO_NoName"
         self.id = -1
 
 class NodeLight(NodeObject):
     def __init__(self):
         NodeObject.__init__(self)
 
+    def handleLight(self, scene, node):
+        dlog("Handling light %s" % node.getAttribute('name'))
+
+
 class NodeCamera(NodeObject):
     def __init__(self):
         NodeObject.__init__(self)
+
+    def handleCamera(self, scene, node):
+        dlog("Handling camera %s" % node.getAttribute('name'))
+
 
 class NodeMesh(NodeObject):
     def __init__(self):
@@ -98,130 +243,28 @@ class NodeMesh(NodeObject):
         self.materialfile = 0
         self.filename = 0
 
+    def handleEntity(self, scene, node):
+        dlog("Handling mesh %s" % node.getAttribute('name'))
+        self.materialFile = node.getAttribute('materialFile')
 
-class DotSceneSaxHandler(xml.sax.handler.ContentHandler):
-    global IMPORT_SCENE_SCALE_FACTOR
-    
-    def __init__(self, dirname):
-        xml.sax.handler.ContentHandler.__init__(self)
-        self.scene = Scene()
-        self.node = Node()
-        self.dirname = dirname
-        self.meshparser = xml.sax.make_parser()   
-        self.meshhandler = ogre_import.OgreMeshSaxHandler()
-        self.meshparser.setContentHandler( self.meshhandler )
-        self.counter = 1
-        
-    def startDocument(self):
-        self.scene = Scene()
-        self.node = Node()
-        self.counter = 1
-            
-    def translate(self, m, attrs):
-        x = float(attrs.get('x', "0.0")) * ogre_import.IMPORT_SCALE_FACTOR
-        y = -float(attrs.get('z', "0.0")) * ogre_import.IMPORT_SCALE_FACTOR
-        z = float(attrs.get('y', "0.0")) * ogre_import.IMPORT_SCALE_FACTOR 
-        m1 = TranslationMatrix(Vector([x, y, z]))
-        m *= m1
-        return m
-
-    def scale(self, m, attrs):
-        x = float(attrs.get('x', "0.0")) * ogre_import.IMPORT_SCALE_FACTOR
-        y = -float(attrs.get('z', "0.0")) * ogre_import.IMPORT_SCALE_FACTOR
-        z = float(attrs.get('y', "0.0")) * ogre_import.IMPORT_SCALE_FACTOR 
-        m1 = ScaleMatrix(x, 4, Vector([1.0, 0.0, 0.0]))
-        m2 = ScaleMatrix(y, 4, Vector([0.0, 1.0, 0.0]))
-        m3 = ScaleMatrix(z, 4, Vector([0.0, 0.0, 1.0]))
-        m *= m1 * m2 * m3
-        return m
-    
-    def rotate(self, m, attrs):
-        qx = float(attrs.get('qx', "0.0"))
-        qy = -float(attrs.get('qz', "0.0"))
-        qz = float(attrs.get('qy', "0.0"))
-        qw = float(attrs.get('qw', "0.0"))
-        q = Quaternion([qw, qx, qy, qz])
-        qm = Blender.Mathutils.RotationMatrix( \
-           q.angle, 4, "r", q.axis)
-        m *= qm
-        return m
-    
-    def handleEntity(self, attrs):
-        self.node.object = NodeMesh()
-        self.mesh.materialFile = attrs.get('materialFile', "")
-
-        meshfilename = attrs.get('meshFile', "")
-        meshfile = Blender.sys.join(self.dirname, meshfilename)
+        meshfilename = node.getAttribute('meshFile')
+        meshfile = Blender.sys.join(scene.dirname, meshfilename)
         # is this a mesh file instead of an xml file?
         if ( meshfilename.lower().find( '.xml' ) == -1 ):
             meshfilename = meshfilename[0 : meshfilename.lower().find( '.mesh' )]
         else:
             meshfilename  = meshfilename[0 : meshfilename.lower().find( '.mesh.xml' )]
 
-        if (self.scene.meshes.has_key(meshfilename) == False):
-            self.mesh = parseMesh(meshfile, self.meshparser, self.meshhandler)
-            self.mesh.name = attrs.get('name', meshfilename)
+        dlog("Meshfilename %s" % meshfilename)
+        if (scene.meshes.has_key(meshfilename) == False):
+            self.mesh = parseMesh(meshfile, scene.meshparser, scene.meshhandler)
+            self.name = node.getAttribute('name')
                 
-            dlog("Meshname %s" % self.mesh.name)
-            self.mesh.filename = meshfilename
+            dlog("Meshname %s" % self.name)
+            self.filename = meshfilename
         else:
-            self.mesh = self.scene.meshes[meshfilename]
-                
-        self.node.name = attrs.get('name', meshfilename)
-        self.node.id = int(attrs.get("id", "-1"))
-        if (self.node.id == -1):
-            self.node.id = self.counter
-            self.counter += 1   
-        else:
-            if self.counter < self.node.id:
-                self.counter = self.node.id + 1
-        self.node.object = NodeMesh()             
-            # TODO: Castshadow, userdata
+            self.mesh = self.scene.meshes[meshfilename]       
 
-    def handleLight(self, attrs):
-        self.node.object = NodeLight()
-        self.light.name = attrs.get('name', "noname")
-
-    def handleCamera(self, attrs):
-        self.node.object = NodeCamera()
-        self.camera.name = attrs.get('name', "noname")
-
-    def startElement(self, name, attrs):
-        if name == "node":
-            self.mesh = NodeMesh()
-            self.node = Node()
-            
-        if name == "position":
-            self.node.matrix = \
-                self.translate(self.node.matrix, attrs) 
-            
-        if name == "rotation":
-            self.node.matrix = \
-                self.rotate(self.node.matrix, attrs)
-            
-        if name == "scale":
-            self.node.matrix = \
-                self.scale(self.node.matrix, attrs)
-            
-        if name == "entity":
-            self.handleEntity(attrs)
-            
-        if name == "light":
-            self.handleLight(attrs)
-            
-        if name == "camera":
-            self.handleCamera(attrs)
-        
-    def endElement(self, name):
-        if name == "node":
-            dlog("Saving Node ID %d" % self.node.id)
-            if (self.node.object.name == None):
-                self.node.object.name = self.node.name
-            self.node.object.name = str(self.node.object.name)
-            if str(self.node.object.__class__) == "__main__.NodeMesh":
-                dlog("Remembering the Mesh")
-                self.scene.meshes[self.node.object.name] = self.node.object
-            self.scene.nodes.append(self.node)
 
 
 def parseMesh(meshfile, parser, handler):
@@ -249,41 +292,32 @@ def parseMesh(meshfile, parser, handler):
     
     return handler.mesh
 
-def createScene(basename, dotscene):
+def createScene(basename, dotscene, materials):
     # Now we create a new scene
     name = basename[0:basename.lower().find('.scene')]
     log("Creating scene %s..." % name)
-#    camdata = Blender.Camera.New('ortho')           # create new camera data
-#    camdata.setName('newCam')
-#    camdata.setLens(16.0)
     scene = Blender.Scene.New(name)
-#    camobj = Blender.Object.New('Camera')
-#    camobj.link(camdata)         
-#    #scene.link(camobj)           
-#    # Let there be light
-#    l = Blender.Lamp.New('Spot')            # create new 'Spot' lamp data
-#    l.setMode('Square', 'Shadows')   # set these two lamp mode flags
-#    ob = Blender.Object.New('Lamp')         # create new lamp object
-#    ob.link(l)   
-#    #scene.link(ob)   
     scene.makeCurrent() 
         
-    nodescount = len(dotscene.nodes)
-    for i in range(0, nodescount):
-        node = dotscene.nodes[i]
+    for node in dotscene.nodes:
         object = node.object
         if object != None:
             if str(object.__class__) == "__main__.NodeMesh":
+                if object.name == "":
+                    object.name = object.filename
+                    
                 log ("Creating Blender Mesh %s " % object.name)
                 bmesh = Blender.NMesh.GetRaw(object.name)
-                print(bmesh)
                 if bmesh != None:
                     log("Mesh is already registered")
                 else:
                     log("Importing mesh %s into scene" % (object.name))
                     bmesh = ogre_import.CreateBlenderNMesh(str(object.name), object.mesh, materials)
-                        
-                bobject = Blender.Object.New( 'Mesh', node.name)
+                 
+                if node.name == "":
+                    node.name = object.name
+                    
+                bobject = Blender.Object.New('Mesh', node.name)
                 bobject.link(bmesh)
                   
                 # apply transformation matrix 
@@ -302,6 +336,7 @@ def createScene(basename, dotscene):
 
     log ("Scene import done.")
     Blender.Redraw() 
+
           
 def fileselection_callback(filename):
     log("Reading scene file %s..." % filename)
@@ -312,15 +347,13 @@ def fileselection_callback(filename):
     # parse material files and make up a dictionary: {mat_name:material, ..}
     materials = ogre_import.collect_materials(dirname)
     
-    # Init parser, then parse
-    parser = xml.sax.make_parser()   
-    handler = DotSceneSaxHandler(dirname)
-    parser.setContentHandler(handler)
-    parser.parse(filename)
+    sceneDoc = parse(filename)
+    dlog("%s was parsed. Now handling it" % filename)
+    scene = Scene(dirname)
+    scene.handleScene(sceneDoc.documentElement)
+    sceneDoc.unlink()
  
-    for k, v in handler.scene.meshes.iteritems():
-        dlog("Key %s (%s)" % (k, type(k)))
- 
-    createScene(basename, handler.scene)
+    createScene(basename, scene, materials)
+
 
 Blender.Window.FileSelector(fileselection_callback, "Import DotScene", "*.scene")
