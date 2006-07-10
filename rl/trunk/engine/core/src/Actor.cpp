@@ -716,19 +716,22 @@ namespace rl {
             //getControlledObject()->setHighlighted(highlight);
             mHighlighted = highlight;
         }
-        if (mHighlighted && mDescription == 0)
+        if (mHighlighted && mDescription == NULL)
         {
-            mDescription = new MovableText(mName + "_desc", mName);
-            mDescription->showOnTop(true);
-            mDescription->setAlignment(MovableText::ALIGN_CENTER);
-            if (mActorControlledObject && mActorControlledObject->isMeshObject())
-            {
-                MeshObject* mo = static_cast<MeshObject*>(mActorControlledObject);
-                AxisAlignedBox aabb = mo->getDefaultSize();
-                mDescription->setPositionOffset(Vector3(0, aabb.getMaximum().y * 1.1, 0));
-            }
+			if (mSceneNode != NULL)
+			{
+				mDescription = new MovableText(mName + "_desc", mName);
+				mDescription->showOnTop(true);
+				mDescription->setAlignment(MovableText::ALIGN_CENTER);
+				if (mActorControlledObject && mActorControlledObject->isMeshObject())
+				{
+					MeshObject* mo = static_cast<MeshObject*>(mActorControlledObject);
+					AxisAlignedBox aabb = mo->getDefaultSize();
+					mDescription->setPositionOffset(Vector3(0, aabb.getMaximum().y * 1.1, 0));
+				}
 
-            mSceneNode->attachObject(mDescription);
+				mSceneNode->attachObject(mDescription);
+			}
         }
         else if (mDescription)
         {
