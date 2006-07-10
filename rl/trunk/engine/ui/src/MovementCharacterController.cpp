@@ -131,7 +131,7 @@ namespace rl {
 			mCamera->getPhysicalThing(), NULL);
         // Char<->Level collision back to default
         PhysicsManager::getSingleton().setCharLevelContactCallback(NULL);
-		delete mSelection;
+		//delete mSelection;
 
         if (DebugWindow::getSingletonPtr())
         {
