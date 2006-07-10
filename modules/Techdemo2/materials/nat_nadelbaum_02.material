@@ -32,10 +32,31 @@ material nat_nadelbaum_02/trunk
 		}
 	 }
 }
-material nat_nadelbaum_02/leaves
+material nat_nadelbaum_02/leaves : windy_grass
 {
 	receive_shadows off
-	technique
+	technique hlsl
+	{
+		pass
+		{
+			vertex_program_ref WindyGrassVS_HLSL
+			{
+				param_named materialAmbient float4 0.609804 0.609804 0.609804 1
+				param_named materialDiffuse float4 0.631373 0.631373 0.631373 1
+				param_named fMaxMovementFactor float 0.50
+			}
+
+			alpha_rejection greater_equal 173
+
+			texture_unit
+			{
+				texture nat_nadelbaum_02.png
+				filtering linear linear linear 
+			}
+		}
+	}
+
+	technique fixed_function
 	{
 		pass
 		{
