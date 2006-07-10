@@ -44,7 +44,7 @@ VS_OUTPUT vs_main( VS_INPUT Input )
     Output.TexCoord = Input.TexCoord;
 
     // Light the vertex
-    float NdotL =  saturate( dot( normalize( Input.Normal ), normalize(lightDirection ) ) );
+    float NdotL =  max( dot( normalize( Input.Normal ), normalize( lightDirection - Output.Position ) ), 0 );
     Output.Color = ( ambientLight * materialAmbient ) + ( lightDiffuse * materialDiffuse * NdotL );
 
     // return
