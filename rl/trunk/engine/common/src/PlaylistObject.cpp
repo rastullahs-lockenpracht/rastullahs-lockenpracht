@@ -37,32 +37,32 @@ PlaylistObject::~PlaylistObject()
 
 void PlaylistObject::start()
 {
-	PlaylistEvent *event = new PlaylistEvent(this, PlaylistEvent::STARTEVENT);
-	dispatchEvent(event);
+	PlaylistEvent event = PlaylistEvent(this, PlaylistEvent::STARTEVENT);
+	dispatchEvent(&event);
 }
 
 void PlaylistObject::stop()
 {
-	PlaylistEvent *event = new PlaylistEvent(this, PlaylistEvent::STOPEVENT);
-	dispatchEvent(event);
+	PlaylistEvent event = PlaylistEvent(this, PlaylistEvent::STOPEVENT);
+	dispatchEvent(&event);
 }
 
 void PlaylistObject::pause()
 {
-	PlaylistEvent *event = new PlaylistEvent(this, PlaylistEvent::PAUSEEVENT);
-	dispatchEvent(event);
+	PlaylistEvent event = PlaylistEvent(this, PlaylistEvent::PAUSEEVENT);
+	dispatchEvent(&event);
 }
 
 void PlaylistObject::load()
 {
-	PlaylistEvent *event = new PlaylistEvent(this, PlaylistEvent::LOADEVENT);
-	dispatchEvent(event);
+	PlaylistEvent event = PlaylistEvent(this, PlaylistEvent::LOADEVENT);
+	dispatchEvent(&event);
 }
 
 void PlaylistObject::unload()
 {
-	PlaylistEvent *event = new PlaylistEvent(this, PlaylistEvent::UNLOADEVENT);
-	dispatchEvent(event);
+	PlaylistEvent event = PlaylistEvent(this, PlaylistEvent::UNLOADEVENT);
+	dispatchEvent(&event);
 }
 
 }
