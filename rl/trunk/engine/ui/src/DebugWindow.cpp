@@ -23,8 +23,10 @@
 #include "Person.h"
 #include "Actor.h"
 #include "ActorManager.h"
+#include "CameraObject.h"
 #include "CoreSubsystem.h"
 #include "Exception.h"
+#include "MeshObject.h"
 
 using namespace CEGUI;
 using namespace Ogre;
@@ -188,25 +190,26 @@ namespace rl
 		if (UiSubsystem::getSingleton().getActiveCharacter() != NULL && 
 			UiSubsystem::getSingleton().getActiveCharacter()->getActor() != NULL)
 		{
-			Ogre::Vector3 pos = UiSubsystem::getSingletonPtr()->
-				getActiveCharacter()->getActor()->
-				_getSceneNode()->getWorldPosition();
+			MeshObject* charMesh = dynamic_cast<MeshObject*>(UiSubsystem::getSingletonPtr()->
+				getActiveCharacter()->getActor()->getControlledObject());
+			Ogre::Vector3 pos = charMesh->getMovableObject()->getParentNode()->getWorldPosition();
 
 			textSt += "\nPlayer Position [ "
-				+ StringConverter::toString(pos.x,1,0,32,std::ios_base::fixed)+", "
-				+ StringConverter::toString(pos.y,1,0,32,std::ios_base::fixed)+", "
-				+ StringConverter::toString(pos.z,1,0,32,std::ios_base::fixed)+" ]";
+				+ StringConverter::toString(pos.x,2,0,32,std::ios_base::fixed)+", "
+				+ StringConverter::toString(pos.y,2,0,32,std::ios_base::fixed)+", "
+				+ StringConverter::toString(pos.z,2,0,32,std::ios_base::fixed)+" ]";
 		}
 
         Actor* camActor = ActorManager::getSingleton().getActor("DefaultCamera");
 		if( camActor != 0 && camActor->_getSceneNode() != NULL )
 		{
-            Ogre::Vector3 pos = camActor->_getSceneNode()->getWorldPosition();
+			Ogre::Camera* cam = dynamic_cast<CameraObject*>(camActor->getControlledObject())->getCamera();
+			Ogre::Vector3 pos = cam->getWorldPosition();
 
 			textSt += "\nCamera Position [ "
-				+ StringConverter::toString(pos.x,1,0,32,std::ios_base::fixed)+", "
-				+ StringConverter::toString(pos.y,1,0,32,std::ios_base::fixed)+", "
-				+ StringConverter::toString(pos.z,1,0,32,std::ios_base::fixed)+" ]";
+				+ StringConverter::toString(pos.x,2,0,32,std::ios_base::fixed)+", "
+				+ StringConverter::toString(pos.y,2,0,32,std::ios_base::fixed)+", "
+				+ StringConverter::toString(pos.z,2,0,32,std::ios_base::fixed)+" ]";
 		}
 
         setPageText(mDebugPageName, textSt);
