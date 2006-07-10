@@ -296,6 +296,8 @@ namespace rl {
                 .createPhysicalThing(PhysicsManager::GT_SPHERE, co, 
                 100.0f, true);
             PhysicsManager::getSingleton().createPhysicsProxy(pt, NULL);
+			pt->_getBody()->setMaterialGroupID(
+				PhysicsManager::getSingleton()._getCharMaterialID());
             actor = new Actor(uniquename, co, pt);
 
             mActors.insert(ActorPtrPair(uniquename,actor)); 
