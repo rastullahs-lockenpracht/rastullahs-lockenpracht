@@ -469,7 +469,7 @@ namespace rl
 
     void PhysicsManager::setCharLevelContactCallback(PhysicsGenericContactCallback* callback)
     {
-        if (callback != 0)
+        if (callback != NULL)
         {
             mCharLevelPair->setContactCallback(callback);
         }
@@ -487,5 +487,10 @@ namespace rl
     OgreNewt::MaterialID* PhysicsManager::_getLevelMaterialID() const
     {
         return mLevelID;
+    }
+
+	OgreNewt::MaterialID* PhysicsManager::_getCharMaterialID() const
+    {
+        return mCharacterID;
     }
 }

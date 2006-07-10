@@ -129,6 +129,7 @@ namespace rl {
 
         OgreNewt::World* _getNewtonWorld() const;
         OgreNewt::MaterialID* _getLevelMaterialID() const;
+        OgreNewt::MaterialID* _getCharMaterialID() const;
 		OgreNewt::CollisionPtr _createCollision(PhysicalThing* pt,
             const Ogre::AxisAlignedBox& size) const;
 
