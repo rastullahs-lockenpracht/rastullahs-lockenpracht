@@ -410,10 +410,10 @@ namespace rl {
 			// apply the jump
 			if (!mCharacterState.mIsAirBorne && mCharacterState.mStartJump)
 			{
-				mCharacterState.mStartJump = false;
 				mCharacterState.mJumpTimer = 0.0f;
 				force += mass*4.0f/timestep * Vector3::UNIT_Y;
 			}
+            mCharacterState.mStartJump = false;
 
 			body->setForce(force);
 
