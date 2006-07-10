@@ -1,0 +1,47 @@
+vertex_program WindyGrassVS_HLSL hlsl
+{
+    source WindyGrass.hlsl
+    entry_point vs_main
+    target vs_1_1
+
+    default_params
+    {
+        param_named_auto matWorldViewProjection worldviewproj_matrix
+	param_named_auto fxTime costime_0_2pi 4.0
+	param_named_auto fzTime sintime_0_2pi 4.0
+
+        param_named_auto lightPosition light_position_object_space 0
+
+        param_named_auto lightDiffuse light_diffuse_colour 0
+        param_named_auto ambientLight ambient_light_colour
+
+        param_named materialAmbient float4 0.7 0.7 0.7 1.0
+        param_named materialDiffuse float4 0.7 0.7 0.7 1.0
+
+	param_named fMaxMovementFactor float 0.25
+    }
+
+}
+
+material windy_grass
+{
+    receive_shadows off
+    technique hlsl
+    {
+        pass
+        {
+            vertex_program_ref WindyGrassVS_HLSL
+            {
+            }
+        }
+    }
+
+    technique fixed_function
+    {
+        pass
+        {
+        }
+    }
+}
+
+

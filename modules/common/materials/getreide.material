@@ -1,4 +1,4 @@
-material ALPHA/getreide.png
+material ALPHA/getreide.png : windy_grass
 {
   receive_shadows off
 
