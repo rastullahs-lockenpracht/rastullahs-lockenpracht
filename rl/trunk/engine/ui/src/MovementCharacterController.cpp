@@ -41,6 +41,7 @@
 #include "PhysicsManager.h"
 #include "PhysicsMaterialRaycast.h"
 #include "PhysicalThing.h"
+#include "TargetSelection.h"
 #include "World.h"
 
 
@@ -90,15 +91,15 @@ namespace rl {
 			(float)Date::ONE_KAMPFRUNDE 
 			* 1000.0f;
 
-		int rot = ConfigurationManager::getSingleton().getIntSetting("mouse_sensitivity", 4);
-		mRotationSpeed = rot;
+		mRotationSpeed
+			= ConfigurationManager::getSingleton().getIntSetting("mouse_sensitivity", 4);
 
 		// Offset for the look at point,
 		// so the cam does look at the characters head instead of the feet.
 		MeshObject* charMesh = dynamic_cast<MeshObject*>(
 			mCharacterActor->getControlledObject());
         AxisAlignedBox aabb = charMesh->getDefaultSize();
-        mLookAtOffset = Vector3(0, (aabb.getMaximum() - aabb.getMinimum()).y * 0.45, 0);
+        mLookAtOffset = Vector3(0, (aabb.getMaximum() - aabb.getMinimum()).y * 0.45f, 0);
 
 		// The actor should be controlled manually,
 		// so let the PM prepare it accordingly
@@ -111,11 +112,13 @@ namespace rl {
 		// Fit Collision proxy to idle anim
         mCharacterActor->getPhysicalThing()->fitToPose("idle");
 
-        resetCamera();
-
-		MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
+        MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
 		mesh->stopAllAnimations();
 		mesh->startAnimation("idle");
+
+		//mSelection = new TargetSelection(mCharacterActor, mCamera);
+
+		setViewMode(VM_THIRD_PERSON);
 	}
 
 	//------------------------------------------------------------------------
@@ -123,11 +126,12 @@ namespace rl {
 	{
 		// actors aren't controlled anymore
 		PhysicsManager::getSingleton().setPhysicsController(
-			mCharacterActor->getPhysicalThing(), 0);
+			mCharacterActor->getPhysicalThing(), NULL);
 		PhysicsManager::getSingleton().setPhysicsController(
-			mCamera->getPhysicalThing(), 0);
+			mCamera->getPhysicalThing(), NULL);
         // Char<->Level collision back to default
-        PhysicsManager::getSingleton().setCharLevelContactCallback(0);
+        PhysicsManager::getSingleton().setCharLevelContactCallback(NULL);
+		delete mSelection;
 
         if (DebugWindow::getSingletonPtr())
         {
@@ -196,8 +200,27 @@ namespace rl {
 		mYaw -= Degree(mRotationSpeed * im->getMouseRelativeX() * 2.0 * elapsedTime);
 
 		SceneNode* cameraNode = mCamera->_getSceneNode();
-		cameraNode->lookAt(mCharacterActor->getWorldPosition()
-			+ mLookAtOffset*2.0, Node::TS_WORLD);
+
+		Vector3 charPos;
+		Quaternion charOri;
+		mCharBody->getPositionOrientation(charPos, charOri);
+
+		if (mViewMode == VM_FIRST_PERSON)
+		{
+			Quaternion camOri;
+            camOri.FromAngleAxis(mPitch, Vector3::NEGATIVE_UNIT_X);
+			cameraNode->lookAt(
+				charPos
+				+ charOri * mLookAtOffset
+				+ charOri * camOri * (-Vector3::UNIT_Z), 
+				Node::TS_WORLD);
+		}
+		else
+		{
+			cameraNode->lookAt(
+				charPos	+ mLookAtOffset, 
+				Node::TS_WORLD);
+		}
 
 		while (mYaw.valueDegrees() > 360.0f) mYaw -= Degree(360.0f);
 		while (mYaw.valueDegrees() < -360.0f) mYaw += Degree(360.0f);
@@ -220,12 +243,28 @@ namespace rl {
 			resetCamera();
 		}
 
+		mCharBody->getPositionOrientation(charPos, charOri);
+
+		Vector3 camPos;
+		Quaternion camOri;
+		mCamBody->getPositionOrientation(camPos, camOri);
+
 		// if we have more than 250ms and at least five frames with camera distance higher
 		// than desired distance, reset camera
-		if ((mCamera->getWorldPosition()
-			- (mCharacterActor->getWorldPosition() + mLookAtOffset*2.0)).length() 
-			> 2.0f * mDesiredDistance)
+		if ((camPos
+			- (charPos + charOri*mLookAtOffset)).length() 
+			> 2.0f * mDesiredDistance + 0.05)
 		{
+			Logger::getSingleton().log(
+				Logger::UI, Logger::LL_MESSAGE,
+				"CamJam "
+				+ Ogre::StringConverter::toString(camPos)
+				+ " vs "
+				+ Ogre::StringConverter::toString(charPos + charOri*mLookAtOffset)
+				+ ", length is "
+				+ Ogre::StringConverter::toString((camPos - (charPos + charOri*mLookAtOffset)).length())
+				+ " is farther than "
+				+ Ogre::StringConverter::toString(2.0f * mDesiredDistance + 0.05f));
 			mCameraJammedTime += elapsedTime;
 			++mCameraJammedFrameCount;
 		}
@@ -244,6 +283,7 @@ namespace rl {
 		if (!InputManager::getSingleton().isCeguiActive())
 		{
 			updatePickedObject();
+			//mSelection->update();
 		}
 		updateAnimationState();
 
@@ -277,6 +317,11 @@ namespace rl {
 		{
 			// this is camera collision
 			// empty so far
+
+			if (getViewMode() == VM_FIRST_PERSON)
+			{
+				return 0; // no collision if in 1st Person mode
+			}
 		}
 		else if (m_body0 == mCharBody || m_body1 == mCharBody)
 		{
@@ -328,60 +373,7 @@ namespace rl {
 
 		if (body == mCamBody)
 		{
-			Vector3 charPos;
-			Quaternion charOri;
-			mCharBody->getPositionOrientation(charPos, charOri);
-
-			Vector3 camPos;
-			Quaternion camOri;
-			mCamBody->getPositionOrientation(camPos, camOri);
-
-			// determine the optimal target position of the camera
-			Vector3 targetCamPos = Vector3(0, Math::Sin(mPitch) * mDesiredDistance,
-				Math::Cos(mPitch) * mDesiredDistance);
-			targetCamPos = charOri * targetCamPos;
-			targetCamPos += charPos + mLookAtOffset;
-
-			Vector3 diff = targetCamPos - camPos;
-
-			// cap the diff to the next obstacle
-			OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
-			OgreNewt::MaterialID* levelId =
-				PhysicsManager::getSingleton()._getLevelMaterialID();
-			Camera* camera = dynamic_cast<CameraObject*>(mCamera->getControlledObject())->getCamera();
-			Vector3 target = targetCamPos
-				+ 1.2f * camera->getNearClipDistance() * diff.normalisedCopy();
-			RaycastInfo info = mRaycast->execute(world, levelId, camPos, target);
-			if (info.mBody)
-			{
-				diff = info.mDistance * (target - camPos) -
-					info.mDistance *
-					(1.2f * camera->getNearClipDistance() * diff.normalisedCopy());
-			}
-
-			// determine velocity vector to get there.
-			// how fast has the camera to be,
-			// in order to get there in mMaxDelay seconds?
-			Vector3 vel = diff / mMaxDelay;
-			Ogre::Real speed = vel.length();
-
-			// adjust scale of camera collision according to the velocity vector
-            // Use the pointer directly here. This is save, since we don't store
-            // a copy of it.
-			OgreNewt::CollisionPrimitives::HullModifier* hc =
-				static_cast<OgreNewt::CollisionPrimitives::HullModifier*>(
-                mCamBody->getCollision().getPointer());
-			Matrix4 mat = Matrix4::getScale(
-				Vector3(1.0f, 1.0f, 1.0f) 
-				+ (speed == 0 ? Vector3::ZERO : 3.0f * vel / vel.length()));
-			hc->setMatrix(mat);
-
-			// calcuate force and apply it
-			Real mass;
-			Vector3 inertia;
-			mCamBody->getMassMatrix(mass, inertia);
-			Vector3 force = mass * (vel - mCamBody->getVelocity()) / timestep;
-			mCamBody->setForce(force);
+			calculateCamera(timestep);
 		}
 		else
 		{
@@ -403,7 +395,8 @@ namespace rl {
 
 			// Gravity is applied above, so not needed here
 			// prevent adding a counter force against gravity
-			if (currentVel.y < 0.0f || mCharacterState.mJumpTimer < 2.0f) currentVel.y = 0.0f;
+			if (currentVel.y < 0.0f || mCharacterState.mJumpTimer < 2.0f) 
+				currentVel.y = 0.0f;
 
 			force += mass*(orientation*mCharacterState.mDesiredVel - currentVel) / timestep;
 
@@ -445,6 +438,76 @@ namespace rl {
 			// Might be set to false in the collision callback
 			mCharacterState.mIsAirBorne = true;
 		}
+	}
+
+	void MovementCharacterController::calculateCamera(const Ogre::Real& timestep)
+	{
+		Vector3 charPos;
+		Quaternion charOri;
+		mCharBody->getPositionOrientation(charPos, charOri);
+
+		Vector3 camPos;
+		Quaternion camOri;
+		mCamBody->getPositionOrientation(camPos, camOri);
+
+	    // determine the optimal target position of the camera
+		Vector3 targetCamPos = 
+			charPos 
+			+ charOri * mLookAtOffset 
+			+ charOri * Vector3(
+							0, 
+							Math::Sin(mPitch) * mDesiredDistance,
+							Math::Cos(mPitch) * mDesiredDistance);
+
+		if (mViewMode == VM_THIRD_PERSON)
+		{
+			Vector3 diff = targetCamPos - camPos;
+
+			// cap the diff to the next obstacle
+			OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
+			OgreNewt::MaterialID* levelId =
+				PhysicsManager::getSingleton()._getLevelMaterialID();
+			Camera* camera = dynamic_cast<CameraObject*>(mCamera->getControlledObject())->getCamera();
+
+			Vector3 target = targetCamPos
+				+ 1.2f * camera->getNearClipDistance() * diff.normalisedCopy();
+			RaycastInfo info = mRaycast->execute(world, levelId, camPos, target);
+			if (info.mBody)
+			{
+				diff = info.mDistance * (target - camPos) -
+					info.mDistance *
+					(1.2f * camera->getNearClipDistance() * diff.normalisedCopy());
+			}
+			// determine velocity vector to get there.
+			// how fast has the camera to be,
+			// in order to get there in mMaxDelay seconds?
+			Vector3 vel = diff / mMaxDelay;
+			Ogre::Real speed = vel.length();
+
+			// adjust scale of camera collision according to the velocity vector
+			// Use the pointer directly here. This is save, since we don't store
+			// a copy of it.
+			OgreNewt::CollisionPrimitives::HullModifier* hc =
+				static_cast<OgreNewt::CollisionPrimitives::HullModifier*>(
+				mCamBody->getCollision().getPointer());
+			Matrix4 mat = Matrix4::getScale(
+				Vector3(1.0f, 1.0f, 1.0f) 
+				+ (speed == 0 ? Vector3::ZERO : 3.0f * vel / speed));
+			hc->setMatrix(mat);
+
+			// calcuate force and apply it
+			Real mass;
+			Vector3 inertia;
+			mCamBody->getMassMatrix(mass, inertia);
+			Vector3 force = mass * (vel - mCamBody->getVelocity()) / timestep;
+			mCamBody->setForce(force);
+		}
+		else
+		{
+			mCamBody->setPositionOrientation(targetCamPos, camOri);
+		}
+
+		
 	}
 
 	/// Do raycasts to determine whether sight to character is free
@@ -557,16 +620,33 @@ namespace rl {
 	void MovementCharacterController::setViewMode(ViewMode mode)
 	{
 		mViewMode = mode;
+
+		MeshObject* charMesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
+		AxisAlignedBox aabb = charMesh->getDefaultSize();
 		if (mode == VM_FIRST_PERSON)
 		{
-			mCharacterActor->_getSceneNode()->setVisible(false);
+			mLookAtOffset = Vector3(0, (aabb.getMaximum() - aabb.getMinimum()).y * 0.45f, -1.1);
+			mDistanceRange.first = 0.0;
+			mDistanceRange.second = 0.0;
 			mDesiredDistance = 0.0;
-			mCamera->getPhysicalThing()->setPosition(mCharacterActor->getPhysicalThing()->getPosition());
+			mPitchRange.first = Degree(-85);
+			mPitchRange.second = Degree(85);
+            mPitch = 0;
+			Logger::getSingleton().log(
+				Logger::UI, Logger::LL_MESSAGE, "Switch to 1st person view");
+			resetCamera();
 		}
 		else
 		{
-			mCharacterActor->_getSceneNode()->setVisible(true);
-			mDesiredDistance = 150.0;
+			mLookAtOffset = Vector3(0, (aabb.getMaximum() - aabb.getMinimum()).y * 0.45f, 0);
+			mDistanceRange.first = 0.60;
+			mDistanceRange.second = 7.00;
+			mDesiredDistance = 2.0;
+			mPitchRange.first = Degree(-75);
+			mPitchRange.second = Degree(85);
+            mPitch = Degree(30);
+			Logger::getSingleton().log(
+				Logger::UI, Logger::LL_MESSAGE, "Switch to 3rd person view");			
 			resetCamera();
 		}
 	}
@@ -587,7 +667,9 @@ namespace rl {
 	void MovementCharacterController::resetCamera()
 	{
 		// Position camera at char position
-		mCamera->getPhysicalThing()->setPosition(mCharacterActor->getPhysicalThing()->getPosition());
+		mCamera->getPhysicalThing()->setPosition(
+			mCharacterActor->getPhysicalThing()->getPosition());
+
 		if (mViewMode == VM_THIRD_PERSON)
 		{
 			mPitch = Degree(30.0);

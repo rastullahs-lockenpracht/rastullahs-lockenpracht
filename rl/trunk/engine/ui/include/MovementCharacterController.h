@@ -33,6 +33,7 @@ namespace rl {
 	class Creature;
     class MeshObject;
 	class PhysicsMaterialRaycast;
+	class TargetSelection;
 
     /**
      * This class handles character control via user input.
@@ -101,6 +102,7 @@ namespace rl {
 
 		CharacterState mCharacterState;
 		Creature* mCharacter;
+		TargetSelection* mSelection;
 
         // camera control params
         /// optimal distance to the character
@@ -137,6 +139,8 @@ namespace rl {
         void updateAnimationState();
 
         bool isCharacterOccluded() const;
+
+		void calculateCamera(const Ogre::Real& timestep);
     };
 }
 #endif
