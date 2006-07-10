@@ -249,11 +249,17 @@ namespace rl {
 		Quaternion camOri;
 		mCamBody->getPositionOrientation(camPos, camOri);
 
+        float maxdistance;
+        if (mViewMode == VM_FIRST_PERSON)
+            maxdistance = 0.25;
+        else
+            maxdistance = 1.3f * mDesiredDistance + 1.4f;
+
 		// if we have more than 250ms and at least five frames with camera distance higher
 		// than desired distance, reset camera
 		if ((camPos
 			- (charPos + charOri*mLookAtOffset)).length() 
-			> 2.0f * mDesiredDistance + 0.05)
+			> maxdistance)
 		{
 			Logger::getSingleton().log(
 				Logger::UI, Logger::LL_MESSAGE,
@@ -264,7 +270,7 @@ namespace rl {
 				+ ", length is "
 				+ Ogre::StringConverter::toString((camPos - (charPos + charOri*mLookAtOffset)).length())
 				+ " is farther than "
-				+ Ogre::StringConverter::toString(2.0f * mDesiredDistance + 0.05f));
+				+ Ogre::StringConverter::toString(2.0f * mDesiredDistance + 0.2f));
 			mCameraJammedTime += elapsedTime;
 			++mCameraJammedFrameCount;
 		}
@@ -505,6 +511,11 @@ namespace rl {
 		else
 		{
 			mCamBody->setPositionOrientation(targetCamPos, camOri);
+			Real mass;
+			Vector3 inertia;
+			mCamBody->getMassMatrix(mass, inertia);
+            Vector3 force = mass * (mCharBody->getVelocity() - mCamBody->getVelocity()) / timestep;
+			mCamBody->setForce(force);
 		}
 
 		
@@ -666,12 +677,12 @@ namespace rl {
 
 	void MovementCharacterController::resetCamera()
 	{
-		// Position camera at char position
-		mCamera->getPhysicalThing()->setPosition(
-			mCharacterActor->getPhysicalThing()->getPosition());
 
 		if (mViewMode == VM_THIRD_PERSON)
 		{
+    		// Position camera at char position
+		    mCamera->getPhysicalThing()->setPosition(
+			    mCharacterActor->getPhysicalThing()->getPosition());
 			mPitch = Degree(30.0);
 		}
 	}
