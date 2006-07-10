@@ -41,10 +41,7 @@ SoundChannel::SoundChannel(SoundDriver* driver, Sound *sound, const Ogre::String
 
 SoundChannel::~SoundChannel()
 {
-    if (mSound)
-    {
-        delete mSound;
-    }
+    delete mSound;
 }
 
 /**
@@ -81,7 +78,7 @@ const AxisAlignedBox& SoundChannel::getBoundingBox() const
  */
 Real SoundChannel::getBoundingRadius (void) const
 {
-    return 0.0;
+    return 0.866f; // SQRT(3*SQR(0.5)) to fit with AABB
 }
 
 /**
