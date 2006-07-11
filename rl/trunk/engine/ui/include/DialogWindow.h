@@ -59,9 +59,6 @@ namespace rl {
 			CLOSING_DIALOG
 		};
 
-		std::map<std::string, std::string> mVariableValues;
-		std::vector<std::string> mTextLines;
-//		NaturalLanguageProcessor::Responses mResponses;
 		DialogCharacter* mBot;
 		DialogResponse* mCurrentResponse;
 		CEGUI::Listbox* mDialogOptions;

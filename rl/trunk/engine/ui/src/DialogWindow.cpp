@@ -48,8 +48,10 @@ DialogWindow::DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger,
   : CeGuiWindow("dialogwindow.xml", WND_MOUSE_INPUT),
 	mBot(bot), 
 	mCurrentResponse(NULL),
+    mCurrentResponseText(""),
 	mGameLogger(gamelogger),
-	mController(controller)
+	mController(controller),
+    mState( TALKING_PLAYER_CHARACTER )
 {
 	mImage = getStaticImage("DialogWindow/Image");
 	mName = getStaticText("DialogWindow/Name");

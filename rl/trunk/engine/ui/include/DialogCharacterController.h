@@ -91,7 +91,7 @@ namespace rl {
 		SubtitleWindow* mSubtitleWindow;
 		SoundObject* mSoundObject;
 	
-		float getShowTextLength(const CeGuiString& text);
+		float getShowTextLength(const CeGuiString& text) const;
 	};
 }
 #endif
