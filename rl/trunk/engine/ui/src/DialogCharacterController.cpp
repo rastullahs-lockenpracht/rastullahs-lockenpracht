@@ -46,10 +46,11 @@ namespace rl {
 	DialogCharacterController::DialogCharacterController(Actor* camera, Actor* character)
 		: CharacterController(camera, character),
 		mTargetCameraPosition(Vector3::ZERO),
-		mTargetCameraOrientation(Quaternion::IDENTITY),
-		mCutHard(false),
-		mFadeTextTime(0),
+        mTargetCameraDirection(Vector3::UNIT_Z),
+		mCurrFadeTextTime(0),
+        mTotalFadeTextTime(0),
         mText(),
+        mDialogMode(DM_FRONT),
         mTextShown(false),
 		mDialogWindow(NULL),
 		mSubtitleWindow(NULL),
@@ -90,12 +91,7 @@ namespace rl {
 	void DialogCharacterController::setDialogPartner(Actor* partner)
 	{
 		mDialogPartner = partner;
-
 		resetCamera();
-
-	//	MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
-	//	mesh->stopAllAnimations();
-	//	mesh->startAnimation("idle");
 	}
 
 	void DialogCharacterController::run(Real elapsedTime)
@@ -110,21 +106,22 @@ namespace rl {
 		{
 			// Die Kameraanpassgeschwindigkeit
 			Real speed = 1/elapsedTime;
-			
 			mCamera->setPosition(mTargetCameraPosition);					
 		}
 
-        mCamera->setOrientation(mTargetCameraOrientation);
+        mCamera->setOrientation( Quaternion::IDENTITY );
+        mCamera->_getSceneNode()->setDirection( mTargetCameraDirection );
 
 		// Textanzeigedauer
-		if (mFadeTextTime >= 0)
+		if (mCurrFadeTextTime >= 0)
 		{
-			mFadeTextTime -= elapsedTime;
+			mCurrFadeTextTime -= elapsedTime;
 		}
 
-		if (mTextShown && mFadeTextTime <= 0)
+		if (mTextShown && mCurrFadeTextTime <= 0)
 		{
-			mFadeTextTime = 0;
+			mCurrFadeTextTime = 0;
+            mTotalFadeTextTime = 0;
 			mTextShown = false;
    			if (mSoundObject)
             {
@@ -142,7 +139,7 @@ namespace rl {
 				+ mSubtitleWindow->getText()
 				+ CeGuiString(mSubtitleWindow->getWindow()->isVisible() ? "vis" : "unvis")
 				+ ", Time: "
-				+ StringConverter::toString(mFadeTextTime));
+				+ StringConverter::toString(mCurrFadeTextTime));
 	}
 
 	void DialogCharacterController::setDialogWindow(DialogWindow* dialog)
@@ -162,75 +159,69 @@ namespace rl {
 
 	void DialogCharacterController::resetCamera()
 	{
-		// Position camera at position between char and dialog partner
+		recalculateCamera( mDialogPartner, mCharacterActor );
+	}
 
-        Vector3 charEyes = mCharacterActor->getWorldPosition();
-        Vector3 charUp = Vector3::UNIT_Y;
+    void DialogCharacterController::recalculateCamera( Actor* speaker, Actor* listener )
+    {
+        // Position camera at position between char and dialog partner
+        Vector3 charEyes = speaker->getWorldPosition();
         // Modify by MeshBounds
-        if( mCharacterActor->getControlledObject()->isMeshObject() )
+        if( speaker->getControlledObject()->isMeshObject() )
         {
-            MeshObject* mo = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
+            MeshObject* mo = dynamic_cast<MeshObject*>(speaker->getControlledObject());
+            Ogre::AxisAlignedBox aab = mo->getDefaultSize();
             Vector3 offset( 
-                mo->getDefaultSize().getCenter().x, 
-                mo->getDefaultSize().getMaximum().y*0.933, 
-                mo->getDefaultSize().getCenter().z );
-            charEyes += mCharacterActor->getWorldOrientation()*offset;
-            charUp = (charEyes - mCharacterActor->getWorldPosition()).normalisedCopy();
+                aab.getCenter().x, 
+                aab.getMaximum().y*0.933, 
+                aab.getCenter().z );
+            charEyes += speaker->getWorldOrientation()*offset;
         }        
 
-        Vector3 partEyes = mDialogPartner->getWorldPosition();        
+        Vector3 partEyes = listener->getWorldPosition();        
         // Modify by MeshBounds
-        if( mDialogPartner->getControlledObject()->isMeshObject() )
+        if( listener->getControlledObject()->isMeshObject() )
         {
-            MeshObject* mo = dynamic_cast<MeshObject*>(mDialogPartner->getControlledObject());
+            MeshObject* mo = dynamic_cast<MeshObject*>(listener->getControlledObject());
+            Ogre::AxisAlignedBox aab = mo->getDefaultSize();
             Vector3 offset( 
-                mo->getDefaultSize().getCenter().x, 
-                mo->getDefaultSize().getMaximum().y*0.933, 
-                mo->getDefaultSize().getCenter().z );
-            partEyes += mDialogPartner->getWorldOrientation()*offset;
+                aab.getCenter().x, 
+                aab.getMaximum().y*0.933, 
+                aab.getCenter().z );
+            partEyes += listener->getWorldOrientation()*offset;
         }
 
 		Vector3 globalCameraPosition = ( charEyes + partEyes ) / 2.0f;
-		
+
 		// Weltkoordinaten in lokale umwandeln
 		mTargetCameraPosition = 
 			-1*(mCamera->_getSceneNode()->getParentSceneNode()->getWorldOrientation().Inverse()*
 			(mCamera->_getSceneNode()->getParentSceneNode()->getWorldPosition() - globalCameraPosition));
 
-		// Drehung zu ZielRichtung  @todo reparieren
-		mTargetCameraOrientation = 
-            Vector3::UNIT_Z.getRotationTo( mTargetCameraPosition - partEyes );
-	}
+
+        mTargetCameraDirection = ( partEyes - mTargetCameraPosition ).normalisedCopy();
+    }
 
 	float DialogCharacterController::getShowTextLength(const CeGuiString& text) const
 	{
-		return 1.0f +                  // Basiszeit, um die Textbox zu finden 
-               0.1f * text.length() + // Zeit fürs Textlesen
-			   0.25f;                  // Fade in
+		return 0.019f * text.length() + // Zeit fürs Text lesen
+			   0.25f;                   // Fade in
 	}
 
 	void DialogCharacterController::response(
 		Actor* actor, const CeGuiString& text, const Ogre::String& soundFile)
 	{
-		Vector3 partEyes = actor->getWorldPosition();        
-        // Modify by MeshBounds
-        if( actor->getControlledObject()->isMeshObject() )
-        {
-            MeshObject* mo = dynamic_cast<MeshObject*>(actor->getControlledObject());
-            Vector3 offset( 
-                mo->getDefaultSize().getCenter().x, 
-                mo->getDefaultSize().getMaximum().y*0.933, 
-                mo->getDefaultSize().getCenter().z );
-            partEyes += actor->getWorldOrientation()*offset;
-        }
-        mTargetCameraOrientation = 
-            Vector3::UNIT_Z.getRotationTo( mTargetCameraPosition - partEyes );
+        if( actor == mDialogPartner )
+		    recalculateCamera( mCharacterActor, mDialogPartner );
+        else
+            recalculateCamera( mDialogPartner, mCharacterActor );
 
-
+        // Ungefähre Lesedauer bestimmen
         float fadeTime = getShowTextLength(text);
 		if (soundFile.length() == 0)
 		{
-			mFadeTextTime = fadeTime;
+			mCurrFadeTextTime = fadeTime;
+            mTotalFadeTextTime = fadeTime;
 		}
 		else
 		{
@@ -242,11 +233,12 @@ namespace rl {
 							SoundManager::getSingleton().getByName(soundFile)),
 					soundFile);
 
-			//TODO: An Sprecher hängen?
+			// @todo An Sprecher hängen?
 			mSoundObject->set3d(false);
 			mSoundObject->play();
 
-            mFadeTextTime = std::max(fadeTime,mSoundObject->getLength());
+            mCurrFadeTextTime = std::max(fadeTime,mSoundObject->getLength());
+            mTotalFadeTextTime = mCurrFadeTextTime;
 		}
 
 		MeshObject* mesh = dynamic_cast<MeshObject*>(actor->getControlledObject());
@@ -267,7 +259,7 @@ namespace rl {
 				+ " File: '"
 				+ soundFile 
 				+ "', Text: '" + text + "', Time: "
-				+ StringConverter::toString(mFadeTextTime));
+				+ StringConverter::toString(mCurrFadeTextTime));
 
 
 		mTextShown = true;
@@ -280,14 +272,17 @@ namespace rl {
 
     bool DialogCharacterController::injectMouseUp(int mouseButtonMask)
     {
-        if (mTextShown)
+        
+        if( mTextShown && (mCurrFadeTextTime+0.25)<mTotalFadeTextTime )
         {
-            mFadeTextTime = -1;
+            mCurrFadeTextTime = -1;
+
             return true;
         }
         else
         {
             return false;
         }
+
     }
 }

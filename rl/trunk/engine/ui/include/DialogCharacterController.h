@@ -36,6 +36,13 @@ namespace rl {
 	class _RlUiExport DialogCharacterController : public CharacterController
 	{
 	public:
+        enum DialogMode
+		{ 
+            // Frontperspektive auf Augenhöhe, ausgehend von der Mitte zwischen den Redenden
+			DM_FRONT = 1,
+		};
+
+
 		/**
 		*  @throw NullPointerException if camera or character is NULL.
 		*  @throw InvalidArgumentException if character is not placed in the scene.
@@ -68,13 +75,13 @@ namespace rl {
 		/// Die Zielkameraposition in lokalen Koordinaten
 		Ogre::Vector3 mTargetCameraPosition;
 		/// Die benötigte lokale Drehung der Kamera
-		Ogre::Quaternion mTargetCameraOrientation;
-		/// Harter Schnitt zur nächsten Kameraposition
-		bool mCutHard;
+		Ogre::Vector3 mTargetCameraDirection;
 
+		/// Die aktuelle Zeit für die Textanzeige
+		Ogre::Real mCurrFadeTextTime;
+        /// Die Zeit bis der Text ausgeblendet wird
+        Ogre::Real mTotalFadeTextTime;
 
-		/// Die Zeit bis der Text ausgeblendet wird
-		Ogre::Real mFadeTextTime;
 		/// Der Untertitel Text
 		CeGuiString mText;
 		/// Es wird gerade Text angezeigt
@@ -84,6 +91,8 @@ namespace rl {
 		Actor* mDialogPartner;
 		/// Der Besitzer des Dialoges (Der Bauer mit dem der Spieler redet)
 		Actor* mCurrentActor;
+        /// Die Art der Kamerapositinierung
+        DialogMode mDialogMode;
 
 		MeshAnimation* mTalkAnimation;
 
@@ -92,6 +101,7 @@ namespace rl {
 		SoundObject* mSoundObject;
 	
 		float getShowTextLength(const CeGuiString& text) const;
+        void recalculateCamera( Actor* speaker, Actor* listener );
 	};
 }
 #endif

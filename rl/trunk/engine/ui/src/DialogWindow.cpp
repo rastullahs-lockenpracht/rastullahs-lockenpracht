@@ -183,6 +183,12 @@ void DialogWindow::textFinished()
 	{
 		handleClose();
 	}
+
+    Logger::getSingleton().log(
+				Logger::UI, 
+				Logger::LL_TRIVIAL, 
+				StringConverter::toString(mState)
+				+ " bei textFinished" );
 }
 
 void DialogWindow::getOptions(const CeGuiString& question)
