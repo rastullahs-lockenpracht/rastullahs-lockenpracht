@@ -55,8 +55,6 @@ namespace rl {
         //void createDebugActors();
         void destroyActor(Actor* actor);
 
-        ///@warning Actors with a camera attached wont be destroyed. 
-        ///@todo Check for active Viewport, and disable that first
         void destroyAllActors();
 
         void setWorld(World* world);
