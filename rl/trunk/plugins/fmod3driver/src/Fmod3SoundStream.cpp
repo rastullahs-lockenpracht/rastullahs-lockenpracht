@@ -145,10 +145,7 @@ float Fmod3SoundStream::getLength() const
  */
 int Fmod3SoundStream::createChannel() throw (RuntimeException)
 {
-	if (mChannel == NO_CHANNEL)
-	{
-		mChannel = FSOUND_Stream_PlayEx(FSOUND_FREE, getStream(), 0, true);
-	}
+	mChannel = FSOUND_Stream_PlayEx(FSOUND_FREE, getStream(), 0, true);
     return mChannel; 
 }
 
@@ -160,10 +157,10 @@ int Fmod3SoundStream::createChannel() throw (RuntimeException)
 signed char Fmod3SoundStream::streamEndCallback(FSOUND_STREAM *stream,
     void *buf, int len, void *userdata)
 {
-    Fmod3SoundStream *that = static_cast<Fmod3SoundStream*>(userdata);
-    if (that != 0)
+    Fmod3SoundStream *fmod3stream = static_cast<Fmod3SoundStream*>(userdata);
+    if (fmod3stream != 0)
     {
-        RlAssert(that->getStream() == stream, "Stream-Daten stimmen nicht überein");
+        RlAssert(fmod3stream->getStream() == stream, "Stream-Daten stimmen nicht überein");
     }
     return 0;
 }
@@ -176,10 +173,10 @@ signed char Fmod3SoundStream::streamEndCallback(FSOUND_STREAM *stream,
 signed char Fmod3SoundStream::streamSyncCallback(FSOUND_STREAM *stream,
     void *buf, int len, void *userdata)
 {
-    Fmod3SoundStream *that = static_cast<Fmod3SoundStream*>(userdata);
-    if (that != 0)
+    Fmod3SoundStream *fmod3stream = static_cast<Fmod3SoundStream*>(userdata);
+    if (fmod3stream != 0)
     {
-        RlAssert(that->getStream() == stream, "Stream-Daten stimmen nicht überein");
+        RlAssert(fmod3stream->getStream() == stream, "Stream-Daten stimmen nicht überein");
     }
     return 0;
 }

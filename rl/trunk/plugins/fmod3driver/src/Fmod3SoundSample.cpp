@@ -149,14 +149,7 @@ float Fmod3SoundSample::getLength() const
  */
 int Fmod3SoundSample::createChannel() throw (RuntimeException)
 {
-	if (mChannel == NO_CHANNEL)
-	{
-	    mChannel = FSOUND_PlaySoundEx(FSOUND_FREE, getSample(), 0, true);
-	}
-    else
-    {
-	    mChannel = FSOUND_PlaySoundEx(mChannel, getSample(), 0, true);
-    }
+    mChannel = FSOUND_PlaySoundEx(FSOUND_FREE, getSample(), 0, true);
 	return mChannel; 
 }
 
