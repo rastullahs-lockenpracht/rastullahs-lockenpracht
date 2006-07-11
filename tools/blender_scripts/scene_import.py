@@ -270,10 +270,16 @@ class NodeMesh(NodeObject):
 def parseMesh(meshfile, parser, handler):
     if ( meshfile.lower().find( '.xml' ) == -1 ):
         xmlname =  meshfile + '.xml'
-        xml_files = glob.glob(xmlname)
-        xmlstat = os.stat(xmlname)
-        meshstat = os.stat(meshfile)
-        if (len(xml_files) == 0) or (xmlstat.st_mtime < meshstat.st_mtime):
+        newermesh = False
+        try:
+            xml_files = glob.glob(xmlname)
+            xmlstat = os.stat(xmlname)
+            meshstat = os.stat(meshfile)
+            newermesh = (xmlstat.st_mtime < meshstat.st_mtime)
+        except Exception, e:
+            vlog("Error while stat()ing %s" % str(e))
+            
+        if (len(xml_files) == 0) or newermesh:
             # No. Use the xml converter to fix this
             log( "No mesh.xml file. Trying to convert it from binary mesh format." )
             ogre_import.convert_meshfile( meshfile )
@@ -305,6 +311,9 @@ def createScene(basename, dotscene, materials):
             if str(object.__class__) == "__main__.NodeMesh":
                 if object.name == "":
                     object.name = object.filename
+                if object.mesh == None:
+                    log("Mesh %s obviously wasn't parsed" % object.name)
+                    continue
                     
                 log ("Creating Blender Mesh %s " % object.name)
                 bmesh = Blender.NMesh.GetRaw(object.name)
