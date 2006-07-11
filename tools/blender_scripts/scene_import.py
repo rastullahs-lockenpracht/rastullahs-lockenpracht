@@ -67,8 +67,8 @@ def dlog(msg):
     if IMPORT_LOG_LEVEL >= 3: print msg
 
 class Scene:  
-    def __init__(self, dirname):
-        self.meshes = {}
+    def __init__(self, dirname, meshes):
+        self.meshes = meshes
         self.nodes = []
         self.externals = []
         self.dirname = dirname
@@ -244,12 +244,13 @@ class NodeMesh(NodeObject):
         self.filename = 0
 
     def handleEntity(self, scene, node):
-        dlog("Handling mesh %s" % node.getAttribute('name'))
+        dlog("Handling entity %s" % node.getAttribute('name'))
+        self.name = node.getAttribute('name')
         self.materialFile = node.getAttribute('materialFile')
 
         meshfilename = node.getAttribute('meshFile')
-        meshfile = Blender.sys.join(scene.dirname, meshfilename)
         # is this a mesh file instead of an xml file?
+        meshfile = Blender.sys.join(scene.dirname, meshfilename)
         if ( meshfilename.lower().find( '.xml' ) == -1 ):
             meshfilename = meshfilename[0 : meshfilename.lower().find( '.mesh' )]
         else:
@@ -261,10 +262,13 @@ class NodeMesh(NodeObject):
             self.name = node.getAttribute('name')
                 
             dlog("Meshname %s" % self.name)
-            self.filename = meshfilename
+            scene.meshes[meshfilename] = self.mesh
         else:
-            self.mesh = self.scene.meshes[meshfilename]       
+            self.mesh = scene.meshes[meshfilename]       
 
+        self.filename = meshfilename
+        if self.name == "":
+            self.filename = meshfilename
 
 
 def parseMesh(meshfile, parser, handler):
@@ -346,6 +350,39 @@ def createScene(basename, dotscene, materials):
     log ("Scene import done.")
     Blender.Redraw() 
 
+def collect_meshes(dom, dirname):
+    meshes = {}
+    meshparser = xml.sax.make_parser()   
+    meshhandler = ogre_import.OgreMeshSaxHandler()
+    meshparser.setContentHandler(meshhandler)
+    
+    meshlist = dom.getElementsByTagName("entity")
+    for meshnode in meshlist:
+        if meshnode.nodeType == xml.dom.Node.ELEMENT_NODE:
+            meshfilename = meshnode.getAttribute("meshFile")
+            if meshfilename != "":
+                meshfile = Blender.sys.join(dirname, meshfilename)
+                # is this a mesh file instead of an xml file?
+                if ( meshfilename.lower().find( '.xml' ) == -1 ):
+                    meshfilename = meshfilename[0 : meshfilename.lower().find( '.mesh' )]
+                else:
+                    meshfilename  = meshfilename[0 : meshfilename.lower().find( '.mesh.xml' )]
+
+                dlog("Meshfilename %s" % meshfilename)
+                if (meshes.has_key(meshfilename) == False):
+                    dlog("Cached")
+                    mesh = parseMesh(meshfile, meshparser, meshhandler)
+                    if mesh != None:
+                        mesh.filename = meshfile
+                        mesh.name = meshnode.getAttribute("name")
+                        meshes[meshfilename] = mesh
+                    
+                else:
+                    dlog("Already there")
+                
+            
+    log ("Mesh import done")
+    return meshes
           
 def fileselection_callback(filename):
     log("Reading scene file %s..." % filename)
@@ -357,12 +394,16 @@ def fileselection_callback(filename):
     materials = ogre_import.collect_materials(dirname)
     
     sceneDoc = parse(filename)
-    dlog("%s was parsed. Now handling it" % filename)
-    scene = Scene(dirname)
+    log("%s was parsed. Now handling it" % filename)
+    meshes = collect_meshes(sceneDoc, dirname)
+    scene = Scene(dirname, meshes)
+    dlog(meshes)
     scene.handleScene(sceneDoc.documentElement)
+    log("%s was handled." % filename)
     sceneDoc.unlink()
  
     createScene(basename, scene, materials)
+    log("Scene creation done")
 
 
 Blender.Window.FileSelector(fileselection_callback, "Import DotScene", "*.scene")
