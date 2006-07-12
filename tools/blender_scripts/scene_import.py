@@ -8,7 +8,7 @@ Tip: 'Import an DotScene (.scene) file.'
 """
 
 __author__ = "Jochen Schäfer"
-__version__ = "0.1 06/06/18"
+__version__ = "0.2 06/11/06"
 
 __bpydoc__ = """\
 This script imports DotScenes into Blender.
@@ -35,10 +35,18 @@ This script imports DotScenes into Blender.
 # IN THE SOFTWARE.
 
 # HISTORY:
-# 0.1: 06/06/18
+# 0.1: 06/01/06
 # -------------
 # * Initial version.
 #
+# 0.2: 06/11/06
+# -------------
+# * Changed XML parser from SAX to MiniDOM.
+# * Meshes are now parsed before constructing the scene.
+# * Meshes are only converted to XML if necessary.
+# * Meshes are only parsed if not parsed before.
+#
+
 import Blender
 import os
 import glob
