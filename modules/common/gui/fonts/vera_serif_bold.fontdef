@@ -2,7 +2,7 @@ VeraSerifBold-12
 {
 	type 		truetype
 	source 		VeraSeBd.ttf
-	size 		12
+	size 		16
 	resolution 	96
 }
 
