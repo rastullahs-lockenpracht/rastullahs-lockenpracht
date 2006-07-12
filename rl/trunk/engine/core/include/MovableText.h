@@ -19,7 +19,7 @@ namespace rl
         typedef enum {ALIGN_LEFT = 0, ALIGN_CENTER, ALIGN_RIGHT} Alignment;
 
         MovableText(const Ogre::String& name, const Ogre::String& caption,
-            const Ogre::String& fontName = "VeraSerifBold-12",
+            const Ogre::String& fontName = "VeraSerifBold-16",
             int charHeight = 16,
             const Ogre::ColourValue& colour = Ogre::ColourValue::White);
 

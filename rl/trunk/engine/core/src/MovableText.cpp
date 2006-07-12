@@ -75,7 +75,11 @@ namespace rl {
                 Throw(IllegalArgumentException, "Could not find font " + fontName);
             }
 
-            mFont->load();
+            if (!mFont->isLoaded())
+            {
+                mFont->load();
+            }
+
             if (!mMaterial.isNull())
             {
                 MaterialManager::getSingletonPtr()->remove(mMaterial->getName());
