@@ -1,4 +1,4 @@
-SUBDIRS =  plugins engine tools docs
+SUBDIRS =   engine plugins tools docs
 if with_tests 
   SUBDIRS += tests
 endif
@@ -6,7 +6,7 @@ endif
 doc:
 	cd docs; ${MAKE} doc
 	
-install-data-local:
-	install -d /etc/rl
-	install -m 644 rl.conf /etc/rl
+#install-data-local:
+#	install -d /etc/rl
+#	install -m 644 rl.conf /etc/rl
 		

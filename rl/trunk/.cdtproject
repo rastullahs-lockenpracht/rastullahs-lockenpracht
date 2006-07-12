@@ -17,13 +17,6 @@
 
 <item id="org.eclipse.cdt.make.core.buildtargets">
 <buildTargets>
-<target name="all" path="engine/common" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>all</buildTarget>
-<stopOnError>false</stopOnError>
-<useDefaultCommand>true</useDefaultCommand>
-</target>
 <target name="clean" path="engine/script" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
 <buildCommand>make</buildCommand>
 <buildArguments></buildArguments>
@@ -43,6 +36,20 @@
 <buildArguments></buildArguments>
 <buildTarget>all</buildTarget>
 <stopOnError>true</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+</target>
+<target name="all" path="engine/common" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+</target>
+<target name="clean" path="engine/rules" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>clean</buildTarget>
+<stopOnError>false</stopOnError>
 <useDefaultCommand>true</useDefaultCommand>
 </target>
 <target name="bootstrap" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
@@ -78,18 +85,18 @@
 <stopOnError>false</stopOnError>
 <useDefaultCommand>false</useDefaultCommand>
 </target>
-<target name="clean" path="engine/rules" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>clean</buildTarget>
-<stopOnError>false</stopOnError>
-<useDefaultCommand>true</useDefaultCommand>
-</target>
 <target name="all" path="plugins/openaldriver" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
 <buildCommand>make</buildCommand>
 <buildArguments></buildArguments>
 <buildTarget>all</buildTarget>
 <stopOnError>true</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+</target>
+<target name="all" path="plugins" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
 <useDefaultCommand>true</useDefaultCommand>
 </target>
 <target name="all" path="plugins/fmod3driver" targetID="org.eclipse.cdt.make.MakeTargetBuilder">

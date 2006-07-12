@@ -35,7 +35,7 @@ namespace rl {
 
 		std::list<Actor*> getSelectedObjects();
 
-		void TargetSelection::update();
+		void update();
 
 		virtual int userProcess();
 

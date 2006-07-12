@@ -25,6 +25,7 @@
 #include "SoundDriver.h"
 #include "SoundResource.h"
 #include "SoundUpdateTask.h"
+#include <OgreException.h>
 
 #include "NullDriver.h"
 
@@ -353,11 +354,39 @@ void SoundManager::loadConf(const Ogre::String &filename)
 	for (StringVector::const_iterator it = mDrivers.begin(); 
 		it != mDrivers.end(); it++)
 	{
-		Ogre::Root::getSingleton().loadPlugin(*it);
+        try {
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+		    Ogre::Root::getSingleton().loadPlugin(*it);
+#else
+            Ogre::Root::getSingleton().loadPlugin("lib"+*it);
+#endif
+        }
+        catch(Ogre::Exception &e)
+        {
+            Logger::getSingleton().log(
+                Logger::CORE, 
+                Logger::LL_NORMAL, 
+                CeGuiString("Soundtreiber kann nicht geladen werden: ")
+                    + *it + "\n"
+                    + e.getFullDescription());
+        }
+        catch(...)
+        {
+            Logger::getSingleton().log(
+                Logger::CORE, 
+                Logger::LL_NORMAL, 
+                CeGuiString("Soundtreiber kann nicht geladen werden: ")
+                    + *it);
+        }
+            
 	}
 
-	String drivername = conf.getValue(String("Nulltreiber"), "ActiveDriver", "General");
+	String drivername = conf.getValue(String(NullDriver::NAME.c_str()), "ActiveDriver", "General");
 	SoundDriver *driver = getDriverByName(drivername);
+    if (driver == NULL)
+    {
+        driver = getDriverByName(String(NullDriver::NAME.c_str()));
+    }
 	RlAssert(driver != NULL, "Beim Laden des Treibers ist ein Fehler aufgetreten");
 	setActiveDriver(driver);
 	getActiveDriver()->loadConf(conf);
