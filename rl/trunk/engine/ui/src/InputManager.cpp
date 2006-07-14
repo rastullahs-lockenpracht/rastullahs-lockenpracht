@@ -231,7 +231,6 @@ namespace rl {
 
     void InputManager::mouseMoved(MouseEvent* e)
 	{
-
 		if (isCeguiActive() && mBuffered)
 		{			
 			e->consume();
@@ -243,8 +242,7 @@ namespace rl {
 
 			if (mPickObjects)
 				updatePickedObject(e->getX(), e->getY());
-
-		}
+		}       
 	}
 
 	bool InputManager::sendKeyToCeGui(KeyEvent* e)
@@ -658,6 +656,10 @@ namespace rl {
 		mPickObjects = active;
 		if (!mPickObjects)
 		{
+            // Altes Picking entfernen
+            if (mTargetedObject != NULL && mTargetedObject->getActor() != NULL ) 
+				mTargetedObject->getActor()->setHighlighted(false);
+
 			mTargetedObject = NULL;
 			WindowFactory::getSingleton().showObjectDescription(NULL);
 		}
@@ -667,11 +669,13 @@ namespace rl {
     {
         Actor* actor = ActorManager::getSingleton().getActorAt(mouseRelX, mouseRelY, 30, 7);
 
-		if (actor != NULL)
+        // Keine Highlights in Cutscene oder Dialog
+        if( actor != NULL )
 		{
+            // Altes Highlight entfernen
 			if (mTargetedObject != NULL &&
                 mTargetedObject->getActor() != NULL &&
-                actor != mTargetedObject->getActor())
+                actor != mTargetedObject->getActor() )
             {
 				mTargetedObject->getActor()->setHighlighted(false);
             }
@@ -701,6 +705,7 @@ namespace rl {
 				}
             }
 		}
+        // Nichts mehr angewählt
 		else
 		{
 			if (mTargetedObject != NULL && mTargetedObject->getActor() != NULL ) 

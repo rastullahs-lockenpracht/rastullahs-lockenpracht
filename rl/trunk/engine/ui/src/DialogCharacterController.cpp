@@ -64,6 +64,9 @@ namespace rl {
 		ogreCam->setPosition(Vector3::ZERO);	
 		ogreCam->setOrientation(Quaternion::IDENTITY);
 		mCamera->_getSceneNode()->setFixedYawAxis(true);
+
+        // Aktuelle Objektanwahl entfernen
+        InputManager::getSingleton().setObjectPickingActive(false);
 	}
 
 	DialogCharacterController::~DialogCharacterController()
