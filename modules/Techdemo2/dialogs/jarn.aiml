@@ -10,8 +10,8 @@
 	<template>
 		<gossip rldialog:type="response">
 			<condition type="default" name="jarn_1">
-				<li rldialog:id="0.5SekStille.ogg" value=""></li>
-				<li rldialog:id="0.5SekStille.ogg" value="1">[Schon gehört! Automatisch Weiter!]</li>
+				<li rldialog:id="null.ogg" value=""></li>
+				<li rldialog:id="null.ogg" value="1">[Schon gehört! Automatisch Weiter!]</li>
 			</condition>
 		</gossip>
 		<gossip rldialog:type="option">
@@ -27,7 +27,7 @@
 	<pattern>11</pattern>
 	<template>
 		<gossip rldialog:type="response">
-			<condition type="default" name="jarn_1"><li rldialog:id="jarn001.ogg" value="">Ja, möge sein Segen auf den Schuhen liegen. Aber momentan komme ich einfach zu Nichts! Und jetzt auch noch die Geschichte mit dem Huhn!</li><li value="1" rldialog:id="0.5SekStille.ogg"></li></condition> 
+			<condition type="default" name="jarn_1"><li rldialog:id="jarn001.ogg" value="">Ja, möge sein Segen auf den Schuhen liegen. Aber momentan komme ich einfach zu Nichts! Und jetzt auch noch die Geschichte mit dem Huhn!</li><li value="1" rldialog:id="null.ogg"></li></condition> 
 		</gossip>
 		<gossip rldialog:type="option">
 			<condition type="default" name="jarn_2"><li rldialog:id="alrike002.ogg" value="" rldialog:patternRef ="2">Wo wir gerade bei Huhn sind. Wegen der Vorkommnisse; Was haltet ihr davon? Habt ihr irgend etwas gesehen oder wisst ihr etwas, das mir helfen könnte?</li></condition>
@@ -60,7 +60,7 @@
 				<li rldialog:id="jarn003.ogg">Nein, wir lassen den Wald weitgehend in Ruhe und erwarten das gleiche von ihm. Aber jetzt?! Soll er sich doch zum Beschützer der Bäume aufschwingen, wir haben ihm jedenfalls keinen Grund dafür gegeben, dass er die Wölfe auf uns hetzt. Er ist eine Gefahr für uns, wenn er so überreagiert.</li>
 			</gossip>
 			<gossip rldialog:type="option">
-				<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11"><set type="default" name="jarn_2" value="1"/><set type="questparts" name="hauptquest2" value="increase"/>*klick zum Anfang*-Automatisierung einbauen!</li>
+				<li rldialog:id="null.ogg" rldialog:patternRef ="11"><set type="default" name="jarn_2" value="1"/><set type="questparts" name="hauptquest2" value="increase"/>*klick zum Anfang*-Automatisierung einbauen!</li>
 			</gossip>
 		</template>	
 		</category>
@@ -98,7 +98,7 @@
 					<li rldialog:id="jarn006.ogg">Er wohnt in dem Haus dort drüben. Er wird so tun, als ob er nicht zuhause sei. Aber sprecht nur von dem Paket, er wird euch schon hören.</li>
 				</gossip>
 				<gossip rldialog:type="option">
-					<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11"><set type="queststate" name="paket" value="ASSIGNED"/><set type="questknown" name="paket" value="KNOWN"/><set type="default" name="jarn_3" value="1"/>*klick zum Anfang*-Automatisierung einbauen!</li>
+					<li rldialog:id="null.ogg" rldialog:patternRef ="11"><set type="queststate" name="paket" value="ASSIGNED"/><set type="questknown" name="paket" value="KNOWN"/><set type="default" name="jarn_3" value="1"/>*klick zum Anfang*-Automatisierung einbauen!</li>
 				</gossip>
 			</template>
 			</category>

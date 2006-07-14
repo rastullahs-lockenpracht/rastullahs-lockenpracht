@@ -11,12 +11,12 @@
 	<template>
 		<gossip rldialog:type="response">
 			<condition type="default" name="tsafried_1">
-				<li rldialog:id="0.5SekStille.ogg" value="">Ein Glück, dass ihr da seid! Er braucht eure Hilfe!</li>
-				<li rldialog:id="0.5SekStille.ogg" value="1">[Schon gehört! Automatisch Weiter!]</li>
+				<li rldialog:id="null.ogg" value="">Ein Glück, dass ihr da seid! Er braucht eure Hilfe!</li>
+				<li rldialog:id="null.ogg" value="1">[Schon gehört! Automatisch Weiter!]</li>
 			</condition>
 		</gossip>
 		<gossip rldialog:type="option">
-			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11">Nun mal langsam, eigentlich wollte ich ja die Fragen stellen, aber was ist denn los?</li>
+			<li rldialog:id="alrike021.ogg" rldialog:patternRef ="11">Nun mal langsam, eigentlich wollte ich ja die Fragen stellen, aber was ist denn los?</li>
 		</gossip>
 	</template>
 	</category>
@@ -26,15 +26,15 @@
 		<pattern>11</pattern>
 		<template>
 			<gossip rldialog:type="response">
-				<condition type="default" name="tsafried_1"><li rldialog:id="0.5SekStille.ogg" value="">Mein Mentor, ich habe ihn seit Tagen nicht gesehen!</li><li value="1" rldialog:id="0.5SekStille.ogg"></li></condition> 
+				<condition type="default" name="tsafried_1"><li rldialog:id="null.ogg" value="">Mein Mentor, ich habe ihn seit Tagen nicht gesehen!</li><li value="1" rldialog:id="null.ogg"></li></condition> 
 			</gossip>
 			<gossip rldialog:type="option">
 				<condition type="default" name="tsafried_2">
-					<li rldialog:id="0.5SekStille.ogg" value="" rldialog:patternRef ="2">In welchem Haus wohnt er denn?</li>
-					<li rldialog:id="0.5SekStille.ogg" value="2" rldialog:patternRef ="23">Um noch einmal darauf zurückzukommen. Wo im Wald wohnt Euer Mentor genau?</li>
+					<li rldialog:id="alrike022.ogg" value="" rldialog:patternRef ="2">In welchem Haus wohnt er denn?</li>
+					<li rldialog:id="alrike025.ogg" value="2" rldialog:patternRef ="23">Um noch einmal darauf zurückzukommen. Wo im Wald wohnt Euer Mentor genau?</li>
 				</condition>
-				<condition type="default" name="tsafried_3"><li rldialog:id="0.5SekStille.ogg" value="" rldialog:patternRef ="3">Wo ist er denn hin?</li></condition>
-				<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="EXIT"><set type="default" name="tsafried_1" value="1"/>Ich komme später wieder.</li>
+				<condition type="default" name="tsafried_3"><li rldialog:id="alrike023.ogg" value="" rldialog:patternRef ="3">Wo ist er denn hin?</li></condition>
+				<li rldialog:id="alrike043.ogg" rldialog:patternRef ="EXIT"><set type="default" name="tsafried_1" value="1"/>Ich komme später wieder.</li>
 			</gossip>
 		</template>
 	</category>
@@ -46,11 +46,11 @@
 	<pattern>2</pattern>
 	<template>
 		<gossip rldialog:type="response">
-			<li rldialog:id="0.5SekStille.ogg">Oh, er wohnt nicht im Dorf. Er wohnt im Wald, im Einklang mit der Natur.</li>			
+			<li rldialog:id="null.ogg">Oh, er wohnt nicht im Dorf. Er wohnt im Wald, im Einklang mit der Natur.</li>			
 		</gossip>
 		<gossip rldialog:type="option">
-			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="22">Das ist ja interessant. Wann ist er dort hingezogen?</li>
-			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="23">Und wo dort?</li>
+			<li rldialog:id="alrike024.ogg" rldialog:patternRef ="22">Das ist ja interessant. Wann ist er dort hingezogen?</li>
+			<li rldialog:id="alrike025.ogg" rldialog:patternRef ="23">Und wo genau?</li>
 		</gossip>
 	</template>
 	</category>
@@ -60,10 +60,10 @@
 		<pattern>22</pattern>
 		<template>
 			<gossip rldialog:type="response">
-				<li rldialog:id="0.5SekStille.ogg">Er wohnt schon immer dort. Es ist im Wald aufgewachsen, spricht mit ihm und lebt mit ihm. Er meinte wenn ich auch einmal die Stimme des Waldes hören kann, könnte ich vielleicht auch dort leben.</li>			
+				<li rldialog:id="null.ogg">Er wohnt schon immer dort. Es ist im Wald aufgewachsen, spricht mit ihm und lebt mit ihm. Er meinte wenn ich auch einmal die Stimme des Waldes hören kann, könnte ich vielleicht auch dort leben.</li>			
 			</gossip>
 			<gossip rldialog:type="option">
-				<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11"><set type="default" name="tsafried_2" value="2"/>*klick zum Anfang*-Automatisierung einbauen!</li>
+				<li rldialog:id="null.ogg" rldialog:patternRef ="11"><set type="default" name="tsafried_2" value="2"/>*klick zum Anfang*-Automatisierung einbauen!</li>
 			</gossip>
 		</template>
 		</category>
@@ -72,10 +72,10 @@
 		<pattern>23</pattern>
 		<template>
 			<gossip rldialog:type="response">
-				<li rldialog:id="0.5SekStille.ogg">Das ist schwer zu sagen. Er lebt mal hier, mal dort. Das letzte mal hab ich ihn in der Nähe vom verlassenen Turm gesehen.</li>			
+				<li rldialog:id="null.ogg">Das ist schwer zu sagen. Er lebt mal hier, mal dort. Das letzte mal hab ich ihn in der Nähe vom verlassenen Turm gesehen.</li>			
 			</gossip>
 			<gossip rldialog:type="option">
-				<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="233">Wie komme ich dorthin?</li>
+				<li rldialog:id="alrike026.ogg" rldialog:patternRef ="233">Wie komme ich dorthin?</li>
 			</gossip>
 		</template>
 		</category>	
@@ -84,10 +84,10 @@
 			<pattern>23</pattern>
 			<template>
 				<gossip rldialog:type="response">
-					<li rldialog:id="0.5SekStille.ogg">Ich bin immer direkt in den Wald gegangen, dort kenne ich mich aus. Aber ich glaube es gibt einen alten Pfad, der dort hinführt. Der Weg ist ein klein wenig länger, aber viel einfacher zu finden. Fragt am besten Sonja danach.</li>			
+					<li rldialog:id="null.ogg">Ich bin immer direkt in den Wald gegangen, dort kenne ich mich aus. Aber ich glaube es gibt einen alten Pfad, der dort hinführt. Der Weg ist ein klein wenig länger, aber viel einfacher zu finden. Fragt am besten Sonja danach.</li>			
 				</gossip>
 				<gossip rldialog:type="option">
-					<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11"><set type="default" name="tsafried_2" value="1"/><set type="queststate" name="aufenthaltsort" value="SUCCEEDED"/>*klick zum Anfang*-Automatisierung einbauen!</li>
+					<li rldialog:id="null.ogg" rldialog:patternRef ="11"><set type="default" name="tsafried_2" value="1"/><set type="queststate" name="aufenthaltsort" value="SUCCEEDED"/>*klick zum Anfang*-Automatisierung einbauen!</li>
 				</gossip>
 			</template>
 			</category>
@@ -100,10 +100,10 @@
 	<pattern>3</pattern>
 	<template>
 		<gossip rldialog:type="response">
-			<li rldialog:id="0.5SekStille.ogg">Er ist weg! Seit einer Woche habe ich nichts mehr von ihm gehört. Seit...</li>			
+			<li rldialog:id="null.ogg">Er ist weg! Seit einer Woche habe ich nichts mehr von ihm gehört. Seit...</li>			
 		</gossip>
 		<gossip rldialog:type="option">
-			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="333">Seit?</li>
+			<li rldialog:id="alrike027.ogg" rldialog:patternRef ="333">Seit?</li>
 		</gossip>
 	</template>
 	</category>
@@ -112,10 +112,10 @@
 		<pattern>333</pattern>
 		<template>
 			<gossip rldialog:type="response">
-				<li rldialog:id="0.5SekStille.ogg">Seit er von Sonja betrogen worden ist! Ich habe ihm schon immer gesagt, dass sie ihm nicht den richtigen Gegenwert für seine Pflanzen gibt, aber er lächelte mich immer nur mitleidig an, wenn ich das sagte!</li>			
+				<li rldialog:id="null.ogg">Seit er von Sonja betrogen worden ist! Ich habe ihm schon immer gesagt, dass sie ihm nicht den richtigen Gegenwert für seine Pflanzen gibt, aber er lächelte mich immer nur mitleidig an, wenn ich das sagte!</li>			
 			</gossip>
 			<gossip rldialog:type="option">
-				<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="3333">Es machte ihm wohl nichts aus.</li>
+				<li rldialog:id="alrike028.ogg" rldialog:patternRef ="3333">Es machte ihm wohl nichts aus.</li>
 			</gossip>
 		</template>
 		</category>
@@ -124,10 +124,10 @@
 			<pattern>3333</pattern>
 			<template>
 				<gossip rldialog:type="response">
-					<li rldialog:id="0.5SekStille.ogg">Aber jetzt ist er weg! Der letzte Tauschhandel war äußert ungerecht. Sie hat ihm viel zu wenig gegeben. Vielleicht ist er jetzt nur eingeschnappt und kommt deswegen nicht mehr wieder. Aber vielleicht ist auch irgend etwas passiert. Ich mache mir Sorgen!</li>			
+					<li rldialog:id="null.ogg">Aber jetzt ist er weg! Der letzte Tauschhandel war äußert ungerecht. Sie hat ihm viel zu wenig gegeben. Vielleicht ist er jetzt nur eingeschnappt und kommt deswegen nicht mehr wieder. Aber vielleicht ist auch irgend etwas passiert. Ich mache mir Sorgen!</li>			
 				</gossip>
 				<gossip rldialog:type="option">
-					<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="33333">Warum seid ihr nicht in den Wald gegangen und habt nachgesehen?</li>
+					<li rldialog:id="alrike029.ogg" rldialog:patternRef ="33333">Und warum seid ihr nicht zu ihm gegangen und habt nachgesehen?</li>
 				</gossip>
 			</template>
 			</category>		
@@ -136,11 +136,11 @@
 				<pattern>33333</pattern>
 				<template>
 					<gossip rldialog:type="response">
-						<li rldialog:id="0.5SekStille.ogg">Jetzt bei den ganzen Wölfen? Ich mag ein Freund der Natur sein, aber mein Leben ist mir trotzdem lieb, so wahr Tsa es mir gab.</li>			
+						<li rldialog:id="null.ogg">Jetzt bei den ganzen Wölfen? Ich mag ein Freund der Natur sein, aber mein Leben ist mir trotzdem lieb, so wahr Tsa es mir gab.</li>			
 					</gossip>
 					<gossip rldialog:type="option">
-						<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="333333">Ich werde ihn aufsuchen müssen, um herauszufinden was er mit den Raubtieren zu tun hat.</li>
-						<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="333333">Ich werde schauen was los ist. Ein alter Mann allein im Wald mit den Wölfen ist zu gefährlich.</li>
+						<li rldialog:id="alrike030.ogg" rldialog:patternRef ="333333">Ich werde ihn aufsuchen müssen, um zu sehen was er mit den Raubtieren zu tun hat.</li>
+						<li rldialog:id="alrike031.ogg" rldialog:patternRef ="333333">Ich werde schauen was los ist. Ein alter Mann allein mit den Wölfen ist viel zu gefährlich.</li>
 					</gossip>
 				</template>
 				</category>
@@ -149,10 +149,10 @@
 					<pattern>333333</pattern>
 					<template>
 						<gossip rldialog:type="response">
-							<li rldialog:id="0.5SekStille.ogg">Egal was es ist. Schaut nach und seht, ob es ihm gut geht. Alles weitere könnt Ihr danach entscheiden. Ich glaube nicht, dass er etwas gegen das Dorf hat. Er mag im Einklang mit der Natur leben, aber er mag auch die Menschen hier.</li>
+							<li rldialog:id="null.ogg">Egal was es ist. Schaut nach und seht, ob es ihm gut geht. Alles weitere könnt Ihr danach entscheiden. Ich glaube nicht, dass er etwas gegen das Dorf hat. Er mag im Einklang mit der Natur leben, aber er mag auch die Menschen hier.</li>
 						</gossip>
 						<gossip rldialog:type="option">
-							<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11"><set type="default" name="tsafried_3" value="1"/><set type="questparts" name="hauptquest2" value="increase"/>*klick zum Anfang*-Automatisierung einbauen!</li>
+							<li rldialog:id="null.ogg" rldialog:patternRef ="11"><set type="default" name="tsafried_3" value="1"/><set type="questparts" name="hauptquest2" value="increase"/>*klick zum Anfang*-Automatisierung einbauen!</li>
 						</gossip>
 					</template>
 					</category>

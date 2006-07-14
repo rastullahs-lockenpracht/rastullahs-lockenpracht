@@ -10,12 +10,12 @@
 	<template>
 		<gossip rldialog:type="response">
 			<condition type="default" name="wolframstuer_1">
-				<li rldialog:id="0.5SekStille.ogg">Die Tür ist geschlossen. Aber es dringen leise Geräusche aus dem Inneren; eine Art Kratzen und Rascheln.</li>
-				<li rldialog:id="0.5SekStille.ogg" value="1">[Schon gehört! Automatisch Weiter!]</li>
+				<li rldialog:id="5SekStille.ogg">Die Tür ist geschlossen. Aber es dringen leise Geräusche aus dem Inneren; eine Art Kratzen und Rascheln.</li>
+				<li rldialog:id="null.ogg" value="1">[Schon gehört! Automatisch Weiter!]</li>
 			</condition>
 		</gossip>
 		<gossip rldialog:type="option">
-			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11">Hallo? Ist da wer?</li>
+			<li rldialog:id="alrike010.ogg" rldialog:patternRef ="11">Hallo? Ist da wer?</li>
 		</gossip>
 	</template>
 	</category>
@@ -26,15 +26,15 @@
 		<template>
 			<gossip rldialog:type="response">
 				<condition type="default" name="wolframstuer_1">
-					<li rldialog:id="0.5SekStille.ogg">Keine Antwort. Aber die Geräusche verstummen plötzlich.</li>
-					<li rldialog:id="0.5SekStille.ogg" value="1"></li>
+					<li rldialog:id="5SekStille.ogg">Keine Antwort. Aber die Geräusche verstummen plötzlich.</li>
+					<li rldialog:id="null.ogg" value="1"></li>
 				</condition>
 			</gossip>
 			<gossip rldialog:type="option">
 				<!--Hier könnte noch eine verknüpfte UND Condition mit hauptquest2=ASSIGNED laufen, damit man das nur bekommt, wenn man weiß, dass man dort klopfen soll. Ist das logisch sinnvoll?  -->
-				<condition type="queststate" name="paket"><li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="2" value="OPEN">Macht auf! Hier ist die Stadtwache aus Wandleth, ich möchte euch nur ein paar Fragen stellen.</li></condition>
-				<condition type="queststate" name="paket"><li rldialog:id="0.5SekStille.ogg" value="ASSIGNED" rldialog:patternRef ="3">Ich habe hier ein Paket von Jarn für euch!</li></condition> 
-				<li rldialog:id="0.5SekStille.ogg"><set type="default" name="wolframstuer_1" value="1"/>Ich... gehe dann mal wieder.</li>
+				<condition type="queststate" name="paket"><li rldialog:id="alrike011.ogg" rldialog:patternRef ="2" value="OPEN">Macht auf! Hier ist die Stadtwache aus Wandleth, ich möchte euch nur ein paar Fragen stellen.</li></condition>
+				<condition type="queststate" name="paket"><li rldialog:id="alrike012.ogg" value="ASSIGNED" rldialog:patternRef ="3">Ich habe hier ein Paket von Jarn für euch!</li></condition> 
+				<li rldialog:id="null.ogg"><set type="default" name="wolframstuer_1" value="1"/>[Wieder gehen].</li>
 			</gossip>
 		</template>
 	</category>
@@ -45,10 +45,10 @@
 	<pattern>2</pattern>
 	<template>
 		<gossip rldialog:type="response">
-			<li rldialog:id="0.5SekStille.ogg">Keine Antwort. Offenbar will da jemand nicht bei seiner Arbeit gestört werden</li>
+			<li rldialog:id="5SekStille.ogg">Keine Antwort. Offenbar will da jemand nicht bei seiner Arbeit gestört werden</li>
 		</gossip>
 		<gossip rldialog:type="option">
-			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="11"><set type="questknown" name="wolfram" value="KNOWN"/><set type="queststate" name="wolfram" value="ASSIGNED"/>*klick zum Anfang*-Automatisierung einbauen!</li>
+			<li rldialog:id="null.ogg" rldialog:patternRef ="11"><set type="questknown" name="wolfram" value="KNOWN"/><set type="queststate" name="wolfram" value="ASSIGNED"/>*klick zum Anfang*-Automatisierung einbauen!</li>
 		</gossip>
 	</template>
 	</category>
@@ -58,10 +58,10 @@
 	<pattern>3</pattern>
 	<template>
 		<gossip rldialog:type="response">
-			<li rldialog:id="0.5SekStille.ogg">Es sind Schritte zu hören, die sich auf die Tür zu bewegen. Ein Schloß wird geöffnet.</li>
+			<li rldialog:id="5SekStille.ogg">Es sind Schritte zu hören, die sich auf die Tür zu bewegen. Ein Schloß wird geöffnet.</li>
 		</gossip>
 		<gossip rldialog:type="option">
-			<li rldialog:id="0.5SekStille.ogg" rldialog:patternRef ="EXIT"><set type="queststate" name="wolfram" value="SUCCEEDED"/><set type="questknown" name="wolfram" value="KNOWN"/>Zustände setten, Scripte ausführen, Dialog beenden.</li>
+			<li rldialog:id="null.ogg" rldialog:patternRef ="EXIT"><set type="queststate" name="wolfram" value="SUCCEEDED"/><set type="questknown" name="wolfram" value="KNOWN"/>Zustände setten, Scripte ausführen, Dialog beenden.</li>
 		</gossip>
 	</template>
 	</category>
