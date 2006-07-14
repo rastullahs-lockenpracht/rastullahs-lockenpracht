@@ -21613,4 +21613,21 @@
 
 		</node>
 	</nodes>
+			<userData>
+		<property type="FLOAT" name="staticgeom_renderingdistance_0" data="200"/>
+        <property type="FLOAT" name="staticgeom_batchsize_0" data="25"/>
+
+	<property type="FLOAT" name="default_renderingdistance" data="10000"/>
+
+       <manualLOD mesh="nat_nadelbaum_02.mesh">
+            <LOD distance="150.0" mesh="nat_nadelbaum_02_lod.mesh" />
+        </manualLOD>
+
+        <manualLOD mesh="nat_nadelbaum_03.mesh">
+            <LOD distance="150.0" mesh="nat_nadelbaum_03_lod.mesh" />
+        </manualLOD>
+
+	</userData>
+	
+	
 </scene>

@@ -18,7 +18,7 @@ material nat_baum_01/stamm
 	}
 }
 
-material nat_baum_01/blaetter
+material nat_baum_01/blaetter : windy_grass
 {
 	technique
 	{

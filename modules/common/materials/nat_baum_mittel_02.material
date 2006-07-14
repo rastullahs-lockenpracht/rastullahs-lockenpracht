@@ -1,4 +1,4 @@
-material nat_baum_mittel_02
+material nat_baum_mittel_02 : windy_grass
 {
     technique
     {

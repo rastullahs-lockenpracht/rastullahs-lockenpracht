@@ -1,4 +1,4 @@
-material nat_busch_klein
+material nat_busch_klein : windy_grass
 {
     technique
     {

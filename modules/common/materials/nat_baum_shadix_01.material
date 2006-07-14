@@ -1,4 +1,4 @@
-material nat_baum_shadix_01/baumblatt
+material nat_baum_shadix_01/baumblatt : windy_grass
 {
 receive_shadows off
     technique
