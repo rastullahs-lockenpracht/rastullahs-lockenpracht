@@ -82,6 +82,8 @@ namespace rl {
         /// Die Zeit bis der Text ausgeblendet wird
         Ogre::Real mTotalFadeTextTime;
 
+        Ogre::Real mSubtitleSpeed;
+
 		/// Der Untertitel Text
 		CeGuiString mText;
 		/// Es wird gerade Text angezeigt

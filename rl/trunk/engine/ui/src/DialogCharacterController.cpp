@@ -34,7 +34,7 @@
 #include "SubtitleWindow.h"
 #include "WindowManager.h"
 #include "World.h"
-
+#include "ConfigurationManager.h"
 
 #include <OgreSceneManager.h>
 #include <OgreNewt_Body.h>
@@ -55,7 +55,8 @@ namespace rl {
 		mDialogWindow(NULL),
 		mSubtitleWindow(NULL),
 		mSoundObject(NULL),
-		mTalkAnimation(NULL)
+		mTalkAnimation(NULL),
+        mSubtitleSpeed(1.0f)
 	{
 		mCamera->getPhysicalThing()->freeze();
 		mCharacterActor->getPhysicalThing()->freeze();		
@@ -67,6 +68,8 @@ namespace rl {
 
         // Aktuelle Objektanwahl entfernen
         InputManager::getSingleton().setObjectPickingActive(false);
+
+        mSubtitleSpeed = ConfigurationManager::getSingleton().getRealSetting( "subtitle_speed", 1.0 );
 	}
 
 	DialogCharacterController::~DialogCharacterController()
@@ -223,8 +226,13 @@ namespace rl {
         float fadeTime = getShowTextLength(text);
 		if (soundFile.length() == 0)
 		{
-			mCurrFadeTextTime = fadeTime;
-            mTotalFadeTextTime = fadeTime;
+            float speed = mSubtitleSpeed;
+
+            if( mSubtitleSpeed == 0.0 )
+                speed = 1.0;
+
+            mCurrFadeTextTime = fadeTime*speed;
+            mTotalFadeTextTime = fadeTime*speed;
 		}
 		else
 		{
@@ -240,7 +248,7 @@ namespace rl {
 			mSoundObject->set3d(false);
 			mSoundObject->play();
 
-            mCurrFadeTextTime = std::max(fadeTime,mSoundObject->getLength());
+            mCurrFadeTextTime = std::max(fadeTime*mSubtitleSpeed,mSoundObject->getLength());
             mTotalFadeTextTime = mCurrFadeTextTime;
 		}
 
