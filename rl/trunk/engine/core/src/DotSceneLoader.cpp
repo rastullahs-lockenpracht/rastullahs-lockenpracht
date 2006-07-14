@@ -504,8 +504,6 @@ namespace rl {
                 {
                     Ogre::Real diameter 
                         = (newEnt->getBoundingBox().getMaximum() - newEnt->getBoundingBox().getMinimum()).length();  
-                    Logger::getSingleton().log(Logger::CORE, Logger::LL_NORMAL, 
-                    " > Volumen ist '"+Ogre::StringConverter::toString(diameter)+"'!");
 
                     // Gerade mal 10cm² => 10m
                     if( diameter <= 0.5 )
