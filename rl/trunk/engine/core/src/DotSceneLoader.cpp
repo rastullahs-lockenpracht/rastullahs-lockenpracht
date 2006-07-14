@@ -498,8 +498,37 @@ namespace rl {
                     PhysicsManager::getSingleton().addLevelGeometry( newEnt );
                     Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, " Entity '"+entName+"' als TriMesh in levelGeometry geladen");
                 }
+                
+                // Renderingdistanz berechnen
+                if( renderingDistance == mRenderingDistance )
+                {
+                    Ogre::Real diameter 
+                        = (newEnt->getBoundingBox().getMaximum() - newEnt->getBoundingBox().getMinimum()).length();  
+                    Logger::getSingleton().log(Logger::CORE, Logger::LL_NORMAL, 
+                    " > Volumen ist '"+Ogre::StringConverter::toString(diameter)+"'!");
 
-				newEnt->setRenderingDistance( renderingDistance );
+                    // Gerade mal 10cm² => 10m
+                    if( diameter <= 0.5 )
+                        renderingDistance = 15;
+                    // Gerade mal 1,5m² => 25m
+                    else if( diameter <= 1.5 )
+                        renderingDistance = 30;
+                    // Gerade mal 2,5m² => 50m
+                    else if( diameter <= 2.5 )
+                        renderingDistance = 60;
+                    else if( diameter <= 10 )
+                        renderingDistance = 150;
+                    else if( diameter <= 50 )
+                        renderingDistance = 250;
+                    else if( diameter <= 100 )
+                        renderingDistance = 450;
+                    else
+                        renderingDistance = 1500;
+
+                    newEnt->setRenderingDistance( renderingDistance );
+                }
+                else
+				    newEnt->setRenderingDistance( renderingDistance );
                 newEnt->setCastShadows( false );
             }
             catch (Ogre::Exception& e) 
