@@ -236,6 +236,10 @@ namespace rl {
 		}
 		else
 		{
+            if( mSoundObject != NULL )
+                mSoundObject->getMovableObject()->getParentSceneNode()->detachObject(
+                    mSoundObject->getMovableObject() );
+
 			delete mSoundObject;
 			mSoundObject = 
 				new SoundObject(
@@ -244,8 +248,10 @@ namespace rl {
 							SoundManager::getSingleton().getByName(soundFile)),
 					soundFile);
 
-			// @todo An Sprecher hängen?
-			mSoundObject->set3d(false);
+			// An Sprecher hängen
+            actor->_getSceneNode()->attachObject( mSoundObject->getMovableObject() );
+            mSoundObject->_setActor( actor );
+			mSoundObject->set3d(true);
 			mSoundObject->play();
 
             mCurrFadeTextTime = std::max(fadeTime*mSubtitleSpeed,mSoundObject->getLength());
