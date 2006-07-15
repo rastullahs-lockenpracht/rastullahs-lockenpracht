@@ -253,6 +253,7 @@ namespace rl {
             mSoundObject->_setActor( actor );
 			mSoundObject->set3d(true);
 			mSoundObject->play();
+            mSoundObject->_update();
 
             mCurrFadeTextTime = std::max(fadeTime*mSubtitleSpeed,mSoundObject->getLength());
             mTotalFadeTextTime = mCurrFadeTextTime;
