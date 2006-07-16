@@ -238,7 +238,7 @@
 <!ATTLIST userDataReference
 	id CDATA #REQUIRED
 >
-<!ELEMENT octree (octnode)>
+<!ELEMENT octree (octNode)>
 <!ATTLIST octree
 	binFile CDATA #REQUIRED
 >
