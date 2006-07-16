@@ -1,17 +1,16 @@
-
 material nat_grasplanes
 {
-receive_shadows off
+	receive_shadows off
 
 	technique
 	{
 		pass
 		{
-		ambient 0.335294 0.335294 0.335294 1
-			diffuse 0.331373 0.331373 0.331373 1
+			ambient 0.835294 0.835294 0.835294 1
+			diffuse 0.731373 0.731373 0.731373 1
 			specular 0 0 0 1 1
 		
-			alpha_rejection greater 128
+			alpha_rejection greater 100
 
 			texture_unit
 			{
