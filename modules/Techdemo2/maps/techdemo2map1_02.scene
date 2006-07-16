@@ -19602,21 +19602,7 @@
   
 
 		</node>
-		<node name="men_alrike_ladMichNich" id="2613" >
-			<position x="-35.7122" y="-6.22226" z="17.7814" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="men_alrike_ladMichNich"
-				id="2614"
-				meshFile ="men_alrike_ladMichNich.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
 
-  
-
-		</node>
 		<node name="arc_stuhl_01" id="2615" >
 			<position x="-32.942" y="-6.25103" z="18.6434" />
 			<rotation qx="0.0" qy="-0.902991" qz="0.0" qw="0.429659" />
@@ -20097,36 +20083,7 @@
   
 
 		</node>
-		<node name="door" id="2679" >
-			<position x="-12.9124" y="-6.86492" z="13.7133" />
-			<rotation qx="0.0" qy="-0.300706" qz="0.0" qw="0.953717" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="door"
-				id="2680"
-				meshFile ="door.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
 
-  
-
-		</node>
-		<node name="arc_door_02_lad_mich_nich" id="2681" >
-			<position x="-34.6458" y="-6.2058" z="14.9355" />
-			<rotation qx="0.0" qy="-0.288855" qz="0.0" qw="0.957373" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="arc_door_02_lad_mich_nich"
-				id="2682"
-				meshFile ="arc_door_02_lad_mich_nich.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
 		<node name="arc_regal_01" id="2683" >
 			<position x="-37.3135" y="-6.22377" z="21.9168" />
 			<rotation qx="0.0" qy="-0.953717" qz="0.0" qw="-0.300706" />
