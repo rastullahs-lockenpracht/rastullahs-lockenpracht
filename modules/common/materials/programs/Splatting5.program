@@ -86,43 +86,43 @@ material Splatting5
 			texture_unit SplattingMap
 			{
 				filtering anisotropic
-				max_anisotropy 8
+				max_anisotropy 6
 			}
 			// Texture containing the LightingMap
 			texture_unit LightingMap
 			{
 				filtering anisotropic
-				max_anisotropy 8
+				max_anisotropy 6
 			}
 			// Texture containing the groundlayer and its detailmap (inside the alpha channel)
 			texture_unit BaseLayer
 			{
 				filtering anisotropic
-				max_anisotropy 8
+				max_anisotropy 6
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
 			texture_unit RedLayer
 			{
 				filtering anisotropic
-				max_anisotropy 8
+				max_anisotropy 6
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
 			texture_unit GreenLayer
 			{
 				filtering anisotropic
-				max_anisotropy 8
+				max_anisotropy 6
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
 			texture_unit BlueLayer
 			{
 				filtering anisotropic
-				max_anisotropy 8
+				max_anisotropy 6
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
 			texture_unit AlphaLayer
 			{
 				filtering anisotropic
-				max_anisotropy 8
+				max_anisotropy 6
 			}
 			
 		}
@@ -176,43 +176,43 @@ material Splatting5
 			texture_unit SplattingMap
 			{
 				filtering anisotropic
-				max_anisotropy 8
+				max_anisotropy 6
 			}
 			// Texture containing the LightingMap
 			texture_unit LightingMap
 			{
 				filtering anisotropic
-				max_anisotropy 8
+				max_anisotropy 6
 			}
 			// Texture containing the groundlayer and its detailmap (inside the alpha channel)
 			texture_unit BaseLayer
 			{
 				filtering anisotropic
-				max_anisotropy 8
+				max_anisotropy 6
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
 			texture_unit RedLayer
 			{
 				filtering anisotropic
-				max_anisotropy 8
+				max_anisotropy 6
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
 			texture_unit GreenLayer
 			{
 				filtering anisotropic
-				max_anisotropy 8
+				max_anisotropy 6
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
 			texture_unit BlueLayer
 			{
 				filtering anisotropic
-				max_anisotropy 8
+				max_anisotropy 6
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
 			texture_unit AlphaLayer
 			{
 				filtering anisotropic
-				max_anisotropy 8
+				max_anisotropy 6
 			}
 		}
 	}
