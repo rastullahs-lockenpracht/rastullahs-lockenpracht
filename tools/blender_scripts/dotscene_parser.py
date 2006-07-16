@@ -53,24 +53,41 @@ def dlog(msg):
 ######################################
 
 
-class Scene:
+class Scene(object):
     def __init__(self):
         self.formatVersion = 0.0
         self.id = None
         self.sceneManager = None
         self.minOgreVersion = 0.0
         self.author = None
+        self.nodes = None
+        self.externals = None
+        self.environment = None
+        self.terrain = None
+        self.userDataReference = None
         self.userData = {}
         
-class Nodes:
+    def __str__(self):
+        str = "Scene Object:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
+        
+class Nodes(object):
     def __init__(self):
         self.position = None
         self.rotation = None
         self.scale = None
-        self.nodes = []
+        self.node = []
         self.userData = {}
         
-class Node:
+    def __str__(self):
+        str = "Nodes:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
+        
+class Node(object):
     def __init__(self):
         self.name = None
         self.id = None
@@ -89,24 +106,48 @@ class Node:
         self.plane = []
         self.userDataReference = None
         self.userData = {}
+
+    def __str__(self):
+        str = "Node:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
         
-class Terrain:
+class Terrain(object):
     def __init__(self):
         self.dataFile = None
         self.userData = {}
-        
-class UserDataReference:
+
+    def __str__(self):
+        str = "Terrain:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
+       
+class UserDataReference(object):
     def __init__(self):
         self.id = None
         self.userData = {}
-        
-class Octree:
+ 
+    def __str__(self):
+        str = "UserDataReference:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
+       
+class Octree(object):
     def __init__(self):
         self.binfile = None        
         self.octnode = OctNode()
         self.userData = {}
+
+    def __str__(self):
+        str = "Octree:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
         
-class OctNode:
+class OctNode(object):
     def __init__(self):
         self.px = 0.0
         self.py = 0.0
@@ -118,13 +159,25 @@ class OctNode:
         self.octMesh = []
         self.userData = {}
 
-class OctMesh:
+    def __str__(self):
+        str = "OctNode:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
+
+class OctMesh(object):
     def __init__(self):
         self.octGeometry = OctGeometry()
         self.octMaterial = OctMaterial()
         self.userData = {}
+
+    def __str__(self):
+        str = "OctMesh:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
         
-class OctGeometry:
+class OctGeometry(object):
     def __init__(self):
         self.binaryDataOffset = None
         self.vertTotal = None
@@ -134,14 +187,26 @@ class OctGeometry:
         self.texSets = None
         self.texTotal = None
         self.userData = {}
+
+    def __str__(self):
+        str = "OctGeomtry:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
         
-class OctMaterial:
+class OctMaterial(object):
     def __init__(self):
         self.name = None
         self.texture = None
         self.userData = {}
+
+    def __str__(self):
+        str = "OctMaterial:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
         
-class Rotation:
+class Rotation(object):
     def __init__(self):
         self.qx = 0.0
         self.qy = 0.0
@@ -155,23 +220,41 @@ class Rotation:
         self.angleY = 0.0
         self.angleZ = 0.0
         self.userData = {}
+
+    def __str__(self):
+        str = "Rotation:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
         
-class LookTarget:
+class LookTarget(object):
     def __init__(self):
         self.nodeName = None
         self.relativeTo = "parent"
         self.position = None
         self.localDirection = None
         self.userData = {}
+
+    def __str__(self):
+        str = "LookTarget:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
         
-class TrackTarget:
+class TrackTarget(object):
     def __init__(self):
         self.nodeName = None
         self.offset = None
         self.localDirection = None
         self.userData = {}
+
+    def __str__(self):
+        str = "TrackTarget:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
         
-class Entity:
+class Entity(object):
     def __init__(self):
         self.vertexBuffer = None
         self.indexBuffer = None
@@ -184,21 +267,39 @@ class Entity:
         self.castShadows = True
         self.userData = {}
         
-class Buffer:
+    def __str__(self):
+        str = "Entity:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
+
+class Buffer(object):
     def __init__(self):
         self.usage = "staticWriteOnly"
         self.useShadow = True
         self.userData = {}
         
-class ParticleSystem:
+    def __str__(self):
+        str = "Buffer:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
+        
+class ParticleSystem(object):
     def __init__(self):
         self.name = None
         self.id = None
         self.file = None
         self.userDataReference = None
         self.userData = {}
+
+    def __str__(self):
+        str = "ParticleSystem:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
         
-class BillboardSet:
+class BillboardSet(object):
     def __init__(self):
         self.name = None
         self.material = None
@@ -210,7 +311,13 @@ class BillboardSet:
         self.billboard = []
         self.userData = {}
         
-class Billboard:
+    def __str__(self):
+        str = "BillboardSet:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
+
+class Billboard(object):
     def __init__(self):
         self.id = None
         self.width = 0.0
@@ -219,8 +326,14 @@ class Billboard:
         self.rotation = Rotation
         self.colourDiffuse = None
         self.userData = {}
+
+    def __str__(self):
+        str = "Billboard:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
         
-class Plane:
+class Plane(object):
     def __init__(self):
         self.name = None
         self.id = None
@@ -239,24 +352,48 @@ class Plane:
         self.vertexBuffer = None
         self.indexBuffer = None
         self.userData = {}
+
+    def __str__(self):
+        str = "Plane:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
     
-class Externals:
+class Externals(object):
     def __init__(self):
         self.item = []
         self.userData = {}
 
-class Item:
+    def __str__(self):
+        str = "Externals:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
+
+class Item(object):
     def __init__(self):
         self.type = None
         self.file = File()
         self.userData = {}
         
-class File:
+    def __str__(self):
+        str = "Item:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
+
+class File(object):
     def __init__(self):
         self.name = None    
         self.userData = {}
 
-class Environment:
+    def __str__(self):
+        str = "File:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
+
+class Environment(object):
     def __init__(self):
         self.fog = None
         self.skyBox = None
@@ -268,13 +405,25 @@ class Environment:
         self.userDataReference = None
         self.userData = {}
         
-class Clipping:
+    def __str__(self):
+        str = "Environment:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
+
+class Clipping(object):
     def __init__(self):
         self.near = None
         self.far = None
         self.userData = {}
         
-class Fog:
+    def __str__(self):
+        str = "Clipping:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
+
+class Fog(object):
     def __init__(self):
         self.expDensity = 0.001
         self.linearStart = 0.0
@@ -282,7 +431,13 @@ class Fog:
         self.mode = "none"
         self.userData = {}
         
-class SkyBox:
+    def __str__(self):
+        str = "Fog:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
+
+class SkyBox(object):
     def __init__(self):
         self.rotation = Rotation()
         self.material = None
@@ -290,7 +445,13 @@ class SkyBox:
         self.drawFirst = True
         self.userData = {}
         
-class SkyDome:
+    def __str__(self):
+        str = "SkyBox:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
+
+class SkyDome(object):
     def __init__(self):
         self.rotation = Rotation()
         self.material = None
@@ -300,7 +461,13 @@ class SkyDome:
         self.drawFirst = True
         self.userData = {}
         
-class SkyPlane:
+    def __str__(self):
+        str = "SkyDome:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
+
+class SkyPlane(object):
     def __init__(self):
         self.material = None
         self.planeX = 0.0
@@ -313,7 +480,13 @@ class SkyPlane:
         self.drawFirst = True
         self.userData = {}
         
-class Light:
+    def __str__(self):
+        str = "SkyPlane:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
+
+class Light(object):
     def __init__(self):
         self.name = None
         self.id = None
@@ -329,22 +502,40 @@ class Light:
         self.userDataReference = None
         self.userData = {}
 
-class LightRange:
+    def __str__(self):
+        str = "Light:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
+
+class LightRange(object):
     def __init__(self):
         self.inner = None
         self.outer = None
         self.falloff = None
         self.userData = {}
+
+    def __str__(self):
+        str = "LightRange:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
         
-class LightAttenuation:
+class LightAttenuation(object):
     def __init__(self):
         self.range = None
         self.constant = None
         self.linear = None
         self.quadratric = None
         self.userData = {}
+
+    def __str__(self):
+        str = "LightAttenuation:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
         
-class Camera:
+class Camera(object):
     def __init__(self):
         self.name = None
         self.id = None
@@ -359,6 +550,12 @@ class Camera:
         self.trackTarget = None
         self.userDataReference = None
         self.userData = {}
+        
+    def __str__(self):
+        str = "Camera:\n"
+        for attr in self.__dict__:
+            str += attr + " => " + self.__dict__[attr].__str__() + "\n"
+        return str
         
 ####################################
 # Handling procedures              #
@@ -415,7 +612,7 @@ def handleNodes(node):
     for child in node.childNodes:
         if child.nodeType == xml.dom.Node.ELEMENT_NODE:
             if child.tagName == "node":
-                nodes.nodes.append(handleNode(child))
+                nodes.node.append(handleNode(child))
             elif child.tagName == "position":
                 nodes.position = handleVector(child)
             elif child.tagName == "scale":
