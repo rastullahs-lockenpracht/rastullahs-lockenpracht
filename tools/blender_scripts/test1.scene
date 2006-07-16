@@ -7,6 +7,11 @@
 			<position x="1.0" y="1.0" z="1.0"/>
 			<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
 			<scale x="1.0" y="1.0" z="1.0"/>
+            <userdata>
+                <property type="STRING" name="physical_body" data="some physics"/>
+                <property type="INT" name="index" data="1710"/>
+                <property type="FLOAT" name="scale" data="17.10"/>
+            </userdata>
 			<lookTarget nodeName="String" relativeTo="parent">
 				<position x="1.0" y="1.0" z="1.0"/>
 				<localDirection x="1.0" y="1.0" z="1.0"/>

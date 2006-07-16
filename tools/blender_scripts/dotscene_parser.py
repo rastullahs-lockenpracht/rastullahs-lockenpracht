@@ -30,7 +30,8 @@ __version__ = "0.1 07/12/06"
 # -------------
 # * Initial version.
 
-import os
+import string
+from string import lower
 import xml.dom
 import xml.dom.minidom
 from xml.dom.minidom import *
@@ -51,6 +52,7 @@ def dlog(msg):
 # Data structures                    #
 ######################################
 
+
 class Scene:
     def __init__(self):
         self.formatVersion = 0.0
@@ -58,6 +60,7 @@ class Scene:
         self.sceneManager = None
         self.minOgreVersion = 0.0
         self.author = None
+        self.userData = {}
         
 class Nodes:
     def __init__(self):
@@ -65,6 +68,7 @@ class Nodes:
         self.rotation = None
         self.scale = None
         self.nodes = []
+        self.userData = {}
         
 class Node:
     def __init__(self):
@@ -84,19 +88,23 @@ class Node:
         self.billboardSet = []
         self.plane = []
         self.userDataReference = None
+        self.userData = {}
         
 class Terrain:
     def __init__(self):
         self.dataFile = None
+        self.userData = {}
         
 class UserDataReference:
     def __init__(self):
         self.id = None
+        self.userData = {}
         
 class Octree:
     def __init__(self):
         self.binfile = None        
         self.octnode = OctNode()
+        self.userData = {}
         
 class OctNode:
     def __init__(self):
@@ -108,11 +116,13 @@ class OctNode:
         self.depth = 0.0
         self.octNode = []
         self.octMesh = []
+        self.userData = {}
 
 class OctMesh:
     def __init__(self):
         self.octGeometry = OctGeometry()
         self.octMaterial = OctMaterial()
+        self.userData = {}
         
 class OctGeometry:
     def __init__(self):
@@ -123,11 +133,13 @@ class OctGeometry:
         self.colorTotal = None
         self.texSets = None
         self.texTotal = None
+        self.userData = {}
         
 class OctMaterial:
     def __init__(self):
         self.name = None
         self.texture = None
+        self.userData = {}
         
 class Rotation:
     def __init__(self):
@@ -142,6 +154,7 @@ class Rotation:
         self.angleX = 0.0
         self.angleY = 0.0
         self.angleZ = 0.0
+        self.userData = {}
         
 class LookTarget:
     def __init__(self):
@@ -149,12 +162,14 @@ class LookTarget:
         self.relativeTo = "parent"
         self.position = None
         self.localDirection = None
+        self.userData = {}
         
 class TrackTarget:
     def __init__(self):
         self.nodeName = None
         self.offset = None
         self.localDirection = None
+        self.userData = {}
         
 class Entity:
     def __init__(self):
@@ -167,11 +182,13 @@ class Entity:
         self.materialFile = None
         self.static = False
         self.castShadows = True
+        self.userData = {}
         
 class Buffer:
     def __init__(self):
         self.usage = "staticWriteOnly"
         self.useShadow = True
+        self.userData = {}
         
 class ParticleSystem:
     def __init__(self):
@@ -179,6 +196,7 @@ class ParticleSystem:
         self.id = None
         self.file = None
         self.userDataReference = None
+        self.userData = {}
         
 class BillboardSet:
     def __init__(self):
@@ -190,6 +208,7 @@ class BillboardSet:
         self.type = "point"
         self.origin = "center"
         self.billboard = []
+        self.userData = {}
         
 class Billboard:
     def __init__(self):
@@ -199,6 +218,7 @@ class Billboard:
         self.position = None
         self.rotation = Rotation
         self.colourDiffuse = None
+        self.userData = {}
         
 class Plane:
     def __init__(self):
@@ -218,19 +238,23 @@ class Plane:
         self.upVector = None
         self.vertexBuffer = None
         self.indexBuffer = None
+        self.userData = {}
     
 class Externals:
     def __init__(self):
         self.item = []
+        self.userData = {}
 
 class Item:
     def __init__(self):
         self.type = None
         self.file = File()
+        self.userData = {}
         
 class File:
     def __init__(self):
         self.name = None    
+        self.userData = {}
 
 class Environment:
     def __init__(self):
@@ -242,11 +266,13 @@ class Environment:
         self.colourAmbient = None
         self.colourBackground = None
         self.userDataReference = None
+        self.userData = {}
         
 class Clipping:
     def __init__(self):
         self.near = None
         self.far = None
+        self.userData = {}
         
 class Fog:
     def __init__(self):
@@ -254,6 +280,7 @@ class Fog:
         self.linearStart = 0.0
         self.linearEnd = 1.0
         self.mode = "none"
+        self.userData = {}
         
 class SkyBox:
     def __init__(self):
@@ -261,6 +288,7 @@ class SkyBox:
         self.material = None
         self.distance = 5000.0
         self.drawFirst = True
+        self.userData = {}
         
 class SkyDome:
     def __init__(self):
@@ -270,6 +298,7 @@ class SkyDome:
         self.tiling = 8.0
         self.distance = 4000.0
         self.drawFirst = True
+        self.userData = {}
         
 class SkyPlane:
     def __init__(self):
@@ -282,6 +311,7 @@ class SkyPlane:
         self.bow = 0.0
         self.tiling = 10.0
         self.drawFirst = True
+        self.userData = {}
         
 class Light:
     def __init__(self):
@@ -297,12 +327,14 @@ class Light:
         self.lightRange = None
         self.lightAttenuation = None
         self.userDataReference = None
-        
+        self.userData = {}
+
 class LightRange:
     def __init__(self):
         self.inner = None
         self.outer = None
         self.falloff = None
+        self.userData = {}
         
 class LightAttenuation:
     def __init__(self):
@@ -310,6 +342,7 @@ class LightAttenuation:
         self.constant = None
         self.linear = None
         self.quadratric = None
+        self.userData = {}
         
 class Camera:
     def __init__(self):
@@ -325,6 +358,7 @@ class Camera:
         self.lookTarget = None
         self.trackTarget = None
         self.userDataReference = None
+        self.userData = {}
         
 ####################################
 # Handling procedures              #
@@ -333,7 +367,7 @@ class Camera:
         
 def getAttribute(element, attrName, default = None):
     if element.nodeType == xml.dom.Node.ELEMENT_NODE:
-        value = element.getAttribute(attrName)
+        value = str(element.getAttribute(attrName))
         if value == "":
             value = default
         return value
@@ -367,6 +401,8 @@ def createScene(root):
                 scene.light = handleLight(child)
             elif child.tagName == "camera":
                 scene.camera = handleCamera(child)
+            elif lower(child.tagName) == "userdata":
+                scene.userData = handleUserData(child)
             else:
                 vlog ("Scene: Encountered unknown tag %s" % child.tagName)
 
@@ -386,6 +422,8 @@ def handleNodes(node):
                 nodes.scale = handleVector(child)
             elif child.tagName == "rotation":
                 nodes.rotation = handleRotation(child)
+            elif lower(child.tagName) == "userdata":
+                scene.userData = handleUserData(child)
             else:
                 vlog("Nodes: Encountered unknown tag %s" % child.tagName)
 
@@ -396,6 +434,12 @@ def handleTerrain(node):
     dlog("Handling Terrain.")
     terrain = Terrain()
     terrain.dataFile = getAttribute(node, 'dataFile')
+    for child in node.childNodes:
+        if child.nodeType == xml.dom.Node.ELEMENT_NODE:
+            if lower(child.tagName) == "userdata":
+                terrain.userData = handleUserData(child)
+            else:
+                vlog("Terrain: Encountered unknown tag %s" % child.tagName)
     return terrain
     
 def handleUserDataReference(node):
@@ -412,6 +456,8 @@ def handleOctree(node):
         if child.nodeType == xml.dom.Node.ELEMENT_NODE:
             if child.tagName == "octNode":
                 octree.octnode = handleOctNode(child)
+            elif lower(child.tagName) == "userdata":
+                scene.userData = handleUserData(child)
             else:
                 vlog("Octree: Encountered unknown tag %s" % child.tagName)
     return octree
@@ -431,6 +477,8 @@ def handleOctNode(node):
                 octNode.octNode.append(handleOctNode(child))
             elif child.tagName == "octMesh":
                 octNode.octMesh.append(handleOctMesh(child))
+            elif lower(child.tagName) == "userdata":
+                octNode.userData = handleUserData(child)
             else:
                 vlog("OctNode: Encountered unknown tag %s" % child.tagName)
     return octNode
@@ -444,6 +492,8 @@ def handleOctMesh(node):
                 octMesh.octGeometry = handleOctGeometry(child)
             elif child.tagName == "octMaterial":
                 octMesh.octMaterial = handleOctMaterial(child)
+            elif lower(child.tagName) == "userdata":
+                octMesh.userData = handleUserData(child)
             else:
                 vlog("OctMesh: Encountered unknown tag %s" % child.tagName)
     return octMesh
@@ -458,6 +508,12 @@ def handleOctGeometry(node):
     octGeometry.texTotal = getAttribute(node, 'texTotal')
     octGeometry.triTotal = getAttribute(node, 'triTotal')
     octGeometry.vertTotal = getAttribute(node, 'vertTotal')
+    for child in node.childNodes:
+        if child.nodeType == xml.dom.Node.ELEMENT_NODE:
+            if lower(child.tagName) == "userdata":
+                octGeometry.userData = handleUserData(child)
+            else:
+                vlog("OctGeometry: Encountered unknown tag %s" % child.tagName)
     return octGeometry
 
 def handleOctMaterial(node):                
@@ -465,6 +521,12 @@ def handleOctMaterial(node):
     octMaterial = OctMaterial()
     octMaterial.name = getAttribute(node, 'name')
     octMaterial.texture = getAttribute(node, 'texture')
+    for child in node.childNodes:
+        if child.nodeType == xml.dom.Node.ELEMENT_NODE:
+            if lower(child.tagName) == "userdata":
+                octMaterial.userData = handleUserData(child)
+            else:
+                vlog("OctMaterial: Encountered unknown tag %s" % child.tagName)
     return octMaterial
 
 def handleNode(node):
@@ -503,6 +565,8 @@ def handleNode(node):
                 snode.billboardSet.append(handleBillboardSet(child))
             elif child.tagName == "plane":
                 snode.plane.append(handlePlane(child))
+            elif lower(child.tagName) == "userdata":
+                snode.userData = handleUserData(child)
             else:
                 vlog("Node: Encountered unknown tag %s" % child.tagName)
     return snode
@@ -524,6 +588,8 @@ def handleEntity(node):
                 entity.indexBuffer = handleBuffer(child)
             elif child.tagName == "userDataReference":
                 entity.userDataReference = handleUserDataReference(child)
+            elif lower(child.tagName) == "userdata":
+                entity.userData = handleUserData(child)
             else:
                 vlog("Entity: Encountered unknown tag %s" % child.tagName)
     return entity
@@ -573,6 +639,8 @@ def handleLookTarget(node):
                 lookTarget.position = handleVector(child)
             elif child.tagName == "localDirection":
                 lookTarget.localDirection = handleVector(child)
+            elif lower(child.tagName) == "userdata":
+                lookTarget.userData = handleUserData(child)
             else:
                 vlog("LookTarget: Encountered unknown tag %s" % child.tagName)
     
@@ -588,6 +656,8 @@ def handleTrackTarget(node):
                 trackTarget.offset = handleVector(child)
             elif child.tagName == "localDirection":
                 trackTarget.localDirection = handleVector(child)
+            elif lower(child.tagName) == "userdata":
+                trackTarget.userData = handleUserData(child)
             else:
                 vlog("TrackTarget: Encountered unknown tag %s" % child.tagName)
     
@@ -598,6 +668,12 @@ def handleBuffer(node):
     buffer = Buffer()
     buffer.usage = getAttribute(node, 'usage', "staticWriteOnly")
     buffer.useShadow = bool(getAttribute(node, 'usage', True))
+    for child in node.childNodes:
+        if child.nodeType == xml.dom.Node.ELEMENT_NODE:
+            if lower(child.tagName) == "userdata":
+                buffer.userData = handleUserData(child)
+            else:
+                vlog("Buffer: Encountered unknown tag %s" % child.tagName)
     return buffer
 
 def handleParticleSystem(node):
@@ -610,6 +686,8 @@ def handleParticleSystem(node):
         if child.nodeType == xml.dom.Node.ELEMENT_NODE:
             if child.tagName == "userDataReference":
                 particleSystem.userDataReference = handleUserDataReference(child)
+            elif lower(child.tagName) == "userdata":
+                particleSystem.userData = handleUserData(child)
             else:
                 vlog("ParticleSystem: Encountered unknown tag %s" % child.tagName)
     
@@ -629,6 +707,8 @@ def handleBillboardSet(node):
         if child.nodeType == xml.dom.Node.ELEMENT_NODE:
             if child.tagName == "billboard":
                 billboardset.billboard.append(handleBillboard(child))
+            elif lower(child.tagName) == "userdata":
+                billboardset.userData = handleUserData(child)
             else:
                 vlog("BillboardSet: Encountered unknown tag %s" % child.tagName)
     return billboardset
@@ -647,6 +727,8 @@ def handleBillboard(node):
                 billboard.rotation = handleRotation(child)
             elif child.tagName == "colourDiffuse":
                 billboard.colourDiffuse = handleColour(child)
+            elif lower(child.tagName) == "userdata":
+                billboard.userData = handleUserData(child)
             else:
                 vlog("Billboard: Encountered unknown tag %s" % child.tagName)
     return billboard
@@ -676,6 +758,8 @@ def handlePlane(node):
                 plane.vertexBuffer = handleBuffer(child)
             elif child.tagName == "indexBuffer":
                 plane.indexBuffer = handleBuffer(child)
+            elif lower(child.tagName) == "userdata":
+                plane.userData = handleUserData(child)
             else:
                 vlog("Plane: Encountered unknown tag %s" % child.tagName)
     return plane
@@ -687,6 +771,8 @@ def handleExternals(node):
         if child.nodeType == xml.dom.Node.ELEMENT_NODE:
             if child.tagName == "item":
                 externals.item.append(handleItem(child))
+            elif lower(child.tagName) == "userdata":
+                externals.userData = handleUserData(child)
             else:
                 vlog("Externals: Encountered unknown tag %s" % child.tagName)
     return externals
@@ -699,6 +785,8 @@ def handleItem(node):
         if child.nodeType == xml.dom.Node.ELEMENT_NODE:
             if child.tagName == "file":
                 item.file = handleFile(child)
+            elif lower(child.tagName) == "userdata":
+                item.userData = handleUserData(child)
             else:
                 vlog("Item: Encountered unknown tag %s" % child.tagName)
     return item
@@ -707,6 +795,12 @@ def handleFile(node):
     dlog("Handling File.")
     file = File()
     file.name = getAttribute(node, 'name')
+    for child in node.childNodes:
+        if child.nodeType == xml.dom.Node.ELEMENT_NODE:
+            if lower(child.tagName) == "userdata":
+                file.userData = handleUserData(child)
+            else:
+                vlog("File: Encountered unknown tag %s" % child.tagName)
     return file
 
 def handleEnvironment(node):
@@ -730,6 +824,8 @@ def handleEnvironment(node):
                 environment.colourBackground = handleColour(child)
             elif child.tagName == "userDataReference":
                 environment.userDataReference = handleUserDataReference(child)
+            elif lower(child.tagName) == "userdata":
+                environment.userData = handleUserData(child)
             else:
                 vlog("Environment: Encountered unknown tag %s" % child.tagName)
     return environment
@@ -745,6 +841,8 @@ def handleFog(node):
         if child.nodeType == xml.dom.Node.ELEMENT_NODE:
             if child.tagName == "colourDiffuse":
                 fog.colourDiffuse = handleColour(child)
+            elif lower(child.tagName) == "userdata":
+                fog.userData = handleUserData(child)
             else:
                 vlog("Fog: Encountered unknown tag %s" % child.tagName)
     return fog
@@ -754,6 +852,12 @@ def handleClipping(node):
     clipping = Clipping()
     clipping.near = getAttribute(node, 'near')
     clipping.far = getAttribute(node, 'far')
+    for child in node.childNodes:
+        if child.nodeType == xml.dom.Node.ELEMENT_NODE:
+            if lower(child.tagName) == "userdata":
+                clipping.userData = handleUserData(child)
+            else:
+                vlog("Clipping: Encountered unknown tag %s" % child.tagName)
     return clipping
 
 def handleSkyBox(node):
@@ -766,6 +870,8 @@ def handleSkyBox(node):
         if child.nodeType == xml.dom.Node.ELEMENT_NODE:
             if child.tagName == "rotation":
                 skybox.rotation = handleRotation(child)
+            elif lower(child.tagName) == "userdata":
+                skybox.userData = handleUserData(child)
             else:
                 vlog("SkyBox: Encountered unknown tag %s" % child.tagName)
     return skybox
@@ -782,6 +888,8 @@ def handleSkyDome(node):
         if child.nodeType == xml.dom.Node.ELEMENT_NODE:
             if child.tagName == "rotation":
                 skydome.rotation = handleRotation(child)
+            elif lower(child.tagName) == "userdata":
+                skydome.userData = handleUserData(child)
             else:
                 vlog("SkyDome: Encountered unknown tag %s" % child.tagName)
     return skydome
@@ -798,6 +906,12 @@ def handleSkyPlane(node):
     skyplane.bow = float(getAttribute(node, 'bow', 0.0))
     skyplane.tiling = float(getAttribute(node, 'tiling', 10.0))
     skyplane.drawFirst = bool(getAttribute(node, 'drawFirst', True))
+    for child in node.childNodes:
+        if child.nodeType == xml.dom.Node.ELEMENT_NODE:
+            if lower(child.tagName) == "userdata":
+                skyplane.userData = handleUserData(child)
+            else:
+                vlog("Skyplane: Encountered unknown tag %s" % child.tagName)
     return skyplane
 
 def handleLight(node):
@@ -824,6 +938,8 @@ def handleLight(node):
                 light.lightAttenuation = handleLightAttenuation(child)
             elif child.tagName == "userDataReference":
                 light.userDataReference = handleUserDataReference(child)
+            elif lower(child.tagName) == "userdata":
+                light.userData = handleUserData(child)
             else:
                 vlog("Light: Encountered unknown tag %s" % child.tagName)
     return light
@@ -834,6 +950,12 @@ def handleLightRange(node):
     lightrange.inner = getAttribute(node, 'inner')
     lightrange.outer = getAttribute(node, 'outer')
     lightrange.falloff = getAttribute(node, 'falloff')
+    for child in node.childNodes:
+        if child.nodeType == xml.dom.Node.ELEMENT_NODE:
+            if lower(child.tagName) == "userdata":
+                lightrange.userData = handleUserData(child)
+            else:
+                vlog("LightRange: Encountered unknown tag %s" % child.tagName)
     return lightrange
 
 def handleLightAttenuation(node):
@@ -843,6 +965,12 @@ def handleLightAttenuation(node):
     lightattenuation.constant = getAttribute(node, 'costant')
     lightattenuation.linear = getAttribute(node, 'linear')
     lightattenuation.quadratic = getAttribute(node, 'quadratic')
+    for child in node.childNodes:
+        if child.nodeType == xml.dom.Node.ELEMENT_NODE:
+            if lower(child.tagName) == "userdata":
+                lightattenuation.userData = handleUserData(child)
+            else:
+                vlog("LightAttenuation: Encountered unknown tag %s" % child.tagName)
     return lightattenuation
 
 def handleCamera(node):
@@ -869,18 +997,38 @@ def handleCamera(node):
                 camera.trackTarget = handleTrackTarget(child)
             elif child.tagName == "userDataReference":
                 camera.clipping = handleUserDataReference(child)
+            elif lower(child.tagName) == "userdata":
+                camera.userData = handleUserData(child)
             else:
                 vlog("Camera: Encountered unknown tag %s" % child.tagName)
     return camera
  
-
+def handleUserData(node):
+    dlog("Handling UserData")
+    userdata = {}
+    for child in node.childNodes:
+        if child.nodeType == xml.dom.Node.ELEMENT_NODE:
+            if child.tagName == "property":
+                name = getAttribute(child, 'name')
+                type = getAttribute(child, 'type')
+                data = getAttribute(child, 'data')
+                if lower(type) == "string":
+                    userdata[name] = str(data)
+                elif lower(type) == "int":
+                    userdata[name] = int(data)
+                elif lower(type) == "float":
+                    userdata[name] = float(data)
+                else:
+                    vlog("User Data: Encountered unknown property type %s" % type)
+    dlog(userdata)
+    return userdata
  
  
     
 log("Starting Parser Test")
 sceneDoc = parse("test1.scene")
 scene = createScene(sceneDoc.documentElement)
-dlog(scene)
+log(scene)
 log("Test done")
 
     
