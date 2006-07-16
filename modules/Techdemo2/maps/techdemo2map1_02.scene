@@ -30,14 +30,14 @@
   
 
 		</node>
-		<node name="arc_UnbHaus_08_Td2" id="5" >
+		<node name="arc_UnbHaus_08" id="5" >
 			<position x="-16.9658" y="-6.74106" z="-0.440865" />
 			<rotation qx="0.0" qy="-0.619847" qz="0.0" qw="0.784723" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
-				name="arc_UnbHaus_08_Td2"
+				name="arc_UnbHaus_08"
 				id="6"
-				meshFile ="arc_UnbHaus_08_Td2.mesh"
+				meshFile ="arc_UnbHaus_08.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
 			/>
@@ -19602,6 +19602,21 @@
   
 
 		</node>
+		<node name="men_alrike_ladMichNich" id="2613" >
+			<position x="-35.7122" y="-6.22226" z="17.7814" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="men_alrike_ladMichNich"
+				id="2614"
+				meshFile ="men_alrike_ladMichNich.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
 		<node name="arc_stuhl_01" id="2615" >
 			<position x="-32.942" y="-6.25103" z="18.6434" />
 			<rotation qx="0.0" qy="-0.902991" qz="0.0" qw="0.429659" />
@@ -20075,6 +20090,36 @@
 				name="nat_salat_01"
 				id="2678"
 				meshFile ="nat_salat_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="door" id="2679" >
+			<position x="-12.9124" y="-6.86492" z="13.7133" />
+			<rotation qx="0.0" qy="-0.300706" qz="0.0" qw="0.953717" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="door"
+				id="2680"
+				meshFile ="door.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="arc_door_02_lad_mich_nich" id="2681" >
+			<position x="-34.6458" y="-6.2058" z="14.9355" />
+			<rotation qx="0.0" qy="-0.288855" qz="0.0" qw="0.957373" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="arc_door_02_lad_mich_nich"
+				id="2682"
+				meshFile ="arc_door_02_lad_mich_nich.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
 			/>
@@ -21567,14 +21612,14 @@
   
 
 		</node>
-		<node name="baumstammcoli" id="2881" >
-			<position x="12.4261" y="-8.41648" z="33.9893" />
+		<node name="ver_zimmerpflanze_01" id="2881" >
+			<position x="-0.507614" y="0.00384538" z="0.0" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="2.30024" y="2.30024" z="2.30024" />
+			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
-				name="baumstammcoli"
+				name="ver_zimmerpflanze_01"
 				id="2882"
-				meshFile ="baumstammcoli.mesh"
+				meshFile ="ver_zimmerpflanze_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
 			/>
@@ -21582,89 +21627,14 @@
   
 
 		</node>
-		<node name="nat_baum_shadix_03" id="2883" >
-			<position x="12.2014" y="-8.91196" z="33.9239" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+		<node name="ver_zimmerpflanze_01" id="2883" >
+			<position x="-8.45599" y="-5.91552" z="17.9577" />
+			<rotation qx="0.0" qy="0.783788" qz="0.0" qw="0.621028" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
-				name="nat_baum_shadix_03"
+				name="ver_zimmerpflanze_01"
 				id="2884"
-				meshFile ="nat_baum_shadix_03.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="STRING" name="physical_body" data="none"/></userData> 
-
-		</node>
-		<node name="baumstammcoli" id="2885" >
-			<position x="-5.35097" y="-7.81113" z="44.3222" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="0.762485" y="0.762485" z="0.762485" />
-			<entity
-				name="baumstammcoli"
-				id="2886"
-				meshFile ="baumstammcoli.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="nat_baum_shadix_01" id="2887" >
-			<position x="-5.32873" y="-7.69322" z="44.4007" />
-			<rotation qx="0.0" qy="-0.555884" qz="0.0" qw="0.83126" />
-			<scale x="1.89889" y="1.89889" z="1.89889" />
-			<entity
-				name="nat_baum_shadix_01"
-				id="2888"
-				meshFile ="nat_baum_shadix_01.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
-
-		</node>
-		<node name="baumstammcoli" id="2889" >
-			<position x="-3.61964" y="-7.81113" z="24.6823" />
-			<rotation qx="0.0" qy="0.233955" qz="0.0" qw="0.972247" />
-			<scale x="0.762485" y="0.762485" z="0.762485" />
-			<entity
-				name="baumstammcoli"
-				id="2890"
-				meshFile ="baumstammcoli.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="nat_baum_shadix_01" id="2891" >
-			<position x="-3.59739" y="-7.69322" z="24.7608" />
-			<rotation qx="0.0" qy="-0.34598" qz="0.0" qw="0.938242" />
-			<scale x="1.89889" y="1.89889" z="1.89889" />
-			<entity
-				name="nat_baum_shadix_01"
-				id="2892"
-				meshFile ="nat_baum_shadix_01.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
-
-		</node>
-		<node name="arc_UnbHaus_08_Td2_boden" id="2893" >
-			<position x="-16.9658" y="-6.74106" z="-0.440865" />
-			<rotation qx="0.0" qy="-0.619847" qz="0.0" qw="0.784723" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="arc_UnbHaus_08_Td2_boden"
-				id="2894"
-				meshFile ="arc_UnbHaus_08_Td2_boden.mesh"
+				meshFile ="ver_zimmerpflanze_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
 			/>
@@ -21673,21 +21643,4 @@
 
 		</node>
 	</nodes>
-			<userData>
-		<property type="FLOAT" name="staticgeom_renderingdistance_0" data="200"/>
-        <property type="FLOAT" name="staticgeom_batchsize_0" data="25"/>
-
-	<property type="FLOAT" name="default_renderingdistance" data="10000"/>
-
-       <manualLOD mesh="nat_nadelbaum_02.mesh">
-            <LOD distance="150.0" mesh="nat_nadelbaum_02_lod.mesh" />
-        </manualLOD>
-
-        <manualLOD mesh="nat_nadelbaum_03.mesh">
-            <LOD distance="150.0" mesh="nat_nadelbaum_03_lod.mesh" />
-        </manualLOD>
-
-	</userData>
-	
-	
 </scene>
