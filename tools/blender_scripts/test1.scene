@@ -1,0 +1,1103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--XML-Beispieldatei von XMLSpy generiert v2006 rel. 3 sp1 (http://www.altova.com)-->
+<!DOCTYPE scene SYSTEM "D:\work\Rastullahs Lockenpracht\modules\common\maps\dotscene.dtd">
+<scene formatVersion="String" id="ID004839" sceneManager="String" minOgreVersion="String" author="String">
+	<nodes>
+		<node name="String" id="ID004840" isTarget="true">
+			<position x="1.0" y="1.0" z="1.0"/>
+			<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+			<scale x="1.0" y="1.0" z="1.0"/>
+			<lookTarget nodeName="String" relativeTo="parent">
+				<position x="1.0" y="1.0" z="1.0"/>
+				<localDirection x="1.0" y="1.0" z="1.0"/>
+			</lookTarget>
+			<trackTarget nodeName="String">
+				<localDirection x="1.0" y="1.0" z="1.0"/>
+				<offset x="1.0" y="1.0" z="1.0"/>
+			</trackTarget>
+			<entity name="String" id="ID004841" meshFile="String" materialFile="String" static="false" castShadows="true">
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<userDataReference id="String"/>
+			</entity>
+			<entity name="String" id="ID004842" meshFile="String" materialFile="String" static="false" castShadows="true">
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<userDataReference id="String"/>
+			</entity>
+			<entity name="String" id="ID004843" meshFile="String" materialFile="String" static="false" castShadows="true">
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<userDataReference id="String"/>
+			</entity>
+			<entity name="String" id="ID004844" meshFile="String" materialFile="String" static="false" castShadows="true">
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<userDataReference id="String"/>
+			</entity>
+			<light name="String" id="ID004845" type="point" visible="true" castShadows="true">
+				<position x="1.0" y="1.0" z="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				<colourSpecular r="1.0" g="1.0" b="1.0"/>
+				<lightRange inner="String" outer="String" falloff="String"/>
+				<lightAttenuation range="String" constant="String" linear="String" quadratic="String"/>
+				<userDataReference id="String"/>
+			</light>
+			<light name="String" id="ID004846" type="point" visible="true" castShadows="true">
+				<position x="1.0" y="1.0" z="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				<colourSpecular r="1.0" g="1.0" b="1.0"/>
+				<lightRange inner="String" outer="String" falloff="String"/>
+				<lightAttenuation range="String" constant="String" linear="String" quadratic="String"/>
+				<userDataReference id="String"/>
+			</light>
+			<light name="String" id="ID004847" type="point" visible="true" castShadows="true">
+				<position x="1.0" y="1.0" z="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				<colourSpecular r="1.0" g="1.0" b="1.0"/>
+				<lightRange inner="String" outer="String" falloff="String"/>
+				<lightAttenuation range="String" constant="String" linear="String" quadratic="String"/>
+				<userDataReference id="String"/>
+			</light>
+			<light name="String" id="ID004848" type="point" visible="true" castShadows="true">
+				<position x="1.0" y="1.0" z="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				<colourSpecular r="1.0" g="1.0" b="1.0"/>
+				<lightRange inner="String" outer="String" falloff="String"/>
+				<lightAttenuation range="String" constant="String" linear="String" quadratic="String"/>
+				<userDataReference id="String"/>
+			</light>
+			<camera name="String" id="ID004849" fov="String" aspectRatio="String" projectionType="perspective">
+				<clipping near="String" far="String"/>
+				<position x="1.0" y="1.0" z="1.0"/>
+				<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<lookTarget nodeName="String" relativeTo="parent">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+				</lookTarget>
+				<trackTarget nodeName="String">
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+					<offset x="1.0" y="1.0" z="1.0"/>
+				</trackTarget>
+				<userDataReference id="String"/>
+			</camera>
+			<camera name="String" id="ID004850" fov="String" aspectRatio="String" projectionType="perspective">
+				<clipping near="String" far="String"/>
+				<position x="1.0" y="1.0" z="1.0"/>
+				<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<lookTarget nodeName="String" relativeTo="parent">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+				</lookTarget>
+				<trackTarget nodeName="String">
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+					<offset x="1.0" y="1.0" z="1.0"/>
+				</trackTarget>
+				<userDataReference id="String"/>
+			</camera>
+			<camera name="String" id="ID004851" fov="String" aspectRatio="String" projectionType="perspective">
+				<clipping near="String" far="String"/>
+				<position x="1.0" y="1.0" z="1.0"/>
+				<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<lookTarget nodeName="String" relativeTo="parent">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+				</lookTarget>
+				<trackTarget nodeName="String">
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+					<offset x="1.0" y="1.0" z="1.0"/>
+				</trackTarget>
+				<userDataReference id="String"/>
+			</camera>
+			<camera name="String" id="ID004852" fov="String" aspectRatio="String" projectionType="perspective">
+				<clipping near="String" far="String"/>
+				<position x="1.0" y="1.0" z="1.0"/>
+				<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<lookTarget nodeName="String" relativeTo="parent">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+				</lookTarget>
+				<trackTarget nodeName="String">
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+					<offset x="1.0" y="1.0" z="1.0"/>
+				</trackTarget>
+				<userDataReference id="String"/>
+			</camera>
+			<particleSystem name="String" id="ID004853" file="String">
+				<userDataReference id="String"/>
+			</particleSystem>
+			<particleSystem name="String" id="ID004854" file="String">
+				<userDataReference id="String"/>
+			</particleSystem>
+			<particleSystem name="String" id="ID004855" file="String">
+				<userDataReference id="String"/>
+			</particleSystem>
+			<particleSystem name="String" id="ID004856" file="String">
+				<userDataReference id="String"/>
+			</particleSystem>
+			<billboardSet name="String" material="String" id="ID004857" width="10" height="10" type="point" origin="center">
+				<billboard id="ID004858" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004859" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004860" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004861" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+			</billboardSet>
+			<billboardSet name="String" material="String" id="ID004862" width="10" height="10" type="point" origin="center">
+				<billboard id="ID004863" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004864" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004865" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004866" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+			</billboardSet>
+			<billboardSet name="String" material="String" id="ID004867" width="10" height="10" type="point" origin="center">
+				<billboard id="ID004868" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004869" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004870" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004871" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+			</billboardSet>
+			<billboardSet name="String" material="String" id="ID004872" width="10" height="10" type="point" origin="center">
+				<billboard id="ID004873" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004874" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004875" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004876" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+			</billboardSet>
+			<plane name="String" id="ID004877" distance="0.0" width="0.0" height="0.0" xSegments="1" ySegments="1" numTexCoordSets="1" uTile="1" vTile="1" material="String" normals="true">
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<upVector x="1.0" y="1.0" z="1.0"/>
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+			</plane>
+			<plane name="String" id="ID004878" distance="0.0" width="0.0" height="0.0" xSegments="1" ySegments="1" numTexCoordSets="1" uTile="1" vTile="1" material="String" normals="true">
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<upVector x="1.0" y="1.0" z="1.0"/>
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+			</plane>
+			<plane name="String" id="ID004879" distance="0.0" width="0.0" height="0.0" xSegments="1" ySegments="1" numTexCoordSets="1" uTile="1" vTile="1" material="String" normals="true">
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<upVector x="1.0" y="1.0" z="1.0"/>
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+			</plane>
+			<plane name="String" id="ID004880" distance="0.0" width="0.0" height="0.0" xSegments="1" ySegments="1" numTexCoordSets="1" uTile="1" vTile="1" material="String" normals="true">
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<upVector x="1.0" y="1.0" z="1.0"/>
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+			</plane>
+			<userDataReference id="String"/>
+		</node>
+		<node name="String" id="ID004881" isTarget="true">
+			<position x="1.0" y="1.0" z="1.0"/>
+			<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+			<scale x="1.0" y="1.0" z="1.0"/>
+			<lookTarget nodeName="String" relativeTo="parent">
+				<position x="1.0" y="1.0" z="1.0"/>
+				<localDirection x="1.0" y="1.0" z="1.0"/>
+			</lookTarget>
+			<trackTarget nodeName="String">
+				<localDirection x="1.0" y="1.0" z="1.0"/>
+				<offset x="1.0" y="1.0" z="1.0"/>
+			</trackTarget>
+			<entity name="String" id="ID004882" meshFile="String" materialFile="String" static="false" castShadows="true">
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<userDataReference id="String"/>
+			</entity>
+			<entity name="String" id="ID004883" meshFile="String" materialFile="String" static="false" castShadows="true">
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<userDataReference id="String"/>
+			</entity>
+			<entity name="String" id="ID004884" meshFile="String" materialFile="String" static="false" castShadows="true">
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<userDataReference id="String"/>
+			</entity>
+			<entity name="String" id="ID004885" meshFile="String" materialFile="String" static="false" castShadows="true">
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<userDataReference id="String"/>
+			</entity>
+			<light name="String" id="ID004886" type="point" visible="true" castShadows="true">
+				<position x="1.0" y="1.0" z="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				<colourSpecular r="1.0" g="1.0" b="1.0"/>
+				<lightRange inner="String" outer="String" falloff="String"/>
+				<lightAttenuation range="String" constant="String" linear="String" quadratic="String"/>
+				<userDataReference id="String"/>
+			</light>
+			<light name="String" id="ID004887" type="point" visible="true" castShadows="true">
+				<position x="1.0" y="1.0" z="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				<colourSpecular r="1.0" g="1.0" b="1.0"/>
+				<lightRange inner="String" outer="String" falloff="String"/>
+				<lightAttenuation range="String" constant="String" linear="String" quadratic="String"/>
+				<userDataReference id="String"/>
+			</light>
+			<light name="String" id="ID004888" type="point" visible="true" castShadows="true">
+				<position x="1.0" y="1.0" z="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				<colourSpecular r="1.0" g="1.0" b="1.0"/>
+				<lightRange inner="String" outer="String" falloff="String"/>
+				<lightAttenuation range="String" constant="String" linear="String" quadratic="String"/>
+				<userDataReference id="String"/>
+			</light>
+			<light name="String" id="ID004889" type="point" visible="true" castShadows="true">
+				<position x="1.0" y="1.0" z="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				<colourSpecular r="1.0" g="1.0" b="1.0"/>
+				<lightRange inner="String" outer="String" falloff="String"/>
+				<lightAttenuation range="String" constant="String" linear="String" quadratic="String"/>
+				<userDataReference id="String"/>
+			</light>
+			<camera name="String" id="ID004890" fov="String" aspectRatio="String" projectionType="perspective">
+				<clipping near="String" far="String"/>
+				<position x="1.0" y="1.0" z="1.0"/>
+				<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<lookTarget nodeName="String" relativeTo="parent">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+				</lookTarget>
+				<trackTarget nodeName="String">
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+					<offset x="1.0" y="1.0" z="1.0"/>
+				</trackTarget>
+				<userDataReference id="String"/>
+			</camera>
+			<camera name="String" id="ID004891" fov="String" aspectRatio="String" projectionType="perspective">
+				<clipping near="String" far="String"/>
+				<position x="1.0" y="1.0" z="1.0"/>
+				<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<lookTarget nodeName="String" relativeTo="parent">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+				</lookTarget>
+				<trackTarget nodeName="String">
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+					<offset x="1.0" y="1.0" z="1.0"/>
+				</trackTarget>
+				<userDataReference id="String"/>
+			</camera>
+			<camera name="String" id="ID004892" fov="String" aspectRatio="String" projectionType="perspective">
+				<clipping near="String" far="String"/>
+				<position x="1.0" y="1.0" z="1.0"/>
+				<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<lookTarget nodeName="String" relativeTo="parent">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+				</lookTarget>
+				<trackTarget nodeName="String">
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+					<offset x="1.0" y="1.0" z="1.0"/>
+				</trackTarget>
+				<userDataReference id="String"/>
+			</camera>
+			<camera name="String" id="ID004893" fov="String" aspectRatio="String" projectionType="perspective">
+				<clipping near="String" far="String"/>
+				<position x="1.0" y="1.0" z="1.0"/>
+				<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<lookTarget nodeName="String" relativeTo="parent">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+				</lookTarget>
+				<trackTarget nodeName="String">
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+					<offset x="1.0" y="1.0" z="1.0"/>
+				</trackTarget>
+				<userDataReference id="String"/>
+			</camera>
+			<particleSystem name="String" id="ID004894" file="String">
+				<userDataReference id="String"/>
+			</particleSystem>
+			<particleSystem name="String" id="ID004895" file="String">
+				<userDataReference id="String"/>
+			</particleSystem>
+			<particleSystem name="String" id="ID004896" file="String">
+				<userDataReference id="String"/>
+			</particleSystem>
+			<particleSystem name="String" id="ID004897" file="String">
+				<userDataReference id="String"/>
+			</particleSystem>
+			<billboardSet name="String" material="String" id="ID004898" width="10" height="10" type="point" origin="center">
+				<billboard id="ID004899" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004900" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004901" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004902" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+			</billboardSet>
+			<billboardSet name="String" material="String" id="ID004903" width="10" height="10" type="point" origin="center">
+				<billboard id="ID004904" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004905" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004906" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004907" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+			</billboardSet>
+			<billboardSet name="String" material="String" id="ID004908" width="10" height="10" type="point" origin="center">
+				<billboard id="ID004909" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004910" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004911" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004912" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+			</billboardSet>
+			<billboardSet name="String" material="String" id="ID004913" width="10" height="10" type="point" origin="center">
+				<billboard id="ID004914" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004915" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004916" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004917" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+			</billboardSet>
+			<plane name="String" id="ID004918" distance="0.0" width="0.0" height="0.0" xSegments="1" ySegments="1" numTexCoordSets="1" uTile="1" vTile="1" material="String" normals="true">
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<upVector x="1.0" y="1.0" z="1.0"/>
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+			</plane>
+			<plane name="String" id="ID004919" distance="0.0" width="0.0" height="0.0" xSegments="1" ySegments="1" numTexCoordSets="1" uTile="1" vTile="1" material="String" normals="true">
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<upVector x="1.0" y="1.0" z="1.0"/>
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+			</plane>
+			<plane name="String" id="ID004920" distance="0.0" width="0.0" height="0.0" xSegments="1" ySegments="1" numTexCoordSets="1" uTile="1" vTile="1" material="String" normals="true">
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<upVector x="1.0" y="1.0" z="1.0"/>
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+			</plane>
+			<plane name="String" id="ID004921" distance="0.0" width="0.0" height="0.0" xSegments="1" ySegments="1" numTexCoordSets="1" uTile="1" vTile="1" material="String" normals="true">
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<upVector x="1.0" y="1.0" z="1.0"/>
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+			</plane>
+			<userDataReference id="String"/>
+		</node>
+		<node name="String" id="ID004922" isTarget="true">
+			<position x="1.0" y="1.0" z="1.0"/>
+			<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+			<scale x="1.0" y="1.0" z="1.0"/>
+			<lookTarget nodeName="String" relativeTo="parent">
+				<position x="1.0" y="1.0" z="1.0"/>
+				<localDirection x="1.0" y="1.0" z="1.0"/>
+			</lookTarget>
+			<trackTarget nodeName="String">
+				<localDirection x="1.0" y="1.0" z="1.0"/>
+				<offset x="1.0" y="1.0" z="1.0"/>
+			</trackTarget>
+			<entity name="String" id="ID004923" meshFile="String" materialFile="String" static="false" castShadows="true">
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<userDataReference id="String"/>
+			</entity>
+			<entity name="String" id="ID004924" meshFile="String" materialFile="String" static="false" castShadows="true">
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<userDataReference id="String"/>
+			</entity>
+			<entity name="String" id="ID004925" meshFile="String" materialFile="String" static="false" castShadows="true">
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<userDataReference id="String"/>
+			</entity>
+			<entity name="String" id="ID004926" meshFile="String" materialFile="String" static="false" castShadows="true">
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<userDataReference id="String"/>
+			</entity>
+			<light name="String" id="ID004927" type="point" visible="true" castShadows="true">
+				<position x="1.0" y="1.0" z="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				<colourSpecular r="1.0" g="1.0" b="1.0"/>
+				<lightRange inner="String" outer="String" falloff="String"/>
+				<lightAttenuation range="String" constant="String" linear="String" quadratic="String"/>
+				<userDataReference id="String"/>
+			</light>
+			<light name="String" id="ID004928" type="point" visible="true" castShadows="true">
+				<position x="1.0" y="1.0" z="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				<colourSpecular r="1.0" g="1.0" b="1.0"/>
+				<lightRange inner="String" outer="String" falloff="String"/>
+				<lightAttenuation range="String" constant="String" linear="String" quadratic="String"/>
+				<userDataReference id="String"/>
+			</light>
+			<light name="String" id="ID004929" type="point" visible="true" castShadows="true">
+				<position x="1.0" y="1.0" z="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				<colourSpecular r="1.0" g="1.0" b="1.0"/>
+				<lightRange inner="String" outer="String" falloff="String"/>
+				<lightAttenuation range="String" constant="String" linear="String" quadratic="String"/>
+				<userDataReference id="String"/>
+			</light>
+			<light name="String" id="ID004930" type="point" visible="true" castShadows="true">
+				<position x="1.0" y="1.0" z="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				<colourSpecular r="1.0" g="1.0" b="1.0"/>
+				<lightRange inner="String" outer="String" falloff="String"/>
+				<lightAttenuation range="String" constant="String" linear="String" quadratic="String"/>
+				<userDataReference id="String"/>
+			</light>
+			<camera name="String" id="ID004931" fov="String" aspectRatio="String" projectionType="perspective">
+				<clipping near="String" far="String"/>
+				<position x="1.0" y="1.0" z="1.0"/>
+				<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<lookTarget nodeName="String" relativeTo="parent">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+				</lookTarget>
+				<trackTarget nodeName="String">
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+					<offset x="1.0" y="1.0" z="1.0"/>
+				</trackTarget>
+				<userDataReference id="String"/>
+			</camera>
+			<camera name="String" id="ID004932" fov="String" aspectRatio="String" projectionType="perspective">
+				<clipping near="String" far="String"/>
+				<position x="1.0" y="1.0" z="1.0"/>
+				<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<lookTarget nodeName="String" relativeTo="parent">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+				</lookTarget>
+				<trackTarget nodeName="String">
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+					<offset x="1.0" y="1.0" z="1.0"/>
+				</trackTarget>
+				<userDataReference id="String"/>
+			</camera>
+			<camera name="String" id="ID004933" fov="String" aspectRatio="String" projectionType="perspective">
+				<clipping near="String" far="String"/>
+				<position x="1.0" y="1.0" z="1.0"/>
+				<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<lookTarget nodeName="String" relativeTo="parent">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+				</lookTarget>
+				<trackTarget nodeName="String">
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+					<offset x="1.0" y="1.0" z="1.0"/>
+				</trackTarget>
+				<userDataReference id="String"/>
+			</camera>
+			<camera name="String" id="ID004934" fov="String" aspectRatio="String" projectionType="perspective">
+				<clipping near="String" far="String"/>
+				<position x="1.0" y="1.0" z="1.0"/>
+				<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<lookTarget nodeName="String" relativeTo="parent">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+				</lookTarget>
+				<trackTarget nodeName="String">
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+					<offset x="1.0" y="1.0" z="1.0"/>
+				</trackTarget>
+				<userDataReference id="String"/>
+			</camera>
+			<particleSystem name="String" id="ID004935" file="String">
+				<userDataReference id="String"/>
+			</particleSystem>
+			<particleSystem name="String" id="ID004936" file="String">
+				<userDataReference id="String"/>
+			</particleSystem>
+			<particleSystem name="String" id="ID004937" file="String">
+				<userDataReference id="String"/>
+			</particleSystem>
+			<particleSystem name="String" id="ID004938" file="String">
+				<userDataReference id="String"/>
+			</particleSystem>
+			<billboardSet name="String" material="String" id="ID004939" width="10" height="10" type="point" origin="center">
+				<billboard id="ID004940" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004941" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004942" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004943" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+			</billboardSet>
+			<billboardSet name="String" material="String" id="ID004944" width="10" height="10" type="point" origin="center">
+				<billboard id="ID004945" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004946" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004947" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004948" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+			</billboardSet>
+			<billboardSet name="String" material="String" id="ID004949" width="10" height="10" type="point" origin="center">
+				<billboard id="ID004950" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004951" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004952" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004953" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+			</billboardSet>
+			<billboardSet name="String" material="String" id="ID004954" width="10" height="10" type="point" origin="center">
+				<billboard id="ID004955" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004956" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004957" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004958" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+			</billboardSet>
+			<plane name="String" id="ID004959" distance="0.0" width="0.0" height="0.0" xSegments="1" ySegments="1" numTexCoordSets="1" uTile="1" vTile="1" material="String" normals="true">
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<upVector x="1.0" y="1.0" z="1.0"/>
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+			</plane>
+			<plane name="String" id="ID004960" distance="0.0" width="0.0" height="0.0" xSegments="1" ySegments="1" numTexCoordSets="1" uTile="1" vTile="1" material="String" normals="true">
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<upVector x="1.0" y="1.0" z="1.0"/>
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+			</plane>
+			<plane name="String" id="ID004961" distance="0.0" width="0.0" height="0.0" xSegments="1" ySegments="1" numTexCoordSets="1" uTile="1" vTile="1" material="String" normals="true">
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<upVector x="1.0" y="1.0" z="1.0"/>
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+			</plane>
+			<plane name="String" id="ID004962" distance="0.0" width="0.0" height="0.0" xSegments="1" ySegments="1" numTexCoordSets="1" uTile="1" vTile="1" material="String" normals="true">
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<upVector x="1.0" y="1.0" z="1.0"/>
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+			</plane>
+			<userDataReference id="String"/>
+		</node>
+		<node name="String" id="ID004963" isTarget="true">
+			<position x="1.0" y="1.0" z="1.0"/>
+			<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+			<scale x="1.0" y="1.0" z="1.0"/>
+			<lookTarget nodeName="String" relativeTo="parent">
+				<position x="1.0" y="1.0" z="1.0"/>
+				<localDirection x="1.0" y="1.0" z="1.0"/>
+			</lookTarget>
+			<trackTarget nodeName="String">
+				<localDirection x="1.0" y="1.0" z="1.0"/>
+				<offset x="1.0" y="1.0" z="1.0"/>
+			</trackTarget>
+			<entity name="String" id="ID004964" meshFile="String" materialFile="String" static="false" castShadows="true">
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<userDataReference id="String"/>
+			</entity>
+			<entity name="String" id="ID004965" meshFile="String" materialFile="String" static="false" castShadows="true">
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<userDataReference id="String"/>
+			</entity>
+			<entity name="String" id="ID004966" meshFile="String" materialFile="String" static="false" castShadows="true">
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<userDataReference id="String"/>
+			</entity>
+			<entity name="String" id="ID004967" meshFile="String" materialFile="String" static="false" castShadows="true">
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<userDataReference id="String"/>
+			</entity>
+			<light name="String" id="ID004968" type="point" visible="true" castShadows="true">
+				<position x="1.0" y="1.0" z="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				<colourSpecular r="1.0" g="1.0" b="1.0"/>
+				<lightRange inner="String" outer="String" falloff="String"/>
+				<lightAttenuation range="String" constant="String" linear="String" quadratic="String"/>
+				<userDataReference id="String"/>
+			</light>
+			<light name="String" id="ID004969" type="point" visible="true" castShadows="true">
+				<position x="1.0" y="1.0" z="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				<colourSpecular r="1.0" g="1.0" b="1.0"/>
+				<lightRange inner="String" outer="String" falloff="String"/>
+				<lightAttenuation range="String" constant="String" linear="String" quadratic="String"/>
+				<userDataReference id="String"/>
+			</light>
+			<light name="String" id="ID004970" type="point" visible="true" castShadows="true">
+				<position x="1.0" y="1.0" z="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				<colourSpecular r="1.0" g="1.0" b="1.0"/>
+				<lightRange inner="String" outer="String" falloff="String"/>
+				<lightAttenuation range="String" constant="String" linear="String" quadratic="String"/>
+				<userDataReference id="String"/>
+			</light>
+			<light name="String" id="ID004971" type="point" visible="true" castShadows="true">
+				<position x="1.0" y="1.0" z="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				<colourSpecular r="1.0" g="1.0" b="1.0"/>
+				<lightRange inner="String" outer="String" falloff="String"/>
+				<lightAttenuation range="String" constant="String" linear="String" quadratic="String"/>
+				<userDataReference id="String"/>
+			</light>
+			<camera name="String" id="ID004972" fov="String" aspectRatio="String" projectionType="perspective">
+				<clipping near="String" far="String"/>
+				<position x="1.0" y="1.0" z="1.0"/>
+				<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<lookTarget nodeName="String" relativeTo="parent">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+				</lookTarget>
+				<trackTarget nodeName="String">
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+					<offset x="1.0" y="1.0" z="1.0"/>
+				</trackTarget>
+				<userDataReference id="String"/>
+			</camera>
+			<camera name="String" id="ID004973" fov="String" aspectRatio="String" projectionType="perspective">
+				<clipping near="String" far="String"/>
+				<position x="1.0" y="1.0" z="1.0"/>
+				<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<lookTarget nodeName="String" relativeTo="parent">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+				</lookTarget>
+				<trackTarget nodeName="String">
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+					<offset x="1.0" y="1.0" z="1.0"/>
+				</trackTarget>
+				<userDataReference id="String"/>
+			</camera>
+			<camera name="String" id="ID004974" fov="String" aspectRatio="String" projectionType="perspective">
+				<clipping near="String" far="String"/>
+				<position x="1.0" y="1.0" z="1.0"/>
+				<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<lookTarget nodeName="String" relativeTo="parent">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+				</lookTarget>
+				<trackTarget nodeName="String">
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+					<offset x="1.0" y="1.0" z="1.0"/>
+				</trackTarget>
+				<userDataReference id="String"/>
+			</camera>
+			<camera name="String" id="ID004975" fov="String" aspectRatio="String" projectionType="perspective">
+				<clipping near="String" far="String"/>
+				<position x="1.0" y="1.0" z="1.0"/>
+				<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<lookTarget nodeName="String" relativeTo="parent">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+				</lookTarget>
+				<trackTarget nodeName="String">
+					<localDirection x="1.0" y="1.0" z="1.0"/>
+					<offset x="1.0" y="1.0" z="1.0"/>
+				</trackTarget>
+				<userDataReference id="String"/>
+			</camera>
+			<particleSystem name="String" id="ID004976" file="String">
+				<userDataReference id="String"/>
+			</particleSystem>
+			<particleSystem name="String" id="ID004977" file="String">
+				<userDataReference id="String"/>
+			</particleSystem>
+			<particleSystem name="String" id="ID004978" file="String">
+				<userDataReference id="String"/>
+			</particleSystem>
+			<particleSystem name="String" id="ID004979" file="String">
+				<userDataReference id="String"/>
+			</particleSystem>
+			<billboardSet name="String" material="String" id="ID004980" width="10" height="10" type="point" origin="center">
+				<billboard id="ID004981" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004982" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004983" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004984" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+			</billboardSet>
+			<billboardSet name="String" material="String" id="ID004985" width="10" height="10" type="point" origin="center">
+				<billboard id="ID004986" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004987" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004988" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004989" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+			</billboardSet>
+			<billboardSet name="String" material="String" id="ID004990" width="10" height="10" type="point" origin="center">
+				<billboard id="ID004991" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004992" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004993" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004994" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+			</billboardSet>
+			<billboardSet name="String" material="String" id="ID004995" width="10" height="10" type="point" origin="center">
+				<billboard id="ID004996" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004997" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004998" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+				<billboard id="ID004999" width="0.0" height="0.0">
+					<position x="1.0" y="1.0" z="1.0"/>
+					<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+					<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+				</billboard>
+			</billboardSet>
+			<plane name="String" id="ID005000" distance="0.0" width="0.0" height="0.0" xSegments="1" ySegments="1" numTexCoordSets="1" uTile="1" vTile="1" material="String" normals="true">
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<upVector x="1.0" y="1.0" z="1.0"/>
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+			</plane>
+			<plane name="String" id="ID005001" distance="0.0" width="0.0" height="0.0" xSegments="1" ySegments="1" numTexCoordSets="1" uTile="1" vTile="1" material="String" normals="true">
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<upVector x="1.0" y="1.0" z="1.0"/>
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+			</plane>
+			<plane name="String" id="ID005002" distance="0.0" width="0.0" height="0.0" xSegments="1" ySegments="1" numTexCoordSets="1" uTile="1" vTile="1" material="String" normals="true">
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<upVector x="1.0" y="1.0" z="1.0"/>
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+			</plane>
+			<plane name="String" id="ID005003" distance="0.0" width="0.0" height="0.0" xSegments="1" ySegments="1" numTexCoordSets="1" uTile="1" vTile="1" material="String" normals="true">
+				<normal x="1.0" y="1.0" z="1.0"/>
+				<upVector x="1.0" y="1.0" z="1.0"/>
+				<vertexBuffer usage="staticWriteOnly" useShadow="true"/>
+				<indexBuffer usage="staticWriteOnly" useShadow="true"/>
+			</plane>
+			<userDataReference id="String"/>
+		</node>
+		<position x="1.0" y="1.0" z="1.0"/>
+		<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+		<scale x="1.0" y="1.0" z="1.0"/>
+	</nodes>
+	<externals>
+		<item type="String">
+			<file name="String"/>
+		</item>
+		<item type="String">
+			<file name="String"/>
+		</item>
+		<item type="String">
+			<file name="String"/>
+		</item>
+		<item type="String">
+			<file name="String"/>
+		</item>
+	</externals>
+	<environment>
+		<fog expDensity="0.001" linearStart="0.0" linearEnd="1.0" mode="none">
+			<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+		</fog>
+		<skyBox material="String" distance="5000" drawFirst="true">
+			<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+		</skyBox>
+		<skyDome material="String" curvature="10" tiling="8" distance="4000" drawFirst="true">
+			<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+		</skyDome>
+		<skyPlane material="String" planeX="0" planeY="-1" planeZ="0" planeD="5000" scale="1000" bow="0" tiling="10" drawFirst="true"/>
+		<clipping near="String" far="String"/>
+		<colourAmbient r="1.0" g="1.0" b="1.0"/>
+		<colourBackground r="1.0" g="1.0" b="1.0"/>
+		<userDataReference id="String"/>
+	</environment>
+	<terrain dataFile="String"/>
+	<userDataReference id="String"/>
+	<octree binFile="String">
+		<octNode px="1.0" py="1.0" pz="1.0" width="0.0" height="0.0" depth="0.0">
+			<octNode px="1.0" py="1.0" pz="1.0" width="0.0" height="0.0" depth="0.0" />
+			<octMesh>
+				<octGeometry binaryDataOffset="String" vertTotal="String" triTotal="String" normalTotal="String" colorTotal="String" texSets="String" texTotal="String"/>
+				<octMaterial name="String" texture="String"/>
+			</octMesh>
+			<octMesh>
+				<octGeometry binaryDataOffset="String" vertTotal="String" triTotal="String" normalTotal="String" colorTotal="String" texSets="String" texTotal="String"/>
+				<octMaterial name="String" texture="String"/>
+			</octMesh>
+			<octMesh>
+				<octGeometry binaryDataOffset="String" vertTotal="String" triTotal="String" normalTotal="String" colorTotal="String" texSets="String" texTotal="String"/>
+				<octMaterial name="String" texture="String"/>
+			</octMesh>
+			<octMesh>
+				<octGeometry binaryDataOffset="String" vertTotal="String" triTotal="String" normalTotal="String" colorTotal="String" texSets="String" texTotal="String"/>
+				<octMaterial name="String" texture="String"/>
+			</octMesh>
+		</octNode>
+	</octree>
+	<light name="String" id="ID005004" type="point" visible="true" castShadows="true">
+		<position x="1.0" y="1.0" z="1.0"/>
+		<normal x="1.0" y="1.0" z="1.0"/>
+		<colourDiffuse r="1.0" g="1.0" b="1.0"/>
+		<colourSpecular r="1.0" g="1.0" b="1.0"/>
+		<lightRange inner="String" outer="String" falloff="String"/>
+		<lightAttenuation range="String" constant="String" linear="String" quadratic="String"/>
+		<userDataReference id="String"/>
+	</light>
+	<camera name="String" id="ID005005" fov="String" aspectRatio="String" projectionType="perspective">
+		<clipping near="String" far="String"/>
+		<position x="1.0" y="1.0" z="1.0"/>
+		<rotation qx="1.0" qy="1.0" qz="1.0" qw="1.0" axisX="1.0" axisY="1.0" axisZ="1.0" angle="1.0" angleX="1.0" angleY="1.0" angleZ="1.0"/>
+		<normal x="1.0" y="1.0" z="1.0"/>
+		<lookTarget nodeName="String" relativeTo="parent">
+			<position x="1.0" y="1.0" z="1.0"/>
+			<localDirection x="1.0" y="1.0" z="1.0"/>
+		</lookTarget>
+		<trackTarget nodeName="String">
+			<localDirection x="1.0" y="1.0" z="1.0"/>
+			<offset x="1.0" y="1.0" z="1.0"/>
+		</trackTarget>
+		<userDataReference id="String"/>
+	</camera>
+</scene>
