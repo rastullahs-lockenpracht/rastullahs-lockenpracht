@@ -32,44 +32,37 @@ material Techdemo2map1 : Splatting5
 			// The Texture containing the Splatting information in its channels
 			texture_unit SplattingMap
 			{
-                max_anisotropy 8
-                filtering anisotropic
+                
 				texture map1alpha.dds
 			}
 			// Texture containing the LightingMap
 			texture_unit LightingMap
 			{
-                max_anisotropy 8
-                filtering anisotropic
+
 				texture Techdemo2LightingMap1.png
 				
 			}
 			// Texture containing the groundlayer and its detailmap (inside the alpha channel)
 			texture_unit BaseLayer
 			{
-                max_anisotropy 8
-                filtering anisotropic
+ 
 				texture nat_gras_01.dds
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
 			texture_unit RedLayer
 			{
-                max_anisotropy 8
-                filtering anisotropic
+
 				texture nat_felsen_01.dds
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
 			texture_unit GreenLayer
 			{
-                max_anisotropy 8
-                filtering anisotropic
+
 				texture nat_steingrund_01.dds
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
 			texture_unit BlueLayer
 			{
-                max_anisotropy 8
-                filtering anisotropic
 				texture nat_erdboden_01.dds
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
@@ -88,20 +81,20 @@ material Techdemo2map1 : Splatting5
 			fragment_program_ref glSplatting5_FP
 			{
 				//Shader Constant: scaleBase
-				param_named scaleBase  float 1.000000
+				param_named scaleBase  float 0.0500000
 				//Shader Constant: scaleBaseR
-				param_named scaleBaseR float 1.000000
+				param_named scaleBaseR float 0.0500000
 				//Shader Constant: scaleBaseG
-				param_named scaleBaseG float 1.000000
+				param_named scaleBaseG float 0.010000
 				//Shader Constant: scaleBaseB
-				param_named scaleBaseB float 1.000000
+				param_named scaleBaseB float 0.010000
 				//Shader Constant: scaleBaseA
 				param_named scaleBaseA float 1.000000
  
 				//Shader Constant: scaleDetail
-				param_named scaleDetail  float 1.000000
+				param_named scaleDetail  float 0.0080000
 				//Shader Constant: scaleDetailR
-				param_named scaleDetailR float 1.000000
+				param_named scaleDetailR float 0.008000
 				//Shader Constant: scaleDetailG
 				param_named scaleDetailG float 1.000000
 				//Shader Constant: scaleDetailB
