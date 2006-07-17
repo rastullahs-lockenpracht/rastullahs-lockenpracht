@@ -93,7 +93,7 @@ namespace MadaBot
 		}
 		if(mPredicateValue == mNodeValue)
 		{
-			this->mCurrentReturnValue = getProcessor(pChild->getNodeName())->process(pChild);
+			this->mCurrentReturnValue = getProcessor(pChild->getNodeName())->process(pChild, this->mCurrentHelper);
 		//  standard aiml returns only one li-element	
 			this->mProcessChildren = false;
 		}

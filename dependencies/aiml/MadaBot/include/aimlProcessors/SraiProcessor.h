@@ -50,7 +50,7 @@ namespace MadaBot
 
 		void processChildStep(XmlNode<S>* pChild)
 		{
-			this->mCurrentReturnValue += getProcessor(pChild->getNodeName())->process(pChild);
+			this->mCurrentReturnValue += getProcessor(pChild->getNodeName())->process(pChild, this->mCurrentHelper);
 		}
 
 		void postprocessStep()
