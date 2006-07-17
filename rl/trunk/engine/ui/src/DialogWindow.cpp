@@ -135,7 +135,7 @@ void DialogWindow::getResponse(const CeGuiString& msg)
 	}
 
 	DialogResponse::Responses responses = mCurrentResponse->getResponses();
-	CeGuiString responseSound = "silence.ogg";
+	CeGuiString responseSound = "null.ogg";
 	CeGuiString responseText;
 	if(!responses.empty())
 	{
