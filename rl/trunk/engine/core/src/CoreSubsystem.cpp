@@ -222,7 +222,8 @@ namespace rl {
         //TODO: In Config-Datei verlagern
         TextureManager::getSingleton().setDefaultNumMipmaps(5);
         MaterialManager::getSingleton().setDefaultTextureFiltering(TFO_TRILINEAR); 
-        MaterialManager::getSingleton().setDefaultAnisotropy(1);
+        MaterialManager::getSingleton().setDefaultAnisotropy(
+            ConfigurationManager::getSingleton().getIntSetting("max_anisotropy",1));
         
         
         mWorld = new DotSceneOctreeWorld();
