@@ -1,4 +1,4 @@
-material wuesten_alphamap : Splatting5NoDetailPhong
+material wuesten_alphamap : Splatting3NoDetailVertexPhong
 {
 	receive_shadows on
 
@@ -6,7 +6,7 @@ material wuesten_alphamap : Splatting5NoDetailPhong
 	{
 		pass
 		{
-			fragment_program_ref dxSplatting5NoDetailPhong_FP
+			fragment_program_ref dxSplatting3NoDetailVertexPhong_FP
 			{
 				//Shader Constant: scaleBase
 				param_named scaleBase  float 0.04
@@ -14,6 +14,12 @@ material wuesten_alphamap : Splatting5NoDetailPhong
 				param_named scaleBaseR float 0.03
 				//Shader Constant: scaleBaseG
 				param_named scaleBaseG float 0.05
+			}
+
+			fragment_program_ref dxSplatting3NoDetailVertexPhong_FP
+			{
+				param_named cMaterialAmbient  float4 0.6 0.6 0.6 1
+				param_named cMaterialDiffuse  float4 0.5 0.5 0.5 1
 			}
 
 			// The Texture containing the Splatting information in its channels
@@ -36,23 +42,15 @@ material wuesten_alphamap : Splatting5NoDetailPhong
 			{
 				texture felsen_gelblich.png
 			}
-			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
-			texture_unit BlueLayer
-			{
-			}
-			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
-			texture_unit AlphaLayer
-			{
-			}
-
 		}
 	}
 
 	technique glsl
 	{
+		lod_index 1
 		pass
 		{
-			fragment_program_ref glSplatting5NoDetailPhong_FP
+			fragment_program_ref glSplatting3NoDetailVertexPhong_FP
 			{
 				//Shader Constant: scaleBase
 				param_named scaleBase  float 0.04
@@ -82,15 +80,6 @@ material wuesten_alphamap : Splatting5NoDetailPhong
 			{
 				texture felsen_gelblich.png
 			}
-			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
-			texture_unit BlueLayer
-			{
-			}
-			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
-			texture_unit AlphaLayer
-			{
-			}
-
 		}
 	}
 
