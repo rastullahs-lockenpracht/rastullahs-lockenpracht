@@ -62,25 +62,25 @@ material Splatting3NoDetailVertexPhong
 			texture_unit SplattingMap
 			{
 				filtering anisotropic
-				max_anisotropy 6
+				
 			}
 			// Texture containing the groundlayer and its detailmap (inside the alpha channel)
 			texture_unit BaseLayer
 			{
 				filtering anisotropic
-				max_anisotropy 6
+				
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer
 			texture_unit RedLayer
 			{
 				filtering anisotropic
-				max_anisotropy 6
+				
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer
 			texture_unit GreenLayer
 			{
 				filtering anisotropic
-				max_anisotropy 6
+				
 			}
 		}
 	}
@@ -115,25 +115,25 @@ material Splatting3NoDetailVertexPhong
 			texture_unit SplattingMap
 			{
 				filtering anisotropic
-				max_anisotropy 6
+				
 			}
 			// Texture containing the groundlayer and its detailmap (inside the alpha channel)
 			texture_unit BaseLayer
 			{
 				filtering anisotropic
-				max_anisotropy 6
+				
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer
 			texture_unit RedLayer
 			{
 				filtering anisotropic
-				max_anisotropy 6
+				
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer
 			texture_unit GreenLayer
 			{
 				filtering anisotropic
-				max_anisotropy 6
+				
 			}
 		}
 	}
