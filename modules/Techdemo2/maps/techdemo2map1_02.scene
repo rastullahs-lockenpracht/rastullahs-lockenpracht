@@ -30,14 +30,14 @@
   
 
 		</node>
-		<node name="arc_UnbHaus_08" id="5" >
+		<node name="arc_UnbHaus_08_Td2" id="5" >
 			<position x="-16.9658" y="-6.74106" z="-0.440865" />
 			<rotation qx="0.0" qy="-0.619847" qz="0.0" qw="0.784723" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
-				name="arc_UnbHaus_08"
+				name="arc_UnbHaus_08_Td2"
 				id="6"
-				meshFile ="arc_UnbHaus_08.mesh"
+				meshFile ="arc_UnbHaus_08_Td2.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
 			/>
@@ -19602,10 +19602,24 @@
   
 
 		</node>
-
-		<node name="arc_stuhl_01" id="2615" >
+		<node name="arc_stuhl_01" id="2613" >
 			<position x="-32.942" y="-6.25103" z="18.6434" />
 			<rotation qx="0.0" qy="-0.902991" qz="0.0" qw="0.429659" />
+			<scale x="1.1" y="1.1" z="1.1" />
+			<entity
+				name="arc_stuhl_01"
+				id="2614"
+				meshFile ="arc_stuhl_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="arc_stuhl_01" id="2615" >
+			<position x="-32.5064" y="-6.25103" z="18.0398" />
+			<rotation qx="0.0" qy="-0.850214" qz="0.0" qw="0.526436" />
 			<scale x="1.1" y="1.1" z="1.1" />
 			<entity
 				name="arc_stuhl_01"
@@ -19618,14 +19632,14 @@
   
 
 		</node>
-		<node name="arc_stuhl_01" id="2617" >
-			<position x="-32.5064" y="-6.25103" z="18.0398" />
-			<rotation qx="0.0" qy="-0.850214" qz="0.0" qw="0.526436" />
-			<scale x="1.1" y="1.1" z="1.1" />
+		<node name="nat_salat_01" id="2617" >
+			<position x="-34.6906" y="-6.45313" z="26.003" />
+			<rotation qx="0.0" qy="0.130526" qz="0.0" qw="0.991445" />
+			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
-				name="arc_stuhl_01"
+				name="nat_salat_01"
 				id="2618"
-				meshFile ="arc_stuhl_01.mesh"
+				meshFile ="nat_salat_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
 			/>
@@ -19634,8 +19648,8 @@
 
 		</node>
 		<node name="nat_salat_01" id="2619" >
-			<position x="-34.6906" y="-6.45313" z="26.003" />
-			<rotation qx="0.0" qy="0.130526" qz="0.0" qw="0.991445" />
+			<position x="-33.6408" y="-6.45313" z="26.368" />
+			<rotation qx="0.0" qy="-0.642788" qz="0.0" qw="0.766044" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_salat_01"
@@ -19649,8 +19663,8 @@
 
 		</node>
 		<node name="nat_salat_01" id="2621" >
-			<position x="-33.6408" y="-6.45313" z="26.368" />
-			<rotation qx="0.0" qy="-0.642788" qz="0.0" qw="0.766044" />
+			<position x="-34.6881" y="-6.45313" z="27.7835" />
+			<rotation qx="0.0" qy="-0.258819" qz="0.0" qw="0.965926" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_salat_01"
@@ -19664,8 +19678,8 @@
 
 		</node>
 		<node name="nat_salat_01" id="2623" >
-			<position x="-34.6881" y="-6.45313" z="27.7835" />
-			<rotation qx="0.0" qy="-0.258819" qz="0.0" qw="0.965926" />
+			<position x="-36.2634" y="-6.45313" z="28.0137" />
+			<rotation qx="0.0" qy="-0.965926" qz="0.0" qw="-0.258819" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_salat_01"
@@ -19679,8 +19693,8 @@
 
 		</node>
 		<node name="nat_salat_01" id="2625" >
-			<position x="-36.2634" y="-6.45313" z="28.0137" />
-			<rotation qx="0.0" qy="-0.965926" qz="0.0" qw="-0.258819" />
+			<position x="-35.9071" y="-6.47816" z="26.6163" />
+			<rotation qx="0.0" qy="-0.984808" qz="0.0" qw="0.173648" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_salat_01"
@@ -19693,28 +19707,13 @@
   
 
 		</node>
-		<node name="nat_salat_01" id="2627" >
-			<position x="-35.9071" y="-6.47816" z="26.6163" />
-			<rotation qx="0.0" qy="-0.984808" qz="0.0" qw="0.173648" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="nat_salat_01"
-				id="2628"
-				meshFile ="nat_salat_01.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="nat_nadelbaum_02" id="2629" >
+		<node name="nat_nadelbaum_02" id="2627" >
 			<position x="68.9641" y="4.36494" z="23.157" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_nadelbaum_02"
-				id="2630"
+				id="2628"
 				meshFile ="nat_nadelbaum_02.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -19723,13 +19722,13 @@
  <userData><property type="STRING" name="physical_body" data="none"/></userData> 
 
 		</node>
-		<node name="baumstammcoli" id="2631" >
+		<node name="baumstammcoli" id="2629" >
 			<position x="68.9439" y="4.36432" z="23.1244" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.833175" y="0.833175" z="1.0" />
 			<entity
 				name="baumstammcoli"
-				id="2632"
+				id="2630"
 				meshFile ="baumstammcoli.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -19738,13 +19737,13 @@
   
 
 		</node>
-		<node name="nat_nadelbaum_02" id="2633" >
+		<node name="nat_nadelbaum_02" id="2631" >
 			<position x="75.1364" y="6.72652" z="10.1317" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_nadelbaum_02"
-				id="2634"
+				id="2632"
 				meshFile ="nat_nadelbaum_02.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -19753,13 +19752,13 @@
  <userData><property type="STRING" name="physical_body" data="none"/></userData> 
 
 		</node>
-		<node name="baumstammcoli" id="2635" >
+		<node name="baumstammcoli" id="2633" >
 			<position x="75.1162" y="6.71667" z="10.0991" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.833175" y="0.833175" z="1.0" />
 			<entity
 				name="baumstammcoli"
-				id="2636"
+				id="2634"
 				meshFile ="baumstammcoli.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -19768,13 +19767,13 @@
   
 
 		</node>
-		<node name="nat_nadelbaum_02" id="2637" >
+		<node name="nat_nadelbaum_02" id="2635" >
 			<position x="40.943" y="-4.50247" z="85.9844" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_nadelbaum_02"
-				id="2638"
+				id="2636"
 				meshFile ="nat_nadelbaum_02.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -19783,13 +19782,13 @@
  <userData><property type="STRING" name="physical_body" data="none"/></userData> 
 
 		</node>
-		<node name="baumstammcoli" id="2639" >
+		<node name="baumstammcoli" id="2637" >
 			<position x="40.9228" y="-4.50861" z="85.9518" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.833175" y="0.833175" z="1.0" />
 			<entity
 				name="baumstammcoli"
-				id="2640"
+				id="2638"
 				meshFile ="baumstammcoli.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -19798,13 +19797,13 @@
   
 
 		</node>
-		<node name="nat_nadelbaum_02" id="2641" >
+		<node name="nat_nadelbaum_02" id="2639" >
 			<position x="12.9337" y="-5.00165" z="87.2551" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_nadelbaum_02"
-				id="2642"
+				id="2640"
 				meshFile ="nat_nadelbaum_02.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -19813,13 +19812,13 @@
  <userData><property type="STRING" name="physical_body" data="none"/></userData> 
 
 		</node>
-		<node name="baumstammcoli" id="2643" >
+		<node name="baumstammcoli" id="2641" >
 			<position x="12.9134" y="-5.01285" z="87.2226" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.833175" y="0.833175" z="1.0" />
 			<entity
 				name="baumstammcoli"
-				id="2644"
+				id="2642"
 				meshFile ="baumstammcoli.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -19828,13 +19827,13 @@
   
 
 		</node>
-		<node name="nat_nadelbaum_02" id="2645" >
+		<node name="nat_nadelbaum_02" id="2643" >
 			<position x="-81.2921" y="5.2558" z="55.7198" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_nadelbaum_02"
-				id="2646"
+				id="2644"
 				meshFile ="nat_nadelbaum_02.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -19843,13 +19842,13 @@
  <userData><property type="STRING" name="physical_body" data="none"/></userData> 
 
 		</node>
-		<node name="baumstammcoli" id="2647" >
+		<node name="baumstammcoli" id="2645" >
 			<position x="-81.3123" y="5.25452" z="55.6872" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.833175" y="0.833175" z="1.0" />
 			<entity
 				name="baumstammcoli"
-				id="2648"
+				id="2646"
 				meshFile ="baumstammcoli.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -19858,13 +19857,13 @@
   
 
 		</node>
-		<node name="nat_nadelbaum_02" id="2649" >
+		<node name="nat_nadelbaum_02" id="2647" >
 			<position x="-64.3674" y="-0.326172" z="64.5428" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.1935" y="1.1935" z="1.1935" />
 			<entity
 				name="nat_nadelbaum_02"
-				id="2650"
+				id="2648"
 				meshFile ="nat_nadelbaum_02.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -19873,13 +19872,13 @@
  <userData><property type="STRING" name="physical_body" data="none"/></userData> 
 
 		</node>
-		<node name="baumstammcoli" id="2651" >
+		<node name="baumstammcoli" id="2649" >
 			<position x="-64.3876" y="-0.335236" z="64.5103" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.994394" y="0.994394" z="1.1935" />
 			<entity
 				name="baumstammcoli"
-				id="2652"
+				id="2650"
 				meshFile ="baumstammcoli.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -19888,13 +19887,13 @@
   
 
 		</node>
-		<node name="nat_nadelbaum_02" id="2653" >
+		<node name="nat_nadelbaum_02" id="2651" >
 			<position x="-50.8362" y="13.2997" z="122.009" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_nadelbaum_02"
-				id="2654"
+				id="2652"
 				meshFile ="nat_nadelbaum_02.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -19903,13 +19902,13 @@
  <userData><property type="STRING" name="physical_body" data="none"/></userData> 
 
 		</node>
-		<node name="baumstammcoli" id="2655" >
+		<node name="baumstammcoli" id="2653" >
 			<position x="-50.8564" y="13.2842" z="121.976" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.833175" y="0.833175" z="1.0" />
 			<entity
 				name="baumstammcoli"
-				id="2656"
+				id="2654"
 				meshFile ="baumstammcoli.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -19918,13 +19917,13 @@
   
 
 		</node>
-		<node name="nat_baum_shadix_03" id="2657" >
+		<node name="nat_baum_shadix_03" id="2655" >
 			<position x="-55.9758" y="-5.95755" z="8.52908" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_baum_shadix_03"
-				id="2658"
+				id="2656"
 				meshFile ="nat_baum_shadix_03.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -19933,13 +19932,13 @@
  <userData><property type="STRING" name="physical_body" data="none"/></userData> 
 
 		</node>
-		<node name="baumstammcoli" id="2659" >
+		<node name="baumstammcoli" id="2657" >
 			<position x="-55.7511" y="-5.46207" z="8.59448" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="2.30024" y="2.30024" z="2.30024" />
 			<entity
 				name="baumstammcoli"
-				id="2660"
+				id="2658"
 				meshFile ="baumstammcoli.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -19948,13 +19947,13 @@
   
 
 		</node>
-		<node name="nat_baum_shadix_03" id="2661" >
+		<node name="nat_baum_shadix_03" id="2659" >
 			<position x="53.0064" y="-9.31796" z="69.1962" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_baum_shadix_03"
-				id="2662"
+				id="2660"
 				meshFile ="nat_baum_shadix_03.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -19963,13 +19962,13 @@
  <userData><property type="STRING" name="physical_body" data="none"/></userData> 
 
 		</node>
-		<node name="arc_begeHaus_01" id="2663" >
+		<node name="arc_begeHaus_01" id="2661" >
 			<position x="-8.59766" y="-6.95188" z="14.7287" />
 			<rotation qx="0.0" qy="-0.953717" qz="0.0" qw="-0.300706" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="arc_begeHaus_01"
-				id="2664"
+				id="2662"
 				meshFile ="arc_begeHaus_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -19978,13 +19977,13 @@
   
 
 		</node>
-		<node name="arc_bett_01" id="2665" >
+		<node name="arc_bett_01" id="2663" >
 			<position x="-5.87822" y="-6.29876" z="17.8863" />
 			<rotation qx="0.0" qy="0.478407" qz="0.0" qw="0.878138" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="arc_bett_01"
-				id="2666"
+				id="2664"
 				meshFile ="arc_bett_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -19993,13 +19992,13 @@
   
 
 		</node>
-		<node name="arc_stuhl_01" id="2667" >
+		<node name="arc_stuhl_01" id="2665" >
 			<position x="-10.0289" y="-6.91346" z="11.8109" />
 			<rotation qx="0.0" qy="-0.819152" qz="0.0" qw="0.573576" />
 			<scale x="1.1" y="1.1" z="1.1" />
 			<entity
 				name="arc_stuhl_01"
-				id="2668"
+				id="2666"
 				meshFile ="arc_stuhl_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -20008,13 +20007,13 @@
   
 
 		</node>
-		<node name="arc_schrank_01" id="2669" >
+		<node name="arc_schrank_01" id="2667" >
 			<position x="-33.2278" y="-3.29452" z="20.2881" />
 			<rotation qx="0.0" qy="-0.965926" qz="0.0" qw="-0.258819" />
 			<scale x="1.18383" y="1.18383" z="1.18383" />
 			<entity
 				name="arc_schrank_01"
-				id="2670"
+				id="2668"
 				meshFile ="arc_schrank_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -20023,13 +20022,13 @@
   
 
 		</node>
-		<node name="arc_nachtkasten_01" id="2671" >
+		<node name="arc_nachtkasten_01" id="2669" >
 			<position x="-35.3018" y="-3.29641" z="15.1145" />
 			<rotation qx="0.0" qy="0.5" qz="0.0" qw="0.866025" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="arc_nachtkasten_01"
-				id="2672"
+				id="2670"
 				meshFile ="arc_nachtkasten_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -20038,13 +20037,13 @@
   
 
 		</node>
-		<node name="arc_schrank_01" id="2673" >
+		<node name="arc_schrank_01" id="2671" >
 			<position x="-7.87085" y="-6.91304" z="12.1703" />
 			<rotation qx="0.0" qy="-0.887011" qz="0.0" qw="0.461749" />
 			<scale x="1.18383" y="1.18383" z="1.18383" />
 			<entity
 				name="arc_schrank_01"
-				id="2674"
+				id="2672"
 				meshFile ="arc_schrank_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -20053,8 +20052,23 @@
   
 
 		</node>
-		<node name="nat_salat_01" id="2675" >
+		<node name="nat_salat_01" id="2673" >
 			<position x="-35.6551" y="-6.45313" z="31.4588" />
+			<rotation qx="0.0" qy="-0.258819" qz="0.0" qw="0.965926" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_salat_01"
+				id="2674"
+				meshFile ="nat_salat_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_salat_01" id="2675" >
+			<position x="-33.1335" y="-6.45313" z="31.8578" />
 			<rotation qx="0.0" qy="-0.258819" qz="0.0" qw="0.965926" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
@@ -20068,29 +20082,13 @@
   
 
 		</node>
-		<node name="nat_salat_01" id="2677" >
-			<position x="-33.1335" y="-6.45313" z="31.8578" />
-			<rotation qx="0.0" qy="-0.258819" qz="0.0" qw="0.965926" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="nat_salat_01"
-				id="2678"
-				meshFile ="nat_salat_01.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-
-		<node name="arc_regal_01" id="2683" >
+		<node name="arc_regal_01" id="2677" >
 			<position x="-37.3135" y="-6.22377" z="21.9168" />
 			<rotation qx="0.0" qy="-0.953717" qz="0.0" qw="-0.300706" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="arc_regal_01"
-				id="2684"
+				id="2678"
 				meshFile ="arc_regal_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -20099,13 +20097,13 @@
   
 
 		</node>
-		<node name="arc_UnbHaus_04" id="2685" >
+		<node name="arc_UnbHaus_04" id="2679" >
 			<position x="-38.7719" y="-6.40238" z="-0.855989" />
 			<rotation qx="0.0" qy="-0.382683" qz="0.0" qw="0.92388" />
 			<scale x="1.1161" y="1.1161" z="1.1161" />
 			<entity
 				name="arc_UnbHaus_04"
-				id="2686"
+				id="2680"
 				meshFile ="arc_UnbHaus_04.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -20114,13 +20112,13 @@
   
 
 		</node>
-		<node name="nat_fels_01" id="2687" >
+		<node name="nat_fels_01" id="2681" >
 			<position x="-77.2619" y="-4.77956" z="37.6537" />
 			<rotation qx="0.0" qy="0.0" qz="-0.0871557" qw="0.996195" />
 			<scale x="1.67692" y="1.67692" z="1.67692" />
 			<entity
 				name="nat_fels_01"
-				id="2688"
+				id="2682"
 				meshFile ="nat_fels_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -20129,10 +20127,55 @@
   
 
 		</node>
-		<node name="fx_steingischt_01" id="2689" >
+		<node name="fx_steingischt_01" id="2683" >
 			<position x="-76.962" y="-4.29151" z="37.4151" />
 			<rotation qx="0.00749426" qy="-0.0816822" qz="-0.16531" qw="0.982825" />
 			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="fx_steingischt_01"
+				id="2684"
+				meshFile ="fx_steingischt_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_fels_01" id="2685" >
+			<position x="-83.3705" y="-3.36759" z="40.3845" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="2.1705" y="2.1705" z="2.1705" />
+			<entity
+				name="nat_fels_01"
+				id="2686"
+				meshFile ="nat_fels_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="fx_steingischt_01" id="2687" >
+			<position x="-82.9197" y="-2.62273" z="40.0833" />
+			<rotation qx="0.000160182" qy="-0.0831368" qz="-0.0790382" qw="0.993399" />
+			<scale x="1.24188" y="1.24188" z="1.24188" />
+			<entity
+				name="fx_steingischt_01"
+				id="2688"
+				meshFile ="fx_steingischt_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="fx_steingischt_01" id="2689" >
+			<position x="-84.0944" y="-2.34621" z="37.0801" />
+			<rotation qx="0.00360762" qy="-0.0397262" qz="-0.0789559" qw="0.99608" />
+			<scale x="1.14725" y="1.14725" z="1.14725" />
 			<entity
 				name="fx_steingischt_01"
 				id="2690"
@@ -20145,9 +20188,9 @@
 
 		</node>
 		<node name="nat_fels_01" id="2691" >
-			<position x="-83.3705" y="-3.36759" z="40.3845" />
+			<position x="-84.4672" y="-2.71667" z="37.4459" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="2.1705" y="2.1705" z="2.1705" />
+			<scale x="1.57506" y="1.57506" z="1.57506" />
 			<entity
 				name="nat_fels_01"
 				id="2692"
@@ -20160,9 +20203,9 @@
 
 		</node>
 		<node name="fx_steingischt_01" id="2693" >
-			<position x="-82.9197" y="-2.62273" z="40.0833" />
-			<rotation qx="0.000160182" qy="-0.0831368" qz="-0.0790382" qw="0.993399" />
-			<scale x="1.24188" y="1.24188" z="1.24188" />
+			<position x="-79.9692" y="-3.21443" z="35.9382" />
+			<rotation qx="0.0220397" qy="0.00332927" qz="-0.120854" qw="0.99242" />
+			<scale x="0.644548" y="0.644548" z="0.644548" />
 			<entity
 				name="fx_steingischt_01"
 				id="2694"
@@ -20174,28 +20217,13 @@
   
 
 		</node>
-		<node name="fx_steingischt_01" id="2695" >
-			<position x="-84.0944" y="-2.34621" z="37.0801" />
-			<rotation qx="0.00360762" qy="-0.0397262" qz="-0.0789559" qw="0.99608" />
-			<scale x="1.14725" y="1.14725" z="1.14725" />
-			<entity
-				name="fx_steingischt_01"
-				id="2696"
-				meshFile ="fx_steingischt_01.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="nat_fels_01" id="2697" >
-			<position x="-84.4672" y="-2.71667" z="37.4459" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.57506" y="1.57506" z="1.57506" />
+		<node name="nat_fels_01" id="2695" >
+			<position x="-80.1626" y="-3.48111" z="36.092" />
+			<rotation qx="0.0113761" qy="0.0864101" qz="-0.0434534" qw="0.995247" />
+			<scale x="1.08086" y="1.08086" z="1.08086" />
 			<entity
 				name="nat_fels_01"
-				id="2698"
+				id="2696"
 				meshFile ="nat_fels_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -20204,10 +20232,25 @@
   
 
 		</node>
+		<node name="fx_steingischt_01" id="2697" >
+			<position x="-76.962" y="-4.52223" z="43.1862" />
+			<rotation qx="0.0218735" qy="0.00428746" qz="-0.164028" qw="0.986204" />
+			<scale x="1.29992" y="1.29992" z="1.29992" />
+			<entity
+				name="fx_steingischt_01"
+				id="2698"
+				meshFile ="fx_steingischt_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
 		<node name="fx_steingischt_01" id="2699" >
-			<position x="-79.9692" y="-3.21443" z="35.9382" />
-			<rotation qx="0.0220397" qy="0.00332927" qz="-0.120854" qw="0.99242" />
-			<scale x="0.644548" y="0.644548" z="0.644548" />
+			<position x="-71.4503" y="-6.98116" z="45.0348" />
+			<rotation qx="0.0129943" qy="-0.0393383" qz="-0.121684" qw="0.991704" />
+			<scale x="1.29992" y="1.29992" z="1.29992" />
 			<entity
 				name="fx_steingischt_01"
 				id="2700"
@@ -20219,14 +20262,14 @@
   
 
 		</node>
-		<node name="nat_fels_01" id="2701" >
-			<position x="-80.1626" y="-3.48111" z="36.092" />
-			<rotation qx="0.0113761" qy="0.0864101" qz="-0.0434534" qw="0.995247" />
-			<scale x="1.08086" y="1.08086" z="1.08086" />
+		<node name="fx_steingischt_01" id="2701" >
+			<position x="-73.7124" y="-5.97811" z="44.3088" />
+			<rotation qx="0.0146978" qy="-0.0387341" qz="-0.164826" qw="0.985452" />
+			<scale x="1.29992" y="1.29992" z="1.29992" />
 			<entity
-				name="nat_fels_01"
+				name="fx_steingischt_01"
 				id="2702"
-				meshFile ="nat_fels_01.mesh"
+				meshFile ="fx_steingischt_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
 			/>
@@ -20235,8 +20278,8 @@
 
 		</node>
 		<node name="fx_steingischt_01" id="2703" >
-			<position x="-76.962" y="-4.52223" z="43.1862" />
-			<rotation qx="0.0218735" qy="0.00428746" qz="-0.164028" qw="0.986204" />
+			<position x="-90.1433" y="-1.00426" z="42.4065" />
+			<rotation qx="0.011124" qy="0.136226" qz="-0.0795834" qw="0.987413" />
 			<scale x="1.29992" y="1.29992" z="1.29992" />
 			<entity
 				name="fx_steingischt_01"
@@ -20250,8 +20293,8 @@
 
 		</node>
 		<node name="fx_steingischt_01" id="2705" >
-			<position x="-71.4503" y="-6.98116" z="45.0348" />
-			<rotation qx="0.0129943" qy="-0.0393383" qz="-0.121684" qw="0.991704" />
+			<position x="-86.8937" y="-1.65549" z="42.41" />
+			<rotation qx="0.0041455" qy="0.136226" qz="-0.0802501" qw="0.987413" />
 			<scale x="1.29992" y="1.29992" z="1.29992" />
 			<entity
 				name="fx_steingischt_01"
@@ -20265,8 +20308,8 @@
 
 		</node>
 		<node name="fx_steingischt_01" id="2707" >
-			<position x="-73.7124" y="-5.97811" z="44.3088" />
-			<rotation qx="0.0146978" qy="-0.0387341" qz="-0.164826" qw="0.985452" />
+			<position x="-84.6317" y="-2.29331" z="42.3357" />
+			<rotation qx="0.0146978" qy="-0.0387341" qz="-0.078311" qw="0.996068" />
 			<scale x="1.29992" y="1.29992" z="1.29992" />
 			<entity
 				name="fx_steingischt_01"
@@ -20280,8 +20323,8 @@
 
 		</node>
 		<node name="fx_steingischt_01" id="2709" >
-			<position x="-90.1433" y="-1.00426" z="42.4065" />
-			<rotation qx="0.011124" qy="0.136226" qz="-0.0795834" qw="0.987413" />
+			<position x="-90.1433" y="-1.00426" z="34.1992" />
+			<rotation qx="0.0263782" qy="-0.0361897" qz="-0.0329221" qw="0.998454" />
 			<scale x="1.29992" y="1.29992" z="1.29992" />
 			<entity
 				name="fx_steingischt_01"
@@ -20295,9 +20338,9 @@
 
 		</node>
 		<node name="fx_steingischt_01" id="2711" >
-			<position x="-86.8937" y="-1.65549" z="42.41" />
-			<rotation qx="0.0041455" qy="0.136226" qz="-0.0802501" qw="0.987413" />
-			<scale x="1.29992" y="1.29992" z="1.29992" />
+			<position x="-84.0944" y="-2.34621" z="33.8578" />
+			<rotation qx="-0.0070575" qy="-0.124912" qz="-0.0823898" qw="0.988716" />
+			<scale x="1.14725" y="1.14725" z="1.14725" />
 			<entity
 				name="fx_steingischt_01"
 				id="2712"
@@ -20310,9 +20353,9 @@
 
 		</node>
 		<node name="fx_steingischt_01" id="2713" >
-			<position x="-84.6317" y="-2.29331" z="42.3357" />
-			<rotation qx="0.0146978" qy="-0.0387341" qz="-0.078311" qw="0.996068" />
-			<scale x="1.29992" y="1.29992" z="1.29992" />
+			<position x="-87.3357" y="-1.55177" z="33.8578" />
+			<rotation qx="-0.0070575" qy="-0.124912" qz="-0.0823898" qw="0.988716" />
+			<scale x="1.14725" y="1.14725" z="1.14725" />
 			<entity
 				name="fx_steingischt_01"
 				id="2714"
@@ -20325,8 +20368,8 @@
 
 		</node>
 		<node name="fx_steingischt_01" id="2715" >
-			<position x="-90.1433" y="-1.00426" z="34.1992" />
-			<rotation qx="0.0263782" qy="-0.0361897" qz="-0.0329221" qw="0.998454" />
+			<position x="-76.962" y="-4.21261" z="33.679" />
+			<rotation qx="-0.00151119" qy="-0.208872" qz="-0.110512" qw="0.971678" />
 			<scale x="1.29992" y="1.29992" z="1.29992" />
 			<entity
 				name="fx_steingischt_01"
@@ -20340,9 +20383,9 @@
 
 		</node>
 		<node name="fx_steingischt_01" id="2717" >
-			<position x="-84.0944" y="-2.34621" z="33.8578" />
-			<rotation qx="-0.0070575" qy="-0.124912" qz="-0.0823898" qw="0.988716" />
-			<scale x="1.14725" y="1.14725" z="1.14725" />
+			<position x="-70.1408" y="-7.00497" z="41.1005" />
+			<rotation qx="0.00495412" qy="-0.268564" qz="-0.116945" qw="0.956124" />
+			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="fx_steingischt_01"
 				id="2718"
@@ -20354,14 +20397,14 @@
   
 
 		</node>
-		<node name="fx_steingischt_01" id="2719" >
-			<position x="-87.3357" y="-1.55177" z="33.8578" />
-			<rotation qx="-0.0070575" qy="-0.124912" qz="-0.0823898" qw="0.988716" />
-			<scale x="1.14725" y="1.14725" z="1.14725" />
+		<node name="nat_fels_01" id="2719" >
+			<position x="-70.3854" y="-7.71691" z="41.2011" />
+			<rotation qx="0.0426505" qy="0.682814" qz="-0.0109686" qw="0.729264" />
+			<scale x="2.05008" y="2.05008" z="2.05008" />
 			<entity
-				name="fx_steingischt_01"
+				name="nat_fels_01"
 				id="2720"
-				meshFile ="fx_steingischt_01.mesh"
+				meshFile ="nat_fels_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
 			/>
@@ -20370,8 +20413,8 @@
 
 		</node>
 		<node name="fx_steingischt_01" id="2721" >
-			<position x="-76.962" y="-4.21261" z="33.679" />
-			<rotation qx="-0.00151119" qy="-0.208872" qz="-0.110512" qw="0.971678" />
+			<position x="-68.432" y="-6.9165" z="36.5815" />
+			<rotation qx="-0.00841558" qy="-0.394941" qz="-0.0579029" qw="0.916841" />
 			<scale x="1.29992" y="1.29992" z="1.29992" />
 			<entity
 				name="fx_steingischt_01"
@@ -20385,9 +20428,9 @@
 
 		</node>
 		<node name="fx_steingischt_01" id="2723" >
-			<position x="-70.1408" y="-7.00497" z="41.1005" />
-			<rotation qx="0.00495412" qy="-0.268564" qz="-0.116945" qw="0.956124" />
-			<scale x="1.0" y="1.0" z="1.0" />
+			<position x="-71.6108" y="-6.03365" z="34.7216" />
+			<rotation qx="-0.0507746" qy="-0.374417" qz="-0.11807" qw="0.91831" />
+			<scale x="1.29992" y="1.29992" z="1.29992" />
 			<entity
 				name="fx_steingischt_01"
 				id="2724"
@@ -20399,55 +20442,55 @@
   
 
 		</node>
-		<node name="nat_fels_01" id="2725" >
-			<position x="-70.3854" y="-7.71691" z="41.2011" />
-			<rotation qx="0.0426505" qy="0.682814" qz="-0.0109686" qw="0.729264" />
-			<scale x="2.05008" y="2.05008" z="2.05008" />
-			<entity
-				name="nat_fels_01"
-				id="2726"
-				meshFile ="nat_fels_01.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="fx_steingischt_01" id="2727" >
-			<position x="-68.432" y="-6.9165" z="36.5815" />
-			<rotation qx="-0.00841558" qy="-0.394941" qz="-0.0579029" qw="0.916841" />
-			<scale x="1.29992" y="1.29992" z="1.29992" />
-			<entity
-				name="fx_steingischt_01"
-				id="2728"
-				meshFile ="fx_steingischt_01.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="fx_steingischt_01" id="2729" >
-			<position x="-71.6108" y="-6.03365" z="34.7216" />
-			<rotation qx="-0.0507746" qy="-0.374417" qz="-0.11807" qw="0.91831" />
-			<scale x="1.29992" y="1.29992" z="1.29992" />
-			<entity
-				name="fx_steingischt_01"
-				id="2730"
-				meshFile ="fx_steingischt_01.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="nat_busch_01" id="2731" >
+		<node name="nat_busch_01" id="2725" >
 			<position x="-2.22799" y="-5.88511" z="-9.80864" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_busch_01"
+				id="2726"
+				meshFile ="nat_busch_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_busch_01" id="2727" >
+			<position x="-28.9975" y="-6.63055" z="23.7019" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_busch_01"
+				id="2728"
+				meshFile ="nat_busch_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_busch_01" id="2729" >
+			<position x="-28.5191" y="-6.84676" z="24.8502" />
+			<rotation qx="0.142512" qy="-0.064653" qz="-0.0506941" qw="0.986377" />
+			<scale x="0.817979" y="0.817979" z="0.817979" />
+			<entity
+				name="nat_busch_01"
+				id="2730"
+				meshFile ="nat_busch_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_busch_01" id="2731" >
+			<position x="-29.9416" y="-6.63055" z="24.8177" />
+			<rotation qx="0.0953545" qy="-0.0498108" qz="0.118388" qw="0.987122" />
+			<scale x="0.817979" y="0.817979" z="0.817979" />
 			<entity
 				name="nat_busch_01"
 				id="2732"
@@ -20460,7 +20503,7 @@
 
 		</node>
 		<node name="nat_busch_01" id="2733" >
-			<position x="-28.9975" y="-6.63055" z="23.7019" />
+			<position x="-27.6117" y="-7.23692" z="31.8811" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
@@ -20475,9 +20518,9 @@
 
 		</node>
 		<node name="nat_busch_01" id="2735" >
-			<position x="-28.5191" y="-6.84676" z="24.8502" />
-			<rotation qx="0.142512" qy="-0.064653" qz="-0.0506941" qw="0.986377" />
-			<scale x="0.817979" y="0.817979" z="0.817979" />
+			<position x="-0.873349" y="-6.45821" z="-7.68725" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_busch_01"
 				id="2736"
@@ -20490,9 +20533,9 @@
 
 		</node>
 		<node name="nat_busch_01" id="2737" >
-			<position x="-29.9416" y="-6.63055" z="24.8177" />
-			<rotation qx="0.0953545" qy="-0.0498108" qz="0.118388" qw="0.987122" />
-			<scale x="0.817979" y="0.817979" z="0.817979" />
+			<position x="-0.645233" y="-5.95381" z="-9.55146" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_busch_01"
 				id="2738"
@@ -20505,7 +20548,7 @@
 
 		</node>
 		<node name="nat_busch_01" id="2739" >
-			<position x="-27.6117" y="-7.23692" z="31.8811" />
+			<position x="-0.645233" y="-3.2924" z="-18.148" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
@@ -20520,7 +20563,7 @@
 
 		</node>
 		<node name="nat_busch_01" id="2741" >
-			<position x="-0.873349" y="-6.45821" z="-7.68725" />
+			<position x="27.3758" y="-6.68252" z="10.6825" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
@@ -20535,7 +20578,7 @@
 
 		</node>
 		<node name="nat_busch_01" id="2743" >
-			<position x="-0.645233" y="-5.95381" z="-9.55146" />
+			<position x="-26.909" y="-3.45579" z="-37.6518" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
@@ -20550,9 +20593,9 @@
 
 		</node>
 		<node name="nat_busch_01" id="2745" >
-			<position x="-0.645233" y="-3.2924" z="-18.148" />
+			<position x="-28.7627" y="-3.17319" z="-36.8679" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
+			<scale x="1.13545" y="1.13545" z="1.13545" />
 			<entity
 				name="nat_busch_01"
 				id="2746"
@@ -20564,14 +20607,14 @@
  <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_busch_01" id="2747" >
-			<position x="27.3758" y="-6.68252" z="10.6825" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
+		<node name="nat_busch_shadix_01" id="2747" >
+			<position x="-31.6652" y="-2.87572" z="-34.7668" />
+			<rotation qx="0.0" qy="0.385872" qz="0.0" qw="0.922552" />
+			<scale x="0.279985" y="0.279985" z="0.279985" />
 			<entity
-				name="nat_busch_01"
+				name="nat_busch_shadix_01"
 				id="2748"
-				meshFile ="nat_busch_01.mesh"
+				meshFile ="nat_busch_shadix_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
 			/>
@@ -20579,14 +20622,14 @@
  <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_busch_01" id="2749" >
-			<position x="-26.909" y="-3.45579" z="-37.6518" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
+		<node name="nat_busch_shadix_01" id="2749" >
+			<position x="-18.8938" y="-4.19473" z="-32.8239" />
+			<rotation qx="-0.00978094" qy="0.222922" qz="0.224726" qw="0.94853" />
+			<scale x="0.279985" y="0.279985" z="0.279985" />
 			<entity
-				name="nat_busch_01"
+				name="nat_busch_shadix_01"
 				id="2750"
-				meshFile ="nat_busch_01.mesh"
+				meshFile ="nat_busch_shadix_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
 			/>
@@ -20595,9 +20638,9 @@
 
 		</node>
 		<node name="nat_busch_01" id="2751" >
-			<position x="-28.7627" y="-3.17319" z="-36.8679" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.13545" y="1.13545" z="1.13545" />
+			<position x="-19.8757" y="-4.19922" z="-30.945" />
+			<rotation qx="0.244501" qy="-0.143034" qz="0.0949904" qw="0.954326" />
+			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_busch_01"
 				id="2752"
@@ -20609,14 +20652,14 @@
  <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_busch_shadix_01" id="2753" >
-			<position x="-31.6652" y="-2.87572" z="-34.7668" />
-			<rotation qx="0.0" qy="0.385872" qz="0.0" qw="0.922552" />
-			<scale x="0.279985" y="0.279985" z="0.279985" />
+		<node name="nat_busch_01" id="2753" >
+			<position x="-38.0421" y="-3.17319" z="-25.6237" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.13545" y="1.13545" z="1.13545" />
 			<entity
-				name="nat_busch_shadix_01"
+				name="nat_busch_01"
 				id="2754"
-				meshFile ="nat_busch_shadix_01.mesh"
+				meshFile ="nat_busch_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
 			/>
@@ -20624,14 +20667,14 @@
  <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_busch_shadix_01" id="2755" >
-			<position x="-18.8938" y="-4.19473" z="-32.8239" />
-			<rotation qx="-0.00978094" qy="0.222922" qz="0.224726" qw="0.94853" />
-			<scale x="0.279985" y="0.279985" z="0.279985" />
+		<node name="nat_busch_01" id="2755" >
+			<position x="-53.4252" y="-5.98254" z="7.05668" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.13545" y="1.13545" z="1.13545" />
 			<entity
-				name="nat_busch_shadix_01"
+				name="nat_busch_01"
 				id="2756"
-				meshFile ="nat_busch_shadix_01.mesh"
+				meshFile ="nat_busch_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
 			/>
@@ -20640,9 +20683,9 @@
 
 		</node>
 		<node name="nat_busch_01" id="2757" >
-			<position x="-19.8757" y="-4.19922" z="-30.945" />
-			<rotation qx="0.244501" qy="-0.143034" qz="0.0949904" qw="0.954326" />
-			<scale x="1.0" y="1.0" z="1.0" />
+			<position x="-54.2415" y="-5.98254" z="5.39435" />
+			<rotation qx="-0.194123" qy="-0.111828" qz="-0.108107" qw="0.968568" />
+			<scale x="0.991551" y="0.991551" z="0.991551" />
 			<entity
 				name="nat_busch_01"
 				id="2758"
@@ -20655,9 +20698,9 @@
 
 		</node>
 		<node name="nat_busch_01" id="2759" >
-			<position x="-38.0421" y="-3.17319" z="-25.6237" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.13545" y="1.13545" z="1.13545" />
+			<position x="-57.0579" y="-7.03711" z="59.4234" />
+			<rotation qx="-0.190837" qy="-0.0138769" qz="-0.0696481" qw="0.979049" />
+			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_busch_01"
 				id="2760"
@@ -20670,9 +20713,9 @@
 
 		</node>
 		<node name="nat_busch_01" id="2761" >
-			<position x="-53.4252" y="-5.98254" z="7.05668" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.13545" y="1.13545" z="1.13545" />
+			<position x="-56.594" y="-6.74816" z="61.8874" />
+			<rotation qx="-0.190837" qy="-0.0138769" qz="-0.0696481" qw="0.979049" />
+			<scale x="1.08707" y="1.08707" z="1.08707" />
 			<entity
 				name="nat_busch_01"
 				id="2762"
@@ -20685,9 +20728,9 @@
 
 		</node>
 		<node name="nat_busch_01" id="2763" >
-			<position x="-54.2415" y="-5.98254" z="5.39435" />
-			<rotation qx="-0.194123" qy="-0.111828" qz="-0.108107" qw="0.968568" />
-			<scale x="0.991551" y="0.991551" z="0.991551" />
+			<position x="-39.558" y="-6.63055" z="31.4168" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_busch_01"
 				id="2764"
@@ -20699,58 +20742,13 @@
  <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_busch_01" id="2765" >
-			<position x="-57.0579" y="-7.03711" z="59.4234" />
-			<rotation qx="-0.190837" qy="-0.0138769" qz="-0.0696481" qw="0.979049" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="nat_busch_01"
-				id="2766"
-				meshFile ="nat_busch_01.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
-
-		</node>
-		<node name="nat_busch_01" id="2767" >
-			<position x="-56.594" y="-6.74816" z="61.8874" />
-			<rotation qx="-0.190837" qy="-0.0138769" qz="-0.0696481" qw="0.979049" />
-			<scale x="1.08707" y="1.08707" z="1.08707" />
-			<entity
-				name="nat_busch_01"
-				id="2768"
-				meshFile ="nat_busch_01.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
-
-		</node>
-		<node name="nat_busch_01" id="2769" >
-			<position x="-39.558" y="-6.63055" z="31.4168" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="nat_busch_01"
-				id="2770"
-				meshFile ="nat_busch_01.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
-
-		</node>
-		<node name="col_TD2_map1" id="2771" >
+		<node name="col_TD2_map1" id="2765" >
 			<position x="10.5807" y="47.0254" z="2.05555e-006" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="col_TD2_map1"
-				id="2772"
+				id="2766"
 				meshFile ="col_TD2_map1.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -20759,13 +20757,13 @@
   
 
 		</node>
-		<node name="nat_brunnenwasser" id="2773" >
+		<node name="nat_brunnenwasser" id="2767" >
 			<position x="-31.2728" y="-7.37972" z="3.49231" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.526378" y="0.526378" z="0.526378" />
 			<entity
 				name="nat_brunnenwasser"
-				id="2774"
+				id="2768"
 				meshFile ="nat_brunnenwasser.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -20774,13 +20772,13 @@
   
 
 		</node>
-		<node name="ver_kaese_01" id="2775" >
+		<node name="ver_kaese_01" id="2769" >
 			<position x="-37.0865" y="-4.57945" z="22.2786" />
 			<rotation qx="0.0" qy="-0.999036" qz="0.0" qw="0.0438907" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_kaese_01"
-				id="2776"
+				id="2770"
 				meshFile ="ver_kaese_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -20789,13 +20787,13 @@
   
 
 		</node>
-		<node name="ver_fass_01" id="2777" >
+		<node name="ver_fass_01" id="2771" >
 			<position x="-32.0513" y="-6.25303" z="23.013" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_fass_01"
-				id="2778"
+				id="2772"
 				meshFile ="ver_fass_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -20804,13 +20802,13 @@
   
 
 		</node>
-		<node name="ver_fass_01" id="2779" >
+		<node name="ver_fass_01" id="2773" >
 			<position x="-31.8525" y="-6.25303" z="23.9731" />
 			<rotation qx="0.0" qy="-0.58703" qz="0.0" qw="0.809565" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_fass_01"
-				id="2780"
+				id="2774"
 				meshFile ="ver_fass_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -20819,13 +20817,13 @@
   
 
 		</node>
-		<node name="ver_essigbottich_01" id="2781" >
+		<node name="ver_essigbottich_01" id="2775" >
 			<position x="-37.7203" y="-5.11337" z="21.7868" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_essigbottich_01"
-				id="2782"
+				id="2776"
 				meshFile ="ver_essigbottich_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -20834,13 +20832,13 @@
   
 
 		</node>
-		<node name="arc_kommode_01" id="2783" >
+		<node name="arc_kommode_01" id="2777" >
 			<position x="-38.4852" y="-6.22686" z="21.1727" />
 			<rotation qx="0.00160733" qy="-0.952562" qz="7.10249e-005" qw="-0.304342" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="arc_kommode_01"
-				id="2784"
+				id="2778"
 				meshFile ="arc_kommode_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -20849,13 +20847,13 @@
   
 
 		</node>
-		<node name="arc_kommode_01" id="2785" >
+		<node name="arc_kommode_01" id="2779" >
 			<position x="-38.8245" y="-3.3037" z="20.9736" />
 			<rotation qx="0.00160874" qy="-0.961308" qz="2.25092e-005" qw="-0.27547" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="arc_kommode_01"
-				id="2786"
+				id="2780"
 				meshFile ="arc_kommode_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -20864,13 +20862,13 @@
   
 
 		</node>
-		<node name="arc_kommode_01" id="2787" >
+		<node name="arc_kommode_01" id="2781" >
 			<position x="-8.64887" y="-6.90463" z="17.786" />
 			<rotation qx="0.00160733" qy="-0.952562" qz="7.10249e-005" qw="-0.304342" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="arc_kommode_01"
-				id="2788"
+				id="2782"
 				meshFile ="arc_kommode_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -20879,13 +20877,13 @@
   
 
 		</node>
-		<node name="arc_tisch_01" id="2789" >
+		<node name="arc_tisch_01" id="2783" >
 			<position x="-33.2911" y="-6.24296" z="18.0123" />
 			<rotation qx="0.0" qy="0.473044" qz="0.0" qw="0.881039" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="arc_tisch_01"
-				id="2790"
+				id="2784"
 				meshFile ="arc_tisch_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -20894,13 +20892,13 @@
   
 
 		</node>
-		<node name="arc_stuhl_01" id="2791" >
+		<node name="arc_stuhl_01" id="2785" >
 			<position x="-34.0782" y="-6.25103" z="17.8498" />
 			<rotation qx="0.0" qy="0.487075" qz="0.0" qw="0.87336" />
 			<scale x="1.1" y="1.1" z="1.1" />
 			<entity
 				name="arc_stuhl_01"
-				id="2792"
+				id="2786"
 				meshFile ="arc_stuhl_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -20909,13 +20907,13 @@
   
 
 		</node>
-		<node name="arc_stuhl_01" id="2793" >
+		<node name="arc_stuhl_01" id="2787" >
 			<position x="-33.5865" y="-6.25103" z="17.3605" />
 			<rotation qx="0.0" qy="0.487075" qz="0.0" qw="0.87336" />
 			<scale x="1.1" y="1.1" z="1.1" />
 			<entity
 				name="arc_stuhl_01"
-				id="2794"
+				id="2788"
 				meshFile ="arc_stuhl_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -20924,13 +20922,13 @@
   
 
 		</node>
-		<node name="ver_kiste_01" id="2795" >
+		<node name="ver_kiste_01" id="2789" >
 			<position x="-31.2627" y="-6.23358" z="23.4452" />
 			<rotation qx="0.0" qy="-0.229923" qz="0.0" qw="0.973209" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_kiste_01"
-				id="2796"
+				id="2790"
 				meshFile ="ver_kiste_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -20939,13 +20937,13 @@
   
 
 		</node>
-		<node name="ver_sack_03" id="2797" >
+		<node name="ver_sack_03" id="2791" >
 			<position x="-32.6169" y="-6.18628" z="23.4318" />
 			<rotation qx="0.0" qy="-0.987029" qz="0.0" qw="-0.16054" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_sack_03"
-				id="2798"
+				id="2792"
 				meshFile ="ver_sack_03.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -20954,8 +20952,53 @@
   
 
 		</node>
-		<node name="ver_becher_01" id="2799" >
+		<node name="ver_becher_01" id="2793" >
 			<position x="-33.449" y="-5.27254" z="17.7693" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_becher_01"
+				id="2794"
+				meshFile ="ver_becher_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_becher_01" id="2795" >
+			<position x="-33.7735" y="-5.27254" z="18.3364" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_becher_01"
+				id="2796"
+				meshFile ="ver_becher_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_becher_01" id="2797" >
+			<position x="-32.8552" y="-5.24193" z="17.5047" />
+			<rotation qx="-0.228089" qy="0.016556" qz="0.625022" qw="0.746357" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_becher_01"
+				id="2798"
+				meshFile ="ver_becher_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_becher_01" id="2799" >
+			<position x="-33.1512" y="-5.27254" z="18.2347" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
@@ -20969,58 +21012,13 @@
   
 
 		</node>
-		<node name="ver_becher_01" id="2801" >
-			<position x="-33.7735" y="-5.27254" z="18.3364" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="ver_becher_01"
-				id="2802"
-				meshFile ="ver_becher_01.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="ver_becher_01" id="2803" >
-			<position x="-32.8552" y="-5.24193" z="17.5047" />
-			<rotation qx="-0.228089" qy="0.016556" qz="0.625022" qw="0.746357" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="ver_becher_01"
-				id="2804"
-				meshFile ="ver_becher_01.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="ver_becher_01" id="2805" >
-			<position x="-33.1512" y="-5.27254" z="18.2347" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="ver_becher_01"
-				id="2806"
-				meshFile ="ver_becher_01.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="ver_korb_01" id="2807" >
+		<node name="ver_korb_01" id="2801" >
 			<position x="-32.6286" y="-6.31194" z="22.624" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_korb_01"
-				id="2808"
+				id="2802"
 				meshFile ="ver_korb_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21029,13 +21027,13 @@
   
 
 		</node>
-		<node name="ver_symbol_travia_01" id="2809" >
+		<node name="ver_symbol_travia_01" id="2803" >
 			<position x="-32.5713" y="-4.79386" z="19.8891" />
 			<rotation qx="0.0" qy="-0.267197" qz="0.0" qw="0.963642" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_symbol_travia_01"
-				id="2810"
+				id="2804"
 				meshFile ="ver_symbol_travia_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21044,13 +21042,13 @@
   
 
 		</node>
-		<node name="ver_holzscheit_01" id="2811" >
+		<node name="ver_holzscheit_01" id="2805" >
 			<position x="-39.4508" y="-6.2323" z="20.7646" />
 			<rotation qx="0.0" qy="-0.884811" qz="0.0" qw="0.465951" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_holzscheit_01"
-				id="2812"
+				id="2806"
 				meshFile ="ver_holzscheit_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21059,13 +21057,13 @@
   
 
 		</node>
-		<node name="ver_brotzeit_01" id="2813" >
+		<node name="ver_brotzeit_01" id="2807" >
 			<position x="-33.3989" y="-5.2737" z="17.448" />
 			<rotation qx="0.0" qy="0.526171" qz="0.0" qw="0.850379" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_brotzeit_01"
-				id="2814"
+				id="2808"
 				meshFile ="ver_brotzeit_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21074,13 +21072,13 @@
   
 
 		</node>
-		<node name="ver_vase_01" id="2815" >
+		<node name="ver_vase_01" id="2809" >
 			<position x="-32.4278" y="-6.27657" z="24.2116" />
 			<rotation qx="0.0" qy="-0.675879" qz="0.0" qw="0.737012" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_vase_01"
-				id="2816"
+				id="2810"
 				meshFile ="ver_vase_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21089,13 +21087,13 @@
   
 
 		</node>
-		<node name="ver_kerze_01" id="2817" >
+		<node name="ver_kerze_01" id="2811" >
 			<position x="-32.3574" y="-2.32969" z="18.9859" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_kerze_01"
-				id="2818"
+				id="2812"
 				meshFile ="ver_kerze_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21104,13 +21102,13 @@
   
 
 		</node>
-		<node name="ver_becher_01" id="2819" >
+		<node name="ver_becher_01" id="2813" >
 			<position x="-37.3873" y="-5.128" z="22.0033" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_becher_01"
-				id="2820"
+				id="2814"
 				meshFile ="ver_becher_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21119,8 +21117,53 @@
   
 
 		</node>
-		<node name="ver_becher_01" id="2821" >
+		<node name="ver_becher_01" id="2815" >
 			<position x="-37.4632" y="-5.128" z="21.8453" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_becher_01"
+				id="2816"
+				meshFile ="ver_becher_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_becher_01" id="2817" >
+			<position x="-37.2581" y="-5.128" z="21.9113" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_becher_01"
+				id="2818"
+				meshFile ="ver_becher_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_topf_01" id="2819" >
+			<position x="-37.0352" y="-5.13221" z="22.2003" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_topf_01"
+				id="2820"
+				meshFile ="ver_topf_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_becher_01" id="2821" >
+			<position x="-37.3314" y="-5.128" z="22.1533" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
@@ -21134,58 +21177,13 @@
   
 
 		</node>
-		<node name="ver_becher_01" id="2823" >
-			<position x="-37.2581" y="-5.128" z="21.9113" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="ver_becher_01"
-				id="2824"
-				meshFile ="ver_becher_01.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="ver_topf_01" id="2825" >
-			<position x="-37.0352" y="-5.13221" z="22.2003" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="ver_topf_01"
-				id="2826"
-				meshFile ="ver_topf_01.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="ver_becher_01" id="2827" >
-			<position x="-37.3314" y="-5.128" z="22.1533" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="ver_becher_01"
-				id="2828"
-				meshFile ="ver_becher_01.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="ver_rinderfell_01" id="2829" >
+		<node name="ver_rinderfell_01" id="2823" >
 			<position x="-33.8755" y="-3.28686" z="17.0148" />
 			<rotation qx="0.0" qy="-0.999969" qz="0.0" qw="-0.00787123" />
 			<scale x="1.3096" y="1.3096" z="1.3096" />
 			<entity
 				name="ver_rinderfell_01"
-				id="2830"
+				id="2824"
 				meshFile ="ver_rinderfell_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21194,13 +21192,13 @@
   
 
 		</node>
-		<node name="arc_schaukelstuhl_01" id="2831" >
+		<node name="arc_schaukelstuhl_01" id="2825" >
 			<position x="-37.9516" y="-6.23604" z="19.695" />
 			<rotation qx="0.00959892" qy="0.125333" qz="0.0757579" qw="0.989171" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="arc_schaukelstuhl_01"
-				id="2832"
+				id="2826"
 				meshFile ="arc_schaukelstuhl_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21209,13 +21207,13 @@
   
 
 		</node>
-		<node name="ver_laterne_01" id="2833" >
+		<node name="ver_laterne_01" id="2827" >
 			<position x="-38.3012" y="-5.24542" z="21.4457" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_laterne_01"
-				id="2834"
+				id="2828"
 				meshFile ="ver_laterne_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21224,13 +21222,13 @@
   
 
 		</node>
-		<node name="arc_schreibtisch_01" id="2835" >
+		<node name="arc_schreibtisch_01" id="2829" >
 			<position x="-10.635" y="-6.92925" z="11.4621" />
 			<rotation qx="0.0" qy="-0.304616" qz="0.0" qw="0.952475" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="arc_schreibtisch_01"
-				id="2836"
+				id="2830"
 				meshFile ="arc_schreibtisch_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21239,13 +21237,13 @@
   
 
 		</node>
-		<node name="arc_schreibtisch_01" id="2837" >
+		<node name="arc_schreibtisch_01" id="2831" >
 			<position x="-32.1838" y="-3.28448" z="18.4308" />
 			<rotation qx="0.0" qy="-0.956234" qz="0.0" qw="-0.292602" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="arc_schreibtisch_01"
-				id="2838"
+				id="2832"
 				meshFile ="arc_schreibtisch_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21254,13 +21252,13 @@
   
 
 		</node>
-		<node name="ver_kaestchen_01" id="2839" >
+		<node name="ver_kaestchen_01" id="2833" >
 			<position x="-10.4251" y="-5.96635" z="10.9282" />
 			<rotation qx="0.0" qy="0.275379" qz="0.0" qw="0.961336" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_kaestchen_01"
-				id="2840"
+				id="2834"
 				meshFile ="ver_kaestchen_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21269,13 +21267,13 @@
   
 
 		</node>
-		<node name="arc_stuhl_01" id="2841" >
+		<node name="arc_stuhl_01" id="2835" >
 			<position x="-6.4087" y="-6.91346" z="15.1295" />
 			<rotation qx="0.0" qy="-0.925205" qz="0.0" qw="0.379467" />
 			<scale x="1.1" y="1.1" z="1.1" />
 			<entity
 				name="arc_stuhl_01"
-				id="2842"
+				id="2836"
 				meshFile ="arc_stuhl_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21284,13 +21282,13 @@
   
 
 		</node>
-		<node name="arc_stuhl_01" id="2843" >
+		<node name="arc_stuhl_01" id="2837" >
 			<position x="-7.20382" y="-6.91346" z="13.6638" />
 			<rotation qx="0.0" qy="0.148765" qz="0.0" qw="0.988872" />
 			<scale x="1.1" y="1.1" z="1.1" />
 			<entity
 				name="arc_stuhl_01"
-				id="2844"
+				id="2838"
 				meshFile ="arc_stuhl_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21299,13 +21297,13 @@
   
 
 		</node>
-		<node name="arc_tisch_02" id="2845" >
+		<node name="arc_tisch_02" id="2839" >
 			<position x="-6.94873" y="-6.90641" z="14.4067" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="arc_tisch_02"
-				id="2846"
+				id="2840"
 				meshFile ="arc_tisch_02.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21314,13 +21312,13 @@
   
 
 		</node>
-		<node name="ver_karaffe_01" id="2847" >
+		<node name="ver_karaffe_01" id="2841" >
 			<position x="-6.82255" y="-6.04413" z="14.356" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_karaffe_01"
-				id="2848"
+				id="2842"
 				meshFile ="ver_karaffe_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21329,13 +21327,13 @@
   
 
 		</node>
-		<node name="ver_karaffe_01" id="2849" >
+		<node name="ver_karaffe_01" id="2843" >
 			<position x="-33.3945" y="-5.26864" z="18.1287" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_karaffe_01"
-				id="2850"
+				id="2844"
 				meshFile ="ver_karaffe_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21344,13 +21342,13 @@
   
 
 		</node>
-		<node name="ver_becher_01" id="2851" >
+		<node name="ver_becher_01" id="2845" >
 			<position x="-7.18202" y="-6.04129" z="14.2495" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_becher_01"
-				id="2852"
+				id="2846"
 				meshFile ="ver_becher_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21359,13 +21357,13 @@
   
 
 		</node>
-		<node name="ver_becher_01" id="2853" >
+		<node name="ver_becher_01" id="2847" >
 			<position x="-6.88644" y="-6.04129" z="14.6004" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_becher_01"
-				id="2854"
+				id="2848"
 				meshFile ="ver_becher_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21374,13 +21372,13 @@
   
 
 		</node>
-		<node name="ver_bild_01" id="2855" >
+		<node name="ver_bild_01" id="2849" >
 			<position x="-5.38224" y="-5.18951" z="15.1877" />
 			<rotation qx="0.0" qy="-0.871466" qz="0.0" qw="0.490455" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_bild_01"
-				id="2856"
+				id="2850"
 				meshFile ="ver_bild_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21389,13 +21387,13 @@
   
 
 		</node>
-		<node name="ver_buch_01" id="2857" >
+		<node name="ver_buch_01" id="2851" >
 			<position x="-35.2145" y="-2.60469" z="15.1396" />
 			<rotation qx="0.0" qy="-0.939366" qz="0.0" qw="0.342915" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_buch_01"
-				id="2858"
+				id="2852"
 				meshFile ="ver_buch_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21404,13 +21402,13 @@
   
 
 		</node>
-		<node name="ver_buch_02" id="2859" >
+		<node name="ver_buch_02" id="2853" >
 			<position x="-10.8391" y="-5.95375" z="11.6377" />
 			<rotation qx="0.0" qy="-0.762021" qz="0.0" qw="0.647552" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_buch_02"
-				id="2860"
+				id="2854"
 				meshFile ="ver_buch_02.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21419,13 +21417,13 @@
   
 
 		</node>
-		<node name="ver_buch_02" id="2861" >
+		<node name="ver_buch_02" id="2855" >
 			<position x="-32.2841" y="-2.31292" z="18.4875" />
 			<rotation qx="0.0" qy="0.396123" qz="0.0" qw="0.918198" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_buch_02"
-				id="2862"
+				id="2856"
 				meshFile ="ver_buch_02.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21434,13 +21432,13 @@
   
 
 		</node>
-		<node name="ver_schreibzeug_01" id="2863" >
+		<node name="ver_schreibzeug_01" id="2857" >
 			<position x="-11.1989" y="-5.94722" z="11.822" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_schreibzeug_01"
-				id="2864"
+				id="2858"
 				meshFile ="ver_schreibzeug_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21449,13 +21447,13 @@
   
 
 		</node>
-		<node name="ver_schreibzeug_01" id="2865" >
+		<node name="ver_schreibzeug_01" id="2859" >
 			<position x="-31.8757" y="-2.30236" z="18.0609" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_schreibzeug_01"
-				id="2866"
+				id="2860"
 				meshFile ="ver_schreibzeug_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21464,13 +21462,13 @@
   
 
 		</node>
-		<node name="ver_pergament_01" id="2867" >
+		<node name="ver_pergament_01" id="2861" >
 			<position x="-10.4857" y="-5.95226" z="11.3095" />
 			<rotation qx="0.0" qy="0.232081" qz="0.0" qw="0.972697" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_pergament_01"
-				id="2868"
+				id="2862"
 				meshFile ="ver_pergament_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21479,13 +21477,13 @@
   
 
 		</node>
-		<node name="ver_pergament_01" id="2869" >
+		<node name="ver_pergament_01" id="2863" >
 			<position x="-10.3198" y="-5.94932" z="11.203" />
 			<rotation qx="0.0" qy="0.619137" qz="0.0" qw="0.785283" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_pergament_01"
-				id="2870"
+				id="2864"
 				meshFile ="ver_pergament_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21494,13 +21492,13 @@
   
 
 		</node>
-		<node name="ver_becher_01" id="2871" >
+		<node name="ver_becher_01" id="2865" >
 			<position x="-37.5569" y="-4.57858" z="21.7522" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_becher_01"
-				id="2872"
+				id="2866"
 				meshFile ="ver_becher_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21509,13 +21507,13 @@
   
 
 		</node>
-		<node name="ver_becher_01" id="2873" >
+		<node name="ver_becher_01" id="2867" >
 			<position x="-37.5133" y="-4.57891" z="21.9531" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_becher_01"
-				id="2874"
+				id="2868"
 				meshFile ="ver_becher_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21524,13 +21522,13 @@
   
 
 		</node>
-		<node name="ver_weinflasche_01" id="2875" >
+		<node name="ver_weinflasche_01" id="2869" >
 			<position x="-10.6913" y="-5.95589" z="11.0865" />
 			<rotation qx="0.0" qy="-0.729136" qz="0.0" qw="0.684369" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_weinflasche_01"
-				id="2876"
+				id="2870"
 				meshFile ="ver_weinflasche_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21539,13 +21537,13 @@
   
 
 		</node>
-		<node name="ver_weinflasche_01" id="2877" >
+		<node name="ver_weinflasche_01" id="2871" >
 			<position x="-33.182" y="-5.27909" z="17.9253" />
 			<rotation qx="0.0" qy="0.319498" qz="0.0" qw="0.947587" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_weinflasche_01"
-				id="2878"
+				id="2872"
 				meshFile ="ver_weinflasche_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21554,13 +21552,13 @@
   
 
 		</node>
-		<node name="arc_treppenhilfe_01" id="2879" >
+		<node name="arc_treppenhilfe_01" id="2873" >
 			<position x="-32.3408" y="-4.86221" z="23.6122" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="arc_treppenhilfe_01"
-				id="2880"
+				id="2874"
 				meshFile ="arc_treppenhilfe_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21569,14 +21567,14 @@
   
 
 		</node>
-		<node name="ver_zimmerpflanze_01" id="2881" >
-			<position x="-0.507614" y="0.00384538" z="0.0" />
+		<node name="baumstammcoli" id="2875" >
+			<position x="12.4261" y="-8.41648" z="33.9893" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
+			<scale x="2.30024" y="2.30024" z="2.30024" />
 			<entity
-				name="ver_zimmerpflanze_01"
-				id="2882"
-				meshFile ="ver_zimmerpflanze_01.mesh"
+				name="baumstammcoli"
+				id="2876"
+				meshFile ="baumstammcoli.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
 			/>
@@ -21584,13 +21582,103 @@
   
 
 		</node>
-		<node name="ver_zimmerpflanze_01" id="2883" >
+		<node name="nat_baum_shadix_03" id="2877" >
+			<position x="12.2014" y="-8.91196" z="33.9239" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_baum_shadix_03"
+				id="2878"
+				meshFile ="nat_baum_shadix_03.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="STRING" name="physical_body" data="none"/></userData> 
+
+		</node>
+		<node name="baumstammcoli" id="2879" >
+			<position x="-5.35097" y="-7.81113" z="44.3222" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.762485" y="0.762485" z="0.762485" />
+			<entity
+				name="baumstammcoli"
+				id="2880"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_baum_shadix_01" id="2881" >
+			<position x="-5.32873" y="-7.69322" z="44.4007" />
+			<rotation qx="0.0" qy="-0.555884" qz="0.0" qw="0.83126" />
+			<scale x="1.89889" y="1.89889" z="1.89889" />
+			<entity
+				name="nat_baum_shadix_01"
+				id="2882"
+				meshFile ="nat_baum_shadix_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="baumstammcoli" id="2883" >
+			<position x="-3.61964" y="-7.81113" z="24.6823" />
+			<rotation qx="0.0" qy="0.233955" qz="0.0" qw="0.972247" />
+			<scale x="0.762485" y="0.762485" z="0.762485" />
+			<entity
+				name="baumstammcoli"
+				id="2884"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="nat_baum_shadix_01" id="2885" >
+			<position x="-3.59739" y="-7.69322" z="24.7608" />
+			<rotation qx="0.0" qy="-0.34598" qz="0.0" qw="0.938242" />
+			<scale x="1.89889" y="1.89889" z="1.89889" />
+			<entity
+				name="nat_baum_shadix_01"
+				id="2886"
+				meshFile ="nat_baum_shadix_01.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="arc_UnbHaus_08_Td2_boden" id="2887" >
+			<position x="-16.9658" y="-6.74106" z="-0.440865" />
+			<rotation qx="0.0" qy="-0.619847" qz="0.0" qw="0.784723" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="arc_UnbHaus_08_Td2_boden"
+				id="2888"
+				meshFile ="arc_UnbHaus_08_Td2_boden.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_zimmerpflanze_01" id="2889" >
 			<position x="-8.45599" y="-5.91552" z="17.9577" />
 			<rotation qx="0.0" qy="0.783788" qz="0.0" qw="0.621028" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="ver_zimmerpflanze_01"
-				id="2884"
+				id="2890"
 				meshFile ="ver_zimmerpflanze_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
