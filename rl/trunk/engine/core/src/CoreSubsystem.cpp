@@ -152,7 +152,13 @@ namespace rl {
         if(Root::getSingleton().restoreConfig()
             || Root::getSingleton().showConfigDialog())
         {
-            Root::getSingleton().initialise(true);
+            std::stringstream name;
+            name << "Rastullahs Lockenpracht - ";
+            name << ConfigurationManager::getSingleton().getEngineVersionString() << " ";
+            name << ConfigurationManager::getSingleton().getEngineVersionName() << " [";
+            name << ConfigurationManager::getSingleton().getEngineBuildNumber() << "]";
+
+            Root::getSingleton().initialise(true, name.str() );
             return true;
         }
         else
@@ -185,7 +191,7 @@ namespace rl {
         	mConfigurationManager->getOgreLogPath()
         );
 
-		//Root::getSingleton().setFrameSmoothingPeriod(0.5f);
+        //Root::getSingleton().setFrameSmoothingPeriod(0.5f);
 
         // Muss vor dem Laden der Ressourcen geschehen,
         // weil es sonst sofort angewandt wird.

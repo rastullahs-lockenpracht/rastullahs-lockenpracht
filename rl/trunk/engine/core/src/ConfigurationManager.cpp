@@ -178,7 +178,7 @@ namespace rl
 
 	Ogre::String ConfigurationManager::getEngineVersionString() const
 	{
-		static Ogre::String version = "0.1.0";
+		static Ogre::String version = "0.2.0";
 		return version;
 	}
 
