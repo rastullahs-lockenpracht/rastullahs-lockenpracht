@@ -117,6 +117,7 @@ namespace rl {
 
         mCamera->setOrientation( Quaternion::IDENTITY );
         mCamera->_getSceneNode()->setDirection( mTargetCameraDirection );
+        mCamera->_getSceneNode()->_update( true, false );
 
 		// Textanzeigedauer
 		if (mCurrFadeTextTime >= 0)
@@ -250,10 +251,12 @@ namespace rl {
 
 			// An Sprecher hängen
             actor->_getSceneNode()->attachObject( mSoundObject->getMovableObject() );
+            actor->_getSceneNode()->_update( true, false );
             mSoundObject->_setActor( actor );
 			mSoundObject->set3d(true);
 			mSoundObject->play();
             mSoundObject->_update();
+
 
             mCurrFadeTextTime = std::max(fadeTime*mSubtitleSpeed,mSoundObject->getLength());
             mTotalFadeTextTime = mCurrFadeTextTime;
