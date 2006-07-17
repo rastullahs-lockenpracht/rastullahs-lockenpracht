@@ -1,21 +1,65 @@
 material nat_baum_shadix_01/baumblatt : windy_grass
 {
-receive_shadows off
-    technique
-    {
-        pass
-        {
-        		ambient 0.609804 0.609804 0.609804 1
+	lod_distances 75.0
+
+	receive_shadows off
+ 
+	technique hlsl
+	{
+		pass
+		{
+			vertex_program_ref WindyGrassVS_HLSL
+			{
+				param_named cMaterialAmbient float4 0.609804 0.609804 0.609804 1
+				param_named cMaterialDiffuse float4 0.631373 0.631373 0.631373 1
+				param_named fMaxMovementFactor float 0.25
+			}
+
+			alpha_rejection greater 215
+
+			texture_unit
+			{
+				texture blattwerk2.dds 
+				filtering linear linear linear 
+			}
+		}
+	}
+
+	technique fixed_function
+	{
+		pass
+		{
+			ambient 0.609804 0.609804 0.609804 1
 			diffuse 0.631373 0.631373 0.631373 1
-			specular 0 0 0 1 10
-            alpha_rejection greater 215
-            texture_unit
-            {
-                texture blattwerk2.dds 
-		filtering linear linear linear 
-            }
-        }
-    }
+
+			alpha_rejection greater 215
+
+			texture_unit
+			{
+				texture blattwerk2.dds 
+				filtering linear linear linear 
+			}
+		}
+	}
+
+	technique fixed_function_lod
+	{
+		lod_index 1 
+
+		pass
+		{
+			ambient 0.609804 0.609804 0.609804 1
+			diffuse 0.631373 0.631373 0.631373 1
+
+			alpha_rejection greater 215
+
+			texture_unit
+			{
+				texture blattwerk2.dds 
+				filtering linear linear linear 
+			}
+		}
+	}
 }
 
 material nat_baum_shadix_01/baumrinde

@@ -8,7 +8,6 @@ material nat_baum_01/stamm
 		{
 			ambient 0.588235 0.588235 0.588235 1
 			diffuse 0.588235 0.588235 0.588235 1
-			specular 0.1 0.1 0.1 1 0
 
 			texture_unit
 			{
@@ -20,19 +19,56 @@ material nat_baum_01/stamm
 
 material nat_baum_01/blaetter : windy_grass
 {
-	technique
+	lod_distances 75.0
+
+	technique hlsl
 	{
 		pass
 		{
-			ambient 0.588235 0.588235 0.588235 1
-			diffuse 0.588235 0.588235 0.588235 1
-			specular 0.1 0.1 0.1 1 0
+			vertex_program_ref WindyGrassVS_HLSL
+			{
+				param_named cMaterialAmbient float4 0.588235 0.588235 0.588235 1
+				param_named cMaterialDiffuse float4 0.588235 0.588235 0.588235 1
+				param_named fMaxMovementFactor float 0.25
+			}
+
 			alpha_rejection greater 190
 			
 			texture_unit
 			{
 				texture nat_baum_01.png
-				filtering linear linear linear 
+			}
+		}
+	}
+	technique fixed_function
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+
+			alpha_rejection greater 190
+			
+			texture_unit
+			{
+				texture nat_baum_01.png
+			}
+		}
+	}
+	technique fixed_function_lod
+	{
+		lod_index 1 
+		
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 1
+			diffuse 0.588235 0.588235 0.588235 1
+
+			alpha_rejection greater 190
+			
+			texture_unit
+			{
+				texture nat_baum_01.png
 			}
 		}
 	}

@@ -1,15 +1,14 @@
 float4x4 matWorldViewProjection;
 float4x4 matWorld;
 
-float fxTime;
-float fzTime;
-float fMaxMovementFactor;
+float4 vTimePacked;
+float4 vLightPosition;
+float4 cLightDiffuse;
+float4 cAmbientLight;
 
-float4 lightDirection;
-float4 lightDiffuse;
-float4 ambientLight;
-float4 materialDiffuse;
-float4 materialAmbient;
+float4 cMaterialDiffuse;
+float4 cMaterialAmbient;
+float fMaxMovementFactor;
 
 struct VS_INPUT 
 {
@@ -29,24 +28,29 @@ VS_OUTPUT vs_main( VS_INPUT Input )
 {
     VS_OUTPUT Output;
 
-    // Calculate Offset
-    float offset = (1.0-Input.TexCoord.y)*fMaxMovementFactor;
-    float4 worldPos = mul( matWorld, Input.Position);
+    float4 worldPos = mul( matWorld, Input.Position)*31;
     // Apply 'random' value for position to disturb 
-    fxTime = -0.5 + (fxTime + abs(sin(worldPos.x+worldPos.z)) )/2.0;
-    fzTime = -0.5 + (fzTime + abs(cos(worldPos.x+worldPos.z)) )/2.0;
+    vTimePacked[1] = vTimePacked[1] + sin(worldPos.z + vTimePacked[0] );
+    vTimePacked[2] = vTimePacked[2] + cos(worldPos.x - vTimePacked[0] );
+
+    // Calculate Offset  
+    fMaxMovementFactor *= (1.0-Input.TexCoord.y);
+    fMaxMovementFactor *= 1.0 + cos(-worldPos.x-worldPos.z-worldPos.y)*0.5;
+    fMaxMovementFactor *= 0.5;
     // Apply Offset
-    Input.Position.x += fxTime*offset;
-    Input.Position.z += fzTime*offset;
+    Input.Position.x += vTimePacked[1]*fMaxMovementFactor;
+    Input.Position.z += vTimePacked[2]*fMaxMovementFactor;
+
+    float3 lightDir = normalize(vLightPosition.xyz -  (Input.Position * vLightPosition.w));
 
     // Move to World
+    float NdotL = clamp( dot( normalize( Input.Normal ), lightDir ), 0.0, 1.0);
     Output.Position = mul( matWorldViewProjection, Input.Position );
     Output.TexCoord = Input.TexCoord;
 
     // Light the vertex
-    float NdotL =  max( dot( normalize( Input.Normal ), normalize( lightDirection - Output.Position ) ), 0 );
-    Output.Color = ( ambientLight * materialAmbient ) + ( lightDiffuse * materialDiffuse * NdotL );
+    Output.Color = saturate( ( cAmbientLight * cMaterialAmbient ) + ( cLightDiffuse * cMaterialDiffuse * NdotL ) );
 
-    // return
+    // Return
     return( Output );
 }

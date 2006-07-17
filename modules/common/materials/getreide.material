@@ -1,20 +1,50 @@
 material ALPHA/getreide.png : windy_grass
 {
-  receive_shadows off
+	lod_distances 50.0
+	receive_shadows off
 
-  technique
-  {
-    pass
-    {
-     
-      alpha_rejection greater 215
+	technique hlsl
+	{
+		pass
+		{
+			alpha_rejection greater 215
 
-      texture_unit
-      {
-	filtering linear linear linear 
-        texture nat_getreide_01.dds
-      }
-    }
-  }
+			texture_unit
+			{
+				filtering linear linear linear 
+				texture nat_getreide_01.dds
+			}
+		}
+	}
+
+	technique fixed_function
+	{
+		pass
+		{
+			alpha_rejection greater 215
+
+			texture_unit
+			{
+				filtering linear linear linear 
+				texture nat_getreide_01.dds
+			}
+		}
+	}
+
+	technique fixed_function_lod
+	{
+		lod_index 1 
+
+		pass
+		{
+			alpha_rejection greater 215
+
+			texture_unit
+			{
+				filtering linear linear linear 
+				texture nat_getreide_01.dds
+			}
+		}
+	}
 }
 
