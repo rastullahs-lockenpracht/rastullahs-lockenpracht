@@ -47,6 +47,50 @@ class DefaultWanderBehaviour < SteeringBehaviour
 
 end
 
+class DefaultIdleBehaviour < SteeringBehaviour
+	def initialize()
+		super();
+		init();
+	end
+	
+	def getType()
+		return "wander"
+	end
+	
+	def init()
+		print("Initialize IdleBehaviour");
+		setActivationLevel(1.0);
+	end
+	
+	def activate()
+		$SCRIPT.log("Activate Idle");
+		getController().setAnimation("idle");
+	end
+		
+	def update(elapsedTime)
+		#getController().setAnimation("idle");
+	end
+	
+	def deactivate()
+	end
+	
+	def calculateActivation()
+		if(getController().isDialogActive())
+			setActivationLevel(getActivationLevel()*0.0);
+		else
+			setActivationLevel(1.0);
+		end
+		if(getController().needAvoidance(5.0))
+			setActivationLevel(getActivationLevel()*0.5);
+		end
+		return getActivationLevel();
+	end
+	
+
+end
+
+
+
 class DialogBehaviour < SteeringBehaviour
 	def initialize(playerActor)
 		super();
