@@ -97,7 +97,8 @@ void SoundObject::_update()
     if (isAttached())
     {
         channel->setPosition(actor->getWorldPosition());
-// TODO        channel->setDirection(actor->getWorldOrientation()); 
+        channel->setDirection(actor->getWorldOrientation()); 
+
        Logger::getSingleton().log(Logger::CORE, Logger::LL_MESSAGE, "Pos SoundObject: "
         + StringConverter::toString(actor->getWorldPosition().x) + " "
         + StringConverter::toString(actor->getWorldPosition().y) + " "
