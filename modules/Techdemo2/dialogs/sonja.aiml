@@ -8,18 +8,22 @@
 <!-- ================Begrüßung ================ -->
 
 	<category>
-	<pattern>1</pattern>
-	<template>
-		<gossip rldialog:type="response">
+		<pattern>1</pattern>
+		<template>
 			<condition type="default" name="sonja_1">
-				<li rldialog:id="null.ogg" value="">Travia zum Gruße, was führt euch in unser abgelegenes Dorf?</li>
-				<li rldialog:id="null.ogg" value="1">[Schon gehört! Automatisch Weiter!]</li>
+				<li value="">
+					<gossip rldialog:type="response">
+						<li>Travia zum Gruße, was führt euch in unser abgelegenes Dorf?</li>
+					</gossip>
+					<gossip rldialog:type="option">
+						<li rldialog:id="alrike042.ogg" rldialog:patternRef ="11">Ich bin aus Wandleth hergeschickt worden um nach dem Rechten zu sehen. Man sagte mir, es gäbe Probleme mit Raubtieren?</li>
+					</gossip>
+				</li>
+				<li value="1">
+					<srai>11</srai>
+				</li>
 			</condition>
-		</gossip>
-		<gossip rldialog:type="option">
-			<li rldialog:id="alrike042.ogg" rldialog:patternRef ="11">Ich bin aus Wandleth hergeschickt worden um nach dem Rechten zu sehen. Man sagte mir, es gäbe Probleme mit Raubtieren?</li>
-		</gossip>
-	</template>
+		</template>
 	</category>
 
 
@@ -47,11 +51,13 @@
 	<pattern>2</pattern>
 	<template>
 		<gossip rldialog:type="response">
-			<li rldialog:id="null.ogg">Wißt ihr, so seltsam es klingen mag, aber wir hatten noch nie Ärger mit Raubtieren aus dem Wald, seit ich lebe und meine Eltern erzählten mir es ebenso. Es muß mehr dahinter stecken.</li>
+			<li rldialog:id="null.ogg">
+				<set type="default" name="sonja_3" value="1"/>
+				Wißt ihr, so seltsam es klingen mag, aber wir hatten noch nie Ärger mit Raubtieren aus dem Wald, seit ich lebe und meine Eltern erzählten mir es ebenso. Es muß mehr dahinter stecken.
+			</li>
 		</gossip>
-		<gossip rldialog:type="option">
-			<li rldialog:id="null.ogg" rldialog:patternRef ="11"><set type="default" name="sonja_2" value="1"/>Eigentlich wieder zurück in die Options von 11 ohne den Einleitungssatz</li>
-		</gossip>
+		<srai>11</srai>
+
 	</template>
 	</category>
 
@@ -59,11 +65,12 @@
 	<pattern>3</pattern>
 	<template>
 		<gossip rldialog:type="response">
-			<li rldialog:id="null.ogg"><set type="default" name="sonja_3" value="1"/>Ich denke es war ein Wolf. Wir haben Spuren im Dorf gefunden und sind uns ziemlich sicher! Sicher, es gibt Wölfe hier in der Gegend, aber noch nie vorher war einer auch nur in der Nähe des Dorfes.</li>
+			<li rldialog:id="null.ogg">
+				<set type="default" name="sonja_3" value="1"/>
+				Ich denke es war ein Wolf. Wir haben Spuren im Dorf gefunden und sind uns ziemlich sicher! Sicher, es gibt Wölfe hier in der Gegend, aber noch nie vorher war einer auch nur in der Nähe des Dorfes.
+			</li>
 		</gossip>
-		<gossip rldialog:type="option">
-			<li rldialog:id="null.ogg" rldialog:patternRef ="11">Eigentlich wieder zurück in die Options von 11 ohne den Einleitungssatz</li>
-		</gossip>
+		<srai>11</srai>
 	</template>
 	</category>
 
@@ -171,24 +178,31 @@
 		</template>
 		</category>
 
-			<category>
+		<category>
 			<pattern>555</pattern>
 			<template>
 				<gossip rldialog:type="response">
 					<li rldialog:id="null.ogg">Kehrt zu mir zurück und dann sehen wir hoffentlich, was zu tun ist.</li>
 				</gossip>
+				<set type="default" name="sonja_5" value="1"/>
+				<set type="queststate" name="hauptquest1" value="SUCCEEDED"/>
+				<set type="queststate" name="hauptquest2" value="ASSIGNED"/>
+				<set type="questknown" name="hauptquest2" value="KNOWN"/>
+				<srai>11</srai>
+				<!--
 				<gossip rldialog:type="option">
 					<li rldialog:id="null.ogg" rldialog:patternRef ="11">Eigentlich wieder zurück in die Options von 11 ohne den Einleitungssatz<set type="default" name="sonja_5" value="1"/><set type="queststate" name="hauptquest1" value="SUCCEEDED"/><set type="queststate" name="hauptquest2" value="ASSIGNED"/><set type="questknown" name="hauptquest2" value="KNOWN"/></li>
-				</gossip>
+				</gossip>-->
 			</template>
-			</category>
+		</category>
 
 
 <!-- ================Standardoptionen ================ -->
 	<category>
 	<pattern>EXIT</pattern> 
 	<template>
-		<!-- <system cmd="exit"/>  -->	</template>
+		 <system cmd="exit"/>
+	</template>
 	</category>	
 
 
