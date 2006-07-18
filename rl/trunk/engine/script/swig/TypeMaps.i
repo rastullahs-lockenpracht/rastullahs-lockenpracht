@@ -538,7 +538,7 @@
    rb_ary_push(arrAxis, rb_float_new(axis.y));
    rb_ary_push(arrAxis, rb_float_new(axis.z));
    VALUE rval = rb_ary_new();
-   rb_ary_push(rval, rb_float_new(arrAxis));
+   rb_ary_push(rval, arrAxis);
    rb_ary_push(rval, rb_float_new(angle.valueDegrees()));
    
    $result = rval;
@@ -555,7 +555,7 @@
    rb_ary_push(arrAxis, rb_float_new(axis.y));
    rb_ary_push(arrAxis, rb_float_new(axis.z));
    VALUE rval = rb_ary_new();
-   rb_ary_push(rval, rb_float_new(arrAxis));
+   rb_ary_push(rval, arrAxis);
    rb_ary_push(rval, rb_float_new(angle.valueDegrees()));
    
    $result = rval;
