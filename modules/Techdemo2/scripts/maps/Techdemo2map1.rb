@@ -71,6 +71,11 @@ load( "wolfram.rb" );
 load( "wolframstuer.rb" );
 $SCRIPT.log("NSCs geladen");
 
+$SCRIPT.log("Weiteres laden");
+load( "viecher.rb" );
+$SCRIPT.log("Weiteres geladen");
+
+
 # Erster Journal-Eintrag. Demo und Test.
 questBook = RulesSubsystem.getSingleton().getQuestBook()
 questBook.addJournalEntry("Ankunft im Dorf",
