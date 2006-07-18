@@ -9,12 +9,17 @@
 	<category>
 	<pattern>1</pattern>
 	<template>
-		<gossip rldialog:type="response">
-			<condition type="default" name="tsafried_1">
-				<li rldialog:id="null.ogg" value="">Ein Glück, dass ihr da seid! Er braucht eure Hilfe!</li>
-				<li rldialog:id="null.ogg" value="1">[Schon gehört! Automatisch Weiter!]</li>
-			</condition>
-		</gossip>
+		<condition type="default" name="tsafried_1">
+			<li value="">
+				<gossip rldialog:type="response">
+					<li rldialog:id="null.ogg" >Ein Glück, dass ihr da seid! Er braucht eure Hilfe!</li>
+				</gossip>
+			</li>
+			<li value="1">
+				<srai>11</srai>
+			</li>
+		</condition>
+		
 		<gossip rldialog:type="option">
 			<li rldialog:id="alrike021.ogg" rldialog:patternRef ="11">Nun mal langsam, eigentlich wollte ich ja die Fragen stellen, aber was ist denn los?</li>
 		</gossip>
@@ -62,9 +67,8 @@
 			<gossip rldialog:type="response">
 				<li rldialog:id="null.ogg">Er wohnt schon immer dort. Es ist im Wald aufgewachsen, spricht mit ihm und lebt mit ihm. Er meinte wenn ich auch einmal die Stimme des Waldes hören kann, könnte ich vielleicht auch dort leben.</li>			
 			</gossip>
-			<gossip rldialog:type="option">
-				<li rldialog:id="null.ogg" rldialog:patternRef ="11"><set type="default" name="tsafried_2" value="2"/>*klick zum Anfang*-Automatisierung einbauen!</li>
-			</gossip>
+				<set type="default" name="tsafried_2" value="2"/>
+				<srai>11</srai>
 		</template>
 		</category>
 
@@ -86,9 +90,9 @@
 				<gossip rldialog:type="response">
 					<li rldialog:id="null.ogg">Ich bin immer direkt in den Wald gegangen, dort kenne ich mich aus. Aber ich glaube es gibt einen alten Pfad, der dort hinführt. Der Weg ist ein klein wenig länger, aber viel einfacher zu finden. Fragt am besten Sonja danach.</li>			
 				</gossip>
-				<gossip rldialog:type="option">
-					<li rldialog:id="null.ogg" rldialog:patternRef ="11"><set type="default" name="tsafried_2" value="1"/><set type="queststate" name="aufenthaltsort" value="SUCCEEDED"/>*klick zum Anfang*-Automatisierung einbauen!</li>
-				</gossip>
+					<set type="default" name="tsafried_2" value="1"/>
+					<set type="queststate" name="aufenthaltsort" value="SUCCEEDED"/>
+					<srai>11</srai>
 			</template>
 			</category>
 
@@ -151,9 +155,10 @@
 						<gossip rldialog:type="response">
 							<li rldialog:id="null.ogg">Egal was es ist. Schaut nach und seht, ob es ihm gut geht. Alles weitere könnt Ihr danach entscheiden. Ich glaube nicht, dass er etwas gegen das Dorf hat. Er mag im Einklang mit der Natur leben, aber er mag auch die Menschen hier.</li>
 						</gossip>
-						<gossip rldialog:type="option">
-							<li rldialog:id="null.ogg" rldialog:patternRef ="11"><set type="default" name="tsafried_3" value="1"/><set type="questparts" name="hauptquest2" value="increase"/>*klick zum Anfang*-Automatisierung einbauen!</li>
-						</gossip>
+							<set type="default" name="tsafried_3" value="1"/>
+							<set type="questparts" name="hauptquest2" value="increase"/>
+							<srai>11</srai>
+
 					</template>
 					</category>
 
@@ -162,7 +167,8 @@
 	<category>
 	<pattern>EXIT</pattern> 
 	<template>
-		<!-- <system cmd="exit"/>  -->	</template>
+		<system cmd="exit"/> 
+	</template>
 	</category>	
 
 

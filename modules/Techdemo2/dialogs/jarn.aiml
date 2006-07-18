@@ -8,12 +8,16 @@
 	<category>
 	<pattern>1</pattern>
 	<template>
-		<gossip rldialog:type="response">
-			<condition type="default" name="jarn_1">
-				<li rldialog:id="null.ogg" value=""></li>
-				<li rldialog:id="null.ogg" value="1">[Schon gehört! Automatisch Weiter!]</li>
-			</condition>
-		</gossip>
+		<condition type="default" name="jarn_1">
+			<li value="">
+				<gossip rldialog:type="response">
+					<li></li>
+				</gossip>
+			</li>
+			<li value="1">
+				<srai>11</srai>
+			</li>
+		</condition>
 		<gossip rldialog:type="option">
 			<li rldialog:id="alrike001.ogg" rldialog:patternRef ="11">Ingerimm zum Gruße</li>
 		</gossip>		
@@ -48,7 +52,7 @@
 			<li rldialog:id="jarn002.ogg">Und wie ich das habe! Die Sache ist eindeutig: Der Mann aus dem Wald benutzt dunkle Magie um uns von hier zu verjagen und hetzt seine Wölfe auf uns. Er kam manchmal hier her und tauschte ein wenig von seinem Gestrüpp und ein paar Kräutern, die er sammelt gegen die Arbeiten von Sonja und mir. Um es kurz zu machen: Er wollte uns beim letzten mal zu wenig geben. Da habe ich das Leder, auf seine Bezahlung, nunja, angepasst. Ich sage es ja! Er war immer schon neidisch, dass wir in Häusern leben, die er sich nicht bauen kann und nun will er uns hier weg haben. </li>
 		</gossip>
 		<gossip rldialog:type="option">
-			<li rldialog:id="alrike005.ogg" rldialog:patternRef ="22">Sonst habt ihr keinen Ärger mit ihm?</li>
+			<li rldialog:id="alrike005.ogg" rldialog:patternRef ="22">Und sonst habt ihr keinen Ärger mit ihm?</li>
 		</gossip>
 	</template>
 	</category>
@@ -59,9 +63,9 @@
 			<gossip rldialog:type="response">
 				<li rldialog:id="jarn003.ogg">Nein, wir lassen den Wald weitgehend in Ruhe und erwarten das gleiche von ihm. Aber jetzt?! Soll er sich doch zum Beschützer der Bäume aufschwingen, wir haben ihm jedenfalls keinen Grund dafür gegeben, dass er die Wölfe auf uns hetzt. Er ist eine Gefahr für uns, wenn er so überreagiert.</li>
 			</gossip>
-			<gossip rldialog:type="option">
-				<li rldialog:id="null.ogg" rldialog:patternRef ="11"><set type="default" name="jarn_2" value="1"/><set type="questparts" name="hauptquest2" value="increase"/>*klick zum Anfang*-Automatisierung einbauen!</li>
-			</gossip>
+				<set type="default" name="jarn_2" value="1"/>
+				<set type="questparts" name="hauptquest2" value="increase"/>
+				<srai>11</srai>
 		</template>	
 		</category>
 
@@ -97,9 +101,10 @@
 				<gossip rldialog:type="response">
 					<li rldialog:id="jarn006.ogg">Er wohnt in dem Haus dort drüben. Er wird so tun, als ob er nicht zuhause sei. Aber sprecht nur von dem Paket, er wird euch schon hören.</li>
 				</gossip>
-				<gossip rldialog:type="option">
-					<li rldialog:id="null.ogg" rldialog:patternRef ="11"><set type="queststate" name="paket" value="ASSIGNED"/><set type="questknown" name="paket" value="KNOWN"/><set type="default" name="jarn_3" value="1"/>*klick zum Anfang*-Automatisierung einbauen!</li>
-				</gossip>
+					<set type="queststate" name="paket" value="ASSIGNED"/>
+					<set type="questknown" name="paket" value="KNOWN"/>
+					<set type="default" name="jarn_3" value="1"/>
+					<srai>11</srai>
 			</template>
 			</category>
 
@@ -108,7 +113,7 @@
 	<category>
 	<pattern>EXIT</pattern> 
 	<template>
-		<!-- <system cmd="exit"/>  -->
+		<system cmd="exit"/>
 	</template>
 	</category>	
 

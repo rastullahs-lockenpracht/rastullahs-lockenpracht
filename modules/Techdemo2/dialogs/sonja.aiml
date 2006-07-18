@@ -52,7 +52,7 @@
 	<template>
 		<gossip rldialog:type="response">
 			<li rldialog:id="null.ogg">
-				<set type="default" name="sonja_3" value="1"/>
+				<set type="default" name="sonja_2" value="1"/>
 				Wißt ihr, so seltsam es klingen mag, aber wir hatten noch nie Ärger mit Raubtieren aus dem Wald, seit ich lebe und meine Eltern erzählten mir es ebenso. Es muß mehr dahinter stecken.
 			</li>
 		</gossip>
@@ -189,10 +189,6 @@
 				<set type="queststate" name="hauptquest2" value="ASSIGNED"/>
 				<set type="questknown" name="hauptquest2" value="KNOWN"/>
 				<srai>11</srai>
-				<!--
-				<gossip rldialog:type="option">
-					<li rldialog:id="null.ogg" rldialog:patternRef ="11">Eigentlich wieder zurück in die Options von 11 ohne den Einleitungssatz<set type="default" name="sonja_5" value="1"/><set type="queststate" name="hauptquest1" value="SUCCEEDED"/><set type="queststate" name="hauptquest2" value="ASSIGNED"/><set type="questknown" name="hauptquest2" value="KNOWN"/></li>
-				</gossip>-->
 			</template>
 		</category>
 
@@ -204,7 +200,4 @@
 		 <system cmd="exit"/>
 	</template>
 	</category>	
-
-
 </aiml>
-

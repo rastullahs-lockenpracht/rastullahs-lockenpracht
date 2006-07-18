@@ -86,7 +86,8 @@
 									<li rldialog:id="null.ogg">Ich werde jetzt weiterarbeiten. Jaja.. so sind wir, wir Weltverbesserer...</li>
 								</gossip>
 								<gossip rldialog:type="option">
-									<li rldialog:id="null.ogg" rldialog:patternRef ="11">Lasst euch von mir nicht stören!</li> <!-- Zum EXIT in dem er wieder geht oder in dem geschaltet wird, dass der Mann nichts mehr zu sagen hat und Gedankenverloren da steht -->
+									<li rldialog:id="null.ogg" rldialog:patternRef ="EXIT">Lasst euch von mir nicht stören!</li>
+									<!-- Zum EXIT in dem er wieder geht oder in dem geschaltet wird, dass der Mann nichts mehr zu sagen hat und Gedankenverloren da steht -->
 								</gossip>
 							</template>
 							</category>
@@ -95,7 +96,8 @@
 	<category>
 	<pattern>EXIT</pattern> 
 	<template>
-		<!-- <system cmd="exit"/>  -->	</template>
+		<system cmd="exit"/>  
+	</template>
 	</category>	
 
 
