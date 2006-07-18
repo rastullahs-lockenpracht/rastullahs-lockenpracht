@@ -418,6 +418,11 @@ void SoundManager::update()
     {
         mActiveDriver->update();
     }
+
+    if (mListenerActor != NULL)
+    {
+        mListenerActor->_update();
+    }
 }
 
 

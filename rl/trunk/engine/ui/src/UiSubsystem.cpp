@@ -202,11 +202,8 @@ namespace rl {
 				mWindowFactory->setActiveCharacter(person);
 
 				mCharacter->getActor()->attach(SoundManager::getSingleton().getListenerActor());
-				SoundManager::getSingleton().getListenerActor()
-					->setListenerOf(mCharacter->getActor()->_getSceneNode());
 				Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "SoundListener attached.");
 	            
-				Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "Actor set");
 				setCharacterController(CharacterController::CTRL_MOVEMENT);
 			}
         }
@@ -230,34 +227,46 @@ namespace rl {
                 "Old CharacterController deleted.");
 		}
 
+   		if (type == CharacterController::CTRL_NONE)
+        {
+			mCharacterController = NULL;
+			return;
+        }
+
         Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
-		switch(type)
-		{
-		case CharacterController::CTRL_MOVEMENT:
+        if (camera == NULL)
+        {
+            return;
+        }
+
+		if (type == CharacterController::CTRL_MOVEMENT)
+        {
 			mCharacterController = new MovementCharacterController(camera, mCharacter);
 			if (!PhysicsManager::getSingleton().isEnabled())
 			{
 				PhysicsManager::getSingleton().setEnabled(true);
 			}
-			break;
-		case CharacterController::CTRL_FREEFLIGHT:
+        }
+		else if (type == CharacterController::CTRL_FREEFLIGHT)
+        {
 			mCharacterController = new FreeFlightCharacterController(camera,
                 CoreSubsystem::getSingleton().getWorld()->getActiveActor());
-			break;
-		case CharacterController::CTRL_DIALOG:
+        }
+		else if (type == CharacterController::CTRL_DIALOG)
+        {
 			mCharacterController = new DialogCharacterController(camera,
                 CoreSubsystem::getSingleton().getWorld()->getActiveActor());
-			break;
-		case CharacterController::CTRL_CUTSCENE:
+        }
+		else if (type == CharacterController::CTRL_CUTSCENE)
+        {
 			mCharacterController = new CutsceneCharacterController(camera);
-			break;
-		case CharacterController::CTRL_RTCOMBAT:
+        }
+		else if (type == CharacterController::CTRL_RTCOMBAT)
+        {
 			mCharacterController = new RTCombatCharacterController(camera, mCharacter);
-			break;
-		case CharacterController::CTRL_NONE:
-			mCharacterController = NULL;
-			return;
-		default:
+        }
+        else
+        {
 			Throw(IllegalArgumentException, "Unknown CharacterControllerType.");
 		}
 		mCharacterControllerType = type;
