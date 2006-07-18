@@ -1,35 +1,35 @@
 <GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
 	<Window Type="RastullahLook/FrameWindow" Name="DialogWindow">
-		<!--<Property Name="UnifiedPosition" Value="{{0.5,-200},{0.5,-225}}" />	-->
-		<Property Name="UnifiedPosition" Value="{{0.0,0},{0.0,0}}" />	
-		<Property Name="UnifiedSize" Value="{{0,400},{0,450}}" />
-        <Property Name="AbsoluteMinSize" Value="w:300 h:300" />
+		<Property Name="UnifiedPosition" Value="{{0.0,5},{0.0,5}}" />	
+		<Property Name="UnifiedSize" Value="{{0,450},{0,400}}" />
+        <Property Name="AbsoluteMinSize" Value="w:350 h:300" />
         <Property Name="Text" Value="Dialog Fenster" /> 
 
 		<Window Type="RastullahLook/StaticImage" Name="DialogWindow/Image">
-		  <Property Name="UnifiedPosition" Value="{{0,18},{0,20}}" />
-		  <Property Name="UnifiedSize" Value="{{0,128},{0,128}}" />
+		  <Property Name="UnifiedPosition" Value="{{0,0},{0,0}}" />
+		  <Property Name="UnifiedSize" Value="{{0,0},{0,0}}" />
           <Property Name="Image" Value="set:DialogFaces image:Faces/Default" /> 
 		</Window>
 
 		<Window Type="RastullahLook/StaticText" Name="DialogWindow/Name">
-		  <Property Name="UnifiedPosition" Value="{{0,156},{0,20}}" />	  
-	      <Property Name="UnifiedSize" Value="{{1.0,-174},{0,128}}" />
+		  <Property Name="UnifiedPosition" Value="{{0,18},{0,20}}" />	  
+	      <Property Name="UnifiedSize" Value="{{1.0,-36},{0,22}}" />
           <Property Name="HorzFormatting" Value="WordWrapCentred" />
           <Property Name="Text" Value="Alrik" />
         </Window>
 
 		<Window Type="RastullahLook/Listbox" Name="DialogWindow/Question">
-          <Property Name="UnifiedPosition" Value="{{0,18},{0,156}}" />
-          <Property Name="UnifiedSize" Value="{{1.0,-36},{0.6,-156}}" />
+          <Property Name="UnifiedPosition" Value="{{0,18},{0,50}}" />
+          <Property Name="UnifiedSize" Value="{{1.0,-36},{0.4,-50}}" />
         </Window>
     
 		<Window Type="RastullahLook/Listbox" Name="DialogWindow/OptionList">
           <Property Name="VerticalAlignment" Value="Bottom" />
           <Property Name="UnifiedPosition" Value="{{0,18},{0,-18}}" />
-          <Property Name="UnifiedSize" Value="{{1.0,-36},{0.4,-28}}" />
+          <Property Name="UnifiedSize" Value="{{1.0,-36},{0.6,-28}}" />
 		  <Property Name="MultiSelect" Value="false"/>
 		  <Property Name="Disabled" Value="false"/>
         </Window>
+
 	</Window>
 </GUILayout>
