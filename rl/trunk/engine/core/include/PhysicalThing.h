@@ -48,6 +48,9 @@ namespace rl {
         void setOrientation(const Ogre::Quaternion& orienation);
         void setOrientation(Ogre::Real w, Ogre::Real x, Ogre::Real y, Ogre::Real z);
 
+        void setVelocity(const Ogre::Vector3& velocity);
+        Ogre::Vector3 getVelocity();
+
         // Sets the vector, that will always point up.
         void setUpConstraint(const Ogre::Vector3& upVector = Ogre::Vector3::UNIT_Y);
         Ogre::Vector3 getUpConstraint() const;

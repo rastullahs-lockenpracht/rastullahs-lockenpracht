@@ -535,6 +535,8 @@ public:
 
     void setPosition(Ogre::Real x, Ogre::Real y, Ogre::Real z);
     void setOrientation(Ogre::Real w, Ogre::Real x, Ogre::Real y, Ogre::Real z);
+    
+    void setVelocity(const Ogre::Vector3& vel);
 
     // Sets the vector, that will always point up.
     void setUpConstraint(const Ogre::Vector3& upVector = Ogre::Vector3::UNIT_Y);

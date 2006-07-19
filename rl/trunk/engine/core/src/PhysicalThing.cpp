@@ -94,6 +94,11 @@ namespace rl
         mBody->setPositionOrientation(pos, orientation);
     }
 
+    void PhysicalThing::setVelocity(const Vector3& vel)
+    {
+        mBody->setVelocity(vel);
+    }
+
 	void PhysicalThing::_setOrientationBias(const Ogre::Quaternion& orientation)
 	{
 		mOrientationBias = orientation;
