@@ -502,6 +502,8 @@ namespace rl {
 		Weapon* getWeapon(int weaponId) const;
 		Weapon* removeWeapon(int waponId);
 		void switchToWeapon(int weaponId);
+		void rl::Creature::detachWeapon();
+		rl::Weapon* rl::Creature::getActiveWeapon();
 		void addEffect(Effect* effect);
 		virtual SonderfertigkeitenStateSet* getSonderfertigkeitenStateSet(const rl::CeGuiString sfName);
 
