@@ -196,7 +196,8 @@ namespace rl
 
     void PhysicalThing::addForce(const Ogre::Vector3& force)
     {
-        mPendingForce += force;
+        mBody->unFreeze();
+        mPendingForce += force;        
     }
 
     Ogre::Real PhysicalThing::getMass() const
