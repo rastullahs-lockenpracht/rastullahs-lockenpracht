@@ -19,5 +19,5 @@ jarn.addAction(TalkAction.new("Jarn", "jarn.xml"));
 agent = $AI.createAgent(bot);
 agent.addSteeringBehaviour(DefaultIdleBehaviour.new);
 #agent.addSteeringBehaviour(AvoidObstaclesBehaviour.new);
-agent.addSteeringBehaviour(DialogBehaviour.new($hero.getActor()));
+agent.addSteeringBehaviour(DialogBehaviour.new($heroVehicle));
 print("Jarn Bot fertig geladen");

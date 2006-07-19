@@ -39,7 +39,7 @@ class DefaultWanderBehaviour < SteeringBehaviour
 			setActivationLevel(1.0);
 		end
 		if(getController().needAvoidance(5.0))
-			setActivationLevel(getActivationLevel()*0.5);
+			setActivationLevel(getActivationLevel()*0.0);
 		end
 		return getActivationLevel();
 	end
@@ -92,10 +92,10 @@ end
 
 
 class DialogBehaviour < SteeringBehaviour
-	def initialize(playerActor)
+	def initialize(playerAgent)
 		super();
 		init();
-		@mActor = playerActor;
+		@mPlayer = playerAgent;
 		@mTalk = false;
 	end
 	
@@ -114,8 +114,8 @@ class DialogBehaviour < SteeringBehaviour
 	end
 		
 	def update(elapsedTime)
-		if (getController().calcDistance(@mActor.getPosition(), getController().getPosition()) > 2.5)
-			getController().addForce(getController().calcSeek(@mActor.getPosition()) * getActivationLevel() * 5.0);
+		if (!getController().isAhead(@mPlayer, 0.9)) #getController().calcDistance(@mPlayer.getVehicle().getPosition(), getController().getPosition()) > 2.5)
+			getController().addForce(getController().calcPursuit(@mPlayer) * getActivationLevel() * 5.0);
 		else
 			if (@mTalk == false)
 				getController().setAnimation("reden");
@@ -125,6 +125,7 @@ class DialogBehaviour < SteeringBehaviour
 	end
 	
 	def deactivate()
+		@mTalk = false;
 	end
 	
 	def calculateActivation()
