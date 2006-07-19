@@ -9,8 +9,9 @@ print( "Definiere Listener" );
 jarn = Creature.new("Jarn", "Jarn");
 #jarn.setActor($AM.createMeshActor("Jarn", "men_Gennisch2.mesh"));
 jarn.setActor($AM.createMeshActor("Jarn", "men_Gennisch2.mesh", PhysicsManager::GT_ELLIPSOID, 75.0));
-jarn.getActor().placeIntoScene([-8.04, -6.93, 14.66]);
+jarn.getActor().placeIntoScene([-8.04, -6.93, 14.66],[0.0, 79.0, 0.0]);
 #jarn.getControlledObject().startAnimation("idle");
+
 
 bot=$DS.loadBot("Jarn", "jarn.xml");
 bot.setNonPlayerCharacter(jarn);

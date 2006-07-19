@@ -8,7 +8,7 @@ print( "Definiere Listener" );
 
 tsafried = Creature.new("Tsafried", "Tsafried");
 tsafried.setActor($AM.createMeshActor("Tsafried", "men_gennisch2.mesh", PhysicsManager::GT_ELLIPSOID, 75.0));
-tsafried.getActor().placeIntoScene([11.46, -8.88, 39.43]);
+tsafried.getActor().placeIntoScene([11.46, -8.88, 39.43],[0.0, 50.0, 0.0]);
 
 bot = $DS.loadBot("Tsafried", "tsafried.xml");
 bot.setNonPlayerCharacter(tsafried);
