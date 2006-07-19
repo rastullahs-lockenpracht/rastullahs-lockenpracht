@@ -361,6 +361,7 @@ namespace rl {
                 try
                 {
 					Ogre::MeshPtr mesh = Ogre::MeshManager::getSingleton().getByName( meshName );
+                    mesh->removeLodLevels();
 
 					DOMNode* lodchild = child->getFirstChild();
 					Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, " LOD-Bereich für "+meshName+" gefunden");
