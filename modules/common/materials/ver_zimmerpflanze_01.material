@@ -1,6 +1,7 @@
 
 material ver_zimmerpflanze_01
 {
+	receive_shadows off
 	technique
 	{
 		pass
