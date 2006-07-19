@@ -8,12 +8,24 @@
 	<category>
 	<pattern>1</pattern>
 	<template> 
-		<gossip rldialog:type="response">
-			<li rldialog:id="null.ogg">Ah! Der Stoff, aus dem Abenteuer sind. Ich wollte immer schon erfahren, ob das wirklich so eine Plage ist, für die man richtige Helden braucht. Danke, ... na wer seid ihr überhaupt?</li>
-		</gossip>
-		<gossip rldialog:type="option">
-			<li rldialog:id="alrike013.ogg" rldialog:patternRef ="33">Ich bin Alrike, aus Wandleth, und hier um euch zu beschützen! Aber dafür müßt ihr mir auch sagen wovor überhaupt!!</li>
-		</gossip>
+
+	<condition type="default" name="sonja_1">
+		<li value="">
+			<gossip rldialog:type="response">
+				<li rldialog:id="null.ogg">Ah! Der Stoff, aus dem Abenteuer sind. Ich wollte immer schon erfahren, ob das wirklich so eine Plage ist, für die man richtige Helden braucht. Danke, ... na wer seid ihr überhaupt?</li>
+			</gossip>
+			<gossip rldialog:type="option">
+				<li rldialog:id="alrike013.ogg" rldialog:patternRef ="33">Ich bin Alrike, aus Wandleth, und hier um euch zu beschützen! Aber dafür müßt ihr mir auch sagen wovor überhaupt!!</li>
+			</gossip>
+		</li>
+		<li value="1">
+			<gossip rldialog:type="response">
+				<li rldialog:id="5SekStille.ogg">[Wolfram steht gedankenverloren in der Gegen herum und reagiert nicht auf Euch. Oder denkt er etwa zu stark nach?]</li>
+			</gossip>
+			<srai>EXIT</srai>
+		</li>
+	</condition>
+
 	</template>
 	</category>
 
@@ -86,7 +98,7 @@
 									<li rldialog:id="null.ogg">Ich werde jetzt weiterarbeiten. Jaja.. so sind wir, wir Weltverbesserer...</li>
 								</gossip>
 								<gossip rldialog:type="option">
-									<li rldialog:id="null.ogg" rldialog:patternRef ="EXIT">Lasst euch von mir nicht stören!</li>
+									<li rldialog:id="null.ogg" rldialog:patternRef ="EXIT">[Gehen]</li>
 									<!-- Zum EXIT in dem er wieder geht oder in dem geschaltet wird, dass der Mann nichts mehr zu sagen hat und Gedankenverloren da steht -->
 								</gossip>
 							</template>
