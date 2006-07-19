@@ -21833,7 +21833,7 @@
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
 			/>
-
+<userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
   
 
 		</node>
