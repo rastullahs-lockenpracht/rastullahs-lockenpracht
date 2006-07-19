@@ -19,7 +19,7 @@
 #include <OgreSingleton.h>
 #include "AiPrerequisites.h"
 //#include "PhysicsController.h"
-//#include "GameTask.h"
+#include "GameTask.h"
 
 namespace rl
 {
@@ -29,12 +29,19 @@ namespace rl
 	class DialogCharacter;
 
 	class _RlAiExport AgentManager
-		: protected Ogre::Singleton<AgentManager>
-	//	  public PhysicsController,
-	//	  public GameTask,
+		: protected Ogre::Singleton<AgentManager>,
+		  public GameTask
+  	//	  public PhysicsController,
 		  
 	{
 	public:
+		enum AgentType
+		{
+			AGENT_NONE = -1,
+			AGENT_PLAYER = 0,
+			AGENT_STD_NPC = 1,
+			AGENT_FLOCKING = 2
+		};
 		static AgentManager& getSingleton(void);
         static AgentManager* getSingletonPtr(void);
 		typedef std::vector<SteeringVehicle*> VehicleList;
@@ -45,18 +52,19 @@ namespace rl
 		 * Create an AI agent with an assigned Rl-Actor
 		 * AiSubsystems is responsible for memory management of the Agent
 		 */
-		Agent* createAgent(Creature* character);
+		Agent* createAgent(AgentType type, Creature* character);
 		Agent* createAgent(DialogCharacter* character);
 
 		VehicleList getNeighbors(Agent* agent);
 	//	void OnApplyForceAndTorque(PhysicalThing* thing);
-	//	void run( Ogre::Real elapsedTime );
+		void run( Ogre::Real elapsedTime );
 	private:
 		void addAgent(Agent* agent);
 		typedef std::list<Agent*> AgentList;
 		
 		VehicleList mAllNeighbors;
 		AgentList mAgents;
+		Agent* mPlayer;
 	};
 }
 #endif

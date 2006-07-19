@@ -50,7 +50,7 @@ namespace rl
 		SteeringVehicle(Agent* parent, Actor* character);
 		virtual ~SteeringVehicle(void);
 
-				/**
+		/**
 		 * Add a force to the current force of the vehicle
 		 * @param  force value as force vector
 		 */
@@ -89,6 +89,7 @@ namespace rl
 		 */
 		Vector3 calcFlee(const Vector3& target);
 
+		Vector3 calcPursuit(Agent* agent);
 		/**
 		 * Causes the vehicle to turn away from obstacles in space. 
 		 * The vehicle will consider all close-by obstacles automatically
@@ -110,6 +111,7 @@ namespace rl
 		 */
 		Vector3 calcSteerTargetSpeed(const float targetSpeed);
 
+		bool isAhead(Agent* agent, const float threshold);
 		bool needAvoidance(const float minTimeToCollision);
 		void setAnimation(const CeGuiString& name);
 	
@@ -137,7 +139,7 @@ namespace rl
 		/**
 		 * update the steering of the vehicle
 		 */
-		void update(const float currentTime, const float elapsedTime);
+		virtual void update(const float currentTime, const float elapsedTime);
 		/**
 		 * predict position of this vehicle at some time in the future
 		 * (assumes velocity remains constant)
@@ -231,7 +233,7 @@ namespace rl
 			setSide (localRotateForwardToSide (forward()));
 		}
 		*/
-	private:
+	protected:
 		void initialize();
 		AVGroup getNeighbors();
 		ObstacleGroup getObstacles();

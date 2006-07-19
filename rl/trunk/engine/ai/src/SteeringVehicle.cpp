@@ -15,7 +15,7 @@
  */
 #include "SteeringVehicle.h"
 #include "AiSubsystem.h"
-#include "AiWorld.h"
+#include "AiWorld.h" 
 #include "Agent.h"
 #include "Actor.h"
 #include "MeshObject.h"
@@ -91,7 +91,7 @@ void SteeringVehicle::addForce(const Ogre::Vector3& force)
 {
 	mCurrentForce += force;
 }
-
+/*
 void SteeringVehicle::applySteeringForce(PhysicalThing* thing, const float elapsedTime)
 {
 	OgreNewt::Body* body = thing->_getBody();
@@ -133,6 +133,7 @@ void SteeringVehicle::applySteeringForce(PhysicalThing* thing, const float elaps
 	
 	mCurrentForce = Ogre::Vector3::ZERO;
 }
+*/
 
 Vec3 SteeringVehicle::adjustRawSteeringForce(const Vec3& force)
 {
@@ -157,6 +158,11 @@ Vec3 SteeringVehicle::adjustRawSteeringForce(const Vec3& force)
 
 void SteeringVehicle::update(const float currentTime, const float elapsedTime)
 {
+//  do nothing if there is no force applied through steering behaviours
+	if(mCurrentForce == Ogre::Vector3::ZERO)
+	{
+		return;
+	}
 	OgreNewt::Body* body = mActor->getPhysicalThing()->_getBody();
 //	Vec3 aforce = adjustRawSteeringForce(Vec3(mCurrentForce.x, mCurrentForce.y, mCurrentForce.z)); 
 //	aforce = aforce.truncateLength (maxForce());
@@ -166,53 +172,55 @@ void SteeringVehicle::update(const float currentTime, const float elapsedTime)
 	Quaternion orientation;
 	body->getPositionOrientation(position, orientation);
 	setPosition(Vec3(position.x, position.y, position.z));
-	// get the charater mass
+//  get the charater mass
 	Vector3 inertia;
 	body->getMassMatrix(mMass, inertia);
 
-	// apply gravity
-	Vector3 force = mMass * Vector3(0.0f, -9.81f, 0.0f);
+//  apply gravity
+	Vector3 force = mMass * PhysicsManager::getSingleton().getGravity();
 
 	// Get the velocity vector
 	mCurrentVelocity = body->getVelocity();
-	setSpeed(mCurrentVelocity.length());
-	Vec3 newVelocity(mCurrentVelocity.x, mCurrentVelocity.y, mCurrentVelocity.z);
-	// enforce speed limit
-//    newVelocity = newVelocity.truncateLength (maxSpeed ());
-    // update Speed
-//    setSpeed (newVelocity.length());
-	// regenerate local space (by default: align vehicle's forward axis with
-    // new velocity, but this behavior may be overridden by derived classes.)
-    if (speed() > 0) regenerateOrthonormalBasisUF (newVelocity / speed());
 
-	// Gravity is applied above, so not needed here
-	// prevent adding a counter force against gravity
+	//setSpeed(mCurrentVelocity.length());
+	Vec3 newVelocity(mCurrentVelocity.x, mCurrentVelocity.y, mCurrentVelocity.z);
+//  enforce speed limit
+//  newVelocity = newVelocity.truncateLength(maxSpeed ());
+//  update speed 
+    setSpeed (newVelocity.length());
+
+//  Gravity is applied above, so not needed here
+//  prevent adding a counter force against gravity
 	if (mCurrentVelocity.y < 0.0f) mCurrentVelocity.y = 0.0f;
 
-	//if (speed() > 0) regenerateOrthonormalBasisUF (Vec3(mCurrentVelocity.x, mCurrentVelocity.y, mCurrentVelocity.z));
-//	mCurrentForce *= speed();
+// Calculate angular velocity
+	mYaw -= Degree(mCurrentForce.x * 60.0f * elapsedTime);
+
+	while (mYaw.valueDegrees() > 360.0f) mYaw -= Degree(360.0f);
+	while (mYaw.valueDegrees() < -360.0f) mYaw += Degree(360.0f);
+//  We first need the yaw rotation from actual yaw to desired yaw
+	Vector3 src = orientation*Vector3::NEGATIVE_UNIT_Z;
+	src.y = 0.0f;
+	Vector3 dst = Quaternion(mYaw, Vector3::UNIT_Y)*Vector3::NEGATIVE_UNIT_Z;
+	dst.y = 0.0f;
+	Radian yaw = src.getRotationTo(dst).getYaw();
+
+//  Calculate omega in order to go this rotation in mMaxDelay seconds.
+	Real newOmega = yaw.valueRadians() / (1.0f/30.0f);
+	body->setOmega(Vector3(0.0f, newOmega, 0.0f));
+
+	mCurrentForce.x = 0.0f;
+	
+//  regenerate local space (by default: align vehicle's forward axis with
+//  new velocity, but this behavior may be overridden by derived classes.)
+	if (speed() > 0) regenerateOrthonormalBasisUF ( Vec3(dst.x, dst.y, dst.z) );
 
 	if(elapsedTime > 0.0f)
 	{
 		force += mMass*(orientation * mCurrentForce - mCurrentVelocity) / elapsedTime;
 	}
 	body->setForce(force);
-	// Calculate angular velocity
-	mYaw -= Degree(mCurrentForce.x * 60.0 * elapsedTime);
 
-	while (mYaw.valueDegrees() > 360.0f) mYaw -= Degree(360.0f);
-	while (mYaw.valueDegrees() < -360.0f) mYaw += Degree(360.0f);
-	// We first need the yaw rotation from actual yaw to desired yaw
-	Vector3 src = orientation*Vector3::NEGATIVE_UNIT_Z;
-	src.y = 0;
-	Vector3 dst = Quaternion(mYaw, Vector3::UNIT_Y)*Vector3::NEGATIVE_UNIT_Z;
-	dst.y = 0;
-	Radian yaw = src.getRotationTo(dst).getYaw();
-
-	// Calculate omega in order to go this rotation in mMaxDelay seconds.
-	Real newOmega = yaw.valueRadians() / (1.0/30.0);
-	body->setOmega(Vector3(0, newOmega, 0));
-	
 	mCurrentForce = Ogre::Vector3::ZERO;
 }
 
@@ -226,7 +234,9 @@ Vector3 SteeringVehicle::calcWander(const float elapsedTime)
 Vector3 SteeringVehicle::calcSeek(const Vector3& target)
 {
 	Vec3 rVal = steerForSeek(Vec3(target.x, target.y, target.z)).setYtoZero();
-	rVal *= -0.1; //adjustment for newton
+	rVal = rVal.normalize();
+	//rVal *= -0.1; //adjustment for newton
+	rVal.z=0;
 	return Vector3(rVal.x, rVal.y, rVal.z);
 }
 
@@ -234,6 +244,14 @@ Vector3 SteeringVehicle::calcFlee(const Vector3& target)
 {
 	Vec3 rVal = steerForFlee(Vec3(target.x, target.y, target.z)).setYtoZero();
 	rVal *= -0.1;
+	return Vector3(rVal.x, rVal.y, rVal.z);
+}
+
+Vector3 SteeringVehicle::calcPursuit(Agent* agent)
+{
+	Vec3 rVal = steerForPursuit(*(agent->getVehicle())).setYtoZero();
+	rVal = rVal.normalize();
+	rVal.z = 0;
 	return Vector3(rVal.x, rVal.y, rVal.z);
 }
 
@@ -245,7 +263,8 @@ Vector3 SteeringVehicle::calcAvoidObstacles(const float minTimeToCollision)
 	{
 		rVal = rVal;
 	}
-	rVal *= 0.0001;
+	rVal = rVal.normalize();
+	//rVal *= 0.0001;
 	return Vector3(rVal.x, rVal.y, rVal.z);
 }
 
@@ -256,13 +275,20 @@ Vector3 SteeringVehicle::calcAvoidNeighbors(const float minTimeToCollision)
 	{
 		rVal = rVal;
 	}
-//	rVal *= -0.1;
+//	rVal *= -1;
 	return Vector3(rVal.x, rVal.y, rVal.z);
 }
 		
 Vector3 SteeringVehicle::calcSteerTargetSpeed(const float targetSpeed)
 {
 	return Vector3();
+}
+
+bool SteeringVehicle::isAhead(Agent* agent, const float threshold)
+{
+	Vector3 target = agent->getVehicle()->getPosition();
+	//target.y = position.y;
+	return (SimpleVehicle_2::isAhead(Vec3(target.x, target.y, target.z), threshold));
 }
 
 bool SteeringVehicle::needAvoidance(const float minTimeToCollision)
@@ -321,69 +347,6 @@ Vec3 SteeringVehicle::predictFuturePosition(const float predictionTime) const
 	return velocity() * predictionTime;
 }
 
-/*Vec3 SteeringVehicle::adjustRawSteeringForce(const Vec3& force,
-                                                  const float elapsedTime)
-{
-    const float maxAdjustedSpeed = 0.2f * maxSpeed ();
-
-    if ((speed () > maxAdjustedSpeed) || (force == Vec3::zero))
-    {
-        return force;
-    }
-    else
-    {
-        const float range = speed() / maxAdjustedSpeed;
-        const float cosine = interpolate (pow (range, 20), 1.0f, -1.0f);
-        return limitMaxDeviationAngle (force, cosine, forward());
-    }
-}
-
-void SteeringVehicle::applySteeringForce(const Vec3& force, const float elapsedTime)
-{
-	const Vec3 adjustedForce = adjustRawSteeringForce (force, elapsedTime);
-
-    // enforce limit on magnitude of steering force
-    const Vec3 clippedForce = adjustedForce.truncateLength (maxForce ());
-
-    // compute acceleration and velocity
-    Vec3 newAcceleration = (clippedForce / mass());
-    Vec3 newVelocity = velocity();
-
-    // damp out abrupt changes and oscillations in steering acceleration
-    // (rate is proportional to time step, then clipped into useful range)
-    if (elapsedTime > 0)
-    {
-        const float smoothRate = clip (9 * elapsedTime, 0.15f, 0.4f);
-        blendIntoAccumulator (smoothRate,
-                              newAcceleration,
-                              _smoothedAcceleration);
-    }
-
-    // Euler integrate (per frame) acceleration into velocity
-    newVelocity += _smoothedAcceleration * elapsedTime;
-
-    // enforce speed limit
-    newVelocity = newVelocity.truncateLength (maxSpeed ());
-
-    // update Speed
-    setSpeed (newVelocity.length());
-
-    // Euler integrate (per frame) velocity into position
-    setPosition (position() + (newVelocity * elapsedTime));
-
-    // regenerate local space (by default: align vehicle's forward axis with
-    // new velocity, but this behavior may be overridden by derived classes.)
-    regenerateLocalSpace (newVelocity, elapsedTime);
-
-    // maintain path curvature information
-    measurePathCurvature (elapsedTime);
-
-    // running average of recent positions
-    blendIntoAccumulator (elapsedTime * 0.06f, // QQQ
-                          position (),
-                          _smoothedPosition);
-}
-*/
 
 /*
 void SteeringVehicle::measurePathCurvature (const float elapsedTime)
@@ -403,11 +366,4 @@ void SteeringVehicle::measurePathCurvature (const float elapsedTime)
     }
 }
 */
-/*
-void SteeringVehicle::regenerateLocalSpace (const Vec3& newVelocity,
-                                                const float elapsedTime)
-{
-    // adjust orthonormal basis vectors to be aligned with new velocity
-    if (speed() > 0) regenerateOrthonormalBasisUF (newVelocity / speed());
-}
-*/
+

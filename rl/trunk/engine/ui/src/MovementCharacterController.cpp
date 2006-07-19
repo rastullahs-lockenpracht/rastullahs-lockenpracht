@@ -83,7 +83,7 @@ namespace rl {
 		mCameraJammedFrameCount(0),
 		mCameraJammedTime(0.0f),
 		mRaycast(new PhysicsMaterialRaycast()),
-		mGravitation(Vector3(0.0f, -9.81f, 0.0f))
+		mGravitation()
 	{
         DebugWindow::getSingleton().registerPage(msDebugWindowPageName);
 		mMovementSpeed = 
@@ -91,6 +91,7 @@ namespace rl {
 			(float)Date::ONE_KAMPFRUNDE 
 			* 1000.0f;
 
+		mGravitation = PhysicsManager::getSingleton().getGravity();
 		mRotationSpeed
 			= ConfigurationManager::getSingleton().getIntSetting("mouse_sensitivity", 4);
 

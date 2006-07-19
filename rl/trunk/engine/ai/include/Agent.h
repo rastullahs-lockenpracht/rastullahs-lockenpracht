@@ -18,6 +18,7 @@
 
 #include "PhysicsController.h"
 #include "FuzzyState.h"
+#include "AgentManager.h"
 
 namespace rl
 {
@@ -27,6 +28,7 @@ namespace rl
 	class SteeringMachine;
 	class DialogCharacter;
 	class Creature;
+	class Actor;
 //	class PerceptionPool;
 
 	class _RlAiExport Agent 
@@ -34,10 +36,14 @@ namespace rl
 	{
 	public:
 		Agent(Creature* character);
+		Agent(Creature* character, SteeringVehicle* vehicle);
 		Agent(DialogCharacter* character);
 		virtual ~Agent(void);
 
 		void initialize();
+
+		AgentManager::AgentType getType();
+		void setType(AgentManager::AgentType type);
 
 		void update(const float elapsedTime);
 		void addSteeringBehaviour(SteeringBehaviour* behaviour);
@@ -48,6 +54,7 @@ namespace rl
 		virtual void OnApplyForceAndTorque(PhysicalThing* thing);
 
 	protected:
+		AgentManager::AgentType mType;
 		SteeringMachine* mBehaviour;
 		SteeringVehicle* mVehicle;
 		DialogCharacter* mDialogBot;
@@ -55,9 +62,19 @@ namespace rl
 //		PerceptionPool* mPerceptionPool;
 	};
 
+	inline AgentManager::AgentType Agent::getType()
+	{
+		return mType;
+	}
+
 	inline SteeringVehicle* Agent::getVehicle()
 	{
 		return mVehicle;
+	}
+
+	inline void Agent::setType(AgentManager::AgentType type)
+	{
+		mType = type;
 	}
 
 /*	inline PerceptionPool* Agent::getPerceptionPool()

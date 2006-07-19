@@ -15,6 +15,8 @@
  */
 #include "AgentManager.h"
 #include "Agent.h"
+#include "PlayerVehicle.h"
+#include "Creature.h"
 
 using namespace Ogre;
 
@@ -32,7 +34,7 @@ AgentManager* AgentManager::getSingletonPtr(void)
     return Singleton<AgentManager>::getSingletonPtr();
 }
 
-AgentManager::AgentManager(void) : mAllNeighbors(), mAgents()
+AgentManager::AgentManager(void) : mAllNeighbors(), mAgents(), mPlayer(NULL)
 {
 
 }
@@ -46,9 +48,20 @@ AgentManager::~AgentManager(void)
     }
 }
 
-Agent* AgentManager::createAgent(Creature* character)
+Agent* AgentManager::createAgent(AgentType type, Creature* character)
 {
-    Agent* agent = new Agent(character);
+	SteeringVehicle* vehicle = NULL;
+	if(type == AGENT_PLAYER)
+	{
+		vehicle = new PlayerVehicle(character->getActor());
+	}
+    Agent* agent = new Agent(character, vehicle);
+	agent->setType(type);
+	if(type == AGENT_PLAYER)
+	{
+		mPlayer = agent;
+	}
+
 	addAgent(agent);
     return agent;
 }
@@ -79,13 +92,23 @@ void AgentManager::OnApplyForceAndTorque(PhysicalThing* thing)
 {
     //	steerToAvoidNeighbors (10.0, const AVGroup& others);
 }
-
+*/
 
 void AgentManager::run( Ogre::Real elapsedTime ) 
 {
-    //	update all agents
-    for(AgentList::iterator itr = mAgents.begin(); itr != mAgents.end(); ++itr)
+//	update agents
+	if(mPlayer != NULL)
+	{
+		mPlayer->update(elapsedTime);
+	}
+
+  /*  for(AgentList::iterator itr = mAgents.begin(); itr != mAgents.end(); ++itr)
     {
-        (*itr)->update(elapsedTime);
-    }
-}*/
+	//  update agents of type "player" only
+		if((*itr)->getType() == AGENT_PLAYER)
+		{
+			(*itr)->update(elapsedTime);
+			break;
+		}
+    }*/
+}

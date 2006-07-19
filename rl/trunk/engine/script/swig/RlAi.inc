@@ -28,6 +28,8 @@ namespace rl
 		Ogre::Vector3 calcSeek(const Ogre::Vector3& target);
 
 		Ogre::Vector3 calcFlee(const Ogre::Vector3& target);
+		
+		Ogre::Vector3 calcPursuit(rl::Agent* agent);
 
 		Ogre::Vector3 calcAvoidObstacles(const float minTimeToCollision);
 
@@ -40,6 +42,8 @@ namespace rl
 		float calcDistance(const Ogre::Vector3& vec1, const Ogre::Vector3& vec2);
 		
 		Ogre::Vector3 getPosition();
+		
+		bool isAhead(rl::Agent* agent, const float threshold);
 		
 		bool needAvoidance(const float minTimeToCollision);
 		
@@ -84,8 +88,16 @@ namespace rl
 	class AgentManager
 	{
 	public:
+		enum AgentType
+		{
+			AGENT_NONE = -1,
+			AGENT_PLAYER = 0,
+			AGENT_STD_NPC = 1,
+			AGENT_FLOCKING = 2
+		};
+		
 		static AgentManager& getSingleton(void);
-		rl::Agent* createAgent(rl::Creature* character);
+		rl::Agent* createAgent(rl::AgentManager::AgentType type, rl::Creature* character);
 		rl::Agent* createAgent(rl::DialogCharacter* character);
 	};
 }
