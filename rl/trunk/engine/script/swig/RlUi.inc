@@ -62,7 +62,7 @@ public:
     static UiSubsystem& getSingleton(void);
     
 	rl::Person* getActiveCharacter();
-	void setActiveCharacter(rl::Person* person);
+	void setActiveCharacter(rl::Person* person = NULL);
 
 	rl::CharacterController* getCharacterController() const;
 	rl::CharacterController::ControllerType getCharacterControllerType() const;

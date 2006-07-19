@@ -67,7 +67,7 @@ namespace rl {
 
 		CEGUI::OgreCEGUIRenderer* getGUIRenderer();
 		Person* getActiveCharacter() const;
-		void setActiveCharacter(Person* person);
+		void setActiveCharacter(Person* person = NULL);
         CharacterController* getCharacterController() const;
 		CharacterController::ControllerType getCharacterControllerType() const;
 		

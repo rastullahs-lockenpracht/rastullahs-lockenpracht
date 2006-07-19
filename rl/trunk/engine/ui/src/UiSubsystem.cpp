@@ -236,6 +236,7 @@ namespace rl {
         Actor* camera = ActorManager::getSingleton().getActor("DefaultCamera");
         if (camera == NULL)
         {
+            requestCharacterControllerSwitch(type);
             return;
         }
 
