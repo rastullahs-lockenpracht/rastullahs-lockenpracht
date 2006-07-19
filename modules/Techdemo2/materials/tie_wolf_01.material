@@ -1,0 +1,18 @@
+
+material 02_-_Default
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			specular 0 0 0 1 10
+			scene_blend alpha_blend
+
+			texture_unit
+			{
+				texture wolf1.png
+			}
+		}
+	}
+}
