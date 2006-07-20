@@ -116,4 +116,5 @@ void AgentManager::removeAllAgents()
         delete (*itr);
 	}
 	mAllNeighbors.clear();
+	mPlayer = NULL;
 }
