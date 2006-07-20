@@ -31,26 +31,30 @@ PlayerVehicle::~PlayerVehicle(void)
 
 void PlayerVehicle::update(const float currentTime, const float elapsedTime)
 {
-	OgreNewt::Body* body = mActor->getPhysicalThing()->_getBody();
-	Vector3 position;
-	Quaternion orientation;
-	body->getPositionOrientation(position, orientation);
-	setPosition(Vec3(position.x, position.y, position.z));
+	PhysicalThing* pt = mActor->getPhysicalThing();
+	OgreNewt::Body* body = NULL;
+	if(pt) pt->_getBody();
+	if(body)
+	{
+		Vector3 position;
+		Quaternion orientation;
+		body->getPositionOrientation(position, orientation);
+		setPosition(Vec3(position.x, position.y, position.z));
 
-//  Get the velocity vector
-	mCurrentVelocity = body->getVelocity();
-//  enforce speed limit
-//  newVelocity = newVelocity.truncateLength (maxSpeed ());
-//  update speed
-	setSpeed(mCurrentVelocity.length());
-	Vec3 newVelocity(mCurrentVelocity.x, mCurrentVelocity.y, mCurrentVelocity.z);
+	//  Get the velocity vector
+		mCurrentVelocity = body->getVelocity();
+	//  enforce speed limit
+	//  newVelocity = newVelocity.truncateLength (maxSpeed ());
+	//  update speed
+		setSpeed(mCurrentVelocity.length());
+		Vec3 newVelocity(mCurrentVelocity.x, mCurrentVelocity.y, mCurrentVelocity.z);
 
-//  regenerate local space (by default: align vehicle's forward axis with
-//  new velocity, but this behavior may be overridden by derived classes.)
-    if (speed() > 0) regenerateOrthonormalBasisUF (newVelocity / speed());
+	//  regenerate local space (by default: align vehicle's forward axis with
+	//  new velocity, but this behavior may be overridden by derived classes.)
+		if (speed() > 0) regenerateOrthonormalBasisUF (newVelocity / speed());
 
-//  prevent adding a counter force against gravity
-	if (mCurrentVelocity.y < 0.0f) mCurrentVelocity.y = 0.0f;
-
+	//  prevent adding a counter force against gravity
+		if (mCurrentVelocity.y < 0.0f) mCurrentVelocity.y = 0.0f;
+	}
 	mCurrentForce = Ogre::Vector3::ZERO;
 }
