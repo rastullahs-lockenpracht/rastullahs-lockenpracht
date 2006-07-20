@@ -113,7 +113,7 @@ class DialogBehaviour < SteeringBehaviour
 	end
 		
 	def update(elapsedTime)
-		if (!getController().isAhead(@mPlayer, 0.7)) #getController().calcDistance(@mPlayer.getVehicle().getPosition(), getController().getPosition()) > 2.5)
+		if (!getController().isAhead(@mPlayer, 0.95)) #getController().calcDistance(@mPlayer.getVehicle().getPosition(), getController().getPosition()) > 2.5)
 			getController().addForce(getController().calcPursuit(@mPlayer) * getActivationLevel() * 5.0);
 		else
 			if (@mTalk == false)
