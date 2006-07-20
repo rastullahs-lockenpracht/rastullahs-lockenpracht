@@ -97,34 +97,9 @@ kugelDings = $AM.createEmptyActor( "Kugel-Zentrum" );
 $SCRIPT.log("Mapchange: Kugel-Zentrum Actor in die Szene einfügen");
 kugelDings.placeIntoScene( [-56.2, -1.1, -75.0] );
 
-
-
-class LevelwechselListener < GameAreaListener
-	def initialize( targetscene, resourcegrp, targetrbfile )
-		super()
-		@targetScene = targetscene
-		@targetRbFile = targetrbfile
-		@resourcegrp = resourcegrp 
-	end
- 
-	def areaLeft(anEvent)
-	end
- 
-	#Zone betreten
-	def areaEntered(anEvent)
-		if (RulesSubsystem.getSingleton().getQuestBook().getQuest("aufenthaltsort").getState() == Quest::SUCCEEDED) &&  ( (RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest42").getState() == Quest::SUCCEEDED)  || (RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest41").getState() == Quest::SUCCEEDED) )
-			$UI.setCharacterController(CharacterController::CTRL_NONE)
-			$UI.setActiveCharacter()
-			$CORE.loadMap("Octree", @targetScene, @resourcegrp, @targetRbFile); 
-		else
-			$WF.showMessageWindow( "Ihr wisst noch nicht wohin ihr wollt - und was ihr an diesem Ort suchen wollt. Findet es erst heraus!" );
-	
-		end
-	end
-end
- 
+require 'techdemo2_mapchange.rb'
 #Erstellen mit 
-MapchangeListener = LevelwechselListener .new("techdemo2map2_01.scene", "Techdemo2", "Techdemo2map2.rb"); 
+MapchangeListener = Td2LevelwechselListener.new("techdemo2map2_01.scene", "Techdemo2", "Techdemo2map2.rb"); 
 
 $SCRIPT.log("Mapchange: MapchangeListener hinzufügen");
 $GameEveMgr.addSphereAreaListener( kugelDings, 10.000, MapchangeListener, Actor::QGF_PLAYER );
