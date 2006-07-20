@@ -58,6 +58,7 @@ namespace rl
 		VehicleList getNeighbors(Agent* agent);
 	//	void OnApplyForceAndTorque(PhysicalThing* thing);
 		void run( Ogre::Real elapsedTime );
+		void removeAllAgents();
 	private:
 		void addAgent(Agent* agent);
 		typedef std::list<Agent*> AgentList;

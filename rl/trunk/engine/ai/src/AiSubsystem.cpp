@@ -58,3 +58,13 @@ void AiSubsystem::initialize()
 		FRAME_STARTED);
 }
 
+void AiSubsystem::onAfterSceneLoaded()
+{
+
+}
+
+void AiSubsystem::onBeforeClearScene()
+{
+	AgentManager::getSingleton().removeAllAgents();
+	mWorld->removeAllObstacles();
+}

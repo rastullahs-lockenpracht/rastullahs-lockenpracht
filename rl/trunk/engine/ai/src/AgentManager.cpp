@@ -41,11 +41,7 @@ AgentManager::AgentManager(void) : mAllNeighbors(), mAgents(), mPlayer(NULL)
 
 AgentManager::~AgentManager(void)
 {
-    //	free all agents
-    for(AgentList::iterator itr = mAgents.begin(); itr != mAgents.end(); ++itr)
-    {
-        delete (*itr);
-    }
+	removeAllAgents();
 }
 
 Agent* AgentManager::createAgent(AgentType type, Creature* character)
@@ -111,4 +107,13 @@ void AgentManager::run( Ogre::Real elapsedTime )
 			break;
 		}
     }*/
+}
+
+void AgentManager::removeAllAgents()
+{
+    for(AgentList::iterator itr = mAgents.begin(); itr != mAgents.end(); ++itr)
+    {
+        delete (*itr);
+	}
+	mAllNeighbors.clear();
 }

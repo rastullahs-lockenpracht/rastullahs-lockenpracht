@@ -18,6 +18,7 @@
 
 #include <OgreSingleton.h>
 #include "AiPrerequisites.h"
+#include "World.h"
 
 namespace rl
 {
@@ -25,7 +26,9 @@ namespace rl
 	class AgentManager;
 	class AiWorld;
 
-	class _RlAiExport AiSubsystem : public Ogre::Singleton<AiSubsystem>
+	class _RlAiExport AiSubsystem 
+		: public Ogre::Singleton<AiSubsystem>,
+		  public SceneChangeListener
 	{
 	public:
 		static AiSubsystem & getSingleton(void);
@@ -35,6 +38,9 @@ namespace rl
 		virtual ~AiSubsystem(void);
 		
 		AiWorld* getWorld();
+
+		void onAfterSceneLoaded();
+        void onBeforeClearScene();
 	private:
 		void initialize();
 		AgentManager* mAgentManager;
