@@ -35,7 +35,7 @@
 		</gossip>
 		<gossip rldialog:type="option">
 			<condition type="default" name="jarn_2"><li rldialog:id="alrike002.ogg" value="" rldialog:patternRef ="2">Wo wir gerade bei Huhn sind. Wegen der Vorkommnisse; Was haltet ihr davon? Habt ihr irgend etwas gesehen oder wisst ihr etwas, das mir helfen könnte?</li></condition>
-			<condition type="default" name="jarn_3"><li rldialog:id="alrike003.ogg" value="" rldialog:patternRef ="3">Ihr kommt zu nichts? Wo drückt der Schuh?!</li> </condition>
+			<condition type="default" name="jarn_3"><li rldialog:id="alrike003.ogg" value="" rldialog:patternRef ="3">Ihr kommt zu nichts? Wo drückt denn der Schuh?!</li> </condition>
 			<li rldialog:id="alrike004.ogg"><set type="default" name="jarn_1" value="1"/>Ich komme später wieder.!</li>		
 		</gossip>
 	</template>
@@ -49,7 +49,7 @@
 	<pattern>2</pattern>
 	<template>
 		<gossip rldialog:type="response">
-			<li rldialog:id="jarn002.ogg">Und wie ich das habe! Die Sache ist eindeutig: Der Mann aus dem Wald benutzt dunkle Magie um uns von hier zu verjagen und hetzt seine Wölfe auf uns. Er kam manchmal hier her und tauschte ein wenig von seinem Gestrüpp und ein paar Kräutern, die er sammelt gegen die Arbeiten von Sonja und mir. Um es kurz zu machen: Er wollte uns beim letzten mal zu wenig geben. Da habe ich das Leder, auf seine Bezahlung, nunja, angepasst. Ich sage es ja! Er war immer schon neidisch, dass wir in Häusern leben, die er sich nicht bauen kann und nun will er uns hier weg haben. </li>
+			<li rldialog:id="jarn002.ogg">Und wie ich das habe! Die Sache ist eindeutig: Der Mann aus dem Wald benutzt dunkle Magie um uns von hier zu verjagen und hetzt seine Wölfe auf uns. Er kam manchmal hier her und tauschte ein wenig von seinem Gestrüpp und ein paar Kräutern, die er sammelt gegen die Arbeiten von Sonja und mir. Um es kurz zu machen: Er wollte uns beim letzten mal zu wenig geben. Da habe ich das Leder, seine Bezahlung, nunja, angepasst. Ich sage es ja! Er war immer schon neidisch, dass wir in Häusern leben, die er sich nicht bauen kann und nun will er uns hier weg haben.</li>
 		</gossip>
 		<gossip rldialog:type="option">
 			<li rldialog:id="alrike005.ogg" rldialog:patternRef ="22">Und sonst habt ihr keinen Ärger mit ihm?</li>
@@ -75,7 +75,7 @@
 	<pattern>3</pattern>
 	<template>
 		<gossip rldialog:type="response">
-			<li rldialog:id="jarn004.ogg">Alles wächst mir über den Kopf. Ich komme nicht einmal dazu dieses Paket zu Wolfram zu bringen.</li>			
+			<li rldialog:id="jarn004.ogg">Ach... Alles wächst mir über den Kopf. Ich komme nicht einmal dazu dieses Paket zu Wolfram zu bringen obwohl er direkt dort drüben wohnt.</li>			
 		</gossip>
 		<gossip rldialog:type="option">
 			<li rldialog:id="alrike006.ogg" rldialog:patternRef ="33">Ah, in jedem Dorf das gleiche. Gut, ich bringe es hin. Was ist denn drinnen?</li>
@@ -99,7 +99,7 @@
 			<pattern>333</pattern>
 			<template>
 				<gossip rldialog:type="response">
-					<li rldialog:id="jarn006.ogg">Er wohnt in dem Haus dort drüben. Er wird so tun, als ob er nicht zuhause sei. Aber sprecht nur von dem Paket, er wird euch schon hören.</li>
+					<li rldialog:id="jarn006.ogg">Wie gesagt wohnt er dort drüben. Er wird so tun, als ob er nicht zuhause sei. Aber sprecht nur von dem Paket, er wird euch schon hören.</li>
 				</gossip>
 					<set type="queststate" name="paket" value="ASSIGNED"/>
 					<set type="questknown" name="paket" value="KNOWN"/>
