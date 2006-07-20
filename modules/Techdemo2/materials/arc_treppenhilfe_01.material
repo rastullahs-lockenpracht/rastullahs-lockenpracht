@@ -1,17 +1,12 @@
-
 material arc_treppenhilfe_01
 {
+	receive_shadows off
+
 	technique
 	{
 		pass
 		{
-			
-			alpha_rejection greater 128
-
-			texture_unit
-			{
-				texture arc_treppenhilfe_01.png
-			}
+			depth_func always_fail			
 		}
 	}
 }
