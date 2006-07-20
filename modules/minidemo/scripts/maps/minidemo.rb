@@ -9,6 +9,7 @@ require 'truhe.rb'
 require 'door_opener.rb'
 require 'heiltrank.rb'
 require 'crate.rb'
+require 'enemy.rb'
 
 # Physik aktivieren
 $PM.setEnabled(true);

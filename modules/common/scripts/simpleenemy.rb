@@ -1,4 +1,5 @@
 load "embed.rb"
+require "steering.rb";
 
 class SimpleEnemyKillAction < Action
     # Name der Aktion
@@ -86,18 +87,3 @@ class SimpleEnemy < Creature
     end
 
 end
-
-
-# -----------------------------------------------------
-# 
-# class TextOnSimpleEnemyDeath < SimpleEnemyDeathListener
-#     def onDie
-#         p "argfL!!! *sterb*"
-#     end
-# end
-#
-# se = SimpleEnemy.new( "Wolf","Lebendiger Wolf","Toter Wolf","kiste.mesh","spinne_todesschrei_01.ogg");
-# se.getActor().placeIntoScene([1.40, 2.80, 2.20]) 
-# se.addDeathListener( TextOnSimpleEnemyDeath.new )
-#
-# -----------------------------------------------------
