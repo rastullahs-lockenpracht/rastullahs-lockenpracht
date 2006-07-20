@@ -17,13 +17,20 @@ class SimpleEnemyKillAction < Action
     end
 end
 
+class SimpleEnemyDeathListener
+    def onDie
+    end
+end
 
 class SimpleEnemy < Creature
     # Maaap Mapp
-    def initialize(name, alive_description, dead_description, mesh )
+    def initialize(name, alive_description, dead_description, mesh, sound )
         super( name, alive_description );
 
         enemyActor = $AM.createMeshActor( name, mesh,  PhysicsManager::GT_BOX, 220.0 )
+        @soundActor = $AM.createSoundSampleActor( name+"_stirbt", sound )
+        @soundActor.getControlledObject.load()
+        @soundActor.getControlledObject.set3d(true)
         $SCRIPT.log("simpleenemy.rb - Aktor erstellt.")
         setActor( enemyActor )
         $SCRIPT.log("simpleenemy.rb - Aktor gesetzt")
@@ -31,6 +38,7 @@ class SimpleEnemy < Creature
         @killAction = SimpleEnemyKillAction.new  
         @alive = true
         @deadDescription = dead_description
+        @listeners = Array.new
         
         addAction(@killAction)
     end
@@ -51,13 +59,45 @@ class SimpleEnemy < Creature
 
     # Hier stirbt das Vieh
     def die
+        # Wir haben nen Sound
+        if( @soundActor != nil )
+            # Ist noch nicht in der Szene?
+            if( getActor().getChildByName( @soundActor.getName() ) == nil )
+                getActor().attach( @soundActor )
+            end
+            # Abspielen
+            @soundActor.getControlledObject().play()
+        end
         removeAction(@killAction)
         setDescription(@deadDescription)
-        p "arg, arfl *stirb*";
         @alive = false
+        # Listener benachrichtigen
+        @listeners.each { |l| l.onDie() }
     end
+
+    def addDeathListener( listener )
+        if( listener.kind_of? SimpleEnemyDeathListener )
+            @listeners.push(listener)
+        end
+    end
+
+    def removeDeathListener( listener )
+        @listeners.pop(listener)
+    end
+
 end
 
 
-#se = SimpleEnemy.new( "Wolf","Lebendiger Wolf","Toter Wolf","kiste.mesh");
-#se.getActor().placeIntoScene([1.40, 2.80, 2.20]) 
+# -----------------------------------------------------
+# 
+# class TextOnSimpleEnemyDeath < SimpleEnemyDeathListener
+#     def onDie
+#         p "argfL!!! *sterb*"
+#     end
+# end
+#
+# se = SimpleEnemy.new( "Wolf","Lebendiger Wolf","Toter Wolf","kiste.mesh","spinne_todesschrei_01.ogg");
+# se.getActor().placeIntoScene([1.40, 2.80, 2.20]) 
+# se.addDeathListener( TextOnSimpleEnemyDeath.new )
+#
+# -----------------------------------------------------
