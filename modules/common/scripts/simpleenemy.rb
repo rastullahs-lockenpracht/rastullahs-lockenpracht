@@ -28,7 +28,7 @@ class SimpleEnemy < Creature
     def initialize(name, alive_description, dead_description, mesh, sound )
         super( name, alive_description );
 
-        enemyActor = $AM.createMeshActor( name, mesh,  PhysicsManager::GT_BOX, 220.0 )
+        enemyActor = $AM.createMeshActor( name, mesh,  PhysicsManager::GT_ELLIPSOID, 30.0 )
         @soundActor = $AM.createSoundSampleActor( name+"_stirbt", sound )
         @soundActor.getControlledObject.load()
         @soundActor.getControlledObject.set3d(true)
@@ -71,6 +71,7 @@ class SimpleEnemy < Creature
         end
         removeAction(@killAction)
         setDescription(@deadDescription)
+        getActor().getControlledObject().stopAllAnimations()
         @alive = false
         # Listener benachrichtigen
         @listeners.each { |l| l.onDie() }

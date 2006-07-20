@@ -63,6 +63,8 @@ $SCRIPT.log("Mapchange: Kugel-Zentrum Actor in die Szene einfügen");
 kugelDings.placeIntoScene( [ 23.7184276580811, -36.9368743896484, 7.94406747817993] );
 
 require 'techdemo2_mapchange.rb'
+load "waldwoelfe.rb"
+
 #Erstellen mit 
 MapchangeListener = Td2LevelwechselListener.new("techdemo2map1_02.scene", "Techdemo2", "Techdemo2map1.rb"); 
 
