@@ -57,13 +57,6 @@ namespace rl
 		void addForce(const Ogre::Vector3& force);
 
 		/**
-		 * Apply the current force of the vehicle to a PhysicalThing
-		 * @param  thing physic object tthe force is apllied to
-		 * @param  elapsedTime time since last call
-		 */
-		void applySteeringForce(PhysicalThing* thing, const float elapsedTime);
-
-		/**
 		 * Random walking behaviour
 		 * The steering value is purely tangential (has no Forward component) 
 		 * and uses the x-axis only at the moment (2D wandering)

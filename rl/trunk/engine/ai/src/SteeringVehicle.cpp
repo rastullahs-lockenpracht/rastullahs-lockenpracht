@@ -32,7 +32,7 @@ SteeringVehicle::SteeringVehicle(Agent* parent, Actor* character)
 	  mCurrentForce(Vector3::ZERO), 
 	  mCurrentVelocity(Vector3::ZERO),
 	  mForwardVector(Vector3::NEGATIVE_UNIT_Z),
-      mYaw(),
+      mYaw(115),
 	  mParent(parent),
 	  mActor(character)
 {
@@ -50,6 +50,13 @@ void SteeringVehicle::resetLocalSpace()
 	setUp(OpenSteer::Vec3(0, 1, 0));
 	Vector3 pos = mActor->getPosition();
 	setPosition(Vec3(pos.x, pos.y, pos.z));
+	Vector3 src = mActor->getOrientation()*Vector3::NEGATIVE_UNIT_Z;
+	Quaternion orientation = mActor->getOrientation();
+	mYaw = orientation.getYaw();
+
+//  regenerate local space (by default: align vehicle's forward axis with
+//  new velocity, but this behavior may be overridden by derived classes.)
+	regenerateOrthonormalBasisUF ( Vec3(src.x, src.y, src.z) );
 }
 
 void SteeringVehicle::initialize(void)
@@ -57,7 +64,7 @@ void SteeringVehicle::initialize(void)
 //  reset LocalSpace state
 	resetLocalSpace();
 	
-	mActor->_getSceneNode()->setOrientation(Ogre::Quaternion::IDENTITY);
+//	mActor->_getSceneNode()->setOrientation(Ogre::Quaternion::IDENTITY);
 	Vector3 inertia;
 	mActor->getPhysicalThing()->_getBody()->getMassMatrix(mMass, inertia);
 
@@ -91,87 +98,10 @@ void SteeringVehicle::addForce(const Ogre::Vector3& force)
 {
 	mCurrentForce += force;
 }
-/*
-void SteeringVehicle::applySteeringForce(PhysicalThing* thing, const float elapsedTime)
-{
-	OgreNewt::Body* body = thing->_getBody();
-	Vector3 position;
-	Quaternion orientation;
-	body->getPositionOrientation(position, orientation);
-	setPosition(Vec3(position.x, position.y, position.z));
-	// get the charater mass
-	Vector3 inertia;
-	body->getMassMatrix(mMass, inertia);
-
-	// apply gravity
-	Vector3 force = mMass * Vector3(0.0f, -9.81f, 0.0f);
-
-	// Get the velocity vector
-	mCurrentVelocity = body->getVelocity();
-	mSpeed = mCurrentVelocity.length();
-	// Gravity is applied above, so not needed here
-	// prevent adding a counter force against gravity
-	if (mCurrentVelocity.y < 0.0f) mCurrentVelocity.y = 0.0f;
-
-	if(elapsedTime > 0.0f)
-	{
-		force += mMass*(orientation * mCurrentForce - mCurrentVelocity) / elapsedTime;
-	}
-	body->setForce(force);
-	// Calculate angular velocity
-	mYaw += Degree(mCurrentForce.x * 60.0 * elapsedTime);
-	// We first need the yaw rotation from actual yaw to desired yaw
-	Vector3 src = orientation*Vector3::NEGATIVE_UNIT_Z;
-	src.y = 0;
-	Vector3 dst = Quaternion(mYaw, Vector3::UNIT_Y)*Vector3::NEGATIVE_UNIT_Z;
-	dst.y = 0;
-	Radian yaw = src.getRotationTo(dst).getYaw();
-
-	// Calculate omega in order to go this rotation in mMaxDelay seconds.
-	Real newOmega = yaw.valueRadians() / (1.0/30.0);
-	body->setOmega(Vector3(0, newOmega, 0));
-	
-	mCurrentForce = Ogre::Vector3::ZERO;
-}
-*/
-
-Vec3 SteeringVehicle::adjustRawSteeringForce(const Vec3& force)
-{
-    const float maxAdjustedSpeed = 0.2f * maxSpeed ();
-
-    if ((speed () > maxAdjustedSpeed) || (force == Vec3::zero))
-    {
-        return force;
-    }
-    else
-    {
-        const float range = speed() / maxAdjustedSpeed;
-        // const float cosine = interpolate (pow (range, 6), 1.0f, -1.0f);
-        // const float cosine = interpolate (pow (range, 10), 1.0f, -1.0f);
-        // const float cosine = interpolate (pow (range, 20), 1.0f, -1.0f);
-        // const float cosine = interpolate (pow (range, 100), 1.0f, -1.0f);
-        // const float cosine = interpolate (pow (range, 50), 1.0f, -1.0f);
-        const float cosine = interpolate (pow (range, 20), 1.0f, -1.0f);
-        return limitMaxDeviationAngle (force, cosine, forward());
-    }
-}
 
 void SteeringVehicle::update(const float currentTime, const float elapsedTime)
 {
-//  do nothing if there is no force applied through steering behaviours
-	if(mCurrentForce == Ogre::Vector3::ZERO)
-	{
-		return;
-	}
 	OgreNewt::Body* body = mActor->getPhysicalThing()->_getBody();
-//	Vec3 aforce = adjustRawSteeringForce(Vec3(mCurrentForce.x, mCurrentForce.y, mCurrentForce.z)); 
-//	aforce = aforce.truncateLength (maxForce());
-//	aforce *=-1; // need for newton ?
-//	mCurrentForce = Vector3(aforce.x, aforce.y, aforce.z);
-	Vector3 position;
-	Quaternion orientation;
-	body->getPositionOrientation(position, orientation);
-	setPosition(Vec3(position.x, position.y, position.z));
 //  get the charater mass
 	Vector3 inertia;
 	body->getMassMatrix(mMass, inertia);
@@ -179,10 +109,10 @@ void SteeringVehicle::update(const float currentTime, const float elapsedTime)
 //  apply gravity
 	Vector3 force = mMass * PhysicsManager::getSingleton().getGravity();
 
-	// Get the velocity vector
+//  Get the velocity vector
 	mCurrentVelocity = body->getVelocity();
 
-	//setSpeed(mCurrentVelocity.length());
+//  setSpeed(mCurrentVelocity.length());
 	Vec3 newVelocity(mCurrentVelocity.x, mCurrentVelocity.y, mCurrentVelocity.z);
 //  enforce speed limit
 //  newVelocity = newVelocity.truncateLength(maxSpeed ());
@@ -193,33 +123,45 @@ void SteeringVehicle::update(const float currentTime, const float elapsedTime)
 //  prevent adding a counter force against gravity
 	if (mCurrentVelocity.y < 0.0f) mCurrentVelocity.y = 0.0f;
 
-// Calculate angular velocity
-	mYaw -= Degree(mCurrentForce.x * 60.0f * elapsedTime);
 
-	while (mYaw.valueDegrees() > 360.0f) mYaw -= Degree(360.0f);
-	while (mYaw.valueDegrees() < -360.0f) mYaw += Degree(360.0f);
-//  We first need the yaw rotation from actual yaw to desired yaw
-	Vector3 src = orientation*Vector3::NEGATIVE_UNIT_Z;
-	src.y = 0.0f;
-	Vector3 dst = Quaternion(mYaw, Vector3::UNIT_Y)*Vector3::NEGATIVE_UNIT_Z;
-	dst.y = 0.0f;
-	Radian yaw = src.getRotationTo(dst).getYaw();
-
-//  Calculate omega in order to go this rotation in mMaxDelay seconds.
-	Real newOmega = yaw.valueRadians() / (1.0f/30.0f);
-	body->setOmega(Vector3(0.0f, newOmega, 0.0f));
-
-	mCurrentForce.x = 0.0f;
+//	Vec3 aforce = adjustRawSteeringForce(Vec3(mCurrentForce.x, mCurrentForce.y, mCurrentForce.z)); 
+//	aforce = aforce.truncateLength (maxForce());
+//	aforce *=-1; // need for newton ?
+//	mCurrentForce = Vector3(aforce.x, aforce.y, aforce.z);
+	Vector3 temp;
+	Quaternion orientation;
+	body->getPositionOrientation(temp, orientation);
+	setPosition(Vec3(temp.x, temp.y, temp.z));
 	
-//  regenerate local space (by default: align vehicle's forward axis with
-//  new velocity, but this behavior may be overridden by derived classes.)
-	if (speed() > 0) regenerateOrthonormalBasisUF ( Vec3(dst.x, dst.y, dst.z) );
+//	if(mCurrentForce.x != 0.0f)
+//	{
+	// Calculate angular velocity
+		mYaw -= Degree(mCurrentForce.x * 60.0f * elapsedTime);
 
+		while (mYaw.valueDegrees() > 360.0f) mYaw -= Degree(360.0f);
+		while (mYaw.valueDegrees() < -360.0f) mYaw += Degree(360.0f);
+	//  We first need the yaw rotation from actual yaw to desired yaw
+		Vector3 src = orientation*Vector3::NEGATIVE_UNIT_Z;
+		src.y = 0.0f;
+		temp = Quaternion(mYaw, Vector3::UNIT_Y)*Vector3::NEGATIVE_UNIT_Z;
+		temp.y = 0.0f;
+		Radian yaw = src.getRotationTo(temp).getYaw();
+
+	//  Calculate omega in order to go this rotation in mMaxDelay seconds.
+		Real newOmega = yaw.valueRadians() / (1.0f/30.0f);
+		body->setOmega(Vector3(0.0f, newOmega, 0.0f));
+
+		mCurrentForce.x = 0.0f;
+//	}
 	if(elapsedTime > 0.0f)
 	{
 		force += mMass*(orientation * mCurrentForce - mCurrentVelocity) / elapsedTime;
 	}
 	body->setForce(force);
+
+//  regenerate local space (by default: align vehicle's forward axis with
+//  new velocity, but this behavior may be overridden by derived classes.)
+	if (speed() > 0) regenerateOrthonormalBasisUF ( Vec3(temp.x, temp.y, temp.z) );
 
 	mCurrentForce = Ogre::Vector3::ZERO;
 }
@@ -347,7 +289,26 @@ Vec3 SteeringVehicle::predictFuturePosition(const float predictionTime) const
 	return velocity() * predictionTime;
 }
 
+Vec3 SteeringVehicle::adjustRawSteeringForce(const Vec3& force)
+{
+    const float maxAdjustedSpeed = 0.2f * maxSpeed ();
 
+    if ((speed () > maxAdjustedSpeed) || (force == Vec3::zero))
+    {
+        return force;
+    }
+    else
+    {
+        const float range = speed() / maxAdjustedSpeed;
+        // const float cosine = interpolate (pow (range, 6), 1.0f, -1.0f);
+        // const float cosine = interpolate (pow (range, 10), 1.0f, -1.0f);
+        // const float cosine = interpolate (pow (range, 20), 1.0f, -1.0f);
+        // const float cosine = interpolate (pow (range, 100), 1.0f, -1.0f);
+        // const float cosine = interpolate (pow (range, 50), 1.0f, -1.0f);
+        const float cosine = interpolate (pow (range, 20), 1.0f, -1.0f);
+        return limitMaxDeviationAngle (force, cosine, forward());
+    }
+}
 /*
 void SteeringVehicle::measurePathCurvature (const float elapsedTime)
 {
