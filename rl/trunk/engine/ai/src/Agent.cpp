@@ -102,6 +102,16 @@ void Agent::addSteeringBehaviour(SteeringBehaviour* behaviour)
         "added SteeringBehaviour for Agent");
 }
 
+void Agent::clearSteeringBehaviours()
+{
+    mBehaviour->clearStates();
+    Logger::getSingleton().log(
+        Logger::AI, 
+        Logger::LL_MESSAGE, 
+        "Cleared all SteeringBehaviours for Agent");
+}
+
+
 void Agent::update(const float elapsedTime)
 {
 	mBehaviour->update(elapsedTime);
@@ -120,7 +130,8 @@ bool Agent::isDialogActive()
 {
 	if(mDialogBot == NULL)
 	{
-		Throw(NullPointerException, "No Dialogbot found");
+		// Throw(NullPointerException, "No Dialogbot found");
+        return false;
 	}
 	return mDialogBot->isActive();
 }

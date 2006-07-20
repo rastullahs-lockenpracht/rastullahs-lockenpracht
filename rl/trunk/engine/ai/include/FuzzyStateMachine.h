@@ -43,6 +43,16 @@ namespace rl
 		{
 			mStates.push_back(State(false, state));
 		}
+        virtual void clearStates()
+		{
+			typename StateList::iterator itr = mStates.begin();
+			for(; itr != mStates.begin(); ++itr)
+			{
+				delete itr->second;
+			}
+			mStates.clear();
+		}
+
 		virtual bool isActive(FuzzyStatePtr state)
 		{
 			return false; 

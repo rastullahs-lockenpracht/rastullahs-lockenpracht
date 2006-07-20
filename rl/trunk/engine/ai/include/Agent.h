@@ -47,6 +47,7 @@ namespace rl
 
 		void update(const float elapsedTime);
 		void addSteeringBehaviour(SteeringBehaviour* behaviour);
+        void clearSteeringBehaviours();
 
 		SteeringVehicle* getVehicle();
 //		PerceptionPool* getPerceptionPool();

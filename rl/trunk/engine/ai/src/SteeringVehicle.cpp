@@ -247,8 +247,12 @@ void SteeringVehicle::setAnimation(const CeGuiString& name)
 {
 	MeshObject* mesh = dynamic_cast<MeshObject*>(mActor->getControlledObject());
 	mesh->stopAllAnimations();
-	mesh->startAnimation(name.c_str());
-	mActor->getPhysicalThing()->fitToPose(name.c_str());
+    try
+    {
+	    mesh->startAnimation(name.c_str());
+	    mActor->getPhysicalThing()->fitToPose(name.c_str());
+    }
+    catch( ... ) { }
 }
 
 

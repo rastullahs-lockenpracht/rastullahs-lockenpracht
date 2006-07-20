@@ -67,8 +67,8 @@ namespace rl
 		float getActivationLevel();
 		void setActivationLevel(float activationLevel);
 
-		SteeringBehaviour* getParent();
-		SteeringVehicle* getController();
+		rl::SteeringBehaviour* getParent();
+		rl::SteeringVehicle* getController();
 	};
 	
 	class Agent
@@ -76,7 +76,8 @@ namespace rl
 	public:
 		Agent(rl::Creature* character);
 		virtual ~Agent();
-		void addSteeringBehaviour(SteeringBehaviour* behaviour);
+		void addSteeringBehaviour(rl::SteeringBehaviour* behaviour);
+		void clearSteeringBehaviours();
 		bool isDialogActive();
 	};
 	class AiSubsystem 
