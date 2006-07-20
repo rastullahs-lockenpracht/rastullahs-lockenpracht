@@ -13,43 +13,41 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
-#include "ScriptProcessor.h"
+#include "DialogScriptProcessor.h"
 #include "CoreSubsystem.h"
 #include "RubyInterpreter.h"
-#include "Exception.h"
 
 using namespace rl;
 
-ScriptProcessor::ScriptProcessor(void)
-	: XmlNodeProcessor<Response, AimlBot, CeGuiString, false>("script")
+DialogScriptProcessor::DialogScriptProcessor()
+	: XmlNodeProcessor<AimlBot, AimlCore, CeGuiString>("script")
 {
 	initialize();
 }
 
-ScriptProcessor::~ScriptProcessor(void)
+DialogScriptProcessor::~DialogScriptProcessor()
 {
 }
 
-void ScriptProcessor::initialize()
+void DialogScriptProcessor::initialize()
 {
 	addAttribute("src");
-	mProcessChildren = false;
+	addAttribute("class");
 }
 
-void ScriptProcessor::preprocessStep()
+void DialogScriptProcessor::preprocessStep()
 {
-	if( !(mAttributes["src"].empty()))
+	if( !(mAttributes["src"].empty() && mAttributes["class"].empty() ) )
 	{
 		CoreSubsystem::getSingleton().getRubyInterpreter()
 			->execute(("load \"" + mAttributes["src"] + "\"").c_str());
-		return;
+	//  create the string for instanciating the class
+		std::stringstream newDialogScriptObject;
+				newDialogScriptObject << "DialogSubsystem.getSingleton()";
+				newDialogScriptObject << ".setCurrentDialogCharacter(";
+				newDialogScriptObject << mAttributes["class"].c_str() << ".new())";
+				// execute the ruby command
+				CoreSubsystem::getSingleton().getRubyInterpreter()
+					->execute(newDialogScriptObject.str());
 	}
-	if(mCurrentNode->getFirstChild() == NULL)
-	{
-		Throw(NullPointerException, "no text node found in script tag");
-	}
-	// execute the value of the text node
-	CoreSubsystem::getSingleton().getRubyInterpreter()
-		->execute(mCurrentNode->getFirstChild()->getNodeValue().c_str());
-
 }

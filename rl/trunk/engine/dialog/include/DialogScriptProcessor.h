@@ -13,8 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
-#ifndef __Rl_ScriptProcessor_H__
-#define __Rl_ScriptProcessor_H__
+#ifndef __Rl_DialogScriptProcessor_H__
+#define __Rl_DialogScriptProcessor_H__
 
 #include "XmlMapper/XmlNodeProcessor.h"
 #include "DialogPrerequisites.h"
@@ -28,12 +28,12 @@ namespace rl
 	/**
 	 * Load a DialogCharacter script
 	 */
-	class ScriptProcessor
-			: public XmlNodeProcessor<Response, AimlBot, CeGuiString, false>
+	class DialogScriptProcessor
+			: public XmlNodeProcessor<AimlBot, AimlCore, CeGuiString>
 	{
 	public:
-		ScriptProcessor();
-		~ScriptProcessor();
+		DialogScriptProcessor();
+		~DialogScriptProcessor();
 		void preprocessStep();
 		void processChildStep(XmlNode<CeGuiString>* pChild){}
 		void postprocessStep(){}

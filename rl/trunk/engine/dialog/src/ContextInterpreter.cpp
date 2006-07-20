@@ -15,6 +15,7 @@
  */
 #include "ContextInterpreter.h"
 #include "ContextConditionProcessor.h"
+#include "ScriptProcessor.h"
 #include "DialogResponse.h"
 #include "DialogOption.h"
 #include "AimlBot.h"
@@ -181,4 +182,5 @@ Response<CeGuiString> ContextInterpreter
 void ContextInterpreter::initialize()
 {
 	addProcessor(new ContextConditionProcessor());
+	addProcessor(new ScriptProcessor());
 }

@@ -26,6 +26,7 @@
 #include "AimlParserImplRl.h"
 #include "DialogCharacter.h"
 #include "ScriptProcessor.h"
+#include "DialogScriptProcessor.h"
 #include "ContextInterpreter.h"
 
 using namespace Ogre;
@@ -72,7 +73,8 @@ DialogSubsystem::~DialogSubsystem()
 void DialogSubsystem::initialize()
 {
 	mCore->setParser(new AimlParserImplRl());
-	mCore->getBotInterpreter().addProcessor(new ScriptProcessor());
+	mCore->getBotInterpreter().addProcessor(new DialogScriptProcessor());
+	mCore->getAimlInterpreter().addProcessor(new ScriptProcessor());
 //  Initialize Xerces if this wasn't done already
 	try 
 	{
