@@ -16,5 +16,5 @@ forrest.addAction(TalkAction.new("Forrest", "forrest.xml"));
 agent = $AI.createAgent(bot);
 agent.addSteeringBehaviour(DefaultWanderBehaviour.new);
 agent.addSteeringBehaviour(AvoidObstaclesBehaviour.new);
-agent.addSteeringBehaviour(DialogBehaviour.new($hero.getActor()));
+agent.addSteeringBehaviour(DialogBehaviour.new($heroVehicle));
 print("Forrest fertig geladen");

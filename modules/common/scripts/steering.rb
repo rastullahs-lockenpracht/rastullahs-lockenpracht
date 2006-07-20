@@ -39,7 +39,7 @@ class DefaultWanderBehaviour < SteeringBehaviour
 			setActivationLevel(1.0);
 		end
 		if(getController().needAvoidance(5.0))
-			setActivationLevel(getActivationLevel()*0.0);
+			setActivationLevel(getActivationLevel()*5.0);
 		end
 		return getActivationLevel();
 	end
@@ -54,7 +54,7 @@ class DefaultIdleBehaviour < SteeringBehaviour
 	end
 	
 	def getType()
-		return "wander"
+		return "idle"
 	end
 	
 	def init()
@@ -68,7 +68,6 @@ class DefaultIdleBehaviour < SteeringBehaviour
 	end
 		
 	def update(elapsedTime)
-		#getController().setAnimation("idle");
 	end
 	
 	def deactivate()
@@ -81,7 +80,7 @@ class DefaultIdleBehaviour < SteeringBehaviour
 			setActivationLevel(1.0);
 		end
 		if(getController().needAvoidance(5.0))
-			setActivationLevel(getActivationLevel()*0.5);
+			setActivationLevel(getActivationLevel()*0.0);
 		end
 		return getActivationLevel();
 	end
@@ -114,7 +113,7 @@ class DialogBehaviour < SteeringBehaviour
 	end
 		
 	def update(elapsedTime)
-		if (!getController().isAhead(@mPlayer, 0.9)) #getController().calcDistance(@mPlayer.getVehicle().getPosition(), getController().getPosition()) > 2.5)
+		if (!getController().isAhead(@mPlayer, 0.7)) #getController().calcDistance(@mPlayer.getVehicle().getPosition(), getController().getPosition()) > 2.5)
 			getController().addForce(getController().calcPursuit(@mPlayer) * getActivationLevel() * 5.0);
 		else
 			if (@mTalk == false)
