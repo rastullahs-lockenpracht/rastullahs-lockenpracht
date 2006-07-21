@@ -58,7 +58,7 @@
 				<pattern>3333</pattern>
 				<template>
 					<gossip rldialog:type="response">
-						<li rldialog:id="wolfram004.ogg">Oh, ach.. achso. Stimmt. Ich hatte es schon beinahe wieder vergessen. Gut, dass wir darüber geredet haben. Ich danke Euch, Ulrike[sic!], auch für das Paket. Mögen...</li>
+						<li rldialog:id="wolfram004.ogg">Oh, ach.. achso. Stimmt. Ich hatte es schon beinahe wieder vergessen. Gut, dass wir darüber geredet haben. Ich danke Euch, Ulrike, auch für das Paket. Mögen...</li>
 					</gossip>
 					<gossip rldialog:type="option">
 						<li rldialog:id="alrike017.ogg" rldialog:patternRef ="33333">Halt! Was habt ihr vergessen? Ihr müsst es mir erst erzählen.</li>
