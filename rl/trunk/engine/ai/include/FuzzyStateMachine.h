@@ -31,12 +31,7 @@ namespace rl
 
 		virtual ~FuzzyStateMachine(void)
 		{
-			typename StateList::iterator itr = mStates.begin();
-			for(; itr != mStates.begin(); ++itr)
-			{
-				delete itr->second;
-			}
-			mStates.clear();
+			clearStates();
 		}
 
 		virtual void addState(FuzzyStatePtr state)

@@ -18,6 +18,8 @@
 #include "AgentManager.h"
 #include "Logger.h"
 #include "GameLoop.h"
+#include "CoreSubsystem.h"
+#include "World.h"
 
 using namespace Ogre;
 
@@ -54,6 +56,8 @@ void AiSubsystem::initialize()
 {
 	mAgentManager = new AgentManager();
 	mWorld = new AiWorld();
+
+    CoreSubsystem::getSingletonPtr()->getWorld()->addSceneChangeListener(this);
 	GameLoopManager::getSingleton().addSynchronizedTask(AgentManager::getSingletonPtr(),
 		FRAME_STARTED);
 }
