@@ -377,7 +377,7 @@ namespace rl
         // Adjust the node offset to fit the new form.
         _setOffset(size.getCenter());
 
-        Logger::getSingleton().log(Logger::CORE, Logger::LL_CRITICAL,
+        Logger::getSingleton().log(Logger::CORE, Logger::LL_MESSAGE,
             mActor->getName() + ": fit_to_pose " + name +
             "\nDefaultSize: " +
                 StringConverter::toString(def_size.getMinimum()) + " / " +
