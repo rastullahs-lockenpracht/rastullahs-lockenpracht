@@ -22,6 +22,8 @@ using namespace Ogre;
 
 namespace rl
 {
+    const Ogre::Real MathUtil::EPSILON = 0.00001f;
+
     Ogre::Vector3 MathUtil::sphericalToCartesian(Ogre::Real r,
         Ogre::Radian azimuth, Ogre::Radian altitude)
     {

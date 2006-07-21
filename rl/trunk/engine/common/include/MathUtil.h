@@ -24,6 +24,8 @@ namespace rl {
 class _RlCommonExport MathUtil
 {
     public:
+        static const Ogre::Real EPSILON;
+
         static Ogre::Vector3 sphericalToCartesian(Ogre::Real r,
             Ogre::Radian azimuth, Ogre::Radian altitude);
 
@@ -31,6 +33,5 @@ class _RlCommonExport MathUtil
             Ogre::Radian& azimuth, Ogre::Radian& altitude);
         static Ogre::Real normaliseAngle(Ogre::Real angle);
 };
-
 }
 #endif

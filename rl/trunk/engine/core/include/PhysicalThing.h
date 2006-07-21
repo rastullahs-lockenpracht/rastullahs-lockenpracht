@@ -85,6 +85,7 @@ namespace rl {
         void unfreeze();
 
         Ogre::Real getMass() const;
+        void setMass(Ogre::Real mass);
 
         /** Called to update the collision of the physical thing, in order to adapt
          *  to a new animation state.

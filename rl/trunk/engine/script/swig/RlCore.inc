@@ -562,6 +562,7 @@ public:
         Ogre::Real x = 0.0f, Ogre::Real y = 0.0f, Ogre::Real z = 0.0f);
         
     Ogre::Real getMass() const;
+    void setMass(Ogre::Real mass);
     
     void updateCollisionHull();
 

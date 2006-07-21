@@ -20,6 +20,7 @@
 #include "Actor.h"
 #include "Exception.h"
 #include "PhysicalObject.h"
+#include "MathUtil.h"
 
 using namespace OgreNewt;
 using namespace OgreNewt::CollisionPrimitives;
@@ -210,6 +211,12 @@ namespace rl
         return mMass;
     }
 
+    void PhysicalThing::setMass(Ogre::Real mass)
+    {
+        mMass = mass;
+        mBody->setMass(mass);
+    }
+
 	PhysicsManager::GeometryTypes PhysicalThing::_getGeometryType() const
 	{
 		return mGeometryType;
@@ -331,6 +338,8 @@ namespace rl
 
     void PhysicalThing::fitToPose(const Ogre::String& name)
     {
+        AxisAlignedBox def_size = mPhysicalObject->getDefaultSize();
+        
         // Do we already have a collision for the wanted pose?
         CollisionMap::iterator it = mPoseCollisions.find(name);
 
@@ -361,9 +370,24 @@ namespace rl
         Quaternion orientation;
         Vector3 pos;
         mBody->getPositionOrientation(pos, orientation);
-        mBody->setPositionOrientation(pos + Vector3(0, yoffset, 0), orientation);
+        Vector3 newpos = pos + Vector3(0, yoffset, 0);
+        mBody->setPositionOrientation(newpos, orientation);
 
+        Vector3 oldoffset = mOffset;
         // Adjust the node offset to fit the new form.
         _setOffset(size.getCenter());
+
+        Logger::getSingleton().log(Logger::CORE, Logger::LL_CRITICAL,
+            mActor->getName() + ": fit_to_pose " + name +
+            "\nDefaultSize: " +
+                StringConverter::toString(def_size.getMinimum()) + " / " +
+                StringConverter::toString(def_size.getMaximum()) +
+            String("\nold pos: ") + StringConverter::toString(pos) +
+            String("\nnew pos: ") + StringConverter::toString(newpos) +
+            String("\nnew size: ") +
+                StringConverter::toString(size.getMinimum()) + " / " +
+                StringConverter::toString(size.getMaximum()) +
+            String("\nold offset: ") + StringConverter::toString(oldoffset) +
+            String("\nnew offset: ") + StringConverter::toString(mOffset));
     }
 }
