@@ -13,7 +13,7 @@ schmetterling2.placeIntoScene(11.82, -6.50, 43.04, 1.0, 0.0, 0.0, 0.0);
 schmetter2Anim = schmetterling2.getControlledObject().startAnimation("idle");
 schmetter2Anim.setSpeed( 1.25 );
 
-hase = $AM.createMeshActor("Fussballhase", "tie_hase_braun.mesh", PhysicsManager::GT_MESH, 3.0 );
+hase = $AM.createMeshActor("Fussballhase", "tie_hase_braun.mesh", PhysicsManager::GT_BOX, 3.0 );
 hase.placeIntoScene(14.9, -9.1, 42.5, 1.0, 0.0, 0.0, 0.0);
 #hase.getControlledObject().startAnimation("idle"); 
 
