@@ -69,7 +69,17 @@ namespace rl {
 		mNumActiveWindowsAllInput(0),
 		mPickObjects(false),
         mTargetedObject(NULL),
-		mScheduledInputSwitch(SWITCH_NO_SWITCH)
+		mScheduledInputSwitch(SWITCH_NO_SWITCH),
+        mKeyListeners(),
+        mMouseListeners(),
+        mMouseMotionListeners(),
+        mInputReader( NULL ),
+        mTargetedObjectTime(0),
+        mKeyMapNormal(),
+		mKeyMapShift(),
+	    mKeyMapAlt(),
+		mKeyNames(),
+        mCharacterController( NULL )
 	{
         for(int i=0; i<NUM_KEYS; i++)
             mKeyDown[i] = false;
