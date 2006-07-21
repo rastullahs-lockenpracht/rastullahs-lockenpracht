@@ -65,7 +65,7 @@ hauptQuest.addSubquest(
 	Quest.new(
 		"hauptquest6",
 		"Der alte Mann aus dem Wald",
-		"Kehre ins Dorf zurück und berichte Sonja von deinen Erfolgen"))	
+		"Kehre zurück zu Sonja und berichtet ihr von deinen Erfolgen"))	
 
 
 wolframQuest = 
@@ -82,6 +82,13 @@ paketQuest =
 		"Bringt Jarns Paket zu Wolfram, aber geht vorsichtig damit um!")
 questBook.addQuest(paketQuest)
 
+
+TurmEingangQuest = 
+	Quest.new(
+		"TurmEingang",
+		"TurmEingangs Zone",
+		"Ein internes Quest statt globaler Variable")
+questBook.addQuest(TurmEingangQuest)
 
 aufenthaltsortQuest = 
 	Quest.new(
@@ -120,24 +127,12 @@ RulesSubsystem.getSingleton().getQuestBook().getQuest("aufenthaltsort").setState
 		questBook = RulesSubsystem.getSingleton().getQuestBook()
 		questBook.addJournalEntry("Probleme mit Wilden Tieren V",
 		"Nun ist es raus: Der alte Mann aus dem Wald hetzt die Wölfe auf die Dorfbewohner! Allein diese Tatsache ist unheimlich genug und kann schon nicht mit den Zwölfen gefällen Dingen zugehen. Ich werde in den Wald gehen und ihn festsetzen, notfalls mit Gewalt. Dieser Verrückte ist eine Gefahr für die Öffentlichkeit. ");
-
-		questBook = RulesSubsystem.getSingleton().getQuestBook()
-		questBook.addJournalEntry("Der alte Mann aus dem Wald I",
-		"Der verlassene Turm, von dem mir erzählt wurde, ist ganz in der Nähe. Ich kann ihn über den Baumwipfeln schon sehen. Hier sollte ich wieder vorsichtiger sein. Wer weiß auf welche Weise mit der alte Kauz auflauern wird.\
-		Sobald ich ihn sehe werde ich ihn fangen und festsetzen. Das wichtigste ist jetzt die Sicherheit der Dorfbewohner, und die ist nur gewährleistet wenn der Alte Mann unschädlich gemacht worden ist.");
-
-		questBook = RulesSubsystem.getSingleton().getQuestBook()
-		questBook.addJournalEntry("Der alte Mann aus dem Wald II",
-		"Geschafft! Als ich auf ihn traf setzte er sich zur Wehr und ich mußte in kampfunfähig machen. So wird er zumindest niemanden mehr belästigen. Ich denke, nun wird sich der Wald, und damit auch die Wölfe, wieder beruhigen.");
-
+		
 	#Wolf Böse
 		questBook = RulesSubsystem.getSingleton().getQuestBook()
 		questBook.addJournalEntry("Der alte Mann aus dem Wald I",
 		"Es ist eindeutig: Seit der alte Mann aus dem Wald hier nicht mehr gesehen wurde haben die Wolfübergriffe eingesetzt. Er muß sie vorher auf eine rechtschaffende Weise vom Dorf ferngehalten haben um die Bewohner zu schützen und nun ist etwas geschehen, was ihn davon abhält. Ich sollte in den Wald gehen und nach dem rechten sehen. Aber ich sollte vorsichtig sein, immerhin gibt es dort Wölfe, die nicht davor scheuen in ein Dorf voller Menschen zu kommen.");
 
-		questBook = RulesSubsystem.getSingleton().getQuestBook()
-		questBook.addJournalEntry("Der alte Mann aus dem Wald II",
-		"Geschafft! Ein großer Wolf hatte den Vermissten angefallen und ihn im Turm festgesetzt, wo ich ihn verwundet und fiebrig fand. Ich musste den Wolf töten und habe den alten Mann notdürftig versorgt. Ich sollte nun ins Dorf zurückkehren und alles berichten, die Dorfbewohner können sich dann um alles weitere kümmern, nun wo der Weg wieder frei ist.");
 
 
 #Nebenquests
