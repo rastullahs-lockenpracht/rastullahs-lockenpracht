@@ -36,7 +36,8 @@ namespace rl {
 		mCamera(camera),
 		mCharacterActor(character),
 		mCamBody(0),
-		mCharBody(0)
+		mCharBody(0),
+        mCommandMapper(NULL)
 	{
 		if (mCamera == 0)
 		{
@@ -71,7 +72,9 @@ namespace rl {
 	}
     
     CharacterController::~CharacterController()
-    {}
+    {
+    
+    }
 
 	void CharacterController::setCommandMapper(CommandMapper* commandMapper)
 	{

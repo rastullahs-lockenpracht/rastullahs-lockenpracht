@@ -83,6 +83,7 @@ namespace rl {
 		mCameraJammedFrameCount(0),
 		mCameraJammedTime(0.0f),
 		mRaycast(new PhysicsMaterialRaycast()),
+        mSelection( NULL ),
 		mGravitation()
 	{
         DebugWindow::getSingleton().registerPage(msDebugWindowPageName);
@@ -125,6 +126,7 @@ namespace rl {
 	//------------------------------------------------------------------------
 	MovementCharacterController::~MovementCharacterController()
 	{
+        delete mRaycast;
 		// actors aren't controlled anymore
 		PhysicsManager::getSingleton().setPhysicsController(
 			mCharacterActor->getPhysicalThing(), NULL);
