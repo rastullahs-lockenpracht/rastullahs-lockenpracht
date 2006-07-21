@@ -69,9 +69,33 @@ void RL_RubyRemoveTracking(void* ptr)
 #endif
 
 %feature("director:except") {
-	int status = -1;
-    rb_eval_string_protect("print $!", &status);
-	Throw(rl::ScriptInvocationFailedException, string("Es ist eine Ausnahme in Ruby aufgetreten. ") + StringValuePtr($error) );
+	stringstream stream;	
+	VALUE lasterr = rb_gv_get("$!");
+
+    // class
+    VALUE klass = rb_class_path(CLASS_OF(lasterr));
+    stream << RSTRING(klass)->ptr << " ("; 
+
+    // message
+    VALUE message = rb_obj_as_string(lasterr);
+    stream << RSTRING(message)->ptr << ") " << endl;
+
+    // backtrace
+    if(!NIL_P(ruby_errinfo)) 
+    {
+		stream << "Callstack: [ ";
+        VALUE ary = rb_funcall(
+            ruby_errinfo, rb_intern("backtrace"), 0);
+        int c;
+        for (c=RARRAY(ary)->len; c>0; c--) {     
+            stream <<  RSTRING(RARRAY(ary)->ptr[c-1])->ptr;
+            if( c > 1 )
+				stream << ", "; 
+        }
+        stream << "]";
+    }
+        
+	Throw(rl::ScriptInvocationFailedException, stream.str() );
 }
 
 namespace Swig {
