@@ -80,16 +80,8 @@ $SCRIPT.log("NSCs geladen");
 
 $SCRIPT.log("Weiteres laden");
 load( "viecher.rb" );
+#load( "buchDK.rb" );
 $SCRIPT.log("Weiteres geladen");
-
-
-# Erster Journal-Eintrag. Demo und Test.
-questBook = RulesSubsystem.getSingleton().getQuestBook()
-questBook.addJournalEntry("Ankunft im Dorf",
-"Ich bin in einem kleinen Dorf angekommen.\
- Alle sehen gleich aus, laufen schief durch die Gegend und stellen Türen\
- mitten in die Landschaft. Inzucht wie sie im Buche steht.\
- Oje, was mich hier erwarten wird...");
 
 #******** mapchange - abhängig vom Questzustand **********
 $SCRIPT.log("Mapchange: Kugel-Zentrum Actor erstellen");
