@@ -115,8 +115,7 @@ namespace rl {
 		anim = dynamic_cast<MeshAnimation*>
             (AnimationManager::getSingleton().getAnimation(animState));
         if( anim == NULL )
-            anim = dynamic_cast<MeshAnimation*>(
-            AnimationManager::getSingleton().addMeshAnimation(animState,this,1.0,0,true));
+            anim = AnimationManager::getSingleton().addMeshAnimation(animState,this,1.0,0,true);
 
 		return anim;
 	}

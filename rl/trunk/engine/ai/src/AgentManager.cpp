@@ -114,7 +114,8 @@ void AgentManager::removeAllAgents()
     for(AgentList::iterator itr = mAgents.begin(); itr != mAgents.end(); ++itr)
     {
         delete (*itr);
-	}
-	mAllNeighbors.clear();
-	mPlayer = NULL;
+    }
+    mAgents.clear();
+    mAllNeighbors.clear();
+    mPlayer = NULL;
 }

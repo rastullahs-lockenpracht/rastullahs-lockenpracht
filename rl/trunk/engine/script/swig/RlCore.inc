@@ -36,6 +36,11 @@ DYNAMIC_CAST(SWIGTYPE_p_rl__GameAreaType, GameAreaType_dynamic_cast);
 static swig_type_info *BaseAnimation_dynamic_cast(void **ptr) {
     rl::BaseAnimation **ppBaseAnimation = reinterpret_cast<rl::BaseAnimation **>(ptr);
     
+    rl::FadeAnimation *pFadeAnimation = dynamic_cast<rl::FadeAnimation*>(*ppBaseAnimation);
+    if(pFadeAnimation){
+      *ptr=reinterpret_cast<void*>(pFadeAnimation);
+      return SWIGTYPE_p_rl__FadeAnimation;
+    }    
     rl::MeshAnimation *pMeshAnimation = dynamic_cast<rl::MeshAnimation*>(*ppBaseAnimation);
     if(pMeshAnimation){
       *ptr=reinterpret_cast<void*>(pMeshAnimation);
