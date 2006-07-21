@@ -171,6 +171,19 @@ void Body::setMassMatrix( Ogre::Real mass, const Ogre::Vector3& inertia )
 		NewtonBodySetMassMatrix( m_body, (float)mass, (float)inertia.x, (float)inertia.y, (float)inertia.z );
 }
 
+void Body::setMass(Ogre::Real mass)
+{
+	if (m_body)
+    {
+        Vector3 center = Vector3::ZERO;
+        Vector3 inertia = Vector3::ZERO;
+        NewtonConvexCollisionCalculateInertialMatrix(m_collision->getNewtonCollision(),
+            &inertia.x, &center.x);
+        NewtonBodySetMassMatrix(m_body, (float)mass,
+            (float)inertia.x, (float)inertia.y, (float)inertia.z);
+    }
+}
+
 // basic gravity callback
 void Body::setStandardForceCallback()
 {

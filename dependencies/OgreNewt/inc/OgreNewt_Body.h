@@ -179,6 +179,11 @@ public:
 	*/
 	void setMassMatrix( Ogre::Real mass, const Ogre::Vector3& inertia );
 
+	/** set mass of body and calculate inertia automatically,
+     *  for a solid body of the collision's shape.
+     */
+    void setMass(Ogre::Real mass);
+
 	//! set the body's center of mass
 	/*!
 		Set a new center of mass for the body that is different than the current, without offsetting the body.
