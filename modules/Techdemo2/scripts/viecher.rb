@@ -24,8 +24,6 @@ hase.placeIntoScene(14.9, -9.1, 42.5, 1.0, 0.0, 0.0, 0.0);
 #Bauern
 $SCRIPT.log("Unterhaltung1 laden");
 unterhaltung1 = $AM.createSoundSampleActor( "unterhaltung1", "bauern_001.ogg" ); 
-$SCRIPT.log(" Volumen");
-unterhaltung1.getControlledObject().setVolume( 0.5 )
 unterhaltung1.getControlledObject().set3d(true);
 $SCRIPT.log(" Loopen");
 unterhaltung1.getControlledObject().setLooping( true );
@@ -33,6 +31,9 @@ $SCRIPT.log(" Setzen");
 unterhaltung1.placeIntoScene([-27.19, -6.0, -0.89]);
 $SCRIPT.log(" Abspielen");
 unterhaltung1.getControlledObject().play();
+$SCRIPT.log(" Volumen");
+unterhaltung1.getControlledObject().setVolume( 0.7 )
+
 $SCRIPT.log("Unterhaltung1 fertig");
 
 print("Alle Viecher fertig geladen");

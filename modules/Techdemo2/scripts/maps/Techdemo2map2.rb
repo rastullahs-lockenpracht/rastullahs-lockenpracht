@@ -45,7 +45,7 @@ ruchinsRuhe = $AM.createSoundSampleActor( "ruchinsRuhe", "ruchin002.ogg" );
 ruchinsRuhe.getControlledObject().set3d(false);
 $SCRIPT.log(" Loopen");
 ruchinsRuhe.getControlledObject().setLooping( true );
-$SCRIPT.log(" Abspielen");
+$SCRIPT.log(" Laden");
 ruchinsRuhe.getControlledObject().load();
 $SCRIPT.log("Ruchins Ruche -Thema fertig");
 
@@ -54,9 +54,54 @@ kampfMusik = $AM.createSoundSampleActor( "kampfMusik", "ruchin004.ogg" );
 kampfMusik.getControlledObject().set3d(false);
 $SCRIPT.log(" Loopen");
 kampfMusik.getControlledObject().setLooping( true );
-$SCRIPT.log(" Abspielen");
+$SCRIPT.log(" Laden");
 kampfMusik.getControlledObject().load();
 $SCRIPT.log("Kampf -Thema fertig");
+
+$SCRIPT.log("Wind laden");
+wind = $AM.createSoundSampleActor( "wind", "wind_hintergrund_001.ogg" ); 
+wind.getControlledObject().set3d(false);
+$SCRIPT.log(" Loopen");
+wind.getControlledObject().setLooping( true );
+$SCRIPT.log(" Abspielen");
+wind.getControlledObject().play();
+$SCRIPT.log(" Volumen");
+wind.getControlledObject().setVolume( 0.15 )
+
+windBoee = $AM.createSoundSampleActor( "windBoee", "wind_boee_001.ogg" ); 
+windBoee.getControlledObject().set3d(true);
+$SCRIPT.log(" Loopen");
+windBoee.getControlledObject().setLooping( true );
+$SCRIPT.log(" Setzen");
+windBoee.placeIntoScene([12.97, -58.20, -220.37]);
+$SCRIPT.log(" Abspielen");
+windBoee.getControlledObject().play();
+$SCRIPT.log(" Volumen");
+windBoee.getControlledObject().setVolume( 1.0 )
+
+windBaum2 = $AM.createSoundSampleActor( "windBaum2", "wind_baumrascheln_001.ogg" ); 
+windBaum2.getControlledObject().set3d(true);
+$SCRIPT.log(" Loopen");
+windBaum2.getControlledObject().setLooping( true );
+$SCRIPT.log(" Setzen");
+windBaum2.placeIntoScene([-12.51, -65.07, -89.64]);
+$SCRIPT.log(" Abspielen");
+windBaum2.getControlledObject().play();
+$SCRIPT.log(" Volumen");
+windBaum2.getControlledObject().setVolume( 0.7 )
+
+windBaum = $AM.createSoundSampleActor( "windBaum", "wind_baumrascheln_001.ogg" ); 
+windBaum.getControlledObject().set3d(true);
+$SCRIPT.log(" Loopen");
+windBaum.getControlledObject().setLooping( true );
+$SCRIPT.log(" Setzen");
+windBaum.placeIntoScene([-17.36, -73.56, -124.78]);
+$SCRIPT.log(" Abspielen");
+windBaum.getControlledObject().play();
+$SCRIPT.log(" Volumen");
+windBaum.getControlledObject().setVolume( 0.7 )
+$SCRIPT.log("Wind fertig");
+
 
 
 $SCRIPT.log("Held erstellen");
