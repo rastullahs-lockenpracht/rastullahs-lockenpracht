@@ -220,6 +220,10 @@ void AnimationManager::removeAnimation(Ogre::AnimationState* animState)
 
 FadeAnimation* AnimationManager::fadeAnimation( MeshAnimation* from, MeshAnimation* to, Ogre::Real time )
 {
+    RlAssert( from != NULL, "StartAnimation must not be NULL!" );
+    RlAssert( to != NULL, "EndAnimation must not be NULL!" );
+    RlAssert( time > 0.0, "Time must be greater then zero");
+
     FadeAnimation* anim = new FadeAnimation();
     
     anim->addAnimation(from,0.0,time,1.0,0.0);
@@ -234,6 +238,11 @@ FadeAnimation* AnimationManager::fadeAnimation( MeshAnimation* from, MeshAnimati
 FadeAnimation* AnimationManager::fadeAnimation( MeshAnimation* fromLoop, 
     MeshAnimation* blendAnim, MeshAnimation* toLoop, Ogre::Real loopDuration )
 {
+    RlAssert( fromLoop != NULL, "StartAnimation must not be NULL!" );
+    RlAssert( blendAnim != NULL, "LoopAnimation must not be NULL!" );
+    RlAssert( toLoop != NULL, "EndAnimation must not be NULL!" );
+    RlAssert( loopDuration > 0.0, "Time must be greater then zero");
+
     FadeAnimation* anim = new FadeAnimation();
     
     if( loopDuration <= 0.0 )

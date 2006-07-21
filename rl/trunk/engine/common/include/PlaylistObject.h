@@ -31,7 +31,7 @@ public:
 	/// Konstruktor
 	PlaylistObject();
 	/// Destruktor
-	~PlaylistObject();
+	virtual ~PlaylistObject();
 	/// Objekt laden, einrichten etc.
 	virtual void load();
 	/// Objekt entladen, abbauen etc.

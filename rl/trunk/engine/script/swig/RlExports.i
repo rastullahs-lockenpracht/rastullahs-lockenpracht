@@ -35,6 +35,10 @@ VALUE RL_RubyInstanceFor(void* ptr)
 {
 	return SWIG_RubyInstanceFor(ptr);
 }
+void RL_RubyRemoveTracking(void* ptr) 
+{
+	return SWIG_RubyRemoveTracking(ptr);
+}
 %}
 
 

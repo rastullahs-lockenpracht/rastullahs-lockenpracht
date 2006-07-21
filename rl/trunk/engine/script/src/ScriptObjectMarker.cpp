@@ -17,6 +17,7 @@
 #include "ScriptObjectMarker.h"
 
 extern VALUE RL_RubyInstanceFor(void* ptr);
+extern void RL_RubyRemoveTracking(void* ptr);
 
 #include "Exception.h"
 
@@ -136,6 +137,8 @@ namespace rl {
 
 			// Aus dem RubyArray löschen
 			rb_ary_delete(mRubyArray, val );
+
+            RL_RubyRemoveTracking( ptr );
 
 			RData* test = RDATA( val );
 			/// @todo altes klass löschen? Wie denn nur, ist nen VALUE

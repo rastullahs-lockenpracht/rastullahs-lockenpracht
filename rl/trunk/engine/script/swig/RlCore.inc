@@ -281,6 +281,9 @@ private:
 class FadeAnimation : public BaseAnimation {
 private:
 	FadeAnimation(  ); 
+public:
+	bool isDeleteOnFinish() const;
+	void setDeleteOnFinish( bool deleteOnFinish );
 };
 
 class MeshAnimation : public BaseAnimation {
