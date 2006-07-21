@@ -47,7 +47,7 @@ $SCRIPT.log("Held erstellen");
 $hero = Hero.new;
 $SCRIPT.log("Held erstellt");
 $SCRIPT.log("Held in die Szene einfuegen.");#-22.0130577087402, -6.70670890808105, 25.1438484191895
-$hero.getActor().placeIntoScene(-22.0130577087402, -6.70670890808105, 25.1438484191895, 1.0, 0.0, 0.0, 0.0);
+$hero.getActor().placeIntoScene([ -67.5761337280273, -5.58534526824951, 35.5633811950684]);
 $SCRIPT.log("Held eingefügt.");
 PlayerSettings.preparePlayer($hero);
 $SCRIPT.log("Held vorbereitet.");
