@@ -28,8 +28,9 @@ unterhaltung1.getControlledObject().set3d(true);
 $SCRIPT.log(" Loopen");
 unterhaltung1.getControlledObject().setLooping( true );
 $SCRIPT.log(" Setzen");
-unterhaltung1.placeIntoScene([-27.19, -6.0, -0.89]);
+unterhaltung1.placeIntoScene([-27.26, -6.49, -0.80]);
 $SCRIPT.log(" Abspielen");
+unterhaltung1.getControlledObject().set3d(true);
 unterhaltung1.getControlledObject().play();
 $SCRIPT.log(" Volumen");
 unterhaltung1.getControlledObject().setVolume( 0.7 )
