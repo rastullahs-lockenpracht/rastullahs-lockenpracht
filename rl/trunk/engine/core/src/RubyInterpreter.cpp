@@ -38,117 +38,122 @@ RubyInterpreter::RubyInterpreter()
 
 RubyInterpreter::~RubyInterpreter()
 {
-	// ruby_finalize();
+
 }
 
 void RubyInterpreter::initializeInterpreter()
 {
-	//Ruby Initialisieren
-	ruby_init();
+    //Ruby Initialisieren
+    ruby_init();
 
     // UTF 8 aktivieren
     execute( "$KCODE = 'u'" );
 
-	//Skript-Verzeichnisse der  Dateien duerfen auch in /script liegen
-	ModuleMap modules = CoreSubsystem::getSingleton().getAllModules();
-	for (ModuleMap::iterator iter = modules.begin(); iter != modules.end(); iter++)
-	{
-		ContentModule* mod = (*iter).second;
-		//wir suchen die Scripte im modules Verzeichnis relativ zum ModuleRootPath!
-		addSearchPath(mod->getDirectory() + "/conf");
-		addSearchPath(mod->getDirectory() + "/scripts");
-		addSearchPath(mod->getDirectory() + "/scripts/maps");
-	}
-	
-	ruby_init_loadpath();
-	//Skriptname
-	ruby_script("Rastullah");
-	// Fuer Ruby .dll oder .so dazu laden
-	
-	loadProtected(&RubyInterpreter::loadDlls, 0, "Ruby error while loading dlls");
+    //Skript-Verzeichnisse der  Dateien duerfen auch in /script liegen
+    ModuleMap modules = CoreSubsystem::getSingleton().getAllModules();
+    for (ModuleMap::iterator iter = modules.begin(); iter != modules.end(); iter++)
+    {
+        ContentModule* mod = (*iter).second;
+        //wir suchen die Scripte im modules Verzeichnis relativ zum ModuleRootPath!
+        addSearchPath(mod->getDirectory() + "/conf");
+        addSearchPath(mod->getDirectory() + "/scripts");
+        addSearchPath(mod->getDirectory() + "/scripts/maps");
+    }
+    
+    ruby_init_loadpath();
+    //Skriptname
+    ruby_script("Rastullah");
+    // Fuer Ruby .dll oder .so dazu laden
+    
+    loadProtected(&RubyInterpreter::loadDlls, 0, "Ruby error while loading dlls");
 }
 
 
+void RubyInterpreter::finalizeInterpreter()
+{
+    ruby_finalize();
+}
+
 void RubyInterpreter::setOutputFunction(staticValueMethod func)
 {
-	//Ersetzt die Standard-Ausgabe von Ruby durch Ausgaben in die Console
-	rb_defout = rb_str_new("", 0);
-	// Eigentlich nicht mehr notwendig, aber ohne das gibts nen Absturz?!?!
+    //Ersetzt die Standard-Ausgabe von Ruby durch Ausgaben in die Console
+    rb_defout = rb_str_new("", 0);
+    // Eigentlich nicht mehr notwendig, aber ohne das gibts nen Absturz?!?!
     // rb_define_singleton_method(rb_defout, "write", (VALUE(*)(...))console_write, 1);
-	rb_define_singleton_method(rb_defout, "write", func, 1);
+    rb_define_singleton_method(rb_defout, "write", func, 1);
 }
 
 void RubyInterpreter::addSearchPath(const String& path)
 {
-	ruby_incpush(path.c_str());
+    ruby_incpush(path.c_str());
 }
 
 VALUE RubyInterpreter::loadDlls(VALUE val)
 {
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-	rb_require("RlScript");
+    rb_require("RlScript");
 #else
     rb_require("libRlScript");
 #endif
 
-	return Qnil;
+    return Qnil;
 }
 
 void RubyInterpreter::loadProtected(ProtectedMethod func, VALUE val, const std::string& msg, bool exitOnFail)
 {
-	int error = 0;
-	rb_protect(func, val, &error);
-	logRubyErrors("Ruby error while initializing", error);
+    int error = 0;
+    rb_protect(func, val, &error);
+    logRubyErrors("Ruby error while initializing", error);
 }
 
 void RubyInterpreter::logRubyErrors(const std::string& intro, int errorcode)
 {
-	if(errorcode != 0) 
-	{
-		VALUE info = rb_inspect(ruby_errinfo);
-		rb_backtrace();
-		if (intro.length() > 0)
-			Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, intro);
-		Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, STR2CSTR(info));
-	}
+    if(errorcode != 0) 
+    {
+        VALUE info = rb_inspect(ruby_errinfo);
+        rb_backtrace();
+        if (intro.length() > 0)
+            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, intro);
+        Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, STR2CSTR(info));
+    }
 }
 
 bool RubyInterpreter::execute(const String& command)
 {
-	int status = -1;
+    int status = -1;
 
-	Logger::getSingleton().log(Logger::CORE, Logger::LL_MESSAGE, command, "RubyInterpreter::execute" );
-	rb_eval_string_protect(command.c_str(), &status);
+    Logger::getSingleton().log(Logger::CORE, Logger::LL_MESSAGE, command, "RubyInterpreter::execute" );
+    rb_eval_string_protect(command.c_str(), &status);
 
-	logRubyErrors("", status);
+    logRubyErrors("", status);
 
     if( status )
-	{
+    {
         rb_eval_string_protect("print $!", &status);
-		return false;
-	}
+        return false;
+    }
 
-	return true;
+    return true;
 }
 
 bool RubyInterpreter::executeFile(String rubyfile)
 {
-	bool error = execute("load '" + rubyfile + "'");
-	if (CoreSubsystem::getSingleton().isInitialized())
-	{
-		execute("load 'checkerrors.rb'");
-	}
-	return error;
+    bool error = execute("load '" + rubyfile + "'");
+    if (CoreSubsystem::getSingleton().isInitialized())
+    {
+        execute("load 'checkerrors.rb'");
+    }
+    return error;
 }
 
 CeGuiString RubyInterpreter::val2ceguistr(const VALUE rval)
 {
-	return CeGuiString(
-		(CEGUI::utf8*)STR2CSTR(
-			rb_funcall(
-				rval, 
-				rb_intern("to_s"), 
-				0)));
+    return CeGuiString(
+        (CEGUI::utf8*)STR2CSTR(
+            rb_funcall(
+                rval, 
+                rb_intern("to_s"), 
+                0)));
 }
 
 }

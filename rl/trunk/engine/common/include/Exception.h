@@ -135,17 +135,18 @@ namespace rl {
 
       virtual std::string toString()
       {
-         char* lineStr = new char[2048];
-         _snprintf(lineStr, 2048, "In Datei %s, Zeile %d, Funktion %s\n\
-trat folgende Ausnahme vom Typ %s auf\n\
------------------------------------------------------------------------\n\
-%s",
-            getFile().c_str(),
-            getLine(),
-            getFunction().c_str(),
-            getType().c_str(),
-            getMessage().c_str() );
-         return std::string(lineStr);
+         std::stringstream lineStream;
+
+         lineStream 
+             << "In Datei " 
+             << getFile().c_str() 
+             << ",  Zeile " << getLine()
+             << ", Funktion " << getFunction().c_str()
+             << "\ntrat folgende Ausnahme vom Typ " << getType().c_str() 
+             << " auf\n-----------------------------------------------------------------------\n"
+             << getMessage().c_str();
+
+         return lineStream.str();
       }
    };
 

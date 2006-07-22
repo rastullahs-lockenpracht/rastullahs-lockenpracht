@@ -152,6 +152,7 @@ namespace rl {
 					keyReleased(static_cast<KeyEvent*>(ie));
 				else if(ie->getID() == KeyEvent::KE_KEY_CLICKED)
 					keyClicked(static_cast<KeyEvent*>(ie));
+                delete ie;
 			}			
 		}
 

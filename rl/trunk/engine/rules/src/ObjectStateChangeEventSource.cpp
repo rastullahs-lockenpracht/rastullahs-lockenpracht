@@ -45,6 +45,7 @@ namespace rl {
 		ObjectStateChangeEvent* evt = new ObjectStateChangeEvent(this);
 		evt->setProvokingObject(mObject);
 		mObjectStateChangeEventCaster.dispatchEvent(evt);
+        delete evt;
 	}
 
     void ObjectStateChangeEventSource::addObjectStateChangeListener( ObjectStateChangeListener*  list )

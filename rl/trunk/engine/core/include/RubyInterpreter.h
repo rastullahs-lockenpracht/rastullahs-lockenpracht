@@ -34,6 +34,7 @@ public:
 	virtual ~RubyInterpreter();
 
 	void initializeInterpreter();
+    void finalizeInterpreter();
 	void setOutputFunction(staticValueMethod func);
 
 	bool execute(const Ogre::String& command);
