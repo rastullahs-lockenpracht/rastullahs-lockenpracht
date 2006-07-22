@@ -10,6 +10,7 @@ bower = Creature.new("Ein Bauer", "Ein Bauer. Er ist im Gespräch vertieft und l
 bower.setActor( bowerActor );
  
 bowerActor.placeIntoScene(-27.10, -6.5, -0.32, 1.0, 0.0, 0.0, 0.0);
-bowerActor.getControlledObject().startAnimation("reden");
+bowerAnim = bowerActor.getControlledObject().startAnimation("reden");
+bowerAnim.setSpeed( 0.9 );
 
 print( "Bauer fertig geladen" );
