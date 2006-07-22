@@ -25,6 +25,7 @@ namespace Ogre
 	using namespace rl;
 
 	Fmod3Driver* fmod3driver;
+    Fmod3Config* fmod3config;
 
 	//Called from Ogre's dynload when loading plugins
 	extern "C" void dllStartPlugin( void )
@@ -35,8 +36,9 @@ namespace Ogre
 		// Register driver
 		SoundManager::getSingleton().registerDriver(fmod3driver);
 
+        fmod3config = new Fmod3Config(fmod3driver);
 		// Register config window
-		WindowFactory::getSingleton().registerSoundConfigWindow(new Fmod3Config(fmod3driver));
+		WindowFactory::getSingleton().registerSoundConfigWindow(fmod3config);
 	}
 
 	//Called when unloading plugins
@@ -44,5 +46,6 @@ namespace Ogre
 	{
 		//Just delete the driver :P
 		delete fmod3driver;
+        delete fmod3config;
 	}
 }

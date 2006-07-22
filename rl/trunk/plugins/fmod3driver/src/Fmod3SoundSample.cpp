@@ -89,6 +89,7 @@ void Fmod3SoundSample::load() throw (RuntimeException)
         mSample = FSOUND_Sample_Load(FSOUND_FREE, data, mode,
             0, len);
     }
+    delete[] data;
 }
 
 /**
