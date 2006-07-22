@@ -22,16 +22,17 @@ struct VS_OUTPUT
 
 VS_OUTPUT vs_main( VS_INPUT Input )
 {
-   VS_OUTPUT Output;
+    VS_OUTPUT Output;
 
-   Output.Position         = mul( matWorldViewProjection, Input.Position );
-   Output.Texcoord         = Input.Texcoord;
+    float3 lightDir = normalize(vLightPosition.xyz -  (Input.Position * vLightPosition.w));
 
-   // Light the vertex
-   float3 lightDir = normalize(vLightPosition.xyz -  (Input.Position * vLightPosition.w));
-   float NdotL = clamp( dot( normalize( Input.Normal ), lightDir ), 0.0, 1.0);
-   Output.Color = saturate( ( cAmbientLight * cMaterialAmbient ) + ( cLightDiffuse * cMaterialDiffuse * NdotL ) );
-   return( Output );
+    // Move to World
+    float NdotL = clamp( dot( normalize( Input.Normal ), lightDir ), 0.0, 1.0);
+    Output.Position         = mul( matWorldViewProjection, Input.Position );
+    Output.Texcoord         = Input.Texcoord;
+    // Light the vertex
+    Output.Color = saturate( ( cAmbientLight * cMaterialAmbient ) + ( cLightDiffuse * cMaterialDiffuse * NdotL ) );
+    return( Output );
 }
 
 float scaleBase;

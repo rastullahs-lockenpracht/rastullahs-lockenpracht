@@ -16,7 +16,7 @@ material wuesten_alphamap : Splatting3NoDetailVertexPhong
 				param_named scaleBaseG float 0.05
 			}
 
-			fragment_program_ref dxSplatting3NoDetailVertexPhong_FP
+			vertex_program_ref dxSplatting3NoDetailVertexPhong_VP
 			{
 				param_named cMaterialAmbient  float4 0.6 0.6 0.6 1
 				param_named cMaterialDiffuse  float4 0.5 0.5 0.5 1
