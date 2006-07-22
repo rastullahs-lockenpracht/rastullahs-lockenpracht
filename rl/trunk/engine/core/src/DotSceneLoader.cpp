@@ -14,7 +14,7 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 #include <xercesc/framework/LocalFileInputSource.hpp>
-#include <xercesc/parsers/XercesDOMParser.hpp>
+
 #include <xercesc/dom/DOM.hpp>
 #include <xercesc/util/XMLString.hpp>
 #include <xercesc/util/PlatformUtils.hpp>
@@ -28,7 +28,7 @@
 #include "ConfigurationManager.h"
 
 #include "XmlHelper.h"
-#include "XmlResourceManager.h"
+
 
 #include "Exception.h"
 
@@ -47,14 +47,17 @@ namespace rl {
 		  mStaticNodes(),
 		  mRenderingDistance( ActorManager::getSingleton().getDefaultActorRenderingDistance() ),
 		  mStaticgeomRenderingDistances(),
-		  mStaticgeomBatchSizes()
+		  mStaticgeomBatchSizes(),
+          mRessource(NULL),
+          mParser(NULL)
 	{
         srand(static_cast<unsigned int>(time(NULL)));
 	}
 
 	DotSceneLoader::~DotSceneLoader()
-	{
+	{      
         XmlResourceManager::getSingleton().unload(mSceneName);
+        XmlResourceManager::getSingleton().remove( mRessource->getHandle() );
 	}
 
 	void DotSceneLoader::initializeScene(SceneManager* sceneManager)
@@ -121,25 +124,27 @@ namespace rl {
         }
         else
             Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, " Keine statischen Geometrien erstellt" );
-
-		doc->release();
+        
+		//doc->release();
+        delete mParser;
 		XMLPlatformUtils::Terminate();		
 		Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, "Szenenbeschreibung aus " + mSceneName +" fertig geparst" );
 	}
 
 	DOMDocument* DotSceneLoader::openSceneFile( )
 	{
-
-		XercesDOMParser* parser = new XercesDOMParser();
-        parser->setValidationScheme(XercesDOMParser::Val_Always);
-        parser->setDoNamespaces(true);
+		mParser = new XercesDOMParser();
+        mParser->setValidationScheme(XercesDOMParser::Val_Always);
+        mParser->setDoNamespaces(true);
 		
-		XmlPtr res = 
+		mRessource = 
 			XmlResourceManager::getSingleton().create(
 			mSceneName, 
 			mResourceGroup);
-		res.getPointer()->parseBy(parser);
-		return parser->getDocument();
+		mRessource.getPointer()->parseBy(mParser);
+		DOMDocument* doc = mParser->getDocument();
+
+        return doc;
 	}
 
 	// Iteriert durch die einzelnen Nodes

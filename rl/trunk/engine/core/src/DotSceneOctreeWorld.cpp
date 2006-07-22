@@ -37,8 +37,7 @@ namespace rl {
 
     DotSceneOctreeWorld::~DotSceneOctreeWorld()
     {
-        if( mSceneFile.length() != 0 )
-            clearScene();
+        clearScene();
     }
 
     void DotSceneOctreeWorld::initializeDefaultCamera(void)
@@ -65,30 +64,41 @@ namespace rl {
     }
 
     void DotSceneOctreeWorld::loadScene(const String& levelName, const String& module)
-    {
+    {   
+        // Alte Szene löschen
+        clearScene();
+
         mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_MODULATIVE);
         mSceneMgr->setShadowTextureSize(1024);
         mSceneMgr->setShadowColour(ColourValue(0.7, 0.7, 0.7));
         mSceneMgr->setShadowFarDistance(8.0f);
         mSceneMgr->setShadowDirLightTextureOffset(0.8f);
 
-        if( mSceneFile.length() != 0 )
-            clearScene();
-
         // Leerer String, keine Map laden
-        if( levelName.length() == 0 )
-            return;
-
-        /// TODO - In den Sky-Sonnenpart verschieben
-        mSceneMgr->setAmbientLight(ColourValue(0.55, 0.55, 0.55));
-
-        DotSceneLoader* dot = new DotSceneLoader(levelName, module);
-        dot->initializeScene(mSceneMgr);
-        delete dot;
-        mSceneFile = levelName;
+        if( levelName.length()  )
+        {
+            /// TODO - In den Sky-Sonnenpart verschieben
+            mSceneMgr->setAmbientLight(ColourValue(0.55, 0.55, 0.55));
+            mSceneFile = levelName;
+            
+            DotSceneLoader* dot = NULL;
+            try
+            {
+                dot = new DotSceneLoader( mSceneFile, module );
+                dot->initializeScene( mSceneMgr );
+            }
+            catch( ... )
+            {
+                Logger::getSingleton().log(Logger::CORE, Logger::LL_CRITICAL, 
+                    "Laden der Szenenbeschreibung aus '" + mSceneFile + "' ist fehlgeschlagen." );
+                delete dot;
+            }
+            delete dot;
+        }
+        else
+            mSceneFile = "";
 
         initializeDefaultCamera();
-
         fireAfterSceneLoaded();
     }
 
@@ -98,15 +108,12 @@ namespace rl {
 
         // This is necessary to destroy cameras too.
         Ogre::Root::getSingleton().getAutoCreatedWindow()->removeAllViewports();
-
         ActorManager::getSingleton().destroyAllActors();
-
         mSceneMgr->clearScene();
-
-
         PhysicsManager::getSingleton().clearLevelGeometry();
+
         mSceneFile = "";
-        mCamera = 0;
+        mCamera = NULL;
     }
 
     void DotSceneOctreeWorld::setCastShadows(bool enabled)

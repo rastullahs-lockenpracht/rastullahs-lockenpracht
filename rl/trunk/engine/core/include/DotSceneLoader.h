@@ -17,12 +17,15 @@
 #ifndef __DotSceneLoader_H__
 #define __DotSceneLoader_H__
 
+#include <xercesc/parsers/XercesDOMParser.hpp>
 #include <xercesc/dom/DOMDocument.hpp>
 #include <xercesc/dom/DOMElement.hpp>
 
 #include <OgreSceneNode.h>
 #include <string>
 #include <map>
+
+#include "XmlResourceManager.h"
 
 namespace rl {
 
@@ -52,8 +55,6 @@ namespace rl {
             bool is_dynamic;
 			bool is_inheriting;
         };
-
-		
 
 
 		/// Öffnen der XML-Ressource
@@ -107,6 +108,11 @@ namespace rl {
 		const std::string mSceneName;
         /// ResourceGroup der dotscene-Resource
         const std::string mResourceGroup;
+
+        /// The Ressource
+        XmlPtr mRessource;
+        // The Parser
+        XERCES_CPP_NAMESPACE::XercesDOMParser* mParser;
 	};
 
 }
