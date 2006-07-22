@@ -34,7 +34,10 @@ namespace rl
 		mInventory(NULL),
 		mEigenschaften(),
 		mWerte(),
-		mTalente()
+		mTalente(),
+        mKampftechniken(),
+        mSonderfertigkeiten(),
+        mContainer()
     {
 		setWert(WERT_MOD_AE, 0);
 		setWert(WERT_MOD_LE, 0);
@@ -64,6 +67,23 @@ namespace rl
 		if (mInventory){
 			delete mInventory;
 		}
+
+        for( WertMap::iterator it=mWerte.begin();it!=mWerte.end(); it++ )
+            delete it->second;
+        mWerte.clear();
+        for( EigenschaftMap::iterator it=mEigenschaften.begin();it!=mEigenschaften.end(); it++ )
+            delete it->second;
+        mEigenschaften.clear();
+        for( TalentMap::iterator it=mTalente.begin();it!=mTalente.end(); it++ )
+            delete it->second;
+        mTalente.clear();
+        mKampftechniken.clear();
+        for( SonderfertigkeitMap::iterator it=mSonderfertigkeiten.begin();it!=mSonderfertigkeiten.end(); it++ )
+            delete it->second;
+        mSonderfertigkeiten.clear();
+        for( ContainerMap::iterator it=mContainer.begin();it!=mContainer.end(); it++ )
+            delete it->second;
+        mContainer.clear();
     }
 
     int Creature::getAttackeBasis()

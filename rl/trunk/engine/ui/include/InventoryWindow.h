@@ -117,6 +117,8 @@ namespace rl {
 		CEGUI::Texture* mTexture;
 		CEGUI::Imageset* mImageSet;
 
+        InventoryArrangeTask* mInventoryArrangeTask;
+
 		// Das Item-Renderfenster
 		CEGUI::StaticImage* mItemRenderImage;
 

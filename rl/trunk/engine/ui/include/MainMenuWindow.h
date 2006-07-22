@@ -29,6 +29,7 @@ namespace rl {
 	{
 	public:
 		MainMenuWindow(MainMenuEngineWindow* enginewindow);
+        virtual ~MainMenuWindow();
 
 		void setActiveModule(const CeGuiString& module);
 		void setVisible(bool visible, bool destroyAfterHide = false);

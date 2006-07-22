@@ -90,7 +90,9 @@ namespace rl {
             mPhysicalThing->_setActor(0);
             mPhysicalThing = NULL;
         }
+
         /// @todo Highlightmaterial entfernen
+        delete mDescription;
     }
 
     void Actor::setGameObject(Ogre::UserDefinedObject* uo)
@@ -716,6 +718,7 @@ namespace rl {
             //getControlledObject()->setHighlighted(highlight);
             mHighlighted = highlight;
         }
+
         if (mHighlighted && mDescription == NULL)
         {
 			if (mSceneNode != NULL)

@@ -93,6 +93,7 @@ namespace rl {
 		}
 
 		mTimerEventCaster.dispatchEvent(evt);
+        delete evt;
 	}
 
     void TimerEventSource::addTimerListener( TimerListener*  list )

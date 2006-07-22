@@ -59,7 +59,7 @@ class _RlCoreExport SoundManager : public Ogre::ResourceManager,
         /// Eine Resource erzeugen
         /// Konstruktor
         SoundManager();
-		~SoundManager();
+		virtual ~SoundManager();
         /// Alle Sounds in die Resourcenliste eintragen.
 		virtual void addSounds(const Ogre::String& groupName = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
         /// erzeugt einen Sound und fügt ihn hinzufuegen (Mit Mutex mittelbar)

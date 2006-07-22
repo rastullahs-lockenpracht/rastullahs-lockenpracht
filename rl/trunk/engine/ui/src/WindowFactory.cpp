@@ -67,7 +67,8 @@ namespace rl {
 
 	WindowFactory::WindowFactory()
 		: mShownObject(NULL),
-		  mObjectNameText(NULL)
+		  mObjectNameText(NULL),
+          mMainMenuWindow(NULL)
 	{
 		mConsole = new Console();
 		mDebugWindow = new DebugWindow();
@@ -87,11 +88,13 @@ namespace rl {
 		mInfoPopup = new InfoPopup();
 		mObjectDescriptionWindow = new ObjectDescriptionWindow();
 		mSoundConfig = new SoundConfig();
-
+        mCloseConfirmationWindow = 0;
+        
 		RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mJournalWindow);
 		RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mInfoPopup);
         mDataLoadingProgressWindow = new DataLoadingProgressWindow();
 		CoreSubsystem::getSingleton().addCoreEventListener(mDataLoadingProgressWindow);
+        mMainMenuWindow = new MainMenuWindow( new MainMenuEngineWindow() );
 	}
 
 	WindowFactory::~WindowFactory()
@@ -112,6 +115,9 @@ namespace rl {
         delete mTargetSelectionWindow;
 		delete mDebugWindow;
 		delete mConsole;
+        delete mMainMenuWindow;
+        delete mCloseConfirmationWindow;
+        delete mSoundConfig;
 	}
 
 	WindowFactory& WindowFactory::getSingleton()
@@ -163,7 +169,7 @@ namespace rl {
 
 	void WindowFactory::showMainMenu()
 	{
-		(new MainMenuWindow(new MainMenuEngineWindow()))->setVisible(true);
+		mMainMenuWindow->setVisible(true);
 	}
 
 	void WindowFactory::showTargetWindow()
@@ -193,7 +199,8 @@ namespace rl {
 		{
 			mInventoryWindow->setVisible(false);
 		}
-		else if (UiSubsystem::getSingleton().getActiveCharacter() != NULL){
+		else if (UiSubsystem::getSingleton().getActiveCharacter() != NULL)
+        {
 			mInventoryWindow->setInventory(UiSubsystem::getSingleton().getActiveCharacter()->getInventory());
 			mInventoryWindow->setVisible(true);
 		}
@@ -286,8 +293,12 @@ namespace rl {
 
 	void WindowFactory::showExitConfirmation()
     {
-		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "Start", "UiSubsystem::requestExit");
-		(new CloseConfirmationWindow())->setVisible(true);
+        if( mCloseConfirmationWindow != NULL )
+            delete mCloseConfirmationWindow;
+        
+        mCloseConfirmationWindow = new CloseConfirmationWindow();
+		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "Start", "UiSubsystem::requestExit");         
+		mCloseConfirmationWindow->setVisible(true);
 	}
 
 	void WindowFactory::writeToConsole(Ogre::String text)

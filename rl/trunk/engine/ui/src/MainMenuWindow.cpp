@@ -51,6 +51,11 @@ namespace rl {
 		fillModules();
 	}
 
+    MainMenuWindow::~MainMenuWindow()
+    {
+        delete mEngineWindow;
+    }
+
 	void MainMenuWindow::fillModules()
 	{
 		MenuBase* modulesMenu = getMenu("MainMenu/Modules/Menu");

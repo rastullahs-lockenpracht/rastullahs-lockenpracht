@@ -213,6 +213,7 @@ using namespace Ogre;
     
     AsynchronousGameLoop::~AsynchronousGameLoop()
     {
+        PlatformManager::getSingleton().destroyTimer( mTimer );
         mIsDeleted = true;
         delete mThread;
     }

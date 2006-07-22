@@ -102,7 +102,7 @@ namespace rl {
 		CeGuiString id = XmlHelper::getAttributeValueAsString(weaponXml,"ID");
 
 		// Image fürs Inventar
-		CeGuiString imageName = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(weaponXml, "Bildname"));
+		CeGuiString imageName = XmlHelper::getValueAsString(XmlHelper::getChildNamed(weaponXml, "Bildname"));
 
 		// Größe im Inventar
 		int size_x = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(weaponXml, "Größe"),"X");
@@ -218,7 +218,7 @@ namespace rl {
 		CeGuiString id = XmlHelper::getAttributeValueAsString(armorXml,"ID");
 
 		// Image fürs Inventar
-		CeGuiString imageName = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(armorXml, "Bildname"));
+		CeGuiString imageName = XmlHelper::getValueAsString(XmlHelper::getChildNamed(armorXml, "Bildname"));
 		// Mesh für das Spiel
 		DOMElement* meshNode = XmlHelper::getChildNamed(armorXml, "Mesh");
 		CeGuiString mesh = "";
@@ -226,7 +226,7 @@ namespace rl {
 		{
 			mesh = XmlHelper::getValueAsString(meshNode);
 		}
-		CeGuiString typeString = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(armorXml, "Klasse"));
+		CeGuiString typeString = XmlHelper::getValueAsString(XmlHelper::getChildNamed(armorXml, "Klasse"));
 		Item::ItemType type = static_cast<Item::ItemType>(getItemTypeFromString(typeString));
 
 		// Größe im Inventar
@@ -316,7 +316,7 @@ namespace rl {
 		CeGuiString id = XmlHelper::getAttributeValueAsString(itemXml,"ID");
 
 		// Image fürs Inventar
-		CeGuiString imageName = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(itemXml, "Bildname"));
+		CeGuiString imageName = XmlHelper::getValueAsString(XmlHelper::getChildNamed(itemXml, "Bildname"));
 		// Mesh für das Spiel
 		DOMElement* meshNode = XmlHelper::getChildNamed(itemXml, "Mesh");
 		CeGuiString mesh = "";
@@ -324,7 +324,7 @@ namespace rl {
 		{
 			mesh = XmlHelper::getValueAsString(meshNode);
 		}
-		CeGuiString typeString = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(itemXml, "Klasse"));
+		CeGuiString typeString = XmlHelper::getValueAsString(XmlHelper::getChildNamed(itemXml, "Klasse"));
 		Item::ItemType type = static_cast<Item::ItemType>(getItemTypeFromString(typeString));
 
 		// Größe im Inventar
@@ -423,9 +423,9 @@ namespace rl {
 		AutoXMLCh EIGENSCHAFT = "Eigenschaft";
 		
 		CeGuiString name = 
-			XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(personXml, "Name"));
+			XmlHelper::getValueAsString(XmlHelper::getChildNamed(personXml, "Name"));
 		CeGuiString desc = 
-			XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(personXml, "Beschreibung"));
+			XmlHelper::getValueAsString(XmlHelper::getChildNamed(personXml, "Beschreibung"));
 
 		Person* rval = new Person(name, desc);
 

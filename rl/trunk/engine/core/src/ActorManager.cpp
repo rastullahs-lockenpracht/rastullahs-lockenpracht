@@ -491,6 +491,7 @@ namespace rl {
                 selectableObjects.push_back(actor);
             }
         }
+        getWorld()->getSceneManager()->destroyQuery( query );
         //Die auswählbaren Objekte zurückgeben
         return selectableObjects;
     }

@@ -109,6 +109,7 @@ namespace rl {
 		mTrousers(NULL),
 		mShinbone(NULL),
 		mBoots(NULL),
+        mInventoryArrangeTask(),
 		mGroundDimension(make_pair<int,int>(12,15))
 	{
 		initSlots();
@@ -117,7 +118,8 @@ namespace rl {
 		mWindow->subscribeEvent(FrameWindow::EventCloseClicked,
 			boost::bind(&InventoryWindow::handleClose, this));
 
-		GameLoopManager::getSingletonPtr()->addSynchronizedTask(new InventoryArrangeTask(), FRAME_ENDED);
+        mInventoryArrangeTask = new InventoryArrangeTask();
+		GameLoopManager::getSingletonPtr()->addSynchronizedTask(mInventoryArrangeTask, FRAME_ENDED);
 	}
 	
 	InventoryWindow::~InventoryWindow()
@@ -125,6 +127,8 @@ namespace rl {
 		/*if(mBackpackContent){
 			mBackpackContent->destroy();
 		}*/
+        delete mInventoryArrangeTask;
+        delete mGroundItem;
 	}
 
 

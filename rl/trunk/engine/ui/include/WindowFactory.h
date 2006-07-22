@@ -56,7 +56,8 @@ namespace rl {
 	class SoundDriverConfigWindow;
     class TargetSelectionWindow;
 	class WindowUpdater;
-    
+    class MainMenuWindow;
+    class CloseConfirmationWindow;
 
 	class _RlUiExport WindowFactory : public Ogre::Singleton<WindowFactory>
 	{
@@ -138,6 +139,8 @@ namespace rl {
         TargetSelectionWindow* mTargetSelectionWindow;
         DataLoadingProgressWindow* mDataLoadingProgressWindow;
 		SoundConfig* mSoundConfig;
+        MainMenuWindow* mMainMenuWindow;
+        CloseConfirmationWindow* mCloseConfirmationWindow;
 	};
 }
 

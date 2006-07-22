@@ -38,7 +38,7 @@ RubyInterpreter::RubyInterpreter()
 
 RubyInterpreter::~RubyInterpreter()
 {
-	ruby_finalize();
+	// ruby_finalize();
 }
 
 void RubyInterpreter::initializeInterpreter()

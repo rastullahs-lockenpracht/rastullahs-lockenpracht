@@ -28,7 +28,6 @@ namespace rl {
 	MainMenuEngineWindow::MainMenuEngineWindow() :
 		CeGuiWindow("mainmenuenginewindow.xml", WND_SHOW, true)
 	{
-
 		getWindow("MainMenu/EngineVersion")->setText(
 			ConfigurationManager::getSingleton().getEngineVersionString()+
 			" ("+StringConverter::toString(ConfigurationManager::getSingleton().getEngineBuildNumber())+")");

@@ -249,6 +249,9 @@ void SoundManager::setActiveDriver(SoundDriver *driver)
 			CeGuiString("Soundtreiber wird gewechselt zu ")
              + driver->getName());
     }
+    if( mActiveDriver != NULL )
+        delete mActiveDriver;
+
     mActiveDriver = driver;
     if (mActiveDriver != NULL)
     {

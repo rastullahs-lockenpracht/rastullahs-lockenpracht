@@ -106,6 +106,7 @@ namespace rl {
         delete mConfigurationManager;
 		delete mSoundManager;
         delete mOgreRoot;		
+        delete mRubyInterpreter;
 	}
 
     void CoreSubsystem::startCore()

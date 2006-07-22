@@ -254,7 +254,7 @@ namespace rl {
 		}
 
 		entity->removeSoftwareAnimationRequest(false);
-
+        delete saveAss;
 		return aabb;
 	}
 

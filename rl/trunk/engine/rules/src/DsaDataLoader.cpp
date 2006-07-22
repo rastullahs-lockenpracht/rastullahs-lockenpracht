@@ -93,9 +93,9 @@ namespace rl {
 
     Talent* DsaDataLoader::processTalent(int gruppe, DOMElement* talentXml)
     {
-		CeGuiString desc = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(talentXml, "Beschreibung"));
-        CeGuiString probe = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(talentXml, "Probe"));
-        CeGuiString art = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(talentXml, "Art"));
+		CeGuiString desc = XmlHelper::getValueAsString(XmlHelper::getChildNamed(talentXml, "Beschreibung"));
+        CeGuiString probe = XmlHelper::getValueAsString(XmlHelper::getChildNamed(talentXml, "Probe"));
+        CeGuiString art = XmlHelper::getValueAsString(XmlHelper::getChildNamed(talentXml, "Art"));
 		DOMElement* eBeNode = XmlHelper::getChildNamed(talentXml, "eBE");
 		int ebe = EBE_KEINE_BE;
         if (eBeNode != NULL)
@@ -161,8 +161,8 @@ namespace rl {
 
 	Kampftechnik* DsaDataLoader::processKampftechnik(DOMElement* kampftechnikXml)
 	{
-		CeGuiString desc = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(kampftechnikXml, "Beschreibung"));
-		CeGuiString art = XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(kampftechnikXml, "Art"));
+		CeGuiString desc = XmlHelper::getValueAsString(XmlHelper::getChildNamed(kampftechnikXml, "Beschreibung"));
+		CeGuiString art = XmlHelper::getValueAsString(XmlHelper::getChildNamed(kampftechnikXml, "Art"));
 		DOMElement* eBeNode = XmlHelper::getChildNamed(kampftechnikXml, "eBE");
 		int ebe = EBE_KEINE_BE;
 		if (eBeNode != NULL)
@@ -205,9 +205,9 @@ namespace rl {
 		AutoXMLCh EIGENSCHAFT = "Eigenschaft";
 		
 		CeGuiString name = 
-			XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(personXml, "Name"));
+			XmlHelper::getValueAsString(XmlHelper::getChildNamed(personXml, "Name"));
 		CeGuiString desc = 
-			XmlHelper::getValueAsUtf8(XmlHelper::getChildNamed(personXml, "Beschreibung"));
+			XmlHelper::getValueAsString(XmlHelper::getChildNamed(personXml, "Beschreibung"));
 
 		Person* rval = new Person(name, desc);
 
