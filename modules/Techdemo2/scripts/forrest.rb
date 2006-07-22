@@ -7,7 +7,7 @@ print( "Lauf, Forrest, Lauf!" );
 print( "Definiere Listener" );
  
 forrest = Creature.new("Forrest", "Forrest");
-forrest.setActor($AM.createMeshActor("Forrest", "men_druide.mesh", PhysicsManager::GT_ELLIPSOID, 75.0));
+forrest.setActor($AM.createMeshActor("Forrest", "men_Gennisch.mesh", PhysicsManager::GT_ELLIPSOID, 75.0));
 forrest.getActor().placeIntoScene([-20.83, -6.70, 19.46]);
 
 bot=$DS.loadBot("Forrest", "forrest.xml");

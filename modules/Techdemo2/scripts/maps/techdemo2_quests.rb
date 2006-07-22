@@ -7,7 +7,7 @@ hauptQuest =
 	Quest.new(
 		"hauptquest",
 		"Probleme",
-		"Findet heraus was im Wald vor sich geht und die Dorfbewohner beunruhigt und löse das Problem.")
+		"Findet heraus was im Wald vor sich geht und was die Dorfbewohner beunruhigt  - und löst ihr Problem.")
 questBook.addQuest(hauptQuest)
 RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest").setKnown(true)
 RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest").setState(Quest::ASSIGNED)
@@ -63,6 +63,14 @@ hauptQuest.addSubquest(
 
 hauptQuest.addSubquest(
 	Quest.new(
+		"hauptquest522",
+		"Wolf-Belagerung",
+		"Erledige die Wölfe, die den Turm belagern."))	
+RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest522").setPartsToDo(4)
+
+
+hauptQuest.addSubquest(
+	Quest.new(
 		"hauptquest6",
 		"Der alte Mann aus dem Wald",
 		"Kehre zurück zu Sonja und berichtet ihr von deinen Erfolgen"))	
@@ -82,13 +90,6 @@ paketQuest =
 		"Bringt Jarns Paket zu Wolfram, aber geht vorsichtig damit um!")
 questBook.addQuest(paketQuest)
 
-
-TurmEingangQuest = 
-	Quest.new(
-		"TurmEingang",
-		"TurmEingangs Zone",
-		"Ein internes Quest statt globaler Variable")
-questBook.addQuest(TurmEingangQuest)
 
 aufenthaltsortQuest = 
 	Quest.new(

@@ -127,7 +127,7 @@ $SCRIPT.log("SteeringBehaviours laden");
 load("steering.rb");
 
 #if (RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest41").getState() == Quest::ASSIGNED)
-	load( "schnetzeln.rb" );
+	#load( "schnetzeln.rb" );
 	#Steinschlag
 	@mSteinschlagSound = $AM.createSoundSampleActor("Steinschlag","steinschlag_wenig_zu_vielen.ogg");
 	@mSteinschlagSound.getControlledObject().set3d(false);
@@ -135,10 +135,10 @@ load("steering.rb");
 #end
 
 #if (RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest42").getState() == Quest::ASSIGNED)
-	#load( "retten.rb" );
+	load( "retten.rb" );
 #end
 
-load "waldwoelfe.rb"
+
 
 #******** mapchange **********
 $SCRIPT.log("Mapchange: Kugel-Zentrum Actor erstellen");
@@ -162,7 +162,7 @@ class LevelwechselListener < GameAreaListener
 	# Zone betreten
 	def areaEntered(anEvent)
 		#Kein mapchange zurück!
-		$WF.showMessageWindow( "Eure Aufgababe hier ist noch nicht beendet. Ihr müsst eure Gruppe erst sammeln, bevor Ihr das Gebiet verlassen könnt." );
+		$WF.showMessageWindow( "Ihr müsst eure Gruppe erst sammeln, bevor Ihr das Gebiet verlassen könnt." );
 	end
 end
  
