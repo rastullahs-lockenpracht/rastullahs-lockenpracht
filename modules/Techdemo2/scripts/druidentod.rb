@@ -16,6 +16,7 @@ $AM.getActor("Alter Mann").getPhysicalThing().setMass(900.0)
 $AM.getActor("Alter Mann").getControlledObject().startAnimation("kampf_schwerter_getroffen", 0.8, 1); 
 $AM.getActor("Alter Mann").getControlledObject().startAnimation("reden", 3.0, 7); 
 
+	#Physikstoﬂ an den Druiden
 	$AM.getActor("Alter Mann").getPhysicalThing().unfreeze();
 	$AM.getActor("Alter Mann").getPhysicalThing().addForce([30000.0, 5000.0, 65000.0]);
 
@@ -30,7 +31,6 @@ $AM.getActor("Alter Mann").getControlledObject().startAnimation("reden", 3.0, 7)
 
 
 
-#Physikstoﬂ an den Druiden
 
 #Schwert wegstecken
 	$AM.getActor("Held").getGameObject().detachWeapon();  

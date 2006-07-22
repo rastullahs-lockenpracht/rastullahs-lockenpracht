@@ -15,6 +15,8 @@ class WaldWolfTotListener < SimpleEnemyDeathListener
 	RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest522").increasePartsDone()
 	
 	if (RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest522").getState() == Quest::SUCCEEDED)
+		#Schwert wegstecken
+			$AM.getActor("Held").getGameObject().detachWeapon();  
 		load("sonja2.rb");
 	end
 
