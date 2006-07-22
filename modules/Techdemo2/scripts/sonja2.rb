@@ -26,6 +26,7 @@ print( "Sonja version Map2 fertig geladen" );
 $AM.getActor("kampfMusik").getControlledObject().stop()
 $AM.getActor("ruchinsRuhe").getControlledObject().play()
 
+#Quest
 RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest51").setState(Quest::SUCCEEDED)
 RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest52").setState(Quest::SUCCEEDED)
 RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest6").setState(Quest::ASSIGNED)

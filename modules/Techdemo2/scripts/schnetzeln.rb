@@ -40,9 +40,9 @@ $SCRIPT.log("FieserAlter geladen");
 
 
 
-$SCRIPT.log("HarmlosesTier wird geladen");
-	#Irgendwas läuft in der Map rum, damits schöner aussieht.
-$SCRIPT.log("HarmlosesTier geladen");
+$SCRIPT.log("Fiese Wölfe");
+load("waldwoelfe_schnetzeln.rb");
+$SCRIPT.log("Fiese Wölfe geladen");
 
 
 #Zone am Eingang um kampf.rb auszulösen und es spannend zu machen#

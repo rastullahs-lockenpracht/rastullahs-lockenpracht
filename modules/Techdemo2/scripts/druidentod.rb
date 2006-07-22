@@ -14,7 +14,6 @@ $AM.getActor("Alter Mann").getPhysicalThing().setMass(900.0)
 
 #Druideanimation
 $AM.getActor("Alter Mann").getControlledObject().startAnimation("kampf_schwerter_getroffen", 0.8, 1); 
-$AM.getActor("Alter Mann").getControlledObject().startAnimation("kampf_sturz", 1.0, 1);
 $AM.getActor("Alter Mann").getControlledObject().startAnimation("reden", 3.0, 7); 
 
 	$AM.getActor("Alter Mann").getPhysicalThing().unfreeze();
