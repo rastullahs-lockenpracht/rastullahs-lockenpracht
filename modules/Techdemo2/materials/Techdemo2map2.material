@@ -8,9 +8,9 @@ material Techdemo2_map2 : Splatting5
 			fragment_program_ref dxSplatting5_FP
 			{
 				//Shader Constant: scaleBase
-				param_named scaleBase  float 0.0500000
+				param_named scaleBase  float 0.050000
 				//Shader Constant: scaleBaseR
-				param_named scaleBaseR float 0.0500000
+				param_named scaleBaseR float 0.050000
 				//Shader Constant: scaleBaseG
 				param_named scaleBaseG float 0.008000
 				//Shader Constant: scaleBaseB
@@ -19,7 +19,7 @@ material Techdemo2_map2 : Splatting5
 				param_named scaleBaseA float 1.000000
  
 				//Shader Constant: scaleDetail
-				param_named scaleDetail  float 0.0050000
+				param_named scaleDetail  float 0.007500
 				//Shader Constant: scaleDetailR
 				param_named scaleDetailR float 0.008000
 				//Shader Constant: scaleDetailG
