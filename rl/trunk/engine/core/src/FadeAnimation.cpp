@@ -19,13 +19,14 @@
 #include "CoreSubsystem.h"
 #include "Exception.h"
 
+#include "MathUtil.h"
+
 #include "ScriptWrapper.h"
 #include "AnimationManager.h"
 
 namespace rl 
 {
 
-static Ogre::Real s_Epsilon = 0.0000001;
 
 AnimationFadeOptions::AnimationFadeOptions( MeshAnimation* anim, Ogre::Real timeStart, 
             Ogre::Real timeEnd, Ogre::Real weightStart, Ogre::Real weightEnd )
@@ -61,6 +62,8 @@ FadeAnimation::~FadeAnimation()
         mFadeOptions.erase(it++);
         delete afo;
     }
+
+    mFadeOptions.clear();
 }
 
 void FadeAnimation::addAnimation( MeshAnimation* anim, Ogre::Real timeStart, 
@@ -69,7 +72,7 @@ void FadeAnimation::addAnimation( MeshAnimation* anim, Ogre::Real timeStart,
     anim->doAddTime(0.0);
     mFadeOptions.insert( new AnimationFadeOptions(anim, timeStart, timeEnd, weightStart, weightEnd ) );
 
-    if( timeStart < s_Epsilon )
+    if( timeStart < MathUtil::EPSILON )
         anim->setWeight(weightStart);
     else
         anim->setWeight(0.0);
@@ -102,6 +105,18 @@ bool FadeAnimation::isDeleteOnFinish() const
 void FadeAnimation::setDeleteOnFinish( bool deleteOnFinish )
 {
 	mDeleteOnFinish = deleteOnFinish;
+}
+
+bool FadeAnimation::containsAnimation( BaseAnimation* anim ) const
+{
+    for (FadeOptionsSet::const_iterator it = mFadeOptions.begin();
+            it != mFadeOptions.end(); it++ ) 
+    {
+        if( (*it)->getAnimation() == anim ) 
+            return true;
+    }
+
+    return false;
 }
 
 /// FIXME - was macht Rückwärts?

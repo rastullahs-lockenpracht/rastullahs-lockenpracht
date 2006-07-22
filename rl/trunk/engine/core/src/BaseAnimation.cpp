@@ -25,6 +25,7 @@ namespace rl {
 
 BaseAnimation::BaseAnimation( Ogre::Real length, Ogre::Real speed, 
     unsigned int timesToPlay, bool paused ) :
+    PlaylistObject(),
     mLength(length),
 	mAnimationFrameListener(),
 	mAnimationCaster(),

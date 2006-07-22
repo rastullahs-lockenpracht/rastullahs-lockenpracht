@@ -69,6 +69,10 @@ public:
 	BaseAnimation* getAnimation(Ogre::AnimationState* animState) const;
 	/// Entfernt eine Animation, und stoppt das Abspielen dieser
     void removeAnimation(Ogre::AnimationState* animState);
+
+    /// Checks if an Animation is still used in another Animation for Example in a FadeAnimation
+    bool isStillInUse( BaseAnimation* anim ) const;
+
 	/** Erzeugt eine neue, leere TrackAnimation, der der SceneNode
 		des Actors zugeordnet wird.
 		@param	actor	Der zugeordnete Actor

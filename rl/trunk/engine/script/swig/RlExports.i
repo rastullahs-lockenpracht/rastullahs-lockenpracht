@@ -95,6 +95,7 @@ void RL_RubyRemoveTracking(void* ptr)
         stream << "]";
     }
         
+    rl::WindowFactory::getSingleton().writeToConsole( stream.str() );        
 	Throw(rl::ScriptInvocationFailedException, stream.str() );
 }
 

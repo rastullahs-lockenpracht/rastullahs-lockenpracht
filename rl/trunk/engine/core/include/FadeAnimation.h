@@ -29,6 +29,7 @@ class AnimationFadeOptions
     public:
         AnimationFadeOptions( MeshAnimation* anim, Ogre::Real timeStart, 
             Ogre::Real timeEnd, Ogre::Real weightStart, Ogre::Real weightEnd );
+        virtual ~AnimationFadeOptions() {};
 
         inline MeshAnimation* getAnimation() const { return mAnimation;};
         inline Ogre::Real getTimeStart() const { return mTimeStart;};
@@ -66,6 +67,8 @@ public:
 	bool isDeleteOnFinish() const;
 	/**	Löscht diesen Fader nach Beendigung automatisch */
 	void setDeleteOnFinish( bool deleteOnFinish );
+    /// Checks if one of the blended Animations is anim
+    bool containsAnimation( BaseAnimation* anim ) const;
 private:
     typedef std::set<AnimationFadeOptions*> FadeOptionsSet;
 
