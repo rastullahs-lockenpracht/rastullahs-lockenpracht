@@ -43,6 +43,12 @@ RubyInterpreter::~RubyInterpreter()
 
 void RubyInterpreter::initializeInterpreter()
 {
+    #if defined(NT)
+        static int dummyargc(0);
+        static char** vec;
+        NtInitialize(&dummyargc, &vec);
+    #endif
+
     //Ruby Initialisieren
     ruby_init();
 
