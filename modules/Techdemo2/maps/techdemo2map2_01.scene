@@ -9792,5 +9792,1432 @@
   
 
 		</node>
+		<node name="coli_Techdemo2_map2" id="1305" >
+			<position x="8.05947" y="-4.01234" z="-140.494" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="coli_Techdemo2_map2"
+				id="1306"
+				meshFile ="coli_Techdemo2_map2.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="ver_stein_turm" id="1307" >
+			<position x="21.182" y="-47.0228" z="-261.258" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="ver_stein_turm"
+				id="1308"
+				meshFile ="ver_stein_turm.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1309" >
+			<position x="-4.75056" y="-42.5569" z="-37.3244" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.603173" y="0.603173" z="0.603173" />
+			<entity
+				name="baumstammcoli"
+				id="1310"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1311" >
+			<position x="-8.03929" y="-39.8609" z="-29.9936" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.603173" y="0.603173" z="0.603173" />
+			<entity
+				name="baumstammcoli"
+				id="1312"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1313" >
+			<position x="-11.1887" y="-43.1229" z="-41.2511" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.603173" y="0.603173" z="0.603173" />
+			<entity
+				name="baumstammcoli"
+				id="1314"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1315" >
+			<position x="-6.51059" y="-44.543" z="-43.9294" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.70238" y="0.70238" z="0.70238" />
+			<entity
+				name="baumstammcoli"
+				id="1316"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1317" >
+			<position x="-11.8567" y="-47.7939" z="-48.6048" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.906629" y="0.906629" z="0.906629" />
+			<entity
+				name="baumstammcoli"
+				id="1318"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1319" >
+			<position x="-18.6732" y="-50.9329" z="-52.6583" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.791729" y="0.791729" z="0.791729" />
+			<entity
+				name="baumstammcoli"
+				id="1320"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1321" >
+			<position x="-13.2067" y="-50.9329" z="-53.5131" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.652784" y="0.652784" z="0.652784" />
+			<entity
+				name="baumstammcoli"
+				id="1322"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1323" >
+			<position x="-8.04762" y="-52.0863" z="-55.5882" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.760151" y="0.760151" z="0.760151" />
+			<entity
+				name="baumstammcoli"
+				id="1324"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1325" >
+			<position x="-11.8242" y="-54.2502" z="-59.5538" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.833695" y="0.833695" z="0.833695" />
+			<entity
+				name="baumstammcoli"
+				id="1326"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1327" >
+			<position x="-18.0525" y="-56.0982" z="-63.0455" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.833695" y="0.833695" z="0.833695" />
+			<entity
+				name="baumstammcoli"
+				id="1328"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1329" >
+			<position x="-14.233" y="-58.0855" z="-70.1838" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.04752" y="1.04752" z="1.04752" />
+			<entity
+				name="baumstammcoli"
+				id="1330"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1331" >
+			<position x="-14.1798" y="-60.8378" z="-77.6154" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.88486" y="0.88486" z="0.88486" />
+			<entity
+				name="baumstammcoli"
+				id="1332"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1333" >
+			<position x="-18.1938" y="-62.0145" z="-81.7023" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.08176" y="1.08176" z="1.08176" />
+			<entity
+				name="baumstammcoli"
+				id="1334"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1335" >
+			<position x="-21.5604" y="-60.793" z="-76.3538" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.08176" y="1.08176" z="1.08176" />
+			<entity
+				name="baumstammcoli"
+				id="1336"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1337" >
+			<position x="-23.3326" y="-63.2246" z="-85.5704" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.08176" y="1.08176" z="1.08176" />
+			<entity
+				name="baumstammcoli"
+				id="1338"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1339" >
+			<position x="-12.3471" y="-63.2246" z="-84.4298" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.08176" y="1.08176" z="1.08176" />
+			<entity
+				name="baumstammcoli"
+				id="1340"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1341" >
+			<position x="-17.2268" y="-64.9817" z="-90.2785" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.913787" y="0.913787" z="0.913787" />
+			<entity
+				name="baumstammcoli"
+				id="1342"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1343" >
+			<position x="-22.1899" y="-64.9817" z="-92.4334" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.747459" y="0.747459" z="0.747459" />
+			<entity
+				name="baumstammcoli"
+				id="1344"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1345" >
+			<position x="-27.4586" y="-64.5569" z="-97.3844" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.88486" y="0.88486" z="0.88486" />
+			<entity
+				name="baumstammcoli"
+				id="1346"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1347" >
+			<position x="-20.1607" y="-67.286" z="-98.6676" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.08176" y="1.08176" z="1.08176" />
+			<entity
+				name="baumstammcoli"
+				id="1348"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1349" >
+			<position x="-13.6139" y="-67.8425" z="-96.7223" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.891919" y="0.891919" z="0.891919" />
+			<entity
+				name="baumstammcoli"
+				id="1350"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1351" >
+			<position x="-15.8146" y="-69.2283" z="-101.563" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.813238" y="0.813238" z="0.813238" />
+			<entity
+				name="baumstammcoli"
+				id="1352"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1353" >
+			<position x="-18.2328" y="-70.4677" z="-105.532" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.04839" y="1.04839" z="1.04839" />
+			<entity
+				name="baumstammcoli"
+				id="1354"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1355" >
+			<position x="-23.9141" y="-67.9656" z="-102.749" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.04839" y="1.04839" z="1.04839" />
+			<entity
+				name="baumstammcoli"
+				id="1356"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1357" >
+			<position x="-29.2587" y="-66.3279" z="-106.708" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.04839" y="1.04839" z="1.04839" />
+			<entity
+				name="baumstammcoli"
+				id="1358"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1359" >
+			<position x="-23.1038" y="-70.4078" z="-111.419" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.85756" y="0.85756" z="0.85756" />
+			<entity
+				name="baumstammcoli"
+				id="1360"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1361" >
+			<position x="-15.0412" y="-72.5321" z="-113.32" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.85756" y="0.85756" z="0.85756" />
+			<entity
+				name="baumstammcoli"
+				id="1362"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1363" >
+			<position x="-20.3969" y="-72.5321" z="-118.787" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.23097" y="1.23097" z="1.23097" />
+			<entity
+				name="baumstammcoli"
+				id="1364"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1365" >
+			<position x="-26.5387" y="-72.5321" z="-124.073" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.793416" y="0.793416" z="0.793416" />
+			<entity
+				name="baumstammcoli"
+				id="1366"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1367" >
+			<position x="-11.8743" y="-74.4368" z="-121.227" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.20026" y="1.20026" z="1.20026" />
+			<entity
+				name="baumstammcoli"
+				id="1368"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1369" >
+			<position x="-27.9472" y="-71.9453" z="-134.944" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.981788" y="0.981788" z="0.981788" />
+			<entity
+				name="baumstammcoli"
+				id="1370"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1371" >
+			<position x="-27.3878" y="-72.0779" z="-142.673" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.981788" y="0.981788" z="0.981788" />
+			<entity
+				name="baumstammcoli"
+				id="1372"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1373" >
+			<position x="-21.2347" y="-73.4886" z="-133.622" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.981788" y="0.981788" z="0.981788" />
+			<entity
+				name="baumstammcoli"
+				id="1374"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1375" >
+			<position x="-13.7923" y="-74.7384" z="-130.364" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.981788" y="0.981788" z="0.981788" />
+			<entity
+				name="baumstammcoli"
+				id="1376"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1377" >
+			<position x="-7.56679" y="-75.8676" z="-135.254" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.981788" y="0.981788" z="0.981788" />
+			<entity
+				name="baumstammcoli"
+				id="1378"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1379" >
+			<position x="-2.06858" y="-76.4714" z="-134.595" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.784457" y="0.784457" z="0.784457" />
+			<entity
+				name="baumstammcoli"
+				id="1380"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1381" >
+			<position x="6.65802" y="-75.6354" z="-132.605" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.92866" y="0.92866" z="0.92866" />
+			<entity
+				name="baumstammcoli"
+				id="1382"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1383" >
+			<position x="16.2113" y="-75.6354" z="-121.733" />
+			<rotation qx="-0.0600647" qy="-0.0976988" qz="-0.00643992" qw="0.993381" />
+			<scale x="2.11476" y="2.11476" z="2.11476" />
+			<entity
+				name="baumstammcoli"
+				id="1384"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1385" >
+			<position x="11.4465" y="-80.045" z="-119.097" />
+			<rotation qx="-0.103563" qy="0.137266" qz="-0.300234" qw="0.938239" />
+			<scale x="1.63239" y="1.63239" z="1.63239" />
+			<entity
+				name="baumstammcoli"
+				id="1386"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1387" >
+			<position x="-2.82078" y="-76.4045" z="-129.329" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.15328" y="1.15328" z="1.15328" />
+			<entity
+				name="baumstammcoli"
+				id="1388"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1389" >
+			<position x="-4.51655" y="-76.4045" z="-122.549" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.14223" y="1.14223" z="1.14223" />
+			<entity
+				name="baumstammcoli"
+				id="1390"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1391" >
+			<position x="-8.60341" y="-76.4045" z="-126.462" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.14223" y="1.14223" z="1.14223" />
+			<entity
+				name="baumstammcoli"
+				id="1392"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1393" >
+			<position x="-6.377" y="-75.8055" z="-116.123" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.07741" y="1.07741" z="1.07741" />
+			<entity
+				name="baumstammcoli"
+				id="1394"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1395" >
+			<position x="-5.14758" y="-73.1598" z="-108.524" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.07741" y="1.07741" z="1.07741" />
+			<entity
+				name="baumstammcoli"
+				id="1396"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1397" >
+			<position x="-11.6315" y="-72.077" z="-108.907" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.07741" y="1.07741" z="1.07741" />
+			<entity
+				name="baumstammcoli"
+				id="1398"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1399" >
+			<position x="-10.2705" y="-70.7587" z="-103.509" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.07741" y="1.07741" z="1.07741" />
+			<entity
+				name="baumstammcoli"
+				id="1400"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1401" >
+			<position x="1.77347" y="-72.6674" z="-107.404" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.07741" y="1.07741" z="1.07741" />
+			<entity
+				name="baumstammcoli"
+				id="1402"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1403" >
+			<position x="4.91741" y="-69.4875" z="-99.8774" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.19208" y="1.19208" z="1.19208" />
+			<entity
+				name="baumstammcoli"
+				id="1404"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1405" >
+			<position x="-3.78047" y="-69.4875" z="-97.3412" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.04987" y="1.04987" z="1.04987" />
+			<entity
+				name="baumstammcoli"
+				id="1406"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1407" >
+			<position x="-8.49757" y="-67.2616" z="-92.6783" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.1616" y="1.1616" z="1.1616" />
+			<entity
+				name="baumstammcoli"
+				id="1408"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1409" >
+			<position x="-5.33483" y="-65.0437" z="-87.3624" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.957748" y="0.957748" z="0.957748" />
+			<entity
+				name="baumstammcoli"
+				id="1410"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1411" >
+			<position x="1.28573" y="-65.0437" z="-87.9267" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.957748" y="0.957748" z="0.957748" />
+			<entity
+				name="baumstammcoli"
+				id="1412"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1413" >
+			<position x="6.10989" y="-67.0739" z="-92.4235" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.2728" y="1.2728" z="1.2728" />
+			<entity
+				name="baumstammcoli"
+				id="1414"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1415" >
+			<position x="-2.43272" y="-62.6152" z="-81.6158" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.2728" y="1.2728" z="1.2728" />
+			<entity
+				name="baumstammcoli"
+				id="1416"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1417" >
+			<position x="2.47227" y="-60.5985" z="-75.5073" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.2728" y="1.2728" z="1.2728" />
+			<entity
+				name="baumstammcoli"
+				id="1418"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1419" >
+			<position x="-4.18317" y="-59.5083" z="-71.9344" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.2728" y="1.2728" z="1.2728" />
+			<entity
+				name="baumstammcoli"
+				id="1420"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1421" >
+			<position x="0.55684" y="-59.5083" z="-70.8422" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.10218" y="1.10218" z="1.10218" />
+			<entity
+				name="baumstammcoli"
+				id="1422"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1423" >
+			<position x="-0.713223" y="-55.6254" z="-64.176" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.10218" y="1.10218" z="1.10218" />
+			<entity
+				name="baumstammcoli"
+				id="1424"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1425" >
+			<position x="2.91672" y="-51.4338" z="-56.9214" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.805894" y="0.805894" z="0.805894" />
+			<entity
+				name="baumstammcoli"
+				id="1426"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1427" >
+			<position x="9.37535" y="-50.255" z="-57.8865" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.961835" y="0.961835" z="0.961835" />
+			<entity
+				name="baumstammcoli"
+				id="1428"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1429" >
+			<position x="10.7482" y="-48.8455" z="-51.5111" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.745464" y="0.745464" z="0.745464" />
+			<entity
+				name="baumstammcoli"
+				id="1430"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1431" >
+			<position x="3.75141" y="-50.1255" z="-51.4707" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.745464" y="0.745464" z="0.745464" />
+			<entity
+				name="baumstammcoli"
+				id="1432"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1433" >
+			<position x="7.62997" y="-45.2891" z="-41.2889" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.745464" y="0.745464" z="0.745464" />
+			<entity
+				name="baumstammcoli"
+				id="1434"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1435" >
+			<position x="7.82663" y="-76.5942" z="-144.445" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.94741" y="0.94741" z="0.94741" />
+			<entity
+				name="baumstammcoli"
+				id="1436"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1437" >
+			<position x="25.147" y="-76.5942" z="-157.552" />
+			<rotation qx="0.0421331" qy="0.258573" qz="-0.0112895" qw="0.965006" />
+			<scale x="0.94741" y="0.94741" z="0.94741" />
+			<entity
+				name="baumstammcoli"
+				id="1438"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1439" >
+			<position x="-31.3512" y="-73.0895" z="-153.685" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.94741" y="0.94741" z="0.94741" />
+			<entity
+				name="baumstammcoli"
+				id="1440"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1441" >
+			<position x="-15.7825" y="-73.3548" z="-176.329" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.94741" y="0.94741" z="0.94741" />
+			<entity
+				name="baumstammcoli"
+				id="1442"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1443" >
+			<position x="-23.994" y="-71.9073" z="-181.2" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.94741" y="0.94741" z="0.94741" />
+			<entity
+				name="baumstammcoli"
+				id="1444"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1445" >
+			<position x="-31.9148" y="-71.1611" z="-182.345" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.1399" y="1.1399" z="1.1399" />
+			<entity
+				name="baumstammcoli"
+				id="1446"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1447" >
+			<position x="-9.26755" y="-69.3015" z="-199.104" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.903804" y="0.903804" z="0.903804" />
+			<entity
+				name="baumstammcoli"
+				id="1448"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1449" >
+			<position x="-2.06777" y="-67.9367" z="-203.63" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.999991" y="0.999991" z="0.999991" />
+			<entity
+				name="baumstammcoli"
+				id="1450"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1451" >
+			<position x="-22.4544" y="-67.9367" z="-205.036" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.720974" y="0.720974" z="0.720974" />
+			<entity
+				name="baumstammcoli"
+				id="1452"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1453" >
+			<position x="-14.2447" y="-63.1211" z="-216.303" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.720974" y="0.720974" z="0.720974" />
+			<entity
+				name="baumstammcoli"
+				id="1454"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1455" >
+			<position x="-18.8244" y="-60.6497" z="-222.224" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="0.720974" y="0.720974" z="0.720974" />
+			<entity
+				name="baumstammcoli"
+				id="1456"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1457" >
+			<position x="20.1958" y="-67.5212" z="-190.739" />
+			<rotation qx="0.0386909" qy="-0.461309" qz="0.0201412" qw="0.886167" />
+			<scale x="0.720974" y="0.720974" z="0.720974" />
+			<entity
+				name="baumstammcoli"
+				id="1458"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1459" >
+			<position x="27.5256" y="-73.2623" z="-171.947" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.09028" y="1.09028" z="1.09028" />
+			<entity
+				name="baumstammcoli"
+				id="1460"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1461" >
+			<position x="26.4718" y="-69.4814" z="-186.62" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.09028" y="1.09028" z="1.09028" />
+			<entity
+				name="baumstammcoli"
+				id="1462"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1463" >
+			<position x="46.8099" y="-46.8586" z="-249.993" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.09028" y="1.09028" z="1.09028" />
+			<entity
+				name="baumstammcoli"
+				id="1464"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1465" >
+			<position x="38.2816" y="-47.8401" z="-266.803" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.09028" y="1.09028" z="1.09028" />
+			<entity
+				name="baumstammcoli"
+				id="1466"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1467" >
+			<position x="-6.03932" y="-50.0436" z="-254.923" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
+			<scale x="1.09028" y="1.09028" z="1.09028" />
+			<entity
+				name="baumstammcoli"
+				id="1468"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1469" >
+			<position x="-1.06395" y="-77.3854" z="-158.2" />
+			<rotation qx="-0.0318856" qy="-0.471751" qz="-0.00296185" qw="0.88115" />
+			<scale x="2.16661" y="2.16661" z="2.16661" />
+			<entity
+				name="baumstammcoli"
+				id="1470"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1471" >
+			<position x="-5.821" y="-82.3405" z="-159.198" />
+			<rotation qx="-0.00940816" qy="-0.242688" qz="-0.306169" qw="0.920475" />
+			<scale x="1.37891" y="1.37891" z="1.37891" />
+			<entity
+				name="baumstammcoli"
+				id="1472"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1473" >
+			<position x="-0.440956" y="-76.9072" z="-158.138" />
+			<rotation qx="0.118727" qy="0.488611" qz="0.860219" qw="0.0847698" />
+			<scale x="1.37891" y="1.37891" z="1.37891" />
+			<entity
+				name="baumstammcoli"
+				id="1474"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1475" >
+			<position x="-33.1101" y="-72.003" z="-166.916" />
+			<rotation qx="-0.291893" qy="0.394261" qz="0.817846" qw="0.300807" />
+			<scale x="1.37891" y="1.37891" z="1.37891" />
+			<entity
+				name="baumstammcoli"
+				id="1476"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1477" >
+			<position x="-33.5132" y="-74.2368" z="-166.495" />
+			<rotation qx="-0.0702906" qy="-0.471431" qz="0.0176185" qw="0.878921" />
+			<scale x="2.52296" y="2.52296" z="2.52296" />
+			<entity
+				name="baumstammcoli"
+				id="1478"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1479" >
+			<position x="19.0189" y="-71.4329" z="-178.587" />
+			<rotation qx="-0.802804" qy="-0.564802" qz="0.02771" qw="0.189044" />
+			<scale x="1.37891" y="1.37891" z="1.37891" />
+			<entity
+				name="baumstammcoli"
+				id="1480"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1481" >
+			<position x="19.9091" y="-72.7679" z="-178.89" />
+			<rotation qx="0.0468246" qy="-0.341206" qz="0.123518" qw="0.93066" />
+			<scale x="1.752" y="1.752" z="1.752" />
+			<entity
+				name="baumstammcoli"
+				id="1482"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1483" >
+			<position x="43.0626" y="-73.0598" z="-175.123" />
+			<rotation qx="0.0468246" qy="-0.341206" qz="0.123518" qw="0.93066" />
+			<scale x="1.752" y="1.752" z="1.752" />
+			<entity
+				name="baumstammcoli"
+				id="1484"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1485" >
+			<position x="42.4167" y="-71.4659" z="-174.889" />
+			<rotation qx="-0.921113" qy="0.3723" qz="0.092071" qw="-0.0668378" />
+			<scale x="1.37891" y="1.37891" z="1.37891" />
+			<entity
+				name="baumstammcoli"
+				id="1486"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1487" >
+			<position x="42.4167" y="-71.0364" z="-174.889" />
+			<rotation qx="0.274156" qy="-0.432765" qz="0.816262" qw="-0.266964" />
+			<scale x="1.37891" y="1.37891" z="1.37891" />
+			<entity
+				name="baumstammcoli"
+				id="1488"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1489" >
+			<position x="35.9853" y="-48.6024" z="-237.179" />
+			<rotation qx="0.531865" qy="-0.299317" qz="0.710813" qw="-0.349678" />
+			<scale x="1.63239" y="1.63239" z="1.63239" />
+			<entity
+				name="baumstammcoli"
+				id="1490"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
+		<node name="baumstammcoli" id="1491" >
+			<position x="35.6584" y="-50.0511" z="-237.203" />
+			<rotation qx="0.0099885" qy="-0.32679" qz="-0.0505502" qw="0.943691" />
+			<scale x="2.27746" y="2.27746" z="2.27746" />
+			<entity
+				name="baumstammcoli"
+				id="1492"
+				meshFile ="baumstammcoli.mesh"
+				materialFile="techdemo2map2_01.material"
+				castsShadow="false"
+			/>
+
+  
+
+		</node>
 	</nodes>
+			<userData>
+		<property type="FLOAT" name="staticgeom_renderingdistance_0" data="200"/>
+        <property type="FLOAT" name="staticgeom_batchsize_0" data="25"/>
+
+	<property type="FLOAT" name="default_renderingdistance" data="10000"/>
+
+       <manualLOD mesh="nat_nadelbaum_02.mesh">
+            <LOD distance="150.0" mesh="nat_nadelbaum_02_lod.mesh" />
+        </manualLOD>
+
+        <manualLOD mesh="nat_nadelbaum_03.mesh">
+            <LOD distance="150.0" mesh="nat_nadelbaum_03_lod.mesh" />
+        </manualLOD>
+
+	</userData>
+	
+	
 </scene>

@@ -12,14 +12,14 @@ material Techdemo2_map2 : Splatting5
 				//Shader Constant: scaleBaseR
 				param_named scaleBaseR float 0.0500000
 				//Shader Constant: scaleBaseG
-				param_named scaleBaseG float 0.010000
+				param_named scaleBaseG float 0.008000
 				//Shader Constant: scaleBaseB
 				param_named scaleBaseB float 1.000000
 				//Shader Constant: scaleBaseA
 				param_named scaleBaseA float 1.000000
  
 				//Shader Constant: scaleDetail
-				param_named scaleDetail  float 0.0080000
+				param_named scaleDetail  float 0.0050000
 				//Shader Constant: scaleDetailR
 				param_named scaleDetailR float 0.008000
 				//Shader Constant: scaleDetailG
