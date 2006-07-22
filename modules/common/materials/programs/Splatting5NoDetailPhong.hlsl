@@ -1,4 +1,4 @@
-float3 fvLightPosition;
+float4 fvLightPosition;
 float4x4 matWorldViewProjection;
 
 struct VS_INPUT 
@@ -22,8 +22,8 @@ VS_OUTPUT vs_main( VS_INPUT Input )
 
    Output.Position         = mul( matWorldViewProjection, Input.Position );
    Output.Texcoord         = Input.Texcoord;
-        
-   Output.LightDirection   = fvLightPosition;
+
+   Output.LightDirection   = normalize(fvLightPosition.xyz -  (Input.Position * fvLightPosition.w));
    Output.Normal           = Input.Normal;
 
    return( Output );
@@ -58,11 +58,8 @@ struct PS_INPUT
 
 float4 ps_main( PS_INPUT Input ) : COLOR0
 {        
-    float4 fvSplattingColor = tex2D( splattingMap, Input.Texcoord );
-
-    float3 fvLightDirection = normalize( Input.LightDirection );
-    float3 fvNormal         = normalize( Input.Normal );
-    float  fNDotL           = dot( fvNormal, fvLightDirection ); 
+    float4 fvSplattingColor = tex2D( splattingMap, Input.Texcoord );    
+    float NdotL = clamp( dot( normalize( Input.Normal ), Input.LightDirection ), 0.0, 1.0);
 
     float4 fvBaseColor      = tex2D( base, Input.Texcoord / scaleBase );
 
@@ -83,7 +80,7 @@ float4 ps_main( PS_INPUT Input ) : COLOR0
                               * fvSplattingColor[3];   
                                                          
     float4 fvTotalAmbient   = ambientLight * materialAmbient * fvBaseColor; 
-    float4 fvTotalDiffuse   = (lightDiffuse * materialDiffuse * fvBaseColor) * fNDotL ; 
+    float4 fvTotalDiffuse   = (lightDiffuse * materialDiffuse * fvBaseColor) * NdotL ; 
    
     return( saturate( fvTotalAmbient + fvTotalDiffuse  ) );      
 }

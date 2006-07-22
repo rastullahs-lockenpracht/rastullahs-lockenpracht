@@ -132,12 +132,13 @@ load("steering.rb");
 	@mSteinschlagSound = $AM.createSoundSampleActor("Steinschlag","steinschlag_wenig_zu_vielen.ogg");
 	@mSteinschlagSound.getControlledObject().set3d(false);
 	@mSteinschlagSound.getControlledObject().load();
-
+#end
 
 #if (RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest42").getState() == Quest::ASSIGNED)
 	#load( "retten.rb" );
+#end
 
-
+load "waldwoelfe.rb"
 
 #******** mapchange **********
 $SCRIPT.log("Mapchange: Kugel-Zentrum Actor erstellen");

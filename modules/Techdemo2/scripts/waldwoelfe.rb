@@ -4,8 +4,9 @@ class WaldWolfTotListener < SimpleEnemyDeathListener
     def initialize( agent )
         @agent = agent
     end
-    def onDie
+    def onDie( creature )
         p "argfL!!! *sterb*"
+
         if( @agent != nil )
             @agent.clearSteeringBehaviours()
         end

@@ -19,7 +19,7 @@ class SimpleEnemyKillAction < Action
 end
 
 class SimpleEnemyDeathListener
-    def onDie
+    def onDie( creature )
     end
 end
 
@@ -30,8 +30,8 @@ class SimpleEnemy < Creature
 
         enemyActor = $AM.createMeshActor( name, mesh,  PhysicsManager::GT_ELLIPSOID, 30.0 )
         @soundActor = $AM.createSoundSampleActor( name+"_stirbt", sound )
-        @soundActor.getControlledObject.load()
         @soundActor.getControlledObject.set3d(true)
+        @soundActor.getControlledObject.load()        
         $SCRIPT.log("simpleenemy.rb - Aktor erstellt.")
         setActor( enemyActor )
         $SCRIPT.log("simpleenemy.rb - Aktor gesetzt")
@@ -69,12 +69,26 @@ class SimpleEnemy < Creature
             # Abspielen
             @soundActor.getControlledObject().play()
         end
+
         removeAction(@killAction)
-        setDescription(@deadDescription)
-        getActor().getControlledObject().stopAllAnimations()
-        @alive = false
+        setDescription(@deadDescription) 
+
+        begin  
+            getActor().getControlledObject().stopAllAnimations()
+            sterbeani = getActor().getControlledObject().getAnimation("sterben")
+            sterbeani.resetTimesPlayed( )
+            sterbeani.setPaused( false )
+            sterbeani.setTimesToPlay( 1 )
+        ensure 
+            @alive = false
+        end     
+        
         # Listener benachrichtigen
-        @listeners.each { |l| l.onDie() }
+        @listeners.each { |l|
+            begin
+                l.onDie(self)
+            end
+        }
     end
 
     def addDeathListener( listener )
