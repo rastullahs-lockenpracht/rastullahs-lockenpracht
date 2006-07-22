@@ -22,6 +22,7 @@ agent = $AI.createAgent(bot);
 
 print( "Sonja version Map2 fertig geladen" );
 
+#Musik
 $AM.getActor("kampfMusik").getControlledObject().stop()
 $AM.getActor("ruchinsRuhe").getControlledObject().play()
 

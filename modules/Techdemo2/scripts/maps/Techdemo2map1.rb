@@ -80,7 +80,7 @@ $SCRIPT.log("NSCs geladen");
 
 $SCRIPT.log("Weiteres laden");
 load( "viecher.rb" );
-#load( "buchDK.rb" );
+load( "buchderkultur.rb" );
 $SCRIPT.log("Weiteres geladen");
 
 #******** mapchange - abhängig vom Questzustand **********

@@ -56,6 +56,12 @@ schmetterling10.placeIntoScene([ -13.7822866439819, -63.2723007202148, -93.32296
 schmetter10Anim = schmetterling10.getControlledObject().startAnimation("idle");
 schmetter10Anim.setSpeed( 1.1 );
 
+#Wind aus
+$AM.getActor("windBoee").getControlledObject().stop()
+$AM.getActor("wind").getControlledObject().stop()
+$AM.getActor("windBaum").getControlledObject().stop()
+$AM.getActor("windBaum2").getControlledObject().stop()
+
 print("Der Wald wurde schoen");
 
 

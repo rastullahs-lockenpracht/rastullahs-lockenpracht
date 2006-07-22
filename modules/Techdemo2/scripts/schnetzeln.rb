@@ -25,7 +25,7 @@ RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest51").setState(Q
 
 $SCRIPT.log("FieserAlter wird geladen");
 	druide = Creature.new("Alter Mann", "Alter Mann");
-	druide.setActor($AM.createMeshActor("Alter Mann", "men_druide.mesh", PhysicsManager::GT_BOX, 900.0));
+	druide.setActor($AM.createMeshActor("Alter Mann", "men_druide.mesh", PhysicsManager::GT_BOX, 0.0));
 	druide.getActor().placeIntoScene([21.78, -35.28, -264.45]);
 	#druide.getActor().placeIntoScene([-5.80, -38.23, -19.97]);
 
