@@ -76,6 +76,7 @@ namespace rl
         delete mTimerManager;
         delete mDsaManager;
         delete mActionManager;
+        delete mItemManager;
     }
 
 	QuestBook* RulesSubsystem::getQuestBook()

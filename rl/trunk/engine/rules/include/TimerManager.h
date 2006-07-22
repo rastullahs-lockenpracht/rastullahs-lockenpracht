@@ -39,7 +39,7 @@ public:
 	static TimerManager* getSingletonPtr();
 
 	TimerManager();
-	~TimerManager();
+	virtual ~TimerManager();
 
 	void registerTimerEventSource(TimerEventSource* source);
 	void unregisterTimerEventSource(TimerEventSource* source);

@@ -94,6 +94,7 @@ namespace rl {
             event->setProvokingActor( actor );
             mAreaEventCaster.dispatchEvent( event );
         }
+        delete event;
     }
 
     void GameAreaEventSource::addAreaListener( GameAreaListener*  list )

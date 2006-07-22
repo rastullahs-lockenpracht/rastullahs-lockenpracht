@@ -33,6 +33,9 @@
     Check_Type($input, T_STRING);
     $1 = new Ogre::String(StringValuePtr($input));
 }
+%typemap(freearg) Ogre::String*, Ogre::String&, const Ogre::String*, const Ogre::String& {
+   delete $1;
+}
 %typemap(out) Ogre::String*, Ogre::String&, const Ogre::String*, const Ogre::String& {
      $result = rb_str_buf_new2($1->c_str());
 }
@@ -59,7 +62,9 @@
     "Check_Type($input, T_STRING);
     $1 = new rl::CeGuiString(
 		reinterpret_cast<CEGUI::utf8*>(StringValuePtr($input)));"
-    
+%typemap(freearg) rl::CeGuiString*, rl::CeGuiString&, const rl::CeGuiString*, const rl::CeGuiString&  {
+   delete $1;
+}
 %typemap(out) rl::CeGuiString*, rl::CeGuiString&,  const rl::CeGuiString*, const rl::CeGuiString& 
      "$result = rb_str_buf_new2($1->c_str());"
 
@@ -81,7 +86,6 @@
      $result->append( 
 		reinterpret_cast<CEGUI::utf8*>(StringValuePtr($input)) );"
 
-
 /* Radian / Degree all Ruby Values are interpreted as DEGREE! */
 %typemap(typecheck) Ogre::Radian, const Ogre::Radian& = double;
 
@@ -102,6 +106,9 @@
     } else {
         throw Swig::DirectorTypeMismatchException("float or fixnum expected");
     }
+}
+%typemap(freearg) Ogre::Radian*, const Ogre::Radian*, Ogre::Radian&, const Ogre::Radian&  {
+   delete $1;
 }
 %typemap(out) Ogre::Radian, const Ogre::Radian {
      $result = rb_float_new($1.valueDegrees());
@@ -178,6 +185,10 @@
    }
    $1 = tripel;
 }
+%typemap(freearg) Tripel<int>*, Tripel<int>&, 
+const Tripel<int>*, const Tripel<int>&  {
+   delete $1;
+}
 
 /* OUT Typemaps fuer Tripel<int>.
  * Ein Tripel wird einfach auf ein dreielementiges Array abgebildet.
@@ -208,6 +219,10 @@
 	val->second = NUM2INT(rb_ary_entry($input, 1));
 	
 	$1 = val;
+}
+%typemap(freearg) std::pair<int,int>*, std::pair<int,int>&, 
+const std::pair<int,int>*, const std::pair<int,int>&  {
+   delete $1;
 }
 
 %typemap(in) std::pair<int,int>, const std::pair<int,int>
@@ -298,6 +313,10 @@
    }
    $1 = vec;
 }
+%typemap(freearg) Ogre::ColourValue*, Ogre::ColourValue&,
+   const Ogre::ColourValue*, const Ogre::ColourValue&  {
+   delete $1;
+}
 
 %typemap(out) Ogre::ColourValue, const Ogre::ColourValue {
    VALUE array = rb_ary_new();
@@ -373,6 +392,10 @@
       vec->z = RFLOAT(*it)->value;
    }
    $1 = vec;
+}
+%typemap(freearg) Ogre::Vector3*, Ogre::Vector3&,
+   const Ogre::Vector3*, const Ogre::Vector3& {
+   delete $1;
 }
 
 %typemap(out) Ogre::Vector3, const Ogre::Vector3 {
@@ -525,6 +548,11 @@
    }   
    $1 = quat;
 }
+%typemap(freearg)  Ogre::Quaternion*, Ogre::Quaternion&,
+   const Ogre::Quaternion*, const Ogre::Quaternion& {
+   delete $1;
+}
+
 
 
 %typemap(out) Ogre::Quaternion, const Ogre::Quaternion {
@@ -632,7 +660,7 @@
   $result = vec;
 }
 
-%typemap(directorout) Ogre::StringVector &, const Ogre::StringVector& {
+%typemap(directorout) Ogre::StringVector *, const Ogre::StringVector* , Ogre::StringVector &, const Ogre::StringVector& {
   Check_Type($input, T_ARRAY);
   Ogre::StringVector *vec = new Ogre::StringVector;
   int len = RARRAY($input)->len;
@@ -642,5 +670,8 @@
   }
   $result = vec;
 }
-
+%typemap(freearg) Ogre::ColourValue*, Ogre::ColourValue&,
+   const Ogre::ColourValue*, const Ogre::ColourValue&  {
+   delete $1;
+}
 #endif
