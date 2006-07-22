@@ -46,7 +46,7 @@
 	<template>
 		<set type="default" name="druide_1" value="1"/>
 		<script language="ruby" src="kampf.rb"/>
-		<script language="ruby" src="wolf.rb"/>
+		<script language="ruby" src="waldwoelfe_retten.rb"/>
 		<system cmd="exit"/>
 	</template>
 	</category>

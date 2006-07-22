@@ -58,13 +58,13 @@
 	<pattern>1111</pattern>
 	<template>
 		<gossip rldialog:type="response">
-			<li rldialog:id="5SekStille.ogg">[Fulminante Sterbeszene]</li>
+			<li>[Fulminante Sterbeszene]</li>
 		</gossip>
-		<system cmd="exit"/>
+
 		<set type="default" name="druide_1" value="1"/>
 		<set type="queststate" name="hauptquest51" value="SUCCEEDED"/>
-		<set type="queststate" name="hauptquest6" value="ASSIGNED"/>		
 		<script language="ruby" src="druidentod.rb"/>
+		<system cmd="exit"/>
 	</template>
 	</category>
 
