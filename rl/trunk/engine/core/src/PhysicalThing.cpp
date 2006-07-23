@@ -49,6 +49,7 @@ namespace rl
 
     PhysicalThing::~PhysicalThing()
 	{
+        PhysicsManager::getSingleton().setPhysicsController( this, NULL );
 		delete mBody;
 		mBody = NULL;
     }

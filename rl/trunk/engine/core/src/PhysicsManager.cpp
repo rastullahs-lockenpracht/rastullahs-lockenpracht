@@ -183,6 +183,7 @@ namespace rl
         {
             Throw(IllegalArgumentException, "unknown geometry type.");
         }
+
         return rval;
     }
 
@@ -367,7 +368,7 @@ namespace rl
 
     void PhysicsManager::clearLevelGeometry(  )
     {
-        for (size_t i = 0; i < mLevelBodies.size(); ++i)
+        for (size_t i = 0; i < mLevelBodies.size(); i++ )
         {
             delete mLevelBodies[i];
         }
@@ -379,12 +380,6 @@ namespace rl
     // By Julio Jerez
     void PhysicsManager::genericForceCallback(OgreNewt::Body* body)
     {
-        // apply a simple gravity force.
-        Ogre::Real mass;
-        Ogre::Vector3 inertia;
-
-        body->getMassMatrix(mass, inertia);
-
         // apply saved forces in the PhysicalThing
         PhysicalThing* thing =
             static_cast<Actor*>(body->getUserData())->getPhysicalThing();
@@ -418,7 +413,7 @@ namespace rl
         body->setLinearDamping(0.0f);
         body->setAngularDamping(Vector3::ZERO);
 
-        body->setCustomForceAndTorqueCallback(controlledForceCallback);
+        body->setCustomForceAndTorqueCallback( PhysicsManager::controlledForceCallback );
 
         // Set up-vector, so force application doesn't let the char fall over
         thing->setUpConstraint(Vector3::UNIT_Y);
@@ -428,7 +423,7 @@ namespace rl
     {
         OgreNewt::Body* body = thing->_getBody();
         body->setMaterialGroupID(mWorld->getDefaultMaterialID());
-        body->setCustomForceAndTorqueCallback(genericForceCallback);
+        body->setCustomForceAndTorqueCallback( PhysicsManager::genericForceCallback );
         thing->setUpConstraint(Vector3::ZERO);
     }
 
@@ -475,7 +470,7 @@ namespace rl
         }
         else
         {
-            mCharLevelPair->setContactCallback(mGenericCallback);
+            mCharLevelPair->setContactCallback(PhysicsManager::mGenericCallback);
         }
     }
 

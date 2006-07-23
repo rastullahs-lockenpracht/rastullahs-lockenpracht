@@ -7,8 +7,9 @@
 namespace rl
 {
     class PhysicsController
-    {
+    {     
     public:
+        virtual ~PhysicsController() {};
         virtual void OnApplyForceAndTorque(PhysicalThing* thing) = 0;
     };
 }

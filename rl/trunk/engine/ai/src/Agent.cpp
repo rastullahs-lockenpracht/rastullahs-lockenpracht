@@ -50,6 +50,10 @@ Agent::Agent(DialogCharacter* character)
 
 Agent::~Agent(void)
 {
+    if(mType == AgentManager::AGENT_STD_NPC)
+        PhysicsManager::getSingleton().
+			setPhysicsController( mCreature->getActor()->getPhysicalThing(), NULL );
+
     delete mVehicle;
     delete mBehaviour;
 //	delete mPerceptionPool;
