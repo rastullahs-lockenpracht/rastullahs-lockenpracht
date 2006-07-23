@@ -1,4 +1,32 @@
-Rastullahs Lockenpracht - Readme
+			xxxxxxxxxxxx                        
+                    xxxxxxxxxxxxxxxxxxxx                    
+              xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx              
+          xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx          
+      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx    
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  xxxxxx          xxxxxxxx        xxxxxxxx        xxxxxxxx  
+  xxxxxx          xxxxxxxx        xxxxxxxx          xxxxxx  
+  xxxxxx          xxxxxxxx        xxxxxxxx          xxxxxx  
+  xxxxxx          xxxxxxxx        xxxxxxxx          xxxxxx  
+  xxxxxx          xxxxxxxx        xxxxxxxx          xxxxxx  
+  xxxxxx          xxxxxxxx        xxxxxxxx          xxxxxx  
+  xxxxxx          xxxxxxxx        xxxxxxxx          xxxxxx  
+  xxxxxx          xxxxxxxx        xxxxxxxx          xxxxxx  
+  xxxxxx          xxxxxxxx        xxxxxxxx          xxxxxx  
+  xxxxxx          xxxxxxxx        xxxxxxxx          xxxxxx  
+  xxxxxx          xxxxxxxx        xxxxxxxx          xxxxxx  
+xxxxxxxxxx      xxxxxxxxxx        xxxxxxxxxx      xxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxx www.rastullahs-lockenpracht.de xxxxxxxxxxxxxx
+
+
+
+Rastullahs Lockenpracht Version 0.2[Dharai]
+	Mit einem Szenario nach der Idee von Thomas "zumpi" Bauböck
+	With an scenario after an idea of Thomas "zumpi" Bauböck
 ----------------------------------------------------------------
 
 
@@ -9,6 +37,7 @@ II.  Bedienung
 III. Kontakt
 IV.  Lizenz
 V.   Bekannte suboptimale Funktionsmerkmale  
+VI.  Credits
 
 ----------------------------------------------------------------
 
@@ -19,7 +48,9 @@ II.  Controls
 III. Contact
 IV.  License
 V.   Known unwanted features
-VI.  An appendix for people whose German sucks
+VI.  Credits
+VII.  An appendix for people whose German sucks
+
 
 
 
@@ -124,6 +155,20 @@ V. Bekannte suboptimale Funktionsmerkmale
 
 ----------------------------------------------------------------
 
+VI. Credits
+
+Programmierung & Inhalt
+	Team Pantheon - http://www.team-pantheon.de
+
+Die Sprecher
+	Julia Cramer		Alrike, Stadtgardistin aus Wandleth
+	Anna Stijohann		Sonja, Dorferste
+	Magnus Cosmas Piontek	Jarn, Schuster
+	Sven Gey		Wolfram, Dichter
+	Sven Gey		Der Alte Mann, aus dem Wald
+
+----------------------------------------------------------------
+
 
 
 English
@@ -219,24 +264,58 @@ V. Known unwanted features
 - You cannot walk into (or on) the water
 - The names of the characters are shown to you, even if your character
 does not know them
+
 ----------------------------------------------------------------
 
-VI. An appendix for people whose German sucks
+VI. Credits
 
-We admit, these time it's a lot of text. If you don't have any german speaking
+Programming & Contentdesign
+	Team Pantheon - http://www.team-pantheon.de
+
+Voice Actors
+	Julia Cramer		Alrike, guard from the town Wandleth
+	Anna Stijohann		Sonja, mayor
+	Magnus Cosmas Piontek	Jarn, cobbler
+	Sven Gey		Wolfram, poet
+	Sven Gey		old, mysterious man from the woods.
+
+----------------------------------------------------------------
+
+VII. An appendix for people whose German sucks
+
+If you understand German don't read any further! It will spoil the game!
+
+We admit, these time it's a lot of text. If you don't have any German speaking
 person around you, try as following:
 
-First, you should talk to the woman walking around - just try every answer, you
-cannot go wrong. She asks you to talk to the two guys, so you do. (Again, try everything.)
+First, you should talk to the woman standing at the fountain - just try every answer, you
+cannot go wrong. Be aware of "Ich komme später wieder" which simple means to end the dialog, only
+choose this if nothing else is avaible.
+She asks you to talk to the three other guys in the village, so you do.
+One is a bit off the village, surrounded by trees, the other one is in a house.
 
-One of them gives you a package. Search the house door to which you can talk (yeah,
-we know! And it won't answer!). When you choose the first question, the owner should
-open the door. Talk to him, too.
+One of them gives you a package. Search the house door to which you can talk("Wolframs Tür").
+When you choose the first question, the owner should open the door. Talk to him, too, there are
+no wrong choices.
 
 Then, again, talk to the woman. She will ask you for your opinion. Careful, your
-answer will decide which way the events take further on!
+answer will decide which way the events take further on! If you have the option to choose
+from two rather long dialog-choices you can alter the Game Ending.
+The first one will let you go on to seek and kill an mysterious man in the woods,
+the second one will let you rescue yet another version of this man. 
 
+However, just choose one option, click trough the remaining dialog an leave the village to go
+to the path through the hills, it will be easy to find. After a short loading you will be in a forest.
 
+If you've chosen option one (see above) you can, optionally, "kill" four wolves by clicking right mouse button
+and choosing the "Dot" option. Go ahead an you will reach a tower, go in, up the stairs and "kill" the man by
+speaking to him. Just choose, again, all options. (we're working on that :) )
+After that you can return to the point where you entered the forest an speak to the woman who already awaits you.
+She will thank you for rescueing the village and you will return to the main menu. That's all, folks.
+
+If you've chosen the second option just go ahead to the tower and speak to the old man who will be in his bed.
+He asks you to kill four wolves which besieges the tower (and they appear immediatly!). Kill them by the method described
+above. No you can return to the woman, too, and get to the end.
 
 This is a good german -> english translator:
   http://dict.leo.org/?lang=en&lp=ende&search=
