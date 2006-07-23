@@ -70,7 +70,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="false"
-				AdditionalOptions="/VERBOSE:LIB /NODEFAULTLIB:MSVCRT&#x0D;&#x0A;"
+				AdditionalOptions="/NODEFAULTLIB:MSVCRT&#x0D;&#x0A;"
 				AdditionalDependencies="OgreMain_d.lib OgreNewt_d.lib CEGUIBase_d.lib opensteerd.lib RlCommon.lib RlCore.lib RlRules.lib RlDialog.lib boost_thread-vc80-mt-gd-1_33.lib Newton.lib"
 				OutputFile="$(OutDir)/RlAI.dll"
 				LinkIncremental="2"
