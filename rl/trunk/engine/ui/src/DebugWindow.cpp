@@ -204,7 +204,7 @@ namespace rl
 		if( camActor != 0 && camActor->_getSceneNode() != NULL )
 		{
 			Ogre::Camera* cam = dynamic_cast<CameraObject*>(camActor->getControlledObject())->getCamera();
-			Ogre::Vector3 pos = cam->getWorldPosition();
+            Ogre::Vector3 pos = cam->getDerivedPosition();
 
 			textSt += "\nCamera Position [ "
 				+ StringConverter::toString(pos.x,2,0,32,std::ios_base::fixed)+", "

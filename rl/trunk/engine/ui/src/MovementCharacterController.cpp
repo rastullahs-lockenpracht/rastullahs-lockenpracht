@@ -434,8 +434,15 @@ namespace rl {
 
             SceneNode* node = mCharacterActor->_getSceneNode();
 			std::ostringstream ss;
+            Vector3 bodpos;
+            Quaternion egal;
+            mCamBody->getPositionOrientation(bodpos,egal);
             ss << endl
                 << "scene node : " << node->getPosition() << endl
+                << "camera posder : " << static_cast<Camera*>(mCamera->_getMovableObject())->getDerivedPosition() << endl
+                << "camera pos : " << static_cast<Camera*>(mCamera->_getMovableObject())->getPosition() << endl
+                << "camera node : " << mCamera->getWorldPosition() << endl
+                << "camera body : " << bodpos << endl
                 << "is airborne: " << (mCharacterState.mIsAirBorne ? "true" : "false") << endl
                 << "start jump : " << (mCharacterState.mStartJump ? "true" : "false")  << endl
                 << "jump timer : " << mCharacterState.mJumpTimer << endl;
@@ -491,18 +498,18 @@ namespace rl {
 			// how fast has the camera to be,
 			// in order to get there in mMaxDelay seconds?
 			Vector3 vel = diff / mMaxDelay;
-			Ogre::Real speed = vel.length();
+			//Ogre::Real speed = vel.length();
 
-			// adjust scale of camera collision according to the velocity vector
-			// Use the pointer directly here. This is save, since we don't store
-			// a copy of it.
-			OgreNewt::CollisionPrimitives::HullModifier* hc =
-				static_cast<OgreNewt::CollisionPrimitives::HullModifier*>(
-				mCamBody->getCollision().getPointer());
-			Matrix4 mat = Matrix4::getScale(
-				Vector3(1.0f, 1.0f, 1.0f) 
-				+ (speed == 0 ? Vector3::ZERO : 3.0f * vel / speed));
-			hc->setMatrix(mat);
+			//// adjust scale of camera collision according to the velocity vector
+			//// Use the pointer directly here. This is save, since we don't store
+			//// a copy of it.
+			//OgreNewt::CollisionPrimitives::HullModifier* hc =
+			//	static_cast<OgreNewt::CollisionPrimitives::HullModifier*>(
+			//	mCamBody->getCollision().getPointer());
+			//Matrix4 mat = Matrix4::getScale(
+			//	Vector3(1.0f, 1.0f, 1.0f) 
+			//	+ (speed == 0 ? Vector3::ZERO : 3.0f * vel / speed));
+			//hc->setMatrix(mat);
 
 			// calcuate force and apply it
 			Real mass;
@@ -530,8 +537,8 @@ namespace rl {
 		/// \todo remove hard coded numbers
 		bool rval = true;
 		int numPoints = 4;
-		float xs[] = {0.0f, 30.0f, -35.0f, 0.0f};
-		float ys[] = {mLookAtOffset.y*2.0, mLookAtOffset.y, mLookAtOffset.y, 20.0f};
+		float xs[] = {0.0f, 0.30f, -0.35f, 0.0f};
+		float ys[] = {mLookAtOffset.y*2.0, mLookAtOffset.y, mLookAtOffset.y, 0.20f};
 		OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
 		OgreNewt::MaterialID* levelId = PhysicsManager::getSingleton()._getLevelMaterialID();
 
@@ -639,7 +646,7 @@ namespace rl {
 		AxisAlignedBox aabb = charMesh->getDefaultSize();
 		if (mode == VM_FIRST_PERSON)
 		{
-			mLookAtOffset = Vector3(0, (aabb.getMaximum() - aabb.getMinimum()).y * 0.45f, -1.1);
+			mLookAtOffset = Vector3(0, (aabb.getMaximum() - aabb.getMinimum()).y * 0.45f, 0);
 			mDistanceRange.first = 0.0;
 			mDistanceRange.second = 0.0;
 			mDesiredDistance = 0.0;

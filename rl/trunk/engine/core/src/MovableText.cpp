@@ -58,6 +58,7 @@ namespace rl {
     /************************************************************************/
     MovableText::~MovableText()
     {
+        MaterialManager::getSingletonPtr()->remove(mMaterial->getName());
         delete mRenderOp.vertexData;
     }
 

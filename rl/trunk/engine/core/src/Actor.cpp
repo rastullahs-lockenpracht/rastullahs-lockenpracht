@@ -320,11 +320,11 @@ namespace rl {
     {
         if (mSceneNode)
         {
-            return mSceneNode->getWorldPosition();
+            return mSceneNode->_getDerivedPosition();
         }
         else if (mBone)
         {
-            return mBone->getWorldPosition();
+            return mBone->_getDerivedPosition();
         }
         else
         {
@@ -337,11 +337,11 @@ namespace rl {
     {
         if (mSceneNode)
         {
-            return mSceneNode->getWorldOrientation();
+            return mSceneNode->_getDerivedOrientation();
         }
         else if (mBone)
         {
-            return mBone->getWorldOrientation();
+            return mBone->_getDerivedOrientation();
         }
         else
         {

@@ -117,7 +117,7 @@ namespace rl {
 
 	Vector3 World::getStartPoint() const
 	{
-		return mSceneMgr->getSuggestedViewpoint().position;
+        return Vector3::ZERO;
 	}
 	
 	void World::setCastShadows(bool enabled)

@@ -30,7 +30,8 @@ namespace rl {
 
         camera->setNearClipDistance(0.1);
         camera->setFarClipDistance(5000);
-
+        camera->setOrientation( Quaternion::IDENTITY );
+        camera->setPosition( Vector3::ZERO );
         mMovableObject = camera;
     }
 

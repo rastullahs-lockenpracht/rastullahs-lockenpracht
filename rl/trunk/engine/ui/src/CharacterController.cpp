@@ -65,7 +65,7 @@ namespace rl {
 
 		// Reset camera position/orientation, as it is now controlled via scene nodes.
 		Camera* ogreCam = dynamic_cast<CameraObject*>(mCamera->getControlledObject())->getCamera();
-		ogreCam->setPosition(Vector3::UNIT_Z);
+		ogreCam->setPosition(Vector3::ZERO);
 		ogreCam->setOrientation(Quaternion::IDENTITY);
 
 		mCamera->_getSceneNode()->setFixedYawAxis(true);
