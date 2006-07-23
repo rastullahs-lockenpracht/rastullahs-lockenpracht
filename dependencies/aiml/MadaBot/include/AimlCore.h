@@ -51,7 +51,20 @@ namespace MadaBot
 			  mCurrentBot(NULL)
 		{}
 
-		virtual ~AimlCore() { if(mParser)delete mParser; }
+		virtual ~AimlCore() 
+		{ 
+			if(mParser)
+			{
+				delete mParser; 
+				mParser = NULL;
+			}
+			for(GraphList::iterator itr = mGraphList.begin(); itr != mGraphList.end(); ++itr)
+			{
+				delete itr->second;
+			}
+			mGraphList.clear();
+		}
+
 		
 		AimlInterpreter<S>& getAimlInterpreter()
 		{

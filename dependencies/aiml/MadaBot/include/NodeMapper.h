@@ -43,6 +43,11 @@ namespace MadaBot
 
 		~NodeMapper()
 		{
+			if(mTemplateValue)
+			{
+				delete mTemplateValue;
+				mTemplateValue = NULL;
+			}
 			typename NodeList::iterator itr = mChildren.begin();
 			for(; itr != mChildren.end(); ++itr)
 			{
