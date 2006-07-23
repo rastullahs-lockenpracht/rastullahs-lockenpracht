@@ -61,49 +61,55 @@ class SoundChannel : public rl::EventCaster<rl::SoundEvent>
 {
 public:
 	SoundChannel(Sound *sound, const Ogre::String &name);
-	virtual ~SoundChannel();
+	~SoundChannel();
     
     /// Name zurückgeben
     const Ogre::String& getName() const;
     /// Kamera informieren
-    virtual void _notifyCurrentCamera(Ogre::Camera *cam);
+    void _notifyCurrentCamera(Ogre::Camera *cam);
     /// Unsere Bounding-Box
-    virtual const Ogre::AxisAlignedBox& getBoundingBox(void) const;
+    const Ogre::AxisAlignedBox& getBoundingBox(void) const;
     /// Bound-Radius
-    virtual Ogre::Real getBoundingRadius() const;
+    Ogre::Real getBoundingRadius() const;
     /// Rendern
-    virtual void _updateRenderQueue(Ogre::RenderQueue *queue);
+    void _updateRenderQueue(Ogre::RenderQueue *queue);
 
 
     /// Gibt die eingestellte Position der Soundquelle zurueck
-    virtual const Ogre::Vector3 getPosition() const = 0;
+    const Ogre::Vector3 getPosition() const;
     /// Setzt die Position der Soundquelle.
-    virtual void setPosition(const Ogre::Vector3& direction) = 0;
+    void setPosition(const Ogre::Vector3& direction) = 0;
     /// Gibt die eingestellte relative Lautstaerke der Soundquelle zurueck
-    virtual const unsigned int getVolume() const = 0; 
+    const Ogre::Real getVolume() const; 
     /// Setzt die relative Lautstaerke der Soundquelle.
-    virtual void setVolume(const unsigned int gain) = 0;
+    void setVolume(const Ogre::Real gain);
     /// Gibt die Richtung der Soundquelle zurueck.
-    virtual const Ogre::Quaternion getDirection() const = 0;
+    const Ogre::Quaternion getDirection() const;
     /// Gibt die Geschwindigkeit der Soundquelle zurueck.
-    virtual const Ogre::Vector3 getVelocity() const = 0;
+    const Ogre::Vector3 getVelocity() const;
     /// Setzt die Richtung der Soundquelle.
-    virtual void setDirection(const Ogre::Quaternion&) = 0;
+    void setDirection(const Ogre::Quaternion&);
     /// Setzt die Geschwindigkeit der Soundquelle.
-    virtual void setVelocity(const Ogre::Vector3&) = 0;
+    void setVelocity(const Ogre::Vector3&);
+    /// Setzt die Entfernung, ab der ein 3D-Sound leiser wird
+	void setRolloffStartDistance(const Ogre::Real dist);
+	const Ogre::Real getRolloffStartDistance() const;
+	/// Setzt die Entfernung, ab der ein 3D-Sound nicht mehr leiser wird
+	void setRolloffEndDistance(const Ogre::Real dist);
+	const Ogre::Real getRolloffEndDistance() const;
 
     /// Spielt den Sound ab.
-    virtual void play() = 0;
+    void play() ;
     /// Pausiert den Sound.
-    virtual void pause(bool pausing) = 0;
+    void pause(bool pausing) ;
     /// Ist der Sound pausiert?
-    virtual bool isPaused() = 0;
+    bool isPaused() ;
     /// Stoppt den Sound.
-    virtual void stop() = 0;
+    void stop() ;
     /// Zurueck auf Anfang.
-//        virtual void rewind() = 0;
+//        void rewind() ;
     /// Laeuft der Sound noch
-    virtual const bool isPlaying() const = 0;
+    const bool isPlaying() const ;
 
     /// Gibt zurück ob der Sound geloopt werden soll 
     bool isLooping() const;
@@ -111,7 +117,7 @@ public:
     void setLooping( bool looping );
     
     // Sind wir gueltig
-    virtual bool isValid() const;
+    bool isValid() const;
 };
 
 

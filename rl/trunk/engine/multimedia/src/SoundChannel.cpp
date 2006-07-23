@@ -35,7 +35,7 @@ SoundChannel::SoundChannel(SoundDriver* driver, Sound *sound, const Ogre::String
    mDriver(driver),
    mSound(sound),
    mName(name),
-   mVolume(100)
+   mVolume(1.0)
 {
 }
 
@@ -143,4 +143,23 @@ SoundDriver* SoundChannel::getDriver() const
 	return mDriver;
 }
 
+void SoundChannel::setRolloffStartDistance(const Ogre::Real& distance)
+{
+	mRolloffStartDistance = distance;
+}
+
+const Ogre::Real SoundChannel::getRolloffStartDistance() const
+{
+	return mRolloffStartDistance;
+}
+
+void SoundChannel::setRolloffEndDistance(const Ogre::Real& distance)
+{
+	mRolloffEndDistance = distance;
+}
+
+const Ogre::Real SoundChannel::getRolloffEndDistance() const
+{
+	return mRolloffEndDistance;
+}
 };

@@ -29,22 +29,6 @@ typedef map<Ogre::String, StringList> DriverMap;
  */
 class _RlFmod3DriverExport Fmod3Driver : public rl::SoundDriver
 {
-private:
-    // FMOD-Callbacks
-    static void close(void *handle);
-    static void *open(const char *name);
-    static int read(void *buffer, int size, void *handle);
-    static int seek(void *handle, int pos, signed char mode);
-    static int tell(void *handle);
-
-	// Wir merken uns die Konfiguration von Fmod3
-	DriverMap mDriverData;
-
-	// Die Daten für einen Output holen
-	const StringList getDriversForOutput(int output) const;
-	/// Informationen über den Treiber sammeln
-	virtual void collectData();
-
 public:
 	/// Der Treibername
 	static CeGuiString NAME;
@@ -73,6 +57,10 @@ public:
 
 	void setMasterVolume(unsigned int vol);
 
+	/// Setzt den Faktor f, mit der die Lautstärke nach der Formel 1/(f*Entfernung) abnimmt
+	void setRolloffFactor(const Ogre::Real&);
+	const Ogre::Real getRolloffFactor();
+
     /// Den  Konfigurationsdialog für Treiber aufrufen
     virtual void doConfig();
     /// Die Einstellungen in Datei schreiben
@@ -86,6 +74,24 @@ public:
 protected:
     /// Informationen über den Treiber ausgeben
     virtual void printData() const;
+
+private:
+    // FMOD-Callbacks
+    static void close(void *handle);
+    static void *open(const char *name);
+    static int read(void *buffer, int size, void *handle);
+    static int seek(void *handle, int pos, signed char mode);
+    static int tell(void *handle);
+
+	// Wir merken uns die Konfiguration von Fmod3
+	DriverMap mDriverData;
+
+	Ogre::Real mRolloffFactor;
+
+	// Die Daten für einen Output holen
+	const StringList getDriversForOutput(int output) const;
+	/// Informationen über den Treiber sammeln
+	virtual void collectData();
 };
 
 }

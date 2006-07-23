@@ -38,25 +38,6 @@ namespace rl
 class _RlMultimediaExport SoundChannel  : public Ogre::MovableObject, 
     public EventCaster<SoundEvent>, public EventSource
 {
-private:
-    rl::Sound *mSound;
-	SoundDriver* mDriver;
-
-    /// Shared class-level name for Movable type
-    static Ogre::AxisAlignedBox msAABox;
-    /// Der Name des Soundchannels
-    Ogre::String mName;
-    
-protected:
-    /// Die Lautstärke
-    unsigned int mVolume;
-    /// Die Position
-    Ogre::Vector3 mPosition;
-    /// Die Richtung
-    Ogre::Quaternion mDirection;
-    /// Die Geschwindigkeit
-    Ogre::Vector3 mVelocity;
-    
 public:
 	SoundChannel(SoundDriver* driver, Sound *sound, const Ogre::String &name);
 	virtual ~SoundChannel();
@@ -77,10 +58,10 @@ public:
     virtual const Ogre::Vector3 getPosition() const = 0;
     /// Setzt die Position der Soundquelle.
     virtual void setPosition(const Ogre::Vector3& direction) = 0;
-    /// Gibt die eingestellte relative Lautstaerke der Soundquelle zurueck (0..100)
-    virtual const unsigned int getVolume() const = 0; 
-    /// Setzt die relative Lautstaerke der Soundquelle (0..100).
-    virtual void setVolume(const unsigned int gain) = 0;
+    /// Gibt die eingestellte relative Lautstaerke der Soundquelle zurueck (0.0 ... 1.0)
+	virtual const Ogre::Real getVolume() const = 0; 
+    /// Setzt die relative Lautstaerke der Soundquelle (0.0 .. 1.0).
+	virtual void setVolume(const Ogre::Real gain) = 0;
     /// Gibt die Richtung der Soundquelle zurueck.
     virtual const Ogre::Quaternion getDirection() const = 0;
     /// Gibt die Geschwindigkeit der Soundquelle zurueck.
@@ -89,6 +70,12 @@ public:
     virtual void setDirection(const Ogre::Quaternion&) = 0;
     /// Setzt die Geschwindigkeit der Soundquelle.
     virtual void setVelocity(const Ogre::Vector3&) = 0;
+	/// Setzt die Entfernung, ab der ein 3D-Sound leiser wird
+	virtual void setRolloffStartDistance(const Ogre::Real&);
+	virtual const Ogre::Real getRolloffStartDistance() const;
+	/// Setzt die Entfernung, ab der ein 3D-Sound nicht mehr leiser wird
+	virtual void setRolloffEndDistance(const Ogre::Real&);
+	virtual const Ogre::Real getRolloffEndDistance() const;
 
     /// Spielt den Sound ab.
     virtual void play() = 0;
@@ -124,6 +111,28 @@ public:
     Sound *getSound() const;
 
 	SoundDriver* getDriver() const;
+    
+protected:
+    /// Die Lautstärke
+	Ogre::Real mVolume;
+    /// Die Position
+    Ogre::Vector3 mPosition;
+    /// Die Richtung
+    Ogre::Quaternion mDirection;
+    /// Die Geschwindigkeit
+    Ogre::Vector3 mVelocity;
+
+	Ogre::Real mRolloffStartDistance;
+	Ogre::Real mRolloffEndDistance;
+
+private:
+    rl::Sound *mSound;
+	SoundDriver* mDriver;
+
+    /// Shared class-level name for Movable type
+    static Ogre::AxisAlignedBox msAABox;
+    /// Der Name des Soundchannels
+    Ogre::String mName;
 };
 
 typedef std::set<SoundChannel*> SoundChannelSet;

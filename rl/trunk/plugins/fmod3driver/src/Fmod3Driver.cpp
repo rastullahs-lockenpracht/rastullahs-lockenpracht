@@ -20,6 +20,7 @@ extern "C" {
     #include <fmod_errors.h>
 }
 
+#include "ConfigFile.h"
 #include "Fmod3SoundSample.h"
 #include "Fmod3SoundStream.h"
 #include "Fmod3SoundChannel.h"
@@ -474,6 +475,7 @@ void Fmod3Driver::setMasterVolume(unsigned int vol)
 void Fmod3Driver::saveConf(ConfigFile &conf) const
 {
 	SoundDriver::saveConf(conf);
+	conf.setValue(mRolloffFactor, "3DRolloffFactor", "Fmod3");
 }
 
 /*
@@ -485,6 +487,7 @@ void Fmod3Driver::saveConf(ConfigFile &conf) const
 void Fmod3Driver::loadConf(ConfigFile &conf)
 {
 	SoundDriver::loadConf(conf);
+	mRolloffFactor = conf.getValue(Ogre::Real(1.0), "3DRolloffFactor", "Fmod3");
 }
 
 /*
@@ -547,5 +550,17 @@ void Fmod3Driver::collectData()
 	mDriverData["OSS"] = getDriversForOutput(FSOUND_OUTPUT_OSS);
 #endif
 }
+
+void Fmod3Driver::setRolloffFactor(const Ogre::Real& factor)
+{
+	mRolloffFactor = factor;
+	FSOUND_3D_SetRolloffFactor(factor);
+}
+
+const Ogre::Real Fmod3Driver::getRolloffFactor()
+{
+	return mRolloffFactor;
+}
+
 
 }

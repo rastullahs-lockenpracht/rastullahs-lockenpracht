@@ -167,7 +167,7 @@ void NullSoundChannel::setVelocity(const Vector3& velocity)
  * @author JoSch
  * @date 07-04-2005
  */
-const unsigned int NullSoundChannel::getVolume() const
+const Ogre::Real NullSoundChannel::getVolume() const
 {
     return mVolume;
 }
@@ -177,13 +177,13 @@ const unsigned int NullSoundChannel::getVolume() const
  * @author JoSch
  * @date 07-04-2005
  */
-void NullSoundChannel::setVolume(const unsigned int gain)
+void NullSoundChannel::setVolume(const Ogre::Real gain)
 {
     mVolume = gain;
 }
 
 /**
- * @param pausing TRUE l�sst den Sound unterbrechen.
+ * @param pausing TRUE laesst den Sound unterbrechen.
  * @author JoSch
  * @date 07-04-2005
  */

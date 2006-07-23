@@ -59,6 +59,10 @@ public:
     /// Einen Soundlistener erzeugen
     virtual ListenerMovable *createListener(const Ogre::String &name) = 0;
     
+
+	/// Setzt den Faktor f, mit der die Lautstärke nach der Formel 1/(f*Entfernung) abnimmt
+	virtual void setRolloffFactor(const Ogre::Real&) = 0;
+	virtual const Ogre::Real getRolloffFactor() = 0;
     /// Die Standardlautstärke für Musik einstellen
     void setDefaultMusicVolume(unsigned int vol);
     /// Die Standardlautstärke für Musik zurückgeben.

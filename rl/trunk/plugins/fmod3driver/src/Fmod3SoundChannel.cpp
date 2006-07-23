@@ -36,7 +36,8 @@ Fmod3SoundChannel::Fmod3SoundChannel(SoundDriver* driver, Sound *sound, const Og
  : SoundChannel(driver, sound, name),
    mChannel(NO_CHANNEL)
 {
-    
+	mRolloffStartDistance = 1.0f;
+	mRolloffEndDistance = 1000000000.0f;
 }
 
 Fmod3SoundChannel::~Fmod3SoundChannel()
@@ -67,10 +68,10 @@ void Fmod3SoundChannel::play()
 	}
 	setVolume(vol);
 
-    setPosition(Vector3(0.0, 0.0, 0.0));
-    setDirection(Quaternion(0.0, 0.0, 0.0));
-    setVelocity(Vector3(0.0, 0.0, 0.0)); 
-    FSOUND_3D_SetMinMaxDistance(mChannel, 1.0, 9999999.0);
+    setPosition(mPosition);
+    setDirection(mDirection);
+	setVelocity(mVelocity); 
+    FSOUND_3D_SetMinMaxDistance(mChannel, mRolloffStartDistance, mRolloffEndDistance);
     pause(false);
     SoundPlayEvent event = SoundPlayEvent(this, SoundPlayEvent::STARTEVENT);
     dispatchEvent(&event);
@@ -229,11 +230,11 @@ void Fmod3SoundChannel::setVelocity(const Vector3& velocity)
  * @author JoSch
  * @date 07-04-2005
  */
-const unsigned int Fmod3SoundChannel::getVolume() const
+const Ogre::Real Fmod3SoundChannel::getVolume() const
 {
     if (isValid())
     {
-        return int(FSOUND_GetVolume(getChannel()) / 2.55);
+        return (float)FSOUND_GetVolume(getChannel()) / 255.0;
     }
     return mVolume;
 }
@@ -243,12 +244,18 @@ const unsigned int Fmod3SoundChannel::getVolume() const
  * @author JoSch
  * @date 07-04-2005
  */
-void Fmod3SoundChannel::setVolume(const unsigned int gain)
+void Fmod3SoundChannel::setVolume(const Ogre::Real gain)
 {
-    mVolume = gain;
+	float volume = gain;
+	if (volume > 1.0)
+		volume = 1.0;
+	if (volume < 0.0)
+		volume = 0.0;
+
+    mVolume = volume;
     if (isValid())
     {
-        FSOUND_SetVolume(getChannel(), int(gain * 2.55));
+        FSOUND_SetVolume(getChannel(), int(volume * 255.0));
     }
 }
 
@@ -296,6 +303,52 @@ bool Fmod3SoundChannel::isPaused()
         return FSOUND_GetPaused(getChannel());
     }
     return true;
+}
+
+void Fmod3SoundChannel::setRolloffStartDistance(const Ogre::Real& distance)
+{
+	SoundChannel::setRolloffStartDistance(distance);
+
+	if (isValid())
+	{
+		float min, max;
+		FSOUND_3D_GetMinMaxDistance(mChannel, &min, &max);
+		FSOUND_3D_SetMinMaxDistance(mChannel, distance, max);
+	}
+}
+
+const Ogre::Real Fmod3SoundChannel::getRolloffStartDistance()
+{
+	if (isValid())
+	{
+		float min, max;
+		FSOUND_3D_GetMinMaxDistance(mChannel, &min, &max);
+		return min;
+	}
+	return SoundChannel::getRolloffStartDistance();
+}
+
+void Fmod3SoundChannel::setRolloffEndDistance(const Ogre::Real& distance)
+{
+	SoundChannel::setRolloffEndDistance(distance);
+
+	if (isValid())
+	{
+		float min, max;
+		FSOUND_3D_GetMinMaxDistance(mChannel, &min, &max);
+		FSOUND_3D_SetMinMaxDistance(mChannel, min, distance);
+	}
+}
+
+const Ogre::Real Fmod3SoundChannel::getRolloffEndDistance()
+{
+	if (isValid())
+	{
+		float min, max;
+		FSOUND_3D_GetMinMaxDistance(mChannel, &min, &max);
+		return max;
+	}
+	return SoundChannel::getRolloffEndDistance();
 }
 
 };

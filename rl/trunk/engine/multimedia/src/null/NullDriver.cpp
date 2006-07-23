@@ -198,4 +198,13 @@ void NullDriver::doConfig()
     // DO NOTHING
 }
 
+void NullDriver::setRolloffFactor(const Ogre::Real&)
+{
+}
+
+const Ogre::Real NullDriver::getRolloffFactor()
+{
+	return 1.0;
+}
+
 }

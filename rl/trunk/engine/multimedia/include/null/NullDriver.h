@@ -33,36 +33,40 @@ public:
     /// Der Konstruktor
 	NullDriver(Ogre::ResourceManager* soundResourceManager);
     /// Der Destruktor
-	virtual ~NullDriver();
+	~NullDriver();
     /// Ist der Treiber angeschaltet?
-    virtual bool isDriverAvailable();
+    bool isDriverAvailable();
     /// Initialisiere den Treiber.
-    virtual void init();
+    void init();
     /// Deinitialisiere den Treiber.
-    virtual void deInit();
+    void deInit();
     /// Der Name des Treibers
-    virtual CeGuiString getName() const;
+    CeGuiString getName() const;
     /// Update-Aufgaben erledigen
-    virtual void update();
+    void update();
     /// Einen Sound-Stream mit Resource erzeugen
-    virtual Sound *createStream(const SoundResourcePtr &res);
+    Sound *createStream(const SoundResourcePtr &res);
     /// Einen Sound-Sample mit Resource erzeugen
-    virtual Sound *createSample(const SoundResourcePtr &res);
+    Sound *createSample(const SoundResourcePtr &res);
     /// Einen SoundChannel erzeugen
-    virtual SoundChannel *createChannel(Sound *channel, const Ogre::String &name);
+    SoundChannel *createChannel(Sound *channel, const Ogre::String &name);
     /// Einen Soundlistener erzeugen
-    virtual ListenerMovable *createListener(const Ogre::String &name);
+    ListenerMovable *createListener(const Ogre::String &name);
 
     /// Den  Konfigurationsdialog für Treiber aufrufen
-    virtual void doConfig();
+    void doConfig();
     /// Die Einstellungen in Datei schreiben
-    virtual void saveConf(rl::ConfigFile &conf) const;
+    void saveConf(rl::ConfigFile &conf) const;
     /// Die Einstellungen laden
-    virtual void loadConf(rl::ConfigFile &conf);
+    void loadConf(rl::ConfigFile &conf);
+
+	/// Setzt den Faktor f, mit der die Lautstärke nach der Formel 1/(f*Entfernung) abnimmt
+	void setRolloffFactor(const Ogre::Real&);
+	const Ogre::Real getRolloffFactor();
     
 protected:
     /// Informationen über den Treiber ausgeben
-    virtual void printData() const;
+    void printData() const;
 };
 
 }
