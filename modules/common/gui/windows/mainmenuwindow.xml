@@ -1,10 +1,8 @@
 <GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
 	<Window Type="DefaultWindow" Name="MainMenu">
 		<Window Type="RastullahLook/Menubar" Name="MainMenu/Menubar">
-			<Property Name="RelativeWidth" Value="1.0"/>
-			<Property Name="RelativeHeight" Value="0.025"/>
-			<Property Name="RelativeXPosition" Value="0.0"/>
-			<Property Name="RelativeYPosition" Value="0.0"/>
+			<Property Name="UnifiedSize" Value="{{1.0, 0.0},{0.025,0.0}}"/>
+			<Property Name="UnifiedPosition" Value="{{0.0,0.0},{0.0,0.0}}"/>
 
 			<Window Type="RastullahLook/MenuItem" Name="MainMenu/Game">
 				<Property Name="Text" Value="Spiel"/>

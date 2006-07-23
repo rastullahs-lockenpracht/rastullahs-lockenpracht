@@ -1,11 +1,10 @@
 <GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
-	<Window Type="DefaultWindow" Name="MainMenu">
-	    <Property Name="UnifiedPosition" Value="{{0,-5},{0,-8}}" />
+	<Window Type="DefaultWindow" Name="MainMenu2">
+	    <Property Name="UnifiedPosition" Value="{{0,5},{1,-600}}" />
+	    <Property Name="UnifiedSize" Value="{{1,-5},{0,600}}" />
 		<Window Type="RastullahLook/StaticText" Name="MainMenu/GameName">
-			<Property Name="VerticalAlignment" Value="Bottom" />
-	        <Property Name="HorizontalAlignment" Value="Right" />
             <Property Name="HorzFormatting" Value="RightAligned"/>
-            <Property Name="UnifiedPosition" Value="{{0,-5},{0,-8}}" />
+            <Property Name="UnifiedPosition" Value="{{1,-355},{1,-58}}" />
 			<Property Name="FrameEnabled" Value="False"/>
             <Property Name="AbsoluteSize" Value="w:350 h:50" />
             <Property Name="Text" Value="Rastullahs Lockenpracht"/>
@@ -13,13 +12,53 @@
             <Property Name="TextColours" Value="tl:FFEDD5A1 tr:FFEDD5A1 bl:FFEDD5A1 br:FFEDD5A1" />
 		</Window>
 		<Window Type="RastullahLook/StaticText" Name="MainMenu/EngineVersion">
-			<Property Name="VerticalAlignment" Value="Bottom" />
-	        <Property Name="HorizontalAlignment" Value="Right" />
             <Property Name="HorzFormatting" Value="RightAligned"/>
-            <Property Name="UnifiedPosition" Value="{{0,-10},{0,0}}" />
+            <Property Name="UnifiedPosition" Value="{{1,-210},{1,-20}}" />
 			<Property Name="FrameEnabled" Value="False"/>
             <Property Name="AbsoluteSize" Value="w:200 h:20" />
             <Property Name="TextColours" Value="tl:FFEDD5A1 tr:FFEDD5A1 bl:FFEDD5A1 br:FFEDD5A1" />
+		</Window>
+
+		<Window Type="RastullahLook/StaticImage" Name="MainMenu/OgreLogo">
+			<Property Name="Image" Value="set:Logos image:Ogre"/>
+			<Property Name="UnifiedPosition" Value="{{0,10},{0,10}}"/>
+			<Property Name="UnifiedSize" Value="{{0,250},{0,100}}"/>
+			<Property Name="Tooltip" Value="Ogre 3D Library"/>
+		</Window>
+		<Window Type="RastullahLook/StaticImage" Name="MainMenu/NewtonLogo">
+			<Property Name="Image" Value="set:Logos image:Newton"/>
+			<Property Name="UnifiedPosition" Value="{{0,10},{0,120}}"/>
+			<Property Name="UnifiedSize" Value="{{0,180},{0,54}}"/>
+			<Property Name="Tooltip" Value="Newton Physics Library"/>
+		</Window>
+		<Window Type="RastullahLook/StaticImage" Name="MainMenu/CEGUILogo">
+			<Property Name="Image" Value="set:Logos image:CEGUI"/>
+			<Property Name="UnifiedPosition" Value="{{0,10},{0,184}}"/>
+			<Property Name="UnifiedSize" Value="{{0,206},{0,112}}"/>
+			<Property Name="Tooltip" Value="Crazy Eddie's GUI Library"/>
+		</Window>
+		<Window Type="RastullahLook/StaticImage" Name="MainMenu/RubyLogo">
+			<Property Name="Image" Value="set:Logos image:Ruby"/>
+			<Property Name="UnifiedPosition" Value="{{0,10},{0,297}}"/>
+			<Property Name="UnifiedSize" Value="{{0,86},{0,104}}"/>
+			<Property Name="Tooltip" Value="Ruby Scripting Language"/>
+		</Window>
+		<Window Type="RastullahLook/StaticImage" Name="MainMenu/BoostLogo">
+			<Property Name="Image" Value="set:Logos image:boost"/>
+			<Property Name="UnifiedPosition" Value="{{0,10},{0,413}}"/>
+			<Property Name="UnifiedSize" Value="{{0,237},{0,55}}"/>
+			<Property Name="Tooltip" Value="Boost C++ Libraries"/>
+		</Window>
+		<Window Type="RastullahLook/StaticImage" Name="MainMenu/FmodLogo">
+			<Property Name="Image" Value="set:Logos image:Fmod"/>
+			<Property Name="UnifiedPosition" Value="{{0,10},{0,478}}"/>
+			<Property Name="UnifiedSize" Value="{{0,150},{0,119}}"/>
+			<Property Name="Tooltip" Value="Fmod Sound Library"/>
+		</Window>
+		<Window Type="RastullahLook/StaticImage" Name="MainMenu/PantheonLogo">
+			<Property Name="Image" Value="set:Logos image:Pantheon"/>
+			<Property Name="UnifiedPosition" Value="{{300,10},{150,10}}"/>
+			<Property Name="UnifiedSize" Value="{{0,225},{0,225}}"/>
 		</Window>
 	</Window>
 </GUILayout>
