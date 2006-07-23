@@ -9,7 +9,7 @@ require 'truhe.rb'
 require 'door_opener.rb'
 require 'heiltrank.rb'
 require 'crate.rb'
-require 'enemy.rb'
+
 
 # Physik aktivieren
 $PM.setEnabled(true);
@@ -81,5 +81,6 @@ load "kreislauf.rb"
 load "timer.rb"
 load "area.rb"
 load "dialogdemo.rb"
+load 'enemy.rb'
 
 $SCRIPT.log("map 'minidemo' initialisiert.");
