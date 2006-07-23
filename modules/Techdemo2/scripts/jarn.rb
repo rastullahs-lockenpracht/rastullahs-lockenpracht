@@ -7,13 +7,10 @@ print( "Jarn Bot wird geladen" );
 print( "Definiere Listener" );
  
 jarn = Creature.new("Jarn", "Jarn");
-jarn.setActor($AM.createMeshActor("Jarn", "men_Gennisch2.mesh", PhysicsManager::GT_ELLIPSOID, 75.0));
-jarn.getActor().placeIntoScene([ -36.104907989502, -6.24442529678345, 18.6247081756592],[0.0, 24.2328720092773, 0.0]);
-#jarn.getControlledObject().startAnimation("idle");
+jarn.setActor($AM.createMeshActor("Jarn", "men_Gennisch2.mesh", PhysicsManager::GT_ELLIPSOID, 0.0));
+jarn.getActor().placeIntoScene([ -36.16, -6.25, 18.12],[0.0, -23.40, 0.0]);
 
-
-
-bot=$DS.loadBot("Jarn", "jarn.xml");
+bot = $DS.loadBot("Jarn", "jarn.xml");
 bot.setNonPlayerCharacter(jarn);
 jarn.addAction(TalkAction.new("Jarn", "jarn.xml"));
 agent = $AI.createAgent(bot);
