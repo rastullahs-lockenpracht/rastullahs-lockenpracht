@@ -85,7 +85,7 @@
 		</category>	
 		
 			<category>
-			<pattern>23</pattern>
+			<pattern>233</pattern>
 			<template>
 				<gossip rldialog:type="response">
 					<li rldialog:id="tsafried006.ogg">Also ich bin immer direkt in den Wald gegangen, dort kenne ich mich aus. Aber ich glaube es gibt einen alten Pfad, der auch dort hinführt. Der Weg ist ein klein wenig länger, aber viel einfacher zu finden. Fragt am besten Sonja danach.</li>			
