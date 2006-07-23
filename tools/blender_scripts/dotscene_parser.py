@@ -1,5 +1,5 @@
-#!/usr/bin/python
-
+#!python
+# -*- coding: iso-8859-1 -*-
 
 __author__ = "Jochen Schäfer"
 __version__ = "0.1 07/12/06"
@@ -1222,10 +1222,10 @@ def handleUserData(node):
  
  
     
-log("Starting Parser Test")
-sceneDoc = parse("test1.scene")
-scene = createScene(sceneDoc.documentElement)
-log(scene)
-log("Test done")
+#log("Starting Parser Test")
+#sceneDoc = parse("test1.scene")
+#scene = createScene(sceneDoc.documentElement)
+#log(scene)
+#log("Test done")
 
     
