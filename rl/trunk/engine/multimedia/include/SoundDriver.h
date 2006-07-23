@@ -47,7 +47,7 @@ public:
     /// Beende den Treiber
     virtual void deInit() = 0;
     /// Der Name des Treibers
-    virtual CeGuiString getName() const = 0;
+	virtual Ogre::String getName() const = 0;
     /// Update-Aufgaben erledigen
     virtual void update() = 0;
     /// Einen Sound-Stream mit Resource erzeugen

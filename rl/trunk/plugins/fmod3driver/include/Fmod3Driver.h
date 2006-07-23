@@ -31,7 +31,7 @@ class _RlFmod3DriverExport Fmod3Driver : public rl::SoundDriver
 {
 public:
 	/// Der Treibername
-	static CeGuiString NAME;
+	static Ogre::String NAME;
     /// Der Konstruktor
 	Fmod3Driver(Ogre::ResourceManager* soundResourceManager);
     /// Der Destruktor
@@ -43,7 +43,7 @@ public:
     /// Deinitialisiere den Treiber.
     virtual void deInit();
     /// Der Name des Treibers
-    virtual CeGuiString getName() const;
+	virtual Ogre::String getName() const;
     /// Update-Aufgaben erledigen
     virtual void update();
     /// Einen Sound-Stream mit Resource erzeugen

@@ -296,8 +296,8 @@ namespace rl {
 
 		mKeyDown[e->getKey()]=true;
 		mCharacterController->injectKeyDown(e->getKey());
-        std::set<KeyListener*>::iterator i;
-        for(i=mKeyListeners.begin(); i!=mKeyListeners.end(); i++)
+		std::set<KeyListener*>::iterator i;
+		for(i=mKeyListeners.begin(); i!=mKeyListeners.end(); i++)
 			(*i)->keyPressed(e);
 	}
 

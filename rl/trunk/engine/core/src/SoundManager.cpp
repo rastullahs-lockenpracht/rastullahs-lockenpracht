@@ -223,49 +223,42 @@ const DriverList& SoundManager::getSoundDriverList() const
  */
 void SoundManager::setActiveDriver(SoundDriver *driver)
 {
-    if (mActiveDriver != NULL && driver != NULL)
+	if (mSoundUpdateTask != NULL)
+	{
+		GameLoopManager::getSingleton().removeAsynchronousTask(mSoundUpdateTask);
+		delete mSoundUpdateTask;
+	}
+	
+	if (mActiveDriver != NULL )
     {
 		Logger::getSingleton().log(
 			Logger::CORE, 
 			Logger::LL_NORMAL, 
-			CeGuiString("Soundtreiber wird gewechselt von ")
-            + mActiveDriver->getName()
-			+ CeGuiString(" zu ") + 
-			driver->getName());
-    } 
-	else if (mActiveDriver != NULL)
-    {
-        Logger::getSingleton().log(
-			Logger::CORE, 
-			Logger::LL_NORMAL, 
-			CeGuiString("Soundtreiber wird gewechselt von ")
+			"Soundtreiber wird gewechselt von "
             + mActiveDriver->getName());
+
+		delete mActiveDriver;
+		mActiveDriver = NULL;
     } 
-	else 
+
+	if (driver != NULL) 
 	{
 		Logger::getSingleton().log(
 			Logger::CORE, 
 			Logger::LL_NORMAL, 
-			CeGuiString("Soundtreiber wird gewechselt zu ")
+			"Soundtreiber wird gewechselt zu "
              + driver->getName());
-    }
-    if( mActiveDriver != NULL )
-        delete mActiveDriver;
 
-    mActiveDriver = driver;
-    if (mActiveDriver != NULL)
-    {
-        mActiveDriver->init();
-		
-		if (mSoundUpdateTask != NULL)
-		{
-			GameLoopManager::getSingleton().removeAsynchronousTask(mSoundUpdateTask);
-			delete mSoundUpdateTask;
-		}
-
-		mSoundUpdateTask = new SoundUpdateTask(this);
-		GameLoopManager::getSingleton().addAsynchronousTask(mSoundUpdateTask);
+		mActiveDriver = driver;
     }
+	else
+	{
+		mActiveDriver = getDriverByName(NullDriver::NAME);
+	}
+    
+    mActiveDriver->init();
+	mSoundUpdateTask = new SoundUpdateTask(this);
+	GameLoopManager::getSingleton().addAsynchronousTask(mSoundUpdateTask);
 }
 
 void SoundManager::_clearListenerActor()
@@ -319,7 +312,7 @@ Actor* SoundManager::getListenerActor()
  * @author JoSch
  * @date 05-10-2006
  */
-SoundDriver *SoundManager::getDriverByName(const String  &name)
+SoundDriver *SoundManager::getDriverByName(const String &name)
 {
 	DriverList::const_iterator it;
 	for(it = mDriverList.begin(); it != mDriverList.end(); it++)
@@ -384,11 +377,11 @@ void SoundManager::loadConf(const Ogre::String &filename)
             
 	}
 
-	String drivername = conf.getValue(String(NullDriver::NAME.c_str()), "ActiveDriver", "General");
+	String drivername = conf.getValue(NullDriver::NAME, "ActiveDriver", "General");
 	SoundDriver *driver = getDriverByName(drivername);
     if (driver == NULL)
     {
-        driver = getDriverByName(String(NullDriver::NAME.c_str()));
+        driver = getDriverByName(NullDriver::NAME);
     }
 	RlAssert(driver != NULL, "Beim Laden des Treibers ist ein Fehler aufgetreten");
 	setActiveDriver(driver);

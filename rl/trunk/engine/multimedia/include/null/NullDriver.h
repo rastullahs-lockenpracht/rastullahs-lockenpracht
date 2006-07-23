@@ -29,7 +29,7 @@ class _RlMultimediaExport NullDriver : public rl::SoundDriver
 {
 public:
 	/// Der Treibername
-	static CeGuiString NAME;
+	static Ogre::String NAME;
     /// Der Konstruktor
 	NullDriver(Ogre::ResourceManager* soundResourceManager);
     /// Der Destruktor
@@ -41,7 +41,7 @@ public:
     /// Deinitialisiere den Treiber.
     void deInit();
     /// Der Name des Treibers
-    CeGuiString getName() const;
+	Ogre::String getName() const;
     /// Update-Aufgaben erledigen
     void update();
     /// Einen Sound-Stream mit Resource erzeugen
