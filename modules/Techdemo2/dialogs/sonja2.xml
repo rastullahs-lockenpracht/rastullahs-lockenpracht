@@ -5,11 +5,4 @@
 		<learn src='sonja2.aiml'/>
 		<script src='dialog.rb' class='DialogCharTest'/>
 	</bot>
-	<!--<script name="dialog.rb" class="GameActorScriptOne"/>-->
-	<!-- <script class="GameActorTest">blablabla</script> -->
-	<!--<script></script>-->
-<!--
-	<options>
-		<option name='load' value='*.aiml'/>
-	</options>-->
 </aiml-startup>
