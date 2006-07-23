@@ -5,6 +5,7 @@ load( "npc.rb" );
 $SCRIPT.log("Schnetzelvariante ausgewählt");
 
 $SCRIPT.log("Questbook aufräumen");
+
 RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest").setKnown(false)
 RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest1").setKnown(false)
 RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest2").setKnown(false)
@@ -57,6 +58,23 @@ print( "Definiere TurmeingangListener" );
 class TurmeingangListener < GameAreaListener
 	def initialize()
 		super()
+        steinepos = [   [ 100.0,    [21.44, -26.57, -260.17] ],
+                        [ 30000.0,  [19.53, -35.26, -260.17] ],
+                        [ 40000.0,  [19.92, -42.9, -261.4] ],
+                        [ 60000.0,  [20.5, -30.85, -258.21]],
+                        [ 20000.0,  [19.48, -40.62, -259.11] ],
+                        [ 10000.0,  [19.48, -36.87, -259.11] ]
+                    ]
+        @steineList = Array.new
+        i = 0
+        steinepos.each{ |s|
+            i = i+1
+            stein = $AM.createMeshActor("Stein"+i.to_s, "ver_stein_turm.mesh", PhysicsManager::GT_BOX, s[0] )
+		    stein.placeIntoScene( s[1] )
+            stein.getPhysicalThing().setGravityOverride(true, 0.0, 0.0, 0.0)
+            stein.setVisible(false)
+            @steineList.push( stein )
+        }
 	end
 
 	def areaLeft(anEvent)
@@ -69,26 +87,13 @@ class TurmeingangListener < GameAreaListener
 
 		#Schrott und Schutt fliegt von oben herab
 		$AM.getActor("Steinschlag").getControlledObject().play()
-
-		stein1 = $AM.createMeshActor("Stein1", "ver_stein_turm.mesh", PhysicsManager::GT_BOX, 100.0 );
-		stein1.placeIntoScene([21.44, -26.57, -260.17]);
-
-		stein2 = $AM.createMeshActor("Stein2", "ver_stein_turm.mesh", PhysicsManager::GT_BOX, 30000.0 );
-		stein2.placeIntoScene([19.53, -35.26, -260.17]);
 		
-		stein3 = $AM.createMeshActor("Stein3", "ver_stein_turm.mesh", PhysicsManager::GT_BOX, 40000.0 );
-		stein3.placeIntoScene([19.92, -42.9, -261.4]);
+        @steineList.each{ |s| 
+            s.getPhysicalThing().setGravityOverride(false)
+            s.getPhysicalThing().unfreeze()
+            s.setVisible(true)
+        }
 
-		stein4 = $AM.createMeshActor("Stein4", "ver_stein_turm.mesh", PhysicsManager::GT_BOX, 60000.0 );
-		stein4.placeIntoScene([20.5, -30.85, -258.21]);
-
-		stein5 = $AM.createMeshActor("Stein5", "ver_stein_turm.mesh", PhysicsManager::GT_BOX, 20000.0 );
-		stein5.placeIntoScene([19.48, -40.62, -259.11]);
-
-		stein6 = $AM.createMeshActor("Stein6", "ver_stein_turm.mesh", PhysicsManager::GT_BOX, 10000.0 );
-		stein6.placeIntoScene([19.48, -36.87, -259.11]);
-
-		
 		#Staubpartikeleffekt an Koordinaten
 
 		#Geräusch
@@ -96,11 +101,8 @@ class TurmeingangListener < GameAreaListener
 		@mFiesesLachenSound.getControlledObject().set3d(false);
 		@mFiesesLachenSound.getControlledObject().load();
 		@mFiesesLachenSound.getControlledObject().play();
-
-
 		
 		$GameEveMgr.removeAreaListener(self)
-	
 	end
 end
 
