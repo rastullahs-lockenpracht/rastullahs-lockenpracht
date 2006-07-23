@@ -39,8 +39,8 @@ techdemoDorf = $AM.createSoundSampleActor( "techdemoDorf", "techdemo001.ogg" );
 techdemoDorf.getControlledObject().set3d(false);
 $SCRIPT.log(" Loopen");
 techdemoDorf.getControlledObject().setLooping( true );
-$SCRIPT.log(" Abspielen");
-techdemoDorf.getControlledObject().play();
+$SCRIPT.log(" Laden");
+techdemoDorf.getControlledObject().load();
 $SCRIPT.log("Dorf-Thema fertig");
 
 $SCRIPT.log("Held erstellen");
@@ -82,6 +82,10 @@ $SCRIPT.log("Weiteres laden");
 load( "viecher.rb" );
 load( "buchderkultur.rb" );
 $SCRIPT.log("Weiteres geladen");
+
+#Musik als letztes Starten
+techdemoDorf.getControlledObject().play();
+
 
 #******** mapchange - abhängig vom Questzustand **********
 $SCRIPT.log("Mapchange: Kugel-Zentrum Actor erstellen");

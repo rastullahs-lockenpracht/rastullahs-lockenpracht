@@ -36,8 +36,8 @@ techdemoDruidenWald = $AM.createSoundSampleActor( "techdemoDruidenWald", "techde
 techdemoDruidenWald.getControlledObject().set3d(false);
 $SCRIPT.log(" Loopen");
 techdemoDruidenWald.getControlledObject().setLooping( true );
-$SCRIPT.log(" Abspielen");
-techdemoDruidenWald.getControlledObject().play();
+$SCRIPT.log(" Laden");
+techdemoDruidenWald.getControlledObject().load();
 $SCRIPT.log("Druidenwald-Thema fertig");
 
 $SCRIPT.log("Ruchins Ruche -Thema laden");
@@ -118,25 +118,29 @@ $SCRIPT.log("Held als aktiver Charakter gesetzt.");
 $World.setFog( World::FOG_EXP, [0.1,0.08,0.01,0.1], 0.00503, 10.0, 100.0);
 
 #nur ein Test! Ist mit Mapwechsel nicht mehr nötig
-$SCRIPT.log("IN DER MAPWECHSEL VERSION RAUSNEHMEN!");
-load("techdemo2_quests.rb");
+#$SCRIPT.log("IN DER MAPWECHSEL VERSION RAUSNEHMEN!");
+#load("techdemo2_quests.rb");
 #Test zuende
 
 
 $SCRIPT.log("SteeringBehaviours laden");
 load("steering.rb");
 
-#if (RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest41").getState() == Quest::ASSIGNED)
-	#load( "schnetzeln.rb" );
+if (RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest41").getState() == Quest::ASSIGNED)
+	load( "schnetzeln.rb" );
 	#Steinschlag
 	@mSteinschlagSound = $AM.createSoundSampleActor("Steinschlag","steinschlag_wenig_zu_vielen.ogg");
 	@mSteinschlagSound.getControlledObject().set3d(false);
 	@mSteinschlagSound.getControlledObject().load();
-#end
+end
 
-#if (RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest42").getState() == Quest::ASSIGNED)
+if (RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest42").getState() == Quest::ASSIGNED)
 	load( "retten.rb" );
-#end
+end
+
+#Musik als letztes abspielen
+techdemoDruidenWald.getControlledObject().play();
+
 
 
 
