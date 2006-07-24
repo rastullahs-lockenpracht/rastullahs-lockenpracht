@@ -17,7 +17,7 @@ VS_OUTPUT main_vs(
 { 
     VS_OUTPUT Out;
 
-    float3 lightDir = lightPosition - Pos;
+    float3 lightDir = normalize(lightPosition.xyz -  (Pos * lightPosition.w));
     float3 eyeDir = eyePosition - Pos;
 
     Out.Pos = mul(worldViewProj_matrix, Pos);
