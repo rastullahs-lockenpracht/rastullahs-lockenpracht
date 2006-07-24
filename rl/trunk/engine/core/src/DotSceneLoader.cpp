@@ -188,25 +188,17 @@ namespace rl {
 		// Wurde dem Node ein Name zugewiesen?
 		if( nodeName.length() > 0 )
         {
-            try
+            if( !parentNode->getCreator()->hasSceneNode( nodeName ) )
             {
                 // Dann versuche einen Knoten mit dem Namen zu erstellen
                 newNode = parentNode->createChildSceneNode(nodeName);
             }
-            catch( Ogre::Exception& e )
+            else
             {
-                // Name schon vergeben?
-                if (e.getNumber() == Ogre::Exception::ERR_DUPLICATE_ITEM)
-                {
-                    newNode = parentNode->createChildSceneNode();
-                    Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, 
-                        " NodeName '"+nodeName+"' war schon vergeben! Es wurde der Name '"+newNode->getName()+"' benutzt." );
-                }
-                else
-                {
-                    // Andere Exception-Ursache - weiterwerfen.
-                    throw e;
-                }
+                // Name schon vergeben
+                newNode = parentNode->createChildSceneNode();
+                Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, 
+                    " NodeName '"+nodeName+"' war schon vergeben! Es wurde der Name '"+newNode->getName()+"' benutzt." );
             }
         }
 		else
@@ -476,81 +468,62 @@ namespace rl {
             entName = getRandomName(mSceneName+"_"+parentNode->getName());
         }
 
-        bool isEntityCreated = false;
         ResourceGroupManager& resGroupMgr = ResourceGroupManager::getSingleton();
-        while(!isEntityCreated)
+        while( parentNode->getCreator()->hasEntity( entName ) )
         {
-            // Erschaffen versuchen
-            try
-            {
-                // if this mesh exists in our module's resource group: preload it
-                if (resGroupMgr.resourceExists(mResourceGroup, meshName))
-                {
-                    MeshManager::getSingleton().load(meshName, mResourceGroup);
-                }
-                // if not, it is now loaded implicitly from the default group
-                newEnt = sceneManager->createEntity(entName, meshName);
-				if( parentNode->getScale() != Vector3::UNIT_SCALE )
-					newEnt->setNormaliseNormals( true );
-
-                parentNode->attachObject( newEnt );
-                isEntityCreated = true;
-
-                Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, " Entity '"+meshName+"' mit dem Namen '"+entName+"' in den Knoten '"+parentNode->getName()+"' eingefügt." );
-
-                // Zur Physik des Levels hinzufügen
-                if( createMeshPhysicalBody )
-                {                
-                    PhysicsManager::getSingleton().addLevelGeometry( newEnt );
-                    Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, " Entity '"+entName+"' als TriMesh in levelGeometry geladen");
-                }
-                
-                // Renderingdistanz berechnen
-                if( renderingDistance == mRenderingDistance )
-                {
-                    Ogre::Real diameter 
-                        = (newEnt->getBoundingBox().getMaximum() - newEnt->getBoundingBox().getMinimum()).length();  
-
-                    // Gerade mal 10cm² => 10m
-                    if( diameter <= 0.5 )
-                        renderingDistance = 15;
-                    // Gerade mal 1,5m² => 25m
-                    else if( diameter <= 1.5 )
-                        renderingDistance = 30;
-                    // Gerade mal 2,5m² => 50m
-                    else if( diameter <= 2.5 )
-                        renderingDistance = 60;
-                    else if( diameter <= 10 )
-                        renderingDistance = 150;
-                    else if( diameter <= 50 )
-                        renderingDistance = 250;
-                    else if( diameter <= 100 )
-                        renderingDistance = 450;
-                    else
-                        renderingDistance = 1500;
-
-                    newEnt->setRenderingDistance( renderingDistance );
-                }
-                else
-				    newEnt->setRenderingDistance( renderingDistance );
-                newEnt->setCastShadows( false );
-            }
-            catch (Ogre::Exception& e) 
-            {
-                if (e.getNumber() == Ogre::Exception::ERR_DUPLICATE_ITEM)
-                {
-                    // Ok, gab es schon. Neuen Namen probieren.
-                    entName = getRandomName(entName);
-                }
-                else
-                {
-                    Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, 
-                        " Laden der Entity '"+meshName+"' gescheitert!" );
-                    // Nicht weiter versuchen
-                    break;
-                }
-            }
+            entName = getRandomName(entName);
         }
+
+        // if this mesh exists in our module's resource group: preload it
+        if (resGroupMgr.resourceExists(mResourceGroup, meshName))
+        {
+            MeshManager::getSingleton().load(meshName, mResourceGroup);
+        }
+        // if not, it is now loaded implicitly from the default group
+        newEnt = sceneManager->createEntity(entName, meshName);
+		if( parentNode->getScale() != Vector3::UNIT_SCALE )
+			newEnt->setNormaliseNormals( true );
+
+        parentNode->attachObject( newEnt );
+
+        Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, " Entity '"+meshName+"' mit dem Namen '"+entName+"' in den Knoten '"+parentNode->getName()+"' eingefügt." );
+
+        // Zur Physik des Levels hinzufügen
+        if( createMeshPhysicalBody )
+        {                
+            PhysicsManager::getSingleton().addLevelGeometry( newEnt );
+            Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, " Entity '"+entName+"' als TriMesh in levelGeometry geladen");
+        }
+        
+        // Renderingdistanz berechnen
+        if( renderingDistance == mRenderingDistance )
+        {
+            Ogre::Real diameter 
+                = (newEnt->getBoundingBox().getMaximum() - newEnt->getBoundingBox().getMinimum()).length();  
+
+            // Gerade mal 10cm² => 10m
+            if( diameter <= 0.5 )
+                renderingDistance = 15;
+            // Gerade mal 1,5m² => 25m
+            else if( diameter <= 1.5 )
+                renderingDistance = 30;
+            // Gerade mal 2,5m² => 50m
+            else if( diameter <= 2.5 )
+                renderingDistance = 60;
+            else if( diameter <= 10 )
+                renderingDistance = 150;
+            else if( diameter <= 50 )
+                renderingDistance = 250;
+            else if( diameter <= 100 )
+                renderingDistance = 450;
+            else
+                renderingDistance = 1500;
+
+            newEnt->setRenderingDistance( renderingDistance );
+        }
+        else
+		    newEnt->setRenderingDistance( renderingDistance );
+        newEnt->setCastShadows( false );
 	}
 
     string DotSceneLoader::getRandomName(const string& baseName)
