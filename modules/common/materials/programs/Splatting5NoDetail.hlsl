@@ -1,80 +1,64 @@
-float3 fvLightPosition;
-float4x4 matWorldViewProjection;
-
-struct VS_INPUT 
-{
-   float4 Position : POSITION0;
-   float2 Texcoord : TEXCOORD0;
-   
-};
-
 struct VS_OUTPUT 
 {
    float4 Position :        POSITION0;
    float2 Texcoord :        TEXCOORD0;
-   
 };
 
-VS_OUTPUT vs_main( VS_INPUT Input )
+VS_OUTPUT vs_main( 
+    float4 Position : POSITION0,
+    float2 Texcoord : TEXCOORD0,
+    uniform float3 fvLightPosition,
+    uniform float4x4 matWorldViewProjection )
 {
    VS_OUTPUT Output;
 
-   Output.Position         = mul( matWorldViewProjection, Input.Position );
-   Output.Texcoord         = Input.Texcoord;
+   Output.Position         = mul( matWorldViewProjection, Position );
+   Output.Texcoord         = Texcoord;
       
    return( Output );
    
 }
 
+float4 ps_main(     
+    float2 Texcoord :        TEXCOORD0,
+    float3 Normal :          TEXCOORD3,
 
+    uniform float4 materialAmbient,
+    uniform float4 materialDiffuse,
 
+    uniform float scaleBase,
+    uniform float scaleBaseR,
+    uniform float scaleBaseG,
+    uniform float scaleBaseB,
+    uniform float scaleBaseA,
 
-float4 materialAmbient;
-float4 materialDiffuse;
-
-float scaleBase;
-float scaleBaseR;
-float scaleBaseG;
-float scaleBaseB;
-float scaleBaseA;
-
-
-sampler2D splattingMap;
-sampler2D lightingMap;
-sampler2D base;
-sampler2D baseR;
-sampler2D baseG;
-sampler2D baseB;
-sampler2D baseA;
-
-struct PS_INPUT 
-{
-   float2 Texcoord :        TEXCOORD0;
-   float3 Normal :          TEXCOORD3;
-   
-};
-
-float4 ps_main( PS_INPUT Input ) : COLOR0
+    uniform sampler2D splattingMap,
+    uniform sampler2D lightingMap,
+    uniform sampler2D base,
+    uniform sampler2D baseR,
+    uniform sampler2D baseG,
+    uniform sampler2D baseB,
+    uniform sampler2D baseA ) : COLOR0
 {        
-    float4 fvSplattingColor = tex2D( splattingMap, Input.Texcoord );
-    float4 fvLightColor     = ( tex2D( lightingMap, Input.Texcoord ) - 0.5 ) * 2.0;
+    float4 fvSplattingColor = tex2D( splattingMap, Texcoord );
+    float4 fvLightColor     = ( tex2D( lightingMap, Texcoord ) - 0.5 ) * 2.0;
    
-    float4 fvBaseColor      = tex2D( base, Input.Texcoord / scaleBase );
+    float4 fvBaseColor      = tex2D( base, Texcoord / scaleBase );
 
     fvBaseColor            *= 1.0-fvSplattingColor[0]; 
-    fvBaseColor            += ( tex2D(baseR, Input.Texcoord / scaleBaseR ) )
+    fvBaseColor            += ( tex2D(baseR, Texcoord / scaleBaseR ) )
                               * fvSplattingColor[0];
                               
     fvBaseColor            *= 1.0-fvSplattingColor[1]; 
-    fvBaseColor            += ( tex2D(baseG, Input.Texcoord / scaleBaseG ) )
+    fvBaseColor            += ( tex2D(baseG, Texcoord / scaleBaseG ) )
                               * fvSplattingColor[1];
                               
     fvBaseColor            *= 1.0-fvSplattingColor[2]; 
-    fvBaseColor            += ( tex2D(baseB, Input.Texcoord / scaleBaseB ) )
+    fvBaseColor            += ( tex2D(baseB, Texcoord / scaleBaseB ) )
                               * fvSplattingColor[2];
                               
     fvBaseColor            *= 1.0-fvSplattingColor[3]; 
-    fvBaseColor            += ( tex2D(baseA, Input.Texcoord / scaleBaseA ) )
+    fvBaseColor            += ( tex2D(baseA, Texcoord / scaleBaseA ) )
                               * fvSplattingColor[3];   
                                                          
     float4 fvTotalAmbient   = (materialAmbient + fvLightColor ) *  fvBaseColor; 

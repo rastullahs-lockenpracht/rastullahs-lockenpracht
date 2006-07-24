@@ -25,7 +25,7 @@ vertex_program dxSplatting5_VP hlsl
 
 vertex_program dxSplatting5_SR_VP hlsl
 {
-  source Splatting5ShadowReceiver.hlsl
+  source SimpleShadowReceiver.hlsl
   entry_point vs_main
   target vs_1_1
 }

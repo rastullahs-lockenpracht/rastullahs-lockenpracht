@@ -32,11 +32,6 @@ material Splatting3NoDetailVertexPhong
 			// HLSL Fragment Shader
 			fragment_program_ref dxSplatting3NoDetailVertexPhong_FP
 			{		
-				param_named splattingMap int 0
-				param_named base int 1
-				param_named baseR int 2
-				param_named baseG int 3
-
 				//Shader Constant: scaleBase
 				param_named scaleBase  float 1.000000
 				//Shader Constant: scaleBaseR

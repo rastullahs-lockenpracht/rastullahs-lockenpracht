@@ -32,14 +32,6 @@ material Splatting5NoDetail
 			// HLSL Fragment Shader
 			fragment_program_ref dxSplatting5NoDetail_FP
 			{
-				param_named splattingMap int 0
-				param_named lightingMap int 1
-				param_named base int 2
-				param_named baseR int 3
-				param_named baseG int 4
-				param_named baseB int 5
-				param_named baseA int 6
-
 				//Shader Constant: materialAmbient
 				param_named materialAmbient float4 0.500000 0.500000 0.500000 1.000000
 				//Shader Constant: materialDiffuse
