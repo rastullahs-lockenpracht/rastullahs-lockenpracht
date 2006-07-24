@@ -24,6 +24,7 @@
 #include <OgreException.h>
 
 #include "ActorManager.h"
+#include "Actor.h"
 #include "PhysicsManager.h"
 #include "DotSceneLoader.h"
 
@@ -45,7 +46,7 @@ namespace rl {
         if (mCamera == 0)
         {
             // Kamera erstellen..
-            ActorManager::getSingleton().createCameraActor("DefaultCamera");
+            Actor* actor = ActorManager::getSingleton().createCameraActor("DefaultCamera");
             // und initialisieren.
             mCamera = mSceneMgr->getCamera("DefaultCamera");
 
@@ -53,6 +54,9 @@ namespace rl {
             mCamera->setFOVy(Degree(60));
             mCamera->setFixedYawAxis(false);
             mCamera->setAutoAspectRatio(true);
+
+            actor->placeIntoScene();
+            setActiveActor( actor );            
         }
 
         // Ein Viewport, das komplette Fenster
@@ -86,6 +90,7 @@ namespace rl {
             {
                 dot = new DotSceneLoader( mSceneFile, module );
                 dot->initializeScene( mSceneMgr );
+                delete dot;
             }
             catch( ... )
             {
@@ -93,7 +98,6 @@ namespace rl {
                     "Laden der Szenenbeschreibung aus '" + mSceneFile + "' ist fehlgeschlagen." );
                 delete dot;
             }
-            delete dot;
         }
         else
             mSceneFile = "";

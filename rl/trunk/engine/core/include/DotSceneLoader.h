@@ -17,15 +17,17 @@
 #ifndef __DotSceneLoader_H__
 #define __DotSceneLoader_H__
 
-#include <xercesc/parsers/XercesDOMParser.hpp>
-#include <xercesc/dom/DOMDocument.hpp>
-#include <xercesc/dom/DOMElement.hpp>
+#include <xercesc/sax/ErrorHandler.hpp>
 
-#include <OgreSceneNode.h>
 #include <string>
 #include <map>
 
 #include "XmlResourceManager.h"
+
+class Ogre::SceneNode;
+class XERCES_CPP_NAMESPACE::DOMElement;
+class XERCES_CPP_NAMESPACE::XercesDOMParser;
+class XERCES_CPP_NAMESPACE::SAXParseException;
 
 namespace rl {
 
@@ -35,17 +37,22 @@ namespace rl {
 	 *   - Nodes ( Name, Hierarchie + Platzierung + Skalierung + Rotation )
 	 *   - Entities ( Name, TriMeshPhysik )
 	 */
-	class DotSceneLoader
+    class DotSceneLoader : protected XERCES_CPP_NAMESPACE::ErrorHandler
 	{
 	public:
 		/// Erstellt einen Dotscene Loader, der das gewünschte File einliest
         DotSceneLoader(const std::string& filename, const std::string& resourceGroup);
 		/// Standard Destruktor
-		~DotSceneLoader();
+		virtual ~DotSceneLoader();
 
 		/// Laden der Szene
 		void initializeScene(Ogre::SceneManager* sceneManager);
 		
+
+        virtual void warning(const XERCES_CPP_NAMESPACE::SAXParseException& exc);
+        virtual void error(const XERCES_CPP_NAMESPACE::SAXParseException& exc);
+        virtual void fatalError(const XERCES_CPP_NAMESPACE::SAXParseException& exc);
+        virtual void resetErrors();
 	private:
         struct NodeUserData
         {
@@ -94,6 +101,8 @@ namespace rl {
 		Ogre::Quaternion processRotation( XERCES_CPP_NAMESPACE::DOMElement* rootQuatXml );
 
         std::string getRandomName(const std::string& baseName);
+        /// Builds a string from a xerces exception
+        std::string toString( const std::string& type, const XERCES_CPP_NAMESPACE::SAXParseException& exc ) const;
 
 		/// Der Node der Scene
 		Ogre::SceneNode* mSceneNode;
@@ -108,6 +117,9 @@ namespace rl {
 		const std::string mSceneName;
         /// ResourceGroup der dotscene-Resource
         const std::string mResourceGroup;
+
+        /// Have any errors occured
+        int mErrorCount;
 
         /// The Ressource
         XmlPtr mRessource;

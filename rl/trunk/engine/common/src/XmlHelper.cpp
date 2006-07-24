@@ -174,6 +174,9 @@ CeGuiString XmlHelper::transcodeToString(const XMLCh* const string16)
 
 std::string XmlHelper::transcodeToStdString(const XMLCh* const string16)
 {
+    if( string16 == NULL )
+        return "";
+
 	char* tmpVal = XMLString::transcode(string16);
 	std::string rVal(tmpVal);
 	XMLString::release(&tmpVal);

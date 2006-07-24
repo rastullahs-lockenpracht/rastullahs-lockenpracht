@@ -14,10 +14,15 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 #include <xercesc/framework/LocalFileInputSource.hpp>
-
+#include <xercesc/parsers/XercesDOMParser.hpp>
+#include <xercesc/dom/DOMDocument.hpp>
+#include <xercesc/dom/DOMElement.hpp>
 #include <xercesc/dom/DOM.hpp>
 #include <xercesc/util/XMLString.hpp>
 #include <xercesc/util/PlatformUtils.hpp>
+#include <xercesc/sax/SAXParseException.hpp>
+
+#include <OgreSceneNode.h>
 
 #include "DotSceneLoader.h"
 #include "World.h"
@@ -39,7 +44,7 @@ using namespace XERCES_CPP_NAMESPACE;
 using namespace std;
 
 namespace rl {
-	using XERCES_CPP_NAMESPACE::DOMDocument; //XXX: Warum brauche ich das unter VS 2003?
+	using XERCES_CPP_NAMESPACE::DOMDocument;
 
     DotSceneLoader::DotSceneLoader(const string& filename, const string& resourceGroup)
         : mSceneName(filename),
@@ -49,15 +54,19 @@ namespace rl {
 		  mStaticgeomRenderingDistances(),
 		  mStaticgeomBatchSizes(),
           mRessource(NULL),
-          mParser(NULL)
+          mParser(NULL),
+          mErrorCount(0)
 	{
         srand(static_cast<unsigned int>(time(NULL)));
 	}
 
 	DotSceneLoader::~DotSceneLoader()
 	{      
-        XmlResourceManager::getSingleton().unload(mSceneName);
-        XmlResourceManager::getSingleton().remove( mRessource->getHandle() );
+        if( mRessource->isLoaded() )
+        {
+            XmlResourceManager::getSingleton().unload( mSceneName );
+            XmlResourceManager::getSingleton().remove( mRessource->getHandle() );
+        }
 	}
 
 	void DotSceneLoader::initializeScene(SceneManager* sceneManager)
@@ -65,8 +74,8 @@ namespace rl {
 		XMLPlatformUtils::Initialize();
 		XmlHelper::initializeTranscoder();
 
-		Logger::getSingleton().log(Logger::CORE, Logger::LL_NORMAL, "Lade Szenenbeschreibung aus " + mSceneName );
-		DOMDocument* doc = openSceneFile();
+		Logger::getSingleton().log(Logger::CORE, Logger::LL_NORMAL, "Loading Scene from " + mSceneName );
+        DOMDocument* doc = openSceneFile();            
 
 		// Durch alle Unterelemente iterieren
 		DOMNode* child = doc->getDocumentElement()->getFirstChild();
@@ -125,7 +134,6 @@ namespace rl {
         else
             Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, " Keine statischen Geometrien erstellt" );
         
-		//doc->release();
         delete mParser;
 		XMLPlatformUtils::Terminate();		
 		Logger::getSingleton().log(Logger::CORE, Logger::LL_TRIVIAL, "Szenenbeschreibung aus " + mSceneName +" fertig geparst" );
@@ -134,15 +142,35 @@ namespace rl {
 	DOMDocument* DotSceneLoader::openSceneFile( )
 	{
 		mParser = new XercesDOMParser();
-        mParser->setValidationScheme(XercesDOMParser::Val_Always);
+        mParser->setValidationScheme(XercesDOMParser::Val_Auto);
         mParser->setDoNamespaces(true);
+        mParser->setErrorHandler(this);
 		
-		mRessource = 
-			XmlResourceManager::getSingleton().create(
-			mSceneName, 
-			mResourceGroup);
-		mRessource.getPointer()->parseBy(mParser);
-		DOMDocument* doc = mParser->getDocument();
+        try
+        {
+		    mRessource = 
+			    XmlResourceManager::getSingleton().create(
+			    mSceneName, 
+		   	    mResourceGroup);
+        }
+        catch( Ogre::Exception )
+        {
+            Throw( IllegalArgumentException, "RessourceGroup '"+mResourceGroup+"' does not exist." );
+        }
+
+        mRessource->load();
+
+        if( !mRessource->isLoaded() )
+        {
+            Throw( FileNotFoundException, "File '"+mSceneName+"' was not found." );
+        }
+
+        mRessource.getPointer()->parseBy(mParser);
+
+        if( mErrorCount > 0 )
+            Throw( RuntimeException, "File '"+mSceneName+"' could not be parsed." );
+
+		DOMDocument* doc = mParser->getDocument();     
 
         return doc;
 	}
@@ -474,13 +502,23 @@ namespace rl {
             entName = getRandomName(entName);
         }
 
-        // if this mesh exists in our module's resource group: preload it
-        if (resGroupMgr.resourceExists(mResourceGroup, meshName))
+        try
         {
-            MeshManager::getSingleton().load(meshName, mResourceGroup);
+            // if this mesh exists in our module's resource group: preload it
+            if( resGroupMgr.resourceExists(mResourceGroup, meshName) )
+            {
+                MeshManager::getSingleton().load(meshName, mResourceGroup);
+            }
+
+            // If not, it is now loaded implicitly from the default group
+            newEnt = sceneManager->createEntity(entName, meshName);
         }
-        // if not, it is now loaded implicitly from the default group
-        newEnt = sceneManager->createEntity(entName, meshName);
+        catch( ... )
+        {
+              Logger::getSingleton().log( Logger::CORE, Logger::LL_ERROR, " Entity '"+meshName+"' mit dem Namen '"+entName+"' konnte nicht geladen werden." );
+              return;
+        }
+
 		if( parentNode->getScale() != Vector3::UNIT_SCALE )
 			newEnt->setNormaliseNormals( true );
 
@@ -636,4 +674,38 @@ namespace rl {
 		return Ogre::Quaternion::IDENTITY;
 	}
 
+
+    void DotSceneLoader::warning(const XERCES_CPP_NAMESPACE::SAXParseException& exc)
+    {
+        Logger::getSingleton().log(Logger::CORE, Logger::LL_NORMAL, toString( " warning ", exc ) );
+    }
+    void DotSceneLoader::error(const XERCES_CPP_NAMESPACE::SAXParseException& exc)
+    {
+        Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, toString( "n error", exc ) );
+        mErrorCount++;
+    }
+    void DotSceneLoader::fatalError(const XERCES_CPP_NAMESPACE::SAXParseException& exc)
+    {
+        Logger::getSingleton().log(Logger::CORE, Logger::LL_CRITICAL, toString( " fatal error", exc ) );
+        mErrorCount++;
+    }
+    void DotSceneLoader::resetErrors()
+    {
+    }
+
+    std::string DotSceneLoader::toString( const std::string& type,
+        const XERCES_CPP_NAMESPACE::SAXParseException& exc ) const
+    {
+        std::stringstream strs;
+        strs << "A" << type << " occured while parsing " << mSceneName 
+             << " at line " << exc.getLineNumber() << " column " <<  exc.getColumnNumber();
+
+        if( exc.getSystemId() != NULL )
+            strs << " with system " << XmlHelper::transcodeToStdString( exc.getSystemId() );
+        if( exc.getPublicId() != NULL )
+            strs << " with public " << XmlHelper::transcodeToStdString( exc.getPublicId() );
+    
+        return strs.str();
+    }
 }
+

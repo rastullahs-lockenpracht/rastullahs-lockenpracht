@@ -188,17 +188,19 @@ namespace rl {
 				mCharacter->getActor()->detach(SoundManager::getSingleton().getListenerActor());
 			}
 
+            World* world = CoreSubsystem::getSingletonPtr()->getWorld();
+
 			if (person == NULL)
 			{
 				mCharacter = NULL;
+                world->setActiveActor( ActorManager::getSingleton().getActor("DefaultCamera") );
 			}
 			else
 			{
 				ScriptWrapper::getSingleton().owned( person );
 				mCharacter = person;
-				World* world = CoreSubsystem::getSingletonPtr()->getWorld();
+				
 				world->setActiveActor(person->getActor());
-			    
 				mWindowFactory->setActiveCharacter(person);
 
 				mCharacter->getActor()->attach(SoundManager::getSingleton().getListenerActor());
@@ -226,8 +228,11 @@ namespace rl {
 			Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE,
                 "Old CharacterController deleted.");
 		}
+        
+        if( mCharacter == NULL )
+            type = CharacterController::CTRL_FREEFLIGHT;
 
-   		if (type == CharacterController::CTRL_NONE)
+   		if( type == CharacterController::CTRL_NONE )
         {
 			mCharacterController = NULL;
 			return;

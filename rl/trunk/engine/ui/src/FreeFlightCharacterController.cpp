@@ -50,8 +50,11 @@ namespace rl {
 		mOgreCam->setFixedYawAxis(true);
 
 		MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
-		mesh->stopAllAnimations();
-		mesh->startAnimation("idle");
+        if( mesh != NULL )
+        {
+		    mesh->stopAllAnimations();
+		    mesh->startAnimation("idle");
+        }
 	}
 
 	FreeFlightCharacterController::~FreeFlightCharacterController()
