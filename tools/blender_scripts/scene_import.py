@@ -169,14 +169,15 @@ def createEntity(dirname, scene, entity, node, meshes, matrix, materials):
 
         bmesh = ogre_import.CreateBlenderNMesh(str(entity.name), mesh, materials)
      
-
     bobject = Blender.Object.New('Mesh', entity.name)
     bobject.link(bmesh)
+    createUserData(entity.userData, bobject)
       
     # apply transformation matrix 
     bobject.setMatrix(matrix)
     scene.link(bobject)
     bobject.select(True)
+    return bobject
 
 def createLight(scene, light, node, matrix):
     log ("Creating Blender Light %s " % light.name)
@@ -210,13 +211,14 @@ def createLight(scene, light, node, matrix):
 
     bobject = Blender.Object.New('Lamp', light.name)
     bobject.link(bLight)
+    createUserData(light.userData, bobject)
       
     # apply transformation matrix 
     lmatrix = translate(matrix, light.position)
     bobject.setMatrix(lmatrix)
     scene.link(bobject)
     bobject.select(True)
-
+    return bobject
 
 def createCamera(scene, camera, node, matrix):
     log ("Creating Blender Camera %s " % camera.name)
@@ -242,13 +244,27 @@ def createCamera(scene, camera, node, matrix):
 
     bobject = Blender.Object.New('Camera', camera.name)
     bobject.link(bCamera)
-      
+    createUserData(camera.userData, bobject)
+ 
     # apply transformation matrix 
     cmatrix = translate(matrix, camera.position)
     cmatrix = rotate(cmatrix, camera.rotation)
     bobject.setMatrix(cmatrix)
     scene.link(bobject)
     bobject.select(True)
+    return bobject
+
+def createUserData(userData, bobject):
+    vlog("Creating user data %s" % userData)
+    for property in userData:
+        dlog("Property %s" % property)
+        try:
+            bproperty = bobject.getProperty(property)
+        except:
+            bobject.addProperty(property, userData[property])
+        else:
+            bproperty.setData(userData[property])
+
 
 def createScene(filename, dotscene, meshes):
     dirname = Blender.sys.dirname(filename)
@@ -272,15 +288,16 @@ def createScene(filename, dotscene, meshes):
             matrix = rotate(matrix, node.rotation)
             matrix = scale(matrix, node.scale)
 
+            bobject = None
             for entity in node.entity:
-                createEntity(dirname, scene, entity, node, meshes, matrix, materials)
+                bobject = createEntity(dirname, scene, entity, node, meshes, matrix, materials)
                 
             for light in node.light:
-            	createLight(scene, light, node, matrix)
+            	bobject = createLight(scene, light, node, matrix)
             
             for camera in node.camera:
-            	createCamera(scene, camera, node, matrix)
-
+            	bobject = createCamera(scene, camera, node, matrix)
+            createUserData(node.userData, bobject)
 
     log ("Scene import done.")
     Blender.Redraw() 
