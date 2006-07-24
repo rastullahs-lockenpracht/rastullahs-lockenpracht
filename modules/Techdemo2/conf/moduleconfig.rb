@@ -18,7 +18,7 @@ class Techdemo2 < ContentModule
     end
 
     def getSoundLocations()
-	return ["sound","ost"]
+	return ["ost"]
     end
 
     def start()
