@@ -101,20 +101,10 @@ namespace rl
         mBody->setVelocity(vel);
     }
 
-	void PhysicalThing::_setOrientationBias(const Ogre::Quaternion& orientation)
-	{
-		mOrientationBias = orientation;
-	}
-
-	void PhysicalThing::_setOffset(const Vector3& offset)
+	void PhysicalThing::setOffset(const Vector3& offset)
 	{
 		mOffset = offset;
         mBody->setOffset(offset);
-	}
-
-	PhysicalObject* PhysicalThing::_getPhysicalObject() const
-	{
-		return mPhysicalObject;
 	}
 
     Actor *PhysicalThing::getActor(void) const
@@ -127,7 +117,7 @@ namespace rl
         return mBody;
     }
 
-	void PhysicalThing::_setBody(OgreNewt::Body* body)
+	void PhysicalThing::setBody(OgreNewt::Body* body)
     {
         mBody = body;
 		mBody->setUserData(mActor);
@@ -217,16 +207,6 @@ namespace rl
         mMass = mass;
         mBody->setMass(mass);
     }
-
-	PhysicsManager::GeometryTypes PhysicalThing::_getGeometryType() const
-	{
-		return mGeometryType;
-	}
-
-	bool PhysicalThing::getHullModifier() const
-	{
-		return mHullModifier;
-	}
 
     void PhysicalThing::setGravityOverride(bool override, const Vector3& gravity)
     {
@@ -346,49 +326,218 @@ namespace rl
 
         AxisAlignedBox size = mPhysicalObject->getPoseSize(name);
 
-        CollisionPtr coll;
+
+		Vector3 offset;
+		Quaternion orientationBias;
+		CollisionPtr coll;
         if (it == mPoseCollisions.end())
         {
             // No, so create it and put it into the map
-            coll = PhysicsManager::getSingleton()._createCollision(this, size);
-            if (getHullModifier())
-            {
-                coll = CollisionPtr(new CollisionPrimitives::HullModifier(
-                    PhysicsManager::getSingleton()._getNewtonWorld(), coll));
-            }
+            coll = createCollision(size, &offset, &orientationBias);
             mPoseCollisions.insert(make_pair(name, coll));
         }
         else
         {
             // Yes
             coll = it->second;
+			offset = size.getCenter(); ///@TODO: get saved value
+			orientationBias = Quaternion::IDENTITY;
         }
 
         mBody->setCollision(coll);
-
-        // Align bottoms of new and old collisions
-        Real yoffset = size.getCenter().y - mOffset.y;
-        Quaternion orientation;
-        Vector3 pos;
-        mBody->getPositionOrientation(pos, orientation);
-        Vector3 newpos = pos + Vector3(0, yoffset, 0);
-        mBody->setPositionOrientation(newpos, orientation);
-
-        Vector3 oldoffset = mOffset;
-        // Adjust the node offset to fit the new form.
-        _setOffset(size.getCenter());
+		
+		Vector3 pos = getPosition();
+		 // Adjust the node offset to fit the new form.
+	    Vector3 oldoffset = mOffset;
+		setOffset(offset);
+		mOrientationBias = orientationBias;
+            
+		// Align bottoms of new and old collisions
+        Vector3 offsetChange = offset - oldoffset;
+        
+		// So ruckt die Tür nach links
+		Vector3 newpos = pos + offsetChange; 
+        // Geht auch net: Vector3 newpos = pos + Vector3(0, offsetChange.y, 0);
+		setPosition(newpos);
 
         Logger::getSingleton().log(Logger::CORE, Logger::LL_MESSAGE,
             mActor->getName() + ": fit_to_pose " + name +
             "\nDefaultSize: " +
                 StringConverter::toString(def_size.getMinimum()) + " / " +
-                StringConverter::toString(def_size.getMaximum()) +
+                StringConverter::toString(def_size.getMaximum())  + " = " +
+				StringConverter::toString(def_size.getMaximum() - def_size.getMinimum()) +
             String("\nold pos: ") + StringConverter::toString(pos) +
             String("\nnew pos: ") + StringConverter::toString(newpos) +
             String("\nnew size: ") +
                 StringConverter::toString(size.getMinimum()) + " / " +
-                StringConverter::toString(size.getMaximum()) +
+                StringConverter::toString(size.getMaximum()) + " = " +
+				StringConverter::toString(size.getMaximum() - size.getMinimum()) +
             String("\nold offset: ") + StringConverter::toString(oldoffset) +
             String("\nnew offset: ") + StringConverter::toString(mOffset));
+    }
+
+	OgreNewt::CollisionPtr PhysicalThing::createCollision(
+		const AxisAlignedBox& aabb, Vector3* offset, 
+		Quaternion* orientation, Vector3* inertiaCoefficients) const
+    {
+		const Vector3 size = aabb.getMaximum() - aabb.getMinimum();
+
+		if (offset != NULL)
+		{
+			*offset = aabb.getCenter();
+		}
+
+		OgreNewt::World* physWorld = PhysicsManager::getSingleton()._getNewtonWorld();
+
+        CollisionPtr rval;
+
+		if (mGeometryType == PhysicsManager::GT_BOX)
+        {
+            rval = CollisionPtr(new CollisionPrimitives::Box(physWorld, size));
+			if (inertiaCoefficients != NULL)
+			{
+                *inertiaCoefficients = Vector3(
+					size.x*size.x/6.0f,
+                    size.y*size.y/6.0f,
+                    size.z*size.z/6.0f);
+			}
+        }
+        else if (mGeometryType == PhysicsManager::GT_SPHERE)
+        {
+            double radius = std::max(size.x, std::max(size.y, size.z)) / 2.0;
+            rval = CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(physWorld,
+                Vector3(radius, radius, radius)));
+            
+			if (inertiaCoefficients != NULL)
+			{
+				*inertiaCoefficients = Vector3(radius*radius, radius*radius, radius*radius);
+			}
+        }
+        else if (mGeometryType == PhysicsManager::GT_ELLIPSOID)
+        {
+            // set the size x/z values to the maximum
+            Vector3 s(size/2.0);
+            s.x = std::max(s.x, s.z);
+            s.z = s.x;
+            rval = CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(physWorld, s));
+
+            if (inertiaCoefficients != NULL)
+			{
+				*inertiaCoefficients = Vector3(s.x*s.x, s.y*s.y, s.z*s.z);
+            }
+        }
+		else if (mGeometryType == PhysicsManager::GT_CAPSULE)
+		{
+			double radius = std::max(size.x, size.z) / 2.0;
+			double height = size.y;
+			
+			Quaternion orientCaps;
+			orientCaps.FromAngleAxis(Degree(90), Vector3::UNIT_Z);
+
+			Vector3 offsetCaps(-size.y/2, 0, 0);
+
+			rval = CollisionPtr(new OgreNewt::CollisionPrimitives::Capsule(
+						physWorld, 
+						radius, 
+						height,
+						orientCaps,
+						offsetCaps));
+			//Alte Variante
+			//coll = CollisionPtr(new CollisionPrimitives::Capsule(mWorld, radius, size.y));
+			if (offset != NULL)
+			{
+				*offset = offsetCaps;
+			}
+
+			if (orientation != NULL)
+			{
+				*orientation = orientCaps;
+			}
+
+			if (inertiaCoefficients != NULL)
+			{
+				double sradius = radius*radius;
+				*inertiaCoefficients = Vector3(sradius, size.y*size.y, sradius);
+			}
+		}
+        else if (mGeometryType == PhysicsManager::GT_CONVEXHULL)
+        {
+            rval = CollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(physWorld,
+                mPhysicalObject->getEntity(), true));
+
+			if (offset != NULL)
+			{
+				*offset = Vector3::ZERO;
+			}
+        }
+        else if (mGeometryType == PhysicsManager::GT_MESH)
+        {
+            rval = CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision(physWorld,
+                mPhysicalObject->getEntity(), false, true));
+
+			if (offset != NULL)
+			{
+				*offset = Vector3::ZERO;
+			}
+        }
+        else
+        {
+            Throw(IllegalArgumentException, "unknown geometry type.");
+        }
+
+		if (mHullModifier)
+        {
+            return CollisionPtr(new CollisionPrimitives::HullModifier(physWorld, rval));
+        }
+
+        return rval;
+    }
+
+	void PhysicalThing::createPhysicsProxy(SceneNode* node)
+	{
+		if (mBody == NULL) 
+		{
+            const AxisAlignedBox& aabb = mPhysicalObject->getDefaultSize();
+                        
+			Quaternion orientationBias;
+            Vector3 inertiaCoefficients;
+			Vector3 offset;
+			OgreNewt::CollisionPtr coll = createCollision(aabb, &offset, &orientationBias, &inertiaCoefficients);
+
+			OgreNewt::Body* body = new OgreNewt::Body(PhysicsManager::getSingleton()._getNewtonWorld(), coll);
+
+			Ogre::Real mass = mMass;
+			if (mass > 0.0 && mGeometryType != PhysicsManager::GT_MESH)
+            {
+                body->setMassMatrix(mass, mass*inertiaCoefficients);
+            }
+
+			body->setCustomForceAndTorqueCallback(PhysicsManager::genericForceCallback);
+
+            setBody(body);
+            setOffset(offset);
+			mOrientationBias = orientationBias;
+        }
+	}
+
+	void PhysicalThing::prepareUserControl(OgreNewt::MaterialID* material)
+    {
+        mBody->setMaterialGroupID(material);
+        mBody->setAutoFreeze(0);
+        mBody->unFreeze();
+        mBody->setLinearDamping(0.0f);
+        mBody->setAngularDamping(Vector3::ZERO);
+
+        mBody->setCustomForceAndTorqueCallback( PhysicsManager::controlledForceCallback );
+
+        // Set up-vector, so force application doesn't let the char fall over
+        setUpConstraint(Vector3::UNIT_Y);
+    }
+
+    void PhysicalThing::unprepareUserControl()
+    {
+		mBody->setMaterialGroupID(PhysicsManager::getSingleton()._getDefaultMaterialID());
+        mBody->setCustomForceAndTorqueCallback( PhysicsManager::genericForceCallback );
+        setUpConstraint(Vector3::ZERO);
     }
 }

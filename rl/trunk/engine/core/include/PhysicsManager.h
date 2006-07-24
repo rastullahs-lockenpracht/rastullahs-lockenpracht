@@ -130,8 +130,7 @@ namespace rl {
         OgreNewt::World* _getNewtonWorld() const;
         OgreNewt::MaterialID* _getLevelMaterialID() const;
         OgreNewt::MaterialID* _getCharMaterialID() const;
-		OgreNewt::CollisionPtr _createCollision(PhysicalThing* pt,
-            const Ogre::AxisAlignedBox& size) const;
+		const OgreNewt::MaterialID* _getDefaultMaterialID() const;
 
     private:
         typedef std::map<PhysicalThing*, PhysicsController*> ControllerMap;
@@ -154,10 +153,6 @@ namespace rl {
         OgreNewt::MaterialPair* mCharLevelPair;
         OgreNewt::MaterialPair* mCharCharPair;
         PhysicsGenericContactCallback* mGenericCallback;
-
-        /// internal method, that prepares physical thing to be controlled
-        void prepareUserControl(PhysicalThing* thing) const;
-        void unprepareUserControl(PhysicalThing* thing) const;
     };
 }
 

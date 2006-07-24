@@ -62,21 +62,13 @@ namespace rl {
             Ogre::Real x = 0.0f, Ogre::Real y = 0.0f, Ogre::Real z = 0.0f);
 
         Actor* getActor() const;
+		OgreNewt::Body* _getBody() const;
         
         void _update();
         void _setActor(Actor* actor);
         void _attachToSceneNode(Ogre::SceneNode* node);
 		void _attachToBone(MeshObject* object, const std::string& boneName);
         void _detachFromSceneNode(Ogre::SceneNode* node);
-		void _setOffset(const Ogre::Vector3& offset);
-		void _setOrientationBias(const Ogre::Quaternion& orientation);
-
-		PhysicsManager::GeometryTypes _getGeometryType() const;
-		bool  getHullModifier() const;
-
-        OgreNewt::Body* _getBody() const;
-		void _setBody(OgreNewt::Body* body);
-		PhysicalObject* _getPhysicalObject() const;
 
         void onApplyForceAndTorque();
         void addForce(const Ogre::Vector3& force);
@@ -86,6 +78,8 @@ namespace rl {
 
         Ogre::Real getMass() const;
         void setMass(Ogre::Real mass);
+
+		void createPhysicsProxy(SceneNode* node);
 
         /** Called to update the collision of the physical thing, in order to adapt
          *  to a new animation state.
@@ -101,6 +95,9 @@ namespace rl {
 
         void setContactListener(PhysicsContactListener* listener);
         PhysicsContactListener* getContactListener() const;
+
+		void prepareUserControl(OgreNewt::MaterialID* material);
+        void unprepareUserControl();
 
     private:
         Actor* mActor;
@@ -120,7 +117,15 @@ namespace rl {
 		PhysicsManager::GeometryTypes mGeometryType;
 		PhysicalObject* mPhysicalObject;
 		bool mHullModifier;
-    };
+
+		void setOffset(const Ogre::Vector3& offset);
+		void setOrientationBias(const Ogre::Quaternion& orientation);
+		PhysicsManager::GeometryTypes getGeometryType() const;
+		void setBody(OgreNewt::Body* body);
+		OgreNewt::CollisionPtr createCollision(
+			const AxisAlignedBox& aabb, Vector3* offset = NULL, 
+			Quaternion* orientation = NULL, Vector3* inertiaCoefficients = NULL) const;
+	};
 }
 
 #endif
