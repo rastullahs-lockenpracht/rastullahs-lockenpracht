@@ -1,5 +1,5 @@
 load "embed.rb"
-require 'actorupdateanimationlistener.rb'
+#require 'actorupdateanimationlistener.rb'
 
 class OpenDoorAction < Action
   def initialize
@@ -14,9 +14,10 @@ class OpenDoorAction < Action
   def doAction(door, user, target)    
     doorActor = door.getActor(); 
     doorActor.getControlledObject().replaceAnimation("zu", "auf", 1.0, 1);
-    animListener = ActorUpdateAnimationListener.new();
-    anim = doorActor.getControlledObject().getAnimation("auf");
-    anim.addAnimationListener(animListener);
+
+        pt = doorActor.getPhysicalThing();
+        p "call fitToPose for zu"
+		pt.fitToPose("zu");
 
     knarzActor = door.getSoundActor();
     knarzActor.getControlledObject().play();
@@ -37,9 +38,10 @@ class CloseDoorAction < Action
   def doAction(door, user, target)    
     doorActor = door.getActor();
     doorActor.getControlledObject.replaceAnimation("auf", "zu", 1.0, 1); 
-    animListener = ActorUpdateAnimationListener.new();
-    anim = doorActor.getControlledObject().getAnimation("zu");
-    anim.addAnimationListener(animListener);
+    
+		pt = doorActor.getPhysicalThing();
+        p "call fitToPose for auf"
+		pt.fitToPose("auf");
 
     knarzActor = door.getSoundActor();
     knarzActor.getControlledObject().play();
