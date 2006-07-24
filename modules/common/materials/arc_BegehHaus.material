@@ -4,11 +4,11 @@ material arc_BegehHaus/Main
 	receive_shadows off
 	technique
 	{
-	ambient 0.435294 0.435294 0.435294 1
-			diffuse 0.486275 0.486275 0.486275 1
-			specular 0 0 0 1 90
 		pass
 		{
+	        ambient 0.435294 0.435294 0.435294 1
+			diffuse 0.486275 0.486275 0.486275 1
+			specular 0 0 0 1 90
 
 			texture_unit
 			{
@@ -22,15 +22,15 @@ material arc_BegehHaus/Glas
 	receive_shadows off
 	technique
 	{
-	ambient 0.435294 0.435294 0.435294 1
-			diffuse 0.486275 0.486275 0.486275 1
-			specular 0 0 0 1 90
 		pass
 		{
 			scene_blend alpha_blend 
    		    depth_write off
-		
 
+        	ambient 0.435294 0.435294 0.435294 1
+			diffuse 0.486275 0.486275 0.486275 1
+			specular 0 0 0 1 90
+		
 			texture_unit
 			{
 				texture arc_BegehHaus.dds
