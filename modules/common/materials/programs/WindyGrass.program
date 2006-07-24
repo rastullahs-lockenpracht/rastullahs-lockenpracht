@@ -2,7 +2,7 @@ vertex_program WindyGrassVS_HLSL hlsl
 {
     source WindyGrass.hlsl
     entry_point vs_main
-    target vs_1_1
+    target vs_2_0
 
     default_params
     {
