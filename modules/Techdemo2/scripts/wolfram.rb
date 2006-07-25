@@ -5,8 +5,8 @@ load( "npc.rb" );
 class WolframTalkAction < TalkAction
     def doAction(object, actor, target)
         if (RulesSubsystem.getSingleton().getQuestBook().getQuest("wolfram").getState() == Quest::SUCCEEDED) 
-            super.doAction(object, actor, target)
-	end
+            super(object, actor, target)
+	    end
     end
 end
 
