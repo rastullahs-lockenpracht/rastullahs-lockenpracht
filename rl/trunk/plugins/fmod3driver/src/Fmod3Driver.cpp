@@ -460,10 +460,10 @@ void Fmod3Driver::printData() const
     Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, line);
 }
 
-void Fmod3Driver::setMasterVolume(unsigned int vol)
+void Fmod3Driver::setMasterVolume(const Ogre::Real& vol)
 {
 	SoundDriver::setMasterVolume(vol);
-	FSOUND_SetSFXMasterVolume(int(vol * 2.55));
+	FSOUND_SetSFXMasterVolume(int(vol * 255.0f));
 }
 
 /*

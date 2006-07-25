@@ -55,7 +55,7 @@ public:
     /// Einen Soundlistener erzeugen
     virtual ListenerMovable *createListener(const Ogre::String &name);
 
-	void setMasterVolume(unsigned int vol);
+	void setMasterVolume(const Ogre::Real& vol);
 
 	/// Setzt den Faktor f, mit der die Lautstärke nach der Formel 1/(f*Entfernung) abnimmt
 	void setRolloffFactor(const Ogre::Real&);

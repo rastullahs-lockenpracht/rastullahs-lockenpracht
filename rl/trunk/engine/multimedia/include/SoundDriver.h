@@ -61,20 +61,20 @@ public:
     
 
 	/// Setzt den Faktor f, mit der die Lautstärke nach der Formel 1/(f*Entfernung) abnimmt
-	virtual void setRolloffFactor(const Ogre::Real&) = 0;
+	virtual void setRolloffFactor(const Ogre::Real& f) = 0;
 	virtual const Ogre::Real getRolloffFactor() = 0;
     /// Die Standardlautstärke für Musik einstellen
-    void setDefaultMusicVolume(unsigned int vol);
+    void setDefaultMusicVolume(const Ogre::Real& vol);
     /// Die Standardlautstärke für Musik zurückgeben.
-    unsigned int getDefaultMusicVolume() const;
+	const Ogre::Real getDefaultMusicVolume() const;
     /// Die Standardlautstärke für Musik einstellen
-    void setDefaultSoundVolume(unsigned int vol);
+    void setDefaultSoundVolume(const Ogre::Real& vol);
     /// Die Standardlautstärke für Musik zurückgeben.
-    unsigned int getDefaultSoundVolume() const;
+    const Ogre::Real getDefaultSoundVolume() const;
     /// Die Lautstärke aller Sounds
-    virtual void setMasterVolume(unsigned int vol);
+    virtual void setMasterVolume(const Ogre::Real& vol);
     /// Die Standardlautstärke für Musik zurückgeben.
-    unsigned int getMasterVolume() const;
+    const Ogre::Real getMasterVolume() const;
     /// Einen Sound aus den Listen entfernen
     void removeFromLists(SoundChannel *channel);
     
@@ -94,11 +94,11 @@ protected:
     /// Liste der Sounds
     SoundChannelSet mSoundSet;
     /// Standardeinstellung für Musik
-    unsigned int mDefaultMusicVolume;
+    Ogre::Real mDefaultMusicVolume;
     /// Standardeinstellung für Sounds
-    unsigned int mDefaultSoundVolume;
+    Ogre::Real mDefaultSoundVolume;
 
-	unsigned int mMasterVolume;
+	Ogre::Real mMasterVolume;
 
 	static Ogre::ResourceManager* sSoundResourceManager;
     

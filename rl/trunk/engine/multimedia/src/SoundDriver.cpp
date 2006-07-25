@@ -39,7 +39,7 @@ SoundDriver::~SoundDriver()
 }
 
 /// Die Standardlautstärke für Musik einstellen
-void SoundDriver::setDefaultMusicVolume(unsigned int vol)
+void SoundDriver::setDefaultMusicVolume(const Ogre::Real& vol)
 {
     mDefaultMusicVolume = vol;
     SoundChannelSet::iterator it;
@@ -50,13 +50,13 @@ void SoundDriver::setDefaultMusicVolume(unsigned int vol)
 }
 
 /// Die Standardlautstärke für Musik zurückgeben.
-unsigned int SoundDriver::getDefaultMusicVolume() const
+const Ogre::Real SoundDriver::getDefaultMusicVolume() const
 {
     return mDefaultMusicVolume;
 }
 
 /// Die Standardlautstärke für Musik einstellen
-void SoundDriver::setDefaultSoundVolume(unsigned int vol)
+void SoundDriver::setDefaultSoundVolume(const Ogre::Real& vol)
 {
     mDefaultSoundVolume = vol;
     SoundChannelSet::iterator it;
@@ -67,17 +67,17 @@ void SoundDriver::setDefaultSoundVolume(unsigned int vol)
 }
 
 /// Die Standardlautstärke für Musik zurückgeben.
-unsigned int SoundDriver::getDefaultSoundVolume() const
+const Ogre::Real SoundDriver::getDefaultSoundVolume() const
 {
     return mDefaultSoundVolume;
 }
 
-void SoundDriver::setMasterVolume(unsigned int vol)
+void SoundDriver::setMasterVolume(const Ogre::Real& vol)
 {
     mMasterVolume = vol;
 }
 
-unsigned int SoundDriver::getMasterVolume() const
+const Ogre::Real SoundDriver::getMasterVolume() const
 {
     return mMasterVolume;
 }
@@ -110,9 +110,9 @@ void SoundDriver::saveConf(ConfigFile &conf) const
  */
 void SoundDriver::loadConf(ConfigFile &conf)
 {
-	setMasterVolume(conf.getValue(100, "MasterVolume", "General"));
-	setDefaultMusicVolume(conf.getValue(30, "DefaultMusicVolume", "General"));
-	setDefaultSoundVolume(conf.getValue(100, "DefaultSoundVolume", "General"));
+	setMasterVolume(conf.getValue(Real(1.0), "MasterVolume", "General"));
+	setDefaultMusicVolume(conf.getValue(Real(0.30), "DefaultMusicVolume", "General"));
+	setDefaultSoundVolume(conf.getValue(Real(1.0), "DefaultSoundVolume", "General"));
 }
 
 }
