@@ -67,6 +67,7 @@
 			<set type="queststate" name="wolfram" value="SUCCEEDED"/>
 			<set type="questknown" name="wolfram" value="KNOWN"/>
 			<!-- Scripte ausführen, Dialog beenden. -->
+			<script language="ruby" src="wolframstueroeffnen.rb"/>
 			<srai>EXIT</srai> 
 	</template>
 	</category>
