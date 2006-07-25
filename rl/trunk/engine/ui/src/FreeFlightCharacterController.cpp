@@ -45,7 +45,7 @@ namespace rl {
 
 		resetCamera();
 		mOgreCam = static_cast<Camera*>(mCamera->_getMovableObject());
-		mOgreCam->setPosition(mCamera->_getSceneNode()->_getDerivedPosition());
+        mOgreCam->setPosition(Vector3::ZERO);
 		mOgreCam->setOrientation(Quaternion::IDENTITY);
 		mOgreCam->setFixedYawAxis(true);
 
@@ -124,8 +124,22 @@ namespace rl {
 	void FreeFlightCharacterController::resetCamera()
 	{
 		// Position camera at char position
-		mCamera->_getSceneNode()->setPosition(mCharacterActor->getPhysicalThing()->getPosition());
-		mCamera->_getSceneNode()->setOrientation(Quaternion::IDENTITY);
+        if( mCharacterActor != NULL )
+        {
+            mCamera->_getSceneNode()->setOrientation( mCharacterActor->getWorldOrientation() );
+            Vector3 newPos = mCharacterActor->getWorldPosition();
+            if( mCharacterActor->getControlledObject()->isMeshObject() )
+            {
+                MeshObject* mo = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
+                newPos.y += mo->getDefaultSize().getMaximum().y;
+            }
+		    mCamera->_getSceneNode()->setPosition( newPos );
+        }
+        else
+        {
+		    mCamera->_getSceneNode()->setOrientation( Quaternion::IDENTITY );
+            mCamera->_getSceneNode()->setPosition( Vector3::ZERO );
+        }
 	}
 
 	bool FreeFlightCharacterController::injectKeyClicked(int keycode)

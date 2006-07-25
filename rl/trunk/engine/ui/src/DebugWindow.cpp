@@ -190,14 +190,18 @@ namespace rl
 		if (UiSubsystem::getSingleton().getActiveCharacter() != NULL && 
 			UiSubsystem::getSingleton().getActiveCharacter()->getActor() != NULL)
 		{
-			MeshObject* charMesh = dynamic_cast<MeshObject*>(UiSubsystem::getSingletonPtr()->
-				getActiveCharacter()->getActor()->getControlledObject());
-			Ogre::Vector3 pos = charMesh->getMovableObject()->getParentNode()->getWorldPosition();
+            ActorControlledObject* charObj = UiSubsystem::getSingletonPtr()->
+				getActiveCharacter()->getActor()->getControlledObject();
 
-			textSt += "\nPlayer Position [ "
-				+ StringConverter::toString(pos.x,2,0,32,std::ios_base::fixed)+", "
-				+ StringConverter::toString(pos.y,2,0,32,std::ios_base::fixed)+", "
-				+ StringConverter::toString(pos.z,2,0,32,std::ios_base::fixed)+" ]";
+            if( charObj != NULL )
+            {
+			    Ogre::Vector3 pos = charObj->getMovableObject()->getParentNode()->getWorldPosition();
+
+			    textSt += "\nPlayer Position [ "
+				    + StringConverter::toString(pos.x,2,0,32,std::ios_base::fixed)+", "
+				    + StringConverter::toString(pos.y,2,0,32,std::ios_base::fixed)+", "
+				    + StringConverter::toString(pos.z,2,0,32,std::ios_base::fixed)+" ]";
+            }
 		}
 
         Actor* camActor = ActorManager::getSingleton().getActor("DefaultCamera");
