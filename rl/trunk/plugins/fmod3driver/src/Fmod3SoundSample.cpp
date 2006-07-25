@@ -83,13 +83,19 @@ void Fmod3SoundSample::load() throw (RuntimeException)
     }
     mSample = FSOUND_Sample_Load(FSOUND_FREE, data, mode,
         0, len);
-    if (mSample == 0)
+    if (mSample == 0 && !is3d() )
     {
         mode |= FSOUND_FORCEMONO;
         mSample = FSOUND_Sample_Load(FSOUND_FREE, data, mode,
             0, len);
     }
     delete[] data;
+
+    if( mSample == NULL )
+    {
+        int err = FSOUND_GetError();
+        Throw( RuntimeException, "Fmod Error:" + Ogre::StringConverter::toString(err) + " while loading " + getName() );
+    }   
 }
 
 /**
@@ -151,6 +157,12 @@ float Fmod3SoundSample::getLength() const
 int Fmod3SoundSample::createChannel() throw (RuntimeException)
 {
     mChannel = FSOUND_PlaySoundEx(FSOUND_FREE, getSample(), 0, true);
+
+    if( mChannel == -1 )
+    {
+        int err = FSOUND_GetError();
+        Throw( RuntimeException, "Fmod Error:" + Ogre::StringConverter::toString(err) + " while playing " + getName() );
+    }   
 	return mChannel; 
 }
 
