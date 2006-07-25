@@ -6,10 +6,6 @@ material arc_BegehHaus/Main
 	{
 		pass
 		{
-	        ambient 0.435294 0.435294 0.435294 1
-			diffuse 0.486275 0.486275 0.486275 1
-			specular 0 0 0 1 90
-
 			texture_unit
 			{
 				texture arc_BegehHaus.dds
@@ -27,11 +23,7 @@ material arc_BegehHaus/Glas
 			scene_blend alpha_blend 
    		    depth_write off
 
-        	ambient 0.435294 0.435294 0.435294 1
-			diffuse 0.486275 0.486275 0.486275 1
-			specular 0 0 0 1 90
-		
-			texture_unit
+   			texture_unit
 			{
 				texture arc_BegehHaus.dds
 			}
