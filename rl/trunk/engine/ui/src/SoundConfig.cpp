@@ -47,7 +47,7 @@ namespace rl
 			boost::bind(&SoundConfig::handleOK, this));
             
 		mVolumeSound = getSlider("SoundConfig/VolumeSound");
-		mVolumeSound->setMaxValue(100);
+		mVolumeSound->setMaxValue(1.0);
 		mVolumeSound->setCurrentValue(	
 			SoundManager::getSingleton()
 			.getActiveDriver()
@@ -57,7 +57,7 @@ namespace rl
 			boost::bind(&SoundConfig::handleVolumeSoundChanged, this));
 
 		mVolumeMusic = getSlider("SoundConfig/VolumeMusic");
-		mVolumeMusic->setMaxValue(100);
+		mVolumeMusic->setMaxValue(1.0);
 		mVolumeMusic->setCurrentValue(	
 			SoundManager::getSingleton()
 			.getActiveDriver()
@@ -67,7 +67,7 @@ namespace rl
 			boost::bind(&SoundConfig::handleVolumeMusicChanged, this));
 
 		mVolumeMaster = getSlider("SoundConfig/VolumeMaster");
-		mVolumeMaster->setMaxValue(100);
+		mVolumeMaster->setMaxValue(1.0);
 		mVolumeMaster->setCurrentValue(	
 			SoundManager::getSingleton()
 			.getActiveDriver()
