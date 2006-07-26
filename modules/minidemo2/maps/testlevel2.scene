@@ -1,0 +1,10 @@
+<scene formatVersion="0.2.0">
+  <nodes>
+    <node name="ter_nemfelsen">
+      <position x="0.0" y="0.0" z="0.0" />
+      <rotation qw="1.0" qx="0.0" qy="0.0" qz="0.0" />
+      <scale x="0.01" y="0.01" z="0.01" />
+      <entity name="ter_nemfelsen" meshFile="ter_nemfelsen.mesh"/>
+    </node>
+  </nodes>
+</scene>

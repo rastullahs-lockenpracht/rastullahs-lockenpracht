@@ -1,0 +1,31 @@
+material ter_nemfelsen/SOLID/TEX/gras_01.png
+{
+	technique
+	{
+		pass
+		{
+			diffuse 0.800000 0.800000 0.800000
+			specular 0.000000 0.000000 0.000000 0.250000
+			texture_unit
+			{
+				scale 0.5 0.5
+				texture gras_01.png
+			}
+		}
+	}
+}
+material ter_nemfelsen/SOLID/TEX/dm_felsen01.jpg
+{
+	technique
+	{
+		pass
+		{
+			diffuse 0.800000 0.800000 0.800000
+			specular 0.000000 0.000000 0.000000 0.250000
+			texture_unit
+			{
+				texture dm_felsen01.jpg
+			}
+		}
+	}
+}
