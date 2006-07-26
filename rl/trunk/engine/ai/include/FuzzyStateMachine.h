@@ -18,6 +18,7 @@
 #include <list>
 #include "AiPrerequisites.h"
 #include "FuzzyState.h"
+#include "ScriptWrapper.h"
 
 namespace rl
 {
@@ -37,12 +38,14 @@ namespace rl
 		virtual void addState(FuzzyStatePtr state)
 		{
 			mStates.push_back(State(false, state));
+            ScriptWrapper::getSingleton().owned( state );
 		}
         virtual void clearStates()
 		{
 			typename StateList::iterator itr = mStates.begin();
 			for(; itr != mStates.begin(); ++itr)
 			{
+                ScriptWrapper::getSingleton().disowned( itr->second );
 				delete itr->second;
 			}
 			mStates.clear();

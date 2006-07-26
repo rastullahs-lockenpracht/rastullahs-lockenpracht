@@ -164,10 +164,10 @@ namespace rl {
 			checkMouseButton(2, MouseEvent::BUTTON2_MASK, pressedButtonMask, releasedButtonMask);
 			checkMouseButton(3, MouseEvent::BUTTON3_MASK, pressedButtonMask, releasedButtonMask);
 
-			if (releasedButtonMask != 0)
+			if (releasedButtonMask != 0 && mCharacterController!=NULL)
 				mCharacterController->injectMouseUp(releasedButtonMask);
 
-			if (pressedButtonMask != 0)
+			if (pressedButtonMask != 0 && mCharacterController!=NULL)
 				mCharacterController->injectMouseDown(pressedButtonMask);
 		}		
 		Logger::getSingleton().log(
@@ -202,7 +202,8 @@ namespace rl {
 		if ( ! (isCeguiActive() && mBuffered) )
 		{
 			e->consume();
-			mCharacterController->injectMouseClicked(CommandMapper::encodeKey(e->getButtonID(), e->getModifiers()));
+            if( mCharacterController!=NULL )
+			    mCharacterController->injectMouseClicked(CommandMapper::encodeKey(e->getButtonID(), e->getModifiers()));
 		}
 	}
 
@@ -219,7 +220,8 @@ namespace rl {
 		}
 		else
 		{
-			mCharacterController->injectMouseDown(CommandMapper::encodeKey(e->getButtonID(), e->getModifiers()));
+            if( mCharacterController!=NULL )
+			    mCharacterController->injectMouseDown(CommandMapper::encodeKey(e->getButtonID(), e->getModifiers()));
 		}
 			
 	}
@@ -237,7 +239,8 @@ namespace rl {
         /// Verantwortlichkeit zwischen DialogWindow und Controller ist arg durcheinander
         /// und die Tatsache, dass ich das als Kommentar in den InputManager schreibe zeigt,
         /// dass da noch mehr durcheinander ist. ^^
-        mCharacterController->injectMouseUp(CommandMapper::encodeKey(e->getButtonID(), e->getModifiers()));
+        if( mCharacterController != NULL )
+            mCharacterController->injectMouseUp(CommandMapper::encodeKey(e->getButtonID(), e->getModifiers()));
 	}
 
     void InputManager::mouseMoved(MouseEvent* e)
@@ -295,7 +298,8 @@ namespace rl {
 		}
 
 		mKeyDown[e->getKey()]=true;
-		mCharacterController->injectKeyDown(e->getKey());
+        if( mCharacterController!=NULL )
+		    mCharacterController->injectKeyDown(e->getKey());
 		std::set<KeyListener*>::iterator i;
 		for(i=mKeyListeners.begin(); i!=mKeyListeners.end(); i++)
 			(*i)->keyPressed(e);
@@ -314,7 +318,8 @@ namespace rl {
 		}
 
 		mKeyDown[e->getKey()]=false;
-		mCharacterController->injectKeyUp(e->getKey());
+        if( mCharacterController!=NULL )
+		    mCharacterController->injectKeyUp(e->getKey());
 		std::set<KeyListener*>::iterator i;
 		for(i=mKeyListeners.begin(); i!=mKeyListeners.end(); i++)
 			(*i)->keyReleased(e);
@@ -326,7 +331,8 @@ namespace rl {
 		if (sendKeyToCeGui(e)) 
 			return;
 		
-		mCharacterController->injectKeyClicked(CommandMapper::encodeKey(e->getKey(), e->getModifiers()));
+        if( mCharacterController!=NULL )
+		    mCharacterController->injectKeyClicked(CommandMapper::encodeKey(e->getKey(), e->getModifiers()));
 	}
 
 	void InputManager::mouseDragged(MouseEvent* e)
@@ -475,11 +481,15 @@ namespace rl {
         {
             if( mKeyDown[i] && up )
             {
-                mCharacterController->injectKeyUp( i );
+                if( mCharacterController != NULL )
+                    mCharacterController->injectKeyUp( i );
                 mKeyDown[i] = false;
             }
             else if( mKeyDown[i] && !up ) 
-                mCharacterController->injectKeyDown( i );
+            {
+                if( mCharacterController != NULL )
+                    mCharacterController->injectKeyDown( i );
+            }
         }
     }
 
