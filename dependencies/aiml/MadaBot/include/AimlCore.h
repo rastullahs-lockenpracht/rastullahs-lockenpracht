@@ -58,7 +58,7 @@ namespace MadaBot
 				delete mParser; 
 				mParser = NULL;
 			}
-			for(GraphList::iterator itr = mGraphList.begin(); itr != mGraphList.end(); ++itr)
+			for(typename GraphList::iterator itr = mGraphList.begin(); itr != mGraphList.end(); ++itr)
 			{
 				delete itr->second;
 			}
