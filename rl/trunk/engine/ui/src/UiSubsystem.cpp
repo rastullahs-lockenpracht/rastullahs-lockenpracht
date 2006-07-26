@@ -226,9 +226,6 @@ namespace rl {
                 "Old CharacterController deleted.");
 		}
         
-        if( mCharacter == NULL )
-            type = CharacterController::CTRL_FREEFLIGHT;
-
    		if( type == CharacterController::CTRL_NONE )
         {
 			mCharacterController = NULL;
