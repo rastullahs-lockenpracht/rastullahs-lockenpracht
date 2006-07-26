@@ -9,6 +9,10 @@ class TurTalkAction < TalkAction
             super(object, actor, target)
 	    end
     end
+
+    def canDo(enemy, user)    
+        RulesSubsystem.getSingleton().getQuestBook().getQuest("wolfram").getState() != Quest::SUCCEEDED
+    end
 end
 
 
