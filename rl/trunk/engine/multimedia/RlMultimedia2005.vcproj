@@ -257,18 +257,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\Video.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\VideoEvents.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\VideoManager.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\VorbisFile.cpp"
 				>
 			</File>
@@ -324,18 +312,6 @@
 			</File>
 			<File
 				RelativePath=".\include\SoundResource.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\Video.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\VideoEvents.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\VideoManager.h"
 				>
 			</File>
 			<File

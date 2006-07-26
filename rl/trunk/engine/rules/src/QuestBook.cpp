@@ -34,6 +34,11 @@ QuestBook::QuestBook()
 QuestBook::~QuestBook()
 {
 	delete mRootQuest;
+    for( vector<JournalEntry*>::iterator it = mJournalEntries.begin(); 
+        it != mJournalEntries.end(); it++ )
+        delete (*it);
+    mJournalEntries.clear();
+
 }
 
 Quest* QuestBook::getQuest(const CeGuiString id)

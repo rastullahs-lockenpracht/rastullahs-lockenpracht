@@ -466,10 +466,6 @@
 					RelativePath=".\include\TargetSelectionWindow.h"
 					>
 				</File>
-				<File
-					RelativePath=".\include\VideoWindow.h"
-					>
-				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -641,10 +637,6 @@
 				</File>
 				<File
 					RelativePath=".\src\TargetSelectionWindow.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\VideoWindow.cpp"
 					>
 				</File>
 			</Filter>

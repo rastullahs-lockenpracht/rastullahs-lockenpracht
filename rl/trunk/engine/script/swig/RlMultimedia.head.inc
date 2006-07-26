@@ -22,7 +22,4 @@
 #include "SoundEvents.h"
 #undef message
 #undef send
-#include "VideoEvents.h"
-#include "Video.h"
-#undef send
 %}

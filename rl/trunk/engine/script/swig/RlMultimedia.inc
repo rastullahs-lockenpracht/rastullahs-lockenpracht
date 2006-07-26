@@ -16,69 +16,21 @@
 
 namespace rl {
 
-class VideoEventListener;
-	
-class  Video {
-public:
-    // Default-Konstruktor
-    Video(rl::CeGuiString textureName, rl::CeGuiString movieName);
-
-    /// Getter fuer Breite
-    unsigned int getWidth() const;
-    /// Getter fuer Hoehe
-    unsigned int getHeight() const;
-    /// Das Video auffrischen
-    void update();
-    /// Video anhalten
-    void stop();
-    /// Video unterbrechen oder wieder starten
-    void pause(bool bPause = true);
-    /// Video abspielen
-    void play();
-    /// Video an bestimmter Stelle weiterspielen
-    // void seek(float percentage);
-    /// Erzeuge Textur
-    CEGUI::Texture* getTexture() const;
-    /// Texturname zurueckgeben.
-    const rl::CeGuiString getTextureName() const;
-    /// Die Videolaenge zurueckgeben
-    float getMaxTime() const;
-
-    /// Gibt den Zustand zurÃ¼ck.
-    bool isPlaying() const;
-    /// Fuegt einen EventListener hinzu, der zukuenftig bei Events benachrichtigt wird 
-    void addEventListener(rl::VideoEventListener*  listener);
-    /// Entfernt einen Listener
-    void removeEventListener(rl::VideoEventListener* listener);
-    /// Entfernt alle Listener
-    void removeEventListeners();
-    /// Gibt zurueck ob sich Listener angemeldet haben
-    bool hasListeners() const;
-};
-
-%template(SoundEventCaster) rl::EventCaster<rl::SoundEvent>;
-class SoundChannel : public rl::EventCaster<rl::SoundEvent>
+class SoundChannel 
 {
-public:
+private:
 	SoundChannel(Sound *sound, const Ogre::String &name);
-	~SoundChannel();
+public:
+	
+	virtual ~SoundChannel();
     
     /// Name zurückgeben
     const Ogre::String& getName() const;
-    /// Kamera informieren
-    void _notifyCurrentCamera(Ogre::Camera *cam);
-    /// Unsere Bounding-Box
-    const Ogre::AxisAlignedBox& getBoundingBox(void) const;
-    /// Bound-Radius
-    Ogre::Real getBoundingRadius() const;
-    /// Rendern
-    void _updateRenderQueue(Ogre::RenderQueue *queue);
-
 
     /// Gibt die eingestellte Position der Soundquelle zurueck
     const Ogre::Vector3 getPosition() const;
     /// Setzt die Position der Soundquelle.
-    void setPosition(const Ogre::Vector3& direction) = 0;
+    void setPosition(const Ogre::Vector3& direction);
     /// Gibt die eingestellte relative Lautstaerke der Soundquelle zurueck
     const Ogre::Real getVolume() const; 
     /// Setzt die relative Lautstaerke der Soundquelle.
@@ -106,8 +58,6 @@ public:
     bool isPaused() ;
     /// Stoppt den Sound.
     void stop() ;
-    /// Zurueck auf Anfang.
-//        void rewind() ;
     /// Laeuft der Sound noch
     const bool isPlaying() const ;
 

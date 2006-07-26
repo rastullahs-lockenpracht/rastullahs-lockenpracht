@@ -78,13 +78,6 @@ public:
 	void startRTCombat(rl::RTCombat* combat);
 };
 
-class VideoWindow
-{
-public:
-    static rl::VideoWindow& getSingleton(void);
-    void show(CEGUI::Texture *texture, rl::CeGuiString name);
-};
-
 class GameLoggerWindow
 {
 public:

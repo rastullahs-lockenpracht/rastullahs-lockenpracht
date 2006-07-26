@@ -20,6 +20,7 @@
 #include "QuestBook.h"
 #include "QuestEvent.h"
 #include "QuestListener.h"
+#include "ScriptWrapper.h"
 
 #include "Exception.h"
 
@@ -39,12 +40,17 @@ Quest::Quest(const CeGuiString id, const CeGuiString name, const CeGuiString des
 	mState(Quest::OPEN),
 	mKnown(false),
 	mParent(NULL),
-	mQuestBook(NULL)	
+	mQuestBook(NULL),
+    mSubquests()
 {
 }
 
 Quest::~Quest()
 {
+    for( QuestVector::iterator it = mSubquests.begin(); 
+        it != mSubquests.end(); it++ )
+           ScriptWrapper::getSingleton().disowned( (*it) );
+    mSubquests.clear();
 }
 
 const CeGuiString Quest::getId()
@@ -177,6 +183,7 @@ void Quest::addSubquest(Quest* quest)
 		Throw(rl::DuplicateIdException, ("Duplicate quest id " + quest->getId()).c_str());
 
 	mSubquests.push_back(quest);
+    ScriptWrapper::getSingleton().owned( quest );
 	quest->setParent(this);
 	quest->setQuestBook(mQuestBook);
 	notify(QuestEvent::QUEST_SUBQUEST);

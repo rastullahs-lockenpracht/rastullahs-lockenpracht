@@ -24,7 +24,6 @@
 #include "RTCombatCharacterController.h"
 #include "UiPrerequisites.h"
 #include "UiSubsystem.h"
-#include "VideoWindow.h"
 #include "WindowFactory.h"
 #include "WindowManager.h"
 %}
