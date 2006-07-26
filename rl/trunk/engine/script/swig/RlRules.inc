@@ -17,7 +17,7 @@
 namespace rl {
 	
 				
-	 template<typename T>
+   template<typename T>
    class Tripel {
    public:
       T first;
@@ -80,6 +80,13 @@ namespace rl {
     Date operator+(const RL_LONGLONG&, const Date&);
     Date operator-(const RL_LONGLONG&, const Date&);
 
+	class RulesSubsystem 
+    {
+		public:
+ 			static rl::RulesSubsystem& getSingleton();
+ 			rl::QuestBook* getQuestBook();
+ 			void resetQuestBook();
+    };
   
     class DsaManager {
     public:
