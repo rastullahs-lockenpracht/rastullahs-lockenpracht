@@ -182,16 +182,6 @@ class ShowObjectDescriptionWindow < Action
   end
 end
 
-class ShowTestVideoWindow < Action
-  def initialize
-    super("showtestvideowindow", "Video")
-  end
-  
-  def doAction(object, actor, target)
-    #load "video.rb"
-  end
-end
-
 class ShowAboutWindowAction < Action
   def initialize
     super("showaboutwindow", "Über")

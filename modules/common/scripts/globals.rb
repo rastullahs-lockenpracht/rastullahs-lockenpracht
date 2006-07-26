@@ -21,11 +21,6 @@ $SCRIPT = ScriptSubsystem.getSingleton();
 $GameEveMgr = GameEventManager.getSingleton();
 $AnimMgr = AnimationManager.getSingleton();
 
-if ($VideoDisplay == nil)
-    $VideoDisplay = VideoWindow.new();
-end
-
-
 class HeroPosWriter
   def initialize()
 	
