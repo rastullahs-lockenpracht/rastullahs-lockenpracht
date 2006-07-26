@@ -587,67 +587,6 @@ namespace rl {
 
 		rl::TimerEventSource* getSource() const;
 	};
-	
-	
-	%feature("director") RBCombatController;
-	class RBCombatController 
-	{
-	public:
-		RBCombatController(rl::RBCombat* combat, int group);
-		virtual ~RBCombatController();
-
-		int getGroup();
-
-		void setActionOption(rl::RBCombat::ActionOption option);
-		void setAttackTarget(rl::Creature* creature);
-		void setPareeTarget(rl::Creature* creature);
-
-		rl::Creature* getCurrentCreature();
-		
-		virtual void notifyActionStart() = 0;
-		virtual void notifyCombatEnd() = 0;
-
-		void setCurrentCreature(rl::Creature* creature);
-		rl::RBCombat* getCombat();
-	};
-	
-	class RBCombat
-	{
-	public:
-	
-		enum ActionOption {
-			ACTION_ATTACK = 1,
-			ACTION_MOVE = 2,
-			ACTION_NONE = 3
-		};
-		
-		RBCombat();
-
-		void add(rl::Creature* creature, int group);
-		std::vector<rl::Creature*> getGroupMembers(int group);
-		void start();
-		
-		void addController(RBCombatController* controller);
-		void tick();
-	};	
-	
-	class RTCombat
-	{
-	public:
-		RTCombat();
-
-		void add(rl::Creature* participant, int group);
-	};
-		
-    class RulesSubsystem 
-    {
-    public:
-		static rl::RulesSubsystem& getSingleton();
-		rl::QuestBook* getQuestBook();
-		void resetQuestBook();
-    };
-
-	
 } // Namespace
 
 %{

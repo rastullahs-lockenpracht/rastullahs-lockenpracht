@@ -67,7 +67,7 @@ namespace rl {
 
 		CEGUI::OgreCEGUIRenderer* getGUIRenderer();
 		Person* getActiveCharacter() const;
-		void setActiveCharacter(Person* person = NULL);
+		void setActiveCharacter(Person* person);
         CharacterController* getCharacterController() const;
 		CharacterController::ControllerType getCharacterControllerType() const;
 		
@@ -83,11 +83,6 @@ namespace rl {
 		*/
 		void requestCharacterControllerSwitch(CharacterController::ControllerType type);
 
-		void setCombatMode(bool inCombat);
-		bool isInCombatMode();
-		void startRBCombat(RBCombat* combat);
-		void startRTCombat(RTCombat* combat);
-	
 		void update();
 
         /// from SceneChangeListener
@@ -100,7 +95,6 @@ namespace rl {
 		CharacterController::ControllerType mCharacterControllerType;
         GameActor* mHero;
         Person* mCharacter;
-        bool mInCombat;
 
         // Singletons
 		InputManager* mInputManager;

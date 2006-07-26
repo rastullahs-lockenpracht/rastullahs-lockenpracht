@@ -17,7 +17,6 @@ libRlUi_la_SOURCES = \
 	CharacterSheetWindow.cpp \
 	CharacterStateWindow.cpp \
 	CloseConfirmationWindow.cpp \
-	CombatWindow.cpp \
 	CommandExecutor.cpp \
 	CommandMapper.cpp \
 	CommandMapperWindow.cpp \
@@ -42,7 +41,6 @@ libRlUi_la_SOURCES = \
 	MovementCharacterController.cpp \
 	ObjectDescriptionWindow.cpp \
 	PlaylistWindow.cpp \
-	RTCombatCharacterController.cpp \
 	SoundConfig.cpp \
 	SoundDriverConfigWindow.cpp \
 	SubtitleWindow.cpp \

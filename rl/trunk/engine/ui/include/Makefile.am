@@ -6,7 +6,6 @@ noinst_HEADERS = \
 	CharacterSheetWindow.h \
 	CharacterStateWindow.h \
 	CloseConfirmationWindow.h \
-	CombatWindow.h \
 	CommandExecutor.h \
 	CommandMapper.h \
 	CommandMapperWindow.h \
@@ -32,7 +31,6 @@ noinst_HEADERS = \
 	LogWindow.h \
 	ObjectDescriptionWindow.h \
 	PlaylistWindow.h \
-	RTCombatCharacterController.h \
 	SoundConfig.h \
 	SoundDriverConfigWindow.h \
 	SubtitleWindow.h \

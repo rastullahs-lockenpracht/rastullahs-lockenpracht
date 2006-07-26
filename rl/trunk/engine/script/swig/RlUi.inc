@@ -16,8 +16,6 @@
 
 namespace rl {
 
-%apply SWIGTYPE *DYNAMIC { rl::CharacterController * };
-
 %feature("director") CharacterController;
 class CharacterController
 {
@@ -32,7 +30,6 @@ public:
 		CTRL_DIALOG,
 		CTRL_CUTSCENE,
 		CTRL_COMBAT,
-		CTRL_RTCOMBAT,
 	};
 	
 	rl::CharacterController::ControllerType getType();
@@ -46,23 +43,13 @@ public:
         
 };
 
-%feature("director") RTCombatCharacterController;
-class RTCombatCharacterController : public rl::CharacterController
-{
-public:
-	void setCurrentCreature(Creature* creature);
-
-	void attack();
-	void block();
-};
-
 class UiSubsystem 
 {
 public:
     static UiSubsystem& getSingleton(void);
     
 	rl::Person* getActiveCharacter();
-	void setActiveCharacter(rl::Person* person = NULL);
+	void setActiveCharacter(rl::Person* chara);
 
 	rl::CharacterController* getCharacterController() const;
 	rl::CharacterController::ControllerType getCharacterControllerType() const;
@@ -71,11 +58,6 @@ public:
 	void useDefaultAction(rl::GameObject* obj, rl::Creature* actor);
 	void usePickedObjectDefaultActions();
 	void toggleObjectPicking();
-	
-	void setCombatMode(bool inCombat);
-	bool isInCombatMode();
-	void startRBCombat(rl::RBCombat* combat);
-	void startRTCombat(rl::RTCombat* combat);
 };
 
 class GameLoggerWindow
@@ -140,19 +122,3 @@ public:
 };
 
 }
-
-%{
-static swig_type_info *CharacterController_dynamic_cast(void **ptr)
-{
-    rl::CharacterController **ppCharacterController = reinterpret_cast<rl::CharacterController**>(ptr);
-
-    rl::RTCombatCharacterController *pRTCombatCharacterController
-		= dynamic_cast<rl::RTCombatCharacterController*>(*ppCharacterController);
-    if (pRTCombatCharacterController) {
-        *ptr=reinterpret_cast<void*>(pRTCombatCharacterController);
-        return SWIGTYPE_p_rl__RTCombatCharacterController;
-    }
-    return 0;
-}
-%}
-DYNAMIC_CAST(SWIGTYPE_p_rl__CharacterController, CharacterController_dynamic_cast);

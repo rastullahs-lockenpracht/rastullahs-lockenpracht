@@ -38,9 +38,6 @@
 #include "Logger.h"
 #include "MovementCharacterController.h"
 #include "Person.h"
-#include "RBCombat.h"
-#include "RTCombat.h"
-#include "RTCombatCharacterController.h"
 #include "ScriptWrapper.h"
 #include "SoundManager.h"
 #include "WindowFactory.h"
@@ -71,7 +68,6 @@ namespace rl {
 		mCharacterControllerType(CharacterController::CTRL_NONE),
         mHero(0),
         mCharacter(0),
-		mInCombat(false),
 		mInputManager(0),
 		mWindowFactory(0),
 		mWindowManager(0),
@@ -225,6 +221,7 @@ namespace rl {
 
 			GameLoopManager::getSingleton().removeSynchronizedTask(mCharacterController);
 			delete mCharacterController;
+            mCharacterController = NULL;
 			Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE,
                 "Old CharacterController deleted.");
 		}
@@ -267,10 +264,6 @@ namespace rl {
         {
 			mCharacterController = new CutsceneCharacterController(camera);
         }
-		else if (type == CharacterController::CTRL_RTCOMBAT)
-        {
-			mCharacterController = new RTCombatCharacterController(camera, mCharacter);
-        }
         else
         {
 			Throw(IllegalArgumentException, "Unknown CharacterControllerType.");
@@ -308,31 +301,6 @@ namespace rl {
 		mInputManager->setObjectPickingActive(true);
 	}
 
-	void UiSubsystem::startRBCombat(RBCombat* combat)
-	{
-		setCombatMode(true);
-		mWindowFactory->showCombatWindow(combat, getActiveCharacter());
-	}
-
-	void UiSubsystem::startRTCombat(RTCombat* combat)
-	{
-		combat->setLogger(mWindowFactory->getGameLogger());
-		setCharacterController(CharacterController::CTRL_RTCOMBAT);
-		GameLoopManager::getSingleton().addAsynchronousTask(combat);
-		dynamic_cast<RTCombatCharacterController*>(mCharacterController)->setCombat(combat);
-	}
-
-	void UiSubsystem::setCombatMode(bool inCombat)
-	{
-		mInCombat = inCombat;
-		//TODO: Irgendwann später, UI auf Kampfmodus umstellen
-	}
-
-	bool UiSubsystem::isInCombatMode()
-	{
-		return mInCombat;
-	}
-
     CharacterController* UiSubsystem::getCharacterController() const
     {
         return mCharacterController;
@@ -350,11 +318,11 @@ namespace rl {
     {
 		if (mCharacterController != NULL)
 		{
-			GameLoopManager::getSingleton().removeSynchronizedTask(mCharacterController);
-			delete mCharacterController;
-			Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE,
+            setCharacterController(CharacterController::CTRL_NONE);
+			Logger::getSingleton().log(
+                Logger::UI, 
+                Logger::LL_MESSAGE,
                 "Old CharacterController deleted.");
-            mCharacterController = NULL;
 			setActiveCharacter(NULL);
 		}
     }

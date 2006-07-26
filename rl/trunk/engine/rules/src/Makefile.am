@@ -32,10 +32,6 @@ libRlRules_la_SOURCES = \
 	QuestBook.cpp \
 	QuestEvent.cpp \
 	QuestListener.cpp \
-	RBCombat.cpp \
-	RBCombatController.cpp \
-	RTCombat.cpp \
-	RTCombatController.cpp \
 	RulesSubsystem.cpp \
 	StateSet.cpp \
 	SonderfertigkeitenStateSet.cpp \

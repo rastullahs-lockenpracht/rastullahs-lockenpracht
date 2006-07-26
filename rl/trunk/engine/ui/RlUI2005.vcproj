@@ -324,10 +324,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\RTCombatCharacterController.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\TargetSelection.h"
 				>
 			</File>
@@ -376,10 +372,6 @@
 				</File>
 				<File
 					RelativePath=".\include\CloseConfirmationWindow.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\CombatWindow.h"
 					>
 				</File>
 				<File
@@ -505,10 +497,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\RTCombatCharacterController.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\TargetSelection.cpp"
 				>
 			</File>
@@ -549,10 +537,6 @@
 				</File>
 				<File
 					RelativePath=".\src\CloseConfirmationWindow.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\CombatWindow.cpp"
 					>
 				</File>
 				<File

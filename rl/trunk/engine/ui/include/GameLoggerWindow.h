@@ -20,11 +20,10 @@
 #include "UiPrerequisites.h"
 
 #include "CeGuiWindow.h"
-#include "CombatLogger.h"
 
 namespace rl {
 
-	class _RlUiExport GameLoggerWindow : public CeGuiWindow, public CombatLogger
+	class _RlUiExport GameLoggerWindow : public CeGuiWindow
 	{
 	public:
 		GameLoggerWindow();
@@ -38,10 +37,6 @@ namespace rl {
 		static CEGUI::colour COLOR_DIALOG;
 		static CEGUI::colour COLOR_MISC;
 		static CEGUI::colour COLOR_CHARACTER;
-
-	protected:
-		void logParee(Creature* attacker, Creature* defender);
-		void logHit(Creature* attacker, Creature* defender, int sp);
 
 	private:
 		void logEvent(const CeGuiString& text, const CEGUI::colour color);

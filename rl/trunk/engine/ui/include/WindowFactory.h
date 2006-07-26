@@ -51,7 +51,6 @@ namespace rl {
 	class LogWindow;
 	class ObjectDescriptionWindow;
 	class Person;
-	class RBCombat;
 	class SoundConfig;
 	class SoundDriverConfigWindow;
     class TargetSelectionWindow;
@@ -81,7 +80,6 @@ namespace rl {
 		void showCharacterActionChoice();
 		void showCharacterSheet();
 		void showCharacterSheet(Person* chara);
-		void showCombatWindow(RBCombat* combat, Creature* activeCreature);
 		void showContainerContent(Container* container);
 		void showDescriptionWindow(GameObject* obj);
 		void showDialog(DialogCharacter* bot);

@@ -21,7 +21,6 @@
 #include "CharacterSheetWindow.h"
 #include "CharacterStateWindow.h"
 #include "CloseConfirmationWindow.h"
-#include "CombatWindow.h"
 #include "CommandMapperWindow.h"
 #include "Console.h"
 #include "ContainerContentWindow.h"
@@ -48,7 +47,6 @@
 #include "Person.h"
 #include "PlaylistWindow.h"
 #include "QuestBook.h"
-#include "RBCombat.h"
 #include "RubyInterpreter.h"
 #include "RulesSubsystem.h"
 #include "SoundConfig.h"
@@ -335,13 +333,6 @@ namespace rl {
 		{
 			WindowManager::getSingleton().destroyWindow(w);
 		}
-	}
-
-	void WindowFactory::showCombatWindow(RBCombat* combat, Creature* activeCreature)
-	{
-		CombatWindow* wnd = new CombatWindow(combat, combat->getGroupOf(activeCreature));
-		combat->setLogger(mGameLogger);
-		wnd->setVisible(true);
 	}
 
 	void WindowFactory::showDialog(DialogCharacter* bot)
