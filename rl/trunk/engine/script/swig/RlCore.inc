@@ -457,7 +457,10 @@ public:
 	const Ogre::Quaternion& getOrientation(void);
 	const Ogre::Vector3& getWorldPosition(void);
 	const Ogre::Quaternion& getWorldOrientation(void);
+
     void setPosition(Ogre::Real x, Ogre::Real y, Ogre::Real z);
+    void setPosition( const Ogre::Vector3& );
+    void setOrientation( const Ogre::Quaternion& );
     
     rl::ActorControlledObject* getControlledObject();
     Ogre::UserDefinedObject* getGameObject() const;
