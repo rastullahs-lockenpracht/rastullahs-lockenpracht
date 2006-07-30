@@ -96,9 +96,6 @@ namespace rl
 
     void PhysicsManager::run(Real elapsedTime)
     {
-		//Logger::getSingleton().log("RlCore", LML_TRIVIAL,
-		//	"PhysicsManager - time since last call: " + StringConverter::toString(elapsedTime));
-		RL_LONGLONG start = CoreSubsystem::getSingleton().getClock();
         // do nothing, if not enabled
         if (!mEnabled) 
 			return;
@@ -109,13 +106,6 @@ namespace rl
 	 		mWorld->update(mUpdate);
             mElapsed -= mUpdate;
         }
-    
-		Logger::getSingleton().log(
-			Logger::CORE, 
-			Logger::LL_TRIVIAL, 
-			"    PM time "
-			 + Ogre::StringConverter::toString(
-					Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));
     }
 
     void PhysicsManager::setGravity( Real x, Real y, Real z )

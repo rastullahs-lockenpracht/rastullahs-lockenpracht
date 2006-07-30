@@ -197,8 +197,6 @@ namespace rl {
 
 	void WindowUpdater::run(Ogre::Real elapsedTime)
 	{
-		RL_LONGLONG start = CoreSubsystem::getSingleton().getClock();
-
 		if (mTasks.empty())
 			return;
 
@@ -233,13 +231,6 @@ namespace rl {
 				++it;
 			}
 		}
-
-		Logger::getSingleton().log(
-			Logger::CORE, 
-			Logger::LL_TRIVIAL, 
-			"    WU time "
-			 + Ogre::StringConverter::toString(
-					Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));
 	}
 
 	void WindowUpdater::fadeIn(CeGuiWindow* window, Ogre::Real targetAlpha)

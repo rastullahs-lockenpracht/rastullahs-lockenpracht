@@ -151,16 +151,7 @@ namespace rl
 
 	void DebugWindow::run(Ogre::Real elapsedTime)
 	{
-		RL_LONGLONG start = CoreSubsystem::getSingleton().getClock();
-
 		updateFps();
-
-		Logger::getSingleton().log(
-			Logger::CORE, 
-			Logger::LL_TRIVIAL, 
-			"    DW time "
-			 + Ogre::StringConverter::toString(
-					Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));
 	}
 
     void DebugWindow::updatePageText()

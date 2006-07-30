@@ -316,7 +316,6 @@ void AnimationManager::removeAnimation(TrackAnimation* anim)
 
 void AnimationManager::run(Ogre::Real timePassed)
 {
-    RL_LONGLONG start = CoreSubsystem::getSingleton().getClock();
     // Zuerst faden (Weights modifizieren)
     for (FadeAnimSet::iterator it = mFadeAnimSet.begin(); 
             it != mFadeAnimSet.end(); )
@@ -342,13 +341,6 @@ void AnimationManager::run(Ogre::Real timePassed)
     {
         it->second->addTime(timePassed*mGlobalAnimationSpeed);
     }
-
-    Logger::getSingleton().log(
-    Logger::CORE, 
-    Logger::LL_TRIVIAL, 
-    "    AM time "
-     + Ogre::StringConverter::toString(
-            Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));
 }
 
 AnimationManager& AnimationManager::getSingleton(void)

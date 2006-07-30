@@ -78,13 +78,6 @@ namespace rl {
 			else
 				++timerIter;
 		}
-
-		Logger::getSingleton().log(
-	Logger::CORE, 
-	Logger::LL_TRIVIAL, 
-	"    TM time "
-	 + Ogre::StringConverter::toString(
-			Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-now))));
 	}
 
 	void TimerManager::registerTimerEventSource(TimerEventSource* source)

@@ -129,7 +129,6 @@ namespace rl {
 
     void GameEventManager::run( Ogre::Real elapsedTime )
     {
-		RL_LONGLONG start = CoreSubsystem::getSingleton().getClock();
 		removeQueuedDeletionSources();
 
         GameAreaEventSourceList::iterator it;
@@ -138,12 +137,5 @@ namespace rl {
             GameAreaEventSource* gam = *it;
             gam->performQuery( elapsedTime );
         }
-
-		Logger::getSingleton().log(
-			Logger::CORE, 
-			Logger::LL_TRIVIAL, 
-			"    GEM time "
-			 + Ogre::StringConverter::toString(
-					Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));
-			}
+	}
 }
