@@ -228,7 +228,15 @@ namespace rl {
 		while (it.hasMoreElements())
 		{
 			AnimationState* as = it.peekNextValue();
-			as->setEnabled(as->getAnimationName() == animationName);
+            if (as->getAnimationName() == animationName)
+            {
+			    as->setEnabled(true);
+                as->setTimePosition(0.0f);
+            }
+            else
+            {
+			    as->setEnabled(false);
+            }
 			it.moveNext();
 		}
 
@@ -239,7 +247,7 @@ namespace rl {
 		entity->addSoftwareAnimationRequest(false);
 		entity->_updateAnimation();
 
-        AxisAlignedBox aabb = AxisAlignedBox(Vector3::ZERO, Vector3::ZERO);
+        AxisAlignedBox aabb;
         if (entity->getMesh()->sharedVertexData)
         {
 		    aabb.merge(getAabbFromVertexData(entity->_getSkelAnimVertexData()));
@@ -260,7 +268,7 @@ namespace rl {
 
 	AxisAlignedBox MeshObject::getAabbFromVertexData(VertexData* vd)
 	{
-        AxisAlignedBox aabb = AxisAlignedBox(Vector3::ZERO, Vector3::ZERO);
+        AxisAlignedBox aabb;
 
 		const VertexElement* ve = vd->vertexDeclaration->findElementBySemantic(VES_POSITION);
 		HardwareVertexBufferSharedPtr vb = vd->vertexBufferBinding->getBuffer(ve->getSource());

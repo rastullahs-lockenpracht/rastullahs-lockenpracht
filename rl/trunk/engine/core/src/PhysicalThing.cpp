@@ -319,17 +319,14 @@ namespace rl
 
     void PhysicalThing::fitToPose(const Ogre::String& name)
     {
-        AxisAlignedBox def_size = mPhysicalObject->getDefaultSize();
-        
-        // Do we already have a collision for the wanted pose?
-        CollisionMap::iterator it = mPoseCollisions.find(name);
-
-        AxisAlignedBox size = mPhysicalObject->getPoseSize(name);
-
-
 		Vector3 offset;
 		Quaternion orientationBias;
 		CollisionPtr coll;
+        
+        AxisAlignedBox size = mPhysicalObject->getPoseSize(name);
+
+        // Do we already have a collision for the wanted pose?
+        CollisionMap::iterator it = mPoseCollisions.find(name);
         if (it == mPoseCollisions.end())
         {
             // No, so create it and put it into the map
@@ -340,40 +337,16 @@ namespace rl
         {
             // Yes
             coll = it->second;
-			offset = size.getCenter(); ///@TODO: get saved value
+			offset = size.getCenter();
 			orientationBias = Quaternion::IDENTITY;
         }
-
-        mBody->setCollision(coll);
-		
-		Vector3 pos = getPosition();
-		 // Adjust the node offset to fit the new form.
-	    Vector3 oldoffset = mOffset;
 		setOffset(offset);
+        mBody->setCollision(coll);
 		mOrientationBias = orientationBias;
-            
-		// Align bottoms of new and old collisions
-        Vector3 offsetChange = offset - oldoffset;
         
-		// So ruckt die Tür nach links
-		Vector3 newpos = pos + offsetChange; 
-        // Geht auch net: Vector3 newpos = pos + Vector3(0, offsetChange.y, 0);
-		setPosition(newpos);
-
-        Logger::getSingleton().log(Logger::CORE, Logger::LL_MESSAGE,
-            mActor->getName() + ": fit_to_pose " + name +
-            "\nDefaultSize: " +
-                StringConverter::toString(def_size.getMinimum()) + " / " +
-                StringConverter::toString(def_size.getMaximum())  + " = " +
-				StringConverter::toString(def_size.getMaximum() - def_size.getMinimum()) +
-            String("\nold pos: ") + StringConverter::toString(pos) +
-            String("\nnew pos: ") + StringConverter::toString(newpos) +
-            String("\nnew size: ") +
-                StringConverter::toString(size.getMinimum()) + " / " +
-                StringConverter::toString(size.getMaximum()) + " = " +
-				StringConverter::toString(size.getMaximum() - size.getMinimum()) +
-            String("\nold offset: ") + StringConverter::toString(oldoffset) +
-            String("\nnew offset: ") + StringConverter::toString(mOffset));
+        // Set body-position so, that node-position is invariant.
+		setPosition(mActor->_getSceneNode()->_getDerivedPosition() +
+            mActor->_getSceneNode()->_getDerivedOrientation() * offset);
     }
 
 	OgreNewt::CollisionPtr PhysicalThing::createCollision(
