@@ -57,7 +57,7 @@ void Fmod3SoundChannel::play()
     }
     setChannel(dynamic_cast<Fmod3Sound*>(getSound())->createChannel());
 
-	int vol;
+	float vol;
 	if (is3d())
 	{
 		vol = getDriver()->getDefaultSoundVolume();
