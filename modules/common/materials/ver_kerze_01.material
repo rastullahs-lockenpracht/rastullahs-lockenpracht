@@ -9,7 +9,7 @@ material ver_kerze_01
 
 			texture_unit
 			{
-				texture ver_kerze_01.png
+				texture ver_kerze_01.dds
 			}
 		}
 	}

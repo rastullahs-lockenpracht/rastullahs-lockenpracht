@@ -8,7 +8,7 @@ material men_Gennisch
 
 			texture_unit
 			{
-				texture men_Gennisch.png
+				texture men_Gennisch.dds
 			}
 		}
 	}

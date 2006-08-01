@@ -11,7 +11,7 @@ material RL/flamme
 
 			texture_unit
 			{
-				texture flare.png
+				texture flare.dds
 			}
 		}
 	}
@@ -33,7 +33,7 @@ material RL/Staubwolke
 			texture_unit
 			{
                 tex_address_mode clamp
-				texture rauch_part.png
+				texture rauch_part.dds
 			}
 		}
 	}
@@ -53,7 +53,7 @@ material RL/Sandsturm
 
 			texture_unit
 			{
-				texture sandsturm.png
+				texture sandsturm.dds
 				filtering point point point
 			}
 		}

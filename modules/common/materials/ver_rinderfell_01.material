@@ -13,7 +13,7 @@ material ver_rinderfell_01
 
 			texture_unit
 			{
-				texture ver_rinderfell_01.png
+				texture ver_rinderfell_01.dds
 				filtering linear linear linear 
 			}
 		}

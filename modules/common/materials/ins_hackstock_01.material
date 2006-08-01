@@ -9,7 +9,7 @@ material ins_hackstock_01
 
             texture_unit
             {
-                texture ins_hackstock_01.png 
+                texture ins_hackstock_01.dds 
             }
         }
     }

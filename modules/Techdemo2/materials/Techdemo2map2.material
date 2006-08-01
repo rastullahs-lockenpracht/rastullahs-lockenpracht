@@ -37,7 +37,7 @@ material Techdemo2_map2 : Splatting5
 			// Texture containing the LightingMap
 			texture_unit LightingMap
 			{
-				texture Techdemo2LightingMap2.png
+				texture Techdemo2LightingMap2.dds
 				
 			}
 			// Texture containing the groundlayer and its detailmap (inside the alpha channel)
@@ -105,7 +105,7 @@ material Techdemo2_map2 : Splatting5
 			// Texture containing the LightingMap
 			texture_unit LightingMap
 			{
-				texture Techdemo2LightingMap2.png
+				texture Techdemo2LightingMap2.dds
 				
 			}
 			// Texture containing the groundlayer and its detailmap (inside the alpha channel)
@@ -163,7 +163,7 @@ material Techdemo2_map2ddd
 			}
 			texture_unit
 			{
-				texture grasbase.png
+				texture grasbase.dds
 				tex_coord_set 1
 				scale 10.0 10.0
 			}
@@ -178,13 +178,13 @@ material Techdemo2_map2ddd
 			shading flat
 			texture_unit
 			{
-				texture felsdetailmap.png
+				texture felsdetailmap.dds
 				scale 0.01 0.01
 			}
 			
 			texture_unit
 			{
-				texture felsen2.jpg
+				texture felsen2.dds
 				tex_coord_set 1
 				scale 5 5
 			}
@@ -193,7 +193,7 @@ material Techdemo2_map2ddd
 
 			texture_unit
 			{
-				texture TechdemoMap2_Fels.png
+				texture TechdemoMap2_Fels.dds
 			}
 		}
 		pass
@@ -204,14 +204,14 @@ material Techdemo2_map2ddd
 
 			texture_unit
 			{
-				texture steingrund01.jpg
+				texture steingrund01.dds
 				tex_coord_set 1
 				scale 0.5 0.5
 			}
 
 			texture_unit
 			{
-				texture TechdemoMap2_Dreck.png
+				texture TechdemoMap2_Dreck.dds
 			}
 		}
 		pass
@@ -224,7 +224,7 @@ material Techdemo2_map2ddd
 
 			texture_unit
 			{
-				texture Techdemo2LightingMap2.png
+				texture Techdemo2LightingMap2.dds
 				colour_op_ex blend_texture_alpha src_texture src_current
 				colour_op_multipass_fallback src_alpha one_minus_src_alpha
 			}
@@ -242,7 +242,7 @@ material Techdemo2_map2ddd
 
 			texture_unit
 			{
-				texture grasbase.png
+				texture grasbase.dds
 				tex_coord_set 1
 				scale 10.0 10.0
 			}
@@ -259,7 +259,7 @@ material Techdemo2_map2ddd
 			
 			texture_unit
 			{
-				texture felsen2.jpg
+				texture felsen2.dds
 				tex_coord_set 1
 				scale 5 5
 			}
@@ -268,7 +268,7 @@ material Techdemo2_map2ddd
 
 			texture_unit
 			{
-				texture TechdemoMap2_Fels.png
+				texture TechdemoMap2_Fels.dds
 			}
 		}
 		pass
@@ -279,14 +279,14 @@ material Techdemo2_map2ddd
 
 			texture_unit
 			{
-				texture steingrund01.jpg
+				texture steingrund01.dds
 				tex_coord_set 1
 				scale 0.5 0.5
 			}
 
 			texture_unit
 			{
-				texture TechdemoMap2_Dreck.png
+				texture TechdemoMap2_Dreck.dds
 			}
 		}
 		pass
@@ -299,7 +299,7 @@ material Techdemo2_map2ddd
 
 			texture_unit
 			{
-				texture Techdemo2LightingMap2.png
+				texture Techdemo2LightingMap2.dds
 				colour_op_ex blend_texture_alpha src_texture src_current
 				colour_op_multipass_fallback src_alpha one_minus_src_alpha
 			}

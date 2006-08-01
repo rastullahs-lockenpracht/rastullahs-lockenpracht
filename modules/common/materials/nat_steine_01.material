@@ -6,7 +6,7 @@ material nat_steine_01
         {
             texture_unit
             {
-                texture nat_steine_01.png 
+                texture nat_steine_01.dds 
             }
         }
     }

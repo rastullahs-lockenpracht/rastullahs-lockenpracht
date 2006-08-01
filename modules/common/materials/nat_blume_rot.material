@@ -12,7 +12,7 @@ material nat_blume_weis
 	    alpha_rejection greater 215
             texture_unit
             {
-                texture nat_blumen.png 
+                texture nat_blumen.dds 
 		filtering linear linear linear 
             }
         }

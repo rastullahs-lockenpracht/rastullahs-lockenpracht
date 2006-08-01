@@ -9,7 +9,7 @@ material ver_essigbottich_01
 
 			texture_unit
 			{
-				texture ver_essigbottich_01.png
+				texture ver_essigbottich_01.dds
 			}
 		}
 	}

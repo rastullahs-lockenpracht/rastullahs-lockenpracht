@@ -12,7 +12,7 @@ material loewenzahn
 
 			texture_unit
 			{
-				texture loewenzahn.png
+				texture loewenzahn.dds
 				filtering linear linear linear 
 			}
 		}

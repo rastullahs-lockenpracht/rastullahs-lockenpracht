@@ -12,7 +12,7 @@ material nat_baum_03/stamm
 
 			texture_unit
 			{
-				texture nat_baum_03.png
+				texture nat_baum_03.dds
 			}
 		}
 	}
@@ -38,7 +38,7 @@ material nat_baum_03/blaetter : windy_grass
 			texture_unit
 			{
 				filtering linear linear linear 
-				texture nat_baum_03.png
+				texture nat_baum_03.dds
 			}
 		}
 	}
@@ -55,7 +55,7 @@ material nat_baum_03/blaetter : windy_grass
 			texture_unit
 			{
 				filtering linear linear linear 
-				texture nat_baum_03.png
+				texture nat_baum_03.dds
 			}
 		}
 	}
@@ -74,7 +74,7 @@ material nat_baum_03/blaetter : windy_grass
 			texture_unit
 			{
 				filtering linear linear linear 
-				texture nat_baum_03.png
+				texture nat_baum_03.dds
 			}
 		}
 	}

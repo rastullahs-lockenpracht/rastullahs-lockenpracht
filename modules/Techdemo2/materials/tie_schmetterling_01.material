@@ -9,7 +9,7 @@ material tie_schmetterling_01
 
 			texture_unit
 			{
-				texture tie_schmetterling_01.png
+				texture tie_schmetterling_01.dds
 			}
 		}
 	}

@@ -27,7 +27,7 @@ material fackel.bmp/SOLID/TEX/ins_fackel_01.png
 
             texture_unit
             {
-				texture ins_fackel_01.png
+				texture ins_fackel_01.dds
             }
         }
     }
@@ -42,7 +42,7 @@ material fackel.bmp/SOLID/TEX/ins_fackel_01.png
 
 			texture_unit
 			{
-				texture ins_fackel_01.png
+				texture ins_fackel_01.dds
 			}
 		}
 	}

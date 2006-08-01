@@ -10,7 +10,7 @@ material bottich
             emissive 0.0 0.0 0.0
             texture_unit
             {
-                texture bottich.png 
+                texture bottich.dds 
             }
         }
     }

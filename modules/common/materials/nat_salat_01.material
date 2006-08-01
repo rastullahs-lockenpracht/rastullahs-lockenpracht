@@ -9,7 +9,7 @@ material nat_salat_01
 
 			texture_unit
 			{
-				texture salat.png
+				texture salat.dds
 				filtering linear linear linear 
 			}
 		}

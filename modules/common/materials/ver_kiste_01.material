@@ -9,7 +9,7 @@ material ver_kiste_01
 
 			texture_unit
 			{
-				texture ver_kiste_01.png
+				texture ver_kiste_01.dds
 			}
 		}
 	}

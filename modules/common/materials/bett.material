@@ -10,7 +10,7 @@ material bett
             emissive 0.0 0.0 0.0
             texture_unit
             {
-                texture bett.png 
+                texture bett.dds 
             }
         }
     }

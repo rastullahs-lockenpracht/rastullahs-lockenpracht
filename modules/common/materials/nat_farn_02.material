@@ -12,7 +12,7 @@ material nat_farn_02
 			alpha_rejection greater 215 
 			texture_unit
 			{
-				texture nat_farn_02.png
+				texture nat_farn_02.dds
 				filtering linear linear linear 
 			}
 		}

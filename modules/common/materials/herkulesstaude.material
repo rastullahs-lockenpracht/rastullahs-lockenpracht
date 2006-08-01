@@ -10,7 +10,7 @@ material herkulesstaude
 
          texture_unit 
          { 
-            texture herkules.png 
+            texture herkules.dds 
             filtering linear linear linear  
          } 
       } 

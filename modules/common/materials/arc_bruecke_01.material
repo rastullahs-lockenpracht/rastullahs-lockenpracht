@@ -11,7 +11,7 @@ material arc_bruecke_01/base
 
 			texture_unit
 			{
-				texture arc_bruecke_01.png
+				texture arc_bruecke_01.dds
 			}
 		}
 	}
@@ -30,7 +30,7 @@ material arc_bruecke_01/alphablend
 
 			texture_unit
 			{
-				texture arc_bruecke_01.png
+				texture arc_bruecke_01.dds
 			}
 		}
 	}

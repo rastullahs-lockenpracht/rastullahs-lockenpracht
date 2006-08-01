@@ -20,7 +20,7 @@ material nat_baum_mittel_02 : windy_grass
 
 			texture_unit
 			{
-				texture nat_baum_mittel_02.png 
+				texture nat_baum_mittel_02.dds 
 				filtering linear linear linear 
 			}
 		}
@@ -40,7 +40,7 @@ material nat_baum_mittel_02 : windy_grass
 
 			texture_unit
 			{
-				texture nat_baum_mittel_02.png 
+				texture nat_baum_mittel_02.dds 
 				filtering linear linear linear 
 			}
 		}
@@ -62,7 +62,7 @@ material nat_baum_mittel_02 : windy_grass
 
 			texture_unit
 			{
-				texture nat_baum_mittel_02.png 
+				texture nat_baum_mittel_02.dds 
 				filtering linear linear linear 
 			}
 		}

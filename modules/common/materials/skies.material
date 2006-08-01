@@ -12,7 +12,7 @@ material rl/dsa07
 
          texture_unit
          {
-            cubic_texture dsa07.jpg separateUV
+            cubic_texture dsa07.dds separateUV
             tex_address_mode clamp
          }
       }
@@ -31,7 +31,7 @@ material himmel/wueste
 
          texture_unit
          {
-            cubic_texture desert.jpg separateUV
+            cubic_texture desert.dds separateUV
             tex_address_mode clamp
          }
       }
@@ -50,7 +50,7 @@ material rl/Techdemo2sky
 
          texture_unit
          {
-            cubic_texture 52h04.tga separateUV
+            cubic_texture 52h04.dds separateUV
             tex_address_mode clamp
          }
       }
@@ -68,7 +68,7 @@ material rl/desert07
 
          texture_unit
          {
-            cubic_texture desert07.tga separateUV
+            cubic_texture desert07.dds separateUV
             tex_address_mode clamp
          }
       }

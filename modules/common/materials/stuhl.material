@@ -10,7 +10,7 @@ material stuhl
             emissive 0.0 0.0 0.0
             texture_unit
             {
-                texture stuhl.png 
+                texture stuhl.dds 
             }
         }
     }

@@ -1,6 +1,6 @@
 
 
-material boronsrad/SOLID/arc_boronsrad.png
+material boronsrad/SOLID/arc_boronsrad.dds
 {
 	technique
 	{
@@ -11,7 +11,7 @@ material boronsrad/SOLID/arc_boronsrad.png
 
 			texture_unit
 			{
-				texture arc_boronsrad.png
+				texture arc_boronsrad.dds
 			}
 		}
 	}

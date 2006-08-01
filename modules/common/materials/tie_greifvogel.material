@@ -28,7 +28,7 @@ material tie_greifvogel
             alpha_rejection greater 215
             texture_unit
             {
-                texture tie_greifvogel.png 
+                texture tie_greifvogel.dds 
 		filtering linear linear linear 
             }
         }
@@ -42,7 +42,7 @@ material tie_greifvogel
         alpha_rejection greater 215
             texture_unit
             {
-                texture tie_greifvogel.png 
+                texture tie_greifvogel.dds 
 		filtering linear linear linear 
             }
         }

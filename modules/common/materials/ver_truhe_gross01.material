@@ -27,7 +27,7 @@ material ver_truhe_gross01
 
             texture_unit
             {
-                texture ver_truhe_gross.png 
+                texture ver_truhe_gross.dds 
             }
         }
     }
@@ -38,7 +38,7 @@ material ver_truhe_gross01
         {
             texture_unit
             {
-                texture ver_truhe_gross.png 
+                texture ver_truhe_gross.dds 
             }
         }
     }

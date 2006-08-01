@@ -9,7 +9,7 @@ material ver_paket_01
 
 			texture_unit
 			{
-				texture ver_rattenpaket_01.png
+				texture ver_rattenpaket_01.dds
 			}
 		}
 	}

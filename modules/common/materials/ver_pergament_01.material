@@ -10,7 +10,7 @@ material ver_pergament_01
 
 			texture_unit
 			{
-				texture ver_pergament_01.png
+				texture ver_pergament_01.dds
 			}
 		}
 	}

@@ -10,7 +10,7 @@ material nat_stein02_mittel
             emissive 0.0 0.0 0.0
             texture_unit
             {
-                texture nat_stein02_mittel.png 
+                texture nat_stein02_mittel.dds 
             }
         }
     }

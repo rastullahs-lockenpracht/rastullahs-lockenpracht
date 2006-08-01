@@ -10,7 +10,7 @@ material arc_eckbank_01
             emissive 0.0 0.0 0.0
             texture_unit
             {
-                texture zeugs_01_eckbank_fenster_holzscheit.png 
+                texture zeugs_01_eckbank_fenster_holzscheit.dds 
             }
         }
     }

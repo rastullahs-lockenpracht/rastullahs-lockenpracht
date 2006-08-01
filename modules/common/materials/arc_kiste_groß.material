@@ -10,7 +10,7 @@ material arc_kiste_groﬂ
             emissive 0.0 0.0 0.0
             texture_unit
             {
-                texture arc_kiste_groﬂ.png 
+                texture arc_kiste_groﬂ.dds 
             }
         }
     }

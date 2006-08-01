@@ -27,7 +27,7 @@ material tie_waldspinne
 
             texture_unit
             {
-                texture tie_waldspinne.png 
+                texture tie_waldspinne.dds 
             }
         }
     }
@@ -42,7 +42,7 @@ material tie_waldspinne
             emissive 0.0 0.0 0.0
             texture_unit
             {
-                texture tie_waldspinne.png 
+                texture tie_waldspinne.dds 
             }
         }
     }

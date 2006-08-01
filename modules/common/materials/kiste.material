@@ -10,7 +10,7 @@ material kiste
             emissive 0.0 0.0 0.0
             texture_unit
             {
-                texture kiste1.png 
+                texture kiste1.dds 
             }
         }
     }

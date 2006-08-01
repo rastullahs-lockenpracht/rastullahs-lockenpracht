@@ -69,7 +69,7 @@ material nat_baum_shadix_03/baumrinde3
 
 			texture_unit
 			{
-				texture nat_baum_shadix_03.png
+				texture nat_baum_shadix_03.dds
 			}
 		}
 	}

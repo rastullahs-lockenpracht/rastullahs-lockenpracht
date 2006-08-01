@@ -10,7 +10,7 @@ material towerplaceholder
 
 			texture_unit
 			{
-				texture steinwand_01.jpg
+				texture steinwand_01.dds
 				scale 100 100
 			}
 		}

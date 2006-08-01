@@ -1,5 +1,5 @@
 // Name des Materials, muss mit dem in der mesh übereinstimmen
-material Material/SOLID/erdboden.jpg
+material Material/SOLID/erdboden.dds
 {
 	receive_shadows on
 
@@ -19,7 +19,7 @@ material Material/SOLID/erdboden.jpg
 			texture_unit
 			{
 				// Die Erde ist unsere Basistextur, auf sie soll das Gras und Laub gelegt werden
-				texture erdboden02.jpg
+				texture erdboden02.dds
 				// Skalieren, je nach Textur und Terraingröße anpassen
 				scale 0.13 0.13
 				// Es wird nur die Farbe eingeblendet
@@ -30,7 +30,7 @@ material Material/SOLID/erdboden.jpg
 			texture_unit
 			{
 				// Die Textur
-				texture waldboden_alpha_laub.png
+				texture waldboden_alpha_laub.dds
 				// Wir benutzen das komplette Alpha dieser Textur
 				alpha_op_ex source1 src_texture src_texture
 				// Und die Farben des Basispasses
@@ -40,7 +40,7 @@ material Material/SOLID/erdboden.jpg
 			// Die zweite Textur
 			texture_unit
 			{
-				texture laub01.jpg
+				texture laub01.dds
 				scale 0.25 0.25
 				// Wir blenden anhand des AlphaKanals die Textur dazu
 				colour_op_ex blend_current_alpha src_texture src_current
@@ -50,7 +50,7 @@ material Material/SOLID/erdboden.jpg
 			texture_unit
 			{
 				// Die Textur
-				texture waldboden_alpha_gras.png
+				texture waldboden_alpha_gras.dds
 				// Wir benutzen das komplette Alpha dieser Textur
 				alpha_op_ex source1 src_texture src_texture
 				// Und die Farben des Basispasses
@@ -60,7 +60,7 @@ material Material/SOLID/erdboden.jpg
 			// Die zweite Textur
 			texture_unit
 			{
-				texture gras_01.png
+				texture gras_01.dds
 				scale 0.15 0.15
 				// Wir blenden anhand des AlphaKanals die Textur dazu
 				colour_op_ex blend_current_alpha src_texture src_current
@@ -83,7 +83,7 @@ material Material/SOLID/erdboden.jpg
 			texture_unit
 			{
 				// Die Erde ist unsere Basistextur, auf sie soll das Gras und Laub gelegt werden
-				texture erdboden02.jpg
+				texture erdboden02.dds
 				// Skalieren, je nach Textur und Terraingröße anpassen
 				scale 0.13 0.13
 				// Es wird nur die Farbe eingeblendet
@@ -107,7 +107,7 @@ material Material/SOLID/erdboden.jpg
 			texture_unit
 			{
 				// Die Textur
-				texture waldboden_alpha_laub.png
+				texture waldboden_alpha_laub.dds
 				// Wir benutzen das komplette Alpha dieser Textur
 				alpha_op_ex source1 src_texture src_texture
 				// Und die Farben des Basispasses
@@ -117,7 +117,7 @@ material Material/SOLID/erdboden.jpg
 			// Die zweite Textur
 			texture_unit
 			{
-				texture laub01.jpg
+				texture laub01.dds
 				scale 0.25 0.25
 				// Wir blenden anhand des AlphaKanals die Textur dazu
 				colour_op_ex blend_diffuse_alpha src_texture src_current
@@ -140,7 +140,7 @@ material Material/SOLID/erdboden.jpg
 			texture_unit
 			{
 				// Die Textur
-				texture waldboden_alpha_gras.png
+				texture waldboden_alpha_gras.dds
 				// Wir benutzen das komplette Alpha dieser Textur
 				alpha_op_ex source1 src_texture src_texture
 				// Und die Farben des Basispasses
@@ -150,7 +150,7 @@ material Material/SOLID/erdboden.jpg
 			// Die zweite Textur
 			texture_unit
 			{
-				texture gras_01.png
+				texture gras_01.dds
 				scale 0.15 0.15
 				// Wir blenden anhand des AlphaKanals die Textur dazu
 				colour_op_ex blend_diffuse_alpha src_texture src_current

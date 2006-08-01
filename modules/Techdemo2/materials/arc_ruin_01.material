@@ -11,7 +11,7 @@ material arc_ruin_01
 
 			texture_unit
 			{
-				texture wand_mauer_moos.jpg
+				texture wand_mauer_moos.dds
 			}
 		}
 	}

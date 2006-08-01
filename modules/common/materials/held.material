@@ -28,7 +28,7 @@ material held
 
             texture_unit
             {
-                texture held.png 
+                texture held.dds 
             }
         }
     }
@@ -43,7 +43,7 @@ material held
             emissive 0.0 0.0 0.0
             texture_unit
             {
-                texture held.png 
+                texture held.dds 
             }
         }
     }

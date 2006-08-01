@@ -9,7 +9,7 @@ material ver_weinflasche_01
 
 			texture_unit
 			{
-				texture ver_weinflasche_01.png
+				texture ver_weinflasche_01.dds
 			}
 		}
 	}

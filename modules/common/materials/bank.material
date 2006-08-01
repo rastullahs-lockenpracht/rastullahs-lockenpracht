@@ -10,7 +10,7 @@ material bank
             emissive 0.0 0.0 0.0
             texture_unit
             {
-                texture bank.png 
+                texture bank.dds 
             }
         }
     }

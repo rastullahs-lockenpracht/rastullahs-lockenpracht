@@ -7,7 +7,7 @@ material waf_sense_01
 		
             texture_unit
             {
-                texture arc_Sense_Waschbrett_Fackel_Besen.png
+                texture arc_Sense_Waschbrett_Fackel_Besen.dds
             }
         }
     }

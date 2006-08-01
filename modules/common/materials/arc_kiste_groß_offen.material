@@ -10,7 +10,7 @@ material arc_kiste_groﬂ_offen
             emissive 0.0 0.0 0.0
             texture_unit
             {
-                texture arc_kiste_groﬂ_offen.png 
+                texture arc_kiste_groﬂ_offen.dds 
             }
         }
     }

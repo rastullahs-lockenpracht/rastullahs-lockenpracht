@@ -19,7 +19,7 @@ material nat_busch_klein : windy_grass
 
 			texture_unit
 			{
-				texture nat_busch_klein.png 
+				texture nat_busch_klein.dds 
 				filtering linear linear linear 
 			}
 		}
@@ -38,7 +38,7 @@ material nat_busch_klein : windy_grass
 
 			texture_unit
 			{
-				texture nat_busch_klein.png 
+				texture nat_busch_klein.dds 
 				filtering linear linear linear 
 			}
 		}
@@ -59,7 +59,7 @@ material nat_busch_klein : windy_grass
 
 			texture_unit
 			{
-				texture nat_busch_klein.png 
+				texture nat_busch_klein.dds 
 				filtering linear linear linear 
 			}
 		}

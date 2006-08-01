@@ -7,7 +7,7 @@ material men_wirt
 		{
 			texture_unit
 			{
-				texture men_wirt.png
+				texture men_wirt.dds
 			}
 		}
 	}

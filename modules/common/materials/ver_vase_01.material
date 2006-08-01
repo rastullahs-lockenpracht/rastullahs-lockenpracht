@@ -9,7 +9,7 @@ material ver_vase_01
 
 			texture_unit
 			{
-				texture ver_vase_01.png
+				texture ver_vase_01.dds
 			}
 		}
 	}

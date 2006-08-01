@@ -8,7 +8,7 @@ material arc_Wirtshaus_01/Dach
 		{
 			texture_unit
 			{
-				texture arc_Dach01.png
+				texture arc_Dach01.dds
 
 			}
 		}
@@ -25,7 +25,7 @@ material arc_Wirtshaus_01/hausstuff
 
 			texture_unit
 			{
-				texture arc_hausstuff_01.png
+				texture arc_hausstuff_01.dds
 			}
 		}
 	}
@@ -41,7 +41,7 @@ material arc_Wirtshaus_01/Boden
 
 			texture_unit
 			{
-				texture arc_boden_01.png
+				texture arc_boden_01.dds
 
 			}
 		}
@@ -58,7 +58,7 @@ material arc_Wirtshaus_01/Wand
 
 			texture_unit
 			{
-				texture arc_lehmwand_01.png
+				texture arc_lehmwand_01.dds
 
 			}
 		}
@@ -75,7 +75,7 @@ material arc_Wirtshaus_01/balken
 
 			texture_unit
 			{
-				texture arc_balken.png
+				texture arc_balken.dds
 
 			}
 		}
@@ -92,7 +92,7 @@ material arc_Wirtshaus_01/Stein
 
 			texture_unit
 			{
-				texture arc_SteinLehmwand_01.png
+				texture arc_SteinLehmwand_01.dds
 
 			}
 		}
@@ -109,7 +109,7 @@ material arc_Wirtshaus_01/Gelaender
 			texture_unit
 			{
 				filtering linear linear linear 
-				texture arc_gelaender_01.png
+				texture arc_gelaender_01.dds
 			}
 		}
 	}
@@ -125,7 +125,7 @@ material arc_Wirtshaus_01/brick
 
 			texture_unit
 			{
-				texture arc_brickwall_01.png
+				texture arc_brickwall_01.dds
 
 			}
 		}
@@ -144,7 +144,7 @@ material arc_Wirtshaus_01/dirt
 
 			texture_unit
 			{
-				texture arc_dirt_01.png
+				texture arc_dirt_01.dds
 
 			}
 		}

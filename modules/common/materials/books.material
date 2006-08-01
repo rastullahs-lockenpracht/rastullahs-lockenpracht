@@ -10,7 +10,7 @@ material books
             emissive 0.0 0.0 0.0
             texture_unit
             {
-                texture books.png 
+                texture books.dds 
             }
         }
     }

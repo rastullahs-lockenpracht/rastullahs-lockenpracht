@@ -1,4 +1,4 @@
-material steinpilze/SOLID/steinpilz.png
+material steinpilze/SOLID/steinpilz.dds
 {
 	technique
 	{
@@ -7,13 +7,13 @@ material steinpilze/SOLID/steinpilz.png
 
 			texture_unit
 			{
-				texture nat_steinpilz.png
+				texture nat_steinpilz.dds
 			}
 		}
 	}
 }
 
-material steinpilze/ALPHA/steinpilz.png
+material steinpilze/ALPHA/steinpilz.dds
 {
 	technique
 	{
@@ -24,7 +24,7 @@ material steinpilze/ALPHA/steinpilz.png
 
 			texture_unit
 			{
-				texture nat_steinpilz.png
+				texture nat_steinpilz.dds
 		}
 		}
 	}

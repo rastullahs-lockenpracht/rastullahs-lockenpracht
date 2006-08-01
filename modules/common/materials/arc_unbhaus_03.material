@@ -7,7 +7,7 @@ material arc_unbhaus_3/stonewall
             
             texture_unit
             {
-                texture wand_mauer_innen.jpg 
+                texture wand_mauer_innen.dds 
             }
         }
     }
@@ -22,7 +22,7 @@ material arc_unbhaus_3/hausbalken
             
             texture_unit
             {
-                texture arc_balken.png 
+                texture arc_balken.dds 
             }
         }
     }
@@ -37,7 +37,7 @@ material arc_unbhaus_3/husstuffhaus
             
             texture_unit
             {
-                texture arc_hausstuff_01.png 
+                texture arc_hausstuff_01.dds 
             }
         }
     }
@@ -52,7 +52,7 @@ material arc_unbhaus_3/lehm
             
             texture_unit
             {
-                texture arc_lehmwand_01.png 
+                texture arc_lehmwand_01.dds 
             }
         }
     }
@@ -67,7 +67,7 @@ material arc_unbhaus_3/dach
             
             texture_unit
             {
-                texture arc_dach01.png 
+                texture arc_dach01.dds 
             }
         }
     }
@@ -85,7 +85,7 @@ material arc_unbhaus_3/dirty
       depth_write off
             texture_unit
             {
-                texture arc_dirt_01.png 
+                texture arc_dirt_01.dds 
             }
         }
     }

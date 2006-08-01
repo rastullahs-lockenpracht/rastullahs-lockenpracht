@@ -8,7 +8,7 @@ material waf_kurzschwert_01
 
 			texture_unit
 			{
-				texture waf_kurzschwert_01.png
+				texture waf_kurzschwert_01.dds
 			}
 		}
 	}

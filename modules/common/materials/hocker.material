@@ -10,7 +10,7 @@ material hocker
             emissive 0.0 0.0 0.0
             texture_unit
             {
-                texture hocker.png 
+                texture hocker.dds 
             }
         }
     }

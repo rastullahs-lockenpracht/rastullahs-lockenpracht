@@ -10,7 +10,7 @@ material fackel
 
 			texture_unit
 			{
-				texture flamme.jpg
+				texture flamme.dds
 			
 			}
 		}
@@ -29,7 +29,7 @@ material feuer
 
 			texture_unit
 			{
-				texture flamme2.png
+				texture flamme2.dds
 			
 			}
 		}
@@ -48,7 +48,7 @@ material staub
 
 			texture_unit
 			{
-				texture taenzelnderstaub.png
+				texture taenzelnderstaub.dds
 			
 			}
 		}
@@ -68,7 +68,7 @@ material regen
 
 			texture_unit
 			{
-				texture regentropfen.png
+				texture regentropfen.dds
 			
 			}
 		}

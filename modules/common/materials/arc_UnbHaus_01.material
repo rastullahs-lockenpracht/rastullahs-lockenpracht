@@ -6,7 +6,7 @@ material arc_UnbHaus/Stein
         {
 		texture_unit
             {
-                texture arc_SteinLehmwand_01.png
+                texture arc_SteinLehmwand_01.dds
             }
         }
     }
@@ -20,7 +20,7 @@ material arc_UnbHaus/Wand
         {
             texture_unit
             {
-                texture arc_lehmwand_01.png
+                texture arc_lehmwand_01.dds
             }
         }
     }
@@ -34,7 +34,7 @@ material arc_UnbHaus/Dach
         {
             texture_unit
             {
-                texture arc_dach01.png 
+                texture arc_dach01.dds 
             }
         }
     }
@@ -48,7 +48,7 @@ material arc_UnbHaus/balken
         {
             texture_unit
             {
-                texture arc_balken.png 
+                texture arc_balken.dds 
             }
         }
     }
@@ -64,7 +64,7 @@ material arc_UnbHaus/dirt
         depth_write off
             texture_unit
             {
-                texture arc_dirt_01.png 
+                texture arc_dirt_01.dds 
             }
         }
     }
@@ -78,7 +78,7 @@ material arc_UnbHaus/hausstuff
         {
             texture_unit
             {
-                texture arc_hausstuff_01.png 
+                texture arc_hausstuff_01.dds 
             }
         }
     }

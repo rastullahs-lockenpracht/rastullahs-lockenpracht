@@ -13,7 +13,7 @@ material kurbis2
             texture_unit
             {
 		filtering linear linear linear 
-                texture kurbis.png 
+                texture kurbis.dds 
 	     }
         }
     }

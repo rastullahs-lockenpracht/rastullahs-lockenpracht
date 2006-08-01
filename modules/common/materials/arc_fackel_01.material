@@ -9,7 +9,7 @@ material arc_fackel_01
             texture_unit
             {
   		filtering linear linear linear 
-                texture arc_Sense_Waschbrett_Fackel_Besen.png
+                texture arc_Sense_Waschbrett_Fackel_Besen.dds
             }
         }
     }

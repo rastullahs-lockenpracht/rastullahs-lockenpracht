@@ -9,7 +9,7 @@ material ver_kaestchen_01
 
 			texture_unit
 			{
-				texture pickel+schaufel+kastel.png
+				texture pickel+schaufel+kastel.dds
 			}
 		}
 	}

@@ -7,7 +7,7 @@ material nachtkasten
 		{
 			texture_unit
 			{
-				texture ver_moebel_04.png
+				texture ver_moebel_04.dds
 			}
 		}
 	}

@@ -6,7 +6,7 @@ material arc_ingerimmschrein_01/Marmor
         {
             texture_unit
             {
-                texture arc_marmorschwarz_01.png
+                texture arc_marmorschwarz_01.dds
             }
         }
     }
@@ -20,7 +20,7 @@ material arc_ingerimmschrein_01/Rost
         {
             texture_unit
             {
-                texture arc_metalrost_01.png 
+                texture arc_metalrost_01.dds 
             }
         }
     }
@@ -34,7 +34,7 @@ material arc_ingerimmschrein_01/seule
         {
             texture_unit
             {
-                texture arc_marmorsaeulen_01.png 
+                texture arc_marmorsaeulen_01.dds 
             }
         }
     }

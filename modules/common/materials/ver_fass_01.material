@@ -10,7 +10,7 @@ material ver_fass_01
 
 			texture_unit
 			{
-				texture ver_fass_01.png
+				texture ver_fass_01.dds
 			}
 		}
 	}

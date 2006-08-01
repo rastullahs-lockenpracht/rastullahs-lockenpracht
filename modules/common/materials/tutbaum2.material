@@ -10,7 +10,7 @@ material tutbaum2
 
          texture_unit 
          { 
-            texture tutbaum2.png 
+            texture tutbaum2.dds 
 	    filtering linear linear linear 
          } 
       } 

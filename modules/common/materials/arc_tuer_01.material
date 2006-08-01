@@ -1,4 +1,4 @@
-material SOLID/TEX/door01.png
+material SOLID/TEX/door01.dds
 {
     // hardware blending vs_1_1
     technique
@@ -27,7 +27,7 @@ material SOLID/TEX/door01.png
 
             texture_unit
             {
-				texture arc_tuer_01.png
+				texture arc_tuer_01.dds
             }
         }
     }
@@ -37,7 +37,7 @@ material SOLID/TEX/door01.png
 		{
 			texture_unit
 			{
-				texture arc_tuer_01.png
+				texture arc_tuer_01.dds
 			}
 		}
 	}

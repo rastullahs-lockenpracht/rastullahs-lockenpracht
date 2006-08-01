@@ -39,7 +39,7 @@ material Techdemo2map1 : Splatting5
 			texture_unit LightingMap
 			{
 
-				texture Techdemo2LightingMap1.png
+				texture Techdemo2LightingMap1.dds
 				
 			}
 			// Texture containing the groundlayer and its detailmap (inside the alpha channel)
@@ -111,7 +111,7 @@ material Techdemo2map1 : Splatting5
 			// Texture containing the LightingMap
 			texture_unit LightingMap
 			{
-				texture Techdemo2LightingMap1.png
+				texture Techdemo2LightingMap1.dds
 				
 			}
 			// Texture containing the groundlayer and its detailmap (inside the alpha channel)

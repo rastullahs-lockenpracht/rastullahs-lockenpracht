@@ -10,7 +10,7 @@ material door01
             emissive 0.0 0.0 0.0
             texture_unit
             {
-                texture door01.png 
+                texture door01.dds 
             }
         }
     }

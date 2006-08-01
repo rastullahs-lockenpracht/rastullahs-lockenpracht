@@ -11,7 +11,7 @@ material nat_TD2Fluss : nat_wasser_see
 
             texture_unit evn_map
             {
-                cubic_texture desert07.tga separateUV
+                cubic_texture desert07.dds separateUV
                 tex_address_mode clamp
             }
 
@@ -30,7 +30,7 @@ material nat_TD2Fluss : nat_wasser_see
 
             texture_unit evn_map
             {
-                cubic_texture desert07.tga separateUV
+                cubic_texture desert07.dds separateUV
                 tex_address_mode clamp
             }
         }

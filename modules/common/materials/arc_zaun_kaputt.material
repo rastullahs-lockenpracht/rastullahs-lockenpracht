@@ -8,7 +8,7 @@ material zaun_kaputt
             texture_unit
             {
 		filtering linear linear linear 
-                texture arc_zaun_kaputt.png 
+                texture arc_zaun_kaputt.dds 
             }
         }
     }

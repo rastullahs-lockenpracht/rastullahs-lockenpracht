@@ -9,7 +9,7 @@ material arc_UnbHaus_08_td2_boden
 
 			texture_unit
 			{
-				texture arc_boden_01.png
+				texture arc_boden_01.dds
 			}
 		}
 	}

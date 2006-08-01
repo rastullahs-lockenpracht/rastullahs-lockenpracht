@@ -10,7 +10,7 @@ material ver_schreibzeug_01
 
 			texture_unit
 			{
-				texture ver_schreibzeug_01.png
+				texture ver_schreibzeug_01.dds
 			}
 		}
 	}

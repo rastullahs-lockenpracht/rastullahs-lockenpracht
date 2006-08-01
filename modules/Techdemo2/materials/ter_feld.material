@@ -10,7 +10,7 @@ material ter_feld
 
 			texture_unit
 			{
-				texture ter_feldalpha.png
+				texture ter_feldalpha.dds
 				tex_coord_set 2
 				colour_op_ex blend_texture_alpha src_texture src_current
 				colour_op_multipass_fallback src_alpha one_minus_src_alpha
@@ -18,7 +18,7 @@ material ter_feld
 
 			texture_unit
 			{
-				texture erdboden01.jpg
+				texture erdboden01.dds
 				tex_coord_set 1
 				colour_op_ex source1 src_texture src_current
 				colour_op_multipass_fallback one zero
@@ -33,14 +33,14 @@ material ter_feld
 
 			texture_unit
 			{
-				texture Techdemo2LightingMap.png
+				texture Techdemo2LightingMap.dds
 				colour_op_ex add src_texture src_current
 				colour_op_multipass_fallback one one
 			}
 
 			texture_unit
 			{
-				texture ter_feldalpha.png
+				texture ter_feldalpha.dds
 				tex_coord_set 2
 				colour_op_ex blend_texture_alpha src_texture src_current
 				colour_op_multipass_fallback src_alpha one_minus_src_alpha

@@ -9,7 +9,7 @@ material zeugs_01_eckbank_fenster_holzscheit
 
 			texture_unit
 			{
-				texture zeugs_01_eckbank_fenster_holzscheit.png
+				texture zeugs_01_eckbank_fenster_holzscheit.dds
 			}
 		}
 	}

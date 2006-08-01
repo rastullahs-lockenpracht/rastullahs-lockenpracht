@@ -11,7 +11,7 @@ material nat_busch_stachlig
             cull_software none
             texture_unit
             {
-                texture nat_busch_stachlig.png 
+                texture nat_busch_stachlig.dds 
             }
         }
     }

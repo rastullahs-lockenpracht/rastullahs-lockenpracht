@@ -10,7 +10,7 @@ material nat_stein_01
             emissive 0.0 0.0 0.0
             texture_unit
             {
-                texture nat_stein_01.png 
+                texture nat_stein_01.dds 
             }
         }
     }

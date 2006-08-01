@@ -8,7 +8,7 @@ material 02_-_Default
 
 			texture_unit
 			{
-				texture wolf1.png
+				texture wolf1.dds
 			}
 		}
 	}

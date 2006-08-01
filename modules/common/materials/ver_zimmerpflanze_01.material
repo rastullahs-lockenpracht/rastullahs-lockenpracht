@@ -11,7 +11,7 @@ material ver_zimmerpflanze_01
 
 			texture_unit
 			{
-				texture ver_zimmerpflanze_01.png
+				texture ver_zimmerpflanze_01.dds
 			}
 		}
 	}

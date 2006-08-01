@@ -7,7 +7,7 @@ material men_gennisch2
 		{
 			texture_unit
 			{
-				texture men_gennisch2.png
+				texture men_gennisch2.dds
 			}
 		}
 	}

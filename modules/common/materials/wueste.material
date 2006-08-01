@@ -25,22 +25,22 @@ material wuesten_alphamap : Splatting3NoDetailVertexPhong
 			// The Texture containing the Splatting information in its channels
 			texture_unit SplattingMap
 			{
-				texture wueste_compose.png
+				texture wueste_compose.dds
 			}
 			// Texture containing the groundlayer and its detailmap (inside the alpha channel)
 			texture_unit BaseLayer
 			{
-				texture sand_sandig.png
+				texture sand_sandig.dds
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
 			texture_unit RedLayer
 			{
-				texture sand_wellen.png
+				texture sand_wellen.dds
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
 			texture_unit GreenLayer
 			{
-				texture felsen_gelblich.png
+				texture felsen_gelblich.dds
 			}
 		}
 	}
@@ -63,22 +63,22 @@ material wuesten_alphamap : Splatting3NoDetailVertexPhong
 			// The Texture containing the Splatting information in its channels
 			texture_unit SplattingMap
 			{
-				texture wueste_compose.png
+				texture wueste_compose.dds
 			}
 			// Texture containing the groundlayer and its detailmap (inside the alpha channel)
 			texture_unit BaseLayer
 			{
-				texture sand_sandig.png
+				texture sand_sandig.dds
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
 			texture_unit RedLayer
 			{
-				texture sand_wellen.png
+				texture sand_wellen.dds
 			}
 			// Texture containing the first blended (according to red amount in SplattingMap) layer and its detailmap (inside the alpha channel)
 			texture_unit GreenLayer
 			{
-				texture felsen_gelblich.png
+				texture felsen_gelblich.dds
 			}
 		}
 	}
@@ -94,7 +94,7 @@ material wuesten_alphamap : Splatting3NoDetailVertexPhong
 			texture_unit
 			{
 			 	
-				texture sand_sandig.png
+				texture sand_sandig.dds
 				// Skalieren, je nach Textur und Terraingröße anpassen
 				scale 0.04 0.04
 			}
@@ -115,7 +115,7 @@ material wuesten_alphamap : Splatting3NoDetailVertexPhong
 			texture_unit
 			{
 				// Die Textur
-				texture wuesten_alpha_sand.png
+				texture wuesten_alpha_sand.dds
 				// Wir benutzen das komplette Alpha dieser Textur
 				alpha_op_ex source1 src_texture src_texture
 				// Und die Farben des Basispasses
@@ -126,7 +126,7 @@ material wuesten_alphamap : Splatting3NoDetailVertexPhong
 			texture_unit
 			{
 			    
-				texture sand_wellen.png
+				texture sand_wellen.dds
 				scale 0.03 0.03
 				// Wir blenden anhand des AlphaKanals die Textur dazu
 				colour_op_ex blend_diffuse_alpha src_texture src_current
@@ -148,7 +148,7 @@ material wuesten_alphamap : Splatting3NoDetailVertexPhong
 			texture_unit
 			{
 				// Die Textur
-				texture wuesten_alpha_fels.png
+				texture wuesten_alpha_fels.dds
 				// Wir benutzen das komplette Alpha dieser Textur
 				alpha_op_ex source1 src_texture src_texture
 				// Und die Farben des Basispasses
@@ -159,7 +159,7 @@ material wuesten_alphamap : Splatting3NoDetailVertexPhong
 			texture_unit
 			{
 			    
-				texture felsen_gelblich.png
+				texture felsen_gelblich.dds
 				scale 0.05 0.05
 				// Wir blenden anhand des AlphaKanals die Textur dazu
 				colour_op_ex blend_diffuse_alpha src_texture src_current

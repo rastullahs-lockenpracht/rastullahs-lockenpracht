@@ -13,7 +13,7 @@ material nat_gras_01
 	    alpha_rejection greater 215
             texture_unit
             {
-                texture nat_gras_01.png 
+                texture nat_gras_01.dds 
 		filtering linear linear linear 
             }
         }

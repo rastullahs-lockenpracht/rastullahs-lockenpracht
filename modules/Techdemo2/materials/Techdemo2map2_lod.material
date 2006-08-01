@@ -9,7 +9,7 @@ material orig_orig_orig_Techdemo2_map2_lod
 
 			texture_unit
 			{
-				texture Techdemo2map2lod.png
+				texture Techdemo2map2lod.dds
 			}
 		}
 		pass
@@ -21,7 +21,7 @@ material orig_orig_orig_Techdemo2_map2_lod
 
 			texture_unit
 			{
-				texture Techdemo2LightingMap2.png
+				texture Techdemo2LightingMap2.dds
 				colour_op_ex blend_texture_alpha src_texture src_current
 				colour_op_multipass_fallback src_alpha one_minus_src_alpha
 			}

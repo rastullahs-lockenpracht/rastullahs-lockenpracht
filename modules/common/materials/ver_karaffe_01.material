@@ -10,7 +10,7 @@ material ver_karaffe_01
 
 			texture_unit
 			{
-				texture ver_becher_01.png
+				texture ver_becher_01.dds
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-material ALPHA/TEX/gras_planes.png/TWOSIDE
+material ALPHA/TEX/gras_planes.dds/TWOSIDE
 {
 	technique
 	{
@@ -11,12 +11,12 @@ material ALPHA/TEX/gras_planes.png/TWOSIDE
 			texture_unit
 			{
 			filtering linear linear linear 
-				texture gras_planes.png
+				texture gras_planes.dds
 			}
 		}
 	}
 }
-material SOLID/TEX/gras_02.png
+material SOLID/TEX/gras_02.dds
 {
 	technique
 	{
@@ -25,7 +25,7 @@ material SOLID/TEX/gras_02.png
 			texture_unit
 			{
 			filtering linear linear linear 
-				texture gras_02.png
+				texture gras_02.dds
 			}
 		}
 	}

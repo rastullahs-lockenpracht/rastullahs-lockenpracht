@@ -9,7 +9,7 @@ material arg_tisch_01
 
 			texture_unit
 			{
-				texture arc_tisch_01.png
+				texture arc_tisch_01.dds
 			}
 		}
 	}

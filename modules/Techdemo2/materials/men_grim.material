@@ -8,7 +8,7 @@ material men_grim/base
 
 			texture_unit
 			{
-				texture men_grim.png
+				texture men_grim.dds
 			}
 		}
 	}
@@ -24,7 +24,7 @@ material men_grim/alpha
 			
 			texture_unit
 			{
-				texture men_grim.png
+				texture men_grim.dds
 			}
 		}
 	}

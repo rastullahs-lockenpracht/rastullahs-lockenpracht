@@ -10,7 +10,7 @@ material ver_topf_01
 
 			texture_unit
 			{
-				texture ver_topf_01.png
+				texture ver_topf_01.dds
 			}
 		}
 	}

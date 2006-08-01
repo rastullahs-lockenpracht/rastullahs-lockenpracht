@@ -6,7 +6,7 @@ material nat_nadelbaum_lod : billboard_lod
         {
             texture_unit diffuse_map
             {
-                texture nat_nadelbaum_02_lod.png
+                texture nat_nadelbaum_02_lod.dds
             }
         }
     }
@@ -21,7 +21,7 @@ material nat_nadelbaum_lod : billboard_lod
         
             texture_unit diffuse_map
             {
-                texture nat_nadelbaum_02_lod.png
+                texture nat_nadelbaum_02_lod.dds
             }
         }
     }

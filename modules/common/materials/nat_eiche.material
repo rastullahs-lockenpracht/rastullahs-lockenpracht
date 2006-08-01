@@ -1,4 +1,4 @@
-material eiche/ALPHA/nat_eichenast_gruen.png
+material eiche/ALPHA/nat_eichenast_gruen.dds
 {
 	receive_shadows on
 	technique
@@ -13,14 +13,14 @@ material eiche/ALPHA/nat_eichenast_gruen.png
 
 			texture_unit
 			{
-				texture nat_eichenast_gruen.png
+				texture nat_eichenast_gruen.dds
 				filtering linear linear linear 
 			}
 		}
 	}
 }
 
-material eiche/ALPHA/nat_eichenast_kahl.png
+material eiche/ALPHA/nat_eichenast_kahl.dds
 {
 	receive_shadows on
 	technique
@@ -35,14 +35,14 @@ material eiche/ALPHA/nat_eichenast_kahl.png
 
 			texture_unit
 			{
-				texture nat_eichenast_kahl.png
+				texture nat_eichenast_kahl.dds
 				filtering linear linear linear 
 			}
 		}
 	}
 }
 
-material eiche/SOLID/nat_eichenschnitt.png
+material eiche/SOLID/nat_eichenschnitt.dds
 {
 	receive_shadows on
 	technique
@@ -53,14 +53,14 @@ material eiche/SOLID/nat_eichenschnitt.png
 
 			texture_unit
 			{
-				texture nat_eichenschnitt.png
+				texture nat_eichenschnitt.dds
 
 			}
 		}
 	}
 }
 
-material eiche/ALPHA/nat_eichenast_gelb.png
+material eiche/ALPHA/nat_eichenast_gelb.dds
 {
 	receive_shadows on
 	technique
@@ -75,14 +75,14 @@ material eiche/ALPHA/nat_eichenast_gelb.png
 
 			texture_unit
 			{
-				texture nat_eichenast_gelb.png
+				texture nat_eichenast_gelb.dds
 				filtering linear linear linear 
 			}
 		}
 	}
 }
 
-material eiche/SOLID/nat_rinde_eiche.png
+material eiche/SOLID/nat_rinde_eiche.dds
 {
 	receive_shadows on
 	technique
@@ -93,7 +93,7 @@ material eiche/SOLID/nat_rinde_eiche.png
 
 			texture_unit
 			{
-				texture nat_rinde_eiche.png
+				texture nat_rinde_eiche.dds
 			}
 		}
 	}

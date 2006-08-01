@@ -9,7 +9,7 @@ material ver_laterne_01
 
 			texture_unit
 			{
-				texture ver_laterne_01.png
+				texture ver_laterne_01.dds
 			}
 		}
 	}

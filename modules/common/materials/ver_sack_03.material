@@ -9,7 +9,7 @@ material ver_sack_03
 
 			texture_unit
 			{
-				texture zeugs_03_apfelkorb_karotten.png
+				texture zeugs_03_apfelkorb_karotten.dds
 			}
 		}
 	}

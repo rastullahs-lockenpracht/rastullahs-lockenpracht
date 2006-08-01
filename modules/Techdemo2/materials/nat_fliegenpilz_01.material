@@ -11,7 +11,7 @@ material nat_fliegenpilz_01
 
 			texture_unit
 			{
-				texture pilz.jpg
+				texture pilz.dds
 			}
 		}
 	}

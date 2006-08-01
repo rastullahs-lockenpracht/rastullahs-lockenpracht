@@ -10,7 +10,7 @@ material nat_blume_01
 
 			texture_unit
 			{
-				texture nat_blume_01.png
+				texture nat_blume_01.dds
 			}
 		}
 	}

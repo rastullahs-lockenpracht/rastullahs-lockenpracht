@@ -74,7 +74,7 @@ material nat_baum_shadix_01/baumrinde
             
             texture_unit
             {
-                texture rinde.png 
+                texture rinde.dds 
             }
         }
     }

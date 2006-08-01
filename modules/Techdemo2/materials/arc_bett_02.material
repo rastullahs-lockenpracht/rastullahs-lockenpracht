@@ -11,7 +11,7 @@ material arc_bett_02
 
 			texture_unit
 			{
-				texture arc_bett_02.png
+				texture arc_bett_02.dds
 			}
 		}
 	}

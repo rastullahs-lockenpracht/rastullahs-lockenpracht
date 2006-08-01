@@ -8,7 +8,7 @@ material arc_stall_01/stallbalken
             texture_unit
             {
 		filtering linear linear linear 
-                texture arc_stall_01.png 
+                texture arc_stall_01.dds 
             }
         }
     }
@@ -23,7 +23,7 @@ material arc_stall_01/stalldach
            
             texture_unit
             {
-                texture arc_dach_03.png 
+                texture arc_dach_03.dds 
             }
         }
     }
@@ -38,7 +38,7 @@ material arc_stall_01/stallwand
             
             texture_unit
             {
-                texture holzwand2.png 
+                texture holzwand2.dds 
             }
         }
     }
@@ -53,7 +53,7 @@ material arc_stall_01/stein
             
             texture_unit
             {
-                texture nat_stein02_mittel.png 
+                texture nat_stein02_mittel.dds 
             }
         }
     }

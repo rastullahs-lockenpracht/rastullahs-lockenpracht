@@ -8,7 +8,7 @@ material arc_door_02
 
 			texture_unit
 			{
-				texture arc_door_02.png
+				texture arc_door_02.dds
 			}
 		}
 	}

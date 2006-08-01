@@ -7,7 +7,7 @@ material arc_tisch_01
           
             texture_unit
             {
-                texture zeugs_02_schreibtisch01_tischkleinrund.png 
+                texture zeugs_02_schreibtisch01_tischkleinrund.dds 
             }
         }
     }

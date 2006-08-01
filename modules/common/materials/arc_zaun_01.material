@@ -10,7 +10,7 @@ material zaun_01
             emissive 0.0 0.0 0.0
             texture_unit
             {
-                texture arc_zaun_01.png 
+                texture arc_zaun_01.dds 
             }
         }
     }

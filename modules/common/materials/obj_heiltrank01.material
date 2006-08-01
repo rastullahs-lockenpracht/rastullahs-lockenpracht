@@ -27,7 +27,7 @@ material obj_heiltrank01
 
             texture_unit
             {
-                texture obj_heiltrank01.jpg
+                texture obj_heiltrank01.dds
             }
         }
     }
@@ -42,7 +42,7 @@ material obj_heiltrank01
             emissive 0.0 0.0 0.0
             texture_unit
             {
-                texture obj_heiltrank01.jpg
+                texture obj_heiltrank01.dds
             }
         }
     }

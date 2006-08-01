@@ -11,7 +11,7 @@ material nat_nadelbaum_02/trunk
 
 			texture_unit
 			{
-				texture nat_rinde_eiche.png
+				texture nat_rinde_eiche.dds
 			}
 		}
 		pass
@@ -24,7 +24,7 @@ material nat_nadelbaum_02/trunk
 
 			texture_unit
 			{
-				texture nat_nadelbaum_02_detail.png
+				texture nat_nadelbaum_02_detail.dds
 				tex_coord_set 1
 				colour_op_ex source1 src_texture src_current
 				colour_op_multipass_fallback one zero
@@ -53,7 +53,7 @@ material nat_nadelbaum_02/leaves : windy_grass
 
 			texture_unit
 			{
-				texture nat_nadelbaum_02.png
+				texture nat_nadelbaum_02.dds
 				filtering linear linear linear 
 			}
 		}
@@ -70,7 +70,7 @@ material nat_nadelbaum_02/leaves : windy_grass
 
 			texture_unit
 			{
-				texture nat_nadelbaum_02.png
+				texture nat_nadelbaum_02.dds
 				filtering linear linear linear 
 			}
 		}
@@ -89,7 +89,7 @@ material nat_nadelbaum_02/leaves : windy_grass
 
 			texture_unit
 			{
-				texture nat_nadelbaum_02.png
+				texture nat_nadelbaum_02.dds
 				filtering linear linear linear 
 			}
 		}

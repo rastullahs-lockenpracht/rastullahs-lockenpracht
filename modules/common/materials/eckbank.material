@@ -10,7 +10,7 @@ material eckbank
             emissive 0.0 0.0 0.0
             texture_unit
             {
-                texture eckbank.png 
+                texture eckbank.dds 
             }
         }
     }

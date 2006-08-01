@@ -9,7 +9,7 @@ material ver_buch_02
 
 			texture_unit
 			{
-				texture ver_buch_01.png
+				texture ver_buch_01.dds
 			}
 		}
 	}

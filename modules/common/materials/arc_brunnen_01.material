@@ -9,7 +9,7 @@ material arc_brunnen_01/seil
 
 			texture_unit
 			{
-				texture ver_wurfhaken.png
+				texture ver_wurfhaken.dds
 			
 			}
 		}
@@ -25,7 +25,7 @@ material arc_brunnen_01/balken
 
 			texture_unit
 			{
-				texture arc_balken.png
+				texture arc_balken.dds
 			
 			}
 		}
@@ -41,7 +41,7 @@ material arc_brunnen_01/Stein
 
 			texture_unit
 			{
-				texture steinwand_01.jpg
+				texture steinwand_01.dds
 		
 			}
 		}

@@ -1,6 +1,6 @@
 
 
-material hebel_01/SOLID/TEX/hebel.png
+material hebel_01/SOLID/TEX/hebel.dds
 {
     // hardware blending vs_1_1
     technique
@@ -29,7 +29,7 @@ material hebel_01/SOLID/TEX/hebel.png
 
             texture_unit
             {
-				texture arc_hebel_01.png
+				texture arc_hebel_01.dds
             }
         }
     }
@@ -41,7 +41,7 @@ material hebel_01/SOLID/TEX/hebel.png
 
 			texture_unit
 			{
-				texture arc_hebel_01.png
+				texture arc_hebel_01.dds
 			}
 		}
 	}

@@ -12,7 +12,7 @@ receive_shadows off
 			texture_unit
 			{
 				filtering linear linear linear 
-				texture ver_moebel_03.png
+				texture ver_moebel_03.dds
 			}
 		}
 	}

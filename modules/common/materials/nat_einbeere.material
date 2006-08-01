@@ -11,7 +11,7 @@ material einbeere
 			alpha_rejection greater 120
             texture_unit
             {
-                texture nat_einbeere.png	
+                texture nat_einbeere.dds	
 		filtering linear linear linear 
             }
         }
