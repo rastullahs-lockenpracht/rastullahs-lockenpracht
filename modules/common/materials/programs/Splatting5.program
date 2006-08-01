@@ -34,6 +34,8 @@ material Splatting5
 {
 	technique hlsl
 	{
+		// scheme with_shaders
+
 		pass
 		{
 			// HLSL Fragment Shader
@@ -130,6 +132,8 @@ material Splatting5
 
 	technique glsl
 	{
+		// scheme with_shaders
+
 		pass
 		{
 			ambient 0.2 0.2 0.2
@@ -219,5 +223,8 @@ material Splatting5
 
 	technique fixed_function
 	{
+		pass
+		{
+		}
 	}
 }

@@ -38,6 +38,8 @@ material nat_wasser_see
 {
     technique hlsl
     {
+	// scheme with_shaders
+
         pass
         {
             scene_blend alpha_blend
@@ -87,6 +89,8 @@ material nat_wasser_see
 
     technique glsl
     {
+	// scheme with_shaders
+
         pass
         {
             scene_blend alpha_blend

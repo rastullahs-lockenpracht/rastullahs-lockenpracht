@@ -25,6 +25,8 @@ material billboard_lod
     receive_shadows off
     technique hlsl
     {
+	// scheme with_shaders
+
         pass
         {
             alpha_rejection greater 128

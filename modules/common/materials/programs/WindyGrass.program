@@ -27,6 +27,8 @@ material windy_grass
     receive_shadows off
     technique hlsl
     {
+	// scheme with_shaders
+
         lod_index 0
 
         pass
@@ -40,6 +42,10 @@ material windy_grass
     technique fixed_function
     {
         lod_index 0 
+
+	pass
+	{
+	}
     }
 }
 
