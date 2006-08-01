@@ -6,5 +6,5 @@
     <Image Name="Ruby"     XPos="225" YPos="100" Width="86"  Height="104" />
     <Image Name="boost"    XPos="0"   YPos="210" Width="237" Height="55" />
     <Image Name="Fmod"     XPos="320" YPos="100" Width="150" Height="119" />
-    <Image Name="Pantheon" XPos="0"   YPos="280" Width="225" Height="255" />
+    <Image Name="Pantheon" XPos="0"   YPos="280" Width="225" Height="225" />
 </Imageset>
