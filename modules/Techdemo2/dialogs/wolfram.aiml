@@ -15,7 +15,7 @@
 						<li rldialog:id="wolfram001.ogg">Aha! Der Stoff, aus dem Abenteuer gemacht werden. Ich wollte immer schon erfahren, ob das wirklich so eine Plage ist, für die man richtige Helden braucht. Danke, ... na wer seid ihr überhaupt?</li>
 					</gossip>
 					<gossip rldialog:type="option">
-						<li rldialog:id="alrike013.ogg" rldialog:patternRef ="33">Ich bin Alrike, aus Wandleth, und hier um euch zu beschützen! Aber dafür müßt ihr mir auch sagen wovor überhaupt!!</li>
+						<li rldialog:id="alrike013.ogg" rldialog:patternRef ="33">Ich bin Alrike, aus Wandleth, und hier um euch zu beschützen! Aber dafür müßt ihr mir auch sagen wovor überhaupt!</li>
 					</gossip>
 				</li>
 				<li value="1">
