@@ -99,8 +99,8 @@
 		</gossip>
 		<gossip rldialog:type="option">
 			<condition type="queststate" name="aufenthaltsort">
-				<li value="SUCCEEDED" rldialog:id="null.ogg" rldialog:patternRef ="431" >Ja, Tsafried sagte, es gäbe einen alten Pfad, der zu einem verlassenen Turm führt. Kennt ihr ihn?</li>
-				<li value="ASSIGNED" rldialog:id="null.ogg" rldialog:patternRef ="432" >Nein. Ja wisst ihr es denn nicht?</li>
+				<li value="SUCCEEDED" rldialog:id="alrike040.ogg" rldialog:patternRef ="431" >Ja, Tsafried sagte, es gäbe einen alten Pfad, der zu einem verlassenen Turm führt. Kennt ihr ihn?</li>
+				<li value="ASSIGNED" rldialog:id="alrike041.ogg" rldialog:patternRef ="432" >Nein. Ja wisst ihr es denn nicht?</li>
 			</condition>				
 		</gossip>
 	</template>
@@ -143,7 +143,7 @@
 			<li rldialog:id="sonja011.ogg">Leider nicht. Ihr solltet nocheinmal mit einer Person reden, die ihm nahe stand.</li>
 		</gossip>
 		<gossip rldialog:type="option">
-			<li rldialog:id="5SekStille.ogg" rldialog:patternRef ="11"><set type="questknown" name="aufenthaltsort" value="KNOWN"/>Das könnte helfen, ja. Sobald ich weiß wo er steckt werde ich mich sofort aufmachen und keine weiteren Worte verlieren!</li>			
+			<li rldialog:id="alrike044.ogg" rldialog:patternRef ="11"><set type="questknown" name="aufenthaltsort" value="KNOWN"/>Wird gemacht!</li>			
 		</gossip>
 	</template>
 	</category>
