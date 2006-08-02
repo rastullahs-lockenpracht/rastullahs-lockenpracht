@@ -5,28 +5,30 @@
             xmlns="http://alicebot.org/2001/AIML"
 			xmlns:rldialog="http://team-pantheon.de/projekt/rl/dialog">
 <!-- ================Alles plus RedeMitDorfbewohnern Teil - Wolframs Meinung über den Alten Mann ================ -->	
+
 	<category>
-	<pattern>1</pattern>
-	<template> 
-
-	<condition type="default" name="wolfram_1">
-		<li value="">
-			<gossip rldialog:type="response">
-				<li rldialog:id="wolfram001.ogg">Aha! Der Stoff, aus dem Abenteuer gemacht werden. Ich wollte immer schon erfahren, ob das wirklich so eine Plage ist, für die man richtige Helden braucht. Danke, ... na wer seid ihr überhaupt?</li>
-			</gossip>
-			<gossip rldialog:type="option">
-				<li rldialog:id="alrike013.ogg" rldialog:patternRef ="33">Ich bin Alrike, aus Wandleth, und hier um euch zu beschützen! Aber dafür müßt ihr mir auch sagen wovor überhaupt!!</li>
-			</gossip>
-		</li>
-		<li value="1">
-			<gossip rldialog:type="response">
-				<li rldialog:id="5SekStille.ogg">[Wolfram steht gedankenverloren in der Gegen herum und reagiert nicht auf Euch. Oder denkt er etwa zu stark nach?]</li>
-			</gossip>
-			<srai>EXIT</srai>
-		</li>
-	</condition>
-
-	</template>
+		<pattern>1</pattern>
+		<template>
+			<condition type="default" name="wolfram_2">
+				<li value="">
+					<gossip rldialog:type="response">
+						<li rldialog:id="wolfram001.ogg">Aha! Der Stoff, aus dem Abenteuer gemacht werden. Ich wollte immer schon erfahren, ob das wirklich so eine Plage ist, für die man richtige Helden braucht. Danke, ... na wer seid ihr überhaupt?</li>
+					</gossip>
+					<gossip rldialog:type="option">
+						<li rldialog:id="alrike013.ogg" rldialog:patternRef ="33">Ich bin Alrike, aus Wandleth, und hier um euch zu beschützen! Aber dafür müßt ihr mir auch sagen wovor überhaupt!!</li>
+					</gossip>
+				</li>
+				<li value="1">
+					<gossip rldialog:type="response">
+						<li rldialog:id="5SekStille.ogg">[Wolfram steht gedankenverloren in der Gegend herum und reagiert nicht auf Euch. Oder denkt er etwa zu stark nach?]</li>
+					</gossip>
+					<gossip rldialog:type="option">
+						<li rldialog:id="5SekStille.ogg">[Wieder gehen]</li>
+					</gossip>
+					
+				</li>
+			</condition>
+		</template>
 	</category>
 
 		<category>
@@ -37,11 +39,12 @@
 			</gossip>
 			<gossip rldialog:type="option">
 				<li rldialog:id="alrike014.ogg" rldialog:patternRef ="333">Äh.. wie bitte?</li>
-				<li rldialog:id="alrike015.ogg" rldialog:patternRef ="333">Aber, genau dafür bin ich hier, ich denke schon, dass...</li>
+				<li rldialog:id="alrike015.ogg" rldialog:patternRef ="333"><set type="default" name="wolfram_2" value="1"/>Aber, genau dafür bin ich hier, ich denke schon, dass...</li>
 			</gossip>
 		</template>
 		</category>
 
+		
 			<category>
 			<pattern>333</pattern>
 			<template>
@@ -86,19 +89,20 @@
 								<li rldialog:id="wolfram006.ogg">Nein nein nein ... Versteht mich nicht falsch. Ich weiß nicht, ob er es mit Absicht macht oder, ob im Gegenteil, sein Verschwinden die Wölfe in unser Dorf gebracht hat. Ich weiß nur, dass beides zusammenhängt.</li>
 							</gossip>
 							<gossip rldialog:type="option">
-								<li rldialog:id="alrike020.ogg" rldialog:patternRef ="3333333"><set type="queststate" name="paket" value="SUCCEEDED"/><set type="questparts" name="hauptquest2" value="increase"/>Danke für eure Antworten. Sie haben mir sehr geholfen.</li>
+								<li rldialog:id="alrike020.ogg" rldialog:patternRef ="3333333"><set type="queststate" name="paket" value="SUCCEEDED"/><set type="questparts" name="hauptquest2" value="increase"/>Danke für eure Antworten, sie haben mir sehr geholfen.</li>
 							</gossip>
 						</template>
 						</category>
-
+							
 							<category>
 							<pattern>3333333</pattern>
 							<template>
 								<gossip rldialog:type="response">
-									<set type="default" name="wolfram_1" value="1"/>
 									<li rldialog:id="wolfram007.ogg">Ich werde jetzt weiterarbeiten. Jaja.. so sind wir, wir Weltverbesserer...</li>
 								</gossip>
-									<system cmd="exit"/>  
+									<gossip rldialog:type="option">
+										<li rldialog:id="alrike020.ogg" rldialog:patternRef ="EXIT">[Gehen]</li>  
+									</gossip>
 							</template>
 							</category>
 
