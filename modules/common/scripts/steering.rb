@@ -68,7 +68,7 @@ class DefaultIdleBehaviour < SteeringBehaviour
 	end
 		
 	def update(elapsedTime)
-		getController().addForce([0 0 0]);
+		getController().addForce([0.0 0.0 0.0]);
 	end
 	
 	def deactivate()
@@ -121,7 +121,7 @@ class DialogBehaviour < SteeringBehaviour
 				getController().setAnimation("reden");
 				@mTalk = true;
 			end
-			getController().addForce([0 0 0]);
+			getController().addForce([0.0 0.0 0.0]);
 		end
 	end
 	
