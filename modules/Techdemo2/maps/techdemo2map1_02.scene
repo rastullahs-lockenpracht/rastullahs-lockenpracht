@@ -21523,7 +21523,7 @@
 
 		</node>
 		<node name="baumstammcoli" id="2869" >
-			<position x="-5.35097" y="-7.81113" z="44.3222" />
+			<position x="-10.3019" y="-7.81113" z="45.9908" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.762485" y="0.762485" z="0.762485" />
 			<entity
@@ -21717,23 +21717,23 @@
  <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_blume_01" id="2895" >
-			<position x="0.0124588" y="0.00050953" z="-0.0056476" />
+		<node name="nat_busch_01" id="2895" >
+			<position x="20.5819" y="-9.30844" z="37.9991" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
-				name="nat_blume_01"
+				name="nat_busch_01"
 				id="2896"
-				meshFile ="nat_blume_01.mesh"
+				meshFile ="nat_busch_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
 			/>
 
-  
+ <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
 		<node name="nat_busch_01" id="2897" >
-			<position x="20.5819" y="-9.30844" z="37.9991" />
+			<position x="21.0231" y="-9.30844" z="39.7827" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
@@ -21748,7 +21748,7 @@
 
 		</node>
 		<node name="nat_busch_01" id="2899" >
-			<position x="21.0231" y="-9.30844" z="39.7827" />
+			<position x="14.817" y="-9.63145" z="34.5026" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
@@ -21763,7 +21763,7 @@
 
 		</node>
 		<node name="nat_busch_01" id="2901" >
-			<position x="14.817" y="-9.63145" z="34.5026" />
+			<position x="14.3759" y="-9.30844" z="32.719" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
@@ -21777,14 +21777,14 @@
  <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_busch_01" id="2903" >
-			<position x="14.3759" y="-9.30844" z="32.719" />
+		<node name="nat_blume_01" id="2903" >
+			<position x="16.5691" y="-8.38837" z="24.0475" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
-				name="nat_busch_01"
+				name="nat_blume_01"
 				id="2904"
-				meshFile ="nat_busch_01.mesh"
+				meshFile ="nat_blume_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
 			/>
@@ -21792,28 +21792,13 @@
  <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_blume_01" id="2905" >
-			<position x="16.5691" y="-8.38837" z="24.0475" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="nat_blume_01"
-				id="2906"
-				meshFile ="nat_blume_01.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
-  
-
-		</node>
-		<node name="baumstammcoli" id="2907" >
+		<node name="baumstammcoli" id="2905" >
 			<position x="2.27068" y="-9.14681" z="35.5624" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="0.70141" y="0.70141" z="0.70141" />
 			<entity
 				name="baumstammcoli"
-				id="2908"
+				id="2906"
 				meshFile ="baumstammcoli.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21822,13 +21807,13 @@
   
 
 		</node>
-		<node name="nat_baum_shadix_01" id="2909" >
+		<node name="nat_baum_shadix_01" id="2907" >
 			<position x="2.31458" y="-8.32519" z="35.5535" />
 			<rotation qx="0.0" qy="-0.152047" qz="0.0" qw="0.988373" />
 			<scale x="1.74679" y="1.74679" z="1.74679" />
 			<entity
 				name="nat_baum_shadix_01"
-				id="2910"
+				id="2908"
 				meshFile ="nat_baum_shadix_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
@@ -21837,8 +21822,23 @@
  <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_blume_weis" id="2911" >
+		<node name="nat_blume_weis" id="2909" >
 			<position x="10.705" y="-8.75576" z="37.7563" />
+			<rotation qx="0.0" qy="-0.913079" qz="0.0" qw="0.407783" />
+			<scale x="1.0" y="1.0" z="1.0" />
+			<entity
+				name="nat_blume_weis"
+				id="2910"
+				meshFile ="nat_blume_weis.mesh"
+				materialFile="techdemo2map1_02.material"
+				castsShadow="false"
+			/>
+
+ <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
+
+		</node>
+		<node name="nat_blume_weis" id="2911" >
+			<position x="11.8106" y="-8.75576" z="37.3112" />
 			<rotation qx="0.0" qy="-0.913079" qz="0.0" qw="0.407783" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
@@ -21853,7 +21853,7 @@
 
 		</node>
 		<node name="nat_blume_weis" id="2913" >
-			<position x="11.8106" y="-8.75576" z="37.3112" />
+			<position x="12.9623" y="-8.75576" z="40.2681" />
 			<rotation qx="0.0" qy="-0.913079" qz="0.0" qw="0.407783" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
@@ -21868,7 +21868,7 @@
 
 		</node>
 		<node name="nat_blume_weis" id="2915" >
-			<position x="12.9623" y="-8.75576" z="40.2681" />
+			<position x="9.72843" y="-8.75576" z="40.8886" />
 			<rotation qx="0.0" qy="-0.913079" qz="0.0" qw="0.407783" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
@@ -21883,7 +21883,7 @@
 
 		</node>
 		<node name="nat_blume_weis" id="2917" >
-			<position x="9.72843" y="-8.75576" z="40.8886" />
+			<position x="10.3129" y="-8.75576" z="40.4902" />
 			<rotation qx="0.0" qy="-0.913079" qz="0.0" qw="0.407783" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
@@ -21897,14 +21897,14 @@
  <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
 
 		</node>
-		<node name="nat_blume_weis" id="2919" >
-			<position x="10.3129" y="-8.75576" z="40.4902" />
-			<rotation qx="0.0" qy="-0.913079" qz="0.0" qw="0.407783" />
+		<node name="nat_busch_01" id="2919" >
+			<position x="1.76203" y="-8.52486" z="34.1092" />
+			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
-				name="nat_blume_weis"
+				name="nat_busch_01"
 				id="2920"
-				meshFile ="nat_blume_weis.mesh"
+				meshFile ="nat_busch_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
 			/>
@@ -21913,7 +21913,7 @@
 
 		</node>
 		<node name="nat_busch_01" id="2921" >
-			<position x="1.76203" y="-8.52486" z="34.1092" />
+			<position x="-6.71079" y="-7.9956" z="22.1898" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
@@ -21928,7 +21928,7 @@
 
 		</node>
 		<node name="nat_busch_01" id="2923" >
-			<position x="-6.71079" y="-7.9956" z="22.1898" />
+			<position x="2.42895" y="-8.46078" z="36.9273" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
@@ -21943,27 +21943,12 @@
 
 		</node>
 		<node name="nat_busch_01" id="2925" >
-			<position x="2.42895" y="-8.46078" z="36.9273" />
-			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
-			<scale x="1.0" y="1.0" z="1.0" />
-			<entity
-				name="nat_busch_01"
-				id="2926"
-				meshFile ="nat_busch_01.mesh"
-				materialFile="techdemo2map1_02.material"
-				castsShadow="false"
-			/>
-
- <userData><property type="INT" name="staticgeom_group" data="0"/><property type="STRING" name="physical_body" data="none"/><property type="FLOAT" name="renderingdistance" data="20000"/></userData> 
-
-		</node>
-		<node name="nat_busch_01" id="2927" >
 			<position x="-7.01564" y="-7.84492" z="31.9637" />
 			<rotation qx="0.0" qy="0.0" qz="0.0" qw="1.0" />
 			<scale x="1.0" y="1.0" z="1.0" />
 			<entity
 				name="nat_busch_01"
-				id="2928"
+				id="2926"
 				meshFile ="nat_busch_01.mesh"
 				materialFile="techdemo2map1_02.material"
 				castsShadow="false"
