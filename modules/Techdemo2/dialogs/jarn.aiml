@@ -13,14 +13,15 @@
 				<gossip rldialog:type="response">
 					<li></li>
 				</gossip>
+				<gossip rldialog:type="option">
+					<li rldialog:id="alrike001.ogg" rldialog:patternRef ="11">Ingerimm zum Gruße</li>
+				</gossip>
 			</li>
 			<li value="1">
 				<srai>11</srai>
 			</li>
 		</condition>
-		<gossip rldialog:type="option">
-			<li rldialog:id="alrike001.ogg" rldialog:patternRef ="11">Ingerimm zum Gruße</li>
-		</gossip>		
+		
 	</template>
 	</category>
 

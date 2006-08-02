@@ -38,7 +38,7 @@
 			<gossip rldialog:type="option">
 				<condition type="default" name="sonja_2"><li rldialog:id="alrike032.ogg" value="" rldialog:patternRef ="2">Und warum ruft ihr deswegen die Wache und nicht einen Jäger?</li></condition>		
 				<condition type="default" name="sonja_3"><li rldialog:id="alrike033.ogg" value="" rldialog:patternRef ="3">Was für ein Tier war es?</li></condition>		
-				<condition type="queststate" name="hauptquest2"><li rldialog:id="alrike034.ogg" value="OPEN" rldialog:patternRef ="5">Was schlagt ihr vor, was ich tun soll? Ich kann ja wohl schlecht in den Wald gehen und alle Tiere jagen, die eure Hühner reißen könnten.</li></condition> 
+				<condition type="queststate" name="hauptquest2"><li rldialog:id="alrike034.ogg" value="OPEN" rldialog:patternRef ="5">Und was schlagt ihr vor, was ich tun soll? Ich kann ja wohl schlecht in den Wald gehen und alle Tiere jagen, die eure Hühner reißen könnten.</li></condition> 
 	   			<condition type="queststate" name="hauptquest2"><li rldialog:id="alrike035.ogg" value="SUCCEEDED" rldialog:patternRef ="4">Ich habe mit Allen geredet. Sie haben recht gegenteilige Meinungen, aber Einiges ist überzeugender als Anderes.</li></condition>
 				<li rldialog:id="alrike043.ogg" rldialog:patternRef ="EXIT"><set type="default" name="sonja_1" value="1"/>Ich komme später wieder.</li>				
 			</gossip>

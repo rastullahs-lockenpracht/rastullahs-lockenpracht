@@ -14,15 +14,14 @@
 				<gossip rldialog:type="response">
 					<li rldialog:id="tsafried001.ogg" >Ein Glück, dass ihr hier seid! Er braucht eure Hilfe!</li>
 				</gossip>
+				<gossip rldialog:type="option">
+					<li rldialog:id="alrike021.ogg" rldialog:patternRef ="11">Nun mal langsam, eigentlich wollte ich ja die Fragen stellen, aber was ist denn los?</li>
+				</gossip>
 			</li>
 			<li value="1">
 				<srai>11</srai>
 			</li>
 		</condition>
-		
-		<gossip rldialog:type="option">
-			<li rldialog:id="alrike021.ogg" rldialog:patternRef ="11">Nun mal langsam, eigentlich wollte ich ja die Fragen stellen, aber was ist denn los?</li>
-		</gossip>
 	</template>
 	</category>
 
