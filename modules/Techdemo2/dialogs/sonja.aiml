@@ -40,6 +40,13 @@
 				<condition type="default" name="sonja_3"><li rldialog:id="alrike033.ogg" value="" rldialog:patternRef ="3">Was für ein Tier war es?</li></condition>		
 				<condition type="queststate" name="hauptquest2"><li rldialog:id="alrike034.ogg" value="OPEN" rldialog:patternRef ="5">Und was schlagt ihr vor, was ich tun soll? Ich kann ja wohl schlecht in den Wald gehen und alle Tiere jagen, die eure Hühner reißen könnten.</li></condition> 
 	   			<condition type="queststate" name="hauptquest2"><li rldialog:id="alrike035.ogg" value="SUCCEEDED" rldialog:patternRef ="4">Ich habe mit Allen geredet. Sie haben recht gegenteilige Meinungen, aber Einiges ist überzeugender als Anderes.</li></condition>
+				<condition type="default" name="sonja_7">
+					<li value="" rldialog:id="alrike045.ogg" rldialog:patternRef ="431">
+						<condition type="queststate" name="aufenthaltsort">
+							<li value="SUCCEEDED">Tsafried sagte, es gäbe einen alten Pfad, der zu einem verlassenen Turm führt. Kennt ihr ihn?</li>
+						</condition>
+					</li>
+				</condition>
 				<li rldialog:id="alrike043.ogg" rldialog:patternRef ="EXIT"><set type="default" name="sonja_1" value="1"/>Ich komme später wieder.</li>				
 			</gossip>
 		</template>
@@ -100,7 +107,7 @@
 		<gossip rldialog:type="option">
 			<condition type="queststate" name="aufenthaltsort">
 				<li value="SUCCEEDED" rldialog:id="alrike040.ogg" rldialog:patternRef ="431" >Ja, Tsafried sagte, es gäbe einen alten Pfad, der zu einem verlassenen Turm führt. Kennt ihr ihn?</li>
-				<li value="ASSIGNED" rldialog:id="alrike041.ogg" rldialog:patternRef ="432" >Nein. Ja wisst ihr es denn nicht?</li>
+				<li value="ASSIGNED" rldialog:id="alrike041.ogg" rldialog:patternRef ="432" >Nein. Wisst ihr es denn nicht?</li>
 			</condition>				
 		</gossip>
 	</template>
@@ -127,7 +134,7 @@
 	<pattern>431</pattern>
 	<template>
 		<gossip rldialog:type="response">
-			<li rldialog:id="sonja010.ogg">In der Tat, ja. Der Pfad beginnt bei den Hügeln gleich hinterm Dorf. Wenn ihr ihn entlanggeht werdet ihr an einen Abzweig gelangen, der auf eine gute Straße führt. Doch nehmt diese nicht sondern geht weiter. Ihr werdet in einen Wald kommen und den Turm schon von weitem sehen.</li>
+			<li rldialog:id="sonja010.ogg"><set type="default" name="sonja_7" value="1"/>In der Tat, ja. Der Pfad beginnt bei den Hügeln gleich hinterm Dorf. Wenn ihr ihn entlanggeht werdet ihr an einen Abzweig gelangen, der auf eine gute Straße führt. Doch nehmt diese nicht sondern geht weiter. Ihr werdet in einen Wald kommen und den Turm schon von weitem sehen.</li>
 		</gossip>
 		<gossip rldialog:type="option">
 			<li rldialog:id="alrike043.ogg" rldialog:patternRef ="EXIT">Ich komme später wieder.</li>			

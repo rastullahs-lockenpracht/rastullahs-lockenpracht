@@ -23,7 +23,7 @@
 						<li rldialog:id="5SekStille.ogg">[Wolfram steht gedankenverloren in der Gegend herum und reagiert nicht auf Euch. Oder denkt er etwa zu stark nach?]</li>
 					</gossip>
 					<gossip rldialog:type="option">
-						<li rldialog:id="5SekStille.ogg">[Wieder gehen]</li>
+						<li rldialog:id="null.ogg">[Wieder gehen]</li>
 					</gossip>
 					
 				</li>
@@ -101,7 +101,7 @@
 									<li rldialog:id="wolfram007.ogg">Ich werde jetzt weiterarbeiten. Jaja.. so sind wir, wir Weltverbesserer...</li>
 								</gossip>
 									<gossip rldialog:type="option">
-										<li rldialog:id="alrike020.ogg" rldialog:patternRef ="EXIT">[Gehen]</li>  
+										<li rldialog:id="null.ogg" rldialog:patternRef ="EXIT">[Gehen]</li>  
 									</gossip>
 							</template>
 							</category>

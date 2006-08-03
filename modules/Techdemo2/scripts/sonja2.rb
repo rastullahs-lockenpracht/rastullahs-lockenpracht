@@ -23,6 +23,7 @@ agent.addSteeringBehaviour(DialogBehaviour.new($heroVehicle));
 print( "Sonja version Map2 fertig geladen" );
 
 #Musik
+$AM.getActor("techdemoDruidenWald").getControlledObject().stop()
 $AM.getActor("kampfMusik").getControlledObject().stop()
 $AM.getActor("ruchinsRuhe").getControlledObject().play()
 
