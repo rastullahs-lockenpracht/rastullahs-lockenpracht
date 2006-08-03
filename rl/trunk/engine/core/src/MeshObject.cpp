@@ -262,6 +262,9 @@ namespace rl {
 		}
 
 		entity->removeSoftwareAnimationRequest(false);
+        // Restore animation states
+        saveAss->copyMatchingState(ass);
+		entity->_updateAnimation();
         delete saveAss;
 		return aabb;
 	}
