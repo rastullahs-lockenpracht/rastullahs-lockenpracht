@@ -75,7 +75,7 @@
 	<pattern>3</pattern>
 	<template>
 		<gossip rldialog:type="response">
-			<li rldialog:id="jarn004.ogg">Gosh! Everything gets beyond my control. I do not even have the time to bring this little package to Wolfram although he lives er straight over there.</li>			
+			<li rldialog:id="jarn004.ogg">Gosh! Everything gets beyond my control. I do not even have the time to bring this little package to Wolfram although he lives straight over there.</li>			
 		</gossip>
 		<gossip rldialog:type="option">
 			<li rldialog:id="alrike006.ogg" rldialog:patternRef ="33">Everytime the same old stories. Ok, you got my word, i`ll deliver it. Just tell me, what`s inside it?</li>
@@ -99,7 +99,7 @@
 			<pattern>333</pattern>
 			<template>
 				<gossip rldialog:type="response">
-					<li rldialog:id="jarn006.ogg">Like i said, he lives over there. He will pretend not being at home. But just mention the package when standing in front of his door. I'll bet the dodger will hear you.</li>
+					<li rldialog:id="jarn006.ogg">Like i said, he lives over there. He will pretend not being at home. But just mention the package when standing in front of his door. I bet the dodger will hear you.</li>
 				</gossip>
 					<set type="queststate" name="paket" value="ASSIGNED"/>
 					<set type="questknown" name="paket" value="KNOWN"/>
