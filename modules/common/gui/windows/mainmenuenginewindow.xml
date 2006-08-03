@@ -1,7 +1,7 @@
 <GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
 	<Window Type="DefaultWindow" Name="MainMenu2">
-	    <Property Name="UnifiedPosition" Value="{{0,5},{1,-600}}" />
-	    <Property Name="UnifiedSize" Value="{{1,-5},{0,600}}" />
+	    <Property Name="UnifiedPosition" Value="{{0,5},{0,0}}" />
+	    <Property Name="UnifiedSize" Value="{{1,-5},{1,0}}" />
 		<Window Type="RastullahLook/StaticText" Name="MainMenu/GameName">
             <Property Name="HorzFormatting" Value="RightAligned"/>
             <Property Name="UnifiedPosition" Value="{{1,-355},{1,-58}}" />
@@ -64,7 +64,7 @@
 		<Window Type="RastullahLook/StaticImage" Name="MainMenu/PantheonLogo">
 			<Property Name="Image" Value="set:Logos image:Pantheon"/>
 			<Property Name="FrameEnabled" Value="False"/>
-			<Property Name="UnifiedPosition" Value="{{0.5,-112},{0.5,-112}}"/>
+			<Property Name="UnifiedPosition" Value="{{0.5,-112},{0.5,-112}}" />
 			<Property Name="UnifiedSize" Value="{{0,225},{0,225}}"/>
 			<Property Name="Alpha" Value="0.5"/>
 		</Window>
