@@ -10,4 +10,5 @@ libRlAi_la_SOURCES = \
 	AiWorld.cpp \
 	FuzzyState.cpp \
 	FuzzyStateMachine.cpp \
+	PlayerVehicle.cpp \
 	SteeringVehicle.cpp 

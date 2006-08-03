@@ -58,3 +58,4 @@ void PlayerVehicle::update(const float currentTime, const float elapsedTime)
 	}
 	mCurrentForce = Ogre::Vector3::ZERO;
 }
+

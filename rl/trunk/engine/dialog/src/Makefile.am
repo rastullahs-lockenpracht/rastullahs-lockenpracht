@@ -10,6 +10,7 @@ libRlDialog_la_SOURCES = \
 	DialogCharacter.cpp \
 	DialogOption.cpp \
 	DialogResponse.cpp \
+	DialogScriptProcessor.cpp \
 	DialogSubsystem.cpp \
 	ScriptProcessor.cpp \
 	predicates/CreaturePredicates.cpp \

@@ -2,8 +2,7 @@ INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(CEGUIOGRE_CFLAGS) \
 	$(STLPORT_CFLAGS) -I../include -I../../common/include  -I../../core/include \
 	-I../../rules/include -I../components/include -I../../dialog/include \
 	-I../../startup/include -I../../multimedia/include -I../../uicomponents/include \
-	-I../../multimedia/include -I../../multimedia/include/fmod3 \
-	-I../../multimedia/include/null -I../../multimedia/include/openal 
+	-I../../multimedia/include/null 
 
 lib_LTLIBRARIES = libRlUi.la
 libRlUi_la_LIBADD = -lRlUiComponents $(RUBY_LIBS) $(LIBS) \
@@ -46,7 +45,6 @@ libRlUi_la_SOURCES = \
 	SubtitleWindow.cpp \
 	TargetSelectionWindow.cpp \
 	UiSubsystem.cpp \
-	VideoWindow.cpp \
 	WindowFactory.cpp \
 	WindowManager.cpp \
 	WindowUpdater.cpp
