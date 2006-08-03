@@ -1,39 +1,16 @@
 # Nur eingebettet starten
 load( "embed.rb" );
+require( "areahelper.rb" )
 
-print( "GameEvent-Tests wird geladen" );
+print( "Area-Tests wird geladen" );
 
-print( "Definiere Listener" );
-# Definition des GameAreaListeners
-class DunkleEckenLachListener < GameAreaListener
+$AM.getActor( "Held" ).setQueryMask( Actor::QGF_PLAYER )
 
-	def areaLeft(anEvent)
-		print( "Raus - " +  anEvent.getProvokingActor().getName() );
-		$GameEveMgr.removeAreaListener(self)
-		print( "Raus - lösch " );
-	end
-	def areaEntered(anEvent)
-		print( "Rein - " + anEvent.getProvokingActor().getName() );
-		anEvent.getSource().getActor().getControlledObject().play();
-		$WM.showMessageWindow( "Das ist die dunkle Ecke" );
-	end
-end
+kugelDings = $AM.createSoundSampleActor( "Kugel-Zentrum", "lachen.ogg" )
+kugelDings.placeIntoScene( [4.150, 0.5, -3.00] )
 
-held = $AM.getActor( "Held" );
-held.setQueryMask( Actor::QGF_PLAYER );
+# Will be executed only once
+AreaHelper::createLimitedTimesSphereArea( kugelDings, 0.5, Actor::QGF_PLAYER, 
+    Proc.new { |e| e.getSource().getActor().getControlledObject().play(); $WF.showMessageWindow( "Das ist die dunkle Ecke" ); } )
 
-$SCRIPT.log("Kugel-Zentrum Actor erstellen");
-# kugelDings = $AM.createEmptyActor( "Kugel-Zentrum" );
-kugelDings = $AM.createSoundSampleActor( "Kugel-Zentrum", "lachen.ogg" );
-$SCRIPT.log("Kugel-Zentrum Actor in die Szene einfügen");
-kugelDings.placeIntoScene( [4.150, 0.5, -3.00] );
-
-$SCRIPT.log("DunkleEckenLachListener erstellen");
-areaListener = DunkleEckenLachListener.new();
-
-$SCRIPT.log("DunkleEckenLachListener hinzufügen");
-$GameEveMgr.addSphereAreaListener( kugelDings, 0.5, areaListener, Actor::QGF_PLAYER );
-
-
-
-print( "GameEvent-Tests fertig geladen" );
+print( "Area-Tests fertig geladen" );
