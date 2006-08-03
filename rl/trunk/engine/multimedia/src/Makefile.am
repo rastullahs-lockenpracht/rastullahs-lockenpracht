@@ -15,9 +15,6 @@ libRlMultimedia_la_SOURCES = \
 	SoundDriver.cpp \
 	SoundEvents.cpp \
 	SoundResource.cpp \
-	Video.cpp \
-	VideoEvents.cpp \
-	VideoManager.cpp \
 	VorbisFile.cpp \
 	null/NullSoundChannel.cpp \
 	null/NullSound.cpp \

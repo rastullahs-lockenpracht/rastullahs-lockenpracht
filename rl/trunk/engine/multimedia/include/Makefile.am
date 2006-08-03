@@ -7,9 +7,6 @@ noinst_HEADERS = \
 	SoundDriver.h \
 	SoundEvents.h \
 	SoundResource.h \
-	Video.h \
-	VideoEvents.h \
-	VideoManager.h \
 	VorbisFile.h \
 	null/NullSoundChannel.h \
 	null/NullSound.h \
