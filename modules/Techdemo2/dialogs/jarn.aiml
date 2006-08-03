@@ -105,6 +105,7 @@
 					<set type="queststate" name="paket" value="ASSIGNED"/>
 					<set type="questknown" name="paket" value="KNOWN"/>
 					<set type="default" name="jarn_3" value="1"/>
+					<script language="ruby">RulesSubsystem.getSingleton().getQuestBook().addJournalEntry( $tagebuchtexte['paket'][0], $tagebuchtexte['paket'][1] );</script>
 					<srai>11</srai>
 			</template>
 			</category>

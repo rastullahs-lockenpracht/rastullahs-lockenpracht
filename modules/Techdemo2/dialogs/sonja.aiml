@@ -102,7 +102,7 @@
 	<pattern>41</pattern>
 	<template>
 		<gossip rldialog:type="response">
-			<li rldialog:id="sonja009.ogg"><set type="queststate" name="hauptquest2" value="COMPLETED"/><set type="queststate" name="hauptquest41" value="ASSIGNED"/><set type="questknown" name="hauptquest41" value="KNOWN"/>Bei Praios, so soll es sein. Ich glaube ihr sprecht die Wahrheit. Dann solltet ihr euch nun beeilen, und den Mann finden. Habt ihr schon herausfinden können wo er ist?</li>
+			<li rldialog:id="sonja009.ogg"><script language="ruby">RulesSubsystem.getSingleton().getQuestBook().addJournalEntry( $tagebuchtexte['schnetzeln1'][0], $tagebuchtexte['schnetzeln1'][1] );</script><set type="queststate" name="hauptquest2" value="COMPLETED"/><set type="queststate" name="hauptquest41" value="ASSIGNED"/><set type="questknown" name="hauptquest41" value="KNOWN"/>Bei Praios, so soll es sein. Ich glaube ihr sprecht die Wahrheit. Dann solltet ihr euch nun beeilen, und den Mann finden. Habt ihr schon herausfinden können wo er ist?</li>
 		</gossip>
 		<gossip rldialog:type="option">
 			<condition type="queststate" name="aufenthaltsort">
@@ -118,7 +118,7 @@
 	<pattern>42</pattern>
 	<template>
 		<gossip rldialog:type="response">
-			<li rldialog:id="sonja009.ogg"><set type="queststate" name="hauptquest2" value="COMPLETED"/><set type="queststate" name="hauptquest42" value="ASSIGNED"/><set type="questknown" name="hauptquest42" value="KNOWN"/>Bei Praios, so soll es sein. Ich glaube ihr sprecht die Wahrheit. Dann solltet ihr euch nun beeilen, und den Mann finden. Habt ihr schon herausfinden können wo er ist?</li>
+			<li rldialog:id="sonja009.ogg"><script language="ruby">RulesSubsystem.getSingleton().getQuestBook().addJournalEntry( $tagebuchtexte['retten1'][0], $tagebuchtexte['retten1'][1] );</script><set type="queststate" name="hauptquest2" value="COMPLETED"/><set type="queststate" name="hauptquest42" value="ASSIGNED"/><set type="questknown" name="hauptquest42" value="KNOWN"/>Bei Praios, so soll es sein. Ich glaube ihr sprecht die Wahrheit. Dann solltet ihr euch nun beeilen, und den Mann finden. Habt ihr schon herausfinden können wo er ist?</li>
 		</gossip>
 		<gossip rldialog:type="option">
 			<condition type="queststate" name="aufenthaltsort">
@@ -134,7 +134,7 @@
 	<pattern>431</pattern>
 	<template>
 		<gossip rldialog:type="response">
-			<li rldialog:id="sonja010.ogg"><set type="default" name="sonja_7" value="1"/>In der Tat, ja. Der Pfad beginnt bei den Hügeln gleich hinterm Dorf. Wenn ihr ihn entlanggeht werdet ihr an einen Abzweig gelangen, der auf eine gute Straße führt. Doch nehmt diese nicht sondern geht weiter. Ihr werdet in einen Wald kommen und den Turm schon von weitem sehen.</li>
+			<li rldialog:id="sonja010.ogg"><script language="ruby">RulesSubsystem.getSingleton().getQuestBook().addJournalEntry( $tagebuchtexte['aufenthalt'][0], $tagebuchtexte['aufenthalt'][1] );</script><set type="default" name="sonja_7" value="1"/>In der Tat, ja. Der Pfad beginnt bei den Hügeln gleich hinterm Dorf. Wenn ihr ihn entlanggeht werdet ihr an einen Abzweig gelangen, der auf eine gute Straße führt. Doch nehmt diese nicht sondern geht weiter. Ihr werdet in einen Wald kommen und den Turm schon von weitem sehen.</li>
 		</gossip>
 		<gossip rldialog:type="option">
 			<li rldialog:id="alrike043.ogg" rldialog:patternRef ="EXIT">Ich komme später wieder.</li>			
@@ -192,6 +192,7 @@
 					<li rldialog:id="sonja007.ogg">Kehrt zu mir zurück und dann sehen wir hoffentlich, was zu tun ist.</li>
 				</gossip>
 				<set type="default" name="sonja_5" value="1"/>
+				<script language="ruby">RulesSubsystem.getSingleton().getQuestBook().addJournalEntry( $tagebuchtexte['dorf2'][0], $tagebuchtexte['dorf2'][1] );</script>
 				<set type="queststate" name="hauptquest1" value="SUCCEEDED"/>
 				<set type="queststate" name="hauptquest2" value="ASSIGNED"/>
 				<set type="questknown" name="hauptquest2" value="KNOWN"/>

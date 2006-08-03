@@ -36,13 +36,14 @@
 				</condition>
 			</gossip>
 			<gossip rldialog:type="option">
-				<!--Hier könnte noch eine verknüpfte UND Condition mit hauptquest2=ASSIGNED laufen, damit man das nur bekommt, wenn man weiß, dass man dort klopfen soll. Ist das logisch sinnvoll?  -->
-				<condition type="queststate" name="paket"><li rldialog:id="alrike011.ogg" rldialog:patternRef ="2" value="OPEN">Macht auf! Hier ist die Stadtwache aus Wandleth, ich möchte euch nur ein paar Fragen stellen.</li></condition>
+				<condition type="default" name="wolframstuer_3"><li rldialog:id="alrike011.ogg" rldialog:patternRef ="2" value="">Macht auf! Hier ist die Stadtwache aus Wandleth, ich möchte euch nur ein paar Fragen stellen.</li></condition>
 				<condition type="queststate" name="paket"><li rldialog:id="alrike012.ogg" value="ASSIGNED" rldialog:patternRef ="3">Ich habe hier ein Paket von Jarn für euch!</li></condition> 
 				<li rldialog:id="null.ogg"><set type="default" name="wolframstuer_1" value="1"/>[Wieder gehen].</li>
 			</gossip>
 		</template>
 	</category>
+
+<!--  -->
 
 <!-- ================Die Tür will nicht reden ================ -->
 
@@ -54,6 +55,8 @@
 		</gossip>
 			<set type="questknown" name="wolfram" value="KNOWN"/>
 			<set type="queststate" name="wolfram" value="ASSIGNED"/>
+			<script language="ruby">RulesSubsystem.getSingleton().getQuestBook().addJournalEntry( $tagebuchtexte['wolfram'][0], $tagebuchtexte['wolfram'][1] );</script> 
+			<set type="default" name="wolframstuer_3" value="1"/>
 			<srai>11</srai>
 	</template>
 	</category>
