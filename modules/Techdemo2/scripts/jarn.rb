@@ -7,7 +7,7 @@ print( "Jarn Bot wird geladen" );
 print( "Definiere Listener" );
  
 jarn = Creature.new("Jarn", "Jarn");
-jarn.setActor($AM.createMeshActor("Jarn", "men_gennisch2.mesh", PhysicsManager::GT_ELLIPSOID, 75.0));
+jarn.setActor($AM.createMeshActor("Jarn", "men_gennisch2.mesh", PhysicsManager::GT_ELLIPSOID, 0.0));
 jarn.getActor().placeIntoScene([ -36.16, -6.25, 18.12],[0.0, -23.40, 0.0]);
 
 bot = $DS.loadBot("Jarn", "jarn.xml");
