@@ -4,7 +4,7 @@
 <aiml  version="1.0.1"
             xmlns="http://alicebot.org/2001/AIML"
 			xmlns:rldialog="http://team-pantheon.de/projekt/rl/dialog">
-<!-- ================Begrüßung ================ -->
+<!-- ================BegrÃ¼ÃŸung ================ -->
 	<category>
 	<pattern>1</pattern>
 	<template>
@@ -26,16 +26,16 @@
 
 
 
-<!-- ================Hauptmenü ================ -->
+<!-- ================HauptmenÃ¼ ================ -->
 	<category>
 	<pattern>11</pattern>
 	<template>
 		<gossip rldialog:type="response">
-			<condition type="default" name="jarn_1"><li rldialog:id="jarn001.ogg" value="">Let�s hope so, by goodness! But currently i am not getting down to anything! And now, there is this incident about the chicken !</li><li value="1" rldialog:id="null.ogg"></li></condition> 
+			<condition type="default" name="jarn_1"><li rldialog:id="jarn001.ogg" value="">Let’s hope so, by goodness! But currently i am not getting down to anything! And now, there is this incident about the chicken !</li><li value="1" rldialog:id="null.ogg"></li></condition> 
 		</gossip>
 		<gossip rldialog:type="option">
 			<condition type="default" name="jarn_2"><li rldialog:id="alrike002.ogg" value="" rldialog:patternRef ="2">Well, talking about chicken. Regarding the recent events; What do you think about it? Did you see or know something which could help me ?</li></condition>
-			<condition type="default" name="jarn_3"><li rldialog:id="alrike003.ogg" value="" rldialog:patternRef ="3">Your not getting down to anything? What�s the snag?!</li> </condition>
+			<condition type="default" name="jarn_3"><li rldialog:id="alrike003.ogg" value="" rldialog:patternRef ="3">Your not getting down to anything? What’s the snag?!</li> </condition>
 			<li rldialog:id="alrike004.ogg"><set type="default" name="jarn_1" value="1"/>I'll come again later.!</li>		
 		</gossip>
 	</template>
@@ -44,7 +44,7 @@
 
 
 
-<!-- ================RedeMitDorfbewohnern Teil - Jarns Meinung über den Alten Mann ================ -->	
+<!-- ================RedeMitDorfbewohnern Teil - Jarns Meinung Ã¼ber den Alten Mann ================ -->	
 	<category>
 	<pattern>2</pattern>
 	<template>
