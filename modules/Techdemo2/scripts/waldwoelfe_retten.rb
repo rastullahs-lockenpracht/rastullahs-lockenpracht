@@ -17,6 +17,8 @@ class WaldWolfTotListener < SimpleEnemyDeathListener
 	if (RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest522").getState() == Quest::SUCCEEDED)
 		#Schwert wegstecken
 			$AM.getActor("Held").getGameObject().detachWeapon();  
+			entry = $tagebuchtexte['retten2']
+			RulesSubsystem.getSingleton().getQuestBook().addJournalEntry( entry[0], entry[1] );
 		load("sonja2.rb");
 	end
 

@@ -33,10 +33,8 @@ fade.setDeleteOnFinish( true )
 $AM.getActor("Held").getGameObject().detachWeapon();  
 
 #Tagebucheinträge bei Tötung einstellen
-questBook = RulesSubsystem.getSingleton().getQuestBook()
-questBook.addJournalEntry(
-	"Der alte Mann aus dem Wald II",
-	"Geschafft! Als ich auf ihn traf setzte er sich zur Wehr und ich mußte in kampfunfähig machen. So wird er zumindest niemanden mehr belästigen. Ich denke, nun wird sich der Wald, und damit auch die Wölfe, wieder beruhigen.");
+entry = $tagebuchtexte['schnetzeln2']
+RulesSubsystem.getSingleton().getQuestBook().addJournalEntry( entry[0], entry[1] );
 
 #Endsequenz
 load("sonja2.rb");

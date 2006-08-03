@@ -127,6 +127,9 @@ $SCRIPT.log("SteeringBehaviours laden");
 load("steering.rb");
 
 if (RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest41").getState() == Quest::ASSIGNED)
+	# Tagebuch
+	entry = $tagebuchtexte['schnetzeln0']
+	RulesSubsystem.getSingleton().getQuestBook().addJournalEntry( entry[0], entry[1] );
 	load( "schnetzeln.rb" );
 	#Steinschlag
 	@mSteinschlagSound = $AM.createSoundSampleActor("Steinschlag","steinschlag_wenig_zu_vielen.ogg");
@@ -135,13 +138,14 @@ if (RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest41").getSta
 end
 
 if (RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest42").getState() == Quest::ASSIGNED)
+	# Tagebuch
+	entry = $tagebuchtexte['retten0']
+	RulesSubsystem.getSingleton().getQuestBook().addJournalEntry( entry[0], entry[1] );
 	load( "retten.rb" );
 end
 
 #Musik als letztes abspielen
 techdemoDruidenWald.getControlledObject().play();
-
-
 
 
 #******** mapchange **********

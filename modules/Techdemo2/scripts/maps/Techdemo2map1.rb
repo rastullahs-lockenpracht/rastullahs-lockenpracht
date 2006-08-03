@@ -62,6 +62,7 @@ $World.setFog( World::FOG_EXP, [0.1,0.08,0.01,0.1], 0.00503, 10.0, 100.0);
 
 $SCRIPT.log("Quests laden");
 load( "Techdemo2_quests.rb" );
+load( "Techdemo2_buch.rb" );
 $SCRIPT.log("Quests geladen");
 
 $SCRIPT.log("SteeringBehaviours laden");
@@ -85,6 +86,10 @@ $SCRIPT.log("Weiteres geladen");
 
 #Musik als letztes Starten
 techdemoDorf.getControlledObject().play();
+
+# Tagebucheintrag
+entry = $tagebuchtexte['dorf1']
+RulesSubsystem.getSingleton().getQuestBook().addJournalEntry( entry[0], entry[1] );
 
 
 #******** mapchange - abhängig vom Questzustand **********
