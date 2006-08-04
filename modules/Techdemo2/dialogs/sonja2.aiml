@@ -63,8 +63,8 @@
 	<category>
 	<pattern>1111</pattern>
 	<template>
-	<!--	<system cmd="exit"/>
-		<<script language="ruby" src="ende.rb"/> -->
+		<system cmd="exit"/>
+		<<script language="ruby" src="ende.rb"/> 
 	</template>
 	</category>
 
