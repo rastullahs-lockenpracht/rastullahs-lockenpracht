@@ -58,13 +58,14 @@ $SCRIPT.log(" Laden");
 kampfMusik.getControlledObject().load();
 $SCRIPT.log("Kampf -Thema fertig");
 
+#Zu laut, da stimmt inzwischen was nicht. 
 $SCRIPT.log("Wind laden");
 wind = $AM.createSoundSampleActor( "wind", "wind_hintergrund_001.ogg" ); 
 wind.getControlledObject().set3d(false);
 $SCRIPT.log(" Loopen");
 wind.getControlledObject().setLooping( true );
 $SCRIPT.log(" Abspielen");
-wind.getControlledObject().play();
+#wind.getControlledObject().play();
 $SCRIPT.log(" Volumen");
 wind.getControlledObject().setVolume( 0.15 )
 
@@ -75,7 +76,7 @@ windBoee.getControlledObject().setLooping( true );
 $SCRIPT.log(" Setzen");
 windBoee.placeIntoScene([12.97, -58.20, -220.37]);
 $SCRIPT.log(" Abspielen");
-windBoee.getControlledObject().play();
+#windBoee.getControlledObject().play();
 $SCRIPT.log(" Volumen");
 windBoee.getControlledObject().setVolume( 1.0 )
 
@@ -86,7 +87,7 @@ windBaum2.getControlledObject().setLooping( true );
 $SCRIPT.log(" Setzen");
 windBaum2.placeIntoScene([-12.51, -65.07, -89.64]);
 $SCRIPT.log(" Abspielen");
-windBaum2.getControlledObject().play();
+#windBaum2.getControlledObject().play();
 $SCRIPT.log(" Volumen");
 windBaum2.getControlledObject().setVolume( 0.7 )
 
@@ -97,7 +98,7 @@ windBaum.getControlledObject().setLooping( true );
 $SCRIPT.log(" Setzen");
 windBaum.placeIntoScene([-17.36, -73.56, -124.78]);
 $SCRIPT.log(" Abspielen");
-windBaum.getControlledObject().play();
+#windBaum.getControlledObject().play();
 $SCRIPT.log(" Volumen");
 windBaum.getControlledObject().setVolume( 0.7 )
 $SCRIPT.log("Wind fertig");

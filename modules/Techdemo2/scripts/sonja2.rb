@@ -2,19 +2,19 @@
 load( "embed.rb" );
 
 #hier wird Sonja2 geladen, wenn in 51 der Druide und in 52 der Wolf tot ist
-#zudem Musikwechsel, Questwechsel, alles was toll ist für das Ende.
+#zudem Musikwechsel, Questwechsel, alles was toll ist fÃ¼r das Ende.
 
 load( "npc.rb" );
 
-print( "Sonja version Map2 wird geladen" );
+print( "Sonjversion Map2 wird geladen" );
 print( "Definiere Listener" );
-sonja = Creature.new("Sonja", "Sonja");
-sonja.setActor($AM.createMeshActor("Sonja", "men_sonja.mesh", PhysicsManager::GT_ELLIPSOID, 75.0));
-sonja.getActor().placeIntoScene([2.70, -37.79, -23.48]);
+sonj = Creature.new("Sonj", "Sonj");
+sonj.setActor($AM.createMeshActor("Sonj", "men_sonja.mesh", PhysicsManager::GT_BOX, 0.0));
+sonj.getActor().placeIntoScene([2.70, -37.79, -23.48]);
 
-bot = $DS.loadBot("Sonja", "sonja2.xml");
-bot.setNonPlayerCharacter(sonja);
-sonja.addAction(TalkAction.new("Sonja", "sonja2.xml"))
+bot = $DS.loadBot("Sonj", "sonja2.xml");
+bot.setNonPlayerCharacter(sonj);
+sonj.addAction(TalkAction.new("Sonj", "sonja2.xml"))
 agent = $AI.createAgent(bot);
 agent.addSteeringBehaviour(DefaultIdleBehaviour.new);
 #agent.addSteeringBehaviour(AvoidObstaclesBehaviour.new);
@@ -33,5 +33,5 @@ RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest52").setState(Q
 RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest6").setState(Quest::ASSIGNED)
 RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest6").setKnown(true)
 
-#Die Welt wird grün
+#Die Welt wird grÃ¼n
 load("wald.rb");

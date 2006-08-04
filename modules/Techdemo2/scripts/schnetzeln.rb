@@ -19,15 +19,10 @@ $SCRIPT.log("Questbook aufgeräumt");
 RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest51").setKnown(true)
 RulesSubsystem.getSingleton().getQuestBook().getQuest("hauptquest51").setState(Quest::ASSIGNED)
 
-#Der alte Mann aus dem Wald I  -  Tagebuch aktivieren 
-	questBook = RulesSubsystem.getSingleton().getQuestBook()
-	questBook.addJournalEntry("Der alte Mann aus dem Wald I",
-	"Der verlassene Turm, von dem mir erzählt wurde, ist ganz in der Nähe. Ich kann ihn über den Baumwipfeln schon sehen. Hier sollte ich wieder vorsichtiger sein. Wer weiß auf welche Weise mit der alte Kauz auflauern wird. Sobald ich ihn sehe werde ich ihn fangen und festsetzen. Das wichtigste ist jetzt die Sicherheit der Dorfbewohner, und die ist nur gewährleistet wenn der Alte Mann unschädlich gemacht worden ist.");
-
 $SCRIPT.log("FieserAlter wird geladen");
 	druide = Creature.new("Alter Mann", "Alter Mann");
 	druide.setActor($AM.createMeshActor("Alter Mann", "men_druide.mesh", PhysicsManager::GT_BOX, 0.0));
-	druide.getActor().placeIntoScene([21.78, -35.28, -264.45]);
+	druide.getActor().placeIntoScene([21.78, -35.28, -264.45],[0.0, 90.0, 0.0]);
 	#druide.getActor().placeIntoScene([-5.80, -38.23, -19.97]);
 
 	bot = $DS.loadBot("Alter Mann", "druide51.xml");
