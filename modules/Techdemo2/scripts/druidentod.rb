@@ -18,7 +18,7 @@ $AM.getActor("Alter Mann").getControlledObject().startAnimation("reden", 3.0, 7)
 
 #Physikstoﬂ an den Druiden
 $AM.getActor("Alter Mann").getPhysicalThing().unfreeze();
-$AM.getActor("Alter Mann").getPhysicalThing().addForce([30000.0, 5000.0, 65000.0]);
+$AM.getActor("Alter Mann").getPhysicalThing().addForce([30000.0, 5000.0, 95000.0]);
 
 startani = $AM.getActor("Alter Mann").getControlledObject().getAnimation("kampf_sturz")
 startani.resetTimesPlayed( )
