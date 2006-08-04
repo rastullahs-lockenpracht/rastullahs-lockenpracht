@@ -8,13 +8,13 @@ class SimpleAreaListener < GameAreaListener
     end
 
 	def areaEntered( anEvent )
-        if( @inProc != nil )
+        if( not @inProc.nil? )
             @inProc.call( anEvent )
         end
 	end
     
     def areaLeft( anEvent )
-        if( @outProc != nil )
+        if( not @outProc.nil? )
             @outProc.call( anEvent )
         end
 	end
@@ -104,7 +104,7 @@ class AreaHelper
                 actorCreated = true 
             rescue
                 # If creation or placement fails
-                if( actor != nil )
+                if( not actor.nil? )
                     $AM.destroyActor( actor )
                 end
                 raise
@@ -116,7 +116,7 @@ class AreaHelper
             raise ArgumentError, "first parameter must be an Actor or a Position (3-Numbers Array)", caller
         end
 
-        if( actor == nil )
+        if( actor.nil? )
             raise ArgumentError, "Actor must not be nil", caller
         end
 

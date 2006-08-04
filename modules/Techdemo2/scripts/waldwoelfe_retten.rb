@@ -23,7 +23,7 @@ class WaldWolfTotListener < SimpleEnemyDeathListener
 	end
 
 
-        if( @agent != nil )
+        if( not @agent.nil? )
             @agent.clearSteeringBehaviours()
         end
     end

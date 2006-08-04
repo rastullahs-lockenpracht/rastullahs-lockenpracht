@@ -61,9 +61,9 @@ class SimpleEnemy < Creature
     # Hier stirbt das Vieh
     def die
         # Wir haben nen Sound
-        if( @soundActor != nil )
+        if( not @soundActor.nil? )
             # Ist noch nicht in der Szene?
-            if( getActor().getChildByName( @soundActor.getName() ) == nil )
+            if( getActor().getChildByName( @soundActor.getName() ).nil? )
                 getActor().attach( @soundActor )
             end
             # Abspielen

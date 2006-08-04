@@ -6,7 +6,7 @@ class TextOnSimpleEnemyDeath < SimpleEnemyDeathListener
     end
     def onDie
         p "argfL!!! *sterb*"
-        if( @agent != nil )
+        if( not @agent.nil? )
             @agent.clearSteeringBehaviours()
         end
     end
