@@ -19,7 +19,7 @@ wolfnum = 1
 
 # Die Positionen durchgehen
 positions.each { |pos|
-    se = SimpleEnemy.new( "Wolf_"+wolfnum.to_s,"Ein gefährlicher, ganz gefährlicher, wirklich extrem gefährlicher Wolf","Ein sehr toter Wolf","tie_wolf_01.mesh","spinne_todesschrei_01.ogg");
+    se = SimpleEnemy.new( "Wolf_"+wolfnum.to_s,"Ein gefährlicher, ganz gefährlicher, wirklich extrem gefährlicher Wolf","Ein sehr toter Wolf","tie_wolf_01.mesh","wolf_sterben_001.ogg");
     se.getActor().placeIntoScene( pos ) 
 
     agent = $AI.createAgent(AgentManager::AGENT_STD_NPC, se )
