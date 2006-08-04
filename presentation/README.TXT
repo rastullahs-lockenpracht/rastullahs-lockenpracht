@@ -77,11 +77,18 @@ Was ihr braucht - ein aktuelles DirectX
 3D-Grafikkarte, mindestens eine Geforce3.
 
 
+Es ist Anzumerken, dass es zwei Lösungswege gibt. Diese sind im entscheidenden Dialog
+mit Sonja zu aktivieren, wenn man ihr erzählt, was man von den Dorfbewohnern in Erfahrung
+gebracht hat.
 
 
 ----------------------------------------------------------------
 
 II. Bedienung
+
+    * Maus: Umschauen und drehen
+    * Linke Maustaste: Standardaktion benutzen
+    * Rechte Maustaste: Objekt-Menü aufrufen. (wie Taste U) 
 
     *  W, A, S, D: Bewegen des Helden
     * E,Q: Held drehen
@@ -89,11 +96,6 @@ II. Bedienung
     * SPACE springen
     * CTRL ducken
     * U: Objekt-Menü aufrufen, wenn ein Spielobjekt im Fokus ist. 
-
-
-    * Linke Maustaste: Objekt im Fokus ansehen.
-    * Rechte Maustaste: Objekt-Menü aufrufen. (wie Taste U) 
-
 
     * CTRL-X Spiel beenden.
     * Escape: Zuletzt geöffnetes Fenster wieder schließen. 
@@ -194,9 +196,18 @@ What you need - a up to date DirectX
 (v3.2 http://www.softwarepatch.com/windows/wininstallnt.html) and also a 
 3D-GraphicsCard, at least a Geforce3.
 
+Gamplay-note
+
+There are two ways of solving thins techdemo. When you tell sonja what you've investigated you can choose
+between two rather long dialog-options. These will decide what happens in map2.
+
 ----------------------------------------------------------------
 
 II. Controls
+
+    * Mouse: Look around und turn
+    * Left Mouse: use standard option 
+    * Right Mouse: open object-menu (like U) 
 
 
     *  W, A, S, D: move the hero
@@ -283,7 +294,12 @@ Voice Actors
 
 VII. An appendix for people whose German sucks
 
-If you understand German don't read any further! It will spoil the game!
+We've added an English language-pack. Unpack the english.zip in your Rastullahs Lockenpracht
+directory, it will overwrite the german dialogs and the questbook. Speach and diary are still
+in German, but it is not necassary to "play". 
+
+For better unterstanding, here is walk-through.
+Try to play first and don't read any further! It will spoil the game!
 
 We admit, these time it's a lot of text. If you don't have any German speaking
 person around you, try as following:
