@@ -4,7 +4,7 @@
 <aiml  version="1.0.1"
             xmlns="http://alicebot.org/2001/AIML"
 			xmlns:rldialog="http://team-pantheon.de/projekt/rl/dialog">
-<!-- ================Alles Druiden zerschnetzeln durch das unglaubliche SteinScherePapier ================ -->
+<!-- ================Alles Druiden zerschnetzeln durch das unglaubliche SteinScherePapier üäö================ -->
 	<category>
 		<pattern>1</pattern>
 		<template>
@@ -27,7 +27,7 @@
 		</template>
 	</category>
 
-	<category>
+	 <category>
 	<pattern>11</pattern>
 	<template>
 		<gossip rldialog:type="response">

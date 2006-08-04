@@ -5,7 +5,7 @@
             xmlns="http://alicebot.org/2001/AIML"
 			xmlns:rldialog="http://team-pantheon.de/projekt/rl/dialog">
 
-<!-- ================Begrüßung ================ -->
+<!-- ================BegrÃ¼ÃŸung ================ -->
 
 	<category>
 		<pattern>1</pattern>
@@ -27,7 +27,7 @@
 	</category>
 
 
-<!-- ================Hauptmenü ================ -->	
+<!-- ================HauptmenÃ¼ ================ -->	
 
 	<category>
 		<pattern>11</pattern>
@@ -47,7 +47,7 @@
 						</condition>
 					</li>
 				</condition>
-				<li rldialog:id="alrike043.ogg" rldialog:patternRef ="EXIT"><set type="default" name="sonja_1" value="1"/>I�ll be back later.</li>				
+				<li rldialog:id="alrike043.ogg" rldialog:patternRef ="EXIT"><set type="default" name="sonja_1" value="1"/>I´ll be back later.</li>				
 			</gossip>
 		</template>
 	</category>
@@ -60,7 +60,7 @@
 		<gossip rldialog:type="response">
 			<li rldialog:id="sonja003.ogg">
 				<set type="default" name="sonja_2" value="1"/>
-				Well, it might sound a bit weird but we never had trouble with beasts of prey out of the woods before. For a dog�s age, since I and even my parents have been living here we never had problems with wolves or anything comparable. There�s more to it than meets the eye.
+				Well, it might sound a bit weird but we never had trouble with beasts of prey out of the woods before. For a dog’s age, since I and even my parents have been living here we never had problems with wolves or anything comparable. There’s more to it than meets the eye.
 			</li>
 		</gossip>
 		<srai>11</srai>
@@ -118,7 +118,7 @@
 	<pattern>42</pattern>
 	<template>
 		<gossip rldialog:type="response">
-			<li rldialog:id="sonja009.ogg"><script language="ruby">RulesSubsystem.getSingleton().getQuestBook().addJournalEntry( $tagebuchtexte['retten1'][0], $tagebuchtexte['retten1'][1] );</script><set type="queststate" name="hauptquest2" value="COMPLETED"/><set type="queststate" name="hauptquest42" value="ASSIGNED"/><set type="questknown" name="hauptquest42" value="KNOWN"/>Bei Praios, so soll es sein. Ich glaube ihr sprecht die Wahrheit. Dann solltet ihr euch nun beeilen, und den Mann finden. Habt ihr schon herausfinden können wo er ist?</li>
+			<li rldialog:id="sonja009.ogg"><script language="ruby">RulesSubsystem.getSingleton().getQuestBook().addJournalEntry( $tagebuchtexte['retten1'][0], $tagebuchtexte['retten1'][1] );</script><set type="queststate" name="hauptquest2" value="COMPLETED"/><set type="queststate" name="hauptquest42" value="ASSIGNED"/><set type="questknown" name="hauptquest42" value="KNOWN"/>Bei Praios, so soll es sein. Ich glaube ihr sprecht die Wahrheit. Dann solltet ihr euch nun beeilen, und den Mann finden. Habt ihr schon herausfinden kÃ¶nnen wo er ist?</li>
 		</gossip>
 		<gossip rldialog:type="option">
 			<condition type="queststate" name="aufenthaltsort">
@@ -134,7 +134,7 @@
 	<pattern>431</pattern>
 	<template>
 		<gossip rldialog:type="response">
-			<li rldialog:id="sonja010.ogg"><script language="ruby">RulesSubsystem.getSingleton().getQuestBook().addJournalEntry( $tagebuchtexte['aufenthalt'][0], $tagebuchtexte['aufenthalt'][1] );</script><set type="default" name="sonja_7" value="1"/>In der Tat, ja. Der Pfad beginnt bei den Hügeln gleich hinterm Dorf. Wenn ihr ihn entlanggeht werdet ihr an einen Abzweig gelangen, der auf eine gute Straße führt. Doch nehmt diese nicht sondern geht weiter. Ihr werdet in einen Wald kommen und den Turm schon von weitem sehen.</li>
+			<li rldialog:id="sonja010.ogg"><script language="ruby">RulesSubsystem.getSingleton().getQuestBook().addJournalEntry( $tagebuchtexte['aufenthalt'][0], $tagebuchtexte['aufenthalt'][1] );</script><set type="default" name="sonja_7" value="1"/>In der Tat, ja. Der Pfad beginnt bei den HÃ¼geln gleich hinterm Dorf. Wenn ihr ihn entlanggeht werdet ihr an einen Abzweig gelangen, der auf eine gute StraÃŸe fÃ¼hrt. Doch nehmt diese nicht sondern geht weiter. Ihr werdet in einen Wald kommen und den Turm schon von weitem sehen.</li>
 		</gossip>
 		<gossip rldialog:type="option">
 			<li rldialog:id="alrike043.ogg" rldialog:patternRef ="EXIT">I'll be back later.</li>			

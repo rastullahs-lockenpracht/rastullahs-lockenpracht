@@ -4,7 +4,7 @@
 <aiml  version="1.0.1"
             xmlns="http://alicebot.org/2001/AIML"
 			xmlns:rldialog="http://team-pantheon.de/projekt/rl/dialog">
-<!-- ================Alles Druiden retten ================ -->
+<!-- ================Alles Druiden retten üäö ================ -->
 	<category>
 		<pattern>1</pattern>
 		<template>
@@ -30,8 +30,8 @@
 	</category>
 
 
-	<category>
-	<pattern>11</pattern>
+	 <category>
+	 <pattern>11</pattern>
 	<template>
 		<gossip rldialog:type="response">
 			<li rldialog:id="altermann001.ogg">The poor... people. I didn`t want that to happen; couldn`t do anything... There is a wolf, it, it chases me, restrains me.[A howl from outside arrives the ear]There it is! Please, for the woods , hunt this beast down!</li>
