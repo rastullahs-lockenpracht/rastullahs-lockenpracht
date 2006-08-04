@@ -581,7 +581,7 @@ namespace rl {
 		TimerEventSource( const rl::Date dsaTime, const rl::Date interval = rl::TimerEventSource::NO_REPEAT );
 	
 		void addTimerListener( rl::TimerListener* ist );
-
+        void removeTimerListener( rl::TimerListener* ist );
 	};
 	
 	class TimerEvent
