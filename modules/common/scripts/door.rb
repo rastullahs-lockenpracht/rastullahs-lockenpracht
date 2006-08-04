@@ -13,11 +13,11 @@ class OpenDoorAction < Action
   
   def doAction(door, user, target)    
     doorActor = door.getActor(); 
-    doorActor.getControlledObject().replaceAnimation("zu", "auf", 1.0, 1);
+    
+    #p "call fitToPose for zu"
+	doorActor.getPhysicalThing().fitToPose("zu");
 
-        pt = doorActor.getPhysicalThing();
-        p "call fitToPose for zu"
-		pt.fitToPose("zu");
+    doorActor.getControlledObject().replaceAnimation("zu", "auf", 1.0, 1);
 
     knarzActor = door.getSoundActor();
     knarzActor.getControlledObject().play();
@@ -37,11 +37,11 @@ class CloseDoorAction < Action
   
   def doAction(door, user, target)    
     doorActor = door.getActor();
+   
+    #p "call fitToPose for auf"
+	doorActor.getPhysicalThing().fitToPose("auf");
+
     doorActor.getControlledObject.replaceAnimation("auf", "zu", 1.0, 1); 
-    
-		pt = doorActor.getPhysicalThing();
-        p "call fitToPose for auf"
-		pt.fitToPose("auf");
 
     knarzActor = door.getSoundActor();
     knarzActor.getControlledObject().play();
