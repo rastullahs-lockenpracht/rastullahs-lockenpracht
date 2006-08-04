@@ -64,7 +64,7 @@
 	<pattern>1111</pattern>
 	<template>
 		<system cmd="exit"/>
-		<<script language="ruby" src="ende.rb"/> 
+		<script language="ruby" src="ende.rb"/> 
 	</template>
 	</category>
 
