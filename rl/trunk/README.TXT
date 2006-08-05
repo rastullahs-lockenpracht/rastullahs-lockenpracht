@@ -1,4 +1,32 @@
-Rastullahs Lockenpracht - Readme
+			xxxxxxxxxxxx                        
+                    xxxxxxxxxxxxxxxxxxxx                    
+              xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx              
+          xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx          
+      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx    
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  xxxxxx          xxxxxxxx        xxxxxxxx        xxxxxxxx  
+  xxxxxx          xxxxxxxx        xxxxxxxx          xxxxxx  
+  xxxxxx          xxxxxxxx        xxxxxxxx          xxxxxx  
+  xxxxxx          xxxxxxxx        xxxxxxxx          xxxxxx  
+  xxxxxx          xxxxxxxx        xxxxxxxx          xxxxxx  
+  xxxxxx          xxxxxxxx        xxxxxxxx          xxxxxx  
+  xxxxxx          xxxxxxxx        xxxxxxxx          xxxxxx  
+  xxxxxx          xxxxxxxx        xxxxxxxx          xxxxxx  
+  xxxxxx          xxxxxxxx        xxxxxxxx          xxxxxx  
+  xxxxxx          xxxxxxxx        xxxxxxxx          xxxxxx  
+  xxxxxx          xxxxxxxx        xxxxxxxx          xxxxxx  
+xxxxxxxxxx      xxxxxxxxxx        xxxxxxxxxx      xxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxx www.rastullahs-lockenpracht.de xxxxxxxxxxxxxx
+
+
+
+Rastullahs Lockenpracht Version 0.2[Dharai]
+	Mit einem Szenario nach der Idee von Thomas "zumpi" Bauböck
+	With a scenario based on an idea of Thomas "zumpi" Bauböck
 ----------------------------------------------------------------
 
 
@@ -9,6 +37,7 @@ II.  Bedienung
 III. Kontakt
 IV.  Lizenz
 V.   Bekannte suboptimale Funktionsmerkmale  
+VI.  Credits
 
 ----------------------------------------------------------------
 
@@ -19,7 +48,9 @@ II.  Controls
 III. Contact
 IV.  License
 V.   Known unwanted features
-VI.  An appendix for people whose German sucks
+VI.  Credits
+VII.  An appendix for people whose German sucks
+
 
 
 
@@ -30,38 +61,41 @@ Deutsch
 
 I. Was ist das?
 
-Dies ist die erste Tech-Demo von "Rastullahs Lockenpracht". Das von deutschen
+Dies ist die zweite Tech-Demo von "Rastullahs Lockenpracht". Das von deutschen
 und österreichischen Entwickler, dem Team Pantheon, getragene Hobbyprojekt soll
 einmal die Plattform für vollwertige Computer-Rollenspiele nach den Regeln der
 vierten Edition des deutschen Rollenspiel-Systems "Das Schwarze Auge"
 (eingetragenes Warenzeichen der Fantasy Productions GmbH) bieten.
 
 Diese Demonstration führt den Nachweis, dass die Implementierung einiger
-notwendiger (Grund)Funktionen bereits gelungen ist.
+gängiger Funktionen bereits gelungen ist.
 
 Was ihr braucht - ein aktuelles DirectX
-(http://download.microsoft.com/download/a/6/1/a6153887-2fe7-4dab-88c4-4da642909b9e/directx_9c_Apr05sdk_redist.exe)
+(http://download.microsoft.com/download/3/9/7/3972f80c-5711-4e14-9483-959d48a2d03b/directx_apr2006_redist.exe)
 , einen aktuellen MicrosoftInstaller 
 (v3.2 http://www.softwarepatch.com/windows/wininstallnt.html) sowie eine 
 3D-Grafikkarte, mindestens eine Geforce3.
 
 
+Es ist Anzumerken, dass es zwei Lösungswege gibt. Diese sind im entscheidenden Dialog
+mit Sonja zu aktivieren, wenn man ihr erzählt, was man von den Dorfbewohnern in Erfahrung
+gebracht hat.
 
 
 ----------------------------------------------------------------
 
 II. Bedienung
 
+    * Maus: Umschauen und drehen
+    * Linke Maustaste: Standardaktion benutzen
+    * Rechte Maustaste: Objekt-Menü aufrufen. (wie Taste U) 
+
     *  W, A, S, D: Bewegen des Helden
     * E,Q: Held drehen
     * Shift: "Rennen", also schnellere Bewegungen
     * SPACE springen
+    * CTRL ducken
     * U: Objekt-Menü aufrufen, wenn ein Spielobjekt im Fokus ist. 
-
-
-    * Linke Maustaste: Objekt im Fokus ansehen.
-    * Rechte Maustaste: Objekt-Menü aufrufen. (wie Taste U) 
-
 
     * CTRL-X Spiel beenden.
     * Escape: Zuletzt geöffnetes Fenster wieder schließen. 
@@ -80,6 +114,7 @@ II. Bedienung
     * T: 'Mit der Maus auf Objekte zielen können'-Modus (Wichtig für kleine
 	  Dinge.)
     * C: Charakter-Bildschirm ansehen
+    * I: Inventar einsehen
     * O: Aktuellen Status des Helden anzeigen
     * J: Bekannte Quests anzeigen 
 
@@ -89,9 +124,12 @@ II. Bedienung
 III. Kontakt
 
 Für weitere Informationen, Bug Reports, Anregungen und Ideen bitte auf
-http://www.team-pantheon.de/projekt oder im irc-Chat #pantheon im Quakenet
+http://www.rastullahs-lockenpracht.de oder im irc-Chat #pantheon im Quakenet
 melden.
 
+Wir freuen uns diesmal auch insbesondere über Performance-Berichte - also,
+ob eure Maschinen an bestimmten Stellen einbrachen, ob es sogar zu Abstürzen
+kam etc.
 
 ----------------------------------------------------------------
 
@@ -109,18 +147,27 @@ IV. Lizenz
 
 V. Bekannte suboptimale Funktionsmerkmale
 
-- die Animationen passen nicht
+- die Animationen haben noch keine Übergänge
 - die Physik (Fallen, Springen) ist unrealistisch
 - die Kamera ist nur bedingt für das Innere von Gebäuden geeignet
 - die Position der Kamera in der First-Person-View ist falsch
-- unter Umständen kommt die Kamera ins Zittern
-- die Bilder in Dialog und Truheninhalt sind falsch und falsch skaliert
-- Türen schweben nicht in Felshöhlen herum
-- die Spinne ist durchlässig
-- der Vogel bewegt sich zu langsam
-- das Herauskommen aus der Höhle ist ein bisschen hakelig
-- man kann vom Rand fallen
+- Wasserflächen lassen sich nicht betreten (bzw. beschwimmen)
+- außerdem drehen sie sich nicht um, sondern herum, wenn man mit ihnen spricht
+- die Namen werden schon angezeigt, obwohl die Spielerheldin sie nicht kennt
 
+----------------------------------------------------------------
+
+VI. Credits
+
+Programmierung & Inhalt
+	Team Pantheon - http://www.team-pantheon.de
+
+Die Sprecher
+	Julia Cramer		Alrike, Stadtgardistin aus Wandleth
+	Anna Stijohann		Sonja, Dorferste
+	Magnus Cosmas Piontek	Jarn, Schuster
+	Sven Gey		Wolfram, Dichter
+	Sven Gey		Der Alte Mann, aus dem Wald
 
 ----------------------------------------------------------------
 
@@ -133,31 +180,42 @@ English
 I. What is this?
 
 
-This is the first techdemo of "Rastullahs Lockenpracht" ("Rastullah's Gorgeous
+This is the second techdemo of "Rastullahs Lockenpracht" ("Rastullah's Gorgeous
 Head of Curls"). The hobby project of Team Pantheon (some German,
-Austrian and even Bavarian developers) should be the basis for complete PC-RPGs
-following the rules of the German system "Das Schwarze Auge" ("The Dark Eye") in
-a not further specified future.
+Austrian and even Bavarian developers) will once be the base for complete PC-RPGs
+following the rules of the german role-playing system "Das Schwarze Auge" 
+("The Dark Eye").
 
-This demo is the proof, that the implementation of some necessary basic
+This demo is the proof, that the implementation of some usual
 functionality is already done.
 
 
 What you need - a up to date DirectX
-(http://download.microsoft.com/download/a/6/1/a6153887-2fe7-4dab-88c4-4da642909b9e/directx_9c_Apr05sdk_redist.exe)
+(http://download.microsoft.com/download/3/9/7/3972f80c-5711-4e14-9483-959d48a2d03b/directx_apr2006_redist.exe)
 ,  a up to date MicrosoftInstaller 
-(v3.2 http://www.softwarepatch.com/windows/wininstallnt.html) and also a 
+(v3.1.2 http://www.softwarepatch.com/windows/wininstallnt.html) and also a 
 3D-GraphicsCard, at least a Geforce3.
+
+Gamplay-note
+
+There are two ways of solving thins techdemo. When you tell Sonja what you've 
+investigated you can choose between two rather long dialog-options. These will 
+decide what happens in the second map.
 
 ----------------------------------------------------------------
 
 II. Controls
+
+    * Mouse: Look around und turn
+    * Left Mouse: use standard option 
+    * Right Mouse: open object-menu (like U) 
 
 
     *  W, A, S, D: move the hero
     * E,Q: turn the hero
     * Shift: "run", faster movements
     * SPACE jump
+    * CTRL duck
     * U: open object-menu, if an object is focused 
 
 
@@ -181,6 +239,7 @@ II. Controls
     * L: show collision proxies
     * T: 'Aim with mouse at objects'-Mode (important for tiny objects)
     * C: open character screen
+    * I: open inventory
     * O: show state of the hero
     * J: show known quests 
 
@@ -188,8 +247,11 @@ II. Controls
 
 III. Contact
 
-For further information, please visit http://www.team-pantheon.de/projekt or the
+For further information, please visit http://www.rastullahs-lockenpracht.de or the
 irc-Channel #pantheon at quakenet.
+
+This time, we are keen on performance reports - if your machines slowed down at
+specific points, if there were system crashs and so on.
 
 ----------------------------------------------------------------
 
@@ -208,33 +270,69 @@ IV. License
 
 V. Known unwanted features
 
-- Animations don't fit.
-- Physics (falling, jumping) is off.
 - Camera doesn't work correctly inside buildings.
+- Physics (falling, jumping) is off.
 - Position of the camera in first-person-view is off.
-- Occasional camera jitter.
-- Images in dialog and chest content are wrong and don't fit.
-- Usually, doors don't fload in caves
-- The spider's collision body doesn't fit
-- The bird moves too slow
-- The cave entrance is invisibly obstacled. Leaving it is difficult.
-- You can fall from the map's edge
+- You cannot walk into (or on) the water
+- The names of the characters are shown to you, even if your character
+does not know them
 
 ----------------------------------------------------------------
 
-VI. An appendix for people whose German sucks
+VI. Credits
 
-Near the house, you'll find the white dressed guy. He can give you some useful
-information, unfortunately, he'll do that in German.
+Programming & Contentdesign
+	Team Pantheon - http://www.team-pantheon.de
 
-So just try the first option. He asks you to kill a huge spider on the other
-bank. Just try it. The beast suffers from a weak heart!
+Voice Actors
+	Julia Cramer		Alrike, guard from the town Wandleth
+	Anna Stijohann		Sonja, mayor
+	Magnus Cosmas Piontek	Jarn, cobbler
+	Sven Gey		Wolfram, poet
+	Sven Gey		old, mysterious man from the woods.
 
-When you're done with it, return to the white dressed guy and choose the third option.
-Now the rocks at the upper end of the path to the mountain will act
-different than before. Go there and see yourself... 
-There you will find and use a lever, a torch in a chest and, behind a door, a healing-potion.
-All this completes a little quest which is used as a plot.
+----------------------------------------------------------------
+
+VII. An appendix for people whose German sucks
+
+We've added an English language-pack. Unpack the english.zip in your Rastullahs Lockenpracht
+directory, it will overwrite the german dialogs and the questbook. Speach and diary are still
+in German, but it is not necassary to "play". 
+
+For better unterstanding, here is walk-through.
+Try to play first and don't read any further! It will spoil the game!
+
+We admit, these time it's a lot of text. If you don't have any German speaking
+person around you, try as following:
+
+First, you should talk to the woman standing at the fountain - just try every answer, you
+cannot go wrong. Be aware of "Ich komme später wieder" which simple means to end the dialog, only
+choose this if nothing else is avaible.
+She asks you to talk to the three other guys in the village, so you do.
+One is a bit off the village, surrounded by trees, the other one is in a house.
+
+One of them gives you a package. Search the house door to which you can talk("Wolframs Tür").
+When you choose the first question, the owner should open the door. Talk to him, too, there are
+no wrong choices.
+
+Then, again, talk to the woman. She will ask you for your opinion. Careful, your
+answer will decide which way the events take further on! If you have the option to choose
+from two rather long dialog-choices you can alter the Game Ending.
+The first one will let you go on to seek and kill an mysterious man in the woods,
+the second one will let you rescue yet another version of this man. 
+
+However, just choose one option, click trough the remaining dialog an leave the village to go
+to the path through the hills, it will be easy to find. After a short loading you will be in a forest.
+
+If you've chosen option one (see above) you can, optionally, "kill" four wolves by clicking right mouse button
+and choosing the "Dot" option. Go ahead an you will reach a tower, go in, up the stairs and "kill" the man by
+speaking to him. Just choose, again, all options. (we're working on that :) )
+After that you can return to the point where you entered the forest an speak to the woman who already awaits you.
+She will thank you for rescueing the village and you will return to the main menu. That's all, folks.
+
+If you've chosen the second option just go ahead to the tower and speak to the old man who will be in his bed.
+He asks you to kill four wolves which besieges the tower (and they appear immediatly!). Kill them by the method described
+above. No you can return to the woman, too, and get to the end.
 
 This is a good german -> english translator:
   http://dict.leo.org/?lang=en&lp=ende&search=
