@@ -148,12 +148,16 @@ IV. Lizenz
 V. Bekannte suboptimale Funktionsmerkmale
 
 - die Animationen haben noch keine Übergänge
+- Animationen sind nicht an die Bewergungsgeschwindigkeit angepasst ("Schweben")
 - die Physik (Fallen, Springen) ist unrealistisch
 - die Kamera ist nur bedingt für das Innere von Gebäuden geeignet
 - die Position der Kamera in der First-Person-View ist falsch
 - Wasserflächen lassen sich nicht betreten (bzw. beschwimmen)
-- außerdem drehen sie sich nicht um, sondern herum, wenn man mit ihnen spricht
+- Seltsames Drehverhalten der NSCs
 - die Namen werden schon angezeigt, obwohl die Spielerheldin sie nicht kennt
+- NSCs lassen sich durch Hauswände hindurch selektieren
+- Soundeffekte werden manchmal zu schnell oder zu langsam abgespielt
+
 
 ----------------------------------------------------------------
 
@@ -274,8 +278,12 @@ V. Known unwanted features
 - Physics (falling, jumping) is off.
 - Position of the camera in first-person-view is off.
 - You cannot walk into (or on) the water
+- NPCs Dialog (turn and camera) Behaviour
 - The names of the characters are shown to you, even if your character
 does not know them
+- NPCs can be selected through walls and doors.
+- Sound effects are sometimes too fast or too slow
+- Animations are'nt synchron with speed of movement ("floating")
 
 ----------------------------------------------------------------
 
