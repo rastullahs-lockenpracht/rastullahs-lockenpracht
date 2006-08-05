@@ -68,7 +68,6 @@ namespace rl
 
 		Item* trank = ItemManager::getSingleton().createItem("Heiltrank");
 		addItem(trank);
-
 		
 		Item* kurzschwert = ItemManager::getSingleton().createItem("Kurzschwert");
 		addItem(kurzschwert);
@@ -101,14 +100,11 @@ namespace rl
 	Inventory::~Inventory() 
 	{
 		// Lösche Alle Objekte aus dem Rucksack
-		/*for (unsigned int x = 0; x < mBackpackLayout.size(); x++){
-			for (unsigned int y = 0; y < mBackpackLayout[0].size(); y++){
-				if (mBackpackLayout[x][y] != NULL){
-					delete mBackpackLayout[x][y];
-				}
-			}
-		}
-		*/
+        ItemList items = getAllItems();
+        for (ItemList::iterator it = items.begin(); it != items.end(); ++it)
+        {
+            ItemManager::getSingleton().deleteItem((*it)->getId());
+        }
 	}
 
 	
