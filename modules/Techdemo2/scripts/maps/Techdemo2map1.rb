@@ -22,9 +22,9 @@ $SCRIPT.log("Tageslicht erstellt.");
 
 
 $SCRIPT.log("Türen einsetzen");
-door1 = Door.new("Eine Tür links", "Eine Holztür", [-12.9124, -6.86492, 13.7133], [0, -120, 0], "arc_door_02.mesh");
+door1 = Door.new("Haustuer", "Eine Holztür", [-12.9124, -6.86492, 13.7133], [0, -120, 0], "arc_door_02.mesh");
 door1.addActions(false, true)
-door2 = Door.new("Noch eine Tür links", "Eine Holztür", [-34.6458, -6.2058, 14.9355], [0, -212.5, 0], "arc_door_02.mesh");
+door2 = Door.new("Jarns Tuer", "Eine Holztür", [-34.6458, -6.2058, 14.9355], [0, -212.5, 0], "arc_door_02.mesh");
 door2.addActions(false, true)
 $SCRIPT.log("Türen gesetzt");
 
