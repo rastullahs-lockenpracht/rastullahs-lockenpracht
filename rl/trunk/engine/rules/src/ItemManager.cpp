@@ -90,21 +90,22 @@ namespace rl {
 
 	void ItemManager::deleteItem(int id)
 	{
-		// Iteriere durch Items im Spiel
-		ItemsInGame::iterator it = mItems.begin();
-		Item* toRemove = NULL;
+		ItemsInGame::iterator it = mItems.find(id);
 
-		while (it != mItems.end())
+		if (it != mItems.end())
 		{
-			if ((*it).second->getId() == id)
-			{
-				toRemove = (*it).second;
-				break;
-			}
-			it++;
+            Item* item = it->second;
+            if (item->getActor())
+            {
+                ActorManager::getSingleton().destroyActor(item->getActor());
+            }
+	    	delete item;
 		}
-		// TODO: MeshActor zerstören
-		delete toRemove;
+        else
+        {
+            Throw(IllegalArgumentException,
+                String("No item with ID ") + StringConverter::toString(id) + " found.");
+        }
 	}
 
 	void ItemManager::_addItem(rl::Item *item)
