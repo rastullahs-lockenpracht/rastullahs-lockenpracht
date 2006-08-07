@@ -57,7 +57,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="RlCommon.lib RlCore.lib RlMultimedia.lib RlUi.lib OgreMain_d.lib ceguibase_d.lib OpenAL32.lib"
+				AdditionalDependencies="RlCommon.lib RlCore.lib RlMultimedia.lib RlUi.lib OgreMain_d.lib ceguibase_d.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;..\..\engine\common\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\core\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\multimedia\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\ui\lib\$(ConfigurationName)&quot;;..\..\dependencies\boost\lib;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\OpenAL\libs\Win32"
 				ModuleDefinitionFile="OpenALDriverDllExports.def"
@@ -130,7 +130,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="RlCommon.lib RlCore.lib RlMultimedia.lib RlUi.lib OgreMain.lib ceguibase.lib OpenAL32.lib"
+				AdditionalDependencies="RlCommon.lib RlCore.lib RlMultimedia.lib RlUi.lib OgreMain.lib ceguibase.lib"
 				OutputFile="$(OutDir)\$(ProjectName).dll"
 				AdditionalLibraryDirectories="&quot;..\..\engine\common\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\core\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\multimedia\lib\$(ConfigurationName)&quot;;&quot;..\..\engine\ui\lib\$(ConfigurationName)&quot;;..\..\dependencies\boost\lib;&quot;..\..\dependencies\ogrenew\OgreMain\lib\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\OpenAL\libs\Win32"
 				ModuleDefinitionFile="OpenALDriverDllExports.def"
@@ -170,31 +170,31 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\src\OalDriver.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\OalListener.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\OalSoundChannel.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\OalSoundSample.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\OalSoundStream.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\OpenALConfig.cpp"
 				>
 			</File>
 			<File
+				RelativePath=".\src\OpenALDriver.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\OpenALDriverDllMain.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\OpenALListener.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\OpenALSoundChannel.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\OpenALSoundSample.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\OpenALSoundStream.cpp"
 				>
 			</File>
 		</Filter>
@@ -204,31 +204,31 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\include\OalDriver.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\OalListener.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\OalSoundChannel.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\OalSoundSample.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\OalSoundStream.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\OpenALConfig.h"
 				>
 			</File>
 			<File
+				RelativePath=".\include\OpenALDriver.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\OpenALDriverPrerequisites.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\OpenALListener.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\OpenALSoundChannel.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\OpenALSoundSample.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\OpenALSoundStream.h"
 				>
 			</File>
 		</Filter>

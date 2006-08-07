@@ -16,21 +16,24 @@
 #ifndef _OpenALConfig_H_
 #define _OpenALConfig_H
 
-#include "SoundDriverConfigWindow.h"
-#include "OalDriver.h"
+#include "SoundDriverConfigComponent.h"
+#include "OpenALDriver.h"
 
 namespace rl {
 
-	class OpenALConfig : public SoundDriverConfigWindow
+	class OpenALConfig : public SoundDriverConfigComponent
 	{
 	public:
-		OpenALConfig(OalDriver* driver);
+		OpenALConfig(OpenALDriver* driver);
 		~OpenALConfig();
 
-		OalDriver* getDriver();
+		virtual OpenALDriver* getDriver() const;
+
+        virtual void apply();
+        virtual void resetToDefaults();
 
 	private:
-		OalDriver* mDriver;
+		OpenALDriver* mDriver;
 	};
 }
 

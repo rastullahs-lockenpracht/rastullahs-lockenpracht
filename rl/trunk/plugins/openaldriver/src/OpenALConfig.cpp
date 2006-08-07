@@ -17,8 +17,8 @@
 
 namespace rl {
 
-	OpenALConfig::OpenALConfig(OalDriver* driver)
-		:   SoundDriverConfigWindow("openal.xml"),
+	OpenALConfig::OpenALConfig(OpenALDriver* driver)
+		:   SoundDriverConfigComponent("openal.xml"),
 			mDriver(driver)
 	{
 	}
@@ -27,8 +27,16 @@ namespace rl {
 	{
 	}
 
-	OalDriver* OpenALConfig::getDriver()
+	OpenALDriver* OpenALConfig::getDriver() const
 	{
 		return mDriver;
 	}
+
+    void OpenALConfig::apply()
+    {
+    }
+
+    void OpenALConfig::resetToDefaults()
+    {
+    }
 }

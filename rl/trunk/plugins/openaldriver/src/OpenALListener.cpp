@@ -13,11 +13,11 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#include "OalListener.h"
+#include "OpenALListener.h"
 
 using namespace Ogre;
 
-Ogre::String rl::OalListener::msMovableType = "OalListener";
+Ogre::String rl::OpenALListener::msMovableType = "OpenALListener";
 
 namespace rl {
  
@@ -27,7 +27,7 @@ namespace rl {
  * @author JoSch
  * @date 03-12-2005
  */
-OalListener::OalListener(const String &name):
+OpenALListener::OpenALListener(const String &name):
     ListenerMovable(name)
 {
 }
@@ -36,7 +36,7 @@ OalListener::OalListener(const String &name):
  * @author JoSch
  * @date 03-12-2005
  */
-OalListener::~OalListener()
+OpenALListener::~OpenALListener()
 {
 }
 
@@ -46,7 +46,7 @@ OalListener::~OalListener()
  * @date 03-11-2005
  * @return Den Objekttypen
  */
-const String& OalListener::getMovableType() const
+const String& OpenALListener::getMovableType() const
 {
     return msMovableType;
 }
@@ -58,7 +58,7 @@ const String& OalListener::getMovableType() const
  * @author JoSch
  * @date 03-16-2005
  */
-void OalListener::setOrientation(const Quaternion &orientation)
+void OpenALListener::setOrientation(const Quaternion &orientation)
 {
     ListenerMovable::setOrientation(orientation);
     if (isActive())
@@ -72,7 +72,7 @@ void OalListener::setOrientation(const Quaternion &orientation)
  * @author JoSch
  * @date 03-16-2005
  */
-void OalListener::setPosition(const Vector3& position)
+void OpenALListener::setPosition(const Vector3& position)
 {
     ListenerMovable::setPosition(position);
     if (isActive())
@@ -85,7 +85,7 @@ void OalListener::setPosition(const Vector3& position)
  * @author JoSch
  * @date 03-16-2005
  */
-void OalListener::setVelocity(const Vector3& velocity)
+void OpenALListener::setVelocity(const Vector3& velocity)
 {
     mVelocity = velocity;
     if (isActive())
@@ -98,7 +98,7 @@ void OalListener::setVelocity(const Vector3& velocity)
  * @author JoSch
  * @date 03-16-2005
  */
-void OalListener::setGain(const int gain)
+void OpenALListener::setGain(const int gain)
 {
     ListenerMovable::setGain(gain);
     if (isActive())

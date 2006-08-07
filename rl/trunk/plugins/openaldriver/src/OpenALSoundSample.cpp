@@ -13,10 +13,10 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#include "OalSoundSample.h"
+#include "OpenALSoundSample.h"
 
-#include "OalDriver.h"
-#include "OalSoundChannel.h"
+#include "OpenALDriver.h"
+#include "OpenALSoundChannel.h"
 #include "SoundManager.h"
 #include "SoundResource.h"
 
@@ -25,14 +25,12 @@ using namespace boost;
 
 namespace rl {
  
-String OalSoundSample::msMovableType = "OalSoundSample";
-
 /**
  * @param name Der Name des Sounds.
  * @author JoSch
  * @date 07-04-2005
  */
-OalSoundSample::OalSoundSample(OalDriver* driver, const SoundResourcePtr &soundres):
+OpenALSoundSample::OpenALSoundSample(OpenALDriver* driver, const SoundResourcePtr &soundres):
     Sound(soundres),
 	mDriver(driver)
 {
@@ -42,27 +40,16 @@ OalSoundSample::OalSoundSample(OalDriver* driver, const SoundResourcePtr &soundr
  * @author JoSch
  * @date 07-04-2005
  */
-OalSoundSample::~OalSoundSample()
+OpenALSoundSample::~OpenALSoundSample()
 {
     unload();
-}
-
-
-/**
- * @author JoSch
- * @date 03-11-2005
- * @return Den Objekttypen
- */
-const String& OalSoundSample::getMovableType() const
-{
-    return msMovableType;
 }
 
 /**
  * @author JoSch
  * @date 07-12-2005
  */
-void OalSoundSample::load() throw (RuntimeException)
+void OpenALSoundSample::load() throw (RuntimeException)
 {
     getSoundResource()->load();
 }
@@ -71,7 +58,7 @@ void OalSoundSample::load() throw (RuntimeException)
  * @author JoSch
  * @date 07-22-2005
  */
-void OalSoundSample::unload() throw (RuntimeException)
+void OpenALSoundSample::unload() throw (RuntimeException)
 {
     getSoundResource()->unload(); // TODO Ist das wirklich nötig?
 }
@@ -81,7 +68,7 @@ void OalSoundSample::unload() throw (RuntimeException)
  * @author JoSch
  * @date 07-12-2005
  */
-bool OalSoundSample::isValid() const throw (RuntimeException)
+bool OpenALSoundSample::isValid() const throw (RuntimeException)
 {
     return true;
 }
@@ -91,23 +78,23 @@ bool OalSoundSample::isValid() const throw (RuntimeException)
  * @author JoSch
  * @date 08-08-2005
  */
-SoundChannel *OalSoundSample::createChannel() throw (RuntimeException)
+SoundChannel *OpenALSoundSample::createChannel() throw (RuntimeException)
 {
 	if (mChannel == NULL)
 	{
-		mChannel = new OalSoundChannel(mDriver, this, getName());
+		mChannel = new OpenALSoundChannel(mDriver, this, getName());
 	}
     return mChannel; 
 }
 
-float OalSoundSample::getLength() const
+float OpenALSoundSample::getLength() const
 {
 	return mChannel->getLength();
 }
 
-void OalSoundSamplePtr::destroy()
+void OpenALSoundSamplePtr::destroy()
 {
-    SharedPtr<OalSoundSample>::destroy();
+    SharedPtr<OpenALSoundSample>::destroy();
 }
 
 } // Namespace

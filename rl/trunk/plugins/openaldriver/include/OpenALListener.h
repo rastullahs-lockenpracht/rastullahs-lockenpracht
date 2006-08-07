@@ -13,8 +13,8 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#ifndef __OalListener_H__
-#define __OalListener_H__
+#ifndef __OpenALListener_H__
+#define __OpenALListener_H__
 
 #include "OpenALDriverPrerequisites.h"
 #include "ListenerMovable.h"
@@ -29,7 +29,7 @@ namespace rl {
     * @version 1.0
     * @version 2.0
     */
-    class _RlOpenALDriverExport OalListener : public ListenerMovable
+    class _RlOpenALDriverExport OpenALListener : public ListenerMovable
     {
     private:
         /// Der Name des ListenerMovable
@@ -41,9 +41,9 @@ namespace rl {
 
     public:
         /// Konstruktor
-        OalListener(const Ogre::String& name);
+        OpenALListener(const Ogre::String& name);
         /// Destruktor
-        virtual ~OalListener();
+        virtual ~OpenALListener();
         /// Moveable-Typ
         virtual const Ogre::String& getMovableType() const;
     

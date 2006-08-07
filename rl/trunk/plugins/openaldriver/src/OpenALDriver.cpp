@@ -13,28 +13,28 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-#include "OalDriver.h"
+#include "OpenALDriver.h"
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
     // OpenAL 1.1 unter Windows
-	extern "C" {
-		#include "al.h"
-		#include "alc.h"
-	}
-#else
-    // OpenAL 1.0 unter Linux
-	extern "C" {
-		#include "AL/al.h"
-		#include "AL/alc.h"
-	}
+//	extern "C" {
+//		#include "al.h"
+//		#include "alc.h"
+//	}
+//#else
+//    // OpenAL 1.0 unter Linux
+//	extern "C" {
+//		#include "AL/al.h"
+//		#include "AL/alc.h"
+//	}
 #endif
 
-#include "OalSoundSample.h"
-#include "OalSoundStream.h"
-#include "OalSoundChannel.h"
-#include "OalListener.h"
+#include "OpenALSoundSample.h"
+#include "OpenALSoundStream.h"
+#include "OpenALSoundChannel.h"
+#include "OpenALListener.h"
 
-rl::CeGuiString rl::OalDriver::NAME = "OpenAL";
+Ogre::String rl::OpenALDriver::NAME = "OpenAL";
 
 namespace rl
 {
@@ -44,7 +44,7 @@ namespace rl
  * @author JoSch
  * @date 12-23-2005
  */
-OalDriver::OalDriver(Ogre::ResourceManager* soundResourceManager)
+OpenALDriver::OpenALDriver(Ogre::ResourceManager* soundResourceManager)
 : SoundDriver(soundResourceManager)
 {
 }
@@ -54,7 +54,7 @@ OalDriver::OalDriver(Ogre::ResourceManager* soundResourceManager)
  * @author JoSch
  * @date 12-23-2005
  */
-OalDriver::~OalDriver()
+OpenALDriver::~OpenALDriver()
 {
 }
 
@@ -64,53 +64,53 @@ OalDriver::~OalDriver()
  * @author JoSch
  * @date 12-23-2005
  */
-bool OalDriver::isDriverAvailable()
+bool OpenALDriver::isDriverAvailable()
 {
-    try {
-        // Clear error code
-        alGetError();
-        ALCdevice *device = alcOpenDevice(0);
-        
-        if (device == 0)
-        {
-            return false;
-        }
-        
-        //Create context(s)
-        ALCcontext *context = alcCreateContext(device, 0);
-        //Set active context
-        alcMakeContextCurrent(context);
-        // Get Error Code
-        ALenum success = alGetError();
-        //Disable context
-        alcMakeContextCurrent(0);
-        //Release context(s)
-        alcDestroyContext(context);
-        //Close device
-        alcCloseDevice(device);
-        
-        return (success == AL_NO_ERROR);
-    } catch (...)
-    {
+    //try {
+    //    // Clear error code
+    //    alGetError();
+    //    ALCdevice *device = alcOpenDevice(0);
+    //    
+    //    if (device == 0)
+    //    {
+    //        return false;
+    //    }
+    //    
+    //    //Create context(s)
+    //    ALCcontext *context = alcCreateContext(device, 0);
+    //    //Set active context
+    //    alcMakeContextCurrent(context);
+    //    // Get Error Code
+    //    ALenum success = alGetError();
+    //    //Disable context
+    //    alcMakeContextCurrent(0);
+    //    //Release context(s)
+    //    alcDestroyContext(context);
+    //    //Close device
+    //    alcCloseDevice(device);
+    //    
+    //    return (success == AL_NO_ERROR);
+    //} catch (...)
+    //{
         return false;
-    }
+    //}
 }
 
 /** 
- * Starte den Nulltreiber und mache alle Initialisierung.
+ * Starte den Treiber und mache alle Initialisierung.
  * @author JoSch
  * @date 12-23-2005
  */
-void OalDriver::init()
+void OpenALDriver::initialize()
 {
 }
 
 /** 
- * Beeende den Nulltreiber und gebe alle Resourcen frei.
+ * Beeende den Treiber und gib alle Resourcen frei.
  * @author JoSch
  * @date 12-23-2005
  */
-void OalDriver::deInit()
+void OpenALDriver::shutdown()
 {
 }
 
@@ -120,7 +120,7 @@ void OalDriver::deInit()
  * @author JoSch
  * @date 12-23-2005
  */
-CeGuiString OalDriver::getName() const
+Ogre::String OpenALDriver::getName() const
 {
     return NAME;
 }
@@ -130,7 +130,7 @@ CeGuiString OalDriver::getName() const
  * @author JoSch
  * @date 03-06-2006
  */
- void OalDriver::update()
+ void OpenALDriver::update()
  {
  	// Erstmal nichts zu tun.
  }
@@ -141,9 +141,9 @@ CeGuiString OalDriver::getName() const
   * @author JoSch
   * @date 03-06-2006
   */
-Sound *OalDriver::createStream(const SoundResourcePtr &res)
+Sound *OpenALDriver::createStream(const SoundResourcePtr &res)
 {
- 	Sound *sound = new OalSoundStream(this, res);
+ 	Sound *sound = new OpenALSoundStream(this, res);
  	return sound;
 }
 
@@ -153,9 +153,9 @@ Sound *OalDriver::createStream(const SoundResourcePtr &res)
  * @author JoSch
  * @date 03-06-2006
  */
-Sound *OalDriver::createSample(const SoundResourcePtr &res)
+Sound *OpenALDriver::createSample(const SoundResourcePtr &res)
 {
- 	Sound *sound = new OalSoundSample(this, res);
+ 	Sound *sound = new OpenALSoundSample(this, res);
  	return sound;
 }
 
@@ -167,9 +167,9 @@ Sound *OalDriver::createSample(const SoundResourcePtr &res)
  * @author JoSch
  * @date 03-06-2006
  */
-SoundChannel *OalDriver::createChannel(Sound *sound, const Ogre::String &name)
+SoundChannel *OpenALDriver::createChannel(Sound *sound, const Ogre::String &name)
 {
- 	SoundChannel *channel = new OalSoundChannel(this, sound, name);
+ 	SoundChannel *channel = new OpenALSoundChannel(this, sound, name);
     if (sound->is3d())
     {
         channel->setVolume(mDefaultSoundVolume);
@@ -189,9 +189,9 @@ SoundChannel *OalDriver::createChannel(Sound *sound, const Ogre::String &name)
  * @author JoSch
  * @date 04-04-2006
  */
-ListenerMovable *OalDriver::createListener(const Ogre::String &name)
+ListenerMovable *OpenALDriver::createListener(const Ogre::String &name)
 {
-    ListenerMovable *listener = new OalListener(name);
+    ListenerMovable *listener = new OpenALListener(name);
     return listener;
 }
 
@@ -200,7 +200,7 @@ ListenerMovable *OalDriver::createListener(const Ogre::String &name)
  * @author JoSch
  * @date 01-20-2006
  */
-void OalDriver::printData() const
+void OpenALDriver::printData() const
 {
 }
 
@@ -210,7 +210,7 @@ void OalDriver::printData() const
  * @date 05-07-2006
  * @param conf Die Konfigurationdatei zum Schreiben.
  */
-void OalDriver::saveConf(ConfigFile &conf) const
+void OpenALDriver::saveConf(ConfigFile &conf) const
 {
 	SoundDriver::saveConf(conf);
     // DO NOTHING
@@ -222,20 +222,19 @@ void OalDriver::saveConf(ConfigFile &conf) const
  * @date 05-07-2006
  * @param conf Die Konfigurationdatei, aus der gelesen werden soll
  */
-void OalDriver::loadConf(ConfigFile &conf)
+void OpenALDriver::loadConf(ConfigFile &conf)
 {
 	SoundDriver::loadConf(conf);
     // DO NOTHING
 }
 
-/*
- * Den Konfigurationsdialog aufrufen
- * @author JoSch
- * @date 05-07-2006
- */
-void OalDriver::doConfig()
+void OpenALDriver::setRolloffFactor(const Ogre::Real& f)
 {
-    // DO NOTHING
+}
+
+const Ogre::Real OpenALDriver::getRolloffFactor()
+{
+    return 1.0;
 }
 
 }

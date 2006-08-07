@@ -32,19 +32,11 @@ namespace rl
     class Sound;
 	class SoundDriver;
 
-class _RlOpenALDriverExport OalSoundChannel  : public SoundChannel
+class _RlOpenALDriverExport OpenALSoundChannel  : public SoundChannel
 {
-private:
-    /// Shared class-level name for Movable type
-    static Ogre::String msMovableType;
-    /// Fmod-Channel 
-    signed int mChannel;
-    /// Ob der Sound spielt
-    bool mIsPlaying;
-    
 public:
-	OalSoundChannel(SoundDriver* driver, Sound *sound, const Ogre::String &name);
-	virtual ~OalSoundChannel();
+	OpenALSoundChannel(SoundDriver* driver, Sound *sound, const Ogre::String &name);
+	virtual ~OpenALSoundChannel();
     
     /// Moveable-Typ
     virtual const Ogre::String& getMovableType() const;
@@ -60,9 +52,9 @@ public:
     /// Setzt die Position der Soundquelle.
     virtual void setPosition(const Ogre::Vector3& direction);
     /// Gibt die eingestellte relative Lautstaerke der Soundquelle zurueck
-    virtual const unsigned int getVolume() const; 
+    virtual const float getVolume() const; 
     /// Setzt die relative Lautstaerke der Soundquelle.
-    virtual void setVolume(const unsigned int gain);
+    virtual void setVolume(const float gain);
     /// Gibt die Richtung der Soundquelle zurueck.
     virtual const Ogre::Quaternion getDirection() const;
     /// Gibt die Geschwindigkeit der Soundquelle zurueck.
@@ -87,6 +79,15 @@ public:
     
     // Sind wir gueltig
     bool isValid() const;
+
+private:
+    /// Fmod-Channel 
+    signed int mChannel;
+    /// Ob der Sound spielt
+    bool mIsPlaying;
+
+    static Ogre::String msMovableType;
+    
 };
 
 };

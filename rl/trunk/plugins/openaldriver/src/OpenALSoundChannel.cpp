@@ -13,23 +13,23 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#include "OalSoundChannel.h"
+#include "OpenALSoundChannel.h"
 #include "Sound.h"
 
-Ogre::String rl::OalSoundChannel::msMovableType = "OalSoundChannel";
+Ogre::String rl::OpenALSoundChannel::msMovableType = "OpenALSoundChannel";
 
 using namespace Ogre; 
 
 namespace rl
 {
 
-OalSoundChannel::OalSoundChannel(SoundDriver* driver, Sound *sound, const Ogre::String &name)
+OpenALSoundChannel::OpenALSoundChannel(SoundDriver* driver, Sound *sound, const Ogre::String &name)
  : SoundChannel(driver, sound, name),
    mChannel(NO_CHANNEL)
 {   
 }
 
-OalSoundChannel::~OalSoundChannel()
+OpenALSoundChannel::~OpenALSoundChannel()
 {
 }
 
@@ -37,14 +37,14 @@ OalSoundChannel::~OalSoundChannel()
  * @author JoSch
  * @date 07-23-2005
  */
-void OalSoundChannel::play()
+void OpenALSoundChannel::play()
 {
     if (!getSound()->isValid())
     {
         getSound()->load();
     }
     // TODO setChannel(getSound()->createChannel());
-    setVolume(100);
+    setVolume(1.0);
     setPosition(Vector3(0.0, 0.0, 0.0));
     setDirection(Quaternion(0.0, 0.0, 0.0));
     setVelocity(Vector3(0.0, 0.0, 0.0)); 
@@ -56,7 +56,7 @@ void OalSoundChannel::play()
  * @date 07-04-2005
  * @return Der Soundkanal
  */
-const signed int OalSoundChannel::getChannel() const
+const signed int OpenALSoundChannel::getChannel() const
 {
     return mChannel;
 }
@@ -66,12 +66,12 @@ const signed int OalSoundChannel::getChannel() const
  * @date 07-21-2005
  * @param channel Der Soundkanal
  */
-void OalSoundChannel::setChannel(signed int channel)
+void OpenALSoundChannel::setChannel(signed int channel)
 {
     mChannel = channel;
 }
 
-float OalSoundChannel::getLength() const
+float OpenALSoundChannel::getLength() const
 {
 	return 0.0;
 }
@@ -81,7 +81,7 @@ float OalSoundChannel::getLength() const
  * @date 03-11-2005
  * @return Den Objekttypen
  */
-const String& OalSoundChannel::getMovableType() const
+const String& OpenALSoundChannel::getMovableType() const
 {
     return msMovableType;
 }
@@ -92,7 +92,7 @@ const String& OalSoundChannel::getMovableType() const
  * @author JoSch
  * @date 07-23-2004
  */
-const Quaternion OalSoundChannel::getDirection() const
+const Quaternion OpenALSoundChannel::getDirection() const
 {
     return mDirection;
 }
@@ -102,7 +102,7 @@ const Quaternion OalSoundChannel::getDirection() const
  * @author JoSch
  * @date 07-23-2004
  */
-void OalSoundChannel::setDirection (const Quaternion& direction)
+void OpenALSoundChannel::setDirection (const Quaternion& direction)
 {
     mDirection = direction;
 }
@@ -112,7 +112,7 @@ void OalSoundChannel::setDirection (const Quaternion& direction)
  * @author JoSch
  * @date 08-05-2005
  */
-bool OalSoundChannel::isValid() const
+bool OpenALSoundChannel::isValid() const
 {
     return true;
 }
@@ -122,7 +122,7 @@ bool OalSoundChannel::isValid() const
  * @author JoSch
  * @date 07-04-2005
  */
-const bool OalSoundChannel::isPlaying() const
+const bool OpenALSoundChannel::isPlaying() const
 {
     return mIsPlaying;
 }
@@ -133,7 +133,7 @@ const bool OalSoundChannel::isPlaying() const
  * @author JoSch
  * @date 07-04-2005
  */
-const Vector3 OalSoundChannel::getPosition() const
+const Vector3 OpenALSoundChannel::getPosition() const
 {
     return mPosition;
 }
@@ -143,7 +143,7 @@ const Vector3 OalSoundChannel::getPosition() const
  * @author JoSch
  * @date 07-04-2005
  */
-void OalSoundChannel::setPosition(const Vector3& position)
+void OpenALSoundChannel::setPosition(const Vector3& position)
 {
     mPosition = position;
 }
@@ -153,7 +153,7 @@ void OalSoundChannel::setPosition(const Vector3& position)
  * @author JoSch
  * @date 07-04-2005
  */
-const Vector3 OalSoundChannel::getVelocity() const
+const Vector3 OpenALSoundChannel::getVelocity() const
 {
     return mVelocity;
 }
@@ -163,7 +163,7 @@ const Vector3 OalSoundChannel::getVelocity() const
  * @author JoSch
  * @date 07-04-2005
  */
-void OalSoundChannel::setVelocity(const Vector3& velocity)
+void OpenALSoundChannel::setVelocity(const Vector3& velocity)
 {
     mVelocity = velocity;
 }
@@ -173,7 +173,7 @@ void OalSoundChannel::setVelocity(const Vector3& velocity)
  * @author JoSch
  * @date 07-04-2005
  */
-const unsigned int OalSoundChannel::getVolume() const
+const float OpenALSoundChannel::getVolume() const
 {
     return mVolume;
 }
@@ -183,7 +183,7 @@ const unsigned int OalSoundChannel::getVolume() const
  * @author JoSch
  * @date 07-04-2005
  */
-void OalSoundChannel::setVolume(const unsigned int gain)
+void OpenALSoundChannel::setVolume(const float gain)
 {
     mVolume = gain;
 }
@@ -193,7 +193,7 @@ void OalSoundChannel::setVolume(const unsigned int gain)
  * @author JoSch
  * @date 07-04-2005
  */
-void OalSoundChannel::pause(bool pausing)
+void OpenALSoundChannel::pause(bool pausing)
 {
     mIsPlaying = !pausing;
 }
@@ -202,7 +202,7 @@ void OalSoundChannel::pause(bool pausing)
  * @author JoSch
  * @date 07-23-2004
  */
-void OalSoundChannel::stop()
+void OpenALSoundChannel::stop()
 {
     mIsPlaying = false;
 }
@@ -212,7 +212,7 @@ void OalSoundChannel::stop()
  * @author JoSch
  * @date 07-04-2005
  */
-bool OalSoundChannel::isPaused()
+bool OpenALSoundChannel::isPaused()
 {
     return !mIsPlaying;
 }

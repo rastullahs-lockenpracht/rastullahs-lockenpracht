@@ -13,8 +13,8 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#ifndef __OalSoundSample_H__
-#define __OalSoundSample_H__
+#ifndef __OpenALSoundStream_H__
+#define __OpenALSoundStream_H__
 
 #include "OpenALDriverPrerequisites.h"
 #include "SoundResource.h"
@@ -22,52 +22,50 @@
 
 namespace rl {
 
-	class OalDriver;
-	class OalSoundChannel;
+	class OpenALDriver;
+	class OpenALSoundChannel;
 
    /** Diese Klasse dient der Interaktion mit Ogre3D
     * @author Josch
     * @date 07-03-2005
     * @version 1.0
     */
-    class _RlOpenALDriverExport OalSoundSample : public Sound
+    class _RlOpenALDriverExport OpenALSoundStream : public Sound
     {
     public:
         /// Konstruktor
-        OalSoundSample(OalDriver* driver, const SoundResourcePtr &soundres);
+        OpenALSoundStream(OpenALDriver* driver, const SoundResourcePtr &soundres);
         /// Destruktor
-        virtual ~OalSoundSample();
-        /// Moveable-Typ
-        virtual const Ogre::String& getMovableType() const;
+        virtual ~OpenALSoundStream();
 
         /// Laedt den Sound.
         virtual void load() throw (RuntimeException);
         /// Entlaedt den Sound.
-        virtual void unload() throw (RuntimeException);
- 
+        virtual void unload() throw (RuntimeException);        
+
         // Wir erzeugen einen Channel für SoundChannel
-        virtual SoundChannel* createChannel() throw (RuntimeException);
+        virtual SoundChannel *createChannel() throw (RuntimeException);
 
 		float getLength() const;
-    
+
 	protected:
-        /// Shared class-level name for Movable type
-        static Ogre::String msMovableType;
         // Sind wir gueltig?
         virtual bool isValid() const throw (RuntimeException);
-    
-	private:
-		OalDriver* mDriver;
-		OalSoundChannel* mChannel;
+   
+    private:
+        /// Loop?
+        bool mLooping;
+		OpenALDriver* mDriver;
+		OpenALSoundChannel* mChannel;
     }; 
 
-    class _RlOpenALDriverExport OalSoundSamplePtr :
-        public Ogre::SharedPtr<OalSoundSample>
+    class _RlOpenALDriverExport OpenALSoundStreamPtr :
+        public Ogre::SharedPtr<OpenALSoundStream>
     {
     public:
-        OalSoundSamplePtr() : Ogre::SharedPtr<OalSoundSample>() {}
-        explicit OalSoundSamplePtr(OalSoundSample* rep) : Ogre::SharedPtr<OalSoundSample>(rep) {}
-        OalSoundSamplePtr(const OalSoundSamplePtr& res) : Ogre::SharedPtr<OalSoundSample>(res) {}
+        OpenALSoundStreamPtr() : Ogre::SharedPtr<OpenALSoundStream>() {}
+        explicit OpenALSoundStreamPtr(OpenALSoundStream* rep) : Ogre::SharedPtr<OpenALSoundStream>(rep) {}
+        OpenALSoundStreamPtr(const OpenALSoundStreamPtr& res) : Ogre::SharedPtr<OpenALSoundStream>(res) {}
     protected:
         void destroy();
     };

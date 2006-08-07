@@ -13,10 +13,10 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#include "OalSoundStream.h"
+#include "OpenALSoundStream.h"
 
-#include "OalDriver.h"
-#include "OalSoundChannel.h"
+#include "OpenALDriver.h"
+#include "OpenALSoundChannel.h"
 #include "SoundManager.h"
 
 
@@ -31,7 +31,7 @@ namespace rl {
  * @author JoSch
  * @date 07-04-2005
  */
-OalSoundStream::OalSoundStream(OalDriver* driver, const SoundResourcePtr &soundres):
+OpenALSoundStream::OpenALSoundStream(OpenALDriver* driver, const SoundResourcePtr &soundres):
     Sound(soundres),
 	mDriver(driver),
 	mChannel(NULL)
@@ -42,7 +42,7 @@ OalSoundStream::OalSoundStream(OalDriver* driver, const SoundResourcePtr &soundr
  * @author JoSch
  * @date 07-04-2005
  */
-OalSoundStream::~OalSoundStream()
+OpenALSoundStream::~OpenALSoundStream()
 {
     unload();
 }
@@ -52,7 +52,7 @@ OalSoundStream::~OalSoundStream()
  * @author JoSch
  * @date 07-12-2005
  */
-void OalSoundStream::load() throw (RuntimeException)
+void OpenALSoundStream::load() throw (RuntimeException)
 {
     getSoundResource()->load(); // TODO Ist das wirklich nötig?
 }
@@ -61,7 +61,7 @@ void OalSoundStream::load() throw (RuntimeException)
  * @author JoSch
  * @date 07-22-2005
  */
-void OalSoundStream::unload() throw (RuntimeException)
+void OpenALSoundStream::unload() throw (RuntimeException)
 {
     getSoundResource()->unload();
 }
@@ -72,7 +72,7 @@ void OalSoundStream::unload() throw (RuntimeException)
  * @author JoSch
  * @date 07-12-2005
  */
-bool OalSoundStream::isValid() const throw (RuntimeException)
+bool OpenALSoundStream::isValid() const throw (RuntimeException)
 {
     return true;
 }
@@ -83,24 +83,24 @@ bool OalSoundStream::isValid() const throw (RuntimeException)
  * @author JoSch
  * @date 08-08-2005
  */
-SoundChannel *OalSoundStream::createChannel() throw (RuntimeException)
+SoundChannel *OpenALSoundStream::createChannel() throw (RuntimeException)
 {
 	if (mChannel == NULL)
 	{
-		mChannel = new OalSoundChannel(mDriver, this, getName());
+		mChannel = new OpenALSoundChannel(mDriver, this, getName());
 	}
     return mChannel; 
 }
 
-float OalSoundStream::getLength() const
+float OpenALSoundStream::getLength() const
 {
 	return mChannel->getLength();
 }
 
 
-void OalSoundStreamPtr::destroy()
+void OpenALSoundStreamPtr::destroy()
 {
-    SharedPtr<OalSoundStream>::destroy();
+    SharedPtr<OpenALSoundStream>::destroy();
 }
 
 } // Namespace

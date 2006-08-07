@@ -13,8 +13,8 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-#ifndef OALDRIVER_H_
-#define OALDRIVER_H_
+#ifndef _OPENALDRIVER_H_
+#define _OPENALDRIVER_H_
 
 #include "OpenALDriverPrerequisites.h"
 #include "SoundDriver.h"
@@ -25,23 +25,23 @@ namespace rl
 /** Diese Klasse ist der Treiber, der OpenAL zur
  * Ausgabe benutzt.
  */
-class _RlOpenALDriverExport OalDriver : public rl::SoundDriver
+class _RlOpenALDriverExport OpenALDriver : public rl::SoundDriver
 {
 public:
 	/// Der Treibername
-	static CeGuiString NAME;
+    static Ogre::String NAME;
     /// Der Konstruktor
-	OalDriver(Ogre::ResourceManager* soundResourceManager);
+	OpenALDriver(Ogre::ResourceManager* soundResourceManager);
     /// Der Destruktor
-	virtual ~OalDriver();
+	virtual ~OpenALDriver();
     /// Ist der Treiber angeschaltet?
     virtual bool isDriverAvailable();
     /// Initialisiere den Treiber.
-    virtual void init();
+    virtual void initialize();
     /// Deinitialisiere den Treiber.
-    virtual void deInit();
+    virtual void shutdown();
     /// Der Name des Treibers
-    virtual CeGuiString getName() const;
+    virtual Ogre::String getName() const;
     /// Update-Aufgaben erledigen
     virtual void update();
     /// Einen Sound-Stream mit Resource erzeugen
@@ -53,12 +53,14 @@ public:
     /// Einen Soundlistener erzeugen
     virtual ListenerMovable *createListener(const Ogre::String &name);
 
-    /// Den  Konfigurationsdialog für Treiber aufrufen
-    virtual void doConfig();
     /// Die Einstellungen in Datei schreiben
     virtual void saveConf(rl::ConfigFile &conf) const;
     /// Die Einstellungen laden
     virtual void loadConf(rl::ConfigFile &conf);
+
+    /// Setzt den Faktor f, mit der die Lautstärke nach der Formel 1/(f*Entfernung) abnimmt
+	virtual void setRolloffFactor(const Ogre::Real& f);
+	virtual const Ogre::Real getRolloffFactor();
     
 protected:
     /// Informationen über den Treiber ausgeben
