@@ -39,7 +39,7 @@ namespace rl {
         }
         catch( ScriptInvocationFailedException& sife )
         {
-            Logger::getSingleton().log(Logger::RULES, Logger::LL_ERROR, sife.toString() );
+            LOG_ERROR(Logger::RULES, sife.toString() );
         }
 
         // consumed or not
@@ -57,7 +57,7 @@ namespace rl {
         }
         catch (ScriptInvocationFailedException& sife)
         {
-            Logger::getSingleton().log(Logger::RULES, Logger::LL_ERROR, sife.toString());
+            LOG_ERROR(Logger::RULES, sife.toString());
         }
 
         // consumed or not

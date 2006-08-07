@@ -105,9 +105,7 @@ namespace rl {
 			}
 		}
 
-		Logger::getSingleton().log(
-			Logger::CORE, 
-			Logger::LL_TRIVIAL, 
+		LOG_TRIVIAL(Logger::UI, 
 			mWindow->getName()
 			+ " Curr: "
 			+ Ogre::StringConverter::toString(mCurrentAlpha)

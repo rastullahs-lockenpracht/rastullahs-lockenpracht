@@ -76,9 +76,9 @@ namespace rl {
         mGuiResourceProvider(0),
         mGuiSystem(0)
 	{
-		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "Init Start");
+		LOG_MESSAGE(Logger::UI, "Init Start");
 		initializeUiSubsystem();
-		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "Init Ende");
+		LOG_MESSAGE(Logger::UI, "Init Ende");
 	}
 
     UiSubsystem::~UiSubsystem() 
@@ -103,35 +103,35 @@ namespace rl {
     {
 		using namespace CEGUI;
 
-        Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE,
+        LOG_MESSAGE2(Logger::UI,
             "Initialisiere UI", "UiSubsystem::initializeUiSubsystem");
         World* world = CoreSubsystem::getSingleton().getWorld();
         SceneManager* sceneMgr = world->getSceneManager();
 		
 		Ogre::RenderWindow* window = Ogre::Root::getSingleton().getAutoCreatedWindow();
-		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE,
+		LOG_MESSAGE2(Logger::UI,
             "Initialisiere CEGUI-Renderer", "UiSubsystem::initializeUiSubsystem");
 		mGuiRenderer = new OgreCEGUIRenderer(window,
             Ogre::RENDER_QUEUE_OVERLAY, false, 3000, sceneMgr);
 
-		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE,
+		LOG_MESSAGE2(Logger::UI,
             "Initialisiere CEGUI-System", "UiSubsystem::initializeUiSubsystem");
         mGuiResourceProvider = new OgreCEGUIResourceProvider();
 		mGuiSystem = new System(mGuiRenderer, NULL, mGuiResourceProvider, (utf8*)"cegui.config");
 		CEGUI::Logger::getSingleton().setLoggingLevel(
             rl::Logger::getSingleton().getCeGuiLogDetail());
-		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE,
+		LOG_MESSAGE2(Logger::UI,
             "CEGUI-System initialisiert", "UiSubsystem::initializeUiSubsystem");
         
 		// load scheme and set up defaults
 		///@todo Hier sollte was Lookunabhängiges rein!!! FIXME TODO BUG!
 		System::getSingleton().setDefaultMouseCursor((utf8*)"RastullahLook-Images",
             (utf8*)"MouseArrow");
-		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "Mauszeiger",
+		LOG_MESSAGE2(Logger::UI, "Mauszeiger",
             "UiSubsystem::initializeUiSubsystem");
 		Window* sheet = CEGUI::WindowManager::getSingleton().createWindow((utf8*)"DefaultGUISheet",
             (utf8*)CEGUI_ROOT);
-		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "Rootfenster",
+		LOG_MESSAGE2(Logger::UI, "Rootfenster",
             "UiSubsystem::initializeUiSubsystem");
 		sheet->setSize(
 			Absolute, 
@@ -140,7 +140,7 @@ namespace rl {
 		sheet->setPosition(Absolute, CEGUI::Point(0, 0));
 		System::getSingleton().setGUISheet(sheet);
 		System::getSingleton().setTooltip("RastullahLook/Tooltip");
-        Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "CEGUI geladen",
+        LOG_MESSAGE2(Logger::UI, "CEGUI geladen",
             "UiSubsystem::initializeUiSubsystem");
 
 		mWindowManager = new WindowManager();
@@ -148,12 +148,12 @@ namespace rl {
 		//Initializing InputManager
         mInputManager = new InputManager();
 		mInputManager->loadKeyMapping(ConfigurationManager::getSingleton().getKeymap());
-		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "Keymap geladen",
+		LOG_MESSAGE2(Logger::UI, "Keymap geladen",
             "UiSubsystem::initializeUiSubsystem");
 
 		mCommandMapper = new CommandMapper();
 		mCommandMapper->loadCommandMap(ConfigurationManager::getSingleton().getInputConfigPath());
-		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "UI-Manager geladen",
+		LOG_MESSAGE2(Logger::UI, "UI-Manager geladen",
             "UiSubsystem::initializeUiSubsystem");
 
 		mWindowFactory = new WindowFactory();
@@ -200,7 +200,7 @@ namespace rl {
 				mWindowFactory->setActiveCharacter(person);
 
 				mCharacter->getActor()->attach(SoundManager::getSingleton().getListenerActor());
-				Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "SoundListener attached.");
+				LOG_MESSAGE(Logger::UI, "SoundListener attached.");
 	            
 				setCharacterController(CharacterController::CTRL_MOVEMENT);
 			}
@@ -222,7 +222,7 @@ namespace rl {
 			GameLoopManager::getSingleton().removeSynchronizedTask(mCharacterController);
 			delete mCharacterController;
             mCharacterController = NULL;
-			Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE,
+			LOG_MESSAGE(Logger::UI,
                 "Old CharacterController deleted.");
 		}
         
@@ -270,9 +270,9 @@ namespace rl {
 		mCharacterController->setCommandMapper(mCommandMapper);
 		mInputManager->setCharacterController(mCharacterController);
 
-	    Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "CharacterController created.");
+	    LOG_MESSAGE(Logger::UI, "CharacterController created.");
 		GameLoopManager::getSingleton().addSynchronizedTask(mCharacterController, FRAME_STARTED );
-        Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "CharacterController task added.");
+        LOG_MESSAGE(Logger::UI, "CharacterController task added.");
 	}
 
 	void UiSubsystem::run(Ogre::Real timeElapsed)
@@ -316,9 +316,7 @@ namespace rl {
 		if (mCharacterController != NULL)
 		{
             setCharacterController(CharacterController::CTRL_NONE);
-			Logger::getSingleton().log(
-                Logger::UI, 
-                Logger::LL_MESSAGE,
+            LOG_MESSAGE(Logger::UI, 
                 "Old CharacterController deleted.");
 			setActiveCharacter(NULL);
 		}

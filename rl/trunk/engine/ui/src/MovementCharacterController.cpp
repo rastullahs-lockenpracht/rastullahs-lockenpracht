@@ -151,7 +151,6 @@ namespace rl {
 	//------------------------------------------------------------------------
 	void MovementCharacterController::run(Real elapsedTime)
 	{
-		RL_LONGLONG start = CoreSubsystem::getSingleton().getClock();
 		InputManager* im = InputManager::getSingletonPtr();
 
 		// Fetch current movement state
@@ -264,8 +263,8 @@ namespace rl {
 			- (charPos + charOri*mLookAtOffset)).length() 
 			> maxdistance)
 		{
-			Logger::getSingleton().log(
-				Logger::UI, Logger::LL_MESSAGE,
+			LOG_MESSAGE(
+				Logger::UI, 
 				"CamJam "
 				+ Ogre::StringConverter::toString(camPos)
 				+ " vs "
@@ -295,13 +294,6 @@ namespace rl {
 			//mSelection->update();
 		}
 		updateAnimationState();
-
-		Logger::getSingleton().log(
-			Logger::CORE, 
-			Logger::LL_TRIVIAL, 
-			"    MCC time "
-			 + Ogre::StringConverter::toString(
-					Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));
 	}
 
 	bool MovementCharacterController::isRunMovement(int movement)
@@ -447,7 +439,7 @@ namespace rl {
                 << "start jump : " << (mCharacterState.mStartJump ? "true" : "false")  << endl
                 << "jump timer : " << mCharacterState.mJumpTimer << endl;
 
-			Logger::getSingleton().log("RlUi", Logger::LL_TRIVIAL, ss.str());
+            LOG_TRIVIAL(Logger::UI, ss.str());
             DebugWindow::getSingleton().setPageText(msDebugWindowPageName, ss.str());
 
 			// Assume we are air borne.
@@ -653,8 +645,7 @@ namespace rl {
 			mPitchRange.first = Degree(-85);
 			mPitchRange.second = Degree(85);
             mPitch = 0;
-			Logger::getSingleton().log(
-				Logger::UI, Logger::LL_MESSAGE, "Switch to 1st person view");
+			LOG_MESSAGE(Logger::UI, "Switch to 1st person view");
 			resetCamera();
 		}
 		else
@@ -666,8 +657,7 @@ namespace rl {
 			mPitchRange.first = Degree(-75);
 			mPitchRange.second = Degree(85);
             mPitch = Degree(30);
-			Logger::getSingleton().log(
-				Logger::UI, Logger::LL_MESSAGE, "Switch to 3rd person view");			
+			LOG_MESSAGE(Logger::UI, "Switch to 3rd person view");			
 			resetCamera();
 		}
 	}

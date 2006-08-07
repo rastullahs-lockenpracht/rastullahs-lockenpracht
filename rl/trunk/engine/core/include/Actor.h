@@ -271,7 +271,7 @@ namespace rl {
         virtual void nodeDetached (const Ogre::Node *node);
         /// Setze den Listener des Nodes
         void setListenerOf(Ogre::SceneNode *node);
-        /// Gebe das Bone zurück
+        /// gib das Bone zurück
         Ogre::Bone *_getBone() const;
 
     private:

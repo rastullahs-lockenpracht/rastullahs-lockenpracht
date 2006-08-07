@@ -104,14 +104,14 @@ namespace rl
 		}
 		input.c_str();
 		DialogResponse* dialogResponse = NULL;
-		Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "Create AIML response");
+		LOG_MESSAGE(Logger::DIALOG, "Create AIML response");
 		Response<CeGuiString> response = mBot->respond(input);
 		if(response.hasGossip())
 		{
 			ContextInterpreter* interpreter = DialogSubsystem::getSingleton().getContextInterpreter();
 			if(interpreter!= NULL)
 			{
-				Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "Create DialogResponse");
+				LOG_MESSAGE(Logger::DIALOG, "Create DialogResponse");
 				dialogResponse = interpreter->interpret(response.getGossip(), mBot);
 			}
 		}

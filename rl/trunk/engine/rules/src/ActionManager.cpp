@@ -79,8 +79,8 @@ namespace rl
 		ScriptWrapper::getSingleton().owned(action);
 
 		mActions.insert(std::make_pair(action->getName(), action));
-		Logger::getSingleton().log(Logger::RULES,
-			Logger::LL_MESSAGE, "Action "+action->getName()+" beim ActionManager registriert");
+		LOG_MESSAGE(Logger::RULES,
+			"Action "+action->getName()+" beim ActionManager registriert");
     }
 
 	void ActionManager::unregisterAction(const CeGuiString actionName)
@@ -92,14 +92,14 @@ namespace rl
 		ScriptWrapper::getSingleton().disowned((*iter).second);
 		mActions.erase(iter);
 
-		Logger::getSingleton().log(Logger::RULES,
-			Logger::LL_MESSAGE, "Action "+actionName+" beim ActionManager gelöscht");
+		LOG_MESSAGE(Logger::RULES,
+			"Action "+actionName+" beim ActionManager gelöscht");
 	}
 
 	Action* ActionManager::getAction(const CeGuiString actionName) const
 	{
-		Logger::getSingleton().log(Logger::RULES,
-			Logger::LL_MESSAGE, "Suche Action " + actionName);
+		LOG_MESSAGE(Logger::RULES,
+			"Suche Action " + actionName);
 		ActionMap::const_iterator iter = mActions.find(actionName);
 		if (iter == mActions.end())
 			return NULL;
@@ -108,8 +108,8 @@ namespace rl
 
 	void ActionManager::registerInGameGlobalAction(Action* action, ActionGroup* group)
 	{
-		Logger::getSingleton().log(Logger::RULES,
-			Logger::LL_MESSAGE, "Globale Aktion " + action->getName() + " hinzugefuegt.");
+		LOG_MESSAGE(Logger::RULES,
+			"Globale Aktion " + action->getName() + " hinzugefuegt.");
 		mInGameGlobalActions.push_back(action);
 		action->setGroup(group);
 	}

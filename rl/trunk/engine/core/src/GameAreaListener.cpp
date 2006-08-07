@@ -44,7 +44,7 @@ namespace rl {
         }
         catch( ScriptInvocationFailedException& sife )
         {
-            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, sife.toString() );
+            LOG_ERROR(Logger::CORE, sife.toString() );
         }
 
 

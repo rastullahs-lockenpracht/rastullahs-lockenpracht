@@ -77,7 +77,7 @@ namespace rl {
 		}
 		catch (...)
 		{
-			Logger::getSingleton().log("ItemManager",Logger::LL_MESSAGE,"Item "+newItem->getName()+" hat keine gültige Meshinformationen! Kein Aktor wird erstellt");
+			LOG_MESSAGE("ItemManager", "Item "+newItem->getName()+" hat keine gültige Meshinformationen! Kein Aktor wird erstellt");
 		}
 
 

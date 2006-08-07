@@ -41,9 +41,9 @@ AiSubsystem::AiSubsystem(void)
 	: mAgentManager(NULL), 
 	  mWorld(NULL)
 {
-	Logger::getSingleton().log(Logger::AI, Logger::LL_MESSAGE, "Init Start");
+	LOG_MESSAGE(Logger::AI, "Init Start");
 	initialize();
-	Logger::getSingleton().log(Logger::AI, Logger::LL_MESSAGE, "Init Ende");
+	LOG_MESSAGE(Logger::AI, "Init Ende");
 }
 
 AiSubsystem::~AiSubsystem(void)

@@ -54,7 +54,7 @@ namespace rl {
 		static InventoryWindow* invWin = WindowFactory::getSingletonPtr()->getInventoryWindow();
 		if (invWin->mDroppedItem)
 		{
-			Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_ERROR, "Item placed");
+			LOG_MESSAGE("InventoryWindow", "Item placed");
 			invWin->updateItemPosition();
 		}
 	}
@@ -188,15 +188,14 @@ namespace rl {
 		mDroppedItem = NULL;
 
 		// Loggen
-		Logger::getSingletonPtr()->log(
+		LOG_MESSAGE(
 			"InventoryWindow",
-			Logger::LL_MESSAGE,
 			Ogre::String("Position set to: Point x:")
 			+ StringConverter::toString(mPosDraggedTo.d_x)
 			+ ", Point y:"
 			+ StringConverter::toString(mPosDraggedTo.d_y));
 
-		Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_MESSAGE,Ogre::String("updateItemPosition finished"));
+		LOG_MESSAGE("InventoryWindow", "updateItemPosition finished");
 	}
 
 	void InventoryWindow::updateInventory(){
@@ -680,9 +679,8 @@ namespace rl {
 						DragContainer* itemhandler = createItem(temp[x][y],containerSpace);
 						itemhandler->setPosition(CEGUI::Absolute,CEGUI::Point(x*30,y*30));
 						itemsInContainer.insert(temp[x][y]);
-						Logger::getSingletonPtr()->log(
+						LOG_MESSAGE(
 							"InventoryWindow",
-							Logger::LL_MESSAGE,
 							Ogre::String("erzeuge Bild im Container: ") + temp[x][y]->getName());
 					}
 				}
@@ -1071,9 +1069,8 @@ namespace rl {
 			relMouse.d_x = 15;
 		}
 
-		Logger::getSingletonPtr()->log(
+		LOG_MESSAGE(
 			"InventoryWindow",
-			Logger::LL_MESSAGE,
 			Ogre::String("relMouse: Point x:")
 			+ StringConverter::toString(relMouse.d_x)
 			+ ", Point y:"

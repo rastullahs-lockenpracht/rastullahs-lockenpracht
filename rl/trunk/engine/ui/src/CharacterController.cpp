@@ -103,7 +103,7 @@ namespace rl {
 		}
 		catch( ScriptInvocationFailedException& sife )
 		{
-			Logger::getSingleton().log(Logger::UI, Logger::LL_ERROR, sife.toString() );
+			LOG_ERROR(Logger::UI, sife.toString() );
 		}
 
 		return false;

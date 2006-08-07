@@ -363,8 +363,8 @@ namespace rl
 		for (int x = posKaestchen.first; x < (posKaestchen.first + xSize); x++){
 			for (int y = posKaestchen.second; y < (posKaestchen.second + ySize); y++){
 				
-				Logger::getSingletonPtr()->log("InventoryWindow",Logger::LL_MESSAGE,
-					CEGUI::String("Checking Point in Backpack: Point x:")
+				LOG_MESSAGE("InventoryWindow",
+					Ogre::String("Checking Point in Backpack: Point x:")
 					+ StringConverter::toString(x) 
 					+ ", Point y:"
 					+ StringConverter::toString(y));
@@ -534,7 +534,7 @@ namespace rl
 		} catch (IllegalStateException ie){
 			// Kein Platz mehr im Container... 
 			// TODO: Auf den Boden legen
-			Logger::getSingleton().log("Inventory",Logger::LL_ERROR, "addItemToContainer fehgeschlagen.");
+            LOG_ERROR(Logger::RULES, "Inventory::addItemToContainer fehgeschlagen.");
 			return false;
 		}
 	}

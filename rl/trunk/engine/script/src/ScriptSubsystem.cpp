@@ -46,7 +46,7 @@ namespace rl {
 
     void ScriptSubsystem::log(const rl::CeGuiString &message)
     {
-        Logger::getSingleton().log(Logger::SCRIPT, Logger::LL_NORMAL, message);
+        LOG_NORMAL(Logger::SCRIPT, message);
     }
 
 }

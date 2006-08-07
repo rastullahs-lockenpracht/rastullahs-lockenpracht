@@ -138,9 +138,7 @@ namespace rl {
 			mDialogWindow->textFinished();
 		}
 
-		Logger::getSingleton().log(
-				Logger::UI, 
-				Logger::LL_TRIVIAL, 
+        LOG_TRIVIAL(Logger::UI, 
 				StringConverter::toString(mSubtitleWindow->getWindow()->getEffectiveAlpha())
 				+ ": "
 				+ mSubtitleWindow->getText()
@@ -272,9 +270,7 @@ namespace rl {
 			}
 		}
 
-		Logger::getSingleton().log(
-			Logger::UI, 
-			Logger::LL_MESSAGE, 
+        LOG_TRIVIAL(Logger::UI, 
 			"Response: "
 				+ actor->getName()
 				+ " File: '"

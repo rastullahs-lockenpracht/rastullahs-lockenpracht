@@ -94,7 +94,7 @@ namespace rl {
             }
             catch( ... )
             {
-                Logger::getSingleton().log(Logger::CORE, Logger::LL_CRITICAL, 
+                LOG_CRITICAL(Logger::CORE, 
                     "Laden der Szenenbeschreibung aus '" + mSceneFile + "' ist fehlgeschlagen." );
                 delete dot;
             }

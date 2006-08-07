@@ -37,7 +37,7 @@ XmlDocument<CeGuiString>* AimlParserImplRl::parse(const CeGuiString& fileName)
 		char* excmsg = XMLString::transcode(exc.getMessage());
 		CeGuiString excs="Exception while parsing AimlDocument: ";
 		excs+=excmsg;
-		Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, excs);
+		LOG_MESSAGE(Logger::DIALOG, excs);
 		// cleanup
 		if (parser)delete parser;
 		throw(exc);
@@ -47,7 +47,7 @@ XmlDocument<CeGuiString>* AimlParserImplRl::parse(const CeGuiString& fileName)
         char* excmsg = XMLString::transcode(exc.getMessage());
 		CeGuiString excs="Exception while parsing AimlDocument: ";
 		excs+=excmsg;
-		Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, excs);
+		LOG_MESSAGE(Logger::DIALOG, excs);
 		// cleanup
 		if (parser)delete parser;
 		throw(exc);
@@ -57,14 +57,14 @@ XmlDocument<CeGuiString>* AimlParserImplRl::parse(const CeGuiString& fileName)
 		char* excmsg = XMLString::transcode(exc.getMessage());
 		CeGuiString excs="Exception while parsing AimlDocument: ";
 		excs+=excmsg;
-		Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, excs);
+		LOG_MESSAGE(Logger::DIALOG, excs);
 		// cleanup
 		if(parser)delete parser;
 		return NULL;
     }
 	catch (...) 
 	{
-		Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, 
+		LOG_MESSAGE(Logger::DIALOG, 
 			"Unknown Exception while parsing AimlDocument");
         if(parser)delete parser;
 		return NULL;

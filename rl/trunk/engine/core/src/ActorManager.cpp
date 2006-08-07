@@ -170,13 +170,13 @@ namespace rl {
         }
         catch (Ogre::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, "ActorManager - Das Licht '"
+            LOG_ERROR(Logger::CORE, "ActorManager - Das Licht '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getFullDescription());
         }
         catch (rl::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, "ActorManager - Das Licht '"
+            LOG_ERROR(Logger::CORE, "ActorManager - Das Licht '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getMessage());
         }
@@ -199,13 +199,13 @@ namespace rl {
         }
         catch (Ogre::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, "ActorManager - Der Sound '"
+            LOG_ERROR(Logger::CORE, "ActorManager - Der Sound '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getFullDescription());
         }
         catch (rl::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, "ActorManager - Der Sound '"
+            LOG_ERROR(Logger::CORE, "ActorManager - Der Sound '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getMessage());
         }
@@ -229,13 +229,13 @@ namespace rl {
         }
         catch (Ogre::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, "ActorManager - Der Sound '"
+            LOG_ERROR(Logger::CORE, "ActorManager - Der Sound '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getFullDescription());
         }
         catch (rl::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, "ActorManager - Der Sound '"
+            LOG_ERROR(Logger::CORE, "ActorManager - Der Sound '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getMessage());
         }
@@ -259,14 +259,14 @@ namespace rl {
         }
         catch (Ogre::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR,
+            LOG_ERROR(Logger::CORE,
                 "ActorManager - Der Listener '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getFullDescription());
         }
         catch (rl::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR,
+            LOG_ERROR(Logger::CORE,
                 "ActorManager - Der Listener '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getMessage());
@@ -304,7 +304,7 @@ namespace rl {
         }
         catch (Ogre::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR,
+            LOG_ERROR(Logger::CORE,
                 "ActorManager - Die Kamera '"
                 + name + "' für den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
@@ -312,7 +312,7 @@ namespace rl {
         }
         catch (rl::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR,
+            LOG_ERROR(Logger::CORE,
                 "ActorManager - Die Kamera '"
                 + name + "' für den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
@@ -339,14 +339,14 @@ namespace rl {
         }
         catch (Ogre::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, "ActorManager - Das Mesh '"
+            LOG_ERROR(Logger::CORE, "ActorManager - Das Mesh '"
                 + meshname + "' für den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getFullDescription());
         }
         catch (rl::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, "ActorManager - Das Mesh '"
+            LOG_ERROR(Logger::CORE, "ActorManager - Das Mesh '"
                 + meshname + "' für den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getMessage());
@@ -368,7 +368,7 @@ namespace rl {
         }
         catch (Ogre::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR,
+            LOG_ERROR(Logger::CORE,
                 "ActorManager - Das Partikelsystem '"
                 + partname + "' für den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
@@ -376,7 +376,7 @@ namespace rl {
         }
         catch (rl::Exception& e)
         {
-            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR,
+            LOG_ERROR(Logger::CORE,
                 "ActorManager - Das Partikelsystem '"
                 + partname + "' für den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
@@ -398,7 +398,7 @@ namespace rl {
         }
 
         if( basename != newname )
-            Logger::getSingleton().log(Logger::CORE, Logger::LL_ERROR, "ActorManager - Warnung! '"
+            LOG_ERROR(Logger::CORE, "ActorManager - Warnung! '"
             + basename
             + "' war schon vergeben! Neuer Name ist '" + newname + "'.");
 

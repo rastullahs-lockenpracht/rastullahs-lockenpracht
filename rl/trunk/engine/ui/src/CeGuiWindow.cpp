@@ -40,10 +40,8 @@ namespace rl
 		mCloseOnEscape(closeOnEscape),
 		mUpdateTask(NULL)
 	{
-		Logger::getSingleton().log(
-			Logger::UI, 
-			Logger::LL_MESSAGE, 
-			"Lade Fenster '" + Ogre::String(xmlfile.c_str()) + "'");
+        LOG_MESSAGE(Logger::UI, 
+		    "Lade Fenster '" + Ogre::String(xmlfile.c_str()) + "'");
    		mWindow = CeGuiWindow::loadWindow(xmlfile, mNamePrefix);
 		if (mWindow == NULL)
 		{

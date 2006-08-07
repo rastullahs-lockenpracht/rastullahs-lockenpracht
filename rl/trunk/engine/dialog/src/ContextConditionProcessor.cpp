@@ -44,7 +44,7 @@ void ContextConditionProcessor::preprocessStep()
 	mCurrentReturnValue.clear();
 	try
 	{
-		Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "ContextCondition: getPredciates");
+		LOG_MESSAGE(Logger::DIALOG, "ContextCondition: getPredciates");
 		if(mAttributes["type"].find("probe") != CeGuiString::npos)
 		{
 			mCurrentHelper->getPredicates(mAttributes["type"])->setPredicate("mod", mAttributes["mod"]);
@@ -80,7 +80,7 @@ void ContextConditionProcessor::processChildStep(XmlNode<CeGuiString>* pChild)
 		mCurrentReturnValue += pChild;
 		result = "true";
 	}
-	Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, logMessage + result);
+	LOG_MESSAGE(Logger::DIALOG, logMessage + result);
 }
 
 void ContextConditionProcessor::postprocessStep()

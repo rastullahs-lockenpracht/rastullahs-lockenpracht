@@ -120,9 +120,8 @@ void QuestBook::addJournalEntry(JournalEntry* entry)
 {
     mJournalEntries.push_back(entry);
 
-    Logger::getSingleton().log(
+    LOG_MESSAGE(
         Logger::RULES,
-        Logger::LL_MESSAGE,
         Ogre::String("Journal entry added: ") + entry->getCaption());
 
     fireJournalChanged(entry, JournalEvent::JOURNAL_ENTRY_ADDED);

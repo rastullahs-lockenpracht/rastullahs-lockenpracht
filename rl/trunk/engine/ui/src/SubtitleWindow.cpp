@@ -34,9 +34,7 @@ namespace rl
 	{
 		mSubtitle->setText(text);
 		setVisible(true);
-		Logger::getSingleton().log(
-			Logger::UI,
-			Logger::LL_TRIVIAL,
+        LOG_TRIVIAL(Logger::UI, 
 			"Subtitle: " + text);
 	}
 

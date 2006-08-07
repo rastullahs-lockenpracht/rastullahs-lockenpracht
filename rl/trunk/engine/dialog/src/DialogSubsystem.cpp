@@ -52,9 +52,9 @@ DialogSubsystem::DialogSubsystem()
 	  mContextInterpreter(new ContextInterpreter()),
 	  mCurrentBot(NULL)
 {
-	Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "Init Start");
+	LOG_MESSAGE(Logger::DIALOG, "Init Start");
 	initialize();
-	Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "Init Ende");
+	LOG_MESSAGE(Logger::DIALOG, "Init Ende");
 }
 
 DialogSubsystem::~DialogSubsystem() 
@@ -86,7 +86,7 @@ void DialogSubsystem::initialize()
 		char* excmsg = XMLString::transcode(exc.getMessage());
 		std::string excs="Exception while initializing Xerces: ";
 		excs+=excmsg;
-		Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, excs);
+		LOG_MESSAGE(Logger::DIALOG, excs);
         XMLString::release(&excmsg);
     }
 }
@@ -113,7 +113,7 @@ DialogCharacter* DialogSubsystem::loadBot(const CeGuiString& botName, const CeGu
 		mCurrentBot->setBot(bot);
 		mCurrentBot->initialize();
 	}
-	Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE,"AimlBot " + botName + "loaded and initialized");
+	LOG_MESSAGE(Logger::DIALOG,"AimlBot " + botName + "loaded and initialized");
 	mBots.insert(BotMap::value_type(mCurrentBot->getName(), mCurrentBot));
 	return mCurrentBot;
 }

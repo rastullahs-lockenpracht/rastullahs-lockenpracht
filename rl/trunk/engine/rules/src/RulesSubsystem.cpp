@@ -45,29 +45,29 @@ namespace rl
         mTimerManager(NULL),
 		mItemManager(NULL)
     {
-		Logger::getSingleton().log(Logger::RULES, Logger::LL_MESSAGE, "Start");
+		LOG_MESSAGE(Logger::RULES, "Start");
         //Zufallsgenerator initialisieren
         srand(static_cast<unsigned int>(time(NULL)));
 
         //Singletons erzeugen
         mActionManager = new ActionManager(); 
-		Logger::getSingleton().log(Logger::RULES, Logger::LL_MESSAGE, "ActionManager erzeugt");
+		LOG_MESSAGE(Logger::RULES, "ActionManager erzeugt");
         mDsaManager = new DsaManager();
-		Logger::getSingleton().log(Logger::RULES, Logger::LL_MESSAGE, "DsaManager erzeugt");
+		LOG_MESSAGE(Logger::RULES, "DsaManager erzeugt");
 		mTimerManager = new TimerManager(); 
-		Logger::getSingleton().log(Logger::RULES, Logger::LL_MESSAGE, "TimerManager erzeugt");
+		LOG_MESSAGE(Logger::RULES, "TimerManager erzeugt");
 		resetQuestBook();
-		Logger::getSingleton().log(Logger::RULES, Logger::LL_MESSAGE, "Questverwaltung erzeugt");
+		LOG_MESSAGE(Logger::RULES, "Questverwaltung erzeugt");
 		mItemManager = new ItemManager();
-		Logger::getSingleton().log(Logger::RULES, Logger::LL_MESSAGE, "ItemManager erzeugt");
+		LOG_MESSAGE(Logger::RULES, "ItemManager erzeugt");
 
 		//Daten laden
 		DsaDataLoader::loadData("basis.xdi");
-		Logger::getSingleton().log(Logger::RULES, Logger::LL_MESSAGE, "Basisdaten geladen");
+		LOG_MESSAGE(Logger::RULES, "Basisdaten geladen");
 
 		ItemDataLoader::loadData("items.xdi");
 		
-		Logger::getSingleton().log(Logger::RULES, Logger::LL_MESSAGE, "Erzeugen abgeschlossen");		
+		LOG_MESSAGE(Logger::RULES, "Erzeugen abgeschlossen");		
     }
 	
 	RulesSubsystem::~RulesSubsystem()

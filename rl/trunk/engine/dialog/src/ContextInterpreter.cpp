@@ -155,24 +155,24 @@ Response<CeGuiString> ContextInterpreter
 		else if(child->getNodeName() == AIML_CONDITION)
 		{
 		//	add a list of valid li-nodes to the gossip data of the repsonse
-			Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "process condition in context" + mCurrentType);
+			LOG_MESSAGE(Logger::DIALOG, "process condition in context" + mCurrentType);
 			mReturnValue += getProcessor("contextCondition")
 					->process(child, pProcessHelper);
 		}
 	//	process the returnValue for the specific context
 		if(mCurrentType == RL_RESPONSE && pNode->getNodeName() == AIML_GOSSIP)
 		{
-			Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "process response");
+			LOG_MESSAGE(Logger::DIALOG, "process response");
 			processResponse();
 		}
 		else if(mCurrentType == RL_OPTION && pNode->getNodeName() == AIML_GOSSIP)
 		{
-			Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "process option");
+			LOG_MESSAGE(Logger::DIALOG, "process option");
 			processOption();
 		}
 		else if(mCurrentType == RL_SELECTION && pNode->getNodeName() == AIML_GOSSIP)
 		{
-			Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "process selection");
+			LOG_MESSAGE(Logger::DIALOG, "process selection");
 			processSelection();
 		}
 	}

@@ -17,6 +17,7 @@
 #include "Exception.h"
 #include "Creature.h"
 #include "DialogCharacter.h"
+#include "ScriptWrapper.h"
 #include "SteeringVehicle.h"
 #include "SteeringMachine.h"
 //#include "PerceptionPool.h"
@@ -29,6 +30,7 @@ Agent::Agent(Creature* character)
 //	  mPerceptionPool(new PerceptionPool())
 {
 	initialize();
+	ScriptWrapper::getSingleton().owned(character);
 }
 
 Agent::Agent(Creature* character, SteeringVehicle* vehicle)
@@ -46,6 +48,7 @@ Agent::Agent(DialogCharacter* character)
 {
     mCreature = character->getNonPlayerCharacter();
 	initialize();
+	ScriptWrapper::getSingleton().owned(character);
 }
 
 Agent::~Agent(void)
@@ -56,6 +59,10 @@ Agent::~Agent(void)
 
     delete mVehicle;
     delete mBehaviour;
+	if (mCreature != NULL)
+		ScriptWrapper::getSingleton().disowned(mCreature);
+	if (mDialogBot != NULL)
+		ScriptWrapper::getSingleton().disowned(mDialogBot);
 //	delete mPerceptionPool;
 }
 
@@ -72,15 +79,11 @@ void Agent::initialize()
 		mType = AgentManager::AGENT_STD_NPC;
 		mVehicle = new SteeringVehicle(this, mCreature->getActor());
 	}
-    Logger::getSingleton().log(
-        Logger::AI, 
-        Logger::LL_NORMAL, 
+    LOG_MESSAGE(Logger::AI, 
         "created SteeringVehicle for Agent");
     
 	mBehaviour = new SteeringMachine(NULL, mVehicle);
-    Logger::getSingleton().log(
-        Logger::AI, 
-        Logger::LL_NORMAL, 
+    LOG_MESSAGE(Logger::AI, 
         "created SteeringMachine for Agent");
 //  a perceptron should be the controller, and the perceptron calculates
 //  the steering force with the help of different steering behaviours
@@ -88,9 +91,7 @@ void Agent::initialize()
 	{
 		PhysicsManager::getSingleton().
 			setPhysicsController(mCreature->getActor()->getPhysicalThing(), this);
-		Logger::getSingleton().log(
-			Logger::AI, 
-			Logger::LL_NORMAL, 
+        LOG_MESSAGE(Logger::AI, 
 			"added Agent to PhysicsManager as PhysicsController");
 	}
 }
@@ -100,18 +101,14 @@ void Agent::addSteeringBehaviour(SteeringBehaviour* behaviour)
     behaviour->setParent(mBehaviour);
     behaviour->setController(mVehicle);
     mBehaviour->addState(behaviour);
-    Logger::getSingleton().log(
-        Logger::AI, 
-        Logger::LL_MESSAGE, 
+    LOG_MESSAGE(Logger::AI, 
         "added SteeringBehaviour for Agent");
 }
 
 void Agent::clearSteeringBehaviours()
 {
     mBehaviour->clearStates();
-    Logger::getSingleton().log(
-        Logger::AI, 
-        Logger::LL_MESSAGE, 
+    LOG_MESSAGE(Logger::AI, 
         "Cleared all SteeringBehaviours for Agent");
 }
 

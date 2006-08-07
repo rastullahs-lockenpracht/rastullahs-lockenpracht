@@ -156,7 +156,7 @@ void DialogWindow::getResponse(const CeGuiString& msg)
 		mQuestion->handleUpdatedItemData();
 
 		mGameLogger->logDialogEvent(mBot->getName(), responseText);
-		Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, mBot->getName() + " says: " + responseText);
+		LOG_MESSAGE(Logger::DIALOG, mBot->getName() + " says: " + responseText);
 	}
 
 	setVisible(false);
@@ -184,9 +184,7 @@ void DialogWindow::textFinished()
 		handleClose();
 	}
 
-    Logger::getSingleton().log(
-				Logger::UI, 
-				Logger::LL_TRIVIAL, 
+    LOG_TRIVIAL(Logger::UI, 
 				StringConverter::toString(mState)
 				+ " bei textFinished" );
 }
@@ -216,9 +214,7 @@ void DialogWindow::getOptions(const CeGuiString& question)
 		itr != options.end(); ++itr)
 	{	
 		CeGuiString currentResponse = (*itr)->getText();
-		Logger::getSingleton().log(
-			Logger::DIALOG, 
-			Logger::LL_MESSAGE, 
+	    LOG_MESSAGE(Logger::UI, 
 			"Player says: " + currentResponse);
 		if(i < mDialogOptions->getItemCount())
 		{
@@ -279,7 +275,7 @@ bool DialogWindow::handleSelectOption()
 			{
 				mState = TALKING_PLAYER_CHARACTER;
 				mGameLogger->logDialogEvent("Held", selectedOption);
-				Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE,
+				LOG_MESSAGE(Logger::DIALOG,
                     "Player says: " + selectedOption);
 				mQuestion->getListboxItemFromIndex(0)->setText("Held: " + selectedOption);	
 				mController->response(

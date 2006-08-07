@@ -124,9 +124,6 @@ namespace rl {
 
 	void InputManager::run(Real elapsedTime)
 	{
-		RL_LONGLONG start = CoreSubsystem::getSingleton().getClock();
-		CEGUI::System::getSingleton().injectTimePulse(elapsedTime);
-
 		if (mScheduledInputSwitch == SWITCH_TO_BUFFERED)
 		{
 			switchMouseToBuffered();
@@ -170,12 +167,6 @@ namespace rl {
 			if (pressedButtonMask != 0 && mCharacterController!=NULL)
 				mCharacterController->injectMouseDown(pressedButtonMask);
 		}		
-		Logger::getSingleton().log(
-			Logger::CORE, 
-			Logger::LL_TRIVIAL, 
-			"    IM time "
-			 + Ogre::StringConverter::toString(
-					Ogre::Real((double)(CoreSubsystem::getSingleton().getClock()-start))));
 	}
 
 	void InputManager::checkMouseButton(
@@ -516,7 +507,7 @@ namespace rl {
 		mEventProcessor->addKeyListener(this);
 		mEventProcessor->addMouseListener(this);
 		mEventProcessor->addMouseMotionListener(this);
-		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "Start processing events");
+		LOG_MESSAGE(Logger::UI, "Start processing events");
 		mEventProcessor->startProcessingEvents();
 
 		mEventInitialized = true; 
@@ -540,7 +531,7 @@ namespace rl {
 		if (mEventInitialized) {
 			// Stop buffering events
 
-			Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "Stop processing events");
+			LOG_MESSAGE(Logger::UI, "Stop processing events");
 			mEventProcessor->stopProcessingEvents();
 			mEventInitialized = false;
 		}

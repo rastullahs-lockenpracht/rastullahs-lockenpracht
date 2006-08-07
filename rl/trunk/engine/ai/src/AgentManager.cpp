@@ -72,9 +72,7 @@ Agent* AgentManager::createAgent(DialogCharacter* character)
 void AgentManager::addAgent(Agent* agent)
 {
 	mAgents.push_back(agent);
-	Logger::getSingleton().log(
-        Logger::AI,
-        Logger::LL_MESSAGE,
+    LOG_MESSAGE(Logger::AI, 
         "created AI Agent");
 	mAllNeighbors.push_back(agent->getVehicle());
 }

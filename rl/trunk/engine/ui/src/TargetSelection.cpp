@@ -111,11 +111,6 @@ namespace rl {
 			}
 			else
 			{
-				Logger::getSingleton().log(
-					Logger::UI, 
-					Logger::LL_MESSAGE, 
-					(*it).first->getName());
-
 				++it;
 			}
 		}

@@ -68,7 +68,7 @@ Logger::~Logger()
 	delete LogManager::getSingletonPtr();
 }
 
-void Logger::log(const Ogre::String& component, const Logger::LogLevel level, 
+void Logger::log(const Logger::LogLevel level, const Ogre::String& component, 
 			const Ogre::String& message, const Ogre::String& ident)
 {
 	if (ident.length() == 0)
@@ -77,7 +77,7 @@ void Logger::log(const Ogre::String& component, const Logger::LogLevel level,
 		log(level, "[" + component + "] (" + ident + ") " + message);
 }
 
-void Logger::log(const Ogre::String& component, const Logger::LogLevel level, 
+void Logger::log(const Logger::LogLevel level, const Ogre::String& component, 
 			const CeGuiString& message, const Ogre::String& ident)
 {
 	if (ident.length() == 0)
@@ -86,7 +86,7 @@ void Logger::log(const Ogre::String& component, const Logger::LogLevel level,
 		log(level, "[" + component + "] (" + ident + ") " + message.c_str());
 }
 
-void Logger::log(const Ogre::String& component, const Logger::LogLevel level, 
+void Logger::log(const Logger::LogLevel level, const Ogre::String& component, 
 			const char* message, const Ogre::String& ident)
 {
 	if (ident.length() == 0)
@@ -115,6 +115,12 @@ void Logger::setLogDetail(const Logger::LogLevel level)
 	mLogLevel = level;	
 	mLog->setLogDetail(Ogre::LL_BOREME);
 }
+
+const Logger::LogLevel& Logger::getLogDetail()
+{
+	return mLogLevel;
+}
+
 
 const CEGUI::LoggingLevel Logger::getCeGuiLogDetail() const
 {

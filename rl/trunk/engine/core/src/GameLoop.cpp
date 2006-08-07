@@ -158,15 +158,11 @@ using namespace Ogre;
 	{
 		if (mSyncTime == FRAME_STARTED)
 		{
-			Logger::getSingleton().log(
-				Logger::CORE, 
-				Logger::LL_TRIVIAL, 
+			LOG_TRIVIAL(Logger::CORE, 
 				"Sync frame-start start "
 				+ Ogre::StringConverter::toString(Ogre::Real((double)CoreSubsystem::getSingleton().getClock())));
 			loop(evt.timeSinceLastFrame);
-			Logger::getSingleton().log(
-				Logger::CORE, 
-				Logger::LL_TRIVIAL, 
+			LOG_TRIVIAL(Logger::CORE, 
 				"Sync frame-start end "
 				+ Ogre::StringConverter::toString(Ogre::Real((double)CoreSubsystem::getSingleton().getClock())));
 		}
@@ -178,15 +174,11 @@ using namespace Ogre;
 	{
 		if (mSyncTime == FRAME_ENDED)
 		{
-			Logger::getSingleton().log(
-				Logger::CORE, 
-				Logger::LL_TRIVIAL, 
+			LOG_TRIVIAL(Logger::CORE, 
 				"Sync frame-end start "
 				+ Ogre::StringConverter::toString(Ogre::Real((double)CoreSubsystem::getSingleton().getClock())));
 			loop(evt.timeSinceLastFrame);
-			Logger::getSingleton().log(
-				Logger::CORE, 
-				Logger::LL_TRIVIAL, 
+			LOG_TRIVIAL(Logger::CORE, 
 				"Sync frame-end end "
 				+ Ogre::StringConverter::toString(Ogre::Real((double)CoreSubsystem::getSingleton().getClock())));
 		}

@@ -46,7 +46,7 @@ void DialogOption::processSelection()
 	if(interpreter != NULL)
 	{
 		response = interpreter->interpret(mData->getGossip(), mBot);
-		Logger::getSingleton().log(Logger::DIALOG, Logger::LL_MESSAGE, "Parsed selected option");
+		LOG_MESSAGE(Logger::DIALOG, "Parsed selected option");
 		if(response != NULL && !response->getDialogOptions().empty())
 		{
 			DialogOption* option = (*response->getDialogOptions().begin());
