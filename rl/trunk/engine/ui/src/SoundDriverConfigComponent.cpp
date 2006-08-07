@@ -14,19 +14,34 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#include "SoundDriverConfigWindow.h"
+#include "SoundDriverConfigComponent.h"
 
 #include "SoundDriver.h"
 
 namespace rl {
-	SoundDriverConfigWindow::SoundDriverConfigWindow(const CeGuiString& xmlfile)
-		: CeGuiWindow(xmlfile, CeGuiWindow::WND_SHOW, false)
+	SoundDriverConfigComponent::SoundDriverConfigComponent(const CeGuiString& xmlfile)
 	{
+        mWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout(xmlfile);
+        setVisible(false);
 	}
 
-	const CeGuiString SoundDriverConfigWindow::getDriverName()
+    SoundDriverConfigComponent::~SoundDriverConfigComponent()
+    {
+        CEGUI::WindowManager::getSingleton().destroyWindow(mWindow);
+    }
+
+	const CeGuiString SoundDriverConfigComponent::getDriverName() const
 	{
 		return getDriver()->getName();
 	}
 
+    void SoundDriverConfigComponent::addTo(CEGUI::Window* parent)
+    {
+        parent->addChildWindow(mWindow);
+    }
+
+    void SoundDriverConfigComponent::setVisible(bool visible)
+    {
+        mWindow->setVisible(visible);
+    }
 }

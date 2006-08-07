@@ -30,18 +30,18 @@ namespace rl
 {
 
 	Fmod3Config::Fmod3Config(Fmod3Driver* driver)
-		: SoundDriverConfigWindow("fmod3.xml"),
+		: SoundDriverConfigComponent("fmod3.xml"),
 		mOutput(NULL),
 		mDriver(NULL),
 		mWasActive(false),
 		mFmod3Driver(driver)
 	{
-		mOutput = getCombobox("Fmod3Config/Output");
+        mOutput = static_cast<Combobox*>(CEGUI::WindowManager::getSingleton().getWindow("Fmod3Config/Output"));
 		mOutput->subscribeEvent(
 			Combobox::EventTextChanged,
 			boost::bind(&Fmod3Config::handleOutputChanged, this));
 
-		mSpeaker = getCombobox("Fmod3Config/Speaker");
+		mSpeaker = static_cast<Combobox*>(CEGUI::WindowManager::getSingleton().getWindow("Fmod3Config/Speaker"));
 		mSpeaker->subscribeEvent(
 			Combobox::EventTextChanged,
 			boost::bind(&Fmod3Config::handleSpeakerChanged, this));
@@ -75,16 +75,8 @@ namespace rl
 		item = new ListboxTextItem("Surround");
 		mSpeaker->addItem(item);
 #endif
-		mWindow->setVisible(false);
-		getRoot()->removeChildWindow(mWindow);
 	}
 
-	bool Fmod3Config::handleOK()
-	{
-		setVisible(false);
-		destroyWindow();
-		return true;
-	}
 
 	bool Fmod3Config::handleDriverChanged()
 	{
@@ -102,17 +94,27 @@ namespace rl
 
 	bool Fmod3Config::handleOutputChanged()
 	{
+        mFmod3Driver->setActiveOutput(mDriver->getText());
 		return true;
 	}
 
 	bool Fmod3Config::handleSpeakerChanged()
 	{
+
 		return true;
 	}
 
-	Fmod3Driver* Fmod3Config::getDriver()
+	Fmod3Driver* Fmod3Config::getDriver() const
 	{
 		return mFmod3Driver;
 	}
+
+    void Fmod3Config::apply()
+    {
+    }
+
+    void Fmod3Config::resetToDefaults()
+    {
+    }
 
 }

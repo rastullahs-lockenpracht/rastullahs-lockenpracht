@@ -22,7 +22,7 @@
 namespace rl
 {
 
-	class SoundDriverConfigWindow;
+	class SoundDriverConfigComponent;
 
 	class SoundConfig : public rl::CeGuiWindow
 	{
@@ -30,7 +30,7 @@ namespace rl
 		SoundConfig();
 		virtual ~SoundConfig();
 
-		void registerSoundDriverConfigWindow(SoundDriverConfigWindow* wnd);
+		void registerDriverConfig(SoundDriverConfigComponent* cmp);
 		
 	private:
 		bool handleOK();
@@ -47,9 +47,9 @@ namespace rl
 		CEGUI::Slider*		mVolumeMaster;
 		CEGUI::Window*		mDriverConfig;
 		
-		SoundDriverConfigWindow* mCurrentConfig;
+		SoundDriverConfigComponent* mCurrentConfig;
 
-		std::list<SoundDriverConfigWindow*> mDriverConfigs;
+		std::list<SoundDriverConfigComponent*> mDriverConfigs;
 	};
 
 }

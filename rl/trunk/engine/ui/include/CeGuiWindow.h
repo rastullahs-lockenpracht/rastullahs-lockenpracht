@@ -59,6 +59,7 @@ namespace rl {
 		CEGUI::ComboDropList* getComboDropList(const char* name);
 		CEGUI::Slider* getSlider(const char* name);
 
+		static CEGUI::Window* loadWindow(const CeGuiString& xmlfile);
 		static CEGUI::Window* getRoot();
 
 		WindowType getWindowType();
@@ -94,7 +95,6 @@ namespace rl {
 		void bindClickToCloseWindow(CEGUI::Window* button);
 		void bindCloseToCloseButton();
 
-		static CEGUI::Window* loadWindow(const CeGuiString& xmlfile);
 		static CEGUI::Window* loadWindow(const CeGuiString& xmlfile, CeGuiString& prefix);
 
 		CEGUI::Window* mWindow;

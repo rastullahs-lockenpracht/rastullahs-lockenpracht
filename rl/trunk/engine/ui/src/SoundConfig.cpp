@@ -18,7 +18,7 @@
 #include <boost/bind.hpp>
 #include "Exception.h"
 #include "SoundDriver.h"
-#include "SoundDriverConfigWindow.h"
+#include "SoundDriverConfigComponent.h"
 #include "SoundManager.h"
 
 using namespace CEGUI;
@@ -108,22 +108,10 @@ namespace rl
 			if (item->getText() != activeDriver->getName())
 			{
 				// Nicht der aktive Treiber, also ändern.
-				DriverList list = SoundManager::getSingleton().getSoundDriverList();
-				DriverList::const_iterator it;
-				SoundDriver *searched = NULL;
-				for (it = list.begin(); it != list.end(); it++)
+                SoundDriver *driver = SoundManager::getSingleton().getDriverByName(item->getText().c_str());
+                if (driver != NULL)
 				{
-					if (item->getText() == (*it)->getName())
-					{
-						searched = *it;
-						break;
-					}
-				}
-				if (searched)
-				{
-					activeDriver->deInit();
-					searched->deInit();
-					SoundManager::getSingleton().setActiveDriver(searched);
+					SoundManager::getSingleton().setActiveDriver(driver);
 				}
 			}
 		}
@@ -162,20 +150,18 @@ namespace rl
 			dynamic_cast<ListboxTextItem*>(mDriverBox->getSelectedItem());
 		if (item != 0)
 		{
-			for (list<SoundDriverConfigWindow*>::iterator it = mDriverConfigs.begin();
+			for (list<SoundDriverConfigComponent*>::iterator it = mDriverConfigs.begin();
 				it != mDriverConfigs.end(); it++)
 			{
-				SoundDriverConfigWindow* curr = *it;
+				SoundDriverConfigComponent* curr = *it;
 				if (item->getText() == curr->getDriverName()
 					&& mCurrentConfig != curr)
 				{
 					if (mCurrentConfig != NULL)
 					{
-						mCurrentConfig->getWindow()->setVisible(false);
-						mDriverConfig->removeChildWindow(mCurrentConfig->getWindow());
+						mCurrentConfig->setVisible(false);
 					}
-					mDriverConfig->addChildWindow(curr->getWindow());
-					curr->getWindow()->setVisible(false);
+					curr->setVisible(true);
 					mCurrentConfig = curr;
 					return true;
 				}
@@ -184,9 +170,10 @@ namespace rl
 		return false;
 	}
 
-	void SoundConfig::registerSoundDriverConfigWindow(SoundDriverConfigWindow* wnd)
+	void SoundConfig::registerDriverConfig(SoundDriverConfigComponent* wnd)
 	{
 		mDriverConfigs.push_back(wnd);
+        wnd->addTo(mDriverConfig);
 	}
 
 	bool SoundConfig::handleClose()

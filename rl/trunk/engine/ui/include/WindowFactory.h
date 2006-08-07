@@ -52,7 +52,7 @@ namespace rl {
 	class ObjectDescriptionWindow;
 	class Person;
 	class SoundConfig;
-	class SoundDriverConfigWindow;
+	class SoundDriverConfigComponent;
     class TargetSelectionWindow;
 	class WindowUpdater;
     class MainMenuWindow;
@@ -118,7 +118,7 @@ namespace rl {
         /// Change shown DebugWindow page
         void showNextDebugWindowPage();
 
-		void registerSoundConfigWindow(SoundDriverConfigWindow* wnd);
+		void registerSoundConfigComponent(SoundDriverConfigComponent* wnd);
 
 	private:
 		GameLoggerWindow* mGameLogger;

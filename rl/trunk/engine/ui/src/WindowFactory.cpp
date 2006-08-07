@@ -295,7 +295,7 @@ namespace rl {
             delete mCloseConfirmationWindow;
         
         mCloseConfirmationWindow = new CloseConfirmationWindow();
-		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "Start", "UiSubsystem::requestExit");         
+		LOG_MESSAGE2(Logger::UI, "Start", "UiSubsystem::requestExit");         
 		mCloseConfirmationWindow->setVisible(true);
 	}
 
@@ -318,7 +318,7 @@ namespace rl {
 	{
 		mCharacterStateWindow->setCharacter(character);
 		mCharacterStateWindow->update();
-		Logger::getSingleton().log(Logger::UI, Logger::LL_MESSAGE, "CharacterStateWindow updated");
+		LOG_MESSAGE(Logger::UI, "CharacterStateWindow updated");
 	}
 
 	void WindowFactory::showActionChoice(GameObject* obj)
@@ -420,8 +420,8 @@ namespace rl {
         mDebugWindow->showNextPage();
     }
 
-	void WindowFactory::registerSoundConfigWindow(SoundDriverConfigWindow* wnd)
+	void WindowFactory::registerSoundConfigComponent(SoundDriverConfigComponent* wnd)
 	{
-		mSoundConfig->registerSoundDriverConfigWindow(wnd);
+		mSoundConfig->registerDriverConfig(wnd);
 	}
 }

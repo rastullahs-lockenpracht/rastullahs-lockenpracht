@@ -447,7 +447,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\SoundDriverConfigWindow.h"
+					RelativePath=".\include\SoundDriverConfigComponent.h"
 					>
 				</File>
 				<File
@@ -612,7 +612,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\SoundDriverConfigWindow.cpp"
+					RelativePath=".\src\SoundDriverConfigComponent.cpp"
 					>
 				</File>
 				<File

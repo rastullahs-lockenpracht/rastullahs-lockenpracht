@@ -13,25 +13,26 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-#ifndef FMOD3CONFIG_H_
-#define FMOD3CONFIG_H_
+#ifndef _FMOD3CONFIG_H_
+#define _FMOD3CONFIG_H_
 
-#include "SoundDriverConfigWindow.h"
+#include "SoundDriverConfigComponent.h"
 #include "Fmod3Driver.h"
 
 namespace rl
 {
-	class Fmod3Config : public SoundDriverConfigWindow
+	class Fmod3Config : public SoundDriverConfigComponent
 	{
 	public:
 		Fmod3Config(Fmod3Driver* driver);
 		virtual ~Fmod3Config();
+        virtual void apply();
+        virtual void resetToDefaults();
 
 	protected:
-		Fmod3Driver* getDriver();
+		virtual Fmod3Driver* getDriver() const;
 
 	private:
-		bool handleOK();
 		bool handleDriverChanged();
 		bool handleOutputChanged();
 		bool handleSpeakerChanged();

@@ -14,27 +14,34 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#ifndef _SoundDriverConfigWindow_H_
-#define _SoundDriverConfigWindow_H_
+#ifndef _SoundDriverConfigComponent_H_
+#define _SoundDriverConfigComponent_H_
 
 #include "UiPrerequisites.h"
 
-#include "CeGuiWindow.h"
+#include <CEGUIWindow.h>
 
 namespace rl {
 
 	class SoundDriver;
 
-	class _RlUiExport SoundDriverConfigWindow : public CeGuiWindow
+	class _RlUiExport SoundDriverConfigComponent
 	{
 	public:
-		SoundDriverConfigWindow(const CeGuiString& xmlfile);
-		virtual ~SoundDriverConfigWindow() {};
+		SoundDriverConfigComponent(const CeGuiString& xmlfile);
+		virtual ~SoundDriverConfigComponent();
 
-		const CeGuiString getDriverName();
+		const CeGuiString getDriverName() const;
+        void addTo(CEGUI::Window* parent);
+        void setVisible(bool visible);
+        virtual void apply() = 0;
+        virtual void resetToDefaults() = 0;
 
 	protected:
-		virtual SoundDriver* getDriver() = 0;
+		virtual SoundDriver* getDriver() const = 0;
+
+    private:
+        CEGUI::Window* mWindow;
 	};
 }
 
