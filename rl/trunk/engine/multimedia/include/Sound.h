@@ -25,7 +25,8 @@
 
 namespace rl {
 
-   /** Diese Klasse dient der Interaktion fmod
+   /** Diese Klasse dient der Interaktion mit dem jeweiligen Soundsystem
+    * ein Objekt stellt eine einzelne Sounddatei oder einen Stream dar
     * @author Josch
     * @date 06-29-2005
     * @version 1.0
@@ -33,19 +34,6 @@ namespace rl {
     */
     class _RlMultimediaExport Sound 
     {
-    private:
-        /// Der Name des Sounds
-        Ogre::String mName;
-        /// Der Soundresource, auf den wir verweisen.
-        SoundResourcePtr mSoundResource;
-
-        // Damit die Timings alle 0.5 sek. abgeschickt werden.
-        int mTicks;
-        // Ob dieser Sound 3D sein soll.
-        bool mIs3d;
-        // Ob dieser Sound loopen soll.
-        bool mIsLooping;
-        
     public:
         /// Konstruktor
         Sound(const SoundResourcePtr &soundres);
@@ -73,7 +61,20 @@ namespace rl {
         // Setzen des Loop-Flags.
         void setLooping(bool looping);
 
-		virtual float getLength() const = 0;
+        virtual float getLength() const = 0;
+
+    private:
+        /// Der Name des Sounds
+        Ogre::String mName;
+        /// Der Soundresource, auf den wir verweisen.
+        SoundResourcePtr mSoundResource;
+
+        // Damit die Timings alle 0.5 sek. abgeschickt werden.
+        int mTicks;
+        // Ob dieser Sound 3D sein soll.
+        bool mIs3d;
+        // Ob dieser Sound loopen soll.
+        bool mIsLooping;
     }; 
 
 

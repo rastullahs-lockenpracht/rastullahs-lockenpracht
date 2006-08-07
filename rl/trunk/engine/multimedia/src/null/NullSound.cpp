@@ -17,15 +17,12 @@
 #include "NullSoundChannel.h"
 #include "SoundManager.h"
 #include "SoundResource.h"
-#include "VorbisFile.h"
 
 using namespace Ogre;
 using namespace boost;
 
 namespace rl {
  
-String NullSound::msMovableType = "NullSound";
-
 /**
  * @param name Der Name des Sounds.
  * @author JoSch
@@ -48,24 +45,10 @@ NullSound::~NullSound()
 
 /**
  * @author JoSch
- * @date 03-11-2005
- * @return Den Objekttypen
- */
-const String& NullSound::getMovableType() const
-{
-    return msMovableType;
-}
-
-/**
- * @author JoSch
  * @date 07-12-2005
  */
 void NullSound::load() throw (RuntimeException)
 {
-    getSoundResource()->load();
-    VorbisFile file(getSoundResource());
-    mTotalTime = file.getTotalTime();
-    getSoundResource()->unload();
 }
 
 /**
@@ -74,10 +57,6 @@ void NullSound::load() throw (RuntimeException)
  */
 void NullSound::unload() throw (RuntimeException)
 {
-    if (getSoundResource()->isLoaded())
-    {
-        getSoundResource()->unload();
-    }
 }
 
 /**
@@ -87,7 +66,7 @@ void NullSound::unload() throw (RuntimeException)
  */
 bool NullSound::isValid() const throw (RuntimeException)
 {
-    return getSoundResource()->isLoaded();
+    return true;
 }
 
 /**

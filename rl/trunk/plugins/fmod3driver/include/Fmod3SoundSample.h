@@ -14,8 +14,8 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
-#ifndef __FmodSoundSample_H__
-#define __FmodSoundSample_H__
+#ifndef __Fmod3SoundSample_H__
+#define __Fmod3SoundSample_H__
 
 #include "Fmod3DriverPrerequisites.h"
 #include "Fmod3Sound.h"
@@ -23,11 +23,6 @@
 extern "C" {
     #include <fmod.h>
     #include <fmod_errors.h>
-}
-
-namespace Ogre {
-    class MovableObject;
-    class Vector3;
 }
 
 namespace rl {
@@ -40,16 +35,11 @@ namespace rl {
     */
     class _RlFmod3DriverExport Fmod3SoundSample : public Fmod3Sound
     {
-    private:
-        FSOUND_SAMPLE *mSample;
-
     public:
         /// Konstruktor
         Fmod3SoundSample(const SoundResourcePtr &soundres);
         /// Destruktor
         virtual ~Fmod3SoundSample();
-        /// Moveable-Typ
-        virtual const Ogre::String& getMovableType() const;
 
         /// Laedt den Sound.
         virtual void load() throw (RuntimeException);
@@ -60,15 +50,16 @@ namespace rl {
         // Wir erzeugen einen Channel für SoundChannel
         virtual int createChannel() throw (RuntimeException);
          // Wir geben zurück, wie lange der Sound ist.
-		float getLength() const;
+		virtual float getLength() const;
 
 	protected:
-        /// Shared class-level name for Movable type
-        static Ogre::String msMovableType;
         // Sind wir gueltig?
         virtual bool isValid() const throw (RuntimeException);
         // Sample setzen
         void setSample(FSOUND_SAMPLE *sample);
+
+    private:
+        FSOUND_SAMPLE *mSample;
     }; 
 
     class _RlFmod3DriverExport Fmod3SoundSamplePtr :

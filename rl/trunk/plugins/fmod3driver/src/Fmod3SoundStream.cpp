@@ -71,19 +71,24 @@ void Fmod3SoundStream::load() throw (RuntimeException)
 	{
         mode |= FSOUND_LOOP_OFF;
     }
-    mStream = FSOUND_Stream_Open(getName().c_str(), mode, 0, 0);
-    if (mStream == 0)
+    const char* name = getName().c_str();
+    mStream = FSOUND_Stream_Open(name, mode, 0, 0);
+    if (mStream == NULL)
     {
         // Stereo auf 3D?
         mode |= FSOUND_FORCEMONO;
         mStream = FSOUND_Stream_Open(getName().c_str(), mode, 0, 0);
     }
-    if (mStream != 0)
+    if (mStream != NULL)
     {
-        FSOUND_Stream_SetSyncCallback(getStream(), 
-            (FSOUND_STREAMCALLBACK)Fmod3SoundStream::streamSyncCallback, this);
-        FSOUND_Stream_SetEndCallback(getStream(),
-            (FSOUND_STREAMCALLBACK)Fmod3SoundStream::streamEndCallback, this);
+        FSOUND_Stream_SetSyncCallback(
+            mStream, 
+            Fmod3SoundStream::streamSyncCallback, 
+            this);
+        FSOUND_Stream_SetEndCallback(
+            mStream,
+            Fmod3SoundStream::streamEndCallback, 
+            this);
     }
 }
 

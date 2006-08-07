@@ -20,12 +20,6 @@
 #include "MultimediaPrerequisites.h"
 #include "SoundResource.h"
 #include "Sound.h"
-#include <boost/thread/xtime.hpp>
-
-namespace Ogre {
-    class MovableObject;
-    class Vector3;
-}
 
 namespace rl {
 
@@ -36,16 +30,11 @@ namespace rl {
     */
     class _RlMultimediaExport NullSound : public Sound
     {
-    private:
-        boost::xtime mTotalTime;
-
     public:
         /// Konstruktor
         NullSound(const SoundResourcePtr &soundres);
         /// Destruktor
         virtual ~NullSound();
-        /// Moveable-Typ
-        virtual const Ogre::String& getMovableType() const;
 
         /// Laedt den Sound.
         virtual void load() throw (RuntimeException);
@@ -53,11 +42,9 @@ namespace rl {
         virtual void unload() throw (RuntimeException);
  
         // Wir geben zurück, wie lange der Sound ist.
-		float getLength() const;
+		virtual float getLength() const;
     
-protected:
-        /// Shared class-level name for Movable type
-        static Ogre::String msMovableType;
+    protected:
         // Sind wir gueltig?
         virtual bool isValid() const throw (RuntimeException);
     }; 

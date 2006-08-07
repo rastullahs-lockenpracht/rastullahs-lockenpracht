@@ -61,7 +61,7 @@ SoundObject::~SoundObject()
         {
             sc->stop();
             sc->removeEventListener(this);
-			SoundManager::getSingleton().getActiveDriver()->removeFromLists(sc);
+			SoundManager::getSingleton().getActiveDriver()->remove(sc);
         }
         delete mMovableObject;
     }
@@ -99,7 +99,7 @@ void SoundObject::_update()
         channel->setPosition(actor->getWorldPosition());
         channel->setDirection(actor->getWorldOrientation()); 
 
-       Logger::getSingleton().log(Logger::CORE, Logger::LL_MESSAGE, "Pos SoundObject: "
+       LOG_MESSAGE(Logger::CORE, "Pos SoundObject: "
         + StringConverter::toString(actor->getWorldPosition().x) + " "
         + StringConverter::toString(actor->getWorldPosition().y) + " "
         + StringConverter::toString(actor->getWorldPosition().z));
@@ -142,14 +142,9 @@ void SoundObject::setLooping( bool looping )
     getSoundChannel()->setLooping( looping );
 }
 
-void SoundObject::setVolume(float volume)
+void SoundObject::setVolume(Ogre::Real volume)
 {
-	if (volume > 1.0)
-		volume = 1.0;
-	else if (volume < 0.0)
-		volume = 0.0;
-
-	getSoundChannel()->setVolume(int (volume * 100.0));
+	getSoundChannel()->setVolume(volume);
 }
 
 bool SoundObject::is3d() const

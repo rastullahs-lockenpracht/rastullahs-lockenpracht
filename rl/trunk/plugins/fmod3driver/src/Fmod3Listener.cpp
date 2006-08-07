@@ -115,18 +115,4 @@ void Fmod3Listener::setVelocity(const Vector3& velocity)
     }
 }
 
-/**
- * @param gain Die neue Lautstarke der Soundquelle.
- * @author JoSch
- * @date 03-16-2005
- */
-void Fmod3Listener::setGain(const int gain)
-{
-    ListenerMovable::setGain(gain);
-    if (isActive())
-    {
-        FSOUND_SetSFXMasterVolume(gain);
-    }
-}
-
 }

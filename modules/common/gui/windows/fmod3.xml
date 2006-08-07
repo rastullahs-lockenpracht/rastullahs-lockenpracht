@@ -1,8 +1,6 @@
 <GUILayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GUILayout.xsd">
-	<Window Type="RastullahLook/FrameWindow" Name="Fmod3Config" >
+	<Window Type="DefaultWindow" Name="Fmod3Config" >
 		<Property Name="RelativePosition" Value="x:0.0 y:0.0"/>
-		<Property Name="AbsoluteWidth" Value="600"/>
-		<Property Name="AbsoluteHeight" Value="450"/>
 		
 		<Window Type="RastullahLook/StaticText" Name="Fmod3Config/OutputLabel">
 			<Property Name="RelativeXPosition" Value="0.05" />

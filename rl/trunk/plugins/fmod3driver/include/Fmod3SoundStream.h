@@ -14,8 +14,8 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
-#ifndef __FmodSoundStream_H__
-#define __FmodSoundStream_H__
+#ifndef __Fmod3SoundStream_H__
+#define __Fmod3SoundStream_H__
 
 #include "Fmod3DriverPrerequisites.h"
 #include "Fmod3Sound.h"
@@ -34,21 +34,6 @@ namespace rl {
     */
     class _RlFmod3DriverExport Fmod3SoundStream : public Fmod3Sound
     {
-    private:
-        FSOUND_STREAM *mStream;
-        
-        // FMOD End Stream Callback
-        static signed char streamEndCallback(
-            FSOUND_STREAM *stream,
-            void *buf, int len,
-            void *userdata);
-
-        // FMOD Sync Stream Callback
-        static signed char streamSyncCallback(
-            FSOUND_STREAM *stream,
-            void *buf, int len,
-            void *userdata);
-
     public:
         /// Konstruktor
         Fmod3SoundStream(const Ogre::String& name);
@@ -66,14 +51,29 @@ namespace rl {
         // Wir erzeugen einen Channel für SoundChannel
         virtual int createChannel() throw (RuntimeException);
         // Wir geben zurück, wie lange der Sound ist.
-		float getLength() const;
+		virtual float getLength() const;
 
-protected:
+    protected:
         // Sind wir gueltig?
         virtual bool isValid() const throw (RuntimeException);
         // Sample setzen
         void setStream(FSOUND_STREAM *stream);
         
+    private:
+        FSOUND_STREAM *mStream;
+        
+        // FMOD End Stream Callback
+        static signed char F_CALLBACKAPI streamEndCallback(
+            FSOUND_STREAM *stream,
+            void *buf, int len,
+            void *userdata);
+
+        // FMOD Sync Stream Callback
+        static signed char F_CALLBACKAPI streamSyncCallback(
+            FSOUND_STREAM *stream,
+            void *buf, int len,
+            void *userdata);
+
     }; 
 
     class _RlFmod3DriverExport Fmod3SoundStreamPtr :

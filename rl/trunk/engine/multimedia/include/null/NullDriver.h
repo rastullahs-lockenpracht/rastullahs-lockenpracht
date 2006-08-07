@@ -29,7 +29,7 @@ class _RlMultimediaExport NullDriver : public rl::SoundDriver
 {
 public:
 	/// Der Treibername
-	static Ogre::String NAME;
+    static Ogre::String NAME;
     /// Der Konstruktor
 	NullDriver(Ogre::ResourceManager* soundResourceManager);
     /// Der Destruktor
@@ -37,32 +37,30 @@ public:
     /// Ist der Treiber angeschaltet?
     bool isDriverAvailable();
     /// Initialisiere den Treiber.
-    void init();
+    virtual void initialize();
     /// Deinitialisiere den Treiber.
-    void deInit();
+    virtual void shutdown();
     /// Der Name des Treibers
-	Ogre::String getName() const;
+    virtual Ogre::String getName() const;
     /// Update-Aufgaben erledigen
-    void update();
+    virtual void update();
     /// Einen Sound-Stream mit Resource erzeugen
-    Sound *createStream(const SoundResourcePtr &res);
+    virtual Sound *createStream(const SoundResourcePtr &res);
     /// Einen Sound-Sample mit Resource erzeugen
-    Sound *createSample(const SoundResourcePtr &res);
+    virtual Sound *createSample(const SoundResourcePtr &res);
     /// Einen SoundChannel erzeugen
-    SoundChannel *createChannel(Sound *channel, const Ogre::String &name);
+    virtual SoundChannel *createChannel(Sound *channel, const Ogre::String &name);
     /// Einen Soundlistener erzeugen
-    ListenerMovable *createListener(const Ogre::String &name);
+    virtual ListenerMovable *createListener(const Ogre::String &name);
 
-    /// Den  Konfigurationsdialog für Treiber aufrufen
-    void doConfig();
     /// Die Einstellungen in Datei schreiben
-    void saveConf(rl::ConfigFile &conf) const;
+    virtual void saveConf(rl::ConfigFile &conf) const;
     /// Die Einstellungen laden
-    void loadConf(rl::ConfigFile &conf);
+    virtual void loadConf(rl::ConfigFile &conf);
 
 	/// Setzt den Faktor f, mit der die Lautstärke nach der Formel 1/(f*Entfernung) abnimmt
-	void setRolloffFactor(const Ogre::Real&);
-	const Ogre::Real getRolloffFactor();
+	virtual void setRolloffFactor(const Ogre::Real&);
+	virtual const Ogre::Real getRolloffFactor();
     
 protected:
     /// Informationen über den Treiber ausgeben

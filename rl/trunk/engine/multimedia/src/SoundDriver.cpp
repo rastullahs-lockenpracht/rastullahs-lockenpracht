@@ -83,7 +83,7 @@ const Ogre::Real SoundDriver::getMasterVolume() const
 }
 
 /// Aus einer Liste entfernen.
-void SoundDriver::removeFromLists(SoundChannel *channel)
+void SoundDriver::remove(SoundChannel *channel)
 {
     mMusicSet.erase(channel);
     mSoundSet.erase(channel);

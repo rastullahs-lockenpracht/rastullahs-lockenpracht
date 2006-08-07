@@ -23,8 +23,6 @@ using namespace boost;
 
 namespace rl {
  
-String Fmod3SoundSample::msMovableType = "Fmod3SoundSample";
-
 /**
  * @param name Der Name des Sounds.
  * @author JoSch
@@ -48,27 +46,14 @@ Fmod3SoundSample::~Fmod3SoundSample()
 
 /**
  * @author JoSch
- * @date 03-11-2005
- * @return Den Objekttypen
- */
-const String& Fmod3SoundSample::getMovableType() const
-{
-    return msMovableType;
-}
-
-/**
- * @author JoSch
  * @date 07-12-2005
  */
 void Fmod3SoundSample::load() throw (RuntimeException)
 {
     getSoundResource()->load();
-    DataStreamPtr stream = getSoundResource()->getDataStream();
-    stream->seek(0);
-    int len = stream->size();
-    char *data = new char[len];
-    stream->read(data, len);
-    unsigned int mode = FSOUND_LOADMEMORY;
+    int len = getSoundResource()->getSize();
+    unsigned int mode = 0;
+
     if (is3d())
     {
         mode |= FSOUND_HW3D | FSOUND_FORCEMONO;
@@ -81,15 +66,23 @@ void Fmod3SoundSample::load() throw (RuntimeException)
     } else {
         mode |= FSOUND_LOOP_OFF;
     }
-    mSample = FSOUND_Sample_Load(FSOUND_FREE, data, mode,
-        0, len);
-    if (mSample == 0 && !is3d() )
+    
+    mSample = FSOUND_Sample_Load(
+        FSOUND_FREE, 
+        getSoundResource()->getName().c_str(), 
+        mode, 
+        0, 
+        len);
+    if (mSample == 0 && !is3d())
     {
         mode |= FSOUND_FORCEMONO;
-        mSample = FSOUND_Sample_Load(FSOUND_FREE, data, mode,
-            0, len);
+        mSample = FSOUND_Sample_Load(
+            FSOUND_FREE, 
+            getSoundResource()->getName().c_str(), 
+            mode,
+            0, 
+            len);
     }
-    delete[] data;
 
     if( mSample == NULL )
     {

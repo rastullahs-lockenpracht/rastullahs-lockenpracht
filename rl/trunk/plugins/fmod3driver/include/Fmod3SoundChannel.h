@@ -13,8 +13,8 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-#ifndef _FMODSOUNDCHANNEL_H_
-#define _FMODSOUNDCHANNEL_H_
+#ifndef _FMOD3SOUNDCHANNEL_H_
+#define _FMOD3SOUNDCHANNEL_H_
 
 #include "Fmod3DriverPrerequisites.h"
 #include "SoundChannel.h"
@@ -29,11 +29,6 @@ namespace rl
 
 	class _RlFmod3DriverExport Fmod3SoundChannel  : public SoundChannel
 	{
-	private:
-		/// Shared class-level name for Movable type
-		static Ogre::String msMovableType;
-		/// Fmod-Channel 
-		signed int mChannel;
 	    
 	public:
 		Fmod3SoundChannel(SoundDriver* driver, Sound *sound, const Ogre::String &name);
@@ -84,6 +79,12 @@ namespace rl
 	    
 		// Sind wir gueltig
 		bool isValid() const;
+
+    private:
+		/// Shared class-level name for Movable type
+		static Ogre::String msMovableType;
+		/// Fmod-Channel 
+		signed int mChannel;
 	};
 
 };

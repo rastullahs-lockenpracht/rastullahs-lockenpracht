@@ -18,10 +18,10 @@
 #include "NullSoundChannel.h"
 #include "NullListener.h"
 
-Ogre::String rl::NullDriver::NAME = "NullDriver";
 
 namespace rl
 {
+Ogre::String NullDriver::NAME = "NullDriver";
 
 /** 
  * Konstruktor
@@ -58,16 +58,16 @@ bool NullDriver::isDriverAvailable()
  * @author JoSch
  * @date 12-23-2005
  */
-void NullDriver::init()
+void NullDriver::initialize()
 {
 }
 
 /** 
- * Beeende den Nulltreiber und gebe alle Resourcen frei.
+ * Beeende den Nulltreiber und gib alle Resourcen frei.
  * @author JoSch
  * @date 12-23-2005
  */
-void NullDriver::deInit()
+void NullDriver::shutdown()
 {
 }
 
@@ -185,16 +185,6 @@ void NullDriver::saveConf(ConfigFile &conf) const
 void NullDriver::loadConf(ConfigFile &conf)
 {
 	SoundDriver::loadConf(conf);
-    // DO NOTHING
-}
-
-/*
- * Den Konfigurationsdialog aufrufen
- * @author JoSch
- * @date 05-07-2006
- */
-void NullDriver::doConfig()
-{
     // DO NOTHING
 }
 

@@ -47,8 +47,6 @@ namespace rl {
         /// Moveable-Typ
         virtual const Ogre::String& getMovableType() const;
     
-        /// Setzt die Hauptlautstaerke.
-        virtual void setGain(const int direction);
         /// Setzt die Position der Soundquelle.
         virtual void setPosition(const Ogre::Vector3& direction);
         /// Setzt die Richtung der Soundquelle.

@@ -13,11 +13,16 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
-#ifndef FMODDRIVER_H_
-#define FMODDRIVER_H_
+#ifndef _FMOD3DRIVER_H_
+#define _FMOD3DRIVER_H_
 
 #include "Fmod3DriverPrerequisites.h"
 #include "SoundDriver.h"
+
+extern "C" {
+    #include <fmod.h>
+}
+
 
 namespace rl
 {
@@ -31,7 +36,7 @@ class _RlFmod3DriverExport Fmod3Driver : public rl::SoundDriver
 {
 public:
 	/// Der Treibername
-	static Ogre::String NAME;
+    static Ogre::String NAME;
     /// Der Konstruktor
 	Fmod3Driver(Ogre::ResourceManager* soundResourceManager);
     /// Der Destruktor
@@ -39,11 +44,11 @@ public:
     /// Ist der Treiber angeschaltet?
     virtual bool isDriverAvailable();
     /// Initialisiere den Treiber.
-    virtual void init();
+    virtual void initialize();
     /// Deinitialisiere den Treiber.
-    virtual void deInit();
+    virtual void shutdown();
     /// Der Name des Treibers
-	virtual Ogre::String getName() const;
+    virtual Ogre::String getName() const;
     /// Update-Aufgaben erledigen
     virtual void update();
     /// Einen Sound-Stream mit Resource erzeugen
@@ -55,14 +60,12 @@ public:
     /// Einen Soundlistener erzeugen
     virtual ListenerMovable *createListener(const Ogre::String &name);
 
-	void setMasterVolume(const Ogre::Real& vol);
+	virtual void setMasterVolume(const Ogre::Real& vol);
 
 	/// Setzt den Faktor f, mit der die Lautstärke nach der Formel 1/(f*Entfernung) abnimmt
-	void setRolloffFactor(const Ogre::Real&);
-	const Ogre::Real getRolloffFactor();
+	virtual void setRolloffFactor(const Ogre::Real&);
+	virtual const Ogre::Real getRolloffFactor();
 
-    /// Den  Konfigurationsdialog für Treiber aufrufen
-    virtual void doConfig();
     /// Die Einstellungen in Datei schreiben
     virtual void saveConf(rl::ConfigFile &conf) const;
     /// Die Einstellungen laden
@@ -71,17 +74,19 @@ public:
 	/// Datensammlung zurückgeben
 	const DriverMap& getDriverData() const;
 
+    void setActiveOutput(const CeGuiString& outputName);
+
 protected:
     /// Informationen über den Treiber ausgeben
-    virtual void printData() const;
+    void printData() const;
 
 private:
     // FMOD-Callbacks
-    static void close(void *handle);
-    static void *open(const char *name);
-    static int read(void *buffer, int size, void *handle);
-    static int seek(void *handle, int pos, signed char mode);
-    static int tell(void *handle);
+    static void* F_CALLBACKAPI open(const char *name);
+    static void F_CALLBACKAPI close(void *handle);
+    static int F_CALLBACKAPI read(void *buffer, int size, void *handle);
+    static int F_CALLBACKAPI seek(void *handle, int pos, signed char mode);
+    static int F_CALLBACKAPI tell(void *handle);
 
 	// Wir merken uns die Konfiguration von Fmod3
 	DriverMap mDriverData;
@@ -91,7 +96,7 @@ private:
 	// Die Daten für einen Output holen
 	const StringList getDriversForOutput(int output) const;
 	/// Informationen über den Treiber sammeln
-	virtual void collectData();
+	void collectData();
 };
 
 }

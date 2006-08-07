@@ -38,7 +38,7 @@ namespace Ogre
 
         fmod3config = new Fmod3Config(fmod3driver);
 		// Register config window
-		WindowFactory::getSingleton().registerSoundConfigWindow(fmod3config);
+		WindowFactory::getSingleton().registerSoundConfigComponent(fmod3config);
 	}
 
 	//Called when unloading plugins

@@ -73,7 +73,7 @@ SoundManager::SoundManager()
   mActiveListener(NULL),
   mSoundUpdateTask(NULL)
 {
-	Logger::getSingleton().log("SoundManager",Logger::LL_MESSAGE,"erzeuge Soundmanager...");
+	LOG_MESSAGE(Logger::CORE, "Erzeuge Soundmanager...");
 	SoundDriver *driver = NULL;
     mDriverList.clear();
 	NullDriver* nullDriver = new NullDriver(this);
@@ -88,7 +88,7 @@ SoundManager::~SoundManager()
     
 	if (mActiveDriver != NULL)
     {
-        mActiveDriver->deInit();
+        mActiveDriver->shutdown();
         mActiveDriver = NULL;
     }
 
@@ -97,17 +97,13 @@ SoundManager::~SoundManager()
 	{
 		Ogre::String driverPlugin = *it;
 
-		Logger::getSingleton().log(
-			Logger::CORE,
-			Logger::LL_NORMAL,
+		LOG_NORMAL(Logger::CORE,
 			"Unloading sound driver DLL "
 			+ driverPlugin);
 
 		Ogre::Root::getSingleton().unloadPlugin(driverPlugin);
 
-		Logger::getSingleton().log(
-			Logger::CORE,
-			Logger::LL_NORMAL,
+		LOG_NORMAL(Logger::CORE,
 			"Sound driver DLL "
 			+ driverPlugin
 			+ " successfully unloaded.");
@@ -231,21 +227,18 @@ void SoundManager::setActiveDriver(SoundDriver *driver)
 	
 	if (mActiveDriver != NULL )
     {
-		Logger::getSingleton().log(
-			Logger::CORE, 
-			Logger::LL_NORMAL, 
+		LOG_NORMAL(Logger::CORE,
 			"Soundtreiber wird gewechselt von "
             + mActiveDriver->getName());
 
+        mActiveDriver->shutdown();
 		delete mActiveDriver;
 		mActiveDriver = NULL;
     } 
 
 	if (driver != NULL) 
 	{
-		Logger::getSingleton().log(
-			Logger::CORE, 
-			Logger::LL_NORMAL, 
+		LOG_NORMAL(Logger::CORE,
 			"Soundtreiber wird gewechselt zu "
              + driver->getName());
 
@@ -256,7 +249,7 @@ void SoundManager::setActiveDriver(SoundDriver *driver)
 		mActiveDriver = getDriverByName(NullDriver::NAME);
 	}
     
-    mActiveDriver->init();
+    mActiveDriver->initialize();
 	mSoundUpdateTask = new SoundUpdateTask(this);
 	GameLoopManager::getSingleton().addAsynchronousTask(mSoundUpdateTask);
 }
@@ -359,18 +352,14 @@ void SoundManager::loadConf(const Ogre::String &filename)
         }
         catch(Ogre::Exception &e)
         {
-            Logger::getSingleton().log(
-                Logger::CORE, 
-                Logger::LL_NORMAL, 
+            LOG_NORMAL(Logger::CORE,
                 CeGuiString("Soundtreiber kann nicht geladen werden: ")
                     + *it + "\n"
                     + e.getFullDescription());
         }
         catch(...)
         {
-            Logger::getSingleton().log(
-                Logger::CORE, 
-                Logger::LL_NORMAL, 
+            LOG_NORMAL(Logger::CORE,
                 CeGuiString("Soundtreiber kann nicht geladen werden: ")
                     + *it);
         }

@@ -16,7 +16,6 @@
 #include "Fmod3Driver.h"
 
 extern "C" {
-    #include <fmod.h>
     #include <fmod_errors.h>
 }
 
@@ -89,14 +88,23 @@ bool Fmod3Driver::isDriverAvailable()
  * @author JoSch
  * @date 12-23-2005
  */
-void Fmod3Driver::init()
+void Fmod3Driver::initialize()
 {
-	if (FSOUND_GetVersion() < FMOD_VERSION)
+	if (FSOUND_GetVersion() != FMOD_VERSION)
     {
 		Throw(RuntimeException, 
 			String("Error : You are using the wrong DLL version!  You should be using FMOD ")
 			+ StringConverter::toString(FMOD_VERSION));
     }
+
+        // File Callbacks fuer FMOD setzen
+    FSOUND_File_SetCallbacks(
+        Fmod3Driver::open,
+        Fmod3Driver::close,
+        Fmod3Driver::read,
+        Fmod3Driver::seek,
+        Fmod3Driver::tell); 
+
 	// Daten sammeln
 	collectData();
 
@@ -109,72 +117,58 @@ void Fmod3Driver::init()
 #endif
 
 	FSOUND_SetMixer(FSOUND_MIXER_QUALITY_AUTODETECT);
-
+ 
 	switch (FSOUND_GetOutput())
     {
         case FSOUND_OUTPUT_NOSOUND:
-			Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, "FMOD Output: NoSound");
+			LOG_MESSAGE(Logger::MULTIMEDIA, "FMOD Output: NoSound");
             break;
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
         case FSOUND_OUTPUT_WINMM:
-            Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, "FMOD Output: Windows Multimedia Waveout");
+            LOG_MESSAGE(Logger::MULTIMEDIA, "FMOD Output: Windows Multimedia Waveout");
             break;
         case FSOUND_OUTPUT_DSOUND:
-            Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, "FMOD Output: Direct Sound");
+            LOG_MESSAGE(Logger::MULTIMEDIA, "FMOD Output: Direct Sound");
             break;
         case FSOUND_OUTPUT_ASIO:
-            Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, "FMOD Output: ASIO");
+            LOG_MESSAGE(Logger::MULTIMEDIA, "FMOD Output: ASIO");
             break;
-		default:
-            Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, "FMOD Output: Unknown");
-            break;
-#else
         case FSOUND_OUTPUT_OSS:
-            Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, "FMOD Output: Open Sound System");
+            LOG_MESSAGE(Logger::MULTIMEDIA, "FMOD Output: Open Sound System");
             break;
         case FSOUND_OUTPUT_ESD:
-            Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, "FMOD Output: Enlightment Sound Daemon");
+            LOG_MESSAGE(Logger::MULTIMEDIA, "FMOD Output: Enlightment Sound Daemon");
             break;
         case FSOUND_OUTPUT_ALSA:
-            Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, "FMOD Output: Alsa");
+            LOG_MESSAGE(Logger::MULTIMEDIA, "FMOD Output: Alsa");
             break;
 		default:
-            Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, "FMOD Output: Unknown");
+            LOG_MESSAGE(Logger::MULTIMEDIA, "FMOD Output: Unknown");
             break;
-#endif
     }
 
     unsigned int caps = 0;
     FSOUND_GetDriverCaps(FSOUND_GetDriver(), &caps);
     
-    Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, "FMOD Driver capabilities");
+    LOG_MESSAGE(Logger::MULTIMEDIA, "FMOD Driver capabilities");
 	const char* driverName = FSOUND_GetDriverName(FSOUND_GetDriver());
     if (driverName != NULL)
-		Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, driverName);
+		LOG_MESSAGE(Logger::MULTIMEDIA, driverName);
 	else
-		Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, "No driver");
+		LOG_MESSAGE(Logger::MULTIMEDIA, "No driver");
     if (!caps)
-        Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, "- This driver will support software mode only.\n  It does not properly support 3D sound hardware.");
+        LOG_MESSAGE(Logger::MULTIMEDIA, "- This driver will support software mode only.\n  It does not properly support 3D sound hardware.");
     if (caps & FSOUND_CAPS_HARDWARE)
-        Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, "- Driver supports hardware 3D sound!");
+        LOG_MESSAGE(Logger::MULTIMEDIA, "- Driver supports hardware 3D sound!");
     if (caps & FSOUND_CAPS_EAX2)
-        Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, "- Driver supports EAX 2 reverb!");
+        LOG_MESSAGE(Logger::MULTIMEDIA, "- Driver supports EAX 2 reverb!");
     if (caps & FSOUND_CAPS_EAX3)
-        Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, "- Driver supports EAX 3 reverb!");
-
-    // File Callbacks fuer FMOD setzen
-    FSOUND_File_SetCallbacks(
-        (FSOUND_OPENCALLBACK)Fmod3Driver::open,
-        (FSOUND_CLOSECALLBACK)Fmod3Driver::close,
-        (FSOUND_READCALLBACK)Fmod3Driver::read,
-        (FSOUND_SEEKCALLBACK)Fmod3Driver::seek,
-        (FSOUND_TELLCALLBACK)Fmod3Driver::tell); 
+        LOG_MESSAGE(Logger::MULTIMEDIA, "- Driver supports EAX 3 reverb!");
 
  	if (!FSOUND_Init(44100, 32, 0))
     {
         Throw(RuntimeException, "FMOD not initialized");
     }
-	Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, 
+	LOG_MESSAGE(Logger::MULTIMEDIA, 
 		String("fmod initialisiert, Fehler: ")
 		+ FMOD_ErrorString(FSOUND_GetError()));
    
@@ -185,7 +179,7 @@ void Fmod3Driver::init()
     // Position of the listener.
     float v[3] = {0, 0, 0};
     FSOUND_3D_Listener_SetAttributes(v, v, 1, 0, 0, 1, 0, 0); 
-    Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, "FMOD Driver: Listener set");
+    LOG_MESSAGE(Logger::MULTIMEDIA, "FMOD Driver: Listener set");
     
     // Verschiedene Daten ausgeben.
     printData();    
@@ -193,11 +187,11 @@ void Fmod3Driver::init()
 }
 
 /** 
- * Beeende den Nulltreiber und gebe alle Resourcen frei.
+ * Beeende den Treiber und gib alle Resourcen frei.
  * @author JoSch
  * @date 12-23-2005
  */
-void Fmod3Driver::deInit()
+void Fmod3Driver::shutdown()
 {
     FSOUND_Close();
 }
@@ -228,7 +222,7 @@ void Fmod3Driver::close(void *handle)
     		DataStreamPtr ds = (*sound)->getDataStream();
         	if (!ds.isNull())
         	{
-				Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, "Stream closed");
+				LOG_MESSAGE(Logger::MULTIMEDIA, "Stream closed");
             	ds->close();
         	}
 	        delete sound;
@@ -245,9 +239,7 @@ void *Fmod3Driver::open(const char *name)
 {
 	SoundResourcePtr *res = new SoundResourcePtr(sSoundResourceManager->getByName(name));
     (*res)->load();
-    Logger::getSingleton().log(
-		Logger::MULTIMEDIA, 
-		Logger::LL_MESSAGE, 
+    LOG_MESSAGE(Logger::MULTIMEDIA, 
 		"Opened stream " + String((*res)->getOrigin()));
     return res;
 }
@@ -340,7 +332,7 @@ int Fmod3Driver::tell(void *handle)
  */
  void Fmod3Driver::update()
  {
-    Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_TRIVIAL, "Updaten von Fmod3");
+    LOG_TRIVIAL(Logger::MULTIMEDIA, "Updaten von Fmod3");
  	FSOUND_Update();
  }
  
@@ -415,8 +407,7 @@ void Fmod3Driver::printData() const
 	int activeDriver = FSOUND_GetDriver();
 	for(int driver = 0; driver < numDrivers; driver++)
 	{
-		Logger::getSingleton().log(Logger::MULTIMEDIA, 
-			Logger::LL_MESSAGE, 
+        LOG_MESSAGE(Logger::MULTIMEDIA, 
 			String("FMOD Driver #")
 			+ StringConverter::toString(driver) + ": " +
 			+ FSOUND_GetDriverName(driver)
@@ -426,25 +417,25 @@ void Fmod3Driver::printData() const
     switch (FSOUND_GetMixer())
     {
         case FSOUND_MIXER_BLENDMODE:
-			Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, "FMOD Mixer: FSOUND_MIXER_BLENDMODE");
+			LOG_MESSAGE(Logger::MULTIMEDIA, "FMOD Mixer: FSOUND_MIXER_BLENDMODE");
             break;
         case FSOUND_MIXER_MMXP5:
-            Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, "FMOD Mixer: FSOUND_MIXER_MMXP5");
+            LOG_MESSAGE(Logger::MULTIMEDIA, "FMOD Mixer: FSOUND_MIXER_MMXP5");
             break;
         case FSOUND_MIXER_MMXP6:
-            Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, "FMOD Mixer: FSOUND_MIXER_MMXP6");
+            LOG_MESSAGE(Logger::MULTIMEDIA, "FMOD Mixer: FSOUND_MIXER_MMXP6");
             break;
         case FSOUND_MIXER_QUALITY_FPU:
-            Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, "FMOD Mixer: FSOUND_MIXER_QUALITY_FPU");
+            LOG_MESSAGE(Logger::MULTIMEDIA, "FMOD Mixer: FSOUND_MIXER_QUALITY_FPU");
             break;
         case FSOUND_MIXER_QUALITY_MMXP5:
-            Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, "FMOD Mixer: FSOUND_MIXER_QUALITY_MMXP5");
+            LOG_MESSAGE(Logger::MULTIMEDIA, "FMOD Mixer: FSOUND_MIXER_QUALITY_MMXP5");
             break;
         case FSOUND_MIXER_QUALITY_MMXP6:
-            Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, "FMOD Mixer: FSOUND_MIXER_QUALITY_MMXP6");
+            LOG_MESSAGE(Logger::MULTIMEDIA, "FMOD Mixer: FSOUND_MIXER_QUALITY_MMXP6");
             break;
         default:
-            Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, "FMOD Mixer: Unknown");
+            LOG_MESSAGE(Logger::MULTIMEDIA, "FMOD Mixer: Unknown");
             break;
     };
  
@@ -457,7 +448,7 @@ void Fmod3Driver::printData() const
 		+ StringConverter::toString(num2d)
 		+ ", Total: " 
 		+ StringConverter::toString(total);
-    Logger::getSingleton().log(Logger::MULTIMEDIA, Logger::LL_MESSAGE, line);
+    LOG_MESSAGE(Logger::MULTIMEDIA, line);
 }
 
 void Fmod3Driver::setMasterVolume(const Ogre::Real& vol)
@@ -488,16 +479,6 @@ void Fmod3Driver::loadConf(ConfigFile &conf)
 {
 	SoundDriver::loadConf(conf);
 	mRolloffFactor = conf.getValue(Ogre::Real(1.0), "3DRolloffFactor", "Fmod3");
-}
-
-/*
- * Den Konfigurationsdialog aufrufen
- * @author JoSch
- * @date 05-07-2006
- */
-void Fmod3Driver::doConfig()
-{
-    // DO NOTHING FOR NOW
 }
 
 /*
@@ -560,6 +541,10 @@ void Fmod3Driver::setRolloffFactor(const Ogre::Real& factor)
 const Ogre::Real Fmod3Driver::getRolloffFactor()
 {
 	return mRolloffFactor;
+}
+
+void Fmod3Driver::setActiveOutput(const rl::CeGuiString &outputName)
+{
 }
 
 

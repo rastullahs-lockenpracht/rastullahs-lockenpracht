@@ -48,11 +48,8 @@ void SoundResource::loadImpl()
 {
     if (!mIsLoaded)
     {
-        // Holen wir erstmal die Daten.
 		mDataStream = ResourceGroupManager::getSingleton().openResource(mName, mGroup);
-		size_t numBytes = mDataStream->size();
     }
- 
 }
 
 /** Entlaedt die Soundquelle und setzt die Werte.
@@ -65,7 +62,7 @@ void SoundResource::unloadImpl()
     {
         mDataStream.setNull();
     }
-    this->mIsLoaded = false;
+    mIsLoaded = false;
 }
 
 /**

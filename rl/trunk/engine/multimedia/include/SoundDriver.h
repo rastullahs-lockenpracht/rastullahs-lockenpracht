@@ -43,11 +43,11 @@ public:
     /// Zeigt an, ob der Treiber funktionsfähig ist.
     virtual bool isDriverAvailable() = 0;
     /// Initialisiere den Treiber
-    virtual void init() = 0;
+    virtual void initialize() = 0;
     /// Beende den Treiber
-    virtual void deInit() = 0;
+    virtual void shutdown() = 0;
     /// Der Name des Treibers
-	virtual Ogre::String getName() const = 0;
+    virtual Ogre::String getName() const = 0;
     /// Update-Aufgaben erledigen
     virtual void update() = 0;
     /// Einen Sound-Stream mit Resource erzeugen
@@ -76,10 +76,8 @@ public:
     /// Die Standardlautstärke für Musik zurückgeben.
     const Ogre::Real getMasterVolume() const;
     /// Einen Sound aus den Listen entfernen
-    void removeFromLists(SoundChannel *channel);
+    void remove(SoundChannel *channel);
     
-    /// Den  Konfigurationsdialog für Treiber aufrufen
-    virtual void doConfig() = 0;
     /// Die Einstellungen in Datei schreiben
     virtual void saveConf(rl::ConfigFile &conf) const;
     /// Die Einstellungen laden
