@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import meshhandle.scene.Entity;
 import meshhandle.scene.Scene;
 import meshhandle.scene.SceneNode;
 
@@ -31,7 +32,19 @@ public class SceneTreeCreator
 		ArrayList<SceneNode> nodes = scene.getNodes();
 		for (SceneNode node : nodes) 
 		{
-			DefaultMutableTreeNode meshFileNode = entityMap.get(node.getEntity().getMeshFile());
+			DefaultMutableTreeNode meshFileNode = null;
+
+			Entity ent = node.getEntity();
+			if (ent == null) 
+			{
+				meshFileNode = new DefaultMutableTreeNode("No meshfile");
+				root.add(meshFileNode);
+			} 
+			else 
+			{
+				meshFileNode = entityMap.get(ent.getMeshFile());
+			}
+			
 			if (meshFileNode == null)
 			{
 				meshFileNode = new DefaultMutableTreeNode(node.getEntity().getMeshFile());

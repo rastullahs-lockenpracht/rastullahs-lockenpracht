@@ -1,65 +1,67 @@
 package meshhandle.scene;
 
 public class NodeUserData {
-    private Integer staticGeomGroup;
+	
+	public static final String[] PHYSICAL_BODIES = {null, "none", "mesh"};
+	
+	private Integer mStaticGeomGroup;
 
-    private String physicalBody;
+	private String mPhysicalBody;
 
-    private Float renderingDistance;
+	private Float mRenderingDistance;
 
-    public String toXML() {
-        StringBuffer buf = new StringBuffer();
-        buf.append("            <userdata>\n");
-        if (staticGeomGroup != null) {
-            buf
-                    .append(
-                            "                <property type=\"INT\" name=\"staticgeom_group\" data=\"")
-                    .append(staticGeomGroup).append("\"/>\n");
-        }
-        if (physicalBody != null && !physicalBody.equals("")) {
-            buf
-                    .append(
-                            "                <property type=\"STRING\" name=\"physical_body\" data=\"")
-                    .append(physicalBody).append("\"/>\n");
-        }
-        if (renderingDistance != null) {
-            buf
-                    .append(
-                            "                <property type=\"FLOAT\" name=\"renderingdistance\" data=\"")
-                    .append(renderingDistance).append("\"/>\n");
-        }
-        buf.append("            </userdata>\n");
-        return buf.toString();
-    }
+	public String toXML() {
+		StringBuffer buf = new StringBuffer();
+		buf.append("            <userdata>\n");
+		if (mStaticGeomGroup != null) {
+			buf
+					.append(
+							"                <property type=\"INT\" name=\"staticgeom_group\" data=\"")
+					.append(mStaticGeomGroup).append("\"/>\n");
+		}
+		if (mPhysicalBody != null && !mPhysicalBody.equals("")) {
+			buf
+					.append(
+							"                <property type=\"STRING\" name=\"physical_body\" data=\"")
+					.append(mPhysicalBody).append("\"/>\n");
+		}
+		if (mRenderingDistance != null) {
+			buf
+					.append(
+							"                <property type=\"FLOAT\" name=\"renderingdistance\" data=\"")
+					.append(mRenderingDistance).append("\"/>\n");
+		}
+		buf.append("            </userdata>\n");
+		return buf.toString();
+	}
 
-    public String getPhysicalBody() {
-        return physicalBody;
-    }
+	public String getPhysicalBody() {
+		return mPhysicalBody;
+	}
 
-    public void setPhysicalBody(String physicalBody) {
-        this.physicalBody = physicalBody;
-    }
+	public void setPhysicalBody(String physicalBody) {
+		this.mPhysicalBody = physicalBody;
+	}
 
-    public Float getRenderingDistance() {
-        return renderingDistance;
-    }
+	public Float getRenderingDistance() {
+		return mRenderingDistance;
+	}
 
-    public void setRenderingDistance(Float renderingDistance) {
-        this.renderingDistance = renderingDistance;
-    }
+	public void setRenderingDistance(Float renderingDistance) {
+		this.mRenderingDistance = renderingDistance;
+	}
 
-    public Integer getStaticGeomGroup() {
-        return staticGeomGroup;
-    }
+	public Integer getStaticGeomGroup() {
+		return mStaticGeomGroup;
+	}
 
-    public void setStaticGeomGroup(Integer staticGeomGroup) {
-        this.staticGeomGroup = staticGeomGroup;
-    }
+	public void setStaticGeomGroup(Integer staticGeomGroup) {
+		this.mStaticGeomGroup = staticGeomGroup;
+	}
 
-    public void scale(float factor) {
-        if (renderingDistance != null)
-        {
-            renderingDistance = renderingDistance * factor;
-        }
-    }
+	public void scale(float factor) {
+		if (mRenderingDistance != null) {
+			mRenderingDistance = mRenderingDistance * factor;
+		}
+	}
 }
