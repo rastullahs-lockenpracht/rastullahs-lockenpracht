@@ -82,7 +82,7 @@ material arc_wassermuehle/arc_wassermuehle_bogentuer_01
             
             texture_unit
             {
-                texture arc_tür_rund.dds 
+                texture arc_tuer_rund.dds 
             }
         }
     }

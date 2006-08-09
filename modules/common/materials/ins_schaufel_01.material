@@ -11,7 +11,7 @@ material ins_pickel_schaufel_kastel
 
 			texture_unit
 			{
-				texture pickel+schaufel+kastel.dds
+				texture pickel-schaufel-kastel.dds
 			}
 		}
 	}
