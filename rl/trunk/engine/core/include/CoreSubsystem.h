@@ -88,7 +88,7 @@ public:
 	/** Saves a timestamped jpg Screenshot
 		@param sName The filename (extended with the timestamp)
 	*/
-	void  makeScreenshot(const Ogre::String& sName);
+	void makeScreenshot(const Ogre::String& sName);
 
     /** Gibt die abgelaufene Spielzeit zurück*/
 	RL_LONGLONG getClock();
@@ -140,7 +140,8 @@ private:
 	/** Loads all needed ressources */
 	void initializeResources();
 
-	void initializeSoundDriver();
+	void loadPlugins();
+    void unloadPlugins();
 
     /**
      * Texturen werden nicht gefunden, wenn sie erst bei Materialnutzung erzeugt werden

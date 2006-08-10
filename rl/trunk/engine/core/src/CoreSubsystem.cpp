@@ -93,7 +93,6 @@ namespace rl {
     CoreSubsystem::~CoreSubsystem() 
     {  
 		mCoreEventCaster.removeEventListeners();
-		mSoundManager->saveConf(rl::ConfigurationManager::getSingleton().getSoundCfgPath());
 
         delete mWorld;        
         delete mActorManager;
@@ -111,7 +110,7 @@ namespace rl {
 
     void CoreSubsystem::startCore()
     {
-		initializeSoundDriver();
+		loadPlugins();
 
 		mRubyInterpreter->executeFile("globals.rb");
 		mRubyInterpreter->executeFile("startup-global.rb");
@@ -146,6 +145,9 @@ namespace rl {
 		}
 
         Root::getSingleton().startRendering();
+
+        //mRubyInterpreter->finalizeInterpreter();
+		unloadPlugins();
     }
 
     bool CoreSubsystem::setupConfiguration()
@@ -331,12 +333,6 @@ namespace rl {
         }
     }
 
-	void CoreSubsystem::initializeSoundDriver()
-	{
-		mSoundManager->loadConf(rl::ConfigurationManager::getSingleton().getSoundCfgPath());
-		LOG_NORMAL(Logger::CORE, "Soundkonfiguration geladen");
-	}
-
 	ContentModule* CoreSubsystem::getModule(const String& moduleId) const
 	{
 		ModuleMap::const_iterator moduleIt = mModules.find(moduleId);
@@ -468,6 +464,19 @@ namespace rl {
             mRubyInterpreter->executeFile(startupScript);
 
         GameLoopManager::getSingleton().setPaused(false);
+    }
+
+    void CoreSubsystem::loadPlugins()
+    {
+		mSoundManager->loadConf(rl::ConfigurationManager::getSingleton().getSoundCfgPath());
+		LOG_NORMAL(Logger::CORE, "Soundkonfiguration geladen");
+    }
+
+    void CoreSubsystem::unloadPlugins()
+    {
+        mSoundManager->saveConf(rl::ConfigurationManager::getSingleton().getSoundCfgPath());
+		LOG_NORMAL(Logger::CORE, "Soundkonfiguration gespeichert.");
+        mSoundManager->unloadAllDrivers();
     }
 
     void CoreSubsystem::resetClock()
