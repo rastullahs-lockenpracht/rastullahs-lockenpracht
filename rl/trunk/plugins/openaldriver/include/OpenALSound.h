@@ -13,81 +13,74 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
+#ifndef _OALSOUND_H_
+#define _OALSOUND_H_
 
-#ifndef _NULLSOUNDCHANNEL_H_
-#define _NULLSOUNDCHANNEL_H_
-
-#include "MultimediaPrerequisites.h"
-#include "SoundChannel.h"
+#include "OpenALDriverPrerequisites.h"
+#include "Sound.h"
 #include "Exception.h"
-
-namespace Ogre {
-    class MovableObject;
-    class Vector3;
-}
 
 namespace rl
 {
     const int NO_CHANNEL = -1234;
     
-    class Sound;
-	class SoundDriver;
+	class OpenALDriver;
 
-class _RlMultimediaExport NullSoundChannel  : public SoundChannel
+class _RlOpenALDriverExport OpenALSound  : public Sound
 {
+public:
+	OpenALSound(OpenALDriver* driver, const SoundResourcePtr& res);
+	virtual ~OpenALSound();
+    
+    /// Moveable-Typ
+    virtual const Ogre::String& getMovableType() const;
+
+	float getLength() const;
+
+    /// Gibt die eingestellte Position der Soundquelle zurueck
+    virtual const Ogre::Vector3 getPosition() const;
+    /// Setzt die Position der Soundquelle.
+    virtual void setPosition(const Ogre::Vector3& direction);
+    /// Gibt die eingestellte relative Lautstaerke der Soundquelle zurueck
+    virtual const float getVolume() const; 
+    /// Setzt die relative Lautstaerke der Soundquelle.
+    virtual void setVolume(const float gain);
+    /// Gibt die Richtung der Soundquelle zurueck.
+    virtual const Ogre::Quaternion getDirection() const;
+    /// Gibt die Geschwindigkeit der Soundquelle zurueck.
+    virtual const Ogre::Vector3 getVelocity() const;
+    /// Setzt die Richtung der Soundquelle.
+    virtual void setDirection(const Ogre::Quaternion&);
+    /// Setzt die Geschwindigkeit der Soundquelle.
+    virtual void setVelocity(const Ogre::Vector3&);
+
+    /// Spielt den Sound ab.
+    virtual void play();
+    /// Pausiert den Sound.
+    virtual void pause(bool pausing);
+    /// Ist der Sound pausiert?
+    virtual bool isPaused();
+    /// Stoppt den Sound.
+    virtual void stop();
+    /// Zurueck auf Anfang.
+//        virtual void rewind();
+    /// Laeuft der Sound noch
+    virtual const bool isPlaying() const;
+    
+    // Sind wir gueltig
+    bool isValid() const;
+
 private:
-    /// Shared class-level name for Movable type
-    static Ogre::String msMovableType;
     /// Fmod-Channel 
     signed int mChannel;
     /// Ob der Sound spielt
     bool mIsPlaying;
-    
-public:
-	NullSoundChannel(SoundDriver* driver, Sound *sound, const Ogre::String &name);
-	 ~NullSoundChannel();
-    
-    /// Moveable-Typ
-     const Ogre::String& getMovableType() const;
-    /// Den Soundkanal zurueckgeben.
-    const signed int getChannel() const;
-    /// Den Soundkanal setzen.
-    void setChannel(signed int channel);  
+    OpenALDriver* mDriver;
 
-    /// Gibt die eingestellte Position der Soundquelle zurueck
-     const Ogre::Vector3 getPosition() const;
-    /// Setzt die Position der Soundquelle.
-     void setPosition(const Ogre::Vector3& direction);
-    /// Gibt die eingestellte relative Lautstaerke der Soundquelle zurueck
-     const Ogre::Real getVolume() const; 
-    /// Setzt die relative Lautstaerke der Soundquelle.
-     void setVolume(const Ogre::Real gain);
-    /// Gibt die Richtung der Soundquelle zurueck.
-     const Ogre::Quaternion getDirection() const;
-    /// Gibt die Geschwindigkeit der Soundquelle zurueck.
-     const Ogre::Vector3 getVelocity() const;
-    /// Setzt die Richtung der Soundquelle.
-     void setDirection(const Ogre::Quaternion&);
-    /// Setzt die Geschwindigkeit der Soundquelle.
-     void setVelocity(const Ogre::Vector3&);
-
-    /// Spielt den Sound ab.
-     void play();
-    /// Pausiert den Sound.
-     void pause(bool pausing);
-    /// Ist der Sound pausiert?
-     bool isPaused();
-    /// Stoppt den Sound.
-     void stop();
-    /// Zurueck auf Anfang.
-//         void rewind() throw (RuntimeException);
-    /// Laeuft der Sound noch
-     const bool isPlaying() const;
+    static Ogre::String msMovableType;
     
-    // Sind wir gueltig
-    bool isValid() const;
 };
 
 };
 
-#endif //_NULLSOUNDCHANNEL_H_
+#endif //_OALSOUNDCHANNEL_H_

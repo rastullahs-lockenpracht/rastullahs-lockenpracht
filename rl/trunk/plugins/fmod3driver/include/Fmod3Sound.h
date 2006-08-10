@@ -20,7 +20,7 @@
 
 namespace rl {
 
-class SoundChannel; 
+class Fmod3Driver; 
 
 /** Diese Klasse sollte eigentlich leer sein, aber C++ verlangt
  * Konstruktoren, wenn in der Basisklasse kein Defaultkonstruktor
@@ -33,14 +33,63 @@ class Fmod3Sound : public Sound
 {
 	public:
         /// Konstruktor
-        Fmod3Sound(const SoundResourcePtr &soundres) : Sound(soundres), mChannel(NO_CHANNEL) {};
-		/// Erzeuge einen Kanal mit Fmod.
-		virtual int createChannel() throw (RuntimeException) = 0;
+        Fmod3Sound(Fmod3Driver* driver, const SoundResourcePtr &soundres);
+        ~Fmod3Sound();
+
+		/// Moveable-Typ
+		virtual const Ogre::String& getMovableType() const;
+
+		/// Gibt die eingestellte Position der Soundquelle zurueck
+		virtual const Ogre::Vector3 getPosition() const;
+		/// Setzt die Position der Soundquelle.
+		virtual void setPosition(const Ogre::Vector3& direction);
+		/// Gibt die eingestellte relative Lautstaerke der Soundquelle zurueck (0..100)
+		virtual const Ogre::Real getVolume() const; 
+		/// Setzt die relative Lautstaerke der Soundquelle (0.100)
+		virtual void setVolume(const Ogre::Real gain);
+		/// Gibt die Richtung der Soundquelle zurueck.
+		virtual const Ogre::Quaternion getDirection() const;
+		/// Gibt die Geschwindigkeit der Soundquelle zurueck.
+		virtual const Ogre::Vector3 getVelocity() const;
+		/// Setzt die Richtung der Soundquelle.
+		virtual void setDirection(const Ogre::Quaternion&);
+		/// Setzt die Geschwindigkeit der Soundquelle.
+		virtual void setVelocity(const Ogre::Vector3&);
+		/// Setzt die Entfernung, ab der ein 3D-Sound leiser wird
+		virtual void setRolloffStartDistance(const Ogre::Real&);
+		virtual const Ogre::Real getRolloffStartDistance();
+		/// Setzt die Entfernung, ab der ein 3D-Sound nicht mehr leiser wird
+		virtual void setRolloffEndDistance(const Ogre::Real&);
+		virtual const Ogre::Real getRolloffEndDistance();
+
+		/// Spielt den Sound ab.
+		virtual void play();
+		/// Pausiert den Sound.
+		virtual void pause(bool pausing);
+		/// Ist der Sound pausiert?
+		virtual bool isPaused();
+		/// Stoppt den Sound.
+		virtual void stop();
+		/// Zurueck auf Anfang.
+	//         void rewind() throw (RuntimeException);
+		/// Laeuft der Sound noch
+		virtual const bool isPlaying() const;
+	    
+		// Sind wir gueltig
+		virtual bool isValid() const;
 
 	protected:
-		int mChannel;
+        virtual int createChannel() = 0;
 
 		static const int NO_CHANNEL = -999999;
+
+        int mChannel;
+        Fmod3Driver* mDriver;
+
+    private:
+		/// Shared class-level name for Movable type
+		static Ogre::String msMovableType;
+
 };
 
 }

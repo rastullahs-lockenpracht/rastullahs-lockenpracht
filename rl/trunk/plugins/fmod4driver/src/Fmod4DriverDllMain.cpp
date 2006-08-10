@@ -25,24 +25,24 @@ namespace Ogre
 	using namespace rl;
 
 	Fmod4Driver* fmod4driver = NULL;
+    Fmod4Config* fmod4config = NULL;
 
 	//Called from Ogre's dynload when loading plugins
 	extern "C" void dllStartPlugin( void )
 	{
-		// Create the driver
 		fmod4driver = new Fmod4Driver(SoundManager::getSingletonPtr());
-
-		// Register driver
 		SoundManager::getSingleton().registerDriver(fmod4driver);
 
 		// Register config window
-		WindowFactory::getSingleton().registerSoundConfigComponent(new Fmod4Config(fmod4driver));
+        fmod4config = new Fmod4Config(fmod4driver);
+		WindowFactory::getSingleton().registerSoundConfigComponent(fmod4config);
 	}
 
 	//Called when unloading plugins
 	extern "C" void dllStopPlugin( void )
 	{
-		//Just delete the driver :P
-		delete fmod4driver;
+        delete fmod4config;
+
+        delete fmod4driver;
 	}
 }

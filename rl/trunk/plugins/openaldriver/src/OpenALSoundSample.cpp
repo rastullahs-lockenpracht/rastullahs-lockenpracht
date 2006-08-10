@@ -16,7 +16,6 @@
 #include "OpenALSoundSample.h"
 
 #include "OpenALDriver.h"
-#include "OpenALSoundChannel.h"
 #include "SoundManager.h"
 #include "SoundResource.h"
 
@@ -31,8 +30,7 @@ namespace rl {
  * @date 07-04-2005
  */
 OpenALSoundSample::OpenALSoundSample(OpenALDriver* driver, const SoundResourcePtr &soundres):
-    Sound(soundres),
-	mDriver(driver)
+    OpenALSound(driver, soundres)
 {
 }
 
@@ -63,33 +61,9 @@ void OpenALSoundSample::unload() throw (RuntimeException)
     getSoundResource()->unload(); // TODO Ist das wirklich nötig?
 }
 
-/**
- * @return TRUE wenn der Sound gueltig ist.
- * @author JoSch
- * @date 07-12-2005
- */
-bool OpenALSoundSample::isValid() const throw (RuntimeException)
-{
-    return true;
-}
-
-/**
- * @return Der erzeugte Channel
- * @author JoSch
- * @date 08-08-2005
- */
-SoundChannel *OpenALSoundSample::createChannel() throw (RuntimeException)
-{
-	if (mChannel == NULL)
-	{
-		mChannel = new OpenALSoundChannel(mDriver, this, getName());
-	}
-    return mChannel; 
-}
-
 float OpenALSoundSample::getLength() const
 {
-	return mChannel->getLength();
+	return 0.0;
 }
 
 void OpenALSoundSamplePtr::destroy()

@@ -30,10 +30,7 @@ namespace Ogre
 	//Called from Ogre's dynload when loading plugins
 	extern "C" void dllStartPlugin( void )
 	{
-		// Create the driver
 		fmod3driver = new Fmod3Driver(SoundManager::getSingletonPtr());
-
-		// Register driver
 		SoundManager::getSingleton().registerDriver(fmod3driver);
 
         fmod3config = new Fmod3Config(fmod3driver);

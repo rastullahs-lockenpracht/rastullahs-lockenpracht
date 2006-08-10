@@ -22,12 +22,10 @@
 
 extern "C" {
     #include <fmod.h>
-    #include <fmod_errors.h>
 }
 
 namespace rl {
-	class SoundResource;
-
+	
    /** Diese Klasse dient der Interaktion mit Ogre3D
     * @author Josch
     * @date 07-03-2005
@@ -37,7 +35,7 @@ namespace rl {
     {
     public:
         /// Konstruktor
-        Fmod3SoundSample(const SoundResourcePtr &soundres);
+        Fmod3SoundSample(Fmod3Driver* driver, const SoundResourcePtr &soundres);
         /// Destruktor
         virtual ~Fmod3SoundSample();
 
@@ -45,18 +43,14 @@ namespace rl {
         virtual void load() throw (RuntimeException);
         /// Entlaedt den Sound.
         virtual void unload() throw (RuntimeException);
-        // Sample zurueckgeben
-        FSOUND_SAMPLE *getSample() const;
-        // Wir erzeugen einen Channel für SoundChannel
-        virtual int createChannel() throw (RuntimeException);
          // Wir geben zurück, wie lange der Sound ist.
 		virtual float getLength() const;
 
 	protected:
         // Sind wir gueltig?
         virtual bool isValid() const throw (RuntimeException);
-        // Sample setzen
-        void setSample(FSOUND_SAMPLE *sample);
+        // Wir erzeugen einen Channel für SoundChannel
+        virtual int createChannel() throw (RuntimeException);
 
     private:
         FSOUND_SAMPLE *mSample;

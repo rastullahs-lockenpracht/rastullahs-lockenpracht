@@ -27,7 +27,9 @@ namespace rl {
 
     SoundDriverConfigComponent::~SoundDriverConfigComponent()
     {
+        mWindow->getParent()->removeChildWindow(mWindow);
         CEGUI::WindowManager::getSingleton().destroyWindow(mWindow);
+        CEGUI::WindowManager::getSingleton().cleanDeadPool();
     }
 
 	const CeGuiString SoundDriverConfigComponent::getDriverName() const

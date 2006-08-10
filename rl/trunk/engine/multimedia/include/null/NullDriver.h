@@ -48,8 +48,6 @@ public:
     virtual Sound *createStream(const SoundResourcePtr &res);
     /// Einen Sound-Sample mit Resource erzeugen
     virtual Sound *createSample(const SoundResourcePtr &res);
-    /// Einen SoundChannel erzeugen
-    virtual SoundChannel *createChannel(Sound *channel, const Ogre::String &name);
     /// Einen Soundlistener erzeugen
     virtual ListenerMovable *createListener(const Ogre::String &name);
 
@@ -61,10 +59,6 @@ public:
 	/// Setzt den Faktor f, mit der die Lautstärke nach der Formel 1/(f*Entfernung) abnimmt
 	virtual void setRolloffFactor(const Ogre::Real&);
 	virtual const Ogre::Real getRolloffFactor();
-    
-protected:
-    /// Informationen über den Treiber ausgeben
-    void printData() const;
 };
 
 }

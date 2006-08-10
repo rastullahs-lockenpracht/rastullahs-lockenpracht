@@ -186,7 +186,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\OpenALSoundChannel.cpp"
+				RelativePath=".\src\OpenALSound.cpp"
 				>
 			</File>
 			<File
@@ -220,7 +220,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\OpenALSoundChannel.h"
+				RelativePath=".\include\OpenALSound.h"
 				>
 			</File>
 			<File

@@ -42,7 +42,7 @@ SoundDriver::~SoundDriver()
 void SoundDriver::setDefaultMusicVolume(const Ogre::Real& vol)
 {
     mDefaultMusicVolume = vol;
-    SoundChannelSet::iterator it;
+    SoundSet::iterator it;
     for(it = mMusicSet.begin(); it != mMusicSet.end(); it++)
     {
         (*it)->setVolume(vol);
@@ -59,7 +59,7 @@ const Ogre::Real SoundDriver::getDefaultMusicVolume() const
 void SoundDriver::setDefaultSoundVolume(const Ogre::Real& vol)
 {
     mDefaultSoundVolume = vol;
-    SoundChannelSet::iterator it;
+    SoundSet::iterator it;
     for(it = mSoundSet.begin(); it != mSoundSet.end(); it++)
     {
         (*it)->setVolume(vol);
@@ -83,10 +83,10 @@ const Ogre::Real SoundDriver::getMasterVolume() const
 }
 
 /// Aus einer Liste entfernen.
-void SoundDriver::remove(SoundChannel *channel)
+void SoundDriver::remove(Sound *sound)
 {
-    mMusicSet.erase(channel);
-    mSoundSet.erase(channel);
+    mMusicSet.erase(sound);
+    mSoundSet.erase(sound);
 }
 
 /*

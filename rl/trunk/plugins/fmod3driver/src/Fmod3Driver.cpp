@@ -22,7 +22,6 @@ extern "C" {
 #include "ConfigFile.h"
 #include "Fmod3SoundSample.h"
 #include "Fmod3SoundStream.h"
-#include "Fmod3SoundChannel.h"
 #include "Fmod3Listener.h"
 #include "Logger.h"
 #include "SoundResource.h"
@@ -212,7 +211,7 @@ Ogre::String Fmod3Driver::getName() const
  * @author JoSch
  * @date 08-22-2005
  */
-void Fmod3Driver::close(void *handle)
+void F_CALLBACKAPI Fmod3Driver::close(void *handle)
 {
     if (handle != 0)
     {
@@ -235,7 +234,7 @@ void Fmod3Driver::close(void *handle)
  * @author JoSch
  * @date 08-22-2005
  */
-void *Fmod3Driver::open(const char *name)
+void* F_CALLBACKAPI Fmod3Driver::open(const char *name)
 {
 	SoundResourcePtr *res = new SoundResourcePtr(sSoundResourceManager->getByName(name));
     (*res)->load();
@@ -252,7 +251,7 @@ void *Fmod3Driver::open(const char *name)
  * @author JoSch
  * @date 08-22-2005
  */
-int Fmod3Driver::read(void *buffer, int size, void *handle)
+int F_CALLBACKAPI Fmod3Driver::read(void *buffer, int size, void *handle)
 {
     if (handle != 0)
     {
@@ -277,7 +276,7 @@ int Fmod3Driver::read(void *buffer, int size, void *handle)
  * @author JoSch
  * @date 08-22-2005
  */
-int Fmod3Driver::seek(void *handle, int pos, signed char mode)
+int F_CALLBACKAPI Fmod3Driver::seek(void *handle, int pos, signed char mode)
 {
     if (handle != 0)
     {
@@ -308,7 +307,7 @@ int Fmod3Driver::seek(void *handle, int pos, signed char mode)
  * @author JoSch
  * @date 08-22-2005
  */
-int Fmod3Driver::tell(void *handle)
+int F_CALLBACKAPI Fmod3Driver::tell(void *handle)
 {
     if (handle != 0)
     {
@@ -344,8 +343,7 @@ int Fmod3Driver::tell(void *handle)
   */
 Sound *Fmod3Driver::createStream(const SoundResourcePtr &res)
 {
- 	Sound *sound = new Fmod3SoundStream(res);
- 	return sound;
+ 	return new Fmod3SoundStream(this, res);
 }
 
 /**
@@ -356,31 +354,7 @@ Sound *Fmod3Driver::createStream(const SoundResourcePtr &res)
  */
 Sound *Fmod3Driver::createSample(const SoundResourcePtr &res)
 {
- 	Sound *sound = new Fmod3SoundSample(res);
- 	return sound;
-}
-
-/**
- * Einen Sound-Channel erzeugen
- * @return Das erzeugte Sample
- * @param sound Der Sound, der kapselt wird.
- * @param name Der Name des Channels.
- * @author JoSch
- * @date 03-06-2006
- */
-SoundChannel *Fmod3Driver::createChannel(Sound *sound, const Ogre::String &name)
-{
- 	SoundChannel *channel = new Fmod3SoundChannel(this, sound, name);
-    if (sound->is3d())
-    {
-        channel->setVolume(mDefaultSoundVolume);
-        mSoundSet.insert(channel);
-    } else
-    {
-        channel->setVolume(mDefaultMusicVolume);
-        mMusicSet.insert(channel);
-    }
- 	return channel;
+ 	return new Fmod3SoundSample(this, res);
 }
 
 /**
@@ -545,6 +519,16 @@ const Ogre::Real Fmod3Driver::getRolloffFactor()
 
 void Fmod3Driver::setActiveOutput(const rl::CeGuiString &outputName)
 {
+}
+
+void Fmod3Driver::checkErrors()
+{
+    int err = FSOUND_GetError();
+    Throw( 
+        RuntimeException, 
+        "Fmod Error:" 
+        + Ogre::StringConverter::toString(err) 
+        + " while playing " + getName() );
 }
 
 

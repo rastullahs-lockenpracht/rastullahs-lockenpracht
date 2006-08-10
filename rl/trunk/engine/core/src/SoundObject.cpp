@@ -20,7 +20,6 @@
 #include "SoundManager.h"
 #include <Ogre.h>
 #include "Sound.h"
-#include "SoundChannel.h"
 #include "SoundDriver.h"
 #include "SoundManager.h"
 #include "Logger.h"
@@ -39,13 +38,8 @@ SoundObject::SoundObject(Sound *sound, const Ogre::String &name)
 	PlaylistObject(),
 	EventListener<SoundEvent>()
 {
-	SoundDriver *driver = SoundManager::getSingleton().getActiveDriver();
-	if (driver != 0)
-	{
-    	SoundChannel *sc = driver->createChannel(sound, name);
-        sc->addEventListener(this);
-    	mMovableObject = sc;
-	}
+    sound->addEventListener(this);
+    mMovableObject = sound;
 }
 
 /**
@@ -54,15 +48,11 @@ SoundObject::SoundObject(Sound *sound, const Ogre::String &name)
  */   
 SoundObject::~SoundObject()
 {
-    if (mMovableObject)
+    if (mMovableObject != NULL)
     {
-        SoundChannel *sc = static_cast<SoundChannel*>(mMovableObject);
-        if (sc)
-        {
-            sc->stop();
-            sc->removeEventListener(this);
-			SoundManager::getSingleton().getActiveDriver()->remove(sc);
-        }
+        getSound()->stop();
+        getSound()->removeEventListener(this);
+		SoundManager::getSingleton().getActiveDriver()->remove(getSound());
         delete mMovableObject;
     }
 }
@@ -84,22 +74,24 @@ bool SoundObject::isMeshObject()
 void SoundObject::_update()
 {
     ActorControlledObject::_update();
-    SoundChannel *channel = getSoundChannel();
     Actor *actor = getActor();
-    if (!channel || !actor) // Einer ist Null
+
+    if (mMovableObject == NULL || actor == NULL) 
     {
         return;
     }
-    if (!channel->isValid())
+
+    if (!getSound()->isValid())
     {
         return;
     }
+
     if (isAttached())
     {
-        channel->setPosition(actor->getWorldPosition());
-        channel->setDirection(actor->getWorldOrientation()); 
+        getSound()->setPosition(actor->getWorldPosition());
+        getSound()->setDirection(actor->getWorldOrientation()); 
 
-       LOG_MESSAGE(Logger::CORE, "Pos SoundObject: "
+       LOG_TRIVIAL(Logger::CORE, "Pos SoundObject: "
         + StringConverter::toString(actor->getWorldPosition().x) + " "
         + StringConverter::toString(actor->getWorldPosition().y) + " "
         + StringConverter::toString(actor->getWorldPosition().z));
@@ -108,7 +100,7 @@ void SoundObject::_update()
 
 void SoundObject::play( )
 {
-    getSoundChannel()->play();
+    getSound()->play();
     if (is3d())
     {
 	   _update();
@@ -117,56 +109,56 @@ void SoundObject::play( )
 
 void SoundObject::pause(bool pausing)
 {
-    getSoundChannel()->pause(pausing);
+    getSound()->pause(pausing);
 }
 
 bool SoundObject::isPaused()
 {
-    return getSoundChannel()->isPaused();
+    return getSound()->isPaused();
 }
 
 void SoundObject::stop()
 {
 	PlaylistObject::stop();
-    getSoundChannel()->stop();
+    getSound()->stop();
 }
 
 
 bool SoundObject::isLooping() const
 {
-    return getSoundChannel()->isLooping();
+    return getSound()->isLooping();
 }
 
 void SoundObject::setLooping( bool looping )
 {
-    getSoundChannel()->setLooping( looping );
+    getSound()->setLooping( looping );
 }
 
 void SoundObject::setVolume(Ogre::Real volume)
 {
-	getSoundChannel()->setVolume(volume);
+	getSound()->setVolume(volume);
 }
 
 bool SoundObject::is3d() const
 {
-	return getSoundChannel()->is3d();
+	return getSound()->is3d();
 }
 
 void SoundObject::set3d( bool is3d )
 {
-	getSoundChannel()->set3d(is3d);
+	getSound()->set3d(is3d);
 }
 
 void SoundObject::load()
 {
 	PlaylistObject::load();
-	getSoundChannel()->load();
+	getSound()->load();
 }
 
 void SoundObject::unload()
 {
 	PlaylistObject::unload();
-    getSoundChannel()->unload();
+    getSound()->unload();
 }
 
 /**
@@ -174,9 +166,9 @@ void SoundObject::unload()
  * @author JoSch
  * @date 03-11-2005
  */   
-SoundChannel* SoundObject::getSoundChannel() const
+Sound* SoundObject::getSound() const
 {
-    return static_cast<SoundChannel*>(mMovableObject);
+    return static_cast<Sound*>(mMovableObject);
 }
 
 /**
@@ -225,7 +217,7 @@ void SoundObject::start()
 
 float SoundObject::getLength() const
 {
-	return getSoundChannel()->getSound()->getLength();
+	return getSound()->getLength();
 }
 
 }

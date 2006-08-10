@@ -44,9 +44,45 @@ namespace rl {
         // Wir geben zurück, wie lange der Sound ist.
 		virtual float getLength() const;
     
+        /// Moveable-Typ
+        virtual const Ogre::String& getMovableType() const;
+
+        /// Gibt die eingestellte Position der Soundquelle zurueck
+        virtual const Ogre::Vector3 getPosition() const;
+        /// Setzt die Position der Soundquelle.
+        virtual void setPosition(const Ogre::Vector3& direction);
+        /// Gibt die eingestellte relative Lautstaerke der Soundquelle zurueck
+       virtual  const Ogre::Real getVolume() const; 
+        /// Setzt die relative Lautstaerke der Soundquelle.
+         void setVolume(const Ogre::Real gain);
+        /// Gibt die Richtung der Soundquelle zurueck.
+         const Ogre::Quaternion getDirection() const;
+        /// Gibt die Geschwindigkeit der Soundquelle zurueck.
+         const Ogre::Vector3 getVelocity() const;
+        /// Setzt die Richtung der Soundquelle.
+         void setDirection(const Ogre::Quaternion&);
+        /// Setzt die Geschwindigkeit der Soundquelle.
+         void setVelocity(const Ogre::Vector3&);
+
+        /// Spielt den Sound ab.
+         void play();
+        /// Pausiert den Sound.
+         void pause(bool pausing);
+        /// Ist der Sound pausiert?
+         bool isPaused();
+        /// Stoppt den Sound.
+         void stop();
+        /// Zurueck auf Anfang.
+    //         void rewind() throw (RuntimeException);
+        /// Laeuft der Sound noch
+         const bool isPlaying() const;
     protected:
         // Sind wir gueltig?
         virtual bool isValid() const throw (RuntimeException);
+    private:
+        // Shared class-level name for Movable type
+        static Ogre::String msMovableType;
+
     }; 
 
     class _RlMultimediaExport NullSoundPtr :

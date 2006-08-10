@@ -28,7 +28,7 @@ namespace rl
 {
 
 	SoundConfig::SoundConfig()
-		: CeGuiWindow("soundconfig.xml", WND_ALL_INPUT, true),
+		: CeGuiWindow("soundconfig.xml", WND_ALL_INPUT),
 		mDriverBox(NULL),
 		mVolumeSound(0),
 		mVolumeMusic(0),

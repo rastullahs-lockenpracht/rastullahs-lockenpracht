@@ -17,20 +17,18 @@
 #define __OpenALSoundSample_H__
 
 #include "OpenALDriverPrerequisites.h"
-#include "SoundResource.h"
-#include "Sound.h"
+#include "OpenALSound.h"
 
 namespace rl {
 
 	class OpenALDriver;
-	class OpenALSoundChannel;
 
    /** Diese Klasse dient der Interaktion mit Ogre3D
     * @author Josch
     * @date 07-03-2005
     * @version 1.0
     */
-    class _RlOpenALDriverExport OpenALSoundSample : public Sound
+    class _RlOpenALDriverExport OpenALSoundSample : public OpenALSound
     {
     public:
         /// Konstruktor
@@ -43,18 +41,7 @@ namespace rl {
         /// Entlaedt den Sound.
         virtual void unload() throw (RuntimeException);
  
-        // Wir erzeugen einen Channel für SoundChannel
-        virtual SoundChannel* createChannel() throw (RuntimeException);
-
-		float getLength() const;
-    
-	protected:
-        // Sind wir gueltig?
-        virtual bool isValid() const throw (RuntimeException);
-    
-	private:
-		OpenALDriver* mDriver;
-		OpenALSoundChannel* mChannel;
+		virtual float getLength() const; 
     }; 
 
     class _RlOpenALDriverExport OpenALSoundSamplePtr :

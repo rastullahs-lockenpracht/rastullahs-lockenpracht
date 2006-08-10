@@ -21,7 +21,6 @@
 #include "Fmod3Sound.h"
 extern "C" {
     #include <fmod.h>
-    #include <fmod_errors.h>
 }
 
 namespace rl {
@@ -36,28 +35,22 @@ namespace rl {
     {
     public:
         /// Konstruktor
-        Fmod3SoundStream(const Ogre::String& name);
-        /// Konstruktor
-        Fmod3SoundStream(const SoundResourcePtr &soundres);
+        Fmod3SoundStream(Fmod3Driver* driver, const SoundResourcePtr &soundres);
         /// Destruktor
         virtual ~Fmod3SoundStream();
 
-        // Stream zurueckgeben
-        FSOUND_STREAM *getStream() const;
         /// Laedt den Sound.
         virtual void load() throw (RuntimeException);
         /// Entlaedt den Sound.
         virtual void unload() throw (RuntimeException);        
-        // Wir erzeugen einen Channel für SoundChannel
-        virtual int createChannel() throw (RuntimeException);
         // Wir geben zurück, wie lange der Sound ist.
 		virtual float getLength() const;
 
     protected:
         // Sind wir gueltig?
         virtual bool isValid() const throw (RuntimeException);
-        // Sample setzen
-        void setStream(FSOUND_STREAM *stream);
+        // Wir erzeugen einen Channel für SoundChannel
+        virtual int createChannel() throw (RuntimeException);
         
     private:
         FSOUND_STREAM *mStream;

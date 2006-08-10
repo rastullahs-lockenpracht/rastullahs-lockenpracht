@@ -14,12 +14,13 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 #include "Fmod3SoundStream.h"
-#include "Fmod3SoundChannel.h"
-#include "SoundManager.h"
 
 extern "C" {
     #include <fmod.h>
 }
+
+#include "Fmod3Driver.h"
+#include "SoundManager.h"
 
 using namespace Ogre;
 using namespace boost;
@@ -32,8 +33,8 @@ namespace rl {
  * @author JoSch
  * @date 07-04-2005
  */
-Fmod3SoundStream::Fmod3SoundStream(const SoundResourcePtr &soundres):
-    Fmod3Sound(soundres),
+Fmod3SoundStream::Fmod3SoundStream(Fmod3Driver* driver, const SoundResourcePtr &soundres):
+    Fmod3Sound(driver, soundres),
     mStream(0)
 {
 }
@@ -76,8 +77,7 @@ void Fmod3SoundStream::load() throw (RuntimeException)
     if (mStream == NULL)
     {
         // Stereo auf 3D?
-        mode |= FSOUND_FORCEMONO;
-        mStream = FSOUND_Stream_Open(getName().c_str(), mode, 0, 0);
+        mStream = FSOUND_Stream_Open(name, mode | FSOUND_FORCEMONO, 0, 0);
     }
     if (mStream != NULL)
     {
@@ -98,7 +98,7 @@ void Fmod3SoundStream::load() throw (RuntimeException)
  */
 void Fmod3SoundStream::unload() throw (RuntimeException)
 {
-    FSOUND_Stream_Close(getStream());
+    FSOUND_Stream_Close(mStream);
     getSoundResource()->unload();
 }
 
@@ -110,27 +110,7 @@ void Fmod3SoundStream::unload() throw (RuntimeException)
  */
 bool Fmod3SoundStream::isValid() const throw (RuntimeException)
 {
-    return (getStream() != 0);
-}
-
-/**
- * @return Den Stream zurueckgeben.
- * @author JoSch
- * @date 07-12-2005
- */
-FSOUND_STREAM *Fmod3SoundStream::getStream() const
-{
-    return mStream;
-}
-
-/**
- * @param stream Den Stream setzen.
- * @author JoSch
- * @date 07-12-2005
- */
-void Fmod3SoundStream::setStream(FSOUND_STREAM *stream)
-{
-    mStream = stream;
+    return (mStream != 0);
 }
 
 float Fmod3SoundStream::getLength() const
@@ -150,8 +130,12 @@ float Fmod3SoundStream::getLength() const
  */
 int Fmod3SoundStream::createChannel() throw (RuntimeException)
 {
-	mChannel = FSOUND_Stream_PlayEx(FSOUND_FREE, getStream(), 0, true);
-    return mChannel; 
+	int channel = FSOUND_Stream_PlayEx(FSOUND_FREE, mStream, 0, true);
+    if (channel == -1)
+    {
+        mDriver->checkErrors();
+    }
+    return channel; 
 }
 
 /**
@@ -165,7 +149,7 @@ signed char Fmod3SoundStream::streamEndCallback(FSOUND_STREAM *stream,
     Fmod3SoundStream *fmod3stream = static_cast<Fmod3SoundStream*>(userdata);
     if (fmod3stream != 0)
     {
-        RlAssert(fmod3stream->getStream() == stream, "Stream-Daten stimmen nicht überein");
+        RlAssert(fmod3stream->mStream == stream, "Stream-Daten stimmen nicht überein");
     }
     return 0;
 }
@@ -181,7 +165,7 @@ signed char Fmod3SoundStream::streamSyncCallback(FSOUND_STREAM *stream,
     Fmod3SoundStream *fmod3stream = static_cast<Fmod3SoundStream*>(userdata);
     if (fmod3stream != 0)
     {
-        RlAssert(fmod3stream->getStream() == stream, "Stream-Daten stimmen nicht überein");
+        RlAssert(fmod3stream->mStream == stream, "Stream-Daten stimmen nicht überein");
     }
     return 0;
 }

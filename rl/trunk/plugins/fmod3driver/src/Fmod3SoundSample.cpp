@@ -14,7 +14,8 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 #include "Fmod3SoundSample.h"
-#include "Fmod3SoundChannel.h"
+
+#include "Fmod3Driver.h"
 #include "SoundManager.h"
 #include "SoundResource.h"
 
@@ -28,8 +29,8 @@ namespace rl {
  * @author JoSch
  * @date 07-04-2005
  */
-Fmod3SoundSample::Fmod3SoundSample(const SoundResourcePtr &soundres):
-    Fmod3Sound(soundres),
+Fmod3SoundSample::Fmod3SoundSample(Fmod3Driver* driver, const SoundResourcePtr &soundres):
+    Fmod3Sound(driver, soundres),
     mSample(0)
 {
 }
@@ -67,27 +68,20 @@ void Fmod3SoundSample::load() throw (RuntimeException)
         mode |= FSOUND_LOOP_OFF;
     }
     
+    const char* name = getSoundResource()->getName().c_str();
     mSample = FSOUND_Sample_Load(
-        FSOUND_FREE, 
-        getSoundResource()->getName().c_str(), 
-        mode, 
-        0, 
-        len);
+        FSOUND_FREE, name, mode, 0, len);
+
     if (mSample == 0 && !is3d())
     {
         mode |= FSOUND_FORCEMONO;
         mSample = FSOUND_Sample_Load(
-            FSOUND_FREE, 
-            getSoundResource()->getName().c_str(), 
-            mode,
-            0, 
-            len);
+            FSOUND_FREE, name, mode | FSOUND_FORCEMONO, 0, len);
     }
 
     if( mSample == NULL )
     {
-        int err = FSOUND_GetError();
-        Throw( RuntimeException, "Fmod Error:" + Ogre::StringConverter::toString(err) + " while loading " + getName() );
+        mDriver->checkErrors();
     }   
 }
 
@@ -97,7 +91,7 @@ void Fmod3SoundSample::load() throw (RuntimeException)
  */
 void Fmod3SoundSample::unload() throw (RuntimeException)
 {
-    FSOUND_Sample_Free(getSample());
+    FSOUND_Sample_Free(mSample);
 }
 
 /**
@@ -107,27 +101,7 @@ void Fmod3SoundSample::unload() throw (RuntimeException)
  */
 bool Fmod3SoundSample::isValid() const throw (RuntimeException)
 {
-    return (getSample() != 0);
-}
-
-/**
- * @return Das Sample zurueckgeben.
- * @author JoSch
- * @date 07-12-2005
- */
-FSOUND_SAMPLE *Fmod3SoundSample::getSample() const
-{
-    return mSample;
-}
-
-/**
- * @param sample Das Sample setzen.
- * @author JoSch
- * @date 07-12-2005
- */
-void Fmod3SoundSample::setSample(FSOUND_SAMPLE *sample)
-{
-    mSample = sample;
+    return (mSample != 0);
 }
 
 float Fmod3SoundSample::getLength() const
@@ -149,14 +123,13 @@ float Fmod3SoundSample::getLength() const
  */
 int Fmod3SoundSample::createChannel() throw (RuntimeException)
 {
-    mChannel = FSOUND_PlaySoundEx(FSOUND_FREE, getSample(), 0, true);
+    int channel = FSOUND_PlaySoundEx(FSOUND_FREE, mSample, 0, true);
 
-    if( mChannel == -1 )
+    if( channel == -1 )
     {
-        int err = FSOUND_GetError();
-        Throw( RuntimeException, "Fmod Error:" + Ogre::StringConverter::toString(err) + " while playing " + getName() );
+        mDriver->checkErrors();
     }   
-	return mChannel; 
+	return channel; 
 }
 
 void Fmod3SoundSamplePtr::destroy()

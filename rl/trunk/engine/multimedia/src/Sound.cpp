@@ -20,8 +20,14 @@ using namespace Ogre;
 namespace rl
 {
 
+AxisAlignedBox Sound::msAABox = Ogre::AxisAlignedBox(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+
 Sound::Sound(const SoundResourcePtr &soundres)
- : mSoundResource(soundres),
+ : MovableObject(),
+   EventSource(),
+   EventCaster<SoundEvent>(),
+   mVolume(1.0),
+   mSoundResource(soundres),
    mIsLooping(false),
    mIs3d(false),
    mTicks(0),
@@ -92,6 +98,53 @@ void Sound::set3d(bool is3d)
 const SoundResourcePtr &Sound::getSoundResource() const
 {
     return mSoundResource;
+}
+
+/**
+ * @author JoSch
+ * @date 03-11-2005
+ */
+const AxisAlignedBox& Sound::getBoundingBox() const 
+{
+    return msAABox;
+}
+
+/**
+ * @author JoSch
+ * @date 03-11-2005
+ */
+Real Sound::getBoundingRadius (void) const
+{
+    return 0.0f; // SQRT(3*SQR(0.0)) to fit with AABB
+}
+
+/**
+ * @author JoSch
+ * @date 03-11-2005
+ */
+void Sound::_updateRenderQueue(RenderQueue *queue)
+{
+    // Brauchen wir nicht
+}
+
+void Sound::setRolloffStartDistance(const Ogre::Real& distance)
+{
+	mRolloffStartDistance = distance;
+}
+
+const Ogre::Real Sound::getRolloffStartDistance() const
+{
+	return mRolloffStartDistance;
+}
+
+void Sound::setRolloffEndDistance(const Ogre::Real& distance)
+{
+	mRolloffEndDistance = distance;
+}
+
+const Ogre::Real Sound::getRolloffEndDistance() const
+{
+	return mRolloffEndDistance;
 }
 
 

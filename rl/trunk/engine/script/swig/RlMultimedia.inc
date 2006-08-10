@@ -16,13 +16,12 @@
 
 namespace rl {
 
-class SoundChannel 
+class Sound 
 {
 private:
-	SoundChannel(Sound *sound, const Ogre::String &name);
+	Sound(const SoundResourcePtr& res);
 public:
-	
-	virtual ~SoundChannel();
+	virtual ~Sound();
     
     /// Name zurückgeben
     const Ogre::String& getName() const;

@@ -48,8 +48,6 @@ public:
     virtual Sound *createStream(const SoundResourcePtr &res);
     /// Einen Sound-Sample mit Resource erzeugen
     virtual Sound *createSample(const SoundResourcePtr &res);
-    /// Einen SoundChannel erzeugen
-    virtual SoundChannel *createChannel(Sound *channel, const Ogre::String &name);
     /// Einen Soundlistener erzeugen
     virtual ListenerMovable *createListener(const Ogre::String &name);
 
@@ -62,7 +60,7 @@ public:
 	virtual void setRolloffFactor(const Ogre::Real& f);
 	virtual const Ogre::Real getRolloffFactor();
     
-protected:
+private:
     /// Informationen über den Treiber ausgeben
     virtual void printData() const;
 };

@@ -27,7 +27,6 @@
 namespace rl {
 
     class Sound;
-    class SoundChannel;
     
     
     /** Klasse für alle Soundobjekte, die man an einen Aktor
@@ -51,11 +50,9 @@ namespace rl {
         
         /// Wie ActorControlledObject::getMovableObject()
         /// Nur schon gebrauchsfertig gecastet.
-        SoundChannel* getSoundChannel() const;
+        Sound* getSound() const;
         
         
-        void play( );
-
         virtual Ogre::String getObjectType();
 
 		bool is3d() const;
@@ -81,10 +78,12 @@ namespace rl {
         /// Entlädt den Sound.
         virtual void unload();
         
+        void play();
+
         /// Starte den Sound
-        virtual void start();
+        void start();
         /// Pausieren den Sound
-        virtual void pause();
+        void pause();
         
         /// Ein SoundEreignis ist passiert.
         virtual bool eventRaised(SoundEvent *event);

@@ -31,7 +31,6 @@
 
 #include "OpenALSoundSample.h"
 #include "OpenALSoundStream.h"
-#include "OpenALSoundChannel.h"
 #include "OpenALListener.h"
 
 Ogre::String rl::OpenALDriver::NAME = "OpenAL";
@@ -157,29 +156,6 @@ Sound *OpenALDriver::createSample(const SoundResourcePtr &res)
 {
  	Sound *sound = new OpenALSoundSample(this, res);
  	return sound;
-}
-
-/**
- * Einen Sound-Channel erzeugen
- * @return Das erzeugte Sample
- * @param sound Der Sound, der kapselt wird.
- * @param name Der Name des Channels.
- * @author JoSch
- * @date 03-06-2006
- */
-SoundChannel *OpenALDriver::createChannel(Sound *sound, const Ogre::String &name)
-{
- 	SoundChannel *channel = new OpenALSoundChannel(this, sound, name);
-    if (sound->is3d())
-    {
-        channel->setVolume(mDefaultSoundVolume);
-        mSoundSet.insert(channel);
-    } else
-    {
-        channel->setVolume(mDefaultMusicVolume);
-        mMusicSet.insert(channel);
-    }
- 	return channel;
 }
 
 /**

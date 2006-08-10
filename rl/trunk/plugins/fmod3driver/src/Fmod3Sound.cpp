@@ -13,58 +13,57 @@
 *  along with this program; if not you can get it here
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
-
-#include "Fmod3SoundChannel.h"
-
-#include <OgreMovableObject.h>
 #include "Fmod3Sound.h"
-#include "SoundDriver.h"
-#include "SoundEvents.h"
 
 extern "C" {
     #include <fmod.h>
 }
 
-Ogre::String rl::Fmod3SoundChannel::msMovableType = "Fmod3SoundChannel";
+#include "Fmod3Driver.h"
+#include "SoundEvents.h"
+
+Ogre::String rl::Fmod3Sound::msMovableType = "Fmod3Sound";
 
 using namespace Ogre; 
 
 namespace rl
 {
 
-Fmod3SoundChannel::Fmod3SoundChannel(SoundDriver* driver, Sound *sound, const Ogre::String &name)
- : SoundChannel(driver, sound, name),
+Fmod3Sound::Fmod3Sound(Fmod3Driver* driver, const SoundResourcePtr& res)
+ : Sound(res),
+   mDriver(driver),
    mChannel(NO_CHANNEL)
 {
 	mRolloffStartDistance = 1.0f;
 	mRolloffEndDistance = 1000000000.0f;
 }
 
-Fmod3SoundChannel::~Fmod3SoundChannel()
+Fmod3Sound::~Fmod3Sound()
 {
-    FSOUND_StopSound(getChannel());
+    FSOUND_StopSound(mChannel);
 }
 
 /**
  * @author JoSch
  * @date 07-23-2005
  */
-void Fmod3SoundChannel::play()
+void Fmod3Sound::play()
 {
-    if (!getSound()->isValid())
+    if (!isValid())
     {
-        getSound()->load();
+        load();
     }
-    setChannel(dynamic_cast<Fmod3Sound*>(getSound())->createChannel());
+
+    mChannel = createChannel();
 
 	float vol;
 	if (is3d())
 	{
-		vol = getDriver()->getDefaultSoundVolume();
+		vol = mDriver->getDefaultSoundVolume();
 	}
 	else
 	{
-		vol = getDriver()->getDefaultMusicVolume();
+		vol = mDriver->getDefaultMusicVolume();
 	}
 	setVolume(vol);
 
@@ -79,30 +78,10 @@ void Fmod3SoundChannel::play()
 
 /**
  * @author JoSch
- * @date 07-04-2005
- * @return Der Soundkanal
- */
-const signed int Fmod3SoundChannel::getChannel() const
-{
-    return mChannel;
-}
-
-/**
- * @author JoSch
- * @date 07-21-2005
- * @param channel Der Soundkanal
- */
-void Fmod3SoundChannel::setChannel(signed int channel)
-{
-    mChannel = channel;
-}
-
-/**
- * @author JoSch
  * @date 03-11-2005
  * @return Den Objekttypen
  */
-const String& Fmod3SoundChannel::getMovableType() const
+const String& Fmod3Sound::getMovableType() const
 {
     return msMovableType;
 }
@@ -113,7 +92,7 @@ const String& Fmod3SoundChannel::getMovableType() const
  * @author JoSch
  * @date 07-23-2004
  */
-const Quaternion Fmod3SoundChannel::getDirection() const
+const Quaternion Fmod3Sound::getDirection() const
 {
     return mDirection;
 }
@@ -123,7 +102,7 @@ const Quaternion Fmod3SoundChannel::getDirection() const
  * @author JoSch
  * @date 07-23-2004
  */
-void Fmod3SoundChannel::setDirection (const Quaternion& direction)
+void Fmod3Sound::setDirection (const Quaternion& direction)
 {
     mDirection = direction;
 }
@@ -133,9 +112,11 @@ void Fmod3SoundChannel::setDirection (const Quaternion& direction)
  * @author JoSch
  * @date 08-05-2005
  */
-bool Fmod3SoundChannel::isValid() const
+bool Fmod3Sound::isValid() const
 {
-    return SoundChannel::isValid() && (mChannel > 0);
+    return (mChannel != NO_CHANNEL) 
+        && (mChannel != 0)
+        && (mChannel != -1);
 }
 
 /**
@@ -143,11 +124,11 @@ bool Fmod3SoundChannel::isValid() const
  * @author JoSch
  * @date 07-04-2005
  */
-const bool Fmod3SoundChannel::isPlaying() const
+const bool Fmod3Sound::isPlaying() const
 {
     if (isValid())
     {
-        return FSOUND_IsPlaying(getChannel());
+        return FSOUND_IsPlaying(mChannel);
     }
     return false;
 }
@@ -159,25 +140,24 @@ const bool Fmod3SoundChannel::isPlaying() const
  * @author JoSch
  * @date 07-04-2005
  */
-const Vector3 Fmod3SoundChannel::getPosition() const
+const Vector3 Fmod3Sound::getPosition() const
 {
     if (isValid())
     {
         float pos[3];
-        FSOUND_3D_GetAttributes(getChannel(), pos, 0);
+        FSOUND_3D_GetAttributes(mChannel, pos, 0);
         Vector3 result(pos);
         return result;
     }
     return mPosition;
 }
 
-class FmodSoundSample;
 /**
  * @param position Die neue Position der Soundquelle.
  * @author JoSch
  * @date 07-04-2005
  */
-void Fmod3SoundChannel::setPosition(const Vector3& position)
+void Fmod3Sound::setPosition(const Vector3& position)
 {
     if (isValid())
     {
@@ -188,7 +168,7 @@ void Fmod3SoundChannel::setPosition(const Vector3& position)
             + StringConverter::toString(position.x)
             + StringConverter::toString(position.y)
             + StringConverter::toString(position.z));
-        FSOUND_3D_SetAttributes(getChannel(), pos, 0);
+        FSOUND_3D_SetAttributes(mChannel, pos, 0);
     }
     mPosition = position;
 }
@@ -198,12 +178,12 @@ void Fmod3SoundChannel::setPosition(const Vector3& position)
  * @author JoSch
  * @date 07-04-2005
  */
-const Vector3 Fmod3SoundChannel::getVelocity() const
+const Vector3 Fmod3Sound::getVelocity() const
 {
     if (isValid())
     {
         float vel[3];
-        FSOUND_3D_GetAttributes(getChannel(), 0, vel);
+        FSOUND_3D_GetAttributes(mChannel, 0, vel);
         Vector3 result(vel);
         return result;
     }
@@ -215,12 +195,12 @@ const Vector3 Fmod3SoundChannel::getVelocity() const
  * @author JoSch
  * @date 07-04-2005
  */
-void Fmod3SoundChannel::setVelocity(const Vector3& velocity)
+void Fmod3Sound::setVelocity(const Vector3& velocity)
 {
     if (isValid())
     {
         float vel[] = {velocity.x, velocity.y, -velocity.z};
-        FSOUND_3D_SetAttributes(getChannel(), 0, vel);
+        FSOUND_3D_SetAttributes(mChannel, 0, vel);
     }
     mVelocity = velocity;
 }
@@ -230,11 +210,11 @@ void Fmod3SoundChannel::setVelocity(const Vector3& velocity)
  * @author JoSch
  * @date 07-04-2005
  */
-const Ogre::Real Fmod3SoundChannel::getVolume() const
+const Ogre::Real Fmod3Sound::getVolume() const
 {
     if (isValid())
     {
-        return (float)FSOUND_GetVolume(getChannel()) / 255.0;
+        return (float)FSOUND_GetVolume(mChannel) / 255.0;
     }
     return mVolume;
 }
@@ -244,7 +224,7 @@ const Ogre::Real Fmod3SoundChannel::getVolume() const
  * @author JoSch
  * @date 07-04-2005
  */
-void Fmod3SoundChannel::setVolume(const Ogre::Real gain)
+void Fmod3Sound::setVolume(const Ogre::Real gain)
 {
 	float volume = gain;
 	if (volume > 1.0)
@@ -255,7 +235,7 @@ void Fmod3SoundChannel::setVolume(const Ogre::Real gain)
     mVolume = volume;
     if (isValid())
     {
-        FSOUND_SetVolume(getChannel(), int(volume * 255.0));
+        FSOUND_SetVolume(mChannel, int(volume * 255.0));
     }
 }
 
@@ -264,11 +244,11 @@ void Fmod3SoundChannel::setVolume(const Ogre::Real gain)
  * @author JoSch
  * @date 07-04-2005
  */
-void Fmod3SoundChannel::pause(bool pausing)
+void Fmod3Sound::pause(bool pausing)
 {
     if (isValid())
     {
-        FSOUND_SetPaused(getChannel(), pausing);
+        FSOUND_SetPaused(mChannel, pausing);
         if (pausing)
         {
             SoundPlayEvent event = SoundPlayEvent(this, SoundPlayEvent::PAUSEEVENT);
@@ -281,11 +261,13 @@ void Fmod3SoundChannel::pause(bool pausing)
  * @author JoSch
  * @date 07-23-2004
  */
-void Fmod3SoundChannel::stop()
+void Fmod3Sound::stop()
 {
     if (isValid())
     {
-        FSOUND_StopSound(getChannel());
+        FSOUND_StopSound(mChannel);
+        mDriver->checkErrors();
+        mChannel = NO_CHANNEL;
     }
     SoundPlayEvent event = SoundPlayEvent(this, SoundPlayEvent::STOPEVENT);
     dispatchEvent(&event);
@@ -296,18 +278,18 @@ void Fmod3SoundChannel::stop()
  * @author JoSch
  * @date 07-04-2005
  */
-bool Fmod3SoundChannel::isPaused()
+bool Fmod3Sound::isPaused()
 {
     if (isValid())
     {
-        return FSOUND_GetPaused(getChannel());
+        return FSOUND_GetPaused(mChannel);
     }
     return true;
 }
 
-void Fmod3SoundChannel::setRolloffStartDistance(const Ogre::Real& distance)
+void Fmod3Sound::setRolloffStartDistance(const Ogre::Real& distance)
 {
-	SoundChannel::setRolloffStartDistance(distance);
+	Sound::setRolloffStartDistance(distance);
 
 	if (isValid())
 	{
@@ -317,7 +299,7 @@ void Fmod3SoundChannel::setRolloffStartDistance(const Ogre::Real& distance)
 	}
 }
 
-const Ogre::Real Fmod3SoundChannel::getRolloffStartDistance()
+const Ogre::Real Fmod3Sound::getRolloffStartDistance()
 {
 	if (isValid())
 	{
@@ -325,12 +307,12 @@ const Ogre::Real Fmod3SoundChannel::getRolloffStartDistance()
 		FSOUND_3D_GetMinMaxDistance(mChannel, &min, &max);
 		return min;
 	}
-	return SoundChannel::getRolloffStartDistance();
+	return Sound::getRolloffStartDistance();
 }
 
-void Fmod3SoundChannel::setRolloffEndDistance(const Ogre::Real& distance)
+void Fmod3Sound::setRolloffEndDistance(const Ogre::Real& distance)
 {
-	SoundChannel::setRolloffEndDistance(distance);
+	Sound::setRolloffEndDistance(distance);
 
 	if (isValid())
 	{
@@ -340,7 +322,7 @@ void Fmod3SoundChannel::setRolloffEndDistance(const Ogre::Real& distance)
 	}
 }
 
-const Ogre::Real Fmod3SoundChannel::getRolloffEndDistance()
+const Ogre::Real Fmod3Sound::getRolloffEndDistance()
 {
 	if (isValid())
 	{
@@ -348,7 +330,7 @@ const Ogre::Real Fmod3SoundChannel::getRolloffEndDistance()
 		FSOUND_3D_GetMinMaxDistance(mChannel, &min, &max);
 		return max;
 	}
-	return SoundChannel::getRolloffEndDistance();
+	return Sound::getRolloffEndDistance();
 }
 
 };

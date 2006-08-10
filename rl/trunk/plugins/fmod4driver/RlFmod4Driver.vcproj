@@ -202,10 +202,6 @@
 				RelativePath=".\src\Fmod4Sound.cpp"
 				>
 			</File>
-			<File
-				RelativePath=".\src\Fmod4SoundChannel.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -230,10 +226,6 @@
 			</File>
 			<File
 				RelativePath=".\include\Fmod4Sound.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\Fmod4SoundChannel.h"
 				>
 			</File>
 		</Filter>

@@ -18,14 +18,12 @@
 
 #include "MultimediaPrerequisites.h"
 #include <OgreResourceManager.h>
-#include "SoundChannel.h"
+#include "Sound.h"
 
 namespace rl
 {
     class ConfigFile;
     class ListenerMovable;
-	class Sound;
-    class SoundResourcePtr;
 
 /**
  * Diese Klasse dient zur Definition einer Schnittstelle
@@ -54,8 +52,6 @@ public:
     virtual Sound *createStream(const SoundResourcePtr &res) = 0;
     /// Einen Sound-Sample mit Resource erzeugen
     virtual Sound *createSample(const SoundResourcePtr &res) = 0;
-    /// Einen SoundChannel erzeugen
-    virtual SoundChannel *createChannel(Sound *channel, const Ogre::String &name) = 0;
     /// Einen Soundlistener erzeugen
     virtual ListenerMovable *createListener(const Ogre::String &name) = 0;
     
@@ -76,7 +72,7 @@ public:
     /// Die Standardlautstärke für Musik zurückgeben.
     const Ogre::Real getMasterVolume() const;
     /// Einen Sound aus den Listen entfernen
-    void remove(SoundChannel *channel);
+    void remove(Sound *sound);
     
     /// Die Einstellungen in Datei schreiben
     virtual void saveConf(rl::ConfigFile &conf) const;
@@ -85,12 +81,10 @@ public:
     
     
 protected:
-    /// Informationen über den Treiber ausgeben
-    virtual void printData() const = 0;
     /// Liste der Musikstücke
-    SoundChannelSet mMusicSet;
+    SoundSet mMusicSet;
     /// Liste der Sounds
-    SoundChannelSet mSoundSet;
+    SoundSet mSoundSet;
     /// Standardeinstellung für Musik
     Ogre::Real mDefaultMusicVolume;
     /// Standardeinstellung für Sounds
@@ -99,7 +93,6 @@ protected:
 	Ogre::Real mMasterVolume;
 
 	static Ogre::ResourceManager* sSoundResourceManager;
-    
 };
 
 }

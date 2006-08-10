@@ -199,7 +199,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\Fmod3SoundChannel.cpp"
+				RelativePath=".\src\Fmod3Sound.cpp"
 				>
 			</File>
 			<File
@@ -234,10 +234,6 @@
 			</File>
 			<File
 				RelativePath=".\include\Fmod3Sound.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\Fmod3SoundChannel.h"
 				>
 			</File>
 			<File

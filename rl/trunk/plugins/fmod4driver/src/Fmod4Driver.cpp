@@ -16,7 +16,6 @@
 #include "Fmod4Driver.h"
 
 #include "Fmod4Sound.h"
-#include "Fmod4SoundChannel.h"
 #include "Fmod4Listener.h"
 #include "Logger.h"
 #include "SoundResource.h"
@@ -31,7 +30,8 @@ namespace rl
 String Fmod4Driver::NAME = "FMOD4";
 
 Fmod4Driver::Fmod4Driver(Ogre::ResourceManager *soundResourceManager)
-    : SoundDriver(soundResourceManager)
+    : SoundDriver(soundResourceManager),
+    mMasterChannelGroup(NULL)
 {    
 }
 
@@ -62,6 +62,7 @@ void Fmod4Driver::initialize()
 
     mFmod4System->setDriver(-1);
     mFmod4System->init(MAX_VIRTUAL_CHANNELS, FMOD_INIT_NORMAL, NULL); //Alternative: ,Output)
+    mFmod4System->getMasterChannelGroup(&mMasterChannelGroup);
 }
 
 void Fmod4Driver::shutdown()
@@ -86,12 +87,6 @@ bool Fmod4Driver::isDriverAvailable()
 void Fmod4Driver::update()
 {
     mFmod4System->update();
-}
-
-SoundChannel* Fmod4Driver::createChannel(rl::Sound *sound, const Ogre::String &name)
-{
-    Fmod4SoundChannel* channel = new Fmod4SoundChannel(this, sound, name);
-    return channel;
 }
 
 /**
@@ -131,6 +126,7 @@ FMOD::System* Fmod4Driver::_getFmodSystem()
 void Fmod4Driver::loadConf(rl::ConfigFile &conf)
 {
     SoundDriver::loadConf(conf);
+    mMasterChannelGroup->setVolume(mMasterVolume);
 }
 
 void Fmod4Driver::saveConf(rl::ConfigFile &conf) const

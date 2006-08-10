@@ -56,11 +56,11 @@ public:
     /// Einen Sound-Sample mit Resource erzeugen
     virtual Sound *createSample(const SoundResourcePtr &res);
     /// Einen SoundChannel erzeugen
-    virtual SoundChannel *createChannel(Sound *channel, const Ogre::String &name);
-    /// Einen Soundlistener erzeugen
     virtual ListenerMovable *createListener(const Ogre::String &name);
 
-	virtual void setMasterVolume(const Ogre::Real& vol);
+    void checkErrors();
+
+    virtual void setMasterVolume(const Ogre::Real& vol);
 
 	/// Setzt den Faktor f, mit der die Lautstärke nach der Formel 1/(f*Entfernung) abnimmt
 	virtual void setRolloffFactor(const Ogre::Real&);

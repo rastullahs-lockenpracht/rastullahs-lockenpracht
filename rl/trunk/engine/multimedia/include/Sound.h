@@ -18,12 +18,18 @@
 #define __Sound_H__
 
 #include "MultimediaPrerequisites.h"
-#include "SoundResource.h"
-#include "SoundChannel.h"
 #include "Exception.h"
+#include <set>
+#include <OgreVector3.h>
+#include <OgreQuaternion.h>
 
+#include "EventCaster.h"
+#include "SoundEvents.h"
+#include "SoundResource.h"
 
 namespace rl {
+
+    class SoundDriver;
 
    /** Diese Klasse dient der Interaktion mit dem jeweiligen Soundsystem
     * ein Objekt stellt eine einzelne Sounddatei oder einen Stream dar
@@ -32,7 +38,8 @@ namespace rl {
     * @version 1.0
     * @version 2.0
     */
-    class _RlMultimediaExport Sound 
+    class _RlMultimediaExport Sound : public Ogre::MovableObject, 
+        public EventCaster<SoundEvent>, public EventSource
     {
     public:
         /// Konstruktor
@@ -63,9 +70,69 @@ namespace rl {
 
         virtual float getLength() const = 0;
 
+        /// Unsere Bounding-Box
+        virtual const Ogre::AxisAlignedBox& getBoundingBox(void) const;
+        /// Bound-Radius
+        virtual Ogre::Real getBoundingRadius() const;
+        /// Rendern
+        virtual void _updateRenderQueue(Ogre::RenderQueue *queue);
+
+
+        /// Gibt die eingestellte Position der Soundquelle zurueck
+        virtual const Ogre::Vector3 getPosition() const = 0;
+        /// Setzt die Position der Soundquelle.
+        virtual void setPosition(const Ogre::Vector3& direction) = 0;
+        /// Gibt die eingestellte relative Lautstaerke der Soundquelle zurueck (0.0 ... 1.0)
+	    virtual const Ogre::Real getVolume() const = 0; 
+        /// Setzt die relative Lautstaerke der Soundquelle (0.0 .. 1.0).
+	    virtual void setVolume(const Ogre::Real gain) = 0;
+        /// Gibt die Richtung der Soundquelle zurueck.
+        virtual const Ogre::Quaternion getDirection() const = 0;
+        /// Gibt die Geschwindigkeit der Soundquelle zurueck.
+        virtual const Ogre::Vector3 getVelocity() const = 0;
+        /// Setzt die Richtung der Soundquelle.
+        virtual void setDirection(const Ogre::Quaternion&) = 0;
+        /// Setzt die Geschwindigkeit der Soundquelle.
+        virtual void setVelocity(const Ogre::Vector3&) = 0;
+	    /// Setzt die Entfernung, ab der ein 3D-Sound leiser wird
+	    virtual void setRolloffStartDistance(const Ogre::Real&);
+	    virtual const Ogre::Real getRolloffStartDistance() const;
+	    /// Setzt die Entfernung, ab der ein 3D-Sound nicht mehr leiser wird
+	    virtual void setRolloffEndDistance(const Ogre::Real&);
+	    virtual const Ogre::Real getRolloffEndDistance() const;
+
+        /// Spielt den Sound ab.
+        virtual void play() = 0;
+        /// Pausiert den Sound.
+        virtual void pause(bool pausing) = 0;
+        /// Ist der Sound pausiert?
+        virtual bool isPaused() = 0;
+        /// Stoppt den Sound.
+        virtual void stop() = 0;
+        /// Zurueck auf Anfang.
+    //        virtual void rewind() throw (RuntimeException) = 0;
+        /// Laeuft der Sound noch
+        virtual const bool isPlaying() const = 0;
+
+    protected:
+        /// Die Lautstärke
+	    Ogre::Real mVolume;
+        /// Die Position
+        Ogre::Vector3 mPosition;
+        /// Die Richtung
+        Ogre::Quaternion mDirection;
+        /// Die Geschwindigkeit
+        Ogre::Vector3 mVelocity;
+
+	    Ogre::Real mRolloffStartDistance;
+	    Ogre::Real mRolloffEndDistance;
+
     private:
-        /// Der Name des Sounds
+        /// Shared class-level name for Movable type
+        static Ogre::AxisAlignedBox msAABox;
+        /// Der Name des Soundchannels
         Ogre::String mName;
+
         /// Der Soundresource, auf den wir verweisen.
         SoundResourcePtr mSoundResource;
 
@@ -78,6 +145,7 @@ namespace rl {
     }; 
 
 
+    typedef std::set<Sound*> SoundSet;
 
 }
 #endif

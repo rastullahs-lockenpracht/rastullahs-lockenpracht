@@ -25,10 +25,6 @@
 namespace rl
 {
 
-    class Fmod4Sound;
-    class Fmod4SoundChannel;
-    class SoundChannel;
-    
 typedef map<Ogre::String, StringList> DriverMap;
 
 /** Diese Klasse ist der Treiber, der OpenAL zur
@@ -57,8 +53,6 @@ public:
     virtual Sound *createStream(const SoundResourcePtr &res);
     /// Einen Sound-Sample mit Resource erzeugen
     virtual Sound *createSample(const SoundResourcePtr &res);
-    /// Einen SoundChannel erzeugen
-    virtual SoundChannel *createChannel(Sound *channel, const Ogre::String &name);
     /// Einen Soundlistener erzeugen
     virtual ListenerMovable *createListener(const Ogre::String &name);
 
@@ -80,15 +74,15 @@ public:
 
     void checkErrors(const FMOD_RESULT& errorcode) const;
 
-protected:
+private:
     /// Informationen über den Treiber ausgeben
     virtual void printData() const;
     void printDriverInfo(int driver) const;
 
-private:
-	// Wir merken uns die Konfiguration von Fmod4
+    // Wir merken uns die Konfiguration von Fmod4
 	DriverMap mDriverData;
     FMOD::System* mFmod4System;
+    FMOD::ChannelGroup* mMasterChannelGroup;
 
     static FMOD_RESULT F_CALLBACK open(
         const char *  name, 

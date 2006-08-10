@@ -243,10 +243,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\SoundChannel.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\SoundDriver.cpp"
 				>
 			</File>
@@ -273,10 +269,6 @@
 					RelativePath=".\src\null\NullSound.cpp"
 					>
 				</File>
-				<File
-					RelativePath=".\src\null\NullSoundChannel.cpp"
-					>
-				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -294,10 +286,6 @@
 			</File>
 			<File
 				RelativePath=".\include\Sound.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\SoundChannel.h"
 				>
 			</File>
 			<File
@@ -325,10 +313,6 @@
 				</File>
 				<File
 					RelativePath=".\include\null\NullSound.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\null\NullSoundChannel.h"
 					>
 				</File>
 			</Filter>

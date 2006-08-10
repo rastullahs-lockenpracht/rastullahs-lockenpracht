@@ -24,7 +24,6 @@
 namespace rl {
 
     class Fmod4Driver;
-    class SoundChannel; 
 
     class _RlFmod4DriverExport Fmod4Sound : public Sound
     {
@@ -43,17 +42,48 @@ namespace rl {
         /// Entlaedt den Sound.
         virtual void unload() throw (RuntimeException);
          // Wir geben zurück, wie lange der Sound ist.
-	    float getLength() const;
-
-        FMOD::Sound* _getFmodSound() const;
+	    virtual float getLength() const;
 
 		// Sind wir gueltig
 		bool isValid() const;
 
-        private:
-            SoundType mType;
-            FMOD::Sound *mSound;
-            Fmod4Driver* mDriver;
+	    /// Moveable-Typ
+		virtual const Ogre::String& getMovableType() const;
+        /// Gibt die eingestellte Position der Soundquelle zurueck
+		virtual const Ogre::Vector3 getPosition() const;
+		/// Setzt die Position der Soundquelle.
+		virtual void setPosition(const Ogre::Vector3& direction);
+		/// Gibt die eingestellte relative Lautstaerke der Soundquelle zurueck (0..1)
+		virtual const float getVolume() const; 
+		/// Setzt die relative Lautstaerke der Soundquelle (0..1)
+		virtual void setVolume(const float gain);
+		/// Gibt die Richtung der Soundquelle zurueck.
+		virtual const Ogre::Quaternion getDirection() const;
+		/// Gibt die Geschwindigkeit der Soundquelle zurueck.
+		virtual const Ogre::Vector3 getVelocity() const;
+		/// Setzt die Richtung der Soundquelle.
+		virtual void setDirection(const Ogre::Quaternion&);
+		/// Setzt die Geschwindigkeit der Soundquelle.
+		virtual void setVelocity(const Ogre::Vector3&);
+
+		/// Spielt den Sound ab.
+		virtual void play();
+		/// Pausiert den Sound.
+		virtual void pause(bool pausing);
+		/// Ist der Sound pausiert?
+		virtual bool isPaused();
+		/// Stoppt den Sound.
+		virtual void stop();
+		/// Laeuft der Sound noch
+		virtual const bool isPlaying() const;
+	    
+    private:
+		/// Shared class-level name for Movable type
+		static Ogre::String msMovableType;
+        FMOD::Channel* mChannel;
+        SoundType mType;
+        FMOD::Sound *mSound;
+        Fmod4Driver* mDriver;
     };
 
     class _RlFmod4DriverExport Fmod4SoundPtr :

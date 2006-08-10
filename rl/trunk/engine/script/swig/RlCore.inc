@@ -401,7 +401,6 @@ class SoundObject : public ActorControlledObject
 {
 public:
 	void play( );
-	rl::SoundChannel* getSoundChannel() const;
 
 	void load();
 	void unload();
@@ -421,6 +420,7 @@ public:
 	/// Setzt die Lautstaerke (1.0 = volle Lautstärke)
 	void setVolume(float volume = 1.0);
 	
+	Sound* getSound();
 };
 
 class ParticleSystemObject : public ActorControlledObject
