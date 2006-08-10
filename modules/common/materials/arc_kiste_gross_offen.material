@@ -1,4 +1,4 @@
-material arc_kiste_groﬂ
+material arc_kiste_groﬂ_offen
 {
     technique
     {
@@ -10,7 +10,7 @@ material arc_kiste_groﬂ
             emissive 0.0 0.0 0.0
             texture_unit
             {
-                texture arc_kiste_groﬂ.dds 
+                texture arc_kiste_gross_offen.dds 
             }
         }
     }
