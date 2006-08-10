@@ -16,17 +16,17 @@
 
 #include "Actor.h"
 
-#include "CoreSubsystem.h"
-#include "World.h"
-#include "PhysicsManager.h"
-#include "GameEventManager.h"
-#include "PhysicalThing.h"
-#include "Exception.h"
 #include "ActorControlledObject.h"
-#include "MeshObject.h"
-#include "AnimationManager.h"
 #include "ActorManager.h"
+#include "AnimationManager.h"
+#include "CoreSubsystem.h"
+#include "Exception.h"
+#include "GameEventManager.h"
+#include "MeshObject.h"
 #include "MovableText.h"
+#include "PhysicalThing.h"
+#include "PhysicsManager.h"
+#include "World.h"
 
 using namespace Ogre;
 

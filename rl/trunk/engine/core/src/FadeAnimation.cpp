@@ -16,7 +16,6 @@
 
 #include "FadeAnimation.h"
 
-#include "CoreSubsystem.h"
 #include "Exception.h"
 
 #include "MathUtil.h"

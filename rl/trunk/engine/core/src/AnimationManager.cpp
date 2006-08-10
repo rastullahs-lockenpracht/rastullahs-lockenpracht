@@ -22,7 +22,6 @@
 #include "TrackAnimation.h"
 #include "FadeAnimation.h"
 #include "ScriptWrapper.h"
-#include "CoreSubsystem.h"
 
 template<> rl::AnimationManager* Ogre::Singleton<rl::AnimationManager>::ms_Singleton = 0;
 

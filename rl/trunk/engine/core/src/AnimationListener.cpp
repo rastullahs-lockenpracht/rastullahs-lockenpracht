@@ -17,7 +17,6 @@
 #include "AnimationListener.h"
 
 #include "BaseAnimation.h"
-#include "CoreSubsystem.h"
 #include "Exception.h"
 
 namespace rl {
