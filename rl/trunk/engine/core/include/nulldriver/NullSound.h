@@ -17,7 +17,7 @@
 #ifndef __NullSoundSample_H__
 #define __NullSoundSample_H__
 
-#include "MultimediaPrerequisites.h"
+#include "CorePrerequisites.h"
 #include "SoundResource.h"
 #include "Sound.h"
 
@@ -28,7 +28,7 @@ namespace rl {
     * @date 07-03-2005
     * @version 1.0
     */
-    class _RlMultimediaExport NullSound : public Sound
+    class _RlCoreExport NullSound : public Sound
     {
     public:
         /// Konstruktor
@@ -85,7 +85,7 @@ namespace rl {
 
     }; 
 
-    class _RlMultimediaExport NullSoundPtr :
+    class _RlCoreExport NullSoundPtr :
         public Ogre::SharedPtr<NullSound>
     {
     public:

@@ -17,12 +17,12 @@
 #ifndef SOUNDEVENT_H
 #define SOUNDEVENT_H
 
-#include "MultimediaPrerequisites.h"
+#include "CorePrerequisites.h"
 #include "EventObject.h"
 
 namespace rl {
 
-class _RlMultimediaExport SoundEvent : public EventObject
+class _RlCoreExport SoundEvent : public EventObject
 {
 
 public:
@@ -31,7 +31,7 @@ public:
 	virtual ~SoundEvent();
 };
 
-class _RlMultimediaExport SoundFadeEvent : public SoundEvent {
+class _RlCoreExport SoundFadeEvent : public SoundEvent {
 public:
     SoundFadeEvent(EventSource *source);
     SoundFadeEvent(EventSource *source, const unsigned int reason );
@@ -41,7 +41,7 @@ public:
     static const unsigned int STOPEVENT = 13;
 };
 
-class _RlMultimediaExport SoundPlayEvent : public SoundEvent {
+class _RlCoreExport SoundPlayEvent : public SoundEvent {
 public:
 
     SoundPlayEvent(EventSource *source);
@@ -53,7 +53,7 @@ public:
     static const unsigned int PAUSEEVENT = 15;
 };
 
-class _RlMultimediaExport  SoundTimingEvent : public SoundEvent {
+class _RlCoreExport  SoundTimingEvent : public SoundEvent {
 
 public:
     double mTime;

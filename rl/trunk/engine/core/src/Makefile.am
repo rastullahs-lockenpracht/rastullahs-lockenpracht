@@ -1,7 +1,7 @@
-INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(STLPORT_CFLAGS) -I../include -I../../common/include -I../../multimedia/include -I../../multimedia/include/null
+INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(STLPORT_CFLAGS) -I../include -I../../common/include 
 
 lib_LTLIBRARIES = libRlCore.la
-libRlCore_la_LDFLAGS = -L../../multimedia/src -lRlMultimedia $(OGRE_LIBS) $(CEGUI_LIBS) $(RUBY_LIBS) $(LIBS)
+libRlCore_la_LDFLAGS = $(OGRE_LIBS) $(CEGUI_LIBS) $(RUBY_LIBS) $(LIBS)
 libRlCore_la_SOURCES = \
 	Actor.cpp \
 	ActorControlledObject.cpp \

@@ -16,7 +16,7 @@
 #ifndef __NullListener_H__
 #define __NullListener_H__
 
-#include "MultimediaPrerequisites.h"
+#include "CorePrerequisites.h"
 #include "ListenerMovable.h"
 
 
@@ -29,7 +29,7 @@ namespace rl {
     * @version 1.0
     * @version 2.0
     */
-    class _RlMultimediaExport NullListener : public ListenerMovable
+    class _RlCoreExport NullListener : public ListenerMovable
     {
     private:
         /// Der Name des ListenerMovable

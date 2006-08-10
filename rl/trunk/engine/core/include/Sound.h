@@ -17,7 +17,7 @@
 #ifndef __Sound_H__
 #define __Sound_H__
 
-#include "MultimediaPrerequisites.h"
+#include "CorePrerequisites.h"
 #include "Exception.h"
 #include <set>
 #include <OgreVector3.h>
@@ -38,7 +38,7 @@ namespace rl {
     * @version 1.0
     * @version 2.0
     */
-    class _RlMultimediaExport Sound : public Ogre::MovableObject, 
+    class _RlCoreExport Sound : public Ogre::MovableObject, 
         public EventCaster<SoundEvent>, public EventSource
     {
     public:

@@ -72,6 +72,10 @@ DialogSubsystem::~DialogSubsystem()
 
 void DialogSubsystem::initialize()
 {
+#if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
+    setlocale(LC_ALL, "C");
+#endif
+    
 	mCore->setParser(new AimlParserImplRl());
 	mCore->getBotInterpreter().addProcessor(new DialogScriptProcessor());
 	mCore->getAimlInterpreter().addProcessor(new ScriptProcessor());

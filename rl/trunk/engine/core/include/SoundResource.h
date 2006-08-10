@@ -17,7 +17,7 @@
 #ifndef SOUNDRESOURCE_H
 #define SOUNDRESOURCE_H
 
-#include "MultimediaPrerequisites.h"
+#include "CorePrerequisites.h"
 #include <OgreResource.h>
 #include <OgreDataStream.h>
 
@@ -33,7 +33,7 @@ namespace rl {
  * @date 06-26-2005
  * @version 4.0
  */
-class _RlMultimediaExport SoundResource: public Ogre::Resource
+class _RlCoreExport SoundResource: public Ogre::Resource
 {
     private:
         /// Unsere Daten von Ogres ResourceManager.
@@ -61,7 +61,7 @@ class _RlMultimediaExport SoundResource: public Ogre::Resource
         
 };
 
-class _RlMultimediaExport SoundResourcePtr :
+class _RlCoreExport SoundResourcePtr :
 	public Ogre::SharedPtr<SoundResource>
 {
 public:

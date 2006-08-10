@@ -44,7 +44,6 @@ void RL_RubyRemoveTracking(void* ptr)
 
 %include "RlCommon.head.inc"
 %include "RlUi.head.inc"
-%include "RlMultimedia.head.inc"
 %include "RlCore.head.inc"
 %include "RlRules.head.inc"
 %include "RlDialog.head.inc"
@@ -154,7 +153,7 @@ namespace Swig {
 		// Es gab das SkriptObjekt noch nicht
 		if( val == Qnil )
 		{
-			$input = SWIG_NewPointerObj((void *) $1, $1_descriptor, 0);		
+			$input = SWIG_NewPointerObj((void *) $1, $1_descriptor, NULL);		
 		}
 		else	
 			$input = val;
@@ -169,7 +168,7 @@ namespace Swig {
 	// Es gab das SkriptObjekt noch nicht
 	if( val == Qnil )
 	{
-		$result = SWIG_NewPointerObj((void *) $1, $1_descriptor, 0);			
+		$result = SWIG_NewPointerObj((void *) $1, $1_descriptor, NULL);			
 	}
 	else	
 		$result = val;
@@ -195,7 +194,7 @@ namespace Swig {
 %typemap(directorin) SWIGTYPE* DYNAMIC, SWIGTYPE& DYNAMIC
 {
 	// Auf Director testen
-	Swig::Director *resultdirector = 0;
+	Swig::Director *resultdirector = NULL;
 	resultdirector = dynamic_cast<Swig::Director *>($1);
     if (resultdirector) {
         $input = resultdirector->swig_get_self();        	
@@ -217,7 +216,6 @@ namespace Swig {
 } 
 
 %include "RlCommon.inc"
-%include "RlMultimedia.inc"
 %include "RlCore.inc"
 %include "RlRules.inc"
 %include "RlDialog.inc"

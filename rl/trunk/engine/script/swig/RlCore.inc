@@ -420,7 +420,7 @@ public:
 	/// Setzt die Lautstaerke (1.0 = volle Lautstärke)
 	void setVolume(float volume = 1.0);
 	
-	Sound* getSound();
+	rl::Sound* getSound();
 };
 
 class ParticleSystemObject : public ActorControlledObject
@@ -660,6 +660,59 @@ public:
     void setPaused(bool pause);
     void addSynchronizedTask(GameTask* newTask, GameLoopSyncTime syncTime);
 	void addAsynchronousTask(GameTask* newTask);
+};
+
+class Sound 
+{
+private:
+	Sound(const SoundResourcePtr& res);
+public:
+	virtual ~Sound();
+    
+    /// Name zurückgeben
+    const Ogre::String& getName() const;
+
+    /// Gibt die eingestellte Position der Soundquelle zurueck
+    const Ogre::Vector3 getPosition() const;
+    /// Setzt die Position der Soundquelle.
+    void setPosition(const Ogre::Vector3& direction);
+    /// Gibt die eingestellte relative Lautstaerke der Soundquelle zurueck
+    const Ogre::Real getVolume() const; 
+    /// Setzt die relative Lautstaerke der Soundquelle.
+    void setVolume(const Ogre::Real gain);
+    /// Gibt die Richtung der Soundquelle zurueck.
+    const Ogre::Quaternion getDirection() const;
+    /// Gibt die Geschwindigkeit der Soundquelle zurueck.
+    const Ogre::Vector3 getVelocity() const;
+    /// Setzt die Richtung der Soundquelle.
+    void setDirection(const Ogre::Quaternion&);
+    /// Setzt die Geschwindigkeit der Soundquelle.
+    void setVelocity(const Ogre::Vector3&);
+    /// Setzt die Entfernung, ab der ein 3D-Sound leiser wird
+	void setRolloffStartDistance(const Ogre::Real dist);
+	const Ogre::Real getRolloffStartDistance() const;
+	/// Setzt die Entfernung, ab der ein 3D-Sound nicht mehr leiser wird
+	void setRolloffEndDistance(const Ogre::Real dist);
+	const Ogre::Real getRolloffEndDistance() const;
+
+    /// Spielt den Sound ab.
+    void play() ;
+    /// Pausiert den Sound.
+    void pause(bool pausing) ;
+    /// Ist der Sound pausiert?
+    bool isPaused() ;
+    /// Stoppt den Sound.
+    void stop() ;
+    /// Laeuft der Sound noch
+    const bool isPlaying() const ;
+
+    /// Gibt zurück ob der Sound geloopt werden soll 
+    bool isLooping() const;
+    /// Setzt ob der Sound geloopt werden soll 
+    void setLooping( bool looping );
+    
+    // Sind wir gueltig
+    bool isValid() const;
 };
 
 }

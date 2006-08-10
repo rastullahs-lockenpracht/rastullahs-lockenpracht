@@ -204,7 +204,6 @@ AC_CONFIG_FILES([Makefile \
 		engine/uicomponents/Makefile engine/uicomponents/src/Makefile engine/uicomponents/include/Makefile \
 		engine/ui/Makefile engine/ui/src/Makefile engine/ui/include/Makefile \
 		engine/rules/Makefile engine/rules/src/Makefile engine/rules/include/Makefile \
-		engine/multimedia/Makefile engine/multimedia/src/Makefile engine/multimedia/include/Makefile \
 		engine/script/Makefile engine/script/swig/Makefile engine/script/src/Makefile \
 		engine/startup/Makefile engine/startup/src/Makefile \
 		tests/Makefile tests/coretests/Makefile tests/rulestests/Makefile tests/multimediatests/Makefile \

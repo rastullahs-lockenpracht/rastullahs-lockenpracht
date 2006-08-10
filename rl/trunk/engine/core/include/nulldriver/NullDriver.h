@@ -16,7 +16,7 @@
 #ifndef NULLDRIVER_H_
 #define NULLDRIVER_H_
 
-#include "MultimediaPrerequisites.h"
+#include "CorePrerequisites.h"
 #include "SoundDriver.h"
 
 namespace rl
@@ -25,7 +25,7 @@ namespace rl
 /** Diese Klasse ist der Nulltreiber, der immer
  * vorhanden ist und einfach nichts ausgibt.
  */
-class _RlMultimediaExport NullDriver : public rl::SoundDriver
+class _RlCoreExport NullDriver : public rl::SoundDriver
 {
 public:
 	/// Der Treibername

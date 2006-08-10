@@ -47,5 +47,9 @@
 #include "World.h"
 #include "ContentModule.h"
 #include "ListenerObject.h"
+#include "Sound.h"
+#include "SoundEvents.h"
+#undef message
+#undef send
 %}
 

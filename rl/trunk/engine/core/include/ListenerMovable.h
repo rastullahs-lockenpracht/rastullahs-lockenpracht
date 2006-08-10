@@ -17,7 +17,7 @@
 #ifndef __ListenerMovable_H__
 #define __ListenerMovable_H__
 
-#include "MultimediaPrerequisites.h"
+#include "CorePrerequisites.h"
 #include <OgreMovableObject.h>
 #include <OgreVector3.h>
 #include <OgreQuaternion.h>
@@ -32,7 +32,7 @@ namespace rl {
     * @version 1.0
     * @version 2.0
     */
-    class _RlMultimediaExport ListenerMovable : public Ogre::MovableObject
+    class _RlCoreExport ListenerMovable : public Ogre::MovableObject
     {
     public:
         /// Konstruktor

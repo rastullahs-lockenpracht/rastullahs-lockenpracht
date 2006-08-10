@@ -16,7 +16,7 @@
 #ifndef SOUNDDRIVER_H_
 #define SOUNDDRIVER_H_
 
-#include "MultimediaPrerequisites.h"
+#include "CorePrerequisites.h"
 #include <OgreResourceManager.h>
 #include "Sound.h"
 
@@ -31,7 +31,7 @@ namespace rl
  * ein Treiber vorhanden ist oder nicht. Der Nulltreiber
  * existiert dabei immer.
  */
-class _RlMultimediaExport SoundDriver
+class _RlCoreExport SoundDriver
 {
 public:
     /// Der Konstruktor

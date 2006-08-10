@@ -3,7 +3,7 @@ noinst_HEADERS = \
 	OpenALDriver.h \
 	OpenALDriverPrerequisites.h \
 	OpenALListener.h \
-	OpenALSoundChannel.h \
+	OpenALSound.h \
 	OpenALSoundSample.h \
 	OpenALSoundStream.h 
 	
