@@ -7,7 +7,7 @@ material arc_wassermuehle/arc_wassermuehle_dach_01
             
             texture_unit
             {
-                texture arc_dach01.png 
+                texture arc_dach01.dds 
             }
         }
     }
@@ -22,7 +22,7 @@ material arc_wassermuehle/arc_wassermuehle_balken_01
             
             texture_unit
             {
-                texture arc_balken.png 
+                texture arc_balken.dds 
             }
         }
     }
@@ -37,7 +37,7 @@ material arc_wassermuehle/arc_wassermuehle_putz_01
             
             texture_unit
             {
-                texture arc_lehmwand_01.png 
+                texture arc_lehmwand_01.dds 
             }
         }
     }
@@ -52,7 +52,7 @@ material arc_wassermuehle/arc_wassermuehle_latten_01
             
             texture_unit
             {
-                texture holzwand2.png 
+                texture holzwand2.dds 
             }
         }
     }
@@ -67,7 +67,7 @@ material arc_wassermuehle/arc_wassermuehle_fenster_01
             
             texture_unit
             {
-                texture zeugs_01_eckbank_fenster_holzscheit.png 
+                texture zeugs_01_eckbank_fenster_holzscheit.dds 
             }
         }
     }
@@ -82,7 +82,7 @@ material arc_wassermuehle/arc_wassermuehle_bogentuer_01
             
             texture_unit
             {
-                texture arc_tür_rund.png 
+                texture arc_tuer_rund.dds 
             }
         }
     }
@@ -97,7 +97,7 @@ material arc_wassermuehle/arc_wassermuehle_steinwand_01
             
             texture_unit
             {
-                texture wand_mauer_innen.jpg 
+                texture wand_mauer_innen.dds 
             }
         }
     }
@@ -112,7 +112,8 @@ material arc_wassermuehle/arc_wassermuehle_wasserrad_01
             alpha_rejection greater 215
             texture_unit
             {
-                texture arc_wasserrad_01.png 
+	        filtering linear linear linear 
+                texture arc_wasserrad_01.dds 
             }
         }
     }
@@ -132,7 +133,7 @@ material arc_wassermuehle/arc_wassermuehe_schmutz_01
 
             texture_unit
             {
-                texture arc_dirt_01.png 
+                texture arc_dirt_01.dds 
             }
         }
     }
