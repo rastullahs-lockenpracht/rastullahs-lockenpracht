@@ -21,3 +21,5 @@ copy "%RL_ROOT%\engine\uicomponents\lib\%BUILD%\RlUiComponents.dll" "%RL_DIST%"
 copy "%RL_ROOT%\engine\ai\lib\%BUILD%\RlAI.dll" "%RL_DIST%"
 
 copy "%RL_ROOT%\plugins\fmod3driver\lib\%BUILD%\RlFmod3Driver.dll" "%RL_DIST%"
+copy "%RL_ROOT%\plugins\fmod4driver\lib\%BUILD%\RlFmod4Driver.dll" "%RL_DIST%"
+copy "%RL_ROOT%\plugins\openaldriver\lib\%BUILD%\RlOpenALDriver.dll" "%RL_DIST%"
