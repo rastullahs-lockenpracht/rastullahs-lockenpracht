@@ -17,13 +17,13 @@
 #ifndef SOUNDMANAGER_H
 #define SOUNDMANAGER_H
 
+#include "CorePrerequisites.h"
+
 #include <OgreResourceManager.h>
 #include <OgreSingleton.h>
 #include <OgreResourceGroupManager.h>
 #include <list>
 #include <boost/thread/mutex.hpp>
-#include "CorePrerequisites.h"
-#include "CoreSubsystem.h"
 
 namespace rl {
 
@@ -32,9 +32,7 @@ class ListenerObject;
 class SoundDriver;
 class SoundManager;
 class SoundUpdateTask;
-class Video;
 
-typedef std::list<Video*> VideoList;
 typedef std::list<SoundDriver*> DriverList;
 
 /**
@@ -96,7 +94,8 @@ class _RlCoreExport SoundManager : public Ogre::ResourceManager,
 
 		void registerDriver(SoundDriver* driver);
 		void unregisterDriver(SoundDriver* driver);
-    
+        void unloadAllDrivers();
+
 	protected:
 		virtual Ogre::Resource* createImpl(const Ogre::String& name, Ogre::ResourceHandle handle, 
 			const Ogre::String& group, bool isManual, Ogre::ManualResourceLoader* loader, 

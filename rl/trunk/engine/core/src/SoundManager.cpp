@@ -83,33 +83,7 @@ SoundManager::SoundManager()
 
 SoundManager::~SoundManager()
 {
-    delete mSoundUpdateTask;
-    mSoundUpdateTask = NULL;
-    
-	if (mActiveDriver != NULL)
-    {
-        mActiveDriver->shutdown();
-        mActiveDriver = NULL;
-    }
-
-	for(StringVector::iterator it = mDrivers.begin();
-		it != mDrivers.end(); it++)
-	{
-		Ogre::String driverPlugin = *it;
-
-		LOG_NORMAL(Logger::CORE,
-			"Unloading sound driver DLL "
-			+ driverPlugin);
-
-		Ogre::Root::getSingleton().unloadPlugin(driverPlugin);
-
-		LOG_NORMAL(Logger::CORE,
-			"Sound driver DLL "
-			+ driverPlugin
-			+ " successfully unloaded.");
-	}
-
-	mDriverList.clear();
+    unloadAllDrivers();    
 }
 
 /**
@@ -391,6 +365,37 @@ void SoundManager::saveConf(const Ogre::String &filename) const
 	conf.setValue(String(getActiveDriver()->getName().c_str()), "ActiveDriver", "General");
 	getActiveDriver()->saveConf(conf);
 	conf.save(filename);
+}
+
+void SoundManager::unloadAllDrivers()
+{
+    delete mSoundUpdateTask;
+    mSoundUpdateTask = NULL;
+
+   	if (mActiveDriver != NULL)
+    {
+        mActiveDriver->shutdown();
+        mActiveDriver = NULL;
+    }
+
+	for(StringVector::iterator it = mDrivers.begin();
+		it != mDrivers.end(); it++)
+	{
+		Ogre::String driverPlugin = *it;
+
+		LOG_NORMAL(Logger::CORE,
+			"Unloading sound driver DLL "
+			+ driverPlugin);
+
+		Ogre::Root::getSingleton().unloadPlugin(driverPlugin);
+
+		LOG_NORMAL(Logger::CORE,
+			"Sound driver DLL "
+			+ driverPlugin
+			+ " successfully unloaded.");
+	}
+
+	mDriverList.clear();
 }
 
 /**
