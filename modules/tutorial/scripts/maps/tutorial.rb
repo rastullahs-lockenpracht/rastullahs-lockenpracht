@@ -7,7 +7,7 @@ require 'hero.rb'
 $PM.setEnabled(true);
 
 shadowlight = $AM.createLightActor("shadowlight", LightObject::LT_POINT);
-shadowlight.placeIntoScene([0.0, 0.0, 4.14]);
+shadowlight.placeIntoScene([0.0, 4.14, 0.0]);
 shadowlight.getControlledObject().setCastShadows(true);
 shadowlight.getControlledObject().setDiffuseColour(0.8,0.8,0.8);
 
