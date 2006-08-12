@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- !DOCTYPE aiml SYSTEM "includes.dtd" -->
+
+<aiml  version="1.0.1"
+            xmlns="http://alicebot.org/2001/AIML"
+			xmlns:rldialog="http://team-pantheon.de/projekt/rl/dialog">
+
+
+<!-- Anzunehmen ist, dass der Spieler außerhalb des Spieles in einer Szene steckt, die ihm langsam aber sicher Schaden bringt -->
+<!-- Desweiteren muß es ein Quest namens folterpunkte geben, dass 10 Partstodo hat und auf 0 steht -->
+
+	<category>
+		<pattern>1</pattern>
+		<template>
+			<gossip rldialog:type="response">
+				<li>Har har! Du wirst gefoltert, hast aber schon <get type="questparts" name="folterpunkte"/> Sympathiepunkte bei mir. Du brauchst 10. Was hast du zu sagen?</li>
+			</gossip>
+
+			<gossip rldialog:type="option">
+			
+				<condition type="default" name="pattern2"> <!-- kann man nur einmal auswählen bringt aber viele Punkte -->
+					<li value="" rldialog:patternRef ="2">Ich bins doch! Dein Bruder!</li>
+				</condition>
+		
+				<li rldialog:patternRef ="3">Hier hast du einen Dukaten.</li> <!-- kann man immer machen, dauert aber länger -->
+				
+				<!-- Hat man genug Punkte: -->
+				<condition type="queststate" name="folterpunkte"> 
+					<li value="SUCCEEDED" rldialog:patternRef ="Verlassen">Sieh mich doch an, mich armen Menschen. Bitte lass mich frei!</li>
+				</condition>
+			
+			</gossip>
+		</template>
+	</category>
+
+
+	
+	<category>
+		<pattern>2</pattern>
+		<template>
+			<gossip rldialog:type="response">
+				<li>Was? Halt! Das kann doch garnicht sein... <set type="default" name="pattern2" value="1"/> <set type="questparts" name="folterpunkte" value="increase"/></li>
+			</gossip>
+			<gossip rldialog:type="option">
+				<li rldialog:patternRef ="1">Du hast recht, ich bin es nicht.</li>
+				<li rldialog:patternRef ="21">Doch, erkennst du mich nicht? Deine Folter hat mich schon so entstellt, du mußt aufhören!</li>
+			</gossip>
+		</template>
+	</category>
+
+		<category>
+			<pattern>21</pattern>
+			<template>
+				<gossip rldialog:type="response">
+					<li>Jetzt wo du es sagst.. bist du es wirklich? <set type="questparts" name="folterpunkte" value="increase 3"/></li>
+				</gossip>
+				<gossip rldialog:type="option">
+					<li rldialog:patternRef ="1">Nein, ich bin es nicht.</li>
+					<li rldialog:patternRef ="211">Ja natürlich! Lass mich hier nicht hängen!</li>
+				</gossip>
+			</template>
+		</category>
+
+			<category>
+				<pattern>211</pattern>
+				<template>
+					<gossip rldialog:type="response">
+						<li>Hm, ich weiß nicht ob ich das riskieren kann.<set type="questparts" name="folterpunkte" value="increase 4"/></li>
+					</gossip>
+					<gossip rldialog:type="option">
+						<li rldialog:patternRef ="1">Ein Glück, dass du mich erkannt hast. Dann noch was, hör zu...!</li>
+
+					</gossip>
+				</template>
+			</category>
+
+
+
+
+	<category>
+		<pattern>3</pattern>
+		<template>
+			<gossip rldialog:type="response">
+				<li>Danke. War das alles?</li>
+			</gossip>
+			<gossip rldialog:type="option">
+				<li rldialog:patternRef ="1"><set type="questparts" name="folterpunkte" value="increase"/>Noch etwas anderes...</li>
+			</gossip>
+		</template>
+	</category> 
+
+	
+	<category>
+	<pattern>Verlassen</pattern> 
+		<template>
+			<gossip rldialog:type="response">
+				<li>Wie konnte ich das tun! Ich helfe dir zu fliehen!</li>
+			</gossip>
+			<gossip rldialog:type="option">
+				<li rldialog:patternRef ="Raus">Danke, ich bin dann mal weg!</li>
+			</gossip>
+		</template>
+	</category>	
+
+	<category>
+	<pattern>Raus</pattern> 
+		<template>
+			<system cmd="exit"/>
+		</template>
+	</category>	
+
+
+
+
+
+<!-- ================Standardoptionen ================ -->
+	<category>
+	<pattern>EXIT</pattern> 
+		<template>
+			<gossip rldialog:type="response">
+				<li>Du kommst hier nicht weg! Har har har!</li>
+			</gossip>
+			<gossip rldialog:type="option">
+				<li rldialog:patternRef ="1">Oh nein! Aber hör mal...</li>
+			</gossip>
+		</template>
+	</category>	
+
+</aiml>

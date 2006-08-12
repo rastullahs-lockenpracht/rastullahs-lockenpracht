@@ -1,0 +1,14 @@
+
+material men_gennisch2
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture men_gennisch2.dds
+			}
+		}
+	}
+}

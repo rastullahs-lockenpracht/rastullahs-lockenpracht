@@ -27,10 +27,13 @@ $SCRIPT.log("SteeringVehicle für Held erstellen...");
 
 #$World.setFog( World::FOG_EXP, [0.1,0.08,0.01,0.1], 0.00503, 10.0, 100.0);
 
+
+
 $SCRIPT.log("Quests laden");
-#load( "tutorial_quests.rb" );
+load( "tutorial_quests.rb" );
 $SCRIPT.log("Quests geladen");
 
 $SCRIPT.log("NSCs laden");
-#load( "nscs.rb" );
+load ("steering.rb");
+load( "nscs.rb" );
 $SCRIPT.log("NSCs geladen");
