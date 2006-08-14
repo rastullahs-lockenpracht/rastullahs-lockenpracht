@@ -32,7 +32,7 @@ namespace rl
 		/// Fügt einen Effekt zur Liste hinzu.
 		void addEffect(Effect* effect);
 		/// Überprüft die Lebendigkeit des Effekts.
-		virtual bool isAlive();
+		virtual void check();
 	protected:
 		/// Bringt die Aenderungen ein.
 		void apply();

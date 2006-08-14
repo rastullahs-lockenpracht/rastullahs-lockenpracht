@@ -15,8 +15,7 @@
  */
 
 namespace rl {
-	
-				
+					
    template<typename T>
    class Tripel {
    public:
@@ -399,6 +398,7 @@ namespace rl {
 		virtual void setOriginalValue(int newValue);
 		virtual int getModifier() const;
 		virtual void setModifier(int newModifier);
+		virtual void modifyModifier(int modifier);
 		virtual int getProbenModifier() const;
 		virtual void setProbenModifier(int newProbenModifier);
 		virtual int getMultiplier() const;
@@ -451,13 +451,21 @@ namespace rl {
 	class Effect
 	{
 	public:
+        enum EffectQuantifier
+        {
+            EFFECT_MULTIPLE = 0,
+            EFFECT_UNIQUE = 1,
+            EFFECT_UNIQUE_BUT_PROLONGABLE = 2,
+            EFFECT_UNIQUE_BUT_CUMULATIVE = 3
+        };
 
-		static const int EFFECT_UNIQUE = 0;
-		static const int EFFECT_UNIQUE_BUT_PROLONGABLE = 1;
-		static const int EFFECT_UNIQUE_BUT_CUMULATIVE = 2;
-		static const int EFFECT_MULTIPLE = 3;
+        enum EffectTag
+        {
+            EFFECT_NONE,
+            EFFECT_KRANKHEIT
+        };
 
-		Effect();
+		Effect(int stufe = 1);
 		virtual ~Effect();
 
         const rl::CeGuiString getName() const;
@@ -468,17 +476,17 @@ namespace rl {
 		void setOwner(rl::Creature* owner);
 		virtual int getDuration();
 		virtual void setDuration(int newDuration);
-		int getQuantifier();
-		void setQuantifier(int quantifier);
-		virtual void addTag(int tagId);
-		virtual void removeTag(int tagId);
-		virtual bool queryTag(int tagId);
+		EffectQuantifier getQuantifier();
+		void setQuantifier(EffectQuantifier quantifier);
+		virtual void addTag(EffectTag tagId);
+		virtual void removeTag(EffectTag tagId);
+		virtual bool queryTag(EffectTag tagId);
 		virtual const int getStufe();
 		virtual void increaseStufe();
 		virtual void decreaseStufe();
 		virtual void enable();
 		virtual void disable();
-		virtual bool isAlive() = 0;
+		virtual void check() = 0;
 
 	protected:
 		virtual void apply() = 0;
@@ -489,11 +497,32 @@ namespace rl {
     %feature("director") Creature;
     class Creature : public GameObject {
     public:
+
+    enum Wert
+    {
+        WERT_MOD_AE = 1, // Astralenergie
+        WERT_MOD_LE = 2, // Lebensenergie
+        WERT_MOD_AT = 3, // Attacke
+        WERT_MOD_PA = 4, // Parade
+        WERT_MOD_FK = 5, // Fernkampf
+        WERT_MOD_AU = 6, // Ausdauer
+        WERT_MOD_MR = 7, // Magieresistenz
+        WERT_MOD_INI = 8, // Initiative
+        WERT_MOD_REGENERATION_LE = 12, // Naechtliche Regeneration. modifier modifiziert den W6, ProbenModifier modifiziert die KO-Probe.
+        WERT_MOD_REGENERATION_AE = 13, // Astrale Regeneration. modifier modifiziert den W6, ProbenModifier modifiziert die IN-Probe.
+        WERT_MOD_ESCHOEPFUNGSSCHWELLE = 14, // Die Modifkitoren von KO bezueglich der Erschoepfungsschwelle.
+        WERT_MOD_ALL_EIGENSCHAFTSPROBEN = 15, // Modifiziert alle Proben, die mit 1W20 gewuerfelt werden.
+        WERT_MOD_ALL_TALENTPROBEN = 16, // Modifiziert alle Proben, die mit 3W20 gewuerfelt werden.
+        WERT_GS = 10, // Geschwindigkeit
+        WERT_SOZIALSTATUS = 9, // Sozialstatus
+        WERT_BE = 11 // Behinderung
+    };
+
         Creature(const rl::CeGuiString name, const rl::CeGuiString description);
         //Creature(const rl::CeGuiString data);
         virtual ~Creature();
 
-		virtual StateSet* getWertStateSet(int wertId);
+		virtual StateSet* getWertStateSet(Wert wertId);
         virtual int getEigenschaft(const rl::CeGuiString eigenschaftName);
         virtual void setEigenschaft(const rl::CeGuiString eigenschaftName, int value);
 		virtual EigenschaftenStateSet* getEigenschaftenStateSet(const rl::CeGuiString eigenschaftName);
@@ -525,7 +554,7 @@ namespace rl {
         virtual int doTalentprobe(const rl::CeGuiString talentName, int modifier);
         virtual int doEigenschaftsprobe(const rl::CeGuiString eigenschaftName, int modifier);
         
-        void setWert(int id, int value);
+        void setWert(Wert wertId, int value);
    };
    
    %feature("director") Person;
@@ -544,7 +573,7 @@ namespace rl {
 		virtual ~CompositeEffect();
 
 		void addEffect(Effect* effect);
-		virtual bool isAlive();
+		virtual void check();
 	protected:
 		void apply();
 		void remove();

@@ -36,14 +36,12 @@ namespace rl
 		mEffects.insert(effect);
 	}
 
-	bool CompositeEffect::isAlive()
+	void CompositeEffect::check()
 	{
-		bool alive = false;
 		for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
 		{
-			if ((*it)->isAlive()) alive = true;
+			(*it)->check();
 		}
-		return alive;
 	}
 
 	void CompositeEffect::apply()

@@ -229,7 +229,7 @@ private:
 	/**
 	* Überprüft die Stelle im Inventar auf genug Platz für ein Item der Größe space
 	*/
-	bool checkSpace(int xStart, int yStart, pair<int,int> space, ContainerLayout container);
+	bool checkSpace(int xStart, int yStart, pair<unsigned int,unsigned int> space, ContainerLayout container);
 
 	/**
 	* Fügt alle Items in einem Container rekursiv der Liste hinzu

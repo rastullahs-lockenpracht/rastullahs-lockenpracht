@@ -40,24 +40,6 @@ namespace rl
 {
 	class Effect;
 
-	/// WICHTIG: Bei WERT_MOD_* gibt getValue() Unsinn zurück, da der Multiplikator dann auf 0 + modifier multipliziert wird.
-	/// Stattdessen einzeln auf die Modifikatoren zugreifen!
-	static const int WERT_MOD_AE = 1; // Astralenergie
-	static const int WERT_MOD_LE = 2; // Lebensenergie
-	static const int WERT_MOD_AT = 3; // Attacke
-	static const int WERT_MOD_PA = 4; // Parade
-	static const int WERT_MOD_FK = 5; // Fernkampf
-	static const int WERT_MOD_AU = 6; // Ausdauer
-	static const int WERT_MOD_MR = 7; // Magieresistenz
-	static const int WERT_MOD_INI = 8; // Initiative
-	static const int WERT_MOD_REGENERATION_LE = 12; // Naechtliche Regeneration. modifier modifiziert den W6, ProbenModifier modifiziert die KO-Probe.
-	static const int WERT_MOD_REGENERATION_AE = 13; // Astrale Regeneration. modifier modifiziert den W6, ProbenModifier modifiziert die IN-Probe.
-	static const int WERT_MOD_ESCHOEPFUNGSSCHWELLE = 14; // Die Modifkitoren von KO bezueglich der Erschoepfungsschwelle.
-	static const int WERT_MOD_ALL_EIGENSCHAFTSPROBEN = 15; // Modifiziert alle Proben, die mit 1W20 gewuerfelt werden.
-	static const int WERT_MOD_ALL_TALENTPROBEN = 16; // Modifiziert alle Proben, die mit 3W20 gewuerfelt werden.
-	static const int WERT_GS = 10; // Geschwindigkeit
-	static const int WERT_SOZIALSTATUS = 9; // Sozialstatus
-	static const int WERT_BE = 11; // Behinderung
 
 	static const int RESULT_AUTOERFOLG = 100;
 	static const int RESULT_SPEKT_AUTOERFOLG = 1000;
@@ -68,19 +50,15 @@ namespace rl
 	static const int RESULT_ERFOLG = 1;
 	static const int RESULT_MISSERFOLG = -1;
 
-	const int SF_MIN_VALUE = 0;
-	const int SF_MAX_VALUE = 2;
-	static const int SF_IN_TRAINING = 0;
-	static const int SF_OK = 1;
-	static const int SF_PREREQ_NOT_MET = 2; /// @todo Wird das ueberhaupt gebraucht?
 
 	/// @todo Passenderen Ort suchen
-	static const CeGuiString TALENT_ART_BASIS = "Basis";
-	static const CeGuiString TALENT_ART_SPEZIAL = "Spezial";
-	static const CeGuiString TALENT_ART_BERUF = "Beruf";
-	static int TALENT_MIN_TAW_FOR_SPEZIAL = 0;
-	static int TALENT_MIN_TAW_FOR_BERUF = 0;
-	static int TALENT_MIN_TAW_FOR_BASIS = 0;
+    static const CeGuiString TALENT_ART_BASIS = "Basis";
+    static const CeGuiString TALENT_ART_SPEZIAL = "Spezial";
+    static const CeGuiString TALENT_ART_BERUF = "Beruf";
+
+    //Es gibt da verschiedene Angaben zwischen dem Basisregelwerk und SuH
+	static const int TALENT_MIN_TAW_FOR_SPEZIAL = 0;
+	static const int TALENT_MIN_TAW_FOR_BERUF = 0;
 
     /**
     * @brief Basisklasse aller spielrelevanten Objekte in RL.
@@ -93,60 +71,98 @@ namespace rl
     */
     class _RlRulesExport Creature : public GameObject
     {
-
-    protected:
-        virtual int getEigenschaftForBasiswertCalculation(const CeGuiString eigenschaftName);
-		virtual int getMrBasis();
-        virtual int getLeBasis();
-		virtual int getAuBasis();
-		virtual int getAeBasis();
-		/**
-		 * @brief Ueberprueft die wirkenden Effekte auf Lebendigkeit
-		 **/
-		void checkEffects();
-
     public:
+///////////////////////////////////////////////////////////////////////////////
+// Enums
+  	    /** 
+         * @warning Bei WERT_MOD_* gibt getValue() Unsinn zurueck, da 
+         * der Multiplikator dann auf 0 + modifier multipliziert wird. 
+         * Stattdessen einzeln auf die Modifikatoren zugreifen!
+         * @ingroup RulesRubyExports
+         **/
+        enum Wert
+        {
+            WERT_MOD_AE = 1, ///< Astralenergie
+            WERT_MOD_LE, ///< Lebensenergie
+            WERT_MOD_AT, ///< Attacke
+            WERT_MOD_PA, ///< Parade
+            WERT_MOD_FK, ///< Fernkampf
+            WERT_MOD_AU, ///< Ausdauer
+            WERT_MOD_MR, ///< Magieresistenz
+            WERT_MOD_INI, ///< Initiative
+            WERT_MOD_REGENERATION_LE, ///< Naechtliche Regeneration. modifier modifiziert den W6, ProbenModifier modifiziert die KO-Probe.
+            WERT_MOD_REGENERATION_AE, ///< Astrale Regeneration. modifier modifiziert den W6, ProbenModifier modifiziert die IN-Probe.
+            WERT_MOD_ESCHOEPFUNGSSCHWELLE, ///< Die Modifkitoren von KO bezueglich der Erschoepfungsschwelle.
+            WERT_MOD_ALL_EIGENSCHAFTSPROBEN, ///< Modifiziert alle Proben, die mit 1W20 gewuerfelt werden.
+            WERT_MOD_ALL_TALENTPROBEN, ///< Modifiziert alle Proben, die mit 3W20 gewuerfelt werden.
+            WERT_GS, ///< Geschwindigkeit
+            WERT_SOZIALSTATUS, ///< Sozialstatus
+            WERT_BE, ///< Behinderung
+            WERT_KAMPFUNFAEHIGKEITSSCHWELLE ///< Die Schwelle zur Kampfunfaehigkeit, bei Menschen 5 LE
+        };
+        
+        enum SfStatus
+        {
+            SF_IN_TRAINING = 1,
+            SF_OK,
+            SF_PREREQ_NOT_MET /// @todo Wird das ueberhaupt gebraucht?
+        };
+
 ///////////////////////////////////////////////////////////////////////////////
 // Typedefs
 
-		typedef map<int, StateSet*> WertMap;
+		typedef map<const Wert, StateSet*> WertMap;
 		/**
 		 *  @brief Liste der guten Eigenschaften.
 		 *  Besteht aus dem Abkuerzung der Eigenschaft (z.B. MU, KL) als 
 		 *  Schluessel und ihrem Wert.
 		 **/
-		typedef map<CeGuiString, EigenschaftenStateSet*> EigenschaftMap;
+		typedef map<const CeGuiString, EigenschaftenStateSet*> EigenschaftMap;
 		/**
 		 *  @brief Liste der Talente.
 		 *  Besteht aus den Namen der Talente (z.B. Athletik) als
 		 *  Schluessel und ihrem Wert.
 		 **/
-		typedef map<CeGuiString, TalentStateSet*> TalentMap;
+		typedef map<const CeGuiString, TalentStateSet*> TalentMap;
 		/**
 		 *  @brief Liste der Kampftechniken und ihrer AT/PA Werte.\n
 		 *  Eine Kampftechnik in diesem Sinne ist so was wie Hiebwaffen
 		 *  oder Raufen, bei Tieren sowas wie Biss oder Prankenhieb.\n
-		 *  Der erste Wert entspricht der ID der Kampftechnik, das pair
+		 *  Der erste Wert ist der Name der Kampftechnik, das pair
 		 *  den AT und PA Werten.
 		 *  Die Werte werden auf den AT/PA Basiswert addiert bevor sie die fertige
 		 *  AT/PA Werte ergeben. Die Summe des pairs muss also dem TaW in dem
 		 *  Kampftalent entsprechen.
 		 **/
-        typedef map<CeGuiString, pair<int, int> > KampftechnikMap;
-		/** @brief Die Sonderfertigkeiten der Kreatur
+        typedef map<const CeGuiString, pair<int, int> > KampftechnikMap;
+        /**
+         *  @brief Eine Liste der Vorteile der Kreatur.
+         *  Gaben gehoeren ebenfalls zu den Vorteilen, verhalten sich aber wie
+         *  Talente
+         **/
+        typedef map<const CeGuiString, TalentStateSet*> VorteilMap;
+        /**
+         *  @brief Eine Liste der Nachteile der Kreatur.
+         *  Schlechte Eigenschaften gehoeren ebenfalls zu den Nachteilen,
+         *  verhalten sich aber wie Eigenschaften.
+         **/
+        typedef map<const CeGuiString, EigenschaftenStateSet*> NachteilMap;
+		/** 
+         *  @brief Die Sonderfertigkeiten der Kreatur
 		 *  Besteht aus dem Namen der Sonderfertigkeit als Schluessel
 		 *  und ihrem Status: \n
 		 *  SF_LEARNING \n
 		 *	SF_OK \n
 		 *	SF_PREREQ_NOT_MET \n
 		 */
-		typedef map<CeGuiString ,SonderfertigkeitenStateSet*> SonderfertigkeitMap;
-		/** @brief Die Container einer Kreatur.
-		*  Diese Container sollen dann alles beinhalten, was direkt am Körper 
-		*  getragen wird (Kleidung, Rucksäcke, Ringe etc.), sowie angeborene Waffen
-		*  (Fäuste, Klauen, Zähne...).
-		**/
-		typedef map<CeGuiString, Container*> ContainerMap;
+		typedef map<const CeGuiString ,SonderfertigkeitenStateSet*> SonderfertigkeitMap;
+		/** 
+         *  @brief Die Container einer Kreatur.
+		 *  Diese Container sollen dann alles beinhalten, was direkt am Koerper 
+		 *  getragen wird (Kleidung, Rucksäcke, Ringe etc.), sowie angeborene Waffen
+		 *  (Fäuste, Klauen, Zähne...).
+		 **/
+		typedef map<const CeGuiString, Container*> ContainerMap;
 
 
 		///@warning Nur zu Testzwecken da. Wird spaeter entfernt.
@@ -165,7 +181,6 @@ namespace rl
 		virtual void modifyAe(int mod,  bool ignoreMax = false);
         virtual int getAe();
         virtual int getAeMax();
-		virtual bool isMagic();
 
 		virtual void modifyAu(int mod,  bool ignoreMax = false);
         virtual int getAu();
@@ -182,7 +197,7 @@ namespace rl
 		 **/
 		virtual int getCurrentBe();
 
-		virtual void setWert(int wertId, int wert);
+		virtual void setWert(Wert wertId, int value);
 		/** @brief Liefert den Basiswert id zurueck.
 		 *  @param id Bezeichnet welcher Wert zurueckgeliefert werden soll.
 		 *  @return Der Wert des Basiswerts.
@@ -190,8 +205,8 @@ namespace rl
 		 *    gefunden werden.
 		 **/
 
-		virtual int getWert(int wertId, bool getUnmodified = false);
-		virtual StateSet* getWertStateSet(int wertId);
+		virtual int getWert(Wert wertId, bool getUnmodified = false);
+		virtual StateSet* getWertStateSet(Wert wertId);
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -296,15 +311,63 @@ namespace rl
         virtual void setKampftechnik(const CeGuiString kampftechnikName, const pair<int, int>& value);
 
 ///////////////////////////////////////////////////////////////////////////////
+// Vorteile
+        /**
+         *  @brief Fuegt einen Vorteil hinzu.
+         *  @param vorteilName Der Name des Vorteils.
+         *  @param value Der Wert einer eventuellen Gabe oder die Stufe des
+         *   Vorteils (z.B. Astrale Regeneration 3).
+         **/
+        virtual void addVorteil(const CeGuiString vorteilName, int value = 0);
+        /**
+         *  @brief Ueberprueft ob die Kreatur einen bestimmten Vorteil hat.
+         *  @param vorteilName Der Name des zu ueberpruefenden Vorteils.
+         **/
+        virtual bool hasVorteil(const CeGuiString vorteilName);
+        /**
+         *  @brief Liefert das StateSet des Vorteils zurueck.
+         *  Gedacht um die erforderlichen Daten von Gaben abzufragen.
+         *  @param vorteilName Der Name der Gabe.
+         *  @return Ein Zeiger auf das StateSet der Gabe.
+         *  @exception InvalidArgumentException Der Vorteil vorteilName konnte
+         *   nicht gefunden werden.
+         **/
+        virtual TalentStateSet* getVorteilStateSet(const CeGuiString vorteilName);
+
+///////////////////////////////////////////////////////////////////////////////
+// Nachteile
+        /**
+         *  @brief Fuegt einen Nachteil hinzu.
+         *  @param nachteilName Der Name des Nachteils.
+         *  @param value Der Wert einer eventuellen Schlechten Eigenschaft oder
+         *   die Stufe des Nachteils.
+        **/
+        virtual void addNachteil(const CeGuiString nachteilName, int value = 0);
+        /**
+         *  @brief Ueberprueft ob die Kreatur einen bestimmten Nachteil hat.
+         *  @param nachteilName Der Name des zu ueberpruefenden Nachteils.
+         **/
+        virtual bool hasNachteil(const CeGuiString vorteilName);
+        /**
+         *  @brief Liefert das StateSet des Nachteils zurueck.
+         *  Gedacht um die erforderlichen Daten von Schlechten Eigenschaften
+         *  abzufragen.
+         *  @param nachteilName Der Name der Schlechten Eigenschaft.
+         *  @return Ein Zeiger auf das StateSet der Schlechten Eigenschaft.
+         *  @exception InvalidArgumentException Der Nachteil nachteilName konnte
+         *   nicht gefunden werden.
+         **/
+        virtual EigenschaftenStateSet* getNachteilStateSet(const CeGuiString nachteilName);
+
+///////////////////////////////////////////////////////////////////////////////
 // Sonderfertigkeiten
 
 		/** @brief Fuegt der Kreatur eine Sonderfertigkeit(SF) hinzu.
-		 *  Der Wert wird auf 0 gesetzt (nicht gelernt, in Ausbildung).
 		 *  @param sfId Bezeichnet die SF.
 		 *  @exception InvalidArgumentException sfName kann nicht gefunden
 		 *    werden.
 		 */
-		virtual void addSf(const CeGuiString sfName, int value = SF_IN_TRAINING);
+		virtual void addSf(const CeGuiString sfName, SfStatus value = SF_IN_TRAINING);
 		/** @brief Liefert den Wert der Sonderfertigkeit(SF) zurueck.
 		 *  @sa SonderfertigkeitMap
 		 *  @param sfId Bezeichnet die SF
@@ -323,9 +386,62 @@ namespace rl
 		 *  @exception InvalidArgumentException sfName kann nicht in 
 		 *    mSonderfertigkeiten gefunden werden.
 		 */
-		virtual void setSf(const CeGuiString sfName, int value);
+		virtual void setSf(const CeGuiString sfName, SfStatus value);
 
 		virtual SonderfertigkeitenStateSet* getSonderfertigkeitenStateSet(const CeGuiString sfName);
+
+///////////////////////////////////////////////////////////////////////////////
+// Status
+        /**
+         *  @todo Weitere denkbare Zustände: unconcious (wie sleeping, nur 
+         *   schwieriger zu wecken)
+         **/
+
+        /// @brief Checks if the creature is currently blind.
+        bool isBlind();
+        /// @brief Checks if the creature is dead.
+        bool isDead();
+        /// @brief Checks if the creature is currently deaf.
+        bool isDeaf();
+        /**
+         *  @brief Checks if the creature is currently incapacitated.
+         *  This happens usually if the creature's VI (de: LE) falls
+         *  below the value of WERT_KAMPFUNFAEHIGKEITSSCHWELLE.
+         *  @sa Wert
+         **/
+        bool isIncapacitated();
+        /// @brief Checks if the creature is currently invincible.
+        bool isInvincible();
+        /// @brief Checks if the creature is currently invisible.
+        bool isInvisible();
+        /// @brief Checks if the creature is currently parallyzed.
+        bool isParalyzed();
+        /// @brief Checks if the creature is currently silenced.
+        bool isSilenced();
+        /// @brief Checks if the creature is currently sleeping.
+        bool isSleeping();
+        /**
+         *  @brief Returns true if the creature cannot move.
+         *  This function does not correspond to a certain status variable but
+         *  checks several other stati such as isDead, isParalyzed and 
+         *  isSleeping.
+         **/
+        bool isImmovable();
+        /**
+         *  @brief Checks if the creature is actively magic.
+         *  This function does not correspond to a certain status variable but
+         *  returns true if the modified AE is greater than zero.
+         **/
+		bool isMagic();
+        void setBlind(bool value);
+        void setDead(bool value);
+        void setDeaf(bool value);
+        void setIncapacitated(bool value);
+        void setInvincible(bool value);
+        void setParalyzed(bool value);
+        void setSilenced(bool value);
+        void setSleeping(bool value);
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // Inventory
@@ -536,21 +652,45 @@ namespace rl
 		 **/
 		void addEffect(Effect* effect);
 
+    protected:
+        virtual int getEigenschaftForBasiswertCalculation(const CeGuiString eigenschaftName);
+		virtual int getMrBasis();
+        virtual int getLeBasis();
+		virtual int getAuBasis();
+		virtual int getAeBasis();
+		/**
+		 * @brief Ueberprueft die wirkenden Effekte auf Lebendigkeit
+		 **/
+		void checkEffects();
+
 	private:
         int mCurrentLe;
 		int mCurrentAe;
 		int mCurrentAu;		
+        int mBlind;
+        int mDead;
+        int mDeaf;
+        int mIncapacitated;
+        int mInvincible;
+        int mInvisible;
+        int mParalyzed;
+        int mSilenced;
+        int mSleeping;
 
 		EffectManager mEffectManager;
 		Weapon* mActiveWeapon;
         EigenschaftMap mEigenschaften;
         TalentMap mTalente;
         KampftechnikMap mKampftechniken;
+        VorteilMap mVorteile;
+        NachteilMap mNachteile;
 		SonderfertigkeitMap mSonderfertigkeiten;
 		WertMap mWerte;
 		ContainerMap mContainer;
 
 		Inventory* mInventory;
+
+        void setStatus(int& statusVariable, bool value, const Ogre::String& errorMessage);
     };
 }
 #endif //__CREATURE_H__

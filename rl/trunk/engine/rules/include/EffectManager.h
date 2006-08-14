@@ -25,6 +25,14 @@
 
 namespace rl
 {
+    /**
+     * @brief Verwaltet die Effekte die auf einer Kreatur wirken
+     *
+     * Diese Klasse verwaltet alle Effekte, die auf einer Kreatur liegen.
+     * Jede Kreatur hat ihren eigenen EffectManager. Die Funktion checkeffects
+     * sollte während jeder Aktion (gemeint ist die DSA-Zeiteinheit) aufgerufen
+     * werden.
+     **/
 
 	class _RlRulesExport EffectManager
 	{
@@ -32,14 +40,40 @@ namespace rl
 		EffectManager();
 		~EffectManager();
 
+        /**
+         * @brief Ruft fuer jeden Effekt in der Liste die isAlive() Funktion auf.
+         **/
 		void checkEffects();
+        /** 
+         * @brief Mit dieser Funktion kann ein Effekt dem Manager mitteilen,
+         * wann er wieder ueberprueft werden muss.
+         * @param time Die Zeit wann die naechste Ueberpruefung faellig ist.
+         * @param effect Der zu ueberpruefende Effekt.
+         * @sa Die Date Klasse.
+         **/
+        void addCheck(RL_LONGLONG time, Effect* effect);
+        /**
+         * @brief Fuegt einen neuen Effekt in die Liste ein.
+         * @param effect Ein Zeiger auf den einzufuegenden Effekt.
+         **/
 		void addEffect(Effect* effect);
 
 	private:
 		typedef std::set<Effect*> Effects;
+        typedef std::map<Effect::EffectTag, Effects> Watchlist;
+        typedef std::map<RL_LONGLONG, Effects> Checklist;
+        /// @brief Eine einfache Menge von Effekten
 		Effects mEffects;
-		typedef std::map<int, Effects*> Watchlist;
+        /**
+         * @brief Eine Liste von Tags und Effekten die auf das hinzufuegen
+         * eines Effekts mit diesem Tag reagieren.
+         **/
 		Watchlist mWatchlist;
+        /**
+         * @brief Eine Liste die wiedergibt, wann welcher Effekt
+         * ueberprueft werden muss.
+         **/
+        Checklist mChecklist;
 	};
 }
 

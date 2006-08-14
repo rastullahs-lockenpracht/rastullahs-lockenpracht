@@ -81,11 +81,11 @@ namespace rl {
 			DOMElement* gruppeData = reinterpret_cast<DOMElement*>(talentGruppen->item(gruppe));
 			DOMNodeList* talenteXml =
                 gruppeData->getElementsByTagName(AutoXMLCh("Talent").data());
-            int numTalent = 0;
+            //int numTalent = 0;
             for (unsigned int talentIdx = 0; talentIdx < talenteXml->getLength(); talentIdx++)
             {
                 Talent* t = processTalent(gruppe, reinterpret_cast<DOMElement*>(talenteXml->item(talentIdx)));
-                numTalent++;
+                //numTalent++;
 				DsaManager::getSingleton()._addTalent(t);
             }
 		}
@@ -116,6 +116,7 @@ namespace rl {
             ebe,
             gruppe,
 			art);
+        // @todo DOMNodeList* ausweichTalenteNode = XmlHelper::getChildNamed(talentXml, "Ausweichtalente");
 
         return t;
     }
@@ -253,23 +254,23 @@ namespace rl {
 			
 			AutoChar wertId = wertXml->getAttribute(ID.data());
 			if (strcmp(wertId.data(), "Lebensenergie") == 0)
-				rval->setWert(WERT_MOD_LE, wert - basis);
+                rval->setWert(Creature::WERT_MOD_LE, wert - basis);
 			else if (strcmp(wertId.data(), "Ausdauer") == 0)
-				rval->setWert(WERT_MOD_AU, wert - basis);
+                rval->setWert(Creature::WERT_MOD_AU, wert - basis);
 			else if (strcmp(wertId.data(), "AttackeBasis") == 0)
-				rval->setWert(WERT_MOD_AT, wert - basis);
+                rval->setWert(Creature::WERT_MOD_AT, wert - basis);
 			else if (strcmp(wertId.data(), "ParadeBasis") == 0)
-				rval->setWert(WERT_MOD_PA, wert - basis);
+                rval->setWert(Creature::WERT_MOD_PA, wert - basis);
 			else if (strcmp(wertId.data(), "FernkampfBasis") == 0)
-				rval->setWert(WERT_MOD_FK, wert - basis);
+                rval->setWert(Creature::WERT_MOD_FK, wert - basis);
 			else if (strcmp(wertId.data(), "InitiativeBasis") == 0)
-				rval->setWert(WERT_MOD_INI, wert - basis);
+                rval->setWert(Creature::WERT_MOD_INI, wert - basis);
 			else if (strcmp(wertId.data(), "Magieresistenz") == 0)
-				rval->setWert(WERT_MOD_MR, wert - basis);
+                rval->setWert(Creature::WERT_MOD_MR, wert - basis);
 			else if (strcmp(wertId.data(), "Astralenergie") == 0)
-				rval->setWert(WERT_MOD_AE, wert - basis);
+                rval->setWert(Creature::WERT_MOD_AE, wert - basis);
 			else if (strcmp(wertId.data(), "Sozialstatus") == 0)
-				rval->setWert(WERT_SOZIALSTATUS, wert);
+                rval->setWert(Creature::WERT_SOZIALSTATUS, wert);
 		}
 
 		// Talente laden

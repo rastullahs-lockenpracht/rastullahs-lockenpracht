@@ -574,7 +574,7 @@ namespace rl
 		Throw(IllegalStateException, "Rucksack hat keinen Platz für das Item");
 	}
 
-	bool Inventory::checkSpace(int xStart, int yStart, pair<int,int> space, ContainerLayout containerLayout){
+	bool Inventory::checkSpace(int xStart, int yStart, pair<unsigned int,unsigned int> space, ContainerLayout containerLayout){
 		bool free = true;
 		for (unsigned int x = 0; x < space.first; x++){
 			for (unsigned int y = 0; y < space.second; y++){

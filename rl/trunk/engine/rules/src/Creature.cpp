@@ -39,6 +39,7 @@ namespace rl
         mSonderfertigkeiten(),
         mContainer()
     {
+		//RlFail("Test");
 		setWert(WERT_MOD_AE, 0);
 		setWert(WERT_MOD_LE, 0);
 		setWert(WERT_MOD_AT, 0);
@@ -157,7 +158,7 @@ namespace rl
         return static_cast<int>(es / 2.0 + 0.5);
     }
 
-	int Creature::getWert(int wertId, bool getUnmodified)
+	int Creature::getWert(Wert wertId, bool getUnmodified)
 	{
 		checkEffects();
 		WertMap::const_iterator it = mWerte.find(wertId);
@@ -174,22 +175,22 @@ namespace rl
 		return be.first+be.second;
 	}
 
-	void Creature::setWert(int wertId, int wert)
+	void Creature::setWert(Wert wertId, int value)
 	{
 		WertMap::iterator it = mWerte.find(wertId);
         if (it == mWerte.end())
         {
 			StateSet* newWert = new StateSet();
-			newWert->setOriginalValue(wert);
+			newWert->setOriginalValue(value);
 			mWerte.insert(make_pair(wertId, newWert));
         }
 		else
 		{
-			it->second->setOriginalValue(wert);
+			it->second->setOriginalValue(value);
 		}
 	}
 
-	StateSet* Creature::getWertStateSet(int wertId)
+	StateSet* Creature::getWertStateSet(Wert wertId)
 	{
 		checkEffects();
         WertMap::const_iterator it = mWerte.find(wertId);
@@ -241,11 +242,6 @@ namespace rl
     {
 		return isMagic()?getAeBasis() + getWert(WERT_MOD_AE):0;
     }
-
-	bool Creature::isMagic()
-	{
-		return getWert(WERT_MOD_AE) > 0;
-	}
 
     void Creature::modifyAu(int mod, bool ignoreMax)
     {
@@ -321,8 +317,23 @@ namespace rl
         TalentMap::const_iterator it = mTalente.find(talentName);
         if (it == mTalente.end())
         {
-            Throw(IllegalArgumentException, "Talent nicht gefunden.");
-        }
+            Talent::AusweichTalente ausweichTalente;
+            ausweichTalente = 
+                DsaManager::getSingleton().getTalent(talentName)->getAusweichTalente();
+            Talent::AusweichTalente::const_iterator ausweichIt = ausweichTalente.begin();
+            if (ausweichIt == ausweichTalente.end())
+            {
+                Throw(IllegalArgumentException, "Talent nicht gefunden.");
+            }
+            int rval = getTalent(ausweichIt->first) - ausweichIt->second;
+            for (ausweichIt++; ausweichIt != ausweichTalente.end(); ausweichIt++)
+            {
+                int tempAusweichTaw = getTalent(ausweichIt->first) 
+                    - ausweichIt->second;
+                if (tempAusweichTaw > rval) rval = tempAusweichTaw;
+            }
+            return rval;
+        } //if (it == mTalente.end())
 		return it->second->getValue();
     }
 
@@ -422,6 +433,70 @@ namespace rl
 		fireObjectStateChangeEvent();
     }
 
+    void Creature::addVorteil(const CeGuiString vorteilName, int value)
+    {
+        VorteilMap::const_iterator it = mVorteile.find(vorteilName);
+        if (it != mVorteile.end())
+        {
+            Throw(IllegalArgumentException, "Vorteil schon in mVorteile enthalten");
+        }
+        mVorteile[vorteilName] = new TalentStateSet();
+        mVorteile[vorteilName]->setOriginalValue( value );
+    }
+
+    bool Creature::hasVorteil(const CeGuiString vorteilName)
+    {
+        VorteilMap::const_iterator it = mVorteile.find(vorteilName);
+        if (it != mVorteile.end())
+        {
+            return true;
+        }
+        else return false;
+    }
+
+    TalentStateSet* Creature::getVorteilStateSet(const CeGuiString vorteilName)
+    {
+		checkEffects();
+        VorteilMap::const_iterator it = mVorteile.find(vorteilName);
+        if (it == mVorteile.end())
+        {
+            Throw(IllegalArgumentException, "Vorteil nicht gefunden.");
+        }
+		else return it->second;
+    }
+
+    void Creature::addNachteil(const CeGuiString nachteilName, int value)
+    {
+        NachteilMap::const_iterator it = mNachteile.find(nachteilName);
+        if (it != mNachteile.end())
+        {
+            Throw(IllegalArgumentException, "Nachteil schon in mNachteile enthalten");
+        }
+        mNachteile[nachteilName] = new EigenschaftenStateSet();
+        mNachteile[nachteilName]->setOriginalValue( value );
+    }
+
+    bool Creature::hasNachteil(const CeGuiString nachteilName)
+    {
+        NachteilMap::const_iterator it = mNachteile.find(nachteilName);
+        if (it != mNachteile.end())
+        {
+            return true;
+        }
+        else return false;
+    }
+
+    EigenschaftenStateSet* Creature::getNachteilStateSet(const CeGuiString nachteilName)
+    {
+		checkEffects();
+        NachteilMap::const_iterator it = mNachteile.find(nachteilName);
+        if (it == mNachteile.end())
+        {
+            Throw(IllegalArgumentException, "Nachteil nicht gefunden.");
+        }
+		else return it->second;
+    }
+
     int Creature::getSf(const CeGuiString sfName)
     {
 		checkEffects();
@@ -433,7 +508,7 @@ namespace rl
 		return it->second->getValue();
     }
 
-	void Creature::addSf(const CeGuiString sfName, int value)
+	void Creature::addSf(const CeGuiString sfName, SfStatus value)
 	{
 		SonderfertigkeitMap::const_iterator it = mSonderfertigkeiten.find(sfName);
 		if (it != mSonderfertigkeiten.end())
@@ -447,13 +522,8 @@ namespace rl
 		fireObjectStateChangeEvent();
 	}
 
-    void Creature::setSf(const CeGuiString sfName, int value)
+    void Creature::setSf(const CeGuiString sfName, SfStatus value)
     {
-		if (value < SF_MIN_VALUE || value > SF_MAX_VALUE)
-		{
-			Throw(OutOfRangeException, "Der Sonderfertigkeit soll ein" 
-				"unzulässiger Wert zugewiesen werden");
-		}
         SonderfertigkeitMap::iterator it = mSonderfertigkeiten.find(sfName);
         if (it == mSonderfertigkeiten.end())
         {
@@ -474,12 +544,149 @@ namespace rl
 		return it->second;
 	}
 
+    bool Creature::isBlind()
+    {
+        if (mBlind > 0) return true;
+        else return false;
+    }
+
+    bool Creature::isDead()
+    {
+        if (mDead > 0) return true;
+        else return false;
+    }
+
+    bool Creature::isDeaf()
+    {
+        if (mDeaf > 0) return true;
+        else return false;
+    }
+
+    bool Creature::isIncapacitated()
+    {
+        if (mIncapacitated > 0) return true;
+        else return false;
+    }
+
+    bool Creature::isInvincible()
+    {
+        if (mInvincible > 0) return true;
+        else return false;
+    }
+
+    bool Creature::isInvisible()
+    {
+        if (mInvisible > 0) return true;
+        else return false;
+    }
+
+    bool Creature::isParalyzed()
+    {
+        if (mParalyzed > 0) return true;
+        else return false;
+    }
+
+    bool Creature::isSilenced()
+    {
+        if (mSilenced > 0) return true;
+        else return false;
+    }
+
+    bool Creature::isSleeping()
+    {
+        if (mSleeping > 0) return true;
+        else return false;
+    }
+
+    bool Creature::isImmovable()
+    {
+        if (isDead() ||
+            isParalyzed() ||
+            isSleeping())
+            return true;
+        else
+            return false;
+    }
+
+	bool Creature::isMagic()
+	{
+		return getWert(WERT_MOD_AE) > 0;
+	}
+
+    void Creature::setStatus(int& statusVariable, bool value, const Ogre::String& errorMessage)
+    {
+        if (value == true)
+        {
+            statusVariable++;
+        }
+        else //value == false
+        {
+            if (statusVariable > 0)
+            {
+                statusVariable--;
+            }
+            else
+            {
+                LOG_MESSAGE(Logger::RULES, errorMessage);
+            }
+        } //value == false
+    }
+
+    void Creature::setBlind(bool value)
+    {
+        setStatus(mBlind, value, 
+            "Trying to remove blindness from a seeing creature.");
+    }
+
+    
+    void Creature::setDead(bool value)
+    {
+        setStatus(mDead, value, 
+            "Trying to revive a living creature.");
+    }
+    
+    void Creature::setDeaf(bool value)
+    {
+        setStatus(mDeaf, value, 
+            "Trying to remove deafness from a hearing creature.");
+    }
+    
+    void Creature::setIncapacitated(bool value)
+    {
+        setStatus(mIncapacitated, value,
+            "Trying to remove incapacitation from a non incapacitated "
+            "creature.");
+    }
+
+    void Creature::setInvincible(bool value)
+    {
+        setStatus(mInvincible, value,
+            "Trying to remove Invincibility from a non invincible creature.");
+    }
+    
+    void Creature::setParalyzed(bool value)
+    {
+        setStatus(mParalyzed, value,
+            "Trying to remove paralyzation from a non paralyzed creature.");
+    }
+    
+    void Creature::setSilenced(bool value)
+    {
+        setStatus(mSilenced, value,
+            "Trying to remove silence from a non silenced creature.");
+    }
+    
+    void Creature::setSleeping(bool value)
+    {
+        setStatus(mSleeping, value,
+            "Trying to awake a wake creature.");
+    }
+
     int Creature::doAlternativeTalentprobe(const CeGuiString talentName, int spezialisierungId,
 		int modifier, CeGuiString eigenschaft1Name, CeGuiString eigenschaft2Name, CeGuiString eigenschaft3Name)
     {
         Talent* talent = DsaManager::getSingleton().getTalent(talentName);
-		if (((talent->getArt() == TALENT_ART_BASIS) && (getTalent(talentName) < TALENT_MIN_TAW_FOR_BASIS)) || 
-			((talent->getArt() == TALENT_ART_SPEZIAL) && (getTalent(talentName) < TALENT_MIN_TAW_FOR_SPEZIAL)) || 
+		if (((talent->getArt() == TALENT_ART_SPEZIAL) && (getTalent(talentName) < TALENT_MIN_TAW_FOR_SPEZIAL)) || 
 			((talent->getArt() == TALENT_ART_BERUF) && (getTalent(talentName) < TALENT_MIN_TAW_FOR_BERUF)))
 		{
 			Throw(OutOfRangeException, "TaW zu niedrig");
@@ -663,7 +870,7 @@ namespace rl
 
 	void Creature::attachWeapon(Weapon* weapon)
 	{
-		// FIXME: Waffenknochen immer 13?
+		// FIXME: Waffenknochen immer r_hand?
 		getActor()->attachToSlot(
 			weapon->getActor(), 
 			"r_hand",
@@ -706,7 +913,8 @@ namespace rl
 		}
 		else
 		{
-			rval = getAttackeBasis() + (*it).second.first - (probe + modifier - eBe);
+			rval = getAttackeBasis() + (*it).second.first - (probe + modifier 
+				+ getWertStateSet(WERT_MOD_ALL_EIGENSCHAFTSPROBEN)->getProbenModifier() + eBe);
 		}
 		if (rval < 0) 
 			return RESULT_MISSERFOLG;
@@ -725,18 +933,19 @@ namespace rl
 		int eBe = ceil(float(DsaManager::getSingleton().getKampftechnik(kampftechnikName)->calculateEbe(getWert(WERT_BE))) / 2.0);
 
 		int probe = DsaManager::getSingleton().rollD20();
-		if (probe == 1) // TODO: Bestätigen
+		if (probe == 1) /// @TODO: Bestätigen
 		{
 			rval = RESULT_GLUECKLICH;
 		}
 		else if (probe == 20)
 		{
-			rval = RESULT_PATZER; // TODO: Bestätigen
+			rval = RESULT_PATZER; /// @TODO: Bestätigen
 		}
 		else
 		{
-			// TODO: Gute Parade
-			rval = getParadeBasis() + (*it).second.second - (probe + modifier - eBe);
+			/// @TODO: Gute Parade
+			rval = getParadeBasis() + (*it).second.second - (probe + modifier 
+				+ getWertStateSet(WERT_MOD_ALL_EIGENSCHAFTSPROBEN)->getProbenModifier() + eBe);
 		}
 		if (rval < 0) 
 			return RESULT_MISSERFOLG;
@@ -768,7 +977,7 @@ namespace rl
 
 	void Creature::checkEffects()
 	{
-		//TODO
+		/// @TODO
 		// Nur einmal pro Aktion ausfuehren
 		mEffectManager.checkEffects();
 	}

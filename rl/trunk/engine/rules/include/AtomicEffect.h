@@ -28,7 +28,7 @@ namespace rl
 		AtomicEffect();
 		virtual ~AtomicEffect();
 
-		virtual bool isAlive();
+		virtual void check();
 	protected:
 		/// Bringt die Aenderungen ein.
 		virtual void apply();

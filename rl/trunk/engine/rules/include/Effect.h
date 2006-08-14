@@ -30,10 +30,19 @@ namespace rl
 	{
 	public:
 
-		static const int EFFECT_MULTIPLE = 0;
-		static const int EFFECT_UNIQUE = 1;
-		static const int EFFECT_UNIQUE_BUT_PROLONGABLE = 2;
-		static const int EFFECT_UNIQUE_BUT_CUMULATIVE = 3;
+        enum EffectQuantifier
+        {
+            EFFECT_MULTIPLE = 0,
+            EFFECT_UNIQUE = 1,
+            EFFECT_UNIQUE_BUT_PROLONGABLE = 2,
+            EFFECT_UNIQUE_BUT_CUMULATIVE = 3
+        };
+
+        enum EffectTag
+        {
+            EFFECT_NONE,
+            EFFECT_KRANKHEIT
+        };
 
 		Effect(int stufe = 1);
 		virtual ~Effect();
@@ -46,24 +55,44 @@ namespace rl
 		void setOwner(Creature* owner);
 		virtual int getDuration();
 		virtual void setDuration(int newDuration);
-		int getQuantifier();
-		void setQuantifier(int quantifier);
-		//** @brief Adds a tag to the Effect. Tags are describing the type of
-		//*  an Effect, so other Effects can identify it. An example would be
-		//** 'Poison', as well as 'mineralic poison'.
-		virtual void addTag(int tagId);
-		virtual void removeTag(int tagId);
-		virtual bool queryTag(int tagId);
+		EffectQuantifier getQuantifier();
+		void setQuantifier(EffectQuantifier quantifier);
+		/** 
+         *  @brief Adds a tag to the effect. 
+         *  Tags are describing the type of an Effect, so other Effects can 
+         *  identify it. An example would be 'Poison', as well as 'mineralic 
+         *  poison'.
+         **/
+		virtual void addTag(EffectTag tagId);
+        /**
+         * @brief removes a tag from the effect.
+         * @sa addTag
+         **/
+		virtual void removeTag(EffectTag tagId);
+        /**
+         * @brief Queries the effect for its tags.
+         * @sa addTag
+         **/
+		virtual bool queryTag(EffectTag tagId);
+        /**
+         * @brief Retturns the Stufe (level) of the effect.
+         **/
 		virtual const int getStufe();
+        /**
+         * @brief Increases the level by one.
+         **/
 		virtual void increaseStufe();
+        /**
+         * @brief Decreases the level by one.
+         **/
 		virtual void decreaseStufe();
 		/// Macht den Effekt wirksam.
 		virtual void enable();
 		/// Macht den Effekt unwirksam.
 		virtual void disable();
 
-		/// Überprüft die Lebendigkeit des Effekts.
-		virtual bool isAlive() = 0;
+		/// Ueberprueft die Lebendigkeit des Effekts.
+		virtual void check();
 
 	protected:
 		/// Bringt die Aenderungen ein.
@@ -83,9 +112,9 @@ namespace rl
 		/// Speichert, ob der Effekt gerade wirksam ist.
 		bool mEnabled;
 		/// Gibt an, wie oft ein Effekt dieses Namens auf einer Kreatur wirken kann.
-		int mQuantifier;
+		EffectQuantifier mQuantifier;
 
-		typedef std::set<int> Tags;
+		typedef std::set<EffectTag> Tags;
 		Tags mTags;
 
 		Creature* mOwner;

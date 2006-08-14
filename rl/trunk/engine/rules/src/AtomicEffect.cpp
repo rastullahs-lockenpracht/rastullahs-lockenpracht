@@ -26,9 +26,8 @@ namespace rl
 	{
 	}
 
-	bool AtomicEffect::isAlive()
+	void AtomicEffect::check()
 	{
-		return true;
 	}
 
 	void AtomicEffect::apply()

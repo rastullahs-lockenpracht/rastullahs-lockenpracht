@@ -15,6 +15,8 @@
  */
 
 #include "EffectManager.h"
+#include "DsaManager.h"
+#include "Exception.h"
 
 namespace rl
 {
@@ -32,11 +34,30 @@ namespace rl
 
 	void EffectManager::checkEffects()
 	{
-		for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
-		{
-			(*it)->isAlive();
-		}
+        RL_LONGLONG now = DsaManager::getSingleton().getTimestamp();
+        Checklist::iterator checkIt = mChecklist.begin();
+        if (checkIt == mChecklist.end()) return;
+        while ( checkIt->first <= now )
+        {
+            for (Effects::iterator effIt = checkIt->second.begin(); effIt != checkIt->second.end(); effIt++)
+            {
+                (*effIt)->check();
+            }
+            mChecklist.erase(checkIt);
+            checkIt++;
+        }
 	}
+
+    void EffectManager::addCheck(RL_LONGLONG time, Effect* effect)
+    {
+        // Preconditions: time > 0, effect != NULL
+        if (time <= 0) Throw(IllegalArgumentException, "time parameter is <= 0!");
+        if (effect == NULL) Throw(IllegalArgumentException, "effect pointer is NULL!");
+        // Hole aktuelle ingame Zeit und addiere time darauf
+        RL_LONGLONG timeForCheck = DsaManager::getSingleton().getTimestamp() + time;
+        // Fuege die Summe und effect in Checklist ein
+        mChecklist[timeForCheck].insert(effect);
+    }
 
 	void EffectManager::addEffect(Effect* effect)
 	{

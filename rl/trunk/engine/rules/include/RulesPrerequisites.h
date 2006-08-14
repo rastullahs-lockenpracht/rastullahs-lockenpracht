@@ -37,14 +37,15 @@
 
 #include <OgreLogManager.h>
 
-#define log_error(msg) Ogre::LogManager::getSingleton().logMessage(msg, LML_CRITICAL);
-#define log_info(msg) Ogre::LogManager::getSingleton().logMessage(msg, LML_NORMAL);
-#define log_debug(msg) Ogre::LogManager::getSingleton().logMessage(msg, LML_TRIVIAL);
-
 #undef min
 
 namespace rl
 {
+    /**
+     * @defgroup RulesRubyExports
+     * @ingroup RubyExports
+     **/
+
     class _RlRulesExport Action;
     class _RlRulesExport GameObject;
 

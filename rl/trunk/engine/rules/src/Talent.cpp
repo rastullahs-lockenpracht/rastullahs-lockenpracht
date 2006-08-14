@@ -78,4 +78,9 @@ namespace rl
 	{
 		return mArt;
 	}
+
+    Talent::AusweichTalente Talent::getAusweichTalente()const
+    {
+        return mAusweichTalente;
+    }
 }

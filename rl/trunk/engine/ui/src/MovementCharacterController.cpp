@@ -88,7 +88,7 @@ namespace rl {
 	{
         DebugWindow::getSingleton().registerPage(msDebugWindowPageName);
 		mMovementSpeed = 
-			(float)character->getWert(WERT_GS) / 
+            (float)character->getWert(Creature::WERT_GS) / 
 			(float)Date::ONE_KAMPFRUNDE 
 			* 1000.0f;
 

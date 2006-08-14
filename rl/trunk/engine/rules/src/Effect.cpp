@@ -15,16 +15,16 @@
  */
 
 #include "Effect.h"
-#include "CoreSubsystem.h"
+#include "DsaManager.h"
 #include "Creature.h"
 
 namespace rl
 {
-	Effect::Effect( int stufe)
+	Effect::Effect(int stufe)
 	{
 		mStufe = stufe;
-		mStartTime = CoreSubsystem::getSingleton().getClock();
-		mQuantifier = 0;
+		mStartTime = DsaManager::getSingleton().getTimestamp();
+		mQuantifier = EFFECT_MULTIPLE;
 	}
 
 	Effect::~Effect()
@@ -72,17 +72,17 @@ namespace rl
 		mDuration = newDuration;
 	}
 
-	int Effect::getQuantifier()
+    Effect::EffectQuantifier Effect::getQuantifier()
 	{
 		return mQuantifier;
 	}
 
-	void Effect::setQuantifier(int quantifier)
+	void Effect::setQuantifier(EffectQuantifier quantifier)
 	{
 		mQuantifier = quantifier;
 	}
 
-	void Effect::addTag(int tagId)
+	void Effect::addTag(EffectTag tagId)
 	{
 		// no doubles
 		Tags::const_iterator it = mTags.find(tagId);
@@ -92,7 +92,7 @@ namespace rl
         }
 	}
 
-	void Effect::removeTag(int tagId)
+	void Effect::removeTag(EffectTag tagId)
 	{
 		Tags::const_iterator it = mTags.find(tagId);
         if (it != mTags.end())
@@ -101,7 +101,7 @@ namespace rl
         }
 	}
 
-	bool Effect::queryTag(int tagId)
+	bool Effect::queryTag(EffectTag tagId)
 	{
 		Tags::const_iterator it = mTags.find(tagId);
         if (it != mTags.end())
@@ -146,8 +146,12 @@ namespace rl
 		}
 	}
 
+    void Effect::check()
+    {
+    }
+
 	RL_LONGLONG Effect::getTimePassed()
 	{		
-		return (CoreSubsystem::getSingleton().getClock() - mStartTime);
+        return (DsaManager::getSingleton().getTimestamp() - mStartTime);
 	}
 }

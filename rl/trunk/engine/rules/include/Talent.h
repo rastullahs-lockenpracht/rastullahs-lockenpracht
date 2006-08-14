@@ -26,14 +26,8 @@ namespace rl
 {
     class _RlRulesExport Talent
     {
-    private:
-        const CeGuiString mName;
-        const CeGuiString mDescription;
-        const EigenschaftTripel mEigenschaften;
-        const int mEbe;
-		const int mTalentGruppe;
-		const CeGuiString mArt;
     public:
+        typedef std::map<const CeGuiString,int> AusweichTalente;
         Talent(const CeGuiString name,
                const CeGuiString description,
                const EigenschaftTripel& eigenschaften,
@@ -51,6 +45,19 @@ namespace rl
         int calculateEbe(int be) const;
         EigenschaftTripel getEigenschaften() const;
 		CeGuiString getArt() const;
+        /**
+         *  @brief Gibt eine Liste der Talente zurueck, auf die ausgewichen
+         *   werden kann zuzueglich der Schwierigeit darauf auszuweichen
+         **/
+        AusweichTalente getAusweichTalente() const;
+    private:
+        const CeGuiString mName;
+        const CeGuiString mDescription;
+        const EigenschaftTripel mEigenschaften;
+        const int mEbe;
+		const int mTalentGruppe;
+		const CeGuiString mArt;
+        AusweichTalente mAusweichTalente;
     };
 }
 #endif //__TALENT_H__
