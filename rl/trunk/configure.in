@@ -149,9 +149,11 @@ AC_CHECK_LIB([MadaBot], [main], [], AC_MSG_ERROR([Can't find libMadaBot]))
 # Physics
 AC_CHECK_LIB([Newton], [fopen], [], AC_MSG_ERROR([Can't find libNewton]) ) 
 AC_CHECK_HEADERS(Newton.h, , AC_MSG_ERROR([Can't find Newton headers]))
+OLDCXXFLAGS="$CXXFLAGS"
+CXXFLAGS="$CXXFLAGS $OGRE_CFLAGS"
 AC_CHECK_LIB([OgreNewt], [NewtonBallGetJointAngle], [], AC_MSG_ERROR([Can't find OgreNewt]) )
 AC_CHECK_HEADERS(OgreNewt.h, , AC_MSG_ERROR([Can't find OgreNewt headers]))
-
+CXXFLAGS="$OLDCXXFLAGS"
 
 # XERCES
 AC_CHECK_HEADERS(xercesc/util/XercesVersion.hpp, ,

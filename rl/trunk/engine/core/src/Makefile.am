@@ -1,4 +1,4 @@
-INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(STLPORT_CFLAGS) -I../include -I../../common/include 
+INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(STLPORT_CFLAGS) -I../include -I../../common/include -I../include/nulldriver
 
 lib_LTLIBRARIES = libRlCore.la
 libRlCore_la_LDFLAGS = $(OGRE_LIBS) $(CEGUI_LIBS) $(RUBY_LIBS) $(LIBS)
@@ -42,6 +42,13 @@ libRlCore_la_SOURCES = \
 	SoundManager.cpp \
 	SoundObject.cpp \
 	SoundUpdateTask.cpp \
+	SoundDriver.cpp \
+	ListenerMovable.cpp \
+	Sound.cpp \
+	SoundEvents.cpp \
+	SoundResource.cpp \
 	TrackAnimation.cpp \
-	World.cpp 		 
-
+	World.cpp \
+	nulldriver/NullDriver.cpp \
+	nulldriver/NullListener.cpp \
+	nulldriver/NullSound.cpp

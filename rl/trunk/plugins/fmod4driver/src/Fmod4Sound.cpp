@@ -47,7 +47,7 @@ float Fmod4Sound::getLength() const
     return (float)length/1000.0;
 }
 
-void Fmod4Sound::load()
+void Fmod4Sound::load() throw (RuntimeException)
 {
     FMOD_MODE mode = FMOD_DEFAULT;
 
@@ -91,12 +91,12 @@ void Fmod4Sound::load()
     }
 }
 
-void Fmod4Sound::unload()
+void Fmod4Sound::unload() throw (RuntimeException)
 {
     mSound->release();
 }
 
-bool Fmod4Sound::isValid() const
+bool Fmod4Sound::isValid() const throw (RuntimeException)
 {
     return mSound != NULL && mChannel != NULL;
 }

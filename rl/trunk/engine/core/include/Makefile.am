@@ -42,5 +42,8 @@
 	SoundObject.h \
 	SoundUpdateTask.h \
 	TrackAnimation.h \
-	World.h 
+	World.h \
+	nulldriver/NullDriver.h \
+	nulldriver/NullSound.h \
+	nulldriver/NullListener.h 
 	

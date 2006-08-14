@@ -32,7 +32,7 @@ noinst_HEADERS = \
 	ObjectDescriptionWindow.h \
 	PlaylistWindow.h \
 	SoundConfig.h \
-	SoundDriverConfigWindow.h \
+	SoundDriverConfigComponent.h \
 	SubtitleWindow.h \
 	TargetSelectionWindow.h \
 	UiPrerequisites.h \

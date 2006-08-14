@@ -1,13 +1,12 @@
 INCLUDES = $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(CEGUIOGRE_CFLAGS) \
 	$(STLPORT_CFLAGS) -I../include -I../../common/include  -I../../core/include \
 	-I../../rules/include -I../components/include -I../../dialog/include \
-	-I../../startup/include -I../../multimedia/include -I../../uicomponents/include \
-	-I../../multimedia/include/null 
+	-I../../startup/include -I../../uicomponents/include 
 
 lib_LTLIBRARIES = libRlUi.la
 libRlUi_la_LIBADD = -lRlUiComponents $(RUBY_LIBS) $(LIBS) \
-	$(CEGUI_LIBS) $(OGRE_LIBS) $(CEGUIOGRE_LIBS) -lRlMultimedia
-libRlUi_la_LDFLAGS = -L../../uicomponents/src  -L../../multimedia/src
+	$(CEGUI_LIBS) $(OGRE_LIBS) $(CEGUIOGRE_LIBS)
+libRlUi_la_LDFLAGS = -L../../uicomponents/src
 libRlUi_la_SOURCES = \
 	AboutWindow.cpp \
 	ActionChoiceWindow.cpp \
@@ -41,7 +40,7 @@ libRlUi_la_SOURCES = \
 	ObjectDescriptionWindow.cpp \
 	PlaylistWindow.cpp \
 	SoundConfig.cpp \
-	SoundDriverConfigWindow.cpp \
+	SoundDriverConfigComponent.cpp \
 	SubtitleWindow.cpp \
 	TargetSelectionWindow.cpp \
 	UiSubsystem.cpp \

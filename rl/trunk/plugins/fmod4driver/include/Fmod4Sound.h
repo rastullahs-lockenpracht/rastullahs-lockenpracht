@@ -45,7 +45,7 @@ namespace rl {
 	    virtual float getLength() const;
 
 		// Sind wir gueltig
-		bool isValid() const;
+		bool isValid() const throw (RuntimeException);
 
 	    /// Moveable-Typ
 		virtual const Ogre::String& getMovableType() const;
