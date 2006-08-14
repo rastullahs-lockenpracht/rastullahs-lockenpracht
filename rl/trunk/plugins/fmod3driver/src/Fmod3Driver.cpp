@@ -524,12 +524,10 @@ void Fmod3Driver::setActiveOutput(const rl::CeGuiString &outputName)
 void Fmod3Driver::checkErrors()
 {
     int err = FSOUND_GetError();
-    Throw( 
-        RuntimeException, 
-        "Fmod Error:" 
-        + Ogre::StringConverter::toString(err) 
-        + " while playing " + getName() );
+    if (err != FMOD_ERR_NONE)
+    {
+        Throw(RuntimeException, "Fmod Error:" + StringConverter::toString(err));
+    }
 }
-
 
 }
