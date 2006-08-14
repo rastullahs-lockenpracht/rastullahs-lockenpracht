@@ -24,7 +24,7 @@ namespace rl
 	{
 		mStufe = stufe;
 		mStartTime = DsaManager::getSingleton().getTimestamp();
-		mQuantifier = EFFECT_MULTIPLE;
+		mQuantifier = QUANTIFIER_MULTIPLE;
 	}
 
 	Effect::~Effect()
@@ -72,12 +72,12 @@ namespace rl
 		mDuration = newDuration;
 	}
 
-    Effect::EffectQuantifier Effect::getQuantifier()
+    Effect::Quantifier Effect::getQuantifier()
 	{
 		return mQuantifier;
 	}
 
-	void Effect::setQuantifier(EffectQuantifier quantifier)
+	void Effect::setQuantifier(Quantifier quantifier)
 	{
 		mQuantifier = quantifier;
 	}

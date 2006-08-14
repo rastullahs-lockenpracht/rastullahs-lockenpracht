@@ -65,14 +65,14 @@ namespace rl
 		{
 			if ((*it)->getName() == effect->getName())
 			{
-				if ((*it)->getQuantifier() == Effect::EFFECT_UNIQUE) return;
-				if ((*it)->getQuantifier() == Effect::EFFECT_UNIQUE_BUT_PROLONGABLE)
+				if ((*it)->getQuantifier() == Effect::QUANTIFIER_UNIQUE) return;
+				if ((*it)->getQuantifier() == Effect::QUANTIFIER_UNIQUE_BUT_PROLONGABLE)
 				{
 					//TODO
 					//Vielleicht alten durch neuen ersetzen?
 					//oder (*it)->setDuration(effect->getDuration())
 				}
-				if ((*it)->getQuantifier() == Effect::EFFECT_UNIQUE_BUT_CUMULATIVE)
+				if ((*it)->getQuantifier() == Effect::QUANTIFIER_UNIQUE_BUT_CUMULATIVE)
 				{
 					for (int i = 0; i < effect->getStufe(); i++)
 						(*it)->increaseStufe();

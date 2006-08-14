@@ -30,18 +30,18 @@ namespace rl
 	{
 	public:
 
-        enum EffectQuantifier
+        enum Quantifier
         {
-            EFFECT_MULTIPLE = 0,
-            EFFECT_UNIQUE = 1,
-            EFFECT_UNIQUE_BUT_PROLONGABLE = 2,
-            EFFECT_UNIQUE_BUT_CUMULATIVE = 3
+            QUANTIFIER_MULTIPLE,
+            QUANTIFIER_UNIQUE,
+            QUANTIFIER_UNIQUE_BUT_PROLONGABLE,
+            QUANTIFIER_UNIQUE_BUT_CUMULATIVE
         };
 
         enum EffectTag
         {
-            EFFECT_NONE,
-            EFFECT_KRANKHEIT
+            EFFECTTAG_NONE,
+            EFFECTTAG_KRANKHEIT
         };
 
 		Effect(int stufe = 1);
@@ -55,8 +55,8 @@ namespace rl
 		void setOwner(Creature* owner);
 		virtual int getDuration();
 		virtual void setDuration(int newDuration);
-		EffectQuantifier getQuantifier();
-		void setQuantifier(EffectQuantifier quantifier);
+		Quantifier getQuantifier();
+		void setQuantifier(Quantifier quantifier);
 		/** 
          *  @brief Adds a tag to the effect. 
          *  Tags are describing the type of an Effect, so other Effects can 
@@ -112,7 +112,7 @@ namespace rl
 		/// Speichert, ob der Effekt gerade wirksam ist.
 		bool mEnabled;
 		/// Gibt an, wie oft ein Effekt dieses Namens auf einer Kreatur wirken kann.
-		EffectQuantifier mQuantifier;
+		Quantifier mQuantifier;
 
 		typedef std::set<EffectTag> Tags;
 		Tags mTags;

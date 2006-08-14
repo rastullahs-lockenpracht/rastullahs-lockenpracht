@@ -48,7 +48,7 @@ namespace rl
 		
 		enum Rule
 		{
-			DISTANZKLASSEN
+			RULE_DISTANZKLASSEN
 		};
 
 

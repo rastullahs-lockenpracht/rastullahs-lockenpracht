@@ -103,9 +103,9 @@ namespace rl
         
         enum SfStatus
         {
-            SF_IN_TRAINING = 1,
-            SF_OK,
-            SF_PREREQ_NOT_MET /// @todo Wird das ueberhaupt gebraucht?
+            SFSTATUS_IN_TRAINING = 1,
+            SFSTATUS_OK,
+            SFSTATUS_PREREQ_NOT_MET /// @todo Wird das ueberhaupt gebraucht?
         };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -367,7 +367,7 @@ namespace rl
 		 *  @exception InvalidArgumentException sfName kann nicht gefunden
 		 *    werden.
 		 */
-		virtual void addSf(const CeGuiString sfName, SfStatus value = SF_IN_TRAINING);
+		virtual void addSf(const CeGuiString sfName, SfStatus value = SFSTATUS_IN_TRAINING);
 		/** @brief Liefert den Wert der Sonderfertigkeit(SF) zurueck.
 		 *  @sa SonderfertigkeitMap
 		 *  @param sfId Bezeichnet die SF

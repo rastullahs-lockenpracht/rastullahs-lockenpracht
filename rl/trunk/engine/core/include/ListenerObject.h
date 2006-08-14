@@ -20,9 +20,9 @@
 #include "CorePrerequisites.h"
 #include "ActorControlledObject.h"
 
-/// @TODO SharedPtr
-namespace rl {
 
+namespace rl {
+/// @TODO SharedPtr
     class ListenerMovable;
     
     

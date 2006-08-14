@@ -451,18 +451,18 @@ namespace rl {
 	class Effect
 	{
 	public:
-        enum EffectQuantifier
+        enum Quantifier
         {
-            EFFECT_MULTIPLE = 0,
-            EFFECT_UNIQUE = 1,
-            EFFECT_UNIQUE_BUT_PROLONGABLE = 2,
-            EFFECT_UNIQUE_BUT_CUMULATIVE = 3
+            QUANTIFIER_MULTIPLE,
+            QUANTIFIER_UNIQUE,
+            QUANTIFIER_UNIQUE_BUT_PROLONGABLE,
+            QUANTIFIER_UNIQUE_BUT_CUMULATIVE
         };
 
         enum EffectTag
         {
-            EFFECT_NONE,
-            EFFECT_KRANKHEIT
+            EFFECTTAG_NONE,
+            EFFECTTAG_KRANKHEIT
         };
 
 		Effect(int stufe = 1);
@@ -476,8 +476,8 @@ namespace rl {
 		void setOwner(rl::Creature* owner);
 		virtual int getDuration();
 		virtual void setDuration(int newDuration);
-		EffectQuantifier getQuantifier();
-		void setQuantifier(EffectQuantifier quantifier);
+		Quantifier getQuantifier();
+		void setQuantifier(Quantifier quantifier);
 		virtual void addTag(EffectTag tagId);
 		virtual void removeTag(EffectTag tagId);
 		virtual bool queryTag(EffectTag tagId);
@@ -501,21 +501,21 @@ namespace rl {
     enum Wert
     {
         WERT_MOD_AE = 1, // Astralenergie
-        WERT_MOD_LE = 2, // Lebensenergie
-        WERT_MOD_AT = 3, // Attacke
-        WERT_MOD_PA = 4, // Parade
-        WERT_MOD_FK = 5, // Fernkampf
-        WERT_MOD_AU = 6, // Ausdauer
-        WERT_MOD_MR = 7, // Magieresistenz
-        WERT_MOD_INI = 8, // Initiative
-        WERT_MOD_REGENERATION_LE = 12, // Naechtliche Regeneration. modifier modifiziert den W6, ProbenModifier modifiziert die KO-Probe.
-        WERT_MOD_REGENERATION_AE = 13, // Astrale Regeneration. modifier modifiziert den W6, ProbenModifier modifiziert die IN-Probe.
-        WERT_MOD_ESCHOEPFUNGSSCHWELLE = 14, // Die Modifkitoren von KO bezueglich der Erschoepfungsschwelle.
-        WERT_MOD_ALL_EIGENSCHAFTSPROBEN = 15, // Modifiziert alle Proben, die mit 1W20 gewuerfelt werden.
-        WERT_MOD_ALL_TALENTPROBEN = 16, // Modifiziert alle Proben, die mit 3W20 gewuerfelt werden.
-        WERT_GS = 10, // Geschwindigkeit
-        WERT_SOZIALSTATUS = 9, // Sozialstatus
-        WERT_BE = 11 // Behinderung
+        WERT_MOD_LE, // Lebensenergie
+        WERT_MOD_AT, // Attacke
+        WERT_MOD_PA, // Parade
+        WERT_MOD_FK, // Fernkampf
+        WERT_MOD_AU, // Ausdauer
+        WERT_MOD_MR, // Magieresistenz
+        WERT_MOD_INI, // Initiative
+        WERT_MOD_REGENERATION_LE, // Naechtliche Regeneration. modifier modifiziert den W6, ProbenModifier modifiziert die KO-Probe.
+        WERT_MOD_REGENERATION_AE, // Astrale Regeneration. modifier modifiziert den W6, ProbenModifier modifiziert die IN-Probe.
+        WERT_MOD_ESCHOEPFUNGSSCHWELLE, // Die Modifkitoren von KO bezueglich der Erschoepfungsschwelle.
+        WERT_MOD_ALL_EIGENSCHAFTSPROBEN, // Modifiziert alle Proben, die mit 1W20 gewuerfelt werden.
+        WERT_MOD_ALL_TALENTPROBEN, // Modifiziert alle Proben, die mit 3W20 gewuerfelt werden.
+        WERT_GS, // Geschwindigkeit
+        WERT_SOZIALSTATUS, // Sozialstatus
+        WERT_BE // Behinderung
     };
 
         Creature(const rl::CeGuiString name, const rl::CeGuiString description);

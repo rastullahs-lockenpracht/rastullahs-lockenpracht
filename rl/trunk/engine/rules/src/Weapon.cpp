@@ -157,7 +157,7 @@ namespace rl
 
 	const int Weapon::getDkDistanceToOptimum(Ogre::Real distance) const
 	{
-		if (DsaManager::getSingleton().isRuleActive(DsaManager::DISTANZKLASSEN))
+		if (DsaManager::getSingleton().isRuleActive(DsaManager::RULE_DISTANZKLASSEN))
 		{
 			//Man kann auch auf +/- 1 DK angreifen, siehe MBK 22
 			if (DsaManager::getSingleton().isDkDistance(mDk, distance))
