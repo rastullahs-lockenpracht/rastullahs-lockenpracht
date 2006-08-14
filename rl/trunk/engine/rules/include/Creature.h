@@ -410,10 +410,10 @@ namespace rl
          *  @sa Wert
          **/
         bool isIncapacitated();
-        /// @brief Checks if the creature is currently invincible.
-        bool isInvincible();
         /// @brief Checks if the creature is currently invisible.
         bool isInvisible();
+        /// @brief Checks if the creature is currently invulnerable.
+        bool isInvulnerable();
         /// @brief Checks if the creature is currently parallyzed.
         bool isParalyzed();
         /// @brief Checks if the creature is currently silenced.
@@ -437,7 +437,8 @@ namespace rl
         void setDead(bool value);
         void setDeaf(bool value);
         void setIncapacitated(bool value);
-        void setInvincible(bool value);
+        void setInvisible(bool value);
+        void setInvulnerable(bool value);
         void setParalyzed(bool value);
         void setSilenced(bool value);
         void setSleeping(bool value);
@@ -671,7 +672,7 @@ namespace rl
         int mDead;
         int mDeaf;
         int mIncapacitated;
-        int mInvincible;
+        int mInvulnerable;
         int mInvisible;
         int mParalyzed;
         int mSilenced;

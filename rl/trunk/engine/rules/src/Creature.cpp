@@ -568,9 +568,9 @@ namespace rl
         else return false;
     }
 
-    bool Creature::isInvincible()
+    bool Creature::isInvulnerable()
     {
-        if (mInvincible > 0) return true;
+        if (mInvulnerable > 0) return true;
         else return false;
     }
 
@@ -658,10 +658,16 @@ namespace rl
             "creature.");
     }
 
-    void Creature::setInvincible(bool value)
+    void Creature::setInvisible(bool value)
     {
-        setStatus(mInvincible, value,
-            "Trying to remove Invincibility from a non invincible creature.");
+        setStatus(mInvisible, value,
+            "Trying to remove Invisibility from a visible creature.");
+    }
+    
+    void Creature::setInvulnerable(bool value)
+    {
+        setStatus(mInvulnerable, value,
+            "Trying to remove Invulnerability from a vulnerable creature.");
     }
     
     void Creature::setParalyzed(bool value)
