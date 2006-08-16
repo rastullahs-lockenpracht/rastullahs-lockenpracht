@@ -79,13 +79,13 @@ namespace rl {
             rootWeapons->getElementsByTagName(AutoXMLCh("Waffengruppe").data());
         for (unsigned int group = 0; group < weaponGroups->getLength(); group++)
 		{
-			DOMElement* groupData = reinterpret_cast<DOMElement*>(weaponGroups->item(group));
+			DOMElement* groupData = static_cast<DOMElement*>(weaponGroups->item(group));
 			DOMNodeList* weaponsXml =
                 groupData->getElementsByTagName(AutoXMLCh("Waffe").data());
             //int numTalent = 0;
             for (unsigned int weaponIdx = 0; weaponIdx < weaponsXml->getLength(); weaponIdx++)
             {
-                Weapon* w = processWeapon(group, reinterpret_cast<DOMElement*>(weaponsXml->item(weaponIdx)));
+                Weapon* w = processWeapon(group, static_cast<DOMElement*>(weaponsXml->item(weaponIdx)));
                 //numTalent++;
 				ItemManager::getSingleton()._addItem(w);
             }
