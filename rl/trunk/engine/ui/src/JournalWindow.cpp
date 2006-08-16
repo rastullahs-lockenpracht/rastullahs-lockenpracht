@@ -40,6 +40,8 @@ namespace rl {
         mSelectionImageset(),
         mSelectionColour()
     {
+        bindCloseToCloseButton();
+
         mQuests = getListbox("JournalWindow/Quests/QuestList");
         mQuests->setMultiselectEnabled(false);
         mQuests->subscribeEvent(

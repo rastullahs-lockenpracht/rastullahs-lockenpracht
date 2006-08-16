@@ -49,6 +49,8 @@ namespace rl {
             boost::bind(&MainMenuWindow::handleSoundOptions, this));
 		
 		fillModules();
+
+        mWindow->moveToBack();
 	}
 
     MainMenuWindow::~MainMenuWindow()

@@ -33,6 +33,7 @@ namespace rl {
 	    : mMovementCommands(),
 		  mKeyCommandsInCombat(),
 		  mKeyCommandsOffCombat(),
+          mKeyCommandsGlobal(),
 		  mMouseCommandsInCombat(),
 		  mMouseCommandsOffCombat()
 	{
@@ -74,6 +75,8 @@ namespace rl {
 			commandMap = &mKeyCommandsOffCombat;
 		else if (mapType == CMDMAP_KEYMAP_IN_COMBAT)
 			commandMap = &mKeyCommandsInCombat;
+		else if (mapType == CMDMAP_KEYMAP_GLOBAL)
+			commandMap = &mKeyCommandsGlobal;
 		else if (mapType == CMDMAP_MOUSEMAP_OFF_COMBAT)
 			commandMap = &mMouseCommandsOffCombat;
 		else if (mapType == CMDMAP_MOUSEMAP_IN_COMBAT)
@@ -149,6 +152,18 @@ namespace rl {
 				+ StringConverter::toString(InputManager::getSingleton().getScanCode(key))
 				+ ") is assigned to movement "	+ setting+" ("
 				+ StringConverter::toString(getMovement(setting))+")");
+		}
+
+        for (ConfigFile::SettingsIterator it = cfg->getSettingsIterator("Global keys");
+			it.hasMoreElements();)
+		{
+			String key = it.peekNextKey();
+			String setting = it.getNext();
+
+			mKeyCommandsGlobal[getKeyCode(key)] = CeGuiString(setting);
+			LOG_MESSAGE(Logger::UI,
+				Ogre::String("Key ") + key	+ " (" + StringConverter::toString(getKeyCode(key))
+				+ ") is assigned to command " + setting+" globally");
 		}
 
 		for (ConfigFile::SettingsIterator it = cfg->getSettingsIterator("Keys off combat");

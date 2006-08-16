@@ -44,6 +44,7 @@ namespace rl {
 		CMDMAP_KEYMAP_IN_COMBAT,
 		CMDMAP_KEYMAP_OFF_COMBAT,
 		CMDMAP_KEYMAP_MOVEMENT,
+        CMDMAP_KEYMAP_GLOBAL,
 		CMDMAP_MOUSEMAP_IN_COMBAT,
 		CMDMAP_MOUSEMAP_OFF_COMBAT
 	};
@@ -89,6 +90,7 @@ namespace rl {
 		MovementCommandMap mMovementCommands;
 		KeyAndMouseCommandMap mKeyCommandsInCombat;
 		KeyAndMouseCommandMap mKeyCommandsOffCombat;
+        KeyAndMouseCommandMap mKeyCommandsGlobal;
 		KeyAndMouseCommandMap mMouseCommandsInCombat;
 		KeyAndMouseCommandMap mMouseCommandsOffCombat;
 

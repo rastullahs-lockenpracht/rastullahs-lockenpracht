@@ -47,17 +47,23 @@ namespace rl
 		{
 			Throw(rl::IllegalStateException, Ogre::String("Could not load window '")+xmlfile.c_str()+"'.");
 		}
-		mWindow->hide();
 		
-		if (modal)
+		getRoot()->addChildWindow(mWindow);
+
+        if (modal)
 		{
-			mWindow->setAlwaysOnTop(true);
 			mWindow->setModalState(true);
+			mWindow->setAlwaysOnTop(true);
+            mWindow->moveToFront();
+            mWindow->show();
 		}
+        else
+        {
+       		mWindow->hide();
+        }
 
 		mNormalAlpha = mWindow->getAlpha();
 		mName = mWindow->getName();
-		getRoot()->addChildWindow(mWindow);
 		WindowManager::getSingleton().registerWindow(this);
 		mWindow->subscribeEvent(Window::EventActivated, 
 			boost::bind(

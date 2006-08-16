@@ -42,7 +42,8 @@ CommandMapperWindow::CommandMapperWindow(Creature* actionHolder, CommandMapper* 
 			PushButton::EventClicked,
 			boost::bind(&CommandMapperWindow::handleChangeButton, this));
 	bindClickToCloseWindow(getWindow("CommandMapper/CloseButton"));
-	
+	bindCloseToCloseButton();
+
 	mTabPane = getTabPane("CommandMapper/TabPane");
 
 	mTableMovement = getMultiColumnList("CommandMapper/TableMovement");

@@ -26,11 +26,13 @@ using namespace Ogre;
 namespace rl {
 
 	MainMenuEngineWindow::MainMenuEngineWindow() :
-		CeGuiWindow("mainmenuenginewindow.xml", WND_SHOW, true)
+		CeGuiWindow("mainmenuenginewindow.xml", WND_SHOW, false)
 	{
 		getWindow("MainMenu/EngineVersion")->setText(
 			ConfigurationManager::getSingleton().getEngineVersionString()+
 			" ("+StringConverter::toString(ConfigurationManager::getSingleton().getEngineBuildNumber())+")");
-
+        mWindow->setAlwaysOnTop(false);
+        mWindow->setModalState(false);
+        mWindow->moveToBack();
 	}
 }
