@@ -129,16 +129,19 @@ namespace rl
                               Creature* actor,
                               GameObject* target)
     {
-		ActionOptionVector::const_iterator it = findAction(mActions.begin(), mActions.end(), actionName);
+		ActionOptionVector::const_iterator it = 
+            findAction(mActions.begin(), mActions.end(), actionName);
 
 		if (it == mActions.end())
         {
-            std::stringstream strstr;
-			strstr << "'" << actionName.c_str() << "' ist eine dem Objekt unbekannte Aktion.";
-            Throw(IllegalArgumentException, strstr.str());
+            LOG_ERROR(
+                Logger::RULES, 
+                "'" + actionName + "' ist eine dem Objekt unbekannte Aktion.");
         }
-        
-		doAction((*it).first, actor, target);
+        else
+        {
+		    doAction((*it).first, actor, target);
+        }
     }
 
 	void GameObject::doAction(const CeGuiString actionName)
