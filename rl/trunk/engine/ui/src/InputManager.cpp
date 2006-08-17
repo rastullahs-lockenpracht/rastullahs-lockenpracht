@@ -72,9 +72,6 @@ namespace rl {
 		mPickObjects(false),
         mTargetedObject(NULL),
 		mScheduledInputSwitch(SWITCH_NO_SWITCH),
-        mKeyListeners(),
-        mMouseListeners(),
-        mMouseMotionListeners(),
         mInputReader( NULL ),
         mTargetedObjectTime(0),
         mKeyMapNormal(),
@@ -112,15 +109,6 @@ namespace rl {
         delete mCommandMapper;
 	}
 
-	void InputManager::addKeyListener(KeyListener *l)
-	{
-		mKeyListeners.insert(l);
-	}
-
-	void InputManager::removeKeyListener(KeyListener *l)
-	{
-		mKeyListeners.erase(l);
-	}
 
 	void InputManager::setCharacterController(CharacterController* controller)
 	{
@@ -303,9 +291,6 @@ namespace rl {
 		mKeyDown[e->getKey()]=true;
         if( mCharacterController!=NULL )
 		    mCharacterController->injectKeyDown(e->getKey());
-		std::set<KeyListener*>::iterator i;
-		for(i=mKeyListeners.begin(); i!=mKeyListeners.end(); i++)
-			(*i)->keyPressed(e);
 	}
 
 	void InputManager::keyReleased(KeyEvent* e)
@@ -340,11 +325,6 @@ namespace rl {
         if (mCharacterController != NULL)
         {
 		    mCharacterController->injectKeyUp(e->getKey());
-        }
-		for(std::set<KeyListener*>::iterator i = mKeyListeners.begin(); 
-            i!=mKeyListeners.end(); ++i)
-        {
-			(*i)->keyReleased(e);
         }
 	}
 
@@ -447,22 +427,6 @@ namespace rl {
 		}
 	}
 
-	void InputManager::addMouseMotionListener(MouseMotionListener *l)
-	{
-		if (mEventInitialized)
-			mEventProcessor->addMouseMotionListener(l);
-
-		mMouseMotionListeners.insert(l);
-	}
-
-	void InputManager::removeMouseMotionListener(MouseMotionListener *l)
-	{
-		if (mEventInitialized)
-			mEventProcessor->removeMouseMotionListener(l);
-
-		mMouseMotionListeners.erase(l);
-	}
-
 	void InputManager::registerCeGuiWindow(CeGuiWindow* window)
 	{
 		if (window->getWindowType() == CeGuiWindow::WND_SHOW)
@@ -561,16 +525,6 @@ namespace rl {
 
 		mEventInitialized = true; 
 	}
-
-    void InputManager::addMouseListener(Ogre::MouseListener *l)
-    {
-		mEventProcessor->addMouseListener(l);
-    }
-
-    void InputManager::removeMouseListener(Ogre::MouseListener *l)
-    {
-		mEventProcessor->removeMouseListener(l);
-    }
 
 	void InputManager::switchMouseToUnbuffered()
 	{

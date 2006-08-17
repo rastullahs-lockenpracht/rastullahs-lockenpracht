@@ -63,15 +63,6 @@ namespace rl {
 			Ogre::Real getMouseRelativeY(void);
 			Ogre::Real getMouseRelativeZ(void);
 
-			void addKeyListener(Ogre::KeyListener *l);
-			void removeKeyListener(Ogre::KeyListener *l);
-
-			void addMouseListener(Ogre::MouseListener *l);
-			void removeMouseListener(Ogre::MouseListener *l);
-
-			void addMouseMotionListener(Ogre::MouseMotionListener *l);
-			void removeMouseMotionListener(Ogre::MouseMotionListener *l);
-
 			void run(Ogre::Real elapsedTime);
 			
 			void registerCeGuiWindow(CeGuiWindow* window);
@@ -84,16 +75,16 @@ namespace rl {
 
 			void activateTargetQuery();
 
-			void mouseClicked(Ogre::MouseEvent* e);
-			void mouseEntered(Ogre::MouseEvent* e);
-			void mouseExited(Ogre::MouseEvent* e);
-			void mousePressed(Ogre::MouseEvent* e);
-			void mouseReleased(Ogre::MouseEvent* e);
-			void mouseMoved(Ogre::MouseEvent* e);
-			void mouseDragged(Ogre::MouseEvent* e);
-			void keyPressed(Ogre::KeyEvent* e);
-			void keyReleased(Ogre::KeyEvent* e);
-			void keyClicked(Ogre::KeyEvent* e);
+			virtual void mouseClicked(Ogre::MouseEvent* e);
+			virtual void mouseEntered(Ogre::MouseEvent* e);
+			virtual void mouseExited(Ogre::MouseEvent* e);
+			virtual void mousePressed(Ogre::MouseEvent* e);
+			virtual void mouseReleased(Ogre::MouseEvent* e);
+			virtual void mouseMoved(Ogre::MouseEvent* e);
+			virtual void mouseDragged(Ogre::MouseEvent* e);
+			virtual void keyPressed(Ogre::KeyEvent* e);
+			virtual void keyReleased(Ogre::KeyEvent* e);
+			virtual void keyClicked(Ogre::KeyEvent* e);
 
 			CeGuiString getKeyName(int scancode, int syskeys);
 			CeGuiString getKeyName(int combinedKeyCode);
@@ -120,10 +111,6 @@ namespace rl {
 			bool mKeyDown[NUM_KEYS];
 			bool mMouseButtonDown[NUM_MOUSE_BUTTON];
 
-			std::set<Ogre::KeyListener*> mKeyListeners;
-			std::set<Ogre::MouseListener*> mMouseListeners;
-			std::set<Ogre::MouseMotionListener*> mMouseMotionListeners;
-			
 			unsigned short mScreenX;
 			unsigned short mScreenY;
 			bool mBuffered, mEventInitialized, mInputInitialized;			
