@@ -14,14 +14,12 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#include "UiPrerequisites.h"
 #include "UiSubsystem.h"
 
 #include "Action.h"
 #include "ActionManager.h"
 #include "Actor.h"
 #include "ActorManager.h"
-#include "CommandMapper.h"
 #include "ConfigurationManager.h"
 #include "CoreSubsystem.h"
 #include "Creature.h"
@@ -64,17 +62,16 @@ namespace rl {
 	}
 
 	UiSubsystem::UiSubsystem() :
-        mCharacterController(0),
+        mCharacterController(NULL),
 		mCharacterControllerType(CharacterController::CTRL_NONE),
-        mHero(0),
-        mCharacter(0),
-		mInputManager(0),
-		mWindowFactory(0),
-		mWindowManager(0),
-		mCommandMapper(0),
-        mGuiRenderer(0),
-        mGuiResourceProvider(0),
-        mGuiSystem(0)
+        mHero(NULL),
+        mCharacter(NULL),
+		mInputManager(NULL),
+		mWindowFactory(NULL),
+		mWindowManager(NULL),
+        mGuiRenderer(NULL),
+        mGuiResourceProvider(NULL),
+        mGuiSystem(NULL)
 	{
 		LOG_MESSAGE(Logger::UI, "Init Start");
 		initializeUiSubsystem();
@@ -90,7 +87,6 @@ namespace rl {
 
         GameLoopManager::getSingleton().removeSynchronizedTask(mCharacterController);
 		delete mCharacterController;
-		delete mCommandMapper;
 
 		delete mInputManager;
 
@@ -139,6 +135,8 @@ namespace rl {
 				Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight()));
 		sheet->setPosition(Absolute, CEGUI::Point(0, 0));
 		System::getSingleton().setGUISheet(sheet);
+        sheet->setZOrderingEnabled(true);
+        sheet->moveToBack();
 		System::getSingleton().setTooltip("RastullahLook/Tooltip");
         LOG_MESSAGE2(Logger::UI, "CEGUI geladen",
             "UiSubsystem::initializeUiSubsystem");
@@ -150,9 +148,7 @@ namespace rl {
 		mInputManager->loadKeyMapping(ConfigurationManager::getSingleton().getKeymap());
 		LOG_MESSAGE2(Logger::UI, "Keymap geladen",
             "UiSubsystem::initializeUiSubsystem");
-
-		mCommandMapper = new CommandMapper();
-		mCommandMapper->loadCommandMap(ConfigurationManager::getSingleton().getInputConfigPath());
+        mInputManager->loadCommandMapping(ConfigurationManager::getSingleton().getInputConfigPath());
 		LOG_MESSAGE2(Logger::UI, "UI-Manager geladen",
             "UiSubsystem::initializeUiSubsystem");
 
@@ -267,7 +263,6 @@ namespace rl {
 		}
 		mCharacterControllerType = type;
 		
-		mCharacterController->setCommandMapper(mCommandMapper);
 		mInputManager->setCharacterController(mCharacterController);
 
 	    LOG_MESSAGE(Logger::UI, "CharacterController created.");

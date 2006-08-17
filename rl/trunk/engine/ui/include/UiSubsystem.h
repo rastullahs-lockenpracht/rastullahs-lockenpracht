@@ -35,7 +35,6 @@ namespace CEGUI {
 
 namespace rl {
 
-    class CommandMapper;
     class Creature;
     class GameActor;
 	class GameObject;
@@ -100,7 +99,6 @@ namespace rl {
 		InputManager* mInputManager;
 		WindowFactory* mWindowFactory;
 		WindowManager* mWindowManager;
-		CommandMapper* mCommandMapper;
 
         CEGUI::OgreCEGUIRenderer* mGuiRenderer;
         CEGUI::OgreCEGUIResourceProvider* mGuiResourceProvider;

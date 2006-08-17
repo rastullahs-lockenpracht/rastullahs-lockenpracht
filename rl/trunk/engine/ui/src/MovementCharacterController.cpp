@@ -694,7 +694,7 @@ namespace rl {
 
 	bool MovementCharacterController::injectKeyClicked(int keycode)
 	{
-		return startAction(mCommandMapper->getAction(keycode, CMDMAP_KEYMAP_OFF_COMBAT), mCharacter);		
+		return startAction(mCommandMapper->getAction(keycode, CMDMAP_KEYMAP_OFF_COMBAT), mCharacter);
 	}
 
 	bool MovementCharacterController::injectKeyDown(int keycode)

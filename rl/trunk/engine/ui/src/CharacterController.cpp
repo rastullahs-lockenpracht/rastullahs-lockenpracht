@@ -90,12 +90,7 @@ namespace rl {
 
 		try
 		{
-			Action* action = ActionManager::getSingleton().getInGameGlobalAction(actionName);
-			if (action != NULL)
-			{
-				action->doAction(NULL, NULL, NULL); //TODO: Eigene Klasse für globale Aktionen? doAction hat keine Parameter(?)
-			}
-			else if (character != NULL)
+            if (character != NULL)
 			{
 				character->doAction(actionName, character, character);
 			}

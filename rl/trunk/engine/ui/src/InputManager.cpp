@@ -27,6 +27,8 @@
 #include <OgreKeyEvent.h>
 #include <OgreRoot.h>
 
+#include "Action.h"
+#include "ActionManager.h"
 #include "Actor.h"
 #include "ActorManager.h"
 #include "CeGuiWindow.h"
@@ -79,7 +81,8 @@ namespace rl {
 		mKeyMapShift(),
 	    mKeyMapAlt(),
 		mKeyNames(),
-        mCharacterController( NULL )
+        mCharacterController( NULL ),
+        mCommandMapper(NULL)
 	{
         for(int i=0; i<NUM_KEYS; i++)
             mKeyDown[i] = false;
@@ -105,6 +108,8 @@ namespace rl {
 
 		delete mEventProcessor;
         delete mEventQueue;
+
+        delete mCommandMapper;
 	}
 
 	void InputManager::addKeyListener(KeyListener *l)
@@ -120,6 +125,7 @@ namespace rl {
 	void InputManager::setCharacterController(CharacterController* controller)
 	{
 		mCharacterController = controller;
+        mCharacterController->setCommandMapper(mCommandMapper);
 	}
 
 	void InputManager::run(Real elapsedTime)
@@ -193,8 +199,11 @@ namespace rl {
 		if ( ! (isCeguiActive() && mBuffered) )
 		{
 			e->consume();
-            if( mCharacterController!=NULL )
-			    mCharacterController->injectMouseClicked(CommandMapper::encodeKey(e->getButtonID(), e->getModifiers()));
+            if( mCharacterController != NULL )
+            {
+			    mCharacterController->injectMouseClicked(
+                    CommandMapper::encodeKey(e->getButtonID(), e->getModifiers()));
+            }
 		}
 	}
 
@@ -211,7 +220,7 @@ namespace rl {
 		}
 		else
 		{
-            if( mCharacterController!=NULL )
+            if (mCharacterController != NULL)
 			    mCharacterController->injectMouseDown(CommandMapper::encodeKey(e->getButtonID(), e->getModifiers()));
 		}
 			
@@ -225,13 +234,16 @@ namespace rl {
 			System::getSingleton().injectMouseButtonUp(
 				convertOgreButtonToCegui(e->getButtonID()));
 		}
-        /// @todo Furchtbarer Hack. Das Ereignis wird durchgeschliffen, damit
-        /// der DialogCharacterController ne Möglichkeit hat den Text abzubrechen.
-        /// Verantwortlichkeit zwischen DialogWindow und Controller ist arg durcheinander
-        /// und die Tatsache, dass ich das als Kommentar in den InputManager schreibe zeigt,
-        /// dass da noch mehr durcheinander ist. ^^
-        if( mCharacterController != NULL )
-            mCharacterController->injectMouseUp(CommandMapper::encodeKey(e->getButtonID(), e->getModifiers()));
+            /// else
+            /// {
+            /// @todo Furchtbarer Hack. Das Ereignis wird durchgeschliffen, damit
+            /// der DialogCharacterController ne Möglichkeit hat den Text abzubrechen.
+            /// Verantwortlichkeit zwischen DialogWindow und Controller ist arg durcheinander
+            /// und die Tatsache, dass ich das als Kommentar in den InputManager schreibe zeigt,
+            /// dass da noch mehr durcheinander ist. ^^
+            if (mCharacterController != NULL)
+                mCharacterController->injectMouseUp(CommandMapper::encodeKey(e->getButtonID(), e->getModifiers()));
+            /// }
 	}
 
     void InputManager::mouseMoved(MouseEvent* e)
@@ -308,12 +320,32 @@ namespace rl {
 			return;
 		}
 
-		mKeyDown[e->getKey()]=false;
-        if( mCharacterController!=NULL )
+		mKeyDown[e->getKey()] = false;
+
+        int code = CommandMapper::encodeKey(e->getKey(), e->getModifiers());
+        Action* action = ActionManager::getSingleton().getInGameGlobalAction(
+            mCommandMapper->getAction(code, CMDMAP_KEYMAP_GLOBAL));
+        if (action != NULL)
+        {
+            try
+            {
+                action->doAction(NULL, NULL, NULL);
+            }
+            catch( ScriptInvocationFailedException& sife )
+		    {
+			    LOG_ERROR(Logger::UI, sife.toString() );
+		    }
+        }
+        
+        if (mCharacterController != NULL)
+        {
 		    mCharacterController->injectKeyUp(e->getKey());
-		std::set<KeyListener*>::iterator i;
-		for(i=mKeyListeners.begin(); i!=mKeyListeners.end(); i++)
+        }
+		for(std::set<KeyListener*>::iterator i = mKeyListeners.begin(); 
+            i!=mKeyListeners.end(); ++i)
+        {
 			(*i)->keyReleased(e);
+        }
 	}
 
 	void InputManager::keyClicked(KeyEvent* e) 
@@ -322,8 +354,25 @@ namespace rl {
 		if (sendKeyToCeGui(e)) 
 			return;
 		
-        if( mCharacterController!=NULL )
-		    mCharacterController->injectKeyClicked(CommandMapper::encodeKey(e->getKey(), e->getModifiers()));
+        int code = CommandMapper::encodeKey(e->getKey(), e->getModifiers());
+        Action* action = ActionManager::getSingleton().getInGameGlobalAction(
+            mCommandMapper->getAction(code, CMDMAP_KEYMAP_GLOBAL));
+        if (action != NULL)
+        {
+            try
+            {
+                action->doAction(NULL, NULL, NULL);
+            }
+            catch( ScriptInvocationFailedException& sife )
+		    {
+			    LOG_ERROR(Logger::UI, sife.toString() );
+		    }
+        }
+        
+        if (mCharacterController != NULL)
+        {
+		    mCharacterController->injectKeyClicked(code);
+        }
 	}
 
 	void InputManager::mouseDragged(MouseEvent* e)
@@ -662,6 +711,15 @@ namespace rl {
         //XmlResourceManager::getSingleton().remove(filename);
         //res.setNull();
 	}
+
+    void InputManager::loadCommandMapping(const Ogre::String& filename)
+    {
+        if (mCommandMapper == NULL)
+        {
+            mCommandMapper = new CommandMapper();
+        }
+		mCommandMapper->loadCommandMap(filename);
+    }
 
 	void InputManager::setObjectPickingActive(bool active)
 	{

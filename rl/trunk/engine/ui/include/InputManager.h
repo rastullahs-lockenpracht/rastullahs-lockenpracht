@@ -40,6 +40,7 @@ namespace rl {
 	class CeGuiWindow;
 	class GameObject;
 	class CharacterController;
+    class CommandMapper;
 
 	class _RlUiExport InputManager
 		:	public GameTask, 
@@ -99,6 +100,7 @@ namespace rl {
 			int getScanCode(const CeGuiString& name);
 			int getSystemCode(const CeGuiString& name);
 			void loadKeyMapping(const Ogre::String& filename);
+            void loadCommandMapping(const Ogre::String& filename);
 			typedef std::map<int, CEGUI::utf8> KeyCharMap;
 			typedef std::map<int, CeGuiString> KeyNameMap;
 
@@ -129,6 +131,7 @@ namespace rl {
 			bool mPickObjects;
 			GameObject* mTargetedObject;
 			Time mTargetedObjectTime;
+            CommandMapper* mCommandMapper;
 
 			KeyCharMap mKeyMapNormal;
 			KeyCharMap mKeyMapShift;
