@@ -11,6 +11,8 @@
 #include <OgreParticleSystemManager.h>
 #include <OgreDefaultHardwareBufferManager.h>
 #include <OgreBillboardParticleRenderer.h>
+#include <OgreMeshSerializer.h>
+#include <OgreEntity.h>
 
 #include "MergeMesh.h"
 
@@ -73,8 +75,24 @@ namespace rl {
             }
         }
 
-        mm->bake();
+        // save
+        MeshPtr mesh = mm->bake();
+        
+        MeshSerializer* meshSerializer = new MeshSerializer();
+        meshSerializer->exportMesh( mesh.getPointer(), "./media/test.mesh" );
 
+        MeshManager::getSingleton().remove( mesh->getHandle() );
+
+        // try to load...
+        mesh = MeshManager::getSingleton().load(
+                    "test.mesh", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME );
+        
+        SceneManager* sm = Root::getSingleton().createSceneManager( ST_GENERIC );       
+
+        // try to place...
+        sm->getRootSceneNode()->attachObject( sm->createEntity( "test", "test.mesh" ) );
+
+        delete meshSerializer;
         delete mm;
     }
 

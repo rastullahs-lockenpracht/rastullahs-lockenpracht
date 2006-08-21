@@ -1,6 +1,7 @@
 #include "MergeMesh.h"
 
 #include <OgreMeshManager.h>
+#include <OgreHardwareBufferManager.h>
 #include <OgreSubmesh.h>
 
 #include "MeshCombiner.h"
@@ -85,32 +86,45 @@ namespace rl {
                 if( name.length() == 0 )
                     newsub = mp->createSubMesh(  );
                 else /// @todo check if a submesh with this name has been created before
-                    newsub = mp->createSubMesh( name );
-
-
+                    newsub = mp->createSubMesh( name );   
 
                 newsub->useSharedVertices = sub->useSharedVertices;
-                // add geometry
+
+                // add index
                 newsub->indexData = sub->indexData->clone();
-                newsub->vertexData = sub->vertexData->clone();
 
-                // build bone assignments
-                SubMesh::BoneAssignmentIterator bit = sub->getBoneAssignmentIterator();
-                while( bit.hasMoreElements() )
+                // add geometry
+                if( !newsub->useSharedVertices )
                 {
-                    VertexBoneAssignment vba = bit.getNext();
-
-                    newsub->addBoneAssignment( vba );
+                    newsub->vertexData = sub->vertexData->clone();
+                
+                    // build bone assignments
+                    SubMesh::BoneAssignmentIterator bit = sub->getBoneAssignmentIterator();
+                    while( bit.hasMoreElements() )
+                    {
+                        VertexBoneAssignment vba = bit.getNext();
+                        newsub->addBoneAssignment( vba );
+                    }
                 }
 
-                newsub->_compileBoneAssignments();
                 newsub->setMaterialName( sub->getMaterialName() );
 
                 MeshCombiner::getSingleton().log(  
                     "Baking: adding submesh '" + name + "'  with material " + sub->getMaterialName() );
             } 
 
-            /// @todo sharedvertices and stuff...
+            /// sharedvertices
+            if( (*it)->sharedVertexData != NULL )
+            {
+                mp->sharedVertexData = (*it)->sharedVertexData->clone();
+
+                Mesh::BoneAssignmentIterator bit = (*it)->getBoneAssignmentIterator();
+                while( bit.hasMoreElements() )
+                {
+                    VertexBoneAssignment vba = bit.getNext();
+                    mp->addBoneAssignment( vba );
+                }
+            }
 
             MeshCombiner::getSingleton().log( 
                 "Baking: adding bounds for " + (*it)->getName() );
@@ -127,7 +141,11 @@ namespace rl {
         }
 
         
+
         mp->_setBounds( totalBounds );
+
+        /// @todo add parameters
+        mp->buildEdgeList();
 
         MeshCombiner::getSingleton().log( 
             "Baking: Finished" );
@@ -135,5 +153,52 @@ namespace rl {
         return mp;
 	}
 
+                /*
+                bool use32BitIndexes = 
+                    (sub->indexData->indexBuffer->getType() == HardwareIndexBuffer::IT_32BIT);
+                newsub->operationType = sub->operationType;
+                newsub->indexData->indexCount = sub->indexData->indexCount;
+                
+                HardwareIndexBufferSharedPtr newibuf = 
+                    HardwareBufferManager::getSingleton().createIndexBuffer(
+                        use32BitIndexes ? HardwareIndexBuffer::IT_32BIT : HardwareIndexBuffer::IT_16BIT, 
+                        newsub->indexData->indexCount, 
+                        HardwareBuffer::HBU_DYNAMIC,
+                        false );
+                newsub->indexData->indexBuffer = newibuf;
+                HardwareIndexBufferSharedPtr oldibuf = sub->indexData->indexBuffer;
+                unsigned int *pNewInt, *pOldInt;
+                unsigned short *pNewShort, *pOldShort;
+                if( use32BitIndexes )
+                {
+                    pNewInt = static_cast<unsigned int*>(newibuf->lock(HardwareBuffer::HBL_DISCARD) );
+                    pOldInt = static_cast<unsigned int*>(oldibuf->lock(HardwareBuffer::HBL_READ_ONLY) );
+                }
+                else
+                {
+                    pNewShort = static_cast<unsigned short*>(newibuf->lock(HardwareBuffer::HBL_DISCARD) );
+                    pOldShort = static_cast<unsigned short*>(oldibuf->lock(HardwareBuffer::HBL_READ_ONLY) );
+                }
+                for( unsigned int iid = 0; iid < newsub->indexData->indexCount; ++iid )
+                {
+                    if( use32BitIndexes )
+                        *pNewInt++ = *pOldInt++;
+                    else
+                        *pNewShort++ = *pOldShort++;
+                }
+                newibuf->unlock();
+                oldibuf->unlock();    
+                        
+
+
+
+                    new VertexData();                                                                  
+                    newsub->vertexData->vertexCount = sub->vertexData->vertexCount;
+
+                    if( newsub->vertexData->vertexCount <= 0 )
+                        break;
+
+                    VertexDeclaration* decl = newsub->vertexData->vertexDeclaration;
+                    VertexBufferBinding* bind = newsub->vertexData->vertexBufferBinding;*/
 
 }
