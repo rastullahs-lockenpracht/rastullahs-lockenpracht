@@ -123,7 +123,7 @@ namespace rl {
 
 
 		// Verzeichnisse
-		ResourceGroupManager::getSingleton().addResourceLocation( "media/", "FileSystem");
+		ResourceGroupManager::getSingleton().addResourceLocation( "media/", "FileSystem" );
 
         new DefaultHardwareBufferManager(); // needed because we don't have a rendersystem
 
