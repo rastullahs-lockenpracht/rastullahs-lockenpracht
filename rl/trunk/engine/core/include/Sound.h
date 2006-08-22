@@ -46,7 +46,7 @@ namespace rl {
         Sound(const SoundResourcePtr &soundres);
         /// Destruktor
         virtual ~Sound();
-        /// Name zurückgeben
+        /// Name zurueckgeben
         const Ogre::String& getName() const;
     
         /// Laedt den Sound.
@@ -54,7 +54,7 @@ namespace rl {
         /// Entlaedt den Sound.
         virtual void unload() throw (RuntimeException) = 0;
 
-        // SoundResource zurückgeben.
+        // SoundResource zurueckgeben.
         const SoundResourcePtr &getSoundResource() const;
         // Wollen wir 3D?
         bool is3d() const;
@@ -115,7 +115,7 @@ namespace rl {
         virtual const bool isPlaying() const = 0;
 
     protected:
-        /// Die Lautstärke
+        /// Die Lautstï¿½rke
 	    Ogre::Real mVolume;
         /// Die Position
         Ogre::Vector3 mPosition;

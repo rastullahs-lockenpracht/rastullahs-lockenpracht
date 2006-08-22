@@ -17,6 +17,7 @@
 
 #include <boost/bind.hpp>
 #include <fmod.h>
+#include <CEGUI.h>
 
 #include "Exception.h"
 #include "Fmod3Driver.h"

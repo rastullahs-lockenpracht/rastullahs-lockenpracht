@@ -36,5 +36,4 @@ Quest* QuestEvent::getQuest()
 	return mQuest;
 }
 
-
 }

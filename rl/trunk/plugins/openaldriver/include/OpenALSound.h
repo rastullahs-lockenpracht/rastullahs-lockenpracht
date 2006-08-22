@@ -68,7 +68,7 @@ public:
     virtual const bool isPlaying() const;
     
     // Sind wir gueltig
-    bool isValid() const;
+    bool isValid() const throw (RuntimeException);
 
 private:
     /// Fmod-Channel 

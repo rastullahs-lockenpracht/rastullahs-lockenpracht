@@ -112,7 +112,7 @@ void Fmod3Sound::setDirection (const Quaternion& direction)
  * @author JoSch
  * @date 08-05-2005
  */
-bool Fmod3Sound::isValid() const
+bool Fmod3Sound::isValid() const throw (RuntimeException)
 {
     return (mChannel != NO_CHANNEL) 
         && (mChannel != 0)

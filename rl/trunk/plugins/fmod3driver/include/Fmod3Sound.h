@@ -76,7 +76,7 @@ class Fmod3Sound : public Sound
 		virtual const bool isPlaying() const;
 	    
 		// Sind wir gueltig
-		virtual bool isValid() const;
+		virtual bool isValid() const throw (RuntimeException);
 
 	protected:
         virtual int createChannel() = 0;

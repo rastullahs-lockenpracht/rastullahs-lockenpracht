@@ -94,7 +94,7 @@ void OpenALSound::setDirection (const Quaternion& direction)
  * @author JoSch
  * @date 08-05-2005
  */
-bool OpenALSound::isValid() const
+bool OpenALSound::isValid() const throw (RuntimeException)
 {
     return true;
 }
