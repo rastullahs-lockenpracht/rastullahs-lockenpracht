@@ -26,8 +26,11 @@ using namespace MadaBot;
 
 const char* AimlUtility::ASTERISK = "*";
 const char* AimlUtility::UNDERSCORE = "_";
-
-std::locale AimlUtility::sLocale("german");
+#if defined(_WIN32)
+	std::locale AimlUtility::sLocale("german");
+#else
+	std::locale AimlUtility::sLocale("de_DE");
+#endif
 
 static AimlUtility::PathSeperatorPair pathSeperatorPairs[3]=
 {
