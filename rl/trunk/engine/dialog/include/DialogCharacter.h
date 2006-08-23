@@ -54,7 +54,8 @@ namespace rl
 		 * set the dialogbot, this is done in DialogSubsystem/AimlCore
 		 */
 		void setBot(AimlBot<CeGuiString>* bot);
-
+        
+        bool hasExitRequest() const;
 /*		void addDialogListener(DialogListener* listener);
 		void removeDialogListener(DialogListener* listener);
 		void updateDialogListeners(DialogListener::DialogEvent e);

@@ -84,6 +84,12 @@ namespace rl
 		}
 	}
 */
+
+    bool DialogCharacter::hasExitRequest() const
+    {
+        return mBot->hasExitRequest();
+    }
+
 	const CeGuiString DialogCharacter::getName() const
 	{
 		return mBot->getName();

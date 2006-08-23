@@ -123,6 +123,14 @@ void DialogWindow::getResponse(const CeGuiString& msg)
 	delete mCurrentResponse;
 	mCurrentResponse = mBot->createResponse(msg);
 	
+    if(mBot->hasExitRequest())
+    {
+        mQuestion->getListboxItemFromIndex(0)->setText(DIALOG_END);
+		mQuestion->getListboxItemFromIndex(1)->setText("");
+		mState = CLOSING_DIALOG;
+        handleClose();
+        return;
+    }
 	if(mCurrentResponse == NULL)
 	{
 		mQuestion->getListboxItemFromIndex(0)->setText(DIALOG_END);
@@ -130,6 +138,7 @@ void DialogWindow::getResponse(const CeGuiString& msg)
 		mState = CLOSING_DIALOG;
 	//	übergangslösung, wenn gerade kein sprecher aktiv ist wird 
 	//	nicht nicht textFinished aufgerufen
+    //  hier müsste wahrscheinlich requestClose auftauchen
 		handleClose();
 		return;
 	}
