@@ -307,21 +307,6 @@ namespace rl {
 
 		mKeyDown[e->getKey()] = false;
 
-        int code = CommandMapper::encodeKey(e->getKey(), e->getModifiers());
-        Action* action = ActionManager::getSingleton().getInGameGlobalAction(
-            mCommandMapper->getAction(code, CMDMAP_KEYMAP_GLOBAL));
-        if (action != NULL)
-        {
-            try
-            {
-                action->doAction(NULL, NULL, NULL);
-            }
-            catch( ScriptInvocationFailedException& sife )
-		    {
-			    LOG_ERROR(Logger::UI, sife.toString() );
-		    }
-        }
-        
         if (mCharacterController != NULL)
         {
 		    mCharacterController->injectKeyUp(e->getKey());
