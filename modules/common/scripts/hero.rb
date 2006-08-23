@@ -3,6 +3,7 @@ load "embed.rb"
 class Hero < Person
     def initialize
         super("Alrike", "Heldin von Berufung");
+	$SCRIPT.log("Gute Eigenschaften zuweisen...");
 
         setEigenschaft("MU", 12);
         setEigenschaft("KL", 8);
@@ -14,12 +15,14 @@ class Hero < Person
         setEigenschaft("KK", 14); #KK
         setWert(2, 10); # LE-Mod
 
-        modifyLe(1000); # LeP = LE
+	$SCRIPT.log("LeP und AuP auffüllen");
+        modifyLe(1000,false); # LeP = LE
         modifyAu(1000); # Au = voll
         # modifyLe(-20); # 10 LeP abziehen
 
+	$SCRIPT.log("Talente hinzufügen");
 	addTalent("Athletik", 3);
-	#addTalent("K�rperbeherrschung", 3);
+	#addTalent("Körperbeherrschung", 3);
 
         $SCRIPT.log("Heldenaktor erstellen...");
         $heldaktor = $AM.createMeshActor("Held","men_alrike.mesh", PhysicsManager::GT_ELLIPSOID, 75.0);

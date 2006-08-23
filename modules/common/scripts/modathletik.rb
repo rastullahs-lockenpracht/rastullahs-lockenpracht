@@ -1,6 +1,6 @@
 class ModAthletik < Effect
   def initialize(modifier)
-    super();
+    super(1);
     @mModifier = modifier;
   end
 
