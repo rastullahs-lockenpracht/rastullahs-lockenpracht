@@ -29,7 +29,8 @@ const char* AimlUtility::UNDERSCORE = "_";
 #if defined(_WIN32)
 	std::locale AimlUtility::sLocale("german");
 #else
-	std::locale AimlUtility::sLocale("de_DE");
+    #include <stdlib.h>
+	std::locale AimlUtility::sLocale(getenv( "LANG" ));
 #endif
 
 static AimlUtility::PathSeperatorPair pathSeperatorPairs[3]=
