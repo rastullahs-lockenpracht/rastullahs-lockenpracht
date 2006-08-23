@@ -95,14 +95,14 @@ public:
 	/**
 	 * Erhoeht die geschafften gleichen Teile eines Quests
 	 * 
-	 * @parts wieviele Teile wurden erledigt (default 1)
+	 * @param parts wieviele Teile wurden erledigt (default 1)
 	 */
 	void increasePartsDone(int parts = 1);
 
 	/**
 	 * Verringert die geschafften gleichen Teile eines Quests
 	 * 
-	 * @parts wieviele weniger Teile wurden erledigt (default 1)
+	 * @param parts wieviele weniger Teile wurden erledigt (default 1)
 	 */
 	void decreasePartsDone(int parts = 1);
 
@@ -119,7 +119,7 @@ public:
 	const CeGuiString getKnownName();
 
 	/**
-	 * @param Status des Quests
+	 * @param state Status des Quests
 	 */
 	void setState(Quest::State state);
 

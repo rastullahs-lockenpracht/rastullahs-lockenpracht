@@ -48,16 +48,28 @@ namespace rl
         }
 	}
 
-    void EffectManager::addCheck(RL_LONGLONG time, Effect* effect)
+    void EffectManager::addCheck(RL_LONGLONG timeUntilCheck, Effect* effect)
     {
         // Preconditions: time > 0, effect != NULL
         if (time <= 0) Throw(IllegalArgumentException, "time parameter is <= 0!");
         if (effect == NULL) Throw(IllegalArgumentException, "effect pointer is NULL!");
         // Hole aktuelle ingame Zeit und addiere time darauf
-        RL_LONGLONG timeForCheck = DsaManager::getSingleton().getTimestamp() + time;
-        // Fuege die Summe und effect in Checklist ein
+        RL_LONGLONG now = DsaManager::getSingleton().getTimestamp();
+        RL_LONGLONG timeForCheck = now + timeUntilCheck;
+        // Fuege die Summe und Effekt in die Checklist ein
         mChecklist[timeForCheck].insert(effect);
     }
+
+    void EffectManager::addCheckDate(RL_LONGLONG date, Effect* effect)
+    {
+        // Preconditions: date > now, effect != NULL
+        RL_LONGLONG now = DsaManager::getSingleton().getTimestamp();
+        if (date <= now) Throw(IllegalArgumentException, "date lies in the past!");
+        if (effect == NULL) Throw(IllegalArgumentException, "effect pointer is NULL!");
+        // Fuege Datum und Effekt in die Checklist ein
+        mChecklist[date].insert(effect);
+    }
+
 
 	void EffectManager::addEffect(Effect* effect)
 	{

@@ -38,7 +38,7 @@ using namespace std;
 
 namespace rl {
 
-	using XERCES_CPP_NAMESPACE::DOMDocument; //XXX: Warum brauche ich das unter VS 2003?
+	using XERCES_CPP_NAMESPACE::DOMDocument; ///@todo Warum brauche ich das unter VS 2003?
 
 	void ItemDataLoader::loadData(string filename)
 	{

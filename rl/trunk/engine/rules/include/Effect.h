@@ -30,6 +30,10 @@ namespace rl
 	{
 	public:
 
+        /**
+         * Spezifiziert wie oft Effekte des selben Typs gleichzeitig auf dieselbe
+         * Kreatur wirken koennen.
+         **/
         enum Quantifier
         {
             QUANTIFIER_MULTIPLE,
@@ -38,12 +42,19 @@ namespace rl
             QUANTIFIER_UNIQUE_BUT_CUMULATIVE
         };
 
+        /**
+         *  Spezifiziert bestimmte Merkmale eines Effekts und erlaubt damit darauf zu
+         *  reagieren.
+         *  @warning Das Konzept ist nur ein Prototyp und kann jederzeit verworfen 
+         *   werden.
+         **/
         enum EffectTag
         {
             EFFECTTAG_NONE,
             EFFECTTAG_KRANKHEIT
         };
 
+        /// Setzt den Quantifier standardmaessig auf QUANTIFIER_MULTIPLE.
 		Effect(int stufe = 1);
 		virtual ~Effect();
 
@@ -51,39 +62,43 @@ namespace rl
         void setName(CeGuiString name);
         const CeGuiString getDescription() const;
         void setDescription(CeGuiString description);
+        /// Liefert einen Zeiger auf die Kreatur, auf die dieser Effekt wirkt.
 		Creature* getOwner() const;
+        /// Weist diesen Effekt einer Kreatur zu.
 		void setOwner(Creature* owner);
 		virtual int getDuration();
 		virtual void setDuration(int newDuration);
+        /// @see Quantifier
 		Quantifier getQuantifier();
+        /// @see Quantifier
 		void setQuantifier(Quantifier quantifier);
 		/** 
-         *  @brief Adds a tag to the effect. 
+         *  Adds a tag to the effect. 
          *  Tags are describing the type of an Effect, so other Effects can 
          *  identify it. An example would be 'Poison', as well as 'mineralic 
          *  poison'.
          **/
 		virtual void addTag(EffectTag tagId);
         /**
-         * @brief removes a tag from the effect.
-         * @sa addTag
+         * Removes a tag from the effect.
+         * @see addTag
          **/
 		virtual void removeTag(EffectTag tagId);
         /**
-         * @brief Queries the effect for its tags.
-         * @sa addTag
+         * Queries the effect for its tags.
+         * @see addTag
          **/
 		virtual bool queryTag(EffectTag tagId);
         /**
-         * @brief Retturns the Stufe (level) of the effect.
+         * Returns the Stufe (level) of the effect.
          **/
 		virtual const int getStufe();
         /**
-         * @brief Increases the level by one.
+         * Increases the level by one.
          **/
 		virtual void increaseStufe();
         /**
-         * @brief Decreases the level by one.
+         * Decreases the level by one.
          **/
 		virtual void decreaseStufe();
 		/// Macht den Effekt wirksam.
@@ -114,9 +129,11 @@ namespace rl
 		/// Gibt an, wie oft ein Effekt dieses Namens auf einer Kreatur wirken kann.
 		Quantifier mQuantifier;
 
+        /// Liste aller Merkmale dieses Effekts.
 		typedef std::set<EffectTag> Tags;
 		Tags mTags;
 
+        /// Zeiger auf die Kreatur, auf die dieser Effekt wirkt.
 		Creature* mOwner;
 	};
 }

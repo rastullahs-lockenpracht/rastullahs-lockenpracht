@@ -42,8 +42,50 @@
 namespace rl
 {
     /**
-     * @defgroup RulesRubyExports
+     * @defgroup RulesRubyExports Rules
      * @ingroup RubyExports
+     **/
+
+    /**
+     * \page rulespage Bemerkungen zu RlRules
+     * @section abbde Deutsche DSA Abkuerzungen
+     * @anchor abbdea 
+     * AE Astral Energie\n
+     * AP Abenteuerpunkte\n
+     * AU Ausdauer\n
+     * AT Attacke\n
+     * @anchor abbdeb
+     * BE Behinderung\n
+     * @anchor abbdec
+     * CH Charisma\n
+     * @anchor abbdef
+     * FF Fingerfertigkeit\n
+     * FK Ferkampf\n
+     * @anchor abbdeg
+     * GE Gewandheit\n
+     * @anchor abbdei
+     * INI Initiative\n
+     * IN Intuition\n
+     * @anchor abbdek
+     * KL Klugheit\n
+     * KK Koerperkraft\n
+     * @anchor abbdel 
+     * LE Lebensenergie\n
+     * @anchor abbdem
+     * MR Magieresistenz\n
+     * MU Mut\n
+     * @anchor abbdep
+     * PA Parade\n
+     * @anchor abbdes
+     * SE Spezielle Erfahrung\n
+     * SF Sonderfertigkeit\n
+     * @anchor abbdet 
+     * TaW Talentwert\n
+     * TP Trefferpunkte\n
+     *
+     * @section abben English abbreviations
+     * @anchor abbenv
+     * VI Vitality - LE Lebensenergie
      **/
 
     class _RlRulesExport Action;

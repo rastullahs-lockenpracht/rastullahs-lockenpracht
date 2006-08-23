@@ -26,8 +26,7 @@
 namespace rl
 {
     /**
-     * @brief Verwaltet die Effekte die auf einer Kreatur wirken
-     *
+     * Verwaltet die Effekte die auf einer Kreatur wirken.
      * Diese Klasse verwaltet alle Effekte, die auf einer Kreatur liegen.
      * Jede Kreatur hat ihren eigenen EffectManager. Die Funktion checkeffects
      * sollte während jeder Aktion (gemeint ist die DSA-Zeiteinheit) aufgerufen
@@ -41,38 +40,50 @@ namespace rl
 		~EffectManager();
 
         /**
-         * @brief Ruft fuer jeden Effekt in der Liste die isAlive() Funktion auf.
+         *  Ueberprueft die Effekte auf Veraenderungen.
          **/
 		void checkEffects();
         /** 
-         * @brief Mit dieser Funktion kann ein Effekt dem Manager mitteilen,
-         * wann er wieder ueberprueft werden muss.
-         * @param time Die Zeit wann die naechste Ueberpruefung faellig ist.
-         * @param effect Der zu ueberpruefende Effekt.
-         * @sa Die Date Klasse.
+         *  Mit dieser Funktion kann ein Effekt dem Manager mitteilen,
+         *  in welcher Zeit er wieder ueberprueft werden muss.
+         *  @param time Die Zeitspanne wann die naechste Ueberpruefung faellig ist.
+         *  @param effect Der zu ueberpruefende Effekt.
+         *  @throws IllegalArgumentException time parameter is <= 0
+         *  @throws IllegalArgumentException effect pointer is NULL
+         *  @see addCheckDate Date
          **/
-        void addCheck(RL_LONGLONG time, Effect* effect);
+        void addCheck(RL_LONGLONG timeUntilCheck, Effect* effect);
         /**
-         * @brief Fuegt einen neuen Effekt in die Liste ein.
+         *  Mit dieser Funktion kann ein Effekt dem Manager mitteilen,
+         *  zu welchem Zeitpunkt er wieder ueberprueft werden muss.
+         *  @param date Das Datum der naechsten Ueberpruefung.
+         *  @param effect Der zu ueberpruefende Effekt.
+         *  @throws IllegalArgumentException date lies in the past
+         *  @throws IllegalArgumentException effect pointer is NULL
+         *  @see addCheck, Date
+         **/
+        void addCheckDate(RL_LONGLONG date, Effect* effect);
+        /**
+         * Fuegt einen neuen Effekt in die Liste ein.
          * @param effect Ein Zeiger auf den einzufuegenden Effekt.
          **/
 		void addEffect(Effect* effect);
 
 	private:
+        /// Eine einfache Menge von Effekten
 		typedef std::set<Effect*> Effects;
-        typedef std::map<Effect::EffectTag, Effects> Watchlist;
-        typedef std::map<RL_LONGLONG, Effects> Checklist;
-        /// @brief Eine einfache Menge von Effekten
 		Effects mEffects;
         /**
-         * @brief Eine Liste von Tags und Effekten die auf das hinzufuegen
+         * Eine Liste von Tags und Effekten die auf das hinzufuegen
          * eines Effekts mit diesem Tag reagieren.
          **/
+        typedef std::map<Effect::EffectTag, Effects> Watchlist;
 		Watchlist mWatchlist;
         /**
-         * @brief Eine Liste die wiedergibt, wann welcher Effekt
+         * Eine Liste die wiedergibt, wann welcher Effekt
          * ueberprueft werden muss.
          **/
+        typedef std::map<RL_LONGLONG, Effects> Checklist;
         Checklist mChecklist;
 	};
 }

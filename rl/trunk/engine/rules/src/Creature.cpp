@@ -24,6 +24,8 @@
 #include "StateSet.h"
 #include "Talent.h"
 #include "Inventory.h"
+#include "CoreSubSystem.h"
+#include "RubyInterpreter.h"
 
 namespace rl
 {
@@ -49,8 +51,14 @@ namespace rl
 		setWert(WERT_MOD_MR, 0);
 		setWert(WERT_MOD_INI, 0);
 		setWert(WERT_SOZIALSTATUS, 0);
+        setWert(WERT_MOD_REGENERATION_LE, 0);
+        setWert(WERT_MOD_REGENERATION_AE, 0);
+        setWert(WERT_MOD_ERSCHOEPFUNGSSCHWELLE, 0);
+        setWert(WERT_MOD_ALL_EIGENSCHAFTSPROBEN, 0);
+        setWert(WERT_MOD_ALL_TALENTPROBEN, 0);
 		setWert(WERT_GS, 8);
 		setWert(WERT_BE, 0);
+        setWert(WERT_KAMPFUNFAEHIGKEITSSCHWELLE, 0);
 		mEigenschaften[E_MUT] = new EigenschaftenStateSet();
 		mEigenschaften[E_KLUGHEIT] = new EigenschaftenStateSet();
 		mEigenschaften[E_INTUITION] = new EigenschaftenStateSet();
@@ -172,6 +180,7 @@ namespace rl
 	int Creature::getCurrentBe()
 	{
 		pair<int,int> be = mInventory->getOverallBe();
+        ///@todo Ruestungsgewoehnung?
 		return be.first+be.second;
 	}
 
@@ -196,7 +205,8 @@ namespace rl
         WertMap::const_iterator it = mWerte.find(wertId);
         if (it == mWerte.end())
         {
-            Throw(IllegalArgumentException, "Wert nicht gefunden.");
+            Throw(IllegalArgumentException, 
+                "Wert "+Ogre::StringConverter::toString(wertId)+" not found.");
         }
 		return it->second;
 	}
@@ -245,9 +255,13 @@ namespace rl
 
     void Creature::modifyAu(int mod, bool ignoreMax)
     {
-        mCurrentAu += mod;
+        mCurrentAu = max(mCurrentAu + mod, 0);
 		if (!ignoreMax)
 			mCurrentAu = min(mCurrentAu, getAuMax());
+        if (getAu() <= 0)
+        {
+            setIncapacitated(true);
+        }
 		fireObjectStateChangeEvent();
     }
 
@@ -876,7 +890,7 @@ namespace rl
 
 	void Creature::attachWeapon(Weapon* weapon)
 	{
-		// FIXME: Waffenknochen immer r_hand?
+		/// @todo Waffenknochen immer r_hand?
 		getActor()->attachToSlot(
 			weapon->getActor(), 
 			"r_hand",
@@ -909,11 +923,11 @@ namespace rl
 		int eBe = floor(float(DsaManager::getSingleton().getKampftechnik(kampftechnikName)->calculateEbe(getWert(WERT_BE))) / 2.0);
 
 		int probe = DsaManager::getSingleton().rollD20();
-		if (probe == 1) // TODO: Bestätigen
+		if (probe == 1) /// @todo Bestätigen
 		{
 			rval = RESULT_GLUECKLICH;
 		}
-		else if (probe == 20) // TODO: Bestätigen
+		else if (probe == 20) /// @todo Bestätigen
 		{
 			rval = RESULT_PATZER;
 		}
@@ -939,17 +953,17 @@ namespace rl
 		int eBe = ceil(float(DsaManager::getSingleton().getKampftechnik(kampftechnikName)->calculateEbe(getWert(WERT_BE))) / 2.0);
 
 		int probe = DsaManager::getSingleton().rollD20();
-		if (probe == 1) /// @TODO: Bestätigen
+		if (probe == 1) /// @todo Bestätigen
 		{
 			rval = RESULT_GLUECKLICH;
 		}
 		else if (probe == 20)
 		{
-			rval = RESULT_PATZER; /// @TODO: Bestätigen
+			rval = RESULT_PATZER; /// @todo Bestätigen
 		}
 		else
 		{
-			/// @TODO: Gute Parade
+			/// @todo Gute Parade
 			rval = getParadeBasis() + (*it).second.second - (probe + modifier 
 				+ getWertStateSet(WERT_MOD_ALL_EIGENSCHAFTSPROBEN)->getProbenModifier() + eBe);
 		}
@@ -969,11 +983,99 @@ namespace rl
 		return rval;
 	}
 
-	/** @TODO: Implement correctly */
-	void Creature::applyDamage(int sp, Weapon* weapon)
+	/// @todo Implement correctly
+	void Creature::damageLe(int tp, int damageType)
 	{
-		modifyLe(-sp);
+        /**@todo Was tun bei negativen TP? Exception? Fehlermeldung? Stillschweigend
+             auf 0 setzen?*/
+        if (tp < 0) 
+        {
+            tp = 0;
+        }
+        ///@todo auf Verletzlichkeiten und Immunitaeten achten
+        if ((damageType&LEDAMAGE_FIRE) == LEDAMAGE_FIRE) CoreSubsystem::getSingleton().getRubyInterpreter()->execute("p \"Fire!\"");
+        if ((damageType&LEDAMAGE_WATER) == LEDAMAGE_WATER) CoreSubsystem::getSingleton().getRubyInterpreter()->execute("p \"Water!\"");
+        if ((damageType&LEDAMAGE_DEMONIC) == LEDAMAGE_DEMONIC) CoreSubsystem::getSingleton().getRubyInterpreter()->execute("p \"Demons!\"");
+        if ((damageType&LEDAMAGE_TP_A) == LEDAMAGE_TP_A)
+        {
+            damageAu(tp, AUDAMAGE_NORMAL);
+            tp = floor(tp/2.);
+        }
+		modifyLe(-tp);
 	}
+
+    void Creature::damageAe(int asp)
+    {
+        if (asp < 0)
+        {
+         /**@todo Was tun bei negativen AsP? Exception? Fehlermeldung? Stillschweigend
+             auf 0 setzen?*/
+           asp = 0;
+        }
+        modifyAe(-asp);
+    }
+
+    void Creature::damageAu(int aup, int damageType)
+    {
+        if (aup < 0)
+        {
+         /**@todo Was tun bei negativen AuP? Exception? Fehlermeldung? Stillschweigend
+             auf 0 setzen?*/
+           aup = 0;
+        }
+        modifyAu(-aup);
+    }
+
+    void Creature::regenerateLe(int modifier)
+    {
+        //Grundregeneration von 1W6
+        int regeneratedLe = DsaManager::getSingleton().rollD6();
+        //Addiere eventuelle Modifikatoren hinzu
+        regeneratedLe += getWert(WERT_MOD_REGENERATION_LE);
+        //Bei gelungener KO Probe addiere 1
+        if (RESULT_ERFOLG <= doEigenschaftsprobe("KO", 
+            getWertStateSet(WERT_MOD_REGENERATION_LE)->getProbenModifier()))
+        {
+            regeneratedLe++;
+        }
+        //modifiziere die aktuellen LE
+        modifyLe(regeneratedLe);
+    }
+
+    void Creature::regenerateAe(int modifier)
+    {
+        //Grundregeneration von 1W6
+        int regeneratedAe = DsaManager::getSingleton().rollD6();
+        //Addiere eventuelle Modifikatoren hinzu
+        regeneratedAe += getWert(WERT_MOD_REGENERATION_AE);
+        //Bei gelungener KO Probe addiere 1
+        if (RESULT_ERFOLG <= doEigenschaftsprobe("IN", 
+            getWertStateSet(WERT_MOD_REGENERATION_AE)->getProbenModifier()))
+        {
+            regeneratedAe++;
+        }
+        //modifiziere die aktuellen AE
+        modifyAe(regeneratedAe);
+    }
+
+    void Creature::regenerateAu(int modifier)
+    {
+        ///@todo Gibt es etwas das die Regeneration permanent modifiziert?
+        //Grundregeneration von 3W6
+        int regeneratedAu = DsaManager::getSingleton().rollD6()
+            + DsaManager::getSingleton().rollD6() 
+            + DsaManager::getSingleton().rollD6();
+        //Addiere eventuelle Modifikatoren hinzu
+        //regeneratedAu += getWert(WERT_MOD_REGENERATION_LE);
+        //Bei gelungener KO Probe addiere 1
+        if (RESULT_ERFOLG <= doEigenschaftsprobe("KO", 
+            getWertStateSet(WERT_MOD_REGENERATION_LE)->getProbenModifier()))
+        {
+            regeneratedAu += 6;
+        }
+        //modifiziere die aktuellen AU
+        modifyAu(regeneratedAu);
+    }
 
 	void Creature::addEffect(Effect* effect)
 	{
@@ -983,8 +1085,7 @@ namespace rl
 
 	void Creature::checkEffects()
 	{
-		/// @TODO
-		// Nur einmal pro Aktion ausfuehren
+		/// @todo Nur einmal pro Aktion ausfuehren
 		mEffectManager.checkEffects();
 	}
 }

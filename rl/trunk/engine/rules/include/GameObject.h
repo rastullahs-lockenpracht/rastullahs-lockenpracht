@@ -65,7 +65,6 @@ namespace rl
 
         /** Eine Aktion des Gegenstandes wird ausgeloest.
          *  @param actionName der Name der auszuloesenden Aktion.
-         *  @param actionClass der (Ruby-)Klassenname der auszuloesenden Aktion.
          *  @param actor der "Benutzer" des Gegenstandes,
          *         der die Aktion ausgeloest hat, kann auch
          *         <code>NULL</code> sein, falls die Aktion auf andere Weise

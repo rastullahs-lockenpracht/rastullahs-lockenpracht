@@ -401,6 +401,7 @@ namespace rl {
 		virtual void modifyModifier(int modifier);
 		virtual int getProbenModifier() const;
 		virtual void setProbenModifier(int newProbenModifier);
+		virtual void modifyProbenModifier(int modifier);
 		virtual int getMultiplier() const;
 		virtual void setMultiplier(int newMultiplier);
 	};
@@ -510,7 +511,7 @@ namespace rl {
         WERT_MOD_INI, // Initiative
         WERT_MOD_REGENERATION_LE, // Naechtliche Regeneration. modifier modifiziert den W6, ProbenModifier modifiziert die KO-Probe.
         WERT_MOD_REGENERATION_AE, // Astrale Regeneration. modifier modifiziert den W6, ProbenModifier modifiziert die IN-Probe.
-        WERT_MOD_ESCHOEPFUNGSSCHWELLE, // Die Modifkitoren von KO bezueglich der Erschoepfungsschwelle.
+        WERT_MOD_ERSCHOEPFUNGSSCHWELLE, // Die Modifkitoren von KO bezueglich der Erschoepfungsschwelle.
         WERT_MOD_ALL_EIGENSCHAFTSPROBEN, // Modifiziert alle Proben, die mit 1W20 gewuerfelt werden.
         WERT_MOD_ALL_TALENTPROBEN, // Modifiziert alle Proben, die mit 3W20 gewuerfelt werden.
         WERT_GS, // Geschwindigkeit
@@ -522,15 +523,29 @@ namespace rl {
         //Creature(const rl::CeGuiString data);
         virtual ~Creature();
 
-		virtual StateSet* getWertStateSet(Wert wertId);
+        virtual int getLe();
+        virtual void modifyLe(int mod, bool ignoreMax);
+        virtual void modifyAe(int mod);
+        virtual void modifyAu(int mod);
+        void setWert(Wert wertId, int value);
+        virtual StateSet* getWertStateSet(Wert wertId);
+        
         virtual int getEigenschaft(const rl::CeGuiString eigenschaftName);
         virtual void setEigenschaft(const rl::CeGuiString eigenschaftName, int value);
+        virtual void modifyEigenschaft(const rl::CeGuiString eigenschaftName, int mod);
 		virtual EigenschaftenStateSet* getEigenschaftenStateSet(const rl::CeGuiString eigenschaftName);
+		
         void addTalent(const rl::CeGuiString talentName, int value=0);
         virtual int getTalent(const rl::CeGuiString talentName);
-		virtual TalentStateSet* getTalentStateSet(const rl::CeGuiString talentName);
         virtual void setTalent(const rl::CeGuiString talentName, int value);
+        virtual void modifyTalent(const rl::CeGuiString talentName, int mod);
+		virtual void addSe(const rl::CeGuiString talentName);
+		virtual TalentStateSet* getTalentStateSet(const rl::CeGuiString talentName);
+		
         void addKampftechnik(const rl::CeGuiString kampftechnikName, std::pair<int,int> value = make_pair(0,0));
+        
+		virtual SonderfertigkeitenStateSet* getSonderfertigkeitenStateSet(const rl::CeGuiString sfName);
+
 		void addContainer(rl::Container* container);
 		rl::Container* getContainer(const rl::CeGuiString containterName) const;
 		rl::Container* removeContainer(rl::CeGuiString containerName);
@@ -540,21 +555,16 @@ namespace rl {
 		void switchToWeapon(int weaponId);
 		void rl::Creature::detachWeapon();
 		rl::Weapon* rl::Creature::getActiveWeapon();
-		void addEffect(Effect* effect);
-		virtual SonderfertigkeitenStateSet* getSonderfertigkeitenStateSet(const rl::CeGuiString sfName);
-
-        virtual void modifyEigenschaft(const rl::CeGuiString eigenschaftName, int mod);
-        virtual void modifyTalent(const rl::CeGuiString talentName, int mod);
-
-        virtual void modifyLe(int mod);
-        virtual void modifyAe(int mod);
-        virtual void modifyAu(int mod);
-        virtual int getLe();
-        
+		
         virtual int doTalentprobe(const rl::CeGuiString talentName, int modifier);
         virtual int doEigenschaftsprobe(const rl::CeGuiString eigenschaftName, int modifier);
         
-        void setWert(Wert wertId, int value);
+		void addEffect(Effect* effect);
+		void damageLe(int tp, int damageType);
+        static const int LEDAMAGE_NORMAL = 0;
+        static const int LEDAMAGE_FIRE = 1;
+        static const int LEDAMAGE_WATER = 2;
+        static const int LEDAMAGE_DEMONIC = 4;
    };
    
    %feature("director") Person;
