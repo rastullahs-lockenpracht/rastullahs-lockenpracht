@@ -103,6 +103,11 @@ namespace MadaBot
 			mRequestExit = true;
 		}
 
+        bool hasExitRequest() const
+        {
+            return mRequestExit;
+        }
+
 		/** 
 		 * @param  pType type of the predicates
 		 * @return the predicates access class for the given type
@@ -213,10 +218,6 @@ namespace MadaBot
 		else
 		{
 			// no match
-		}
-		if(mRequestExit)
-		{
-			response.clear();
 		}
 		return response;
 	}
