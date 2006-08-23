@@ -1017,11 +1017,14 @@ namespace rl
 
     void Creature::damageAu(int aup, int damageType)
     {
-        if (aup < 0)
+        if (aup <= 0)
         {
          /**@todo Was tun bei negativen AuP? Exception? Fehlermeldung? Stillschweigend
              auf 0 setzen?*/
            aup = 0;
+           ///@todo evtl. eine modifyErschoepfung()?
+           mErschoepfung += DsaManager::getSingleton().rollD6();
+           setIncapacitated(true);
         }
         modifyAu(-aup);
     }

@@ -942,6 +942,8 @@ namespace rl
 		int mCurrentAe;
         /// Die aktuelle @ref abbdea "Ausdauer" der Kreatur.
 		int mCurrentAu;
+        /// Die aktuelle Erschoepfung der Kreatur.
+        int mErschoepfung;
         /// Wenn > 0 ist die Kreatur blind.
         int mBlind;
         /// Wenn > 0 ist die Kreatur tot.
