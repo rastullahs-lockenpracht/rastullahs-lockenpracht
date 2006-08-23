@@ -7,8 +7,8 @@ import java.io.InputStreamReader;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import meshhandle.model.Mesh;
-import meshhandle.xml.MeshLoader;
+import meshhandle.io.xml.MeshLoader;
+import meshhandle.model.mesh.Mesh;
 
 import org.xml.sax.SAXException;
 

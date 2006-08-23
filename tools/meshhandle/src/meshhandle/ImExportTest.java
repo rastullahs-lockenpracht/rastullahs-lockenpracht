@@ -9,10 +9,10 @@ import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import meshhandle.model.Mesh;
-import meshhandle.skeleton.Skeleton;
-import meshhandle.xml.MeshLoader;
-import meshhandle.xml.SkeletonLoader;
+import meshhandle.io.xml.MeshLoader;
+import meshhandle.io.xml.SkeletonLoader;
+import meshhandle.model.mesh.Mesh;
+import meshhandle.model.skeleton.Skeleton;
 
 import org.xml.sax.SAXException;
 

@@ -7,8 +7,8 @@ import java.io.InputStreamReader;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import meshhandle.scene.Scene;
-import meshhandle.xml.SceneLoader;
+import meshhandle.io.xml.SceneLoader;
+import meshhandle.model.scene.Scene;
 
 import org.xml.sax.SAXException;
 

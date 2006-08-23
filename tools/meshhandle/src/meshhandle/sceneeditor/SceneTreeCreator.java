@@ -5,9 +5,9 @@ import java.util.HashMap;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import meshhandle.scene.Entity;
-import meshhandle.scene.Scene;
-import meshhandle.scene.SceneNode;
+import meshhandle.model.scene.Entity;
+import meshhandle.model.scene.Scene;
+import meshhandle.model.scene.SceneNode;
 
 public class SceneTreeCreator 
 {

@@ -2,7 +2,7 @@ package meshhandle.sceneeditor;
 
 import java.util.ArrayList;
 
-import meshhandle.scene.SceneNode;
+import meshhandle.model.scene.SceneNode;
 
 public class MeshFile 
 {

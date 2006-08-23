@@ -1,6 +1,7 @@
 package meshhandle;
 
 import javax.swing.JFrame;
+import meshhandle.ui.MeshHandlerWindow;
 
 public class StartKlasse {
 

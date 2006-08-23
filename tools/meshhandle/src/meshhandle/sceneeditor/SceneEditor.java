@@ -25,9 +25,9 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.xml.parsers.ParserConfigurationException;
 
-import meshhandle.scene.Scene;
-import meshhandle.scene.SceneNode;
-import meshhandle.xml.SceneLoader;
+import meshhandle.io.xml.SceneLoader;
+import meshhandle.model.scene.Scene;
+import meshhandle.model.scene.SceneNode;
 
 import org.xml.sax.SAXException;
 
