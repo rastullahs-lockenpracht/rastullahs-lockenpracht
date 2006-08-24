@@ -24,7 +24,7 @@
 #include "StateSet.h"
 #include "Talent.h"
 #include "Inventory.h"
-#include "CoreSubSystem.h"
+#include "CoreSubsystem.h"
 #include "RubyInterpreter.h"
 
 namespace rl
