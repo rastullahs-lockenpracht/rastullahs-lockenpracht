@@ -1,6 +1,6 @@
 include RlScript
 
-class MinidemoModule < ContentModule
+class TutorialModule < ContentModule
     def initialize()
         super("tutorial", "tutorial", false, 200608012)
     end
