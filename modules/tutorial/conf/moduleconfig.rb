@@ -27,4 +27,4 @@ class TutorialModule < ContentModule
     end
 end
 
-CoreSubsystem.getSingleton().registerModule(MinidemoModule.new())
+CoreSubsystem.getSingleton().registerModule(TutorialModule.new())
