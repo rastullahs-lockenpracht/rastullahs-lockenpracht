@@ -43,8 +43,8 @@ namespace rl {
 
         virtual ~XmlResource();
 
-        void parseBy(XERCES_CPP_NAMESPACE::XercesDOMParser* parser);
-        void parseBy(XERCES_CPP_NAMESPACE::SAX2XMLReader* parser);
+        bool parseBy(XERCES_CPP_NAMESPACE::XercesDOMParser* parser, bool useErrorHandler=true);
+        bool parseBy(XERCES_CPP_NAMESPACE::SAX2XMLReader* parser, bool useErrorHandler=true);
 
     protected:
         size_t calculateSize() const;

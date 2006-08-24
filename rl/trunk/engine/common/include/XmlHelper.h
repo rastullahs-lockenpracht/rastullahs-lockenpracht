@@ -23,6 +23,7 @@
 #include <xercesc/sax2/Attributes.hpp>
 
 #include "CommonPrerequisites.h"
+#include "XmlErrorHandler.h"
 
 // Da sollten wir uns auf etwas einigen
 // So ist das laestig.
@@ -42,6 +43,7 @@ using CEGUI::String;
 
 namespace rl {
 
+    class XmlErrorHandler;
 /**
  * Diese Klasse bietet Helferfunktionen, um XML einfacher verarbeiten zu können
  * Alle Methoden sind statisch, es muss also keine Instanz dieser Klasse gebildet werden
@@ -157,9 +159,13 @@ public:
 
 	static std::string transcodeToStdString(const XMLCh* const string16);
 
+    static XmlErrorHandler* getErrorHandler();
+
 private:
 	static XMLTranscoder* sTranscoder;
 	static XMLTransService::Codes sFailCode;
+
+    static XmlErrorHandler sErrorHandler;
 
 	/**
 	 * Konvertiert ein Xerces-XMLCh* in einen UTF-8-String

@@ -15,6 +15,7 @@
  */
 #include "ContextConditionProcessor.h"
 #include "Creature.h"
+#include "Exception.h"
 
 using namespace rl;
 
@@ -42,16 +43,28 @@ void ContextConditionProcessor::preprocessStep()
 	mPredicateValue.clear();
 	mNodeValue.clear();
 	mCurrentReturnValue.clear();
+    RlAssert(mCurrentHelper != NULL, "No AimlBot found");
 	try
 	{
 		LOG_MESSAGE(Logger::DIALOG, "ContextCondition: getPredciates");
+        Predicates<CeGuiString>* predicates = NULL;
 		if(mAttributes["type"].find("probe") != CeGuiString::npos)
 		{
-			mCurrentHelper->getPredicates(mAttributes["type"])->setPredicate("mod", mAttributes["mod"]);
+			predicates = mCurrentHelper->getPredicates(mAttributes["type"]);
+            if( predicates == NULL )
+            {
+                CeGuiString message = "No predicate found with type: " + mAttributes["type"];
+                Throw( NullPointerException, message.c_str() );
+            }
+            predicates->setPredicate("mod", mAttributes["mod"]);
 		}
-		mPredicateValue = mCurrentHelper
-				->getPredicates(mAttributes["type"])
-				->getPredicate(mAttributes["name"]);
+		predicates = mCurrentHelper->getPredicates(mAttributes["type"]);
+        if( predicates == NULL )
+        {
+          CeGuiString message = "No predicate found with type: " + mAttributes["type"];
+          Throw( NullPointerException, message.c_str() );
+        }
+        mPredicateValue = predicates->getPredicate(mAttributes["name"]);
 
 		if(!mAttributes["value"].empty())
 		{
@@ -73,7 +86,9 @@ void ContextConditionProcessor::processChildStep(XmlNode<CeGuiString>* pChild)
 		value = pChild->getAttribute("value");
 	}
 	value.c_str();
-	CeGuiString logMessage = "evaluated <li> with id " + pChild->getAttribute("id") + ". result: ";
+	CeGuiString logMessage = "evaluated <li> with id " + pChild->getAttribute("id") + ". ";
+    logMessage += "Condition Value: " + value + " List(<li>) Value: " + mPredicateValue;
+    logMessage += "result: ";
 	CeGuiString result = "false";
 	if(mPredicateValue == value)
 	{

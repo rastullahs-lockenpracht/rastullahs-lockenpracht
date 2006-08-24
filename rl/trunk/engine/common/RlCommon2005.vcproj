@@ -253,6 +253,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\XmlErrorHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\XmlHelper.cpp"
 				>
 			</File>
@@ -358,6 +362,10 @@
 			</File>
 			<File
 				RelativePath=".\include\Tripel.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XmlErrorHandler.h"
 				>
 			</File>
 			<File

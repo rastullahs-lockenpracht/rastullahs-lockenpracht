@@ -17,6 +17,7 @@
 #include <xercesc/dom/DOM.hpp>
 
 #include "XmlHelper.h"
+#include "XmlErrorHandler.h"
 #include "Exception.h"
 
 using namespace XERCES_CPP_NAMESPACE;
@@ -26,7 +27,7 @@ namespace rl {
 
 XMLTranscoder* XmlHelper::sTranscoder;
 XMLTransService::Codes XmlHelper::sFailCode;
-
+XmlErrorHandler XmlHelper::sErrorHandler;
 
 void XmlHelper::initializeTranscoder()
 {
@@ -190,6 +191,11 @@ std::string XmlHelper::transcodeToStdString(const XMLCh* const string16)
 	std::string rVal(tmpVal);
 	XMLString::release(&tmpVal);
 	return rVal;
+}
+
+XmlErrorHandler* XmlHelper::getErrorHandler()
+{
+    return &XmlHelper::sErrorHandler;
 }
 
 } // end namespace rl

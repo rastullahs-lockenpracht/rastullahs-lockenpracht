@@ -16,6 +16,8 @@
 
 #include "XmlResource.h"
 #include "XmlResourceManager.h"
+#include "XmlHelper.h"
+#include "XmlErrorHandler.h"
 
 using namespace XERCES_CPP_NAMESPACE;
 using namespace Ogre;
@@ -23,8 +25,8 @@ using namespace Ogre;
 namespace rl {
 
 XmlResource::XmlResource(
-	 ResourceManager* creator, const String& name, ResourceHandle handle,
-		const String& group, bool isManual, ManualResourceLoader* loader)
+        ResourceManager* creator, const Ogre::String& name, ResourceHandle handle,
+        const Ogre::String& group, bool isManual, ManualResourceLoader* loader)
 	: Resource(creator, name, handle, group, isManual, loader),
 	mCharBuffer(NULL),
 	mXmlBuffer(NULL)
@@ -62,19 +64,41 @@ size_t XmlResource::calculateSize() const
 {
     return mSize;
 }
-
-void XmlResource::parseBy(XERCES_CPP_NAMESPACE::XercesDOMParser* parser)
+/**
+ * @todo both parseby methods could be merged in one template method, to avoid redundancy
+ */
+bool XmlResource::parseBy(XERCES_CPP_NAMESPACE::XercesDOMParser* parser, bool useErrorHandler)
 {
 	if (!mIsLoaded)
 		load();
+    if(useErrorHandler && parser->getErrorHandler() == NULL)
+    {
+        parser->setErrorHandler(XmlHelper::getErrorHandler());
+        XmlHelper::getErrorHandler()->setFileName(getName());
+    }
 	parser->parse(*mXmlBuffer);
+    if(parser->getErrorCount() > 0)
+    {
+        return false;
+    }
+    return true;
 }
 
-void XmlResource::parseBy(XERCES_CPP_NAMESPACE::SAX2XMLReader* parser)
+bool XmlResource::parseBy(XERCES_CPP_NAMESPACE::SAX2XMLReader* parser, bool useErrorHandler)
 {
 	if (!mIsLoaded)
 		load();
+    if(useErrorHandler && parser->getErrorHandler() == NULL)
+    {
+        parser->setErrorHandler(XmlHelper::getErrorHandler());
+        XmlHelper::getErrorHandler()->setFileName(getName());
+    }
 	parser->parse(*mXmlBuffer);
+    if(parser->getErrorCount() > 0)
+    {
+        return false;
+    }
+    return true;
 }
 
 XmlPtr::XmlPtr(const ResourcePtr& res) : SharedPtr<XmlResource>()

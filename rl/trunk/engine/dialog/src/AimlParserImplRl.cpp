@@ -19,9 +19,7 @@ AimlParserImplRl::~AimlParserImplRl(void)
 XmlDocument<CeGuiString>* AimlParserImplRl::parse(const CeGuiString& fileName)
 {
 	XercesDOMParser* parser = new XercesDOMParser();
-	// TODO: use own error handler for xsd validation
-	ErrorHandler* errHandler = (ErrorHandler*) new HandlerBase();
-    parser->setErrorHandler(errHandler);
+
 	parser->setIncludeIgnorableWhitespace(false);
 	parser->setDoNamespaces(true);
 	//parser->parse(pFileName);
@@ -72,7 +70,6 @@ XmlDocument<CeGuiString>* AimlParserImplRl::parse(const CeGuiString& fileName)
 	DOMDocument* doc = parser->getDocument();
 	DOMElement* test = doc->getDocumentElement();
 	XmlNode<CeGuiString>* rootNode = new AimlNodeImplRl(doc->getDocumentElement());
-	delete errHandler;
 	delete parser;
 	return (new XmlDocument<CeGuiString>(rootNode));
 }
