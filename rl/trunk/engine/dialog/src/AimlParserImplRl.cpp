@@ -5,12 +5,15 @@
 #include "XmlResourceManager.h"
 #include "XmlMapper/XmlDocument.h"
 #include "AimlNodeImplRl.h"
+#include "Logger.h"
 
+// needed for resources
 #include "CoreSubsystem.h"
 #include "ContentModule.h"
 
 using namespace rl;
 using namespace Ogre;
+using namespace XERCES_CPP_NAMESPACE;
 
 AimlParserImplRl::~AimlParserImplRl(void)
 {
@@ -18,60 +21,26 @@ AimlParserImplRl::~AimlParserImplRl(void)
 
 XmlDocument<CeGuiString>* AimlParserImplRl::parse(const CeGuiString& fileName)
 {
-	XercesDOMParser* parser = new XercesDOMParser();
+	XercesDOMParser parser;// = new XercesDOMParser();
 
-	parser->setIncludeIgnorableWhitespace(false);
-	parser->setDoNamespaces(true);
-	//parser->parse(pFileName);
+	parser.setIncludeIgnorableWhitespace(false);
+	parser.setDoNamespaces(true);
 
-	try
-	{	
-		XmlPtr res = getXmlResource(fileName);
-		res->parseBy(parser);
-	}
-	catch(const SAXParseException& exc)
-	{
-		// get & log xerces error message
-		char* excmsg = XMLString::transcode(exc.getMessage());
-		CeGuiString excs="Exception while parsing AimlDocument: ";
-		excs+=excmsg;
-		LOG_MESSAGE(Logger::DIALOG, excs);
-		// cleanup
-		if (parser)delete parser;
-		throw(exc);
-	}
-	catch (const DOMException& exc) 
-	{
-        char* excmsg = XMLString::transcode(exc.getMessage());
-		CeGuiString excs="Exception while parsing AimlDocument: ";
-		excs+=excmsg;
-		LOG_MESSAGE(Logger::DIALOG, excs);
-		// cleanup
-		if (parser)delete parser;
-		throw(exc);
+	XmlPtr res = getXmlResource(fileName);
+
+    bool result = res->parseBy(&parser);
+    
+    if(result)
+    {
+        XERCES_CPP_NAMESPACE::DOMDocument* doc = parser.getDocument();
+	    XERCES_CPP_NAMESPACE::DOMElement* test = doc->getDocumentElement();
+	    XmlNode<CeGuiString>* rootNode = new AimlNodeImplRl(doc->getDocumentElement());
+	    return (new XmlDocument<CeGuiString>(rootNode));
     }
-    catch (const XMLException& exc) 
-	{
-		char* excmsg = XMLString::transcode(exc.getMessage());
-		CeGuiString excs="Exception while parsing AimlDocument: ";
-		excs+=excmsg;
-		LOG_MESSAGE(Logger::DIALOG, excs);
-		// cleanup
-		if(parser)delete parser;
-		return NULL;
-    }
-	catch (...) 
-	{
-		LOG_MESSAGE(Logger::DIALOG, 
-			"Unknown Exception while parsing AimlDocument");
-        if(parser)delete parser;
-		return NULL;
-    }
-	DOMDocument* doc = parser->getDocument();
-	DOMElement* test = doc->getDocumentElement();
-	XmlNode<CeGuiString>* rootNode = new AimlNodeImplRl(doc->getDocumentElement());
-	delete parser;
-	return (new XmlDocument<CeGuiString>(rootNode));
+    std::string message = "File '"+ std::string(fileName.c_str()) +"' could not be parsed.";
+    message += "Possible reason: Wrong file format.";
+    LOG_ERROR(Logger::DIALOG, message );
+    return NULL;
 }
 
 ResourcePtr AimlParserImplRl::getXmlResource(const CeGuiString& fileName)
