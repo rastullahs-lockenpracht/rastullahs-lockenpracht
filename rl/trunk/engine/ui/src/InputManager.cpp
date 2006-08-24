@@ -307,18 +307,6 @@ namespace rl {
 
 		mKeyDown[e->getKey()] = false;
 
-        if (mCharacterController != NULL)
-        {
-		    mCharacterController->injectKeyUp(e->getKey());
-        }
-	}
-
-	void InputManager::keyClicked(KeyEvent* e) 
-	{
-		e->consume();
-		if (sendKeyToCeGui(e)) 
-			return;
-		
         int code = CommandMapper::encodeKey(e->getKey(), e->getModifiers());
         Action* action = ActionManager::getSingleton().getInGameGlobalAction(
             mCommandMapper->getAction(code, CMDMAP_KEYMAP_GLOBAL));
@@ -333,7 +321,35 @@ namespace rl {
 			    LOG_ERROR(Logger::UI, sife.toString() );
 		    }
         }
-        
+
+        if (mCharacterController != NULL)
+        {
+		    mCharacterController->injectKeyUp(e->getKey());
+        }
+	}
+
+	void InputManager::keyClicked(KeyEvent* e) 
+	{
+		e->consume();
+		if (sendKeyToCeGui(e)) 
+			return;
+		
+        int code = CommandMapper::encodeKey(e->getKey(), e->getModifiers());
+/*
+        Action* action = ActionManager::getSingleton().getInGameGlobalAction(
+            mCommandMapper->getAction(code, CMDMAP_KEYMAP_GLOBAL));
+        if (action != NULL)
+        {
+            try
+            {
+                action->doAction(NULL, NULL, NULL);
+            }
+            catch( ScriptInvocationFailedException& sife )
+		    {
+			    LOG_ERROR(Logger::UI, sife.toString() );
+		    }
+        }
+ */       
         if (mCharacterController != NULL)
         {
 		    mCharacterController->injectKeyClicked(code);
