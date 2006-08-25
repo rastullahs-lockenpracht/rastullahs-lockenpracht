@@ -144,7 +144,7 @@
 	
 	</Ruestungen>
 	
-	<Gegenstände>
+	<Gegenstaende>
 	  <Gegenstandsgruppe ID="Schmuck">
 	    <Gegenstand ID="Rubinring" Name="Rubinring" Beschreibung="Dieser Ring ist ganz fein ziseliert und trägt einen besonders edlen facettenreichen Rubin. Dieser schimmert blutrot.">
 		  <Bildname>Rubinring</Bildname>
@@ -198,6 +198,6 @@
 		  <Preis>120</Preis>
 		</Gegenstand>
 	  </Gegenstandsgruppe>
-	</Gegenstände>
+	</Gegenstaende>
   </Inhalt>
 </XDIML>
