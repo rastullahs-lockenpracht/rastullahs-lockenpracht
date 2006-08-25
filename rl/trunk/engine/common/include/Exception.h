@@ -54,7 +54,10 @@
     * @param msg Die Ursache fuer die Exception.
     */
 #  define Throw(exception, msg) \
-   throw(exception(msg, __FILE__, __FUNC__, __LINE__))
+   {\
+       LOG_ERROR_SHORT(msg); \
+       throw(exception(msg, __FILE__, __FUNC__, __LINE__));\
+   }
    /**@brief Makro zur Absicherung von Annahmen.
     *
     * Wenn der Ausdruck \c test zu \c false ausgewertet wird, wird eine
