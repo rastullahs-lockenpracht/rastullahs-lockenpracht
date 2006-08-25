@@ -50,7 +50,10 @@ SoundObject::~SoundObject()
 {
     if (mMovableObject != NULL)
     {
-        getSound()->stop();
+        if (getSound()->isPlaying())
+        {
+            getSound()->stop();
+        }
         getSound()->removeEventListener(this);
 		SoundManager::getSingleton().getActiveDriver()->remove(getSound());
         delete mMovableObject;
