@@ -59,8 +59,8 @@ namespace rl {
             doc->getDocumentElement(), "Inhalt");
 
 		initializeWeapons(XmlHelper::getChildNamed(dataDocumentContent, "Waffen"));
-		initializeArmors(XmlHelper::getChildNamed(dataDocumentContent, "Rüstungen"));
-		initializeItems(XmlHelper::getChildNamed(dataDocumentContent, "Gegenstände"));
+		initializeArmors(XmlHelper::getChildNamed(dataDocumentContent, "Ruestungen"));
+		initializeItems(XmlHelper::getChildNamed(dataDocumentContent, "Gegenstaende"));
 		
 		doc->release();
 
@@ -101,14 +101,14 @@ namespace rl {
 		// Eindeutiger Zuordner
 		CeGuiString id = XmlHelper::getAttributeValueAsString(weaponXml,"ID");
 
-		// Image fürs Inventar
+		// Image fï¿½rs Inventar
 		CeGuiString imageName = XmlHelper::getValueAsString(XmlHelper::getChildNamed(weaponXml, "Bildname"));
 
-		// Größe im Inventar
-		int size_x = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(weaponXml, "Größe"),"X");
-		int size_y = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(weaponXml, "Größe"),"Y");
+		// Grï¿½ï¿½e im Inventar
+		int size_x = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(weaponXml, "Groesse"),"X");
+		int size_y = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(weaponXml, "Groesse"),"Y");
 
-		// Containerplatz für andere Gegenstände, die dieser aufnahmen kann
+		// Containerplatz fï¿½r andere Gegenstï¿½nde, die dieser aufnahmen kann
 		int place_x = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(weaponXml, "Platz"),"X");
 		int place_y = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(weaponXml, "Platz"),"Y");
 
@@ -137,7 +137,7 @@ namespace rl {
 
 		CeGuiString mesh = XmlHelper::getValueAsString(XmlHelper::getChildNamed(weaponXml, "Mesh"));
 
-		int length = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(weaponXml, "Länge"));
+		int length = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(weaponXml, "Laenge"));
 		int weight = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(weaponXml, "Gewicht"));
 
 		int attackMod = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(weaponXml, "WM"), "Attacke");
@@ -145,7 +145,7 @@ namespace rl {
 
 		int preis = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(weaponXml, "Preis"));
 
-		// Neuen Waffenprototyp erzeugen und zurückgeben
+		// Neuen Waffenprototyp erzeugen und zurï¿½ckgeben
 		Weapon* w = new Weapon(
 			name,
 			desc
@@ -192,12 +192,12 @@ namespace rl {
 			return;
 
 		DOMNodeList* armorGroups =
-            rootArmors->getElementsByTagName(AutoXMLCh("Rüstungsgruppe").data());
+            rootArmors->getElementsByTagName(AutoXMLCh("Ruestungsgruppe").data());
 		for (unsigned int group = 0; group < armorGroups->getLength(); group++)
 		{
 			DOMElement* groupData = reinterpret_cast<DOMElement*>(armorGroups->item(group));
 			DOMNodeList* armorsXml =
-                groupData->getElementsByTagName(AutoXMLCh("Rüstung").data());
+                groupData->getElementsByTagName(AutoXMLCh("Ruestung").data());
 			//int numKampftechnik = 0;
 			for (unsigned int armorIdx = 0; armorIdx < armorsXml->getLength(); armorIdx++)
 			{
@@ -217,9 +217,9 @@ namespace rl {
 		// Eindeutiger Zuordner
 		CeGuiString id = XmlHelper::getAttributeValueAsString(armorXml,"ID");
 
-		// Image fürs Inventar
+		// Image fï¿½rs Inventar
 		CeGuiString imageName = XmlHelper::getValueAsString(XmlHelper::getChildNamed(armorXml, "Bildname"));
-		// Mesh für das Spiel
+		// Mesh fï¿½r das Spiel
 		DOMElement* meshNode = XmlHelper::getChildNamed(armorXml, "Mesh");
 		CeGuiString mesh = "";
 		if (meshNode->hasChildNodes())
@@ -229,18 +229,18 @@ namespace rl {
 		CeGuiString typeString = XmlHelper::getValueAsString(XmlHelper::getChildNamed(armorXml, "Klasse"));
 		Item::ItemType type = static_cast<Item::ItemType>(getItemTypeFromString(typeString));
 
-		// Größe im Inventar
-		int size_x = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(armorXml, "Größe"),"X");
-		int size_y = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(armorXml, "Größe"),"Y");
+		// Grï¿½ï¿½e im Inventar
+		int size_x = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(armorXml, "Groesse"),"X");
+		int size_y = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(armorXml, "Groesse"),"Y");
 		
-		// Containerplatz für andere Gegenstände, die dieser aufnahmen kann
+		// Containerplatz fï¿½r andere Gegenstï¿½nde, die dieser aufnahmen kann
 		int place_x = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(armorXml, "Platz"),"X");
 		int place_y = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(armorXml, "Platz"),"Y");
 
-		// Rüstungsschutz für bestimmte Zonen
+		// Rï¿½stungsschutz fï¿½r bestimmte Zonen
 		int ko = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(armorXml, "Ko"));
 		int br = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(armorXml, "Br"));
-		int rue = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(armorXml, "Rü"));
+		int rue = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(armorXml, "Rue"));
 		int ba = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(armorXml, "Ba"));
 		int la = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(armorXml, "LA"));
 		int ra = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(armorXml, "RA"));
@@ -254,7 +254,7 @@ namespace rl {
 
 		int preis = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(armorXml, "Preis"));
 
-		// Neuen Rüstungsprototyp erzeugen und zurückgeben
+		// Neuen Rï¿½stungsprototyp erzeugen und zurï¿½ckgeben
 		Armor* a = new Armor(
 			name,
 			desc
@@ -315,9 +315,9 @@ namespace rl {
 		// Eindeutiger Zuordner
 		CeGuiString id = XmlHelper::getAttributeValueAsString(itemXml,"ID");
 
-		// Image fürs Inventar
+		// Image fï¿½rs Inventar
 		CeGuiString imageName = XmlHelper::getValueAsString(XmlHelper::getChildNamed(itemXml, "Bildname"));
-		// Mesh für das Spiel
+		// Mesh fï¿½r das Spiel
 		DOMElement* meshNode = XmlHelper::getChildNamed(itemXml, "Mesh");
 		CeGuiString mesh = "";
 		if (meshNode->hasChildNodes())
@@ -327,11 +327,11 @@ namespace rl {
 		CeGuiString typeString = XmlHelper::getValueAsString(XmlHelper::getChildNamed(itemXml, "Klasse"));
 		Item::ItemType type = static_cast<Item::ItemType>(getItemTypeFromString(typeString));
 
-		// Größe im Inventar
-		int size_x = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(itemXml, "Größe"),"X");
-		int size_y = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(itemXml, "Größe"),"Y");
+		// Grï¿½ï¿½e im Inventar
+		int size_x = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(itemXml, "Groesse"),"X");
+		int size_y = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(itemXml, "Groesse"),"Y");
 		
-		// Containerplatz für andere Gegenstände, die dieser aufnahmen kann
+		// Containerplatz fï¿½r andere Gegenstï¿½nde, die dieser aufnahmen kann
 		int place_x = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(itemXml, "Platz"),"X");
 		int place_y = XmlHelper::getAttributeValueAsInteger(XmlHelper::getChildNamed(itemXml, "Platz"),"Y");
 
@@ -339,7 +339,7 @@ namespace rl {
 
 		int preis = XmlHelper::getValueAsInteger(XmlHelper::getChildNamed(itemXml, "Preis"));
 
-		// Neuen Itemprototyp erzeugen und zurückgeben
+		// Neuen Itemprototyp erzeugen und zurï¿½ckgeben
 		Item* i = new Item(
 			name,
 			desc
@@ -362,7 +362,7 @@ namespace rl {
 		if (typeString.length() == 0)
 			return Item::ITEMTYPE_OTHER;
 
-		if (typeString.compare("Rüstung") == 0)
+		if (typeString.compare("Ruestung") == 0)
 			return Item::ITEMTYPE_ARMOR;
 		if (typeString.compare("Waffe") == 0)
 			return Item::ITEMTYPE_WEAPON;
@@ -380,7 +380,7 @@ namespace rl {
 			return Item::ITEMTYPE_BRACERS;
 		if (typeString.compare("Rucksack") == 0)
 			return Item::ITEMTYPE_BACKPACK;
-		if (typeString.compare("Gürtel") == 0)
+		if (typeString.compare("Guertel") == 0)
 			return Item::ITEMTYPE_BELT;
 		if (typeString.compare("Amulett") == 0)
 			return Item::ITEMTYPE_NECKLACE;
@@ -433,7 +433,7 @@ namespace rl {
 		DOMNodeList* eigensch = 
 			XmlHelper::getChildNamed(personXml, "Eigenschaften")->
 				getElementsByTagName(EIGENSCHAFT.data());
-		// Die Eigenschaftsnamen müssen durch ihre Abkürzung ersetzt werden.
+		// Die Eigenschaftsnamen mï¿½ssen durch ihre Abkï¿½rzung ersetzt werden.
 		for (unsigned int idx = 0; idx < eigensch->getLength(); idx++)
 		{
 			DOMElement* eigenschXml = reinterpret_cast<DOMElement*>(eigensch->item(idx));
