@@ -90,7 +90,12 @@ namespace rl {
 
 		try
 		{
-            if (character != NULL)
+            Action* action = ActionManager::getSingleton().getInGameGlobalAction(actionName);
+            if (action != NULL)
+            {
+                action->doAction(NULL, NULL, NULL);
+            }
+            else if (character != NULL)
 			{
 				character->doAction(actionName, character, character);
 			}
