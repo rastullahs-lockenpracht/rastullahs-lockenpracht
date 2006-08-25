@@ -23,8 +23,8 @@
 #include "SoundEvents.h"
 #include "EventListener.h"
 
-/// @TODO SharedPtr
 namespace rl {
+/// @TODO SharedPtr
 
     class Sound;
     

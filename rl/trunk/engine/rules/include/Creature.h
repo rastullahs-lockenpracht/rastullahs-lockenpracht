@@ -264,6 +264,25 @@ namespace rl
          *  @ingroup CreatureRubyExports
          **/
 		virtual StateSet* getWertStateSet(Wert wertId);
+        /**
+         *  Gibt der Kreatur @ref abbddea "AP".
+         *  @param modifier Kann auch negativ sein (z.B. Borbarad-Moskitos).
+         **/
+        void modifyAp(int modifier);
+        /**
+         *  Liefert die Gesamtzahl der @ref abbdea "AP" zurueck.
+         **/
+        int getAp();
+        /**
+         *  Verändert die verbrauchten @ref abbdea "AP", wird beim Steigern
+         *  aufgerufen.
+         *  @param modifier Kann auch negativ sein (z.B. Borbarad-Moskitos).
+         **/
+        void modifyUsedAp(int modifier);
+        /**
+         *  Liefert die verbrauchten @refabbdea "AP" zurueck.
+         **/
+        int getUsedAp();
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -583,6 +602,17 @@ namespace rl
          *  @see setStatus for a detailed description of the reference system.
          **/
         void setSleeping(bool value);
+        /**
+         *  Checks if the creature is unconcious. This status works with reference
+         *  counting.
+         **/
+        bool isUnconscious();
+        /**
+         *  Set the creature to unconcious/concious. This status works with reference
+         *  counting.
+         *  @see setStatus for a detailed description of the reference system.
+         **/
+        void setUnconscious(bool value);
         /**
          *  Returns true if the creature cannot move. This function does not 
          *  correspond to a certain status variable but checks several other 
@@ -934,6 +964,12 @@ namespace rl
 		 **/
 		typedef map<const CeGuiString, Container*> ContainerMap;
 
+        struct Ap
+        {
+            int total;
+            int used;
+        };
+
 ///////////////////////////////////////////////////////////////////////////////
 // Membervariablen
         /// Die aktuelle @ref abbdel "Lebensenergie" der Kreatur.
@@ -962,6 +998,8 @@ namespace rl
         int mSilenced;
         /// Wenn > 0 schlaeft die Kreatur.
         int mSleeping;
+        /// Wenn > 0 ist die Kreatur bewusstlos.
+        int mUnconscious;
 
         /// Verwaltet die Effekte die auf die Kreatur wirken.
 		EffectManager mEffectManager;
@@ -975,6 +1013,7 @@ namespace rl
 		SonderfertigkeitMap mSonderfertigkeiten;
 		WertMap mWerte;
 		ContainerMap mContainer;
+        Ap mAp;
 
         /// Zeigt auf das Inventar der Kreatur.
 		Inventory* mInventory;

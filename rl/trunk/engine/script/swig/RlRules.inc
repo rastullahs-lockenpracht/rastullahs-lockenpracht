@@ -542,6 +542,9 @@ namespace rl {
 		virtual void addSe(const rl::CeGuiString talentName);
 		virtual TalentStateSet* getTalentStateSet(const rl::CeGuiString talentName);
 		
+		void addVorteil(const rl::CeGuiString vorteilName, int value = 0);
+		void addNachteil(const rl::CeGuiString nachteilName, int value = 0);		
+		
         void addKampftechnik(const rl::CeGuiString kampftechnikName, std::pair<int,int> value = make_pair(0,0));
         
 		virtual SonderfertigkeitenStateSet* getSonderfertigkeitenStateSet(const rl::CeGuiString sfName);
@@ -560,11 +563,17 @@ namespace rl {
         virtual int doEigenschaftsprobe(const rl::CeGuiString eigenschaftName, int modifier);
         
 		void addEffect(Effect* effect);
-		void damageLe(int tp, int damageType);
+		void damageLe(int tp, int damageType = LEDAMAGE_NORMAL);
         static const int LEDAMAGE_NORMAL = 0;
         static const int LEDAMAGE_FIRE = 1;
         static const int LEDAMAGE_WATER = 2;
         static const int LEDAMAGE_DEMONIC = 4;
+        void damageAu(int aup, int damageType = AUDAMAGE_NORMAL);
+        static const int AUDAMAGE_NORMAL = 0;
+        static const int AUDAMAGE_HEAT = 1;
+        static const int AUDAMAGE_COLD = 2;
+        static const int AUDAMAGE_CHOKE = 4;
+        static const int AUDAMAGE_DROWN = 8;
    };
    
    %feature("director") Person;

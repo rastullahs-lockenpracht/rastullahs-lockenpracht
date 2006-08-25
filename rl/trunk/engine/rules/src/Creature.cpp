@@ -31,7 +31,9 @@ namespace rl
 {
     Creature::Creature(const CeGuiString name, const CeGuiString description)
         : GameObject(name, description), 
-		mCurrentLe(NULL),
+		mCurrentLe(0),
+        mCurrentAu(0),
+        mCurrentAe(0),
 		mActiveWeapon(NULL),
 		mInventory(NULL),
 		mEigenschaften(),
@@ -39,7 +41,19 @@ namespace rl
 		mTalente(),
         mKampftechniken(),
         mSonderfertigkeiten(),
-        mContainer()
+        mContainer(),
+        mErschoepfung(0),
+        mBlind(0),
+        mDead(0),
+        mDeaf(0),
+        mIncapacitated(0),
+        mInvulnerable(0),
+        mInvisible(0),
+        mParalyzed(0),
+        mSilenced(0),
+        mSleeping(0),
+        mUnconscious(0)
+
     {
 		//RlFail("Test");
 		setWert(WERT_MOD_AE, 0);
@@ -213,15 +227,29 @@ namespace rl
 
    void Creature::modifyLe(int mod, bool ignoreMax)
     {
+        int oldLe = mCurrentLe;
         mCurrentLe += mod;
 		if (!ignoreMax)
 			mCurrentLe = min(mCurrentLe, getLeMax());
-		if (mCurrentLe <= 0)
+		if (mCurrentLe <= getWert(WERT_KAMPFUNFAEHIGKEITSSCHWELLE) &&
+            oldLe > getWert(WERT_KAMPFUNFAEHIGKEITSSCHWELLE))
 		{
+            setIncapacitated(true);
 			MeshObject* mo = dynamic_cast<MeshObject*>(getActor()->getControlledObject());
 			mo->stopAllAnimations();
-			mo->startAnimation("Niederschlag/Sturz", 1.0f, 1);
+            ///@todo Sturzanimation aufrufen, sobald sie verfuegbar ist.
+			//mo->startAnimation("Niederschlag/Sturz", 1.0f, 1);
 		}
+        if (mCurrentLe <= 0 &&
+            oldLe > 0)
+        {
+            setUnconscious(true);
+        }
+        if (mCurrentLe <= -getEigenschaft("KO") &&
+            oldLe > -getEigenschaft("KO"))
+        {
+            setDead(true);
+        }
 		fireObjectStateChangeEvent();
     }
 
@@ -273,6 +301,26 @@ namespace rl
     int Creature::getAuMax()
     {
 		return getAuBasis() + getWert(WERT_MOD_AU);
+    }
+
+    void Creature::modifyAp(int modifier)
+    {
+        mAp.total += modifier;
+    }
+    
+    int Creature::getAp()
+    {
+        return mAp.total;
+    }
+    
+    void Creature::modifyUsedAp(int modifier)
+    {
+        mAp.used += modifier;
+    }
+    
+    int Creature::getUsedAp()
+    {
+        return mAp.used;
     }
 
     int Creature::getEigenschaft(const CeGuiString eigenschaftName)
@@ -612,11 +660,18 @@ namespace rl
         else return false;
     }
 
+    bool Creature::isUnconscious()
+    {
+        if (mUnconscious > 0) return true;
+        else return false;
+    }
+
     bool Creature::isImmovable()
     {
         if (isDead() ||
             isParalyzed() ||
-            isSleeping())
+            isSleeping() ||
+            isUnconscious())
             return true;
         else
             return false;
@@ -700,6 +755,12 @@ namespace rl
     {
         setStatus(mSleeping, value,
             "Trying to awake a wake creature.");
+    }
+
+    void Creature::setUnconscious(bool value)
+    {
+        setStatus(mUnconscious, value,
+            "Trying to awake a conscious creature.");
     }
 
     int Creature::doAlternativeTalentprobe(const CeGuiString talentName, int spezialisierungId,
