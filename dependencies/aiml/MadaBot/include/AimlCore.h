@@ -140,7 +140,10 @@ namespace MadaBot
 		try
 		{
 			doc = mParser->parse(pFileName);
-
+            if(doc == NULL)
+			{
+				//throw exception
+			}
 			// interpret the parsed document, use the GraphMaster as processHelper
 			// and add it to the graphlist
 			AimlGraphMaster<S>* graph = new AimlGraphMaster<S>(pFileName);
