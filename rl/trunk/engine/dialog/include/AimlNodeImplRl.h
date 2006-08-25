@@ -25,6 +25,9 @@ namespace rl
 	XERCES_CPP_NAMESPACE_USE
 	class XERCES_CPP_NAMESPACE::DOMNode;
 
+    /**
+     * Implementation of the XmlNode interface for AIML files in Rastullahs Lockenpracht
+     */
 	class AimlNodeImplRl :	public AimlNode<CeGuiString>
 	{
 	public:

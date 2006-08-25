@@ -30,6 +30,9 @@ namespace rl
 	class NaturalLanguageProcessor;
 	class DialogOption;
 
+    /**
+     * The reponse a DialogCharacter can give in a Dialog
+     */
 	class _RlDialogExport DialogResponse
 	{
 	public:

@@ -26,6 +26,9 @@ namespace MadaBot
 using namespace MadaBot;
 namespace rl
 {
+    /**
+     * The selectable options a player can choose from in a Dialog
+     */
 	class _RlDialogExport DialogOption
 	{
 	public:

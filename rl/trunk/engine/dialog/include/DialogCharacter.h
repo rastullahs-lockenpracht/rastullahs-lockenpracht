@@ -31,6 +31,9 @@ namespace rl
 	class Creature;
 	class DialogResponse;
 
+    /**
+     * Representation of a Character that is able to respond in a Dialog
+     */
 	class _RlDialogExport DialogCharacter 
 	{
 	public:

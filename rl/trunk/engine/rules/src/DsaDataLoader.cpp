@@ -46,7 +46,7 @@ namespace rl {
 		XmlHelper::initializeTranscoder();
 		XercesDOMParser* parser = new XercesDOMParser();
 
-        parser->setValidationScheme(XercesDOMParser::Val_Always);    // optional.
+        parser->setValidationScheme(XercesDOMParser::Val_Auto);    // optional.
         parser->setDoNamespaces(true);    // optional
 		
 		XmlPtr res = XmlResourceManager::getSingleton().create(filename, 

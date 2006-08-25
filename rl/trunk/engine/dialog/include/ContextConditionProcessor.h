@@ -25,15 +25,31 @@ using namespace MadaBot;
 
 namespace rl
 {
+    /**
+     * Special ConditionProcessor for processing conditions that are a ChildNode
+     * of a specific gossip context
+     */
 	class ContextConditionProcessor 
 		: public XmlNodeProcessor<Response, AimlBot, CeGuiString, false>
 	{
 	public:
 		ContextConditionProcessor(void); 
-		~ContextConditionProcessor(void);
+		virtual ~ContextConditionProcessor(void);
 		
+        /**
+         * Get the needed Predicates of an AimlBot for preparing the processing of a 
+         * condition
+         */
 		virtual void preprocessStep();
+
+        /**
+         * Evaluates every ChildNode of the condition if it is a ListItem (<li>)
+         */
 		virtual void processChildStep(XmlNode<CeGuiString>* pChild);
+
+        /**
+         * Not used in this processor
+         */
 		virtual void postprocessStep();
 	protected:
 		virtual void initialize();

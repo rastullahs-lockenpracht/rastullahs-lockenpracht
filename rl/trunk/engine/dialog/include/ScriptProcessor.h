@@ -26,7 +26,7 @@ using namespace MadaBot;
 namespace rl
 {
 	/**
-	 * Load a DialogCharacter script
+	 * Processes a ruby script in AIML files
 	 */
 	class ScriptProcessor
 			: public XmlNodeProcessor<Response, AimlBot, CeGuiString, false>

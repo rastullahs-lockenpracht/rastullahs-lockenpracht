@@ -16,6 +16,7 @@
 #include "ContextConditionProcessor.h"
 #include "Creature.h"
 #include "Exception.h"
+#include "Logger.h"
 
 using namespace rl;
 
@@ -95,7 +96,7 @@ void ContextConditionProcessor::processChildStep(XmlNode<CeGuiString>* pChild)
 		mCurrentReturnValue += pChild;
 		result = "true";
 	}
-	LOG_MESSAGE(Logger::DIALOG, logMessage + result);
+	LOG_TRIVIAL(Logger::DIALOG, logMessage + result);
 }
 
 void ContextConditionProcessor::postprocessStep()

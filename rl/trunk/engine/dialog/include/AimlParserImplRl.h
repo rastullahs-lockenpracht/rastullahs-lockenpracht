@@ -23,6 +23,9 @@ using namespace XmlMapper;
 
 namespace rl
 {
+    /**
+     * Implementation of the XmlParser interface for AIML files in Rastullahs Lockenpracht
+     */
 	class AimlParserImplRl : public XmlParser<CeGuiString>
 	{
 	public:
