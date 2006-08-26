@@ -1,4 +1,4 @@
-material SOLID/TEX/door01.dds
+material SOLID/TEX/door01.png
 {
     // hardware blending vs_1_1
     technique

@@ -1,6 +1,4 @@
-
-
-material hebel_01/SOLID/TEX/hebel.dds
+material hebel_01/SOLID/TEX/hebel.png
 {
     // hardware blending vs_1_1
     technique
