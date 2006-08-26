@@ -34,12 +34,11 @@ namespace rl {
  * @date 03-11-2005
  */   
 SoundObject::SoundObject(Sound *sound, const Ogre::String &name)
-    : ActorControlledObject(),
+    : ActorControlledObject(sound),
 	PlaylistObject(),
 	EventListener<SoundEvent>()
 {
     sound->addEventListener(this);
-    mMovableObject = sound;
 }
 
 /**
@@ -57,6 +56,7 @@ SoundObject::~SoundObject()
         getSound()->removeEventListener(this);
 		SoundManager::getSingleton().getActiveDriver()->remove(getSound());
         delete mMovableObject;
+        mMovableObject = NULL;
     }
 }
 

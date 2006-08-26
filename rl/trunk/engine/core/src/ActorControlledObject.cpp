@@ -24,6 +24,11 @@ namespace rl {
         :   mMovableObject(0)
     {
     }
+
+    ActorControlledObject::ActorControlledObject(Ogre::MovableObject* mo)
+        :   mMovableObject(mo)
+    {
+    }
     
     ActorControlledObject::~ActorControlledObject()
     {

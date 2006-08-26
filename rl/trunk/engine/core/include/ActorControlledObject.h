@@ -38,6 +38,7 @@ namespace rl {
     {
     public:
         ActorControlledObject();
+        ActorControlledObject(Ogre::MovableObject* mo);
         virtual ~ActorControlledObject();
         
         /** Diese Methode wird intern benutzt, damit

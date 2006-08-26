@@ -46,9 +46,7 @@ namespace rl {
         Sound(const SoundResourcePtr &soundres);
         /// Destruktor
         virtual ~Sound();
-        /// Name zurueckgeben
-        const Ogre::String& getName() const;
-    
+          
         /// Laedt den Sound.
         virtual void load() throw (RuntimeException) = 0;
         /// Entlaedt den Sound.
@@ -115,7 +113,7 @@ namespace rl {
         virtual const bool isPlaying() const = 0;
 
     protected:
-        /// Die Lautst�rke
+        /// Die Lautstaerke
 	    Ogre::Real mVolume;
         /// Die Position
         Ogre::Vector3 mPosition;
@@ -130,8 +128,6 @@ namespace rl {
     private:
         /// Shared class-level name for Movable type
         static Ogre::AxisAlignedBox msAABox;
-        /// Der Name des Soundchannels
-        Ogre::String mName;
 
         /// Der Soundresource, auf den wir verweisen.
         SoundResourcePtr mSoundResource;

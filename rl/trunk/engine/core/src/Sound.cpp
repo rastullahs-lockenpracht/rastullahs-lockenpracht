@@ -23,31 +23,19 @@ namespace rl
 AxisAlignedBox Sound::msAABox = Ogre::AxisAlignedBox(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
 Sound::Sound(const SoundResourcePtr &soundres)
- : MovableObject(),
+: MovableObject(soundres->getName()),
    EventSource(),
    EventCaster<SoundEvent>(),
    mVolume(1.0),
    mSoundResource(soundres),
    mIsLooping(false),
    mIs3d(false),
-   mTicks(0),
-   mName(soundres->getName()) 
+   mTicks(0)
 {
 }
 
 Sound::~Sound()
 {
-}
-
-
-/**
- * @author JoSch
- * @date 03-11-2005
- * @return Den Namen
- */
-const String& Sound::getName() const
-{
-    return mName;
 }
 
 /**
