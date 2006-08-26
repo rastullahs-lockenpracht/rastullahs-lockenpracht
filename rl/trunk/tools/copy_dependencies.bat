@@ -57,6 +57,7 @@ REM Die restlichen Abhängigkeiten
 REM -----------------------------
 REM 
 copy "%RL_ROOT%\dependencies\fmod\api\fmod.dll" "%RL_DIST%"
+copy "%RL_ROOT%\dependencies\FMOD4\api\fmodex.dll" "%RL_DIST%"
 
 copy "%RL_ROOT%\Dependencies\NewtonSDK\sdk\dll\Newton.dll" "%RL_DIST%"
 copy "%RL_ROOT%\Dependencies\OgreNewt\lib\debug\OgreNewt_d.dll" "%RL_DIST%"
