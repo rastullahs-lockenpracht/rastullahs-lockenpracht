@@ -34,7 +34,7 @@ class Fmod3Sound : public Sound
 	public:
         /// Konstruktor
         Fmod3Sound(Fmod3Driver* driver, const SoundResourcePtr &soundres);
-        ~Fmod3Sound();
+        virtual ~Fmod3Sound();
 
 		/// Moveable-Typ
 		virtual const Ogre::String& getMovableType() const;
