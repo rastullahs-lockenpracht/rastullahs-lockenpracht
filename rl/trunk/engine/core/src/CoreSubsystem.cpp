@@ -110,7 +110,7 @@ namespace rl {
 
     void CoreSubsystem::startCore()
     {
-		loadPlugins();
+        loadPlugins();
 
 		mRubyInterpreter->executeFile("globals.rb");
 		mRubyInterpreter->executeFile("startup-global.rb");
@@ -146,8 +146,10 @@ namespace rl {
 
         Root::getSingleton().startRendering();
 
+        mWorld->clearScene();
+        unloadPlugins();
+
         //mRubyInterpreter->finalizeInterpreter();
-		unloadPlugins();
     }
 
     bool CoreSubsystem::setupConfiguration()

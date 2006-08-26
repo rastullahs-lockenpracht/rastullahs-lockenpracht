@@ -590,15 +590,18 @@ namespace rl {
 
     void Actor::doDetach(Actor* actor)
     {
-        if( mChilds.find(actor) == mChilds.end() )
+        if (mChilds.find(actor) == mChilds.end())
+        {
             Throw(IllegalArgumentException,
-            "Aktor "+mName+": Der Aktor ist kein Kind dieses Aktors");
+                "Aktor " + mName + ": Der Aktor ist kein Kind dieses Aktors");
+        }
 
         // Ist es an einem Bone angefügt
-        if( actor->mBone && mActorControlledObject && mActorControlledObject->isMeshObject()   )
+        if (actor->mBone && mActorControlledObject && mActorControlledObject->isMeshObject())
         {
             MovableObject* movObj = actor->getControlledObject()->getMovableObject();
-            dynamic_cast<MeshObject*>(getControlledObject())->getEntity()->detachObjectFromBone(movObj);
+            dynamic_cast<MeshObject*>(getControlledObject())
+                ->getEntity()->detachObjectFromBone(movObj);
             actor->mBone = 0;
             return;
         }
