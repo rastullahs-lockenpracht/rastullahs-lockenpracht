@@ -23,6 +23,8 @@
 #include "SoundDriver.h"
 #include "SoundManager.h"
 #include "Logger.h"
+#include "CoreSubsystem.h"
+#include "World.h"
 
 using namespace Ogre;
 
@@ -39,6 +41,9 @@ SoundObject::SoundObject(Sound *sound, const Ogre::String &name)
 	EventListener<SoundEvent>()
 {
     sound->addEventListener(this);
+    // The movable has to be registered with the Ogre scene manager, since it is not
+    // created by it.
+    CoreSubsystem::getSingletonPtr()->getWorld()->getSceneManager()->injectMovableObject(sound);
 }
 
 /**
