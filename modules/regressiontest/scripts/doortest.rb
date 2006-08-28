@@ -1,5 +1,5 @@
 require 'util/vector_util.rb'
-require 'TestCase.rb'
+require 'testcase.rb'
 require 'door.rb'
 require 'switch.rb'
 
