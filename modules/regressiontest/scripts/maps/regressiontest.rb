@@ -15,6 +15,6 @@ $hero.getActor().placeIntoScene([0.0, 0.2, 0.0])
 PlayerSettings.preparePlayer($hero)
 $UI.setActiveCharacter($hero)
 
-DoorTest.new([0.0, 0.0, 5.0])
+DoorTest.new([0.0, 0.0, -5.0])
 
 $SCRIPT.log("map 'regressiontest' initialisiert.")
