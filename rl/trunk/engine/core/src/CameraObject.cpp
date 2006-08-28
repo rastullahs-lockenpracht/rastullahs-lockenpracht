@@ -55,15 +55,4 @@ namespace rl {
         Real r = getCamera()->getNearClipDistance();
         return AxisAlignedBox(2.0*Vector3(-r, -r, -r), 2.0*Vector3(r, r, r));
     }
-
-    Entity* CameraObject::getEntity() const
-    {
-        Throw(rl::OperationNotSupportedException, "CameraObject::getEntity not implemented.");
-    }
-
-    AxisAlignedBox CameraObject::getPoseSize(const String&)
-    {
-        Throw(OperationNotSupportedException,
-            "CameraObject::calculateSizeFromPose not implemented.");
-    }
 }

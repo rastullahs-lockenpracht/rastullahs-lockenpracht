@@ -23,12 +23,14 @@
 
 namespace rl {
 
-	class _RlCoreExport PhysicalObject : public ActorControlledObject
+	/** PhysicalObject is a class of controlled Objects, which are physically present
+     *  as in "They are tangible". PhysicalObjects all have a size.
+     */ 
+    class _RlCoreExport PhysicalObject : public ActorControlledObject
     {
     public:
+        /// Returns the AABB of the object in its default state.
 		virtual Ogre::AxisAlignedBox getDefaultSize() const = 0;
-        virtual Ogre::AxisAlignedBox getPoseSize(const Ogre::String& animationName) = 0;
-		virtual Ogre::Entity* getEntity() const = 0;
     };
 }
 #endif

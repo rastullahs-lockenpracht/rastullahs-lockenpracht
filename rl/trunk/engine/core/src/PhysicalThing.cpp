@@ -28,7 +28,7 @@ using namespace OgreNewt::CollisionPrimitives;
 namespace rl
 {
 	PhysicalThing::PhysicalThing(
-		PhysicsManager::GeometryTypes geomType, PhysicalObject* po, Real mass, bool hullModifier) 
+		PhysicsManager::GeometryTypes geomType, PhysicalObject* po, Real mass, bool hullModifier)
 		:
 		mActor(NULL),
         mBody(NULL),
@@ -125,7 +125,8 @@ namespace rl
 
     void PhysicalThing::_update()
     {
-        mBody->setPositionOrientation(mActor->_getSceneNode()->getWorldPosition() + mBody->getOffset(),
+        mBody->setPositionOrientation(
+            mActor->_getSceneNode()->getWorldPosition() + mBody->getOffset(),
             mOrientationBias.Inverse() * mActor->_getSceneNode()->getWorldOrientation());
 		mActor->_update(Actor::UF_ALL & ~Actor::UF_PHYSICAL_THING);
     }
@@ -224,7 +225,8 @@ namespace rl
         Entity* entity = static_cast<Entity*>(mActor->_getMovableObject());
         entity->_updateAnimation();
         Node* node = entity->getParentNode();
-        RlAssert(node, "Actor has to be placed in the scene in order to update its collision hull.");
+        RlAssert(node,
+            "Actor has to be placed in the scene in order to update its collision hull.");
         
 
         Vector3 position;
@@ -323,30 +325,38 @@ namespace rl
 		Quaternion orientationBias;
 		CollisionPtr coll;
         
-        AxisAlignedBox size = mPhysicalObject->getPoseSize(name);
-
-        // Do we already have a collision for the wanted pose?
-        CollisionMap::iterator it = mPoseCollisions.find(name);
-        if (it == mPoseCollisions.end())
+        if (mPhysicalObject->isMeshObject())
         {
-            // No, so create it and put it into the map
-            coll = createCollision(size, &offset, &orientationBias);
-            mPoseCollisions.insert(make_pair(name, coll));
+            MeshObject* meshObject = dynamic_cast<MeshObject*>(mPhysicalObject);
+            AxisAlignedBox size = meshObject->getPoseSize(name);
+
+            // Do we already have a collision for the wanted pose?
+            CollisionMap::iterator it = mPoseCollisions.find(name);
+            if (it == mPoseCollisions.end())
+            {
+                // No, so create it and put it into the map
+                coll = createCollision(size, &offset, &orientationBias);
+                mPoseCollisions.insert(make_pair(name, coll));
+            }
+            else
+            {
+                // Yes
+                coll = it->second;
+                offset = size.getCenter();
+                orientationBias = Quaternion::IDENTITY;
+            }
+            setOffset(offset);
+            mBody->setCollision(coll);
+            mOrientationBias = orientationBias;
+
+            // Set body-position so, that node-position is invariant.
+            setPosition(mActor->_getSceneNode()->_getDerivedPosition() +
+                mActor->_getSceneNode()->_getDerivedOrientation() * offset);
         }
         else
         {
-            // Yes
-            coll = it->second;
-			offset = size.getCenter();
-			orientationBias = Quaternion::IDENTITY;
+            Throw(IllegalArgumentException, "Poses are only supported by MeshObjects.");
         }
-		setOffset(offset);
-        mBody->setCollision(coll);
-		mOrientationBias = orientationBias;
-        
-        // Set body-position so, that node-position is invariant.
-		setPosition(mActor->_getSceneNode()->_getDerivedPosition() +
-            mActor->_getSceneNode()->_getDerivedOrientation() * offset);
     }
 
 	OgreNewt::CollisionPtr PhysicalThing::createCollision(
@@ -435,23 +445,40 @@ namespace rl
 		}
         else if (mGeometryType == PhysicsManager::GT_CONVEXHULL)
         {
-            rval = CollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(physWorld,
-                mPhysicalObject->getEntity(), true));
+            if (mPhysicalObject->isMeshObject())
+            {
+                Entity* entity = dynamic_cast<MeshObject*>(mPhysicalObject)->getEntity();
+                rval = CollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(physWorld,
+                    entity, true));
 
-			if (offset != NULL)
-			{
-				*offset = Vector3::ZERO;
-			}
+			    if (offset != NULL)
+			    {
+				    *offset = Vector3::ZERO;
+			    }
+            }
+            else
+            {
+                Throw(IllegalArgumentException, "ConvexHull not possible for non-mesh objects.");
+            }
         }
         else if (mGeometryType == PhysicsManager::GT_MESH)
         {
-            rval = CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision(physWorld,
-                mPhysicalObject->getEntity(), false, true));
+            if (mPhysicalObject->isMeshObject())
+            {
+                Entity* entity = dynamic_cast<MeshObject*>(mPhysicalObject)->getEntity();
+                rval = CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision(physWorld,
+                    entity, false, true));
 
-			if (offset != NULL)
-			{
-				*offset = Vector3::ZERO;
-			}
+                if (offset != NULL)
+                {
+                    *offset = Vector3::ZERO;
+                }
+            }
+            else
+            {
+                Throw(IllegalArgumentException,
+                    "TreeCollision not possible for non-mesh objects.");
+            }
         }
         else
         {
@@ -475,9 +502,11 @@ namespace rl
 			Quaternion orientationBias;
             Vector3 inertiaCoefficients;
 			Vector3 offset;
-			OgreNewt::CollisionPtr coll = createCollision(aabb, &offset, &orientationBias, &inertiaCoefficients);
+			OgreNewt::CollisionPtr coll = createCollision(aabb, &offset,
+                &orientationBias, &inertiaCoefficients);
 
-			OgreNewt::Body* body = new OgreNewt::Body(PhysicsManager::getSingleton()._getNewtonWorld(), coll);
+			OgreNewt::Body* body = new OgreNewt::Body(
+                PhysicsManager::getSingleton()._getNewtonWorld(), coll);
 
 			Ogre::Real mass = mMass;
 			if (mass > 0.0 && mGeometryType != PhysicsManager::GT_MESH)
