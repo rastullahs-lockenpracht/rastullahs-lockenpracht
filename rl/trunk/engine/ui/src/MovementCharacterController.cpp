@@ -195,11 +195,11 @@ namespace rl {
 			mDesiredDistance = mDistanceRange.second;
 		}
 
-		mPitch += Degree(mRotationSpeed * im->getMouseRelativeY() * 2.0 * elapsedTime);
+		mPitch += Degree(mRotationSpeed * im->getMouseRelativeY() * 0.1);
 		if (mPitch < mPitchRange.first) mPitch = mPitchRange.first;
 		if (mPitch > mPitchRange.second) mPitch = mPitchRange.second;
 
-		mYaw -= Degree(mRotationSpeed * im->getMouseRelativeX() * 2.0 * elapsedTime);
+		mYaw -= Degree(mRotationSpeed * im->getMouseRelativeX() * 0.1);
 
 		SceneNode* cameraNode = mCamera->_getSceneNode();
 
