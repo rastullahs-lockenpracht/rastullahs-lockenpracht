@@ -27,7 +27,8 @@ namespace rl {
 		:   mSceneMgr(0),
             mCamera(0),
             mSceneFile(),
-	        mActiveActor(0)
+	        mActiveActor(0),
+            mUniqueNameSeed(0)
 	{
         mSceneMgr = Root::getSingleton()
             .createSceneManager(sceneType, "world_sm");
@@ -129,6 +130,11 @@ namespace rl {
     void World::setShowBoundingBoxes( bool dis ) 
     {
         mSceneMgr->showBoundingBoxes( dis );
+    }
+
+    Ogre::String World::getUniqueName()
+    {
+        return "__RL_WORLD_UNIQUE_NAME__" + StringConverter::toString(++mUniqueNameSeed);
     }
 
     void World::addSceneChangeListener(SceneChangeListener* listener)

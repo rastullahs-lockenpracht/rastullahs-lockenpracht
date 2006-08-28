@@ -109,6 +109,9 @@ public:
 	rl::Actor* createMeshActor(const Ogre::String& name, const Ogre::String& meshname,
 		    rl::PhysicsManager::GeometryTypes geom = rl::PhysicsManager::GT_NONE,
 		    Ogre::Real density=1.0);
+	rl::Actor* createBoxPrimitiveActor(const Ogre::String& name,
+            const Ogre::Vector3& minCorner, const Ogre::Vector3& maxCorner,
+            const Ogre::String& materialName = "", Ogre::Real mass = 0.0);
 		    
 	//void createDebugActors();
 	    

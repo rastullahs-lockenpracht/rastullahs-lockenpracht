@@ -52,6 +52,11 @@ namespace rl {
             Ogre::Real mass = 1.0);
         Actor* createParticleSystemActor(const Ogre::String& name, 
             const Ogre::String& partname);
+
+        Actor* createBoxPrimitiveActor(const Ogre::String& name,
+            const Ogre::Vector3& minCorner, const Ogre::Vector3& maxCorner,
+            const Ogre::String& materialName = Ogre::StringUtil::BLANK, Ogre::Real mass = 0.0);
+
         //void createDebugActors();
         void destroyActor(Actor* actor);
 
@@ -60,7 +65,8 @@ namespace rl {
         void setWorld(World* world);
         const World* const getWorld() const;
 
-        Actor* getActorAt(Ogre::Real x, Ogre::Real y, Ogre::Real width, Ogre::Real length, bool infinite = false);
+        Actor* getActorAt(Ogre::Real x, Ogre::Real y, Ogre::Real width,
+            Ogre::Real length, bool infinite = false);
 
         // View Distance
         Ogre::Real getDefaultActorRenderingDistance() const;

@@ -263,6 +263,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\BoxPrimitive.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\CameraObject.h"
 				>
 			</File>
@@ -391,6 +395,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\PrimitiveObject.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\RubyInterpreter.h"
 				>
 			</File>
@@ -473,6 +481,10 @@
 			</File>
 			<File
 				RelativePath=".\src\BaseAnimation.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\BoxPrimitive.cpp"
 				>
 			</File>
 			<File
@@ -589,6 +601,10 @@
 			</File>
 			<File
 				RelativePath=".\src\PhysicsMaterialRaycast.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\PrimitiveObject.cpp"
 				>
 			</File>
 			<File

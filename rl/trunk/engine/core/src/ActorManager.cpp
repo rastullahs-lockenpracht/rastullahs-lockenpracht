@@ -24,6 +24,7 @@
 #include "ListenerMovable.h"
 #include "ListenerObject.h"
 #include "MeshObject.h"
+#include "BoxPrimitive.h"
 #include "MovableText.h"
 #include "PhysicalThing.h"
 #include "ScriptWrapper.h"
@@ -326,16 +327,16 @@ namespace rl {
         PhysicsManager::GeometryTypes geomType, Ogre::Real mass)
     {
         const String&  uniquename = nextUniqueName(name);
+        Actor* actor = NULL;
 
         try
         {
-            PhysicalThing* pt = 0;
             MeshObject* mo = new MeshObject(uniquename, meshname);
-            pt = PhysicsManager::getSingleton().createPhysicalThing( geomType, mo, mass);
+            PhysicalThing* pt = PhysicsManager::getSingleton()
+                .createPhysicalThing( geomType, mo, mass);
 
-            Actor* actor = new Actor(uniquename, mo, pt);
+            actor = new Actor(uniquename, mo, pt);
             mActors.insert(ActorPtrPair(uniquename,actor)); 
-            return actor;
         }
         catch (Ogre::Exception& e)
         {
@@ -351,12 +352,43 @@ namespace rl {
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getMessage());
         }
-        throw(0);
+        return actor;
+    }
+
+    Actor* ActorManager::createBoxPrimitiveActor(const Ogre::String& name,
+        const Ogre::Vector3& minCorner, const Ogre::Vector3& maxCorner,
+        const Ogre::String& materialName, Ogre::Real mass)
+    {
+        const String uniquename = nextUniqueName(name);
+        AxisAlignedBox size = AxisAlignedBox(minCorner, maxCorner);
+        Actor* actor = NULL;
+        try
+        {
+            BoxPrimitive* bp = new BoxPrimitive(size, uniquename, materialName);
+            PhysicalThing* pt = PhysicsManager::getSingleton()
+                .createPhysicalThing(PhysicsManager::GT_BOX, bp, mass);
+
+            actor = new Actor(uniquename, bp, pt);
+            mActors.insert(ActorPtrPair(uniquename,actor)); 
+        }
+        catch (Ogre::Exception& e)
+        {
+            LOG_ERROR(Logger::CORE, "ActorManager - Das BoxPrimitive für den Aktor '"
+                + uniquename + "' konnte nicht erstellt werden. Grund: "
+                + e.getFullDescription());
+        }
+        catch (rl::Exception& e)
+        {
+            LOG_ERROR(Logger::CORE, "ActorManager - Das BoxPrimitive für den Aktor '"
+                + uniquename + "' konnte nicht erstellt werden. Grund: "
+                + e.getMessage());
+        }
+        return actor;
     }
 
     Actor* ActorManager::createParticleSystemActor(const String& name,const String& partname)
     {
-        const String&  uniquename = nextUniqueName(name);
+        const String& uniquename = nextUniqueName(name);
 
         Actor* actor = 0;
         try

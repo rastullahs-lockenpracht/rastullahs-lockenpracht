@@ -38,7 +38,7 @@ namespace rl {
     public:
         enum FogMode { FOG_NONE, FOG_EXP, FOG_EXP2, FOG_LINEAR  };
 
-        World() : mSceneMgr(0), mCamera(0), mActiveActor(0) {}
+        World() : mSceneMgr(0), mCamera(0), mActiveActor(0), mUniqueNameSeed(0) {}
 
         /**@todo Klaeren, wer für Zerstoerung von mCamera und mSceneMgr
         *verantwortlich ist. */
@@ -100,11 +100,15 @@ namespace rl {
 
         void addSceneChangeListener(SceneChangeListener*);
         void removeSceneChangeListener(SceneChangeListener*);
+
+        /// Returns a name not yet used for an Ogre object.
+        Ogre::String getUniqueName();
     protected:
         Ogre::SceneManager* mSceneMgr;
         Ogre::Camera* mCamera;
 
 		std::string mSceneFile;
+        unsigned long mUniqueNameSeed;
 
         Actor* mActiveActor;
 
