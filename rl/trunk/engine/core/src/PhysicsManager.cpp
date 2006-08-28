@@ -78,6 +78,9 @@ namespace rl
         mCharLevelPair = new OgreNewt::MaterialPair(mWorld, mCharacterID, mLevelID);
         mCharLevelPair->setDefaultFriction(0, 0);
 
+        mCharDefaultPair = new OgreNewt::MaterialPair(mWorld, mCharacterID, defaultID);
+        mCharDefaultPair->setDefaultFriction(0, 0);
+
         // setup material: char<->cam. there should be no collision
         mCharCharPair = new OgreNewt::MaterialPair(mWorld, mCharacterID, mCharacterID);
         mCharCharPair->setDefaultCollidable(0);
@@ -301,6 +304,18 @@ namespace rl
         else
         {
             mCharLevelPair->setContactCallback(PhysicsManager::mGenericCallback);
+        }
+    }
+
+    void PhysicsManager::setCharDefaultContactCallback(PhysicsGenericContactCallback* callback)
+    {
+        if (callback != NULL)
+        {
+            mCharDefaultPair->setContactCallback(callback);
+        }
+        else
+        {
+            mCharDefaultPair->setContactCallback(PhysicsManager::mGenericCallback);
         }
     }
 

@@ -109,16 +109,15 @@ namespace rl {
 			mCharacterActor->getPhysicalThing(), this);
 		PhysicsManager::getSingleton().setPhysicsController(
 			mCamera->getPhysicalThing(), this);
-        // We also handle char<->level collision from now on
+        // We also handle char<->level, char<->default collision from now on
         PhysicsManager::getSingleton().setCharLevelContactCallback(this);
+        PhysicsManager::getSingleton().setCharDefaultContactCallback(this);
 		// Fit Collision proxy to idle anim
         mCharacterActor->getPhysicalThing()->fitToPose("idle");
 
         MeshObject* mesh = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
 		mesh->stopAllAnimations();
 		mesh->startAnimation("idle");
-
-		//mSelection = new TargetSelection(mCharacterActor, mCamera);
 
 		setViewMode(VM_THIRD_PERSON);
 	}
@@ -134,7 +133,8 @@ namespace rl {
 			mCamera->getPhysicalThing(), NULL);
         // Char<->Level collision back to default
         PhysicsManager::getSingleton().setCharLevelContactCallback(NULL);
-		//delete mSelection;
+        // Char<->Default collision back to default
+        PhysicsManager::getSingleton().setCharDefaultContactCallback(NULL);
 
         if (DebugWindow::getSingletonPtr())
         {
@@ -490,18 +490,6 @@ namespace rl {
 			// how fast has the camera to be,
 			// in order to get there in mMaxDelay seconds?
 			Vector3 vel = diff / mMaxDelay;
-			//Ogre::Real speed = vel.length();
-
-			//// adjust scale of camera collision according to the velocity vector
-			//// Use the pointer directly here. This is save, since we don't store
-			//// a copy of it.
-			//OgreNewt::CollisionPrimitives::HullModifier* hc =
-			//	static_cast<OgreNewt::CollisionPrimitives::HullModifier*>(
-			//	mCamBody->getCollision().getPointer());
-			//Matrix4 mat = Matrix4::getScale(
-			//	Vector3(1.0f, 1.0f, 1.0f) 
-			//	+ (speed == 0 ? Vector3::ZERO : 3.0f * vel / speed));
-			//hc->setMatrix(mat);
 
 			// calcuate force and apply it
 			Real mass;
