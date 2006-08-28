@@ -21,7 +21,7 @@
 namespace rl
 {
 	SubtitleWindow::SubtitleWindow()
-		: CeGuiWindow("subtitlewindow.xml", WND_SHOW)
+		: CeGuiWindow("subtitlewindow.xml", WND_SHOW, false)
 	{
 		mSubtitle = getMultiLineEditbox("SubtitleWindow/Text");
 	}

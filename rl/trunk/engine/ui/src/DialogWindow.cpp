@@ -45,7 +45,7 @@ const CeGuiString DialogWindow::DIALOG_EXIT = "EXIT";
 
 DialogWindow::DialogWindow(DialogCharacter* bot, GameLoggerWindow* gamelogger,
                            DialogCharacterController* controller)
-  : CeGuiWindow("dialogwindow.xml", WND_MOUSE_INPUT),
+  : CeGuiWindow("dialogwindow.xml", WND_MOUSE_INPUT, false),
 	mBot(bot), 
 	mCurrentResponse(NULL),
     mCurrentResponseText(""),
@@ -136,9 +136,9 @@ void DialogWindow::getResponse(const CeGuiString& msg)
 		mQuestion->getListboxItemFromIndex(0)->setText(DIALOG_END);
 		mQuestion->getListboxItemFromIndex(1)->setText("");
 		mState = CLOSING_DIALOG;
-	//	übergangslösung, wenn gerade kein sprecher aktiv ist wird 
+	//	ï¿½bergangslï¿½sung, wenn gerade kein sprecher aktiv ist wird 
 	//	nicht nicht textFinished aufgerufen
-    //  hier müsste wahrscheinlich requestClose auftauchen
+    //  hier mï¿½sste wahrscheinlich requestClose auftauchen
 		handleClose();
 		return;
 	}
