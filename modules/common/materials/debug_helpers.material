@@ -1,3 +1,24 @@
+material DefaultDebugPrimitiveMaterial
+{
+   technique
+   {
+      pass
+      {
+         depth_write off
+         scene_blend alpha_blend
+
+         //cull_software none
+         //cull_hardware none
+
+         texture_unit
+         {
+            colour_op_ex source1 src_manual src_current 1.0 0.5 1.0
+            alpha_op_ex source1 src_manual src_current 0.6
+         }
+      }
+   }
+}
+
 material alpha_purple
 {
    technique
