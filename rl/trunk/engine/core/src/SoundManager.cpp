@@ -255,7 +255,7 @@ ListenerObject* SoundManager::getListener() const
     return mActiveListener;
 }
 
-Actor* SoundManager::getListenerActor()
+Actor* SoundManager::createListenerActor()
 {
 	if (mListenerActor == NULL)
 	{
@@ -267,9 +267,17 @@ Actor* SoundManager::getListenerActor()
 		mListenerActor = ActorManager::getSingleton().createListenerActor("SoundListenerObject");
 		mActiveListener = static_cast<ListenerObject*>(mListenerActor->getControlledObject());
 		mActiveListener->getListener()->setActive(true);
+	    return mListenerActor;
 	}
+    else
+    {
+        Throw(IllegalStateException, "ListenerActor already created.");
+    }
+}
 
-	return mListenerActor;
+Actor* SoundManager::getListenerActor()
+{
+    return mListenerActor;
 }
 
 /** 

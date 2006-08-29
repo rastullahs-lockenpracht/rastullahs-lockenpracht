@@ -72,6 +72,9 @@ class _RlCoreExport SoundManager : public Ogre::ResourceManager,
 
 	    /// Den aktiven Listener zurückgeben.
 		ListenerObject* getListener() const;
+        /// Creates the listener actor.
+		Actor* createListenerActor();
+        /// Returns the listener actor, if it exists. Else returns NULL.
 		Actor* getListenerActor();
 		void _clearListenerActor();		
 

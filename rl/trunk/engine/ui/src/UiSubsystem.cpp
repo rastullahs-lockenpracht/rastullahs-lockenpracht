@@ -171,6 +171,12 @@ namespace rl {
 
 	void UiSubsystem::setActiveCharacter(Person* person)
 	{
+        // Ensure we have a sound listener
+        if (SoundManager::getSingleton().getListenerActor() == NULL)
+        {
+            SoundManager::getSingleton().createListenerActor();
+        }
+
         // Nur wenn es sich verändert hat
         if( person != mCharacter )
         {
