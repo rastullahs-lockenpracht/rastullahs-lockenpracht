@@ -22,8 +22,9 @@
 #include "PhysicsController.h"
 #include "PhysicsGenericContactCallback.h"
 #include "CharacterController.h"
+#include "DebugVisualisable.h"
 
-#undef sleep
+//#undef sleep
 
 #include <deque>
 
@@ -41,7 +42,8 @@ namespace rl {
     class _RlUiExport MovementCharacterController
 	  : public CharacterController,
 		public PhysicsController,
-        public PhysicsGenericContactCallback
+        public PhysicsGenericContactCallback,
+        public DebugVisualisable
     {
     public:
         typedef enum {VM_THIRD_PERSON, VM_FIRST_PERSON} ViewMode;
@@ -78,6 +80,13 @@ namespace rl {
 		virtual bool injectKeyClicked(int keycode);		
 		virtual bool injectKeyDown(int keycode);
 		virtual bool injectKeyUp(int keycode);		
+
+        // Overrides from DebugVisualisable
+        virtual DebugVisualisableFlag getFlag() const;
+        virtual void updatePrimitive();
+
+    protected:
+        virtual void doCreatePrimitive();
 
     private:
 

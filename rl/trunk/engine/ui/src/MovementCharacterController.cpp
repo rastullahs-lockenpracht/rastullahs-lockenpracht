@@ -43,7 +43,7 @@
 #include "PhysicalThing.h"
 #include "TargetSelection.h"
 #include "World.h"
-
+#include "LineSetPrimitive.h"
 
 #include <numeric>
 
@@ -139,6 +139,12 @@ namespace rl {
         if (DebugWindow::getSingletonPtr())
         {
             DebugWindow::getSingletonPtr()->unregisterPage(msDebugWindowPageName);
+        }
+
+        // Remove debug scene node from character node, if debugview was used.
+        if (mSceneNode != NULL && mSceneNode->getParent() != NULL)
+        {
+            mCharacterActor->_getSceneNode()->removeChild(mSceneNode);
         }
 	}
 
@@ -727,4 +733,27 @@ namespace rl {
             return false;
         }
 	}
+
+    DebugVisualisableFlag MovementCharacterController::getFlag() const
+    {
+        return DVF_CONTROL;
+    }
+
+    void MovementCharacterController::updatePrimitive()
+    {
+        if (mSceneNode->getParent() == NULL)
+        {
+            mCharacterActor->_getSceneNode()->addChild(mSceneNode);
+        }
+
+        LineSetPrimitive* lineSet = static_cast<LineSetPrimitive*>(mPrimitive);
+        lineSet->clear();
+        lineSet->addLine(mLookAtOffset, mLookAtOffset + Vector3(0, 1.2, 0), ColourValue::Red);
+        lineSet->addLine(Vector3::ZERO, mGravitation * 0.1, ColourValue::Green);
+    }
+
+    void MovementCharacterController::doCreatePrimitive()
+    {
+        mPrimitive = new LineSetPrimitive();
+    }
 }

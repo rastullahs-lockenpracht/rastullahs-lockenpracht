@@ -39,6 +39,7 @@
 #include "ScriptWrapper.h"
 #include "SoundManager.h"
 #include "SoundUpdateTask.h"
+#include "DebugVisualsManager.h"
 
 #include <ctime>
 
@@ -83,7 +84,8 @@ namespace rl {
         mActorManager(NULL),
         mGameEventManager(NULL),
         mConfigurationManager(NULL),
-		mSoundManager(NULL)
+		mSoundManager(NULL),
+        mDebugVisualsManager(NULL)
     {
         resetClock();
         initializeCoreSubsystem();        
@@ -94,11 +96,12 @@ namespace rl {
     {  
 		mCoreEventCaster.removeEventListeners();
 
-        delete mWorld;        
+        delete mWorld;
         delete mActorManager;
         delete mGameEventManager;
         delete mAnimationManager;
         delete mGameLoopManager;
+        delete mDebugVisualsManager;
         delete mPhysicsManager;
         delete mXmlResourceManager;
         delete mScriptWrapper;
@@ -240,17 +243,17 @@ namespace rl {
         mWorld = new DotSceneOctreeWorld();
 		mActorManager->setWorld(mWorld);
 
-		mPhysicsManager = new PhysicsManager();
-        
-        GameLoopManager::getSingleton().addSynchronizedTask(
-            PhysicsManager::getSingletonPtr(), FRAME_STARTED);
+		mPhysicsManager = new PhysicsManager();        
+        GameLoopManager::getSingleton().addSynchronizedTask(mPhysicsManager, FRAME_STARTED);
+
         mAnimationManager = new AnimationManager();
-        GameLoopManager::getSingleton().addSynchronizedTask(
-            AnimationManager::getSingletonPtr(), FRAME_STARTED);
+        GameLoopManager::getSingleton().addSynchronizedTask(mAnimationManager, FRAME_STARTED);
+
         mGameEventManager = new GameEventManager();
-        GameLoopManager::getSingleton().addSynchronizedTask(
-            GameEventManager::getSingletonPtr(), FRAME_STARTED);
+        GameLoopManager::getSingleton().addSynchronizedTask(mGameEventManager, FRAME_STARTED);
         
+        mDebugVisualsManager = new DebugVisualsManager();
+        GameLoopManager::getSingleton().addSynchronizedTask(mDebugVisualsManager, FRAME_STARTED);
 
 		return true;
     }

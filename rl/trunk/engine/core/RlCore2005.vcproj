@@ -303,6 +303,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\DebugVisualisable.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\DebugVisualsManager.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\DotSceneLoader.h"
 				>
 			</File>
@@ -340,6 +348,10 @@
 			</File>
 			<File
 				RelativePath=".\include\LightObject.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\LineSetPrimitive.h"
 				>
 			</File>
 			<File
@@ -520,6 +532,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\DebugVisualisable.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\DebugVisualsManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\DotSceneLoader.cpp"
 				>
 			</File>
@@ -557,6 +577,10 @@
 			</File>
 			<File
 				RelativePath=".\src\LightObject.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\LineSetPrimitive.cpp"
 				>
 			</File>
 			<File

@@ -44,6 +44,7 @@ class GameEventManager;
 class XmlResourceManager;
 class ConfigurationManager;
 class SoundManager;
+class DebugVisualsManager;
 
 typedef _RlCoreExport std::map<Ogre::String, ContentModule*> ModuleMap;
 
@@ -133,6 +134,7 @@ private:
     GameEventManager* mGameEventManager;
     ConfigurationManager* mConfigurationManager;
 	SoundManager* mSoundManager;
+    DebugVisualsManager* mDebugVisualsManager;
 
     /** Runs the setup methods  */
 	bool initializeCoreSubsystem();

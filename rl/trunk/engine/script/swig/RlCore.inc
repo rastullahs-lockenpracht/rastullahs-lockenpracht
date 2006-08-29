@@ -612,6 +612,19 @@ public:
     bool isDebugMode() const;
 };
 
+class DebugVisualsManager
+{
+public:
+    DebugVisualsManager();
+    static DebugVisualsManager& getSingleton(void);
+
+    void show(unsigned long flags);
+    void hide(unsigned long flags);
+    void showAll();
+    void hideAll();
+    void toggleAll();
+};
+    
 %feature("director") ContentModule; 
 class ContentModule
 {

@@ -32,6 +32,7 @@
 #include "PhysicalThing.h"
 #include "PhysicsManager.h"
 #include "PhysicsContactListener.h"
+#include "DebugVisualsManager.h"
 #include "GameEventManager.h"
 #include "GameAreaEventSource.h"
 #include "GameAreaListener.h"
