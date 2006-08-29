@@ -1,3 +1,15 @@
+material AmbientVertexColour
+{
+   technique
+   {
+      pass
+      {
+         ambient vertexcolour
+         diffuse vertexcolour
+      }
+   }
+}
+
 material DefaultDebugPrimitiveMaterial
 {
    technique

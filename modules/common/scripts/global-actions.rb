@@ -112,6 +112,22 @@ class ToggleCollisionDebugAction < Action
   end
 end
 
+class ToggleDebugVisualisationAction < Action
+  def initialize
+    super("toggledebugvisualisation", "Debug-Helfer anzeigen")
+    @isShown = false
+  end
+  
+  def doAction(object, actor, target)
+    if @isShown:
+      $DVM.hideAll()
+    else
+      $DVM.showAll()
+    end
+    @isShown = (@isShown == false)
+  end
+end
+
 class ToggleCharacterStateWindowAction < Action
     def initialize
         super("togglecharacterstatewindow", "Charakterstatus zeigen/verstecken")
