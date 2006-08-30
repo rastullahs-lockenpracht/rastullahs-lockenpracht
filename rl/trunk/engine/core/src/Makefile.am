@@ -9,6 +9,7 @@ libRlCore_la_SOURCES = \
 	AnimationListener.cpp \
 	AnimationManager.cpp \
 	BaseAnimation.cpp \
+	BoxPrimitive.cpp \
 	CameraObject.cpp \
 	ConfigurationManager.cpp \
 	ConfigurationManagerLinux.cpp \
@@ -17,6 +18,8 @@ libRlCore_la_SOURCES = \
 	ContentModule.cpp \
 	CoreEvents.cpp \
 	CoreSubsystem.cpp \
+	DebugVisualisable.cpp \
+	DebugVisualsManager.cpp \
 	DotSceneLoader.cpp \
 	DotSceneOctreeWorld.cpp \
 	FadeAnimation.cpp \
@@ -27,7 +30,9 @@ libRlCore_la_SOURCES = \
 	GameEventManager.cpp \
 	GameLoop.cpp \
 	LightObject.cpp \
+	LineSetPrimitive.cpp \
 	ListenerObject.cpp \
+	ListenerMovable.cpp \
 	MeshAnimation.cpp \
 	MeshObject.cpp \
 	MovableText.cpp \
@@ -37,13 +42,12 @@ libRlCore_la_SOURCES = \
 	PhysicsGenericContactCallback.cpp \
 	PhysicsManager.cpp \
 	PhysicsMaterialRaycast.cpp \
-	Primitive.cpp \
+	PrimitiveObject.cpp \
 	RubyInterpreter.cpp \
 	SoundManager.cpp \
 	SoundObject.cpp \
 	SoundUpdateTask.cpp \
 	SoundDriver.cpp \
-	ListenerMovable.cpp \
 	Sound.cpp \
 	SoundEvents.cpp \
 	SoundResource.cpp \

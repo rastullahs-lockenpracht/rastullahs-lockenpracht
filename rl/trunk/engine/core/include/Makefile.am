@@ -5,6 +5,7 @@
 	AnimationListener.h \
 	AnimationManager.h \
 	BaseAnimation.h \
+	BoxPrimitive.h \
 	CameraObject.h \
 	ConfigurationManager.h \
 	ConfigurationManagerLinux.h \
@@ -14,6 +15,8 @@
 	CoreEvents.h \
 	CorePrerequisites.h \
 	CoreSubsystem.h \
+	DebugVisualisable.h \
+	DebugVisualsManager.h\
 	DotSceneLoader.h \
 	DotSceneOctreeWorld.h \
 	FadeAnimation.h \
@@ -24,6 +27,7 @@
 	GameEventManager.h \
 	GameLoop.h \
 	LightObject.h \
+	LineSetPrimitive.h \
 	ListenerObject.h \
 	MeshAnimation.h \
 	MeshObject.h \
@@ -36,7 +40,7 @@
 	PhysicsController.h \
 	PhysicsManager.h \
 	PhysicsMaterialRaycast.h \
-	Primitive.h \
+	PrimitiveObject.h \
 	RubyInterpreter.h \
 	SoundManager.h \
 	SoundObject.h \
