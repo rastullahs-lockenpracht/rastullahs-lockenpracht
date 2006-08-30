@@ -5,7 +5,7 @@ INCLUDES = $(CEGUI_CFLAGS) $(RUBY_CFLAGS) $(OGRE_CFLAGS) $(STLPORT_CFLAGS) \
 bin_PROGRAMS = rastullah
 rastullah_SOURCES = RastullahMain.cpp
 rastullah_LDFLAGS = -L../../script/src -L../../core/src  -L../../common/src -L../../dialog/src \
-	-L../../ui/src -L../../rules/src -L../../multimedia/src -L../../uicomponents/src \
+	-L../../ui/src -L../../rules/src -L../../uicomponents/src \
 	-L../../ai/src
 rastullah_LDADD = $(RUBY_LIBS) $(LIBS) $(CEGUI_LIBS) $(OGRE_LIBS) \
 	 -lRlUiComponents -lRlCore -lRlScript -lRlCommon -lRlDialog -lRlUi -lRlRules \
