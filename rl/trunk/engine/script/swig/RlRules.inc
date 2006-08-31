@@ -316,16 +316,6 @@ namespace rl {
         void doAction(rl::Action* action, rl::Creature* actor,
             rl::GameObject* target);
             
-        void setString(const char* key, rl::CeGuiString value);
-		void setBool(const char* key, bool value);
-		void setInt(const char* key, int value);
-		void setReal(const char* key, Ogre::Real real);
-
-		rl::CeGuiString getString(const char* key);
-		bool getBool(const char* key);
-		int getInt(const char* key);
-		Ogre::Real getReal(const char* key);
-		
 		static const rl::CeGuiString DEFAULT_VIEW_OBJECT_ACTION;
 		
 		bool isHighlightingEnabled();

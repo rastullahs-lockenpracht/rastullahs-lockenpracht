@@ -51,7 +51,7 @@ namespace rl
 
 	GameObject* GameObject::clone()
 	{
-		return new GameObject(mName,mDescription);
+		Throw(OperationNotSupportedException, "clone not yet implemented.");
 	}
 
     int GameObject::getId() const
@@ -106,7 +106,6 @@ namespace rl
             mActions.erase(it);
         }
     }
-
 	
     const ActionVector GameObject::getValidActions(Creature* actor) const
     {
@@ -207,7 +206,6 @@ namespace rl
 		return mActor;
 	}
 
-
     bool GameObject::isHighlightingEnabled()
     {
         return mHighlightingEnabled;
@@ -223,77 +221,6 @@ namespace rl
 
         mHighlightingEnabled = highlightenabled;
     }
-
-	void GameObject::setString(CeGuiString key, CeGuiString value)
-	{
-        mAttributesString[key] = value;
-		fireObjectStateChangeEvent();
-	}
-
-	void GameObject::setBool(CeGuiString key, bool value)
-	{
-		mAttributesBoolean[key] = value;
-		fireObjectStateChangeEvent();
-	}
-
-	void GameObject::setInt(CeGuiString key, int value)
-	{
-		mAttributesInteger[key] = value;
-		fireObjectStateChangeEvent();
-	}
-
-	void GameObject::setReal(CeGuiString key, Ogre::Real value)
-	{
-		mAttributesReal[key] = value;
-		fireObjectStateChangeEvent();
-	}
-
-	CeGuiString GameObject::getString(CeGuiString key)
-	{
-		std::map<CeGuiString, CeGuiString>::iterator iter = mAttributesString.find(key);
-		for (iter = mAttributesString.begin(); iter != mAttributesString.end(); ++iter)
-		{
-			CeGuiString str = "getString: ['";
-			str.append((*iter).first);
-			str.append("','");
-			str.append((*iter).second);
-			str.append("']");
-			LOG_MESSAGE(Logger::RULES, str);
-		}
-		iter = mAttributesString.find(key);
-
-		if (iter != mAttributesString.end())
-			return (*iter).second;
-		else
-			return "";
-	}
-
-	bool GameObject::getBool(CeGuiString key)
-	{
-		std::map<CeGuiString, bool>::iterator iter = mAttributesBoolean.find(key);
-		if (iter != mAttributesBoolean.end())
-			return (*iter).second;
-		else
-			return false;
-	}
-
-	int GameObject::getInt(CeGuiString key)
-	{
-		std::map<CeGuiString, int>::iterator iter = mAttributesInteger.find(key);
-		if (iter != mAttributesInteger.end())
-			return (*iter).second;
-		else
-			return 0;
-	}
-
-	Ogre::Real GameObject::getReal(CeGuiString key)
-	{
-		std::map<CeGuiString, Ogre::Real>::iterator iter = mAttributesReal.find(key);
-		if (iter != mAttributesReal.end())
-			return (*iter).second;
-		else
-			return 0.0;
-	}
 
 	Action* GameObject::getDefaultAction(Creature* actor) const
 	{

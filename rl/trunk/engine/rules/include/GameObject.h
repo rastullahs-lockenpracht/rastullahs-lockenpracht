@@ -91,16 +91,6 @@ namespace rl
         bool isHighlightingEnabled();
         void setHighlightingEnabled( bool highlightenabled );
 
-		void setString(CeGuiString key, CeGuiString value);
-		void setBool(CeGuiString key, bool value);
-		void setInt(CeGuiString key, int value);
-		void setReal(CeGuiString key, Ogre::Real real);
-
-		CeGuiString getString(CeGuiString key);
-		bool getBool(CeGuiString key);
-		int getInt(CeGuiString key);
-		Ogre::Real getReal(CeGuiString key);
-
 		static const CeGuiString DEFAULT_VIEW_OBJECT_ACTION;
 
 	private:
@@ -109,11 +99,6 @@ namespace rl
 		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const Action* action);
 	
 		Actor* mActor;
-
-		std::map<CeGuiString, CeGuiString>	mAttributesString;
-		std::map<CeGuiString, bool>		mAttributesBoolean;
-		std::map<CeGuiString, int>			mAttributesInteger;
-		std::map<CeGuiString, Ogre::Real>	mAttributesReal;
 
 		static int sNextGameObjectId;
 	
