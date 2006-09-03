@@ -12,9 +12,12 @@
 #include <OgreDefaultHardwareBufferManager.h>
 #include <OgreBillboardParticleRenderer.h>
 #include <OgreMeshSerializer.h>
+#include <OgreSkeletonSerializer.h>
+#include <OgreSkeletonManager.h>
 #include <OgreEntity.h>
 
 #include "MergeMesh.h"
+#include "MergeSkeleton.h"
 
 using namespace Ogre;
 
@@ -39,7 +42,8 @@ namespace rl {
 		m_MeshCombinerConfig->loadDirect("media/cfg/meshcombiner.cfg","=");
 
 		initializeSettings();
-        consoleCombiner();
+        consoleMeshCombiner();
+        consoleSkeletonCombiner();
 	}
 
 	MeshCombiner::~MeshCombiner() 
@@ -52,9 +56,12 @@ namespace rl {
         return m_MeshCombinerConfig;
     }
 
-    void MeshCombiner::consoleCombiner()
+    void MeshCombiner::consoleMeshCombiner()
     {
         StringVector vec = m_MeshCombinerConfig->getMultiSetting( "Mesh" );
+        if( vec.empty() )
+            return;
+
         MergeMesh* mm = new MergeMesh();
         SkeletonPtr skel = SkeletonPtr(); 
 
@@ -79,21 +86,58 @@ namespace rl {
         MeshPtr mesh = mm->bake();
         
         MeshSerializer* meshSerializer = new MeshSerializer();
-        meshSerializer->exportMesh( mesh.getPointer(), "./media/test.mesh" );
+        meshSerializer->exportMesh( mesh.getPointer(), "./media/merged.mesh" );
 
         MeshManager::getSingleton().remove( mesh->getHandle() );
 
         // try to load...
         mesh = MeshManager::getSingleton().load(
-                    "test.mesh", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME );
+                    "merged.mesh", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME );
         
         SceneManager* sm = Root::getSingleton().createSceneManager( ST_GENERIC );       
 
         // try to place...
-        sm->getRootSceneNode()->attachObject( sm->createEntity( "test", "test.mesh" ) );
+        sm->getRootSceneNode()->attachObject( sm->createEntity( "test", "merged.mesh" ) );
 
         delete meshSerializer;
         delete mm;
+    }
+
+    void MeshCombiner::consoleSkeletonCombiner()
+    {
+        StringVector vec = m_MeshCombinerConfig->getMultiSetting( "Skeleton" );
+        if( vec.empty() )
+            return;
+
+        MergeSkeleton* ms = new MergeSkeleton();
+
+        for( StringVector::iterator it = vec.begin();
+             it != vec.end(); ++it )
+        {
+            log( "Loading: " + *it );
+            try
+            {
+                SkeletonPtr skel = SkeletonManager::getSingleton().load(
+                    *it, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME );
+
+                if( !skel.isNull() )
+                    ms->addSkeleton( skel );
+            }
+            catch( ... )
+            {
+            }
+        }
+
+        // save
+        SkeletonPtr skel = ms->bake();
+        
+        SkeletonSerializer* skelSerializer = new SkeletonSerializer();
+        skelSerializer->exportSkeleton( skel.getPointer(), "./media/merged.skeleton" );
+
+        SkeletonManager::getSingleton().remove( skel->getHandle() );
+
+        delete skelSerializer;
+        delete ms;
     }
 
 	void MeshCombiner::initializeSettings()

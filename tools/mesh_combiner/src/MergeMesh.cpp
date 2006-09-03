@@ -65,7 +65,7 @@ namespace rl {
              "Baking: New Mesh started" );
 
         MeshPtr mp = MeshManager::getSingleton().
-            createManual( "bakeMono", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME );
+            createManual( "mergedMesh", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME );
         mp->setSkeletonName( m_BaseSkeleton->getName() );
 
         AxisAlignedBox totalBounds = AxisAlignedBox();
@@ -116,6 +116,7 @@ namespace rl {
             /// sharedvertices
             if( (*it)->sharedVertexData != NULL )
             {
+                /// @todo merge with existing sharedVertexData
                 mp->sharedVertexData = (*it)->sharedVertexData->clone();
 
                 Mesh::BoneAssignmentIterator bit = (*it)->getBoneAssignmentIterator();
@@ -138,11 +139,11 @@ namespace rl {
                 std::min( oldmin.x, newmin.x ), std::min( oldmin.y, newmin.y  ), std::min( oldmin.z, newmin.z  ),
                 std::max( oldmax.x, newmax.x ), std::max( oldmax.y, newmax.y  ), std::max( oldmax.z, newmax.z  )
                 );
-        }
-
-        
-
+        }           
         mp->_setBounds( totalBounds );
+
+        /// @todo merge submeshes with same material
+
 
         /// @todo add parameters
         mp->buildEdgeList();

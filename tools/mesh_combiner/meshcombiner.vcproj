@@ -201,6 +201,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\MergeSkeleton.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\MeshCombiner.cpp"
 				>
 			</File>
@@ -216,6 +220,10 @@
 			>
 			<File
 				RelativePath=".\include\MergeMesh.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\MergeSkeleton.h"
 				>
 			</File>
 			<File

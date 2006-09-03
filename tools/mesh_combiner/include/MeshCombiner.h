@@ -24,8 +24,10 @@ namespace rl {
 
 			void initializeSettings();
 
-            /// simple method for merging via config file
-            void consoleCombiner();
+            /// simple method for merging meshes via config file
+            void consoleMeshCombiner();
+            /// simple method for merging skeletons via config file
+            void consoleSkeletonCombiner();
 		private: 
 			Ogre::ConfigFile* m_MeshCombinerConfig;
             Ogre::Log* m_Log;
