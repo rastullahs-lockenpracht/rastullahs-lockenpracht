@@ -58,23 +58,20 @@ namespace rl {
 		mTalkAnimation(NULL),
         mSubtitleSpeed(1.0f)
 	{
-		mCamera->getPhysicalThing()->freeze();
+		mCameraActor->getPhysicalThing()->freeze();
 		mCharacterActor->getPhysicalThing()->freeze();		
-		Camera* ogreCam = static_cast<Camera*>(mCamera->_getMovableObject());
+		Camera* ogreCam = static_cast<Camera*>(mCameraActor->_getMovableObject());
 		ogreCam->setFixedYawAxis(true);
 		ogreCam->setPosition(Vector3::ZERO);	
 		ogreCam->setOrientation(Quaternion::IDENTITY);
-		mCamera->_getSceneNode()->setFixedYawAxis(true);
-
-        // Aktuelle Objektanwahl entfernen
-        InputManager::getSingleton().setObjectPickingActive(false);
+		mCameraActor->_getSceneNode()->setFixedYawAxis(true);
 
         mSubtitleSpeed = ConfigurationManager::getSingleton().getRealSetting( "subtitle_speed", 1.0 );
 	}
 
 	DialogCharacterController::~DialogCharacterController()
 	{
-		mCamera->getPhysicalThing()->unfreeze();
+		mCameraActor->getPhysicalThing()->unfreeze();
 		mCharacterActor->getPhysicalThing()->unfreeze();
 		if (mDialogWindow != NULL)
 		{
@@ -106,18 +103,18 @@ namespace rl {
 			return;
 
 		// Aktuellen Abstand zur gewünschten Position berechnen
-		Vector3 posDistance = (mTargetCameraPosition - mCamera->_getSceneNode()->getPosition());
+		Vector3 posDistance = (mTargetCameraPosition - mCameraActor->_getSceneNode()->getPosition());
 		// Ist eine Anpassung nötig?
 		if( posDistance != Vector3::ZERO )
 		{
 			// Die Kameraanpassgeschwindigkeit
 			Real speed = 1/elapsedTime;
-			mCamera->setPosition(mTargetCameraPosition);					
+			mCameraActor->setPosition(mTargetCameraPosition);					
 		}
 
-        mCamera->setOrientation( Quaternion::IDENTITY );
-        mCamera->_getSceneNode()->setDirection( mTargetCameraDirection );
-        mCamera->_getSceneNode()->_update( true, false );
+        mCameraActor->setOrientation( Quaternion::IDENTITY );
+        mCameraActor->_getSceneNode()->setDirection( mTargetCameraDirection );
+        mCameraActor->_getSceneNode()->_update( true, false );
 
 		// Textanzeigedauer
 		if (mCurrFadeTextTime >= 0)
@@ -200,8 +197,8 @@ namespace rl {
 
 		// Weltkoordinaten in lokale umwandeln
 		mTargetCameraPosition = 
-			-1*(mCamera->_getSceneNode()->getParentSceneNode()->getWorldOrientation().Inverse()*
-			(mCamera->_getSceneNode()->getParentSceneNode()->getWorldPosition() - globalCameraPosition));
+			-1*(mCameraActor->_getSceneNode()->getParentSceneNode()->getWorldOrientation().Inverse()*
+			(mCameraActor->_getSceneNode()->getParentSceneNode()->getWorldPosition() - globalCameraPosition));
 
 
         mTargetCameraDirection = ( partEyes - mTargetCameraPosition ).normalisedCopy();

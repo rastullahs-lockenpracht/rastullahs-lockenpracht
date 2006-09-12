@@ -69,7 +69,7 @@ namespace rl {
 	protected:
 		static bool startAction(const CeGuiString& actionName, Creature* character = NULL);
 
-        Actor* mCamera;
+        Actor* mCameraActor;
         Actor* mCharacterActor;
 
         OgreNewt::Body* mCamBody;

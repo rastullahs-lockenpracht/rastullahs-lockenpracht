@@ -44,8 +44,6 @@
 #include "UiSubsystem.h"
 #include "WindowFactory.h"
 
-
-
 template<> rl::InputManager* Singleton<rl::InputManager>::ms_Singleton = 0;
 using namespace Ogre;
 using CEGUI::System;
@@ -69,11 +67,8 @@ namespace rl {
 		mNumActiveWindowsMouseInput(0),
 		mNumActiveWindowsKeyboardInput(0),
 		mNumActiveWindowsAllInput(0),
-		mPickObjects(false),
-        mTargetedObject(NULL),
 		mScheduledInputSwitch(SWITCH_NO_SWITCH),
         mInputReader( NULL ),
-        mTargetedObjectTime(0),
         mKeyMapNormal(),
 		mKeyMapShift(),
 	    mKeyMapAlt(),
@@ -108,7 +103,6 @@ namespace rl {
 
         delete mCommandMapper;
 	}
-
 
 	void InputManager::setCharacterController(CharacterController* controller)
 	{
@@ -209,7 +203,8 @@ namespace rl {
 		else
 		{
             if (mCharacterController != NULL)
-			    mCharacterController->injectMouseDown(CommandMapper::encodeKey(e->getButtonID(), e->getModifiers()));
+			    mCharacterController->injectMouseDown(
+                    CommandMapper::encodeKey(e->getButtonID(), e->getModifiers()));
 		}
 			
 	}
@@ -244,9 +239,6 @@ namespace rl {
 			System::getSingleton().injectMouseMove(
 				e->getRelX() * renderer->getWidth(), 
 				e->getRelY() * renderer->getHeight());			
-
-			if (mPickObjects)
-				updatePickedObject(e->getX(), e->getY());
 		}       
 	}
 
@@ -444,7 +436,6 @@ namespace rl {
 		
 		if (!active && isCeguiActive()) // war nicht aktiv, sollte jetzt aktiv sein -> anschalten
 		{
-			setObjectPickingActive(false);
             CEGUI::MouseCursor::getSingleton().show();
             resetPressedKeys( true );
 			if (mScheduledInputSwitch == SWITCH_TO_UNBUFFERED)
@@ -471,7 +462,6 @@ namespace rl {
 		if (active && !isCeguiActive()) // war aktiv, sollte nicht mehr aktiv sein -> ausschalten
 		{
 			CEGUI::MouseCursor::getSingleton().hide();
-            setObjectPickingActive(true);
             resetPressedKeys( false );
 			if (mScheduledInputSwitch == SWITCH_TO_BUFFERED)
 				mScheduledInputSwitch = SWITCH_NO_SWITCH;
@@ -676,80 +666,6 @@ namespace rl {
 		mCommandMapper->loadCommandMap(filename);
     }
 
-	void InputManager::setObjectPickingActive(bool active)
-	{
-		mPickObjects = active;
-		if (!mPickObjects)
-		{
-            // Altes Picking entfernen
-            if (mTargetedObject != NULL && mTargetedObject->getActor() != NULL ) 
-				mTargetedObject->getActor()->setHighlighted(false);
-
-			mTargetedObject = NULL;
-			WindowFactory::getSingleton().showObjectDescription(NULL);
-		}
-	}
-
-    void InputManager::updatePickedObject(float mouseRelX, float mouseRelY)
-    {
-        Actor* actor = ActorManager::getSingleton().getActorAt(mouseRelX, mouseRelY, 30, 7);
-
-        // Keine Highlights in Cutscene oder Dialog
-        if( actor != NULL )
-		{
-            // Altes Highlight entfernen
-			if (mTargetedObject != NULL &&
-                mTargetedObject->getActor() != NULL &&
-                actor != mTargetedObject->getActor() )
-            {
-				mTargetedObject->getActor()->setHighlighted(false);
-            }
-
-            // Nur ein Highlight wenn es auch ein dazugehöriges GameObject gibt
-			if( actor->getGameObject() != NULL)
-            {
-				GameObject* targetedObject = static_cast<GameObject*>(actor->getGameObject());
-				if (targetedObject->isHighlightingEnabled())
-				{
-					if (targetedObject != mTargetedObject)
-					{
-					    actor->setHighlighted(true);
-						mTargetedObject = targetedObject;
-						// mTargetedObjectTime = CoreSubsystem::getSingleton().getClock();
-						// WindowFactory::getSingleton().showObjectName(targetedObject);
-					}
-					//else
-					//{
-					//	if (CoreSubsystem::getSingleton().getClock()
-					//		- mTargetedObjectTime 
-					//		> TIME_SHOW_DESCRIPTION)
-					//	{
-					//		WindowFactory::getSingleton().showObjectDescription(mTargetedObject);
-					//	}
-					//}
-				}
-            }
-		}
-        // Nichts mehr angewählt
-		else
-		{
-			if (mTargetedObject != NULL && mTargetedObject->getActor() != NULL ) 
-			{
-				mTargetedObject->getActor()->setHighlighted(false);
-				//mTargetedObjectTime = 0;
-				//WindowFactory::getSingleton().showObjectName(NULL);
-				//WindowFactory::getSingleton().showObjectDescription(NULL);
-			}
-
-			mTargetedObject = NULL;
-		}
-    }
-
-	GameObject* InputManager::getPickedObject()
-	{
-		return mTargetedObject;
-	}
-
 	bool InputManager::isKeyDown(KeyCode kc) 
 	{ 
 		return mKeyDown[kc]; 
@@ -762,7 +678,6 @@ namespace rl {
 
 		return false;
 	}
-
 
 	Ogre::Real InputManager::getMouseRelativeX(void) 
 	{ 

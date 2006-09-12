@@ -53,7 +53,6 @@ namespace rl {
 	class Person;
 	class SoundConfig;
 	class SoundDriverConfigComponent;
-    class TargetSelectionWindow;
 	class WindowUpdater;
     class MainMenuWindow;
     class CloseConfirmationWindow;
@@ -91,11 +90,9 @@ namespace rl {
 		void showMainMenu();
 		void showObjectDescription(GameObject* object);
 		void showObjectName(GameObject* object);
-		void showPickedObjectActions();
 		void showPlaylist();
 		void showPopupMessage(int popupTypes);
 		void showSoundConfig();
-		void showTargetWindow();
 
 		void toggleConsole();
 		void toggleDebugWindow();
@@ -134,7 +131,6 @@ namespace rl {
 		Actor* mObjectNameText;
 		GameObject* mShownObject;
 		ObjectDescriptionWindow* mObjectDescriptionWindow;
-        TargetSelectionWindow* mTargetSelectionWindow;
         DataLoadingProgressWindow* mDataLoadingProgressWindow;
 		SoundConfig* mSoundConfig;
         MainMenuWindow* mMainMenuWindow;

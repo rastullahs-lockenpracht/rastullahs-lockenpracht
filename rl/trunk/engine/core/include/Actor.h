@@ -21,6 +21,9 @@
 #include <OgreUserDefinedObject.h>
 #include <OgreNode.h>
 
+#include <map>
+#include <vector>
+
 namespace Ogre {
     class Bone;
 }
@@ -30,6 +33,11 @@ namespace rl {
     class PhysicalThing;
     class ActorControlledObject;
     class MovableText;
+    class Actor;
+
+    typedef std::map<const Ogre::String,Actor*> ActorMap;
+    typedef std::vector<Actor*> ActorVector;
+    typedef std::pair<const Ogre::String,Actor*> ActorPair;
 
     class _RlCoreExport Actor : public Ogre::UserDefinedObject, public Ogre::Node::Listener
     {

@@ -54,10 +54,6 @@ public:
 	rl::CharacterController* getCharacterController() const;
 	rl::CharacterController::ControllerType getCharacterControllerType() const;
 	void setCharacterController(rl::CharacterController::ControllerType type);
-	
-	void useDefaultAction(rl::GameObject* obj, rl::Creature* actor);
-	void usePickedObjectDefaultActions();
-	void toggleObjectPicking();
 };
 
 class GameLoggerWindow
@@ -95,11 +91,9 @@ public:
 	void showLogfiles();
 	void showMainMenu();
 	void showMessageWindow(const rl::CeGuiString& message);
-	void showPickedObjectActions();
     void showPlaylist();
 	void showPopupMessage(int popupTypes);
     void showSoundConfig();
-	void showTargetWindow();
 
 	void toggleConsole();
 	void toggleDebugWindow();

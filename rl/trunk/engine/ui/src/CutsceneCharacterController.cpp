@@ -29,15 +29,15 @@ namespace rl {
 	CutsceneCharacterController::CutsceneCharacterController(Actor* camera)
 		: CharacterController(camera, NULL)
 	{
-		mCamera->getPhysicalThing()->freeze();
-		Camera* ogreCam = static_cast<Camera*>(mCamera->_getMovableObject());
+		mCameraActor->getPhysicalThing()->freeze();
+		Camera* ogreCam = static_cast<Camera*>(mCameraActor->_getMovableObject());
 		ogreCam->setFixedYawAxis(true);
-		mCamera->_getSceneNode()->setFixedYawAxis(true);
+		mCameraActor->_getSceneNode()->setFixedYawAxis(true);
 	}
 
 	CutsceneCharacterController::~CutsceneCharacterController()
 	{
-		mCamera->getPhysicalThing()->unfreeze();
+		mCameraActor->getPhysicalThing()->unfreeze();
 	}
 
 	bool CutsceneCharacterController::injectKeyClicked(int keycode)

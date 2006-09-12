@@ -259,11 +259,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\MovementCharacterController.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\TargetSelection.h"
+				RelativePath=".\include\Selector.h"
 				>
 			</File>
 			<File
@@ -393,10 +389,6 @@
 					RelativePath=".\include\SubtitleWindow.h"
 					>
 				</File>
-				<File
-					RelativePath=".\include\TargetSelectionWindow.h"
-					>
-				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -436,7 +428,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\TargetSelection.cpp"
+				RelativePath=".\src\Selector.cpp"
 				>
 			</File>
 			<File
@@ -556,10 +548,6 @@
 				</File>
 				<File
 					RelativePath=".\src\SubtitleWindow.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\TargetSelectionWindow.cpp"
 					>
 				</File>
 			</Filter>

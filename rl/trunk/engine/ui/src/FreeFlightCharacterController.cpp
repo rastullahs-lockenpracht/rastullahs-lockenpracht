@@ -40,11 +40,11 @@ namespace rl {
 		mOgreCam(0),
 		mCurrentMovementState(0)
 	{
-		mCamera->getPhysicalThing()->freeze();
+		mCameraActor->getPhysicalThing()->freeze();
 		mCharacterActor->getPhysicalThing()->freeze();
 
 		resetCamera();
-		mOgreCam = static_cast<Camera*>(mCamera->_getMovableObject());
+		mOgreCam = static_cast<Camera*>(mCameraActor->_getMovableObject());
         mOgreCam->setPosition(Vector3::ZERO);
 		mOgreCam->setOrientation(Quaternion::IDENTITY);
 		mOgreCam->setFixedYawAxis(true);
@@ -59,7 +59,7 @@ namespace rl {
 
 	FreeFlightCharacterController::~FreeFlightCharacterController()
 	{
-		mCamera->getPhysicalThing()->unfreeze();
+		mCameraActor->getPhysicalThing()->unfreeze();
 		mCharacterActor->getPhysicalThing()->unfreeze();
 	}
 
@@ -109,11 +109,6 @@ namespace rl {
 		mOgreCam->yaw(yaw);
 		mOgreCam->pitch(pitch);
 		mOgreCam->moveRelative(translation*elapsedTime);
-
-		if (!InputManager::getSingleton().isCeguiActive())
-		{
-			InputManager::getSingleton().updatePickedObject(0.5, 0.5);
-		}
 	}
 
 	void FreeFlightCharacterController::toggleViewMode()
@@ -126,19 +121,19 @@ namespace rl {
 		// Position camera at char position
         if( mCharacterActor != NULL )
         {
-            mCamera->_getSceneNode()->setOrientation( mCharacterActor->getWorldOrientation() );
+            mCameraActor->_getSceneNode()->setOrientation( mCharacterActor->getWorldOrientation() );
             Vector3 newPos = mCharacterActor->getWorldPosition();
             if( mCharacterActor->getControlledObject()->isMeshObject() )
             {
                 MeshObject* mo = dynamic_cast<MeshObject*>(mCharacterActor->getControlledObject());
                 newPos.y += mo->getDefaultSize().getMaximum().y;
             }
-		    mCamera->_getSceneNode()->setPosition( newPos );
+		    mCameraActor->_getSceneNode()->setPosition( newPos );
         }
         else
         {
-		    mCamera->_getSceneNode()->setOrientation( Quaternion::IDENTITY );
-            mCamera->_getSceneNode()->setPosition( Vector3::ZERO );
+		    mCameraActor->_getSceneNode()->setOrientation( Quaternion::IDENTITY );
+            mCameraActor->_getSceneNode()->setPosition( Vector3::ZERO );
         }
 	}
 

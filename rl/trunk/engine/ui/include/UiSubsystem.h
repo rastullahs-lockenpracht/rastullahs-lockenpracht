@@ -60,10 +60,6 @@ namespace rl {
         static UiSubsystem & getSingleton(void);
         static UiSubsystem * getSingletonPtr(void);
 
-		void useDefaultAction(GameObject* obj, Creature* actor);
-		void usePickedObjectDefaultActions();
-		void toggleObjectPicking();
-
 		CEGUI::OgreCEGUIRenderer* getGUIRenderer();
 		Person* getActiveCharacter() const;
 		void setActiveCharacter(Person* person);

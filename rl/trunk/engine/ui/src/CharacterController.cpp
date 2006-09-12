@@ -33,13 +33,13 @@ namespace rl {
 
 	CharacterController::CharacterController(Actor* camera, Actor* character)
 		: GameTask(),
-		mCamera(camera),
+		mCameraActor(camera),
 		mCharacterActor(character),
 		mCamBody(0),
 		mCharBody(0),
         mCommandMapper(NULL)
 	{
-		if (mCamera == 0)
+		if (mCameraActor == 0)
 		{
 			Throw(NullPointerException, "Camera must not be NULL.");
 		}
@@ -55,20 +55,21 @@ namespace rl {
 			mCharBody = mCharacterActor->getPhysicalThing()->_getBody();
 		}
 
-		mCamBody = mCamera->getPhysicalThing()->_getBody();
+		mCamBody = mCameraActor->getPhysicalThing()->_getBody();
 
-		if (!mCamera->_getSceneNode())
+		if (!mCameraActor->_getSceneNode())
 		{
-			mCamera->placeIntoNode(CoreSubsystem::getSingleton().
+			mCameraActor->placeIntoNode(CoreSubsystem::getSingleton().
 				getWorld()->getSceneManager()->getRootSceneNode());
 		}
 
 		// Reset camera position/orientation, as it is now controlled via scene nodes.
-		Camera* ogreCam = dynamic_cast<CameraObject*>(mCamera->getControlledObject())->getCamera();
+		Camera* ogreCam = static_cast<CameraObject*>(
+            mCameraActor->getControlledObject())->getCamera();
 		ogreCam->setPosition(Vector3::ZERO);
 		ogreCam->setOrientation(Quaternion::IDENTITY);
 
-		mCamera->_getSceneNode()->setFixedYawAxis(true);
+		mCameraActor->_getSceneNode()->setFixedYawAxis(true);
 	}
     
     CharacterController::~CharacterController()

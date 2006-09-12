@@ -41,9 +41,9 @@
 #include "PhysicsManager.h"
 #include "PhysicsMaterialRaycast.h"
 #include "PhysicalThing.h"
-#include "TargetSelection.h"
 #include "World.h"
 #include "LineSetPrimitive.h"
+#include "WindowFactory.h"
 
 #include <numeric>
 
@@ -83,8 +83,8 @@ namespace rl {
 		mCameraJammedFrameCount(0),
 		mCameraJammedTime(0.0f),
 		mRaycast(new PhysicsMaterialRaycast()),
-        mSelection( NULL ),
-		mGravitation()
+		mGravitation(),
+        mSelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager())
 	{
         DebugWindow::getSingleton().registerPage(msDebugWindowPageName);
 		mMovementSpeed = 
@@ -108,7 +108,7 @@ namespace rl {
 		PhysicsManager::getSingleton().setPhysicsController(
 			mCharacterActor->getPhysicalThing(), this);
 		PhysicsManager::getSingleton().setPhysicsController(
-			mCamera->getPhysicalThing(), this);
+			mCameraActor->getPhysicalThing(), this);
         // We also handle char<->level, char<->default collision from now on
         PhysicsManager::getSingleton().setCharLevelContactCallback(this);
         PhysicsManager::getSingleton().setCharDefaultContactCallback(this);
@@ -120,6 +120,9 @@ namespace rl {
 		mesh->startAnimation("idle");
 
 		setViewMode(VM_THIRD_PERSON);
+
+        // We want to check for visibility from char's POV.
+        mSelector.setCheckVisibility(true, mCharacterActor);
 	}
 
 	//------------------------------------------------------------------------
@@ -130,7 +133,7 @@ namespace rl {
 		PhysicsManager::getSingleton().setPhysicsController(
 			mCharacterActor->getPhysicalThing(), NULL);
 		PhysicsManager::getSingleton().setPhysicsController(
-			mCamera->getPhysicalThing(), NULL);
+			mCameraActor->getPhysicalThing(), NULL);
         // Char<->Level collision back to default
         PhysicsManager::getSingleton().setCharLevelContactCallback(NULL);
         // Char<->Default collision back to default
@@ -139,6 +142,13 @@ namespace rl {
         if (DebugWindow::getSingletonPtr())
         {
             DebugWindow::getSingletonPtr()->unregisterPage(msDebugWindowPageName);
+        }
+
+        // Unhighlight selected object, if any.
+        GameObject* go = mSelector.getSelectedObject();
+        if (go != NULL && go->isHighlighted())
+        {
+            go->setHighlighted(false);
         }
 
         // Remove debug scene node from character node, if debugview was used.
@@ -164,32 +174,20 @@ namespace rl {
 		int movement = mCharacterState.mCurrentMovementState;
 
 		// Determine character's control state based on user input
-		if (movement & MOVE_FORWARD)
-			mCharacterState.mDesiredVel.z = -1;
-
-		if (movement & MOVE_BACKWARD)
-			mCharacterState.mDesiredVel.z = 1;
-
-		if (movement & MOVE_RIGHT)
-			mCharacterState.mDesiredVel.x = 1;
-
-		if (movement & MOVE_LEFT)
-			mCharacterState.mDesiredVel.x = -1;
+		if (movement & MOVE_FORWARD)  mCharacterState.mDesiredVel.z = -1;
+		if (movement & MOVE_BACKWARD) mCharacterState.mDesiredVel.z =  1;
+		if (movement & MOVE_RIGHT)    mCharacterState.mDesiredVel.x =  1;
+		if (movement & MOVE_LEFT)     mCharacterState.mDesiredVel.x = -1;
 		
 		mCharacterState.mDesiredVel.normalise();
 		mCharacterState.mDesiredVel *= mMovementSpeed;
 		
-		if (movement & MOVE_JUMP)
-			mCharacterState.mStartJump = true;
+		if (movement & MOVE_JUMP)  mCharacterState.mStartJump = true;
 
-		if (movement & TURN_LEFT)
-			mYaw += Degree(mRotationSpeed * 30.0 * elapsedTime);
+		if (movement & TURN_LEFT)  mYaw += Degree(mRotationSpeed * 30.0 * elapsedTime);
+		if (movement & TURN_RIGHT) mYaw -= Degree(mRotationSpeed * 30.0 * elapsedTime);
 
-		if (movement & TURN_RIGHT)
-			mYaw -= Degree(mRotationSpeed * 30.0 * elapsedTime);
-
-		if (isRunMovement(movement))
-			mCharacterState.mDesiredVel *= 3.0;
+		if (isRunMovement(movement)) mCharacterState.mDesiredVel *= 3.0;
 
 		mDesiredDistance -= im->getMouseRelativeZ() * 0.002;
 		if (mDesiredDistance < mDistanceRange.first)
@@ -207,7 +205,7 @@ namespace rl {
 
 		mYaw -= Degree(mRotationSpeed * im->getMouseRelativeX() * 0.1);
 
-		SceneNode* cameraNode = mCamera->_getSceneNode();
+		SceneNode* cameraNode = mCameraActor->_getSceneNode();
 
 		Vector3 charPos;
 		Quaternion charOri;
@@ -265,20 +263,8 @@ namespace rl {
 
 		// if we have more than 250ms and at least five frames with camera distance higher
 		// than desired distance, reset camera
-		if ((camPos
-			- (charPos + charOri*mLookAtOffset)).length() 
-			> maxdistance)
+		if ((camPos - (charPos + charOri*mLookAtOffset)).length() > maxdistance)
 		{
-			LOG_MESSAGE(
-				Logger::UI, 
-				"CamJam "
-				+ Ogre::StringConverter::toString(camPos)
-				+ " vs "
-				+ Ogre::StringConverter::toString(charPos + charOri*mLookAtOffset)
-				+ ", length is "
-				+ Ogre::StringConverter::toString((camPos - (charPos + charOri*mLookAtOffset)).length())
-				+ " is farther than "
-				+ Ogre::StringConverter::toString(2.0f * mDesiredDistance + 0.2f));
 			mCameraJammedTime += elapsedTime;
 			++mCameraJammedFrameCount;
 		}
@@ -294,12 +280,20 @@ namespace rl {
 			resetCamera();
 		}
 
-		if (!InputManager::getSingleton().isCeguiActive())
-		{
-			updatePickedObject();
-			//mSelection->update();
-		}
 		updateAnimationState();
+
+        if (!im->isCeguiActive())
+        {
+		    updateSelection();
+            if (im->isMouseButtonDown(1) && mSelector.getSelectedObject() != NULL)
+            {
+                WindowFactory::getSingleton().showActionChoice(mSelector.getSelectedObject());
+            }
+            else if (im->isMouseButtonDown(0) && mSelector.getSelectedObject() != NULL)
+            {
+                mSelector.getSelectedObject()->doDefaultAction(mCharacter, NULL);
+            }
+        }
 	}
 
 	bool MovementCharacterController::isRunMovement(int movement)
@@ -437,9 +431,11 @@ namespace rl {
             mCamBody->getPositionOrientation(bodpos,egal);
             ss << endl
                 << "scene node : " << node->getPosition() << endl
-                << "camera posder : " << static_cast<Camera*>(mCamera->_getMovableObject())->getDerivedPosition() << endl
-                << "camera pos : " << static_cast<Camera*>(mCamera->_getMovableObject())->getPosition() << endl
-                << "camera node : " << mCamera->getWorldPosition() << endl
+                << "camera posder : " << static_cast<Camera*>(
+                    mCameraActor->_getMovableObject())->getDerivedPosition() << endl
+                << "camera pos : " << static_cast<Camera*>(
+                    mCameraActor->_getMovableObject())->getPosition() << endl
+                << "camera node : " << mCameraActor->getWorldPosition() << endl
                 << "camera body : " << bodpos << endl
                 << "is airborne: " << (mCharacterState.mIsAirBorne ? "true" : "false") << endl
                 << "start jump : " << (mCharacterState.mStartJump ? "true" : "false")  << endl
@@ -481,7 +477,8 @@ namespace rl {
 			OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
 			OgreNewt::MaterialID* levelId =
 				PhysicsManager::getSingleton()._getLevelMaterialID();
-			Camera* camera = dynamic_cast<CameraObject*>(mCamera->getControlledObject())->getCamera();
+			Camera* camera = static_cast<CameraObject*>(
+                mCameraActor->getControlledObject())->getCamera();
 
 			Vector3 target = targetCamPos
 				+ 1.2f * camera->getNearClipDistance() * diff.normalisedCopy();
@@ -533,7 +530,7 @@ namespace rl {
 		for (int i = 0; i < numPoints; ++i)
 		{
 			RaycastInfo info = mRaycast->execute(world, levelId,
-				mCamera->getWorldPosition(),
+				mCameraActor->getWorldPosition(),
 				mCharacterActor->getWorldPosition() + Vector3(xs[i], ys[i], 0.0f));
 			rval = rval && info.mBody;
 			if (!rval) break;
@@ -542,9 +539,26 @@ namespace rl {
 		return rval;
 	}
 
-	void MovementCharacterController::updatePickedObject() const
+	void MovementCharacterController::updateSelection()
 	{
-		InputManager::getSingleton().updatePickedObject(0.5, 0.5);
+        GameObject* oldGo = mSelector.getSelectedObject();
+
+        mSelector.setPosition(mCharacterActor->getWorldPosition());
+        mSelector.setOrientation(mCharacterActor->getWorldOrientation());
+        mSelector.setRadius(3.0);
+        mSelector.updateSelection();
+
+        GameObject* newGo = mSelector.getSelectedObject();
+
+        if (oldGo != NULL && oldGo != newGo)
+        {
+            oldGo->setHighlighted(false);
+        }
+
+        if (newGo != NULL && newGo != oldGo)
+        {
+            newGo->setHighlighted(true);            
+        }
 	}
 
 	void MovementCharacterController::updateAnimationState()
@@ -675,7 +689,7 @@ namespace rl {
 		if (mViewMode == VM_THIRD_PERSON)
 		{
     		// Position camera at char position
-		    mCamera->getPhysicalThing()->setPosition(
+		    mCameraActor->getPhysicalThing()->setPosition(
 			    mCharacterActor->getPhysicalThing()->getPosition());
 			mPitch = Degree(30.0);
 		}

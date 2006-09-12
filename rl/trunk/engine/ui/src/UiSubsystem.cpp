@@ -281,24 +281,6 @@ namespace rl {
 		setCharacterController(mCharacterControllerType);
 	}
 
-	void UiSubsystem::useDefaultAction(GameObject* obj, Creature* actor)
-	{
-		obj->doAction(obj->getDefaultAction(actor), actor, NULL); //TODO: Target
-	}
-
-	void UiSubsystem::usePickedObjectDefaultActions()
-	{
-		GameObject* pickedObject = mInputManager->getPickedObject();
-
-		if (pickedObject != NULL)
-			useDefaultAction(pickedObject, getActiveCharacter());
-	}
-
-	void UiSubsystem::toggleObjectPicking()
-	{
-		mInputManager->setObjectPickingActive(true);
-	}
-
     CharacterController* UiSubsystem::getCharacterController() const
     {
         return mCharacterController;

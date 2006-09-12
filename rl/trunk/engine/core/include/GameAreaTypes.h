@@ -17,15 +17,10 @@
 #ifndef __GameAreaTypes_H__
 #define __GameAreaTypes_H__
 
-#include <map>
-
 #include "Actor.h"
 #include "CorePrerequisites.h"
 
 namespace rl {
-
-typedef std::map<const Ogre::String,Actor*> ActorMap;
-typedef std::pair<const Ogre::String,Actor*> ActorPair;
 
 /** GameAreaType
  * Verwaltet verschiedene Flaechenarten und Methoden die Aktoren innerhalb dieser Flächen zu

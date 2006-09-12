@@ -61,14 +61,9 @@ namespace rl {
 		void loadCommandMap(const Ogre::String& mapfile);
 		void saveCommandMap(const Ogre::String& mapfile) const;
 
-		void setMapping(
-			MapType map, 
-			int code, 
-			const CeGuiString& actionName);
+		void setMapping(MapType map, int code, const CeGuiString& actionName);
 
-		int getMapping(
-			MapType map, 
-			const CeGuiString& actionName);
+		int getMapping(MapType map, const CeGuiString& actionName);
 
 		std::map<CeGuiString, MovementState> getMovements();
 
@@ -105,6 +100,4 @@ namespace rl {
 
 }
 
-
 #endif
-

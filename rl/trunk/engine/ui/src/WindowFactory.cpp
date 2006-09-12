@@ -51,7 +51,6 @@
 #include "RulesSubsystem.h"
 #include "SoundConfig.h"
 #include "SubtitleWindow.h"
-#include "TargetSelectionWindow.h"
 #include "UiSubsystem.h"
 #include "WindowManager.h"
 
@@ -74,7 +73,6 @@ namespace rl {
 			setOutputFunction( 
 				(VALUE(*)(...))&WindowFactory::consoleWrite );
 
-		mTargetSelectionWindow = new TargetSelectionWindow();
 		mLogWindow = new LogWindow();
 			      
 		mGameLogger = new GameLoggerWindow();
@@ -110,7 +108,6 @@ namespace rl {
 		delete mInventoryWindow;
 		delete mCharacterStateWindow;
 		delete mInfoPopup;
-        delete mTargetSelectionWindow;
 		delete mDebugWindow;
 		delete mConsole;
         delete mMainMenuWindow;
@@ -131,14 +128,6 @@ namespace rl {
 	void WindowFactory::showCharacterActionChoice()
 	{
 		showActionChoice(UiSubsystem::getSingleton().getActiveCharacter());
-	}
-
-	void WindowFactory::showPickedObjectActions()
-	{
-		GameObject* pickedObject = InputManager::getSingleton().getPickedObject();
-
-		if (pickedObject != NULL)
-			showActionChoice(pickedObject);
 	}
 
 	void WindowFactory::showContainerContent(Container* container)
@@ -168,12 +157,6 @@ namespace rl {
 	void WindowFactory::showMainMenu()
 	{
 		mMainMenuWindow->setVisible(true);
-	}
-
-	void WindowFactory::showTargetWindow()
-	{
-		TargetSelectionWindow::getSingleton().setAction(NULL);
-		TargetSelectionWindow::getSingleton().setVisible(true);
 	}
 
 	void WindowFactory::toggleConsole()

@@ -415,6 +415,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\SceneQuery.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\Sound.h"
 				>
 			</File>
@@ -633,6 +637,10 @@
 			</File>
 			<File
 				RelativePath=".\src\RubyInterpreter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SceneQuery.cpp"
 				>
 			</File>
 			<File

@@ -27,6 +27,10 @@ namespace rl
 {
     class _RlRulesExport Creature;
 
+    static const unsigned long QUERYFLAG_CREATURE   = 1;
+    static const unsigned long QUERYFLAG_ITEM       = 2;
+    static const unsigned long QUERYFLAG_STATIC     = 4;
+
     /**
     * \brief Basisklasse aller spielrelevanten Objekte in RL.
     * Stellt im Wesentlichen Methoden zur Identifikation von
@@ -85,31 +89,39 @@ namespace rl
                       Creature* actor,
                       GameObject* target);
 
+        void doDefaultAction(Creature* actor, GameObject* target);
+
 		typedef std::vector<std::pair<Action*, int> > ActionOptionVector;
 
         /// Soll der Aktor überhaupt leuchten?
         bool isHighlightingEnabled();
         void setHighlightingEnabled( bool highlightenabled );
 
+        void setHighlighted(bool highlight);
+        bool isHighlighted() const;
+
 		static const CeGuiString DEFAULT_VIEW_OBJECT_ACTION;
 
-	private:
-        ActionOptionVector mActions;
-		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const CeGuiString actionName);
-		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const Action* action);
-	
-		Actor* mActor;
-
-		static int sNextGameObjectId;
-	
     protected:
         int mId;
         CeGuiString mName;
         CeGuiString mDescription;
 
+        // Query flags to be set to the actor, when placed into scene.
+        unsigned long mQueryFlags;
 
         /// Soll das GameObject überhaupt leuchten?
         bool mHighlightingEnabled;
+
+	private:
+		static int sNextGameObjectId;	
+		Actor* mActor;
+        ActionOptionVector mActions;
+
+		ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin,
+            ActionOptionVector::iterator end, const CeGuiString actionName);
+		ActionOptionVector::iterator findAction(ActionOptionVector::iterator
+            begin, ActionOptionVector::iterator end, const Action* action);	
     };
 }
 

@@ -55,6 +55,8 @@ namespace rl
         mUnconscious(0)
 
     {
+        mQueryFlags = QUERYFLAG_CREATURE;
+
 		//RlFail("Test");
 		setWert(WERT_MOD_AE, 0);
 		setWert(WERT_MOD_LE, 0);

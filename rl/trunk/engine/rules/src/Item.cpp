@@ -32,6 +32,7 @@ namespace rl
 		mCapacity(make_pair<int,int>(0,0)),
 		mSize(pair<int,int>(1,1))
     {
+        mQueryFlags = QUERYFLAG_ITEM;
     }
 
 	Item::Item(const CeGuiString name, const CeGuiString description, const CeGuiString imageName, const CeGuiString meshName, Item::ItemType type, std::pair<int,int> size)

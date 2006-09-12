@@ -33,8 +33,10 @@ namespace rl
 		:   mId(GameObject::sNextGameObjectId++),
             mName(name),
             mDescription(description),
+            mQueryFlags(0),
 			mHighlightingEnabled(true),
-			mActor(NULL)
+			mActor(NULL),
+            mActions()
     {
         // Standardactions registrieren
 		Action* defaultAction = ActionManager::getSingleton().getAction(DEFAULT_VIEW_OBJECT_ACTION);
@@ -155,6 +157,21 @@ namespace rl
 		action->doAction(this, actor, target);
 	}
 	
+    void GameObject::doDefaultAction(Creature* actor, GameObject* target)
+    {
+        Action* action = getDefaultAction(actor);
+        if (action != NULL)
+        {
+            doAction(action, actor, target);
+        }
+        else
+        {
+            LOG_ERROR(
+                Logger::RULES, 
+                "GameObject " + getName() + " has no valid default action set.");
+        }
+    }
+
 	bool GameObject::activateAction(Action* action,
                       Creature* actor,
                       GameObject* target)
@@ -226,4 +243,17 @@ namespace rl
 	{
 		return ActionManager::getSingleton().getAction(DEFAULT_VIEW_OBJECT_ACTION);
 	}
+
+    void GameObject::setHighlighted(bool highlight)
+    {
+        if (mHighlightingEnabled && mActor != NULL)
+        {
+            mActor->setHighlighted(highlight);
+        }
+    }
+
+    bool GameObject::isHighlighted() const
+    {
+        return mActor != NULL && mActor->isHighlighted();
+    }
 }

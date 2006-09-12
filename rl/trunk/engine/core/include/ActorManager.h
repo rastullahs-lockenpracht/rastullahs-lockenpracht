@@ -65,9 +65,6 @@ namespace rl {
         void setWorld(World* world);
         const World* const getWorld() const;
 
-        Actor* getActorAt(Ogre::Real x, Ogre::Real y, Ogre::Real width,
-            Ogre::Real length, bool infinite = false);
-
         // View Distance
         Ogre::Real getDefaultActorRenderingDistance() const;
         void setDefaultActorRenderingDistance( Ogre::Real dist );
@@ -81,12 +78,6 @@ namespace rl {
         World* mWorld;
         Ogre::Real mActorRenderingDistance;
 
-        /**	Variante mit Strahl, ob der geringen Ausdehnung eines Strahls nicht zufriedenstellend.
-         *  @param x screen space coord x component
-         *  @param y screen space coord y component
-         *  @param length maximum distance from camera near plane in Ogre units
-         */
-        std::vector<Actor*> collectSelectableObjects(Ogre::Real x, Ogre::Real y, Ogre::Real length);
         void doDestroyActor(Actor* actor);
         Ogre::String nextUniqueName(const Ogre::String& basename);
     };

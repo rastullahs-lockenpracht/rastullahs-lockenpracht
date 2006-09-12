@@ -23,8 +23,7 @@
 #include "PhysicsGenericContactCallback.h"
 #include "CharacterController.h"
 #include "DebugVisualisable.h"
-
-//#undef sleep
+#include "Selector.h"
 
 #include <deque>
 
@@ -34,7 +33,6 @@ namespace rl {
 	class Creature;
     class MeshObject;
 	class PhysicsMaterialRaycast;
-	class TargetSelection;
 
     /**
      * This class handles character control via user input.
@@ -111,7 +109,6 @@ namespace rl {
 
 		CharacterState mCharacterState;
 		Creature* mCharacter;
-		TargetSelection* mSelection;
 
         // camera control params
         /// optimal distance to the character
@@ -136,15 +133,16 @@ namespace rl {
         Ogre::Real mCameraJammedTime;
 
         PhysicsMaterialRaycast* mRaycast;
+        HalfSphereSingleSelector mSelector;
 
-        /// the maximum amount of time, the character or cmaera should need,
+        /// the maximum amount of time, the character or camera should need,
         /// in order to reach the position, desired by the user.
         /// the smaller, the tighter the feel.
         Ogre::Real mMaxDelay;
 
 		bool isRunMovement(int movement);
 
-        void updatePickedObject() const;
+        void updateSelection();
         void updateAnimationState();
 
         bool isCharacterOccluded() const;
