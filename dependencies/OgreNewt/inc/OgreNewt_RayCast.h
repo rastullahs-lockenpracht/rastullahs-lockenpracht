@@ -1,28 +1,21 @@
 /* 
 	OgreNewt Library
-
 	Ogre implementation of Newton Game Dynamics SDK
-
 	OgreNewt basically has no license, you may use any or all of the library however you desire... I hope it can help you in any way.
-
 		by Walaber
-
 */
 
 #ifndef _INCLUDE_OGRENEWT_RAYCAST
 #define _INCLUDE_OGRENEWT_RAYCAST
-
 
 #include <Ogre.h>
 #include <Newton.h>
 #include "OgreNewt_World.h"
 #include "OgreNewt_Body.h"
 
-
 // OgreNewt namespace.  all functions and classes use this namespace.
 namespace OgreNewt
 {
-
 //! general raycast
 /*!
 	General class representing a raycast query in the Newton world.  this class should be inherited to create specific raycast behavior.
@@ -56,15 +49,11 @@ public:
 	*/
 	virtual bool userCallback( OgreNewt::Body* body, Ogre::Real distance, const Ogre::Vector3& normal, int collisionID ) = 0;
 
-
 private:
 
 	//! callback used for running the raycast itself... used internally
 	static float _CDECL newtonRaycastFilter(const NewtonBody* body, const float* hitNormal, int collisionID, void* userData, float intersetParam);
 };
-
-
-
 
 //! Basic implementation of the raycast
 /*!
@@ -77,13 +66,18 @@ public:
 	class _OgreNewtExport BasicRaycastInfo
 	{
 	public:
-		Ogre::Real					mDistance;	//!< dist from point1 of the raycast, in range [0,1].
-		OgreNewt::Body*				mBody;	//!< pointer to body intersected with
-		int							mCollisionID;		//!< collision ID of the primitive hit by the ray (for compound collision bodies)
-		Ogre::Vector3				mNormal;	//!< normal of intersection.
+		Ogre::Real		mDistance;	  //!< dist from point1 of the raycast, in range [0,1].
+		OgreNewt::Body*	mBody;	      //!< pointer to body intersected with
+		int				mCollisionID; //!< collision ID of the primitive hit by the ray
+		Ogre::Vector3	mNormal;	  //!< normal of intersection.
 
-		BasicRaycastInfo();
-		~BasicRaycastInfo();
+        BasicRaycastInfo()
+            : mDistance(-1.0f), mBody(NULL), mCollisionID(0), mNormal(Ogre::Vector3::ZERO) {}
+
+        bool operator<(const BasicRaycastInfo& rhs)
+        {
+            return mDistance < rhs.mDistance;
+        }
 	};
 
 	//! constructor
@@ -93,16 +87,19 @@ public:
 		\param startpt starting point of the ray in global space
 		\param endpt ending point of the ray in global space
 	*/
-	BasicRaycast( const OgreNewt::World* world, const Ogre::Vector3& startpt, const Ogre::Vector3& endpt );
+	BasicRaycast(const OgreNewt::World* world, const Ogre::Vector3& startpt,
+        const Ogre::Vector3& endpt, bool sorted = false);
 	
 	//! destuctor.
-	~BasicRaycast();
+	virtual ~BasicRaycast();
 
 	//! the all-important custom callback function.
-	bool userCallback( Body* body, Ogre::Real distance, const Ogre::Vector3& normal, int collisionID );
+	bool userCallback( Body* body, Ogre::Real distance,
+        const Ogre::Vector3& normal, int collisionID );
 
 	// ------------------------------------------------------
-	// the following functions can be used to retrieve information about the bodies collided by the ray.
+	// the following functions can be used to retrieve information about
+    // the bodies collided by the ray.
 	
 	//! how many bodies did we hit?
 	int getHitCount() const;
@@ -113,23 +110,14 @@ public:
 	//! get the closest body hit by the ray.
 	BasicRaycastInfo getFirstHit() const;
 
-
 private:
-
 
 	// container for results.
 	typedef std::vector<BasicRaycastInfo> RaycastInfoList;
 
 	RaycastInfoList mRayList;
-
 };
 
-
-
 }	// end NAMESPACE OgreNewt
-	
-
-
-
 
 #endif	// _INCLUDE_OGRENEWT_RAYCAST
