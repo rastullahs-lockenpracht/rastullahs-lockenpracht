@@ -84,7 +84,8 @@ class Switch < GameObject
   def initialize( name )
     super(name, "Ein Hebel");
 
-    switchActor = $AM.createMeshActor(name, "arc_hebel_01.mesh" );
+    switchActor = $AM.createMeshActor(name, "arc_hebel_01.mesh",
+                                      PhysicsManager::GT_BOX , 0.0);
     $SCRIPT.log("switch-actor erstellt.");
     setActor(switchActor);
     $SCRIPT.log("actor gesetzt");

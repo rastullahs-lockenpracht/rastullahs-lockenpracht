@@ -9,7 +9,6 @@ class GlobalSettings
       $grpOptions = ActionGroup.new("Optionen")
 
       $act1 = ShowActionMenuAction.new()
-      $act3 = ShowObjectActionsAction.new()
       $act4 = ToggleConsoleAction.new()
       $act5 = ToggleDebugWindowAction.new()
       $act6 = ToggleGameLogWindowAction.new()
@@ -22,7 +21,6 @@ class GlobalSettings
       $act14 = ToggleCharacterStateWindowAction.new()
       $act15 = ShowTargetWindowAction.new()
       $act16 = ToggleInGameGlobalMenuAction.new()
-      $act18 = UseGameObjectDefaultAction.new()
       $act19 = ShowAboutWindowAction.new()
       $act20 = ShowJournalWindowAction.new()
       $act21 = CloseCurrentWindowAction.new()
@@ -34,7 +32,6 @@ class GlobalSettings
 	  $act27 = ToggleDebugVisualisationAction.new()
 
       actionManager.registerInGameGlobalAction($act1, $grpView)
-      actionManager.registerInGameGlobalAction($act3, $grpView)
       actionManager.registerInGameGlobalAction($act4, $grpView)
       actionManager.registerInGameGlobalAction($act5, $grpView)
       actionManager.registerInGameGlobalAction($act6, $grpView)
@@ -58,6 +55,5 @@ class GlobalSettings
       actionManager.registerInGameGlobalAction($act23, $grpOptions)
 
       actionManager.registerInGameGlobalAction($act19, $grpHelp)
-      actionManager.registerInGameGlobalAction($act18, $grpActions)
   end
 end

@@ -138,16 +138,6 @@ class ToggleCharacterStateWindowAction < Action
     end
 end
 
-class ShowObjectActionsAction < Action
-  def initialize
-    super("showobjectactions", "Objektaktionen anzeigen")
-  end
-
-  def doAction(object, actor, target)
-    $WF.showPickedObjectActions()
-  end
-end
-
 class ShowCharacterSheetAction < Action
   def initialize
     super("showcharactersheet", "Charakterblatt des aktiven Helden anzeigen")
@@ -175,16 +165,6 @@ class ShowJournalWindowAction < Action
 
   def doAction(object, actor, target)
     $WF.showJournalWindow()
-  end
-end
-
-class UseGameObjectDefaultAction < Action
-  def initialize
-    super("usecurrentobjectdefaultaction", "Standardaktion benutzen")
-  end
-  
-  def doAction(object, actor, target)
-    $UI.usePickedObjectDefaultActions()
   end
 end
 
