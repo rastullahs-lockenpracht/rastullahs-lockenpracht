@@ -44,6 +44,7 @@ libRlCore_la_SOURCES = \
 	PhysicsMaterialRaycast.cpp \
 	PrimitiveObject.cpp \
 	RubyInterpreter.cpp \
+	SceneQuery.cpp \
 	SoundManager.cpp \
 	SoundObject.cpp \
 	SoundUpdateTask.cpp \

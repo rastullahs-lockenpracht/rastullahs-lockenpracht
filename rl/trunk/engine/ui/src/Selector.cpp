@@ -14,7 +14,7 @@
  *  http://www.perldoc.com/perl5.6/Artistic.html.
  */
 
-#include <Selector.h>
+#include "Selector.h"
 
 namespace rl
 {

@@ -42,6 +42,7 @@
 	PhysicsMaterialRaycast.h \
 	PrimitiveObject.h \
 	RubyInterpreter.h \
+	SceneQuery.h \
 	SoundManager.h \
 	SoundObject.h \
 	SoundUpdateTask.h \

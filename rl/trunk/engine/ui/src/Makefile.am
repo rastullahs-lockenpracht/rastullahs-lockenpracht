@@ -39,10 +39,10 @@ libRlUi_la_SOURCES = \
 	MovementCharacterController.cpp \
 	ObjectDescriptionWindow.cpp \
 	PlaylistWindow.cpp \
+	Selector.cpp \
 	SoundConfig.cpp \
 	SoundDriverConfigComponent.cpp \
 	SubtitleWindow.cpp \
-	TargetSelectionWindow.cpp \
 	UiSubsystem.cpp \
 	WindowFactory.cpp \
 	WindowManager.cpp \

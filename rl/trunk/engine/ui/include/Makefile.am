@@ -31,10 +31,10 @@ noinst_HEADERS = \
 	LogWindow.h \
 	ObjectDescriptionWindow.h \
 	PlaylistWindow.h \
+	Selector.h \
 	SoundConfig.h \
 	SoundDriverConfigComponent.h \
 	SubtitleWindow.h \
-	TargetSelectionWindow.h \
 	UiPrerequisites.h \
 	UiSubsystem.h \
 	WindowFactory.h \
