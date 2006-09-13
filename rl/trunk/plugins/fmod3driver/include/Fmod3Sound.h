@@ -22,13 +22,6 @@ namespace rl {
 
 class Fmod3Driver; 
 
-/** Diese Klasse sollte eigentlich leer sein, aber C++ verlangt
- * Konstruktoren, wenn in der Basisklasse kein Defaultkonstruktor
- * vorhanden ist. Ich durchbreche daher die festgelegten
- * Implementierungsregeln.
- * @author JoSch
- * @date 03-07-06
- */
 class Fmod3Sound : public Sound
 {
 	public:
