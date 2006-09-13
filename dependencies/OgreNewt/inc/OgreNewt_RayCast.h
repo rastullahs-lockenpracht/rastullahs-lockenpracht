@@ -74,7 +74,7 @@ public:
         BasicRaycastInfo()
             : mDistance(-1.0f), mBody(NULL), mCollisionID(0), mNormal(Ogre::Vector3::ZERO) {}
 
-        bool operator<(const BasicRaycastInfo& rhs)
+        bool operator<(const BasicRaycastInfo& rhs) const
         {
             return mDistance < rhs.mDistance;
         }
