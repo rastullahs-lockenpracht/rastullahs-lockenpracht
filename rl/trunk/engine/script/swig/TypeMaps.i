@@ -123,16 +123,16 @@
 */
 %typemap(typecheck) Ogre::Real, const Ogre::Real& = double;
     
-%typemap(in) Ogre::Real, const Ogre::Real {
-    Check_Type($input, T_FLOAT);
-    $1 = RFLOAT($input)->value;
+%typemap(in) Ogre::Real, const Ogre::Real 
+{
+    $1 = NUM2DBL($input);
 }
+
 %typemap(out) Ogre::Real, const Ogre::Real {
      $result = rb_float_new($1);
 }
 %typemap(in) Ogre::Real*, Ogre::Real&, const Ogre::Real*, const Ogre::Real& {
-    Check_Type($input, T_FLOAT);
-    $1 = RFLOAT($input)->value;
+    $1 = NUM2DBL($input);
 }
 %typemap(out) Ogre::Real*, Ogre::Real&,  const Ogre::Real*, const Ogre::Real& {
 	$result = rb_float_new(*$1);
@@ -293,23 +293,19 @@ const std::pair<int,int>*, const std::pair<int,int>&  {
    int length = RARRAY($input)->len;
    VALUE* it = RARRAY($input)->ptr;
    if (length > 0) {
-      Check_Type(*it, T_FLOAT);
-      vec->r = RFLOAT(*it)->value;
+      vec->r = NUM2DBL(*it);
       it++;
    }
    if (length > 1) {
-      Check_Type(*it, T_FLOAT);
-      vec->g = RFLOAT(*it)->value;
+      vec->g = NUM2DBL(*it);
       it++;
    }
    if (length > 2) {
-      Check_Type(*it, T_FLOAT);
-      vec->b = RFLOAT(*it)->value;
+      vec->b = NUM2DBL(*it);
       it++;
    }
    if (length > 3) {
-      Check_Type(*it, T_FLOAT);
-      vec->a = RFLOAT(*it)->value;
+      vec->a = NUM2DBL(*it);
    }
    $1 = vec;
 }
@@ -355,18 +351,15 @@ const std::pair<int,int>*, const std::pair<int,int>&  {
    int length = RARRAY($input)->len;
    VALUE* it = RARRAY($input)->ptr;
    if (length > 0) {
-      Check_Type(*it, T_FLOAT);
-      vec.x = RFLOAT(*it)->value;
+      vec.x = NUM2DBL(*it);
       it++;
    }
    if (length > 1) {
-      Check_Type(*it, T_FLOAT);
-      vec.y = RFLOAT(*it)->value;
+      vec.y = NUM2DBL(*it);
       it++;
    }
    if (length > 2) {
-      Check_Type(*it, T_FLOAT);
-      vec.z = RFLOAT(*it)->value;
+      vec.z = NUM2DBL(*it);
    }
    $1 = vec;
 }
@@ -378,18 +371,15 @@ const std::pair<int,int>*, const std::pair<int,int>&  {
    int length = RARRAY($input)->len;
    VALUE* it = RARRAY($input)->ptr;
    if (length > 0) {
-      Check_Type(*it, T_FLOAT);
-      vec->x = RFLOAT(*it)->value;
+      vec->x = NUM2DBL(*it);
       it++;
    }
    if (length > 1) {
-      Check_Type(*it, T_FLOAT);
-      vec->y = RFLOAT(*it)->value;
+      vec->y = NUM2DBL(*it);
       it++;
    }
    if (length > 2) {
-      Check_Type(*it, T_FLOAT);
-      vec->z = RFLOAT(*it)->value;
+      vec->z = NUM2DBL(*it);
    }
    $1 = vec;
 }
