@@ -702,4 +702,11 @@ namespace rl {
 
 		return 0;
 	}
+
+    const Ogre::String& InputManager::getName() const
+    {
+        static Ogre::String NAME = "InputManager";
+
+        return NAME;
+    }
 }

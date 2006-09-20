@@ -137,4 +137,11 @@ namespace rl
             }
         }
     }
+
+    const Ogre::String& DebugVisualsManager::getName() const
+    {
+        static String NAME = "DebugVisualsManager";
+
+        return NAME;
+    }
 }

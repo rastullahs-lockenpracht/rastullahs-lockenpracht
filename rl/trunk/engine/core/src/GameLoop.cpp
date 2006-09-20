@@ -20,15 +20,11 @@
 #include "GameTask.h"
 #include "CoreSubsystem.h"
 #include "FixRubyHeaders.h"
-//#include "Sleep.h"
-#include <boost/thread.hpp>
 
 using Ogre::Singleton;
 using Ogre::Real;
 
 template<> rl::GameLoopManager* Singleton<rl::GameLoopManager>::ms_Singleton = 0;
-template<> rl::AsynchronousGameLoop* Singleton<rl::AsynchronousGameLoop>::ms_Singleton = 0;
-unsigned long rl::AsynchronousGameLoop::sTimeTickInMillis = 75;
 
 namespace rl {
 
@@ -44,9 +40,6 @@ using namespace Ogre;
 
 	GameLoopManager::GameLoopManager(unsigned long timePerAsyncTick)
 	{
-		AsynchronousGameLoop::sTimeTickInMillis = timePerAsyncTick;
-		mAsynchronousGameLoop = new AsynchronousGameLoop(timePerAsyncTick);	
-		
 		mSynchronizedFrameStartedGameLoop = new SynchronizedGameLoop(FRAME_STARTED);
 		mSynchronizedFrameEndedGameLoop = new SynchronizedGameLoop(FRAME_ENDED);
 		Ogre::Root::getSingleton().addFrameListener(mSynchronizedFrameStartedGameLoop);
@@ -56,8 +49,6 @@ using namespace Ogre;
 
 	GameLoopManager::~GameLoopManager()
 	{
-		delete mAsynchronousGameLoop;
-
 		Ogre::Root::getSingleton().removeFrameListener(mSynchronizedFrameStartedGameLoop);
 		Ogre::Root::getSingleton().removeFrameListener(mSynchronizedFrameEndedGameLoop);
 
@@ -73,26 +64,15 @@ using namespace Ogre;
 			mSynchronizedFrameEndedGameLoop->add(newTask);
 	}
 
-	void GameLoopManager::addAsynchronousTask(GameTask* newTask)
-	{
-		mAsynchronousGameLoop->add(newTask);
-	}
-
 	void GameLoopManager::removeSynchronizedTask(GameTask* oldTask)
 	{
 		mSynchronizedFrameStartedGameLoop->remove(oldTask);
 		mSynchronizedFrameEndedGameLoop->remove(oldTask);
 	}
 
-	void GameLoopManager::removeAsynchronousTask(GameTask* oldTask)
-	{
-		mAsynchronousGameLoop->remove(oldTask);
-	}
-
 	bool GameLoopManager::isPaused()
 	{
-		return mAsynchronousGameLoop->isPaused() 
-			&& mSynchronizedFrameStartedGameLoop->isPaused()
+		return mSynchronizedFrameStartedGameLoop->isPaused()
 			&& mSynchronizedFrameEndedGameLoop->isPaused();
 	}
 
@@ -100,13 +80,11 @@ using namespace Ogre;
 	{
 		mSynchronizedFrameStartedGameLoop->setPaused(pause);
 		mSynchronizedFrameEndedGameLoop->setPaused(pause);
-		mAsynchronousGameLoop->setPaused(pause);
 	}
 
 	void GameLoopManager::quitGame()
 	{
 		mSynchronizedFrameEndedGameLoop->quitGame();
-        mAsynchronousGameLoop->setPaused(true);
 	}
 
 	GameLoop::GameLoop() 
@@ -126,10 +104,19 @@ using namespace Ogre;
 		{
 			GameTaskList::iterator i;
 
-			for(i = mTaskList.begin(); i != mTaskList.end(); i++)
+			for(i = mTaskList.begin(); i != mTaskList.end(); ++i)
 			{
-				if( ! (*i)->isPaused() )
-					(*i)->run(timeSinceLastCall);
+                GameTask* curTask = *i;
+				if( !curTask->isPaused() )
+                {
+
+			        LOG_TRIVIAL(Logger::CORE, curTask->getName() + " start ");
+			        double time = (double)CoreSubsystem::getSingleton().getClock();
+			    	(*i)->run(timeSinceLastCall);
+                    time = (double)CoreSubsystem::getSingleton().getClock() - time;
+			        LOG_TRIVIAL(Logger::CORE, curTask->getName() +  " end "
+                        + Ogre::StringConverter::toString(Ogre::Real(time)));
+                }
 			}
 		}
 	}
@@ -158,13 +145,12 @@ using namespace Ogre;
 	{
 		if (mSyncTime == FRAME_STARTED)
 		{
-			LOG_TRIVIAL(Logger::CORE, 
-				"Sync frame-start start "
-				+ Ogre::StringConverter::toString(Ogre::Real((double)CoreSubsystem::getSingleton().getClock())));
+			LOG_TRIVIAL(Logger::CORE, "Sync frame-start start ");
+			double time = (double)CoreSubsystem::getSingleton().getClock();
 			loop(evt.timeSinceLastFrame);
-			LOG_TRIVIAL(Logger::CORE, 
-				"Sync frame-start end "
-				+ Ogre::StringConverter::toString(Ogre::Real((double)CoreSubsystem::getSingleton().getClock())));
+            time = (double)CoreSubsystem::getSingleton().getClock() - time;
+			LOG_TRIVIAL(Logger::CORE, "Sync frame-start end "
+                + Ogre::StringConverter::toString(Ogre::Real(time)));
 		}
 
 		return true;
@@ -174,13 +160,12 @@ using namespace Ogre;
 	{
 		if (mSyncTime == FRAME_ENDED)
 		{
-			LOG_TRIVIAL(Logger::CORE, 
-				"Sync frame-end start "
-				+ Ogre::StringConverter::toString(Ogre::Real((double)CoreSubsystem::getSingleton().getClock())));
+			LOG_MESSAGE(Logger::CORE, "Sync frame-end start ");
+			double time = (double)CoreSubsystem::getSingleton().getClock();
 			loop(evt.timeSinceLastFrame);
-			LOG_TRIVIAL(Logger::CORE, 
-				"Sync frame-end end "
-				+ Ogre::StringConverter::toString(Ogre::Real((double)CoreSubsystem::getSingleton().getClock())));
+            time = (double)CoreSubsystem::getSingleton().getClock() - time;
+			LOG_MESSAGE(Logger::CORE, "Sync frame-end end "
+				+ Ogre::StringConverter::toString(Ogre::Real(time)));
 		}
 
 		return mRunning;
@@ -195,54 +180,5 @@ using namespace Ogre;
 		: mRunning(true), mSyncTime(syncTime), GameLoop()
 	{
 	}
-
-    AsynchronousGameLoop::AsynchronousGameLoop(unsigned long timeTickInMillis) : mIsDeleted(false)
-	{
-		mTimer = PlatformManager::getSingleton().createTimer();
-		mTimer->reset();		
-		mThread = new boost::thread(&AsynchronousGameLoop::runStatic);
-	}
-    
-    AsynchronousGameLoop::~AsynchronousGameLoop()
-    {
-        PlatformManager::getSingleton().destroyTimer( mTimer );
-        mIsDeleted = true;
-        delete mThread;
-    }
-
-	void AsynchronousGameLoop::run()
-	{
-		boost::xtime timeToSleep;
-
-		while(!mIsDeleted)
-		{
-			unsigned long timeSinceLastCall = mTimer->getMilliseconds();
-			if (timeSinceLastCall >= sTimeTickInMillis)
-			{
-				mTimer->reset();
-				loop((double)timeSinceLastCall/1000.0);
-                boost::xtime_get(&timeToSleep, boost::TIME_UTC);
-                timeToSleep.nsec += sTimeTickInMillis * 1000000L;            
-				boost::thread::sleep(timeToSleep);
-			}
-            boost::thread::yield();
-		}
-	}
-
-	void AsynchronousGameLoop::runStatic()
-	{
-		AsynchronousGameLoop::getSingletonPtr()->run();		
-	}
-
-	AsynchronousGameLoop* AsynchronousGameLoop::getSingletonPtr(void)
-	{
-		return Singleton<AsynchronousGameLoop>::getSingletonPtr();
-	}
-
-	AsynchronousGameLoop& AsynchronousGameLoop::getSingleton(void)
-	{
-		return Singleton<AsynchronousGameLoop>::getSingleton();
-	}
-
 
 }

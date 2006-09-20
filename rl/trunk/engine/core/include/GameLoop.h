@@ -28,7 +28,6 @@ namespace rl {
 class GameTask;
 class GameLoop;
 class SynchronizedGameLoop;
-class AsynchronousGameLoop;
 
 typedef std::list<GameTask*> GameTaskList;
 enum GameLoopSyncTime {
@@ -43,19 +42,16 @@ public:
 	virtual ~GameLoopManager();
 
     void addSynchronizedTask(GameTask* newTask, GameLoopSyncTime syncTime);
-	void addAsynchronousTask(GameTask* newTask);
 	void removeSynchronizedTask(GameTask* oldTask);
-	void removeAsynchronousTask(GameTask* oldTask);	
+	void quitGame();
       
     bool isPaused();
     void setPaused(bool pause);
-	void quitGame();
 
     static GameLoopManager & getSingleton(void);
 	static GameLoopManager * getSingletonPtr(void);
 
 private:
-    AsynchronousGameLoop* mAsynchronousGameLoop;    
 	SynchronizedGameLoop* mSynchronizedFrameStartedGameLoop;
 	SynchronizedGameLoop* mSynchronizedFrameEndedGameLoop;
 };
@@ -92,27 +88,6 @@ public:
 
 	bool frameStarted(const Ogre::FrameEvent & evt);
 	bool frameEnded(const Ogre::FrameEvent & evt);
-};
-
-class AsynchronousGameLoop
-	: public GameLoop, protected Ogre::Singleton<AsynchronousGameLoop>
-{
-public:
-	AsynchronousGameLoop(unsigned long timeTickInMillis);
-    ~AsynchronousGameLoop();
-	void run();
-	static void runStatic();
-
-	static AsynchronousGameLoop & getSingleton(void);
-	static AsynchronousGameLoop * getSingletonPtr(void);
-
-	static unsigned long sTimeTickInMillis;
-
-private: 
-	Ogre::Timer* mTimer;
-    bool mIsDeleted;
-	
-	boost::thread* mThread;
 };
 
 }

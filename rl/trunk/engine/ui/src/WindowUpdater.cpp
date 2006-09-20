@@ -144,6 +144,7 @@ namespace rl {
 		return mWindow;
 	}
 
+   
 	void WindowUpdateTask::setTargetAlpha(const Ogre::Real& alpha)
 	{
 	}
@@ -315,5 +316,13 @@ namespace rl {
 		window->setFading(true);
 		window->_setUpdateTask(task);
 	}
+
+     const Ogre::String& WindowUpdater::getName() const
+    {
+        static Ogre::String NAME = "WindowUpdater";
+
+        return NAME;
+    }
+
 
 }

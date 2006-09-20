@@ -53,7 +53,7 @@ typedef _RlCoreExport std::map<Ogre::String, ContentModule*> ModuleMap;
         It follows the Singleton Pattern,
 		and initialises the game context.
 */
-class _RlCoreExport CoreSubsystem : protected Ogre::Singleton<CoreSubsystem>, public virtual EventSource
+class _RlCoreExport CoreSubsystem : public Ogre::Singleton<CoreSubsystem>, public virtual EventSource
 {
 public:
 	/** Default Constructor */
@@ -65,8 +65,8 @@ public:
 	void startCore();
 	
 	/** Returns the Singleton */
-	static CoreSubsystem & getSingleton();
-	static CoreSubsystem * getSingletonPtr();
+	//static CoreSubsystem & getSingleton();
+	//static CoreSubsystem * getSingletonPtr();
 
 	World* getWorld();
 	void loadMap(const Ogre::String type, const Ogre::String filename,

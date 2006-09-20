@@ -127,6 +127,7 @@ public:
 
 	/// Geerbt von GameTask, wird in jedem Frame mit der vergangenen Zeit aufgerufen
     virtual void run(Ogre::Real timePassed);
+    virtual const Ogre::String& getName() const;
 
 	/// Singleton
     static AnimationManager & getSingleton(void);

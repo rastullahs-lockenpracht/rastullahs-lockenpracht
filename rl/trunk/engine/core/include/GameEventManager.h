@@ -78,6 +78,9 @@ public:
     static GameEventManager & getSingleton(void);
     /// Singleton
     static GameEventManager * getSingletonPtr(void);
+
+    virtual const Ogre::String& getName() const;
+
 private:
 	void removeQueuedDeletionSources();
 

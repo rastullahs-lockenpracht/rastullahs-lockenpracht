@@ -64,7 +64,9 @@ namespace rl {
 		virtual bool injectMouseUp(int mouseButtonMask) { return false; }
 		virtual bool injectKeyClicked(int keycode) { return false; }
 		virtual bool injectKeyDown(int keycode) { return false; }
-		virtual bool injectKeyUp(int keycode) { return false; }	
+        virtual bool injectKeyUp(int keycode) { return false; }
+
+        virtual const Ogre::String& getName() const;
 
 	protected:
 		static bool startAction(const CeGuiString& actionName, Creature* character = NULL);

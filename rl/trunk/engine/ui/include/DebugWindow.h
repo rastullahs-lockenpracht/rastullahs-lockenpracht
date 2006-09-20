@@ -74,6 +74,8 @@ namespace rl {
         /// Changes the shown page to the next page in the list.
         void showNextPage();
 
+        virtual const Ogre::String& getName() const;
+
     private:
         CEGUI::StaticText* mMessageText;
         CEGUI::StaticText* mPageCaption;

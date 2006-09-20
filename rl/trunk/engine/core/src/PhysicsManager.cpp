@@ -338,4 +338,11 @@ namespace rl
     {
         return 	mWorld->getDefaultMaterialID();
     }
+
+    const Ogre::String& PhysicsManager::getName() const
+    {
+        static String NAME = "PhysicsManager";
+
+        return NAME;
+    }
 }

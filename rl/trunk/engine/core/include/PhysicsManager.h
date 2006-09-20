@@ -142,6 +142,8 @@ namespace rl {
         OgreNewt::MaterialID* _getCharMaterialID() const;
 		const OgreNewt::MaterialID* _getDefaultMaterialID() const;
 
+        virtual const Ogre::String& getName() const;
+
     private:
         typedef std::map<PhysicalThing*, PhysicsController*> ControllerMap;
 

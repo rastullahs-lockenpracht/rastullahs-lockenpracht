@@ -33,6 +33,8 @@ namespace rl {
 		~InventoryArrangeTask();
 		
 		void run(Ogre::Real elapsedTime);
+
+        virtual const Ogre::String& getName() const;
 	};
 
 	class _RlUiExport InventoryWindow : public CeGuiWindow

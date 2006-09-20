@@ -218,4 +218,12 @@ namespace rl
 		else
 			GameLoopManager::getSingleton().removeSynchronizedTask(this);
 	}
+
+    const Ogre::String& DebugWindow::getName() const
+    {
+        static Ogre::String NAME = "DebugWindow";
+
+        return NAME;
+    }
+
 }

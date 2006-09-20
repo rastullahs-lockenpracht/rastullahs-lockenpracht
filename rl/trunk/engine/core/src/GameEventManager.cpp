@@ -129,7 +129,7 @@ namespace rl {
 
     void GameEventManager::run( Ogre::Real elapsedTime )
     {
-		removeQueuedDeletionSources();
+        removeQueuedDeletionSources();
 
         GameAreaEventSourceList::iterator it;
         for( it = mAreaEventSources.begin(); it != mAreaEventSources.end();++it) 
@@ -138,4 +138,11 @@ namespace rl {
             gam->performQuery( elapsedTime );
         }
 	}
+
+    const Ogre::String& GameEventManager::getName() const
+    {
+        static Ogre::String NAME = "GameEventManager";
+
+        return NAME;
+    }
 }

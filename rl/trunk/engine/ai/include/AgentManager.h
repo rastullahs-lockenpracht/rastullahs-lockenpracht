@@ -59,6 +59,7 @@ namespace rl
 	//	void OnApplyForceAndTorque(PhysicalThing* thing);
 		void run( Ogre::Real elapsedTime );
 		void removeAllAgents();
+        virtual const Ogre::String& getName() const;
 	private:
 		void addAgent(Agent* agent);
 		typedef std::list<Agent*> AgentList;

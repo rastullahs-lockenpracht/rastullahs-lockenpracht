@@ -37,6 +37,8 @@ class _RlCommonExport GameTask
 			@param elapsedTime Die vergangene Zeit
 		*/
 		virtual void run( Ogre::Real elapsedTime ) = 0;
+
+        virtual const Ogre::String& getName() const = 0;
         
 		/// Gibt zurück ob dieser GameTask pausiert ist
         bool isPaused() const;

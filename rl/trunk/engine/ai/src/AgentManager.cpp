@@ -22,7 +22,7 @@ using namespace Ogre;
 
 template<> rl::AgentManager* Singleton<rl::AgentManager>::ms_Singleton = 0;
 
-using namespace rl;
+namespace rl {
 
 AgentManager& AgentManager::getSingleton(void)
 {
@@ -116,4 +116,13 @@ void AgentManager::removeAllAgents()
     mAgents.clear();
     mAllNeighbors.clear();
     mPlayer = NULL;
+}
+
+const Ogre::String& AgentManager::getName() const
+{
+    static String NAME = "AgentManager";
+
+    return NAME;
+}
+
 }

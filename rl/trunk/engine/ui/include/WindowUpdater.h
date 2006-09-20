@@ -47,7 +47,7 @@ namespace rl {
 		
 		void setAction(WindowUpdateAction action);
 		virtual void setTargetAlpha(const Ogre::Real& alpha);
-		
+	
 	protected:
 		WindowUpdateTask(CeGuiWindow* window, WindowUpdateAction action);
 
@@ -130,6 +130,9 @@ namespace rl {
 			CeGuiWindow* window, 
 			Ogre::Real time, 
 			bool destroy);
+
+        virtual const Ogre::String& getName() const;
+
 	private:
 		std::set<WindowUpdateTask*> mTasks;
 	};

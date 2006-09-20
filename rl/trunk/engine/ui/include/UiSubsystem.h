@@ -81,9 +81,11 @@ namespace rl {
 		void update();
 
         /// from SceneChangeListener
-        void onBeforeClearScene();
+        virtual void onBeforeClearScene();
 
-		void run(Ogre::Real elapsedTime);
+		virtual void run(Ogre::Real elapsedTime);
+
+        virtual const Ogre::String& getName() const;
 
     private:
         CharacterController* mCharacterController;

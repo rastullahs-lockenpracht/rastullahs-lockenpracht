@@ -110,4 +110,10 @@ namespace rl {
 		return false;
 	}
 
+    const Ogre::String& CharacterController::getName() const
+    {
+        static String NAME = "CharacterController";
+
+        return NAME;
+    }
 }
