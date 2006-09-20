@@ -16,14 +16,12 @@
 
 #include <xercesc/util/XMemory.hpp>	// Muss vor Ogre stehen (zumindest fuer VS)
 
-#include <Ogre.h>
 #include <OgreLogManager.h>
 #include <stdexcept>
 #include <errno.h>
 
 #include "CoreSubsystem.h"
 #include "GameLoop.h"
-#include "SoundUpdateTask.h"
 #include "RulesSubsystem.h"
 #include "DialogSubsystem.h"
 #include "AiSubsystem.h"
@@ -37,7 +35,7 @@
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 	#define WIN32_LEAN_AND_MEAN
-	#include "windows.h"
+	#include <windows.h>
 #endif
 
 void startupRl(bool developerMode, Ogre::String module)

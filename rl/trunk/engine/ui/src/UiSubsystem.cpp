@@ -272,7 +272,7 @@ namespace rl {
 		mInputManager->setCharacterController(mCharacterController);
 
 	    LOG_MESSAGE(Logger::UI, "CharacterController created.");
-		GameLoopManager::getSingleton().addSynchronizedTask(mCharacterController, FRAME_STARTED );
+		GameLoopManager::getSingleton().addSynchronizedTask(mCharacterController, FRAME_ENDED );
         LOG_MESSAGE(Logger::UI, "CharacterController task added.");
 	}
 
@@ -304,4 +304,12 @@ namespace rl {
 			setActiveCharacter(NULL);
 		}
     }
+
+    const Ogre::String& UiSubsystem::getName() const
+    {
+        static String NAME = "UiSubsystem";
+
+        return NAME;
+    }
+
 }

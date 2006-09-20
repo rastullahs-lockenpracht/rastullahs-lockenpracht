@@ -38,7 +38,6 @@
 #include "RubyInterpreter.h"
 #include "ScriptWrapper.h"
 #include "SoundManager.h"
-#include "SoundUpdateTask.h"
 #include "DebugVisualsManager.h"
 
 #include <ctime>
@@ -54,18 +53,9 @@ template<> rl::CoreSubsystem* Singleton<rl::CoreSubsystem>::ms_Singleton = 0;
 
 namespace rl {
 
-    CoreSubsystem& CoreSubsystem::getSingleton()
-    {
-        return Singleton<CoreSubsystem>::getSingleton();
-    }
-
-    CoreSubsystem* CoreSubsystem::getSingletonPtr()
-    {
-        return Singleton<CoreSubsystem>::getSingletonPtr();
-    }
-
     CoreSubsystem::CoreSubsystem()
-        : 	mWorld(NULL),
+        : Singleton<CoreSubsystem>(),
+        mWorld(NULL),
         mRubyInterpreter(NULL),
         mModules(),
         mActiveAdventureModule(NULL),
@@ -244,16 +234,16 @@ namespace rl {
 		mActorManager->setWorld(mWorld);
 
 		mPhysicsManager = new PhysicsManager();        
-        GameLoopManager::getSingleton().addSynchronizedTask(mPhysicsManager, FRAME_STARTED);
+        GameLoopManager::getSingleton().addSynchronizedTask(mPhysicsManager, FRAME_ENDED);
 
         mAnimationManager = new AnimationManager();
-        GameLoopManager::getSingleton().addSynchronizedTask(mAnimationManager, FRAME_STARTED);
+        GameLoopManager::getSingleton().addSynchronizedTask(mAnimationManager, FRAME_ENDED);
 
         mGameEventManager = new GameEventManager();
-        GameLoopManager::getSingleton().addSynchronizedTask(mGameEventManager, FRAME_STARTED);
+        GameLoopManager::getSingleton().addSynchronizedTask(mGameEventManager, FRAME_ENDED);
         
         mDebugVisualsManager = new DebugVisualsManager();
-        GameLoopManager::getSingleton().addSynchronizedTask(mDebugVisualsManager, FRAME_STARTED);
+        GameLoopManager::getSingleton().addSynchronizedTask(mDebugVisualsManager, FRAME_ENDED);
 
 		return true;
     }

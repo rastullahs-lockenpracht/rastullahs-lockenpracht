@@ -24,7 +24,6 @@
 #include "ListenerObject.h"
 #include "SoundDriver.h"
 #include "SoundResource.h"
-#include "SoundUpdateTask.h"
 #include <OgreException.h>
 
 #include "NullDriver.h"
@@ -70,8 +69,7 @@ SoundManager::SoundManager()
   mDriverList(),
   mActiveDriver(NULL),
   mListenerActor(NULL),
-  mActiveListener(NULL),
-  mSoundUpdateTask(NULL)
+  mActiveListener(NULL)
 {
 	LOG_MESSAGE(Logger::CORE, "Erzeuge Soundmanager...");
 	SoundDriver *driver = NULL;
@@ -193,12 +191,6 @@ const DriverList& SoundManager::getSoundDriverList() const
  */
 void SoundManager::setActiveDriver(SoundDriver *driver)
 {
-	if (mSoundUpdateTask != NULL)
-	{
-		GameLoopManager::getSingleton().removeAsynchronousTask(mSoundUpdateTask);
-		delete mSoundUpdateTask;
-	}
-	
 	if (mActiveDriver != NULL )
     {
 		LOG_NORMAL(Logger::CORE,
@@ -224,8 +216,6 @@ void SoundManager::setActiveDriver(SoundDriver *driver)
 	}
     
     mActiveDriver->initialize();
-	mSoundUpdateTask = new SoundUpdateTask(this);
-	GameLoopManager::getSingleton().addAsynchronousTask(mSoundUpdateTask);
 }
 
 void SoundManager::_clearListenerActor()
@@ -377,9 +367,6 @@ void SoundManager::saveConf(const Ogre::String &filename) const
 
 void SoundManager::unloadAllDrivers()
 {
-    delete mSoundUpdateTask;
-    mSoundUpdateTask = NULL;
-
    	if (mActiveDriver != NULL)
     {
         mActiveDriver->shutdown();
@@ -410,7 +397,7 @@ void SoundManager::unloadAllDrivers()
  * @author JoSch
  * @date 07-03-2005
  */
-void SoundManager::update()
+void SoundManager::run(Real elapsedTime)
 {
     if (mActiveDriver != NULL)
     {
@@ -423,6 +410,12 @@ void SoundManager::update()
     }
 }
 
+const Ogre::String& SoundManager::getName() const
+{
+    static String NAME = "SoundManager";
+
+    return NAME;
+}
 
 
 }

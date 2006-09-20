@@ -443,10 +443,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\SoundUpdateTask.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\TrackAnimation.h"
 				>
 			</File>
@@ -665,10 +661,6 @@
 			</File>
 			<File
 				RelativePath=".\src\SoundResource.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\SoundUpdateTask.cpp"
 				>
 			</File>
 			<File

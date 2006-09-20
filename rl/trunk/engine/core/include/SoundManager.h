@@ -25,6 +25,8 @@
 #include <list>
 #include <boost/thread/mutex.hpp>
 
+#include "GameTask.h"
+
 namespace rl {
 
 class Actor;
@@ -47,7 +49,7 @@ typedef std::list<SoundDriver*> DriverList;
  * @date 06-29-2005
  */ 
 class _RlCoreExport SoundManager : public Ogre::ResourceManager,
-        public Ogre::Singleton<SoundManager> 
+        public Ogre::Singleton<SoundManager>, public GameTask 
 {
     public:
         /// Gibt das Singleton zurueck.
@@ -99,6 +101,10 @@ class _RlCoreExport SoundManager : public Ogre::ResourceManager,
 		void unregisterDriver(SoundDriver* driver);
         void unloadAllDrivers();
 
+        virtual void run( Ogre::Real elapsedTime );
+
+        virtual const Ogre::String& getName() const;
+
 	protected:
 		virtual Ogre::Resource* createImpl(const Ogre::String& name, Ogre::ResourceHandle handle, 
 			const Ogre::String& group, bool isManual, Ogre::ManualResourceLoader* loader, 
@@ -118,8 +124,6 @@ class _RlCoreExport SoundManager : public Ogre::ResourceManager,
 		/// Der aktive Soundlistener
 		ListenerObject *mActiveListener;
 		Actor* mListenerActor;
-
-		SoundUpdateTask* mSoundUpdateTask;
 
 		Ogre::StringVector mDrivers;
 };
